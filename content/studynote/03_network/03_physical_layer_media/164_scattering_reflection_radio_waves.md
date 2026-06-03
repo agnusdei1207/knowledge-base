@@ -24,18 +24,16 @@ tags = ["network"]
 
 이 그림은 장애물 성질에 따라 전파가 어떻게 달라지는지 요약한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">표면 특성에 따른 전파 반응: 튕기거나, 흩어지거나</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입사파</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 매끈한 큰 표면 ──▶ 한 방향으로 반사</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 거친 표면 / 작은 입자 ─▶ 여러 방향으로 산란</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│        표면 특성에 따른 전파 반응: 튕기거나, 흩어지거나         │
+├──────────────────────────────────────────────────────────────┤
+│  입사파                                                   │
+│    ─────────▶   매끈한 큰 표면  ──▶  한 방향으로 반사           │
+│                                                              │
+│    ─────────▶   거친 표면 / 작은 입자 ─▶ 여러 방향으로 산란     │
+└──────────────────────────────────────────────────────────────┘
+```
 
 핵심은 장애물의 존재 자체보다, 전파 파장 대비 표면 크기와 거칠기다. 같은 유리창도 장파장에는 비교적 단순한 경계면으로 보일 수 있지만, 훨씬 짧은 파장에는 더 복잡한 반사·산란 특성을 보인다.
 
@@ -56,19 +54,20 @@ tags = ["network"]
 
 이 그림은 두 현상의 방향성 차이를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Reflection vs Scattering 방향성 비교</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Reflection</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Incident ▶ / Wall / ▶ Reflected Path</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Scattering</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Incident ▶ * * * particle field</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│               Reflection vs Scattering 방향성 비교            │
+├──────────────────────────────────────────────────────────────┤
+│ Reflection                                                   │
+│   Incident ─────▶ / Wall / ─────▶ Reflected Path             │
+│                                                              │
+│ Scattering                                                   │
+│   Incident ─────▶ * * * particle field                        │
+│                     ├─▶                                       │
+│                     ├────▶                                    │
+│                     └──▶                                      │
+└──────────────────────────────────────────────────────────────┘
+```
 
 반사는 때로 유용하다. 기지국이 사용자를 직접 보지 못해도 건물 외벽 반사로 신호가 도달할 수 있기 때문이다. 하지만 반사 경로가 여러 개 생기면 수신기에는 도착 시간이 약간씩 다른 신호가 겹쳐 들어오고, 이는 주파수 선택적 [페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/) (Frequency-selective [Fading](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/))과 심볼 간 간섭 (Inter-Symbol Interference)을 만든다. 산란은 이런 다중경로를 더 복잡하게 만들면서 평균 수신 전력을 떨어뜨리는 경향이 강하다.
 
@@ -139,21 +138,18 @@ tags = ["network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">전파와 장애물의 만남</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 반사 (Reflection)</div>
-<div class="kb-diagram-note">─▶ NLOS 경로 / 다중경로</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 산란 (Scattering)</div>
-<div class="kb-diagram-note">─▶ 감쇠 / 지연 확산</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 고주파 설계</div>
-<div class="kb-diagram-tree-item" style="--depth:5">▶ 빔포밍 / 링크 예산 / 사이트 서베이</div>
-</div>
-</div>
-
-
+```text
+전파와 장애물의 만남
+    │
+    ├─▶ 반사 (Reflection)
+    │      └─▶ NLOS 경로 / 다중경로
+    │
+    ├─▶ 산란 (Scattering)
+    │      └─▶ 감쇠 / 지연 확산
+    │
+    └─▶ 고주파 설계
+           └─▶ 빔포밍 / 링크 예산 / 사이트 서베이
+```
 
 이 흐름도는 기본 물리 현상이 실제 무선 품질 문제와 고주파 설계 전략으로 이어지는 관계를 정리한다.
 

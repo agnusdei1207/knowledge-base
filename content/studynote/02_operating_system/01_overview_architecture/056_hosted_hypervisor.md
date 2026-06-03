@@ -31,21 +31,15 @@ tags = ["studynote-operating-system"]
 
 호스트 OS가 기본 자원을 관리하고, 그 위에서 하이퍼바이저가 VM을 실행한다. 따라서 호스트 OS의 드라이버와 스케줄링 영향을 받는다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Physical HW</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Host OS</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Hosted Hypervisor</div>
-<div class="kb-diagram-tree-item" style="--depth:1">VM1</div>
-<div class="kb-diagram-tree-item" style="--depth:1">VM2</div>
-</div>
-</div>
-
-
+```text
+Physical HW
+   ▼
+Host OS
+   ▼
+Hosted Hypervisor
+   ├─ VM1
+   └─ VM2
+```
 
 | 요소 | 역할 | 포인트 |
 | :--- | :--- | :--- |
@@ -120,21 +114,18 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">물리 하드웨어</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">호스트 OS</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Hosted Hypervisor</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">가상 머신</div>
-</div>
-</div>
-
-
+```text
+물리 하드웨어
+    │
+    ▼
+호스트 OS
+    │
+    ▼
+Hosted Hypervisor
+    │
+    ▼
+가상 머신
+```
 
 이 흐름은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 위에 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 계층을 얹는 구조를 보여준다.
 

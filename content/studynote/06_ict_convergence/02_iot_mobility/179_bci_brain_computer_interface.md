@@ -25,20 +25,19 @@ BCI는 인간의 뇌 활동을 직접 계측하여 기계 명령으로 변환하
 
 중요한 오해 하나를 먼저 정리해야 한다. BCI는 아직 자유로운 자연어 문장을 마음속에서 그대로 꺼내는 범용 독심술이 아니다. 보통은 "왼손 상상", "커서 위로", "이 글자를 선택"처럼 <strong>정의된 명령 집합 안에서 확률적으로 의도를 추정하는 시스템</strong>이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Intent path: traditional input vs BCI</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기존 입력</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">의도 → 운동 피질 → 신경/근육 → 손·입 → 키보드/음성 → 컴퓨터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BCI 입력</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">의도 → 신경 신호 → 센서 획득 → 디코더 → 기계 명령 → 컴퓨터/로봇</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">근육 경로가 손상될수록 BCI의 가치가 커짐</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Intent path: traditional input vs BCI                              │
+├────────────────────────────────────────────────────────────────────┤
+│ 기존 입력                                                           │
+│   의도 → 운동 피질 → 신경/근육 → 손·입 → 키보드/음성 → 컴퓨터       │
+│                                                                    │
+│ BCI 입력                                                            │
+│   의도 → 신경 신호 → 센서 획득 → 디코더 → 기계 명령 → 컴퓨터/로봇   │
+│                                                                    │
+│ 근육 경로가 손상될수록 BCI의 가치가 커짐                            │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 즉 BCI는 "몸을 건너뛰는 지름길"이면서도, 동시에 매우 까다로운 의료·[신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)처리·[인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 융합 기술이다. 그래서 단순한 입력 장치가 아니라, 인간의 의도를 안전하게 외부 세계와 연결하는 시스템으로 봐야 한다.
 
@@ -58,24 +57,26 @@ BCI의 핵심 구조는 [신호](/knowledge-base/studynote/02_operating_system/0
 
 아래 그림은 BCI가 단순 센서가 아니라 <strong>연속적인 해석 파이프라인</strong>임을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BCI signal processing pipeline</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Neural activity</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ EEG / ECoG / intracortical acquisition</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ artifact removal</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(eye blink, muscle noise, power-line noise)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">feature extraction ─▶ decoder model ─▶ command output</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(band power, ERP, (classification /</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">spike rate) regression) ▼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">cursor / text / robot arm</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">visual / tactile feedback loop</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ BCI signal processing pipeline                                     │
+├────────────────────────────────────────────────────────────────────┤
+│ Neural activity                                                    │
+│   │                                                                │
+│   ├─ EEG / ECoG / intracortical acquisition                        │
+│   │        │                                                       │
+│   │        └─ artifact removal                                     │
+│   │           (eye blink, muscle noise, power-line noise)          │
+│   ▼                                                                │
+│ feature extraction ─▶ decoder model ─▶ command output              │
+│ (band power, ERP,     (classification /       │                    │
+│  spike rate)           regression)            ▼                    │
+│                                        cursor / text / robot arm   │
+│                                                  │                 │
+│                                                  ▼                 │
+│                                   visual / tactile feedback loop   │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 전처리 단계에서는 눈 깜빡임, 근전도 (EMG, Electromyography) 혼입, 전원 잡음 같은 아티팩트를 제거한다. 특징 추출 단계는 주파수 대역의 에너지, 사건 관련 전위 ([ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/), Event-Related Potential), 발화율 같은 정보를 계산해 사람이 만든 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 후보로 압축한다. 마지막 [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)는 기계학습이나 딥러닝을 이용해 "왼쪽 상상", "선택", "잡기" 같은 결과를 출력한다.
 
@@ -158,23 +159,22 @@ BCI가 성숙하면 사람은 손과 입이 아니라 의도 자체로 디지털
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">의도 형성</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">신경 신호 획득</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">잡음 제거 · 특징 추출</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">디코더 분류/회귀</div>
-<div class="kb-diagram-tree-item" style="--depth:2">문자 · 커서 · 로봇 팔 제어</div>
-<div class="kb-diagram-tree-item" style="--depth:2">시각/촉각 피드백 기반 폐루프 재활</div>
-</div>
-</div>
-
-
+```text
+의도 형성
+    │
+    ▼
+신경 신호 획득
+    │
+    ▼
+잡음 제거 · 특징 추출
+    │
+    ▼
+디코더 분류/회귀
+    │
+    ├──────────────► 문자 · 커서 · 로봇 팔 제어
+    │
+    └──────────────► 시각/촉각 피드백 기반 폐루프 재활
+```
 
 이 흐름도는 "의도 → 측정 → 해석 → 명령 → 피드백"이라는 BCI의 핵심 작동 경로를 요약한다.
 

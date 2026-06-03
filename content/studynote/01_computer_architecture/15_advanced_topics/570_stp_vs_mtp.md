@@ -25,18 +25,15 @@ STP와 MTP는 같은 "[성능](/knowledge-base/studynote/04_software_engineering
 
 이 그림은 같은 예산에서도 목표가 달라지면 칩 구성이 달라짐을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">같은 Area / Power 예산이라도 목표 함수가 다르면 구조가 달라진다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">STP Focus -&gt; Big Core Few -&gt; Fast Response / Low Thread Count</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MTP Focus -&gt; Small Core Many -&gt; High Throughput / Lower Per-Thread Speed</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Serial Section Exists -&gt; 결국 일부 구간은 STP가 전체 체감을 결정</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│      같은 Area / Power 예산이라도 목표 함수가 다르면 구조가 달라진다        │
+├────────────────────────────────────────────────────────────────────────────┤
+│ STP Focus -> Big Core Few -> Fast Response / Low Thread Count             │
+│ MTP Focus -> Small Core Many -> High Throughput / Lower Per-Thread Speed  │
+│ Serial Section Exists -> 결국 일부 구간은 STP가 전체 체감을 결정           │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: STP는 서류 한 장을 가장 빨리 배달하는 오토바이 한 대이고, MTP는 상자를 한꺼번에 실어 나르는 트럭 여러 대다. 무엇을 옮기느냐에 따라 더 좋은 탈것이 달라진다.
 
@@ -58,18 +55,15 @@ STP를 끌어올리려면 보통 더 넓은 [superscalar](/knowledge-base/studyn
 
 이 그림은 STP와 MTP가 서로 다른 곳에 실리콘 예산을 쓰는 방식을 요약한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Fixed Budget Split: STP는 코어 내부를, MTP는 코어 개수를 키운다</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Big Core</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">Wide Decode -&gt; Large OoO -&gt; Large Cache -&gt; High STP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Many Cores</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">Core x N -&gt; Shared LLC -&gt; High Thread Count -&gt; High MTP</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">but Memory / Coherence limits stop linear scaling</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│     Fixed Budget Split: STP는 코어 내부를, MTP는 코어 개수를 키운다         │
+├────────────────────────────────────────────────────────────────────────────┤
+│ [Big Core]   -> Wide Decode -> Large OoO -> Large Cache -> High STP       │
+│ [Many Cores] -> Core x N   -> Shared LLC -> High Thread Count -> High MTP │
+│                         but Memory / Coherence limits stop linear scaling  │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: STP 중심 코어는 한 명의 숙련 장인에게 최고 장비를 몰아주는 방식이고, MTP 중심 코어는 적당한 장비를 여러 사람에게 나눠주는 방식이다. 같은 예산이라도 "깊이"와 "수"의 배분이 다르다.
 
@@ -145,25 +139,24 @@ STP와 MTP를 올바르게 구분하면 시스템은 더 높은 점수보다 <st
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">주파수 상승 중심 성능 향상</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">큰 OoO 코어로 STP 확대</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">멀티코어 확산으로 MTP 본격화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SMT · Shared LLC · NUMA 최적화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Hybrid Core · QoS-Aware Scheduling</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Domain-Specific Accelerator와 역할 분담</div>
-</div>
-</div>
-
-
+```text
+주파수 상승 중심 성능 향상
+        │
+        ▼
+큰 OoO 코어로 STP 확대
+        │
+        ▼
+멀티코어 확산으로 MTP 본격화
+        │
+        ▼
+SMT · Shared LLC · NUMA 최적화
+        │
+        ▼
+Hybrid Core · QoS-Aware Scheduling
+        │
+        ▼
+Domain-Specific Accelerator와 역할 분담
+```
 
 이 흐름은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화의 기준이 "한 코어를 더 빠르게"에서 "여러 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 목표를 한 칩 안에서 분담"하는 방향으로 이동했음을 보여 준다.
 

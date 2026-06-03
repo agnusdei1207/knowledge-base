@@ -11,7 +11,7 @@ tags = ["studynote-ict-convergence"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 정보통신기술사(PE, Professional Engineer) ICT 신기술 영역은 Web3/[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/), [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)/모빌리티, 클라우드 인프라, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)/[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 과학 등 5대 축의 키워드를 각 영역 고유의 원리와 융합 관계까지 파악해야 논술에서 깊이 있는 답안이 나온다.
+> 1. **본질**: 정보통신기술사(PE, Professional 엔진er) ICT 신기술 영역은 Web3/[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/), [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)/모빌리티, 클라우드 인프라, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)/[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 과학 등 5대 축의 키워드를 각 영역 고유의 원리와 융합 관계까지 파악해야 논술에서 깊이 있는 답안이 나온다.
 > 2. **가치**: 개별 기술을 고립적으로 암기하는 것보다 "상위 패러다임 → 핵심 원리 → 비교 분석 → 실무 적용"의 4단계 프레임으로 묶어 이해하면 처음 보는 융합 문제에도 유연하게 대응할 수 있다.
 > 3. **판단 포인트**: 논술 채점의 차별화 포인트는 기술 정의가 아니라 <strong>한계와 트레이드오프를 정확히 짚는 것</strong>이다—어떤 조건에서 이 기술이 최선인지·아닌지를 논하는 것이 고득점 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
 
@@ -31,23 +31,23 @@ tags = ["studynote-ict-convergence"]
 
 ### ICT 5대 축 키워드 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ICT 신기술 5대 축 통합 프레임워크</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① Web3/블록체인 ② IoT/모빌리티 ③ 클라우드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DLT, BFT, ZKP LPWAN, MQTT 쿠버네티스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DeFi, NFT, DID Digital Twin IaC, MSA</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DAO, Layer2 V2X, 5G/6G CQRS, FinOps</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">④ AI/LLM</div><div class="kb-diagram-cell">⑤ 데이터 과학</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Transformer</div><div class="kb-diagram-cell">통계 검정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RAG, LoRA</div><div class="kb-diagram-cell">ML 알고리즘</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RLHF, MoE</div><div class="kb-diagram-cell">최적화 이론</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────┐
+│          ICT 신기술 5대 축 통합 프레임워크            │
+│                                                     │
+│  ① Web3/블록체인   ② IoT/모빌리티   ③ 클라우드      │
+│  DLT, BFT, ZKP    LPWAN, MQTT      쿠버네티스       │
+│  DeFi, NFT, DID   Digital Twin     IaC, MSA        │
+│  DAO, Layer2      V2X, 5G/6G       CQRS, FinOps    │
+│        │               │                │          │
+│        └───────────────┴────────────────┘          │
+│                        │                           │
+│              ④ AI/LLM  │  ⑤ 데이터 과학            │
+│         Transformer    │  통계 검정                 │
+│         RAG, LoRA      │  ML 알고리즘               │
+│         RLHF, MoE      │  최적화 이론               │
+└─────────────────────────────────────────────────────┘
+```
 
 | 축 | 핵심 약어(전체 명칭) | 시험 빈출 키워드 |
 |:---:|:---|:---|

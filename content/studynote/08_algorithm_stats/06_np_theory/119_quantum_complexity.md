@@ -18,36 +18,38 @@ tags = ["studynote-algorithm-stats"]
 
 ## Ⅰ. 양자 복잡도 클래스 체계
 
+```
+고전 vs 양자 복잡도 대응:
 
+고전:           양자:
+P           →   BQP   (다항 시간 결정론/양자)
+NP          →   QMA   (검증 가능/양자)
+PSPACE      →   PSPACE (양자도 동일)
+BPP (랜덤)  →   BQP   (양자로 BPP 일반화)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">고전 vs 양자 복잡도 대응:</div>
-<div class="kb-diagram-note">고전: 양자:</div>
-<div class="kb-diagram-note">P → BQP (다항 시간 결정론/양자)</div>
-<div class="kb-diagram-note">NP → QMA (검증 가능/양자)</div>
-<div class="kb-diagram-note">PSPACE → PSPACE (양자도 동일)</div>
-<div class="kb-diagram-note">BPP (랜덤) → BQP (양자로 BPP 일반화)</div>
-<div class="kb-diagram-note">포함 관계:</div>
-<div class="kb-diagram-note">P ⊆ BPP ⊆ BQP ⊆ PSPACE</div>
-<div class="kb-diagram-note">추정 (미증명):</div>
-<div class="kb-diagram-note">P ⊂ BQP (양자 &gt; 고전, 진부분집합)</div>
-<div class="kb-diagram-note">BQP ⊄ NP (양자 ≠ NP)</div>
-<div class="kb-diagram-note">BQP (Bounded-error Quantum Polynomial):</div>
-<div class="kb-diagram-note">양자 회로가 다항 시간에 결정</div>
-<div class="kb-diagram-note">오류 확률 ≤ 1/3 (반복으로 줄일 수 있음)</div>
-<div class="kb-diagram-note">"양자 컴퓨터의 P"</div>
-<div class="kb-diagram-note">QMA (Quantum Merlin-Arthur):</div>
-<div class="kb-diagram-note">증명자(Merlin)가 양자 증명 제공</div>
-<div class="kb-diagram-note">검증자(Arthur)가 양자 다항 시간에 검증</div>
-<div class="kb-diagram-note">"양자 컴퓨터의 NP"</div>
-<div class="kb-diagram-note">클래스:</div>
-<div class="kb-diagram-note">BQPTIME(poly) = BQP</div>
-<div class="kb-diagram-note">QMATIME(poly) = QMA</div>
-</div>
-</div>
+포함 관계:
+P ⊆ BPP ⊆ BQP ⊆ PSPACE
 
+추정 (미증명):
+P ⊂ BQP (양자 > 고전, 진부분집합)
+BQP ⊄ NP (양자 ≠ NP)
 
+BQP (Bounded-error Quantum Polynomial):
+  양자 회로가 다항 시간에 결정
+  오류 확률 ≤ 1/3 (반복으로 줄일 수 있음)
+  
+  "양자 컴퓨터의 P"
+
+QMA (Quantum Merlin-Arthur):
+  증명자(Merlin)가 양자 증명 제공
+  검증자(Arthur)가 양자 다항 시간에 검증
+  
+  "양자 컴퓨터의 NP"
+  
+  클래스:
+  BQPTIME(poly) = BQP
+  QMATIME(poly) = QMA
+```
 
 > 📢 **섹션 요약 비유**: 양자 복잡도는 고전의 확장판 — P(고전 빠름)의 양자 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) BQP, NP(고전 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능)의 양자 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) QMA. 양자가 더 넓은 공간에서 놀아요!
 
@@ -55,42 +57,46 @@ tags = ["studynote-algorithm-stats"]
 
 ## Ⅱ. BQP 핵심 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
 
+```
+BQP의 대표 문제와 알고리즘:
 
+Shor's Algorithm (쇼어 알고리즘, 1994):
+  문제: 정수 N 인수분해
+  고전: 최적 O(exp(n^(1/3))) (일반수 체 체)
+  양자: O(n³) (다항 시간!)
+  
+  핵심: 양자 푸리에 변환 (QFT)
+  주기 탐색 → 공약수 발견
+  
+  의미: RSA 암호 위협
+  2048비트 RSA → 현재 양자 컴퓨터로 N/A
+  (오류 수정 포함 수백만 큐비트 필요, 현재 수천 큐비트)
+  
+  BQP에 속함: 다항 시간 양자 알고리즘 존재
+  고전 P에 속하는지: 미지수 (아마 아님)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">BQP의 대표 문제와 알고리즘:</div>
-<div class="kb-diagram-note">Shor's Algorithm (쇼어 알고리즘, 1994):</div>
-<div class="kb-diagram-note">문제: 정수 N 인수분해</div>
-<div class="kb-diagram-note">고전: 최적 O(exp(n^(1/3))) (일반수 체 체)</div>
-<div class="kb-diagram-note">양자: O(n³) (다항 시간!)</div>
-<div class="kb-diagram-note">핵심: 양자 푸리에 변환 (QFT)</div>
-<div class="kb-diagram-note">주기 탐색 → 공약수 발견</div>
-<div class="kb-diagram-note">의미: RSA 암호 위협</div>
-<div class="kb-diagram-note">2048비트 RSA → 현재 양자 컴퓨터로 N/A</div>
-<div class="kb-diagram-note">(오류 수정 포함 수백만 큐비트 필요, 현재 수천 큐비트)</div>
-<div class="kb-diagram-note">BQP에 속함: 다항 시간 양자 알고리즘 존재</div>
-<div class="kb-diagram-note">고전 P에 속하는지: 미지수 (아마 아님)</div>
-<div class="kb-diagram-note">Grover's Algorithm (그로버 알고리즘, 1996):</div>
-<div class="kb-diagram-note">문제: N개 비정렬 원소 중 탐색</div>
-<div class="kb-diagram-note">고전: O(N) (선형 탐색)</div>
-<div class="kb-diagram-note">양자: O(√N) (제곱근 가속)</div>
-<div class="kb-diagram-note">핵심: 진폭 증폭 (Amplitude Amplification)</div>
-<div class="kb-diagram-note">가속 수준: 이차 가속 (Quadratic Speedup)</div>
-<div class="kb-diagram-note">(Shor처럼 지수 가속은 아님)</div>
-<div class="kb-diagram-note">BQP에 속함: O(√N) 양자 알고리즘</div>
-<div class="kb-diagram-note">NP에 대한 함의: Grover로 NP 문제 빠르게 못 풀음</div>
-<div class="kb-diagram-note">(2^n → 2^(n/2): 여전히 지수)</div>
-<div class="kb-diagram-note">HHL Algorithm (하로우-하시딤-로이드, 2009):</div>
-<div class="kb-diagram-note">문제: 선형 방정식 계 Ax = b 풀기</div>
-<div class="kb-diagram-note">고전: O(n³) (n: 변수 수)</div>
-<div class="kb-diagram-note">양자: O(log n × kappa^2 × epsilon^-2) (조건부)</div>
-<div class="kb-diagram-note">지수 가속 (조건 충족 시)</div>
-<div class="kb-diagram-note">제한: 해를 양자 상태로만 얻음 (측정 = 정보 손실)</div>
-</div>
-</div>
+Grover's Algorithm (그로버 알고리즘, 1996):
+  문제: N개 비정렬 원소 중 탐색
+  고전: O(N) (선형 탐색)
+  양자: O(√N) (제곱근 가속)
+  
+  핵심: 진폭 증폭 (Amplitude Amplification)
+  
+  가속 수준: 이차 가속 (Quadratic Speedup)
+  (Shor처럼 지수 가속은 아님)
+  
+  BQP에 속함: O(√N) 양자 알고리즘
+  NP에 대한 함의: Grover로 NP 문제 빠르게 못 풀음
+  (2^n → 2^(n/2): 여전히 지수)
 
-
+HHL Algorithm (하로우-하시딤-로이드, 2009):
+  문제: 선형 방정식 계 Ax = b 풀기
+  고전: O(n³) (n: 변수 수)
+  양자: O(log n × kappa^2 × epsilon^-2) (조건부)
+  
+  지수 가속 (조건 충족 시)
+  제한: 해를 양자 상태로만 얻음 (측정 = 정보 손실)
+```
 
 > 📢 **섹션 요약 비유**: Shor vs [Grover](/knowledge-base/studynote/09_security/19_ai_advanced_security/986_grover_algorithm_impact/) 비교 — Shor는 지수 가속(엘리베이터 vs 계단), Grover는 이차 가속(빠른 걸음 vs 보통 걸음). Shor가 훨씬 큰 혁신!
 
@@ -190,47 +196,53 @@ BQP의 실용적 의미:
 
 ## Ⅴ. 실무 시나리오 — [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) 전환
 
+```
+양자 위협 대응: 후양자 암호(PQC) 전환
 
+배경:
+  Shor 알고리즘 → RSA/ECC 취약 (BQP 내 문제)
+  "Store Now, Decrypt Later": 현재 암호화 데이터 수집
+  → FTQC 완성 시 복호화
+  
+  위협 시점: 10~20년 (추정)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">양자 위협 대응: 후양자 암호(PQC) 전환</div>
-<div class="kb-diagram-note">배경:</div>
-<div class="kb-diagram-note">Shor 알고리즘 → RSA/ECC 취약 (BQP 내 문제)</div>
-<div class="kb-diagram-note">"Store Now, Decrypt Later": 현재 암호화 데이터 수집</div>
-<div class="kb-diagram-note">→ FTQC 완성 시 복호화</div>
-<div class="kb-diagram-note">위협 시점: 10~20년 (추정)</div>
-<div class="kb-diagram-note">NIST PQC 표준화 (2024):</div>
-<div class="kb-diagram-note">CRYSTALS-Kyber (ML-KEM): 키 교환</div>
-<div class="kb-diagram-note">→ 격자(Lattice) 기반</div>
-<div class="kb-diagram-note">CRYSTALS-Dilithium (ML-DSA): 전자서명</div>
-<div class="kb-diagram-note">→ 격자 기반</div>
-<div class="kb-diagram-note">SPHINCS+ (SLH-DSA): 전자서명</div>
-<div class="kb-diagram-note">→ 해시 기반</div>
-<div class="kb-diagram-note">FALCON (FN-DSA): 전자서명</div>
-<div class="kb-diagram-note">→ 격자 기반</div>
-<div class="kb-diagram-note">전환 계획 (일반 기업):</div>
-<div class="kb-diagram-note">현황 파악:</div>
-<div class="kb-diagram-note">어디에 RSA/ECC 사용 중인가?</div>
-<div class="kb-diagram-note">TLS, 코드서명, PKI, VPN</div>
-<div class="kb-diagram-note">1단계 (1~2년): 혼합 모드</div>
-<div class="kb-diagram-note">TLS 1.3 + ML-KEM 하이브리드</div>
-<div class="kb-diagram-note">기존 RSA + PQC 병행</div>
-<div class="kb-diagram-note">2단계 (2~4년): PQC 전환</div>
-<div class="kb-diagram-note">인증서 갱신: ML-DSA로</div>
-<div class="kb-diagram-note">VPN, SSH: PQC 키 교환</div>
-<div class="kb-diagram-note">3단계 (4~5년): 레거시 정리</div>
-<div class="kb-diagram-note">RSA/ECC 완전 제거</div>
-<div class="kb-diagram-note">모든 암호 자산 PQC 전환</div>
-<div class="kb-diagram-note">주의:</div>
-<div class="kb-diagram-note">PQC도 QMA 문제 아님</div>
-<div class="kb-diagram-note">→ 양자 컴퓨터도 격자 문제 못 풀 것으로 예상</div>
-<div class="kb-diagram-note">But: "격자 문제는 BQP 밖"이 완전 증명되지 않음</div>
-<div class="kb-diagram-note">→ 지속적 수학적 검증 필요</div>
-</div>
-</div>
+NIST PQC 표준화 (2024):
+  CRYSTALS-Kyber (ML-KEM): 키 교환
+  → 격자(Lattice) 기반
+  
+  CRYSTALS-Dilithium (ML-DSA): 전자서명
+  → 격자 기반
+  
+  SPHINCS+ (SLH-DSA): 전자서명
+  → 해시 기반
+  
+  FALCON (FN-DSA): 전자서명
+  → 격자 기반
 
+전환 계획 (일반 기업):
 
+현황 파악:
+  어디에 RSA/ECC 사용 중인가?
+  TLS, 코드서명, PKI, VPN
+  
+1단계 (1~2년): 혼합 모드
+  TLS 1.3 + ML-KEM 하이브리드
+  기존 RSA + PQC 병행
+  
+2단계 (2~4년): PQC 전환
+  인증서 갱신: ML-DSA로
+  VPN, SSH: PQC 키 교환
+  
+3단계 (4~5년): 레거시 정리
+  RSA/ECC 완전 제거
+  모든 암호 자산 PQC 전환
+
+주의:
+  PQC도 QMA 문제 아님
+  → 양자 컴퓨터도 격자 문제 못 풀 것으로 예상
+  But: "격자 문제는 BQP 밖"이 완전 증명되지 않음
+  → 지속적 수학적 검증 필요
+```
 
 > 📢 **섹션 요약 비유**: [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) 전환은 자물쇠 교체 — 양자 컴퓨터가 현재 자물쇠([RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/))를 딸 수 있는 열쇠(Shor)를 가질 때를 대비해 미리 양자 내성 자물쇠(격자 암호)로 교체!
 

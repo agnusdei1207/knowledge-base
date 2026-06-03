@@ -20,19 +20,15 @@ tags = ["studynote-cloud"]
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 Continuous Delivery는 파이프라인([Pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/))을 통해 흐르며, 각 단계마다 품질 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)(Quality Gate)을 거친다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">CI: Continuous Integration</div><div class="kb-diagram-node">CD: Continuous Delivery</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Commit</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Build</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Test</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Staging</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Production</div></div>
-<div class="kb-diagram-note">^</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Manual)</div></div>
-<div class="kb-diagram-note">Release Ready</div>
-</div>
-</div>
-
-
+```text
+[ CI: Continuous Integration ]   [ CD: Continuous Delivery ]
+          |                               |
+[ Commit ] -> [ Build ] -> [ Test ] -> [ Staging ] -> [ Production ]
+                                          |             ^
+                                          |   (Manual)  |
+                                          +-------------+
+                                            Release Ready
+```
 
 1. <strong>Build &amp; <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/">Unit Test</a></strong>: 소스 코드를 컴파일하고 기본 기능 단위의 무결성을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.
 2. **Automated Testing**: [통합 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/), [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 테스트, [성능 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/445_performance_test_types/) 등을 자동 수행하여 릴리스 안정성을 확인한다.
@@ -65,21 +61,18 @@ Continuous Delivery는 파이프라인([Pipeline](/knowledge-base/studynote/12_i
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">CI: 자동 빌드 + 테스트</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CD (Continuous Delivery): 스테이징 자동 배포 + 수동 승인</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CD (Continuous Deployment): 운영 배포까지 100% 자동화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">GitOps · Progressive Delivery (Canary · Blue-Green)</div>
-</div>
-</div>
-
-
+```text
+CI: 자동 빌드 + 테스트
+    │
+    ▼
+CD (Continuous Delivery): 스테이징 자동 배포 + 수동 승인
+    │
+    ▼
+CD (Continuous Deployment): 운영 배포까지 100% 자동화
+    │
+    ▼
+GitOps · Progressive Delivery (Canary · Blue-Green)
+```
 - "이제 가게로 보내도 좋아요!"라고 공장장님이 사인을 보내기만 기다리는 거죠.
 - 언제든 사인만 나면 바로 트럭에 실어서 출발할 수 있게 준비를 다 마친 상태랍니다.
 

@@ -26,18 +26,15 @@ tags = ["studynote-bigdata"]
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
 #### 1. ML [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인([Pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/)) 구조
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Raw Data (DataFrame)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">V</div><div class="kb-diagram-node">Transformer</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Transformed Data</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">V</div><div class="kb-diagram-node">Estimator</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Model (Transformer)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">V</div><div class="kb-diagram-node">Evaluator</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Performance Metric</div></div>
-</div>
-</div>
-
-
+```text
+[ Raw Data (DataFrame) ]
+      |
+      V [ Transformer ] (e.g., Tokenizer, Scaler) --> [ Transformed Data ]
+      |
+      V [ Estimator ] (e.g., Logistic Regression) --> [ Model (Transformer) ]
+      |
+      V [ Evaluator ] (e.g., BinaryClassificationEvaluator) --> [ Performance Metric ]
+```
 
 #### 2. 핵심 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 카테고리
 - <strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/107_classification/">Classification</a> &amp; Regression</strong>: [로지스틱 회귀](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/), [랜덤 포레스트](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/), GBT(Gradient Boosted Trees), [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) 등
@@ -81,23 +78,21 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">원시 피처 데이터 (Raw Feature Data) — DataFrame·RDD로 메모리 로딩</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">피처 엔지니어링 (Feature Engineering) — MLlib Pipeline으로 전처리·변환</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">모델 학습 (Model Training) — 분산 클러스터 병렬 알고리즘 수행</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">모델 평가 (Model Evaluation) — CrossValidator·TrainValidationSplit</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">모델 배포 (Model Serving) — MLflow·Spark Structured Streaming 연동</div></div>
-</div>
-</div>
-
-
+```text
+[원시 피처 데이터 (Raw Feature Data) — DataFrame·RDD로 메모리 로딩]
+    │
+    ▼
+[피처 엔지니어링 (Feature Engineering) — MLlib Pipeline으로 전처리·변환]
+    │
+    ▼
+[모델 학습 (Model Training) — 분산 클러스터 병렬 알고리즘 수행]
+    │
+    ▼
+[모델 평가 (Model Evaluation) — CrossValidator·TrainValidationSplit]
+    │
+    ▼
+[모델 배포 (Model Serving) — MLflow·Spark Structured Streaming 연동]
+```
 
 이 흐름은 Spark MLlib가 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 전처리부터 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 학습·평가·서빙까지 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 일원화하는 과정을 나타낸다.
 

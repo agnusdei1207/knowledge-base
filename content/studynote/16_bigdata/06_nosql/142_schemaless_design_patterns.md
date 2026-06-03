@@ -39,23 +39,19 @@ NoSQL 스키마 변경 흐름:
 
 ### 접근 패턴 우선 설계 원칙
 
+```text
+잘못된 설계 방식 (엔티티 중심):
+  "주문과 고객이 있으니 orders, customers 테이블을 만들자"
+  → JOIN이 필요한 쿼리 발생
 
+올바른 설계 방식 (접근 패턴 중심):
+  Q1: "주문 상세 페이지에서 무엇을 보여줄 것인가?"
+  → 주문 + 고객 이름 + 주문 상품 목록이 필요
+  → 하나의 orders 문서에 모두 임베딩
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">잘못된 설계 방식 (엔티티 중심):</div>
-<div class="kb-diagram-note">"주문과 고객이 있으니 orders, customers 테이블을 만들자"</div>
-<div class="kb-diagram-note">→ JOIN이 필요한 쿼리 발생</div>
-<div class="kb-diagram-note">올바른 설계 방식 (접근 패턴 중심):</div>
-<div class="kb-diagram-note">Q1: "주문 상세 페이지에서 무엇을 보여줄 것인가?"</div>
-<div class="kb-diagram-note">→ 주문 + 고객 이름 + 주문 상품 목록이 필요</div>
-<div class="kb-diagram-note">→ 하나의 orders 문서에 모두 임베딩</div>
-<div class="kb-diagram-note">Q2: "고객 프로필 수정이 주문 내역에도 반영되어야 하는가?"</div>
-<div class="kb-diagram-note">→ 반드시 → 참조 전략 사용 (또는 Extended Reference 패턴)</div>
-</div>
-</div>
-
-
+  Q2: "고객 프로필 수정이 주문 내역에도 반영되어야 하는가?"
+  → 반드시 → 참조 전략 사용 (또는 Extended Reference 패턴)
+```
 
 📢 **섹션 요약 비유**
 > [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)리스 설계는 맞춤 양복과 같다. 기성품(RDBMS [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/))은 어느 몸에나 맞지만 완벽하지 않고, 맞춤 양복(접근 패턴 기반 설계)은 특정 사람(워크로드)에게 최적이지만 다른 사람이 입기엔 맞지 않을 수 있다.
@@ -66,76 +62,83 @@ NoSQL 스키마 변경 흐름:
 
 ### [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) vs [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 결정 매트릭스
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">임베딩 vs 참조 선택 기준</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">임베딩(Embedding) 선호:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ "자식은 부모 없이 독립적으로 의미 없음"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(주문 없는 주문 상품이 존재하지 않음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ "항상 함께 조회"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(주문 페이지에서 항상 상품 목록도 표시)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ "자식 수가 제한적이고 예측 가능"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(최대 100개 리뷰 → 하나의 문서에 ok)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ "원자적 업데이트 필요"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(주문 상태와 배송 추적을 동시에 업데이트)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">참조(Referencing) 선호:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ "자식이 독립적으로 의미 있음"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(상품은 여러 주문에서 참조, 독립 수정 가능)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ "동일 데이터를 여러 문서에서 공유"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(동일 사용자 정보가 수천 개 주문에서 참조)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ "자식 수가 무한정 증가 가능"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(소셜 포스트의 댓글이 수만 개)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ "자식 데이터만 독립적으로 쿼리"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(최근 댓글 10개만 페이지네이션)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│            임베딩 vs 참조 선택 기준                            │
+│                                                              │
+│  임베딩(Embedding) 선호:                                      │
+│  ✅ "자식은 부모 없이 독립적으로 의미 없음"                     │
+│     (주문 없는 주문 상품이 존재하지 않음)                       │
+│  ✅ "항상 함께 조회"                                           │
+│     (주문 페이지에서 항상 상품 목록도 표시)                      │
+│  ✅ "자식 수가 제한적이고 예측 가능"                            │
+│     (최대 100개 리뷰 → 하나의 문서에 ok)                       │
+│  ✅ "원자적 업데이트 필요"                                      │
+│     (주문 상태와 배송 추적을 동시에 업데이트)                    │
+│                                                              │
+│  참조(Referencing) 선호:                                      │
+│  ✅ "자식이 독립적으로 의미 있음"                               │
+│     (상품은 여러 주문에서 참조, 독립 수정 가능)                  │
+│  ✅ "동일 데이터를 여러 문서에서 공유"                          │
+│     (동일 사용자 정보가 수천 개 주문에서 참조)                   │
+│  ✅ "자식 수가 무한정 증가 가능"                                │
+│     (소셜 포스트의 댓글이 수만 개)                              │
+│  ✅ "자식 데이터만 독립적으로 쿼리"                             │
+│     (최근 댓글 10개만 페이지네이션)                             │
+└──────────────────────────────────────────────────────────────┘
+```
 
 ### [MongoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/540_mongodb/) 고급 설계 패턴 ([Design Patterns](/knowledge-base/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/))
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 버킷 패턴 (Bucket Pattern) — IoT 시계열</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문제: 센서가 초당 1개 문서 → 시간당 3600개 문서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해결: 1시간 분량을 하나의 버킷 문서에 배열로 저장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">{ sensorId: "S1",</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">hour: "2026-04-21T09:00:00",</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">readings:</div><div class="kb-diagram-node">23.5, 23.7, 23.6, ...</div><div class="kb-diagram-note">, // 3600개 임베딩</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">count: 3600, avg: 23.6, min: 22.1, max: 24.0 }</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">효과: 문서 수 3600 → 1 (99.97% 감소), 집계 필드 포함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 아웃라이어 패턴 (Outlier Pattern) — 소수의 예외 처리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문제: 일반 영화는 리뷰 수백 개, 블록버스터는 수백만 개</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해결: has_extras 플래그 + 오버플로우 문서</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">{ movieId: "avatar", reviews:</div><div class="kb-diagram-node">...첫 1000개</div><div class="kb-diagram-note">,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">has_extras: true }</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">{ movieId: "avatar", extras_page: 2,</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">reviews:</div><div class="kb-diagram-node">...다음 1000개</div><div class="kb-diagram-note">}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 계산된 패턴 (Computed Pattern) — 집계 캐싱</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문제: 상품 평점 평균을 매번 리뷰 전체 집계로 계산</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해결: 문서에 계산된 값을 미리 저장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">{ productId: "P1",</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">review_count: 1500,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">rating_sum: 6750,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">avg_rating: 4.5 } // 쓸 때 계산, 읽을 때 즉시 반환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 확장 참조 패턴 (Extended Reference Pattern)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문제: 주문에서 고객 이름이 항상 필요한데 매번 JOIN 시 느림</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해결: 자주 쓰는 필드를 참조하는 문서에 복사</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">{ orderId: "O1",</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">customerId: "C1", // 참조 (ID)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">customerName: "홍길동", // 복사 (비정규화)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">customerPhone: "010-xxxx" // 복사 (자주 쓰는 것만)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고객 이름 변경 시 → customerId로 최신 정보 조회 + 주문 이력</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">은 당시 이름 유지 (실제 비즈니스 요구와 일치)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│  1. 버킷 패턴 (Bucket Pattern) — IoT 시계열                  │
+│                                                             │
+│  문제: 센서가 초당 1개 문서 → 시간당 3600개 문서             │
+│  해결: 1시간 분량을 하나의 버킷 문서에 배열로 저장            │
+│                                                             │
+│  { sensorId: "S1",                                          │
+│    hour: "2026-04-21T09:00:00",                             │
+│    readings: [23.5, 23.7, 23.6, ...],  // 3600개 임베딩     │
+│    count: 3600, avg: 23.6, min: 22.1, max: 24.0 }           │
+│                                                             │
+│  효과: 문서 수 3600 → 1 (99.97% 감소), 집계 필드 포함        │
+├─────────────────────────────────────────────────────────────┤
+│  2. 아웃라이어 패턴 (Outlier Pattern) — 소수의 예외 처리     │
+│                                                             │
+│  문제: 일반 영화는 리뷰 수백 개, 블록버스터는 수백만 개        │
+│  해결: has_extras 플래그 + 오버플로우 문서                    │
+│                                                             │
+│  { movieId: "avatar", reviews: [...첫 1000개],              │
+│    has_extras: true }                                       │
+│  { movieId: "avatar", extras_page: 2,                       │
+│    reviews: [...다음 1000개] }                              │
+├─────────────────────────────────────────────────────────────┤
+│  3. 계산된 패턴 (Computed Pattern) — 집계 캐싱              │
+│                                                             │
+│  문제: 상품 평점 평균을 매번 리뷰 전체 집계로 계산            │
+│  해결: 문서에 계산된 값을 미리 저장                          │
+│                                                             │
+│  { productId: "P1",                                         │
+│    review_count: 1500,                                      │
+│    rating_sum: 6750,                                        │
+│    avg_rating: 4.5 }   // 쓸 때 계산, 읽을 때 즉시 반환      │
+├─────────────────────────────────────────────────────────────┤
+│  4. 확장 참조 패턴 (Extended Reference Pattern)             │
+│                                                             │
+│  문제: 주문에서 고객 이름이 항상 필요한데 매번 JOIN 시 느림   │
+│  해결: 자주 쓰는 필드를 참조하는 문서에 복사                  │
+│                                                             │
+│  { orderId: "O1",                                           │
+│    customerId: "C1",           // 참조 (ID)                 │
+│    customerName: "홍길동",     // 복사 (비정규화)            │
+│    customerPhone: "010-xxxx"  // 복사 (자주 쓰는 것만)      │
+│  }                                                          │
+│                                                             │
+│  고객 이름 변경 시 → customerId로 최신 정보 조회 + 주문 이력  │
+│  은 당시 이름 유지 (실제 비즈니스 요구와 일치)                │
+└─────────────────────────────────────────────────────────────┘
+```
 
 ### 다형성 패턴 (Polymorphic Pattern)
 
@@ -196,30 +199,27 @@ MongoDB 문서 크기 제한: 16MB
 
 ### 전자상거래 플랫폼 [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/) 설계 예시
 
+```text
+설계 과정:
 
+STEP 1: 핵심 접근 패턴 정의
+  Q1. 상품 상세 페이지 조회 (초당 수천 번)
+  Q2. 주문 내역 조회 (사용자별, 시간 역순)
+  Q3. 카테고리별 상품 목록 (필터·정렬)
+  Q4. 리뷰 조회 (상품별, 최근 20개)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">설계 과정:</div>
-<div class="kb-diagram-note">STEP 1: 핵심 접근 패턴 정의</div>
-<div class="kb-diagram-note">Q1. 상품 상세 페이지 조회 (초당 수천 번)</div>
-<div class="kb-diagram-note">Q2. 주문 내역 조회 (사용자별, 시간 역순)</div>
-<div class="kb-diagram-note">Q3. 카테고리별 상품 목록 (필터·정렬)</div>
-<div class="kb-diagram-note">Q4. 리뷰 조회 (상품별, 최근 20개)</div>
-<div class="kb-diagram-note">STEP 2: 컬렉션·임베딩·참조 결정</div>
-<div class="kb-diagram-note">products 컬렉션:</div>
-<div class="kb-diagram-note">+ 기본 정보, 가격, 재고 → 임베딩</div>
-<div class="kb-diagram-note">+ 카테고리 → 참조 (카테고리 독립 수정)</div>
-<div class="kb-diagram-note">+ 평균 평점, 리뷰 수 → 계산된 필드 임베딩</div>
-<div class="kb-diagram-note">+ 리뷰 전체 → 별도 컬렉션 참조 (무한 증가)</div>
-<div class="kb-diagram-note">orders 컬렉션:</div>
-<div class="kb-diagram-note">+ 주문자 이름/연락처 → 확장 참조 (당시 정보 보존)</div>
-<div class="kb-diagram-note">+ 주문 상품 목록 (qty, price, name) → 임베딩 (당시 가격 보존)</div>
-<div class="kb-diagram-note">+ 배송 상태 이력 → 임베딩 (함께 조회)</div>
-</div>
-</div>
+STEP 2: 컬렉션·임베딩·참조 결정
+  products 컬렉션:
+    + 기본 정보, 가격, 재고 → 임베딩
+    + 카테고리 → 참조 (카테고리 독립 수정)
+    + 평균 평점, 리뷰 수 → 계산된 필드 임베딩
+    + 리뷰 전체 → 별도 컬렉션 참조 (무한 증가)
 
-
+  orders 컬렉션:
+    + 주문자 이름/연락처 → 확장 참조 (당시 정보 보존)
+    + 주문 상품 목록 (qty, price, name) → 임베딩 (당시 가격 보존)
+    + 배송 상태 이력 → 임베딩 (함께 조회)
+```
 
 ### [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리 패턴
 
@@ -276,23 +276,21 @@ MongoDB 문서 크기 제한: 16MB
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">관계형 DB (RDBMS) — 엄격한 스키마 사전 정의 필수</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NoSQL 등장 — 스키마리스, 수평 확장, 다양한 데이터 모델 지원</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스키마리스 설계 패턴 — 문서(Document) / 컬럼(Column) / 그래프(Graph) 모델</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Schema-on-Read — 저장 시 자유, 조회 시 스키마 적용 (데이터 레이크 철학)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">하이브리드 접근 — HTAP(OLTP+OLAP 혼합) 및 NewSQL로 스키마 유연성+ACID 양립</div></div>
-</div>
-</div>
-
-
+```text
+[관계형 DB (RDBMS) — 엄격한 스키마 사전 정의 필수]
+    │
+    ▼
+[NoSQL 등장 — 스키마리스, 수평 확장, 다양한 데이터 모델 지원]
+    │
+    ▼
+[스키마리스 설계 패턴 — 문서(Document) / 컬럼(Column) / 그래프(Graph) 모델]
+    │
+    ▼
+[Schema-on-Read — 저장 시 자유, 조회 시 스키마 적용 (데이터 레이크 철학)]
+    │
+    ▼
+[하이브리드 접근 — HTAP(OLTP+OLAP 혼합) 및 NewSQL로 스키마 유연성+ACID 양립]
+```
 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 DB의 엄격한 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 제약을 NoSQL이 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)리스 패턴으로 극복했고, [Schema-on-Read](/knowledge-base/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/) 철학과 NewSQL의 등장으로 유연성과 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 동시에 추구하고 있다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

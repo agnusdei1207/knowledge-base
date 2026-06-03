@@ -20,22 +20,22 @@ tags = ["cloud_architecture"]
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)는 수집(Ingest), 저장(Store), 처리([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/)), 분석(Analyze)의 다계층 구조로 이루어진다.
 
+```text
+[ Architecture of Data Lake & Pipeline ]
 
+   [ Data Sources ]       [ Data Lake Layers ]       [ Consumption ]
+   +--------------+      +----------------------+      +--------------+
+   | RDBMS (SQL)  |----->| Raw Layer (Landing)  |----->| Data Science |
+   +--------------+      +----------------------+      +--------------+
+   | Logs (JSON)  |----->| Standardized Layer   |----->| ML Modeling  |
+   +--------------+      +----------------------+      +--------------+
+   | Files (CSV)  |----->| Curated Layer (Gold) |----->| BI Dashboard |
+   +--------------+      +----------------------+      +--------------+
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Architecture of Data Lake &amp; Pipeline</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Data Sources</div><div class="kb-diagram-node">Data Lake Layers</div><div class="kb-diagram-node">Consumption</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RDBMS (SQL)</div><div class="kb-diagram-cell">-----&gt;</div><div class="kb-diagram-cell">Raw Layer (Landing)</div><div class="kb-diagram-cell">-----&gt;</div><div class="kb-diagram-cell">Data Science</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Logs (JSON)</div><div class="kb-diagram-cell">-----&gt;</div><div class="kb-diagram-cell">Standardized Layer</div><div class="kb-diagram-cell">-----&gt;</div><div class="kb-diagram-cell">ML Modeling</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Files (CSV)</div><div class="kb-diagram-cell">-----&gt;</div><div class="kb-diagram-cell">Curated Layer (Gold)</div><div class="kb-diagram-cell">-----&gt;</div><div class="kb-diagram-cell">BI Dashboard</div></div>
-<div class="kb-diagram-note">* Storage: Object Storage (AWS S3, Azure Data Lake Storage)</div>
-<div class="kb-diagram-note">* Metadata: Glue Catalog, Hive Metastore</div>
-<div class="kb-diagram-note">* Processing: Spark, Presto, Athena</div>
-</div>
-</div>
-
-
+* Storage: Object Storage (AWS S3, Azure Data Lake Storage)
+* Metadata: Glue Catalog, Hive Metastore
+* Processing: Spark, Presto, Athena
+```
 
 **핵심 메커니즘:**
 1. <strong><a href="/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/">Raw</a> Layer:</strong> 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 변조 없이 적재되는 구간 ([감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 로그용)
@@ -73,21 +73,17 @@ tags = ["cloud_architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">RDBMS (구조화 데이터만 저장)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Data Lake: 비정형 + 정형 데이터 원시 저장</div>
-<div class="kb-diagram-tree-item" style="--depth:2">S3 · GCS · ADLS (오브젝트 스토리지)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Schema-on-Read: 읽을 때 스키마 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Data Lakehouse: Lake + Warehouse 통합 (Delta · Iceberg)</div>
-</div>
-</div>
-
-
+```text
+RDBMS (구조화 데이터만 저장)
+    │
+    ▼
+Data Lake: 비정형 + 정형 데이터 원시 저장
+    ├─► S3 · GCS · ADLS (오브젝트 스토리지)
+    └─► Schema-on-Read: 읽을 때 스키마 적용
+    │
+    ▼
+Data Lakehouse: Lake + Warehouse 통합 (Delta · Iceberg)
+```
 2. 예전에는 장난감 통, 책꽂이로 다 나눠야 했지만, 이제는 일단 상자에 다 넣어두고 나중에 놀고 싶을 때 꺼내서 정리하면 돼요.
 3. 상자가 아주 커서 세상 모든 물건을 다 담아도 끄떡없답니다!
 

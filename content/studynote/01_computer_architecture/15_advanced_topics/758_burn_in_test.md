@@ -35,19 +35,20 @@ tags = ["studynote-computer-architecture"]
 
 아래 흐름은 번인이 "검수"가 아니라 잠복 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 의도적으로 조기에 폭로하는 screening 루프임을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Burn-in screening workflow</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Assembly / test pass</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Elevated temperature + voltage + workload</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── weak unit fails now ─▶ fallout + failure analysis</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── robust unit survives ─▶ ship to field</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                    Burn-in screening workflow                       │
+├──────────────────────────────────────────────────────────────────────┤
+│ Assembly / test pass                                                │
+│      │                                                               │
+│      ▼                                                               │
+│ Elevated temperature + voltage + workload                            │
+│      │                                                               │
+│      ├── weak unit fails now ─▶ fallout + failure analysis           │
+│      │                                                               │
+│      └── robust unit survives ─▶ ship to field                       │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 번인 프로파일을 설계할 때는 어떤 스트레스가 어떤 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 끌어낼지 연결해서 생각해야 한다.
 
@@ -132,24 +133,22 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">잠복 제조 결함</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">번인 (Burn-in) 테스트</div>
-<div class="kb-diagram-note">: elevated temperature · voltage · workload</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 낙오품 분리</div>
-<div class="kb-diagram-note">: infant mortality removed before shipment</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 고장 분석</div>
-<div class="kb-diagram-note">: process correction · assembly improvement</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 현장 초기 장애 감소</div>
-<div class="kb-diagram-note">: lower return rate · better outgoing quality</div>
-</div>
-</div>
-
-
+```text
+잠복 제조 결함
+    │
+    ▼
+번인 (Burn-in) 테스트
+    : elevated temperature · voltage · workload
+    │
+    ├──▶ 낙오품 분리
+    │     : infant mortality removed before shipment
+    │
+    ├──▶ 고장 분석
+    │     : process correction · assembly improvement
+    │
+    └──▶ 현장 초기 장애 감소
+          : lower return rate · better outgoing quality
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

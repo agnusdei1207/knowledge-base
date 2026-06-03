@@ -50,33 +50,36 @@ tags = ["studynote-bigdata"]
 
 ### 2.1 6차원 상세 설명
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 품질 6차원</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">완전성(Completeness)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NULL 비율</div><div class="kb-diagram-cell">· 필수 항목 채움 비율 = 채워진 값/전체 × 100</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">측정</div><div class="kb-diagram-cell">· 목표: 핵심 필드 99.9% 이상</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정확성(Accuracy)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">외부 기준</div><div class="kb-diagram-cell">· 실세계 정보와 일치 여부</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비교</div><div class="kb-diagram-cell">· 검증: 공공 DB 대조, 현장 확인 샘플링</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일관성(Consistency)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시스템 간</div><div class="kb-diagram-cell">· 동일 속성이 다른 시스템 간 일치</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비교</div><div class="kb-diagram-cell">· 예: CRM 고객 나이 ≠ DW 고객 나이 → 불일치</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">적시성(Timeliness)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SLA 기준</div><div class="kb-diagram-cell">· 데이터가 사용 가능한 시점의 최신성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">측정</div><div class="kb-diagram-cell">· 배치: 매일 06:00 갱신 SLA</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유일성(Uniqueness)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">중복 탐지</div><div class="kb-diagram-cell">· 동일 엔티티의 중복 레코드 없음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">알고리즘</div><div class="kb-diagram-cell">· 중복률 = 중복 레코드 수/전체 레코드 수</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유효성(Validity)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">규칙 검사</div><div class="kb-diagram-cell">· 형식·도메인·참조 무결성 준수</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">엔진</div><div class="kb-diagram-cell">· 예: 날짜 형식, 코드 목록, FK 무결성</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────────┐
+│                  데이터 품질 6차원                            │
+│                                                              │
+│  ┌──────────────┐  완전성(Completeness)                      │
+│  │ NULL 비율    │  · 필수 항목 채움 비율 = 채워진 값/전체 × 100│
+│  │ 측정         │  · 목표: 핵심 필드 99.9% 이상              │
+│  └──────────────┘                                            │
+│  ┌──────────────┐  정확성(Accuracy)                          │
+│  │ 외부 기준    │  · 실세계 정보와 일치 여부                  │
+│  │ 비교         │  · 검증: 공공 DB 대조, 현장 확인 샘플링     │
+│  └──────────────┘                                            │
+│  ┌──────────────┐  일관성(Consistency)                       │
+│  │ 시스템 간    │  · 동일 속성이 다른 시스템 간 일치           │
+│  │ 비교         │  · 예: CRM 고객 나이 ≠ DW 고객 나이 → 불일치│
+│  └──────────────┘                                            │
+│  ┌──────────────┐  적시성(Timeliness)                        │
+│  │ SLA 기준     │  · 데이터가 사용 가능한 시점의 최신성        │
+│  │ 측정         │  · 배치: 매일 06:00 갱신 SLA              │
+│  └──────────────┘                                            │
+│  ┌──────────────┐  유일성(Uniqueness)                        │
+│  │ 중복 탐지    │  · 동일 엔티티의 중복 레코드 없음            │
+│  │ 알고리즘     │  · 중복률 = 중복 레코드 수/전체 레코드 수    │
+│  └──────────────┘                                            │
+│  ┌──────────────┐  유효성(Validity)                          │
+│  │ 규칙 검사    │  · 형식·도메인·참조 무결성 준수             │
+│  │ 엔진         │  · 예: 날짜 형식, 코드 목록, FK 무결성      │
+│  └──────────────┘                                            │
+└──────────────────────────────────────────────────────────────┘
+```
 
 ### 2.2 품질 점수 계산
 
@@ -134,27 +137,24 @@ DQS = (W1×Completeness + W2×Accuracy + W3×Consistency
 
 ### 4.1 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에서의 DQ 검사
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">소스 데이터 추출</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DQ 검사 1: 완전성 + 유효성 검사</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">격리(Quarantine) + 알림</div></div>
-<div class="kb-diagram-note">통과</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 변환(Transformation)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DQ 검사 2: 일관성 + 유일성 검사</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">오류 로그 + 수동 검토 큐</div></div>
-<div class="kb-diagram-note">통과</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">목적 시스템 로드</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DQ 검사 3: 적시성 + 정확성 샘플링</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">대시보드 경보</div></div>
-</div>
-</div>
-
-
+```
+[소스 데이터 추출]
+         │
+         ▼
+[DQ 검사 1: 완전성 + 유효성 검사] ──실패──▶ [격리(Quarantine) + 알림]
+         │통과
+         ▼
+[데이터 변환(Transformation)]
+         │
+         ▼
+[DQ 검사 2: 일관성 + 유일성 검사] ──실패──▶ [오류 로그 + 수동 검토 큐]
+         │통과
+         ▼
+[목적 시스템 로드]
+         │
+         ▼
+[DQ 검사 3: 적시성 + 정확성 샘플링] ──실패──▶ [대시보드 경보]
+```
 
 **"Fail Fast" 원칙**: 품질 문제는 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 최대한 앞단에서 잡아야 수정 비용 최소화.
 
@@ -216,23 +216,21 @@ FROM customers;
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 수집 (Data Ingestion) — 원천 시스템에서 원시 데이터 유입</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 품질 진단 (DQ Assessment) — 완전성·정확성·일관성·적시성 측정</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 클렌징 (Data Cleansing) — 결측·중복·오류 데이터 처리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">마스터 데이터 관리 (MDM — Master Data Management) — 핵심 데이터 단일 진실 공급원 확보</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 거버넌스 (Data Governance) — 지속적 품질 측정·정책·책임 체계 운영</div></div>
-</div>
-</div>
-
-
+```text
+[데이터 수집 (Data Ingestion) — 원천 시스템에서 원시 데이터 유입]
+    │
+    ▼
+[데이터 품질 진단 (DQ Assessment) — 완전성·정확성·일관성·적시성 측정]
+    │
+    ▼
+[데이터 클렌징 (Data Cleansing) — 결측·중복·오류 데이터 처리]
+    │
+    ▼
+[마스터 데이터 관리 (MDM — Master Data Management) — 핵심 데이터 단일 진실 공급원 확보]
+    │
+    ▼
+[데이터 거버넌스 (Data Governance) — 지속적 품질 측정·정책·책임 체계 운영]
+```
 
 이 흐름은 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집에서 품질 진단·클렌징을 거쳐 [마스터 데이터 관리](/knowledge-base/studynote/12_it_management/01_governance_strategy/051_mdm_master_data_management/)와 거버넌스로 이어지는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 관리 체계를 나타낸다.
 

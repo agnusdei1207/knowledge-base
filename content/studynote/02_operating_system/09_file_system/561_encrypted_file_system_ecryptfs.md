@@ -30,27 +30,30 @@ tags = ["studynote-operating-system"]
 - <strong>FDE (Full Disk Encryption 통짜 디스크) vs FLE (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">File</a> Level Encryption 낱개 폴더) <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> 핑퐁 폭쇄 뷰</strong>:
 암호화의 위치와 크기에 따라 어떻게 보호하는 스코프 영역이 다른지 렌더를 까보면 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"하드디스크 통째로 갈아버릴까? 중요한 폴더 1개만 갈아버릴까?"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🚨</div><div class="kb-diagram-node">모델 A: FDE 방패 (Full Disk Encryption 빌로커 BitLocker 빔!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(스케일: 하드디스크 쇳덩어리 바닥 1번 섹터 ~ 1TB 끝까지 전부 타격 암막 늪!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=&gt;</div><div class="kb-diagram-node">OS 파티션(윈도우 파일 전부)</div><div class="kb-diagram-node">나의 사진들</div><div class="kb-diagram-node">가상 메모리 스왑 7단원 찌꺼기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─&gt; "디스크에 닿는 모든 건 파편이다! CPU가 전부 AES로 으깨버림 록백!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 장점: 컴퓨터 부팅 시 USB 키나 TPM 락 안 풀면 부팅 자체가 멈춰 절대 무적 스왑!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 단점: 윈도우 OS 시스템 로고 파일 1개 읽을 때마다 부하 걸려 전체 성능 하락 파단!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🔥</div><div class="kb-diagram-node">모델 B: FLE 국소 렌더 (File Level Encryption / eCryptfs 폴더 스왑!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(스케일: 내가 정한 '1번 폴더' 안에 담을 때만 암호화 동작!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; VFS 스위칭 봇 장착! 유저가 <code>/home/user/Private/</code> 에 쓸때만 출동!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 다른 일반 <code>/var</code> 나 OS 부팅 파일은 순정 ext4 속도로 쾌적(O(1)) 부스트!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 장점: 유저가 로그인 중에 자리를 비운 찰나, 개별 파일 단위로 열쇠 잠금 통제 가능!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 단점: "임시 파일 찌꺼기(스왑 공간 이주 빔)" 는 암호 안 된 채 딴 데로 누수 멸망 랙!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌──────────────────────────────────────────────────────────────────────────────────────────┐
+  │                 "하드디스크 통째로 갈아버릴까? 중요한 폴더 1개만 갈아버릴까?"            │
+  ├──────────────────────────────────────────────────────────────────────────────────────────┤
+  │                                                                                          │
+  │  🚨 [ 모델 A: FDE 방패 (Full Disk Encryption 빌로커 BitLocker 빔!) ]                     │
+  │     (스케일: 하드디스크 쇳덩어리 바닥 1번 섹터 ~ 1TB 끝까지 전부 타격 암막 늪!)          │
+  │                                                                                          │
+  │     => [OS 파티션(윈도우 파일 전부)] [나의 사진들] [가상 메모리 스왑 7단원 찌꺼기]       │
+  │        └─> "디스크에 닿는 모든 건 파편이다! CPU가 전부 AES로 으깨버림 록백!"             │
+  │     => 장점: 컴퓨터 부팅 시 USB 키나 TPM 락 안 풀면 부팅 자체가 멈춰 절대 무적 스왑!     │
+  │     => 단점: 윈도우 OS 시스템 로고 파일 1개 읽을 때마다 부하 걸려 전체 성능 하락 파단!   │
+  │                                                                                          │
+  │  =========================▼===================================                           │
+  │                                                                                          │
+  │  🔥 [ 모델 B: FLE 국소 렌더 (File Level Encryption / eCryptfs 폴더 스왑!) ]              │
+  │     (스케일: 내가 정한 '1번 폴더' 안에 담을 때만 암호화 동작!)                           │
+  │                                                                                          │
+  │     => VFS 스위칭 봇 장착! 유저가 `/home/user/Private/` 에 쓸때만 출동!                  │
+  │     => 다른 일반 `/var` 나 OS 부팅 파일은 순정 ext4 속도로 쾌적(O(1)) 부스트!            │
+  │     => 장점: 유저가 로그인 중에 자리를 비운 찰나, 개별 파일 단위로 열쇠 잠금 통제 가능!  │
+  │     => 단점: "임시 파일 찌꺼기(스왑 공간 이주 빔)" 는 암호 안 된 채 딴 데로 누수 멸망 랙!│
+  └──────────────────────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 스토리지 암호화의 거시 투트랙 전장이다. 윈도우 [BitLocker](/knowledge-base/studynote/09_security/04_endpoint_security/397_bitlocker_windows_fde/) (그리고 Mac의 [FileVault](/knowledge-base/studynote/09_security/04_endpoint_security/398_filevault_macos_fde/))는 `Block 계층(VFS보다 더 밑바닥 철제 드라이버)` 에서 동작하며 디스크 1TB 공간 천체를 맹목적으로 갈아버리는 단순-무식-무적 모델(FDE)이다. OS 찌꺼기(Swap)마저 보호한다. 반면 리눅스의 `eCryptfs` 나 윈도우 `EFS` 는 `File System 계층(폴더 위)` 에서 동작하는 핀셋 모델(FLE)이다. 각 유저(철수와 영희) 마다 다른 비밀키([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))를 가지고 독립된 폴더 금고를 돌리며, CPU 낭비를 최소화하는 섬세한 엔터프라이즈 다중 사용자 고립([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/)) 통치 체제 결속 도출점.
 
@@ -130,19 +133,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">다중 스트림 (Multi-stream) 파일 / 포크 (Forks)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">암호화 파일 시스템 (eCryptfs / Windows EFS)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">무결성 검증 파일 시스템 (dm-verity / Android 적용 보안 파일 구조)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">플래시 전용 파일 시스템 (F2FS, JFFS2, YAFFS) 특성 분석</div></div>
-</div>
-</div>
-
-
+```text
+[다중 스트림 (Multi-stream) 파일 / 포크 (Forks)]
+    │
+    ▼
+[암호화 파일 시스템 (eCryptfs / Windows EFS)]
+    │
+    ├──▶ [무결성 검증 파일 시스템 (dm-verity / Android 적용 보안 파일 구조)]
+    └──▶ [플래시 전용 파일 시스템 (F2FS, JFFS2, YAFFS) 특성 분석]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

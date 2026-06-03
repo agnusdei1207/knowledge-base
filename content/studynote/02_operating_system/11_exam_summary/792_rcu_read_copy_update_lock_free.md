@@ -35,33 +35,35 @@ tags = ["studynote-operating-system"]
 - **등장 배경**: 
   - 2002년 리눅스 2.5 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 도입된 이후, [SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/)(멀티코어) 환경에서 읽기 비중이 90% 이상인 모든 주요 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 서브시스템([VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/), 네트워킹, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 디스크립터 관리)의 기본 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 RCU로 모조리 갈아치우며 리눅스의 서버 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 폭발시켰다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RCU의 동작 파이프라인 (Read-Copy-Update) 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">초기 상태</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Node A (값: 10)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Reader 1, 2 가 락 없이 신나게 P를 타고 Node A를 읽고 있음.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. Copy (복사 후 수정)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Writer 출현! Node A를 15로 바꾸고 싶음.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 절대 Node A를 덮어쓰지 않음! (Reader 1,2 가 보고 있으니까)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- 텅 빈 새 노드를 할당받아</div><div class="kb-diagram-node">Node A' (값: 15)</div><div class="kb-diagram-note">를 만듦.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. Update (포인터 스위칭)</div><div class="kb-diagram-note">- 원자적 1클럭 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 글로벌 포인터(P)를 단칼에 A'로 꺾어버림!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Node A' (값: 15)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">방금 들어온 Reader 3은 이걸 봄</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Node A (값: 10)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">아까 들어온 Reader 1,2는 이거 마저 봄</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3. Grace Period (유예 기간) 대기</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">RCU의 킬러 핵심!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Writer는 Node A를 바로 삭제(Free)하면 안 됨! (Reader 1,2 죽음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- OS에게 "옛날 그림(A) 보고 있던 독자들이 방에서 다 빠져나갈 때까지 기다려 줘" 부탁함.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">4. Reclaim (구형 데이터 폐기)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Reader 1,2 가 작업을 끝냄 (문맥 교환 발생 등).</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 커널: "이제 옛날 A 보는 놈 아무도 없네!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- 비로소</div><div class="kb-diagram-node">Node A (값: 10)</div><div class="kb-diagram-note">를 메모리에서 완전 파괴(Free)함.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │                 RCU의 동작 파이프라인 (Read-Copy-Update) 시각화         │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │  [ 초기 상태 ]                                                │
+  │   글로벌 포인터(P) ────▶ [ Node A (값: 10) ]                   │
+  │   - Reader 1, 2 가 락 없이 신나게 P를 타고 Node A를 읽고 있음.          │
+  │                                                             │
+  │  [ 1. Copy (복사 후 수정) ]                                    │
+  │   Writer 출현! Node A를 15로 바꾸고 싶음.                        │
+  │   - 절대 Node A를 덮어쓰지 않음! (Reader 1,2 가 보고 있으니까)          │
+  │   - 텅 빈 새 노드를 할당받아 [ Node A' (값: 15) ] 를 만듦.             │
+  │                                                             │
+  │  [ 2. Update (포인터 스위칭) ] - 원자적 1클럭 실행                 │
+  │   - 글로벌 포인터(P)를 단칼에 A'로 꺾어버림!                         │
+  │   글로벌 포인터(P) ────▶ [ Node A' (값: 15) ] ◀ 방금 들어온 Reader 3은 이걸 봄│
+  │                           [ Node A (값: 10) ] ◀ 아까 들어온 Reader 1,2는 이거 마저 봄│
+  │                                                             │
+  │  [ 3. Grace Period (유예 기간) 대기 ] ◀ RCU의 킬러 핵심!           │
+  │   - Writer는 Node A를 바로 삭제(Free)하면 안 됨! (Reader 1,2 죽음)    │
+  │   - OS에게 "옛날 그림(A) 보고 있던 독자들이 방에서 다 빠져나갈 때까지 기다려 줘" 부탁함.│
+  │                                                             │
+  │  [ 4. Reclaim (구형 데이터 폐기) ]                              │
+  │   - Reader 1,2 가 작업을 끝냄 (문맥 교환 발생 등).                  │
+  │   - 커널: "이제 옛날 A 보는 놈 아무도 없네!"                        │
+  │   - 비로소 [ Node A (값: 10) ] 를 메모리에서 완전 파괴(Free)함.         │
+  └─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 그림은 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)([Concurrency](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/266_other_transparency/)) 제어의 예술이다. [RCU](/knowledge-base/studynote/02_operating_system/04_synchronization/254_rcu_read_copy_update/) 세상에는 '과거'와 '미래'라는 2개의 평행 우주가 잠시 공존한다. 포인터가 꺾인(Update) 순간, 이미 옛날 방에 들어간 독자들은 과거의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쾌적하게 읽고 나가고, 방금 문을 연 독자들은 최신의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쾌적하게 읽는다. 단 한 명도 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))에 걸려 대기하거나 멈칫하지 않는다. 가장 어려운 난제는 "옛날 방에 들어간 마지막 놈이 언제 나갔는지 어떻게 알고 그 방을 철거(Reclaim)하느냐"이다. RCU는 놀랍게도 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 변수조차 쓰지 않고 스케줄러의 영리한 트릭을 통해 이 유예 기간(Grace Period)을 알아낸다.
 
@@ -83,29 +85,29 @@ tags = ["studynote-operating-system"]
   4. 64개 코어가 전부 한 번씩 스위칭을 거치는 그 순간이 바로 <strong>Grace Period(유예 기간)의 끝</strong>이다.
   5. 이때 옛날 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 메모리에서 시원하게 해제(kfree)한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Grace Period (유예 기간) 탐지의 천재적 스케줄러 연동</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CPU 0</div><div class="kb-diagram-node">CPU 1</div><div class="kb-diagram-node">CPU 2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RCU Read 진입 (과거)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RCU Read 진입 (과거)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일반 작업 중</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Writer가 Update 수행 및 <code>synchronize_rcu()</code> 호출하여 대기 시작!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(과거 데이터 읽는 중)</div><div class="kb-diagram-cell">(과거 데이터 읽는 중)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">|</div><div class="kb-diagram-node">문맥 교환 🔄</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">2번 클리어!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RCU Read 탈출</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">문맥 교환 🔄</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">0번 클리어!|</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RCU Read 탈출</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">문맥 교환 🔄</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">1번 클리어!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 커널 판단: "모든 코어가 한 번씩 스위칭(숨 고르기)을 했군!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">과거 데이터 보던 놈들은 이미 다 죽고 없다는 수학적 증명 완료!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Writer 깨어남: 옛날 데이터 메모리(Free) 파기 및 작업 종료!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 Grace Period (유예 기간) 탐지의 천재적 스케줄러 연동        │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [ CPU 0 ]              [ CPU 1 ]              [ CPU 2 ]         │
+  │   RCU Read 진입 (과거)                                                │
+  │   |                      RCU Read 진입 (과거)                       │
+  │   |                      |                      일반 작업 중        │
+  │  [ Writer가 Update 수행 및 `synchronize_rcu()` 호출하여 대기 시작! ]         │
+  │   | (과거 데이터 읽는 중)     | (과거 데이터 읽는 중)    |                 │
+  │   |                      |                      [문맥 교환 🔄] ◀ 2번 클리어! │
+  │   RCU Read 탈출          |                                        │
+  │   [문맥 교환 🔄] ◀ 0번 클리어!|                                        │
+  │                          RCU Read 탈출                            │
+  │                          [문맥 교환 🔄] ◀ 1번 클리어!                │
+  │                                                                   │
+  │   ▶ 커널 판단: "모든 코어가 한 번씩 스위칭(숨 고르기)을 했군!                    │
+  │              과거 데이터 보던 놈들은 이미 다 죽고 없다는 수학적 증명 완료!"       │
+  │                                                                   │
+  │   ▶ Writer 깨어남: 옛날 데이터 메모리(Free) 파기 및 작업 종료!                │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 원리 덕분에 Reader는 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 잡거나 원자적 덧셈 연산(Atomic Fetch-and-Add)을 할 필요가 단 1바이트도 없다. 그저 코드를 순식간에 읽고 빠져나오면 그만이다. 캐시 라인(Cache Line) 무효화 통신이 0이므로 다중 코어 서버에서 100만 명의 Reader가 붙어도 레이턴시는 싱글 코어일 때와 완전히 똑같이 유지되는(완벽한 선형 확장성) 초자연적 현상을 보여준다. Writer가 기다리는 Grace Period는 보통 수십 밀리초(ms)인데, 어차피 RCU를 쓰는 곳은 "읽기 99%, [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 1%"인 환경이라 백그라운드에서 살짝 대기하는 것쯤은 시스템에 아무 타격을 주지 않는다.
 
@@ -146,24 +148,27 @@ tags = ["studynote-operating-system"]
    - **원인 분석**: RCU의 유일하고도 치명적인 아킬레스건이다. Writer가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 바꾸면 옛날 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 쓰레기들을 바로 버리지 못하고 "독자들이 방을 뺄 때까지(Grace Period)" [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리에 잔뜩 쌓아둔다. 그런데 업데이트가 초당 수만 건으로 폭주하고, 독자 중 하나가 버그에 걸려 방을 안 빼면? 쓰레기 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/)(Call_rcu 콜백 큐)가 수 기가바이트씩 무한정 램에 쌓이면서 회수(Reclaim)되지 않아 램이 터져버린 것이다. ([RCU](/knowledge-base/studynote/02_operating_system/04_synchronization/254_rcu_read_copy_update/) [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)).
    - <strong>아키텍트 판단 (<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a> 함수 분리 튜닝)</strong>: 업데이트 빈도가 높은 시스템에서는 비동기식 쓰레기 투척 함수인 `call_rcu()`를 남발하면 안 된다. 아키텍트는 설정량 이상의 쓰레기가 쌓이면, Writer [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)에게 무거운 동기식 함수인 <strong><code>synchronize_rcu()</code></strong>를 강제로 호출하게 튜닝해야 한다. 이렇게 하면 Writer 본인이 직접 유예 기간이 끝날 때까지 블로킹([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/))되므로, 스스로 쓰레기 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 속도를 늦추는 브레이크(Throttling) 역할을 하여 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 멸망을 막아낸다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">초고성능 동시성(Concurrency) 알고리즘 의사결정 트리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">멀티코어 환경에서 초고속으로 공유 변수(자료구조)를 다뤄야 한다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공유 데이터가 리스트나 트리 형태이며, 삽입/삭제(Write)가 매우 잦은가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RCU 절대 금지!</div><div class="kb-diagram-note">(메모리 폭발, Writer 병목)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대안: 미세 락(Fine-grained Mutex) 또는 CAS 락프리 큐</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 (Read가 90% 이상이고, 데이터가 거의 변하지 않음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">그 Read 연산이 단 1밀리초의 지연조차 허용하지 않는 초저지연(HFT) 영역인가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RCU (Read-Copy-Update) 전격 도입!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Reader 오버헤드 0초 달성. 버스 락(Bus Lock) 완전 제거.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ──▶ 일반 RWLock이나 Mutex 사용 (개발 난이도 타협)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 초고성능 동시성(Concurrency) 알고리즘 의사결정 트리         │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [ 멀티코어 환경에서 초고속으로 공유 변수(자료구조)를 다뤄야 한다 ]          │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      공유 데이터가 리스트나 트리 형태이며, 삽입/삭제(Write)가 매우 잦은가?       │
+  │          ├─ 예 ─────▶ 🚨 [ RCU 절대 금지! ] (메모리 폭발, Writer 병목)│
+  │          │             대안: 미세 락(Fine-grained Mutex) 또는 CAS 락프리 큐│
+  │          └─ 아니오 (Read가 90% 이상이고, 데이터가 거의 변하지 않음)          │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      그 Read 연산이 단 1밀리초의 지연조차 허용하지 않는 초저지연(HFT) 영역인가?│
+  │          ├─ 예 ─────▶ 🟢 [ RCU (Read-Copy-Update) 전격 도입! ]    │
+  │          │             Reader 오버헤드 0초 달성. 버스 락(Bus Lock) 완전 제거.│
+  │          │                                                        │
+  │          └─ 아니오 ──▶ 일반 RWLock이나 Mutex 사용 (개발 난이도 타협)       │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 초보 개발자가 "RCU가 락 프리니까 무조건 제일 빠르대!"라며 무지성으로 모든 곳에 RCU를 갖다 바르는 것이 시스템을 망치는 지름길이다. RCU는 "읽는 자의 행복을 위해, 쓰는 자(Writer)의 뼈와 살을 깎고 메모리 낭비를 감수하는" 극도로 편향된 불평등 알고리즘이다. Write 빈도가 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%만 넘어가도 Writer들이 복사(Copy)와 대기(Grace Period)를 하느라 CPU와 램을 불태워 서버가 지옥으로 변한다. 아키텍트는 오직 '캐시 세팅, [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블, [보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/) 리스트' 같이 "한 번 쓰면 하루 종일 읽기만 하는" VIP 오브젝트에만 RCU를 핀포인트로 적용해야 한다.
 
@@ -209,19 +214,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">락 엘리전 하드웨어 트랜잭션 메모리 활용</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">RCU 다중 독자 락 프리 고성능 기법 (Rcu Read Copy Update Lock Free)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">워킹 셋 윈도우 사이즈 동적 조절</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">페이지 컬러링 캐시 경합 회피 물리 할당</div></div>
-</div>
-</div>
-
-
+```text
+[락 엘리전 하드웨어 트랜잭션 메모리 활용]
+    │
+    ▼
+[RCU 다중 독자 락 프리 고성능 기법 (Rcu Read Copy Update Lock Free)]
+    │
+    ├──▶ [워킹 셋 윈도우 사이즈 동적 조절]
+    └──▶ [페이지 컬러링 캐시 경합 회피 물리 할당]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

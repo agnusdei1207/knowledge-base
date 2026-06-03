@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: 라우터나 광케이블에 물리적인 고장, 단선, 화재 등 재난이 발생했을 때, 네트워크 전체가 붕괴되지 않고 <strong>우회로를 통해 얼마나 끈질기게 살아남아 정상적인 통신 상태(Connectivity)를 유지해 낼 수 있는가</strong>를 나타내는 맷집(내결함성, [Fault Tolerance](/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/)) 지표입니다.
 - **토폴로지(Topology)**: 기계와 선을 어떻게 엮었느냐(별 모양, 거미줄 모양 등)하는 기하학적 밑그림이 이 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)를 99% 결정합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">호손율 / 블로킹 확률</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">망 신뢰도</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MTBF 통신망 생존성</div></div>
-</div>
-</div>
-
-
+```text
+[호손율 / 블로킹 확률]
+    │
+    ▼
+[망 신뢰도]
+    │
+    └──▶ [MTBF 통신망 생존성]
+```
 
 - **📢 섹션 요약 비유**: 망 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -43,18 +39,14 @@ tags = ["studynote-network"]
 
 수학자들은 망을 점(노드, 라우터)과 선(링크, 랜선)으로 된 그래프로 보고 방어력을 점수화했습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">호손율 / 블로킹 확률</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">망 신뢰도</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MTBF 통신망 생존성</div></div>
-</div>
-</div>
-
-
+```text
+[호손율 / 블로킹 확률]
+    │
+    ▼
+[망 신뢰도]
+    │
+    └──▶ [MTBF 통신망 생존성]
+```
 
 - **📢 섹션 요약 비유**: 망 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -123,19 +115,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 호손율 / 블로킹 확률</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 망 신뢰도</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: MTBF 통신망 생존성</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 호손율 / 블로킹 확률]
+    │
+    ▼
+[현재 개념: 망 신뢰도]
+    │
+    ├──▶ [확장 A: MTBF 통신망 생존성]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 망 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)는 호손율 / 블로킹 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [MTBF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/) 통신망 생존성와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -34,22 +34,23 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">글로벌 모델 배포</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">중앙 서버</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(집계 서버)</div></div>
-<div class="kb-diagram-note">그래디언트/가중치 수신</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">병원A</div><div class="kb-diagram-cell">병원B</div><div class="kb-diagram-cell">병원C</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">로컬</div><div class="kb-diagram-cell">로컬</div><div class="kb-diagram-cell">로컬</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">학습</div><div class="kb-diagram-cell">학습</div><div class="kb-diagram-cell">학습</div></div>
-<div class="kb-diagram-note">데이터 이동 없음 (원시 데이터 로컬 유지)</div>
-</div>
-</div>
-
-
+```
+          글로벌 모델 배포
+               │
+         ┌─────▼─────┐
+         │  중앙 서버  │
+         │ (집계 서버) │
+         └─────┬─────┘
+               │ 그래디언트/가중치 수신
+    ┌──────────┼──────────┐
+    │          │          │
+┌───▼──┐  ┌───▼──┐  ┌───▼──┐
+│병원A │  │병원B │  │병원C │
+│로컬  │  │로컬  │  │로컬  │
+│학습  │  │학습  │  │학습  │
+└──────┘  └──────┘  └──────┘
+  데이터 이동 없음 (원시 데이터 로컬 유지)
+```
 
 <strong>FedAvg(Federated Averaging) <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong> (McMahan et al., 2017)
 1. 서버가 글로벌 모델 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) W_t를 각 클라이언트에 전송

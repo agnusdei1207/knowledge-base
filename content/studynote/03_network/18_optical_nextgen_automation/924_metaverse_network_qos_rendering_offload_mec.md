@@ -23,18 +23,14 @@ tags = ["studynote-network"]
 - <strong>초고대역폭 (<a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/760_embb_enhanced_mobile_broadband_vr_ar/">eMBB</a>)</strong>: 8K VR 360도 영상을 실시간으로 쏘려면 1명당 최소 1Gbps~5Gbps의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 파이프가 필요합니다.
 - <strong>MTP (Motion-to-Photon) 지연시간 극복 (<a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/">URLLC</a>)</strong>: 사용자가 고개를 돌렸을 때 화면이 따라 돌아가는 데 걸리는 시간이 <strong>20ms (0.02초)</strong>를 넘어가면 뇌가 오류를 일으켜 심한 구토(멀미)를 유발합니다. 기존 4G LTE로는 절대 불가능한 벽입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">시맨틱 통신 망</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">메타버스 네트워크</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">오픈API 클라우드 망 연동 / MaaS</div></div>
-</div>
-</div>
-
-
+```text
+[시맨틱 통신 망]
+    │
+    ▼
+[메타버스 네트워크]
+    │
+    └──▶ [오픈API 클라우드 망 연동 / MaaS]
+```
 
 - **📢 섹션 요약 비유**: [메타버스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/594_metaverse_realtime_sync_rendering_offloading/) 네트워크는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -57,18 +53,14 @@ tags = ["studynote-network"]
   - 저기 500m 밖에서 춤추는 아바타들의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 전송 우선순위([QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/))를 확 낮춰서 1초에 한 번만 끊기듯 보내거나 아예 차단하여 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비를 100% 방어합니다.
 - <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/">멀티캐스트</a> <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a></strong>: 콘서트에서 아이돌이 손을 흔드는 동작 패킷은 1,000만 명에게 개별로(유니캐스트) 쏘지 않고 [IGMP](/knowledge-base/studynote/03_network/06_network_layer_ip/333_igmp_internet_group_management_protocol_multicast/) [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)망(905번 HLS)을 통해 한 방에 방송하여 망 병목을 박살 냅니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">시맨틱 통신 망</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">메타버스 네트워크</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">오픈API 클라우드 망 연동 / MaaS</div></div>
-</div>
-</div>
-
-
+```text
+[시맨틱 통신 망]
+    │
+    ▼
+[메타버스 네트워크]
+    │
+    └──▶ [오픈API 클라우드 망 연동 / MaaS]
+```
 
 - **📢 섹션 요약 비유**: [메타버스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/594_metaverse_realtime_sync_rendering_offloading/) 네트워크의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -121,19 +113,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 시맨틱 통신 망</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 메타버스 네트워크</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 오픈API 클라우드 망 연동 / MaaS</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 시맨틱 통신 망]
+    │
+    ▼
+[현재 개념: 메타버스 네트워크]
+    │
+    ├──▶ [확장 A: 오픈API 클라우드 망 연동 / MaaS]
+    └──▶ [확장 B: 의미 기반 통신 최적화]
+```
 
 [메타버스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/594_metaverse_realtime_sync_rendering_offloading/) 네트워크는 [시맨틱 통신 망](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/923_semantic_communication_6g_ai_meaning_extraction/)에서 출발해 현재 메커니즘을 정교화하고, 이후 오픈API 클라우드 망 연동 / MaaS와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -24,27 +24,25 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경**: 1970년대 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스와 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템의 버퍼 풀(Buffer Pool) 관리가 고도화되면서, 특정 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록([인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 루트 노드 등)은 프로그램 시작부터 끝까지 수만 번 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)된다는 사실이 밝혀졌다. 이런 VIP [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 절대로 [스왑 아웃](/knowledge-base/studynote/02_operating_system/06_memory_management/336_swap_out_in/)(Swap-out)시키지 않기 위한 락([Lock-in](/knowledge-base/studynote/12_it_management/05_security_compliance/362_lock_in_portability/))의 개념으로 빈도수 기반 교체 이론이 탄생했다.
 
+```text
+  [LRU의 맹점(Cache Pollution)과 LFU의 철벽 방어 시뮬레이션]
 
+  [ 상황: 램 프레임 3칸. 현재 'A(100번 불림)', 'B(50번)', 'C(30번)' 꽉 차 있음 ]
+  
+  ▶ 갑자기 쓰레기 데이터 X, Y, Z 가 딱 1번씩만 참조되며 들어옴!
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">LRU의 맹점(Cache Pollution)과 LFU의 철벽 방어 시뮬레이션</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황: 램 프레임 3칸. 현재 'A(100번 불림)', 'B(50번)', 'C(30번)' 꽉 차 있음</div></div>
-<div class="kb-diagram-note">▶ 갑자기 쓰레기 데이터 X, Y, Z 가 딱 1번씩만 참조되며 들어옴!</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">❌ LRU (최근 사용 우선) 의 멍청한 판단</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">A, B, X</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">A, X, Y</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">X, Y, Z</div></div>
-<div class="kb-diagram-note">🚨 결과: 100번, 50번 쓰이던 특급 단골 A, B가 다 쫓겨나고 1번씩 쓴 쓰레기로 램이 도배됨! (캐시 오염)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">✅ LFU (빈도수 최우선) 의 철벽 방어</div></div>
-<div class="kb-diagram-note">1. X(1번) 들어옴 ─▶ C(30번) 버릴까? 안돼! C가 더 많이 불렸어! X 너 그냥 나가!</div>
-<div class="kb-diagram-note">2. Y(1번) 들어옴 ─▶ B(50번), C(30번)? Y 너 나가!</div>
-<div class="kb-diagram-note">3. Z(1번) 들어옴 ─▶ A(100번)? Z 너 나가!</div>
-<div class="kb-diagram-note">✅ 결과: 스쳐 지나가는 쓰레기 데이터들은 램에 정착하지 못하고 바로 튕겨 나감. 단골 완벽 보호!</div>
-</div>
-</div>
+  [ ❌ LRU (최근 사용 우선) 의 멍청한 판단 ]
+  1. X 들어옴 ─▶ 제일 예전에 쓴 C 버림 ─▶ 램 상태: [A, B, X]
+  2. Y 들어옴 ─▶ 그다음 예전에 쓴 B 버림 ─▶ 램 상태: [A, X, Y]
+  3. Z 들어옴 ─▶ 제일 예전에 쓴 A 버림 ─▶ 램 상태: [X, Y, Z]
+  🚨 결과: 100번, 50번 쓰이던 특급 단골 A, B가 다 쫓겨나고 1번씩 쓴 쓰레기로 램이 도배됨! (캐시 오염)
 
-
+  [ ✅ LFU (빈도수 최우선) 의 철벽 방어 ]
+  1. X(1번) 들어옴 ─▶ C(30번) 버릴까? 안돼! C가 더 많이 불렸어! X 너 그냥 나가!
+  2. Y(1번) 들어옴 ─▶ B(50번), C(30번)? Y 너 나가!
+  3. Z(1번) 들어옴 ─▶ A(100번)? Z 너 나가!
+  ✅ 결과: 스쳐 지나가는 쓰레기 데이터들은 램에 정착하지 못하고 바로 튕겨 나감. 단골 완벽 보호!
+```
 **[다이어그램 해설]** LFU는 "빈도수"라는 막강한 기득권(권력)을 형성한다. 이 권력을 쌓은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 어지간한 신규 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 도전을 다 씹어먹고 캐시 상단에 영구 박제된다. 이는 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)([Backup](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/))이나 풀 스캔(Full Scan) 쿼리가 돌 때 캐시 메모리가 초토화되는 것을 막아주는 최고의 방패막이다.
 
 - **📢 섹션 요약 비유**: 100번 클릭해서 키워놓은 만렙 기사(단골 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))와 방금 막 생성한 1레벨 초보(스캔 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 파티에 있습니다. LRU는 "방금 로그인한 초보가 더 중요해!"라며 만렙 기사를 파티에서 쫓아내는 멍청한 마스터입니다. LFU는 철저히 레벨(클릭 횟수)만 보고 1레벨들을 가차 없이 추방하는 냉혹한 길드장입니다.
@@ -112,26 +110,28 @@ LFU를 소프트웨어로 짜려면 [페이지](/knowledge-base/studynote/01_com
    - **실무 판단**: 동영상은 크기가 GB 단위다. 한 번 잘못 지우면 오리진(Origin) 서버에서 다시 가져오는 네트워크 비용이 수천만 원이다. 
    - **아키텍트 결단**: 이때는 무조건 <strong>LFU 기반의 변형 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>(LFU-DA 등)</strong>을 쓴다. 한 번 조회된 듣보잡 영상은 바로 디스크에서 날리고, 하루에 1만 번 조회되는 방탄소년단 뮤직비디오(High Frequency)는 램 최상단에 영구 박제시켜 글로벌 트래픽 비용을 극한으로 후려친다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">백엔드 아키텍트의 캐시 교체 정책(Eviction) 설계 가이드라인</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">질문 1</div><div class="kb-diagram-note">데이터의 생명 주기가 극단적으로 짧고 유행을 타는가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(예: 뉴스 피드 최신 글, 실시간 주식 호가)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">예</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">✅ LRU (Least Recently Used) 선택</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">아니오</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">질문 2</div><div class="kb-diagram-note">소수의 '스타 데이터(전역 설정, 랭킹)'가 트래픽의 90%를 먹는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">예</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">✅ LFU (Least Frequently Used) 선택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(스캔 공격에 스타 데이터가 썰리는 걸 절대 방어)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">모르겠다 / 섞여 있다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ ✅ W-TinyLFU (Caffeine Cache) 선택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"알아서 최근 유행과 누적 단골을 다 챙겨주마!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(현재 Java 진영 Spring Boot의 기본 캐시 엔진임)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌──────────────────────────────────────────────────────────────────────────┐
+  │     백엔드 아키텍트의 캐시 교체 정책(Eviction) 설계 가이드라인           │
+  ├──────────────────────────────────────────────────────────────────────────┤
+  │                                                                          │
+  │   [질문 1] 데이터의 생명 주기가 극단적으로 짧고 유행을 타는가?           │
+  │     (예: 뉴스 피드 최신 글, 실시간 주식 호가)                            │
+  │          ├─ [예] ─▶ ✅ LRU (Least Recently Used) 선택                    │
+  │          │                                                               │
+  │          └─ [아니오]                                                     │
+  │                 │                                                        │
+  │   [질문 2] 소수의 '스타 데이터(전역 설정, 랭킹)'가 트래픽의 90%를 먹는가?│
+  │          ├─ [예] ─▶ ✅ LFU (Least Frequently Used) 선택                  │
+  │          │             (스캔 공격에 스타 데이터가 썰리는 걸 절대 방어)   │
+  │          │                                                               │
+  │          └─ [모르겠다 / 섞여 있다]                                       │
+  │                 │                                                        │
+  │                 ▼ ✅ W-TinyLFU (Caffeine Cache) 선택                     │
+  │             "알아서 최근 유행과 누적 단골을 다 챙겨주마!"                │
+  │             (현재 Java 진영 Spring Boot의 기본 캐시 엔진임)              │
+  └──────────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** "OS 커널은 왜 LFU를 안 쓸까?" OS가 관리하는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 코드와 지역 변수 쪼가리들이라 빈도를 세는 게 무의미하고 너무 무겁기 때문이다. 반면 <strong>애플리케이션(User Space) 레벨의 '객체 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/">캐싱</a>(Object <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/">Caching</a>)'</strong>에서는 LFU가 제왕이다. 아키텍트는 OS의 한계와 애플리케이션의 강점을 명확히 구분하여 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 차용해야 한다.
 
 - **📢 섹션 요약 비유**: OS 커널의 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)([LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/))은 '편의점 알바생'입니다. 물건이 너무 많고 빨리 팔리니 그냥 방금 팔린 걸 앞에 채워 넣는 게 최고입니다. 하지만 백엔드 서버의 캐시(LFU)는 '명품관 매니저'입니다. 물건 하나하나의 가치가 크기 때문에, 누가 얼마나 자주 사 가는지 고객 장부(빈도수)를 철저히 기록해서 VIP만 챙겨야 이윤이 남습니다.
@@ -162,19 +162,15 @@ LFU는 "[참조](/knowledge-base/studynote/05_database/05_distributed_nosql_news
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">양방향 랑데부 (Rendezvous)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LFU (Least Frequently Used) 페이지 교체</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">큐잉 스핀락 (MCS Lock / qspinlock)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">낙관적 병행성 제어 (Optimistic Concurrency Control)</div></div>
-</div>
-</div>
-
-
+```text
+[양방향 랑데부 (Rendezvous)]
+    │
+    ▼
+[LFU (Least Frequently Used) 페이지 교체]
+    │
+    ├──▶ [큐잉 스핀락 (MCS Lock / qspinlock)]
+    └──▶ [낙관적 병행성 제어 (Optimistic Concurrency Control)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

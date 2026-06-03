@@ -35,22 +35,24 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 프로그램 순서는 유지하되, 실행 시점은 달라질 수 있다는 점을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Same program order, different execution time</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Program order: S0(addr late) -&gt; L1 -&gt; L2 -&gt; S3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Dispatch: SQ LQ LQ SQ</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">older-store check</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">no conflict &gt; issue to cache</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">same addr + data ready ─&gt; forward to load</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Late conflict found -&gt; replay younger loads</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Stores become globally visible only at commit in original order</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────┐
+│ Same program order, different execution time                            │
+├──────────────────────────────────────────────────────────────────────────┤
+│ Program order:   S0(addr late) -> L1 -> L2 -> S3                        │
+│                    │              │     │      │                        │
+│ Dispatch:          SQ             LQ    LQ     SQ                       │
+│                    │              │                                     │
+│                    │      older-store check                             │
+│                    │              │                                     │
+│                    │      ┌──── no conflict ────> issue to cache        │
+│                    │      │                                              │
+│                    └──── same addr + data ready ─> forward to load      │
+│                                                                          │
+│ Late conflict found -> replay younger loads                              │
+│ Stores become globally visible only at commit in original order          │
+└──────────────────────────────────────────────────────────────────────────┘
+```
 
 | 상황 | 하드웨어의 선택 | 의미 |
 | :-- | :-- | :-- |
@@ -122,25 +124,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">순차적 메모리 파이프라인</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">논블로킹 캐시</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">로드 우회와 스토어 포워딩</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">메모리 의존성 예측</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">대형 LSQ 기반 비순차 메모리 접근</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">보안 인지형 선택적 스펙큘레이션</div>
-</div>
-</div>
-
-
+```text
+순차적 메모리 파이프라인
+    │
+    ▼
+논블로킹 캐시
+    │
+    ▼
+로드 우회와 스토어 포워딩
+    │
+    ▼
+메모리 의존성 예측
+    │
+    ▼
+대형 LSQ 기반 비순차 메모리 접근
+    │
+    ▼
+보안 인지형 선택적 스펙큘레이션
+```
 
 이 흐름은 "단순 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 처리 → [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 은폐 → 공격적 재배치 → 예측과 통제 결합"으로 메모리 실행 엔진이 고도화되는 과정을 보여준다.
 

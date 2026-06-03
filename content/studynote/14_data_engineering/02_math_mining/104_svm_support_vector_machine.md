@@ -31,21 +31,19 @@ tags = ["studynote-data-engineering"]
 
 SVM은 기하학적인 최적화 문제로 작동하며, 핵심 메커니즘은 초평면 (Hyperplane), 마진 극대화, 그리고 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 함수다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SVM의 기하학적 마진 극대화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Class A) (Class B)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">o x</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">o o</div><div class="kb-diagram-cell">x x</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">o(SV) &lt;─ ─&gt; x(SV)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Margin(-1)</div><div class="kb-diagram-cell">Hyperplane(0)</div><div class="kb-diagram-cell">Margin(+1)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최대 거리 (Max Margin)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                  SVM의 기하학적 마진 극대화                  │
+├──────────────────────────────────────────────────────────────┤
+│         (Class A)                   (Class B)                │
+│             o                           x                    │
+│      o             o       │       x             x           │
+│           o(SV)  <─┼───────┼───────┼─>  x(SV)                │
+│                    │       │       │                         │
+│       Margin(-1)   │ Hyperplane(0) │   Margin(+1)            │
+│                 최대 거리 (Max Margin)                       │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 그림은 결정 초평면(Hyperplane, 중앙선)과 가장 가까운 양쪽의 핵심 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포인트인 서포트 벡터([SV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/157_sv_schedule_variance/))를 보여준다. 마진은 이 두 서포트 벡터 사이의 폭을 의미하며, SVM은 수식 $\frac{2}{||w||}$ 를 최대화하는 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 벡터 $w$를 [라그랑주 승수법](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/166_lagrange_multiplier/) (Lagrange Multipliers)을 통해 계산해 낸다.
 
@@ -110,23 +108,21 @@ SVM을 올바르게 활용하면 [데이터](/knowledge-base/studynote/05_databa
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">퍼셉트론 (선형 분류의 기초)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">하드 마진 SVM (선형 데이터 완벽 분리)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">소프트 마진 SVM (노이즈 허용 및 일반화 향상)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">커널 트릭 (Kernel Trick) 도입 (비선형 데이터 해결)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SVR (Support Vector Regression, 회귀 문제로의 확장)</div>
-</div>
-</div>
-
-
+```text
+퍼셉트론 (선형 분류의 기초)
+    │
+    ▼
+하드 마진 SVM (선형 데이터 완벽 분리)
+    │
+    ▼
+소프트 마진 SVM (노이즈 허용 및 일반화 향상)
+    │
+    ▼
+커널 트릭 (Kernel Trick) 도입 (비선형 데이터 해결)
+    │
+    ▼
+SVR (Support Vector Regression, 회귀 문제로의 확장)
+```
 
 이 흐름도는 단순한 선 긋기에서 시작해 오류를 수용하는 소프트 마진을 거쳐, 비선형 차원의 확장을 통해 수학적 완성도를 높여온 [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) 알고리즘의 발전 과정을 보여준다.
 

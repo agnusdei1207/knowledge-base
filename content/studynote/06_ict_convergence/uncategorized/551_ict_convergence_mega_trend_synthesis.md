@@ -29,22 +29,22 @@ tags = ["studynote-ict-convergence"]
 
 ### 메가트렌드 4대 축 교차 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">AI 네이티브</div>
-<div class="kb-diagram-note">AI×블록체인 AI×양자 AI×공간</div>
-<div class="kb-diagram-note">(거버넌스) (양자 ML) (공간 AI)</div>
-<div class="kb-diagram-note">탈중앙화(Web3) 공간화(Spatial)</div>
-<div class="kb-diagram-note">블록체인×양자 공간×탈중앙</div>
-<div class="kb-diagram-note">(양자 내성 (분산 공간</div>
-<div class="kb-diagram-note">블록체인) 메타버스)</div>
-<div class="kb-diagram-note">양자(Quantum)</div>
-</div>
-</div>
-
-
+```
+                   AI 네이티브
+                       │
+          ┌────────────┼────────────┐
+          │            │            │
+    AI×블록체인   AI×양자     AI×공간
+    (거버넌스)  (양자 ML)   (공간 AI)
+          │            │            │
+ 탈중앙화(Web3)──────────────── 공간화(Spatial)
+          │            │
+    블록체인×양자   공간×탈중앙
+    (양자 내성    (분산 공간
+     블록체인)     메타버스)
+          │
+       양자(Quantum)
+```
 
 | 메가트렌드 축 | [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) | 5년 후 전망 | 핵심 기술 |
 |:---|:---|:---|:---|

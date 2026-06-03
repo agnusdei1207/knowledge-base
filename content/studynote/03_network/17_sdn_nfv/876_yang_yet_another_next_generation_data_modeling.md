@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 장비 제조사(Vendor)마다 기계를 통제하는 명령어와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 생김새가 완전히 달랐습니다.
 - 자동화 스크립트(파이썬)를 짜는 개발자는 시스코용 코드 100줄, 아리스타용 코드 100줄을 일일이 다르게 짜야 했고(하드웨어 종속), 코드가 수백만 줄로 불어나는 스파게티 지옥에 빠졌습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">NETCONF (Network Configu…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">YANG 데이터 모델링</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RESTCONF</div></div>
-</div>
-</div>
-
-
+```text
+[NETCONF (Network Configu…]
+    │
+    ▼
+[YANG 데이터 모델링]
+    │
+    └──▶ [RESTCONF]
+```
 
 - **📢 섹션 요약 비유**: YANG [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모델링은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -44,18 +40,14 @@ tags = ["studynote-network"]
 - **개념**: 네트워크 장비의 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Configuration), 상태 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)), 알람([RPC](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/)) 등의 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 생김새(타입, 제약 조건, 계층 구조)를 컴퓨터와 인간이 모두 쉽게 읽을 수 있도록 정의해 놓은 '<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 모델링 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/">스키마</a>(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/">Schema</a>) 언어'</strong>입니다. (RFC 6020 표준)
 - **비유**: YANG 자체는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 담아 보내는 택배 박스(NETCONF)가 아닙니다. 택배 박스 안에 들어갈 <strong>"주문서 양식(빈칸 서식 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>)"</strong> 그 자체입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">NETCONF (Network Configu…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">YANG 데이터 모델링</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RESTCONF</div></div>
-</div>
-</div>
-
-
+```text
+[NETCONF (Network Configu…]
+    │
+    ▼
+[YANG 데이터 모델링]
+    │
+    └──▶ [RESTCONF]
+```
 
 - **📢 섹션 요약 비유**: YANG [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모델링의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -127,19 +119,15 @@ YANG [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relati
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: NETCONF (Network Configu…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: YANG 데이터 모델링</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: RESTCONF</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 프로그래머블 네트워크</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: NETCONF (Network Configu…]
+    │
+    ▼
+[현재 개념: YANG 데이터 모델링]
+    │
+    ├──▶ [확장 A: RESTCONF]
+    └──▶ [확장 B: 프로그래머블 네트워크]
+```
 
 YANG [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모델링는 NETCONF (Network Configu…에서 출발해 현재 메커니즘을 정교화하고, 이후 RESTCONF와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

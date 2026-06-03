@@ -27,24 +27,24 @@ tags = ["studynote-ict-convergence"]
 
 아래 그림은 중앙 관제만 있는 구조와 스웜형 구조의 차이를 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Control architecture: centralized vs swarm</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Centralized only</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Drone A ─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Drone B ─ ──▶ Ground planner ▶ commands to all drones</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Drone C ─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ network delay or controller failure affects whole fleet</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Swarm / hybrid</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Drone A ◀ ▶ Drone B ◀ ▶ Drone C</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">local sensing and avoidance ▶ safe motion</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ mission goal may still come from ground</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Control architecture: centralized vs swarm                         │
+├────────────────────────────────────────────────────────────────────┤
+│ Centralized only                                                   │
+│   Drone A ─┐                                                       │
+│   Drone B ─┼──▶ Ground planner ───▶ commands to all drones         │
+│   Drone C ─┘                                                       │
+│   └─ network delay or controller failure affects whole fleet       │
+│                                                                    │
+│ Swarm / hybrid                                                     │
+│   Drone A ◀────▶ Drone B ◀────▶ Drone C                            │
+│      │            │             │                                  │
+│      └──── local sensing and avoidance ─────▶ safe motion          │
+│                   ▲                                                │
+│                   └─ mission goal may still come from ground       │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 결국 드론 스웜의 필요성은 "더 많은 드론을 띄우기 위해서"만이 아니다. 통신 품질이 일정하지 않은 환경에서도 협력 비행을 유지하고, 장애물과 배터리 저하 같은 현장 변수를 기체 가까이에서 빠르게 처리하기 위해 등장한 아키텍처다.
 
@@ -62,24 +62,27 @@ tags = ["studynote-ict-convergence"]
 
 여기서 `goal`은 목표 지점으로 가려는 힘이고, `formation`은 대형 유지, `separation`은 근접 충돌 방지, `obstacle`은 장애물 회피, `consensus`는 이웃과 속도·방향을 맞추는 항이다. 즉 한 대의 드론은 혼자 똑똑하게 날기보다, **목표를 향하면서도 이웃과 부딪히지 않고 집단 패턴을 유지하도록** 제어된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Local control loop inside one swarm drone</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">mission goal / leader waypoint</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">self-state estimator ◀ sensors (GNSS / IMU / vision / UWB)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">receive neighbor states via FANET</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">swarm control law</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- formation keeping</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- separation radius</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- obstacle avoidance</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- velocity consensus</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">autopilot / motor command ▶ motion ▶ next sensor update</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Local control loop inside one swarm drone                          │
+├────────────────────────────────────────────────────────────────────┤
+│ mission goal / leader waypoint                                     │
+│              │                                                     │
+│              ▼                                                     │
+│ self-state estimator ◀──── sensors (GNSS / IMU / vision / UWB)    │
+│              │                                                     │
+│              ├──── receive neighbor states via FANET               │
+│              ▼                                                     │
+│ swarm control law                                                  │
+│   - formation keeping                                              │
+│   - separation radius                                              │
+│   - obstacle avoidance                                             │
+│   - velocity consensus                                             │
+│              │                                                     │
+│              ▼                                                     │
+│ autopilot / motor command ───▶ motion ───▶ next sensor update      │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 대표 제어 요소를 정리하면 다음과 같다.
 
@@ -122,24 +125,23 @@ tags = ["studynote-ict-convergence"]
 
 다음 의사결정 흐름은 현장에서 자주 쓰는 판단 축을 요약한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Choosing a swarm control style</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Is the mission preplanned and the network stable?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Yes -&gt; centralized or hybrid trajectory + local avoidance</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ No -&gt; distributed coordination is preferred</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Is precise formation more important than adaptability?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Yes -&gt; leader-follower / virtual structure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ No -&gt; behavior-based coverage / consensus control</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Are dynamic obstacles dense?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Yes -&gt; add local RVO or MPC safety layer</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ No -&gt; simpler separation rule may be enough</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Choosing a swarm control style                                     │
+├────────────────────────────────────────────────────────────────────┤
+│ Is the mission preplanned and the network stable?                  │
+│   ├─ Yes -> centralized or hybrid trajectory + local avoidance     │
+│   └─ No  -> distributed coordination is preferred                  │
+│                                                                    │
+│ Is precise formation more important than adaptability?             │
+│   ├─ Yes -> leader-follower / virtual structure                    │
+│   └─ No  -> behavior-based coverage / consensus control            │
+│                                                                    │
+│ Are dynamic obstacles dense?                                       │
+│   ├─ Yes -> add local RVO or MPC safety layer                      │
+│   └─ No  -> simpler separation rule may be enough                  │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -190,24 +192,24 @@ tags = ["studynote-ict-convergence"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">임무 목표 설정</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">자기 위치 추정 + 이웃 상태 공유</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">스웜 제어 법칙</div>
-<div class="kb-diagram-tree-item" style="--depth:4">대형 유지 (formation keeping)</div>
-<div class="kb-diagram-tree-item" style="--depth:4">충돌 회피 (separation / obstacle avoidance)</div>
-<div class="kb-diagram-tree-item" style="--depth:4">임무 재배치 (task reallocation)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">군집 전체의 안정적 탐색 · 이동 · 협업</div>
-</div>
-</div>
-
-
+```text
+임무 목표 설정
+        │
+        ▼
+자기 위치 추정 + 이웃 상태 공유
+        │
+        ▼
+스웜 제어 법칙
+        │
+        ├──────────────► 대형 유지 (formation keeping)
+        │
+        ├──────────────► 충돌 회피 (separation / obstacle avoidance)
+        │
+        └──────────────► 임무 재배치 (task reallocation)
+                           │
+                           ▼
+                 군집 전체의 안정적 탐색 · 이동 · 협업
+```
 
 이 흐름도는 "목표 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) → 상태 공유 → 제어 법칙 → 안전/협업 행동"으로 이어지는 스웜 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 핵심 경로를 보여 준다.
 

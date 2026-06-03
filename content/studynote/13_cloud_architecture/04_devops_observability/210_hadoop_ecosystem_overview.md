@@ -43,23 +43,23 @@ tags = ["studynote-cloud-architecture"]
 
 ### 클라우드 빅데이터 아키텍처 ([람다 아키텍처](/knowledge-base/studynote/16_bigdata/04_streaming/095_lambda_architecture/))
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Lambda Architecture</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 소스 → Kafka/Kinesis → ──→ 배치 레이어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(HDFS/S3 + Spark)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대규모 정확한 처리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──→ 스피드 레이어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Spark Streaming)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실시간 근사 처리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──→ 서빙 레이어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(쿼리 API)</div></div>
-</div>
-</div>
-
-
+```
+  ┌─────────────────────────────────────────────────────────┐
+  │               Lambda Architecture                        │
+  ├─────────────────────────────────────────────────────────┤
+  │                                                          │
+  │  데이터 소스 → Kafka/Kinesis → ┬──→ 배치 레이어           │
+  │                                │    (HDFS/S3 + Spark)   │
+  │                                │    대규모 정확한 처리     │
+  │                                │         │               │
+  │                                ├──→ 스피드 레이어         │
+  │                                │    (Spark Streaming)   │
+  │                                │    실시간 근사 처리       │
+  │                                │         │               │
+  │                                └─────────┼──→ 서빙 레이어 │
+  │                                          │    (쿼리 API)  │
+  └──────────────────────────────────────────┴───────────────┘
+```
 
 ### 주요 빅데이터 처리 패러다임
 
@@ -101,21 +101,15 @@ tags = ["studynote-cloud-architecture"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 <strong>현대 클라우드 <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/">데이터 아키텍처</a> 진화</strong>:
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">1세대 (하둡): HDFS + MapReduce (온프레미스)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">2세대 (스파크): 메모리 기반 고속 처리, 하둡 위에서 실행</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">3세대 (클라우드 네이티브): S3 + EMR/Glue + Athena 서버리스</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">4세대 (데이터 메시/레이크하우스): Delta Lake, Databricks Lakehouse</div>
-</div>
-</div>
-
-
+```
+1세대 (하둡): HDFS + MapReduce (온프레미스)
+    ↓
+2세대 (스파크): 메모리 기반 고속 처리, 하둡 위에서 실행
+    ↓
+3세대 (클라우드 네이티브): S3 + EMR/Glue + Athena 서버리스
+    ↓
+4세대 (데이터 메시/레이크하우스): Delta Lake, Databricks Lakehouse
+```
 
 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/">데이터 레이크</a> vs <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/">데이터 웨어하우스</a></strong>:
 - [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)(S3/ADLS): 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 없이 저장 ([Schema-on-Read](/knowledge-base/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/))
@@ -163,22 +157,18 @@ tags = ["studynote-cloud-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단일 서버 처리 한계 (데이터 폭증)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Hadoop Ecosystem: 분산 저장 + 분산 처리</div>
-<div class="kb-diagram-tree-item" style="--depth:2">HDFS: 분산 파일 시스템</div>
-<div class="kb-diagram-tree-item" style="--depth:2">MapReduce → Spark: 분산 연산</div>
-<div class="kb-diagram-tree-item" style="--depth:2">YARN: 클러스터 리소스 관리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 네이티브: S3 + Spark on K8s · Databricks</div>
-</div>
-</div>
-
-
+```text
+단일 서버 처리 한계 (데이터 폭증)
+    │
+    ▼
+Hadoop Ecosystem: 분산 저장 + 분산 처리
+    ├─► HDFS: 분산 파일 시스템
+    ├─► MapReduce → Spark: 분산 연산
+    └─► YARN: 클러스터 리소스 관리
+    │
+    ▼
+클라우드 네이티브: S3 + Spark on K8s · Databricks
+```
 2. 이걸 혼자(RDBMS) 처리하기는 불가능해서 수백 명이 분업([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리)해야 해.
 3. 그런데 책이 많다고 저절로 지식이 생기는 건 아니야. "어떤 질문에 답할 건지(Value)"를 먼저 정해야 해.
 

@@ -44,22 +44,26 @@ SOA 하드웨어의 핵심은 "[서비스](/knowledge-base/studynote/13_cloud_ar
 
 이 그림은 SOA에서 실제 하드웨어 병목이 주로 어디에 모이는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SOA 하드웨어의 핵심: 계산보다 통합 경로를 받쳐 주는 것</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">External Clients / Partners</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">L7 Gateway / TLS Offload</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ESB / Broker / Policy Engine</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ Service A ──▶ Service B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ XML / SOAP Transform ──▶ Service C</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ MQ / DB / HSM / Audit Storage</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">병목 포인트: parsing · crypto · central bus saturation · storage latency</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│              SOA 하드웨어의 핵심: 계산보다 통합 경로를 받쳐 주는 것        │
+├────────────────────────────────────────────────────────────────────────────┤
+│ External Clients / Partners                                               │
+│             │                                                              │
+│             ▼                                                              │
+│   [L7 Gateway / TLS Offload]                                               │
+│             │                                                              │
+│             ▼                                                              │
+│      [ESB / Broker / Policy Engine]                                        │
+│        │            │            │                                          │
+│        ├──▶ Service A            ├──▶ Service B                            │
+│        ├──▶ XML / SOAP Transform └──▶ Service C                            │
+│        │                                                                  │
+│        └──▶ MQ / DB / HSM / Audit Storage                                  │
+│                                                                            │
+│ 병목 포인트: parsing · crypto · central bus saturation · storage latency   │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조에서 중요한 점은 동기 호출과 비동기 호출이 하드웨어에 서로 다른 압력을 준다는 것이다. 동기 호출은 네트워크 왕복 시간과 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 처리, L7 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 치명적이고, 비동기 호출은 브로커의 지속 저장 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 큐 깊이, 재처리 경로가 더 중요하다. 따라서 SOA 하드웨어는 "서버를 빠르게"가 아니라 "통합 경로를 끊기지 않게" 설계해야 한다.
 
@@ -138,25 +142,24 @@ SOA 하드웨어를 제대로 설계하면, [분산](/knowledge-base/studynote/0
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">모놀리식 통합</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SOA + ESB 기반 서비스 연계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">L7 / TLS / XML 오프로딩 강화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">MQ · 고속 스토리지 중심의 신뢰성 통합</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">API 게이트웨이 · 이벤트 기반 하이브리드 통합</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 네이티브 분산 통합 아키텍처</div>
-</div>
-</div>
-
-
+```text
+모놀리식 통합
+      │
+      ▼
+SOA + ESB 기반 서비스 연계
+      │
+      ▼
+L7 / TLS / XML 오프로딩 강화
+      │
+      ▼
+MQ · 고속 스토리지 중심의 신뢰성 통합
+      │
+      ▼
+API 게이트웨이 · 이벤트 기반 하이브리드 통합
+      │
+      ▼
+클라우드 네이티브 분산 통합 아키텍처
+```
 
 이 흐름은 엔터프라이즈 통합이 단일 서버 내부 조합에서 출발해, 중앙 통합 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)와 보안 장비를 거쳐, 점차 더 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)된 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)·이벤트 기반 구조로 확장되는 과정을 보여 준다.
 

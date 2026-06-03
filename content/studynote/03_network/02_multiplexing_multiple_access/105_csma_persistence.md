@@ -31,28 +31,29 @@ tags = ["network"]
 
 세 가지 지속 방식 (Persistence Methods)은 채널 상태를 감지한 직후의 행동 트리 로직으로 구분된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CSMA 지속 방식의 상태 전이 및 로직 분기 다이어그램</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Carrier Sense (채널 상태 감지)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 1. 1-Persistent CSMA</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 채널 Idle? ──(Yes)──▶ 즉시 데이터 전송 (100%)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 채널 Busy? ──(Yes)──▶ Idle 될 때까지 지속 감시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 2. Non-Persistent CSMA</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 채널 Idle? ──(Yes)──▶ 즉시 데이터 전송</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 채널 Busy? ──(Yes)──▶ 감시 중단 후 랜덤 대기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Random Backoff)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 3. p-Persistent CSMA</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 채널 Busy? ──(Yes)──▶ Idle 될 때까지 지속 감시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 채널 Idle? ──(Yes)──▶ 확률 p 로 전송 시도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">확률 1-p 로 다음 슬롯 대기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(다음 슬롯에서도 다시 확률)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│          CSMA 지속 방식의 상태 전이 및 로직 분기 다이어그램  │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│ [ Carrier Sense (채널 상태 감지) ]                           │
+│        │                                                     │
+│        ├─▶ 1. 1-Persistent CSMA                              │
+│        │      - 채널 Idle? ──(Yes)──▶ 즉시 데이터 전송 (100%)│
+│        │      - 채널 Busy? ──(Yes)──▶ Idle 될 때까지 지속 감시 │
+│        │                                                     │
+│        ├─▶ 2. Non-Persistent CSMA                            │
+│        │      - 채널 Idle? ──(Yes)──▶ 즉시 데이터 전송       │
+│        │      - 채널 Busy? ──(Yes)──▶ 감시 중단 후 랜덤 대기 │
+│        │                                (Random Backoff)     │
+│        │                                                     │
+│        └─▶ 3. p-Persistent CSMA                              │
+│               - 채널 Busy? ──(Yes)──▶ Idle 될 때까지 지속 감시 │
+│               - 채널 Idle? ──(Yes)──▶ 확률 p 로 전송 시도    │
+│                                      확률 1-p 로 다음 슬롯 대기│
+│                                      (다음 슬롯에서도 다시 확률)│
+└──────────────────────────────────────────────────────────────┘
+```
 
 1. **1-Persistent (1-지속)**: 집착도가 가장 높다. 채널이 비면 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 1($100\%$)로 즉시 덤벼든다. 대기 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Delay)이 가장 짧지만, 대기 중이던 2개 이상의 노드가 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)가 비는 순간 동시에 쏘기 때문에 [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) 환경에서 충돌 가능성이 극도로 높다.
 2. **Non-Persistent (비지속)**: 양보의 미덕을 가진다. 누군가 사용 중이면 즉시 채널 감시를 포기하고 임의의 시간(Random Time) 동안 잠들었다가 다시 확인한다. 충돌률은 가장 낮지만, [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)가 비어있어도 아무도 전송하지 않는 낭비 구간이 생겨 전송 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 가장 길다.
@@ -112,23 +113,21 @@ CSMA의 세 가지 지속 방식은 네트워크 참여자들이 공용 자원([
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">ALOHA (눈치 안 보고 무조건 전송 ──▶ 잦은 충돌)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CSMA (전송 전 채널 감시 시작, 지속 방식의 필요성 대두)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속 방식 분화 (1-Persistent, Non-Persistent, p-Persistent)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">이더넷 CSMA/CD (유선망: 1-Persistent 채택 및 충돌 시 즉각 중단)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">무선랜 CSMA/CA 및 BEB (무선망: p-Persistent 진화형 동적 백오프 알고리즘)</div>
-</div>
-</div>
-
-
+```text
+ALOHA (눈치 안 보고 무조건 전송 ──▶ 잦은 충돌)
+    │
+    ▼
+CSMA (전송 전 채널 감시 시작, 지속 방식의 필요성 대두)
+    │
+    ▼
+지속 방식 분화 (1-Persistent, Non-Persistent, p-Persistent)
+    │
+    ▼
+이더넷 CSMA/CD (유선망: 1-Persistent 채택 및 충돌 시 즉각 중단)
+    │
+    ▼
+무선랜 CSMA/CA 및 BEB (무선망: p-Persistent 진화형 동적 백오프 알고리즘)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

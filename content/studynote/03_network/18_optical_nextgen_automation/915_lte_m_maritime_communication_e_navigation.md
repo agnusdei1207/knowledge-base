@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 기존 어선들은 바다에 나갈 때 단파 무전기(VHF/SSB)를 썼습니다.
 - **재앙적 문제**: 오직 '음성 통화'만 가능할 뿐, 날씨 데이터나 주변 선박의 위치를 나타내는 지도(내비게이션)를 다운로드할 대역폭이 아예 없었습니다. 안개 낀 날 두 배가 부딪혀 침몰하는 해상 사고의 주원인이었습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">철도 통신망 LTE-R</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">해상 통신망</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">P2P</div></div>
-</div>
-</div>
-
-
+```text
+[철도 통신망 LTE-R]
+    │
+    ▼
+[해상 통신망]
+    │
+    └──▶ [P2P]
+```
 
 - **📢 섹션 요약 비유**: 해상 통신망은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -44,18 +40,14 @@ tags = ["studynote-network"]
 - **e-Navigation (이내비게이션)**: 국제해사기구(IMO)가 도입한 개념으로, 배 안의 종이 지도를 없애고 자동차 내비게이션처럼 육지 관제소와 배가 실시간으로 지도, 날씨, 충돌 위험 데이터를 주고받는 스마트 선박 시스템입니다.
 - <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/621_ltem_emtc_iot_mobility_voice/">LTE-M</a> (해상 통신망)</strong>: 이 무거운 내비게이션 3D 지도 데이터를 바다 위로 쏴주기 위해, 한국이 세계 최초로 육지의 4G [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 망을 바다 환경에 맞게 마개조하여 <strong>해안가에서 최대 100km 떨어진 바다까지 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a> 데이터를 전송하는 해양 전용 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a> 무선망</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">철도 통신망 LTE-R</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">해상 통신망</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">P2P</div></div>
-</div>
-</div>
-
-
+```text
+[철도 통신망 LTE-R]
+    │
+    ▼
+[해상 통신망]
+    │
+    └──▶ [P2P]
+```
 
 - **📢 섹션 요약 비유**: 해상 통신망의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -122,19 +114,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 철도 통신망 LTE-R</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 해상 통신망</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: P2P</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 철도 통신망 LTE-R]
+    │
+    ▼
+[현재 개념: 해상 통신망]
+    │
+    ├──▶ [확장 A: P2P]
+    └──▶ [확장 B: 의미 기반 통신 최적화]
+```
 
 해상 통신망는 [철도 통신망](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/914_lte_r_railway_communication_qpp_ps_lte/) [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)-R에서 출발해 현재 메커니즘을 정교화하고, 이후 P2P와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -29,19 +29,13 @@ tags = ["studynote-enterprise"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Data</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Literacy</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Decision</div>
-</div>
-</div>
-
-
+```text
+Data
+  ↓
+Literacy
+  ↓
+Decision
+```
 
 | 요소 | 의미 |
 | :-- | :-- |
@@ -109,37 +103,25 @@ tags = ["studynote-enterprise"]
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Data</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Data Literacy</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Democratization</div>
-</div>
-</div>
-
-
+```text
+Data
+  ↓
+Data Literacy
+  ↓
+Democratization
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Analytics</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Data Literacy</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Democratization</div>
-</div>
-</div>
-
-
+```text
+Analytics
+  ↓
+Data Literacy
+  ↓
+Democratization
+```
 
 ---
 

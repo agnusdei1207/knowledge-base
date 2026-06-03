@@ -18,22 +18,20 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디지털 트윈 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">물리 세계</div><div class="kb-diagram-node">디지털 트윈</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공장 설비 ──IoT 센서──▶ 가상 공장 모델</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">온도·진동·전류 3D 시각화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시뮬레이션</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AI 예측 (고장 예측)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀── 최적화 결과 반영</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">양방향: 물리→디지털(데이터), 디지털→물리(제어)</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    디지털 트윈 아키텍처                               │
+├───────────────────────────────────────────────────────┤
+│  [물리 세계]              [디지털 트윈]               │
+│  공장 설비 ──IoT 센서──▶  가상 공장 모델             │
+│  온도·진동·전류           3D 시각화                   │
+│                           시뮬레이션                   │
+│                           AI 예측 (고장 예측)          │
+│                     ◀── 최적화 결과 반영              │
+│                                                       │
+│  양방향: 물리→디지털(데이터), 디지털→물리(제어)     │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 디지털 트윈은 건물의 <strong>미니어처(축소 모형)</strong>에 실시간 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 연결한 것이다. 미니어처에서 실험하고 결과를 실제 건물에 적용한다.
 
@@ -93,23 +91,21 @@ tags = ["studynote-ict-convergence"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">CAD/CAE 시뮬레이션 (1990s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">디지털 트윈 개념 (NASA, 2010)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">GE Predix + 산업용 디지털 트윈 (2015~)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Azure/AWS 디지털 트윈 PaaS (2020~)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: AI + 디지털 트윈 — 자율 최적화·예측 정비</div></div>
-</div>
-</div>
-
-
+```text
+[CAD/CAE 시뮬레이션 (1990s)]
+    │
+    ▼
+[디지털 트윈 개념 (NASA, 2010)]
+    │
+    ▼
+[GE Predix + 산업용 디지털 트윈 (2015~)]
+    │
+    ▼
+[Azure/AWS 디지털 트윈 PaaS (2020~)]
+    │
+    ▼
+[현재: AI + 디지털 트윈 — 자율 최적화·예측 정비]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 디지털 트윈은 공장의 <strong>미니어처(축소 모형)</strong>에 <strong>실시간 센서</strong>를 연결한 거예요.

@@ -34,30 +34,29 @@ tags = ["studynote-operating-system"]
 - **등장 배경**: 
   - 1970년대 IBM 메인프레임에서 [다중 프로세서](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/375_multiprocessor/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)를 위해 도입된 `Test-and-Set`의 확장판으로, 무거운 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 오버헤드([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))를 회피하려는 현대 고성능 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템과 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 프로그래밍의 절대적 표준이 되었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일반 연산(+) vs CAS 명령어의 동시성 제어 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">일반 연산의 비극 (Lost Update)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리: V = 10</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Thread A: V 읽음(10) -&gt; (인터럽트!) 잠시 멈춤</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Thread B: V 읽음(10) -&gt; V+1 계산(11) -&gt; V에 11 기록. (메모리 V=11)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Thread A: 깨어남 -&gt; 나 아까 10 읽어뒀지! -&gt; V+1 계산(11) -&gt; V에 11 기록</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: 두 번 더했는데 값은 12가 아니라 11! (B의 연산이 씹힘)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CAS 연산의 방어 (Compare And Swap)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리: V = 10</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Thread A: V 읽음(10) -&gt; (인터럽트!) 잠시 멈춤</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Thread B: V 읽음(10) -&gt; V+1 계산(11) -&gt; CAS(V, 10, 11) 성공! 메모리 V=11</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Thread A: 깨어남 -&gt; 나 아까 10 읽어뒀지! 새 값은 11이다!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ CPU에게 CAS(V, 10, 11) 시도 지시!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 하드웨어: "어? 너의 기대값은 10인데, 지금 메모리 V는 11이네?"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 하드웨어: CAS 실패(False) 반환! 덮어쓰기 거부! 🚫</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Thread A: 아차, 늦었구나! 처음부터 다시 읽자. V(11) -&gt; V+1(12) -&gt; CAS 성공!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │                 일반 연산(+) vs CAS 명령어의 동시성 제어 비교          │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │  [ 일반 연산의 비극 (Lost Update) ]                            │
+  │  메모리: V = 10                                              │
+  │  Thread A: V 읽음(10) -> (인터럽트!) 잠시 멈춤                     │
+  │  Thread B: V 읽음(10) -> V+1 계산(11) -> V에 11 기록. (메모리 V=11) │
+  │  Thread A: 깨어남 -> 나 아까 10 읽어뒀지! -> V+1 계산(11) -> V에 11 기록│
+  │  ▶ 결과: 두 번 더했는데 값은 12가 아니라 11! (B의 연산이 씹힘)        │
+  │                                                             │
+  │  [ CAS 연산의 방어 (Compare And Swap) ]                       │
+  │  메모리: V = 10                                              │
+  │  Thread A: V 읽음(10) -> (인터럽트!) 잠시 멈춤                     │
+  │  Thread B: V 읽음(10) -> V+1 계산(11) -> CAS(V, 10, 11) 성공! 메모리 V=11│
+  │  Thread A: 깨어남 -> 나 아까 10 읽어뒀지! 새 값은 11이다!             │
+  │            ▶ CPU에게 CAS(V, 10, 11) 시도 지시!                   │
+  │            ▶ 하드웨어: "어? 너의 기대값은 10인데, 지금 메모리 V는 11이네?" │
+  │            ▶ 하드웨어: CAS 실패(False) 반환! 덮어쓰기 거부! 🚫        │
+  │  Thread A: 아차, 늦었구나! 처음부터 다시 읽자. V(11) -> V+1(12) -> CAS 성공!│
+  └─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 그림은 CAS가 어떻게 OS의 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 없이도 완벽한 무결성을 지켜내는지 증명한다. CAS의 생명은 '비교(Compare)'에 있다. [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A가 자신이 예전에 읽어두었던 값([10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/))을 들고 가서 무작정 덮어쓰지 않고, CPU에게 "지금 메모리 값이 아직도 10이면 11로 바꿔줘"라고 조건부 청탁을 넣는다. 만약 그 짧은 틈에 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) B가 값을 11로 훔쳐갔다면, 비교가 실패하므로 CPU는 변경을 거부(False)한다. A는 실패를 인지하고 최신 값([11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/))을 다시 퍼와서(while 루프) 연산을 깔끔하게 재시도(Retry)한다. 이것이 그 유명한 '낙관적 락(Optimistic [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))'의 실체다.
 
@@ -90,28 +89,30 @@ bool compare_and_swap(int *memory_addr, int expected_value, int new_value) {
 
 CAS [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 완벽해 보이지만, "값만 비교한다"는 맹점 때문에 생기는 소름 돋는 논리적 오류가 바로 <strong>ABA 문제</strong>다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ABA 문제의 발생 시나리오 (치명적 함정)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">메모리 변수 V의 값: A</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Thread 1이 V를 읽음. (기대값: A)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. (Thread 1이 컨텍스트 스위치로 기절함)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Thread 2가 V를 읽고 'B'로 바꿈. (V = B)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. Thread 2가 다시 마음이 바뀌어서 V를 옛날 값 'A'로 되돌려놓음. (V = A)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. (Thread 1이 깨어남)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6. Thread 1이 CAS(V, A, C)를 호출!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; 하드웨어: "어? 기대값이 A인데, 지금 메모리도 A네? 통과! (Swap성공)"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🚨</div><div class="kb-diagram-node">재앙 발생!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Thread 1 입장에서는 값이 A에서 A로 그대로 있었던 줄 알지만, 실제로는</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A -&gt; B -&gt; A 로 한 번 뒤집어졌던 상태다! 만약 저 A가 단순 숫자가 아니라,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">포인터(메모리 주소)인데 중간에 해제(Free)되었다가 재할당(Malloc)된 거라면,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로그램 전체가 붕괴(Segfault)되는 끔찍한 사태가 터진다!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 ABA 문제의 발생 시나리오 (치명적 함정)                    │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [ 메모리 변수 V의 값: A ]                                         │
+  │                                                                   │
+  │   1. Thread 1이 V를 읽음. (기대값: A)                                │
+  │   2. (Thread 1이 컨텍스트 스위치로 기절함)                               │
+  │                                                                   │
+  │   3. Thread 2가 V를 읽고 'B'로 바꿈. (V = B)                        │
+  │   4. Thread 2가 다시 마음이 바뀌어서 V를 옛날 값 'A'로 되돌려놓음. (V = A)  │
+  │                                                                   │
+  │   5. (Thread 1이 깨어남)                                            │
+  │   6. Thread 1이 CAS(V, A, C)를 호출!                               │
+  │      -> 하드웨어: "어? 기대값이 A인데, 지금 메모리도 A네? 통과! (Swap성공)"   │
+  │                                                                   │
+  │   🚨 [ 재앙 발생! ]                                                │
+  │   Thread 1 입장에서는 값이 A에서 A로 그대로 있었던 줄 알지만, 실제로는        │
+  │   A -> B -> A 로 한 번 뒤집어졌던 상태다! 만약 저 A가 단순 숫자가 아니라,     │
+  │   포인터(메모리 주소)인데 중간에 해제(Free)되었다가 재할당(Malloc)된 거라면,   │
+  │   프로그램 전체가 붕괴(Segfault)되는 끔찍한 사태가 터진다!                   │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** CAS는 오직 '값'이 같은지만 본다. 이 값이 중간에 다른 일을 겪고 우연히 똑같은 모양으로 돌아왔는지는 알지 못한다. [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)([Linked List](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)) 큐를 [락-프리](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/)로 짤 때 노드 주소 A가 해제(Free)된 후 우연히 OS가 똑같은 램 번지(A)를 다른 노드로 재할당해 줬다면, CAS는 옛날 A인 줄 알고 리스트의 머리를 엉뚱한 허공에 꽂아버려 시스템을 파괴한다. 이 무서운 ABA 문제를 해결하기 위해, 현대 아키텍트는 값 옆에 '[버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)표(Tag/Version)'를 붙여 `CAS( [A, ver.1], [C, ver.2] )`처럼 [더블 워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/076_double_word/)(Double-word) 64비트 비교를 수행하는 영리한 우회 기법을 쓴다.
 
@@ -152,28 +153,29 @@ CAS [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_al
    - **원인 분석**: 32개의 코어가 1개의 변수(`tail` 포인터)에 동시에 CAS [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 무한 루프로 때려 박으면, 하드웨어 레벨에서 시스템 메모리 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)와 L1/L2 캐시의 무효화 통신(MESI 프로토콜의 Ping-pong)이 폭증하며 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 전체가 마비된다. 이것이 바로 CAS의 그림자인 <strong>캐시 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/">스래싱</a>(Cache <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/">Thrashing</a>)</strong>이다.
    - **아키텍트 판단 (Backoff 튜닝)**: "누가 이미 선점했다면, 바로 재시도하지 말고 살짝 한 템포 쉬어라!" 네트워크의 충돌 회피 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)([CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CD)처럼, CAS가 실패했을 때 `cpu_relax()` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)(Intel의 `PAUSE`)나 작은 랜덤 딜레이(Exponential Backoff)를 주어 맹렬한 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 타격을 부드럽게 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시키는 아키텍처적 튜닝이 필수적이다. 무식한 CAS 무한 루프는 시스템을 끓어오르게 만드는 독극물이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시큐어 코딩: 안전한 락-프리(CAS) 루프 작성 템플릿</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">잘못된 예시 (위험도 최상)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">while (!CAS(&amp;val, old, new)) {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// 빈 루프 💥 (CPU 100% 고갈, 하드웨어 버스 폭발 유발)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">아키텍트가 검증한 올바른 예시 (Backoff &amp; Retry 패턴)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">int expected = *target;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">while (!CAS(target, expected, expected + 1)) {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// 1. 실패했으므로, 그새 남이 바꾼 최신 값을 다시 읽어옴 갱신</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">expected = *target;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// 2. CPU 파이프라인 과열을 막기 위한 하드웨어 힌트 (필수!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// x86의 경우 PAUSE 명령어로, 불필요한 메모리 접근을 수십 사이클 늦춤</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">_mm_pause(); // (또는 cpu_relax(), Thread.yield() 등)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 시큐어 코딩: 안전한 락-프리(CAS) 루프 작성 템플릿         │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [ 잘못된 예시 (위험도 최상) ]                                       │
+  │   while (!CAS(&val, old, new)) {                                  │
+  │       // 빈 루프 💥 (CPU 100% 고갈, 하드웨어 버스 폭발 유발)           │
+  │   }                                                               │
+  │                                                                   │
+  │   [ 아키텍트가 검증한 올바른 예시 (Backoff & Retry 패턴) ]              │
+  │   int expected = *target;                                         │
+  │   while (!CAS(target, expected, expected + 1)) {                  │
+  │                                                                   │
+  │       // 1. 실패했으므로, 그새 남이 바꾼 최신 값을 다시 읽어옴 갱신         │
+  │       expected = *target;                                         │
+  │                                                                   │
+  │       // 2. CPU 파이프라인 과열을 막기 위한 하드웨어 힌트 (필수!)         │
+  │       // x86의 경우 PAUSE 명령어로, 불필요한 메모리 접근을 수십 사이클 늦춤 │
+  │       _mm_pause(); // (또는 cpu_relax(), Thread.yield() 등)         │
+  │   }                                                               │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** CAS 기반 프로그래밍은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)과 프레임워크 개발자들의 전유물처럼 여겨지는 고난도 영역이다. 위 템플릿은 락프리 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 절대 놓쳐서는 안 될 두 가지 뼈대(최신 상태 재갱신과, 충돌 회피용 백오프)를 보여준다. 특히 `PAUSE` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 하드웨어 칩 설계자(인텔)가 "[스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)들이 루프를 도느라 열받아 죽겠으니 제발 이 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 넣어 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 좀 쉬게 해달라"고 개발자들에게 간곡히 부탁하여 만든 특별한 기계어다. 소프트웨어 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 하드웨어의 물리적 발열과 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 한계까지 굽어살펴야 하는 극한의 최적화 세계다.
 
@@ -219,19 +221,15 @@ CAS ([Compare-And-Swap](/knowledge-base/studynote/01_computer_architecture/11_mu
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">스핀락 멀티 프로세서 전용 활용</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CAS (Compare And Swap) 명령어 기초</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">데드락 희생자 롤백 복구망</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">역 페이지 테이블 전역 해시 매핑</div></div>
-</div>
-</div>
-
-
+```text
+[스핀락 멀티 프로세서 전용 활용]
+    │
+    ▼
+[CAS (Compare And Swap) 명령어 기초]
+    │
+    ├──▶ [데드락 희생자 롤백 복구망]
+    └──▶ [역 페이지 테이블 전역 해시 매핑]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

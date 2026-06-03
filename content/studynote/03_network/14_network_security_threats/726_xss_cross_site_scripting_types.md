@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: 해커가 신뢰할 수 있는 정상적인 웹사이트(예: 네이버 카페, 학교 게시판)의 허술한 입력 창을 뚫고, 악의적인 <strong>클라이언트 사이드 스크립트(주로 JavaScript)</strong>를 삽입하여, 그 사이트에 접속한 다른 정상 <strong>사용자의 웹 브라우저에서 해커의 스크립트가 몰래 실행되도록 만드는 해킹 기법</strong>입니다.
 - **목적**: 브라우저에서 돌아가기 때문에 서버 DB를 부수는 건 못합니다. 대신, 사용자의 브라우저에 임시로 저장된 <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">세션</a> <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/">쿠키</a>(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">Session</a> <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/">Cookie</a>, 707번 하이재킹 <a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a>)</strong>를 훔쳐서 사용자의 아이디로 무혈입성 로그인하거나, 악성 코드를 다운받게 유도하는 것이 핵심 타겟입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">스키밍 공격</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">XSS 개요와 3대 기법</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SQL 인젝션</div></div>
-</div>
-</div>
-
-
+```text
+[스키밍 공격]
+    │
+    ▼
+[XSS 개요와 3대 기법]
+    │
+    └──▶ [SQL 인젝션]
+```
 
 - **📢 섹션 요약 비유**: XSS 개요와 3대 기법은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -57,18 +53,14 @@ tags = ["studynote-network"]
 - **수법**: 서버와는 전혀 상관없이, 철저히 <strong>사용자 브라우저 내부의 자바스크립트(DOM 환경) <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a></strong>만을 파고드는 고도의 공격입니다. 
 - **동작**: 해커가 던진 악성 URL을 클릭하면, 이 악성 코드는 서버로 전송되지도 않고 브라우저 안에서만 빙글빙글 돌다가, 브라우저가 화면을 렌더링(DOM 조작)할 때 몰래 발동되어 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)를 털어갑니다. 서버 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)([WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/)) 입장에선 패킷에 악성 코드가 안 보이므로 탐지하기가 극도로 어렵습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">스키밍 공격</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">XSS 개요와 3대 기법</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SQL 인젝션</div></div>
-</div>
-</div>
-
-
+```text
+[스키밍 공격]
+    │
+    ▼
+[XSS 개요와 3대 기법]
+    │
+    └──▶ [SQL 인젝션]
+```
 
 - **📢 섹션 요약 비유**: XSS 개요와 3대 기법의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -128,19 +120,15 @@ XSS 개요와 3대 기법은 [네트워크 보안](/knowledge-base/studynote/03_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 스키밍 공격</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: XSS 개요와 3대 기법</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: SQL 인젝션</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 스키밍 공격]
+    │
+    ▼
+[현재 개념: XSS 개요와 3대 기법]
+    │
+    ├──▶ [확장 A: SQL 인젝션]
+    └──▶ [확장 B: 예측형 위협 대응]
+```
 
 XSS 개요와 3대 기법는 [스키밍](/knowledge-base/studynote/03_network/14_network_security_threats/725_port_scanning_full_open_vs_stealth_half_open/) 공격에서 출발해 현재 메커니즘을 정교화하고, 이후 SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/)와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

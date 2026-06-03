@@ -30,22 +30,20 @@ tags = ["studynote-bigdata"]
 
 ### 이상 유형 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이상 유형 3가지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">점 이상치</div><div class="kb-diagram-cell">문맥적 이상치</div><div class="kb-diagram-cell">집단 이상치</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Point Anomaly)</div><div class="kb-diagram-cell">(Contextual Anomaly</div><div class="kb-diagram-cell">(Collective Anomaly)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">● ← 이상</div><div class="kb-diagram-cell">일반: 기온 35℃</div><div class="kb-diagram-cell">각 점은 정상이나</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">맥락: 한겨울 35℃</div><div class="kb-diagram-cell">패턴 전체가 비정상</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정상 데이터</div><div class="kb-diagram-cell">→ 계절 맥락이 핵심</div><div class="kb-diagram-cell">예: 특정 시간대 집단</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분포에서 멀리</div><div class="kb-diagram-cell">구매 급증 (카드 복제)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">벗어난 단일값</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│                     이상 유형 3가지                                │
+├──────────────────┬─────────────────────┬───────────────────────────┤
+│  점 이상치       │  문맥적 이상치      │  집단 이상치              │
+│  (Point Anomaly) │  (Contextual Anomaly│  (Collective Anomaly)     │
+├──────────────────┼─────────────────────┼───────────────────────────┤
+│  ● ← 이상        │  일반: 기온 35℃     │  각 점은 정상이나         │
+│                  │  맥락: 한겨울 35℃  │  패턴 전체가 비정상       │
+│  정상 데이터    │  → 계절 맥락이 핵심 │  예: 특정 시간대 집단     │
+│  분포에서 멀리   │                     │  구매 급증 (카드 복제)    │
+│  벗어난 단일값  │                     │                           │
+└──────────────────┴─────────────────────┴───────────────────────────┘
+```
 
 ### 주요 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 비교
 
@@ -129,23 +127,21 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">통계적 방법 (Statistical Method) — 기준선 이탈 탐지</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">머신러닝 기반 (ML-based) — Isolation Forest/Autoencoder</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시계열 분석 (Time-series Analysis) — 계절성 제거</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스트리밍 탐지 (Streaming Detection) — 실시간 처리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">설명 가능 AI (XAI, Explainable AI) — 탐지 근거 제공</div></div>
-</div>
-</div>
-
-
+```text
+[통계적 방법 (Statistical Method) — 기준선 이탈 탐지]
+    │
+    ▼
+[머신러닝 기반 (ML-based) — Isolation Forest/Autoencoder]
+    │
+    ▼
+[시계열 분석 (Time-series Analysis) — 계절성 제거]
+    │
+    ▼
+[스트리밍 탐지 (Streaming Detection) — 실시간 처리]
+    │
+    ▼
+[설명 가능 AI (XAI, Explainable AI) — 탐지 근거 제공]
+```
 
 이 흐름은 통계적 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)에서 출발해 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/), 시계열, 스트리밍으로 정교해지고, 마지막에 XAI로 탐지 이유를 설명하는 방향으로 발전한다.
 

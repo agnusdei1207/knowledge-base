@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: 중앙 관리자(은행, 카카오)가 거래 장부를 혼자 독점하는 것이 아니라, [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 네트워크에 참여하는 수천, 수만 대의 동등한 컴퓨터(노드)들이 <strong>각자 100% 동일한 장부 사본(Ledger)을 하드디스크에 들고 있으면서, 새로운 거래 데이터가 들어올 때마다 중앙 서버의 개입 없이 자기들끼리 '수학적 <a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/">합의 알고리즘</a>(Consensus)'을 거쳐 장부를 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>하고 업데이트하는 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a> 아키텍처</strong>입니다.
 - ※ 참고: [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)은 데이터를 '블록'이라는 체인으로 엮어서 저장하는 DLT의 한 종류(하위 개념)일 뿐입니다. ([블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) $\subset$ DLT)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">블록체인 네트워크 계층 가십 프로토콜</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DLT</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스마트 컨트랙트 분산망 오라클</div></div>
-</div>
-</div>
-
-
+```text
+[블록체인 네트워크 계층 가십 프로토콜]
+    │
+    ▼
+[DLT]
+    │
+    └──▶ [스마트 컨트랙트 분산망 오라클]
+```
 
 - **📢 섹션 요약 비유**: DLT는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -53,18 +49,14 @@ DLT는 중앙 서버 독재를 무너뜨린 대가로 <strong>'끔찍한 통신 
 - <strong>PoW (<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/014_pow_proof_of_work/">작업 증명</a>, 비트코인)</strong>: 노드들이 수학 문제를 푸느라 10분을 허비합니다. 그래서 비트코인은 결제 버튼을 누르고 상대방에게 돈이 진짜 들어갈 때까지 확정([Finality](/knowledge-base/studynote/06_ict_convergence/01_blockchain/065_consensus_finality_probabilistic_deterministic/)) 시간이 10분에서 1시간이나 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)됩니다.
 - <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/647_bft_verification/">BFT</a> 계열 합의 (<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/013_pbft_practical_bft/">PBFT</a>, 텐더민트)</strong>: 투표를 빨리 끝내기 위해, "야! 이 패킷 진짜냐?"라고 노드 100대가 서로 1:1로 귓속말(투표) 패킷을 주고받습니다. 만약 노드가 $N$개면 서로 묻고 답하는 패킷 트래픽 양이 $N^2$ (N의 제곱)으로 기하급수적으로 뻥튀기(폭주)되어 네트워크망이 박살 납니다. 결국 노드 개수를 100개 이상 늘리기 불가능하다는 치명적 확장성 한계(Scalability Trilemma)에 부딪힙니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">블록체인 네트워크 계층 가십 프로토콜</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DLT</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스마트 컨트랙트 분산망 오라클</div></div>
-</div>
-</div>
-
-
+```text
+[블록체인 네트워크 계층 가십 프로토콜]
+    │
+    ▼
+[DLT]
+    │
+    └──▶ [스마트 컨트랙트 분산망 오라클]
+```
 
 - **📢 섹션 요약 비유**: DLT의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -130,19 +122,15 @@ DLT는 광통신·차세대·자동화를 이해할 때 핵심 축을 잡아 주
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 블록체인 네트워크 계층 가십 프로토콜</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: DLT</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 스마트 컨트랙트 분산망 오라클</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 블록체인 네트워크 계층 가십 프로토콜]
+    │
+    ▼
+[현재 개념: DLT]
+    │
+    ├──▶ [확장 A: 스마트 컨트랙트 분산망 오라클]
+    └──▶ [확장 B: 의미 기반 통신 최적화]
+```
 
 DLT는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 네트워크 계층 가십 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)망 오라클와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

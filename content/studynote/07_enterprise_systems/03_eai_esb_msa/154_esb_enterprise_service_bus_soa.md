@@ -11,7 +11,7 @@ tags = ["studynote-enterprise-systems"]
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: [ESB](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/146_esb_enterprise_service_bus_architecture/) ([Enterprise Service Bus](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/146_esb_enterprise_service_bus_architecture/))는 거대한 전사 기업 인프라에서 수백 개의 낡고 새로운 이기종 서버([ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/), [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/), C언어 메인프레임) 쇳덩이들이 서로 1:1([Point-to-Point](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/142_point_to_point_integration_spaghetti/)) 다이렉트 직통 찌르기로 얽혀 뻗어버리는 스파게티 강결합 지옥을 척살 타파하기 위해 ➔ <strong>정중앙을 관통하는 거대한 1통짜리 '<a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">메시</a>지 <a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/345_data_bus/">데이터 버스</a>(<a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">Bus</a> 고속도로)'를 뚫어주는 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/">SOA</a> 0순위 지능형 백본 미들웨어(Middleware) 대장 봇</strong>이다.
-> 2. **가치**: A 자바(Java) 서버는 구형 XML을 쏘고 B 파이썬(Python) 서버는 신형 JSON을 받을 때, 서로 소스코드를 1바이트 뜯어고칠 필요 0% 없이!! ➔ <strong>ESB가 중간 허공에서 패킷 <a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">메시</a>지를 스윽 가로채 낚아채어(Intercept) ➔ 지 뱃속에서 포맷을 1초 컷 오토 번역(Transformation) 치고 알맞은 목적지로 핑퐁 배달(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">Routing</a> 록온)</strong>해 주어 각 서버가 서로의 알맹이 존재(IP)를 전혀 1도 몰라도 100% 무결점 통신하게 만드는 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) 파괴 분리(Decoupling)의 위대한 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터키다.
+> 2. **가치**: A 자바(Java) 서버는 구형 XML을 쏘고 B 파이썬(Python) 서버는 새로운 유형의 JSON을 받을 때, 서로 소스코드를 1바이트 뜯어고칠 필요 0% 없이!! ➔ <strong>ESB가 중간 허공에서 패킷 <a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">메시</a>지를 스윽 가로채 낚아채어(Intercept) ➔ 지 뱃속에서 포맷을 1초 컷 오토 번역(Transformation) 치고 알맞은 목적지로 핑퐁 배달(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">Routing</a> 록온)</strong>해 주어 각 서버가 서로의 알맹이 존재(IP)를 전혀 1도 몰라도 100% 무결점 통신하게 만드는 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) 파괴 분리(Decoupling)의 위대한 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터키다.
 > 3. **판단 포인트**: [SOA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/)([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 지향) 시대 100억 인프라 제국을 지배한 절대 통치 신(God)이었으나 ➔ "야 [ESB](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/146_esb_enterprise_service_bus_architecture/) 대장 1명 죽으면 사내 전사 10만 대 통신망 100% 셧다운 동반 올스탑 타죽음 뻗음 파국 터지잖아 💥!" 라는 <strong>단일 실패 지점(<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/">SPOF</a> 병목)</strong> 한계를 처맞고 무너졌다. 이 뚱땡이 쇳덩이 뇌는 모던 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 환경에서 가벼운 <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/">API Gateway</a></strong>와 각 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/)) 옆에 기생하는 스텔스 거머리 <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/">Service Mesh</a>(<a href="/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/">사이드카</a> <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">Proxy</a> 봇 ✨)</strong> 구조로 1만 개 나노 도끼 찢기 갈기갈기 쪼개 분쇄 융합되며 역사적 환생을 이룩했다 🚀.
 
 ---
@@ -39,34 +39,38 @@ tags = ["studynote-enterprise-systems"]
 
 ESB가 단순 깡통 무식한 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 덤프 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인(Dumb [Pipe](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/))이 아니라 '지능형 대장 뇌(Smart)'라 숭배받는 이유는 ➔ 그 뱃속에 품고 도는 4대 핵심 흑마법 코어 엔진 메스 덕분이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ESB (Enterprise Service Bus) 4대 십자 융합 코어 엔진 록온 맵 도해 🚀</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">👨‍💻</div><div class="kb-diagram-node">A팀 자바(Java) 서버 - 구형 JSON 데이터 발송 툭 ㅋ</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➔ "어 목적지(B팀) IP 알 빠노 ㅋ 걍 ESB 대문 입구 톨게이트에 던짐 빠이 쓩!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">🧠 ESB 중앙 미들웨어 대장 뇌 (Smart Bus) 가동 쾅!</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🔀</div><div class="kb-diagram-node">1. 메시지 라우팅 (Routing 스위칭 록온 🚀)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 패킷 봉투를 안 뜯고 겉면(Header)이나 속 내용(Content-based)을 슬쩍 엑스레이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스캔 쳐 봄 ➔ "아 이거 재무팀 타겟이네 ㅋ 3번 출구로 길 꺾어 토스해 스키 타 쓩!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🔄</div><div class="kb-diagram-node">2. 데이터 포맷 변환 (Transformation 세탁 번역 🪓)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 들어올 땐 구형 텍스트(CSV/JSON) 였음 ➔ 근데 도착지 B팀 쇳덩이는 XML만 읽음!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- ESB 지 혼자 뱃속(XSLT 매핑 믹서기)에서 <code>A포맷 ➔ B포맷</code> 모양을 싹 다 1초 컷</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오토 렌더링 뜯어고쳐 바꿔치기 번역 마술 세탁을 쳐버림 100% 무결점 통과 ✨.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🔌</div><div class="kb-diagram-node">3. 프로토콜 중재 (Protocol Mediation 젠더 융합 🛡️)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- A팀은 구형 파일 전송(FTP)이나 메시지 큐(JMS) 쇳덩이로 던졌는데 ➔ B팀 최신 앱은</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">웹(HTTP/REST)으로만 받음 뻗음 파국 💥 ➔ ESB가 중간 통신 방식(Protocol)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이질감을 투명 스텔스 젠더로 완벽 핑퐁 100% 통역 호환 시켜버림 쾅!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🔒</div><div class="kb-diagram-node">4. 보안 및 트랜잭션 추상화 (Security &amp; Tx Off-loading 텐트)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 10개 서버가 각자 SSL 암호 풀고 롤백 방어 치다 CPU 타 죽는 지옥 💀 ➔ ESB가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대문 앞에서 1방에 암호(SSL Offloading) 다 벗겨 내고 분산 트랜잭션 롤백 연쇄</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">방폭문 통제권을 중앙 독재 통치 장악해 버림 무혈입성 끝 🚀.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">✨ B팀 닷넷(C#) 서버 무결점 무정단 안전 데이터 수신 완료!</div><div class="kb-diagram-note">========</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          ESB (Enterprise Service Bus) 4대 십자 융합 코어 엔진 록온 맵 도해 🚀 │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ 👨‍💻 [ A팀 자바(Java) 서버 - 구형 JSON 데이터 발송 툭 ㅋ ]             │
+│   ➔ "어 목적지(B팀) IP 알 빠노 ㅋ 걍 ESB 대문 입구 톨게이트에 던짐 빠이 쓩!"│
+│                                                             │
+│        ======= [ 🧠 ESB 중앙 미들웨어 대장 뇌 (Smart Bus) 가동 쾅! ] ========│
+│                                                             │
+│ 🔀 [ 1. 메시지 라우팅 (Routing 스위칭 록온 🚀) ]                   │
+│   - 패킷 봉투를 안 뜯고 겉면(Header)이나 속 내용(Content-based)을 슬쩍 엑스레이│
+│     스캔 쳐 봄 ➔ "아 이거 재무팀 타겟이네 ㅋ 3번 출구로 길 꺾어 토스해 스키 타 쓩!"│
+│                                                             │
+│ 🔄 [ 2. 데이터 포맷 변환 (Transformation 세탁 번역 🪓) ]          │
+│   - 들어올 땐 구형 텍스트(CSV/JSON) 였음 ➔ 근데 도착지 B팀 쇳덩이는 XML만 읽음! │
+│   - ESB 지 혼자 뱃속(XSLT 매핑 믹서기)에서 `A포맷 ➔ B포맷` 모양을 싹 다 1초 컷│
+│     오토 렌더링 뜯어고쳐 바꿔치기 번역 마술 세탁을 쳐버림 100% 무결점 통과 ✨. │
+│                                                             │
+│ 🔌 [ 3. 프로토콜 중재 (Protocol Mediation 젠더 융합 🛡️) ]        │
+│   - A팀은 구형 파일 전송(FTP)이나 메시지 큐(JMS) 쇳덩이로 던졌는데 ➔ B팀 최신 앱은 │
+│     웹(HTTP/REST)으로만 받음 뻗음 파국 💥 ➔ ESB가 중간 통신 방식(Protocol) │
+│     이질감을 투명 스텔스 젠더로 완벽 핑퐁 100% 통역 호환 시켜버림 쾅!         │
+│                                                             │
+│ 🔒 [ 4. 보안 및 트랜잭션 추상화 (Security & Tx Off-loading 텐트) ]│
+│   - 10개 서버가 각자 SSL 암호 풀고 롤백 방어 치다 CPU 타 죽는 지옥 💀 ➔ ESB가 │
+│     대문 앞에서 1방에 암호(SSL Offloading) 다 벗겨 내고 분산 트랜잭션 롤백 연쇄 │
+│     방폭문 통제권을 중앙 독재 통치 장악해 버림 무혈입성 끝 🚀.             │
+│                                                             │
+│        ======= [ ✨ B팀 닷넷(C#) 서버 무결점 무정단 안전 데이터 수신 완료! ] ========│
+└─────────────────────────────────────────────────────────────┘
+```
 
 <strong><a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">아키텍트의 피 터지는 메스: SOA의 핏줄, 비동기 [메시</a>지 지향 미들웨어 (MOM 뼈대 ✨)]</strong>
 "야 A가 B한테 쏘고 싶은데 B 서버가 불타 뒤져서 다운타임 뻗어 있으면 어떡함 ㅠ? A 놈 10초 랙([Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/)) 대기 타다 동반 타살 셧다운 터져 죽는 거 아님 💥?" 
@@ -155,23 +159,21 @@ ESB는 1990년대 긴 레일 전선 <strong>'규격화된 스마트 <a href="/kn
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Point-to-Point (거미줄 스파게티 강결합) 다이렉트 하드코딩 시대 💀 / 사내 서버 50대가 서로 통신 치려고 1:1 직통 케이블 IP 주소를 소스 뱃속에 용접 떡칠 박아 넣음 ➔ 시스템 1대 신규 추가 런칭하거나 죽어 뻗으면 기존 49대 소스코드 다 뜯어고쳐 1달 내내 야근 철야 연쇄 타살 셧다운 뻗음 마비 멸망 폭사 파국 터짐 💥</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">EAI (Enterprise Application Integration) 중앙 허브 쇳덩이 등장 🛡️ / "야 씨발 다이렉트 쌩 직통 찌르기 치지 마! 대문 중앙 1곳</div><div class="kb-diagram-node">Hub 쇳덩이 박스</div><div class="kb-diagram-note">로만 다 던져 집중 짬처리 모아 쾅!" ➔ 결합도 스파게티 지옥은 1차 해결 방어 생존 컷 완료 ㅋ. (근데 벤더사 독점 폐쇄형 비표준 낡은 프로토콜 강요 족쇄 노예 종속 파국 한계 부딪힘 💀).</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">ESB (Enterprise Service Bus 🚀) SOA 웹 서비스 개방형 제국 대관식 ✨ / 아키텍트 분노 철퇴 🪓 "벤더 족쇄 찢어발겨 소각 쾅!! 글로벌 공통어</div><div class="kb-diagram-node">WSDL, SOAP XML 표준 오픈 규격 텐트</div><div class="kb-diagram-note">100% 탑재한 지능형 허공 버스 고속도로 파이프라인 뚫어 록온 박아!! ➔ 런타임에 0.1초 컷 포맷 변환(Transformation), 동적 라우팅 스위칭 핑퐁 우회 짬처리 오프로드 쳐버려 100% 이기종(Java ↔ C# ↔ 코볼) 무결점 무정단 통역 평화 통치 생존 달성 🚀!!"</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 대항해 시대 MSA &amp; ESB 중앙 병목(SPOF 💀) 도미노 파멸 / 애자일 폭풍 트래픽 100만 핑퐁 터지니까 ➔ 모든 트래픽이 1통짜리 중앙 뚱땡이 ESB 버스 톨게이트 1곳으로 집중 쏠림 병목 막혀 CPU 타임아웃 용광로 뻗음 타죽음 ➔ 전사 모바일 앱 K8s 전체 100% 올스탑 블랙아웃 연쇄 셧다운 멸망 💥</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">API Gateway &amp; Service Mesh 탈중앙(Decentralization) 찢기 나노 융합 진화 (현재) 🚀 / "야 거대 뚱땡이 통나무 중앙 ESB 버스 쇳덩이 자체를 1만 개 나노 조각 도끼로 찢어발겨 해체 파편화 척살 치고 클라우드 허공 엣지망으로 싹 다 날려 스케일 아웃 분산시켜 쾅 🚀!!! ➔ 대문 입구 컷은 깃털 스나이퍼</div><div class="kb-diagram-node">API Gateway 봇</div><div class="kb-diagram-note">이 JSON REST 라우팅 통제 전담 방폭문 쉴드 치고!! ➔ 파드 1만 대 뱃속 내부 핑퐁 통신은</div><div class="kb-diagram-node">Envoy 사이드카 Service Mesh 스텔스 봇</div><div class="kb-diagram-note">이 1:1 기생 록온(Lock-on) 쳐서 무한 오토 힐링 서킷 브레이커 우회 기동 회피를 100% 무결점으로 캐리 방어 흡수 쳐버리는 21세기 무극 제로 트러스트(Zero-Trust) 우주 최강 인프라 대통합 완성 쾅 ✨!!!"</div></div>
-</div>
-</div>
-
-
+```text
+Point-to-Point (거미줄 스파게티 강결합) 다이렉트 하드코딩 시대 💀 / 사내 서버 50대가 서로 통신 치려고 1:1 직통 케이블 IP 주소를 소스 뱃속에 용접 떡칠 박아 넣음 ➔ 시스템 1대 신규 추가 런칭하거나 죽어 뻗으면 기존 49대 소스코드 다 뜯어고쳐 1달 내내 야근 철야 연쇄 타살 셧다운 뻗음 마비 멸망 폭사 파국 터짐 💥
+    │
+    ▼
+EAI (Enterprise Application Integration) 중앙 허브 쇳덩이 등장 🛡️ / "야 씨발 다이렉트 쌩 직통 찌르기 치지 마! 대문 중앙 1곳 [Hub 쇳덩이 박스] 로만 다 던져 집중 짬처리 모아 쾅!" ➔ 결합도 스파게티 지옥은 1차 해결 방어 생존 컷 완료 ㅋ. (근데 벤더사 독점 폐쇄형 비표준 낡은 프로토콜 강요 족쇄 노예 종속 파국 한계 부딪힘 💀).
+    │
+    ▼
+ESB (Enterprise Service Bus 🚀) SOA 웹 서비스 개방형 제국 대관식 ✨ / 아키텍트 분노 철퇴 🪓 "벤더 족쇄 찢어발겨 소각 쾅!! 글로벌 공통어 [WSDL, SOAP XML 표준 오픈 규격 텐트] 100% 탑재한 지능형 허공 버스 고속도로 파이프라인 뚫어 록온 박아!! ➔ 런타임에 0.1초 컷 포맷 변환(Transformation), 동적 라우팅 스위칭 핑퐁 우회 짬처리 오프로드 쳐버려 100% 이기종(Java ↔ C# ↔ 코볼) 무결점 무정단 통역 평화 통치 생존 달성 🚀!!"
+    │
+    ▼
+클라우드 대항해 시대 MSA & ESB 중앙 병목(SPOF 💀) 도미노 파멸 / 애자일 폭풍 트래픽 100만 핑퐁 터지니까 ➔ 모든 트래픽이 1통짜리 중앙 뚱땡이 ESB 버스 톨게이트 1곳으로 집중 쏠림 병목 막혀 CPU 타임아웃 용광로 뻗음 타죽음 ➔ 전사 모바일 앱 K8s 전체 100% 올스탑 블랙아웃 연쇄 셧다운 멸망 💥
+    │
+    ▼
+API Gateway & Service Mesh 탈중앙(Decentralization) 찢기 나노 융합 진화 (현재) 🚀 / "야 거대 뚱땡이 통나무 중앙 ESB 버스 쇳덩이 자체를 1만 개 나노 조각 도끼로 찢어발겨 해체 파편화 척살 치고 클라우드 허공 엣지망으로 싹 다 날려 스케일 아웃 분산시켜 쾅 🚀!!! ➔ 대문 입구 컷은 깃털 스나이퍼 [API Gateway 봇] 이 JSON REST 라우팅 통제 전담 방폭문 쉴드 치고!! ➔ 파드 1만 대 뱃속 내부 핑퐁 통신은 [Envoy 사이드카 Service Mesh 스텔스 봇] 이 1:1 기생 록온(Lock-on) 쳐서 무한 오토 힐링 서킷 브레이커 우회 기동 회피를 100% 무결점으로 캐리 방어 흡수 쳐버리는 21세기 무극 제로 트러스트(Zero-Trust) 우주 최강 인프라 대통합 완성 쾅 ✨!!!"
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 기존 기계식 아날로그 전력/[가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)/수도 계량기를 대체하는 <strong>고급 지능형 디지털 계량기</strong>입니다.
 - **가장 큰 특징**: 전기 사용량을 정밀하게(보통 15분 간격) 측정할 뿐만 아니라, 통신 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)([모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/))이 내장되어 있어 <strong>전력 회사(서버)와 실시간 양방향(Two-way) <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 통신이 가능한 장비</strong>입니다. 앞서 배운 [AMI](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/)(원격검침인프라, 629번)의 핵심 단말 노드입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">CPS</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">양방향 스마트 계량기</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">홈넷/IoT 봇넷 방어 기법</div></div>
-</div>
-</div>
-
-
+```text
+[CPS]
+    │
+    ▼
+[양방향 스마트 계량기]
+    │
+    └──▶ [홈넷/IoT 봇넷 방어 기법]
+```
 
 - **📢 섹션 요약 비유**: 양방향 스마트 계량기는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -51,18 +47,14 @@ tags = ["studynote-network"]
 ### 3. 양방향 전력 거래 (Prosumer)
 - 집에 태양광 패널이 있어서 전기를 생산하면, 남는 전기를 한전 쪽으로 거꾸로 쏘아 보내서 돈을 팝니다. 스마트 미터는 한전에서 "들어온 전기(+)"와 내가 한전으로 "판 전기(-)"를 실시간으로 퉁쳐서(Net Metering) 계산해 주는 정밀 회계사 역할을 합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">CPS</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">양방향 스마트 계량기</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">홈넷/IoT 봇넷 방어 기법</div></div>
-</div>
-</div>
-
-
+```text
+[CPS]
+    │
+    ▼
+[양방향 스마트 계량기]
+    │
+    └──▶ [홈넷/IoT 봇넷 방어 기법]
+```
 
 - **📢 섹션 요약 비유**: 양방향 스마트 계량기의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -126,19 +118,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: CPS</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 양방향 스마트 계량기</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 홈넷/IoT 봇넷 방어 기법</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율형 엣지 협업</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: CPS]
+    │
+    ▼
+[현재 개념: 양방향 스마트 계량기]
+    │
+    ├──▶ [확장 A: 홈넷/IoT 봇넷 방어 기법]
+    └──▶ [확장 B: 자율형 엣지 협업]
+```
 
 양방향 스마트 계량기는 CPS에서 출발해 현재 메커니즘을 정교화하고, 이후 홈넷/[IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) [봇넷](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/) 방어 기법와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -46,26 +46,28 @@ tags = ["studynote-operating-system"]
 
 가장 단순한 `count++` 코드가 어셈블리(기계어) 레벨에서 어떻게 파괴되는지 본다. `count++`는 1줄짜리 C 코드지만, CPU 내부에서는 **3줄의 기계어(Read $\rightarrow$ Modify $\rightarrow$ Write)**로 나뉘어 실행된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상호 배제가 없을 때의 'Lost Update' 시나리오</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황: 공유 변수 Count = 5</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Thread A (Count++)</div><div class="kb-diagram-node">Thread B (Count--)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 메모리에서 5를 레지스터로 읽음 (R1=5)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 레지스터 값에 1을 더함 (R1=6)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">========= ⚡ (Context Switch! A 멈춤, B 시작) ⚡ ================</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 메모리에서 5를 레지스터로 읽음 (R2=5)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 레지스터 값에 1을 뺌 (R2=4)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 메모리에 4를 덮어씀 (Count=4)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">========= ⚡ (Context Switch! B 멈춤, A 재개) ⚡ ================</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6. 아까 계산해 둔 6을 메모리에 덮어씀 (Count=6)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">★ 최종 결과: Count는 5여야 정상인데, B의 -1 연산이 완전히 씹히고 6이 됨.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 상호 배제가 없을 때의 'Lost Update' 시나리오           │
+  ├───────────────────────────────────────────────────────────────────┤
+  │  [상황: 공유 변수 Count = 5]                                         │
+  │                                                                   │
+  │     [ Thread A (Count++) ]            [ Thread B (Count--) ]      │
+  │                                                                   │
+  │  1. 메모리에서 5를 레지스터로 읽음 (R1=5)                               │
+  │  2. 레지스터 값에 1을 더함 (R1=6)                                     │
+  │  ========= ⚡ (Context Switch! A 멈춤, B 시작) ⚡ ================│
+  │                                                                   │
+  │                                     3. 메모리에서 5를 레지스터로 읽음 (R2=5)│
+  │                                     4. 레지스터 값에 1을 뺌 (R2=4)     │
+  │                                     5. 메모리에 4를 덮어씀 (Count=4)   │
+  │  ========= ⚡ (Context Switch! B 멈춤, A 재개) ⚡ ================│
+  │                                                                   │
+  │  6. 아까 계산해 둔 6을 메모리에 덮어씀 (Count=6)                        │
+  │                                                                   │
+  │  ★ 최종 결과: Count는 5여야 정상인데, B의 -1 연산이 완전히 씹히고 6이 됨.  │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)의 본질은 저 3줄의 어셈블리 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 묶음(Read-Modify-Write)이 실행되는 중간에, <strong>"절대 어떤 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a>도 끼어들지 못하게(Atomic, 불가분성) 하나의 덩어리로 묶어버리는 것"</strong>이다. 그 묶인 공간을 우리는 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)([Critical Section](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/))이라 부르며, [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)는 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)의 입구를 막는 자물쇠다.
 
@@ -126,27 +128,30 @@ tags = ["studynote-operating-system"]
 
 ### 의사결정 및 튜닝 플로우
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">멀티스레드 동기화(상호 배제) 설계 최적화 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전역 변수나 공유 자료구조를 변경해야 하는 비즈니스 로직 작성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">그 변수를 '읽기'만 하는 스레드가 압도적으로 많고 '쓰기'는 가끔 일어나는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Reader-Writer Lock 도입</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(읽는 놈들끼리는 상호 배제를 풀어서 동시 접근 허용,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">쓸 때만 상호 배제를 거는 성능 극대화 락)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공유 변수가 단순한 숫자 카운터(<code>count++</code>)나 불리언 플래그인가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">상호 배제(Mutex) 락 아예 사용 금지</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ 대책: CPU가 제공하는</div><div class="kb-diagram-node">Atomic 연산 (CAS)</div><div class="kb-diagram-note">을 사용하여</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">락 없이(Lock-free) 하드웨어적으로 원자성 보장</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Mutex / Spinlock</div><div class="kb-diagram-note">등 전통적인 상호 배제 적용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(단, 임계 구역 내에서 절대 Sleep, I/O 금지)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 멀티스레드 동기화(상호 배제) 설계 최적화 플로우          │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [전역 변수나 공유 자료구조를 변경해야 하는 비즈니스 로직 작성]                 │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      그 변수를 '읽기'만 하는 스레드가 압도적으로 많고 '쓰기'는 가끔 일어나는가?│
+  │          ├─ 예 ─────▶ [Reader-Writer Lock 도입]                   │
+  │          │            (읽는 놈들끼리는 상호 배제를 풀어서 동시 접근 허용,     │
+  │          │             쓸 때만 상호 배제를 거는 성능 극대화 락)           │
+  │          └─ 아니오                                                │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      공유 변수가 단순한 숫자 카운터(`count++`)나 불리언 플래그인가?           │
+  │          ├─ 예 ─────▶ [상호 배제(Mutex) 락 아예 사용 금지]            │
+  │          │            대책: CPU가 제공하는 [Atomic 연산 (CAS)]을 사용하여 │
+  │          │                  락 없이(Lock-free) 하드웨어적으로 원자성 보장  │
+  │          │                                                        │
+  │          └─ 아니오 ──▶ [Mutex / Spinlock] 등 전통적인 상호 배제 적용   │
+  │                         (단, 임계 구역 내에서 절대 Sleep, I/O 금지)      │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)는 만병통치약이 아니라 최후의 수단이다. 최고 수준의 아키텍트는 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 잘 쓰는 사람이 아니라, 아예 락을 쓸 상황을 만들지 않는 사람이다. 변수를 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)별로 쪼개거나([TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)), 읽기 전용으로 설계하거나([Immutable](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/298_immutable/)), 락프리 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 도입하여 [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)에 따르는 '직렬화의 저주'를 피해 가는 것이 백엔드 튜닝의 핵심이다.
 
@@ -189,19 +194,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">스레드 로컬 스토리지 (TLS)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스레드 동기화 상호 배제 (Thread Synchronization Mutual Exclusion)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">경쟁 조건 (Race Condition)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">임계 구역 3가지 요구조건</div></div>
-</div>
-</div>
-
-
+```text
+[스레드 로컬 스토리지 (TLS)]
+    │
+    ▼
+[스레드 동기화 상호 배제 (Thread Synchronization Mutual Exclusion)]
+    │
+    ├──▶ [경쟁 조건 (Race Condition)]
+    └──▶ [임계 구역 3가지 요구조건]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

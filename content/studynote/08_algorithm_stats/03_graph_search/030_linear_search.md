@@ -39,37 +39,31 @@ tags = ["studynote-algorithm"]
 
 ### 기본 동작 흐름
 
+```
+배열: [7, 2, 15, 4, 9, 11, 3]     목표: 9
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-note">배열:</div><div class="kb-diagram-node">7, 2, 15, 4, 9, 11, 3</div><div class="kb-diagram-note">목표: 9</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">0</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">7 ≠ 9 → 계속</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">2 ≠ 9 → 계속</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">2</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">15 ≠ 9 → 계속</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">3</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">4 ≠ 9 → 계속</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">4</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">9 = 9 → 반환(4) ✓</div></div>
-</div>
-</div>
-
-
+단계 1:  i=0 → arr[0]=7  → 7 ≠ 9 → 계속
+단계 2:  i=1 → arr[1]=2  → 2 ≠ 9 → 계속
+단계 3:  i=2 → arr[2]=15 → 15 ≠ 9 → 계속
+단계 4:  i=3 → arr[3]=4  → 4 ≠ 9 → 계속
+단계 5:  i=4 → arr[4]=9  → 9 = 9 → 반환(4) ✓
+```
 
 ### [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 — 선형 탐색 포인터 이동
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-note">배열:</div><div class="kb-diagram-node">7</div><div class="kb-diagram-node">2</div><div class="kb-diagram-node">15</div><div class="kb-diagram-node">4</div><div class="kb-diagram-node">9</div><div class="kb-diagram-node">11</div><div class="kb-diagram-node">3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인덱스: 0 1 2 3 4 5 6</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">탐색 진행 →→→→→→→→→→→→→→→→→→→→→→→</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">i=0: 7≠9 i=1: 2≠9 i=2: 15≠9 i=3: 4≠9</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">i=4: 9=9 ← Found!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">반환: 4</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────────┐
+│  배열:    [ 7 ] [ 2 ] [15 ] [ 4 ] [ 9 ] [11 ] [ 3 ]        │
+│  인덱스:    0     1     2     3     4     5     6            │
+│                                                             │
+│  탐색 진행 →→→→→→→→→→→→→→→→→→→→→→→                         │
+│   i=0: 7≠9  i=1: 2≠9  i=2: 15≠9  i=3: 4≠9                 │
+│                                                             │
+│                               i=4: 9=9  ← Found!           │
+│                               ↓                            │
+│                            반환: 4                          │
+└─────────────────────────────────────────────────────────────┘
+```
 
 ### Sentinel(감시자) 최적화
 
@@ -165,21 +159,18 @@ Sentinel 최적화로 분기 횟수를 절반으로 줄일 수 있고, 하드웨
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">이진 탐색 (Binary Search)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">해시 탐색 (Hash Search)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Sentinel 최적화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">풀 테이블 스캔 (Full Table Scan)</div></div>
-</div>
-</div>
-
-
+```text
+[이진 탐색 (Binary Search)]
+    │
+    ▼
+[해시 탐색 (Hash Search)]
+    │
+    ▼
+[Sentinel 최적화]
+    │
+    ▼
+[풀 테이블 스캔 (Full Table Scan)]
+```
 
 이 흐름도는 선행 개념이 현재 개념으로 응축되고, 다시 확장 개념으로 이어지는 순서를 보여준다.
 

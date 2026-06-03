@@ -18,18 +18,12 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">BERT = Transformer Encoder × 12/24 Layer</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">MLM: "나는</div><div class="kb-diagram-node">MASK</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">"학생" 예측 (양방향)</div></div>
-<div class="kb-diagram-note">NSP: "문장 A 다음에 B가 오는가?" (문장 관계)</div>
-<div class="kb-diagram-note">→ Fine-tuning: 분류·NER·QA·유사도</div>
-</div>
-</div>
-
-
+```text
+BERT = Transformer Encoder × 12/24 Layer
+  MLM: "나는 [MASK] 이다" → "학생" 예측 (양방향)
+  NSP: "문장 A 다음에 B가 오는가?" (문장 관계)
+  → Fine-tuning: 분류·NER·QA·유사도
+```
 
 - **📢 섹션 요약 비유**: GPT는 소설 작가(앞→뒤 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)), BERT는 편집자(앞뒤 맥락으로 이해·교정)이다.
 
@@ -53,17 +47,11 @@ BERT는 <strong>NLU의 기반 모델</strong>이며, [임베딩](/knowledge-base
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">ELMo (2018)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">BERT (Google, 2018.10)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">RoBERTa (2019)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">ALBERT (경량)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">DeBERTa (2020)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: E5/BGE — 임베딩 특화 BERT</div></div>
-</div>
-</div>
-
-
+```text
+[ELMo (2018)] → [BERT (Google, 2018.10)]
+    → [RoBERTa (2019)] → [ALBERT (경량)]
+    → [DeBERTa (2020)] → [현재: E5/BGE — 임베딩 특화 BERT]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. BERT는 <strong>편집자</strong>예요. 문장의 **앞뒤를 다 보고** 의미를 이해해요.

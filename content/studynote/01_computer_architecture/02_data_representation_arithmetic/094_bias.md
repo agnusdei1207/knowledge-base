@@ -33,23 +33,23 @@ tags = ["studynote-computer-architecture"]
 - $127$ 편향 적용 (FP32): 실제 지수가 $-2$라면 $127$을 더해 양수 $125$를 메모리에 기록한다. 실제 지수가 $+1$이라면 $127$을 더해 $128$을 기록한다. 
 - 비교 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 통과: 하드웨어 ALU는 단순 [비교기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/043_comparator/) ([Unsigned Integer](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/081_unsigned_integer/) Compare)에 이 8비트를 각각 던져 넣는다. 알아서 128 자리가 125 자리보다 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)이 크므로 1클럭 만에 "이 수가 더 크다"라고 바로 판단한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">편향 지수 (Bias 127)의 하드웨어 비교 최적화 원리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">저장할 대상 값: 실제 지수 -2 와 실제 지수 +1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">❌ 2의 보수 (Signed Math) 방식: 복잡한 논리 게이트 필요</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지수 -2: 11111110 (맨 앞이 1이라 기계는 큰 수로 오해하기 쉬움)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지수 +1: 00000001</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 편향 지수 (Offset Math) 방식: 단순 대소 비교 압승</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실제 지수 -2 ──(+127)──▶ 메모리 저장: 01111101 (125)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실제 지수 +1 ──(+127)──▶ 메모리 저장: 10000000 (128)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">125 &lt; 128</div><div class="kb-diagram-note">=&gt; 부호 검사 없이 그냥 비트 스트림 크기가 정답이 됨</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           편향 지수 (Bias 127)의 하드웨어 비교 최적화 원리         │
+├──────────────────────────────────────────────────────────────┤
+│ [저장할 대상 값: 실제 지수 -2 와 실제 지수 +1]                    │
+│                                                              │
+│ ❌ 2의 보수 (Signed Math) 방식: 복잡한 논리 게이트 필요            │
+│    지수 -2: 11111110 (맨 앞이 1이라 기계는 큰 수로 오해하기 쉬움)     │
+│    지수 +1: 00000001                                         │
+│                                                              │
+│ ✅ 편향 지수 (Offset Math) 방식: 단순 대소 비교 압승              │
+│    실제 지수 -2 ──(+127)──▶ 메모리 저장: 01111101 (125)          │
+│    실제 지수 +1 ──(+127)──▶ 메모리 저장: 10000000 (128)          │
+│                                                              │
+│    [125 < 128] => 부호 검사 없이 그냥 비트 스트림 크기가 정답이 됨     │
+└──────────────────────────────────────────────────────────────┘
+```
 
 다이어그램에서 보듯, 편향 상수를 더하는 행위는 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/)을 가장 빠르고 단순한 정수 비교 게이트에 그대로 태울 수 있게 만들어 주는 트릭이다. 또한 Bias를 $128$이 아닌 $127$로 잡은 것은 양방향의 균형을 조금 틀어 양수 무한대 ([오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)) 쪽으로 한 뼘($+127$ vs $-126$) 더 마진을 주기 위한 치밀한 아키텍처적 계산이 숨어 있다.
 
@@ -106,23 +106,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">부동소수점 대역 요구 (극소~극대)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">2의 보수 (2's Complement) 한계 인식 (비교 지연 발생)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">편향 지수 (Biased Exponent / Excess-K) 도입</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">단정밀도 FP32 (Bias 127) · 배정밀도 FP64 (Bias 1023) 표준화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">임베디드 Float-as-Integer 고속 정렬 최적화 응용</div>
-</div>
-</div>
-
-
+```text
+부동소수점 대역 요구 (극소~극대)
+    │
+    ▼
+2의 보수 (2's Complement) 한계 인식 (비교 지연 발생)
+    │
+    ▼
+편향 지수 (Biased Exponent / Excess-K) 도입
+    │
+    ▼
+단정밀도 FP32 (Bias 127) · 배정밀도 FP64 (Bias 1023) 표준화
+    │
+    ▼
+임베디드 Float-as-Integer 고속 정렬 최적화 응용
+```
 
 이 흐름도는 지수 표현의 한계를 극복하기 위해 물리적 회로 우회로를 뚫고, 그것이 소프트웨어 최적화 트릭으로까지 진화하는 과정을 보여준다.
 

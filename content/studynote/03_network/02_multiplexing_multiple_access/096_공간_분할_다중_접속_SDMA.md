@@ -31,22 +31,23 @@ SDMA (Space [Division](/knowledge-base/studynote/05_database/07_exam_summary/411
 
 SDMA 시스템은 기지국 측의 다중 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)([Antenna](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) [Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/))과 수신 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)의 도달 각도를 계산하는 강력한 디지털 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 처리(DSP) 능력이 결합되어 작동한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SDMA 기반 공간 분할 (Directional Beam)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">사용자 1 방향의 전파</div><div class="kb-diagram-node">사용자 2 방향의 전파</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(빔 A) (빔 B)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">User 1 &lt;</div><div class="kb-diagram-node">기지국 안테나</div><div class="kb-diagram-note">&gt; User 2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(f1, t1 자원 재사용)</div><div class="kb-diagram-cell">(f1, t1 자원 재사용)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User 3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(빔 C)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 원리: 각 타겟 방향으로 전파의 위상/진폭(Weight)을 정밀 제어</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│             SDMA 기반 공간 분할 (Directional Beam)           │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│  [사용자 1 방향의 전파]                [사용자 2 방향의 전파]│
+│        (빔 A)                                (빔 B)          │
+│ User 1 <══════════════ [기지국 안테나] ══════════════> User 2│
+│ (f1, t1 자원 재사용)          │         (f1, t1 자원 재사용) │
+│                               │                              │
+│                               ▼                              │
+│                            User 3                            │
+│                            (빔 C)                            │
+│                                                              │
+│  * 원리: 각 타겟 방향으로 전파의 위상/진폭(Weight)을 정밀 제어│
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램은 주파수를 늘리지 않고도 셀 용량을 물리적 빔 개수만큼 배가시키는 핵심 원리를 보여준다. 기지국은 단말이 보내온 채널 상태 정보([CSI](/knowledge-base/studynote/12_it_management/02_itsm_itil/068_csi/), Channel [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Information)를 분석하여 각 단말의 방향(DOA, Direction of Arrival)을 추정한다. 그 후, 목표 단말로는 전파가 보강 간섭을 일으키고 다른 단말 쪽으로는 상쇄 간섭(Nulling)이 일어나도록 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 행렬([Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) Matrix)을 계산하여 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 프리코딩(Precoding)한 뒤 방사한다. 빔의 분리도([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/))가 얼마나 정교한지가 전체 스펙트럼 효율을 결정짓는다.
 
@@ -106,23 +107,21 @@ SDMA는 물리적 공간을 무선 자원의 3번째 축으로 개척해 스펙�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">기존 다중 접속 (FDMA / TDMA / CDMA) 한계 도달</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">스마트 안테나 (Smart Antenna) · 빔포밍 (Beamforming)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">공간 분할 다중 접속 (SDMA) 구조 완성</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">5G 대규모 안테나 융합: Massive MIMO · MU-MIMO</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">6G 진화: Cell-Free Massive MIMO 환경</div>
-</div>
-</div>
-
-
+```text
+기존 다중 접속 (FDMA / TDMA / CDMA) 한계 도달
+    │
+    ▼
+스마트 안테나 (Smart Antenna) · 빔포밍 (Beamforming) 
+    │
+    ▼
+공간 분할 다중 접속 (SDMA) 구조 완성
+    │
+    ▼
+5G 대규모 안테나 융합: Massive MIMO · MU-MIMO
+    │
+    ▼
+6G 진화: Cell-Free Massive MIMO 환경 
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

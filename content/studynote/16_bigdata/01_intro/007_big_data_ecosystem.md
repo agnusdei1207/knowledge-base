@@ -25,23 +25,19 @@ tags = ["bigdata"]
 
 이러한 문제를 해결하기 위해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 발생지에서 끊임없이 끌어와 중앙 집중형 저장소에 담고, 이를 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 처리한 뒤 사용자에게 전달하는 엔드투엔드([End-to-End](/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/)) [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)이 필수적이게 되었다. 이 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 어떤 한 구간이라도 병목이 발생하면 전체 시스템의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)으로 직결되기 때문에, 단계별로 철저하게 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리 아키텍처가 적용되어야 한다.
 
+```text
+이 도식은 부서별로 고립된 기존의 데이터 사일로 환경과, 수집부터 활용까지 단일한 파이프라인으로 연결된 빅데이터 생태계의 패러다임 변화를 비교하여 보여준다.
 
+[과거: 데이터 사일로 (Data Silo)]
+CRM System ──> (고립된 RDB) ──x──> (분석 불가)
+Web Logs   ──> (고립된 File) ──x──> (통합 불가)
+                           ▲ 병목 지점: 통합 부재로 인한 인사이트 손실
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 도식은 부서별로 고립된 기존의 데이터 사일로 환경과, 수집부터 활용까지 단일한 파이프라인으로 연결된 빅데이터 생태계의 패러다임 변화를 비교하여 보여준다.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">과거: 데이터 사일로 (Data Silo)</div></div>
-<div class="kb-diagram-note">CRM System ──&gt; (고립된 RDB) ──x──&gt; (분석 불가)</div>
-<div class="kb-diagram-note">Web Logs ──&gt; (고립된 File) ──x──&gt; (통합 불가)</div>
-<div class="kb-diagram-note">▲ 병목 지점: 통합 부재로 인한 인사이트 손실</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: 통합 빅데이터 파이프라인 (Data Pipeline)</div></div>
-<div class="kb-diagram-note">CRM (DB) ──(CDC) ──&gt; (배치/스트리밍 처리) ──&gt; BI 시각화</div>
-<div class="kb-diagram-note">Web Logs ──(Kafka)─ ─&gt; Data Lake (저장)</div>
-<div class="kb-diagram-note">(분리된 스토리지) (확장 가능한 컴퓨팅)</div>
-</div>
-</div>
-
-
+[현재: 통합 빅데이터 파이프라인 (Data Pipeline)]
+CRM (DB) ──(CDC)───┐   ┌──> (배치/스트리밍 처리) ──> BI 시각화
+Web Logs ──(Kafka)─┴─> Data Lake (저장)
+                       (분리된 스토리지)         (확장 가능한 컴퓨팅)
+```
 이 흐름의 핵심은 이기종의 소스 시스템에서 발생하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 중앙의 '[Data Lake](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)'로 모으고, 이를 독립적인 처리 엔진을 통해 가공한다는 점이다. 과거에는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 저장과 처리가 하나의 시스템(예: [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/) Exadata)에 종속되었으나, 빅데이터 생태계는 저장과 연산을 분리([Storage-Compute Separation](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/391_storage_compute_separation/))하여 각각 필요에 따라 [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)할 수 있도록 아키텍처를 혁신했다.
 
 > 📢 **섹션 요약 비유**: 빅데이터 생태계는 마치 거대한 정수 처리장과 같습니다. 강물과 빗물(수집)을 모아 거대한 댐(저장)에 가두고, 정수 시설(처리)을 거쳐 깨끗한 물을 가정([시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 및 활용)에 끊임없이 공급하는 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 네트워크입니다.
@@ -62,22 +58,22 @@ tags = ["bigdata"]
 
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 이 생태계를 거치며 원시 상태([Raw](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/))에서 가치 있는 상태(Gold)로 전이된다. 이 과정에서 아키텍처의 핵심은 중앙의 리소스 관리자와 각 노드 간의 코디네이션(Coordination)이다.
 
+```text
+이 도식은 데이터가 유입되어 최종 시각화되기까지의 각 계층별 오픈소스 생태계 아키텍처와, 이를 조율하는 분산 코디네이터의 역할을 보여준다.
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 도식은 데이터가 유입되어 최종 시각화되기까지의 각 계층별 오픈소스 생태계 아키텍처와, 이를 조율하는 분산 코디네이터의 역할을 보여준다.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Management &amp; Governance (Atlas, Ranger)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1.수집</div><div class="kb-diagram-cell">2.저장</div><div class="kb-diagram-cell">3.처리</div><div class="kb-diagram-cell">4.분석</div><div class="kb-diagram-cell">5.시각화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kafka</div><div class="kb-diagram-cell">HDFS</div><div class="kb-diagram-cell">Spark</div><div class="kb-diagram-cell">Hive / DB</div><div class="kb-diagram-cell">Tableau</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sqoop</div><div class="kb-diagram-cell">AWS S3</div><div class="kb-diagram-cell">Flink</div><div class="kb-diagram-cell">Presto</div><div class="kb-diagram-cell">Superset</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Flume</div><div class="kb-diagram-cell">HBase</div><div class="kb-diagram-cell">MapReduce</div><div class="kb-diagram-cell">MLlib</div><div class="kb-diagram-cell">Kibana</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Resource Management (YARN, Kubernetes)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Distributed Coordination (ZooKeeper)</div></div>
-</div>
-</div>
-
-
+┌─────────────────────────────────────────────────────────┐
+│        [Management & Governance (Atlas, Ranger)]        │
+├─────────┬──────────┬───────────┬────────────┬───────────┤
+│ 1.수집  │ 2.저장   │ 3.처리    │ 4.분석     │ 5.시각화  │
+│ Kafka   │ HDFS     │ Spark     │ Hive / DB  │ Tableau   │
+│ Sqoop   │ AWS S3   │ Flink     │ Presto     │ Superset  │
+│ Flume   │ HBase    │ MapReduce │ MLlib      │ Kibana    │
+├─────────┴──────────┴───────────┴────────────┴───────────┤
+│        [Resource Management (YARN, Kubernetes)]         │
+├─────────────────────────────────────────────────────────┤
+│        [Distributed Coordination (ZooKeeper)]           │
+└─────────────────────────────────────────────────────────┘
+```
 이 구조도의 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 좌에서 우로 흐르는 동안, 하단의 ZooKeeper와 [YARN](/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/)(또는 [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/))이 전체 클러스터의 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)와 CPU/메모리 자원을 동적으로 할당하고 관리한다는 점이다. 개별 Worker 노드가 죽더라도 리소스 매니저가 즉시 다른 노드에 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)를 재할당하여 중단 없는 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 유지한다. 실무에서는 이러한 코디네이션 계층의 장애(예: [ZooKeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/) [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) 붕괴)가 전체 생태계의 마비로 이어지므로 해당 계층의 고가용성(HA) 구성이 가장 우선시된다.
 
 처리(Processing) 계층에서의 가장 큰 혁신은 MapReduce의 디스크 기반 I/O 병목을 제거한 Apache Spark의 인메모리(In-Memory) [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/)([Resilient Distributed Dataset](/knowledge-base/studynote/14_data_engineering/01_infrastructure/025_spark_rdd_resilient_distributed_dataset/)) 구조다. 연산 중간 결과를 메모리에 유지함으로써, 반복적인 분석 및 기계학습 작업에서 속도를 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~100배 향상시켰다.
@@ -90,23 +86,19 @@ tags = ["bigdata"]
 
 빅데이터 생태계를 구성할 때 가장 중요한 의사결정은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 '시간 가치(Time-to-Value)'에 따라 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 아키텍처를 어떻게 설계하느냐이다. 대표적인 두 아키텍처인 [람다](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/)([Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/))와 카파([Kappa](/knowledge-base/studynote/16_bigdata/12_trends/235_kappa/)) 아키텍처는 각각의 트레이드오프를 가진다.
 
+```text
+이 도식은 배치 처리와 실시간 처리를 병행하는 람다 아키텍처와, 스트리밍 하나로 통합한 카파 아키텍처의 데이터 흐름 구조를 비교한다. 시스템의 복잡도와 실시간성 요구사항에 따라 아키텍처를 선택해야 한다.
 
+[Lambda Architecture]
+                  ┌──> (Batch Layer: Hadoop/Spark) ─────┐
+(Data Source) ────┤                                     ├──> (Serving Layer) ──> BI
+                  └──> (Speed Layer: Storm/Flink) ──────┘
+                  ▲ 병목: 두 개의 다른 코드베이스를 유지보수해야 하는 복잡성 증가
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 도식은 배치 처리와 실시간 처리를 병행하는 람다 아키텍처와, 스트리밍 하나로 통합한 카파 아키텍처의 데이터 흐름 구조를 비교한다. 시스템의 복잡도와 실시간성 요구사항에 따라 아키텍처를 선택해야 한다.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Lambda Architecture</div></div>
-<div class="kb-diagram-note">──&gt; (Batch Layer: Hadoop/Spark)</div>
-<div class="kb-diagram-note">(Data Source) ──&gt; (Serving Layer) ──&gt; BI</div>
-<div class="kb-diagram-tree-item" style="--depth:8">(Speed Layer: Storm/Flink)</div>
-<div class="kb-diagram-note">▲ 병목: 두 개의 다른 코드베이스를 유지보수해야 하는 복잡성 증가</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Kappa Architecture</div></div>
-<div class="kb-diagram-note">(Data Source) ──&gt; (Kafka: 무한 버퍼 보관) ──&gt; (Stream Layer: Flink/Spark Streaming) ──&gt; BI</div>
-<div class="kb-diagram-note">▲ 이점: 단일 로직으로 과거 배치와 실시간 처리를 모두 수행</div>
-</div>
-</div>
-
-
+[Kappa Architecture]
+(Data Source) ──> (Kafka: 무한 버퍼 보관) ──> (Stream Layer: Flink/Spark Streaming) ──> BI
+                  ▲ 이점: 단일 로직으로 과거 배치와 실시간 처리를 모두 수행
+```
 이 비교의 핵심은 '로직의 파편화' 방지다. [람다 아키텍처](/knowledge-base/studynote/16_bigdata/04_streaming/095_lambda_architecture/)는 대규모 과거 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Batch)와 최근 실시간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Speed)를 결합하여 정확도를 높이지만, 개발자가 배치 코드와 스트리밍 코드를 각각 짜야 하는 운영 복잡성을 낳는다. 반면 [카파 아키텍처](/knowledge-base/studynote/16_bigdata/04_streaming/096_kappa_architecture/)는 "모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 스트림이다"라는 철학 하에, Kafka의 보관 주기를 무한대로 늘려 스트리밍 엔진 하나만으로 재처리와 실시간 처리를 통합한다. 실무에서는 시스템 운영 인력이 부족할 경우 [카파 아키텍처](/knowledge-base/studynote/16_bigdata/04_streaming/096_kappa_architecture/) 기반의 [모던 데이터 스택](/knowledge-base/studynote/16_bigdata/09_platform/178_modern_data_stack/)을 우선적으로 고려해야 한다.
 
 | 비교 항목 | [람다](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/)([Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/)) 아키텍처 | 카파([Kappa](/knowledge-base/studynote/16_bigdata/12_trends/235_kappa/)) 아키텍처 | 기술사적 판단 기준 |
@@ -124,22 +116,18 @@ tags = ["bigdata"]
 
 실무에서 빅데이터 생태계를 구축할 때 직면하는 가장 큰 문제는 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)([On-Premise](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)) [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 직접 구축([IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/))과 클라우드 관리형 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)([PaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/)/[SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/)) 간의 선택이다. [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 중심의 복잡한 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)를 직접 운영하는 것은 극심한 운영 오버헤드를 유발한다.
 
+```text
+이 의사결정 트리는 새로운 빅데이터 플랫폼 도입 시, 조직의 보안 규제와 운영 역량을 바탕으로 적절한 생태계 호스팅 방식을 결정하는 플로우를 보여준다.
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 의사결정 트리는 새로운 빅데이터 플랫폼 도입 시, 조직의 보안 규제와 운영 역량을 바탕으로 적절한 생태계 호스팅 방식을 결정하는 플로우를 보여준다.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">빅데이터 생태계 도입 플로우</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">(망분리 및 강력한 데이터 주권 규제가 있는가?)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Yes ──&gt; 온프레미스 구축 (Hadoop 기반 CDP 등 도입) -&gt; 인프라 운영팀 필수</div>
-<div class="kb-diagram-tree-item" style="--depth:1">No &gt; (데이터 처리량이 간헐적이며 폭증하는가?)</div>
-<div class="kb-diagram-tree-item" style="--depth:8">Yes ──&gt; Serverless Cloud 생태계 (AWS Athena, BigQuery)</div>
-<div class="kb-diagram-tree-item" style="--depth:8">No ──&gt; Managed Cloud 생태계 (AWS EMR, Databricks)</div>
-</div>
-</div>
-
-
+[빅데이터 생태계 도입 플로우]
+           ↓
+(망분리 및 강력한 데이터 주권 규제가 있는가?)
+   ├── Yes ──> 온프레미스 구축 (Hadoop 기반 CDP 등 도입) -> 인프라 운영팀 필수
+   │
+   └── No ───> (데이터 처리량이 간헐적이며 폭증하는가?)
+                  ├── Yes ──> Serverless Cloud 생태계 (AWS Athena, BigQuery)
+                  └── No  ──> Managed Cloud 생태계 (AWS EMR, Databricks)
+```
 이 흐름의 핵심은 [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/)(Total Cost of Ownership)의 관점 변화다. 과거에는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 하드웨어 투자(CAPEX)가 중심이었으나, 현재는 사용한 만큼만 지불하는(OPEX) 클라우드 환경으로 완전히 넘어왔다. 인프라 운영 인력이 없는 상태에서 섣불리 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) [에코](/knowledge-base/studynote/03_network/01_data_communication/031_에코_반향/)시스템을 직접 구축하면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝 실패와 노드 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)으로 인해 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 멈추는 대형 사고를 겪게 된다.
 
 <strong>도입 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a> 및 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>:
@@ -177,25 +165,24 @@ tags = ["bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">관계형 데이터베이스 (RDBMS)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">하둡 분산 파일 시스템 (HDFS, Hadoop Distributed File System)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">빅데이터 생태계 (Big Data Ecosystem)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스파크 (Apache Spark)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 레이크하우스 (Data Lakehouse)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 메시 (Data Mesh)</div></div>
-</div>
-</div>
-
-
+```text
+[관계형 데이터베이스 (RDBMS)]
+    │
+    ▼
+[하둡 분산 파일 시스템 (HDFS, Hadoop Distributed File System)]
+    │
+    ▼
+[빅데이터 생태계 (Big Data Ecosystem)]
+    │
+    ▼
+[스파크 (Apache Spark)]
+    │
+    ▼
+[데이터 레이크하우스 (Data Lakehouse)]
+    │
+    ▼
+[데이터 메시 (Data Mesh)]
+```
 
 전통적인 RDBMS 한계를 극복하기 위해 [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 기반 빅데이터 생태계가 형성되고 Spark·[레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/)·[데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)로 진화하는 흐름이다.
 

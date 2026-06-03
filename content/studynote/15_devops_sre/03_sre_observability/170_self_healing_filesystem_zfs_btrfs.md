@@ -23,19 +23,22 @@ tags = ["studynote-devops-sre"]
 
 전통적인 ext4, XFS, NTFS는 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 저널링으로 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)시스템 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)은 잘 지키지만, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 내용 자체의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)까지 항상 보장하진 않는다. 하드웨어 RAID도 디스크 한두 개의 장애에는 강하지만, 어떤 블록이 진짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)인지 끝단에서 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하진 못한다. 그래서 컨트롤러가 "읽기는 성공"이라고 말해도, 애플리케이션은 이미 손상된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 받아들일 수 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전통적 저장 경로의 맹점: 읽혔다고 해서 맞는 건 아니다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Disk bit rot 발생</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RAID / Controller: "섹터 읽기 성공"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일반 파일시스템: 내용 체크 없음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Application: 잘못된 데이터를 정상으로 신뢰</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│      전통적 저장 경로의 맹점: 읽혔다고 해서 맞는 건 아니다    │
+├──────────────────────────────────────────────────────────────┤
+│ Disk bit rot 발생                                             │
+│      │                                                        │
+│      ▼                                                        │
+│ RAID / Controller: "섹터 읽기 성공"                           │
+│      │                                                        │
+│      ▼                                                        │
+│ 일반 파일시스템: 내용 체크 없음                               │
+│      │                                                        │
+│      ▼                                                        │
+│ Application: 잘못된 데이터를 정상으로 신뢰                    │
+└──────────────────────────────────────────────────────────────┘
+```
 
 ZFS와 Btrfs가 중요한 이유는 이 맹점을 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)시스템 차원에서 메우기 때문이다. 특히 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 저장소, 아카이브, [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 이미지, [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)처럼 "오래 보관했다가 나중에 읽는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)"일수록 침묵 손상이 늦게 발견되기 때문에 자가 치유 기능의 가치가 커진다.
 
@@ -47,29 +50,34 @@ ZFS와 Btrfs가 중요한 이유는 이 맹점을 [파일](/knowledge-base/study
 
 자가 치유 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)시스템의 핵심은 <strong>종단 간 <a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a> (<a href="/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/">End-to-End</a> <a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">Integrity</a>)</strong>이다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 기록될 때 [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/)을 함께 만들고, 읽을 때 다시 계산해 비교한다. 값이 다르면 "디스크에서 읽혔다"는 사실보다 "내용이 맞다"는 사실을 더 중요하게 본다. 여기에 [쓰기 시 복사](/knowledge-base/studynote/02_operating_system/07_virtual_memory/393_copy_on_write/) ([Copy-on-Write](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/), [CoW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/))와 중복 사본이 결합되면 안전한 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 가능해진다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Self-Healing Read/Write Path: 검증 후 복구</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Write Path</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App Data</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CoW로 새 블록에 기록</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 체크섬 계산</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 부모 메타데이터에 체크섬 저장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mirror / RAID Profile에 블록 배치</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Read Path</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블록 읽기 ─▶ 체크섬 재계산 ─▶ 비교</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 일치 ─▶ 데이터 반환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 불일치 ─▶ 다른 사본 재조회</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 정상 사본 발견 ─▶ 반환 + 재기록</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 사본 없음 ─▶ 오류 보고</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">scrub: 전체 블록을 순회하며 잠복 손상을 조기 발견</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│            Self-Healing Read/Write Path: 검증 후 복구              │
+├────────────────────────────────────────────────────────────────────┤
+│ Write Path                                                        │
+│ App Data                                                          │
+│    │                                                              │
+│    ▼                                                              │
+│ CoW로 새 블록에 기록                                              │
+│    │                                                              │
+│    ├─ 체크섬 계산                                                 │
+│    └─ 부모 메타데이터에 체크섬 저장                               │
+│    │                                                              │
+│    ▼                                                              │
+│ Mirror / RAID Profile에 블록 배치                                 │
+│                                                                    │
+│ Read Path                                                         │
+│ 블록 읽기 ─▶ 체크섬 재계산 ─▶ 비교                                │
+│                 │                                                  │
+│                 ├─ 일치  ─▶ 데이터 반환                           │
+│                 └─ 불일치 ─▶ 다른 사본 재조회                     │
+│                               ├─ 정상 사본 발견 ─▶ 반환 + 재기록   │
+│                               └─ 사본 없음      ─▶ 오류 보고        │
+│                                                                    │
+│ Background                                                        │
+│ scrub: 전체 블록을 순회하며 잠복 손상을 조기 발견                 │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 | 메커니즘 | 역할 | 실무 의미 |
 | :--- | :--- | :--- |
@@ -156,24 +164,20 @@ ZFS와 Btrfs는 모두 [체크섬](/knowledge-base/studynote/01_computer_archite
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">저널링 파일시스템</div>
-<div class="kb-diagram-tree-item" style="--depth:2">장점: 크래시 후 메타데이터 일관성</div>
-<div class="kb-diagram-tree-item" style="--depth:2">한계: 데이터 무결성은 별도 보장 부족</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">체크섬 + CoW 파일시스템 (Btrfs · ZFS)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">scrub</div>
-<div class="kb-diagram-tree-item" style="--depth:2">snapshot</div>
-<div class="kb-diagram-tree-item" style="--depth:2">self-healing with mirror / RAIDZ</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">고신뢰 백업 · NAS · 분산 스토리지 설계로 확장</div>
-</div>
-</div>
-
-
+```text
+저널링 파일시스템
+    │
+    ├─ 장점: 크래시 후 메타데이터 일관성
+    └─ 한계: 데이터 무결성은 별도 보장 부족
+    ▼
+체크섬 + CoW 파일시스템 (Btrfs · ZFS)
+    │
+    ├─ scrub
+    ├─ snapshot
+    └─ self-healing with mirror / RAIDZ
+    ▼
+고신뢰 백업 · NAS · 분산 스토리지 설계로 확장
+```
 
 이 흐름은 저장 계층이 "고장 후 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)"에서 "손상 탐지와 예방" 중심으로 발전해 온 과정을 보여준다.
 

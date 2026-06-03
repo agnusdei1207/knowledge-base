@@ -101,37 +101,25 @@ Enigma는 고전 암호와 현대 암호 해독의 교훈을 준다.
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Rotor</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Enigma</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Cryptanalysis</div>
-</div>
-</div>
-
-
+```text
+Rotor
+  ↓
+Enigma
+  ↓
+Cryptanalysis
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Mechanical Cipher</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Enigma</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Cryptanalysis</div>
-</div>
-</div>
-
-
+```text
+Mechanical Cipher
+  ↓
+Enigma
+  ↓
+Cryptanalysis
+```
 
 ---
 

@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - YANG 모델 도입 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/), 표준화된 뼈대가 없다 보니(Native YANG), 제조사들은 각자 자기 장비의 특성을 뽐내기 위해 파편화된 서식([Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/))을 만들었습니다.
 - **개발자의 지옥**: 자동화 프로그램(파이썬 스크립트)을 짤 때, 시스코 장비로 IP를 보낼 때는 `{"ipv4-address": "1.1.1.1"}`, 주니퍼 장비로 보낼 때는 `{"address-v4": "1.1.1.1"}`이라고 일일이 if문을 걸어 분기 처리를 해줘야 했습니다. 제조사 [벤더 종속](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/)([Lock-in](/knowledge-base/studynote/12_it_management/05_security_compliance/362_lock_in_portability/))이 여전했습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">RESTCONF</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">오픈컨피그</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">텔레메트리</div></div>
-</div>
-</div>
-
-
+```text
+[RESTCONF]
+    │
+    ▼
+[오픈컨피그]
+    │
+    └──▶ [텔레메트리]
+```
 
 - **📢 섹션 요약 비유**: 오픈컨피그는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -43,18 +39,14 @@ tags = ["studynote-network"]
 
 - **개념**: 구글, AT&T, 마이크로소프트 등 거대 네트워크 소비자(망을 직접 깔아 쓰는 빅테크/통신사)들이 주도하는 실무 연합체입니다. 특정 벤더(제조사)의 입김을 완전히 배제하고, <strong>전 세계 모든 라우터와 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> 장비들이 100% 동일하게 사용해야 하는 '벤더 중립적인 공통 YANG <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/">데이터 모델</a>(Standardized YANG Models)' 스키마를 찍어내어 배포하는 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/">오픈소스</a> 프로젝트</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">RESTCONF</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">오픈컨피그</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">텔레메트리</div></div>
-</div>
-</div>
-
-
+```text
+[RESTCONF]
+    │
+    ▼
+[오픈컨피그]
+    │
+    └──▶ [텔레메트리]
+```
 
 - **📢 섹션 요약 비유**: 오픈컨피그의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -118,19 +110,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: RESTCONF</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 오픈컨피그</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 텔레메트리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 프로그래머블 네트워크</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: RESTCONF]
+    │
+    ▼
+[현재 개념: 오픈컨피그]
+    │
+    ├──▶ [확장 A: 텔레메트리]
+    └──▶ [확장 B: 프로그래머블 네트워크]
+```
 
 오픈컨피그는 RESTCONF에서 출발해 현재 메커니즘을 정교화하고, 이후 텔레메트리와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

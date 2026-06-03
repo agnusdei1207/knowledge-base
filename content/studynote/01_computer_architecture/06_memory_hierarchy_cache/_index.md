@@ -23,24 +23,26 @@ CPU의 연산 속도는 무어의 법칙에 따라 기하급수적으로 빨라�
 
 이 그림은 전형적인 메모리 계층 구조의 피라미드 모델을 보여준다. 위로 갈수록 빠르고 비싸며, 아래로 갈수록 느리고 저렴하다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Memory Hierarchy Pyramid</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">/</div><div class="kb-diagram-node">Registers</div><div class="kb-diagram-note">\ Speed: &lt; 1ns</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ \ Cost : Highest</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">/</div><div class="kb-diagram-node">L1 Cache</div><div class="kb-diagram-note">\ Size : Smallest</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">/</div><div class="kb-diagram-node">L2 Cache</div><div class="kb-diagram-note">\</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">/</div><div class="kb-diagram-node">L3 Cache</div><div class="kb-diagram-note">\</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ \ Speed: ~100ns</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">/</div><div class="kb-diagram-node">Main Memory (DRAM)</div><div class="kb-diagram-note">\ Size : GB</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">/</div><div class="kb-diagram-node">Storage (SSD / HDD)</div><div class="kb-diagram-note">\ Speed: ~ms</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ \ Size : TB</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Memory Hierarchy Pyramid                    │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│           /  [ Registers ]  \          Speed: < 1ns         │
+│          /───────────────────\         Cost : Highest       │
+│         /    [ L1 Cache ]     \        Size : Smallest      │
+│        /───────────────────────\                            │
+│       /      [ L2 Cache ]       \                           │
+│      /───────────────────────────\                          │
+│     /        [ L3 Cache ]         \                         │
+│    /───────────────────────────────\       Speed: ~100ns    │
+│   /      [ Main Memory (DRAM) ]     \      Size : GB        │
+│  /───────────────────────────────────\                      │
+│ /      [ Storage (SSD / HDD) ]        \    Speed: ~ms       │
+│/───────────────────────────────────────\   Size : TB        │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '상위 계층은 하위 계층의 복사본 (Subset)'이라는 점이다. 캐시 메모리는 메인 메모리의 일부를 미리 가져다 놓는 임시 저장소 역할을 한다. 실무에서는 이 계층 간의 데이터 이동 오버헤드를 줄이는 것이 아키텍처 최적화의 핵심이다.
 
@@ -74,21 +76,25 @@ CPU의 연산 속도는 무어의 법칙에 따라 기하급수적으로 빨라�
 
 이 구조도는 캐시 적중 (Hit)과 실패 (Miss) 시의 데이터 흐름을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cache Access and Miss Penalty</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CPU</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Cache Controller</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (Hit!) ▼ (Miss!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Return Data</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Access Main Memory</div><div class="kb-diagram-note">──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(3) Fill Cache</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Replace Policy</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* Miss Penalty: 메모리에서 가져오는 동안 CPU는 Stall됨</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Cache Access and Miss Penalty               │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ CPU ] ──(1) Req Data──▶ [ Cache Controller ]           │
+│                                     │                       │
+│          ┌──────────────────────────┴──────┐                │
+│          ▼ (Hit!)                          ▼ (Miss!)        │
+│   [ Return Data ] ◀──(2)── [ Access Main Memory ] ──┐       │
+│                                            │        │       │
+│                                     (3) Fill Cache  │       │
+│                                            ▼        │       │
+│                                     [ Replace Policy ]      │
+│                                                             │
+│   * Miss Penalty: 메모리에서 가져오는 동안 CPU는 Stall됨   │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 'Miss Penalty'의 최소화이다. 캐시 미스가 발생하면 수백 사이클 동안 CPU가 멈출 수 있다. 실무에서는 이를 방지하기 위해 <strong>데이터 프리페칭 (Data Prefetching)</strong>이나 <strong>다단계 캐시 (L1~L3)</strong>를 구성하여 페널티를 분산시킨다.
 
@@ -130,20 +136,22 @@ CPU의 연산 속도는 무어의 법칙에 따라 기하급수적으로 빨라�
 
 이 도식은 캐시 적중률에 따른 AMAT (Average Memory Access Time) 변화를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hit Rate vs Average Access Time</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AMAT = Hit Time + (Miss Rate x Miss Penalty)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Access Time ▲</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">\ &lt;-- Miss Rate가 조금만 올라도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">\ 성능은 절벽으로 떨어짐</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hit Rate (%)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│               Hit Rate vs Average Access Time               │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   AMAT = Hit Time + (Miss Rate x Miss Penalty)              │
+│                                                             │
+│   Access Time ▲                                             │
+│               │ \                                           │
+│               │  \  <-- Miss Rate가 조금만 올라도           │
+│               │   \     성능은 절벽으로 떨어짐              │
+│               └──────────────────────────────────▶          │
+│                          Hit Rate (%)                       │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 기술사의 캐시 튜닝은 '창고 최적화'와 같습니다. 물건을 많이 쌓아두는 것보다, 오늘 나갈 물건(Working Set)을 문 앞(L1 캐시)에 정확히 배치하는 '데이터 물류 전문가'의 안목이 필요합니다.
 

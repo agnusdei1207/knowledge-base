@@ -24,18 +24,14 @@ tags = ["studynote-network"]
 - **원리**: 내가 쓴 글([트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/))을 해시 함수로 뭉갠 뒤, 나의 '타원 곡선 개인키'로 서명 연산을 수행합니다.
 - **특징 및 위상**: RSA로 서명을 하면 서명 결과물(도장 자국) 자체가 수백 바이트로 길고 뚱뚱해서 모바일 환경에 부담이 됩니다. <strong>ECDSA는 짧은 키(예: 256비트)를 사용하므로 도장의 크기도 매우 작아 폰과 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a> 기기에 최적화</strong>되어 있습니다. 비트코인과 이더리움이 지갑(계좌) 증명용으로 채택하며 글로벌 스탠다드가 되었습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">ECC</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ECDSA, Ed25519</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">디피-헬만 상호 키 교환 원리 및 스니핑 취…</div></div>
-</div>
-</div>
-
-
+```text
+[ECC]
+    │
+    ▼
+[ECDSA, Ed25519]
+    │
+    └──▶ [디피-헬만 상호 키 교환 원리 및 스니핑 취…]
+```
 
 - **📢 섹션 요약 비유**: [ECDSA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/097_ecdsa_schnorr_signature_bitcoin/), Ed25519는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -46,18 +42,14 @@ tags = ["studynote-network"]
 ECDSA는 서명을 찍을 때마다 매번 내부적으로 무작위 숫자(난수 $k$)를 생성해서 공식에 넣어야 합니다.
 - **문제점**: 만약 스마트폰의 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 버그나 난수 생성기의 결함으로 인해, 해커가 난수 $k$를 예측하거나 두 번 서명할 때 **우연히 똑같은 $k$가 재사용되는 순간, 간단한 수학 계산만으로 주인의 유일한 전재산인 '개인키' 전체가 홀라당 노출**되어버리는 최악의 참사가 벌어집니다. (실제로 과거 소니 플레이스테이션3 해킹 사건이 이 취약점 때문에 터졌습니다.)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">ECC</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ECDSA, Ed25519</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">디피-헬만 상호 키 교환 원리 및 스니핑 취…</div></div>
-</div>
-</div>
-
-
+```text
+[ECC]
+    │
+    ▼
+[ECDSA, Ed25519]
+    │
+    └──▶ [디피-헬만 상호 키 교환 원리 및 스니핑 취…]
+```
 
 - **📢 섹션 요약 비유**: [ECDSA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/097_ecdsa_schnorr_signature_bitcoin/), Ed25519의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -121,19 +113,15 @@ ECDSA의 치명적인 "난수 의존성" 약점을 완전히 없애버리고 속
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: ECC</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: ECDSA, Ed25519</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 디피-헬만 상호 키 교환 원리 및 스니핑 취…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: ECC]
+    │
+    ▼
+[현재 개념: ECDSA, Ed25519]
+    │
+    ├──▶ [확장 A: 디피-헬만 상호 키 교환 원리 및 스니핑 취…]
+    └──▶ [확장 B: 자동화된 신뢰 체계]
+```
 
 [ECDSA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/097_ecdsa_schnorr_signature_bitcoin/), Ed25519는 ECC에서 출발해 현재 메커니즘을 정교화하고, 이후 디피-헬만 상호 키 교환 원리 및 스니핑 취…와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

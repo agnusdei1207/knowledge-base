@@ -23,19 +23,16 @@ tags = ["studynote-computer-architecture"]
 
 이 개념이 등장한 이유는 모든 센서 데이터를 무선망으로 보내는 방식이 전력과 비용 면에서 비싸기 때문이다. 온도, 진동, 음성, 가속도처럼 연속 데이터는 대부분 평소에는 아무 일도 없는데도 계속 전송해야 한다. TinyML은 단말기 안에서 먼저 의미 있는 이벤트만 골라내어, 네트워크와 클라우드가 감당해야 할 부하를 크게 줄인다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TinyML budget is defined by four limits, not one benchmark</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Flash : model weights + inference code</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SRAM : input buffer + activations + stack</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Power : sensing + inference + radio wake-up</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Time : sampling window &lt; response deadline</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ TinyML budget is defined by four limits, not one benchmark  │
+├──────────────────────────────────────────────────────────────┤
+│ Flash : model weights + inference code                      │
+│ SRAM  : input buffer + activations + stack                  │
+│ Power : sensing + inference + radio wake-up                 │
+│ Time  : sampling window < response deadline                 │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 그림이 보여주는 핵심은 TinyML이 연산 성능만 조금 있으면 되는 문제가 아니라는 점이다. 네 가지 예산 중 하나라도 넘치면 시스템 전체가 성립하지 않으므로, TinyML 설계는 언제나 메모리·전력·시간의 동시 최적화를 요구한다.
 
@@ -57,17 +54,14 @@ TinyML 시스템은 보통 센서, 전처리, 정수화된 모델, 이벤트 전
 실무에서는 보통 다음 식으로 SRAM을 가늠한다.  
 `필요 SRAM ≈ 입력 버퍼 + 최대 활성 텐서 + 작업 스택 + 운영 여유`
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sensor</div><div class="kb-diagram-cell">--&gt;</div><div class="kb-diagram-cell">Preprocess</div><div class="kb-diagram-cell">--&gt;</div><div class="kb-diagram-cell">INT8 Model</div><div class="kb-diagram-cell">--&gt;</div><div class="kb-diagram-cell">Decision</div></div>
-<div class="kb-diagram-note">─ window buffer ─ SRAM peak ─ wake radio only</div>
-<div class="kb-diagram-tree-item" style="--depth:2">low-power sample ops budget on meaningful event</div>
-</div>
-</div>
-
-
+```text
+┌──────────┐   ┌────────────┐   ┌──────────────┐   ┌────────────┐
+│ Sensor   │-->| Preprocess │-->| INT8 Model   │-->| Decision   │
+└──────────┘   └────────────┘   └──────────────┘   └────────────┘
+     │               │                    │                │
+     │               └─ window buffer     └─ SRAM peak     └─ wake radio only
+     └─ low-power sample                      ops budget       on meaningful event
+```
 
 이 구조의 핵심은 모든 단계를 항상 최고 품질로 만드는 것이 아니라, <strong>의미 있는 이벤트를 놓치지 않을 만큼만 계산하는 것</strong>이다. 그래서 TinyML 모델은 대형 모델 축소판이라기보다, 특정 센서 패턴을 빠르게 구분하도록 설계된 초경량 분류기인 경우가 많다. 최근에는 디지털 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 처리기 (Digital [Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) Processor, DSP)나 초소형 신경망 처리 장치 ([Neural Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/), [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/))가 MCU 옆에 붙어, 일부 합성곱이나 행렬 곱셈만 저전력으로 가속하는 형태도 늘고 있다.
 
@@ -139,21 +133,18 @@ TinyML이 잘 적용되면 네트워크 트래픽, 배터리 소모, [개인정�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">임계치 기반 센서 처리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">특징 추출 중심 임베디드 분석</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">TinyML (정수화 · 정적 메모리 계획)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 초경량 NPU / DSP 가속</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 온디바이스 AI · 연합 학습 배포와 결합</div>
-</div>
-</div>
-
-
+```text
+임계치 기반 센서 처리
+    │
+    ▼
+특징 추출 중심 임베디드 분석
+    │
+    ▼
+TinyML (정수화 · 정적 메모리 계획)
+    │
+    ├─▶ 초경량 NPU / DSP 가속
+    └─▶ 온디바이스 AI · 연합 학습 배포와 결합
+```
 
 이 흐름은 단순 감지에서 경량 추론으로, 다시 하드웨어 가속과 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 운영으로 역할이 확장되는 과정을 보여준다.
 

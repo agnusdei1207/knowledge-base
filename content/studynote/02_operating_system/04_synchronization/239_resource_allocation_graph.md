@@ -24,22 +24,18 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경**: [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)를 예방(Prevention)하거나 무시(Ostrich)하는 대신, "실제로 터졌는지 감시하자"는 탐지([Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/)) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 연구가 활발해지면서, 시스템 상태를 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/)([Snapshot](/knowledge-base/studynote/02_operating_system/10_security/637_zfs_snapshot_cow_architecture/))으로 찍어 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 자료구조로 메모리에 올리는 [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) 기법이 1970년대 이후 OS 교과서의 표준으로 정립되었다.
 
+```text
+  [자원 할당 그래프(RAG)의 기본 표기법 및 의미]
 
+  1. 꼭짓점 (Vertices)
+     ⭕ 원 (Circle): 프로세스 또는 스레드 (P1, P2)
+     🟥 사각형 (Square): 자원 (Mutex, 파일, 프린터 등)
+       - 사각형 안의 점(Dot): 해당 자원의 인스턴스(개수)를 의미
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">자원 할당 그래프(RAG)의 기본 표기법 및 의미</div></div>
-<div class="kb-diagram-note">1. 꼭짓점 (Vertices)</div>
-<div class="kb-diagram-note">⭕ 원 (Circle): 프로세스 또는 스레드 (P1, P2)</div>
-<div class="kb-diagram-note">🟥 사각형 (Square): 자원 (Mutex, 파일, 프린터 등)</div>
-<div class="kb-diagram-tree-item" style="--depth:3">사각형 안의 점(Dot): 해당 자원의 인스턴스(개수)를 의미</div>
-<div class="kb-diagram-note">2. 간선 (Edges)</div>
-<div class="kb-diagram-note">▶ 요청 간선 (P ─▶ R): 프로세스가 "자원 줘!" 하고 대기 중임 (Wait)</div>
-<div class="kb-diagram-note">▶ 할당 간선 (R ─▶ P): 자원이 프로세스에게 "먹혀 있음" (Hold)</div>
-</div>
-</div>
-
-
+  2. 간선 (Edges)
+     ▶ 요청 간선 (P ─▶ R): 프로세스가 "자원 줘!" 하고 대기 중임 (Wait)
+     ▶ 할당 간선 (R ─▶ P): 자원이 프로세스에게 "먹혀 있음" (Hold)
+```
 **[다이어그램 해설]** 화살표의 방향이 핵심이다. 화살표는 항상 <strong>"<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>(또는 제어권)가 흘러가야 할 뱡향"</strong>을 가리킨다. 할당 간선($R \to P$)은 자원의 권리가 P에게 갔다는 뜻이고, 요청 간선($P \to R$)은 P가 R로부터 권리를 받아오고 싶어 목이 빠지게 쳐다보는 방향이다.
 
 - **📢 섹션 요약 비유**: 경찰이 범죄 조직의 자금 흐름을 쫓을 때 그리는 '조직도 및 자금 송금 화살표'와 똑같습니다. 돈(자원)이 누구 주머니에 들어가 있고(할당), 누가 누구에게 돈을 내놓으라고 협박하고 있는지(요청)를 그리면 전체 범죄의 구조(데드락)가 훤히 드러납니다.
@@ -55,45 +51,45 @@ tags = ["studynote-operating-system"]
 #### 시나리오 1: 데드락 발생 (단일 인스턴스 환경)
 자원의 개수가 딱 1개씩(프린터 1대, 스캐너 1대) 있는 환경이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사이클(Cycle) 형성 = 데드락 100% 확정 시뮬레이션</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">자원 R1</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">프로세스 P2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(할당 간선) ▲ (요청 간선)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">⭕</div><div class="kb-diagram-node">프로세스 P1</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">자원 R2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(요청 간선) (할당 간선)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🚨 궤적 추적: P1 ─▶ R2 ─▶ P2 ─▶ R1 ─▶ P1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">화살표를 따라갔더니 완벽한 닫힌 원(Cycle)이 그려졌다!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자원이 각각 1개뿐이므로 이 링(Ring)은 절대 풀릴 수 없다. (데드락)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────────┐
+  │         사이클(Cycle) 형성 = 데드락 100% 확정 시뮬레이션              │
+  ├───────────────────────────────────────────────────────────────────────┤
+  │                                                                       │
+  │     [ 자원 R1 ] ◀─────────────── ⭕ [ 프로세스 P2 ]                   │
+  │     (할당 간선)                       ▲ (요청 간선)                   │
+  │          ▼                            │                               │
+  │   ⭕ [ 프로세스 P1 ] ──────────────▶ [ 자원 R2 ]                      │
+  │                     (요청 간선)         (할당 간선)                   │
+  │                                                                       │
+  │   🚨 궤적 추적: P1 ─▶ R2 ─▶ P2 ─▶ R1 ─▶ P1                            │
+  │      화살표를 따라갔더니 완벽한 닫힌 원(Cycle)이 그려졌다!            │
+  │      자원이 각각 1개뿐이므로 이 링(Ring)은 절대 풀릴 수 없다. (데드락)│
+  └───────────────────────────────────────────────────────────────────────┘
+```
 
 #### 시나리오 2: 데드락 아님 (다중 인스턴스 환경에서의 [페이크](/knowledge-base/studynote/04_software_engineering/11_testing_validation/463_fake_test_double/) 사이클)
 자원의 개수가 2개 이상일 때는 사이클이 보여도 섣불리 데드락이라고 단정 지으면 안 된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사이클이 존재하지만 데드락이 아닌 기만(Fake) 상태 분석</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">자원 R1 (점 2개)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─(할당)─ ⭕ P3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(할당)</div><div class="kb-diagram-cell">(할당)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">자원 R2 (점 2개)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─(요청)─ ⭕ P2</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">분석</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 사이클 존재?: P1 ─▶ R1 ─▶ P2 ─▶ R2 ─▶ P1 (원이 그려짐!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 데드락인가?: ❌ 아니다!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이유: R1 자원은 2개다. 하나는 P2가 쥐고 있지만, 나머지 하나는</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사이클 밖에 있는 구경꾼 P3가 쥐고 있다.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P3가 곧 볼일을 마치고 R1을 반납(Signal)하면?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P1이 그 R1을 줍게 되면서 사이클이 툭 끊어지고 평화가 온다!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌──────────────────────────────────────────────────────────────────────┐
+  │         사이클이 존재하지만 데드락이 아닌 기만(Fake) 상태 분석       │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │                                                                      │
+  │   ⭕ P1 ─(요청)─▶ [ 자원 R1 (점 2개) ] ◀─(할당)─ ⭕ P3               │
+  │      ▲                 │                                             │
+  │      │(할당)           │(할당)                                       │
+  │      └─ [ 자원 R2 (점 2개) ] ◀─(요청)─ ⭕ P2                         │
+  │                                                                      │
+  │   [분석]                                                             │
+  │   1. 사이클 존재?: P1 ─▶ R1 ─▶ P2 ─▶ R2 ─▶ P1 (원이 그려짐!)         │
+  │   2. 데드락인가?: ❌ 아니다!                                         │
+  │      이유: R1 자원은 2개다. 하나는 P2가 쥐고 있지만, 나머지 하나는   │
+  │            사이클 밖에 있는 구경꾼 **P3**가 쥐고 있다.               │
+  │            P3가 곧 볼일을 마치고 R1을 반납(Signal)하면?              │
+  │            P1이 그 R1을 줍게 되면서 사이클이 툭 끊어지고 평화가 온다!│
+  └──────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 이것이 다중 인스턴스 환경에서 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)만 믿으면 안 되는 이유다. 사이클 내부에 갇힌 놈들끼리만 자원을 돌려쓰고 있다면 데드락이지만, <strong>사이클 외부에 있는 누군가(P3)가 숨구멍(추가 자원)을 뚫어줄 여지</strong>가 있다면 그것은 꽉 막힌 데드락이 아니라 단순한 일시적 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 상태다.
 
 - **📢 섹션 요약 비유**: 4명이 사거리 교차로에서 꼬리를 물고 막혀있습니다(사이클). 그런데 그중 한 대(다중 자원 중 1개)가 갑자기 옆 골목길로 빠져나갈 수 있는 차라면(구경꾼 P3 존재), 그 한 대가 빠지는 순간 꽉 막힌 교차로 전체가 스르륵 풀리게 됩니다.
@@ -134,26 +130,27 @@ RAG는 이미 벌어진 데드락을 '탐지'하는 데 주로 쓰이지만, 간
    - **문제 발생**: A서버가 B서버의 락을 기다리고, B서버가 A서버의 락을 기다리는 '글로벌 데드락'이 터졌을 때, 서로 다른 서버에 있기 때문에 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)를 합치지 못해 영원히 탐지하지 못한다(Phantom [Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)).
    - **아키텍트 결단**: 클라우드 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서는 무거운 [그래프 탐색](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/613_graph_bfs_memory/)([Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/))을 완전히 포기한다. 대신 <strong>모든 락 획득에 무조건 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/">TTL</a>(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/">Time To Live</a>, 예: 3초 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/">타임아웃</a>)</strong>을 걸어버려, [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)가 꼬이든 말든 3초 뒤에 한 놈이 죽어 떨어지게 만드는 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)([Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/)) 락 기반으로 아키텍처를 단순화한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발자의 코드 디버깅: 스레드 덤프(Thread Dump)를 통한 RAG 역추적</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">장애 상황: WAS(Tomcat) 서버의 CPU는 0%인데 API 응답이 멈춤</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1. <code>jstack</div><div class="kb-diagram-node">PID</div><div class="kb-diagram-note"></code> 명령어로 JVM 스레드 덤프 추출</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 덤프 텍스트 분석 (머릿속으로 RAG를 그림)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"Thread-1": waiting to lock &lt;0xABC&gt; (R1 대기 중)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">locked &lt;0xDEF&gt; (R2 점유 중)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"Thread-2": waiting to lock &lt;0xDEF&gt; (R2 대기 중)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">locked &lt;0xABC&gt; (R1 점유 중)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 아키텍트의 직관적 결론:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"완벽하게 엇갈린 락 획득(Cycle)이다! 이건 100% 데드락이야."</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 코드에서 락을 획득하는 순서(Lock Ordering)를 오름차순으로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">통일시키는 리팩토링(PR) 즉각 지시!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────────────┐
+  │     개발자의 코드 디버깅: 스레드 덤프(Thread Dump)를 통한 RAG 역추적│
+  ├─────────────────────────────────────────────────────────────────────┤
+  │                                                                     │
+  │   [장애 상황: WAS(Tomcat) 서버의 CPU는 0%인데 API 응답이 멈춤]      │
+  │                                                                     │
+  │   1. `jstack [PID]` 명령어로 JVM 스레드 덤프 추출                   │
+  │                                                                     │
+  │   2. 덤프 텍스트 분석 (머릿속으로 RAG를 그림)                       │
+  │      "Thread-1": waiting to lock <0xABC> (R1 대기 중)               │
+  │                  locked <0xDEF>          (R2 점유 중)               │
+  │      "Thread-2": waiting to lock <0xDEF> (R2 대기 중)               │
+  │                  locked <0xABC>          (R1 점유 중)               │
+  │                                                                     │
+  │   3. 아키텍트의 직관적 결론:                                        │
+  │      "완벽하게 엇갈린 락 획득(Cycle)이다! 이건 100% 데드락이야."    │
+  │      ▶ 코드에서 락을 획득하는 순서(Lock Ordering)를 오름차순으로    │
+  │         통일시키는 리팩토링(PR) 즉각 지시!                          │
+  └─────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 컴퓨터 공학을 전공한 개발자가 실무에서 빛을 발하는 순간이다. 장애가 났을 때 로그만 보고 당황하는 것이 아니라, 수만 줄의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 덤프 속에서 `waiting to lock`과 `locked` 키워드를 추출해 머릿속에서 화살표를 이어 <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/">자원 할당 그래프</a>(<a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/">RAG</a>)의 사이클</strong>을 눈으로 그려내는 능력이야말로 트러블슈팅의 정수다.
 
 - **📢 섹션 요약 비유**: 살인 사건 현장(서버 멈춤)에 도착한 탐정(개발자)이, 목격자 진술([스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 덤프)을 토대로 "A는 B를 원망하고, B는 A를 원망하는구나"라는 관계도([RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/))를 칠판에 그리는 순간, 범인(데드락)의 실체가 명확하게 드러나게 됩니다.
@@ -184,19 +181,15 @@ RAG는 이미 벌어진 데드락을 '탐지'하는 데 주로 쓰이지만, 간
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">모니터 (Monitor)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">자원 할당 그래프 (Resource Allocation Graph, RAG)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">모니터 시그널 의미론</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">라이브락 (Livelock)</div></div>
-</div>
-</div>
-
-
+```text
+[모니터 (Monitor)]
+    │
+    ▼
+[자원 할당 그래프 (Resource Allocation Graph, RAG)]
+    │
+    ├──▶ [모니터 시그널 의미론]
+    └──▶ [라이브락 (Livelock)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

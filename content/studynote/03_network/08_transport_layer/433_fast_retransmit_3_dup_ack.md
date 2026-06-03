@@ -26,18 +26,14 @@ tags = ["studynote-network"]
   - **타이머 대기 (구형)**: 배송 기사가 물건을 잃어버렸습니다. 본사는 고객이 화를 내든 말든 "배송 보장 기한 3일([Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/))"이 지나서 시스템에 '미도착'이 뜰 때까지 절대 다시 안 보내주고 규정대로만 버팁니다.
   - **빠른 재전송**: 고객이 1시간 만에 고객센터에 전화를 걸어 똑같은 말로 3번 연속 쌍욕을 박습니다(3 Dup-ACK). 본사는 3일([Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/))을 기다리지 않고, "이건 백퍼 배송 사고다!"라며 즉시 퀵 서비스로 물건을 다시 쏴줍니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">혼잡 회피</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">빠른 재전송</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">빠른 회복</div></div>
-</div>
-</div>
-
-
+```text
+[혼잡 회피]
+    │
+    ▼
+[빠른 재전송]
+    │
+    └──▶ [빠른 회복]
+```
 
 - **📢 섹션 요약 비유**: ** 빠른 재전송은 눈치 빠른 선생님의 **"결석자 파악법"**입니다. 선생님이 1번, 2번, 3번 출석을 부르는데, 3번을 부를 때 반장(수신자)이 "선생님 2번 결석이요!"라고 소리칩니다. 선생님은 40번까지 출석을 다 부르고(타이머 종료) 나서야 결석자를 파악하지 않고, 반장이 3번 똑같은 소리를 하면 출석 부르기를 멈추고 즉시 2번 학생 부모님께 전화(재전송)를 때립니다.
 
@@ -59,25 +55,25 @@ tags = ["studynote-network"]
 - **Timeout의 뇌구조**: 영수증 자체가 안 온다. 도로가 꽉 막혀서 내 핑퐁이 아예 씨가 말랐다. "전신 마비다! 속도(CWND)를 `1`로 완전 초기화(리셋)해라!"
 - **3 Dup-ACK의 뇌구조**: 영수증이 오긴 온다. 계속 뒤에 패킷들이 도착하고 있으니까 수신자가 징징대는 영수증이라도 계속 보내는 것이다. "도착은 잘하고 있네. 근데 딱 1놈만 가다가 옆 차랑 박아서 재수 없게 날아갔나 보네. 도로 전체가 막힌 건 아니야! **가벼운 찰과상이니까 속도(CWND)를 1로 리셋하지 말고 '절반(1/2)'으로만 줄여주자!**"
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">타임아웃(Timeout) vs 빠른 재전송(3 Dup-ACK) 차이</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황 1: 타임아웃 발생 (대재앙)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 원인: 톨게이트 붕괴. 아무 패킷도 수신자에게 못 감.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 송신자 반응: 3초 내내 적막... 아무 대답도 없음.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 처방: "망했다! CWND = 1로 박살 냄! (처음부터 다시 슬로우스타트)"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황 2: 3 Dup-ACK 발생 (가벼운 접촉 사고)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 원인: 패킷 100개 중 딱 1개만 유실됨. 99개는 잘 도착함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 송신자 반응: "2번 줘!", "2번 줘!", "2번 줘!" (연속 수신)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 처방: "오케이 2번 다시 발사! CWND는 아까우니까 절반(1/2)으로만 깎음!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ "빠른 재전송 덕분에 TCP는 속도가 '0'으로 바닥을 치는 최악의</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사태를 피하고, 항상 절반 수준 이상의 고속을 유지할 수 있다!"</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                타임아웃(Timeout) vs 빠른 재전송(3 Dup-ACK) 차이    │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 상황 1: 타임아웃 발생 (대재앙) ]                             │
+ │   - 원인: 톨게이트 붕괴. 아무 패킷도 수신자에게 못 감.                 │
+ │   - 송신자 반응: 3초 내내 적막... 아무 대답도 없음.                  │
+ │   - 처방: "망했다! CWND = 1로 박살 냄! (처음부터 다시 슬로우스타트)"   │
+ │                                                             │
+ │   [ 상황 2: 3 Dup-ACK 발생 (가벼운 접촉 사고) ]                  │
+ │   - 원인: 패킷 100개 중 딱 1개만 유실됨. 99개는 잘 도착함.             │
+ │   - 송신자 반응: "2번 줘!", "2번 줘!", "2번 줘!" (연속 수신)          │
+ │   - 처방: "오케이 2번 다시 발사! CWND는 아까우니까 절반(1/2)으로만 깎음!"│
+ │                                                             │
+ │   ▶ "빠른 재전송 덕분에 TCP는 속도가 '0'으로 바닥을 치는 최악의     │
+ │      사태를 피하고, 항상 절반 수준 이상의 고속을 유지할 수 있다!"     │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: ** 빠른 재전송과 3번의 중복 룰은 **"양치기 소년 판별법"**입니다. 마을 사람(송신자)은 소년이 "늑대다(중복 1번)!", "늑대다(중복 2번)!"라고 장난칠 때는 무시하며 인내심을 발휘하지만, 3번째 똑같은 비명을 지르면(3 Dup-ACK) "이건 진짜다!"라고 확신하고 즉시 몽둥이(재전송 패킷)를 들고 뛰쳐나가는 현명한 판단법입니다.
 
@@ -135,19 +131,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 혼잡 회피</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 빠른 재전송</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 빠른 회복</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 혼잡 회피]
+    │
+    ▼
+[현재 개념: 빠른 재전송]
+    │
+    ├──▶ [확장 A: 빠른 회복]
+    └──▶ [확장 B: 적응형 저지연 전송]
+```
 
 빠른 재전송는 [혼잡 회피](/knowledge-base/studynote/03_network/08_transport_layer/432_congestion_avoidance_aimd_algorithm/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [빠른 회복](/knowledge-base/studynote/03_network/08_transport_layer/434_fast_recovery_skip_slow_start/)와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

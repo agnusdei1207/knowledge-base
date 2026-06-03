@@ -36,27 +36,26 @@ tags = ["studynote-ict-convergence"]
 
 ### 두 [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/) 구조 비교
 
+```
+옵티미스틱 롤업(Optimistic Rollup)
+┌────────────────────────────────────────────┐
+│  L2: 트랜잭션 실행 (EVM 호환)               │
+│  시퀀서(Sequencer): 배치 구성 및 L1 제출    │
+│  가정: "모든 거래는 유효하다" (낙관적)      │
+│  L1 제출: 압축 calldata + 상태 루트         │
+│  챌린지 기간: 7일 (Fraud Proof 제출 가능)   │
+│  출금: 7일 대기 (또는 유동성 브릿지 사용)   │
+└────────────────────────────────────────────┘
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">옵티미스틱 롤업(Optimistic Rollup)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L2: 트랜잭션 실행 (EVM 호환)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시퀀서(Sequencer): 배치 구성 및 L1 제출</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가정: "모든 거래는 유효하다" (낙관적)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L1 제출: 압축 calldata + 상태 루트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">챌린지 기간: 7일 (Fraud Proof 제출 가능)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">출금: 7일 대기 (또는 유동성 브릿지 사용)</div></div>
-<div class="kb-diagram-note">ZK 롤업(ZK Rollup)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L2: 트랜잭션 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ZK Prover: 유효성 증명(Validity Proof) 생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L1 제출: 압축 데이터 + ZK 증명(π)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L1 Verifier: π 검증 → 즉시 최종화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">출금: 즉시 (증명 검증 완료 후)</div></div>
-</div>
-</div>
-
-
+ZK 롤업(ZK Rollup)
+┌────────────────────────────────────────────┐
+│  L2: 트랜잭션 실행                          │
+│  ZK Prover: 유효성 증명(Validity Proof) 생성│
+│  L1 제출: 압축 데이터 + ZK 증명(π)          │
+│  L1 Verifier: π 검증 → 즉시 최종화          │
+│  출금: 즉시 (증명 검증 완료 후)             │
+└────────────────────────────────────────────┘
+```
 
 ### 핵심 비교표
 
@@ -78,18 +77,12 @@ tags = ["studynote-ict-convergence"]
 
 ### 사기 증명(Fraud Proof) 동작
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">시퀀서가 잘못된 상태 루트 제출</div>
-<div class="kb-diagram-note">→ 챌린저: L1에 챌린지 트랜잭션 전송</div>
-<div class="kb-diagram-note">→ L1: 문제 구간 단일 연산 재실행(Interactive Fraud Proof)</div>
-<div class="kb-diagram-note">→ 위반 확인 → 시퀀서 본드 슬래싱 + 롤백</div>
-</div>
-</div>
-
-
+```
+시퀀서가 잘못된 상태 루트 제출
+    → 챌린저: L1에 챌린지 트랜잭션 전송
+    → L1: 문제 구간 단일 연산 재실행(Interactive Fraud Proof)
+    → 위반 확인 → 시퀀서 본드 슬래싱 + 롤백
+```
 
 Optimism Cannon, Arbitrum BOLD: [이분 탐색](/knowledge-base/studynote/08_algorithm_stats/02_sorting/028_binary_search/)(Bisection) 방식으로 문제 구간을 좁혀가는 대화형 사기 증명
 

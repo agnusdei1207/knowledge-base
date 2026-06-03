@@ -43,20 +43,18 @@ tags = ["studynote-operating-system"]
 
 아래 그림은 "숫자가 작을수록 높은 우선순위"인 시스템에서 노화가 어떻게 기아를 줄이는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Aging example: lower number means higher priority</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">waiting time t0 t1 t2 t3 t4</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">high-priority H 1 1 1 1 1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">waiting task L 9 -&gt; 7 -&gt; 5 -&gt; 3 -&gt; 1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">scheduler choice H H H H L runs</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">rule: effective priority = max(1, base - aging_step × wait_slots)</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Aging example: lower number means higher priority                 │
+├────────────────────────────────────────────────────────────────────┤
+│ waiting time        t0      t1      t2      t3      t4            │
+│ high-priority H      1       1       1       1       1            │
+│ waiting task L       9  ->   7  ->   5  ->   3  ->   1            │
+│ scheduler choice     H       H       H       H      L runs        │
+│                                                                    │
+│ rule: effective priority = max(1, base - aging_step × wait_slots) │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조의 포인트는 평균 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 버리지 않으면서도 최악 대기 시간을 통제하려는 데 있다. 상위 작업이 계속 들어와도, 오래 기다린 작업은 점점 높은 우선권을 얻는다. 그래서 노화는 엄밀한 의미의 완전 평등이 아니라 <strong>시간이 누적되면 계층 차이를 서서히 지우는 기법</strong>이라고 볼 수 있다.
 
@@ -135,22 +133,19 @@ SJF와의 관계도 중요하다. SJF는 평균 대기 시간을 줄이지만 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">고정 우선순위 · SJF 중심 스케줄링</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">하위 작업의 무기한 대기</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">노화 (Aging) 도입</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ bounded waiting 보장 강화</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ MLFQ의 periodic boost</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ CFS의 공정 스케줄링 철학으로 발전</div>
-</div>
-</div>
-
-
+```text
+고정 우선순위 · SJF 중심 스케줄링
+        │
+        ▼
+하위 작업의 무기한 대기
+        │
+        ▼
+노화 (Aging) 도입
+        │
+        ├──────────────▶ bounded waiting 보장 강화
+        ├──────────────▶ MLFQ의 periodic boost
+        └──────────────▶ CFS의 공정 스케줄링 철학으로 발전
+```
 
 이 흐름도는 노화가 단순 보정 기법을 넘어, 현대 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 공정성 메커니즘으로 발전해 간 과정을 보여 준다.
 

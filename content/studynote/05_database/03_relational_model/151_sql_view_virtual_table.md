@@ -32,30 +32,32 @@ tags = ["studynote-database"]
 
 뷰는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 품고 있지 않다. 뷰는 단지 깡통 텍스트 `SELECT` 문장을 가진 '바로가기 아이콘'일 뿐이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">뷰(View)의 투명한 환상 기만술: 물리적 실체 vs 논리적 껍데기 융합</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🗄️</div><div class="kb-diagram-node">물리적 원본: 사원 테이블 (하드디스크에 진짜 10GB 용량 차지)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사번</div><div class="kb-diagram-cell">이름</div><div class="kb-diagram-cell">부서명</div><div class="kb-diagram-cell">주민번호 (💥민감)</div><div class="kb-diagram-cell">연봉 (💥민감)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">101</div><div class="kb-diagram-cell">홍길동</div><div class="kb-diagram-cell">영업부</div><div class="kb-diagram-cell">800101-1xxxxxx</div><div class="kb-diagram-cell">80,000,000</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">102</div><div class="kb-diagram-cell">이순신</div><div class="kb-diagram-cell">개발부</div><div class="kb-diagram-cell">900202-1xxxxxx</div><div class="kb-diagram-cell">100,000,000</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">🛡️ 마법의 렌즈 방어막: CREATE VIEW 생성 쾅!</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">CREATE VIEW</div><div class="kb-diagram-node">외주직원용_사원_뷰</div><div class="kb-diagram-note">AS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SELECT 사번, 이름, 부서명 FROM 사원; ◀─ (위험한 컬럼 2개 가위로 싹둑 컷!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🪟</div><div class="kb-diagram-node">가상의 껍데기: 외주직원용_사원_뷰 (하드디스크 용량 0 Byte!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사번</div><div class="kb-diagram-cell">이름</div><div class="kb-diagram-cell">부서명</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">101</div><div class="kb-diagram-cell">홍길동</div><div class="kb-diagram-cell">영업부 ◀─ 🌟 외주 직원이 <code>SELECT * FROM 뷰</code> 를 치면,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">102</div><div class="kb-diagram-cell">이순신</div><div class="kb-diagram-cell">개발부 그냥 자기가 3칸짜리 진짜 테이블 조회한 줄 착각함 ㅋ</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 아키텍트 팩폭 결론: 알바생이 뷰를 찌르는 그 0.001초 런타임 찰나의 순간!!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DB 옵티마이저 뇌가 저 뷰 껍데기 텍스트를 치워버리고 ➔ 뱃속에 숨어있는 진짜 원본</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">테이블(사원) 쿼리로 지 혼자 몰래 융합 재작성(Query Rewrite 핑퐁) 쳐서 ➔ 지하</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">창고에서 데이터 쏙 빼다 화면에 뿌려주는 위대한 오프로딩 짬처리 사기극이다 🚀!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          뷰(View)의 투명한 환상 기만술: 물리적 실체 vs 논리적 껍데기 융합 │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ 🗄️ [ 물리적 원본: 사원 테이블 (하드디스크에 진짜 10GB 용량 차지) ]  │
+│  사번 │ 이름  │ 부서명 │  주민번호 (💥민감) │  연봉 (💥민감)         │
+│  101 │ 홍길동 │ 영업부 │ 800101-1xxxxxx │  80,000,000         │
+│  102 │ 이순신 │ 개발부 │ 900202-1xxxxxx │ 100,000,000         │
+│                                                             │
+│        ======= [ 🛡️ 마법의 렌즈 방어막: CREATE VIEW 생성 쾅! ] ========│
+│                                                             │
+│     CREATE VIEW [외주직원용_사원_뷰] AS                           │
+│     SELECT 사번, 이름, 부서명 FROM 사원; ◀─ (위험한 컬럼 2개 가위로 싹둑 컷!)│
+│                                                             │
+│ 🪟 [ 가상의 껍데기: 외주직원용_사원_뷰 (하드디스크 용량 0 Byte!) ]    │
+│  사번 │ 이름  │ 부서명                                          │
+│  101 │ 홍길동 │ 영업부   ◀─ 🌟 외주 직원이 `SELECT * FROM 뷰` 를 치면, │
+│  102 │ 이순신 │ 개발부      그냥 자기가 3칸짜리 진짜 테이블 조회한 줄 착각함 ㅋ│
+│                                                             │
+│ 🌟 아키텍트 팩폭 결론: 알바생이 뷰를 찌르는 그 0.001초 런타임 찰나의 순간!!  │
+│ DB 옵티마이저 뇌가 저 뷰 껍데기 텍스트를 치워버리고 ➔ 뱃속에 숨어있는 진짜 원본  │
+│ 테이블(사원) 쿼리로 지 혼자 몰래 융합 재작성(Query Rewrite 핑퐁) 쳐서 ➔ 지하 │
+│ 창고에서 데이터 쏙 빼다 화면에 뿌려주는 위대한 오프로딩 짬처리 사기극이다 🚀!   │
+└─────────────────────────────────────────────────────────────┘
+```
 
 <strong><a href="/knowledge-base/studynote/05_database/03_relational_model/152_simple_view_vs_complex_view/">아키텍트의 팩폭 튜닝: [단순 뷰</a>(Simple) vs 복합 뷰(Complex) 딜레마]</strong>
 뷰 안에 뭘 쑤셔 넣느냐에 따라 뷰의 등급과 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 권력이 찢어진다.
@@ -70,37 +72,40 @@ tags = ["studynote-database"]
 
 뷰가 태어난 궁극의 목표이자, DB 설계의 성배. <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>적 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/004_data_independence/">데이터 독립성</a>(Logical <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/504_data_independence/">Data Independence</a>)</strong>의 경이로운 방패막 융합 도해다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실무 아키텍처: 데이터 독립성을 지키는 뷰(View)의 방폭문 쉴드 마법</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">💀</div><div class="kb-diagram-node">과거(2020년): 쌩 테이블 쇳덩이 다이렉트 직결 (강결합 파국 시대)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Java 앱 소스코드 100군데: <code>SELECT 이름, 주민번호 FROM 회원_TBL</code></div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (소스와 쇳덩이가 1:1 강결합 본드로 떡칠됨 💥)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🗄️</div><div class="kb-diagram-node">물리 원본 테이블: 회원_TBL</div><div class="kb-diagram-note">(이름, 주민번호 등 저장)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">개인정보보호법 강화로 인한 대재앙 멸망 발동!</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사장님: "야 법 바뀌어서 주민번호 13자리 싹 다 불태워 지우고, 생년월일 6자리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">신규 컬럼으로 테이블 뼈대(Schema) 싹 다 갈아엎어 도끼 쳐 쾅 💥!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Java 개발자 오열 😭: "네?! 그럼 저희 소스코드 100군데 밤새 다 뒤져서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell"><code>생년월일</code> 로 문자열 짤라서 텍스트 파싱 로직 다 뜯어고쳐야</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하는데요? 1달짜리 야근 재배포 서버 셧다운 터짐 파산각이여 💀"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">🛡️ 아키텍트의 기적: View 인터페이스 융합 수술 ✨</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. DBA가 기존 <code>회원_TBL</code>을 망치로 쳐 부수고, <code>신규_회원_TBL</code>(이름, 생년월일)로 새로 짬.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 그리고 옛날 테이블 이름이랑 똑같은!! 가짜 껍데기 뷰(View)를 허공에 뿅 띄움!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🪟 CREATE VIEW 회원_TBL AS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SELECT 이름, (생년월일</div><div class="kb-diagram-cell">'1234567') AS 주민번호 ◀─ (문자열 가짜 조합!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FROM 신규_회원_TBL;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 아키텍트 극딜 (논리적 데이터 독립성 100% 무혈 생존 🚀):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Java 앱 놈들은 어제와 똑같이 <code>SELECT 이름, 주민번호 FROM 회원_TBL</code> 이라고</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">쿼리를 무지성으로 친다. 앱은 자기가 찌른 놈이 껍데기 뷰로 둔갑 변신한 줄 꿈에도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모른다!! ➔ 자바 소스 코드를 단 1글자도 수정하지 않고(Zero Rework) 꿀 빨며!!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">밑바닥 DB의 물리적 쇳덩이 뼈대 공사(Schema Change)를 클라이언트 1도 타격 없이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">완벽히 쳐낸(Decoupling) 인프라 아키텍처의 위대한 디커플링 승리다 쾅 🚀!!!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │         실무 아키텍처: 데이터 독립성을 지키는 뷰(View)의 방폭문 쉴드 마법 │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │ 💀 [ 과거(2020년): 쌩 테이블 쇳덩이 다이렉트 직결 (강결합 파국 시대) ]  │
+  │   Java 앱 소스코드 100군데: `SELECT 이름, 주민번호 FROM 회원_TBL`      │
+  │            ▼ (소스와 쇳덩이가 1:1 강결합 본드로 떡칠됨 💥)              │
+  │   🗄️ [ 물리 원본 테이블: 회원_TBL ] (이름, 주민번호 등 저장)              │
+  │                                                             │
+  │        ======= [ 개인정보보호법 강화로 인한 대재앙 멸망 발동! ] ========   │
+  │ 사장님: "야 법 바뀌어서 주민번호 13자리 싹 다 불태워 지우고, 생년월일 6자리   │
+  │         신규 컬럼으로 테이블 뼈대(Schema) 싹 다 갈아엎어 도끼 쳐 쾅 💥!"   │
+  │ Java 개발자 오열 😭: "네?! 그럼 저희 소스코드 100군데 밤새 다 뒤져서      │
+  │              `생년월일` 로 문자열 짤라서 텍스트 파싱 로직 다 뜯어고쳐야       │
+  │              하는데요? 1달짜리 야근 재배포 서버 셧다운 터짐 파산각이여 💀"   │
+  │                                                             │
+  │        ======= [ 🛡️ 아키텍트의 기적: View 인터페이스 융합 수술 ✨ ] ======== │
+  │                                                             │
+  │ 1. DBA가 기존 `회원_TBL`을 망치로 쳐 부수고, `신규_회원_TBL`(이름, 생년월일)로 새로 짬.│
+  │ 2. 그리고 옛날 테이블 이름이랑 똑같은!! 가짜 껍데기 뷰(View)를 허공에 뿅 띄움!│
+  │                                                             │
+  │ 🪟 CREATE VIEW 회원_TBL AS                                     │
+  │    SELECT 이름, (생년월일 || '1234567') AS 주민번호 ◀─ (문자열 가짜 조합!)│
+  │    FROM 신규_회원_TBL;                                         │
+  │                                                             │
+  │ 🌟 아키텍트 극딜 (논리적 데이터 독립성 100% 무혈 생존 🚀):             │
+  │ Java 앱 놈들은 어제와 똑같이 `SELECT 이름, 주민번호 FROM 회원_TBL` 이라고 │
+  │ 쿼리를 무지성으로 친다. 앱은 자기가 찌른 놈이 껍데기 뷰로 둔갑 변신한 줄 꿈에도 │
+  │ 모른다!! ➔ 자바 소스 코드를 단 1글자도 수정하지 않고(Zero Rework) 꿀 빨며!! │
+  │ 밑바닥 DB의 물리적 쇳덩이 뼈대 공사(Schema Change)를 클라이언트 1도 타격 없이 │
+  │ 완벽히 쳐낸(Decoupling) 인프라 아키텍처의 위대한 디커플링 승리다 쾅 🚀!!! │
+└─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 이 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 [데이터 독립성](/knowledge-base/studynote/05_database/01_db_architecture_relational/004_data_independence/) 방패는 건물 외벽을 덮는 <strong>'은빛 통유리 커튼월(Curtain Wall)'</strong>입니다. 밖(앱 개발자)에서 보면 건물이 통째로 1장의 예쁜 은빛 유리(뷰)로 보입니다. 하지만 안([DBA](/knowledge-base/studynote/05_database/01_db_architecture_relational/025_dba_database_administrator/))에 들어가 보면, 배관이 터지고 화장실 뜯어고치느라 매일 쇳덩이 기둥(물리 테이블) 위치가 쿵쾅쿵쾅 바뀝니다. 외벽 유리를 방음벽으로 예쁘게 쳐둔 덕분에, 내부 공사가 아무리 미친 듯이 일어나도 바깥사람들은 건물이 매일 평온하고 예쁘게 유지되는 줄 착각하며 안심하게 되는 기만 쉴드입니다.
 
@@ -158,23 +163,21 @@ tags = ["studynote-database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">쌩 테이블 다이렉트 강결합 쇳덩이 시대 / 앱 100군데서 물리 테이블명 하드코딩 직통 찌르다 ➔ DB 스키마 1번 엎어지면 소스 100군데 다 뜯어고쳐 야근 재배포 셧다운 뻗음 지옥 💀</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">뷰 (View) 가상 테이블 껍데기 융합 강림 🚀 / "야 테이블이랑 소스 중간에 투명 유리창(View) 1장 끼워 넣어 방벽 쳐 쾅!" ➔ 물리 뼈대 다 깨져도 논리 껍데기가 완충 방어해 논리적 데이터 독립성 100% 무결점 성취 ✨</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">컬럼 단위 (Column-level) 보안 은닉 쉴드 🔒 / 민감한 '월급, 주민번호' 가위로 오려내고 하청 알바생용 뷰 따로 파서 던져줌 ➔ 권한 통제 보안 제로 트러스트 록온 완료</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">스파게티 뷰(View on View) 퍼포먼스 랙 붕괴 💥 / 뷰를 5겹 감싸다 조건문 푸시다운(Push-down) 막혀 옵티마이저 뇌정지 ➔ 1억 건 풀스캔 뻗음 대참사 발동</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Materialized View (MView) 데이터 웨어하우스 구원 ✨ / "껍데기 뷰 찢어버려! 걍 1억 건 조인 결과 엑기스 1,000줄을 진짜 하드디스크 돌덩이(Table)로 굳혀 캐싱 박제 쳐 쾅!!" ➔ OLAP 대시보드 1초 컷 쾌속 렌더링 펌핑의 빅데이터 제국 완성 🚀</div>
-</div>
-</div>
-
-
+```text
+쌩 테이블 다이렉트 강결합 쇳덩이 시대 / 앱 100군데서 물리 테이블명 하드코딩 직통 찌르다 ➔ DB 스키마 1번 엎어지면 소스 100군데 다 뜯어고쳐 야근 재배포 셧다운 뻗음 지옥 💀
+    │
+    ▼
+뷰 (View) 가상 테이블 껍데기 융합 강림 🚀 / "야 테이블이랑 소스 중간에 투명 유리창(View) 1장 끼워 넣어 방벽 쳐 쾅!" ➔ 물리 뼈대 다 깨져도 논리 껍데기가 완충 방어해 논리적 데이터 독립성 100% 무결점 성취 ✨
+    │
+    ▼
+컬럼 단위 (Column-level) 보안 은닉 쉴드 🔒 / 민감한 '월급, 주민번호' 가위로 오려내고 하청 알바생용 뷰 따로 파서 던져줌 ➔ 권한 통제 보안 제로 트러스트 록온 완료
+    │
+    ▼
+스파게티 뷰(View on View) 퍼포먼스 랙 붕괴 💥 / 뷰를 5겹 감싸다 조건문 푸시다운(Push-down) 막혀 옵티마이저 뇌정지 ➔ 1억 건 풀스캔 뻗음 대참사 발동 
+    │
+    ▼
+Materialized View (MView) 데이터 웨어하우스 구원 ✨ / "껍데기 뷰 찢어버려! 걍 1억 건 조인 결과 엑기스 1,000줄을 진짜 하드디스크 돌덩이(Table)로 굳혀 캐싱 박제 쳐 쾅!!" ➔ OLAP 대시보드 1초 컷 쾌속 렌더링 펌핑의 빅데이터 제국 완성 🚀
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

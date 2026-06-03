@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 평문을 암호화(Encryption, 잠그기)할 때 사용하는 키([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))와, 암호문을 평문으로 복호화(Decryption, 풀기)할 때 사용하는 <strong>키(<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a>)가 완전히 동일한 암호화 방식</strong>입니다.
 - 통신하는 두 사람(송신자와 수신자)이 같은 열쇠를 공유하고 있어야 하므로 <strong>비밀키(<a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/">Secret</a> <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a>) 암호 방식</strong>이라고도 부릅니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">암호학 개요 통신망 보안 적용</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">대칭키 암호화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스트림 암호</div></div>
-</div>
-</div>
-
-
+```text
+[암호학 개요 통신망 보안 적용]
+    │
+    ▼
+[대칭키 암호화]
+    │
+    └──▶ [스트림 암호]
+```
 
 - **📢 섹션 요약 비유**: 대칭키 암호화는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -48,18 +44,14 @@ tags = ["studynote-network"]
 ### 2. 작은 키 사이즈
 - 키의 길이가 보통 128비트, 256비트로 작아도 우주 나이만큼의 무차별 대입 공격(Brute-force)을 거뜬히 버텨낼 정도로 효율적입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">암호학 개요 통신망 보안 적용</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">대칭키 암호화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스트림 암호</div></div>
-</div>
-</div>
-
-
+```text
+[암호학 개요 통신망 보안 적용]
+    │
+    ▼
+[대칭키 암호화]
+    │
+    └──▶ [스트림 암호]
+```
 
 - **📢 섹션 요약 비유**: 대칭키 암호화의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -119,19 +111,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 암호학 개요 통신망 보안 적용</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 대칭키 암호화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 스트림 암호</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 암호학 개요 통신망 보안 적용]
+    │
+    ▼
+[현재 개념: 대칭키 암호화]
+    │
+    ├──▶ [확장 A: 스트림 암호]
+    └──▶ [확장 B: 자동화된 신뢰 체계]
+```
 
 대칭키 암호화는 [암호학](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/) 개요 통신망 보안 적용에서 출발해 현재 메커니즘을 정교화하고, 이후 [스트림 암호](/knowledge-base/studynote/03_network/13_network_security_basics/654_stream_cipher_rc4_chacha20/)와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -25,26 +25,29 @@ tags = ["studynote-operating-system"]
 **필요성 및 등장 배경**
 과거에는 CPU 클럭 속도 ([Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) Speed) 향상에 의존하여 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 개선했으나, 전력 장벽 ([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Wall)과 메모리 장벽 ([Memory Wall](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/433_memory_wall/))으로 인해 클럭 속도 향상이 정체되면서, 캐시 활용 효율 (Cache Efficiency)이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 좌우하는 핵심 요소로 부상했다. 특히 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 집약적 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)-intensive) 워크로드인 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) ([Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/)), [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) (Machine [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/)), [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 처리 ([Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/) Processing) 분야에서는 캐시 미스가 전체 실행 시간의 50% 이상을 차지하는 경우도 빈번하다. 따라서 캐시 미스 오버헤드를 체계적으로 측정하고 분석하는 프레임워크 (Framework)가 필수적으로 요구된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">캐시 계층별 접근 지연 시간과 미스 영향</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">L1 Cache</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">1~4 cycles (≈ 0.5ns @ 3GHz)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">miss (≈ 5~8%)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">L2 Cache</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">10~20 cycles (≈ 5ns)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">miss (≈ 1~3%)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">L3 Cache</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">30~50 cycles (≈ 15ns, 공유)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">miss (≈ 0.5~2%)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DRAM</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">100~300 cycles (≈ 50~100ns)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">SSD/HDD</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">10,000~100,000 cycles</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ L1 Hit Rate 95% × L2 Hit Rate 97% × L3 Hit Rate 98%</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">= 전체 Hit Rate ≈ 90%</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 나머지 10% 미스가 전체 지연의 50%+를 차지</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           캐시 계층별 접근 지연 시간과 미스 영향               │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│  [L1 Cache] ← 1~4 cycles (≈ 0.5ns @ 3GHz)                  │
+│      │ miss (≈ 5~8%)                                         │
+│      ▼                                                       │
+│  [L2 Cache] ← 10~20 cycles (≈ 5ns)                          │
+│      │ miss (≈ 1~3%)                                         │
+│      ▼                                                       │
+│  [L3 Cache] ← 30~50 cycles (≈ 15ns, 공유)                   │
+│      │ miss (≈ 0.5~2%)                                       │
+│      ▼                                                       │
+│  [DRAM]    ← 100~300 cycles (≈ 50~100ns)                    │
+│      │                                                       │
+│      │ miss → [SSD/HDD] ← 10,000~100,000 cycles             │
+│                                                              │
+│  ※ L1 Hit Rate 95% × L2 Hit Rate 97% × L3 Hit Rate 98%    │
+│   = 전체 Hit Rate ≈ 90%                                      │
+│   → 나머지 10% 미스가 전체 지연의 50%+를 차지               │
+└──────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 구조도는 캐시 계층별 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)이 기하급수적으로 증가하는 모습을 보여준다. 핵심은 상위 계층의 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/) ([Hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/) Rate)이 아무리 높아도, 남은 극소수의 미스 (Miss)가 하위 계층의 엄청난 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)과 곱해져 전체 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)에 기형적인 영향을 미친다는 점이다. 따라서 "전체 [Hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/) Rate이 90%면 충분하다"는 생각은 위험하며, 어느 계층에서 미스가 집중되는지를 정밀하게 측정하는 것이 최적화의 출발점이다.
 
@@ -71,31 +74,40 @@ tags = ["studynote-operating-system"]
 
 캐시 미스 분석망은 크게 4단계로 구성된다: (1) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집 (Collection), (2) 미스 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) ([Classification](/knowledge-base/studynote/12_it_management/03_ea_isp/107_classification/)), (3) 핫스팟 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) (Hotspot [Identification](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)), (4) 최적화 제안 (Recommendation)이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">캐시 미스 분석망 (Analysis Framework)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① 데이터 수집 (Collection Layer)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Linux perf stat/record</div><div class="kb-diagram-cell">Intel VTune</div><div class="kb-diagram-cell">eBPF 트레이싱</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">$ perf stat -e cache-misses,cache-references ./app</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">$ perf record -g -- ./app</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Raw PMU Data</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② 미스 분류 (Classification Layer)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cold Miss (필수 미스)</div><div class="kb-diagram-cell">Capacity Miss</div><div class="kb-diagram-cell">Conflict Miss</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(최초 접근)</div><div class="kb-diagram-cell">(캐시 용량 초과)</div><div class="kb-diagram-cell">(인덱스 충돌)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Classified Miss Profile</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ 핫스팟 식별 (Hotspot Identification Layer)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Flame Graph</div><div class="kb-diagram-cell">캐시 라인 프로파일링</div><div class="kb-diagram-cell">False Sharing 탐지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(함수별 미스 비율)</div><div class="kb-diagram-cell">(공간 지역성 분석)</div><div class="kb-diagram-cell">(코어 간 간섭)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Optimization Targets</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">④ 최적화 제안 (Recommendation Layer)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">루프 타일링</div><div class="kb-diagram-cell">데이터 구조 정렬</div><div class="kb-diagram-cell">prefetch 삽입</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">구조체 배치</div><div class="kb-diagram-cell">False Sharing 해소</div><div class="kb-diagram-cell">NUMA 인식 할당</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│                 캐시 미스 분석망 (Analysis Framework)             │
+├──────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  ① 데이터 수집 (Collection Layer)                                │
+│  ┌─────────────────────────────────────────────────────────┐     │
+│  │  Linux perf stat/record  │  Intel VTune  │  eBPF 트레이싱 │     │
+│  │  $ perf stat -e cache-misses,cache-references ./app     │     │
+│  │  $ perf record -g -- ./app                              │     │
+│  └─────────────────────┬───────────────────────────────────┘     │
+│                        │ Raw PMU Data                             │
+│                        ▼                                         │
+│  ② 미스 분류 (Classification Layer)                              │
+│  ┌─────────────────────────────────────────────────────────┐     │
+│  │  Cold Miss (필수 미스)  │ Capacity Miss  │ Conflict Miss │     │
+│  │  (최초 접근)            │ (캐시 용량 초과)│ (인덱스 충돌) │     │
+│  └─────────────────────┬───────────────────────────────────┘     │
+│                        │ Classified Miss Profile                  │
+│                        ▼                                         │
+│  ③ 핫스팟 식별 (Hotspot Identification Layer)                     │
+│  ┌─────────────────────────────────────────────────────────┐     │
+│  │  Flame Graph │  캐시 라인 프로파일링  │  False Sharing 탐지│     │
+│  │  (함수별 미스 비율)  │  (공간 지역성 분석)  │  (코어 간 간섭) │     │
+│  └─────────────────────┬───────────────────────────────────┘     │
+│                        │ Optimization Targets                     │
+│                        ▼                                         │
+│  ④ 최적화 제안 (Recommendation Layer)                             │
+│  ┌─────────────────────────────────────────────────────────┐     │
+│  │  루프 타일링  │  데이터 구조 정렬 │  prefetch 삽입         │     │
+│  │  구조체 배치  │  False Sharing 해소│ NUMA 인식 할당        │     │
+│  └─────────────────────────────────────────────────────────┘     │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 분석망은 캐시 미스 최적화가 단순한 "측정→고치기"가 아니라 체계적인 4단계 프로세스임을 보여준다. 특히 ② [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 단계가 중요한데, 미스의 종류에 따라 적용할 최적화 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 완전히 다르기 때문이다. Cold Miss는 Prefetch로, Capacity Miss는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)으로, Conflict Miss는 메모리 배치 변경으로 해결해야 한다. 따라서 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 없이 무작정 최적화를 시도하면 시간만 낭비하게 된다.
 
@@ -147,26 +159,26 @@ AMAT (Average Memory Access Time) = Hit Time + Miss Rate × Miss Penalty
 | **Valgrind/Cachegrind** | 소프트웨어 캐시 시뮬레이션 | 20~50x 느려짐 | 라인/[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수준 | 개발 단계 정밀 시뮬레이션 |
 | <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/943_pcm_pulse_code_modulation_sampling_quantization/">PCM</a> (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">Performance</a> <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/">Counter</a> <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/">Monitor</a>)</strong> | Intel 전용 메모리 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) | < 1% | [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)/채널 수준 | 서버 전체 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 분석 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">측정 도구 선택 의사결정 트리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">캐시 미스 분석 필요</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 프로덕션 환경인가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── YES → 오버헤드 &lt; 5% 필요</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 전체적 핫스팟 → perf + Flame Graph</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 특정 함수 심층 분석 → Intel VTune</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── NO → 오버헤드 허용 가능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 라인 수준 정밀 분석 → Cachegrind</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 커널 경계 추적 → eBPF</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 실시간 모니터링 필요?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── YES → PCM / perf stat (주기적 샘플링)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── NO → perf record + 오프라인 분석</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│            측정 도구 선택 의사결정 트리                        │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│  [캐시 미스 분석 필요]                                       │
+│        │                                                     │
+│        ├── 프로덕션 환경인가?                                 │
+│        │     ├── YES → 오버헤드 < 5% 필요                    │
+│        │     │         ├── 전체적 핫스팟 → perf + Flame Graph │
+│        │     │         └── 특정 함수 심층 분석 → Intel VTune  │
+│        │     └── NO → 오버헤드 허용 가능                      │
+│        │               ├── 라인 수준 정밀 분석 → Cachegrind   │
+│        │               └── 커널 경계 추적 → eBPF              │
+│        │                                                     │
+│        └── 실시간 모니터링 필요?                               │
+│              ├── YES → PCM / perf stat (주기적 샘플링)       │
+│              └── NO → perf record + 오프라인 분석             │
+└──────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 의사결정 트리는 분석 환경(프로덕션 vs 개발)과 요구 해상도(전체 vs 라인 수준)에 따라 적절한 도구를 선택하는 기준을 제시한다. 핵심 트레이드오프는 <strong>측정 정밀도와 실행 오버헤드의 반비례 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a></strong>이다. Cachegrind는 라인 수준의 정밀한 분석이 가능하지만 20~50배의 속도 저하를 유발하므로 프로덕션에서는 사용할 수 없고, 반대로 PCM은 오버헤드가 1% 미만이지만 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 수준의 거시적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 제공한다. 따라서 실무에서는 도구를 계층적으로 조합하여 사용하는 것이 바람직하다.
 
@@ -205,33 +217,34 @@ AMAT (Average Memory Access Time) = Hit Time + Miss Rate × Miss Penalty
 - **일반적 원인**: [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 없어 임의 접근 (Random Access) 패턴 발생 → 캐시 Prefetch가 무력화되어 미스율 급증
 - **해결**: [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 또는 커버링 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) (Covering [Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)) 적용으로 순차 접근 패턴 유도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">캐시 미스 최적화 체크리스트 (Practical Checklist)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 1. 측정 단계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ perf stat으로 전체 미스율 베이스라인 측정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ perf record + Flame Graph으로 핫스팟 함수 식별</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ TLB 미스율(dTLB-load-misses) 별도 측정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 2. 분류 단계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ Cold Miss 비율 (첫 접근 데이터 비율 추정)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ Capacity Miss 의심 (워킹셋 &gt; 캐시 크기인가?)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ Conflict Miss 의심 (인덱스 충돌 패턴 분석)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ □ 3. 최적화 적용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 데이터 구조: 배열 기반 → 연결 리스트 변경 검토</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 메모리 정렬: 구조체 필드 재배치 (hot/cold 분리)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 루프 최적화: 타일링/블로킹 적용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ Prefetch: __builtin_prefetch() 삽입 검토</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ NUMA: numactl로 메모리 할당 로컬리티 보장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 4. 검증 단계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 최적화 후 AMAT 재측정 (개선율 정량화)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 전체 처리량(Throughput) 변화 확인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ P99 레이턴시 개선 여부 확인</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│           캐시 미스 최적화 체크리스트 (Practical Checklist)       │
+├──────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  □ 1. 측정 단계                                                  │
+│    □ perf stat으로 전체 미스율 베이스라인 측정                   │
+│    □ perf record + Flame Graph으로 핫스팟 함수 식별             │
+│    □ TLB 미스율(dTLB-load-misses) 별도 측정                     │
+│                                                                  │
+│  □ 2. 분류 단계                                                  │
+│    □ Cold Miss 비율 (첫 접근 데이터 비율 추정)                   │
+│    □ Capacity Miss 의심 (워킹셋 > 캐시 크기인가?)               │
+│    □ Conflict Miss 의심 (인덱스 충돌 패턴 분석)                 │
+│                                                                  │
+│  □  □ 3. 최적화 적용                                             │
+│    □ 데이터 구조: 배열 기반 → 연결 리스트 변경 검토              │
+│    □ 메모리 정렬: 구조체 필드 재배치 (hot/cold 분리)            │
+│    □ 루프 최적화: 타일링/블로킹 적용                             │
+│    □ Prefetch: __builtin_prefetch() 삽입 검토                   │
+│    □ NUMA: numactl로 메모리 할당 로컬리티 보장                  │
+│                                                                  │
+│  □ 4. 검증 단계                                                  │
+│    □ 최적화 후 AMAT 재측정 (개선율 정량화)                      │
+│    □ 전체 처리량(Throughput) 변화 확인                           │
+│    □ P99 레이턴시 개선 여부 확인                                 │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 체크리스트는 캐시 미스 최적화를 체계적으로 수행하기 위한 실무 가이드이다. 가장 흔한 실수는 "측정 없이 직감으로 최적화"를 시도하는 것이다. 먼저 [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/) ([Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/))을 확립하고, 미스의 종류를 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)한 후, 그에 맞는 최적화 기법을 적용하는 순서를 반드시 지켜야 한다. 또한 최적화 후에는 [AMAT](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/265_amat/) (Average Memory Access Time)을 재측정하여 개선 효과를 정량적으로 입증해야 한다.
 
@@ -285,19 +298,15 @@ AMAT (Average Memory Access Time) = Hit Time + Miss Rate × Miss Penalty
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">I/O 성능 병목 (Bottleneck) 탐색법 (iostat, vmstat)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">캐시 미스 오버헤드 측정 분석망 구조 적용 (Cache Miss Overhead)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">모바일 OS 특징 (Android vs iOS 아키텍처 비교)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">안드로이드 리눅스 커널 커스터마이징 (Wakelock 전력 통제 모듈)</div></div>
-</div>
-</div>
-
-
+```text
+[I/O 성능 병목 (Bottleneck) 탐색법 (iostat, vmstat)]
+    │
+    ▼
+[캐시 미스 오버헤드 측정 분석망 구조 적용 (Cache Miss Overhead)]
+    │
+    ├──▶ [모바일 OS 특징 (Android vs iOS 아키텍처 비교)]
+    └──▶ [안드로이드 리눅스 커널 커스터마이징 (Wakelock 전력 통제 모듈)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

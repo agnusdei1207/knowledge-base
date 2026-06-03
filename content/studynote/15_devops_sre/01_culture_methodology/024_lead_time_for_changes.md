@@ -20,22 +20,27 @@ tags = ["studynote-devops-sre"]
 
 [Lead Time](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) for Changes는 "아이디어가 실제 사용자에게 전달되기까지 얼마나 걸리는가?"의 소프트웨어 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Lead Time for Changes 측정 구간</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">코드 커밋</div><div class="kb-diagram-node">프로덕션 배포</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CI 빌드·테스트 (자동화, 수 분)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PR 리뷰 대기 (수 시간~수 일) ← 주요 병목</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">통합 테스트·QA (수 시간~수 일) ← 병목</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">배포 승인 프로세스 (수 시간) ← 병목</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CD 배포 (자동화, 수 분) →</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LTC = 전체 구간의 합 (커밋 → 프로덕션)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           Lead Time for Changes 측정 구간                     │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│  [코드 커밋] ──────────────────────────── [프로덕션 배포]       │
+│      │                                         │            │
+│      ▼                                         │            │
+│  CI 빌드·테스트 (자동화, 수 분)                  │            │
+│      │                                         │            │
+│  PR 리뷰 대기 (수 시간~수 일) ← 주요 병목        │            │
+│      │                                         │            │
+│  통합 테스트·QA (수 시간~수 일) ← 병목           │            │
+│      │                                         │            │
+│  배포 승인 프로세스 (수 시간) ← 병목              │            │
+│      │                                         │            │
+│  CD 배포 (자동화, 수 분) ──────────────────────→            │
+│                                                              │
+│  LTC = 전체 구간의 합 (커밋 → 프로덕션)                        │
+└──────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: LTC는 피자 주문에서 수령까지의 총 시간이다. 오븐 굽기(빌드·배포 자동화)보다 주문 대기([PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 리뷰)·배달 대기(QA 병목)가 더 긴 경우가 많아, 오븐 속도보다 줄 서는 시간 단축이 핵심이다.
 
@@ -126,23 +131,21 @@ LTC는 DORA의 SPACE 프레임워크(Satisfaction·[Performance](/knowledge-base
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">수동 배포 — 릴리스 주기 수 개월, 높은 LTC</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CI/CD 도입 — 자동화 빌드·테스트·배포, LTC 단축 시작</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Trunk-based + 소규모 배치 — PR 병목 해소</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DORA 측정 — LTC/DF/CFR/MTTR 데이터 기반 개선</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Elite DevOps — LTC &lt; 1시간, 지속 개선 문화</div></div>
-</div>
-</div>
-
-
+```text
+[수동 배포 — 릴리스 주기 수 개월, 높은 LTC]
+    │
+    ▼
+[CI/CD 도입 — 자동화 빌드·테스트·배포, LTC 단축 시작]
+    │
+    ▼
+[Trunk-based + 소규모 배치 — PR 병목 해소]
+    │
+    ▼
+[DORA 측정 — LTC/DF/CFR/MTTR 데이터 기반 개선]
+    │
+    ▼
+[Elite DevOps — LTC < 1시간, 지속 개선 문화]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

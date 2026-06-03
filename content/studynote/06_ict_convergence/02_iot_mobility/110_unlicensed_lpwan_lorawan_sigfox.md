@@ -20,26 +20,24 @@ tags = ["studynote-ict-convergence"]
 
 국가 전파는 한정 자원으로 통신사가 수조 원에 경매하여 독점 사용(면허 대역)하지만, 정부는 일부 주파수(ISM 밴드)를 <strong>출력 제한 하에 무료 개방</strong>하고 있다. Wi-Fi(2.4GHz)·Bluetooth가 이 무료 도로를 쓰듯, LoRa와 Sigfox도 900MHz 비면허 대역에서 자체 규칙으로 도시 규모 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 사설망을 구축한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LoRa (CSS) vs Sigfox (UNB) 변조 방식 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LoRa: Chirp Spread Spectrum</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주파수 ▲</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ ← Chirp (낮→높으로 쭉 올라가는 패턴)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ 넓은 대역에 에너지를 펼침</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ → 노이즈가 일부 깨워도 패턴으로 복원</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 시간</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Sigfox: Ultra Narrow Band</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">에너지 ▲ ████ ← 100Hz 초협대역에 에너지 몰빵</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">████ 면도칼처럼 얇고 강력</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">████ → 하루 12바이트 한계, 초장거리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 주파수</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│      LoRa (CSS) vs Sigfox (UNB) 변조 방식 비교         │
+├───────────────────────────────────────────────────────┤
+│  [LoRa: Chirp Spread Spectrum]                        │
+│   주파수 ▲                                            │
+│          /  ← Chirp (낮→높으로 쭉 올라가는 패턴)      │
+│         /   넓은 대역에 에너지를 펼침                  │
+│        /    → 노이즈가 일부 깨워도 패턴으로 복원       │
+│   ────────────────→ 시간                              │
+│                                                       │
+│  [Sigfox: Ultra Narrow Band]                          │
+│   에너지 ▲  ████  ← 100Hz 초협대역에 에너지 몰빵     │
+│          │  ████    면도칼처럼 얇고 강력               │
+│          │  ████  → 하루 12바이트 한계, 초장거리       │
+│   ────────────────→ 주파수                            │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: LoRa는 덤프트럭(넓게 펼쳐 충격 흡수)이고, Sigfox는 오토바이(좁고 날렵하게 돌파)다.
 
@@ -121,23 +119,21 @@ LoRaWAN은 비면허 LPWAN의 승자로 굳어지고 있으며, 위성 [LoRa](/k
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">ISM 밴드 개방 — 비면허 주파수 무료 사용 허용</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Sigfox (2012, 프랑스) — UNB 최초 상용 LPWAN</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LoRa (2013, Semtech) — CSS 기반 개방형 LPWAN</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LoRa Alliance 표준화 (2015~) — LoRaWAN 프로토콜 확립</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: 위성 LoRa (Lacuna Space) — 전지구 IoT 커버리지</div></div>
-</div>
-</div>
-
-
+```text
+[ISM 밴드 개방 — 비면허 주파수 무료 사용 허용]
+    │
+    ▼
+[Sigfox (2012, 프랑스) — UNB 최초 상용 LPWAN]
+    │
+    ▼
+[LoRa (2013, Semtech) — CSS 기반 개방형 LPWAN]
+    │
+    ▼
+[LoRa Alliance 표준화 (2015~) — LoRaWAN 프로토콜 확립]
+    │
+    ▼
+[현재: 위성 LoRa (Lacuna Space) — 전지구 IoT 커버리지]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. LoRa는 큰 목소리(넓은 전파)로 소리치면서 시끄러운 운동장에서도 친구에게 메시지를 전하는 방법이에요.

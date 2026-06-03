@@ -23,18 +23,14 @@ tags = ["studynote-network"]
 - 과거 이 세 덩어리를 잇는 핏줄([프론트홀](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/), [미드홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1010_midhaul_network_c_ran_fronthaul_du_cu/))은 노키아, 에릭슨 등 제조사가 지들 맘대로 짠 '독자 블랙박스 언어'를 썼습니다. 
 - **독과점의 눈물**: SKT는 서울 강남에 에릭슨 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 1개를 세우려면, 강남 지하에 깔리는 DU 서버도 무조건 에릭슨 장비를 울며 겨자 먹기로 100억 주고 사야 했습니다(벤더 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)). 중소기업이 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 아무리 잘 만들어도 시장에 명함도 못 내밀었습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">WDM 무손실 광 증폭</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">O-RAN 프론트홀 개방 사양</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">vCPE NFV 고객 구내 망 통합 전환</div></div>
-</div>
-</div>
-
-
+```text
+[WDM 무손실 광 증폭]
+    │
+    ▼
+[O-RAN 프론트홀 개방 사양]
+    │
+    └──▶ [vCPE NFV 고객 구내 망 통합 전환]
+```
 
 - **📢 섹션 요약 비유**: [O-RAN](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/) [프론트홀](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/) 개방 사양은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -63,18 +59,14 @@ tags = ["studynote-network"]
   - "어? 홍대 1번 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 뻗을 거 같네? 2번 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 전파 방향 10도 꺾어서 커버 쳐줘!" 
   - 이 명령을 내리는 앱을 'rApp', 'xApp'이라고 부르며, 구글 플레이스토어에서 앱 다운받듯 통신사가 입맛대로 골라 깔 수 있습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">WDM 무손실 광 증폭</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">O-RAN 프론트홀 개방 사양</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">vCPE NFV 고객 구내 망 통합 전환</div></div>
-</div>
-</div>
-
-
+```text
+[WDM 무손실 광 증폭]
+    │
+    ▼
+[O-RAN 프론트홀 개방 사양]
+    │
+    └──▶ [vCPE NFV 고객 구내 망 통합 전환]
+```
 
 - **📢 섹션 요약 비유**: [O-RAN](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/) [프론트홀](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/) 개방 사양의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -128,19 +120,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: WDM 무손실 광 증폭</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: O-RAN 프론트홀 개방 사양</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: vCPE NFV 고객 구내 망 통합 전환</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: WDM 무손실 광 증폭]
+    │
+    ▼
+[현재 개념: O-RAN 프론트홀 개방 사양]
+    │
+    ├──▶ [확장 A: vCPE NFV 고객 구내 망 통합 전환]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 [O-RAN](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/) [프론트홀](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/) 개방 사양는 WDM 무손실 광 증폭에서 출발해 현재 메커니즘을 정교화하고, 이후 [vCPE](/knowledge-base/studynote/03_network/17_sdn_nfv/886_vcpe_virtual_customer_premises_equipment_edge_vnf/) [NFV](/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/) 고객 구내 망 통합 전환와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

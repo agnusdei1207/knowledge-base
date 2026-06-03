@@ -18,20 +18,17 @@ tags = ["studynote-enterprise-systems"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SECI 모델 (노나카, 1995)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">암묵지 → 형식지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">암묵지 ↓ 사회화(S) 외부화(E)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(도제·OJT) (매뉴얼 작성)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">형식지 ↓ 내면화(I) 결합화(C)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(학습·체화) (DB·보고서 통합)</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    SECI 모델 (노나카, 1995)                           │
+├───────────────────────────────────────────────────────┤
+│              암묵지 →    형식지                        │
+│  암묵지 ↓  사회화(S)    외부화(E)                    │
+│            (도제·OJT)   (매뉴얼 작성)                │
+│  형식지 ↓  내면화(I)    결합화(C)                    │
+│            (학습·체화)   (DB·보고서 통합)             │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 암묵지는 할머니의 <strong>손맛(경험)</strong>이고, [형식지](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/129_explicit_knowledge_formalization/)는 <strong>레시피(문서)</strong>이다. 손맛을 레시피로 바꾸는 것(외부화)이 KM의 핵심이다.
 
@@ -90,23 +87,21 @@ tags = ["studynote-enterprise-systems"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">폴라니 암묵지 개념 (1966)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">노나카 SECI 모델 (1995)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">KMS 시스템 (2000s) — 형식지 관리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">위키·CoP (2010s) — 협업 기반 외부화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: AI/RAG — 암묵지 자동 추출·형식지화</div></div>
-</div>
-</div>
-
-
+```text
+[폴라니 암묵지 개념 (1966)]
+    │
+    ▼
+[노나카 SECI 모델 (1995)]
+    │
+    ▼
+[KMS 시스템 (2000s) — 형식지 관리]
+    │
+    ▼
+[위키·CoP (2010s) — 협업 기반 외부화]
+    │
+    ▼
+[현재: AI/RAG — 암묵지 자동 추출·형식지화]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 암묵지는 할머니의 <strong>손맛(경험)</strong>이에요. 말로 설명하기 어려워요.

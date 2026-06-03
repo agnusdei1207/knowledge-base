@@ -28,17 +28,14 @@ tags = ["studynote-ai"]
 4. 서버가 모든 병원의 업데이트를 집계하여 전역 모델 갱신
 5. 1~4 반복
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)은 비밀 레시피 공유 없는 요리 대회다. 100명의 요리사가 각자 집에서 자신만의 비밀 재료(개인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))로 요리를 연습하고, "레시피 발전 방향([가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 업데이트)"만 주최사에 보낸다. 주최사가 모든 방향을 평균내서 "다음 연습 방향"을 다시 배포한다. 어떤 요리사도 다른 요리사의 비밀 재료를 알 수 없지만, 전체적으로 요리 수준이 높아진다.
 
@@ -46,27 +43,31 @@ tags = ["studynote-ai"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">연합 학습 (Federated Learning) FedAvg 알고리즘 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">중앙 집계 서버 (Aggregation Server)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전역 모델 W_global 관리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전역 모델 배포</div><div class="kb-diagram-cell">가중치 업데이트 수신</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">병원 A</div><div class="kb-diagram-cell">병원 B</div><div class="kb-diagram-cell">...</div><div class="kb-diagram-cell">기업 N</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">로컬학습</div><div class="kb-diagram-cell">로컬학습</div><div class="kb-diagram-cell">로컬학습</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ΔW_A</div><div class="kb-diagram-cell">ΔW_B</div><div class="kb-diagram-cell">ΔW_N</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FedAvg 집계:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">W_global ← Σᵢ (nᵢ/n) × W_local_i (데이터 수 가중 평균)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Non-IID 문제:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">병원 A (폐암 케이스 많음) ≠ 병원 B (심장 질환 케이스 많음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 국소 학습이 전역 모델에서 멀어져 집계 후 성능 저하 (Drift)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ FedProx: 국소 손실에 정규화 추가하여 전역 모델 근방에 고정</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│         연합 학습 (Federated Learning) FedAvg 알고리즘 구조          │
+├──────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  ┌──────────────────────────────────────────────────────────┐   │
+│  │            중앙 집계 서버 (Aggregation Server)            │   │
+│  │            전역 모델 W_global 관리                         │   │
+│  └──────┬────────────────────┬──────────────────────────────┘   │
+│         │ 전역 모델 배포       │ 가중치 업데이트 수신             │
+│    ┌────▼────┐           ┌────▼────┐           ┌────▼────┐      │
+│    │ 병원 A  │           │ 병원 B  │    ...     │ 기업 N  │      │
+│    │ 로컬학습│           │ 로컬학습│           │ 로컬학습│      │
+│    │ ΔW_A   │           │ ΔW_B   │           │ ΔW_N   │      │
+│    └─────────┘           └─────────┘           └─────────┘      │
+│                                                                  │
+│  FedAvg 집계:                                                     │
+│  W_global ← Σᵢ (nᵢ/n) × W_local_i  (데이터 수 가중 평균)         │
+│                                                                  │
+│  Non-IID 문제:                                                    │
+│  병원 A (폐암 케이스 많음) ≠ 병원 B (심장 질환 케이스 많음)           │
+│  → 국소 학습이 전역 모델에서 멀어져 집계 후 성능 저하 (Drift)          │
+│  → FedProx: 국소 손실에 정규화 추가하여 전역 모델 근방에 고정          │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 | 구성 요소 | 역할 | 핵심 기술 |
 |:---|:---|:---|

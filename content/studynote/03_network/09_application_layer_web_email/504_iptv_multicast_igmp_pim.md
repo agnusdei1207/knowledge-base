@@ -29,27 +29,30 @@ tags = ["studynote-network"]
   1. **IPTV(실시간 방송) 서비스의 출범**: 2000년대 후반 KT, SKB, LGU+가 케이블 TV를 씹어먹기 위해 구리선 랜망(IP)으로 실시간 방송을 때리려다 보니, 백본망 터지는 걸 막을 유일한 동아줄이 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 장비 셋팅이었다.
   2. **라우터 하드웨어 성능의 발전**: 과거엔 멍청한 라우터가 패킷 복사(Copy) 연산을 하다 CPU가 타버렸으나, [ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/) 칩셋 하드웨어 가속기가 도입되며 1초에 수백만 번의 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 펌핑이 가능해졌다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IPTV 멀티캐스트의 기적: 대역폭(Bandwidth) 1가닥의 위엄 도면</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">📺</div><div class="kb-diagram-node">방송국 메인 서버</div><div class="kb-diagram-note">: "손흥민 골 장면 딱 1가닥(10Mbps) 쏜다!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(단 10Mbps 백본 사용)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🔄</div><div class="kb-diagram-node">서울 메인 라우터</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">대전 라우터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(부산 방향도 10Mbps 1가닥만 복사!) (복사) (복사)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🔄</div><div class="kb-diagram-node">부산 라우터</div><div class="kb-diagram-note">👨‍👩‍👧 시청자1 👨‍👩‍👧 시청자2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(부산 골목 라우터에 와서야 비로소 수십 개로 복사되어 찢어짐!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(복사) (복사) (복사)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">👨‍👩‍👧 👨‍👩‍👧 👨‍👩‍👧 (부산 시청자 100만 명)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 아키텍트의 극찬: 유니캐스트였다면 서울 ➔ 부산으로 내려가는 메인 고속도로에</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">100만 명 * 10Mbps = 10,000 Gbps</div><div class="kb-diagram-note">라는 미친 트래픽이 쏟아져 나라망이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">터졌을 것이다. 멀티캐스트는 서울에서 부산까지 10Mbps 단 1가닥으로 통과한 뒤,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부산 아파트 단지 앞 라우터(Edge)에서 100만 개로 찢어(복제)버린다. 궁극의 압축!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          IPTV 멀티캐스트의 기적: 대역폭(Bandwidth) 1가닥의 위엄 도면           │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ 📺 [ 방송국 메인 서버 ] : "손흥민 골 장면 딱 1가닥(10Mbps) 쏜다!"        │
+│          │ (단 10Mbps 백본 사용)                                 │
+│          ▼                                                  │
+│ 🔄 [ 서울 메인 라우터 ] ── (대전 방향은 10Mbps 1가닥만!) ──▶ [ 대전 라우터 ]│
+│          │                                        │         │
+│  (부산 방향도 10Mbps 1가닥만 복사!)                  (복사)     (복사)  │
+│          ▼                                        ▼         ▼ │
+│ 🔄 [ 부산 라우터 ]                              👨‍👩‍👧 시청자1   👨‍👩‍👧 시청자2│
+│  │      │       │ (부산 골목 라우터에 와서야 비로소 수십 개로 복사되어 찢어짐!) │
+│ (복사)  (복사)   (복사)                                               │
+│  ▼      ▼       ▼                                                │
+│ 👨‍👩‍👧    👨‍👩‍👧    👨‍👩‍👧 (부산 시청자 100만 명)                           │
+│                                                             │
+│ 🌟 아키텍트의 극찬: 유니캐스트였다면 서울 ➔ 부산으로 내려가는 메인 고속도로에 │
+│   [ 100만 명 * 10Mbps = 10,000 Gbps ] 라는 미친 트래픽이 쏟아져 나라망이    │
+│   터졌을 것이다. 멀티캐스트는 서울에서 부산까지 10Mbps 단 1가닥으로 통과한 뒤, │
+│   부산 아파트 단지 앞 라우터(Edge)에서 100만 개로 찢어(복제)버린다. 궁극의 압축!│
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** "넷플릭스는 잘만 되는데 IPTV는 왜 굳이 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 써요?"라는 주니어의 좁은 시야를 깨부수는 코어 아키텍처다. 넷플릭스는 VOD(다시 보기)라서 사람마다 10초 뒤로 가기, 일시 정지를 맘대로 누른다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모양이 다 달라서 복사([Clone](/knowledge-base/studynote/02_operating_system/02_process_thread/149_clone_system_call/))를 해줄 수가 없다. 철저한 1:1 유니캐스트다. 대신 넷플릭스는 돈이 썩어 넘쳐서 부산 아파트 단지 입구마다 '캐시 서버(OCA 쇳덩이)'를 수천억 주고 심어버린 거다. 반면 IPTV 실시간 9시 뉴스는 전 국민이 '동일한 시간(Sync)에 동일한 패킷'을 본다. 그래서 방송국이 1개를 던지면 라우터가 거울처럼 반사(Multicast)해서 뿌리는 이 가성비 최강의 네트워크 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 트리(Tree)가 성립할 수 있는 것이다.
 
@@ -75,18 +78,14 @@ tags = ["studynote-network"]
   3. [RP](/knowledge-base/studynote/03_network/07_network_layer_routing/370_pim_rp_rendezvous_point_rpf_loop_prevention/)(만남의 광장)에서 둘이 만나면, 비로소 최단 거리 고속도로([Shortest Path](/knowledge-base/studynote/05_database/07_exam_summary/547_graph_shortest_path_db_mapping/) Tree)로 길을 쫙 펴서(Switchover) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 직통으로 쏟아붓는다. 쓸데없는 동네에는 영상을 안 쏴서(효율 100%) [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비가 0이다.
 - <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/430_pim/">PIM</a>-DM (Dense Mode / 밀집 모드)</strong>: 옛날 꼰대 방식. 그냥 "에라 모르겠다" 하고 전국의 모든 라우터한테 영상을 미친 듯이 복사해서 다 쏟아부어 버린다(Flooding). "우리 동네 보는 사람 없어요 ㅠㅠ" 하는 라우터한테만 "아 알았어 너넨 안 줄게([Pruning](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/))" 하고 잘라낸다. 트래픽 폭주로 현재는 멸종당했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">IP PBX</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IPTV 멀티캐스트 전송</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">WebRTC</div></div>
-</div>
-</div>
-
-
+```text
+[IP PBX]
+    │
+    ▼
+[IPTV 멀티캐스트 전송]
+    │
+    └──▶ [WebRTC]
+```
 
 - **📢 섹션 요약 비유**: <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/333_igmp_internet_group_management_protocol_multicast/">IGMP</a></strong>는 내가 잡지사에 전화해서 <strong>"이번 달부터 요리 잡지 1권 정기구독(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/">Join</a>)할게요, 재미없으면 다음 달에 구독 끊을게요(Leave)!"</strong>라고 신청하는 과정입니다. <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/430_pim/">PIM</a></strong>은 잡지 배달 트럭(라우터) 기사들끼리 <strong>"강남구에는 구독자 3명 있으니까 강남 우체국으로 3권 쏴주고, 강북구는 한 명도 없으니까 강북 트럭엔 아예 싣지도 마(<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/">가지치기</a>)!"</strong>라고 전국의 배달 노선(Tree)을 지능적으로 짜는 물류 네트워킹 시스템입니다.
 
@@ -129,28 +128,32 @@ tags = ["studynote-network"]
    4) 드디어 영상([UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/))이 도착해도, 동영상 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)(H.264) 특성상 완전한 1장짜리 그림([I-Frame](/knowledge-base/studynote/03_network/04_data_link_layer_error/220_hdlc_frames_i_s_u/) 키프레임)이 1초에 한 번씩 떨어지는데, 중간 쓰레기 프레임(P/B-Frame)을 받으면 화면이 찌그러져서 셋톱박스가 [I-Frame](/knowledge-base/studynote/03_network/04_data_link_layer_error/220_hdlc_frames_i_s_u/) 올 때까지 [버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/)(검은 화면) 1초 대기 탐.
    이 4단계 우주 방어 시스템 때문에 채널 돌아가는 데 물리적으로 2~3초가 걸릴 수밖에 없는 고통스러운 인프라의 늪이다. (최근엔 통신사가 앞부분 1초만 유니캐스트로 미리 땡겨 쏴주는 FCC 꼼수 튜닝으로 속도를 줄이고 있다).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실무 아키텍처: IPTV 셋톱박스 채널 돌릴 때 일어나는 IGMP 3단계 핑퐁 극장</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🛋️</div><div class="kb-diagram-node">거실 (11번 시청 중)</div><div class="kb-diagram-note">🏢</div><div class="kb-diagram-node">동네 아파트 스위치 라우터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">아빠: "아 뉴스 재미없네, 7번 예능 틀어!" (리모컨 딸깍)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">🚨 채널 전환 (Zapping) 발생!</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1️⃣ 셋톱 ──▶ IGMP Leave (나 11번 그룹 탈퇴할게!) ▶ 라우터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➔ 라우터: "ㅇㅋ 너네 아파트 다른 놈 11번 보는 놈 있나? 없네? 11번 밸브 잠금!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2️⃣ 셋톱 ──▶ IGMP Join (나 7번 그룹 가입할게!) ▶ 라우터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➔ 라우터: "어? 우리 아파트 스위치엔 7번 찌꺼기가 안 내려와 있는데?"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3️⃣ 라우터 ──▶ PIM Join (서울 본사야 7번 길 좀 뚫어줘!) ──▶ 서울 본사 라우터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➔ 서울 본사: "ㅇㅋ 7번 영상 패킷 복사기 돌려서 부산으로 다이렉트 송출 시작!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4️⃣ 7번 예능 영상(UDP RTP) 폭포수 ▶ 셋톱 박스 도착 (화면 짠!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 아키텍트의 피눈물: 이 1~4번 과정이 아빠가 리모컨 누르는 그 2초 안에 빛의</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">속도로 처리되어야 한다. 중간에 IGMP 패킷 1개라도 증발(Loss)하면 아빠의 TV</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">화면은 5초 동안 멈춰있고 통신사 고객센터에 쌍욕 전화가 쏟아지는 살얼음판이다.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │         실무 아키텍처: IPTV 셋톱박스 채널 돌릴 때 일어나는 IGMP 3단계 핑퐁 극장 │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │ 🛋️ [ 거실 (11번 시청 중) ]               🏢 [ 동네 아파트 스위치 라우터 ]│
+  │  아빠: "아 뉴스 재미없네, 7번 예능 틀어!" (리모컨 딸깍)                │
+  │                                                             │
+  │        ======= [ 🚨 채널 전환 (Zapping) 발생! ] ========         │
+  │                                                             │
+  │  1️⃣ 셋톱 ──▶ IGMP Leave (나 11번 그룹 탈퇴할게!) ───▶ 라우터      │
+  │     ➔ 라우터: "ㅇㅋ 너네 아파트 다른 놈 11번 보는 놈 있나? 없네? 11번 밸브 잠금!"│
+  │                                                             │
+  │  2️⃣ 셋톱 ──▶ IGMP Join  (나 7번 그룹 가입할게!) ────▶ 라우터      │
+  │     ➔ 라우터: "어? 우리 아파트 스위치엔 7번 찌꺼기가 안 내려와 있는데?"    │
+  │                                                             │
+  │  3️⃣ 라우터 ──▶ PIM Join (서울 본사야 7번 길 좀 뚫어줘!) ──▶ 서울 본사 라우터│
+  │     ➔ 서울 본사: "ㅇㅋ 7번 영상 패킷 복사기 돌려서 부산으로 다이렉트 송출 시작!" │
+  │                                                             │
+  │  4️⃣ 7번 예능 영상(UDP RTP) 폭포수 ──────────▶ 셋톱 박스 도착 (화면 짠!)│
+  │                                                             │
+  │ 🌟 아키텍트의 피눈물: 이 1~4번 과정이 아빠가 리모컨 누르는 그 2초 안에 빛의 │
+  │   속도로 처리되어야 한다. 중간에 IGMP 패킷 1개라도 증발(Loss)하면 아빠의 TV │
+  │   화면은 5초 동안 멈춰있고 통신사 고객센터에 쌍욕 전화가 쏟아지는 살얼음판이다.│
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** "IPTV는 그냥 랜선만 꼽으면 나오는 거 아니에요?"라는 무지함을 깨부수는 L3/L4 제어(Control Plane) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)의 정수다. 통신사의 백본 라우터([Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/)/Nokia)들은 1초에도 수백만 명이 채널을 100번씩 돌리는 미친듯한 Zapping 트래픽 폭풍 속에서, `IGMP Join/Leave` 상태 장부([State Table](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/066_state_table/))를 메모리에서 1밀리초 만에 갱신하고 [PIM](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/430_pim/) 나무 핏줄을 뗐다 붙였다 하는 극한의 CPU 연산 노가다를 수행하고 있다. 이 장부가 엉키면? 채널을 돌렸는데 이전 방송 소리가 나오거나, 화면이 깍두기처럼 깨져버리는 IPTV 최악의 모자이크(Macroblocking) 재앙이 고객 집 거실에 실시간으로 터지게 된다.
 
@@ -162,7 +165,7 @@ tags = ["studynote-network"]
 - <strong><a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/">퍼블릭 클라우드</a>(AWS/Azure)에서의 L3 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/">멀티캐스트</a> 고집과 아키텍처 붕괴</strong>: [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)(사내 쇳덩이 서버)에서 완벽한 [PIM](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/430_pim/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)으로 돌아가던 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 주식 시세 전송 시스템을, "우리도 AWS 클라우드로 이사(Migration) 가자!"라며 그대로 리프트 앤 시프트([Lift](/knowledge-base/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/) & Shift)로 구름 위에 올려버린 멍청한 인프라 팀장의 대재앙. 
   앞서 말했듯 글로벌 [퍼블릭 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/) 망([VPC](/knowledge-base/studynote/03_network/16_data_center_cloud/836_vpc_virtual_private_cloud_subnet_isolation/))은 태생적으로 L3 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 전파 패킷(224.x.x.x) 통과 자체를 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)([SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 레벨에서 영구적으로 칼차단(Drop) 해버린다. 오픈 날, 서버 100대에 핑을 쐈는데 아무도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 못 받아 시장 호가창이 하얗게 얼어붙었다. 클라우드로 갈 거면 L3 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 꼼수(Transit Gateway Multicast 유료 기능 떡칠)를 쓰지 말고, 무조건 <strong>L7 애플리케이션 계층인 <a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/975_websocket_full_duplex_realtime_http_upgrade/">웹소켓</a>(<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/480_websocket_full_duplex/">WebSocket</a>) 브로드캐스팅이나 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/">Redis</a> Pub/Sub, <a href="/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/">Kafka</a> 이벤트 스트리밍</strong>으로 아키텍처 뼈대를 100% 모던하게 갈아엎어야만 구름 위에서 살아 숨 쉴 수 있다. 레거시 L3 깡패 기술을 최신 클라우드 가상망에 억지로 구겨 넣으려는 시도는 기술적 자살 행위다.
 
-- **📢 섹션 요약 비유**: AWS 클라우드에 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)([IGMP](/knowledge-base/studynote/03_network/06_network_layer_ip/333_igmp_internet_group_management_protocol_multicast/))를 억지로 들고 들어가는 건, 최첨단 <strong>'<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a> KTX 기차(클라우드)'</strong> 객실 안에서 할머니가 옛날처럼 <strong>'화로에 장작(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/">멀티캐스트</a>)'</strong>을 피워서 불을 쬐겠다고 고집부리는 짓입니다. KTX 승무원(아마존 보안망)은 연기 나면 다 죽으니까 당장 화로에 물 부어서 1초 만에 강제 진압(패킷 차단)해 버립니다. KTX에 탔으면 KTX에 맞는 최신식 전기 히터([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/), [WebSocket](/knowledge-base/studynote/03_network/09_application_layer_web_email/480_websocket_full_duplex/))로 난방을 켜는 게 상식입니다.
+- **📢 섹션 요약 비유**: AWS 클라우드에 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)([IGMP](/knowledge-base/studynote/03_network/06_network_layer_ip/333_igmp_internet_group_management_protocol_multicast/))를 억지로 들고 들어가는 건, 최첨단 <strong>'<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a> KTX 기차(클라우드)'</strong> 객실 안에서 할머니가 옛날처럼 <strong>'화로에 장작(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/">멀티캐스트</a>)'</strong>을 피워서 불을 쬐겠다고 고집부리는 짓입니다. KTX 승무원(아마존 보안망)은 연기 나면 다 죽으니까 당장 화로에 물 부어서 1초 만에 강제 진압(패킷 차단)해 버립니다. KTX에 탔으면 KTX에 맞는 최정보 전기 히터([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/), [WebSocket](/knowledge-base/studynote/03_network/09_application_layer_web_email/480_websocket_full_duplex/))로 난방을 켜는 게 상식입니다.
 
 ---
 
@@ -201,19 +204,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: IP PBX</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: IPTV 멀티캐스트 전송</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: WebRTC</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 애플리케이션 전달</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: IP PBX]
+    │
+    ▼
+[현재 개념: IPTV 멀티캐스트 전송]
+    │
+    ├──▶ [확장 A: WebRTC]
+    └──▶ [확장 B: 지능형 애플리케이션 전달]
+```
 
 IPTV [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 전송는 IP PBX에서 출발해 현재 메커니즘을 정교화하고, 이후 WebRTC와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -42,23 +42,23 @@ OOM은 단순히 “메모리가 가득 찼다”는 숫자 하나로 발생하�
 
 아래 그림은 OOM 발생 경로를 단계별로 요약한 것이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">memory allocation failure path</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">alloc request</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── reclaim page cache / shrink slabs</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── compact memory / swap out pages</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── still cannot satisfy request</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OOM context decided</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── global OOM : system-wide victim selection</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── memcg OOM : action inside one memory cgroup</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">badness heuristic + oom_score_adj ──▶ SIGKILL ──▶ memory released</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                    memory allocation failure path                         │
+├────────────────────────────────────────────────────────────────────────────┤
+│ alloc request                                                             │
+│      │                                                                     │
+│      ├── reclaim page cache / shrink slabs                                │
+│      ├── compact memory / swap out pages                                  │
+│      └── still cannot satisfy request                                     │
+│              ▼                                                            │
+│      OOM context decided                                                  │
+│      ├── global OOM  : system-wide victim selection                       │
+│      └── memcg OOM   : action inside one memory cgroup                    │
+│              ▼                                                            │
+│ badness heuristic + oom_score_adj  ──▶  SIGKILL  ──▶  memory released │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 희생자 선정에는 메모리 사용량, 프로세스 특성, `oom_score_adj` 값 등이 반영된다. 사용자 공간에서는 `/proc/<pid>/oom_score`로 현재 위험도를 확인할 수 있고, `/proc/<pid>/oom_score_adj`로 중요도를 조정할 수 있다. 여기서 `-1000`은 사실상 면제에 가깝고, `+1000`은 가장 먼저 종료될 가능성을 크게 높인다.
 
@@ -129,23 +129,21 @@ OOM [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">메모리 압박</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">페이지 회수 · 스왑 · 압축</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">전역 OOM / 메모리 cgroup OOM</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">oom_score · oom_score_adj</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SIGKILL · 자동 재시작 · PSI 기반 선제 대응</div>
-</div>
-</div>
-
-
+```text
+메모리 압박
+    │
+    ▼
+페이지 회수 · 스왑 · 압축
+    │
+    ▼
+전역 OOM / 메모리 cgroup OOM
+    │
+    ▼
+oom_score · oom_score_adj
+    │
+    ▼
+SIGKILL · 자동 재시작 · PSI 기반 선제 대응
+```
 
 이 흐름은 OOM이 단발성 종료 이벤트가 아니라, 메모리 압박 감지에서 격리·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)·예방으로 이어지는 운영 체계임을 보여준다.
 

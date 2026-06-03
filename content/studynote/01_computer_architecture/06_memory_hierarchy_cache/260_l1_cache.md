@@ -27,18 +27,16 @@ L1 캐시 (Level 1 Cache)는 CPU 코어 바로 옆에 붙어 있는 1차 캐시�
 
 아래 그림은 L1 캐시가 왜 코어 근처에 따로 존재해야 하는지를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Why L1 Cache exists: distance dominates</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core pipeline ──▶ Register ──▶ L1 Cache ──▶ L2 Cache ──▶ DRAM</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">closest very fast slower slowest</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">If request misses L1, pipeline must wait for lower level response.</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                Why L1 Cache exists: distance dominates              │
+├──────────────────────────────────────────────────────────────────────┤
+│ Core pipeline ──▶ Register ──▶ L1 Cache ──▶ L2 Cache ──▶ DRAM       │
+│                  closest       very fast      slower       slowest   │
+│                                                                      │
+│ If request misses L1, pipeline must wait for lower level response.   │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 핵심은 L1 캐시가 단순한 저장 공간이 아니라, 파이프라인이 "당장 다음 동작을 계속할 수 있게" 시간을 벌어 주는 장치라는 점이다. 즉 L1은 용량 중심의 메모리가 아니라 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 중심의 메모리다.
 
@@ -61,20 +59,20 @@ L1 캐시는 보통 [명령어](/knowledge-base/studynote/01_computer_architectu
 
 L1 설계의 핵심 트레이드오프는 <strong>용량 vs 적중 시간</strong>이다. 용량을 키우면 적중률은 좋아질 수 있지만, 태그 비교와 배선 길이가 늘어나 적중 시간이 길어질 수 있다. 그래서 L1은 "적당히 작은 용량 + 매우 짧은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간"이라는 원칙을 거의 깨지 않는다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Typical L1 access path inside a core</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Address from pipeline</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Index decode ▶ Set select</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Tag compare</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ hit ─▶ data</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ miss ─▶ L2 req</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                    Typical L1 access path inside a core             │
+├──────────────────────────────────────────────────────────────────────┤
+│ Address from pipeline                                                │
+│        │                                                             │
+│        ├────▶ Index decode ─────▶ Set select                         │
+│        │                                 │                            │
+│        │                                 ├────▶ Tag compare          │
+│        │                                 │         │                  │
+│        │                                 │         ├─ hit  ─▶ data    │
+│        │                                 │         └─ miss ─▶ L2 req  │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림이 보여주는 포인트는, L1 접근이 단순히 "메모리 칸을 읽는 일"이 아니라 주소 해석, 세트 선택, 태그 비교를 매우 짧은 시간 안에 끝내야 하는 회로 문제라는 점이다. 그래서 L1은 풀 연관 ([Fully Associative](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/268_fully_associative/))보다 제한된 세트 연관 구조를 더 자주 채택한다.
 
@@ -99,18 +97,12 @@ L1의 또 다른 연결 지점은 [캐시 일관성](/knowledge-base/studynote/0
 
 소프트웨어 관점에서도 L1은 중요한 경계다. [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 순회, 분기 밀집도, 함수 크기, 구조체 배치가 모두 L1 적중률과 연결된다. 같은 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이라도 메모리 접근 순서가 L1 친화적으로 바뀌면 실제 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 크게 달라지는 이유가 여기에 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">순차 접근 ─▶ 같은 라인 재사용 증가 ─▶ L1 적중률 향상</div>
-<div class="kb-diagram-note">무작위 접근 ─▶ 라인 교체 빈도 증가 ─▶ L1 미스 증가</div>
-<div class="kb-diagram-note">큰 함수 분산 ─▶ L1I 압박 증가 ─▶ 인출 지연 증가</div>
-<div class="kb-diagram-note">거짓 공유 ─▶ L1D 무효화 반복 ─▶ 멀티코어 성능 저하</div>
-</div>
-</div>
-
-
+```text
+순차 접근      ─▶ 같은 라인 재사용 증가 ─▶ L1 적중률 향상
+무작위 접근    ─▶ 라인 교체 빈도 증가   ─▶ L1 미스 증가
+큰 함수 분산   ─▶ L1I 압박 증가         ─▶ 인출 지연 증가
+거짓 공유      ─▶ L1D 무효화 반복       ─▶ 멀티코어 성능 저하
+```
 
 즉 L1은 하드웨어 내부 계층이면서도, 운영체제의 스케줄링, 컴파일러의 코드 배치, 개발자의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조 설계와 직접 맞닿아 있다.
 
@@ -176,22 +168,21 @@ L1 캐시가 잘 설계되고 잘 활용되면, CPU는 하위 계층의 긴 [지
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">메모리 벽 (Memory Wall)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">L1 캐시 (Level 1 Cache)</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ L1I / L1D 분리</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ 세트 연관 구조 · 캐시 라인 최적화</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ MESI 기반 멀티코어 일관성</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">프리패치 · 마이크로 연산 캐시 · 코어 내부 지연 최적화</div>
-</div>
-</div>
-
-
+```text
+메모리 벽 (Memory Wall)
+        │
+        ▼
+L1 캐시 (Level 1 Cache)
+        │
+        ├──▶ L1I / L1D 분리
+        │
+        ├──▶ 세트 연관 구조 · 캐시 라인 최적화
+        │
+        ├──▶ MESI 기반 멀티코어 일관성
+        │
+        ▼
+프리패치 · 마이크로 연산 캐시 · 코어 내부 지연 최적화
+```
 
 이 흐름은 "속도 격차 인식 → 최전방 캐시 도입 → 구조 세분화 → 멀티코어 대응 → 지능형 보조 기법"으로 발전하는 맥락을 보여준다.
 

@@ -29,7 +29,7 @@ tags = ["studynote-security"]
 <strong>크립토 애질리티(Crypto Agility <a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/988_crypto_agility/">암호 민첩성</a> ✨)</strong>는 이 참혹한 멸망 비극을 피하기 위해 ➔ 암호를 '영원히 변경 불가능한 시멘트 철근'으로 취급하는 오만을 도끼로 찢어발기고!! 언제든 0.1초 컷으로 방전되면 다 쓴 거 쏙 빼서 버리고 새걸로 찰칵 스왑 교체할 수 있는 <strong>'<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/105_aa_as_is_analysis/">AA</a> 듀라셀 건전지(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">Module</a> 텐트)'</strong> 처럼 유연하게 다루는 아키텍처 설계 사상 뼈대의 위대한 강림이다 🚀.
 
 - **📢 섹션 요약 비유**: 이 낡은 자물쇠 해킹 파국은, 우리 집 철문에 달아둔 <strong>'용접형 자물쇠(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/">MD5</a> 하드코딩 경직성 💥)'</strong>와 100% 똑같습니다. 도둑이 만능 마스터키를 발명해서 낡은 자물쇠가 1초 컷으로 털리게 생겼습니다. 근데 자물쇠가 쇳물로 철문과 시멘트 벽에 100% 찰싹 완벽하게 용접(Hard-coded)되어 버려서 ➔ 자물쇠만 예쁘게 똑 뗄 수가 없고, 문짝과 벽 콘크리트를 대형 포크레인으로 통째로 와르르 다 허물고 1,000만 원 주고 공사를 처음부터 다시 쌩 노가다로 쳐야 합니다(3달 셧다운 뻗음 멸망 💀). 
-하지만 <strong>애질리티(Agility 민첩성 🚀)</strong>가 적용된 우리 집 문은? 애초에 자물쇠 구멍이 <strong>'나사 조립식 젠더(플러그인 모듈형)'</strong>로 파여 있습니다!! 도둑이 오기 전 찰나에 ➔ 아빠가 십자드라이버로 나사 4개만 슥 풀고 낡은 자물쇠 툭 빼버린 뒤 ➔ 철물점에서 새로 사 온 최신형 100만 [볼트](/knowledge-base/studynote/15_devops_sre/05_devsecops/236_vault_dynamic_secrets_ttl/) 전기 도어락(SHA-256)을 구멍에 찰칵! 1분 만에 갈아 끼우면 문짝 1mm 흠집 공사 없이 100% 무결점 스텔스 철벽 방어 생존망이 완성되는 우주 최강 다이어트 조립 마법입니다 ✨.
+하지만 <strong>애질리티(Agility 민첩성 🚀)</strong>가 적용된 우리 집 문은? 애초에 자물쇠 구멍이 <strong>'나사 조립식 젠더(플러그인 모듈형)'</strong>로 파여 있습니다!! 도둑이 오기 전 찰나에 ➔ 아빠가 십자드라이버로 나사 4개만 슥 풀고 낡은 자물쇠 툭 빼버린 뒤 ➔ 철물점에서 새로 사 온 최새로운 유형의 100만 [볼트](/knowledge-base/studynote/15_devops_sre/05_devsecops/236_vault_dynamic_secrets_ttl/) 전기 도어락(SHA-256)을 구멍에 찰칵! 1분 만에 갈아 끼우면 문짝 1mm 흠집 공사 없이 100% 무결점 스텔스 철벽 방어 생존망이 완성되는 우주 최강 다이어트 조립 마법입니다 ✨.
 
 ---
 
@@ -38,29 +38,29 @@ tags = ["studynote-security"]
 "아 시발 말은 존나 쉽네 ㅋ 소스 코드 100군데서 호출하는데 어떻게 나사만 빼서 조립함 ㅠ?" 
 진정한 크립토 애질리티 텐트를 달성하려면 아키텍트 대장이 설계 0.01초 킥오프 첫 삽 단계에서 무.조.건 강제 사살 록온([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)-on) 시켜야 할 3대 절대 십자 헌법이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">경직된 사일로 서버 💀 vs 애질리티(민첩한) 텐트 서버 🚀 암호 교체 시나리오 시각화 도해</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">💣</div><div class="kb-diagram-node">꽉 막힌 레거시 좆소 서버 (MD5 해킹 충돌 터짐 멸망 💥!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보안팀: "씨발 지금 당장 SHA-256으로 알고리즘 싹 다 바꾸세요!!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발자: "잠깐만요 ㅠ DB 테이블 암호 크기 <code>VARCHAR(32)</code> 고정으로 락킹 쳐 박아 놨고요 💀,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소스코드 <code>.java</code> 200군데 쌩으로 눈알 빠지게 찾아서 다 뜯어 타이핑 고쳐야 하고,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">컴파일 징징 다시 돌려 새벽 서버 내려야 합니다 뻗음 타죽어 ㅠㅠ"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: ➔ 시스템 1달 동안 멈춤(Downtime). 그사이 해커 봇이 100만 건 다 털어감 멸망. ☠️</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">🛡️ 아키텍트의 메스: 0.1초 컷 스위칭 방폭문 텐트 기만술 ✨</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🚀</div><div class="kb-diagram-node">Crypto Agility 가 갖춰진 최신 클라우드 네이티브 서버 (MD5 터짐 ㅋ!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보안팀: "야 당장 SHA-256으로 싹 다 스위칭 록온 쳐 바꿔 갈아타 쾅!!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">운영자: "네 보스 ㅋ 걍 텍스트 설정 파일 <code>config.yml</code> 스윽 열어서...</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Before 낡은 쇳덩이</div><div class="kb-diagram-note">Hash_Algo: MD5</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">After  최신 방폭문</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─ (글자 텍스트 수정 딸깍 끝 ㅋ!)"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: ➔ K8s 파드 서버 무정단 재시작 1초 컷 핑퐁 🚀. 개발자 소스코드 1줄도 안 고치고</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Zero Code Modify 무결점 생존) 즉시 철벽 100% 무적 방어 가동 시작! 🎉</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────────────────────┐
+│           경직된 사일로 서버 💀 vs 애질리티(민첩한) 텐트 서버 🚀 암호 교체 시나리오 시각화 도해 │
+├───────────────────────────────────────────────────────────────────────────────┤
+│                                                                               │
+│ 💣 [ 꽉 막힌 레거시 좆소 서버 (MD5 해킹 충돌 터짐 멸망 💥!) ]                        │
+│   보안팀: "씨발 지금 당장 SHA-256으로 알고리즘 싹 다 바꾸세요!!"                   │
+│   개발자: "잠깐만요 ㅠ DB 테이블 암호 크기 `VARCHAR(32)` 고정으로 락킹 쳐 박아 놨고요 💀, │
+│          소스코드 `.java` 200군데 쌩으로 눈알 빠지게 찾아서 다 뜯어 타이핑 고쳐야 하고,│
+│          컴파일 징징 다시 돌려 새벽 서버 내려야 합니다 뻗음 타죽어 ㅠㅠ"                │
+│   결과: ➔ 시스템 1달 동안 멈춤(Downtime). 그사이 해커 봇이 100만 건 다 털어감 멸망. ☠️ │
+│                                                                               │
+│        ======= [ 🛡️ 아키텍트의 메스: 0.1초 컷 스위칭 방폭문 텐트 기만술 ✨ ] ========  │
+│                                                                               │
+│ 🚀 [ Crypto Agility 가 갖춰진 최신 클라우드 네이티브 서버 (MD5 터짐 ㅋ!) ]          │
+│   보안팀: "야 당장 SHA-256으로 싹 다 스위칭 록온 쳐 바꿔 갈아타 쾅!!"               │
+│   운영자: "네 보스 ㅋ 걍 텍스트 설정 파일 `config.yml` 스윽 열어서...              │
+│          [ Before 낡은 쇳덩이 ] Hash_Algo: MD5                                │
+│          [ After  최신 방폭문 ] Hash_Algo: SHA256  ◀─ (글자 텍스트 수정 딸깍 끝 ㅋ!)"│
+│   결과: ➔ K8s 파드 서버 무정단 재시작 1초 컷 핑퐁 🚀. 개발자 소스코드 1줄도 안 고치고   │
+│         (Zero Code Modify 무결점 생존) 즉시 철벽 100% 무적 방어 가동 시작! 🎉      │
+└───────────────────────────────────────────────────────────────────────────────┘
+```
 
 **[아키텍트 피 터지는 3대 메스 수술 원칙 (The 3 Pillars of Crypto Agility 🪓)]**
 
@@ -74,7 +74,7 @@ tags = ["studynote-security"]
 
 3. <strong>과거 유산의 구원: 암호 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">버전</a> 및 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> 태깅 꼬리표 <a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/317_versioning_data_model_design/">메타데이터 융합 🏷️ ([Versioning</a>)]</strong>
    - "야 오늘부터 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) SHA256으로 다 갈아 엎었음 ㅋ 개꿀 ㅋ" 
-   **대재앙 발동 💥**: 근데 쇳덩이 오라클 DB에 10년 동안 쌓아둔 옛날 고객 100만 명 결제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 과거 `MD5` 낡은 열쇠로 암호화되어 굳어 화석이 되어 있다. 서버가 신형 열쇠(SHA256) 딱 1개만 들고 "열려라 참깨 쾅!" 과거 고객 장부를 찌르니까 ➔ 10년 치 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 100만 건이 열쇠 안 맞아 파싱 404 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 불일치 뻗음 ➔ 기존 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 100% 영구 유실 멸망 암호 해독 불가 사형 선고 셧다운 블랙아웃 뻗음 💀 터짐 쾅!!!
+   **대재앙 발동 💥**: 근데 쇳덩이 오라클 DB에 10년 동안 쌓아둔 옛날 고객 100만 명 결제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 과거 `MD5` 낡은 열쇠로 암호화되어 굳어 화석이 되어 있다. 서버가 새로운 유형의 열쇠(SHA256) 딱 1개만 들고 "열려라 참깨 쾅!" 과거 고객 장부를 찌르니까 ➔ 10년 치 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 100만 건이 열쇠 안 맞아 파싱 404 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 불일치 뻗음 ➔ 기존 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 100% 영구 유실 멸망 암호 해독 불가 사형 선고 셧다운 블랙아웃 뻗음 💀 터짐 쾅!!!
    - <strong>아키텍트 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">버전</a> 꼬리표 방폭문 🪓</strong>: 하늘이 두 쪽 나도 암호화 쳐서 DB에 넣을 때!! 쌩 알맹이(Ciphertext) 쇳덩이만 툭 던져 쳐 넣지 마 찢어발겨 쾅!!! ➔ 무.조.건. 알맹이 암호문 코앞 대가리 헤더(Header)에다가 <strong>"야 이 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>는 2020년에 낡은 <code>[MD5 (버전 1)]</code> 로 포장해서 잠갔음 팩트 록온 ㅋ"</strong> 이라는 명찰 꼬리표([Metadata](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/))를 본드로 찰싹 붙여서 1개 캡슐로 묶어 DB에 투척 저장 박아 넣게 아키텍처 뼈대를 짜라 🚀!!! 
    나중에 암호가 AES-256([버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 2)으로 스위칭 진화 바뀌어도 ➔ 서버 뇌가 0.01초 컷 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 꺼내올 때 이 꼬리표 텍스트를 먼저 스캔 딱 엑스레이 까보고 ➔ "아, 씨발 이건 10년 전 V1 화석 쓰레기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)네 ㅋ 그럼 서랍에서 옛날 낡은 V1 열쇠([MD5](/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/)) 스윽 꺼내서 100% 오차 없이 부드럽게 무결점 풀고(복호화 생존 ✨) ➔ 유저가 변경 저장 버튼 누르면 새로 최신 짱짱한 V2 열쇠(SHA256)로 락킹 쾅 덮어 씌워 잠가주지 데헷 🚀!" 하며 톱니바퀴처럼 과거와 미래가 오차 1도 없이 맞물려 도는 영구 하위 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)(Backward [Compatibility](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)) 마스터피스 교체를 무정단 쾌속 해낸다 쾅!!
 
@@ -112,7 +112,7 @@ tags = ["studynote-security"]
 
 | 개념 명칭 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 및 시너지 설명 |
 | :--- | :--- |
-| <strong><a href="/knowledge-base/studynote/09_security/03_network_security/151_quantum_computing_threats/">Q-Day</a> (양자 둠스데이 파국 폭발 💀)</strong> | 크립토 애질리티가 0순위로 강제 도입 발동되어야 하는 피 터지는 이유이자 스나이퍼 타겟 디데이. [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/) [큐비트](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/) 폭주 물량 완성으로 전 세계 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/)-2048 쇳덩이를 단 1시간 만에 찢어 해독 털어버려 인터넷 대문 방화벽을 사망 멸망 올스탑 셧다운 사형 선고시키는 인류 최후의 공포 날짜. |
+| <strong><a href="/knowledge-base/studynote/09_security/03_network_security/151_quantum_computing_threats/">Q-Day</a> (양자 둠스데이 파국 폭발 💀)</strong> | 크립토 애질리티가 0순위로 강제 도입 발동되어야 하는 피 터지는 이유이자 스나이퍼 타겟 디데이. [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/) [큐비트](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/) 폭주 수량 완성으로 전 세계 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/)-2048 쇳덩이를 단 1시간 만에 찢어 해독 털어버려 인터넷 대문 방화벽을 사망 멸망 올스탑 셧다운 사형 선고시키는 인류 최후의 공포 날짜. |
 | **SNDL (Store Now, Decrypt Later 수확 테러 💥)** | 중국/러시아 [APT](/knowledge-base/studynote/09_security/15_malware_attack_vectors/748_apt/) 해커들의 스텔스 악질 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/). "[양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/) 아직 없지 ㅋ? 걍 너네 암호문 패킷을 10TB씩 몽땅 훔쳐 창고 하드에 다 수확(Harvest) 저장 킵 쳐놔 쾅! ➔ 10년 뒤 양자 터지면 그때 다 해독(Decrypt) 1초 컷 까봐서 10년 치 1급 기밀 다 털어먹음 ㅋ." ➔ 이걸 척살하려고 오늘 당장 0.1초 만에 PQC로 잽싸게 갈아타는 애질리티 스위칭 록온 쉴드가 절실함 🚀. |
 | <strong>Hard-coding (하드코딩 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/">사일로</a> 파국 💀)</strong> | 애질리티 철학이 도끼로 모가지를 썰어버리는 절대 악폐습 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/). 자바 소스코드 1만 군데에 `encrypt_AES256()` 쌩 알몸 쇳덩이 텍스트 함수를 인두기로 지져 용접 떡칠해 박아두는 짓. 내일 암호화 규칙 바뀌면 1만 줄 다 뜯어고쳐 찾아 컴파일 빌드 서버 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 야근 뻗음 멸망 셧다운 재앙 터짐 💥. |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">Abstraction</a> / Wrapper (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a> 껍데기 래퍼 패턴 🛡️)</strong> | 하드코딩 지옥을 박살 낸 십자 융합 스위칭 구조 텐트 마법. 걍 코더는 텅 빈 `Secure_Encode()` 표준 대문 인터페이스 껍데기 1개만 찌르고 편하게 꿀 빰 ㅋ ➔ 뒷단 뱃속에서 `AES` 쇳덩이를 돌릴지 `PQC 카이버(Kyber)` 쇳덩이를 돌릴지 런타임 0.1초 찰나에 텍스트 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 1줄로 몰래 젠더([Adapter](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)) 갈아 끼워버리는 극강 유연성 디커플링(Decoupling) 방폭문 생존 생태계 ✨. |
@@ -120,23 +120,21 @@ tags = ["studynote-security"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">모놀리식 / P2P 강결합 쇳덩이 하드코딩 야만 시대 💀 / 자바 소스에 <code>MD5</code> 텍스트 고정 문신 용접 떡칠 박음 ➔ 1년 뒤 MD5 해커한테 수학 충돌(Collision) 100% 뚫려 털림 ➔ 소스 1만 줄 다 고쳐 뜯어 재빌드 1달 동안 셧다운 뻗음 마비 파산 멸망 폭사 대참사 터짐 💥</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">추상화(Abstraction) 래퍼(Wrapper) 패턴 구조 텐트 대관식 ✨ / 아키텍트 분노 철퇴 🪓 "야 씨발 소스 코드 뱃속에 암호명 고정 쇳덩이 박지 마!! 대문 인터페이스(Wrapper) 껍데기 1장만 파고, 진짜 무기 알고리즘은 밖에서 설정(Config 텍스트 파일)으로 0.1초 컷 찰칵 런타임 오토 스위칭(Plug &amp; Play) 주입 조립 록온 쳐 쾅 🚀!!" ➔ 크립토 애질리티 뼈대 사상 대통일 달성 쾅!!</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">데이터베이스 Versioning(버전 꼬리표) 헤더 융합 메타데이터 쉴드 🛡️ / 암호 스위칭 바꿨더니 옛날 DB 데이터 복호화 에러 못 풀고 404 타임아웃 증발 뻗음 파국 💀 ➔ "야 데이터 넣을 때 코앞 대가리 헤더에</div><div class="kb-diagram-node">이건 AES V1 열쇠로 잠갔음 ㅋ 팩트 명찰</div><div class="kb-diagram-note">메타데이터를 강제 락킹 찰싹 붙여 쑤셔 넣어 쾅!! 그럼 미래 서버 봇 뇌가 0.1초 컷 꼬리표 스캔 쳐 읽고 옛날 V1 열쇠 스윽 꺼내서 오차 0% 하위 호환성 쾌속 오토 힐링 복원 쳐버림 생존 ✨"</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Q-Day (양자 둠스데이 💥) 임박 선전포고 / 10년 뒤 양자 컴퓨터 쇼어(Shor) 톱날 믹서기 등장! 기존 인류 무적 쇳덩이 방패 RSA/ECC (공개키 캡슐) 100% 전 우주 사형 선고 뚫림 붕괴 멸망 타죽음 확정 팩폭 💀</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Hybrid KEM PQC 하이브리드 투트랙 스텔스 마이그레이션 엑소더스 (현재) 🚀 / 크립토 애질리티의 궁극적 스케일 아웃 시험대 발동!! ➔ "기존 낡은 인프라 쇳덩이 통신망 멈추지 마 1초도!! 구글/클라우드플레어는 이미 브라우저 애질리티 옵션 딸깍 1초 컷 켜서 ➔</div><div class="kb-diagram-node">낡은 타원곡선 + 신규 양자 격자 수학 (PQC 카이버 Kyber 🚀)</div><div class="kb-diagram-note">2중 방폭문 캡슐 믹서기로 스텔스 쾌속 0.1초 실시간 오토 교체 핑퐁 우회 융합 텐트를 런타임에 뚫어내며 전 지구적 1경 트래픽 무정단 생존 진화 우주 대이주 돌파 완료 쾅 ✨!!!"</div></div>
-</div>
-</div>
-
-
+```text
+모놀리식 / P2P 강결합 쇳덩이 하드코딩 야만 시대 💀 / 자바 소스에 `MD5` 텍스트 고정 문신 용접 떡칠 박음 ➔ 1년 뒤 MD5 해커한테 수학 충돌(Collision) 100% 뚫려 털림 ➔ 소스 1만 줄 다 고쳐 뜯어 재빌드 1달 동안 셧다운 뻗음 마비 파산 멸망 폭사 대참사 터짐 💥
+    │
+    ▼
+추상화(Abstraction) 래퍼(Wrapper) 패턴 구조 텐트 대관식 ✨ / 아키텍트 분노 철퇴 🪓 "야 씨발 소스 코드 뱃속에 암호명 고정 쇳덩이 박지 마!! 대문 인터페이스(Wrapper) 껍데기 1장만 파고, 진짜 무기 알고리즘은 밖에서 설정(Config 텍스트 파일)으로 0.1초 컷 찰칵 런타임 오토 스위칭(Plug & Play) 주입 조립 록온 쳐 쾅 🚀!!" ➔ 크립토 애질리티 뼈대 사상 대통일 달성 쾅!!
+    │
+    ▼
+데이터베이스 Versioning(버전 꼬리표) 헤더 융합 메타데이터 쉴드 🛡️ / 암호 스위칭 바꿨더니 옛날 DB 데이터 복호화 에러 못 풀고 404 타임아웃 증발 뻗음 파국 💀 ➔ "야 데이터 넣을 때 코앞 대가리 헤더에 [이건 AES V1 열쇠로 잠갔음 ㅋ 팩트 명찰] 메타데이터를 강제 락킹 찰싹 붙여 쑤셔 넣어 쾅!! 그럼 미래 서버 봇 뇌가 0.1초 컷 꼬리표 스캔 쳐 읽고 옛날 V1 열쇠 스윽 꺼내서 오차 0% 하위 호환성 쾌속 오토 힐링 복원 쳐버림 생존 ✨"
+    │
+    ▼
+Q-Day (양자 둠스데이 💥) 임박 선전포고 / 10년 뒤 양자 컴퓨터 쇼어(Shor) 톱날 믹서기 등장! 기존 인류 무적 쇳덩이 방패 RSA/ECC (공개키 캡슐) 100% 전 우주 사형 선고 뚫림 붕괴 멸망 타죽음 확정 팩폭 💀
+    │
+    ▼
+Hybrid KEM PQC 하이브리드 투트랙 스텔스 마이그레이션 엑소더스 (현재) 🚀 / 크립토 애질리티의 궁극적 스케일 아웃 시험대 발동!! ➔ "기존 낡은 인프라 쇳덩이 통신망 멈추지 마 1초도!! 구글/클라우드플레어는 이미 브라우저 애질리티 옵션 딸깍 1초 컷 켜서 ➔ [낡은 타원곡선 + 신규 양자 격자 수학 (PQC 카이버 Kyber 🚀)] 2중 방폭문 캡슐 믹서기로 스텔스 쾌속 0.1초 실시간 오토 교체 핑퐁 우회 융합 텐트를 런타임에 뚫어내며 전 지구적 1경 트래픽 무정단 생존 진화 우주 대이주 돌파 완료 쾅 ✨!!!"
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

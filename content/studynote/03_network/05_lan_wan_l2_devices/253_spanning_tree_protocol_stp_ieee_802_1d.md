@@ -24,18 +24,14 @@ tags = ["studynote-network"]
 
 - **💡 비유**: 한강 다리가 끊어질까 봐 다리를 2개(메인 다리, 예비 다리) 지어 놨습니다. 그런데 차들이 두 다리를 통해 뺑글뺑글 꼬리물기(루핑)를 하며 교통 체증([브로드캐스트 스톰](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1097_broadcast_storm_switching_loop_stp/))을 유발합니다. STP는 <strong>예비 다리 입구에 "바리케이드(Block)"를 쳐서 평소엔 못 지나가게 막아두다가, 메인 다리가 무너지면 바리케이드를 치우고 예비 다리를 쓰게 해주는 톨게이트 관리자</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">MAC 주소 호핑</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스패닝 트리 프로토콜</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">BPDU</div></div>
-</div>
-</div>
-
-
+```text
+[MAC 주소 호핑]
+    │
+    ▼
+[스패닝 트리 프로토콜]
+    │
+    └──▶ [BPDU]
+```
 
 - **📢 섹션 요약 비유**: ** STP는 거미줄처럼 엉킨 실타래(루프 네트워크)를 가위로 싹둑싹둑 잘라서, 물이 역류하지 않고 폭포수처럼 위에서 아래로만 흐르는 **"완벽한 나무뿌리 모양(Spanning Tree)의 물길"**로 정돈해 주는 조경사입니다.
 
@@ -59,29 +55,28 @@ STP는 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/23
 - 대장(Root) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 모든 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)는 항상 DP다.
 - 남은 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 중에서, RP도 아니고 DP도 못 된 불쌍한 패배자 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)는 **차단(Block, Non-Designated)** 모드로 들어가 입을 다문다. 루프가 완벽히 끊어지는 순간이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">STP 동작 결과 도식 (루프 차단 과정)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">루트 브리지 (대장!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(우선순위: 4096)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DP ↙ ↘ DP</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Cost 4) / \ (Cost 4)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↙ ↘</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RP ↙ ↘ RP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스위치 B</div><div class="kb-diagram-note">(예비선)</div><div class="kb-diagram-node">스위치 C</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DP BLOCK</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 설명:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) 대장은 우선순위가 낮은 위쪽 스위치.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) B와 C는 대장으로 가는 RP(Root Port)를 하나씩 개통.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) 밑의 예비선(B와 C 연결선)은 루프를 만드므로 닫아야 함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4) C의 포트가 가위바위보(계산)에서 져서 BLOCK 처리됨.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5) 이로써 물리적으론 삼각형이지만, 논리적으론 'ㅅ' 모양(트리)이 됨!</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                STP 동작 결과 도식 (루프 차단 과정)               │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │            [ 루트 브리지 (대장!) ]                             │
+ │             (우선순위: 4096)                                │
+ │             DP ↙            ↘ DP                          │
+ │      (Cost 4) /              \ (Cost 4)                   │
+ │             ↙                  ↘                          │
+ │         RP ↙                    ↘ RP                      │
+ │    [ 스위치 B ] ──── (예비선) ──── [ 스위치 C ]                 │
+ │              DP                BLOCK                        │
+ │                                                             │
+ │   * 설명:                                                     │
+ │   1) 대장은 우선순위가 낮은 위쪽 스위치.                          │
+ │   2) B와 C는 대장으로 가는 RP(Root Port)를 하나씩 개통.           │
+ │   3) 밑의 예비선(B와 C 연결선)은 루프를 만드므로 닫아야 함.          │
+ │   4) C의 포트가 가위바위보(계산)에서 져서 BLOCK 처리됨.             │
+ │   5) 이로써 물리적으론 삼각형이지만, 논리적으론 'ㅅ' 모양(트리)이 됨!  │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 3. STP의 50초 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) 문제
 초창기 802.1D 표준 STP는 선로가 끊어졌을 때(장애 발생), 막아두었던 Block [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 열어 통신을 복구하는 데 무려 <strong>50초(Max Age 20 + Listening 15 + <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/">Learning</a> 15)</strong>라는 끔찍하게 긴 시간이 걸렸다. 현대의 고속 네트워크에서 50초 단절은 치명적이므로, 이를 개선하여 1초 만에 복구하는 <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/260_rstp_rapid_spanning_tree_protocol_ieee_802_1w/">RSTP</a> (<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/260_rstp_rapid_spanning_tree_protocol_ieee_802_1w/">Rapid STP</a>, 802.1w)</strong>가 현재 업계의 기본 표준으로 자리 잡았다.
@@ -142,19 +137,15 @@ STP는 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/23
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: MAC 주소 호핑</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 스패닝 트리 프로토콜</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: BPDU</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 캠퍼스 패브릭</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: MAC 주소 호핑]
+    │
+    ▼
+[현재 개념: 스패닝 트리 프로토콜]
+    │
+    ├──▶ [확장 A: BPDU]
+    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
+```
 
 [스패닝 트리](/knowledge-base/studynote/03_network/19_frequent_topics_terms/959_spanning_tree_protocol_stp_loop_avoidance/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)는 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 호핑에서 출발해 현재 메커니즘을 정교화하고, 이후 BPDU와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

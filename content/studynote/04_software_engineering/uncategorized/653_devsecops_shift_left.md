@@ -29,17 +29,18 @@ tags = ["studynote-software-engineering"]
 
 다음은 데브섹옵스 (DevSecOps) 시프의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데브섹옵스 (DevSecOps) 시프</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                  데브섹옵스 (DevSecOps) 시프                        │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
+│       │                    │                    │          │
+│       ▼                    ▼                    ▼          │
+│   요구 분석           설계·적용           품질 검증        │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램은 데브섹옵스 (DevSecOps) 시프가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -53,22 +54,22 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: 소프트웨어 개발 생명주기([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/))를 시간순으로 나열했을 때 왼쪽부터 오른쪽으로 흐른다고 가정하자 (요구사항 -> 설계 -> 구현 -> 테스트 -> 배포). 여기서 보안([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)) 검증을 가장 마지막(Right)에서 가장 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)(Left)로 옮긴다는 뜻의 은유적 표현이 '[시프트 레프트](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/)'다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비용 및 발견 시점에 따른 Shift-Left 비용 최적화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결함 수정 비용 ($)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1000x</div><div class="kb-diagram-cell">🔴 (운영 중 해킹)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">100x</div><div class="kb-diagram-cell">🟠 (배포 직전 보안 검토)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">10x</div><div class="kb-diagram-cell">🟡 (CI 테스트 중)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1x</div><div class="kb-diagram-cell">🟢 (IDE에서 코드 짤 때)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">설계/개발 (Left) ---&gt; 빌드/테스트 ---&gt; 운영 (Right)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심 지론: 왼쪽(Left)에서 버그를 잡을수록 수정 비용이 기하급수적으로 저렴하다.</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────┐
+│              비용 및 발견 시점에 따른 Shift-Left 비용 최적화           │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│   결함 수정 비용 ($)                                                │
+│   1000x │                                         🔴 (운영 중 해킹)│
+│    100x │                              🟠 (배포 직전 보안 검토)     │
+│     10x │                   🟡 (CI 테스트 중)                     │
+│      1x │       🟢 (IDE에서 코드 짤 때)                           │
+│         └─────────────────────────────────────────────────────  │
+│             설계/개발 (Left)  --->   빌드/테스트   --->   운영 (Right) │
+│                                                                 │
+│ * 핵심 지론: 왼쪽(Left)에서 버그를 잡을수록 수정 비용이 기하급수적으로 저렴하다. │
+└─────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]**
 오른쪽(운영 단계)에서 하드코딩된 패스워드나 SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 취약점이 발견되면, DB 구조를 바꾸고 서비스를 중단하고 긴급 패치를 해야 하는 대재앙이 벌어진다. 하지만 왼쪽(개발 단계)에서 IDE의 보안 플러그인이 "이 코드 취약합니다"라고 즉시 밑줄을 쳐주면, 개발자는 백스페이스를 몇 번 누르는 것만으로(비용 거의 0) 완벽하게 보안을 지켜낼 수 있다.
@@ -116,22 +117,27 @@ DevSecOps는 구호가 아니라 실체적인 툴 체인(Tool-chain)의 결합�
 
 DevSecOps의 또 다른 혁신은 보안 규정, [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 암호화 규제([Compliance](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/058_it_compliance_sox_basel_gdpr_isms/)) 등을 사람이 엑셀 문서로 관리하는 것이 아니라 전부 코드화([As](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))하는 것이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">컴플라이언스 코드화(Compliance as Code) OPA 정책 검사</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">개발자 인프라 배포 요청 (Terraform)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"S3 버킷(클라우드 저장소)을 만들어라. (단, 퍼블릭 공개로)"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OPA (Open Policy Agent) 보안 룰 엔진</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell"><code>deny if bucket.acl == "public-read"</code></div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">❌ 배포 실패 (Pipeline Failed)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"보안 정책 위반: S3 버킷은 무조건 비공개(Private)여야 합니다."</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 보안 담당자가 수동 승인하지 않아도, 코드로 짜인 보안 룰이 자동 차단</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          컴플라이언스 코드화(Compliance as Code) OPA 정책 검사      │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [개발자 인프라 배포 요청 (Terraform)]                         │
+│     "S3 버킷(클라우드 저장소)을 만들어라. (단, 퍼블릭 공개로)"       │
+│               │                                             │
+│               ▼                                             │
+│   ┌───────────────────────────────────────────────┐         │
+│   │ OPA (Open Policy Agent) 보안 룰 엔진           │         │
+│   │ `deny if bucket.acl == "public-read"`         │         │
+│   └───────────┬───────────────────────────────────┘         │
+│               │                                             │
+│               ▼                                             │
+│   [ ❌ 배포 실패 (Pipeline Failed) ]                          │
+│   "보안 정책 위반: S3 버킷은 무조건 비공개(Private)여야 합니다."    │
+│                                                             │
+│ * 핵심: 보안 담당자가 수동 승인하지 않아도, 코드로 짜인 보안 룰이 자동 차단│
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]**
 이전에는 개발자가 클라우드 환경을 배포할 때, 보안 팀이 티켓을 받아 "이 설정이 보안 규정에 맞나?" 일일이 대조했다. 컴플라이언스 코드화가 적용된 파이프라인에서는 [OPA](/knowledge-base/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/)([Open Policy Agent](/knowledge-base/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/)) 같은 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 엔진이 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 단계에 삽입된다. [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 위반 코드가 푸시되면 보안 팀이 개입하기도 전에 젠킨스가 빌드를 파기(Drop)해버려 휴먼 에러가 물리적으로 차단된다.
@@ -175,30 +181,28 @@ DevSecOps의 또 다른 혁신은 보안 규정, [방화벽](/knowledge-base/stu
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 데브섹옵스 (DevSecOps) [시프트 레프트](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 데브섹옵스 (DevSecOps) [시프트 레프트](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
 | [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 데브섹옵스 (DevSecOps) [시프트 레프트](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | 데브섹옵스 (DevSecOps) [시프트 레프트](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
 | [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 데브섹옵스 (DevSecOps) [시프트 레프트](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">데브섹옵스 (DevSecOps) 시프트 레프트 개념 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 위기 (Software Crisis) 인식
+    │
+    ▼
+데브섹옵스 (DevSecOps) 시프트 레프트 개념 정립
+    │
+    ▼
+표준화 및 방법론 체계화 (ISO, CMMI, Agile)
+    │
+    ▼
+클라우드 네이티브·AI 기반 확장 적용
+    │
+    ▼
+지속적 개선 및 DevOps·MLOps 통합
+```
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **물리적 다중 경로**: 고장(단선)을 대비해 장비를 두 개, 세 개 엮어두면 필연적으로 동그란 원(Loop) 모양의 길이 생깁니다.
 - **재앙의 시작**: 목적지를 모르는 방송 패킷(브로드캐스트)이 이 원 안에 들어오면, 장비들이 서로 메아리를 치며 패킷을 무한 복제하여 1초에 수천만 개로 불어나고 5초 만에 전산실 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) CPU가 100%를 찍으며 기계가 타버립니다(Broadcast Storm).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">스패닝 트리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">루프 어보이던스</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OSPF 링크 상태 데이터베이스</div></div>
-</div>
-</div>
-
-
+```text
+[스패닝 트리]
+    │
+    ▼
+[루프 어보이던스]
+    │
+    └──▶ [OSPF 링크 상태 데이터베이스]
+```
 
 - **📢 섹션 요약 비유**: 루프 어보이던스는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -45,18 +41,14 @@ tags = ["studynote-network"]
 - <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/">TTL</a> (<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/">Time to Live</a>) 수명 필드</strong>: IP 패킷 헤더에는 8비트짜리 수명 딱지(예: `TTL=64`)가 붙어있습니다.
 - **동작 (늙어 죽이기)**: 패킷이 1번 라우터를 통과할 때마다 라우터가 이 수명을 1씩 깎습니다(Decrement). 만약 패킷이 길을 잃고 뺑뺑이를 돌아 `TTL=0`이 되는 순간, 그 라우터는 이 좀비 패킷을 그 자리에서 즉시 갈기갈기 찢어서 버려버립니다(Drop). 대규모 트래픽 마비를 원천 봉쇄하는 눈물 나는 철학입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">스패닝 트리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">루프 어보이던스</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OSPF 링크 상태 데이터베이스</div></div>
-</div>
-</div>
-
-
+```text
+[스패닝 트리]
+    │
+    ▼
+[루프 어보이던스]
+    │
+    └──▶ [OSPF 링크 상태 데이터베이스]
+```
 
 - **📢 섹션 요약 비유**: 루프 어보이던스의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -119,19 +111,15 @@ L3 라우터가 길을 찾을 때도 멍청한 [알고리즘](/knowledge-base/st
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 스패닝 트리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 루프 어보이던스</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: OSPF 링크 상태 데이터베이스</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 스패닝 트리]
+    │
+    ▼
+[현재 개념: 루프 어보이던스]
+    │
+    ├──▶ [확장 A: OSPF 링크 상태 데이터베이스]
+    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
+```
 
 루프 어보이던스는 [스패닝 트리](/knowledge-base/studynote/03_network/19_frequent_topics_terms/959_spanning_tree_protocol_stp_loop_avoidance/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) [링크 상태](/knowledge-base/studynote/03_network/07_network_layer_routing/348_link_state_routing_dijkstra_spf/) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

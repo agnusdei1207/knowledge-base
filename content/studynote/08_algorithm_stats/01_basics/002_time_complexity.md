@@ -56,25 +56,19 @@ tags = ["studynote-algorithm"]
 
 ### 복잡도 성장 곡선 ([ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">실행시간</div>
-<div class="kb-diagram-note">^</div>
-<div class="kb-diagram-note">O(n!)</div>
-<div class="kb-diagram-note">O(2^n)</div>
-<div class="kb-diagram-note">O(n^2)</div>
-<div class="kb-diagram-note">O(n log n)</div>
-<div class="kb-diagram-note">O(n)</div>
-<div class="kb-diagram-note">O(log n)</div>
-<div class="kb-diagram-note">O(1)</div>
-<div class="kb-diagram-note">+ &gt; n</div>
-<div class="kb-diagram-note">1 2 4 8 16 32 64 128 256</div>
-</div>
-</div>
-
-
+```
+실행시간
+ ^
+ |                                          O(n!)
+ |                                   O(2^n)
+ |                            O(n^2)
+ |                    O(n log n)
+ |              O(n)
+ |        O(log n)
+ |  O(1) ─────────────────────────────────────────
+ +─────────────────────────────────────────────>  n
+     1   2    4    8   16   32   64  128  256
+```
 
 ### 마스터 정리 (Master Theorem)
 
@@ -93,20 +87,18 @@ tags = ["studynote-algorithm"]
 
 ### 계산 규칙
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">f(n) = 5n³ + 3n² + 100n + 42 의 Big-O 유도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1단계: 최고차항만 남김 → 5n³</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2단계: 계수 제거 → n³</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3단계: 결론 → O(n³)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">덧셈: O(f) + O(g) = O(max(f, g))</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">곱셈: O(f) × O(g) = O(f·g)</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────┐
+│  f(n) = 5n³ + 3n² + 100n + 42  의 Big-O 유도        │
+│                                                     │
+│  1단계: 최고차항만 남김  → 5n³                         │
+│  2단계: 계수 제거        → n³                         │
+│  3단계: 결론             → O(n³)                     │
+│                                                     │
+│  덧셈: O(f) + O(g) = O(max(f, g))                   │
+│  곱셈: O(f) × O(g) = O(f·g)                         │
+└─────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 복잡도 계산은 청구서 정산 같다. 소액 항목(낮은 차수)은 무시하고, 가장 큰 항목(최고차항)만 보면 총 비용의 규모를 파악할 수 있다.
 
@@ -116,19 +108,17 @@ tags = ["studynote-algorithm"]
 
 ### Big-O vs Ω vs Θ [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">f(n)</div>
-<div class="kb-diagram-note">상한 c₁·g(n) O(g(n)) 영역</div>
-<div class="kb-diagram-note">f(n) (실제 함수)</div>
-<div class="kb-diagram-note">하한 c₂·g(n) Ω(g(n)) 영역</div>
-<div class="kb-diagram-note">Θ(g(n)): 상한과 하한 사이에 갇힌 경우</div>
-</div>
-</div>
-
-
+```
+                  f(n)
+                    │
+    상한 c₁·g(n) ───┤─── O(g(n)) 영역
+                    │
+    f(n) ───────────┤  (실제 함수)
+                    │
+    하한 c₂·g(n) ───┤─── Ω(g(n)) 영역
+                    │
+    Θ(g(n)): 상한과 하한 사이에 갇힌 경우
+```
 
 ### [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)별 복잡도 비교 (정렬 중심)
 
@@ -163,20 +153,17 @@ tags = ["studynote-algorithm"]
 
 ### 기술사 답안 핵심 포인트
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">면접관 질문: "이 알고리즘의 시간 복잡도는?"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 모범 답안 구조:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 최악/평균/최선 케이스 각각 명시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Big-O 도출 근거 설명 (루프 중첩, 분할정복 등)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 실무 적용 시 문제 크기 n 기준 한계 제시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 더 나은 대안 알고리즘과 트레이드오프 언급</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────┐
+│  면접관 질문: "이 알고리즘의 시간 복잡도는?"           │
+│                                                      │
+│  ✅ 모범 답안 구조:                                   │
+│  1. 최악/평균/최선 케이스 각각 명시                    │
+│  2. Big-O 도출 근거 설명 (루프 중첩, 분할정복 등)      │
+│  3. 실무 적용 시 문제 크기 n 기준 한계 제시            │
+│  4. 더 나은 대안 알고리즘과 트레이드오프 언급          │
+└──────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 시간 복잡도를 모르고 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 선택하는 것은 연비를 모르고 차를 사는 것과 같다. 단거리에는 경차(O(1)), 장거리 화물에는 트럭(O(n log n))이 최적이다.
 
@@ -192,20 +179,17 @@ tags = ["studynote-algorithm"]
 
 ### 실무 복잡도 한계선
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">복잡도</div><div class="kb-diagram-cell">안전 n</div><div class="kb-diagram-cell">비고</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">O(1), O(log)</div><div class="kb-diagram-cell">무제한</div><div class="kb-diagram-cell">대규모 시스템 핵심 경로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">O(n)</div><div class="kb-diagram-cell">~10^8</div><div class="kb-diagram-cell">1초 내 처리 가능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">O(n log n)</div><div class="kb-diagram-cell">~10^7</div><div class="kb-diagram-cell">정렬 허용 범위</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">O(n²)</div><div class="kb-diagram-cell">~10^4</div><div class="kb-diagram-cell">소규모 배치 처리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">O(2^n)</div><div class="kb-diagram-cell">~25</div><div class="kb-diagram-cell">완전탐색 절대 한계</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────┬───────────┬──────────────────────────┐
+│ 복잡도       │ 안전 n    │ 비고                     │
+├──────────────┼───────────┼──────────────────────────┤
+│ O(1), O(log) │ 무제한    │ 대규모 시스템 핵심 경로  │
+│ O(n)         │ ~10^8     │ 1초 내 처리 가능         │
+│ O(n log n)   │ ~10^7     │ 정렬 허용 범위           │
+│ O(n²)        │ ~10^4     │ 소규모 배치 처리         │
+│ O(2^n)       │ ~25       │ 완전탐색 절대 한계       │
+└──────────────┴───────────┴──────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 복잡도는 건물의 내진설계 등급과 같다. 지진이 오지 않으면(소규모 n) 등급이 낮아도 버티지만, 대지진(대규모 n)에서는 높은 설계 등급(낮은 복잡도)만이 시스템 붕괴를 막는다.
 
@@ -223,23 +207,21 @@ tags = ["studynote-algorithm"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">점근적 표기법</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">마스터 정리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">공간 복잡도 (Space Complexity)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">알고리즘 설계 패러다임</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NP 완전 문제</div></div>
-</div>
-</div>
-
-
+```text
+[점근적 표기법]
+    │
+    ▼
+[마스터 정리]
+    │
+    ▼
+[공간 복잡도 (Space Complexity)]
+    │
+    ▼
+[알고리즘 설계 패러다임]
+    │
+    ▼
+[NP 완전 문제]
+```
 
 이 흐름도는 점근적 표기법에서 출발해 NP 완전 문제까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

@@ -18,18 +18,12 @@ tags = ["studynote-dataengineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Full Fine-tuning: 모든 파라미터 업데이트 (비용↑)</div>
-<div class="kb-diagram-note">LoRA: 저랭크 행렬만 추가 학습 (비용↓↓)</div>
-<div class="kb-diagram-note">QLoRA: 4비트 양자화 + LoRA (단일 GPU 가능)</div>
-<div class="kb-diagram-note">Instruction Tuning: 지시-응답 쌍으로 지시 따르기 학습</div>
-</div>
-</div>
-
-
+```text
+Full Fine-tuning: 모든 파라미터 업데이트 (비용↑)
+LoRA: 저랭크 행렬만 추가 학습 (비용↓↓)
+QLoRA: 4비트 양자화 + LoRA (단일 GPU 가능)
+Instruction Tuning: 지시-응답 쌍으로 지시 따르기 학습
+```
 
 - **📢 섹션 요약 비유**: Fine-tuning은 <strong>대학 졸업생(사전 학습)의 직무 교육(OJT)</strong>이다. 기초 능력이 있으니 적은 교육으로도 전문가가 된다.
 
@@ -53,17 +47,11 @@ Fine-tuning은 <strong>FM을 <a href="/knowledge-base/studynote/05_database/02_m
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">ImageNet Pre-train (2012)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">BERT Fine-tuning (2018)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Full FT → LoRA (2021)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">QLoRA (2023)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: DoRA·LoRA+ — PEFT 고도화</div></div>
-</div>
-</div>
-
-
+```text
+[ImageNet Pre-train (2012)] → [BERT Fine-tuning (2018)]
+    → [Full FT → LoRA (2021)] → [QLoRA (2023)]
+    → [현재: DoRA·LoRA+ — PEFT 고도화]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. Fine-tuning은 <strong>대학 졸업 후 직무 교육(OJT)</strong>이에요.

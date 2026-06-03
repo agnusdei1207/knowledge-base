@@ -34,28 +34,29 @@ tags = ["studynote-operating-system"]
 - **등장 배경**: 
   - 1992년 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/) 버클리의 논문(The Design and Implementation of a [Log-Structured File System](/knowledge-base/studynote/02_operating_system/09_file_system/541_log_structured_file_system/))에서 처음 제안되었다. RAM 캐시의 확대로 'Read' 병목이 사라진 미래에는 오직 'Write' 병목만 남을 것을 정확히 예견한 선구적 아키텍처다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기존 파일 시스템 vs LFS의 디스크 쓰기 동작 차이</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전통적 파일 시스템 (In-place Update)</div><div class="kb-diagram-note">- 헤드 이동 지옥</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 파일 A, B, C를 동시에 아주 조금씩 수정함.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">File A</div><div class="kb-diagram-note">....</div><div class="kb-diagram-node">File B</div><div class="kb-diagram-note">.........</div><div class="kb-diagram-node">File C</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">헤드이동 (찌익!) ─▶ 윙~ ─▶ (찌익!) ─▶ 윙~~~~ ─▶ (찌익!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: Random Write 발생. 3번 덮어쓰는데 헤드가 3번 움직임(느림)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">로그 구조 파일 시스템 (LFS)</div><div class="kb-diagram-note">- 순차 쓰기 (Append-Only)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 파일 A, B, C의 수정본을 메모리에 수 MB(Segment) 덩어리로 모음.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디스크 ──▶ (기존 낡은 A, B, C는 버려짐 무시)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">..................</div><div class="kb-diagram-node">빈 공간</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">헤드이동 ▼ (쿵! 한 번에 내려찍음)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">..................</div><div class="kb-diagram-node">새 A | 새 B | 새 C | Inode 정보</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: Sequential Write 발생. 흩어진 파일들을 하나로 뭉쳐 맨 끝단에</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단 1번의 헤드 이동만으로 연속해서 기록해 버림! 🚀</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │                 기존 파일 시스템 vs LFS의 디스크 쓰기 동작 차이       │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │  [ 전통적 파일 시스템 (In-place Update) ] - 헤드 이동 지옥        │
+  │   - 파일 A, B, C를 동시에 아주 조금씩 수정함.                     │
+  │                                                             │
+  │   디스크 ──▶ [ File A ] .... [ File B ] ......... [ File C ] │
+  │   헤드이동    (찌익!) ─▶ 윙~ ─▶ (찌익!) ─▶ 윙~~~~ ─▶ (찌익!)     │
+  │   ▶ 결과: Random Write 발생. 3번 덮어쓰는데 헤드가 3번 움직임(느림) │
+  │                                                             │
+  │  [ 로그 구조 파일 시스템 (LFS) ] - 순차 쓰기 (Append-Only)     │
+  │   - 파일 A, B, C의 수정본을 메모리에 수 MB(Segment) 덩어리로 모음.   │
+  │                                                             │
+  │   디스크 ──▶ (기존 낡은 A, B, C는 버려짐 무시)                     │
+  │           .................. [ 빈 공간 ]                      │
+  │   헤드이동                    ▼ (쿵! 한 번에 내려찍음)            │
+  │           .................. [ 새 A | 새 B | 새 C | Inode 정보 ]│
+  │   ▶ 결과: Sequential Write 발생. 흩어진 파일들을 하나로 뭉쳐 맨 끝단에 │
+  │           단 1번의 헤드 이동만으로 연속해서 기록해 버림! 🚀            │
+  └─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 하드 디스크의 원판(Platter)에서 헤드가 움직이는 시간([Seek Time](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/))은 약 5~[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) 밀리초(ms)로, CPU 속도와 비교하면 영겁의 시간이다. 전통적 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템은 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)(inode) 갱신하랴, 실제 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 덮어쓰랴 헤드를 이리저리 미친 듯이 튕긴다. LFS는 이 헤드의 기계적 진자 운동을 멈춰버렸다. 새로 쓴 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 조각들, 그리고 그 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 바뀐 주소를 적은 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)(inode) 조각까지 모조리 메모리에 묶어서 하나의 큰 블록([Segment](/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/))으로 만들고, 헤드가 있는 현재 위치 뒤편에 그냥 도장 찍듯 찍고 끝낸다. 랜덤 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)가 마법처럼 100% 순차 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)로 변환(Sequentialize)되며 디스크 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 극한을 뽑아낸다.
 
@@ -75,23 +76,26 @@ tags = ["studynote-operating-system"]
 2. **imap 업데이트**: 메모리에 떠 있는 `imap(아이노드 맵)` 배열에 "[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) A의 새 inode 위치는 디스크의 9999번지다"라고 갱신한다.
 3. **체크포인트(Checkpoint)**: 메모리의 `imap`이 날아가면 모든 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 영원히 잃어버리므로, 주기적으로 이 `imap`을 디스크의 절대 고정 위치(Checkpoint 영역)에 저장해 둔다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LFS의 파일 추적 (Read) 매커니즘: 포인터 추적</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">파일 읽기 요청: "파일 A 읽어줘!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 고정된 Checkpoint 구역 (디스크 끝단)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 메모리에 캐싱된 <code>imap</code> 배열을 확인.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "파일 A의 inode는 디스크 800번지에 새로 갱신되어 있군!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 부유하는 i-node (Log의 가장 최근 부분)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 800번지로 감. "아하, 파일 A의 실제 데이터는 801번, 802번에 있네!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 실제 Data Block</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 801번지, 802번지에서 데이터를 읽어 사용자에게 전달!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 LFS의 파일 추적 (Read) 매커니즘: 포인터 추적        │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [ 파일 읽기 요청: "파일 A 읽어줘!" ]                                 │
+  │                                                                   │
+  │   1. 고정된 Checkpoint 구역 (디스크 끝단)                             │
+  │      - 메모리에 캐싱된 `imap` 배열을 확인.                            │
+  │      - "파일 A의 inode는 디스크 800번지에 새로 갱신되어 있군!"            │
+  │               │                                                   │
+  │               ▼                                                   │
+  │   2. 부유하는 i-node (Log의 가장 최근 부분)                            │
+  │      - 800번지로 감. "아하, 파일 A의 실제 데이터는 801번, 802번에 있네!"  │
+  │               │                                                   │
+  │               ▼                                                   │
+  │   3. 실제 Data Block                                              │
+  │      - 801번지, 802번지에서 데이터를 읽어 사용자에게 전달!                  │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 ### 치명적 단점: [가비지 컬렉션](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/)([Garbage Collection](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/) / Cleaner)의 저주
 
@@ -139,25 +143,26 @@ LFS의 가장 빛나는 장점(항상 덧붙여 [쓰기](/knowledge-base/studyno
    - **원인 분석**: 이런 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 합의 시스템의 핵심은 "상태 변경을 메모리에 적용하기 직전에, 무조건 디스크 끝단에 순차적인 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)(WAL, LFS의 Segment와 동일)로 기록하고 fsync를 때려야 한다"는 룰에 있다. 이 디스크 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 속도가 수십 밀리초(ms) 지연되면 클러스터 리더가 죽은 줄 알고 반란이 일어난다.
    - **아키텍트 판단 (전용 WAL 디스크 분리)**: etcd나 [Zookeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/) 서버를 구축할 때는 절대 OS 시스템 파티션이나 다른 앱이 랜덤 I/O를 날리는 디스크에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공간을 두면 안 된다. <strong>반드시 가장 빠른 최상급 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/">NVMe</a> <a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/">SSD</a> 디스크 하나를 오직 WAL(순차 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a>) 전용 경로로 물리적으로 분리 매핑</strong>해야 한다. 헤드 간섭이나 디스크 컨트롤러 캐시 간섭을 차단하여, 100% 순수 순차 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Sequential Append) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 보장하는 것이 클러스터 생존의 1원칙이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고성능 Write-Intensive 시스템 설계를 위한 아키텍트 트리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">쓰기(Write) 트래픽이 읽기(Read)보다 압도적으로 많은 시스템 설계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기존 B-Tree 기반 RDBMS(MySQL 등)의 인덱스 업데이트가 병목을 일으키는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">LFS 철학을 품은 LSM-Tree 기반 DB 도입 (Cassandra)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(랜덤 I/O를 100% 순차 쓰기로 둔갑시켜 스루풋 극대화)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▼</div><div class="kb-diagram-node">LSM-Tree / 로그 기반 스토리지 도입 시 필수 아키텍처 방어망</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 디스크 공간 통제: 전체 용량의 80%를 넘지 않도록 강력한 알람 설정.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(80%를 넘는 순간 GC/Compaction 오버헤드로 인해 성능 1/10 토막)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. I/O 분리: 순차적 쓰기 로그(WAL/Commit Log) 영역은 무조건</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물리적으로 다른 독립된 NVMe 디스크 볼륨으로 분리할 것.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 고성능 Write-Intensive 시스템 설계를 위한 아키텍트 트리    │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [ 쓰기(Write) 트래픽이 읽기(Read)보다 압도적으로 많은 시스템 설계 ]          │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      기존 B-Tree 기반 RDBMS(MySQL 등)의 인덱스 업데이트가 병목을 일으키는가? │
+  │          ├─ 예 ─────▶ [ LFS 철학을 품은 LSM-Tree 기반 DB 도입 (Cassandra) ]│
+  │          │             (랜덤 I/O를 100% 순차 쓰기로 둔갑시켜 스루풋 극대화)  │
+  │          └─ 아니오                                                │
+  │                │                                                  │
+  │                ▼ [LSM-Tree / 로그 기반 스토리지 도입 시 필수 아키텍처 방어망] │
+  │      1. 디스크 공간 통제: 전체 용량의 80%를 넘지 않도록 강력한 알람 설정.       │
+  │         (80%를 넘는 순간 GC/Compaction 오버헤드로 인해 성능 1/10 토막)   │
+  │      2. I/O 분리: 순차적 쓰기 로그(WAL/Commit Log) 영역은 무조건         │
+  │         물리적으로 다른 독립된 NVMe 디스크 볼륨으로 분리할 것.              │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** LFS의 사상을 차용한 시스템([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/), [Cassandra](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/), [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))은 '아름다운 거짓말' 위에서 돌아간다. 유저에게는 미친듯한 속도를 보여주지만 뒤에서는 쓰레기를 산더미처럼 치우고 있다. 아키텍트는 이 거짓말이 파국을 맞지 않도록 2가지를 강제해야 한다. 첫째, 넉넉한 여유 공간(빈 디스크). 청소부가 짐을 옮기려면 임시로 놓아둘 거대한 여백이 무조건 필요하다. 둘째, 순차 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Sequential)의 절대 방어. 하나의 디스크에 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)과 일반 랜덤 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 섞어 쓰면 하드웨어 블록 큐가 꼬이면서 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 순차 속도마저 박살 나버린다.
 
@@ -203,19 +208,15 @@ LFS의 가장 빛나는 장점(항상 덧붙여 [쓰기](/knowledge-base/studyno
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">ZFS Copy-on-Write 볼륨 관리 통합</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LFS (Log-structured File System) 랜덤 쓰기 순차화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">모바일 환경 에너지 인지 스케줄러</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">하이퍼스레딩 물리 코어 논리 코어 분할 구조</div></div>
-</div>
-</div>
-
-
+```text
+[ZFS Copy-on-Write 볼륨 관리 통합]
+    │
+    ▼
+[LFS (Log-structured File System) 랜덤 쓰기 순차화]
+    │
+    ├──▶ [모바일 환경 에너지 인지 스케줄러]
+    └──▶ [하이퍼스레딩 물리 코어 논리 코어 분할 구조]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

@@ -18,19 +18,13 @@ tags = ["studynote-enterprise-systems"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">동기: A→B (B 장애 시 A도 실패)</div>
-<div class="kb-diagram-note">비동기: A→Queue→B (B 장애 시 Queue에 보관)</div>
-<div class="kb-diagram-note">패턴: Point-to-Point(1:1) | Pub/Sub(1:N)</div>
-<div class="kb-diagram-note">RabbitMQ: 전통 MQ (AMQP, 복잡 라우팅)</div>
-<div class="kb-diagram-note">Kafka: 분산 로그 (대용량, 순서 보장)</div>
-</div>
-</div>
-
-
+```text
+동기: A→B (B 장애 시 A도 실패)
+비동기: A→Queue→B (B 장애 시 Queue에 보관)
+패턴: Point-to-Point(1:1) | Pub/Sub(1:N)
+RabbitMQ: 전통 MQ (AMQP, 복잡 라우팅)
+Kafka: 분산 로그 (대용량, 순서 보장)
+```
 
 - **📢 섹션 요약 비유**: [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 브로커는 <strong>우체국</strong>이다. 편지([메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지)를 맡기면 우체국이 상대방에게 배달한다.
 
@@ -54,18 +48,12 @@ tags = ["studynote-enterprise-systems"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">IBM MQ (1990s)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">JMS (Java, 2001)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">RabbitMQ (2007, AMQP)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Kafka (2011, 분산 로그)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: Pulsar·RedPanda — Kafka 대안</div></div>
-</div>
-</div>
-
-
+```text
+[IBM MQ (1990s)] → [JMS (Java, 2001)]
+    → [RabbitMQ (2007, AMQP)]
+    → [Kafka (2011, 분산 로그)]
+    → [현재: Pulsar·RedPanda — Kafka 대안]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 브로커는 <strong>우체국</strong>이에요. 편지([메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지)를 맡기면 <strong>대신 배달</strong>해요.

@@ -24,31 +24,30 @@ tags = ["studynote-software-engineering"]
 
 이를 해결하기 위해 테스터 2단계 각성인 <strong>결정 커버리지(Decision Coverage, 또는 분기 커버리지 Branch Coverage)</strong>가 태어납니다. 이 계명은 "코드를 다 지나는 걸 넘어, 모든 선택지 문(Decision Point)에서 T/F 화살표의 양 갈래를 다 타고 놀아야 한다!"라고 규제합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">구문 커버리지 vs 결정 커버리지의 차이</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">원시 코드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1: int check(int age) {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2: if (age &gt;= 18) {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3: grant_access(); // 통과!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4: }</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5: return 0;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6: }</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">구문 커버리지의 오만</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 입력: age = 20</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 흐름: 1 -&gt; 2(참) -&gt; 3 -&gt; 5 -&gt; 6</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 모든 줄 실행! (100% 성공!) =&gt; 하지만 18 미만 상황을 아예 무시.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">결정 커버리지의 집요함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 입력 1: age = 20 (조건 전체가 '참'이 되는 분기 찌르기)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 입력 2: age = 15 (조건 전체가 '거짓'이 되는 분기 찌르기)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2번 줄 분기점이 참(True)과 거짓(False) 양쪽 화살표를 모두 소화함!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 비로소 미성년자 접근 시 숨은 에러가 없는지 증명 완료 (안도 100%)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                  구문 커버리지 vs 결정 커버리지의 차이            │
+├──────────────────────────────────────────────────────────────┤
+│ [원시 코드]                                                    │
+│  1: int check(int age) {                                     │
+│  2:     if (age >= 18) {                                     │
+│  3:         grant_access();  // 통과!                        │
+│  4:     }                                                    │
+│  5:     return 0;                                            │
+│  6: }                                                        │
+│                                                              │
+│ [구문 커버리지의 오만]                                           │
+│   - 입력: age = 20                                           │
+│   - 흐름: 1 -> 2(참) -> 3 -> 5 -> 6                        │
+│   ▶ 모든 줄 실행! (100% 성공!) => 하지만 18 미만 상황을 아예 무시.  │
+│                                                              │
+│ [결정 커버리지의 집요함]                                         │
+│   - 입력 1: age = 20 (조건 전체가 '참'이 되는 분기 찌르기)           │
+│   - 입력 2: age = 15 (조건 전체가 '거짓'이 되는 분기 찌르기)         │
+│   ▶ 2번 줄 분기점이 참(True)과 거짓(False) 양쪽 화살표를 모두 소화함! │
+│   ▶ 비로소 미성년자 접근 시 숨은 에러가 없는지 증명 완료 (안도 100%)    │
+└──────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 건물에 화재가 났을 때 [구문 커버리지](/knowledge-base/studynote/04_software_engineering/11_testing_validation/422_statement_coverage/)가 "탈출구 하나로 나가는 시뮬레이션 한 번 돌려보고 전원이 탈출했으니 건물 안전 100점!"이라고 한다면, 분기 커버리지는 "만약 저쪽 출구가 불에 타서 막혔을 때(False), 반대편 비상계단으로 도망가는 방법(Else)도 다 훈련해 봐야 안전 100점이다!"라고 혹독하게 양방향 대비를 시키는 훈련 대장입니다.
 
@@ -139,30 +138,28 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 결정 커버리지 (Decision Coverage / 분기 커버리지)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 결정 커버리지 (Decision Coverage / 분기 커버리지)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
 | [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 결정 커버리지 (Decision Coverage / 분기 커버리지)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | 결정 커버리지 (Decision Coverage / 분기 커버리지) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
 | [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 결정 커버리지 (Decision Coverage / 분기 커버리지)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">결정 커버리지 (Decision Coverage / 분기 커버리지) 개념 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 위기 (Software Crisis) 인식
+    │
+    ▼
+결정 커버리지 (Decision Coverage / 분기 커버리지) 개념 정립
+    │
+    ▼
+표준화 및 방법론 체계화 (ISO, CMMI, Agile)
+    │
+    ▼
+클라우드 네이티브·AI 기반 확장 적용
+    │
+    ▼
+지속적 개선 및 DevOps·MLOps 통합
+```
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

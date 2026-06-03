@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 기존 디도스는 해커가 좀비 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 1만 대를 감염시켜서 일제히 청와대를 때렸습니다. 
 - 단점: 좀비 1만 대를 감염시키려면 시간이 엄청 오래 걸리고(비용 발생), 백신 회사에 들통나면 좀비들이 치료되어 화력이 떨어집니다. 게다가 공격 패킷을 까보면 좀비 PC의 진짜 IP가 찍혀있어 역추적 당해 경찰에 잡히기 쉽습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">ARP 스푸핑 중간자 방어</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DDoS 반사 증폭 원조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">클라우스 보안 워크로드 CWPP 통제망</div></div>
-</div>
-</div>
-
-
+```text
+[ARP 스푸핑 중간자 방어]
+    │
+    ▼
+[DDoS 반사 증폭 원조]
+    │
+    └──▶ [클라우스 보안 워크로드 CWPP 통제망]
+```
 
 - **📢 섹션 요약 비유**: DDoS 반사 증폭 원조는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -44,18 +40,14 @@ tags = ["studynote-network"]
 - **Reflection (반사)**: 내 손에 피를 묻히지 않습니다. 출발지 IP를 타겟(청와대) IP로 위장([IP Spoofing](/knowledge-base/studynote/03_network/14_network_security_threats/704_ip_spoofing_trust_injection/))하여 제3자(정상적인 공공 서버)에게 질문을 던지면, 3자는 친절하게 타겟(청와대)을 향해 빗나가게 답장을 반사(Reflect)해 버립니다. 역추적 시 공격자는 정상 서버로 나오므로 해커 본인은 절대 안 잡힙니다.
 - **Amplification (증폭)**: 1을 주면 1이 돌아오는 건 재미가 없습니다. 질문 패킷의 크기는 코딱지만 한데(10바이트), 대답 패킷의 크기가 거대한(1,000바이트) 특정 취약점 프로토콜들을 골라서 때립니다(비대칭성). 내 노트북 1대로도 슈퍼컴퓨터를 침몰시킬 수 있는 핵폭탄(100배 증폭)을 던지는 셈입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">ARP 스푸핑 중간자 방어</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DDoS 반사 증폭 원조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">클라우스 보안 워크로드 CWPP 통제망</div></div>
-</div>
-</div>
-
-
+```text
+[ARP 스푸핑 중간자 방어]
+    │
+    ▼
+[DDoS 반사 증폭 원조]
+    │
+    └──▶ [클라우스 보안 워크로드 CWPP 통제망]
+```
 
 - **📢 섹션 요약 비유**: DDoS 반사 증폭 원조의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -124,19 +116,15 @@ DDoS 반사 증폭 원조는 [성능](/knowledge-base/studynote/04_software_engi
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: ARP 스푸핑 중간자 방어</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: DDoS 반사 증폭 원조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 클라우스 보안 워크로드 CWPP 통제망</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: ARP 스푸핑 중간자 방어]
+    │
+    ▼
+[현재 개념: DDoS 반사 증폭 원조]
+    │
+    ├──▶ [확장 A: 클라우스 보안 워크로드 CWPP 통제망]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 DDoS 반사 증폭 원조는 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) 중간자 방어에서 출발해 현재 메커니즘을 정교화하고, 이후 클라우스 보안 워크로드 [CWPP](/knowledge-base/studynote/15_devops_sre/05_devsecops/332_cwpp/) 통제망와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

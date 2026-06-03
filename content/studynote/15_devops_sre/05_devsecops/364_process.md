@@ -29,21 +29,21 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">멀티클러스터 K8s 아키텍처 (Active-Active)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">글로벌 DNS / GSLB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지역별 트래픽 라우팅 (가중치, 레이턴시, 헬스체크 기반)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">클러스터 A: ap-northeast-2</div><div class="kb-diagram-node">클러스터 B: us-east-1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Argo CD ApplicationSet Argo CD ApplicationSet</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Submariner / Cilium ClusterMesh — 클러스터 간 파드 네트워크</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Cluster API — 클러스터 생성·업그레이드 자동화</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│           멀티클러스터 K8s 아키텍처 (Active-Active)              │
+├──────────────────────────────────────────────────────────────────┤
+│  [글로벌 DNS / GSLB]                                             │
+│  지역별 트래픽 라우팅 (가중치, 레이턴시, 헬스체크 기반)          │
+│         │                        │                              │
+│  [클러스터 A: ap-northeast-2]   [클러스터 B: us-east-1]         │
+│  Argo CD ApplicationSet         Argo CD ApplicationSet          │
+│         │                        │                              │
+│  [Submariner / Cilium ClusterMesh — 클러스터 간 파드 네트워크]   │
+│         │                                                        │
+│  [Cluster API — 클러스터 생성·업그레이드 자동화]                 │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 | 도구                        | 역할                                           |
 | :-------------------------- | :--------------------------------------------- |
@@ -117,25 +117,24 @@ GitOps와의 연계: [Argo CD](/knowledge-base/studynote/13_cloud_architecture/0
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단일 K8s 클러스터 (단일 장애점)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">다중 AZ 배포 (동일 리전 HA)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">멀티클러스터 — KubeFed v2 + Cluster API</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Argo CD ApplicationSet — GitOps 멀티클러스터 배포</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Submariner / Cilium ClusterMesh — 클러스터 간 네트워킹</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">GSLB + Active-Active — 글로벌 제로다운타임</div>
-</div>
-</div>
-
-
+```text
+단일 K8s 클러스터 (단일 장애점)
+    │
+    ▼
+다중 AZ 배포 (동일 리전 HA)
+    │
+    ▼
+멀티클러스터 — KubeFed v2 + Cluster API
+    │
+    ▼
+Argo CD ApplicationSet — GitOps 멀티클러스터 배포
+    │
+    ▼
+Submariner / Cilium ClusterMesh — 클러스터 간 네트워킹
+    │
+    ▼
+GSLB + Active-Active — 글로벌 제로다운타임
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

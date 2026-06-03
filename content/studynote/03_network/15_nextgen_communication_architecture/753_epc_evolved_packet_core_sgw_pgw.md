@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: 3GPP에서 정의한 <strong>4G <a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/">LTE</a> 이동통신 시스템의 핵심 코어 네트워크(Core Network)</strong> 아키텍처입니다.
 - **특징**: 기존 3G의 복잡한 음성/[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분리 구조를 버리고, 오직 <strong>패킷 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>(IP)</strong>만을 전송하기 위해 극도로 단순하고 평평하게(Flat) 진화(Evolved)한 IP 백본망입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">LTE All-IP 패킷 교환 완전 전환,…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">EPC S-GW, P-GW 제어 망 트래픽…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MME</div></div>
-</div>
-</div>
-
-
+```text
+[LTE All-IP 패킷 교환 완전 전환,…]
+    │
+    ▼
+[EPC S-GW, P-GW 제어 망 트래픽…]
+    │
+    └──▶ [MME]
+```
 
 - **📢 섹션 요약 비유**: EPC S-GW, P-GW 제어 망 트래픽…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -61,18 +57,14 @@ EPC는 거대한 통신사 전산실에 있는 라우터와 서버들의 집합�
 ### 4. [HSS](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/755_hss_home_subscriber_server/) (Home Subscriber Server) - "중앙 주민등록부"
 - 전 국민의 전화번호, 요금제 가입 정보, 현재 위치 정보, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 암호 키를 몽땅 담고 있는 거대한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스입니다. (상세 내용은 755번 문서 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">LTE All-IP 패킷 교환 완전 전환,…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">EPC S-GW, P-GW 제어 망 트래픽…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MME</div></div>
-</div>
-</div>
-
-
+```text
+[LTE All-IP 패킷 교환 완전 전환,…]
+    │
+    ▼
+[EPC S-GW, P-GW 제어 망 트래픽…]
+    │
+    └──▶ [MME]
+```
 
 - **📢 섹션 요약 비유**: EPC S-GW, P-GW 제어 망 트래픽…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -133,19 +125,15 @@ EPC S-GW, P-GW 제어 망 트래픽…는 차세대 통신 아키텍처를 이�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: LTE All-IP 패킷 교환 완전 전환,…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: EPC S-GW, P-GW 제어 망 트래픽…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: MME</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 네트워크 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: LTE All-IP 패킷 교환 완전 전환,…]
+    │
+    ▼
+[현재 개념: EPC S-GW, P-GW 제어 망 트래픽…]
+    │
+    ├──▶ [확장 A: MME]
+    └──▶ [확장 B: AI 기반 네트워크 최적화]
+```
 
 EPC S-GW, P-GW 제어 망 트래픽…는 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) All-IP [패킷 교환](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/276_packet_switching_vs_circuit_switching_message_switching/) 완전 전환,…에서 출발해 현재 메커니즘을 정교화하고, 이후 MME와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

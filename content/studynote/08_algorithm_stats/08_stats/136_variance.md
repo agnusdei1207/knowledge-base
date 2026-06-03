@@ -127,22 +127,21 @@ Cov[X,Y] = E[(X-μX)(Y-μY)]
 
 <strong>저분산 vs 고분산 <a href="/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/">시각화</a></strong>:
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">저분산 분포 고분산 분포</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">████ ██</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">██████ ████</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">████████ ██████</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">██████████ ████████</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">μ → μ →</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">σ 작음 (좁은 분포) σ 큼 (넓은 분포)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">품질 균일 (소분산) 위험 높음 (대분산)</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────┐
+│  저분산 분포                   고분산 분포               │
+│                                                          │
+│      ████                    ██                         │
+│     ██████                  ████                        │
+│    ████████                ██████                       │
+│   ██████████              ████████                      │
+│  ────μ────→              ───────μ───────→               │
+│                                                         │
+│  σ 작음 (좁은 분포)       σ 큼 (넓은 분포)             │
+│                                                         │
+│  품질 균일 (소분산)        위험 높음 (대분산)            │
+└──────────────────────────────────────────────────────────┘
+```
 
 ### 변동 계수 ([CV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/156_cv_cost_variance/), Coefficient of Variation)
 
@@ -184,21 +183,18 @@ P(|X-μ| ≥ kσ) ≤ 1/k²    (k > 0)
 
 ### 응용 — 표본 평균의 수렴 증명
 
+```
+X₁,...,Xₙ i.i.d., E[Xᵢ]=μ, Var[Xᵢ]=σ²
 
+표본 평균 X̄ = (1/n)ΣXᵢ:
+  E[X̄] = μ
+  Var[X̄] = σ²/n
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-note">X₁,...,Xₙ i.i.d., E</div><div class="kb-diagram-node">Xᵢ</div><div class="kb-diagram-note">=μ, Var</div><div class="kb-diagram-node">Xᵢ</div><div class="kb-diagram-note">=σ²</div></div>
-<div class="kb-diagram-note">표본 평균 X̄ = (1/n)ΣXᵢ:</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">E</div><div class="kb-diagram-node">X̄</div><div class="kb-diagram-note">= μ</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Var</div><div class="kb-diagram-node">X̄</div><div class="kb-diagram-note">= σ²/n</div></div>
-<div class="kb-diagram-note">체비쇼프 적용:</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P(</div><div class="kb-diagram-cell">X̄-μ</div><div class="kb-diagram-cell">≥ ε) ≤ σ²/(nε²) → 0 as n→∞</div></div>
-<div class="kb-diagram-note">→ 대수의 법칙 (Law of Large Numbers) 증명!</div>
-</div>
-</div>
+체비쇼프 적용:
+  P(|X̄-μ| ≥ ε) ≤ σ²/(nε²) → 0 as n→∞
 
-
+→ 대수의 법칙 (Law of Large Numbers) 증명!
+```
 
 📢 **섹션 요약 비유**: 체비쇼프 부등식은 "분포가 어떻든 간에, 평균에서 3배 표준편차 이상 벗어날 확률은 최대 [11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/)%다"라는 최악의 경우 보증서다.
 
@@ -208,19 +204,15 @@ P(|X-μ| ≥ kσ) ≤ 1/k²    (k > 0)
 
 ### 금융 위험 분석 ([Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Analysis)
 
+```
+포트폴리오 수익률 R = w₁R₁ + w₂R₂
 
+Var[R] = w₁²Var[R₁] + w₂²Var[R₂] + 2w₁w₂Cov[R₁,R₂]
+       = w₁²σ₁² + w₂²σ₂² + 2w₁w₂ρσ₁σ₂
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">포트폴리오 수익률 R = w₁R₁ + w₂R₂</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Var</div><div class="kb-diagram-node">R</div><div class="kb-diagram-note">= w₁²Var</div><div class="kb-diagram-node">R₁</div><div class="kb-diagram-note">+ w₂²Var</div><div class="kb-diagram-node">R₂</div><div class="kb-diagram-note">+ 2w₁w₂Cov</div><div class="kb-diagram-node">R₁,R₂</div></div>
-<div class="kb-diagram-note">= w₁²σ₁² + w₂²σ₂² + 2w₁w₂ρσ₁σ₂</div>
-<div class="kb-diagram-note">→ ρ = -1 이면 완전 분산 투자(헤지) 가능</div>
-<div class="kb-diagram-note">→ ρ &gt; 0 이면 리스크 분산 효과 감소</div>
-</div>
-</div>
-
-
+→ ρ = -1 이면 완전 분산 투자(헤지) 가능
+→ ρ > 0 이면 리스크 분산 효과 감소
+```
 
 ### ML [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) ([Regularization](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/134_regularization_dropout_batch_norm/))
 
@@ -258,25 +250,24 @@ SPC (Statistical Process Control, 통계적 공정 관리):
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">중심 경향 (Central Tendency)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">편차 (Deviation)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">분산 (Variance)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">표준 편차 (Standard Deviation)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">정규 분포 (Normal Distribution)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">통계적 추론 (Statistical Inference)</div></div>
-</div>
-</div>
-
-
+```text
+[중심 경향 (Central Tendency)]
+    │
+    ▼
+[편차 (Deviation)]
+    │
+    ▼
+[분산 (Variance)]
+    │
+    ▼
+[표준 편차 (Standard Deviation)]
+    │
+    ▼
+[정규 분포 (Normal Distribution)]
+    │
+    ▼
+[통계적 추론 (Statistical Inference)]
+```
 
 평균에서 벗어난 정도를 수치화한 분산이 표준 편차·분포 분석·통계 추론으로 이어지는 흐름이다.
 

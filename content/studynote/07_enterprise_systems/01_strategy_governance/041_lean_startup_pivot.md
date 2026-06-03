@@ -49,40 +49,44 @@ tags = ["studynote-enterprise-systems"]
 
 ## Ⅱ. [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 유형
 
+```
+10가지 피벗 유형 (Eric Ries):
 
+1. 줌인 피벗 (Zoom-in):
+   하나의 기능이 전체 제품으로 성장
+   예: Instagram (체크인 기능 → 전체 앱)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">10가지 피벗 유형 (Eric Ries):</div>
-<div class="kb-diagram-note">1. 줌인 피벗 (Zoom-in):</div>
-<div class="kb-diagram-note">하나의 기능이 전체 제품으로 성장</div>
-<div class="kb-diagram-note">예: Instagram (체크인 기능 → 전체 앱)</div>
-<div class="kb-diagram-note">2. 줌아웃 피벗 (Zoom-out):</div>
-<div class="kb-diagram-note">단일 기능이 더 큰 제품의 일부로</div>
-<div class="kb-diagram-note">예: 메시지 기능 → 전체 플랫폼</div>
-<div class="kb-diagram-note">3. 고객 세그먼트 피벗:</div>
-<div class="kb-diagram-note">동일 제품, 다른 고객군</div>
-<div class="kb-diagram-note">예: Slack (게임 개발자 → 기업 팀)</div>
-<div class="kb-diagram-note">4. 고객 니즈 피벗:</div>
-<div class="kb-diagram-note">같은 고객, 다른 문제 해결</div>
-<div class="kb-diagram-note">예: YouTube (데이팅 → 동영상 공유)</div>
-<div class="kb-diagram-note">5. 플랫폼 피벗:</div>
-<div class="kb-diagram-note">앱 → 플랫폼 (또는 반대)</div>
-<div class="kb-diagram-note">예: 이커머스 앱 → API 플랫폼</div>
-<div class="kb-diagram-note">6. 비즈니스 아키텍처 피벗:</div>
-<div class="kb-diagram-note">B2C ↔ B2B 전환</div>
-<div class="kb-diagram-note">7. 가치 창출 피벗:</div>
-<div class="kb-diagram-note">수익 모델 변경 (무료→유료, 구독→일회성)</div>
-<div class="kb-diagram-note">8. 채널 피벗:</div>
-<div class="kb-diagram-note">유통 채널 변경 (직접판매→채널판매)</div>
-<div class="kb-diagram-note">9. 기술 피벗:</div>
-<div class="kb-diagram-note">동일 솔루션, 다른 기술 스택</div>
-<div class="kb-diagram-note">10. 엔진 피벗:</div>
-<div class="kb-diagram-note">성장 엔진 변경 (바이럴→유료→점착성)</div>
-</div>
-</div>
+2. 줌아웃 피벗 (Zoom-out):
+   단일 기능이 더 큰 제품의 일부로
+   예: 메시지 기능 → 전체 플랫폼
 
+3. 고객 세그먼트 피벗:
+   동일 제품, 다른 고객군
+   예: Slack (게임 개발자 → 기업 팀)
 
+4. 고객 니즈 피벗:
+   같은 고객, 다른 문제 해결
+   예: YouTube (데이팅 → 동영상 공유)
+
+5. 플랫폼 피벗:
+   앱 → 플랫폼 (또는 반대)
+   예: 이커머스 앱 → API 플랫폼
+
+6. 비즈니스 아키텍처 피벗:
+   B2C ↔ B2B 전환
+
+7. 가치 창출 피벗:
+   수익 모델 변경 (무료→유료, 구독→일회성)
+
+8. 채널 피벗:
+   유통 채널 변경 (직접판매→채널판매)
+
+9. 기술 피벗:
+   동일 솔루션, 다른 기술 스택
+
+10. 엔진 피벗:
+    성장 엔진 변경 (바이럴→유료→점착성)
+```
 
 > 📢 **섹션 요약 비유**: [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 유형은 요리 레시피 수정 — 재료(고객)를 바꾸거나, 조리법(기술)을 바꾸거나, 제공 방식(채널)을 바꾸는 다양한 방법.
 

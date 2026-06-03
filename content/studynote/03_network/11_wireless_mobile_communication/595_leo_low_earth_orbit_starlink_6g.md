@@ -23,28 +23,30 @@ tags = ["studynote-network"]
 - **필요성**: 기존 정지궤도([GEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/593_geo_geostationary_earth_orbit_satellite/), 593번 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)) 위성은 광역 방송엔 최고였지만, **500ms(0.5초)의 끔찍한 Ping 딜레이** 때문에 현대인들이 환장하는 줌(Zoom) 화상 회의나 실시간 주식 트레이딩, 넷플릭스 4K 스트리밍 등 쌍방향 고속 통신에 써먹기엔 쓰레기망이나 다름없었다. 사막, 바다 한가운데서 일하는 특수 직업군이나 우크라이나 같은 전쟁으로 광케이블이 뜯긴 나라를 위해 <strong>"도심지 땅에 깔린 광케이블(20ms <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>)과 100% 동일한 반응 속도를 우주에서 쏴줄 기적의 초저지연 백본망"</strong>이 절대적으로 절실했다.
 - **등장 배경**: ① 전통적 [GEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/593_geo_geostationary_earth_orbit_satellite/) 위성의 근본적 [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) 한계 봉착 및 해저 광케이블 취약점 부각 → ② 일론 머스크(SpaceX)의 팰컨9 재활용 로켓 발명으로, 위성 1만 대를 쏘는 궤도 진입 '택배비'의 극단적 원가 절감 달성 → ③ 기계식 모터 없이도 10분마다 휙휙 지나가는 위성의 전파 빔을 100만 분의 1초 만에 잡아채는 전자식 위상 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)(Phased [Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)) 평면 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)의 소형화/대중화 성공.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GEO 위성(느림) vs LEO 위성(스타링크의 혁명) 구조 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">과거의 절망: GEO 위성 (고도 36,000km)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🛰️ ─(왕복 7만km 여행, 핑 500ms 지연 폭발!)─▶ 💻 (Zoom 회의 툭뚝 끊김)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(장점: 한 자리 고정이라 안테나가 가만히 있어도 됨. 단 3대로 지구 덮음)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">혁명: LEO 위성 - "스타링크 군집망 (고도 550km)"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🛰️(1번) ====== 🛰️(2번) ====== 🛰️(3번) ====== 🛰️(4번)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">\ (우주 공간 레이저 광통신 릴레이) /</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(내 머리 위 550km! 광속으로 꽂힘. 핑 20ms!) /</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (스타링크 접시) ▼</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">🇰🇷 한국 땅</div><div class="kb-diagram-node">🇺🇸 미국 땅</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">공학적 한계와 극복 (Handover)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 위성 1번은 10분 만에 미국 쪽으로 쌩~ 날아가서 시야에서 사라짐!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 💥 내 인터넷 멈출까? NO! 지상의 접시 안테나(전자식)가 눈을 번뜩이며</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0.1초 만에 뒤따라 날아오는 2번 위성으로 전파 빔을 휙 꺾어서 낚아챔! (무한 환승)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│             GEO 위성(느림) vs LEO 위성(스타링크의 혁명) 구조 시각화     │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [과거의 절망: GEO 위성 (고도 36,000km)]                       │
+│    🛰️ ─(왕복 7만km 여행, 핑 500ms 지연 폭발!)─▶ 💻 (Zoom 회의 툭뚝 끊김)│
+│    (장점: 한 자리 고정이라 안테나가 가만히 있어도 됨. 단 3대로 지구 덮음)   │
+│                                                             │
+│   [혁명: LEO 위성 - "스타링크 군집망 (고도 550km)"]                │
+│                                                             │
+│    🛰️(1번) ====== 🛰️(2번) ====== 🛰️(3번) ====== 🛰️(4번)      │
+│      \        (우주 공간 레이저 광통신 릴레이)         /           │
+│    (내 머리 위 550km! 광속으로 꽂힘. 핑 20ms!)      /            │
+│       \                                      /             │
+│        ▼ (스타링크 접시)                      ▼             │
+│       [🇰🇷 한국 땅]                        [🇺🇸 미국 땅]      │
+│                                                             │
+│   [공학적 한계와 극복 (Handover)]                                │
+│   - 위성 1번은 10분 만에 미국 쪽으로 쌩~ 날아가서 시야에서 사라짐!          │
+│   - 💥 내 인터넷 멈출까? NO! 지상의 접시 안테나(전자식)가 눈을 번뜩이며    │
+│     0.1초 만에 뒤따라 날아오는 2번 위성으로 전파 빔을 휙 꺾어서 낚아챔! (무한 환승)│
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 저궤도(LEO) 아키텍처의 가장 위대한 달성은 '극단적 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 단축'이다. 고도가 3.6만km에서 500km로 확 낮아지면서 전파 왕복 거리가 1/70 수준으로 압축되었다. 우주를 다녀와도 핑(Ping)이 20ms밖에 안 걸려 광케이블과 차이가 없다. 하지만 위성이 너무 낮으면 시야각이 좁아져 지구 전체를 덮으려면 수천 대의 위성이 필요하다(스타링크는 무려 4만 대 발사 목표). 또한 위성이 시속 2.7만km로 미친 듯이 지구를 돌기 때문에 내 머리 위 하늘을 10분 만에 횡단해 버린다. 즉, LEO 시스템은 <strong>10분마다 쉴 새 없이 다음 위성으로 내 인터넷 세션을 넘겨주는(<a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/">Handover</a>) 숨 막히는 릴레이 핑퐁 아키텍처</strong>를 1년 365일 지구 전체에서 오차 없이 돌리는 미친듯한 난이도의 우주 안무(Choreography)다.
 
@@ -64,27 +66,27 @@ tags = ["studynote-network"]
 
 바다 한가운데 떠 있는 배가 스타링크 위성으로 카톡을 쏜다고 가정하자. 옛날 LEO 위성들은 위성이 전파를 받으면 무조건 바로 아래 땅(지구국 Gateway)으로 내려찍어야 했다. 태평양 한가운데는 땅이 없어 위성이 빔을 내릴 수 없으니 통신이 불가능했다 (Bent-pipe 구조의 한계). 스타링크 v1.5부터는 이 바보짓을 버리고 <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/249_isl_inter_switch_link_cisco/">ISL</a> 광통신망</strong>을 달았다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">레이저 위성 간 링크(ISL)의 해저 광케이블 압살 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">과거: 지구국(Gateway) 의존 시대의 바보 짓</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">태평양 배 ─(Uplink)─▶ 위성 ─(Downlink)─▶ 💥 어라? 밑에 육지/기지국이 없네? 패킷 버림!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">혁신: ISL 레이저망 (진공 우주 인터넷 고속도로)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">태평양 배 ─(Uplink)─▶ 🛰️ 1번 위성 (아, 밑에 땅이 없군. 릴레이 가자!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(우주 진공 상태에서 레이저 광통신 발사 ⚡️)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🛰️ 2번 위성 ======&gt; 🛰️ 3번 위성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(마침내 미국 육지 발견!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (Downlink 꽂음)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">미국 LA 지구국 서버</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 🚀 충격적 사실: 우주(진공)에서 쏘는 레이저 빛의 속도는, 땅 바닥에 깔린</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유리섬유(해저 광케이블) 속을 기어가는 빛보다 무려</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">30%나 더 빠르다!! (굴절률 1.0 vs 1.5)</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────┐
+│               레이저 위성 간 링크(ISL)의 해저 광케이블 압살 시각화     │
+├───────────────────────────────────────────────────────────────┤
+│   [과거: 지구국(Gateway) 의존 시대의 바보 짓]                        │
+│   태평양 배 ─(Uplink)─▶ 위성 ─(Downlink)─▶ 💥 어라? 밑에 육지/기지국이 없네? 패킷 버림!│
+│                                                               │
+│   [혁신: ISL 레이저망 (진공 우주 인터넷 고속도로)]                     │
+│   태평양 배 ─(Uplink)─▶ 🛰️ 1번 위성 (아, 밑에 땅이 없군. 릴레이 가자!)  │
+│                                                               │
+│                     (우주 진공 상태에서 레이저 광통신 발사 ⚡️)           │
+│                      🛰️ 2번 위성 ======> 🛰️ 3번 위성           │
+│                                           │ (마침내 미국 육지 발견!)│
+│                                           ▼ (Downlink 꽂음)   │
+│                                     [미국 LA 지구국 서버]        │
+│                                                               │
+│   * 🚀 충격적 사실: 우주(진공)에서 쏘는 레이저 빛의 속도는, 땅 바닥에 깔린    │
+│                   유리섬유(해저 광케이블) 속을 기어가는 빛보다 무려          │
+│                   30%나 더 빠르다!! (굴절률 1.0 vs 1.5)           │
+└───────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이것이 월스트리트 주식 부자들이 눈에 불을 켜고 스타링크망에 투자하는 이유다. 런던에서 뉴욕으로 데이터를 보낼 때, 바다 밑에 깔린 광케이블을 통하면 빛이 유리 속을 통과하느라 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))이 76ms가 걸린다. 하지만 데이터를 하늘의 LEO 위성으로 올려서, 위성들끼리 진공 상태의 우주 공간에서 레이저([ISL](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/249_isl_inter_switch_link_cisco/))를 쏴버리면 [굴절률](/knowledge-base/studynote/03_network/03_physical_layer_media/129_refractive_index_tir/)(매질)이 없기 때문에 핑이 50ms대로 줄어든다. 이 20ms의 속도 차이는 주식 초단타 매매(HFT) 시장에서 조 단위의 수익을 갈라놓는 0.1초의 마법이 되었다. LEO 군집 위성은 단순한 오지 인터넷용이 아니라 지구를 통째로 감싸는 "초전도 광케이블 돔"을 우주에 쳐버린 것이다.
 
@@ -105,28 +107,29 @@ tags = ["studynote-network"]
 | <strong><a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/592_satellite_communication_characteristics/">위성 통신</a> 밴드</strong> | Ku-band(사용자 다운링크), Ka-band(게이트웨이) | Ku-band, Ka-band 하이브리드 | Ka-band (스타링크보다 높은 주파수로 미친듯한 속도 튜닝 예정) |
 | **최대 강점(무기)**| **"미친 원가 절감"**. 자기네 로켓(팰컨 9)을 재활용해서 위성을 한 번에 60개씩 무료로 쏘아 올리는 압도적 인프라 우위. | 영국의 우주 기술력 + 글로벌 거대 통신사들의 든든한 자본 뒷배(소프트뱅크 등). | 아마존 쇼핑몰의 유통망 + AWS 클라우드를 기반으로 한 생태계 종속([Lock-in](/knowledge-base/studynote/12_it_management/05_security_compliance/362_lock_in_portability/)) 융합. |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LEO 인터넷의 가장 치명적 딜레마: 셀 붕괴 (Cell Congestion)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 스타링크는 오지(산, 바다)에서는 속도 100Mbps가 빵빵 터져 최고다.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하지만 서울이나 뉴욕 한가운데서 쓰면 속도가 1Mbps로 쓰레기망이 된다?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시나리오: 위성 1대의 커버리지 빔 💥 반경 20km 폭격</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1.</div><div class="kb-diagram-node">사막 한가운데 빔</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 딱 1명 있음 ─▶ 빔의 총 에너지(1Gbps)를 혼자 다 꿀꺽! 쾌적!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2.</div><div class="kb-diagram-node">서울 강남역 한복판 빔</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 10,000명이 아파트 옥상에 다 달아놓음 ─▶ 빔 용량(1Gbps)을</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">10,000명이 N분의 1로 나눠 먹음(혼잡, Contention).</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 1000Mbps / 10000명 = 1인당 속도 0.1Mbps (모뎀 속도) 최악!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">아키텍처적 결론</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">저궤도 위성망은 절대로 도심지의 광케이블이나 5G망을 대체(Replace)할 수 없다.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위성 1대가 감당할 수 있는 대역폭은 한계가 명확하므로, LEO 위성은 인구가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">희박한(Low Density) 외곽, 해상, 산간 오지를 위한 '보완재(Complement)'다.</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────┐
+│               LEO 인터넷의 가장 치명적 딜레마: 셀 붕괴 (Cell Congestion) │
+├───────────────────────────────────────────────────────────────┤
+│   * 스타링크는 오지(산, 바다)에서는 속도 100Mbps가 빵빵 터져 최고다.       │
+│     하지만 서울이나 뉴욕 한가운데서 쓰면 속도가 1Mbps로 쓰레기망이 된다?      │
+│                                                               │
+│   [시나리오: 위성 1대의 커버리지 빔 💥 반경 20km 폭격]                   │
+│                                                               │
+│   1. [사막 한가운데 빔]                                             │
+│      사용자 딱 1명 있음 ─▶ 빔의 총 에너지(1Gbps)를 혼자 다 꿀꺽! 쾌적!   │
+│                                                               │
+│   2. [서울 강남역 한복판 빔]                                          │
+│      사용자 10,000명이 아파트 옥상에 다 달아놓음 ─▶ 빔 용량(1Gbps)을     │
+│      10,000명이 N분의 1로 나눠 먹음(혼잡, Contention).               │
+│      => 결과: 1000Mbps / 10000명 = 1인당 속도 0.1Mbps (모뎀 속도) 최악! │
+│                                                               │
+│   [아키텍처적 결론]                                                │
+│   저궤도 위성망은 절대로 도심지의 광케이블이나 5G망을 대체(Replace)할 수 없다.│
+│   위성 1대가 감당할 수 있는 대역폭은 한계가 명확하므로, LEO 위성은 인구가  │
+│   희박한(Low Density) 외곽, 해상, 산간 오지를 위한 '보완재(Complement)'다.│
+└───────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** LEO 위성의 마케팅 환상을 부수는 거대한 물리적 아키텍처 한계다. 저궤도 위성 1대가 지상으로 쏘는 빔 하나는 1Gbps 이상의 속도를 내지만, 이 빔이 덮는 20km 면적 안에 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)(가입자)가 1만 명이 몰려있다면 그 대역폭은 무조건 N분의 1로 찢어진다. 즉, 도심 지역(Dense Area)에서는 엄청나게 촘촘히 땅에 박혀있는 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 광케이블망(수십 Tbps 급)의 용량을 우주에 떠 있는 위성이 절대 따라갈 수 없다. 스타링크의 진정한 타깃 아키텍처는 서울 한복판이 아니라, 전파가 닿지 않는 강원도 산골 캠핑장, 바다 위 크루즈선, 그리고 기지국이 붕괴된 우크라이나 전쟁터다.
 
@@ -167,7 +170,7 @@ tags = ["studynote-network"]
 - <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/">3GPP</a> Release 17 / 18 (NTN, Non-Terrestrial Network)</strong>: [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)/[6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 스마트폰이 지상의 기지국뿐만 아니라 고도 500km 우주를 날아다니는 LEO 위성과도 막바로 통신할 수 있도록, [도플러 효과](/knowledge-base/studynote/03_network/03_physical_layer_media/169_doppler_effect_fast_fading/)(주파수 찌그러짐)와 딜레이 오차를 보정해 주는 통신사들의 우주 진출 선언 스펙 문서.
 - <strong>IEEE 802.<a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/576_802_11ax_wifi_6_ofdma_twt/">11ax</a> / be (<a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/576_802_11ax_wifi_6_ofdma_twt/">Wi-Fi 6</a>/7)</strong>: 우주에서 떨어진 1Gbps 속도의 LEO 레이저 빔 에너지를 지상 접시([CPE](/knowledge-base/studynote/09_security/04_endpoint_security/411_cpe_inventory_mapping/))가 받아서, 집안의 수십 대 기기에 병목 없이 분배하기 위해 땅바닥 단말단에 필수적으로 세팅해야 하는 로컬 인프라 아키텍처.
 
-저궤도 위성(LEO) 군집 통신은 인프라 공학의 역사를 땅(Earth)에서 하늘(Space)로 복사-붙여넣기 한 21세기 최대의 기적이다. 수십억 달러짜리 광케이블을 바다 밑에 묻고, 100미터짜리 철탑을 10만 개씩 세우며 지구의 살을 파먹던 거추장스러운 "토목 공사(Civil Engineering)"의 시대는 끝났다. 팰컨 로켓이 1만 대의 공유기를 지구라는 행성 위에 거대한 플라스틱 돔처럼 덮어씌웠다. 20ms의 초저지연과 레이저([ISL](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/249_isl_inter_switch_link_cisco/)) 통신망으로 촘촘하게 짜인 이 우주의 거미줄 덕분에, 에베레스트 산꼭대기의 등반가와 태평양 한가운데의 요트 선원은 서울 한복판 스타벅스에 앉아있는 우리와 완벽하게 똑같은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간으로 넷플릭스를 켜고 주식을 사고파는 진정한 초연결(Hyper-connectivity)의 이데아를 맞이하게 되었다.
+저궤도 위성(LEO) 군집 통신은 인프라 공학의 역사를 땅(Earth)에서 하늘(Space)로 복사-붙여넣기 한 21세기 최대의 기적이다. 수십억 달러짜리 광케이블을 바다 밑에 묻고, 100미터짜리 철탑을 10만 개씩 세우며 지구의 살을 파먹던 거추장스러운 "토목 공사(Civil 엔진ering)"의 시대는 끝났다. 팰컨 로켓이 1만 대의 공유기를 지구라는 행성 위에 거대한 플라스틱 돔처럼 덮어씌웠다. 20ms의 초저지연과 레이저([ISL](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/249_isl_inter_switch_link_cisco/)) 통신망으로 촘촘하게 짜인 이 우주의 거미줄 덕분에, 에베레스트 산꼭대기의 등반가와 태평양 한가운데의 요트 선원은 서울 한복판 스타벅스에 앉아있는 우리와 완벽하게 똑같은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간으로 넷플릭스를 켜고 주식을 사고파는 진정한 초연결(Hyper-connectivity)의 이데아를 맞이하게 되었다.
 
 - **📢 섹션 요약 비유**: 옛날엔 외딴섬에 전기를 주려면 무조건 육지에서 바다 밑으로 엄청 긴 전기선(광케이블)을 깔아야 했습니다. 돈이 너무 많이 들어서 포기했죠. LEO 위성 인터넷(스타링크)은 그 짓을 포기하고, 섬 머리 위 하늘에 배터리를 가득 채운 드론 수천 대를 하루 종일 미친 듯이 띄워놓고 릴레이로 무선 전기를 내리꽂아주는 마법입니다. 지구상 그 어디든 드론이 덮지 못할 하늘은 없기 때문에 통신 오지가 완벽하게 소멸했습니다.
 
@@ -184,19 +187,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 중궤도 위성</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 저궤도 위성</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: HAPS</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 무선 자원 제어</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 중궤도 위성]
+    │
+    ▼
+[현재 개념: 저궤도 위성]
+    │
+    ├──▶ [확장 A: HAPS]
+    └──▶ [확장 B: 지능형 무선 자원 제어]
+```
 
 저궤도 위성는 [중궤도 위성](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/594_meo_medium_earth_orbit_gps/)에서 출발해 현재 메커니즘을 정교화하고, 이후 HAPS와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

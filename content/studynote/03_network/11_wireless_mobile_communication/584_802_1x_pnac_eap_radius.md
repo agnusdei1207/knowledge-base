@@ -23,27 +23,29 @@ tags = ["studynote-network"]
 - **필요성**: [WPA2](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/582_wpa2_aes_ccmp_personal_enterprise/)-Personal ([PSK](/knowledge-base/studynote/09_security/03_network_security/142_psk_pre_shared_key/)) 모드는 가정집에선 좋지만, 직원 1,000명의 대기업에서는 재앙이다. 공용 와이파이 비밀번호를 한 명이 외부에 유출하거나 퇴사하면, 도둑이 회사 밖 주차장 봉고차에서 사내망에 마음껏 접속해 버린다. 이를 막으려면 비번을 바꿔야 하는데 1,000대의 노트북 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 다시 쳐주는 것은 물리적으로 불가능하다. 즉, <strong>"비밀번호 하나를 공유하지 말고, 직원 1,000명 각각의 아이디와 사원증을 중앙(DB)에서 통제하는 깐깐한 스피드 게이트"</strong>가 무선망에 절실했다.
 - **등장 배경**: ① 무선랜의 기업 도입 확대로 [PSK](/knowledge-base/studynote/09_security/03_network_security/142_psk_pre_shared_key/) 기반의 막장 [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)(유출 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)) 대두 → ② 유선 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에서 훌륭히 작동하던 802.1X 표준을 WPA-Enterprise 규격으로 무선에 이식([EAP](/knowledge-base/studynote/03_network/04_data_link_layer_error/229_eap_extensible_authentication_protocol/) over LAN, EAPoL) → ③ [RADIUS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/541_radius_remote_authentication_aaa/) 서버와 다양한 [EAP](/knowledge-base/studynote/03_network/04_data_link_layer_error/229_eap_extensible_authentication_protocol/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)([PEAP](/knowledge-base/studynote/09_security/05_web_app_security/229_peap_protected_eap_tls_tunnel_authentication/), [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 등)의 결합을 통한 엔터프라이즈 인프라 혁신.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PSK(동네 카페 방식) vs 802.1X(대기업 방식) 권한 구조 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">과거: WPA2-Personal (PSK) - "공용 마스터 키의 비극"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">공유기(AP)가 혼자 판단</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">공유기: "오 비번 맞네 패스!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 문지기(AP)가 권한이 너무 쎄서 멍청함. 비번 한 번 새면 회사가 털림!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">혁신: WPA2-Enterprise (802.1X) - "중앙 집중형 제로 트러스트"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">AP: "난 몰라, 본사에 물어볼게!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Radius 통신)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">본사 RADIUS 서버 (인사 DB 연결)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RADIUS 판단: "인사팀 직원은 통과! 퇴사자는 ID 정지 상태니까 컷(차단)!!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RADIUS 지시: "AP야! 인사팀 직원만 문 열어주고 개인 전용 암호키 던져줘!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 공유기(AP)는 그저 무전기 역할(Authenticator)만 할 뿐, 똑똑한</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">판단과 암호키 생성은 본사 깊숙한 RADIUS가 도맡아 통제력 극대화!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│             PSK(동네 카페 방식) vs 802.1X(대기업 방식) 권한 구조 시각화 │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [과거: WPA2-Personal (PSK) - "공용 마스터 키의 비극"]              │
+│   인사팀 직원 ─▶ (비번: Company123!) ──▶ [공유기(AP)가 혼자 판단] │
+│   퇴사한 해커 ─▶ (비번: Company123!) ──▶ [공유기: "오 비번 맞네 패스!"]│
+│   => 결과: 문지기(AP)가 권한이 너무 쎄서 멍청함. 비번 한 번 새면 회사가 털림!│
+│                                                             │
+│   [혁신: WPA2-Enterprise (802.1X) - "중앙 집중형 제로 트러스트"]       │
+│                                                             │
+│   인사팀 직원 ─▶ (ID/PW 던짐) ──▶ [AP: "난 몰라, 본사에 물어볼게!"]  │
+│                                    │  (Radius 통신)          │
+│   퇴사한 해커 ─▶ (퇴사ID 던짐) ─▶ [본사 RADIUS 서버 (인사 DB 연결)]  │
+│                                    │                        │
+│   RADIUS 판단: "인사팀 직원은 통과! 퇴사자는 ID 정지 상태니까 컷(차단)!!" │
+│   RADIUS 지시: "AP야! 인사팀 직원만 문 열어주고 개인 전용 암호키 던져줘!" │
+│                                                             │
+│   => 결과: 공유기(AP)는 그저 무전기 역할(Authenticator)만 할 뿐, 똑똑한 │
+│            판단과 암호키 생성은 본사 깊숙한 RADIUS가 도맡아 통제력 극대화! │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 802.1X 아키텍처의 미학은 철저한 <strong>'역할 분리(Decoupling)'</strong>에 있다. [PSK](/knowledge-base/studynote/09_security/03_network_security/142_psk_pre_shared_key/) 시절엔 공유기([AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/)) 한 대가 무선 전파도 쏘고, 비밀번호도 저장하고, 판단도 내리는 독재자였다. 802.1X는 공유기를 단순한 깡통 문지기(Authenticator)로 강등시켰다. 폰(Supplicant)이 ID를 던지면, 깡통 공유기는 열어보지도 않고 봉투 그대로 본사 서버실의 진짜 왕([Authentication Server](/knowledge-base/studynote/09_security/12_identity_threat_advanced/584_as/), [RADIUS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/541_radius_remote_authentication_aaa/))에게 패스한다. RADIUS는 사내 인사시스템(AD/[LDAP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/543_ldap_lightweight_directory_access_protocol/))과 대조해 정상 직원이면 승인 도장과 함께 "이 직원만을 위한 랜덤 마스터 키(PMK)"를 발급해 폰과 공유기에 뿌려준다. 이것이 퇴사자가 발생했을 때 인사팀 클릭 한 번으로 모든 사내 접근 권한을 0초 만에 소멸시키는 마법의 구조다.
 
@@ -65,29 +67,29 @@ tags = ["studynote-network"]
 
 802.1X는 껍데기(프레임워크)일 뿐이다. 그 안에서 "아이디/비번을 쓸 거냐? [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 쓸 거냐? 심 카드를 쓸 거냐?"를 결정하는 실제 내용물 규격이 바로 <strong><a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/229_eap_extensible_authentication_protocol/">EAP</a></strong>다. 기업 아키텍트들은 회사 보안 수준에 맞춰 이 [EAP](/knowledge-base/studynote/03_network/04_data_link_layer_error/229_eap_extensible_authentication_protocol/) 종류를 세팅해야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">엔터프라이즈 802.1X의 3대 EAP 프로토콜 진검승부</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">위험한 해킹: 허공에서 평문 ID/비번 훔쳐보기 스니핑!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🛡️ 1. EAP-TLS (군사/금융권 끝판왕 방어)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 조건: 사내 직원 노트북 '안에' 회사가 발급한 찐 인증서가 깔려있어야 함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 작동: 공유기가 묻지도 따지지도 않고 노트북 안의 칩셋(인증서)과 통신해</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">알아서 열림. 아이디/비번을 칠 필요가 없음. 완벽한 철벽 방어!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 딜레마: 직원 1천 명 노트북에 인증서 파일 다 깔아주려면 IT 부서 죽어남.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🛡️ 2. PEAP (가장 대중적인 일반 대기업 방식)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 조건: 회사(RADIUS) 쪽에만 인증서가 딱 1장 있으면 됨!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 작동: 폰과 서버가 통신할 때 뒷구멍으로 몰래 암호화 터널(TLS 터널)을</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">먼저 뻥 뚫어놓고, 그 깜깜한 터널 안으로 폰이 ID/비번을 안전하게</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">던짐. 해커가 밖에서 백날 쳐다봐도 훔쳐볼 수 없음! (갓성비 최고)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🛡️ 3. EAP-TTLS (PEAP의 사촌 동생)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 작동: PEAP이랑 거의 똑같이 터널 뚫고 던지는데, 옛날 통신 장비들(구형)도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">알아들을 수 있게 융통성 있게 규격을 맞춘 버전임.</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────┐
+│               엔터프라이즈 802.1X의 3대 EAP 프로토콜 진검승부          │
+├───────────────────────────────────────────────────────────────┤
+│   [위험한 해킹: 허공에서 평문 ID/비번 훔쳐보기 스니핑!]                 │
+│                                                               │
+│   🛡️ 1. EAP-TLS (군사/금융권 끝판왕 방어)                           │
+│   - 조건: 사내 직원 노트북 '안에' 회사가 발급한 찐 인증서가 깔려있어야 함. │
+│   - 작동: 공유기가 묻지도 따지지도 않고 노트북 안의 칩셋(인증서)과 통신해  │
+│          알아서 열림. 아이디/비번을 칠 필요가 없음. 완벽한 철벽 방어!      │
+│   - 딜레마: 직원 1천 명 노트북에 인증서 파일 다 깔아주려면 IT 부서 죽어남.  │
+│                                                               │
+│   🛡️ 2. PEAP (가장 대중적인 일반 대기업 방식)                       │
+│   - 조건: 회사(RADIUS) 쪽에만 인증서가 딱 1장 있으면 됨!              │
+│   - 작동: 폰과 서버가 통신할 때 뒷구멍으로 몰래 암호화 터널(TLS 터널)을     │
+│          먼저 뻥 뚫어놓고, 그 깜깜한 터널 안으로 폰이 ID/비번을 안전하게    │
+│          던짐. 해커가 밖에서 백날 쳐다봐도 훔쳐볼 수 없음! (갓성비 최고)   │
+│                                                               │
+│   🛡️ 3. EAP-TTLS (PEAP의 사촌 동생)                              │
+│   - 작동: PEAP이랑 거의 똑같이 터널 뚫고 던지는데, 옛날 통신 장비들(구형)도│
+│          알아들을 수 있게 융통성 있게 규격을 맞춘 버전임.                │
+└───────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** EAP의 진화는 "해커(Evil Twin)의 낚시 공격을 어떻게 막을 것인가"에 초점이 맞춰져 있다. 해커가 가짜 공유기를 켜놓고 "나 회사 공유기야! ID/비번 줘!"라고 폰을 속일 때, 무식한 [EAP-MD5](/knowledge-base/studynote/09_security/05_web_app_security/228_eap_md5_vulnerable_authentication/) 같은 규격은 속아서 비번을 허공에 날려버린다(탈탈 털림). 
 이를 막기 위해 <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/229_peap_protected_eap_tls_tunnel_authentication/">PEAP</a> (<a href="/knowledge-base/studynote/09_security/05_web_app_security/229_peap_protected_eap_tls_tunnel_authentication/">Protected EAP</a>)</strong>가 탄생했다. PEAP은 직원이 비번을 치기 전에, 폰이 먼저 회사 서버의 '디지털 서명([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서)'을 검사해 "진짜 우리 본사 서버 맞네!"를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한 후 안전한 비밀 터널([TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/))을 뚫어 그 안으로 비번을 쏜다. 가장 극단적인 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)는 <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/230_eap_tls_mutual_authentication_pki/">EAP-TLS</a></strong>다. 아예 비번 창 자체를 없애고, 기기 안에 심어진 하드웨어 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서끼리 수학적으로 부딪쳐 문을 여는 방식으로, 사내망 무단 접속을 물리적으로 박살 내는 현존 최강의 융합 방패다.
@@ -103,26 +105,27 @@ tags = ["studynote-network"]
 
 RADIUS의 핵심 가치는 <strong>"최전방(<a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/">AP</a>)이 털려도 본진(비밀번호)은 절대 안 털리는 중앙 집중 아키텍처"</strong>다. 도둑이 천장의 AP를 뜯어서 집에 가져가 기판을 분해해 봐도 그 안에는 아무 데이터가 없다. AP는 그저 폰이 보낸 [EAP](/knowledge-base/studynote/03_network/04_data_link_layer_error/229_eap_extensible_authentication_protocol/) 봉투를 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 유선망을 타고 [RADIUS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/541_radius_remote_authentication_aaa/) 서버로 택배 배달해 주는 멍청한 중계기일 뿐이다. 
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">802.1X 기반 동적 VLAN 할당의 인프라 마법 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황: 임원과 인턴이 똑같이 로비의 1번 공유기(AP)에 접속함</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">본사 RADIUS 서버의 무소불위 통제</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 임원 로그인 성공 ─▶ RADIUS ─▶ AP에 지시:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"AP야! 방금 인증 성공한 폰은 사장님(VLAN 10) 폰이다.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">얘는 접속하자마자 방화벽 다 열려있는 사장님 전용 무선망에 꽂아!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 알바생 로그인 성공 ─▶ RADIUS ─▶ AP에 지시:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"AP야! 방금 인증 성공한 폰은 일용직 알바(VLAN 99) 폰이다.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">얘는 사내 서버 접속 완전 차단하고 오직 인터넷만 되게 망을 분리해!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 와이파이 이름(SSID)을 부서별로 수십 개씩 파놓을 필요가 없음!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하나의 와이파이 이름으로 1,000명이 붙어도, RADIUS가 신분에 따라</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유선 방화벽망(VLAN)을 알아서 쫙쫙 찢어 꽂아버리는 궁극의 자동화!</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────┐
+│               802.1X 기반 동적 VLAN 할당의 인프라 마법 시각화        │
+├───────────────────────────────────────────────────────────────┤
+│   [상황: 임원과 인턴이 똑같이 로비의 1번 공유기(AP)에 접속함]            │
+│                                                               │
+│   [본사 RADIUS 서버의 무소불위 통제]                                │
+│                                                               │
+│   1. 임원 로그인 성공 ─▶ RADIUS ─▶ AP에 지시:                      │
+│      "AP야! 방금 인증 성공한 폰은 사장님(VLAN 10) 폰이다.               │
+│       얘는 접속하자마자 방화벽 다 열려있는 사장님 전용 무선망에 꽂아!"       │
+│                                                               │
+│   2. 알바생 로그인 성공 ─▶ RADIUS ─▶ AP에 지시:                      │
+│      "AP야! 방금 인증 성공한 폰은 일용직 알바(VLAN 99) 폰이다.           │
+│       얘는 사내 서버 접속 완전 차단하고 오직 인터넷만 되게 망을 분리해!"     │
+│                                                               │
+│   => 결과: 와이파이 이름(SSID)을 부서별로 수십 개씩 파놓을 필요가 없음!      │
+│            하나의 와이파이 이름으로 1,000명이 붙어도, RADIUS가 신분에 따라 │
+│            유선 방화벽망(VLAN)을 알아서 쫙쫙 찢어 꽂아버리는 궁극의 자동화!  │
+└───────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 엔터프라이즈 환경에서 802.1X의 끝판왕 응용 기술인 <strong>동적 <a href="/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/">VLAN</a> 할당(Dynamic <a href="/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/">VLAN</a> Assignment)</strong>이다. 옛날에는 임원용 와이파이(`Boss_WiFi`)와 일반용 와이파이(`Staff_WiFi`) 이름을 따로 파고 비밀번호를 따로 관리해야 했다. 802.1X/[RADIUS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/541_radius_remote_authentication_aaa/) 환경에서는 그럴 필요가 없다. 온 회사의 와이파이 이름은 오직 1개(`Company_Corp`)다. 직원이 로그인하는 순간, [RADIUS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/541_radius_remote_authentication_aaa/) 서버가 인사 DB를 조회해 "부서/직급 태그([VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) ID)"를 발급하여 공유기에 던진다. 공유기는 그 직원의 패킷을 해당 태그가 달린 유선망 파이프로 직행시킨다. 사장님이 화장실에서 접속하든 회의실에서 접속하든, 로그인하는 순간 즉시 사장님 전용([VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)) 망으로 마법처럼 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 되는 진정한 무선 모빌리티 융합(Mobility Fusion)이 완성된다.
 
@@ -195,19 +198,15 @@ RADIUS의 핵심 가치는 <strong>"최전방(<a href="/knowledge-base/studynote
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: WPA3</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 1X 인증 및 EAP/RADIUS 체계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 캡티브 포털</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 무선 자원 제어</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: WPA3]
+    │
+    ▼
+[현재 개념: 1X 인증 및 EAP/RADIUS 체계]
+    │
+    ├──▶ [확장 A: 캡티브 포털]
+    └──▶ [확장 B: 지능형 무선 자원 제어]
+```
 
 1X [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 및 [EAP](/knowledge-base/studynote/03_network/04_data_link_layer_error/229_eap_extensible_authentication_protocol/)/[RADIUS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/541_radius_remote_authentication_aaa/) 체계는 WPA3에서 출발해 현재 메커니즘을 정교화하고, 이후 [캡티브 포털](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/585_captive_portal_guest_web_auth/)와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

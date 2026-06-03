@@ -33,22 +33,23 @@ tags = ["studynote-devops-sre"]
 
 아래 그림은 세 가지 프로브와 그 결과가 어떻게 연결되는지를 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Probe flow: startup gate, traffic gate, restart gate</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Container start</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Startup Probe fail ▶ keep waiting / restart later</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Startup Probe success</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Readiness success ▶ add pod to Service endpoints</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Readiness fail ▶ remove from traffic only</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Liveness success ▶ keep running</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Liveness fail N times ─▶ restart container</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                Probe flow: startup gate, traffic gate, restart gate       │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Container start                                                            │
+│      │                                                                     │
+│      ├─ Startup Probe fail ───────────────▶ keep waiting / restart later   │
+│      │                                                                     │
+│      └─ Startup Probe success                                              │
+│               │                                                            │
+│               ├─ Readiness success ───────▶ add pod to Service endpoints   │
+│               ├─ Readiness fail ─────────▶ remove from traffic only        │
+│               │                                                            │
+│               ├─ Liveness success ───────▶ keep running                    │
+│               └─ Liveness fail N times ─▶ restart container                │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조에서 중요한 점은 Readiness 실패가 곧바로 재시작을 뜻하지 않는다는 것이다. 준비가 안 된 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)는 살아 있을 수 있고, 살아 있는 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 요청을 받아서는 안 될 수도 있다. 그래서 엔드포인트 제어와 프로세스 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 분리하는 것이 핵심 원리다.
 
@@ -104,7 +105,7 @@ Shallow Check는 가볍고 안정적이지만 실제 장애를 놓칠 수 있고
 
 ## Ⅴ. 기대효과 및 결론
 
-올바르게 설계된 프로브는 준비되지 않은 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)로의 트래픽 유입을 막고, 고장 난 인스턴스를 자동으로 재시작하며, 느린 기동 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)도 안정적으로 배포하게 해 준다. 이는 [무중단 배포](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/082_zero_downtime_deployment_rolling_blue_green_canary/), 자동 치유, 운영 단순화에 직접 기여한다. 특히 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)) 관점에서는 [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) (Mean Time To [Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/), 평균 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간)을 줄이는 중요한 자동화 장치다.
+올바르게 설계된 프로브는 준비되지 않은 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)로의 트래픽 유입을 막고, 고장 난 인스턴스를 자동으로 재시작하며, 느린 기동 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)도 안정적으로 배포하게 해 준다. 이는 [무중단 배포](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/082_zero_downtime_deployment_rolling_blue_green_canary/), 자동 치유, 운영 단순화에 직접 기여한다. 특히 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)) 관점에서는 [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) (Mean Time To [Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/), 평균 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간)을 줄이는 중요한 자동화 장치다.
 
 하지만 프로브가 만능은 아니다. 너무 단순하면 실제 장애를 놓치고, 너무 깊으면 검사 자체가 시스템 부담이 된다. 또한 프로브만으로 근본 원인을 설명할 수는 없으므로 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/), [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 트레이스와 함께 관측성 체계 안에서 해석해야 한다. 기억할 핵심은 프로브가 단순한 URL 체크가 아니라, 오케스트레이터에게 "지금 어떤 운영 행동을 해야 하는지" 알려 주는 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)라는 점이다.
 
@@ -125,23 +126,21 @@ Shallow Check는 가볍고 안정적이지만 실제 장애를 놓칠 수 있고
 
 ### 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">프로세스 실행 여부 확인</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Startup / Readiness / Liveness 분리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">서비스 엔드포인트 제어 · 자동 재시작</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">롤링 업데이트 · 오토스케일링 안정화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">관측성 기반 원인 분석 · 자동 치유 고도화</div>
-</div>
-</div>
-
-
+```text
+프로세스 실행 여부 확인
+    │
+    ▼
+Startup / Readiness / Liveness 분리
+    │
+    ▼
+서비스 엔드포인트 제어 · 자동 재시작
+    │
+    ▼
+롤링 업데이트 · 오토스케일링 안정화
+    │
+    ▼
+관측성 기반 원인 분석 · 자동 치유 고도화
+```
 
 이 흐름은 단순 생존 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)이 배포 제어와 자가 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)로 확장되는 운영 발전 경로를 보여 준다.
 

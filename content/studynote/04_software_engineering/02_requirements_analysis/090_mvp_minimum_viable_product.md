@@ -30,23 +30,23 @@ tags = ["software_engineering"]
 
 MVP의 아키텍처는 제품 완성의 로드맵이 아니라 '가치 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)'의 로드맵이어야 한다. 가장 흔한 오해는 MVP를 거대한 시스템의 1차 부품 조립으로 착각하는 것이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">잘못된 MVP vs 올바른 MVP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">❌ 나쁜 MVP: 부품 방식 - 고객 가치 검증 불가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">바퀴 1개 ▶ 바퀴 2개 ▶ 차체 조립 ▶ 자동차 완성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(이동 불가) (이동 불가) (이동 불가) (비로소 이동)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 고객은 마지막까지 불만족, 중간 피드백 획득 실패</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">✅ 좋은 MVP: 핵심 가치 방식 - 단계별 생존/이동 가치 제공</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스케이트보드 ─▶ 킥보드 ▶ 자전거 ▶ 자동차 완성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(이동 가능!) (조금 더 편함) (훨씬 편함) (가장 편함)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 허접해도 1단계부터 'A에서 B로 이동한다'는 본질적 가치를 검증</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                  잘못된 MVP vs 올바른 MVP                    │
+├──────────────────────────────────────────────────────────────┤
+│ [❌ 나쁜 MVP: 부품 방식 - 고객 가치 검증 불가]                  │
+│                                                              │
+│  바퀴 1개 ────▶ 바퀴 2개 ────▶ 차체 조립 ────▶ 자동차 완성  │
+│  (이동 불가)    (이동 불가)     (이동 불가)      (비로소 이동)  │
+│  * 고객은 마지막까지 불만족, 중간 피드백 획득 실패               │
+│                                                              │
+│ [✅ 좋은 MVP: 핵심 가치 방식 - 단계별 생존/이동 가치 제공]       │
+│                                                              │
+│ 스케이트보드 ─▶ 킥보드 ──────▶ 자전거 ───────▶ 자동차 완성  │
+│  (이동 가능!)   (조금 더 편함)   (훨씬 편함)      (가장 편함)    │
+│  * 허접해도 1단계부터 'A에서 B로 이동한다'는 본질적 가치를 검증  │
+└──────────────────────────────────────────────────────────────┘
+```
 
 올바른 [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/) 아키텍처는 매 단계에서 소프트웨어의 본질적인 기능이 동작(Viable)해야 한다. 고객은 바퀴 하나를 원한 것이 아니라 '이동 수단'을 원했기 때문이다. 스케이트보드는 볼품없지만 당장 오늘부터 고객이 타보고 "생각보다 균형 잡기 힘드네, 손잡이(킥보드)가 있으면 좋겠어"라는 핵심적인 피드백을 줄 수 있게 만든다.
 
@@ -107,23 +107,21 @@ MVP는 실패의 비용을 극단적으로 낮춰주는 가장 강력한 보험�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">전통적 폭포수 (Waterfall) 빅뱅 출시 · 실패 리스크 극대화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">애자일 (Agile) 선언 · 점진적 기능 개발 도입</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">린 스타트업 (Lean Startup) 대두 · 극단적 낭비 제거</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">MVP (최소 존립 제품) 출시 · 가설 검증과 피드백 루프</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">PMF (Product-Market Fit) 달성 및 스케일업 (Scale-up)</div>
-</div>
-</div>
-
-
+```text
+전통적 폭포수 (Waterfall) 빅뱅 출시 · 실패 리스크 극대화
+    │
+    ▼
+애자일 (Agile) 선언 · 점진적 기능 개발 도입
+    │
+    ▼
+린 스타트업 (Lean Startup) 대두 · 극단적 낭비 제거
+    │
+    ▼
+MVP (최소 존립 제품) 출시 · 가설 검증과 피드백 루프
+    │
+    ▼
+PMF (Product-Market Fit) 달성 및 스케일업 (Scale-up)
+```
 
 이 흐름도는 무거운 기획과 거대한 런칭이, 가설 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 위주의 가벼운 [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/) 실험을 거쳐 시장의 선택을 받는 과학적 프로세스로 발전해 왔음을 보여준다.
 

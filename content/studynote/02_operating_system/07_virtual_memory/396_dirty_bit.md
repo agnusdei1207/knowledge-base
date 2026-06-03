@@ -27,26 +27,26 @@ tags = ["studynote-operating-system"]
   2. **하드웨어의 지원**: MMU가 메모리에 Write가 일어날 때마다 해당 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)의 M [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 1로 켜주는 하드웨어 로직을 추가했다.
   3. **OS의 영리한 취사선택**: OS가 쫓아낼 놈을 고를 때 M [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 읽어보고, 0이면 1번의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(읽기만)으로 끝내버리는 필터링 로직이 추가되어 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 체감 속도가 두 배 이상 빨라졌다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Dirty Bit 유무에 따른 페이지 교체 오버헤드(시간)의 차이</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황: 램이 꽉 차서 '희생양 페이지(Victim)'를 쫓아내야 함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1. 희생양이 Clean (Dirty Bit == 0) 인 경우</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- OS: "이거 원본(디스크)이랑 똑같네? 걍 지워(Drop)."</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 쫓아내는 데 걸리는 시간: 0.001 ms (램만 지움)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 새 데이터 읽어오는 시간: 8 ms (디스크 1번 읽기)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🚀 총 소요 시간: 약 8 ms (쾌적함)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2. 희생양이 Dirty (Dirty Bit == 1) 인 경우</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- OS: "앗, 메모리에서 값이 바뀌었네! 디스크에 저장해야지."</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 쫓아내는 데 걸리는 시간: 8 ms (디스크에 쓰기 Write-back)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 새 데이터 읽어오는 시간: 8 ms (디스크 1번 읽기)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">☠️ 총 소요 시간: 약 16 ms (지연 시간 2배 폭증!)</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────────┐
+│        Dirty Bit 유무에 따른 페이지 교체 오버헤드(시간)의 차이    │
+├───────────────────────────────────────────────────────────────────┤
+│                                                                   │
+│ [ 상황: 램이 꽉 차서 '희생양 페이지(Victim)'를 쫓아내야 함 ]      │
+│                                                                   │
+│ ▶ 1. 희생양이 Clean (Dirty Bit == 0) 인 경우                      │
+│   - OS: "이거 원본(디스크)이랑 똑같네? 걍 지워(Drop)."            │
+│   - 쫓아내는 데 걸리는 시간: 0.001 ms (램만 지움)                 │
+│   - 새 데이터 읽어오는 시간: 8 ms (디스크 1번 읽기)               │
+│   🚀 총 소요 시간: 약 8 ms (쾌적함)                               │
+│                                                                   │
+│ ▶ 2. 희생양이 Dirty (Dirty Bit == 1) 인 경우                      │
+│   - OS: "앗, 메모리에서 값이 바뀌었네! 디스크에 저장해야지."      │
+│   - 쫓아내는 데 걸리는 시간: 8 ms (디스크에 쓰기 Write-back)      │
+│   - 새 데이터 읽어오는 시간: 8 ms (디스크 1번 읽기)               │
+│   ☠️ 총 소요 시간: 약 16 ms (지연 시간 2배 폭증!)                 │
+└───────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 이 단순한 표가 왜 OS가 그렇게나 `Dirty Bit`에 집착하는지를 보여준다. [페이지 부재](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)) 자체도 느려 터졌는데, 하필 내가 고른 희생양이 Dirty라면 시간이 2배로 길어지는 벌칙을 받는다. 따라서 OS는 <strong>"무조건 깨끗한(Clean) 놈부터 먼저 쫓아낸다"</strong>는 편애 로직을 [페이지 교체 알고리즘](/knowledge-base/studynote/02_operating_system/07_virtual_memory/401_page_replacement_algorithms/) 깊숙이 박아 넣을 수밖에 없다.
 
 - **📢 섹션 요약 비유**: 이삿짐을 뺄 때 포장도 안 뜯은 새 박스(Clean)는 그냥 들고 나가면 되지만, 뜯어서 이것저것 섞어놓은 박스(Dirty)는 다시 테이프로 밀봉해서 주소까지 새로 적어놔야(디스크 I/O) 들고 나갈 수 있는 귀찮음의 차이입니다.
@@ -96,19 +96,16 @@ OS는 희생양을 고를 때 이 두 [비트](/knowledge-base/studynote/01_comp
 3. **클래스 2 (R=1, M=0)**: 방금 읽었지만, 값은 안 바뀜 (Clean). -> **[3순위 희생양]** 자주 쓰이는 놈이라 살려두고 싶음.
 4. **클래스 3 (R=1, M=1)**: 방금 막 값을 미친 듯이 썼음 (Dirty). -> **[절대 죽이면 안 됨]** 지금 가장 뜨거운(Hot) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">살생부 순위</div><div class="kb-diagram-cell">R (참조됨)</div><div class="kb-diagram-cell">M (변경됨/Dirty)</div><div class="kb-diagram-cell">생존율</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1순위 타겟</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">☠️ 가장 먼저 죽음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2순위 타겟</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">🔴 위험함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3순위 타겟</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">🟡 웬만하면 생존</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마지막 보루</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">🟢 완벽한 생존</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬───────────────────────┐
+│ 살생부 순위│ R (참조됨)   │ M (변경됨/Dirty)│ 생존율       │
+├──────────┼────────────┼────────────┼───────────────────────┤
+│ 1순위 타겟 │ 0          │ 0          │ ☠️ 가장 먼저 죽음   │
+│ 2순위 타겟 │ 0          │ 1          │ 🔴 위험함           │
+│ 3순위 타겟 │ 1          │ 0          │ 🟡 웬만하면 생존    │
+│ 마지막 보루│ 1          │ 1          │ 🟢 완벽한 생존      │
+└──────────┴────────────┴────────────┴───────────────────────┘
+```
 **[매트릭스 해설]** 흥미로운 점은 `R=0, M=1`인 클래스 1이다. "방금 안 썼는데 어떻게 값이 바뀌어 있지?"라는 모순이 생길 수 있지만, 하드웨어는 주기적으로 R [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 0으로 깎아내리므로 과거에 수정(Dirty)된 채로 버려진 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 이 클래스에 속하게 된다. OS는 이 계급표를 바탕으로 가장 빠르고 부작용 없이 메모리를 뜯어낸다.
 
 - **📢 섹션 요약 비유**: 냉장고 청소를 할 때, '유통기한 지난 안 뜯은 우유(R=0, M=0)'를 제일 먼저 통째로 버립니다. 그다음은 '유통기한 지난 먹다 남은 우유(R=0, M=1)'를 싱크대에 비우고 통을 버리는 수고를 감수하죠. '방금 사 온 먹다 남은 우유(R=1, M=1)'는 절대 버리면 안 됩니다.
@@ -162,19 +159,15 @@ OS는 희생양을 고를 때 이 두 [비트](/knowledge-base/studynote/01_comp
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">페이지 교체 (Page Replacement)의 필요성</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">변경 비트 (Modify Bit / Dirty Bit)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">프레임 할당 (Frame Allocation) 알고리즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">균등 할당 (Equal Allocation) vs 비례 할당 (Proportional Allocation)</div></div>
-</div>
-</div>
-
-
+```text
+[페이지 교체 (Page Replacement)의 필요성]
+    │
+    ▼
+[변경 비트 (Modify Bit / Dirty Bit)]
+    │
+    ├──▶ [프레임 할당 (Frame Allocation) 알고리즘]
+    └──▶ [균등 할당 (Equal Allocation) vs 비례 할당 (Proportional Allocation)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

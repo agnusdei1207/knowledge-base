@@ -23,7 +23,7 @@ DevOps와 [지속적 통합](/knowledge-base/studynote/04_software_engineering/0
 
 이제 시스템 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)의 핵심은 장애 예방([MTBF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/) 증가)에서 <strong>빠른 장애 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a>(<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/">MTTR</a> 단축)</strong>로 옮겨갔다. 배포 직후 치명적인 오류가 발생했을 때, 개발자가 당황하며 원인을 찾고 코드를 수정하여 다시 빌드하는 수동 과정은 고객의 이탈을 부른다. 따라서 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 자체가 스스로 에러율을 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링하다가 위험 수위를 넘으면 자동으로 과거의 안전지대로 도망치는 '에러율 기반 자동 롤백' [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 필수적인 아키텍처로 자리 잡았다.
 
-- **📢 섹션 요약 비유**: 롤백은 최신형 스포츠카(새 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/))를 타고 트랙에 나섰을 때, 브레이크에 조금이라도 이상 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(에러율)가 감지되면 즉각 차를 차고로 강제 복귀시키는 스마트 안전 시스템이다. 
+- **📢 섹션 요약 비유**: 롤백은 최새로운 유형의 스포츠카(새 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/))를 타고 트랙에 나섰을 때, 브레이크에 조금이라도 이상 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(에러율)가 감지되면 즉각 차를 차고로 강제 복귀시키는 스마트 안전 시스템이다. 
 
 ---
 
@@ -35,20 +35,21 @@ DevOps와 [지속적 통합](/knowledge-base/studynote/04_software_engineering/0
 2. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/">임계치</a> 평가 (Evaluate)</strong>: Spinnaker의 Kayenta나 Argo Rollouts의 Analysis 템플릿이 수집된 V2의 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)을 기존 V1과 비교한다. "에러율이 1%를 초과하는가?" 등의 사전에 정의된 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)(Threshold) 조건을 실시간으로 평가한다.
 3. <strong>자동 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> 롤백 (Act)</strong>: [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)를 초과하여 '실패'로 판정되면, K8s [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 또는 Ingress의 트래픽 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 비율을 신규 V2(0%)에서 구버전 V1(100%)으로 즉각 원복하고, 비정상적인 V2 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 폐기한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">에러율 기반 자동 롤백 파이프라인 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CD Pipeline</div><div class="kb-diagram-node">Observability</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 신버전(V2) 배포 ─(카나리 10%)─▶ 실시간 트래픽 유입</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (5xx Error 폭증)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 롤백 트리거 ◀──(임계치 위반)── K8s Prometheus 메트릭</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. V1(100%) 원복 및 V2 폐기 ◀ 라우팅 제어 (Ingress)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          에러율 기반 자동 롤백 파이프라인 아키텍처        │
+├─────────────────────────────────────────────────────────────┤
+│   [ CD Pipeline ]                [ Observability ]          │
+│                                                             │
+│ 1. 신버전(V2) 배포 ─(카나리 10%)─▶ 실시간 트래픽 유입      │
+│          ▲                              │                   │
+│          │                              ▼ (5xx Error 폭증)  │
+│ 3. 롤백 트리거 ◀──(임계치 위반)── K8s Prometheus 메트릭 │
+│          │                              │                   │
+│          ▼                              ▼                   │
+│ 4. V1(100%) 원복 및 V2 폐기 ◀─── 라우팅 제어 (Ingress)   │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 구조의 핵심은 엔지니어의 `git revert` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 입력이나 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 재실행 없이, 시스템이 지표를 근거로 스스로 의사결정을 내리고 물리적 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)까지 수행한다는 점이다.
 
@@ -113,24 +114,18 @@ DevOps와 [지속적 통합](/knowledge-base/studynote/04_software_engineering/0
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">수동 롤백 (Manual Revert &amp; Deploy)</div>
-<div class="kb-diagram-note">인간의 개입으로 인한 긴 MTTR 문제</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">블루/그린 배포 라우팅 스위치 전환</div>
-<div class="kb-diagram-note">스위치 전환은 빠르나 에러 감지는 수동</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">카나리 배포 + 메트릭 기반 자동 롤백 (Kayenta 등)</div>
-<div class="kb-diagram-note">임계치 설정의 한계 (정적 룰)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">AIOps 기반 예측형 자동 롤백 (자율 복구)</div>
-</div>
-</div>
-
-
+```text
+수동 롤백 (Manual Revert & Deploy)
+    │ 인간의 개입으로 인한 긴 MTTR 문제
+    ▼
+블루/그린 배포 라우팅 스위치 전환
+    │ 스위치 전환은 빠르나 에러 감지는 수동
+    ▼
+카나리 배포 + 메트릭 기반 자동 롤백 (Kayenta 등)
+    │ 임계치 설정의 한계 (정적 룰)
+    ▼
+AIOps 기반 예측형 자동 롤백 (자율 복구)
+```
 
 이 흐름도는 사람이 직접 개입하던 수동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)에서 시작해, 배포 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 발전(블루/그린)을 거쳐 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 기반의 자동화 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인, 그리고 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반의 자율 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)로 진화하는 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 엔지니어링의 궤적을 보여준다.
 

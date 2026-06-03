@@ -20,21 +20,16 @@ tags = ["studynote-cloud-architecture"]
 
 웹 서비스에서 DB [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 병목은 만성적 문제다. 매 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 요청마다 복잡한 SQL을 실행하면 응답이 수백ms~수초로 늘어난다. [키-값 저장소](/knowledge-base/studynote/14_data_engineering/01_infrastructure/036_key_value/)는 이 병목을 해결하는 첫 번째 방어선이다.
 
+```
+[캐시 패턴 - Cache Aside]
+1. 앱 → Redis 조회 (Cache Hit: 1ms 응답)
+        ↓ Cache Miss
+2. 앱 → DB 조회 (100ms 응답)
+3. 앱 → Redis 저장 (TTL 설정)
+4. 다음 요청 → Redis 캐시 Hit (1ms 응답)
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">캐시 패턴 - Cache Aside</div></div>
-<div class="kb-diagram-note">1. 앱 → Redis 조회 (Cache Hit: 1ms 응답)</div>
-<div class="kb-diagram-note">↓ Cache Miss</div>
-<div class="kb-diagram-note">2. 앱 → DB 조회 (100ms 응답)</div>
-<div class="kb-diagram-note">3. 앱 → Redis 저장 (TTL 설정)</div>
-<div class="kb-diagram-note">4. 다음 요청 → Redis 캐시 Hit (1ms 응답)</div>
-<div class="kb-diagram-note">효과: DB 부하 90%+ 감소, 응답 속도 100배 향상</div>
-</div>
-</div>
-
-
+효과: DB 부하 90%+ 감소, 응답 속도 100배 향상
+```
 
 <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/036_key_value/">키-값 저장소</a> 주요 사용 사례:</strong>
 - <strong><a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/507_session_management_security/">세션 관리</a></strong>: [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인 사용자 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 토큰 저장 ([TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/) 자동 만료)
@@ -52,25 +47,25 @@ tags = ["studynote-cloud-architecture"]
 
 ### [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 자료구조 및 활용 패턴
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Redis 5가지 핵심 자료구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">String</div><div class="kb-diagram-cell">SET/GET, INCR/DECR, EXPIRE (TTL)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사례: 세션 토큰, 카운터, 분산 락</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hash</div><div class="kb-diagram-cell">HSET/HGET, HMGET, HGETALL</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사례: 사용자 프로필, 상품 정보</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">List</div><div class="kb-diagram-cell">LPUSH/RPUSH, LPOP/RPOP, LRANGE</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사례: 메시지 큐, 최근 방문 기록</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Set</div><div class="kb-diagram-cell">SADD/SMEMBERS, SUNION, SINTER</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사례: 유니크 방문자, 태그 교집합</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sorted Set</div><div class="kb-diagram-cell">ZADD/ZRANGE, ZREVRANGEBYSCORE</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(ZSet)</div><div class="kb-diagram-cell">사례: 실시간 점수 랭킹, 시간 순 이벤트</div></div>
-</div>
-</div>
-
-
+```
+[Redis 5가지 핵심 자료구조]
+┌────────────┬───────────────────────────────────────────────┐
+│ String     │ SET/GET, INCR/DECR, EXPIRE (TTL)              │
+│            │ 사례: 세션 토큰, 카운터, 분산 락               │
+├────────────┼───────────────────────────────────────────────┤
+│ Hash       │ HSET/HGET, HMGET, HGETALL                     │
+│            │ 사례: 사용자 프로필, 상품 정보                  │
+├────────────┼───────────────────────────────────────────────┤
+│ List       │ LPUSH/RPUSH, LPOP/RPOP, LRANGE                │
+│            │ 사례: 메시지 큐, 최근 방문 기록                 │
+├────────────┼───────────────────────────────────────────────┤
+│ Set        │ SADD/SMEMBERS, SUNION, SINTER                 │
+│            │ 사례: 유니크 방문자, 태그 교집합                │
+├────────────┼───────────────────────────────────────────────┤
+│ Sorted Set │ ZADD/ZRANGE, ZREVRANGEBYSCORE                 │
+│  (ZSet)    │ 사례: 실시간 점수 랭킹, 시간 순 이벤트          │
+└────────────┴───────────────────────────────────────────────┘
+```
 
 ### [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) [영속성](/knowledge-base/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/) 옵션
 
@@ -83,41 +78,34 @@ tags = ["studynote-cloud-architecture"]
 
 ### [DynamoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/545_dynamodb/) 아키텍처
 
+```
+[DynamoDB 핵심 개념]
+테이블: users
+┌────────────────────────────────────────────────────────┐
+│ Partition Key (PK): user_id  (해시 키)                  │
+│ Sort Key (SK): created_at    (선택적 범위 키)            │
+├────────────────────────────────────────────────────────┤
+│ {PK:"U001", SK:"2024-01-01", name:"김철수", tier:"VIP"} │
+│ {PK:"U001", SK:"2024-01-15", name:"김철수", tier:"VIP"} │
+│ {PK:"U002", SK:"2024-01-10", name:"이영희", tier:"일반"} │
+└────────────────────────────────────────────────────────┘
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DynamoDB 핵심 개념</div></div>
-<div class="kb-diagram-note">테이블: users</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Partition Key (PK): user_id (해시 키)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sort Key (SK): created_at (선택적 범위 키)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">{PK:"U001", SK:"2024-01-01", name:"김철수", tier:"VIP"}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">{PK:"U001", SK:"2024-01-15", name:"김철수", tier:"VIP"}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">{PK:"U002", SK:"2024-01-10", name:"이영희", tier:"일반"}</div></div>
-<div class="kb-diagram-note">PK 기반 조회: O(1) 해시 조회</div>
-<div class="kb-diagram-note">SK 기반 범위: PK 고정 + SK 범위 쿼리</div>
-<div class="kb-diagram-note">GSI (Global Secondary Index): 다른 속성으로 추가 인덱스</div>
-</div>
-</div>
-
-
+PK 기반 조회: O(1) 해시 조회
+SK 기반 범위: PK 고정 + SK 범위 쿼리
+GSI (Global Secondary Index): 다른 속성으로 추가 인덱스
+```
 
 ### [DynamoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/545_dynamodb/) DAX (가속 캐시)
 
+```
+앱 → DAX (인메모리, 마이크로초 응답)
+       ↓ Cache Miss
+     DynamoDB (밀리초 응답)
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">앱 → DAX (인메모리, 마이크로초 응답)</div>
-<div class="kb-diagram-note">↓ Cache Miss</div>
-<div class="kb-diagram-note">DynamoDB (밀리초 응답)</div>
-<div class="kb-diagram-note">DAX: DynamoDB용 인메모리 캐시 클러스터</div>
-<div class="kb-diagram-note">Redis와 유사하지만 DynamoDB API와 완전 호환</div>
-<div class="kb-diagram-note">코드 변경 없이 URL만 DAX로 변경</div>
-</div>
-</div>
-
-
+DAX: DynamoDB용 인메모리 캐시 클러스터
+     Redis와 유사하지만 DynamoDB API와 완전 호환
+     코드 변경 없이 URL만 DAX로 변경
+```
 
 📢 **섹션 요약 비유**: DynamoDB의 PK와 SK는 주민등록 시스템이다. 주민번호(PK)로 사람을 찾고, 사건 날짜(SK)로 특정 기간 기록만 조회한다. [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 없이 다른 속성으로 찾으면 전수조사(Full Scan) 해야 한다.
 
@@ -179,23 +167,18 @@ if lock:
 
 ### [DynamoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/545_dynamodb/) 설계 주의사항
 
+```
+[핫 파티션 방지]
+문제: user_type='VIP' 파티션에 80% 트래픽 집중
+해결: PK에 랜덤 접미사 추가 (Write Sharding)
+     user_id#1, user_id#2, ... user_id#N
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">핫 파티션 방지</div></div>
-<div class="kb-diagram-note">문제: user_type='VIP' 파티션에 80% 트래픽 집중</div>
-<div class="kb-diagram-note">해결: PK에 랜덤 접미사 추가 (Write Sharding)</div>
-<div class="kb-diagram-note">user_id#1, user_id#2, ... user_id#N</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Single Table Design 패턴</div></div>
-<div class="kb-diagram-note">RDB 여러 테이블을 DynamoDB 단일 테이블로 모델링</div>
-<div class="kb-diagram-note">PK="USER#U001", SK="PROFILE" → 사용자 정보</div>
-<div class="kb-diagram-note">PK="USER#U001", SK="ORDER#20240115" → 사용자의 주문</div>
-<div class="kb-diagram-note">PK="ORDER#O001", SK="ITEM#P001" → 주문의 상품</div>
-</div>
-</div>
-
-
+[Single Table Design 패턴]
+RDB 여러 테이블을 DynamoDB 단일 테이블로 모델링
+PK="USER#U001", SK="PROFILE" → 사용자 정보
+PK="USER#U001", SK="ORDER#20240115" → 사용자의 주문
+PK="ORDER#O001", SK="ITEM#P001" → 주문의 상품
+```
 
 📢 **섹션 요약 비유**: [DynamoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/545_dynamodb/) Single Table Design은 다용도 가구와 같다. 여러 서랍(PK+SK 조합)이 있어 사람 정보, 주문 정보, 상품 정보를 하나의 가구(테이블)에 넣지만, 서랍 라벨(PK/SK 네이밍 규칙)을 잘 설계해야 원하는 걸 찾을 수 있다.
 
@@ -241,19 +224,14 @@ if lock:
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Key-Value: O(1) 조회 · 초저지연</div>
-<div class="kb-diagram-tree-item" style="--depth:2">In-Memory: Redis · Memcached (캐시)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Persistent: DynamoDB · etcd (영속)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">활용: 세션 · 캐시 · 설정 · 분산 락</div>
-</div>
-</div>
-
-
+```text
+Key-Value: O(1) 조회 · 초저지연
+    ├─► In-Memory: Redis · Memcached (캐시)
+    └─► Persistent: DynamoDB · etcd (영속)
+    │
+    ▼
+활용: 세션 · 캐시 · 설정 · 분산 락
+```
 2. Redis는 교실 앞 칠판이다. 자주 필요한 내용을 칠판(메모리)에 적어두면 교과서(DB)를 매번 찾을 필요가 없다. 단, 칠판 크기(메모리)는 정해져 있다.
 3. DynamoDB는 무제한 자동 창고다. 물건이 아무리 많아도 자동으로 공간이 늘어나고([서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 확장), 바코드(키)로 즉시 찾을 수 있지만, 바코드 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계(PK/SK 설계)를 잘 만들어야 한다.
 

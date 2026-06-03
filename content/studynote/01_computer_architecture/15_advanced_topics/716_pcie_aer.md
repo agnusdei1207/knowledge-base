@@ -51,19 +51,16 @@ AER는 PCIe의 Extended Capability 영역에 존재하며, 엔드포인트(endpo
 
 아래 그림은 AER가 단일 장치 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 아니라, 장치→루트 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)→운영체제로 이어지는 보고 경로임을 나타낸다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">error report</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Endpoint / ▶</div><div class="kb-diagram-cell">Root Port ▶</div><div class="kb-diagram-cell">Operating</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Switch Port</div><div class="kb-diagram-cell">AER Registers</div><div class="kb-diagram-cell">System AER</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">set status bits</div><div class="kb-diagram-cell">root error status</div></div>
-<div class="kb-diagram-note">Header Log ERR_COR / NONFATAL / FATAL Reset / Quarantine</div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐      error       ┌──────────────┐      report      ┌──────────────┐
+│ Endpoint /   ├────────────────▶ │ Root Port    ├────────────────▶ │ Operating    │
+│ Switch Port  │                  │ AER Registers│                  │ System AER   │
+└──────┬───────┘                  └──────┬───────┘                  └──────┬───────┘
+       │                                  │                                 │
+       │ set status bits                  │ root error status               │
+       ▼                                  ▼                                 ▼
+  Header Log                        ERR_COR / NONFATAL / FATAL        Reset / Quarantine
+```
 
 여기서 중요한 점은 Corrected 오류가 AER 자체로 "수리"되는 것이 아니라, 대개 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층의 재전송(replay)이나 하위 메커니즘으로 이미 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)되었다는 사실이다. AER는 그 사실을 구조적으로 알리고, 반복 빈도를 운영자가 볼 수 있게 만든다. 반대로 Uncorrectable 오류는 [Severity](/knowledge-base/studynote/04_software_engineering/06_software_architecture/354_defect_severity_priority/) 설정에 따라 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 영향이 달라지며, Fatal이면 더 강한 차단과 리셋이 뒤따른다.
 
@@ -143,24 +140,22 @@ AER는 PCIe의 Extended Capability 영역에 존재하며, 엔드포인트(endpo
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">PCIe Link Errors</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Replay / Retry at Data Link Layer</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">AER Status + Header Log + Severity</div>
-<div class="kb-diagram-tree-item" style="--depth:3">▶ Operating System Error Handling</div>
-<div class="kb-diagram-tree-item" style="--depth:3">▶ Driver Recovery / Reset</div>
-<div class="kb-diagram-tree-item" style="--depth:3">▶ DPC Containment</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Higher RAS for GPU / NVMe / NIC Platforms</div>
-</div>
-</div>
-
-
+```text
+PCIe Link Errors
+      │
+      ▼
+Replay / Retry at Data Link Layer
+      │
+      ▼
+AER Status + Header Log + Severity
+      │
+      ├──▶ Operating System Error Handling
+      ├──▶ Driver Recovery / Reset
+      └──▶ DPC Containment
+      │
+      ▼
+Higher RAS for GPU / NVMe / NIC Platforms
+```
 
 이 흐름은 단순 재전송에서 구조적 오류 보고와 격리, 그리고 플랫폼 수준 복원력 강화로 이어지는 과정을 보여준다.
 

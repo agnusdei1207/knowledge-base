@@ -23,18 +23,14 @@ tags = ["studynote-network"]
 
 "속도는 아주 느려도 좋으니, 동전 배터리 하나로 10년을 버티면서 10km 밖까지 문자를 보낼 수 없을까?" 이 모순적인 요구사항을 완벽하게 해결한 기술이 바로 <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/">LPWAN</a>(Low <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/">Power</a> Wide Area Network)</strong>이며, 그중에서도 누구나 기지국을 세워 쓸 수 있는(비면허 대역) 개방형 생태계의 절대 강자가 바로 <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/">LoRa</a>(<a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/283_lora_low_rank_adaptation/">로라</a>)</strong>다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">체내 통신</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LPWAN 로라</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">시그폭스 협대역 통신</div></div>
-</div>
-</div>
-
-
+```text
+[체내 통신]
+    │
+    ▼
+[LPWAN 로라]
+    │
+    └──▶ [시그폭스 협대역 통신]
+```
 
 - **📢 섹션 요약 비유**: 택배([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 보낼 때 엄청 비싸고 빠른 비행기([LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/))나 동네만 가는 오토바이(Wi-Fi) 대신, 한 달에 한 번 편지 한 장만 싣고 전국을 걸어가는 마라토너([LoRa](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/))를 고용한 것이다.
 
@@ -44,24 +40,27 @@ tags = ["studynote-network"]
 
 [LoRa](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/) 생태계는 하위 물리 계층인 '[LoRa](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/)'와 상위 네트워크 프로토콜인 'LoRaWAN'으로 구분된다. 아키텍처는 전력을 아끼기 위해 극도로 단순한 Star-of-Stars(별) 모양을 취한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">애플리케이션 서버</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(수도 검침, 산불 감시 대시보드)</div></div>
-<div class="kb-diagram-note">(인터넷 / TCP/IP)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LoRaWAN Network Server</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(중복 패킷 제거, 보안 검사, 라우팅)</div></div>
-<div class="kb-diagram-note">(인터넷 / 3G, 4G 백홀)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LoRa Gateway 1</div><div class="kb-diagram-node">LoRa Gateway 2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(산꼭대기 / 고층 빌딩)</div><div class="kb-diagram-cell">(다른 동네 건물)</div></div>
-<div class="kb-diagram-note">(LoRa 전파: CSS 변조, 비면허 대역 900MHz)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수도 계량기</div><div class="kb-diagram-cell">산불 감지기</div><div class="kb-diagram-cell">애완견 목걸이</div><div class="kb-diagram-cell">◀ End Nodes</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                    [ 애플리케이션 서버 ]                     │
+│               (수도 검침, 산불 감시 대시보드)                │
+└──────────────▲───────────────────────────────────────────────┘
+               │ (인터넷 / TCP/IP)
+┌──────────────▼───────────────────────────────────────────────┐
+│                   [ LoRaWAN Network Server ]                 │
+│               (중복 패킷 제거, 보안 검사, 라우팅)            │
+└──────────────▲───────────────────────────────────────────────┘
+               │ (인터넷 / 3G, 4G 백홀)
+┌──────────────▼──────────┐        ┌────────────▼────────────┐
+│      [ LoRa Gateway 1 ]     │        │     [ LoRa Gateway 2 ]    │
+│    (산꼭대기 / 고층 빌딩)   │        │     (다른 동네 건물)      │
+└──────────────▲──────────┘        └────────────▲────────────┘
+               │ (LoRa 전파: CSS 변조, 비면허 대역 900MHz)
+         ┌─────┴────────┬───────────────────┐
+┌────────▼───┐   ┌──────▼─────┐   ┌────────▼───┐
+│  수도 계량기 │   │ 산불 감지기 │   │ 애완견 목걸이│ ◀ End Nodes
+└────────────┘   └─────────────┘   └────────────┘
+```
 
 1. <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/110_unlicensed_lpwan_lorawan_sigfox/">CSS</a> (Chirp <a href="/knowledge-base/studynote/03_network/01_data_communication/068_스펙트럼_확산_Spread_Spectrum/">Spread Spectrum</a>)</strong>: LoRa의 핵심 변조 기술이다. 박쥐가 소리를 낼 때 주파수가 주욱 올라가거나 내려가는 '처프(Chirp)' [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 이용한다. [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 넓은 주파수 대역으로 쭉 늘여서(확산) 보내기 때문에, 중간에 엄청난 노이즈가 섞이거나 벽에 부딪혀도 수신기가 원래 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 기가 막히게 복원해 낸다(수신 감도가 -148dBm에 달함).
 2. **단순한 통신 (Star Topology)**: 단말기들은 센서 값을 게이트웨이로 툭 던지고 곧바로 깊은 수면(Deep Sleep)에 빠져버린다. 배터리를 아끼기 위해 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)([Mesh](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)) 네트워크처럼 남의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 릴레이로 전송해주지 않는다.
@@ -129,19 +128,15 @@ LoRa는 수백억 개의 사물들이 인터넷에 연결되는 진정한 'Massi
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 체내 통신</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: LPWAN 로라</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 시그폭스 협대역 통신</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율형 엣지 협업</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 체내 통신]
+    │
+    ▼
+[현재 개념: LPWAN 로라]
+    │
+    ├──▶ [확장 A: 시그폭스 협대역 통신]
+    └──▶ [확장 B: 자율형 엣지 협업]
+```
 
 [LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/) [로라](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/283_lora_low_rank_adaptation/)는 [체내 통신](/knowledge-base/studynote/03_network/12_iot_wpan_edge/1028_wban_wireless_body_area_network/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [시그폭스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/1030_lpwan_sigfox/) 협대역 통신와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -30,28 +30,32 @@ tags = ["studynote-operating-system"]
 - <strong>AppArmor 의 텍스트 프로파일 구속복(Profile Sandbox) <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> 폭쇄 뷰</strong>:
 더러운 라벨 컴파일 없이, 평문 영어 텍스트 덩어리가 어떻게 LSM [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 훅을 장악하는지 까보면 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"네 라벨엔 관심 없다! 오직 네가 찌르는 '경로 문자열' 만 심판한다!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🚨</div><div class="kb-diagram-node">상황: 해커가 Nginx 데몬을 뚫고 루트 비밀번호 /etc/shadow 를 조작 시도!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(유저 프로세스 : Nginx PID=1003 이 <code>open("/etc/shadow", O_WRONLY)</code> 빵!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🔥</div><div class="kb-diagram-node">커널 VFS 본선 돌입! AppArmor 프로파일 거름망 록백 ❗</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AppArmor 엔진 룰셋 (파일: /etc/apparmor.d/usr.sbin.nginx)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">profile /usr/sbin/nginx {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/usr/sbin/nginx r, &lt;-- 앱 자신은 읽기만 가능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/var/www/html/ r, &amp;lt;-- 웹 폴더는 재귀() 단까지 다 읽기 가능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/var/log/nginx/* w, &lt;-- 로그 폴더는 쓰기만 허용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell"># 핵심! 이 리스트에 <code>/etc/shadow</code> 가 아예 적혀있지 않음! (화이트리스트 압살)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">✅</div><div class="kb-diagram-node">OS 커널 반환 심연 크래시 빔!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AppArmor 심사관: "야 Nginx! 네 룰 종이 쪼가리(Profile) 엔 /etc/ 로 시작하는</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">경로 접근권 이 1줄도 없다! 루트 권한 777이건 말건 닥치고 차단(Denied) 쾅!!!"</div></div>
-</div>
-</div>
-
-
+```text
+  ┌──────────────────────────────────────────────────────────────────────────────────────┐
+  │                 "네 라벨엔 관심 없다! 오직 네가 찌르는 '경로 문자열' 만 심판한다!"   │
+  ├──────────────────────────────────────────────────────────────────────────────────────┤
+  │                                                                                      │
+  │  🚨 [ 상황: 해커가 Nginx 데몬을 뚫고 루트 비밀번호 /etc/shadow 를 조작 시도! ]       │
+  │     (유저 프로세스 : Nginx PID=1003 이 `open("/etc/shadow", O_WRONLY)` 빵!)          │
+  │                                                                                      │
+  │  =========================▼===================================                       │
+  │                                                                                      │
+  │  🔥 [ 커널 VFS 본선 돌입! AppArmor 프로파일 거름망 록백 ❗ ]                         │
+  │                                                                                      │
+  │     [ AppArmor 엔진 룰셋 (파일: /etc/apparmor.d/usr.sbin.nginx) ]                    │
+  │       profile /usr/sbin/nginx {                                                      │
+  │          /usr/sbin/nginx r,     <-- 앱 자신은 읽기만 가능                            │
+  │          /var/www/html/** r,    <-- 웹 폴더는 재귀(**) 단까지 다 읽기 가능           │
+  │          /var/log/nginx/* w,    <-- 로그 폴더는 쓰기만 허용                          │
+  │                                                                                      │
+  │          # 핵심! 이 리스트에 `/etc/shadow` 가 아예 적혀있지 않음! (화이트리스트 압살)│
+  │       }                                                                              │
+  │                                                                                      │
+  │  ✅ [ OS 커널 반환 심연 크래시 빔! ]                                                 │
+  │     AppArmor 심사관: "야 Nginx! 네 룰 종이 쪼가리(Profile) 엔 /etc/ 로 시작하는      │
+  │     경로 접근권 이 1줄도 없다! 루트 권한 777이건 말건 닥치고 차단(Denied) 쾅!!!"     │
+  └──────────────────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이것이 AppArmor 의 미칠듯한 아름다움이자 무결점 [가독성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/)이다. 개발자나 엔지니어가 언제든지 `/etc/apparmor.d/` 로 들어가서 텍스트 룰 몇 개만 타이핑(`vim`) 한 뒤, `sudo apparmor_parser` 로 리로드(Reload) 한 번 치면 `0.1초` 만에 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 전역에 강력한 [샌드박싱](/knowledge-base/studynote/02_operating_system/10_security/602_sandboxing_kernel_wrapper/) 철장 족쇄가 반영되는 극한의 스루풋 궤적이다.
 
@@ -132,19 +136,15 @@ AppArmor은 [운영체제](/knowledge-base/studynote/02_operating_system/01_over
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SELinux</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AppArmor</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">시스템 보안 위협 유형</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">트로이 목마 (Trojan Horse) / 래퍼 (Wrapper)</div></div>
-</div>
-</div>
-
-
+```text
+[SELinux]
+    │
+    ▼
+[AppArmor]
+    │
+    ├──▶ [시스템 보안 위협 유형]
+    └──▶ [트로이 목마 (Trojan Horse) / 래퍼 (Wrapper)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

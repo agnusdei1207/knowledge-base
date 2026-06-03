@@ -35,37 +35,40 @@ tags = ["studynote-bigdata"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Medallion Architecture (Databricks 구현)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AutoLoader / COPY INTO</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원본 소스</div><div class="kb-diagram-cell">▶ 🥉 BRONZE</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(S3 Raw)</div><div class="kb-diagram-cell">Delta Table</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 스키마: 원본 그대로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 파티션: 적재 날짜</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 모드: append-only</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MERGE INTO (upsert)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ SCD Type 2 변환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🥈 SILVER</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Delta Table</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 중복 제거</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- null 처리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 비즈니스 키 정의</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 품질 기대값 검사</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Spark SQL / dbt 집계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🥇 GOLD</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Delta Table</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 일별/월별 집계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Star 스키마</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- BI 최적화 파티션</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">[Power BI / Tableau /</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Databricks SQL]</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────────────┐
+│              Medallion Architecture (Databricks 구현)             │
+├──────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  ┌──────────────┐   AutoLoader / COPY INTO                       │
+│  │  원본 소스    │ ──────────────────────────▶ 🥉 BRONZE           │
+│  │  (S3 Raw)   │                              Delta Table        │
+│  └──────────────┘                             - 스키마: 원본 그대로│
+│                                               - 파티션: 적재 날짜  │
+│                                               - 모드: append-only │
+│                                                      │           │
+│                              MERGE INTO (upsert)     │           │
+│                              + SCD Type 2 변환        │           │
+│                                                      ▼           │
+│                                              🥈 SILVER           │
+│                                              Delta Table         │
+│                                              - 중복 제거          │
+│                                              - null 처리          │
+│                                              - 비즈니스 키 정의    │
+│                                              - 품질 기대값 검사    │
+│                                                      │           │
+│                              Spark SQL / dbt 집계    │           │
+│                                                      ▼           │
+│                                              🥇 GOLD             │
+│                                              Delta Table         │
+│                                              - 일별/월별 집계     │
+│                                              - Star 스키마        │
+│                                              - BI 최적화 파티션   │
+│                                                      │           │
+│                                          [Power BI / Tableau /   │
+│                                           Databricks SQL]        │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 <strong><a href="/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/">Databricks</a> 구현 도구 매핑</strong>
 
@@ -164,25 +167,24 @@ WHEN NOT MATCHED THEN
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">원시 데이터 수집 (Raw Ingestion) — 다양한 소스에서 무결 저장</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">브론즈 레이어 (Bronze) — 원시 데이터 그대로 보존</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">실버 레이어 (Silver) — 정제·표준화·중복 제거</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">골드 레이어 (Gold) — 비즈니스 집계·분석용 최종 데이터</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">레이크하우스 (Lakehouse) — 메달리온 위에 ACID 트랜잭션 지원</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 메시 (Data Mesh) — 도메인별 메달리온 자율 관리</div></div>
-</div>
-</div>
-
-
+```text
+[원시 데이터 수집 (Raw Ingestion) — 다양한 소스에서 무결 저장]
+    │
+    ▼
+[브론즈 레이어 (Bronze) — 원시 데이터 그대로 보존]
+    │
+    ▼
+[실버 레이어 (Silver) — 정제·표준화·중복 제거]
+    │
+    ▼
+[골드 레이어 (Gold) — 비즈니스 집계·분석용 최종 데이터]
+    │
+    ▼
+[레이크하우스 (Lakehouse) — 메달리온 위에 ACID 트랜잭션 지원]
+    │
+    ▼
+[데이터 메시 (Data Mesh) — 도메인별 메달리온 자율 관리]
+```
 [메달리온 아키텍처](/knowledge-base/studynote/14_data_engineering/04_mlops/194_medallion_architecture_bronze_silver_gold/)는 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 가치를 브론즈→실버→골드 정제 단계로 점진적으로 높이며, [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/)와 [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 기반을 제공한다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

@@ -25,26 +25,30 @@ tags = ["studynote-operating-system"]
 - <strong>하드웨어 디스크 파편 vs 파일의 <a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a> 연속성 병합 다이어그램</strong>:
 물리적인 디스크의 흩어진 섹터들이 사용자에겐 어떻게 "한 줄 통로" 파일로 보이는지 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 묘사용 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)으로 해체하면 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물리적 섹터의 카오스 vs 파일의 논리적 추상화 마법 도</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">인간/어플리케이션의 시선 - 논리적 뷰 (가상 연속성)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💻 C언어 앱: file = open("hello.mp4")</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">📂 hello.mp4 (파일)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Byte 0</div><div class="kb-diagram-node">Byte 1</div><div class="kb-diagram-node">Byte 2</div><div class="kb-diagram-note">...</div><div class="kb-diagram-node">Byte 99999</div><div class="kb-diagram-note">연속! │</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ (깔끔하게 1차원 배야열로 연속된 아름다운 데이터 흐름 착각!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (OS 파일 시스템의 묵묵한 번역 노동 매핑 테이블 통역)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">하드 디스크 드라이브의 현실 - 물리적 뷰 (파편 배열)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─(트랙1) ─(트랙2)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">섹터 40</div><div class="kb-diagram-note">(100바이트 저장)</div><div class="kb-diagram-node">섹터 12</div><div class="kb-diagram-note">(50바이트 저장) │</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─(트랙7) ─(트랙9)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">섹터 99</div><div class="kb-diagram-note">(20바이트 저장) │ ... 흩어진 파편 지옥 ... │</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────────────┐
+  │                 물리적 섹터의 카오스 vs 파일의 논리적 추상화 마법 도      │
+  ├───────────────────────────────────────────────────────────────────────────┤
+  │                                                                           │
+  │  [ 인간/어플리케이션의 시선 - 논리적 뷰 (가상 연속성) ]                   │
+  │     💻 C언어 앱: file = open("hello.mp4")                                 │
+  │     ┌───────────────────────────────────────────────────┐                 │
+  │     │ 📂 hello.mp4 (파일)                               │                 │
+  │     │ [Byte 0] [Byte 1] [Byte 2] ... [Byte 99999] 연속!  │                │
+  │     └───────────────────────────────────────────────────┘                 │
+  │        ▲ (깔끔하게 1차원 배야열로 연속된 아름다운 데이터 흐름 착각!)      │
+  │  ──────│────────────────────────────────────────────────────────│──
+  │        ▼ (OS 파일 시스템의 묵묵한 번역 노동 매핑 테이블 통역)             │
+  │  [ 하드 디스크 드라이브의 현실 - 물리적 뷰 (파편 배열) ]                  │
+  │     ┌─(트랙1)─────────────────┬─(트랙2)─────────────────┐                 │
+  │     │ [섹터 40] (100바이트 저장)│ [섹터 12] (50바이트 저장) │             │
+  │     └─────────────────────────┴─────────────────────────┘                 │
+  │     ┌─(트랙7)─────────────────┬─(트랙9)─────────────────┐                 │
+  │     │ [섹터 99] (20바이트 저장) │ ... 흩어진 파편 지옥 ...   │            │
+  │     └─────────────────────────┴─────────────────────────┘                 │
+  │                                                                           │
+  └───────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 그림 상단에서 프로그래머가 보는 파일은 단순히 0부터 끝까지 죽 길게 나열된 아름다운 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 스트림(연속된 강물)이다. 하지만 밑바닥 디스크 원판(플래터) 현실에서 그 영화 1편의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 트랙1, 트랙7, 트랙9 등 사방팔방으로 쪼개져 박혀([Fragmentation](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)) 파편화되어 있다. 이 미친 지옥 같은 난장판 주소들을 OS(파일 시스템)가 싹 모아다가 하나의 예쁜 주머니(File)로 마스킹 통일 압축해 버렸기에 세상 모든 코딩과 IT 서비스가 미칠듯한 보장성 편리함을 누리며 성립 가능한 것이다.
 
@@ -132,19 +136,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">이중 경로 (Multipath) I/O 페일오버 및 로드밸런싱 구조</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">파일 (File)의 정의</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">파일 속성 (Attributes)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">매직 넘버 (Magic Number)</div></div>
-</div>
-</div>
-
-
+```text
+[이중 경로 (Multipath) I/O 페일오버 및 로드밸런싱 구조]
+    │
+    ▼
+[파일 (File)의 정의]
+    │
+    ├──▶ [파일 속성 (Attributes)]
+    └──▶ [매직 넘버 (Magic Number)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

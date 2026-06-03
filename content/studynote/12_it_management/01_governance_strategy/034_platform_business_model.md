@@ -18,21 +18,16 @@ tags = ["studynote-it-management"]
 
 ## Ⅰ. 플랫폼의 정의와 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 비즈니스 비교
 
+```
+파이프 비즈니스 (전통 선형 모델):
+  생산자 → [기업] → 소비자
+  예: 제조업, SaaS 구독
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">파이프 비즈니스 (전통 선형 모델):</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">기업</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">소비자</div></div>
-<div class="kb-diagram-note">예: 제조업, SaaS 구독</div>
-<div class="kb-diagram-note">플랫폼 비즈니스 (다면 시장):</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">←</div><div class="kb-diagram-node">플랫폼</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">→ 소비자</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">←</div><div class="kb-diagram-node">플랫폼</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">→ 생산자</div></div>
-<div class="kb-diagram-note">예: 앱스토어, 우버, 에어비앤비</div>
-</div>
-</div>
-
-
+플랫폼 비즈니스 (다면 시장):
+  생산자 ←→ [플랫폼] ←→ 소비자
+  생산자 ←→ [플랫폼] ←→ 생산자
+  예: 앱스토어, 우버, 에어비앤비
+```
 
 ### 양면 시장 (Two-Sided Market)
 
@@ -66,24 +61,22 @@ tags = ["studynote-it-management"]
 
 ### 닭-달걀 문제 해결 ([Cold Start Problem](/knowledge-base/studynote/06_ict_convergence/05_data_science/347_cold_start_problem/))
 
+```
+초기 플랫폼: 공급자 없음 → 소비자 없음 → 공급자 없음 (악순환)
 
+해결 전략:
+1. 한 쪽 보조금 (Single Side Subsidy):
+   예) 우버: 초기 드라이버에게 보장 수익 지급
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">초기 플랫폼: 공급자 없음 → 소비자 없음 → 공급자 없음 (악순환)</div>
-<div class="kb-diagram-note">해결 전략:</div>
-<div class="kb-diagram-note">1. 한 쪽 보조금 (Single Side Subsidy):</div>
-<div class="kb-diagram-note">예) 우버: 초기 드라이버에게 보장 수익 지급</div>
-<div class="kb-diagram-note">2. 마이크로마켓 전략:</div>
-<div class="kb-diagram-note">예) 에어비앤비: 뉴욕 특정 지역부터 시작</div>
-<div class="kb-diagram-note">3. 공급자가 소비자를 데려오기:</div>
-<div class="kb-diagram-note">예) PayPal: eBay 판매자 무료 제공 → 구매자 유입</div>
-<div class="kb-diagram-note">4. 단독 활용 가치 제공:</div>
-<div class="kb-diagram-note">예) OpenTable: 레스토랑 예약 관리 소프트웨어로 시작</div>
-</div>
-</div>
+2. 마이크로마켓 전략:
+   예) 에어비앤비: 뉴욕 특정 지역부터 시작
 
+3. 공급자가 소비자를 데려오기:
+   예) PayPal: eBay 판매자 무료 제공 → 구매자 유입
 
+4. 단독 활용 가치 제공:
+   예) OpenTable: 레스토랑 예약 관리 소프트웨어로 시작
+```
 
 📢 **섹션 요약 비유**: 닭-달걀 문제 해결은 씨앗 심기다 — 처음에는 손해를 감수하고 한쪽(드라이버/판매자)에 투자해서 씨앗을 심으면, 나중에 다른 쪽(승객/구매자)이 자연히 따라온다.
 
@@ -105,21 +98,16 @@ tags = ["studynote-it-management"]
 
 ## Ⅴ. 플랫폼 거버넌스와 규제
 
+```
+플랫폼 규제 이슈 (2020년대):
+  독점 문제: Google·Apple 앱스토어 30% 수수료 → 반독점 조사
+  데이터 남용: 플랫폼의 참여자 데이터 활용 제한 (GDPR, DMA)
+  콘텐츠 책임: 플랫폼의 유해 콘텐츠 책임 범위 (EU DSA)
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">플랫폼 규제 이슈 (2020년대):</div>
-<div class="kb-diagram-note">독점 문제: Google·Apple 앱스토어 30% 수수료 → 반독점 조사</div>
-<div class="kb-diagram-note">데이터 남용: 플랫폼의 참여자 데이터 활용 제한 (GDPR, DMA)</div>
-<div class="kb-diagram-note">콘텐츠 책임: 플랫폼의 유해 콘텐츠 책임 범위 (EU DSA)</div>
-<div class="kb-diagram-note">EU 디지털 시장법 (DMA, Digital Markets Act, 2022):</div>
-<div class="kb-diagram-note">게이트키퍼 플랫폼 지정 (Google·Apple·Meta·Amazon·Microsoft·ByteDance)</div>
-<div class="kb-diagram-note">→ 상호운용성 의무, 자사 우대 금지, 데이터 이식성</div>
-</div>
-</div>
-
-
+EU 디지털 시장법 (DMA, Digital Markets Act, 2022):
+  게이트키퍼 플랫폼 지정 (Google·Apple·Meta·Amazon·Microsoft·ByteDance)
+  → 상호운용성 의무, 자사 우대 금지, 데이터 이식성
+```
 
 📢 **섹션 요약 비유**: 플랫폼 거버넌스는 장터 규정이다 — 장터(플랫폼)가 너무 많은 것을 통제하면 가게(공급자)가 떠나고, 너무 자유로우면 사기꾼(품질 저하)이 들끓어 손님(소비자)이 줄어든다.
 
@@ -127,53 +115,46 @@ tags = ["studynote-it-management"]
 
 ## 📌 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">플랫폼 비즈니스 모델</div>
-<div class="kb-diagram-tree-item" style="--depth:0">핵심 구조</div>
-<div class="kb-diagram-note">── 양면/다면 시장</div>
-<div class="kb-diagram-note">── 네트워크 효과 (직접·간접·데이터)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">성장 전략</div>
-<div class="kb-diagram-note">── Cold Start 해결 (보조금·마이크로마켓)</div>
-<div class="kb-diagram-note">── 멧칼프의 법칙 (N²)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">수익 모델</div>
-<div class="kb-diagram-note">── 수수료·구독·광고·데이터</div>
-<div class="kb-diagram-note">── 가치 추가 서비스</div>
-<div class="kb-diagram-tree-item" style="--depth:0">규제</div>
-<div class="kb-diagram-tree-item" style="--depth:2">EU DMA (게이트키퍼)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">반독점법</div>
-<div class="kb-diagram-tree-item" style="--depth:2">GDPR (데이터 남용)</div>
-</div>
-</div>
-
-
+```
+플랫폼 비즈니스 모델
+├── 핵심 구조
+│   ├── 양면/다면 시장
+│   └── 네트워크 효과 (직접·간접·데이터)
+├── 성장 전략
+│   ├── Cold Start 해결 (보조금·마이크로마켓)
+│   └── 멧칼프의 법칙 (N²)
+├── 수익 모델
+│   ├── 수수료·구독·광고·데이터
+│   └── 가치 추가 서비스
+└── 규제
+    ├── EU DMA (게이트키퍼)
+    ├── 반독점법
+    └── GDPR (데이터 남용)
+```
 
 ---
 
 ## 📈 관련 키워드 및 발전 흐름도
 
+```
+┌─────────────────────────────────────────────────────────────────┐
+│              플랫폼 비즈니스 발전 흐름                           │
+├──────────────┬────────────────────┬─────────────────────────────┤
+│ 1990년대     │ 윈도우 OS 플랫폼   │ 최초 소프트웨어 플랫폼        │
+│ 2007년       │ 스마트폰 앱스토어  │ 모바일 플랫폼 경제 시작       │
+│ 2010년대     │ 우버·에어비앤비    │ 공유경제 플랫폼 폭발 성장     │
+│ 2016년       │ Platform Revolution│ 플랫폼 비즈니스 이론 체계화   │
+│ 2022년       │ EU DMA 시행        │ 빅테크 플랫폼 규제 시작       │
+│ 2024년~      │ AI 플랫폼 경쟁    │ OpenAI·Anthropic 플랫폼화    │
+└──────────────┴────────────────────┴─────────────────────────────┘
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">플랫폼 비즈니스 발전 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1990년대</div><div class="kb-diagram-cell">윈도우 OS 플랫폼</div><div class="kb-diagram-cell">최초 소프트웨어 플랫폼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2007년</div><div class="kb-diagram-cell">스마트폰 앱스토어</div><div class="kb-diagram-cell">모바일 플랫폼 경제 시작</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2010년대</div><div class="kb-diagram-cell">우버·에어비앤비</div><div class="kb-diagram-cell">공유경제 플랫폼 폭발 성장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2016년</div><div class="kb-diagram-cell">Platform Revolution</div><div class="kb-diagram-cell">플랫폼 비즈니스 이론 체계화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2022년</div><div class="kb-diagram-cell">EU DMA 시행</div><div class="kb-diagram-cell">빅테크 플랫폼 규제 시작</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2024년~</div><div class="kb-diagram-cell">AI 플랫폼 경쟁</div><div class="kb-diagram-cell">OpenAI·Anthropic 플랫폼화</div></div>
-<div class="kb-diagram-note">핵심 키워드 연결:</div>
-<div class="kb-diagram-note">양면 시장 → 네트워크 효과 → 승자독식 → 플랫폼 독점</div>
-<div class="kb-diagram-note">멧칼프 법칙 데이터 복리 멀티호밍 비용 DMA 규제</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Cold Start → 보조금 전략 → 임계 규모 → 지배적 플랫폼</div>
-</div>
-</div>
-
-
+핵심 키워드 연결:
+양면 시장 → 네트워크 효과 → 승자독식 → 플랫폼 독점
+    ↓              ↓              ↓            ↓
+멧칼프 법칙    데이터 복리     멀티호밍 비용  DMA 규제
+    ↓
+Cold Start → 보조금 전략 → 임계 규모 → 지배적 플랫폼
+```
 
 ---
 

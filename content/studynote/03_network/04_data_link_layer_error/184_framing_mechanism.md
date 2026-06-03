@@ -25,19 +25,18 @@ tags = ["studynote-network"]
 
 아래 그림은 프레이밍이 물리 계층의 연속 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)열을 링크 계층의 관리 가능한 단위로 바꾸는 과정을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">From raw bits to frames</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Physical Layer bit stream : 101110011011111001001011110...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Framing logic</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Header | Payload | FCS</div><div class="kb-diagram-node">Header | Payload | FCS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Receiver can now parse address, length, control, error check</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────────┐
+│ From raw bits to frames                                           │
+├───────────────────────────────────────────────────────────────────┤
+│ Physical Layer bit stream : 101110011011111001001011110...        │
+│                                                                   │
+│ Framing logic                                                     │
+│     └─▶ [ Header | Payload | FCS ] [ Header | Payload | FCS ]     │
+│                                                                   │
+│ Receiver can now parse address, length, control, error check      │
+└───────────────────────────────────────────────────────────────────┘
+```
 
 즉 프레이밍은 단순 포장 기술이 아니라, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층 전체가 동작할 수 있게 만드는 <strong>경계 인식의 기반 인프라</strong>다.
 
@@ -60,24 +59,22 @@ tags = ["studynote-network"]
 
 [비트 스터핑](/knowledge-base/studynote/03_network/04_data_link_layer_error/187_bit_stuffing_flag_mechanism/)은 시험과 실무에서 자주 묻는 대표 메커니즘이다. [HDLC](/knowledge-base/studynote/03_network/04_data_link_layer_error/216_hdlc_high_level_data_link_control/) (High-Level [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Link Control) 계열처럼 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) `01111110`을 프레임 양끝에 두고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 내부에 `1`이 다섯 번 연속 나오면 송신 측이 자동으로 `0`을 하나 삽입한다. 수신 측은 다섯 개의 `1` 뒤에 오는 `0`을 제거하고, `10` 패턴이면 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/), `11`이면 오류로 해석해 경계를 복원한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Bit stuffing example</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Flag : 01111110</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Raw payload : 01111110111110</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Stuffed : 0111110101111100</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Frame sent : 01111110 0111110101111100 01111110</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Receiver rule</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">after five consecutive 1s:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- next bit 0 -&gt; remove stuffed 0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- next bits 10 -&gt; flag</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- next bits 11 -&gt; framing error</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────────┐
+│ Bit stuffing example                                              │
+├───────────────────────────────────────────────────────────────────┤
+│ Flag        : 01111110                                            │
+│ Raw payload : 01111110111110                                      │
+│ Stuffed     : 0111110101111100                                    │
+│ Frame sent  : 01111110 0111110101111100 01111110                  │
+│                                                                   │
+│ Receiver rule                                                     │
+│   after five consecutive 1s:                                      │
+│   - next bit 0  -> remove stuffed 0                               │
+│   - next bits 10 -> flag                                           │
+│   - next bits 11 -> framing error                                  │
+└───────────────────────────────────────────────────────────────────┘
+```
 
 이 그림이 보여 주는 핵심은 프레이밍이 "양끝에 표식을 붙이는 일"에서 끝나지 않고, <strong>표식과 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 충돌하지 않도록 원본을 안전하게 변형하고 다시 복원하는 절차</strong>까지 포함한다는 점이다.
 
@@ -160,21 +157,17 @@ Ethernet에서도 프레이밍은 중요하지만 구현 방식이 PPP나 HDLC�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Raw bit stream from Physical Layer</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Frame boundary recognition</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ Length-based framing</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ Byte stuffing</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ Bit stuffing</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ Preamble / delimiter / CRC integration</div>
-</div>
-</div>
-
-
+```text
+Raw bit stream from Physical Layer
+        │
+        ▼
+Frame boundary recognition
+        │
+        ├──────────────▶ Length-based framing
+        ├──────────────▶ Byte stuffing
+        ├──────────────▶ Bit stuffing
+        └──────────────▶ Preamble / delimiter / CRC integration
+```
 
 이 흐름도는 프레이밍이 단순 경계 표시에서 출발해, 투명성 보장과 오류 검출 연계까지 포함하는 링크 계층의 핵심 메커니즘으로 확장되는 과정을 보여 준다.
 

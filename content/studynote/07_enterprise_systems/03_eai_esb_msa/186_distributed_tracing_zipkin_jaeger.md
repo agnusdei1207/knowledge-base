@@ -35,21 +35,20 @@ tags = ["studynote-enterprise"]
 
 아래 그림은 요청 흐름과 추적 수집 흐름을 함께 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Request path and tracing pipeline</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client -&gt; Gateway -&gt; Order -&gt; Payment -&gt; DB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ span-4 : SQL</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">span-3 : payment call</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">span-2 : order handler</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">trace-1 span-1 : gateway</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Services export spans -&gt; Collector -&gt; Storage -&gt; Zipkin / Jaeger</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Request path and tracing pipeline                                  │
+├────────────────────────────────────────────────────────────────────┤
+│ Client -> Gateway -> Order -> Payment -> DB                        │
+│            │         │          │                                  │
+│            │         │          └─ span-4 : SQL                    │
+│            │         └──────────── span-3 : payment call           │
+│            └────────────────────── span-2 : order handler          │
+│ trace-1 ───────────────────────── span-1 : gateway                 │
+│                                                                    │
+│ Services export spans -> Collector -> Storage -> Zipkin / Jaeger   │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -143,23 +142,21 @@ Zipkin과 Jaeger도 지향점이 조금 다르다. Zipkin은 비교적 단순하
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">모놀리식 디버깅 한계 없음</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">MSA 확산과 로그 파편화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Trace ID · Span 기반 문맥 전파</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Zipkin / Jaeger 수집 · 시각화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">OpenTelemetry 기반 통합 관측성</div>
-</div>
-</div>
-
-
+```text
+모놀리식 디버깅 한계 없음
+        │
+        ▼
+MSA 확산과 로그 파편화
+        │
+        ▼
+Trace ID · Span 기반 문맥 전파
+        │
+        ▼
+Zipkin / Jaeger 수집 · 시각화
+        │
+        ▼
+OpenTelemetry 기반 통합 관측성
+```
 
 이 흐름은 단순 [로그 분석](/knowledge-base/studynote/16_bigdata/05_analysis/119_log_analysis/)에서 시작해, 요청 문맥 복원과 표준화된 관측성 플랫폼으로 성숙해 가는 과정을 보여 준다.
 

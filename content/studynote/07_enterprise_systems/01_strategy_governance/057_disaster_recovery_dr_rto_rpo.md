@@ -30,21 +30,15 @@ DR은 BCP (Business Continuity Plan)의 일부이지만, 특히 정보시스템�
 
 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 설계의 출발점은 [BIA](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/212_bia_business_impact_analysis_rto_rpo_dr/) ([Business Impact Analysis](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/212_bia_business_impact_analysis_rto_rpo_dr/))다. 어떤 업무가 먼저 살아야 하는지 정해야 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 순서가 정해진다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">BIA</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">핵심 업무 선정</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">RTO / RPO 설정</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">복구 사이트와 백업 전략 결정</div>
-</div>
-</div>
-
-
+```text
+BIA
+  ↓
+핵심 업무 선정
+  ↓
+RTO / RPO 설정
+  ↓
+복구 사이트와 백업 전략 결정
+```
 
 - <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/">RTO</a></strong>는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 다시 켜져야 하는 최대 시간이다.
 - <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/">RPO</a></strong>는 허용 가능한 최대 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손실 시점이다.
@@ -105,21 +99,15 @@ DR은 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">BIA</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">RTO / RPO</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Mirror / Hot / Warm / Cold site</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">복구 훈련 / 검증</div>
-</div>
-</div>
-
-
+```text
+BIA
+   ↓
+RTO / RPO
+   ↓
+Mirror / Hot / Warm / Cold site
+   ↓
+복구 훈련 / 검증
+```
 
 ---
 

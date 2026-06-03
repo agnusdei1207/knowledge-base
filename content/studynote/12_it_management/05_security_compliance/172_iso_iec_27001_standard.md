@@ -23,21 +23,19 @@ ISO/IEC 27001은 "보안 장비를 몇 개 샀는가"를 묻는 표준이 아니
 
 그래서 ISO/IEC 27001은 조직 관점에서 보안을 다룬다. 범위를 정하고, 자산과 이해관계자를 파악하고, 위험을 평가하고, 필요한 통제를 선택해 운영하며, 내부 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)와 경영 검토로 다시 개선하는 구조를 요구한다. 즉 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)의 핵심은 "안전한 시스템 하나"가 아니라 <strong>지속적으로 보안을 관리하는 조직 능력</strong>이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Why ISO/IEC 27001 matters</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Point security</div><div class="kb-diagram-cell">Management system</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- firewall</div><div class="kb-diagram-cell">- scope and context</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- MFA</div><div class="kb-diagram-cell">- risk assessment</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- encryption</div><div class="kb-diagram-cell">- control selection</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- patching</div><div class="kb-diagram-cell">- audit, review, improvement</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Goal: security as repeatable governance, not one-time setup</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Why ISO/IEC 27001 matters                                            │
+├───────────────────────────────┬──────────────────────────────────────┤
+│ Point security                │ Management system                    │
+│ - firewall                    │ - scope and context                  │
+│ - MFA                         │ - risk assessment                    │
+│ - encryption                  │ - control selection                  │
+│ - patching                    │ - audit, review, improvement         │
+├───────────────────────────────┴──────────────────────────────────────┤
+│ Goal: security as repeatable governance, not one-time setup          │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 따라서 ISO/IEC 27001은 침해사고가 절대 없음을 보증하는 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)이 아니다. 대신 사고 가능성을 체계적으로 낮추고, 사고가 나더라도 대응과 개선이 작동하는 조직 구조를 요구하는 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)이다.
 
@@ -59,20 +57,25 @@ ISO/IEC 27001의 본문은 조직의 맥락 이해부터 개선 활동까지 이
 
 아래 그림은 ISO/IEC 27001 운영 루프를 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ISO/IEC 27001 operating loop</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Context / scope / interested parties</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Risk assessment ──&gt; risk treatment plan ──&gt; SoA + control selection</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">operation and evidence collection Annex A reference</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">monitoring / internal audit / management review</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">corrective action and continual improvement</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ ISO/IEC 27001 operating loop                                         │
+├──────────────────────────────────────────────────────────────────────┤
+│ Context / scope / interested parties                                 │
+│                 │                                                    │
+│                 ▼                                                    │
+│ Risk assessment ──> risk treatment plan ──> SoA + control selection  │
+│                 │                                  │                 │
+│                 ▼                                  ▼                 │
+│      operation and evidence collection      Annex A reference        │
+│                 │                                                    │
+│                 ▼                                                    │
+│   monitoring / internal audit / management review                    │
+│                 │                                                    │
+│                 ▼                                                    │
+│          corrective action and continual improvement                 │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조에서 중요한 것은 문서와 운영의 연결이다. [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 문서만 있고 실제 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 점검, 접근권한 검토, 공급자 관리, 교육 이수, 시정조치 이력이 없으면 심사에서 약해진다. 결국 ISO/IEC 27001은 문서 표준이 아니라 <strong>증적이 남는 운영 표준</strong>이다.
 
@@ -156,25 +159,24 @@ ISO/IEC 27001을 제대로 운영하면 보안 활동이 개인 역량이나 일
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Business context and scope</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Asset identification and risk assessment</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Risk treatment + SoA</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Annex A control operation</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Audit / management review / corrective action</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Certification and continual improvement</div>
-</div>
-</div>
-
-
+```text
+Business context and scope
+        │
+        ▼
+Asset identification and risk assessment
+        │
+        ▼
+Risk treatment + SoA
+        │
+        ▼
+Annex A control operation
+        │
+        ▼
+Audit / management review / corrective action
+        │
+        ▼
+Certification and continual improvement
+```
 
 이 흐름은 ISO/IEC 27001이 "범위 정의 → 위험평가 → 통제 적용 → 운영 점검 → 개선"으로 반복되는 관리체계임을 보여 준다.
 

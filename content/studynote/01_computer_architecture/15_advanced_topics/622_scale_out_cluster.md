@@ -42,22 +42,21 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 스파인-리프 구조에서 동서 방향 트래픽이 어떻게 균등한 경로를 갖는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Spine-Leaf fabric: east-west traffic uses equal-cost uplinks</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Spine1</div><div class="kb-diagram-node">Spine2</div><div class="kb-diagram-node">Spine3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">╲</div><div class="kb-diagram-cell">╱</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">╲</div><div class="kb-diagram-cell">╱</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Leaf1</div><div class="kb-diagram-node">Leaf2</div><div class="kb-diagram-node">Leaf3</div><div class="kb-diagram-node">Leaf4</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">N1 N2 N3 N4 N5 N6 N7 N8</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Any path ≈ Node -&gt; Leaf -&gt; Spine -&gt; Leaf -&gt; Node</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ECMP spreads flows across multiple uplinks</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│         Spine-Leaf fabric: east-west traffic uses equal-cost uplinks      │
+├────────────────────────────────────────────────────────────────────────────┤
+│                [Spine1]      [Spine2]      [Spine3]                       │
+│                   │  ╲          │          ╱  │                           │
+│                   │   ╲         │         ╱   │                           │
+│                [Leaf1] [Leaf2] [Leaf3] [Leaf4]                            │
+│                  / \     / \     / \     / \                              │
+│               N1  N2   N3  N4   N5  N6   N7  N8                           │
+│                                                                            │
+│  Any path ≈ Node -> Leaf -> Spine -> Leaf -> Node                         │
+│  ECMP spreads flows across multiple uplinks                               │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 고성능 환경에서는 원격 [직접 메모리 접근](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/450_dma_direct_memory_access/) ([RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/), Remote [Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/))이나 [인피니밴드](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/) ([InfiniBand](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/))를 활용해 CPU 개입을 줄이기도 한다. 특히 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 학습 클러스터나 고성능 컴퓨팅 ([HPC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/548_automotive_hpc/), [High Performance Computing](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/226_hpc_supercomputing_infrastructure/))에서는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)보다도 <strong>혼잡 시 꼬리 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>이 얼마나 튀는지</strong>, 그리고 대규모 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 구간에서 패킷 손실이 얼마나 적은지가 핵심 품질 지표가 된다.
 
@@ -122,23 +121,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단일 서버 증설 중심 운영</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">랙 단위 서버 군집화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Clos · Spine-Leaf 패브릭</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ECMP · 분산 스토리지 · Kubernetes</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">RDMA 기반 AI/HPC 초대형 클러스터</div>
-</div>
-</div>
-
-
+```text
+단일 서버 증설 중심 운영
+    │
+    ▼
+랙 단위 서버 군집화
+    │
+    ▼
+Clos · Spine-Leaf 패브릭
+    │
+    ▼
+ECMP · 분산 스토리지 · Kubernetes
+    │
+    ▼
+RDMA 기반 AI/HPC 초대형 클러스터
+```
 
 이 흐름은 확장의 중심이 "서버 사양"에서 "네트워크로 연결된 노드 집합"으로 이동해 왔음을 보여준다.
 

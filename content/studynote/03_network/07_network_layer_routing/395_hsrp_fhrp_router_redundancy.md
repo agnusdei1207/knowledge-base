@@ -27,18 +27,14 @@ tags = ["studynote-network"]
   - 평소엔 1번 상담원([Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) 라우터)이 이 전화를 독차지해서 다 받습니다.
   - 1번 상담원이 화장실에 가서 전화를 안 받으면(장애 발생), 옆에서 대기하던 2번 상담원(Standby 라우터)이 즉시 1번 상담원 행세를 하며 전화를 당겨 받습니다. 고객은 누가 전화를 받든 서비스가 끊기지 않음을 경험합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">WRED 혼잡 제어 꼬리 짜르기 제한</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HSRP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">VRRP</div></div>
-</div>
-</div>
-
-
+```text
+[WRED 혼잡 제어 꼬리 짜르기 제한]
+    │
+    ▼
+[HSRP]
+    │
+    └──▶ [VRRP]
+```
 
 - **📢 섹션 요약 비유**: ** HSRP는 왕(Virtual IP)의 그림자 역할을 하는 **"카게무샤(대역)"** 2명을 세워두는 전술입니다. 1번 카게무샤가 암살당하면(장애), 대기하던 2번 카게무샤가 즉시 왕의 옷과 가면(가상 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소)을 뒤집어쓰고 백성들([PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)) 앞에 나타나 국정 혼란을 막아냅니다.
 
@@ -60,28 +56,29 @@ Active가 죽고 Standby가 권력을 잡았을 때 [스위치](/knowledge-base/
 - "[스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)야!! 0000.0c07.ac01 맥 주소 가진 놈, 아까까진 A [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에 있었지? 이제 나(B [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))한테 붙었으니까 테이블 당장 덮어써!!"
 - [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 1초 만에 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 테이블을 B 쪽으로 확 꺾어버려 통신이 재개된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HSRP 트래킹(Tracking) 기능의 기막힌 꼼수</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">인터넷 망</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ (외부선)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">라우터 A (Active)</div><div class="kb-diagram-note">========</div><div class="kb-diagram-node">라우터 B (Standby)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스위치</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ (가상 IP: .254)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">직원 PC</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 딜레마: 라우터 A 자체는 안 죽었는데, A의 "외부 인터넷선"이 포크레인에</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">끊겼다. A는 살았으니 권력을 B한테 안 넘기고 쥐고 있는다!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PC의 패킷은 A로 갔다가 인터넷을 못 가고 갇혀 죽는다(블랙홀).</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 해결 (Track): 관리자가 "야 A! 네 외부선(포트) 죽으면, 네 Priority</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">점수 110점에서 강제로 20점 깎아버려(90점)!!" 라고 설정.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 결과: 외부선 끊기자마자 A 점수가 90점이 되어 B(100점)보다 낮아짐.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B가 Preempt로 즉각 쿠데타를 일으켜 권력을 뺏어와 통신 살려냄!</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                HSRP 트래킹(Tracking) 기능의 기막힌 꼼수          │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 인터넷 망 ]                                                 │
+ │       ▲ (외부선)                                               │
+ │   [ 라우터 A (Active) ] ======== [ 라우터 B (Standby) ]        │
+ │       │                               │                     │
+ │       └────── [ 스위치 ] ─────────────┘                     │
+ │                     ▲ (가상 IP: .254)                          │
+ │                 [ 직원 PC ]                                   │
+ │                                                             │
+ │   * 딜레마: 라우터 A 자체는 안 죽었는데, A의 "외부 인터넷선"이 포크레인에│
+ │            끊겼다. A는 살았으니 권력을 B한테 안 넘기고 쥐고 있는다! │
+ │            PC의 패킷은 A로 갔다가 인터넷을 못 가고 갇혀 죽는다(블랙홀).│
+ │                                                             │
+ │   * 해결 (Track): 관리자가 "야 A! 네 외부선(포트) 죽으면, 네 Priority │
+ │                 점수 110점에서 강제로 20점 깎아버려(90점)!!" 라고 설정. │
+ │   * 결과: 외부선 끊기자마자 A 점수가 90점이 되어 B(100점)보다 낮아짐.  │
+ │          B가 Preempt로 즉각 쿠데타를 일으켜 권력을 뺏어와 통신 살려냄! │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 3. VRRP와 [GLBP](/knowledge-base/studynote/03_network/07_network_layer_routing/397_glbp_gateway_load_balancing_protocol/) (동종 업계 라이벌)
 - <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/396_vrrp_virtual_router_redundancy_protocol/">VRRP</a> (Virtual Router Redundancy <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">Protocol</a>)</strong>: 시스코 독점인 HSRP가 꼬와서 IEEE가 만든 "업계 개방형 표준"이다. 기능은 99.9% 똑같다. 용어만 [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) 대신 **Master**, Standby 대신 <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">Backup</a></strong>을 쓴다. ([멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) `224.0.0.18` 사용).
@@ -143,19 +140,15 @@ HSRP는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routin
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: WRED 혼잡 제어 꼬리 짜르기 제한</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: HSRP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: VRRP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: WRED 혼잡 제어 꼬리 짜르기 제한]
+    │
+    ▼
+[현재 개념: HSRP]
+    │
+    ├──▶ [확장 A: VRRP]
+    └──▶ [확장 B: 의도 기반 라우팅]
+```
 
 HSRP는 [WRED](/knowledge-base/studynote/03_network/07_network_layer_routing/394_wred_weighted_random_early_detection/) 혼잡 제어 꼬리 짜르기 제한에서 출발해 현재 메커니즘을 정교화하고, 이후 VRRP와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

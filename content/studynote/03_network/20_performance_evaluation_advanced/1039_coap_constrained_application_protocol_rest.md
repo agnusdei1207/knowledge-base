@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 전 세계 개발자는 `GET http://myhome/light`를 날리면 전구 상태를 읽어오고, `PUT`을 날리면 전구가 켜지는 <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/974_restful_api_stateless_http_methods_uri/">RESTful API</a>(466번)</strong> 웹 방식에 미치도록 익숙해져 있습니다.
 - 그런데 일반 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)은 문자열(Text) 기반이라 헤더 껍데기만 수백 바이트이고, 무거운 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 연결([TCP 3-way Handshake](/knowledge-base/studynote/03_network/08_transport_layer/416_tcp_3_way_handshake_connection_setup/))을 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 때문에, 동전 배터리로 1년 버티는 화재경보기 센서에 욱여넣으면 기계가 타버립니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">MQTT 퍼블리시 서브스크라이브 모드</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CoAP 프로토콜 및 REST</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Thread / Matter 표준 망</div></div>
-</div>
-</div>
-
-
+```text
+[MQTT 퍼블리시 서브스크라이브 모드]
+    │
+    ▼
+[CoAP 프로토콜 및 REST]
+    │
+    └──▶ [Thread / Matter 표준 망]
+```
 
 - **📢 섹션 요약 비유**: [CoAP](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 및 REST는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -43,18 +39,14 @@ tags = ["studynote-network"]
 
 - **개념**: CPU 메모리가 10KB밖에 안 되고 배터리도 없는 '극도로 제한된 [사물인터넷](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)(Constrained Node)' 환경에서, <strong>기존 인터넷 웹 표준인 <a href="/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/">REST</a>(<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a>) 구조를 그대로 유지하면서 통신 껍데기를 이진수(Binary)로 극단적으로 다이어트시킨 초경량 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a> 웹 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a></strong>입니다. ([IETF](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/) CoRE 워킹 그룹이 제정)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">MQTT 퍼블리시 서브스크라이브 모드</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CoAP 프로토콜 및 REST</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Thread / Matter 표준 망</div></div>
-</div>
-</div>
-
-
+```text
+[MQTT 퍼블리시 서브스크라이브 모드]
+    │
+    ▼
+[CoAP 프로토콜 및 REST]
+    │
+    └──▶ [Thread / Matter 표준 망]
+```
 
 - **📢 섹션 요약 비유**: [CoAP](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 및 REST의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -123,19 +115,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: MQTT 퍼블리시 서브스크라이브 모드</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: CoAP 프로토콜 및 REST</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: Thread / Matter 표준 망</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: MQTT 퍼블리시 서브스크라이브 모드]
+    │
+    ▼
+[현재 개념: CoAP 프로토콜 및 REST]
+    │
+    ├──▶ [확장 A: Thread / Matter 표준 망]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 [CoAP](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 및 REST는 [MQTT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/622_mqtt_publish_subscribe_qos/) 퍼블리시 서브스크라이브 모드에서 출발해 현재 메커니즘을 정교화하고, 이후 [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) / [Matter](/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/) 표준 망와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

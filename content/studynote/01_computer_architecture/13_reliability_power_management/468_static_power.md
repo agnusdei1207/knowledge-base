@@ -51,21 +51,22 @@ P_{static} = V_{[DD](/knowledge-base/studynote/04_software_engineering/10_trends
 
 아래 그림은 정적 전력이 어디에서 새는지 한눈에 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Static power = VDD × I_leak</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VDD</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ I_gate ▶ Gate oxide tunneling</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ I_sub ▶ Drain-Source path when Vgs &lt; Vt</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ I_junction ▶ Reverse-biased PN junction leakage</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Total leakage current:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I_leak = I_gate + I_sub + I_junction</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Static power = VDD × I_leak                                       │
+├────────────────────────────────────────────────────────────────────┤
+│ VDD                                                                │
+│  │                                                                 │
+│  ├─ I_gate      ─────▶ Gate oxide tunneling                        │
+│  │                                                                 │
+│  ├─ I_sub       ─────▶ Drain-Source path when Vgs < Vt             │
+│  │                                                                 │
+│  └─ I_junction  ─────▶ Reverse-biased PN junction leakage          │
+│                                                                    │
+│ Total leakage current:                                             │
+│ I_leak = I_gate + I_sub + I_junction                               │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 핵심은 "정적 전력은 회로가 멈춰도 0이 되지 않는다"는 점이다. 클럭이 없더라도 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 인가된 이상, 각 누설 통로가 아주 작은 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)를 계속 만든다. 칩 전체에 수십억 개의 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/)가 있으면 이 미세 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)가 합쳐져 무시 못 할 전력이 된다.
 
@@ -117,21 +118,20 @@ P_{static} = V_{[DD](/knowledge-base/studynote/04_software_engineering/10_trends
 
 아래 흐름은 실무에서 자주 쓰는 판단 순서다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Idle-time based decision</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Short idle ──▶ Clock Gating</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이유: 즉시 복귀, 상태 보존 비용 거의 없음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Medium idle ──▶ DVFS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이유: 전압·주파수 동시 하향으로 전력 절감</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Long idle ──▶ Power Gating</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이유: leakage 자체를 차단</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Idle-time based decision                                          │
+├────────────────────────────────────────────────────────────────────┤
+│ Short idle     ──▶ Clock Gating                                   │
+│               │   이유: 즉시 복귀, 상태 보존 비용 거의 없음       │
+│               │                                                    │
+│ Medium idle    ──▶ DVFS                                            │
+│               │   이유: 전압·주파수 동시 하향으로 전력 절감        │
+│               │                                                    │
+│ Long idle      ──▶ Power Gating                                    │
+│                   이유: leakage 자체를 차단                        │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 핵심은 <strong>유휴 시간이 길수록 더 공격적인 기법을 써야 한다</strong>는 점이다. 수 마이크로초 안에 다시 깨어날 블록이라면 [전력 게이팅](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/471_power_gating/)은 오히려 손해일 수 있다. 상태 저장과 복원, 웨이크업 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 있기 때문이다. 반대로 수 밀리초 이상 쉬는 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 클러스터나 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 가속기 블록이라면 [전력 게이팅](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/471_power_gating/)으로 누설 자체를 끊는 편이 이득이다.
 
@@ -182,20 +182,18 @@ P_{static} = V_{[DD](/knowledge-base/studynote/04_software_engineering/10_trends
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">평면 MOSFET의 누설 증가</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">정적 전력 (Static Power) 부각</div>
-<div class="kb-diagram-tree-item" style="--depth:4">소자 대응: High-k 유전체 ─▶ FinFET ─▶ GAAFET</div>
-<div class="kb-diagram-tree-item" style="--depth:4">회로 대응: 멀티-Vt ─▶ 저누설 표준셀 최적화</div>
-<div class="kb-diagram-tree-item" style="--depth:4">시스템 대응: Clock Gating ─▶ DVFS ─▶ Power Gating</div>
-</div>
-</div>
-
-
+```text
+평면 MOSFET의 누설 증가
+        │
+        ▼
+정적 전력 (Static Power) 부각
+        │
+        ├─ 소자 대응: High-k 유전체 ─▶ FinFET ─▶ GAAFET
+        │
+        ├─ 회로 대응: 멀티-Vt ─▶ 저누설 표준셀 최적화
+        │
+        └─ 시스템 대응: Clock Gating ─▶ DVFS ─▶ Power Gating
+```
 
 이 흐름은 정적 전력 문제가 단순 소자 현상에 머무르지 않고, 공정·회로·시스템 전력 관리 전체를 확장시켰다는 점을 보여준다.
 

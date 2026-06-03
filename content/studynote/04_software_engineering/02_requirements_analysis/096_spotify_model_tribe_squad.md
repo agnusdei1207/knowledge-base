@@ -29,24 +29,26 @@ tags = ["software_engineering"]
 
 스포티파이 모델의 핵심은 수직적 목적 뼈대(스쿼드, 트라이브)와 수평적 전문성 혈관(챕터, 길드)의 절묘한 권력 분산이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스포티파이 매트릭스 조직 구조 (씨줄과 날줄)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Tribe (부족: 넓은 비전 공유, 최대 150명)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Chapter (직군)</div><div class="kb-diagram-connector">▼</div><div class="kb-diagram-note">(수평적 기술/표준화 묶음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프론트엔드 리드 ── ▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">백엔드 리드 ▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디자인 리드 ▶</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Squad A</div><div class="kb-diagram-node">Squad B</div><div class="kb-diagram-node">Squad C</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(결제) (추천) (검색)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 자율적 미니 스타트업 (수직적 목적 묶음)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Guild (길드)</div><div class="kb-diagram-note">: 트라이브 경계를 넘나드는 자발적 동호회</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│         스포티파이 매트릭스 조직 구조 (씨줄과 날줄)          │
+├──────────────────────────────────────────────────────────────┤
+│             [ Tribe (부족: 넓은 비전 공유, 최대 150명) ]     │
+│                                                              │
+│  [ Chapter (직군) ] ▼ (수평적 기술/표준화 묶음)             │
+│    프론트엔드 리드 ──┼──────────┼──────────┼────▶           │
+│    백엔드 리드   ────┼──────────┼──────────┼────▶           │
+│    디자인 리드   ────┼──────────┼──────────┼────▶           │
+│                    │          │          │                  │
+│               [Squad A]  [Squad B]  [Squad C]               │
+│                 (결제)     (추천)     (검색)                │
+│                    ▲                                        │
+│                    └─ 자율적 미니 스타트업 (수직적 목적 묶음)│
+│                                                              │
+│ ============================================================ │
+│ [ Guild (길드) ]: 트라이브 경계를 넘나드는 자발적 동호회     │
+└──────────────────────────────────────────────────────────────┘
+```
 
 1. **스쿼드 (Squad)**: 6~12명으로 구성된 다기능(Cross-functional) 실무 팀이다. PO(Product Owner)가 무엇을 할지 방향만 정하면, 팀원들이 스스로 결정하고 배포까지 책임진다.
 2. **트라이브 (Tribe)**: 연관된 목적을 가진 스쿼드들의 집합(최대 150명 제한). 트라이브 리더는 스쿼드 간의 일감이 꼬이지 않게 교통정리를 담당한다.
@@ -109,23 +111,21 @@ tags = ["software_engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">전통적 기능 조직 (Silo, 폭포수 모델) 병목 심화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">소규모 단일 스크럼 (Scrum) 팀 도입 (애자일 시작)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">대규모 애자일 확장 필요성 대두 (Scaling Agile)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">스포티파이 모델 완성 (Squad, Tribe, Chapter, Guild)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">MSA 및 DevOps 인프라 융합을 통한 클라우드 네이티브 조직 정착</div>
-</div>
-</div>
-
-
+```text
+전통적 기능 조직 (Silo, 폭포수 모델) 병목 심화
+    │
+    ▼
+소규모 단일 스크럼 (Scrum) 팀 도입 (애자일 시작)
+    │
+    ▼
+대규모 애자일 확장 필요성 대두 (Scaling Agile)
+    │
+    ▼
+스포티파이 모델 완성 (Squad, Tribe, Chapter, Guild)
+    │
+    ▼
+MSA 및 DevOps 인프라 융합을 통한 클라우드 네이티브 조직 정착
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

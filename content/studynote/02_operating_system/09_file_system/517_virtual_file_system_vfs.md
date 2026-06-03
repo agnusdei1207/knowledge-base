@@ -25,26 +25,31 @@ tags = ["studynote-operating-system"]
 - <strong>VFS가 이룩한 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a> 샌드위치 계층 2중 구조 다이어그램</strong>:
 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 시스템 콜이 어떻게 VFS 통역기를 거쳐 실제 외계어 디스크 기계로 하달되는지 객체지향 렌더 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)을 까보면 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파일 I/O 엔진의 만능 통역기 : VFS 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">최상단 유저 뷰 (Application Layer 결속)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발자: "야 나 <code>open("/a.txt")</code>, <code>read()</code> 할게!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(표준 POSIX 시스템 콜 1방 타결 빔 투하!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">VFS (Virtual File System 가상 통역막)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"접수 완료! 근데 a.txt 가 속한 디스크 포맷(마운트)이 뭐지? 함수 포인터 락백!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(내부적으로 "Ext4를 위한 read()", "FAT을 위한 read()" 스위칭 라우팅!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">하위 계층 : 찐 (Real) 물리 파일 시스템 구현 모터 드라이버 포팅 렌더</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">[ 리눅스 하드 ext4 [ USB의 FAT32 [ 클라우드 외부 NFS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">드라이버 모듈 ] 드라이버 모듈 ] 드라이버 모듈 ]</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">( 디스크 섹터 100번 ( USB 플래시 메모리 0번 ( TCP 랜선 소켓 I/O 패킷</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">바늘 헤드 이동 쓰기! ) 셀 칩셋 전류 제어 ) 발사 전송 타격! )</div></div>
-</div>
-</div>
-
-
+```text
+  ┌──────────────────────────────────────────────────────────────────────────────────┐
+  │                 파일 I/O 엔진의 만능 통역기 : VFS 아키텍처                       │
+  ├──────────────────────────────────────────────────────────────────────────────────┤
+  │                                                                                  │
+  │  [ 최상단 유저 뷰 (Application Layer 결속) ]                                     │
+  │     개발자: "야 나 `open("/a.txt")`, `read()` 할게!"                             │
+  │       | (표준 POSIX 시스템 콜 1방 타결 빔 투하!)                                 │
+  │       ▼                                                                          │
+  │  =============================================================                   │
+  │                                                                                  │
+  │  [ VFS (Virtual File System 가상 통역막) ]                                       │
+  │     "접수 완료! 근데 a.txt 가 속한 디스크 포맷(마운트)이 뭐지? 함수 포인터 락백!"│
+  │     (내부적으로 "Ext4를 위한 read()", "FAT을 위한 read()" 스위칭 라우팅!)        │
+  │       |                  |                |                                      │
+  │  =====▼==================▼================▼===================                   │
+  │                                                                                  │
+  │  [ 하위 계층 : 찐 (Real) 물리 파일 시스템 구현 모터 드라이버 포팅 렌더 ]         │
+  │   [ 리눅스 하드 ext4     [ USB의 FAT32        [ 클라우드 외부 NFS                │
+  │     드라이버 모듈 ]         드라이버 모듈 ]        드라이버 모듈 ]               │
+  │          |                   |                  |                                │
+  │   ( 디스크 섹터 100번   ( USB 플래시 메모리 0번  ( TCP 랜선 소켓 I/O 패킷        │
+  │     바늘 헤드 이동 쓰기! )  셀 칩셋 전류 제어 )      발사 전송 타격! )           │
+  └──────────────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 리눅스는 모든 것을 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 취급한다고 배운다(Everything is a [file](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)). 키보드 입력, [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 출력, 심지어 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/), [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 등 모든 것이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이다! 어떻게 그게 가능할까? VFS라는 거대한 인터페이스 객체를 세웠기 때문이다! VFS 껍데기는 내부에 "진짜 디스크 I/O 함수 주막표(Function Pointer Table 다형성 렌더)" 를 품고 있다. 유저가 `write()` 를 치면 VFS는 묻지도 따지지도 않고, 그 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 객체 껍데기에 매달린 함수 [포인터 배열](/knowledge-base/studynote/05_database/07_exam_summary/423_non_clustered_index/) 장부를 까 봐서 "아 이건 [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 칩에 기록하는 드라이버 코드로 점프해 쏴라!" 라며 포워딩([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 다형성 Polymorphism 마법 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Vtable 적용) 시키는 C언어 객체 지향 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) I/O 시스템의 화룡점정이란 결착이다.
 
@@ -61,7 +66,7 @@ tags = ["studynote-operating-system"]
 |:---|:---|:---|
 | **Vnode / Inode 껍데기** | 메모리 상에 `struct inode` 방을 할당한다. 여기엔 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 이름과 크기만 적힌 게 아니라, 가장 무지막지한 **`struct inode_operations *i_op;`** 라는 거대 포인터 별(★)을 달아둠. | 내가 오픈한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 실체가 윈도우 꺼면 저 별빛 함수가 NTFS 코드로, 리눅스면 ext4 코드로 1초 만에 스위칭 탈바꿈 동기 렌더 결착! |
 | **함수 포인터 테이블 (다형성)** | 유저 앱이 `VFS_read()` 를 호출하면, 우주 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 "내 하드디스크의 찐 드라이버 님! `file->f_op->read()` 함수로 뛰어라!" 하고 그냥 구조체의 포인터를 타고 무지성 낙하 다이빙 빔 타격 함수를 쏴버림! | C++의 가상 함수 테이블(Vtable Override)을 C언어 구조체의 함수 포인터 멤버로 완벽히 흉내 내 결속 시킨 S/W 스로틀 절정. |
-| **서브 시스템 확장성 (Plug & Play)** | 누가 내일 세상에 없는 신형 DNA 양자 디스크(Quantum_FS)를 발명해서 꽂아도, 기존 리눅스 VFS 코드는 단 한 줄도 뜯어 고치지 않는다! 독립 스펙 이식 생존! | 발명가가 양자 디스크 전용 `read()`, `write()` 드라이버만 쓱 추가 VFS 장부 플러그 장착해 주면, 세상 모든 C언어 S/W 앱들이 당장 양자 디스크를 인식 무결 탐색. |
+| **서브 시스템 확장성 (Plug & Play)** | 누가 내일 세상에 없는 새로운 유형의 DNA 양자 디스크(Quantum_FS)를 발명해서 꽂아도, 기존 리눅스 VFS 코드는 단 한 줄도 뜯어 고치지 않는다! 독립 스펙 이식 생존! | 발명가가 양자 디스크 전용 `read()`, `write()` 드라이버만 쓱 추가 VFS 장부 플러그 장착해 주면, 세상 모든 C언어 S/W 앱들이 당장 양자 디스크를 인식 무결 탐색. |
 
 ### 2. [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/) 테이블과 VFS의 최강 콤비 (네트워크 텔레포트 융합 [NFS](/knowledge-base/studynote/02_operating_system/09_file_system/543_nfs_network_file_system/))
 전 단원 516장에서 USB를 빈 방에 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/) 접붙인다고 했다. 이 "[마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/) 스위칭(포탈 마법)" 을 실현하는 몸통 주체가 바로 <strong>VFS의 메모리 주소 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> 연산 봇</strong> 이기 때문이다.
@@ -133,19 +138,15 @@ VFS (Virtual [File](/knowledge-base/studynote/02_operating_system/09_file_system
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">마운트 (Mount) 메커니즘</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">VFS (Virtual File System)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">VFS 객체</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">디스크 상의 구조</div></div>
-</div>
-</div>
-
-
+```text
+[마운트 (Mount) 메커니즘]
+    │
+    ▼
+[VFS (Virtual File System)]
+    │
+    ├──▶ [VFS 객체]
+    └──▶ [디스크 상의 구조]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

@@ -18,22 +18,20 @@ tags = ["studynote-dataengineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Random Forest 동작</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원본 데이터 (N개 샘플, p개 피처)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 부트스트랩 1 (N개 복원 추출) + √p 피처 → 트리 1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 부트스트랩 2 (N개 복원 추출) + √p 피처 → 트리 2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── ...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 부트스트랩 100 → 트리 100</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분류: 다수결 투표</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">회귀: 평균</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    Random Forest 동작                                 │
+├───────────────────────────────────────────────────────┤
+│  원본 데이터 (N개 샘플, p개 피처)                     │
+│  ├── 부트스트랩 1 (N개 복원 추출) + √p 피처 → 트리 1│
+│  ├── 부트스트랩 2 (N개 복원 추출) + √p 피처 → 트리 2│
+│  ├── ...                                              │
+│  └── 부트스트랩 100 → 트리 100                       │
+│                                                       │
+│  분류: 다수결 투표                                    │
+│  회귀: 평균                                           │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: Bagging은 100명의 의사가 독립 진단 후 <strong>다수결</strong>로 최종 진단을 내리는 것이다. Random Forest는 각 의사가 <strong>다른 검사 항목(<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/">피처</a>)</strong>으로 진단하여 다양성을 높인다.
 
@@ -94,23 +92,21 @@ Random Forest는 <strong>가장 안정적이고 실용적인 ML <a href="/knowle
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">단일 의사결정 트리 (CART, 1984)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Bagging (Breiman, 1996)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Random Forest (Breiman, 2001) — 피처 랜덤화 추가</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Extra Trees (2006) — 더 랜덤한 분할</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: AutoML — RF vs XGBoost 자동 선택</div></div>
-</div>
-</div>
-
-
+```text
+[단일 의사결정 트리 (CART, 1984)]
+    │
+    ▼
+[Bagging (Breiman, 1996)]
+    │
+    ▼
+[Random Forest (Breiman, 2001) — 피처 랜덤화 추가]
+    │
+    ▼
+[Extra Trees (2006) — 더 랜덤한 분할]
+    │
+    ▼
+[현재: AutoML — RF vs XGBoost 자동 선택]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. Random Forest는 <strong>100명의 의사</strong>가 각자 진단 후 <strong>다수결</strong>로 결정하는 거예요.

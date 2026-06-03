@@ -27,18 +27,14 @@ tags = ["studynote-network"]
   - **LSA (엽서)**: "나는 1장 요약본 있어!", "나는 2장 요약본 있어!"라고 각자 조사해 온 A4 용지 조각입니다.
   - <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/961_ospf_link_state_database_dijkstra_spf_routing/">LSDB</a> (전체 지도)</strong>: 이 A4 용지들을 복사기(LSU)에 넣고 윙 돌려서, 조원 5명이 <strong>"완벽히 똑같은 두께의 최종 보고서 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>(<a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/961_ospf_link_state_database_dijkstra_spf_routing/">LSDB</a>)"</strong>을 한 부씩 똑같이 손에 쥐게 되는 과정입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">OSPF</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">OSPF 인접성, Hello 패킷, LSA,…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OSPF Area 계층적 구조</div></div>
-</div>
-</div>
-
-
+```text
+[OSPF]
+    │
+    ▼
+[OSPF 인접성, Hello 패킷, LSA,…]
+    │
+    └──▶ [OSPF Area 계층적 구조]
+```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/">OSPF</a> 라우터들은 퍼즐 맞추기 대회 참가자입니다. 먼저 </strong>"너도 우리 팀이니?(Hello)"<strong>라고 명찰을 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a>하고, 자기가 들고 있는 </strong>퍼즐 조각(LSA)**을 테이블에 쏟아냅니다. 모두가 힘을 합쳐 **"완성된 거대한 한 폭의 그림([LSDB](/knowledge-base/studynote/03_network/19_frequent_topics_terms/961_ospf_link_state_database_dijkstra_spf_routing/))"**을 완성하는 팀워크의 결정체입니다.
 
@@ -63,24 +59,25 @@ OSPF는 이 5개의 편지 봉투로 모든 대화를 끝낸다.
 - **Loading (로딩 중)**: 목차를 보고 앗! 나한테 없는 게 있네? LSR로 물어보고 LSU로 진짜 LSA 조각들을 팍팍 받아온다.
 - **Full (완벽한 인접성)**: A와 B의 지형도([LSDB](/knowledge-base/studynote/03_network/19_frequent_topics_terms/961_ospf_link_state_database_dijkstra_spf_routing/)) 100% [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 완료! 이제부터는 찐친(Adjacency)이며, 평소엔 10초마다 Hello만 던지며 생사만 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OSPF 상태 머신(State Machine) 핵심 도식</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">라우터 A</div><div class="kb-diagram-node">라우터 B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 1. "안녕 나 A야" (Hello) ▶ (Init 상태)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(2Way)◀─ 2. "안녕 A야 나 B야" (Hello)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서로 친구 됨!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 3. "이게 내 지도 목차다" (DBD) ▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀── 4. "네 목차 3쪽 나한테 줘봐" (LSR)</div><div class="kb-diagram-cell">(Loading)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 5. "옛다 3쪽 복사본!" (LSU) ▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀── 6. "잘 받았음!" (LSAck)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ "로딩 끝! 너와 내 머릿속의 지도(LSDB)는 이제 100% 똑같다! (Full)"</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                OSPF 상태 머신(State Machine) 핵심 도식          │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 라우터 A ]                                [ 라우터 B ]     │
+ │       │ ── 1. "안녕 나 A야" (Hello) ─────────▶ (Init 상태) │
+ │       │                                                     │
+ │   (2Way)◀─ 2. "안녕 A야 나 B야" (Hello) ───────── │             │
+ │   서로 친구 됨!                                                 │
+ │                                                             │
+ │       │ ── 3. "이게 내 지도 목차다" (DBD) ──────▶           │
+ │       ◀── 4. "네 목차 3쪽 나한테 줘봐" (LSR) ─────│ (Loading)  │
+ │       │ ── 5. "옛다 3쪽 복사본!" (LSU) ─────────▶           │
+ │       ◀── 6. "잘 받았음!" (LSAck) ─────────────│             │
+ │                                                             │
+ │   ▶ "로딩 끝! 너와 내 머릿속의 지도(LSDB)는 이제 100% 똑같다! (Full)"│
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 3. LSA ([Link State](/knowledge-base/studynote/03_network/07_network_layer_routing/348_link_state_routing_dijkstra_spf/) Advertisement)의 정체
 - LSA는 그 자체로 패킷이 아니라, Type 4(LSU)라는 택배 상자 안에 들어가는 <strong>'<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 알맹이(내용물)'</strong>다.
@@ -142,19 +139,15 @@ OSPF는 이 5개의 편지 봉투로 모든 대화를 끝낸다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: OSPF</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: OSPF 인접성, Hello 패킷, LSA,…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: OSPF Area 계층적 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: OSPF]
+    │
+    ▼
+[현재 개념: OSPF 인접성, Hello 패킷, LSA,…]
+    │
+    ├──▶ [확장 A: OSPF Area 계층적 구조]
+    └──▶ [확장 B: 의도 기반 라우팅]
+```
 
 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) 인접성, Hello 패킷, LSA,…는 OSPF에서 출발해 현재 메커니즘을 정교화하고, 이후 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) Area 계층적 구조와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

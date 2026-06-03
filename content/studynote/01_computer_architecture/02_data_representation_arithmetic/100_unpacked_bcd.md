@@ -31,21 +31,24 @@ tags = ["studynote-computer-architecture"]
 
 언팩드 BCD의 구조는 문자열 인쇄를 위한 패스스루 (Pass-Through) 아키텍처를 따른다. 가장 특이한 점은 맨 마지막 바이트의 존(Zone) 영역에 부호를 덮어쓰는 오버펀칭 (Overpunching) 기법이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">언팩드 BCD의 메모리 맵핑 및 오버펀칭 원리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">숫자 '+32' 저장 예시 (ASCII 기반)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">바이트 1 (숫자 '3')</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Zone (0011)</div><div class="kb-diagram-cell">Digit (0011)</div><div class="kb-diagram-cell">──▶ ASCII 문자 '3' 출력</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">바이트 2 (숫자 '2'와 부호 '+')</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Zone (1100)</div><div class="kb-diagram-cell">Digit (0010)</div><div class="kb-diagram-cell">──▶ 1100은 양수(+) 의미</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 오버펀치(Overpunch) 발생: 원래 존(0011)을 부호로 덮어씀</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│          언팩드 BCD의 메모리 맵핑 및 오버펀칭 원리           │
+├──────────────────────────────────────────────────────────────┤
+│ [숫자 '+32' 저장 예시 (ASCII 기반)]                          │
+│                                                              │
+│ 바이트 1 (숫자 '3')                                          │
+│ ┌───────────────┬───────────────┐                          │
+│ │  Zone (0011)  │  Digit (0011) │ ──▶ ASCII 문자 '3' 출력 │
+│ └───────────────┴───────────────┘                          │
+│                                                              │
+│ 바이트 2 (숫자 '2'와 부호 '+')                               │
+│ ┌───────────────┬───────────────┐                          │
+│ │  Zone (1100)  │  Digit (0010) │ ──▶ 1100은 양수(+) 의미 │
+│ └───────────────┴───────────────┘                          │
+│  └─ 오버펀치(Overpunch) 발생: 원래 존(0011)을 부호로 덮어씀  │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 구조는 숫자를 화면에 출력할 때 상위 존 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)만 읽어 문자열로 취급하면 되는 극단적 단순성을 제공한다. 부호를 표시하기 위해 별도의 1바이트를 소모하는 대신, 마지막 숫자의 존 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 `1100 (C, +)` 또는 `1101 (D, -)`로 변조하는 오버펀치 기법을 통해 공간 낭비를 그나마 줄이려 시도했다. 컴파일러는 이 변조된 존 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 읽어 전체 숫자의 양/음수를 판단한다.
 
@@ -101,23 +104,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">2진수 데이터 (Binary Data)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">언팩드 BCD (Unpacked BCD) · 존 비트 (Zone Bit) 추가</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">오버펀치 (Overpunch) 기법 도입 (부호 압축)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">팩드 BCD (Packed BCD) · 공간 효율성 개선</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">부동소수점 (Floating Point) · IEEE 754 범용 규격 정착</div>
-</div>
-</div>
-
-
+```text
+2진수 데이터 (Binary Data)
+    │
+    ▼
+언팩드 BCD (Unpacked BCD) · 존 비트 (Zone Bit) 추가
+    │
+    ▼
+오버펀치 (Overpunch) 기법 도입 (부호 압축)
+    │
+    ▼
+팩드 BCD (Packed BCD) · 공간 효율성 개선
+    │
+    ▼
+부동소수점 (Floating Point) · IEEE 754 범용 규격 정착
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

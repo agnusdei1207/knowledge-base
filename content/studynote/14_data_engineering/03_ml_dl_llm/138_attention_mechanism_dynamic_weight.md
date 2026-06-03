@@ -18,18 +18,12 @@ tags = ["studynote-dataengineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Attention(Q, K, V) = softmax(QK^T / √d_k) · V</div>
-<div class="kb-diagram-note">Q: Query (현재 위치) → "무엇에 집중할까?"</div>
-<div class="kb-diagram-note">K: Key (모든 위치) → "관련도 계산"</div>
-<div class="kb-diagram-note">V: Value (모든 위치) → "가중 합산"</div>
-</div>
-</div>
-
-
+```text
+Attention(Q, K, V) = softmax(QK^T / √d_k) · V
+  Q: Query (현재 위치) → "무엇에 집중할까?"
+  K: Key (모든 위치) → "관련도 계산"
+  V: Value (모든 위치) → "가중 합산"
+```
 
 - **📢 섹션 요약 비유**: Attention은 <strong>시험 문제(Query)에 맞는 교과서 <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a>(<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a>)를 찾아 해당 내용(Value)에 집중</strong>하는 것이다.
 
@@ -53,18 +47,12 @@ Attention은 <strong>현대 AI의 가장 중요한 메커니즘</strong>이며, 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Seq2Seq (2014)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Bahdanau Attention (2014)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Luong Attention (2015)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Self-Attention → Transformer (2017)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: Flash Attention — 메모리 효율↑</div></div>
-</div>
-</div>
-
-
+```text
+[Seq2Seq (2014)] → [Bahdanau Attention (2014)]
+    → [Luong Attention (2015)]
+    → [Self-Attention → Transformer (2017)]
+    → [현재: Flash Attention — 메모리 효율↑]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. Attention은 <strong>시험 문제(Query)</strong>에 맞는 <strong>교과서 <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a>(<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a>)</strong>를 찾아요.

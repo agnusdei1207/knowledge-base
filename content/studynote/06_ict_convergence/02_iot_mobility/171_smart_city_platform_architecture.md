@@ -27,22 +27,21 @@ tags = ["studynote-ict-convergence"]
 
 아래 그림은 [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)형 관제와 플랫폼형 관제의 차이를 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">City operations: silo centers versus shared platform</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Legacy</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CCTV -&gt; safety center</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">signals -&gt; traffic center each domain keeps its own IDs/events</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">sensors -&gt; env center</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Smart City Platform</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">devices -&gt; ingestion -&gt; city data hub -&gt; analytics -&gt; command/apps</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ shared time / geo / asset context</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│          City operations: silo centers versus shared platform        │
+├──────────────────────────────────────────────────────────────────────┤
+│ Legacy                                                               │
+│ CCTV   -> safety center                                               │
+│ signals -> traffic center      each domain keeps its own IDs/events   │
+│ sensors -> env center                                                 │
+│                                                                      │
+│ Smart City Platform                                                  │
+│ devices -> ingestion -> city data hub -> analytics -> command/apps   │
+│                           │                    │                      │
+│                           └─ shared time / geo / asset context       │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 핵심은 "모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 한 곳에 모은다"가 아니라, <strong>서로 다른 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 같은 문맥으로 해석하게 만든다</strong>는 데 있다. 도시 운영에서 문맥이란 위치, 시간, 시설물 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/), 사건 유형, 권한 범위를 의미한다.
 
@@ -68,21 +67,21 @@ tags = ["studynote-ict-convergence"]
 
 아래 구조는 스마트 시티 플랫폼이 단순 수집이 아니라 폐루프 제어라는 점을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Smart city platform is a closed operational loop</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Field devices -&gt; Edge filter -&gt; Event broker -&gt; City data hub</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ time series / GIS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ digital twin / AI</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ rules / workflow</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">operator UI / open API / alerts</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">signal control / dispatch / citizen service</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│            Smart city platform is a closed operational loop          │
+├──────────────────────────────────────────────────────────────────────┤
+│ Field devices -> Edge filter -> Event broker -> City data hub        │
+│                                         │                            │
+│                                         ├─ time series / GIS         │
+│                                         ├─ digital twin / AI         │
+│                                         └─ rules / workflow          │
+│                                              │                       │
+│                                  operator UI / open API / alerts     │
+│                                              │                       │
+│                         signal control / dispatch / citizen service   │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 여기서 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) ([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/), [Artificial Intelligence](/knowledge-base/studynote/10_ai/01_ai_basics/001_artificial_intelligence/)) 과 [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)은 부가 기능이 아니라, 도시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 "예측 가능한 운영 정보"로 바꾸는 핵심 확장 계층이다. [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 는 패턴을 찾고, [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)은 그 패턴이 공간 위에서 어떤 결과를 낼지 시뮬레이션한다.
 
@@ -171,24 +170,21 @@ tags = ["studynote-ict-convergence"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Urban sensors and legacy systems</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Shared context model + event integration</div>
-<div class="kb-diagram-tree-item" style="--depth:2">traffic</div>
-<div class="kb-diagram-tree-item" style="--depth:2">safety</div>
-<div class="kb-diagram-tree-item" style="--depth:2">environment</div>
-<div class="kb-diagram-tree-item" style="--depth:2">energy</div>
-<div class="kb-diagram-tree-item" style="--depth:2">citizen services / open APIs</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Digital twin, AI analytics, closed-loop city operations</div>
-</div>
-</div>
-
-
+```text
+Urban sensors and legacy systems
+    │
+    ▼
+Shared context model + event integration
+    │
+    ├─ traffic
+    ├─ safety
+    ├─ environment
+    ├─ energy
+    └─ citizen services / open APIs
+    │
+    ▼
+Digital twin, AI analytics, closed-loop city operations
+```
 
 이 흐름은 개별 도시 시스템이 공통 문맥과 이벤트 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)를 통해 통합 운영 플랫폼으로 발전하는 방향을 보여 준다.
 

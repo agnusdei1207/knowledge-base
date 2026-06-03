@@ -48,21 +48,22 @@ $$
 
 아래 그림은 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 전력이 어디로 갈라지는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Facility power path: only part reaches the IT load</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Grid</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">UPS / PDU ▶ IT Load (Servers / Storage / Network)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cooling (CRAC / Chiller / Pump / Fan)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Power conversion loss</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Lighting / Security / Misc</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PUE = Total Facility Power / IT Equipment Power</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│             Facility power path: only part reaches the IT load            │
+├────────────────────────────────────────────────────────────────────────────┤
+│  Grid                                                                      │
+│   │                                                                        │
+│   ▼                                                                        │
+│  UPS / PDU ───────────────▶ IT Load (Servers / Storage / Network)         │
+│   │                                                                        │
+│   ├──────── Cooling (CRAC / Chiller / Pump / Fan)                         │
+│   ├──────── Power conversion loss                                         │
+│   └──────── Lighting / Security / Misc                                    │
+│                                                                            │
+│  PUE = Total Facility Power / IT Equipment Power                          │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 예를 들어 IT 장비가 10MW를 사용하고, 냉각 1.2MW, 전력 변환 손실 0.5MW, 기타 설비 0.3MW가 더 들어간다면 총 전력은 12MW이므로 PUE는 1.2가 된다. 중요한 점은 PUE가 부하율에 따라 달라질 수 있다는 것이다. 부분 부하에서는 냉각과 UPS의 고정 오버헤드 비중이 커져 값이 나빠지므로, 이상적으로는 연중 평균과 시간대별 추이를 함께 봐야 한다.
 
@@ -126,23 +127,21 @@ PUE를 낮추면 같은 전력 계약 용량 안에서 더 많은 IT 장비를 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">전산실 총 전력 계측</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">PUE 도입 및 기준선 설정</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Hot/Cold Aisle · 고효율 UPS 최적화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Free Cooling · Liquid Cooling 확대</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">PUE + CUE + WUE 통합 지속가능 운영</div>
-</div>
-</div>
-
-
+```text
+전산실 총 전력 계측
+    │
+    ▼
+PUE 도입 및 기준선 설정
+    │
+    ▼
+Hot/Cold Aisle · 고효율 UPS 최적화
+    │
+    ▼
+Free Cooling · Liquid Cooling 확대
+    │
+    ▼
+PUE + CUE + WUE 통합 지속가능 운영
+```
 
 이 흐름은 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 효율 관리가 단순 전기 절감에서 지속가능성과 고밀도 냉각 설계로 진화하고 있음을 보여준다.
 

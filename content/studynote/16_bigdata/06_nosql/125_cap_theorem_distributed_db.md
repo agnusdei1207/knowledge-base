@@ -68,19 +68,15 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">상위 개념: 분산 시스템, NoSQL</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">하위 개념: 일관성(C), 가용성(A), 파티션 감내(P)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">연관 개념: PACELC 정리, BASE 원칙, 합의 알고리즘 (Raft)</div></div>
-</div>
-</div>
-
-
+```text
+[상위 개념: 분산 시스템, NoSQL]
+    │
+    ▼
+[하위 개념: 일관성(C), 가용성(A), 파티션 감내(P)]
+    │
+    ▼
+[연관 개념: PACELC 정리, BASE 원칙, 합의 알고리즘 (Raft)]
+```
 
 이 흐름도는 상위 개념: [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템, NoSQL에서 출발해 연관 개념: [PACELC](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/342_pacelc/) 정리, BASE 원칙, [합의 알고리즘](/knowledge-base/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/) ([Raft](/knowledge-base/studynote/05_database/04_transactions_concurrency/259_raft_paxos/))까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

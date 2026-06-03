@@ -21,23 +21,23 @@ tags = ["ict_convergence"]
 
 ### 개념의 정의
 
-시맨틱 웹(Semantic Web)은 팀 버너스 리([Tim](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/737_thermal_paste_tim/) Berners-Lee)가 2001년 Scientific American지에 게재한 기사에서 처음 개념을 소개하였다. 이는 현재의 인터넷(웹)이 단순한 문서의 연결망이라면, 시맨틱 웹은 의미(Semantics)와 지식(Knowledge)을 기계가 처리할 수 있는 형식으로 표현하여 컴퓨터 프로그램이 정보를 지능적으로 처리할 수 있게 하는 차세대 웹이다. 핵심 약속은 "웹이 전 세계적으로 연결된 거대한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스가 되는 것"이다. 온톨로지(Ontology)는 시맨틱 웹의 핵심 인프라로, 특정 분야([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))의 개념과 개념 간의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를적으로정의한 [지식 표현](/knowledge-base/studynote/10_ai/01_ai_basics/007_knowledge_representation/) 체계이다.
+시맨틱 웹(Semantic Web)은 팀 버너스 리([Tim](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/737_thermal_paste_tim/) Berners-Lee)가 2001년 Scientific American지에 게재한 기사에서 처음 개념을 소개하였다. 이는 현재의 인터넷(웹)이 단순한 문서의 연결망이라면, 시맨틱 웹은 의미(Semantics)와 지식(Knowledge)을 기계가 처리할 수 있는 형식으로 표현하여 컴퓨터 프로그램이 정보를 지능적으로 처리할 수 있게 하는 차세대 웹이다. 핵심 약속은 "웹이 전 세계적으로 연결된 거대한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스가 되는 것"이다. 온톨로지(Ontology)는 시맨틱 웹의 핵심 인프라로, 특정 분야([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))의 개념과 개념 간의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를형식적으로정의한 [지식 표현](/knowledge-base/studynote/10_ai/01_ai_basics/007_knowledge_representation/) 체계이다.
 
 ### 탄생 배경과 필요성
 
-현재의 웹은 인간의 언어로 작성되어 있으며, 컴퓨터는 문서의 구조(HTML)와 내용(텍스트)을적으로만할 수 있다. 예를 들어, "김철수는 서울대학교 컴퓨팅공학과를 졸업했다"는 문장에서 "김철수"가 사람 이름이라는 것, "서울대학교"가 교육 기관이라는 것, "컴퓨터공학과"가 학과라는 것, 그리고 "졸업"이 교육 과정 이수라는 것을 컴퓨터는하지 못한다. 시맨틱 웹은 이러한 의미를 기계가 처리할 수 있는 형태로 표현하여, 검색 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)을높이고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 간의 숨은 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를하며, 자동화된과를하게 한다.
+현재의 웹은 인간의 언어로 작성되어 있으며, 컴퓨터는 문서의 구조(HTML)와 내용(텍스트)을자구적으로만리해할 수 있다. 예를 들어, "김철수는 서울대학교 계산궤공학과를 졸업했다"는 문장에서 "김철수"가 사람 이름이라는 것, "서울대학교"가 교육 기관이라는 것, "컴퓨터공학과"가 학과라는 것, 그리고 "졸업"이 교육 과정 이수라는 것을 컴퓨터는리해하지 못한다. 시맨틱 웹은 이러한 의미를 기계가 처리할 수 있는 형태로 표현하여, 검색결과적 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)을높이고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 간의 숨은 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를발견하며, 자동화된지식추출과추리를가능하게 한다.
 
 ### 💡 analogy
 
-일반 웹은 서로 다른 언어로이나의 책이 서른에 아무런 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 없이 쌓여 있는 도서관과 같다. 원하는 책을 찾으려면 거의의 책을 직접 살펴봐야 한다. 시맨틱 웹은 모든 책에 대해「누가, 언제, 무슨 주제로, 어떤 관점에서 썼는지」를 적은 색인 카드를 책에 붙이고, 를 linked하여관리하는 도서관과 같다. 이를 통해 "이 주제와 관련된 다른 관점의 책을 찾아줘"와 같은 요구에도가으로응답할 수 있다.
+일반 웹은 서로 다른 언어로서かれた만책의 책이 서른에 아무런 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 없이 쌓여 있는 도서관과 같다. 원하는 책을 찾으려면 거의전부의 책을 직접 살펴봐야 한다. 시맨틱 웹은 모든 책에 대해「누가, 언제, 무슨 주제로, 어떤 관점에서 썼는지」를 적은 색인 카드를 각 책에 붙이고, 저사잡편를상호 linkedし고관리하는 도서관과 같다. 이를 통해 "이 주제와 관련된 다른 관점의 책을 찾아줘"와 같은 요구에も궤계가자동으로응답할 수 있다.
 
 ### 배경 설명
 
-시맨틱 웹의에는이/가이다。에는 URI(Uniform Resource [Identifier](/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/))가 있어 웹 자원을 고유하게 식별한다. 그 위에 RDF( Resource Description Framework)가 위치하여 subject-predicate-object 형태의()로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 기술한다. RDFS(RDF [Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/))는 클래스, 서브클래스, [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 등의 개념을적으로 정의한다. OWL(Web Ontology Language)은 보다 풍부한 온톨로지 표현(반사성, 대칭성, 추론 규칙 등)을 제공한다. SPARQL은 RDF [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 대한 쿼리(Query Language) 역할을 한다.
+시맨틱 웹의실현에는계층화된기술スタック이/가필요에서ある. 최하층에는 URI(Uniform Resource [Identifier](/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/))가 있어 웹 자원을 고유하게 식별한다. 그 위에 RDF( Resource Description Framework)가 위치하여 subject-predicate-object 형태의삼원조(トリプル)로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 기술한다. RDFS(RDF [Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/))는 클래스, 서브클래스, [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 등의 개념을층다음적으로 정의한다. OWL(Web Ontology Language)은 보다 풍부한 온톨로지 표현(반사성, 대칭성, 추론 규칙 등)을 제공한다. SPARQL은 RDF [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 대한 조회언어(Query Language) 역할을 한다.
 
 ### 📢 비유 요약
 
-시맨틱 웹은 국제 무역의 상품 설명서 시스템과 같다. 일반 웹은의 사진만 보여주는 것과 같다. 시맨틱 웹은에「무게, 크기, 원산지, 성분, 사용 방법, 안전 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)」등을 표준화된 양식으로 기재하고, 모든 의 정보가 연결되어 있는 시스템과 같다. 이를 통해 거래 자동화와 품질 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 손쉽게 이루어진다.
+시맨틱 웹은 국제 무역의 상품 설명서 시스템과 같다. 일반 웹은상품의 사진만 보여주는 것과 같다. 시맨틱 웹은상품에「무게, 크기, 원산지, 성분, 사용 방법, 안전 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)」등을 표준화된 양식으로 기재하고, 모든 상품의 정보가상호 연결되어 있는 시스템과 같다. 이를 통해 거래 자동화와 품질 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 손쉽게 이루어진다.
 
 ---
 
@@ -45,34 +45,36 @@ tags = ["ict_convergence"]
 
 ### 시맨틱 웹 기술 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) (Layered Cake Model)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">사용자 애플리케이션</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상위 계층: 논리 (Logic) / 온톨로지 (OWL)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 추론 규칙 (Inference Rules)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 지식 검증 (Knowledge Validation)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">온톨로지 계층: RDFS / OWL</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 클래스 정의 (Class Definition)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 속성 정의 (Property Definition)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 관계 규칙 (Relationship Rules)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RDF 계층: Subject-Predicate-Object (Triple)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예: &lt;김철수&gt; &lt;졸업한&gt; &lt;서울대학교&gt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예: &lt;서울대학교&gt; &lt;위치&gt; &lt;서울&gt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예: &lt;컴퓨터공학과&gt; &lt;소속&gt; &lt;서울대학교&gt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RDF Schema: 어휘 목록 (Vocabulary)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 클래스 계층 구조 (Class Hierarchy)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 속성 도메인/레인지 (Domain/Range)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">URI/IRI: 자원 식별자</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 전 세계 고유 식별자 (예: http://example.org/서울대)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Linked Data (데이터)</div></div>
-</div>
-</div>
-
-
+```
+[사용자 애플리케이션]
+         │
+         ▼
+┌────────────────────────────────────────────────────────┐
+│  상위 계층: 논리 (Logic) / 온톨로지 (OWL)             │
+│  ├─ 추론 규칙 (Inference Rules)                       │
+│  └─ 지식 검증 (Knowledge Validation)                  │
+├────────────────────────────────────────────────────────┤
+│  온톨로지 계층: RDFS / OWL                            │
+│  ├─ 클래스 정의 (Class Definition)                      │
+│  ├─ 속성 정의 (Property Definition)                    │
+│  └─ 관계 규칙 (Relationship Rules)                     │
+├────────────────────────────────────────────────────────┤
+│  RDF 계층: Subject-Predicate-Object (Triple)          │
+│  ├─ 예: <김철수> <졸업한> <서울대학교>                 │
+│  ├─ 예: <서울대학교> <위치> <서울>                     │
+│  └─ 예: <컴퓨터공학과> <소속> <서울대학교>             │
+├────────────────────────────────────────────────────────┤
+│  RDF Schema: 어휘 목록 (Vocabulary)                   │
+│  ├─ 클래스 계층 구조 (Class Hierarchy)                 │
+│  └─ 속성 도메인/레인지 (Domain/Range)                  │
+├────────────────────────────────────────────────────────┤
+│  URI/IRI: 자원 식별자                                  │
+│  └─ 전 세계 고유 식별자 (예: http://example.org/서울대)│
+└────────────────────────────────────────────────────────┘
+         │
+         ▼
+  [Linked Data (互联データ)]
+```
 
 ### 온톨로지의 구조
 
@@ -80,11 +82,11 @@ tags = ["ict_convergence"]
 
 ### Linked [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 원칙
 
-팀 버너스 리는 Linked Data의 4가지 원칙을 제시하였다. 첫째, 모든에는 URI가 존재해야 한다. 둘째, 모든 URI는 Dereference해야 한다(웹에서 정보에 접근할 수 있어야 함). 셋째, URI 접근 시 표준 기술(RDF, SPARQL 등)을 사용해야 한다. 넷째, 관련 정보에 Link를 제공하여의URI를할 수 있도록 해야 한다. 이 원칙을 따르면 전 세계의 시맨틱 웹 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 하나의 연결 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)([knowledge graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))를 형성하게 된다.
+팀 버너스 리는 Linked Data의 4가지 원칙을 제시하였다. 첫째, 모든사물에는 URI가 존재해야 한다. 둘째, 모든 URI는 Dereference가능해야 한다(웹에서 정보에 접근할 수 있어야 함). 셋째, URI 접근 시 표준 기술(RDF, SPARQL 등)을 사용해야 한다. 넷째, 관련 정보에 Link를 제공하여타의URI를발견할 수 있도록 해야 한다. 이 원칙을 따르면 전 세계의 시맨틱 웹 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 하나의거대적 연결 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)([knowledge graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))를 형성하게 된다.
 
 ### 📢 비유 요약
 
-시맨틱 웹의 온톨로지 체계는 교통 규제 시스템과 같다. "자동차", "[버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)", "신호등", "도로"를 모두 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하고, "자동차는 차선을 따라 이동한다", "신호등이 빨간불이면 정지한다"와 같은 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)와 규칙을 정의한다. 이를 통해 사고를 예방하고 교통 흐름을할 수 있다. 컴퓨터도 로 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 간 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)와 규칙"을 알게 되면 잘못된 정보를 자동으로 걸러내고,를 발견할 수 있다.
+시맨틱 웹의 온톨로지 체계는 교통 규제 시스템과 같다. "자동차", "[버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)", "신호등", "도로"를 모두 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하고, "자동차는 차선을 따라 이동한다", "신호등이 빨간불이면 정지한다"와 같은 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)와 규칙을 정의한다. 이를 통해 사고를 예방하고 교통 흐름을최적화할 수 있다. 컴퓨터도 동양로 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 간 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)와 규칙"을 알게 되면 잘못된 정보를 자동으로 걸러내고,은된관계를 발견할 수 있다.
 
 ---
 
@@ -92,19 +94,19 @@ tags = ["ict_convergence"]
 
 ### DBpedia 및 Wikidata
 
-시맨틱 웹 기술의 가장 대표적인는 DBpedia이다. 위키피디아의 구조 정보를 RDF 형태로, 전 세계적으로 linked한 지식 베이스를하였다. 예를 들어, 위키피디아의 "서울대학교" 문단에서 정보를, <서울대학교> <위치> <서울특별시>, <서울대학교> <설립연도> <1946>과 같은 RDF로 변환한다. Wikidata는 이러한 시맨틱 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 공동으로 편집하고관리하는 플랫폼이다.
+시맨틱 웹 기술의 가장 대표적인실장사례는 DBpedia이다. 위키피디아의 비구조화テキスト 정보를 RDF 형태로추출し, 전 세계적으로 linked한 지식 베이스를구축하였다. 예를 들어, 위키피디아의 "서울대학교" 문단에서 정보를추출し, <서울대학교> <위치> <서울특별시>, <서울대학교> <설립연도> <1946>과 같은 RDFトリプル로 변환한다. Wikidata는 이러한 시맨틱 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 공동으로 편집하고관리하는 플랫폼이다.
 
 ### 검색 엔진 최적화 (Semantic SEO)
 
-시맨틱 웹은최적화(SEO)에도을 가져왔다. Google, Naver 등의 검색 엔진은 시맨틱 웹 기술을 활용하여 사용자의 쿼리(Query [Intent](/knowledge-base/studynote/06_ict_convergence/05_data_science/416_prompt_injection_semantic_routing/))를보다 깊이 이해한다. 예를 들어 "가장 큰 사과"라는 쿼리에 대해, 단순히 "사과"라는 단어만 분석하는 것이 아니라, "사과(과일)와 "사과(도시 NYC)"를에 따라 구분하고, 사용자가 의도한 바를추론하여한다. 이것이 바로 시맨틱 검색(Semantic Search)이다.
+시맨틱 웹은수색인경우화(SEO)에도혁새로운을 가져왔다. Google, Naver 등의 검색 엔진은 시맨틱 웹 기술을 활용하여 사용자의 조회의도(Query [Intent](/knowledge-base/studynote/06_ict_convergence/05_data_science/416_prompt_injection_semantic_routing/))를보다 깊이 이해한다. 예를 들어 "가장 큰 사과"라는 조회에 대해, 단순히 "사과"라는 단어만 분석하는 것이 아니라, "사과(과일)와 "사과(도시 NYC)"를문맥에 따라 구분하고, 사용자가 의도한 바를추론하여제시한다. 이것이 바로 시맨틱 검색(Semantic Search)이다.
 
 ### 기업 지식 관리 시스템
 
-기업 환경에서 시맨틱 웹은 지식 관리(Knowledge [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))에 크게 기여한다. 조직 내의 다양한 문서, 이메일, 보고서, 규칙 등을 온톨로지에 따라 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하고 연결하면,이 필요한 정보를보다쉽게 검색하고, 경영진은 조직 지식의 격차를할 수 있다. 예를 들어,회사에서는 약물 성분, 부작용, 임상 시험 결과 등을 시맨틱 웹으로 연결하여 약 개발에 활용한다.
+기업 환경에서 시맨틱 웹은 지식 관리(Knowledge [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))에 크게 기여한다. 조직 내의 다양한 문서, 이메일, 보고서, 규칙 등을 온톨로지에 따라 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하고 연결하면,원공이 필요한 정보를より쉽게 검색하고, 경영진은 조직 지식의 격차를파악할 수 있다. 예를 들어,제약회사에서는 약물 성분, 부작용, 임상 시험 결과 등을 시맨틱 웹으로 연결하여 새로운약 개발에 활용한다.
 
 ### 📢 비유 요약
 
-시맨틱 웹의 실무 활용은대형병원 전자 의록 시스템과 같다. 과거에는 진료 기록, 처방전, 검사 결과가 각각々의시스템에 저장되어 있어 종합적인 분석이 어려웠다. 시맨틱 웹 기반 시스템에서는 모든 의료 정보가 표준화된 온톨로지로 연결되어 있어, "이 환자의 증상과 유사한 다른 환자들의 치료 경과"를자동으로 검색하고 분석할 수 있다.
+시맨틱 웹의 실무 활용은대형병원 전자 의록 시스템과 같다. 과거에는 진료 기록, 처방전, 검사 결과가 각각별々의システム에 저장되어 있어 종합적인 분석이 어려웠다. 시맨틱 웹 기반 시스템에서는 모든 의료 정보가 표준화된 온톨로지로상호 연결되어 있어, "이 환자의 증상과 유사한 다른 환자들의 치료 경과"를자동으로 검색하고 분석할 수 있다.
 
 ---
 
@@ -112,19 +114,19 @@ tags = ["ict_convergence"]
 
 ### 온톨로지 품질 지표
 
-시맨틱 웹 온톨로지의품질을하다에는수의지표을/를사용하다。성([Consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/))은 온톨로지 내의 명제가 모순되지 않는지를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다. 충족성([Satisfiability](/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/))은 모든 클래스에 실제로 속하는 인스턴스가 존재하는지를 확인한다. 올바름성(Correctness)은 온톨로지가 현실 세계를 정확하게 반영하고 있는지를 평가한다. 이러한 품질 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 위해 Pellet, HermiT, FaCT++ 등의 추론기(Reasoner)가 활용된다.
+시맨틱 웹 온톨로지의품질을평가하는에는복수의지표를사용하는. 일관성([Consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/))은 온톨로지 내의 명제가상호 모순되지 않는지를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다. 충족성([Satisfiability](/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/))은 모든 클래스에 실제로 속하는 인스턴스가 존재하는지를 확인한다. 올바름성(Correctness)은 온톨로지가 현실 세계를 정확하게 반영하고 있는지를 평가한다. 이러한 품질 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 위해 Pellet, HermiT, FaCT++ 등의 추론기(Reasoner)가 활용된다.
 
 ### [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 테스트
 
-RDF [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의품질관리에서는、의을/를하다。 완전(Completeness)은 필요한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 얼마나 존재하는지를평가한다. [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)([Consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/))은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 내의 논리적 오류가 없는지를검사한다. (Timeliness)는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 의 상태로업데이트되고 있는지를확인한다. [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)([정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/))은 검색 결과가 실제로 관련성이 있는지를평가하는 지표이다.
+RDF [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의품질관리에서는, 이하의측면을검정하는.  완전성(Completeness)은 필요한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 얼마나 존재하는지를평가한다. [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)([Consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/))은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 내의 논리적 오류가 없는지를검사한다. 최새로운성(Timeliness)는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 최새로운의 상태로갱신되고 있는지를확인한다. [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)([정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/))은 검색 결과가 실제로 관련성이 있는지를평가하는 지표이다.
 
 ### 추론 결과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)
 
-시맨틱 웹의 핵심 기능 중 하나인 자동 추론(Automated Reasoning)의를하는 것은 중요하다. 추론된 결론이 정확한지, 그리고 추론에이/가없다지를확인해야 한다. 예를 들어, 온톨로지에서 "모든 포유류는 폐호흡을 한다"와 "고래는 포유류이다"가 정의되어 있다면, "고래는 폐호흡을 한다"라는 결론이추론되어야 한다.
+시맨틱 웹의 핵심 기능 중 하나인 자동 추론(Automated Reasoning)의결과를검정하는 것은 중요하다. 추론된 결론이 정확한지, 그리고 추론과정중에정보가실われ고いない지를확인해야 한다. 예를 들어, 온톨로지에서 "모든 포유류는 폐호흡을 한다"와 "고래는 포유류이다"가 정의되어 있다면, "고래는 폐호흡을 한다"라는 결론이정しく추론되어야 한다.
 
 ### 📢 비유 요약
 
-시맨틱 웹의 품질 관리는 대규모 제조공장의품질관리와/과고 있다.모두의([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 표준화된 사양(온톨로지)에 맞게되어야 하며, 완성된 제품(추론 결과)은 다양한 테스트(검사)를 통해 적합성을받는다. 하나의([일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 없는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))은 전체 제품의을/를。
+시맨틱 웹의 품질 관리는 대규모 제조공장의품질관리와사있는.すべ고의부품([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 표준화된 사양(온톨로지)에 맞게제조되어야 하며, 완성된 제품(추론 결과)은 다양한 테스트(검사)를 통해규격 적합성을험정받는다. 하나의불량부품([일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 없는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))은 전체 제품의신뢰성을손なう. 
 
 ---
 
@@ -132,66 +134,74 @@ RDF [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relatio
 
 ### AI와 시맨틱 웹의 융합
 
-현재 가장 주목받는 트렌드는([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))과 시맨틱 웹 기술의 있는이다. [대규모 언어 모델](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/582_llm_based_code_generation_tools/)([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))이 자연어를 이해하듯, 시맨틱 웹은구조화된 지식([knowledge graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))을 통해 기계가 논리적 추론을 수행할 수 있게 한다. Google의 [Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/), Microsoft's Satori, Amazon의 product [graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/) 등은 시맨틱 웹 기술에서 영감을 받은 대규모 지식 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)의 사례이다. 이러한 지식 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)는 검색 엔진, 음성 비서, 챗봇 등의 지능형 서비스의 밑바탕이 된다.
+현재 가장 주목받는 트렌드는인공지능([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))과 시맨틱 웹 기술의심도 있는융합이다. [대규모 언어 모델](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/582_llm_based_code_generation_tools/)([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))이 자연어를 이해하듯, 시맨틱 웹은구조화된 지식([knowledge graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))을 통해 기계가 논리적 추론을 수행할 수 있게 한다. Google의 [Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/), Microsoft's Satori, Amazon의 product [graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/) 등은 시맨틱 웹 기술에서 영감을 받은 대규모 지식 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)의 사례이다. 이러한 지식 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)는 검색 엔진, 음성 비서, 챗봇 등의 지능형 서비스의 밑바탕이 된다.
 
 ### 시맨틱 웹 3.0의 발전 방향
 
-Web 3.0 시대의 시맨틱 웹은 [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 온톨로지(Decentralized Ontology)로 발전하고 있다.블록체인을활용하여 온톨로지 자체를 [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/)하고, 다양한 조직이 공동으로 지식 베이스를하고 관리할 수 있게 한다. 또한 지식 토큰(Knowledge Token) 경제를 통해 온톨로지 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 기여한 참여자에게를 제공하는도이다.
+Web 3.0 시대의 시맨틱 웹은 [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 온톨로지(Decentralized Ontology)로 발전하고 있다.블록체인기술을활용하여 온톨로지 자체를 [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/)하고, 다양한 조직이 공동으로 지식 베이스를구축하고 관리할 수 있게 한다. 또한 지식 토큰(Knowledge Token) 경제를 통해우질 온톨로지 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 기여한 참여자에게インセンティブ를 제공하는시みも진행중이다.
 
 ### 📢 비유 요약
 
-시맨틱 웹의 미래는의([knowledge graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))와 같다. 모든 인간이 보유한 지식이 연결되어 있으며, 어느 한 사람이 발견한 새로운 사실이순간적으로 전 세계의 지식 네트워크에자동된다.블록체인기술은의 지식 네트워크의성을/를, 누구도 단독으로정보를 조작할 수 없게 한다.
+시맨틱 웹의 미래는지구규모의대뇌([knowledge graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))와 같다. 모든 인간이 보유한 지식이상호 연결되어 있으며, 어느 한 사람이 발견한 새로운 사실이순간적으로 전 세계의 지식 네트워크에자동반영된다.블록체인기술은이 지식 네트워크의신뢰성을보정し, 누구도 단독으로정보를 조작할 수 없게 한다.
 
 ### 결론
 
-시맨틱 웹은 인터넷의3을/를대표하는 핵심 기술이다. 단순히 정보를 연결하는 차원을 넘어, 정보의 의미를 기계가 이해하고 처리할 수 있는 형태로 표현함으로써, 검색, 분석, 추론의자동를구현한다. 아직 자연어 처리와 기계 학습의 발전으로 완전히되지는 않았지만, 시맨틱 웹이한 [지식 표현](/knowledge-base/studynote/10_ai/01_ai_basics/007_knowledge_representation/)([knowledge representation](/knowledge-base/studynote/10_ai/01_ai_basics/007_knowledge_representation/))과 온톨로지(ontology)의 개념은 현대 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기술의 기반이 되고 있다. 앞으로 AI와블록체인, 시맨틱 웹이되면보다한 지능형 인터넷 시대가 열릴 것으로 기대된다.
+시맨틱 웹은 인터넷의제3세대를대표하는 핵심 기술이다. 단순히 정보를 연결하는 차원을 넘어, 정보의 의미를 기계가 이해하고 처리할 수 있는 형태로 표현함으로써, 검색, 분석, 추론의자동화를구현한다. 아직 자연어 처리와 기계 학습의 발전으로 완전히체대되지는 않았지만, 시맨틱 웹이전기한 [지식 표현](/knowledge-base/studynote/10_ai/01_ai_basics/007_knowledge_representation/)([knowledge representation](/knowledge-base/studynote/10_ai/01_ai_basics/007_knowledge_representation/))과 온톨로지(ontology)의 개념은 현대 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기술의중요적 기반이 되고 있다. 앞으로 AI와블록체인, 시맨틱 웹이융합되면より고도한 지능형 인터넷 시대가 열릴 것으로 기대된다.
 
 ---
 
 ### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시맨틱 웹 기술 스택</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">응용 계층</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">검색 엔진</div><div class="kb-diagram-cell">챗봇</div><div class="kb-diagram-cell">지식 관리</div><div class="kb-diagram-cell">추천 시스템</div><div class="kb-diagram-cell">자동 추론</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">온톨로지 (OWL)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 클래스, 속성, 인스턴스 정의</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 추론 규칙 (SubClassOf, SubPropertyOf, EquivalentClass)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Restrictions (allValuesFrom, someValuesFrom)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RDF (Resource Description Framework)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Subject Predicate Object</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;김철수&gt; &lt;졸업한&gt; &lt;서울대&gt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;서울대&gt; &lt;위치&gt; &lt;서울&gt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">URI/IRI 전 세계 고유 식별자</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Linked Data 원칙:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① 모든 자원에 URI 부여 ② Dereference 가능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ 표준 기술 사용 (RDF) ④ 관련 자원과 Link 제공</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심 가치: "기계가 이해할 수 있다 웹" → 검색 정확성·추론 자동화 ↑</div></div>
-</div>
-</div>
-
-
+```
++------------------------------------------------------------------+
+|                    시맨틱 웹 기술 스택                             |
++------------------------------------------------------------------+
+|                                                                  |
+|  [응용 계층]                                                      |
+|  ┌────────────────────────────────────────────────────────────┐  │
+|  │  검색 엔진 │ 챗봇 │ 지식 관리 │ 추천 시스템 │ 자동 추론  │  │
+|  └────────────────────────────────────────────────────────────┘  │
+|                              │                                    |
+│  ┌───────────────────────────▼───────────────────────────────┐  │
+|  │  온톨로지 (OWL)                                              │  │
+|  │  ├─ 클래스, 속성, 인스턴스 정의                               │  │
+|  │  ├─ 추론 규칙 (SubClassOf, SubPropertyOf, EquivalentClass)  │  │
+|  │  └─ Restrictions (allValuesFrom, someValuesFrom)           │  │
+|  └────────────────────────────────────────────────────────────┘  │
+|                              │                                    |
+|  ┌───────────────────────────▼───────────────────────────────┐  │
+|  │  RDF (Resource Description Framework)                      │  │
+|  │  Subject ─── Predicate ─── Object                         │  │
+|  │   <김철수>   <졸업한>     <서울대>                        │  │
+|  │   <서울대>   <위치>        <서울>                          │  │
+|  └────────────────────────────────────────────────────────────┘  │
+|                              │                                    |
+|  ┌───────────────────────────▼───────────────────────────────┐  │
+|  │  URI/IRI ─── 전 세계 고유 식별자                           │  │
+|  └────────────────────────────────────────────────────────────┘  │
++------------------------------------------------------------------+
+|  Linked Data 원칙:                                              |
+|  ① 모든 자원에 URI 부여    ② Dereference 가능                  |
+|  ③ 표준 기술 사용 (RDF)    ④ 관련 자원과 Link 제공              |
++------------------------------------------------------------------+
+|  핵심 가치: "기계가 이해できる 웹" → 검색 정확성·추론 자동화 ↑   |
++------------------------------------------------------------------+
+```
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">온톨로지 (Ontology)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">RDF (Resource Description Framework)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">링크드 데이터 (Linked Data)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">추론 규칙 (Reasoning Rules)</div></div>
-</div>
-</div>
-
-
+```text
+[온톨로지 (Ontology)]
+    │
+    ▼
+[RDF (Resource Description Framework)]
+    │
+    ▼
+[링크드 데이터 (Linked Data)]
+    │
+    ▼
+[추론 규칙 (Reasoning Rules)]
+```
 
 이 흐름도는 온톨로지 (Ontology)와 RDF (Resource Description Framework)가 링크드 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) (Linked [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))와 추론 규칙 (Reasoning Rules)로 이어지는 [지식 표현](/knowledge-base/studynote/10_ai/01_ai_basics/007_knowledge_representation/)의 발전 순서를 보여준다.
 

@@ -18,34 +18,32 @@ tags = ["studynote-it-management"]
 
 ## Ⅰ. [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) 구조
 
+```
+OKR 구조:
 
+O (Objective, 목표):
+  - 질적(Qualitative), 도전적, 영감을 주는 문장
+  - "무엇을 달성할 것인가?"
+  - 예: "고객이 사랑하는 모바일 경험 구축"
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">OKR 구조:</div>
-<div class="kb-diagram-note">O (Objective, 목표):</div>
-<div class="kb-diagram-tree-item" style="--depth:1">질적(Qualitative), 도전적, 영감을 주는 문장</div>
-<div class="kb-diagram-tree-item" style="--depth:1">"무엇을 달성할 것인가?"</div>
-<div class="kb-diagram-tree-item" style="--depth:1">예: "고객이 사랑하는 모바일 경험 구축"</div>
-<div class="kb-diagram-note">KR (Key Results, 핵심 결과):</div>
-<div class="kb-diagram-tree-item" style="--depth:1">정량적(Quantitative), 측정 가능</div>
-<div class="kb-diagram-tree-item" style="--depth:1">하나의 O에 2~5개의 KR</div>
-<div class="kb-diagram-tree-item" style="--depth:1">예:</div>
-<div class="kb-diagram-note">KR1: NPS(순추천지수) 45 -&gt; 65 달성</div>
-<div class="kb-diagram-note">KR2: 앱 충돌률 2.1% -&gt; 0.5% 이하 감소</div>
-<div class="kb-diagram-note">KR3: 월간 활성 사용자(MAU) 100만 달성</div>
-<div class="kb-diagram-note">Initiative (이니셔티브):</div>
-<div class="kb-diagram-note">KR 달성을 위한 구체적 행동 계획</div>
-<div class="kb-diagram-note">(OKR 자체에는 포함하지 않음)</div>
-<div class="kb-diagram-note">예시 OKR:</div>
-<div class="kb-diagram-note">O: 시장 내 기술 리더십 확립</div>
-<div class="kb-diagram-note">KR1: 업계 주요 컨퍼런스 발표 5회</div>
-<div class="kb-diagram-note">KR2: 특허 출원 10건</div>
-<div class="kb-diagram-note">KR3: 기술 블로그 월 1만 독자 달성</div>
-</div>
-</div>
+KR (Key Results, 핵심 결과):
+  - 정량적(Quantitative), 측정 가능
+  - 하나의 O에 2~5개의 KR
+  - 예:
+    KR1: NPS(순추천지수) 45 -> 65 달성
+    KR2: 앱 충돌률 2.1% -> 0.5% 이하 감소
+    KR3: 월간 활성 사용자(MAU) 100만 달성
 
+Initiative (이니셔티브):
+  KR 달성을 위한 구체적 행동 계획
+  (OKR 자체에는 포함하지 않음)
 
+예시 OKR:
+  O: 시장 내 기술 리더십 확립
+  KR1: 업계 주요 컨퍼런스 발표 5회
+  KR2: 특허 출원 10건
+  KR3: 기술 블로그 월 1만 독자 달성
+```
 
 > 📢 **섹션 요약 비유**: OKR은 산행 목표 — O는 "한라산 정상 등반"이라는 방향, KR은 "왕복 6시간 이내, 1.5L 물 소비"처럼 측정 가능한 기준.
 
@@ -146,36 +144,37 @@ OKR 분기 사이클:
 
 ## Ⅴ. 실무 시나리오 — IT 스타트업 [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/)
 
+```
+IT 스타트업 B사 OKR 도입 (Series A 투자 후):
 
+배경: 투자 후 급격한 성장 필요, 조직 정렬 문제
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">IT 스타트업 B사 OKR 도입 (Series A 투자 후):</div>
-<div class="kb-diagram-note">배경: 투자 후 급격한 성장 필요, 조직 정렬 문제</div>
-<div class="kb-diagram-note">1분기 OKR:</div>
-<div class="kb-diagram-note">회사 OKR:</div>
-<div class="kb-diagram-note">O: 제품-시장 적합성(PMF) 확립</div>
-<div class="kb-diagram-note">KR1: 월간 리텐션율 30% -&gt; 50% 달성</div>
-<div class="kb-diagram-note">KR2: 유료 전환율 3% -&gt; 8% 달성</div>
-<div class="kb-diagram-note">KR3: NPS 20 -&gt; 50 달성</div>
-<div class="kb-diagram-note">개발팀 OKR (회사 OKR 연결):</div>
-<div class="kb-diagram-note">O: 사용자가 매일 돌아오는 제품 경험 구축</div>
-<div class="kb-diagram-note">KR1: 핵심 기능 로딩 시간 3초 -&gt; 0.8초</div>
-<div class="kb-diagram-note">KR2: 첫 방문 후 7일 리텐션 15% -&gt; 35%</div>
-<div class="kb-diagram-note">KR3: 기능 출시 후 사용률 30% 이상</div>
-<div class="kb-diagram-note">마케팅팀 OKR:</div>
-<div class="kb-diagram-note">O: 타겟 고객층 내 인지도 최고 브랜드 달성</div>
-<div class="kb-diagram-note">KR1: 타겟 세그먼트 브랜드 인지도 5% -&gt; 25%</div>
-<div class="kb-diagram-note">KR2: 유료 캠페인 CAC 50,000 -&gt; 25,000원</div>
-<div class="kb-diagram-note">분기 말 결과:</div>
-<div class="kb-diagram-note">리텐션 45% (목표 50%의 90% = 성공)</div>
-<div class="kb-diagram-note">전환율 6.5% (목표 81% = 성공)</div>
-<div class="kb-diagram-note">NPS 42 (목표 84% = 성공)</div>
-<div class="kb-diagram-note">총평: 3개 KR 모두 0.7 이상 -&gt; OKR 성공</div>
-</div>
-</div>
+1분기 OKR:
 
+회사 OKR:
+  O: 제품-시장 적합성(PMF) 확립
+  KR1: 월간 리텐션율 30% -> 50% 달성
+  KR2: 유료 전환율 3% -> 8% 달성
+  KR3: NPS 20 -> 50 달성
 
+개발팀 OKR (회사 OKR 연결):
+  O: 사용자가 매일 돌아오는 제품 경험 구축
+  KR1: 핵심 기능 로딩 시간 3초 -> 0.8초
+  KR2: 첫 방문 후 7일 리텐션 15% -> 35%
+  KR3: 기능 출시 후 사용률 30% 이상
+
+마케팅팀 OKR:
+  O: 타겟 고객층 내 인지도 최고 브랜드 달성
+  KR1: 타겟 세그먼트 브랜드 인지도 5% -> 25%
+  KR2: 유료 캠페인 CAC 50,000 -> 25,000원
+
+분기 말 결과:
+  리텐션 45% (목표 50%의 90% = 성공)
+  전환율 6.5% (목표 81% = 성공)
+  NPS 42 (목표 84% = 성공)
+  
+총평: 3개 KR 모두 0.7 이상 -> OKR 성공
+```
 
 > 📢 **섹션 요약 비유**: 스타트업 OKR은 성장 나침반 — 모든 팀이 같은 방향(회사 O)을 향하되, 각자 방식(팀 KR)으로 기여하는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 협력.
 

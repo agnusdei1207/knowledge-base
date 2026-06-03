@@ -1,5 +1,5 @@
 +++
-title = "115. CDP (Customer Data Platform) - 통합 고객 프로파일·Single Customer View"
+title = "115. CDP (C고객 Data Platform) - 통합 고객 프로파일·Single C고객 View"
 date = 2026-04-19
 
 [taxonomies]
@@ -10,7 +10,7 @@ tags = ["studynote-enterprise-systems"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [CDP](/knowledge-base/studynote/09_security/04_endpoint_security/193_crl_distribution_point_cdp/)([Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Platform)는 웹·앱·매장·[CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/)·소셜 등 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>된 모든 고객 접점 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 수집하여 통합 고객 프로파일(Single <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/">Customer</a> <a href="/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/">View</a>)</strong>을 구축하는 패키지 소프트웨어다.
+> 1. **본질**: [CDP](/knowledge-base/studynote/09_security/04_endpoint_security/193_crl_distribution_point_cdp/)([C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Platform)는 웹·앱·매장·[CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/)·소셜 등 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>된 모든 고객 접점 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 수집하여 통합 고객 프로파일(Single <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/">C고객</a> <a href="/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/">View</a>)</strong>을 구축하는 패키지 소프트웨어다.
 > 2. **가치**: DMP([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) Platform)가 익명 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/) 기반·광고 타겟팅 전용이라면, CDP는 <strong>실명(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/279_cdp_first_party/">1st Party</a>) <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 기반</strong>으로 고객 ID를 통합하여 마케팅·CS·영업 전 부서에서 활용 가능한 <strong>360° 고객 뷰</strong>를 제공한다.
 > 3. **판단 포인트**: CDP의 핵심은 <strong>ID Resolution(동일 고객의 이메일·전화·앱ID를 1명으로 통합)</strong>이며, [Segment](/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/)·mParticle·Treasure Data가 대표 제품이다.
 
@@ -18,24 +18,27 @@ tags = ["studynote-enterprise-systems"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CDP의 데이터 통합 흐름</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 소스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">웹 로그 + 앱 이벤트 + CRM + POS(매장)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ 이메일 + 소셜 + CS 상담 이력</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CDP - ID Resolution</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이메일=a@b.com + 전화=010-1234 + 앱ID=user_123</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 동일 고객 "김철수"로 통합</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">통합 고객 프로파일</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">김철수: 최근 구매 3건, 앱 DAU, 불만 CS 1건</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">활용</div><div class="kb-diagram-note">마케팅 타겟팅 | CS 컨텍스트 | 이탈 예측</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    CDP의 데이터 통합 흐름                              │
+├───────────────────────────────────────────────────────┤
+│  [데이터 소스]                                        │
+│   웹 로그 + 앱 이벤트 + CRM + POS(매장)              │
+│   + 이메일 + 소셜 + CS 상담 이력                     │
+│         │                                             │
+│         ▼                                             │
+│  [CDP - ID Resolution]                                │
+│   이메일=a@b.com + 전화=010-1234 + 앱ID=user_123     │
+│   → 동일 고객 "김철수"로 통합                         │
+│         │                                             │
+│         ▼                                             │
+│  [통합 고객 프로파일]                                 │
+│   김철수: 최근 구매 3건, 앱 DAU, 불만 CS 1건         │
+│         │                                             │
+│         ▼                                             │
+│  [활용] 마케팅 타겟팅 | CS 컨텍스트 | 이탈 예측       │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: CDP는 각 과목 선생님(채널)이 따로 적은 학생 평가를 <strong>한 장의 생활기록부</strong>로 합치는 시스템이다.
 
@@ -95,23 +98,21 @@ CDP는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architec
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">CRM (1990s) — 자사 거래 데이터 관리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DMP (2010s) — 3rd Party 쿠키 기반 광고 타겟팅</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CDP (2015~) — 1st Party 실명 데이터 통합</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3rd Party 쿠키 폐지 (2023~) — CDP 중요성 급증</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: AI CDP — 자동 세분화·예측·개인화</div></div>
-</div>
-</div>
-
-
+```text
+[CRM (1990s) — 자사 거래 데이터 관리]
+    │
+    ▼
+[DMP (2010s) — 3rd Party 쿠키 기반 광고 타겟팅]
+    │
+    ▼
+[CDP (2015~) — 1st Party 실명 데이터 통합]
+    │
+    ▼
+[3rd Party 쿠키 폐지 (2023~) — CDP 중요성 급증]
+    │
+    ▼
+[현재: AI CDP — 자동 세분화·예측·개인화]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 국어 선생님은 "김철수 발표 잘함", 수학 선생님은 "김철수 계산 빠름"이라고 **따로따로** 적어요.

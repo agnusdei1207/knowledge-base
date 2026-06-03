@@ -39,24 +39,22 @@ ADR은 마이클 나이가드(Michael Nygard)가 제안한 템플릿이 사실�
 | **Decision (결정 사항)** | 최종 채택된 아키텍처 기술 | 어떤 패턴이나 툴을 쓰기로 합의했는지 확정적 서술 |
 | **Consequences (파급 효과)** | 긍정/부정적 결과 명시 | 트레이드오프 인정 (예: [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 좋지만, 학습 곡선이 높음) |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ADR의 Git 저장소 동기화 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Source Repository</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── src/</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── tests/</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── docs/</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── adr/</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 0001-record-architecture-decisions.md</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 0002-use-postgresql-for-user-db.md (Accepted)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 0003-migrate-to-graphql.md (Proposed)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 코드 리뷰 과정(PR)에서 아키텍처 결정도 함께 논의 및 병합</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                  ADR의 Git 저장소 동기화 구조                │
+├──────────────────────────────────────────────────────────────┤
+│  [Source Repository]                                         │
+│   ├── src/                                                   │
+│   ├── tests/                                                 │
+│   └── docs/                                                  │
+│       └── adr/                                               │
+│            ├── 0001-record-architecture-decisions.md         │
+│            ├── 0002-use-postgresql-for-user-db.md (Accepted) │
+│            └── 0003-migrate-to-graphql.md (Proposed)         │
+│                                                              │
+│  => 코드 리뷰 과정(PR)에서 아키텍처 결정도 함께 논의 및 병합 │
+└──────────────────────────────────────────────────────────────┘
+```
 
 가장 중요한 항목은 <strong>Consequences(파급 효과)</strong>다. 완벽한 설계는 존재하지 않으므로, 이 결정으로 인해 감수해야 할 단점이나 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)([Technical Debt](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/))를 투명하게 기록해야 미래의 리스크를 관리할 수 있다.
 
@@ -102,7 +100,7 @@ ADR을 체계적으로 운영하면 팀의 온보딩(On-boarding) 비용이 극�
 
 [소프트웨어 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/201_software_architecture_definition/)는 정답을 찾는 과정이 아니라 제약 속에서 최선을 선택하는 트레이드오프의 연속이다. ADR은 이 불안정한 여정 속에서 팀의 사고 궤적을 보존하여, 과거의 결정이 미래의 발목을 잡지 않도록 돕는 가장 강력하고 저렴한 안전망이다.
 
-- **📢 섹션 요약 비유**: ADR은 체스 게임에서 기보()를 남기는 것과 같다. 나중에 돌이켜보았을 때 어떤 포석과 수읽기로 그 말을 움직였는지 알 수 있어야 실력이 늘고 패배를 반복하지 않는다.
+- **📢 섹션 요약 비유**: ADR은 체스 게임에서 기보(棋譜)를 남기는 것과 같다. 나중에 돌이켜보았을 때 어떤 포석과 수읽기로 그 말을 움직였는지 알 수 있어야 실력이 늘고 패배를 반복하지 않는다.
 
 ---
 
@@ -117,23 +115,21 @@ ADR을 체계적으로 운영하면 팀의 온보딩(On-boarding) 비용이 극�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 아키텍처 문서화 (SAD) 기반의 정적 관리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">애자일과 MSA 도입에 따른 지속적 의사결정의 필요성 증대</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ADR (Architecture Decision Record) 템플릿의 등장</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Markdown + Git 기반의 Architecture as Code (Docs as Code) 패러다임 확산</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ADR 상태 관리 (Superseded 처리)를 통한 설계 진화 내역 추적</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 아키텍처 문서화 (SAD) 기반의 정적 관리
+    │
+    ▼
+애자일과 MSA 도입에 따른 지속적 의사결정의 필요성 증대
+    │
+    ▼
+ADR (Architecture Decision Record) 템플릿의 등장
+    │
+    ▼
+Markdown + Git 기반의 Architecture as Code (Docs as Code) 패러다임 확산
+    │
+    ▼
+ADR 상태 관리 (Superseded 처리)를 통한 설계 진화 내역 추적
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

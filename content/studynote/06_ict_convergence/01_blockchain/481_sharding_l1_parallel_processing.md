@@ -33,22 +33,22 @@ tags = ["studynote-ict-convergence"]
 
 ### 이더리움 [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/) 아키텍처
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이더리움 2.0 샤딩 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비콘 체인(Beacon Chain)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">검증자 등록·관리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">샤드 위원회(Shard Committee) 무작위 배정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">크로스링크(Crosslink) 조율</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">샤드 0 샤드 1 샤드 N</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Shard) (Shard) (Shard)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">병렬 처리 병렬 처리 병렬 처리</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────┐
+│          이더리움 2.0 샤딩 구조                      │
+│                                                     │
+│          비콘 체인(Beacon Chain)                     │
+│          ├ 검증자 등록·관리                          │
+│          ├ 샤드 위원회(Shard Committee) 무작위 배정  │
+│          └ 크로스링크(Crosslink) 조율                │
+│                 │                                   │
+│    ┌────────────┼────────────┐                      │
+│    ▼            ▼            ▼                      │
+│  샤드 0       샤드 1       샤드 N                    │
+│  (Shard)      (Shard)      (Shard)                  │
+│  병렬 처리    병렬 처리    병렬 처리                  │
+└─────────────────────────────────────────────────────┘
+```
 
 ### Danksharding / Proto-Danksharding 로드맵
 
@@ -121,7 +121,7 @@ tags = ["studynote-ict-convergence"]
 
 [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)은 [블록체인 트릴레마](/knowledge-base/studynote/06_ict_convergence/01_blockchain/040_blockchain_trilemma/) 중 확장성을 공략하는 L1 핵심 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다. 이더리움은 실행 [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/) 대신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)(Danksharding)으로 방향을 전환해 [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/) 중심 생태계를 지원하는 [데이터 가용성](/knowledge-base/studynote/06_ict_convergence/01_blockchain/094_data_availability_da_layer_celestia/) 계층으로 진화하고 있다.
 
-- **📢 섹션 요약 비유**: — "[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 고속도로를 실제로 넓히는 공사([샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/))와, 고속도로 옆 지름길([롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)) — 이더리움은 두 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 조합해 막힘 없는 Web3를 만든다.
+- **📢 섹션 요약 비유**: — "[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 고속도로를 실제로 넓히는 공사([샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/))와, 고속도로 옆 지름길([롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)) — 이더리움은 두 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 조합해 병목 없는 Web3를 만든다.
 
 ---
 

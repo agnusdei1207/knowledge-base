@@ -18,18 +18,12 @@ tags = ["studynote-dataengineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Transformer = Encoder + Decoder</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Encoder:</div><div class="kb-diagram-node">Multi-Head Self-Attention → FFN</div><div class="kb-diagram-note">× N</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Decoder:</div><div class="kb-diagram-node">Masked Self-Attention → Cross-Attention → FFN</div><div class="kb-diagram-note">× N</div></div>
-<div class="kb-diagram-note">+ Positional Encoding (순서 정보)</div>
-</div>
-</div>
-
-
+```text
+Transformer = Encoder + Decoder
+  Encoder: [Multi-Head Self-Attention → FFN] × N
+  Decoder: [Masked Self-Attention → Cross-Attention → FFN] × N
+  + Positional Encoding (순서 정보)
+```
 
 - **📢 섹션 요약 비유**: RNN은 **줄 서서 한 명씩 통과(순차)**, Transformer는 <strong>모든 사람이 동시에 대화(<a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>)</strong>하는 것이다.
 
@@ -53,18 +47,12 @@ Transformer는 <strong>현대 AI의 기반 아키텍처</strong>이며, [BERT](/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Seq2Seq+Attention (2014)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Transformer (2017, Google)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">BERT (Encoder, 2018)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">GPT-2/3 (Decoder, 2019~)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">T5 (Enc-Dec, 2019)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">GPT-4/LLM (2023~)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: Mamba/RWKV — Transformer 대안 탐색</div></div>
-</div>
-</div>
-
-
+```text
+[Seq2Seq+Attention (2014)] → [Transformer (2017, Google)]
+    → [BERT (Encoder, 2018)] → [GPT-2/3 (Decoder, 2019~)]
+    → [T5 (Enc-Dec, 2019)] → [GPT-4/LLM (2023~)]
+    → [현재: Mamba/RWKV — Transformer 대안 탐색]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. RNN은 **한 줄로 서서 순서대로** 이야기를 전달해요(느림).

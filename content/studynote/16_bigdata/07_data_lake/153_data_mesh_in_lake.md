@@ -35,28 +35,36 @@ Zhamak Dehghani가 2019년 제시한 [데이터 메시](/knowledge-base/studynot
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data Mesh on Lakehouse 아키텍처</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Unity Catalog (연합 거버넌스 레이어)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 중앙 접근 제어 정책 (컬럼 마스킹, 행 필터)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 감사 로그 통합, 리니지 추적</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정책 적용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">도메인: 영업</div><div class="kb-diagram-cell">도메인: 마케팅</div><div class="kb-diagram-cell">도메인: 물류</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">catalog.sales</div><div class="kb-diagram-cell">catalog.mkt</div><div class="kb-diagram-cell">catalog.logist.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Bronze (raw)</div><div class="kb-diagram-cell">Bronze (raw)</div><div class="kb-diagram-cell">Bronze (raw)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Silver</div><div class="kb-diagram-cell">Silver</div><div class="kb-diagram-cell">Silver</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Gold 제품 테이블</div><div class="kb-diagram-cell">Gold 제품 테이블</div><div class="kb-diagram-cell">Gold 제품 테이블</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(SLA 계약 포함)</div><div class="kb-diagram-cell">(SLA 계약 포함)</div><div class="kb-diagram-cell">(SLA 계약 포함)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소비자 도메인 (교차 도메인 쿼리)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Unity Catalog 공유 테이블 읽기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Delta Sharing으로 외부 공유</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────────────┐
+│            Data Mesh on Lakehouse 아키텍처                        │
+├──────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  ┌─────────────────────────────────────────────────────────┐    │
+│  │  Unity Catalog (연합 거버넌스 레이어)                      │    │
+│  │  - 중앙 접근 제어 정책 (컬럼 마스킹, 행 필터)              │    │
+│  │  - 감사 로그 통합, 리니지 추적                             │    │
+│  └────────────────────────────┬────────────────────────────┘    │
+│                               │ 정책 적용                        │
+│             ┌─────────────────┼──────────────────┐              │
+│             │                 │                  │              │
+│   ┌─────────▼──────┐ ┌───────▼────────┐ ┌──────▼──────────┐   │
+│   │  도메인: 영업    │ │ 도메인: 마케팅  │ │ 도메인: 물류     │   │
+│   │  catalog.sales  │ │ catalog.mkt    │ │ catalog.logist. │   │
+│   │                │ │               │ │                │   │   │
+│   │  Bronze (raw)  │ │ Bronze (raw)  │ │ Bronze (raw)   │   │   │
+│   │  Silver        │ │ Silver        │ │ Silver         │   │   │
+│   │  Gold 제품 테이블│ │ Gold 제품 테이블│ │ Gold 제품 테이블│   │   │
+│   │  (SLA 계약 포함)│ │ (SLA 계약 포함)│ │ (SLA 계약 포함)│   │   │
+│   └────────────────┘ └───────────────┘ └────────────────┘   │   │
+│                                                                  │
+│  ┌──────────────────────────────────────────────────────────┐   │
+│  │  소비자 도메인 (교차 도메인 쿼리)                           │   │
+│  │  - Unity Catalog 공유 테이블 읽기                          │   │
+│  │  - Delta Sharing으로 외부 공유                             │   │
+│  └──────────────────────────────────────────────────────────┘   │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a>별 <a href="/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/">레이크하우스</a> 구성 요소</strong>
 
@@ -146,23 +154,21 @@ Zhamak Dehghani가 2019년 제시한 [데이터 메시](/knowledge-base/studynot
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">중앙 집중 데이터 레이크 (Centralized Data Lake) — 모든 데이터를 한 곳에 수집</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 사일로 문제 (Data Silo) — 팀 간 데이터 접근 병목·거버넌스 공백 발생</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 메시 (Data Mesh) — 도메인 팀이 데이터 제품 소유·서빙하는 분산 아키텍처</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 제품 (Data Product) — 발견 가능·접근 가능·신뢰 가능한 자립 데이터 단위</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">연합 거버넌스 (Federated Governance) — 중앙 정책과 도메인 자율성의 균형 유지</div></div>
-</div>
-</div>
-
-
+```text
+[중앙 집중 데이터 레이크 (Centralized Data Lake) — 모든 데이터를 한 곳에 수집]
+    │
+    ▼
+[데이터 사일로 문제 (Data Silo) — 팀 간 데이터 접근 병목·거버넌스 공백 발생]
+    │
+    ▼
+[데이터 메시 (Data Mesh) — 도메인 팀이 데이터 제품 소유·서빙하는 분산 아키텍처]
+    │
+    ▼
+[데이터 제품 (Data Product) — 발견 가능·접근 가능·신뢰 가능한 자립 데이터 단위]
+    │
+    ▼
+[연합 거버넌스 (Federated Governance) — 중앙 정책과 도메인 자율성의 균형 유지]
+```
 
 이 흐름은 중앙 집중 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)의 한계를 [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)가 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 소유권과 연합 거버넌스로 극복하는 아키텍처 전환을 나타낸다.
 

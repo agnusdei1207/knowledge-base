@@ -23,21 +23,24 @@ tags = ["operating_system"]
 
 이 그림은 운영체제가 컴퓨터 시스템 계층 구조에서 차지하는 위치와 중재자로서의 역할을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Computer System Hierarchical Structure</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Users</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Applications (Browser, Game)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">======================== (System Call) ===================</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Operating System</div><div class="kb-diagram-connector">◀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Kernel, Device Drivers, Resource Mgmt)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">========================= (Hardware) =====================</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CPU</div><div class="kb-diagram-node">RAM</div><div class="kb-diagram-node">Storage</div><div class="kb-diagram-node">I/O Devices</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│              Computer System Hierarchical Structure          │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Users ] ◀──────────▶ [ Applications (Browser, Game) ]   │
+│                                     │                       │
+│   ======================== (System Call) ===================  │
+│                                     │                       │
+│   [ Operating System ] ◀────────────┘                       │
+│   (Kernel, Device Drivers, Resource Mgmt)                   │
+│                                     │                       │
+│   ========================= (Hardware) =====================  │
+│                                     │                       │
+│   [ CPU ] [ RAM ] [ Storage ] [ I/O Devices ]               │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '보호된 진입점 (System Call)'이다. 응용 프로그램은 하드웨어에 직접 접근할 수 없으며, 반드시 운영체제가 열어둔 좁은 문(시스템 콜)을 통해서만 자원을 요청할 수 있다. 실무에서 이러한 '유저 모드 (User Mode)'와 '커널 모드 (Kernel Mode)'의 분리는 시스템의 전체적인 보안과 안정성을 유지하는 근본 아키텍처가 된다.
 
@@ -71,20 +74,23 @@ tags = ["operating_system"]
 
 이 구조도는 시스템 콜을 통한 유저/커널 모드 전환 과정을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">System Call &amp; Mode Transition</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(User Mode: Ring 3)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">User Program</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Library (printf)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SW Trap</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Kernel Mode: Ring 0) ▼</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ISR / System Call Handler</div><div class="kb-diagram-connector">◀</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Process / File / Memory Mgmt Services</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">H/W</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 System Call & Mode Transition               │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   (User Mode: Ring 3)                                       │
+│   [ User Program ] ──▶ [ Library (printf) ] ──▶ [ SW Trap ] │
+│                                                   │         │
+│   ================================================│=======  │
+│   (Kernel Mode: Ring 0)                           ▼         │
+│   [ ISR / System Call Handler ] ◀─────────────────┘         │
+│          │                                                  │
+│          ▼                                                  │
+│   [ Process / File / Memory Mgmt Services ] ──▶ [ H/W ]     │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '특권 명령어 (Privileged Instructions)'의 제어이다. I/O 제어나 인터럽트 금지 등 치명적인 명령은 오직 커널 모드에서만 실행 가능하다. 실무에서 보안 위협인 '권한 상승 (Privilege Escalation)' 공격은 이 경계를 불법적으로 넘어 커널 권한을 획득하려는 시도이다.
 
@@ -126,18 +132,20 @@ tags = ["operating_system"]
 
 이 도식은 부팅 시 커널이 로드되는 과정을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Operating System Booting Sequence</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Power On</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">BIOS / UEFI</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">POST (Self Test)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Kernel Execution</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Boot Loader (GRUB)</div><div class="kb-diagram-connector">◀</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Init Process (PID 1)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">User Applications</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Operating System Booting Sequence            │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Power On ] ──▶ [ BIOS / UEFI ] ──▶ [ POST (Self Test) ] │
+│                           │                                 │
+│   [ Kernel Execution ] ◀── [ Boot Loader (GRUB) ] ◀───────┘ │
+│          │                                                  │
+│          ▼                                                  │
+│   [ Init Process (PID 1) ] ──▶ [ User Applications ]        │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 기술사의 OS 설계 판단은 건물의 설계 방식을 고르는 것과 같습니다. 무너지면 큰일 나는 병원(RTOS)은 철저히 방을 나누고, 많은 사람이 오가는 백화점(범용 OS)은 넓고 빠른 통로를 만드는 것과 같습니다.
 

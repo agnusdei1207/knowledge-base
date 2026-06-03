@@ -25,21 +25,20 @@ tags = ["studynote-software-engineering"]
 
 아래 그림은 운영 중 시스템의 흔적이 어떻게 요구사항 후보로 수렴되는지를 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Evidence to requirement pipeline</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">source code ─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DB schema ─ ─&gt; static / dynamic / data analysis -&gt; candidate req</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">screens ─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">logs/jobs ─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">stakeholder review &lt;-------------------</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AS-IS requirement baseline</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Evidence to requirement pipeline                                  │
+├────────────────────────────────────────────────────────────────────┤
+│ source code ─┐                                                     │
+│ DB schema   ─┼─> static / dynamic / data analysis -> candidate req│
+│ screens     ─┤                                                     │
+│ logs/jobs   ─┘                                                     │
+│                                        │                           │
+│ stakeholder review <-------------------┘                           │
+│                                        ▼                           │
+│                                  AS-IS requirement baseline        │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조의 핵심은 산출물이 곧바로 최종 요구사항이 아니라는 점이다. 먼저 시스템에서 <strong>관찰된 행동</strong>을 모으고, 그다음 현업과 아키텍트가 그것이 여전히 필요한지 판단해 <strong>유효한 요구사항</strong>으로 정제해야 한다. 따라서 [역공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/)은 단순 분석이 아니라, 증거를 요구사항 언어로 번역하는 작업이다.
 
@@ -63,18 +62,18 @@ tags = ["studynote-software-engineering"]
 
 다음 그림은 [역공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/)의 핵심이 단순 추출이 아니라, 추출 후 분류와 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)까지 포함한다는 점을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Reverse engineering core loop</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">observe implementation -&gt; infer rule -&gt; validate intent</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">logs / traces candidate requirement keep / change / drop</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">code shows "what exists"; stakeholders confirm "why it matters"</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Reverse engineering core loop                                     │
+├────────────────────────────────────────────────────────────────────┤
+│ observe implementation -> infer rule -> validate intent            │
+│          ▲                    │                 │                  │
+│          │                    ▼                 ▼                  │
+│   logs / traces       candidate requirement   keep / change / drop│
+│                                                                    │
+│ code shows "what exists"; stakeholders confirm "why it matters"   │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 여기서 가장 중요한 문장은 이것이다. **현재 구현은 요구사항의 흔적이지, 요구사항 그 자체와 항상 동일하지는 않다.** 오래된 우회 로직, 특정 고객만을 위한 예외, 이미 폐기된 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 코드에 남아 있을 수 있기 때문이다. 그래서 [역공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/)은 복원 작업인 동시에, 불필요한 것을 걸러내는 정제 작업이기도 하다.
 
@@ -84,7 +83,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅲ. 비교 및 연결
 
-[역공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/)을 통한 요구사항 추출은 다른 요구공학 기법과 경쟁 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)라기보다 <strong>출발점이 다른 보완 기법</strong>이다. 순방향 공학 ([Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) Engineering)은 요구사항에서 설계와 구현으로 내려가고, [역공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/)은 구현에서 요구사항으로 올라온다. 재공학 (Re-engineering)은 이 둘을 연결해 기존 시스템을 분석한 뒤 구조나 기술을 개선해 다시 구현하는 큰 흐름이라고 볼 수 있다.
+[역공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/)을 통한 요구사항 추출은 다른 요구공학 기법과 경쟁 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)라기보다 <strong>출발점이 다른 보완 기법</strong>이다. 순방향 공학 ([Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) 엔진ering)은 요구사항에서 설계와 구현으로 내려가고, [역공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/)은 구현에서 요구사항으로 올라온다. 재공학 (Re-engineering)은 이 둘을 연결해 기존 시스템을 분석한 뒤 구조나 기술을 개선해 다시 구현하는 큰 흐름이라고 볼 수 있다.
 
 | 구분 | 출발점 | 주된 질문 | 강점 | 한계 |
 | :--- | :--- | :--- | :--- | :--- |
@@ -114,20 +113,17 @@ tags = ["studynote-software-engineering"]
 
 아래 결정 흐름은 관찰된 동작을 그대로 요구사항으로 채택하지 않고, 사업적 의미를 다시 묻는 과정을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Classifying observed behavior</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">observed rule from code/logs</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ still required by business or regulation? -&gt; retain</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ workaround for old platform? -&gt; redesign</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ unused path / dead code / obsolete data? -&gt; retire</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ uncertain? -&gt; validate with SME and production evidence</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Classifying observed behavior                                     │
+├────────────────────────────────────────────────────────────────────┤
+│ observed rule from code/logs                                      │
+│   ├─ still required by business or regulation? -> retain          │
+│   ├─ workaround for old platform? -> redesign                     │
+│   ├─ unused path / dead code / obsolete data? -> retire           │
+│   └─ uncertain? -> validate with SME and production evidence      │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 ### 실무 판단 기준
 
@@ -175,25 +171,24 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">문서 부재 또는 문서-구현 불일치</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">코드 · DB · 화면 · 로그 증거 수집</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">정적 분석 · 동적 분석 · 현업 검증</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">AS-IS 요구사항 복원</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">유지 · 개선 · 폐기 분류</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">TO-BE 설계 · SRS · RTM · 차세대 구축</div>
-</div>
-</div>
-
-
+```text
+문서 부재 또는 문서-구현 불일치
+        │
+        ▼
+코드 · DB · 화면 · 로그 증거 수집
+        │
+        ▼
+정적 분석 · 동적 분석 · 현업 검증
+        │
+        ▼
+AS-IS 요구사항 복원
+        │
+        ▼
+유지 · 개선 · 폐기 분류
+        │
+        ▼
+TO-BE 설계 · SRS · RTM · 차세대 구축
+```
 
 이 흐름도는 [역공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/)이 단순한 코드 읽기가 아니라, 현행 계약 복원에서 미래 설계 입력으로 이어지는 요구공학 프로세스임을 보여 준다.
 

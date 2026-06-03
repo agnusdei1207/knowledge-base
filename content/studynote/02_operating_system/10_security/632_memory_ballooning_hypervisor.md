@@ -52,34 +52,39 @@ tags = ["studynote-operating-system"]
 
 [KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/)/QEMU 환경에서 `virtio_balloon` 드라이버를 이용한 회수 메커니즘이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 벌루닝 (Memory Ballooning) 동작 원리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황 1: Host 메모리 부족 상황 발생 (Inflate 지시)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hypervisor ──(명령: "1GB 내놔!")──▶ VM (Guest OS) 내부</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Balloon Driver</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황 2: 풍선 부풀리기 (Inflate) 및 메모리 회수</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Balloon 드라이버가 Guest OS 커널에게 "1GB 램 좀 할당해 줘" 요청</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Guest OS는 안 쓰는 캐시나 가용 램을 모아서 드라이버에게 할당 (고정)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3. Balloon은 할당받은 1GB의</div><div class="kb-diagram-node">Guest Page 번호 목록</div><div class="kb-diagram-note">을 Hypervisor에 전송</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Host 물리 메모리 (HPA) 매핑 해제:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VMM은 받은 페이지 목록에 해당하는 HPA(실제 램)의 매핑을 끊고,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자신의 Free Pool로 가져와 다른 VM에게 나누어 줌!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">VM 1 (메모리 뺏김)</div><div class="kb-diagram-node">VM 2 (메모리 필요)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS / App 영역</div><div class="kb-diagram-cell">OS / App 영역</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Balloon (1GB)</div><div class="kb-diagram-cell">─ ─(1GB)──▶</div><div class="kb-diagram-cell">1GB 추가 확보!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">회수</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황 3: Host 메모리 여유 발생 (Deflate 지시)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Hypervisor가 Balloon에게 "바람 빼 (메모리 돌려줄게)" 지시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. VMM이 물리 램(HPA)을 다시 해당 VM의 주소 공간에 매핑해 줌</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Balloon 드라이버가 쥐고 있던 1GB 메모리를 Guest OS 커널에 Free함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. Guest OS는 다시 1GB를 앱 구동이나 캐시 용도로 사용 가능해짐</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 메모리 벌루닝 (Memory Ballooning) 동작 원리          │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │  [상황 1: Host 메모리 부족 상황 발생 (Inflate 지시)]                    │
+  │   Hypervisor ──(명령: "1GB 내놔!")──▶ VM (Guest OS) 내부           │
+  │                                       Balloon Driver              │
+  │                                                                   │
+  │  [상황 2: 풍선 부풀리기 (Inflate) 및 메모리 회수]                      │
+  │   1. Balloon 드라이버가 Guest OS 커널에게 "1GB 램 좀 할당해 줘" 요청      │
+  │   2. Guest OS는 안 쓰는 캐시나 가용 램을 모아서 드라이버에게 할당 (고정)    │
+  │   3. Balloon은 할당받은 1GB의 [Guest Page 번호 목록]을 Hypervisor에 전송│
+  │                                                                   │
+  │   Host 물리 메모리 (HPA) 매핑 해제:                                   │
+  │   VMM은 받은 페이지 목록에 해당하는 HPA(실제 램)의 매핑을 끊고,           │
+  │   자신의 Free Pool로 가져와 다른 VM에게 나누어 줌!                      │
+  │                                                                   │
+  │      [VM 1 (메모리 뺏김)]                 [VM 2 (메모리 필요)]          │
+  │   ┌──────────────────────┐         ┌──────────────────────┐       │
+  │   │ OS / App 영역          │         │ OS / App 영역          │       │
+  │   │ ┌──────────────────┐ │         │                      │       │
+  │   │ │ Balloon (1GB)    │─┼─(1GB)──▶│ 1GB 추가 확보!         │       │
+  │   │ └──────────────────┘ │  회수   │                      │       │
+  │   └──────────────────────┘         └──────────────────────┘       │
+  │                                                                   │
+  │  [상황 3: Host 메모리 여유 발생 (Deflate 지시)]                       │
+  │   1. Hypervisor가 Balloon에게 "바람 빼 (메모리 돌려줄게)" 지시           │
+  │   2. VMM이 물리 램(HPA)을 다시 해당 VM의 주소 공간에 매핑해 줌            │
+  │   3. Balloon 드라이버가 쥐고 있던 1GB 메모리를 Guest OS 커널에 Free함   │
+  │   4. Guest OS는 다시 1GB를 앱 구동이나 캐시 용도로 사용 가능해짐          │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 벌루닝의 천재성은 "OS의 기본 메모리 관리 메커니즘을 100% 존중한다"는 데 있다. 드라이버가 메모리를 달라고 하면, 게스트 OS는 자신의 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/)([Least Recently Used](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/)) 알고리즘을 돌려 가장 쓸모없는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache)부터 비워서 준다. 만약 정말 줄 메모리가 없으면 게스트 OS가 스스로 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)(Guest [Swapping](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/))을 해서라도 억지로 자리를 마련해 준다. 이는 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 밖에서 맹목적으로 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)(Host [Swapping](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/))을 하는 것보다 천 배는 안전하고 효율적이다. 게스트 OS가 능동적으로 '안전한 쓰레기'를 먼저 버려주기 때문이다.
 
@@ -125,26 +130,30 @@ tags = ["studynote-operating-system"]
 
 ### 의사결정 및 튜닝 플로우
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 오버커밋 및 벌루닝(Ballooning) 설계 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">가상화 인프라(Hypervisor) 메모리 할당 정책 수립</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">워크로드가 성능 보장이 필수적인 Mission-Critical (DB 등) 인가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">메모리 예약(Reservation) 100% 설정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Ballooning 비활성화, 오버커밋 절대 금지)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가상머신 내부에 Virtio-balloon 드라이버가 설치되어 있는가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ▶ 게스트 OS 도구(VMware Tools / QEMU Guest Agent)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">설치 필수. 미설치 시 벌루닝 작동 불가.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Auto-ballooning(동적 회수) 데몬 활성화 및 임계치(Threshold) 설정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Host 여유 메모리가 20% 이하로 떨어질 때만 풍선을 부풀리도록 스크립트화)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 메모리 오버커밋 및 벌루닝(Ballooning) 설계 플로우          │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [가상화 인프라(Hypervisor) 메모리 할당 정책 수립]                       │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      워크로드가 성능 보장이 필수적인 Mission-Critical (DB 등) 인가?         │
+  │          ├─ 예 ─────▶ [메모리 예약(Reservation) 100% 설정]           │
+  │          │            (Ballooning 비활성화, 오버커밋 절대 금지)         │
+  │          └─ 아니오                                                │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      가상머신 내부에 Virtio-balloon 드라이버가 설치되어 있는가?            │
+  │          ├─ 아니오 ────▶ 게스트 OS 도구(VMware Tools / QEMU Guest Agent) │
+  │          │            설치 필수. 미설치 시 벌루닝 작동 불가.             │
+  │          └─ 예                                                    │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      [Auto-ballooning(동적 회수) 데몬 활성화 및 임계치(Threshold) 설정]   │
+  │      (Host 여유 메모리가 20% 이하로 떨어질 때만 풍선을 부풀리도록 스크립트화)  │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 벌루닝은 훌륭한 구명조끼지만 평소에 입고 다니면 덥고 무겁다([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하). 개발 및 테스트 환경, 웹 프론트엔드 서버처럼 무상태([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)) 워크로드에는 벌루닝을 적극 켜서 서버 집적도를 높이는 것이 돈을 버는 길이다. 하지만 DB 같은 덩치 큰 워크로드에 벌루닝이 들어오면 대재앙이 일어난다. 아키텍트는 워크로드의 특성에 따라 클러스터를 분리(Tiering)하여 정책을 다르게 매핑해야 한다.
 
@@ -188,19 +197,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">메모리 KSM (Kernel Samepage Merging) 가상머신 간 중복 메모리 통합 절약</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">벌루닝 (Ballooning) 하이퍼바이저 가상머신 동적 메모리 회수 기법 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">무정전 업데이트 (Ksplice 등 커널 재부팅 없는 패치망 체계 구조)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">병행 프로그래밍 락 프리 스택/큐 설계 데이터 구조 메커니즘</div></div>
-</div>
-</div>
-
-
+```text
+[메모리 KSM (Kernel Samepage Merging) 가상머신 간 중복 메모리 통합 절약]
+    │
+    ▼
+[벌루닝 (Ballooning) 하이퍼바이저 가상머신 동적 메모리 회수 기법 구조]
+    │
+    ├──▶ [무정전 업데이트 (Ksplice 등 커널 재부팅 없는 패치망 체계 구조)]
+    └──▶ [병행 프로그래밍 락 프리 스택/큐 설계 데이터 구조 메커니즘]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

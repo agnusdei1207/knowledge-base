@@ -39,20 +39,15 @@ tags = ["studynote-ai"]
 
 ### 포화 영역 (Saturation Region)
 
+```
+|x| > 4 이상에서 σ'(x) ≈ 0 (포화)
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">x</div><div class="kb-diagram-cell">&gt; 4 이상에서 σ'(x) ≈ 0 (포화)</div></div>
-<div class="kb-diagram-note">x = 0: σ'(0) = 0.25 ← 최대 기울기</div>
-<div class="kb-diagram-note">x = 2: σ'(2) ≈ 0.105</div>
-<div class="kb-diagram-note">x = 4: σ'(4) ≈ 0.018</div>
-<div class="kb-diagram-note">x = 6: σ'(6) ≈ 0.002 ← 거의 0</div>
-<div class="kb-diagram-note">x = 10: σ'(10) ≈ 0.00005 ← 사실상 0</div>
-</div>
-</div>
-
-
+  x = 0:   σ'(0) = 0.25      ← 최대 기울기
+  x = 2:   σ'(2) ≈ 0.105
+  x = 4:   σ'(4) ≈ 0.018
+  x = 6:   σ'(6) ≈ 0.002     ← 거의 0
+  x = 10:  σ'(10) ≈ 0.00005  ← 사실상 0
+```
 
 - **📢 섹션 요약 비유**: 시그모이드는 물을 S자 관으로 흘리는 것 — 중앙에서는 물이 잘 흐르지만(기울기 0.25), 양쪽 끝으로 갈수록 관이 막혀 물이 거의 흐르지 않는다(기울기 ≈ 0).
 
@@ -62,25 +57,30 @@ tags = ["studynote-ai"]
 
 ### [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) 문제 ([Vanishing Gradient](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/240_relu_vanishing_gradient_softmax_backprop_chain/) Problem)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">역전파에서 기울기 소실 발생 과정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">출력층 은닉층3 은닉층2 은닉층1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">∂L/∂W₄=1.0 → ×σ'(z₃)≈0.1 → ×σ'(z₂)≈0.1 → ×σ'(z₁)≈0.1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">각 층에서 최대 0.25 곱셈 → 3층 통과 후: 1.0×0.1×0.1×0.1=0.001</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">10층 신경망: 기울기 = (0.25)^10 ≈ 0.000001 ← 사실상 0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 앞쪽 층의 가중치가 전혀 학습되지 않음!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">층 수 기울기 크기 (모든 층에서 σ'≈0.25 가정)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1층</div><div class="kb-diagram-cell">0.25</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5층</div><div class="kb-diagram-cell">0.001</div><div class="kb-diagram-cell">← 학습 매우 느림</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">10층</div><div class="kb-diagram-cell">0.000001</div><div class="kb-diagram-cell">← 사실상 소멸</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">20층</div><div class="kb-diagram-cell">10⁻¹²</div><div class="kb-diagram-cell">← 완전 소멸</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────────────┐
+│             역전파에서 기울기 소실 발생 과정                        │
+│                                                                  │
+│  출력층        은닉층3        은닉층2        은닉층1               │
+│    │             │             │             │                   │
+│  ∂L/∂W₄=1.0 → ×σ'(z₃)≈0.1 → ×σ'(z₂)≈0.1 → ×σ'(z₁)≈0.1        │
+│                                                                  │
+│  각 층에서 최대 0.25 곱셈 → 3층 통과 후: 1.0×0.1×0.1×0.1=0.001   │
+│                                                                  │
+│  ┌────────────────────────────────────────────────────────────┐ │
+│  │ 10층 신경망: 기울기 = (0.25)^10 ≈ 0.000001 ← 사실상 0     │ │
+│  │ → 앞쪽 층의 가중치가 전혀 학습되지 않음!                   │ │
+│  └────────────────────────────────────────────────────────────┘ │
+│                                                                  │
+│  층 수     기울기 크기 (모든 층에서 σ'≈0.25 가정)                 │
+│  ┌──────┬────────────┐                                          │
+│  │  1층 │ 0.25       │                                          │
+│  │  5층 │ 0.001      │ ← 학습 매우 느림                         │
+│  │ 10층 │ 0.000001   │ ← 사실상 소멸                            │
+│  │ 20층 │ 10⁻¹²     │ ← 완전 소멸                              │
+│  └──────┴────────────┘                                          │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 ### 시그모이드 vs [Tanh](/knowledge-base/studynote/10_ai/01_ai_basics/070_hyperbolic_tangent_tanh_activation/) vs [ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/) 기울기 비교
 
@@ -140,21 +140,15 @@ tags = ["studynote-ai"]
 
 ### 실무 설계 지침
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">은닉층 활성화 함수 선택 가이드:</div>
-<div class="kb-diagram-tree-item" style="--depth:0">일반 딥러닝 → ReLU (기본값)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">배치 정규화와 함께 → ReLU 또는 Leaky ReLU</div>
-<div class="kb-diagram-tree-item" style="--depth:0">순환 신경망 → Tanh (게이트는 Sigmoid)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">출력층 이진 분류 → Sigmoid</div>
-<div class="kb-diagram-note">출력층 다중 분류 → Softmax</div>
-<div class="kb-diagram-note">출력층 회귀 → Linear (없음)</div>
-</div>
-</div>
-
-
+```
+은닉층 활성화 함수 선택 가이드:
+├── 일반 딥러닝    →  ReLU (기본값)
+├── 배치 정규화와 함께 →  ReLU 또는 Leaky ReLU
+├── 순환 신경망    →  Tanh (게이트는 Sigmoid)
+└── 출력층 이진 분류 → Sigmoid
+    출력층 다중 분류 → Softmax
+    출력층 회귀     → Linear (없음)
+```
 
 - **📢 섹션 요약 비유**: Sigmoid를 은닉층에 쓰는 것은 마라톤 선수에게 수영복을 입히는 것 — 수영(이진 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 출력)에는 최적이지만, 달리기(딥러닝 은닉층)에는 [ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/) 운동복이 훨씬 적합하다.
 

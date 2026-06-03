@@ -23,17 +23,14 @@ tags = ["studynote-ai"]
 
 FP32 → INT8로 변환 시 용량이 4배 축소(700GB → 175GB)되고, INT4로 변환하면 8배 축소(87.5GB)된다. 단, [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)가 낮아지므로 정확도 손실(Accuracy Loss)이 발생하며, 이를 최소화하는 것이 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) 기술의 핵심이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)는 고해상도 사진(FP32, 24MB)을 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 저장(INT8, 6MB)하는 것이다. 용량은 4배 줄지만 화질(정확도)이 약간 떨어진다. 잘 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하면 육안으로 거의 차이를 모르고(QAT), 허술하게 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하면 화질이 눈에 띄게 나빠진다(PTQ 부주의). 화질 손실 없는 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)이 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) 기술의 목표다.
 
@@ -41,33 +38,37 @@ FP32 → INT8로 변환 시 용량이 4배 축소(700GB → 175GB)되고, INT4�
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">양자화 (Quantization) 수식 및 변환 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FP32 → INT8 변환 수식:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Q(x) = Round(x / scale + zero_point)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Dequantize: x̂ = (Q(x) - zero_point) × scale</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예시: x = 1.234 (FP32)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">scale = 0.01, zero_point = 0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Q(1.234) = Round(1.234/0.01) = Round(123.4) = 123 (INT8)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Dequantize: 123 × 0.01 = 1.23 (≈ 1.234, 정밀도 약간 손실)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정밀도별 표현 범위:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FP32: ±3.4×10^38, 소수점 7자리 정밀도 (4 bytes/값)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FP16: ±65,504, 소수점 3자리 정밀도 (2 bytes/값)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BF16: ±3.4×10^38, 소수점 2자리 정밀도 (2 bytes/값)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">INT8: -128~127, 정수만 표현 가능 (1 byte/값)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">INT4: -8~7, 정수 16개만 표현 (0.5 bytes/값)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PTQ (Post-Training Quantization):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">학습 완료 모델 → 보정 데이터셋(Calibration) → 스케일 계산 → 양자화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">QAT (Quantization-Aware Training):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">학습 중 양자화 시뮬레이션(Fake Quantization) → 양자화 오류 반영 학습</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">순전파: FP32, 역전파: 양자화 오류 기울기 포함</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│         양자화 (Quantization) 수식 및 변환 구조                      │
+├──────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  FP32 → INT8 변환 수식:                                           │
+│  Q(x) = Round(x / scale + zero_point)                           │
+│  Dequantize: x̂ = (Q(x) - zero_point) × scale                   │
+│                                                                  │
+│  예시: x = 1.234 (FP32)                                          │
+│  scale = 0.01, zero_point = 0                                    │
+│  Q(1.234) = Round(1.234/0.01) = Round(123.4) = 123 (INT8)       │
+│  Dequantize: 123 × 0.01 = 1.23 (≈ 1.234, 정밀도 약간 손실)        │
+│                                                                  │
+│  ┌─────────────────────────────────────────────────────────┐    │
+│  │  정밀도별 표현 범위:                                       │    │
+│  │  FP32: ±3.4×10^38, 소수점 7자리 정밀도 (4 bytes/값)      │    │
+│  │  FP16: ±65,504,   소수점 3자리 정밀도 (2 bytes/값)        │    │
+│  │  BF16: ±3.4×10^38, 소수점 2자리 정밀도 (2 bytes/값)      │    │
+│  │  INT8: -128~127,  정수만 표현 가능   (1 byte/값)          │    │
+│  │  INT4: -8~7,     정수 16개만 표현   (0.5 bytes/값)        │    │
+│  └─────────────────────────────────────────────────────────┘    │
+│                                                                  │
+│  PTQ (Post-Training Quantization):                              │
+│  학습 완료 모델 → 보정 데이터셋(Calibration) → 스케일 계산 → 양자화   │
+│                                                                  │
+│  QAT (Quantization-Aware Training):                             │
+│  학습 중 양자화 시뮬레이션(Fake Quantization) → 양자화 오류 반영 학습  │
+│  순전파: FP32, 역전파: 양자화 오류 기울기 포함                       │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 | 방법 | 적용 시점 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) | 구현 복잡도 | 사용 사례 |
 |:---|:---|:---|:---|:---|
@@ -100,7 +101,7 @@ FP32 → INT8로 변환 시 용량이 4배 축소(700GB → 175GB)되고, INT4�
 
 <strong>하드웨어별 최적 <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/">양자화</a> <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>:
 - <strong>NVIDIA <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/">GPU</a> (<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/">Tensor Core</a>)</strong>: INT8, TensorRT INT8 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/), GPTQ 적용
-- **Apple Silicon (Neural Engine)**: ANE에서 INT8 최적화, CoreML [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) 지원
+- **Apple Silicon (Neural 엔진)**: ANE에서 INT8 최적화, CoreML [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) 지원
 - **ARM CPU (스마트폰)**: ARM NEON INT8, XNNPACK [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)
 - <strong>전용 <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/">NPU</a></strong>: INT4 지원 칩 (퀄컴 스냅드래곤 [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/) 등) 활용
 

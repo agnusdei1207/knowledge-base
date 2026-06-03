@@ -23,24 +23,23 @@ tags = ["studynote-design-supervision"]
 
 코드 수준의 리팩터링(메서드 추출, 변수 이름 변경)이 일상적으로 수행되는 것처럼, 아키텍처 수준의 리팩터링도 지속적으로 수행해야 한다. 아키텍처 리팩터링은 계층 재구조화, 의존성 역전, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 경계 재정의, [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/) 분리 등을 포함한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">아키텍처 리팩터링 유형</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코드 수준 리팩터링</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 메서드 추출, 클래스 분리, 변수 이름 변경</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 일상적으로 수행 (분 단위)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모듈 수준 리팩터링</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 패키지 구조 재편, 의존성 역전, 인터페이스 추출</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 스프린트 단위로 수행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">아키텍처 수준 리팩터링</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 계층 재구조화, 서비스 경계 재정의, DB 분리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 분기별~연도별 수행 (점진적 적용 필수)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          아키텍처 리팩터링 유형                              │
+├─────────────────────────────────────────────────────────────┤
+│  코드 수준 리팩터링                                          │
+│  - 메서드 추출, 클래스 분리, 변수 이름 변경                 │
+│  - 일상적으로 수행 (분 단위)                                │
+│                                                             │
+│  모듈 수준 리팩터링                                         │
+│  - 패키지 구조 재편, 의존성 역전, 인터페이스 추출           │
+│  - 스프린트 단위로 수행                                     │
+│                                                             │
+│  아키텍처 수준 리팩터링                                     │
+│  - 계층 재구조화, 서비스 경계 재정의, DB 분리              │
+│  - 분기별~연도별 수행 (점진적 적용 필수)                   │
+└─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 건물 리모델링처럼, 거주자가 생활하는 중에 한 방씩 리모델링하는 것이 아키텍처 리팩터링이다. 전체 건물을 비우고 한 번에 공사(빅뱅 재작성)하면 거주자가 떠나버린다.
 
@@ -57,21 +56,20 @@ tags = ["studynote-design-supervision"]
 | 계층 명시적 분리 | 아키텍처 의도 복원 | 중간 |
 | DB 분리 | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별 독립 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 높음 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Branch by Abstraction 기법</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1단계: 공통 인터페이스(추상화) 도입</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기존 구현체 A가 인터페이스를 구현</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2단계: 신규 구현체 B를 인터페이스로 개발</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A와 B가 동시 공존</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3단계: 클라이언트를 B로 점진 전환 (Feature Flag 사용)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4단계: A 제거</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│       Branch by Abstraction 기법                            │
+├─────────────────────────────────────────────────────────────┤
+│  1단계: 공통 인터페이스(추상화) 도입                        │
+│  기존 구현체 A가 인터페이스를 구현                          │
+│                                                             │
+│  2단계: 신규 구현체 B를 인터페이스로 개발                   │
+│  A와 B가 동시 공존                                          │
+│                                                             │
+│  3단계: 클라이언트를 B로 점진 전환 (Feature Flag 사용)      │
+│  4단계: A 제거                                              │
+└─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: Branch by Abstraction은 교량 교체 시 기존 교량 옆에 새 교량을 건설하고 교통을 점진적으로 전환한 후 기존 교량을 철거하는 방식이다.
 

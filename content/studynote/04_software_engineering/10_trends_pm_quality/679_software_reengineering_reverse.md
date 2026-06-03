@@ -21,25 +21,26 @@ tags = ["studynote-software-engineering"]
 
 수년에서 수십 년간 운영된 소프트웨어(레거시 시스템)는 수많은 패치와 버그 수정으로 인해 코드가 스파게티처럼 엉키고 설계 문서도 사라진 상태가 된다. 이 시스템을 유지보수하는 비용이 새로 만드는 비용에 육박할 때, 엔지니어들은 "다 갈아엎고 새로 짤까?"(Big Bang Rewrite)라는 유혹에 빠진다.
 
-그러나 전면 재개발은 실패 확률이 매우 높다. 코드 곳곳에 숨겨진 '예외 처리 비즈니스 로직'을 새 시스템이 100% 재현하기 어렵기 때문이다. 이에 대한 대안으로 등장한 것이 기존 시스템의 기능을 보존하면서 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)을 높이는 <strong>재공학(Re-engineering)</strong>과, 코드를 분석해 잃어버린 설계 문서를 복원하는 <strong><a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/">역공학</a>(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/780_reverse_engineering/">Reverse Engineering</a>)</strong>이다.
+그러나 전면 재개발은 실패 확률이 매우 높다. 코드 곳곳에 숨겨진 '예외 처리 비즈니스 로직'을 새 시스템이 100% 재현하기 어렵기 때문이다. 이에 대한 대안으로 등장한 것이 기존 시스템의 기능을 보존하면서 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)을 높이는 <strong>재공학(Re-engineering)</strong>과, 코드를 분석해 잃어버린 설계 문서를 복원하는 <strong><a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/">역공학</a>(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/780_reverse_engineering/">Reverse 엔진ering</a>)</strong>이다.
 
-- **📢 섹션 요약 비유**: 전면 재개발이 낡은 집을 부수고 새 아파트를 짓는 '재건축'이라면, 재공학은 뼈대는 살리되 배관과 인테리어를 최신식으로 바꾸는 '리모델링'이다. 이때 설계도가 없어 벽을 뜯어보며 도면을 다시 그리는 과정이 [역공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/)이다.
+- **📢 섹션 요약 비유**: 전면 재개발이 낡은 집을 부수고 새 아파트를 짓는 '재건축'이라면, 재공학은 뼈대는 살리되 배관과 인테리어를 최정보으로 바꾸는 '리모델링'이다. 이때 설계도가 없어 벽을 뜯어보며 도면을 다시 그리는 과정이 [역공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/)이다.
 
 ---
 
 다음은 소프트웨어 재공학 [역공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/)의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소프트웨어 재공학 역공학</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                  소프트웨어 재공학 역공학                               │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
+│       │                    │                    │          │
+│       ▼                    ▼                    ▼          │
+│   요구 분석           설계·적용           품질 검증        │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램은 소프트웨어 재공학 [역공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/)가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -60,25 +61,24 @@ tags = ["studynote-software-engineering"]
 | **3. 재구성 (Restructuring)**| 구조 개선 | 기능 변경 없이 코드의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 구조만 개선 (예: [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)) |
 | <strong>4. 순공학 (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/">Forward</a> Eng.)</strong> | 신규 구현 | 복원된 설계도를 바탕으로 새로운 요구사항을 추가하여 신규 시스템 개발 |
 
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                  소프트웨어 재공학의 4단계 흐름              │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│ [추상화 레벨]                                                │
+│    ▲           (2. 역공학)                  (4. 순공학)      │
+│    │    설계도 ─────────────▶ 변경된 설계도 ─────────┐        │
+│    │      ▲ (복원)                  (기능 추가)       │        │
+│    │      │                                         │ (구현) │
+│    ▼   소스코드 ──(3. 재구성)─▶ 구조 개선 코드       ▼        │
+│      (레거시 시스템)                             (신규 시스템) │
+│                                                              │
+│ └────────────── (1. 분석: 전체 상태 파악) ─────────────────┘ │
+└──────────────────────────────────────────────────────────────┘
+```
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소프트웨어 재공학의 4단계 흐름</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">추상화 레벨</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ (2. 역공학) (4. 순공학)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">설계도 ▶ 변경된 설계도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ (복원) (기능 추가)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(구현)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 소스코드 ──(3. 재구성)─▶ 구조 개선 코드 ▼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(레거시 시스템) (신규 시스템)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(1. 분석: 전체 상태 파악)</div></div>
-</div>
-</div>
-
-
-
-특히 <strong><a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/">역공학</a>(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/780_reverse_engineering/">Reverse Engineering</a>)</strong>은 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 수준에 따라 두 가지로 나뉜다.
+특히 <strong><a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/">역공학</a>(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/780_reverse_engineering/">Reverse 엔진ering</a>)</strong>은 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 수준에 따라 두 가지로 나뉜다.
 - <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a> <a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/">역공학</a></strong>: 소스코드에서 자료 흐름도([DFD](/knowledge-base/studynote/04_software_engineering/03_design_architecture/144_dfd_data_flow_diagram/)), 제어 흐름도를 추출.
 - <strong>자료 <a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/">역공학</a></strong>: 소스코드나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스에서 E-R 다이어그램, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모델을 추출.
 
@@ -147,30 +147,28 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 소프트웨어 재공학 [역공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 소프트웨어 재공학 [역공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
 | [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 소프트웨어 재공학 [역공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | 소프트웨어 재공학 [역공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
 | [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 소프트웨어 재공학 [역공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">소프트웨어 재공학 역공학 개념 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 위기 (Software Crisis) 인식
+    │
+    ▼
+소프트웨어 재공학 역공학 개념 정립
+    │
+    ▼
+표준화 및 방법론 체계화 (ISO, CMMI, Agile)
+    │
+    ▼
+클라우드 네이티브·AI 기반 확장 적용
+    │
+    ▼
+지속적 개선 및 DevOps·MLOps 통합
+```
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

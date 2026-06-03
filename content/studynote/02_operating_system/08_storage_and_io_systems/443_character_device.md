@@ -27,27 +27,29 @@ tags = ["studynote-operating-system"]
   2. **캐시의 무용지물**: 마우스 좌표를 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)(저장)해 뒀다 나중에 보는 건 아무 의미가 없다. 지금 당장 커서를 움직여야 하므로.
   3. <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/">VFS</a> 계층 분리</strong>: 리눅스는 `/dev/` 밑에 하드디스크는 `b(블록)`로, 키보드와 마우스는 `c(문자)`로 철저히 족보를 분리하여 [VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/)(가상 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템)가 멍청한 캐시 짓거리를 못 하게 락(Bypass)을 걸었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문자 장치(Character Device)의 데이터 스트림(Stream) 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">유저가 키보드로 H, E, L, L, O 를 쳤을 때의 파이프라인</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1.</div><div class="kb-diagram-node">하드웨어: 키보드 컨트롤러</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">'H' 타이핑 ──▶ 즉시 CPU에 하드웨어 인터럽트(IRQ) 빵! 발사</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2.</div><div class="kb-diagram-node">OS 커널: 문자 디바이스 드라이버</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS: "앗 인터럽트네! 키보드 큐(Queue)에 문자 1개 도착했구나!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(커널 내부의 작은 Line Discipline 큐에 'H'를 쏙 집어넣음)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3.</div><div class="kb-diagram-node">큐의 흐름 (일방통행)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">(Tail)</div><div class="kb-diagram-node">O</div><div class="kb-diagram-note">-</div><div class="kb-diagram-node">L</div><div class="kb-diagram-note">-</div><div class="kb-diagram-node">L</div><div class="kb-diagram-note">-</div><div class="kb-diagram-node">E</div><div class="kb-diagram-note">-</div><div class="kb-diagram-node">H</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">방향</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">4.</div><div class="kb-diagram-node">유저 프로그램: 터미널 창</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell"><code>scanf()</code>나 <code>read()</code>로 큐의 맨 앞(Head)부터 차례대로 빨아들임.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💥 특징: 한 번 빨아들인 'H'는 큐에서 영원히 소멸함. 다시 못 읽음!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">내가 3번째 'L'만 콕 집어서 먼저 가져가는 것 불가능(No Seek)</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────┐
+│        문자 장치(Character Device)의 데이터 스트림(Stream) 시각화      │
+├────────────────────────────────────────────────────────────────────────┤
+│                                                                        │
+│ [ 유저가 키보드로 H, E, L, L, O 를 쳤을 때의 파이프라인 ]              │
+│                                                                        │
+│ 1. [ 하드웨어: 키보드 컨트롤러 ]                                       │
+│    'H' 타이핑 ──▶ 즉시 CPU에 하드웨어 인터럽트(IRQ) 빵! 발사           │
+│                                                                        │
+│ 2. [ OS 커널: 문자 디바이스 드라이버 ]                                 │
+│    OS: "앗 인터럽트네! 키보드 큐(Queue)에 문자 1개 도착했구나!"        │
+│    (커널 내부의 작은 Line Discipline 큐에 'H'를 쏙 집어넣음)           │
+│                                                                        │
+│ 3. [ 큐의 흐름 (일방통행) ]                                            │
+│    (Tail)  [O] - [L] - [L] - [E] - [H]  (Head) ──▶ 방향                │
+│                                                                        │
+│ 4. [ 유저 프로그램: 터미널 창 ]                                        │
+│    `scanf()`나 `read()`로 큐의 맨 앞(Head)부터 차례대로 빨아들임.      │
+│    💥 특징: 한 번 빨아들인 'H'는 큐에서 영원히 소멸함. 다시 못 읽음!   │
+│            내가 3번째 'L'만 콕 집어서 먼저 가져가는 것 불가능(No Seek) │
+└────────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 문자 장치는 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))나 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)([Pipe](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/))라는 자료구조의 화신이다. 들어온 순서대로 처리되고, 처리되면 증발한다. [블록 장치](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/442_block_device/)(하드디스크)가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 "보관(Storage)"을 목적으로 한다면, 문자 장치는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 <strong>"통과(Transit)"와 "소통(Communication)"</strong>을 목적으로 디자인된 태생부터 다른 생명체다. 
 
 - **📢 섹션 요약 비유**: [블록 장치](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/442_block_device/)(하드)는 '도서관 대출 장부'처럼 내가 언제든 몇 번 책을 대출했는지 주소를 콕 집어 찾아볼 수 있는 공간입니다. 하지만 문자 장치(키보드)는 흐르는 강물에 종이배를 띄워 보내는 것과 같습니다. 강 하류(OS)에서 종이배가 흘러오는 족족 뜰채로 건져야지, 강물한테 "아까 떠내려간 첫 번째 종이배 다시 가져와!"라고 명령할 수 없는 자연의 섭리입니다.
@@ -98,17 +100,14 @@ tags = ["studynote-operating-system"]
 하드디스크 위에 떠 있는 단순한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(`.iso`)을, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부에 가짜 블록 드라이버(Loop Device, `/dev/loop0`)를 물려서 <strong>"나는 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>이 아니라 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/442_block_device/">블록 장치</a>(하드디스크)다!"</strong>라고 VFS를 완벽하게 속여버린다.
 이 꼼수 덕분에 우리는 USB에 굽지 않고도 ISO [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 윈도우/리눅스에서 가상 CD롬으로 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/)([Mount](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/))해서 클릭하며 폴더처럼 뒤져볼 수 있는 것이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장치 분류</div><div class="kb-diagram-cell">버퍼링(Buffering)</div><div class="kb-diagram-cell">주소 체계(Seek)</div><div class="kb-diagram-cell">주요 성능 병목</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블록 장치</div><div class="kb-diagram-cell">대용량 (수 MB)</div><div class="kb-diagram-cell">완벽 지원 (LBA)</div><div class="kb-diagram-cell">디스크 암 이동(Seek 렉)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문자 장치</div><div class="kb-diagram-cell">극소량 (수 Byte)</div><div class="kb-diagram-cell">절대 불가 (Stream)</div><div class="kb-diagram-cell">인터럽트 폭발(CPU 과부하)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬────────────────────────────────────────┐
+│ 장치 분류  │ 버퍼링(Buffering)│ 주소 체계(Seek)│ 주요 성능 병목             │
+├──────────┼────────────┼────────────┼────────────────────────────────────────┤
+│ 블록 장치  │ 대용량 (수 MB)│ 완벽 지원 (LBA)│ 디스크 암 이동(Seek 렉)       │
+│ 문자 장치  │ 극소량 (수 Byte)│ 절대 불가 (Stream)│ 인터럽트 폭발(CPU 과부하)│
+└──────────┴────────────┴────────────┴────────────────────────────────────────┘
+```
 **[매트릭스 해설]** 문자 장치는 하드웨어 자체가 느린 게 아니라, 그놈이 CPU를 너무 자주 괴롭혀서 시스템 전체를 느리게 만드는([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 렉) 게 문제다. 반면 [블록 장치](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/442_block_device/)는 CPU는 한가한데 지 혼자 바늘 찾느라 낑낑대는(기계적 렉) 게 문제다. 이 두 장치의 병목 지점이 완전히 대척점에 있기 때문에 OS는 이 둘의 스케줄링 코드를 완전히 찢어서 개발할 수밖에 없었다.
 
 - **📢 섹션 요약 비유**: [블록 장치](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/442_block_device/)는 느려 터진 황소 달구지입니다. 짐 싣고 가는데 하루 종일 걸려서 주인이 답답해 죽습니다. 반면 문자 장치는 초당 10번씩 짖어대는 치와와입니다. 움직이는 건 빠른데 너무 시끄럽게 짖어대서 주인이 노이로제([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 폭주)에 걸립니다.
@@ -166,19 +165,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">블록 장치</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">문자 장치 (Character Device)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">네트워크 장치 (소켓 인터페이스)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">I/O 하드웨어 인터페이스 요소</div></div>
-</div>
-</div>
-
-
+```text
+[블록 장치]
+    │
+    ▼
+[문자 장치 (Character Device)]
+    │
+    ├──▶ [네트워크 장치 (소켓 인터페이스)]
+    └──▶ [I/O 하드웨어 인터페이스 요소]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

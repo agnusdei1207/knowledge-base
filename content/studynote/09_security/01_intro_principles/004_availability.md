@@ -27,21 +27,16 @@ tags = ["security"]
 
 다음 도식은 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)을 위협하는 [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))의 문제점과 이를 해결하기 위한 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) 개념을 보여준다.
 
+```text
+[기존 구조: 단일 장애점(SPOF) 존재]
+User ──> (라우터) ──> (웹 서버) ──> [DB 서버(장애발생!)] ──> 전체 서비스 마비 (가용성 0%)
+                                        ▲ 병목 및 파괴 지점
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">기존 구조: 단일 장애점(SPOF) 존재</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">User ──&gt; (라우터) ──&gt; (웹 서버) ──&gt;</div><div class="kb-diagram-node">DB 서버(장애발생!)</div><div class="kb-diagram-note">──&gt; 전체 서비스 마비 (가용성 0%)</div></div>
-<div class="kb-diagram-note">▲ 병목 및 파괴 지점</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">가용성 확보 구조: 다중화(Redundancy) 및 부하 분산</div></div>
-<div class="kb-diagram-note">─&gt; (웹 서버 A) ─ ─&gt; (DB Primary)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">User ──&gt;</div><div class="kb-diagram-node">L4 LB</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">HA</div><div class="kb-diagram-note">─</div></div>
-<div class="kb-diagram-tree-item" style="--depth:7">(웹 서버 B) ─ ─&gt; (DB Replica) (자동 Failover 전환)</div>
-</div>
-</div>
-
-
+[가용성 확보 구조: 다중화(Redundancy) 및 부하 분산]
+               ┌─> (웹 서버 A) ─┐      ┌─> (DB Primary)
+User ──> [L4 LB]                ├─[HA]─┤
+               └─> (웹 서버 B) ─┘      └─> (DB Replica) (자동 Failover 전환)
+```
 
 이 그림의 핵심은 장애를 원천적으로 100% 막는 것은 물리적으로 불가능하므로, 시스템 구조 내에 존재하는 [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)(Single Point of Failure)을 식별하고 대체 자원(Redundancy)을 배치하여 우회 경로를 만들어야 한다는 점이다. [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 하나가 고장나면 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 동작하고, 메인 DB가 멈추면 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) DB가 즉각 승격([Failover](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/300_failover_architecture/))되어 사용자는 장애를 전혀 인지하지 못하게 만드는 것이 고가용성(HA) 설계의 핵심이다.
 
@@ -63,24 +58,21 @@ tags = ["security"]
 
 다음은 해커의 대규모 볼류메트릭(Volumetric) DDoS 공격이 발생했을 때, 방어 아키텍처가 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)을 지켜내는 순차 흐름도이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Botnet</div><div class="kb-diagram-connector">=====&gt;</div><div class="kb-diagram-note">(임계치 초과 알람)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">정상 User</div><div class="kb-diagram-note">(10Mbps 정상 요청) &gt;</div><div class="kb-diagram-node">Edge 라우터 / BGP</div></div>
-<div class="kb-diagram-note">(BGP 라우팅 우회 선언)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Scrubbing Center (DDoS 방어 센터)</div></div>
-<div class="kb-diagram-tree-item" style="--depth:1">1. 패킷 사이즈/Rate 검사 &gt; (UDP Flood, ICMP 드랍)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">2. 프로토콜 검사 &gt; (SYN Flood 방어 - SYN Cookie 적용)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">3. L7 행위 검사 &gt; (HTTP Slowloris 차단)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">정상 User 트래픽만 생존</div><div class="kb-diagram-note">&gt;</div><div class="kb-diagram-node">기업 Web Server</div><div class="kb-diagram-note">(가용성 유지 완료)</div></div>
-</div>
-</div>
-
-
+```text
+[Botnet] (100Gbps 정크 트래픽) =====>       (임계치 초과 알람)
+[정상 User] (10Mbps 정상 요청) ────>  [Edge 라우터 / BGP]
+                                             │
+   ┌─────────────────────────────────────────┘ (BGP 라우팅 우회 선언)
+   │
+   ▼
+[Scrubbing Center (DDoS 방어 센터)]
+   ├─ 1. 패킷 사이즈/Rate 검사 ────> (UDP Flood, ICMP 드랍)
+   ├─ 2. 프로토콜 검사 ────────────> (SYN Flood 방어 - SYN Cookie 적용)
+   ├─ 3. L7 행위 검사 ─────────────> (HTTP Slowloris 차단)
+   │
+   ▼
+[정상 User 트래픽만 생존] ───────> [기업 Web Server] (가용성 유지 완료)
+```
 
 이 흐름의 핵심은 기업 내부의 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이나 대역폭만으로는 수백 기가비트에 달하는 현대의 DDoS 공격을 버틸 수 없다는 점이다. 회선 자체가 가득 차버리는([Pipe](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) Saturation) 상황에서는 서버 단의 방어 로직이 의미가 없다. 따라서 실무에서는 공격 트래픽을 아예 기업망 외부의 대규모 글로벌 클라우드([스크러빙 센터](/knowledge-base/studynote/09_security/03_network_security/250_scrubbing_center/)나 [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/))로 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/)([Border Gateway Protocol](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/)) 라우팅을 우회시켜, 그곳에서 오물을 걸러낸 뒤 맑은 물(정상 트래픽)만 파이프로 들여보내는 아웃오브밴드(Out-of-band) 방어 구조를 필수적으로 채택한다.
 
@@ -94,20 +86,18 @@ tags = ["security"]
 
 <strong>1. <a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/">이중화</a> 아키텍처 모드 비교 매트릭스</strong>
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">구성 방식</div><div class="kb-diagram-cell">동작 특징 및 원리</div><div class="kb-diagram-cell">장점 / 단점</div><div class="kb-diagram-cell">실무 적용 판단</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Active-</div><div class="kb-diagram-cell">메인 시스템만 처리, 예비는</div><div class="kb-diagram-cell">구성이 단순 /</div><div class="kb-diagram-cell">데이터베이스,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Standby</div><div class="kb-diagram-cell">대기 상태. 장애 시 Failover</div><div class="kb-diagram-cell">자원 50% 낭비</div><div class="kb-diagram-cell">상태 저장 세션</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Active-</div><div class="kb-diagram-cell">모든 노드가 동시 트래픽 처리</div><div class="kb-diagram-cell">리소스 100%</div><div class="kb-diagram-cell">무상태(Stateless)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Active</div><div class="kb-diagram-cell">로드밸런서로 부하 완벽 분산</div><div class="kb-diagram-cell">활용 / DB 등</div><div class="kb-diagram-cell">웹 서버, API</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동기화 복잡함</div><div class="kb-diagram-cell">게이트웨이</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────┬─────────────────────────────┬─────────────┬───────────────┐
+│ 구성 방식  │ 동작 특징 및 원리           │ 장점 / 단점 │ 실무 적용 판단│
+├────────────┼─────────────────────────────┼─────────────┼───────────────┤
+│ Active-    │ 메인 시스템만 처리, 예비는  │ 구성이 단순 / │ 데이터베이스, │
+│ Standby    │ 대기 상태. 장애 시 Failover │ 자원 50% 낭비 │ 상태 저장 세션│
+├────────────┼─────────────────────────────┼─────────────┼───────────────┤
+│ Active-    │ 모든 노드가 동시 트래픽 처리│ 리소스 100% │ 무상태(Stateless)
+│ Active     │ 로드밸런서로 부하 완벽 분산 │ 활용 / DB 등  │ 웹 서버, API  │
+│            │                             │ 동기화 복잡함 │ 게이트웨이    │
+└────────────┴─────────────────────────────┴─────────────┴───────────────┘
+```
 
 이 매트릭스의 핵심은 Active-Active 구성이 무조건 좋은 것은 아니라는 점이다. 상태가 없는([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)) 웹 서버는 Active-Active로 쉽게 늘릴 수 있지만, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스를 Active-Active로 구성하면 양쪽에서 동시 쓰기가 발생할 때 심각한 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 충돌([무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 침해)과 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 경합 오버헤드를 유발한다. 따라서 실무에서는 프론트엔드는 Active-Active로, 백엔드 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스는 Active-Standby 구조로 혼용하여 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)과 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)의 밸런스를 맞춘다.
 
@@ -132,19 +122,14 @@ tags = ["security"]
 
 다음은 시스템 장애 시 [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/) 패턴이 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)을 방어하는 상태 전이도이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">(정상 응답률 하락 감지)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CLOSED</div><div class="kb-diagram-note">&gt;</div><div class="kb-diagram-node">OPEN</div><div class="kb-diagram-note">(요청 즉시 차단, Fallback 응답)</div></div>
-<div class="kb-diagram-note">(정상 통신)</div>
-<div class="kb-diagram-note">▲ │ (일정 시간(Timeout) 대기)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">(테스트 패킷 성공) ──</div><div class="kb-diagram-node">HALF-OPEN</div><div class="kb-diagram-note">(소량의 테스트 요청만 허용)</div></div>
-</div>
-</div>
-
-
+```text
+         (정상 응답률 하락 감지)
+[CLOSED] ───────────────────────> [OPEN] (요청 즉시 차단, Fallback 응답)
+(정상 통신)                         │
+   ▲                               │ (일정 시간(Timeout) 대기)
+   │                               ▼
+   └──────── (테스트 패킷 성공) ── [HALF-OPEN] (소량의 테스트 요청만 허용)
+```
 
 이 상태 전이도의 핵심은 "망가진 서버에 계속 채찍질을 하면 완전히 죽어버린다"는 엔지니어링 원리다. 장애가 난 백엔드 서버가 스스로 회복할 시간을 주기 위해 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이나 애플리케이션 프록시가 알아서 트래픽을 차단(OPEN)해주는 것이 역설적으로 전체 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)을 살리는 길이다. 실무에서는 이러한 [폴백](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/)([Fallback](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/)) 체계 설계 유무가 초급 아키텍처와 고급 아키텍처를 가르는 기준이 된다.
 
@@ -162,7 +147,7 @@ tags = ["security"]
 | **장애 인지 및 대응**| 고객 신고 후 수동 재부팅 (수 시간) | L4/L7 헬스체크 및 자동 [Failover](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/300_failover_architecture/) (수 초) | 무인 자동화 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 체계 실현 |
 | **보안 공격 내성** | 소규모 [DoS](/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/) 공격에도 쉽게 마비 | [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/)/Anycast로 초거대 DDoS 공격 흡수 | 외부 위협으로부터의 생존성 보장 |
 
-미래의 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 기술은 물리적 서버의 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)를 넘어 클라우드 네이티브의 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/">카오스 엔지니어링</a>(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/">Chaos Engineering</a>)</strong>과 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/">서버리스</a>(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/">Serverless</a>)</strong>로 진화하고 있다. 평상시에 일부러 서버에 장애를 발생시켜 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시스템이 정상 동작하는지 테스트(Netflix의 [Chaos Monkey](/knowledge-base/studynote/15_devops_sre/03_sre_observability/149_chaos_monkey_chaos_mesh/) 등)함으로써 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 아키텍처의 약점을 선제적으로 도출하는 것이 글로벌 표준이 되고 있다. 정보보안 기술사 관점에서 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)은 막연히 '안 끊기는 것'이 아니라, [RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/), [RPO](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/), SLA라는 명확한 정량적 수치로 설계되고 비즈니스 요구사항에 의해 비용-효익이 검증되어야 하는 구조적 영역이다.
+미래의 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 기술은 물리적 서버의 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)를 넘어 클라우드 네이티브의 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/">카오스 엔지니어링</a>(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/">Chaos 엔진ering</a>)</strong>과 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/">서버리스</a>(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/">Serverless</a>)</strong>로 진화하고 있다. 평상시에 일부러 서버에 장애를 발생시켜 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시스템이 정상 동작하는지 테스트(Netflix의 [Chaos Monkey](/knowledge-base/studynote/15_devops_sre/03_sre_observability/149_chaos_monkey_chaos_mesh/) 등)함으로써 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 아키텍처의 약점을 선제적으로 도출하는 것이 글로벌 표준이 되고 있다. 정보보안 기술사 관점에서 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)은 막연히 '안 끊기는 것'이 아니라, [RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/), [RPO](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/), SLA라는 명확한 정량적 수치로 설계되고 비즈니스 요구사항에 의해 비용-효익이 검증되어야 하는 구조적 영역이다.
 
 **📢 섹션 요약 비유**: 최고의 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)은 단순히 튼튼한 성벽을 짓는 것이 아니라, 성벽 일부가 무너져도 성 안의 사람들은 아무것도 느끼지 못한 채 벽이 스스로 수리되는 마법 같은 자가 치유(Self-Healing) 생태계를 구축하는 것입니다.
 
@@ -177,23 +162,21 @@ tags = ["security"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SPOF (Single Point of Failure)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">서킷 브레이커 (Circuit Breaker)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DDoS (Distributed Denial of Service)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">재해 복구 (Disaster Recovery)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CDN (Content Delivery Network)</div></div>
-</div>
-</div>
-
-
+```text
+[SPOF (Single Point of Failure)]
+    │
+    ▼
+[서킷 브레이커 (Circuit Breaker)]
+    │
+    ▼
+[DDoS (Distributed Denial of Service)]
+    │
+    ▼
+[재해 복구 (Disaster Recovery)]
+    │
+    ▼
+[CDN (Content Delivery Network)]
+```
 
 이 흐름도는 [SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) (Single Point of Failure)에서 출발해 [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) (Content Delivery Network)까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

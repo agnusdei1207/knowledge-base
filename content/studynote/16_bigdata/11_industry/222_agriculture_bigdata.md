@@ -41,27 +41,43 @@ tags = ["studynote-bigdata"]
 
 ### 정밀농업 [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정밀농업 빅데이터 플랫폼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 수집</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위성 영상</div><div class="kb-diagram-cell">드론 촬영</div><div class="kb-diagram-cell">IoT 센서</div><div class="kb-diagram-cell">기상청 API</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(NDVI 등)</div><div class="kb-diagram-cell">(작물 상태</div><div class="kb-diagram-cell">(토양/공기</div><div class="kb-diagram-cell">(기온/강수/일조)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공간 데이터 처리 (GIS)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 격자(Grid) 단위 매핑</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 다중 레이어 오버레이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수확량 예측 모델</div><div class="kb-diagram-cell">병해충 감지</div><div class="kb-diagram-cell">스마트 관개 제어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Random Forest /</div><div class="kb-diagram-cell">(드론 CNN)</div><div class="kb-diagram-cell">(ET 모델 + 수분</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LSTM)</div><div class="kb-diagram-cell">센서 통합)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">농가 대시보드 / 처방 지도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Variable Rate Application</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">— 구역별 비료·농약 처방)</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                  정밀농업 빅데이터 플랫폼                          │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  데이터 수집                                                      │
+│  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────────────┐   │
+│  │ 위성 영상 │ │ 드론 촬영 │ │ IoT 센서 │ │ 기상청 API       │   │
+│  │ (NDVI 등) │ │ (작물 상태│ │ (토양/공기│ │ (기온/강수/일조) │   │
+│  └─────┬────┘ └─────┬────┘ └─────┬────┘ └────────┬─────────┘   │
+│        └────────────┴────────────┴─────────────────┘            │
+│                                │                                 │
+│                                ▼                                 │
+│                 ┌──────────────────────────┐                    │
+│                 │ 공간 데이터 처리 (GIS)    │                    │
+│                 │ - 격자(Grid) 단위 매핑    │                    │
+│                 │ - 다중 레이어 오버레이    │                    │
+│                 └──────────────┬───────────┘                    │
+│                                │                                 │
+│               ┌────────────────┼─────────────────┐              │
+│               ▼                ▼                  ▼              │
+│  ┌─────────────────┐  ┌──────────────┐  ┌──────────────────┐   │
+│  │ 수확량 예측 모델  │  │ 병해충 감지  │  │ 스마트 관개 제어  │   │
+│  │ (Random Forest / │  │ (드론 CNN)   │  │ (ET 모델 + 수분   │   │
+│  │  LSTM)           │  │              │  │  센서 통합)       │   │
+│  └─────────────────┘  └──────────────┘  └──────────────────┘   │
+│               │                │                  │              │
+│               └────────────────┴─────────────────┘              │
+│                                │                                 │
+│                                ▼                                 │
+│                 ┌──────────────────────────┐                    │
+│                 │ 농가 대시보드 / 처방 지도  │                    │
+│                 │ (Variable Rate Application│                    │
+│                 │  — 구역별 비료·농약 처방) │                    │
+│                 └──────────────────────────┘                    │
+└─────────────────────────────────────────────────────────────────┘
+```
 
 ### 수확량 예측 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 구성
 
@@ -75,23 +91,20 @@ tags = ["studynote-bigdata"]
 
 ### 스마트 관개: ET 모델 기반
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">ET (Penman-Monteith 공식)</div>
-<div class="kb-diagram-note">= f(기온, 습도, 풍속, 일조, 작물 종류, 생육 단계)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">작물 필요 수분량 산출</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">실제 토양 수분 센서 값과 비교</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">관개 ON/OFF + 양 조절 자동화</div>
-<div class="kb-diagram-note">→ 물 사용량 30~50% 절감</div>
-</div>
-</div>
-
-
+```
+ET (Penman-Monteith 공식)
+  = f(기온, 습도, 풍속, 일조, 작물 종류, 생육 단계)
+      │
+      ▼
+  작물 필요 수분량 산출
+      │
+      ▼
+  실제 토양 수분 센서 값과 비교
+      │
+      ▼
+  관개 ON/OFF + 양 조절 자동화
+  → 물 사용량 30~50% 절감
+```
 
 > 📢 **섹션 요약 비유**: 스마트 관개는 "식물이 실제로 목이 마를 때만 물을 주는 것"이다. 사람이 매일 시간을 정해 물을 주는 것이 아니라, 흙과 하늘이 말해줄 때 정확히 필요한 만큼만 준다.
 
@@ -110,25 +123,23 @@ tags = ["studynote-bigdata"]
 
 ### 병해충 탐지: 드론 [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">드론 비행 (5~30m 고도)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">고해상도 RGB + 다중분광 영상 캡처</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">이미지 전처리 (정사보정, 모자이킹)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CNN 모델 (ResNet 전이학습)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">병 종류 분류 (잎마름병, 탄저병 등)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">발생 위치 매핑 (GPS 좌표)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">처방 지도 생성 → 구역별 농약 처방</div>
-</div>
-</div>
-
-
+```
+드론 비행 (5~30m 고도)
+      │
+      ▼
+고해상도 RGB + 다중분광 영상 캡처
+      │
+      ▼
+이미지 전처리 (정사보정, 모자이킹)
+      │
+      ▼
+CNN 모델 (ResNet 전이학습)
+  - 병 종류 분류 (잎마름병, 탄저병 등)
+  - 발생 위치 매핑 (GPS 좌표)
+      │
+      ▼
+처방 지도 생성 → 구역별 농약 처방
+```
 
 > 📢 **섹션 요약 비유**: 드론으로 병해충을 탐지하는 것은 "의사가 드론을 타고 밭 전체를 빠르게 검진하는 것"이다. 아픈 잎이 있는 구역만 치료하니 약도 줄고, 환경도 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)된다.
 
@@ -182,23 +193,21 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">전통 농업</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스마트 농업(정밀농업)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IoT 센서 데이터 수집</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">빅데이터 분석(작황 예측)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AI 자동화 농업</div></div>
-</div>
-</div>
-
-
+```text
+[전통 농업]
+    │
+    ▼
+[스마트 농업(정밀농업)]
+    │
+    ▼
+[IoT 센서 데이터 수집]
+    │
+    ▼
+[빅데이터 분석(작황 예측)]
+    │
+    ▼
+[AI 자동화 농업]
+```
 
 농업 빅데이터는 전통 농업에서 스마트 농업과 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/), [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 자동화로 발전한다.
 

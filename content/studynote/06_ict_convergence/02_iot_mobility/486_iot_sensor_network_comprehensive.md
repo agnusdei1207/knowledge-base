@@ -38,24 +38,24 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IoT 3계층 아키텍처 및 무선 기술 분류</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">디바이스 계층</div><div class="kb-diagram-note">센서 노드 (MCU + 센서 + 무선 모듈)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WPAN(ZigBee/BLE, ~10m)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WLAN(Wi-Fi, ~100m, 고속)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LPWAN(LoRa/NB-IoT, ~수km, 저전력)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 계층</div><div class="kb-diagram-note">게이트웨이 / 싱크 노드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인터넷(IP 백홀)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">플랫폼 계층</div><div class="kb-diagram-note">IoT 플랫폼 (수집·저장·분석·API)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대시보드 / 응용 서비스</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">응용 계층</div><div class="kb-diagram-note">스마트팩토리 / 스마트시티 / 헬스케어</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────┐
+│            IoT 3계층 아키텍처 및 무선 기술 분류             │
+├─────────────────────────────────────────────────────────┤
+│  [디바이스 계층]  센서 노드 (MCU + 센서 + 무선 모듈)         │
+│      │  WPAN(ZigBee/BLE, ~10m)                         │
+│      │  WLAN(Wi-Fi, ~100m, 고속)                        │
+│      │  LPWAN(LoRa/NB-IoT, ~수km, 저전력)               │
+│      ▼                                                  │
+│  [네트워크 계층]  게이트웨이 / 싱크 노드                     │
+│      │  인터넷(IP 백홀)                                   │
+│      ▼                                                  │
+│  [플랫폼 계층]   IoT 플랫폼 (수집·저장·분석·API)             │
+│      │  대시보드 / 응용 서비스                              │
+│      ▼                                                  │
+│  [응용 계층]    스마트팩토리 / 스마트시티 / 헬스케어            │
+└─────────────────────────────────────────────────────────┘
+```
 
 ### 무선 기술 비교표
 

@@ -23,18 +23,15 @@ Prime+Probe는 세트 연관 캐시 (Set-associative Cache)의 “자리 경쟁�
 
 이 기법이 중요한 이유는 전제 조건이 약하기 때문이다. Flush+Reload처럼 공유 라이브러리나 중복 제거된 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 없어도, 같은 LLC만 공유하면 공격을 시도할 수 있다. 그래서 [멀티테넌트](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/310_multi_tenant_database_architecture/) 클라우드, 브라우저 샌드박스, [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 환경에서 “메모리를 직접 공유하지 않으니 안전하다”는 가정을 깨뜨린다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Prime -&gt; Victim -&gt; Probe</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Set S before :</div><div class="kb-diagram-node">A</div><div class="kb-diagram-node">B</div><div class="kb-diagram-node">C</div><div class="kb-diagram-node">D</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Victim uses S :</div><div class="kb-diagram-node">A</div><div class="kb-diagram-node">V</div><div class="kb-diagram-node">C</div><div class="kb-diagram-node">D</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Probe result : B is slow =&gt; victim touched set S</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ Prime -> Victim -> Probe                                    │
+├──────────────────────────────────────────────────────────────┤
+│ Set S before : [A][B][C][D]                                 │
+│ Victim uses S : [A][V][C][D]                                │
+│ Probe result  : B is slow => victim touched set S           │
+└──────────────────────────────────────────────────────────────┘
+```
 
 핵심은 “무엇을 읽었는가”를 직접 보는 것이 아니라 “내 자리가 밀려났는가”를 보는 것이다. 따라서 Prime+Probe는 간접적이지만 적용 범위가 넓은 공격으로 이해해야 한다.
 
@@ -54,20 +51,17 @@ Prime+Probe는 세트 연관 캐시 (Set-associative Cache)의 “자리 경쟁�
 | Eviction Set | 같은 세트에 매핑된 주소 묶음 | 공격 정밀도의 핵심 |
 | 임계값 (Threshold) | [hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/)/miss 구분 시간 | probe 결과 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 기준 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Congruent addresses map to one set</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">addr A -&gt; Set 42 / Way *</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">addr B -&gt; Set 42 / Way *</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">addr C -&gt; Set 42 / Way *</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">victim access fills one way -&gt; attacker line gets evicted</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ Congruent addresses map to one set                          │
+├──────────────────────────────────────────────────────────────┤
+│ addr A -> Set 42 / Way *                                    │
+│ addr B -> Set 42 / Way *                                    │
+│ addr C -> Set 42 / Way *                                    │
+│ ...                                                         │
+│ victim access fills one way -> attacker line gets evicted   │
+└──────────────────────────────────────────────────────────────┘
+```
 
 실전에서 가장 어려운 단계는 probe가 아니라 eviction set을 찾는 일이다. L1, L2는 주소 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 구조가 비교적 단순하지만, LLC는 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/) 해시와 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/) 의존성이 섞여 있어 역공학이 필요하다. 또한 교체 정책이 완전한 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) ([Least Recently Used](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/))가 아니기 때문에, 공격자는 보통 way 수와 비슷하거나 그보다 많은 주소를 준비하고 수천 번 측정해 통계적으로 세트 사용 패턴을 복구한다.
 
@@ -143,25 +137,24 @@ Prime+Probe를 고려한 시스템은 단순히 암호 [모듈](/knowledge-base/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">공유 캐시 구조</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Set Associativity</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Congruent Address · Eviction Set</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Prime -&gt; Victim Access -&gt; Probe</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Statistical Key Inference</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CAT · Page Coloring · Core Isolation</div>
-</div>
-</div>
-
-
+```text
+공유 캐시 구조
+  │
+  ▼
+Set Associativity
+  │
+  ▼
+Congruent Address · Eviction Set
+  │
+  ▼
+Prime -> Victim Access -> Probe
+  │
+  ▼
+Statistical Key Inference
+  │
+  ▼
+CAT · Page Coloring · Core Isolation
+```
 
 이 흐름은 “자리 경쟁의 관측 → 반복 분석 → 자원 격리 방어”라는 Prime+Probe의 핵심 논리를 보여준다.
 

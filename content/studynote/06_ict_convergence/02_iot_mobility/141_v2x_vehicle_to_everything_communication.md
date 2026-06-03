@@ -47,17 +47,11 @@ V2X는 <strong>자율주행의 비가시 정보 보완 핵심</strong>이며, [C
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DSRC (802.11p, 2010)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">C-V2X (3GPP, 2017)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">5G NR V2X (2020)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">인프라(RSU) 구축</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: 6G V2X — 초저지연·초신뢰</div></div>
-</div>
-</div>
-
-
+```text
+[DSRC (802.11p, 2010)] → [C-V2X (3GPP, 2017)]
+    → [5G NR V2X (2020)] → [인프라(RSU) 구축]
+    → [현재: 6G V2X — 초저지연·초신뢰]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. V2X는 차의 <strong>무전기</strong>예요. 다른 차·신호등과 <strong>대화</strong>해요.

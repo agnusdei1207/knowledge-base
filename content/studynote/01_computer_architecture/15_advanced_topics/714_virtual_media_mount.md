@@ -51,25 +51,25 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 그대로 복사되는 것이 아니라, BMC가 중간에서 "읽을 수 있는 부팅 장치"를 흉내 내는 구조를 나타낸다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Admin PC / Image Repository</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ISO / IMG</div></div>
-<div class="kb-diagram-note">HTTPS / CIFS / NFS</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BMC</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Image Cache / Remote Share Client</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Virtual USB-CD Emulation</div></div>
-<div class="kb-diagram-note">USB Mass Storage / Virtual CD-ROM</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Host Server</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BIOS / UEFI ▶ Boot Manager ▶ Installer / Rescue Environment</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│ Admin PC / Image Repository                                               │
+│  ISO / IMG                                                                │
+└───────────────┬────────────────────────────────────────────────────────────┘
+                │ HTTPS / CIFS / NFS
+                ▼
+┌────────────────────────────────────────────────────────────────────────────┐
+│ BMC                                                                        │
+│  Image Cache / Remote Share Client                                         │
+│  Virtual USB-CD Emulation                                                  │
+└───────────────┬────────────────────────────────────────────────────────────┘
+                │ USB Mass Storage / Virtual CD-ROM
+                ▼
+┌────────────────────────────────────────────────────────────────────────────┐
+│ Host Server                                                                │
+│  BIOS / UEFI ─────▶ Boot Manager ─────▶ Installer / Rescue Environment     │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 중요한 실무 포인트는 설치 ISO가 항상 한 번에 통째로 복사되는 것이 아니라, 호스트가 읽는 블록을 BMC가 순차적으로 제공하는 경우가 많다는 점이다. 그래서 관리망이 불안정하거나 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)이 끊기면 설치 중간에 읽기 오류가 날 수 있다. 즉 원격 미디어는 편리하지만, 로컬 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) ([Solid State Drive](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))처럼 완전히 독립적인 저장장치와 동일하다고 보면 안 된다.
 
@@ -148,24 +148,22 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Physical USB / DVD</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Local Crash Cart Install</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">BMC-based Virtual Media</div>
-<div class="kb-diagram-tree-item" style="--depth:3">▶ Remote OS Install</div>
-<div class="kb-diagram-tree-item" style="--depth:3">▶ Rescue / Firmware Boot</div>
-<div class="kb-diagram-tree-item" style="--depth:3">▶ KVM-assisted Recovery</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">API (Application Programming Interface)-driven Bare-metal Provisioning + PXE</div>
-</div>
-</div>
-
-
+```text
+Physical USB / DVD
+      │
+      ▼
+Local Crash Cart Install
+      │
+      ▼
+BMC-based Virtual Media
+      │
+      ├──▶ Remote OS Install
+      ├──▶ Rescue / Firmware Boot
+      └──▶ KVM-assisted Recovery
+      │
+      ▼
+API (Application Programming Interface)-driven Bare-metal Provisioning + PXE
+```
 
 이 흐름은 설치 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)가 사람 손의 물리 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)에서 원격 가상 장치와 자동화 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/)으로 확장되는 과정을 보여준다.
 

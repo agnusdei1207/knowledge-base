@@ -27,30 +27,30 @@ tags = ["studynote-operating-system"]
   2. <strong>하드웨어(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/">MMU</a>)의 최소 지원 합의</strong>: 인텔 등 CPU 벤더가 OS에게 타협을 제안했다. "무거운 시계는 못 넣어주겠고, 대신 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)(PTE) 남는 자리에 1비트짜리 <strong><a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">Reference</a> <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/">Bit</a>(<a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a> <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>)</strong> 달아줄게. 네가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 읽을 때마다 하드웨어적으로 1로 세팅만 해줄 테니까 나머지는 OS 네가 알아서 써라."
   3. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/012_approximation_algorithm/">근사 알고리즘</a>의 탄생</strong>: OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 이 1비트를 가지고 8비트 히스토리를 만들거나([Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/)), 시곗바늘을 돌리는([Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/)) 등 눈물겨운 소프트웨어적 기교를 부리며 가짜 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/)(Pseudo-[LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/)) 생태계를 개척해 냈다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">순수 LRU와 LRU 근사 알고리즘(1비트)의 교체 타겟 선정 차이</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">램에 4개의 페이지(A, B, C, D)가 꽉 찬 상태</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1. 순수 LRU의 매의 눈 (정확도 100%, 비용 100%)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- A: 13시 05분 10초에 마지막 사용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- B: 13시 02분 00초에 마지막 사용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- C: 12시 50분 30초에 마지막 사용 ◀ (가장 오래됨. 무조건 너 당첨!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- D: 13시 06분 20초에 마지막 사용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 매 순간 이 시간을 정렬하고 비교하는 끔찍한 오버헤드 발생.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2. LRU 근사의 대충 눈대중 (정확도 80%, 비용 1%)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 하드웨어가 읽을 때마다 R비트를 1로 켜둠. OS가 주기적으로 0으로 끔.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- A: R = 1 (아 방금 썼네)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- B: R = 0 (최근에 안 썼네) ◀ 당첨! (C가 더 오래됐지만 알 바 아님)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- C: R = 0 (최근에 안 썼네) ◀ 당첨!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- D: R = 1 (아 방금 썼네)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; OS는 B와 C 중 그냥 눈에 먼저 띄는 B를 쫓아냄. 가장 늙은 놈을</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고르진 못했지만, 최소한 최근에 쓴 A와 D를 쫓아내는 짓은 완벽 방어함!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│        순수 LRU와 LRU 근사 알고리즘(1비트)의 교체 타겟 선정 차이        │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│ [ 램에 4개의 페이지(A, B, C, D)가 꽉 찬 상태 ]                          │
+│                                                                         │
+│ ▶ 1. 순수 LRU의 매의 눈 (정확도 100%, 비용 100%)                        │
+│  - A: 13시 05분 10초에 마지막 사용                                      │
+│  - B: 13시 02분 00초에 마지막 사용                                      │
+│  - C: 12시 50분 30초에 마지막 사용 ◀ (가장 오래됨. 무조건 너 당첨!)     │
+│  - D: 13시 06분 20초에 마지막 사용                                      │
+│  => 매 순간 이 시간을 정렬하고 비교하는 끔찍한 오버헤드 발생.           │
+│                                                                         │
+│ ▶ 2. LRU 근사의 대충 눈대중 (정확도 80%, 비용 1%)                       │
+│  - 하드웨어가 읽을 때마다 R비트를 1로 켜둠. OS가 주기적으로 0으로 끔.   │
+│  - A: R = 1 (아 방금 썼네)                                              │
+│  - B: R = 0 (최근에 안 썼네) ◀ 당첨! (C가 더 오래됐지만 알 바 아님)     │
+│  - C: R = 0 (최근에 안 썼네) ◀ 당첨!                                    │
+│  - D: R = 1 (아 방금 썼네)                                              │
+│  => OS는 B와 C 중 그냥 눈에 먼저 띄는 B를 쫓아냄. 가장 늙은 놈을        │
+│     고르진 못했지만, 최소한 최근에 쓴 A와 D를 쫓아내는 짓은 완벽 방어함!│
+└─────────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) 근사의 철학은 "베스트(최적의 1놈)를 찾는 게 아니라, 워스트(최근에 쓴 놈)를 피하는 것"이다. B를 쫓아내든 C를 쫓아내든, 어차피 둘 다 '최근에 버림받은 쓰레기'라는 사실은 변함이 없기 때문에 통계적으로 보면 최종 [Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/) 횟수에서 순수 LRU와 고작 1~2%밖에 차이가 나지 않는 기적이 일어난다. 비용은 1/100인데 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 98%인 궁극의 가성비다.
 
 - **📢 섹션 요약 비유**: 시험에서 1등부터 100등까지 완벽하게 등수를 매기는 것(순수 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/))은 채점 시간이 너무 오래 걸립니다. 그래서 그냥 60점 이상은 패스(R=1), 60점 미만은 과락(R=0)으로 두 그룹만 나눈 뒤, 과락 맞은 애들 중 아무나 무작위로 퇴학시키는([LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) 근사) 절대평가 시스템입니다.
@@ -73,27 +73,28 @@ tags = ["studynote-operating-system"]
 
 "1비트(0과 1)만으로는 누가 더 오래된 쓰레기인지 알기 힘들다"며 아쉬워한 공학자들이 고안한 소프트웨어적 확장([Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/)) 기법이다. ([에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 뼈대다).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">8비트 시프트(Shift) 연산을 통한 과거 추적 시뮬레이션</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">원리: OS가 페이지마다 8비트(1 Byte)짜리 히스토리 변수를 소프트웨어로 만듦</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 타이머 인터럽트(0.1초)마다, 하드웨어의 1비트짜리 R비트 값을 읽어옴.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 그 R비트 값을 내 8비트 히스토리의 '맨 왼쪽(MSB)'에 끼워 넣고,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기존 비트들은 오른쪽으로 한 칸씩 밈 (Right Shift 연산).</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 하드웨어 R비트는 다시 0으로 클리어.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">0.5초 경과 후의 두 페이지 히스토리 상태 비교</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 페이지 A: <code>1 1 0 0 0 0 0 0</code> (십진수 192)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 페이지 B: <code>0 0 0 1 1 1 1 1</code> (십진수 31)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ OS의 냉혹한 판정:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"A는 옛날엔 안 썼지만 최근 0.2초 동안 연속으로 쓰였다 (MSB가 11). 생존!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"B는 옛날엔 미친 듯이 썼지만, 최근 0.3초 동안 완전히 버림받았다. 처형!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(십진수 숫자가 작을수록 오랫동안 안 쓰인 놈이므로 정수로 비교해버리면 끝)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────────┐
+│              8비트 시프트(Shift) 연산을 통한 과거 추적 시뮬레이션            │
+├──────────────────────────────────────────────────────────────────────────────┤
+│                                                                              │
+│ [ 원리: OS가 페이지마다 8비트(1 Byte)짜리 히스토리 변수를 소프트웨어로 만듦 ]│
+│                                                                              │
+│ 1. 타이머 인터럽트(0.1초)마다, 하드웨어의 1비트짜리 R비트 값을 읽어옴.       │
+│ 2. 그 R비트 값을 내 8비트 히스토리의 '맨 왼쪽(MSB)'에 끼워 넣고,             │
+│    기존 비트들은 오른쪽으로 한 칸씩 밈 (Right Shift 연산).                   │
+│ 3. 하드웨어 R비트는 다시 0으로 클리어.                                       │
+│                                                                              │
+│ [ 0.5초 경과 후의 두 페이지 히스토리 상태 비교 ]                             │
+│ ▶ 페이지 A: `1 1 0 0 0 0 0 0` (십진수 192)                                   │
+│ ▶ 페이지 B: `0 0 0 1 1 1 1 1` (십진수 31)                                    │
+│                                                                              │
+│ ✅ OS의 냉혹한 판정:                                                         │
+│ "A는 옛날엔 안 썼지만 최근 0.2초 동안 연속으로 쓰였다 (MSB가 11). 생존!"     │
+│ "B는 옛날엔 미친 듯이 썼지만, 최근 0.3초 동안 완전히 버림받았다. 처형!"      │
+│ (십진수 숫자가 작을수록 오랫동안 안 쓰인 놈이므로 정수로 비교해버리면 끝)    │
+└──────────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 하드웨어는 단 1비트만 지원하지만, OS 소프트웨어가 주기적인 시프트(>> 1) 연산을 통해 과거 8틱([Tick](/knowledge-base/studynote/02_operating_system/01_overview_architecture/073_tick_jiffies/)) 동안의 역사를 완벽하게 복원해 내는 천재적인 기법이다. 순수 LRU처럼 무거운 시계를 쓰지 않고도, 8비트 정수(Integer) 값 하나만 대소 비교하여 가장 '[LFU](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/)+[LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/)'에 가까운 이상적인 희생양을 찾아낸다.
 
@@ -170,19 +171,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">LRU (Least Recently Used) 교체</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LRU 근사 알고리즘 (LRU Approximation)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">2차 기회 알고리즘 (Second-Chance / Clock Algorithm)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">개선된 2차 기회 알고리즘</div></div>
-</div>
-</div>
-
-
+```text
+[LRU (Least Recently Used) 교체]
+    │
+    ▼
+[LRU 근사 알고리즘 (LRU Approximation)]
+    │
+    ├──▶ [2차 기회 알고리즘 (Second-Chance / Clock Algorithm)]
+    └──▶ [개선된 2차 기회 알고리즘]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

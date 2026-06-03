@@ -27,26 +27,24 @@ IT [균형 성과 기록표](/knowledge-base/studynote/12_it_management/01_gover
 
 IT BSC는 이 거대한 소통의 단절을 끊어내기 위해 탄생했다. IT 조직의 내부적인 기술 활동이 어떻게 현업 사용자(고객)를 만족시키고, 궁극적으로 기업의 재무적 수익(기업 공헌)으로 직결되는지를 비즈니스 언어로 통역해 주는 '번역기(Translator)' 역할을 수행한다.
 
+```text
+[IT 조직의 정체성 위기와 IT BSC를 통한 해결 구조]
 
+(과거의 단절된 구조: IT를 비용 부서로 인식)
+[ 최고 경영진 (C-Level) ]  ◀── (언어의 장벽) ──▶ [ IT 개발/운영 부서 ]
+ "IT 투자가 돈 낭비 같다"                         "우리는 밤새워 서버를 지켰다"
+ (관심사: ROI, 매출, 혁신)                         (관심사: CPU, Ping, 트래픽)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">IT 조직의 정체성 위기와 IT BSC를 통한 해결 구조</div></div>
-<div class="kb-diagram-note">(과거의 단절된 구조: IT를 비용 부서로 인식)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">최고 경영진 (C-Level)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">IT 개발/운영 부서</div></div>
-<div class="kb-diagram-note">"IT 투자가 돈 낭비 같다" "우리는 밤새워 서버를 지켰다"</div>
-<div class="kb-diagram-note">(관심사: ROI, 매출, 혁신) (관심사: CPU, Ping, 트래픽)</div>
-<div class="kb-diagram-note">(IT BSC를 통한 비즈니스 동기화 모델)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">최고 경영진의 비전: "모바일 매출 30% 증대"</div></div>
-<div class="kb-diagram-note">(Top-Down 전략 지시)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">기업 공헌 관점</div><div class="kb-diagram-note">: "전자결제 시스템의 처리량 2배 확충으로 매출 손실 방어" (비즈니스 언어화)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">운영/사용자 관점</div><div class="kb-diagram-note">: "클라우드 오토스케일링 도입, 현업 부서의 요구사항 처리 시간 단축"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IT 실무 (엔지니어)</div><div class="kb-diagram-note">: "Kubernetes Pod 자동 확장 정책 설정 완료" (기술적 실행)</div></div>
-</div>
-</div>
-
-
+(IT BSC를 통한 비즈니스 동기화 모델)
+[ 최고 경영진의 비전: "모바일 매출 30% 증대" ]
+          │ (Top-Down 전략 지시)
+          ▼
+[ 기업 공헌 관점 ]  : "전자결제 시스템의 처리량 2배 확충으로 매출 손실 방어" (비즈니스 언어화)
+          │
+[ 운영/사용자 관점 ]: "클라우드 오토스케일링 도입, 현업 부서의 요구사항 처리 시간 단축"
+          │
+[ IT 실무 (엔지니어) ]: "Kubernetes Pod 자동 확장 정책 설정 완료" (기술적 실행)
+```
 
 이 구조도의 핵심은 IT 엔지니어의 코딩 한 줄이나 서버 증설 작업이 무의미한 지출이 아니라, 경영진이 그토록 바라는 비즈니스 목표(매출 증대)를 달성하기 위한 가장 밑단의 필수 블록임을 명확히 증명(Justification)한다는 데 있다.
 
@@ -67,29 +65,24 @@ IT BSC는 전사 BSC의 4대 관점을 IT 조직의 생태계에 맞게 1:1로 �
 
 IT [BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/) 아키텍처의 작동 원리는 단순히 4개의 표를 채우는 것이 아니라, 이들 간의 인과관계([전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 맵)를 증명하는 데 있다. 아래의 흐름도는 가장 아래의 '미래 지향(원인)'에서 '기업 공헌(결과)'으로 올라가는 가치 창출 경로를 보여준다.
 
+```text
+[IT BSC 관점 간 가치 창출 인과관계 흐름도 (Cause-and-Effect Chain)]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">IT BSC 관점 간 가치 창출 인과관계 흐름도 (Cause-and-Effect Chain)</div></div>
-<div class="kb-diagram-note">(4) 미래 지향 관점 (씨앗 뿌리기)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">"개발자들에게 최신 MSA(마이크로서비스) 구조 교육을 100시간 실시한다"</div></div>
-<div class="kb-diagram-note">(이 투자를 통해 내부 프로세스가 혁신됨)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">(3) 운영 탁월성 관점 (줄기 키우기)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">"거대한 모놀리식 시스템을 작게 쪼개어, 신규 기능 배포 리드타임을 30% 단축한다"</div></div>
-<div class="kb-diagram-note">(프로세스가 빨라지니 사용자가 감동함)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">(2) 사용자 지향 관점 (꽃 피우기)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">"마케팅 부서가 요구한 타겟팅 이벤트 앱을 제때 만들어주어 현업 만족도를 95점으로 올린다"</div></div>
-<div class="kb-diagram-note">(사용자가 만족하고 시장에 제때 출시되니 돈을 범)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">(1) 기업 공헌 관점 (열매 수확)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">"신속한 앱 출시 덕분에 경쟁사보다 시장을 선점하여 1분기 전자상거래 매출을 20% 높인다"</div></div>
-</div>
-</div>
-
-
+(4) 미래 지향 관점 (씨앗 뿌리기)
+    [ "개발자들에게 최신 MSA(마이크로서비스) 구조 교육을 100시간 실시한다" ]
+         │ (이 투자를 통해 내부 프로세스가 혁신됨)
+         ▼
+(3) 운영 탁월성 관점 (줄기 키우기)
+    [ "거대한 모놀리식 시스템을 작게 쪼개어, 신규 기능 배포 리드타임을 30% 단축한다" ]
+         │ (프로세스가 빨라지니 사용자가 감동함)
+         ▼
+(2) 사용자 지향 관점 (꽃 피우기)
+    [ "마케팅 부서가 요구한 타겟팅 이벤트 앱을 제때 만들어주어 현업 만족도를 95점으로 올린다" ]
+         │ (사용자가 만족하고 시장에 제때 출시되니 돈을 범)
+         ▼
+(1) 기업 공헌 관점 (열매 수확)
+    [ "신속한 앱 출시 덕분에 경쟁사보다 시장을 선점하여 1분기 전자상거래 매출을 20% 높인다" ]
+```
 
 이 흐름도에서 알 수 있듯, IT 부서의 교육 예산 삭감(미래 지향 포기)은 당장 내일 표가 나진 않지만 결국 운영 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(3)과 현업 불만(2)을 거쳐 최종적으로 회사 매출 하락(1)이라는 치명적 결과로 이어진다. IT BSC는 바로 이 논리적 연결 고리를 가시화하여, IT 예산 삭감을 막아내는 가장 논리적인 방패가 된다.
 
@@ -112,26 +105,26 @@ IT BSC는 독립된 섬이 아니다. 이는 반드시 기업 전체를 관장�
 
 아래의 비교 상태도는 단순히 IT 시스템 내부만 관리하던 과거의 [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000_itsm_certification/) 도구와, 비즈니스 가치까지 연결하는 IT [BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/) 간의 시각 차이를 보여준다.
 
+```text
+[전통적 ITSM vs IT BSC 관리 지표의 포커스 이동]
 
+(전통적 IT 관리 : IT 부서 내부에만 갇힌 매트릭스)
+┌─────────────────────────┐
+│ Server Uptime: 99.9%    │ -> "서버는 안 죽었는데, 현업은 신규 기능이 늦는다고 불만"
+│ Network Ping: 20ms      │ -> "네트워크는 빠른데, 그 위로 흐르는 앱 매출은 감소"
+│ Patch Level: 100%       │
+└─────────────────────────┘
+        ▼ (시야 확장 및 정렬의 필요성 대두)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">전통적 ITSM vs IT BSC 관리 지표의 포커스 이동</div></div>
-<div class="kb-diagram-note">(전통적 IT 관리 : IT 부서 내부에만 갇힌 매트릭스)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Server Uptime: 99.9%</div><div class="kb-diagram-cell">-&gt; "서버는 안 죽었는데, 현업은 신규 기능이 늦는다고 불만"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Network Ping: 20ms</div><div class="kb-diagram-cell">-&gt; "네트워크는 빠른데, 그 위로 흐르는 앱 매출은 감소"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Patch Level: 100%</div></div>
-<div class="kb-diagram-note">▼ (시야 확장 및 정렬의 필요성 대두)</div>
-<div class="kb-diagram-note">(IT BSC : 비즈니스와 정렬된 하이브리드 매트릭스)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">결과</div><div class="kb-diagram-note">기업 재무 공헌도 (IT ROI 120% 달성)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비즈니스 관점 연계 지표</div><div class="kb-diagram-cell">▲</div></div>
-<div class="kb-diagram-tree-item" style="--depth:0">│ (지원)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 체감 가용성 지표</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인프라/보안 통제 지표</div><div class="kb-diagram-cell">(운영 탁월성)</div></div>
-</div>
-</div>
-
-
+(IT BSC : 비즈니스와 정렬된 하이브리드 매트릭스)
+┌─────────────────────────┐   [결과] 기업 재무 공헌도 (IT ROI 120% 달성)
+│ 비즈니스 관점 연계 지표 │     ▲
+├─────────────────────────┤     │ (지원)
+│ 사용자 체감 가용성 지표 │ ────┘
+├─────────────────────────┤
+│ 인프라/보안 통제 지표   │ (운영 탁월성)
+└─────────────────────────┘
+```
 
 [ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/) 중심의 전통적 ITSM이 IT [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 '운영 안정성(프로세스 관점)'에만 극도로 치우쳐 있다면, IT BSC는 이 안정성이 '고객과 재무'에 어떤 영향을 미치는지 양방향으로 평가한다는 점에서 한 차원 높은 거버넌스 도구이다.
 
@@ -145,28 +138,23 @@ IT BSC는 독립된 섬이 아니다. 이는 반드시 기업 전체를 관장�
 
 <strong>실무 의사결정 및 IT <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/">BSC</a> 도입 플로우</strong>
 
+```text
+[비즈니스 정렬을 위한 IT BSC 구축 의사결정 트리]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">비즈니스 정렬을 위한 IT BSC 구축 의사결정 트리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1.</div><div class="kb-diagram-node">전사 전략 분석</div><div class="kb-diagram-note">: 경영진의 올해 핵심 과제(예: "글로벌 시장 진출") 분석</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2.</div><div class="kb-diagram-node">비즈니스 리더 인터뷰</div><div class="kb-diagram-note">: "글로벌 진출을 위해 IT가 무엇을 제일 잘해줘야 합니까?"</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3.</div><div class="kb-diagram-node">IT 전략 수립</div><div class="kb-diagram-note">: 글로벌 통합 인프라 구축 및 24시간(Follow-the-Sun) 무중단 지원</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">4.</div><div class="kb-diagram-node">IT 관점별 KPI 할당</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">-</div><div class="kb-diagram-node">공헌</div><div class="kb-diagram-note">다국어 지원 시스템 구축 완료에 따른 해외 지사 매출 기여</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">-</div><div class="kb-diagram-node">사용자</div><div class="kb-diagram-note">해외 지사 현지어 헬프데스크 만족도 90점</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">-</div><div class="kb-diagram-node">운영</div><div class="kb-diagram-note">글로벌 CDN 엣지 노드 응답 지연율 50ms 이내 보장</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">-</div><div class="kb-diagram-node">미래</div><div class="kb-diagram-note">글로벌 컴플라이언스(GDPR 등) 준수를 위한 인력 교육</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">5.</div><div class="kb-diagram-node">IT-비즈니스 얼라인먼트 위원회</div><div class="kb-diagram-note">: 지표 합의 및 예산 확정 (거버넌스 통제)</div></div>
-</div>
-</div>
-
-
+1. [전사 전략 분석] : 경영진의 올해 핵심 과제(예: "글로벌 시장 진출") 분석
+      ↓
+2. [비즈니스 리더 인터뷰] : "글로벌 진출을 위해 IT가 무엇을 제일 잘해줘야 합니까?"
+      ↓
+3. [IT 전략 수립] : 글로벌 통합 인프라 구축 및 24시간(Follow-the-Sun) 무중단 지원
+      ↓
+4. [IT 관점별 KPI 할당] 
+    - [공헌] 다국어 지원 시스템 구축 완료에 따른 해외 지사 매출 기여
+    - [사용자] 해외 지사 현지어 헬프데스크 만족도 90점
+    - [운영] 글로벌 CDN 엣지 노드 응답 지연율 50ms 이내 보장
+    - [미래] 글로벌 컴플라이언스(GDPR 등) 준수를 위한 인력 교육
+      ↓
+5. [IT-비즈니스 얼라인먼트 위원회] : 지표 합의 및 예산 확정 (거버넌스 통제)
+```
 
 <strong>실무 도입 및 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong>
 1. **기술적 판단**: '운영 탁월성' 지표에 클라우드 자동화율, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 배포 빈도 같은 최신 기술 지표가 반영되어 있는가? (단순히 고장 안 나는 것을 넘어, 얼마나 기민하게([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) 움직이는지가 현대 IT의 핵심이다.)
@@ -203,23 +191,21 @@ IT BSC의 성공적인 정착은 IT 조직이 수동적인 '지원 부서'에서
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">비즈니스 전략 수립 (경영진 Vision/Mission)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IT 전략 연계 (IT-Business Alignment)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IT BSC — 기업 공헌·고객·내부 프로세스·미래 학습 4관점 지표 측정</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">COBIT (Control Objectives for IT) — IT 거버넌스 통제 프레임워크 연동</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IT ROI 측정 — 투자 대비 비즈니스 가치 정량화 및 피드백</div></div>
-</div>
-</div>
-
-
+```text
+[비즈니스 전략 수립 (경영진 Vision/Mission)]
+    │
+    ▼
+[IT 전략 연계 (IT-Business Alignment)]
+    │
+    ▼
+[IT BSC — 기업 공헌·고객·내부 프로세스·미래 학습 4관점 지표 측정]
+    │
+    ▼
+[COBIT (Control Objectives for IT) — IT 거버넌스 통제 프레임워크 연동]
+    │
+    ▼
+[IT ROI 측정 — 투자 대비 비즈니스 가치 정량화 및 피드백]
+```
 IT BSC는 비즈니스 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 IT [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 연계에서 출발하여 4관점 KPI로 성과를 측정하고, [COBIT](/knowledge-base/studynote/12_it_management/01_governance_strategy/004_cobit/) 프레임워크와 연동해 IT 거버넌스를 완성한다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

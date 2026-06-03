@@ -18,31 +18,29 @@ tags = ["studynote-security"]
 
 ## I. 위험 가시성 스펙트럼
 
+```
+위험 가시성 분류:
 
+알려진 알려진 것 (Known Known):
+  식별되고 이미 대응 중
+  예: CVE에 등록된 취약점 (패치 적용 중)
+  -> 잔여 위험으로 관리
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">위험 가시성 분류:</div>
-<div class="kb-diagram-note">알려진 알려진 것 (Known Known):</div>
-<div class="kb-diagram-note">식별되고 이미 대응 중</div>
-<div class="kb-diagram-note">예: CVE에 등록된 취약점 (패치 적용 중)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">잔여 위험으로 관리</div>
-<div class="kb-diagram-note">알려진 모르는 것 (Known Unknown):</div>
-<div class="kb-diagram-note">위험이 있을 것을 알지만 구체적 내용 미확인</div>
-<div class="kb-diagram-note">예: "IoT 장치에 취약점이 있을 것 같음"</div>
-<div class="kb-diagram-tree-item" style="--depth:1">조사/평가 필요</div>
-<div class="kb-diagram-note">모르는 알려진 것 (Unknown Known):</div>
-<div class="kb-diagram-note">정보는 있지만 조직이 인식 못 함</div>
-<div class="kb-diagram-note">예: 위협 인텔리전스 피드에 있지만 담당자 미확인</div>
-<div class="kb-diagram-tree-item" style="--depth:1">정보 공유 프로세스 문제</div>
-<div class="kb-diagram-note">모르는 모르는 것 (Unknown Unknown):</div>
-<div class="kb-diagram-note">존재 자체를 모름 = 가장 위험</div>
-<div class="kb-diagram-note">예: 제로데이 취약점, 내부자 위협</div>
-<div class="kb-diagram-tree-item" style="--depth:1">탐지 체계 강화로 최소화 목표</div>
-</div>
-</div>
+알려진 모르는 것 (Known Unknown):
+  위험이 있을 것을 알지만 구체적 내용 미확인
+  예: "IoT 장치에 취약점이 있을 것 같음"
+  -> 조사/평가 필요
 
+모르는 알려진 것 (Unknown Known):
+  정보는 있지만 조직이 인식 못 함
+  예: 위협 인텔리전스 피드에 있지만 담당자 미확인
+  -> 정보 공유 프로세스 문제
 
+모르는 모르는 것 (Unknown Unknown):
+  존재 자체를 모름 = 가장 위험
+  예: 제로데이 취약점, 내부자 위협
+  -> 탐지 체계 강화로 최소화 목표
+```
 
 > 📢 **섹션 요약 비유**: 건강 검진의 발견된 질병(탐지), 검사 안 한 부위의 질병(미탐지) — 모르는 병이 더 무서운 이유.
 
@@ -50,33 +48,32 @@ tags = ["studynote-security"]
 
 ## II. 미탐지 위험의 원인
 
+```
+탐지 실패 원인:
 
+1. 관제 사각지대:
+   SIEM 연동 안 된 시스템
+   레거시 장비 (로그 생성 안 됨)
+   클라우드 워크로드 미등록
+   
+2. 낮은 신호 대 잡음비:
+   하루 로그 수백만 건 중 공격 신호
+   알람 피로(Alert Fatigue) -> 진짜 경보 놓침
+   
+3. 고도화된 공격:
+   LOLBAS (Living-off-the-Land):
+     정상 툴(PowerShell, certutil) 사용
+     -> 행위 자체는 정상 처럼 보임
+   침묵 공격 (Low and Slow):
+     오랜 기간 조용히 정보 수집
+     
+4. 위협 인텔리전스 부재:
+   최신 IoC(침해 지표) 업데이트 안 됨
+   신규 TTPs(전술/기술/절차) 미반영
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">탐지 실패 원인:</div>
-<div class="kb-diagram-note">1. 관제 사각지대:</div>
-<div class="kb-diagram-note">SIEM 연동 안 된 시스템</div>
-<div class="kb-diagram-note">레거시 장비 (로그 생성 안 됨)</div>
-<div class="kb-diagram-note">클라우드 워크로드 미등록</div>
-<div class="kb-diagram-note">2. 낮은 신호 대 잡음비:</div>
-<div class="kb-diagram-note">하루 로그 수백만 건 중 공격 신호</div>
-<div class="kb-diagram-note">알람 피로(Alert Fatigue) -&gt; 진짜 경보 놓침</div>
-<div class="kb-diagram-note">3. 고도화된 공격:</div>
-<div class="kb-diagram-note">LOLBAS (Living-off-the-Land):</div>
-<div class="kb-diagram-note">정상 툴(PowerShell, certutil) 사용</div>
-<div class="kb-diagram-tree-item" style="--depth:2">행위 자체는 정상 처럼 보임</div>
-<div class="kb-diagram-note">침묵 공격 (Low and Slow):</div>
-<div class="kb-diagram-note">오랜 기간 조용히 정보 수집</div>
-<div class="kb-diagram-note">4. 위협 인텔리전스 부재:</div>
-<div class="kb-diagram-note">최신 IoC(침해 지표) 업데이트 안 됨</div>
-<div class="kb-diagram-note">신규 TTPs(전술/기술/절차) 미반영</div>
-<div class="kb-diagram-note">5. 내부자 위협:</div>
-<div class="kb-diagram-note">정상 권한 사용 -&gt; 행위 기반 탐지 어려움</div>
-</div>
-</div>
-
-
+5. 내부자 위협:
+   정상 권한 사용 -> 행위 기반 탐지 어려움
+```
 
 > 📢 **섹션 요약 비유**: [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 없는 구석(사각지대), 화면이 너무 많아 담당자가 못 보는 관제실(알람 피로) — 둘 다 탐지 실패의 원인.
 
@@ -124,31 +121,30 @@ MTBF (Mean Time Between Failures):
 
 ## [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). 미탐지 위험 감소 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
+```
+지속적 탐지 강화:
 
+1. 공격 표면 관리 (ASM):
+   외부에 노출된 자산 자동 스캔
+   EASM (External ASM) 도구: Censys, Shodan API
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">지속적 탐지 강화:</div>
-<div class="kb-diagram-note">1. 공격 표면 관리 (ASM):</div>
-<div class="kb-diagram-note">외부에 노출된 자산 자동 스캔</div>
-<div class="kb-diagram-note">EASM (External ASM) 도구: Censys, Shodan API</div>
-<div class="kb-diagram-note">2. 위협 인텔리전스 (CTI):</div>
-<div class="kb-diagram-note">MISP, OpenCTI로 IoC 자동 업데이트</div>
-<div class="kb-diagram-note">SIEM에 실시간 위협 피드 연동</div>
-<div class="kb-diagram-note">3. 침투 테스트 / 레드팀:</div>
-<div class="kb-diagram-note">주기적 외부 관점 공격 시뮬레이션</div>
-<div class="kb-diagram-note">TIBER-EU: 금융권 레드팀 프레임워크</div>
-<div class="kb-diagram-note">4. SOC 고도화:</div>
-<div class="kb-diagram-note">UEBA (사용자/개체 행위 분석):</div>
-<div class="kb-diagram-tree-item" style="--depth:1">정상 기준선 학습 후 이상 행위 탐지</div>
-<div class="kb-diagram-tree-item" style="--depth:1">내부자 위협, LOLBAS 탐지에 유효</div>
-<div class="kb-diagram-note">5. 자동화 대응 (SOAR):</div>
-<div class="kb-diagram-note">탐지 즉시 자동 격리/알림</div>
-<div class="kb-diagram-note">MTTR &lt; 분 단위로 단축</div>
-</div>
-</div>
-
-
+2. 위협 인텔리전스 (CTI):
+   MISP, OpenCTI로 IoC 자동 업데이트
+   SIEM에 실시간 위협 피드 연동
+   
+3. 침투 테스트 / 레드팀:
+   주기적 외부 관점 공격 시뮬레이션
+   TIBER-EU: 금융권 레드팀 프레임워크
+   
+4. SOC 고도화:
+   UEBA (사용자/개체 행위 분석):
+   -> 정상 기준선 학습 후 이상 행위 탐지
+   -> 내부자 위협, LOLBAS 탐지에 유효
+   
+5. 자동화 대응 (SOAR):
+   탐지 즉시 자동 격리/알림
+   MTTR < 분 단위로 단축
+```
 
 > 📢 **섹션 요약 비유**: 공격 표면 관리는 집 외부 모든 출입구 목록 만들기, [레드팀](/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/681_red_team/)은 "도둑처럼 생각하기" — 내가 뚫을 수 있으면 남도 뚫을 수 있음.
 
@@ -156,34 +152,33 @@ MTBF (Mean Time Between Failures):
 
 ## V. 실무 시나리오 — [APT](/knowledge-base/studynote/09_security/15_malware_attack_vectors/748_apt/) 탐지 케이스
 
+```
+APT 공격 타임라인:
 
+Day 0: 스피어피싱 이메일로 초기 침투
+  공격자: PowerShell로 C2 통신 설정
+  탐지 여부: 미탐지 (정상 PowerShell 트래픽)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">APT 공격 타임라인:</div>
-<div class="kb-diagram-note">Day 0: 스피어피싱 이메일로 초기 침투</div>
-<div class="kb-diagram-note">공격자: PowerShell로 C2 통신 설정</div>
-<div class="kb-diagram-note">탐지 여부: 미탐지 (정상 PowerShell 트래픽)</div>
-<div class="kb-diagram-note">Day 1~30: 내부 정찰 (Lateral Movement)</div>
-<div class="kb-diagram-note">Active Directory 쿼리, 자격증명 덤프</div>
-<div class="kb-diagram-note">탐지 여부: UEBA 이상 행위 경보 (낮은 우선순위)</div>
-<div class="kb-diagram-note">Day 45: 민감 데이터 접근 시작</div>
-<div class="kb-diagram-note">탐지 여부: DLP 경보 (대량 파일 접근)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">SOC 분석가 확인 -&gt; 침해 사실 확인 = MTTD 45일</div>
-<div class="kb-diagram-note">Day 45~48: 대응 (Containment):</div>
-<div class="kb-diagram-note">감염 단말 격리, C2 도메인 차단</div>
-<div class="kb-diagram-note">포렌식 분석 시작</div>
-<div class="kb-diagram-note">= MTTR 3일</div>
-<div class="kb-diagram-note">사후 개선:</div>
-<div class="kb-diagram-note">UEBA 임계값 조정 (Day 1 경보 놓친 것 개선)</div>
-<div class="kb-diagram-note">PowerShell 원격 실행 모니터링 강화</div>
-<div class="kb-diagram-note">C2 통신 패턴 차단 규칙 추가</div>
-</div>
-</div>
+Day 1~30: 내부 정찰 (Lateral Movement)
+  Active Directory 쿼리, 자격증명 덤프
+  탐지 여부: UEBA 이상 행위 경보 (낮은 우선순위)
 
+Day 45: 민감 데이터 접근 시작
+  탐지 여부: DLP 경보 (대량 파일 접근)
+  -> SOC 분석가 확인 -> 침해 사실 확인 = MTTD 45일
 
+Day 45~48: 대응 (Containment):
+  감염 단말 격리, C2 도메인 차단
+  포렌식 분석 시작
+  = MTTR 3일
 
-> 📢 **섹션 요약 비유**: 45일 동안 내부 탐색 후 발각 — [UEBA](/knowledge-base/studynote/09_security/12_identity_threat_advanced/613_ueba/) 경보를 진지하게 봤다면 Day 1에 잡을 수 있었던 사고.
+사후 개선:
+  UEBA 임계값 조정 (Day 1 경보 놓친 것 개선)
+  PowerShell 원격 실행 모니터링 강화
+  C2 통신 패턴 차단 규칙 추가
+```
+
+> 📢 **섹션 요약 비유**: 45일 동안 내부 탐색 후 감지 — [UEBA](/knowledge-base/studynote/09_security/12_identity_threat_advanced/613_ueba/) 경보를 진지하게 봤다면 Day 1에 잡을 수 있었던 사고.
 
 ---
 

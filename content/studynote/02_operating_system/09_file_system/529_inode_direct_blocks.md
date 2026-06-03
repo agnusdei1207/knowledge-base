@@ -28,26 +28,28 @@ tags = ["studynote-operating-system"]
 - <strong>i-node 12칸 직접 블록과 물리 디스크 타격 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> 결속 다이어그램</strong>:
 운영체제가 30KB짜리 작은 텍스트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 12칸의 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 안에서 어떻게 단숨에 처리하는지(No [Indirect](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/) 스로틀) 맵핑 포팅 뷰를 까보면 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">12개의 고속 하이패스 레인: Direct Block $O(1)$ 레이저 타격</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">[</div><div class="kb-diagram-node">145번 i-node (메모리에 떠 있는 객체 장부. 존나 빠름!)</div><div class="kb-diagram-note">]</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">0</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(디스크 물리섹터 <code>35번</code>) 직행 점프!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(디스크 물리섹터 <code>99번</code>) 직행!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(디스크 물리섹터 <code>12번</code>) 직행!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">... (3번부터 6번까지 연속 읽기 4KB 덩어리들 우당탕)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">7</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(디스크 물리섹터 <code>105번</code>) ◀── 여기가 끝!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">8</div><div class="kb-diagram-note">~</div><div class="kb-diagram-node">11</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(NULL 빈칸. 아무것도 없음 공간 낭비 조금 발생)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">[</div><div class="kb-diagram-node">하드디스크 모터 암(Arm)의 움직임 스루풋 렌더 결과 타결</div><div class="kb-diagram-note">]</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">커널 왈: "야! 다이렉트 포인터 8개(32KB) 읽었지? 간접 블록 톨게이트 탈 필요</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">없다! 당장 35, 99, 12, ... 105번지 모터 핀 1번씩만 깔끔히 찍고,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파일 끝내버려! 파일 읽기 속도 지연 0% 종료!"</div></div>
-</div>
-</div>
-
-
+```text
+  ┌────────────────────────────────────────────────────────────────────────────────┐
+  │                 12개의 고속 하이패스 레인: Direct Block $O(1)$ 레이저 타격     │
+  ├────────────────────────────────────────────────────────────────────────────────┤
+  │                                                                                │
+  │  [[ 145번 i-node (메모리에 떠 있는 객체 장부. 존나 빠름!) ]]                   │
+  │  -------------------------------------------------------------                 │
+  │   [0] 번째 Direct 포인터 ──▶ (디스크 물리섹터 `35번`) 직행 점프!               │
+  │   [1] 번째 Direct 포인터 ──▶ (디스크 물리섹터 `99번`) 직행!                    │
+  │   [2] 번째 Direct 포인터 ──▶ (디스크 물리섹터 `12번`) 직행!                    │
+  │   ... (3번부터 6번까지 연속 읽기 4KB 덩어리들 우당탕)                          │
+  │   [7] 번째 Direct 포인터 ──▶ (디스크 물리섹터 `105번`) ◀── 여기가 끝!          │
+  │   [8] ~ [11] 번 포인터 ──▶ (NULL 빈칸. 아무것도 없음 공간 낭비 조금 발생)      │
+  │                                                                                │
+  │  =========================▼===================================                 │
+  │                                                                                │
+  │  [[ 하드디스크 모터 암(Arm)의 움직임 스루풋 렌더 결과 타결 ]]                  │
+  │   커널 왈: "야! 다이렉트 포인터 8개(32KB) 읽었지? 간접 블록 톨게이트 탈 필요   │
+  │             없다! 당장 35, 99, 12, ... 105번지 모터 핀 1번씩만 깔끔히 찍고,    │
+  │             파일 끝내버려! 파일 읽기 속도 지연 0% 종료!"                       │
+  └────────────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 만약 이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 30KB였다면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록(4KB 기준)은 $30KB / 4KB = 7.5개$, 총 8개의 디스크 철판 공간을 점유한다. i-node의 처음 12칸짜리 다이렉트 슬롯만으로도 **8칸이라는 주소를 전부 적고도 4칸이나 넉넉히 남는(안전 수용 스로틀 이치!) 쾌적 포팅** 이 성취된다. 즉, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 읽기 위해 추가적인 "간접 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 블록을 로딩하는 2번째 I/O, 3번째 I/O 오버헤드" 가 전혀 발생하지 않고, 오직 목표 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록만을 향해 1회성 다이브 레이저 타격 결착 락백을 수행해 백본 C드라이브를 지배하게 됨을 증명하는 렌더 뷰다. 
 
@@ -145,19 +147,15 @@ i-node 직접 블록 ([Direct](/knowledge-base/studynote/01_computer_architectur
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">유닉스 i-node (Index Node) 매커니즘</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">i-node 직접 블록 (Direct Blocks)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">i-node 단일/이중/삼중 간접 블록 (Indirect Blocks)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">익스텐트 (Extent)</div></div>
-</div>
-</div>
-
-
+```text
+[유닉스 i-node (Index Node) 매커니즘]
+    │
+    ▼
+[i-node 직접 블록 (Direct Blocks)]
+    │
+    ├──▶ [i-node 단일/이중/삼중 간접 블록 (Indirect Blocks)]
+    └──▶ [익스텐트 (Extent)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

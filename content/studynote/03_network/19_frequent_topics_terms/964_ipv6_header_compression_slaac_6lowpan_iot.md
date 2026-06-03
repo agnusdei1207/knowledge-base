@@ -23,18 +23,14 @@ IPv4가 고갈되어 수십억 대의 [IoT](/knowledge-base/studynote/06_ict_con
 1. IP 주소를 세팅받을 <strong>서버 통신 비용(<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/">전력 소모</a>)</strong>이 너무 큽니다.
 2. 주소 껍데기([IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 헤더 40바이트)가 너무 뚱뚱해서, 가느다란 블루투스나 [지그비](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/)([Zigbee](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/)) 무선망에 데이터가 들어가지 않고 튕겨 나옵니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">서브넷 마스크 / CIDR</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IPv6 헤더 압축 / SLAAC</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NAT 횡단</div></div>
-</div>
-</div>
-
-
+```text
+[서브넷 마스크 / CIDR]
+    │
+    ▼
+[IPv6 헤더 압축 / SLAAC]
+    │
+    └──▶ [NAT 횡단]
+```
 
 - **📢 섹션 요약 비유**: [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 헤더 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) / SLAAC는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -51,18 +47,14 @@ IPv4가 고갈되어 수십억 대의 [IoT](/knowledge-base/studynote/06_ict_con
   - `[동네 이름 64비트] + [내가 만든 방 번호 64비트]` = <strong>128비트짜리 완벽한 전 세계 유일 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/">IPv6</a> 주소가 전구 스스로의 수학 계산만으로 0.1초 만에 뚝딱 탄생합니다!</strong> 
 - 서버가 뻗어도 상관없고([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)), 기계가 수백만 대가 동시에 켜져도 트래픽 하나 없이 즉각 인터넷 통신망(Plug & Play)에 물려버리는 IoT의 혁명입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">서브넷 마스크 / CIDR</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IPv6 헤더 압축 / SLAAC</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NAT 횡단</div></div>
-</div>
-</div>
-
-
+```text
+[서브넷 마스크 / CIDR]
+    │
+    ▼
+[IPv6 헤더 압축 / SLAAC]
+    │
+    └──▶ [NAT 횡단]
+```
 
 - **📢 섹션 요약 비유**: [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 헤더 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) / SLAAC의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -130,19 +122,15 @@ IPv4가 고갈되어 수십억 대의 [IoT](/knowledge-base/studynote/06_ict_con
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 서브넷 마스크 / CIDR</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: IPv6 헤더 압축 / SLAAC</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: NAT 횡단</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 서브넷 마스크 / CIDR]
+    │
+    ▼
+[현재 개념: IPv6 헤더 압축 / SLAAC]
+    │
+    ├──▶ [확장 A: NAT 횡단]
+    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
+```
 
 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 헤더 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) / SLAAC는 [서브넷 마스크](/knowledge-base/studynote/03_network/19_frequent_topics_terms/963_subnet_mask_cidr_classless_inter_domain_routing/) / CIDR에서 출발해 현재 메커니즘을 정교화하고, 이후 [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 횡단와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

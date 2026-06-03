@@ -23,17 +23,14 @@ tags = ["studynote-ai"]
 
 2020년 DDPM (Ho et al.)이 이미지 품질에서 GAN을 처음 넘어섰고, DALL-E 2, Stable Diffusion, Imagen의 핵심 기술이 됐다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [디퓨전 모델](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/153_diffusion_model_stable_diffusion_denoising/)은 "눈보라에 맞아 지워진 그림을 원래대로 복원하는" 과정을 학습한다. 눈을 어떻게 뿌렸는지 알면 반대로 지울 수 있다.
 
@@ -67,17 +64,15 @@ DDPM 핵심 통찰: μθ 예측 대신 노이즈 ε 예측:
 L_simple = E_{t,x₀,ε}[||ε - εθ(√ᾱₜ·x₀ + √(1-ᾱₜ)·ε, t)||²]
 ```
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">+ε₁</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">+ε₂</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">x₂ → ... → xₜ≈N(0,I)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">εθ예측</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">xₜ₋₁ → ... → x₀ (복원)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">t, xₜ 입력 → UNet → 예측 노이즈 εθ(xₜ,t)</div></div>
-</div>
-</div>
-
-
+```
+┌────────────────────────────────────────────────────────┐
+│  순방향: x₀ →[+ε₁]→ x₁ →[+ε₂]→ x₂ → ... → xₜ≈N(0,I)│
+│                                                        │
+│  역방향: xₜ →[εθ예측]→ xₜ₋₁ → ... → x₀ (복원)         │
+│          ↑                                             │
+│     t, xₜ 입력 → UNet → 예측 노이즈 εθ(xₜ,t)          │
+└────────────────────────────────────────────────────────┘
+```
 
 | 구성요소 | 역할 | 설계 선택 |
 |:---|:---|:---|

@@ -28,42 +28,43 @@ tags = ["studynote-bigdata"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">로그 분석 파이프라인 (ELK + Kafka)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">수집 (Collection)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">앱 서버 / 컨테이너 / 네트워크 장비 / OS</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">에이전트 (Agent)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Fluentd / Filebeat / Logstash</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">메시지 큐 (Message Queue)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Apache Kafka (고가용성, 버퍼링)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">처리 (Processing)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Logstash (파싱·필터링·변환) / Spark Streaming (복잡 분석)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">저장 (Storage)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Elasticsearch (검색 인덱스) / S3 (장기 아카이브)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시각화 &amp; 알림</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kibana / Grafana / PagerDuty 알림 연동</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│               로그 분석 파이프라인 (ELK + Kafka)                    │
+├────────────────────────────────────────────────────────────────────┤
+│  [수집 (Collection)]                                               │
+│   앱 서버 / 컨테이너 / 네트워크 장비 / OS                           │
+│       │                                                            │
+│       ▼                                                            │
+│  [에이전트 (Agent)]                                                │
+│   Fluentd / Filebeat / Logstash                                    │
+│       │                                                            │
+│       ▼                                                            │
+│  [메시지 큐 (Message Queue)]                                       │
+│   Apache Kafka (고가용성, 버퍼링)                                  │
+│       │                                                            │
+│       ▼                                                            │
+│  [처리 (Processing)]                                               │
+│   Logstash (파싱·필터링·변환) / Spark Streaming (복잡 분석)        │
+│       │                                                            │
+│       ▼                                                            │
+│  [저장 (Storage)]                                                  │
+│   Elasticsearch (검색 인덱스) / S3 (장기 아카이브)                 │
+│       │                                                            │
+│       ▼                                                            │
+│  [시각화 & 알림]                                                   │
+│   Kibana / Grafana / PagerDuty 알림 연동                           │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 ### [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 파싱: Grok 패턴
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Grok 패턴 예시 (Apache Access Log):</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">%{IPORHOST:clientip} %{WORD:ident} %{WORD:auth} \</div><div class="kb-diagram-node">%{HTTPDATE:timestamp}\</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">21/Apr/2026:10:30:00</div><div class="kb-diagram-note">200 1234"</div></div>
-<div class="kb-diagram-note">→ {clientip: "192.168.1.1", timestamp: "21/Apr/2026:10:30:00", status: 200}</div>
-</div>
-</div>
-
-
+```text
+Grok 패턴 예시 (Apache Access Log):
+%{IPORHOST:clientip} %{WORD:ident} %{WORD:auth} \[%{HTTPDATE:timestamp}\]
+→ "192.168.1.1 - - [21/Apr/2026:10:30:00] 200 1234"
+→ {clientip: "192.168.1.1", timestamp: "21/Apr/2026:10:30:00", status: 200}
+```
 
 ### [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 레벨 및 이상 패턴
 
@@ -146,23 +147,21 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">로그 수집 에이전트 (Fluentd / Filebeat) — 분산 노드 로그 수집</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">메시지 큐 (Apache Kafka) — 고처리량 버퍼링 및 스트리밍 전달</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">중앙 저장·인덱싱 (Elasticsearch / OpenSearch) — 전문 검색 및 집계</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시각화 (Kibana / Grafana) — 대시보드 및 알림 규칙 설정</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">이상 감지 (ML 기반 Anomaly Detection) — 보안·장애 자동 탐지</div></div>
-</div>
-</div>
-
-
+```text
+[로그 수집 에이전트 (Fluentd / Filebeat) — 분산 노드 로그 수집]
+    │
+    ▼
+[메시지 큐 (Apache Kafka) — 고처리량 버퍼링 및 스트리밍 전달]
+    │
+    ▼
+[중앙 저장·인덱싱 (Elasticsearch / OpenSearch) — 전문 검색 및 집계]
+    │
+    ▼
+[시각화 (Kibana / Grafana) — 대시보드 및 알림 규칙 설정]
+    │
+    ▼
+[이상 감지 (ML 기반 Anomaly Detection) — 보안·장애 자동 탐지]
+```
 [로그 수집](/knowledge-base/studynote/09_security/13_secops_ir_forensics/626_log_collection/) 에이전트에서 [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) [버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/)을 거쳐 Elasticsearch로 인덱싱하고, Kibana로 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)한 뒤 ML 기반 이상 감지로 보안·장애를 자동 탐지하는 것이 ELK [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)의 표준 흐름이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

@@ -29,21 +29,15 @@ tags = ["studynote-operating-system"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Host Kernel</div></div>
-<div class="kb-diagram-tree-item" style="--depth:1">PID Namespace -&gt; 서로 다른 프로세스 번호</div>
-<div class="kb-diagram-tree-item" style="--depth:1">NET Namespace -&gt; 서로 다른 IP / 라우팅</div>
-<div class="kb-diagram-tree-item" style="--depth:1">MNT Namespace -&gt; 서로 다른 루트 파일 시스템</div>
-<div class="kb-diagram-tree-item" style="--depth:1">UTS Namespace -&gt; 서로 다른 호스트 이름</div>
-<div class="kb-diagram-tree-item" style="--depth:1">IPC Namespace -&gt; 서로 다른 공유 메모리 / 메시지 큐</div>
-<div class="kb-diagram-tree-item" style="--depth:1">USER Namespace -&gt; 서로 다른 UID / GID 매핑</div>
-</div>
-</div>
-
-
+```text
+[ Host Kernel ]
+   ├─ PID Namespace  -> 서로 다른 프로세스 번호
+   ├─ NET Namespace  -> 서로 다른 IP / 라우팅
+   ├─ MNT Namespace  -> 서로 다른 루트 파일 시스템
+   ├─ UTS Namespace  -> 서로 다른 호스트 이름
+   ├─ IPC Namespace  -> 서로 다른 공유 메모리 / 메시지 큐
+   └─ USER Namespace -> 서로 다른 UID / GID 매핑
+```
 
 | 네임스페이스 | 격리 대상 | 의미 |
 | :-- | :-- | :-- |
@@ -109,45 +103,33 @@ tags = ["studynote-operating-system"]
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Host Kernel</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Namespace</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Container Isolation</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Rootless Container</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Secure Multi-tenancy</div>
-</div>
-</div>
-
-
+```text
+Host Kernel
+   ↓
+Namespace
+   ↓
+Container Isolation
+   ↓
+Rootless Container
+   ↓
+Secure Multi-tenancy
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">chroot</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Mount Namespace</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">PID / NET / IPC / UTS / USER Namespace</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Container Runtime</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Rootless Container</div>
-</div>
-</div>
-
-
+```text
+chroot
+   ↓
+Mount Namespace
+   ↓
+PID / NET / IPC / UTS / USER Namespace
+   ↓
+Container Runtime
+   ↓
+Rootless Container
+```
 
 ---
 

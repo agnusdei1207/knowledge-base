@@ -18,27 +18,24 @@ tags = ["studynote-data-engineering"]
 
 ### [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 학습 패러다임 3분류
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">머신러닝 (Machine Learning)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">지도 학습 (Supervised Learning)</div>
-<div class="kb-diagram-note">조건: 입력 X + 레이블 Y 쌍 존재</div>
-<div class="kb-diagram-note">목표: f(X) ≈ Y 함수 학습</div>
-<div class="kb-diagram-note">대표: 분류(Classification), 회귀(Regression)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">비지도 학습 (Unsupervised Learning)</div>
-<div class="kb-diagram-note">조건: 입력 X만 존재 (레이블 없음)</div>
-<div class="kb-diagram-note">목표: 데이터 내재 구조·패턴 발견</div>
-<div class="kb-diagram-note">대표: 클러스터링(Clustering), 차원 축소, 생성 모델</div>
-<div class="kb-diagram-tree-item" style="--depth:0">강화 학습 (Reinforcement Learning)</div>
-<div class="kb-diagram-note">조건: 에이전트·환경·보상 신호</div>
-<div class="kb-diagram-note">목표: 누적 보상 최대화 정책(Policy) 학습</div>
-<div class="kb-diagram-note">대표: Q-학습, DQN, PPO</div>
-</div>
-</div>
-
-
+```
+머신러닝 (Machine Learning)
+│
+├── 지도 학습 (Supervised Learning)
+│   조건: 입력 X + 레이블 Y 쌍 존재
+│   목표: f(X) ≈ Y 함수 학습
+│   대표: 분류(Classification), 회귀(Regression)
+│
+├── 비지도 학습 (Unsupervised Learning)
+│   조건: 입력 X만 존재 (레이블 없음)
+│   목표: 데이터 내재 구조·패턴 발견
+│   대표: 클러스터링(Clustering), 차원 축소, 생성 모델
+│
+└── 강화 학습 (Reinforcement Learning)
+    조건: 에이전트·환경·보상 신호
+    목표: 누적 보상 최대화 정책(Policy) 학습
+    대표: Q-학습, DQN, PPO
+```
 
 ### 3가지 학습 방식 비교
 
@@ -58,65 +55,56 @@ tags = ["studynote-data-engineering"]
 
 모델의 예측 오류는 편향·[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)·노이즈의 합으로 분해된다.
 
+```
+총 오류 = 편향² + 분산 + 노이즈(줄일 수 없음)
 
+편향 (Bias):
+  모델의 가정이 잘못되어 발생하는 오류
+  → 단순한 모델, 과소적합 (Underfitting)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">총 오류 = 편향² + 분산 + 노이즈(줄일 수 없음)</div>
-<div class="kb-diagram-note">편향 (Bias):</div>
-<div class="kb-diagram-note">모델의 가정이 잘못되어 발생하는 오류</div>
-<div class="kb-diagram-note">→ 단순한 모델, 과소적합 (Underfitting)</div>
-<div class="kb-diagram-note">분산 (Variance):</div>
-<div class="kb-diagram-note">학습 데이터의 변동에 과민하게 반응</div>
-<div class="kb-diagram-note">→ 복잡한 모델, 과적합 (Overfitting)</div>
-</div>
-</div>
-
-
+분산 (Variance):
+  학습 데이터의 변동에 과민하게 반응
+  → 복잡한 모델, 과적합 (Overfitting)
+```
 
 <strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/110_bias_variance_tradeoff/">편향-분산 트레이드오프</a> <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a> (<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a>)</strong>
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">오류</div>
-<div class="kb-diagram-note">(Error)</div>
-<div class="kb-diagram-note">총 오류</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">╲</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">╲ 분산 (Variance)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">╲ ──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">╲ ─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">X ← 최적 복잡도 지점</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──╲</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── ╲ 편향 (Bias)</div></div>
-<div class="kb-diagram-tree-item" style="--depth:1">모델 복잡도</div>
-<div class="kb-diagram-note">단순 복잡</div>
-<div class="kb-diagram-note">(고편향) (고분산)</div>
-</div>
-</div>
-
-
+```
+  오류
+  (Error)
+   │
+   │  ┌ 총 오류
+   │  │╲
+   │  │  ╲       ╭─── 분산 (Variance)
+   │  │   ╲   ╭──╯
+   │  │    ╲╭─╯
+   │  │     X ← 최적 복잡도 지점
+   │  │  ╭──╲
+   │  │──╯    ╲──── 편향 (Bias)
+   │
+   └────────────────────────── 모델 복잡도
+      단순                     복잡
+    (고편향)                 (고분산)
+```
 
 ### 과적합 vs 과소적합 진단
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">학습 곡선 (Learning Curve) 해석</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">과소적합 (Underfitting)</div><div class="kb-diagram-cell">과적합 (Overfitting)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">편향이 큰 경우</div><div class="kb-diagram-cell">분산이 큰 경우</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오류 오류</div><div class="kb-diagram-cell">오류 오류</div></div>
-<div class="kb-diagram-note">│ │ │ │ │</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ train ─val</div><div class="kb-diagram-cell">─ train ─ val</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ high</div><div class="kb-diagram-cell">high</div><div class="kb-diagram-cell">↓ low</div><div class="kb-diagram-cell">↑ high</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 모델 복잡도 증가</div><div class="kb-diagram-cell">→ 정규화·데이터 증가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">피처 추가</div><div class="kb-diagram-cell">드롭아웃·앙상블</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────┐
+│              학습 곡선 (Learning Curve) 해석              │
+├───────────────────────┬─────────────────────────────────┤
+│  과소적합 (Underfitting)│     과적합 (Overfitting)         │
+│  편향이 큰 경우        │     분산이 큰 경우                │
+│                       │                                 │
+│  오류         오류     │  오류              오류          │
+│  │            │       │  │    ╮            │            │
+│  ├─ train      ├─val  │  │    ╰─ train    ├─ val        │
+│  │  └─ high    │ high │  │      ↓ low    │  ↑ high     │
+│                       │                                 │
+│  → 모델 복잡도 증가   │  → 정규화·데이터 증가            │
+│    피처 추가           │    드롭아웃·앙상블               │
+└───────────────────────┴─────────────────────────────────┘
+```
 
 ### [교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/) ([Cross-Validation](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/))
 
@@ -159,24 +147,25 @@ k-폴드 교차 검증 (k-Fold Cross-Validation), k=5:
 
 ### [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/) 핵심 요소
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">강화 학습 (Reinforcement Learning) 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">에이전트 (Agent)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">행동 (Action): at</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">환경 (Environment)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상태 (State): s_{t+1}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보상 (Reward): r_{t+1}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">에이전트 → 정책(Policy) 업데이트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">목표: 누적 보상 최대화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">G_t = R_{t+1} + γR_{t+2} + γ²R_{t+3} + ...</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">감쇠 인자 γ ∈</div><div class="kb-diagram-node">0,1</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────┐
+│              강화 학습 (Reinforcement Learning) 구조  │
+│                                                     │
+│  에이전트 (Agent)                                    │
+│      │                                             │
+│      │ 행동 (Action): at                           │
+│      ▼                                             │
+│  환경 (Environment)                                │
+│      │                                             │
+│      │ 상태 (State): s_{t+1}                       │
+│      │ 보상 (Reward): r_{t+1}                      │
+│      ▼                                             │
+│  에이전트 → 정책(Policy) 업데이트                   │
+│      목표: 누적 보상 최대화                          │
+│      G_t = R_{t+1} + γR_{t+2} + γ²R_{t+3} + ...   │
+│              감쇠 인자 γ ∈ [0,1]                   │
+└─────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 편향은 항상 같은 방향으로 틀리는 것(낡은 지도), [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)은 매번 다른 방향으로 틀리는 것(손 떨리는 화살)이다. 좋은 모델은 둘 다 낮아야 한다.
 
@@ -204,24 +193,19 @@ k-폴드 교차 검증 (k-Fold Cross-Validation), k=5:
 
 ### 학습 패러다임 선택 가이드
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">문제 정의</div>
-<div class="kb-diagram-tree-item" style="--depth:1">레이블이 있는가?</div>
-<div class="kb-diagram-note">── 예 → 지도 학습</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 연속값 예측? → 회귀 (Regression)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 범주 예측? → 분류 (Classification)</div></div>
-<div class="kb-diagram-note">── 아니오</div>
-<div class="kb-diagram-note">── 환경 상호작용? → 강화 학습</div>
-<div class="kb-diagram-note">── 패턴 발견? → 비지도 학습</div>
-<div class="kb-diagram-note">── 군집 찾기 → 클러스터링</div>
-<div class="kb-diagram-note">── 차원 압축 → PCA / t-SNE</div>
-</div>
-</div>
-
-
+```
+문제 정의
+  │
+  ├── 레이블이 있는가?
+  │    ├── 예 → 지도 학습
+  │    │        ├── 연속값 예측? → 회귀 (Regression)
+  │    │        └── 범주 예측?  → 분류 (Classification)
+  │    └── 아니오
+  │         ├── 환경 상호작용? → 강화 학습
+  │         └── 패턴 발견?    → 비지도 학습
+  │                              ├── 군집 찾기  → 클러스터링
+  │                              └── 차원 압축 → PCA / t-SNE
+```
 
 ### 결론
 
@@ -248,21 +232,17 @@ k-폴드 교차 검증 (k-Fold Cross-Validation), k=5:
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">지도 학습: 분류 · 회귀 (레이블 O)</div>
-<div class="kb-diagram-note">비지도 학습: 군집화 · 차원 축소 (레이블 X)</div>
-<div class="kb-diagram-note">강화 학습: 보상 기반 정책 최적화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">편향-분산 트레이드오프 · 과적합 vs 과소적합</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">자기지도 학습 (Self-Supervised) → Foundation Model</div>
-</div>
-</div>
-
-
+```text
+지도 학습: 분류 · 회귀 (레이블 O)
+비지도 학습: 군집화 · 차원 축소 (레이블 X)
+강화 학습: 보상 기반 정책 최적화
+    │
+    ▼
+편향-분산 트레이드오프 · 과적합 vs 과소적합
+    │
+    ▼
+자기지도 학습 (Self-Supervised) → Foundation Model
+```
 2. 편향이 크면 항상 같은 곳을 겨냥해 빗나가는 화살(규칙이 틀림), [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이 크면 매번 다른 곳에 꽂히는 화살(기억력이 너무 좋아 암기만 함)이다.
 3. [교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/)은 한 번의 시험이 아니라 여러 번 시험 봐서 평균 점수를 재는 것이다—운으로 높은 점수를 받는 것을 막아준다.
 

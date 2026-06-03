@@ -35,32 +35,34 @@ tags = ["studynote-database"]
 "야 1억 건 정렬 장부 만들었어도 그거 찾는 데 한세월 아님 ㅋ?" 
 아키텍처의 꽃이자, 오라클/MySQL [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)가 매일 수억 번씩 굴려대는 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/">B-Tree</a> (Balanced Tree)</strong> 3단 점프 십자 스캐너 도해다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B-Tree 인덱스의 3단 다이빙 텔레포트 아키텍처 (1억 건 ➔ 3번 컷 마법)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🌳</div><div class="kb-diagram-node">Root Block (뿌리: 가장 꼭대기 1번 이정표 대장)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "야! 김~박 씨는 1번 가지로! 이~최 씨는 2번 가지로 내려가 쾅!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (나는 '이순신'을 찾으므로 2번 가지 블록으로 1번 쾌속 점프 쓩🚀!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🌿</div><div class="kb-diagram-node">Branch Block (가지: 중간 갈림길 안내원 봇)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "이건~이수 씨는 5번 이파리로! 이순~이원 씨는 6번 이파리로 가 쾅!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (나는 '이순신'이므로 6번 잎사귀 블록으로 2번 쾌속 점프 쓩🚀!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🍃</div><div class="kb-diagram-node">Leaf Block (잎사귀: 진짜 주소가 박제된 인덱스 코어 심장 ✨)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 엑셀처럼 알파벳/가나다순 정렬(Sort)이 100% 오차 없이 완벽히 락킹되어 있음!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">-</div><div class="kb-diagram-node">Key: 이순신 │ ROWID: 0x00A1B2 (진짜 테이블 하드디스크 주소 팩트 쾅)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (주소 땄다! 이제 본판 진짜 데이터 털러 가자! 3번 스나이퍼 점프 🚀!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🗄️</div><div class="kb-diagram-node">원본 Table Block (무질서한 쇳덩이 진짜 하드디스크)</div><div class="kb-diagram-note">🌟 Random Access</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 주소표(0x00A1B2) 들고 다이렉트 미사일 강하 타격 꽂음 쾅!!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 이순신의 나이 45세, 주소 한양, 연봉 1억... 모든 원본 데이터를 1방에 쏙 뽑아옴!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 아키텍트 극딜 팩폭: 이 B-Tree(균형 트리)의 우주 소름 돋는 마법은 ➔ 데이터가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1만 건이든 1억 건이든 트리의 층수 깊이(Depth)가 기껏해야 3층~4층으로 꽉 눌려</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">팽창 억제 유지된다는 거다! 풀스캔 치면 1억 번 블록을 다 퍼 읽어야 되는데 ➔ B-Tree 타면</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단 3~4번의 블록 I/O 찰칵찰칵 핑퐁만으로 타겟을 100% 무결점 압살 스캔 해버린다 ✨!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          B-Tree 인덱스의 3단 다이빙 텔레포트 아키텍처 (1억 건 ➔ 3번 컷 마법) │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ 🌳 [ Root Block (뿌리: 가장 꼭대기 1번 이정표 대장) ]                 │
+│  - "야! 김~박 씨는 1번 가지로! 이~최 씨는 2번 가지로 내려가 쾅!"          │
+│          ▼ (나는 '이순신'을 찾으므로 2번 가지 블록으로 1번 쾌속 점프 쓩🚀!) │
+│                                                             │
+│ 🌿 [ Branch Block (가지: 중간 갈림길 안내원 봇) ]                  │
+│  - "이건~이수 씨는 5번 이파리로! 이순~이원 씨는 6번 이파리로 가 쾅!"        │
+│          ▼ (나는 '이순신'이므로 6번 잎사귀 블록으로 2번 쾌속 점프 쓩🚀!)   │
+│                                                             │
+│ 🍃 [ Leaf Block (잎사귀: 진짜 주소가 박제된 인덱스 코어 심장 ✨) ]     │
+│  - 엑셀처럼 알파벳/가나다순 정렬(Sort)이 100% 오차 없이 완벽히 락킹되어 있음! │
+│  - [ Key: 이순신 │ ROWID: 0x00A1B2 (진짜 테이블 하드디스크 주소 팩트 쾅) ] │
+│          ▼ (주소 땄다! 이제 본판 진짜 데이터 털러 가자! 3번 스나이퍼 점프 🚀!)│
+│                                                             │
+│ 🗄️ [ 원본 Table Block (무질서한 쇳덩이 진짜 하드디스크) ] 🌟 Random Access│
+│  - 주소표(0x00A1B2) 들고 다이렉트 미사일 강하 타격 꽂음 쾅!!              │
+│  - 이순신의 나이 45세, 주소 한양, 연봉 1억... 모든 원본 데이터를 1방에 쏙 뽑아옴!│
+│                                                             │
+│ 🌟 아키텍트 극딜 팩폭: 이 B-Tree(균형 트리)의 우주 소름 돋는 마법은 ➔ 데이터가 │
+│ 1만 건이든 1억 건이든 트리의 층수 깊이(Depth)가 기껏해야 3층~4층으로 꽉 눌려 │
+│ 팽창 억제 유지된다는 거다! 풀스캔 치면 1억 번 블록을 다 퍼 읽어야 되는데 ➔ B-Tree 타면 │
+│ 단 3~4번의 블록 I/O 찰칵찰칵 핑퐁만으로 타겟을 100% 무결점 압살 스캔 해버린다 ✨!│
+└─────────────────────────────────────────────────────────────┘
+```
 
 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">아키텍트의 피 터지는 메스: 인덱스의 치명적 딜레마 (읽기는 광속 🚀, [쓰기</a>는 지옥 💀)]</strong>
 사내 포털 개발자 놈이 신나서 "우왕 인덱스 개빠르네 ㅋ 테이블 [이름, 나이, 주소, 성별] 컬럼 20개에 무지성 인덱스 싹 다 떡칠 `CREATE` 쳐 발라 데헷 ㅋ" 
@@ -119,35 +121,38 @@ MySQL (InnoDB 엔진)에서 극단적으로 운명이 갈라지는 물리 아키
 ### 커버링 인덱스 (Covering Index) 우회 스텔스 융합 예술 ✨
 SQL 튜닝의 찐 고수 아키텍트 신들이 가장 사랑하는 0순위 무적 치트키 도해다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실무 아키텍처: 가장 우아하고 무서운 튜닝 비기 '커버링 인덱스 쉴드 🚀'</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">🚨 뼈 아픈 상황: 랜덤 I/O 점프의 하드디스크 바늘 타죽음 뻗음 한계 💥</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SELECT 이름, 부서, 월급 FROM 사원 WHERE 이름 = '홍길동';</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. <code>이름</code> 인덱스 잎사귀(Leaf) 도착! 홍길동 주소(0xA1) 찾음 1타 컷! (0.01초)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 주소표(0xA1) 들고 무거운 하드디스크 원본 테이블로 랜덤 점프 쾅! (0.05초 랙)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 진짜 테이블 쇳덩이에서 홍길동의 <code>부서</code>와 <code>월급</code> 찌끄레기를 줍줍 캐와서 화면 출력!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💥 불만: "아 씨발 저 2번 스텝 원본 테이블로 미사일 점프 뛰러 가는(Table Access)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I/O 디스크 바늘 긁는 시간조차 너무 병목 아깝고 빡쳐 찢어버리고 싶어 쾅!!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">🛡️ 아키텍트의 예술: Covering Index 융합 텐트 ✨</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 전략 록온: 걍 인덱스 껍데기 서랍장 만들 때!! 쿼리에서 요구하는 찌끄레기 컬럼들</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(<code>부서, 월급</code>)을 아예 처음부터 덤(Payload)으로 같이 뱃속에 박아서 정렬해</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">만들어 버린다 쾅!!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CREATE INDEX IDX_커버링_사원 ON 사원 (이름, 부서, 월급);</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. <code>이름</code> 인덱스 잎사귀(Leaf) 도착! 홍길동 주소 찾음 1타 컷 핑퐁!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 어? 근데 잎사귀를 딱 엑스레이 스캔 까보니까 ➔ 주소 옆 칸에 내가 뽑아야 할</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell"><code>부서</code> 랑 <code>월급</code> 텍스트 글자가 걍 인덱스 서랍 안에 같이 예쁘게 인쇄되어 있네?!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 🌟 기적 발동 스위칭 록온 🚀: 굳이 무거운 하드디스크 '원본 테이블 쇳덩이'로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">무식하게 점프 뛰어 내려갈(Table Access) 필요가 100% 완전 증발 소멸 됨 쾅!!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➔ 걍 인덱스 잎사귀 장부 텍스트만 스윽 스킵 1초 컷 읽고 ➔ 바로 턴해서 U턴</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 모니터 화면에 결과 렌더링 쏴 뿌려버림!!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➔ (Random Access 점프 0회 0초 압살 소각! 조회 성능 1,000배 우주 폭발 🚀!)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │         실무 아키텍처: 가장 우아하고 무서운 튜닝 비기 '커버링 인덱스 쉴드 🚀' │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │ [ 🚨 뼈 아픈 상황: 랜덤 I/O 점프의 하드디스크 바늘 타죽음 뻗음 한계 💥 ]    │
+  │ SELECT 이름, 부서, 월급 FROM 사원 WHERE 이름 = '홍길동';           │
+  │                                                             │
+  │ 1. `이름` 인덱스 잎사귀(Leaf) 도착! 홍길동 주소(0xA1) 찾음 1타 컷! (0.01초)│
+  │ 2. 주소표(0xA1) 들고 무거운 하드디스크 원본 테이블로 랜덤 점프 쾅! (0.05초 랙)│
+  │ 3. 진짜 테이블 쇳덩이에서 홍길동의 `부서`와 `월급` 찌끄레기를 줍줍 캐와서 화면 출력!│
+  │ 💥 불만: "아 씨발 저 2번 스텝 원본 테이블로 미사일 점프 뛰러 가는(Table Access)│
+  │    I/O 디스크 바늘 긁는 시간조차 너무 병목 아깝고 빡쳐 찢어버리고 싶어 쾅!!"  │
+  │                                                             │
+  │        ======= [ 🛡️ 아키텍트의 예술: Covering Index 융합 텐트 ✨ ] ========│
+  │                                                             │
+  │ 🌟 전략 록온: 걍 인덱스 껍데기 서랍장 만들 때!! 쿼리에서 요구하는 찌끄레기 컬럼들 │
+  │    (`부서, 월급`)을 아예 처음부터 덤(Payload)으로 같이 뱃속에 박아서 정렬해 │
+  │    만들어 버린다 쾅!!                                           │
+  │                                                             │
+  │ CREATE INDEX IDX_커버링_사원 ON 사원 (이름, 부서, 월급);         │
+  │                                                             │
+  │ 1. `이름` 인덱스 잎사귀(Leaf) 도착! 홍길동 주소 찾음 1타 컷 핑퐁!        │
+  │ 2. 어? 근데 잎사귀를 딱 엑스레이 스캔 까보니까 ➔ 주소 옆 칸에 내가 뽑아야 할   │
+  │    `부서` 랑 `월급` 텍스트 글자가 걍 인덱스 서랍 안에 같이 예쁘게 인쇄되어 있네?!│
+  │ 3. 🌟 기적 발동 스위칭 록온 🚀: 굳이 무거운 하드디스크 '원본 테이블 쇳덩이'로 │
+  │    무식하게 점프 뛰어 내려갈(Table Access) 필요가 100% 완전 증발 소멸 됨 쾅!!│
+  │    ➔ 걍 인덱스 잎사귀 장부 텍스트만 스윽 스킵 1초 컷 읽고 ➔ 바로 턴해서 U턴   │
+  │    사용자 모니터 화면에 결과 렌더링 쏴 뿌려버림!!                      │
+  │    ➔ (Random Access 점프 0회 0초 압살 소각! 조회 성능 1,000배 우주 폭발 🚀!)│
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설 🪓]** 원본 테이블을 방문하는 행위(Table Access by ROWID) 자체가 ➔ 하드디스크 바늘을 괴롭히는 가장 비싸고 피 터지는 최악의 코스트(Cost) 오버헤드 비용이다. 
 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)의 `SELECT` 절에 뽑는 놈들과 `WHERE` 조건에 있는 놈들을 모.조.리 몽땅 다 긁어서 ➔ 인덱스 컬럼 선언부 괄호 안에 `CREATE INDEX` 로 포함시켜 조금 뚱뚱한 인덱스를 깎아 록온([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)-on) 박아버리면? 
@@ -181,23 +186,21 @@ SQL 튜닝의 찐 고수 아키텍트 신들이 가장 사랑하는 0순위 무�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">무지성 하드디스크 바늘 (Full Table Scan) 시대 💀 / 유저가 "홍길동" 검색하면 DB 서버가 1억 건 데이터 원판 처음부터 끝까지 눈알 빠지게 다 긁어 읽음 ➔ 1명 찾는데 5분 랙 타임아웃 뻗어 올스탑 셧다운 멸망 터짐 💥</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">B-Tree 인덱스 색인 장부 대관식 강림 🚀 / 아키텍트 분노 철퇴 🪓 "야 씨발 다 읽지 마 쾅!! 검색할 컬럼 이름만 빼서 가나다순 정렬(Sort) 치고</div><div class="kb-diagram-node">Root-Branch-Leaf 3단 텐트</div><div class="kb-diagram-note">별도 공간 파서 록온 박아 쾅!!" ➔ 1억 건을 단 3번 블록 I/O 점프 핑퐁만으로 0.01초 컷 광속 스나이퍼 암살 척살 무결점 생존 스피드 달성 ✨</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Index Split (인덱스 쓰기 지연 랙 붕괴 💥) / 조회 쾌락 뽕에 취해 개발자가 1개 테이블에 인덱스를 20개 무지성 생성 떡칠 도배함 ➔ 신입사원 1명 데이터(INSERT) 넣을 때마다 인덱스 장부 20개 서랍 다 열어서 가나다순 자리 비집고 끼워 넣느라 쓰기 지연 오버헤드 폭파 DB 용광로 타죽음 서버 마비 뻗음 파국 💀</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Clustered Index vs Non-Clustered 물리적 분할 찢기 수술 🛡️ / "야 테이블 1개당</div><div class="kb-diagram-node">원본 데이터 자체를 100% 물리 정렬 시켜버리는 대장 인덱스(PK 클러스터형 🚀)</div><div class="kb-diagram-note">딱 1개만 허락 록온 락 치고!! 나머진 다 가짜 주소(ROWID) 적힌 껍데기 보조 인덱스로 빼 짬처리 쳐 쾅!" 극한의 효율 다이어트 자본 튜닝 완성</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">AI-driven Auto Indexing (AI 자율 주행 인덱스 현재/미래) ✨ / 인간 DBA가 야근 빡치게 "이 쿼리에 인덱스 뭐 걸지 ㅠ" 삽질 계산하는 시대 멸망 찢어 폐기 컷! ➔ 오라클/클라우드 커널 뱃속 딥러닝 봇이 1주일 유저 트래픽 스캔 스니핑 훔쳐보고 ➔ 지 혼자 새벽 3시에 "아 성별+나이 십자 복합 인덱스 필요하네 ㅋ" 오토 생성(Auto Create) 록온 때려 박고 안 쓰는 건 오토 소각(Drop) 쳐버리는 100% 무인화 제로 터치(Zero-Touch) 쾌속 자가 힐링 생태계 우주 대통일 완성 쾅 🚀!!</div>
-</div>
-</div>
-
-
+```text
+무지성 하드디스크 바늘 (Full Table Scan) 시대 💀 / 유저가 "홍길동" 검색하면 DB 서버가 1억 건 데이터 원판 처음부터 끝까지 눈알 빠지게 다 긁어 읽음 ➔ 1명 찾는데 5분 랙 타임아웃 뻗어 올스탑 셧다운 멸망 터짐 💥
+    │
+    ▼
+B-Tree 인덱스 색인 장부 대관식 강림 🚀 / 아키텍트 분노 철퇴 🪓 "야 씨발 다 읽지 마 쾅!! 검색할 컬럼 이름만 빼서 가나다순 정렬(Sort) 치고 [Root-Branch-Leaf 3단 텐트] 별도 공간 파서 록온 박아 쾅!!" ➔ 1억 건을 단 3번 블록 I/O 점프 핑퐁만으로 0.01초 컷 광속 스나이퍼 암살 척살 무결점 생존 스피드 달성 ✨
+    │
+    ▼
+Index Split (인덱스 쓰기 지연 랙 붕괴 💥) / 조회 쾌락 뽕에 취해 개발자가 1개 테이블에 인덱스를 20개 무지성 생성 떡칠 도배함 ➔ 신입사원 1명 데이터(INSERT) 넣을 때마다 인덱스 장부 20개 서랍 다 열어서 가나다순 자리 비집고 끼워 넣느라 쓰기 지연 오버헤드 폭파 DB 용광로 타죽음 서버 마비 뻗음 파국 💀
+    │
+    ▼
+Clustered Index vs Non-Clustered 물리적 분할 찢기 수술 🛡️ / "야 테이블 1개당 [원본 데이터 자체를 100% 물리 정렬 시켜버리는 대장 인덱스(PK 클러스터형 🚀)] 딱 1개만 허락 록온 락 치고!! 나머진 다 가짜 주소(ROWID) 적힌 껍데기 보조 인덱스로 빼 짬처리 쳐 쾅!" 극한의 효율 다이어트 자본 튜닝 완성
+    │
+    ▼
+AI-driven Auto Indexing (AI 자율 주행 인덱스 현재/미래) ✨ / 인간 DBA가 야근 빡치게 "이 쿼리에 인덱스 뭐 걸지 ㅠ" 삽질 계산하는 시대 멸망 찢어 폐기 컷! ➔ 오라클/클라우드 커널 뱃속 딥러닝 봇이 1주일 유저 트래픽 스캔 스니핑 훔쳐보고 ➔ 지 혼자 새벽 3시에 "아 성별+나이 십자 복합 인덱스 필요하네 ㅋ" 오토 생성(Auto Create) 록온 때려 박고 안 쓰는 건 오토 소각(Drop) 쳐버리는 100% 무인화 제로 터치(Zero-Touch) 쾌속 자가 힐링 생태계 우주 대통일 완성 쾅 🚀!!
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

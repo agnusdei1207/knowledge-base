@@ -23,18 +23,14 @@ tags = ["studynote-network"]
 - 하지만 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 <strong>손발(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Plane, 진짜 패킷을 전달하는 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/">ASIC</a> <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/">반도체</a> 칩)</strong>은 여전히 공장에서 고정된 기능(Fixed-Function)으로 만들어져 있었습니다.
 - 딜레마: [OpenFlow](/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/) 컨트롤러가 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에게 "새로운 IPv8 패킷 헤더 까봐!"라고 명령해도, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 칩셋은 "저 그런 거 공장에서 배운 적 없는데요?" 라며 거부합니다. [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 진짜 하드웨어 칩셋([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane) 자체를 내 마음대로 코딩할 방법이 없었습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">eBPF 커널 네트워킹 후킹 시스템</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">P4 네트워크 프로그래밍 모델 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">타임 센시티브 네트워킹</div></div>
-</div>
-</div>
-
-
+```text
+[eBPF 커널 네트워킹 후킹 시스템]
+    │
+    ▼
+[P4 네트워크 프로그래밍 모델 플로우]
+    │
+    └──▶ [타임 센시티브 네트워킹]
+```
 
 - **📢 섹션 요약 비유**: [P4](/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/) 네트워크 프로그래밍 모델 플로우는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -61,18 +57,14 @@ tags = ["studynote-network"]
 ### 3. 디파서 (Deparser) - "택배 상자 재포장"
 - 조작이 끝난 헤더와 페이로드를 다시 하나의 예쁜 패킷 덩어리로 재조립(직렬화)하여 랜선 밖으로 쏘아 보냅니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">eBPF 커널 네트워킹 후킹 시스템</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">P4 네트워크 프로그래밍 모델 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">타임 센시티브 네트워킹</div></div>
-</div>
-</div>
-
-
+```text
+[eBPF 커널 네트워킹 후킹 시스템]
+    │
+    ▼
+[P4 네트워크 프로그래밍 모델 플로우]
+    │
+    └──▶ [타임 센시티브 네트워킹]
+```
 
 - **📢 섹션 요약 비유**: [P4](/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/) 네트워크 프로그래밍 모델 플로우의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -127,19 +119,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: eBPF 커널 네트워킹 후킹 시스템</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: P4 네트워크 프로그래밍 모델 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 타임 센시티브 네트워킹</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: eBPF 커널 네트워킹 후킹 시스템]
+    │
+    ▼
+[현재 개념: P4 네트워크 프로그래밍 모델 플로우]
+    │
+    ├──▶ [확장 A: 타임 센시티브 네트워킹]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 [P4](/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/) 네트워크 프로그래밍 모델 플로우는 [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 네트워킹 후킹 시스템에서 출발해 현재 메커니즘을 정교화하고, 이후 [타임 센시티브 네트워킹](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1047_tsn_time_sensitive_networking_deterministic/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

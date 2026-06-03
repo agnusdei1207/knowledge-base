@@ -29,25 +29,24 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DPU 기반 서버 인프라 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">호스트 CPU + DRAM</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">애플리케이션 / VM / 컨테이너 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PCIe 버스</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DPU (SmartNIC)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ARM Cortex-A72 코어 (DPU OS)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P4 프로그래밍 가능 파이프라인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TLS/IPSec HW 가속기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VXLAN/GRE/Geneve 오프로드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">100GbE / 400GbE 포트</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터센터 패브릭 스위치</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│              DPU 기반 서버 인프라 구조                           │
+├──────────────────────────────────────────────────────────────────┤
+│  [호스트 CPU + DRAM]                                             │
+│  애플리케이션 / VM / 컨테이너 실행                               │
+│         │ PCIe 버스                                              │
+│  [DPU (SmartNIC)]                                               │
+│  ┌─────────────────────────────────┐                            │
+│  │ ARM Cortex-A72 코어 (DPU OS)    │                            │
+│  │ P4 프로그래밍 가능 파이프라인   │                            │
+│  │ TLS/IPSec HW 가속기             │                            │
+│  │ VXLAN/GRE/Geneve 오프로드       │                            │
+│  └─────────────────────────────────┘                            │
+│         │ 100GbE / 400GbE 포트                                  │
+│  [데이터센터 패브릭 스위치]                                      │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 | 기능              | CPU 소프트웨어        | [DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) 하드웨어 오프로드  |
 | :---------------- | :-------------------- | :--------------------- |
@@ -117,25 +116,24 @@ NVIDIA BlueField-3 [DPU](/knowledge-base/studynote/01_computer_architecture/12_a
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">일반 NIC (소프트웨어 처리)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DPDK — 커널 우회 패킷 처리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">eBPF / XDP — 커널 내 프로그래밍 가능 처리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SmartNIC — 부분 하드웨어 오프로드</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DPU (BlueField, Intel IPU) — 풀 인프라 오프로드</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DPU + AI 가속기 통합 (추론 + 네트워킹 단일 칩)</div>
-</div>
-</div>
-
-
+```text
+일반 NIC (소프트웨어 처리)
+    │
+    ▼
+DPDK — 커널 우회 패킷 처리
+    │
+    ▼
+eBPF / XDP — 커널 내 프로그래밍 가능 처리
+    │
+    ▼
+SmartNIC — 부분 하드웨어 오프로드
+    │
+    ▼
+DPU (BlueField, Intel IPU) — 풀 인프라 오프로드
+    │
+    ▼
+DPU + AI 가속기 통합 (추론 + 네트워킹 단일 칩)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

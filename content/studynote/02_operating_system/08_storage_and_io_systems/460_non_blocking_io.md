@@ -27,29 +27,30 @@ tags = ["studynote-operating-system"]
   2. **비동기/이벤트 구동의 대두**: "기다리지 않는다"는 철학으로 무장한 Nginx가 적은 램과 단 1개의 워커 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)로 Apache를 씹어 먹으며 시장을 평정함.
   3. **I/O 멀티플렉싱의 날개**: 넌블로킹이 그냥 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)(무한 찌르기)으로 전락하지 않도록, `epoll`이라는 감시자가 결합하며 완전체 생태계를 이룩함.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블로킹(Blocking) vs 넌블로킹(Non-blocking) I/O의 치명적 차이 시각화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1. 블로킹 I/O (과거 톰캣, 아파치의 지옥)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">유저 스레드</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OS 커널</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"네트워크에 데이터 안 왔네?"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(10초 동안 멍때림)</div><div class="kb-diagram-cell">(10초 대기...)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀── <code>Hello</code> 리턴</div><div class="kb-diagram-cell">"오! 왔다 가져가라!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(수만 개의 스레드가 이런 식으로 굳어버리며 램(스택) 터져나감 ☠️)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2. 넌블로킹 I/O (Nginx, Node.js의 꿀벌 텐션)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">유저 스레드</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OS 커널</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀── <code>EAGAIN (없음)</code> ─</div><div class="kb-diagram-cell">"데이터 없네? 꺼져!" (1ms 컷)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OS 커널</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀── <code>Hello 리턴!</code> ──</div><div class="kb-diagram-cell">"얜 데이터 왔네! 가져가!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OS 커널</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀── <code>EAGAIN (없음)</code> ─</div><div class="kb-diagram-cell">"없네? 꺼져!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(단 1개의 스레드가 10초 동안 수백만 개의 소켓을 찔러대며 다 쳐냄 🚀)</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────────────────┐
+│        블로킹(Blocking) vs 넌블로킹(Non-blocking) I/O의 치명적 차이 시각화│
+├───────────────────────────────────────────────────────────────────────────┤
+│                                                                           │
+│ ▶ 1. 블로킹 I/O (과거 톰캣, 아파치의 지옥)                                │
+│  [유저 스레드] ──`read(소켓)`──▶ [OS 커널]                                │
+│      |                      | "네트워크에 데이터 안 왔네?"                │
+│      | (10초 동안 멍때림)       | (10초 대기...)                          │
+│      | ◀── `Hello` 리턴 ───  | "오! 왔다 가져가라!"                       │
+│    (수만 개의 스레드가 이런 식으로 굳어버리며 램(스택) 터져나감 ☠️)       │
+│                                                                           │
+│ ▶ 2. 넌블로킹 I/O (Nginx, Node.js의 꿀벌 텐션)                            │
+│  [유저 스레드] ──`read(소켓A)`─▶ [OS 커널]                                │
+│      | ◀── `EAGAIN (없음)` ─  | "데이터 없네? 꺼져!" (1ms 컷)             │
+│      |                                                                    │
+│      | ──`read(소켓B)`─▶ [OS 커널]                                        │
+│      | ◀── `Hello 리턴!` ──  | "얜 데이터 왔네! 가져가!"                  │
+│      |                                                                    │
+│      | ──`read(소켓C)`─▶ [OS 커널]                                        │
+│      | ◀── `EAGAIN (없음)` ─  | "없네? 꺼져!"                             │
+│    (단 1개의 스레드가 10초 동안 수백만 개의 소켓을 찔러대며 다 쳐냄 🚀)   │
+└───────────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** "멈추지 않는다(Never Block)." 이것이 현대 고성능 백엔드 아키텍처의 절대 헌법이다. 유저 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 늪([Wait Queue](/knowledge-base/studynote/02_operating_system/02_process_thread/089_wait_queue/))에 빠지는 순간 그 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 잡아먹은 2MB [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 메모리와 소중한 타임 퀀텀은 우주 쓰레기가 된다. 넌블로킹은 0.1초의 망설임 없이 에러(EAGAIN)를 뱉고 도망쳐 나오게 만듦으로써, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 숨통을 트이게 하고 미친듯한 핑퐁([Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/))을 가능케 한 물리적 마법이다.
 
 - **📢 섹션 요약 비유**: 친구 10명한테 돈 갚으라고 전화할 때, 블로킹 방식은 1번 친구가 안 받으면 받을 때까지 10분 동안 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)음만 계속 듣고 앉아있는 겁니다. 넌블로킹 방식은 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 1번 갔는데 안 받으면([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 없음) 쿨하게 끊어버리고 바로 2번, 3번 친구한테 전화를 다 돌리는 겁니다. 10명 중에 전화 바로 받은([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 있음) 3명한테 돈을 빛의 속도로 뜯어낼 수 있습니다.
@@ -103,17 +104,14 @@ tags = ["studynote-operating-system"]
 - 왜냐하면 디스크의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 "언젠가 올 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)"가 아니라 "무조건 저기 디스크에 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)"로 취급되기 때문에, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 강제로 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 목덜미를 잡고 디스크(8ms)를 긁어올 때까지 억지로 블로킹(D [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)) 시켜버린다.
 - 그래서 Node.js([이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/))가 네트워크는 넌블로킹으로 수만 개를 쳐내지만, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) `read`를 하는 순간 메인 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 굳어버려서 서버가 즉사한다. 이를 우회하려고 Node.js는 뒤에서 몰래 <strong>C++ <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/">스레드 풀</a>(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/">Thread Pool</a>)</strong> 4개를 띄워놓고 거기에 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 블로킹 읽기 작업을 하청 주는 눈물겨운 꼼수를 쓴다. (진정한 리눅스 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) AIO는 `io_uring`이 나오기 전까진 전멸 상태였다).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장치 종류</div><div class="kb-diagram-cell">Blocking 먹힘</div><div class="kb-diagram-cell">Non-block 작동</div><div class="kb-diagram-cell">백엔드 튜닝 전략</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">네트워크 소켓</div><div class="kb-diagram-cell">🟢 (느려터짐)</div><div class="kb-diagram-cell">🚀 (미친 속도)</div><div class="kb-diagram-cell">100% 넌블로킹 강제 적용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디스크 파일</div><div class="kb-diagram-cell">🟢 (기본값)</div><div class="kb-diagram-cell">❌ (커널이 씹음)</div><div class="kb-diagram-cell">몰래 스레드풀 따로 파서 던짐</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬───────────────────────────────────────┐
+│ 장치 종류  │ Blocking 먹힘│ Non-block 작동│ 백엔드 튜닝 전략               │
+├──────────┼────────────┼────────────┼───────────────────────────────────────┤
+│ 네트워크 소켓│ 🟢 (느려터짐)│ 🚀 (미친 속도)│ 100% 넌블로킹 강제 적용      │
+│ 디스크 파일 │ 🟢 (기본값)  │ ❌ (커널이 씹음)│ 몰래 스레드풀 따로 파서 던짐│
+└──────────┴────────────┴────────────┴───────────────────────────────────────┘
+```
 **[매트릭스 해설]** [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 통신은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 도착할지 안 할지 아무도 모르므로 넌블로킹이 완벽하게 들어맞는다. 하지만 디스크 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 이미 거기 있다는 게 확정되어 있으므로, 디스크 암(Arm)이 돌아서 가져오기 전까지 넌블로킹 핑계를 대고 돌아갈 수 없게 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 못 박아놨다. 이 한계점을 아는 것이 진짜 시스템 아키텍트다.
 
 - **📢 섹션 요약 비유**: 넌블로킹은 은행에서 번호표를 뽑고 "내 차례인가요?" 물어보고 아니면 바로 딴일 하러 가는 쾌적함입니다. 하지만 비동기는 아예 번호표를 비서에게 쥐여주고 집에 가서 자고 있으면, 비서(OS)가 내 차례가 왔을 때 집까지 서류([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 다 들고 배달 와주는 VVIP 서비스입니다. 윈도우는 이 비서(IOCP)가 엄청 잘되어 있지만, 리눅스는 비서 고용이 너무 힘들어서 내가 직접 왔다 갔다(넌블로킹+epoll) 해야 합니다.
@@ -172,19 +170,15 @@ Node.js는 이 넌블로킹 철학으로 무장한 최강의 싱글 [스레드](
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">블로킹 I/O (Blocking I/O)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">논블로킹 I/O (Non-blocking I/O)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">비동기 I/O (Asynchronous I/O, AIO)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">I/O 완료 포트 (IOCP, I/O Completion Port)</div></div>
-</div>
-</div>
-
-
+```text
+[블로킹 I/O (Blocking I/O)]
+    │
+    ▼
+[논블로킹 I/O (Non-blocking I/O)]
+    │
+    ├──▶ [비동기 I/O (Asynchronous I/O, AIO)]
+    └──▶ [I/O 완료 포트 (IOCP, I/O Completion Port)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

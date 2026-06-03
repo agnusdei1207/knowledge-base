@@ -38,23 +38,25 @@ ClusterIP [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_pa
 | **CoreDNS** | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 이름 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 시 `svc-name.namespace.svc.cluster.local` 형태의 FQDN (Fully Qualified [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Name)을 자동 등록한다. |
 | **Kube-proxy** | 노드 레벨에서 트래픽을 가로채어 엔드포인트에 등록된 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)들로 [라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/)(Round Robin) 방식으로 패킷을 전달한다. |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ClusterIP를 통한 파드 간 통신 흐름도</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Frontend Pod</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. HTTP GET http://backend-svc</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CoreDNS</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">2. DNS 질의: backend-svc -&gt; 10.96.0.10 반환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 3. 트래픽 전송 (Dest: 10.96.0.10)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Kube-proxy (iptables/IPVS)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─ 4. 규칙 매칭 및 로드밸런싱</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ ▼ ▼ 5. 파드로 전달</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Backend 1</div><div class="kb-diagram-node">Backend 2</div><div class="kb-diagram-node">Backend 3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(10.1.1.2) (10.1.1.5) (10.1.1.9)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           ClusterIP를 통한 파드 간 통신 흐름도              │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│  [Frontend Pod]                                              │
+│         │ 1. HTTP GET http://backend-svc                     │
+│         ▼                                                    │
+│  [CoreDNS] ─▶ 2. DNS 질의: backend-svc -> 10.96.0.10 반환    │
+│         │                                                    │
+│         ▼ 3. 트래픽 전송 (Dest: 10.96.0.10)                  │
+│  [Kube-proxy (iptables/IPVS)] ◀─ 4. 규칙 매칭 및 로드밸런싱 │
+│         │                                                    │
+│         ├───────────────┬───────────────┐                    │
+│         ▼               ▼               ▼ 5. 파드로 전달     │
+│    [Backend 1]     [Backend 2]     [Backend 3]               │
+│    (10.1.1.2)      (10.1.1.5)      (10.1.1.9)                │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 구조에서 트래픽은 실제로는 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)에서 노드의 네트워크 스택을 거쳐 대상 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)로 바로 라우팅된다. ClusterIP라는 물리적 장비가 존재하는 것이 아니라, 각 노드의 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 규칙에 의해 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 라우팅이 성립하는 것이다.
 
@@ -116,23 +118,21 @@ ClusterIP를 적극적으로 활용하면 [MSA](/knowledge-base/studynote/01_com
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">파드 IP 변경에 따른 통신 단절 문제</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ClusterIP (내부용 가상 IP 및 로드밸런싱)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CoreDNS 연동 (FQDN을 통한 이름 기반 서비스 디스커버리)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">NodePort / LoadBalancer (클러스터 외부 트래픽 유입으로 확장)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Service Mesh (Istio 등, 내부 통신의 암호화 및 트래픽 정밀 제어)</div>
-</div>
-</div>
-
-
+```text
+파드 IP 변경에 따른 통신 단절 문제
+    │
+    ▼
+ClusterIP (내부용 가상 IP 및 로드밸런싱)
+    │
+    ▼
+CoreDNS 연동 (FQDN을 통한 이름 기반 서비스 디스커버리)
+    │
+    ▼
+NodePort / LoadBalancer (클러스터 외부 트래픽 유입으로 확장)
+    │
+    ▼
+Service Mesh (Istio 등, 내부 통신의 암호화 및 트래픽 정밀 제어)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

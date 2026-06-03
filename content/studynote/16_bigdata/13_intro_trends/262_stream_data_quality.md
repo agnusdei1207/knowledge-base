@@ -30,21 +30,15 @@ tags = ["Great Expectations", "Kafka", "anomaly detection", "data quality", "dat
 
 ### 1.2 주요 품질 이슈
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 소스</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">소비자</div></div>
-<div class="kb-diagram-note">↓ 발생 가능한 품질 이슈:</div>
-<div class="kb-diagram-tree-item" style="--depth:1">스키마 불일치: 필드 추가/제거/타입 변경</div>
-<div class="kb-diagram-tree-item" style="--depth:1">누락값: 필수 필드 null</div>
-<div class="kb-diagram-tree-item" style="--depth:1">범위 위반: 음수 금액, 미래 타임스탬프</div>
-<div class="kb-diagram-tree-item" style="--depth:1">중복 이벤트: 네트워크 재전송으로 중복 메시지</div>
-<div class="kb-diagram-tree-item" style="--depth:1">지연 도착: 이벤트 시간 vs 처리 시간 불일치</div>
-</div>
-</div>
-
-
+```
+[데이터 소스] → Kafka → [소비자]
+      ↓ 발생 가능한 품질 이슈:
+  - 스키마 불일치: 필드 추가/제거/타입 변경
+  - 누락값: 필수 필드 null
+  - 범위 위반: 음수 금액, 미래 타임스탬프
+  - 중복 이벤트: 네트워크 재전송으로 중복 메시지
+  - 지연 도착: 이벤트 시간 vs 처리 시간 불일치
+```
 
 📢 **섹션 요약 비유**: 배치 품질 관리는 날 마감 후 재고 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/), 스트리밍은 계산대에서 물건 바코드가 찍힐 때마다 즉시 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/).
 
@@ -54,18 +48,15 @@ tags = ["Great Expectations", "Kafka", "anomaly detection", "data quality", "dat
 
 ### 2.1 [Confluent](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/) [Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/) [Registry](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">생산자 스키마 레지스트리 소비자</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">스키마 등록/확인</div><div class="kb-diagram-connector">▶</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">메시지 직렬화(Avro)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스키마 확인</div><div class="kb-diagram-connector">▶</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">역직렬화</div></div>
-</div>
-</div>
-
-
+```
+생산자                    스키마 레지스트리        소비자
+  │                            │                    │
+  ├─[스키마 등록/확인]──────▶  │                    │
+  │                            │                    │
+  ├─[메시지 직렬화(Avro)]──▶ Kafka ──▶[스키마 확인]─▶│
+                                                     │
+                                               [역직렬화]
+```
 
 ### 2.2 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 모드
 
@@ -131,23 +122,17 @@ results = validator.validate()
 
 ### 4.1 DLQ 아키텍처
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">메인 토픽 (orders)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">소비자 + 검증</div></div>
-<div class="kb-diagram-tree-item" style="--depth:3">유효 이벤트 → 처리 파이프라인 진행</div>
-<div class="kb-diagram-tree-item" style="--depth:3">오류 이벤트 → DLQ (orders.dlq)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">알림/모니터링</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">수동 검토/재처리</div></div>
-</div>
-</div>
-
-
+```
+메인 토픽 (orders)
+      ↓
+[소비자 + 검증]
+      ├─ 유효 이벤트 → 처리 파이프라인 진행
+      └─ 오류 이벤트 → DLQ (orders.dlq)
+                            ↓
+                     [알림/모니터링]
+                            ↓
+                     [수동 검토/재처리]
+```
 
 ### 4.2 DLQ [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 구조
 
@@ -200,53 +185,41 @@ def detect_anomaly(value):
 
 ## 📌 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">스트리밍 데이터 품질</div>
-<div class="kb-diagram-tree-item" style="--depth:0">1단: 스키마 검증</div>
-<div class="kb-diagram-note">── Schema Registry (Avro/Protobuf)</div>
-<div class="kb-diagram-note">── 호환성 모드 (BACKWARD/FORWARD)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">2단: 인라인 검증</div>
-<div class="kb-diagram-note">── Great Expectations Streaming</div>
-<div class="kb-diagram-note">── Flink/Spark 내 커스텀 검증</div>
-<div class="kb-diagram-tree-item" style="--depth:0">3단: 이상 탐지</div>
-<div class="kb-diagram-note">── 통계 기반 (3σ, Z-score)</div>
-<div class="kb-diagram-note">── ML 기반 (Isolation Forest, LSTM)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">오류 처리</div>
-<div class="kb-diagram-tree-item" style="--depth:2">데드 레터 큐 (DLQ)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">알림 + 재처리 흐름</div>
-</div>
-</div>
-
-
+```
+스트리밍 데이터 품질
+├── 1단: 스키마 검증
+│   ├── Schema Registry (Avro/Protobuf)
+│   └── 호환성 모드 (BACKWARD/FORWARD)
+├── 2단: 인라인 검증
+│   ├── Great Expectations Streaming
+│   └── Flink/Spark 내 커스텀 검증
+├── 3단: 이상 탐지
+│   ├── 통계 기반 (3σ, Z-score)
+│   └── ML 기반 (Isolation Forest, LSTM)
+└── 오류 처리
+    ├── 데드 레터 큐 (DLQ)
+    └── 알림 + 재처리 흐름
+```
 
 ---
 
 ## 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">배치 ETL 품질 관리 (SQL 검증, Great Expectations)</div>
-<div class="kb-diagram-note">스트리밍 데이터 증가</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Kafka + Schema Registry 도입 (2014~)</div>
-<div class="kb-diagram-note">실시간 검증 필요</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">스트리밍 인라인 검증 (Flink/Spark + DLQ)</div>
-<div class="kb-diagram-note">ML 기반 이상 탐지</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지능형 스트리밍 DQ (Anomaly Detection + Auto-Remediation)</div>
-<div class="kb-diagram-note">DataOps + 스트리밍 통합</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">실시간 데이터 옵저버빌리티 플랫폼 (현재~)</div>
-</div>
-</div>
-
-
+```
+배치 ETL 품질 관리 (SQL 검증, Great Expectations)
+     │  스트리밍 데이터 증가
+     ▼
+Kafka + Schema Registry 도입 (2014~)
+     │  실시간 검증 필요
+     ▼
+스트리밍 인라인 검증 (Flink/Spark + DLQ)
+     │  ML 기반 이상 탐지
+     ▼
+지능형 스트리밍 DQ (Anomaly Detection + Auto-Remediation)
+     │  DataOps + 스트리밍 통합
+     ▼
+실시간 데이터 옵저버빌리티 플랫폼 (현재~)
+```
 
 **핵심 키워드**: [Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/) [Registry](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/), Avro, DLQ, Great Expectations, [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/), [워터마크](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/), 인라인 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)
 

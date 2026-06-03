@@ -27,22 +27,22 @@ tags = ["studynote-enterprise"]
 
 아래 그림은 주문 처리 흐름에서 오케스트레이터가 어떤 역할을 맡는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Orchestrated saga flow</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client request</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Saga Orchestrator</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Command: CreateOrder ──&gt; Order Service ──&gt; Reply</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Command: AuthorizePay ──&gt; Payment Service ──&gt; Reply</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Command: ReserveStock ──&gt; Inventory Service ──&gt; Reply</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ on failure ──&gt; Compensate previous services</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">State progression is remembered centrally</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Orchestrated saga flow                                             │
+├────────────────────────────────────────────────────────────────────┤
+│ Client request                                                     │
+│      │                                                             │
+│      ▼                                                             │
+│ Saga Orchestrator                                                  │
+│   ├─ Command: CreateOrder   ──> Order Service     ──> Reply        │
+│   ├─ Command: AuthorizePay  ──> Payment Service   ──> Reply        │
+│   ├─ Command: ReserveStock  ──> Inventory Service ──> Reply        │
+│   └─ on failure            ──> Compensate previous services        │
+│                                                                    │
+│ State progression is remembered centrally                          │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 즉 [오케스트레이션 사가](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/552_orchestration_saga_centralized_control/)의 본질은 "중앙이 다 해 준다"가 아니라, <strong>각 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>의 일은 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>돼 있어도 흐름의 판단과 기억은 중앙에서 관리한다</strong>는 데 있다.
 
@@ -65,23 +65,24 @@ tags = ["studynote-enterprise"]
 
 실행 흐름은 다음과 같다. 주문 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 요청이 들어오면 오케스트레이터는 `ORDER_CREATED_PENDING` 같은 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 상태를 저장하고 주문 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 명령을 보낸다. 주문이 성공하면 상태를 `PAYMENT_PENDING`으로 바꾼 뒤 결제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 명령을 보낸다. 결제가 성공하면 재고 예약으로 넘어가고, 재고 부족이나 결제 실패가 발생하면 이미 성공한 앞 단계에 대해 취소·해제 명령을 내려 [보상 트랜잭션](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/551_compensating_transaction_logical_rollback/)을 수행한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Durable state machine</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">START</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OrderCreated? ----no----&gt; FAIL</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">yes</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PaymentAuthorized? --no--&gt; CancelOrder -&gt; FAIL</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">yes</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">StockReserved? ------no--&gt; RefundPayment -&gt; CancelOrder -&gt; FAIL</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">yes</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">COMPLETE</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Durable state machine                                               │
+├────────────────────────────────────────────────────────────────────┤
+│ START                                                              │
+│   ▼                                                                │
+│ OrderCreated? ----no----> FAIL                                     │
+│   │ yes                                                            │
+│   ▼                                                                │
+│ PaymentAuthorized? --no--> CancelOrder -> FAIL                     │
+│   │ yes                                                            │
+│   ▼                                                                │
+│ StockReserved? ------no--> RefundPayment -> CancelOrder -> FAIL    │
+│   │ yes                                                            │
+│   ▼                                                                │
+│ COMPLETE                                                           │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 여기서 중요한 것은 "오케스트레이터가 직접 비즈니스 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수정하는가"가 아니라, <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/">상태 전이</a>의 근거를 영속적으로 기록하는가</strong>다. 기록이 없다면 프로세스 재시작, 중복 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지, 네트워크 장애 시 전체 흐름을 복원할 수 없다. 그래서 실무에서는 단순 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) ([HyperText Transfer Protocol](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)) 호출 체인보다 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 기반 명령·응답, 워크플로 엔진, 멱등 처리 키가 함께 쓰이는 경우가 많다.
 
@@ -162,30 +163,29 @@ tags = ["studynote-enterprise"]
 | 상태 기계 ([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Machine) | 흐름의 단계와 분기를 모델링하는 핵심 구조 |
 | [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/) ([Idempotency](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/194_idempotency/)) | 재시도와 중복 전달 상황에서도 결과를 안정화하는 조건 |
 | [코레오그래피 사가](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/553_choreography_saga_event_driven/) | 중앙 제어형과 대비되는 이벤트 자율 협업 방식 |
-| 워크플로 엔진 (Workflow Engine) | [오케스트레이션 사가](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/552_orchestration_saga_centralized_control/)를 안정적으로 구현하는 실행 기반 |
+| 워크플로 엔진 (Workflow 엔진) | [오케스트레이션 사가](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/552_orchestration_saga_centralized_control/)를 안정적으로 구현하는 실행 기반 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Business request accepted</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Saga instance created + state persisted</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Command dispatch to service</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Reply / event received</div>
-<div class="kb-diagram-tree-item" style="--depth:4">failure or timeout -&gt; compensation chain</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Next state transition</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Completed / Failed with audit trail</div>
-</div>
-</div>
-
-
+```text
+Business request accepted
+        │
+        ▼
+Saga instance created + state persisted
+        │
+        ▼
+Command dispatch to service
+        │
+        ▼
+Reply / event received
+        │
+        ├──────────────► failure or timeout -> compensation chain
+        ▼
+Next state transition
+        │
+        ▼
+Completed / Failed with audit trail
+```
 
 이 흐름도는 "요청 수락 → 상태 기록 → 명령 전송 → 응답 기반 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) → 실패 시 보상 → 최종 종료"라는 [오케스트레이션 사가](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/552_orchestration_saga_centralized_control/)의 실행 리듬을 요약한다.
 

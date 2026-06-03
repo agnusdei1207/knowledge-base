@@ -35,24 +35,24 @@ Firebase를 기준으로 보면 BaaS의 핵심은 클라이언트가 관리형 �
 
 아래 그림은 Firebase형 BaaS에서 책임이 어떻게 재배치되는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Firebase-style BaaS architecture</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Web / iOS / Android app</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SDK / HTTPS / WebSocket</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Firebase BaaS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Authentication</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Firestore / Realtime DB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Cloud Storage</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Cloud Functions</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Firebase Cloud Messaging</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Security Rules + Access Control + Auto Scaling + Analytics</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Firebase-style BaaS architecture                                   │
+├────────────────────────────────────────────────────────────────────┤
+│ Web / iOS / Android app                                             │
+│        │ SDK / HTTPS / WebSocket                                    │
+│        ▼                                                            │
+│ Firebase BaaS                                                       │
+│   ├─ Authentication                                                 │
+│   ├─ Firestore / Realtime DB                                        │
+│   ├─ Cloud Storage                                                  │
+│   ├─ Cloud Functions                                                │
+│   └─ Firebase Cloud Messaging                                       │
+│        │                                                            │
+│        ▼                                                            │
+│ Security Rules + Access Control + Auto Scaling + Analytics                     │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -144,23 +144,20 @@ BaaS를 잘 활용하면 작은 팀도 큰 제품처럼 보이는 [서비스](/k
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">모바일 앱 공통 백엔드 반복 개발</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">BaaS (Backend as a Service)</div>
-<div class="kb-diagram-tree-item" style="--depth:4">Auth · DB · Storage · Push 통합</div>
-<div class="kb-diagram-tree-item" style="--depth:4">Firebase형 실시간 동기화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Cloud Functions 기반 서버리스 보완</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">오픈소스 BaaS · 탈출 전략 · 조합형 백엔드</div>
-</div>
-</div>
-
-
+```text
+모바일 앱 공통 백엔드 반복 개발
+        │
+        ▼
+BaaS (Backend as a Service)
+        │
+        ├──────────────► Auth · DB · Storage · Push 통합
+        ├──────────────► Firebase형 실시간 동기화
+        ▼
+Cloud Functions 기반 서버리스 보완
+        │
+        ▼
+오픈소스 BaaS · 탈출 전략 · 조합형 백엔드
+```
 
 이 흐름은 백엔드 기능이 점차 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)화되고, 이후에는 실시간성·[서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)·이식성까지 함께 고려하는 방향으로 진화하고 있음을 보여 준다.
 

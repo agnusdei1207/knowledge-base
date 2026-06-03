@@ -23,17 +23,14 @@ tags = ["studynote-ai"]
 
 두 방법 모두 "저확률 쓰레기 토큰"을 제거하고 의미 있는 후보 토큰 집합에서 샘플링한다는 공통 목적을 가진다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: Top-K는 "항상 상위 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)명 중 무작위 선택", Top-P는 "합격점 이상인 사람들 중에서 무작위 선택"이다. 인원이 고정이냐 기준이 고정이냐의 차이다.
 
@@ -54,38 +51,31 @@ tags = ["studynote-ai"]
 
 ### Top-P (Nucleus [Sampling](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/))
 
+```
+1. 확률 내림차순 정렬
+2. 누적 확률 합 계산
+3. P 임계값 초과하는 최소 집합 S_P 선택
+4. S_P 내 확률 재정규화 후 샘플링
 
+P=0.9 예시:
+토큰:  [A=0.50, B=0.30, C=0.15, D=0.03, E=0.02]
+누적:  [0.50,  0.80,  0.95,  0.98, 1.00]
+→ C까지(누적 0.95 ≥ 0.9) → S_P = {A, B, C}
+```
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">1. 확률 내림차순 정렬</div>
-<div class="kb-diagram-note">2. 누적 확률 합 계산</div>
-<div class="kb-diagram-note">3. P 임계값 초과하는 최소 집합 S_P 선택</div>
-<div class="kb-diagram-note">4. S_P 내 확률 재정규화 후 샘플링</div>
-<div class="kb-diagram-note">P=0.9 예시:</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">토큰:</div><div class="kb-diagram-node">A=0.50, B=0.30, C=0.15, D=0.03, E=0.02</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">누적:</div><div class="kb-diagram-node">0.50,  0.80,  0.95,  0.98, 1.00</div></div>
-<div class="kb-diagram-note">→ C까지(누적 0.95 ≥ 0.9) → S_P = {A, B, C}</div>
-</div>
-</div>
-
-
-
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">뾰족한 분포 (확신) 평평한 분포 (불확실)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Top-K=3: Top-K=3:</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">████ A, ██ B, █ C</div><div class="kb-diagram-node">█ A, █ B, █ C</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(K=3으로 충분) (K=3이 너무 적음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Top-P=0.9: Top-P=0.9:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ S_P={A,B} (2개) → S_P={A,B,...,J} (많음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(분포에 적응적) (분포에 적응적)</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────┐
+│  뾰족한 분포 (확신)       평평한 분포 (불확실)         │
+│                                                      │
+│  Top-K=3:                 Top-K=3:                   │
+│  [████ A, ██ B, █ C]      [█ A, █ B, █ C]            │
+│  (K=3으로 충분)            (K=3이 너무 적음)           │
+│                                                      │
+│  Top-P=0.9:               Top-P=0.9:                 │
+│  → S_P={A,B} (2개)        → S_P={A,B,...,J} (많음)   │
+│  (분포에 적응적)            (분포에 적응적)             │
+└──────────────────────────────────────────────────────┘
+```
 
 | 방법 | 후보 크기 | 분포 적응 | 하이퍼파라미터 | 권장 값 |
 |:---|:---|:---|:---|:---|

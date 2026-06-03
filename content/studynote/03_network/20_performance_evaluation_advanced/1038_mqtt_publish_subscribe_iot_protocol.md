@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 462번 HTTP는 폰([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/))이 온도계(Server)에게 질문(Request)을 던져야만 대답(Response)을 해줍니다.
 - 방 안의 수백 개 센서 온도를 알고 싶으면, 폰이 1초마다 수백 번의 접속과 질문을 날려대야([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/)) 해서 회선 낭비와 배터리 소모(오버헤드)가 재앙 수준이었습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">ONS 구조</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MQTT 프로토콜</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CoAP 프로토콜 및 REST 인터페이스</div></div>
-</div>
-</div>
-
-
+```text
+[ONS 구조]
+    │
+    ▼
+[MQTT 프로토콜]
+    │
+    └──▶ [CoAP 프로토콜 및 REST 인터페이스]
+```
 
 - **📢 섹션 요약 비유**: [MQTT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/622_mqtt_publish_subscribe_qos/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -58,18 +54,14 @@ tags = ["studynote-network"]
   2. 거실 온도계(발행자)가 온도를 재고 브로커에게 던집니다. "[토픽: `Home/LivingRoom/Temp`] 메시지: 24도!"
   3. 브로커는 이 토픽을 구독 중인 모든 폰들에게 <strong>동시에 카톡 푸시 알람을 쏘듯 24도라는 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 확 뿌려버립니다.</strong>
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">ONS 구조</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MQTT 프로토콜</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CoAP 프로토콜 및 REST 인터페이스</div></div>
-</div>
-</div>
-
-
+```text
+[ONS 구조]
+    │
+    ▼
+[MQTT 프로토콜]
+    │
+    └──▶ [CoAP 프로토콜 및 REST 인터페이스]
+```
 
 - **📢 섹션 요약 비유**: [MQTT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/622_mqtt_publish_subscribe_qos/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -129,19 +121,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: ONS 구조</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: MQTT 프로토콜</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: CoAP 프로토콜 및 REST 인터페이스</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: ONS 구조]
+    │
+    ▼
+[현재 개념: MQTT 프로토콜]
+    │
+    ├──▶ [확장 A: CoAP 프로토콜 및 REST 인터페이스]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 [MQTT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/622_mqtt_publish_subscribe_qos/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)는 [ONS](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1037_ons_object_name_service_rfid_dns/) 구조에서 출발해 현재 메커니즘을 정교화하고, 이후 [CoAP](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 및 [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) 인터페이스와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

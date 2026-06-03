@@ -18,40 +18,43 @@ tags = ["studynote-algorithm-stats"]
 
 ## Ⅰ. 클리크 정의
 
+```
+클리크 (Clique):
 
+그래프 G = (V, E)에서
+클리크 C ⊆ V는:
+  C의 모든 두 정점 u, v에 대해 (u, v) ∈ E
+  즉, C 내부의 모든 쌍이 연결된 완전 부분 그래프
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">클리크 (Clique):</div>
-<div class="kb-diagram-note">그래프 G = (V, E)에서</div>
-<div class="kb-diagram-note">클리크 C ⊆ V는:</div>
-<div class="kb-diagram-note">C의 모든 두 정점 u, v에 대해 (u, v) ∈ E</div>
-<div class="kb-diagram-note">즉, C 내부의 모든 쌍이 연결된 완전 부분 그래프</div>
-<div class="kb-diagram-note">예시:</div>
-<div class="kb-diagram-note">그래프:</div>
-<div class="kb-diagram-note">1 - 2 - 3</div>
-<div class="kb-diagram-note">4 - 5</div>
-<div class="kb-diagram-note">클리크 {1,2,4}: 1-2, 2-4, 1-4 모두 연결? 1-4 없음 → Not clique</div>
-<div class="kb-diagram-note">클리크 {1,2}: 1-2 연결 → size-2 clique ✓</div>
-<div class="kb-diagram-note">클리크 {2,3}: 2-3 연결 → size-2 clique ✓</div>
-<div class="kb-diagram-note">최대 클리크 (Maximum Clique):</div>
-<div class="kb-diagram-note">그래프에서 가장 큰 클리크</div>
-<div class="kb-diagram-note">크기를 ω(G)라 표기</div>
-<div class="kb-diagram-note">k-클리크 결정 문제 (k-Clique Decision Problem):</div>
-<div class="kb-diagram-note">"그래프 G에 크기 k 이상의 클리크가 존재하는가?"</div>
-<div class="kb-diagram-note">→ NP-완전</div>
-<div class="kb-diagram-note">클리크 최적화 문제:</div>
-<div class="kb-diagram-note">"최대 클리크의 크기는?"</div>
-<div class="kb-diagram-note">→ NP-하드</div>
-<div class="kb-diagram-note">사회 네트워크 직관:</div>
-<div class="kb-diagram-note">정점 = 사람</div>
-<div class="kb-diagram-note">엣지 = 서로 아는 관계</div>
-<div class="kb-diagram-note">클리크 = 모두가 서로 아는 그룹 (완전 연결 사교 그룹)</div>
-<div class="kb-diagram-note">SNS 예: 3명이 모두 서로 팔로우 = size-3 클리크</div>
-</div>
-</div>
+예시:
+  그래프:
+  1 - 2 - 3
+  |   |
+  4 - 5
+  
+  클리크 {1,2,4}: 1-2, 2-4, 1-4 모두 연결? 1-4 없음 → Not clique
+  클리크 {1,2}: 1-2 연결 → size-2 clique ✓
+  클리크 {2,3}: 2-3 연결 → size-2 clique ✓
 
+최대 클리크 (Maximum Clique):
+  그래프에서 가장 큰 클리크
+  크기를 ω(G)라 표기
 
+k-클리크 결정 문제 (k-Clique Decision Problem):
+  "그래프 G에 크기 k 이상의 클리크가 존재하는가?"
+  → NP-완전
+
+클리크 최적화 문제:
+  "최대 클리크의 크기는?"
+  → NP-하드
+
+사회 네트워크 직관:
+  정점 = 사람
+  엣지 = 서로 아는 관계
+  클리크 = 모두가 서로 아는 그룹 (완전 연결 사교 그룹)
+  
+  SNS 예: 3명이 모두 서로 팔로우 = size-3 클리크
+```
 
 > 📢 **섹션 요약 비유**: 클리크는 "모두가 서로 아는 친구 그룹" — 4명이 클리크이려면 4명 모두가 서로서로 친구여야 해요. 단 한 쌍이라도 모르면 클리크가 아니에요.
 
@@ -59,48 +62,56 @@ tags = ["studynote-algorithm-stats"]
 
 ## Ⅱ. NP-완전 증명
 
+```
+k-클리크 ∈ NP 증명:
 
+검증 (Verification):
+  주어진 부분 집합 C가 크기 k 클리크인지 확인
+  모든 쌍 (u,v) ∈ C에 대해 엣지 존재 확인
+  O(k^2) = O(n^2) → 다항 시간 검증 가능
+  → k-Clique ∈ NP ✓
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">k-클리크 ∈ NP 증명:</div>
-<div class="kb-diagram-note">검증 (Verification):</div>
-<div class="kb-diagram-note">주어진 부분 집합 C가 크기 k 클리크인지 확인</div>
-<div class="kb-diagram-note">모든 쌍 (u,v) ∈ C에 대해 엣지 존재 확인</div>
-<div class="kb-diagram-note">O(k^2) = O(n^2) → 다항 시간 검증 가능</div>
-<div class="kb-diagram-note">→ k-Clique ∈ NP ✓</div>
-<div class="kb-diagram-note">3-SAT ≤p k-Clique (3-SAT → k-Clique 다항 변환):</div>
-<div class="kb-diagram-note">3-SAT 입력:</div>
-<div class="kb-diagram-note">k개의 절 C1, ..., Ck</div>
-<div class="kb-diagram-note">각 절 Ci = (xi1 ∨ xi2 ∨ xi3)</div>
-<div class="kb-diagram-note">k-Clique 변환:</div>
-<div class="kb-diagram-note">각 절의 각 리터럴 → 정점 생성</div>
-<div class="kb-diagram-note">총 3k개의 정점</div>
-<div class="kb-diagram-note">엣지 추가 규칙:</div>
-<div class="kb-diagram-note">1. 같은 절의 리터럴 끼리는 연결 안 함</div>
-<div class="kb-diagram-note">2. 다른 절의 리터럴 사이 연결:</div>
-<div class="kb-diagram-note">모순이 아닐 때만 (xi와 ¬xi는 연결 안 함)</div>
-<div class="kb-diagram-note">핵심 아이디어:</div>
-<div class="kb-diagram-note">3-SAT가 만족 가능 ↔ 크기 k 클리크 존재</div>
-<div class="kb-diagram-note">각 절에서 하나씩 리터럴을 선택 (k개 선택)</div>
-<div class="kb-diagram-note">→ 선택한 k개가 모두 모순 없이 연결 = k-클리크</div>
-<div class="kb-diagram-note">변환: O(n^2) → 다항 시간</div>
-<div class="kb-diagram-note">따라서 3-SAT ≤p k-Clique</div>
-<div class="kb-diagram-note">3-SAT는 NP-완전 + k-Clique ∈ NP</div>
-<div class="kb-diagram-note">→ k-Clique는 NP-완전 ✓</div>
-<div class="kb-diagram-note">클리크 ≡ 독립 집합 (Independent Set):</div>
-<div class="kb-diagram-note">독립 집합 (Independent Set):</div>
-<div class="kb-diagram-note">S ⊆ V에서 어떤 두 정점도 연결되지 않음</div>
-<div class="kb-diagram-note">관계:</div>
-<div class="kb-diagram-note">G의 여그래프 G-bar:</div>
-<div class="kb-diagram-note">G의 엣지가 없는 곳 → G-bar에 엣지</div>
-<div class="kb-diagram-note">G에서 클리크 C ↔ G-bar에서 독립 집합 C</div>
-<div class="kb-diagram-note">→ Clique ≤p Independent Set (동치)</div>
-<div class="kb-diagram-note">→ 둘 다 NP-완전</div>
-</div>
-</div>
+3-SAT ≤p k-Clique (3-SAT → k-Clique 다항 변환):
 
+  3-SAT 입력:
+    k개의 절 C1, ..., Ck
+    각 절 Ci = (xi1 ∨ xi2 ∨ xi3)
+    
+  k-Clique 변환:
+    각 절의 각 리터럴 → 정점 생성
+    총 3k개의 정점
+    
+    엣지 추가 규칙:
+    1. 같은 절의 리터럴 끼리는 연결 안 함
+    2. 다른 절의 리터럴 사이 연결:
+       모순이 아닐 때만 (xi와 ¬xi는 연결 안 함)
+       
+  핵심 아이디어:
+    3-SAT가 만족 가능 ↔ 크기 k 클리크 존재
+    
+    각 절에서 하나씩 리터럴을 선택 (k개 선택)
+    → 선택한 k개가 모두 모순 없이 연결 = k-클리크
+    
+  변환: O(n^2) → 다항 시간
+  따라서 3-SAT ≤p k-Clique
+  
+  3-SAT는 NP-완전 + k-Clique ∈ NP
+  → k-Clique는 NP-완전 ✓
 
+클리크 ≡ 독립 집합 (Independent Set):
+
+  독립 집합 (Independent Set):
+    S ⊆ V에서 어떤 두 정점도 연결되지 않음
+    
+  관계:
+    G의 여그래프 G-bar:
+    G의 엣지가 없는 곳 → G-bar에 엣지
+    
+    G에서 클리크 C ↔ G-bar에서 독립 집합 C
+    
+  → Clique ≤p Independent Set (동치)
+  → 둘 다 NP-완전
+```
 
 > 📢 **섹션 요약 비유**: 클리크 NP-완전 증명은 어려움의 연쇄 — SAT가 어렵다는 걸 알았고, SAT를 클리크 문제로 변환할 수 있으니 클리크도 어렵다! 어려움이 바이러스처럼 전파돼요.
 
@@ -108,44 +119,45 @@ tags = ["studynote-algorithm-stats"]
 
 ## Ⅲ. [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
 
+```
+클리크 알고리즘:
 
+1. 브루트 포스 (Brute Force):
+   모든 2^n 부분 집합 검사
+   각 부분 집합이 클리크인지 O(n^2) 검사
+   총: O(2^n × n^2)
+   n=50 → 2^50 ≈ 10^15 연산 → 실용 불가
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">클리크 알고리즘:</div>
-<div class="kb-diagram-note">1. 브루트 포스 (Brute Force):</div>
-<div class="kb-diagram-note">모든 2^n 부분 집합 검사</div>
-<div class="kb-diagram-note">각 부분 집합이 클리크인지 O(n^2) 검사</div>
-<div class="kb-diagram-note">총: O(2^n × n^2)</div>
-<div class="kb-diagram-note">n=50 → 2^50 ≈ 10^15 연산 → 실용 불가</div>
-<div class="kb-diagram-note">2. Bron-Kerbosch 알고리즘 (1973):</div>
-<div class="kb-diagram-note">백트래킹 기반 최대 클리크 탐색</div>
-<div class="kb-diagram-note">BronKerbosch(R, P, X):</div>
-<div class="kb-diagram-note">if P is empty and X is empty:</div>
-<div class="kb-diagram-note">R은 극대 클리크 (Maximal Clique) 출력</div>
-<div class="kb-diagram-note">for each vertex v in P:</div>
-<div class="kb-diagram-note">BronKerbosch(R ∪ {v}, P ∩ N(v), X ∩ N(v))</div>
-<div class="kb-diagram-note">P = P \ {v}</div>
-<div class="kb-diagram-note">X = X ∪ {v}</div>
-<div class="kb-diagram-note">피벗팅(Pivoting) 최적화:</div>
-<div class="kb-diagram-note">가지치기로 실용적 속도 향상</div>
-<div class="kb-diagram-note">희소 그래프에서 매우 빠름</div>
-<div class="kb-diagram-note">3. 근사 알고리즘:</div>
-<div class="kb-diagram-note">최대 클리크는 근사 어렵기로 유명</div>
-<div class="kb-diagram-note">poly-log 근사비율도 NP-하드임이 증명됨 (Hastad, 1999)</div>
-<div class="kb-diagram-note">실용: 휴리스틱 (유전 알고리즘, 시뮬레이티드 어닐링)</div>
-<div class="kb-diagram-note">4. 파라미터화 알고리즘 (FPT):</div>
-<div class="kb-diagram-note">k-클리크 문제:</div>
-<div class="kb-diagram-note">O(2^k × n^ω) (ω: 행렬 곱셈 지수 ≈ 2.37)</div>
-<div class="kb-diagram-note">k가 작으면 (k ≤ 20) 실용적</div>
-<div class="kb-diagram-note">SNS 클리크 탐색 현실:</div>
-<div class="kb-diagram-note">Facebook, Twitter: 수십억 노드</div>
-<div class="kb-diagram-note">최대 클리크 탐색: 불가능 → 근사 사용</div>
-<div class="kb-diagram-note">Dense Subgraph Discovery: 완화된 클리크 개념</div>
-</div>
-</div>
+2. Bron-Kerbosch 알고리즘 (1973):
+   백트래킹 기반 최대 클리크 탐색
+   
+   BronKerbosch(R, P, X):
+     if P is empty and X is empty:
+       R은 극대 클리크 (Maximal Clique) 출력
+     for each vertex v in P:
+       BronKerbosch(R ∪ {v}, P ∩ N(v), X ∩ N(v))
+       P = P \ {v}
+       X = X ∪ {v}
+   
+   피벗팅(Pivoting) 최적화:
+     가지치기로 실용적 속도 향상
+     희소 그래프에서 매우 빠름
 
+3. 근사 알고리즘:
+   최대 클리크는 근사 어렵기로 유명
+   poly-log 근사비율도 NP-하드임이 증명됨 (Hastad, 1999)
+   실용: 휴리스틱 (유전 알고리즘, 시뮬레이티드 어닐링)
 
+4. 파라미터화 알고리즘 (FPT):
+   k-클리크 문제:
+   O(2^k × n^ω) (ω: 행렬 곱셈 지수 ≈ 2.37)
+   k가 작으면 (k ≤ 20) 실용적
+
+SNS 클리크 탐색 현실:
+  Facebook, Twitter: 수십억 노드
+  최대 클리크 탐색: 불가능 → 근사 사용
+  Dense Subgraph Discovery: 완화된 클리크 개념
+```
 
 > 📢 **섹션 요약 비유**: 클리크 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 퍼즐 최적화 — 모든 조합을 다 시도하는 건 너무 느리니, Bron-Kerbosch는 "이 방향은 어차피 안 될 것 같아" 하며 빠르게 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/).
 
@@ -199,46 +211,49 @@ MaxClique 벤치마크:
 
 ## Ⅴ. 실무 시나리오 — 생물정보학 단백질 복합체 탐지
 
+```
+단백질 상호작용 클리크 탐색:
 
+배경:
+  질병 연구에서 단백질 복합체 식별이 핵심
+  예: SARS-CoV-2 스파이크 단백질 상호작용 네트워크
+  
+입력 데이터:
+  BioGRID, STRING DB에서 PPI 데이터 다운로드
+  정점: 2만~3만 단백질
+  엣지: 수십만~수백만 상호작용
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단백질 상호작용 클리크 탐색:</div>
-<div class="kb-diagram-note">배경:</div>
-<div class="kb-diagram-note">질병 연구에서 단백질 복합체 식별이 핵심</div>
-<div class="kb-diagram-note">예: SARS-CoV-2 스파이크 단백질 상호작용 네트워크</div>
-<div class="kb-diagram-note">입력 데이터:</div>
-<div class="kb-diagram-note">BioGRID, STRING DB에서 PPI 데이터 다운로드</div>
-<div class="kb-diagram-note">정점: 2만~3만 단백질</div>
-<div class="kb-diagram-note">엣지: 수십만~수백만 상호작용</div>
-<div class="kb-diagram-note">클리크 탐색 과정:</div>
-<div class="kb-diagram-note">1. 네트워크 구성:</div>
-<div class="kb-diagram-note">G = (단백질, 상호작용)</div>
-<div class="kb-diagram-note">2. 필터링:</div>
-<div class="kb-diagram-note">고신뢰도 상호작용만 유지 (confidence &gt; 0.7)</div>
-<div class="kb-diagram-note">네트워크 밀도 감소 → Bron-Kerbosch 실용화</div>
-<div class="kb-diagram-note">3. Bron-Kerbosch 실행:</div>
-<div class="kb-diagram-note">극대 클리크 열거 (크기 ≥ 3)</div>
-<div class="kb-diagram-note">4. 결과 해석:</div>
-<div class="kb-diagram-note">클리크 = 단백질 복합체 후보</div>
-<div class="kb-diagram-note">GO Term (Gene Ontology) 분석:</div>
-<div class="kb-diagram-note">같은 클리크 내 단백질들이 공통 기능 보유하면 유효</div>
-<div class="kb-diagram-note">발견 사례:</div>
-<div class="kb-diagram-note">크기-5 클리크 {EGFR, GRB2, SOS1, RAS, RAF}</div>
-<div class="kb-diagram-note">→ EGFR 신호 경로 복합체</div>
-<div class="kb-diagram-note">→ 암 치료 타겟 후보 발견</div>
-<div class="kb-diagram-note">성능:</div>
-<div class="kb-diagram-note">전체 네트워크: 28,000 노드, 600,000 엣지</div>
-<div class="kb-diagram-note">고신뢰도 필터 후: 5,000 노드, 50,000 엣지</div>
-<div class="kb-diagram-note">Bron-Kerbosch: ~2분 내 극대 클리크 전체 열거</div>
-<div class="kb-diagram-note">한계:</div>
-<div class="kb-diagram-note">최대 클리크는 여전히 어려움</div>
-<div class="kb-diagram-note">실용: 극대 클리크(Maximal) + 생물학 기반 필터링</div>
-<div class="kb-diagram-note">= NP-완전의 실용적 우회</div>
-</div>
-</div>
+클리크 탐색 과정:
+  1. 네트워크 구성:
+     G = (단백질, 상호작용)
+     
+  2. 필터링:
+     고신뢰도 상호작용만 유지 (confidence > 0.7)
+     네트워크 밀도 감소 → Bron-Kerbosch 실용화
+     
+  3. Bron-Kerbosch 실행:
+     극대 클리크 열거 (크기 ≥ 3)
+     
+  4. 결과 해석:
+     클리크 = 단백질 복합체 후보
+     GO Term (Gene Ontology) 분석:
+     같은 클리크 내 단백질들이 공통 기능 보유하면 유효
+     
+  발견 사례:
+    크기-5 클리크 {EGFR, GRB2, SOS1, RAS, RAF}
+    → EGFR 신호 경로 복합체
+    → 암 치료 타겟 후보 발견
 
+성능:
+  전체 네트워크: 28,000 노드, 600,000 엣지
+  고신뢰도 필터 후: 5,000 노드, 50,000 엣지
+  Bron-Kerbosch: ~2분 내 극대 클리크 전체 열거
 
+한계:
+  최대 클리크는 여전히 어려움
+  실용: 극대 클리크(Maximal) + 생물학 기반 필터링
+  = NP-완전의 실용적 우회
+```
 
 > 📢 **섹션 요약 비유**: 단백질 클리크 탐색은 업무 팀 발견 — 병원에서 "이 의사들은 항상 같이 일하네"를 발견하면 팀 구조를 이해할 수 있어요. 단백질 복합체 = 세포 내의 업무 팀!
 
@@ -246,30 +261,24 @@ MaxClique 벤치마크:
 
 ## 📌 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">클리크 문제 (Clique Problem)</div>
-<div class="kb-diagram-note">+-- 이론</div>
-<div class="kb-diagram-note">+-- NP-완전 (SAT → 3-SAT → k-Clique)</div>
-<div class="kb-diagram-note">+-- 독립 집합과 동치 (여그래프)</div>
-<div class="kb-diagram-note">+-- 최대 클리크 = NP-하드</div>
-<div class="kb-diagram-note">+-- 알고리즘</div>
-<div class="kb-diagram-note">+-- 브루트 포스 O(2^n)</div>
-<div class="kb-diagram-note">+-- Bron-Kerbosch (백트래킹)</div>
-<div class="kb-diagram-note">+-- 근사 알고리즘 (FPT)</div>
-<div class="kb-diagram-note">+-- 응용</div>
-<div class="kb-diagram-note">+-- SNS 그룹 탐지</div>
-<div class="kb-diagram-note">+-- 단백질 복합체 (생물정보학)</div>
-<div class="kb-diagram-note">+-- 추천 시스템</div>
-<div class="kb-diagram-note">+-- 관련 문제</div>
-<div class="kb-diagram-note">+-- 독립 집합, 버텍스 커버</div>
-<div class="kb-diagram-note">+-- 색칠 문제 (Graph Coloring)</div>
-</div>
-</div>
-
-
+```
+클리크 문제 (Clique Problem)
++-- 이론
+|   +-- NP-완전 (SAT → 3-SAT → k-Clique)
+|   +-- 독립 집합과 동치 (여그래프)
+|   +-- 최대 클리크 = NP-하드
++-- 알고리즘
+|   +-- 브루트 포스 O(2^n)
+|   +-- Bron-Kerbosch (백트래킹)
+|   +-- 근사 알고리즘 (FPT)
++-- 응용
+|   +-- SNS 그룹 탐지
+|   +-- 단백질 복합체 (생물정보학)
+|   +-- 추천 시스템
++-- 관련 문제
+|   +-- 독립 집합, 버텍스 커버
+|   +-- 색칠 문제 (Graph Coloring)
+```
 
 ---
 

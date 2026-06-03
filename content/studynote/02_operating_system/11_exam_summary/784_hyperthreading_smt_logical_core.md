@@ -36,28 +36,30 @@ tags = ["studynote-operating-system"]
 - **등장 배경**: 
   - 2002년 인텔 펜티엄 4 HT 모델에서 처음 세상에 등장했다. CPU 클럭(GHz)을 무한정 올리다 발열에 막혀 한계에 부딪힌 하드웨어 엔지니어들이, 한 번의 클럭 사이클 안에 여러 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 쑤셔 넣는 파이프라인 최적화(ILP)의 한계를 깨기 위해 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 수준 병렬성([TLP](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/385_tlp/))으로 눈을 돌린 결과물이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하이퍼스레딩 작동의 내부 파이프라인 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">일반 싱글 코어 환경 (SMT Off)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Thread A 실행 중 Cache Miss로 메모리 대기 발생)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간: T1 T2 T3 T4 T5 T6 T7 T8</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">코어:</div><div class="kb-diagram-node">A1</div><div class="kb-diagram-node">A2</div><div class="kb-diagram-node">A3</div><div class="kb-diagram-node">A4</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ 빈 공간 (Stall! 엄청난 낭비)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">하이퍼스레딩 환경 (SMT On) - 물리 코어 1개를 2개로 분할</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(OS가 2개의 코어인 줄 알고 Thread A와 Thread B를 동시에 줌)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간: T1 T2 T3 T4 T5 T6 T7 T8</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">논리 0:</div><div class="kb-diagram-node">A1</div><div class="kb-diagram-node">A2</div><div class="kb-diagram-node">A3</div><div class="kb-diagram-node">A4</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">논리 1:</div><div class="kb-diagram-node">B1</div><div class="kb-diagram-node">B2</div><div class="kb-diagram-node">B3</div><div class="kb-diagram-node">B4</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ A가 놀 때 그 틈에 B를 즉시 쑤셔 넣음!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 실제 하드웨어 엔진 1개의 100% 활용 결과:</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">물리엔진:</div><div class="kb-diagram-node">A1</div><div class="kb-diagram-node">A2</div><div class="kb-diagram-node">B1</div><div class="kb-diagram-node">B2</div><div class="kb-diagram-node">B3</div><div class="kb-diagram-node">B4</div><div class="kb-diagram-node">A3</div><div class="kb-diagram-node">A4</div><div class="kb-diagram-note">(빈틈 0%)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │                 하이퍼스레딩 작동의 내부 파이프라인 시각화            │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │   [ 일반 싱글 코어 환경 (SMT Off) ]                            │
+  │    (Thread A 실행 중 Cache Miss로 메모리 대기 발생)              │
+  │                                                             │
+  │    시간: T1   T2   T3   T4   T5   T6   T7   T8              │
+  │    코어: [A1] [A2] [  ] [  ] [  ] [  ] [A3] [A4]            │
+  │                    ▲ 빈 공간 (Stall! 엄청난 낭비)               │
+  │                                                             │
+  │   [ 하이퍼스레딩 환경 (SMT On) - 물리 코어 1개를 2개로 분할 ]       │
+  │    (OS가 2개의 코어인 줄 알고 Thread A와 Thread B를 동시에 줌)      │
+  │                                                             │
+  │    시간: T1   T2   T3   T4   T5   T6   T7   T8              │
+  │    논리 0: [A1] [A2] [  ] [  ] [  ] [  ] [A3] [A4]          │
+  │    논리 1: [  ] [  ] [B1] [B2] [B3] [B4] [  ] [  ]          │
+  │                    ▲  A가 놀 때 그 틈에 B를 즉시 쑤셔 넣음!        │
+  │                                                             │
+  │    ▶ 실제 하드웨어 엔진 1개의 100% 활용 결과:                       │
+  │    물리엔진: [A1] [A2] [B1] [B2] [B3] [B4] [A3] [A4] (빈틈 0%) │
+  └─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 그림은 [하이퍼스레딩](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/199_interrupt_scheduling/)의 본질이 "[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 2배 뻥튀기"가 아니라 "빈틈 찔러넣기"임을 명확히 보여준다. 물리 코어 1개에 SMT를 켜서 2코어가 된다고 연산력이 진짜 2배가 되는 것이 절대 아니다(착각 금물). 연산 엔진([ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/)) 자체는 1개뿐이므로, A와 B가 둘 다 메모리 대기 없이 순수하게 미친 듯이 덧셈만 하는(CPU Bound) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)라면 둘이 엔진을 놓고 피 터지게 싸우느라 오히려 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 더 떨어진다. 하지만 현실의 99% 프로그램은 디스크 읽고, 네트워크 기다리고, 램을 뒤지는(I/O Bound) 틈새가 숭숭 뚫려있다. 하드웨어 칩 안에 OS 몰래 상태 저장소([Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/)) 2세트를 박아두었기 때문에, OS 개입([문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 오버헤드 5µs) 없이 하드웨어 클럭 1사이클 단위로 즉시 틈새를 메워버릴 수 있어 전체 스루풋이 약 20~30% 상승하는 기적이 일어난다.
 
@@ -85,27 +87,31 @@ tags = ["studynote-operating-system"]
 - **비극 발생**: 물리 코어가 `A(논리 0, 논리 1)`, `B(논리 2, 논리 3)` 두 개가 있다. 프로그램 2개를 돌려야 한다. 바보 같은 구형 OS는 이걸 0번, 1번에 던졌다.
 - 물리 코어 A는 2명이 치고받고 싸워서 터져나가고, 물리 코어 B는 텅텅 비어서 100% 노는 대참사가 났다. 물리적으로는 코어 1개 분량만 쓰고 있었기 때문이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">현대 OS의 하이퍼스레딩(SMT) 도메인 인지 스케줄링</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">리눅스 스케줄러(CFS)의 CPU 토폴로지(족보) 맵핑</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물리 0번 코어 (Core 0) 물리 1번 코어 (Core 1)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">논리 0 (CPU0) 논리 1 (CPU1) 논리 2 (CPU2) 논리 3 (CPU3)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Sibling 형제) (Sibling 형제)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">무거운 프로세스 2개가 스케줄러 큐에 들어옴</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS의 현명한 판단:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"음, 하드웨어는 CPU0~3까지 4개라고 구라를 치지만, 내 족보를 보니</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0번과 1번은 껍데기만 2개지 사실 속은 같은 놈(Sibling)이군!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">배치 결과 🟢 :</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로세스 X ──▶ 논리 0 (CPU0) 에 할당 (물리 코어 0번 100% 점유)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로세스 Y ──▶ 논리 2 (CPU2) 에 할당 (물리 코어 1번 100% 점유)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 남은 논리 1, 논리 3번은 완전히 텅 비워두어 물리 엔진 간섭을 원천 차단!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 현대 OS의 하이퍼스레딩(SMT) 도메인 인지 스케줄링         │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [ 리눅스 스케줄러(CFS)의 CPU 토폴로지(족보) 맵핑 ]                  │
+  │                                                                   │
+  │   물리 0번 코어 (Core 0) ──────┬────── 물리 1번 코어 (Core 1)    │
+  │      ┌───────┴───────┐              ┌───────┴───────┐          │
+  │   논리 0 (CPU0)   논리 1 (CPU1)   논리 2 (CPU2)   논리 3 (CPU3)   │
+  │   (Sibling 형제)                   (Sibling 형제)                  │
+  │                                                                   │
+  │   [ 무거운 프로세스 2개가 스케줄러 큐에 들어옴 ]                         │
+  │                                                                   │
+  │   OS의 현명한 판단:                                                  │
+  │   "음, 하드웨어는 CPU0~3까지 4개라고 구라를 치지만, 내 족보를 보니         │
+  │    0번과 1번은 껍데기만 2개지 사실 속은 같은 놈(Sibling)이군!"            │
+  │                                                                   │
+  │   배치 결과 🟢 :                                                    │
+  │   프로세스 X ──▶ 논리 0 (CPU0) 에 할당 (물리 코어 0번 100% 점유)         │
+  │   프로세스 Y ──▶ 논리 2 (CPU2) 에 할당 (물리 코어 1번 100% 점유)         │
+  │                                                                   │
+  │   ▶ 남은 논리 1, 논리 3번은 완전히 텅 비워두어 물리 엔진 간섭을 원천 차단!     │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이것이 스케줄링 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)(Sched [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)) 트리 구조의 진정한 위력이다. 리눅스는 부팅 시 [ACPI](/knowledge-base/studynote/02_operating_system/01_overview_architecture/075_acpi/) 테이블을 읽어 진짜 물리 코어와 가짜 껍데기 코어(Sibling)의 족보를 캐낸다. 일을 분배할 때 제일 먼저 "진짜 물리 코어가 노는 놈이 있는가?"를 찾아 꽂아 넣는다. 모든 물리 코어가 최소 1개의 프로세스를 물고 바쁘게 돌아가는 100% 풀로드 상황이 되어서야, 비로소 "어쩔 수 없네, 아까 남겨둔 가짜 껍데기 방([논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 1번)에 프로세스를 추가로 구겨 넣어봐라"라며 최후의 [SMT](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/) 스퀴즈(짜내기)를 시도한다. 이를 통해 하드웨어의 속임수를 소프트웨어의 통제하에 완벽히 굴복시켰다.
 
@@ -147,34 +153,38 @@ tags = ["studynote-operating-system"]
    - **원인 분석**: 인코딩 작업은 디스크 대기(I/O)가 거의 없고 순수하게 수학 계산(FPU/[ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/))만 미친 듯이 돌리는 전형적인 CPU-Bound 작업이다. [하이퍼스레딩](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/199_interrupt_scheduling/)은 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A가 I/O 대기하느라 쉴 때 B를 끼워 넣는 꼼수인데, A가 1초도 안 쉬고 계속 계산기([ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/))를 쓰고 있으니, [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 1번으로 들어온 B는 A가 끝날 때까지 단 1클럭도 뺏지 못하고 하드웨어 대기열(Stall)에서 무한 적체된다. 게다가 서로 L1 캐시를 엎어버리며 쓰레기 효율을 만든 것이다.
    - **아키텍트 판단 (Thread-Count 튜닝)**: 수학 연산, [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 학습, [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/), 인코딩 같은 하드코어 연산 인프라에서는 [SMT](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)([논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 코어 개수)를 무시해야 한다. 응용 프로그램의 [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/)(Worker Pool) 개수를 `전체 논리 코어 수(32)`가 아닌 `물리 코어 수(16)`와 정확히 일치시켜 세팅한다. 그래야 16개의 물리 코어가 어떤 간섭도 없이 최대 클럭 부스트(Turbo)를 유지하며 최고 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 뽐낸다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버 워크로드에 따른 하이퍼스레딩(SMT) On/Off 결정 트리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">우리 서비스 서버의 CPU 아키텍처 및 OS 세팅을 최적화한다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서비스가 고도의 연산(비디오, 머신러닝, 과학계산)을 100% 점유하는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SMT (하이퍼스레딩) BIOS에서 OFF 권장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(경합으로 인한 캐시 오염 방지, 물리 코어 터보클럭 극대화)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서비스가 극도로 민감한 보안 규정(금융, 멀티테넌트 퍼블릭 클라우드)을 타는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SMT OFF 필수 (L1TF 스펙터 방어)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(옆 껍데기 코어에서 내 메모리 비밀번호 탈취 원천 차단)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대량의 디스크 읽기/네트워크 소켓 대기(I/O Bound)가 잦은 웹/DB 서버인가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SMT ON 무조건 활성화! (성능 30% 꽁짜 펌핑)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Nginx, Tomcat, 일반적인 MSA 컨테이너 환경의 최적 솔루션</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 서버 워크로드에 따른 하이퍼스레딩(SMT) On/Off 결정 트리     │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [ 우리 서비스 서버의 CPU 아키텍처 및 OS 세팅을 최적화한다 ]                   │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      서비스가 고도의 연산(비디오, 머신러닝, 과학계산)을 100% 점유하는가?       │
+  │          ├─ 예 ─────▶ 🚨 [ SMT (하이퍼스레딩) BIOS에서 OFF 권장 ] │
+  │          │             (경합으로 인한 캐시 오염 방지, 물리 코어 터보클럭 극대화)│
+  │          └─ 아니오                                                │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      서비스가 극도로 민감한 보안 규정(금융, 멀티테넌트 퍼블릭 클라우드)을 타는가? │
+  │          ├─ 예 ─────▶ 🚨 [ SMT OFF 필수 (L1TF 스펙터 방어) ]      │
+  │          │             (옆 껍데기 코어에서 내 메모리 비밀번호 탈취 원천 차단)  │
+  │          └─ 아니오                                                │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      대량의 디스크 읽기/네트워크 소켓 대기(I/O Bound)가 잦은 웹/DB 서버인가?   │
+  │          └──▶ 🟢 [ SMT ON 무조건 활성화! (성능 30% 꽁짜 펌핑) ]        │
+  │               - Nginx, Tomcat, 일반적인 MSA 컨테이너 환경의 최적 솔루션  │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 클라우드 엔지니어가 "우리 서버 코어 8개네"라고 말할 때, 시니어 아키텍트는 "그 8개가 물리(Physical) 8개냐, 아니면 물리 4 + [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 4([SMT](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/))냐?"라고 되묻는다. 후자일 경우 진짜 계산 능력은 8개가 아니라 4.8개 수준임을 체감으로 알기 때문이다. 범용 웹서비스에서는 SMT가 주는 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 회피([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) [Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)) 보너스가 너무 달콤해서 무조건 켜는 게 이득이다. 하지만 보안이나 극강의 연산 레이턴시를 다투는 도박판에서는 OS [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)를 속이는 이 하드웨어 기만술([SMT](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/))을 철저히 끄고, 진짜 물리 근육(Pure Core)으로만 싸우는 것이 서버 엔지니어링의 불문율이다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - **vCPU 숫자만 보고 1:1 프로세스 꽉꽉 채워 넣기**: 클라우드 인스턴스가 64 vCPU라고 해서, 무거운 Node.js 프로세스를 PM2로 정확히 64개를 띄워버리는 바보 같은 짓. [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 형제(Sibling) 2놈이 하나의 물리 엔진 위에서 멱살을 잡는다. 결국 Node.js의 V8 엔진이 힙([Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)) [가비지 컬렉션](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/)(GC)을 돌릴 때 서로의 파이프라인을 다 막아버려 서버가 주기적으로 5초씩 프리징되는 악몽을 선사한다. I/O 워크로드라도 보통 vCPU의 70~80% 수준으로 워커 프로세스를 잡는 것이 한계 임계점(Sweet Spot)이다.
 
-- **📢 섹션 요약 비유**: 2차선 도로([논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 코어)를 그렸지만, 사실 터널(물리 연산엔진) 입구는 1차선 넓이밖에 안 되는 교묘한 도로 설계입니다. 평소에 차들이 가다 서다(I/O 대기)를 반복할 때는 2차선으로 대기시키는 게 효율적이지만, 막힘없이 전속력으로 달리는 슈퍼카(연산 집중)들이 오면 결국 좁은 터널 입구에서 병목이 생겨 쾅 부딪혀 박살 나게 됩니다.
+- **📢 섹션 요약 비유**: 2차선 도로([논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 코어)를 그렸지만, 사실 터널(물리 연산엔진) 입구는 1차선 넓이밖에 안 되는 교묘한 도로 설계입니다. 평소에 차들이 가다 서다(I/O 대기)를 반복할 때는 2차선으로 대기시키는 게 효율적이지만, 병목없이 전속력으로 달리는 슈퍼카(연산 집중)들이 오면 결국 좁은 터널 입구에서 병목이 생겨 쾅 부딪혀 박살 나게 됩니다.
 
 ---
 
@@ -213,19 +223,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">모바일 환경 에너지 인지 스케줄러</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">하이퍼스레딩 물리 코어 논리 코어 분할 구조 (Hyperthreading Smt Logical Core)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">클론(clone) 시스템 콜 스레드 공유 플래그</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">cgroups 메모리, CPU 자원 제한 격리 컨테이너</div></div>
-</div>
-</div>
-
-
+```text
+[모바일 환경 에너지 인지 스케줄러]
+    │
+    ▼
+[하이퍼스레딩 물리 코어 논리 코어 분할 구조 (Hyperthreading Smt Logical Core)]
+    │
+    ├──▶ [클론(clone) 시스템 콜 스레드 공유 플래그]
+    └──▶ [cgroups 메모리, CPU 자원 제한 격리 컨테이너]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

@@ -34,23 +34,19 @@ tags = ["studynote-ict-convergence"]
 
 <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/520_rate_limiting/">Rate Limiting</a> <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> 비교</strong>:
 
+```
+[토큰 버킷 (Token Bucket)]
+버킷에 토큰이 채워짐 → 요청마다 토큰 소비
+버킷이 비면 요청 거부 → 버스트(순간 폭주) 허용
 
+[리키 버킷 (Leaky Bucket)]
+큐에 요청을 쌓음 → 일정 속도로 처리
+큐가 가득 차면 거부 → 균일한 출력 속도 보장
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">토큰 버킷 (Token Bucket)</div></div>
-<div class="kb-diagram-note">버킷에 토큰이 채워짐 → 요청마다 토큰 소비</div>
-<div class="kb-diagram-note">버킷이 비면 요청 거부 → 버스트(순간 폭주) 허용</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">리키 버킷 (Leaky Bucket)</div></div>
-<div class="kb-diagram-note">큐에 요청을 쌓음 → 일정 속도로 처리</div>
-<div class="kb-diagram-note">큐가 가득 차면 거부 → 균일한 출력 속도 보장</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">슬라이딩 윈도 (Sliding Window)</div></div>
-<div class="kb-diagram-note">최근 N초 요청 수를 실시간 집계</div>
-<div class="kb-diagram-note">고정 윈도의 경계 문제 해결 → 정확한 제한</div>
-</div>
-</div>
-
-
+[슬라이딩 윈도 (Sliding Window)]
+최근 N초 요청 수를 실시간 집계
+고정 윈도의 경계 문제 해결 → 정확한 제한
+```
 
 | [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 버스트 허용 | 구현 복잡도 | [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/) | 적합 사례 |
 |:---|:---:|:---:|:---:|:---|
@@ -61,20 +57,18 @@ tags = ["studynote-ict-convergence"]
 
 <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/">BFF</a>(<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/543_bff_backend_for_frontend/">Backend for Frontend</a>) 아키텍처</strong>:
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">클라이언트 BFF 계층 마이크로서비스</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모바일</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">Mobile BFF</div><div class="kb-diagram-cell">─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─→</div><div class="kb-diagram-cell">주문 서비스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">웹</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">Web BFF</div><div class="kb-diagram-cell">─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─→</div><div class="kb-diagram-cell">사용자 서비스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IoT</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">IoT BFF</div><div class="kb-diagram-cell">─</div><div class="kb-diagram-cell">상품 서비스</div></div>
-</div>
-</div>
-
-
+```
+클라이언트        BFF 계층               마이크로서비스
+┌────────┐     ┌────────────┐
+│ 모바일  │────→│ Mobile BFF │─┐
+└────────┘     └────────────┘ │  ┌──────────────┐
+┌────────┐     ┌────────────┐ ├─→│ 주문 서비스   │
+│  웹    │────→│  Web BFF   │─┤  ├──────────────┤
+└────────┘     └────────────┘ ├─→│ 사용자 서비스 │
+┌────────┐     ┌────────────┐ │  ├──────────────┤
+│  IoT   │────→│  IoT BFF   │─┘  │ 상품 서비스   │
+└────────┘     └────────────┘    └──────────────┘
+```
 
 각 BFF는 해당 클라이언트에 최적화된 집계(Aggregation), 변환(Transformation), 필터링(Filtering)을 담당한다.
 

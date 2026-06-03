@@ -8,9 +8,7 @@ tags = ["studynote-cloud-architecture"]
 > 🧸 **어린이를 위한 비유**
 > 내 방에 무거운 컴퓨터를 사두는 대신, 하늘에 있는 아주 크고 강력한 슈퍼컴퓨터를 필요할 때만 빌려 쓰고 돈을 내는 '컴퓨터 렌탈 서비스'예요. 갑자기 친구 100명이 놀러 와도 버튼 하나면 1초 만에 방이 100개로 늘어난답니다!
 
----
-
-# 도메인 13: 클라우드 아키텍처 (Cloud Architecture)
+---# 도메인 13: 클라우드 아키텍처 (Cloud Architecture)
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 인터넷을 통해 컴퓨팅 자원(서버, 스토리지, 네트워크)을 가상화하여, 요구사항에 맞춰 즉시 프로비저닝하고 사용한 만큼만 비용을 지불하는 On-Demand IT 인프라 패러다임.
@@ -40,26 +38,31 @@ tags = ["studynote-cloud-architecture"]
 
 #### 2. 쿠버네티스(Kubernetes) 오케스트레이션 아키텍처 (ASCII)
 클라우드 네이티브의 사실상(De facto) 운영체제인 쿠버네티스의 Control Plane과 Worker Node 구조다.
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Kubernetes (K8s) Cluster Architecture / 쿠버네티스 클러스터 아키텍처</div></div>
-<div class="kb-diagram-note">(Control Plane - Master / 마스터 노드)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">API Server / API 서버</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">- (kubectl / CI/CD Pipeline)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+----v-----+ +-------------+ +--------------------+</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">etcd (DB)</div><div class="kb-diagram-cell">Controller</div><div class="kb-diagram-cell">Scheduler</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(gRPC / 통신)</div></div>
-<div class="kb-diagram-note">========v=================v======================v=============</div>
-<div class="kb-diagram-note">(Worker Node 1 / 워커 노드 1) (Worker Node 2 / 워커 노드 2)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Kubelet</div><div class="kb-diagram-node">Kube-proxy</div><div class="kb-diagram-node">Kubelet</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pod A (App + Sidecar)</div><div class="kb-diagram-cell">Pod C (DB)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">| Pod B (App + Sidecar) | |</div><div class="kb-diagram-node">Container Runtime</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Container Runtime (containerd)</div></div>
-</div>
-</div>
-
-
+```text
+    [ Kubernetes (K8s) Cluster Architecture / 쿠버네티스 클러스터 아키텍처 ]
+    
+    (Control Plane - Master / 마스터 노드)
+    +-------------------------------------------------------------+
+    |  [ API Server / API 서버 ] <--- (kubectl / CI/CD Pipeline)  |
+    |       |                                                     |
+    |  +----v-----+    +-------------+    +--------------------+  |
+    |  | etcd (DB)|    | Controller  |    | Scheduler        |  |
+    |  +----------+    +-------------+    +--------------------+  |
+    +-------|-----------------|----------------------|------------+
+            | (gRPC / 통신)   |                      |
+    ========v=================v======================v=============
+    (Worker Node 1 / 워커 노드 1)          (Worker Node 2 / 워커 노드 2)
+    +----------------------------------+   +----------------------+
+    | [ Kubelet ]  [ Kube-proxy ]      |   | [ Kubelet ]          |
+    |   +--------------------------+   |   |   +--------------+   |
+    |   | Pod A (App + Sidecar)    |   |   |   | Pod C (DB)   |   |
+    |   +--------------------------+   |   |   +--------------+   |
+    |   +--------------------------+   |   |                      |
+    |   | Pod B (App + Sidecar)    |   |   |  [ Container Runtime]|
+    |   +--------------------------+   |   +----------------------+
+    |  [ Container Runtime (containerd)]                          |
+    +----------------------------------+                          |
+```
 
 #### 3. 서킷 브레이커 (Circuit Breaker) 알고리즘 논리
 MSA 환경에서 하나의 서비스 장애가 전체 시스템으로 전파(Cascading Failure)되는 것을 막는 방파제 로직.

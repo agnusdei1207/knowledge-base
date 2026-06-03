@@ -21,17 +21,14 @@ tags = ["studynote-ai"]
 
 [심층 신경망](/knowledge-base/studynote/10_ai/01_ai_basics/065_dnn_deep_neural_network/)(Deep Neural Network)에서 각 층의 파라미터가 업데이트될 때마다 이전 층의 출력 분포가 변한다. 이를 내부 공변량 이동([ICS](/knowledge-base/studynote/09_security/18_iot_ot_physical/893_ics_industrial_control_system/), Internal Covariate Shift)이라 한다. ICS가 심하면 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)을 작게 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)해야 하고 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화에 민감해져 훈련이 느리고 불안정해진다. BN은 각 미니배치에서 활성화(Activation) 이전 또는 이후에 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)를 수행해 분포를 안정시킨다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: BN이 없는 깊은 신경망은 "전화 게임(끝말잇기)"이다. [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)0명이 속삭이면 첫 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지가 왜곡되어 마지막엔 완전히 다른 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지가 된다([ICS](/knowledge-base/studynote/09_security/18_iot_ot_physical/893_ics_industrial_control_system/)). BN은 매 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)명마다 "원본 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지를 다시 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)([정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/))"하는 체크포인트다.
 
@@ -39,24 +36,23 @@ tags = ["studynote-ai"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">배치 정규화 (Batch Normalization) 수식</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">미니배치 B = {x₁, ..., xₘ}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 배치 평균: μ_B = (1/m) Σᵢ xᵢ</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 배치 분산: σ²_B = (1/m) Σᵢ (xᵢ - μ_B)²</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 정규화: x̂ᵢ = (xᵢ - μ_B) / √(σ²_B + ε)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 스케일·이동: yᵢ = γ · x̂ᵢ + β</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(γ, β: 학습 가능 파라미터)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">추론 시:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">μ̄ = EMA(μ_B), σ̄² = EMA(σ²_B) 사용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(이동 지수 평균, 훈련 중 누적)</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────┐
+│           배치 정규화 (Batch Normalization) 수식          │
+├──────────────────────────────────────────────────────────┤
+│  미니배치 B = {x₁, ..., xₘ}                             │
+│                                                          │
+│  1. 배치 평균:  μ_B = (1/m) Σᵢ xᵢ                     │
+│  2. 배치 분산:  σ²_B = (1/m) Σᵢ (xᵢ - μ_B)²          │
+│  3. 정규화:     x̂ᵢ = (xᵢ - μ_B) / √(σ²_B + ε)       │
+│  4. 스케일·이동: yᵢ = γ · x̂ᵢ + β                     │
+│     (γ, β: 학습 가능 파라미터)                          │
+│                                                          │
+│  추론 시:                                               │
+│  μ̄ = EMA(μ_B), σ̄² = EMA(σ²_B) 사용                  │
+│  (이동 지수 평균, 훈련 중 누적)                         │
+└──────────────────────────────────────────────────────────┘
+```
 
 | [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 방법 | [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 축 | 사용 상황 |
 |:---|:---|:---|

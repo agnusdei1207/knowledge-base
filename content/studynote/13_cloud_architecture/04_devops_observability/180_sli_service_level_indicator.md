@@ -25,22 +25,23 @@ SLI는 "[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas
 
 아래 그림은 사용자 경험 지표와 내부 진단 지표의 경계를 보여 준다. 핵심은 SLI가 원인 분석용 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)이 아니라, <strong>사용자 관점의 품질 결과물</strong>이라는 점이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 경험과 내부 메트릭의 경계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 요청</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">로그인 / 결제 / 조회 / 데이터 적재</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 성공했는가? ▶ Availability SLI</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 충분히 빨랐는가? ▶ Latency SLI</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 결과가 올바른가? ▶ Quality SLI</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU · Memory · Queue Depth · DB Connection</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 원인 분석용 supporting metric, SLI 자체는 아님</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ 사용자 경험과 내부 메트릭의 경계                              │
+├──────────────────────────────────────────────────────────────┤
+│ 사용자 요청                                                   │
+│    │                                                         │
+│    ▼                                                         │
+│ 로그인 / 결제 / 조회 / 데이터 적재                           │
+│    │                                                         │
+│    ├─ 성공했는가? ───────────────▶ Availability SLI           │
+│    ├─ 충분히 빨랐는가? ─────────▶ Latency SLI                │
+│    └─ 결과가 올바른가? ─────────▶ Quality SLI                │
+│                                                              │
+│ CPU · Memory · Queue Depth · DB Connection                   │
+│    └─ 원인 분석용 supporting metric, SLI 자체는 아님         │
+└──────────────────────────────────────────────────────────────┘
+```
 
 결국 SLI는 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 피라미드의 맨 아래층이다. SLI가 정의되어야 SLO를 세울 수 있고, 그 SLO가 외부 계약으로 올라가면 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) ([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/))가 된다. 따라서 SLI가 부정확하면 이후의 목표와 계약도 모두 흔들린다.
 
@@ -64,19 +65,24 @@ SLI는 "[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas
 
 아래 그림은 SLI가 어떻게 수집·가공되는지 보여 준다. 한 번의 요청 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 곧바로 SLI가 되는 것이 아니라, 관측 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 <strong>good/bad <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a> → 집계 → 시계열화</strong>를 거쳐 [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) 판단 자료가 된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SLI 계산 파이프라인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Real User Monitoring / Load Balancer Log / Trace / Synthetic</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요청별 good / bad / slow 분류</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5분 단기 집계 30일 장기 집계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SLI Time Series → SLO 비교 → Error Budget 계산</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ SLI 계산 파이프라인                                           │
+├──────────────────────────────────────────────────────────────┤
+│ Real User Monitoring / Load Balancer Log / Trace / Synthetic │
+│                    │                                         │
+│                    ▼                                         │
+│         요청별 good / bad / slow 분류                        │
+│                    │                                         │
+│        ┌───────────┼───────────┐                             │
+│        ▼                       ▼                             │
+│  5분 단기 집계             30일 장기 집계                    │
+│        │                       │                             │
+│        └───────────┬───────────┘                             │
+│                    ▼                                         │
+│      SLI Time Series → SLO 비교 → Error Budget 계산         │
+└──────────────────────────────────────────────────────────────┘
+```
 
 수집 지점 역시 설계 요소다. 로드밸런서에서 재면 외부 관점 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)에 강하고, 애플리케이션 내부에서 재면 비즈니스 성공 여부를 더 정교하게 볼 수 있다. 모바일·웹 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 Synthetic Monitoring과 Real User Monitoring을 같이 써서 "밖에서 보이는 품질"과 "실제 사용자 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 품질"을 동시에 보는 경우가 많다.
 
@@ -144,7 +150,7 @@ SLI가 잘 정의되면 장애 대응과 [서비스](/knowledge-base/studynote/1
 
 물론 SLI만으로 모든 것을 설명할 수는 없다. 너무 거친 SLI는 국소 장애를 숨기고, 너무 세분화된 SLI는 운영 복잡도만 높인다. 그래서 좋은 운영은 <strong>소수의 사용자 중심 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/">SLI</a></strong>와 <strong>풍부한 진단 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/">메트릭</a></strong>을 함께 가져간다. SLI는 전체 품질을 대표하는 전광판이고, 세부 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)은 그 원인을 추적하는 계기판이라고 기억하면 된다.
 
-결론적으로 SLI는 "측정 가능한 사용자 고통의 좌표"다. 사용자가 어디에서 느려지고, 어디에서 실패하고, 어디에서 신뢰를 잃는지 숫자로 잡아낼 수 있을 때 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/))와 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 운영도 비로소 정밀해진다.
+결론적으로 SLI는 "측정 가능한 사용자 고통의 좌표"다. 사용자가 어디에서 느려지고, 어디에서 실패하고, 어디에서 신뢰를 잃는지 숫자로 잡아낼 수 있을 때 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/))와 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 운영도 비로소 정밀해진다.
 
 - **📢 섹션 요약 비유**: 좋은 SLI는 배의 항해 지도에 찍힌 등대와 같다. 배 안의 엔진 소리만 듣는 것이 아니라, 실제로 어디로 가고 있는지를 바깥 기준점으로 계속 확인하게 해 준다.
 
@@ -164,25 +170,24 @@ SLI가 잘 정의되면 장애 대응과 [서비스](/knowledge-base/studynote/1
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">사용자 여정 정의</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">good / bad 기준 설정</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SLI (Service Level Indicator) 시계열 계산</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SLO (Service Level Objective) 설정</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Error Budget · Burn Rate 운영</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SLA (Service Level Agreement) 및 배포 정책 의사결정</div>
-</div>
-</div>
-
-
+```text
+사용자 여정 정의
+    │
+    ▼
+good / bad 기준 설정
+    │
+    ▼
+SLI (Service Level Indicator) 시계열 계산
+    │
+    ▼
+SLO (Service Level Objective) 설정
+    │
+    ▼
+Error Budget · Burn Rate 운영
+    │
+    ▼
+SLA (Service Level Agreement) 및 배포 정책 의사결정
+```
 
 이 흐름은 단순 모니터링 수치를 넘어서, 사용자 경험 측정이 목표·계약·릴리스 판단으로 확장되는 과정을 보여 준다.
 

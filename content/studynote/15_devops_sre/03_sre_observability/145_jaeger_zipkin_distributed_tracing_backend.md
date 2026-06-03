@@ -18,19 +18,13 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Jaeger 아키텍처:</div>
-<div class="kb-diagram-note">OTel SDK → Collector → Storage(ES/Cassandra) → UI</div>
-<div class="kb-diagram-note">Zipkin 아키텍처:</div>
-<div class="kb-diagram-note">SDK → Transport(HTTP/Kafka) → Storage(ES) → UI</div>
-<div class="kb-diagram-note">Tempo: OTel → S3/GCS (인덱스 없음, 저비용)</div>
-</div>
-</div>
-
-
+```text
+Jaeger 아키텍처:
+  OTel SDK → Collector → Storage(ES/Cassandra) → UI
+Zipkin 아키텍처:
+  SDK → Transport(HTTP/Kafka) → Storage(ES) → UI
+Tempo: OTel → S3/GCS (인덱스 없음, 저비용)
+```
 
 - **📢 섹션 요약 비유**: Jaeger/Zipkin은 <strong>비행 관제탑</strong>이다. 모든 비행기(요청)의 경로·[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)·이상을 **한눈에** [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링한다.
 
@@ -54,18 +48,12 @@ Jaeger는 <strong>K8s 트레이싱의 <a href="/knowledge-base/studynote/15_devo
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Dapper (Google, 2010)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Zipkin (Twitter, 2012)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Jaeger (Uber/CNCF, 2017)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Grafana Tempo (2020, 저비용)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: OTel 수렴 — 백엔드 교체 자유</div></div>
-</div>
-</div>
-
-
+```text
+[Dapper (Google, 2010)] → [Zipkin (Twitter, 2012)]
+    → [Jaeger (Uber/CNCF, 2017)]
+    → [Grafana Tempo (2020, 저비용)]
+    → [현재: OTel 수렴 — 백엔드 교체 자유]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. Jaeger/Zipkin은 <strong>비행 관제탑</strong>이에요. 모든 비행기(요청) 경로를 봐요.

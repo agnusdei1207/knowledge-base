@@ -12,7 +12,7 @@ tags = ["studynote-operating-system"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Capability List는 접근 제어 행렬을 <strong>주체(프로세스/사용자) 기준</strong>으로 분할하여, 각 사용자가 "어떤 객체에 어떤 권한을 가지는지" 목록을 **프로세스의 메모리(PCB)에 티켓 형태로** 저장하는 방식이다.
-> 2. **가치**: 프로세스가 객체에 접근할 때 중앙 테이블이나 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) ACL을 참조할 필요 없이, <strong>자신이(보유한) 티켓</strong>만 제시하면 되어 **$O(1)$ 시간에 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)**이 가능하다.
+> 2. **가치**: 프로세스가 객체에 접근할 때 중앙 테이블이나 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) ACL을 참조할 필요 없이, <strong>자신이지유적(보유한) 티켓</strong>만 제시하면 되어 **$O(1)$ 시간에 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)**이 가능하다.
 > 3. **한계**: 권한을 회수하려면 해당 사용자로부터 모든 티켓을 회수해야 하므로 $O(N)$ 작업이 필요하며, 티켓을 다른 사용자에게 복사하면 <strong>위임(Delegation)</strong>으로 인한 권한 누출 위험이 있다.
 
 ---
@@ -45,14 +45,14 @@ Capability는 <strong>"사용자별로 권한 목록"</strong>을 저장한다:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 2.1 Capability의: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 디스크립터
+### 2.1 Capability의실현: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 디스크립터
 
 리눅스에서 `open()` 시스템콜이 반환하는 <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 디스크립터(FD)</strong>가 대표적인 Capability이다:
 
 ```c
 int fd = open("/data/file.txt", O_RDONLY);
 // fd가Capability(티켓)
-read(fd, buffer, 100); // fd(티켓)만 제시하면 읽기 가능
+read(fd, buffer, 100);  // fd(티켓)만 제시하면 읽기 가능
 ```
 
 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 디스크립터는 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 공간에 저장</strong>되어 있으므로, 사용자 프로세스가 조작할 수 없다.
@@ -82,32 +82,20 @@ read(fd, buffer, 100); // fd(티켓)만 제시하면 읽기 가능
 
 ### 3.1 전통 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 기반 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">문제</div></div>
-<div class="kb-diagram-note">사용자 -&gt; 로그인 -&gt; 서버 세션 저장 (Redis 등)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">API 요청 -&gt; 세션 조회 (매번 DB 접근, O(N))</div>
-</div>
-</div>
-
-
+```text
+[ 문제 ]
+사용자 -> 로그인 -> 서버 세션 저장 (Redis 등)
+       -> API 요청 -> 세션 조회 (매번 DB 접근, O(N))
+```
 
 ### 3.2 [JWT](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/) 토큰 (Capability 패턴)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">해결</div></div>
-<div class="kb-diagram-note">사용자 -&gt; 로그인 -&gt; 서버가 JWT 토큰(티켓) 발급</div>
-<div class="kb-diagram-note">토큰 내용: { 사용자ID, 만료시간, 권한 }</div>
-<div class="kb-diagram-tree-item" style="--depth:0">API 요청 -&gt; 토큰 검증만으로 인증 완료 (O(1))</div>
-</div>
-</div>
-
-
+```text
+[ 해결 ]
+사용자 -> 로그인 -> 서버가 JWT 토큰(티켓) 발급
+              토큰 내용: { 사용자ID, 만료시간, 권한 }
+       -> API 요청 -> 토큰 검증만으로 인증 완료 (O(1))
+```
 
 [JWT](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/) 토큰 자체에 권한 정보가 포함되어 있어, <strong>중앙 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">세션</a> 저장소 없이</strong> [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)이 가능하다.
 
@@ -144,19 +132,15 @@ read(fd, buffer, 100); // fd(티켓)만 제시하면 읽기 가능
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">접근 제어 목록 (ACL, Access Control List)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">자격 증명 리스트 (Capability List / Ticket)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">롤 기반 접근 제어 (RBAC, Role-Based Access Control)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">임의적 접근 제어 (DAC, Discretionary Access Control)</div></div>
-</div>
-</div>
-
-
+```text
+[접근 제어 목록 (ACL, Access Control List)]
+    │
+    ▼
+[자격 증명 리스트 (Capability List / Ticket)]
+    │
+    ├──▶ [롤 기반 접근 제어 (RBAC, Role-Based Access Control)]
+    └──▶ [임의적 접근 제어 (DAC, Discretionary Access Control)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 
@@ -164,9 +148,9 @@ read(fd, buffer, 100); // fd(티켓)만 제시하면 읽기 가능
 
 1. <strong>Capability</strong>는 놀이공원의 <strong>"종이 팔찌"</strong>와 같다. 입장할 때 받고, 각 놀이기구에서 팔찌만 보여주면 된다. 매번 명부를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 필요가 없다.
 
-2. <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 디스크립터</strong>는 <strong>"줄 번호표"</strong>와 같다. (창구)에서 번호표를 받고, 창구에서 번호표를 제시하면 번호표에 해당하는 업무를 처리받을 수 있다.
+2. <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 디스크립터</strong>는 <strong>"줄 번호표"</strong>와 같다. 창구(창구)에서 번호표를 받고, 창구에서 번호표를 제시하면 번호표에 해당하는 업무를 처리받을 수 있다.
 
-3. <strong>권한 회수 어려움</strong>은 종이 팔찌를 회수하려면 **"모든 놀이기구를 돌아다니며 그 사람의 팔찌를 찾아 잘라내야"** 하는 것과 같다. 입장(시)에 발급된 팔찌를 한꺼번에 회수하기 어렵다.
+3. <strong>권한 회수 어려움</strong>은 종이 팔찌를 회수하려면 **"모든 놀이기구를 돌아다니며 그 사람의 팔찌를 찾아 잘라내야"** 하는 것과 같다. 입장시(시)에 발급된 팔찌를 한꺼번에 회수하기 어렵다.
 
 ---
 

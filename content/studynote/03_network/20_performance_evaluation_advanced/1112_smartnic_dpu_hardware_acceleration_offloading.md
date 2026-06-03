@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 클라우드 시대, [OVS](/knowledge-base/studynote/03_network/17_sdn_nfv/860_ovs_open_vswitch_sdn_openflow/)([가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/)), [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/), [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 검사 룰이 전부 서버 안의 소프트웨어로 돌아갑니다.
 - 이걸 메인 CPU가 전부 계산하려다 보니, 정작 돈을 벌어야 할 <strong>고객의 비즈니스 앱(웹 서버, DB)에 쓸 CPU 자원이 50%나 네트워킹 '세금(Tax)'으로 깎여나가는 대참사</strong>가 발생했습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DPDK 패킷 바이패스</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스마트NIC 가속 오프로딩 시스템</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">5G SA/NSA 아키텍처 비교망</div></div>
-</div>
-</div>
-
-
+```text
+[DPDK 패킷 바이패스]
+    │
+    ▼
+[스마트NIC 가속 오프로딩 시스템]
+    │
+    └──▶ [5G SA/NSA 아키텍처 비교망]
+```
 
 - **📢 섹션 요약 비유**: 스마트NIC 가속 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) 시스템은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -44,18 +40,14 @@ tags = ["studynote-network"]
 - **개념**: 기존의 멍청하게 패킷만 옮기던 랜카드([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/)) 쇳덩어리에 <strong>자체적인 프로그래머블 칩셋(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/">FPGA</a>, <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/">ASIC</a>, ARM 코어)과 메모리를 아예 통째로 박아 넣어, 메인 CPU가 하던 무거운 네트워크, 스토리지, 보안 연산을 랜카드가 대신 다 처리해버리는(<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/">Offloading</a>) 지능형 하드웨어 가속 장비</strong>입니다.
 - 최근 엔비디아(NVIDIA)에서는 이를 더 진화시켜 <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/">DPU</a> (<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/229_dpu_ipu_infrastructure_accelerator_offloading/">Data Processing Unit</a>, <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 처리 장치)</strong>라는 이름으로 서버의 제3의 뇌로 밀고 있습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DPDK 패킷 바이패스</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스마트NIC 가속 오프로딩 시스템</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">5G SA/NSA 아키텍처 비교망</div></div>
-</div>
-</div>
-
-
+```text
+[DPDK 패킷 바이패스]
+    │
+    ▼
+[스마트NIC 가속 오프로딩 시스템]
+    │
+    └──▶ [5G SA/NSA 아키텍처 비교망]
+```
 
 - **📢 섹션 요약 비유**: 스마트NIC 가속 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) 시스템의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -121,19 +113,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: DPDK 패킷 바이패스</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 스마트NIC 가속 오프로딩 시스템</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 5G SA/NSA 아키텍처 비교망</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: DPDK 패킷 바이패스]
+    │
+    ▼
+[현재 개념: 스마트NIC 가속 오프로딩 시스템]
+    │
+    ├──▶ [확장 A: 5G SA/NSA 아키텍처 비교망]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 스마트NIC 가속 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) 시스템는 [DPDK](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/) 패킷 바이패스에서 출발해 현재 메커니즘을 정교화하고, 이후 [5G SA](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/150_5g_sa_standalone_architecture/)/[NSA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/766_nsa_non_standalone_5g_lte_core/) 아키텍처 비교망와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

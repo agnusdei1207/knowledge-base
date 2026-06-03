@@ -23,20 +23,18 @@ tags = ["studynote-ai"]
 
 핵심 아이디어는 단순하다. 액터는 "지금 무엇을 할까"를 결정하고, 크리틱은 "방금 그 선택이 장기적으로 얼마나 좋았나"를 빠르게 평가한다. 이 평가가 즉시 돌아오면, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 에피소드 전체가 끝날 때까지 기다리지 않고도 조금씩 방향을 수정할 수 있다. 그래서 로봇 제어, 게임 에이전트, 추천 최적화, [인간 피드백 기반 강화학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/148_rlhf_human_feedback_reinforcement/) ([RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/), [Reinforcement Learning from Human Feedback](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/)) 같은 영역에서 널리 쓰인다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Why Actor-Critic emerged</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Value-based only</div><div class="kb-diagram-cell">Policy-based only</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- action scoring strong</div><div class="kb-diagram-cell">- direct policy output</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- awkward for continuous act</div><div class="kb-diagram-cell">- high variance</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- argmax-centered</div><div class="kb-diagram-cell">- episode-end feedback often slow</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Actor-Critic = direct action + learned evaluation</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Why Actor-Critic emerged                                             │
+├───────────────────────────────┬──────────────────────────────────────┤
+│ Value-based only              │ Policy-based only                    │
+│ - action scoring strong       │ - direct policy output               │
+│ - awkward for continuous act  │ - high variance                      │
+│ - argmax-centered             │ - episode-end feedback often slow    │
+├───────────────────────────────┴──────────────────────────────────────┤
+│ Actor-Critic = direct action + learned evaluation                    │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 즉 액터-크리틱은 "행동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)"과 "행동 평가"를 분리해, 감각과 채점 기능을 동시에 갖춘 구조라고 볼 수 있다.
 
@@ -58,19 +56,21 @@ tags = ["studynote-ai"]
 
 아래 그림은 전형적인 학습 루프를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)한 것이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Actor-Critic training loop</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">state s_t</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Actor πθ(a</div><div class="kb-diagram-cell">s) ──&gt; action a_t ──&gt; environment ──&gt; reward r_t</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">next state s_{t+1} Critic Vw / Qw</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">update with Â_t ◀ TD error δ_t ◀</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Actor-Critic training loop                                           │
+├──────────────────────────────────────────────────────────────────────┤
+│ state s_t                                                            │
+│    │                                                                 │
+│    ▼                                                                 │
+│ Actor πθ(a|s) ──> action a_t ──> environment ──> reward r_t          │
+│    ▲                                 │                │              │
+│    │                                 ▼                ▼              │
+│    │                          next state s_{t+1}   Critic Vw / Qw    │
+│    │                                                  │              │
+│    └──────── update with Â_t ◀──── TD error δ_t ◀─────┘              │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조가 중요한 이유는 크리틱이 "[부트스트래핑](/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/)"을 하기 때문이다. 즉 한참 뒤 보상을 기다리지 않고, 현재 관측 가능한 정보와 다음 상태 가치 추정을 함께 써서 빠르게 학습 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 만든다. 다만 그만큼 크리틱 편향이 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 전염될 수 있으므로, 안정화 장치가 함께 필요하다.
 
@@ -155,24 +155,22 @@ tags = ["studynote-ai"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">MDP (Markov Decision Process)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Policy Gradient</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Baseline / Advantage</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Actor-Critic</div>
-<div class="kb-diagram-tree-item" style="--depth:4">A2C / A3C / PPO</div>
-<div class="kb-diagram-tree-item" style="--depth:4">DDPG / TD3 / SAC</div>
-<div class="kb-diagram-tree-item" style="--depth:4">RLHF policy optimization</div>
-</div>
-</div>
-
-
+```text
+MDP (Markov Decision Process)
+        │
+        ▼
+Policy Gradient
+        │
+        ▼
+Baseline / Advantage
+        │
+        ▼
+Actor-Critic
+        │
+        ├─ A2C / A3C / PPO
+        ├─ DDPG / TD3 / SAC
+        └─ RLHF policy optimization
+```
 
 이 흐름은 순수 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 학습이 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 저감 기법과 가치 추정을 흡수하며, 현대 강화학습의 주류 계열로 확장되는 과정을 보여 준다.
 

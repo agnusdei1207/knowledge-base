@@ -18,21 +18,21 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">베어메탈 vs. VM 클라우드 비교</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">베어메탈 클라우드:</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">물리 서버</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">직접 사용 (OS → 하드웨어)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VM 클라우드:</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">물리 서버</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">하이퍼바이저</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">VM1</div><div class="kb-diagram-node">VM2</div><div class="kb-diagram-node">VM3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">성능: 베어메탈 &gt; VM (하이퍼바이저 오버헤드 없음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">탄력성: VM &gt; 베어메탈 (초 단위 vs. 분~시간 단위)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────┐
+│   베어메탈 vs. VM 클라우드 비교                           │
+├─────────────────────────────────────────────────────────┤
+│                                                         │
+│  베어메탈 클라우드:                                       │
+│  [물리 서버] ← 직접 사용 (OS → 하드웨어)                  │
+│                                                         │
+│  VM 클라우드:                                            │
+│  [물리 서버] → [하이퍼바이저] → [VM1][VM2][VM3]          │
+│                                                         │
+│  성능: 베어메탈 > VM (하이퍼바이저 오버헤드 없음)          │
+│  탄력성: VM > 베어메탈 (초 단위 vs. 분~시간 단위)         │
+└─────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 베어메탈은 럭셔리 단독 주택이다. 공동 주택([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))보다 비싸지만 이웃 소음(노이즈 네이버) 없이 집 전체를 혼자 쓴다. 공동 주택은 더 저렴하지만 이웃이 시끄러우면 내 생활이 영향받는다.
 
@@ -42,23 +42,17 @@ tags = ["studynote-cloud-architecture"]
 
 ### 베어메탈 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/) 과정
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">1. 사용자 요청 (API/포털)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">2. 서버 할당 (자동화 인프라 오케스트레이션)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">IPMI/BMC로 원격 전원·부팅 제어</div>
-<div class="kb-diagram-tree-item" style="--depth:1">PXE 부팅 → OS 이미지 자동 설치</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">3. 네트워크 설정 (VLAN, 방화벽)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">4. 서버 준비 완료 → 사용자 접근 (10~30분)</div>
-</div>
-</div>
-
-
+```text
+1. 사용자 요청 (API/포털)
+        ↓
+2. 서버 할당 (자동화 인프라 오케스트레이션)
+   - IPMI/BMC로 원격 전원·부팅 제어
+   - PXE 부팅 → OS 이미지 자동 설치
+        ↓
+3. 네트워크 설정 (VLAN, 방화벽)
+        ↓
+4. 서버 준비 완료 → 사용자 접근 (10~30분)
+```
 
 ### 주요 [베어메탈 클라우드](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/629_bare_metal_cloud/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)
 
@@ -126,23 +120,21 @@ tags = ["studynote-cloud-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">전용 물리 서버 — 성능 최고, 탄력성 없음</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">VM 클라우드 — 탄력성 확보, 성능 일부 손실</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">베어메탈 클라우드 — 성능 + 클라우드 탄력성</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">베어메탈 + Kubernetes — 성능 + 컨테이너 오케스트레이션</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DPU 기반 베어메탈 — 하드웨어 가속 가상화 기능</div></div>
-</div>
-</div>
-
-
+```text
+[전용 물리 서버 — 성능 최고, 탄력성 없음]
+    │
+    ▼
+[VM 클라우드 — 탄력성 확보, 성능 일부 손실]
+    │
+    ▼
+[베어메탈 클라우드 — 성능 + 클라우드 탄력성]
+    │
+    ▼
+[베어메탈 + Kubernetes — 성능 + 컨테이너 오케스트레이션]
+    │
+    ▼
+[DPU 기반 베어메탈 — 하드웨어 가속 가상화 기능]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

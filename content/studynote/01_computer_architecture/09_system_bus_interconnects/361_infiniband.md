@@ -25,23 +25,21 @@ tags = ["studynote-computer-architecture"]
 
 인피니밴드는 이런 병목을 줄이기 위해 애플리케이션이 메모리를 등록해 두면 <strong>HCA (Host Channel <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/">Adapter</a>)</strong> 가 직접 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 옮기고, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 패브릭이 이를 예측 가능하게 전달하도록 설계됐다. 즉, 핵심은 단순히 "더 빠른 랜선"이 아니라, **노드 간 통신을 메모리-대-메모리 전송처럼 다루려는 발상** 이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">왜 인피니밴드가 필요한가: 소프트웨어 경로를 줄여야 한다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일반 TCP/IP 경로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Application → Kernel → TCP/IP Stack → Network Interface Card</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ Network → Network Interface Card → Kernel → Application</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↑ 복사/문맥전환/프로토콜 처리 누적</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">InfiniBand 경로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Application → 등록 메모리 → HCA → InfiniBand Switch → HCA</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 원격 메모리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↑ 커널 개입 최소화, CPU 부담 감소</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│      왜 인피니밴드가 필요한가: 소프트웨어 경로를 줄여야 한다       │
+├──────────────────────────────────────────────────────────────────────┤
+│ 일반 TCP/IP 경로                                                    │
+│ Application → Kernel → TCP/IP Stack → Network Interface Card        │
+│             → Network → Network Interface Card → Kernel → Application│
+│        ↑ 복사/문맥전환/프로토콜 처리 누적                           │
+│                                                                      │
+│ InfiniBand 경로                                                     │
+│ Application → 등록 메모리 → HCA → InfiniBand Switch → HCA          │
+│             → 원격 메모리                                           │
+│                  ↑ 커널 개입 최소화, CPU 부담 감소                  │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림은 인피니밴드가 속도만 높인 것이 아니라 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 지나가는 단계 자체를 줄였다는 점</strong> 을 보여준다. 단계가 줄면 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간뿐 아니라 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 편차도 줄어들어, [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 연산 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)처럼 "가끔 느려도 안 되는" 작업에 특히 강하다.
 
@@ -63,21 +61,20 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 인피니밴드가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보내는 내부 흐름을 단순화한 것이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">InfiniBand 데이터 경로: 메모리와 패브릭을 직접 연결</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">송신 노드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Application ─▶ QP 등록 ─▶ HCA ─▶ InfiniBand Switch ─▶ HCA ─▶ 원격 메모리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ RDMA Read/Write/Send ─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 메모리 등록(Memory Registration)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제어면</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Subnet Manager ── 경로 설정/주소 관리/패브릭 초기화</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│          InfiniBand 데이터 경로: 메모리와 패브릭을 직접 연결        │
+├──────────────────────────────────────────────────────────────────────┤
+│ 송신 노드                                                            │
+│ Application ─▶ QP 등록 ─▶ HCA ─▶ InfiniBand Switch ─▶ HCA ─▶ 원격 메모리 │
+│        │            │                         │                      │
+│        │            └─ RDMA Read/Write/Send ─┘                      │
+│        └─ 메모리 등록(Memory Registration)                          │
+│                                                                      │
+│ 제어면                                                               │
+│ Subnet Manager ── 경로 설정/주소 관리/패브릭 초기화                │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 여기서 중요한 것은 두 가지다. 첫째, **메모리 등록 (Memory Registration)** 을 통해 HCA가 접근 가능한 버퍼를 미리 고정함으로써, 전송 시점마다 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 개입하지 않게 만든다. 둘째, <strong>Credit-based <a href="/knowledge-base/studynote/03_network/08_transport_layer/421_tcp_flow_control_sliding_window_algorithm/">Flow Control</a></strong> 로 수신 측 버퍼 여유가 있을 때만 송신하게 하여, 패킷 드롭 이후 재전송에 기대는 방식보다 더 예측 가능한 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 만든다.
 
@@ -157,23 +154,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">공유 버스 (Shared Bus)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">스위치드 패브릭 (Switched Fabric)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 인피니밴드 (InfiniBand)</div>
-<div class="kb-diagram-note">─▶ RDMA (Remote Direct Memory Access)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ MPI · GPU 클러스터 · NVMe over Fabrics</div></div>
-<div class="kb-diagram-note">─▶ 무손실 흐름 제어 · 초저지연 인터커넥트</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 이더넷 기반 확장</div>
-<div class="kb-diagram-tree-item" style="--depth:6">▶ RoCE (RDMA over Converged Ethernet)</div>
-</div>
-</div>
-
-
+```text
+공유 버스 (Shared Bus)
+    │
+    ▼
+스위치드 패브릭 (Switched Fabric)
+    │
+    ├─▶ 인피니밴드 (InfiniBand)
+    │        │
+    │        ├─▶ RDMA (Remote Direct Memory Access)
+    │        │        │
+    │        │        └─▶ MPI · GPU 클러스터 · NVMe over Fabrics
+    │        │
+    │        └─▶ 무손실 흐름 제어 · 초저지연 인터커넥트
+    │
+    └─▶ 이더넷 기반 확장
+             │
+             └─▶ RoCE (RDMA over Converged Ethernet)
+```
 
 이 흐름은 "공유 경로"에서 "[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 패브릭"으로, 다시 "전용 고성능 패브릭"과 "범용망 확장형 [RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/)"로 갈라지는 진화 방향을 보여준다.
 

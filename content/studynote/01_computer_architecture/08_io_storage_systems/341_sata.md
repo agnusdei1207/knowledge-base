@@ -35,22 +35,23 @@ SATA의 핵심 구조는 "호스트 컨트롤러 - [직렬](/knowledge-base/stud
 
 아래 그림은 SATA가 단순 케이블 규격이 아니라, 명령 처리와 물리 링크가 함께 맞물린 구조임을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SATA 데이터 경로: 명령은 큐로, 전송은 직렬 링크로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS / File System</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AHCI (Advanced Host Controller Interface)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">명령 큐 생성 · 인터럽트 처리 · Hot Plug 제어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SATA Host Controller 1:1 SATA Link ▶ SATA Device Controller</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ HDD: 헤드 이동 · 회전</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ SSD: 플래시 채널 접근</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Link Speed 협상 · 오류 검출 · 전원 관리</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                  SATA 데이터 경로: 명령은 큐로, 전송은 직렬 링크로         │
+├────────────────────────────────────────────────────────────────────────────┤
+│ OS / File System                                                          │
+│        │                                                                   │
+│        ▼                                                                   │
+│ AHCI (Advanced Host Controller Interface)                                  │
+│        │  명령 큐 생성 · 인터럽트 처리 · Hot Plug 제어                     │
+│        ▼                                                                   │
+│ SATA Host Controller ───── 1:1 SATA Link ─────▶ SATA Device Controller     │
+│        │                                      │                             │
+│        │                                      ├─▶ HDD: 헤드 이동 · 회전     │
+│        │                                      └─▶ SSD: 플래시 채널 접근     │
+│        └─ Link Speed 협상 · 오류 검출 · 전원 관리                           │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조에서 중요한 포인트는 세 가지다. 첫째, SATA는 장치마다 독립 링크를 쓰므로 다른 디스크의 I/O가 같은 케이블에서 직접 충돌하지 않는다. 둘째, AHCI와 NCQ를 통해 명령을 단순 순차 실행하지 않고 재배열할 수 있어, 특히 기계식 HDD의 탐색 시간을 줄이는 데 유리하다. 셋째, 세대별 속도 향상은 물리 계층 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)율 상승으로 이뤄졌지만, 실제 유효 전송률은 인코딩과 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 오버헤드 때문에 이론치보다 낮다.
 
@@ -133,23 +134,23 @@ SATA의 가장 큰 공헌은 저장장치 연결을 대중화하고 표준화했
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">PATA (Parallel ATA)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SATA (Serial ATA)</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ AHCI (Advanced Host Controller Interface)</div>
-<div class="kb-diagram-note">─▶ NCQ (Native Command Queuing)</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ SATA SSD 확산</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ 성능 상한 도달</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">NVMe (Non-Volatile Memory Express) / PCIe (PCI Express)</div>
-</div>
-</div>
-
-
+```text
+PATA (Parallel ATA)
+        │
+        ▼
+SATA (Serial ATA)
+        │
+        ├─▶ AHCI (Advanced Host Controller Interface)
+        │         │
+        │         └─▶ NCQ (Native Command Queuing)
+        │
+        ├─▶ SATA SSD 확산
+        │
+        └─▶ 성능 상한 도달
+                  │
+                  ▼
+NVMe (Non-Volatile Memory Express) / PCIe (PCI Express)
+```
 
 이 흐름은 "배선 단순화 → 명령 최적화 → [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 보급 → 차세대 인터페이스 분화"라는 저장장치 연결 기술의 진화를 보여준다.
 

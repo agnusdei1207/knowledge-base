@@ -30,23 +30,29 @@ tags = ["it_management"]
 
 [체인법](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/069_chaining/)의 핵심 아키텍처는 [해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/)의 각 버킷이 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 직접 들고 있는 것이 아니라, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 저장된 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/">연결 리스트</a>의 머리 (Head) 포인터</strong>만 들고 있다는 점이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해시 테이블의 체인법 (Chaining) 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Hash Function: key % 5</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">버킷 인덱스 (배열) 연결 리스트 (충돌된 데이터들 엮음)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Key:A, Val:10</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Key:F, Val:99</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Null</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">──▶ Null (빈 버킷)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Key:C, Val:30</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Null</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Key:D, Val:40</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Key:G, Val:77</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Key:H</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Key:E, Val:50</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Null</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 입력 순서: A(0), C(2), D(3), E(4), F(0, 충돌!), G(3, 충돌!)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                  해시 테이블의 체인법 (Chaining) 구조          │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│  [Hash Function: key % 5]                                    │
+│                                                              │
+│  버킷 인덱스 (배열)          연결 리스트 (충돌된 데이터들 엮음)     │
+│  ┌─────┐                                                     │
+│  │  0  │──▶ [Key:A, Val:10] ──▶ [Key:F, Val:99] ──▶ Null   │
+│  ├─────┤                                                     │
+│  │  1  │──▶ Null (빈 버킷)                                  │
+│  ├─────┤                                                     │
+│  │  2  │──▶ [Key:C, Val:30] ──▶ Null                       │
+│  ├─────┤                                                     │
+│  │  3  │──▶ [Key:D, Val:40] ──▶ [Key:G, Val:77] ──▶ [Key:H]│
+│  ├─────┤                                                     │
+│  │  4  │──▶ [Key:E, Val:50] ──▶ Null                       │
+│  └─────┘                                                     │
+│                                                              │
+│  * 입력 순서: A(0), C(2), D(3), E(4), F(0, 충돌!), G(3, 충돌!) │
+└──────────────────────────────────────────────────────────────┘
+```
 
 검색이나 삭제를 할 때는 1차로 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 인덱스를 찾아가고, 2차로 해당 인덱스에 매달린 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)를 순차 탐색(O(N))하여 일치하는 키를 찾아낸다. 
 
@@ -106,23 +112,21 @@ tags = ["it_management"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">해시 테이블의 충돌 (Collision) 발생</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">체인법 (Chaining) 도입 (연결 리스트로 묶음)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">임계치 초과 시 테이블 크기 2배 확장 및 재해싱 (Rehashing)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">보안 위협 (Hash DoS) 및 성능 저하 문제 직면</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">데이터 8개 이상 충돌 시 O(log N) 탐색 보장을 위한 트리(Tree) 변환 아키텍처 결합</div>
-</div>
-</div>
-
-
+```text
+해시 테이블의 충돌 (Collision) 발생
+    │
+    ▼
+체인법 (Chaining) 도입 (연결 리스트로 묶음)
+    │
+    ▼
+임계치 초과 시 테이블 크기 2배 확장 및 재해싱 (Rehashing)
+    │
+    ▼
+보안 위협 (Hash DoS) 및 성능 저하 문제 직면
+    │
+    ▼
+데이터 8개 이상 충돌 시 O(log N) 탐색 보장을 위한 트리(Tree) 변환 아키텍처 결합
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

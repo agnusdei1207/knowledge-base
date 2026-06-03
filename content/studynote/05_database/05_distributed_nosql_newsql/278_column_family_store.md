@@ -21,16 +21,13 @@ tags = ["studynote-database"]
 
 컬럼 패밀리 저장소 (Column Family / [Wide-Column Store](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/238_wide_column_cassandra_hbase_lsm/))은 대량 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)/읽기 특화, [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 우수, [HBase](/knowledge-base/studynote/05_database/04_transactions_concurrency/543_hbase/), Cassandra에 초점을 맞춘 개념이다. [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 네트워크 분할이 상수이므로 단일 DB의 사고방식만으로는 부족하다. 정합성·[가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)·[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간을 동시에 최대로 잡으려 하면 설계가 모순된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client -&gt; Coordinator -&gt; Current concept -&gt; Replica result</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Network delay -&gt; rule -&gt; consistency outcome</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ Client -> Coordinator -> Current concept -> Replica result   │
+├──────────────────────────────────────────────────────────────┤
+│ Network delay -> rule -> consistency outcome                 │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 그림은 컬럼 패밀리 저장소를 독립 기능이 아니라 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름에서 특정 통제 지점을 맡는 구조로 이해해야 한다는 점을 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여 준다.
 
@@ -49,16 +46,13 @@ tags = ["studynote-database"]
 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 영향 | 컬럼 패밀리 저장소는 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/), [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간, 운영 복잡도 중 적어도 하나에 직접 영향을 준다. | 이득과 비용을 같이 보지 않으면 과설계가 된다. |
 | 운영 주의 | `문서 저장소`·`그래프 저장소`과 경계를 혼동하면 적용 위치가 어긋난다. | 장애 시 관찰할 지표와 우회 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 미리 준비해야 한다. |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Prepare -&gt; sync -&gt; current concept -&gt; final decision</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Local success -&gt; global agreement -&gt; atomicity</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ Prepare -> sync -> current concept -> final decision         │
+├──────────────────────────────────────────────────────────────┤
+│ Local success -> global agreement -> atomicity               │
+└──────────────────────────────────────────────────────────────┘
+```
 
 핵심은 컬럼 패밀리 저장소를 단순 옵션이 아니라 입력 조건, 처리 순서, 결과 보장을 함께 묶는 설계 규칙으로 보는 것이다. 그래서 구현 전에 평가 시점·충돌 지점·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성을 먼저 정리해야 한다.
 
@@ -119,19 +113,15 @@ tags = ["studynote-database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">문서 저장소</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">컬럼 패밀리 저장소</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">그래프 저장소</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">샤딩</div></div>
-</div>
-</div>
-
-
+```text
+[문서 저장소]
+    │
+    ▼
+[컬럼 패밀리 저장소]
+    │
+    ├──▶ [그래프 저장소]
+    └──▶ [샤딩]
+```
 
 [문서 저장소](/knowledge-base/studynote/14_data_engineering/01_infrastructure/037_document/)에서 출발한 논점이 컬럼 패밀리 저장소에서 핵심 판단으로 모이고, 이후 [그래프 저장소](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/279_graph_store/)·[샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/) 같은 확장 주제로 이어지는 흐름을 보여 준다.
 

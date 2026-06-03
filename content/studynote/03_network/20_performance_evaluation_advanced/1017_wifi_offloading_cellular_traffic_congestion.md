@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 정부에서 조 단위 돈을 주고 산 면허 주파수는 폭이 너무 좁습니다.
 - 무제한 요금제 가입자가 늘어나며 트래픽이 폭증([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Tsunami)하자, 통신사가 강남 바닥에 수억 원짜리 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 중계기를 100대 더 세워야 하는 무식한 인프라 공사비(CAPEX) 파산 위기에 처했습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">LAA</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">와이파이 오프로딩</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">밀리미터파 전파 감쇠</div></div>
-</div>
-</div>
-
-
+```text
+[LAA]
+    │
+    ▼
+[와이파이 오프로딩]
+    │
+    └──▶ [밀리미터파 전파 감쇠]
+```
 
 - **📢 섹션 요약 비유**: 와이파이 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -43,18 +39,14 @@ tags = ["studynote-network"]
 
 - **개념**: <strong>통신사(SKT, KT)의 코어 셀룰러망(3G/4G/<a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a>)에 미친 듯이 집중되는 과부하 트래픽(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Traffic)의 일부를, 통신사가 길거리나 건물에 자체적으로 깔아둔 '비면허 대역의 캐리어급 Wi-Fi 통신망'으로 몰래 우회시켜 짐을 떠넘기고(<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/">Offloading</a>) <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>시키는 이종망 통신 하중 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 기술</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">LAA</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">와이파이 오프로딩</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">밀리미터파 전파 감쇠</div></div>
-</div>
-</div>
-
-
+```text
+[LAA]
+    │
+    ▼
+[와이파이 오프로딩]
+    │
+    └──▶ [밀리미터파 전파 감쇠]
+```
 
 - **📢 섹션 요약 비유**: 와이파이 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -124,19 +116,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: LAA</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 와이파이 오프로딩</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 밀리미터파 전파 감쇠</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: LAA]
+    │
+    ▼
+[현재 개념: 와이파이 오프로딩]
+    │
+    ├──▶ [확장 A: 밀리미터파 전파 감쇠]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 와이파이 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)는 LAA에서 출발해 현재 메커니즘을 정교화하고, 이후 [밀리미터파](/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/) 전파 감쇠와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

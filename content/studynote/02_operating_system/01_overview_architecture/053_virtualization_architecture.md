@@ -31,17 +31,15 @@ tags = ["studynote-operating-system"]
 
 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)의 중심은 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)다. [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 물리 하드웨어 위에서 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) ([Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))을 관리하고, 각 VM은 자신의 OS를 가진다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Apps ─ Guest OS ─ Virtual Hardware ── VM</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hypervisor (Type 1/2)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Physical CPU / Memory / Storage</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Apps ─ Guest OS ─ Virtual Hardware ── VM     │
+├──────────────────────────────────────────────┤
+│            Hypervisor (Type 1/2)             │
+├──────────────────────────────────────────────┤
+│          Physical CPU / Memory / Storage     │
+└──────────────────────────────────────────────┘
+```
 
 | 요소 | 역할 | 포인트 |
 | :--- | :--- | :--- |
@@ -119,21 +117,18 @@ Type 1 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_ove
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">물리 서버</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">하이퍼바이저</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">가상 머신 (VM)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 / 멀티테넌시</div>
-</div>
-</div>
-
-
+```text
+물리 서버
+    │
+    ▼
+하이퍼바이저
+    │
+    ▼
+가상 머신 (VM)
+    │
+    ▼
+클라우드 / 멀티테넌시
+```
 
 이 흐름은 물리 자원 직접 운영에서 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 분리 운영으로 발전한 과정을 보여준다.
 

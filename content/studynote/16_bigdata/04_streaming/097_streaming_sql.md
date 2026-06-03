@@ -233,23 +233,21 @@ LEFT JOIN users u ON c.user_id = u.user_id;
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">정적 배치 SQL — 저장된 테이블 대상 질의</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스트리밍 SQL — 흐르는 스트림에 SQL 적용</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Window 연산 (TUMBLE·HOP·SESSION) — 시간 구간 집계</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Watermark — 이벤트 지연 허용 및 집계 완료 트리거</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ksqlDB (Kafka) / Flink SQL — 프로덕션 스트리밍 SQL 표준</div></div>
-</div>
-</div>
-
-
+```text
+[정적 배치 SQL — 저장된 테이블 대상 질의]
+    │
+    ▼
+[스트리밍 SQL — 흐르는 스트림에 SQL 적용]
+    │
+    ▼
+[Window 연산 (TUMBLE·HOP·SESSION) — 시간 구간 집계]
+    │
+    ▼
+[Watermark — 이벤트 지연 허용 및 집계 완료 트리거]
+    │
+    ▼
+[ksqlDB (Kafka) / Flink SQL — 프로덕션 스트리밍 SQL 표준]
+```
 정적 SQL 문법을 흐르는 스트림에 적용하고, 창(Window)과 [워터마크](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/)([Watermark](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/))로 시간 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 처리하며, ksqlDB와 Flink SQL이 각각 [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)·범용 스트리밍 표준으로 자리잡는 흐름이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

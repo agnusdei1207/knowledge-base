@@ -18,21 +18,16 @@ tags = ["studynote-devops-sre"]
 
 ## I. Blameless Postmortem의 원칙
 
+```
+전통적 인시던트 처리:
+  장애 발생 -> 담당자 처벌 -> 재발 방지 서약
+  결과: 두려움, 은폐, 학습 없음
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">전통적 인시던트 처리:</div>
-<div class="kb-diagram-note">장애 발생 -&gt; 담당자 처벌 -&gt; 재발 방지 서약</div>
-<div class="kb-diagram-note">결과: 두려움, 은폐, 학습 없음</div>
-<div class="kb-diagram-note">Blameless 접근:</div>
-<div class="kb-diagram-note">장애 발생 -&gt; 시스템/프로세스 원인 분석</div>
-<div class="kb-diagram-tree-item" style="--depth:6">재발 방지 액션 아이템</div>
-<div class="kb-diagram-note">결과: 투명성, 학습, 신뢰</div>
-</div>
-</div>
-
-
+Blameless 접근:
+  장애 발생 -> 시스템/프로세스 원인 분석
+             -> 재발 방지 액션 아이템
+  결과: 투명성, 학습, 신뢰
+```
 
 | 관점       | [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)-중심 (Blame)        | Blameless             |
 |-----------|-------------------------|-----------------------|
@@ -47,28 +42,27 @@ tags = ["studynote-devops-sre"]
 
 ## II. Postmortem 문서 구조
 
+```
+Postmortem 필수 항목:
 
+1. 인시던트 요약
+   +-- 날짜/시간, 지속 시간
+   +-- 영향 범위 (사용자 수, SLO 위반)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Postmortem 필수 항목:</div>
-<div class="kb-diagram-note">1. 인시던트 요약</div>
-<div class="kb-diagram-note">+-- 날짜/시간, 지속 시간</div>
-<div class="kb-diagram-note">+-- 영향 범위 (사용자 수, SLO 위반)</div>
-<div class="kb-diagram-note">2. 타임라인</div>
-<div class="kb-diagram-note">+-- 발생 -&gt; 탐지 -&gt; 대응 -&gt; 해결 시간 기록</div>
-<div class="kb-diagram-note">3. 근본 원인 (Root Cause)</div>
-<div class="kb-diagram-note">+-- 5-Why 분석</div>
-<div class="kb-diagram-note">+-- 기여 요인 (Contributing Factors)</div>
-<div class="kb-diagram-note">4. 해결 과정 (What Went Well / What Went Wrong)</div>
-<div class="kb-diagram-note">+-- 잘 된 것 (감지 자동화, 롤백 성공)</div>
-<div class="kb-diagram-note">+-- 개선할 것 (모니터링 미흡, 알림 지연)</div>
-<div class="kb-diagram-note">5. 액션 아이템 (Action Items)</div>
-<div class="kb-diagram-note">+-- 책임자, 기한, 우선순위 명시</div>
-</div>
-</div>
+2. 타임라인
+   +-- 발생 -> 탐지 -> 대응 -> 해결 시간 기록
 
+3. 근본 원인 (Root Cause)
+   +-- 5-Why 분석
+   +-- 기여 요인 (Contributing Factors)
 
+4. 해결 과정 (What Went Well / What Went Wrong)
+   +-- 잘 된 것 (감지 자동화, 롤백 성공)
+   +-- 개선할 것 (모니터링 미흡, 알림 지연)
+
+5. 액션 아이템 (Action Items)
+   +-- 책임자, 기한, 우선순위 명시
+```
 
 > 📢 **섹션 요약 비유**: 비행기 사고 조사 보고서처럼 — 조종사를 탓하는 게 아니라 기체 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/), 관제 절차, 훈련 미흡을 찾아 개선한다.
 
@@ -76,27 +70,27 @@ tags = ["studynote-devops-sre"]
 
 ## III. 5-Why 근본 원인 분석
 
+```
+사례: 프로덕션 DB 장애
 
+Why 1: DB 연결이 끊어졌다.
+  -> 연결 풀(Connection Pool)이 소진됐기 때문
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">사례: 프로덕션 DB 장애</div>
-<div class="kb-diagram-note">Why 1: DB 연결이 끊어졌다.</div>
-<div class="kb-diagram-tree-item" style="--depth:1">연결 풀(Connection Pool)이 소진됐기 때문</div>
-<div class="kb-diagram-note">Why 2: 왜 연결 풀이 소진됐나?</div>
-<div class="kb-diagram-tree-item" style="--depth:1">쿼리 응답이 느려져 연결이 쌓였기 때문</div>
-<div class="kb-diagram-note">Why 3: 왜 쿼리가 느렸나?</div>
-<div class="kb-diagram-tree-item" style="--depth:1">인덱스 없는 컬럼에 대량 쿼리가 실행됐기 때문</div>
-<div class="kb-diagram-note">Why 4: 왜 인덱스가 없었나?</div>
-<div class="kb-diagram-tree-item" style="--depth:1">배포 시 마이그레이션 스크립트가 누락됐기 때문</div>
-<div class="kb-diagram-note">Why 5: 왜 마이그레이션이 누락됐나?</div>
-<div class="kb-diagram-tree-item" style="--depth:1">배포 파이프라인에 DB 마이그레이션 검증 단계가 없기 때문</div>
-<div class="kb-diagram-note">근본 원인: 파이프라인 검증 부재</div>
-<div class="kb-diagram-note">액션 아이템: 마이그레이션 자동 검증 단계 추가</div>
-</div>
-</div>
+Why 2: 왜 연결 풀이 소진됐나?
+  -> 쿼리 응답이 느려져 연결이 쌓였기 때문
 
+Why 3: 왜 쿼리가 느렸나?
+  -> 인덱스 없는 컬럼에 대량 쿼리가 실행됐기 때문
 
+Why 4: 왜 인덱스가 없었나?
+  -> 배포 시 마이그레이션 스크립트가 누락됐기 때문
+
+Why 5: 왜 마이그레이션이 누락됐나?
+  -> 배포 파이프라인에 DB 마이그레이션 검증 단계가 없기 때문
+
+근본 원인: 파이프라인 검증 부재
+액션 아이템: 마이그레이션 자동 검증 단계 추가
+```
 
 > 📢 **섹션 요약 비유**: 5-Why는 양파 껍질을 벗기듯 — 표면 현상에서 진짜 원인으로 파고드는 과정이다.
 

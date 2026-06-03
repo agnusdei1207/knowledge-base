@@ -79,23 +79,21 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">그래프 이론 (Graph Theory) — 정점/엣지 모델</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스파크 GraphX (Apache Spark GraphX) — 분산 그래프 처리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Pregel API (Pregel Computation Model) — 정점 중심 반복</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">PageRank / 연결 요소 (PageRank / Connected Components) — 대표 알고리즘</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">그래프프레임즈 (GraphFrames) — 데이터프레임 기반 확장</div></div>
-</div>
-</div>
-
-
+```text
+[그래프 이론 (Graph Theory) — 정점/엣지 모델]
+    │
+    ▼
+[스파크 GraphX (Apache Spark GraphX) — 분산 그래프 처리]
+    │
+    ▼
+[Pregel API (Pregel Computation Model) — 정점 중심 반복]
+    │
+    ▼
+[PageRank / 연결 요소 (PageRank / Connected Components) — 대표 알고리즘]
+    │
+    ▼
+[그래프프레임즈 (GraphFrames) — 데이터프레임 기반 확장]
+```
 
 이 흐름은 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 이론을 Spark 위에 올려 GraphX와 Pregel로 반복 계산을 수행하고, PageRank와 GraphFrames로 분석 범위를 넓히는 발전을 보여준다.
 

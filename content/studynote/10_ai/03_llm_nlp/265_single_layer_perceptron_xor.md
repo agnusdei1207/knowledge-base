@@ -53,39 +53,41 @@ wᵢ ← wᵢ + η × (y_target - y_pred) × xᵢ
 
 ### 단층 [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/) 구조
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단층 퍼셉트론 (SLP) 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력층 (Input Layer) 출력층 (Output Layer)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">x₁ ──</div><div class="kb-diagram-node">w₁</div><div class="kb-diagram-note">──</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">x₂ ──</div><div class="kb-diagram-node">w₂</div><div class="kb-diagram-note">── ──► Σ(wᵢxᵢ) - θ ──► 계단 함수 ──► ŷ (0 or 1)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">x₃ ──</div><div class="kb-diagram-node">w₃</div><div class="kb-diagram-note">──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결정 경계: w₁x₁ + w₂x₂ = θ (직선, 초평면)</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────────┐
+│                   단층 퍼셉트론 (SLP) 구조                    │
+│                                                              │
+│   입력층 (Input Layer)         출력층 (Output Layer)          │
+│                                                              │
+│   x₁ ──[w₁]──┐                                              │
+│               │                                              │
+│   x₂ ──[w₂]──┼──► Σ(wᵢxᵢ) - θ ──► 계단 함수 ──► ŷ (0 or 1) │
+│               │                                              │
+│   x₃ ──[w₃]──┘                                              │
+│                                                              │
+│   ┌────────────────────────────────────────────────────┐    │
+│   │ 결정 경계: w₁x₁ + w₂x₂ = θ  (직선, 초평면)         │    │
+│   └────────────────────────────────────────────────────┘    │
+└──────────────────────────────────────────────────────────────┘
+```
 
 ### XOR 문제와 선형 분리 불가능성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AND (선형 분리 가능) XOR (불가능)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">x₂</div><div class="kb-diagram-cell">x₂</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">○ ● 1</div><div class="kb-diagram-cell">● ○</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">○ ○ 0</div><div class="kb-diagram-cell">○ ●</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">x₁ x₁</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0 1 0 1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">○=0 ●=1 직선 하나로 ○와 ●를</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">직선으로 분리 ✓ 분리 불가 ✗</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────┐
+│        AND (선형 분리 가능)    XOR (불가능)        │
+│                                                 │
+│  x₂│           x₂│                             │
+│  1 │  ○  ●     1 │  ●  ○                        │
+│    │             │                              │
+│  0 │  ○  ○     0 │  ○  ●                        │
+│    └──────x₁    └──────x₁                       │
+│       0   1        0   1                        │
+│                                                 │
+│  ○=0 ●=1          직선 하나로 ○와 ●를             │
+│  직선으로 분리 ✓   분리 불가 ✗                    │
+└─────────────────────────────────────────────────┘
+```
 
 XOR [진리표](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/024_truth_table/):
 
@@ -143,21 +145,20 @@ XOR에서 (0,0), (1,1)은 클래스 0이고 (0,1), (1,0)은 클래스 1 — 어�
 
 ### [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/) 한계를 극복하는 방법
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">XOR 해결 방법들</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">방법 1: MLP (은닉층 추가)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">은닉층: AND, OR 조합</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">출력: XOR 결과</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">방법 2: 특징 공학 (Feature Engineering)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">새로운 특징 x₃ = x₁ XOR x₂를 수동으로 추가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">방법 3: 커널 방법 (Kernel Method, SVM)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터를 고차원으로 매핑하여 선형 분리 가능하게 변환</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────┐
+│             XOR 해결 방법들                           │
+│                                                      │
+│  방법 1: MLP (은닉층 추가)                            │
+│  x₁, x₂ → [은닉층: AND, OR 조합] → [출력: XOR 결과]  │
+│                                                      │
+│  방법 2: 특징 공학 (Feature Engineering)              │
+│  새로운 특징 x₃ = x₁ XOR x₂를 수동으로 추가           │
+│                                                      │
+│  방법 3: 커널 방법 (Kernel Method, SVM)               │
+│  데이터를 고차원으로 매핑하여 선형 분리 가능하게 변환   │
+└──────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: SLP의 한계 극복은 "더 많은 눈금자(은닉층)"를 추가하거나 "3D로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 들어올려([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))" 직선으로 나누는 것 — 평면에서 불가능한 분리가 입체에서는 가능해진다.
 

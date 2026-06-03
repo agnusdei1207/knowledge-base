@@ -21,18 +21,14 @@ tags = ["studynote-network"]
 
 사물인터넷이 수백억 개로 늘어나는 초연결 시대([IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/))에 가장 큰 장벽은 '배터리 유지보수'입니다. 칩셋을 먼지(Smart Dust)만큼 작게 만들 수 있어도, 배터리 부피 때문에 소형화에 한계가 오고 방전 시 교체가 불가능한 곳(콘크리트 내부, 몸속)이 너무 많습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DTLS 프로토콜 CoAP 결합</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">소형 안테나 시스템/초소형 센서 백스캐터 통…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">무전원 통신 환경 적응</div></div>
-</div>
-</div>
-
-
+```text
+[DTLS 프로토콜 CoAP 결합]
+    │
+    ▼
+[소형 안테나 시스템/초소형 센서 백스캐터 통…]
+    │
+    └──▶ [무전원 통신 환경 적응]
+```
 
 - **📢 섹션 요약 비유**: 소형 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 시스템/초소형 센서 백스캐터 통…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -47,18 +43,14 @@ tags = ["studynote-network"]
   3. **열전 (온도차)**: 보일러 파이프나 사람 피부 체온과 바깥 공기 사이의 '온도 차이'에서 전기를 뽑아냅니다.
   4. **광 (태양광)**: 가장 흔한 실내외 빛 에너지 수확 기술입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DTLS 프로토콜 CoAP 결합</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">소형 안테나 시스템/초소형 센서 백스캐터 통…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">무전원 통신 환경 적응</div></div>
-</div>
-</div>
-
-
+```text
+[DTLS 프로토콜 CoAP 결합]
+    │
+    ▼
+[소형 안테나 시스템/초소형 센서 백스캐터 통…]
+    │
+    └──▶ [무전원 통신 환경 적응]
+```
 
 - **📢 섹션 요약 비유**: 소형 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 시스템/초소형 센서 백스캐터 통…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -118,19 +110,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: DTLS 프로토콜 CoAP 결합</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 소형 안테나 시스템/초소형 센서 백스캐터 통…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 무전원 통신 환경 적응</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율형 엣지 협업</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: DTLS 프로토콜 CoAP 결합]
+    │
+    ▼
+[현재 개념: 소형 안테나 시스템/초소형 센서 백스캐터 통…]
+    │
+    ├──▶ [확장 A: 무전원 통신 환경 적응]
+    └──▶ [확장 B: 자율형 엣지 협업]
+```
 
 소형 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 시스템/초소형 센서 백스캐터 통…는 [DTLS](/knowledge-base/studynote/03_network/12_iot_wpan_edge/644_dtls_datagram_tls_coap_security/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) [CoAP](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/) 결합에서 출발해 현재 메커니즘을 정교화하고, 이후 [무전원 통신](/knowledge-base/studynote/03_network/12_iot_wpan_edge/646_passive_iot_intermittent_computing/) 환경 적응와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

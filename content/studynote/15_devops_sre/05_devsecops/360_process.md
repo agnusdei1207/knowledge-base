@@ -31,20 +31,19 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">현재 상태 VSM 예시 (소프트웨어)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">기획</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">설계</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">개발</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">코드 리뷰</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">QA</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">배포</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PT:2h PT:4h PT:3d PT:4h PT:2d</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WT:2d WT:1d WT:0d WT:3d WT:5d</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">총 리드타임: ~15d</div><div class="kb-diagram-cell">총 처리시간: ~3.5d</div><div class="kb-diagram-cell">PCE: ~23%</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PCE (Process Cycle Efficiency) = 처리시간 / 리드타임 × 100</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│                  현재 상태 VSM 예시 (소프트웨어)                  │
+├──────────────────────────────────────────────────────────────────┤
+│  고객 요청 → [기획] → [설계] → [개발] → [코드 리뷰] → [QA] → 배포│
+│            PT:2h     PT:4h    PT:3d    PT:4h          PT:2d     │
+│            WT:2d     WT:1d    WT:0d    WT:3d           WT:5d     │
+│                                                                  │
+│  총 리드타임: ~15d  │  총 처리시간: ~3.5d  │  PCE: ~23%          │
+│                                                                  │
+│  PCE (Process Cycle Efficiency) = 처리시간 / 리드타임 × 100       │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 | 구성 요소           | 정의                                      | 목표               |
 | :------------------ | :---------------------------------------- | :----------------- |
@@ -77,7 +76,7 @@ tags = ["studynote-devops-sre"]
 | 팀 참여            | 전문가 중심                 | 전체 가치 흐름 참여자 워크숍        |
 | 지속성             | 일회성 프로젝트             | 반복 측정·개선 사이클               |
 
-VSM은 Platform Engineering과도 연결된다. [개발자 경험](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/058_dx_developer_experience/)(DevEx) 개선을 위해 [IDP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/) ([Internal Developer Platform](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/200_internal_developer_platform_backstage/))를 구축할 때, VSM으로 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)한 가장 큰 WT 구간(예: 환경 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/) 3일 → 셀프 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 15분)을 플랫폼 기능 개발 우선순위로 삼는다.
+VSM은 Platform 엔진ering과도 연결된다. [개발자 경험](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/058_dx_developer_experience/)(DevEx) 개선을 위해 [IDP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/) ([Internal Developer Platform](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/200_internal_developer_platform_backstage/))를 구축할 때, VSM으로 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)한 가장 큰 WT 구간(예: 환경 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/) 3일 → 셀프 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 15분)을 플랫폼 기능 개발 우선순위로 삼는다.
 
 - 📢 섹션 요약 비유: VSM은 음식점 운영 컨설팅에서 주방 동선 분석이다. 셰프 실력(처리 속도)보다 재료 가져오는 경로(대기 시간)를 줄이면 테이블 회전율이 더 빨리 오른다.
 
@@ -126,30 +125,29 @@ VSM은 Platform Engineering과도 연결된다. [개발자 경험](/knowledge-ba
 | PCE ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Cycle Efficiency)              | VSM의 핵심 지표, PT/[Lead Time](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) 비율                       |
 | [DORA 4](/knowledge-base/studynote/15_devops_sre/05_devsecops/285_dora_4/) [Metrics](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/)                              | 변경 리드타임, 배포 빈도와 [VSM](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/030_value_stream_mapping/) 직결                      |
 | Kaizen (카이젠)                              | 점진적 개선, 카이젠 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트가 VSM에서 개선 우선순위 표시   |
-| [Platform Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/) / [IDP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/)                  | [VSM](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/030_value_stream_mapping/) 병목 구간 자동화의 구현 수단                         |
+| [Platform 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/) / [IDP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/)                  | [VSM](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/030_value_stream_mapping/) 병목 구간 자동화의 구현 수단                         |
 | Value [Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)                     | VSM을 디지털화·자동화한 플랫폼 도구 범주                 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">린 (Lean) 제조 — Toyota Production System</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">VSM (Value Stream Mapping) — 흐름 시각화·낭비 식별</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">PCE 측정 — 처리시간/리드타임 비율</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">카이젠 버스트 — 우선순위 개선 구간 선정</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DevOps DORA 지표 — 변경 리드타임·배포 빈도 연결</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Value Stream Management 플랫폼 — 실시간 자동 측정</div>
-</div>
-</div>
-
-
+```text
+린 (Lean) 제조 — Toyota Production System
+    │
+    ▼
+VSM (Value Stream Mapping) — 흐름 시각화·낭비 식별
+    │
+    ▼
+PCE 측정 — 처리시간/리드타임 비율
+    │
+    ▼
+카이젠 버스트 — 우선순위 개선 구간 선정
+    │
+    ▼
+DevOps DORA 지표 — 변경 리드타임·배포 빈도 연결
+    │
+    ▼
+Value Stream Management 플랫폼 — 실시간 자동 측정
+```
 
 흐름은 "제조 린 → 소프트웨어 [VSM](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/030_value_stream_mapping/) → 정량 지표 → 자동화 → 플랫폼 통합"으로 발전한다.
 

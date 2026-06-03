@@ -18,21 +18,19 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로젝트 유형별 감리 초점</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유형 핵심 감리 영역</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">신규 개발 아키텍처, 보안 설계, 코드 품질</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">운영·유지보수 SLA, 변경 관리, 장애 대응</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">패키지 도입 커스터마이징, 밴더 의존, 데이터 이관</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라우드 전환 CSP 책임 분리, 보안 설정, 비용 관리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AI 시스템 모델 편향, 설명 가능성, 데이터 품질</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────┐
+│          프로젝트 유형별 감리 초점                         │
+├──────────────────────────────────────────────────────────┤
+│  유형            핵심 감리 영역                           │
+│  ─────────────────────────────────────────────────────  │
+│  신규 개발       아키텍처, 보안 설계, 코드 품질           │
+│  운영·유지보수   SLA, 변경 관리, 장애 대응                │
+│  패키지 도입     커스터마이징, 밴더 의존, 데이터 이관     │
+│  클라우드 전환   CSP 책임 분리, 보안 설정, 비용 관리      │
+│  AI 시스템       모델 편향, 설명 가능성, 데이터 품질      │
+└──────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 프로젝트 유형별 감리는 건물 종류별 안전 검사다. 새 건물(신규 개발)은 기초 공사·설계도 검사, 운영 중인 건물은 시설 유지·안전 점검, 리모델링(패키지 도입)은 구조 변경 안전성을 각각 다르게 검사한다.
 
@@ -134,23 +132,21 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">전통 감리 — 신규 개발·운영 체크리스트 중심</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">클라우드 감리 — CSP 책임 분리·보안 설정 검증</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AI 시스템 감리 — 편향·설명 가능성·환각 검증</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">자동화 감리 — IaC 스캔·AI 기반 품질 분석</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">지속적 감리 — CI/CD 파이프라인 통합 자동화</div></div>
-</div>
-</div>
-
-
+```text
+[전통 감리 — 신규 개발·운영 체크리스트 중심]
+    │
+    ▼
+[클라우드 감리 — CSP 책임 분리·보안 설정 검증]
+    │
+    ▼
+[AI 시스템 감리 — 편향·설명 가능성·환각 검증]
+    │
+    ▼
+[자동화 감리 — IaC 스캔·AI 기반 품질 분석]
+    │
+    ▼
+[지속적 감리 — CI/CD 파이프라인 통합 자동화]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

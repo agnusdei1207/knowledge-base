@@ -41,23 +41,22 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 암달의 관점과 구스타프슨의 관점이 어디서 갈리는지를 보여준다. 같은 1시간을 기준으로 보더라도, 프로세서가 늘어날수록 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 구간이 감당하는 작업량을 키우면 순차 구간의 상대적 비중이 작아진다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고정 시간 1시간에서 보는 구스타프슨의 관점: 더 빨리보다 더 크게</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단일 프로세서</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">순차 5분</div><div class="kb-diagram-node">병렬 55분</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">기준 문제 1배</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">64 프로세서</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">순차 5분</div><div class="kb-diagram-node">병렬 55분 × 64개가 분담</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">같은 1시간에 훨씬 큰 문제 처리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해석</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 순차 준비 시간은 크게 늘지 않음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 병렬 자원은 해상도·샘플 수·반복 수를 키우는 데 사용됨</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 결과적으로 "완료 시간 단축"보다 "처리 규모 확대"가 핵심 성과가 됨</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│      고정 시간 1시간에서 보는 구스타프슨의 관점: 더 빨리보다 더 크게      │
+├──────────────────────────────────────────────────────────────────────┤
+│ 단일 프로세서                                                        │
+│ [순차 5분][병렬 55분]  -> 기준 문제 1배                              │
+│                                                                      │
+│ 64 프로세서                                                          │
+│ [순차 5분][병렬 55분 × 64개가 분담] -> 같은 1시간에 훨씬 큰 문제 처리    │
+│                                                                      │
+│ 해석                                                                  │
+│ - 순차 준비 시간은 크게 늘지 않음                                     │
+│ - 병렬 자원은 해상도·샘플 수·반복 수를 키우는 데 사용됨                │
+│ - 결과적으로 "완료 시간 단축"보다 "처리 규모 확대"가 핵심 성과가 됨    │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 원리는 특히 약결합 확장 (Weak Scaling) 해석과 잘 맞는다. 각 노드가 담당할 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조각을 유지하면서 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기를 함께 키우면, [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 시스템은 더 큰 문제를 거의 같은 시간 안에 처리하는 방향으로 설계 가치를 입증할 수 있다.
 
@@ -139,26 +138,26 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">고정 문제 속도 향상</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">암달의 법칙 (Amdahl's Law)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">응답 시간 중심 해석</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">구스타프슨의 법칙 (Gustafson's Law)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">문제 크기 확장</div>
-<div class="kb-diagram-tree-item" style="--depth:2">처리량 (Throughput) 중심 평가</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">약결합 확장 (Weak Scaling) · 수평 확장 (Scale-out)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">HPC (High Performance Computing) · GPU 클러스터 · 대규모 AI 학습</div>
-</div>
-</div>
-
-
+```text
+고정 문제 속도 향상
+    │
+    ▼
+암달의 법칙 (Amdahl's Law)
+    │
+    ├─ 응답 시간 중심 해석
+    │
+    ▼
+구스타프슨의 법칙 (Gustafson's Law)
+    │
+    ├─ 문제 크기 확장
+    ├─ 처리량 (Throughput) 중심 평가
+    │
+    ▼
+약결합 확장 (Weak Scaling) · 수평 확장 (Scale-out)
+    │
+    ▼
+HPC (High Performance Computing) · GPU 클러스터 · 대규모 AI 학습
+```
 
 이 흐름은 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 논의가 "고정된 일을 얼마나 빨리 끝내는가"에서 "같은 시간 안에 얼마나 더 큰 일을 처리하는가"로 확장되는 방향을 보여준다.
 

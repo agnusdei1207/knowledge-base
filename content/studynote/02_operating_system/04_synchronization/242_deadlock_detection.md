@@ -51,23 +51,24 @@ tags = ["studynote-operating-system"]
 
 자원의 종류당 인스턴스가 1개(예: 특정 DB의 특정 Row 1줄)일 때는 복잡한 행렬이 필요 없다. [자원 할당 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/)([RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/))에서 불필요한 사각형(자원)을 빼버리고 원(프로세스)만 남긴 <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/305_wait_for_graph/">대기 그래프</a> (<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/305_wait_for_graph/">Wait-For Graph</a>, WFG)</strong>를 그려서 사이클만 찾으면 된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자원 할당 그래프(RAG)에서 대기 그래프(WFG)로의 압축 변환</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 기존 RAG (복잡함)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">자원 A</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">자원 B</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─(할당)─ P1</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 변환된 WFG (핵심만 남김)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "어차피 A는 P2가 쥐고 있으니, P1이 A를 원한다는 건 P1이 P2를 기다린다는 뜻!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P1 ▶ P2 ▶ P1 (사이클 확정!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(P2가 끝날때까지 대기) (P1이 끝날때까지 대기)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 결론: 노드 2개짜리 초간단 DFS/BFS 탐색 알고리즘으로 0.1ms 만에</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데드락을 찾아낼 수 있다. DB 엔진의 최고 무기다.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌──────────────────────────────────────────────────────────────────────────────────┐
+  │         자원 할당 그래프(RAG)에서 대기 그래프(WFG)로의 압축 변환                 │
+  ├──────────────────────────────────────────────────────────────────────────────────┤
+  │                                                                                  │
+  │   [ 1. 기존 RAG (복잡함) ]                                                       │
+  │   P1 ─(요청)─▶ [자원 A] ◀─(할당)─ P2 ─(요청)─▶ [자원 B] ◀─(할당)─ P1             │
+  │                                                                                  │
+  │   [ 2. 변환된 WFG (핵심만 남김) ]                                                │
+  │   - "어차피 A는 P2가 쥐고 있으니, P1이 A를 원한다는 건 P1이 P2를 기다린다는 뜻!" │
+  │                                                                                  │
+  │   P1 ──────────▶ P2 ──────────▶ P1 (사이클 확정!)                                │
+  │     (P2가 끝날때까지 대기)  (P1이 끝날때까지 대기)                               │
+  │                                                                                  │
+  │   ✅ 결론: 노드 2개짜리 초간단 DFS/BFS 탐색 알고리즘으로 0.1ms 만에              │
+  │           데드락을 찾아낼 수 있다. DB 엔진의 최고 무기다.                        │
+  └──────────────────────────────────────────────────────────────────────────────────┘
+```
 
 ### 탐지 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 2: 다중 인스턴스 자원 환경 (탐지 은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))
 
@@ -112,27 +113,28 @@ tags = ["studynote-operating-system"]
    - **절망**: A서버의 노드 정보와 B서버의 노드 정보를 합쳐서 글로벌 사이클(Global Cycle)을 찾는 것은 네트워크 지연과 상태 불일치(Inconsistency) 때문에 불가능하다.
    - **아키텍트 결단**: [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 아키텍트들은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 데드락 탐지를 완전히 포기했다. 대신 그냥 "3초 동안 응답 없으면 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)([Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/))!"이라는 무식한 룰을 모든 API와 락 획득에 걸어버려, 탐지 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 없이도 데드락 고리를 부숴버리는 실용주의적 결단을 내렸다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">교착 상태 탐지 후 '복구(Recovery)' 시나리오 아키텍처 트리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시스템이 데드락 사이클(A ─▶ B ─▶ C ─▶ A)을 탐지함!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 희생자(Victim) 선정 및 처형 방식 결정</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 일망타진 (무식한 복구)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 방법: A, B, C를 그냥 싹 다 Kill 해버림.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: 데드락은 한 방에 풀리지만 데이터 3명분 다 날아감 (피해 막심)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 외과 수술 (스마트한 복구)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 방법: C가 제일 만만하네(Undo 로그가 젤 적음). C만 Kill 하자!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: C가 죽으면서 자원을 뱉어 A와 B는 락을 잡고 무사히 생존함.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3. 롤백 (Time Machine)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 방법: C를 죽이지 않고, C의 상태를 5초 전으로 타임머신 태움.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: 꼬였던 락만 스르륵 풀리고 C도 나중에 다시 재시작 가능.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(가장 우아하지만, DB처럼 체크포인트 기능이 있어야만 가능)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────────────────┐
+  │     교착 상태 탐지 후 '복구(Recovery)' 시나리오 아키텍처 트리           │
+  ├─────────────────────────────────────────────────────────────────────────┤
+  │                                                                         │
+  │   [시스템이 데드락 사이클(A ─▶ B ─▶ C ─▶ A)을 탐지함!]                  │
+  │                │                                                        │
+  │                ▼ 희생자(Victim) 선정 및 처형 방식 결정                  │
+  │   [ 1. 일망타진 (무식한 복구) ]                                         │
+  │     ▶ 방법: A, B, C를 그냥 싹 다 Kill 해버림.                           │
+  │     ▶ 결과: 데드락은 한 방에 풀리지만 데이터 3명분 다 날아감 (피해 막심)│
+  │                                                                         │
+  │   [ 2. 외과 수술 (스마트한 복구) ]                                      │
+  │     ▶ 방법: C가 제일 만만하네(Undo 로그가 젤 적음). C만 Kill 하자!      │
+  │     ▶ 결과: C가 죽으면서 자원을 뱉어 A와 B는 락을 잡고 무사히 생존함.   │
+  │                                                                         │
+  │   [ 3. 롤백 (Time Machine) ]                                            │
+  │     ▶ 방법: C를 죽이지 않고, C의 상태를 5초 전으로 타임머신 태움.       │
+  │     ▶ 결과: 꼬였던 락만 스르륵 풀리고 C도 나중에 다시 재시작 가능.      │
+  │            (가장 우아하지만, DB처럼 체크포인트 기능이 있어야만 가능)    │
+  └─────────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 탐지([Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/))는 절반의 완성일 뿐이다. 데드락을 찾았으면 누군가는 피를 흘려야(Kill or [Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/)) 사이클이 깨진다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 범용 프로세스(C 프로그램)의 배를 갈라 죽이면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 오염되기 때문에 OS는 탐지 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 자체를 탑재하지 않는다. 오직 완벽한 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)([Undo](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/)) 생태계를 갖춘 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)만이 탐지 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 떳떳하게 쓸 자격을 갖는다.
 
 - **📢 섹션 요약 비유**: 암세포(데드락)를 탐지하는 MRI(탐지 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)) 기계를 샀습니다. 암을 발견했는데 병원에 메스([롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 기능)가 없으면 환자를 통째로 죽여야(강제 종료) 합니다. 완벽한 수술 장비([Undo](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/) Log)가 갖춰진 종합 병원([Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/))만이 MRI 장비를 들여놓을 자격이 있습니다. 일반 동네 의원([운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/))은 그냥 진통제(타이머)만 주는 게 맞습니다.
@@ -163,19 +165,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">라이브락 (Livelock)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">교착 상태 탐지 (Deadlock Detection)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">우선순위 상속 (Priority Inheritance Protocol)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">우선순위 올림 (Priority Ceiling Protocol)</div></div>
-</div>
-</div>
-
-
+```text
+[라이브락 (Livelock)]
+    │
+    ▼
+[교착 상태 탐지 (Deadlock Detection)]
+    │
+    ├──▶ [우선순위 상속 (Priority Inheritance Protocol)]
+    └──▶ [우선순위 올림 (Priority Ceiling Protocol)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

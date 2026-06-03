@@ -57,25 +57,24 @@ tags = ["studynote-algorithm"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">단순 정렬 (Simple Sort)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">퀵 정렬 (Quick Sort)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">피벗 선택 최적화 (Pivot Selection)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3-way 분할 (3-way Partition)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IntroSort (Introspective Sort)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">병렬 정렬 (Parallel Sort)</div></div>
-</div>
-</div>
-
-
+```text
+[단순 정렬 (Simple Sort)]
+    │
+    ▼
+[퀵 정렬 (Quick Sort)]
+    │
+    ▼
+[피벗 선택 최적화 (Pivot Selection)]
+    │
+    ▼
+[3-way 분할 (3-way Partition)]
+    │
+    ▼
+[IntroSort (Introspective Sort)]
+    │
+    ▼
+[병렬 정렬 (Parallel Sort)]
+```
 
 [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)의 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 선택과 분할 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 개선되며 최악의 경우를 방지하는 하이브리드 정렬로 발전하는 흐름이다.
 

@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/355_eigrp_enhanced_igrp_dual_algorithm/">EIGRP</a></strong>는 기본적으로 옆 라우터의 소문을 믿고 장부([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블)를 갱신합니다(디스턴스 벡터).
 - 하지만 30초마다 전체 장부를 멍청하게 다 던지는 RIP과 달리, **처음에만 전체를 주고받고, 그 뒤로는 '변화가 생긴 부분'만 살짝(부분 업데이트, Multicast) 던져서 네트워크 트래픽을 극단적으로 아낍니다.** (링크 상태의 장점 흡수)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">BGP 속성</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">EIGRP DUAL 지연 스케일 분산</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">브로드캐스트 스톰</div></div>
-</div>
-</div>
-
-
+```text
+[BGP 속성]
+    │
+    ▼
+[EIGRP DUAL 지연 스케일 분산]
+    │
+    └──▶ [브로드캐스트 스톰]
+```
 
 - **📢 섹션 요약 비유**: [EIGRP](/knowledge-base/studynote/03_network/07_network_layer_routing/355_eigrp_enhanced_igrp_dual_algorithm/) DUAL [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 스케일 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -57,18 +53,14 @@ DUAL [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_a
 - <strong>무중단 절체 (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/300_failover_architecture/">Failover</a>)</strong>: 포크레인이 1등 길(광케이블)을 푹 찍어서 끊어졌습니다. OSPF는 이때부터 "으아악 길 터졌다!" 하며 지도를 새로 그리고 수학 공식을 돌리느라(Convergence Time) 수 초 동안 패킷이 바닥에 버려집니다.
 - **EIGRP의 기적**: 1등 길이 툭 끊기는 그 찰나! 주머니에 꿍쳐놨던 2등 길(Feasible Successor)을 <strong>단 0.001초 만에 꺼내서 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> 테이블(메인 길)로 쓱 올려버립니다.</strong> 수학 계산(DUAL)을 다시 할 필요가 아예 없기 때문에, 체감상 수렴 시간이 제로(0)에 수렴하는 극강의 회복력을 자랑합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">BGP 속성</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">EIGRP DUAL 지연 스케일 분산</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">브로드캐스트 스톰</div></div>
-</div>
-</div>
-
-
+```text
+[BGP 속성]
+    │
+    ▼
+[EIGRP DUAL 지연 스케일 분산]
+    │
+    └──▶ [브로드캐스트 스톰]
+```
 
 - **📢 섹션 요약 비유**: [EIGRP](/knowledge-base/studynote/03_network/07_network_layer_routing/355_eigrp_enhanced_igrp_dual_algorithm/) DUAL [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 스케일 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -124,19 +116,15 @@ DUAL [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_a
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: BGP 속성</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: EIGRP DUAL 지연 스케일 분산</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 브로드캐스트 스톰</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: BGP 속성]
+    │
+    ▼
+[현재 개념: EIGRP DUAL 지연 스케일 분산]
+    │
+    ├──▶ [확장 A: 브로드캐스트 스톰]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 [EIGRP](/knowledge-base/studynote/03_network/07_network_layer_routing/355_eigrp_enhanced_igrp_dual_algorithm/) DUAL [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 스케일 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)는 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [브로드캐스트 스톰](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1097_broadcast_storm_switching_loop_stp/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

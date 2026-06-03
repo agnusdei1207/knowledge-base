@@ -34,23 +34,20 @@ tags = ["studynote-data-engineering"]
 
 ### [합성곱 연산](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/) ([Convolution](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/) [Operation](/knowledge-base/studynote/05_database/06_dw_olap_trends/329_delta_encoding/))
 
+```
+입력 이미지 (6×6)    필터 (3×3)      특성 맵 (4×4)
+┌─────────────┐    ┌─────────┐    ┌───────────┐
+│ 1 0 1 0 1 0 │    │ 1  0 -1 │    │  ?  ?  ?  │
+│ 0 1 0 1 0 1 │ ⊛  │ 2  0 -2 │ →  │  ?  ?  ?  │
+│ 1 0 1 0 1 0 │    │ 1  0 -1 │    │  ?  ?  ?  │
+│ 0 1 0 1 0 1 │    └─────────┘    └───────────┘
+│ 1 0 1 0 1 0 │
+│ 0 1 0 1 0 1 │
+└─────────────┘
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">입력 이미지 (6×6) 필터 (3×3) 특성 맵 (4×4)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1 0 1 0 1 0</div><div class="kb-diagram-cell">1 0 -1</div><div class="kb-diagram-cell">? ? ?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0 1 0 1 0 1</div><div class="kb-diagram-cell">⊛</div><div class="kb-diagram-cell">2 0 -2</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">? ? ?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1 0 1 0 1 0</div><div class="kb-diagram-cell">1 0 -1</div><div class="kb-diagram-cell">? ? ?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0 1 0 1 0 1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1 0 1 0 1 0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0 1 0 1 0 1</div></div>
-<div class="kb-diagram-note">출력 크기 = (N - F + 2P) / S + 1</div>
-<div class="kb-diagram-note">N: 입력 크기, F: 필터 크기, P: 패딩, S: 스트라이드</div>
-</div>
-</div>
-
-
+출력 크기 = (N - F + 2P) / S + 1
+  N: 입력 크기, F: 필터 크기, P: 패딩, S: 스트라이드
+```
 
 ### 핵심 하이퍼파라미터
 
@@ -63,41 +60,35 @@ tags = ["studynote-data-engineering"]
 
 ### [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/) ([Pooling](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)) 연산
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Max Pooling (2×2, stride=2)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1 3 2 4</div><div class="kb-diagram-cell">3 4</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5 6 1 2</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">9 8</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">9 3 8 1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2 7 4 6</div></div>
-<div class="kb-diagram-note">Max: 각 구역의 최댓값 추출 → 위치 불변성, 특성 압축</div>
-<div class="kb-diagram-note">Average: 평균값 → 전체적 특성 유지</div>
-</div>
-</div>
-
-
+```
+Max Pooling (2×2, stride=2)
+┌───────────┐        ┌─────────┐
+│  1  3  2  4│        │  3  4  │
+│  5  6  1  2│  →     │  9  8  │
+│  9  3  8  1│        └─────────┘
+│  2  7  4  6│
+└───────────┘
+Max: 각 구역의 최댓값 추출 → 위치 불변성, 특성 압축
+Average: 평균값 → 전체적 특성 유지
+```
 
 ### [ResNet](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/) ([Residual Network](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/)) — 잔차 연결
 
+```
+일반 레이어           잔차 연결 (Skip Connection)
+                    
+입력 x               입력 x ──────────────────┐
+   ↓                    ↓                      │
+[Conv Layer]         [Conv Layer]              │
+   ↓                    ↓                      │ (identity)
+[Conv Layer]         [Conv Layer]              │
+   ↓                    ↓                      │
+출력 F(x)           출력 F(x) + x ←───────────┘
+                    = H(x) = F(x) + x
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">일반 레이어 잔차 연결 (Skip Connection)</div>
-<div class="kb-diagram-note">입력 x 입력 x</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Conv Layer</div><div class="kb-diagram-node">Conv Layer</div></div>
-<div class="kb-diagram-note">↓ ↓ │ (identity)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Conv Layer</div><div class="kb-diagram-node">Conv Layer</div></div>
-<div class="kb-diagram-note">출력 F(x) 출력 F(x) + x ←</div>
-<div class="kb-diagram-note">= H(x) = F(x) + x</div>
-<div class="kb-diagram-note">핵심: F(x) = H(x) - x (잔차만 학습)</div>
-<div class="kb-diagram-note">→ 기울기가 직통 경로로 역전파 → 기울기 소실 극복</div>
-</div>
-</div>
-
-
+핵심: F(x) = H(x) - x (잔차만 학습)
+→ 기울기가 직통 경로로 역전파 → 기울기 소실 극복
+```
 
 <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/">ResNet</a> 핵심 수식</strong>: `H(x) = F(x) + x`
 
@@ -124,23 +115,25 @@ tags = ["studynote-data-engineering"]
 
 ### YOLO (You Only Look Once) — 실시간 [객체 탐지](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/)
 
+```
+기존 2-Stage 탐지 (R-CNN 계열)
+입력 → [Region Proposal] → [Classification] → 결과
+       (느림)
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">기존 2-Stage 탐지 (R-CNN 계열)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Region Proposal</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Classification</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">결과</div></div>
-<div class="kb-diagram-note">(느림)</div>
-<div class="kb-diagram-note">YOLO 1-Stage 탐지</div>
-<div class="kb-diagram-note">S×S 그리드 분할</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│</div><div class="kb-diagram-node">★</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">각 셀이 B개 박스 예측</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ 클래스 확률 동시 출력</div></div>
-<div class="kb-diagram-note">→ 단일 CNN 패스로 위치+분류 동시 예측</div>
-<div class="kb-diagram-note">→ 실시간(30~100fps) 처리 가능</div>
-</div>
-</div>
-
-
+YOLO 1-Stage 탐지
+       S×S 그리드 분할
+┌──────────────────────────────┐
+│ ┌────┬────┬────┬────┬────┐  │
+│ │    │    │    │    │    │  │
+│ ├────┼────┼────┼────┼────┤  │
+│ │    │[★]│    │    │    │  │ ← 각 셀이 B개 박스 예측
+│ ├────┼────┼────┼────┼────┤  │   + 클래스 확률 동시 출력
+│ │    │    │    │    │    │  │
+│ └────┴────┴────┴────┴────┘  │
+└──────────────────────────────┘
+→ 단일 CNN 패스로 위치+분류 동시 예측
+→ 실시간(30~100fps) 처리 가능
+```
 
 | 방식 | 정확도 | 속도 | 사용 사례 |
 |:---|:---|:---|:---|
@@ -158,24 +151,22 @@ tags = ["studynote-data-engineering"]
 
 ### [전이 학습](/knowledge-base/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/) ([Transfer Learning](/knowledge-base/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/))
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">사전 학습 단계 (ImageNet 1.2M 이미지)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ResNet-50 / VGG-16 / EfficientNet</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Conv Block</div><div class="kb-diagram-node">Conv Block</div><div class="kb-diagram-node">Conv Block</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Global Avg Pool</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">FC: 1000 classes</div></div>
-<div class="kb-diagram-note">↓ 미세조정 (Fine-tuning)</div>
-<div class="kb-diagram-note">타겟 태스크 (의료 이미지 100장)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ResNet-50 (동결 레이어 ←── 가중치 유지)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Global Avg Pool</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">FC: 2 classes (정상/비정상)</div></div>
-</div>
-</div>
-
-
+```
+사전 학습 단계 (ImageNet 1.2M 이미지)
+┌─────────────────────────────────────────┐
+│ ResNet-50 / VGG-16 / EfficientNet      │
+│ [Conv Block] [Conv Block] [Conv Block] │
+│          [Global Avg Pool]              │
+│            [FC: 1000 classes]           │
+└─────────────────────────────────────────┘
+              ↓ 미세조정 (Fine-tuning)
+타겟 태스크 (의료 이미지 100장)
+┌─────────────────────────────────────────┐
+│ ResNet-50 (동결 레이어 ←── 가중치 유지) │
+│          [Global Avg Pool]              │
+│     [FC: 2 classes (정상/비정상)]       │
+└─────────────────────────────────────────┘
+```
 
 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>: 상위 레이어만 [fine-tuning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/), 하위 특성 추출 레이어 동결
 
@@ -196,29 +187,23 @@ tags = ["studynote-data-engineering"]
 
 ### 비전 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 파이프라인
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이미지 입력</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전처리: 리사이즈, 정규화</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CNN Backbone: 특성 추출</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Task-specific Head</div></div>
-<div class="kb-diagram-tree-item" style="--depth:1">분류 (Classification): Softmax FC</div>
-<div class="kb-diagram-tree-item" style="--depth:1">탐지 (Detection): YOLO / Faster R-CNN</div>
-<div class="kb-diagram-tree-item" style="--depth:1">분할 (Segmentation): U-Net / Mask R-CNN</div>
-<div class="kb-diagram-tree-item" style="--depth:1">생성 (Generation): GAN / Diffusion</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">후처리: NMS (Non-Maximum Suppression)</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">결과 출력</div>
-</div>
-</div>
-
-
+```
+이미지 입력
+    ↓
+[전처리: 리사이즈, 정규화]
+    ↓
+[CNN Backbone: 특성 추출]
+    ↓
+[Task-specific Head]
+  ├── 분류 (Classification): Softmax FC
+  ├── 탐지 (Detection): YOLO / Faster R-CNN
+  ├── 분할 (Segmentation): U-Net / Mask R-CNN
+  └── 생성 (Generation): GAN / Diffusion
+    ↓
+[후처리: NMS (Non-Maximum Suppression)]
+    ↓
+결과 출력
+```
 
 ### 기술사 시험 핵심 포인트
 
@@ -249,21 +234,18 @@ tags = ["studynote-data-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">MLP (전결합) → 이미지에 비효율</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CNN: Conv + Pooling + Stride → 공간 특징 추출</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">발전: LeNet → AlexNet → VGG → ResNet (잔차 연결)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">객체 탐지: YOLO · Faster R-CNN · DETR (Transformer)</div>
-</div>
-</div>
-
-
+```text
+MLP (전결합) → 이미지에 비효율
+    │
+    ▼
+CNN: Conv + Pooling + Stride → 공간 특징 추출
+    │
+    ▼
+발전: LeNet → AlexNet → VGG → ResNet (잔차 연결)
+    │
+    ▼
+객체 탐지: YOLO · Faster R-CNN · DETR (Transformer)
+```
 2. ResNet의 잔차 연결은 계단을 오르면서도 엘리베이터로 원래 모습을 꼭대기로 바로 보내는 것이야. 올라가면서 배운 것과 원래 모습을 합쳐서 더 잘 볼 수 있어.
 3. YOLO는 그림 전체를 한 번만 보고 "여기 고양이, 저기 자동차"라고 동시에 말하는 것이야. 조각조각 따로 보는 것보다 훨씬 빠르게 모든 물체를 찾을 수 있어.
 

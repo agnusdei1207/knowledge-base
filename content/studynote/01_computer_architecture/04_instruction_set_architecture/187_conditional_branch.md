@@ -25,21 +25,21 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 순차 실행과 조건부 분기의 차이를 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">순차 실행과 조건부 분기의 실행 경로 차이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">순차 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">100 ──▶ 101 ──▶ 102 ──▶ 103</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조건부 분기</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">BRANCH if Zero = 1</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">220</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 102</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심: "다음 명령어"가 하나로 고정되지 않고 조건에 따라 갈린다</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│          순차 실행과 조건부 분기의 실행 경로 차이           │
+├──────────────────────────────────────────────────────────────┤
+│ 순차 실행                                                    │
+│   100 ──▶ 101 ──▶ 102 ──▶ 103                                │
+│                                                               │
+│ 조건부 분기                                                   │
+│   100 ──▶ 101 ──▶ [BRANCH if Zero = 1] ──┬─▶ 220             │
+│                                          │                    │
+│                                          └─▶ 102              │
+│                                                               │
+│ 핵심: "다음 명령어"가 하나로 고정되지 않고 조건에 따라 갈린다 │
+└──────────────────────────────────────────────────────────────┘
+```
 
 즉 조건부 분기는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 직접 바꾸는 명령이라기보다, <strong>다음에 읽을 명령의 위치를 선택하는 명령</strong>이다. 컴퓨터 구조 관점에서 보면 계산의 지능은 산술 명령에서만 생기는 것이 아니라, 이런 경로 선택 명령에서 본격적으로 완성된다.
 
@@ -60,24 +60,27 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 조건부 분기의 내부 결정을 한 번에 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조건부 분기의 내부 결정 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) CMP R1, R2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) ALU 계산: R1 - R2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) 상태 레지스터 갱신</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Zero = 1 → 두 값이 같음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Sign = 1 → 결과가 음수</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Carry = 1 → 자리올림/borrow 조건 발생</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4) BRANCH if condition true</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 참 → PC = target address</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 거짓 → PC = next sequential address</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           조건부 분기의 내부 결정 흐름                       │
+├──────────────────────────────────────────────────────────────┤
+│ 1) CMP R1, R2                                                │
+│      │                                                        │
+│      ▼                                                        │
+│ 2) ALU 계산: R1 - R2                                          │
+│      │                                                        │
+│      ▼                                                        │
+│ 3) 상태 레지스터 갱신                                         │
+│    ├─ Zero = 1  → 두 값이 같음                               │
+│    ├─ Sign = 1  → 결과가 음수                                 │
+│    └─ Carry = 1 → 자리올림/borrow 조건 발생                  │
+│      │                                                        │
+│      ▼                                                        │
+│ 4) BRANCH if condition true                                   │
+│    ├─ 참  → PC = target address                               │
+│    └─ 거짓 → PC = next sequential address                     │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 구조의 핵심은 조건부 분기 명령이 스스로 비교를 끝내는 경우보다, <strong>직전 명령이 남긴 상태를 해석하는 경우가 많다</strong>는 점이다. 그래서 많은 명령 집합 구조 ([Instruction Set Architecture](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/), [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/))에서는 `CMP` 다음에 `BEQ`, `BNE`, `BLT` 같은 분기 명령이 자연스럽게 붙는다. 반면 일부 ISA는 비교와 분기를 한 명령으로 묶어 디코드 수를 줄이기도 하는데, 결국 본질은 "조건 판정 결과에 따라 PC를 선택한다"로 동일하다.
 
@@ -155,23 +158,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">순차 실행</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">비교 명령 (<code>CMP</code>) · 상태 레지스터 (Status Register)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">조건부 분기 (Conditional Branch)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">제어 해저드 (Control Hazard) · 분기 예측 (Branch Prediction)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">분기 없는 선택 기법 (CMOV, Predication)</div>
-</div>
-</div>
-
-
+```text
+순차 실행
+    │
+    ▼
+비교 명령 (`CMP`) · 상태 레지스터 (Status Register)
+    │
+    ▼
+조건부 분기 (Conditional Branch)
+    │
+    ▼
+제어 해저드 (Control Hazard) · 분기 예측 (Branch Prediction)
+    │
+    ▼
+분기 없는 선택 기법 (CMOV, Predication)
+```
 
 이 흐름은 "비교 결과 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)"에서 출발해 "경로 선택", "[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 문제", "우회 최적화"로 개념이 확장되는 과정을 보여 준다.
 

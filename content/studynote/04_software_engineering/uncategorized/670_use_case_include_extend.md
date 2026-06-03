@@ -31,32 +31,37 @@ tags = ["studynote-software-engineering"]
 
 유스케이스 모델링에서 두 관계가 요구사항의 복잡성을 어떻게 제어하는지 시각화하면 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단일 거대 유스케이스 vs Include/Extend를 통한 구조화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Anti-Pattern: 분리되지 않은 복잡한 유스케이스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">( 덩치 큰 이체 시스템 )</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 로그인 확인하기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 잔액 확인하기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 만약 한도 초과 시 마이너스 대출 로직 실행...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 이체 수행하기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 만약 OTP 인증 실패 시 ARS 인증 로직 실행...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(핵심 로직과 예외, 공통 로직이 뒤섞여 분석 및 테스트 곤란)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Best-Practice: Include와 Extend로 분리된 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;&lt;include&gt;&gt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ ( 사용자 인증 )</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(필수)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고객</div><div class="kb-diagram-cell">▶ ( 이체 수행 )</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(선택/조건부)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;&lt;extend&gt;&gt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">( 한도 초과 대출 )</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(이체 수행이라는 본질적 가치만 남고, 부가 요소는 깔끔하게 분리됨)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────┐
+  │       단일 거대 유스케이스 vs Include/Extend를 통한 구조화        │
+  ├───────────────────────────────────────────────────────────┤
+  │                                                           │
+  │  [Anti-Pattern: 분리되지 않은 복잡한 유스케이스]                    │
+  │  ┌──────────────────────────────────────────────┐         │
+  │  │ ( 덩치 큰 이체 시스템 )                          │         │
+  │  │  - 로그인 확인하기                              │         │
+  │  │  - 잔액 확인하기                                │         │
+  │  │  - 만약 한도 초과 시 마이너스 대출 로직 실행...        │         │
+  │  │  - 이체 수행하기                                │         │
+  │  │  - 만약 OTP 인증 실패 시 ARS 인증 로직 실행...        │         │
+  │  └──────────────────────────────────────────────┘         │
+  │     (핵심 로직과 예외, 공통 로직이 뒤섞여 분석 및 테스트 곤란)       │
+  │                                                           │
+  │  [Best-Practice: Include와 Extend로 분리된 구조]             │
+  │                                                           │
+  │                          <<include>>                      │
+  │                     ┌────────────────▶ ( 사용자 인증 )     │
+  │                     │      (필수)                         │
+  │     ┌──────┐        │                                     │
+  │     │ 고객 │ ───▶ ( 이체 수행 )                              │
+  │     └──────┘        ▲                                     │
+  │                     │      (선택/조건부)                     │
+  │                     │    <<extend>>                       │
+  │                     └───────────────── ( 한도 초과 대출 )  │
+  │                                                           │
+  │     (이체 수행이라는 본질적 가치만 남고, 부가 요소는 깔끔하게 분리됨) │
+  └───────────────────────────────────────────────────────────┘
+```
 
   **[다이어그램 해설]** 상단의 안티패턴에서는 비즈니스의 핵심인 '이체' 과정에 로그인이라는 필수 인프라 로직과 한도 초과라는 예외 로직이 스파게티처럼 섞여 있다. 하단의 구조화된 다이어그램은 화살표의 방향과 스테레오타입을 통해 이를 분리한다. `<<include>>` 화살표는 본체(이체)에서 공통 기능([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)) 쪽으로 향하며 "이체를 하려면 무조건 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)을 불러와야 한다"는 필수성을 의미한다. 반면 `<<extend>>` 화살표는 부가 기능(대출)에서 본체(이체) 쪽으로 향하며, "대출 로직은 특정 조건이 맞을 때 본체에 삽입되어 기능을 확장한다"는 선택적 의존성을 명확히 보여준다.
 
@@ -150,30 +155,28 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 유스케이스 포함(Include) 확장(Extend)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 유스케이스 포함(Include) 확장(Extend)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
 | [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 유스케이스 포함(Include) 확장(Extend)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | 유스케이스 포함(Include) 확장(Extend) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
 | [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 유스케이스 포함(Include) 확장(Extend)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">유스케이스 포함(Include) 확장(Extend) 개념 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 위기 (Software Crisis) 인식
+    │
+    ▼
+유스케이스 포함(Include) 확장(Extend) 개념 정립
+    │
+    ▼
+표준화 및 방법론 체계화 (ISO, CMMI, Agile)
+    │
+    ▼
+클라우드 네이티브·AI 기반 확장 적용
+    │
+    ▼
+지속적 개선 및 DevOps·MLOps 통합
+```
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

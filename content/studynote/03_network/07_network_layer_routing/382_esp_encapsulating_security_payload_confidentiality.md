@@ -27,18 +27,14 @@ tags = ["studynote-network"]
   - 금고 문짝에 특수 씰을 붙여 열려고 시도하면 흔적이 남습니다 <strong>(<a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a>)</strong>.
   - 금고 겉면에 붙은 택배 송장(IP 헤더)은 아무나 뗐다 붙였다([NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)) 할 수 있도록 씰([무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)) 검사 범위에서 빼두었습니다. 택배 기사가 송장을 새로 써 붙여도 금고 안의 내용물은 안전합니다 <strong>(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/">NAT</a> 친화성)</strong>.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">AH</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ESP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IKE, ISAKMP, SA</div></div>
-</div>
-</div>
-
-
+```text
+[AH]
+    │
+    ▼
+[ESP]
+    │
+    └──▶ [IKE, ISAKMP, SA]
+```
 
 - **📢 섹션 요약 비유**: ** ESP는 보안을 위해 내용물을 **"블랙박스"** 처리하면서도, 겉면의 배송 딱지는 우체국이 맘대로 고쳐 쓸 수 있게 허용하는 **"융통성 있는 1티어 배달원"**입니다. 이 융통성 덕분에 전 세계 [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) 시장을 통일했습니다.
 
@@ -59,23 +55,24 @@ tags = ["studynote-network"]
 - ESP는 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)(해시) 도장을 찍을 때 <strong><code>[New IP 헤더]</code> 부분은 쿨하게 빼고</strong>, 자기가 감싼 `[원본 IP + TCP 데이터]` 부분까지만 도장을 찍는다.
 - **결과**: 중간에 집 공유기([NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/))가 `New IP 헤더`의 출발지 주소를 자기 맘대로 사설 IP에서 공인 IP로 뜯어고쳐도, <strong>어차피 거기는 도장이 안 찍힌 구역이라 목적지 방화벽이 검사할 때 "에러 없음!"으로 무사 통과(합격)</strong>하게 된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ESP의 암호화와 인증(무결성) 범위 도식</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">패킷 전체 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">New IP</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">ESP 헤더</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">원본 IP</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">Data</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">ESP 꼬리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) 암호화 범위 (검은색 잉크로 칠해서 아무도 못 봄)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">원본 IP</div><div class="kb-diagram-note">부터</div><div class="kb-diagram-node">Data</div><div class="kb-diagram-note">끝까지!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) 인증(무결성) 범위 (투명 씰을 발라서 뜯으면 흔적 남음)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ESP 헤더</div><div class="kb-diagram-note">부터</div><div class="kb-diagram-node">ESP 꼬리</div><div class="kb-diagram-note">끝까지!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) 아무 보호도 받지 않는 헐벗은 구역</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">New IP</div><div class="kb-diagram-note">(덕분에 공유기가 맘대로 IP 주소를 바꿀 수 있음!)</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                ESP의 암호화와 인증(무결성) 범위 도식             │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 패킷 전체 구조 ]                                            │
+ │   [ New IP ] ─ [ ESP 헤더 ] ─ [ 원본 IP ] ─ [ Data ] ─ [ ESP 꼬리 ] │
+ │                                                             │
+ │   1) 암호화 범위 (검은색 잉크로 칠해서 아무도 못 봄)                    │
+ │      ▶ [ 원본 IP ] 부터 [ Data ] 끝까지!                         │
+ │                                                             │
+ │   2) 인증(무결성) 범위 (투명 씰을 발라서 뜯으면 흔적 남음)              │
+ │      ▶ [ ESP 헤더 ] 부터 [ ESP 꼬리 ] 끝까지!                    │
+ │                                                             │
+ │   3) 아무 보호도 받지 않는 헐벗은 구역                             │
+ │      ▶ [ New IP ] (덕분에 공유기가 맘대로 IP 주소를 바꿀 수 있음!) │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: ESP의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -130,19 +127,15 @@ ESP는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: AH</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: ESP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: IKE, ISAKMP, SA</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: AH]
+    │
+    ▼
+[현재 개념: ESP]
+    │
+    ├──▶ [확장 A: IKE, ISAKMP, SA]
+    └──▶ [확장 B: 의도 기반 라우팅]
+```
 
 ESP는 AH에서 출발해 현재 메커니즘을 정교화하고, 이후 [IKE](/knowledge-base/studynote/03_network/07_network_layer_routing/383_ike_isakmp_sa_security_association/), ISAKMP, SA와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -31,17 +31,11 @@ tags = ["studynote-it-management"]
 
 스튜어드는 오너와 달리 최종 책임자는 아니지만, 운영의 첫 번째 실무 담당자다. [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/), 품질 규칙, [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/), 이슈 트래킹을 현장에서 다룬다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Data Owner → Policy / Accountability</div>
-<div class="kb-diagram-note">Data Steward → Definition / Quality / Issue Handling</div>
-<div class="kb-diagram-note">Data Custodian → System Operation</div>
-</div>
-</div>
-
-
+```text
+Data Owner → Policy / Accountability
+Data Steward → Definition / Quality / Issue Handling
+Data Custodian → System Operation
+```
 
 | 역할 | 책임 | 예시 |
 | :--- | :--- | :--- |
@@ -115,21 +109,18 @@ tags = ["studynote-it-management"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">정책 수립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Data Owner</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Data Steward</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">카탈로그 / 품질 / 이슈 처리</div>
-</div>
-</div>
-
-
+```text
+정책 수립
+    │
+    ▼
+Data Owner
+    │
+    ▼
+Data Steward
+    │
+    ▼
+카탈로그 / 품질 / 이슈 처리
+```
 
 이 흐름은 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)가 현장에서 어떻게 실행되는지를 보여준다.
 

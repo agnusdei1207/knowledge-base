@@ -38,62 +38,57 @@ tags = ["studynote-algorithm"]
 
 ### [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 기반 스택 구조
 
+```
+         top = 3
+          │
+          ▼
+┌────┬────┬────┬────┬────┬────┐
+│ 10 │ 20 │ 30 │ 40 │    │    │
+└────┴────┴────┴────┴────┴────┘
+  [0]  [1]  [2]  [3]  [4]  [5]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">top = 3</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">10</div><div class="kb-diagram-cell">20</div><div class="kb-diagram-cell">30</div><div class="kb-diagram-cell">40</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">0</div><div class="kb-diagram-node">1</div><div class="kb-diagram-node">2</div><div class="kb-diagram-node">3</div><div class="kb-diagram-node">4</div><div class="kb-diagram-node">5</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">push(50): arr</div><div class="kb-diagram-node">4</div><div class="kb-diagram-note">=50, top=4</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">pop() : return arr</div><div class="kb-diagram-node">4</div><div class="kb-diagram-note">=50, top=3</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">peek() : return arr</div><div class="kb-diagram-node">3</div><div class="kb-diagram-note">=40</div></div>
-</div>
-</div>
-
-
+push(50): arr[4]=50, top=4
+pop()   : return arr[4]=50, top=3
+peek()  : return arr[3]=40
+```
 
 <strong>스택 오버플로 (Stack <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/">Overflow</a>)</strong>: 고정 크기 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 기반 스택에서 top이 capacity를 초과할 때 발생. [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 깊이가 지나치게 깊을 때 OS가 스택 세그먼트를 초과하여 발생하는 오류와 같은 원리다.
 
 ### [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/) 스택 ([Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) Stack)
 
+```
+main() 호출 → factorial(3) 호출 → factorial(2) 호출 → factorial(1)
 
+Call Stack:
+┌──────────────────────┐
+│  factorial(1) frame  │  ← top (실행 중)
+├──────────────────────┤
+│  factorial(2) frame  │
+├──────────────────────┤
+│  factorial(3) frame  │
+├──────────────────────┤
+│     main() frame     │  ← bottom
+└──────────────────────┘
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">main() 호출 → factorial(3) 호출 → factorial(2) 호출 → factorial(1)</div>
-<div class="kb-diagram-note">Call Stack:</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">factorial(1) frame</div><div class="kb-diagram-cell">← top (실행 중)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">factorial(2) frame</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">factorial(3) frame</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">main() frame</div><div class="kb-diagram-cell">← bottom</div></div>
-<div class="kb-diagram-note">factorial(1) 반환 → pop, factorial(2) 재개 → pop → ...</div>
-</div>
-</div>
-
-
+factorial(1) 반환 → pop, factorial(2) 재개 → pop → ...
+```
 
 ### 수식 평가: 중위 → 후위 (Infix → Postfix, Shunting-yard)
 
+```
+입력:  3 + 4 * 2        (중위 표기)
+출력:  3 4 2 * +        (후위 표기, 스택 활용)
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">입력: 3 + 4 * 2 (중위 표기)</div>
-<div class="kb-diagram-note">출력: 3 4 2 * + (후위 표기, 스택 활용)</div>
-<div class="kb-diagram-note">처리 과정:</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">읽기</div><div class="kb-diagram-cell">출력</div><div class="kb-diagram-cell">연산자 스택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3</div><div class="kb-diagram-cell">3</div><div class="kb-diagram-cell">[]</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">+ │ 3</div><div class="kb-diagram-node">+</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">4 │ 3 4</div><div class="kb-diagram-node">+</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">* │ 3 4</div><div class="kb-diagram-node">+, *</div><div class="kb-diagram-note">(* 우선순위 &gt; +)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2 │ 3 4 2</div><div class="kb-diagram-node">+, *</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">끝</div><div class="kb-diagram-cell">3 4 2 * +</div><div class="kb-diagram-cell">[]</div></div>
-</div>
-</div>
-
-
+처리 과정:
+  읽기  │  출력      │ 연산자 스택
+  ──────┼────────────┼─────────────
+  3     │  3         │ []
+  +     │  3         │ [+]
+  4     │  3 4       │ [+]
+  *     │  3 4       │ [+, *]    (* 우선순위 > +)
+  2     │  3 4 2     │ [+, *]
+  끝    │  3 4 2 * + │ []
+```
 
 📢 **섹션 요약 비유**: 수식 평가에서 스택은 아직 처리 못 한 연산자를 잠시 보관하는 대기줄—우선순위 높은 연산자가 먼저 처리될 때까지 낮은 것들이 기다린다.
 
@@ -114,19 +109,14 @@ tags = ["studynote-algorithm"]
 
 [DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) (Depth-First Search)는 방문 경로를 스택에 쌓고, 막히면 pop하여 이전 분기로 돌아간다. [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) DFS는 암묵적으로 콜 스택을 활용하며, 반복 DFS는 명시적 스택을 사용한다.
 
+```
+그래프: A─B─D
+         └─C─E
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">그래프: A─B─D</div>
-<div class="kb-diagram-tree-item" style="--depth:4">C─E</div>
-<div class="kb-diagram-note">재귀 DFS 콜 스택:</div>
-<div class="kb-diagram-note">visit(A) → visit(B) → visit(D) ← pop</div>
-<div class="kb-diagram-note">→ visit(C) → visit(E) ← pop</div>
-</div>
-</div>
-
-
+재귀 DFS 콜 스택:
+visit(A) → visit(B) → visit(D) ← pop
+                   → visit(C) → visit(E) ← pop
+```
 
 📢 **섹션 요약 비유**: DFS는 미로 탐색자가 "지금 온 길"을 손바닥에 메모하면서 벽이 막히면 메모를 지우고 마지막 갈림길로 돌아가는 전략이다.
 
@@ -144,17 +134,11 @@ tags = ["studynote-algorithm"]
 
 ### 스택 구현 선택
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">크기 고정 + 성능 우선 → 배열 기반 스택 (캐시 친화적)</div>
-<div class="kb-diagram-note">크기 무제한 + 유연성 → 연결 리스트 기반 스택</div>
-<div class="kb-diagram-note">재귀 깊이 제어 필요 → 명시적 스택으로 재귀 대체 (Stack Overflow 방지)</div>
-</div>
-</div>
-
-
+```
+크기 고정 + 성능 우선   →  배열 기반 스택 (캐시 친화적)
+크기 무제한 + 유연성    →  연결 리스트 기반 스택
+재귀 깊이 제어 필요     →  명시적 스택으로 재귀 대체 (Stack Overflow 방지)
+```
 
 📢 **섹션 요약 비유**: 컴파일러에서 스택 없이 중첩 [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/)이나 괄호를 처리하는 것은 "몇 겹을 열었는지" 기억하지 않고 러시안 마트료시카를 조립하려는 것과 같다.
 
@@ -183,25 +167,24 @@ tags = ["studynote-algorithm"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">:---</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">큐 (Queue)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">재귀 (Recursion)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DFS</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">모노토닉 스택</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">수식 평가 (Expression)</div></div>
-</div>
-</div>
-
-
+```text
+[:---]
+    │
+    ▼
+[큐 (Queue)]
+    │
+    ▼
+[재귀 (Recursion)]
+    │
+    ▼
+[DFS]
+    │
+    ▼
+[모노토닉 스택]
+    │
+    ▼
+[수식 평가 (Expression)]
+```
 
 이 흐름도는 :---에서 출발해 모노토닉 스택까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

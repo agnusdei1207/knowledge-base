@@ -42,39 +42,41 @@ B 서버는 방금 램(RAM) 꽉 차서 헉헉대며 오토 힐링 재부팅 치�
 "아 공식 존나 머리 아프네 걍 1초마다 때림 안 됨 ㅠ?" 
 하수들의 고정 랙 대재앙 멸망 늪을 도끼로 찢어발기는 3단 십자 융합 수술 타임라인 도해다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">재시도 핑퐁 폭격 스나이퍼 전략 십자 엑스레이 스캔 록온 타점 도해 🚀</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">💥</div><div class="kb-diagram-node">대재앙 1: 고정 간격 재시도 (Fixed Interval - 동기화 충돌 뻗음 💀)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 전략: 실패하면 무조건 <code>T+1초</code>, <code>T+2초</code>, <code>T+3초</code> 에 1초씩 정각에 찔러 ㅋ</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 팩폭 멸망: 1,000명의 봇(Bot)이 실패를 겪음 ➔ 1,000명이 존나 칼같이 1.00초</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정각에 다 같이 스크럼 짜고 또 찌름 ➔ B 서버 CPU 스파이크 치솟아 또 타죽음 💥.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마치 파도가 1초마다 거대하게 몰아치는 파국 (The Thundering Herd 재앙 💀).</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">🛡️ 아키텍트의 메스: 지수 백오프 텐트 쉴드 🚀</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">📈</div><div class="kb-diagram-node">2단계: 지수 백오프 (Exponential Backoff - 부팅 숨통 시간 틔워주기 ✨)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 전략: "야 실패했냐? 뒷단 B 서버 고치고 부팅(오토힐링) 할 시간 좀 넉넉히 줘 쾅!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 타이머 수식: <code>Base Time × (2 ^ Retry_Count)</code> 록온 락킹 🪓!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- ➔ 1차 실패: 1초 대기 / 2차 실패: 2초 대기 / 3차 실패: 4초 / 4차: 8초 대기.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 팩폭 한계: 시간은 여유롭게 줬는데 ➔ 어? 씨발 1,000명 봇 새끼들이 다 같이 똑같은</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수학 공식 쓰니까 ➔ 4.00초, 8.00초 정각에 또 1,000명이 칼군무 동시 사격 핑퐁 폭격</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디도스 쏘네 좆망 💀? (동기화 파도 폭발 여전함 💥).</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">✨ 기적의 난수 믹서기 특이점 발동: Jitter 지터 록온 🚀</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🎲</div><div class="kb-diagram-node">3단계: 지수 백오프 + 지터 (Jitter 꼼수 난수 흩뿌리기 우주 대관식 🚀)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 전략: "야 이 씨발롬들아 니들 초시계 맞추지 마 찢어 쾅!! 공식 값에 무지성 랜덤(Random)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주사위 굴려 난수 찌끄레기 오차 변수를 팍팍 더하고 빼고 섞어 비벼 발라 쾅 ✨!!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 타이머 수식: <code>(Base × 2^N) + Random_Jitter(-0.5 ~ +0.5초)</code> 록온 🪓.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- ➔ 1,000명 봇이</div><div class="kb-diagram-node">4초 대기</div><div class="kb-diagram-note">타임에 도달함 ➔ 근데 어떤 놈은 지터 맞고 <code>3.7초</code>,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">어떤 놈은 <code>4.2초</code>, 어떤 놈은 <code>3.9초</code> 로 1,000명의 쏘는 시간이 0.1초 단위로 싹 다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파편화 도륙 찢겨 갈기갈기 흩뿌려(Decoupling 스텔스) 짐 쾅 🚀!!!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- 🌟</div><div class="kb-diagram-node">아키텍트 생존 결과</div><div class="kb-diagram-note">: 1,000발의 거대 폭격 쓰나미가 ➔ 가랑비 이슬비처럼 부드럽게</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">퍼져서 B 서버 문지기에 투툭 툭 떨어짐 ➔ 서버는 CPU 타격 오버헤드 1바이트 0% 없이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">무결점 오토 힐링 호흡 부활 쾌속 생존 돌파 100% 처리 마스터피스 완성 쾅 ✨!!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          재시도 핑퐁 폭격 스나이퍼 전략 십자 엑스레이 스캔 록온 타점 도해 🚀 │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ 💥 [ 대재앙 1: 고정 간격 재시도 (Fixed Interval - 동기화 충돌 뻗음 💀) ] │
+│   - 전략: 실패하면 무조건 `T+1초`, `T+2초`, `T+3초` 에 1초씩 정각에 찔러 ㅋ  │
+│   - 팩폭 멸망: 1,000명의 봇(Bot)이 실패를 겪음 ➔ 1,000명이 존나 칼같이 1.00초 │
+│     정각에 다 같이 스크럼 짜고 또 찌름 ➔ B 서버 CPU 스파이크 치솟아 또 타죽음 💥. │
+│     마치 파도가 1초마다 거대하게 몰아치는 파국 (The Thundering Herd 재앙 💀). │
+│                                                             │
+│        ======= [ 🛡️ 아키텍트의 메스: 지수 백오프 텐트 쉴드 🚀 ] ========│
+│                                                             │
+│ 📈 [ 2단계: 지수 백오프 (Exponential Backoff - 부팅 숨통 시간 틔워주기 ✨) ]│
+│   - 전략: "야 실패했냐? 뒷단 B 서버 고치고 부팅(오토힐링) 할 시간 좀 넉넉히 줘 쾅!" │
+│   - 타이머 수식: `Base Time × (2 ^ Retry_Count)` 록온 락킹 🪓!          │
+│   - ➔ 1차 실패: 1초 대기 / 2차 실패: 2초 대기 / 3차 실패: 4초 / 4차: 8초 대기.│
+│   - 팩폭 한계: 시간은 여유롭게 줬는데 ➔ 어? 씨발 1,000명 봇 새끼들이 다 같이 똑같은 │
+│     수학 공식 쓰니까 ➔ 4.00초, 8.00초 정각에 또 1,000명이 칼군무 동시 사격 핑퐁 폭격 │
+│     디도스 쏘네 좆망 💀? (동기화 파도 폭발 여전함 💥).                      │
+│                                                             │
+│        ======= [ ✨ 기적의 난수 믹서기 특이점 발동: Jitter 지터 록온 🚀 ] ========│
+│                                                             │
+│ 🎲 [ 3단계: 지수 백오프 + 지터 (Jitter 꼼수 난수 흩뿌리기 우주 대관식 🚀) ]│
+│   - 전략: "야 이 씨발롬들아 니들 초시계 맞추지 마 찢어 쾅!! 공식 값에 무지성 랜덤(Random)│
+│     주사위 굴려 난수 찌끄레기 오차 변수를 팍팍 더하고 빼고 섞어 비벼 발라 쾅 ✨!!" │
+│   - 타이머 수식: `(Base × 2^N) + Random_Jitter(-0.5 ~ +0.5초)` 록온 🪓.│
+│   - ➔ 1,000명 봇이 [4초 대기] 타임에 도달함 ➔ 근데 어떤 놈은 지터 맞고 `3.7초`, │
+│     어떤 놈은 `4.2초`, 어떤 놈은 `3.9초` 로 1,000명의 쏘는 시간이 0.1초 단위로 싹 다 │
+│     파편화 도륙 찢겨 갈기갈기 흩뿌려(Decoupling 스텔스) 짐 쾅 🚀!!!             │
+│   - 🌟 [아키텍트 생존 결과]: 1,000발의 거대 폭격 쓰나미가 ➔ 가랑비 이슬비처럼 부드럽게 │
+│     퍼져서 B 서버 문지기에 투툭 툭 떨어짐 ➔ 서버는 CPU 타격 오버헤드 1바이트 0% 없이 │
+│     무결점 오토 힐링 호흡 부활 쾌속 생존 돌파 100% 처리 마스터피스 완성 쾅 ✨!!     │
+└─────────────────────────────────────────────────────────────┘
+```
 
 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">아키텍트의 피 터지는 메스: 3대 지터(Jitter) [알고리즘</a> 수학 칼춤 수술 🪓]</strong>
 "야 걍 대충 랜덤 박으면 안 됨 ㅋ?"
@@ -163,23 +165,21 @@ B 서버는 방금 램(RAM) 꽉 차서 헉헉대며 오토 힐링 재부팅 치�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">무지성 즉시 재시도 (Immediate Retry) 야만 스파게티 시대 💀 / "어 404 에러 타임아웃 뻗네? ㅋ 무지성 0.1초 <code>while</code> 무한 루프 폭격 재시도 10번 다구리 갈겨 쏴 쾅 💥!" ➔ B 서버가 램 타죽고 부팅하려는데 대갈통 10만 대 디도스 계속 쳐 맞고 영구 뻗어 올스탑 셧다운 멸망 연쇄 타살 파국 터짐 (재시도 폭풍 Retry Storm 대참사 발생 💀)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">고정 간격 재시도 (Fixed Interval) 1차 튜닝 / "야 1초마다 천천히 찔러 숨통 틔워 ㅋ" ➔ 시간은 줬는데 1,000명 봇 새끼들이 다 같이 정각 1.00초 동기화 스위치 타임에 맞춰 칼군무 다구리 스파이크 스나이퍼 타격 쳐버림 ➔ 동기화 파도(Thundering Herd) 여전히 뻗음 멸망 터짐 💥</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Exponential Backoff (지수 백오프) 생존막 강림 ✨ / 아키텍트 분노 도끼 🪓 "야 씨발아 1초, 2초, 4초, 8초 간격을 우주 끝까지 2배수로 기하급수 찢어 늘려 쾅!! ➔ 상대 서버 쇳덩이가 숨통 트고 오토 힐링 부활 쾌속 복구할 시간을 압도적으로 보장 방어 텐트 올려 록온 쳐라 🚀!"</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Jitter (지터 난수 흩뿌리기 스텔스 마법) 십자 대관식 🚀 / "야 다 같이 똑같은 초시계 타이머 보지 마 공식 다 찢어 쾅!! 수식에 무지성 랜덤(Random ±0.5초) 주사위 오차 찌끄레기 섞어 텐트 록온 박아!! ➔ 1,000명의 폭격 타점을 0.1초 나노 단위로 싹 다 흩뿌려 파편화 살포 쳐버려 ➔ 거대 쓰나미가 100% 무결점 스무스 가랑비 이슬로 변환 쾌속 통과 패스되는 기적의 서버 무정단 생태계 대통일 달성 쾅 ✨!!!"</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Service Mesh (Istio / Envoy) 사이드카 인프라 짬처리 대통일 (현재) ✨ / 자바 소스코드 강결합 <code>try-catch</code> 재시도 지터 로직 떡칠 지옥 1만 줄 다 불태워 찢어 폐기 소각 치고! ➔ 걍 K8s 클라우드 앞단</div><div class="kb-diagram-node">사이드카 껍데기 봇 문지기</div><div class="kb-diagram-note">1마리한테 YAML 텍스트 1장 딸깍 록온 세팅 던져주면 ➔ 이 새끼가 지 혼자 백그라운드로 100% 무결점 지터 섞기 오토 스캔 채점 오프로딩(Off-load) 대행 방어 기만 폴백 우회 생존 짬처리 핑퐁을 싹 다 쳐주는 우주 최강 제로 터치(Zero-Touch) 엣지 방폭문 요새 제국 구축 완료 쾅 🚀!!</div></div>
-</div>
-</div>
-
-
+```text
+무지성 즉시 재시도 (Immediate Retry) 야만 스파게티 시대 💀 / "어 404 에러 타임아웃 뻗네? ㅋ 무지성 0.1초 `while` 무한 루프 폭격 재시도 10번 다구리 갈겨 쏴 쾅 💥!" ➔ B 서버가 램 타죽고 부팅하려는데 대갈통 10만 대 디도스 계속 쳐 맞고 영구 뻗어 올스탑 셧다운 멸망 연쇄 타살 파국 터짐 (재시도 폭풍 Retry Storm 대참사 발생 💀)
+    │
+    ▼
+고정 간격 재시도 (Fixed Interval) 1차 튜닝 / "야 1초마다 천천히 찔러 숨통 틔워 ㅋ" ➔ 시간은 줬는데 1,000명 봇 새끼들이 다 같이 정각 1.00초 동기화 스위치 타임에 맞춰 칼군무 다구리 스파이크 스나이퍼 타격 쳐버림 ➔ 동기화 파도(Thundering Herd) 여전히 뻗음 멸망 터짐 💥
+    │
+    ▼
+Exponential Backoff (지수 백오프) 생존막 강림 ✨ / 아키텍트 분노 도끼 🪓 "야 씨발아 1초, 2초, 4초, 8초 간격을 우주 끝까지 2배수로 기하급수 찢어 늘려 쾅!! ➔ 상대 서버 쇳덩이가 숨통 트고 오토 힐링 부활 쾌속 복구할 시간을 압도적으로 보장 방어 텐트 올려 록온 쳐라 🚀!"
+    │
+    ▼
+Jitter (지터 난수 흩뿌리기 스텔스 마법) 십자 대관식 🚀 / "야 다 같이 똑같은 초시계 타이머 보지 마 공식 다 찢어 쾅!! 수식에 무지성 랜덤(Random ±0.5초) 주사위 오차 찌끄레기 섞어 텐트 록온 박아!! ➔ 1,000명의 폭격 타점을 0.1초 나노 단위로 싹 다 흩뿌려 파편화 살포 쳐버려 ➔ 거대 쓰나미가 100% 무결점 스무스 가랑비 이슬로 변환 쾌속 통과 패스되는 기적의 서버 무정단 생태계 대통일 달성 쾅 ✨!!!"
+    │
+    ▼
+Service Mesh (Istio / Envoy) 사이드카 인프라 짬처리 대통일 (현재) ✨ / 자바 소스코드 강결합 `try-catch` 재시도 지터 로직 떡칠 지옥 1만 줄 다 불태워 찢어 폐기 소각 치고! ➔ 걍 K8s 클라우드 앞단 [사이드카 껍데기 봇 문지기] 1마리한테 YAML 텍스트 1장 딸깍 록온 세팅 던져주면 ➔ 이 새끼가 지 혼자 백그라운드로 100% 무결점 지터 섞기 오토 스캔 채점 오프로딩(Off-load) 대행 방어 기만 폴백 우회 생존 짬처리 핑퐁을 싹 다 쳐주는 우주 최강 제로 터치(Zero-Touch) 엣지 방폭문 요새 제국 구축 완료 쾅 🚀!!
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

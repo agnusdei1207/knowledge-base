@@ -41,21 +41,22 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 idle을 감지한 뒤, 코어가 깊이에 따라 다른 절전 조치를 선택하고 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)에 반응해 깨어나는 흐름을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코어 C-State의 진입과 복귀 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Scheduler가 idle 감지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HLT / MWAIT 실행 ─▶ 상태 선택(C1 / C3 / C6)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 얕음: 클럭 정지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 중간: 캐시/로직 추가 정지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 깊음: 상태 저장 후 전원 차단</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인터럽트 / 타이머 ▶ C0</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                 코어 C-State의 진입과 복귀 흐름                     │
+├──────────────────────────────────────────────────────────────────────┤
+│ Scheduler가 idle 감지                                                │
+│        │                                                             │
+│        ▼                                                             │
+│   HLT / MWAIT 실행 ─▶ 상태 선택(C1 / C3 / C6)                        │
+│        │                          │                                  │
+│        │                          ├─ 얕음: 클럭 정지                 │
+│        │                          ├─ 중간: 캐시/로직 추가 정지       │
+│        │                          └─ 깊음: 상태 저장 후 전원 차단    │
+│        │                                                             │
+│        └──────────────────── 인터럽트 / 타이머 ─────────────────▶ C0 │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 요점은 코어 C-State가 단순한 on/off가 아니라, 예상 대기 시간에 맞춰 깊이를 고르는 계단형 절전 체계라는 점이다.
 
@@ -125,23 +126,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Idle loop 낭비 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">HLT / MWAIT 기반 코어 정지</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">깊은 코어 C-State와 Power Gating</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Core Parking · Tickless Idle 최적화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">패키지 C-State · 터보 여유 연계</div>
-</div>
-</div>
-
-
+```text
+Idle loop 낭비 인식
+    │
+    ▼
+HLT / MWAIT 기반 코어 정지
+    │
+    ▼
+깊은 코어 C-State와 Power Gating
+    │
+    ▼
+Core Parking · Tickless Idle 최적화
+    │
+    ▼
+패키지 C-State · 터보 여유 연계
+```
 
 이 흐름은 코어 절전이 단순 멈춤에서 출발해, 오늘날에는 스케줄링과 패키지 전력 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)까지 연결되는 핵심 메커니즘으로 발전했음을 보여준다.
 

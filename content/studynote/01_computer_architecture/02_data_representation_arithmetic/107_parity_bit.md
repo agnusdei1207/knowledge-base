@@ -30,27 +30,26 @@ tags = ["studynote-computer-architecture"]
 
 단일 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 에러는 기막히게 잡지만, 이중 에러에는 눈을 감아버리는 수학적 맹점을 가진다. 송신단에서는 하드웨어의 XOR 게이트 (Exclusive-OR Gate) 연산을 통해 패리티 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/)으로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하고, 수신단에서도 동일하게 검증한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">The Physics of Bit Flipping: 짝수 패리티의 한계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">송신자: ASCII 'C' (1000011) 전송 준비</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터: 1 0 0 0 0 1 1 (1이 3개 = 홀수)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 하드웨어가 맨 앞에 패리티 비트 '1'을 강제로 푸시</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">송신 패킷:</div><div class="kb-diagram-node">1</div><div class="kb-diagram-note">1 0 0 0 0 1 1 (1이 총 4개. 짝수 패리티 완성)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1차 방어 성공: 단일 비트 에러 발생</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">수신 패킷:</div><div class="kb-diagram-node">1</div><div class="kb-diagram-note">1 0</div><div class="kb-diagram-node">1</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─ (3번째 비트가 0→1로 플립)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1의 총합: 5개 (홀수로 변질!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ CPU 행동: "홀수네? 오류 발생! 패킷 즉각 폐기!" (방어 성공)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">치명적 구멍: 이중 비트 에러 동시 발생</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">수신 패킷:</div><div class="kb-diagram-node">1</div><div class="kb-diagram-note">1 0</div><div class="kb-diagram-node">1</div><div class="kb-diagram-node">1</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─ (2개의 비트가 동시 플립)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1의 총합: 6개 (다시 짝수가 됨!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ CPU 행동: "완벽한 짝수다! 패스!" (사일런트 오염 발생)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│         The Physics of Bit Flipping: 짝수 패리티의 한계            │
+├──────────────────────────────────────────────────────────────┤
+│  [ 송신자: ASCII 'C' (1000011) 전송 준비 ]                       │
+│   데이터: 1 0 0 0 0 1 1  (1이 3개 = 홀수)                        │
+│   ──▶ 하드웨어가 맨 앞에 패리티 비트 '1'을 강제로 푸시              │
+│   송신 패킷: [1] 1 0 0 0 0 1 1  (1이 총 4개. 짝수 패리티 완성)       │
+│                                                              │
+│  [ 1차 방어 성공: 단일 비트 에러 발생 ]                            │
+│   수신 패킷: [1] 1 0 [1] 0 0 1 1  ◀─ (3번째 비트가 0→1로 플립)    │
+│   1의 총합: 5개 (홀수로 변질!)                                   │
+│   ──▶ CPU 행동: "홀수네? 오류 발생! 패킷 즉각 폐기!" (방어 성공)     │
+│                                                              │
+│  [ 치명적 구멍: 이중 비트 에러 동시 발생 ]                          │
+│   수신 패킷: [1] 1 0 [1] [1] 0 1 1 ◀─ (2개의 비트가 동시 플립)    │
+│   1의 총합: 6개 (다시 짝수가 됨!)                                 │
+│   ──▶ CPU 행동: "완벽한 짝수다! 패스!" (사일런트 오염 발생)        │
+└──────────────────────────────────────────────────────────────┘
+```
 
 1개의 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 변형되면 홀짝 판별로 잡아내지만, 노이즈 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트가 튀어 2개의 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 동시에 뒤집히면 수학적으로 짝수가 복원된다. 이 경우 수신단은 오염된 패킷을 완벽한 정상 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 밀어넣는 치명적 오작동을 일으킨다.
 
@@ -109,25 +108,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단일 에러 검출 (1차원)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">패리티 비트 (Parity Bit) · XOR 게이트</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">이중 에러 극복 및 좌표 포획</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">블록 패리티 (Block Parity / LRC)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">오류 검출을 넘어 복구(Correction)로</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">해밍 코드 (Hamming Code) · ECC RAM</div>
-</div>
-</div>
-
-
+```text
+단일 에러 검출 (1차원)
+    │
+    ▼
+패리티 비트 (Parity Bit) · XOR 게이트
+    │
+    ▼
+이중 에러 극복 및 좌표 포획
+    │
+    ▼
+블록 패리티 (Block Parity / LRC)
+    │
+    ▼
+오류 검출을 넘어 복구(Correction)로
+    │
+    ▼
+해밍 코드 (Hamming Code) · ECC RAM
+```
 이 흐름도는 에러를 단순히 알아채는 1차원적 단계에서 다중 에러를 특정하고 자체 복원하는 계층으로 진화하는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

@@ -25,29 +25,31 @@ tags = ["studynote-operating-system"]
 - <strong>순차 접근의 지옥 vs 직접 점프 접근의 I/O <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a> 파괴 다이어그램</strong>:
 어플리케이션이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 5번 블록을 읽기 위해 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 커서(Cursor)를 어떻게 조종하는지 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)으로 까발리면 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파일 커서 위치 이동 : 읽기 포인터의 2대 생존 모델 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 순차 접근 (Sequential Access) : 카세트 테이프 방식 늪</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">* 목표: 블록</div><div class="kb-diagram-node">5번</div><div class="kb-diagram-note">을 읽고 싶음!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 과정: (무조건 앞에서부터 타고 넘어가 읽으며 버림)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">블록 0</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">블록 1</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">블록 2</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결국 디스크 I/O를 5번이나 낭비하면서 무식하게 통과함.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 직접 접근 (Direct/Random Access) : 하드디스크/SSD 점프 비행</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">* 목표: 블록</div><div class="kb-diagram-node">5번</div><div class="kb-diagram-note">을 벼락같이 읽고 싶음!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 과정: (포인터 주소(n)를 알아내서 한방에 헤더 워프 꽂아버림)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">블록 0</div><div class="kb-diagram-node">블록 1</div><div class="kb-diagram-note">┊ 🚀 <code>read(파일, n=5)</code> 뿅! ┊</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">┆ ▼</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">블록 5</div><div class="kb-diagram-note">한방에 읽어냄 끝!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 결론: 디스크 판독 지연(Seek Time) 파괴! S/W는 파일 껍데기를</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단순한 바이트 배열 번호(Array Index)처럼 취급 장악함.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────────────┐
+  │                 파일 커서 위치 이동 : 읽기 포인터의 2대 생존 모델 비교    │
+  ├───────────────────────────────────────────────────────────────────────────┤
+  │                                                                           │
+  │  [ 1. 순차 접근 (Sequential Access) : 카세트 테이프 방식 늪 ]             │
+  │    * 목표: 블록 [5번]을 읽고 싶음!                                        │
+  │    * 과정: (무조건 앞에서부터 타고 넘어가 읽으며 버림)                    │
+  │          [블록 0] ─(Read/Skip)─▶ [블록 1] ─(Skip)─▶ [블록 2] ─(Skip)─▶... │
+  │          결국 디스크 I/O를 5번이나 낭비하면서 무식하게 통과함.            │
+  │                                                                           │
+  │  =============================================================            │
+  │                                                                           │
+  │  [ 2. 직접 접근 (Direct/Random Access) : 하드디스크/SSD 점프 비행 ]       │
+  │    * 목표: 블록 [5번]을 벼락같이 읽고 싶음!                               │
+  │    * 과정: (포인터 주소(n)를 알아내서 한방에 헤더 워프 꽂아버림)          │
+  │                                     ╭┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈╮            │
+  │          [블록 0]     [블록 1]      ┊  🚀 `read(파일, n=5)` 뿅!  ┊        │
+  │            ┆                       ▼                                      │
+  │            ╰┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈▶ [블록 5] 한방에 읽어냄 끝!              │
+  │                                                                           │
+  │    * 결론: 디스크 판독 지연(Seek Time) 파괴! S/W는 파일 껍데기를          │
+  │           단순한 바이트 배열 번호(Array Index)처럼 취급 장악함.           │
+  └───────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서 이 두 기법은 하나의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 속에서 공존한다. 프로그래머가 C언어로 카세트테이프처럼 `read(), read(), read()` 만 반복하면 OS는 내부적으로 현재 읽는 위칫값([Current](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) [File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) Offset) 포인터를 +1씩 전진시키며(순차 접근) 다음 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 먹인다. 하지만 개발자가 `lseek(파일, 5번, 시작점)` 라는 전설적인 시스템 콜 포인터 점프 함수를 때려 버리면, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 그 즉시 읽기 포인터 오프셋 커서를 5번 블록으로 한 방에 이조차 워프시켜(직접 접근 모드 가동) 다음 `read()` 때 5번 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 족집게 마스킹처럼 퍼 올린다. S/W 엔지니어링의 신세계가 열린 것이다.
 
@@ -130,19 +132,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">매직 넘버 (Magic Number)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">파일 접근 방법</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">색인 접근 (Indexed Access)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">디렉터리 (Directory) 구조</div></div>
-</div>
-</div>
-
-
+```text
+[매직 넘버 (Magic Number)]
+    │
+    ▼
+[파일 접근 방법]
+    │
+    ├──▶ [색인 접근 (Indexed Access)]
+    └──▶ [디렉터리 (Directory) 구조]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

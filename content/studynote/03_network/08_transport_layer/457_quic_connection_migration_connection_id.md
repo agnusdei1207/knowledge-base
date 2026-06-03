@@ -24,20 +24,16 @@ tags = ["studynote-network"]
 
 - **💡 비유**: Connection Migration은 <strong>"놀이공원의 자유이용권 팔찌"</strong>와 같습니다.
   - <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> (구형)</strong>: 놀이공원 직원이 손님의 <strong>"옷 색깔(IP 주소)"</strong>을 기억합니다. 파란 옷을 입고 나갔다가 화장실에서 빨간 옷([LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/))으로 갈아입고 다시 오면 "옷이 다르네요? 표 새로 사세요!" 라며 쫓아냅니다.
-  - <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/">QUIC</a> (신형)</strong>: 손목에 <strong>"자유이용권 팔찌(Connection ID)"</strong>를 채워줍니다. 옷을 갈아입든 신발을 바꿔 신든, 직원은 팔찌 바코드만 띡 찍어보고 "오케이 프리패스!" 라며 다시 들여보내 줍니다.
+  - <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/">QUIC</a> (새로운 유형의)</strong>: 손목에 <strong>"자유이용권 팔찌(Connection ID)"</strong>를 채워줍니다. 옷을 갈아입든 신발을 바꿔 신든, 직원은 팔찌 바코드만 띡 찍어보고 "오케이 프리패스!" 라며 다시 들여보내 줍니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">HOL 블로킹 문제 해결</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">QUIC 연결 마이그레이션</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TLS 1.3 기본 내장</div></div>
-</div>
-</div>
-
-
+```text
+[HOL 블로킹 문제 해결]
+    │
+    ▼
+[QUIC 연결 마이그레이션]
+    │
+    └──▶ [TLS 1.3 기본 내장]
+```
 
 - **📢 섹션 요약 비유**: ** QUIC의 연결 마이그레이션은 VIP 손님이 **"택시(와이파이)에서 내려 헬기([5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/))로 갈아타더라도, 호텔 지배인(서버)이 손님의 여권 번호(Connection ID)만 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 멈춤 없이 짐([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 계속 실어주는 007급 논스톱 호송 작전"**입니다.
 
@@ -54,23 +50,24 @@ tags = ["studynote-network"]
 4. **서버의 관대한 수용**: 구글 서버가 패킷을 받는다. 
    "어? IP가 `200.2.2.2`네? 처음 보는 놈인데? 잠깐, 겉면에 CID가 `#ABC-123`이잖아? 야 이거 아까 와이파이로 영상 다운받고 있던 걔야! 연결 끊지 말고 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) IP로 쏜 패킷 그대로 받아주고 다운로드 이어서 쏴줘!"
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TCP vs QUIC 모바일 로밍 시나리오 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">구형 TCP의 로밍 실패 (로딩 지옥)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WiFi (IP: A) (다운로드 50% 진행 중) ▶ 서버</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LTE (IP: B) 로 변경됨! ──(나머지 줘!)──▶ 서버: "뉘신지? (RST)"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: 다시 3-Way Handshake 갈기고 처음부터 재접속. 렉 작렬!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">최신 QUIC의 Connection Migration (로밍 마법)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WiFi (IP: A) (다운로드 50% 진행 중, CID: 99)──▶ 서버</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LTE (IP: B) 로 변경됨! ──(CID: 99 들고 쏨!)──▶ 서버: "오 어서와"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: IP가 바뀌든 말든 서버는 CID만 보고 기존 세션을 100% 복구!</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                TCP vs QUIC 모바일 로밍 시나리오 비교             │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 구형 TCP의 로밍 실패 (로딩 지옥) ]                             │
+ │   WiFi (IP: A) ───(다운로드 50% 진행 중)───▶ 서버               │
+ │                                                             │
+ │   LTE (IP: B) 로 변경됨! ──(나머지 줘!)──▶ 서버: "뉘신지? (RST)"  │
+ │   ▶ 결과: 다시 3-Way Handshake 갈기고 처음부터 재접속. 렉 작렬!      │
+ │                                                             │
+ │   [ 최신 QUIC의 Connection Migration (로밍 마법) ]              │
+ │   WiFi (IP: A) ───(다운로드 50% 진행 중, CID: 99)──▶ 서버      │
+ │                                                             │
+ │   LTE (IP: B) 로 변경됨! ──(CID: 99 들고 쏨!)──▶ 서버: "오 어서와"│
+ │   ▶ 결과: IP가 바뀌든 말든 서버는 CID만 보고 기존 세션을 100% 복구!    │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 2. 치명적 약점 방어: [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 추적 방지 (Privacy [Protection](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/))
 구글 천재 엔지니어들이 설계하다 보니 치명적 문제점을 발견했다.
@@ -136,19 +133,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: HOL 블로킹 문제 해결</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: QUIC 연결 마이그레이션</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: TLS 1.3 기본 내장</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: HOL 블로킹 문제 해결]
+    │
+    ▼
+[현재 개념: QUIC 연결 마이그레이션]
+    │
+    ├──▶ [확장 A: TLS 1.3 기본 내장]
+    └──▶ [확장 B: 적응형 저지연 전송]
+```
 
 [QUIC](/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/) 연결 마이그레이션는 [HOL](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/) 블로킹 문제 해결에서 출발해 현재 메커니즘을 정교화하고, 이후 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3 기본 내장와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

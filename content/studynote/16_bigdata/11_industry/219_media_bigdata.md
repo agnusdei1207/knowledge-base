@@ -38,50 +38,58 @@ tags = ["studynote-bigdata"]
 
 ### 콘텐츠 [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/): Two-Tower DNN
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Two-Tower 추천 모델 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 타워 (User Tower) 콘텐츠 타워 (Item Tower)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시청 이력 임베딩</div><div class="kb-diagram-cell">장르·배우·감독 임베딩</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">선호 장르 벡터</div><div class="kb-diagram-cell">텍스트 설명 BERT 인코딩</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최근 시청 패턴</div><div class="kb-diagram-cell">시각적 특징 (포스터 CNN)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인구 통계 피처</div><div class="kb-diagram-cell">인기도·평점</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User 임베딩</div><div class="kb-diagram-cell">Item 임베딩</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(256-dim)</div><div class="kb-diagram-cell">(256-dim)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">내적 (Dot Product)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유사도 점수</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">후보 아이템</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">랭킹 정렬</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────────────┐
+│              Two-Tower 추천 모델 구조                             │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  사용자 타워 (User Tower)    콘텐츠 타워 (Item Tower)            │
+│  ┌─────────────────────┐    ┌─────────────────────────┐         │
+│  │ 시청 이력 임베딩     │    │ 장르·배우·감독 임베딩   │         │
+│  │ 선호 장르 벡터       │    │ 텍스트 설명 BERT 인코딩 │         │
+│  │ 최근 시청 패턴       │    │ 시각적 특징 (포스터 CNN)│         │
+│  │ 인구 통계 피처       │    │ 인기도·평점             │         │
+│  └──────────┬──────────┘    └─────────────┬───────────┘         │
+│             │                             │                     │
+│             ▼                             ▼                     │
+│     ┌───────────────┐           ┌───────────────┐               │
+│     │  User 임베딩  │           │  Item 임베딩  │               │
+│     │  (256-dim)    │           │  (256-dim)    │               │
+│     └───────┬───────┘           └───────┬───────┘               │
+│             └─────────────┬─────────────┘                       │
+│                           │ 내적 (Dot Product)                   │
+│                           ▼                                     │
+│                  ┌─────────────────┐                            │
+│                  │  유사도 점수     │                            │
+│                  │  후보 아이템     │                            │
+│                  │  랭킹 정렬       │                            │
+│                  └─────────────────┘                            │
+└─────────────────────────────────────────────────────────────────┘
+```
 
 ### RTB (Real-Time Bidding) 광고 경매 흐름
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">사용자 페이지 로드</div>
-<div class="kb-diagram-note">▼ (&lt; 10ms)</div>
-<div class="kb-diagram-note">공급자 플랫폼 (SSP)</div>
-<div class="kb-diagram-note">입찰 요청 발송</div>
-<div class="kb-diagram-note">▼ (&lt; 100ms 전체)</div>
-<div class="kb-diagram-note">수요자 플랫폼 (DSP)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 유저 프로필 조회 (DMP)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 관련성 점수 계산 (ML)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 입찰가 결정 (경매 전략)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">2nd Price 경매 → 낙찰</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">광고 소재 전달 → 렌더링</div>
-</div>
-</div>
-
-
+```
+사용자 페이지 로드
+      │
+      ▼ (< 10ms)
+ 공급자 플랫폼 (SSP)
+ 입찰 요청 발송
+      │
+      ▼ (< 100ms 전체)
+ 수요자 플랫폼 (DSP)
+ ┌─────────────────────────────────┐
+ │ 1. 유저 프로필 조회 (DMP)        │
+ │ 2. 관련성 점수 계산 (ML)         │
+ │ 3. 입찰가 결정 (경매 전략)       │
+ └─────────────────────────────────┘
+      │
+      ▼
+ 2nd Price 경매 → 낙찰
+      │
+      ▼
+ 광고 소재 전달 → 렌더링
+```
 
 ### 시청 분석 핵심 지표
 
@@ -169,21 +177,18 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">콘텐츠 소비 (Content Consumption)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">미디어 빅데이터 (Media Big Data)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">추천 시스템 (Recommendation System)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">개인화 (Personalization)</div></div>
-</div>
-</div>
-
-
+```text
+[콘텐츠 소비 (Content Consumption)]
+    │
+    ▼
+[미디어 빅데이터 (Media Big Data)]
+    │
+    ▼
+[추천 시스템 (Recommendation System)]
+    │
+    ▼
+[개인화 (Personalization)]
+```
 
 이 흐름도는 콘텐츠 소비가 미디어 빅데이터와 [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/), 개인화로 이어지는 흐름을 보여준다.
 ### 👶 어린이를 위한 3줄 비유 설명

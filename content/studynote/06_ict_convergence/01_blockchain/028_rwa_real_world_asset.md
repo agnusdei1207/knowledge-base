@@ -18,20 +18,20 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RWA 토큰화 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실물 자산 Legal Wrapper 온체인 토큰</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">SPV/신탁 설립</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">ERC-20/ERC-1400</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">법적 소유권</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">토큰 보유자에게 귀속</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">투자자 → 토큰 구매 → 분할 소유권 + 수익 분배</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────┐
+│           RWA 토큰화 구조                             │
+├──────────────────────────────────────────────────────┤
+│                                                       │
+│  실물 자산        Legal Wrapper      온체인 토큰       │
+│  (부동산·채권) → [SPV/신탁 설립] → [ERC-20/ERC-1400] │
+│                        │                              │
+│                   법적 소유권                         │
+│                   토큰 보유자에게 귀속                 │
+│                                                       │
+│  투자자 → 토큰 구매 → 분할 소유권 + 수익 분배         │
+└──────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: RWA는 건물 지분을 아파트 주식처럼 파는 것이다. 100억짜리 빌딩을 1만 개의 주식(토큰)으로 쪼개면 100만 원으로도 빌딩 투자가 가능하고, [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)으로 즉시 사고팔 수 있다.
 
@@ -50,19 +50,13 @@ tags = ["studynote-ict-convergence"]
 
 ### 주요 RWA 자산 유형
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">부동산 → 상업용 부동산 펀드 토큰화 (예: Ondo Finance)</div>
-<div class="kb-diagram-note">채권 → 미국 국채 토큰화 (예: BlackRock BUIDL)</div>
-<div class="kb-diagram-note">사모 → 프라이빗 크레딧 토큰화 (예: Maple Finance)</div>
-<div class="kb-diagram-note">탄소 → 탄소 크레딧 토큰화 (예: Toucan Protocol)</div>
-<div class="kb-diagram-note">예술품 → 블루칩 아트 분할 소유 (예: Masterworks)</div>
-</div>
-</div>
-
-
+```text
+부동산 → 상업용 부동산 펀드 토큰화 (예: Ondo Finance)
+채권   → 미국 국채 토큰화 (예: BlackRock BUIDL)
+사모   → 프라이빗 크레딧 토큰화 (예: Maple Finance)
+탄소   → 탄소 크레딧 토큰화 (예: Toucan Protocol)
+예술품 → 블루칩 아트 분할 소유 (예: Masterworks)
+```
 
 - **📢 섹션 요약 비유**: RWA 레이어 구조는 해외 부동산 투자 펀드와 같다. 법인(SPV)이 자산을 소유하고, 펀드 매니저(오라클)가 가치를 평가하며, 투자자는 펀드 증서(토큰)를 보유하고, 규제 기관(컴플라이언스)이 적법성을 검증한다.
 
@@ -120,23 +114,21 @@ tags = ["studynote-ict-convergence"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">전통 자산 — 높은 진입 장벽, 낮은 유동성</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">디지털 증권 (STO) — 증권형 토큰 공모</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">RWA 토큰화 — SPV/신탁 + 오라클 + ERC-1400</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">기관 RWA — BlackRock BUIDL, JPMorgan Onyx</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">글로벌 금융 인프라 — 모든 자산의 온체인 표현</div></div>
-</div>
-</div>
-
-
+```text
+[전통 자산 — 높은 진입 장벽, 낮은 유동성]
+    │
+    ▼
+[디지털 증권 (STO) — 증권형 토큰 공모]
+    │
+    ▼
+[RWA 토큰화 — SPV/신탁 + 오라클 + ERC-1400]
+    │
+    ▼
+[기관 RWA — BlackRock BUIDL, JPMorgan Onyx]
+    │
+    ▼
+[글로벌 금융 인프라 — 모든 자산의 온체인 표현]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

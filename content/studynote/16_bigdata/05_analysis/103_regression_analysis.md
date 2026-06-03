@@ -73,19 +73,15 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">상위 개념: Predictive Analytics, Supervised Learning</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">하위 개념: OLS, Regularization (L1, L2), Logistic Regression</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">연관 기술: Pearson Correlation, VIF, R-Squared, Gradient Descent</div></div>
-</div>
-</div>
-
-
+```text
+[상위 개념: Predictive Analytics, Supervised Learning]
+    │
+    ▼
+[하위 개념: OLS, Regularization (L1, L2), Logistic Regression]
+    │
+    ▼
+[연관 기술: Pearson Correlation, VIF, R-Squared, Gradient Descent]
+```
 
 이 흐름도는 상위 개념: [Predictive Analytics](/knowledge-base/studynote/16_bigdata/02_hadoop/046_predictive_analytics/), Supervised Learning에서 출발해 연관 기술: [Pearson Correlation](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/226_pearson_correlation_regression_r2_vif_multicollinearity/), VIF, R-Squared, Gradient Descent까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

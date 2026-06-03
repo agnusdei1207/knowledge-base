@@ -18,17 +18,11 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">V-SLAM 파이프라인:</div>
-<div class="kb-diagram-note">카메라 프레임 → 특징점 추출(ORB) → 매칭 → 3D 복원</div>
-<div class="kb-diagram-note">→ 지도 업데이트 → 루프 클로징(재방문 감지) → 위치 보정</div>
-</div>
-</div>
-
-
+```text
+V-SLAM 파이프라인:
+  카메라 프레임 → 특징점 추출(ORB) → 매칭 → 3D 복원
+  → 지도 업데이트 → 루프 클로징(재방문 감지) → 위치 보정
+```
 
 - **📢 섹션 요약 비유**: V-SLAM은 <strong>사진만 보고 방의 3D 지도를 그리면서 내 위치를 파악</strong>하는 것이다.
 
@@ -62,17 +56,11 @@ V-SLAM은 <strong>XR·로봇·드론의 공간 인식 표준 기술</strong>이�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">MonoSLAM (2007)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">ORB-SLAM (2015)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">ORB-SLAM3 (2021)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">DROID-SLAM (DL 기반, 2021)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: Gaussian Splatting + SLAM — 실시간 3D 재구성</div></div>
-</div>
-</div>
-
-
+```text
+[MonoSLAM (2007)] → [ORB-SLAM (2015)] → [ORB-SLAM3 (2021)]
+    → [DROID-SLAM (DL 기반, 2021)]
+    → [현재: Gaussian Splatting + SLAM — 실시간 3D 재구성]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. V-SLAM은 **카메라(눈)만으로** 방의 지도를 그리면서 내 위치를 알아내요.

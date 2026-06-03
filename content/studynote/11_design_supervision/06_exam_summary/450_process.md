@@ -21,19 +21,14 @@ tags = ["studynote-design-supervision"]
 
 메모리 튜닝의 목적은 “GC를 없애는 것”이 아니라 <strong>예측 가능한 pause와 안정적인 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/">회복</a> 패턴을 만드는 것</strong>이다. Young 영역이 너무 작으면 잦은 Minor GC가, Old 영역이 과도하게 차면 긴 Full GC가 생길 수 있다. 따라서 GC 종류, 객체 생존률, 힙 크기, 트래픽 패턴을 함께 봐야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">요청 처리 시간 축</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요청 처리</div><div class="kb-diagram-cell">요청 처리</div><div class="kb-diagram-cell">STW Pause</div><div class="kb-diagram-cell">요청 처리</div><div class="kb-diagram-cell">요청 처리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">12ms</div><div class="kb-diagram-cell">15ms</div><div class="kb-diagram-cell">480ms</div><div class="kb-diagram-cell">14ms</div><div class="kb-diagram-cell">13ms</div></div>
-<div class="kb-diagram-connector">▲</div>
-<div class="kb-diagram-tree-item" style="--depth:8">사용자는 이 구간을 장애처럼 체감</div>
-</div>
-</div>
-
-
+```text
+┌──────────────────── 요청 처리 시간 축 ────────────────────┐
+│ 요청 처리 │ 요청 처리 │ STW Pause │ 요청 처리 │ 요청 처리 │
+│   12ms    │   15ms    │   480ms   │   14ms    │   13ms    │
+└──────────────────────────────────────────────────────────┘
+                          ▲
+                          └─ 사용자는 이 구간을 장애처럼 체감
+```
 
 기술사 답안에서는 STW를 단순 JVM 내부 현상이 아니라 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 품질과 직결되는 운영 <a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a></strong>로 설명해야 설득력이 높다.
 - **📢 섹션 요약 비유**: 교실 청소를 하려고 수업을 잠깐 멈추는 것은 필요하지만, 너무 자주 또는 너무 오래 멈추면 수업 자체가 흐트러지는 것과 같다.
@@ -43,18 +38,14 @@ tags = ["studynote-design-supervision"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 메모리 튜닝은 힙을 Young/Old 중심으로 나누어 보고, 객체가 얼마나 빨리 죽는지, 오래 살아남는지, 어느 시점에 승격되는지를 해석하는 데서 출발한다. 이후 컬렉터가 어떤 방식으로 회수하고, 어느 단계에서 STW가 길어지는지 분석해 파라미터와 컬렉터 전략을 조정한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">JVM Heap 관점</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Young 영역 ── Minor GC ──▶ 살아남은 객체 승격 ──▶ Old 영역</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 짧지만 잦은 STW 가능 ─ 승격 과다 시 ─ Full GC 길어짐</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Metaspace / Native</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────── JVM Heap 관점 ────────────────────────────┐
+│ Young 영역 ── Minor GC ──▶ 살아남은 객체 승격 ──▶ Old 영역            │
+│    │                           │                    │                  │
+│    └─ 짧지만 잦은 STW 가능     └─ 승격 과다 시      └─ Full GC 길어짐   │
+│                                                 Metaspace / Native   │
+└───────────────────────────────────────────────────────────────────────┘
+```
 
 | 조정 영역 | 의미 | 대표 튜닝 포인트 |
 | :--- | :--- | :--- |
@@ -114,21 +105,18 @@ GC STW 메모리 튜닝을 체계적으로 수행하면 [응답 시간](/knowled
 - <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/">메모리 누수</a> 진단</strong>: 튜닝으로 가려지기 쉬운 근본 원인을 분리해 보는 활동
 
 ### 📈 관련 키워드 및 발전 흐름도
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">기본 힙 설정 운영</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">GC 로그 기반 STW 원인 분석</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">세대 비율 · 컬렉터 · 힙 크기 조정</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">부하 재검증 · 저지연 GC · 컨테이너 메모리 최적화</div>
-</div>
-</div>
-
-
+```text
+기본 힙 설정 운영
+        │
+        ▼
+GC 로그 기반 STW 원인 분석
+        │
+        ▼
+세대 비율 · 컬렉터 · 힙 크기 조정
+        │
+        ▼
+부하 재검증 · 저지연 GC · 컨테이너 메모리 최적화
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 방을 정리하려고 잠깐 놀던 걸 멈추는 시간이 바로 스톱 더 월드예요.

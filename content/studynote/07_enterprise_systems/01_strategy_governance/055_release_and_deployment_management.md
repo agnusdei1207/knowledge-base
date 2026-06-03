@@ -109,21 +109,18 @@ Change → Build → Release Package → Deployment → Verification → Rollbac
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">변경 집합</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">릴리스 패키지</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">배포 실행</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">검증 / 롤백</div>
-</div>
-</div>
-
-
+```text
+변경 집합
+    │
+    ▼
+릴리스 패키지
+    │
+    ▼
+배포 실행
+    │
+    ▼
+검증 / 롤백
+```
 
 이 흐름은 소프트웨어 변경이 운영 환경에 반영되는 표준 과정을 보여준다.
 

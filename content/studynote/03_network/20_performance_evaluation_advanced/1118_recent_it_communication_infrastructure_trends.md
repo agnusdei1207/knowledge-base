@@ -25,18 +25,14 @@ tags = ["studynote-network"]
 2. **공간의 파괴 (Cloud & Edge & Space)**: [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 안에서만 놀던 놈들이 ➜ 엣지(기지국 밑바닥)로 내려오고 ➜ 심지어 우주 궤도(위성) 통신망으로 3D 입체 확장. ([MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/), [LEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/), [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/))
 3. <strong>무경계 통합 보안 (Convergence <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a>)</strong>: 통신 길 뚫는 팀과 보안 막는 팀이 따로 놀다가 ➜ 통신망을 까는 행위 자체가 곧 암호화 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이 되는 융합 체제. ([SASE](/knowledge-base/studynote/03_network/14_network_security_threats/740_sase_secure_access_service_edge_sdwan_cloud/), [ZTNA](/knowledge-base/studynote/12_it_management/05_security_compliance/339_ztna/), [QKD](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/922_qkd_quantum_key_distribution_bb84_eavesdropping/))
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 보안</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">정보통신 기술사 최근 기출 토픽 기반</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">6G 융합 테라헤르츠 예측 지표망</div></div>
-</div>
-</div>
-
-
+```text
+[네트워크 보안]
+    │
+    ▼
+[정보통신 기술사 최근 기출 토픽 기반]
+    │
+    └──▶ [6G 융합 테라헤르츠 예측 지표망]
+```
 
 - **📢 섹션 요약 비유**: 정보통신 기술사 최근 기출 토픽 기반은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -51,18 +47,14 @@ tags = ["studynote-network"]
 - <strong>1022번 <a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/">저궤도 위성</a>(<a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/">LEO</a>)과 1023번 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/249_isl_inter_switch_link_cisco/">ISL</a></strong>: 6G의 3D 공간망. 수만 개의 꼬마 위성을 우주에 띄우고 지들끼리 레이저([ISL](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/249_isl_inter_switch_link_cisco/))를 쏴서, 지구상에 안 터지는 사각지대를 완전히 없애버린 글로벌 와이파이.
 - <strong>1115번 <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/">Massive MIMO</a> <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/">빔포밍</a></strong>: 허공에 퍼지던 낭비 전파를 레이저 물총으로 깎아내어 움직이는 사람 정수리에 다이렉트로 꽂아버리는 궁극의 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 최적화.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 보안</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">정보통신 기술사 최근 기출 토픽 기반</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">6G 융합 테라헤르츠 예측 지표망</div></div>
-</div>
-</div>
-
-
+```text
+[네트워크 보안]
+    │
+    ▼
+[정보통신 기술사 최근 기출 토픽 기반]
+    │
+    └──▶ [6G 융합 테라헤르츠 예측 지표망]
+```
 
 - **📢 섹션 요약 비유**: 정보통신 기술사 최근 기출 토픽 기반의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -125,19 +117,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 네트워크 보안</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 정보통신 기술사 최근 기출 토픽 기반</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 6G 융합 테라헤르츠 예측 지표망</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 네트워크 보안]
+    │
+    ▼
+[현재 개념: 정보통신 기술사 최근 기출 토픽 기반]
+    │
+    ├──▶ [확장 A: 6G 융합 테라헤르츠 예측 지표망]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 정보통신 기술사 최근 기출 토픽 기반는 [네트워크 보안](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 융합 [테라헤르츠](/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/) 예측 지표망와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -28,18 +28,14 @@ tags = ["studynote-network"]
 - **문제 발생**: 외부 협력업체가 인터넷 이메일로 보내온 '계약서.pdf' [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 업무망 PC로 다운받아서 봐야 합니다. [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 사용은 사내 보안상 금지되어 있습니다. <strong>선이 싹둑 잘렸는데 이 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>을 내부망으로 어떻게 넘겨올까요?</strong>
 - **해결책**: 바로 이때 두 개의 망 사이에 걸쳐 서서, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 던져주는 중계 박스인 <strong>망 연계 시스템(보안 게이트웨이)</strong>이 등장합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">다크 데이터 / Data Loss Preve…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ISO 27001 네트워크 통제 및 개인정보…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">3GPP 표준 개발</div></div>
-</div>
-</div>
-
-
+```text
+[다크 데이터 / Data Loss Preve…]
+    │
+    ▼
+[ISO 27001 네트워크 통제 및 개인정보…]
+    │
+    └──▶ [3GPP 표준 개발]
+```
 
 - **📢 섹션 요약 비유**: ISO 27001 네트워크 통제 및 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -49,18 +45,14 @@ tags = ["studynote-network"]
 
 ISO 27001 네트워크 통제 및 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)…는 공격 유형과 방어 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 경계를 설명하는 축라는 관점에서 이해해야 한다. [다크 데이터](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_darkdata/) / [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Loss Preve…와 [3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) 표준 개발 사이의 연결점으로 놓고 보면 개념의 역할이 더 분명해진다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">다크 데이터 / Data Loss Preve…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ISO 27001 네트워크 통제 및 개인정보…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">3GPP 표준 개발</div></div>
-</div>
-</div>
-
-
+```text
+[다크 데이터 / Data Loss Preve…]
+    │
+    ▼
+[ISO 27001 네트워크 통제 및 개인정보…]
+    │
+    └──▶ [3GPP 표준 개발]
+```
 
 - **📢 섹션 요약 비유**: ISO 27001 네트워크 통제 및 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -128,19 +120,15 @@ ISO 27001 네트워크 통제 및 [개인정보](/knowledge-base/studynote/09_se
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 다크 데이터 / Data Loss Preve…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: ISO 27001 네트워크 통제 및 개인정보…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 3GPP 표준 개발</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 다크 데이터 / Data Loss Preve…]
+    │
+    ▼
+[현재 개념: ISO 27001 네트워크 통제 및 개인정보…]
+    │
+    ├──▶ [확장 A: 3GPP 표준 개발]
+    └──▶ [확장 B: 예측형 위협 대응]
+```
 
 ISO 27001 네트워크 통제 및 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)…는 [다크 데이터](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_darkdata/) / [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Loss Preve…에서 출발해 현재 메커니즘을 정교화하고, 이후 [3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) 표준 개발와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

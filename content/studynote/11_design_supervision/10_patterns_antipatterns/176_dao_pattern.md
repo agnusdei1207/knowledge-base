@@ -25,20 +25,18 @@ tags = ["studynote-design-supervision"]
 
 아래 그림은 DAO가 없을 때와 있을 때의 차이를 단순화해 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Why DAO is needed</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Without DAO</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Service = business rule + SQL + connection + row mapping</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">With DAO</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Service -&gt; DAO interface -&gt; persistence implementation</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">business rule separated from storage details</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Why DAO is needed                                                    │
+├──────────────────────────────────────────────────────────────────────┤
+│ Without DAO                                                          │
+│   Service = business rule + SQL + connection + row mapping          │
+│                                                                      │
+│ With DAO                                                             │
+│   Service -> DAO interface -> persistence implementation            │
+│   business rule      separated from storage details                 │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 즉 DAO의 필요성은 객체를 하나 더 만드는 데 있지 않다. <strong>변경 가능성이 큰 저장 기술을, 변경 비용이 비싼 업무 로직으로부터 떼어 놓는 것</strong>이 핵심이다.
 
@@ -60,22 +58,25 @@ tags = ["studynote-design-supervision"]
 
 아래 그림은 DAO가 레이어 사이에서 어떤 경계를 만드는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DAO in layered architecture</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Controller</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Service / Application Layer &lt;- transaction boundary</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DAO interface</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ JDBC implementation</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ JPA / MyBatis implementation</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Fake / Mock implementation for test</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Database / external storage</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ DAO in layered architecture                                          │
+├──────────────────────────────────────────────────────────────────────┤
+│ Controller                                                           │
+│    │                                                                 │
+│    ▼                                                                 │
+│ Service / Application Layer   <- transaction boundary                │
+│    │                                                                 │
+│    ▼                                                                 │
+│ DAO interface                                                        │
+│    ├─ JDBC implementation                                            │
+│    ├─ JPA / MyBatis implementation                                   │
+│    └─ Fake / Mock implementation for test                            │
+│    │                                                                 │
+│    ▼                                                                 │
+│ Database / external storage                                          │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조에서 중요한 판단은 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)의 주도권을 어디에 둘 것인가다. 보통 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 계층에서 시작하고, DAO는 그 안에서 필요한 질의와 갱신을 수행한다. DAO가 비즈니스 흐름을 주도하거나 독자적으로 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 정책을 결정하기 시작하면 계층 책임이 다시 흐려진다.
 
@@ -159,26 +160,25 @@ DAO는 저장소 접근이 비즈니스 코드에 비해 복잡하거나, 기술
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">비즈니스 로직과 SQL 혼재</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DAO interface 도입</div>
-<div class="kb-diagram-tree-item" style="--depth:2">JDBC / SQL 구현</div>
-<div class="kb-diagram-tree-item" style="--depth:2">ORM 구현</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Fake / Mock 구현</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">서비스 계층의 저장소 독립성 확보</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">테스트 용이성 · 기술 교체성 향상</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Repository / DDD와의 역할 분화</div>
-</div>
-</div>
-
-
+```text
+비즈니스 로직과 SQL 혼재
+    │
+    ▼
+DAO interface 도입
+    │
+    ├─ JDBC / SQL 구현
+    ├─ ORM 구현
+    └─ Fake / Mock 구현
+    │
+    ▼
+서비스 계층의 저장소 독립성 확보
+    │
+    ▼
+테스트 용이성 · 기술 교체성 향상
+    │
+    ▼
+Repository / DDD와의 역할 분화
+```
 
 이 흐름은 DAO가 단순한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근 클래스에서 출발해, 계층 분리와 테스트성 확보, 현대적 Repository 설계와의 경계 정립으로 이어지는 과정을 보여 준다.
 

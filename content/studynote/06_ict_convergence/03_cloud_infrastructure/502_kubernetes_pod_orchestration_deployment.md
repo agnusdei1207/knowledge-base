@@ -35,20 +35,19 @@ tags = ["studynote-ict-convergence"]
 
 **K8s 아키텍처**:
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Control Plane (컨트롤 플레인)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">API Server</div><div class="kb-diagram-cell">etcd</div><div class="kb-diagram-cell">Scheduler</div><div class="kb-diagram-cell">Ctrl Manager</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(진입점/검증)</div><div class="kb-diagram-cell">(분산 KV)</div><div class="kb-diagram-cell">(배치 결정)</div><div class="kb-diagram-cell">(상태 유지)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data Plane (워커 노드)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Node 1:</div><div class="kb-diagram-node">Pod A</div><div class="kb-diagram-node">Pod B</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">Kubelet + Kube-proxy</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Node 2:</div><div class="kb-diagram-node">Pod C</div><div class="kb-diagram-node">Pod D</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">Kubelet + Kube-proxy</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────────┐
+│                    Control Plane (컨트롤 플레인)               │
+│  ┌───────────┐  ┌──────────┐  ┌──────────────────────────┐  │
+│  │ API Server│  │  etcd    │  │ Scheduler │ Ctrl Manager │  │
+│  │(진입점/검증)│  │(분산 KV) │  │(배치 결정) │(상태 유지)   │  │
+│  └───────────┘  └──────────┘  └──────────────────────────┘  │
+├──────────────────────────────────────────────────────────────┤
+│                   Data Plane (워커 노드)                       │
+│  Node 1: [ Pod A ][ Pod B ]  ← Kubelet + Kube-proxy          │
+│  Node 2: [ Pod C ][ Pod D ]  ← Kubelet + Kube-proxy          │
+└──────────────────────────────────────────────────────────────┘
+```
 
 | [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) | 역할 |
 |:---|:---|

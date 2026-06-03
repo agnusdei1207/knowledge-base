@@ -19,7 +19,7 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅰ. [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)/[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 핵심 키워드 맵
 
-DevOps는 개발(Dev)과 운영(Ops)의 장벽을 제거해 소프트웨어 전달 속도와 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 동시에 높이는 문화·프랙티스·도구의 집합이다. [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/))는 [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)/[SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)/[SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 기반 에러 버짓([Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/))으로 안정성과 혁신 속도의 균형을 수치화한다.
+DevOps는 개발(Dev)과 운영(Ops)의 장벽을 제거해 소프트웨어 전달 속도와 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 동시에 높이는 문화·프랙티스·도구의 집합이다. [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/))는 [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)/[SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)/[SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 기반 에러 버짓([Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/))으로 안정성과 혁신 속도의 균형을 수치화한다.
 
 <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>/CD <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>라인 핵심</strong>:
 - [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)): 코드 병합 시 자동 빌드·테스트. 도구: GitHub Actions, [Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/), GitLab [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)
@@ -36,21 +36,18 @@ DevOps는 개발(Dev)과 운영(Ops)의 장벽을 제거해 소프트웨어 전�
 
 ## Ⅱ. [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)/[쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 핵심 키워드
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">K8s 핵심 구성 요소 요약</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Control Plane: kube-apiserver, etcd, scheduler, controller-mgr</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Worker Node: kubelet, kube-proxy, Container Runtime (containerd)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심 오브젝트: Pod, Deployment, Service, Ingress, ConfigMap</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스케일링: HPA (CPU/메트릭), VPA (메모리), KEDA (이벤트 기반)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스토리지: PV/PVC, StorageClass (동적 프로비저닝), CSI 드라이버</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">네트워킹: CNI (Cilium, Calico, Flannel), Service Mesh (Istio)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│              K8s 핵심 구성 요소 요약                             │
+├──────────────────────────────────────────────────────────────────┤
+│  Control Plane: kube-apiserver, etcd, scheduler, controller-mgr  │
+│  Worker Node: kubelet, kube-proxy, Container Runtime (containerd)│
+│  핵심 오브젝트: Pod, Deployment, Service, Ingress, ConfigMap     │
+│  스케일링: HPA (CPU/메트릭), VPA (메모리), KEDA (이벤트 기반)   │
+│  스토리지: PV/PVC, StorageClass (동적 프로비저닝), CSI 드라이버 │
+│  네트워킹: CNI (Cilium, Calico, Flannel), Service Mesh (Istio)  │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/">서비스 메시</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/">Istio</a>, Linkerd)</strong>:
 - [mTLS](/knowledge-base/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/) 자동 암호화, 트래픽 제어, Retry/[Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/)/[Circuit Breaker](/knowledge-base/studynote/12_it_management/05_security_compliance/304_circuit_breaker/)
@@ -114,33 +111,33 @@ DevOps는 개발(Dev)과 운영(Ops)의 장벽을 제거해 소프트웨어 전�
 | [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) / [Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)                | [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) 기반 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)과 개발 속도 균형 수치화                  |
 | [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) ([Argo CD](/knowledge-base/studynote/13_cloud_architecture/07_container_k8s/114_argocd_gitops_cd/), Flux)            | Git을 단일 진실의 원천으로 K8s 상태 선언적 관리          |
 | [FinOps](/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops/)                            | [클라우드 비용 최적화](/knowledge-base/studynote/07_enterprise_systems/08_cloud_finops/227_cloud_cost_optimization/)                                     |
-| [Platform Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/)              | [내부 개발자 플랫폼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/110_idp_internal_developer_platform_backstage/)([IDP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/)), 셀프서비스 인프라               |
+| [Platform 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/)              | [내부 개발자 플랫폼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/110_idp_internal_developer_platform_backstage/)([IDP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/)), 셀프서비스 인프라               |
 | [OpenTelemetry](/knowledge-base/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/)                     | [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)·[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·추적 통합 관측성 표준                        |
 | SLSA / [SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/)                       | 소프트웨어 [공급망 보안](/knowledge-base/studynote/04_software_engineering/06_software_architecture/374_supply_chain_security/) 성숙도 프레임워크                 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Agile + CI/CD (개발·배포 자동화)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">IaC + GitOps (인프라 코드화, 선언적 관리)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">컨테이너 / K8s (불변 인프라, 오케스트레이션)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">서비스 메시 + 옵저버빌리티 (가시성, mTLS)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SRE + Error Budget (신뢰성 수치화)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Platform Engineering + FinOps (내부 플랫폼화, 비용 최적화)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">AI-assisted DevOps (자율 장애 탐지·복구)</div>
-</div>
-</div>
-
-
+```text
+Agile + CI/CD (개발·배포 자동화)
+    │
+    ▼
+IaC + GitOps (인프라 코드화, 선언적 관리)
+    │
+    ▼
+컨테이너 / K8s (불변 인프라, 오케스트레이션)
+    │
+    ▼
+서비스 메시 + 옵저버빌리티 (가시성, mTLS)
+    │
+    ▼
+SRE + Error Budget (신뢰성 수치화)
+    │
+    ▼
+Platform Engineering + FinOps (내부 플랫폼화, 비용 최적화)
+    │
+    ▼
+AI-assisted DevOps (자율 장애 탐지·복구)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

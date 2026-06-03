@@ -18,19 +18,13 @@ tags = ["studynote-dataengineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Foundation Model:</div>
-<div class="kb-diagram-note">대규모 데이터(수조 토큰) → 사전 학습 (GPU 수천 장, 수개월)</div>
-<div class="kb-diagram-note">→ 범용 능력 획득</div>
-<div class="kb-diagram-note">→ Fine-tuning / Prompt → 다양한 작업 적응</div>
-<div class="kb-diagram-note">예: GPT-4, LLaMA, BERT, Stable Diffusion</div>
-</div>
-</div>
-
-
+```text
+Foundation Model:
+  대규모 데이터(수조 토큰) → 사전 학습 (GPU 수천 장, 수개월)
+  → 범용 능력 획득
+  → Fine-tuning / Prompt → 다양한 작업 적응
+  예: GPT-4, LLaMA, BERT, Stable Diffusion
+```
 
 - **📢 섹션 요약 비유**: Foundation Model은 <strong>대학 교육</strong>이다. 전공(작업)에 관계없이 <strong>기초 교양(사전 학습)</strong>을 쌓으면 어떤 전공이든 빠르게 적응한다.
 
@@ -54,18 +48,12 @@ Foundation Model은 **"하나의 모델=모든 작업"** 패러다임의 핵심�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Task-specific 모델 (~2017)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">BERT/GPT (2018, FM 시작)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">GPT-3 (2020, 대규모 FM)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Foundation Model 보고서 (Stanford, 2021)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: 멀티모달 FM (GPT-4o·Gemini)</div></div>
-</div>
-</div>
-
-
+```text
+[Task-specific 모델 (~2017)] → [BERT/GPT (2018, FM 시작)]
+    → [GPT-3 (2020, 대규모 FM)]
+    → [Foundation Model 보고서 (Stanford, 2021)]
+    → [현재: 멀티모달 FM (GPT-4o·Gemini)]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. Foundation Model은 <strong>대학 교양 과정</strong>이에요. 기초를 넓게 배워요.

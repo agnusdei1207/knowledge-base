@@ -25,21 +25,19 @@ tags = ["studynote-network"]
 
 이 그림은 하나의 심볼이 여러 경로로 찢어져 들어오며 시간축 꼬리를 만드는 모습을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">one symbol, many arrivals: delay spread</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tx symbol S0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ direct path ▶ arrive at t0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ reflected path A ▶ arrive at t0 + 0.6 μs</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ reflected path B ▶ arrive at t0 + 1.4 μs</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">next symbol S1 starts here ▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">if S0 tail overlaps S1, receiver sees mixed symbols = ISI</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│             one symbol, many arrivals: delay spread         │
+├──────────────────────────────────────────────────────────────┤
+│ Tx symbol S0                                                 │
+│   ├─ direct path ───────────────▶ arrive at t0              │
+│   ├─ reflected path A ──────────▶ arrive at t0 + 0.6 μs     │
+│   └─ reflected path B ──────────▶ arrive at t0 + 1.4 μs     │
+│                                                              │
+│ next symbol S1 starts here ───────────────▶                 │
+│ if S0 tail overlaps S1, receiver sees mixed symbols = ISI    │
+└──────────────────────────────────────────────────────────────┘
+```
 
 즉 다중 경로 문제는 단순 감쇠가 아니라, 한 심볼이 시간축에서 늘어나 다음 심볼을 침범하는 구조적 왜곡 문제다. 그래서 무선 시스템은 평균 전력만 키우는 방식으로는 충분하지 않다.
 
@@ -135,23 +133,22 @@ ISI는 심볼 시간 `T_s`가 채널의 유효 [지연](/knowledge-base/studynot
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">반사 · 회절 · 산란</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">다중 경로 (Multipath)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지연 확산 (Delay Spread)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 평탄 페이딩 (협대역)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 주파수 선택적 페이딩 (광대역)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ISI · 등화기 · OFDM · CP 설계</div>
-</div>
-</div>
-
-
+```text
+반사 · 회절 · 산란
+    │
+    ▼
+다중 경로 (Multipath)
+    │
+    ▼
+지연 확산 (Delay Spread)
+    │
+    ├──────────────▶ 평탄 페이딩 (협대역)
+    │
+    └──────────────▶ 주파수 선택적 페이딩 (광대역)
+                              │
+                              ▼
+ISI · 등화기 · OFDM · CP 설계
+```
 
 이 흐름도는 공간적 반사 현상이 시간축 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)으로 바뀌고, 다시 주파수 선택성과 ISI 문제로 확장되는 과정을 요약한다.
 

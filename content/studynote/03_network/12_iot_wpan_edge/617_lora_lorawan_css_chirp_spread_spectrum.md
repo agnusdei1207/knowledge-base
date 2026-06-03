@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **LoRa (Long Range)**: 프랑스의 사이클레오(Cycleo)가 개발하고 현재 미국의 셈텍(Semtech)이 독점 소유한, 900MHz 비면허 대역을 이용하는 <strong>'물리 계층(PHY)의 무선 전조/송수신 기술' 이름</strong>입니다.
 - **LoRaWAN**: 셈텍이 주도하는 [로라](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/283_lora_low_rank_adaptation/) 얼라이언스(LoRa Alliance)에서 제정한, LoRa 칩셋 위에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들이 어떻게 길을 찾아가고([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)/Network Layer) 보안 암호를 걸지 정의한 <strong>'개방형 네트워크 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a>(소프트웨어) 아키텍처'</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">비면허 대역 LPWAN 분야</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LoRa / LoRaWAN 표준</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Sigfox</div></div>
-</div>
-</div>
-
-
+```text
+[비면허 대역 LPWAN 분야]
+    │
+    ▼
+[LoRa / LoRaWAN 표준]
+    │
+    └──▶ [Sigfox]
+```
 
 - **📢 섹션 요약 비유**: LoRa / LoRaWAN 표준은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -50,18 +46,14 @@ tags = ["studynote-network"]
 2. **Gateway (게이트웨이)**: 산 꼭대기에 달린 듬직한 수집 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)([AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/))입니다. 주변 수십 km 안에서 센서들이 쏘아 올린 신호를 싹 다 빨아들여, 인터넷([LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)/유선)을 타고 중앙 서버로 넘겨줍니다. (별 모양의 Star 토폴로지)
 3. **Network Server**: 게이트웨이들이 던져준 중복 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 걸러내고 패킷을 해석하는 중앙 두뇌입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">비면허 대역 LPWAN 분야</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LoRa / LoRaWAN 표준</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Sigfox</div></div>
-</div>
-</div>
-
-
+```text
+[비면허 대역 LPWAN 분야]
+    │
+    ▼
+[LoRa / LoRaWAN 표준]
+    │
+    └──▶ [Sigfox]
+```
 
 - **📢 섹션 요약 비유**: LoRa / LoRaWAN 표준의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -117,19 +109,15 @@ LoRa / LoRaWAN 표준은 [IoT](/knowledge-base/studynote/06_ict_convergence/02_i
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 비면허 대역 LPWAN 분야</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: LoRa / LoRaWAN 표준</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: Sigfox</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율형 엣지 협업</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 비면허 대역 LPWAN 분야]
+    │
+    ▼
+[현재 개념: LoRa / LoRaWAN 표준]
+    │
+    ├──▶ [확장 A: Sigfox]
+    └──▶ [확장 B: 자율형 엣지 협업]
+```
 
 LoRa / LoRaWAN 표준는 비면허 대역 [LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/) 분야에서 출발해 현재 메커니즘을 정교화하고, 이후 Sigfox와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

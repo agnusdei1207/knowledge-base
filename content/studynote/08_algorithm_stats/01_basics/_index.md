@@ -6,7 +6,7 @@ tags = ["algorithm_stats"]
 +++
 
 > **핵심 인사이트**
-> 1. **본질**: 알고리즘은 명확한 계산으로 입력을 출력으로 변환하는 유한한 절차이며, 정확성 증명과 시간 복잡도 분석이 두 축이다.
+> 1. **본질**: 알고리즘은 명확한 계산보취으로 입력을 출력으로 변환하는 유한한 절차이며, 정확성 증명과 시간 복잡도 분석이 두 축이다.
 > 2. **가치**: 좋은 알고리즘 선택은 데이터 크기 10배 증대에서도 처리 시간을 상수 배수로 유지시키는 반면, 나쁜 알고리즘은 지수적으로 폭발시킨다.
 > 3. **융합**: 알고리즘 설계 패러다임(분할 정복, 동적 계획법, 탐욕법)이 컴퓨터 구조의 파이프라인, 운영체제 스케줄링, 네트워크 라우팅과 깊이 연결된다.
 
@@ -18,32 +18,27 @@ tags = ["algorithm_stats"]
 
 알고리즘이란 유한한 수의 단계를 통해 입력에서 출력으로 변환하는 명확한 계산 절차다. 여기서 핵심은 "유한성"과 "명확성"이라는 두 가지 속성이다. 각 단계는 기계적으로 실행 가능해야 하며, 반드시 언젠가 종료되어야 한다. 이 용어는 페르시아 수학자 알-콰리즈미의 이름에서 유래했는데, 그는 아부 아브드 알라 이븐 무사 알-콰리즈미(780-850)로서 대수학의 아버지로 불린다.
 
-알고리즘은 다음과 같은 다섯 가지 필수 요소를 갖는다. 첫째, 입력은 0개 이상인 유한한 데이터 집합이어야 한다. 둘째, 출력은 적어도 1개 이상의 결과를 생성해야 한다. 셋째, 명확성은 각 단계가의 없이 정의되어야 함을 의미한다. 넷째, 유한성은 유한한 단계 후 반드시 종료되어야 함을 뜻한다. 다섯째, 효과성은 각 단계가 기본적이고 실행 가능한 연산이어야 함을 의미한다.
+알고리즘은 다음과 같은 다섯 가지 필수 요소를 갖는다. 첫째, 입력은 0개 이상인 유한한 데이터 집합이어야 한다. 둘째, 출력은 적어도 1개 이상의 결과를 생성해야 한다. 셋째, 명확성은 각 단계가기의 없이 정의되어야 함을 의미한다. 넷째, 유한성은 유한한 단계 후 반드시 종료되어야 함을 뜻한다. 다섯째, 효과성은 각 단계가 기본적이고 실행 가능한 연산이어야 함을 의미한다.
 
 ### 왜 알고리즘 분석이 중요한가
 
 소프트웨어 시스템에서 성능 병목의 90%는 알고리즘 선택에 의해 결정된다. 구체적인 수치로 확인해보자. 100만 개의 데이터를 정렬할 때, 버블 정렬은 시간 복잡도가 O(n제곱)로 약 10의 12제곱 회의 비교가 필요한 반면, 병합 정렬은 O(n log n)으로 약 2천만 회만으로 충분하다. 이 5만 배의 차이는 실제 시스템에서 수시간과 수초의 차이로 나타난다.
 
-나쁜 알고리즘의 위험성은 데이터 크기 증가에 따라 지수적으로 증가한다는 점에서 더욱 두렵다. 입력 크기 n이 10에서 20으로 늘어나면 O(2의 n제곱) 알고리즘은 처리 불가능한 수준이 된다. 반면 O(n log n) 알고리즘은 여전히 실용적이다. 이것이 왜 좋은 알고리즘 선택이 시스템 확장성의 핵심인지을/를이다.
+나쁜 알고리즘의 위험성은 데이터 크기 증가에 따라 지수적으로 증가한다는 점에서 더욱 두렵다. 입력 크기 n이 10에서 20으로 늘어나면 O(2의 n제곱) 알고리즘은 처리 불가능한 수준이 된다. 반면 O(n log n) 알고리즘은 여전히 실용적이다. 이것이 왜 좋은 알고리즘 선택이 시스템 확장성의 핵심인지를시す이다.
 
 ### 알고리즘 발전 과정
 
+```
+[알고리즘 발전 타임라인]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">알고리즘 발전 타임라인</div></div>
-<div class="kb-diagram-note">1960년대 이전: 형식적 알고리즘 정의</div>
-<div class="kb-diagram-note">↓ (튜링 머신, 람다 계산법)</div>
-<div class="kb-diagram-note">1970년대: 시간 복잡도 표기법(O 표기) 확립</div>
-<div class="kb-diagram-note">↓ (빅 오, 빅 오메가, 빅 세타)</div>
-<div class="kb-diagram-note">1980년대: NP-완전성 이론 등장, 근사 알고리즘 연구</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">1990년대~현재: 확률적 알고리즘, 병렬 알고리즘, 양자 알고리즘 연구</div>
-</div>
-</div>
-
-
+1960년대 이전: 형식적 알고리즘 정의
+  ↓ (튜링 머신, 람다 계산법)
+1970년대: 시간 복잡도 표기법(O 표기) 확립
+  ↓ (빅 오, 빅 오메가, 빅 세타)
+1980년대: NP-완전성 이론 등장, 근사 알고리즘 연구
+  ↓
+1990년대~현재: 확률적 알고리즘, 병렬 알고리즘, 양자 알고리즘 연구
+```
 
 **[다이어그램 해설]** 알고리즘 이론은 1936년 앨런 튜링의 논문에서 시작되어, 1965년 하트만리스와 스티븐 쿤의 복잡도 이론으로 현대적 토대가 마련됐다. 각 시대마다 해결해야 할 문제가 달랐다. 1970년대는 정확한 분석이, 1990년대 이후는 근사화와 병렬화가 핵심 과제가 됐다. 이것은 하드웨어 발전과 밀접하게 연결되어 있다. 특히 다중 코어 프로세서의 등장 이후 병렬 알고리즘의 중요성은 더욱 커졌다.
 
@@ -69,46 +64,54 @@ tags = ["algorithm_stats"]
 
 시간 복잡도는 입력 크기 n이 증가함에 따라 실행 시간이 어떻게 증가하는지를 표현한다. 점근적 표기법은 실제 실행 시간이 아닌 증가 추세만 본다. 아래 표기는 시간 복잡도를 시각화한 것으로, 각 표기법의 성장률을 비교한다.
 
+```
+┌────────────────────────────────────────────────────────────────┐
+│                    시간 복잡도 성장률 비교                        │
+├────────────────────────────────────────────────────────────────┤
+│                                                                │
+│  n=10         n=100        n=1000        n=10000              │
+│    │            │             │              │                 │
+│ O(1)   ●───────●─────────────●──────────────●  상수 시간       │
+│                                                                │
+│ O(log n)  │        ●───────────────────────────●  로그 시간   │
+│           │        │                              │             │
+│ O(n)     ─│───────│──────────────────────────────│─  선형 시간 │
+│           │       │                              │             │
+│ O(n log n) │      │         ●───────────────────│─            │
+│            │      │         │                    │             │
+│ O(n^2)    ─│─────│─────────│────────────────────│─  이차 시간 │
+│            │     │         │                    │              │
+│ O(2^n)    ─│─────│─────────│────────────────────│─  지수 시간 │
+│            │     │         │                    │              │
+│  ※ O(1) → O(log n) → O(n) → O(n log n) → O(n^2) → O(2^n)    │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+```
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간 복잡도 성장률 비교</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">n=10 n=100 n=1000 n=10000</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">O(1) ● ● ● ● 상수 시간</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">O(log n)</div><div class="kb-diagram-cell">● ● 로그 시간</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">O(n) ─</div><div class="kb-diagram-cell">─ 선형 시간</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">O(n log n)</div><div class="kb-diagram-cell">●</div><div class="kb-diagram-cell">─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">O(n^2) ─</div><div class="kb-diagram-cell">─ 이차 시간</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">O(2^n) ─</div><div class="kb-diagram-cell">─ 지수 시간</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ O(1) → O(log n) → O(n) → O(n log n) → O(n^2) → O(2^n)</div></div>
-</div>
-</div>
-
-
-
-**[다이어그램 해설]** 이 도표의 핵심은 각 복잡도 증가 추세를 시각적으로 비교하는 것이다. O(1)은 입력 크기와 무관하게 항상 동일한 시간이 소요되며, 해시 테이블 조회나 배열 인덱스 접근이 대표적이다. O(log n)은 문제를 절반씩 나눠 해결하므로 n이 10배 증가해도 실행 시간은 약 3.3배만 증가하며, 이진 탐색이 대표적이다. O(n)은 데이터 양에 비례하여 시간이 증가하며, 선형 탐색이 대표적이다. O(n log n)은 정렬 알고리즘의 최적 복잡도로, 병합 정렬과 힙 정렬이 이에 해당한다. O(n제곱)은 이중 루프에서 나타나며, 버블 정렬이 대표적이다. O(2의 n제곱)은 조합 문제에서 나타나실제문제에서는 사용 불가다. 실무에서는 O(n제곱) 이상일 때 대안 알고리즘을 반드시 검토해야 한다.
+**[다이어그램 해설]** 이 도표의 핵심은 각 복잡도등급적 증가 추세를 시각적으로 비교하는 것이다. O(1)은 입력 크기와 무관하게 항상 동일한 시간이 소요되며, 해시 테이블 조회나 배열 인덱스 접근이 대표적이다. O(log n)은 문제를 절반씩 나눠 해결하므로 n이 10배 증가해도 실행 시간은 약 3.3배만 증가하며, 이진 탐색이 대표적이다. O(n)은 데이터 양에 비례하여 시간이 증가하며, 선형 탐색이 대표적이다. O(n log n)은 정렬 알고리즘의 최적 복잡도로, 병합 정렬과 힙 정렬이 이에 해당한다. O(n제곱)은 이중 루프에서 나타나며, 버블 정렬이 대표적이다. O(2의 n제곱)은 조합 문제에서 나타나실제문제에서는 사용 불가다. 실무에서는 O(n제곱) 이상일 때 대안 알고리즘을 반드시 검토해야 한다.
 
 ### 분할 정복 패러다임의 내부 동작
 
 분할 정복은 알고리즘 설계의 근본적인 패러다임 중 하나다. 문제를 동일하지 않은 작은 부분문제로 분할하고, 각 부분문제를 재귀적으로 해결한 뒤, 이를 합쳐 원래 문제의 해를 구한다. 이 패러다임의 핵심은 세 단계로 구성된다.
 
+```
+[분할 정복 동작 흐름]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">분할 정복 동작 흐름</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">큰 문제</div></div>
-<div class="kb-diagram-note">▼ 분할 (Divide)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">작은1</div><div class="kb-diagram-node">작은2</div><div class="kb-diagram-node">작은3</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">부분 문제 (서로 독립적)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">해결</div><div class="kb-diagram-node">해결</div><div class="kb-diagram-node">해결</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">정복 (Conquer)</div></div>
-<div class="kb-diagram-note">결합 (Combine)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">최종 해</div></div>
-</div>
-</div>
-
-
+        [큰 문제]
+             │
+             ▼ 분할 (Divide)
+    ┌────────┼────────┐
+    ▼        ▼        ▼
+  [작은1]  [작은2]  [작은3]     ← 부분 문제 (서로 독립적)
+    │        │        │
+    ▼        ▼        ▼
+  [해결]   [해결]   [해결]       ← 정복 (Conquer)
+    │        │        │
+    └────────┼────────┘
+             │ 결합 (Combine)
+             ▼
+        [최종 해]
+```
 
 **[다이어그램 해설]** 분할 정복의 핵심은 부분 문제들이 서로 독립적이라는 점이다. 만약 부분 문제가 중복된다면 동적 계획법으로 전환해야 한다. 대표적인 예로 병합 정렬에서 배열을 반으로 나누고, 각 반을 재귀적으로 정렬한 뒤, 두 정렬된 반을 병합한다. 분할 단계는 O(1), 병합 단계는 O(n), 재귀 호출 깊이는 log n이므로 전체 복잡도는 O(n log n)이 된다. 병렬 처리 환경에서는 독립적인 부분 문제를 동시에 처리할 수 있어 분할 정복이 병렬 알고리즘의 기본 프레임워크가 된다.
 
@@ -116,28 +119,30 @@ tags = ["algorithm_stats"]
 
 시간 복잡도를 엄밀하게 표현하기 위해 세 가지 점근적 표기법을 사용한다. 각 표기법은 알고리즘 성능의 다른 측면을 강조한다.
 
+```
+[점근적 표기법 비교]
 
+  O-표기 (빅 오): 상한 (최악의 경우)
+  ─────────────────────────────────────
+  f(n) = O(g(n)) means ∃ c > 0, n₀ such that
+  0 ≤ f(n) ≤ c·g(n) for all n ≥ n₀
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">점근적 표기법 비교</div></div>
-<div class="kb-diagram-note">O-표기 (빅 오): 상한 (최악의 경우)</div>
-<div class="kb-diagram-note">f(n) = O(g(n)) means ∃ c &gt; 0, n₀ such that</div>
-<div class="kb-diagram-note">0 ≤ f(n) ≤ c·g(n) for all n ≥ n₀</div>
-<div class="kb-diagram-note">Ω-표기 (빅 오메가): 하한 (최선의 경우)</div>
-<div class="kb-diagram-note">f(n) = Ω(g(n)) means ∃ c &gt; 0, n₀ such that</div>
-<div class="kb-diagram-note">0 ≤ c·g(n) ≤ f(n) for all n ≥ n₀</div>
-<div class="kb-diagram-note">Θ-표기 (빅 세타): 동일 차수</div>
-<div class="kb-diagram-note">f(n) = Θ(g(n)) means ∃ c₁, c₂ &gt; 0, n₀ such that</div>
-<div class="kb-diagram-note">0 ≤ c₁·g(n) ≤ f(n) ≤ c₂·g(n) for all n ≥ n₀</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">실용적 관점</div></div>
-<div class="kb-diagram-note">O-표기: "이 알고리즘은 이보다 느려지지 않는다"</div>
-<div class="kb-diagram-note">Ω-표기: "이 알고리즘은 최소한 이만큼은 걸린다"</div>
-<div class="kb-diagram-note">Θ-표기: "이 알고리즘은 정확히 이 정도다"</div>
-</div>
-</div>
+  Ω-표기 (빅 오메가): 하한 (최선의 경우)
+  ─────────────────────────────────────
+  f(n) = Ω(g(n)) means ∃ c > 0, n₀ such that
+  0 ≤ c·g(n) ≤ f(n) for all n ≥ n₀
 
+  Θ-표기 (빅 세타): 동일 차수
+  ─────────────────────────────────────
+  f(n) = Θ(g(n)) means ∃ c₁, c₂ > 0, n₀ such that
+  0 ≤ c₁·g(n) ≤ f(n) ≤ c₂·g(n) for all n ≥ n₀
 
+  [실용적 관점]
+  ─────────────────────────────────────
+  O-표기: "이 알고리즘은 이보다 느려지지 않는다"
+  Ω-표기: "이 알고리즘은 최소한 이만큼은 걸린다"
+  Θ-표기: "이 알고리즘은 정확히 이 정도다"
+```
 
 **[다이어그램 해설]** O-표기는 실무에서 가장 많이 사용되는 표기법으로, 알고리즘의 최악의 경우 성능을 나타낸다. 그러나 O-표기가 동일해도 실제 성능은 상수 계수와 낮은 차수 항에 의해 크게 달라질 수 있다. 예를 들어 O(n log n) 알고리즘이 O(n제곱) 알고리즘보다 항상 빠르다고 보장할 수 없는 것이 낮은 차수 항이 크기 때문이다. 따라서 실무에서는 상수 계수와 실제 실행 환경도 함께 고려해야 한다.
 
@@ -158,28 +163,35 @@ tags = ["algorithm_stats"]
 
 ### 비교 2: 분할 정복 vs 동적 계획법 vs 탐욕법
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">알고리즘 설계 패러다임 비교 의사결정 트리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">문제 구조 분석</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부분 문제 중복되는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">동적 계획법</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부분 문제값 재사용?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예 ──▶ 메모이제이션</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ──▶ 타뷸레이션</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">각 부분 문제 독립적인가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">분할 정복</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">탐욕적 선택이 최적인가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">탐욕법</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ──▶ 다른 패러다임 고려</div></div>
-</div>
-</div>
-
-
+```
+┌────────────────────────────────────────────────────────────────┐
+│         알고리즘 설계 패러다임 비교 의사결정 트리                  │
+├────────────────────────────────────────────────────────────────┤
+│                                                                │
+│           [문제 구조 분석]                                       │
+│                │                                              │
+│                ▼                                              │
+│    부분 문제 중복되는가?                                        │
+│         ├─ 예 ──▶ [동적 계획법]                                │
+│         │              │                                      │
+│         │         부분 문제값 재사용?                           │
+│         │           ├─ 예 ──▶ 메모이제이션                      │
+│         │           └─ 아니오 ──▶ 타뷸레이션                    │
+│         │                                                      │
+│         └─ 아니오                                               │
+│               │                                                │
+│               ▼                                                │
+│      각 부분 문제 독립적인가?                                     │
+│           ├─ 예 ──▶ [분할 정복]                                │
+│           └─ 아니오                                               │
+│                 │                                              │
+│                 ▼                                              │
+│          탐욕적 선택이 최적인가?                                  │
+│           ├─ 예 ──▶ [탐욕법]                                   │
+│           └─ 아니오 ──▶ 다른 패러다임 고려                        │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 세 패러다임은 각각 다른 문제 구조에 최적화되어 있다. 분할 정복은 부분 문제가 독립적일 때 가장 효과적이며, 병렬화가 용이하다. 동적 계획법은 중복된 부분 문제에서 중복 계산을 피하며, 하향식 메모이제이션과 상향식 타뷸레이션 두 가지 구현이 있다. 탐욕법은 각 단계에서 지역적으로 최선인 선택이 전역적으로도 최선으로 이끄는 경우에만 올바르다. 프라임의 최소 신장 트리, 다익스트라의 최단 경로, 허프만 코딩이 탐욕법의 대표적 사례다.
 
@@ -187,27 +199,27 @@ tags = ["algorithm_stats"]
 
 파이프라인 구조는 알고리즘의 분할 정복 개념과 밀접하게 연결되어 있다. 명령어 처리를 인출-해독-실행-메모리-쓰기 단계로 분리하면, 각 단계가 독립적인 처리 유닛이 되어 동시에 다른 명령어를 처리할 수 있다.
 
+```
+[파이프라인 vs 순차 처리 비교]
 
+  순차 처리 (5 사이클/명령어):
+  ─────────────────────────────────────
+  명령어 1: [IF][ID][EX][MEM][WB]
+  명령어 2:         [IF][ID][EX][MEM][WB]
+  명령어 3:                 [IF][ID][EX][MEM][WB]
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">파이프라인 vs 순차 처리 비교</div></div>
-<div class="kb-diagram-note">순차 처리 (5 사이클/명령어):</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">명령어 1:</div><div class="kb-diagram-node">IF</div><div class="kb-diagram-node">ID</div><div class="kb-diagram-node">EX</div><div class="kb-diagram-node">MEM</div><div class="kb-diagram-node">WB</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">명령어 2:</div><div class="kb-diagram-node">IF</div><div class="kb-diagram-node">ID</div><div class="kb-diagram-node">EX</div><div class="kb-diagram-node">MEM</div><div class="kb-diagram-node">WB</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">명령어 3:</div><div class="kb-diagram-node">IF</div><div class="kb-diagram-node">ID</div><div class="kb-diagram-node">EX</div><div class="kb-diagram-node">MEM</div><div class="kb-diagram-node">WB</div></div>
-<div class="kb-diagram-note">파이프라인 (1 사이클/명령어):</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">명령어 1:</div><div class="kb-diagram-node">IF</div><div class="kb-diagram-node">ID</div><div class="kb-diagram-node">EX</div><div class="kb-diagram-node">MEM</div><div class="kb-diagram-node">WB</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">명령어 2:</div><div class="kb-diagram-node">IF</div><div class="kb-diagram-node">ID</div><div class="kb-diagram-node">EX</div><div class="kb-diagram-node">MEM</div><div class="kb-diagram-node">WB</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">명령어 3:</div><div class="kb-diagram-node">IF</div><div class="kb-diagram-node">ID</div><div class="kb-diagram-node">EX</div><div class="kb-diagram-node">MEM</div><div class="kb-diagram-node">WB</div></div>
-<div class="kb-diagram-note">클럭 사이클 수:</div>
-<div class="kb-diagram-note">순차: 5n 사이클</div>
-<div class="kb-diagram-note">파이프라인: n + 4 사이클 (초기 파이프라인 충진 고려)</div>
-<div class="kb-diagram-note">→ n이 클 때 약 5배 성능 향상</div>
-</div>
-</div>
+  파이프라인 (1 사이클/명령어):
+  ─────────────────────────────────────
+  명령어 1: [IF][ID][EX][MEM][WB]
+  명령어 2:   [IF][ID][EX][MEM][WB]
+  명령어 3:      [IF][ID][EX][MEM][WB]
 
-
+  클럭 사이클 수:
+  ─────────────────────────────────────
+  순차: 5n 사이클
+  파이프라인: n + 4 사이클 (초기 파이프라인 충진 고려)
+  → n이 클 때 약 5배 성능 향상
+```
 
 **[다이어그램 해설]** 파이프라인의 핵심은 각 명령어의 단계가 서로 다른 하드웨어 유닛을 사용한다는 점이다. 따라서 여러 명령어를 동시에 처리할 수 있어 처리량이 크게 향상된다. 그러나 파이프라인 중단(브랜치, 캐시 미스)이 발생하면 파이프라인 전체가 플러시되어 성능 저하가 발생한다. 이것은 알고리즘에서 분할 정복의 병렬화와 유사하며, 둘 다 구조적 병렬성의 활용이라는 동일한 원리를 적용한다.
 
@@ -221,22 +233,24 @@ tags = ["algorithm_stats"]
 
 시스템 로그 1억 건에서 특정 패턴을 탐색해야 하는 상황이다. 단순 문자열 탐색은 O(nm) 복잡도로 실용 불가다. 여기서 아호-코라식 오토마타를 사용하면 패턴 집합에 대해 O(n + m + z) 시간에 탐색이 가능하다.
 
+```
+[대규모 텍스트 탐색 아키텍처]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">대규모 텍스트 탐색 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">로그 파일 1억 건</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전처리 단계: 로그 파싱</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">패턴 매칭 엔진: 아호-코라식</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">매치됨</div><div class="kb-diagram-node">매치 안 됨</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">집계/경고</div><div class="kb-diagram-node">파기</div></div>
-</div>
-</div>
-
-
+  [로그 파일 1억 건]
+         │
+         ▼
+  [전처리 단계: 로그 파싱]
+         │
+         ▼
+  [패턴 매칭 엔진: 아호-코라식]
+         │
+    ┌────┴────┐
+    ▼         ▼
+ [매치됨]  [매치 안 됨]
+    │         │
+    ▼         ▼
+[집계/경고]  [파기]
+```
 
 **[다이어그램 해설]** 이 구조의 핵심은 전처리 단계에서 패턴 트라이를 구축하고, 탐색 중 실패한 경로를 빠르게 복원하는 전이 함수와 출력 함수의 조합이다. 매칭 시간은 텍스트 길이에만 비례하므로 1억 건 로그도 실용적 시간에 처리 가능하다.
 
@@ -299,27 +313,25 @@ tags = ["algorithm_stats"]
 
 2. 같은 양의 재료로도 레시피(알고리즘)가 좋으면 금방 만들 수 있지만, 나쁜 레시피면 하루 종일 해도 덜 익은 요리가 돼요. 컴퓨터에서도 똑같아요!
 
-3. 그래서 컴퓨터 과학자들은 어떤 레시피가 가장 빠른지, 가장 적은 재료(메모리)를 쓰는지 항상하고 있어요.
+3. 그래서 컴퓨터 과학자들은 어떤 레시피가 가장 빠른지, 가장 적은 재료(메모리)를 쓰는지 항상연구하고 있어요.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">알고리즘 정의 (Input → Process → Output)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">복잡도 분석: 시간 O(·) / 공간 O(·)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">Big-O: O(1) &lt; O(log n) &lt; O(n) &lt; O(n log n) &lt; O(n²) &lt; O(2ⁿ)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">설계 패러다임</div>
-<div class="kb-diagram-tree-item" style="--depth:0">분할 정복 (Divide &amp; Conquer)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">동적 프로그래밍 (DP)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">탐욕 알고리즘 (Greedy)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">백트래킹 (Backtracking)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">NP 이론 → 근사 알고리즘 → 양자 알고리즘</div>
-</div>
-</div>
-
-
+```text
+알고리즘 정의 (Input → Process → Output)
+    │
+    ▼
+복잡도 분석: 시간 O(·) / 공간 O(·)
+    │
+    ├─► Big-O: O(1) < O(log n) < O(n) < O(n log n) < O(n²) < O(2ⁿ)
+    │
+    ▼
+설계 패러다임
+    ├─► 분할 정복 (Divide & Conquer)
+    ├─► 동적 프로그래밍 (DP)
+    ├─► 탐욕 알고리즘 (Greedy)
+    └─► 백트래킹 (Backtracking)
+    │
+    ▼
+NP 이론 → 근사 알고리즘 → 양자 알고리즘
+```

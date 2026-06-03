@@ -19,31 +19,32 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 사용 품질 (Quality [in Use](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/694_confidential_computing_data_in_use/))은 ISO/IEC 25010에서 정의한 품질 모델의 최상위 개념으로, "명시된 사용자가 특정 사용 목표를 달성하기 위해 제품을 사용할 때 나타나는 효과"를 나타낸다. 이는 제품 품질(Product Quality)이 제품 자체의 내재적 특성을 평가하다의에、사용가 실제 제품을 사용하여 목표를 달성하는을/를한다. 사용 품질은 유효성(Effectiveness), 생산성(Efficiency), 만족도(Satisfaction)의 3가지 효과 척도(Effectiveness Measures)와 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 완화([Risk Mitigation](/knowledge-base/studynote/09_security/01_intro_principles/036_risk_mitigation/))의 1가지 위험 감소 척도([Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Reduction Measures)로 구성된다.
+- **개념**: 사용 품질 (Quality [in Use](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/694_confidential_computing_data_in_use/))은 ISO/IEC 25010에서 정의한 품질 모델의 최상위 개념으로, "명시된 사용자가 특정 사용 목표를 달성하기 위해 제품을 사용할 때 나타나는 효과"를 나타낸다. 이는 제품 품질(Product Quality)이 제품 자체의 내재적 특성을 평가하는의에대し, 사용자가 실제 제품을 사용하여 목표를 달성하는능력을평가한다. 사용 품질은 유효성(Effectiveness), 생산성(Efficiency), 만족도(Satisfaction)의 3가지 효과 척도(Effectiveness Measures)와 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 완화([Risk Mitigation](/knowledge-base/studynote/09_security/01_intro_principles/036_risk_mitigation/))의 1가지 위험 감소 척도([Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Reduction Measures)로 구성된다.
 
-- **필요성**: 제품의 품질 특성([기능 적합성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/342_functional_suitability/), [성능 효율성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/343_performance_efficiency/), [사용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/286_usability_tactics/) 등)이 우수하더라도, 실제 사용자가 제품을 사용하여 목표를 달성하는 데 어려움이 있다면 그 소프트웨어는작이다. 사용 품질 평가는 이러한 간극(Gap)을 파악하고, 실제 사용자 관점에서의 품질을하는 데 필수적이다. 또한 사용 품질 평가는 제품 개선의 우선순위를 결정하는 데 중요한가 된다.
+- **필요성**: 제품의 품질 특성([기능 적합성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/342_functional_suitability/), [성능 효율성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/343_performance_efficiency/), [사용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/286_usability_tactics/) 등)이 우수하더라도, 실제 사용자가 제품을 사용하여 목표를 달성하는 데 어려움이 있다면 그 소프트웨어는실패작이다. 사용 품질 평가는 이러한 간극(Gap)을 파악하고, 실제 사용자 관점에서의 품질을평가하는 데 필수적이다. 또한 사용 품질 평가는 제품 개선의 우선순위를 결정하는 데 중요한참고자료가 된다.
 
-- **💡 비유**: 사용 품질은 "음식의 맛"에 비유할 수 있다. 재료(제품 품질)가 좋아도([기능 적합성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/342_functional_suitability/)), 조리([성능 효율성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/343_performance_efficiency/)),(사용성) 모두 좋아도, 최종적으로 먹었을 때 맛이 없으면(사용품질 낮음) 그 요리는이다. 반대로 재료가 다소 부족하더라도, 맛있게 조리되면(사용품질 높음)부터된다。
+- **💡 비유**: 사용 품질은 "음식의 맛"에 비유할 수 있다. 재료(제품 품질)가 좋아도([기능 적합성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/342_functional_suitability/)), 조리([성능 효율성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/343_performance_efficiency/)),성り부け(사용성) 모두 좋아도, 최종적으로 먹었을 때 맛이 없으면(사용품질 낮음) 그 요리는실패작이다. 반대로 재료가 다소 부족하더라도, 맛있게 조리되면(사용품질 높음)객부터만족される. 
 
-- **등장 배경**: 사용 품질(Quality [in Use](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/694_confidential_computing_data_in_use/))은 ISO/IEC 9126에서는 명시적으로 정의되지 않았다. ISO/IEC 25010으로 개정될 때 제품 품질(Product Quality)과 함께사용품질이/가에정의、4의이/가 포함되었다. 이는 소프트웨어가「」부터「사용」으로와/과 패러다임 변화를 반영한다.
+- **등장 배경**: 사용 품질(Quality [in Use](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/694_confidential_computing_data_in_use/))은 ISO/IEC 9126에서는 명시적으로 정의되지 않았다. ISO/IEC 25010으로 개정될 때 제품 품질(Product Quality)과 함께사용품질이명시적에정의され, 4つ의효과척도가 포함되었다. 이는 소프트웨어가「작동용」부터「사용자위중심적개치창출」へ와/과いう 패러다임 변화를 반영한다.
 
-- **📢 섹션 요약 비유**: 사용 품질은 "영화 평점"에 비유할 수 있다. 기술적 완성도(제품 품질)가 높아도(영상 화질, 음질),이/가(사용품질 낮음)은/는하지 않는다。의이/가사용품질을/를하다。
+- **📢 섹션 요약 비유**: 사용 품질은 "영화 평점"에 비유할 수 있다. 기술적 완성도(제품 품질)가 높아도(영상 화질, 음질),ストーリー이/가つまらなければ(사용품질 낮음)관중은만족しない. 최종적な관객의만족도가사용품질을반영하는. 
 
 ---
 
 다음은 사용 품질 (Quality in Us의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용 품질 (Quality in Us</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                  사용 품질 (Quality in Us                        │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
+│       │                    │                    │          │
+│       ▼                    ▼                    ▼          │
+│   요구 분석           설계·적용           품질 검증        │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램은 사용 품질 (Quality in Us가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -133,30 +134,28 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 사용 품질 (Quality [in Use](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/694_confidential_computing_data_in_use/))의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 사용 품질 (Quality [in Use](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/694_confidential_computing_data_in_use/))의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
 | [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 사용 품질 (Quality [in Use](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/694_confidential_computing_data_in_use/))은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | 사용 품질 (Quality [in Use](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/694_confidential_computing_data_in_use/)) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
 | [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 사용 품질 (Quality [in Use](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/694_confidential_computing_data_in_use/))에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">사용 품질 (Quality in Use) 개념 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 위기 (Software Crisis) 인식
+    │
+    ▼
+사용 품질 (Quality in Use) 개념 정립
+    │
+    ▼
+표준화 및 방법론 체계화 (ISO, CMMI, Agile)
+    │
+    ▼
+클라우드 네이티브·AI 기반 확장 적용
+    │
+    ▼
+지속적 개선 및 DevOps·MLOps 통합
+```
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

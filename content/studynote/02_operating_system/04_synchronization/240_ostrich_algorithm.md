@@ -101,22 +101,25 @@ OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architectu
    - **구현**: 데몬 스레드가 루프를 돌 때마다 공유 변수(Heartbeat)를 1씩 올린다. 별도의 워치독 스레드는 1분마다 이 숫자가 올랐는지 확인한다.
    - **실무 조치**: 만약 데드락 때문에 숫자가 멈춰있으면, 워치독이 `System.exit(1)`을 때려서 프로세스를 죽여버린다. 밖에서 OS 스크립트(systemd)가 죽은 프로세스를 즉시 재시작시킨다. 데드락 회피 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 짜는 것보다 이 워치독을 다는 것이 개발 기간과 버그 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 1/100로 줄여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데드락(Deadlock)에 대처하는 현대 시스템 아키텍처 (Cloud Native)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전통적 관점</div><div class="kb-diagram-note">OS가 막아주거나 코드로 완벽히 막아야 해!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 복잡도 폭발, 성능 저하, 결국 개발자 실수로 100% 터짐.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현대 클라우드 관점: Let it crash! (터지게 냅둬라!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 1. 타조 알고리즘(무시)으로 성능 100% 획득</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 2. 분산 배치: 데드락이 터져 1대가 죽어도 나머지 99대가 동작</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 3. Liveness Probe (헬스 체크): 터진 걸 즉시 감지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 4. Pod Restart: 1초 만에 새 컨테이너로 리셋/복구 끝!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────────────┐
+  │     데드락(Deadlock)에 대처하는 현대 시스템 아키텍처 (Cloud Native) │
+  ├─────────────────────────────────────────────────────────────────────┤
+  │                                                                     │
+  │   [ 전통적 관점 ] OS가 막아주거나 코드로 완벽히 막아야 해!          │
+  │        ▶ 복잡도 폭발, 성능 저하, 결국 개발자 실수로 100% 터짐.      │
+  │                                                                     │
+  │   [ 현대 클라우드 관점: Let it crash! (터지게 냅둬라!) ]            │
+  │        │                                                            │
+  │        ▼ 1. 타조 알고리즘(무시)으로 성능 100% 획득                  │
+  │        │                                                            │
+  │        ▼ 2. 분산 배치: 데드락이 터져 1대가 죽어도 나머지 99대가 동작│
+  │        │                                                            │
+  │        ▼ 3. Liveness Probe (헬스 체크): 터진 걸 즉시 감지           │
+  │        │                                                            │
+  │        ▼ 4. Pod Restart: 1초 만에 새 컨테이너로 리셋/복구 끝!       │
+  └─────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** [Erlang](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1004_erlang_traffic_load_unit_calculation/) 언어의 철학이자 K8s의 핵심 사상인 <strong>"Let it crash (그냥 죽게 놔둬라)"</strong>는 [타조 알고리즘](/knowledge-base/studynote/02_operating_system/05_deadlock/291_ostrich_algorithm/)의 위대함을 실무 인프라 단위로 승격시킨 명언이다. 데드락을 예방하려는 오만(Hubris)을 버리고, 데드락은 언젠간 터지는 자연재해로 인정한 뒤 "얼마나 빨리 장애를 숨기고 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)할 것인가([MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) 최소화)"에 집중하는 것이 현대 아키텍트의 정답이다.
 
 - **📢 섹션 요약 비유**: 감기(데드락)에 안 걸리려고 365일 내내 무균복을 입고 다니는 건 미친 짓(예방 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))입니다. 현대 의학(클라우드 아키텍처)은 그냥 평상복을 입고 막 놀게 냅둔 뒤([타조 알고리즘](/knowledge-base/studynote/02_operating_system/05_deadlock/291_ostrich_algorithm/)), 감기에 걸리면 즉시 감기약(Restart)을 먹여 하루 만에 낫게 하는 것에 집중합니다.
@@ -147,19 +150,15 @@ OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architectu
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">조건 변수 (Condition Variable)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">타조 알고리즘 (Ostrich Algorithm)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">라이브락 (Livelock)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">우선순위 역전 (Priority Inversion)</div></div>
-</div>
-</div>
-
-
+```text
+[조건 변수 (Condition Variable)]
+    │
+    ▼
+[타조 알고리즘 (Ostrich Algorithm)]
+    │
+    ├──▶ [라이브락 (Livelock)]
+    └──▶ [우선순위 역전 (Priority Inversion)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

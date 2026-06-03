@@ -40,18 +40,16 @@ tags = ["studynote-enterprise"]
 
 아래 그림은 데스크톱 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 단순 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 아니라, 자동화 후보로 정제되는 과정을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">작업 마이닝 흐름: 데스크톱 행동에서 후보 발굴</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 PC 이벤트 ─▶ 수집·마스킹 ─▶ 패턴 군집화 ─▶ ROI 평가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클릭·입력·창전환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개인정보 보호 반복 작업 묶음 RPA 후보</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────┐
+│              작업 마이닝 흐름: 데스크톱 행동에서 후보 발굴      │
+├────────────────────────────────────────────────────────────────┤
+│ 사용자 PC 이벤트 ─▶ 수집·마스킹 ─▶ 패턴 군집화 ─▶ ROI 평가      │
+│  클릭·입력·창전환        │               │            │         │
+│                          ▼               ▼            ▼         │
+│                     개인정보 보호     반복 작업 묶음   RPA 후보 │
+└────────────────────────────────────────────────────────────────┘
+```
 
 핵심 원리는 세 가지다. 첫째, 의미 없는 개인 활동과 실제 업무를 구분해야 한다. 둘째, 한 사람의 예외 행동보다 다수 사용자에게 반복되는 패턴을 찾는 것이 중요하다. 셋째, 발견된 작업은 자동화 가능성과 업무 중요도를 함께 따져야 한다. 많이 반복된다고 해서 모두 자동화 가치가 높은 것은 아니다.
 
@@ -65,7 +63,7 @@ tags = ["studynote-enterprise"]
 
 | 항목 | 데스크톱 애널리틱스 | 작업 마이닝 | [프로세스 마이닝](/knowledge-base/studynote/12_it_management/03_ea_isp/129_process_mining_bpr_event_log_bottleneck_analysis/) |
 | :--- | :--- | :--- | :--- |
-| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 원천 | [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 사용 기록 전반 | PC의 반복 작업 시퀀스 | [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) ([Enterprise Resource Planning](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/))·[CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) ([Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) [Relationship](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))·업무시스템 이벤트 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) |
+| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 원천 | [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 사용 기록 전반 | PC의 반복 작업 시퀀스 | [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) ([Enterprise Resource Planning](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/))·[CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) ([C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) [Relationship](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))·업무시스템 이벤트 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) |
 | 분석 초점 | 사용 현황·생산성 | 자동화 후보 발굴 | [전체 프로세스](/knowledge-base/studynote/02_operating_system/06_memory_management/337_standard_vs_paging_swapping/) 흐름 |
 | 산출물 | 앱 사용 리포트 | 반복 작업 묶음·PDD 초안 | [AS-IS](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) 흐름·병목·편차 |
 | 대표 활용 | 업무 패턴 이해 | [RPA](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/) 발굴 | 프로세스 개선·통제 |
@@ -123,24 +121,22 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">데스크톱 이벤트 수집</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">데스크톱 애널리틱스 (Desktop Analytics)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">작업 마이닝 (Task Mining)</div>
-<div class="kb-diagram-tree-item" style="--depth:4">반복 패턴 군집화</div>
-<div class="kb-diagram-tree-item" style="--depth:4">ROI 분석</div>
-<div class="kb-diagram-tree-item" style="--depth:4">PDD 생성</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">RPA 발굴 · 프로세스 개선 · 하이퍼오토메이션</div>
-</div>
-</div>
-
-
+```text
+데스크톱 이벤트 수집
+        │
+        ▼
+데스크톱 애널리틱스 (Desktop Analytics)
+        │
+        ▼
+작업 마이닝 (Task Mining)
+        │
+        ├─ 반복 패턴 군집화
+        ├─ ROI 분석
+        └─ PDD 생성
+        │
+        ▼
+RPA 발굴 · 프로세스 개선 · 하이퍼오토메이션
+```
 
 이 흐름도는 단순한 사용 통계가 자동화 후보 발굴과 문서화로 발전하는 과정을 보여준다.
 

@@ -33,23 +33,26 @@ Nick Szabo가 1994년 제안한 [스마트 컨트랙트](/knowledge-base/studyno
 
 ### 컴파일·실행 흐름
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스마트 컨트랙트 실행 파이프라인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Solidity (.sol)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">solc 컴파일러</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Bytecode (0x606060...) ABI (인터페이스 정의)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EVM(Ethereum Virtual Machine)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Stack (256bit × 1024)</div><div class="kb-diagram-cell">Memory (바이트배열)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Storage (영구 키-값)</div><div class="kb-diagram-cell">Opcode 실행 엔진</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가스(Gas) 차감</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상태 변경(State Change) → 블록체인 기록</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────┐
+│         스마트 컨트랙트 실행 파이프라인                  │
+│                                                         │
+│  Solidity (.sol)                                        │
+│       │  solc 컴파일러                                   │
+│       ▼                                                 │
+│  Bytecode (0x606060...)      ABI (인터페이스 정의)       │
+│       │                           │                     │
+│       ▼                           ▼                     │
+│  EVM(Ethereum Virtual Machine)                          │
+│  ┌───────────────────────────────────────────┐          │
+│  │ Stack (256bit × 1024) │ Memory (바이트배열) │          │
+│  │ Storage (영구 키-값)   │ Opcode 실행 엔진   │          │
+│  └───────────────────────────────────────────┘          │
+│       │ 가스(Gas) 차감                                    │
+│       ▼                                                 │
+│  상태 변경(State Change) → 블록체인 기록                 │
+└─────────────────────────────────────────────────────────┘
+```
 
 ### [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)([Gas](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)) 구조
 

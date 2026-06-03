@@ -25,22 +25,20 @@ tags = ["studynote-software-engineering"]
 <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/707_oat_operational_acceptance_testing/">OAT</a>(<a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/409_operational_acceptance_testing_oat/">Operational Acceptance Testing</a>, <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/707_oat_operational_acceptance_testing/">운영 인수 테스트</a>)</strong>는 바로 이 운영자([Operator](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/565_operator_pattern_kubernetes_automation/))들을 만족시키기 위한 테스트입니다. 
 애플리케이션을 살아 숨 쉬는 '생물'로 보고, 이 생물이 데이터센터라는 척박한 환경에서 버티기 위한 <strong>인프라 적합성, 모니터링 연동성, 재난 복원력</strong>을 검증하는 매우 차갑고 기계적인 테스트입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">UAT와 OAT의 관점 차이 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">UAT (User Acceptance Testing) - 비즈니스 현업 사용자</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"장바구니 결제 버튼을 누르면 이니시스 창이 뜨면서 결제가 되는가?"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ (Yes!) "좋아, 오픈하자!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">OAT (Operational Acceptance Testing) - 시스템 운영팀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"결제 중 DB 디스크를 강제로 하나 빼버리면 스탠바이 DB로 5초 내 넘어가는가?"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"에러가 났을 때 슬랙/문자로 운영자에게 즉시 로그가 발송되는가?"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ (No..) "이대로 오픈하면 밤에 나 휴가 못 간다. 배포 반려!"</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                  UAT와 OAT의 관점 차이 비교                     │
+├──────────────────────────────────────────────────────────────┤
+│ [UAT (User Acceptance Testing) - 비즈니스 현업 사용자]             │
+│   "장바구니 결제 버튼을 누르면 이니시스 창이 뜨면서 결제가 되는가?"     │
+│    ──▶ (Yes!) "좋아, 오픈하자!"                                │
+│                                                              │
+│ [OAT (Operational Acceptance Testing) - 시스템 운영팀]             │
+│   "결제 중 DB 디스크를 강제로 하나 빼버리면 스탠바이 DB로 5초 내 넘어가는가?"│
+│   "에러가 났을 때 슬랙/문자로 운영자에게 즉시 로그가 발송되는가?"          │
+│    ──▶ (No..) "이대로 오픈하면 밤에 나 휴가 못 간다. 배포 반려!"        │
+└──────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 새로 산 비행기가 하늘을 잘 나는지 타보는 게 UAT라면, 비행 중 엔진 하나가 꺼졌을 때 비상 발전기가 도는지, 산소마스크가 일제히 떨어지는지 매뉴얼을 들고 화재 상황을 시험해보는 정비사의 최종 점검이 OAT입니다.
 
@@ -57,7 +55,7 @@ tags = ["studynote-software-engineering"]
 OAT는 [비기능 요구사항](/knowledge-base/studynote/04_software_engineering/03_design_architecture/133_non_functional_requirements/)([NFR](/knowledge-base/studynote/04_software_engineering/03_design_architecture/133_non_functional_requirements/))의 운영적 측면을 극대화하여 테스트합니다. 기능서가 아니라 아키텍처 정의서와 운영 매뉴얼이 기준이 됩니다.
 
 1. <strong>복원력 및 재해복구 (Resilience &amp; <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/">DR</a>)</strong>
-   - 메인 서버를 강제로 Shutdown 시키고 (Chaos Engineering과 직결), 보조 서버(Active-Standby) 혹은 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 센터로 트래픽이 정상 우회하는지 초(Second) 단위로 측정합니다.
+   - 메인 서버를 강제로 Shutdown 시키고 (Chaos 엔진ering과 직결), 보조 서버(Active-Standby) 혹은 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 센터로 트래픽이 정상 우회하는지 초(Second) 단위로 측정합니다.
 2. <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">백업</a> 및 복원 (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">Backup</a> &amp; Restore)</strong>
    - 단순히 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 스크립트가 도는지를 넘어, "어제 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)된 테이프/스토리지를 가져다 실제로 DB를 말아 올렸을 때 100% 무결성으로 부팅"되는지(Restore) 확인합니다.
 3. <strong>가시성과 모니터링 (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/">Observability</a> &amp; Alerting)</strong>
@@ -84,7 +82,7 @@ OAT는 [비기능 요구사항](/knowledge-base/studynote/04_software_engineerin
 ## Ⅲ. 비교 및 연결
 
 전통적인 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) 시대에 OAT는 거대한 체크리스트를 들고 서버실에 들어가 랜선을 뽑아보는 수작업 기반이었습니다.
-하지만 오늘날 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a>(<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">Site Reliability Engineering</a>)</strong>와 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서는 OAT마저 코드로 내재화(Testing [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)) 됩니다.
+하지만 오늘날 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a>(<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">Site Reliability 엔진ering</a>)</strong>와 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서는 OAT마저 코드로 내재화(Testing [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)) 됩니다.
 
 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(k8s) 환경에서 OAT는 Pod를 무작위로 삭제하거나, 네트워크 지연을 5초 발생시켰을 때 Liveness/Readiness Probe가 정상적으로 헬스체크를 갱신하며 자동 재기동(Self-healing)하는지를 파이프라인에서 자동으로 테스트합니다. 
 OAT를 통과하지 못하면 아무리 개발 코드가 뛰어나도 릴리즈 파이프라인의 배포 버튼이 비활성화되는 강제 통제 수단으로 작용합니다.
@@ -135,30 +133,28 @@ OAT는 흔히 프로젝트 막바지에 "시간 부족"을 이유로 생략하�
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | [OAT](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/707_oat_operational_acceptance_testing/) ([Operational Acceptance Testing](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/409_operational_acceptance_testing_oat/))의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | [OAT](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/707_oat_operational_acceptance_testing/) ([Operational Acceptance Testing](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/409_operational_acceptance_testing_oat/))의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
 | [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | [OAT](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/707_oat_operational_acceptance_testing/) ([Operational Acceptance Testing](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/409_operational_acceptance_testing_oat/))은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | [OAT](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/707_oat_operational_acceptance_testing/) ([Operational Acceptance Testing](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/409_operational_acceptance_testing_oat/)) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
 | [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | [OAT](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/707_oat_operational_acceptance_testing/) ([Operational Acceptance Testing](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/409_operational_acceptance_testing_oat/))에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">OAT (Operational Acceptance Testing) 개념 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 위기 (Software Crisis) 인식
+    │
+    ▼
+OAT (Operational Acceptance Testing) 개념 정립
+    │
+    ▼
+표준화 및 방법론 체계화 (ISO, CMMI, Agile)
+    │
+    ▼
+클라우드 네이티브·AI 기반 확장 적용
+    │
+    ▼
+지속적 개선 및 DevOps·MLOps 통합
+```
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

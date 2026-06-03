@@ -47,27 +47,30 @@ STM의 핵심 철학은 <strong>낙관주의(Optimistic)</strong>다. "아마 �
    - **성공 (No Conflict)**: 아무도 원래 값을 건드리지 않았다면, 임시 메모리 값을 실제 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)에 팍! 덮어쓰고(Commit) 종료한다.
    - **실패 (Conflict)**: 다른 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 먼저 값을 바꿔치기(수정) 했다면, 내 임시 작업은 폐기 처분([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/)/Abort)되고, [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 블록 처음으로 돌아가 재시도(Retry)한다. 데드락 없이 혼자 조용히 다시 일할 뿐이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">STM (소프트웨어 트랜잭셔널 메모리)의 무락(Lock-Free) 실행 흐름</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">공유 메모리: X = 100</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🧑‍💻 스레드 A (X에 +50 할 예정) 👩‍💻 스레드 B (X에 -20 할 예정)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 락 없이 냅다 읽어옴 (X=100) 1. 락 없이 냅다 읽어옴 (X=100)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 내 임시 로그에서 +50 계산 2. 내 임시 로그에서 -20 계산</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(임시 X = 150) (임시 X = 80)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. B가 A보다 0.1초 빨리 계산 끝냄! "내가 먼저 덮어쓸게!" (Commit)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">공유 메모리: X = 80 으로 변경됨!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. A가 뒤늦게 덮어쓰려(Commit) 옴. "아까 나 X=100 읽어왔는데, 지금도 100이야?"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; 시스템: "아니, B가 80으로 바꿨어. 너 지각함."</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. A의 반응 (롤백 및 재시도)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; "아놔 겹쳤네 ㅠㅠ 내 임시 작업(150) 폐기하고 다시 시작!" (Rollback)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; 80을 새로 읽어와서 +50 하고 130으로 정상 업데이트 성공.</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────────────┐
+│           STM (소프트웨어 트랜잭셔널 메모리)의 무락(Lock-Free) 실행 흐름         │
+├──────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                  │
+│ [ 공유 메모리: X = 100 ]                                                         │
+│                                                                                  │
+│  🧑‍💻 스레드 A (X에 +50 할 예정)         👩‍💻 스레드 B (X에 -20 할 예정)       │
+│                                                                                  │
+│  1. 락 없이 냅다 읽어옴 (X=100)        1. 락 없이 냅다 읽어옴 (X=100)            │
+│  2. 내 임시 로그에서 +50 계산           2. 내 임시 로그에서 -20 계산             │
+│     (임시 X = 150)                   (임시 X = 80)                               │
+│                                                                                  │
+│  3. B가 A보다 0.1초 빨리 계산 끝냄! "내가 먼저 덮어쓸게!" (Commit)               │
+│     -> [ 공유 메모리: X = 80 으로 변경됨! ]                                      │
+│                                                                                  │
+│  4. A가 뒤늦게 덮어쓰려(Commit) 옴. "아까 나 X=100 읽어왔는데, 지금도 100이야?"  │
+│     -> 시스템: "아니, B가 80으로 바꿨어. 너 지각함."                             │
+│                                                                                  │
+│  5. A의 반응 (롤백 및 재시도)                                                    │
+│     -> "아놔 겹쳤네 ㅠㅠ 내 임시 작업(150) 폐기하고 다시 시작!" (Rollback)       │
+│     -> 80을 새로 읽어와서 +50 하고 130으로 정상 업데이트 성공.                   │
+└──────────────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 구조의 위대함은 <strong>'그 누구도 블로킹(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/">Blocking</a>, 멈춤) 상태에 빠지지 않는다'</strong>는 점이다. 기존 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 시스템에서는 B가 일하는 동안 A는 잠들어 있어야 했다. 하지만 STM에서는 A와 B가 동시에 자신의 CPU 코어를 풀로 써서 계산을 진행한다. 운 나쁘게 충돌하면 A만 다시 계산하면 될 뿐, 전체 시스템이 멈추거나 데드락에 빠지는 재앙은 아예 일어날 수 없는 구조적 면역력을 갖게 된다.
 
@@ -117,19 +120,15 @@ STM의 핵심 철학은 <strong>낙관주의(Optimistic)</strong>다. "아마 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">원자적 트랜잭션 (Atomic Transaction) 개념</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">소프트웨어 트랜잭셔널 메모리 (STM)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">하드웨어 트랜잭셔널 메모리 (HTM</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">락 엘리전 (Lock Elision)</div></div>
-</div>
-</div>
-
-
+```text
+[원자적 트랜잭션 (Atomic Transaction) 개념]
+    │
+    ▼
+[소프트웨어 트랜잭셔널 메모리 (STM)]
+    │
+    ├──▶ [하드웨어 트랜잭셔널 메모리 (HTM]
+    └──▶ [락 엘리전 (Lock Elision)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

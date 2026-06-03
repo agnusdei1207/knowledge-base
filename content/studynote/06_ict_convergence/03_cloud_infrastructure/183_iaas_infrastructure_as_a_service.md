@@ -27,19 +27,17 @@ IaaS는 CSP가 운영하는 [데이터센터](/knowledge-base/studynote/03_netwo
 
 아래 그림은 왜 IaaS가 기존 조달 방식을 바꾸었는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">From hardware procurement to API provisioning</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">On-prem : plan -&gt; buy -&gt; rack -&gt; cable -&gt; install -&gt; operate</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IaaS : request VM -&gt; attach volume -&gt; open network -&gt; start</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Physical assets stay in the data center</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Logical resources are carved out on demand</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ From hardware procurement to API provisioning                     │
+├────────────────────────────────────────────────────────────────────┤
+│ On-prem : plan -> buy -> rack -> cable -> install -> operate      │
+│ IaaS    : request VM -> attach volume -> open network -> start    │
+│                                                                    │
+│ Physical assets stay in the data center                           │
+│ Logical resources are carved out on demand                        │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 이 변화의 본질은 속도만이 아니다. 인프라가 물리 장비 단위에서 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 자원 단위로 바뀌면서, 규모 확장과 장애 대응, 테스트 환경 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)까지 모두 코드와 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 다룰 수 있게 되었다.
 
@@ -51,24 +49,23 @@ IaaS는 CSP가 운영하는 [데이터센터](/knowledge-base/studynote/03_netwo
 
 IaaS의 핵심 원리는 제어 평면과 실행 평면의 분리다. 사용자는 콘솔이나 API로 자원을 요청하고, 제어 평면은 이미지·권한·[할당량](/knowledge-base/studynote/02_operating_system/09_file_system/551_quota_disk_limit/)·네트워크 규칙을 확인한 뒤, 실행 평면에서 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)·스토리지·가상 네트워크를 실제로 붙여 준다. 이 과정이 표준화되어 있기 때문에 사람이 장비를 설치하지 않아도 몇 분 안에 새 서버를 만들 수 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IaaS control flow</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User / IaC template</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">API call</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Control plane</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ image catalog</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ scheduler / quota</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Virtual Private Cloud (VPC) policy</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ monitoring / auto scaling</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ Hypervisor cluster ─▶ Virtual Machine (VM)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ Storage service ─▶ block / object data</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ IaaS control flow                                                 │
+├────────────────────────────────────────────────────────────────────┤
+│ User / IaC template                                               │
+│        │ API call                                                 │
+│        ▼                                                          │
+│ Control plane                                                     │
+│   ├─ image catalog                                                │
+│   ├─ scheduler / quota                                            │
+│   ├─ Virtual Private Cloud (VPC) policy                           │
+│   └─ monitoring / auto scaling                                    │
+│        │                                                          │
+│        ├─▶ Hypervisor cluster ─▶ Virtual Machine (VM)             │
+│        └─▶ Storage service   ─▶ block / object data               │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -115,24 +112,25 @@ IaaS를 정확히 이해하려면 [온프레미스](/knowledge-base/studynote/07
 
 아래 의사결정 흐름은 IaaS가 적합한지 빠르게 가르는 기준을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">When IaaS is the right fit</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Need OS / kernel / network appliance level control?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Yes ─▶ IaaS first</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ No</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Need only code deployment on managed runtime?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Yes ─▶ PaaS / managed container</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ No</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Is the workload mostly a finished business application?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Yes ─▶ SaaS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ No ─▶ reconsider hybrid or IaaS + automation</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ When IaaS is the right fit                                        │
+├────────────────────────────────────────────────────────────────────┤
+│ Need OS / kernel / network appliance level control?               │
+│        ├─ Yes ─▶ IaaS first                                        │
+│        └─ No                                                      │
+│             │                                                     │
+│             ▼                                                     │
+│ Need only code deployment on managed runtime?                     │
+│        ├─ Yes ─▶ PaaS / managed container                         │
+│        └─ No                                                      │
+│             │                                                     │
+│             ▼                                                     │
+│ Is the workload mostly a finished business application?           │
+│        ├─ Yes ─▶ SaaS                                             │
+│        └─ No  ─▶ reconsider hybrid or IaaS + automation           │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 ### 기술사 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -182,23 +180,20 @@ IaaS가 잘 도입되면 인프라 조달 속도가 빨라지고, 환경 [복제
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">물리 데이터센터 자원</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">가상화 · 자원 풀링</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">IaaS (Infrastructure as a Service)</div>
-<div class="kb-diagram-tree-item" style="--depth:4">VM · VPC · Block Storage</div>
-<div class="kb-diagram-tree-item" style="--depth:4">IaC · Auto Scaling</div>
-<div class="kb-diagram-tree-item" style="--depth:4">DR · Multi-region 운영</div>
-<div class="kb-diagram-tree-item" style="--depth:4">PaaS · Kubernetes 기반 인프라</div>
-</div>
-</div>
-
-
+```text
+물리 데이터센터 자원
+        │
+        ▼
+가상화 · 자원 풀링
+        │
+        ▼
+IaaS (Infrastructure as a Service)
+        │
+        ├──────────────► VM · VPC · Block Storage
+        ├──────────────► IaC · Auto Scaling
+        ├──────────────► DR · Multi-region 운영
+        └──────────────► PaaS · Kubernetes 기반 인프라
+```
 
 이 흐름은 하드웨어 중심 사고가 소프트웨어 정의 인프라로 넘어가고, 다시 상위 플랫폼 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 확장되는 경로를 보여 준다.
 

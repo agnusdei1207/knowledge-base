@@ -27,18 +27,14 @@ tags = ["studynote-network"]
   - **고정 타이머**: 매일 아침 "어제 1시간 30분 걸렸으니 내일도 1시간 30분 일찍 나가야지"라고 정하는 바보입니다.
   - **SRTT**: "내가 지난 1년 동안 다녀본 <strong>평균 시간(과거 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 87.5%)</strong>은 40분이었어. 오늘 사고가 나서 1시간 30분(최신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 12.5%)이 걸리긴 했지만, 내일 당장 1시간 30분 일찍 나갈 필요는 없고, 대충 **45분 정도** 걸릴 거라고 부드럽게 조정해서 나가야지."라며 튀는 변수를 억누르는 현명한 예측법입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">RTO 측정 방식</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">RTT, SRTT</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">칸 알고리즘</div></div>
-</div>
-</div>
-
-
+```text
+[RTO 측정 방식]
+    │
+    ▼
+[RTT, SRTT]
+    │
+    └──▶ [칸 알고리즘]
+```
 
 - **📢 섹션 요약 비유**: ** RTT가 롤러코스터처럼 미친 듯이 널뛰는 **"실시간 심박수 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)"**라면, SRTT는 그 튀는 값들을 다림질하듯 꾹꾹 눌러 펴서 부드럽게 만든 **"장기적인 체력 평균치 곡선"**입니다. TCP는 이 부드러운 곡선을 믿고 다음번 작전을 짭니다.
 
@@ -56,24 +52,24 @@ tags = ["studynote-network"]
 - **의미 해석**: `기존 평균값에 87.5%`의 무게를 두고, `방금 잰 최신값에 12.5%`의 무게만 둔다는 뜻이다.
 - **결과**: 방금 네트워크에 벼락이 쳐서 핑이 10ms에서 500ms로 튀었더라도, 공식에 넣으면 기존 10ms의 비중이 워낙 커서 새 SRTT는 기껏해야 70ms 정도로 부드럽게 상승한다. (네트워크의 일시적 발작에 호들갑 떨지 않음).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SRTT (이동 평균)의 노이즈 캔슬링 마법 시각화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간(ms)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">200</div><div class="kb-diagram-cell">*(방금 잰 RTT가 미친듯이 튐!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">100</div><div class="kb-diagram-cell">/ \</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ \ ─ * ─ * ─ (실제 RTT 널뛰기)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">50</div><div class="kb-diagram-cell">* ─ * ─ / \ /</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">30</div><div class="kb-diagram-cell">* ─ * ─ * ─ * ─ * ─ * ─ * ─ * ─ * ─ (SRTT 곡선)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">____________________________________ 시간(RTT)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ "실제 RTT(*)가 200ms로 치솟아도, SRTT(*)는 과거의 무게감 때문에</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">30ms에서 살짝만 올라가며 차분함을 유지한다."</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                SRTT (이동 평균)의 노이즈 캔슬링 마법 시각화          │
+ ├─────────────────────────────────────────────────────────────┤
+ │ 시간(ms)                                                      │
+ │ 200 |              *(방금 잰 RTT가 미친듯이 튐!)                    │
+ │     |             / \                                       │
+ │ 100 |            /   \                                      │
+ │     |           /     \    ─ * ─ * ─ (실제 RTT 널뛰기)          │
+ │  50 |  * ─ * ─ /       \ /                                  │
+ │     |         /                                             │
+ │  30 |  * ─ * ─ * ─ * ─ * ─ * ─ * ─ * ─ * ─ (SRTT 곡선)         │
+ │     |____________________________________ 시간(RTT)            │
+ │                                                             │
+ │   ▶ "실제 RTT(*)가 200ms로 치솟아도, SRTT(*)는 과거의 무게감 때문에   │
+ │      30ms에서 살짝만 올라가며 차분함을 유지한다."                    │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 2. RTTVAR (RTT 편차)의 추가
 SRTT만으로는 부족하다. 평균이 50ms라도, 맨날 50ms로 일정하게 들어오는 안정적인 망과, 10ms와 90ms를 왔다 갔다 하는 미친 망(편차가 큼)은 다르게 대우해야 한다.
@@ -136,19 +132,15 @@ RTT, SRTT는 전송 계층을 이해할 때 핵심 축을 잡아 주는 개념�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: RTO 측정 방식</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: RTT, SRTT</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 칸 알고리즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: RTO 측정 방식]
+    │
+    ▼
+[현재 개념: RTT, SRTT]
+    │
+    ├──▶ [확장 A: 칸 알고리즘]
+    └──▶ [확장 B: 적응형 저지연 전송]
+```
 
 RTT, SRTT는 [RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/) 측정 방식에서 출발해 현재 메커니즘을 정교화하고, 이후 칸 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

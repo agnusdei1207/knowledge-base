@@ -35,23 +35,24 @@ CPI의 계산은 단순하지만, 해석은 [EVM](/knowledge-base/studynote/12_i
 
 아래 그림은 EVM에서 CPI가 어떤 정보 흐름으로 만들어지는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPI가 만들어지는 EVM 정보 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기준선(Baseline) ──▶ PV(Planned Value, 계획 가치)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실제 진척률 측정 ─▶ EV(Earned Value, 획득 가치)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실제 지출 집계 ▶ AC(Actual Cost, 실제 비용)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EV ÷ AC = CPI</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ CPI &gt; 1 : 예산보다 효율적</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ CPI = 1 : 계획과 일치</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ CPI &lt; 1 : 예산보다 비효율적</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BAC ÷ CPI = EAC(완료 예상 총비용)</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│                 CPI가 만들어지는 EVM 정보 흐름                    │
+├────────────────────────────────────────────────────────────────────┤
+│ 기준선(Baseline) ──▶ PV(Planned Value, 계획 가치)                │
+│                            │                                      │
+│ 실제 진척률 측정 ──────────┴─▶ EV(Earned Value, 획득 가치)        │
+│ 실제 지출 집계 ─────────────▶ AC(Actual Cost, 실제 비용)          │
+│                                                                    │
+│ EV ÷ AC = CPI                                                      │
+│    │                                                               │
+│    ├─▶ CPI > 1 : 예산보다 효율적                                  │
+│    ├─▶ CPI = 1 : 계획과 일치                                      │
+│    └─▶ CPI < 1 : 예산보다 비효율적                                │
+│                                                                    │
+│ BAC ÷ CPI = EAC(완료 예상 총비용)                                 │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 예를 들어 EV가 8억 원이고 AC가 10억 원이면 CPI는 0.8이다. 이는 1원을 써서 0.8원어치 가치만 만들고 있다는 뜻이며, 현재 효율이 유지된다고 가정하면 완료 시점 총비용은 BAC보다 커질 가능성이 높다. 이처럼 CPI는 단순 상태 보고를 넘어 미래 예측으로 바로 연결된다.
 
@@ -143,24 +144,22 @@ CPI를 제대로 운영하면 비용 문제를 늦게 발견하는 일을 줄일
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">기준선 수립(BAC · PV)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">진척 측정(EV) + 비용 집계(AC)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CPI (Cost Performance Index)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ CV (Cost Variance)와 비용 차이 확인</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ SPI (Schedule Performance Index)와 일정 결합 분석</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ EAC / ETC / TCPI로 미래 예측</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">재계획 · 예산 조정 · 포트폴리오 통제</div>
-</div>
-</div>
-
-
+```text
+기준선 수립(BAC · PV)
+    │
+    ▼
+진척 측정(EV) + 비용 집계(AC)
+    │
+    ▼
+CPI (Cost Performance Index)
+    │
+    ├─▶ CV (Cost Variance)와 비용 차이 확인
+    ├─▶ SPI (Schedule Performance Index)와 일정 결합 분석
+    └─▶ EAC / ETC / TCPI로 미래 예측
+            │
+            ▼
+재계획 · 예산 조정 · 포트폴리오 통제
+```
 
 이 흐름은 CPI가 단일 숫자로 끝나는 것이 아니라, 현재 효율에서 미래 의사결정으로 이어지는 관리 체계의 중심임을 보여준다.
 

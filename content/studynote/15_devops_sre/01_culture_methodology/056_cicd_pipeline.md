@@ -31,27 +31,21 @@ tags = ["studynote-devops-sre"]
 
 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 보통 다음 순서로 움직인다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Commit</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Build</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Test</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Security Scan</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Package / Artifact</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Deploy</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Verify / Observe</div>
-</div>
-</div>
-
-
+```text
+Commit
+  ↓
+Build
+  ↓
+Test
+  ↓
+Security Scan
+  ↓
+Package / Artifact
+  ↓
+Deploy
+  ↓
+Verify / Observe
+```
 
 각 단계는 실패하면 다음 단계로 넘어가지 않는다. 그래서 문제를 뒤늦게 찾지 않고, 작은 구간에서 바로 멈출 수 있다.
 
@@ -112,21 +106,15 @@ tags = ["studynote-devops-sre"]
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">코드 커밋</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">자동 빌드 / 테스트 / 스캔</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">패키징 / 배포</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">검증 / 관측 / 롤백</div>
-</div>
-</div>
-
-
+```text
+코드 커밋
+   ↓
+자동 빌드 / 테스트 / 스캔
+   ↓
+패키징 / 배포
+   ↓
+검증 / 관측 / 롤백
+```
 
 ---
 

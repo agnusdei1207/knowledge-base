@@ -29,23 +29,19 @@ tags = ["studynote-ict-convergence"]
 
 ### [마이크로 프론트엔드](/knowledge-base/studynote/12_it_management/05_security_compliance/239_micro_frontends_architecture/) [Module Federation](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/557_webpack_module_federation/) 구조
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">App Shell (호스트)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">──</div><div class="kb-diagram-node">Module Federation</div><div class="kb-diagram-note">──► 팀 A: 결제 UI (독립 배포)</div></div>
-<div class="kb-diagram-note">React 18, 자체 CI/CD</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">──</div><div class="kb-diagram-node">Module Federation</div><div class="kb-diagram-note">──► 팀 B: 상품 UI (독립 배포)</div></div>
-<div class="kb-diagram-note">Vue 3, 자체 CI/CD</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">──</div><div class="kb-diagram-node">Module Federation</div><div class="kb-diagram-note">──► 팀 C: 추천 UI (독립 배포)</div></div>
-<div class="kb-diagram-note">Angular 17, 자체 CI/CD</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">런타임 공유 의존성 (React, lodash → 중복 제거)</div>
-</div>
-</div>
-
-
+```
+  App Shell (호스트)
+       │
+       ├──[Module Federation]──► 팀 A: 결제 UI (독립 배포)
+       │                         React 18, 자체 CI/CD
+       ├──[Module Federation]──► 팀 B: 상품 UI (독립 배포)
+       │                         Vue 3, 자체 CI/CD
+       └──[Module Federation]──► 팀 C: 추천 UI (독립 배포)
+                                  Angular 17, 자체 CI/CD
+            │
+            ▼
+       런타임 공유 의존성 (React, lodash → 중복 제거)
+```
 
 | 기술 | 핵심 원리 | 주요 사례/표준 |
 |:---|:---|:---|

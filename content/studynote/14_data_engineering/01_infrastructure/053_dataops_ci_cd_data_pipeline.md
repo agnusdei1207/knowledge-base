@@ -109,21 +109,18 @@ DataOps는 lineage와 [데이터 카탈로그](/knowledge-base/studynote/12_it_m
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">데이터 코드화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CI (검증)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CD (승격)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">품질/라인리지/모니터링</div>
-</div>
-</div>
-
-
+```text
+데이터 코드화
+    │
+    ▼
+CI (검증)
+    │
+    ▼
+CD (승격)
+    │
+    ▼
+품질/라인리지/모니터링
+```
 
 이 흐름은 [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)이 수작업 운영에서 자동화된 신뢰 운영으로 발전하는 과정을 보여준다.
 

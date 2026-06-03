@@ -35,25 +35,28 @@ tags = ["studynote-devops-sre"]
 
 아래 구조는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 호출과 텔레메트리 수집이 어떻게 동시에 일어나는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sidecar Telemetry Flow</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pod A Pod B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App A</div><div class="kb-diagram-cell">App B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">outbound</div><div class="kb-diagram-cell">inbound</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">mTLS / L7 routing</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sidecar A</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Sidecar B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">metrics</div><div class="kb-diagram-cell">metrics</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">logs</div><div class="kb-diagram-cell">logs</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">traces</div><div class="kb-diagram-cell">traces</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">telemetry export</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Prometheus / Loki / Jaeger / Grafana / Kiali</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│                 Sidecar Telemetry Flow                            │
+├────────────────────────────────────────────────────────────────────┤
+│ Pod A                                Pod B                        │
+│ ┌──────────────┐                     ┌──────────────┐             │
+│ │ App A        │                     │ App B        │             │
+│ └──────┬───────┘                     └──────┬───────┘             │
+│        │ outbound                              │ inbound          │
+│        ▼                                       ▲                  │
+│   ┌───────────┐      mTLS / L7 routing    ┌───────────┐          │
+│   │ Sidecar A │──────────────────────────▶│ Sidecar B │          │
+│   │ metrics   │                           │ metrics   │          │
+│   │ logs      │                           │ logs      │          │
+│   │ traces    │                           │ traces    │          │
+│   └─────┬─────┘                           └─────┬─────┘          │
+│         │ telemetry export                      │                 │
+│         └──────────────┬────────────────────────┘                 │
+│                        ▼                                          │
+│      Prometheus / Loki / Jaeger / Grafana / Kiali                │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림이 보여주는 핵심은 "비즈니스 호출 경로"와 "관측 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로"가 분리되어 있다는 점이다. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 서로 호출만 알면 되고, [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)가 별도 경로로 관측 시스템에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보낸다. 그래서 코드 수정은 줄고 운영 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)은 높아진다.
 
@@ -136,24 +139,23 @@ tags = ["studynote-devops-sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">마이크로서비스 확산</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">서비스 간 통신 복잡도 증가</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">서비스 메시 (Service Mesh)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">사이드카 프록시 텔레메트리</div>
-<div class="kb-diagram-note">── Metrics / Logs / Traces</div>
-<div class="kb-diagram-note">── mTLS · Traffic Policy</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">OTel 연계 · eBPF 기반 경량 관측 · Ambient Mesh</div>
-</div>
-</div>
-
-
+```text
+마이크로서비스 확산
+    │
+    ▼
+서비스 간 통신 복잡도 증가
+    │
+    ▼
+서비스 메시 (Service Mesh)
+    │
+    ├── 사이드카 프록시 텔레메트리
+    │       │
+    │       ├── Metrics / Logs / Traces
+    │       └── mTLS · Traffic Policy
+    │
+    ▼
+OTel 연계 · eBPF 기반 경량 관측 · Ambient Mesh
+```
 
 이 흐름은 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 통신 복잡도를 해결하기 위해 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)가 등장하고, 이후 더 낮은 오버헤드와 더 깊은 관측을 향해 진화하는 방향을 보여준다.
 

@@ -43,22 +43,21 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 멀티스레딩에서 공유 영역과 개별 영역이 어떻게 나뉘는지, 그리고 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) (OS, [Operating System](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 이를 어떻게 코어에 배치하는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">One Process with Multiple Threads: shared + private</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Shared within process</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Code</div><div class="kb-diagram-cell">Global Data</div><div class="kb-diagram-cell">Heap</div><div class="kb-diagram-cell">Open Files</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Thread A</div><div class="kb-diagram-cell">Thread B</div><div class="kb-diagram-cell">Thread C</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PC / Registers</div><div class="kb-diagram-cell">PC / Registers</div><div class="kb-diagram-cell">PC / Registers</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Stack</div><div class="kb-diagram-cell">Stack</div><div class="kb-diagram-cell">Stack</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS Scheduler ▶ Core 0 / Core 1 / Core 2 로 배치</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 단일 코어면 시간 분할(Time Slicing) 수행</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│         One Process with Multiple Threads: shared + private         │
+├──────────────────────────────────────────────────────────────────────┤
+│ Shared within process                                               │
+│   Code  │  Global Data  │  Heap  │  Open Files                      │
+├──────────────────────────────────────────────────────────────────────┤
+│ Thread A            │ Thread B            │ Thread C                │
+│ PC / Registers      │ PC / Registers      │ PC / Registers          │
+│ Stack               │ Stack               │ Stack                   │
+├──────────────────────────────────────────────────────────────────────┤
+│ OS Scheduler  ─────────▶  Core 0 / Core 1 / Core 2 로 배치          │
+│                       └▶  단일 코어면 시간 분할(Time Slicing) 수행   │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 단일 코어에서는 여러 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 실제로 동시에 실행되지 않더라도 시간 분할 (Time Slicing)을 통해 번갈아 실행되므로 사용자에게는 동시성처럼 보인다. 멀티코어에서는 서로 다른 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 다른 코어에서 실제 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 실행될 수 있어 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 향상 효과가 커진다. 그러나 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 수가 코어 수보다 지나치게 많아지면 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) ([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)) 비용이 늘고, 같은 캐시 라인을 두고 경쟁하는 [거짓 공유](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/) ([False Sharing](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/)) 같은 미세 병목도 드러난다.
 
@@ -135,24 +134,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단일 실행 흐름</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">프로세스 기반 분리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">멀티스레딩 (Multithreading)</div>
-<div class="kb-diagram-tree-item" style="--depth:3">▶ 스레드 풀 (Thread Pool)</div>
-<div class="kb-diagram-tree-item" style="--depth:3">▶ 동기화 (Mutex / Semaphore / Atomic Operation)</div>
-<div class="kb-diagram-tree-item" style="--depth:3">▶ 거짓 공유 (False Sharing) 대응</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">멀티코어 · SMT · 가상 스레드로 확장</div>
-</div>
-</div>
-
-
+```text
+단일 실행 흐름
+      │
+      ▼
+프로세스 기반 분리
+      │
+      ▼
+멀티스레딩 (Multithreading)
+      │
+      ├──▶ 스레드 풀 (Thread Pool)
+      ├──▶ 동기화 (Mutex / Semaphore / Atomic Operation)
+      ├──▶ 거짓 공유 (False Sharing) 대응
+      ▼
+멀티코어 · SMT · 가상 스레드로 확장
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

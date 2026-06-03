@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - [VPC](/knowledge-base/studynote/03_network/16_data_center_cloud/836_vpc_virtual_private_cloud_subnet_isolation/)([가상 사설망](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/)) 안에 여러 개의 서브넷(방)을 만들면, 각 방마다 '[라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블(이정표)'을 하나씩 배정해 줍니다.
 - 이 이정표에 <strong>"외부 인터넷(0.0.0.0/0)으로 가려면 어느 문을 통과해야 하는가?"</strong>를 어떻게 적어놓느냐에 따라 Public 서브넷과 Private 서브넷의 운명이 완벽하게 갈립니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">VPC</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">클라우드 서브넷 및 게이트웨이</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Direct Connect / Express…</div></div>
-</div>
-</div>
-
-
+```text
+[VPC]
+    │
+    ▼
+[클라우드 서브넷 및 게이트웨이]
+    │
+    └──▶ [Direct Connect / Express…]
+```
 
 - **📢 섹션 요약 비유**: 클라우드 서브넷 및 게이트웨이는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -46,18 +42,14 @@ tags = ["studynote-network"]
   - 서브넷 A의 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블에 `목적지: 0.0.0.0/0 ➜ 타겟: IGW`라고 적어주면, 그 방은 그 즉시 <strong>Public Subnet(공개 방)</strong>으로 변신합니다.
   - 여기에 있는 웹서버(EC2)는 공인 IP(Public IP)를 부여받아, 손님(인터넷 사용자)이 밖에서 내 서버로 직접 치고 들어올 수 있습니다. (웹서버, 로드밸런서 배치 구역)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">VPC</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">클라우드 서브넷 및 게이트웨이</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Direct Connect / Express…</div></div>
-</div>
-</div>
-
-
+```text
+[VPC]
+    │
+    ▼
+[클라우드 서브넷 및 게이트웨이]
+    │
+    └──▶ [Direct Connect / Express…]
+```
 
 - **📢 섹션 요약 비유**: 클라우드 서브넷 및 게이트웨이의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -118,19 +110,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: VPC</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 클라우드 서브넷 및 게이트웨이</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: Direct Connect / Express…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: VPC]
+    │
+    ▼
+[현재 개념: 클라우드 서브넷 및 게이트웨이]
+    │
+    ├──▶ [확장 A: Direct Connect / Express…]
+    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
+```
 
 클라우드 서브넷 및 게이트웨이는 VPC에서 출발해 현재 메커니즘을 정교화하고, 이후 [Direct Connect](/knowledge-base/studynote/03_network/16_data_center_cloud/838_direct_connect_expressroute_cloud_leased_line/) / Express…와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

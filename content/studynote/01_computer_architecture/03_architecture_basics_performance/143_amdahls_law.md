@@ -43,22 +43,22 @@ Max\ [Speedup](/knowledge-base/studynote/01_computer_architecture/03_architectur
 
 예를 들어 전체 작업의 90%만 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 가능하다면, 코어를 아무리 많이 추가해도 최대 속도 향상은 10배다. 95% [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화라면 상한은 20배다. 이 계산은 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 하드웨어의 가치를 평가할 때 "몇 개 넣을 수 있느냐"보다 "얼마나 순차 비율을 줄였느냐"가 더 중요함을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">암달의 법칙이 보여주는 병렬화의 한계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전체 실행 시간 = 순차 구간 + 병렬 구간</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1코어 실행:</div><div class="kb-diagram-node">순차 10%</div><div class="kb-diagram-node">병렬 90%</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">4코어 실행:</div><div class="kb-diagram-node">순차 10%</div><div class="kb-diagram-node">병렬 90% / 4로 분할 처리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">64코어 실행:</div><div class="kb-diagram-node">순차 10%</div><div class="kb-diagram-node">병렬 90% / 64로 더 작아짐</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">그런데도 남는 것</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">순차 10%는 끝까지 그대로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">N → ∞ 여도 전체 속도 향상 상한 = 1 / 0.10 = 10배</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                  암달의 법칙이 보여주는 병렬화의 한계               │
+├──────────────────────────────────────────────────────────────────────┤
+│ 전체 실행 시간 = 순차 구간 + 병렬 구간                              │
+│                                                                      │
+│ 1코어 실행:   [ 순차 10% ][                병렬 90%                ] │
+│ 4코어 실행:   [ 순차 10% ][      병렬 90% / 4로 분할 처리         ] │
+│ 64코어 실행:  [ 순차 10% ][ 병렬 90% / 64로 더 작아짐             ] │
+│                                                                      │
+│ 그런데도 남는 것                                                     │
+│                └──────────── 순차 10%는 끝까지 그대로 ────────────┘ │
+│                                                                      │
+│ N → ∞ 여도 전체 속도 향상 상한 = 1 / 0.10 = 10배                    │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 요점은 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 구간은 계속 쪼갤 수 있어도, 순차 구간은 전체 시간의 바닥처럼 남는다는 점이다. 실제 시스템에서는 여기에 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/), [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 비용까지 추가되므로 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 이론치보다 더 낮아지는 경우가 많다.
 
@@ -137,27 +137,26 @@ Max\ [Speedup](/knowledge-base/studynote/01_computer_architecture/03_architectur
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">컴퓨터 성능 측정</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">실행 시간 분해</div>
-<div class="kb-diagram-note">(컴퓨터 성능 방정식, Performance Equation)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">부분 개선의 전체 효과 분석</div>
-<div class="kb-diagram-note">(암달의 법칙, Amdahl's Law)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 병렬 효율성 · 멀티코어 투자 한계 판단</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">고정 문제 크기의 한계 보완</div>
-<div class="kb-diagram-note">(구스타프슨의 법칙, Gustafson's Law)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">대규모 병렬 처리 · 가속기 · 분산 확장 전략</div>
-</div>
-</div>
-
-
+```text
+컴퓨터 성능 측정
+    │
+    ▼
+실행 시간 분해
+(컴퓨터 성능 방정식, Performance Equation)
+    │
+    ▼
+부분 개선의 전체 효과 분석
+(암달의 법칙, Amdahl's Law)
+    │
+    ├──▶ 병렬 효율성 · 멀티코어 투자 한계 판단
+    │
+    ▼
+고정 문제 크기의 한계 보완
+(구스타프슨의 법칙, Gustafson's Law)
+    │
+    ▼
+대규모 병렬 처리 · 가속기 · 분산 확장 전략
+```
 
 이 흐름은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 "측정"하는 단계에서 출발해, "부분 개선의 효과 계산"을 거쳐, "확장 전략의 재해석"으로 이어지는 사고의 순서를 보여 준다.
 

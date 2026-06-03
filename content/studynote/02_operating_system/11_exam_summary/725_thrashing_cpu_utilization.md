@@ -48,21 +48,23 @@ tags = ["studynote-operating-system"]
 
 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 교과서에서 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)을 설명할 때 반드시 등장하는, [다중 프로그래밍 정도](/knowledge-base/studynote/02_operating_system/04_synchronization/258_degree_of_multiprogramming/)(N)와 CPU 이용률의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다중 프로그래밍 정도 (N) 와 CPU Utilization의 관계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 이용률 (%)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">100</div><div class="kb-diagram-cell">/■■■■■■■■■\</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Thrashing Point (임계점)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ \ (수직 낙하)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0 ▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">적음 적정 수준 많음 다중 프로그래밍 정도 (N)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 다중 프로그래밍 정도 (N) 와 CPU Utilization의 관계       │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │  CPU 이용률 (%)                                                      │
+  │   100 │                 /■■■■■■■■■\                               │
+  │       │               /         \ ◀── [Thrashing Point (임계점)] │
+  │       │             /            \                                │
+  │       │           /               \                               │
+  │       │         /                  \                              │
+  │       │       /                     \   (수직 낙하)                 │
+  │       │     /                        \                            │
+  │    0  └────┼──────────┼───────────────┼──────────▶                │
+  │           적음         적정 수준          많음     다중 프로그래밍 정도 (N)│
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 
 1. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에는 N을 늘릴수록 (앱을 많이 켤수록) CPU가 I/O 대기 시간에 딴짓을 할 수 있어 CPU 이용률이 정비례로 쫙쫙 오른다.
@@ -120,26 +122,28 @@ tags = ["studynote-operating-system"]
 
 ### 의사결정 및 튜닝 플로우
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 부족 및 스래싱(Thrashing) 대응 아키텍처 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">서버의 CPU <code>wa(I/O Wait)</code>가 50% 이상 치솟고 응답 지연이 폭발함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell"><code>free -m</code> 명령어로 확인 시 Swap 영역(Swap used)을 미친 듯이 쓰고 있는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스래싱(Thrashing) 확진!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대책 1: 원인 앱의 메모리 누수(Leak) 픽스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대책 2: Scale-up (RAM 하드웨어 즉각 증설)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ──▶ 단순한 디스크 I/O 병목이거나 네트워크/DB 대기임.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라우드/K8s 환경에서 스래싱으로 인한 동반 장애를 막으려면?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Swap 끄기 (Swapoff) + Resource Limit 강제</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결론: K8s는 스왑을 쓰는 것(느려지는 것)을 극도로 혐오한다.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">아예 스왑을 꺼서 스래싱 자체가 성립 못 하게 만들고,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리를 넘기면 즉시 OOM Kill로 쳐내어 Fail-Fast를 유도함.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 메모리 부족 및 스래싱(Thrashing) 대응 아키텍처 플로우        │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [서버의 CPU `wa(I/O Wait)`가 50% 이상 치솟고 응답 지연이 폭발함]           │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      `free -m` 명령어로 확인 시 Swap 영역(Swap used)을 미친 듯이 쓰고 있는가?│
+  │          ├─ 예 ─────▶ [스래싱(Thrashing) 확진!]                     │
+  │          │            대책 1: 원인 앱의 메모리 누수(Leak) 픽스             │
+  │          │            대책 2: Scale-up (RAM 하드웨어 즉각 증설)          │
+  │          └─ 아니오 ──▶ 단순한 디스크 I/O 병목이거나 네트워크/DB 대기임.      │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      클라우드/K8s 환경에서 스래싱으로 인한 동반 장애를 막으려면?               │
+  │          ├──▶ [Swap 끄기 (Swapoff) + Resource Limit 강제]          │
+  │          │    결론: K8s는 스왑을 쓰는 것(느려지는 것)을 극도로 혐오한다.       │
+  │          │          아예 스왑을 꺼서 스래싱 자체가 성립 못 하게 만들고,        │
+  │          │          메모리를 넘기면 즉시 OOM Kill로 쳐내어 Fail-Fast를 유도함.│
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** "스왑(Swap)을 넉넉히 잡아두면 서버가 안 죽어서 좋겠지?"는 최악의 운영 마인드다. 스왑은 서버를 살려두는 게 아니라, 서버가 <strong>산 채로 썩어가며(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/">Thrashing</a>) 아무 응답도 못 하는 좀비</strong>로 만드는 악마의 공간이다. 현대 엔터프라이즈 환경에서는 스왑을 아예 0으로 끄거나 2GB 정도로 최소화하고, 차라리 깔끔하게 OOM으로 뻗고(Crash) 자동 재시작(Restart)하게 만드는 것이 최고의 아키텍처다.
 
@@ -181,19 +185,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">최적 알고리즘 (OPT) 구현 불가</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스래싱 (Thrashing) CPU 이용률 저하</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">워킹 셋 (Working Set) 메모리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">디스크 스케줄링 SCAN 엘리베이터</div></div>
-</div>
-</div>
-
-
+```text
+[최적 알고리즘 (OPT) 구현 불가]
+    │
+    ▼
+[스래싱 (Thrashing) CPU 이용률 저하]
+    │
+    ├──▶ [워킹 셋 (Working Set) 메모리]
+    └──▶ [디스크 스케줄링 SCAN 엘리베이터]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

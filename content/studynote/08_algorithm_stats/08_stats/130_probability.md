@@ -47,19 +47,17 @@ tags = ["studynote-algorithm"]
 - **장점**: 반복 불가능한 사건에도 적용, 사전 지식 통합 가능
 - **한계**: 주관성, 사람마다 다른 값 가능
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">세 가지 확률 관점 비교</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">관점</div><div class="kb-diagram-cell">정의 기반</div><div class="kb-diagram-cell">대표 활용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고전적</div><div class="kb-diagram-cell">동등 가능성</div><div class="kb-diagram-cell">주사위·카드 게임</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상대도수</div><div class="kb-diagram-cell">극한 비율</div><div class="kb-diagram-cell">품질관리·보험</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주관적</div><div class="kb-diagram-cell">믿음의 정도</div><div class="kb-diagram-cell">베이즈 추론·AI</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────┐
+│          세 가지 확률 관점 비교              │
+├────────────┬──────────────┬──────────────────┤
+│ 관점       │ 정의 기반    │ 대표 활용        │
+├────────────┼──────────────┼──────────────────┤
+│ 고전적     │ 동등 가능성  │ 주사위·카드 게임 │
+│ 상대도수   │ 극한 비율    │ 품질관리·보험    │
+│ 주관적     │ 믿음의 정도  │ 베이즈 추론·AI   │
+└────────────┴──────────────┴──────────────────┘
+```
 
 📢 **섹션 요약 비유**: 같은 유리컵에 물이 반쯤 차 있을 때, "정확히 50% 찼다"(고전), "많이 채우면 항상 이렇다"(빈도), "내 경험상 절반쯤 될 것 같다"(주관)고 보는 것처럼, 세 관점은 같은 현상을 다른 렌즈로 읽는다.
 
@@ -77,22 +75,23 @@ tags = ["studynote-algorithm"]
 
 <strong>표본공간 <a href="/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/">시각화</a> — 동전 2회 던지기</strong>
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ω = { HH, HT, TH, TT }</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A: 앞면</div><div class="kb-diagram-cell">B: 첫번째</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1개 이상</div><div class="kb-diagram-cell">앞면</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">{HH,HT,TH}</div><div class="kb-diagram-cell">{HH, HT}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A∩B = {HH,HT}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P(A) = 3/4 P(B) = 2/4 = 1/2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P(A∪B) = P(A)+P(B)-P(A∩B)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">= 3/4 + 2/4 - 2/4 = 3/4</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────┐
+│  Ω = { HH, HT, TH, TT }                │
+│                                         │
+│  ┌─────────────┐   ┌─────────────┐     │
+│  │    A: 앞면  │   │    B: 첫번째 │     │
+│  │  1개 이상   │   │    앞면      │     │
+│  │  {HH,HT,TH}│   │  {HH, HT}   │     │
+│  │     ┌──────┴───┴──────┐       │     │
+│  │     │  A∩B = {HH,HT} │       │     │
+│  └─────┴─────────────────┴───────┘     │
+│                                         │
+│  P(A) = 3/4   P(B) = 2/4 = 1/2         │
+│  P(A∪B) = P(A)+P(B)-P(A∩B)             │
+│         = 3/4 + 2/4 - 2/4 = 3/4        │
+└─────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 표본공간은 가능한 모든 시나리오가 담긴 메뉴판이고, 사건은 그 메뉴판에서 고른 항목들의 묶음이다.
 
@@ -133,21 +132,20 @@ P(A∪B) = P(A) + P(B) - P(A∩B)
 
 ### 확률 계산 절차
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Step 1: 표본공간 Ω 정의</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Step 2: 관심 사건 A 정의</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Step 3: 계산 방법 선택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 고전:</div><div class="kb-diagram-cell">A</div><div class="kb-diagram-cell">/</div><div class="kb-diagram-cell">Ω</div><div class="kb-diagram-cell">나열</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 빈도: 실험 데이터 수집</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 주관: 사전 지식 + 베이즈 추론</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Step 4: 공리 검증 (0≤P≤1, ΣP=1)</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────┐
+│  Step 1: 표본공간 Ω 정의                    │
+│      ↓                                      │
+│  Step 2: 관심 사건 A 정의                   │
+│      ↓                                      │
+│  Step 3: 계산 방법 선택                     │
+│      ├─ 고전: |A|/|Ω| 나열                  │
+│      ├─ 빈도: 실험 데이터 수집              │
+│      └─ 주관: 사전 지식 + 베이즈 추론       │
+│      ↓                                      │
+│  Step 4: 공리 검증 (0≤P≤1, ΣP=1)           │
+└─────────────────────────────────────────────┘
+```
 
 | 공식 | 수식 | 사용 조건 |
 |:---:|:---:|:---|
@@ -178,21 +176,21 @@ P(A∪B) = P(A) + P(B) - P(A∩B)
 - 환경 전이 확률 (Transition Probability): `P(s'|s, a)` — 상태 s 에서 행동 a 후 s' 로 이동할 확률
 - [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) ([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)): `π(a|s)` — 상태 s 에서 행동 a 를 선택할 확률
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">알고리즘 설계에서 확률의 역할</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결정론적 알고리즘 확률적 알고리즘</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">같은 입력</div><div class="kb-diagram-cell">같은 입력</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">같은 출력</div><div class="kb-diagram-cell">확률 분포에서 샘플</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(결정적)</div><div class="kb-diagram-cell">↓</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기댓값 보장 결과</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">O(nlogn)</div><div class="kb-diagram-note">)</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────┐
+│  알고리즘 설계에서 확률의 역할                        │
+│                                                      │
+│  결정론적 알고리즘          확률적 알고리즘           │
+│  ┌─────────────┐           ┌─────────────────────┐   │
+│  │ 같은 입력   │           │ 같은 입력           │   │
+│  │    ↓        │           │    ↓                │   │
+│  │ 같은 출력   │           │ 확률 분포에서 샘플  │   │
+│  │ (결정적)    │           │    ↓                │   │
+│  └─────────────┘           │ 기댓값 보장 결과    │   │
+│                            └─────────────────────┘   │
+│  QuickSort(최악 O(n²))  →  RandQuickSort(E[O(nlogn)])│
+└──────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 확률은 "될 것 같은 길"을 수치로 표현해서, AI가 수백만 개의 선택지 중 가장 그럴싸한 답을 고르게 해주는 나침반이다.
 
@@ -213,21 +211,18 @@ P(A∪B) = P(A) + P(B) - P(A∩B)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">고전적 확률</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상대도수 확률</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">주관적 확률</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">콜모고로프 공리</div></div>
-</div>
-</div>
-
-
+```text
+[고전적 확률]
+    │
+    ▼
+[상대도수 확률]
+    │
+    ▼
+[주관적 확률]
+    │
+    ▼
+[콜모고로프 공리]
+```
 
 이 흐름도는 선행 개념이 현재 개념으로 응축되고, 다시 확장 개념으로 이어지는 순서를 보여준다.
 

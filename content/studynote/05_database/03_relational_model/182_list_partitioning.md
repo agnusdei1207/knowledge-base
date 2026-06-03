@@ -25,20 +25,18 @@ tags = ["studynote-database"]
 
 아래 그림은 리스트 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)이 <strong>업무 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a> 축을 그대로 저장 경계로 고정</strong>한다는 점을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Business code becomes a physical boundary</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">region = SEOUL -&gt; P_CAPITAL</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">region = BUSAN -&gt; P_SOUTH</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">region = GANGWON -&gt; P_EAST</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">region = others -&gt; P_DEFAULT</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">effect: query, archive, access policy follow the same code axis</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Business code becomes a physical boundary                          │
+├────────────────────────────────────────────────────────────────────┤
+│ region = SEOUL      -> P_CAPITAL                                   │
+│ region = BUSAN      -> P_SOUTH                                     │
+│ region = GANGWON    -> P_EAST                                      │
+│ region = others     -> P_DEFAULT                                   │
+│                                                                    │
+│ effect: query, archive, access policy follow the same code axis    │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 핵심은 이 구조가 단순한 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)표가 아니라는 점이다. [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 단위 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/), [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 단위 삭제, 특정 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)만 대상으로 한 통계 수집과 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 관리가 가능해지므로, 리스트 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)뿐 아니라 운영 거버넌스 수단이 되기도 한다.
 
@@ -66,20 +64,22 @@ PARTITION BY LIST (region_code) (
 
 아래 그림은 입력 시점과 조회 시점에 리스트 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)이 어떻게 동작하는지 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)한 것이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Insert routing in list partitioning</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">incoming row</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">read partition key = region_code</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ value in explicit list? ─ Yes ─▶ target partition</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ No ─▶ P_DEFAULT or insert error</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">query region_code = 'BUSAN' -&gt; prune all unrelated partitions</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Insert routing in list partitioning                                │
+├────────────────────────────────────────────────────────────────────┤
+│ incoming row                                                       │
+│    │                                                               │
+│    ▼                                                               │
+│ read partition key = region_code                                   │
+│    │                                                               │
+│    ├─ value in explicit list? ─ Yes ─▶ target partition            │
+│    │                                                               │
+│    └─ No ─▶ P_DEFAULT or insert error                              │
+│                                                                    │
+│ query region_code = 'BUSAN' -> prune all unrelated partitions      │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -168,23 +168,20 @@ PARTITION BY LIST (region_code) (
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">업무 코드 분리 필요</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">명시적 값 목록 설계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">리스트 파티셔닝 (List Partitioning)</div>
-<div class="kb-diagram-tree-item" style="--depth:4">동등 조건 프루닝</div>
-<div class="kb-diagram-tree-item" style="--depth:4">지역별/채널별 독립 관리</div>
-<div class="kb-diagram-tree-item" style="--depth:4">DEFAULT 파티션 운영</div>
-<div class="kb-diagram-tree-item" style="--depth:4">Range + List / List + Hash 확장</div>
-</div>
-</div>
-
-
+```text
+업무 코드 분리 필요
+        │
+        ▼
+명시적 값 목록 설계
+        │
+        ▼
+리스트 파티셔닝 (List Partitioning)
+        │
+        ├──────────────► 동등 조건 프루닝
+        ├──────────────► 지역별/채널별 독립 관리
+        ├──────────────► DEFAULT 파티션 운영
+        └──────────────► Range + List / List + Hash 확장
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

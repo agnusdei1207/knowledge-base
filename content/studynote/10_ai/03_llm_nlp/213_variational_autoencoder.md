@@ -25,17 +25,14 @@ tags = ["studynote-ai"]
 이 죽어있는 빈 공간을 메우기 위해 2013년 킹마(Kingma)와 웰링(Welling)이 대반란을 일으켰다. <strong>"<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>할 때, 딱딱한 점(Point) 하나로 콕 찍지 말고 베이즈 정리 통계를 써서 크고 부드러운 '구름(<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a> 분포)'으로 퍼뜨려서 칠해버리자!"</strong> 
 점이 구름이 되자 빈공간이 사라졌다. 철수의 얼굴 구름과 영희의 얼굴 구름이 살짝 겹치는 마법의 공간(연속성)이 생겼고, 이 겹친 구름에서 주사위를 굴려 점을 툭 뽑아서 그리면 철수와 영희를 반반 섞은 세상에 없는 아름다운 사람의 얼굴이 완벽하게 렌더링 되어 튀어나왔다. AI가 '모방'을 넘어 '상상력'을 획득한 순간, 바로 <strong>변이형 <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/335_autoencoder/">오토인코더</a> (<a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/">VAE</a>)</strong>의 탄생이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 기존 [오토인코더](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/335_autoencoder/)는 도화지(뇌)에 도장(점)을 쾅쾅 찍어두는 방식이다. 도장이 안 찍힌 빈 공간을 누르면 로봇은 "안 배운 자리라서 그릴 줄 몰라요"라며 괴물을 그린다. VAE는 도장 대신 '부드러운 에어브러시 물감(구름)'을 뿌린다. 빨간 구름(철수)과 노란 구름(영희)이 퍼지면서 중간에 예쁜 주황색 구름 공간이 꽉 채워진다. 빈 공간이 없어졌기 때문에, 주황색 구름 위치를 딱 누르면 로봇이 즉석에서 철수와 영희의 특징이 오묘하게 섞인 새로운 주황색 얼굴을 부드럽게 그려내는 상상력의 천재가 된다.
 
@@ -45,30 +42,29 @@ tags = ["studynote-ai"]
 
 VAE의 아키텍처는 일반 인공신경망 딥러닝 뼈대에 '통계학의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 주사위'라는 미치광이 폭탄을 하나 달아놓은 구조다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">변이형 오토인코더 (VAE)의 구름(확률 분포) 생성 아키텍처 도해</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 확률적 인코더 (Encoder) - 점 대신 구름을 뱉다!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 입력(X): 사람 얼굴 사진</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">* 계산: 일반 오토인코더처럼 압축된 숫자</div><div class="kb-diagram-node">3.5</div><div class="kb-diagram-note">를 뱉는 게 아님!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 마법 발동: "평균(μ)=3.0"과 "분산(σ)=0.5"라는 2개의 숫자를 뱉어냄!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 이로써 3.0 주변에 퍼져있는 부드러운 '정규 분포 구름'이 완성됨.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 리파라미터라이제이션 트릭 (Reparameterization) - 미분 심폐소생</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 위기: 구름 안에서 랜덤(Random) 주사위를 굴려 숫자 z를 하나 뽑아야 함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">근데 랜덤 주사위를 쓰면 딥러닝의 핵심인 역전파(미분) 선이 끊어져서 뇌사함!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 꼼수: z = μ + σ * ε(완전 고정된 0~1 사이 노이즈 난수) 라는 기적의</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">우회 공식을 써서 랜덤을 섞으면서도 미분(기울기)이 쫙 통과하게 길을 뚫음!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3. 디코더 (Decoder)와 쌍끌이 Loss 훈련</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 주사위로 뽑힌 z를 다시 원래 사람 얼굴로 부풀려 복원 그림을 그림.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 훈련 목표(Loss) 1: 복원된 그림이 원본과 똑같아야 함 (Reconstruction Loss).</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 훈련 목표(Loss) 2: 구름이 너무 제멋대로 안 퍼지고 예쁜 동그란 모양(표준 정규분포)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이 되도록 목줄을 꽉 조임 (KL Divergence Loss).</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           변이형 오토인코더 (VAE)의 구름(확률 분포) 생성 아키텍처 도해 │
+├──────────────────────────────────────────────────────────────┤
+│  [1. 확률적 인코더 (Encoder) - 점 대신 구름을 뱉다!]              │
+│   * 입력(X): 사람 얼굴 사진                                    │
+│   * 계산: 일반 오토인코더처럼 압축된 숫자 [3.5]를 뱉는 게 아님!        │
+│   * 마법 발동: "평균(μ)=3.0"과 "분산(σ)=0.5"라는 2개의 숫자를 뱉어냄! │
+│     ─▶ 이로써 3.0 주변에 퍼져있는 부드러운 '정규 분포 구름'이 완성됨.      │
+│                                                              │
+│  [2. 리파라미터라이제이션 트릭 (Reparameterization) - 미분 심폐소생] │
+│   * 위기: 구름 안에서 랜덤(Random) 주사위를 굴려 숫자 z를 하나 뽑아야 함.│
+│          근데 랜덤 주사위를 쓰면 딥러닝의 핵심인 역전파(미분) 선이 끊어져서 뇌사함!│
+│   * 꼼수: z = μ + σ * ε(완전 고정된 0~1 사이 노이즈 난수) 라는 기적의   │
+│          우회 공식을 써서 랜덤을 섞으면서도 미분(기울기)이 쫙 통과하게 길을 뚫음!│
+│                                                              │
+│  [3. 디코더 (Decoder)와 쌍끌이 Loss 훈련]                        │
+│   * 주사위로 뽑힌 z를 다시 원래 사람 얼굴로 부풀려 복원 그림을 그림.       │
+│   * 훈련 목표(Loss) 1: 복원된 그림이 원본과 똑같아야 함 (Reconstruction Loss).│
+│   * 훈련 목표(Loss) 2: 구름이 너무 제멋대로 안 퍼지고 예쁜 동그란 모양(표준 정규분포)│
+│                      이 되도록 목줄을 꽉 조임 (KL Divergence Loss). │
+└──────────────────────────────────────────────────────────────┘
+```
 
 <strong>핵심 원리 (KL 발산의 족쇄와 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/138_normal_distribution/">정규 분포</a>)</strong>:
 VAE가 구름([확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포)을 만든다고 해서 구름이 지 멋대로 우주로 흩어지게 냅두면 뇌가 파산한다. 이를 막기 위해 로스(Loss) 수식에 딥러닝 역사상 가장 위대한 수학의 목줄인 <strong>KL 발산 (<a href="/knowledge-base/studynote/10_ai/05_data_science_ml/347_cross_entropy_kld/">Kullback-Leibler Divergence</a>)</strong>을 추가했다. [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)가 만들어낸 철수, 영희, 민수의 각기 다른 얼굴 구름들이 뇌 속 공간에서 너무 멀리 흩어지지 않고, 모두 `평균 0, 분산 1`이라는 원점(정중앙) 근처에 사이좋게 예쁜 동그라미로 옹기종기 모여있도록 억지로 자석처럼 끌어당겨 묶어두는 패널티(Penalty)다. 이 동그란 울타리 덕분에 우주 빈 공간이 소멸하고, 울타리 안 아무 곳이나 주사위를 던져도 그럴싸한 사람 얼굴이 튀어나오는 매끄러운 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 우주(Continuous Latent Space)가 완성된다.
@@ -92,7 +88,7 @@ VAE가 구름([확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130
 |:---|:---|:---|:---|:---|
 | <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/">VAE</a> (본 문서)</strong> | 점 대신 <strong>통계 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a> 구름(<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/138_normal_distribution/">정규 분포</a>)</strong>으로 뭉개서 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 공간을 꽉 채운 뒤 뽑아냄 (모래시계 부풀리기) | 훈련이 미친 듯이 안정적이고 수학적 근거가 완벽함. 잠재 공간이 예쁘게 정돈됨. | 결과물 그림이 약간 안개가 낀 것처럼 **흐릿하고 선명하지 않음 (Blurry).** | 약물 분자 3D 구조 탐색 생합성, [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/)([Anomaly](/knowledge-base/studynote/05_database/04_transactions_concurrency/530_anomaly/)), [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 전송 |
 | <strong><a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/154_gan_generative_adversarial_network/">GAN</a> (적대적 신경망)</strong>| 경찰(판별자)과 위조범([생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자)이 서로 피 터지게 싸우며 속고 속이는 무한 경쟁 ([미니맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/239_minimax_alpha_beta_pruning/) 게임) | 결과물 사진이 VAE보다 **압도적으로 날카롭고 소름 끼치게 선명하며 진짜 같음.** | 훈련하다 경찰이 너무 세면 도둑이 포기해 버리는(모드 붕괴) 등 훈련이 지옥같이 불안정함. | 초고해상도 얼굴 [딥페이크](/knowledge-base/studynote/09_security/19_ai_advanced_security/960_deepfake/) 합성, 사진 컬러 복원, 게임 에셋 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
-| **Diffusion (디퓨전)**| 사진에 노이즈(모래알)를 1,000번 뿌려 파괴한 뒤, 다시 노이즈를 1,000번 닦아내는 역추적 복원 | 현존 지구 1위 화질. 프롬프트(텍스트)와 섞어서 상상력 융합 컨트롤이 기가 막힘. | 그림 한 장 뽑아내는 추론(Inference) 속도가 VAE나 GAN보다 **극악으로 느리고 램을 다 처먹음.** | Midjourney, DALL-E, 모든 상용 Text-to-Image [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 메인 심장 |
+| **Diffusion (디퓨전)**| 사진에 노이즈(모래알)를 1,000번 뿌려 파괴한 뒤, 다시 노이즈를 1,000번 닦아내는 역추적 복원 | 현존 지구 1위 화질. 프롬프트(텍스트)와 섞어서 상상력 융합 컨트롤이 기가 병목. | 그림 한 장 뽑아내는 추론(Inference) 속도가 VAE나 GAN보다 **극악으로 느리고 램을 다 처먹음.** | Midjourney, DALL-E, 모든 상용 Text-to-Image [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 메인 심장 |
 
 과거에는 흐릿한 결과물 때문에 GAN에게 왕좌를 빼앗겨 관짝으로 들어간 줄 알았던 VAE였다. 하지만 최근 디퓨전(Diffusion) 모델이 너무 무거워서 속도를 올리기 위해 그림을 코딱지만 하게 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하는 기술(**Latent Diffusion**)이 도입되었는데, 이때 그림을 완벽하게 찌그러뜨리고 펴주는 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 펌프 엔진으로 VAE가 다시 화려하게 픽업되며 Stable Diffusion의 심장부 1군 부품으로 부활하는 기염을 토했다.
 

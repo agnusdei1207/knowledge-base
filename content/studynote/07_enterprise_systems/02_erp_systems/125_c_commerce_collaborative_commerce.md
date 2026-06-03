@@ -18,20 +18,18 @@ tags = ["studynote-enterprise-systems"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상거래 모델 진화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B2C (기업→소비자) — 쇼핑몰</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B2B (기업→기업) — 전자 조달</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B2G (기업→정부) — 전자 입찰</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C-Commerce — 기업 간 협업 (수요예측·설계·재고)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심: 거래가 아닌 "정보 공유 + 프로세스 협업"</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    상거래 모델 진화                                    │
+├───────────────────────────────────────────────────────┤
+│  B2C (기업→소비자) — 쇼핑몰                          │
+│  B2B (기업→기업) — 전자 조달                         │
+│  B2G (기업→정부) — 전자 입찰                         │
+│  C-Commerce — 기업 간 **협업** (수요예측·설계·재고)  │
+│                                                       │
+│  핵심: 거래가 아닌 "정보 공유 + 프로세스 협업"       │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: B2B는 물건 사고파는 것이고, C-Commerce는 <strong>같이 요리하는 것(공동 설계·수요예측)</strong>이다.
 
@@ -89,23 +87,21 @@ C-Commerce는 <strong><a href="/knowledge-base/studynote/04_software_engineering
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">EDI (전자문서교환, 1990s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">B2B e-Marketplace (2000s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">C-Commerce (CPFR·VMI, 2005~)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">디지털 공급망 (클라우드 SCM, 2015~)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: 공급망 AI — 수요예측 자동화·리스크 감지</div></div>
-</div>
-</div>
-
-
+```text
+[EDI (전자문서교환, 1990s)]
+    │
+    ▼
+[B2B e-Marketplace (2000s)]
+    │
+    ▼
+[C-Commerce (CPFR·VMI, 2005~)]
+    │
+    ▼
+[디지털 공급망 (클라우드 SCM, 2015~)]
+    │
+    ▼
+[현재: 공급망 AI — 수요예측 자동화·리스크 감지]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. B2B는 물건을 **사고파는** 거예요. C-Commerce는 <strong>같이 요리(협업)</strong>하는 거예요.

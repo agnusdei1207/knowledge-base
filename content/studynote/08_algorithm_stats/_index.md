@@ -8,9 +8,7 @@ tags = ["studynote-algorithm"]
 > 🧸 **어린이를 위한 비유**
 > 복잡한 미로 속에서 출구를 찾는 '가장 빠른 지름길'을 수학적으로 계산하는 법을 배워요. 또 수많은 데이터 속에서 보물을 찾아내는 마법의 확률 공식도 함께 공부한답니다!
 
----
-
-# 도메인 08: 알고리즘 및 통계 (Algorithm & Stats)
+---# 도메인 08: 알고리즘 및 통계 (Algorithm & Stats)
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 한정된 컴퓨팅 자원(시간, 메모리) 내에서 문제를 해결하기 위한 유한하고 결정론적인 절차의 집합(Algorithm)과, 데이터의 불확실성을 수학적으로 모델링하여 확률적 추론을 이끌어내는 근간(Statistics).
@@ -40,31 +38,27 @@ tags = ["studynote-algorithm"]
 
 #### 2. 다익스트라(Dijkstra) 최단 경로 탐색 알고리즘 데이터 흐름 (ASCII)
 가중치가 있는 그래프에서 시작점(A)으로부터 다른 모든 노드까지의 최단 경로를 탐욕적(Greedy)으로 찾아내는 알고리즘. (OSPF 라우팅 프로토콜의 근간)
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">다익스트라 알고리즘 흐름 / Dijkstra Algorithm Flow</div></div>
-<div class="kb-diagram-note">(2) (3)</div>
-<div class="kb-diagram-note">A -----&gt; B ----&gt; D</div>
-<div class="kb-diagram-note">\ | ^</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(4) \ (1)</div><div class="kb-diagram-cell">(1)</div></div>
-<div class="kb-diagram-note">v v</div>
-<div class="kb-diagram-note">+--&gt; C ------+</div>
-<div class="kb-diagram-note">\ (5)</div>
-<div class="kb-diagram-note">v</div>
-<div class="kb-diagram-note">E</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">단계별 우선순위 큐(최소 힙) 상태 / Step-by-Step Min-Heap State</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1. A(0) 시작. 이웃 업데이트: B(2), C(4). =&gt; Q:</div><div class="kb-diagram-node">B(2), C(4)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2. B(2) 꺼냄. C 업데이트: min(4, 2+1)=3. D 업데이트: 2+3=5. =&gt; Q:</div><div class="kb-diagram-node">C(3), D(5)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3. C(3) 꺼냄. D 업데이트: min(5, 3+1)=4. E 업데이트: 3+5=8. =&gt; Q:</div><div class="kb-diagram-node">D(4), E(8)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">4. D(4) 꺼냄. D에서 E로의 직접 경로 없음. =&gt; Q:</div><div class="kb-diagram-node">E(8)</div></div>
-<div class="kb-diagram-note">5. E(8) 꺼냄. 완료 (Done).</div>
-<div class="kb-diagram-note">=&gt; A-&gt;E 최단 경로(Shortest Path)는 A-B-C-E, 거리는 8.</div>
-</div>
-</div>
-
-
+```text
+    [ 다익스트라 알고리즘 흐름 / Dijkstra Algorithm Flow ]
+    
+        (2)       (3)
+     A -----> B ----> D
+      \       |       ^
+   (4) \  (1) |       | (1)
+        v     v       |
+         +--> C ------+
+               \ (5)
+                v
+                 E
+                 
+    [ 단계별 우선순위 큐(최소 힙) 상태 / Step-by-Step Min-Heap State ]
+    1. A(0) 시작. 이웃 업데이트: B(2), C(4).  => Q: [B(2), C(4)]
+    2. B(2) 꺼냄. C 업데이트: min(4, 2+1)=3. D 업데이트: 2+3=5. => Q: [C(3), D(5)]
+    3. C(3) 꺼냄. D 업데이트: min(5, 3+1)=4. E 업데이트: 3+5=8. => Q: [D(4), E(8)]
+    4. D(4) 꺼냄. D에서 E로의 직접 경로 없음. => Q: [E(8)]
+    5. E(8) 꺼냄. 완료 (Done).
+    => A->E 최단 경로(Shortest Path)는 A-B-C-E, 거리는 8.
+```
 
 #### 3. 핵심 수학: 베이즈 정리 (Bayes' Theorem)
 인공지능과 통계적 머신러닝(스팸 필터 등)의 근원이 되는, "새로운 증거(B)가 주어졌을 때 기존의 믿음(A)을 어떻게 업데이트할 것인가?"를 정의한 절대적 수식.
@@ -144,21 +138,18 @@ tags = ["studynote-algorithm"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">알고리즘 + 자료구조 = 프로그래밍의 기초</div>
-<div class="kb-diagram-tree-item" style="--depth:2">복잡도 분석: Big-O / Omega / Theta</div>
-<div class="kb-diagram-tree-item" style="--depth:2">정렬: 비교 기반 O(n log n) / 비비교 O(n)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">탐색: 그래프 BFS/DFS → 최단경로 → 최소신장트리</div>
-<div class="kb-diagram-tree-item" style="--depth:2">동적 프로그래밍: 메모이제이션 → 최적 부분구조</div>
-<div class="kb-diagram-tree-item" style="--depth:2">문자열: KMP · Rabin-Karp · 접미사 배열</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">NP 이론 → 근사 알고리즘 / 휴리스틱</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">수치 알고리즘 → 통계·정보이론·선형대수 → ML 알고리즘</div>
-</div>
-</div>
-
-
+```text
+알고리즘 + 자료구조 = 프로그래밍의 기초
+    │
+    ├─► 복잡도 분석: Big-O / Omega / Theta
+    ├─► 정렬: 비교 기반 O(n log n) / 비비교 O(n)
+    ├─► 탐색: 그래프 BFS/DFS → 최단경로 → 최소신장트리
+    ├─► 동적 프로그래밍: 메모이제이션 → 최적 부분구조
+    └─► 문자열: KMP · Rabin-Karp · 접미사 배열
+    │
+    ▼
+NP 이론 → 근사 알고리즘 / 휴리스틱
+    │
+    ▼
+수치 알고리즘 → 통계·정보이론·선형대수 → ML 알고리즘
+```

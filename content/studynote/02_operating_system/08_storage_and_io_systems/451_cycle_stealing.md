@@ -27,26 +27,25 @@ tags = ["studynote-operating-system"]
   2. **CPU 파이프라인의 발전**: CPU가 램을 읽어온 뒤, 그 명령어를 해독(Decode)하고 연산(Execute)하는 동안에는 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)([Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))가 텅텅 빈다는 물리적 진실을 깨달음.
   3. **시간차 공격(Interleaving) 적용**: 하드웨어 아비터(Arbiter)가 이 빈 클럭을 DMA에게 토스해 주는 로직을 구현함.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">버스트 모드(Burst Mode) vs 사이클 스틸링(Cycle Stealing) 비교</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1. 버스트 모드 (깡패 DMA의 독점)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시간</div><div class="kb-diagram-note">1틱 2틱 3틱 4틱 5틱 6틱 7틱 8틱</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CPU</div><div class="kb-diagram-note">연산 │ 🚫 │ 🚫 │ 🚫 │ 🚫 │ 🚫 │ 🚫 │ 연산</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DMA</div><div class="kb-diagram-note">대기 │ 짐 │ 짐 │ 짐 │ 짐 │ 짐 │ 짐 │ 대기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💥 결과: DMA가 6틱 동안 짐을 한 방에 다 옮기지만, 그동안 CPU는 뇌사.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2. 사이클 스틸링 (눈치 백단 DMA의 얌체 짓)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시간</div><div class="kb-diagram-note">1틱 2틱 3틱 4틱 5틱 6틱 7틱 8틱</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CPU</div><div class="kb-diagram-note">램읽기│ 연산 │램읽기│ 연산 │램읽기│ 연산 │램읽기│ 연산</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DMA</div><div class="kb-diagram-note">대기 │ 짐 │ 대기 │ 짐 │ 대기 │ 짐 │ 대기 │ 짐</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 결과: CPU가 램을 안 읽는 짝수 틱(연산 시간)을 DMA가 훔쳐서 짐을</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">나름. CPU 체감 속도 저하 0%, 짐도 스무스하게 다 옮김!</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────────────┐
+│        버스트 모드(Burst Mode) vs 사이클 스틸링(Cycle Stealing) 비교  │
+├───────────────────────────────────────────────────────────────────────┤
+│                                                                       │
+│ ▶ 1. 버스트 모드 (깡패 DMA의 독점)                                    │
+│   [시간] 1틱  2틱  3틱  4틱  5틱  6틱  7틱  8틱                       │
+│   [CPU] 연산 │ 🚫 │ 🚫 │ 🚫 │ 🚫 │ 🚫 │ 🚫 │ 연산                     │
+│   [DMA] 대기 │ 짐 │ 짐 │ 짐 │ 짐 │ 짐 │ 짐 │ 대기                     │
+│   💥 결과: DMA가 6틱 동안 짐을 한 방에 다 옮기지만, 그동안 CPU는 뇌사.│
+│                                                                       │
+│ ▶ 2. 사이클 스틸링 (눈치 백단 DMA의 얌체 짓)                          │
+│   [시간] 1틱  2틱  3틱  4틱  5틱  6틱  7틱  8틱                       │
+│   [CPU] 램읽기│ 연산 │램읽기│ 연산 │램읽기│ 연산 │램읽기│ 연산        │
+│   [DMA] 대기 │ 짐 │ 대기 │ 짐 │ 대기 │ 짐 │ 대기 │ 짐                 │
+│   ✅ 결과: CPU가 램을 안 읽는 짝수 틱(연산 시간)을 DMA가 훔쳐서 짐을  │
+│           나름. CPU 체감 속도 저하 0%, 짐도 스무스하게 다 옮김!       │
+└───────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 사이클 스틸링은 엄밀히 말해 '도둑질(Steal)'이라기보다 <strong>'빈 공간 줍기'</strong>에 가깝다. 하지만 어쩌다 CPU와 DMA가 정확히 동시에 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 요구하면, 경찰([Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) Arbiter)은 무조건 DMA의 손을 들어준다. 왜냐하면 CPU는 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 조금 늦게 써도 연산만 좀 늦어질 뿐이지만, [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/)(디바이스)는 제때 짐을 램에 안 버리면 뒤에서 밀려오는 패킷들에 치여 하드웨어 버퍼가 터져버리기([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Loss) 때문이다. CPU 입장에선 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 통행권을 강탈당하는 느낌이 들 수밖에 없다.
 
 - **📢 섹션 요약 비유**: 왕복 1차선 톨게이트입니다. 앰뷸런스([DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/))가 사이렌을 울리며 달려오면 일반 승용차(CPU)는 무조건 옆으로 비켜서 1초 동안 길을 내어주며(Stealing) 손해를 봅니다. 승용차 기분은 좀 나쁘지만, 앰뷸런스가 제때 못 가면 환자([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 죽기 때문에 이 양보 룰은 절대적입니다.
@@ -97,17 +96,14 @@ DMA가 짐을 나르는 3가지 철학적 방법론이다. 하드웨어의 성�
 - 여기서 1워드씩 뺏어 쓰는 사이클 스틸링을 하다간 쏟아지는 물을 컵으로 퍼내는 꼴이 되어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 100% 유실(Overrun)된다.
 - 이럴 때는 OS가 눈물을 머금고 CPU를 묶어버린 뒤, <strong><a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/320_burst_mode/">Burst Mode</a></strong>를 켜서 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 완전히 비워주고 물대포를 한 방에 쏴버리는 것이 오히려 시스템 전체 스루풋([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)) 관점에서는 1만 배 이득이다. 
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장치 속도</div><div class="kb-diagram-cell">DMA 전송 방식</div><div class="kb-diagram-cell">버스 점유율</div><div class="kb-diagram-cell">데이터 유실 위험</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">느림 (HDD)</div><div class="kb-diagram-cell">사이클 스틸링</div><div class="kb-diagram-cell">CPU와 공평분배</div><div class="kb-diagram-cell">거의 없음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">초고속(GPU)</div><div class="kb-diagram-cell">버스트 모드</div><div class="kb-diagram-cell">DMA가 100% 장악</div><div class="kb-diagram-cell">스틸링 쓰면 폭발함</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬───────────────────────────┐
+│ 장치 속도  │ DMA 전송 방식 │ 버스 점유율  │ 데이터 유실 위험   │
+├──────────┼────────────┼────────────┼───────────────────────────┤
+│ 느림 (HDD)│ 사이클 스틸링  │ CPU와 공평분배│ 거의 없음         │
+│ 초고속(GPU)│ 버스트 모드  │ DMA가 100% 장악│ 스틸링 쓰면 폭발함│
+└──────────┴────────────┴────────────┴───────────────────────────┘
+```
 **[매트릭스 해설]** [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 설계는 철저한 '물리량의 싸움'이다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송량이 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)의 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 뚫어버릴 기세일 때, 찔끔찔끔 양보하는 미덕(스틸링)은 사치다. 차를 다 막고 경찰 에스코트 아래 호송 차량을 쏘는 것([버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트)이 가장 안전한 방법이다. 현대 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 디바이스의 스펙을 읽고 이 두 모드를 다이내믹하게 스위칭하며 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 지휘한다.
 
 - **📢 섹션 요약 비유**: 수돗물([HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/))을 틀어놓았을 땐 컵(스틸링)으로 찔끔찔끔 받아도 물이 넘치지 않습니다. 하지만 소방 호스([NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))를 틀었는데 컵으로 받으려 하면 물바다가 됩니다. 소방 호스 앞에서는 아예 욕조([버스트 모드](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/320_burst_mode/))를 갖다 대고 한 방에 담아버리는 게 정답입니다.
@@ -162,19 +158,15 @@ PCIe는 1차선 도로가 아니라 각 장비가 [스위치](/knowledge-base/st
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">직접 메모리 접근 (DMA, Direct Memory Access)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">사이클 스틸링 (Cycle Stealing)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DMA 산란-수집 (Scatter-Gather)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">I/O 서브시스템의 커널 서비스</div></div>
-</div>
-</div>
-
-
+```text
+[직접 메모리 접근 (DMA, Direct Memory Access)]
+    │
+    ▼
+[사이클 스틸링 (Cycle Stealing)]
+    │
+    ├──▶ [DMA 산란-수집 (Scatter-Gather)]
+    └──▶ [I/O 서브시스템의 커널 서비스]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

@@ -37,24 +37,25 @@ tags = ["studynote-computer-architecture"]
 | <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/">ALU</a> 덧셈기</strong> | [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 단위의 덧셈을 연속 수행 | 자리올림(Carry)을 발생시키며 상위 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)로 전달 |
 | **XOR 게이트** | 들어오는 캐리와 나가는 캐리 비교 | MSB로 들어오는 캐리와 나가는 캐리가 다르면(XOR=1) 오버플로우 감지 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부호 있는 정수 (8-bit Signed) 덧셈 시 오버플로우 발생 원리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">정상적인 양수의 한계: +127</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0 1 1 1 1 1 1 1 (최상위 비트 0은 양수)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">한계에 +1을 더하는 연산 수행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0 1 1 1 1 1 1 1 (+127)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ 0 0 0 0 0 0 0 1 ( +1)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1 0 0 0 0 0 0 0 (◀ 부호 비트가 1로 변경됨)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ALU (Arithmetic Logic Unit)의 연산 결과 해석</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"부호 비트가 1이다. 이 값은 -128이다."</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결론: 127 + 1 = -128 이라는 잘못된 계산 발생</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│        부호 있는 정수 (8-bit Signed) 덧셈 시 오버플로우 발생 원리     │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│   [ 정상적인 양수의 한계: +127 ]                                  │
+│     0 1 1 1 1 1 1 1  (최상위 비트 0은 양수)                     │
+│                                                              │
+│   [ 한계에 +1을 더하는 연산 수행 ]                                 │
+│     0 1 1 1 1 1 1 1  (+127)                                  │
+│   + 0 0 0 0 0 0 0 1  (  +1)                                  │
+│   ───────────────────                                        │
+│     1 0 0 0 0 0 0 0  (◀ 부호 비트가 1로 변경됨)                  │
+│                                                              │
+│   [ ALU (Arithmetic Logic Unit)의 연산 결과 해석 ]                  │
+│     "부호 비트가 1이다. 이 값은 -128이다."                          │
+│     결론: 127 + 1 = -128 이라는 잘못된 계산 발생                   │
+└──────────────────────────────────────────────────────────────┘
+```
 
 위 다이어그램이 보여주듯, 양수끼리 더했는데 부호 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 공간까지 자리올림이 침범하면서 값 전체가 음수로 역전된다. 이를 하드웨어는 [MSB](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/080_msb/) ([Most Significant Bit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/080_msb/))로 들어가는 Carry-in과 나가는 Carry-out의 XOR 연산을 통해 오버플로우로 판별하고, OF 상태를 업데이트하여 후속 처리를 유도한다.
 
@@ -114,23 +115,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">2의 보수 (2's Complement) 표현법 도입</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ALU 연산 한계 초과 및 부호 역전 (Sign Inversion) 현상 발생</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">오버플로우 (Overflow) / 언더플로우 (Underflow) 감지 및 예외 처리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">포화 연산 (Saturation Arithmetic) 및 64비트/128비트 아키텍처 확장</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">안전한 언어 컴파일러 레벨의 오버플로우 방지 (SafeMath, Rust Panic)</div>
-</div>
-</div>
-
-
+```text
+2의 보수 (2's Complement) 표현법 도입
+    │
+    ▼
+ALU 연산 한계 초과 및 부호 역전 (Sign Inversion) 현상 발생
+    │
+    ▼
+오버플로우 (Overflow) / 언더플로우 (Underflow) 감지 및 예외 처리
+    │
+    ▼
+포화 연산 (Saturation Arithmetic) 및 64비트/128비트 아키텍처 확장
+    │
+    ▼
+안전한 언어 컴파일러 레벨의 오버플로우 방지 (SafeMath, Rust Panic)
+```
 
 이 흐름도는 메모리의 물리적 한계로 인한 오류가 어떻게 아키텍처와 소프트웨어의 안전망으로 확장되며 진화했는지를 보여준다.
 

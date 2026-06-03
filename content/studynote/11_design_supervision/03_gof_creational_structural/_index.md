@@ -23,20 +23,24 @@ tags = ["design_supervision"]
 
 이 그림은 생성 패턴과 구조 패턴이 설계의 어느 지점에 관여하는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Creational and Structural Patterns Scope</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Creational Patterns</div><div class="kb-diagram-node">Structural Patterns</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "How to Create?" - "How to Compose?"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client ──▶ Factory</div><div class="kb-diagram-cell">Object A ──▶Proxy</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Product</div><div class="kb-diagram-cell">Object B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 생성: 결합도 낮은 생성 * 구조: 복잡한 조립 단순화</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Creational and Structural Patterns Scope    │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Creational Patterns ]         [ Structural Patterns ]   │
+│   - "How to Create?"              - "How to Compose?"       │
+│   ┌───────────────────┐           ┌───────────────────┐     │
+│   │ Client ──▶ Factory│           │ Object A ──▶Proxy │     │
+│   │             │     │           │              │    │     │
+│   │             ▼     │           │              ▼    │     │
+│   │          Product  │           │           Object B│     │
+│   └───────────────────┘           └───────────────────┘     │
+│                                                             │
+│   * 생성: 결합도 낮은 생성        * 구조: 복잡한 조립 단순화│
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '캡슐화'이다. 생성 패턴은 객체가 어떤 클래스로 만들어지는지 감추고, 구조 패턴은 객체들이 어떻게 얽혀있는지 그 복잡함을 감춘다. 실무에서는 이러한 패턴 적용이 코드의 가독성을 높이고 단위 테스트를 용이하게 만든다.
 
@@ -71,23 +75,26 @@ tags = ["design_supervision"]
 
 이 구조도는 **추상 팩토리 (Abstract Factory)** 패턴의 연관 제품군 생성 구조를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Abstract Factory: Product Families</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">GUI Factory (Interface)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- createButton()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- createCheckbox()</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">WinFactory</div><div class="kb-diagram-node">MacFactory</div><div class="kb-diagram-node">LinuxFactory</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- WinButton - MacButton - LinuxButton</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- WinCheckbox - MacCheckbox - LinuxCheckbox</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 효과: 클라이언트는 테마만 고르면 연관된 모든 부품이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일관성 있게 생성됨 (코드 수정 없이 테마 교체 가능)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Abstract Factory: Product Families          │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ GUI Factory (Interface) ]                               │
+│   - createButton()                                          │
+│   - createCheckbox()                                        │
+│          ▲                                                  │
+│   ┌──────┴─────────────┬────────────────────────┐            │
+│   ▼                    ▼                        ▼            │
+│ [ WinFactory ]      [ MacFactory ]           [ LinuxFactory ]│
+│ - WinButton         - MacButton              - LinuxButton   │
+│ - WinCheckbox       - MacCheckbox            - LinuxCheckbox │
+│                                                             │
+│   * 효과: 클라이언트는 테마만 고르면 연관된 모든 부품이     │
+│     일관성 있게 생성됨 (코드 수정 없이 테마 교체 가능)      │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '일관성 (Consistency)'이다. 윈도우 창에 맥용 버튼이 생기는 불상사를 막기 위해 제품군을 묶어서 관리한다. 실무에서는 이 패턴이 멀티 OS 지원 소프트웨어나 복잡한 설정 기반 시스템의 뼈대가 된다.
 
@@ -129,19 +136,21 @@ tags = ["design_supervision"]
 
 이 도식은 기술사가 설계 리뷰 시 사용하는 '패턴 적용 의사결정 트리'를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pattern Selection Decision Tree</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">YES</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Builder / Factory</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">YES</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Adapter</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">YES</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Decorator</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">YES</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Facade</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│               Pattern Selection Decision Tree               │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   객체 생성 과정이 복잡한가? ──▶ [YES] ──▶ Builder / Factory │
+│          │                                                  │
+│   인터페이스가 불일치하는가? ──▶ [YES] ──▶ Adapter           │
+│          │                                                  │
+│   기능을 동적으로 추가해야 하는가? ──▶ [YES] ──▶ Decorator   │
+│          │                                                  │
+│   복잡한 하위 시스템을 감춰야 하는가? ──▶ [YES] ──▶ Facade   │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 기술사의 패턴 판단은 '정원 가꾸기'와 같습니다. 나무를 어디에 심을지(생성), 울타리를 어떻게 칠지(구조)를 정해진 규칙(패턴)에 따라 배치하여, 시간이 흘러도 아름다움(유지보수성)을 유지하는 정원사와 같습니다.
 

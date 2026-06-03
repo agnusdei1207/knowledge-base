@@ -27,18 +27,14 @@ tags = ["studynote-network"]
   4. **패킷 손실률 (Packet Loss)**: 중간에 터져서 버려진 패킷의 비율 (%).
 - **특징**: 네트워크 엔지니어가 망을 설계하고 튜닝할 때 쓰는 차가운 기계적 목표치입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">클라우드 네이티브 네트워크</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">QoS / QoE 차이 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">네트워크 지연</div></div>
-</div>
-</div>
-
-
+```text
+[클라우드 네이티브 네트워크]
+    │
+    ▼
+[QoS / QoE 차이 비교]
+    │
+    └──▶ [네트워크 지연]
+```
 
 - **📢 섹션 요약 비유**: [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) / QoE 차이 비교는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -51,18 +47,14 @@ tags = ["studynote-network"]
   - 동영상 버퍼링이 걸린 횟수, 화면이 모자이크로 깨진 정도, 앱 로딩에 걸린 시간, 음성 통화 시 기계음 섞임 정도 등.
 - **특징**: 1점(최악)부터 5점(완벽)까지 점수를 매기는 [MOS](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/909_mos_mean_opinion_score_qoe_emodel/)(Mean Opinion Score) 같은 주관적 평가를 통해 측정합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">클라우드 네이티브 네트워크</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">QoS / QoE 차이 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">네트워크 지연</div></div>
-</div>
-</div>
-
-
+```text
+[클라우드 네이티브 네트워크]
+    │
+    ▼
+[QoS / QoE 차이 비교]
+    │
+    └──▶ [네트워크 지연]
+```
 
 - **📢 섹션 요약 비유**: [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) / QoE 차이 비교의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -131,19 +123,15 @@ QoS가 완벽하다고 QoE가 100점이 나오는 건 절대 아닙니다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 클라우드 네이티브 네트워크</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: QoS / QoE 차이 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 네트워크 지연</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 클라우드 네이티브 네트워크]
+    │
+    ▼
+[현재 개념: QoS / QoE 차이 비교]
+    │
+    ├──▶ [확장 A: 네트워크 지연]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) / QoE 차이 비교는 [클라우드 네이티브 네트워크](/knowledge-base/studynote/03_network/16_data_center_cloud/1000_cni_cloud_native_network/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [네트워크 지연](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

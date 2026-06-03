@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 수많은 기업(고객)들이 통신사의 망 하나를 공유([Multi-Tenancy](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/014_multi_tenancy/))해서 씁니다.
 - **IP 오버랩 (Overlap)의 공포**: 회사들은 내부망으로 공짜 IP인 '사설 IP(`10.0.0.0/8`, `192.168.x.x`)'를 씁니다. 통신사 라우터 뱃속 1개의 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블(장부)에, 삼성도 `10.0.0.0/8` 길을 뚫어달라 하고, LG도 `10.0.0.0/8` 길을 뚫어달라고 하니 뇌가 꼬여버립니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DMVPN 동적 라우팅 결합형 지점</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MPLS VPN L3 경로 격리 라벨 스위치</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OSPF ABR / ASBR Area 위계…</div></div>
-</div>
-</div>
-
-
+```text
+[DMVPN 동적 라우팅 결합형 지점]
+    │
+    ▼
+[MPLS VPN L3 경로 격리 라벨 스위치]
+    │
+    └──▶ [OSPF ABR / ASBR Area 위계…]
+```
 
 - **📢 섹션 요약 비유**: [MPLS VPN](/knowledge-base/studynote/03_network/07_network_layer_routing/376_mpls_vpn_l3_vrf_bgp/) L3 경로 격리 라벨 스위치는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -44,18 +40,14 @@ tags = ["studynote-network"]
 - **개념**: 통신사의 엣지 라우터(PE) 내부에 <strong>가상의 라우터 방(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/371_vrf_virtual_routing_and_forwarding/">VRF</a>)</strong>들을 수십 개 쪼개어 고객별로 IP 주소를 완벽히 격리하고, 통신사 망 내부(Core)를 지나갈 때는 984번에서 배운 <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/373_mpls_multiprotocol_label_switching_20bit/">MPLS</a> 라벨(딱지)</strong>을 붙여 고속으로 스위칭하여, 물리적인 선을 깔지 않고도 '완벽한 사설 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/)([VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/))'을 제공해 주는 통신사 밥줄 기술입니다.
 - 인터넷 터널([IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/))을 쓰지 않고도, 통신사 내부 망(안전함)을 타기 때문에 <strong>암호화 없이도 100% 해킹 안전성을 보장</strong>받습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DMVPN 동적 라우팅 결합형 지점</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MPLS VPN L3 경로 격리 라벨 스위치</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OSPF ABR / ASBR Area 위계…</div></div>
-</div>
-</div>
-
-
+```text
+[DMVPN 동적 라우팅 결합형 지점]
+    │
+    ▼
+[MPLS VPN L3 경로 격리 라벨 스위치]
+    │
+    └──▶ [OSPF ABR / ASBR Area 위계…]
+```
 
 - **📢 섹션 요약 비유**: [MPLS VPN](/knowledge-base/studynote/03_network/07_network_layer_routing/376_mpls_vpn_l3_vrf_bgp/) L3 경로 격리 라벨 스위치의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -127,19 +119,15 @@ KT 라우터가 어떻게 삼성과 LG 패킷을 안 섞이게 나를까요?
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: DMVPN 동적 라우팅 결합형 지점</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: MPLS VPN L3 경로 격리 라벨 스위치</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: OSPF ABR / ASBR Area 위계…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: DMVPN 동적 라우팅 결합형 지점]
+    │
+    ▼
+[현재 개념: MPLS VPN L3 경로 격리 라벨 스위치]
+    │
+    ├──▶ [확장 A: OSPF ABR / ASBR Area 위계…]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 [MPLS VPN](/knowledge-base/studynote/03_network/07_network_layer_routing/376_mpls_vpn_l3_vrf_bgp/) L3 경로 격리 라벨 스위치는 [DMVPN](/knowledge-base/studynote/03_network/07_network_layer_routing/386_dmvpn_dynamic_multipoint_vpn_gre_ipsec_nhrp/) [동적 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/341_dynamic_routing_protocol_operation/) 결합형 지점에서 출발해 현재 메커니즘을 정교화하고, 이후 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) ABR / ASBR Area 위계…와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

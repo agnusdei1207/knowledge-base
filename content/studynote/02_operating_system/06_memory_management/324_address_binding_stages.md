@@ -30,23 +30,23 @@ tags = ["studynote-operating-system"]
 [2단계] 극장 입구 매표소에서 들어가는 순간 "오늘 남는 자리 여기네요" 하고 빈자리 도장 찍어줌 (적재 타임). 앉으면 다시 못 일어남.
 [3단계] 극장 안을 쏘다니고 있는데 스태프([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))가 1초마다 다가와서 "잠깐만요, 다른 분 들어오니 옆자리로 스르륵 옮기시죠!" 라며 실시간으로 앉을 자리를 무한 재배치해 줌 (실행 타임). 복잡하지만 황제급 유연성!
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주소 바인딩 타이밍에 따른 자유도와 굴레</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">바인딩 시점 (Binding Time)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">빠름/고지식함</div><div class="kb-diagram-node">늦음/천재적임</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">컴파일 시간 적재 시간 실행 시간</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Compile Time) (Load Time) (Execution Time)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주소결정: 목적코드 덤프시 메모리 적재(올릴)시 CPU가 명령어 쏠때</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주소개념: 절대 주소 강제 상대 주소 변환 가상↔물리 동적변환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">재배치: 절대 불가 (죽음) 적재할 때만 가능 실행 중에도 이사감</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지원장비: 없음 (천원짜리칩) 링커/로더 (OS) MMU 반도체 (비쌈)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│         주소 바인딩 타이밍에 따른 자유도와 굴레                      │
+├──────────────────────────────────────────────────────────────────────┤
+│                                                                      │
+│            바인딩 시점 (Binding Time)                                │
+│   [빠름/고지식함]                             [늦음/천재적임]        │
+│   ◀──────────────┼──────────────┼──────────────▶                     │
+│          컴파일 시간           적재 시간            실행 시간        │
+│         (Compile Time)      (Load Time)     (Execution Time)         │
+│                                                                      │
+│ 주소결정: 목적코드 덤프시     메모리 적재(올릴)시  CPU가 명령어 쏠때 │
+│ 주소개념: 절대 주소 강제      상대 주소 변환      가상↔물리 동적변환 │
+│ 재배치:  절대 불가 (죽음)    적재할 때만 가능    실행 중에도 이사감  │
+│ 지원장비: 없음 (천원짜리칩)   링커/로더 (OS)      MMU 반도체 (비쌈)  │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 **📢 섹션 요약 비유**: 주소 바인딩이란, 종이비행기에 목적지 주소를 "종이접기 시작할 때(컴파일)" 적을지, "날리기 직전에(적재)" 적을지, 아니면 "공중에 날아가는 도중에 미사일처럼 경로를 실시간 변경(실행)"할 건지 선택하는 기술 진화의 3보약입니다.
 
@@ -118,19 +118,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">물리 주소 (Physical Address)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">주소 바인딩 (Address Binding) 3단계 시점</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">컴파일 시간 바인딩 (Compile Time)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">적재 시간 바인딩 (Load Time)</div></div>
-</div>
-</div>
-
-
+```text
+[물리 주소 (Physical Address)]
+    │
+    ▼
+[주소 바인딩 (Address Binding) 3단계 시점]
+    │
+    ├──▶ [컴파일 시간 바인딩 (Compile Time)]
+    └──▶ [적재 시간 바인딩 (Load Time)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

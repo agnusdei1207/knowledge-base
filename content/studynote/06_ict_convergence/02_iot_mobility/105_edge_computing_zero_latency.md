@@ -36,21 +36,21 @@ tags = ["ict_convergence"]
 | **엣지 노드** | 공유기, 엣지 서버, [MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/) [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/) | 실시간 분석, 즉각 제어, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 필터링 | 초저지연, 보안 1차 처리 |
 | **중앙 클라우드** | 대규모 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) (AWS 등) | 글로벌 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통합, 빅데이터 분석, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델 학습 | 고성능, 장기 보관 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라우드 단일 구조 vs 엣지 컴퓨팅 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">과거: 지연 0.5초, 대역폭 폭발</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🚗 자율주행차 (수백 GB 비디오) ▶ ☁️ 클라우드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">엣지 컴퓨팅: 지연 0.01초, 대역폭 절감</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🚗 자율주행차 ──(0.01초 제어)──▶ 📱 엣지 노드 (스마트 게이트웨이)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(가치 있는 요약 데이터만 전송)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">☁️ 중앙 클라우드 서버</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           클라우드 단일 구조 vs 엣지 컴퓨팅 구조             │
+├──────────────────────────────────────────────────────────────┤
+│ [ 과거: 지연 0.5초, 대역폭 폭발 ]                            │
+│ 🚗 자율주행차 ────────(수백 GB 비디오)────────▶ ☁️ 클라우드  │
+│                                                              │
+│ [ 엣지 컴퓨팅: 지연 0.01초, 대역폭 절감 ]                    │
+│ 🚗 자율주행차 ──(0.01초 제어)──▶ 📱 엣지 노드 (스마트 게이트웨이) │
+│                                   │                          │
+│                                (가치 있는 요약 데이터만 전송)│
+│                                   ▼                          │
+│                                ☁️ 중앙 클라우드 서버         │
+└──────────────────────────────────────────────────────────────┘
+```
 
 엣지 노드는 현장에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 1차로 가공하여, 정상적인 상황의 무의미한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 버리고 비정상 상태나 중요한 요약 정보만 클라우드로 보낸다. 이를 통해 네트워크 트래픽을 90% 이상 줄일 수 있으며, 클라우드 연결이 끊긴 오프라인 상태에서도 기기가 생존할 수 있는 자율성을 부여한다.
 
@@ -109,23 +109,21 @@ tags = ["ict_convergence"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">중앙 집중형 클라우드 컴퓨팅 (지연 및 대역폭 한계 도달)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">포그 컴퓨팅 (Fog Computing) · 중간 게이트웨이 처리 도입</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">엣지 컴퓨팅 (Edge Computing) · 데이터 발생 현장 처리, 실시간성 확보</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">MEC (Multi-access Edge Computing) · 5G 인프라와 엣지의 결합</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">온디바이스 AI (On-Device AI) · 기기 자체의 독립적 인공지능화</div>
-</div>
-</div>
-
-
+```text
+중앙 집중형 클라우드 컴퓨팅 (지연 및 대역폭 한계 도달)
+    │
+    ▼
+포그 컴퓨팅 (Fog Computing) · 중간 게이트웨이 처리 도입
+    │
+    ▼
+엣지 컴퓨팅 (Edge Computing) · 데이터 발생 현장 처리, 실시간성 확보
+    │
+    ▼
+MEC (Multi-access Edge Computing) · 5G 인프라와 엣지의 결합
+    │
+    ▼
+온디바이스 AI (On-Device AI) · 기기 자체의 독립적 인공지능화
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

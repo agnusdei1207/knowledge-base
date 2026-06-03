@@ -57,18 +57,12 @@ tags = ["studynote-ict-convergence"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">3DoF (Google Cardboard, 2014)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Outside-In 6DoF (Vive, 2016)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Inside-Out 6DoF (Quest, 2019)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">손·눈 추적 + 6DoF (Vision Pro, 2024)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: 밀리미터 정밀도 6DoF — AR 글래스</div></div>
-</div>
-</div>
-
-
+```text
+[3DoF (Google Cardboard, 2014)] → [Outside-In 6DoF (Vive, 2016)]
+    → [Inside-Out 6DoF (Quest, 2019)]
+    → [손·눈 추적 + 6DoF (Vision Pro, 2024)]
+    → [현재: 밀리미터 정밀도 6DoF — AR 글래스]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 3DoF는 **의자에 앉아 고개만** 돌리는 거예요.

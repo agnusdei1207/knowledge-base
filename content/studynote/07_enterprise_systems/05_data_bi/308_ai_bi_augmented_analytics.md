@@ -45,41 +45,40 @@ Gartner는 2017년 Augmented Analytics를 "AI와 ML이 [데이터](/knowledge-ba
 
 ### NLQ 처리 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">"지난 3개월 지역별 매출 상위 5개 상품" (자연어 입력)</div>
-<div class="kb-diagram-note">→ 의도 파악 (Intent Classification)</div>
-<div class="kb-diagram-note">→ 엔티티 추출 (기간: 3개월, 차원: 지역, 측도: 매출, Top5)</div>
-<div class="kb-diagram-note">→ SQL 자동 생성</div>
-<div class="kb-diagram-note">→ DW 쿼리 실행</div>
-<div class="kb-diagram-note">→ 결과 시각화 자동 선택 (Bar Chart)</div>
-</div>
-</div>
-
-
+```
+"지난 3개월 지역별 매출 상위 5개 상품" (자연어 입력)
+  → 의도 파악 (Intent Classification)
+  → 엔티티 추출 (기간: 3개월, 차원: 지역, 측도: 매출, Top5)
+  → SQL 자동 생성
+  → DW 쿼리 실행
+  → 결과 시각화 자동 선택 (Bar Chart)
+```
 
 ### [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) BI 처리 흐름
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">원시 데이터 (DW / Data Mart)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AI 분석 레이어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NLQ 엔진</div><div class="kb-diagram-cell">Auto-Insight Engine</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(LLM + NLP)</div><div class="kb-diagram-cell">(이상치/트렌드/예측)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자동 시각화 선택 + 데이터 스토리텔링 NLG</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">비즈니스 사용자 (코딩 불필요)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"Q3 판매 급감 원인은?"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 자동 분석 + 내러티브 생성</div></div>
-</div>
-</div>
-
-
+```
+  원시 데이터 (DW / Data Mart)
+        │
+        ▼
+  ┌───────────────────────────────────────────────┐
+  │              AI 분석 레이어                    │
+  │  ┌────────────────┐  ┌──────────────────────┐ │
+  │  │   NLQ 엔진     │  │  Auto-Insight Engine │ │
+  │  │  (LLM + NLP)   │  │  (이상치/트렌드/예측) │ │
+  │  └───────┬────────┘  └──────────┬───────────┘ │
+  │          └──────────────┬───────┘             │
+  │                         ▼                     │
+  │  ┌──────────────────────────────────────────┐ │
+  │  │  자동 시각화 선택 + 데이터 스토리텔링 NLG  │ │
+  │  └──────────────────────────────────────────┘ │
+  └─────────────────────────┬─────────────────────┘
+                            ▼
+        비즈니스 사용자 (코딩 불필요)
+        ┌──────────────────────────────┐
+        │  "Q3 판매 급감 원인은?"       │
+        │  → 자동 분석 + 내러티브 생성 │
+        └──────────────────────────────┘
+```
 
 ### 주요 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) BI 도구 비교
 
@@ -145,23 +144,21 @@ Gartner는 2017년 Augmented Analytics를 "AI와 ML이 [데이터](/knowledge-ba
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">전통 BI - 수작업 SQL 쿼리 + 정적 대시보드</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">셀프서비스 BI (Power BI, Tableau) - 드래그앤드롭</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Augmented Analytics - AI/ML 자동 인사이트 발굴</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">NLQ (자연어 쿼리) + Auto-Narrative 리포트</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">GenAI BI - LLM 기반 대화형 데이터 분석</div>
-</div>
-</div>
-
-
+```
+전통 BI - 수작업 SQL 쿼리 + 정적 대시보드
+    │
+    ▼
+셀프서비스 BI (Power BI, Tableau) - 드래그앤드롭
+    │
+    ▼
+Augmented Analytics - AI/ML 자동 인사이트 발굴
+    │
+    ▼
+NLQ (자연어 쿼리) + Auto-Narrative 리포트
+    │
+    ▼
+GenAI BI - LLM 기반 대화형 데이터 분석
+```
 
 > **키워드**: Augmented Analytics, NLQ, [AutoML](/knowledge-base/studynote/14_data_engineering/04_mlops/176_automl_hyperparameter_optimization_bayesian/) BI, Self-[Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) BI, [Power BI](/knowledge-base/studynote/16_bigdata/08_visualization/165_power_bi/), [Tableau](/knowledge-base/studynote/16_bigdata/08_visualization/164_tableau/), GenAI BI, Smart Insight
 

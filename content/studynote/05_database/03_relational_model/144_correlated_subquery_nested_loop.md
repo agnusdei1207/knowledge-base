@@ -18,20 +18,14 @@ tags = ["studynote-database"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">상관 서브쿼리:</div>
-<div class="kb-diagram-note">SELECT * FROM emp e1</div>
-<div class="kb-diagram-note">WHERE sal &gt; (SELECT AVG(sal) FROM emp e2 WHERE e2.dept_id = e1.dept_id);</div>
-<div class="kb-diagram-note">→ e1의 각 행마다 e2 서브쿼리 실행</div>
-<div class="kb-diagram-note">→ 100행 × 100행 = 10,000회 실행 가능</div>
-<div class="kb-diagram-note">대안: Window Function → AVG(sal) OVER (PARTITION BY dept_id)</div>
-</div>
-</div>
-
-
+```text
+상관 서브쿼리:
+SELECT * FROM emp e1
+WHERE sal > (SELECT AVG(sal) FROM emp e2 WHERE e2.dept_id = e1.dept_id);
+  → e1의 각 행마다 e2 서브쿼리 실행
+  → 100행 × 100행 = 10,000회 실행 가능
+대안: Window Function → AVG(sal) OVER (PARTITION BY dept_id)
+```
 
 - **📢 섹션 요약 비유**: 상관 서브쿼리는 <strong>각 학생마다 반 평균을 따로 계산</strong>하는 것이다. 한 번에 계산하는 것(Window)보다 비효율적이다.
 
@@ -55,18 +49,12 @@ tags = ["studynote-database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">상관 서브쿼리 (SQL-92)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">성능 문제 인식</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">옵티마이저 Semi-Join 변환</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Window Function 대안 (SQL:2003)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: LATERAL JOIN — 고급 대안</div></div>
-</div>
-</div>
-
-
+```text
+[상관 서브쿼리 (SQL-92)] → [성능 문제 인식]
+    → [옵티마이저 Semi-Join 변환]
+    → [Window Function 대안 (SQL:2003)]
+    → [현재: LATERAL JOIN — 고급 대안]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 상관 서브쿼리는 <strong>각 학생마다 반 평균을 따로 계산</strong>하는 거예요.

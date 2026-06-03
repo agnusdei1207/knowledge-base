@@ -23,18 +23,14 @@ tags = ["studynote-network"]
 - <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/">Bluetooth</a></strong>: 저전력([BLE](/knowledge-base/studynote/03_network/12_iot_wpan_edge/607_ble_bluetooth_low_energy_iot/))이지만 폰과 기기가 1:1로만 연결되어 여러 기기를 동시에 제어하기 빡셌습니다(5.0 메쉬 이전).
 - <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/">Zigbee</a> (IEEE 802.15.4) 🌟</strong>: 처음 태어날 때부터 오직 "건전지 1개로 1년 버티면서, <strong>집 안의 수십~수백 개 사물들을 거미줄(<a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">Mesh</a>)처럼 완벽하게 엮어서</strong> 서로 릴레이 통신하게 만들자"는 목표로 만들어진 저전력, 저속도(250kbps), 초소형 센서망 표준입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">블루투스 LE</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">지그비 메쉬</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NFC 표준</div></div>
-</div>
-</div>
-
-
+```text
+[블루투스 LE]
+    │
+    ▼
+[지그비 메쉬]
+    │
+    └──▶ [NFC 표준]
+```
 
 - **📢 섹션 요약 비유**: [지그비](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/) 메쉬는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -57,18 +53,14 @@ tags = ["studynote-network"]
 - 이놈들은 전파 릴레이(중계) 기능을 아예 삭제당했습니다. 중계를 하려면 항상 깨어있어야 해서 배터리가 다 닳기 때문입니다.
 - 오직 자기 할 말("문 열렸음!")이 있을 때만 1초 깨어나서 가장 가까운 라우터(전구)에게 데이터를 던지고, 즉시 딥슬립(수면)에 빠져 건전지 하나로 1년을 버팁니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">블루투스 LE</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">지그비 메쉬</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NFC 표준</div></div>
-</div>
-</div>
-
-
+```text
+[블루투스 LE]
+    │
+    ▼
+[지그비 메쉬]
+    │
+    └──▶ [NFC 표준]
+```
 
 - **📢 섹션 요약 비유**: [지그비](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/) 메쉬의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -125,19 +117,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 블루투스 LE</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 지그비 메쉬</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: NFC 표준</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 블루투스 LE]
+    │
+    ▼
+[현재 개념: 지그비 메쉬]
+    │
+    ├──▶ [확장 A: NFC 표준]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 [지그비](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/) 메쉬는 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) LE에서 출발해 현재 메커니즘을 정교화하고, 이후 NFC 표준와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -23,27 +23,28 @@ tags = ["studynote-software-engineering"]
 
 - **필요성**: 소프트웨어 총 비용 ([TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/))의 상당 부분이 유지보수 단계에서 발생한다. 연구에 따르면 [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) 비용의 60~80%가 유지보수에 소비된다. 유지보수성이 낮으면 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 수정이 어려워지고, 새로운 기능 추가에 많은 시간이 소요되며, 예기치 않은 버그가 발생할 가능성이 높아진다. 이식성이 낮으면 특정 플랫폼에 종속되어 다양한 환경에 적용하기 어려우며, 클라우드 이전, 모바일 확장 등 새로운 비즈니스 요구에 대응하기 어렵다.
 
-- **💡 비유**: 유지보수성은 "자동차의성"과 같다. 엔진(코드)이 모듈되어 있어문제의을/를의이나 쉽고(분석성), 도구(개발 도구)로 쉽게 분해 조립할 수(변경성), 를 빠르게 교환할 수 있(), 이식성은 "국제 가능한 스마트폰"과 같다. 다양한 국가의 네트워크 frequency(환경)을지원하고, 소프트웨어 업데이트만으로 새로운 기능추가(적응성) 가능하다.
+- **💡 비유**: 유지보수성은 "자동차의정비성"과 같다. 엔진(코드)이 모괴화되어 있어문제발생시어느부분을수리すればいい의か 쉽고(분석성), 공구(개발 도구)로 쉽게 분해 조립할 수あり(변경성), 부품를 빠르게 교환할 수 있(安定性), 이식성은 "국제만유 가능한 스마트폰"과 같다. 다양한 국가의 네트워크 frequency(환경)을지원하고, 소프트웨어 업데이트만으로 새로운 기능추가(적응성) 가능하다.
 
 - **등장 배경**: 유지보수성은 ISO/IEC 9126에서도 중요한 품질 특성으로 다뤄졌으며, ISO/IEC 25010으로 개정되면서 "분석성, 변경성, 안정성, 시험성"에 "모듈성"이 추가되었다. 이식성도 ISO/IEC 9126에서 유지보수성의 하위 특성으로 있었으나, ISO/IEC 25010에서 독립적인 품질 특성으로 격상되었다.
 
-- **📢 섹션 요약 비유**: 유지보수성은 " 블록의 조립 용이성"과 같다. 블록이 표준화된 (모듈성)를 가져 서로 쉽게 연결하고 분리할 수 있으며, 어떤 블록이 문제인지 찾기 쉽고(분석성), 새로운 형태로 다시하기도 쉽다(변경성). 이식성은 "멀티탭 플러그의 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)"과 같다. 다양한(환경)에 연결할 수 있어, 여행할 때 마다의변환기( 작업)를 구입할 필요가 없다.
+- **📢 섹션 요약 비유**: 유지보수성은 "レゴ 블록의 조립 용이성"과 같다. 블록이 표준화된 련접부(모듈성)를 가져 서로 쉽게 연결하고 분리할 수 있으며, 어떤 블록이 문제인지 찾기 쉽고(분석성), 새로운 형태로 다시조장하기도 쉽다(변경성). 이식성은 "멀티탭 플러그의 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)"과 같다. 다양한コンセント(환경)에 연결할 수 있어, 여행할 때 마다별의변환기(이식 작업)를 구입할 필요가 없다.
 
 ---
 
 다음은 유지보수성 (Maintainabili의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유지보수성 (Maintainabili</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                  유지보수성 (Maintainabili                        │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
+│       │                    │                    │          │
+│       ▼                    ▼                    ▼          │
+│   요구 분석           설계·적용           품질 검증        │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램은 유지보수성 (Maintainabili가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -133,30 +134,28 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 유지보수성 (Maintainability) / 이식성 (Portability)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 유지보수성 (Maintainability) / 이식성 (Portability)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
 | [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 유지보수성 (Maintainability) / 이식성 (Portability)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | 유지보수성 (Maintainability) / 이식성 (Portability) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
 | [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 유지보수성 (Maintainability) / 이식성 (Portability)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">유지보수성 (Maintainability) / 이식성 (Portability) 개념 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 위기 (Software Crisis) 인식
+    │
+    ▼
+유지보수성 (Maintainability) / 이식성 (Portability) 개념 정립
+    │
+    ▼
+표준화 및 방법론 체계화 (ISO, CMMI, Agile)
+    │
+    ▼
+클라우드 네이티브·AI 기반 확장 적용
+    │
+    ▼
+지속적 개선 및 DevOps·MLOps 통합
+```
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

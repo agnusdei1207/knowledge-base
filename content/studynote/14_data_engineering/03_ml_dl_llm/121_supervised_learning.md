@@ -18,21 +18,19 @@ tags = ["studynote-dataengineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지도 학습 분류 vs 회귀</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">분류 (Classification)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력: 이메일 텍스트 → 출력: 스팸/정상 (이산값)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모델: 로지스틱 회귀, SVM, Random Forest, DNN</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">회귀 (Regression)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력: 면적·위치 → 출력: 집값 3.2억 (연속값)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모델: 선형 회귀, Ridge, Random Forest, DNN</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    지도 학습 분류 vs 회귀                              │
+├───────────────────────────────────────────────────────┤
+│  [분류 (Classification)]                              │
+│   입력: 이메일 텍스트 → 출력: 스팸/정상 (이산값)      │
+│   모델: 로지스틱 회귀, SVM, Random Forest, DNN       │
+│                                                       │
+│  [회귀 (Regression)]                                  │
+│   입력: 면적·위치 → 출력: 집값 3.2억 (연속값)        │
+│   모델: 선형 회귀, Ridge, Random Forest, DNN          │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)는 "이 동물이 고양이인가 개인가?" (카테고리)이고, 회귀는 "이 집의 가격은 얼마인가?" (숫자)이다.
 
@@ -90,23 +88,21 @@ tags = ["studynote-dataengineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선형 회귀 / 로지스틱 회귀 (통계학)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SVM / Decision Tree (1990s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Random Forest / XGBoost (2000~2010s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DNN / CNN / RNN (Deep Learning, 2012~)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: Self-supervised → Fine-tuning (BERT·GPT)</div></div>
-</div>
-</div>
-
-
+```text
+[선형 회귀 / 로지스틱 회귀 (통계학)]
+    │
+    ▼
+[SVM / Decision Tree (1990s)]
+    │
+    ▼
+[Random Forest / XGBoost (2000~2010s)]
+    │
+    ▼
+[DNN / CNN / RNN (Deep Learning, 2012~)]
+    │
+    ▼
+[현재: Self-supervised → Fine-tuning (BERT·GPT)]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 지도 학습은 <strong>선생님(라벨)</strong>이 "이건 고양이, 이건 개"라고 알려주는 수업이에요.

@@ -23,18 +23,14 @@ tags = ["studynote-network"]
 - **브로드캐스트 (Broadcast, 1:All)**: 동네방네 다 소리 지름. 원하지 않는 사람 컴퓨터까지 강제로 데이터를 받아서 CPU가 터짐(민폐).
 - <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/">멀티캐스트</a> (Multicast, 1:N) 🌟</strong>: IPTV 방송이나 실시간 주식 시세 등, 딱 <strong>'내가 그 방송을 보겠다고 신청(가입)한 사람들 모임(Group)'</strong>에게만 라우터가 똑똑하게 복사해서 뿌려주는 극강의 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 절약 기술입니다. D클래스 IP 주소(`224.0.0.0 ~ 239.255.255.255`)를 씁니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">NAT 횡단</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">멀티캐스트</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TCP 슬라이딩 윈도우</div></div>
-</div>
-</div>
-
-
+```text
+[NAT 횡단]
+    │
+    ▼
+[멀티캐스트]
+    │
+    └──▶ [TCP 슬라이딩 윈도우]
+```
 
 - **📢 섹션 요약 비유**: [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -48,18 +44,14 @@ tags = ["studynote-network"]
 - **Leave (탈퇴)**: 채널을 돌리면 PC가 "저 이제 탈퇴합니다!"라고 라우터에 알립니다.
 - **라우터의 감시 (Query)**: 동네 라우터는 주기적으로 방송을 때립니다. "야! 224.1.1.1번 채널 아직도 보는 사람 있어?" 한 명이라도 "저 아직 봐요!(Report)"라고 응답하면 라우터는 방송 송출을 유지합니다. 아무도 대답을 안 하면 그 즉시 서울 본사에서 내려오는 영상 파이프를 딱! 끊어버려 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비를 0%로 통제합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">NAT 횡단</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">멀티캐스트</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TCP 슬라이딩 윈도우</div></div>
-</div>
-</div>
-
-
+```text
+[NAT 횡단]
+    │
+    ▼
+[멀티캐스트]
+    │
+    └──▶ [TCP 슬라이딩 윈도우]
+```
 
 - **📢 섹션 요약 비유**: [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -125,19 +117,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: NAT 횡단</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 멀티캐스트</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: TCP 슬라이딩 윈도우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: NAT 횡단]
+    │
+    ▼
+[현재 개념: 멀티캐스트]
+    │
+    ├──▶ [확장 A: TCP 슬라이딩 윈도우]
+    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
+```
 
 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)는 [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 횡단에서 출발해 현재 메커니즘을 정교화하고, 이후 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 슬라이딩 윈도우와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

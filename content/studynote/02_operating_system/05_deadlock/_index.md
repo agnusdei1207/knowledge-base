@@ -23,19 +23,21 @@ tags = ["operating_system"]
 
 이 그림은 교착 상태의 전형적인 모습인 '순환 대기 (Circular Wait)'를 시각화한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Deadlock: Circular Wait Scenario</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Resource R1</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Process P1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Requests) (Requests)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Process P2</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Resource R2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* P1은 R2를 원하고, P2는 R1을 원하지만 둘 다 놓지 않음</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Deadlock: Circular Wait Scenario            │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│       [ Resource R1 ] ◀─────── (Holds) ─────── [ Process P1 ]│
+│              │                                     ▲        │
+│           (Requests)                             (Requests) │
+│              ▼                                     │        │
+│       [ Process P2 ] ─────── (Holds) ───────▶ [ Resource R2 ]│
+│                                                             │
+│   * P1은 R2를 원하고, P2는 R1을 원하지만 둘 다 놓지 않음   │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '닫힌 루프'이다. 자원 할당 그래프에서 이러한 사이클이 형성되면 교착 상태의 필요조건이 갖춰진 것이다. 실무에서는 데이터베이스의 레코드 락이나 세마포어를 잘못 관리했을 때 빈번하게 발생하며, 이를 방지하기 위한 설계적 가이드라인이 필수적이다.
 
@@ -70,23 +72,23 @@ tags = ["operating_system"]
 
 이 구조도는 은행가 알고리즘의 의사결정 데이터를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Banker's Algorithm Data Structures</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1. Available</div><div class="kb-diagram-node">m</div><div class="kb-diagram-note">: 각 자원 종류별 가용 개수</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2. Max</div><div class="kb-diagram-node">n</div><div class="kb-diagram-node">m</div><div class="kb-diagram-note">: 각 프로세스의 최대 자원 요구량</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3. Allocation</div><div class="kb-diagram-node">n</div><div class="kb-diagram-node">m</div><div class="kb-diagram-note">: 현재 할당된 자원 양</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">4. Need</div><div class="kb-diagram-node">n</div><div class="kb-diagram-node">m</div><div class="kb-diagram-note">: 추가로 필요한 자원 양 (Max - Alloc)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Check Logic</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">if (Request_i &lt;= Available) {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Try Allocation and Check if Safe State exists?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Banker's Algorithm Data Structures          │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   1. Available[m] : 각 자원 종류별 가용 개수                │
+│   2. Max[n][m]    : 각 프로세스의 최대 자원 요구량          │
+│   3. Allocation[n][m] : 현재 할당된 자원 양                 │
+│   4. Need[n][m]   : 추가로 필요한 자원 양 (Max - Alloc)     │
+│                                                             │
+│   [ Check Logic ]                                           │
+│   if (Request_i <= Available) {                             │
+│       Try Allocation and Check if Safe State exists?        │
+│   }                                                         │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '최악의 상황 가정'이다. 프로세스가 나중에 요구할 수 있는 최대량 (Max)을 고려하여, 가용 자원 (Available)이 이를 감당할 수 있을 때만 빌려준다. 실무적으로는 모든 프로세스의 최대 요구량을 미리 아는 것이 불가능에 가깝기 때문에 이론적 모델로 주로 활용된다.
 
@@ -130,22 +132,23 @@ tags = ["operating_system"]
 
 이 도식은 데이터베이스 트랜잭션에서 데드락을 회피하는 타임스탬프 기반 기법을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Wait-Die vs Wound-Wait (Timestamp)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Wait-Die</div><div class="kb-diagram-note">(Non-preemptive)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 오래된 T가 자원 요청 -&gt; 기다림 (Wait)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 젊은 T가 자원 요청 -&gt; 포기/종료 (Die)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Wound-Wait</div><div class="kb-diagram-note">(Preemptive)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 오래된 T가 자원 요청 -&gt; 젊은 T의 자원 뺏음 (Wound)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 젊은 T가 자원 요청 -&gt; 기다림 (Wait)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* T: Transaction (낮은 타임스탬프가 고참)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│               Wait-Die vs Wound-Wait (Timestamp)            │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Wait-Die ] (Non-preemptive)                             │
+│   - 오래된 T가 자원 요청 -> 기다림 (Wait)                   │
+│   - 젊은 T가 자원 요청 -> 포기/종료 (Die)                   │
+│                                                             │
+│   [ Wound-Wait ] (Preemptive)                               │
+│   - 오래된 T가 자원 요청 -> 젊은 T의 자원 뺏음 (Wound)      │
+│   - 젊은 T가 자원 요청 -> 기다림 (Wait)                     │
+│                                                             │
+│   * T: Transaction (낮은 타임스탬프가 고참)                 │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 기술사의 데드락 관리는 '교통 체증 예방'과 같습니다. 사고가 나기 전에 일방통행로를 만들거나(순환 대기 파괴), 사고가 나면 가장 방해가 되는 차를 견인(프로세스 종료)하여 흐름을 뚫어주는 결단이 필요합니다.
 

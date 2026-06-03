@@ -23,26 +23,32 @@ tags = ["studynote-operating-system"]
 
 - **필요성**: OS [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)을 관리하므로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·전환 비용이 크다([스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)당 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 1~8MB, [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 1~10μs). I/O 바운드 작업이 많은 환경에서 수만 개 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하면 메모리와 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 오버헤드가 병목이 된다. 코루틴은 사용자 공간에서 문맥 전환을 수행하므로, 이러한 오버헤드 없이 수십만 개의 동시 작업을 관리할 수 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서브루틴 vs 코루틴 — 실행 흐름 비교</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서브루틴 (함수):</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">함수 시작</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">함수 끝</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">caller로 복귀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단일 진입점 단일 종료점</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 한 번만 실행, 중간에 멈출 불가 ──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코루틴:</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">코루틴 A 시작</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">caller</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">코루틴 A 계속</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">caller</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">특징:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 진입점이 여러 개 (재개 시마다 다른 지점)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- caller와 coroutine가 양방향 제어 전환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 상태를 자체적으로 보관 (로컬 변수 유지)</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────┐
+│       서브루틴 vs 코루틴 — 실행 흐름 비교                     │
+├───────────────────────────────────────────────────────────────┤
+│                                                               │
+│  서브루틴 (함수):                                             │
+│  caller ──▶ [함수 시작] ──▶ [함수 끝] ──▶ caller로 복귀       │
+│               단일 진입점       단일 종료점                   │
+│               │                                   ▲           │
+│               └── 한 번만 실행, 중간에 멈출 불가 ──┘          │
+│                                                               │
+│  코루틴:                                                      │
+│  caller ──▶ [코루틴 A 시작] ──yield──▶ caller                 │
+│               │                         │                     │
+│               │    ┌───────────────────┘                      │
+│               │    │                                          │
+│               └─resume─▶ [코루틴 A 계속] ──yield──▶ caller    │
+│                            │                    │             │
+│                            └────────────────────┘             │
+│                                                               │
+│  특징:                                                        │
+│  - 진입점이 여러 개 (재개 시마다 다른 지점)                   │
+│  - caller와 coroutine가 양방향 제어 전환                      │
+│  - 상태를 자체적으로 보관 (로컬 변수 유지)                    │
+└───────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 서브루틴은 호출자가 제어권을 넘기면 함수가 끝날 때까지 제어권을 돌려받지 못한다. 반면 코루틴은 yield 시점에서 제어권을 호출자에게 반환하고, resume 호출로 중단 시점부터 다시 실행을 이어간다. 이것이 코루틴이 "협력적(cooperative)"인 이유다 — 코루틴 스스로가 언제 양보할지 결정하기 때문이다. preemptive(선점형) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)와 달리, 코루틴은 절대 자신의 의지에 반해 선점되지 않으므로 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 문제가 발생하지 않지만, 한 코루틴이 양보하지 않으면 전체 시스템이 멈추는 리스크가 있다.
 
@@ -63,29 +69,31 @@ tags = ["studynote-operating-system"]
 
 ### async/await 구현 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">async/await — 컴파일러 변환 예시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소스 코드 (Python):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">async def fetch_data():</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">data = await read_file() ① 여기서 일시 중단</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">result = await process(data) ② 여기서 재개</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">return result</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">컴파일러가 생성한 상태 머신:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상태 = INIT</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── read_file() 호출 → 상태 = WAIT_FILE</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 결과 수신 → 상태 = HAVE_DATA</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── process(data) 호출 → 상태 = WAIT_PROC</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 결과 수신 → 상태 = HAVE_RESULT</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── return result</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① await에서: 현재 로컬 변수를 클로저에 저장 → 이벤트 루프로 복귀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② future 완료 시: 저장된 로컬 변수 복원 → 중단 지점에서 재개</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│         async/await — 컴파일러 변환 예시                           │
+├────────────────────────────────────────────────────────────────────┤
+│                                                                    │
+│  소스 코드 (Python):                                               │
+│  async def fetch_data():                                           │
+│      data = await read_file()   ① 여기서 일시 중단                 │
+│      result = await process(data) ② 여기서 재개                    │
+│      return result                                                 │
+│                                                                    │
+│  컴파일러가 생성한 상태 머신:                                      │
+│  ┌─────────────────────────────────────────────┐                   │
+│  │ 상태 = INIT                                 │                   │
+│  │ ── read_file() 호출 → 상태 = WAIT_FILE    │                     │
+│  │ ── 결과 수신 → 상태 = HAVE_DATA            │                    │
+│  │ ── process(data) 호출 → 상태 = WAIT_PROC  │                     │
+│  │ ── 결과 수신 → 상태 = HAVE_RESULT          │                    │
+│  │ ── return result                           │                    │
+│  └─────────────────────────────────────────────┘                   │
+│                                                                    │
+│  ① await에서: 현재 로컬 변수를 클로저에 저장 → 이벤트 루프로 복귀  │
+│  ② future 완료 시: 저장된 로컬 변수 복원 → 중단 지점에서 재개      │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** async/await는 컴파일러가 코루틴을 상태 머신([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Machine)으로 변환하는 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)리스 코루틴 구현이다. await 시점에서 현재 함수의 모든 로컬 변수를 힙에 저장하고 제어권을 [이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/)에게 반환한다. Future가 완료되면 [이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/)가 저장된 변수를 복원하고 중단 지점에서 실행을 재개한다. 이 방식의 장점은 각 코루틴에 독립 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)이 필요 없으므로 메모리 오버헤드가 극히 작다는 것이다. 단점은 await는 코루틴 함수 내부에서만 사용할 수 있고, 일반 함수 내부에서는 await를 호출할 수 없다.
 
@@ -145,19 +153,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">고루틴 (Goroutine)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">코루틴 (Coroutine)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">이벤트 루프 (Event Loop) 기반 비동기 처리 (Node.js)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">컨텍스트 스위칭 최소화를 위한 스레드 고정 (Thread Affinity/Pinning)</div></div>
-</div>
-</div>
-
-
+```text
+[고루틴 (Goroutine)]
+    │
+    ▼
+[코루틴 (Coroutine)]
+    │
+    ├──▶ [이벤트 루프 (Event Loop) 기반 비동기 처리 (Node.js)]
+    └──▶ [컨텍스트 스위칭 최소화를 위한 스레드 고정 (Thread Affinity/Pinning)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

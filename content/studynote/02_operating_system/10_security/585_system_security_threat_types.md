@@ -13,7 +13,7 @@ tags = ["studynote-operating-system"]
 
 > 1. **본질**: 정보 보안의 3대 목표는 <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/">기밀성</a>(<a href="/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/">Confidentiality</a>)</strong>, <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a>(<a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">Integrity</a>)</strong>, <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a>(<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">Availability</a>)</strong>이며, 이에 <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>(<a href="/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/">Authentication</a>)</strong>을 더하여 4가지 보안 위협 유형으로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)한다.
 > 2. **가치**: 이 <strong><a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a> 체계(CIA+Auth)</strong>를 통해 다양한 해킹 공격을 체계적으로 분석하고, 각 위협 유형에 대응하는 보안 기술을 적용할 수 있다.
-> 3. **한계**: 실제 공격은 여러 위협 유형을 조합하여 발생하므로,(단일) 기술만으로는 완벽한 보안을 달성할 수 없다.
+> 3. **한계**: 실제 공격은 여러 위협 유형을 조합하여 발생하므로,단일(단일) 기술만으로는 완벽한 보안을 달성할 수 없다.
 
 ---
 
@@ -33,7 +33,7 @@ tags = ["studynote-operating-system"]
 
 | 위협 유형 | 설명 | 예시 |
 |:---|:---|:---|
-| **변조 (Modification)** | 정보가(중도)에서 변경됨 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변경, man-in-the-middle 공격 |
+| **변조 (Modification)** | 정보가중도(중도)에서 변경됨 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변경, man-in-the-middle 공격 |
 
 ### 1.3 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) ([Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))
 
@@ -53,16 +53,16 @@ tags = ["studynote-operating-system"]
 
 ```
 [ 통신 흐름 ]
-Sender ----(데이터)----> Receiver
-^
-|
-【해커가 도청】
+ Sender  ----(데이터)---->  Receiver
+              ^
+              |
+         【해커가 도청】
 ```
 
 **예시**:
 - 네트워크 스니핑
 - 이메일 가로채기
--(통화) [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/)
+-통화(통화) [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/)
 
 **대응 기술**:
 - [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)/SSL 암호화
@@ -71,23 +71,17 @@ Sender ----(데이터)----> Receiver
 
 ### 2.2 변조 (Modification): [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 침해
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">통신 흐름</div></div>
-<div class="kb-diagram-note">Sender ----(정상 데이터)---&gt; Receiver</div>
-<div class="kb-diagram-note">【해커가 데이터 변조】</div>
-<div class="kb-diagram-tree-item" style="--depth:0">(변조된 데이터)---&gt; Receiver</div>
-</div>
-</div>
-
-
+```
+[ 통신 흐름 ]
+ Sender  ----(정상 데이터)--->  Receiver
+              【해커가 데이터 변조】
+              ----(변조된 데이터)--->  Receiver
+```
 
 **예시**:
 - [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변경 공격
 - [DNS Spoofing](/knowledge-base/studynote/03_network/19_frequent_topics_terms/976_dns_spoofing/)
-- [HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)(다운그레이드)
+- [HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)ダウングレード(다운그레이드)
 
 **대응 기술**:
 - [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 검사 (Hash/[MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))
@@ -98,8 +92,8 @@ Sender ----(데이터)----> Receiver
 
 ```
 [ 통신 흐름 ]
-Sender -X-(데이터)-X-> Receiver
-【해커가 통신 차단】
+ Sender  -X-(데이터)-X->  Receiver
+         【해커가 통신 차단】
 ```
 
 **예시**:
@@ -108,7 +102,7 @@ Sender -X-(데이터)-X-> Receiver
 - 시스템 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 삭제
 
 **대응 기술**:
--([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))
+-방화장([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))
 - DDoS 방어 시스템
 - [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 및 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)
 
@@ -116,9 +110,9 @@ Sender -X-(데이터)-X-> Receiver
 
 ```
 [ 통신 흐름 ]
-(진짜 Sender 없음)
-【해커가 가짜 Sender 역할】
-----(가짜 데이터)---> Receiver
+  (진짜 Sender 없음)
+ 【해커가 가짜 Sender 역할】
+              ----(가짜 데이터)--->  Receiver
 ```
 
 **예시**:
@@ -128,7 +122,7 @@ Sender -X-(데이터)-X-> Receiver
 
 **대응 기술**:
 - [Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/) ([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/))
--(디지털 서명)
+-デジタル서명(디지털 서명)
 - [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서
 
 - **📢 섹션 요약 비유**: 공장 컨베이어벨트가 어떤 순서로 부품을 받아 가공하고 내보내는지 설계도를 펼쳐 보는 것과 같다.
@@ -149,17 +143,11 @@ Sender -X-(데이터)-X-> Receiver
 
 세 가지 목표는 상호 Trade-off [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)에 있다:
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">예시</div></div>
-<div class="kb-diagram-note">기밀성을 높이면 -&gt; 복잡한 암호화 -&gt; 가용성 저하</div>
-<div class="kb-diagram-note">무결성을 높이면 -&gt; 많은 검증 -&gt; 성능 저하</div>
-</div>
-</div>
-
-
+```text
+[ 예시 ]
+기밀성을 높이면 -> 복잡한 암호화 -> 가용성 저하
+무결성을 높이면 -> 많은 검증 -> 성능 저하
+```
 
 - **📢 섹션 요약 비유**: 비슷해 보이는 공구를 나란히 놓고 언제 망치를 쓰고 언제 드라이버를 써야 하는지 구분하는 것과 같다.
 
@@ -194,19 +182,15 @@ Sender -X-(데이터)-X-> Receiver
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">AppArmor</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시스템 보안 위협 유형 (System Security Threat Types)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">트로이 목마 (Trojan Horse) / 래퍼 (Wrapper)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">트랩 도어 (Trap Door / Backdoor)</div></div>
-</div>
-</div>
-
-
+```text
+[AppArmor]
+    │
+    ▼
+[시스템 보안 위협 유형 (System Security Threat Types)]
+    │
+    ├──▶ [트로이 목마 (Trojan Horse) / 래퍼 (Wrapper)]
+    └──▶ [트랩 도어 (Trap Door / Backdoor)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 
@@ -214,7 +198,7 @@ Sender -X-(데이터)-X-> Receiver
 
 1. <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/">기밀성</a></strong>은 놀이공원에서 <strong>"비밀번호 없이는 입장 불가"</strong>와 같다. 비밀번호를 모르는 사람은 놀이시설을 탈 수 없다.
 
-2. <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a></strong>은 놀이공원에서 <strong>"표시가 있는 표찰"</strong>과 같다.표찰에 표시된 내용을에(승강장에) 변경할 수 없어야 한다.
+2. <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a></strong>은 놀이공원에서 <strong>"표시가 있는 표찰"</strong>과 같다.표찰에 표시된 내용을승수에(승강장에) 변경할 수 없어야 한다.
 
 3. <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a></strong>은 놀이공원에서 <strong>"언제든 입장 가능"</strong>과 같다. 놀이시설이 고장나면 아무도 놀지 못한다.
 

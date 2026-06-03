@@ -26,25 +26,27 @@ tags = ["security"]
 - **💡 비유**: 회사 신입사원에게 회사 전체의 마스터키(과도한 권한)를 주지 않고, 오직 자신의 부서 사무실과 본인 책상 서랍만 열 수 있는 사원증(최소 권한)을 주는 것과 같습니다. 만약 사원증을 분실해도 도둑은 사장실이나 금고에 들어갈 수 없습니다.
 - **등장 배경**: ① 군사 보안의 '[Need-to-Know](/knowledge-base/studynote/09_security/01_intro_principles/013_need_to_know/)(알 필요성)' 원칙에서 유래 → ② 다중 사용자 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(Multics, UNIX)의 권한 분리 설계로 발전 → ③ [APT](/knowledge-base/studynote/09_security/15_malware_attack_vectors/748_apt/) 공격의 횡적 이동(Lateral Movement) 방어를 위해 현대 클라우드 [IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/) 및 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)의 핵심 교리로 부상.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">과도한 권한(Over-privileged) vs 최소 권한(PoLP) 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">과도한 권한 아키텍처 - ⚠ 위험</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공격자 탈취 (마케팅 직원 PC)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (Admin 권한 보유)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">마케팅 DB</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">인사 DB</div><div class="kb-diagram-note">,</div><div class="kb-diagram-node">재무 DB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 단 하나의 계정이 뚫려 전체 시스템 장악 및 데이터 대량 유출 발생</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">최소 권한 원칙 아키텍처 - ✅ 안전</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공격자 탈취 (마케팅 직원 PC)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (오직 '마케팅 DB Read' 권한만 보유)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">마케팅 DB</div><div class="kb-diagram-node">인사 DB</div><div class="kb-diagram-note">(접근 차단 ✖)</div><div class="kb-diagram-node">재무 DB</div><div class="kb-diagram-note">(접근 차단 ✖)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 해커가 다른 시스템으로 이동(Pivot) 불가. 피해를 마케팅 DB로만 국한.</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           과도한 권한(Over-privileged) vs 최소 권한(PoLP) 비교           │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│ [과도한 권한 아키텍처 - ⚠ 위험]                                    │
+│       공격자 탈취 (마케팅 직원 PC)                                  │
+│           │                                                  │
+│           ▼ (Admin 권한 보유)                                 │
+│   [마케팅 DB] ────(횡적 이동: 권한 남용)────▶ [인사 DB], [재무 DB]    │
+│   결과: 단 하나의 계정이 뚫려 전체 시스템 장악 및 데이터 대량 유출 발생        │
+│                                                              │
+│                                                              │
+│ [최소 권한 원칙 아키텍처 - ✅ 안전]                                   │
+│       공격자 탈취 (마케팅 직원 PC)                                  │
+│           │                                                  │
+│           ▼ (오직 '마케팅 DB Read' 권한만 보유)                   │
+│   [마케팅 DB]       [인사 DB] (접근 차단 ✖)    [재무 DB] (접근 차단 ✖)│
+│   결과: 해커가 다른 시스템으로 이동(Pivot) 불가. 피해를 마케팅 DB로만 국한.  │
+└──────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 시각화는 최소 권한 원칙이 왜 '피해 범위(Blast [Radius](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/541_radius_remote_authentication_aaa/)) 최소화'의 핵심인지 극명하게 보여준다. [APT](/knowledge-base/studynote/09_security/15_malware_attack_vectors/748_apt/)([지능형 지속 위협](/knowledge-base/studynote/09_security/04_endpoint_security/374_apt/)) 공격자는 최초 침투([Initial Access](/knowledge-base/studynote/09_security/15_malware_attack_vectors/751_initial_access/)) 후 반드시 더 높은 권한을 찾아 내부망을 헤집고 다니는 횡적 이동(Lateral Movement)을 시도한다. PoLP가 적용된 환경에서는 탈취한 계정의 권한이 좁아 공격의 사슬이 끊어지며 방어자가 이상 징후를 탐지할 시간을 벌어준다.
 
@@ -66,25 +68,31 @@ tags = ["security"]
 
 전통적인 PoLP는 "A는 영구적으로 B 권한을 갖는다"는 정적(Static) 할당 방식이었다. 하지만 현대 클라우드 환경에서는 평소에는 '0([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)) 권한'을 유지하다가, 작업이 필요한 그 순간에만 한시적으로 권한을 부여하고 뺏어버리는 [JIT](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/)([Just-In-Time](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/)) 개념으로 발전했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">현대적 최소 권한의 진화: JIT (Just-In-Time) 권한 부여 흐름도</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DB 관리자 (DBA)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">평소 상태: 권한 없음 (Zero Standing Privileges, ZSP)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 요청: "티켓 #123 (긴급 패치) 처리를 위해 프로덕션 DB 접근 필요"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">PAM (Privileged Access Management) 시스템</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 검증: 티켓 유효성, 승인자 결재, 접속 IP 및 MFA 인증 확인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 생성: 일회용 임시 자격증명(토큰) 발급 및 DB 임시 권한(Read/Write) 주입</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(접속 세션 시작: 모든 행위 화면 녹화)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">프로덕션 DB 서버</div><div class="kb-diagram-note">──작업 수행 (수명: 2시간)──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 회수: 2시간 경과 후 권한 자동 박탈 (Revoke) 및 토큰 폐기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 다시 '0(Zero) 권한' 상태로 복귀</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           현대적 최소 권한의 진화: JIT (Just-In-Time) 권한 부여 흐름도      │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│ [DB 관리자 (DBA)]                                             │
+│    평소 상태: 권한 없음 (Zero Standing Privileges, ZSP)            │
+│                                                              │
+│    1. 요청: "티켓 #123 (긴급 패치) 처리를 위해 프로덕션 DB 접근 필요"      │
+│       │                                                      │
+│       ▼                                                      │
+│  [PAM (Privileged Access Management) 시스템]                   │
+│    2. 검증: 티켓 유효성, 승인자 결재, 접속 IP 및 MFA 인증 확인         │
+│       │                                                      │
+│       ▼                                                      │
+│    3. 생성: 일회용 임시 자격증명(토큰) 발급 및 DB 임시 권한(Read/Write) 주입│
+│                                                              │
+│       │ (접속 세션 시작: 모든 행위 화면 녹화)                       │
+│       ▼                                                      │
+│    [ 프로덕션 DB 서버 ] ──작업 수행 (수명: 2시간)──                  │
+│                                                              │
+│    4. 회수: 2시간 경과 후 권한 자동 박탈 (Revoke) 및 토큰 폐기           │
+│    결과: 다시 '0(Zero) 권한' 상태로 복귀                             │
+└──────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** [JIT](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/) 파이프라인의 핵심은 '[Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) Standing Privileges (ZSP)' 즉, 평상시 서 있는(상시 존재하는) 특권 계정을 아예 없애는 것이다. 공격자가 DBA의 노트북을 해킹하더라도 그 계정에는 아무런 권한이 없으므로 공격은 실패한다. 오직 정상적인 티켓 시스템과 다중 결재를 거친 '특정 시간(Time-bound)'에만 권한이 열리고, 시간이 지나면 자동으로 닫히기 때문에 공격 표면(Attack Surface)이 시간적으로도 극도로 최소화된다.
 
@@ -107,25 +115,26 @@ tags = ["security"]
 
 현대의 최소 권한 적용은 단순한 역할 기반([RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/))에서 컨텍스트를 고려하는 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 기반([ABAC](/knowledge-base/studynote/09_security/11_iam_access_control/572_abac/))으로 진화하고 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RBAC의 한계와 ABAC를 통한 '동적 최소 권한'의 완성</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">RBAC의 함정: Role Explosion (역할 폭발)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"영업팀의 문서를 보려면 영업 Role이 필요하다"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 철수가 영업팀 파견을 감 → 철수에게 '영업 Role' 추가 (권한 부여)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 파견 복귀 후 Role을 안 지움 (Privilege Creep 발생, 권한 과잉)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ABAC 기반 동적 제어 (Dynamic PoLP)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정책(Policy): "접근자 부서 == 리소스 소속팀 AND 상태 == 정직원"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">철수 부서:</div><div class="kb-diagram-node">마케팅</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">영업 문서 접근 시도 ──▶ ❌ 접근 거부 (조건 불일치)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">철수 부서:</div><div class="kb-diagram-node">영업</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">✅ 자동 허용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💡 효과: 관리자가 수동으로 권한을 줬다 뺐다 할 필요 없이, 상황(속성)에 따라</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시스템이 실시간으로 '최소 권한'의 바운더리를 계산하여 적용함.</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           RBAC의 한계와 ABAC를 통한 '동적 최소 권한'의 완성              │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│ [RBAC의 함정: Role Explosion (역할 폭발)]                       │
+│  "영업팀의 문서를 보려면 영업 Role이 필요하다"                         │
+│  → 철수가 영업팀 파견을 감 → 철수에게 '영업 Role' 추가 (권한 부여)         │
+│  → 파견 복귀 후 Role을 안 지움 (Privilege Creep 발생, 권한 과잉)       │
+│                                                              │
+│ [ABAC 기반 동적 제어 (Dynamic PoLP)]                           │
+│  정책(Policy): "접근자 부서 == 리소스 소속팀 AND 상태 == 정직원"          │
+│                                                              │
+│  철수 부서: [마케팅] → 영업 문서 접근 시도 ──▶ ❌ 접근 거부 (조건 불일치)   │
+│  철수 부서: [영업] (인사DB 연동 자동변경) ─▶ ✅ 자동 허용               │
+│                                                              │
+│ 💡 효과: 관리자가 수동으로 권한을 줬다 뺐다 할 필요 없이, 상황(속성)에 따라 │
+│          시스템이 실시간으로 '최소 권한'의 바운더리를 계산하여 적용함.       │
+└──────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 비교는 실무에서 왜 RBAC만으로 최소 권한을 유지하기 힘든지를 설명한다. 시간이 지날수록 사람들의 부서 이동과 프로젝트 참여가 쌓이면서 권한이 줄어들지 않고 계속 커지는 현상(Privilege Creep)이 필연적으로 발생한다. 이를 극복하기 위해 ABAC는 권한을 사람의 '[속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)([Attribute](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))'에 묶어, 부서가 바뀌거나 퇴사하면 연동된 조건식이 깨져서 즉각적으로 권한이 회수되는 동적(Dynamic) 구조를 제공한다.
 
@@ -145,22 +154,26 @@ tags = ["security"]
    - A [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(결제) [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)에만 '결제 DB Read/Write' 권한 부여.
    - 추가로 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 네트워크 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)(Network [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))을 통해 B [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 A [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 통신을 거는 내부 네트워크 경로 자체를 `Default Deny`로 차단.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마이크로서비스 환경에서의 최소 권한 (PoLP) 설계 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AWS 환경</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Worker Node</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Pod: 이미지 처리 ── ─ Pod: 결제 처리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(권한: S3 이미지 버킷만)</div><div class="kb-diagram-cell">✖차단</div><div class="kb-diagram-cell">(권한: 결제 DB만)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(접근)</div><div class="kb-diagram-cell">(접근)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">S3: 이미지 저장소</div><div class="kb-diagram-node">RDS: 결제 데이터베이스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💡 결과: 이미지 Pod가 해킹되어도 결제 DB나 결제 Pod로 침투하는 횡적 이동 불가</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           마이크로서비스 환경에서의 최소 권한 (PoLP) 설계 구조           │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│  [AWS 환경]                                                    │
+│                                                              │
+│  ┌─ Worker Node ───────────────────────────────────────────┐ │
+│  │                                                         │ │
+│  │  ┌─ Pod: 이미지 처리 ──┐        ┌─ Pod: 결제 처리 ────┐      │ │
+│  │  │ (권한: S3 이미지 버킷만) │ ✖차단 │ (권한: 결제 DB만)   │      │ │
+│  │  └───────────────────┘        └────────────────────┘      │ │
+│  └─────────────────────────────────────────────────────────┘ │
+│         │ (접근)                           │ (접근)             │
+│         ▼                                ▼                  │
+│   [S3: 이미지 저장소]                 [RDS: 결제 데이터베이스]     │
+│                                                              │
+│ 💡 결과: 이미지 Pod가 해킹되어도 결제 DB나 결제 Pod로 침투하는 횡적 이동 불가│
+└──────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 구조는 인프라 레벨의 권한 최소화(Identity)와 네트워크 레벨의 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)(Network)이 결합된 모습이다. 애플리케이션 자체가 해킹당하는 것(Initial Breach)을 100% 막을 수는 없지만, PoLP가 적용되면 해커는 해당 애플리케이션의 좁은 감방(Sandbox)에 갇혀 더 이상 가치 있는 자산(결제 DB)으로 전진할 수 없다. 실무 클라우드 보안 설계의 핵심 중의 핵심이다.
 
@@ -201,25 +214,24 @@ tags = ["security"]
 
 ## 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">최소 권한 원칙 (Least Privilege) — 최소한의 권한만 부여</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">직무 분리 (Separation of Duties) — 권한을 여러 주체로 분산</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">역할 기반 접근 제어 (RBAC) — 역할 단위 권한 집합 관리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">속성 기반 접근 제어 (ABAC) — 상황·속성 기반 세분화 권한</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">제로 트러스트 (Zero Trust) — 기본 거부, 지속 인증·최소 권한 통합</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">PAM (특권 접근 관리) — 관리자 계정 최소 권한 통제 자동화</div></div>
-</div>
-</div>
-
-
+```text
+[최소 권한 원칙 (Least Privilege) — 최소한의 권한만 부여]
+    │
+    ▼
+[직무 분리 (Separation of Duties) — 권한을 여러 주체로 분산]
+    │
+    ▼
+[역할 기반 접근 제어 (RBAC) — 역할 단위 권한 집합 관리]
+    │
+    ▼
+[속성 기반 접근 제어 (ABAC) — 상황·속성 기반 세분화 권한]
+    │
+    ▼
+[제로 트러스트 (Zero Trust) — 기본 거부, 지속 인증·최소 권한 통합]
+    │
+    ▼
+[PAM (특권 접근 관리) — 관리자 계정 최소 권한 통제 자동화]
+```
 최소 권한 원칙은 [RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/) → [ABAC](/knowledge-base/studynote/09_security/11_iam_access_control/572_abac/) → [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)로 이어지는 현대 보안 아키텍처의 핵심 토대이며, PAM으로 자동화·통합 관리된다.
 
 ## 👶 어린이를 위한 3줄 비유 설명

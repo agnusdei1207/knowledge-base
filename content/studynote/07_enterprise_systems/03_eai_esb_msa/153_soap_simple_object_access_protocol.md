@@ -22,7 +22,7 @@ SOAP는 인터넷 브라우저가 쓰는 [HTTP](/knowledge-base/studynote/03_net
 
 1990년대 후반 K-은행 기업 연동 킥오프 데이. 은행 A는 자바(Java RMI 쇳덩이), 은행 B는 마이크로소프트 닷넷(C# DCOM 쇳덩이), 국세청은 낡은 코볼(COBOL 메인프레임 시체)로 백엔드 서버 뼈대가 전부 다른 바벨탑 난장판 파편화([Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)) 파국 지옥이었다. 
 "야 은행 B! 내 유저 포인트 조회하게 자바 함수 다이렉트 콜([RPC](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/)) [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 열어 찔러봐 콜 ㅋ" 
-**대재앙 발동 💥**: "씨발 닷넷에서 자바 RMI 닫힌 통신 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 안 맞아 기업 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 막힘 에러 뻗음!! 자바 객체 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)화 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)코드 닷넷에서 1바이트도 못 읽어서 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 400 Bad Request 터져 셧다운 올스탑 마비 쾅 💀!!!" 
+**대재앙 발동 💥**: "씨발 닷넷에서 자바 RMI 닫힌 통신 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 안 맞아 기업 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 병목 에러 뻗음!! 자바 객체 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)화 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)코드 닷넷에서 1바이트도 못 읽어서 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 400 Bad Request 터져 셧다운 올스탑 마비 쾅 💀!!!" 
 **아키텍트 대장 철퇴 십자 융합 메스 발동 🚀!!**: "야 이 미친 쇳덩이 타자기 꼰대 새끼들아 언어 핑계 그만 대고 다 닥쳐 입 틀어막아 락킹 쳐 쾅!!!! 
 **하늘이 무너져도 니들 사내 폐쇄적인 1통짜리 갈라파고스 통신 언어 찌끄레기들 당장 전선 가위로 다 오려 찢어 소각 폐기 드랍 쳐버려!!! 
 오늘부터 이기종(Java ↔ C#) 놈들이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 핑퐁 찌를 땐 무.조.건. [지구상 모든 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 80포트를 무혈 프리패스 스키 타 뚫어버리는 갓 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인] 위에 태워 쏴버려 쾅!!! 
@@ -37,35 +37,42 @@ SOAP는 인터넷 브라우저가 쓰는 [HTTP](/knowledge-base/studynote/03_net
 
 "SOAP 걍 XML 태그 많아서 타자치기 존나 빡센 오버헤드 쓰레기 아님 ㅋ?" 2020년생 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 꿀 빨러 프론트 주니어들의 뇌 정지를 찢어발기는 팩폭 3단 봉투 해부 맵이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SOAP XML 3단 강철 장갑차 껍데기 해부 엑스레이 도면 (Envelope 팩폭)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">📩</div><div class="kb-diagram-node">HTTP POST 파이프라인 안을 흘러가는 SOAP XML 텍스트 본문 쇳덩이 🚀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ &lt;soap:Envelope&gt; (우주 대장 절대 포장지 박스 대문 📦)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ &lt;soap:Header&gt; (선택 잉여 같지만 사실 0순위 코어 무기 텐트 🛡️)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 🔒 WS-Security: 유저 토큰, 인증서 쌍방향 해시 떡칠 암호 락킹!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 🎯 WS-Routing: 나 중간에 A ➔ B ➔ C 라우터 거쳐서 목적지 가야함!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 🔄 WS-Transaction: 결제 터지면 다 같이 롤백 연쇄 폭파 세팅 쾅!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ &lt;soap:Body&gt; (가장 밑바닥 진짜 찐 비즈니스 코어 핏줄 🩸)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;GetPointRequest&gt; (내가 찌를 함수 이름 명세 타격 쾅!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;userId&gt;12345&lt;/userId&gt; (파라미터 인자 엑스레이 쑤셔 박음!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;/GetPointRequest&gt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ &lt;soap:Fault&gt; (버그 터졌을 때 예외 처리 Error 짬처리 밀실 💥)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "유저 DB 타임아웃 뻗음 404 미아 에러 발생 텍스트 영수증 뱉음 퉤"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 아키텍트 극딜: "야 이 코더들아 눈깔 똑바로 까 뒤집고 봐라 쾅!!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">JSON은 걍 <code>{ user: 123 }</code> 알몸 텍스트 떨렁 1줄 던지고 끝나는 천박한 깃털이지만!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SOAP는 비즈니스 알맹이(Body) 보다 대가리에 쓴 모자(Header 껍데기) 쇳덩이가 10배</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">더 무겁고 뚱뚱한 극강의</div><div class="kb-diagram-node">오버엔지니어링 장갑차</div><div class="kb-diagram-note">구조다 쾅!! 근데 왜 은행은 이 뚱뚱이를</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">절대 포기 못하냐고?! 저 Header 구멍에 [엔터프라이즈의 보안, 트랜잭션 롤백 무결점 통제</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">룰]을 무한대로 플러그인(WS-*) 인서트 조립 떡칠 록온 쳐 박아서 ➔ 서버 간 통신을 단순</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">핑퐁이 아닌</div><div class="kb-diagram-node">법적 책임 100% 무결점 보증 계약망 (Contract 쉴드)</div><div class="kb-diagram-note">으로 승격시켰기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">때문이야 쓩🚀!"</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│         SOAP XML 3단 강철 장갑차 껍데기 해부 엑스레이 도면 (Envelope 팩폭) │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ 📩 [ HTTP POST 파이프라인 안을 흘러가는 SOAP XML 텍스트 본문 쇳덩이 🚀 ] │
+│                                                             │
+│ ┌─ <soap:Envelope> (우주 대장 절대 포장지 박스 대문 📦) ──────────────┐│
+│ │                                                           ││
+│ │  ┌─ <soap:Header> (선택 잉여 같지만 사실 0순위 코어 무기 텐트 🛡️) ───┐ ││
+│ │  │  - 🔒 WS-Security: 유저 토큰, 인증서 쌍방향 해시 떡칠 암호 락킹!   │ ││
+│ │  │  - 🎯 WS-Routing: 나 중간에 A ➔ B ➔ C 라우터 거쳐서 목적지 가야함!│ ││
+│ │  │  - 🔄 WS-Transaction: 결제 터지면 다 같이 롤백 연쇄 폭파 세팅 쾅!   │ ││
+│ │  └─────────────────────────────────────────────────────────┘ ││
+│ │                                                           ││
+│ │  ┌─ <soap:Body> (가장 밑바닥 진짜 찐 비즈니스 코어 핏줄 🩸) ────────┐ ││
+│ │  │  <GetPointRequest> (내가 찌를 함수 이름 명세 타격 쾅!)             │ ││
+│ │  │    <userId>12345</userId> (파라미터 인자 엑스레이 쑤셔 박음!)      │ ││
+│ │  │  </GetPointRequest>                                         │ ││
+│ │  │                                                             │ ││
+│ │  │  ┌─ <soap:Fault> (버그 터졌을 때 예외 처리 Error 짬처리 밀실 💥) ┐ │ ││
+│ │  │  │  - "유저 DB 타임아웃 뻗음 404 미아 에러 발생 텍스트 영수증 뱉음 퉤" │ ││
+│ │  │  └─────────────────────────────────────────────────────┘ │ ││
+│ │  └─────────────────────────────────────────────────────────┘ ││
+│ └───────────────────────────────────────────────────────────────────┘│
+│                                                             │
+│ 🌟 아키텍트 극딜: "야 이 코더들아 눈깔 똑바로 까 뒤집고 봐라 쾅!!               │
+│   JSON은 걍 `{ user: 123 }` 알몸 텍스트 떨렁 1줄 던지고 끝나는 천박한 깃털이지만! │
+│   SOAP는 비즈니스 알맹이(Body) 보다 대가리에 쓴 모자(Header 껍데기) 쇳덩이가 10배  │
+│   더 무겁고 뚱뚱한 극강의 [오버엔지니어링 장갑차] 구조다 쾅!! 근데 왜 은행은 이 뚱뚱이를│
+│   절대 포기 못하냐고?! 저 Header 구멍에 [엔터프라이즈의 보안, 트랜잭션 롤백 무결점 통제 │
+│   룰]을 무한대로 플러그인(WS-*) 인서트 조립 떡칠 록온 쳐 박아서 ➔ 서버 간 통신을 단순 │
+│   핑퐁이 아닌 [법적 책임 100% 무결점 보증 계약망 (Contract 쉴드)] 으로 승격시켰기  │
+│   때문이야 쓩🚀!"                                                │
+└─────────────────────────────────────────────────────────────┘
+```
 
 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/">아키텍트의 팩폭 튜닝: 왜 굳이 무거운 XML [스키마</a>(XSD) 문지기를 쓰는가?]</strong>
 - **[JSON의 유연성(Flexibility)이 부르는 런타임 Null 에러 타죽음 💥]**: 
@@ -149,23 +156,21 @@ SOAP가 'Simple' 이라는 거짓말 껍데기를 버리고 우주 최강 무거
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">모놀리식 / P2P 이기종 강결합 점대점 하드코딩 쇳덩이 지옥 💀 / 자바(RMI)랑 C#(DCOM) 지들끼리 닫힌 뼈대 통신 치다 ➔ 방화벽 막히고 객체 못 읽어 타임아웃 400 에러 셧다운 동반 타죽음 폭파 파국 💥</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">SOAP (Simple Object Access Protocol) XML 강철 장갑차 대관식 ✨ / "야 닫힌 언어 쓰레기 다 버려 소각 찢어 쾅! 전 우주 100% 방화벽 프리패스 통과하는</div><div class="kb-diagram-node">HTTP 80포트 파이프라인</div><div class="kb-diagram-note">위에 ➔ 오차 0% 100% 검열 기계 규격화 된</div><div class="kb-diagram-node">XML 태그 꺽쇠 떡칠 &lt;Envelope&gt; 캡슐 포장지</div><div class="kb-diagram-note">쇳덩이에 데이터 구겨 넣어 핑퐁 쏴버려 쾅!!" ➔ B2B 이기종 통신 완벽 호환 대통일 록온 생존 달성 🚀</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">WS-* 엔터프라이즈 떡칠 과적 오버헤드 붕괴 파국 💀 / 결제망 보증한다고 헤더(Header)에 암호/트랜잭션(WS-Security 등) 옵션 무한 덕지덕지 조립 용접 치다 보니 ➔ 10바이트 돈 보낼 거 1,000바이트 XML 텍스트 파싱 랙(Parsing Latency) 걸려 톰캣 웹 서버 CPU 용광로 불타 타임아웃 올스탑 멸망 뻗음 💥</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">REST API (JSON 깃털 스나이퍼) 대관식 모가지 절단 도륙 🚀 / 스마트폰 모바일 1,000만 트래픽 폭격 시대 발동! "야 무거운 XML SOAP 쇳덩이 아재들 앞단 프론트 B2C 엣지망에서 당장 방 빼 찢어 철거 소각 컷 쳐버려 쾅!!! ➔ 15바이트 우주 초경량 알몸 깃털</div><div class="kb-diagram-node">JSON REST 핑퐁</div><div class="kb-diagram-note">으로 싹 다 무지성 덮어쓰기 오버라이딩 스위칭 강제 락킹 쳐 박아 쑤셔 넣어버려 쓩🚀!!!"</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">B2B 코어 백엔드 심해망 (SOAP 최종 유폐 생존) 텐트 융합 (현재) ✨ / 껍데기 가벼움이 생명인 엣지망(B2C)은 JSON REST / gRPC 가 100% 싹 다 천하 통일 씹어먹었지만 ➔ 패킷 1방 유실 누락이 곧 100억 회사 파산 소송 멸망 사형 선고 징역 컷으로 직결 터지는!!</div><div class="kb-diagram-node">은행 금융 공동망, 국방망, 타사 거대 카드 결제 찐 코어 B2B 백엔드 핏줄 구간</div><div class="kb-diagram-note">에서는 ➔ 속도 스피드 1초 쿨하게 100% 포기 희생 깎아 내버리고!! ➔ 오직 무적 방탄 100% 배달 신뢰 보증(Reliability) 책임 도장(Contract) 쉴드를 내려 찍어버리는 가장 낡고 무거운</div><div class="kb-diagram-node">SOAP XML 장갑차</div><div class="kb-diagram-note">만이 최후의 철옹성 요새 밀실 전용 쇳덩이 통신망으로 완벽하게 도메인 분할 이혼 격리(Decoupling) 타협 투 트랙 융합 안착을 완료하였다 쾅 🚀!!</div></div>
-</div>
-</div>
-
-
+```text
+모놀리식 / P2P 이기종 강결합 점대점 하드코딩 쇳덩이 지옥 💀 / 자바(RMI)랑 C#(DCOM) 지들끼리 닫힌 뼈대 통신 치다 ➔ 방화벽 막히고 객체 못 읽어 타임아웃 400 에러 셧다운 동반 타죽음 폭파 파국 💥
+    │
+    ▼
+SOAP (Simple Object Access Protocol) XML 강철 장갑차 대관식 ✨ / "야 닫힌 언어 쓰레기 다 버려 소각 찢어 쾅! 전 우주 100% 방화벽 프리패스 통과하는 [HTTP 80포트 파이프라인] 위에 ➔ 오차 0% 100% 검열 기계 규격화 된 [XML 태그 꺽쇠 떡칠 <Envelope> 캡슐 포장지] 쇳덩이에 데이터 구겨 넣어 핑퐁 쏴버려 쾅!!" ➔ B2B 이기종 통신 완벽 호환 대통일 록온 생존 달성 🚀
+    │
+    ▼
+WS-* 엔터프라이즈 떡칠 과적 오버헤드 붕괴 파국 💀 / 결제망 보증한다고 헤더(Header)에 암호/트랜잭션(WS-Security 등) 옵션 무한 덕지덕지 조립 용접 치다 보니 ➔ 10바이트 돈 보낼 거 1,000바이트 XML 텍스트 파싱 랙(Parsing Latency) 걸려 톰캣 웹 서버 CPU 용광로 불타 타임아웃 올스탑 멸망 뻗음 💥
+    │
+    ▼
+REST API (JSON 깃털 스나이퍼) 대관식 모가지 절단 도륙 🚀 / 스마트폰 모바일 1,000만 트래픽 폭격 시대 발동! "야 무거운 XML SOAP 쇳덩이 아재들 앞단 프론트 B2C 엣지망에서 당장 방 빼 찢어 철거 소각 컷 쳐버려 쾅!!! ➔ 15바이트 우주 초경량 알몸 깃털 [JSON REST 핑퐁] 으로 싹 다 무지성 덮어쓰기 오버라이딩 스위칭 강제 락킹 쳐 박아 쑤셔 넣어버려 쓩🚀!!!"
+    │
+    ▼
+B2B 코어 백엔드 심해망 (SOAP 최종 유폐 생존) 텐트 융합 (현재) ✨ / 껍데기 가벼움이 생명인 엣지망(B2C)은 JSON REST / gRPC 가 100% 싹 다 천하 통일 씹어먹었지만 ➔ 패킷 1방 유실 누락이 곧 100억 회사 파산 소송 멸망 사형 선고 징역 컷으로 직결 터지는!! [은행 금융 공동망, 국방망, 타사 거대 카드 결제 찐 코어 B2B 백엔드 핏줄 구간] 에서는 ➔ 속도 스피드 1초 쿨하게 100% 포기 희생 깎아 내버리고!! ➔ 오직 무적 방탄 100% 배달 신뢰 보증(Reliability) 책임 도장(Contract) 쉴드를 내려 찍어버리는 가장 낡고 무거운 [SOAP XML 장갑차] 만이 최후의 철옹성 요새 밀실 전용 쇳덩이 통신망으로 완벽하게 도메인 분할 이혼 격리(Decoupling) 타협 투 트랙 융합 안착을 완료하였다 쾅 🚀!!
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

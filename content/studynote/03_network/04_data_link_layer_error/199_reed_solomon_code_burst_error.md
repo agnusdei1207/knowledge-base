@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/">해밍 코드</a>의 비극</strong>: 1비트 깨진 건 잘 고치지만, CD 겉면에 흠집이 쭉 나서 100비트가 연속으로 깨져버리면([버스트 에러](/knowledge-base/studynote/03_network/04_data_link_layer_error/197_burst_error_detection_crc/)) [해밍 코드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/)는 바보가 되어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다 버려야 합니다.
 - **리드-솔로몬(RS)의 발상**: 1960년대 어빙 리드(Irving Reed)와 구스타브 솔로몬은 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 1비트씩 보지 말고, 8비트(1바이트)를 하나의 덩어리(심볼)로 묶자. 그리고 이 덩어리들을 지나는 복잡한 2차, 3차 방정식의 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 선을 그려서 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)를 덧붙이자!"라고 생각했습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">해밍 코드</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">리드-솔로몬 코드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">BCH 코드 / 골레이 코드</div></div>
-</div>
-</div>
-
-
+```text
+[해밍 코드]
+    │
+    ▼
+[리드-솔로몬 코드]
+    │
+    └──▶ [BCH 코드 / 골레이 코드]
+```
 
 - **📢 섹션 요약 비유**: 리드-솔로몬 코드는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -51,18 +47,14 @@ tags = ["studynote-network"]
    - 수신기는 14개 중 무사히 도착한 12개의 점을 모읍니다. 그리고 **이 12개의 점을 지나는 유일한 곡선을 수학적으로 다시 그려봅니다(방정식 풀기).**
    - 곡선을 다시 그려보니, 앗! 아까 날아갔던 빈 공간에 원래 어떤 점이 있었어야 했는지 그 위치와 값이 수학적으로 100% 완벽하게 유추(복원)됩니다!
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">해밍 코드</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">리드-솔로몬 코드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">BCH 코드 / 골레이 코드</div></div>
-</div>
-</div>
-
-
+```text
+[해밍 코드]
+    │
+    ▼
+[리드-솔로몬 코드]
+    │
+    └──▶ [BCH 코드 / 골레이 코드]
+```
 
 - **📢 섹션 요약 비유**: 리드-솔로몬 코드의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -126,19 +118,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 해밍 코드</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 리드-솔로몬 코드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: BCH 코드 / 골레이 코드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고신뢰 저지연 링크 제어</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 해밍 코드]
+    │
+    ▼
+[현재 개념: 리드-솔로몬 코드]
+    │
+    ├──▶ [확장 A: BCH 코드 / 골레이 코드]
+    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
+```
 
 리드-솔로몬 코드는 [해밍 코드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/)에서 출발해 현재 메커니즘을 정교화하고, 이후 BCH 코드 / 골레이 코드와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

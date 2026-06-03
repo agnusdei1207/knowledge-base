@@ -23,15 +23,11 @@ tags = ["studynote-data-engineering"]
 
 반대로 이런 구조가 없으면 검토는 형식만 남고, 숫자와 문서와 현장이 서로 어긋난다. 그래서 핵심 키워드를 한 번에 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 회상 속도를 높이는 정리 방식은 단순 설명이 아니라, 실제 운영에서 판단선을 세우는 도구로 읽어야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">키워드</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">연상 묶음</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">시험 회상</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐   ┌──────────────┐   ┌──────────────┐
+│ 키워드          │──▶│ 연상 묶음        │──▶│ 시험 회상        │
+└──────────────┘   └──────────────┘   └──────────────┘
+```
 
 이 그림은 입력이 결과로 바로 가는 것이 아니라, 중간의 기준과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 거치며 의미가 바뀐다는 점을 보여준다.
 
@@ -49,15 +45,11 @@ tags = ["studynote-data-engineering"]
 | 연상 묶음 | 처리/[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 절차와 자동화가 연결되어야 한다 |
 | 시험 회상 | 결과/증거 | 기록이 남아야 재현과 추적이 된다 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">키워드</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">연상 묶음</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">시험 회상</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐   ┌──────────────┐   ┌──────────────┐
+│ 키워드          │──▶│ 연상 묶음        │──▶│ 시험 회상        │
+└──────────────┘   └──────────────┘   └──────────────┘
+```
 
 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) (Extract, Transform, Load)과(와) [ELT](/knowledge-base/studynote/14_data_engineering/01_infrastructure/034_elt/) (Extract, Load, Transform)은 이 흐름을 보강하는 대표 축이다. 하나는 기준을 넓히는 관점이고, 다른 하나는 실행을 좁히는 관점이다. 둘을 같이 봐야 과도한 단순화도, 과도한 복잡화도 피할 수 있다.
 
@@ -125,21 +117,15 @@ tags = ["studynote-data-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">데이터 엔지니어링 핵심 키워드 총정리</div>
-<div class="kb-diagram-tree-item" style="--depth:2">빅데이터 처리: Hadoop → Spark → Flink</div>
-<div class="kb-diagram-tree-item" style="--depth:2">저장 아키텍처: DW → Lake → Lakehouse → Mesh</div>
-<div class="kb-diagram-tree-item" style="--depth:2">스트리밍: Kafka · CDC · 이벤트 소싱</div>
-<div class="kb-diagram-tree-item" style="--depth:2">ML/DL: 퍼셉트론 → CNN/RNN → Transformer → LLM</div>
-<div class="kb-diagram-tree-item" style="--depth:2">MLOps: CI/CD/CT · 드리프트 · 피처 스토어</div>
-<div class="kb-diagram-tree-item" style="--depth:2">프라이버시: 연방학습 · 차분 프라이버시 · XAI</div>
-</div>
-</div>
-
-
+```text
+데이터 엔지니어링 핵심 키워드 총정리
+    ├─► 빅데이터 처리: Hadoop → Spark → Flink
+    ├─► 저장 아키텍처: DW → Lake → Lakehouse → Mesh
+    ├─► 스트리밍: Kafka · CDC · 이벤트 소싱
+    ├─► ML/DL: 퍼셉트론 → CNN/RNN → Transformer → LLM
+    ├─► MLOps: CI/CD/CT · 드리프트 · 피처 스토어
+    └─► 프라이버시: 연방학습 · 차분 프라이버시 · XAI
+```
 2. 중간에 확인표가 있어야 틀린 곳을 빨리 고칠 수 있어요.
 3. 그래서 끝까지 잘했다고 말하려면 증거와 순서가 같이 있어야 해요.
 

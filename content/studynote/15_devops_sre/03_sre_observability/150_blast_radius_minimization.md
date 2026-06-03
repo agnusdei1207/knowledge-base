@@ -33,31 +33,32 @@ tags = ["studynote-devops-sre"]
 
 블라스트 반경을 쥐어짜는 것은 단순한 1개 툴이 아니라, 배포부터 인프라까지 전 층위를 관통하는 <strong>4중 심층 방폭문 (<a href="/knowledge-base/studynote/09_security/01_intro_principles/012_defense_in_depth/">Defense in Depth</a>) 십자 융합 아키텍처</strong>다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블라스트 반경 최소화 (Blast Radius) 4단 융합 격리 텐트 도해 ✨</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🚦</div><div class="kb-diagram-node">레벨 1: 트래픽 격리 (Traffic Isolation) - 유저 쪼개기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 카나리 배포(Canary): 새 버전(v2) 코드에 버그 폭탄이 숨어있을까 쫄림 ㄷㄷ</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">➔ 100만 명한테 다 쏘지 마 다 죽어! 오직 </div><div class="kb-diagram-node">1% 유저 1만 명</div><div class="kb-diagram-note"> 한테만 몰래</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">라우팅 핑 꺾어서 쏴보고, 버그 터지면 그 1%만 피 흘리고 즉각 롤백 쉴드 컷!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🏢</div><div class="kb-diagram-node">레벨 2: 서비스 격리 (Service Isolation) - 쇳덩이 쪼개기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 셀 아키텍처(Cell-based): AWS 리전(Region) 통짜로 쓰다 리전 터지면 좆망.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">➔ 1,000만 유저를 100만 명 단위 </div><div class="kb-diagram-node">10개의 독립된 셀(Cell) 아파트 동</div><div class="kb-diagram-note"> 으로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가위질 찢어버림! A동 셀 불타 죽어도 B동 C동 주민은 1도 모른 척 무정단 생존 🚀!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">💾</div><div class="kb-diagram-node">레벨 3: 자원 격리 (Resource Isolation) - 밥그릇 쪼개기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 테넌트별 DB / 쿠버네티스 Namespace 찢기: 1통짜리 램 공유(Share) 쓰레기!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➔ 무.조.건. B2B 고객사마다 DB 창고 1통씩 따로따로 도끼 분할 락킹 쳐서,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A 회사 디도스 쳐맞고 램 타 죽어도 B 회사는 격리 방화벽 생존 돌파 쾅!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">💣</div><div class="kb-diagram-node">레벨 4: 카오스 실험 제어 (Chaos Experiment Control) 쉴드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 블라스트 반경 핀셋 록온: 프로덕션 라이브 망에 고의 에러 폭탄 던질 때,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell"><code>mode: one</code> (파드 1개만 딱 쳐 죽여!), <code>duration: 5m</code> (5분 뒤 폭탄 락 해제!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">즉시 멈추는 </div><div class="kb-diagram-node">Kill Switch 레드 버튼</div><div class="kb-diagram-note"> 융합으로 테러 파국 원천 차단 무적막!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          블라스트 반경 최소화 (Blast Radius) 4단 융합 격리 텐트 도해 ✨ │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ 🚦 [ 레벨 1: 트래픽 격리 (Traffic Isolation) - 유저 쪼개기 ]       │
+│   - **카나리 배포(Canary)**: 새 버전(v2) 코드에 버그 폭탄이 숨어있을까 쫄림 ㄷㄷ │
+│     ➔ 100만 명한테 다 쏘지 마 다 죽어! 오직 **[1% 유저 1만 명]** 한테만 몰래 │
+│     라우팅 핑 꺾어서 쏴보고, 버그 터지면 그 1%만 피 흘리고 즉각 롤백 쉴드 컷!  │
+│                                                             │
+│ 🏢 [ 레벨 2: 서비스 격리 (Service Isolation) - 쇳덩이 쪼개기 ]     │
+│   - **셀 아키텍처(Cell-based)**: AWS 리전(Region) 통짜로 쓰다 리전 터지면 좆망.│
+│     ➔ 1,000만 유저를 100만 명 단위 **[10개의 독립된 셀(Cell) 아파트 동]** 으로 │
+│     가위질 찢어버림! A동 셀 불타 죽어도 B동 C동 주민은 1도 모른 척 무정단 생존 🚀!│
+│                                                             │
+│ 💾 [ 레벨 3: 자원 격리 (Resource Isolation) - 밥그릇 쪼개기 ]      │
+│   - **테넌트별 DB / 쿠버네티스 Namespace 찢기**: 1통짜리 램 공유(Share) 쓰레기!│
+│     ➔ 무.조.건. B2B 고객사마다 DB 창고 1통씩 따로따로 도끼 분할 락킹 쳐서,     │
+│     A 회사 디도스 쳐맞고 램 타 죽어도 B 회사는 격리 방화벽 생존 돌파 쾅!        │
+│                                                             │
+│ 💣 [ 레벨 4: 카오스 실험 제어 (Chaos Experiment Control) 쉴드 ]   │
+│   - **블라스트 반경 핀셋 록온**: 프로덕션 라이브 망에 고의 에러 폭탄 던질 때,    │
+│     `mode: one` (파드 1개만 딱 쳐 죽여!), `duration: 5m` (5분 뒤 폭탄 락 해제!)│
+│     즉시 멈추는 **[Kill Switch 레드 버튼]** 융합으로 테러 파국 원천 차단 무적막! │
+└─────────────────────────────────────────────────────────────┘
+```
 
 <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/308_bulkhead_pattern/">아키텍트 피 터지는 팩폭 튜닝: 불워크 ([Bulkhead</a>) 패턴의 기적 ✨]</strong>
 배포 찢기도 중요하지만 런타임 찰나의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)) 찢기가 진짜 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터피스다. 
@@ -110,7 +111,7 @@ tags = ["studynote-devops-sre"]
   - **팩폭 🪓**: "껍데기 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)만 찢어놓고 밑바닥 쇳덩이 자원(DB/Gateway)을 중앙집권으로 1통에 묶어놓은 건, <strong>블라스트 반경을 회사 그룹사 전체 크기 무한대로 역주행 팽창시켜 놓은 셀프 자살 폭탄 테러 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a>이다 쾅!!!</strong> 
   진짜 반경을 줄이려면, [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 1개 봇마다 꼬마 DB([Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/)-per-[Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) 1개씩 도끼로 찢어 완전 이혼시키고(완전 격리 쉴드 🛡️), 게이트웨이도 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 그룹별로 물리 찢기 팟팟팟 멀티 클러스터로 쳐발라 록온 시켜야만 진정한 무결점 텐트 생존망이 성립한다 미친아 🚀!"
 
-- **📢 섹션 요약 비유**: 이 [SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) 공유 멸망 패턴은, 최신식 100층 펜트하우스 아파트 방을 다 분리해 지어놓고 <strong>'전기 두꺼비집'은 1층 로비에 딱 1개 공용</strong>으로 만들어 둔 짓입니다. 1층 편의점 냉장고(허접한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))가 누전되어 두꺼비집 1개 팍 내려가면(DB 뻗음 💥), 100층짜리 펜트하우스 전체 주민(핵심 결제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 100개)이 싹 다 100% 동반 정전돼서 엘리베이터 갇혀 타죽는 병신 아키텍처입니다. 방마다 무조건 전용 두꺼비집(Resource [Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/) 자원 격리)을 도끼로 찢어 달아놔야 블라스트 반경이 딱 내 방 1칸 찰과상으로 완벽 쉴드 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)됩니다.
+- **📢 섹션 요약 비유**: 이 [SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) 공유 멸망 패턴은, 최정보 100층 펜트하우스 아파트 방을 다 분리해 지어놓고 <strong>'전기 두꺼비집'은 1층 로비에 딱 1개 공용</strong>으로 만들어 둔 짓입니다. 1층 편의점 냉장고(허접한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))가 누전되어 두꺼비집 1개 팍 내려가면(DB 뻗음 💥), 100층짜리 펜트하우스 전체 주민(핵심 결제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 100개)이 싹 다 100% 동반 정전돼서 엘리베이터 갇혀 타죽는 병신 아키텍처입니다. 방마다 무조건 전용 두꺼비집(Resource [Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/) 자원 격리)을 도끼로 찢어 달아놔야 블라스트 반경이 딱 내 방 1칸 찰과상으로 완벽 쉴드 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)됩니다.
 
 ---
 
@@ -131,7 +132,7 @@ tags = ["studynote-devops-sre"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/">Chaos Engineering</a> (<a href="/knowledge-base/studynote/15_devops_sre/03_sre_observability/149_chaos_monkey_chaos_mesh/">카오스 몽키</a> 💣)</strong> | 대낮 라이브 망에 고의로 서버 끄고 랙 거는 실험. 이 미친 짓을 할 때 하늘이 두 쪽 나도 <strong>"반경(Blast <a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/541_radius_remote_authentication_aaa/">Radius</a>)을 1% 나노 찰과상으로 극한 축소(mode: one)해서 락 쳐라!"</strong>가 0순위 쉴드 헌법. |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/">Chaos 엔진ering</a> (<a href="/knowledge-base/studynote/15_devops_sre/03_sre_observability/149_chaos_monkey_chaos_mesh/">카오스 몽키</a> 💣)</strong> | 대낮 라이브 망에 고의로 서버 끄고 랙 거는 실험. 이 미친 짓을 할 때 하늘이 두 쪽 나도 <strong>"반경(Blast <a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/541_radius_remote_authentication_aaa/">Radius</a>)을 1% 나노 찰과상으로 극한 축소(mode: one)해서 락 쳐라!"</strong>가 0순위 쉴드 헌법. |
 | <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/304_circuit_breaker/">Circuit Breaker</a> (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/">서킷 브레이커</a> ⚡)</strong> | 전기 두꺼비집. 뒷단 서버가 뻗어서 대기 랙([Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/)) 걸리면 ➔ 앞단 놈 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)까지 엮여 동반 타죽는 핏줄 파국 💥을 ➔ "[스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 쾅 내려!! 연결 단절해!" 0.1초 만에 끊어내 반경 번짐 방어 록온 🚀. |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/308_bulkhead_pattern/">Bulkhead Pattern</a> (격수벽 불워크 🚢)</strong> | 배 밑바닥 철판 칸막이. 톰캣 [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) 1통 섞어 쓰다 이미지 업로드 디도스 쳐맞고 전사 뻗는 걸 ➔ [이미지용 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 방] / [글쓰기용 방] 2개로 도끼 찢기 격리 쳐서 연쇄 타살 막아내는 극한 방폭문. |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/">Canary Deployment</a> (<a href="/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/">카나리</a> 유저 찢기 🐦)</strong> | 배포 날 새 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)(v2) 코드를 100만 명한테 쌩으로 다 쐈다 버그 터져 소송 맞는 멸망 ➔ 트래픽 앞단 라우터 꺾어서 "오직 1% 유저 1만 명한테만 쏴!" 반경을 1%로 찍어 누르는 융합 배포 방패. |
@@ -139,23 +140,21 @@ tags = ["studynote-devops-sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">모놀리식 (Monolithic) 1통짜리 쇳덩이 스파게티 지옥 💀 / 1줄 오타 나거나 서버 1대 죽으면 ➔ 전사 서버 100% 동반 블랙아웃 올스탑 타임아웃 연쇄 타살 파국 터짐 (반경 = 우주 전체 💥)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">MSA 마이크로서비스 가위질 분할 🚀 / 비즈니스 로직 단위로 컨테이너 1,000개 찢기 발동! (하지만 동기 통신 P2P 찌르기로 엮어두면 여전히 보이지 않는 연쇄 타살 랙 타임 늪 붕괴)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">블라스트 반경(Blast Radius) 최소화 0순위 SRE 헌법 대관식 ✨ / "찢기만 해선 안 돼! 스레드 풀(Bulkhead) 찢고! 에러 핑퐁(Circuit Breaker) 단절 락킹 치고! 유저(Canary) 찢어 트래픽 격리 쉴드 텐트 쳐라 쾅!!"</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Cell-Based (셀 기반) 극한 인프라 격리 🏢 / 논리적 찢기를 넘어 ➔ AWS 인프라 리전과 DB 창고까지 100만 명 단위 블록 아파트로 아예 독립 완전 이혼 물리 파편화 세팅 록온 완료</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">AI 옵저버빌리티(AIOps) 자가 치유 (미래) / K8s AI 봇 뇌가 1년 내내 사내망 눈알 굴리며 ➔ 어? 저쪽 셀 컨테이너 1개 에러 반경 튀네? 인간 PM 묻지도 않고 0.01초 찰나에 킬 스위치(Kill) 쾅 눌러 자살 롤백 시키고 우회 통치 오토 힐링</div>
-</div>
-</div>
-
-
+```text
+모놀리식 (Monolithic) 1통짜리 쇳덩이 스파게티 지옥 💀 / 1줄 오타 나거나 서버 1대 죽으면 ➔ 전사 서버 100% 동반 블랙아웃 올스탑 타임아웃 연쇄 타살 파국 터짐 (반경 = 우주 전체 💥)
+    │
+    ▼
+MSA 마이크로서비스 가위질 분할 🚀 / 비즈니스 로직 단위로 컨테이너 1,000개 찢기 발동! (하지만 동기 통신 P2P 찌르기로 엮어두면 여전히 보이지 않는 연쇄 타살 랙 타임 늪 붕괴)
+    │
+    ▼
+블라스트 반경(Blast Radius) 최소화 0순위 SRE 헌법 대관식 ✨ / "찢기만 해선 안 돼! 스레드 풀(Bulkhead) 찢고! 에러 핑퐁(Circuit Breaker) 단절 락킹 치고! 유저(Canary) 찢어 트래픽 격리 쉴드 텐트 쳐라 쾅!!"
+    │
+    ▼
+Cell-Based (셀 기반) 극한 인프라 격리 🏢 / 논리적 찢기를 넘어 ➔ AWS 인프라 리전과 DB 창고까지 100만 명 단위 블록 아파트로 아예 독립 완전 이혼 물리 파편화 세팅 록온 완료
+    │
+    ▼
+AI 옵저버빌리티(AIOps) 자가 치유 (미래) / K8s AI 봇 뇌가 1년 내내 사내망 눈알 굴리며 ➔ 어? 저쪽 셀 컨테이너 1개 에러 반경 튀네? 인간 PM 묻지도 않고 0.01초 찰나에 킬 스위치(Kill) 쾅 눌러 자살 롤백 시키고 우회 통치 오토 힐링
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

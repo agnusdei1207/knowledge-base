@@ -27,19 +27,16 @@ tags = ["studynote-enterprise"]
 | 사회적 (Social)     | 인구 구조·라이프스타일·문화·소비 트렌드  |
 | 기술적 (Technological) | R&D 투자·기술 혁신·특허·자동화 속도   |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">PEST 분석 프레임</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Political</div><div class="kb-diagram-cell">Economic</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정부 규제</div><div class="kb-diagram-cell">GDP·금리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Social</div><div class="kb-diagram-cell">Technological</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인구·트렌드</div><div class="kb-diagram-cell">AI·자동화</div></div>
-</div>
-</div>
-
-
+```
+PEST 분석 프레임
+┌──────────────┬──────────────┐
+│  Political   │  Economic    │
+│  정부 규제   │  GDP·금리    │
+├──────────────┼──────────────┤
+│  Social      │  Technological│
+│  인구·트렌드 │  AI·자동화   │
+└──────────────┴──────────────┘
+```
 
 📢 **섹션 요약 비유**: [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/102_isp_environmental_analysis_pest_5forces/) 분석은 항해 전 기상 예보와 같다 — 바람(정치), 조류(경제), 파도(사회), 선박 기술(기술) 네 가지를 파악해야 항로를 결정할 수 있다.
 
@@ -70,19 +67,13 @@ tags = ["studynote-enterprise"]
 
 ### 분석 프로세스
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">1단계: 환경 스캐닝 → 주요 트렌드 수집</div>
-<div class="kb-diagram-note">2단계: 요인 분류 → P·E·S·T 매핑</div>
-<div class="kb-diagram-note">3단계: 영향 평가 → 기회/위협 분류</div>
-<div class="kb-diagram-note">4단계: 우선순위화 → 확률 × 영향 매트릭스</div>
-<div class="kb-diagram-note">5단계: 전략 연계 → SWOT 분석 외부 요인으로 활용</div>
-</div>
-</div>
-
-
+```
+1단계: 환경 스캐닝 → 주요 트렌드 수집
+2단계: 요인 분류 → P·E·S·T 매핑
+3단계: 영향 평가 → 기회/위협 분류
+4단계: 우선순위화 → 확률 × 영향 매트릭스
+5단계: 전략 연계 → SWOT 분석 외부 요인으로 활용
+```
 
 ### 영향 평가 매트릭스
 
@@ -98,23 +89,17 @@ tags = ["studynote-enterprise"]
 
 ## Ⅳ. PEST와 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 프레임워크 연계
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">거시환경 (PEST/STEEP)</div>
-<div class="kb-diagram-note">↓ 외부 기회·위협 도출</div>
-<div class="kb-diagram-note">산업 구조 분석 (Porter 5 Forces)</div>
-<div class="kb-diagram-note">↓ 경쟁 강도·수익성 파악</div>
-<div class="kb-diagram-note">기업 내부 분석 (Value Chain / VRIO)</div>
-<div class="kb-diagram-note">↓ 강점·약점 도출</div>
-<div class="kb-diagram-note">SWOT 통합 분석</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">전략 수립 (SO·ST·WO·WT 전략)</div>
-</div>
-</div>
-
-
+```
+거시환경 (PEST/STEEP)
+      ↓ 외부 기회·위협 도출
+산업 구조 분석 (Porter 5 Forces)
+      ↓ 경쟁 강도·수익성 파악
+기업 내부 분석 (Value Chain / VRIO)
+      ↓ 강점·약점 도출
+SWOT 통합 분석
+      ↓
+전략 수립 (SO·ST·WO·WT 전략)
+```
 
 ### IT 기업 [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/102_isp_environmental_analysis_pest_5forces/) 예시
 
@@ -152,53 +137,46 @@ tags = ["studynote-enterprise"]
 
 ## 📌 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">PEST / STEEP 분석</div>
-<div class="kb-diagram-tree-item" style="--depth:0">구성 요인</div>
-<div class="kb-diagram-note">── P: Political (정치·규제)</div>
-<div class="kb-diagram-note">── E: Economic (경제·금융)</div>
-<div class="kb-diagram-note">── S: Social (사회·문화)</div>
-<div class="kb-diagram-note">── T: Technological (기술·혁신)</div>
-<div class="kb-diagram-note">── E: Environmental (환경·ESG) — STEEP</div>
-<div class="kb-diagram-tree-item" style="--depth:0">확장 모델</div>
-<div class="kb-diagram-note">── PESTLE (Legal 추가)</div>
-<div class="kb-diagram-note">── STEEPLE (Ethical 추가)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">연계 프레임워크</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Porter 5 Forces (산업 분석)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">SWOT 분석 (외부 요인 공급)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">시나리오 플래닝</div>
-</div>
-</div>
-
-
+```
+PEST / STEEP 분석
+├── 구성 요인
+│   ├── P: Political (정치·규제)
+│   ├── E: Economic (경제·금융)
+│   ├── S: Social (사회·문화)
+│   ├── T: Technological (기술·혁신)
+│   └── E: Environmental (환경·ESG) — STEEP
+├── 확장 모델
+│   ├── PESTLE (Legal 추가)
+│   └── STEEPLE (Ethical 추가)
+└── 연계 프레임워크
+    ├── Porter 5 Forces (산업 분석)
+    ├── SWOT 분석 (외부 요인 공급)
+    └── 시나리오 플래닝
+```
 
 ---
 
 ## 📈 관련 키워드 및 발전 흐름도
 
+```
+┌─────────────────────────────────────────────────────────────────┐
+│              PEST 분석 발전 흐름                                 │
+├──────────────┬────────────────────┬─────────────────────────────┤
+│ 1967년       │ ETPS (Aguilar)     │ 환경 스캐닝 최초 체계화      │
+│ 1980년대     │ PEST 명칭 정착     │ 전략 경영 교과서 표준 도구   │
+│ 1990년대     │ PESTLE 확장        │ 법적·환경 요인 추가          │
+│ 2000년대     │ STEEP·PESTLE 혼용  │ 환경/지속가능성 이슈 부상    │
+│ 2010년대     │ 디지털 PEST        │ 플랫폼 파괴·사이버보안 추가  │
+│ 2020년대     │ ESG STEEP          │ 탄소중립·AI 윤리 요인 부각   │
+└──────────────┴────────────────────┴─────────────────────────────┘
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PEST 분석 발전 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1967년</div><div class="kb-diagram-cell">ETPS (Aguilar)</div><div class="kb-diagram-cell">환경 스캐닝 최초 체계화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1980년대</div><div class="kb-diagram-cell">PEST 명칭 정착</div><div class="kb-diagram-cell">전략 경영 교과서 표준 도구</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1990년대</div><div class="kb-diagram-cell">PESTLE 확장</div><div class="kb-diagram-cell">법적·환경 요인 추가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2000년대</div><div class="kb-diagram-cell">STEEP·PESTLE 혼용</div><div class="kb-diagram-cell">환경/지속가능성 이슈 부상</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2010년대</div><div class="kb-diagram-cell">디지털 PEST</div><div class="kb-diagram-cell">플랫폼 파괴·사이버보안 추가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2020년대</div><div class="kb-diagram-cell">ESG STEEP</div><div class="kb-diagram-cell">탄소중립·AI 윤리 요인 부각</div></div>
-<div class="kb-diagram-note">핵심 키워드 연결:</div>
-<div class="kb-diagram-note">거시환경 → PEST/STEEP → 기회/위협 도출 → SWOT</div>
-<div class="kb-diagram-note">정치·경제·사회·기술 ESG/규제 전략 방향 수립</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Porter 5 Forces → 산업 경쟁 분석 → 포지셔닝 전략</div>
-</div>
-</div>
-
-
+핵심 키워드 연결:
+거시환경 → PEST/STEEP → 기회/위협 도출 → SWOT
+    ↓           ↓              ↓
+정치·경제·사회·기술  ESG/규제    전략 방향 수립
+    ↓
+Porter 5 Forces → 산업 경쟁 분석 → 포지셔닝 전략
+```
 
 ---
 

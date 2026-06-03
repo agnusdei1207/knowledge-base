@@ -25,17 +25,14 @@ tags = ["studynote-ai"]
 
 과거 가상 현실(VR)은 나를 100% 가짜 세상에 가두었고, 증강 현실(AR)은 포켓몬고처럼 허접하게 카메라 화면 위에 스티커를 대충 붙이는 수준이었다. 하지만 딥러닝(Vision [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)) 기술이 폭발하면서, 카메라가 0.01초 만에 방 안의 책상과 바닥의 깊이(Depth)를 수학적으로 100% 이해하고, 가상의 공을 던지면 그 공이 진짜 소파 모서리를 맞고 튕겨 나가는 <strong>혼합 현실 (Mixed Reality, MR)</strong>의 신세계가 열렸다. 애플(Apple)이 "비전 프로는 스마트폰을 잇는 최초의 공간 컴퓨터다"라고 선언한 이유가 바로 이 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)과 물리 공간의 완벽한 융합에 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [공간 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/232_spatial_computing_digital_twin/)은 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 속에 갇혀 있던 '아이언맨의 자비스([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))'를 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 밖 현실 세계로 소환하는 마법이다. 예전엔 자비스에게 날씨를 물어보려면 폰(유리판)을 켜야 했지만, 이젠 허공을 손가락으로 까딱하면 내 눈앞의 거실 식탁 위로 3D 날씨 홀로그램 창이 자연스럽게 내려앉아 현실과 완벽히 섞이는 마법사 같은 삶이다.
 
@@ -45,27 +42,26 @@ tags = ["studynote-ai"]
 
 [공간 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/232_spatial_computing_digital_twin/)은 단순한 디스플레이 기술이 아니다. 빛과 공간을 수학적 텐서(Tensor) 공간으로 변환하는 거대한 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 인프라의 집약체다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공간 컴퓨팅 (Spatial Computing)의 AI 렌더링 파이프라인</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 환경 인식 (Spatial Mapping &amp; SLAM)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 수십 개의 카메라와 라이다(LiDAR) 센서가 1초에 90번씩 방 안을 스캔.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* AI 비전 모델이 실시간으로 방 안의 3D 메시(Mesh) 지도를 직조함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ "여기는 소파(푹신함), 여기는 바닥(단단함), 여기는 1m 앞 벽!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 사용자 의도 추적 (Eye &amp; Hand Tracking)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 적외선 센서가 동공의 움직임을 추적하고(시선이 곧 마우스 포인터!),</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 딥러닝 관절 인식 모델이 손가락 뼈대(21개 관절)를 실시간으로 추적함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ "사용자가 시선을 '메시지 창'에 두고, 엄지와 검지를 맞부딪혀(Click) 꼬집었다!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3. 동적 혼합 렌더링 (Foveated Rendering &amp; Passthrough)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 가상의 물체에 현실 거실의 조명 색깔과 그림자를 똑같이 입혀서 렌더링함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 꼼수(Foveated): 눈동자가 쳐다보는 곳만 4K 고화질로 그리고, 시야 주변부는</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해상도를 확 뭉개서 GPU 연산량을 1/10로 깎아버리는 초절전 AI 최적화!</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           공간 컴퓨팅 (Spatial Computing)의 AI 렌더링 파이프라인        │
+├──────────────────────────────────────────────────────────────┤
+│  [1. 환경 인식 (Spatial Mapping & SLAM)]                       │
+│   * 수십 개의 카메라와 라이다(LiDAR) 센서가 1초에 90번씩 방 안을 스캔.    │
+│   * AI 비전 모델이 실시간으로 방 안의 3D 메시(Mesh) 지도를 직조함.        │
+│   ─▶ "여기는 소파(푹신함), 여기는 바닥(단단함), 여기는 1m 앞 벽!"        │
+│                                                              │
+│  [2. 사용자 의도 추적 (Eye & Hand Tracking)]                    │
+│   * 적외선 센서가 동공의 움직임을 추적하고(시선이 곧 마우스 포인터!),         │
+│   * 딥러닝 관절 인식 모델이 손가락 뼈대(21개 관절)를 실시간으로 추적함.      │
+│   ─▶ "사용자가 시선을 '메시지 창'에 두고, 엄지와 검지를 맞부딪혀(Click) 꼬집었다!"│
+│                                                              │
+│  [3. 동적 혼합 렌더링 (Foveated Rendering & Passthrough)]       │
+│   * 가상의 물체에 현실 거실의 조명 색깔과 그림자를 똑같이 입혀서 렌더링함.     │
+│   * 꼼수(Foveated): 눈동자가 쳐다보는 곳만 4K 고화질로 그리고, 시야 주변부는  │
+│     해상도를 확 뭉개서 GPU 연산량을 1/10로 깎아버리는 초절전 AI 최적화!     │
+└──────────────────────────────────────────────────────────────┘
+```
 
 **핵심 원리 (SLAM과 뉴럴 렌더링)**:
 [공간 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/232_spatial_computing_digital_twin/)의 심장은 <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/131_slam_simultaneous_localization_mapping/">SLAM</a> (Simultaneous Localization and <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/">Mapping</a>, 동시적 위치 추정 및 지도 작성)</strong>이라는 로보틱스 기반 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다. 내가 고개를 돌릴 때마다 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 융합(Sensor Fusion)하여 "이 거대한 3D 우주(거실) 안에서 내 눈동자의 XYZ 좌표는 정확히 어디인가?"를 밀리초 단위로 추적한다. 여기에 최근 NeRF(Neural Radiance Fields)나 3D Gaussian Splatting 같은 딥러닝 렌더링 기술이 융합되어, 수만 개의 다각형 폴리곤([Polygon](/knowledge-base/studynote/06_ict_convergence/01_blockchain/045_sidechain_bridge_polygon/))을 계산하지 않고도 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)이 픽셀의 빛의 [산란](/knowledge-base/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/)을 유추해 압도적인 속도로 극사실주의 3D 물체를 허공에 찍어내고 있다.

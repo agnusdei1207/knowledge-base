@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - <strong>배경 (<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/">사일로</a> 현상)</strong>: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 사물인터넷은 자동차 회사는 자동차 전용 IoT망을 깔고, 전력 회사는 전력망 전용 IoT망을 깔았습니다([Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/) 구조). 돈이 이중 삼중으로 들고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 전혀 융합되지 않았습니다.
 - **개념**: 이를 타파하기 위해 전 세계 8개 표준화 기구(한국 TTA, 유럽 ETSI 등)가 모여서 만든 <strong>"통신망, 기기 종류, 하드웨어에 종속되지 않는 범용적인 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a> <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 플랫폼 구조 표준"</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">LwM2M 표준 프로토콜 관리 메커니즘</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">oneM2M 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">엣지 컴퓨팅</div></div>
-</div>
-</div>
-
-
+```text
+[LwM2M 표준 프로토콜 관리 메커니즘]
+    │
+    ▼
+[oneM2M 아키텍처]
+    │
+    └──▶ [엣지 컴퓨팅]
+```
 
 - **📢 섹션 요약 비유**: oneM2M 아키텍처는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -52,18 +48,14 @@ oneM2M 아키텍처의 알파이자 오메가입니다.
 2. **MN (Middle Node)**: 집 안의 거실이나 아파트 지하실에 있는 <strong>스마트 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/">허브</a>(게이트웨이)</strong>입니다. 집 안의 자잘한 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 모아서 클라우드(IN)로 넘겨주는 중간 관리자입니다.
 3. <strong>ASN / <a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/902_adn_autonomous_driving_network_level5_zero_touch/">ADN</a> (Application/Device Node)</strong>: 현장에서 굴러다니는 온도계, [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/) 밸브 등 진짜 <strong>말단 센서 기기들</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">LwM2M 표준 프로토콜 관리 메커니즘</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">oneM2M 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">엣지 컴퓨팅</div></div>
-</div>
-</div>
-
-
+```text
+[LwM2M 표준 프로토콜 관리 메커니즘]
+    │
+    ▼
+[oneM2M 아키텍처]
+    │
+    └──▶ [엣지 컴퓨팅]
+```
 
 - **📢 섹션 요약 비유**: oneM2M 아키텍처의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -117,19 +109,15 @@ oneM2M 아키텍처는 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: LwM2M 표준 프로토콜 관리 메커니즘</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: oneM2M 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 엣지 컴퓨팅</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율형 엣지 협업</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: LwM2M 표준 프로토콜 관리 메커니즘]
+    │
+    ▼
+[현재 개념: oneM2M 아키텍처]
+    │
+    ├──▶ [확장 A: 엣지 컴퓨팅]
+    └──▶ [확장 B: 자율형 엣지 협업]
+```
 
 oneM2M 아키텍처는 [LwM2M](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/121_lwm2m_lightweight_m2m/) 표준 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 관리 메커니즘에서 출발해 현재 메커니즘을 정교화하고, 이후 [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

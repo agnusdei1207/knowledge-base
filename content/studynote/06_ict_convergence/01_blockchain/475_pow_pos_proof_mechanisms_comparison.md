@@ -34,41 +34,35 @@ tags = ["studynote-ict-convergence"]
 
 ### PoW 동작 구조
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PoW 채굴 사이클</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① 트랜잭션 수집 → 후보 블록 구성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② Nonce 값 0부터 증가시키며 반복:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SHA-256(SHA-256(헤더)) &lt; 난이도 목표값?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">YES → 블록 전파 / NO → Nonce++ 반복</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ 2016블록마다 난이도 조정(Difficulty Adjust)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">목표: 블록 간격 10분 유지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">④ 채굴 성공 시 블록 보상 + 트랜잭션 수수료</div></div>
-</div>
-</div>
-
-
+```
+┌────────────────────────────────────────────────┐
+│          PoW 채굴 사이클                        │
+│                                                │
+│  ① 트랜잭션 수집 → 후보 블록 구성              │
+│  ② Nonce 값 0부터 증가시키며 반복:              │
+│     SHA-256(SHA-256(헤더)) < 난이도 목표값?     │
+│     YES → 블록 전파 / NO → Nonce++ 반복        │
+│  ③ 2016블록마다 난이도 조정(Difficulty Adjust) │
+│     목표: 블록 간격 10분 유지                   │
+│  ④ 채굴 성공 시 블록 보상 + 트랜잭션 수수료    │
+└────────────────────────────────────────────────┘
+```
 
 ### PoS 검증자 선택 구조
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PoS 이더리움 검증 사이클</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① 검증자: 32 ETH 스테이킹 → 등록</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② 에폭(Epoch, 32 슬롯)마다 무작위 위원회 구성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ 슬롯 제안자(Proposer): 블록 제안</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">④ 위원회(Committee): Attestation 투표</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⑤ 2/3 투표 달성 → 체크포인트 최종화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⑥ 악의적 행동 시 슬래싱(Slashing):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">담보 ETH 일부 소각 + 네트워크 강제 퇴출</div></div>
-</div>
-</div>
-
-
+```
+┌────────────────────────────────────────────────┐
+│          PoS 이더리움 검증 사이클               │
+│                                                │
+│  ① 검증자: 32 ETH 스테이킹 → 등록              │
+│  ② 에폭(Epoch, 32 슬롯)마다 무작위 위원회 구성 │
+│  ③ 슬롯 제안자(Proposer): 블록 제안            │
+│  ④ 위원회(Committee): Attestation 투표         │
+│  ⑤ 2/3 투표 달성 → 체크포인트 최종화           │
+│  ⑥ 악의적 행동 시 슬래싱(Slashing):            │
+│     담보 ETH 일부 소각 + 네트워크 강제 퇴출    │
+└────────────────────────────────────────────────┘
+```
 
 ### PoW vs PoS 핵심 비교
 

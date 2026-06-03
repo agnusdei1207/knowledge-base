@@ -21,19 +21,15 @@ tags = ["studynote-operating-system"]
 
 멀티스레드 아키텍처 오버헤드 ([락 경합](/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/) 등) (Multithread [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Overhead)은 프로세스와 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·실행·협력을 설명할 때 빠지지 않는 핵심 개념이다. 특히 [멀티프로세스 아키텍처](/knowledge-base/studynote/02_operating_system/02_process_thread/137_multiprocess_architecture/) ([크롬 브라우저 등](/knowledge-base/studynote/02_operating_system/02_process_thread/137_multiprocess_architecture/))에서 출발해 현재 구조가 왜 필요해졌는지를 이해하면, 이 개념이 단순 용어가 아니라 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 설계의 배경이라는 점이 분명해진다. 이 개념이 없으면 자원 배분 기준이 흔들리거나 시스템 동작이 예측 불가능해져 성능과 안정성 모두 악화된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">배경 문제</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">멀티스레드 아키텍처 오버헤드 (락 경합 등) (Multithread Architecture Overhead)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">운영체제의 제어 가능성 향상</div></div>
-</div>
-</div>
-
-
+```text
+[배경 문제]
+    │
+    ▼
+[멀티스레드 아키텍처 오버헤드 (락 경합 등) (Multithread Architecture Overhead)]
+    │
+    ▼
+[운영체제의 제어 가능성 향상]
+```
 
 - **📢 섹션 요약 비유**: 복잡한 창고에서 필요한 물건을 찾기 위해 먼저 구역과 표지판을 세우는 것과 같다.
 
@@ -102,19 +98,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">멀티프로세스 아키텍처 (크롬 브라우저 등)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">멀티스레드 아키텍처 오버헤드 (락 경합 등) (Multithread Architecture Overhead)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">액터 모델 (Actor Model)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">고루틴 (Goroutine)</div></div>
-</div>
-</div>
-
-
+```text
+[멀티프로세스 아키텍처 (크롬 브라우저 등)]
+    │
+    ▼
+[멀티스레드 아키텍처 오버헤드 (락 경합 등) (Multithread Architecture Overhead)]
+    │
+    ├──▶ [액터 모델 (Actor Model)]
+    └──▶ [고루틴 (Goroutine)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

@@ -30,28 +30,34 @@ tags = ["studynote-operating-system"]
 - <strong>NFS <a href="/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/">VFS</a>(<a href="/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/">Virtual File System</a>) 투명성 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a> <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> 메커니즘 뷰</strong>:
 유저가 던진 `write()` 시스템 콜이 어떻게 내 컴퓨터 하드디스크가 아닌 바다 건너 랜선을 타게 되는지 그 탈옥 렌더를 까보면 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"유저를 속여라! 내 디스크인 척하지만 사실은 바다 건너 케이블!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">사용자 랩탑 (Client)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">시스템 콜: write() 빔!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">[</div><div class="kb-diagram-node">OS 커널: VFS (가상 파일 스위처 렌더 거대한 교통경찰) 스왑 록!</div><div class="kb-diagram-note">]</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- VFS: "어? 너가 쓰려는 'Z:' 드라이브는 내 배꼽 밑 물리 철판이 아닌데?"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- VFS: "너는</div><div class="kb-diagram-node">NFS 클라이언트 모듈</div><div class="kb-diagram-note">쪽으로 파이프 우회 꺾어! 발사!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">내꺼 물리 디스크 (ext4)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(경로 차단: 여길 안 건드림 무결 방패)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NFS Client 봇 록백!</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">( RPC 캡슐 메타 압축 빔 포팅! )</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-----------------------------------네트워크 패킷 (TCP/UDP 랜선)-----------</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">바다 건너 목적지 (NFS Server / NAS)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NFS 데몬 감시 봇</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">( "앗! 클라이언트가 쓰기 명령 보냈네!" )</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NAS 진짜 물리 철판 (ZFS/ext4)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">── "여기 진짜 바닥에 데이터 구워 락!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 유저(워드)는 자기 랩탑 0.1mm 바닥에 쓴 줄 알지만, 실제로는 1,000km</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">저 멀리 저장소에 구이가 완료되는 환각(Transparency) 초공간 아크 지배!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌──────────────────────────────────────────────────────────────────────────────────┐
+  │                 "유저를 속여라! 내 디스크인 척하지만 사실은 바다 건너 케이블!"   │
+  ├──────────────────────────────────────────────────────────────────────────────────┤
+  │                                                                                  │
+  │  [ 사용자 랩탑 (Client) ]                                                        │
+  │     (워드 프로그램) "저장 버튼 클릭!" ────▶ [ 시스템 콜: write() 빔! ]           │
+  │                                                  │                               │
+  │  =========================▼===================================                   │
+  │                                                  │                               │
+  │     [[ OS 커널: VFS (가상 파일 스위처 렌더 거대한 교통경찰) 스왑 록! ]]          │
+  │      - VFS: "어? 너가 쓰려는 'Z:' 드라이브는 내 배꼽 밑 물리 철판이 아닌데?"     │
+  │      - VFS: "너는 [NFS 클라이언트 모듈] 쪽으로 파이프 우회 꺾어! 발사!"          │
+  │                                                                                  │
+  │         [ 내꺼 물리 디스크 (ext4) ]   ▶ (경로 차단: 여길 안 건드림 무결 방패)    │
+  │                                                                                  │
+  │         [ NFS Client 봇 록백! ] ────▶ ( RPC 캡슐 메타 압축 빔 포팅! )            │
+  │                                      ↓                                           │
+  │  -----------------------------------네트워크 패킷 (TCP/UDP 랜선)-----------      │
+  │                                      ↓                                           │
+  │  [ 바다 건너 목적지 (NFS Server / NAS) ]                                         │
+  │         [ NFS 데몬 감시 봇 ] ◀────( "앗! 클라이언트가 쓰기 명령 보냈네!" )       │
+  │                 │                                                                │
+  │         [ NAS 진짜 물리 철판 (ZFS/ext4) ] ◀── "여기 진짜 바닥에 데이터 구워 락!" │
+  │   => 결과: 유저(워드)는 자기 랩탑 0.1mm 바닥에 쓴 줄 알지만, 실제로는 1,000km    │
+  │           저 멀리 저장소에 구이가 완료되는 환각(Transparency) 초공간 아크 지배!  │
+  └──────────────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 클라이언트 응용 프로그램은 네트워킹을 전혀 모른다. 그저 `read() / write()` 시스템 콜 망치만 친다. 이것을 가능하게 해주는 진원지가 바로 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/">VFS</a> (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/">Virtual File System</a> <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a> 뼈대 인터페이스)</strong> 이다. VFS는 경로를 파싱하여 `/mnt/nfs` 위치면 로컬 디바이스 드라이버 대신 `NFS 클라이언트 모듈(네트워크 전송기)` 로 꺾어주는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 스로틀 역할을 한다. 이 모듈은 [RPC](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/)([Remote Procedure Call](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/))라는 통신 원격 망치로 변환해 랜선을 타고, 서버 VFS를 다시 뚫고 들어가 실제 디스크를 치는 거대한 심해 왕복 잠수 다이브를 완성한다 도출.
 
@@ -132,19 +138,15 @@ NFS (Network [File](/knowledge-base/studynote/02_operating_system/09_file_system
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">COW (Copy-On-Write) 파일 시스템 (ZFS, Btrfs)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NFS (Network File System)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">AFS (Andrew File System) / SMB/CIFS (Windows 파일 공유)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">윈도우 NTFS</div></div>
-</div>
-</div>
-
-
+```text
+[COW (Copy-On-Write) 파일 시스템 (ZFS, Btrfs)]
+    │
+    ▼
+[NFS (Network File System)]
+    │
+    ├──▶ [AFS (Andrew File System) / SMB/CIFS (Windows 파일 공유)]
+    └──▶ [윈도우 NTFS]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

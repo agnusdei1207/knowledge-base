@@ -20,19 +20,16 @@ tags = ["studynote-bigdata"]
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
+```text
+[ Catalyst Optimization Pipeline ]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Catalyst Optimization Pipeline</div></div>
-<div class="kb-diagram-note">(Unresolved) (Resolved) (Optimized) (Physical)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Code Generation</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Analyzer</div><div class="kb-diagram-node">Catalyst</div><div class="kb-diagram-node">Optimizer</div><div class="kb-diagram-node">Cost Model</div><div class="kb-diagram-node">Tungsten</div></div>
-<div class="kb-diagram-note">Catalog info Standard Rules CBO/RBO Selection Java Bytecode</div>
-</div>
-</div>
-
-
+ (Unresolved)     (Resolved)      (Optimized)      (Physical)
+ Logical Plan --> Logical Plan --> Logical Plan -->  Plans  --> [Code Generation]
+      |               |               |               |              |
+  [Analyzer]      [Catalyst]      [Optimizer]    [Cost Model]    [Tungsten]
+      |               |               |               |              |
+  Catalog info    Standard Rules   CBO/RBO        Selection       Java Bytecode
+```
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 
@@ -53,25 +50,22 @@ tags = ["studynote-bigdata"]
 ### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
 - **부모 개념**: [Apache Spark](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/), [Spark SQL](/knowledge-base/studynote/16_bigdata/03_spark/056_spark_sql/)
 - **자식 개념**: RBO(Rule-Based), CBO(Cost-Based), [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) Generation
-- **연관 개념**: [Tungsten Engine](/knowledge-base/studynote/16_bigdata/03_spark/058_tungsten_engine/), AQE, DataFrame [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)
+- **연관 개념**: [Tungsten 엔진](/knowledge-base/studynote/16_bigdata/03_spark/058_tungsten_engine/), AQE, DataFrame [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">논리 계획 (Logical Plan)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">물리 계획 (Physical Plan)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Catalyst Optimizer (Catalyst Optimizer)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">코드 생성 (Code Generation)</div></div>
-</div>
-</div>
-
-
+```text
+[논리 계획 (Logical Plan)]
+    │
+    ▼
+[물리 계획 (Physical Plan)]
+    │
+    ▼
+[Catalyst Optimizer (Catalyst Optimizer)]
+    │
+    ▼
+[코드 생성 (Code Generation)]
+```
 
 이 흐름도는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 계획이 물리 계획을 거쳐 Catalyst Optimizer와 코드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)으로 구체화되는 흐름을 보여준다.
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -86,6 +80,6 @@ tags = ["studynote-bigdata"]
 **진행 상황**: 57 / 262
 
 ← **이전**: [05. Spark SQL — 분산 구조적 쿼리 처리](/knowledge-base/studynote/16_bigdata/03_spark/056_spark_sql/)
-**다음**: [Tungsten Engine](/knowledge-base/studynote/16_bigdata/03_spark/058_tungsten_engine/) →
+**다음**: [Tungsten 엔진](/knowledge-base/studynote/16_bigdata/03_spark/058_tungsten_engine/) →
 
 ---

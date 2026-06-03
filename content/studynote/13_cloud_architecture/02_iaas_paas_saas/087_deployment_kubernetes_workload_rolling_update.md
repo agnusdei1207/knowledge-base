@@ -38,17 +38,13 @@ tags = ["studynote-cloud-architecture"]
 | readiness probe | 트래픽을 받아도 되는지 판단 | 실제 의존성까지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
 | liveness probe | Pod가 살아 있는지 판단 | 비정상 프로세스 자동 재시작 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Deployment</div>
-<div class="kb-diagram-tree-item" style="--depth:1">New ReplicaSet ─► Pod v2 ─► Pod v2 ─► Pod v2</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Old ReplicaSet ─► Pod v1 ─► Pod v1 (점진 축소)</div>
-</div>
-</div>
-
-
+```text
+Deployment
+   │
+   ├──► New ReplicaSet ─► Pod v2 ─► Pod v2 ─► Pod v2
+   │
+   └──► Old ReplicaSet ─► Pod v1 ─► Pod v1 (점진 축소)
+```
 
 Rolling update의 핵심은 "새 Pod가 준비되기 전에 옛 Pod를 내리지 않는 것"이다. 그래서 트래픽 분산은 Service와 readiness가 함께 책임져야 한다.
 

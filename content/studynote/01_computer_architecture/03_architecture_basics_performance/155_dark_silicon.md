@@ -36,30 +36,31 @@ tags = ["studynote-computer-architecture"]
 "야 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 작아지면 전기 덜 먹는 거 아님 ㅋ 왜 열 터짐 ㅠ?" 
 이 멍청한 질문을 도끼로 찢어발기는 데나드 붕괴 수학 법칙 엑스레이 스캔 도해다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다크 실리콘 대재앙: 데나드 스케일링의 배신과 열역학 파국 도해 🚀</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🌟</div><div class="kb-diagram-node">1. 과거의 환상 시대 (Dennard Scaling 데나드 스케일링 축복 ✨)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "트랜지스터 크기를 1/2 로 줄이면 ➔ 전압(V)과 전류(I)도 1/2 로 줄어듦 개꿀 ㅋ"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- ➔ 면적당 소비 전력(Power Density)이 항상 똑같이 일정하게 완벽 유지 됨!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- ➔ 그래서 클럭을 2배로 펌핑 쳐도 칩이 안 녹고 무결점 쾌속 질주 스키 탔음 🚀.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">💀 대재앙 멸망 터짐: 나노(nm) 퀀텀 누설 전류 늪 💥</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">💣</div><div class="kb-diagram-node">2. 현실의 팩폭 타죽음 (Utilization Wall 사용률의 벽 충돌 🪓)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 공정이 22nm ➔ 7nm 로 미친 듯이 좁쌀만 하게 깎아 작아짐.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- 근데 원자 크기 한계에 부딪혀서 </div><div class="kb-diagram-node">누설 전류(Leakage)</div><div class="kb-diagram-note"> 가 폭포수처럼 터짐 💥!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- ➔ 크기는 줄었는데, 칩이 퍼먹는 전력(V)과 열(Heat)은 절대 안 줄어듦 미친!!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🧱</div><div class="kb-diagram-node">3. 다크 실리콘(Dark Silicon) 영역의 강제 분할 록온 텐트 🛡️</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 칩 1개당 허용된 최대 쿨링 방열 한계 (TDP) = 100W</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 코어 1개당 풀악셀 전력 소모 = 25W</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 코어를 16개 박아놨지만 ➔ 100W / 25W = 딱 4개 코어만 켤 수 있음 팩트 쾅!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- ➔ 나머지 12개 코어 (칩 면적의 75%)는 강제 전원 킬 컷(Power Gating) 당해서</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">불이 시뻘겋게 꺼진 </div><div class="kb-diagram-node">다크 실리콘 (Dark Silicon 잉여 쇳덩이)</div><div class="kb-diagram-note"> 깡통으로 전락💀!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          다크 실리콘 대재앙: 데나드 스케일링의 배신과 열역학 파국 도해 🚀 │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ 🌟 [ 1. 과거의 환상 시대 (Dennard Scaling 데나드 스케일링 축복 ✨) ] │
+│   - "트랜지스터 크기를 1/2 로 줄이면 ➔ 전압(V)과 전류(I)도 1/2 로 줄어듦 개꿀 ㅋ"│
+│   - ➔ 면적당 소비 전력(Power Density)이 항상 똑같이 일정하게 완벽 유지 됨! │
+│   - ➔ 그래서 클럭을 2배로 펌핑 쳐도 칩이 안 녹고 무결점 쾌속 질주 스키 탔음 🚀.│
+│                                                             │
+│        ======= [ 💀 대재앙 멸망 터짐: 나노(nm) 퀀텀 누설 전류 늪 💥 ] ========│
+│                                                             │
+│ 💣 [ 2. 현실의 팩폭 타죽음 (Utilization Wall 사용률의 벽 충돌 🪓) ]│
+│   - 공정이 22nm ➔ 7nm 로 미친 듯이 좁쌀만 하게 깎아 작아짐.            │
+│   - 근데 원자 크기 한계에 부딪혀서 **[누설 전류(Leakage)]** 가 폭포수처럼 터짐 💥!│
+│   - ➔ 크기는 줄었는데, 칩이 퍼먹는 전력(V)과 열(Heat)은 절대 안 줄어듦 미친!! │
+│                                                             │
+│ 🧱 [ 3. 다크 실리콘(Dark Silicon) 영역의 강제 분할 록온 텐트 🛡️ ]     │
+│   - 칩 1개당 허용된 최대 쿨링 방열 한계 (TDP) = 100W                  │
+│   - 코어 1개당 풀악셀 전력 소모 = 25W                               │
+│   - 코어를 16개 박아놨지만 ➔ 100W / 25W = **딱 4개 코어만 켤 수 있음 팩트 쾅!**│
+│   - ➔ 나머지 12개 코어 (칩 면적의 75%)는 강제 전원 킬 컷(Power Gating) 당해서 │
+│     불이 시뻘겋게 꺼진 **[다크 실리콘 (Dark Silicon 잉여 쇳덩이)]** 깡통으로 전락💀!│
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[아키텍트의 피 터지는 메스: 스로틀링(Throttling) 방어 쉴드 텐트 ✨]**
 다크 실리콘 환경에서 무지성 코더가 "우왕 내 폰 8코어네 ㅋ 비디오 인코딩 8코어에 풀악셀 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 다 띄워 100% 록온 쳐 꿀 빰 ㅋ!" 
@@ -136,23 +137,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">무어의 법칙 + 데나드 스케일링 황금 시대 ✨ / 트랜지스터 크기 줄이면 속도 광속 펌핑 떡상 + 전기세 발열 다이어트 수직 낙하 ➔ "야 무지성 클럭 주파수 1GHz ➔ 4GHz 무한 펌핑 풀악셀 밟아 꿀 빰 ㅋ 🚀!"</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Power Wall (전력의 벽) 붕괴 대재앙 💀 / 누설 전류 터짐 ➔ 4GHz 넘기니까 칩이 100도씨 돌파 용광로 불타오르며 서버 스마트폰 동반 폭파 셧다운 올스탑 타임아웃 뻗음 멸망 💥 ➔ 클럭 경쟁 항복 🏳️.</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">멀티코어 스케일 아웃 야만 시대 / "클럭 못 올리면 ➔ 걍 코어 개수를 2개 4개 16개로 무식하게 늘려 쇳덩이 떡칠 쳐 박아 쾅!!" ➔ 성능 향상 노림 (근데 암달의 법칙 병목에 걸려 한계 터짐 ㅋ).</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Dark Silicon (다크 실리콘) 열역학 사형 선고 💀 / 코어 16개 쑤셔 넣었더니 ➔ "어 씨발 전기 모자라서 16개 한 번에 다 켜면 칩 타죽어 뻗음 💥!! 어쩔 수 없이 4개만 켜고 12개는 전원 선 짤라 끄고 영구 동면 시체(Dark)로 냅둬야 함 ㅠ" ➔ 사용률의 벽(Utilization Wall) 한계 직면 절망 늪.</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DSA (도메인 특화 이기종 융합) 특이점 환생 (현재) 🚀 / 아키텍트 분노 🪓 "야 어차피 텅 빈 어두운 버려진 땅(Dark Silicon)이면 ➔ 거기다 초저전력 전용 AI 가속기(NPU) 봇들 무한 조립 떡칠 쑤셔 박아 록온 쳐 쾅!! 내가 카메라 켤 때만 카메라 봇 불 켜서 1초 컷 쾌속 짬처리 핑퐁 때리고 ➔ 다시 전원 스위치 찰칵 내려 암살 증발 소각 쳐 생존해라 🚀!!" 우주 최강 배터리 다이어트 디커플링 제국 대통일 완료 ✨</div>
-</div>
-</div>
-
-
+```text
+무어의 법칙 + 데나드 스케일링 황금 시대 ✨ / 트랜지스터 크기 줄이면 속도 광속 펌핑 떡상 + 전기세 발열 다이어트 수직 낙하 ➔ "야 무지성 클럭 주파수 1GHz ➔ 4GHz 무한 펌핑 풀악셀 밟아 꿀 빰 ㅋ 🚀!"
+    │
+    ▼
+Power Wall (전력의 벽) 붕괴 대재앙 💀 / 누설 전류 터짐 ➔ 4GHz 넘기니까 칩이 100도씨 돌파 용광로 불타오르며 서버 스마트폰 동반 폭파 셧다운 올스탑 타임아웃 뻗음 멸망 💥 ➔ 클럭 경쟁 항복 🏳️.
+    │
+    ▼
+멀티코어 스케일 아웃 야만 시대 / "클럭 못 올리면 ➔ 걍 코어 개수를 2개 4개 16개로 무식하게 늘려 쇳덩이 떡칠 쳐 박아 쾅!!" ➔ 성능 향상 노림 (근데 암달의 법칙 병목에 걸려 한계 터짐 ㅋ).
+    │
+    ▼
+Dark Silicon (다크 실리콘) 열역학 사형 선고 💀 / 코어 16개 쑤셔 넣었더니 ➔ "어 씨발 전기 모자라서 16개 한 번에 다 켜면 칩 타죽어 뻗음 💥!! 어쩔 수 없이 4개만 켜고 12개는 전원 선 짤라 끄고 영구 동면 시체(Dark)로 냅둬야 함 ㅠ" ➔ 사용률의 벽(Utilization Wall) 한계 직면 절망 늪.
+    │
+    ▼
+DSA (도메인 특화 이기종 융합) 특이점 환생 (현재) 🚀 / 아키텍트 분노 🪓 "야 어차피 텅 빈 어두운 버려진 땅(Dark Silicon)이면 ➔ 거기다 초저전력 전용 AI 가속기(NPU) 봇들 무한 조립 떡칠 쑤셔 박아 록온 쳐 쾅!! 내가 카메라 켤 때만 카메라 봇 불 켜서 1초 컷 쾌속 짬처리 핑퐁 때리고 ➔ 다시 전원 스위치 찰칵 내려 암살 증발 소각 쳐 생존해라 🚀!!" 우주 최강 배터리 다이어트 디커플링 제국 대통일 완료 ✨
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -23,25 +23,25 @@ tags = ["studynote-network"]
 - **필요성**: 기업이 클라우드([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/))로 전환하면서 직원들이 각기 다른 외부 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 10여 개를 사용하게 되었다. 직원마다 Salesforce 패스워드, Zoom 패스워드를 따로 만들면, 퇴사자 발생 시 10개 사이트에 일일이 들어가 계정을 끊어야 하는 보안 사각지대가 발생한다. "우리 회사 중앙 서버(AD/[LDAP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/543_ldap_lightweight_directory_access_protocol/))에서 이 사람이 정직원임을 보증해 줄 테니, 외부 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)들은 로그인 창 띄우지 말고 그냥 믿고 들여보내라"는 강력한 B2B 간의 신뢰 교환 언어가 필요했다.
 - **등장 배경**: ① [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)이 다른 웹사이트 간의 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/) 공유 불가(Cross-[Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 제약) → ② 기업별로 파편화된 외부 솔루션 로그인 지옥 발생 → ③ 이종 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 간에도 디지털 서명된 XML 문서를 브라우저([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) POST/Redirect)를 통해 배달시켜 신뢰를 구축하는 SAML 2.0의 정립.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SAML 도입 전후의 엔터프라이즈 로그인 아키텍처 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">과거: 사일로(Silo) 클라우드 환경 - 관리 지옥</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Salesforce</div><div class="kb-diagram-note">(ID/PW 개별 생성 및 기억)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Google WS</div><div class="kb-diagram-note">(ID/PW 개별 생성 및 기억)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 퇴사 시 중앙 통제 불가능. 비밀번호 포스트잇 노출 등 보안 붕괴.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">혁신: SAML 기반 SSO 통합 환경 - 연합(Federation) 구축</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(SAML XML 보증서 들고 옴)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">사내 통합 인증서버 (IdP)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Salesforce (SP)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Google WS  (SP)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 사용자는 오직 회사 로그인 창 하나만 봄. 퇴사 시 사내 DB 하나만 잠그면 끝.</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│             SAML 도입 전후의 엔터프라이즈 로그인 아키텍처 비교     │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [과거: 사일로(Silo) 클라우드 환경 - 관리 지옥]                      │
+│   직원 ──▶ [Salesforce] (ID/PW 개별 생성 및 기억)               │
+│   직원 ──▶ [Google WS]  (ID/PW 개별 생성 및 기억)               │
+│   * 퇴사 시 중앙 통제 불가능. 비밀번호 포스트잇 노출 등 보안 붕괴.           │
+│                                                             │
+│   [혁신: SAML 기반 SSO 통합 환경 - 연합(Federation) 구축]           │
+│                           (SAML XML 보증서 들고 옴)           │
+│   직원 ──(사내 AD 로그인)──▶ [ 사내 통합 인증서버 (IdP) ]         │
+│                                │                            │
+│                                ├──▶ (SAML 통과) ─▶ [Salesforce (SP)]│
+│                                └──▶ (SAML 통과) ─▶ [Google WS  (SP)]│
+│   * 사용자는 오직 회사 로그인 창 하나만 봄. 퇴사 시 사내 DB 하나만 잠그면 끝.│
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 그림은 기업 보안 관리자에게 SAML이 왜 구원자와 같은지 보여준다. 클라우드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)([SP](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/), [Service Provider](/knowledge-base/studynote/09_security/11_iam_access_control/535_sp_service_provider/))들은 자체적인 로그인 로직을 포기하고, 고객사([IdP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/), [Identity Provider](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/))의 결정을 전적으로 신뢰하도록 묶인다. 사용자가 외부 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 접근하려 하면 SP는 로그인 창을 띄우는 대신 사내 IdP로 사용자를 튕겨버린다(Redirect). 사내망에서 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)을 마친 사용자는 IdP가 암호학적 도장을 찍은 XML 보증서(Assertion)를 들고 다시 외부 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 간다. 외부 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 그 도장이 진짜인지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 즉시 문을 열어준다.
 
@@ -64,24 +64,33 @@ tags = ["studynote-network"]
 
 SAML 로그인에는 사용자가 포털에서 아이콘을 누르고 출발하는 [IdP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/)-Initiated 방식과, 사용자가 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) URL을 쳤다가 IdP로 튕기는 [SP](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/)-Initiated 방식이 있다. 가장 대중적인 <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/">SP</a>-Initiated <a href="/knowledge-base/studynote/09_security/11_iam_access_control/531_sso/">SSO</a></strong> 흐름을 해부한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SAML 2.0 SP-Initiated SSO 통신 흐름도</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">웹 브라우저 (User)</div><div class="kb-diagram-node">Salesforce (SP)</div><div class="kb-diagram-node">Okta (IdP)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① salesforce.com 접속</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② SAML AuthnRequest</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ IdP로 Redirect (302)</div><div class="kb-diagram-cell">(로그인 안 했네? IdP로 가라)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">④ Okta 로그인 창에 ID/PW 입력</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⑤ SAML Assertion (XML) 발급 후 SP로 POST 전송 지시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⑥ 암호화된 XML 보증서 제출 (HTTP POST)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⑦ XML 디지털 서명 검증</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⑧ "인증 완료, 서비스 이용 시작!"</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────┐
+│               SAML 2.0 SP-Initiated SSO 통신 흐름도              │
+├───────────────────────────────────────────────────────────────┤
+│                                                               │
+│   [웹 브라우저 (User)]        [Salesforce (SP)]        [Okta (IdP)] │
+│           │                          │                      │     │
+│           │ ① salesforce.com 접속      │                      │     │
+│           ├─────────────────────────▶│                      │     │
+│           │                          │ ② SAML AuthnRequest  │     │
+│           │ ③ IdP로 Redirect (302)     │ (로그인 안 했네? IdP로 가라)│    │
+│           │◀─────────────────────────┤                      │     │
+│           │                          │                      │     │
+│           │ ④ Okta 로그인 창에 ID/PW 입력│                      │     │
+│           ├──────────────────────────────────────────────────▶│     │
+│           │                          │                      │     │
+│           │ ⑤ SAML Assertion (XML) 발급 후 SP로 POST 전송 지시 │     │
+│           │◀──────────────────────────────────────────────────┤     │
+│           │                          │                      │     │
+│           │ ⑥ 암호화된 XML 보증서 제출 (HTTP POST) │                      │     │
+│           ├─────────────────────────▶│                      │     │
+│           │                          │ ⑦ XML 디지털 서명 검증  │     │
+│           │                          │                      │     │
+│           │ ⑧ "인증 완료, 서비스 이용 시작!"│                      │     │
+│           │◀─────────────────────────┤                      │     │
+└───────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 클라이언트(브라우저)가 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)([SP](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/))에 접속하면(①), SP는 "나는 널 모른다. 너희 회사 IdP한테 가서 증명서 떼어와"라며 `AuthnRequest`를 브라우저를 통해 IdP로 리다이렉트시킨다(②, ③). 사용자는 사내 [IdP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/) 로그인 화면에서 회사 비밀번호를 입력한다(④). IdP는 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 성공 후 사용자의 브라우저에게 "이 무거운 XML 문서(Assertion)를 들고 다시 SP로 가서 제출해"라고 지시한다(⑤). 브라우저가 `HTTP POST`를 통해 SP에게 이 XML을 넘기면(⑥), SP는 사전에 IdP와 맺어둔 공개키 신뢰 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)(Trust)를 통해 XML에 찍힌 서명이 진짜인지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)(⑦)한 후 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 개방(⑧)한다. **핵심은 IdP와 SP가 백그라운드 서버 간 통신을 직접 하지 않고, 모든 XML 무더기를 '사용자의 웹 브라우저'를 배달부(Front-channel)로 써서 주고받는다는 점이다.**
 
@@ -103,28 +112,25 @@ SAML 로그인에는 사용자가 포털에서 아이콘을 누르고 출발하�
 
 SAML은 2005년에 만들어진 중후장대한 장갑차다. 회사 직원의 직급, 소속, 휴대폰 번호 등 엄청나게 긴 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)([Attribute](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))들을 세밀하게 XML에 담아 완벽하게 서명해서 보낸다. 반면 OIDC는 JSON이라는 스포츠카를 타고 스마트폰 앱과 최신 웹을 씽씽 날아다니는 현대의 표준이다. 모바일 앱(B2C)을 만든다면 무조건 OIDC를, 회사의 낡은 내부 인프라(B2B)를 클라우드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(Salesforce 등)와 묶어야 한다면 SAML을 선택하는 것이 정답이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SAML의 무거운 XML 덩어리 구조 (Assertion)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;saml:Assertion ID="12345" IssueInstant="2026-04-05T...Z"&gt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;saml:Issuer&gt;https://idp.mycompany.com&lt;/saml:Issuer&gt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;ds:Signature&gt; ... (방대한 디지털 서명 암호문) ... &lt;/ds:Signature&gt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;saml:Subject&gt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;saml:NameID&gt;hong@mycompany.com&lt;/saml:NameID&gt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;/saml:Subject&gt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;saml:AttributeStatement&gt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;saml:Attribute Name="Department"&gt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;saml:AttributeValue&gt;Engineering&lt;/saml:AttributeValue&gt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;/saml:Attribute&gt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;/saml:AttributeStatement&gt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;/saml:Assertion&gt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 이 길고 무거운 텍스트가 브라우저의 HTTP POST body에 실려 날아간다!</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────┐
+│               SAML의 무거운 XML 덩어리 구조 (Assertion)             │
+├───────────────────────────────────────────────────────────────┤
+│   <saml:Assertion ID="12345" IssueInstant="2026-04-05T...Z">  │
+│     <saml:Issuer>https://idp.mycompany.com</saml:Issuer>      │
+│     <ds:Signature> ... (방대한 디지털 서명 암호문) ... </ds:Signature> │
+│     <saml:Subject>                                            │
+│       <saml:NameID>hong@mycompany.com</saml:NameID>           │
+│     </saml:Subject>                                           │
+│     <saml:AttributeStatement>                                 │
+│       <saml:Attribute Name="Department">                      │
+│         <saml:AttributeValue>Engineering</saml:AttributeValue>│
+│       </saml:Attribute>                                       │
+│     </saml:AttributeStatement>                                │
+│   </saml:Assertion>                                           │
+│   => 이 길고 무거운 텍스트가 브라우저의 HTTP POST body에 실려 날아간다!  │
+└───────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** SAML의 페이로드(XML)는 기계가 읽기에는 태그가 너무 많고(Overhead), 모바일 앱에서 다루기엔 라이브러리가 무겁다. 이 무거운 XML을 브라우저가 넘겨주려면 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) Redirect(URL 길이 제한 존재)로는 불가능하여, 자바스크립트를 이용해 보이지 않는 폼(Form)을 만들어 강제로 `HTTP POST`를 날리는 변태적인 우회 기법을 쓴다. 그럼에도 불구하고, 저 무거운 XML 안에 서명(`ds:Signature`)을 태그 단위로 아주 쪼개서 넣을 수 있는 정교한 [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) 덕분에 보수적인 기업/금융 환경에서는 가장 믿음직한 교환 언어로 생명력을 이어가고 있다.
 
@@ -182,19 +188,15 @@ SAML은 2005년에 만들어진 중후장대한 장갑차다. 회사 직원의 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: OAuth 2.0</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: SAML 2.0</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: OpenID Connect</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율 운영 네트워크</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: OAuth 2.0]
+    │
+    ▼
+[현재 개념: SAML 2.0]
+    │
+    ├──▶ [확장 A: OpenID Connect]
+    └──▶ [확장 B: 자율 운영 네트워크]
+```
 
 SAML 2.0는 OAuth 2.0에서 출발해 현재 메커니즘을 정교화하고, 이후 OpenID Connect와 자율 운영 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

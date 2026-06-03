@@ -26,18 +26,14 @@ tags = ["studynote-network"]
   - 우리 집 옆 중국집은 보통 15분이면 배달이 옵니다. 나는 주문하고 <strong>15분+여유 시간 5분 = 20분(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/">RTO</a>)</strong>을 기다리다가 안 오면 "아저씨 언제 와요!(재전송)"라고 전화를 겁니다.
   - 그런데 저 멀리 30km 밖 맛집에 배달을 시키면 1시간이 걸립니다. 여기서 내가 20분 만에 독촉 전화를 걸면 미친놈 소리를 듣습니다. 이때는 내 인내심([RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/))을 자동으로 <strong>1시간 10분</strong>으로 늘려 잡아야 합니다. 이것이 동적 [RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/) 계산입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">BBR</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">RTO 측정 방식</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RTT, SRTT</div></div>
-</div>
-</div>
-
-
+```text
+[BBR]
+    │
+    ▼
+[RTO 측정 방식]
+    │
+    └──▶ [RTT, SRTT]
+```
 
 - **📢 섹션 요약 비유**: ** RTO는 라면 물 끓이기 타이머입니다. 물의 양과 화력(네트워크 상태)이 매번 다르기 때문에, 고정된 시간 3분(고정 타이머)에 무조건 면을 넣는 바보짓을 버리고, 물이 끓는 속도를 실시간으로 눈으로 보며([RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/) 측정) 면 넣는 타이밍([RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/))을 유동적으로 바꾸는 셰프의 감각입니다.
 
@@ -65,24 +61,26 @@ TCP는 영수증이 올 때마다 걸린 시간([RTT](/knowledge-base/studynote/
 - 만약 지각한 놈(3.1초)인데 빛의 속도(0.1초)라고 착각해서 [RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/) 공식에 넣어버리면? 내 PC는 "오 핑 0.1초 짱 빠르네!" 착각하고 [RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/) 타이머를 0.1초로 확 줄여버린다. 결국 다음 패킷부터 0.1초마다 미친 듯이 재전송 폭풍을 갈겨대어 인터넷을 망가뜨린다.
 - **칸의 해결책**: <strong>"재전송한 패킷에 대해서 날아온 영수증은 출처가 불분명한 썩은 물이니까, 아예 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/">RTO</a> 측정 공식(타이머 갱신)에 한 방울도 섞지 마라! 무시해라!!"</strong> 이 한마디로 TCP의 계산 오염을 완벽히 차단했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">칸 알고리즘(Karn's Algorithm) 딜레마 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">내 PC</div><div class="kb-diagram-node">목적지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 1번 패킷 (원본) (엄청 늦게 기어감) ▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. (3초 타이머 만료!!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 1번 패킷 (재전송) (빛의 속도로 날아감) ▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 영수증(ACK) 도착!! ◀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 내 PC의 멘붕: "저 영수증은 1번 원본이 3초 만에 만든 걸까,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3번 재전송이 0.1초 만에 만든 걸까? 알 수가 없다!!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 칸의 철칙: "출처가 헷갈리는 영수증은 평균 핑 타임 계산에서 무조건</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제외(Ignore)시켜 계산 수질 오염을 막아라!!"</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                칸 알고리즘(Karn's Algorithm) 딜레마 시각화        │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 내 PC ]                                       [ 목적지 ]   │
+ │   1. 1번 패킷 (원본) ────────(엄청 늦게 기어감)────────▶        │
+ │                                                             │
+ │   2. (3초 타이머 만료!!)                                        │
+ │   3. 1번 패킷 (재전송) ────────(빛의 속도로 날아감)───▶        │
+ │                                                             │
+ │   4. 영수증(ACK) 도착!! ◀────────────────────────       │
+ │                                                             │
+ │   * 내 PC의 멘붕: "저 영수증은 1번 원본이 3초 만에 만든 걸까,        │
+ │                  3번 재전송이 0.1초 만에 만든 걸까? 알 수가 없다!!"  │
+ │                                                             │
+ │   * 칸의 철칙: "출처가 헷갈리는 영수증은 평균 핑 타임 계산에서 무조건  │
+ │               제외(Ignore)시켜 계산 수질 오염을 막아라!!"          │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/">RTO</a> 계산 공식은 사장님의 </strong>"납기일 산정법"<strong>입니다. 직원(네트워크)의 평소 평균 작업 속도(SRTT)에다가, 이 직원이 평소에 얼마나 자주 지각하는지(RTTVAR 편차)를 곱해서 </strong>아주 넉넉하고 합리적인 며칠짜리 데드라인([RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/))**을 세팅해, 쓸데없는 쪼쪼기(재전송)를 줄이는 고도의 인력 관리 스킬입니다.
 
@@ -140,19 +138,15 @@ TCP는 영수증이 올 때마다 걸린 시간([RTT](/knowledge-base/studynote/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: BBR</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: RTO 측정 방식</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: RTT, SRTT</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: BBR]
+    │
+    ▼
+[현재 개념: RTO 측정 방식]
+    │
+    ├──▶ [확장 A: RTT, SRTT]
+    └──▶ [확장 B: 적응형 저지연 전송]
+```
 
 [RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/) 측정 방식는 BBR에서 출발해 현재 메커니즘을 정교화하고, 이후 [RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/), SRTT와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

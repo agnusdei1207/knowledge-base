@@ -99,37 +99,25 @@ Child Table (FK)
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Primary Key</div>
-<div class="kb-diagram-note">↓ referenced by</div>
-<div class="kb-diagram-note">Foreign Key</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Join / Integrity</div>
-</div>
-</div>
-
-
+```text
+Primary Key
+  ↓ referenced by
+Foreign Key
+  ↓
+Join / Integrity
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Referential Integrity</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Foreign Key</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Relational Model</div>
-</div>
-</div>
-
-
+```text
+Referential Integrity
+  ↓
+Foreign Key
+  ↓
+Relational Model
+```
 
 ---
 

@@ -32,21 +32,27 @@ tags = ["it_management"]
 
 강화학습의 뼈대는 수학적으로 [마르코프 결정 과정](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/) ([MDP](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/), [Markov Decision Process](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/314_mdp_rl/))으로 정의된다. 에이전트는 특정 상태($S$)에서 행동($A$)을 선택하고, 환경은 그 대가로 다음 상태($S'$)와 보상($R$)을 돌려준다. 이때 당장 눈앞의 보상만 좇지 않도록 미래 보상을 할인해서 더하는 할인 인자($\gamma$)가 핵심 역할을 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">강화학습의 핵심 루프 (에이전트-환경 상호작용)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">행동 (Action, a_t)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">에이전트</div><div class="kb-diagram-cell">환경</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Agent)</div><div class="kb-diagram-cell">(Environment)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상태 (State, s_t)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">보상 (Reward, r_t)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 이 루프를 수만 번 반복하며 Q(s, a) 값 또는 정책(π)을 업데이트</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│               강화학습의 핵심 루프 (에이전트-환경 상호작용)              │
+├──────────────────────────────────────────────────────────────┤
+│               [행동 (Action, a_t)]                           │
+│           ┌─────────────────────────┐                        │
+│           │                         ▼                        │
+│     ┌────────────┐            ┌───────────┐                  │
+│     │            │            │           │                  │
+│     │  에이전트    │            │   환경    │                  │
+│     │  (Agent)   │            │(Environment)                 │
+│     │            │            │           │                  │
+│     └────────────┘            └───────────┘                  │
+│           ▲                         │                        │
+│           │   [상태 (State, s_t)]     │                        │
+│           └─────────────────────────┤                        │
+│               [보상 (Reward, r_t)]    │                        │
+│                                     ▼                        │
+│  => 이 루프를 수만 번 반복하며 Q(s, a) 값 또는 정책(π)을 업데이트  │
+└──────────────────────────────────────────────────────────────┘
+```
 
 상태가 작을 때는 모든 상태와 행동의 조합마다 점수판(Q-Table)을 만들어 기록하는 [Q-Learning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/316_q_learning/) 방식을 쓴다. 하지만 아타리(Atari) 게임처럼 화면 픽셀 전체가 상태가 되는 고차원 문제에서는 점수판의 크기가 무한대가 되어 메모리가 터져버린다. 이 점수판을 '[심층 신경망](/knowledge-base/studynote/10_ai/01_ai_basics/065_dnn_deep_neural_network/)(Deep Neural Network)'으로 통째로 교체하여 함수로 근사해 낸 것이 바로 혁명적인 [DQN](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/465_dqn_deep_q_network/) ([Deep Q-Network](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/465_dqn_deep_q_network/))이다.
 
@@ -105,23 +111,21 @@ tags = ["it_management"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">고전적 강화학습 (표 기반)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Q-Learning (모든 상태를 표에 기록, 메모리 한계)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DQN (Deep Q-Network) (표 대신 딥러닝으로 상태 점수 근사)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Policy Gradient / PPO (연속된 행동 공간 제어, 정책 직접 학습)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">RLHF (Reinforcement Learning from Human Feedback) (LLM 미세조정 융합)</div>
-</div>
-</div>
-
-
+```text
+고전적 강화학습 (표 기반)
+    │
+    ▼
+Q-Learning (모든 상태를 표에 기록, 메모리 한계)
+    │
+    ▼
+DQN (Deep Q-Network) (표 대신 딥러닝으로 상태 점수 근사)
+    │
+    ▼
+Policy Gradient / PPO (연속된 행동 공간 제어, 정책 직접 학습)
+    │
+    ▼
+RLHF (Reinforcement Learning from Human Feedback) (LLM 미세조정 융합)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

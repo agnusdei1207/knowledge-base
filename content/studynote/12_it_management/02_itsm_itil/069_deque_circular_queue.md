@@ -98,41 +98,29 @@ Circular Queue: front/rear wrap-around
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Deque</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Circular Queue</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Wrap-around</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Buffer Management</div>
-</div>
-</div>
-
-
+```text
+Deque
+  ↓
+Circular Queue
+  ↓
+Wrap-around
+  ↓
+Buffer Management
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Queue</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Deque</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Circular Queue</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Efficient Buffer</div>
-</div>
-</div>
-
-
+```text
+Queue
+  ↓
+Deque
+  ↓
+Circular Queue
+  ↓
+Efficient Buffer
+```
 
 ---
 

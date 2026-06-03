@@ -21,18 +21,14 @@ tags = ["studynote-network"]
 
 - **개념**: 주파수가 30GHz ~ 300GHz 사이로 엄청나게 높고, 파장의 길이가 1mm ~ 10mm 단위로 극도로 짧아(그래서 이름이 밀리미터 파) <strong>'초광대역폭(수백 MHz~수 GHz)'을 단일 채널로 한 방에 확보할 수 있는 <a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a>(<a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/760_embb_enhanced_mobile_broadband_vr_ar/">eMBB</a> <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a>) 및 <a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/">6G</a> 통신의 심장부 주파수 대역</strong>입니다. (한국은 28GHz 대역을 할당했었습니다.)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">와이파이 오프로딩</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">밀리미터파 전파 감쇠</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">테라헤르츠 대역</div></div>
-</div>
-</div>
-
-
+```text
+[와이파이 오프로딩]
+    │
+    ▼
+[밀리미터파 전파 감쇠]
+    │
+    └──▶ [테라헤르츠 대역]
+```
 
 - **📢 섹션 요약 비유**: [밀리미터파](/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/) 전파 감쇠는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -53,18 +49,14 @@ tags = ["studynote-network"]
 ### 3. 산소 및 수분 흡수 감쇠 (Oxygen & Rain Attenuation)
 - 파장이 1mm로 너무 얇고 섬세해서, 허공에 떠 있는 산소(O2) 분자와 수증기(H2O) 분자에 부딪히는 순간 파동 에너지가 99% 열로 뺏겨 흡수(증발)되어 버립니다. 비 오는 날이나 안개 낀 날은 100미터 밖으로 전파가 날아가지도 못하고 하늘에서 산화해 죽어버립니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">와이파이 오프로딩</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">밀리미터파 전파 감쇠</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">테라헤르츠 대역</div></div>
-</div>
-</div>
-
-
+```text
+[와이파이 오프로딩]
+    │
+    ▼
+[밀리미터파 전파 감쇠]
+    │
+    └──▶ [테라헤르츠 대역]
+```
 
 - **📢 섹션 요약 비유**: [밀리미터파](/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/) 전파 감쇠의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -131,19 +123,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 와이파이 오프로딩</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 밀리미터파 전파 감쇠</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 테라헤르츠 대역</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 와이파이 오프로딩]
+    │
+    ▼
+[현재 개념: 밀리미터파 전파 감쇠]
+    │
+    ├──▶ [확장 A: 테라헤르츠 대역]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 [밀리미터파](/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/) 전파 감쇠는 [와이파이 오프로딩](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1017_wifi_offloading_cellular_traffic_congestion/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [테라헤르츠](/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/) 대역와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

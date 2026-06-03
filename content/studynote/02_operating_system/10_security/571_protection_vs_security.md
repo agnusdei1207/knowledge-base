@@ -42,7 +42,7 @@ tags = ["studynote-operating-system"]
 |:---|:---|:---|
 | **역할** | "어떻게(How) 막을 것인가?" | "무엇을(What/Who) 막을 것인가?" |
 | **변경 빈도** | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 재부팅 없이는 변경 불가 | [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 유동적 변경 가능 |
-| **예시** | `rwx` [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 해석 및 차단 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드 |팀 폴더에 대해 인사팀 그룹만 읽기 권한 부여 |
+| **예시** | `rwx` [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 해석 및 차단 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드 |인사팀 폴더에 대해 인사팀 그룹만 읽기 권한 부여 |
 
 ### 2.2 분리 실패 사례: MS-DOS
 
@@ -98,25 +98,21 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">리눅스 inotify 시스템</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">보호 (Protection) vs 보안 (Security)의 개념 차이</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">보호 도메인 (Protection Domain)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">접근 제어 행렬 (Access Matrix)</div></div>
-</div>
-</div>
-
-
+```text
+[리눅스 inotify 시스템]
+    │
+    ▼
+[보호 (Protection) vs 보안 (Security)의 개념 차이]
+    │
+    ├──▶ [보호 도메인 (Protection Domain)]
+    └──▶ [접근 제어 행렬 (Access Matrix)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. <strong>보호(Protection)</strong>는 아파트 건물 내부의 <strong>방문록 시스템</strong>과 같다. 주민(거주자)끼리 서로의 집에(마음대로) 들어가지 못하게 각 문에 자물쇠를 채워두는 것과 같다.
+1. <strong>보호(Protection)</strong>는 아파트 건물 내부의 <strong>방문록 시스템</strong>과 같다. 입주민(거주자)끼리 서로의 집에승수(마음대로) 들어가지 못하게 각 문에 자물쇠를 채워두는 것과 같다.
 
 2. <strong>보안(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a>)</strong>는 건물의 <strong>정문 경비 시스템</strong>과 같다.택배 기사로 위장한 도둑이 건물에 들어오지 못하게 1층에서 확인하고 쫓아내는 것과 같다.
 

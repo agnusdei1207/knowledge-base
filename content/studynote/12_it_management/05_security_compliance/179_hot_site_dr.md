@@ -43,26 +43,26 @@ tags = ["studynote-it-management"]
 
 아래 그림은 일반적인 핫 사이트 절체 흐름을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hot site DR flow</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Primary Site (active)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App / DB / Storage</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">replication (async / semi-sync) ▶ Hot Site (standby)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App / DB / Storage</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">config / secrets / image sync ▶ DR automation</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Disaster declared</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. detect failure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. promote replica / start services</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. switch DNS / GSLB / Load Balancer</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. verify business service</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. prepare failback after primary recovery</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Hot site DR flow                                                     │
+├──────────────────────────────────────────────────────────────────────┤
+│ Primary Site (active)                                                │
+│   App / DB / Storage                                                 │
+│      │                                                               │
+│      ├──── replication (async / semi-sync) ───▶ Hot Site (standby)   │
+│      │                                         App / DB / Storage     │
+│      │                                                               │
+│      └──── config / secrets / image sync ─────▶ DR automation        │
+│                                                                      │
+│ Disaster declared                                                    │
+│   1. detect failure                                                  │
+│   2. promote replica / start services                                │
+│   3. switch DNS / GSLB / Load Balancer                               │
+│   4. verify business service                                          │
+│   5. prepare failback after primary recovery                         │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 핫 사이트가 [미러 사이트](/knowledge-base/studynote/12_it_management/05_security_compliance/178_mirror_site/)와 다른 핵심은 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 방식에 있다. [미러 사이트](/knowledge-base/studynote/12_it_management/05_security_compliance/178_mirror_site/)는 보통 동기 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)로 RPO를 0에 가깝게 밀어붙이지만, 핫 사이트는 비동기 또는 준동기 방식을 써서 성능과 거리 제약을 완화하는 경우가 많다. 그래서 RPO는 대개 수초~수분, RTO는 수시간 이내 수준으로 설계된다. 즉 <strong>거의 최신 상태</strong>를 확보하지만, 절대적인 0 손실을 약속하는 구조는 아니다.
 
@@ -149,23 +149,20 @@ tags = ["studynote-it-management"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">BIA (Business Impact Analysis)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">업무별 RTO / RPO 설정</div>
-<div class="kb-diagram-tree-item" style="--depth:2">RTO≈0, RPO≈0 -&gt; 미러 사이트</div>
-<div class="kb-diagram-tree-item" style="--depth:2">RTO 수시간, RPO 수분 -&gt; 핫 사이트</div>
-<div class="kb-diagram-tree-item" style="--depth:2">RTO 수일 -&gt; 웜 사이트</div>
-<div class="kb-diagram-tree-item" style="--depth:2">RTO 수주 -&gt; 콜드 사이트</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">복제 자동화 · 절체 훈련 · 클라우드 DR로 고도화</div>
-</div>
-</div>
-
-
+```text
+BIA (Business Impact Analysis)
+    │
+    ▼
+업무별 RTO / RPO 설정
+    │
+    ├─ RTO≈0, RPO≈0 -> 미러 사이트
+    ├─ RTO 수시간, RPO 수분 -> 핫 사이트
+    ├─ RTO 수일 -> 웜 사이트
+    └─ RTO 수주 -> 콜드 사이트
+    │
+    ▼
+복제 자동화 · 절체 훈련 · 클라우드 DR로 고도화
+```
 
 이 흐름은 핫 사이트가 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 스펙트럼에서 어느 위치에 있으며, 왜 업무 영향 분석과 함께 판단해야 하는지 보여 준다.
 

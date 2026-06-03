@@ -24,7 +24,7 @@ Microsoft Fabric은 이 [분산](/knowledge-base/studynote/08_algorithm_stats/08
 
 | 기존 Azure [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) | Microsoft Fabric |
 |:---|:---|
-| Azure Synapse Analytics | Fabric Synapse [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Engineering |
+| Azure Synapse Analytics | Fabric Synapse [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔진ering |
 | Azure [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Factory | Fabric [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Factory |
 | [Power BI](/knowledge-base/studynote/16_bigdata/08_visualization/165_power_bi/) Premium | Fabric [Power BI](/knowledge-base/studynote/16_bigdata/08_visualization/165_power_bi/) |
 | Azure [Data Lake Storage](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/641_data_lake_storage/) | OneLake (Fabric 내장) |
@@ -37,30 +37,43 @@ Microsoft Fabric은 이 [분산](/knowledge-base/studynote/08_algorithm_stats/08
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Microsoft Fabric 아키텍처</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Fabric 경험(Experience) 레이어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data Data Data Power Real-Time</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Engineering Factory Science BI Analytics</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Spark) (Pipeline) (ML) (Report)(Eventstream)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OneLake (통합 스토리지)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조직 전체 단일 ADLS Gen2 인스턴스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">workspace1/ workspace2/ workspace3/</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(테넌트당 하나)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Shortcuts</div><div class="kb-diagram-cell">Delta Parquet 형식 (기본)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(가상 링크)</div><div class="kb-diagram-cell">Iceberg 지원 (2024~)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AWS S3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GCS</div><div class="kb-diagram-cell">OneCopy: 단일 물리 복사본</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Azure Blob</div><div class="kb-diagram-cell">로 모든 서비스가 공유 접근</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Fabric Capacity (SKU: F4~F2048)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 단일 용량 단위로 모든 경험 레이어 컴퓨팅 공유</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────────────┐
+│               Microsoft Fabric 아키텍처                           │
+├──────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  ┌─────────────────────────────────────────────────────────┐    │
+│  │                Fabric 경험(Experience) 레이어              │    │
+│  │                                                          │    │
+│  │  Data       Data       Data      Power   Real-Time      │    │
+│  │  Engineering Factory   Science   BI      Analytics       │    │
+│  │  (Spark)    (Pipeline) (ML)      (Report)(Eventstream)  │    │
+│  └────────────────────┬────────────────────────────────────┘    │
+│                       │                                         │
+│  ┌────────────────────▼────────────────────────────────────┐    │
+│  │                OneLake (통합 스토리지)                    │    │
+│  │                                                          │    │
+│  │  ┌──────────────────────────────────────────────────┐   │    │
+│  │  │  조직 전체 단일 ADLS Gen2 인스턴스                  │   │    │
+│  │  │  workspace1/  workspace2/  workspace3/            │   │    │
+│  │  │  (테넌트당 하나)                                   │   │    │
+│  │  └──────────────────────────────────────────────────┘   │    │
+│  │                                                          │    │
+│  │  ┌───────────────┐   ┌─────────────────────────────┐   │    │
+│  │  │  Shortcuts    │   │  Delta Parquet 형식 (기본)   │   │    │
+│  │  │  (가상 링크)   │   │  Iceberg 지원 (2024~)       │   │    │
+│  │  │  AWS S3       │   │                             │   │    │
+│  │  │  GCS          │   │  OneCopy: 단일 물리 복사본   │   │    │
+│  │  │  Azure Blob   │   │  로 모든 서비스가 공유 접근  │   │    │
+│  │  └───────────────┘   └─────────────────────────────┘   │    │
+│  └──────────────────────────────────────────────────────────┘    │
+│                                                                  │
+│  ┌────────────────────────────────────────────────────────────┐  │
+│  │  Fabric Capacity (SKU: F4~F2048)                           │  │
+│  │  - 단일 용량 단위로 모든 경험 레이어 컴퓨팅 공유            │  │
+│  └────────────────────────────────────────────────────────────┘  │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 **핵심 구성 요소 상세**
 
@@ -153,23 +166,21 @@ Microsoft Fabric은 2023년 [GA](/knowledge-base/studynote/08_algorithm_stats/10
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">분산 데이터 웨어하우스 (Distributed DW) — 구조화 데이터, SQL 중심</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 레이크 (Data Lake) — 비정형·반정형 포함, 스키마 온 리드</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Azure Synapse Analytics — DW + Lake 통합, SQL + Spark 혼용</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Microsoft Fabric — OneLake 단일 저장소, 통합 SaaS 분석 플랫폼</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Lakehouse 아키텍처 (Delta Lake / OneLake) — ACID + 분석 통합 표준화</div></div>
-</div>
-</div>
-
-
+```text
+[분산 데이터 웨어하우스 (Distributed DW) — 구조화 데이터, SQL 중심]
+    │
+    ▼
+[데이터 레이크 (Data Lake) — 비정형·반정형 포함, 스키마 온 리드]
+    │
+    ▼
+[Azure Synapse Analytics — DW + Lake 통합, SQL + Spark 혼용]
+    │
+    ▼
+[Microsoft Fabric — OneLake 단일 저장소, 통합 SaaS 분석 플랫폼]
+    │
+    ▼
+[Lakehouse 아키텍처 (Delta Lake / OneLake) — ACID + 분석 통합 표준화]
+```
 Microsoft Fabric은 OneLake라는 단일 저장소 위에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어링·과학·BI를 통합한 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 분석 플랫폼으로, [Lakehouse](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) 아키텍처의 완성형이다.
 ### 👶 어린이를 위한 3줄 비유 설명
 1. Microsoft Fabric은 학교의 모든 과목([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집, 분석, ML, 보고서)을 하나의 교실(Fabric)에서 배우는 통합 수업이에요.

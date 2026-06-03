@@ -288,19 +288,15 @@ CPU ìì ìê êì ìêíë ìììì(16->32->64->128...), ìì ëëì ììë ë�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">eBPF 네트워크/보안/모니터링 이벤트 커널 안전 훅 매커니즘</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">멀티코어 확장성 병목 (Amdahl's Law) 및 커널 락 경합 진단</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">I/O 성능 병목 (Bottleneck) 탐색법 (iostat, vmstat)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">캐시 미스 오버헤드 측정 분석망 구조 적용</div></div>
-</div>
-</div>
-
-
+```text
+[eBPF 네트워크/보안/모니터링 이벤트 커널 안전 훅 매커니즘]
+    │
+    ▼
+[멀티코어 확장성 병목 (Amdahl's Law) 및 커널 락 경합 진단]
+    │
+    ├──▶ [I/O 성능 병목 (Bottleneck) 탐색법 (iostat, vmstat)]
+    └──▶ [캐시 미스 오버헤드 측정 분석망 구조 적용]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

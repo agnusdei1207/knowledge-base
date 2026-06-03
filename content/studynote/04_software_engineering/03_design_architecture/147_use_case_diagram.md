@@ -35,23 +35,31 @@ tags = ["studynote-software-engineering"]
 
 ### 1. 구성 요소
 
+```text
+유스케이스 다이어그램 구성 요소
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">유스케이스 다이어그램 구성 요소</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시스템 경계 (System Boundary)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유스케이스 A</div><div class="kb-diagram-cell">◄</div><div class="kb-diagram-cell">유스케이스 B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(타원)</div><div class="kb-diagram-cell">«incl.»</div><div class="kb-diagram-cell">(포함 관계)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">«extend»</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유스케이스 C</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(확장 관계)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">액터 A</div><div class="kb-diagram-cell">액터 B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(사람 아이콘)</div><div class="kb-diagram-cell">(외부 시스템)</div></div>
-</div>
-</div>
-
-
+  ┌─────────────────────────────────────────────────────┐
+  │                     시스템 경계 (System Boundary)    │
+  │                                                     │
+  │     ┌────────────┐        ┌──────────────────────┐  │
+  │     │            │        │                      │  │
+  │     │ 유스케이스 A│◄──────│  유스케이스 B         │  │
+  │     │(타원)       │«incl.»│  (포함 관계)          │  │
+  │     │            │        │                      │  │
+  │     └────────────┘        └──────────────────────┘  │
+  │                                    ▲                │
+  │                               «extend»              │
+  │                          ┌────────────────┐         │
+  │                          │  유스케이스 C   │         │
+  │                          │  (확장 관계)    │         │
+  │                          └────────────────┘         │
+  └─────────────────────────────────────────────────────┘
+         │                              │
+   ┌─────────┐                    ┌─────────────┐
+   │  액터 A  │                    │    액터 B    │
+   │(사람 아이콘)│                  │ (외부 시스템) │
+   └─────────┘                    └─────────────┘
+```
 
 | 요소 | 표기 | 설명 |
 |:---|:---|:---|
@@ -65,20 +73,16 @@ tags = ["studynote-software-engineering"]
 
 ### 2. «[include](/knowledge-base/studynote/04_software_engineering/uncategorized/670_use_case_include_extend/)» vs. «extend» 핵심 비교
 
+```text
+«include» (포함)                «extend» (확장)
+────────────────────            ────────────────────
+기본 UC → «include» → 공통 UC   확장 UC → «extend» → 기본 UC
+                                (화살표 방향 주의!)
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">«include» (포함) «extend» (확장)</div>
-<div class="kb-diagram-note">기본 UC → «include» → 공통 UC 확장 UC → «extend» → 기본 UC</div>
-<div class="kb-diagram-note">(화살표 방향 주의!)</div>
-<div class="kb-diagram-note">예시: 예시:</div>
-<div class="kb-diagram-note">주문하기 → «include» → 로그인 알림 전송 → «extend» → 주문하기</div>
-<div class="kb-diagram-note">(주문 시 항상 로그인 필요) (특정 조건: 회원 동의 시만 알림)</div>
-</div>
-</div>
-
-
+예시:                           예시:
+주문하기 → «include» → 로그인   알림 전송 → «extend» → 주문하기
+(주문 시 항상 로그인 필요)        (특정 조건: 회원 동의 시만 알림)
+```
 
 - <strong>포함(«<a href="/knowledge-base/studynote/04_software_engineering/uncategorized/670_use_case_include_extend/">include</a>»)</strong>: 기본 유스케이스가 실행될 때 **항상** 포함 유스케이스도 실행. 화살표 방향: 기본 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/) → 포함 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/)
 - **확장(«extend»)**: 특정 <strong>조건</strong>이 만족될 때만 확장 유스케이스가 실행. 화살표 방향: 확장 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/) → 기본 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/) (역방향)
@@ -143,7 +147,7 @@ tags = ["studynote-software-engineering"]
 
 **한계**: [유스케이스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/238_use_case_diagram_functional_modeling/)은 "무엇을"에만 답하고, "어떻게"와 "언제"는 시퀀스·활동 다이어그램이 담당한다. 또한 [비기능 요구사항](/knowledge-base/studynote/04_software_engineering/03_design_architecture/133_non_functional_requirements/)([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 보안, [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))은 표현하기 어렵다.
 
-**미래 방향**: ① [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 환경에서 유저 스토리([User Story](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/081_user_story_invest/))가 유스케이스를 경량화한 형태로 대체 활용, ② [BDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/)([Behavior-Driven Development](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/126_bdd_behavior_driven_development_given_when_then/))의 시나리오 기반 명세와 유스케이스의 융합, ③ MBSE(Model-Based Systems Engineering)에서 유스케이스 모델의 전산화.
+**미래 방향**: ① [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 환경에서 유저 스토리([User Story](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/081_user_story_invest/))가 유스케이스를 경량화한 형태로 대체 활용, ② [BDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/)([Behavior-Driven Development](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/126_bdd_behavior_driven_development_given_when_then/))의 시나리오 기반 명세와 유스케이스의 융합, ③ MBSE(Model-Based Systems 엔진ering)에서 유스케이스 모델의 전산화.
 
 [유스케이스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/238_use_case_diagram_functional_modeling/)은 "코드 전에 기능을 그리는 것"이 아니라, **"합의를 먼저 구조화하는 것"** 이라는 관점으로 기억해야 한다.
 
@@ -163,25 +167,24 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">요구사항 수집 (고객 인터뷰 / 워크숍)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">유스케이스 다이어그램 — 기능 범위 합의</div>
-<div class="kb-diagram-tree-item" style="--depth:2">«include» 공통 기능 추출</div>
-<div class="kb-diagram-tree-item" style="--depth:2">«extend» 선택 기능 분리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">시퀀스 다이어그램 — 흐름 상세화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클래스 다이어그램 — 구조 설계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">코드 구현 / 테스트 케이스 도출</div>
-</div>
-</div>
-
-
+```text
+요구사항 수집 (고객 인터뷰 / 워크숍)
+    │
+    ▼
+유스케이스 다이어그램 — 기능 범위 합의
+    │
+    ├─► «include» 공통 기능 추출
+    ├─► «extend» 선택 기능 분리
+    │
+    ▼
+시퀀스 다이어그램 — 흐름 상세화
+    │
+    ▼
+클래스 다이어그램 — 구조 설계
+    │
+    ▼
+코드 구현 / 테스트 케이스 도출
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

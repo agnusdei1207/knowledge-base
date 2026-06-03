@@ -31,31 +31,32 @@ tags = ["studynote-devops-sre"]
 
 카오스 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)(Chaos [Mesh](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/))의 심장 뼈대는 K8s API를 물고 도는 선언적 컨트롤러(Controller) 통치 아키텍처다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Chaos Mesh 아키텍처 십자 융합 타점: K8s 네이티브 폭탄 록온 💣</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">👨‍💻</div><div class="kb-diagram-node">1. 아키텍트 팩폭 결단 (CRD YAML 폭탄 명세서 작성)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "야! 결제망 파드(Pod) 1개 정확히 타겟팅해서 10분마다 모가지 쳐 죽여 쾅!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(kubectl apply -f chaos-kill-pod.yaml 1초 컷 던짐 🚀)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (명령어 파이프라인 관통)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🧠</div><div class="kb-diagram-node">2. Chaos Controller Manager (중앙 통제 뇌 봇)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "오케이 YAML 스케줄 접수 ㅋ! 새벽 2시에 딱 1개 놈만 핀셋 지정 록온!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (살인 징집 명령 하달)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">👹</div><div class="kb-diagram-node">3. Chaos Daemon (각 노드에 숨은 데몬셋 킬러 봇 쉴드 해제 🔪)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- K8s 모든 쇳덩이 노드(Node) 구석탱이에 1마리씩 미리 잠입해 숨어있는 킬러!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 대장 뇌 명령 떨어지는 0.001초 찰나에 ➔ 옆에 있는 결제 파드(Pod) 컨테이너</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cgroups 멱살 쥐고 흔들어 CPU 질식시키거나, 리눅스 TC 망 건드려 네트워크</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">패킷 로스(Loss) 10% 쥐어 짜내 버림 쾅!!! 💥 뻗음 타살 터짐!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🌟</div><div class="kb-diagram-node">4. 옵저버빌리티(Observability) 생존 엑스레이 감시 융합 ✨</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 그라파나(Grafana) 대시보드 왈: "어? 결제 파드 1개 죽었는데 서킷 브레이커가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0.1초 만에 튕겨내고 다른 파드로 우회(Fallback) 트래픽 100% 생존 패스 컷!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결제 성공률 99.9% 무결점 이상 무 🚀 아키텍처 생존력 증명 완료 쾅!!"</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          Chaos Mesh 아키텍처 십자 융합 타점: K8s 네이티브 폭탄 록온 💣 │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ 👨‍💻 [ 1. 아키텍트 팩폭 결단 (CRD YAML 폭탄 명세서 작성) ]            │
+│   - "야! 결제망 파드(Pod) 1개 정확히 타겟팅해서 10분마다 모가지 쳐 죽여 쾅!"│
+│     (kubectl apply -f chaos-kill-pod.yaml 1초 컷 던짐 🚀)   │
+│            │                                                │
+│            ▼ (명령어 파이프라인 관통)                              │
+│ 🧠 [ 2. Chaos Controller Manager (중앙 통제 뇌 봇) ]             │
+│   - "오케이 YAML 스케줄 접수 ㅋ! 새벽 2시에 딱 1개 놈만 핀셋 지정 록온!"  │
+│            │                                                │
+│            ▼ (살인 징집 명령 하달)                               │
+│ 👹 [ 3. Chaos Daemon (각 노드에 숨은 데몬셋 킬러 봇 쉴드 해제 🔪) ] │
+│   - K8s 모든 쇳덩이 노드(Node) 구석탱이에 1마리씩 미리 잠입해 숨어있는 킬러!│
+│   - 대장 뇌 명령 떨어지는 0.001초 찰나에 ➔ 옆에 있는 결제 파드(Pod) 컨테이너 │
+│     Cgroups 멱살 쥐고 흔들어 CPU 질식시키거나, 리눅스 TC 망 건드려 네트워크 │
+│     패킷 로스(Loss) 10% 쥐어 짜내 버림 쾅!!! 💥 뻗음 타살 터짐!         │
+│                                                             │
+│ 🌟 [ 4. 옵저버빌리티(Observability) 생존 엑스레이 감시 융합 ✨ ]     │
+│   - 그라파나(Grafana) 대시보드 왈: "어? 결제 파드 1개 죽었는데 서킷 브레이커가 │
+│     0.1초 만에 튕겨내고 다른 파드로 우회(Fallback) 트래픽 100% 생존 패스 컷!│
+│     결제 성공률 99.9% 무결점 이상 무 🚀 아키텍처 생존력 증명 완료 쾅!!"      │
+└─────────────────────────────────────────────────────────────┘
+```
 
 <strong><a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">카오스 [메시</a>의 K8s 맞춤형 7대 악마(장애 주입 종류)]</strong>
 1. <strong>PodChaos (<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/">파드</a> 모가지 컷)</strong>: K8s [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 무작위 혹은 지정해서 `SIGKILL` 쳐 죽여 오토힐링 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 랙 타임 측정 💥.
@@ -144,23 +145,21 @@ tags = ["studynote-devops-sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">QA 스테이징 격리 얌전한 부하 테스트 (Load Test) / 걍 트래픽만 쏘고 "우왕 1만 명 버팀 ㅋ" 자위 침 ➔ 실전 런칭 날 서버 1대 죽자 연쇄 스파게티 셧다운 동반 타죽음 폭파 💥 💀</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Netflix 카오스 몽키(Chaos Monkey) 야생 탄생 / AWS 라이브 망 서버 모가지를 대낮에 걍 무작위 냅다 전원 뽑고 튀는 무식 화끈 폭탄 1세대 테러 봇 🐒</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Chaos Mesh &amp; LitmusChaos K8s 대관식 🚀 / 서버 무식하게 끄는 거 넘어 ➔ 네트워크 5초 랙, 파드 CPU 100% 질식, DNS 주소 낚시 변조 등 7대 지옥 고문을 핀셋 YAML 1줄로 나노 타격 통제 록온 쉴드 쳐버리는 2세대 정밀 융합</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CI/CD 파이프라인 Continuous Chaos 자동화 떡칠 융합 / 깃허브 코드 푸시(Push) 치면 ➔ 배포 전에 무조건 카오스 폭탄 1방 쏴서 서킷 브레이커 방어 100% 증명 팩트 찍고서야 런칭 프리패스 승인 컷 ✨</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">AIOps 자율 주행 카오스 (미래) / AI 봇 뇌가 1년 내내 사내망 눈알 굴리며 지 스스로 약점 틈새 찾아내 ➔ 1mm 미세 폭탄 야금야금 계속 찌르며 시스템 오토 맷집 스케일 업(Self-Healing) 무한 진화 생태계 달성</div>
-</div>
-</div>
-
-
+```text
+QA 스테이징 격리 얌전한 부하 테스트 (Load Test) / 걍 트래픽만 쏘고 "우왕 1만 명 버팀 ㅋ" 자위 침 ➔ 실전 런칭 날 서버 1대 죽자 연쇄 스파게티 셧다운 동반 타죽음 폭파 💥 💀
+    │
+    ▼
+Netflix 카오스 몽키(Chaos Monkey) 야생 탄생 / AWS 라이브 망 서버 모가지를 대낮에 걍 무작위 냅다 전원 뽑고 튀는 무식 화끈 폭탄 1세대 테러 봇 🐒
+    │
+    ▼
+Chaos Mesh & LitmusChaos K8s 대관식 🚀 / 서버 무식하게 끄는 거 넘어 ➔ 네트워크 5초 랙, 파드 CPU 100% 질식, DNS 주소 낚시 변조 등 7대 지옥 고문을 핀셋 YAML 1줄로 나노 타격 통제 록온 쉴드 쳐버리는 2세대 정밀 융합
+    │
+    ▼
+CI/CD 파이프라인 Continuous Chaos 자동화 떡칠 융합 / 깃허브 코드 푸시(Push) 치면 ➔ 배포 전에 무조건 카오스 폭탄 1방 쏴서 서킷 브레이커 방어 100% 증명 팩트 찍고서야 런칭 프리패스 승인 컷 ✨
+    │
+    ▼
+AIOps 자율 주행 카오스 (미래) / AI 봇 뇌가 1년 내내 사내망 눈알 굴리며 지 스스로 약점 틈새 찾아내 ➔ 1mm 미세 폭탄 야금야금 계속 찌르며 시스템 오토 맷집 스케일 업(Self-Healing) 무한 진화 생태계 달성
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -174,7 +173,7 @@ tags = ["studynote-devops-sre"]
 
 **진행 상황**: 149 / 373
 
-← **이전**: [148. 카오스 엔지니어링 (Chaos Engineering)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/148_chaos_engineering_resiliency_testing/)
+← **이전**: [148. 카오스 엔지니어링 (Chaos 엔진ering)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/148_chaos_engineering_resiliency_testing/)
 **다음**: [150. 장애 영향 반경 최소화 (Blast Radius Minimization) - 마이크로서비스 최후의 방폭문](/knowledge-base/studynote/15_devops_sre/03_sre_observability/150_blast_radius_minimization/) →
 
 ---

@@ -28,17 +28,14 @@ tags = ["studynote-ai"]
 
 이것이 불필요한 노드를 통째로 베어버리는 <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/020_alpha_beta_pruning/">알파-베타 가지치기</a> (<a href="/knowledge-base/studynote/10_ai/01_ai_basics/020_alpha_beta_pruning/">Alpha-Beta Pruning</a>)</strong>의 위대한 탄생이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 미니맥스는 '최악을 피하는 비관주의자'다. 내가 오른쪽 길로 가면 사자 아니면 호랑이가 나오고, 왼쪽 길로 가면 모기 아니면 파리가 나온다 치자. 상대방은 무조건 나를 제일 아프게 하는 놈을 고를 테니, 나는 오른쪽 길(호랑이한테 물어뜯김)을 과감히 버리고 차라리 왼쪽 길(기껏해야 파리한테 물림)을 골라 최악 중 그나마 나은 최선을 선택하는 생존법이다.
 
@@ -48,30 +45,31 @@ tags = ["studynote-ai"]
 
 미니맥스 트리는 나와 상대방의 턴이 번갈아 나타나며, 밑바닥에서 위로 점수를 끌어올리는 [백트래킹](/knowledge-base/studynote/08_algorithm_stats/01_basics/010_backtracking/)([Backtracking](/knowledge-base/studynote/08_algorithm_stats/01_basics/010_backtracking/)) 아키텍처를 따른다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">미니맥스 (Minimax)와 알파-베타 가지치기 작동 아키텍처 도해</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">상대 턴(Min) ─▶ 잎 노드 점수 판별</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 미니맥스 기본 트리 (무식하게 다 계산하기)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">나의 최종 선택: Max(?)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상대방 턴: Min(3)</div><div class="kb-diagram-node">상대방 턴: Min(2)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(3점) (5점) (2점) (9점) ─▶ (바닥 노드 점수들)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 상대방 로직: 3과 5 중 나쁜 거(3점) 선택 / 2와 9 중 나쁜 거(2점) 선택!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 나의 로직: 상대방이 남겨준 3점과 2점 중 좋은 거(3점) 선택! ─▶ 왼쪽 길!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. ★ 알파-베타 가지치기 (알파: 내가 쥔 최소 확보 점수)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 왼쪽을 다 팠더니 "아! 왼쪽 길로 가면 상대가 어떻게 발악해도 최소 3점은</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">무조건 먹는구나!(알파=3)" 라고 깨달음.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 이제 오른쪽 길을 파봄. 오른쪽의 첫 번째 바닥 점수를 까보니 (2점)이 나옴!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* ─▶ "잠깐! 상대방(Min)은 오른쪽 길에서 무조건 2점이나 그 이하의 최악의</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">폭탄을 나한테 던지겠네? 근데 난 이미 왼쪽 길에서 최소 3점(알파)을 확보</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해뒀잖아? 그럼 오른쪽 방에 남은 (9점)이든 (100점)이든 의미가 없어!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">*</div><div class="kb-diagram-node">가지치기 발동 ✂️</div><div class="kb-diagram-note">: 오른쪽 방의 나머지 길(9점)은 아예 쳐다보지도 않고 자름!</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           미니맥스 (Minimax)와 알파-베타 가지치기 작동 아키텍처 도해        │
+├──────────────────────────────────────────────────────────────┤
+│  [상황]: 내 턴(Max) ─▶ 상대 턴(Min) ─▶ 잎 노드 점수 판별              │
+│                                                              │
+│  [1. 미니맥스 기본 트리 (무식하게 다 계산하기)]                       │
+│           [나의 최종 선택: Max(?)]                               │
+│            /                 \                               │
+│      [상대방 턴: Min(3)]    [상대방 턴: Min(2)]                  │
+│       /      \               /      \                         │
+│     (3점)   (5점)          (2점)   (9점)  ─▶ (바닥 노드 점수들)    │
+│   * 상대방 로직: 3과 5 중 나쁜 거(3점) 선택 / 2와 9 중 나쁜 거(2점) 선택!│
+│   * 나의 로직: 상대방이 남겨준 3점과 2점 중 좋은 거(3점) 선택! ─▶ 왼쪽 길!│
+│                                                              │
+│  [2. ★ 알파-베타 가지치기 (알파: 내가 쥔 최소 확보 점수)]             │
+│   * 왼쪽을 다 팠더니 "아! 왼쪽 길로 가면 상대가 어떻게 발악해도 최소 3점은   │
+│     무조건 먹는구나!(알파=3)" 라고 깨달음.                          │
+│   * 이제 오른쪽 길을 파봄. 오른쪽의 첫 번째 바닥 점수를 까보니 (2점)이 나옴! │
+│   * ─▶ "잠깐! 상대방(Min)은 오른쪽 길에서 무조건 2점이나 그 이하의 최악의   │
+│     폭탄을 나한테 던지겠네? 근데 난 이미 왼쪽 길에서 최소 3점(알파)을 확보    │
+│     해뒀잖아? 그럼 오른쪽 방에 남은 (9점)이든 (100점)이든 의미가 없어!"     │
+│   * [가지치기 발동 ✂️]: 오른쪽 방의 나머지 길(9점)은 아예 쳐다보지도 않고 자름!│
+└──────────────────────────────────────────────────────────────┘
+```
 
 **핵심 원리 (Alpha와 Beta의 조건부 폭파)**:
 이 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 심장에는 두 개의 메모리 칩표가 돌아다닌다. 

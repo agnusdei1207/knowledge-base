@@ -18,18 +18,12 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">traceparent: 00-{traceId}-{spanId}-{flags}</div>
-<div class="kb-diagram-note">예: 00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01</div>
-<div class="kb-diagram-note">→ HTTP 요청 헤더로 서비스 간 전파</div>
-<div class="kb-diagram-note">→ 수신 서비스: 새 Span 생성 + 부모 Span 연결</div>
-</div>
-</div>
-
-
+```text
+traceparent: 00-{traceId}-{spanId}-{flags}
+  예: 00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01
+  → HTTP 요청 헤더로 서비스 간 전파
+  → 수신 서비스: 새 Span 생성 + 부모 Span 연결
+```
 
 - **📢 섹션 요약 비유**: [Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Propagation은 <strong>릴레이 바톤</strong>이다. 각 주자([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))가 바톤([Trace ID](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/303_trace_id/))을 이어받아 전체 레이스(요청)를 추적한다.
 
@@ -53,18 +47,12 @@ Trace·Span·[Context](/knowledge-base/studynote/02_operating_system/01_overview
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">B3 헤더 (Zipkin, 2012)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Jaeger 헤더 (Uber)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">W3C Trace Context (2020, 표준)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">OTel Context Propagation (2021)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: W3C 수렴 — B3·Jaeger 호환</div></div>
-</div>
-</div>
-
-
+```text
+[B3 헤더 (Zipkin, 2012)] → [Jaeger 헤더 (Uber)]
+    → [W3C Trace Context (2020, 표준)]
+    → [OTel Context Propagation (2021)]
+    → [현재: W3C 수렴 — B3·Jaeger 호환]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. Context는 <strong>릴레이 바톤</strong>이에요. 각 주자([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))가 <strong>바톤(ID)</strong>을 이어받아요.

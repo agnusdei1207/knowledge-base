@@ -39,32 +39,39 @@ tags = ["studynote-bigdata"]
 
 ### [합성 데이터](/knowledge-base/studynote/09_security/16_data_privacy/818_synthetic_data/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 방법론 3종
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">합성 데이터 생성 방법론</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. GAN 기반 (Generative Adversarial Network)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">생성기(Generator) ←→ 판별기(Discriminator) 적대적 학습</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CTGAN (Conditional Tabular GAN):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 수치형+범주형 혼합 표 형식 데이터 처리 최적화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 조건부 생성으로 희귀 범주 불균형 해결</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TVAE (Tabular Variational Autoencoder):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 잠재 공간(Latent Space) 기반 연속 생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 수치형 데이터 분포 재현 우수</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 통계적/코퓰러(Copula) 기반</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SDV (Synthetic Data Vault) 라이브러리:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Gaussian Copula: 컬럼 간 상관구조 보존</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 조건부 분포: 주어진 값에서 다른 값 샘플링</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 다중 테이블: FK 관계 보존하며 합성 생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 규칙 기반/시뮬레이션</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">도메인 전문 지식으로 데이터 생성 규칙 정의</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 자동차 보험: 나이·운전 이력 기반 사고율 시뮬레이션</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 사기 탐지: 실제 사기 패턴 기반 시나리오 합성</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────────┐
+│              합성 데이터 생성 방법론                         │
+├──────────────────────────────────────────────────────────────┤
+│  1. GAN 기반 (Generative Adversarial Network)               │
+│  ┌────────────────────────────────────────────────────────┐ │
+│  │  생성기(Generator) ←→ 판별기(Discriminator) 적대적 학습│ │
+│  │                                                        │ │
+│  │  CTGAN (Conditional Tabular GAN):                      │ │
+│  │  - 수치형+범주형 혼합 표 형식 데이터 처리 최적화        │ │
+│  │  - 조건부 생성으로 희귀 범주 불균형 해결                │ │
+│  │                                                        │ │
+│  │  TVAE (Tabular Variational Autoencoder):                │ │
+│  │  - 잠재 공간(Latent Space) 기반 연속 생성              │ │
+│  │  - 수치형 데이터 분포 재현 우수                         │ │
+│  └────────────────────────────────────────────────────────┘ │
+├──────────────────────────────────────────────────────────────┤
+│  2. 통계적/코퓰러(Copula) 기반                              │
+│  ┌────────────────────────────────────────────────────────┐ │
+│  │  SDV (Synthetic Data Vault) 라이브러리:                 │ │
+│  │  - Gaussian Copula: 컬럼 간 상관구조 보존               │ │
+│  │  - 조건부 분포: 주어진 값에서 다른 값 샘플링           │ │
+│  │  - 다중 테이블: FK 관계 보존하며 합성 생성             │ │
+│  └────────────────────────────────────────────────────────┘ │
+├──────────────────────────────────────────────────────────────┤
+│  3. 규칙 기반/시뮬레이션                                     │
+│  ┌────────────────────────────────────────────────────────┐ │
+│  │  도메인 전문 지식으로 데이터 생성 규칙 정의             │ │
+│  │  - 자동차 보험: 나이·운전 이력 기반 사고율 시뮬레이션  │ │
+│  │  - 사기 탐지: 실제 사기 패턴 기반 시나리오 합성        │ │
+│  └────────────────────────────────────────────────────────┘ │
+└─────────────────────────────────────────────────────────────┘
+```
 
 ### [합성 데이터](/knowledge-base/studynote/09_security/16_data_privacy/818_synthetic_data/) 품질 3중 평가 체계
 
@@ -172,23 +179,21 @@ print(f"품질 점수: {score}")  # 0-1 사이, 높을수록 좋음
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">실 데이터 (Real Data) — 개인정보·희귀 이벤트로 수집·공유 제한</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 증강 (Data Augmentation) — 회전·크롭·노이즈 추가로 다양성 확보</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">합성 데이터 생성 (GAN / VAE / Diffusion Model) — 통계 분포 학습 후 신규 생성</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">품질 검증 (Fidelity / Utility / Privacy 평가) — 실 데이터와 유사성 및 프라이버시 확인</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AI 모델 학습·테스트 활용 — 데이터 부족·편향·규제 장벽 극복</div></div>
-</div>
-</div>
-
-
+```text
+[실 데이터 (Real Data) — 개인정보·희귀 이벤트로 수집·공유 제한]
+    │
+    ▼
+[데이터 증강 (Data Augmentation) — 회전·크롭·노이즈 추가로 다양성 확보]
+    │
+    ▼
+[합성 데이터 생성 (GAN / VAE / Diffusion Model) — 통계 분포 학습 후 신규 생성]
+    │
+    ▼
+[품질 검증 (Fidelity / Utility / Privacy 평가) — 실 데이터와 유사성 및 프라이버시 확인]
+    │
+    ▼
+[AI 모델 학습·테스트 활용 — 데이터 부족·편향·규제 장벽 극복]
+```
 실 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 수집·공유 한계를 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 증강으로 보완하고, [GAN](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/154_gan_generative_adversarial_network/)/[VAE](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/) 기반 [합성 데이터](/knowledge-base/studynote/09_security/16_data_privacy/818_synthetic_data/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)으로 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 규제와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 부족 문제를 동시에 해결한다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

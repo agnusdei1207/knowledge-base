@@ -25,19 +25,19 @@ tags = ["studynote-ai"]
 
 아래 그림은 가치 기반과 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 기반의 차이를 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Value-based vs Policy-based decision</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">state s</div><div class="kb-diagram-cell">state s</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Q(s,a1), Q(s,a2), ...</div><div class="kb-diagram-cell">πθ(a1</div><div class="kb-diagram-cell">s), πθ(a2</div><div class="kb-diagram-cell">s), ...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">argmax action</div><div class="kb-diagram-cell">sample / choose from distribution</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">best for finite actions</div><div class="kb-diagram-cell">natural for stochastic/continuous</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Value-based vs Policy-based decision                                 │
+├──────────────────────────────┬──────────────────────────────────────┤
+│ state s                      │ state s                              │
+│   │                          │   │                                  │
+│   ▼                          │   ▼                                  │
+│ Q(s,a1), Q(s,a2), ...        │ πθ(a1|s), πθ(a2|s), ...             │
+│   │                          │   │                                  │
+│ argmax action                │ sample / choose from distribution    │
+│ best for finite actions      │ natural for stochastic/continuous    │
+└──────────────────────────────┴──────────────────────────────────────┘
+```
 
 즉 [정책 경사](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/318_policy_gradient_actor_critic/)법은 "점수표를 잘 맞히는 문제"에서 "행동 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 잘 조정하는 문제"로 초점을 바꾼다. 이 전환 덕분에 강화학습의 표현력은 커지지만, 대신 학습 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)을 어떻게 낮출지가 핵심 과제가 된다.
 
@@ -59,20 +59,22 @@ tags = ["studynote-ai"]
 
 아래 그림은 학습 루프를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)한 것이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Policy Gradient training loop</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">state s_t ──&gt; policy πθ(a</div><div class="kb-diagram-cell">s) ──&gt; sample action a_t</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">next state s_{t+1} &lt;── environment reward r_t</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">trajectory {s,a,r} ──&gt; discounted return G_t</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─&gt; ∇θ log πθ(a_t</div><div class="kb-diagram-cell">s_t) · G_t</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ update θ</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Policy Gradient training loop                                        │
+├──────────────────────────────────────────────────────────────────────┤
+│ state s_t ──> policy πθ(a|s) ──> sample action a_t                  │
+│      ▲                              │                                │
+│      │                              ▼                                │
+│ next state s_{t+1} <── environment reward r_t                       │
+│                                                                      │
+│ trajectory {s,a,r} ──> discounted return G_t                         │
+│                               │                                      │
+│                               └─> ∇θ log πθ(a_t|s_t) · G_t           │
+│                                          │                           │
+│                                          └─ update θ                 │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 네트워크의 출력 형태는 행동 공간에 따라 달라진다. 이산 행동이면 [softmax](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/) [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을, 연속 행동이면 가우시안 분포의 평균 `μ`와 표준편차 `σ`를 내보내는 식이 흔하다. 즉 [정책 경사](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/318_policy_gradient_actor_critic/)법은 단순히 "왼쪽/오른쪽"을 고르는 모델이 아니라, <strong>행동 분포의 모양 자체를 학습하는 모델</strong>이다.
 
@@ -156,25 +158,24 @@ tags = ["studynote-ai"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">MDP (Markov Decision Process)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Policy network πθ(a|s)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">REINFORCE</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Baseline / Advantage</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Actor-Critic family</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">PPO · continuous control · RLHF</div>
-</div>
-</div>
-
-
+```text
+MDP (Markov Decision Process)
+        │
+        ▼
+Policy network πθ(a|s)
+        │
+        ▼
+REINFORCE
+        │
+        ▼
+Baseline / Advantage
+        │
+        ▼
+Actor-Critic family
+        │
+        ▼
+PPO · continuous control · RLHF
+```
 
 이 흐름은 [정책 경사](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/318_policy_gradient_actor_critic/)법이 순수 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 학습에서 출발해, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 저감과 안정화 장치를 더하며 현대 강화학습 핵심 계열로 확장되는 과정을 보여 준다.
 

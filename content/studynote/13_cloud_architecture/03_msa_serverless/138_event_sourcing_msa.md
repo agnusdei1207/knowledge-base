@@ -18,19 +18,13 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">기존: orders 테이블 → UPDATE status='배송' (이전 상태 유실)</div>
-<div class="kb-diagram-note">Event Sourcing: events 테이블 →</div>
-<div class="kb-diagram-note">{주문 생성, 결제 완료, 배송 시작, 배달 완료}</div>
-<div class="kb-diagram-note">→ Replay → 현재 상태 = '배달 완료'</div>
-<div class="kb-diagram-note">→ 감사: 언제·누가·무엇을 변경했는지 100% 추적</div>
-</div>
-</div>
-
-
+```text
+기존: orders 테이블 → UPDATE status='배송' (이전 상태 유실)
+Event Sourcing: events 테이블 →
+  {주문 생성, 결제 완료, 배송 시작, 배달 완료}
+  → Replay → 현재 상태 = '배달 완료'
+  → 감사: 언제·누가·무엇을 변경했는지 100% 추적
+```
 
 - **📢 섹션 요약 비유**: Event Sourcing은 <strong>은행 거래 내역</strong>이다. 잔고(상태)만 보는 것이 아니라 <strong>모든 입출금 기록(이벤트)</strong>을 보존한다.
 
@@ -54,18 +48,12 @@ Event Sourcing은 <strong><a href="/knowledge-base/studynote/02_operating_system
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">CRUD (상태 저장)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Event Sourcing (Martin Fowler, 2005)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">CQRS + ES (Greg Young, 2010)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">EventStoreDB (2012)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Kafka as Event Store</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: Axon Framework — ES+CQRS 통합</div></div>
-</div>
-</div>
-
-
+```text
+[CRUD (상태 저장)] → [Event Sourcing (Martin Fowler, 2005)]
+    → [CQRS + ES (Greg Young, 2010)]
+    → [EventStoreDB (2012)] → [Kafka as Event Store]
+    → [현재: Axon Framework — ES+CQRS 통합]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. Event Sourcing은 <strong>일기장</strong>이에요. 오늘 잔고(상태)만 보는 게 아니라 <strong>모든 용돈 기록(이벤트)</strong>을 남겨요.

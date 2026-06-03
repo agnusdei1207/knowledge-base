@@ -23,21 +23,19 @@ tags = ["studynote-devops-sre"]
 
 문제가 어려운 이유는 증상이 한 군데에만 나타나지 않기 때문이다. 애플리케이션에서는 단순히 응답시간 증가로 보이고, DB 레벨에서는 특정 샤드의 Full Scan이나 [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) Wait으로 드러나며, 인프라 레벨에서는 네트워크 재전송이나 연결 풀 포화로 표현될 수 있다. 이 셋을 따로 보면 원인이 흩어지고, 함께 보면 비로소 선후관계가 생긴다.
 
-[Site Reliability Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)) 관점에서 슬로우 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)는 [Service Level Objective](/knowledge-base/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/) ([SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)) 훼손의 전형적 원인이다. P99 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 하나가 연결 풀 고갈, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/), 재시도 폭증으로 연쇄 전파되기 때문이다. 그래서 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) DB에서는 "DB만 본다"가 아니라 요청 단위의 [end-to-end](/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/) 관찰이 필수다.
+[Site Reliability 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)) 관점에서 슬로우 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)는 [Service Level Objective](/knowledge-base/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/) ([SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)) 훼손의 전형적 원인이다. P99 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 하나가 연결 풀 고갈, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/), 재시도 폭증으로 연쇄 전파되기 때문이다. 그래서 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) DB에서는 "DB만 본다"가 아니라 요청 단위의 [end-to-end](/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/) 관찰이 필수다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분산 쿼리가 느려질 수 있는 지점은 한 군데가 아니다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client ─▶ API ─▶ SQL Router ─▶ Shard A</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Shard B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Shard C ─▶ Merge / Sort</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">어느 한 지점의 지연이 최종 응답시간으로 합쳐져 나타남</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│        분산 쿼리가 느려질 수 있는 지점은 한 군데가 아니다      │
+├──────────────────────────────────────────────────────────────┤
+│ Client ─▶ API ─▶ SQL Router ─▶ Shard A                      │
+│                            ├▶ Shard B                       │
+│                            └▶ Shard C ─▶ Merge / Sort       │
+│                                                              │
+│ 어느 한 지점의 지연이 최종 응답시간으로 합쳐져 나타남         │
+└──────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 슬로우 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 추적은 택배가 늦었을 때 "도착이 늦다"만 보는 것이 아니라, 물류센터·간선차량·지역배송 중 어디서 막혔는지 배송 이력을 따라가는 일과 같다.
 
@@ -56,24 +54,21 @@ tags = ["studynote-devops-sre"]
 
 아래 그림은 Trace ID와 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 플랜이 어떻게 연결되는지 보여준다.
 
+```text
+Request Trace ID: 9f2c...
+┌──────────────────────────────────────────────────────────────┐
+│ API Span (35 ms)                                             │
+│  └─ SQL Router Span (910 ms)                                 │
+│      ├─ Shard-01 Span (42 ms)  : Index Range Scan            │
+│      ├─ Shard-02 Span (51 ms)  : Index Range Scan            │
+│      ├─ Shard-03 Span (781 ms) : Table Scan   ◀ bottleneck   │
+│      └─ Merge Sort Span (36 ms)                              │
+└──────────────────────────────────────────────────────────────┘
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Request Trace ID: 9f2c...</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">API Span (35 ms)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ SQL Router Span (910 ms)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Shard-01 Span (42 ms) : Index Range Scan</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Shard-02 Span (51 ms) : Index Range Scan</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Shard-03 Span (781 ms) : Table Scan ◀ bottleneck</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Merge Sort Span (36 ms)</div></div>
-<div class="kb-diagram-note">Plan Hash: a13b...</div>
-<div class="kb-diagram-note">Query Fingerprint: SELECT * FROM orders WHERE user_id = ?</div>
-<div class="kb-diagram-note">Slow Log Row: rows_examined=1,240,000 / rows_sent=20</div>
-</div>
-</div>
-
-
+Plan Hash: a13b...
+Query Fingerprint: SELECT * FROM orders WHERE user_id = ?
+Slow Log Row: rows_examined=1,240,000 / rows_sent=20
+```
 
 여기서 중요한 것은 단순 SQL 전문보다 <strong>query fingerprint</strong>다. 바인드 값이 다른 동일 형태 SQL을 하나로 묶어야 반복 패턴을 찾을 수 있고, 샤드별 span과 플랜 hash를 조합해야 특정 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 회귀(regression)를 감지할 수 있다. 또한 estimated rows와 actual rows 차이가 크면 통계 노후화(stale [statistics](/knowledge-base/studynote/05_database/03_relational_model/168_clustering_factor_index_physical_alignment/)), plan hash는 같은데 특정 샤드만 느리면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스큐나 핫 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)을 의심할 수 있다.
 
@@ -159,23 +154,21 @@ tags = ["studynote-devops-sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">슬로우 쿼리 로그 수집</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Query Fingerprint 정규화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Trace ID 기반 요청 상관 분석</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">샤드별 실행 계획 비교 · Plan Hash 관리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Adaptive Sampling · 자동 튜닝 연계</div>
-</div>
-</div>
-
-
+```text
+슬로우 쿼리 로그 수집
+    │
+    ▼
+Query Fingerprint 정규화
+    │
+    ▼
+Trace ID 기반 요청 상관 분석
+    │
+    ▼
+샤드별 실행 계획 비교 · Plan Hash 관리
+    │
+    ▼
+Adaptive Sampling · 자동 튜닝 연계
+```
 
 이 흐름은 "느린 SQL 목록"에서 출발해 "요청 단위 인과 복원"과 "자동 분석"으로 발전하는 관측 성숙도를 보여준다.
 

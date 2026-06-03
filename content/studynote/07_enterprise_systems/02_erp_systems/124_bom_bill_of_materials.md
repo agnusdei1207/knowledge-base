@@ -18,24 +18,21 @@ tags = ["studynote-enterprise-systems"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BOM 계층 구조 예시 (자동차 시트)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">완제품: 자동차 시트 (1EA)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 프레임 어셈블리 (1EA)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 강철 프레임 (1EA)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 볼트 (8EA)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 용접 부품 (2EA)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 쿠션 어셈블리 (1EA)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 폼 패드 (1EA)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 커버 (1EA)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 리클라이너 모터 (1EA)</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    BOM 계층 구조 예시 (자동차 시트)                    │
+├───────────────────────────────────────────────────────┤
+│  완제품: 자동차 시트 (1EA)                            │
+│  ├── 프레임 어셈블리 (1EA)                            │
+│  │   ├── 강철 프레임 (1EA)                            │
+│  │   ├── 볼트 (8EA)                                   │
+│  │   └── 용접 부품 (2EA)                              │
+│  ├── 쿠션 어셈블리 (1EA)                              │
+│  │   ├── 폼 패드 (1EA)                                │
+│  │   └── 커버 (1EA)                                   │
+│  └── 리클라이너 모터 (1EA)                            │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: BOM은 요리의 <strong>레시피(재료 목록)</strong>이다. 밀가루 200g, 계란 3개, 설탕 50g처럼 제품을 만드는 데 필요한 모든 부품과 수량을 정의한다.
 
@@ -47,7 +44,7 @@ tags = ["studynote-enterprise-systems"]
 
 | 유형 | 관점 | 용도 |
 |:---|:---|:---|
-| **E-BOM** | 설계 (Engineering) | 기능 구조 |
+| **E-BOM** | 설계 (엔진ering) | 기능 구조 |
 | **M-BOM** | 제조 (Manufacturing) | 조립 공정 순서 |
 | **S-BOM** | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) ([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) | 교체 부품 |
 
@@ -91,23 +88,21 @@ BOM은 <strong>제조업 <a href="/knowledge-base/studynote/05_database/01_db_ar
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">종이 BOM (수동, ~1990s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">PDM BOM 관리 (전자화, 2000s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">PLM → ERP BOM 연동 (2010s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">클라우드 BOM (SaaS PLM, 2020~)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: AI BOM — 자동 부품 추천·대체품 탐색</div></div>
-</div>
-</div>
-
-
+```text
+[종이 BOM (수동, ~1990s)]
+    │
+    ▼
+[PDM BOM 관리 (전자화, 2000s)]
+    │
+    ▼
+[PLM → ERP BOM 연동 (2010s)]
+    │
+    ▼
+[클라우드 BOM (SaaS PLM, 2020~)]
+    │
+    ▼
+[현재: AI BOM — 자동 부품 추천·대체품 탐색]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. BOM은 요리 <strong>레시피</strong>예요. 밀가루·계란·설탕 등 <strong>재료(부품)와 양(수량)</strong>이 적혀 있어요.

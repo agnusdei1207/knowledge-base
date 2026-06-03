@@ -29,19 +29,13 @@ OCI는 그 표준을 제공한다.
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Image Spec</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Runtime Spec</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">OCI</div>
-</div>
-</div>
-
-
+```text
+Image Spec
+  ↓
+Runtime Spec
+  ↓
+OCI
+```
 
 | 요소 | 의미 |
 | :-- | :-- |
@@ -109,41 +103,29 @@ OCI는 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">OCI</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Image Spec</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Runtime Spec</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Container Portability</div>
-</div>
-</div>
-
-
+```text
+OCI
+  ↓
+Image Spec
+  ↓
+Runtime Spec
+  ↓
+Container Portability
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Docker</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">OCI</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Open Standard</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Interoperability</div>
-</div>
-</div>
-
-
+```text
+Docker
+  ↓
+OCI
+  ↓
+Open Standard
+  ↓
+Interoperability
+```
 
 ---
 

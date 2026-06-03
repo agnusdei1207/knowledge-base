@@ -39,27 +39,33 @@ tags = ["studynote-design-supervision"]
 
 ### 1. [추상 팩토리](/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/) 구조
 
+```text
+추상 팩토리 패턴 구조
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">추상 팩토리 패턴 구조</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;&lt;interface&gt;&gt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AbstractFactory</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ createButton(): AbstractButton</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ createCheckbox(): AbstractCheckbox</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Win</div><div class="kb-diagram-cell">Mac</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Factory</div><div class="kb-diagram-cell">Factory</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">createButton</div><div class="kb-diagram-cell">createButton</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→WinButton</div><div class="kb-diagram-cell">→MacButton</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">createCheckb</div><div class="kb-diagram-cell">createCheckb</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→WinCheckbox</div><div class="kb-diagram-cell">→MacCheckbox</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WinButton</div><div class="kb-diagram-cell">MacButton</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WinCheckbox</div><div class="kb-diagram-cell">MacCheckbox</div></div>
-</div>
-</div>
-
-
+  ┌─────────────────────────────────────────────────────────────┐
+  │                <<interface>>                                │
+  │               AbstractFactory                              │
+  │   + createButton(): AbstractButton                         │
+  │   + createCheckbox(): AbstractCheckbox                     │
+  └────────────────┬────────────────────────────────────────────┘
+                   │
+        ┌──────────┴──────────┐
+        │                     │
+  ┌─────▼──────┐       ┌──────▼──────┐
+  │  Win       │       │  Mac        │
+  │  Factory   │       │  Factory    │
+  │            │       │             │
+  │createButton│       │createButton │
+  │→WinButton  │       │→MacButton   │
+  │createCheckb│       │createCheckb │
+  │→WinCheckbox│       │→MacCheckbox │
+  └────────────┘       └─────────────┘
+        │                     │
+  ┌─────▼──────┐       ┌──────▼──────┐
+  │WinButton   │       │MacButton    │
+  │WinCheckbox │       │MacCheckbox  │
+  └────────────┘       └─────────────┘
+```
 
 ### 2. 코드 예시 (Python 스타일)
 
@@ -178,22 +184,21 @@ render_ui(factory)            # 나머지 코드 변경 없음
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단순 직접 생성 (new ConcreteClass())</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">팩토리 메서드 — 단일 객체 생성 위임</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">추상 팩토리 — 연관 제품군 전체 일괄 생성</div>
-<div class="kb-diagram-tree-item" style="--depth:2">OCP / DIP SOLID 원칙 실현</div>
-<div class="kb-diagram-tree-item" style="--depth:2">의존성 주입 (Spring DI, Guice)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">서비스 로케이터 패턴과 비교</div>
-</div>
-</div>
-
-
+```text
+단순 직접 생성 (new ConcreteClass())
+    │
+    ▼
+팩토리 메서드 — 단일 객체 생성 위임
+    │
+    ▼
+추상 팩토리 — 연관 제품군 전체 일괄 생성
+    │
+    ├─► OCP / DIP SOLID 원칙 실현
+    │
+    ├─► 의존성 주입 (Spring DI, Guice)
+    │
+    └─► 서비스 로케이터 패턴과 비교
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

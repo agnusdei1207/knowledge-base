@@ -24,23 +24,19 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경**: 콘 콜리바스(Con Kolivas)가 만든 데스크톱 환경의 부드러움을 극대화한 RSDL [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)에서 영감을 받아, 리눅스 핵심 해커들이 "서버의 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)과 데스크톱의 응답성을 복잡한 코드 없이 하나의 수학적 철학으로 통합하자"고 결의하여 탄생했다.
 
+```text
+  [기존 타임 슬라이스(O(1)) vs CFS의 가상 시간(vruntime) 철학 비교]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">기존 타임 슬라이스(O(1)) vs CFS의 가상 시간(vruntime) 철학 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">기존 스케줄러 (고정 배급제)</div></div>
-<div class="kb-diagram-note">스케줄러: "너는 우선순위가 높으니까 100ms 덩어리로 줄게, 너는 낮으니까 10ms 줄게. 다 쓰면 맨 뒤로 가!"</div>
-<div class="kb-diagram-note">▶ 단점: 배급받은 덩어리를 들고 튀거나 꼼수 부리는 놈들 통제 불가.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CFS 스케줄러 (누적 계좌제)</div></div>
-<div class="kb-diagram-note">스케줄러: "시간 덩어리 같은 건 안 준다. 대신 네가 CPU에 붙어서 연산한 시간을</div>
-<div class="kb-diagram-note">나노초(ns) 단위로 계좌(vruntime)에 칼같이 빚으로 달아둘 거다."</div>
-<div class="kb-diagram-note">▶ P1의 계좌(vruntime): 15ms</div>
-<div class="kb-diagram-note">▶ P2의 계좌(vruntime): 3ms (🚨 P2가 너무 못 먹었네! 당장 P2부터 실행시켜!)</div>
-</div>
-</div>
-
-
+  [ 기존 스케줄러 (고정 배급제) ]
+  스케줄러: "너는 우선순위가 높으니까 100ms 덩어리로 줄게, 너는 낮으니까 10ms 줄게. 다 쓰면 맨 뒤로 가!"
+  ▶ 단점: 배급받은 덩어리를 들고 튀거나 꼼수 부리는 놈들 통제 불가.
+  
+  [ CFS 스케줄러 (누적 계좌제) ]
+  스케줄러: "시간 덩어리 같은 건 안 준다. 대신 네가 CPU에 붙어서 연산한 시간을 
+            나노초(ns) 단위로 계좌(vruntime)에 칼같이 빚으로 달아둘 거다."
+  ▶ P1의 계좌(vruntime): 15ms
+  ▶ P2의 계좌(vruntime): 3ms  (🚨 P2가 너무 못 먹었네! 당장 P2부터 실행시켜!)
+```
 **[다이어그램 해설]** CFS는 스케줄링의 패러다임을 '배분(Allocation)'에서 '추적(Tracking)'으로 바꿨다. 미래에 얼마를 줄지 짱구를 굴리지 않는다. 과거에 얼마나 먹었는지 가계부(vruntime)만 철저히 쓰고, 그 가계부 잔고가 가장 적은 사람을 기계적으로 부른다. I/O 대기하느라 화면 뒤에서 1시간 동안 잠들어있던 프로세스가 깨어나면? 이놈의 가계부 점수는 바닥(0)이므로, 깨어나는 찰나의 순간에 모든 무거운 프로세스의 목을 날려버리고(선점) 즉각적으로 마우스/키보드 응답을 뱉어내는 기적을 보여준다.
 
 - **📢 섹션 요약 비유**: 은행에서 번호표를 뽑을 때 1번, 2번(우선순위)이 없습니다. 오직 "태어나서 은행 창구 직원과 대화한 시간이 가장 적은 사람"이 문 열고 들어오자마자 무조건 프리패스로 상담을 받는 극단적인 약자 구제(공정성) 시스템입니다.
@@ -63,27 +59,30 @@ CFS는 140개의 복잡한 큐([Array](/knowledge-base/studynote/08_algorithm_st
 - 트리의 노드는 각 프로세스를 의미하며, 노드를 정렬하는 기준값([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))은 오직 `vruntime`이다.
 - 가장 덜 먹은 놈(가장 vruntime이 작은 놈)은 <strong>무조건 트리의 가장 왼쪽 아래 끝(Leftmost Node)</strong>에 위치한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CFS의 레드-블랙 트리(RB-Tree) 탐색 및 스케줄링 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">P_Root (vruntime: 50)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">P_A (vruntime: 30)</div><div class="kb-diagram-node">P_B (vruntime: 80)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">P_C (vruntime: 10)</div><div class="kb-diagram-node">P_D (40)</div><div class="kb-diagram-node">P_E (70)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⭐ Leftmost Node</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스케줄러의 동작</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. "누구 vruntime이 제일 작지?" ─▶ 트리 맨 왼쪽 P_C(10) 획득!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. P_C를 실행시킴. (10ms 씀)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. P_C의 vruntime이 10 + 10 = 20 으로 갱신됨.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. P_C를 트리에 다시 꽂음. 여전히 P_A(30)보다 작으니 계속 왼쪽 끝!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 또 P_C 실행. 이번엔 20 + 15 = 35 로 갱신됨!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6. 🚨 P_C를 트리에 꽂으니, 이번엔 P_A(30)보다 커져서 우측으로 밀려남.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">7. 새로운 Leftmost Node가 된 P_A(30)가 영광의 CPU를 쟁취함!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌────────────────────────────────────────────────────────────────────────┐
+  │         CFS의 레드-블랙 트리(RB-Tree) 탐색 및 스케줄링 구조            │
+  ├────────────────────────────────────────────────────────────────────────┤
+  │                                                                        │
+  │                  [ P_Root (vruntime: 50) ]                             │
+  │                 /                         \                            │
+  │               /                             \                          │
+  │      [ P_A (vruntime: 30) ]        [ P_B (vruntime: 80) ]              │
+  │       /                 \                   /                          │
+  │     /                     \               /                            │
+  │ [ P_C (vruntime: 10) ]   [ P_D (40) ] [ P_E (70) ]                     │
+  │    ⭐ Leftmost Node                                                    │
+  │                                                                        │
+  │  [스케줄러의 동작]                                                     │
+  │  1. "누구 vruntime이 제일 작지?" ─▶ 트리 맨 왼쪽 P_C(10) 획득!         │
+  │  2. P_C를 실행시킴. (10ms 씀)                                          │
+  │  3. P_C의 vruntime이 10 + 10 = 20 으로 갱신됨.                         │
+  │  4. P_C를 트리에 다시 꽂음. 여전히 P_A(30)보다 작으니 계속 왼쪽 끝!    │
+  │  5. 또 P_C 실행. 이번엔 20 + 15 = 35 로 갱신됨!                        │
+  │  6. 🚨 P_C를 트리에 꽂으니, 이번엔 P_A(30)보다 커져서 우측으로 밀려남. │
+  │  7. 새로운 Leftmost Node가 된 P_A(30)가 영광의 CPU를 쟁취함!           │
+  └────────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 하는 일은 너무나 단순하다. 타이머 인터럽트가 뜰 때마다 1. 트리 맨 왼쪽 놈을 꺼내서 일 시키고, 2. 일한 만큼 장부(vruntime) 점수 올린 다음, 3. 다시 트리에 던져 넣는 것뿐이다. 트리 정렬 비용은 $O(\log N)$이므로 10만 개의 프로세스가 떠 있어도 고작 17번의 탐색만으로 완벽히 공정한 타깃을 찾아낸다.
 
 - **📢 섹션 요약 비유**: 운동장 한가운데에 몸무게(vruntime) 순서대로 아이들을 트리 모양으로 세워둡니다. 가장 가벼운 아이(맨 왼쪽)부터 불러내어 밥을 먹이면 몸무게가 찝니다. 밥 먹은 아이를 다시 트리에 밀어 넣으면 살찐 만큼 자연스럽게 오른쪽으로 밀려나고, 그사이에 뒤에 있던 두 번째로 가벼웠던 아이가 맨 왼쪽으로 나와 밥을 먹게 되는 환상적인 자가 조절(Self-regulating) 시스템입니다.
@@ -122,25 +121,26 @@ CFS는 파이([Pie](/knowledge-base/studynote/09_security/04_endpoint_security/3
 2. **신규 프로세스(Fork)의 무한 증식 꼼수 방어**: 해커가 `fork()`를 미친 듯이 호출해 자식 프로세스를 10만 개 띄웠다. 이 자식들이 vruntime 0으로 태어나면 세상의 모든 CPU를 다 선점해 버린다([호위 효과](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/174_convoy_effect/)).
    - **CFS의 실무 조치**: 자식이 태어날 때 부모의 무거운 vruntime 값을 고스란히 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)(Inherit)받거나, 현재 큐의 `min_vruntime`보다 크게 설정하여 태어나게 만듦으로써 꼼수로 CPU를 탈취하려는 시도를 수학적으로 완벽히 격리(Penalty)시킨다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">K8s/Docker 환경에서 CFS Cgroups 자원 격리(Throttling) 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">물리 CPU 코어 0번</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── CFS Runqueue (Red-Black Tree)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">그룹 A (Redis Pod)</div><div class="kb-diagram-note">(Limit: 50%)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 내부 vruntime 경쟁: T1, T2</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">그룹 B (Web Pod)</div><div class="kb-diagram-note">(Limit: 20%)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 내부 vruntime 경쟁: T3, T4</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🚨 CFS 대역폭 제어 (Bandwidth Control):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">그룹 A의 T1, T2가 50%의 시간을 소진하는 순간, CFS는 즉시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">그룹 A의 트리 노드 전체를 트리에서 뽑아버리고(Throttle) 100ms</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">뒤에 재충전될 때까지 유배(Sleep) 보내어 완벽한 SLA를 보장한다.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌────────────────────────────────────────────────────────────────────┐
+  │     K8s/Docker 환경에서 CFS Cgroups 자원 격리(Throttling) 구조     │
+  ├────────────────────────────────────────────────────────────────────┤
+  │                                                                    │
+  │   [ 물리 CPU 코어 0번 ]                                            │
+  │   └── CFS Runqueue (Red-Black Tree)                                │
+  │        │                                                           │
+  │        ├─▶ [ 그룹 A (Redis Pod) ] (Limit: 50%)                     │
+  │        │    └─ 내부 vruntime 경쟁: T1, T2                          │
+  │        │                                                           │
+  │        └─▶ [ 그룹 B (Web Pod) ] (Limit: 20%)                       │
+  │             └─ 내부 vruntime 경쟁: T3, T4                          │
+  │                                                                    │
+  │   🚨 CFS 대역폭 제어 (Bandwidth Control):                          │
+  │   그룹 A의 T1, T2가 50%의 시간을 소진하는 순간, CFS는 즉시         │
+  │   그룹 A의 트리 노드 전체를 트리에서 뽑아버리고(Throttle) 100ms    │
+  │   뒤에 재충전될 때까지 유배(Sleep) 보내어 완벽한 SLA를 보장한다.   │
+  └────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 단순히 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 1개만 트리에 넣는 것이 아니다. 그룹([Cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/)) 자체를 거대한 하나의 노드로 만들어 트리에 넣는 <strong>'계층적 스케줄링(Hierarchical Scheduling)'</strong>이 CFS의 진정한 실무적 가치다. [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)에 CPU Limit을 0.5로 걸었을 때 정확히 50%에서 모가지가 잘리는 이유가 바로 CFS [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 제어(CFS [Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) Control) 매커니즘이 작동하기 때문이다.
 
 - **📢 섹션 요약 비유**: CFS 트리는 마트료시카(인형 속에 인형) 같습니다. 구글 클라우드라는 큰 트리 안에 넷플릭스라는 노드가 있고, 그 넷플릭스 노드 안을 열어보면 또 트리가 있어서 각 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)들이 자기들끼리 싸웁니다. 넷플릭스가 돈 낸 만큼(50%)만 정확히 놀 수 있게 큰 트리가 숨통을 조였다 풀었다(Throttling) 합니다.
@@ -171,19 +171,15 @@ CFS는 파이([Pie](/knowledge-base/studynote/09_security/04_endpoint_security/3
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">실시간 스케줄링 (Real-time Scheduling)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">완전 공정 스케줄러 (CFS, Completely Fair Scheduler)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">경성 실시간 (Hard Real-time) 시스템</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">지연 시간 (Latency)</div></div>
-</div>
-</div>
-
-
+```text
+[실시간 스케줄링 (Real-time Scheduling)]
+    │
+    ▼
+[완전 공정 스케줄러 (CFS, Completely Fair Scheduler)]
+    │
+    ├──▶ [경성 실시간 (Hard Real-time) 시스템]
+    └──▶ [지연 시간 (Latency)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

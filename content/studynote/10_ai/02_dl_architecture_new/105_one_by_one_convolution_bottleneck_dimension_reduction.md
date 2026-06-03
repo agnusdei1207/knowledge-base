@@ -39,27 +39,28 @@ tags = ["studynote-ai"]
 
 위의 3단계 흐름을 '보틀넥([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/)) 블록'이라 부른다. 256채널 입력을 받아 3x3 연산을 거쳐 256채널을 바로 출력하면 파라미터 수는 약 59만 개($3 \times 3 \times 256 \times 256$)지만, 보틀넥 구조를 거치면 약 7만 개($1 \times 1$ 축소 + $3 \times 3$ 연산 + $1 \times 1$ 복원)로 1/8 수준까지 파괴적으로 감소한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보틀넥(Bottleneck) 블록의 연산 흐름</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">입력 데이터</div><div class="kb-diagram-note">(10x10 크기, 256 채널)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (차원 축소)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1x1 Conv</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">파라미터 대폭 감소 (64 채널로 압축)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (공간 특징 추출)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3x3 Conv</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">가벼워진 상태에서 연산 수행 (64 채널 유지)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (차원 복원)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1x1 Conv</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">다시 원래 채널 수로 확장 (256 채널로 복원)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">출력 데이터</div><div class="kb-diagram-note">(10x10 크기, 256 채널)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                  보틀넥(Bottleneck) 블록의 연산 흐름                   │
+├──────────────────────────────────────────────────────────────┤
+│  [입력 데이터] (10x10 크기, 256 채널)                                │
+│       │                                                      │
+│       ▼ (차원 축소)                                             │
+│  [1x1 Conv] ──▶ 파라미터 대폭 감소 (64 채널로 압축)                  │
+│       │                                                      │
+│       ▼ (공간 특징 추출)                                          │
+│  [3x3 Conv] ──▶ 가벼워진 상태에서 연산 수행 (64 채널 유지)            │
+│       │                                                      │
+│       ▼ (차원 복원)                                             │
+│  [1x1 Conv] ──▶ 다시 원래 채널 수로 확장 (256 채널로 복원)             │
+│       │                                                      │
+│  [출력 데이터] (10x10 크기, 256 채널)                                │
+└──────────────────────────────────────────────────────────────┘
+```
 
 여기에 더해 매 1x1 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 연산 직후마다 [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)인 ReLU가 추가로 배치되므로, 연산량을 줄이면서도 네트워크의 비선형성(구불구불한 결정 경계)을 크게 증가시켜 모델의 표현력을 월등히 높이는 일석이조의 원리가 숨어 있다.
 
-- **📢 섹션 요약 비유**: 모래시계의 좁은 목(보틀넥)과 같다. 많은 양의 모래(채널)를 한 번에 쏟아부으면 병목으로 터져버리지만, 좁은 통로(1x1 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/))로 살짝 모아서 처리한 뒤 다시 넓히면 막힘없이 훨씬 더 깊고 부드럽게 흐르게 된다.
+- **📢 섹션 요약 비유**: 모래시계의 좁은 목(보틀넥)과 같다. 많은 양의 모래(채널)를 한 번에 쏟아부으면 병목으로 터져버리지만, 좁은 통로(1x1 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/))로 살짝 모아서 처리한 뒤 다시 넓히면 병목없이 훨씬 더 깊고 부드럽게 흐르게 된다.
 
 ---
 
@@ -117,23 +118,21 @@ tags = ["studynote-ai"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">기본 CNN (LeNet, AlexNet, VGGNet) - 공간 필터 중심의 무거운 설계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">NiN (Network in Network) - 1x1 합성곱(MLPconv) 개념 최초 도입</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">GoogLeNet (Inception V1) - 1x1 차원 축소를 통한 다중 필터 병렬 연산 최적화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ResNet (Bottleneck Architecture) - 모래시계형 1x1 압축/팽창의 글로벌 표준화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">MobileNet (Depthwise Separable Conv) - 1x1(Pointwise) 연산을 경량 엣지 AI의 핵심으로 확장</div>
-</div>
-</div>
-
-
+```text
+기본 CNN (LeNet, AlexNet, VGGNet) - 공간 필터 중심의 무거운 설계
+    │
+    ▼
+NiN (Network in Network) - 1x1 합성곱(MLPconv) 개념 최초 도입
+    │
+    ▼
+GoogLeNet (Inception V1) - 1x1 차원 축소를 통한 다중 필터 병렬 연산 최적화
+    │
+    ▼
+ResNet (Bottleneck Architecture) - 모래시계형 1x1 압축/팽창의 글로벌 표준화
+    │
+    ▼
+MobileNet (Depthwise Separable Conv) - 1x1(Pointwise) 연산을 경량 엣지 AI의 핵심으로 확장
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

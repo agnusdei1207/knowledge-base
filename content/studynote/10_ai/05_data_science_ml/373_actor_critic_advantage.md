@@ -58,23 +58,26 @@ A(s_t, a_t) ≈ R_t + γ·V(s_{t+1}) - V(s_t)   (TD 오류)
 
 ### A2C [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 구조
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A2C 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">환경(Environment)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">s_t</div><div class="kb-diagram-cell">R_t, s_{t+1}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Actor</div><div class="kb-diagram-cell">Critic</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">π_θ(a</div><div class="kb-diagram-cell">s)</div><div class="kb-diagram-cell">V_φ(s)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">a_t</div><div class="kb-diagram-cell">V(s_t), V(s_{t+1})</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A_t = R_t + γV(s_{t+1}) - V(s_t)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Actor 손실: -A_t·log π_θ(a_t</div><div class="kb-diagram-cell">s_t)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Critic 손실: (A_t)² (TD 오류 제곱)</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────────┐
+│                      A2C 구조                               │
+│                                                             │
+│  환경(Environment)                                          │
+│       │ s_t                      │ R_t, s_{t+1}            │
+│       ▼                          ▼                          │
+│  ┌─────────────┐          ┌──────────────┐                 │
+│  │   Actor     │          │   Critic     │                 │
+│  │   π_θ(a|s)  │          │   V_φ(s)     │                 │
+│  └──────┬──────┘          └──────┬───────┘                 │
+│         │ a_t                    │ V(s_t), V(s_{t+1})      │
+│         │                        ▼                          │
+│         │              A_t = R_t + γV(s_{t+1}) - V(s_t)   │
+│         │                        │                          │
+│         ▼                        ▼                          │
+│  Actor 손실: -A_t·log π_θ(a_t|s_t)                         │
+│  Critic 손실: (A_t)²   (TD 오류 제곱)                        │
+└─────────────────────────────────────────────────────────────┘
+```
 
 ### 업데이트 수식
 

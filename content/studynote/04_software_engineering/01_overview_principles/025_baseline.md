@@ -20,20 +20,20 @@ tags = ["studynote-software-engineering"]
 
 기준선(Baseline)은 마치 사진을 찍는 것과 같다. 특정 시점의 소프트웨어 구성(요구사항, 설계, 코드, 테스트 명세)을 공식적으로 고정하여 이후 변경이 기준선에 비해 얼마나 바뀌었는지 추적할 수 있게 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3대 기준선 (IEEE 828)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발 단계 기준선 유형 포함 항목</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구사항 기능 기준선 승인된 시스템 요구사항</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분석/설계 할당 기준선 소프트웨어 요구사항, 설계 문서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">구현/테스트 제품 기준선 소스 코드, 빌드, 테스트 결과</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기준선 변경 → CCB 승인 필수</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────┐
+│           3대 기준선 (IEEE 828)                             │
+├────────────────────────────────────────────────────────────┤
+│                                                            │
+│  개발 단계    기준선 유형        포함 항목                    │
+│  ─────────── ─────────────── ──────────────────────────   │
+│  요구사항     기능 기준선       승인된 시스템 요구사항          │
+│  분석/설계    할당 기준선       소프트웨어 요구사항, 설계 문서  │
+│  구현/테스트  제품 기준선       소스 코드, 빌드, 테스트 결과    │
+│                                                            │
+│  기준선 변경 → CCB 승인 필수                                 │
+└────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 기준선은 건물 설계도의 공식 확정본이다. 확정 전에는 자유롭게 수정하지만, 확정 후에는 건축 허가([CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/) 승인) 없이 벽을 허물거나 옮길 수 없다.
 
@@ -43,21 +43,18 @@ tags = ["studynote-software-engineering"]
 
 ### 기준선과 변경 통제 흐름
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 기준선 v1.0</div></div>
-<div class="kb-diagram-note">변경 요청(CR) 제출</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CCB 검토·승인/거부</div></div>
-<div class="kb-diagram-note">(승인)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">변경 구현 → 테스트 → 검증</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">새 기준선 v1.1</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">업데이트</div></div>
-</div>
-</div>
-
-
+```text
+[현재 기준선 v1.0]
+       │
+변경 요청(CR) 제출
+       │
+[CCB 검토·승인/거부]
+       │ (승인)
+       ▼
+변경 구현 → 테스트 → 검증
+       │
+[새 기준선 v1.1] ← 업데이트
+```
 
 ### Git 관점에서의 기준선
 
@@ -127,23 +124,21 @@ git log v1.0.0..HEAD --oneline
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">형상 식별 — CI 정의 및 명명</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">기준선 설정 — CCB 승인, 공식 스냅샷 고정</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">형상 통제 — 기준선 이후 변경 통제·승인</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">형상 상태 기록(CSA) — 기준선 기반 이력 추적</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">GitOps 기준선 — Git 태그/릴리스 자동화</div></div>
-</div>
-</div>
-
-
+```text
+[형상 식별 — CI 정의 및 명명]
+    │
+    ▼
+[기준선 설정 — CCB 승인, 공식 스냅샷 고정]
+    │
+    ▼
+[형상 통제 — 기준선 이후 변경 통제·승인]
+    │
+    ▼
+[형상 상태 기록(CSA) — 기준선 기반 이력 추적]
+    │
+    ▼
+[GitOps 기준선 — Git 태그/릴리스 자동화]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

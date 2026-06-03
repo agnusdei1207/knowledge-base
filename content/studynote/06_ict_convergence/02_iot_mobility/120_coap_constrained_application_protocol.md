@@ -18,22 +18,20 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CoAP vs HTTP vs MQTT</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HTTP</div><div class="kb-diagram-node">CoAP</div><div class="kb-diagram-node">MQTT</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TCP UDP TCP</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">헤더: 수백B 헤더: 4B 헤더: 2B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Req/Res Req/Res Pub/Sub</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">무거움 경량 RESTful 경량 이벤트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CoAP = "IoT의 HTTP" (RESTful, UDP 경량화)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MQTT = "IoT의 메시징" (Pub/Sub, TCP 경량화)</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    CoAP vs HTTP vs MQTT                               │
+├───────────────────────────────────────────────────────┤
+│  [HTTP]        [CoAP]         [MQTT]                  │
+│   TCP           UDP            TCP                    │
+│   헤더: 수백B    헤더: 4B       헤더: 2B               │
+│   Req/Res       Req/Res        Pub/Sub                │
+│   무거움         경량 RESTful   경량 이벤트            │
+│                                                       │
+│  CoAP = "IoT의 HTTP" (RESTful, UDP 경량화)           │
+│  MQTT = "IoT의 메시징" (Pub/Sub, TCP 경량화)         │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: HTTP는 대형 트럭, MQTT는 오토바이 택배, CoAP은 자전거 택배다. 자전거(CoAP)는 작은 골목(제약 디바이스)도 다닐 수 있고, 택배(RESTful) 서비스도 한다.
 
@@ -100,23 +98,21 @@ CoAP은 <strong>IoT의 RESTful 표준</strong>으로서 웹 서비스와의 자�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">HTTP (웹 표준, 1991~)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CoAP RFC 7252 (2014) — IoT용 경량 RESTful</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LwM2M (2015~) — CoAP 기반 디바이스 관리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CoAP over TCP (RFC 8323, 2018) — NAT 환경 대응</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: CoAP + MQTT + Matter — IoT 프로토콜 생태계</div></div>
-</div>
-</div>
-
-
+```text
+[HTTP (웹 표준, 1991~)]
+    │
+    ▼
+[CoAP RFC 7252 (2014) — IoT용 경량 RESTful]
+    │
+    ▼
+[LwM2M (2015~) — CoAP 기반 디바이스 관리]
+    │
+    ▼
+[CoAP over TCP (RFC 8323, 2018) — NAT 환경 대응]
+    │
+    ▼
+[현재: CoAP + MQTT + Matter — IoT 프로토콜 생태계]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. HTTP는 대형 트럭이에요. 짐([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))은 많이 나르지만 **작은 골목(센서)에는 못 들어가요**.

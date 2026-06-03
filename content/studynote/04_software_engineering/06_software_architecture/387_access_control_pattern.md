@@ -21,34 +21,35 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: 접근 통제는 특정 자원에 대해 "누가(Who)" "어떤 행위를(What)" "어떤 조건에서(Under what condition)" 수행할 수 있는지를 정의하고 시행하는 보안 메커니즘이다. 접근 통제는 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)([Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/), 사용자가 누구인지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))과 [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)([Authorization](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/), 사용자에게 어떤 권한을 부여할지 결정)의 두 단계로 구성되며, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/))를 통해 접근 기록을 검토하고 이상 행위를 탐지한다.
 
-- **필요성**: 만약 접근 통제가 없다면, 모든 사용자가 모든 자원에 무제한으로 접근할 수 있어 정보 유출, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 파괴, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 방해 등의 심각한 보안 사고로 이어질 수 있다. 특히 금융, 의료, 국가 기반 시설 등 규제 대상 산업에서는 법적 컴플라이언스([Compliance](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/058_it_compliance_sox_basel_gdpr_isms/)) 요 충족을 위해 접근 통제가 의무적이다.
+- **필요성**: 만약 접근 통제가 없다면, 모든 사용자가 모든 자원에 무제한으로 접근할 수 있어 정보 유출, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 파괴, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 방해 등의 심각한 보안 사고로 이어질 수 있다. 특히 금융, 의료, 국가 기반 시설 등 규제 대상 산업에서는 법적 컴플라이언스([Compliance](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/058_it_compliance_sox_basel_gdpr_isms/)) 요건 충족을 위해 접근 통제가 의무적이다.
 
-- **💡 비유**: 접근 통제는 <strong>'호텔 카드 키 시스템'</strong>과 같다. 호텔 객실마다 카드 키로 문을 열지만, 해당 카드는 특정과 해당 층의 자Owned rooms에만 접근 가능하다.이나 비즈니스 센터 등 공용 시설은 별도의 권한이 필요하다. 카드 키를 분실하면 해당 카드를 무효화하고 새로운 카드를 발급받는다. 소프트웨어 접근 통제도 마찬가지로, 사용자에게는 업무 수행에 필요한 최소한의 권한만 부여하고, 권한 범위를 벗어난 접근은 차단하며, 권한 변동 시 즉각적으로 반영한다.
+- **💡 비유**: 접근 통제는 <strong>'호텔 카드 키 시스템'</strong>과 같다. 호텔 객실마다 카드 키로 문을 열지만, 해당 카드는 특정루층과 해당 층의 자Owned rooms에만 접근 가능하다.건신방이나 비즈니스 센터 등 공용 시설은 별도의 권한이 필요하다. 카드 키를 분실하면 해당 카드를 무효화하고 새로운 카드를 발급받는다. 소프트웨어 접근 통제도 마찬가지로, 사용자에게는 업무 수행에 필요한 최소한의 권한만 부여하고, 권한 범위를 벗어난 접근은 차단하며, 권한 변동 시 즉각적으로 반영한다.
 
 - **등장 배경 및 발전 과정**:
-1. **1980년대 초**:DAC (Discretionary [Access Control](/knowledge-base/studynote/02_operating_system/09_file_system/547_access_control_rwx/)) - [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 소유자가 접근 권한을 임의로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)
-2. **1980년대 중반**: [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) (Mandatory [Access Control](/knowledge-base/studynote/02_operating_system/09_file_system/547_access_control_rwx/)) - 시스템이 강제적으로 접근을 통제 (보안 레벨 기반)
-3. **1990년대**: [RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/) ([Role-Based Access Control](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/)) - 역할 기반으로 권한 관리 (NIST 표준)
-4. **2000년대**: [ABAC](/knowledge-base/studynote/09_security/11_iam_access_control/572_abac/) ([Attribute-Based Access Control](/knowledge-base/studynote/09_security/11_iam_access_control/572_abac/)) - 사용자, 자원, 환경 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 기반 동적 접근 통제
-5. **2010년대 이후**: [Zero Trust Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/184_zero_trust_architecture/) - "절대 신뢰하지 말 것, 항상 검증할 것" 원칙
+  1. **1980년대 초**:DAC (Discretionary [Access Control](/knowledge-base/studynote/02_operating_system/09_file_system/547_access_control_rwx/)) - [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 소유자가 접근 권한을 임의로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)
+  2. **1980년대 중반**: [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) (Mandatory [Access Control](/knowledge-base/studynote/02_operating_system/09_file_system/547_access_control_rwx/)) - 시스템이 강제적으로 접근을 통제 (보안 레벨 기반)
+  3. **1990년대**: [RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/) ([Role-Based Access Control](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/)) - 역할 기반으로 권한 관리 (NIST 표준)
+  4. **2000년대**: [ABAC](/knowledge-base/studynote/09_security/11_iam_access_control/572_abac/) ([Attribute-Based Access Control](/knowledge-base/studynote/09_security/11_iam_access_control/572_abac/)) - 사용자, 자원, 환경 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 기반 동적 접근 통제
+  5. **2010년대 이후**: [Zero Trust Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/184_zero_trust_architecture/) - "절대 신뢰하지 말 것, 항상 검증할 것" 원칙
 
-- **📢 섹션 요약 비유**: 접근 통제는 <strong>'관중석 출입문 관리'</strong>와 같다. 공연장 관중석에는 해당 좌석에만 출입 가능한 직원만 접근할 수 있고, 무대에는 관계자 외 출입이 금지되며, 비상구는emergency 상황에서만 개방된다.시스템，、리소스、환경，。
+- **📢 섹션 요약 비유**: 접근 통제는 <strong>'관중석 출입문 관리'</strong>와 같다. 공연장 관중석에는 해당 좌석구역에만 출입 가능한 직원만 접근할 수 있고, 무대후방에는 관계자 외 출입이 금지되며, 비상구는emergency 상황에서만 개방된다.적연건시스템중，방문공제근거용호각색, 자원류형, 배경조건등공제대각구역적방문，미경수권적방문피조지. 
 
 ---
 
 다음은 접근 통제 (Access Contro의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">접근 통제 (Access Contro</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                  접근 통제 (Access Contro                        │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
+│       │                    │                    │          │
+│       ▼                    ▼                    ▼          │
+│   요구 분석           설계·적용           품질 검증        │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램은 접근 통제 (Access Contro가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -138,30 +139,28 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 접근 통제 ([Access Control](/knowledge-base/studynote/02_operating_system/09_file_system/547_access_control_rwx/)) 패턴 로직 구현의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 접근 통제 ([Access Control](/knowledge-base/studynote/02_operating_system/09_file_system/547_access_control_rwx/)) 패턴 로직 구현의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
 | [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 접근 통제 ([Access Control](/knowledge-base/studynote/02_operating_system/09_file_system/547_access_control_rwx/)) 패턴 로직 구현은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | 접근 통제 ([Access Control](/knowledge-base/studynote/02_operating_system/09_file_system/547_access_control_rwx/)) 패턴 로직 구현 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
 | [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 접근 통제 ([Access Control](/knowledge-base/studynote/02_operating_system/09_file_system/547_access_control_rwx/)) 패턴 로직 구현에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">접근 통제 (Access Control) 패턴 로직 구현 개념 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 위기 (Software Crisis) 인식
+    │
+    ▼
+접근 통제 (Access Control) 패턴 로직 구현 개념 정립
+    │
+    ▼
+표준화 및 방법론 체계화 (ISO, CMMI, Agile)
+    │
+    ▼
+클라우드 네이티브·AI 기반 확장 적용
+    │
+    ▼
+지속적 개선 및 DevOps·MLOps 통합
+```
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

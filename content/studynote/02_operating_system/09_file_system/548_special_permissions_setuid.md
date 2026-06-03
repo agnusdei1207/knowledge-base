@@ -30,28 +30,34 @@ tags = ["studynote-operating-system"]
 - <strong>SetUID 실행 시 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> PID / UID 자격 스위칭 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> 메커니즘 뷰</strong>:
 해커 유저 `john` 이 SetUID가 걸린 `passwd` 명령을 실행할 때, 터미널 뱃속에서 프로세스 영혼이 어떻게 루트로 바뀌는지 그 렌더를 까보면 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"실행 전엔 일반인 존(John)! 엔터를 치는 순간 너는 신(Root)이 된다!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">대상 파일 정보</div><div class="kb-diagram-note">: /usr/bin/passwd (비밀번호 바꾸는 유틸리티)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 소유자: root</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 권한값: r w s r - x r - x (s 가 SetUID 빙의 마크 4000 빔!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🚨</div><div class="kb-diagram-node">일반 유저 존(UID 1000) 의 접속 및 엔터 록백!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">$ passwd</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">OS 커널 프로세스 테이블 (Task Struct 스왑 렌더)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 실제 사용자 (Real UID) = 1000 (존)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 🔥 유효 권한 (Effective UID) = 0 (root) 💥 신분 강제 변이!!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">✅</div><div class="kb-diagram-node">/etc/shadow 뚫기 성공 빔!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 프로세스: "/etc/shadow 에 새 비밀번호 저장 권한 내놔!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 커널 감시봇 (Effective UID만 봄): "어? 너 0번 Root 신이네? 문 열어!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 존이 원래 못 건드리는 shadow 파일을 뚫고 들어가 내용 수정 완료 타결!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 수정 끝나고 프로세스(passwd) 죽는 순간 마패(Effective UID 0) 자동 박탈!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────────────────────────────┐
+  │                 "실행 전엔 일반인 존(John)! 엔터를 치는 순간 너는 신(Root)이 된다!" │
+  ├─────────────────────────────────────────────────────────────────────────────────────┤
+  │                                                                                     │
+  │  [ 대상 파일 정보 ] : /usr/bin/passwd  (비밀번호 바꾸는 유틸리티)                   │
+  │     - 소유자: root                                                                  │
+  │     - 권한값: r w s  r - x  r - x  (s 가 SetUID 빙의 마크 4000 빔!)                 │
+  │                                                                                     │
+  │  =========================▼===================================                      │
+  │                                                                                     │
+  │  🚨 [ 일반 유저 존(UID 1000) 의 접속 및 엔터 록백! ]                                │
+  │     $ passwd                                                                        │
+  │                                                                                     │
+  │     [ OS 커널 프로세스 테이블 (Task Struct 스왑 렌더) ]                             │
+  │       ├─ 실제 사용자 (Real UID) = 1000 (존)                                         │
+  │       └─ 🔥 유효 권한 (Effective UID) = 0 (root) 💥 신분 강제 변이!!                │
+  │                                                                                     │
+  │  =========================▼===================================                      │
+  │                                                                                     │
+  │  ✅ [ /etc/shadow 뚫기 성공 빔! ]                                                   │
+  │     - 프로세스: "/etc/shadow 에 새 비밀번호 저장 권한 내놔!"                        │
+  │     - 커널 감시봇 (Effective UID만 봄): "어? 너 0번 Root 신이네? 문 열어!"          │
+  │                                                                                     │
+  │      => 존이 원래 못 건드리는 shadow 파일을 뚫고 들어가 내용 수정 완료 타결!        │
+  │      => 수정 끝나고 프로세스(passwd) 죽는 순간 마패(Effective UID 0) 자동 박탈!     │
+  └─────────────────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 프로세스 자격 검사는 항상 두 얼굴이다. **RUID(Real UID, 넌 진짜 누구냐?)** 와 **EUID(Effective UID, 지금 행사할 수 있는 권력계급이 뭐냐?)** 다. 일반적인 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 RUID = EUID 다. 하지만 `s (SetUID)` 가 달린 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 프로세스 화(실행) 되면, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 그 프로세스의 EUID를 "그 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 만들었던 원주인의 번호(보통 0번 Root)" 로 강제 둔갑 오버라이딩(Overriding 렌더)시켜 버린다. 이 EUID 스왑을 통해 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 엑세스 정책망([VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) 보안 검문소)을 무결하게 우회 통과하는 무적 뷰다 도출.
 
@@ -141,19 +147,15 @@ SetUID (4000), SetGID (2000), Sticky [Bit](/knowledge-base/studynote/08_algorith
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">파일 시스템 접근 제어 (Access Control)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SetUID (4000), SetGID (2000), Sticky Bit (1000) 특수 권한 (Special Permissions Setuid)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ACL (Access Control List) 확장을 통한 세밀한 사용자별 파일 권한 통제</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">리눅스 확장 속성 (Extended Attributes, xattr)</div></div>
-</div>
-</div>
-
-
+```text
+[파일 시스템 접근 제어 (Access Control)]
+    │
+    ▼
+[SetUID (4000), SetGID (2000), Sticky Bit (1000) 특수 권한 (Special Permissions Setuid)]
+    │
+    ├──▶ [ACL (Access Control List) 확장을 통한 세밀한 사용자별 파일 권한 통제]
+    └──▶ [리눅스 확장 속성 (Extended Attributes, xattr)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

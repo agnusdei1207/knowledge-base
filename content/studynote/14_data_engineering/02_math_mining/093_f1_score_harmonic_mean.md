@@ -39,20 +39,19 @@ F1-Score는 산술 평균이 아니라 **조화 평균 (Harmonic Mean)** 수식�
 조화 평균은 역수의 산술 평균의 역수로 계산된다. 수식으로는 다음과 같다.
 $$ F1 = 2 \times \frac{P \times R}{P + R} $$
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">산술 평균 vs 조화 평균의 치명적 차이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조건: 모델 A가 정밀도(P) = 0.9, 재현율(R) = 0.1 인 상태</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">산술 평균</div><div class="kb-diagram-note">(0.9 + 0.1) / 2 = 0.5</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 한쪽이 형편없어도 중간 점수(50점)를 받아 착시 발생</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">조화 평균 (F1-Score)</div><div class="kb-diagram-note">2 * (0.09) / (1.0) = 0.18</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 18점으로 확 낮아짐! 불균형한 극단적 꼼수를 완벽히 차단</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           산술 평균 vs 조화 평균의 치명적 차이               │
+├──────────────────────────────────────────────────────────────┤
+│ 조건: 모델 A가 정밀도(P) = 0.9, 재현율(R) = 0.1 인 상태      │
+│                                                              │
+│ [산술 평균] (0.9 + 0.1) / 2 = 0.5                            │
+│ ──▶ 한쪽이 형편없어도 중간 점수(50점)를 받아 착시 발생       │
+│                                                              │
+│ [조화 평균 (F1-Score)] 2 * (0.09) / (1.0) = 0.18             │
+│ ──▶ 18점으로 확 낮아짐! 불균형한 극단적 꼼수를 완벽히 차단   │
+└──────────────────────────────────────────────────────────────┘
+```
 
 결과적으로 F1-Score는 0에서 1 사이의 값을 가지며, 두 지표가 모두 높고 비슷할 때 1에 가까워져 모델의 강건성 (Robustness)을 증명한다.
 
@@ -113,23 +112,21 @@ F1-Score를 도입하면 모델 평가의 왜곡을 막고, [데이터](/knowled
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">분류 모델의 기본 평가</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">정확도 (Accuracy) · 불균형 데이터(Imbalanced Data)에서 착시 한계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">정밀도 (Precision) &amp; 재현율 (Recall) · 상충 관계 (Trade-off) 발견</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">조화 평균 도입 · F1-Score 탄생 (균형 잡힌 평가 표준)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">비즈니스 리스크 반영 · F-beta Score 및 다중 클래스(Macro/Micro F1) 확장</div>
-</div>
-</div>
-
-
+```text
+분류 모델의 기본 평가
+    │
+    ▼
+정확도 (Accuracy) · 불균형 데이터(Imbalanced Data)에서 착시 한계
+    │
+    ▼
+정밀도 (Precision) & 재현율 (Recall) · 상충 관계 (Trade-off) 발견
+    │
+    ▼
+조화 평균 도입 · F1-Score 탄생 (균형 잡힌 평가 표준)
+    │
+    ▼
+비즈니스 리스크 반영 · F-beta Score 및 다중 클래스(Macro/Micro F1) 확장
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

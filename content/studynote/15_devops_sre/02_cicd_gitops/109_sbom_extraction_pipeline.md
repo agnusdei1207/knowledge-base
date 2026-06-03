@@ -20,23 +20,26 @@ tags = ["studynote-devops-sre"]
 
 소프트웨어의 80~90%는 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)로 구성된다. 직접 설치한 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)뿐 아니라 그것이 끌어오는 하위 의존성(Transitive Dependency)까지 합치면 수백~수천 개에 달한다. [Log4Shell](/knowledge-base/studynote/09_security/05_web_app_security/452_log4shell/)([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/)) 사태에서 전 세계 기업이 "우리 시스템에 Log4j가 있는가?"라는 질문에 수주간 답하지 못한 것이 [SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) 의무화의 직접적 계기다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SBOM 추출 파이프라인 흐름도</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Source Code</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Build Engine</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">SBOM Generator</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(pom, npm) (Maven, npm) (Syft, Trivy)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Standard SBOM Format</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- SPDX (ISO 5962:2021)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- CycloneDX (OWASP)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CVE DB 대조 (취약점 스캔)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ VEX (악용 가능성 평가)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ Sigstore 서명 (무결성)</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│              SBOM 추출 파이프라인 흐름도                │
+├───────────────────────────────────────────────────────┤
+│  [Source Code]  →  [Build Engine]  →  [SBOM Generator]│
+│  (pom, npm)       (Maven, npm)      (Syft, Trivy)    │
+│                                          │            │
+│                         ┌────────────────▼──────────┐ │
+│                         │ Standard SBOM Format      │ │
+│                         │ - SPDX (ISO 5962:2021)    │ │
+│                         │ - CycloneDX (OWASP)       │ │
+│                         └────────────┬──────────────┘ │
+│                                      │                │
+│                    ┌─────────────────▼──────────┐     │
+│                    │ CVE DB 대조 (취약점 스캔)    │     │
+│                    │ + VEX (악용 가능성 평가)     │     │
+│                    │ + Sigstore 서명 (무결성)     │     │
+│                    └─────────────────────────────┘     │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: SBOM은 식품 뒷면의 <strong>성분표</strong>다. 나쁜 재료(취약점)가 발견되면 성분표를 보고 우리 과자가 안전한지 즉시 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
 
@@ -120,23 +123,21 @@ SBOM은 Google SLSA 프레임워크와 결합하여 빌드 전 과정의 [무결
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Log4Shell 사태 (2021.12) — 공급망 취약점 충격</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">미 행정명령 EO 14028 (2021) — 연방 SW에 SBOM 의무화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SPDX ISO 표준화 (2021) — ISO/IEC 5962:2021</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Sigstore + SLSA (2022~) — 빌드 무결성 + 서명 자동화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: SBOM + VEX + SLSA 3단 결합이 DevSecOps 표준</div></div>
-</div>
-</div>
-
-
+```text
+[Log4Shell 사태 (2021.12) — 공급망 취약점 충격]
+    │
+    ▼
+[미 행정명령 EO 14028 (2021) — 연방 SW에 SBOM 의무화]
+    │
+    ▼
+[SPDX ISO 표준화 (2021) — ISO/IEC 5962:2021]
+    │
+    ▼
+[Sigstore + SLSA (2022~) — 빌드 무결성 + 서명 자동화]
+    │
+    ▼
+[현재: SBOM + VEX + SLSA 3단 결합이 DevSecOps 표준]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 우리가 먹는 과자 뒤에 어떤 재료가 들어갔는지 적힌 <strong>성분표</strong>를 본 적 있니?

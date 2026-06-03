@@ -35,21 +35,21 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AI 공격 분류</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">훈련 단계 추론 단계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">포이즈닝 공격</div><div class="kb-diagram-cell">이베이전 공격</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Poisoning)</div><div class="kb-diagram-cell">(Evasion)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">·악성 샘플 삽입</div><div class="kb-diagram-cell">·FGSM 노이즈</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">·백도어(Backdoor)</div><div class="kb-diagram-cell">·PGD 반복 공격</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">·클린-라벨 공격</div><div class="kb-diagram-cell">·C&amp;W 공격</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────┐
+│              AI 공격 분류                            │
+│                                                     │
+│  훈련 단계                     추론 단계             │
+│  ┌──────────────────┐         ┌──────────────────┐  │
+│  │  포이즈닝 공격    │         │  이베이전 공격    │  │
+│  │ (Poisoning)      │         │ (Evasion)        │  │
+│  │                  │         │                  │  │
+│  │ ·악성 샘플 삽입  │         │ ·FGSM 노이즈     │  │
+│  │ ·백도어(Backdoor)│         │ ·PGD 반복 공격   │  │
+│  │ ·클린-라벨 공격  │         │ ·C&W 공격        │  │
+│  └──────────────────┘         └──────────────────┘  │
+└─────────────────────────────────────────────────────┘
+```
 
 **포이즈닝 공격(Poisoning Attack)**
 훈련 데이터에 악의적으로 조작된 샘플을 삽입해 모델의 일반 성능을 저하시키거나, 특정 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)(Trigger) 패턴 입력 시 오분류하도록 [백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/)를 심는다.

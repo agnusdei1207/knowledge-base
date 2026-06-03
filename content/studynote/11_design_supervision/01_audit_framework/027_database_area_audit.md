@@ -18,22 +18,19 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DB 영역 감리 주요 점검 항목</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 데이터 모델 (ERD) : 요구사항 반영, 정규화 수준</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 데이터 표준 : 도메인·코드·용어 표준 준수</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 무결성 : PK/FK/제약 조건 적용 여부</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 성능 : 인덱스 설계, 실행 계획 분석</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 보안 : 개인정보 암호화, 접근 통제</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 가용성 : 백업·복구 정책, HA 구성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 데이터 품질 : 중복·결측·오류 데이터 관리</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────┐
+│         DB 영역 감리 주요 점검 항목                   │
+├──────────────────────────────────────────────────────┤
+│ □ 데이터 모델 (ERD)    : 요구사항 반영, 정규화 수준  │
+│ □ 데이터 표준          : 도메인·코드·용어 표준 준수  │
+│ □ 무결성               : PK/FK/제약 조건 적용 여부  │
+│ □ 성능                 : 인덱스 설계, 실행 계획 분석│
+│ □ 보안                 : 개인정보 암호화, 접근 통제 │
+│ □ 가용성               : 백업·복구 정책, HA 구성    │
+│ □ 데이터 품질          : 중복·결측·오류 데이터 관리 │
+└──────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: DB 감리는 건물의 기초 공사 점검이다. 아무리 외관이 화려해도(응용 시스템) 기초(DB)가 부실하면 전체가 흔들린다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중복·[무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 오류는 사업 운영 오류로 직결된다.
 
@@ -119,23 +116,21 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">수동 DB 점검 — ERD 리뷰, 쿼리 분석</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DB 영역 감리 체계화 — 5대 감리 영역 중 하나</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">개인정보보호 강화 — 암호화 의무 확대</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">자동화 도구 통합 — SonarQube, DAST, 실행계획</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AI DB 감리 — 이상 탐지 + 최적화 자동 추천</div></div>
-</div>
-</div>
-
-
+```text
+[수동 DB 점검 — ERD 리뷰, 쿼리 분석]
+    │
+    ▼
+[DB 영역 감리 체계화 — 5대 감리 영역 중 하나]
+    │
+    ▼
+[개인정보보호 강화 — 암호화 의무 확대]
+    │
+    ▼
+[자동화 도구 통합 — SonarQube, DAST, 실행계획]
+    │
+    ▼
+[AI DB 감리 — 이상 탐지 + 최적화 자동 추천]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

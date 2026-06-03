@@ -32,41 +32,45 @@ tags = ["studynote-design-supervision"]
 - 전역 예외 처리기(Global Exception Handler) 미구현
 - `catch (Exception e) { e.printStackTrace(); }` 패턴 남용
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Core Idea</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Expected Gain</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐    ┌──────────────┐    ┌──────────────┐
+│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
+└──────────────┘    └──────────────┘    └──────────────┘
+```
 
 - **📢 섹션 요약 비유**: 오류 메시지를 그대로 노출하는 것은 "고장난 자판기가 내부 회로도를 유리창에 붙여두는 것"이다. 수리 직원만 볼 수 있어야 할 정보가 모든 사람에게 공개된다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예외 처리 2-Channel 아키텍처</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예외 발생</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전역 예외 처리기 (Global Handler)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">@ControllerAdvice / web.xml error-page</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 응답</div><div class="kb-diagram-cell">서버 내부 로그</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Public)</div><div class="kb-diagram-cell">(Private)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ "서비스 오류가 │</div><div class="kb-diagram-node">ERROR</div><div class="kb-diagram-note">2026-04-21 │</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">발생했습니다.</div><div class="kb-diagram-cell">NullPointerException</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">관리자에게</div><div class="kb-diagram-cell">at UserDAO.java:45</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문의하세요."</div><div class="kb-diagram-cell">SQL: SELECT * FROM...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Stack: ...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">브라우저에 표시 로그 파일/SIEM에만 기록</div></div>
-</div>
-</div>
-
-
+```
+┌────────────────────────────────────────────────────────────┐
+│              예외 처리 2-Channel 아키텍처                    │
+│                                                            │
+│  예외 발생                                                  │
+│       │                                                    │
+│       ▼                                                    │
+│  ┌──────────────────────────────────────────────┐          │
+│  │         전역 예외 처리기 (Global Handler)      │          │
+│  │   @ControllerAdvice / web.xml error-page      │          │
+│  └────────────────────┬─────────────────────────┘          │
+│                       │                                    │
+│           ┌───────────┴──────────────┐                     │
+│           │                          │                     │
+│           ▼                          ▼                     │
+│  ┌──────────────────┐   ┌─────────────────────────┐        │
+│  │  사용자 응답      │   │  서버 내부 로그           │        │
+│  │  (Public)        │   │  (Private)               │        │
+│  │                  │   │                          │        │
+│  │ "서비스 오류가    │   │ [ERROR] 2026-04-21       │        │
+│  │  발생했습니다.    │   │ NullPointerException     │        │
+│  │  관리자에게       │   │ at UserDAO.java:45       │        │
+│  │  문의하세요."     │   │ SQL: SELECT * FROM...   │        │
+│  │                  │   │ Stack: ...               │        │
+│  └──────────────────┘   └─────────────────────────┘        │
+│    브라우저에 표시           로그 파일/SIEM에만 기록          │
+└────────────────────────────────────────────────────────────┘
+```
 
 ```java
 // 취약한 코드 (Bad)
@@ -121,23 +125,20 @@ public class GlobalExceptionHandler {
 | `logging.level.root` | `DEBUG` | `WARN` |
 | `spring.mvc.log-request-details` | `true` | `false` |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발 vs 운영 오류 응답 차이</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">개발 환경 응답</div><div class="kb-diagram-node">운영 환경 응답</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">{ {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"error": "500", "error": "서비스 오류",</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"message": "NullPointer", "code": "ERR_500",</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"trace": "at com.app...", "message": "관리자 문의"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"path": "/api/user/1" }</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↑ 공격자에게 노출 금지 ↑ 안전한 응답</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────────┐
+│          개발 vs 운영 오류 응답 차이                          │
+│                                                             │
+│  [개발 환경 응답]          [운영 환경 응답]                   │
+│  {                         {                               │
+│    "error": "500",           "error": "서비스 오류",         │
+│    "message": "NullPointer", "code": "ERR_500",            │
+│    "trace": "at com.app...", "message": "관리자 문의"        │
+│    "path": "/api/user/1"   }                               │
+│  }                                                          │
+│       ↑ 공격자에게 노출 금지      ↑ 안전한 응답              │
+└─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 개발 환경과 운영 환경의 오류 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 차이는 "연습장과 공연장의 차이"다. 연습 중엔 감독이 큰 소리로 지시를 외치지만, 공연 중엔 관객에게는 들리지 않게 귓속말로만 한다.
 
@@ -214,6 +215,6 @@ X-Frame-Options: DENY
 **진행 상황**: 314 / 530
 
 ← **이전**: [252. 암호화 해시 솔트 감리 (Encryption Hash Salt Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/252_encryption_hash_salt_audit/)
-**다음**: [254. 난독화 리버스 엔지니어링 방어 (Obfuscation & Reverse Engineering Defense)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/254_obfuscation_reverse_engineering/) →
+**다음**: [254. 난독화 리버스 엔지니어링 방어 (Obfuscation & Reverse 엔진ering Defense)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/254_obfuscation_reverse_engineering/) →
 
 ---

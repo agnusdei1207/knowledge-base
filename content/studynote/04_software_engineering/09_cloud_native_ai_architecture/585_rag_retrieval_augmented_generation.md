@@ -29,7 +29,7 @@ tags = ["studynote-software-engineering"]
 - **💡 비유**: 파인튜닝(재학습)이 <strong>'직원(<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a>)한테 회사 매뉴얼 1만 장을 1주일 동안 통째로 달달 암기(학습)시켜서 시험 보기'</strong>라면, RAG는 <strong>'직원한테 오픈북(Open Book) 시험을 보게 하는 짓'</strong>입니다. 억지로 외우게 할 필요 없습니다. 직원은 백지상태지만, 손님이 질문하면 즉시 <strong>'회사 매뉴얼 책자(<a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/151_vector_database_embedding_ann_search/">Vector DB</a>)'</strong>를 실시간으로 검색(Retrieval)해서 정답이 있는 페이지를 쫙 폅니다(Augmented). 그리고 그 페이지에 적힌 내용만 앵무새처럼 요약해서(Generation) 읽어줍니다. 매뉴얼이 오늘 아침에 바뀌었어도 책자만 갈아 끼우면 되니 100% 최신 팩트만 대답하는 궁극의 치트키입니다.
 
 - **등장 배경 및 발전 과정**:
-  1. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/224_prompt_engineering_guideline/">Prompt Engineering</a> 쌩노가다 (<a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a>)</strong>: RAG가 없던 시절엔, 챗GPT 대화창에 사내 규정 텍스트 1,000줄을 복붙해서 넣고 "이거 보고 대답해"라고 손으로 쳤다. 텍스트가 너무 길어지면 에러가 났다.
+  1. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/224_prompt_engineering_guideline/">Prompt 엔진ering</a> 쌩노가다 (<a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a>)</strong>: RAG가 없던 시절엔, 챗GPT 대화창에 사내 규정 텍스트 1,000줄을 복붙해서 넣고 "이거 보고 대답해"라고 손으로 쳤다. 텍스트가 너무 길어지면 에러가 났다.
   2. <strong>파인튜닝(<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/">Fine-Tuning</a>)의 삽질 (과도기)</strong>: 기업들이 수억을 들여 LLM을 자체 튜닝했다. 하지만 돈만 오지게 깨지고, 보안 통제(권한별 답변 분리)도 안 되고, 실시간 업데이트도 불가능해서 죄다 폭망했다.
   3. <strong>Facebook(Meta)의 <a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/">RAG</a> 논문 (현재)</strong>: 2020년 페이스북이 "야 모델 학습시키지 마! 그냥 밖에서 텍스트 검색해서 입에 떠먹여 줘!"라는 [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) 논문을 발표, 이 사상이 [LangChain](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/586_langchain_ai_pipeline_framework/) 프레임워크와 결합되며 전 세계 기업 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 구축의 99%를 차지하는 절대 왕좌에 올랐다.
 
@@ -39,17 +39,18 @@ tags = ["studynote-software-engineering"]
 
 다음은 [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) (Retrieval-Augme의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RAG (Retrieval-Augme</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                  RAG (Retrieval-Augme                        │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
+│       │                    │                    │          │
+│       ▼                    ▼                    ▼          │
+│   요구 분석           설계·적용           품질 검증        │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램은 [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) (Retrieval-Augme가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -139,30 +140,28 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) (Retrieval-Augmented Generation) 패턴 아키텍처 통합 설계의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) (Retrieval-Augmented Generation) 패턴 아키텍처 통합 설계의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
 | [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) (Retrieval-Augmented Generation) 패턴 아키텍처 통합 설계은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) (Retrieval-Augmented Generation) 패턴 아키텍처 통합 설계 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
 | [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) (Retrieval-Augmented Generation) 패턴 아키텍처 통합 설계에서 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">RAG (Retrieval-Augmented Generation) 패턴 아키텍처 통합 설계 개념 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 위기 (Software Crisis) 인식
+    │
+    ▼
+RAG (Retrieval-Augmented Generation) 패턴 아키텍처 통합 설계 개념 정립
+    │
+    ▼
+표준화 및 방법론 체계화 (ISO, CMMI, Agile)
+    │
+    ▼
+클라우드 네이티브·AI 기반 확장 적용
+    │
+    ▼
+지속적 개선 및 DevOps·MLOps 통합
+```
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
@@ -178,7 +177,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 751 / 973
 
-← **이전**: [584. 프롬프트 엔지니어링 (Prompt Engineering) 가이드라인 설계](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/584_prompt_engineering_guideline/)
+← **이전**: [584. 프롬프트 엔지니어링 (Prompt 엔진ering) 가이드라인 설계](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/584_prompt_engineering_guideline/)
 **다음**: [586. 랭체인 (LangChain) 프레임워크 기반 AI 파이프라인 설계](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/586_langchain_ai_pipeline_framework/) →
 
 ---

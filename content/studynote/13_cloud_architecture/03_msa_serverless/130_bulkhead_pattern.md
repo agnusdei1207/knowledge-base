@@ -18,17 +18,11 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Bulkhead = 선박의 격벽</div>
-<div class="kb-diagram-note">한 구획에 물이 차도 다른 구획은 안전</div>
-<div class="kb-diagram-note">→ 서비스 A 장애 → 서비스 B·C는 정상</div>
-</div>
-</div>
-
-
+```text
+Bulkhead = 선박의 격벽
+  한 구획에 물이 차도 다른 구획은 안전
+  → 서비스 A 장애 → 서비스 B·C는 정상
+```
 
 - **📢 섹션 요약 비유**: Bulkhead는 잠수함의 <strong>격벽</strong>이다. 한 구획이 침수되어도 다른 구획은 안전하다.
 
@@ -62,18 +56,12 @@ Bulkhead는 <strong><a href="/knowledge-base/studynote/12_it_management/05_secur
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">공유 스레드 풀 (전통)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Hystrix Bulkhead (2012~)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Resilience4j Bulkhead (2018~)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">K8s ResourceQuota (컨테이너 격리)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: 서비스 메시 Bulkhead — Istio 자동 격리</div></div>
-</div>
-</div>
-
-
+```text
+[공유 스레드 풀 (전통)] → [Hystrix Bulkhead (2012~)]
+    → [Resilience4j Bulkhead (2018~)]
+    → [K8s ResourceQuota (컨테이너 격리)]
+    → [현재: 서비스 메시 Bulkhead — Istio 자동 격리]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. Bulkhead는 잠수함의 <strong>격벽</strong>이에요. 한 칸에 물이 차도 <strong>다른 칸은 안전</strong>해요.

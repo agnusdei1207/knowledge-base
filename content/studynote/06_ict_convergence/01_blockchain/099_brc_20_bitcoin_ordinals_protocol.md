@@ -28,24 +28,23 @@ BRC-20의 핵심은 오디널스 이론과 인스크립션(Inscription, 각인) 
 
 BRC-20 토큰의 라이프사이클은 오직 세 가지 동작에 대한 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 기록으로 이루어진다: `deploy`(발행), `mint`(주조), `transfer`(전송).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BRC-20의 동작 원리 (JSON 기반 상태 변경)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Deploy (토큰 생성)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1사토시 ─▶ { "p":"brc-20", "op":"deploy", "tick":"ordi",</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"max":"21000000", "lim":"1000" }</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Mint (토큰 얻기)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1사토시 ─▶ { "p":"brc-20", "op":"mint", "tick":"ordi",</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"amt":"1000" }</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Transfer (토큰 전송)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1사토시 ─▶ { "p":"brc-20", "op":"transfer", "tick":"ordi",</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"amt":"1000" } ─▶ 수신자 지갑으로 전송</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│             BRC-20의 동작 원리 (JSON 기반 상태 변경)            │
+├──────────────────────────────────────────────────────────────┤
+│ 1. Deploy (토큰 생성)                                          │
+│    1사토시 ─▶ { "p":"brc-20", "op":"deploy", "tick":"ordi",    │
+│                 "max":"21000000", "lim":"1000" }             │
+│                                                              │
+│ 2. Mint (토큰 얻기)                                            │
+│    1사토시 ─▶ { "p":"brc-20", "op":"mint", "tick":"ordi",      │
+│                 "amt":"1000" }                               │
+│                                                              │
+│ 3. Transfer (토큰 전송)                                        │
+│    1사토시 ─▶ { "p":"brc-20", "op":"transfer", "tick":"ordi",  │
+│                 "amt":"1000" } ─▶ 수신자 지갑으로 전송          │
+└──────────────────────────────────────────────────────────────┘
+```
 
 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 엔진이 이 JSON을 실행하는 것이 아니다. [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 밖(Off-chain)의 인덱서(Indexer) 프로그램들이 비트코인 블록을 훑어보면서 이 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 텍스트들을 순서대로 읽고, "A가 B에게 1000개를 보냈군" 하고 자체적으로 장부를 업데이트하는 오프체인 합의 방식이다.
 
@@ -99,23 +98,21 @@ BRC-20은 비트코인 생태계에 막대한 거래 수수료를 발생시켜, 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">비트코인 탭루트 (Taproot) 업그레이드 (데이터 공간 확보)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">오디널스 (Ordinals) 프로토콜 (사토시에 번호 부여 및 각인)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">비트코인 NFT 등장 (이미지 Inscription)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">BRC-20 표준 제안 (JSON 텍스트로 토큰 발행/전송 흉내)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">비트코인 생태계 팽창 및 L2 확장성 논의 촉발 (Runes, 롤업 등)</div>
-</div>
-</div>
-
-
+```text
+비트코인 탭루트 (Taproot) 업그레이드 (데이터 공간 확보)
+    │
+    ▼
+오디널스 (Ordinals) 프로토콜 (사토시에 번호 부여 및 각인)
+    │
+    ▼
+비트코인 NFT 등장 (이미지 Inscription)
+    │
+    ▼
+BRC-20 표준 제안 (JSON 텍스트로 토큰 발행/전송 흉내)
+    │
+    ▼
+비트코인 생태계 팽창 및 L2 확장성 논의 촉발 (Runes, 롤업 등)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

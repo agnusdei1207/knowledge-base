@@ -31,21 +31,20 @@ tags = ["studynote-ict-convergence"]
 
 ### [DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/324_dataops/) 파이프라인 구조
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소스 시스템</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DataOps 파이프라인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ingest</div><div class="kb-diagram-cell">─►</div><div class="kb-diagram-cell">Trans-</div><div class="kb-diagram-cell">─►</div><div class="kb-diagram-cell">Test</div><div class="kb-diagram-cell">─►</div><div class="kb-diagram-cell">Serve</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(수집)</div><div class="kb-diagram-cell">form</div><div class="kb-diagram-cell">(CT)</div><div class="kb-diagram-cell">(서빙)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ 데이터 품질 게이트</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">모니터링/알림</div></div>
-</div>
-</div>
-
-
+```
+소스 시스템
+    │
+    ▼
+┌───────────────────────────────────────────┐
+│              DataOps 파이프라인            │
+│  ┌──────┐  ┌──────┐  ┌──────┐  ┌──────┐  │
+│  │Ingest│─►│Trans-│─►│Test  │─►│Serve │  │
+│  │(수집) │  │form  │  │(CT)  │  │(서빙) │  │
+│  └──────┘  └──────┘  └──────┘  └──────┘  │
+│       ▲          데이터 품질 게이트         │
+│       └──────────[모니터링/알림]───────────┘
+└───────────────────────────────────────────┘
+```
 
 | 개념 | 핵심 원리 | 주요 도구 |
 |:---|:---|:---|

@@ -39,24 +39,24 @@ SBT는 <strong>영혼(Soul) 지갑에 영구 귀속</strong>된다는 개념으�
 
 ### SBT 발급·[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 구조
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SBT 생명주기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Issuer (발급자: 대학, 기업, 정부)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">mint(soulAddress, tokenId, metadata)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Soul 지갑 (수신자 주소, 변경 불가 귀속)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">transfer() → REVERT (전송 불가)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Verifier (검증자)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블록체인에서 직접 조회</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ownerOf(tokenId) → Soul 주소 확인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">tokenURI → 자격증 메타데이터 확인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">검증 완료 (오프체인 API 없이 온체인 직접)</div></div>
-</div>
-</div>
-
-
+```
+┌────────────────────────────────────────────────────┐
+│                SBT 생명주기                         │
+│                                                    │
+│  Issuer (발급자: 대학, 기업, 정부)                  │
+│    │ mint(soulAddress, tokenId, metadata)          │
+│    ▼                                               │
+│  Soul 지갑 (수신자 주소, 변경 불가 귀속)             │
+│    │ transfer() → REVERT (전송 불가)                │
+│    │                                               │
+│  Verifier (검증자)                                  │
+│    │ 블록체인에서 직접 조회                          │
+│    │ ownerOf(tokenId) → Soul 주소 확인              │
+│    │ tokenURI → 자격증 메타데이터 확인               │
+│    ▼                                               │
+│  검증 완료 (오프체인 API 없이 온체인 직접)           │
+└────────────────────────────────────────────────────┘
+```
 
 ### SBT vs VC(Verifiable Credential) 비교
 

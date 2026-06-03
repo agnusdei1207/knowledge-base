@@ -42,47 +42,49 @@ tags = ["studynote-data-engineering"]
 
 ### [CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)에 따른 DB 유형
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CAP 트라이앵글</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Consistency</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(C)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CA</div><div class="kb-diagram-cell">CP</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Traditional</div><div class="kb-diagram-cell">MongoDB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RDBMS</div><div class="kb-diagram-cell">HBase</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(단일 서버)</div><div class="kb-diagram-cell">Zookeeper</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Availab</div><div class="kb-diagram-cell">Partition</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ility(A)</div><div class="kb-diagram-cell">Tol.(P)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AP</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cassandra</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DynamoDB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CouchDB</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────┐
+│                    CAP 트라이앵글                        │
+│                                                         │
+│                    ┌─────────────┐                     │
+│                    │ Consistency │                     │
+│                    │     (C)     │                     │
+│                    └──────┬──────┘                     │
+│                           │                            │
+│          CA               │              CP            │
+│   ┌──────────────┐        │      ┌──────────────┐     │
+│   │ Traditional  │        │      │  MongoDB     │     │
+│   │ RDBMS        │        │      │  HBase       │     │
+│   │ (단일 서버)  │        │      │  Zookeeper   │     │
+│   └──────────────┘        │      └──────────────┘     │
+│                           │                            │
+│   ┌─────────┐─────────────┴──────────────┬─────────┐  │
+│   │Availab  │                            │Partition│  │
+│   │ility(A) │                            │ Tol.(P) │  │
+│   └─────────┘                            └─────────┘  │
+│                     AP                                 │
+│              ┌──────────────┐                         │
+│              │  Cassandra   │                         │
+│              │  DynamoDB    │                         │
+│              │  CouchDB     │                         │
+│              └──────────────┘                         │
+└─────────────────────────────────────────────────────────┘
+```
 
 ### [PACELC](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/342_pacelc/) 정리 (Extended [CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/))
 
 다니엘 아베이드(Daniel Abadi, 2012)가 제안. CAP은 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 발생 시의 선택만 다루지만, <strong>정상 운영(Else) 상황에서도 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>) vs <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a>(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">Consistency</a>) 트레이드오프</strong>가 존재함을 추가.
 
+```
+PACELC 표기법:
+P → [A 또는 C]  (파티션 발생 시)
+E → [L 또는 C]  (정상 시)
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">PACELC 표기법:</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">A 또는 C</div><div class="kb-diagram-note">(파티션 발생 시)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">L 또는 C</div><div class="kb-diagram-note">(정상 시)</div></div>
-<div class="kb-diagram-note">예시:</div>
-<div class="kb-diagram-note">Cassandra: PA/EL (파티션 시 가용성 우선, 정상 시 지연 우선)</div>
-<div class="kb-diagram-note">BigTable: PC/EC (파티션 시 일관성 우선, 정상 시 일관성 우선)</div>
-<div class="kb-diagram-note">DynamoDB: PA/EL (기본, 설정 변경 가능)</div>
-</div>
-</div>
-
-
+예시:
+Cassandra: PA/EL (파티션 시 가용성 우선, 정상 시 지연 우선)
+BigTable:  PC/EC (파티션 시 일관성 우선, 정상 시 일관성 우선)
+DynamoDB:  PA/EL (기본, 설정 변경 가능)
+```
 
 | DB | [CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | [PACELC](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/342_pacelc/) | 특징 |
 |:---|:---|:---|:---|
@@ -138,20 +140,15 @@ tags = ["studynote-data-engineering"]
 ### Tunable [Consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) (조정 가능한 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/))
 
 Cassandra의 예:
+```
+쓰기 일관성: QUORUM (과반수 노드 확인)
+읽기 일관성: QUORUM (과반수 노드에서 읽기)
+→ 강한 일관성 달성
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">쓰기 일관성: QUORUM (과반수 노드 확인)</div>
-<div class="kb-diagram-note">읽기 일관성: QUORUM (과반수 노드에서 읽기)</div>
-<div class="kb-diagram-note">→ 강한 일관성 달성</div>
-<div class="kb-diagram-note">쓰기 일관성: ONE (1개 노드 확인)</div>
-<div class="kb-diagram-note">읽기 일관성: ONE</div>
-<div class="kb-diagram-note">→ 최고 성능, 결과적 일관성</div>
-</div>
-</div>
-
-
+쓰기 일관성: ONE (1개 노드 확인)
+읽기 일관성: ONE
+→ 최고 성능, 결과적 일관성
+```
 
 📢 **섹션 요약 비유**: Tunable Consistency는 <strong>자동차 서스펜션 조절</strong>과 같다. 고속도로([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))냐 비포장도로(안정성)냐에 따라 세팅을 바꿀 수 있다.
 
@@ -194,22 +191,19 @@ Cassandra의 예:
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">CAP 정리: C(일관성) · A(가용성) · P(파티션 내성) — 3개 동시 불가</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CP 시스템: HBase · ZooKeeper (일관성 우선)</div>
-<div class="kb-diagram-note">AP 시스템: Cassandra · DynamoDB (가용성 우선)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">PACELC: 정상 시 Latency vs Consistency 트레이드오프 추가</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Tunable Consistency: 워크로드별 일관성 수준 조절</div>
-</div>
-</div>
-
-
+```text
+CAP 정리: C(일관성) · A(가용성) · P(파티션 내성) — 3개 동시 불가
+    │
+    ▼
+CP 시스템: HBase · ZooKeeper (일관성 우선)
+AP 시스템: Cassandra · DynamoDB (가용성 우선)
+    │
+    ▼
+PACELC: 정상 시 Latency vs Consistency 트레이드오프 추가
+    │
+    ▼
+Tunable Consistency: 워크로드별 일관성 수준 조절
+```
 2. CAP은 이 두 개를 <strong>동시에 완벽하게 할 수는 없다</strong>는 수학적 증명이야.
 3. PACELC는 여기서 더 나아가 **평소 전화가 잘 될 때도** 빠른 응답과 정확한 재고 중 뭘 더 중요하게 볼지 물어보는 거야.
 

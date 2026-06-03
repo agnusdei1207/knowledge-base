@@ -27,31 +27,31 @@ tags = ["studynote-operating-system"]
   2. **수명 1천 번 (TLC)의 도래**: 용량을 뻥튀기하느라 셀 수명이 100분의 1로 박살 나버렸다. 특정 셀 집중 타격(Hotspot)은 즉각적인 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 사망 선고가 됨.
   3. **FTL의 전권 장악**: 결국 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 어디에 박을지는 OS의 지시를 깡그리 무시하고, [FTL](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/) 칩셋이 독단적으로 수명 카운트를 보고 빈방을 강제 배정하는 아키텍처가 절대 표준이 되었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">웨어 레벨링(Wear Leveling) 부재 시의 사망 vs 적용 시의 평화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황: OS가 1번 주소(LBA 1) 파일 목차를 미친 듯이 3천 번 업데이트함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1. 웨어 레벨링 없음 (In-place 죽음의 타격)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">물리 칩 1번 방 (PBA 1)</div><div class="kb-diagram-note">(Erase 3,000번 누적)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">물리 칩 2번 방 (PBA 2)</div><div class="kb-diagram-note">(Erase 0번. 새것)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">물리 칩 3번 방 (PBA 3)</div><div class="kb-diagram-note">(Erase 0번. 새것)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💥 결과: 물리 1번 방 셀이 버티지 못하고 타버림! (Dead Cell 발생)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">나머지 방은 100% 새것인데도 SSD 전체가 인식 불량으로 사망!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2. 웨어 레벨링 작동 (Out-of-place 회피 기동)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- OS: "LBA 1 업데이트!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- FTL: "아, 물리 1번 방 벌써 5번 썼네? 이번엔 2번 방으로 피신해!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">물리 칩 2번 방 (PBA 2)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- OS: "LBA 1 또 업데이트!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- FTL: "2번 방 썼으니 이번엔 3번 방으로 피신!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">물리 칩 3번 방 (PBA 3)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 결과: OS는 1번만 3천 번 팼는데, SSD 내부 1, 2, 3번 방은 공평하게</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">각각 1,000번씩만 데미지를 입고 10년의 장수를 누림 🚀</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│        웨어 레벨링(Wear Leveling) 부재 시의 사망 vs 적용 시의 평화      │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│ [ 상황: OS가 1번 주소(LBA 1) 파일 목차를 미친 듯이 3천 번 업데이트함 ]  │
+│                                                                         │
+│ ▶ 1. 웨어 레벨링 없음 (In-place 죽음의 타격)                            │
+│  LBA 1 ──▶ [ 물리 칩 1번 방 (PBA 1) ] (Erase 3,000번 누적)              │
+│  LBA 2 ──▶ [ 물리 칩 2번 방 (PBA 2) ] (Erase 0번. 새것)                 │
+│  LBA 3 ──▶ [ 물리 칩 3번 방 (PBA 3) ] (Erase 0번. 새것)                 │
+│  💥 결과: 물리 1번 방 셀이 버티지 못하고 타버림! (Dead Cell 발생)       │
+│           나머지 방은 100% 새것인데도 SSD 전체가 인식 불량으로 사망!    │
+│                                                                         │
+│ ▶ 2. 웨어 레벨링 작동 (Out-of-place 회피 기동)                          │
+│  - OS: "LBA 1 업데이트!"                                                │
+│  - FTL: "아, 물리 1번 방 벌써 5번 썼네? 이번엔 2번 방으로 피신해!"      │
+│  - FTL 장부 업데이트: LBA 1 ──▶ [ 물리 칩 2번 방 (PBA 2) ]              │
+│  - OS: "LBA 1 또 업데이트!"                                             │
+│  - FTL: "2번 방 썼으니 이번엔 3번 방으로 피신!"                         │
+│  - FTL 장부 업데이트: LBA 1 ──▶ [ 물리 칩 3번 방 (PBA 3) ]              │
+│  ✅ 결과: OS는 1번만 3천 번 팼는데, SSD 내부 1, 2, 3번 방은 공평하게    │
+│           각각 1,000번씩만 데미지를 입고 10년의 장수를 누림 🚀          │
+└─────────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** "도망쳐서 쓰는 꼼수(Out-of-place Update)"가 왜 SSD의 알파이자 오메가인지 보여주는 증명이다. FTL은 OS가 던진 똥(한 곳만 미친 듯이 쓰는 병목)을 받아, 내부적으로 10만 개의 방패(전체 물리 블록)를 빙글빙글 돌려가며 분산해서 쳐맞는 우주 최강의 탱커(Tanker) 역할을 수행한다. 이 장부 화살표 돌려막기 연산이 없다면 TLC/QLC 시대는 애초에 열리지도 못했다.
 
 - **📢 섹션 요약 비유**: 맷집이 약한 100명의 병사(플래시 셀)가 있습니다. 적(OS)이 대장(1번 주소)만 죽어라 1000대 때리려 합니다. 대장이 혼자 1000대를 다 맞으면 즉사합니다([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 뻗음). 그래서 한 대 맞을 때마다 대장이 재빨리 2번 병사 뒤로 숨고, 또 한 대 맞으면 3번 병사 뒤로 숨어서(웨어 레벨링) 100명이 사이좋게 10대씩만 나눠 맞습니다. 아무도 죽지 않고 멍만 살짝 든 채로 전쟁에서 승리하는 눈물겨운 전우애입니다.
@@ -104,18 +104,15 @@ tags = ["studynote-operating-system"]
 - 나는 디스크 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 명령을 내린 적이 없는데, [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 혼자 수명을 늘리겠다고 10GB를 쓰며 <strong>오히려 자해(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/">쓰기 증폭</a>, WA)를 해서 전체 낸드 수명을 갉아먹는 코미디</strong>가 벌어진다.
 - 밸런스를 맞추기 위한 이동 횟수(오버헤드)와, 밸런스가 안 맞아 터지는 칩 수명 사이의 절묘한 임계점을 찾는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 바로 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 컨트롤러 AI의 핵심 지적 재산권(IP)이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">밸런스 강도</div><div class="kb-diagram-cell">콜드 데이터 이주</div><div class="kb-diagram-cell">쓰기 증폭률(WA)</div><div class="kb-diagram-cell">최종 SSD 수명</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">약함 (동적)</div><div class="kb-diagram-cell">냅둠 (알박기)</div><div class="kb-diagram-cell">1.05배 (아주 적음)</div><div class="kb-diagram-cell">특정 칩만 타서 사망☠️</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">강함 (정적)</div><div class="kb-diagram-cell">미친듯이 이사함</div><div class="kb-diagram-cell">3.0배 (자가 파괴)</div><div class="kb-diagram-cell">복사하다 수명 닳음☠️</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최적 (스마트)</div><div class="kb-diagram-cell">임계치 찰 때만</div><div class="kb-diagram-cell">1.5배 (최적 타협)</div><div class="kb-diagram-cell">10년 거뜬 🚀</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬───────────────────────────────────┐
+│ 밸런스 강도│ 콜드 데이터 이주│ 쓰기 증폭률(WA)│ 최종 SSD 수명          │
+├──────────┼────────────┼────────────┼───────────────────────────────────┤
+│ 약함 (동적)│ 냅둠 (알박기) │ 1.05배 (아주 적음)│ 특정 칩만 타서 사망☠️ │
+│ 강함 (정적)│ 미친듯이 이사함 │ 3.0배 (자가 파괴) │ 복사하다 수명 닳음☠️│
+│ 최적 (스마트)│ 임계치 찰 때만 │ 1.5배 (최적 타협) │ 10년 거뜬 🚀       │
+└──────────┴────────────┴────────────┴───────────────────────────────────┘
+```
 **[매트릭스 해설]** "빈대를 잡으려다 초가삼간 다 태운다"는 속담이 딱 맞다. 밸런스 좀 맞추겠다고 멀쩡한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 이 방 저 방으로 이사(Copy)시키다 보면, 그 이사하는 과정 자체의 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Write) 스트레스 때문에 낸드 플래시가 타 죽어버린다. 결국 정적(Static) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)도 블록 간의 카운트 차이가 1만 번 이상 벌어졌을 때만 살짝 개입하는 식의 느슨한 제어를 택할 수밖에 없다.
 
 - **📢 섹션 요약 비유**: 자동차 바퀴(수명) 골고루 닳게 하겠다고 10km 달릴 때마다 카센터 가서 바퀴 4개 위치를 바꾸면, 바퀴는 골고루 닳겠지만 위치 바꾸는 인건비([쓰기 증폭](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/))가 차값보다 더 나와 파산합니다. 1만 km에 한 번씩 아주 가끔(임계점 제어) 바꿔주는 게 진짜 스마트한 평준화의 묘미입니다.
@@ -175,19 +172,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">FTL (Flash Translation Layer)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">마모 평준화 (Wear Leveling)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">쓰기 증폭 (Write Amplification) 현상</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TRIM 명령어</div></div>
-</div>
-</div>
-
-
+```text
+[FTL (Flash Translation Layer)]
+    │
+    ▼
+[마모 평준화 (Wear Leveling)]
+    │
+    ├──▶ [쓰기 증폭 (Write Amplification) 현상]
+    └──▶ [TRIM 명령어]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

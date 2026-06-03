@@ -33,34 +33,38 @@ tags = ["studynote-operating-system"]
 - <strong>저널링 3대장의 디스크 I/O 순서도 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> 메커니즘 뷰</strong>:
 저널 영역과 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 구조 영역을 어떻게 오가며 스왑하는지, 그 치명적인 순서([Ordering](/knowledge-base/studynote/02_operating_system/04_synchronization/277_semaphore_ordering/)) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 구조를 까보면 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"무엇을 먼저 굽고, 어디까지 일기장에 상세히 적어 댈 것인가?"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🚨</div><div class="kb-diagram-node">1. Data Mode (Full Journaling) - 방어 100% / 속도 핵폐기물 랙</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(유저 기록 시작)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① 일기장(Journal)에 📝메타데이터 + 📝데이터 알맹이 전부 10GB 굽기 (기절!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② 저널 Commit 도장 쾅!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ 진짜 목적지 폴더에 💽메타데이터 + 💽데이터 알맹이 10GB 또 굽기 (2중고)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🎯</div><div class="kb-diagram-node">2. Ordered Mode (ext4 기본값) - 방어 99% / 속도 95% 부스트 스왑!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(유저 기록 시작)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① 진짜 목적지 폴더에 💽데이터 알맹이(10GB) 냅다 1번만 쏘기 (스루풋 부스트!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">②</div><div class="kb-diagram-node">중요</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">일기장(Journal)에 📝메타데이터만 가볍게 굽기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ 저널 Commit 도장 쾅! -&gt; 진짜 목적지에 💽메타데이터 덮어쓰기 결속!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 알맹이는 1번만 구우니까 빠르고, 만약 중간 정전 컷! 나면 일기장 도장이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">없어서 아예 파일 쓰기 자체가 전부 취소(Rollback)되어 쓰레기 노출 방어!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">⚡</div><div class="kb-diagram-node">3. Writeback Mode - 방어 뚫림 멸망 / 속도 빛의 속도 부스트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(유저 기록 시작 - 순서 개나 줘버려 병렬 난사 빔!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 일기장에 📝메타껍데기 굽고 도장 쾅쾅! (초스피드 끝남)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 나아아중에 플러셔 봇이 시간 나면 💽데이터 알맹이 디스크 구이 던짐.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 💀 정전 폭파 크래시 발생: 일기장엔 "카톡 파일 2MB 증가함" 적혀있음.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부팅 후 파일 열어보니 추가된 2MB 알맹이가 안 구워져서, 그 자리에 있던</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">'이전 사용자의 은행 암호' 같은 쓰레기 데이터가 유출 마스킹 오픈 대참사 발생!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌────────────────────────────────────────────────────────────────────────────────────┐
+  │                 "무엇을 먼저 굽고, 어디까지 일기장에 상세히 적어 댈 것인가?"       │
+  ├────────────────────────────────────────────────────────────────────────────────────┤
+  │                                                                                    │
+  │  🚨 [ 1. Data Mode (Full Journaling) - 방어 100% / 속도 핵폐기물 랙 ]              │
+  │     (유저 기록 시작)                                                               │
+  │      ① 일기장(Journal)에 📝메타데이터 + 📝데이터 알맹이 전부 10GB 굽기 (기절!)     │
+  │      ② 저널 Commit 도장 쾅!                                                        │
+  │      ③ 진짜 목적지 폴더에 💽메타데이터 + 💽데이터 알맹이 10GB 또 굽기 (2중고)      │
+  │                                                                                    │
+  │  =========================▼===================================                     │
+  │                                                                                    │
+  │  🎯 [ 2. Ordered Mode (ext4 기본값) - 방어 99% / 속도 95% 부스트 스왑! ]           │
+  │     (유저 기록 시작)                                                               │
+  │      ① 진짜 목적지 폴더에 💽데이터 알맹이(10GB) 냅다 1번만 쏘기 (스루풋 부스트!)   │
+  │      ② [중요] 모터 완료 확인 후 -> 일기장(Journal)에 📝메타데이터만 가볍게 굽기    │
+  │      ③ 저널 Commit 도장 쾅! -> 진짜 목적지에 💽메타데이터 덮어쓰기 결속!           │
+  │   => 결과: 알맹이는 1번만 구우니까 빠르고, 만약 중간 정전 컷! 나면 일기장 도장이   │
+  │           없어서 아예 파일 쓰기 자체가 전부 취소(Rollback)되어 쓰레기 노출 방어!   │
+  │                                                                                    │
+  │  =========================▼===================================                     │
+  │                                                                                    │
+  │  ⚡ [ 3. Writeback Mode - 방어 뚫림 멸망 / 속도 빛의 속도 부스트 ]                 │
+  │     (유저 기록 시작 - 순서 개나 줘버려 병렬 난사 빔!)                              │
+  │      - 일기장에 📝메타껍데기 굽고 도장 쾅쾅! (초스피드 끝남)                       │
+  │      - 나아아중에 플러셔 봇이 시간 나면 💽데이터 알맹이 디스크 구이 던짐.          │
+  │   => 💀 정전 폭파 크래시 발생: 일기장엔 "카톡 파일 2MB 증가함" 적혀있음.           │
+  │        부팅 후 파일 열어보니 추가된 2MB 알맹이가 안 구워져서, 그 자리에 있던       │
+  │        '이전 사용자의 은행 암호' 같은 쓰레기 데이터가 유출 마스킹 오픈 대참사 발생!│
+  └────────────────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 핵심은 <strong>"순서(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/277_semaphore_ordering/">Ordering</a>)의 채찍질"</strong> 이다. 완전([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 모드는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)까지 저널에 다 복사하지만 극악 병목 늪에 빠진다. 이를 구제하려 나온 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 전용 저널링 방식인 타협 체제 중, `Writeback` 모드는 순서를 OS 맘대로 하다가 메타는 저장, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 증발하는 `Security Breach 랙` 을 맞는다. 하지만 천재적 마스킹의 <strong><code>Ordered</code> 모드는 "반드시 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 알맹이를 리지덤(디스크 바닥 실제 위치)에 다 구웠다는 신호를 받아야만, 일기장 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/">메타데이터</a> Commit 도장을 찍어 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a> 결착 시킨다"</strong> 는 강제 순서 보장 록백을 걸어 쓰레기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 노출의 트레이드오프 파단을 완벽히 저지 분쇄한 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 핵심 백본 구조다 도출.
 
@@ -140,19 +144,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">저널링 파일 시스템 (Journaling File System)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">메타데이터 저널링 vs 데이터 저널링 모드 (순서: 로그 기록 -&gt; 커밋 -&gt; 실제 파일시스템 반영) (Journaling Modes)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">LFS (Log-structured File System)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">COW (Copy-On-Write) 파일 시스템 (ZFS, Btrfs)</div></div>
-</div>
-</div>
-
-
+```text
+[저널링 파일 시스템 (Journaling File System)]
+    │
+    ▼
+[메타데이터 저널링 vs 데이터 저널링 모드 (순서: 로그 기록 -> 커밋 -> 실제 파일시스템 반영) (Journaling Modes)]
+    │
+    ├──▶ [LFS (Log-structured File System)]
+    └──▶ [COW (Copy-On-Write) 파일 시스템 (ZFS, Btrfs)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

@@ -59,25 +59,31 @@ A* [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_alg
 
 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 내부적으로 **Open List(탐색 대기열)** 와 **Closed List(방문 완료열)** 라는 두 개의 큐 구조를 운영하여 상태를 전이시킨다. 
 
+```text
+[A* 상태 전이 메커니즘]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">A* 상태 전이 메커니즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1.</div><div class="kb-diagram-node">Start</div><div class="kb-diagram-note">노드를 Open List에 삽입</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2. Open List에서 f(n)이 가장 작은 노드</div><div class="kb-diagram-node">X</div><div class="kb-diagram-note">추출 │◄──</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3.</div><div class="kb-diagram-node">X</div><div class="kb-diagram-note">가 목표(Goal)인가? │</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">YES</div><div class="kb-diagram-note">──► 탐색 종료 (경로 반환) │</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">NO</div><div class="kb-diagram-note">──►</div><div class="kb-diagram-node">X</div><div class="kb-diagram-note">를 Closed List로 이동 │</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">4.</div><div class="kb-diagram-node">X</div><div class="kb-diagram-note">의 이웃 노드 전개 │</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(이미 Closed에 있다면 무시)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(g(n) + h(n)을 계산하여 이웃 노드의 f(n) 갱신)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Open List에 정렬 삽입 혹은 더 적은 g로 갱신)</div></div>
-</div>
-</div>
-
-
+   ┌──────────────────────────────────────────────┐
+   │ 1. [Start] 노드를 Open List에 삽입             │
+   └──────┬───────────────────────────────────────┘
+          ▼
+   ┌──────────────────────────────────────────────┐
+   │ 2. Open List에서 f(n)이 가장 작은 노드 [X] 추출  │◄──┐
+   └──────┬───────────────────────────────────────┘   │
+          ▼                                           │
+   ┌──────────────────────────────────────────────┐   │
+   │ 3. [X]가 목표(Goal)인가?                       │   │
+   │    ├─ [YES] ──► 탐색 종료 (경로 반환)              │   │
+   │    └─ [NO]  ──► [X]를 Closed List로 이동        │   │
+   └──────┬───────────────────────────────────────┘   │
+          ▼                                           │
+   ┌──────────────────────────────────────────────┐   │
+   │ 4. [X]의 이웃 노드 전개                        │   │
+   │   (이미 Closed에 있다면 무시)                   │   │
+   │   (g(n) + h(n)을 계산하여 이웃 노드의 f(n) 갱신) │   │
+   │   (Open List에 정렬 삽입 혹은 더 적은 g로 갱신)    │   │
+   └──────┬───────────────────────────────────────┘   │
+          └───────────────────────────────────────────┘
+```
 
 이 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 흐름도의 병목 지점은 'Open List에서 가장 작은 f(n)을 찾는 과정'이다. 노드 수가 수백만 개로 늘어나면 이 리스트를 정렬하고 갱신하는 연산이 전체 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 지배한다. 따라서 실무에서는 Open List를 단순 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)이 아닌 최소 힙(Min-[Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/))이나 [우선순위 큐](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/)([Priority Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/)) 기반으로 구현하여 접근 복잡도를 O(log N)으로 방어해야 한다.
 
@@ -146,25 +152,24 @@ A* [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_alg
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">BFS (너비 우선 탐색) — 최단 홉 탐색, 가중치 무시, 메모리 폭발</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">다익스트라 (Dijkstra) — 가중치 최단 경로, g(n) 기반, 목표 방향성 없음</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">A* 알고리즘 — f(n) = g(n) + h(n), 휴리스틱으로 탐색 공간 대폭 축소</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IDA* (Iterative Deepening A*) — 메모리 O(d), 깊이 제한 반복 심화 탐색</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">JPS (Jump Point Search) — 균일 격자에서 A* 불필요 노드 건너뜀, 수십 배 속도</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">신경망 휴리스틱 (Neural Heuristic) — 학습된 h(n)으로 복잡 환경 경로 계획</div></div>
-</div>
-</div>
-
-
+```text
+[BFS (너비 우선 탐색) — 최단 홉 탐색, 가중치 무시, 메모리 폭발]
+    │
+    ▼
+[다익스트라 (Dijkstra) — 가중치 최단 경로, g(n) 기반, 목표 방향성 없음]
+    │
+    ▼
+[A* 알고리즘 — f(n) = g(n) + h(n), 휴리스틱으로 탐색 공간 대폭 축소]
+    │
+    ▼
+[IDA* (Iterative Deepening A*) — 메모리 O(d), 깊이 제한 반복 심화 탐색]
+    │
+    ▼
+[JPS (Jump Point Search) — 균일 격자에서 A* 불필요 노드 건너뜀, 수십 배 속도]
+    │
+    ▼
+[신경망 휴리스틱 (Neural Heuristic) — 학습된 h(n)으로 복잡 환경 경로 계획]
+```
 이 흐름은 방향성 없는 BFS에서 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 기반 [다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)를 거쳐 목표 지향 A*로 수렴하고, 메모리·속도 최적화와 학습 기반 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/)으로 진화하는 경로 탐색 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 발전을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

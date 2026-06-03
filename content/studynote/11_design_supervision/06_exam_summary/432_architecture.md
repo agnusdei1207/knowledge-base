@@ -19,17 +19,16 @@ tags = ["studynote-design-supervision"]
 
 필요성은 문제의 비정형성에 있다. 예를 들어 음성인식에서는 음향 분석, 단어 후보 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 문맥 보정, 의미 해석이 한 번에 정답을 만들지 못한다. [블랙보드 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/209_blackboard_pattern_ai_heuristic/)은 이런 문제를 “부분 해답의 누적”으로 바라보므로, 불완전한 정보에서도 점진적으로 더 나은 답에 접근할 수 있다. 감리 관점에서는 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 분업보다도 중앙 문제 공간과 제어 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 타당한지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력 문제</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Blackboard</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가설/부분해답</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전문가1</div><div class="kb-diagram-cell">전문가2</div><div class="kb-diagram-cell">전문가3</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┐        ┌──────────────────┐
+│ 입력 문제 │──────▶│   Blackboard     │
+└──────────┘        │  가설/부분해답   │
+                    └───┬────┬────┬───┘
+                        │    │    │
+                  ┌─────▼┐ ┌─▼────┐ ┌────▼─┐
+                  │전문가1│ │전문가2│ │전문가3│
+                  └──────┘ └──────┘ └──────┘
+```
 
 기술사 답안에서는 “중앙 저장소”만 쓰면 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 패턴처럼 보일 수 있으므로, 반드시 부분 해답 누적·전문가 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 협업·제어기의 선택적 활성화를 함께 설명해야 한다.
 - **📢 섹션 요약 비유**: 칠판 한가운데에 문제를 써 두고 수학, 과학, 국어 선생님이 번갈아 와서 자기 전문 지식으로 조금씩 답을 채우는 방식이다.
@@ -44,19 +43,21 @@ tags = ["studynote-design-supervision"]
 | 제어기 | 현재 상태를 보고 다음에 실행할 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 선택한다. | 종료 조건, 우선순위, 무한 반복 방지 로직 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
 | 평가 기준 | 부분 결과의 품질을 점수화해 수렴 방향을 관리한다. | [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 계산, 오탐 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/), 최종 선택 기준 검토 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Blackboard</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상태 S0 → 가설 H1 → 부분해답 H2 → 후보해답 H3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">KS-A 분석기</div><div class="kb-diagram-cell">KS-B 규칙</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Controller</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────── Blackboard ────────────────────┐
+│  상태 S0 → 가설 H1 → 부분해답 H2 → 후보해답 H3     │
+└───────────────┬───────────────┬────────────────────┘
+                │               │
+         ┌──────▼─────┐   ┌────▼─────┐
+         │ KS-A 분석기 │   │ KS-B 규칙 │
+         └──────┬─────┘   └────┬─────┘
+                │              │
+                └──────┬───────┘
+                       ▼
+                 ┌──────────┐
+                 │ Controller│
+                 └──────────┘
+```
 
 핵심 원리는 선형 처리보다 “가설 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)-평가-수정”의 반복이다. 그래서 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인처럼 순서가 고정된 문제에는 오히려 과할 수 있지만, 정답 경로가 여러 갈래로 갈라지는 영역에서는 강력하다. 시험 답안에서는 블랙보드의 공용 표현과 제어기의 중요성을 반드시 강조해야 한다.
 - **📢 섹션 요약 비유**: 여러 탐정이 수사판에 단서를 붙여 가며 사건을 푸는데, 반장이 어떤 탐정을 다음에 부를지 정해 수사를 이끄는 구조다.
@@ -100,23 +101,17 @@ tags = ["studynote-design-supervision"]
 - **멀티에이전트 협업(Multi-Agent Collaboration)**: 여러 독립 주체가 공용 상태를 바탕으로 협력하는 현대적 연결 개념
 
 ### 📈 관련 키워드 및 발전 흐름도
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단일 알고리즘 중심 문제 해결</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">규칙 기반 전문가 시스템</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">블랙보드 기반 협업 추론</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">센서 융합·음성인식 응용</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">멀티에이전트 AI 협력 구조</div>
-</div>
-</div>
-
-
+```text
+단일 알고리즘 중심 문제 해결
+    ↓
+규칙 기반 전문가 시스템
+    ↓
+블랙보드 기반 협업 추론
+    ↓
+센서 융합·음성인식 응용
+    ↓
+멀티에이전트 AI 협력 구조
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 큰 칠판에 문제를 써 두면 여러 선생님이 와서 자기 잘하는 부분만 조금씩 적어요.

@@ -30,18 +30,14 @@ tags = ["studynote-network"]
   2. **OAuth 1.0a의 등장과 한계 (2010년)**: 암호학적 서명(Signature) 기반으로 매우 안전했지만, 구현이 너무 복잡했고 모바일 기기나 데스크톱 앱에서 사용하기 어려웠다.
   3. **OAuth 2.0의 제정 (RFC 6749, 2012년)**: 서명 과정을 [HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/)([TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/))에 전적으로 의임하여 구조를 대폭 단순화하고, 모바일, 웹, 브라우저리스 기기 등 다양한 환경에 맞는 4가지 권한 부여 방식(Grant Type)을 제공함으로써 폭발적으로 보급되었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">커버로스</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">OAuth 2.0</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SAML 2.0</div></div>
-</div>
-</div>
-
-
+```text
+[커버로스]
+    │
+    ▼
+[OAuth 2.0]
+    │
+    └──▶ [SAML 2.0]
+```
 
 - **📢 섹션 요약 비유**: 집주인(사용자)이 청소 업체([서드파티](/knowledge-base/studynote/05_database/06_dw_olap_trends/385_third_party_cookie_deprecation_cdw/) 앱)에 현관문 비밀번호(패스워드)를 알려주는 대신, 경비실([인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) 서버)을 통해 2시간만 유효한 임시 비밀번호(토큰)를 발급받아 주는 안전한 권한 위임 시스템입니다.
 
@@ -62,29 +58,42 @@ tags = ["studynote-network"]
 
 OAuth 2.0에서 가장 범용적이고 안전한 방식인 '[Authorization Code Grant](/knowledge-base/studynote/09_security/05_web_app_security/508_authorization_code_grant/)'의 동작 흐름을 시각화하면, 왜 Access Token이 클라이언트 브라우저에 직접 노출되지 않고 안전하게 전달되는지 직관적으로 이해할 수 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OAuth 2.0 : Authorization Code Grant (권한 부여 코드 방식)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Resource Owner</div><div class="kb-diagram-node">Client</div><div class="kb-diagram-note">[Authorization</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(사용자) (서드파티 앱) Server]</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. "카카오로 로그인" 클릭</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 권한 부여 요청 (Redirect)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Client ID, Redirect URI 등 포함)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. ID/PW 입력 및 권한 승인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 권한 부여 코드(Authorization Code) 전달 (Redirect)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. Code 전달</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6. Token 요청 (Code + Client Secret)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">7. Access Token 발급</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">8. API 요청 (+Access Token)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Resource</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│</div><div class="kb-diagram-node">Server</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">9. 보호된 데이터 응답</div></div>
-</div>
-</div>
-
-
+```text
+  ┌────────────────────────────────────────────────────────────────────────┐
+  │         OAuth 2.0 : Authorization Code Grant (권한 부여 코드 방식)         │
+  ├────────────────────────────────────────────────────────────────────────┤
+  │                                                                        │
+  │   [Resource Owner]             [Client]             [Authorization     │
+  │       (사용자)                 (서드파티 앱)              Server]        │
+  │          │                        │                        │           │
+  │          │ 1. "카카오로 로그인" 클릭 │                        │           │
+  │          ├───────────────────────▶│                        │           │
+  │          │                        │ 2. 권한 부여 요청 (Redirect) │           │
+  │          │◀───────────────────────┼───────────────────────▶│           │
+  │          │     (Client ID, Redirect URI 등 포함)           │           │
+  │          │                        │                        │           │
+  │          │ 3. ID/PW 입력 및 권한 승인                       │           │
+  │          ├────────────────────────────────────────────────▶│           │
+  │          │                        │                        │           │
+  │          │ 4. 권한 부여 코드(Authorization Code) 전달 (Redirect) │           │
+  │          │◀───────────────────────┼◀───────────────────────┤           │
+  │          │                        │                        │           │
+  │          │ 5. Code 전달            │                        │           │
+  │          ├───────────────────────▶│                        │           │
+  │          │                        │ 6. Token 요청 (Code + Client Secret) │
+  │          │                        │───────────────────────▶│           │
+  │          │                        │                        │           │
+  │          │                        │ 7. Access Token 발급    │           │
+  │          │                        │◀───────────────────────┤           │
+  │          │                        │                        │           │
+  │          │                        │ 8. API 요청 (+Access Token)        │
+  │          │                        │─────────────────────────────▶ [Resource]
+  │          │                        │                                 [Server]
+  │          │                        │ 9. 보호된 데이터 응답             │
+  │          │                        │◀─────────────────────────────      │
+  │          │                        │                                    │
+  └────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 방식의 핵심은 토큰을 발급받기 전에 짧은 수명을 가진 `Authorization Code`를 먼저 발급받는다는 점이다. 사용자가 [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) 서버(예: 구글)에 로그인하여 승인하면, [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) 서버는 사용자의 브라우저를 통해 클라이언트(앱)로 `Code`를 전달한다(단계 4, 5). 클라이언트는 이 `Code`를 자신의 백엔드 서버로 가져가, 클라이언트 비밀키([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/) [Secret](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/))와 함께 [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) 서버로 직접 전송하여 최종 `Access Token`을 교환받는다(단계 6, 7). 이렇게 하면 브라우저(Front-end)에는 수명이 짧은 `Code`만 노출되고, 실제 중요한 `Access Token`과 `Client Secret`은 안전한 백엔드 서버 간 통신(Back-channel)으로만 전달되므로 탈취 위험이 극도로 낮아진다.
 
@@ -115,23 +124,26 @@ OAuth 2.0은 환경에 따라 4가지의 토큰 발급 방식을 제공한다.
 | **페이로드 내용** | 권한 범위 ([Scope](/knowledge-base/studynote/09_security/05_web_app_security/512_oauth_scope/)), 만료 시간 | 사용자 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) (sub), 프로필 정보 | 사용자 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/), [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/), 권한 등 상세 정보 |
 | **주요 사용처** | [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 접근 권한 위임, [서드파티](/knowledge-base/studynote/05_database/06_dw_olap_trends/385_third_party_cookie_deprecation_cdw/) 연동 | 소셜 로그인, 모바일/웹 [사용자 인증](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/) | B2B 엔터프라이즈 환경, 레거시 [SSO](/knowledge-base/studynote/09_security/11_iam_access_control/531_sso/) 연동 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OAuth 2.0 기반 OIDC (OpenID Connect) 계층 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OpenID Connect (OIDC)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(인증: ID Token, UserInfo 엔드포인트 추가)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OAuth 2.0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(인가: Access Token, Grant Types)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HTTP / TLS (HTTPS)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ OIDC는 OAuth 2.0의 Authorization Code 플로우를 그대로 사용하되,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과물로 Access Token과 함께 JWT 형태의 ID Token을 추가로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">발급하여 클라이언트가 사용자의 '신원'을 검증하게 해준다.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │         OAuth 2.0 기반 OIDC (OpenID Connect) 계층 구조          │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │        ┌──────────────────────────────────────────┐         │
+  │        │          OpenID Connect (OIDC)           │         │
+  │        │  (인증: ID Token, UserInfo 엔드포인트 추가)   │         │
+  │        ├──────────────────────────────────────────┤         │
+  │        │                OAuth 2.0                 │         │
+  │        │    (인가: Access Token, Grant Types)      │         │
+  │        ├──────────────────────────────────────────┤         │
+  │        │             HTTP / TLS (HTTPS)           │         │
+  │        └──────────────────────────────────────────┘         │
+  │                                                             │
+  │  ※ OIDC는 OAuth 2.0의 Authorization Code 플로우를 그대로 사용하되, │
+  │     결과물로 Access Token과 함께 JWT 형태의 **ID Token**을 추가로 │
+  │     발급하여 클라이언트가 사용자의 '신원'을 검증하게 해준다.         │
+  └─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 개발자들은 OAuth 2.0의 Access Token을 이용해 "구글 API를 호출할 수 있으니, 이 사람은 구글 회원이 맞겠지"라는 식으로 편법 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)(Pseudo-[Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/))을 구현했다. 그러나 Access Token은 '누구'인지 증명하는 용도가 아니어서 보안 취약점(토큰 치환 공격 등)이 발생했다. 이를 해결하기 위해 OAuth 2.0 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 위에 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)([Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/)) 목적의 표준 레이어인 OIDC를 얹었다. OIDC는 사용자 정보가 암호학적으로 서명된 `ID Token (JWT)`을 발급함으로써, "이 토큰은 진짜 구글이 발행했고, 로그인한 사람은 홍길동이 맞다"는 것을 애플리케이션이 독자적으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 있게 해준다.
 
@@ -149,27 +161,32 @@ OAuth 2.0은 환경에 따라 4가지의 토큰 발급 방식을 제공한다.
 
    이러한 네이티브/SPA 환경의 태생적 취약점을 해결하기 위해 <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/509_pkce_public_client/">PKCE</a> (Proof <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a> for <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a> Exchange)</strong> 확장이 필수로 적용되어야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PKCE (Proof Key for Code Exchange) 원리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 앱이 임의의 난수(Code Verifier) 생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 난수를 해시 함수로 돌림 (Code Challenge)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Client (Mobile App)</div><div class="kb-diagram-node">Authorization Server</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 로그인 요청 + Code Challenge 포함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">(Challenge 저장)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. Authorization Code 반환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. Token 요청 (Code + Code Verifier)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">(Hash 검증)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Verifier를 해시해서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6. 검증 성공 시 Access Token 발급</div><div class="kb-diagram-cell">Challenge와 비교</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ 악성 앱이 4번에서 Code를 가로채도, 원본 난수(Verifier)를 모르기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">때문에 5번 토큰 교환 단계에서 인가 서버에 의해 거부된다.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │             PKCE (Proof Key for Code Exchange) 원리                │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │  1. 앱이 임의의 난수(Code Verifier) 생성                          │
+  │  2. 난수를 해시 함수로 돌림 (Code Challenge)                       │
+  │                                                                   │
+  │  [Client (Mobile App)]                [Authorization Server]      │
+  │          │                                      │                 │
+  │          │ 3. 로그인 요청 + Code Challenge 포함    │                 │
+  │          │─────────────────────────────────────▶│ (Challenge 저장)│
+  │          │                                      │                 │
+  │          │ 4. Authorization Code 반환             │                 │
+  │          │◀─────────────────────────────────────┤                 │
+  │          │                                      │                 │
+  │          │ 5. Token 요청 (Code + Code Verifier)   │                 │
+  │          │─────────────────────────────────────▶│ (Hash 검증)     │
+  │          │                                      │ Verifier를 해시해서│
+  │          │ 6. 검증 성공 시 Access Token 발급        │ Challenge와 비교 │
+  │          │◀─────────────────────────────────────┤                 │
+  │                                                                   │
+  │  ※ 악성 앱이 4번에서 Code를 가로채도, 원본 난수(Verifier)를 모르기     │
+  │     때문에 5번 토큰 교환 단계에서 인가 서버에 의해 거부된다.           │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 2. <strong>시나리오 — Access Token 탈취 대비 및 <a href="/knowledge-base/studynote/09_security/05_web_app_security/505_refresh_token/">Refresh Token</a> <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>: Access Token이 네트워크 스니핑이나 [XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/) 공격으로 브라우저 단에서 탈취되면, 해커는 토큰 만료 전까지 피해자 행세를 할 수 있다. 이를 방어하기 위해 아키텍트는 <strong>1) Access Token의 수명을 극단적으로 짧게(예: 15분) <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>하고, <strong>2) 수명이 긴 <a href="/knowledge-base/studynote/09_security/05_web_app_security/505_refresh_token/">Refresh Token</a>(예: 14일)을 HTTPOnly Secure <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/">쿠키</a>로 격리</strong>하여 발급하는 투트랙 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 설계해야 한다. Access Token이 만료되면 클라이언트는 백그라운드에서 Refresh Token을 이용해 조용히 새 Access Token을 재발급(Silent Refresh) 받는다. Refresh Token이 사용될 때마다 토큰 회전(Token Rotation) 기법을 적용해 훔친 Refresh Token의 재사용을 탐지하고 무효화해야 한다.
 
@@ -204,24 +221,28 @@ OAuth 2.0은 환경에 따라 4가지의 토큰 발급 방식을 제공한다.
 
 과거의 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)이 "성을 높게 쌓고 비밀번호를 지키는 것"이었다면, 클라우드와 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 시대의 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)은 "수많은 성문 사이를 안전하게 오가는 출입증(토큰)의 표준 유통망"을 구축하는 것이다. OAuth 2.0은 이 유통망의 전 세계 공통 인프라 역할을 하며, 기술사는 단순히 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 흐름을 외우는 것을 넘어 [PKCE](/knowledge-base/studynote/09_security/05_web_app_security/509_pkce_public_client/), Token Rotation, FAPI 등 끊임없이 진화하는 취약점 방어 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 아키텍처에 적절히 배치할 수 있어야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인증/인가 아키텍처 패러다임 변화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">과거: Monolithic &amp; Silo</div><div class="kb-diagram-node">현재/미래: API &amp; Federation</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App A</div><div class="kb-diagram-cell">사용자 ID/PW 입력</div><div class="kb-diagram-cell">Central Auth Server</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(인증+비즈니스)</div><div class="kb-diagram-cell">◀</div><div class="kb-diagram-cell">(OAuth 2.0 / OIDC)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Token 발급</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App B</div><div class="kb-diagram-cell">사용자 ID/PW 입력</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(인증+비즈니스)</div><div class="kb-diagram-cell">◀</div><div class="kb-diagram-cell">MSA A</div><div class="kb-diagram-cell">MSA B</div><div class="kb-diagram-cell">App C</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Resource Server API 군)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 계정 정보 중복 저장/유출 위험 • 비밀번호는 중앙 서버만 관리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 앱 간 권한 공유 불가능 • Token 기반 안전한 API 위임</div></div>
-</div>
-</div>
-
-
+```text
+  ┌──────────────────────────────────────────────────────────────────┐
+  │               인증/인가 아키텍처 패러다임 변화                       │
+  ├──────────────────────────────────────────────────────────────────┤
+  │                                                                  │
+  │   [과거: Monolithic & Silo]         [현재/미래: API & Federation]    │
+  │                                                                  │
+  │  ┌────────────┐                    ┌────────────────────────┐      │
+  │  │ App A      │ 사용자 ID/PW 입력  │ Central Auth Server    │      │
+  │  │(인증+비즈니스)│◀─────────┐      │ (OAuth 2.0 / OIDC)     │      │
+  │  └────────────┘          │      └────────────────────────┘      │
+  │                          │                 │ Token 발급           │
+  │  ┌────────────┐          │                 ▼                    │
+  │  │ App B      │ 사용자 ID/PW 입력  ┌────────┬───────┬───────┐      │
+  │  │(인증+비즈니스)│◀─────────┘      │ MSA A  │ MSA B │ App C │      │
+  │  └────────────┘                 │(Resource Server API 군)│      │
+  │                                 └────────┴───────┴───────┘      │
+  │                                                                  │
+  │  • 계정 정보 중복 저장/유출 위험         • 비밀번호는 중앙 서버만 관리      │
+  │  • 앱 간 권한 공유 불가능              • Token 기반 안전한 API 위임       │
+  └──────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 과거의 [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)([Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)) 아키텍처에서는 각 애플리케이션이 자체적으로 회원 DB를 가지고 ID/PW를 직접 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)했다. 이는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 늘어날수록 보안 취약점(어느 한 곳이 뚫리면 크리덴셜 스터핑으로 전파)과 사용자 불편을 야기했다. 반면, 현재의 연합([Federation](/knowledge-base/studynote/09_security/11_iam_access_control/543_federation/)) 아키텍처에서는 중앙 집중화된 [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) 서버(Central Auth Server)가 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)을 전담하고, 수많은 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))와 [서드파티](/knowledge-base/studynote/05_database/06_dw_olap_trends/385_third_party_cookie_deprecation_cdw/) 앱들은 발급받은 Token만으로 권한을 상호 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다. OAuth 2.0은 이처럼 현대 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 컴퓨팅 환경을 떠받치는 가장 핵심적인 신뢰(Trust) 파이프라인이다.
 
@@ -240,19 +261,15 @@ OAuth 2.0은 환경에 따라 4가지의 토큰 발급 방식을 제공한다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 커버로스</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: OAuth 2.0</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: SAML 2.0</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율 운영 네트워크</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 커버로스]
+    │
+    ▼
+[현재 개념: OAuth 2.0]
+    │
+    ├──▶ [확장 A: SAML 2.0]
+    └──▶ [확장 B: 자율 운영 네트워크]
+```
 
 OAuth 2.0는 [커버로스](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/545_kerberos_kdc_ticket_based_auth/)에서 출발해 현재 메커니즘을 정교화하고, 이후 SAML 2.0와 자율 운영 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

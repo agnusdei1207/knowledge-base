@@ -23,17 +23,14 @@ tags = ["studynote-ai"]
 
 2015년 제프리 힌튼(Geoffrey Hinton)이 제안한 이 기법은 교사 모델의 <strong>소프트 레이블(클래스별 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a> 분포)</strong>을 학생 모델의 학습 타겟으로 활용한다. 예를 들어, 고양이 이미지에 대해 교사 모델이 "고양이 0.90, 개 0.07, 토끼 0.03"을 출력한다면, 이 분포가 "고양이와 개가 토끼보다 더 유사하다"는 다크 날리지(Dark Knowledge)를 담고 있다. 학생이 이 풍부한 정보를 학습하면 단순히 "1(고양이), 0(나머지)"를 학습하는 것보다 훨씬 깊은 표현을 익힌다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)는 박사 교수(교사 모델)가 직접 강의하는 대신, 교수의 사고 방식과 추론 과정(소프트 레이블)을 녹화한 영상으로 중학생(학생 모델)이 학습하는 것이다. 정답만 가르치는 것(하드 레이블)보다 "왜 이게 맞고 저건 왜 비슷한지"를 알려주는 것(소프트 레이블)이 훨씬 깊은 이해를 만든다.
 
@@ -41,31 +38,38 @@ tags = ["studynote-ai"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지식 증류 (Knowledge Distillation) 학습 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력 데이터 x</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">교사 모델 (Teacher)</div><div class="kb-diagram-node">학생 모델 (Student)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">크고 복잡한 모델 작고 가벼운 모델</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(동결, 학습 안 함) (학습 진행 중)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소프트맥스 T=T_high 소프트맥스 T=T_high</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소프트 레이블 p_T 소프트 레이블 q_T</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">고양이:0.90, 개:0.07, ...</div><div class="kb-diagram-node">고양이:0.85, 개:0.09, ...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ KL Divergence 손실 ◀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L_distill = KL(p_T</div><div class="kb-diagram-cell">q_T)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정답 레이블 y</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Cross-Entropy 손실 ◀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L_CE = CrossEntropy(y, q)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최종 손실: L = α × L_CE + (1-α) × L_distill</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(α: 하이퍼파라미터, 보통 0.1~0.5)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">온도(T) 효과: T가 클수록 소프트맥스 분포가 평활화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T=1: 표준 소프트맥스</div><div class="kb-diagram-cell">T=10: 모든 클래스 확률이 비슷해짐 (다크 날리지 강화)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│         지식 증류 (Knowledge Distillation) 학습 구조                │
+├──────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  입력 데이터 x                                                     │
+│      │                        │                                  │
+│      ▼                        ▼                                  │
+│  [교사 모델 (Teacher)]      [학생 모델 (Student)]                   │
+│  크고 복잡한 모델             작고 가벼운 모델                        │
+│  (동결, 학습 안 함)           (학습 진행 중)                         │
+│      │                        │                                  │
+│  소프트맥스 T=T_high          소프트맥스 T=T_high                   │
+│      │                        │                                  │
+│  소프트 레이블 p_T            소프트 레이블 q_T                      │
+│  [고양이:0.90, 개:0.07, ...]  [고양이:0.85, 개:0.09, ...]          │
+│      │                        │                                  │
+│      └───────▶ KL Divergence 손실 ◀────────┘                    │
+│                  L_distill = KL(p_T || q_T)                     │
+│                                                                  │
+│  정답 레이블 y                                                     │
+│      │                        │                                  │
+│      └───────▶ Cross-Entropy 손실 ◀────────┘                    │
+│                  L_CE = CrossEntropy(y, q)                      │
+│                                                                  │
+│  최종 손실: L = α × L_CE + (1-α) × L_distill                     │
+│  (α: 하이퍼파라미터, 보통 0.1~0.5)                                  │
+│                                                                  │
+│  온도(T) 효과: T가 클수록 소프트맥스 분포가 평활화                    │
+│  T=1: 표준 소프트맥스 | T=10: 모든 클래스 확률이 비슷해짐 (다크 날리지 강화)│
+└──────────────────────────────────────────────────────────────────┘
+```
 
 | 증류 유형 | 방법 | 특징 |
 |:---|:---|:---|

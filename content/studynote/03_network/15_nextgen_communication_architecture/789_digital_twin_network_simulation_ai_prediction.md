@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: 물리적으로 존재하는 수십만 대의 현실 네트워크 인프라(기지국, 라우터, 광케이블, 트래픽 흐름)를, <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/">인공지능</a>(<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a>)과 빅데이터를 이용해 클라우드 서버의 가상 공간(Virtual Space)에 똑같은 쌍둥이 모델(소프트웨어 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/149_clone_system_call/">클론</a>)로 1:1 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a>하여 구축하는 선행 관측 모형 아키텍처</strong>입니다.
 - 산업용 공장([스마트 팩토리](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/))의 기계를 복제하던 [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 기술을, 거대한 국가급 네트워크 인프라 전체로 확장한 개념입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">비지상 네트워크망</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">디지털 트윈 네트워크 망</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">네트워크 프로그래밍 모델 P4 지원 고정 하…</div></div>
-</div>
-</div>
-
-
+```text
+[비지상 네트워크망]
+    │
+    ▼
+[디지털 트윈 네트워크 망]
+    │
+    └──▶ [네트워크 프로그래밍 모델 P4 지원 고정 하…]
+```
 
 - **📢 섹션 요약 비유**: [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 네트워크 망은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -52,18 +48,14 @@ tags = ["studynote-network"]
 4. **자가 치유망 강제 집행 (가상 ➜ 현실) 🌟**:
    - 가상 공간에서 완벽히 검증을 마친 그 '트래픽 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)'를, 크리스마스가 오기 1시간 전에 <strong>실제 현실의 라우터 장비(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/">SDN</a> 컨트롤러)에 쏴서 강제로 세팅(적용)해 버립니다.</strong> 현실 네트워크는 사고가 나기도 전에 완벽하게 면역 백신(자가 치유)을 맞게 됩니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">비지상 네트워크망</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">디지털 트윈 네트워크 망</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">네트워크 프로그래밍 모델 P4 지원 고정 하…</div></div>
-</div>
-</div>
-
-
+```text
+[비지상 네트워크망]
+    │
+    ▼
+[디지털 트윈 네트워크 망]
+    │
+    └──▶ [네트워크 프로그래밍 모델 P4 지원 고정 하…]
+```
 
 - **📢 섹션 요약 비유**: [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 네트워크 망의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -125,19 +117,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 비지상 네트워크망</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 디지털 트윈 네트워크 망</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 네트워크 프로그래밍 모델 P4 지원 고정 하…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 네트워크 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 비지상 네트워크망]
+    │
+    ▼
+[현재 개념: 디지털 트윈 네트워크 망]
+    │
+    ├──▶ [확장 A: 네트워크 프로그래밍 모델 P4 지원 고정 하…]
+    └──▶ [확장 B: AI 기반 네트워크 최적화]
+```
 
 [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 네트워크 망는 [비지상 네트워크망](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/788_ntn_non_terrestrial_network_leo_satellite/)에서 출발해 현재 메커니즘을 정교화하고, 이후 네트워크 프로그래밍 모델 [P4](/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/) 지원 고정 하…와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

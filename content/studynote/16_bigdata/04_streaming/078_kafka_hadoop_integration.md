@@ -44,34 +44,37 @@ tags = ["bigdata"]
 
 Kafka가 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 생태계의 중앙에 위치하면서 [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)의 뼈대가 어떻게 거대하게 융합되었는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kafka 기반 하둡/빅데이터 통일 수집 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 생산자 (Producers)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">웹 서버 / 모바일 앱 / IoT 센서 / DB CDC(Debezium)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(초당 100만 건의 미친 트래픽 쏟아짐)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Kafka Cluster (분산 메시지 브로커 / 중앙 버퍼)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 토픽(Topic): 'Click_Log', 파티션 3개로 분산 분할 저장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 복제(Replication) 계수 3: 노드 2개 죽어도 안 터짐</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 7일간 무조건 하드디스크에 보관 (안전빵)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ (길 1: 영구 저장 및 배치)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Kafka Connect / Logstash</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 주기적으로 묶어서(Batch)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HDFS (Hadoop) / AWS S3</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">영구 보관/기계학습 용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ (길 2: 1초 만에 실시간 분석)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Spark Streaming / Flink</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 스트리밍 연산 후</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Redis / 실시간 대시보드</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">CEO가 지금 보는 화면</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 Kafka 기반 하둡/빅데이터 통일 수집 아키텍처             │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [ 데이터 생산자 (Producers) ]                                      │
+  │     웹 서버 / 모바일 앱 / IoT 센서 / DB CDC(Debezium)               │
+  │            │  (초당 100만 건의 미친 트래픽 쏟아짐)                        │
+  │            ▼                                                      │
+  │  ===============================================================  │
+  │  [ Apache Kafka Cluster (분산 메시지 브로커 / 중앙 버퍼) ]            │
+  │     - 토픽(Topic): 'Click_Log', 파티션 3개로 분산 분할 저장            │
+  │     - 복제(Replication) 계수 3: 노드 2개 죽어도 안 터짐               │
+  │     - 7일간 무조건 하드디스크에 보관 (안전빵)                             │
+  │  ===============================================================  │
+  │            │                                                      │
+  │            ├─▶ (길 1: 영구 저장 및 배치)                           │
+  │            │    [ Kafka Connect / Logstash ]                      │
+  │            │        ▼ 주기적으로 묶어서(Batch)                     │
+  │            │    [ HDFS (Hadoop) / AWS S3 ] ◀ 영구 보관/기계학습 용 │
+  │            │                                                      │
+  │            └─▶ (길 2: 1초 만에 실시간 분석)                         │
+  │                 [ Apache Spark Streaming / Flink ]                │
+  │                       ▼ 스트리밍 연산 후                           │
+  │                 [ Redis / 실시간 대시보드 ] ◀ CEO가 지금 보는 화면     │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 그림에서 볼 수 있듯, Kafka는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 <strong>'중앙 분배기(<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/">Hub</a>)'</strong> 다. 웹 서버가 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)([HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/))으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 직접 꽂는 것이 아니다. 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 무조건 Kafka라는 저수지에 모인다. 이 상태에서 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)([HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/))은 자기가 한가할 때 1시간 치 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 한방에 퍼가서 영구 저장한다. 동시에, 실시간 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링이 필요한 스파크 엔진([Spark Streaming](/knowledge-base/studynote/16_bigdata/03_spark/060_spark_streaming_dstream/))은 Kafka에 방금 들어온 1초짜리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 미친 듯이 퍼가서 실시간 뷰를 그려낸다. 하나의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스를 여러 소비자가 독립적으로 뽑아갈 수 있게 <strong>디커플링(Decoupling, <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/">결합도</a> 분리)</strong> 을 완벽하게 구현한 것이 이 아키텍처의 위대함이다.
 
-- **📢 섹션 요약 비유**: 과거에는 우물에서 물([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 퍼서 밭([하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/))에 직접 호스를 꽂아 물을 줬습니다(Flume 방식). 이제는 우물과 밭 사이에 거대한 아파트 물탱크([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/))를 지었습니다. 물탱크에 물을 꽉 채워놓으면, 할아버지([하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/))는 바가지로 천천히 퍼가고, 젊은이(스파크)는 최신식 펌프로 콸콸 퍼가도 물탱크는 끄떡없이 모두의 요구를 맞춰줍니다.
+- **📢 섹션 요약 비유**: 과거에는 우물에서 물([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 퍼서 밭([하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/))에 직접 호스를 꽂아 물을 줬습니다(Flume 방식). 이제는 우물과 밭 사이에 거대한 아파트 물탱크([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/))를 지었습니다. 물탱크에 물을 꽉 채워놓으면, 할아버지([하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/))는 바가지로 천천히 퍼가고, 젊은이(스파크)는 최정보 펌프로 콸콸 퍼가도 물탱크는 끄떡없이 모두의 요구를 맞춰줍니다.
 
 ---
 
@@ -134,25 +137,24 @@ Apache Kafka는 단순한 "[데이터](/knowledge-base/studynote/05_database/01_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">:---</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Flume (플룸)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">파티션 (Partition) / 오프셋 (Offset)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">카파 아키텍처 (Kappa Architecture)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Consumer Lag (컨슈머 랙)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">제로 카피 (Zero-Copy)</div></div>
-</div>
-</div>
-
-
+```text
+[:---]
+    │
+    ▼
+[Apache Flume (플룸)]
+    │
+    ▼
+[파티션 (Partition) / 오프셋 (Offset)]
+    │
+    ▼
+[카파 아키텍처 (Kappa Architecture)]
+    │
+    ▼
+[Consumer Lag (컨슈머 랙)]
+    │
+    ▼
+[제로 카피 (Zero-Copy)]
+```
 
 이 흐름도는 :---에서 출발해 [Consumer Lag](/knowledge-base/studynote/16_bigdata/04_streaming/089_consumer_lag/) (컨슈머 랙)까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

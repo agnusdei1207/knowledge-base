@@ -20,21 +20,15 @@ tags = ["studynote-cloud-architecture"]
 
 2010년 LinkedIn에서 대규모 활동 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)([페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)뷰, 클릭, 좋아요)를 실시간으로 처리하기 위해 개발했다. LinkedIn의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 시스템들이 서로 직접 연결되어 있었는데, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 늘어날수록 N×M 연결 지옥이 됐다. Kafka는 이를 <strong>스타 토폴로지</strong>로 해결했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Kafka 이전: 직접 연결 지옥</div><div class="kb-diagram-node">Kafka 이후: 허브 토폴로지</div></div>
-<div class="kb-diagram-note">서비스A ──▶ DB1 서비스A ─</div>
-<div class="kb-diagram-note">서비스A ──▶ DB2 서비스B ─ ─▶ Kafka ─ ─▶ DB1</div>
-<div class="kb-diagram-note">서비스B ──▶ DB1 서비스C ─ ─▶ DB2</div>
-<div class="kb-diagram-note">서비스B ──▶ DB3 (n×m 연결) ─▶ Analytics</div>
-<div class="kb-diagram-note">서비스C ──▶ DB2</div>
-<div class="kb-diagram-note">→ 서비스 추가 시 연결 수 폭발 → 새 서비스는 Kafka만 연결</div>
-</div>
-</div>
-
-
+```
+[Kafka 이전: 직접 연결 지옥]          [Kafka 이후: 허브 토폴로지]
+서비스A ──▶ DB1                        서비스A ─┐
+서비스A ──▶ DB2                        서비스B ─┤─▶ Kafka ─┬─▶ DB1
+서비스B ──▶ DB1                        서비스C ─┘           ├─▶ DB2
+서비스B ──▶ DB3  (n×m 연결)                                 └─▶ Analytics
+서비스C ──▶ DB2
+→ 서비스 추가 시 연결 수 폭발           → 새 서비스는 Kafka만 연결
+```
 
 **Kafka가 필요한 상황:**
 - 초당 수십만 건 이벤트를 다수의 소비자가 읽어야 할 때
@@ -50,25 +44,26 @@ tags = ["studynote-cloud-architecture"]
 
 ### [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 클러스터 아키텍처
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kafka 클러스터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Producer Brokers (복수 서버) Consumer</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">write read</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">앱A</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Broker 1 (Leader)</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">앱X</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">앱B</div><div class="kb-diagram-cell">Topic: orders</div><div class="kb-diagram-cell">앱Y</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IoT</div><div class="kb-diagram-cell">Partition 0 ──</div><div class="kb-diagram-cell">ML</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Partition 1 ──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Partition 2 ──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Broker 2 (Replica)</div><div class="kb-diagram-cell">← 복제본 보관</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Topic: orders</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ZooKeeper (또는 KRaft): 클러스터 메타데이터 관리</div></div>
-</div>
-</div>
-
-
+```
+┌────────────────────────────────────────────────────────────────┐
+│                     Kafka 클러스터                              │
+│                                                                │
+│  Producer              Brokers (복수 서버)          Consumer   │
+│  ┌───────┐   write    ┌────────────────────┐  read ┌───────┐  │
+│  │ 앱A   │ ─────────▶ │ Broker 1 (Leader)  │ ────▶ │ 앱X   │  │
+│  │ 앱B   │            │ Topic: orders      │       │ 앱Y   │  │
+│  │ IoT   │            │  Partition 0 ──┐   │       │ ML   │  │
+│  └───────┘            │  Partition 1 ──┤   │       └───────┘  │
+│                       │  Partition 2 ──┘   │                  │
+│                       └────────────────────┘                  │
+│                       ┌────────────────────┐                  │
+│                       │ Broker 2 (Replica) │ ← 복제본 보관     │
+│                       │ Topic: orders      │                  │
+│                       └────────────────────┘                  │
+│                                                                │
+│  ZooKeeper (또는 KRaft): 클러스터 메타데이터 관리               │
+└────────────────────────────────────────────────────────────────┘
+```
 
 ### 핵심 구성 요소
 
@@ -85,23 +80,21 @@ tags = ["studynote-cloud-architecture"]
 
 ### [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 메시지 저장 구조
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Topic: "user-events" Replication Factor: 3</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Partition 0 (Broker 1 Leader)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">0</div><div class="kb-diagram-node">1</div><div class="kb-diagram-node">2</div><div class="kb-diagram-node">3</div><div class="kb-diagram-node">4</div><div class="kb-diagram-node">5</div><div class="kb-diagram-node">6</div><div class="kb-diagram-node">7</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">오프셋 순서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Partition 1 (Broker 2 Leader)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">0</div><div class="kb-diagram-node">1</div><div class="kb-diagram-node">2</div><div class="kb-diagram-node">3</div><div class="kb-diagram-node">4</div><div class="kb-diagram-note">...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Partition 2 (Broker 3 Leader)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">0</div><div class="kb-diagram-node">1</div><div class="kb-diagram-node">2</div><div class="kb-diagram-node">3</div><div class="kb-diagram-node">4</div><div class="kb-diagram-node">5</div><div class="kb-diagram-note">...</div></div>
-<div class="kb-diagram-note">각 파티션은 순서 보장 / 파티션 간 순서 미보장</div>
-<div class="kb-diagram-note">메시지 보존: log.retention.hours 설정 (기본 168시간=7일)</div>
-</div>
-</div>
-
-
+```
+Topic: "user-events"  Replication Factor: 3
+┌─────────────────────────────────────────────┐
+│  Partition 0 (Broker 1 Leader)              │
+│  [0][1][2][3][4][5][6][7]... ← 오프셋 순서  │
+│                                             │
+│  Partition 1 (Broker 2 Leader)              │
+│  [0][1][2][3][4]...                         │
+│                                             │
+│  Partition 2 (Broker 3 Leader)              │
+│  [0][1][2][3][4][5]...                      │
+└─────────────────────────────────────────────┘
+각 파티션은 순서 보장 / 파티션 간 순서 미보장
+메시지 보존: log.retention.hours 설정 (기본 168시간=7일)
+```
 
 📢 **섹션 요약 비유**: [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)과 오프셋은 책의 챕터와 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 번호다. 여러 챕터([파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/))가 있고, 각 챕터를 여러 독자(Consumer)가 각자 어디까지 읽었는지(오프셋) 북마크를 가진다. 책은 읽어도 지워지지 않는다.
 
@@ -206,22 +199,18 @@ tags = ["studynote-cloud-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Point-to-Point 메시징 (RabbitMQ)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Kafka: 분산 로그 기반 Pub/Sub</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Topic · Partition · Consumer Group</div>
-<div class="kb-diagram-tree-item" style="--depth:2">영속성: 디스크 순차 쓰기 + 복제</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Connect · Streams · Schema Registry</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Event-Driven Architecture (EDA) + CDC</div>
-</div>
-</div>
-
-
+```text
+Point-to-Point 메시징 (RabbitMQ)
+    │
+    ▼
+Kafka: 분산 로그 기반 Pub/Sub
+    ├─► Topic · Partition · Consumer Group
+    ├─► 영속성: 디스크 순차 쓰기 + 복제
+    └─► Connect · Streams · Schema Registry
+    │
+    ▼
+Event-Driven Architecture (EDA) + CDC
+```
 2. [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)은 유튜브 재생목록과 같다. 한 채널의 영상이 여러 재생목록에 나뉘어 있으면, 여러 친구가 각자 다른 재생목록을 동시에 볼 수 있어 더 빠르다([병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리).
 3. 오프셋은 책갈피다. 어디까지 읽었는지(소비했는지) 북마크를 저장해두면, 다음에 이어서 읽을 수 있고, 처음부터 다시 읽고 싶으면 북마크를 앞으로 옮기면 된다(재처리).
 

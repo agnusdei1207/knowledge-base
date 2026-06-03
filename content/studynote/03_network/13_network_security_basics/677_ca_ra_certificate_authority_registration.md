@@ -27,18 +27,14 @@ tags = ["studynote-network"]
   - <strong>Root <a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/">CA</a> (최상위 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>국)</strong>: 전 세계에서 아무도 보증을 안 서주고, 자기 자신 스스로 보증(Self-Signed)하는 신의 직장입니다. (예: DigiCert, GlobalSign 등). 이들의 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서는 여러분의 윈도우/스마트폰 OS에 태어날 때부터 내장되어 있습니다.
   - <strong>Sub <a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/">CA</a> (중간 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>국)</strong>: Root CA에게 도장을 받아 권한을 위임받은 중간 보스들입니다. 만약 해커에게 공격당하면 Root까지 피해가 안 가게 중간에서 잘라버리기 위한 방파제 역할을 합니다. 실제 일반 사이트 발급은 얘네가 합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">공개키 기반 구조 아키텍처 보안 증명 시스템</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">인증국, 등록기관, 저장소 체계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CRL 스펙 및 폐기 문제 및 배포 지연 약…</div></div>
-</div>
-</div>
-
-
+```text
+[공개키 기반 구조 아키텍처 보안 증명 시스템]
+    │
+    ▼
+[인증국, 등록기관, 저장소 체계]
+    │
+    └──▶ [CRL 스펙 및 폐기 문제 및 배포 지연 약…]
+```
 
 - **📢 섹션 요약 비유**: [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)국, 등록기관, 저장소 체계는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -52,18 +48,14 @@ CA의 업무 과부하를 막기 위해 고객을 최일선에서 직접 대면�
   - [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)이 끝나면 승인 도장을 찍어 CA로 서류를 올려보냅니다([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 발급 요청). 
 - **권한의 한계**: RA는 신분 검사만 할 뿐, <strong>절대 자신의 도장으로 최종 '<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>서'를 직접 발급하지 못합니다.</strong> 발급 권한은 오직 CA에게만 있습니다. (은행에서 공인인증서 만들 때 은행 창구 직원이 [RA](/knowledge-base/studynote/09_security/03_network_security/161_ra_registration_authority/) 역할입니다.)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">공개키 기반 구조 아키텍처 보안 증명 시스템</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">인증국, 등록기관, 저장소 체계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CRL 스펙 및 폐기 문제 및 배포 지연 약…</div></div>
-</div>
-</div>
-
-
+```text
+[공개키 기반 구조 아키텍처 보안 증명 시스템]
+    │
+    ▼
+[인증국, 등록기관, 저장소 체계]
+    │
+    └──▶ [CRL 스펙 및 폐기 문제 및 배포 지연 약…]
+```
 
 - **📢 섹션 요약 비유**: [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)국, 등록기관, 저장소 체계의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -124,19 +116,15 @@ CA의 업무 과부하를 막기 위해 고객을 최일선에서 직접 대면�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 공개키 기반 구조 아키텍처 보안 증명 시스템</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 인증국, 등록기관, 저장소 체계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: CRL 스펙 및 폐기 문제 및 배포 지연 약…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 공개키 기반 구조 아키텍처 보안 증명 시스템]
+    │
+    ▼
+[현재 개념: 인증국, 등록기관, 저장소 체계]
+    │
+    ├──▶ [확장 A: CRL 스펙 및 폐기 문제 및 배포 지연 약…]
+    └──▶ [확장 B: 자동화된 신뢰 체계]
+```
 
 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)국, 등록기관, 저장소 체계는 [공개키 기반 구조](/knowledge-base/studynote/03_network/13_network_security_basics/676_pki_public_key_infrastructure/) 아키텍처 보안 증명 시스템에서 출발해 현재 메커니즘을 정교화하고, 이후 [CRL](/knowledge-base/studynote/03_network/13_network_security_basics/678_crl_certificate_revocation_list/) 스펙 및 폐기 문제 및 배포 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 약…와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

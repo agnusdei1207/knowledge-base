@@ -24,26 +24,25 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경**: 우주선, 무기 체계, 공장 로봇 암 제어 등 산업 기기용 OS(RTOS)가 발전하면서 학계는 "어떻게 데드라인을 증명할 것인가?"에 몰두했다. 반면 데스크톱 멀티미디어(CD 재생, 게임)가 발전하면서 범용 OS 진영에서는 "어떻게 버벅거림을 없앨 것인가?"에 몰두하게 되어, 이 두 철학이 각자의 갈래로 발전하게 되었다.
 
+```text
+  [시간 경과에 따른 연산 결과의 가치(Value) 변화 그래프]
 
+  (1) Hard Real-time (경성 실시간)
+  가치 100 ┼─────────┐ (데드라인)
+           │         │
+           │         ▼
+   가치 0  ┼─────────┼──────────▶ 시간
+           │         │ 🚨 가치가 즉시 마이너스(재앙)로 곤두박질침
+           │         ▼
+         -∞ 
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">시간 경과에 따른 연산 결과의 가치(Value) 변화 그래프</div></div>
-<div class="kb-diagram-note">(1) Hard Real-time (경성 실시간)</div>
-<div class="kb-diagram-note">가치 100 (데드라인)</div>
-<div class="kb-diagram-note">가치 0 ▶ 시간</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🚨 가치가 즉시 마이너스(재앙)로 곤두박질침</div></div>
-<div class="kb-diagram-tree-item" style="--depth:4">∞</div>
-<div class="kb-diagram-note">(2) Soft Real-time (연성 실시간)</div>
-<div class="kb-diagram-note">가치 100 (데드라인)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↘</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↘</div></div>
-<div class="kb-diagram-note">가치 0 ↘──▶ 시간</div>
-<div class="kb-diagram-note">(서서히 불만족도 증가, 가치 하락)</div>
-</div>
-</div>
-
-
+  (2) Soft Real-time (연성 실시간)
+  가치 100 ┼─────────┐ (데드라인)
+           │         │ ↘
+           │         │    ↘ 
+   가치 0  ┼─────────┼───────↘──▶ 시간
+           │                    (서서히 불만족도 증가, 가치 하락)
+```
 **[다이어그램 해설]** 데드라인 직후 결과물의 가치가 어떻게 변하는지가 두 시스템을 가르는 유일한 철학적 잣대다. 하드 실시간에서 브레이크를 밟으라는 연산이 데드라인(예: 10ms)을 넘겨 11ms에 나오면, 그 연산은 안 하느니만 못한 재앙을 부른다(충돌 발생). 반면 소프트 실시간에서 영상 프레임 디코딩이 11ms에 나오면 1 프레임(16ms)이 스킵되어 화면이 살짝 끊길 뿐, 전체 영화를 보는 데는 지장이 없다.
 
 - **📢 섹션 요약 비유**: 은행 마감 시간(데드라인)에 비유하면, 마감 시간 1초 뒤에 도착했을 때 셔터를 절대 안 열어줘서 부도가 나게 만드는 것이 하드 실시간이고, "아유 손님, 다음부턴 일찍 오세요" 하고 문을 열어줘서 일은 처리되지만 직원의 원성을 듣는 것이 소프트 실시간입니다.
@@ -76,24 +75,24 @@ tags = ["studynote-operating-system"]
 3. <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/169_dispatch_latency/">디스패치 지연</a>(<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/169_dispatch_latency/">Dispatch Latency</a>)의 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/">억제</a></strong>
    - [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부 락을 쪼개어, 백그라운드 작업이 시스템 콜을 하더라도 최대한 빨리 실시간 태스크가 CPU를 뺏을 수 있도록 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 선점성(Preemptibility)을 높인다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하드 vs 소프트 실시간의 커널 선점(Preemption) 차이</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">일반 태스크가 커널에서 거대한 락(Big Lock)을 쥐고 있을 때</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 소프트 실시간 (범용 Linux):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "커널 락 쥐고 있네? 어쩔 수 없지. 락 풀 때까지 대기해."</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 결과: 디스패치 지연이 수십 ms까지 튀어 렉 발생.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 하드 실시간 (RT_Linux 패치):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "네가 커널 락을 쥐고 있다고? 난 알 바 아냐! 방 빼!!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 조치: 커널 락 자체를 무시(또는 수면 가능한 Mutex로 변환)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하고, 일반 태스크를 쫓아낸 뒤 브레이크를 먼저 밟음.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 결과: 디스패치 지연 0.05ms (50μs) 고정. 데드라인 방어!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────────────┐
+  │         하드 vs 소프트 실시간의 커널 선점(Preemption) 차이          │
+  ├─────────────────────────────────────────────────────────────────────┤
+  │                                                                     │
+  │ [ 일반 태스크가 커널에서 거대한 락(Big Lock)을 쥐고 있을 때 ]       │
+  │                                                                     │
+  │  ▶ 소프트 실시간 (범용 Linux):                                      │
+  │     - "커널 락 쥐고 있네? 어쩔 수 없지. 락 풀 때까지 대기해."       │
+  │     - 결과: 디스패치 지연이 수십 ms까지 튀어 렉 발생.               │
+  │                                                                     │
+  │  ▶ 하드 실시간 (RT_Linux 패치):                                     │
+  │     - "네가 커널 락을 쥐고 있다고? 난 알 바 아냐! 방 빼!!"          │
+  │     - 조치: 커널 락 자체를 무시(또는 수면 가능한 Mutex로 변환)      │
+  │             하고, 일반 태스크를 쫓아낸 뒤 브레이크를 먼저 밟음.     │
+  │     - 결과: 디스패치 지연 0.05ms (50μs) 고정. 데드라인 방어!        │
+  └─────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 범용 리눅스(소프트)가 하드 실시간 영역에 진입하지 못했던 가장 큰 이유가 "[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부 락"이었다. 시스템의 무결성을 지키려면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조를 수정할 때 선점을 금지해야 하는데, 하드 실시간은 그 무결성보다 데드라인이 더 중요하기 때문에 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 구조 자체를 갈아엎어(모든 스핀락을 뮤텍스로 변경) 기어코 선점을 해내고야 만다.
 
 - **📢 섹션 요약 비유**: 소프트 실시간은 "앰뷸런스가 오면 비켜주세요"라는 캠페인을 벌이는 것이고, 하드 실시간은 앰뷸런스 앞에 장갑차 범퍼를 달아서 안 비키는 차를 물리적으로 밀어버리고 목적지에 무조건 정시에 도착하는 무자비한 시스템입니다.
@@ -128,25 +127,25 @@ tags = ["studynote-operating-system"]
 2. <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/">쿠버네티스</a> (K8s)의 CPU 매니저 - Exclusive 모드</strong>: [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 환경에서 고주파 매매(HFT) 트레이딩 봇이나 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 통신 vRAN 같은 소프트/하드 실시간 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 돌릴 때, 일반적인 CFS [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)(Time [Slice](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/) 쪼개기)를 쓰면 네트워크 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 튄다.
    - **실무 조치**: K8s 노드의 [Kubelet](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/082_kubelet_node_agent/) 설정을 `cpuManagerPolicy: static`으로 바꾸고, 파드에 정수 개수(예: 2.0)의 CPU 리밋을 준다. 그러면 OS는 아예 <strong>"이 2개의 물리 코어를 이 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a> 전용으로 완전히 분리(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/">Isolation</a>)시켜 다른 어떤 놈도 스케줄링되지 않게(No <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/">Context Switch</a>)"</strong> 막아버려, 완벽한 하드 실시간 환경의 베어메탈급 성능을 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)에 제공한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실시간(Real-time) 프로젝트 아키텍처 도입 의사결정 트리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">요구사항: 드론의 비행 자세 제어 모듈 개발 (주기 5ms)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 데드라인 실패 시의 타격은?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">5ms를 한 번이라도 넘기면 드론이 추락해 박살남</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 판단: Hard Real-time 환경 필수</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ OS: VxWorks, QNX, RT_Linux (선점형 커널)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 메모리: Swap OFF, mlockall() 사용, 캐시 락킹</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">5ms를 넘기면 영상이 약간 흔들리지만 비행엔 지장 없음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 판단: Soft Real-time 환경으로 타협</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ OS: 일반 Linux (SCHED_FIFO, Priority 99 튜닝)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 비용 절감: 값비싼 RTOS 보증 라이선스 구매 불필요</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │     실시간(Real-time) 프로젝트 아키텍처 도입 의사결정 트리        │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [요구사항: 드론의 비행 자세 제어 모듈 개발 (주기 5ms)]          │
+  │                │                                                  │
+  │                ▼ 데드라인 실패 시의 타격은?                       │
+  │      [ 5ms를 한 번이라도 넘기면 드론이 추락해 박살남 ]            │
+  │       ├─▶ 판단: Hard Real-time 환경 필수                          │
+  │       ├─▶ OS: VxWorks, QNX, RT_Linux (선점형 커널)                │
+  │       └─▶ 메모리: Swap OFF, mlockall() 사용, 캐시 락킹            │
+  │                                                                   │
+  │      [ 5ms를 넘기면 영상이 약간 흔들리지만 비행엔 지장 없음 ]     │
+  │       ├─▶ 판단: Soft Real-time 환경으로 타협                      │
+  │       ├─▶ OS: 일반 Linux (SCHED_FIFO, Priority 99 튜닝)           │
+  │       └─▶ 비용 절감: 값비싼 RTOS 보증 라이선스 구매 불필요        │
+  └───────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 아키텍트가 무턱대고 "우린 빠른 게 좋으니까 하드 실시간 하자!"라고 결정하면 프로젝트는 망한다. 하드 실시간 코딩은 메모리를 동적으로 할당(malloc)할 수도 없고, 시스템 콜(print 등)도 함부로 못 쓰는 감옥 같은 제약을 견뎌야 하기 때문이다. 타격이 크지 않다면 99.9% 확률로 잘 동작하는 소프트 실시간(우선순위 튜닝)으로 합의하는 것이 비용([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/)) 측면에서 정답이다.
 
 - **📢 섹션 요약 비유**: 우주복(하드 실시간)은 100% 안전하지만 입고 화장실도 못 가고 뛰지도 못합니다. 비옷(소프트 실시간)은 가끔 비가 새어 들어오지만 입고 편하게 뛰어놀 수 있습니다. 비 오는 날 동네 산책을 나가는데 100억짜리 우주복을 입는 건 엄청난 오버엔지니어링(낭비)입니다.
@@ -176,19 +175,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">대칭 다중 처리 (SMP) 스케줄링</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">부하 균등화 (Load Balancing)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">프로세서 친화성 (Processor Affinity)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">멀티코어 스케줄링 (Multicore Scheduling)</div></div>
-</div>
-</div>
-
-
+```text
+[대칭 다중 처리 (SMP) 스케줄링]
+    │
+    ▼
+[부하 균등화 (Load Balancing)]
+    │
+    ├──▶ [프로세서 친화성 (Processor Affinity)]
+    └──▶ [멀티코어 스케줄링 (Multicore Scheduling)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

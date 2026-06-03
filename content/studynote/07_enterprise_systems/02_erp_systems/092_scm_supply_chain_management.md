@@ -25,26 +25,26 @@ tags = ["enterprise_systems"]
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-SCM은 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 전체를 흐르는 세 가지 핵심 혈류(Flow)를 관리한다. 이 세 가지 흐름이 막힘없이 실시간으로 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)될 때 진정한 최적화가 이루어진다.
+SCM은 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 전체를 흐르는 세 가지 핵심 혈류(Flow)를 관리한다. 이 세 가지 흐름이 병목없이 실시간으로 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)될 때 진정한 최적화가 이루어진다.
 
 ### SCM의 3대 핵심 흐름
 1. **물자의 흐름 (Physical Flow / 상류 → 하류)**: 원자재, 반제품, 완제품이 공장을 거쳐 창고와 매장, 고객의 집 앞까지 이동하는 물리적 이동이다.
 2. **자금의 흐름 (Financial Flow / 하류 → 상류)**: 제품 구매에 대한 결제 대금과 신용이 흐르는 역방향의 흐름이다.
 3. **정보의 흐름 (Information Flow / 양방향)**: <strong>가장 중요한 흐름</strong>이다. 주문, 재고 수준, 배송 상태 등의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 전체 사슬에 실시간으로 공유된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SCM 네트워크의 통합 흐름도</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">자금(Money)</div><div class="kb-diagram-connector">◀</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">공급사</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">제조사</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">물류센터</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">고객</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">정보(Data)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 소비자의 POS(결제) 데이터가 즉시 제조/공급사로 양방향 전송됨</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                   SCM 네트워크의 통합 흐름도                  │
+├─────────────────────────────────────────────────────────────┤
+│         [자금(Money)] ◀───────────────────────────────┐      │
+│                                                          │      │
+│ [공급사] ───(물자)──▶ [제조사] ───(물자)──▶ [물류센터] ───(물자)──▶ [고객] │
+│                                                          │      │
+│         └───────────────────────────────▶ [정보(Data)]       │
+│                                                                 │
+│ * 핵심: 소비자의 POS(결제) 데이터가 즉시 제조/공급사로 양방향 전송됨 │
+└─────────────────────────────────────────────────────────────┘
+```
 정보의 실시간 흐름이 물자와 자금의 흐름을 지휘한다. 정보 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)이 '0'에 수렴할수록 공장의 재고 창고 크기는 작아질 수 있다.
 
 - **📢 섹션 요약 비유**: 신경망(정보)이 손발(물자)의 움직임을 통제하는 것과 같다. 뜨거운 물체(고객 수요)에 손이 닿으면 즉각 뇌로 정보가 전달되어 0.1초 만에 근육(공장)을 움직이게 만드는 시스템이다.
@@ -99,23 +99,21 @@ ERP가 우리 집 안을 깔끔하게 정리하는 것이라면, SCM은 우리 �
 | **CPFR** | 파트너사들이 판매 및 재고 계획을 공동으로 수립하는 [SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) 고도화 협력 모델 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">사일로(Silo) 경영 (각 기업별 개별 최적화, 정보 단절)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ERP 도입 (기업 내부 프로세스 통합)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SCM 도입 (기업 외부 파트너와의 네트워크 통합)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CPFR 협업 체계 (공동 수요 예측 및 재고 보충)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지능형 공급망 (AI/IoT 결합, 실시간 가시성 및 복원력 확보)</div>
-</div>
-</div>
-
-
+```text
+사일로(Silo) 경영 (각 기업별 개별 최적화, 정보 단절)
+    │
+    ▼
+ERP 도입 (기업 내부 프로세스 통합)
+    │
+    ▼
+SCM 도입 (기업 외부 파트너와의 네트워크 통합)
+    │
+    ▼
+CPFR 협업 체계 (공동 수요 예측 및 재고 보충)
+    │
+    ▼
+지능형 공급망 (AI/IoT 결합, 실시간 가시성 및 복원력 확보)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 피자를 만들 때 밀가루 아저씨, 치즈 공장, 피자 가게 사장님이 서로 연락을 안 하면 밀가루만 잔뜩 오거나 치즈가 부족해지죠.

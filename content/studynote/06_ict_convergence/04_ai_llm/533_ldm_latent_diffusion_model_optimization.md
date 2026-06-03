@@ -31,25 +31,30 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LDM/Stable Diffusion 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">텍스트 프롬프트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CLIP 텍스트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인코더</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">텍스트 임베딩</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">U-Net (잠재 공간)</div><div class="kb-diagram-cell">← 노이즈 예측</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cross-Attention(텍스트 조건화)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">잠재 벡터 z (64×64×4)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VAE Decoder</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">z (64×64) → 픽셀 (512×512)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">인코딩</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">VAE Encoder → 잠재 z</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────┐
+│                  LDM/Stable Diffusion 구조               │
+│                                                         │
+│  텍스트 프롬프트                                          │
+│  ┌──────────┐                                           │
+│  │CLIP 텍스트│                                           │
+│  │인코더    │                                           │
+│  └────┬─────┘                                           │
+│       │ 텍스트 임베딩                                     │
+│       ▼                                                 │
+│  ┌───────────────────────────────────┐                  │
+│  │         U-Net (잠재 공간)          │ ← 노이즈 예측    │
+│  │  Cross-Attention(텍스트 조건화)   │                  │
+│  └────────────┬──────────────────────┘                  │
+│               │ 잠재 벡터 z (64×64×4)                   │
+│  ┌────────────▼──────────────────────┐                  │
+│  │     VAE Decoder                   │                  │
+│  │     z (64×64) → 픽셀 (512×512)   │                  │
+│  └───────────────────────────────────┘                  │
+│                                                         │
+│  [인코딩] 입력이미지 → VAE Encoder → 잠재 z              │
+└─────────────────────────────────────────────────────────┘
+```
 
 <strong>핵심 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/">컴포넌트</a></strong>
 

@@ -31,21 +31,15 @@ tags = ["studynote-ai"]
 
 베이즈 정리는 사전 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)과 우도를 결합해 사후 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 구한다. [나이브 베이즈](/knowledge-base/studynote/10_ai/03_llm_nlp/264_naive_bayes/)는 여기에 조건부 독립 가정을 붙여 계산을 단순화한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">입력 특징 x1, x2, x3...</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">P(C) × Π P(xi|C)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">클래스별 점수 비교</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">최대 확률 클래스 선택</div>
-</div>
-</div>
-
-
+```text
+입력 특징 x1, x2, x3...
+   ↓
+P(C) × Π P(xi|C)
+   ↓
+클래스별 점수 비교
+   ↓
+최대 확률 클래스 선택
+```
 
 | 변형 | 특징 |
 | :-- | :-- |
@@ -107,41 +101,29 @@ tags = ["studynote-ai"]
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">베이즈 정리</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">조건부 독립</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">나이브 베이즈</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">스팸 필터 / 텍스트 분류</div>
-</div>
-</div>
-
-
+```text
+베이즈 정리
+   ↓
+조건부 독립
+   ↓
+나이브 베이즈
+   ↓
+스팸 필터 / 텍스트 분류
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">확률 기반 분류</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">나이브 베이즈</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">라플라스 스무딩</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">텍스트 분류 Baseline</div>
-</div>
-</div>
-
-
+```text
+확률 기반 분류
+   ↓
+나이브 베이즈
+   ↓
+라플라스 스무딩
+   ↓
+텍스트 분류 Baseline
+```
 
 ---
 

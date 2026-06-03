@@ -44,21 +44,22 @@ tags = ["studynote-ai"]
 
 아래 그림은 핵심 구성 요소가 어떻게 하나의 폐루프를 이루는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MLOps closed loop</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Raw data ──▶ Feature / data pipeline ──▶ Training / validation</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Model registry</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">approved</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Feature store ◀ Deployment / Serving API</div></div>
-<div class="kb-diagram-note">labels / feedback ◀─ Monitoring dashboard</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">drift, latency, business KPI</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ MLOps closed loop                                                    │
+├──────────────────────────────────────────────────────────────────────┤
+│ Raw data ──▶ Feature / data pipeline ──▶ Training / validation       │
+│                 │                                │                   │
+│                 │                                ▼                   │
+│                 │                         Model registry             │
+│                 │                                │ approved          │
+│                 ▼                                ▼                   │
+│          Feature store ◀──────────────── Deployment / Serving API    │
+│                 ▲                                │                   │
+│                 └──── labels / feedback ◀─ Monitoring dashboard ────┘
+│                                  drift, latency, business KPI        │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 핵심은 서빙이 끝이 아니라는 점이다. 운영 중 수집된 예측 결과와 실제 라벨, [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/), 에러율, 비즈니스 [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) ([Key Performance Indicator](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/020_kpi/))가 다시 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 계층으로 돌아오고, 이상 징후가 감지되면 재학습·재배포·[롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 중 하나가 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)된다. 그래서 MLOps는 선형 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 아니라 <strong>피드백 기반 제어 시스템</strong>에 가깝다.
 
@@ -145,27 +146,27 @@ tags = ["studynote-ai"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Notebook 실험</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">반복 가능한 데이터 / 학습 파이프라인</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Feature Store · Model Registry 도입</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Serving API · Monitoring Dashboard 운영</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CI/CD/CT 기반 자동 승격 · 롤백</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">드리프트 대응형 폐루프 MLOps</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">LLMOps · 평가 자동화 · 거버넌스 확장</div>
-</div>
-</div>
-
-
+```text
+Notebook 실험
+    │
+    ▼
+반복 가능한 데이터 / 학습 파이프라인
+    │
+    ▼
+Feature Store · Model Registry 도입
+    │
+    ▼
+Serving API · Monitoring Dashboard 운영
+    │
+    ▼
+CI/CD/CT 기반 자동 승격 · 롤백
+    │
+    ▼
+드리프트 대응형 폐루프 MLOps
+    │
+    ▼
+LLMOps · 평가 자동화 · 거버넌스 확장
+```
 
 이 흐름은 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 시스템이 일회성 실험에서 출발해, [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리와 관측성을 갖춘 운영 플랫폼으로 성숙해 가는 과정을 보여 준다.
 

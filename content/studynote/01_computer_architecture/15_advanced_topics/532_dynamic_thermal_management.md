@@ -25,18 +25,17 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 왜 DTM이 단순 온도 제한이 아니라 능동 제어여야 하는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DTM이 필요한 이유: 열은 국소적으로 빨리 쌓이고 늦게 빠진다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">워크로드 집중 ─▶ 핫스팟 형성 ─▶ 누설 전류 증가 ─▶ 추가 발열</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DTM 개입 없으면</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">반복 스로틀링 · 성능 흔들림 · 수명 저하</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│            DTM이 필요한 이유: 열은 국소적으로 빨리 쌓이고 늦게 빠진다      │
+├────────────────────────────────────────────────────────────────────────────┤
+│ 워크로드 집중 ─▶ 핫스팟 형성 ─▶ 누설 전류 증가 ─▶ 추가 발열                │
+│       │                                                 │                  │
+│       └──────────────── DTM 개입 없으면 ────────────────┘                  │
+│                                 ▼                                          │
+│                    반복 스로틀링 · 성능 흔들림 · 수명 저하                 │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 즉 DTM의 목표는 단순히 칩을 식히는 것이 아니다. <strong>열 예산 안에서 지속 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>을 최대화하고, <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a> 동작이 필요할 때도 가장 덜 거친 방법부터 선택하는 것</strong>이 핵심이다.
 
@@ -58,20 +57,18 @@ DTM은 보통 센서 계층, 예측·[정책](/knowledge-base/studynote/10_ai/02
 
 이 그림은 DTM의 폐루프 구조와 서로 다른 시간 상수를 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DTM 폐루프: 감지 → 예측 → 제어 → 냉각</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DTS / 전력센서</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Thermal Model / Predictor</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Policy Engine</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ DVFS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 작업 이동</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Fan/Pump</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실제 온도 변화 피드백 ─ Throttle</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                    DTM 폐루프: 감지 → 예측 → 제어 → 냉각                  │
+├────────────────────────────────────────────────────────────────────────────┤
+│ [DTS / 전력센서] ─▶ [Thermal Model / Predictor] ─▶ [Policy Engine]        │
+│        ▲                                          │            │           │
+│        │                                          │            ├─ DVFS     │
+│        │                                          │            ├─ 작업 이동 │
+│        │                                          │            ├─ Fan/Pump │
+│        └──────────── 실제 온도 변화 피드백 ───────┘            └─ Throttle │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 또 하나의 핵심은 히스테리시스다. 진입 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)와 해제 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)를 같게 두면 주파수가 계속 올라갔다 내려갔다 하며 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 출렁인다. 그래서 DTM은 "한 번 개입하면 어느 정도 식을 때까지 유지"하는 구간을 두어 핑퐁 현상을 막는다. 이 때문에 DTM은 단순 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) 스위치가 아니라, 예측과 완충을 갖춘 제어기라고 보는 편이 정확하다.
 
@@ -154,25 +151,24 @@ DTM을 제대로 이해하려면 [서멀 스로틀링](/knowledge-base/studynote
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">정적 냉각 중심 설계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">온칩 온도 센서 + 임계치 보호</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DVFS 연계 폐루프 제어</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">작업 이동 · 패키지 전력 재배치</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">시스템 / 랙 단위 열-전력 공동 제어</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Chiplet · 액체 냉각 · 예측형 DTM</div>
-</div>
-</div>
-
-
+```text
+정적 냉각 중심 설계
+        │
+        ▼
+온칩 온도 센서 + 임계치 보호
+        │
+        ▼
+DVFS 연계 폐루프 제어
+        │
+        ▼
+작업 이동 · 패키지 전력 재배치
+        │
+        ▼
+시스템 / 랙 단위 열-전력 공동 제어
+        │
+        ▼
+Chiplet · 액체 냉각 · 예측형 DTM
+```
 
 이 흐름은 열 관리가 단순 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 회로에서 시작해, 이제는 시스템 전체 자원을 조정하는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 엔진으로 커지고 있음을 보여 준다.
 

@@ -37,35 +37,38 @@ tags = ["studynote-ai"]
 "아니 그냥 Q&A [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 몇 개 넣었다고 애가 갑자기 번역도 하고 요약도 다 천재처럼 함 ㅋ?" 
 단순 암기를 넘어 영혼이 각성하는 <strong>'제로샷(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">Zero</a>-shot) 일반화'</strong> 마법의 도해다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인스트럭션 튜닝 (Instruction Tuning) 십자 융합 세뇌 록온 도해 🚀</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🤖</div><div class="kb-diagram-node">0단계: Base Model (깡통 앵무새 뇌)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 입력: "다음 문장을 영어로 번역해: 나는 사과가 좋아"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 출력: "다음 문장을 일본어로 번역해: 나는 배가 좋아" (앵무새 뻗음 💀)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">🪓 1단계: 인간의 피 땀 눈물 SFT 데이터 주입 텐트 ✨</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">📚</div><div class="kb-diagram-node">학습 데이터 구조 세팅 (Instruction / Input / Output)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 명령(Inst): "아래 글을 3줄로 요약하시오."</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력(In) : "이순신 장군은 조선의 무신으로 임진왜란... (긴 글)"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정답(Out): "1. 조선 무신 2. 임진왜란 3. 거북선" (알바생이 손수 씀)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 명령(Inst): "긍정인지 부정인지 분석해."</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력(In) : "이 식당 밥 존나 맛없어 토할 듯 웩 💥"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정답(Out): "부정적 (Negative)"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➔ 이런 잡다한 명령 템플릿(Tasks) 100가지를 섞어서 10만 개를 뇌에 쑤셔 박음 쾅!!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">🚀 2단계: Instruction-Tuned Model 의 특이점 각성 ✨</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🧠</div><div class="kb-diagram-node">모델의 뇌 구조 폭발 (Generalization 일반화 마법 발동!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 유저 입력: "이 시(Poem)를 파이썬(Python) 코드로 바꿔서 짜봐 ㅋ"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 🌟 아키텍트 극딜 팩폭: 저런 해괴망측한 명령은 학원(튜닝 데이터)에서 단 1번도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가르쳐 준 적 없는 처음 보는 미친 요구(Zero-shot)다 쾅!!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 튜닝 봇 왈: "어 안 배운 건데 ㅋ? 근데 내가 10만 번 훈련 쳐맞으면서 깨달은</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">게 있어! [인간이 맨 앞에 지시어(명령)를 쓰면 ➔ 내 지식 창고를 뒤져서 그</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">양식에 맞게 융합해서 뱉어야 함 록온 쾅!]" ➔ 0.1초 컷 완벽 파이썬 시 코드 렌더링 🚀!!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          인스트럭션 튜닝 (Instruction Tuning) 십자 융합 세뇌 록온 도해 🚀 │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ 🤖 [ 0단계: Base Model (깡통 앵무새 뇌) ]                        │
+│   - 입력: "다음 문장을 영어로 번역해: 나는 사과가 좋아"                 │
+│   - 출력: "다음 문장을 일본어로 번역해: 나는 배가 좋아" (앵무새 뻗음 💀) │
+│                                                             │
+│        ======= [ 🪓 1단계: 인간의 피 땀 눈물 SFT 데이터 주입 텐트 ✨ ] ========│
+│                                                             │
+│ 📚 [ 학습 데이터 구조 세팅 (Instruction / Input / Output) ]       │
+│   1. 명령(Inst): "아래 글을 3줄로 요약하시오."                     │
+│      입력(In) : "이순신 장군은 조선의 무신으로 임진왜란... (긴 글)"        │
+│      정답(Out): "1. 조선 무신 2. 임진왜란 3. 거북선" (알바생이 손수 씀)  │
+│                                                             │
+│   2. 명령(Inst): "긍정인지 부정인지 분석해."                        │
+│      입력(In) : "이 식당 밥 존나 맛없어 토할 듯 웩 💥"                │
+│      정답(Out): "부정적 (Negative)"                            │
+│   ➔ 이런 잡다한 명령 템플릿(Tasks) 100가지를 섞어서 10만 개를 뇌에 쑤셔 박음 쾅!!│
+│                                                             │
+│        ======= [ 🚀 2단계: Instruction-Tuned Model 의 특이점 각성 ✨ ] ========│
+│                                                             │
+│ 🧠 [ 모델의 뇌 구조 폭발 (Generalization 일반화 마법 발동!) ]          │
+│   - 유저 입력: "이 시(Poem)를 파이썬(Python) 코드로 바꿔서 짜봐 ㅋ"        │
+│   - 🌟 아키텍트 극딜 팩폭: 저런 해괴망측한 명령은 학원(튜닝 데이터)에서 단 1번도 │
+│     가르쳐 준 적 없는 처음 보는 미친 요구(Zero-shot)다 쾅!!             │
+│   - 튜닝 봇 왈: "어 안 배운 건데 ㅋ? 근데 내가 10만 번 훈련 쳐맞으면서 깨달은 │
+│     게 있어! [인간이 맨 앞에 지시어(명령)를 쓰면 ➔ 내 지식 창고를 뒤져서 그  │
+│     양식에 맞게 융합해서 뱉어야 함 록온 쾅!]" ➔ 0.1초 컷 완벽 파이썬 시 코드 렌더링 🚀!!│
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[아키텍트의 피 터지는 핵심 원리: FLAN (Fine-tuned Language Net) 다중 작업 학습의 기적 ✨]**
 구글(Google) 딥마인드 천재들은 충격적인 팩트를 발견했다. 
@@ -104,7 +107,7 @@ LLM을 진화시키는 3단계 우주 십자 [파이프](/knowledge-base/studyno
 
 ### 실무 판단 시나리오
 1. <strong>LIMA (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/094_less_large_scale_scrum/">Less</a> Is More for Alignment) <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 품질(Quality) 압살 법칙 🚀</strong>: 
-   주니어 코더: "우왕 튜닝은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 양빨([Volume](/knowledge-base/studynote/14_data_engineering/01_infrastructure/001_bigdata_3v_5v/)) 물량전이 최고지 ㅋ 인터넷 쓰레기 잡글 긁어서 번역기 대충 돌린 Q&A [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 100만 개 긁어 모아 모델 뱃속에 떡칠 쳐 쑤셔 박아 돌릴게요 데헷 💥!" 
+   주니어 코더: "우왕 튜닝은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 양빨([Volume](/knowledge-base/studynote/14_data_engineering/01_infrastructure/001_bigdata_3v_5v/)) 수량전이 최고지 ㅋ 인터넷 쓰레기 잡글 긁어서 번역기 대충 돌린 Q&A [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 100만 개 긁어 모아 모델 뱃속에 떡칠 쳐 쑤셔 박아 돌릴게요 데헷 💥!" 
    **대재앙 발동 💀**: 모델이 쓰레기(Garbage) 문법을 학습해 [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/) 소설을 뿜어대고 엑스박스 헛소리 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 뻗어 올스탑 파산 멸망 터짐 쾅! 
    - **아키텍트 LIMA 텐트 팩폭 🪓**: "야 이 무지성 맹인 타자기야 멈춰 찢어발겨 쾅!!! 기계 번역 똥 찌끄레기 100만 개 쳐 먹이지 마 모델 뇌 썩어 타죽어 💀!! 
    <strong>[LIMA (적은 것이 더 낫다 ✨) 논문 헌법 록온!!] 하늘이 두 쪽 나도 무.조.건. <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 1타 찐 전문가(의사, 변호사, 사내 시니어 엔지니어)가 직접 1글자 1바이트 띄어쓰기 오차 0% 없이 장인 정신으로 완벽하게 문장 조각을 깎아 빚어낸!! <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">우주 최고 퀄리티 초정밀 Q&A [데이터</a> 딱 1,000개 ✨] 만 핀셋으로 도출해 뇌에 쑤셔 박아 락킹(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>) 쳐라 쾅 🚀!!!</strong> 
@@ -148,23 +151,21 @@ LLM을 진화시키는 3단계 우주 십자 [파이프](/knowledge-base/studyno
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Pre-training 사전 학습 (Base Model) 깡통 시대 💀 / 위키백과 1조 개 쌩 텍스트 무지성 크롤링 흡수. "프랑스 수도는?" 물으면 "영국 수도는?" 무한 앵무새 빈칸 채우기 루프 타죽어 뻗음 ➔ 인간과 대화 1도 불가능 셧다운 파국 💥</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Instruction Tuning (명령어 튜닝 SFT) 대관식 강림 🚀 / 아키텍트 분노 철퇴 🪓 "야 씨발 앵무새 입 닥쳐 찢어 쾅!!</div><div class="kb-diagram-node">명령-정답</div><div class="kb-diagram-note">짝꿍 데이터 10만 개 손수 깎아 뇌에 강제 주입 락킹 쳐 박아!! '명령 텍스트가 오면 ➔ 정답 포맷으로 끊어서 뱉어라' 예절 세뇌 교육 텐트 록온 쾅 ✨!!" ➔ 비로소 말귀 알아먹는 AI 챗봇 비서 빙의 환생 달성!</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">FLAN 다중 작업 학습 (Multi-task) 우주 융합 ✨ / "야 번역 1개만 가르치지 마 바보 돼 💀! 번역, 요약, 코딩, 수학 100가지 온갖 잡탕 양식 템플릿 다 섞어서 믹서기 동시 폭격 쳐 쾅!!" ➔ 봇 뇌세포 특이점 각성 ➔ 처음 보는 명령도 알아서 패스 통과 쳐버리는</div><div class="kb-diagram-node">제로샷(Zero-shot) 쾌속 스텔스 일반화 맷집</div><div class="kb-diagram-note">우주 폭발 스케일 업 🚀</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">PEFT / LoRA 파라미터 경량화 수술 텐트 🛡️ / 거대 1,000억 모델 튜닝하다 GPU 램 OOM 타임아웃 뻗음 💥 ➔ "뇌 100% 뜯지 마! 1% 껍데기 어댑터 쇳덩이만 찰싹 붙여 우회 기만 튜닝 오프로딩 쳐 쾅!" ➔ 좆소기업 방구석 PC 1대로도 자체 사내 챗봇 100% 무결점 튜닝 렌더링 배포 천하 통일 달성 ✨</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">RLHF 도덕성 정렬(Alignment) &amp; Agentic 튜닝 (현재) 🚀 / 단순 명령 복종을 넘어 ➔ 해킹/차별 혐오 텍스트 원천 차단 척살(RLHF 방폭문) 치고!! ➔ "야 니 혼자 파이썬 코드 짜서 실행 돌리고 구글 검색 툴(Tool) 직접 딸깍 클릭해 쾅!" AI 봇 지 스스로 생각하고 행동하는 초지능 에이전트(Autonomous Agent) 행동 강제 세뇌 융합 파이프라인 제국으로 영구 대통일 완료 쾅 🚀!!!</div>
-</div>
-</div>
-
-
+```text
+Pre-training 사전 학습 (Base Model) 깡통 시대 💀 / 위키백과 1조 개 쌩 텍스트 무지성 크롤링 흡수. "프랑스 수도는?" 물으면 "영국 수도는?" 무한 앵무새 빈칸 채우기 루프 타죽어 뻗음 ➔ 인간과 대화 1도 불가능 셧다운 파국 💥
+    │
+    ▼
+Instruction Tuning (명령어 튜닝 SFT) 대관식 강림 🚀 / 아키텍트 분노 철퇴 🪓 "야 씨발 앵무새 입 닥쳐 찢어 쾅!! [명령-정답] 짝꿍 데이터 10만 개 손수 깎아 뇌에 강제 주입 락킹 쳐 박아!! '명령 텍스트가 오면 ➔ 정답 포맷으로 끊어서 뱉어라' 예절 세뇌 교육 텐트 록온 쾅 ✨!!" ➔ 비로소 말귀 알아먹는 AI 챗봇 비서 빙의 환생 달성!
+    │
+    ▼
+FLAN 다중 작업 학습 (Multi-task) 우주 융합 ✨ / "야 번역 1개만 가르치지 마 바보 돼 💀! 번역, 요약, 코딩, 수학 100가지 온갖 잡탕 양식 템플릿 다 섞어서 믹서기 동시 폭격 쳐 쾅!!" ➔ 봇 뇌세포 특이점 각성 ➔ 처음 보는 명령도 알아서 패스 통과 쳐버리는 [제로샷(Zero-shot) 쾌속 스텔스 일반화 맷집] 우주 폭발 스케일 업 🚀
+    │
+    ▼
+PEFT / LoRA 파라미터 경량화 수술 텐트 🛡️ / 거대 1,000억 모델 튜닝하다 GPU 램 OOM 타임아웃 뻗음 💥 ➔ "뇌 100% 뜯지 마! 1% 껍데기 어댑터 쇳덩이만 찰싹 붙여 우회 기만 튜닝 오프로딩 쳐 쾅!" ➔ 좆소기업 방구석 PC 1대로도 자체 사내 챗봇 100% 무결점 튜닝 렌더링 배포 천하 통일 달성 ✨
+    │
+    ▼
+RLHF 도덕성 정렬(Alignment) & Agentic 튜닝 (현재) 🚀 / 단순 명령 복종을 넘어 ➔ 해킹/차별 혐오 텍스트 원천 차단 척살(RLHF 방폭문) 치고!! ➔ "야 니 혼자 파이썬 코드 짜서 실행 돌리고 구글 검색 툴(Tool) 직접 딸깍 클릭해 쾅!" AI 봇 지 스스로 생각하고 행동하는 초지능 에이전트(Autonomous Agent) 행동 강제 세뇌 융합 파이프라인 제국으로 영구 대통일 완료 쾅 🚀!!!
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

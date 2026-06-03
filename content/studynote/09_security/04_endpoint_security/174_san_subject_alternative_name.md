@@ -25,26 +25,26 @@ SAN이 중요한 이유는 단순 편의성 때문만이 아니다. 브라우저
 
 아래 그림은 왜 SAN이 필요해졌는지를 "하나의 게이트웨이, 여러 이름" 관점에서 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Why SAN became necessary</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">One gateway / one IP</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ api.example.com</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ admin.example.com</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ partner.example.net</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Certificate with one name only</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ valid for just one endpoint</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Certificate with SAN list</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ DNS: api.example.com</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ DNS: admin.example.com</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ DNS: partner.example.net</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Result: one certificate can explicitly prove multiple identities</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Why SAN became necessary                                             │
+├──────────────────────────────────────────────────────────────────────┤
+│ One gateway / one IP                                                 │
+│   ├─ api.example.com                                                 │
+│   ├─ admin.example.com                                               │
+│   └─ partner.example.net                                             │
+│                                                                      │
+│ Certificate with one name only                                       │
+│   └─ valid for just one endpoint                                     │
+│                                                                      │
+│ Certificate with SAN list                                            │
+│   ├─ DNS: api.example.com                                            │
+│   ├─ DNS: admin.example.com                                          │
+│   └─ DNS: partner.example.net                                        │
+│                                                                      │
+│ Result: one certificate can explicitly prove multiple identities     │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 SAN이 없으면 서버가 안전한 키를 가지고 있어도, 클라이언트는 "접속한 이름과 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서의 이름이 다르다"며 연결을 거부한다. 결국 SAN은 암호화의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 문제가 아니라, <strong>신뢰의 범위를 정확히 적어 두는 문제</strong>다.
 
@@ -56,26 +56,26 @@ SAN이 없으면 서버가 안전한 키를 가지고 있어도, 클라이언트
 
 SAN은 X.509 v3 확장 필드 안에 들어간다. [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 본문에는 Subject, 공개키, 유효기간 같은 기본 정보가 있고, SAN은 그중 "이 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서가 대변할 수 있는 이름들"을 추가로 적는 역할을 한다. 실무에서는 [CSR](/knowledge-base/studynote/09_security/04_endpoint_security/169_pkcs10_csr/) (Certificate Signing Request) 단계에서 [SAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/) 목록을 선언하고, [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) (Certificate Authority)가 각 이름에 대한 통제권을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한 뒤 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서로 발급한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TLS hostname validation with SAN</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client requests: https://api.example.com</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Server sends certificate</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Subject CN = www.example.com (legacy / secondary)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ SAN extension</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ DNS: api.example.com</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ DNS: admin.example.com</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ DNS: *.internal.example.com</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ IP : 10.10.10.5</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client matcher</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ requested host ∈ SAN list -&gt; continue handshake</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ requested host ∉ SAN list -&gt; name mismatch error</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ TLS hostname validation with SAN                                     │
+├──────────────────────────────────────────────────────────────────────┤
+│ Client requests: https://api.example.com                             │
+│        │                                                             │
+│        ▼                                                             │
+│ Server sends certificate                                             │
+│   ├─ Subject CN = www.example.com        (legacy / secondary)        │
+│   └─ SAN extension                                                   │
+│      ├─ DNS: api.example.com                                         │
+│      ├─ DNS: admin.example.com                                       │
+│      ├─ DNS: *.internal.example.com                                  │
+│      └─ IP : 10.10.10.5                                              │
+│        │                                                             │
+│ Client matcher                                                       │
+│   ├─ requested host ∈ SAN list  -> continue handshake                │
+│   └─ requested host ∉ SAN list  -> name mismatch error               │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 핵심은 SAN이 "추가 정보"가 아니라 <strong>실제 매칭 테이블</strong>이라는 점이다. 특히 [SNI](/knowledge-base/studynote/03_network/13_network_security_basics/688_sni_esni_ech_encrypted_client_hello/) ([Server Name Indication](/knowledge-base/studynote/03_network/13_network_security_basics/688_sni_esni_ech_encrypted_client_hello/))는 서버가 어떤 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 내보낼지 고르는 힌트이고, SAN은 클라이언트가 받은 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서가 맞는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 근거다. 즉 SNI와 SAN은 대체 관계가 아니라, `선택 → 검증`의 순서로 연결된다.
 
@@ -169,26 +169,25 @@ SAN을 이해할 때 가장 자주 헷갈리는 대상은 Common Name, [와일�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Single-name certificate era</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">X.509 v3 extension model</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SAN (DNS / IP / email / URI)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">explicit multi-domain validation</div>
-<div class="kb-diagram-tree-item" style="--depth:2">wildcard naming strategy</div>
-<div class="kb-diagram-tree-item" style="--depth:2">workload identity expression</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SNI-based certificate selection</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Modern TLS for load balancer, virtual hosting, service mesh</div>
-</div>
-</div>
-
-
+```text
+Single-name certificate era
+    │
+    ▼
+X.509 v3 extension model
+    │
+    ▼
+SAN (DNS / IP / email / URI)
+    │
+    ├─ explicit multi-domain validation
+    ├─ wildcard naming strategy
+    └─ workload identity expression
+    │
+    ▼
+SNI-based certificate selection
+    │
+    ▼
+Modern TLS for load balancer, virtual hosting, service mesh
+```
 
 이 흐름은 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서가 단일 이름 표기에서 출발해, 다중 엔드포인트와 자동화된 현대 인프라를 지탱하는 이름 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 포맷으로 발전한 과정을 보여 준다.
 

@@ -28,17 +28,14 @@ tags = ["studynote-ai"]
 여기서 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)의 꼼수(눈치)인 <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/">휴리스틱</a>(<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/">Heuristic</a>)</strong> 개념이 들어간 **A* (A Star)** [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 1968년에 탄생했다. "내가 걸어온 진짜 거리 비용에다가, 목적지까지 남은 '직선거리 짐작 비용(H)'을 더해서, 목적지와 반대되는 방향의 길은 아예 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 무겁게 때려버려 탐색에서 버려버리자!"
 이 위대한 눈치 빠른 나침반 덕분에 탐색 공간은 동심원 형태에서 목적지를 향해 길쭉하게 뻗어나가는 타원형으로 확 줄어들며 길 찾기 시스템의 패러다임이 완성되었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)(무식 탐색)는 바다 한가운데서 보물을 찾을 때, 내 배를 중심으로 사방으로 그물을 끝없이 넓게 펼치는 멍청한 어부다(돈과 시간이 엄청 듦). A* (에이 스타)는 손에 '보물섬을 향해 빛나는 나침반([휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) H)'을 든 해적이다. 나침반이 동쪽을 가리키면 서쪽 바다는 아예 그물도 안 던지고, 보물섬 방향으로만 날카롭게 배를 몰고 직진하여 최단 시간에 보물을 낚아채는 궁극의 항해술이다.
 
@@ -48,31 +45,32 @@ tags = ["studynote-ai"]
 
 A* [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 뇌는 3개의 수학적 기호(F, G, H)가 완벽한 삼위일체를 이루며 다음 발걸음 타일을 결정하는 오픈 리스트(Open List) 아키텍처를 따른다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A* 알고리즘의 최단 경로 탐색 (F = G + H) 평가 아키텍처 도해</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">★ 핵심 평가 공식: F(n) = G(n) + H(n)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 타일의 총점(F) = 가장 낮은 F 점수를 가진 타일로만 골라서 전진함!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* G(n) (과거의 피땀): 시작점에서 현재 타일(n)까지 '실제로 걸어온 진짜 비용'</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* H(n) (미래의 눈치): 현재 타일에서 목적지까지 남은 '대충 짐작한 직선거리'</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시나리오: 현재 교차로에서 위로 갈까(A), 오른쪽으로 갈까(B)?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 상황: 목적지는 동쪽(오른쪽)에 있음.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">타일 A (위쪽으로 1칸 이동 시)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* G(A) = 10 (한 칸 걸어왔으니 10 소모)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* H(A) = 90 (위로 갔더니 목적지랑 오히려 대각선으로 멀어짐. 예상 거리 90)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">총점 100점</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">점수가 너무 높아서 탈락(스킵)!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">타일 B (오른쪽으로 1칸 이동 시)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* G(B) = 10 (똑같이 한 칸 걸어옴)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* H(B) = 40 (오! 오른쪽으로 갔더니 목적지랑 확 가까워짐. 예상 거리 40)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">총점 50점</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">점수가 확 낮네! 무조건 이 길로 뚫어!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">결과</div><div class="kb-diagram-note">: 멍청하게 위쪽, 왼쪽 타일을 싹 다 계산하지 않고, 점수판(Open List)을</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보며 F값이 가장 낮은 목적지 샛길 방향으로만 칼같이 직진(탐색) 완료!</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           A* 알고리즘의 최단 경로 탐색 (F = G + H) 평가 아키텍처 도해     │
+├──────────────────────────────────────────────────────────────┤
+│  [★ 핵심 평가 공식: F(n) = G(n) + H(n)]                         │
+│   * 타일의 총점(F) = 가장 낮은 F 점수를 가진 타일로만 골라서 전진함!          │
+│   * G(n) (과거의 피땀): 시작점에서 현재 타일(n)까지 '실제로 걸어온 진짜 비용'   │
+│   * H(n) (미래의 눈치): 현재 타일에서 목적지까지 남은 '대충 짐작한 직선거리'   │
+│                                                              │
+│  [시나리오: 현재 교차로에서 위로 갈까(A), 오른쪽으로 갈까(B)?]          │
+│   * 상황: 목적지는 동쪽(오른쪽)에 있음.                               │
+│                                                              │
+│  [타일 A (위쪽으로 1칸 이동 시)]                                   │
+│   * G(A) = 10 (한 칸 걸어왔으니 10 소모)                           │
+│   * H(A) = 90 (위로 갔더니 목적지랑 오히려 대각선으로 멀어짐. 예상 거리 90)  │
+│   ─▶ F(A) = 10 + 90 = [총점 100점] ─▶ 점수가 너무 높아서 탈락(스킵)!    │
+│                                                              │
+│  [타일 B (오른쪽으로 1칸 이동 시)]                                 │
+│   * G(B) = 10 (똑같이 한 칸 걸어옴)                                │
+│   * H(B) = 40 (오! 오른쪽으로 갔더니 목적지랑 확 가까워짐. 예상 거리 40)   │
+│   ─▶ F(B) = 10 + 40 = [총점 50점] ─▶ 점수가 확 낮네! 무조건 이 길로 뚫어! │
+│                                                              │
+│  [결과]: 멍청하게 위쪽, 왼쪽 타일을 싹 다 계산하지 않고, 점수판(Open List)을 │
+│         보며 F값이 가장 낮은 목적지 샛길 방향으로만 칼같이 직진(탐색) 완료!   │
+└──────────────────────────────────────────────────────────────┘
+```
 
 <strong>핵심 원리 (<a href="/knowledge-base/studynote/10_ai/01_ai_basics/018_admissible_heuristic/">Admissible Heuristic</a>, 허용 가능한 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/">휴리스틱</a> 조건)</strong>:
 A* 가 무조건 100% 최단 거리를 찾아내기 위한 절대 조건이 있다. <strong>H(n) 값이 실제 남은 진짜 거리보다 '절대 크면 안 된다(과대평가 금지)'</strong>는 것이다.

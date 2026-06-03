@@ -25,22 +25,18 @@ tags = ["bigdata"]
 
 이러한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 폭증([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Explosion)은 기업에게 양날의 검이다. 엄청난 양의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델을 학습시킬 최고의 원유(Oil)가 되지만, 이를 실시간으로 수집하고 저장하는 인프라 비용은 기업의 존립을 위협할 만큼 거대하다. 단순한 서버 증설로는 해결할 수 없으며, 폭증하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 근원적인 특성(비정형, 고빈도, [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 점유)을 이해하고 이에 맞는 아키텍처로 체질을 개선해야 한다.
 
+```text
+이 도식은 과거 시스템 입력 기반에서 현재의 멀티채널 자동 생성 기반으로 변화한 데이터 생성 주체의 역전 현상과 트래픽 병목을 보여준다.
 
+[과거: 사람 주도 생성 (정형, 저빈도)]
+User Keyboard ──> (B2B System) ──> [RDBMS] (100 TPS 이하, 안정적)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 도식은 과거 시스템 입력 기반에서 현재의 멀티채널 자동 생성 기반으로 변화한 데이터 생성 주체의 역전 현상과 트래픽 병목을 보여준다.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">과거: 사람 주도 생성 (정형, 저빈도)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">User Keyboard ──&gt; (B2B System) ──&gt;</div><div class="kb-diagram-node">RDBMS</div><div class="kb-diagram-note">(100 TPS 이하, 안정적)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: 기계/환경 주도 생성 (비정형, 고빈도)</div></div>
-<div class="kb-diagram-note">IoT Sensors (10Hz) ──</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Mobile GPS (1Hz) ── ──&gt;</div><div class="kb-diagram-node">API Gateway / 네트워크 망</div><div class="kb-diagram-note">──(병목 폭발)──&gt;</div><div class="kb-diagram-node">Data Lake</div></div>
-<div class="kb-diagram-note">CCTV / Video ── ▲ 수십만~수백만 TPS 지속, 대역폭 고갈</div>
-<div class="kb-diagram-note">SNS / Clicks ──</div>
-</div>
-</div>
-
-
+[현재: 기계/환경 주도 생성 (비정형, 고빈도)]
+IoT Sensors (10Hz) ──┐
+Mobile GPS (1Hz)   ──┼──> [API Gateway / 네트워크 망] ──(병목 폭발)──> [Data Lake]
+CCTV / Video       ──┤      ▲ 수십만~수백만 TPS 지속, 대역폭 고갈
+SNS / Clicks       ──┘
+```
 이 흐름의 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 발생의 '주기(Frequency)'와 '크기(Size)'의 변화다. 과거 사람이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 입력할 때는 초당 수 건에 불과했지만, 수백만 대의 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서는 사람의 개입 없이 1초에도 수십 번씩 상태 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 뿜어낸다. 실무에서는 이 엄청난 트래픽을 필터링 없이 중앙의 코어 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)로 모두 끌고 오는 순간, 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)([Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)) 고갈과 디스크 I/O 스레싱([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))으로 시스템 전체가 마비된다.
 
 > 📢 **섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 폭증은 동네 우물에서 양동이로 물을 긷던 시대에서, 거대한 댐 수문이 열려 나이아가라 폭포처럼 물이 쏟아져 내리는 시대로 변한 것과 같습니다. 일반적인 배수관으로는 절대 이 수압을 감당할 수 없습니다.
@@ -60,25 +56,20 @@ tags = ["bigdata"]
 
 가장 치명적인 부하는 수많은 기기들이 동시에 짧은 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지를 보내는 '초고빈도 마이크로 트래픽'이다. 이를 처리하기 위한 아키텍처의 핵심 원리는 '비동기 [버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/)(Asynchronous [Buffering](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/))'과 '마이크로배치(Micro-batch)'다.
 
+```text
+이 도식은 폭증하는 엣지 단의 트래픽을 시스템 마비 없이 수용하기 위해, 메시지 브로커(Kafka)를 활용하여 트래픽을 완충하고 일정한 속도로 처리하는 아키텍처 흐름도이다.
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 도식은 폭증하는 엣지 단의 트래픽을 시스템 마비 없이 수용하기 위해, 메시지 브로커(Kafka)를 활용하여 트래픽을 완충하고 일정한 속도로 처리하는 아키텍처 흐름도이다.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Data Producers (폭증)</div><div class="kb-diagram-node">Buffering Layer</div><div class="kb-diagram-node">Consumers (안정)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">100만 대 IoT 기기 ──(1M TPS)──&gt;</div><div class="kb-diagram-node">Load Balancer</div></div>
-<div class="kb-diagram-note">↓ (분산)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Kafka (메시지 큐)</div><div class="kb-diagram-note">&gt;</div><div class="kb-diagram-node">Spark Streaming / Flink</div></div>
-<div class="kb-diagram-tree-item" style="--depth:8">Topic A (Partition 1) │ (데이터를 일정량씩 모아서 처리)</div>
-<div class="kb-diagram-tree-item" style="--depth:8">Topic A (Partition 2) │ (DB 커넥션 수 최소화)</div>
-<div class="kb-diagram-tree-item" style="--depth:8">Topic A (Partition 3) ↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▲</div><div class="kb-diagram-node">NoSQL / HDFS</div></div>
-<div class="kb-diagram-note">디스크 순차 쓰기로</div>
-<div class="kb-diagram-note">폭증 트래픽을 영속 저장</div>
-</div>
-</div>
-
-
+[Data Producers (폭증)]               [Buffering Layer]              [Consumers (안정)]
+100만 대 IoT 기기 ──(1M TPS)──> [Load Balancer]
+                                     ↓ (분산)
+                         [Apache Kafka (메시지 큐)] ────> [Spark Streaming / Flink]
+                         ├─ Topic A (Partition 1)       │ (데이터를 일정량씩 모아서 처리)
+                         ├─ Topic A (Partition 2)       │ (DB 커넥션 수 최소화)
+                         └─ Topic A (Partition 3)       ↓
+                                ▲ 병목 해소 지점:      [NoSQL / HDFS]
+                                디스크 순차 쓰기로 
+                                폭증 트래픽을 영속 저장
+```
 이 구조도의 핵심은 Kafka와 같은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))가 방파제 역할을 한다는 점이다. 만약 100만 대의 기기가 DB에 직접 커넥션을 맺고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓰려고 하면 DB는 즉각 [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) 경합과 OOM으로 죽는다. 그러나 Kafka는 메모리에 의존하지 않고 OS [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시를 활용한 순차적 디스크 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Sequential Write)를 수행하므로 초당 수백만 건의 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지도 가볍게 받아낸다. 이후 뒤단의 처리 엔진(Flink)이 자신들의 처리 속도에 맞춰 큐에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 빼내가기 때문에, 백엔드 저장소는 트래픽 폭증([Spike](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/)) 상황에서도 평온함을 유지한다.
 
 > 📢 **섹션 요약 비유**: 수백만 명의 관객이 경기장으로 한꺼번에 몰려들 때([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 폭증), 좁은 출입구(DB)에 곧바로 밀어넣으면 압사 사고가 발생하지만, 거대한 대기석([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 버퍼)에 먼저 앉혀두고 차례대로 입장시키면 안전한 것과 같습니다.
@@ -89,20 +80,18 @@ tags = ["bigdata"]
 
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 폭증의 원인을 통신 네트워크(Network)와 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)(DB) 과목 관점에서 비교 분석해 보면, 부하를 처리하기 위한 해결책이 각각 다르다는 것을 알 수 있다.
 
+```text
+이 매트릭스는 데이터 폭증 유형에 따라 IT 인프라에서 발생하는 병목 지점과 이를 해결하기 위한 타 도메인(네트워크/스토리지) 융합 기술을 비교한다.
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 매트릭스는 데이터 폭증 유형에 따라 IT 인프라에서 발생하는 병목 지점과 이를 해결하기 위한 타 도메인(네트워크/스토리지) 융합 기술을 비교한다.</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">폭증 유형</div><div class="kb-diagram-cell">주요 병목 지점</div><div class="kb-diagram-cell">아키텍처적 대응 전략</div><div class="kb-diagram-cell">융합 기술</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">센서 (고빈도)</div><div class="kb-diagram-cell">서버의 TCP 커넥션 한계</div><div class="kb-diagram-cell">UDP 전환, 연결 다중화</div><div class="kb-diagram-cell">gRPC, MQTT</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">영상 (대용량)</div><div class="kb-diagram-cell">네트워크 대역폭(Bandwidth)</div><div class="kb-diagram-cell">엣지 압축, 분산 저장</div><div class="kb-diagram-cell">Edge AI, CDN</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">로그 (비정형)</div><div class="kb-diagram-cell">파싱/역직렬화 CPU 부하</div><div class="kb-diagram-cell">스키마리스/바이너리포맷</div><div class="kb-diagram-cell">Protobuf, JSON</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SNS (연결성)</div><div class="kb-diagram-cell">RDBMS 조인 연산 폭발</div><div class="kb-diagram-cell">그래프 DB, 역정규화</div><div class="kb-diagram-cell">Graph DB, Redis</div></div>
-</div>
-</div>
-
-
+┌──────────────┬────────────────────────┬───────────────────────┬──────────────┐
+│ 폭증 유형    │ 주요 병목 지점         │ 아키텍처적 대응 전략  │ 융합 기술    │
+├──────────────┼────────────────────────┼───────────────────────┼──────────────┤
+│ 센서 (고빈도)│ 서버의 TCP 커넥션 한계 │ UDP 전환, 연결 다중화 │ gRPC, MQTT   │
+│ 영상 (대용량)│ 네트워크 대역폭(Bandwidth)│ 엣지 압축, 분산 저장  │ Edge AI, CDN │
+│ 로그 (비정형)│ 파싱/역직렬화 CPU 부하 │ 스키마리스/바이너리포맷│ Protobuf, JSON
+│ SNS (연결성) │ RDBMS 조인 연산 폭발   │ 그래프 DB, 역정규화   │ Graph DB, Redis│
+└──────────────┴────────────────────────┴───────────────────────┴──────────────┘
+```
 이 표의 핵심은 폭증하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 '성질'에 따라 처방이 완전히 달라진다는 것이다. 예를 들어, 자율주행 자동차의 4K 카메라 영상(대용량) 수만 대를 중앙 클라우드로 전송하는 것은 불가능하다. 이때는 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [모바일 엣지 컴퓨팅](/knowledge-base/studynote/03_network/12_iot_wpan_edge/999_mec_mobile_edge_computing/)([MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/))을 융합하여, 차량 내부나 기지국(Edge)에서 영상을 실시간으로 분석하고 '보행자 인식 여부'라는 단 10Byte의 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)만 중앙 서버로 보내야 한다. 반대로 온도 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(고빈도)는 크기는 작지만 연결(Connection)을 유지하는 오버헤드가 크므로, [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 대신 초경량 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)인 MQTT를 사용하여 통신 병목을 줄여야 한다.
 
 > 📢 **섹션 요약 비유**: 폭우([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 폭증)가 내릴 때 빗물의 종류에 따라 배수관을 다르게 설계해야 합니다. 잔잔하지만 끊임없는 이슬비(센서)는 넓은 배수구([MQTT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/622_mqtt_publish_subscribe_qos/))로, 거대한 우박(영상)은 중간에 잘게 부수는 파쇄기([엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/))를 거쳐서 내보내야 합니다.
@@ -113,22 +102,18 @@ tags = ["bigdata"]
 
 실무 프로젝트에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 폭증 현상을 대비하지 않은 아키텍처는 마케팅 이벤트나 블랙 프라이데이 때 여지없이 무너진다. 기술사는 비용 대비 효용을 극대화할 수 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수용 및 탈락(Drop) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 설계해야 한다.
 
+```text
+이 의사결정 트리는 폭증하는 데이터를 수집할 때, 데이터의 중요도와 인프라 한계에 따라 데이터를 전체 수용할지 아니면 샘플링/집계할지를 결정하는 실무 운영 플로우다.
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 의사결정 트리는 폭증하는 데이터를 수집할 때, 데이터의 중요도와 인프라 한계에 따라 데이터를 전체 수용할지 아니면 샘플링/집계할지를 결정하는 실무 운영 플로우다.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">트래픽 폭증 대응 설계 플로우</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">(결제, 보안 로그 등 유실이 절대 불가한 데이터인가?)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Yes ──&gt; Auto-Scaling 적용 및 다중 Kafka 클러스터 할당 (비용 무관 수용)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">No &gt; (전체 데이터 저장이 시스템 대역폭을 초과하는가?)</div>
-<div class="kb-diagram-tree-item" style="--depth:8">Yes ──&gt; (엣지 단에서 통계 집계 후 전송) -&gt; Edge Aggregation</div>
-<div class="kb-diagram-tree-item" style="--depth:8">No ──&gt; (10% 등 확률적 샘플링(Sampling) 수행 후 전송)</div>
-</div>
-</div>
-
-
+[트래픽 폭증 대응 설계 플로우]
+           ↓
+(결제, 보안 로그 등 유실이 절대 불가한 데이터인가?)
+   ├── Yes ──> Auto-Scaling 적용 및 다중 Kafka 클러스터 할당 (비용 무관 수용)
+   │
+   └── No ───> (전체 데이터 저장이 시스템 대역폭을 초과하는가?)
+                  ├── Yes ──> (엣지 단에서 통계 집계 후 전송) -> Edge Aggregation
+                  └── No  ──> (10% 등 확률적 샘플링(Sampling) 수행 후 전송)
+```
 이 흐름의 핵심은 '모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 살릴 필요는 없다'는 것이다. 초당 수십만 건씩 들어오는 웹사이트 체류 시간 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)나 온도 센서의 정상 상태 틱([Tick](/knowledge-base/studynote/02_operating_system/01_overview_architecture/073_tick_jiffies/))은 유실되더라도 전체 통계의 경향성에 큰 영향을 미치지 않는다. 
 
 <strong>실무 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> (<a href="/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/161_anti_pattern/">Anti-pattern</a>)</strong>:
@@ -160,23 +145,21 @@ tags = ["bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">디지털 전환</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IoT 기기 급증</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">소셜 미디어/모바일</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">클라우드 스토리지 확산</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">빅데이터 플랫폼 필요성</div></div>
-</div>
-</div>
-
-
+```text
+[디지털 전환]
+    │
+    ▼
+[IoT 기기 급증]
+    │
+    ▼
+[소셜 미디어/모바일]
+    │
+    ▼
+[클라우드 스토리지 확산]
+    │
+    ▼
+[빅데이터 플랫폼 필요성]
+```
 
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 폭증은 [디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/)과 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/), 소셜·모바일, 클라우드 확산이 합쳐져 빅데이터 플랫폼을 요구한 흐름이다.
 

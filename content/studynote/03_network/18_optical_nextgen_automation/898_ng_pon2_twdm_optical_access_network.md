@@ -23,18 +23,14 @@ tags = ["studynote-network"]
 - **EPON / GPON (1세대)**: 최대 1Gbps ~ 2.5Gbps 속도를 집 32가구가 '시간을 쪼개어 번갈아 쓰며(TDM)' 노나 먹었습니다. 저녁 9시에 32가구가 다 넷플릭스를 틀면 렉이 걸려 터졌습니다.
 - <strong>XG-<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/284_pon_passive_optical_network_vs_aon_active/">PON</a> (2세대)</strong>: 단순히 통신사 장비의 레이저 성능만 올려서 전체 속도를 10Gbps로 올린 과도기 기술입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">ROF</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NG-PON2 표준</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">다크 파이버</div></div>
-</div>
-</div>
-
-
+```text
+[ROF]
+    │
+    ▼
+[NG-PON2 표준]
+    │
+    └──▶ [다크 파이버]
+```
 
 - **📢 섹션 요약 비유**: NG-PON2 표준은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -44,18 +40,14 @@ tags = ["studynote-network"]
 
 - **개념**: ITU-T에서 제정한 차세대 가입자망 광통신 표준(G.989)으로, <strong>기존의 시분할(TDM) <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/">다중화</a> 방식에 고밀도 파장 분할(DWDM) 기술을 융합한 TWDM(Time and Wavelength <a href="/knowledge-base/studynote/05_database/07_exam_summary/411_division_operation/">Division</a> <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/">Multiplexing</a>) 방식을 사용하여, 다운로드 최소 40Gbps 이상을 지원하는 초거대 용량 광 가입자망 토폴로지 아키텍처</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">ROF</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NG-PON2 표준</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">다크 파이버</div></div>
-</div>
-</div>
-
-
+```text
+[ROF]
+    │
+    ▼
+[NG-PON2 표준]
+    │
+    └──▶ [다크 파이버]
+```
 
 - **📢 섹션 요약 비유**: NG-PON2 표준의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -120,19 +112,15 @@ NG-PON2 표준은 광통신·차세대·자동화를 이해할 때 핵심 축을
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: ROF</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: NG-PON2 표준</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 다크 파이버</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: ROF]
+    │
+    ▼
+[현재 개념: NG-PON2 표준]
+    │
+    ├──▶ [확장 A: 다크 파이버]
+    └──▶ [확장 B: 의미 기반 통신 최적화]
+```
 
 NG-PON2 표준는 ROF에서 출발해 현재 메커니즘을 정교화하고, 이후 [다크 파이버](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/899_dark_fiber_unlit_infrastructure_lease/)와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

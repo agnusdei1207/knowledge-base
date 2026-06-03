@@ -23,20 +23,17 @@ tags = ["studynote-computer-architecture"]
 
 이 공격이 성립하는 핵심은 알고리즘이 아니라 구현이다. [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) ([Advanced Encryption Standard](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/))의 테이블 조회, [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) ([Rivest-Shamir-Adleman](/knowledge-base/studynote/09_security/03_network_security/110_rsa/)) 지수 연산의 분기, lookup table 기반 코드처럼 비밀 값이 접근 주소를 바꾸면, 수학적으로 안전한 알고리즘도 실제 시스템에서는 시간을 통해 정보를 흘릴 수 있다. 특히 멀티코어와 클라우드 환경에서는 [LLC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/744_load_line_calibration/) (Last-Level Cache) 공유 때문에 프로세스나 가상 머신 ([Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/), [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) 경계를 넘는 누출까지 가능하다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cache hierarchy turns latency into information</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L1 hit : ~4 cycles</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L2 hit : ~12 cycles</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L3 hit : ~40+ cycles</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DRAM : 150~300+ cycles</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; secret-dependent access pattern becomes measurable</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ Cache hierarchy turns latency into information              │
+├──────────────────────────────────────────────────────────────┤
+│ L1 hit   :   ~4 cycles                                      │
+│ L2 hit   :  ~12 cycles                                      │
+│ L3 hit   :  ~40+ cycles                                     │
+│ DRAM     : 150~300+ cycles                                  │
+│ => secret-dependent access pattern becomes measurable       │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 차이는 평소엔 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화지만, 공격자에게는 관측 가능한 신호다. 따라서 “빠르게 만들었다”는 사실만으로도 새로운 공격면이 생길 수 있다.
 
@@ -56,19 +53,22 @@ tags = ["studynote-computer-architecture"]
 | 타이머 (TSC 등) | 수십 cycle 차이 측정 | [hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/)/miss를 분리 |
 | lookup table | 비밀 의존 주소 선택 | 키 비트가 접근 패턴으로 새어 나감 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Secret -&gt; address choice -&gt; cache state -&gt; latency</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">secret bit</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">table index / branch target</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">cache line hit or miss</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">measured time -&gt; statistical inference</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ Secret -> address choice -> cache state -> latency          │
+├──────────────────────────────────────────────────────────────┤
+│ secret bit                                                  │
+│    │                                                        │
+│    ▼                                                        │
+│ table index / branch target                                 │
+│    │                                                        │
+│    ▼                                                        │
+│ cache line hit or miss                                      │
+│    │                                                        │
+│    ▼                                                        │
+│ measured time -> statistical inference                      │
+└──────────────────────────────────────────────────────────────┘
+```
 
 예를 들어 AES의 테이블 기반 구현은 평문과 키의 조합이 다른 캐시 라인을 만지게 만들 수 있다. 공격자는 같은 연산을 수천 번 반복 측정해 어떤 라인이나 세트가 더 자주 [hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/) 되었는지 분석하고, 그 편향으로 키 후보를 줄여 나간다. 즉 한 번의 측정보다 <strong>반복 측정에서 드러나는 패턴</strong>이 핵심이다.
 
@@ -143,25 +143,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">CPU-DRAM 속도 격차</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">캐시 계층 구조</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Hit / Miss 지연 차이</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Secret-dependent Access</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Prime+Probe · Flush+Reload · Evict+Time</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Constant-time · Cache Isolation</div>
-</div>
-</div>
-
-
+```text
+CPU-DRAM 속도 격차
+  │
+  ▼
+캐시 계층 구조
+  │
+  ▼
+Hit / Miss 지연 차이
+  │
+  ▼
+Secret-dependent Access
+  │
+  ▼
+Prime+Probe · Flush+Reload · Evict+Time
+  │
+  ▼
+Constant-time · Cache Isolation
+```
 
 이 흐름은 “[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 → 시간 차이 → 정보 누출 → 구조적 방어”로 이어지는 캐시 타이밍 공격의 본질을 보여준다.
 

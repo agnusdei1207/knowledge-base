@@ -23,18 +23,14 @@ tags = ["studynote-network"]
 
 하나는 우리가 집에서 쓰는 Wi-Fi 기술을 자동차용으로 조금 개조한 <strong><a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/">WAVE</a>(DSRC)</strong> 진영이고, 다른 하나는 스마트폰에 쓰는 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)/[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기술을 자동차에 맞게 진화시킨 <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/">C-V2X</a></strong> 진영이다. 통신 방식이 다르면 두 자동차는 서로 대화할 수 없으므로, 국가 차원에서 단일 표준을 정하는 것은 자율주행 산업의 생사를 가르는 결정이었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">V2X</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">C-V2X / WAVE 매체 제어</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스마트 그리드 통신 인프라망</div></div>
-</div>
-</div>
-
-
+```text
+[V2X]
+    │
+    ▼
+[C-V2X / WAVE 매체 제어]
+    │
+    └──▶ [스마트 그리드 통신 인프라망]
+```
 
 - **📢 섹션 요약 비유**: 도로 위에서 자동차들이 서로 대화할 때 무전기(Wi-Fi 기반 [WAVE](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/))를 쓸 것인가, 아니면 스마트폰([LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)/[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기반 [C-V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/))을 쓸 것인가를 두고 벌어진 거대한 국가 단위의 기술 전쟁이다.
 
@@ -54,18 +50,14 @@ tags = ["studynote-network"]
 * <strong><a href="/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/">매체</a> 제어 (SPS, Semi-Persistent Scheduling)</strong>: 이동통신 기지국이 차량들에게 서로 겹치지 않게 통신 시간과 주파수 자원(Resource Block)을 미리 딱딱 스케줄링해 주어 충돌을 원천 차단한다.
 * <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/120_direct_communication/">직접 통신</a> (PC5 Sidelink)</strong>: 기지국 음영 지역에서도 차량끼리 [직접 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/120_direct_communication/)할 수 있도록, 기지국 없이 단말기들이 스스로 자원을 분배하는 모드(Mode 4)를 특별히 추가했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">V2X</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">C-V2X / WAVE 매체 제어</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스마트 그리드 통신 인프라망</div></div>
-</div>
-</div>
-
-
+```text
+[V2X]
+    │
+    ▼
+[C-V2X / WAVE 매체 제어]
+    │
+    └──▶ [스마트 그리드 통신 인프라망]
+```
 
 - **📢 섹션 요약 비유**: WAVE가 눈치껏 빈 타이밍에 말하는 '자유 토론(Wi-Fi)'이라면, C-V2X는 사회자(기지국)가 발언권을 분 초 단위로 정확히 나눠주는 '규칙적인 회의(이동통신)'다.
 
@@ -131,19 +123,15 @@ C-V2X의 승리는 이동통신 생태계(퀄컴, 화웨이, 에릭슨)의 규�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: V2X</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: C-V2X / WAVE 매체 제어</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 스마트 그리드 통신 인프라망</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율형 엣지 협업</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: V2X]
+    │
+    ▼
+[현재 개념: C-V2X / WAVE 매체 제어]
+    │
+    ├──▶ [확장 A: 스마트 그리드 통신 인프라망]
+    └──▶ [확장 B: 자율형 엣지 협업]
+```
 
 [C-V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/) / [WAVE](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/) [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 제어는 V2X에서 출발해 현재 메커니즘을 정교화하고, 이후 [스마트 그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/) 통신 인프라망와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

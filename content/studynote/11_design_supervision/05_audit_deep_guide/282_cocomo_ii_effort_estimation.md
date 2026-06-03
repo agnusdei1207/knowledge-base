@@ -20,21 +20,26 @@ tags = ["studynote-design-supervision"]
 ## Ⅰ. 개요 및 필요성
 [COCOMO](/knowledge-base/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/) II 공수 산정 감리는 구조적 비용 산정 모델([Constructive Cost Model](/knowledge-base/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/) II, [COCOMO](/knowledge-base/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/) II) 기반 공수 추정 체계를 대상으로 설계 기준과 운영 결과가 같은 방향으로 움직이는지 판단하는 감리 항목이다. 고정가·성과기반 계약이 늘면서 규모와 공수를 구조적으로 설명하는 산정 체계의 필요성이 커졌다. 특히 규모 추정이 기준선으로 정리되지 않으면 스케일 팩터는 사람 의존 절차로 흩어지고, 최종적으로 [보정 계수](/knowledge-base/studynote/12_it_management/04_sdlc_testing/144_vaf_value_adjustment_factor/)가 남지 않아 의사결정이 감각에 의존하게 된다. 산정 근거가 약하면 과소 추정, 분쟁, 정산 지연이 반복된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구사항·위험 인식</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">규모 추정 기준 수립</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스케일 팩터 설계 반영</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보정 계수 증적 확보</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────┐
+│ 요구사항·위험 인식 │
+└────────┬─────────┘
+         │
+         ▼
+┌──────────────────┐
+│ 규모 추정 기준 수립 │
+└────────┬─────────┘
+         │
+         ▼
+┌──────────────────┐
+│ 스케일 팩터 설계 반영 │
+└────────┬─────────┘
+         │
+         ▼
+┌──────────────────┐
+│ 보정 계수 증적 확보 │
+└──────────────────┘
+```
 - **📢 섹션 요약 비유**: [COCOMO](/knowledge-base/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/) II 공수 산정 감리는 설계도만 보는 검토가 아니라, 건물의 구조도와 실제 비상구 작동 여부를 함께 확인하는 점검과 같다.
 
 ---
@@ -48,16 +53,16 @@ tags = ["studynote-design-supervision"]
 | 실행 메커니즘 | 스케일 팩터를 설계, 구현, 운영 절차에 반영한다. | 사람 의존이 아닌 반복 가능한 구조가 중요하다. |
 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 증적 | [보정 계수](/knowledge-base/studynote/12_it_management/04_sdlc_testing/144_vaf_value_adjustment_factor/)를 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 보고서, 테스트, 승인 이력으로 남긴다. | 재현 가능한 증적이 있어야 시정조치가 닫힌다. |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정책·표준 계층</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">구현·운영 계층</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모니터링·증적 계층</div><div class="kb-diagram-cell">시정조치·개선 계층</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────┐      ┌──────────────────┐
+│ 정책·표준 계층    │ ───▶ │ 구현·운영 계층    │
+└────────┬─────────┘      └────────┬─────────┘
+         │                           │
+         ▼                           ▼
+┌──────────────────┐ ◀──── ┌──────────────────┐
+│ 모니터링·증적 계층 │      │ 시정조치·개선 계층 │
+└──────────────────┘      └──────────────────┘
+```
 - **📢 섹션 요약 비유**: 규모 추정, 스케일 팩터, [보정 계수](/knowledge-base/studynote/12_it_management/04_sdlc_testing/144_vaf_value_adjustment_factor/)는 따로 도는 바퀴가 아니라 서로 맞물린 톱니바퀴라서 하나라도 헛돌면 전체 통제가 무너진다.
 
 ---

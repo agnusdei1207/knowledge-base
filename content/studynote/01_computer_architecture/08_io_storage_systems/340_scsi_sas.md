@@ -35,25 +35,27 @@ SAS를 이해할 때는 “명령 계층”과 “전송 계층”을 분리해 
 
 다음 그림은 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) SCSI와 SAS의 구조 차이를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">병렬 SCSI와 SAS의 구조 차이: 공유 버스 → 점대점</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Parallel SCSI</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Host Adapter ── Disk 1 Disk 2 Disk 3 Terminator</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하나의 버스를 여러 장치가 공유</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 경합, 길이 제한, 고속화 난이도 증가</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SAS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Host Bus Adapter ── SAS Expander ── Disk 1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Disk 2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Disk 3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">각 링크가 독립적인 점대점 (Point-to-Point) 연결</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 동시성 향상, 배선 단순화, 확장성 향상</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                 병렬 SCSI와 SAS의 구조 차이: 공유 버스 → 점대점             │
+├──────────────────────────────────────────────────────────────────────────────┤
+│ [Parallel SCSI]                                                             │
+│                                                                              │
+│ Host Adapter ──┬──── Disk 1 ──── Disk 2 ──── Disk 3 ──── Terminator         │
+│                │                                                             │
+│                └──── 하나의 버스를 여러 장치가 공유                          │
+│                      → 경합, 길이 제한, 고속화 난이도 증가                   │
+│                                                                              │
+│ [SAS]                                                                        │
+│                                                                              │
+│ Host Bus Adapter ── SAS Expander ── Disk 1                                   │
+│                     ├────────────── Disk 2                                   │
+│                     └────────────── Disk 3                                   │
+│                                                                              │
+│ 각 링크가 독립적인 점대점 (Point-to-Point) 연결                             │
+│ → 동시성 향상, 배선 단순화, 확장성 향상                                     │
+└──────────────────────────────────────────────────────────────────────────────┘
+```
 
 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) SCSI에서는 여러 장치가 같은 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 공유하므로 한 장치의 전송이 다른 장치의 대기 시간으로 이어지기 쉽다. 반면 SAS는 각 장치가 독립 링크를 가지며, 필요하면 익스팬더 (Expander)를 통해 수많은 장치를 계층적으로 확장할 수 있다. 구조가 네트워크 스위치에 가까워졌기 때문에, 단순한 케이블 교체가 아니라 스토리지 연결 철학 자체가 바뀐 셈이다.
 
@@ -147,27 +149,25 @@ SCSI와 SAS의 가장 큰 효과는 저장장치를 단순 부품이 아니라 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">병렬 저장장치 연결 필요</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SCSI (Small Computer System Interface)</div>
-<div class="kb-diagram-tree-item" style="--depth:4">큐잉 · 오류복구 · 다중 장치 제어 고도화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Parallel SCSI</div>
-<div class="kb-diagram-tree-item" style="--depth:4">신호 간섭 · 스큐 · 공유 버스 병목</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SAS (Serial Attached SCSI)</div>
-<div class="kb-diagram-tree-item" style="--depth:4">Expander · Dual Port · 엔터프라이즈 확장성</div>
-<div class="kb-diagram-tree-item" style="--depth:4">iSCSI · Fibre Channel과 함께 SCSI 명령 체계 확장</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">NVMe와 공존하는 현대 스토리지 계층 구조</div>
-</div>
-</div>
-
-
+```text
+병렬 저장장치 연결 필요
+        │
+        ▼
+SCSI (Small Computer System Interface)
+        │
+        ├─ 큐잉 · 오류복구 · 다중 장치 제어 고도화
+        ▼
+Parallel SCSI
+        │
+        ├─ 신호 간섭 · 스큐 · 공유 버스 병목
+        ▼
+SAS (Serial Attached SCSI)
+        │
+        ├─ Expander · Dual Port · 엔터프라이즈 확장성
+        ├─ iSCSI · Fibre Channel과 함께 SCSI 명령 체계 확장
+        ▼
+NVMe와 공존하는 현대 스토리지 계층 구조
+```
 
 이 흐름은 “명령 체계의 성숙 → 물리 계층의 전환 → 네트워크·플래시 시대로의 확장”이라는 발전 방향을 보여 준다.
 

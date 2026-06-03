@@ -39,19 +39,15 @@ tags = ["studynote-ict-convergence"]
 
 ### 검정 통계량 흐름
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">데이터 입력</div>
-<div class="kb-diagram-tree-item" style="--depth:2">연속형 ── ─ 2집단 ── ─ 독립 → t = (X̄₁-X̄₂) / SE</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 대응 → t = d̄ / (s_d/√n)</div></div>
-<div class="kb-diagram-note">─ 3집단+ → F = MS_between / MS_within (ANOVA)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">범주형 → χ² = Σ(O-E)²/E (Chi-Square)</div>
-</div>
-</div>
-
-
+```
+데이터 입력
+    │
+    ├─ 연속형 ──┬─ 2집단 ──┬─ 독립 → t = (X̄₁-X̄₂) / SE
+    │           │          └─ 대응 → t = d̄ / (s_d/√n)
+    │           └─ 3집단+ → F = MS_between / MS_within (ANOVA)
+    │
+    └─ 범주형 ─────────────→ χ² = Σ(O-E)²/E (Chi-Square)
+```
 
 ### [ANOVA](/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/) F-통계량
 

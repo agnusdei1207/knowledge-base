@@ -25,22 +25,23 @@ tags = ["studynote-ai"]
 
 아래 그림은 왜 오프라인에서 좋던 모델이 운영에서 조용히 약해지는지를 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Why offline accuracy decays after deployment</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Training window</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">winter queries, old camera, weekday-heavy users</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Model deployment</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Live window</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">spring queries, new camera noise, mobile-heavy users</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ predictions continue, labels arrive later</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; silent quality decay</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Why offline accuracy decays after deployment                         │
+├──────────────────────────────────────────────────────────────────────┤
+│ Training window                                                     │
+│   winter queries, old camera, weekday-heavy users                  │
+│        │                                                            │
+│        ▼                                                            │
+│ Model deployment                                                    │
+│        │                                                            │
+│ Live window                                                         │
+│   spring queries, new camera noise, mobile-heavy users             │
+│        │                                                            │
+│        └─ predictions continue, labels arrive later                │
+│                     -> silent quality decay                         │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 결국 [데이터 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/)를 이해한다는 것은 "모델의 수명은 코드가 아니라 입력 환경에 의해 결정된다"는 사실을 받아들이는 일이다. 운영 중인 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/), [Artificial Intelligence](/knowledge-base/studynote/10_ai/01_ai_basics/001_artificial_intelligence/)) 시스템은 배포 완료가 끝이 아니라, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 환경 변화와의 장기전 안에 놓여 있다.
 
@@ -54,20 +55,21 @@ tags = ["studynote-ai"]
 
 실무에서는 학습 시점의 기준 분포를 저장해 두고, 운영 입력을 일정 시간 창(window)으로 묶어 비교한다. 이때 PSI ([Population Stability Index](/knowledge-base/studynote/06_ict_convergence/05_data_science/417_mlops_data_drift_psi/)), KS 검정 (Kolmogorov-Smirnov Test), KL 발산 ([Kullback-Leibler Divergence](/knowledge-base/studynote/10_ai/05_data_science_ml/347_cross_entropy_kld/)), Jensen-Shannon Divergence 같은 통계 거리를 사용해 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)별 변화를 측정한다. 수치형과 범주형, 단일 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)와 결합 분포에 따라 적합한 지표가 달라지므로 "한 개 지표로 끝내는 감시"는 보통 부족하다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Drift monitoring loop</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Training data -&gt; baseline stats / schema</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Live feature window -&gt; drift scorer -&gt; alert threshold</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ PSI / KS / KL / Jensen-Shannon</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ segment-level comparison</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Root-cause analysis -&gt; retrain / preprocess fix / threshold tune</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Drift monitoring loop                                               │
+├──────────────────────────────────────────────────────────────────────┤
+│ Training data -> baseline stats / schema                           │
+│        │                                                            │
+│        ▼                                                            │
+│ Live feature window -> drift scorer -> alert threshold             │
+│        │                  │                                          │
+│        │                  ├─ PSI / KS / KL / Jensen-Shannon        │
+│        │                  └─ segment-level comparison              │
+│        ▼                                                            │
+│ Root-cause analysis -> retrain / preprocess fix / threshold tune   │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 | 감시 대상 | 대표 지표 | 해석 포인트 |
 | :--- | :--- | :--- |
@@ -155,29 +157,28 @@ tags = ["studynote-ai"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">정적 오프라인 학습 데이터</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">운영 입력 모니터링</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">피처별 분포 거리 계산</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">원인 분석</div>
-<div class="kb-diagram-tree-item" style="--depth:2">계절성 변화</div>
-<div class="kb-diagram-tree-item" style="--depth:2">사용자군 변화</div>
-<div class="kb-diagram-tree-item" style="--depth:2">센서 / 채널 변화</div>
-<div class="kb-diagram-tree-item" style="--depth:2">파이프라인 오류 구분</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">재학습 · 전처리 수정 · 임계값 조정</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">폐루프 MLOps 운영</div>
-</div>
-</div>
-
-
+```text
+정적 오프라인 학습 데이터
+    │
+    ▼
+운영 입력 모니터링
+    │
+    ▼
+피처별 분포 거리 계산
+    │
+    ▼
+원인 분석
+    ├─ 계절성 변화
+    ├─ 사용자군 변화
+    ├─ 센서 / 채널 변화
+    └─ 파이프라인 오류 구분
+    │
+    ▼
+재학습 · 전처리 수정 · 임계값 조정
+    │
+    ▼
+폐루프 MLOps 운영
+```
 
 이 흐름은 [데이터 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/)가 단순 통계 [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/)에서 출발해, 원인 분석과 운영 자동화까지 연결되는 과정을 보여 준다.
 

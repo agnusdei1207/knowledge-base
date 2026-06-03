@@ -23,21 +23,23 @@ tags = ["operating_system"]
 
 이 그림은 파일 시스템의 계층 구조를 보여준다. 사용자의 명령이 어떻게 하드웨어 제어로 변환되는지 시각화한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">File System Layered Architecture</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Application Program</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Logical File System</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Directory, Metadata)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">File Organization Module</div><div class="kb-diagram-connector">◀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Logical to Physical Block Mapping)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Basic File System</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">I/O Control</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Device</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Issue Generic Commands) (Drivers, IRQ) (HDD/SSD)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 File System Layered Architecture            │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Application Program ] ──▶ [ Logical File System ]       │
+│                                (Directory, Metadata)        │
+│                                         │                   │
+│   [ File Organization Module ] ◀────────┘                   │
+│   (Logical to Physical Block Mapping)                       │
+│          │                                                  │
+│          ▼                                                  │
+│   [ Basic File System ] ──▶ [ I/O Control ] ──▶ [ Device ]  │
+│   (Issue Generic Commands)   (Drivers, IRQ)     (HDD/SSD)   │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '매핑 (Mapping)'이다. 사용자는 "my_photo.jpg"라는 이름을 보지만, 파일 시스템은 이를 디스크의 "1024번부터 1050번 블록"으로 번역하여 읽어온다. 실무에서는 이 매핑 정보를 담은 메타데이터가 손상되지 않도록 관리하는 것이 파일 시스템 안정성의 핵심이다.
 
@@ -70,22 +72,22 @@ tags = ["operating_system"]
 
 이 구조도는 대용량 파일을 수용하기 위한 i-node의 다단계 인덱싱 구조를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Unix i-node Structure (Multi-level)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">i-node</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Metadata (Mode, Owner, Size...)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Data Blocks 0 ~ 11</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Index Block</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Data</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Index 1</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">I2</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Data</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">I1</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">I2</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">I3</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">D</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 효과: 작은 파일은 빠르게, 큰 파일은 계층적으로 수용</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Unix i-node Structure (Multi-level)         │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ i-node ]                                                │
+│   - Metadata (Mode, Owner, Size...)                         │
+│   - Direct Blocks (12 pointers) ──▶ [ Data Blocks 0 ~ 11 ]  │
+│   - Single Indirect ──────────────▶ [ Index Block ] ──▶ [Data]│
+│   - Double Indirect ──────────────▶ [ Index 1 ] ──▶ [I2] ──▶ [Data]│
+│   - Triple Indirect ──────────────▶ [ I1 ] ──▶ [I2] ──▶ [I3] ──▶ [D]│
+│                                                             │
+│   * 효과: 작은 파일은 빠르게, 큰 파일은 계층적으로 수용     │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '유연성'이다. 대부분의 작은 파일은 12개의 직접 블록 주소만으로도 즉시 접근이 가능하며, 대용량 파일은 3단계 인덱스까지 확장하여 수 테라바이트 급의 크기를 지원한다. 실무에서는 이 i-node 개수가 부족하면 디스크 용량이 남아도 파일을 생성할 수 없는 'i-node 고갈' 이슈가 발생할 수 있으므로 주의가 필요하다.
 
@@ -129,19 +131,23 @@ tags = ["operating_system"]
 
 이 도식은 가상 파일 시스템 (VFS)이 다양한 실제 파일 시스템을 통합하는 구조를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Virtual File System (VFS) Layer</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">User Application</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">open(), read(), write()</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=========================</div><div class="kb-diagram-node">VFS Layer</div><div class="kb-diagram-note">==================</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Ext4 module</div><div class="kb-diagram-node">NTFS module</div><div class="kb-diagram-node">NFS module</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Local Disk</div><div class="kb-diagram-node">USB Drive</div><div class="kb-diagram-node">Network</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Virtual File System (VFS) Layer             │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ User Application ] ──▶ [ open(), read(), write() ]      │
+│                                         │                   │
+│   ========================= [ VFS Layer ] ==================  │
+│                                         │                   │
+│          ┌──────────────────────┬───────┴──────────────┐    │
+│          ▼                      ▼                      ▼    │
+│   [ Ext4 module ]        [ NTFS module ]        [ NFS module ]  │
+│          │                      │                      │    │
+│   [ Local Disk ]         [ USB Drive ]          [ Network ] │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 기술사의 스토리지 판단은 '은행의 금고 설계'와 같습니다. 돈(데이터)을 얼마나 안전하게 보관할지(저널링/RAID), 그리고 고객이 찾으러 왔을 때 얼마나 빨리 줄지(디스크 스케줄링/캐싱)를 비용과 성능 사이에서 균형 있게 설계해야 합니다.
 

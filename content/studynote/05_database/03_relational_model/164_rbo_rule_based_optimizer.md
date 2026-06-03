@@ -26,19 +26,19 @@ tags = ["database"]
 
 이 그림은 RBO가 "현재 교통량"이 아니라 "도로 등급표"만 보고 경로를 정하는 구조임을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RBO decision path: syntax first</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SQL parse</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ check ROWID / UNIQUE / INDEX existence</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ apply fixed rank order</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ choose access path without table statistics</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│               RBO decision path: syntax first                   │
+├──────────────────────────────────────────────────────────────────┤
+│ SQL parse                                                       │
+│    │                                                            │
+│    ├─ check ROWID / UNIQUE / INDEX existence                    │
+│    │                                                            │
+│    ├─ apply fixed rank order                                    │
+│    │                                                            │
+│    └─ choose access path without table statistics               │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 즉 RBO는 "빠르게 계산하는 똑똑함"보다 "항상 같은 규칙으로 판단하는 단순함"에 최적화된 설계였다. 문제는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 커지고 분포가 달라질수록, 이 단순함이 곧 맹목성으로 바뀐다는 점이다.
 
@@ -60,21 +60,19 @@ RBO의 입력은 주로 SQL 문법 구조와 [인덱스](/knowledge-base/studyno
 
 아래 그림은 RBO가 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/)보다 규칙 서열을 우선하기 때문에 생기는 구조적 한계를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Example: rank wins over actual volume</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Query: WHERE order_date &gt;= '2025-01-01'</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Matching rows: 9000000 / 10000000</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Index on order_date exists? YES</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RBO thought: "Index rank &gt; Full scan rank"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Actual effect: millions of index probes + table lookups</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Better choice in many cases: sequential full table scan</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│             Example: rank wins over actual volume               │
+├──────────────────────────────────────────────────────────────────┤
+│ Query: WHERE order_date >= '2025-01-01'                         │
+│ Matching rows: 9000000 / 10000000                               │
+│ Index on order_date exists?  YES                                │
+│                                                                  │
+│ RBO thought: "Index rank > Full scan rank"                      │
+│ Actual effect: millions of index probes + table lookups         │
+│ Better choice in many cases: sequential full table scan         │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 이 때문에 과거에는 개발자가 SQL 문장 순서, [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/), 표현식 변형으로 RBO를 사실상 "유도"하는 일이 많았다. [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)가 똑똑해서 맡기는 구조가 아니라, 개발자가 규칙집을 이해하고 그 위에서 우회로를 만드는 구조였던 셈이다.
 
@@ -84,7 +82,7 @@ RBO의 입력은 주로 SQL 문법 구조와 [인덱스](/knowledge-base/studyno
 
 ## Ⅲ. 비교 및 연결
 
-RBO를 이해하려면 [비용 기반 옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/165_cbo_cost_based_optimizer/) (CBO, Cost-Based [Optimizer](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_optimizer/))와 함께 봐야 경계가 선명해진다. RBO는 예측 가능성이 강하지만 적응력이 약하고, CBO는 통계 품질에 영향을 받지만 대규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 훨씬 현실적인 결정을 내린다. 즉 둘의 차이는 단순한 "구형 vs 신형"이 아니라, "규칙의 안정성"과 "통계의 적응성" 중 어디에 무게를 두느냐의 차이다.
+RBO를 이해하려면 [비용 기반 옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/165_cbo_cost_based_optimizer/) (CBO, Cost-Based [Optimizer](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_optimizer/))와 함께 봐야 경계가 선명해진다. RBO는 예측 가능성이 강하지만 적응력이 약하고, CBO는 통계 품질에 영향을 받지만 대규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 훨씬 현실적인 결정을 내린다. 즉 둘의 차이는 단순한 "구형 vs 새로운 유형의"이 아니라, "규칙의 안정성"과 "통계의 적응성" 중 어디에 무게를 두느냐의 차이다.
 
 | 항목 | RBO | CBO |
 | :--- | :-- | :-- |
@@ -147,23 +145,21 @@ RBO가 남긴 가장 큰 유산은 [옵티마이저](/knowledge-base/studynote/0
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">규칙 우선 접근</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">RBO (Rule-Based Optimizer)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">인덱스 우선 규칙 · 고정 실행 계획</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">통계 수집 · 선택도 · 카디널리티</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CBO (Cost-Based Optimizer) · 현대 SQL 튜닝</div>
-</div>
-</div>
-
-
+```text
+규칙 우선 접근
+    │
+    ▼
+RBO (Rule-Based Optimizer)
+    │
+    ▼
+인덱스 우선 규칙 · 고정 실행 계획
+    │
+    ▼
+통계 수집 · 선택도 · 카디널리티
+    │
+    ▼
+CBO (Cost-Based Optimizer) · 현대 SQL 튜닝
+```
 
 이 흐름은 "고정 규칙"에서 "통계 기반 판단"으로 최적화 패러다임이 이동한 과정을 보여준다.
 

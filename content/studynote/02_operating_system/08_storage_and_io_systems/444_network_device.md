@@ -27,28 +27,30 @@ tags = ["studynote-operating-system"]
   2. **Berkeley Sockets (BSD)의 승리**: 1980년대 캘리포니아 버클리 대학에서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 디스크립터(fd)의 껍데기는 빌려 쓰되, 내부 알맹이는 완전히 다르게 돌아가는 '[소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)'를 발명하여 표준으로 굳혔다.
   3. <strong>네트워크 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a>의 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 편입</strong>: 패킷을 까고 조립하는 무거운 연산([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP)을 유저 앱이 하면 너무 느리고 해킹 위험이 컸다. 결국 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 뚱뚱해지는 걸 감수하고 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 심장부에 이 공장을 박아넣었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블록/문자 장치 파이프라인 vs 네트워크 소켓 장치 파이프라인 비교</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1. 일반 디바이스 (HDD, 마우스) - 단순한 파일 I/O</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">유저 앱</div><div class="kb-diagram-note"><code>read()</code> 호출</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">OS VFS (가상 파일 시스템)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">블록 드라이버</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">하드디스크 칩셋</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2. 네트워크 장치 (랜카드) - 거대한 프로토콜 팩토리의 개입</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">유저 앱</div><div class="kb-diagram-note"><code>recv()</code> 호출 (소켓 API 사용)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(VFS를 뚫고 특수 소켓 레이어로 진입)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">OS 커널 내부의 거대한 TCP/IP 스택 팩토리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 4층: 포트(Port) 번호 까서 내 앱 찾기 (TCP/UDP)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 3층: IP 주소 까서 에러 났는지 확인 (IP)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 2층: MAC 주소 까서 내 랜카드 거 맞는지 확인 (Ethernet)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(복잡한 연산 후 알맹이 데이터만 쏙 빼냄)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">랜카드 디바이스 드라이버</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">랜카드 칩셋</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────┐
+│        블록/문자 장치 파이프라인 vs 네트워크 소켓 장치 파이프라인 비교 │
+├────────────────────────────────────────────────────────────────────────┤
+│                                                                        │
+│ ▶ 1. 일반 디바이스 (HDD, 마우스) - 단순한 파일 I/O                     │
+│   [ 유저 앱 ] `read()` 호출                                            │
+│       │                                                                │
+│   [ OS VFS (가상 파일 시스템) ]                                        │
+│       │ ──▶ [ 블록 드라이버 ] ──▶ [ 하드디스크 칩셋 ]                  │
+│                                                                        │
+│ ▶ 2. 네트워크 장치 (랜카드) - 거대한 프로토콜 팩토리의 개입            │
+│   [ 유저 앱 ] `recv()` 호출 (소켓 API 사용)                            │
+│       │ (VFS를 뚫고 특수 소켓 레이어로 진입)                           │
+│       ▼                                                                │
+│   [ OS 커널 내부의 거대한 TCP/IP 스택 팩토리 ]                         │
+│    - 4층: 포트(Port) 번호 까서 내 앱 찾기 (TCP/UDP)                    │
+│    - 3층: IP 주소 까서 에러 났는지 확인 (IP)                           │
+│    - 2층: MAC 주소 까서 내 랜카드 거 맞는지 확인 (Ethernet)            │
+│       │ (복잡한 연산 후 알맹이 데이터만 쏙 빼냄)                       │
+│       ▼                                                                │
+│   [ 랜카드 디바이스 드라이버 ] ◀──(인터럽트 핑퐁)──▶ [ 랜카드 칩셋 ]   │
+└────────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 네트워크 I/O는 일반 디스크 I/O보다 압도적으로 무겁고 복잡하다. 랜카드에서 들어온 0101 전기 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 그대로 유저 앱에 주면 쓰레기에 불과하다. OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 그 전기 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)의 포장지(헤더)를 3번, 4번씩 뜯어보고(Decapsulation), 에러 검사([Checksum](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/))를 하고, 순서를 맞추는 중노동([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/))을 거친 후에야 비로소 깨끗한 "Hello" 문자열이 앱으로 배달된다. 이 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 연산 오버헤드 때문에 옛날엔 1Gbps 속도만 넘어도 CPU가 터져 나갔다.
 
 - **📢 섹션 요약 비유**: 마트(하드디스크)에서 과자를 사 올 땐 껍질 한 번만 까면 먹을 수 있습니다. 하지만 해외 직구(네트워크)로 과자를 사면, 세관(IP)에서 엑스레이 검사하고, 배송지 스티커([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)) 떼어내고, 뽁뽁이([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 포장)를 수십 번 풀어헤쳐야 비로소 과자를 먹을 수 있습니다. 까는 작업([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 연산)에 힘이 너무 많이 들어가는 극한의 배송 시스템입니다.
@@ -102,17 +104,14 @@ tags = ["studynote-operating-system"]
 - 그리고 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 궁극의 네트워크 튜닝 기술인 <strong><code>epoll / kqueue</code></strong>를 써서, 1만 개의 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 중 "진짜로 패킷이 도착한 3개 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 번호"만 OS가 1개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)에게 쪽지로 쏙 넘겨주게 만들었다 (Event-driven).
 - 1개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)로 1만 명의 유저를 렉 0초로 감당해 내는 현대 고성능 웹서버의 핵심 척추다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">아키텍처</div><div class="kb-diagram-cell">소켓 대기 방식</div><div class="kb-diagram-cell">1만 유저 접속 시</div><div class="kb-diagram-cell">서버 터지는 원인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Apache</div><div class="kb-diagram-cell">멍하니 멈춤(Block)</div><div class="kb-diagram-cell">스레드 1만개 필요</div><div class="kb-diagram-cell">램(스택) 폭발, 스위칭 렉</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Nginx</div><div class="kb-diagram-cell">안오면 바로 튐(Non)</div><div class="kb-diagram-cell">스레드 1개면 떡침</div><div class="kb-diagram-cell">🟢 거의 안 터짐 극강</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬───────────────────────────────────────┐
+│ 아키텍처   │ 소켓 대기 방식 │ 1만 유저 접속 시 │ 서버 터지는 원인          │
+├──────────┼────────────┼────────────┼───────────────────────────────────────┤
+│ Apache   │ 멍하니 멈춤(Block)│ 스레드 1만개 필요 │ 램(스택) 폭발, 스위칭 렉│
+│ Nginx    │ 안오면 바로 튐(Non)│ 스레드 1개면 떡침 │ 🟢 거의 안 터짐 극강   │
+└──────────┴────────────┴────────────┴───────────────────────────────────────┘
+```
 **[매트릭스 해설]** 네트워크 I/O의 불확실성(가장 긴 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))을 소프트웨어 아키텍처로 극복한 눈물겨운 진화도다. 디스크는 기계(모터)를 기다리지만, 네트워크는 알 수 없는 인간(유저)과 지구의 물리적 거리(광랜 속도)를 기다려야 하므로, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 스케줄러가 절대 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 네트워크 큐에 묶어두면([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)) 안 된다는 철칙을 낳았다.
 
 - **📢 섹션 요약 비유**: 햄버거집 알바생([스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))이 손님([소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/))이 지갑에서 동전 100원짜리를 10분 동안 천천히 꺼내는 걸 카운터에서 멍하니 다 기다려주면([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)) 뒤에 100명이 줄 서서 화냅니다. 알바생은 "동전 다 찾으시면 옆에 종 쳐주세요(epoll 이벤트)" 하고 쿨하게 옆으로 치운 뒤, 돈 바로 낼 수 있는 다음 손님 주문부터 쭉쭉 빼야(Non-[blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)) 햄버거집이 망하지 않습니다.
@@ -170,19 +169,15 @@ DPDK는 너무 코딩이 어렵고 보안이 개나발이다. 그래서 리눅�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">문자 장치</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 장치 (소켓 인터페이스) (Network Device)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">I/O 하드웨어 인터페이스 요소</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">포트 (Port) / 버스 (Bus)</div></div>
-</div>
-</div>
-
-
+```text
+[문자 장치]
+    │
+    ▼
+[네트워크 장치 (소켓 인터페이스) (Network Device)]
+    │
+    ├──▶ [I/O 하드웨어 인터페이스 요소]
+    └──▶ [포트 (Port) / 버스 (Bus)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

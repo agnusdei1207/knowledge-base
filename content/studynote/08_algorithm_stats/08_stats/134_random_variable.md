@@ -23,19 +23,14 @@ tags = ["studynote-algorithm"]
 
 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 변수 X 는 표본공간 (Sample Space) Ω 에서 실수로의 **측도 가능 함수 (Measurable Function)**:
 
+```
+X: Ω → ℝ
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">X: Ω → ℝ</div>
-<div class="kb-diagram-note">예시:</div>
-<div class="kb-diagram-note">Ω = {HH, HT, TH, TT} (동전 2번)</div>
-<div class="kb-diagram-note">X(HH) = 2, X(HT) = 1, X(TH) = 1, X(TT) = 0</div>
-<div class="kb-diagram-note">→ X = "앞면 나온 횟수"</div>
-</div>
-</div>
-
-
+예시:
+  Ω = {HH, HT, TH, TT} (동전 2번)
+  X(HH) = 2,  X(HT) = 1,  X(TH) = 1,  X(TT) = 0
+  → X = "앞면 나온 횟수"
+```
 
 ### 이산 vs 연속 비교
 
@@ -65,18 +60,13 @@ P(X=x) = pₓ  (각 이산 값에서의 확률 질량)
 
 <strong>PMF 막대 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a> (주사위 예시)</strong>:
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">P(X=x)</div>
-<div class="kb-diagram-note">1/6 ■ ■ ■ ■ ■ ■</div>
-<div class="kb-diagram-note">→ x</div>
-<div class="kb-diagram-note">0 1 2 3 4 5 6</div>
-</div>
-</div>
-
-
+```
+  P(X=x)
+   1/6 ┤ ■  ■  ■  ■  ■  ■
+       ┤ │  │  │  │  │  │
+       ┼──────────────────────→ x
+       0  1  2  3  4  5  6
+```
 
 ### CDF (Cumulative Distribution Function, 누적 분포 함수)
 
@@ -91,23 +81,17 @@ F(x) = P(X ≤ x) = Σ_{t≤x} P(X=t)
 
 **주사위 CDF**:
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">F(x)</div>
-<div class="kb-diagram-note">1.0</div>
-<div class="kb-diagram-note">5/6</div>
-<div class="kb-diagram-note">4/6</div>
-<div class="kb-diagram-note">3/6</div>
-<div class="kb-diagram-note">2/6 ─</div>
-<div class="kb-diagram-note">1/6 ─</div>
-<div class="kb-diagram-note">→ x</div>
-<div class="kb-diagram-note">0 1 2 3 4 5 6</div>
-</div>
-</div>
-
-
+```
+F(x)
+ 1.0 ┤               ┌───────
+ 5/6 ┤           ┌───┘
+ 4/6 ┤       ┌───┘
+ 3/6 ┤   ┌───┘
+ 2/6 ┤ ┌─┘
+ 1/6 ┤─┘
+     ┼────────────────────→ x
+     0  1  2  3  4  5  6
+```
 
 📢 **섹션 요약 비유**: PMF 는 각 계단에 쌓인 눈의 높이이고, CDF 는 계단 아래부터 쌓인 누적 눈의 총량이다.
 
@@ -132,23 +116,21 @@ P(a ≤ X ≤ b) = ∫ₐᵇ f(x) dx
 
 **PMF vs PDF 비교 다이어그램**:
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이산 (PMF) 연속 (PDF)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P(X=x) f(x)</div></div>
-<div class="kb-diagram-note">│ │</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">■ ■</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">■ ■</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">■</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">■</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ x → x</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P(X=k) = 막대 높이 P(a≤X≤b) = 곡선 아래 넓이</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────┐
+│  이산 (PMF)               연속 (PDF)                    │
+│                                                         │
+│  P(X=x)                  f(x)                          │
+│    │                       │    ╭───╮                   │
+│    │ ■  ■                  │   ╭╯   ╰╮                  │
+│    │ │  │  ■  ■            │  ╭╯      ╰╮                │
+│    │ │  │  │  │  ■         │ ╭╯        ╰╮               │
+│    │ │  │  │  │  │  ■      │╭╯           ╰╮             │
+│    └─────────────────→ x   └───────────────→ x          │
+│                                                         │
+│  P(X=k) = 막대 높이       P(a≤X≤b) = 곡선 아래 넓이   │
+└─────────────────────────────────────────────────────────┘
+```
 
 ### 연속형 CDF
 
@@ -181,18 +163,14 @@ Var[X] = E[(X-μ)²] = E[X²] - (E[X])²   (계산 공식)
 
 Y = g(X) 로 새로운 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 변수를 만들 수 있다:
 
+```
+이산: P(Y=y) = Σ_{x: g(x)=y} P(X=x)
 
+연속: f_Y(y) = f_X(g⁻¹(y)) · |dg⁻¹/dy|   (변수 변환 공식)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이산: P(Y=y) = Σ_{x: g(x)=y} P(X=x)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">연속: f_Y(y) = f_X(g⁻¹(y)) ·</div><div class="kb-diagram-cell">dg⁻¹/dy</div><div class="kb-diagram-cell">(변수 변환 공식)</div></div>
-<div class="kb-diagram-note">예: X ~ Uniform(0,1), Y = -ln(X) → Y ~ Exponential(1)</div>
-<div class="kb-diagram-note">(균등 분포 → 지수 분포 변환 — 역변환 샘플링에 사용)</div>
-</div>
-</div>
-
-
+예: X ~ Uniform(0,1), Y = -ln(X) → Y ~ Exponential(1)
+   (균등 분포 → 지수 분포 변환 — 역변환 샘플링에 사용)
+```
 
 📢 **섹션 요약 비유**: [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 변수 변환은 "섭씨온도 데이터를 화씨로 바꾸는 것"처럼, 숫자 척도를 바꿔도 내부 분포 구조를 보존하는 함수 합성이다.
 
@@ -218,20 +196,17 @@ Y = g(X) 로 새로운 [확률](/knowledge-base/studynote/08_algorithm_stats/08_
 연속: f_X(x) = ∫ f_{X,Y}(x,y) dy
 ```
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결합 분포 → 주변 분포</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Y↑</div><div class="kb-diagram-cell">p₁₁ p₁₂ p₁₃</div><div class="kb-diagram-cell">P(X=x₁) = Σⱼ p₁ⱼ</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">p₂₁ p₂₂ p₂₃</div><div class="kb-diagram-cell">P(X=x₂) = Σⱼ p₂ⱼ</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">p₃₁ p₃₂ p₃₃</div><div class="kb-diagram-cell">P(X=x₃) = Σⱼ p₃ⱼ</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ X</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P(Y=yⱼ) = Σᵢ pᵢⱼ (행을 따라 합산)</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────┐
+│  결합 분포 → 주변 분포                                │
+│                                                      │
+│  Y↑  │ p₁₁  p₁₂  p₁₃ │  P(X=x₁) = Σⱼ p₁ⱼ         │
+│     │ p₂₁  p₂₂  p₂₃ │  P(X=x₂) = Σⱼ p₂ⱼ         │
+│     │ p₃₁  p₃₂  p₃₃ │  P(X=x₃) = Σⱼ p₃ⱼ         │
+│     └────────────────→ X                            │
+│  P(Y=yⱼ) = Σᵢ pᵢⱼ (행을 따라 합산)                 │
+└──────────────────────────────────────────────────────┘
+```
 
 ### 몬테카를로 시뮬레이션 (Monte Carlo Simulation)
 
@@ -244,22 +219,21 @@ Y = g(X) 로 새로운 [확률](/knowledge-base/studynote/08_algorithm_stats/08_
    ```
 3. **응용**: 파생상품 가격 결정, 물리 시뮬레이션, 베이즈 사후 분포 추론
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">몬테카를로 π 추정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단위 원 내부 점 개수 / 전체 점 개수 ≈ π/4</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">. ● . ●</div><div class="kb-diagram-cell">● : 원 내부 (성공)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">● ── .</div><div class="kb-diagram-cell">. : 원 외부 (실패)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">. ●</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">●</div><div class="kb-diagram-cell">N개 균등 샘플 후</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">.</div><div class="kb-diagram-cell">π ≈ 4 × (내부 수) / N</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">.</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────┐
+│  몬테카를로 π 추정                                   │
+│  단위 원 내부 점 개수 / 전체 점 개수 ≈ π/4          │
+│                                                     │
+│  ┌───────────┐                                      │
+│  │ . ●  . ● │   ● : 원 내부 (성공)                  │
+│  │●  ╭──╮  .│   . : 원 외부 (실패)                  │
+│  │. ╭╯  ╰╮●│                                       │
+│  │●╭╯    ╰╮│   N개 균등 샘플 후                    │
+│  │.╰╮    ╭╯│   π ≈ 4 × (내부 수) / N               │
+│  │ .╰────╯ │                                       │
+│  └───────────┘                                      │
+└─────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 몬테카를로는 "눈 감고 다트를 수천 번 던져서 원의 넓이를 측정하는 것"이다 — 수학으로 풀기 힘든 문제를 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 변수 샘플링으로 근사한다.
 
@@ -280,23 +254,21 @@ Y = g(X) 로 새로운 [확률](/knowledge-base/studynote/08_algorithm_stats/08_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">확률 변수 (Random Variable)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">PMF (Probability Mass Function)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">PDF (Probability Density Function)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CDF (Cumulative Distribution Function)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">결합 분포 (Joint Distribution)</div></div>
-</div>
-</div>
-
-
+```text
+[확률 변수 (Random Variable)]
+    │
+    ▼
+[PMF (Probability Mass Function)]
+    │
+    ▼
+[PDF (Probability Density Function)]
+    │
+    ▼
+[CDF (Cumulative Distribution Function)]
+    │
+    ▼
+[결합 분포 (Joint Distribution)]
+```
 
 이 흐름도는 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 변수 (Random Variable)에서 출발해 결합 분포 (Joint Distribution)까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

@@ -24,18 +24,14 @@ tags = ["studynote-network"]
 
 - **💡 비유**: 전국을 잇는 고속도로 톨게이트(통신사 전화국)가 아무리 16차선으로 넓게 뚫려 있어도, <strong>"우리 집 주차장에서 그 톨게이트까지 나가는 좁은 동네 흙길(로컬 루프)"</strong>이 막히면 고속도로의 속도를 전혀 누릴 수 없습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">브로드밴드통신망</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">로컬 루프</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">토큰 링</div></div>
-</div>
-</div>
-
-
+```text
+[브로드밴드통신망]
+    │
+    ▼
+[로컬 루프]
+    │
+    └──▶ [토큰 링]
+```
 
 - **📢 섹션 요약 비유**: <strong> 로컬 루프는 택배 회사의 거대한 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/">허브</a> 터미널에서 출발한 물건이, 배달 기사님의 오토바이에 실려 </strong>"우리 집 현관문 앞까지 도달하는 그 험난한 마지막 골목길(라스트 마일)"**을 의미합니다.
 
@@ -54,27 +50,29 @@ tags = ["studynote-network"]
    - "꼼수 쓰지 말고, 전화국(CO)부터 고객 집 거실(Home)까지 100% 광케이블을 새로 깔아버리자!" 
    - 이 거대한 토목 공사가 성공하면서 로컬 루프의 병목이 해결되었고, 기가 인터넷(1Gbps)과 10기가 인터넷 시대가 열렸다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">로컬 루프 (Local Loop)의 구간 도식</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">통신사 백본망</div><div class="kb-diagram-note">──(수백 Gbps)──</div><div class="kb-diagram-node">동네 전화국 (KT, SKT)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(코어 라우터들) (스위치 및 OLT 장비)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">==== 요 구간이 바로 로컬 루프 (Local Loop) ====</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(과거엔 구리선 2가닥, 현재는 얇은 광케이블 1가닥)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">집 / 회사 (고객)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(모뎀, ONU 장비 및 라우터)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 로컬 루프의 품질이 가입자가 체감하는 인터넷 속도를 결정짓는다.</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                 로컬 루프 (Local Loop)의 구간 도식              │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 통신사 백본망 ] ──(수백 Gbps)── [ 동네 전화국 (KT, SKT) ]   │
+ │   (코어 라우터들)                      (스위치 및 OLT 장비)     │
+ │                                             │               │
+ │                                             ▼               │
+ │          ==== 요 구간이 바로 로컬 루프 (Local Loop) ====         │
+ │          (과거엔 구리선 2가닥, 현재는 얇은 광케이블 1가닥)           │
+ │                                             ▼               │
+ │                                     [ 집 / 회사 (고객) ]     │
+ │                                  (모뎀, ONU 장비 및 라우터)    │
+ │                                                             │
+ │   * 로컬 루프의 품질이 가입자가 체감하는 인터넷 속도를 결정짓는다.      │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 2. DTE와 DCE의 경계점 (Demarcation Point)
 네트워크 장비 장애 시 "이게 우리 회사 장비 고장이야, 아니면 통신사 선로 고장이야?"를 두고 싸우는 기준선이 바로 <strong>분계점(Demarc, Demarcation Point)</strong>이다.
 - 이 분계점은 통상적으로 사무실 벽면의 랜 단자(또는 통신사 [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/) 장비)를 기준으로 한다.
-- 이 선을 기준으로 고객 쪽을 <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/411_cpe_inventory_mapping/">CPE</a> (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/">Customer</a> Premises Equipment)</strong>라 하고, 통신사 쪽 선로를 <strong>Local Loop</strong>라고 부른다.
+- 이 선을 기준으로 고객 쪽을 <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/411_cpe_inventory_mapping/">CPE</a> (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/">C고객</a> Premises Equipment)</strong>라 하고, 통신사 쪽 선로를 <strong>Local Loop</strong>라고 부른다.
 
 - **📢 섹션 요약 비유**: <strong> 로컬 루프는 수자원 공사 정수장에서 맑은 물(<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a> <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>)을 만들어 내더라도, 결국 우리 집 싱크대까지 연결된 </strong>"마지막 100미터짜리 낡은 녹물 수도관"**을 새것(광케이블)으로 갈지 않으면 우리가 맑은 물을 마실 수 없게 만드는 통신 품질의 최전선입니다.
 
@@ -132,19 +130,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 브로드밴드통신망</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 로컬 루프</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 토큰 링</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 캠퍼스 패브릭</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 브로드밴드통신망]
+    │
+    ▼
+[현재 개념: 로컬 루프]
+    │
+    ├──▶ [확장 A: 토큰 링]
+    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
+```
 
 로컬 루프는 [브로드밴드통신망](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/279_b_isdn_broadband_integrated_services_digital_network/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [토큰 링](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/281_token_ring_ieee_802_5_token_bus_ieee_802_4/)와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

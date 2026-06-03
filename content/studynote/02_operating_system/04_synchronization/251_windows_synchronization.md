@@ -23,28 +23,27 @@ Windows NT [커널](/knowledge-base/studynote/02_operating_system/01_overview_ar
 
 **💡 비유**: Critical Section은 같은 건물 내 내부 출입문 자물쇠(빠르지만 건물 밖 불가), [Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Mutex는 외부와도 공유할 수 있는 공식 계약서(느리지만 강력)다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Windows 동기화 객체 계층</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">유저 모드 — 빠른 경량 객체</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">● Critical Section (CRITICAL_SECTION)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 스핀 후 커널 Mutex로 전환하는 혼합 방식</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">● SRWLOCK (Slim Reader/Writer Lock) — Vista+</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 포인터 1개 크기, 읽기-쓰기 분리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">● CONDITION_VARIABLE — Vista+</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- POSIX 조건 변수와 유사한 고수준 대기</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">커널 모드 — 프로세스 간 공유 가능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">● Mutex — 소유권 있는 상호 배제</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">● Semaphore — 카운팅 세마포어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">● Event — 수동/자동 리셋 신호 객체</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">● WaitableTimer — 타이머 기반 동기화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">● FileMapping — 공유 메모리 동기화</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────┐
+│          Windows 동기화 객체 계층                         │
+├───────────────────────────────────────────────────────────┤
+│                                                           │
+│  [유저 모드 — 빠른 경량 객체]                             │
+│  ● Critical Section (CRITICAL_SECTION)                    │
+│    - 스핀 후 커널 Mutex로 전환하는 혼합 방식              │
+│  ● SRWLOCK (Slim Reader/Writer Lock) — Vista+             │
+│    - 포인터 1개 크기, 읽기-쓰기 분리                      │
+│  ● CONDITION_VARIABLE — Vista+                            │
+│    - POSIX 조건 변수와 유사한 고수준 대기                 │
+│                                                           │
+│  [커널 모드 — 프로세스 간 공유 가능]                      │
+│  ● Mutex — 소유권 있는 상호 배제                          │
+│  ● Semaphore — 카운팅 세마포어                            │
+│  ● Event — 수동/자동 리셋 신호 객체                       │
+│  ● WaitableTimer — 타이머 기반 동기화                     │
+│  ● FileMapping — 공유 메모리 동기화                       │
+└───────────────────────────────────────────────────────────┘
+```
 
 **📢 섹션 요약 비유**: Windows [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)는 사내 규정과 법적 계약 두 종류 — 사내 규정([Critical Section](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/))은 빠르지만 회사 내부만, 법적 계약([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 객체)은 느리지만 외부와도 유효합니다.
 
@@ -86,25 +85,25 @@ SetEvent(hEvent);    // 수동: 모든 대기 스레드 깨움
 ResetEvent(hEvent);  // 비신호 상태로 복원
 ```
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자동 리셋 Event vs 수동 리셋 Event</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자동 리셋 (Auto-Reset):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SetEvent() → 대기 스레드 1개만 깨우고 자동으로 비신호 복원</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 세마포어 signal과 유사 동작</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수동 리셋 (Manual-Reset):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SetEvent() → 모든 대기 스레드 동시에 깨움</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ResetEvent() 호출 전까지 신호 유지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 조건 변수의 broadcast와 유사 동작</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실무 예시:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자동: 작업 큐 항목 추가 알림 (1명씩 처리)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수동: 시스템 종료 신호 (모든 스레드에 동시 전파)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│         자동 리셋 Event vs 수동 리셋 Event                   │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│  자동 리셋 (Auto-Reset):                                     │
+│  SetEvent() → 대기 스레드 1개만 깨우고 자동으로 비신호 복원  │
+│  → 세마포어 signal과 유사 동작                               │
+│                                                              │
+│  수동 리셋 (Manual-Reset):                                   │
+│  SetEvent() → 모든 대기 스레드 동시에 깨움                   │
+│  ResetEvent() 호출 전까지 신호 유지                          │
+│  → 조건 변수의 broadcast와 유사 동작                         │
+│                                                              │
+│  실무 예시:                                                  │
+│  자동: 작업 큐 항목 추가 알림 (1명씩 처리)                   │
+│  수동: 시스템 종료 신호 (모든 스레드에 동시 전파)            │
+└──────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** Event 객체의 자동/수동 리셋 구분은 notify() vs notifyAll()과 정확히 대응한다. 자동 리셋은 생산자-소비자에서 하나의 소비자만 깨워야 할 때, 수동 리셋은 서버 종료 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)처럼 모든 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)에 브로드캐스트해야 할 때 사용한다.
 
@@ -131,21 +130,18 @@ switch (dwResult) {
 
 ### [Critical Section](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) vs [Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/) 비교
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">항목</div><div class="kb-diagram-cell">Critical Section</div><div class="kb-diagram-cell">Kernel Mutex</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동작 모드</div><div class="kb-diagram-cell">유저+커널 혼합</div><div class="kb-diagram-cell">커널 모드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로세스 간 공유</div><div class="kb-diagram-cell">불가</div><div class="kb-diagram-cell">가능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">타임아웃</div><div class="kb-diagram-cell">불가</div><div class="kb-diagram-cell">가능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">성능 (무경쟁)</div><div class="kb-diagram-cell">~25ns</div><div class="kb-diagram-cell">~500ns</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">폐기 처리</div><div class="kb-diagram-cell">DeadLock 후 복구불가</div><div class="kb-diagram-cell">WaitForSingleObject 타임아웃</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소유권 추적</div><div class="kb-diagram-cell">있음 (재진입 가능)</div><div class="kb-diagram-cell">있음</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────┬────────────────────┬──────────────────────────────┐
+│ 항목                │ Critical Section   │ Kernel Mutex                 │
+├─────────────────────┼────────────────────┼──────────────────────────────┤
+│ 동작 모드           │ 유저+커널 혼합     │ 커널 모드                    │
+│ 프로세스 간 공유    │ 불가               │ 가능                         │
+│ 타임아웃            │ 불가               │ 가능                         │
+│ 성능 (무경쟁)       │ ~25ns              │ ~500ns                       │
+│ 폐기 처리           │ DeadLock 후 복구불가│ WaitForSingleObject 타임아웃│
+│ 소유권 추적         │ 있음 (재진입 가능) │ 있음                         │
+└─────────────────────┴────────────────────┴──────────────────────────────┘
+```
 
 **📢 섹션 요약 비유**: Critical Section이 스피드게이트(빠르지만 건물 내부만), [Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Mutex가 정식 경비 부스(느리지만 어디서나 유효)입니다.
 
@@ -184,19 +180,15 @@ Windows [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_schedul
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Pthreads 동기화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">윈도우 동기화 (Windows Synchronization)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">이벤트 객체 (Event Object)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">리눅스 동기화</div></div>
-</div>
-</div>
-
-
+```text
+[Pthreads 동기화]
+    │
+    ▼
+[윈도우 동기화 (Windows Synchronization)]
+    │
+    ├──▶ [이벤트 객체 (Event Object)]
+    └──▶ [리눅스 동기화]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

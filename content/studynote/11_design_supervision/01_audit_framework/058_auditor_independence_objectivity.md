@@ -84,21 +84,15 @@ tags = ["studynote-design-supervision"]
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">독립성</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">이해상충 제거</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">객관적 판단</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">감리 신뢰성</div>
-</div>
-</div>
-
-
+```text
+독립성
+   ↓
+이해상충 제거
+   ↓
+객관적 판단
+   ↓
+감리 신뢰성
+```
 
 ---
 

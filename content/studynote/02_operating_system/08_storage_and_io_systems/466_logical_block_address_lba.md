@@ -27,27 +27,28 @@ tags = ["studynote-operating-system"]
   2. **하드웨어 칩셋의 지능화**: 디스크 기판에 아주 똑똑한 마이크로 컨트롤러(소형 컴퓨터)가 탑재되기 시작함.
   3. <strong><a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a>(<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/">Virtualization</a>)의 스토리지 적용</strong>: [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))가 램을 속였듯, LBA는 디스크 컨트롤러가 OS를 속이는 거대한 1차원 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 기법으로 정착함.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">과거 물리 주소(CHS) vs 현대 논리 주소(LBA)의 매핑 시각화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1. 과거 CHS (Cylinder-Head-Sector) 방식 (OS의 개고생)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">운영체제 (OS)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"음, 이 디스크는 헤드가 16개고 실린더가 1024개군. 수식 계산 징징..."</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">"야 하드디스크!</div><div class="kb-diagram-node">실린더 5번, 헤드 3번, 섹터 12번</div><div class="kb-diagram-note">으로 바늘 돌려!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">하드디스크</div><div class="kb-diagram-note">"넵 바늘 돌립니다 덜그럭~"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2. 현대 LBA (Logical Block Address) 방식 (하드웨어의 짬처리)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">운영체제 (OS)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"난 이 하드 안에 쇠구슬이 들었는지 반도체가 들었는지 알 바 아님."</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">"야 하드디스크!</div><div class="kb-diagram-node">LBA 1,000,000번</div><div class="kb-diagram-note">데이터 퍼와!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">하드디스크 컨트롤러 (펌웨어)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"100만 번이 어디더라? (내부 해독기 가동) 아, 12번 트랙 5번 섹터네."</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(스스로 바늘을 움직여 데이터를 찾고 OS에게 쿨하게 올려보냄)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│        과거 물리 주소(CHS) vs 현대 논리 주소(LBA)의 매핑 시각화         │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│ ▶ 1. 과거 CHS (Cylinder-Head-Sector) 방식 (OS의 개고생)                 │
+│   [ 운영체제 (OS) ]                                                     │
+│   "음, 이 디스크는 헤드가 16개고 실린더가 1024개군. 수식 계산 징징..."  │
+│   "야 하드디스크! [ 실린더 5번, 헤드 3번, 섹터 12번 ] 으로 바늘 돌려!"  │
+│   [ 하드디스크 ] "넵 바늘 돌립니다 덜그럭~"                             │
+│                                                                         │
+│ ▶ 2. 현대 LBA (Logical Block Address) 방식 (하드웨어의 짬처리)          │
+│   [ 운영체제 (OS) ]                                                     │
+│   "난 이 하드 안에 쇠구슬이 들었는지 반도체가 들었는지 알 바 아님."     │
+│   "야 하드디스크! [ LBA 1,000,000번 ] 데이터 퍼와!"                     │
+│          │                                                              │
+│          ▼                                                              │
+│   [ 하드디스크 컨트롤러 (펌웨어) ]                                      │
+│   "100만 번이 어디더라? (내부 해독기 가동) 아, 12번 트랙 5번 섹터네."   │
+│   (스스로 바늘을 움직여 데이터를 찾고 OS에게 쿨하게 올려보냄)           │
+└─────────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** "[추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)([Abstraction](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/))는 복잡성을 덮는 이불이다." LBA 덕분에 OS는 더 이상 '실린더', '바늘' 같은 단어를 코드에 쓰지 않는다. `Read(LBA 500, size 4KB)` 라는 우아한 함수 하나면 끝난다. 훗날 바늘이 없는 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)(낸드 플래시)가 발명되었을 때, OS 코드를 한 줄도 안 고치고 기존 HDD를 빼고 바로 SSD를 꽂아서 쓸 수 있었던 이유가 바로 이 LBA라는 위대한 공용 껍데기 덕분이다.
 
 - **📢 섹션 요약 비유**: 옛날엔 편지를 보낼 때 "서울시 서초구 서초동 100번지 3층 우측 집(CHS)"이라고 길게 썼지만, 지금은 "우편번호 06000(LBA)" 하나만 쓰면 우체국(컨트롤러)이 알아서 그게 어느 아파트 몇 동인지 해석해서 배달해 주는 완벽한 규격화 시스템입니다.
@@ -99,17 +100,14 @@ OS의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_
 하지만 하드디스크 내부에서 배드 섹터 리매핑이 터져서, 2번 LBA가 저 멀리 안쪽 예비 섹터로 쫓겨나 있다면? 
 OS는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 연속되어 있다고 굳게 믿지만, 실제 하드디스크 바늘은 1번을 읽고 2번을 읽기 위해 원판을 가로질러 덜그럭덜그럭 점프(Seek)를 뛰게 된다. 소프트웨어 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)와 하드웨어 물리의 간극이 빚어낸 딜레마다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주소 체계</div><div class="kb-diagram-cell">사용자 (User)</div><div class="kb-diagram-cell">운영체제 (OS)</div><div class="kb-diagram-cell">디스크 (HW)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보는 관점</div><div class="kb-diagram-cell">파일 이름(.txt)</div><div class="kb-diagram-cell">LBA (번호)</div><div class="kb-diagram-cell">CHS (물리 위치)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">처리 부서</div><div class="kb-diagram-cell">VFS / 앱</div><div class="kb-diagram-cell">블록 I/O 계층</div><div class="kb-diagram-cell">펌웨어 컨트롤러</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬─────────────────────────┐
+│ 주소 체계  │ 사용자 (User)│ 운영체제 (OS) │ 디스크 (HW)      │
+├──────────┼────────────┼────────────┼─────────────────────────┤
+│ 보는 관점  │ 파일 이름(.txt)│ **LBA (번호)**│ CHS (물리 위치)│
+│ 처리 부서  │ VFS / 앱    │ 블록 I/O 계층 │ 펌웨어 컨트롤러   │
+└──────────┴────────────┴────────────┴─────────────────────────┘
+```
 **[매트릭스 해설]** 컴퓨터는 거짓말의 연속이다. 유저는 '[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)'이 존재하는 줄 알지만 OS에겐 LBA 숫자일 뿐이다. OS는 '1차원 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)'이 존재하는 줄 알지만 하드웨어에겐 빙글빙글 도는 쇳덩어리일 뿐이다. 각 계층이 서로의 복잡함을 철저히 숨기고 속여 넘기는 이 겹겹의 사기극([추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)) 덕분에 우리는 마우스 딸깍 한 번으로 영화를 다운받을 수 있다.
 
 - **📢 섹션 요약 비유**: 4KB로 묶어 파는 마트(4Kn 하드)에 가서 "나 500그램만 살래(512e OS)"라고 생떼를 씁니다. 알바생은 어쩔 수 없이 4kg짜리 묶음을 뜯어서 500그램만 넣고 다시 포장(Read-Modify-Write)하느라 뒤에 줄 선 사람들이 다 뻗어버립니다. OS도 하드웨어 규격에 맞춰 4kg씩 화끈하게 주문(4Kn)하는 것이 상도덕이자 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화의 길입니다.
@@ -167,19 +165,15 @@ SSD는 [플래시 메모리](/knowledge-base/studynote/01_computer_architecture/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">하드 디스크 드라이브 (HDD) 구조</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">논리적 블록 주소 (LBA, Logical Block Address)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">디스크 접근 시간 = 탐색 시간(Seek Time) + 회전 지연(Rotational Latency) + 전송 시간(Transfer Time)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">디스크 스케줄링 (Disk Scheduling) 목적</div></div>
-</div>
-</div>
-
-
+```text
+[하드 디스크 드라이브 (HDD) 구조]
+    │
+    ▼
+[논리적 블록 주소 (LBA, Logical Block Address)]
+    │
+    ├──▶ [디스크 접근 시간 = 탐색 시간(Seek Time) + 회전 지연(Rotational Latency) + 전송 시간(Transfer Time)]
+    └──▶ [디스크 스케줄링 (Disk Scheduling) 목적]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

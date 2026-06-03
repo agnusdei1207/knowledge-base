@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **속도의 법칙 (샤논 941번)**: 무선 통신 속도를 2배로 올리려면 도로 폭([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/), [Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))을 2배로 넓히는 게 가장 무식하고 확실합니다.
 - **물리적 한계**: 통신사가 한 방에 '연속된 40MHz' 짜리 넓은 주파수를 통째로 낙찰받으면 좋겠지만, 국가가 팔아먹을 주파수 빈 공간이 없어 여기저기 파편화된 자투리 주파수(10MHz, 20MHz)밖에 줍지 못합니다. 도로가 떨어져 있으니 속도 뻥튀기가 안 됩니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">CoMP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">캐리어 어그리게이션</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">언면허 대역망</div></div>
-</div>
-</div>
-
-
+```text
+[CoMP]
+    │
+    ▼
+[캐리어 어그리게이션]
+    │
+    └──▶ [언면허 대역망]
+```
 
 - **📢 섹션 요약 비유**: 캐리어 어그리게이션은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -43,18 +39,14 @@ tags = ["studynote-network"]
 
 - **개념**: 4G [LTE-Advanced](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/757_ltea_carrier_aggregation/)([LTE-A](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/757_ltea_carrier_aggregation/))의 상용화를 이끌고 5G까지 이어지는 절대 핵심 기술입니다. 물리적으로 대역이 <strong>멀리 떨어져 있는 여러 개의 파편화된 주파수 <a href="/knowledge-base/studynote/03_network/01_data_communication/054_반송파_Carrier_Wave/">반송파</a>(<a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/">Component</a> Carrier, <a href="/knowledge-base/studynote/09_security/17_framework_compliance/883_common_criteria_iso_15408/">CC</a>) 대역 덩어리들을 논리적(소프트웨어적)으로 하나의 거대한 초광대역폭으로 묶어서(병합하여) 단말기(폰)가 동시에 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 송수신할 수 있게 만드는 주파수 묶음 기술</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">CoMP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">캐리어 어그리게이션</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">언면허 대역망</div></div>
-</div>
-</div>
-
-
+```text
+[CoMP]
+    │
+    ▼
+[캐리어 어그리게이션]
+    │
+    └──▶ [언면허 대역망]
+```
 
 - **📢 섹션 요약 비유**: 캐리어 어그리게이션의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -130,19 +122,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: CoMP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 캐리어 어그리게이션</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 언면허 대역망</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: CoMP]
+    │
+    ▼
+[현재 개념: 캐리어 어그리게이션]
+    │
+    ├──▶ [확장 A: 언면허 대역망]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 캐리어 어그리게이션는 CoMP에서 출발해 현재 메커니즘을 정교화하고, 이후 [언면허 대역망](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1015_unlicensed_band_lte_u_nr_u_wifi_coexistence/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

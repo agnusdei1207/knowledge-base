@@ -20,21 +20,27 @@ tags = ["studynote-cloud-architecture"]
 
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 과학자의 87%가 "주피터 노트북에서 잘 되던 모델이 프로덕션에서 안 된다"고 말한다. 이 간극을 <strong>"ML <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/">기술 부채</a>(Hidden <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/">Technical Debt</a>)"</strong>라 하며, Kubeflow는 이를 해소한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kubeflow 핵심 컴포넌트 아키텍처</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Notebooks</div><div class="kb-diagram-cell">Pipelines</div><div class="kb-diagram-cell">Katib</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(실험)</div><div class="kb-diagram-cell">(파이프</div><div class="kb-diagram-cell">(HP 튜닝)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">라인)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kubernetes Cluster</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GPU Node Pool + CPU Node Pool</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">KServe (모델 서빙)</div><div class="kb-diagram-cell">Canary / A-B 배포</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    Kubeflow 핵심 컴포넌트 아키텍처                     │
+├───────────────────────────────────────────────────────┤
+│  ┌──────────┐  ┌──────────┐  ┌──────────┐            │
+│  │ Notebooks│  │ Pipelines│  │  Katib   │            │
+│  │ (실험)   │  │ (파이프  │  │ (HP 튜닝)│            │
+│  │          │  │  라인)   │  │          │            │
+│  └────┬─────┘  └────┬─────┘  └────┬─────┘            │
+│       │              │              │                 │
+│       ▼              ▼              ▼                 │
+│  ┌──────────────────────────────────────┐             │
+│  │        Kubernetes Cluster           │             │
+│  │  GPU Node Pool + CPU Node Pool      │             │
+│  └──────────┬───────────────────────────┘             │
+│             │                                         │
+│  ┌──────────▼──────────┐                              │
+│  │   KServe (모델 서빙) │  Canary / A-B 배포         │
+│  └─────────────────────┘                              │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: Kubeflow는 ML 공장의 <strong>컨베이어 벨트 시스템</strong>이다. 원재료([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 투입 → 가공(전처리) → 조립(학습) → 품질 검사(평가) → 출하(서빙)가 자동으로 흘러간다.
 
@@ -104,23 +110,21 @@ Kubeflow는 <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">수동 ML 배포 (주피터 → Docker → 수동 서빙)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Kubeflow 0.x (2018, Google) — K8s 기반 ML 플랫폼 시작</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Kubeflow Pipelines v2 (2022~) — DAG 성숙, Katib 통합</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">KServe (2021~) — Knative 기반 모델 서빙 표준화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: GenAI Ops — LLM Fine-tuning·RAG 파이프라인 통합</div></div>
-</div>
-</div>
-
-
+```text
+[수동 ML 배포 (주피터 → Docker → 수동 서빙)]
+    │
+    ▼
+[Kubeflow 0.x (2018, Google) — K8s 기반 ML 플랫폼 시작]
+    │
+    ▼
+[Kubeflow Pipelines v2 (2022~) — DAG 성숙, Katib 통합]
+    │
+    ▼
+[KServe (2021~) — Knative 기반 모델 서빙 표준화]
+    │
+    ▼
+[현재: GenAI Ops — LLM Fine-tuning·RAG 파이프라인 통합]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. Kubeflow는 공장의 <strong>자동 컨베이어 벨트</strong>예요. 재료([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 넣으면 완제품([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델)이 나와요.

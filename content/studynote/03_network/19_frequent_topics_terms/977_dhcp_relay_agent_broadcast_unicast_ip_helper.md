@@ -23,18 +23,14 @@ tags = ["studynote-network"]
 - **치명적 약점**: 처음에 PC는 주소가 아예 없기 때문에, 무조건 "아무나 들으세요!(`255.255.255.255`)"라는 방송(Broadcast) 패킷을 터뜨립니다.
 - **라우터의 차단 본능**: 958번 문서 등에서 배웠듯, 라우터(L3)는 방송 패킷(브로드캐스트)이 들어오면 옆방(다른 서브넷)으로 안 넘어가게 칼같이 잘라서 버립니다(Drop). 따라서 [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 서버가 옆방에 있으면 PC는 영원히 IP를 받지 못하고 멸망합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DNS 스푸핑</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DHCP 릴레이 에이전트</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SNMP MIB 구조</div></div>
-</div>
-</div>
-
-
+```text
+[DNS 스푸핑]
+    │
+    ▼
+[DHCP 릴레이 에이전트]
+    │
+    └──▶ [SNMP MIB 구조]
+```
 
 - **📢 섹션 요약 비유**: [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 릴레이 에이전트는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -46,18 +42,14 @@ tags = ["studynote-network"]
 
 - **개념**: PC와 동일한 네트워크(방)에 있는 라우터나 L3 스위치의 포트에 설정하는 특수한 중계 기능입니다. 클라이언트가 부르짖는 <strong>'IP 요청 브로드캐스트 방송'을 가로채어, 특정 IP 주소(서울 본사의 중앙 <a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/">DHCP</a> 서버)를 향해 1:1 '유니캐스트(Unicast)' 패킷으로 감싸서 쏴주는(토스해 주는) 심부름꾼 역할</strong>을 합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DNS 스푸핑</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DHCP 릴레이 에이전트</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SNMP MIB 구조</div></div>
-</div>
-</div>
-
-
+```text
+[DNS 스푸핑]
+    │
+    ▼
+[DHCP 릴레이 에이전트]
+    │
+    └──▶ [SNMP MIB 구조]
+```
 
 - **📢 섹션 요약 비유**: [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 릴레이 에이전트의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -119,19 +111,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: DNS 스푸핑</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: DHCP 릴레이 에이전트</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: SNMP MIB 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: DNS 스푸핑]
+    │
+    ▼
+[현재 개념: DHCP 릴레이 에이전트]
+    │
+    ├──▶ [확장 A: SNMP MIB 구조]
+    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
+```
 
 [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 릴레이 에이전트는 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) [MIB](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/529_mib_oid_snmp_architecture/) 구조와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

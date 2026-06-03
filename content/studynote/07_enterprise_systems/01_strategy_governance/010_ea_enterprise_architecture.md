@@ -25,23 +25,18 @@ tags = ["enterprise_systems"]
 
 기업의 IT 환경이 확장되면서 각 부서는 자신의 편의에 맞는 시스템을 개별적으로 도입했다. 마케팅팀은 SaaS형 CRM을, 재무팀은 레거시 ERP를, 공장은 별도의 MES를 구축하면서 기업 내부에는 수백 개의 시스템이 얽히고설킨 스파게티 네트워크(Spaghetti Network)가 형성되었다. 이로 인해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 파편화되고, 하나의 시스템을 고치면 다른 시스템이 연쇄적으로 마비되는 극강의 복잡도(Complexity)가 발생했다. 이러한 혼돈을 통제하기 위해 도시 계획(Urban Planning)과 같은 종합적인 규준이 필요해졌고, 그것이 바로 EA다. EA는 "우리 회사가 가진 IT 자산의 현주소는 어디이며, 미래에는 어떤 표준 구조로 나아가야 하는가?"에 대한 근본적인 가이드라인을 제공한다.
 
+```text
+이 도식은 무질서한 IT 환경(사일로)이 EA라는 청사진을 통해 어떻게 정렬(Alignment)되고 계층화되는지를 보여주는 계층 구조도이다.
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 도식은 무질서한 IT 환경(사일로)이 EA라는 청사진을 통해 어떻게 정렬(Alignment)되고 계층화되는지를 보여주는 계층 구조도이다.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AS-IS: 스파게티 구조 (EA 부재)</div><div class="kb-diagram-node">TO-BE: 정렬된 4대 아키텍처 (EA 도입)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">(영업) ─복잡한 I/F─&gt; (재무)</div><div class="kb-diagram-node">Business Arch (BA)</div><div class="kb-diagram-note">: 조직, 프로세스, 전략</div></div>
-<div class="kb-diagram-note">\ / ▼ (구현)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">(마케팅) &lt;─&gt; (생산)</div><div class="kb-diagram-node">Data Arch (DA)</div><div class="kb-diagram-note">: 전사 데이터 모델, 표준 단어</div></div>
-<div class="kb-diagram-note">\ / ▼ (조작)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">(개별 중복 DB들)</div><div class="kb-diagram-node">Application Arch (AA)</div><div class="kb-diagram-note">: 서비스, 컴포넌트, API</div></div>
-<div class="kb-diagram-note">▼ (운영)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Technology Arch (TA)</div><div class="kb-diagram-note">: 클라우드, 네트워크, 보안</div></div>
-</div>
-</div>
-
-
+[AS-IS: 스파게티 구조 (EA 부재)]          [TO-BE: 정렬된 4대 아키텍처 (EA 도입)]
+(영업) ─복잡한 I/F─> (재무)              [Business Arch (BA)] : 조직, 프로세스, 전략
+   \                 /                           ▼ (구현)
+    (마케팅) <─> (생산)                  [Data Arch (DA)] : 전사 데이터 모델, 표준 단어
+      \           /                              ▼ (조작)
+     (개별 중복 DB들)                    [Application Arch (AA)] : 서비스, 컴포넌트, API
+                                                 ▼ (운영)
+                                         [Technology Arch (TA)] : 클라우드, 네트워크, 보안
+```
 
 이 그림의 핵심은 EA가 단순한 기술(Technology) [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)가 아니라는 점이다. 가장 상위에 [비즈니스 아키텍처](/knowledge-base/studynote/12_it_management/03_ea_isp/103_ba_as_is_analysis/)([BA](/knowledge-base/studynote/12_it_management/03_ea_isp/103_ba_as_is_analysis/))가 존재하며, 나머지 하위 아키텍처([DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/), [AA](/knowledge-base/studynote/12_it_management/03_ea_isp/105_aa_as_is_analysis/), [TA](/knowledge-base/studynote/12_it_management/03_ea_isp/106_ta_as_is_analysis/))는 오직 상위 비즈니스를 지원하기 위해 존재한다. 이런 배치는 EA의 궁극적인 목적이 '비즈니스와 IT의 완벽한 정렬(IT-Business Alignment)'에 있음을 의미한다. 실무에서는 새로운 애플리케이션([AA](/knowledge-base/studynote/12_it_management/03_ea_isp/105_aa_as_is_analysis/))을 개발할 때, 사전에 정의된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 표준([DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/))과 인프라 표준([TA](/knowledge-base/studynote/12_it_management/03_ea_isp/106_ta_as_is_analysis/))을 벗어나는 구조는 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 위원회의 승인을 받지 못하도록 강제함으로써 전체 시스템의 [상호운용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/287_interoperability_tactics/)([Interoperability](/knowledge-base/studynote/06_ict_convergence/01_blockchain/084_blockchain_interoperability_polkadot_cosmos/))을 보장한다.
 
@@ -62,24 +57,30 @@ EA의 구성은 기본적으로 [현재 상태](/knowledge-base/studynote/04_sof
 <strong>2. <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/113_togaf/">TOGAF</a> (<a href="/knowledge-base/studynote/09_security/17_framework_compliance/875_togaf/">The Open Group Architecture Framework</a>)</strong>
 - EA를 실제로 어떻게 만들고 유지할 것인지에 대한 단계별 방법론인 <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/066_적응형_델타_변조_ADM/">ADM</a> (<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/114_togaf_adm_architecture_development_method/">Architecture Development Method</a>)</strong>을 제공하는 사실상의 글로벌 표준.
 
+```text
+이 도식은 TOGAF의 핵심인 ADM(Architecture Development Method)의 순환 주기를 보여주는 상태 흐름도이다. EA는 일회성 프로젝트가 아니라 지속해서 개선되는 라이프사이클을 가짐을 보여준다.
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 도식은 TOGAF의 핵심인 ADM(Architecture Development Method)의 순환 주기를 보여주는 상태 흐름도이다. EA는 일회성 프로젝트가 아니라 지속해서 개선되는 라이프사이클을 가짐을 보여준다.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">예비 단계 (Preliminary)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A. 아키텍처 비전 수립</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B. 비즈니스(BA)</div><div class="kb-diagram-cell">H. 아키텍처 변경</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">아키텍처</div><div class="kb-diagram-cell">관리 (Living)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C. 정보(DA/AA)</div><div class="kb-diagram-cell">◀ ▶</div><div class="kb-diagram-cell">G. 구현 거버넌스</div><div class="kb-diagram-cell">&lt;-- (IT 프로젝트 통제)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">아키텍처</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">D. 기술(TA)</div><div class="kb-diagram-cell">F. 마이그레이션</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">아키텍처</div><div class="kb-diagram-cell">계획 수립</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">E. 기회 및 솔루션 식별 (Gap)</div></div>
-</div>
-</div>
-
-
+               [예비 단계 (Preliminary)]
+                       │
+       ┌───────────────▼───────────────┐
+       │     A. 아키텍처 비전 수립     │
+       └─┬───────────────────────────┬─┘
+         │                           │
+┌────────▼────────┐         ┌────────▼────────┐
+│ B. 비즈니스(BA) │         │ H. 아키텍처 변경│
+│   아키텍처      │         │    관리 (Living)│
+├────────▼────────┤         ├────────▼────────┤
+│ C. 정보(DA/AA)  │ ◀───▶ │ G. 구현 거버넌스│<-- (IT 프로젝트 통제)
+│   아키텍처      │         │                 │
+├────────▼────────┤         ├────────▼────────┤
+│ D. 기술(TA)     │         │ F. 마이그레이션 │
+│   아키텍처      │         │    계획 수립    │
+└────────┬────────┘         └────────┬────────┘
+         │                           │
+       ┌─▼───────────────────────────▼─┐
+       │  E. 기회 및 솔루션 식별 (Gap) │
+       └───────────────────────────────┘
+```
 
 이 흐름의 핵심은 ADM이 A단계에서 D단계까지 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-IS와 TO-BE를 정의하고, E와 F단계에서 그 격차(Gap)를 메울 프로젝트를 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)한 뒤, G와 H단계에서 실제 개발 프로젝트를 감시(거버넌스)하고 환경 변화에 맞춰 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 청사진을 다시 업데이트([변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/))하는 무한 순환 구조라는 점이다. 따라서 EA는 한 번 책자로 만들어져 캐비닛에 꽂히는 순간 죽은 문서가 된다. 실무에서는 G(구현 거버넌스) 단계가 가장 중요하다. 새로운 ERP를 도입할 때 프로젝트 PM은 반드시 EA팀(아키텍트)에게 "이 시스템이 우리의 [TA](/knowledge-base/studynote/12_it_management/03_ea_isp/106_ta_as_is_analysis/)/[DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/) 표준을 준수하는가?"를 리뷰받아야 한다.
 
@@ -98,20 +99,18 @@ EA는 종종 솔루션 아키텍처([SA](/knowledge-base/studynote/03_network/15
 | **주요 활동** | [전사 아키텍처](/knowledge-base/studynote/12_it_management/05_security_compliance/242_ea_architecture_planning/) 원칙 수립, 시스템 간 연계 통제 | 프레임워크 선정, DB 튜닝, [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 설계 |
 | **결과물** | 4대 아키텍처([BA](/knowledge-base/studynote/12_it_management/03_ea_isp/103_ba_as_is_analysis/), [DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/), [AA](/knowledge-base/studynote/12_it_management/03_ea_isp/105_aa_as_is_analysis/), [TA](/knowledge-base/studynote/12_it_management/03_ea_isp/106_ta_as_is_analysis/)) 청사진, [참조 모델](/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/) | 시스템 설계서, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 명세, 아키텍처 다이어그램 |
 
+```text
+이 매트릭스는 EA의 양대 프레임워크인 Zachman과 TOGAF의 특성을 비교하여, 실무에서 두 프레임워크를 어떻게 융합해야 하는지 판단 포인트를 제시한다.
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 매트릭스는 EA의 양대 프레임워크인 Zachman과 TOGAF의 특성을 비교하여, 실무에서 두 프레임워크를 어떻게 융합해야 하는지 판단 포인트를 제시한다.</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">특성</div><div class="kb-diagram-cell">Zachman Framework</div><div class="kb-diagram-cell">TOGAF (The Open Group)</div><div class="kb-diagram-cell">융합 판단 포인트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">본질</div><div class="kb-diagram-cell">정적(Static) 구조, 분류법</div><div class="kb-diagram-cell">동적(Dynamic) 프로세스, 방법론</div><div class="kb-diagram-cell">무엇을(Zach) 어떻게(TOG)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장점</div><div class="kb-diagram-cell">누락/중복 없는 완벽한 분석</div><div class="kb-diagram-cell">명확한 절차(ADM) 제공, 실천적</div><div class="kb-diagram-cell">이론적 완전성 vs 실행력</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단점</div><div class="kb-diagram-cell">어떻게 만들어야 하는지 부재</div><div class="kb-diagram-cell">산출물이 방대하고 무거움</div><div class="kb-diagram-cell">기업 규모에 따른 테일러링</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">활용 방식</div><div class="kb-diagram-cell">EA의 메타모델(스키마)로 활용</div><div class="kb-diagram-cell">EA 수립 프로젝트의 절차로 활용</div><div class="kb-diagram-cell">상호 보완적 융합 필수</div></div>
-</div>
-</div>
-
-
+┌────────────┬─────────────────────────────┬──────────────────────────────┬───────────────────────┐
+│ 특성       │ Zachman Framework           │ TOGAF (The Open Group)       │ 융합 판단 포인트      │
+├────────────┼─────────────────────────────┼──────────────────────────────┼───────────────────────┤
+│ 본질       │ 정적(Static) 구조, 분류법   │ 동적(Dynamic) 프로세스, 방법론│ 무엇을(Zach) 어떻게(TOG)│
+│ 장점       │ 누락/중복 없는 완벽한 분석  │ 명확한 절차(ADM) 제공, 실천적│ 이론적 완전성 vs 실행력│
+│ 단점       │ 어떻게 만들어야 하는지 부재 │ 산출물이 방대하고 무거움     │ 기업 규모에 따른 테일러링│
+│ 활용 방식  │ EA의 메타모델(스키마)로 활용│ EA 수립 프로젝트의 절차로 활용│ 상호 보완적 융합 필수 │
+└────────────┴─────────────────────────────┴──────────────────────────────┴───────────────────────┘
+```
 
 이 비교 구조의 핵심은 자크만과 TOGAF가 경쟁 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)가 아니라 상호 보완재(Complementary)라는 점이다. 기업이 EA를 도입할 때, 어떤 요소들을 관리할 것인지에 대한 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)(메타모델)는 자크만의 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)법을 차용하여 설계하고, 그 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)를 채워 넣고 갱신하는 업무 프로세스는 TOGAF의 ADM을 적용하는 것이 글로벌 베스트 프랙티스다. 최근에는 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)([마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/))와 클라우드 환경이 대두되면서, 이 거대한 프레임워크를 그대로 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)보다는 조직에 맞게 초경량화([Tailoring](/knowledge-base/studynote/04_software_engineering/01_overview_principles/058_methodology_tailoring/))하여 꼭 필요한 핵심 [TA](/knowledge-base/studynote/12_it_management/03_ea_isp/106_ta_as_is_analysis/)/[DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/) 표준만 강제하는 마이크로 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/)(Micro-[EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/))가 트렌드로 자리 잡고 있다.
 
@@ -130,22 +129,23 @@ EA는 종종 솔루션 아키텍처([SA](/knowledge-base/studynote/03_network/15
 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> (치명적 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a> 사례)</strong>
 - <strong>문서화 자체에 집착하는 <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/">EA</a></strong>: 거대한 기업의 모든 프로세스와 IT 요소를 완벽하게 매핑하겠다며 1~2년을 분석에만 쏟는 것은 치명적 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이다. 분석이 끝날 즈음이면 이미 비즈니스 환경이 변해있다. [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 시대의 EA는 완벽함보다는 '꼭 지켜야 할 최소한의 가이드레일(Guardrail)'을 제공하는 가벼운 중앙 통제소로 역할이 바뀌어야 한다.
 
+```text
+이 도식은 실무 환경에서 IT 프로젝트가 진행될 때, EA 위원회(ARB)가 언제 개입하여 통제력을 행사하는지를 보여주는 의사결정(거버넌스) 플로우다.
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 도식은 실무 환경에서 IT 프로젝트가 진행될 때, EA 위원회(ARB)가 언제 개입하여 통제력을 행사하는지를 보여주는 의사결정(거버넌스) 플로우다.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">신규 IT 프로젝트 기획</div><div class="kb-diagram-note">──(프로젝트 발의)──&gt;</div><div class="kb-diagram-node">EA 기반 아키텍처 검토 (ARB)</div></div>
-<div class="kb-diagram-note">▼ (검증 항목) ▼</div>
-<div class="kb-diagram-note">1. 전사 데이터 표준(DA) 준수 여부 2. 기술 표준(TRM/TA) 준수 여부</div>
-<div class="kb-diagram-note">3. 기존 시스템과의 중복 여부 4. 보안 아키텍처(SA) 부합 여부</div>
-<div class="kb-diagram-note">(위배/중복 시) (통과 시) (신기술 도입 필요 시)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">프로젝트 반려 및 재설계 권고</div><div class="kb-diagram-node">설계/구현 단계 진입 허가</div><div class="kb-diagram-node">표준(TRM) 예외 승인 및 EA 갱신</div></div>
-<div class="kb-diagram-note">(오픈 전 EAMS 산출물 강제 등록)</div>
-</div>
-</div>
-
-
+[신규 IT 프로젝트 기획] ──(프로젝트 발의)──> [EA 기반 아키텍처 검토 (ARB)]
+                                                    │
+                                  ┌─────────────────┴─────────────────┐
+                                  ▼ (검증 항목)                       ▼
+                       1. 전사 데이터 표준(DA) 준수 여부    2. 기술 표준(TRM/TA) 준수 여부
+                       3. 기존 시스템과의 중복 여부         4. 보안 아키텍처(SA) 부합 여부
+                                  │                                   │
+                    ┌─────────────┴────────────┐            ┌─────────┴─────────┐
+             (위배/중복 시)                  (통과 시)      (신기술 도입 필요 시)
+                    ▼                          ▼                  ▼
+[프로젝트 반려 및 재설계 권고]    [설계/구현 단계 진입 허가]   [표준(TRM) 예외 승인 및 EA 갱신]
+                                               │
+                                 (오픈 전 EAMS 산출물 강제 등록)
+```
 
 이 운영 플로우의 핵심은 EA가 '경찰'과 '조언자'의 역할을 동시에 수행한다는 점이다. 단순히 규정을 어겼다고 처벌하는 것이 아니라, 새로운 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기술이 필요하다면 기존 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 표준([TRM](/knowledge-base/studynote/12_it_management/03_ea_isp/120_trm_technical_reference_model/))에 이를 새롭게 편입시켜 전사 표준으로 승격시키는 유연한 예외 처리(Exception Handling) 프로세스가 필수적이다. 그래야만 EA가 혁신을 가로막는 장애물이 아니라 혁신을 안전하게 확산시키는 뼈대가 될 수 있다.
 
@@ -177,25 +177,24 @@ EA를 살아있는 거버넌스 체계로 안착시킨 기업은 엄청난 아�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">비즈니스 아키텍처 (Business Architecture) — 전략·프로세스·조직</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 아키텍처 (Data Architecture) — 데이터 흐름·모델·표준</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">애플리케이션 아키텍처 (Application Architecture) — 시스템·통합</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">기술 아키텍처 (Technology Architecture) — 인프라·플랫폼·네트워크</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">EA 프레임워크 (TOGAF / Zachman) — 아키텍처 거버넌스 체계</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">디지털 전환 로드맵 (DT Roadmap) — EA 기반 변환 추진 계획</div></div>
-</div>
-</div>
-
-
+```text
+[비즈니스 아키텍처 (Business Architecture) — 전략·프로세스·조직]
+    │
+    ▼
+[데이터 아키텍처 (Data Architecture) — 데이터 흐름·모델·표준]
+    │
+    ▼
+[애플리케이션 아키텍처 (Application Architecture) — 시스템·통합]
+    │
+    ▼
+[기술 아키텍처 (Technology Architecture) — 인프라·플랫폼·네트워크]
+    │
+    ▼
+[EA 프레임워크 (TOGAF / Zachman) — 아키텍처 거버넌스 체계]
+    │
+    ▼
+[디지털 전환 로드맵 (DT Roadmap) — EA 기반 변환 추진 계획]
+```
 EA는 비즈니스·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·애플리케이션·[기술 아키텍처](/knowledge-base/studynote/12_it_management/03_ea_isp/106_ta_as_is_analysis/) 4개 계층을 통합 관리하여, 전사 IT 투자의 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)과 [디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/)의 방향성을 제시하는 나침반이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

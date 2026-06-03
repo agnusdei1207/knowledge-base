@@ -33,18 +33,14 @@ tags = ["studynote-data-engineering"]
 
 RDBMS는 [스키마 온 라이트](/knowledge-base/studynote/14_data_engineering/01_infrastructure/010_schema_on_write/)([Schema-on-Write](/knowledge-base/studynote/14_data_engineering/01_infrastructure/010_schema_on_write/)), 수직 확장([Scale-Up](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)), [정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/002_structured_data/)([Structured Data](/knowledge-base/studynote/14_data_engineering/01_infrastructure/002_structured_data/)) 위주로 설계되었다. 빅데이터는 이 세 가지 가정을 모두 깨뜨린다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">기존 RDBMS 한계</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정형 데이터(행·열) ← Variety 충돌</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수직 확장(고가 서버) ← Volume 충돌</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">배치 처리(야간 ETL) ← Velocity 충돌</div></div>
-</div>
-</div>
-
-
+```
+기존 RDBMS 한계
+┌─────────────────────────────────────────┐
+│ 정형 데이터(행·열) ←───── Variety 충돌  │
+│ 수직 확장(고가 서버) ←─── Volume 충돌   │
+│ 배치 처리(야간 ETL) ←──── Velocity 충돌 │
+└─────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 빅데이터는 "소방호스로 물을 받아야 하는데 컵 밖에 없는 상황"이다. 컵(RDBMS)을 아무리 크게 만들어도 소방호스(3V)를 감당할 수 없어서, 아예 저수지(빅데이터 플랫폼)를 파야 한다.
 
@@ -69,18 +65,14 @@ RDBMS는 [스키마 온 라이트](/knowledge-base/studynote/14_data_engineering
 
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·수집·처리 속도. 실시간 스트리밍 처리([Apache Kafka](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/214_kafka_pubsub_topic_partition_offset_broker/), [Apache Flink](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/215_flink_native_stream_watermark_window_time/))와 마이크로배치(Apache [Spark Streaming](/knowledge-base/studynote/16_bigdata/03_spark/060_spark_streaming_dstream/))로 대응.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">속도 스펙트럼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">배치(Batch) → 마이크로배치 → 스트리밍 → 실시간</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(1일 주기) (수 초) (수 밀리초) (&lt; 1ms)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hive Spark Kafka Flink</div></div>
-</div>
-</div>
-
-
+```
+속도 스펙트럼
+┌──────────────────────────────────────────────────────┐
+│  배치(Batch)  →  마이크로배치  →  스트리밍  →  실시간 │
+│  (1일 주기)       (수 초)        (수 밀리초)  (< 1ms) │
+│  Hive           Spark           Kafka        Flink   │
+└──────────────────────────────────────────────────────┘
+```
 
 #### Variety (다양성)
 
@@ -94,21 +86,18 @@ RDBMS는 [스키마 온 라이트](/knowledge-base/studynote/14_data_engineering
 
 ### 5V: Veracity와 Value의 추가
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">3V → 5V 진화</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5V 프레임워크</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Volume</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Velocity</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Variety ──▶</div><div class="kb-diagram-cell">Value (궁극 목적)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Veracity</div><div class="kb-diagram-cell">비즈니스 인사이트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(신뢰성 검증)</div></div>
-</div>
-</div>
-
-
+```
+3V → 5V 진화
+         ┌────────────────────────────────────┐
+         │           5V 프레임워크             │
+         │                                    │
+         │  Volume  ──────────────────────┐   │
+         │  Velocity ─────────────────────┤   │
+         │  Variety  ─────────────────────┤──▶│ Value (궁극 목적)
+         │  Veracity ─────────────────────┤   │ 비즈니스 인사이트
+         │  (신뢰성 검증)                 │   │
+         └────────────────────────────────┴───┘
+```
 
 | V 특성 | 영문 | 정의 | 핵심 기술 |
 |:---|:---|:---|:---|
@@ -134,21 +123,18 @@ RDBMS는 [스키마 온 라이트](/knowledge-base/studynote/14_data_engineering
 
 ### 각 V의 기술적 대응 매핑
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">V-기술 매핑 아키텍처</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">V</div><div class="kb-diagram-cell">핵심 기술 스택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Volume</div><div class="kb-diagram-cell">HDFS → S3/GCS → Delta Lake (콜드/핫 계층화)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Velocity</div><div class="kb-diagram-cell">Kafka → Spark Streaming → Flink (지연 최소)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Variety</div><div class="kb-diagram-cell">Schema Registry → Avro/Parquet → Catalog</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Veracity</div><div class="kb-diagram-cell">Great Expectations → dbt test → Data Lineage</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Value</div><div class="kb-diagram-cell">Spark MLlib → BI 대시보드 → A/B 테스트</div></div>
-</div>
-</div>
-
-
+```
+V-기술 매핑 아키텍처
+┌─────────┬─────────────────────────────────────────────┐
+│   V     │  핵심 기술 스택                               │
+├─────────┼─────────────────────────────────────────────┤
+│ Volume  │  HDFS → S3/GCS → Delta Lake (콜드/핫 계층화) │
+│ Velocity│  Kafka → Spark Streaming → Flink (지연 최소) │
+│ Variety │  Schema Registry → Avro/Parquet → Catalog    │
+│ Veracity│  Great Expectations → dbt test → Data Lineage│
+│ Value   │  Spark MLlib → BI 대시보드 → A/B 테스트       │
+└─────────┴─────────────────────────────────────────────┘
+```
 
 ### 빅데이터 vs 전통 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) ([Data Warehouse](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/208_data_warehouse_schema_on_write_inmon/)) 비교
 
@@ -232,21 +218,18 @@ RDBMS는 [스키마 온 라이트](/knowledge-base/studynote/14_data_engineering
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">빅데이터 3V: Volume · Velocity · Variety</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">확장 5V: + Veracity (정확성) + Value (가치)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">처리 기술: Hadoop → Spark → Flink (실시간)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">저장 아키텍처: Data Lake → Lakehouse → Data Mesh</div>
-</div>
-</div>
-
-
+```text
+빅데이터 3V: Volume · Velocity · Variety
+    │
+    ▼
+확장 5V: + Veracity (정확성) + Value (가치)
+    │
+    ▼
+처리 기술: Hadoop → Spark → Flink (실시간)
+    │
+    ▼
+저장 아키텍처: Data Lake → Lakehouse → Data Mesh
+```
 2. <strong>Veracity(진실성)</strong>는 잘못 인쇄된 책을 걸러내는 품질 검사관이고, <strong>Value(가치)</strong>는 그 많은 책들로 결국 유용한 지식을 얻는 것이에요.
 3. 빅데이터 시스템은 이 다섯 가지 문제를 모두 해결하는 "슈퍼 도서관 관리 시스템"이에요!
 

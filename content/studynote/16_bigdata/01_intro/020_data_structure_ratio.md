@@ -64,27 +64,26 @@ tags = ["bigdata"]
 
 아래 도식은 저장조차 어려웠던 [비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/)(예: 고객의 콜센터 음성 녹음과 리뷰 텍스트)가 어떻게 정형화되어 분석 가치를 가지게 되는지 보여준다.
 
+```text
+[비정형 데이터의 정형화 파이프라인 (Dark Data to Insight)]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">비정형 데이터의 정형화 파이프라인 (Dark Data to Insight)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">입력: 비정형 데이터</div><div class="kb-diagram-note">(음성 녹음 파일, SNS 이미지)</div></div>
-<div class="kb-diagram-note">▼ (원시 저장)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Data Lake / Object Storage</div><div class="kb-diagram-note">--- (무한 용량, 저비용 보관)</div></div>
-<div class="kb-diagram-note">▼ (특징 추출 및 벡터화 / AI 모델 적용)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AI / ML Pipeline 계층</div></div>
-<div class="kb-diagram-tree-item" style="--depth:0">STT (Speech-to-Text) : 음성 -&gt; 텍스트</div>
-<div class="kb-diagram-tree-item" style="--depth:0">NLP (감성 분석) : 텍스트 -&gt; "불만(Negative)", "긍정(Positive)" 분류</div>
-<div class="kb-diagram-tree-item" style="--depth:0">CNN (이미지 인식) : 이미지 -&gt; "파손된 상품" 객체 검출</div>
-<div class="kb-diagram-note">▼ (추출된 메타데이터의 반정형/정형화)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NoSQL / Data Warehouse</div><div class="kb-diagram-note">--- (예: 고객ID | 불만여부 | 상품파손 | 발생시간)</div></div>
-<div class="kb-diagram-note">▼ (통합 분석)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">BI Dashboard / LLM Prompt Context</div></div>
-</div>
-</div>
-
-
+[입력: 비정형 데이터] (음성 녹음 파일, SNS 이미지)
+        │
+        ▼ (원시 저장)
+[Data Lake / Object Storage] --- (무한 용량, 저비용 보관)
+        │
+        ▼ (특징 추출 및 벡터화 / AI 모델 적용)
+[AI / ML Pipeline 계층]
+ ├─ STT (Speech-to-Text)  : 음성 -> 텍스트 
+ ├─ NLP (감성 분석)       : 텍스트 -> "불만(Negative)", "긍정(Positive)" 분류
+ └─ CNN (이미지 인식)     : 이미지 -> "파손된 상품" 객체 검출
+        │
+        ▼ (추출된 메타데이터의 반정형/정형화)
+[NoSQL / Data Warehouse] --- (예: 고객ID | 불만여부 | 상품파손 | 발생시간)
+        │
+        ▼ (통합 분석)
+[BI Dashboard / LLM Prompt Context]
+```
 
 이 메커니즘의 핵심은 <strong>"<a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/">비정형 데이터</a> 그 자체를 <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a>하는 것이 아니라, <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 모델을 통과시켜 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/">메타데이터</a>나 벡터 값(반정형/정형)으로 변환한 뒤에 융합 분석한다"</strong>는 점이다. 과거에는 사람이 일일이 듣고 태그를 달아야 했던 작업이 딥러닝과 Spark 같은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리 엔진을 만나면서 자동화되었고, 비로소 80%의 [다크 데이터](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_darkdata/)에 불을 밝힐 수 있게 되었다.
 
@@ -127,24 +126,24 @@ tags = ["bigdata"]
   2. <strong><a href="/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/">Lakehouse</a> Tier</strong>: 원시 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(반정형)은 저렴한 클라우드 Object Storage에 저장하되, Apache [Parquet](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/) 같은 컬럼 기반 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 포맷으로 변환하여 저장 공간 1/10로 축소.
   3. **Analytics Tier**: Delta Lake나 Iceberg 포맷을 입혀 비정형 저장소 위에서 직접 빠르고 안전한 SQL [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 수행.
 
+```text
+[비정형 데이터 비용/네트워크 최적화 의사결정 트리]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">비정형 데이터 비용/네트워크 최적화 의사결정 트리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">대용량 비정형 데이터 발생 (CCTV, 센서)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ (모두 중앙 클라우드로 전송?) ──&gt;</div><div class="kb-diagram-node">네트워크 마비, Storage 비용 폭발</div><div class="kb-diagram-note">(안티패턴)</div></div>
-<div class="kb-diagram-note">▼ (엣지 필터링 도입)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Edge Node에서 1차 가공 / 필터링</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ 정상 패턴 ──&gt;</div><div class="kb-diagram-node">폐기 또는 24시간 후 자동 덮어쓰기</div></div>
-<div class="kb-diagram-note">▼ 이상 패턴 / 요약 메타데이터</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">저비용 Object Storage 적재 (Data Lake)</div></div>
-<div class="kb-diagram-note">▼ (포맷 변환: CSV -&gt; Parquet 압축)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Data Lakehouse 기반 AI 통합 예측 모델 학습</div></div>
-</div>
-</div>
-
-
+[대용량 비정형 데이터 발생 (CCTV, 센서)]
+       │
+       ├─ (모두 중앙 클라우드로 전송?) ──> [네트워크 마비, Storage 비용 폭발] (안티패턴)
+       │
+       ▼ (엣지 필터링 도입)
+[Edge Node에서 1차 가공 / 필터링]
+       │
+       ├─ 정상 패턴 ──> [폐기 또는 24시간 후 자동 덮어쓰기]
+       │
+       ▼ 이상 패턴 / 요약 메타데이터
+[저비용 Object Storage 적재 (Data Lake)]
+       │
+       ▼ (포맷 변환: CSV -> Parquet 압축)
+[Data Lakehouse 기반 AI 통합 예측 모델 학습]
+```
 
 #### 2. 실무 도입 시 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) ([Data Swamp](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/288_data_swamp_metadata_management_absence/) 현상)
 비정형 [데이터 아키텍처](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/)의 가장 치명적 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)은 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)가 거대한 쓰레기장인 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 스왐프(<a href="/knowledge-base/studynote/07_enterprise_systems/05_data_bi/288_data_swamp_metadata_management_absence/">Data Swamp</a>)</strong>로 변질되는 것이다. 구조가 없는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 넣을 때 '[메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)(누가, 언제, 왜 만들었는지)'를 태깅하지 않고 마구 던져 넣으면, 나중에 검색 자체가 불가능해져 영원히 꺼내 쓸 수 없는 [다크 데이터](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_darkdata/)로 회귀한다. 이를 막기 위해 [데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)([Data Catalog](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)) 솔루션 도입이 필수적이다.
@@ -178,23 +177,21 @@ tags = ["bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">정형 데이터 (Structured) — RDBMS 행/열 구조, 전체의 약 20%</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">반정형 데이터 (Semi-structured) — JSON/XML/CSV, 스키마 유연</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">비정형 데이터 (Unstructured) — 텍스트·이미지·동영상, 전체의 약 80%</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">다크 데이터 (Dark Data) — 수집됐으나 활용되지 않는 방치 데이터</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 레이크 (Data Lake) — 모든 형태 원시 저장, Schema-on-Read 분석</div></div>
-</div>
-</div>
-
-
+```text
+[정형 데이터 (Structured) — RDBMS 행/열 구조, 전체의 약 20%]
+    │
+    ▼
+[반정형 데이터 (Semi-structured) — JSON/XML/CSV, 스키마 유연]
+    │
+    ▼
+[비정형 데이터 (Unstructured) — 텍스트·이미지·동영상, 전체의 약 80%]
+    │
+    ▼
+[다크 데이터 (Dark Data) — 수집됐으나 활용되지 않는 방치 데이터]
+    │
+    ▼
+[데이터 레이크 (Data Lake) — 모든 형태 원시 저장, Schema-on-Read 분석]
+```
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 80%가 비정형임에도 불구하고 대부분이 [다크 데이터](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_darkdata/)로 방치되며, [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)와 [Schema-on-Read](/knowledge-base/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/) 방식이 이를 활용하는 현대 아키텍처 표준이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

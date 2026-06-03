@@ -23,17 +23,14 @@ tags = ["studynote-ai"]
 
 [코사인 유사도](/knowledge-base/studynote/06_ict_convergence/05_data_science/359_cosine_similarity/)는 이 문제를 <strong>각도</strong>라는 개념으로 우아하게 해결한다. 두 벡터가 같은 방향을 가리키면(각도 0°) 유사도 1(완전 동일), 수직 방향이면(각도 90°) 유사도 0(무관), 반대 방향이면(각도 180°) 유사도 -1(완전 반대)이 된다. 벡터의 크기(문서 길이)는 각도에 영향을 주지 않는다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [코사인 유사도](/knowledge-base/studynote/06_ict_convergence/05_data_science/359_cosine_similarity/)는 두 손전등의 방향이 얼마나 같은지 측정하는 것이다. 손전등이 크든 작든(문서 길이) 같은 방향으로 비추면 유사도 1, 서로 90°로 갈라지면 0, 반대 방향이면 -1이다. 중요한 것은 얼마나 밝은지(크기)가 아니라 어디를 향하는지(방향, 의미)다.
 
@@ -41,30 +38,33 @@ tags = ["studynote-ai"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코사인 유사도 (Cosine Similarity) 수식 및 직관</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수식:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">cos(θ) = (A · B) / (</div><div class="kb-diagram-cell">A</div><div class="kb-diagram-cell">×</div><div class="kb-diagram-cell">B</div><div class="kb-diagram-cell">)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">= (Σ Aᵢ × Bᵢ) / (√Σ Aᵢ² × √Σ Bᵢ²)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">예시: A =</div><div class="kb-diagram-node">1, 0, 1</div><div class="kb-diagram-note">("사과 과일"), B =</div><div class="kb-diagram-node">1, 0, 0.9</div><div class="kb-diagram-note">("애플 과일")</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A·B = 1×1 + 0×0 + 1×0.9 = 1.9</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A</div><div class="kb-diagram-cell">= √(1+0+1) = √2 ≈ 1.414</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B</div><div class="kb-diagram-cell">= √(1+0+0.81) = √1.81 ≈ 1.345</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">cos(θ) = 1.9 / (1.414 × 1.345) ≈ 0.998 → 매우 유사!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">범위 해석:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">cos = 1.0 → 동일한 방향, 완전 유사 (같은 문장)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">cos = 0.9+ → 매우 유사 (동의어, 관련 주제)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">cos = 0.7+ → 유사 (같은 분야 다른 주제)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">cos = 0.5 → 약한 관련 (광의 분야 연관)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">cos = 0.0 → 무관련 (직각 방향)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">cos &lt; 0.0 → 반대 의미 (부정적 문맥 등)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│         코사인 유사도 (Cosine Similarity) 수식 및 직관                │
+├──────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  수식:                                                            │
+│  cos(θ) = (A · B) / (||A|| × ||B||)                             │
+│                                                                  │
+│  = (Σ Aᵢ × Bᵢ) / (√Σ Aᵢ² × √Σ Bᵢ²)                           │
+│                                                                  │
+│  예시: A = [1, 0, 1] ("사과 과일"), B = [1, 0, 0.9] ("애플 과일")    │
+│  A·B = 1×1 + 0×0 + 1×0.9 = 1.9                                  │
+│  ||A|| = √(1+0+1) = √2 ≈ 1.414                                  │
+│  ||B|| = √(1+0+0.81) = √1.81 ≈ 1.345                            │
+│  cos(θ) = 1.9 / (1.414 × 1.345) ≈ 0.998 → 매우 유사!            │
+│                                                                  │
+│  범위 해석:                                                        │
+│  ┌─────────────────────────────────────────────────────────┐    │
+│  │  cos = 1.0  → 동일한 방향, 완전 유사 (같은 문장)           │    │
+│  │  cos = 0.9+ → 매우 유사 (동의어, 관련 주제)               │    │
+│  │  cos = 0.7+ → 유사 (같은 분야 다른 주제)                  │    │
+│  │  cos = 0.5  → 약한 관련 (광의 분야 연관)                   │    │
+│  │  cos = 0.0  → 무관련 (직각 방향)                          │    │
+│  │  cos < 0.0  → 반대 의미 (부정적 문맥 등)                   │    │
+│  └─────────────────────────────────────────────────────────┘    │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 | 거리 측정법 | 수식 | 특징 | 적합 상황 |
 |:---|:---|:---|:---|

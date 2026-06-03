@@ -21,17 +21,19 @@ tags = ["studynote-design-supervision"]
 샘플링 감리 신뢰 구간는 현상을 수치로 설명하는 지표 주제다. 최근 환경에서는 표본 수, 신뢰수준, 오차한계가 따로 놀면 형식상 적합과 실제 품질 사이의 간극이 커지므로, 설계와 운영을 한 문장으로 설명할 수 있는 구조가 필요하다.
 특히 샘플링 감리 신뢰 구간은 문서만 맞는지 보는 수준을 넘어서 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 테스트, 산출물, 인터뷰 증거가 같은 방향을 가리키는지 확인해야 한다. 그래야 감리 결과가 일회성 지적이 아니라 재현 가능한 개선 기준이 된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지표 정의</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수집·정합성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해석·조치</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐
+│ 지표 정의     │
+└──────┬───────┘
+       │
+┌──────▼───────┐
+│ 수집·정합성   │
+└──────┬───────┘
+       │
+┌──────▼───────┐
+│ 해석·조치     │
+└──────────────┘
+```
 
 - **📢 섹션 요약 비유**: 체온계 수치를 읽기 전에 언제 어떻게 쟀는지부터 맞추는 것과 같다.
 
@@ -46,15 +48,11 @@ tags = ["studynote-design-supervision"]
 | 수집 체계 | 신뢰수준 데이터의 수집 경로와 정합성을 확보한다. | 자동 수집과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 규칙이 중요하다. |
 | 해석·조치 | 오차한계 변화를 원인·개선계획과 연결한다. | 숫자는 행동으로 이어져야 한다. |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기준값</div><div class="kb-diagram-cell">수집값</div><div class="kb-diagram-cell">개선값</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────┬────────────┬────────────┐
+│ 기준값      │ 수집값      │ 개선값      │
+└────────────┴────────────┴────────────┘
+```
 
 또한 샘플링 감리 신뢰 구간은 한 단계만 잘해서는 완성되지 않는다. [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/), 실행 메커니즘, 증적이 순환 구조를 이루어야 하며, 하나라도 비면 적합 판정의 신뢰도가 떨어진다.
 - **📢 섹션 요약 비유**: 계기판 숫자가 실제 엔진 상태와 연결되어야 운전이 가능한 것과 같다.

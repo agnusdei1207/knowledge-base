@@ -24,25 +24,25 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경**: 1990년 Sha, Rajkumar, Lehoczky의 기념비적 논문에서 처음 정립되었다. 기존에는 락을 쥐자마자 무조건 우선순위를 최고로 올려버리는 무거운 PCP([Priority Ceiling Protocol](/knowledge-base/studynote/02_operating_system/04_synchronization/244_priority_ceiling_protocol/))를 썼으나, "문제가 발생했을 때(H가 대기할 때)만 임시로 올려주자"는 가볍고 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)된([Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/)) 방식인 PIP가 등장하며 현대 POSIX [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)([Pthreads](/knowledge-base/studynote/02_operating_system/11_exam_summary/790_posix_threads_pthreads_standard_api/))의 실시간 표준(rt_mutex)으로 등극했다.
 
+```text
+  [우선순위 상속(PI)이 역전 현상을 파괴하는 매커니즘 시각화]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">우선순위 상속(PI)이 역전 현상을 파괴하는 매커니즘 시각화</div></div>
-<div class="kb-diagram-note">(상황: 락을 쥔 L(우선순위 10), 락을 대기하는 H(우선순위 1))</div>
-<div class="kb-diagram-note">▶ 1단계: H가 락을 요청하며 Block됨.</div>
-<div class="kb-diagram-note">커널 스케줄러 개입! "어? 1등이 10등을 기다리네?"</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">1</div><div class="kb-diagram-note">로 강제 뻥튀기함.</div></div>
-<div class="kb-diagram-note">(L은 이제 H와 동급의 무적 방패를 얻음)</div>
-<div class="kb-diagram-note">▶ 3단계 (방어): 중간 순위 M(우선순위 5)이 도착하여 CPU를 뺏으려 시도함.</div>
-<div class="kb-diagram-note">하지만 L의 현재 순위가 1이므로 M은 L을 이길 수 없어 쫓겨남!</div>
-<div class="kb-diagram-note">▶ 4단계 (해결): M의 방해를 받지 않은 L이 초고속으로 연산을 마치고 락(Lock) 해제.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">락 해제 즉시 L은 원래의 찌질한 10으로</div><div class="kb-diagram-node">강등</div><div class="kb-diagram-note">됨.</div></div>
-<div class="kb-diagram-note">▶ 5단계 (정상화): 기다리던 H가 즉시 락을 획득하고 연산 시작! (데드라인 세이브)</div>
-</div>
-</div>
-
-
+  (상황: 락을 쥔 L(우선순위 10), 락을 대기하는 H(우선순위 1))
+  
+  ▶ 1단계: H가 락을 요청하며 Block됨.
+            커널 스케줄러 개입! "어? 1등이 10등을 기다리네?"
+  
+  ▶ 2단계 (상속 발동): 커널이 L의 우선순위를 10에서 [ 1 ]로 강제 뻥튀기함.
+            (L은 이제 H와 동급의 무적 방패를 얻음)
+            
+  ▶ 3단계 (방어): 중간 순위 M(우선순위 5)이 도착하여 CPU를 뺏으려 시도함.
+            하지만 L의 현재 순위가 1이므로 M은 L을 이길 수 없어 쫓겨남!
+            
+  ▶ 4단계 (해결): M의 방해를 받지 않은 L이 초고속으로 연산을 마치고 락(Lock) 해제.
+            락 해제 즉시 L은 원래의 찌질한 10으로 [강등]됨.
+            
+  ▶ 5단계 (정상화): 기다리던 H가 즉시 락을 획득하고 연산 시작! (데드라인 세이브)
+```
 **[다이어그램 해설]** [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)의 핵심은 "문제가 생겼을 때만(On-demand)" 권력을 융통해 준다는 점이다. H가 오기 전까지 L은 그냥 10등이었다. M이 와도 H가 없으면 L은 M에게 자리를 내주는 게 맞다. 오직 "H가 L을 기다릴 때"만 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)이 터지므로, 스케줄링의 본래 계급 체계를 최대한 덜 훼손하면서도 치명적 버그를 완벽하게 막아내는 극도의 효율성을 보여준다.
 
 - **📢 섹션 요약 비유**: 평소에는 평범한 시민(L)이지만, 암행어사(H)의 길 안내를 맡은 순간만큼은 암행어사의 마패([상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/))를 빌려 받아, 동네 사또(M)가 앞길을 막아도 "어사 출두야!"를 외치며 뚫고 지나갈 수 있는 특권입니다. 목적지에 도착해 마패를 반납하면 다시 평범한 시민으로 돌아갑니다.
@@ -101,26 +101,27 @@ tags = ["studynote-operating-system"]
 1. <strong>리눅스 <a href="/knowledge-base/studynote/02_operating_system/10_security/654_preempt_rt_linux_spinlock_mutex/">PREEMPT_RT</a> 패치의 rt_mutex 도입</strong>: 리눅스가 실시간 성능을 얻기 위해 가장 피를 토하며 갈아엎은 부분이 바로 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부의 [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)([Spinlock](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/))들을 `rt_mutex`로 바꾼 것이다. `rt_mutex`는 이름 그대로 실시간(RT)을 위해 만들어졌으며, 내부에 [PI](/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/)(우선순위 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)) 알고리즘이 하드코딩되어 있다. 따라서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부에서 블록 디바이스 드라이버나 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템을 건드릴 때, 이 `rt_mutex` 덕분에 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 데몬들의 우선순위가 춤을 추며 서로의 길을 즉각 터주는 기적이 일어난다.
 2. <strong>C++ / Java 실무 코드에서의 <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/">PI</a> <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a> 누락 버그</strong>: 수년 차 백엔드 시니어 개발자도 흔히 하는 실수다. `pthread_mutex_init()`을 호출할 때 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)(attr)에 `PTHREAD_PRIO_INHERIT`를 명시하지 않으면, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 성능을 아끼기 위해 기본적으로 PI를 꺼버린다(None 모드). 이 상태에서 [스트레스 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/447_stress_test/)([Load Test](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/))를 돌리면 가끔 이유 없이 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))이 10초씩 튀는 구간이 발견되는데, 이것이 100% 확률로 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)이 안 터져서 발생한 숨겨진 [우선순위 역전](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/205_priority_inversion/) 버그다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">안전한 실시간 멀티스레딩(동기화) 아키텍처 설계 의사결정</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">요구사항: 3개의 스레드가 1개의 설정(Config) 구조체를 공유함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 스레드 간의 우선순위가 동일한가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">예 (모두 같은 일반 스레드)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 판단: 우선순위 역전이 구조적으로 발생 불가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 설계: 일반 Mutex나 Spinlock 편하게 사용</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">아니오 (H, M, L 등 계급이 나뉘어 있음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 🚨 경고: M 스레드가 L을 짓밟고 H를 멈추게 할 위험!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (해결책 분기)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 최고 존엄: Lock-free (RCU 등) 자료구조 사용 (락 제거)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 차선책: PI(Priority Inheritance) 속성을 켠 Mutex 사용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 절대 금지: Semaphore, PI 없는 기본 Mutex, Spinlock</div></div>
-</div>
-</div>
-
-
+```text
+  ┌──────────────────────────────────────────────────────────────────┐
+  │     안전한 실시간 멀티스레딩(동기화) 아키텍처 설계 의사결정      │
+  ├──────────────────────────────────────────────────────────────────┤
+  │                                                                  │
+  │   [요구사항: 3개의 스레드가 1개의 설정(Config) 구조체를 공유함]  │
+  │                │                                                 │
+  │                ▼ 스레드 간의 우선순위가 동일한가?                │
+  │      [ 예 (모두 같은 일반 스레드) ]                              │
+  │       ├─▶ 판단: 우선순위 역전이 구조적으로 발생 불가             │
+  │       └─▶ 설계: 일반 Mutex나 Spinlock 편하게 사용                │
+  │                                                                  │
+  │      [ 아니오 (H, M, L 등 계급이 나뉘어 있음) ]                  │
+  │       ├─▶ 🚨 경고: M 스레드가 L을 짓밟고 H를 멈추게 할 위험!     │
+  │       │                                                          │
+  │       ▼ (해결책 분기)                                            │
+  │       1. 최고 존엄: Lock-free (RCU 등) 자료구조 사용 (락 제거)   │
+  │       2. 차선책: PI(Priority Inheritance) 속성을 켠 Mutex 사용   │
+  │       3. 절대 금지: Semaphore, PI 없는 기본 Mutex, Spinlock      │
+  └──────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** "우선순위가 다른 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)들이 락을 공유한다"는 문장 자체에서 아키텍트는 사이렌을 울려야 한다. 스케줄러가 아무리 완벽해도 락 앞에서는 무용지물이 되기 때문이다. 최선의 아키텍처는 아예 락을 없애는 것([RCU](/knowledge-base/studynote/02_operating_system/04_synchronization/254_rcu_read_copy_update/), [Lock-free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/))이고, 차선책이 바로 OS가 제공하는 [PI](/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/) 기능을 믿고 뮤텍스 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 켜는 것이다.
 
 - **📢 섹션 요약 비유**: 신분(우선순위)이 다른 사람들이 같은 문([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 써야 한다면, 회전문([Lock-free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/))을 만들어서 부딪히지 않게 하거나, 그게 안 되면 신분이 높은 사람이 문을 열어줄 수 있는 마스터키([PI](/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/) [Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/))를 달아놓아야 합니다. 그냥 일반 자물쇠(기본 [Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/))를 달아놓으면 신분이 꼬여서 대형 사고가 납니다.
@@ -151,19 +152,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">주기적 태스크 (Periodic Task)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">RM (Rate-Monotonic) 스케줄링</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">EDF (Earliest Deadline First) 스케줄링</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">비례 배분 스케줄링 (Proportionate Share Scheduling)</div></div>
-</div>
-</div>
-
-
+```text
+[주기적 태스크 (Periodic Task)]
+    │
+    ▼
+[RM (Rate-Monotonic) 스케줄링]
+    │
+    ├──▶ [EDF (Earliest Deadline First) 스케줄링]
+    └──▶ [비례 배분 스케줄링 (Proportionate Share Scheduling)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

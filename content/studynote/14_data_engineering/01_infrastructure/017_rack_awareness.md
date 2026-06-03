@@ -28,19 +28,16 @@ tags = ["data_engineering"]
 이를 타파하기 위해 시스템이 자신이 구동되는 물리적 망 구조(네트워크 트리)를 스스로 이해하게 만드는 혁신, '랙 인지(Rack Awareness)' 기술이 도입되었습니다. 이를 통해 시스템은 "절대 모든 달걀을 한 바구니(동일 랙)에 담지 않는다"는 원칙을 수학적으로 강제하여, 클러스터 생존력을 비약적으로 끌어올리게 되었습니다.
 
 이 도식은 랙 인지 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 부재할 때 발생하는 [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))의 한계를 시각화한 것입니다.
+```text
+[Rack Awareness 미적용 시의 치명적 결함]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Rack Awareness 미적용 시의 치명적 결함</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Core Switch</div><div class="kb-diagram-note">──(통신)──&gt; 💥 Rack 1 스위치 고장! (전원 나감)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Node A</div><div class="kb-diagram-node">Node B</div><div class="kb-diagram-node">Node C</div></div>
-<div class="kb-diagram-note">(Block 1 원본) (Block 1 복제) (Block 1 복제)</div>
-<div class="kb-diagram-tree-item" style="--depth:5">3개의 복제본이 랙 하나에 몰려있어 파일 완전 유실!</div>
-</div>
-</div>
-
-
+   [Core Switch] ──(통신)──> 💥 Rack 1 스위치 고장! (전원 나감)
+                                 │
+           ┌─────────────────────┴─────────────────────┐
+      [Node A]                [Node B]              [Node C]
+      (Block 1 원본)          (Block 1 복제)        (Block 1 복제)
+           └──> 3개의 복제본이 랙 하나에 몰려있어 파일 완전 유실!
+```
 이 그림의 핵심은 논리적 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)([Replication](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)=3)가 물리적 토폴로지를 무시할 때 발생하는 맹점입니다. 이런 배치는 서버 1대 고장에는 강하지만, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 고장 앞에서는 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)본이 무용지물이 됨을 보여줍니다. 실무에서는 네트워크 장비의 장애 빈도가 무시할 수 없는 수준이므로, 이 지점을 극복하지 못하면 엔터프라이즈급 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)) [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 99.999%를 달성할 수 없습니다.
 
 📢 **섹션 요약 비유**: 비행기에 타고 있는 국가 원수와 부통령, 국무총리가 만약의 사고를 대비해 절대 같은 비행기에 동승하지 않고 서로 다른 비행기(다른 랙)에 나누어 탑승하는 철저한 경호 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)과 완벽히 같습니다.
@@ -55,29 +52,28 @@ tags = ["data_engineering"]
 |:---|:---|:---|:---|:---|
 | **Network Topology** | 클러스터 계층도 맵핑 | 루트(Core) - 랙(ToR) - 노드 형태의 트리 구조로 네트워크 거리를 수치화합니다. | Tree [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Structure | 지도 네비게이션 |
 | **Topology Script** | 랙 위치 매핑 스크립트 | 네임노드가 노드의 IP를 입력하면 물리적 랙 ID(예: /rack1)를 반환하는 셸/파이썬 스크립트입니다. | bash/python | 우편번호 검색기 |
-| <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/">NameNode</a> (Rule Engine)</strong> | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 배치 룰 강제 | [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 시 '2개의 블록은 서로 다른 랙'에 무조건 떨어뜨리도록 파이프라인 노드를 선정합니다. | 내부 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 교통 통제 경찰 |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/">NameNode</a> (Rule 엔진)</strong> | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 배치 룰 강제 | [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 시 '2개의 블록은 서로 다른 랙'에 무조건 떨어뜨리도록 파이프라인 노드를 선정합니다. | 내부 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 교통 통제 경찰 |
 | **Distance Calculation** | 네트워크 홉(Hop) 계산 | 동일 노드(0), 동일 랙(2), 다른 랙(4)으로 거리를 산정하여 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 효율을 계산합니다. | Tree Traversal | 통행료 계산기 |
 | <strong>Read <a href="/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/">Fallback</a></strong> | 최단 거리 읽기 | 클라이언트가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽을 때, 네트워크 거리가 가장 짧은(가까운 랙) 노드부터 우선 연결합니다. | [RPC](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/) | 최단경로 탐색 |
 
 이 구조도는 HDFS가 블록 3개를 저장할 때 엄격하게 지키는 표준 랙 인지 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 배치 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 동작 상태를 보여줍니다.
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">HDFS Rack Awareness Placement</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Core Switch / Data Center Router</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Rack 1 Switch</div><div class="kb-diagram-node">Rack 2 Switch</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Node 1</div><div class="kb-diagram-node">Node 2</div><div class="kb-diagram-node">Node 3</div><div class="kb-diagram-node">Node 4</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(원본) (복제본 2) (복제본 1)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* * *</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;배치 규칙 순서&gt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Node 1에 원본 블록 저장 (Local Node)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 다른 랙인 Rack 2의 Node 3에 첫 번째 복제본 저장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 다시 Rack 1로 돌아와서 다른 서버인 Node 2에 마지막 복제본 저장</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────── HDFS Rack Awareness Placement ────────────────┐
+│                                                               │
+│         [Core Switch / Data Center Router]                    │
+│            /                         \                        │
+│      [Rack 1 Switch]            [Rack 2 Switch]               │
+│        /        \                 /         \                 │
+│  [Node 1]     [Node 2]       [Node 3]      [Node 4]           │
+│   (원본)       (복제본 2)       (복제본 1)                         │
+│     *             *              *                            │
+│                                                               │
+│  <배치 규칙 순서>                                             │
+│  1. Node 1에 원본 블록 저장 (Local Node)                      │
+│  2. 다른 랙인 Rack 2의 Node 3에 첫 번째 복제본 저장           │
+│  3. 다시 Rack 1로 돌아와서 다른 서버인 Node 2에 마지막 복제본 저장│
+└───────────────────────────────────────────────────────────────┘
+```
 이 도식의 배치는 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)과 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 비용 사이의 치열한 트레이드오프를 보여줍니다. 만약 3개의 블록을 3개의 서로 다른 랙에 하나씩 다 찢어놓는다면 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)은 최고조에 달하지만, 클러스터 랙 간(Core [Switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)) 통신량이 폭증하여 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 병목을 초래합니다. 반대로 같은 랙에 몰아넣으면 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)은 아끼지만 장애 시 전멸합니다. 따라서 "2개는 같은 랙의 다른 노드에 두고, 1개는 반드시 원격 랙에 둔다"는 배치가 성립되며, 이는 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 파이프라인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하를 방어하면서도 랙 장애를 100% 감내하는 수리적 최적점입니다.
 
 **심층 동작 원리**
@@ -102,23 +98,19 @@ tags = ["data_engineering"]
 | <strong>극단적 랙 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a></strong> | 랙A 1개 + 랙B 1개 + 랙C 1개 | **최강** (랙 2개 죽어도 생존) | 최대 (랙 간 통신 2회 폭증) | 다중 리전/AZ [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 시 제한적 사용 |
 
 이 의사결정 매트릭스 도식은 랙 인지 적용 시 네트워크 트래픽 부하와 안정성의 상관관계를 보여줍니다.
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">네트워크 병목 (Network Overhead)</div>
-<div class="kb-diagram-connector">▲</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">극단적 3-Rack 분산</div></div>
-<div class="kb-diagram-note">(가용성 최고, 코어 스위치 터짐)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">★</div><div class="kb-diagram-node">HDFS 표준 랙 인지 (2+1 분산)</div></div>
-<div class="kb-diagram-note">(가용성 우수, 네트워크 효율 밸런스 확보)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">랙 인지 미설정 / 단일 랙</div></div>
-<div class="kb-diagram-note">(가용성 파탄, 디폴트 위험)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">▶ 가용성 (Availability)</div>
-</div>
-</div>
-
-
+```text
+네트워크 병목 (Network Overhead)
+  ▲
+  │                          [극단적 3-Rack 분산]
+  │                           (가용성 최고, 코어 스위치 터짐)
+  │
+  │            ★ [HDFS 표준 랙 인지 (2+1 분산)]
+  │              (가용성 우수, 네트워크 효율 밸런스 확보)
+  │
+  │  [랙 인지 미설정 / 단일 랙]
+  │  (가용성 파탄, 디폴트 위험)
+  └───────────────────────────────────────▶ 가용성 (Availability)
+```
 A [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)(몰빵)은 네트워크가 평온하지만 인프라 재난에 파괴됩니다. 반면 C [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)(3-Rack)은 너무 무겁습니다. 따라서 B [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)([HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) 표준)의 핵심은 코어 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 타는 값비싼 트래픽 횡단을 딱 1번만 허용하여 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 레이턴시를 억제하고, 최악의 랙 장애 시에도 최소 1개의 블록은 무조건 원격 랙에 살아남게 만들어 클러스터의 자가 치유(Self-healing) 시간을 벌어준다는 점입니다. 실무에서는 대용량 적재 시 코어 라우터의 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 한계가 클러스터 전체 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 갉아먹는 주범이 되므로 이 밸런싱이 극도로 중요합니다.
 
 📢 **섹션 요약 비유**: 택배 회사가 물건 3개를 보낼 때, 3대의 트럭에 다 나눠 실으면(3-Rack) 기름값이 너무 많이 들고, 1대에 다 실으면(단일 랙) 트럭 전복 시 다 망가지니, 2개는 1호 차에 싣고 1개는 2호 차에 싣는(2+1 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)) 가성비 최고의 보험 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 같습니다.
@@ -141,25 +133,19 @@ A [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/
 - **가짜 토폴로지 스크립트 작성**: 운영자가 귀찮아서 파이썬 스크립트에서 무조건 모든 노드의 랙 ID를 `/default-rack`으로 하드코딩 리턴해버리는 경우. 시스템은 랙 인지가 켜져 있다고 믿고 아무렇게나 배치하지만, 실제 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 장애 발생 시 3중 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)본이 날아가며 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 불가능해집니다.
 
 이 흐름도는 실무에서 클러스터 장애 시 랙 인지가 작동하여 다운타임을 방어하는 궤적을 보여줍니다.
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">장애 이벤트: ToR 스위치 #1 화재 발생</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현상</div><div class="kb-diagram-note">Rack 1에 연결된 서버 30대 일제히 연결 끊김 (Heartbeat 단절)</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NameNode 판단</div></div>
-<div class="kb-diagram-note">"어? 블록 A의 복제본 2개가 Rack 1에 있었네? 하지만 다행히 Rack 2에 복제본 1개가 무조건 있지!"</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">자가 치유(Self-healing)</div></div>
-<div class="kb-diagram-note">Rack 2에 살아남은 단 1개의 블록을 읽어, 즉시 Rack 3, Rack 4의 잉여 서버로 복제 시작</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">결과</div><div class="kb-diagram-note">서비스 무중단 지속, 관리자는 다음 날 출근하여 스위치만 교체하면 됨</div></div>
-</div>
-</div>
-
-
+```text
+[장애 이벤트: ToR 스위치 #1 화재 발생]
+   ↓
+[현상] Rack 1에 연결된 서버 30대 일제히 연결 끊김 (Heartbeat 단절)
+   ↓
+[NameNode 판단]
+"어? 블록 A의 복제본 2개가 Rack 1에 있었네? 하지만 다행히 Rack 2에 복제본 1개가 무조건 있지!"
+   ↓
+[자가 치유(Self-healing)]
+Rack 2에 살아남은 단 1개의 블록을 읽어, 즉시 Rack 3, Rack 4의 잉여 서버로 복제 시작
+   ↓
+[결과] 서비스 무중단 지속, 관리자는 다음 날 출근하여 스위치만 교체하면 됨
+```
 이 흐름의 핵심은 인간의 개입이 전혀 없다는 점입니다. 랙 인지가 없다면 장애 순간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유실이 확정되어 서비스가 즉시 정지(500 Error)되지만, 토폴로지 규칙이 지켜진 시스템은 자가 치유 모드로 돌입하며 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간을 벌어줍니다. 실무에서는 이 메커니즘을 신뢰하여 새벽에 울리는 페이저(Pager) 경보를 최소화하고, 안정적인 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)(사이트 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 엔지니어링) 환경을 구축합니다.
 
 📢 **섹션 요약 비유**: 적군의 미사일이 기지의 본부를 정확히 타격해도, 미리 규정에 따라 멀리 떨어진 벙커에 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 통신망과 지휘관을 남겨두었기 때문에 부대가 괴멸되지 않고 즉각 반격에 나설 수 있는 군사 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 방어망과 같습니다.
@@ -190,25 +176,24 @@ A [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">단순 복제 (Naive Replication) — 동일 랙 내 복제, 랙 장애 시 데이터 전체 손실</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">랙 인지 (Rack Awareness) — 복제본을 서로 다른 랙에 분산, 랙 장애 내구성 확보</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터센터 인지 (DC Awareness) — 복제본을 복수 데이터센터에 배치, 재해 복구</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">지역 인지 (Region Awareness) — 클라우드 멀티 리전 복제, 지리적 장애 격리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">가중 복제 (Weighted Placement) — 노드 용량·성능 기반 복제 위치 최적화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 패브릭 (Data Fabric) — 토폴로지 인지 자동 배치·재균형, 클라우드 네이티브 분산 저장</div></div>
-</div>
-</div>
-
-
+```text
+[단순 복제 (Naive Replication) — 동일 랙 내 복제, 랙 장애 시 데이터 전체 손실]
+    │
+    ▼
+[랙 인지 (Rack Awareness) — 복제본을 서로 다른 랙에 분산, 랙 장애 내구성 확보]
+    │
+    ▼
+[데이터센터 인지 (DC Awareness) — 복제본을 복수 데이터센터에 배치, 재해 복구]
+    │
+    ▼
+[지역 인지 (Region Awareness) — 클라우드 멀티 리전 복제, 지리적 장애 격리]
+    │
+    ▼
+[가중 복제 (Weighted Placement) — 노드 용량·성능 기반 복제 위치 최적화]
+    │
+    ▼
+[데이터 패브릭 (Data Fabric) — 토폴로지 인지 자동 배치·재균형, 클라우드 네이티브 분산 저장]
+```
 이 흐름은 단순 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)의 물리적 장애 취약점을 랙·[데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)·리전 인지 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 계층적으로 극복하고, [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 환경에서 토폴로지 기반 자동 배치로 진화하는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 스토리지 내구성 설계의 발전을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

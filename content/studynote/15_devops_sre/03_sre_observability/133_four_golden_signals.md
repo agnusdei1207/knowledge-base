@@ -58,18 +58,12 @@ Saturation: 리소스 포화도 (CPU·메모리·디스크)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">수백 개 메트릭 (2000s)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Google SRE 4 Golden Signals (2016)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">RED 방법론 (2017, Weaveworks)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">USE 방법론 (Brendan Gregg)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: AI 이상 탐지 — 골든 시그널 자동 분석</div></div>
-</div>
-</div>
-
-
+```text
+[수백 개 메트릭 (2000s)] → [Google SRE 4 Golden Signals (2016)]
+    → [RED 방법론 (2017, Weaveworks)]
+    → [USE 방법론 (Brendan Gregg)]
+    → [현재: AI 이상 탐지 — 골든 시그널 자동 분석]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 4대 [골든 시그널](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/186_golden_signals_sre_monitoring/)은 자동차의 <strong>속도계·RPM·경고등·연료 게이지</strong>예요.

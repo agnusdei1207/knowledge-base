@@ -1,5 +1,5 @@
 +++
-title = "184. 재해 복구 훈련과 카오스 엔지니어링 융합 (Disaster Recovery + Chaos Engineering)"
+title = "184. 재해 복구 훈련과 카오스 엔지니어링 융합 (Disaster Recovery + Chaos 엔진ering)"
 date = 2026-04-21
 
 [taxonomies]
@@ -35,21 +35,19 @@ tags = ["studynote-devops-sre"]
 
 이 그림은 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 카오스 실험의 제어 루프를 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DR + Chaos GameDay control loop</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 가설 설정 : "주 데이터베이스 장애 시 5분 내 승격, RPO 0"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 정상 상태 : 성공률, 지연시간, 복제 지연, 데이터 정합성 확인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 장애 주입 : 노드 종료, 네트워크 단절, 지역 격리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 대응 실행 : 알람, 온콜 호출, 런북 수행, 우회 또는 승격</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 학습 반영 : 포스트모템, 자동화 추가, 문서 수정, 재실험</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Guardrails : 폭발 반경 제한 · 중단 조건 · 롤백 경로</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ DR + Chaos GameDay control loop                                    │
+├────────────────────────────────────────────────────────────────────┤
+│ 1. 가설 설정 : "주 데이터베이스 장애 시 5분 내 승격, RPO 0"       │
+│ 2. 정상 상태 : 성공률, 지연시간, 복제 지연, 데이터 정합성 확인     │
+│ 3. 장애 주입 : 노드 종료, 네트워크 단절, 지역 격리                  │
+│ 4. 대응 실행 : 알람, 온콜 호출, 런북 수행, 우회 또는 승격            │
+│ 5. 학습 반영 : 포스트모템, 자동화 추가, 문서 수정, 재실험            │
+│                                                                    │
+│ Guardrails : 폭발 반경 제한 · 중단 조건 · 롤백 경로                │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 | 구성 요소 | 역할 | 설계 시 핵심 질문 |
 | :--- | :--- | :--- |
@@ -78,7 +76,7 @@ tags = ["studynote-devops-sre"]
 | 스크립트형 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 훈련 | 정해진 절차와 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 명령 | 재현성과 교육 효과가 높음 | 예상 밖 의존성과 운영 압박이 약함 |
 | 카오스 기반 GameDay | 실제 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/), 자동화, 사람 대응, 숨은 의존성 | 가장 현실적인 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 설계 미흡 시 운영 위험이 큼 |
 
-이 접근은 사이트 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 엔지니어링 ([Site Reliability Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/), [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)), [비즈니스 연속성 계획](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/056_bcp_business_continuity_plan_bia/) (Business Continuity Planning, BCP), [에러 예산](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) 운영과도 연결된다. SRE는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 수치로 관리하고, BCP는 비즈니스 지속을 계획하며, [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 카오스는 그 계획을 실험으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다. 즉 "운영 철학"과 "[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 문서" 사이의 마지막 연결 고리가 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 카오스라고 볼 수 있다.
+이 접근은 사이트 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 엔지니어링 ([Site Reliability 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/), [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)), [비즈니스 연속성 계획](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/056_bcp_business_continuity_plan_bia/) (Business Continuity Planning, BCP), [에러 예산](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) 운영과도 연결된다. SRE는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 수치로 관리하고, BCP는 비즈니스 지속을 계획하며, [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 카오스는 그 계획을 실험으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다. 즉 "운영 철학"과 "[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 문서" 사이의 마지막 연결 고리가 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 카오스라고 볼 수 있다.
 
 환경 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 중요하다. 스테이징은 안전하지만 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규모와 외부 의존성을 충분히 재현하지 못할 수 있다. 운영 환경은 현실성이 높지만 가드레일이 필수다. 따라서 일반적으로는 스테이징에서 패턴을 익힌 뒤, 운영 환경에서는 일부 트래픽·일부 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 한해 점진적으로 확대하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 바람직하다.
 
@@ -137,23 +135,21 @@ DR과 [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architec
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">탁상형 DR 점검</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">스크립트 기반 복구 훈련</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">관측성 기반 GameDay</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">운영 환경 일부 트래픽 카오스 검증</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속적 복원력 검증 · 자동화된 런북 개선</div>
-</div>
-</div>
-
-
+```text
+탁상형 DR 점검
+    │
+    ▼
+스크립트 기반 복구 훈련
+    │
+    ▼
+관측성 기반 GameDay
+    │
+    ▼
+운영 환경 일부 트래픽 카오스 검증
+    │
+    ▼
+지속적 복원력 검증 · 자동화된 런북 개선
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

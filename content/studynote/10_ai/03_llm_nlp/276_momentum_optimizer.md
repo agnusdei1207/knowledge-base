@@ -27,17 +27,14 @@ tags = ["studynote-ai"]
 
 모멘텀(Momentum)은 물리학의 관성(Inertia) 개념을 도입해 이 문제를 해결한다. 공이 경사면을 굴러내려갈 때 이전 속도가 누적되어 일정한 방향으로 가속하는 것처럼, <strong>이전 업데이트 방향의 속도(Velocity)를 누적</strong>하여 갱신에 반영한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: SGD가 발만 보며 조심스럽게 한 걸음씩 내딛는 등산가라면, 모멘텀은 오르막·내리막 경험을 기억해 관성으로 달리는 스키 선수다. 내리막에서 속도가 붙어 작은 돌기([지역 최솟값](/knowledge-base/studynote/10_ai/01_ai_basics/083_local_minima_vs_global_minimum/))도 넘어갈 수 있다.
 
@@ -48,8 +45,8 @@ tags = ["studynote-ai"]
 ### 모멘텀 수식
 
 ```
-속도 벡터 갱신: v_t = β · v_{t-1} - α · ∇L(w_t)
-가중치 갱신: w_{t+1} = w_t + v_t
+속도 벡터 갱신:   v_t = β · v_{t-1} - α · ∇L(w_t)
+가중치 갱신:      w_{t+1} = w_t + v_t
 ```
 
 - **β (모멘텀 계수)**: 보통 0.9. 이전 속도의 90% 유지
@@ -58,25 +55,24 @@ tags = ["studynote-ai"]
 
 ### 진동 감소 효과 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">SGD (진동 심함) Momentum (진동 감소)</div>
-<div class="kb-diagram-note">↑↘↑↘↑ →──→ →●</div>
-<div class="kb-diagram-note">↑↘↑↘↑</div>
-<div class="kb-diagram-note">↑↘↑↘● 관성으로 부드럽게 수렴</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SGD 경로: 지그재그, 비효율</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">y</div><div class="kb-diagram-cell">↗↘↗↘↗</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↘↗↘↗↘→●(최솟값)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">x</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Momentum 경로: 부드럽고 빠름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">y</div><div class="kb-diagram-cell">→●(최솟값)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">x</div></div>
-</div>
-</div>
-
-
+```
+SGD (진동 심함)            Momentum (진동 감소)
+        ↑↘↑↘↑               ───→──→───→●
+        ↑↘↑↘↑
+        ↑↘↑↘●               관성으로 부드럽게 수렴
+┌───────────────────────────────────────────────┐
+│  SGD 경로:  지그재그, 비효율             │
+│                                               │
+│  y│  ↗↘↗↘↗                                  │
+│   │   ↘↗↘↗↘→●(최솟값)                       │
+│   └─────────────── x                         │
+│                                               │
+│  Momentum 경로: 부드럽고 빠름          │
+│                                               │
+│  y│  ──────────→●(최솟값)                    │
+│   └─────────────── x                         │
+└───────────────────────────────────────────────┘
+```
 
 ### 모멘텀 vs 네스테로프 모멘텀(NAG) 비교
 
@@ -90,22 +86,20 @@ tags = ["studynote-ai"]
 
 ### 속도 벡터 누적 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)
 
+```
+스텝 1:  v_1 = 0 - α·∇L  →  방향 결정
+스텝 2:  v_2 = β·v_1 - α·∇L  →  이전 속도 90% + 새 기울기 10%
+스텝 3:  v_3 = β·v_2 - α·∇L  →  점점 가속
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">스텝 1: v_1 = 0 - α·∇L → 방향 결정</div>
-<div class="kb-diagram-note">스텝 2: v_2 = β·v_1 - α·∇L → 이전 속도 90% + 새 기울기 10%</div>
-<div class="kb-diagram-note">스텝 3: v_3 = β·v_2 - α·∇L → 점점 가속</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">속도 벡터 누적 과정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">v_1 →</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">v_2 → (v_1×β + ∇L)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">v_3 →</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가속도 증가</div></div>
-</div>
-</div>
-
-
+           ┌────────────────────────────────────┐
+           │  속도 벡터 누적 과정              │
+           │                                    │
+           │  v_1 ────→                         │
+           │  v_2 ──────────→  (v_1×β + ∇L)    │
+           │  v_3 ────────────────→             │
+           │       가속도 증가                  │
+           └────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 모멘텀은 눈 위에서 굴러가는 눈덩이다. 처음엔 작지만 굴러갈수록 커지고(속도 누적), 작은 돌멩이([지역 최솟값](/knowledge-base/studynote/10_ai/01_ai_basics/083_local_minima_vs_global_minimum/))는 그냥 넘어갈 수 있지만 큰 언덕(전역 최솟값 직전 상승)에는 멈춘다.
 
@@ -156,18 +150,14 @@ tags = ["studynote-ai"]
 
 ### [하이퍼파라미터 튜닝](/knowledge-base/studynote/10_ai/01_ai_basics/041_bagging_boosting/) 가이드
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">β (모멘텀 계수) 선택 기준:</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">β = 0.9 → 일반적인 딥러닝 학습 (기본값)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">β = 0.99 → RNN, 순환 신경망 등 긴 시퀀스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">β = 0.5 → 학습 초기 탐색적 학습 시</div></div>
-</div>
-</div>
-
-
+```
+β (모멘텀 계수) 선택 기준:
+┌─────────────────────────────────────────────┐
+│  β = 0.9  →  일반적인 딥러닝 학습 (기본값) │
+│  β = 0.99 →  RNN, 순환 신경망 등 긴 시퀀스 │
+│  β = 0.5  →  학습 초기 탐색적 학습 시       │
+└─────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: β=0.9 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)은 마치 자동차의 관성을 조절하는 것과 같다. 0.9는 "90%는 기존 방향으로, [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%는 현재 도로 방향으로" 조향하는 것이다. 너무 강한 관성(0.99)은 커브에서 이탈하고, 너무 약한 관성(0.5)은 핸들이 덜덜 떨린다.
 
@@ -179,7 +169,7 @@ tags = ["studynote-ai"]
 
 1. **수렴 속도 향상**: 일관된 방향으로의 누적 가속으로 SGD 대비 2-5배 빠른 수렴
 2. **진동 감소**: 지그재그 업데이트 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)로 안정적인 수렴 경로
-3. <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/083_local_minima_vs_global_minimum/">지역 최솟값</a> 탈출</strong>: 관성으로 작은 극소값 극복
+3. <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/083_local_minima_vs_global_minimum/">지역 최솟값</a> 탈출</strong>: 관성으로 작은 국부 극소값 극복
 4. **안장점(Saddle Point) 탈출**: 기울기 ≈ 0 구간에서도 이전 속도로 계속 이동
 
 네스테로프 모멘텀(NAG)은 표준 모멘텀보다 이론적으로 더 우수한 수렴률을 보장하며, [Adam](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/) [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)의 기반이 되는 핵심 아이디어다.

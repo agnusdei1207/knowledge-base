@@ -24,19 +24,16 @@ tags = ["studynote-data-engineering"]
 
 기존 소프트웨어는 코드만 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리하면 되었지만, ML 시스템은 <strong>코드 + <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> + 모델</strong> 3요소가 모두 변하기 때문에 기존 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 관행만으로는 운영이 어렵다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">전통 소프트웨어 ML 시스템</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Code (코드)</div><div class="kb-diagram-cell">Code</div><div class="kb-diagram-cell">Data</div><div class="kb-diagram-cell">Model</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">버전 관리</div><div class="kb-diagram-cell">코드</div><div class="kb-diagram-cell">데이터</div><div class="kb-diagram-cell">모델</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">테스트/배포</div><div class="kb-diagram-cell">변화</div><div class="kb-diagram-cell">변화</div><div class="kb-diagram-cell">드리프트</div></div>
-<div class="kb-diagram-note">CI/CD 충분 CI / CD / CT (3축 자동화) 필요</div>
-</div>
-</div>
-
-
+```
+전통 소프트웨어           ML 시스템
+┌─────────────────┐     ┌──────────────────────────────┐
+│   Code (코드)   │     │  Code  │  Data  │  Model     │
+│   버전 관리     │     │  코드  │  데이터│  모델       │
+│   테스트/배포   │     │  변화  │  변화  │  드리프트   │
+└─────────────────┘     └──────────────────────────────┘
+        ↓                           ↓
+  CI/CD 충분           CI / CD / CT (3축 자동화) 필요
+```
 
 ### 1.2 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 등장 배경
 
@@ -75,41 +72,36 @@ tags = ["studynote-data-engineering"]
 
 ### 2.2 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 전체 아키텍처
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MLOps 생명주기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터</div><div class="kb-diagram-cell">피처</div><div class="kb-diagram-cell">모델</div><div class="kb-diagram-cell">모델</div><div class="kb-diagram-cell">서빙</div><div class="kb-diagram-cell">모니터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수집</div><div class="kb-diagram-cell">엔지니</div><div class="kb-diagram-cell">학습</div><div class="kb-diagram-cell">평가</div><div class="kb-diagram-cell">배포</div><div class="kb-diagram-cell">링</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">검증</div><div class="kb-diagram-cell">어링</div><div class="kb-diagram-cell">실험</div><div class="kb-diagram-cell">검증</div><div class="kb-diagram-cell">&amp;API</div><div class="kb-diagram-cell">알람</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자동화 레이어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CI (코드/데이터 검증)</div><div class="kb-diagram-cell">CD (모델 배포)</div><div class="kb-diagram-cell">CT (자동 재학습)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인프라 레이어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">피처 스토어</div><div class="kb-diagram-cell">모델 레지스트리</div><div class="kb-diagram-cell">실험 추적</div><div class="kb-diagram-cell">오케스트레이션</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                        MLOps 생명주기                            │
+├──────────┬──────────┬──────────┬──────────┬──────────┬──────────┤
+│  데이터  │  피처    │  모델    │  모델    │  서빙    │  모니터  │
+│  수집    │  엔지니  │  학습    │  평가    │  배포    │  링      │
+│  검증    │  어링    │  실험    │  검증    │  &API    │  알람    │
+├──────────┴──────────┴──────────┴──────────┴──────────┴──────────┤
+│                     자동화 레이어                                 │
+│   CI (코드/데이터 검증) │ CD (모델 배포) │ CT (자동 재학습)      │
+├─────────────────────────────────────────────────────────────────┤
+│                     인프라 레이어                                 │
+│   피처 스토어 │ 모델 레지스트리 │ 실험 추적 │ 오케스트레이션     │
+└─────────────────────────────────────────────────────────────────┘
+```
 
 ### 2.3 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 성숙도 3단계 (Google [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 성숙도 모델)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Level 0 (수동) Level 1 (자동 파이프라인) Level 2 (CI/CD 파이프라인)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 사이언티스트</div><div class="kb-diagram-cell">자동화된 ML 파이프라인</div><div class="kb-diagram-cell">CI/CD + CT 완전 자동화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가 수동으로</div><div class="kb-diagram-cell">데이터 → 학습 → 배포</div><div class="kb-diagram-cell">코드 변경만으로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 처리</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">자동화</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">전체 파이프라인 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 모델 학습</div><div class="kb-diagram-cell">CT 자동 재학습</div><div class="kb-diagram-cell">다중 팀 협업 가능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 수동 배포</div><div class="kb-diagram-cell">실험 추적</div><div class="kb-diagram-cell">모델 레지스트리 연동</div></div>
-<div class="kb-diagram-note">특징: Jupyter Notebook 특징: Kubeflow, MLflow 특징: 완전 자동화</div>
-<div class="kb-diagram-note">한계: 재현 불가, 느림 한계: 파이프라인만 자동화 수준: 대규모 ML 서비스</div>
-</div>
-</div>
-
-
+```
+Level 0 (수동)              Level 1 (자동 파이프라인)    Level 2 (CI/CD 파이프라인)
+┌────────────────────┐     ┌────────────────────────┐  ┌──────────────────────────┐
+│ 데이터 사이언티스트│     │  자동화된 ML 파이프라인 │  │  CI/CD + CT 완전 자동화  │
+│ 가 수동으로        │     │  데이터 → 학습 → 배포  │  │  코드 변경만으로         │
+│ 데이터 처리        │ →   │  자동화                 │→ │  전체 파이프라인 실행    │
+│ → 모델 학습        │     │  CT 자동 재학습         │  │  다중 팀 협업 가능       │
+│ → 수동 배포        │     │  실험 추적              │  │  모델 레지스트리 연동    │
+└────────────────────┘     └────────────────────────┘  └──────────────────────────┘
+  특징: Jupyter Notebook     특징: Kubeflow, MLflow       특징: 완전 자동화
+  한계: 재현 불가, 느림       한계: 파이프라인만 자동화    수준: 대규모 ML 서비스
+```
 
 #### 성숙도별 상세 비교
 
@@ -124,25 +116,26 @@ tags = ["studynote-data-engineering"]
 
 ### 2.4 핵심 구성요소 상세
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MLOps 핵심 구성요소</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 파이프</div><div class="kb-diagram-cell">데이터 수집 → 검증(Great Expectations)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">라인</div><div class="kb-diagram-cell">→ 전처리 → 피처 스토어 저장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모델 학습</div><div class="kb-diagram-cell">실험 추적(MLflow) → 하이퍼파라미터 튜닝</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파이프라인</div><div class="kb-diagram-cell">→ 분산 학습(Horovod) → 모델 평가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모델 레지스트</div><div class="kb-diagram-cell">버전 관리 → Staging → Production</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">리</div><div class="kb-diagram-cell">→ Archived 상태 전이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모델 서빙</div><div class="kb-diagram-cell">REST/gRPC API → 동적 배치 → A/B 테스트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">플랫폼</div><div class="kb-diagram-cell">→ 카나리 배포 → 롤백</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모니터링</div><div class="kb-diagram-cell">데이터 드리프트 → 모델 성능 → 인프라 메트릭</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&amp; 알람</div><div class="kb-diagram-cell">→ 자동 재학습 트리거</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                    MLOps 핵심 구성요소                           │
+├────────────────┬────────────────────────────────────────────────┤
+│ 데이터 파이프  │  데이터 수집 → 검증(Great Expectations)        │
+│ 라인           │  → 전처리 → 피처 스토어 저장                   │
+├────────────────┼────────────────────────────────────────────────┤
+│ 모델 학습      │  실험 추적(MLflow) → 하이퍼파라미터 튜닝        │
+│ 파이프라인     │  → 분산 학습(Horovod) → 모델 평가              │
+├────────────────┼────────────────────────────────────────────────┤
+│ 모델 레지스트  │  버전 관리 → Staging → Production              │
+│ 리             │  → Archived 상태 전이                          │
+├────────────────┼────────────────────────────────────────────────┤
+│ 모델 서빙      │  REST/gRPC API → 동적 배치 → A/B 테스트        │
+│ 플랫폼         │  → 카나리 배포 → 롤백                          │
+├────────────────┼────────────────────────────────────────────────┤
+│ 모니터링       │  데이터 드리프트 → 모델 성능 → 인프라 메트릭   │
+│ & 알람         │  → 자동 재학습 트리거                          │
+└────────────────┴────────────────────────────────────────────────┘
+```
 
 ### 2.5 주요 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 도구 생태계
 
@@ -172,27 +165,27 @@ tags = ["studynote-data-engineering"]
 
 ### 3.2 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 핵심 개념 간 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">데이터 드리프트 감지</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CT 트리거 발동</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">피처 스토어에서 최신 피처 조회</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">모델 재학습 실행</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">모델 레지스트리에 새 버전 등록</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">카나리 배포 → A/B 테스트 → 전체 배포</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">모니터링 → 이상 시 롤백</div>
-</div>
-</div>
-
-
+```
+데이터 드리프트 감지
+        │
+        ▼
+  CT 트리거 발동
+        │
+        ▼
+피처 스토어에서 최신 피처 조회
+        │
+        ▼
+  모델 재학습 실행
+        │
+        ▼
+모델 레지스트리에 새 버전 등록
+        │
+        ▼
+카나리 배포 → A/B 테스트 → 전체 배포
+        │
+        ▼
+  모니터링 → 이상 시 롤백
+```
 
 ### 3.3 ML 프로젝트 실패 원인 Top 5
 
@@ -233,26 +226,24 @@ tags = ["studynote-data-engineering"]
 
 ### 4.3 실무 아키텍처 예시 (전자상거래 [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/))
 
+```
+사용자 행동 데이터 (실시간)
+        │
+        ▼
+Kafka → Spark Streaming → 피처 스토어 (Feast)
+                                │
+                                ├─→ 오프라인 스토어 (S3/BigQuery)
+                                │         → 주기적 모델 재학습
+                                │
+                                └─→ 온라인 스토어 (Redis)
+                                          → 실시간 추천 API
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">사용자 행동 데이터 (실시간)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Kafka → Spark Streaming → 피처 스토어 (Feast)</div>
-<div class="kb-diagram-tree-item" style="--depth:8">→ 오프라인 스토어 (S3/BigQuery)</div>
-<div class="kb-diagram-note">→ 주기적 모델 재학습</div>
-<div class="kb-diagram-tree-item" style="--depth:8">→ 온라인 스토어 (Redis)</div>
-<div class="kb-diagram-note">→ 실시간 추천 API</div>
-<div class="kb-diagram-note">모델 재학습 파이프라인 (Kubeflow)</div>
-<div class="kb-diagram-note">데이터 검증 → 피처 추출 → 학습 → 평가 → 모델 레지스트리 등록</div>
-<div class="kb-diagram-note">→ 카나리 배포 (5%)</div>
-<div class="kb-diagram-note">→ A/B 테스트 (CTR 비교)</div>
-<div class="kb-diagram-note">→ 전체 배포 또는 롤백</div>
-</div>
-</div>
-
-
+모델 재학습 파이프라인 (Kubeflow)
+  데이터 검증 → 피처 추출 → 학습 → 평가 → 모델 레지스트리 등록
+                                              → 카나리 배포 (5%)
+                                              → A/B 테스트 (CTR 비교)
+                                              → 전체 배포 또는 롤백
+```
 
 📢 **섹션 요약 비유**: [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 도입은 수작업 요리사에서 HACCP [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 식품공장으로 전환하는 것과 같다. 맛(모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))을 유지하면서 위생([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질), 레시피 이력 관리(실험 추적), 자동 이상 감지(드리프트 모니터링)까지 모두 갖춰야 진정한 대량 생산(스케일아웃)이 가능하다.
 
@@ -312,28 +303,26 @@ MLOps는 ML 프로젝트가 PoC (Proof of [Concept](/knowledge-base/studynote/14
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">DevOps (코드 CI/CD)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">MLOps Level 0 — 수동 ML 파이프라인</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">MLOps Level 1 — ML 파이프라인 자동화 (CT 도입)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">피처 스토어 (훈련/서빙 일관성)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">모델 레지스트리 (버전 관리)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">드리프트 모니터링 (데이터/컨셉)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">MLOps Level 2 — CI/CD/CT 완전 자동화</div>
-<div class="kb-diagram-tree-item" style="--depth:2">A/B 테스트 · 카나리 배포 · 자동 롤백</div>
-<div class="kb-diagram-tree-item" style="--depth:2">실험 추적 (MLflow · W&amp;B)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">LLMOps — 프롬프트 관리 · RAG 파이프라인 · PEFT 스케줄링</div>
-</div>
-</div>
-
-
+```text
+DevOps (코드 CI/CD)
+    │
+    ▼
+MLOps Level 0 — 수동 ML 파이프라인
+    │
+    ▼
+MLOps Level 1 — ML 파이프라인 자동화 (CT 도입)
+    ├─► 피처 스토어 (훈련/서빙 일관성)
+    ├─► 모델 레지스트리 (버전 관리)
+    └─► 드리프트 모니터링 (데이터/컨셉)
+    │
+    ▼
+MLOps Level 2 — CI/CD/CT 완전 자동화
+    ├─► A/B 테스트 · 카나리 배포 · 자동 롤백
+    └─► 실험 추적 (MLflow · W&B)
+    │
+    ▼
+LLMOps — 프롬프트 관리 · RAG 파이프라인 · PEFT 스케줄링
+```
 
 ---
 

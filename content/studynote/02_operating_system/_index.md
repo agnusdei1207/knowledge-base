@@ -8,9 +8,7 @@ tags = ["studynote-operating-system"]
 > 🧸 **어린이를 위한 비유**
 > 컴퓨터 성 안에서 수많은 일꾼(프로그램)들이 서로 싸우지 않고 사이좋게 일할 수 있도록 도와주는 '성주'와 같아요. 누가 먼저 밥을 먹을지(CPU), 어떤 일꾼이 어느 방을 쓸지(Memory)를 공정하게 정해주어 성이 잘 돌아가게 한답니다!
 
----
-
-# 도메인 02: 운영체제 (Operating System)
+---# 도메인 02: 운영체제 (Operating System)
 
 ## ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 하드웨어 자원(CPU, Memory, I/O)의 물리적 한계를 추상화(Abstraction)하여 응용 프로그램에 논리적이고 일관된 API(System Call)를 제공하는 근간 시스템 소프트웨어.
@@ -40,28 +38,33 @@ tags = ["studynote-operating-system"]
 
 #### 2. OS 커널 아키텍처 및 시스템 콜 흐름 (ASCII)
 #### 2. OS Kernel Architecture & System Call Flow (ASCII)
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Linux Kernel Architecture &amp; User/Kernel Transition</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">리눅스 커널 아키텍처 및 유저/커널 모드 전환</div></div>
-<div class="kb-diagram-note">(유저 공간 / User Space - Ring 3)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App 1 (Node.js)</div><div class="kb-diagram-cell">App 2 (Python)</div><div class="kb-diagram-cell">App 3 (Bash)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">표준 C 라이브러리 / Standard C Library</div></div>
-<div class="kb-diagram-note">(소프트웨어 인터럽트 / Software Interrupt: int 0x80 / syscall)</div>
-<div class="kb-diagram-note">(커널 공간 / Kernel Space - Ring 0) Trap!</div>
-<div class="kb-diagram-note">v</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시스템 콜 인터페이스 / System Call Interface</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로세스</div><div class="kb-diagram-cell">메모리 관리</div><div class="kb-diagram-cell">가상 파일</div><div class="kb-diagram-cell">네트워크</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스케줄러</div><div class="kb-diagram-cell">(Memory)</div><div class="kb-diagram-cell">시스템 (VFS)</div><div class="kb-diagram-cell">스택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장치 드라이버 / Device Drivers (Block, Char)</div></div>
-<div class="kb-diagram-note">(하드웨어 / Hardware)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU</div><div class="kb-diagram-cell">RAM (MMU)</div><div class="kb-diagram-cell">NVMe SSD</div><div class="kb-diagram-cell">NIC</div></div>
-</div>
-</div>
-
-
+```text
+    [ Linux Kernel Architecture & User/Kernel Transition ]
+    [ 리눅스 커널 아키텍처 및 유저/커널 모드 전환 ]
+    
+    (유저 공간 / User Space - Ring 3)
+    +-------------------------------------------------------+
+    |  App 1 (Node.js)  |  App 2 (Python)  |  App 3 (Bash)  |
+    +-------------------+------------------+----------------+
+    |           표준 C 라이브러리 / Standard C Library      |
+    +-------------------------------------------------------+
+           | (소프트웨어 인터럽트 / Software Interrupt: int 0x80 / syscall)
+    =======|======================================================
+    (커널 공간 / Kernel Space - Ring 0) Trap!
+           v
+    +-------------------------------------------------------+
+    |           시스템 콜 인터페이스 / System Call Interface|
+    +-----------+----------------+---------------+----------+
+    | 프로세스  | 메모리 관리    | 가상 파일     | 네트워크 |
+    | 스케줄러  | (Memory)       | 시스템 (VFS)  | 스택     |
+    +-----------+----------------+---------------+----------+
+    |            장치 드라이버 / Device Drivers (Block, Char) |
+    +-------------------------------------------------------+
+    ==============================================================
+    (하드웨어 / Hardware)
+    |    CPU    |     RAM (MMU)    |   NVMe SSD  |   NIC    |
+    +-------------------------------------------------------+
+```
 
 #### 3. 핵심 알고리즘 메커니즘 (가상 메모리 요구 페이징)
 ① **주소 발생**: CPU가 가상 주소(VA)를 발생시킴.

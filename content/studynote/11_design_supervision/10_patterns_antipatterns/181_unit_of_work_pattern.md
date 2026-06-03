@@ -43,25 +43,25 @@ Unit of Work는 보통 Identity Map, 변경 추적, Flush, [트랜잭션](/knowl
 
 아래 그림은 Unit of Work가 "객체 변경 회계장부"처럼 동작한다는 점을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Unit of Work inside one business transaction</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Application Service</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">load / modify / remove via Repository</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Unit of Work</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Identity Map : loaded entities</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ New Objects : INSERT queue</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Dirty Objects : UPDATE queue</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Removed Objects : DELETE queue</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ flush() -&gt; SQL generation / batching</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ rollback() -&gt; discard tracked changes</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Database transaction commits all or nothing</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Unit of Work inside one business transaction                        │
+├──────────────────────────────────────────────────────────────────────┤
+│ Application Service                                                 │
+│    │ load / modify / remove via Repository                          │
+│    ▼                                                                │
+│ Unit of Work                                                        │
+│   ├─ Identity Map      : loaded entities                            │
+│   ├─ New Objects       : INSERT queue                               │
+│   ├─ Dirty Objects     : UPDATE queue                               │
+│   └─ Removed Objects   : DELETE queue                               │
+│            │                                                        │
+│            ├─ flush()    -> SQL generation / batching               │
+│            └─ rollback() -> discard tracked changes                 │
+│                                                                      │
+│ Database transaction commits all or nothing                         │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 JPA/Hibernate에서는 이 메커니즘이 [영속성](/knowledge-base/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/) [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)로 구현된다. 엔티티를 조회하면 1차 캐시에 올라가고, [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 안에서 필드를 바꾸면 스냅샷과 현재 상태를 비교하는 Dirty Checking으로 UPDATE가 준비된다. 즉 `save()`를 반복 호출하지 않아도 Unit of Work가 "무엇이 달라졌는지"를 알아낸다.
 
@@ -148,24 +148,22 @@ Unit of Work의 장점은 명확하다. 변경을 한 번에 반영하므로 [�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">비즈니스 유스케이스 시작</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Repository로 엔티티 로드</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Identity Map + New / Dirty / Removed 추적</div>
-<div class="kb-diagram-tree-item" style="--depth:2">dirty checking</div>
-<div class="kb-diagram-tree-item" style="--depth:2">flush</div>
-<div class="kb-diagram-tree-item" style="--depth:2">rollback / commit</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">일관된 트랜잭션 반영과 ORM 최적화</div>
-</div>
-</div>
-
-
+```text
+비즈니스 유스케이스 시작
+    │
+    ▼
+Repository로 엔티티 로드
+    │
+    ▼
+Identity Map + New / Dirty / Removed 추적
+    │
+    ├─ dirty checking
+    ├─ flush
+    └─ rollback / commit
+    │
+    ▼
+일관된 트랜잭션 반영과 ORM 최적화
+```
 
 이 흐름은 Unit of Work가 단순 캐시가 아니라, 변경 추적에서 커밋 제어까지 이어지는 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 관리 패턴임을 보여 준다.
 

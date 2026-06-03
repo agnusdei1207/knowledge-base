@@ -22,21 +22,26 @@ tags = ["studynote-cloud-architecture"]
 
 2014년 Airbnb에서 개발, 현재 Apache 최상위 프로젝트. **"워크플로우를 코드로"** 라는 철학이 핵심이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">복잡한 파이프라인 의존성 예시</div></div>
-<div class="kb-diagram-note">extract_crm</div>
-<div class="kb-diagram-note">validate_crm extract_erp extract_ga</div>
-<div class="kb-diagram-note">transform_orders</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">load_fact_sales</div>
-<div class="kb-diagram-note">update_bi train_ml send_alert</div>
-</div>
-</div>
-
-
+```
+[복잡한 파이프라인 의존성 예시]
+                   extract_crm
+                        │
+          ┌─────────────┼─────────────┐
+          ▼             ▼             ▼
+    validate_crm   extract_erp   extract_ga
+          │             │             │
+          └──────┬───────┘             │
+                 ▼                    │
+          transform_orders            │
+                 │                    │
+                 └──────────┬─────────┘
+                            ▼
+                     load_fact_sales
+                            │
+                 ┌──────────┼──────────┐
+                 ▼          ▼          ▼
+           update_bi   train_ml   send_alert
+```
 
 이런 복잡한 의존성을 [cron](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/107_nightly_build_scheduled_cron_pipeline/) 스크립트로 관리하면 실패 추적, 재실행, 모니터링이 불가능하다. Airflow가 이 문제를 해결한다.
 
@@ -48,26 +53,27 @@ tags = ["studynote-cloud-architecture"]
 
 ### Airflow 시스템 아키텍처
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Airflow 아키텍처</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Webserver</div><div class="kb-diagram-cell">Scheduler</div><div class="kb-diagram-cell">Executor</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(UI/API)</div><div class="kb-diagram-cell">(DAG 파싱</div><div class="kb-diagram-cell">(Task 실행)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DAG 모니터</div><div class="kb-diagram-cell">일정 관리)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실행 로그</div><div class="kb-diagram-cell">Worker 1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Worker 2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Worker 3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Task 큐</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Metadata</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Database</div><div class="kb-diagram-cell">◀ 상태 업데이트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(PostgreSQL)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DAG 파일 저장소: Git Repo / S3 / Local filesystem</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────────┐
+│                  Airflow 아키텍처                              │
+│                                                              │
+│  ┌─────────────┐   ┌──────────────┐   ┌──────────────────┐  │
+│  │  Webserver  │   │  Scheduler   │   │   Executor        │  │
+│  │  (UI/API)   │   │  (DAG 파싱   │   │   (Task 실행)     │  │
+│  │  DAG 모니터 │   │   일정 관리)  │   │  ┌────────────┐  │  │
+│  │  실행 로그  │   │              │   │  │Worker 1    │  │  │
+│  └─────────────┘   └──────┬───────┘   │  │Worker 2    │  │  │
+│                            │           │  │Worker 3    │  │  │
+│                            │ Task 큐   │  └────────────┘  │  │
+│  ┌─────────────┐           └──────────▶│                  │  │
+│  │  Metadata   │                       └──────────────────┘  │
+│  │  Database   │◀──────────────────────── 상태 업데이트       │
+│  │ (PostgreSQL)│                                             │
+│  └─────────────┘                                            │
+│                                                              │
+│  DAG 파일 저장소: Git Repo / S3 / Local filesystem           │
+└──────────────────────────────────────────────────────────────┘
+```
 
 ### [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) 정의 예시
 
@@ -261,21 +267,17 @@ with DAG('dbt_daily_transform', schedule='0 3 * * *', ...):
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">cron + 쉘 스크립트 (의존관계 관리 불가)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Airflow: DAG 기반 워크플로 오케스트레이션</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Scheduler · Worker · Metadata DB</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Operator: Python · Bash · K8s · Spark</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">차세대: Dagster · Prefect · Mage (데이터 자산 중심)</div>
-</div>
-</div>
-
-
+```text
+cron + 쉘 스크립트 (의존관계 관리 불가)
+    │
+    ▼
+Airflow: DAG 기반 워크플로 오케스트레이션
+    ├─► Scheduler · Worker · Metadata DB
+    └─► Operator: Python · Bash · K8s · Spark
+    │
+    ▼
+차세대: Dagster · Prefect · Mage (데이터 자산 중심)
+```
 2. DAG는 집 짓기 공정표다. 기초 공사를 해야 벽을 세울 수 있고, 벽이 있어야 지붕을 올릴 수 있는 것처럼, 각 단계([Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/))가 순서대로 이루어진다.
 3. 만약 어느 공정이 실패하면(벽 공사 실패), Airflow는 자동으로 다시 시도하고, 실패 원인을 기록해 나중에 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 수 있게 해준다.
 

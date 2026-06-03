@@ -33,40 +33,39 @@ tags = ["studynote-design-supervision"]
 | 2010s | Spring [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) JPA | Repository 인터페이스로 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) |
 | 현재 | TypeORM, Prisma, SQLAlchemy | 현대 언어 구현체 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Core Idea</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Expected Gain</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐    ┌──────────────┐    ┌──────────────┐
+│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
+└──────────────┘    └──────────────┘    └──────────────┘
+```
 
 - **📢 섹션 요약 비유**: 외교관이 두 나라 사이에서 번역과 협상을 담당하듯, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 매퍼는 객체 세계와 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 세계 사이의 전문 통역사다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data Mapper 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">도메인 레이어</div><div class="kb-diagram-node">매퍼 레이어</div><div class="kb-diagram-node">영속성 레이어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User</div><div class="kb-diagram-cell">UserMapper</div><div class="kb-diagram-cell">DB Table</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(순수 객체)</div><div class="kb-diagram-cell">◀ ▶</div><div class="kb-diagram-cell">(변환 전담)</div><div class="kb-diagram-cell">◀─▶</div><div class="kb-diagram-cell">users</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- id</div><div class="kb-diagram-cell">+ toEntity()</div><div class="kb-diagram-cell">id</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- name</div><div class="kb-diagram-cell">+ toRow()</div><div class="kb-diagram-cell">name</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- email</div><div class="kb-diagram-cell">+ findById()</div><div class="kb-diagram-cell">email</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ save()</div><div class="kb-diagram-cell">created_at</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DB 모름!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Service</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">UserRepository</div><div class="kb-diagram-cell">← 현대적 추상화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(비즈니스)</div><div class="kb-diagram-cell">(인터페이스)</div></div>
-</div>
-</div>
-
-
+```
+┌────────────────────────────────────────────────────────────────┐
+│                  Data Mapper 아키텍처                           │
+│                                                                │
+│  [도메인 레이어]         [매퍼 레이어]          [영속성 레이어]   │
+│                                                                │
+│  ┌──────────────┐       ┌─────────────────┐  ┌──────────────┐ │
+│  │  User        │       │   UserMapper    │  │  DB Table    │ │
+│  │  (순수 객체) │◀─────▶│  (변환 전담)     │◀─▶│  users       │ │
+│  │  - id        │       │  + toEntity()   │  │  id          │ │
+│  │  - name      │       │  + toRow()      │  │  name        │ │
+│  │  - email     │       │  + findById()   │  │  email       │ │
+│  │              │       │  + save()       │  │  created_at  │ │
+│  │  DB 모름!    │       └─────────────────┘  └──────────────┘ │
+│  └──────────────┘                                              │
+│                                                                │
+│  ┌──────────────┐       ┌─────────────────┐                   │
+│  │  Service     │──────▶│  UserRepository │ ← 현대적 추상화    │
+│  │  (비즈니스)   │       │  (인터페이스)    │                   │
+│  └──────────────┘       └─────────────────┘                   │
+└────────────────────────────────────────────────────────────────┘
+```
 
 ```java
 // 도메인 객체 - DB 완전 무지
@@ -120,21 +119,24 @@ public class UserJpaRepository implements UserRepository {
 | 학습 곡선 | 높음 | 낮음 |
 | 대표 프레임워크 | Hibernate, JPA, TypeORM | Rails, Laravel Eloquent |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Clean Architecture 레이어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">← 데이터 매퍼가 보호하는 영역</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Entities (도메인)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Use Cases</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">← 데이터 매퍼/리포지토리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Interface Adapters</div><div class="kb-diagram-cell">(Infrastructure)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Frameworks/DB</div></div>
-</div>
-</div>
-
-
+```
+┌────────────────────────────────────────────────────┐
+│            Clean Architecture 레이어                │
+│                                                    │
+│  ┌──────────────────┐  ← 데이터 매퍼가 보호하는 영역│
+│  │   Entities (도메인) │                           │
+│  └──────────────────┘                             │
+│  ┌──────────────────┐                             │
+│  │   Use Cases      │                             │
+│  └──────────────────┘                             │
+│  ┌──────────────────┐  ← 데이터 매퍼/리포지토리     │
+│  │   Interface Adapters │  (Infrastructure)       │
+│  └──────────────────┘                             │
+│  ┌──────────────────┐                             │
+│  │   Frameworks/DB  │                             │
+│  └──────────────────┘                             │
+└────────────────────────────────────────────────────┘
+```
 
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 매퍼 패턴은 Clean Architecture의 **Infrastructure Layer** 에 위치하며, [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Layer를 DB 변화로부터 보호한다.
 

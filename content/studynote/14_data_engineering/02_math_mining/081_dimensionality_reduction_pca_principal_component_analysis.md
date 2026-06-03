@@ -29,31 +29,29 @@ PCA는 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architectu
 1. **고유벡터(Eigenvector)**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 가장 넓게 퍼져 있는([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이 가장 큰) 방향의 새로운 축(주성분)입니다.
 2. **고유값(Eigenvalue)**: 해당 고유벡터 축이 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)을 얼마나 많이 설명하는지를 나타내는 크기입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PCA (Principal Component Analysis) Mechanism</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2D Original Data</div><div class="kb-diagram-node">Transformed to 1D via PCA</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">y ^ ^ PC2 (Orthogonal, 2nd variance)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">. .</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">. . .</div><div class="kb-diagram-cell">Original Data points</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">. . .</div><div class="kb-diagram-cell">projected onto PC1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">. . .</div><div class="kb-diagram-cell">.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">. .</div><div class="kb-diagram-cell">.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+----------------&gt; x +--.----------------------&gt; PC1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">. (Direction of Maximum</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">. Variance = 1st PC)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Mathematical Pipeline</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Standardization (Mean=0, Var=1)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Covariance Matrix Computation</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Eigen Decomposition (Extract Eigenvectors &amp; Eigenvalues)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. Sort descending by Eigenvalues</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. Select Top-K Components &amp; Project Data (Matrix Multiply)</div></div>
-</div>
-</div>
-
-
+```text
++---------------------------------------------------------------+
+|         PCA (Principal Component Analysis) Mechanism          |
++---------------------------------------------------------------+
+|  [2D Original Data]            [Transformed to 1D via PCA]    |
+|   y ^                        ^ PC2 (Orthogonal, 2nd variance) |
+|     |     . .                |                                |
+|     |    . . .               |         Original Data points   |
+|     |   . . .                |            projected onto PC1  |
+|     |  . . .                 |  .                             |
+|     | . .                    |  .                             |
+|     +----------------> x     +--.----------------------> PC1  |
+|                                 .     (Direction of Maximum   |
+|                                 .      Variance = 1st PC)     |
+|                                                               |
+| [Mathematical Pipeline]                                       |
+|  1. Standardization (Mean=0, Var=1)                           |
+|  2. Covariance Matrix Computation                             |
+|  3. Eigen Decomposition (Extract Eigenvectors & Eigenvalues)  |
+|  4. Sort descending by Eigenvalues                            |
+|  5. Select Top-K Components & Project Data (Matrix Multiply)  |
++---------------------------------------------------------------+
+```
 
 ---
 
@@ -97,26 +95,23 @@ PCA는 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architectu
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">고차원 데이터 → 차원의 저주 (과적합 · 계산 폭발)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">선형 차원 축소</div>
-<div class="kb-diagram-tree-item" style="--depth:2">PCA: 분산 최대화 직교 축 투영 (비지도)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">LDA: 클래스 간 분리 최대화 (지도)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">비선형 차원 축소</div>
-<div class="kb-diagram-tree-item" style="--depth:2">t-SNE: 지역 구조 보존 (시각화 특화)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">UMAP: 전역+지역 구조 보존 (t-SNE보다 빠름)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">AutoEncoder: 신경망 기반 잠재 공간 학습</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">딥러닝 임베딩 → VAE / Diffusion → 잠재 공간 표현 학습</div>
-</div>
-</div>
-
-
+```text
+고차원 데이터 → 차원의 저주 (과적합 · 계산 폭발)
+    │
+    ▼
+선형 차원 축소
+    ├─► PCA: 분산 최대화 직교 축 투영 (비지도)
+    └─► LDA: 클래스 간 분리 최대화 (지도)
+    │
+    ▼
+비선형 차원 축소
+    ├─► t-SNE: 지역 구조 보존 (시각화 특화)
+    ├─► UMAP: 전역+지역 구조 보존 (t-SNE보다 빠름)
+    └─► AutoEncoder: 신경망 기반 잠재 공간 학습
+    │
+    ▼
+딥러닝 임베딩 → VAE / Diffusion → 잠재 공간 표현 학습
+```
 
 ---
 

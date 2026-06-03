@@ -27,27 +27,29 @@ tags = ["studynote-operating-system"]
   2. **병목의 발견 (Speed Mismatch)**: CPU는 1초에 1억 번 도는데, 플로피 디스크는 1초에 1바이트 뱉는다. CPU가 디스크를 기다리느라 1억 클럭의 연산 기회를 허공에 날리는 대재앙 발생.
   3. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a>의 등장으로 멸종 위기</strong>: 딴일 하다가 삐삐([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))를 치면 돌아오는 스마트한 방식에 왕좌를 넘겨주었으나, 현대 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 네트워크 장비에서 부활의 신호탄을 쏘아 올림.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">폴링(Polling / PIO)의 자학적인 런타임 무한루프 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황: CPU가 프린터에 'A'를 찍고, 다음 글자 'B'를 찍으려 함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. CPU가 프린터 제어기에 'A'를 쏜다 (Write).</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 프린터: "모터 돌릴게! 나 건들지마!" -&gt; (Status 비트 = BUSY 🔴)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">💥</div><div class="kb-diagram-node">지옥의 폴링 (Busy Wait) 시작</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. CPU: <code>while (*status_reg == BUSY) { /* 멍때림 */ }</code></div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 1클럭 째: "끝났냐?" -&gt; 프린터: "아직"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 1만 클럭 째: "끝났냐?" -&gt; 프린터: "아직"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 100만 클럭 째: "끝났냐?" -&gt; 프린터: "아직" (CPU 100% 불타오름)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 프린터 모터 정지 -&gt; (Status 비트 = READY 🟢)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. CPU: "오! Ready다 루프 탈출! 이제 다음 글자 'B' 쏜다!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">☠️ 결과: 프린터가 1글자 찍는 몇 밀리초 동안, CPU 코어 하나가 아무런</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">의미 없는 헛돌기(Spinning)로 전력과 시간을 100% 탕진해 버림.</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────┐
+│        폴링(Polling / PIO)의 자학적인 런타임 무한루프 시각화           │
+├────────────────────────────────────────────────────────────────────────┤
+│                                                                        │
+│ [ 상황: CPU가 프린터에 'A'를 찍고, 다음 글자 'B'를 찍으려 함 ]         │
+│                                                                        │
+│ 1. CPU가 프린터 제어기에 'A'를 쏜다 (Write).                           │
+│ 2. 프린터: "모터 돌릴게! 나 건들지마!" -> (Status 비트 = BUSY 🔴)      │
+│                                                                        │
+│ 💥 [ 지옥의 폴링 (Busy Wait) 시작 ]                                    │
+│ 3. CPU: `while (*status_reg == BUSY) { /* 멍때림 */ }`                 │
+│    - 1클럭 째: "끝났냐?" -> 프린터: "아직"                             │
+│    - 1만 클럭 째: "끝났냐?" -> 프린터: "아직"                          │
+│    - 100만 클럭 째: "끝났냐?" -> 프린터: "아직" (CPU 100% 불타오름)    │
+│                                                                        │
+│ 4. 프린터 모터 정지 -> (Status 비트 = READY 🟢)                        │
+│ 5. CPU: "오! Ready다 루프 탈출! 이제 다음 글자 'B' 쏜다!"              │
+│                                                                        │
+│ ☠️ 결과: 프린터가 1글자 찍는 몇 밀리초 동안, CPU 코어 하나가 아무런    │
+│    의미 없는 헛돌기(Spinning)로 전력과 시간을 100% 탕진해 버림.        │
+└────────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 이 `while` 루프가 바로 모든 디바이스 드라이버 초보자들이 겪는 '[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 프리즈([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Freeze)'의 주범이다. 폴링 루프에 갇힌 CPU 코어는 다른 애플리케이션으로 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))조차 하지 못하고 기계가 0을 뱉어낼 때까지 포로로 잡힌다. 만약 프린터 전원이 훅 나가서 0을 영원히 뱉지 않는다면? 컴퓨터 자체가 영원히 멈추는 완벽한 데드락([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))에 빠진다. 
 
 - **📢 섹션 요약 비유**: 엘리베이터(디바이스)를 불렀는데, 층수 표시기가 없어서 문에 귀를 대고 "도착했나? 도착했나?" 1초에 10번씩 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 짓입니다. 엘리베이터가 오면 0.1초 만에 타겠지만, 기다리는 3분 동안 나는 꼼짝도 못 하고 문만 쳐다봐야 하는 바보 같은 기다림([Busy Wait](/knowledge-base/studynote/02_operating_system/11_exam_summary/700_spinlock_busy_waiting/))입니다.
@@ -101,17 +103,14 @@ I/O [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/
 앱 A가 디스크 I/O를 폴링으로 기다리면 CPU가 100% 돌고 있으므로, OS 스케줄러는 앱 A가 "지금 미친 듯이 연산을 하는 중이구나!"라고 착각한다. 그래서 다른 앱 B에게 CPU를 안 넘겨준다.
 결국 디스크 바늘이 움직이는 그 영겁의 시간(8ms) 동안, 서버 안에 있는 100개의 앱이 몽땅 스탑(Stop)되는 최악의 비효율이 발생한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장비 종류</div><div class="kb-diagram-cell">I/O 대기시간</div><div class="kb-diagram-cell">인터럽트 비용</div><div class="kb-diagram-cell">최적의 I/O 방식</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HDD / CD</div><div class="kb-diagram-cell">8 ms (엄청 긺)</div><div class="kb-diagram-cell">1 ㎲ (상대적 작음)</div><div class="kb-diagram-cell">🟢 인터럽트 (딴일 해라)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">레지스터</div><div class="kb-diagram-cell">0.1 ㎲ (짧음)</div><div class="kb-diagram-cell">1 ㎲ (상대적 큼)</div><div class="kb-diagram-cell">🟢 폴링 (그냥 1초 대기)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬──────────────────────────────────┐
+│ 장비 종류  │ I/O 대기시간 │ 인터럽트 비용 │ 최적의 I/O 방식           │
+├──────────┼────────────┼────────────┼──────────────────────────────────┤
+│ HDD / CD │ 8 ms (엄청 긺)│ 1 ㎲ (상대적 작음)│ 🟢 인터럽트 (딴일 해라)│
+│ 레지스터   │ 0.1 ㎲ (짧음)│ 1 ㎲ (상대적 큼) │ 🟢 폴링 (그냥 1초 대기)│
+└──────────┴────────────┴────────────┴──────────────────────────────────┘
+```
 **[매트릭스 해설]** 폴링이 무조건 나쁜 건 아니다. 만약 프린터가 0.0001초 만에 인쇄를 끝내는 신기술 장비라면? 폴링으로 0.0001초 멍때리다 바로 글자 쏘는 게, 딴 앱으로 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))했다가 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 받고 0.001초 뒤에 돌아오는 것보다 10배 더 빠르다. 대기 시간이 '[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 셋업 비용'보다 짧을 땐 폴링이 진리가 된다.
 
 - **📢 섹션 요약 비유**: 라면 물 끓는 시간(3분) 동안은 TV(다른 앱)를 보고 오면 이득([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))입니다. 하지만 전자레인지에 삼각김밥 10초 데울 때는, 굳이 방에 가서 TV 켜고 앉았다가 "삐-삐-" 소리 듣고 다시 주방에 오느니, 그냥 10초 동안 전자레인지 불빛만 멍하니 쳐다보고(폴링) 바로 꺼내 먹는 게 동선 낭비가 없는 것과 똑같습니다.
@@ -169,19 +168,15 @@ I/O [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">메모리 맵 I/O (Memory-mapped I/O) vs 분리된 I/O (Isolated I/O / Port I/O)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">폴링 (Polling / Programmed I/O)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">인터럽트 구동 I/O (Interrupt-driven I/O)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">직접 메모리 접근 (DMA, Direct Memory Access)</div></div>
-</div>
-</div>
-
-
+```text
+[메모리 맵 I/O (Memory-mapped I/O) vs 분리된 I/O (Isolated I/O / Port I/O)]
+    │
+    ▼
+[폴링 (Polling / Programmed I/O)]
+    │
+    ├──▶ [인터럽트 구동 I/O (Interrupt-driven I/O)]
+    └──▶ [직접 메모리 접근 (DMA, Direct Memory Access)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

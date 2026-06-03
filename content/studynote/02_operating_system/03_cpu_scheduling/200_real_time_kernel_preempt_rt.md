@@ -24,21 +24,17 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경**: 과거에는 공장 로봇을 돌리기 위해 VxWorks, QNX 같은 수천만 원짜리 상용 RTOS(Real-Time OS)를 사야만 했다. 그러나 2000년대 중반 인고 몰나르(Ingo Molnar)와 토마스 글릭스만(Thomas Gleixner) 같은 리눅스 천재 해커들이 "무료 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 뜯어고쳐서 하드 리얼타임급으로 만들자"라는 광기 어린 프로젝트(`PREEMPT_RT`)를 시작했고, 20년에 걸친 패치 끝에 현대 리눅스를 산업용 로봇과 전기차의 절대 지배자로 만들었다.
 
+```text
+  [범용 커널과 실시간 커널(PREEMPT_RT)의 디스패치 지연(Latency) 방어선 비교]
 
+  [ 범용 커널 (Standard Linux) ]
+  이벤트 발생 ─▶ (커널 락 대기 중 🔒) ─▶ 10ms 지연 ─▶ 100ms 지연 ─▶ 🚨 데드라인 초과 폭발!
+                (커널 모드에서는 절대 쫓아낼 수 없다는 철칙 때문)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">범용 커널과 실시간 커널(PREEMPT_RT)의 디스패치 지연(Latency) 방어선 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">범용 커널 (Standard Linux)</div></div>
-<div class="kb-diagram-note">이벤트 발생 ─▶ (커널 락 대기 중 🔒) ─▶ 10ms 지연 ─▶ 100ms 지연 ─▶ 🚨 데드라인 초과 폭발!</div>
-<div class="kb-diagram-note">(커널 모드에서는 절대 쫓아낼 수 없다는 철칙 때문)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">실시간 커널 (PREEMPT_RT)</div></div>
-<div class="kb-diagram-note">이벤트 발생 ─▶ (커널 락? 알 바 아님. 락을 강제 수면(Sleep)시킴!) ─▶ 0.05ms (50μs) 만에 실행!</div>
-<div class="kb-diagram-note">(디스패치 지연의 최댓값이 하드웨어 스펙으로 100% 확정됨)</div>
-</div>
-</div>
-
-
+  [ 실시간 커널 (PREEMPT_RT) ]
+  이벤트 발생 ─▶ (커널 락? 알 바 아님. 락을 강제 수면(Sleep)시킴!) ─▶ 0.05ms (50μs) 만에 실행!
+                (디스패치 지연의 최댓값이 하드웨어 스펙으로 100% 확정됨)
+```
 **[다이어그램 해설]** 실시간 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 핵심 가치는 "평균적으로 빠른 것"이 아니라 "최악의 상황에서도 상한선(Worst-case)을 넘지 않는 것"이다. 범용 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 평균 1ms에 반응하지만 운 나쁘면 100ms로 튄다. 실시간 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 무거운 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 오버헤드 때문에 평균 2ms로 더 느려질지언정, 하늘이 두 쪽 나도 절대 3ms를 넘기지 않는다. 이 평탄함([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) Jitter)이 생명을 구한다.
 
 - **📢 섹션 요약 비유**: 우사인 [볼트](/knowledge-base/studynote/15_devops_sre/05_devsecops/236_vault_dynamic_secrets_ttl/)(범용 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))는 100m를 9초에 뛰지만 가끔 늦잠을 자서 대회에 1시간 지각합니다(예측 불가 렉). 실시간 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 일반 시내버스입니다. 100m를 30초에 가지만, 1년 365일 비가 오나 눈이 오나 무조건 30초 만에 도착한다는 절대 보증서(Guarantee)를 발행해 줍니다.
@@ -64,22 +60,21 @@ tags = ["studynote-operating-system"]
 - **개조**: `PREEMPT_RT`는 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)의 껍데기(아주 짧은 ACK)만 진짜 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)로 냅두고, 패킷 처리 같은 <strong>나머지 모든 묵직한 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a> 루틴을 일반 유저 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a>(IRQ Threads)로 격하시켜버린다.</strong>
 - **결과**: [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 처리가 '[스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)'가 되었으므로, 이 녀석들도 스케줄러의 통제를 받게 된다. 즉, 쓸데없는 마우스 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)보다 자동차 브레이크 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)가 더 중요하면, 마우스 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 모가지를 쳐버리고 브레이크부터 밟을 수 있는 미친 융통성이 확보된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일반 커널 vs PREEMPT_RT 패치 커널의 '선점 가능' 공간 면적</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">일반 리눅스 (Soft RT)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User Space (100% 선점 가능)</div><div class="kb-diagram-cell">Kernel Space (스핀락, IRQ 시 💥선점 불가)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 블랙박스 지연 (Jitter)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">PREEMPT_RT 패치 리눅스 (Hard RT)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User Space (100% 선점 가능)</div><div class="kb-diagram-cell">Kernel Space (99.9% 선점 가능 뚫림!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 상수(Bounded) 지연</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(단 0.1%의 Raw 스핀락 구간만 불가)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌────────────────────────────────────────────────────────────────────────┐
+  │         일반 커널 vs PREEMPT_RT 패치 커널의 '선점 가능' 공간 면적      │
+  ├────────────────────────────────────────────────────────────────────────┤
+  │                                                                        │
+  │ [ 일반 리눅스 (Soft RT) ]                                              │
+  │ User Space (100% 선점 가능) │ Kernel Space (스핀락, IRQ 시 💥선점 불가)│
+  │                             │ ─────────────────▶ 블랙박스 지연 (Jitter)│
+  │                                                                        │
+  │ [ PREEMPT_RT 패치 리눅스 (Hard RT) ]                                   │
+  │ User Space (100% 선점 가능) │ Kernel Space (99.9% 선점 가능 뚫림!)     │
+  │                             │ ─────────────────▶ 상수(Bounded) 지연    │
+  │                             └ (단 0.1%의 Raw 스핀락 구간만 불가)       │
+  └────────────────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 원래 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이라는 건물에는 '관계자 외 절대 출입 금지([스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/))' 구역이 너무 많아서 응급 구조대(실시간 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/))가 들어가다 자꾸 문에 막혔습니다. [PREEMPT_RT](/knowledge-base/studynote/02_operating_system/10_security/654_preempt_rt_linux_spinlock_mutex/) 패치는 이 건물 내부의 철문 수천 개를 다 뜯어내고 유리문(rt_mutex)으로 바꾼 뒤, 구조대에게 모든 문을 부수고 들어갈 마스터키를 쥐여준 혁명입니다.
 
@@ -113,27 +108,28 @@ tags = ["studynote-operating-system"]
    - **Isolcpus**: 부팅 파라미터에 `isolcpus=2,3`을 주어 스케줄러가 코어 2, 3번에는 절대 일반 프로세스를 못 던지게 철창을 친다.
    - <strong>Nohz_full (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/074_tickless_kernel/">Tickless Kernel</a>)</strong>: 2, 3번 코어에는 1ms마다 울리는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 타이머 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)([Tick](/knowledge-base/studynote/02_operating_system/01_overview_architecture/073_tick_jiffies/))조차 아예 꺼버려, CPU가 내 로봇 제어 코드 100%에만 집중하게([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) Disturbance) 만든다. (HFT 주식 매매 서버의 절대 비기)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Zero-Latency(무지연) 시스템 구축을 위한 실무 풀스택 튜닝 체인</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Level 4: 애플리케이션 최적화 (User Space)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Malloc(동적 할당) 및 GC 언어(Java, Go) 절대 금지. C/C++ 사용.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Lock-free 링버퍼 구조로 스레드 간 통신.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Level 3: 운영체제 스케줄러 (Kernel Space)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- PREEMPT_RT 커널 패치 적용 (디스패치 지연 상수화)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- SCHED_FIFO(우선순위 99)로 태스크 고정</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Level 2: 메모리/캐시 방어막 (Memory Space)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- mlockall() 호출하여 스왑(Page Fault) 원천 봉쇄</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- NUMA Node 강제 바인딩 (numactl)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Level 1: 하드웨어 코어 격리 (Hardware Space)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- isolcpus, nohz_full 로 특정 코어를 OS에서 분리 독점</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- irqaffinity 튜닝으로 무관한 인터럽트 타 코어 강제 배정</div></div>
-</div>
-</div>
-
-
+```text
+  ┌────────────────────────────────────────────────────────────────────┐
+  │     Zero-Latency(무지연) 시스템 구축을 위한 실무 풀스택 튜닝 체인  │
+  ├────────────────────────────────────────────────────────────────────┤
+  │                                                                    │
+  │   [ Level 4: 애플리케이션 최적화 (User Space) ]                    │
+  │     - Malloc(동적 할당) 및 GC 언어(Java, Go) 절대 금지. C/C++ 사용.│
+  │     - Lock-free 링버퍼 구조로 스레드 간 통신.                      │
+  │                                                                    │
+  │   [ Level 3: 운영체제 스케줄러 (Kernel Space) ]                    │
+  │     - PREEMPT_RT 커널 패치 적용 (디스패치 지연 상수화)             │
+  │     - SCHED_FIFO(우선순위 99)로 태스크 고정                        │
+  │                                                                    │
+  │   [ Level 2: 메모리/캐시 방어막 (Memory Space) ]                   │
+  │     - mlockall() 호출하여 스왑(Page Fault) 원천 봉쇄               │
+  │     - NUMA Node 강제 바인딩 (numactl)                              │
+  │                                                                    │
+  │   [ Level 1: 하드웨어 코어 격리 (Hardware Space) ]                 │
+  │     - isolcpus, nohz_full 로 특정 코어를 OS에서 분리 독점          │
+  │     - irqaffinity 튜닝으로 무관한 인터럽트 타 코어 강제 배정       │
+  └────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 진정한 실시간(Hard Real-time) 시스템은 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 하나 쓴다고 완성되지 않는다. 위에서 아래로 이어지는 4단계의 모든 오버헤드 틈새를 시멘트로 꽉꽉 틀어막아야([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/)) 비로소 예측 불가능성(Jitter)이라는 괴물을 물리치고 "데드라인 100% 방어"라는 성배를 거머쥘 수 있다.
 
 - **📢 섹션 요약 비유**: 외부 소음을 막는 방음 스튜디오([실시간 시스템](/knowledge-base/studynote/02_operating_system/01_overview_architecture/009_real_time_system/))를 지을 때, 문풍지([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 패치) 하나 바른다고 소음이 안 사라집니다. 이중창(코어 격리), 흡음재(메모리 락), 바닥 공사([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 튜닝)까지 완벽히 차단해야 진짜 쥐죽은 듯한 고요함([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) Jitter)을 얻어 녹음을 할 수 있습니다.
@@ -163,19 +159,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">하이퍼스레딩 (Hyper-threading) / SMT (Simultaneous Multithreading) 스케줄링</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">실시간 커널 (Real-time Kernel) / PREEMPT_RT</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">실시간 스케줄링 (Real-time Scheduling)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">연성 실시간 (Soft Real-time) 시스템</div></div>
-</div>
-</div>
-
-
+```text
+[하이퍼스레딩 (Hyper-threading) / SMT (Simultaneous Multithreading) 스케줄링]
+    │
+    ▼
+[실시간 커널 (Real-time Kernel) / PREEMPT_RT]
+    │
+    ├──▶ [실시간 스케줄링 (Real-time Scheduling)]
+    └──▶ [연성 실시간 (Soft Real-time) 시스템]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

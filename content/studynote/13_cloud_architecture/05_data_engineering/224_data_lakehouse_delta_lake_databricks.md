@@ -25,22 +25,20 @@ tags = ["studynote-cloud-architecture"]
 - DW에 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) → ML은 레이크에서 학습 → 최신성 불일치
 - 레이크의 ACID 부재 → [동시 쓰기](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/276_write_through/) 충돌, 부분 실패 후 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 오염
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">기존 이중 아키텍처</div><div class="kb-diagram-node">레이크하우스 통합</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data Lake</div><div class="kb-diagram-cell">Data Lakehouse</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(ML/탐색용)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">S3 + Parquet</div><div class="kb-diagram-cell">→ 통합 →</div><div class="kb-diagram-cell">S3 + Delta Lake</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ACID 트랜잭션</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data Warehouse</div><div class="kb-diagram-cell">스키마 진화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(BI/SQL용)</div><div class="kb-diagram-cell">타임트래블</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Snowflake/BQ</div><div class="kb-diagram-cell">ML + BI 통합</div></div>
-</div>
-</div>
-
-
+```
+[기존 이중 아키텍처]                  [레이크하우스 통합]
+┌─────────────────┐                 ┌──────────────────────┐
+│   Data Lake      │                 │    Data Lakehouse     │
+│  (ML/탐색용)     │                 │                      │
+│  S3 + Parquet   │   → 통합 →     │  S3 + Delta Lake     │
+└─────────────────┘                 │  ┌────────────────┐   │
+┌─────────────────┐                 │  │ ACID 트랜잭션   │   │
+│  Data Warehouse │                 │  │ 스키마 진화     │   │
+│  (BI/SQL용)     │                 │  │ 타임트래블      │   │
+│  Snowflake/BQ   │                 │  │ ML + BI 통합   │   │
+└─────────────────┘                 │  └────────────────┘   │
+                                    └──────────────────────┘
+```
 
 📢 **섹션 요약 비유**: [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/)는 "캠핑카"다. 텐트(레이크, 저렴·유연)와 집(웨어하우스, 편안·안전)의 장점을 하나의 차량에 담아, 어디서든 집처럼 생활하면서 비용도 아끼는 최신 아키텍처다.
 
@@ -50,26 +48,31 @@ tags = ["studynote-cloud-architecture"]
 
 ### [Medallion Architecture](/knowledge-base/studynote/14_data_engineering/04_mlops/194_medallion_architecture_bronze_silver_gold/) ([메달리온 아키텍처](/knowledge-base/studynote/14_data_engineering/04_mlops/194_medallion_architecture_bronze_silver_gold/))
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data Lakehouse (S3 기반)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Bronze Zone</div><div class="kb-diagram-cell">← 원시 수집 (CDC/배치/스트리밍)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Raw/원시)</div><div class="kb-diagram-cell">스키마 없음, 원본 보존</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Spark ETL (데이터 정제)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Silver Zone</div><div class="kb-diagram-cell">중복 제거, NULL 처리, 타입 통일</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Cleansed/정제)</div><div class="kb-diagram-cell">ACID 보장, 스키마 등록</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Spark 집계·비즈니스 로직</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Gold Zone</div><div class="kb-diagram-cell">BI 대시보드 전용 집계 테이블</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Curated/가공)</div><div class="kb-diagram-cell">ML Feature Store 연결</div></div>
-<div class="kb-diagram-note">↓ SQL 쿼리 엔진 (Spark SQL / Presto / Athena)</div>
-<div class="kb-diagram-note">↓ BI 도구 (Tableau / Power BI / Looker)</div>
-<div class="kb-diagram-note">↓ ML 플랫폼 (MLflow / SageMaker)</div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────────┐
+│                  Data Lakehouse (S3 기반)                     │
+│                                                              │
+│  ┌─────────────────┐                                         │
+│  │   Bronze Zone    │ ← 원시 수집 (CDC/배치/스트리밍)          │
+│  │  (Raw/원시)      │   스키마 없음, 원본 보존                  │
+│  └────────┬────────┘                                         │
+│           │ Spark ETL (데이터 정제)                           │
+│           ▼                                                  │
+│  ┌─────────────────┐                                         │
+│  │   Silver Zone    │   중복 제거, NULL 처리, 타입 통일         │
+│  │  (Cleansed/정제) │   ACID 보장, 스키마 등록                 │
+│  └────────┬────────┘                                         │
+│           │ Spark 집계·비즈니스 로직                           │
+│           ▼                                                  │
+│  ┌─────────────────┐                                         │
+│  │    Gold Zone     │   BI 대시보드 전용 집계 테이블            │
+│  │  (Curated/가공)  │   ML Feature Store 연결                 │
+│  └─────────────────┘                                         │
+└──────────────────────────────────────────────────────────────┘
+         ↓ SQL 쿼리 엔진 (Spark SQL / Presto / Athena)
+         ↓ BI 도구 (Tableau / Power BI / Looker)
+         ↓ ML 플랫폼 (MLflow / SageMaker)
+```
 
 ### [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) 핵심 기능 비교
 
@@ -146,22 +149,18 @@ df_old = spark.read.format("delta") \
 
 ### 실무 도입 의사결정 체계
 
+```
+[레이크하우스 도입 판단 기준]
+Q1: 현재 DW와 레이크를 둘 다 운영 중인가?
+  → YES: 레이크하우스로 통합 비용 절감 검토
+  → NO: 신규 구축 시 레이크하우스 우선 고려
 
+Q2: ML/AI 워크로드가 BI와 동일한 데이터를 사용하는가?
+  → YES: 레이크하우스 도입 강력 권장 (피처 일관성)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">레이크하우스 도입 판단 기준</div></div>
-<div class="kb-diagram-note">Q1: 현재 DW와 레이크를 둘 다 운영 중인가?</div>
-<div class="kb-diagram-note">→ YES: 레이크하우스로 통합 비용 절감 검토</div>
-<div class="kb-diagram-note">→ NO: 신규 구축 시 레이크하우스 우선 고려</div>
-<div class="kb-diagram-note">Q2: ML/AI 워크로드가 BI와 동일한 데이터를 사용하는가?</div>
-<div class="kb-diagram-note">→ YES: 레이크하우스 도입 강력 권장 (피처 일관성)</div>
-<div class="kb-diagram-note">Q3: 실시간 데이터 변경(CDC/Upsert)이 필요한가?</div>
-<div class="kb-diagram-note">→ YES: Hudi 또는 Delta Lake 선택</div>
-</div>
-</div>
-
-
+Q3: 실시간 데이터 변경(CDC/Upsert)이 필요한가?
+  → YES: Hudi 또는 Delta Lake 선택
+```
 
 📢 **섹션 요약 비유**: [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) 도입은 사무실과 공장을 따로 쓰다가 스마트팩토리(사무+생산 통합)로 전환하는 것과 같다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 전환 비용이 있지만, 장기적으로 커뮤니케이션([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동) 비용과 관리 복잡성을 크게 줄인다.
 
@@ -208,20 +207,15 @@ df_old = spark.read.format("delta") \
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Data Lake: 유연 저장 (거버넌스 약함)</div>
-<div class="kb-diagram-note">Data Warehouse: ACID + 고성능 쿼리 (비쌈)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Lakehouse: Lake 위에 DW 기능 구현</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Delta Lake (Databricks) · Apache Iceberg · Hudi</div>
-<div class="kb-diagram-tree-item" style="--depth:2">ACID + Time Travel + Schema Evolution</div>
-</div>
-</div>
-
-
+```text
+Data Lake: 유연 저장 (거버넌스 약함)
+Data Warehouse: ACID + 고성능 쿼리 (비쌈)
+    │
+    ▼
+Lakehouse: Lake 위에 DW 기능 구현
+    ├─► Delta Lake (Databricks) · Apache Iceberg · Hudi
+    └─► ACID + Time Travel + Schema Evolution
+```
 2. 마치 스위스 아미 나이프처럼, 하나의 도구([레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/))가 분석·[머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)·실시간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리를 모두 해결해 주는 만능 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼이다.
 3. 타임트래블 기능은 "되돌리기(Ctrl+Z)" 버튼과 같다. 실수로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 잘못 바꿔도, 이전 버전으로 돌아갈 수 있어서 안전하게 작업할 수 있다.
 

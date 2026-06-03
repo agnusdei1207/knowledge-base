@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 해커가 자신의 실제 IP 주소를 감추고, 목표 시스템(서버나 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))이 <strong>신뢰하는 다른 컴퓨터의 IP 주소(Trusted IP)로 출발지(Source) 주소를 위조하여 패킷을 전송하는 기만 공격</strong>입니다.
 - 인터넷 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)(IP) 자체가 헤더에 적힌 '출발지 주소'가 진짜인지 가짜인지 검증하는 보안 기능이 아예 없는 낡은 설계이기 때문에 가능합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">ARP 스푸핑</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IP 스푸핑</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DNS 스푸핑 / DNS Cache Pois…</div></div>
-</div>
-</div>
-
-
+```text
+[ARP 스푸핑]
+    │
+    ▼
+[IP 스푸핑]
+    │
+    └──▶ [DNS 스푸핑 / DNS Cache Pois…]
+```
 
 - **📢 섹션 요약 비유**: IP [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -53,18 +49,14 @@ tags = ["studynote-network"]
 - 해커가 타겟 서버에 엄청난 양의 쓰레기 패킷(DDoS)을 쏟아부을 때, 경찰이 자신의 진짜 IP를 역추적해 잡으러 올 것을 두려워합니다. 그래서 패킷의 출발지 IP를 수만 개의 가짜 IP로 [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)해서 던져 경찰 수사를 마비시킵니다.
 - 더 악랄하게, <strong>출발지 IP를 '공격 타겟(피해자)의 IP'로 <a href="/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/">스푸핑</a>한 뒤 전 세계의 <a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/">DNS</a> 서버에 질의를 마구 던집니다.</strong> 그러면 전 세계 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버들은 거대한 응답 패킷을 해커가 아닌 '피해자'에게 일제히 반사(Reflection)시켜 쏴버려서 피해자를 완전히 압사시킵니다. (717번 DRDoS 문서 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">ARP 스푸핑</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IP 스푸핑</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DNS 스푸핑 / DNS Cache Pois…</div></div>
-</div>
-</div>
-
-
+```text
+[ARP 스푸핑]
+    │
+    ▼
+[IP 스푸핑]
+    │
+    └──▶ [DNS 스푸핑 / DNS Cache Pois…]
+```
 
 - **📢 섹션 요약 비유**: IP [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -131,19 +123,15 @@ IP [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spo
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: ARP 스푸핑</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: IP 스푸핑</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: DNS 스푸핑 / DNS Cache Pois…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: ARP 스푸핑]
+    │
+    ▼
+[현재 개념: IP 스푸핑]
+    │
+    ├──▶ [확장 A: DNS 스푸핑 / DNS Cache Pois…]
+    └──▶ [확장 B: 예측형 위협 대응]
+```
 
 IP [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)는 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) / [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) Cache Pois…와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

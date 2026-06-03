@@ -27,20 +27,23 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 왜 MAC이 별도 회로로 분리되었는지 보여준다. 핵심은 계산식이 아니라 <strong>중간 결과를 어디서 끊느냐</strong>다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분리 실행과 MAC 실행의 차이: 중간 저장의 유무</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분리된 MUL + ADD</div><div class="kb-diagram-cell">MAC</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Multiplier</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Multiplier</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Temp Register</div><div class="kb-diagram-node">Adder</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">── Accumulator</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Adder</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Result │ Updated Sum</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">추가 저장/읽기 발생</div><div class="kb-diagram-cell">곱셈 결과가 바로 누산 경로로 연결됨</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                분리 실행과 MAC 실행의 차이: 중간 저장의 유무              │
+├───────────────────────────────┬────────────────────────────────────────────┤
+│ 분리된 MUL + ADD              │ MAC                                         │
+│                               │                                             │
+│ A, B ─▶ [Multiplier]          │ A, B ─▶ [Multiplier]                        │
+│              │                │              │                              │
+│              ▼                │              ▼                              │
+│        [Temp Register]        │         [Adder] ◀── Accumulator            │
+│              │                │              │                              │
+│              ▼                │              ▼                              │
+│ Temp, C ─▶ [Adder] ─▶ Result  │        Updated Sum                          │
+│                               │                                             │
+│ 추가 저장/읽기 발생           │ 곱셈 결과가 바로 누산 경로로 연결됨         │
+└───────────────────────────────┴────────────────────────────────────────────┘
+```
 
 분리 실행은 제어가 단순하지만, 누적 계산이 길어질수록 임시값 저장과 읽기 비용이 커진다. 반면 MAC은 연산 경로를 짧게 만들어 동일한 수학식을 더 적은 제어 오버헤드와 더 낮은 에너지로 수행한다.
 
@@ -63,21 +66,26 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 MAC이 한 번의 계산기가 아니라, 반복되는 내적을 흘려보내는 누산 파이프라인이라는 점을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MAC 파이프라인: 내적이 만들어지는 흐름</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">×</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(+) ─▶ s0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">초기값 0</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">×</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(+) ─▶ s1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">s0</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">×</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(+) ─▶ s2 ... 최종 출력 = Σ(xᵢ × wᵢ) + bias</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">s1</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                  MAC 파이프라인: 내적이 만들어지는 흐름                   │
+├────────────────────────────────────────────────────────────────────────────┤
+│ x0, w0 ─▶ [×] ─▶ (+) ─▶ s0                                                │
+│                     ▲                                                      │
+│                     │                                                      │
+│                초기값 0                                                    │
+│                                                                            │
+│ x1, w1 ─▶ [×] ─▶ (+) ─▶ s1                                                │
+│                     ▲                                                      │
+│                     │                                                      │
+│                     s0                                                     │
+│                                                                            │
+│ x2, w2 ─▶ [×] ─▶ (+) ─▶ s2  ...  최종 출력 = Σ(xᵢ × wᵢ) + bias            │
+│                     ▲                                                      │
+│                     │                                                      │
+│                     s1                                                     │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조가 중요한 이유는 한 번 계산한 부분합을 버리지 않고 다음 연산으로 즉시 연결하기 때문이다. 그래서 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)이 충분히 채워져 있을 때는 사이클마다 새 결과를 내보낼 수 있고, 이것이 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ([Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))의 [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/) ([Tensor Core](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/))나 [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/) ([Neural Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/))의 [시스톨릭 어레이](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/426_systolic_array/) ([Systolic Array](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/426_systolic_array/))로 확장된다.
 
@@ -161,25 +169,24 @@ CPU (Central Processing Unit)는 제어 분기와 범용 처리에 강하므로 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">곱셈기 + 가산기 분리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">MAC (Multiply-Accumulate) 기본 누산 구조</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">FMA (Fused Multiply-Add)로 정확도 개선</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SIMD (Single Instruction, Multiple Data) · 벡터 MAC 확장</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">시스톨릭 어레이 · 텐서 코어 · NPU 대규모 병렬화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">저정밀 양자화 · 희소성 최적화 · 메모리 근접 연산</div>
-</div>
-</div>
-
-
+```text
+곱셈기 + 가산기 분리
+        │
+        ▼
+MAC (Multiply-Accumulate) 기본 누산 구조
+        │
+        ▼
+FMA (Fused Multiply-Add)로 정확도 개선
+        │
+        ▼
+SIMD (Single Instruction, Multiple Data) · 벡터 MAC 확장
+        │
+        ▼
+시스톨릭 어레이 · 텐서 코어 · NPU 대규모 병렬화
+        │
+        ▼
+저정밀 양자화 · 희소성 최적화 · 메모리 근접 연산
+```
 
 이 흐름은 "연산 결합 → 정확도 개선 → [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 확장 → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 최적화"로 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 개념이 성장해 온 과정을 보여준다.
 

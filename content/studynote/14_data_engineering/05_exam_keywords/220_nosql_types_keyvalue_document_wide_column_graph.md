@@ -45,24 +45,23 @@ tags = ["studynote-data-engineering"]
 
 ### [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) 4대 유형 비교
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">NoSQL 유형별 데이터 모델</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">키-값</div><div class="kb-diagram-cell">"user:1234" → { name, age, email }</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Key-Value)</div><div class="kb-diagram-cell">단순 해시맵, 빠른 단일 조회</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">도큐먼트</div><div class="kb-diagram-cell">{ _id: 1, name: "홍길동",</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">(Document) │ orders:</div><div class="kb-diagram-node">{...}, {...}</div><div class="kb-diagram-note">}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">JSON/BSON 중첩 구조, 유연한 스키마</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">와이드 컬럼</div><div class="kb-diagram-cell">Row Key</div><div class="kb-diagram-cell">CF:col1</div><div class="kb-diagram-cell">CF:col2</div><div class="kb-diagram-cell">...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Wide-Column)</div><div class="kb-diagram-cell">희소 행렬, 컬럼 패밀리 단위 저장</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">그래프 │ (노드A) -</div><div class="kb-diagram-node">관계:FRIENDS</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">(노드B)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Graph)</div><div class="kb-diagram-cell">노드·엣지·속성, 관계 탐색 최적화</div></div>
-</div>
-</div>
-
-
+```
+NoSQL 유형별 데이터 모델
+┌──────────────┬──────────────────────────────────────────┐
+│ 키-값        │  "user:1234" → { name, age, email }     │
+│ (Key-Value)  │  단순 해시맵, 빠른 단일 조회             │
+├──────────────┼──────────────────────────────────────────┤
+│ 도큐먼트     │  { _id: 1, name: "홍길동",              │
+│ (Document)   │    orders: [{...}, {...}] }             │
+│              │  JSON/BSON 중첩 구조, 유연한 스키마      │
+├──────────────┼──────────────────────────────────────────┤
+│ 와이드 컬럼  │  Row Key │ CF:col1 │ CF:col2 │ ...      │
+│ (Wide-Column)│  희소 행렬, 컬럼 패밀리 단위 저장        │
+├──────────────┼──────────────────────────────────────────┤
+│ 그래프       │  (노드A) -[관계:FRIENDS]-> (노드B)       │
+│ (Graph)      │  노드·엣지·속성, 관계 탐색 최적화        │
+└──────────────┴──────────────────────────────────────────┘
+```
 
 ### 세부 비교 표
 
@@ -174,23 +173,19 @@ NoSQL은 RDBMS를 대체하는 것이 아니라 <strong>상호 보완적으로 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">RDBMS (관계형, 정형 데이터)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">NoSQL 4대 유형</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Key-Value: Redis · DynamoDB (캐시 · 세션)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Document: MongoDB · CouchDB (유연 스키마)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Wide-Column: Cassandra · HBase (대규모 쓰기)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Graph: Neo4j · Amazon Neptune (관계 탐색)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Multi-Model DB: 여러 데이터 모델 통합 지원</div>
-</div>
-</div>
-
-
+```text
+RDBMS (관계형, 정형 데이터)
+    │
+    ▼
+NoSQL 4대 유형
+    ├─► Key-Value: Redis · DynamoDB (캐시 · 세션)
+    ├─► Document: MongoDB · CouchDB (유연 스키마)
+    ├─► Wide-Column: Cassandra · HBase (대규모 쓰기)
+    └─► Graph: Neo4j · Amazon Neptune (관계 탐색)
+    │
+    ▼
+Multi-Model DB: 여러 데이터 모델 통합 지원
+```
 2. 도큐먼트는 <strong>서류 봉투</strong>야. 봉투 안에 사진도 넣고 편지도 넣고 뭐든 넣을 수 있어. 내용이 다 달라도 괜찮아.
 3. [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)는 <strong>친구 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a>도</strong>야. 나→내 친구→내 친구의 친구를 따라가면서 "우리 학교에서 몇 다리 건너 연결됐지?" 같은 걸 빠르게 찾을 수 있어.
 

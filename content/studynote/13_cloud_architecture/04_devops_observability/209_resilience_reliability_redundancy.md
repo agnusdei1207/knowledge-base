@@ -33,22 +33,22 @@ tags = ["studynote-cloud-architecture"]
 
 ### [RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/) vs [RPO](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/) 개념
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">장애 발생</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간 축</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">최근 백업</div><div class="kb-diagram-note">──RPO──</div><div class="kb-diagram-node">장애 발생</div><div class="kb-diagram-note">RTO──</div><div class="kb-diagram-node">서비스 복구</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RPO: 백업 ~ 장애 사이의 데이터 손실 허용 범위</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RTO: 장애 ~ 복구까지의 서비스 중단 허용 시간</div></div>
-<div class="kb-diagram-note">예: RPO=1시간 → 최대 1시간치 데이터 손실 허용</div>
-<div class="kb-diagram-note">RTO=30분 → 최대 30분간 서비스 중단 허용</div>
-</div>
-</div>
-
-
+```
+  장애 발생
+     │
+     ▼
+  ┌──────────────────────────────────────────────────────┐
+  │                     시간 축                           │
+  │                                                      │
+  │  [최근 백업]──RPO──[장애 발생]──────RTO──[서비스 복구] │
+  │                                                      │
+  │  RPO: 백업 ~ 장애 사이의 데이터 손실 허용 범위         │
+  │  RTO: 장애 ~ 복구까지의 서비스 중단 허용 시간          │
+  └──────────────────────────────────────────────────────┘
+  
+  예: RPO=1시간 → 최대 1시간치 데이터 손실 허용
+      RTO=30분  → 최대 30분간 서비스 중단 허용
+```
 
 ### [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 비교
 
@@ -62,23 +62,24 @@ tags = ["studynote-cloud-architecture"]
 
 ### Active-Active 아키텍처
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Global Load Balancer</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(AWS Route 53 / CloudFront)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">리전 A (서울)</div><div class="kb-diagram-cell">리전 B (도쿄)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">App Cluster</div><div class="kb-diagram-node">App Cluster</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DB Primary</div><div class="kb-diagram-node">DB Primary</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">양방향 DB 동기화</div></div>
-<div class="kb-diagram-note">(DynamoDB Global Tables /</div>
-<div class="kb-diagram-note">Aurora Global Database)</div>
-</div>
-</div>
-
-
+```
+  ┌──────────────────────────────────────────────────┐
+  │               Global Load Balancer                │
+  │            (AWS Route 53 / CloudFront)            │
+  └────────────┬──────────────────────┬──────────────┘
+               │                      │
+     ┌─────────▼──────────┐  ┌────────▼────────────┐
+     │   리전 A (서울)     │  │   리전 B (도쿄)      │
+     │   [App Cluster]    │  │   [App Cluster]     │
+     │   [DB Primary]     │  │   [DB Primary]      │
+     └─────────┬──────────┘  └────────┬────────────┘
+               │                      │
+               └──────────┬───────────┘
+                           ▼
+                   [양방향 DB 동기화]
+                   (DynamoDB Global Tables /
+                    Aurora Global Database)
+```
 
 📢 **섹션 요약 비유**: Active-Active는 두 명의 의사가 동시에 같은 환자 차트를 업데이트하는 것과 같다. 매우 강력하지만, 두 의사의 기록이 충돌하지 않도록 하는 조율이 복잡하다.
 
@@ -114,23 +115,21 @@ tags = ["studynote-cloud-architecture"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/">RTO</a>/<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/">RPO</a> 목표와 <a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/">이중화</a> <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> 매핑</strong>:
+```
+비즈니스 요구:      권장 전략:
+─────────────────────────────────────────
+RTO < 1분          Active-Active
+RPO = 0
 
+RTO < 30분         Active-Active (단일 리전 Multi-AZ)
+RPO < 5분          또는 Aurora Multi-AZ
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">비즈니스 요구: 권장 전략:</div>
-<div class="kb-diagram-note">RTO &lt; 1분 Active-Active</div>
-<div class="kb-diagram-note">RPO = 0</div>
-<div class="kb-diagram-note">RTO &lt; 30분 Active-Active (단일 리전 Multi-AZ)</div>
-<div class="kb-diagram-note">RPO &lt; 5분 또는 Aurora Multi-AZ</div>
-<div class="kb-diagram-note">RTO &lt; 4시간 Warm Standby 또는 Pilot Light</div>
-<div class="kb-diagram-note">RPO &lt; 1시간 다른 리전에 DR 환경 유지</div>
-<div class="kb-diagram-note">RTO &lt; 24시간 Cold Standby</div>
-<div class="kb-diagram-note">RPO &lt; 24시간 백업 + 복구 프로세스</div>
-</div>
-</div>
+RTO < 4시간        Warm Standby 또는 Pilot Light
+RPO < 1시간        다른 리전에 DR 환경 유지
 
-
+RTO < 24시간       Cold Standby
+RPO < 24시간       백업 + 복구 프로세스
+```
 
 **AWS 재해복구 4가지 패턴 (비용 순)**:
 ```
@@ -172,7 +171,7 @@ tags = ["studynote-cloud-architecture"]
 | Active-Active | 최고 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/), 양방향 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 필요 |
 | [Aurora](/knowledge-base/studynote/05_database/06_dw_olap_trends/390_aurora_serverless_quorum_write/) Global [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) | Active-Active 멀티리전 DB의 AWS 관리형 솔루션 |
 | [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/) | 연쇄 장애(Cascade Failure) 방지를 위한 복원력 패턴 |
-| [Chaos Engineering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/) | 실제 Failover가 작동하는지 검증하는 도구 |
+| [Chaos 엔진ering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/) | 실제 Failover가 작동하는지 검증하는 도구 |
 | [Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) ([SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)) | 허용 다운타임을 [RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/)/RPO로 연결하는 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 개념 |
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -181,20 +180,16 @@ tags = ["studynote-cloud-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">RPO (Recovery Point Objective): 허용 데이터 손실량</div>
-<div class="kb-diagram-note">RTO (Recovery Time Objective): 복구 소요 시간 목표</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DR 전략: Backup &amp; Restore → Pilot Light → Warm Standby → Active-Active</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Multi-Region · Multi-AZ 이중화 + Chaos Engineering 검증</div>
-</div>
-</div>
-
-
+```text
+RPO (Recovery Point Objective): 허용 데이터 손실량
+RTO (Recovery Time Objective): 복구 소요 시간 목표
+    │
+    ▼
+DR 전략: Backup & Restore → Pilot Light → Warm Standby → Active-Active
+    │
+    ▼
+Multi-Region · Multi-AZ 이중화 + Chaos Engineering 검증
+```
 2. RTO는 게임이 꺼진 후 다시 켜서 이어서 할 수 있게 되는 시간이야. 빠를수록 좋지.
 3. Active-Active는 게임을 두 대 콘솔에서 동시에 하는 것처럼, 하나가 꺼져도 다른 하나로 즉시 계속할 수 있어.
 

@@ -43,20 +43,17 @@ BPM의 핵심은 모델, 실행 엔진, 상태 저장, 작업 분배, [모니터
 
 아래 구조는 BPM 엔진이 사람 작업과 시스템 작업을 모두 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)하는 방식을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BPM orchestration for long-running flow</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BPMN Model -&gt; Process Engine -&gt; User Task Inbox</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; Service Connector -&gt; Business Sys</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; Timer / Event Wait</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ -&gt; Exception / Compensation</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">State Store / Audit Log / Monitoring Dashboard</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                      BPM orchestration for long-running flow              │
+├────────────────────────────────────────────────────────────────────────────┤
+│ BPMN Model -> Process Engine -> User Task Inbox                           │
+│                   │                ├-> Service Connector -> Business Sys  │
+│                   │                ├-> Timer / Event Wait                 │
+│                   ▼                └-> Exception / Compensation           │
+│         State Store / Audit Log / Monitoring Dashboard                    │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조에서 중요한 것은 프로세스가 메모리 속 일회성 함수가 아니라, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)에 상태를 남기는 장기 실행 객체라는 점이다. 누가 승인했는지, 어디서 3일 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)되었는지, 어떤 예외 분기를 탔는지 기록이 남아야 재시작·[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)·개선이 가능하다. 그래서 BPM은 단순 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 엔진이 아니라, 상태 기반의 업무 실행 플랫폼으로 봐야 한다.
 
@@ -66,7 +63,7 @@ BPM의 핵심은 모델, 실행 엔진, 상태 저장, 작업 분배, [모니터
 
 ## Ⅲ. 비교 및 연결
 
-BPM은 전사 통합 기술과 자주 함께 등장하지만 역할은 분명히 다르다. 기업 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) ([ESB](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/146_esb_enterprise_service_bus_architecture/), [Enterprise Service Bus](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/146_esb_enterprise_service_bus_architecture/))는 시스템 간 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 중계와 변환에 강하고, [비즈니스 룰 엔진](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/198_business_rule_engine_brm_logic_decoupling/) (BRE, Business Rule Engine)은 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)성 의사결정에 강하다. BPM은 이 둘을 활용해 "누가 언제 무엇을 할지"라는 흐름을 관리하는 상위 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) 계층이다.
+BPM은 전사 통합 기술과 자주 함께 등장하지만 역할은 분명히 다르다. 기업 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) ([ESB](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/146_esb_enterprise_service_bus_architecture/), [Enterprise Service Bus](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/146_esb_enterprise_service_bus_architecture/))는 시스템 간 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 중계와 변환에 강하고, [비즈니스 룰 엔진](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/198_business_rule_engine_brm_logic_decoupling/) (BRE, Business Rule 엔진)은 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)성 의사결정에 강하다. BPM은 이 둘을 활용해 "누가 언제 무엇을 할지"라는 흐름을 관리하는 상위 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) 계층이다.
 
 | 항목 | BPM | [ESB](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/146_esb_enterprise_service_bus_architecture/) | BRE |
 | :-- | :-- | :-- | :-- |
@@ -120,29 +117,27 @@ BPM을 제대로 적용하면 업무 절차의 표준화, 병목 가시화, 책�
 | :-- | :-- |
 | [BPMN](/knowledge-base/studynote/04_software_engineering/03_design_architecture/163_bpmn_business_process_modeling_notation/) ([Business Process Model and Notation](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/203_bpmn_business_process_model_and_notation/)) | BPM 흐름을 시각적으로 모델링하는 표준 언어 |
 | BAM (Business Activity Monitoring) | 실행 중인 프로세스의 병목과 KPI를 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 |
-| BRE (Business Rule Engine) | 프로세스 안의 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 판단을 분리해 실행 |
+| BRE (Business Rule 엔진) | 프로세스 안의 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 판단을 분리해 실행 |
 | [사가 패턴](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/) ([Saga Pattern](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga_pattern/)) | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 보상 흐름을 처리하는 대안적 방식 |
 | [보상 트랜잭션](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/551_compensating_transaction_logical_rollback/) (Compensation [Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)) | 실패 시 이전 단계를 되돌리는 핵심 기법 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">수기 결재 · 이메일 전달</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">프로세스 표준화 요구</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">BPMN 모델링</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">프로세스 엔진 실행 · 상태 저장</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">BAM 모니터링 · 병목 개선 · 지속적 프로세스 혁신</div>
-</div>
-</div>
-
-
+```text
+수기 결재 · 이메일 전달
+    │
+    ▼
+프로세스 표준화 요구
+    │
+    ▼
+BPMN 모델링
+    │
+    ▼
+프로세스 엔진 실행 · 상태 저장
+    │
+    ▼
+BAM 모니터링 · 병목 개선 · 지속적 프로세스 혁신
+```
 
 이 흐름은 업무 문서화 수준에서, 실행 가능하고 측정 가능한 프로세스 운영 체계로 발전하는 방향을 보여준다.
 
@@ -158,7 +153,7 @@ BPM을 제대로 적용하면 업무 절차의 표준화, 병목 가시화, 책�
 
 **진행 상황**: 199 / 482
 
-← **이전**: [198. 비즈니스 룰 엔진 (BRE, Business Rule Engine)](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/198_business_rule_engine_brm_logic_decoupling/)
+← **이전**: [198. 비즈니스 룰 엔진 (BRE, Business Rule 엔진)](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/198_business_rule_engine_brm_logic_decoupling/)
 **다음**: [200. 로우코드 / 노코드 (LC/NC) 기반 엔터프라이즈 워크플로우 자동화](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/200_low_code_no_code_enterprise_workflow_automation/) →
 
 ---

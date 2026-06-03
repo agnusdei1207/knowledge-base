@@ -29,17 +29,18 @@ tags = ["studynote-software-engineering"]
 
 다음은 블랙박스 테스트 (Black-box 의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블랙박스 테스트 (Black-box</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                  블랙박스 테스트 (Black-box                         │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
+│       │                    │                    │          │
+│       ▼                    ▼                    ▼          │
+│   요구 분석           설계·적용           품질 검증        │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램은 블랙박스 테스트 (Black-box 가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 결과물을 산출하는 흐름을 보여준다.
 
@@ -53,25 +54,31 @@ tags = ["studynote-software-engineering"]
 
 블랙박스 테스트는 [화이트박스 테스트](/knowledge-base/studynote/04_software_engineering/07_object_oriented/420_whitebox_testing/)와 대척점에 있으며, 상호 보완적인 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)(Complementary)를 갖는다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블랙박스 테스트 vs 화이트박스 테스트 비교 도해</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">블랙박스 테스트</div><div class="kb-diagram-node">화이트박스 테스트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(명세/기능 기반) (구조/논리 기반)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력값 (Input) 입력값 (Input)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">if (x &gt; 0)</div><div class="kb-diagram-note">─</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ ??? │(내부 구조 모름)</div><div class="kb-diagram-node">a = x + 1</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">return a</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">출력값 (Output) 출력값 (Output)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 초점: "요구사항을 만족하는가?" * 초점: "모든 코드가 실행되었는가?"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 발견 가능 결함: 누락된 기능, UI 오류 * 발견 가능 결함: 무한 루프, 데드 코드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 주체: 전문 QA, 최종 사용자 * 주체: 개발자 본인</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│              블랙박스 테스트 vs 화이트박스 테스트 비교 도해                 │
+├────────────────────────────────────────────────────────────────────┤
+│                                                                    │
+│   [블랙박스 테스트]                         [화이트박스 테스트]         │
+│   (명세/기능 기반)                          (구조/논리 기반)            │
+│                                                                    │
+│      입력값 (Input)                          입력값 (Input)             │
+│        │                                        │                   │
+│        ▼                                        ▼                   │
+│    ┌───────┐                            ┌─▶[ if (x > 0) ]─┐       │
+│    │       │                            │                  │       │
+│    │  ???  │(내부 구조 모름)                 │  [ a = x + 1 ]   │       │
+│    │       │                            │                  ▼       │
+│    └───────┘                            └───────────▶[ return a]  │
+│        │                                        │                   │
+│        ▼                                        ▼                   │
+│      출력값 (Output)                         출력값 (Output)            │
+│                                                                    │
+│ * 초점: "요구사항을 만족하는가?"             * 초점: "모든 코드가 실행되었는가?"│
+│ * 발견 가능 결함: 누락된 기능, UI 오류       * 발견 가능 결함: 무한 루프, 데드 코드│
+│ * 주체: 전문 QA, 최종 사용자                 * 주체: 개발자 본인              │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]**
 블랙박스는 시스템을 불투명한 상자로 취급하여 명세서의 입력과 출력(I/O) 매핑에만 집중한다. 반면 화이트박스는 투명한 상자로 취급하여 내부의 조건 분기(if-else), 루프(for, while)를 모두 한 번씩 타보는 [코드 커버리지](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/078_code_coverage/)([Code Coverage](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/078_code_coverage/))에 집중한다. 따라서 실무에서는 개발 단계에서 개발자가 [화이트박스 테스트](/knowledge-base/studynote/04_software_engineering/07_object_oriented/420_whitebox_testing/)를 수행하고, 시스템 통합 후 QA(Quality Assurance) 엔지니어가 블랙박스 테스트를 수행하는 투 트랙(Two-track) 방식을 채택한다.
@@ -106,20 +113,21 @@ tags = ["studynote-software-engineering"]
    - [동등 분할](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/630_equivalence_partitioning_boundary_value_analysis/)의 경계(가장자리)에 위치한 값들을 집중적으로 테스트한다.
    - 예: 1~100 사이라면, 최소 경계 주변(0, 1, 2)과 최대 경계 주변(99, 100, 101)을 찌른다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">나이 입력(1~100) 폼의 동등 분할 및 경계값 분석</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">무효 클래스 1</div><div class="kb-diagram-node">유효 클래스</div><div class="kb-diagram-node">무효 클래스 2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">1 50 100</div><div class="kb-diagram-cell">101</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동등 분할: -5 (대푯값) 50 (대푯값) 150 (대푯값)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">경계값 분석: 0, 1 (경계 없음) 100, 101</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(최소값 근처) (최대값 근처)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          나이 입력(1~100) 폼의 동등 분할 및 경계값 분석           │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│         [무효 클래스 1]      [유효 클래스]       [무효 클래스 2]   │
+│   ───────────┼──────────────┼───────────────┼───────────▶ │
+│            0 │ 1           50          100 │ 101          │
+│              │                             │              │
+│  동등 분할:    -5 (대푯값)        50 (대푯값)        150 (대푯값)   │
+│                                                             │
+│  경계값 분석:  0, 1             (경계 없음)        100, 101     │
+│             (최소값 근처)                       (최대값 근처)   │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]**
 이 기법을 적용하면 100번 넘게 해야 할 테스트를 단 5~6번의 핵심 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/)(0, 1, 50, 100, 101)로 압축할 수 있다. 이 6개의 값이 전체 입력 도메인의 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 발생 확률을 90% 이상 커버(Coverage)한다는 것이 소프트웨어 테스팅의 핵심 원리다.
@@ -195,30 +203,28 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 블랙박스 테스트 (Black-box Test)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 블랙박스 테스트 (Black-box Test)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
 | [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 블랙박스 테스트 (Black-box Test)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | 블랙박스 테스트 (Black-box Test) 적용 결과는 QA 활동을 통해 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)되고 측정된다 |
 | [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 블랙박스 테스트 (Black-box Test)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">블랙박스 테스트 (Black-box Test) 개념 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 위기 (Software Crisis) 인식
+    │
+    ▼
+블랙박스 테스트 (Black-box Test) 개념 정립
+    │
+    ▼
+표준화 및 방법론 체계화 (ISO, CMMI, Agile)
+    │
+    ▼
+클라우드 네이티브·AI 기반 확장 적용
+    │
+    ▼
+지속적 개선 및 DevOps·MLOps 통합
+```
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

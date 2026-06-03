@@ -23,17 +23,14 @@ tags = ["studynote-ai"]
 
 이것이 파인 튜닝의 핵심 가치다. 사전 학습 모델이 이미 보유한 <strong>일반 표현(General Representation)</strong>을 재활용하고, 소량의 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 특화 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 <strong>전문 적응(<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">Domain</a> Adaptation)</strong>만 수행하는 것이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 파인 튜닝은 의대를 졸업한 의사(사전 학습 모델)에게 "이제 심장외과(파인 튜닝 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)) 전문의가 되세요"라고 전공의 수련을 시키는 것이다. 초등학교부터 의대까지의 교육(사전 학습)은 이미 완료됐으니, 심장외과 전공 훈련만 받으면 된다. 전문의 양성 기간이 수십 배 단축된다.
 
@@ -41,27 +38,33 @@ tags = ["studynote-ai"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파인 튜닝 전략 비교 (Full vs Feature Extraction vs PEFT)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">방식 1: 전체 파인 튜닝 (Full Fine-Tuning)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Layer 1</div><div class="kb-diagram-node">Layer 2</div><div class="kb-diagram-note">...</div><div class="kb-diagram-node">Layer N</div><div class="kb-diagram-node">헤드</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">모두 업데이트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(사전 학습 가중치 → 모두 조금씩 업데이트)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장점: 최고 성능</div><div class="kb-diagram-cell">단점: GPU 메모리 큼, 재앙적 망각(Catastrophic Forgetting)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">방식 2: 특징 추출 (Feature Extraction / Frozen)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Layer 1</div><div class="kb-diagram-node">Layer 2</div><div class="kb-diagram-note">...</div><div class="kb-diagram-node">Layer N</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">동결(Frozen, 학습 안 함)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">새 분류 헤드</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">만 학습</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장점: 빠르고 저렴</div><div class="kb-diagram-cell">단점: 도메인 괴리 클 때 성능 제한</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">방식 3: PEFT / LoRA (Parameter-Efficient Fine-Tuning)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">사전 학습 가중치 W</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">동결 (Frozen) │</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ +</div><div class="kb-diagram-node">저랭크 행렬 ΔW = A×B</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">만 학습 (파라미터 1%)│</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장점: 메모리 절약(~95%), 성능 ≈ 전체 파인 튜닝</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│         파인 튜닝 전략 비교 (Full vs Feature Extraction vs PEFT)    │
+├──────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  방식 1: 전체 파인 튜닝 (Full Fine-Tuning)                          │
+│  ┌──────────────────────────────────────────────┐               │
+│  │ [Layer 1] [Layer 2] ... [Layer N] [헤드]      │ ← 모두 업데이트  │
+│  │ (사전 학습 가중치 → 모두 조금씩 업데이트)         │               │
+│  └──────────────────────────────────────────────┘               │
+│  장점: 최고 성능 | 단점: GPU 메모리 큼, 재앙적 망각(Catastrophic Forgetting)│
+│                                                                  │
+│  방식 2: 특징 추출 (Feature Extraction / Frozen)                   │
+│  ┌──────────────────────────────────────────────┐               │
+│  │ [Layer 1] [Layer 2] ... [Layer N] ← 동결(Frozen, 학습 안 함)  │
+│  │                              [새 분류 헤드] ← 만 학습         │
+│  └──────────────────────────────────────────────┘               │
+│  장점: 빠르고 저렴 | 단점: 도메인 괴리 클 때 성능 제한              │
+│                                                                  │
+│  방식 3: PEFT / LoRA (Parameter-Efficient Fine-Tuning)           │
+│  ┌──────────────────────────────────────────────┐               │
+│  │ [사전 학습 가중치 W] ← 동결 (Frozen)            │               │
+│  │ + [저랭크 행렬 ΔW = A×B] ← 만 학습 (파라미터 1%)│               │
+│  └──────────────────────────────────────────────┘               │
+│  장점: 메모리 절약(~95%), 성능 ≈ 전체 파인 튜닝                     │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 | 방식 | 업데이트 파라미터 | 메모리 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) | 적합 상황 |
 |:---|:---|:---|:---|:---|
@@ -140,6 +143,6 @@ tags = ["studynote-ai"]
 **진행 상황**: 304 / 420
 
 ← **이전**: [303. 파운데이션 모델 (Foundation Model)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/303_foundation_model/)
-**다음**: [305. 프롬프트 엔지니어링 (Prompt Engineering)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/305_prompt_engineering/) →
+**다음**: [305. 프롬프트 엔지니어링 (Prompt 엔진ering)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/305_prompt_engineering/) →
 
 ---

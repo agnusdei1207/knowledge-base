@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **태생적 오버헤드**: 이더넷은 웹서핑을 위해 만들어졌습니다. 패킷이 도착하면 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)(OS)이 "누구한테 온 거야? 에러 없어?"라며 복잡한 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 검사 절차를 거치느라 CPU 자원을 갉아먹고 속도가 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)됩니다.
 - **패킷 손실 (Drop)**: 트래픽이 몰리면 쿨하게 패킷을 버립니다. 재전송을 기다리는 동안 100억 원어치 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 클러스터가 멍 때리고 연산을 멈춥니다(통신 병목 현상).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">iSCSI</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">인피니밴드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RDMA</div></div>
-</div>
-</div>
-
-
+```text
+[iSCSI]
+    │
+    ▼
+[인피니밴드]
+    │
+    └──▶ [RDMA]
+```
 
 - **📢 섹션 요약 비유**: [인피니밴드](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/)는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -55,18 +51,14 @@ tags = ["studynote-network"]
 - 인터넷의 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)(IP) 구조와는 다릅니다. [인피니밴드](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/)는 여러 대의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)와 서버들을 하나의 <strong>'서브넷(Subnet)'</strong>으로 묶습니다.
 - 서브넷 중앙에는 <strong>서브넷 관리자(Subnet Manager, <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/421_streaming_multiprocessor/">SM</a>)</strong>라는 똑똑한 관제탑 뇌가 딱 1개 있습니다. 이 SM이 "A 서버에서 B 서버로 갈 때는 3번 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 타라"라고 모든 길을 사전에 완벽하게 그려서 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들에게 나눠줍니다. 장비들이 길을 헤매지 않으니 속도가 미친 듯이 빠릅니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">iSCSI</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">인피니밴드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RDMA</div></div>
-</div>
-</div>
-
-
+```text
+[iSCSI]
+    │
+    ▼
+[인피니밴드]
+    │
+    └──▶ [RDMA]
+```
 
 - **📢 섹션 요약 비유**: [인피니밴드](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -119,19 +111,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: iSCSI</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 인피니밴드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: RDMA</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: iSCSI]
+    │
+    ▼
+[현재 개념: 인피니밴드]
+    │
+    ├──▶ [확장 A: RDMA]
+    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
+```
 
 [인피니밴드](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/)는 iSCSI에서 출발해 현재 메커니즘을 정교화하고, 이후 RDMA와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

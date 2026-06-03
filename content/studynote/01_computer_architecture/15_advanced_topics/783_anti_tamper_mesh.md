@@ -44,20 +44,23 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 능동 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)가 어떻게 보안 블록 위를 덮고 반응하는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Active mesh: detect before the secret is touched</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Challenge Gen ▶ Mesh Layer A ▶ Mesh Layer B ▶ Sense Comp</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">abnormal open/short</div><div class="kb-diagram-cell">abnormal capacitance</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tamper Latch</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Zeroization / lockout / debug disable</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sensitive bus / key store / control logic below</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                 Active mesh: detect before the secret is touched          │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Challenge Gen ─────▶ Mesh Layer A ─────▶ Mesh Layer B ─────▶ Sense Comp   │
+│                         │                     │                              │
+│                         │ abnormal open/short │ abnormal capacitance         │
+│                         └──────────────┬──────┴──────────────┐               │
+│                                        ▼                     │               │
+│                                  Tamper Latch                │               │
+│                                        │                     │               │
+│                                        ▼                     │               │
+│                        Zeroization / lockout / debug disable │               │
+│                                                              │               │
+│                        Sensitive bus / key store / control logic below       │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 실제로는 여기서 세 가지 트레이드오프가 생긴다. 첫째, 피치를 촘촘히 할수록 공격 난도는 높아지지만 배선 자원과 면적이 늘어난다. 둘째, 동적 검사를 강화할수록 보안은 좋아지지만 테스트와 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 복잡해진다. 셋째, 상단 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)만 강해도 배면 박막화 후 뒤쪽에서 접근하는 우회 경로가 남을 수 있으므로, [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)를 패키지 센서·배면 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)와 묶어 보는 것이 중요하다.
 
@@ -131,25 +134,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">수동 차폐층</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">정적 연속성 기반 active mesh</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">동적 challenge-response mesh</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">광 · 온도 · 전압 · 정전용량 sensor fusion</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">상단 + 배면 보호</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">zeroization 연계형 전주기 tamper envelope</div>
-</div>
-</div>
-
-
+```text
+수동 차폐층
+      │
+      ▼
+정적 연속성 기반 active mesh
+      │
+      ▼
+동적 challenge-response mesh
+      │
+      ▼
+광 · 온도 · 전압 · 정전용량 sensor fusion
+      │
+      ▼
+상단 + 배면 보호
+      │
+      ▼
+zeroization 연계형 전주기 tamper envelope
+```
 
 이 흐름은 "가림막"에서 출발해 "감지층"으로, 다시 "복합 반응형 물리 보안 외피"로 발전하는 과정을 보여 준다.
 

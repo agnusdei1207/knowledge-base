@@ -21,18 +21,14 @@ tags = ["studynote-network"]
 
 기존 802.11a/g가 한계치인 54Mbps에 머물러 있을 때, <strong>최대 600Mbps(이론상)</strong>라는 혁신적인 전송 속도를 이뤄내며 무선으로 고화질 동영상을 끊김 없이 볼 수 있는 시대를 연 표준 규격입니다. 2.4GHz와 5GHz 대역을 모두 지원(Dual-Band)합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">11 b/g/a/n 표준 세대 발전</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">11n</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">11ac</div></div>
-</div>
-</div>
-
-
+```text
+[11 b/g/a/n 표준 세대 발전]
+    │
+    ▼
+[11n]
+    │
+    └──▶ [11ac]
+```
 
 - **📢 섹션 요약 비유**: 11n는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -42,18 +38,14 @@ tags = ["studynote-network"]
 
 11n는 전파 자원과 이동성을 함께 관리하는 축라는 관점에서 이해해야 한다. [11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/) b/g/a/n 표준 세대 발전와 [11ac](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/575_802_11ac_wifi_5_mu_mimo/) 사이의 연결점으로 놓고 보면 개념의 역할이 더 분명해진다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">11 b/g/a/n 표준 세대 발전</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">11n</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">11ac</div></div>
-</div>
-</div>
-
-
+```text
+[11 b/g/a/n 표준 세대 발전]
+    │
+    ▼
+[11n]
+    │
+    └──▶ [11ac]
+```
 
 - **📢 섹션 요약 비유**: 11n의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -114,19 +106,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 11 b/g/a/n 표준 세대 발전</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 11n</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 11ac</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 무선 자원 제어</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 11 b/g/a/n 표준 세대 발전]
+    │
+    ▼
+[현재 개념: 11n]
+    │
+    ├──▶ [확장 A: 11ac]
+    └──▶ [확장 B: 지능형 무선 자원 제어]
+```
 
 11n는 [11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/) b/g/a/n 표준 세대 발전에서 출발해 현재 메커니즘을 정교화하고, 이후 11ac와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

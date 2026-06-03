@@ -18,24 +18,22 @@ tags = ["studynote-database"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MDM 필요성</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MDM 없음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ERP: 고객ID=1001, 홍길동</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CRM: 고객ID=A99, 길동 홍</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DW: ??? → 같은 사람? 다른 사람?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MDM 적용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MDM Hub: 고객 골든 레코드 = "홍길동, ID=M001"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ERP: M001 → 홍길동 ✅</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CRM: M001 → 홍길동 ✅</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 전사 일관된 고객 뷰</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    MDM 필요성                                         │
+├───────────────────────────────────────────────────────┤
+│  [MDM 없음]                                           │
+│   ERP: 고객ID=1001, 홍길동                           │
+│   CRM: 고객ID=A99, 길동 홍                           │
+│   DW: ???  → 같은 사람? 다른 사람?                   │
+│                                                       │
+│  [MDM 적용]                                           │
+│   MDM Hub: 고객 골든 레코드 = "홍길동, ID=M001"      │
+│   ERP: M001 → 홍길동 ✅                              │
+│   CRM: M001 → 홍길동 ✅                              │
+│   → 전사 일관된 고객 뷰                              │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: MDM은 전사 <strong>주민등록 시스템</strong>이다. 이름이 조금씩 다르게 적힌 주민을 하나의 정확한 레코드로 통합한다.
 
@@ -94,23 +92,21 @@ MDM은 <strong><a href="/knowledge-base/studynote/12_it_management/01_governance
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">수동 데이터 정제 (엑셀, 2000s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MDM 솔루션 (Informatica·IBM, 2005~)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">클라우드 MDM (Reltio, 2015~)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 메시 + MDM (2020~) — 분산 소유권</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: AI MDM — 자동 매칭·병합·품질 보정</div></div>
-</div>
-</div>
-
-
+```text
+[수동 데이터 정제 (엑셀, 2000s)]
+    │
+    ▼
+[MDM 솔루션 (Informatica·IBM, 2005~)]
+    │
+    ▼
+[클라우드 MDM (Reltio, 2015~)]
+    │
+    ▼
+[데이터 메시 + MDM (2020~) — 분산 소유권]
+    │
+    ▼
+[현재: AI MDM — 자동 매칭·병합·품질 보정]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. MDM은 학교 <strong>출석부 관리 시스템</strong>이에요. 같은 학생이 다른 이름으로 등록되면 안 돼요.

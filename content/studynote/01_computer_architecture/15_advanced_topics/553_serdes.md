@@ -44,21 +44,24 @@ SerDes (Serializer/Deserializer)는 칩 내부의 [병렬](/knowledge-base/study
 
 다음 그림은 고속 링크에서 어느 지점에서 마진을 얻고 잃는지를 압축해 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">High-speed SerDes lane: margin is created in TX/RX and consumed in link</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Parallel data</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">PCS/Encode</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Serializer</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">TX FFE</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">CTLE/DFE</div><div class="kb-diagram-connector">→</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">CDR</div><div class="kb-diagram-connector">→</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">De-Ser</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Deskew/FEC</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Margin equation: channel loss + crosstalk + jitter &lt; EQ gain + CDR track</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│ High-speed SerDes lane: margin is created in TX/RX and consumed in link   │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Parallel data                                                              │
+│     │                                                                      │
+│     ▼                                                                      │
+│ [PCS/Encode] -> [Serializer] -> [TX FFE] ->== Channel ==-> [CTLE/DFE] ->  │
+│                                                       │                    │
+│                                                       └----> [CDR] ->      │
+│                                                                  [De-Ser]  │
+│                                                                       │    │
+│                                                                       ▼    │
+│                                                               [Deskew/FEC] │
+│                                                                            │
+│ Margin equation: channel loss + crosstalk + jitter < EQ gain + CDR track  │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 실무적으로는 `총 대역폭 = lane rate × lane 수 × 인코딩 효율`로 생각하면 이해가 쉽다. 하지만 lane rate를 올릴수록 나이퀴스트 주파수 손실, [전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/), CDR 난도가 함께 증가하므로, 단순히 더 빠른 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)화기만 넣는다고 해결되지 않는다. 그래서 최신 SerDes는 NRZ (Non-Return-to-Zero)에서 PAM4로 넘어가며 1심볼당 전송 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 늘리는 대신, 더 강한 FEC와 DSP (Digital [Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) Processing) 기반 적응형 이퀄라이제이션을 함께 도입하고 있다.
 
@@ -133,23 +136,21 @@ SerDes를 정확히 이해하려면 [병렬](/knowledge-base/studynote/05_databa
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">병렬 보드 간 인터페이스</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">차동 직렬 링크 · CDR 도입</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">멀티기가비트 NRZ SerDes</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">PAM4 · DSP 이퀄라이제이션 · FEC</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CXL · 광 I/O · Co-packaged Optics</div>
-</div>
-</div>
-
-
+```text
+병렬 보드 간 인터페이스
+        │
+        ▼
+차동 직렬 링크 · CDR 도입
+        │
+        ▼
+멀티기가비트 NRZ SerDes
+        │
+        ▼
+PAM4 · DSP 이퀄라이제이션 · FEC
+        │
+        ▼
+CXL · 광 I/O · Co-packaged Optics
+```
 
 이 흐름은 "배선 절감"에서 출발한 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 링크가, 지금은 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 보정과 오류 제어를 포함한 시스템 인터커넥트 플랫폼으로 확장되는 과정을 보여 준다.
 

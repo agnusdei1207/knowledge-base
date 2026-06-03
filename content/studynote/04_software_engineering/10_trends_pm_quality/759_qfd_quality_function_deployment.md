@@ -22,7 +22,7 @@ tags = ["studynote-software-engineering"]
 소프트웨어 개발 프로젝트에서 기획자와 개발자의 싸움은 영원한 숙제다.
 기획자(고객)는 "앱이 좀 빠릿빠릿하고 세련되게 만들어주세요"라고 말한다. 개발자는 "그게 뭔 소리야? 메모리를 몇 MB 할당하고 렌더링을 몇 ms로 맞추라는 건데?"라며 답답해한다.
 
-이처럼 고객이 사용하는 언어(요구사항)와 엔지니어가 사용하는 언어(설계 사양)는 완전히 다르다. 1960년대 일본의 요지 아카오(Yoji Akao) 교수는 조선소에서 배를 만들 때 이 의사소통 문제를 해결하기 위해, <strong>고객의 목소리(VOC)를 기술자의 도면(Engineering Spec)으로 번역해 주는 시스템</strong>을 고안했다. 이것이 <strong>QFD (<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/168_qfd_quality_function_deployment/">품질 기능 전개</a>)</strong>다.
+이처럼 고객이 사용하는 언어(요구사항)와 엔지니어가 사용하는 언어(설계 사양)는 완전히 다르다. 1960년대 일본의 요지 아카오(Yoji Akao) 교수는 조선소에서 배를 만들 때 이 의사소통 문제를 해결하기 위해, <strong>고객의 목소리(VOC)를 기술자의 도면(엔진ering Spec)으로 번역해 주는 시스템</strong>을 고안했다. 이것이 <strong>QFD (<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/168_qfd_quality_function_deployment/">품질 기능 전개</a>)</strong>다.
 
 - **📢 섹션 요약 비유**: 고객이 카페에서 "달달하면서도 살 안 찌는 커피 주세요"라고 주문할 때, 알바생이 이걸 바리스타에게 "시럽 1펌프, 알룰로스 2펌프, 무지방 우유 200ml"라는 완벽한 '레시피(기술 스펙)'로 번역해서 넘겨주는 과정이 바로 QFD다.
 
@@ -30,17 +30,18 @@ tags = ["studynote-software-engineering"]
 
 다음은 QFD [품질 기능 전개](/knowledge-base/studynote/04_software_engineering/03_design_architecture/168_qfd_quality_function_deployment/) 요구사항 변환의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">QFD 품질 기능 전개 요구사항 변환</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                  QFD 품질 기능 전개 요구사항 변환                        │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
+│       │                    │                    │          │
+│       ▼                    ▼                    ▼          │
+│   요구 분석           설계·적용           품질 검증        │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램은 QFD [품질 기능 전개](/knowledge-base/studynote/04_software_engineering/03_design_architecture/168_qfd_quality_function_deployment/) 요구사항 변환가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -122,30 +123,28 @@ QFD를 거치면 막연했던 마케팅 부서의 요구사항이 개발 부서�
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | QFD [품질 기능 전개](/knowledge-base/studynote/04_software_engineering/03_design_architecture/168_qfd_quality_function_deployment/) 요구사항 변환 기법의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | QFD [품질 기능 전개](/knowledge-base/studynote/04_software_engineering/03_design_architecture/168_qfd_quality_function_deployment/) 요구사항 변환 기법의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
 | [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | QFD [품질 기능 전개](/knowledge-base/studynote/04_software_engineering/03_design_architecture/168_qfd_quality_function_deployment/) 요구사항 변환 기법은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | QFD [품질 기능 전개](/knowledge-base/studynote/04_software_engineering/03_design_architecture/168_qfd_quality_function_deployment/) 요구사항 변환 기법 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
 | [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | QFD [품질 기능 전개](/knowledge-base/studynote/04_software_engineering/03_design_architecture/168_qfd_quality_function_deployment/) 요구사항 변환 기법에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">QFD 품질 기능 전개 요구사항 변환 기법 개념 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 위기 (Software Crisis) 인식
+    │
+    ▼
+QFD 품질 기능 전개 요구사항 변환 기법 개념 정립
+    │
+    ▼
+표준화 및 방법론 체계화 (ISO, CMMI, Agile)
+    │
+    ▼
+클라우드 네이티브·AI 기반 확장 적용
+    │
+    ▼
+지속적 개선 및 DevOps·MLOps 통합
+```
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

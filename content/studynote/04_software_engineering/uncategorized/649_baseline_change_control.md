@@ -30,24 +30,29 @@ tags = ["studynote-software-engineering"]
 
   [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) 부재 환경에서 발생하는 '덮어쓰기 문제'를 시각화하면, 변경 통제가 없는 상태가 어떻게 소스 코드의 유실과 혼란을 초래하는지 명확히 이해할 수 있다. 
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">형상 관리 부재 환경의 문제: 분산된 변경 충돌</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">개발자 A</div><div class="kb-diagram-node">개발자 B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① 파일 읽기 (v1.0)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① 파일 읽기 (v1.0)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② 버그 수정 중 (시간 소요)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② 기능 추가 완료</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ 서버에 저장 (v1.1)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ 서버에 저장 (v1.2)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 개발자 B가 추가한 기능은 A의 저장으로 인해 완전히 삭제됨</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Lost Update Problem)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │         형상 관리 부재 환경의 문제: 분산된 변경 충돌          │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │  [개발자 A]                          [개발자 B]             │
+  │     │                                   │                   │
+  │  ① 파일 읽기 (v1.0)                    │                   │
+  │     │                                ① 파일 읽기 (v1.0)    │
+  │     ▼                                   ▼                   │
+  │  ② 버그 수정 중 (시간 소요)            │                   │
+  │     │                                ② 기능 추가 완료      │
+  │     │                                   │                   │
+  │     │                                   ▼                   │
+  │     │                                ③ 서버에 저장 (v1.1)  │
+  │     ▼                                   │                   │
+  │  ③ 서버에 저장 (v1.2)                  │                   │
+  │                                                             │
+  │  ─────────────────────────────────────────────────────────  │
+  │   결과: 개발자 B가 추가한 기능은 A의 저장으로 인해 완전히 삭제됨  │
+  │         (Lost Update Problem)                               │
+  └─────────────────────────────────────────────────────────────┘
+```
 
   **[다이어그램 해설]** 이 도식은 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 통제 시스템과 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)이 존재하지 않을 때 발생하는 전형적인 '[Lost Update](/knowledge-base/studynote/05_database/04_transactions_concurrency/203_lost_update_concurrency_problem/) ([갱신 손실](/knowledge-base/studynote/05_database/04_transactions_concurrency/203_lost_update_concurrency_problem/))' 문제를 보여준다. 개발자 A와 B가 동일한 소스를 복사하여 각자 수정한 뒤, 중앙 서버에 덮어쓰기를 수행한다. 이 구조에서는 나중에 저장한 사람의 코드만 남게 되며, 시스템 수준에서 변경이 통합되지 않아 치명적인 논리적 결함을 유발한다. 따라서 단일 진실 공급원 (SSOT, Single Source of Truth)으로서의 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) 확립과 이를 수정할 때 충돌을 제어하는 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 또는 병합(Merge) 통제 장치가 필수적으로 요구된다.
 
@@ -144,30 +149,28 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) ([Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)) 수립 변경 통제의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) ([Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)) 수립 변경 통제의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
 | [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) ([Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)) 수립 변경 통제은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) ([Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)) 수립 변경 통제 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
 | [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) ([Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)) 수립 변경 통제에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">기준선 (Baseline) 수립 변경 통제 개념 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 위기 (Software Crisis) 인식
+    │
+    ▼
+기준선 (Baseline) 수립 변경 통제 개념 정립
+    │
+    ▼
+표준화 및 방법론 체계화 (ISO, CMMI, Agile)
+    │
+    ▼
+클라우드 네이티브·AI 기반 확장 적용
+    │
+    ▼
+지속적 개선 및 DevOps·MLOps 통합
+```
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

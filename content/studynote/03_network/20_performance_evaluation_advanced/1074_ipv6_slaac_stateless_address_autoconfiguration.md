@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - <strong>DHCPv4 (동적 호스트 구성 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a>)</strong>: 우리가 폰을 와이파이에 연결하면, 공유기([DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 서버)가 자기 장부([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))를 뒤져보고 "192.168.0.12 남았네, 이거 써"라고 던져주고 장부에 기록하는 철저한 **상태 유지(Stateful)** 방식이었습니다.
 - **재앙**: [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 시대가 열려 길거리에 센서가 100만 대 깔리면, 100만 대를 관리할 거대한 [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 서버와 메모리 장부가 필요해 서버가 터집니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">IP PBX 멀티캐스트</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IPv6 SLAAC 자동할당</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">멀티캐스트 MLD / IGMP 스누핑 기법</div></div>
-</div>
-</div>
-
-
+```text
+[IP PBX 멀티캐스트]
+    │
+    ▼
+[IPv6 SLAAC 자동할당]
+    │
+    └──▶ [멀티캐스트 MLD / IGMP 스누핑 기법]
+```
 
 - **📢 섹션 요약 비유**: [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) [SLAAC](/knowledge-base/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/) 자동할당은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -43,18 +39,14 @@ tags = ["studynote-network"]
 
 - **개념**: 복잡한 중앙 [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 서버의 1:1 관리를 완전히 쓰레기통에 버리고, 기계(단말기) 스스로 인터넷 라우터의 '동네 주소(네트워크 프리픽스)' 힌트만 받아서 <strong>독자적으로 완벽한 128비트짜리 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/">IPv6</a> 주소를 자동 조립(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>)하여 사용하는 무상태(<a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/">Stateless</a>) 플러그 앤 플레이(Plug &amp; Play) <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a></strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">IP PBX 멀티캐스트</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IPv6 SLAAC 자동할당</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">멀티캐스트 MLD / IGMP 스누핑 기법</div></div>
-</div>
-</div>
-
-
+```text
+[IP PBX 멀티캐스트]
+    │
+    ▼
+[IPv6 SLAAC 자동할당]
+    │
+    └──▶ [멀티캐스트 MLD / IGMP 스누핑 기법]
+```
 
 - **📢 섹션 요약 비유**: [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) [SLAAC](/knowledge-base/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/) 자동할당의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -127,19 +119,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: IP PBX 멀티캐스트</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: IPv6 SLAAC 자동할당</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 멀티캐스트 MLD / IGMP 스누핑 기법</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: IP PBX 멀티캐스트]
+    │
+    ▼
+[현재 개념: IPv6 SLAAC 자동할당]
+    │
+    ├──▶ [확장 A: 멀티캐스트 MLD / IGMP 스누핑 기법]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) [SLAAC](/knowledge-base/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/) 자동할당는 [IP PBX](/knowledge-base/studynote/03_network/09_application_layer_web_email/503_ip_pbx_private_branch_exchange/) [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) [MLD](/knowledge-base/studynote/03_network/06_network_layer_ip/335_mld_multicast_listener_discovery_ipv6/) / [IGMP](/knowledge-base/studynote/03_network/06_network_layer_ip/333_igmp_internet_group_management_protocol_multicast/) 스누핑 기법와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

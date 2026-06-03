@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: 컴퓨터에서 나온 디지털 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(0과 1)를 아날로그 파동(라디오파)으로 변환(변조)하지 않고, <strong>직류(DC) <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/">전압</a> 펄스(예: +5V, -5V)의 형태 그대로 랜선이나 동축 케이블에 실어 짧은 거리를 전송하는 방식</strong>입니다.
 - **선로 부호화 (Line Coding)**: 0과 1의 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 어떤 모양의 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)(파형)으로 그릴 것인지 규칙을 정하는 수학적 설계입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">포니팟</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">기저대역 선로 부호</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">샤논-하틀리</div></div>
-</div>
-</div>
-
-
+```text
+[포니팟]
+    │
+    ▼
+[기저대역 선로 부호]
+    │
+    └──▶ [샤논-하틀리]
+```
 
 - **📢 섹션 요약 비유**: 기저대역 선로 부호는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -58,18 +54,14 @@ IEEE 802.3([이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_device
   - [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 **위로 치솟으면(Low ➜ High) 1**
 - **장점**: 매 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 중간마다 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 100% 무조건 위아래로 꺾이므로(천이 현상), 수신자는 이 꺾임 타이밍을 보고 완벽하게 클럭(시계)을 맞춥니다(Self-clocking 자가 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)). NRZ의 에러를 완벽히 치유했습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">포니팟</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">기저대역 선로 부호</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">샤논-하틀리</div></div>
-</div>
-</div>
-
-
+```text
+[포니팟]
+    │
+    ▼
+[기저대역 선로 부호]
+    │
+    └──▶ [샤논-하틀리]
+```
 
 - **📢 섹션 요약 비유**: 기저대역 선로 부호의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -129,19 +121,15 @@ IEEE 802.3([이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_device
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 포니팟</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 기저대역 선로 부호</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 샤논-하틀리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 포니팟]
+    │
+    ▼
+[현재 개념: 기저대역 선로 부호]
+    │
+    ├──▶ [확장 A: 샤논-하틀리]
+    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
+```
 
 기저대역 선로 부호는 [포니팟](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/939_honeypot_deception/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [샤논-하틀리](/knowledge-base/studynote/03_network/19_frequent_topics_terms/941_shannon_hartley_theorem_channel_capacity_snr/)와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -42,35 +42,31 @@ subject to gᵢ(x) = 0    (등호 제약, i = 1,...,m)
 
 등호 제약 g(x) = 0에 대해:
 
+```
+L(x, λ) = f(x) - λ · g(x)
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">L(x, λ) = f(x) - λ · g(x)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">∇f ∥ ∇g</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">제약 만족</div></div>
-</div>
-</div>
-
-
+∂L/∂x = 0  →  ∇f(x) = λ · ∇g(x)    [∇f ∥ ∇g]
+∂L/∂λ = 0  →  g(x) = 0               [제약 만족]
+```
 
 λ: 라그랑주 승수 (Lagrange Multiplier) — 제약을 1단위 완화할 때 목적 함수의 변화율.
 
 ### 기하적 해석
 
+```
+등고선 f(x) = c₁, c₂, c₃   제약 g(x) = 0 (파란 곡선)
 
+             ╭─────────────────╮
+            ╭───────────────────╮
+           ╭─────────────────────╮
+          ╭───────────────────────╮
+          │                  ★ 최적점
+──────────┼────────────────────────── g(x) = 0
+          ╰───────────────────────╯
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">등고선 f(x) = c₁, c₂, c₃ 제약 g(x) = 0 (파란 곡선)</div>
-<div class="kb-diagram-note">★ 최적점</div>
-<div class="kb-diagram-tree-item" style="--depth:0">g(x) = 0</div>
-<div class="kb-diagram-note">최적점 ★ 에서: ∇f와 ∇g가 평행 (접선 일치)</div>
-<div class="kb-diagram-note">→ f의 등고선과 g(x)=0이 접하는 지점!</div>
-</div>
-</div>
-
-
+최적점 ★ 에서: ∇f와 ∇g가 평행 (접선 일치)
+→ f의 등고선과 g(x)=0이 접하는 지점!
+```
 
 ### KKT (Karush-Kuhn-Tucker) 조건 — 부등호 제약 확장
 
@@ -116,17 +112,12 @@ L(w, b, α) = ½‖w‖² - Σᵢ αᵢ[yᵢ(wᵀxᵢ + b) - 1]
 
 듀얼 문제 (Dual) — αᵢ에 대한 최대화:
 
+```
+max_{α}  Σᵢ αᵢ - ½ Σᵢ Σⱼ αᵢαⱼyᵢyⱼ xᵢᵀxⱼ
+s.t.     Σᵢ αᵢyᵢ = 0,  αᵢ ≥ 0
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">max_{α} Σᵢ αᵢ - ½ Σᵢ Σⱼ αᵢαⱼyᵢyⱼ xᵢᵀxⱼ</div>
-<div class="kb-diagram-note">s.t. Σᵢ αᵢyᵢ = 0, αᵢ ≥ 0</div>
-<div class="kb-diagram-note">내적 xᵢᵀxⱼ → 커널 K(xᵢ, xⱼ)로 교체! ← 커널 트릭 가능</div>
-</div>
-</div>
-
-
+내적 xᵢᵀxⱼ → 커널 K(xᵢ, xⱼ)로 교체!  ← 커널 트릭 가능
+```
 
 KKT 상보 여유: αᵢ > 0인 샘플이 <strong>지지 벡터 (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/">Support</a> Vector)</strong>.
 
@@ -134,19 +125,14 @@ KKT 상보 여유: αᵢ > 0인 샘플이 <strong>지지 벡터 (<a href="/knowl
 
 특성 함수 fₖ에 대한 기대값 제약 E[fₖ] = c̃ₖ 하에서 최대 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 분포:
 
+```
+maximize   H(P) = -Σ P(x) log P(x)
+s.t.       Σ P(x)·fₖ(x) = c̃ₖ   ∀k
+           Σ P(x) = 1
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">maximize H(P) = -Σ P(x) log P(x)</div>
-<div class="kb-diagram-note">s.t. Σ P(x)·fₖ(x) = c̃ₖ ∀k</div>
-<div class="kb-diagram-note">Σ P(x) = 1</div>
-<div class="kb-diagram-note">→ 라그랑주 → Gibbs 분포: P(x) ∝ exp(Σ λₖ fₖ(x))</div>
-<div class="kb-diagram-note">(로지스틱 회귀의 분포 형태와 동일!)</div>
-</div>
-</div>
-
-
+→ 라그랑주 → Gibbs 분포: P(x) ∝ exp(Σ λₖ fₖ(x))
+                         (로지스틱 회귀의 분포 형태와 동일!)
+```
 
 📢 **섹션 요약 비유**: [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) 듀얼의 지지 벡터는 "결정의 경계를 만드는 필수 증인"이다 — 무수히 많은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중 경계에서 딱 접하는 몇 개(αᵢ>0)만 결정 경계를 완전히 결정한다.
 
@@ -206,25 +192,24 @@ L = wᵀΣw - λ₁(μᵀw - r) - λ₂(1ᵀw - 1)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">무제약 최적화 (Unconstrained Optimization)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">등식 제약 (Equality Constraint)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">라그랑주 승수법 (Lagrange Multiplier)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">KKT 조건 (Karush-Kuhn-Tucker Conditions)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">볼록 최적화 (Convex Optimization)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SVM 최적화 (Support Vector Machine Optimization)</div></div>
-</div>
-</div>
-
-
+```text
+[무제약 최적화 (Unconstrained Optimization)]
+    │
+    ▼
+[등식 제약 (Equality Constraint)]
+    │
+    ▼
+[라그랑주 승수법 (Lagrange Multiplier)]
+    │
+    ▼
+[KKT 조건 (Karush-Kuhn-Tucker Conditions)]
+    │
+    ▼
+[볼록 최적화 (Convex Optimization)]
+    │
+    ▼
+[SVM 최적화 (Support Vector Machine Optimization)]
+```
 
 제약 조건 하에서의 최적화 문제를 라그랑주 승수법으로 해결하고 기계 학습 최적화로 이어지는 흐름이다.
 

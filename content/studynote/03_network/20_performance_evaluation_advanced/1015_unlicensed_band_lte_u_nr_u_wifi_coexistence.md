@@ -23,18 +23,14 @@ tags = ["studynote-network"]
 - **비면허 대역 (Unlicensed Band)**: 무전기, [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/), <strong>와이파이(2.4GHz, 5GHz)</strong>가 쓰는 도로입니다. 누구나 무료로 공유기를 사서 전파를 쏠 수 있습니다.
 - **통신사의 절망**: 스마트폰 트래픽이 폭증해서 돈 주고 산 면허 대역이 꽉 막혀버려 속도가 바닥을 쳤습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">캐리어 어그리게이션</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">언면허 대역망</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">LAA</div></div>
-</div>
-</div>
-
-
+```text
+[캐리어 어그리게이션]
+    │
+    ▼
+[언면허 대역망]
+    │
+    └──▶ [LAA]
+```
 
 - **📢 섹션 요약 비유**: 언면허 대역망은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -47,18 +43,14 @@ tags = ["studynote-network"]
   - 통신사는 안전한 '면허 대역(유료 도로)'을 절대 버리지 않고 메인 차선(제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)용 닻)으로 잡고 뜁니다.
   - 여기에 <strong>'비면허 대역(공짜 와이파이 도로)'을 보조 차선으로 하나 슬쩍 걸친 뒤, 앞서 1014번에서 배운 <a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/">CA</a>(주파수 묶음) 기술을 이용해 두 도로의 데이터를 짬뽕해서 다운로드 속도를 미친 듯이 뻥튀기시킵니다.</strong>
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">캐리어 어그리게이션</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">언면허 대역망</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">LAA</div></div>
-</div>
-</div>
-
-
+```text
+[캐리어 어그리게이션]
+    │
+    ▼
+[언면허 대역망]
+    │
+    └──▶ [LAA]
+```
 
 - **📢 섹션 요약 비유**: 언면허 대역망의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -123,19 +115,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 캐리어 어그리게이션</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 언면허 대역망</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: LAA</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 캐리어 어그리게이션]
+    │
+    ▼
+[현재 개념: 언면허 대역망]
+    │
+    ├──▶ [확장 A: LAA]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 언면허 대역망는 [캐리어 어그리게이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1014_carrier_aggregation_lte_advanced_5g/)에서 출발해 현재 메커니즘을 정교화하고, 이후 LAA와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

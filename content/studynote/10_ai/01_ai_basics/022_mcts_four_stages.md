@@ -39,29 +39,29 @@ tags = ["studynote-ai"]
 ### 1. MCTS의 4단계 동작 메커니즘 (Step-by-Step)
 루트 노드(현재 게임 상태)에서 출발하여 시간이 다 될 때까지 아래 4단계를 반복합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">MCTS 4단계 순환 아키텍처 (Flow Chart)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. Selection</div><div class="kb-diagram-node">2. Expansion</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(유망한 노드 탐색) (트리에 새 노드 추가)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">( O ) ◀ ( O )</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">／ ＼</div><div class="kb-diagram-cell">／ ＼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">( O ) ( )</div><div class="kb-diagram-cell">( O ) ( N ) &lt;-- 신규</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">／ ＼</div><div class="kb-diagram-cell">／ ＼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">( O ) ( )</div><div class="kb-diagram-cell">( O ) ( )</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">4. Backpropagation</div><div class="kb-diagram-node">3. Simulation</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(승패 통계 업데이트)</div><div class="kb-diagram-cell">(무작위 롤아웃 테스트)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(+1 Win)</div><div class="kb-diagram-cell">( N )</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">／ ＼</div><div class="kb-diagram-cell">&lt;-- Random</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(+1) ( )</div><div class="kb-diagram-cell">Playout</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">／ ＼</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">(+1) ( )</div><div class="kb-diagram-node">Win!</div><div class="kb-diagram-note">(승리/패배)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│             [ MCTS 4단계 순환 아키텍처 (Flow Chart) ]           │
+│                                                             │
+│       [1. Selection]                [2. Expansion]          │
+│        (유망한 노드 탐색)             (트리에 새 노드 추가)          │
+│           ( O ) ◀──────┐               ( O )              │
+│          ／   ＼         │              ／   ＼             │
+│       ( O )    ( )      │             ( O )  ( N ) <-- 신규│
+│      ／   ＼            │            ／   ＼               │
+│    ( O )   ( )          │           ( O )   ( )             │
+│                         │                                  │
+│ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┼ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ │
+│                         │                                  │
+│  [4. Backpropagation]   │           [3. Simulation]         │
+│     (승패 통계 업데이트)    │           (무작위 롤아웃 테스트)       │
+│        (+1 Win)         │                ( N )              │
+│          ／   ＼         │                  |  <-- Random  │
+│       (+1)     ( )      │                  |      Playout │
+│      ／   ＼            │                  |              │
+│    (+1)    ( ) ─────────┘               [Win!] (승리/패배) │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 상세 해설]**
 1. **선택 (Selection)**: 루트에서 시작해 자식 노드들을 거쳐 내려갑니다. 이때 단순히 승률만 보는 것이 아니라, <strong>UCT (Upper <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/">Confidence</a> Bound for Trees)</strong> 공식을 사용하여 '승률이 높은 곳(활용)'과 '아직 덜 가본 곳([탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/))' 사이의 점수가 가장 높은 노드를 선택해 나갑니다. (트리의 끝, 리프 노드에 도달할 때까지)
@@ -152,23 +152,21 @@ tags = ["studynote-ai"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">거대 상태 공간 (바둑 — 10^170 경우의 수)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MCTS 4단계 루프: 선택 → 확장 → 시뮬레이션 → 역전파</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">UCT 공식 — 탐험/활용 균형 자동 조정</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">딥러닝 정책망·가치망으로 롤아웃 대체 (AlphaGo)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AlphaZero 셀프 플레이 — 순수 강화학습 현대 아키텍처</div></div>
-</div>
-</div>
-
-
+```text
+[거대 상태 공간 (바둑 — 10^170 경우의 수)]
+    │
+    ▼
+[MCTS 4단계 루프: 선택 → 확장 → 시뮬레이션 → 역전파]
+    │
+    ▼
+[UCT 공식 — 탐험/활용 균형 자동 조정]
+    │
+    ▼
+[딥러닝 정책망·가치망으로 롤아웃 대체 (AlphaGo)]
+    │
+    ▼
+[AlphaZero 셀프 플레이 — 순수 강화학습 현대 아키텍처]
+```
 불가능한 완전 탐색을 UCT 기반 [MCTS](/knowledge-base/studynote/10_ai/03_llm_nlp/240_mcts_monte_carlo/) 4단계 루프로 실용화하고, 딥러닝이 롤아웃을 대체하여 AlphaGo·AlphaZero가 탄생한 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 발전의 핵심 흐름이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

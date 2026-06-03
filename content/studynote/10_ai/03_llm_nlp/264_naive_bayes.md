@@ -54,24 +54,40 @@ P(C|x₁, x₂, ..., xₙ) ∝ P(C) × ∏ P(xᵢ|C)
 
 ### 나이브 베이즈 동작 흐름
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">나이브 베이즈 분류 파이프라인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력 데이터 X = {x₁, x₂, ..., xₙ}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">학습 단계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사전 확률 계산</div><div class="kb-diagram-cell">P(C) = 클래스 C 비율</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">우도 계산</div><div class="kb-diagram-cell">P(xᵢ</div><div class="kb-diagram-cell">C) = 특징별 조건부 확률</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조건부 독립 가정 적용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P(X</div><div class="kb-diagram-cell">C) ≈ P(x₁</div><div class="kb-diagram-cell">C)×P(x₂</div><div class="kb-diagram-cell">C)×...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사후 확률 계산 (베이즈 정리 적용)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P(C</div><div class="kb-diagram-cell">X) ∝ P(C) × ∏ P(xᵢ</div><div class="kb-diagram-cell">C)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">argmax C 선택</div><div class="kb-diagram-cell">가장 높은 사후 확률의 클래스 출력</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────────┐
+│                  나이브 베이즈 분류 파이프라인                 │
+│                                                             │
+│  입력 데이터 X = {x₁, x₂, ..., xₙ}                         │
+│         │                                                   │
+│         ▼                                                   │
+│  ┌─────────────────┐     학습 단계                          │
+│  │  사전 확률 계산   │  P(C) = 클래스 C 비율                 │
+│  └────────┬────────┘                                       │
+│           │                                                 │
+│           ▼                                                 │
+│  ┌─────────────────┐                                       │
+│  │  우도 계산       │  P(xᵢ|C) = 특징별 조건부 확률          │
+│  └────────┬────────┘                                       │
+│           │                                                 │
+│           ▼                                                 │
+│  ┌─────────────────────────────────────┐                  │
+│  │  조건부 독립 가정 적용               │                   │
+│  │  P(X|C) ≈ P(x₁|C)×P(x₂|C)×...     │                   │
+│  └────────┬────────────────────────────┘                  │
+│           │                                                 │
+│           ▼                                                 │
+│  ┌─────────────────────────────────────┐                  │
+│  │  사후 확률 계산 (베이즈 정리 적용)   │                   │
+│  │  P(C|X) ∝ P(C) × ∏ P(xᵢ|C)         │                   │
+│  └────────┬────────────────────────────┘                  │
+│           │                                                 │
+│           ▼                                                 │
+│  ┌─────────────────┐                                       │
+│  │  argmax C 선택   │  가장 높은 사후 확률의 클래스 출력     │
+│  └─────────────────┘                                       │
+└─────────────────────────────────────────────────────────────┘
+```
 
 ### 나이브 베이즈 종류 비교
 

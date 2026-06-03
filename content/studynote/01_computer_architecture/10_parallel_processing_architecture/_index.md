@@ -23,22 +23,23 @@ tags = ["computer_architecture"]
 
 이 그림은 플린 (Flynn)의 분류에 따른 컴퓨터 시스템의 4대 병렬 구조를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Flynn's Taxonomy of Computer Systems</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Single Data</div><div class="kb-diagram-node">Multiple Data</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Single Inst.</div><div class="kb-diagram-note">SISD (고전 CPU) SIMD (GPU/벡터)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Multiple Inst.</div><div class="kb-diagram-note">MISD (특수 목적) MIMD (멀티코어)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* SISD: Single Instruction, Single Data</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* SIMD: Single Instruction, Multiple Data</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* MISD: Multiple Instruction, Single Data</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* MIMD: Multiple Instruction, Multiple Data</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Flynn's Taxonomy of Computer Systems        │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│                     [ Single Data ]       [ Multiple Data ] │
+│  [ Single Inst. ]      SISD (고전 CPU)       SIMD (GPU/벡터) │
+│                                                             │
+│  [ Multiple Inst. ]    MISD (특수 목적)      MIMD (멀티코어) │
+│                                                             │
+│   * SISD: Single Instruction, Single Data                   │
+│   * SIMD: Single Instruction, Multiple Data                 │
+│   * MISD: Multiple Instruction, Single Data                 │
+│   * MIMD: Multiple Instruction, Multiple Data               │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '데이터와 명령어의 조합'이다. 현대 고성능 컴퓨팅의 주류는 동일한 명령으로 여러 데이터를 한꺼번에 요리하는 <strong>SIMD</strong>와, 각자 다른 일을 동시에 수행하는 <strong>MIMD</strong>의 결합이다. 실무에서는 이러한 병렬 구조를 소프트웨어가 얼마나 잘 활용하느냐 (병렬 프로그래밍)가 아키텍처 효율의 관건이다.
 
@@ -73,20 +74,25 @@ tags = ["computer_architecture"]
 
 이 구조도는 현대적인 <strong>멀티코어 시스템의 메모리 계층 및 연결망</strong>을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Modern Multi-core Architecture</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Core 0</div><div class="kb-diagram-node">Core 1</div><div class="kb-diagram-node">Core 2</div><div class="kb-diagram-node">Core 3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L1/L2</div><div class="kb-diagram-cell">L1/L2</div><div class="kb-diagram-cell">L1/L2</div><div class="kb-diagram-cell">L1/L2</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Shared L3 Cache</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">System Interconnect</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Main Memory (DRAM)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Modern Multi-core Architecture              │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Core 0 ]   [ Core 1 ]   [ Core 2 ]   [ Core 3 ]         │
+│   ┌──────┐     ┌──────┐     ┌──────┐     ┌──────┐           │
+│   │L1/L2 │     │L1/L2 │     │L1/L2 │     │L1/L2 │           │
+│   └──┬───┘     └──┬───┘     └──┬───┘     └──┬───┘           │
+│      └────────────┴─────┬──────┴────────────┘               │
+│                         ▼                                   │
+│                  [ Shared L3 Cache ]                        │
+│                         │                                   │
+│                  [ System Interconnect ]                    │
+│                         │                                   │
+│                  [ Main Memory (DRAM) ]                     │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '캐시 일관성 (Cache Coherency)'이다. 코어마다 가진 L1/L2 캐시의 데이터가 서로 다를 경우 치명적인 오류가 발생하므로, <strong>Snooping</strong>이나 **Directory 기반** 프로토콜이 배경에서 쉴 새 없이 움직인다. 실무에서는 이 오버헤드가 코어 확장의 물리적 한계점이 된다.
 
@@ -130,22 +136,23 @@ tags = ["computer_architecture"]
 
 이 도식은 병렬화 효율을 극대화하기 위한 '데이터 분할 전략'을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data Decomposition &amp; Speedup</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Original Task</div><div class="kb-diagram-note">:</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Parallel Task</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core 0 :</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core 1 : (Parallel Exec)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core 2 :</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core 3 :</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 작업 간의 의존성(Dependency) 제거가 성패의 열쇠</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│               Data Decomposition & Speedup                  │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Original Task ] : ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━        │
+│                                                             │
+│   [ Parallel Task ]                                         │
+│   Core 0 : ━━━━━━                                           │
+│   Core 1 : ━━━━━━   (Parallel Exec)                         │
+│   Core 2 : ━━━━━━                                           │
+│   Core 3 : ━━━━━━                                           │
+│                                                             │
+│   * 핵심: 작업 간의 의존성(Dependency) 제거가 성패의 열쇠   │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 기술사의 병렬 설계 판단은 '공사 현장의 인력 배치'와 같습니다. 인부를 무작정 많이 고용한다고 집이 빨리 지어지는 게 아닙니다. 벽돌을 쌓는 사람과 시멘트를 나르는 사람의 순서가 꼬이지 않게 작업 동선(데이터 흐름)을 짜는 것이 전문가의 실력입니다.
 

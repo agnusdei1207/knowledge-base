@@ -35,19 +35,13 @@ Jenkins는 오래된 만큼 생태계가 넓다. 플러그인이 많고, [온프
 - Controller와 Agent 구조를 사용한다.
 - 다양한 플러그인으로 거의 모든 도구와 연결된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Jenkins Controller</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Jenkins Agent</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Build / Test / Deploy</div>
-</div>
-</div>
-
-
+```text
+Jenkins Controller
+   ↓
+Jenkins Agent
+   ↓
+Build / Test / Deploy
+```
 
 - **📢 섹션 요약 비유**: 만능 공구가 가득한 오래된 작업장이다.
 
@@ -61,19 +55,13 @@ Buildkite는 에이전트가 실제 작업을 수행하고, 중앙 [서비스](/
 - [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 환경에 잘 맞는다.
 - 팀이 관리해야 할 서버 부담이 상대적으로 적다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Pipeline</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Buildkite Agent</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">실제 빌드 / 테스트 실행</div>
-</div>
-</div>
-
-
+```text
+Pipeline
+   ↓
+Buildkite Agent
+   ↓
+실제 빌드 / 테스트 실행
+```
 
 - **📢 섹션 요약 비유**: 중앙에서는 지시만 하고, 일은 현장 작업자가 직접 처리하는 구조다.
 
@@ -110,21 +98,15 @@ Buildkite는 에이전트가 실제 작업을 수행하고, 중앙 [서비스](/
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">코드 변경</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">CI 도구</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">빌드 / 테스트 / 배포</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">피드백 / 반복 개선</div>
-</div>
-</div>
-
-
+```text
+코드 변경
+   ↓
+CI 도구
+   ↓
+빌드 / 테스트 / 배포
+   ↓
+피드백 / 반복 개선
+```
 
 ---
 

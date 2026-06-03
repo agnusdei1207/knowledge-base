@@ -17,17 +17,13 @@ tags = ["studynote-design-supervision"]
 ## Ⅰ. 개요 및 필요성
 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)는 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 간 변화 전파의 크기를 보여 주는 대표 지표다. 두 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 구체 구현, 전역 상태, 내부 메모리 구조까지 공유하면 작은 변경도 시스템 전체 수정으로 번진다. 반대로 인터페이스와 최소 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 주고받으면 각 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)은 독립적으로 개발·테스트·배포되기 쉬워진다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">전역상태 공유</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Module A</div><div class="kb-diagram-cell">◀ ▶</div><div class="kb-diagram-cell">Module B</div></div>
-<div class="kb-diagram-tree-item" style="--depth:3">내부 구조까지 엮이면 변경이 서로에게 바로 전염됨</div>
-</div>
-</div>
-
-
+```text
+┌────────────┐    전역상태 공유    ┌────────────┐
+│ Module A   │◀──────────────────▶│ Module B   │
+└────────────┘                    └────────────┘
+       │                                  │
+       └──── 내부 구조까지 엮이면 변경이 서로에게 바로 전염됨 ────┘
+```
 
 그래서 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) 평가는 단순한 연결 개수보다도, "무엇을 공유하는가"를 묻는 작업이다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 공유하는지, 제어 신호를 넘기는지, 내부 내용을 침범하는지가 품질 차이를 만든다.
 - **📢 섹션 요약 비유**: 레고 블록은 살짝 끼워서 필요할 때 떼어낼 수 있지만, 본드로 붙여 버리면 하나를 바꾸려다 전부 망가집니다.
@@ -35,20 +31,21 @@ tags = ["studynote-design-supervision"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)는 약한 쪽에서 강한 쪽으로 갈수록 설계 품질이 나빠진다. 이상적인 방향은 필요한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 계약에 맞춰 주고받는 구조다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 결합도</div><div class="kb-diagram-cell">자료 요소만 전달, 가장 바람직</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스탬프 결합도</div><div class="kb-diagram-cell">구조체·객체 전체 전달</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제어 결합도</div><div class="kb-diagram-cell">처리 분기를 제어 플래그로 전달</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">외부 결합도</div><div class="kb-diagram-cell">파일·프로토콜·장치 규약 공동 의존</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공통 결합도</div><div class="kb-diagram-cell">전역 변수·공유 메모리 사용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">내용 결합도</div><div class="kb-diagram-cell">타 모듈 내부를 직접 참조, 최악</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐
+│ 데이터 결합도 │  자료 요소만 전달, 가장 바람직
+├──────────────┤
+│ 스탬프 결합도 │  구조체·객체 전체 전달
+├──────────────┤
+│ 제어 결합도   │  처리 분기를 제어 플래그로 전달
+├──────────────┤
+│ 외부 결합도   │  파일·프로토콜·장치 규약 공동 의존
+├──────────────┤
+│ 공통 결합도   │  전역 변수·공유 메모리 사용
+├──────────────┤
+│ 내용 결합도   │  타 모듈 내부를 직접 참조, 최악
+└──────────────┘
+```
 
 | 결합 유형 | 설명 | 설계 판단 |
 | :--- | :--- | :--- |
@@ -100,23 +97,21 @@ tags = ["studynote-design-supervision"]
 - <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/">응집도</a></strong>: 내부 책임이 단단할수록 외부 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)는 낮추기 쉽다.
 
 ### 📈 관련 키워드 및 발전 흐름도
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">모듈 간 직접 참조와 전역상태 증가</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">변경 파급·테스트 곤란·동시 배포 압박</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">인터페이스·DI·이벤트 기반 분리 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">데이터 중심 계약으로 단순화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">느슨한 결합과 독립 배포 역량 확보</div>
-</div>
-</div>
-
-
+```text
+모듈 간 직접 참조와 전역상태 증가
+    │
+    ▼
+변경 파급·테스트 곤란·동시 배포 압박
+    │
+    ▼
+인터페이스·DI·이벤트 기반 분리 적용
+    │
+    ▼
+데이터 중심 계약으로 단순화
+    │
+    ▼
+느슨한 결합과 독립 배포 역량 확보
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 블록을 살짝 끼워 놓으면 하나를 떼어 다른 모양으로 쉽게 바꿀 수 있어요.

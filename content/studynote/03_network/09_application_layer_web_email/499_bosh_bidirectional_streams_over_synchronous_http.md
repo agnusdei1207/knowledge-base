@@ -29,30 +29,34 @@ tags = ["studynote-network"]
   1. <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/500_xmpp_extensible_messaging_presence_protocol/">XMPP</a> (Jabber) <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a>의 브라우저 이식</strong>: 구글 토크(Google Talk)나 페이스북 메신저의 뼈대였던 [XMPP](/knowledge-base/studynote/03_network/09_application_layer_web_email/500_xmpp_extensible_messaging_presence_protocol/)(실시간 채팅 표준)는 원래 항상 연결된 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)([Socket](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/))를 썼다. 하지만 웹 브라우저 안에는 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)을 열 권한이 없어서, HTTP로 이 XMPP를 억지로 구겨 넣으려다 BOSH가 탄생했다.
   2. <strong>기업 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a>(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">Firewall</a>)의 80번 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> 편애</strong>: 사내 망은 보안 때문에 80([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)), 443([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/)) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 빼고는 다 막아버린다. 비표준 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)이나 전용 채팅 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(5222)를 뚫어주지 않으니, [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)을 무사통과하는 합법적 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)인 80([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/))을 껍데기로 뒤집어쓰고 양방향 통신을 밀수(Smuggling)하는 BOSH가 대유행했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BOSH (Long Polling)의 연속적인 문고리 잡기(Hang) 릴레이 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">📱</div><div class="kb-diagram-node">브라우저 (클라이언트)</div><div class="kb-diagram-note">🖥️</div><div class="kb-diagram-node">채팅 서버 (Tomcat)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1️⃣ HTTP Request #1 발사! ▶ (서버 접속)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"새 채팅방 메시지 줘!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2️⃣ (대기 모드 돌입 ⏳)</div><div class="kb-diagram-node">서버: 줄 메시지 없음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➔ "응답 안 줌! 연결 끊지 마!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➔ (HTTP 연결을 30초간 꽉 붙잡음)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3️⃣ (20초 경과...) 💥</div><div class="kb-diagram-node">다른 유저가 메시지 전송!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➔ "오, 줄 데이터 생겼다!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4️⃣ (HTTP 응답 수신) ◀ HTTP Response #1 (채팅 내용)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5️⃣ 🌟 0.01초 만에 즉시 다음 구멍 파기!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"오케이 받았어! 다음 메시지 또 줘!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HTTP Request #2 재발사! ▶ (또 30초 대기 모드 돌입...)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 아키텍트의 시선: BOSH는 언제나 1개의 연결이 서버에 물려있도록 2개의 HTTP</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">연결을 교대로 돌려막기(Overlapping)한다. 서버가 원할 때 언제든 내려꽂을 수</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">있는 뚫린 터널을 억지로 열어두는 눈물겨운 '가짜 웹소켓(Fake Socket)'이다.</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          BOSH (Long Polling)의 연속적인 문고리 잡기(Hang) 릴레이 아키텍처    │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ 📱 [ 브라우저 (클라이언트) ]                🖥️ [ 채팅 서버 (Tomcat) ] │
+│                                                             │
+│ 1️⃣ HTTP Request #1 발사! ───────────────▶ (서버 접속)           │
+│ "새 채팅방 메시지 줘!"                                            │
+│                                                             │
+│ 2️⃣ (대기 모드 돌입 ⏳)                      [서버: 줄 메시지 없음]    │
+│                                      ➔ "응답 안 줌! 연결 끊지 마!"  │
+│                                      ➔ (HTTP 연결을 30초간 꽉 붙잡음) │
+│                                                             │
+│ 3️⃣ (20초 경과...)                           💥 [다른 유저가 메시지 전송!]│
+│                                      ➔ "오, 줄 데이터 생겼다!"     │
+│                                                             │
+│ 4️⃣ (HTTP 응답 수신) ◀────────────────── HTTP Response #1 (채팅 내용)│
+│                                                             │
+│ 5️⃣ 🌟 0.01초 만에 즉시 다음 구멍 파기!                             │
+│ "오케이 받았어! 다음 메시지 또 줘!"                                 │
+│ HTTP Request #2 재발사! ───────────────▶ (또 30초 대기 모드 돌입...)  │
+│                                                             │
+│ 🌟 아키텍트의 시선: BOSH는 언제나 1개의 연결이 서버에 물려있도록 2개의 HTTP│
+│    연결을 교대로 돌려막기(Overlapping)한다. 서버가 원할 때 언제든 내려꽂을 수 │
+│    있는 뚫린 터널을 억지로 열어두는 눈물겨운 '가짜 웹소켓(Fake Socket)'이다. │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이것이 COMET(웹 실시간 통신 기술)의 전설인 롱 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)(Long [Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/))의 정수다. HTTP는 요청(Req)과 응답(Res)이 세트로 끝나면 커넥션을 닫아버리는 무정 상태([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이다. BOSH는 이 응답(Response)을 늦게 주는 방식으로 통신망을 볼모로 잡았다. 하지만 클라이언트가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 받는 순간 연결은 어쨌든 한 번은 끊긴다(HTTP의 한계). 이때 0.1초의 공백이 생기면 그 사이 날아오는 메시지가 유실될 수 있다. 그래서 BOSH는 커넥션 A를 열어 응답을 기다리는 동안, 커넥션 B를 백그라운드에서 하나 더 열어둔다([이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) 연결). 하나가 닫히는 찰나에도 다른 하나가 항상 열려있게 만들어 영구적인 스트림(Bidirectional-streams) 착시를 유발한다.
 
@@ -64,18 +68,14 @@ tags = ["studynote-network"]
 
 BOSH는 사용자 서비스가 네트워크 위에서 실제로 동작하는 방식을 다루는 축라는 관점에서 이해해야 한다. [웹훅](/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/)와 [XMPP](/knowledge-base/studynote/03_network/09_application_layer_web_email/500_xmpp_extensible_messaging_presence_protocol/) 사이의 연결점으로 놓고 보면 개념의 역할이 더 분명해진다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">웹훅</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">BOSH</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">XMPP</div></div>
-</div>
-</div>
-
-
+```text
+[웹훅]
+    │
+    ▼
+[BOSH]
+    │
+    └──▶ [XMPP]
+```
 
 - **📢 섹션 요약 비유**: BOSH의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -127,33 +127,38 @@ BOSH가 아무리 숏 [폴링](/knowledge-base/studynote/02_operating_system/08_
 2. <strong>시나리오 — 악랄한 사내 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a> (Deep Packet Inspection) 우회 생존술</strong>: 금융 보안망이나 국방부 망은 철저하다. 단순히 80포트, 443포트만 열어주는 게 아니라, DPI(Deep Packet Inspection) 장비가 패킷 뚜껑을 까서 "어? 443포트 타고 나가는데 이거 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 규격이 아니라 이상한 [웹소켓](/knowledge-base/studynote/03_network/19_frequent_topics_terms/975_websocket_full_duplex_realtime_http_upgrade/)([WebSocket](/knowledge-base/studynote/03_network/09_application_layer_web_email/480_websocket_full_duplex/) Upgrade) 규격이네? 차단!" 하고 찍어 누른다. 
    - **판단**: 여기서 BOSH(롱 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/))가 마지막 생존의 바퀴벌레 같은 생명력을 발휘한다. [웹소켓](/knowledge-base/studynote/03_network/19_frequent_topics_terms/975_websocket_full_duplex_realtime_http_upgrade/)은 HTTP로 시작하지만 중간에 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)의 영혼을 바꾼다([Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) Upgrade 101). 깐깐한 기업 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)은 이 이질감을 차단한다. 하지만 BOSH는 겉부터 속까지 머리부터 발끝까지 100% 퓨어(Pure)한 일반 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) `GET/POST` 규격의 탈을 쓰고 있다. 30초 동안 응답을 늦게 줄 뿐, 멍청한 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 장비 입장에서는 그냥 "[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 다운로드가 좀 오래 걸리는 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 통신이네"라고 착각(Bypass)하고 100% 무사통과시켜 버린다. 2024년에도 기업 간(B2B) 채팅 솔루션들이 무거운 [웹소켓](/knowledge-base/studynote/03_network/19_frequent_topics_terms/975_websocket_full_duplex_realtime_http_upgrade/) 대신 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/))이나 SSE를 고집스럽게 유지하는 더러운 보안 아키텍처의 민낯이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실무 아키텍처: BOSH(Long Polling)를 박살 낸 웹소켓의 왕좌 교체기</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">🦕 과거 (BOSH / Long Polling 꼼수 시대)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">📱브라우저: "안녕, 나 철수야! (HTTP Cookie 1KB 덧붙임)" ➔ 🖥️ 서버</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🖥️서버: (30초 대기) "오! 새로운 메시지 왔어! (HTTP 헤더 1KB)" ➔ 📱브라우저</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💥 문제점 (Overhead 폭발): '안녕' 이라는 2바이트 메시지를 주고받으려고,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">매번 서로 '내가 철수고 비밀번호는 이거고~'라는 1,000바이트짜리 쿠키와</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HTTP 헤더 쓰레기(가방)를 무식하게 던져대야 함. 모바일 배터리 광속 소진.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">패러다임 시프트: WebSocket 혁명</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">🚀 현재 (WebSocket 파이프라인 영구 개방)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1.</div><div class="kb-diagram-node">악수 Handshake</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">📱브라우저: "야, 우리 이제 HTTP 껍데기 벗고 소켓 파이프 뚫자!" (Upgrade)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🖥️서버: "콜! 파이프 개방!" (HTTP 101 Switching Protocols)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2.</div><div class="kb-diagram-node">초경량 핑퐁</div><div class="kb-diagram-note">(🌟 1,000바이트 HTTP 헤더 쓰레기가 싹 다 사라짐!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">📱 ➔ "안녕" (2 Byte) ➔ 🖥️</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🖥️ ➔ "반가워" (3 Byte) ➔ 📱</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">📱 ➔ "뭐해" (2 Byte) ➔ 🖥️</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 아키텍트 판단: 웹소켓은 HTTP의 탈을 쓰고 성문을 통과한 뒤, 성안에서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TCP 소켓 본색을 드러내어 영구 터널을 뚫어버리는 트로이의 목마다. BOSH가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수천 번 끊었다 붙이며 흘린 피(Overhead)를 완벽하게 지워낸 구원자다.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │         실무 아키텍처: BOSH(Long Polling)를 박살 낸 웹소켓의 왕좌 교체기    │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │ [ 🦕 과거 (BOSH / Long Polling 꼼수 시대) ]                   │
+  │                                                             │
+  │ 📱브라우저: "안녕, 나 철수야! (HTTP Cookie 1KB 덧붙임)" ➔ 🖥️ 서버│
+  │ 🖥️서버: (30초 대기) "오! 새로운 메시지 왔어! (HTTP 헤더 1KB)" ➔ 📱브라우저│
+  │                                                             │
+  │ 💥 문제점 (Overhead 폭발): '안녕' 이라는 2바이트 메시지를 주고받으려고, │
+  │    매번 서로 '내가 철수고 비밀번호는 이거고~'라는 1,000바이트짜리 쿠키와 │
+  │    HTTP 헤더 쓰레기(가방)를 무식하게 던져대야 함. 모바일 배터리 광속 소진.│
+  │                                                             │
+  │        ======= [ 패러다임 시프트: WebSocket 혁명 ] ========   │
+  │                                                             │
+  │ [ 🚀 현재 (WebSocket 파이프라인 영구 개방) ]                   │
+  │                                                             │
+  │ 1. [악수 Handshake]                                          │
+  │ 📱브라우저: "야, 우리 이제 HTTP 껍데기 벗고 소켓 파이프 뚫자!" (Upgrade)│
+  │ 🖥️서버: "콜! 파이프 개방!" (HTTP 101 Switching Protocols)      │
+  │                                                             │
+  │ 2. [초경량 핑퐁] (🌟 1,000바이트 HTTP 헤더 쓰레기가 싹 다 사라짐!) │
+  │ 📱 ➔ "안녕" (2 Byte) ➔ 🖥️                                    │
+  │ 🖥️ ➔ "반가워" (3 Byte) ➔ 📱                                   │
+  │ 📱 ➔ "뭐해" (2 Byte) ➔ 🖥️                                    │
+  │                                                             │
+  │ 🌟 아키텍트 판단: 웹소켓은 HTTP의 탈을 쓰고 성문을 통과한 뒤, 성안에서 │
+  │    TCP 소켓 본색을 드러내어 영구 터널을 뚫어버리는 트로이의 목마다. BOSH가│
+  │    수천 번 끊었다 붙이며 흘린 피(Overhead)를 완벽하게 지워낸 구원자다.   │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 단순히 롱 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)(BOSH)과 [웹소켓](/knowledge-base/studynote/03_network/19_frequent_topics_terms/975_websocket_full_duplex_realtime_http_upgrade/)의 차이를 "연결이 끊기냐 마냐"로 알면 주니어다. 시니어 아키텍트는 <strong>'페이로드(Payload) 대비 오버헤드 비율'</strong>을 본다. 롱 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)은 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 규약을 무조건 지켜야 하므로 매 요청마다 `User-Agent`, `Cookie`, `Accept` 같은 수십 줄의 텍스트 헤더가 멱살 잡혀 따라다닌다([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 낭비). 주식 HTS 창처럼 1초에 100번씩 호가(가격) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 휙휙 바뀌어야 하는 스트리밍 환경에서, 이 무거운 헤더를 100번 달고 날아다니는 통신(BOSH)은 서버 네트워크 대역폭을 갈기갈기 찢어버린다. 오직 순수한 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)([Byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)) 조각만 전송하는 [웹소켓](/knowledge-base/studynote/03_network/19_frequent_topics_terms/975_websocket_full_duplex_realtime_http_upgrade/) [프레이밍](/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/)([Framing](/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/))만이 100만 명 동시 접속 라이브 방송을 무결점으로 버텨낼 수 있다.
 
@@ -201,19 +206,15 @@ BOSH가 아무리 숏 [폴링](/knowledge-base/studynote/02_operating_system/08_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 웹훅</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: BOSH</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: XMPP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 애플리케이션 전달</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 웹훅]
+    │
+    ▼
+[현재 개념: BOSH]
+    │
+    ├──▶ [확장 A: XMPP]
+    └──▶ [확장 B: 지능형 애플리케이션 전달]
+```
 
 BOSH는 [웹훅](/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/)에서 출발해 현재 메커니즘을 정교화하고, 이후 XMPP와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

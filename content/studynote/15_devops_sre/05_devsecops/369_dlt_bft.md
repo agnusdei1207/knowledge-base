@@ -29,21 +29,22 @@ Ethereum의 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergenc
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블록체인 블록 구조 및 BFT 합의</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">블록 N-1</div><div class="kb-diagram-node">블록 N</div><div class="kb-diagram-node">블록 N+1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">헤더</div><div class="kb-diagram-cell">헤더</div><div class="kb-diagram-cell">헤더</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PrevHash</div><div class="kb-diagram-cell">◀</div><div class="kb-diagram-cell">PrevHash</div><div class="kb-diagram-cell">◀</div><div class="kb-diagram-cell">PrevHash</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Merkle</div><div class="kb-diagram-cell">Merkle</div><div class="kb-diagram-cell">Merkle</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">트랜잭션</div><div class="kb-diagram-cell">트랜잭션</div><div class="kb-diagram-cell">트랜잭션</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PBFT: Pre-prepare → Prepare → Commit → Reply (3f+1 노드 필요)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│              블록체인 블록 구조 및 BFT 합의                      │
+├──────────────────────────────────────────────────────────────────┤
+│  [블록 N-1]          [블록 N]            [블록 N+1]             │
+│  ┌──────────┐        ┌──────────┐        ┌──────────┐           │
+│  │ 헤더      │        │ 헤더      │        │ 헤더      │          │
+│  │ PrevHash │◀───────│ PrevHash │◀───────│ PrevHash │           │
+│  │ Merkle   │        │ Merkle   │        │ Merkle   │           │
+│  ├──────────┤        ├──────────┤        ├──────────┤           │
+│  │ 트랜잭션  │        │ 트랜잭션  │        │ 트랜잭션  │          │
+│  └──────────┘        └──────────┘        └──────────┘           │
+│                                                                  │
+│  PBFT: Pre-prepare → Prepare → Commit → Reply (3f+1 노드 필요)  │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 | [합의 알고리즘](/knowledge-base/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/)   | 내결함성          | TPS       | 주요 사용처          |
 | :-------------- | :---------------- | :-------- | :------------------- |
@@ -111,25 +112,24 @@ Ethereum의 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergenc
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Bitcoin PoW (에너지 집약 탈중앙 합의)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Ethereum 스마트 컨트랙트 + EVM (DApp 플랫폼)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">허가형 블록체인 (Hyperledger Fabric + PBFT)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DeFi (탈중앙화 금융) / NFT / DAO</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Layer 2 스케일링 (ZK-Rollup, Optimistic Rollup)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">멀티체인 + 크로스체인 + AI 추론 검증</div>
-</div>
-</div>
-
-
+```text
+Bitcoin PoW (에너지 집약 탈중앙 합의)
+    │
+    ▼
+Ethereum 스마트 컨트랙트 + EVM (DApp 플랫폼)
+    │
+    ▼
+허가형 블록체인 (Hyperledger Fabric + PBFT)
+    │
+    ▼
+DeFi (탈중앙화 금융) / NFT / DAO
+    │
+    ▼
+Layer 2 스케일링 (ZK-Rollup, Optimistic Rollup)
+    │
+    ▼
+멀티체인 + 크로스체인 + AI 추론 검증
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

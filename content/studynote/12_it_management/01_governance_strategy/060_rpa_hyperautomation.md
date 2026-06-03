@@ -29,23 +29,17 @@ RPA는 이런 반복 작업을 GUI(Graphic User Interface) 수준에서 자동�
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">업무 발견</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">프로세스 표준화</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">RPA Bot 실행</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">예외 처리</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">오케스트레이션 / CoE</div></div>
-</div>
-</div>
-
-
+```text
+[ 업무 발견 ]
+      ↓
+[ 프로세스 표준화 ]
+      ↓
+[ RPA Bot 실행 ]
+      ↓
+[ 예외 처리 ]
+      ↓
+[ 오케스트레이션 / CoE ]
+```
 
 | 구성 요소 | 역할 |
 | :-- | :-- |
@@ -112,45 +106,33 @@ RPA는 당장 체감되는 시간 절감 효과를 주고, [초자동화](/knowl
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">반복 업무</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">RPA</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Process Mining / AI / BPM</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Hyperautomation</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Digital Workforce</div>
-</div>
-</div>
-
-
+```text
+반복 업무
+   ↓
+RPA
+   ↓
+Process Mining / AI / BPM
+   ↓
+Hyperautomation
+   ↓
+Digital Workforce
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">매크로 / 스크립트</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">RPA</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Process Mining</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Hyperautomation</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Agentic Workflow</div>
-</div>
-</div>
-
-
+```text
+매크로 / 스크립트
+   ↓
+RPA
+   ↓
+Process Mining
+   ↓
+Hyperautomation
+   ↓
+Agentic Workflow
+```
 
 ---
 

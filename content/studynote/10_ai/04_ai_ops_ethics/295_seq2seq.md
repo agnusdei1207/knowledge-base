@@ -23,17 +23,14 @@ tags = ["studynote-ai"]
 
 [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)([Encoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/))는 입력 시퀀스 전체를 읽고 요약된 <strong>문맥 벡터(<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/120_context_vector/">Context Vector</a>)</strong>를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한다. [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)([Decoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/))는 이 벡터 하나만 받아 타겟 언어의 시작 토큰(`<SOS>`)부터 끝 토큰(`<EOS>`)이 나올 때까지 한 단어씩 순차 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: Seq2Seq는 동시통역사와 비슷하다. 통역사([인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/))가 연설 전체를 듣고 "핵심이 A, B, C야"라는 메모(문맥 벡터) 하나에 요약한다. 그 메모를 받은 통역관([디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/))이 타겟 언어로 문장을 재구성한다. 연설이 2시간짜리라면 메모 한 장에 다 담기 힘든 게 Seq2Seq의 고질적 병목이다.
 
@@ -41,28 +38,33 @@ tags = ["studynote-ai"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Seq2Seq (Encoder-Decoder) 전체 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">인코더 (Encoder) - LSTM/GRU 기반</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">LSTM</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">LSTM</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">LSTM</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">LSTM</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최종 은닉 상태 h_T</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(= 문맥 벡터 c)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Context Vector</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">c = h_T</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(고정 크기 벡터)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">디코더 (Decoder) - LSTM/GRU 기반</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">LSTM</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">LSTM</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">LSTM</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">&lt;EOS&gt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 모든 시점에 c 주입</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⚠ 병목 (Bottleneck): 긴 입력 전체를 c(고정 벡터) 하나에 압축</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 문장이 길수록 초반 정보가 c에서 소실됨!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 해결책: 어텐션 메커니즘 (Attention Mechanism) 도입</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│          Seq2Seq (Encoder-Decoder) 전체 아키텍처                   │
+├──────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  [인코더 (Encoder) - LSTM/GRU 기반]                               │
+│  "I"──▶[LSTM]──▶"love"──▶[LSTM]──▶"machine"──▶[LSTM]──▶"learning"──▶[LSTM]│
+│                                                      │          │
+│                                              최종 은닉 상태 h_T     │
+│                                              (= 문맥 벡터 c)       │
+│                                                      │          │
+│                                            ┌─────────▼────────┐ │
+│                                            │  Context Vector  │ │
+│                                            │  c = h_T         │ │
+│                                            │  (고정 크기 벡터)   │ │
+│                                            └─────────┬────────┘ │
+│                                                      │          │
+│  [디코더 (Decoder) - LSTM/GRU 기반]                   │          │
+│  <SOS>──▶[LSTM]──"나는"──▶[LSTM]──"좋아한다"──▶[LSTM]──▶<EOS>    │
+│     ▲        ▲       ▲       ▲         ▲                        │
+│     └────────┘       └───────┘         └── 모든 시점에 c 주입     │
+│                                                                  │
+│  ⚠ 병목 (Bottleneck): 긴 입력 전체를 c(고정 벡터) 하나에 압축        │
+│    → 문장이 길수록 초반 정보가 c에서 소실됨!                         │
+│    → 해결책: 어텐션 메커니즘 (Attention Mechanism) 도입             │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 | 구성 | 역할 | 특징 |
 |:---|:---|:---|

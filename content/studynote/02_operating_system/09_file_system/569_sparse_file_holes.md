@@ -30,27 +30,30 @@ tags = ["studynote-operating-system"]
 - <strong>Sparse <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">File</a> Hole vs 탐색기 크기 사기 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> 폭쇄 뷰</strong>:
 영화 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 엄청나게 건너뛰면서(lseek 스킵) 저장할 때 철판과 OS 속임수가 어떻게 돌아가는지 그 렌더 체계를 까보면 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"유저가 허공을 점프한 공간은, 커널이 철판 대신 환각을 채운다!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🚨</div><div class="kb-diagram-node">사용자 앱 작동 패턴 (C언어 파일 건너뛰기 빔! 스왑)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) <code>write("A")</code> (1바이트 씀)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) <code>lseek(1GB)</code> (1GB 바늘을 뒤로 미친듯 점프!! 공간 패스 쾅!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) <code>write("B")</code> (1GB 위치에 도달해서 1바이트 씀)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🔥</div><div class="kb-diagram-node">i-node 구조체 장부 (OS 커널의 환각 마스킹 록백 ❗)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=&gt; Pointer 1:</div><div class="kb-diagram-node">물리 블록 1번지 맵핑</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">"A" (진짜 철판 소비)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=&gt; Pointer 2:</div><div class="kb-diagram-node">Hole 1GB 구역 태그!</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">물리 디스크 할당 0(Zero)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"이 구역을 읽어달라 하면 그냥 Null(0x00)을 뱉어라 반환!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=&gt; Pointer 3:</div><div class="kb-diagram-node">물리 블록 9999번 매핑</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">"B" (마지막 철판 소비)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">✅</div><div class="kb-diagram-node">OS 탐색기 vs 리눅스 <code>du</code> 명령어의 대립각 폭주 뷰</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; $ ls -l (논리 크기 속임수): 파일 사이즈 "1GB + 2바이트" !! 거대함 랙!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; $ du -sh (실제 차지 크기): 고작 "8 KB" !! (블록 2개 철판 비용만 산정!)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌────────────────────────────────────────────────────────────────────────────────┐
+  │                 "유저가 허공을 점프한 공간은, 커널이 철판 대신 환각을 채운다!" │
+  ├────────────────────────────────────────────────────────────────────────────────┤
+  │                                                                                │
+  │  🚨 [ 사용자 앱 작동 패턴 (C언어 파일 건너뛰기 빔! 스왑) ]                     │
+  │     1) `write("A")` (1바이트 씀)                                               │
+  │     2) `lseek(1GB)` (1GB 바늘을 뒤로 미친듯 점프!! 공간 패스 쾅!)              │
+  │     3) `write("B")` (1GB 위치에 도달해서 1바이트 씀)                           │
+  │                                                                                │
+  │  =========================▼===================================                 │
+  │                                                                                │
+  │  🔥 [ i-node 구조체 장부 (OS 커널의 환각 마스킹 록백 ❗) ]                     │
+  │                                                                                │
+  │     => Pointer 1: [ 물리 블록 1번지 맵핑 ] -> "A" (진짜 철판 소비)             │
+  │     => Pointer 2: [ Hole 1GB 구역 태그! ] -> 물리 디스크 할당 0(Zero)          │
+  │                   "이 구역을 읽어달라 하면 그냥 Null(0x00)을 뱉어라 반환!"     │
+  │     => Pointer 3: [ 물리 블록 9999번 매핑 ] -> "B" (마지막 철판 소비)          │
+  │                                                                                │
+  │  ✅ [ OS 탐색기 vs 리눅스 `du` 명령어의 대립각 폭주 뷰 ]                       │
+  │     => $ ls -l (논리 크기 속임수): 파일 사이즈 "1GB + 2바이트" !! 거대함 랙!   │
+  │     => $ du -sh (실제 차지 크기): 고작 "8 KB" !! (블록 2개 철판 비용만 산정!)  │
+  └────────────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** [VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) 와 i-node 의 위대함이 폭발하는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 할당 유예([Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Allocation) 철학이다. 1GB 를 점프 뛰며 안 쓴 구멍(Hole) 부분은 하드웨어 블록을 단 하나도 할당받지 않았다. 만약 나중에 유무 권한을 무시하고 어떤 사용자가 그 "Hole 인 줄 알았던 50MB 부분" 에 진짜 글씨를 새로 타이핑해 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Write Over) 시작하면? 그제야 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 봇이 "앗 채워지네!" 하며 진짜 잔여 디스크 물리 블록을 매핑(Allocate) 해서 붙여주는 늦장 부리기 파단 회피 메커니즘을 도출 달성.
 
@@ -130,19 +133,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">강제적 잠금 (Mandatory Lock) vs 권고적 잠금 (Advisory Lock)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스파스 파일 (Sparse File) 저장 공간 절약 기술</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">리눅스 inotify 시스템</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">보호 (Protection) vs 보안 (Security)의 개념 차이</div></div>
-</div>
-</div>
-
-
+```text
+[강제적 잠금 (Mandatory Lock) vs 권고적 잠금 (Advisory Lock)]
+    │
+    ▼
+[스파스 파일 (Sparse File) 저장 공간 절약 기술]
+    │
+    ├──▶ [리눅스 inotify 시스템]
+    └──▶ [보호 (Protection) vs 보안 (Security)의 개념 차이]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

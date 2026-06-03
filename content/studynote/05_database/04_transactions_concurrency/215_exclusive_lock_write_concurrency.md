@@ -21,16 +21,13 @@ tags = ["studynote-database"]
 
 배타 락 (Exclusive [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) / Write [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/), X-[Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))은 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 모두 불가 독점에 초점을 맞춘 개념이다. 병행 제어는 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 유지하면서도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 충돌을 막기 위한 규칙 집합이다. 통제가 약하면 이상 현상이, 통제가 과하면 대기 시간이 증가한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sessions -&gt; Control rule -&gt; Current concept -&gt; Safe overlap</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Read/Write race -&gt; rule -&gt; anomaly prevention</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ Sessions -> Control rule -> Current concept -> Safe overlap  │
+├──────────────────────────────────────────────────────────────┤
+│ Read/Write race -> rule -> anomaly prevention                │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 그림은 배타 락을 독립 기능이 아니라 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름에서 특정 통제 지점을 맡는 구조로 이해해야 한다는 점을 압축해 보여 준다.
 
@@ -49,16 +46,13 @@ tags = ["studynote-database"]
 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 영향 | 배타 락은 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/), 지연시간, 운영 복잡도 중 적어도 하나에 직접 영향을 준다. | 이득과 비용을 같이 보지 않으면 과설계가 된다. |
 | 운영 주의 | `공유 락`·`2단계 락킹 프로토콜`과 경계를 혼동하면 적용 위치가 어긋난다. | 장애 시 관찰할 지표와 우회 전략을 미리 준비해야 한다. |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Read/Write set -&gt; current concept -&gt; serialization</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Acquire/validate -&gt; conflict check -&gt; correctness</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ Read/Write set -> current concept -> serialization           │
+├──────────────────────────────────────────────────────────────┤
+│ Acquire/validate -> conflict check -> correctness            │
+└──────────────────────────────────────────────────────────────┘
+```
 
 핵심은 배타 락을 단순 옵션이 아니라 입력 조건, 처리 순서, 결과 보장을 함께 묶는 설계 규칙으로 보는 것이다. 그래서 구현 전에 평가 시점·충돌 지점·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성을 먼저 정리해야 한다.
 
@@ -119,19 +113,15 @@ tags = ["studynote-database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">공유 락</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">배타 락</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">2단계 락킹 프로토콜</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 단계</div></div>
-</div>
-</div>
-
-
+```text
+[공유 락]
+    │
+    ▼
+[배타 락]
+    │
+    ├──▶ [2단계 락킹 프로토콜]
+    └──▶ [확장 단계]
+```
 
 [공유 락](/knowledge-base/studynote/05_database/04_transactions_concurrency/214_shared_lock_read_concurrency/)에서 출발한 논점이 배타 락에서 핵심 판단으로 모이고, 이후 [2단계 락킹 프로토콜](/knowledge-base/studynote/05_database/04_transactions_concurrency/216_two_phase_locking_protocol_2pl/)·[확장 단계](/knowledge-base/studynote/05_database/04_transactions_concurrency/217_growing_phase_2pl/) 같은 확장 주제로 이어지는 흐름을 보여 준다.
 

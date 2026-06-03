@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **CUBIC, Reno의 룰**: "데이터를 쏘다가 응답(ACK)이 안 와서 패킷 유실(Loss)이 뜨면, 네트워크 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))가 꽉 차서 터진 게 분명해! 윈도우 사이즈(보내는 양)를 절반으로 깎아라(브레이크)!"
 - **모바일/무선 시대의 억울함**: LTE나 와이파이에선 길이 막힌 게(Congestion) 아니라, 그냥 터널 들어가다가 전파 간섭으로 패킷 1개가 날아간([Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) Error) 경우가 허다합니다. 그런데도 CUBIC은 겁먹고 속도를 50%로 팍 죽여버려서 버퍼링이 미친 듯이 걸렸습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">WireGuard 라우팅 고속망 체계</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">BBR 구글 TCP 동적 모델 지연 기반 혼…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ECN 징후 큐 통지</div></div>
-</div>
-</div>
-
-
+```text
+[WireGuard 라우팅 고속망 체계]
+    │
+    ▼
+[BBR 구글 TCP 동적 모델 지연 기반 혼…]
+    │
+    └──▶ [ECN 징후 큐 통지]
+```
 
 - **📢 섹션 요약 비유**: [BBR](/knowledge-base/studynote/03_network/08_transport_layer/439_bbr_bottleneck_bandwidth_and_rtt_google_congestion_control/) 구글 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 동적 모델 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 기반 혼…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -43,18 +39,14 @@ tags = ["studynote-network"]
 
 - **개념**: 패킷이 유실됐다고 쫄지 않고, 현재 통신 중인 네트워크 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)의 <strong>'가장 좁은 병목 구간의 최대 폭(BtlBw)'과 '최소 왕복 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">지연 시간</a>(RTprop)'을 동적으로 0.1초마다 직접 수학적으로 측정하여, <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>에 물이 꽉 차기 직전의 황금 비율까지만 데이터를 우겨 넣는(Pacing) 선제적 딜레이 기반(Delay-based) 혼잡 제어 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">WireGuard 라우팅 고속망 체계</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">BBR 구글 TCP 동적 모델 지연 기반 혼…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ECN 징후 큐 통지</div></div>
-</div>
-</div>
-
-
+```text
+[WireGuard 라우팅 고속망 체계]
+    │
+    ▼
+[BBR 구글 TCP 동적 모델 지연 기반 혼…]
+    │
+    └──▶ [ECN 징후 큐 통지]
+```
 
 - **📢 섹션 요약 비유**: [BBR](/knowledge-base/studynote/03_network/08_transport_layer/439_bbr_bottleneck_bandwidth_and_rtt_google_congestion_control/) 구글 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 동적 모델 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 기반 혼…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -123,19 +115,15 @@ CUBIC을 압살한 최고의 업적입니다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: WireGuard 라우팅 고속망 체계</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: BBR 구글 TCP 동적 모델 지연 기반 혼…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: ECN 징후 큐 통지</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: WireGuard 라우팅 고속망 체계]
+    │
+    ▼
+[현재 개념: BBR 구글 TCP 동적 모델 지연 기반 혼…]
+    │
+    ├──▶ [확장 A: ECN 징후 큐 통지]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 [BBR](/knowledge-base/studynote/03_network/08_transport_layer/439_bbr_bottleneck_bandwidth_and_rtt_google_congestion_control/) 구글 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 동적 모델 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 기반 혼…는 [WireGuard](/knowledge-base/studynote/03_network/07_network_layer_routing/387_wireguard_vpn_modern_tunneling/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 고속망 체계에서 출발해 현재 메커니즘을 정교화하고, 이후 ECN 징후 큐 통지와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

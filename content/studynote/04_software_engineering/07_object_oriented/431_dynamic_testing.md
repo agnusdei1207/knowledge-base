@@ -21,22 +21,22 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: 동적 테스팅은 소프트웨어를 실제로 실행하여 테스트하는 기법이다. 프로그램에 입력값을 제공하고, 기대출력과 실제출력을 비교하여 결함을 발견한다. 정적 테스팅이 코드를 분석하지 않고 보는 것과 대비된다.
 
-- **필요성**: 정적 테스팅은 코드의 구조적 문제를 발견할 수 있지만, 실제로 프로그램을 실행해야만 알 수 있는 정보(메모리 사용량, [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/), [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 문제 등)는 파악할 수 없다. 동적 테스팅을 통해 실제 환경에서 시스템이 올바르게 동작하는지를해야 한다.
+- **필요성**: 정적 테스팅은 코드의 구조적 문제를 발견할 수 있지만, 실제로 프로그램을 실행해야만 알 수 있는 정보(메모리 사용량, [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/), [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 문제 등)는 파악할 수 없다. 동적 테스팅을 통해 실제 환경에서 시스템이 올바르게 동작하는지를검정해야 한다.
 
 - **동적 테스팅 유형**:
-- <strong><a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/">단위 테스트</a>(Unit Testing)</strong>: 개별 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)/함수 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)
-- <strong><a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/">통합 테스트</a>(<a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/">Integration Testing</a>)</strong>: [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 간 인터페이스테스트
-- <strong><a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/405_system_test/">시스템 테스트</a>(System Testing)</strong>: 전체 [시스템 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/405_system_test/)
-- <strong><a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/406_acceptance_test_uat/">인수 테스트</a>(Acceptance Testing)</strong>: 사용자 관점의 테스트
+  - <strong><a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/">단위 테스트</a>(Unit Testing)</strong>: 개별 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)/함수 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)
+  - <strong><a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/">통합 테스트</a>(<a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/">Integration Testing</a>)</strong>: [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 간 접구측시
+  - <strong><a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/405_system_test/">시스템 테스트</a>(System Testing)</strong>: 전체 [시스템 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/405_system_test/)
+  - <strong><a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/406_acceptance_test_uat/">인수 테스트</a>(Acceptance Testing)</strong>: 사용자 관점의 테스트
 
-- **비유**: 동적 테스팅은 <strong>'자동차 주행 테스트'</strong>와/과 같다。자동차의 설계 도면(정적 테스트)을 면밀히 검사하지만, 실제 도로에서 주행 테스트(동적 테스트)를 해봐야 엔진성능, 승차감, 연비 등을 객관적으로 파악할 수 있다. 도면상으로 문제가 없어 보여도 주행 테스트에서 문제이 발견되는 경우가 있다.
+- **비유**: 동적 테스팅은 <strong>'자동차 주행 테스트'</strong>와/과 같다. 자동차의 설계 도면(정적 테스트)을 면밀히 검사하지만, 실제 도로에서 주행 측시(동적 테스트)를 해봐야 엔진성능, 승차감, 연비 등을 객관적으로 파악할 수 있다. 도면상으로 문제가 없어 보여도 주행 테스트에서 문제이 발견되는 경우가 있다.
 
 - **등장 배경 및 발전 과정**:
-1. **1970년대**: 소프트웨어 테스트 이론에서 동적 테스팅 개념 확립
-2. **1990년대**: JUnit(Java), NUnit(.NET) 등 [단위 테스트 프레임워크](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/398_unit_test_framework_xunit/) 등장
-3. **현재**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD와 결합한 [지속적 테스팅](/knowledge-base/studynote/04_software_engineering/11_testing_validation/465_continuous_testing/), 자동화된 [동적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/332_dynamic_analysis/) 도구
+  1. **1970년대**: 소프트웨어 테스트 이론에서 동적 테스팅 개념 확립
+  2. **1990년대**: JUnit(Java), NUnit(.NET) 등 [단위 테스트 프레임워크](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/398_unit_test_framework_xunit/) 등장
+  3. **현재**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD와 결합한 [지속적 테스팅](/knowledge-base/studynote/04_software_engineering/11_testing_validation/465_continuous_testing/), 자동화된 [동적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/332_dynamic_analysis/) 도구
 
-- **섹션 요약 비유**: 동적 테스팅은 <strong>'완구 작동 테스트'</strong>와/과 같다。완구의 도(코드)를보고 구조를 확인하지만(정적), 실제로 건전지를 넣고 작동시켜봐야(동적)가 돌아가는지, 불빛이 나는지 등을 알 수 있다. 작동시켜보기 전에는"마가 연결되어 있는지"의문제을 알 수 없다.
+- **섹션 요약 비유**: 동적 테스팅은 <strong>'완구 작동 측시'</strong>와/과 같다. 완구의 설계도(코드)를보고 구조를 확인하지만(정적), 실제로 건전지를 넣고 작동시켜봐야(동적)마체가 돌아가는지, 불빛이 나는지 등을 알 수 있다. 작동시켜보기 전에는"마마체가 연결되어 있는지"등의문제을 알 수 없다.
 
 ---
 
@@ -44,17 +44,18 @@ tags = ["studynote-software-engineering"]
 
 다음은 동적 테스팅 (Dynamic Test의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동적 테스팅 (Dynamic Test</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                  동적 테스팅 (Dynamic Test                        │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
+│       │                    │                    │          │
+│       ▼                    ▼                    ▼          │
+│   요구 분석           설계·적용           품질 검증        │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램은 동적 테스팅 (Dynamic Test가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -144,30 +145,28 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 동적 테스팅 (Dynamic Testing)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 동적 테스팅 (Dynamic Testing)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
 | [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 동적 테스팅 (Dynamic Testing)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | 동적 테스팅 (Dynamic Testing) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
 | [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 동적 테스팅 (Dynamic Testing)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">동적 테스팅 (Dynamic Testing) 개념 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 위기 (Software Crisis) 인식
+    │
+    ▼
+동적 테스팅 (Dynamic Testing) 개념 정립
+    │
+    ▼
+표준화 및 방법론 체계화 (ISO, CMMI, Agile)
+    │
+    ▼
+클라우드 네이티브·AI 기반 확장 적용
+    │
+    ▼
+지속적 개선 및 DevOps·MLOps 통합
+```
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

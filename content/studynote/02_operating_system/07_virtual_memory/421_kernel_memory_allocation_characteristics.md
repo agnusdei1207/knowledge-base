@@ -27,24 +27,23 @@ tags = ["studynote-operating-system"]
   2. <strong>가상 주소의 투명화 (<a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/267_direct_mapping/">Direct Mapping</a>)</strong>: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 자기 자신이 사용할 램 공간(상위 1GB)을 물리 램 주소와 1:1로 똑같이 매핑해 버림으로써, 주소 번역 오버헤드를 없애버렸다.
   3. **전용 할당기 도입**: 유저의 가변 분할과는 완전히 결이 다른, 철저한 [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/) 감수형 할당기(버디/[슬랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/))를 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 전용으로 탑재함.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유저 메모리 할당 vs 커널 메모리 할당의 물리적 레이아웃 비교</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1. 유저 프로그램의 배열 할당 (malloc 12KB)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">가상 주소:</div><div class="kb-diagram-node">0~4K</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">4~8K</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">8~12K</div><div class="kb-diagram-note">(연속된 것처럼 보임)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">물리 RAM:</div><div class="kb-diagram-node">4K</div><div class="kb-diagram-note">...(남의 데이터)...</div><div class="kb-diagram-node">4K</div><div class="kb-diagram-note">...</div><div class="kb-diagram-node">4K</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 특징: 물리 램이 갈기갈기 찢어져 있어도 MMU가 이어줌.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2. 커널 드라이버의 버퍼 할당 (kmalloc 12KB)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">가상 주소:</div><div class="kb-diagram-node">0~4K</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">4~8K</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">8~12K</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">물리 RAM:</div><div class="kb-diagram-node">4K</div><div class="kb-diagram-node">4K</div><div class="kb-diagram-node">4K</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">(물리적으로도 완벽하게 이어짐!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 특징: 가상 주소와 물리 주소의 간격이 사실상 없으며, 하드웨어가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">직접 12KB를 한 번에 쏴도 안전하게 저장됨.</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│        유저 메모리 할당 vs 커널 메모리 할당의 물리적 레이아웃 비교 │
+├────────────────────────────────────────────────────────────────────┤
+│                                                                    │
+│ ▶ 1. 유저 프로그램의 배열 할당 (malloc 12KB)                       │
+│  가상 주소: [0~4K] ─ [4~8K] ─ [8~12K] (연속된 것처럼 보임)         │
+│  물리 RAM: [4K] ...(남의 데이터)... [4K] ... [4K]                  │
+│  ✅ 특징: 물리 램이 갈기갈기 찢어져 있어도 MMU가 이어줌.           │
+│                                                                    │
+│ ▶ 2. 커널 드라이버의 버퍼 할당 (kmalloc 12KB)                      │
+│  가상 주소: [0~4K] ─ [4~8K] ─ [8~12K]                              │
+│  물리 RAM: [4K][4K][4K] ◀ (물리적으로도 완벽하게 이어짐!)          │
+│  ✅ 특징: 가상 주소와 물리 주소의 간격이 사실상 없으며, 하드웨어가 │
+│          직접 12KB를 한 번에 쏴도 안전하게 저장됨.                 │
+└────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리는 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 시스템의 혜택(파편화 회피)을 스스로 걷어찼다. 물리적 연속성을 고집하다 보니, 16GB 램 중에 5GB가 텅텅 비어 있어도 그것들이 4KB 단위로 흩어져 있다면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 1MB짜리 버퍼 하나조차 할당받지 못해 "[Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Allocation Failed" 에러를 내며 터져버릴 수 있다. 이 무서운 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) 딜레마를 막기 위해 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 극도의 최적화 도구를 쓴다.
 
 - **📢 섹션 요약 비유**: 택배를 보낼 때 솜(유저 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))은 여러 개의 작은 박스에 나눠 담아도 도착해서 뭉치면 되지만, 통유리창([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))은 여러 박스로 쪼개 담으면 다 깨져버립니다. 유리는 무조건 한 개의 거대한 특수 박스(물리적 연속 프레임)에 통째로 담아야 하는 제약이 있습니다.
@@ -101,18 +100,15 @@ tags = ["studynote-operating-system"]
 - 근데 퍼오는 코드 자체가 디스크에 쫓겨나 있다! (데드락). 디스크를 읽는 코드가 디스크에 있어서 디스크를 못 읽는다.
 - 그래서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 심장부 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 `kmalloc`으로 받은 영역은 **영구 결번(Wired/Pinned)** 처리되어 어떤 극한 상황에서도 절대 램에서 방을 빼지 않는다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">할당 방식</div><div class="kb-diagram-cell">램 점유 보장</div><div class="kb-diagram-cell">물리적 형태</div><div class="kb-diagram-cell">사용 주체</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">malloc</div><div class="kb-diagram-cell">쫓겨날 수 있음</div><div class="kb-diagram-cell">조각조각 찢김</div><div class="kb-diagram-cell">유저 (카톡, 엑셀)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">vmalloc</div><div class="kb-diagram-cell">상주함</div><div class="kb-diagram-cell">조각조각 찢김</div><div class="kb-diagram-cell">커널 내부 대형 모듈</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">kmalloc</div><div class="kb-diagram-cell">상주함</div><div class="kb-diagram-cell">완벽한 한 덩어리</div><div class="kb-diagram-cell">커널 DMA, 핵심 장치</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬──────────────────────────┐
+│ 할당 방식  │ 램 점유 보장 │ 물리적 형태  │ 사용 주체          │
+├──────────┼────────────┼────────────┼──────────────────────────┤
+│ malloc   │ 쫓겨날 수 있음│ 조각조각 찢김 │ 유저 (카톡, 엑셀)  │
+│ vmalloc  │ 상주함      │ 조각조각 찢김 │ 커널 내부 대형 모듈  │
+│ kmalloc  │ 상주함      │ 완벽한 한 덩어리│ 커널 DMA, 핵심 장치│
+└──────────┴────────────┴────────────┴──────────────────────────┘
+```
 **[매트릭스 해설]** 리눅스는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코딩 시에도 `vmalloc`이라는 숨통을 하나 열어두었다. 만약 램이 너무 파편화되어 10MB 연속 램(kmalloc)을 못 구하면, 하드웨어가 직접 안 건드리는 순수 소프트웨어 버퍼에 한해선 유저처럼 찢어진 램을 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블로 꼬아서 이어주는 `vmalloc`을 허용한다. 단, TLB를 박살 내므로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 지옥으로 간다.
 
 - **📢 섹션 요약 비유**: 유저 메모리가 언제든 방을 빼야 하는 흙수저 세입자라면, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리는 절대 건물을 떠나지 않는 건물주입니다. 특히 `kmalloc`은 건물주 중에서도 문을 부수고 벽을 터서 무조건 넓은 통짜 거실을 만들어 써야만 직성이 풀리는 깐깐한 회장님입니다.
@@ -170,19 +166,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">메모리 맵 I/O (Memory-Mapped I/O)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">커널 메모리 할당의 특징 (Kernel Memory Allocation Characteristics)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">페이지 고정 (Page Pinning / Locking)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">대형 페이지 (Large Page / Transparent Hugepage)의 가상 메모리 성능 이점</div></div>
-</div>
-</div>
-
-
+```text
+[메모리 맵 I/O (Memory-Mapped I/O)]
+    │
+    ▼
+[커널 메모리 할당의 특징 (Kernel Memory Allocation Characteristics)]
+    │
+    ├──▶ [페이지 고정 (Page Pinning / Locking)]
+    └──▶ [대형 페이지 (Large Page / Transparent Hugepage)의 가상 메모리 성능 이점]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

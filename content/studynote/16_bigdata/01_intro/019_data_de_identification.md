@@ -27,21 +27,19 @@ tags = ["bigdata"]
 
 다음은 단순 삭제의 한계와 연결 공격의 위험성을 보여주는 도식이다.
 
+```text
+[연결 공격 (Linkage Attack)의 원리]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">연결 공격 (Linkage Attack)의 원리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">익명화된 의료 데이터 (병원 제공)</div><div class="kb-diagram-node">공개된 유권자 명부 (정부 제공)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">나이</div><div class="kb-diagram-cell">우편번호</div><div class="kb-diagram-cell">성별</div><div class="kb-diagram-cell">질병</div><div class="kb-diagram-cell">이름</div><div class="kb-diagram-cell">나이</div><div class="kb-diagram-cell">우편번호</div><div class="kb-diagram-cell">성별</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">35</div><div class="kb-diagram-cell">13524</div><div class="kb-diagram-cell">남</div><div class="kb-diagram-cell">암</div><div class="kb-diagram-cell">==</div><div class="kb-diagram-cell">홍길동</div><div class="kb-diagram-cell">35</div><div class="kb-diagram-cell">13524</div><div class="kb-diagram-cell">남</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">42</div><div class="kb-diagram-cell">04511</div><div class="kb-diagram-cell">여</div><div class="kb-diagram-cell">감기</div><div class="kb-diagram-cell">김철수</div><div class="kb-diagram-cell">29</div><div class="kb-diagram-cell">12345</div><div class="kb-diagram-cell">남</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">35</div><div class="kb-diagram-cell">13524</div><div class="kb-diagram-cell">여</div><div class="kb-diagram-cell">치통</div><div class="kb-diagram-cell">이영희</div><div class="kb-diagram-cell">42</div><div class="kb-diagram-cell">04511</div><div class="kb-diagram-cell">여</div></div>
-<div class="kb-diagram-note">▲ 준식별자(QI) 집합이 겹침!! =&gt; (홍길동 = 35세, 13524, 남 = 암 환자) 재식별 성공!</div>
-</div>
-</div>
-
-
+[익명화된 의료 데이터 (병원 제공)]      [공개된 유권자 명부 (정부 제공)]
+┌────────┬────────┬──────┬─────┐  ┌────────┬────────┬──────┬──────┐
+│  나이  │우편번호│ 성별 │ 질병│  │  이름  │  나이  │우편번호│ 성별 │
+├────────┼────────┼──────┼─────┤  ├────────┼────────┼──────┼──────┤
+│   35   │ 13524  │  남  │ 암  │==│ 홍길동 │   35   │ 13524  │  남  │
+│   42   │ 04511  │  여  │감기 │  │ 김철수 │   29   │ 12345  │  남  │
+│   35   │ 13524  │  여  │치통 │  │ 이영희 │   42   │ 04511  │  여  │
+└────────┴────────┴──────┴─────┘  └────────┴────────┴──────┴──────┘
+      ▲ 준식별자(QI) 집합이 겹침!! => (홍길동 = 35세, 13524, 남 = 암 환자) 재식별 성공!
+```
 
 이 도식의 핵심은, 이름이라는 '직접 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)'를 지웠더라도, [나이+우편번호+성별]이라는 '준식별자'의 조합이 세상에 단 한 명만을 가리킨다면 프라이버시는 철저히 파괴된다는 점이다. 이를 막기 위해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 의도적으로 흐릿하게 만드는 기술이 필요하다.
 
@@ -71,33 +69,30 @@ tags = ["bigdata"]
 
 아래 도식은 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 세 가지 모델을 거치며 어떻게 변환되는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">원본 데이터</div><div class="kb-diagram-note">(QI: 나이/지역, 민감: 질병)</div></div>
-<div class="kb-diagram-note">35세, 서울, 위암</div>
-<div class="kb-diagram-note">36세, 서울, 위암</div>
-<div class="kb-diagram-note">38세, 부산, 감기</div>
-<div class="kb-diagram-note">(범주화 연산: 30대, 수도권 등으로 묶음)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">k-익명성 적용 (k=2)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">2명씩 묶음, 특정 개인 식별 방지</div></div>
-<div class="kb-diagram-note">(30대, 수도권) -&gt; 위암</div>
-<div class="kb-diagram-note">(30대, 수도권) -&gt; 위암 &lt;-- (문제점: 그룹을 찾으면 100% 위암임을 알게 됨! 동질성 공격 노출)</div>
-<div class="kb-diagram-note">(민감 정보 섞기 연산)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">l-다양성 적용 (l=2)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">그룹 내 민감정보 최소 2개 이상</div></div>
-<div class="kb-diagram-note">(30대, 수도권) -&gt; 위암</div>
-<div class="kb-diagram-note">(30대, 수도권) -&gt; 폐렴 &lt;-- (문제점: 다양하긴 한데, 둘 다 중증 암/폐질환에 쏠려 있음!)</div>
-<div class="kb-diagram-note">(분포 평활화 연산)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">t-근접성 적용</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">그룹 분포가 전체 분포(경증 80%, 중증 20%)를 따르게 만듦</div></div>
-<div class="kb-diagram-note">(30대, 수도권) -&gt; 위암</div>
-<div class="kb-diagram-note">(30대, 수도권) -&gt; 감기 &lt;-- (안전! 특정 질병을 유추하기 매우 어려워짐)</div>
-</div>
-</div>
-
-
+```text
+[원본 데이터] (QI: 나이/지역, 민감: 질병)
+35세, 서울, 위암
+36세, 서울, 위암
+38세, 부산, 감기
+-------------------
+      │ (범주화 연산: 30대, 수도권 등으로 묶음)
+      ▼
+[k-익명성 적용 (k=2)] -> 2명씩 묶음, 특정 개인 식별 방지
+(30대, 수도권) -> 위암
+(30대, 수도권) -> 위암   <-- (문제점: 그룹을 찾으면 100% 위암임을 알게 됨! 동질성 공격 노출)
+-------------------
+      │ (민감 정보 섞기 연산)
+      ▼
+[l-다양성 적용 (l=2)] -> 그룹 내 민감정보 최소 2개 이상
+(30대, 수도권) -> 위암
+(30대, 수도권) -> 폐렴   <-- (문제점: 다양하긴 한데, 둘 다 중증 암/폐질환에 쏠려 있음!)
+-------------------
+      │ (분포 평활화 연산)
+      ▼
+[t-근접성 적용] -> 그룹 분포가 전체 분포(경증 80%, 중증 20%)를 따르게 만듦
+(30대, 수도권) -> 위암
+(30대, 수도권) -> 감기   <-- (안전! 특정 질병을 유추하기 매우 어려워짐)
+```
 
 이 메커니즘의 핵심은 단계를 거듭할수록(k → l → t) 프라이버시 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 수준은 극대화되지만, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 과도하게 섞고 평활화해야 하므로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 본래 특징(유용성, Utility)이 심각하게 파괴된다는 트레이드오프를 갖는다는 점이다.
 
@@ -142,28 +137,29 @@ tags = ["bigdata"]
   4. ARX나 ARX-like 비식별화 도구를 사용하여 결합된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋이 `k=3` 이상의 익명성을 충족하는지 자동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)([Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)).
   5. 조건 미달 시, [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)([Outlier](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/), 예: 100세 이상 노인) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 과감히 삭제(Suppression)하여 모델을 통과시킴.
 
+```text
+[실무 비식별화 파이프라인 의사결정 트리]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">실무 비식별화 파이프라인 의사결정 트리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">결합된 Raw Dataset</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">QI 식별 및 k-익명성 수치 계산</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ (k &lt; 목표치) ──&gt;</div><div class="kb-diagram-node">일반화/삭제 레벨 증가 (예: 동-&gt;구, 나이-&gt;10대)</div><div class="kb-diagram-note">─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(루프)</div></div>
-<div class="kb-diagram-note">▼ (k &gt;= 목표치 달성) &lt;</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">민감정보 쏠림 분석 (l-다양성 검증)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ (특정 질병/연체 쏠림 발생) ──&gt;</div><div class="kb-diagram-node">데이터 라우팅 재배치 또는 민감 데이터 억제</div></div>
-<div class="kb-diagram-note">▼ (통과)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">유용성(Utility Loss) 측정</div></div>
-<div class="kb-diagram-tree-item" style="--depth:3">(정보 손실률 &gt; 30%) ──&gt; "비즈니스 가치 없음. 파라미터 재조정 요망"</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">최종 가명정보 데이터셋 생성 및 반출</div></div>
-</div>
-</div>
-
-
+[결합된 Raw Dataset]
+       │
+       ▼
+[QI 식별 및 k-익명성 수치 계산]
+       │
+       ├─ (k < 목표치) ──> [일반화/삭제 레벨 증가 (예: 동->구, 나이->10대)] ─┐
+       │                                                          │ (루프)
+       ▼ (k >= 목표치 달성) <─────────────────────────────────────────┘
+[민감정보 쏠림 분석 (l-다양성 검증)]
+       │
+       ├─ (특정 질병/연체 쏠림 발생) ──> [데이터 라우팅 재배치 또는 민감 데이터 억제]
+       │
+       ▼ (통과)
+[유용성(Utility Loss) 측정]
+       │
+       ├─ (정보 손실률 > 30%) ──> "비즈니스 가치 없음. 파라미터 재조정 요망"
+       │
+       ▼
+[최종 가명정보 데이터셋 생성 및 반출]
+```
 
 #### 2. 실무 컴플라이언스 체크포인트
 - [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 '가족 정보'나 '희귀병' 등 극단적인 [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)([Outlier](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/))가 섞여 있으면, 전체 k값을 맞추기 위해 일반 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)까지 과도하게 삭제되어 유용성이 박살난다. 사전에 [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)를 제거(Suppression)하는 전처리가 필수다.
@@ -198,23 +194,21 @@ tags = ["bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">개인정보 보호법·GDPR — 개인정보 처리 규제 강화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">비식별화 (De-identification) — 가명처리·익명처리·총계처리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">차등 프라이버시 (Differential Privacy) — 수학적 프라이버시 보장 노이즈 주입</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">합성 데이터 (Synthetic Data) — GAN 기반 통계 패턴 보존 가상 데이터 생성</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">연합 학습 (Federated Learning) — 원본 데이터 이동 없이 분산 학습</div></div>
-</div>
-</div>
-
-
+```text
+[개인정보 보호법·GDPR — 개인정보 처리 규제 강화]
+    │
+    ▼
+[비식별화 (De-identification) — 가명처리·익명처리·총계처리]
+    │
+    ▼
+[차등 프라이버시 (Differential Privacy) — 수학적 프라이버시 보장 노이즈 주입]
+    │
+    ▼
+[합성 데이터 (Synthetic Data) — GAN 기반 통계 패턴 보존 가상 데이터 생성]
+    │
+    ▼
+[연합 학습 (Federated Learning) — 원본 데이터 이동 없이 분산 학습]
+```
 비식별화는 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 활용과 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)의 균형을 맞추는 출발점이며, [차등 프라이버시](/knowledge-base/studynote/16_bigdata/10_governance/209_differential_privacy/)·[합성 데이터](/knowledge-base/studynote/09_security/16_data_privacy/818_synthetic_data/)·[연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)으로 진화해 프라이버시 보존 AI의 기반이 된다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

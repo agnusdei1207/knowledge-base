@@ -20,24 +20,23 @@ tags = ["studynote-cloud-architecture"]
 
 기본 [컨테이너 런타임](/knowledge-base/studynote/02_operating_system/10_security/628_container_runtime_oci/)([runc](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/667_container_runtime_hw_isolation/))은 [Namespace](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)·cgroups로 프로세스를 격리하지만, <strong>호스트 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>을 직접 공유</strong>한다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 [제로데이](/knowledge-base/studynote/09_security/15_malware_attack_vectors/761_zero_day/) 취약점이 발생하면 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 안의 악성 코드가 호스트 전체를 장악할 수 있다([Container Escape](/knowledge-base/studynote/15_devops_sre/05_devsecops/252_container_escape_vm_gvisor_kata/)).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">런타임별 격리 수준 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">runc (기본)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Container ──syscall──▶ Host Kernel (직접 접근 ⚠️)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">gVisor (runsc)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Container ──syscall──▶ Sentry(유저커널) ──▶ Kernel</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시스콜 중간 차단, 200+개만 허용</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Kata Containers</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">경량 VM (QEMU/Firecracker)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ Guest Kernel ──▶ Host</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">완전한 커널 격리, VM 수준 보안</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│      런타임별 격리 수준 비교                            │
+├───────────────────────────────────────────────────────┤
+│  [runc (기본)]                                        │
+│   Container ──syscall──▶ Host Kernel (직접 접근 ⚠️)  │
+│                                                       │
+│  [gVisor (runsc)]                                     │
+│   Container ──syscall──▶ Sentry(유저커널) ──▶ Kernel  │
+│   시스콜 중간 차단, 200+개만 허용                     │
+│                                                       │
+│  [Kata Containers]                                    │
+│   Container ──▶ [경량 VM (QEMU/Firecracker)]         │
+│                      └──▶ Guest Kernel ──▶ Host      │
+│   완전한 커널 격리, VM 수준 보안                      │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: runc는 사무실 칸막이(넘어가기 쉬움), gVisor는 유리벽(보이지만 못 넘어감), Kata는 별도 건물(완전 분리)이다.
 
@@ -105,23 +104,21 @@ tags = ["studynote-cloud-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Docker + runc (2013~) — 커널 공유 컨테이너 표준화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Container Escape 공격 증가 (2017~) — CVE-2019-5736 등</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">gVisor (2018, Google) — 유저 스페이스 커널 격리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Kata + Firecracker (2018~) — 경량 VM 격리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: Confidential Containers — 하드웨어 TEE + 컨테이너</div></div>
-</div>
-</div>
-
-
+```text
+[Docker + runc (2013~) — 커널 공유 컨테이너 표준화]
+    │
+    ▼
+[Container Escape 공격 증가 (2017~) — CVE-2019-5736 등]
+    │
+    ▼
+[gVisor (2018, Google) — 유저 스페이스 커널 격리]
+    │
+    ▼
+[Kata + Firecracker (2018~) — 경량 VM 격리]
+    │
+    ▼
+[현재: Confidential Containers — 하드웨어 TEE + 컨테이너]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 보통 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)([runc](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/667_container_runtime_hw_isolation/))는 교실 <strong>칸막이</strong>로 나뉜 거예요. 칸막이를 넘으면 옆 자리를 볼 수 있죠.

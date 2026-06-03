@@ -42,22 +42,30 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 하나의 요청이 응답 시간으로 누적되는 과정을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">응답 시간의 누적 경로: 요청에서 결과까지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 요청</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">큐 대기 시간</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">연산 + 캐시 미스 처리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">저장장치/장치 응답 대기</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/전송/렌더링</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 체감 완료</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전체 응답 시간 = 대기 + 실행 + I/O + 반환</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                 응답 시간의 누적 경로: 요청에서 결과까지             │
+├──────────────────────────────────────────────────────────────────────┤
+│ 사용자 요청                                                          │
+│    │                                                                 │
+│    ▼                                                                 │
+│ 작업 큐 진입 ──▶ [큐 대기 시간]                                      │
+│    │                                                                 │
+│    ▼                                                                 │
+│ CPU 실행   ──▶ [연산 + 캐시 미스 처리]                               │
+│    │                                                                 │
+│    ▼                                                                 │
+│ I/O 요청   ──▶ [저장장치/장치 응답 대기]                             │
+│    │                                                                 │
+│    ▼                                                                 │
+│ 결과 반환  ──▶ [출력/전송/렌더링]                                    │
+│    │                                                                 │
+│    ▼                                                                 │
+│ 사용자 체감 완료                                                     │
+│                                                                      │
+│ 전체 응답 시간 = 대기 + 실행 + I/O + 반환                            │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 핵심은 병목이 한곳에만 있지 않다는 점이다. 프로세서가 빨라져도 메모리 계층이 느리면 CPU는 대기 상태에 머무르고, 디스크가 빨라져도 스케줄링 큐가 길면 여전히 응답 시간은 길다. 그래서 현대 시스템은 클럭 향상만으로 해결하기보다 캐시 계층, 프리패치, 비동기 I/O, 우선순위 스케줄링처럼 기다림을 줄이거나 숨기는 구조를 함께 사용한다.
 
@@ -135,23 +143,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">CPU 실행 시간 중심 성능 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">대기 시간 · I/O 지연 포함한 응답 시간 관점</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">대화형 시스템 · 시분할 운영체제의 반응성 요구</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">캐시 · 스케줄링 · 비동기 I/O를 통한 응답 시간 최적화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">P99 꼬리 지연 · WCRT 보장 중심의 현대 성능 관리</div>
-</div>
-</div>
-
-
+```text
+CPU 실행 시간 중심 성능 인식
+    │
+    ▼
+대기 시간 · I/O 지연 포함한 응답 시간 관점
+    │
+    ▼
+대화형 시스템 · 시분할 운영체제의 반응성 요구
+    │
+    ▼
+캐시 · 스케줄링 · 비동기 I/O를 통한 응답 시간 최적화
+    │
+    ▼
+P99 꼬리 지연 · WCRT 보장 중심의 현대 성능 관리
+```
 
 이 흐름은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가가 단순 연산 속도에서 출발해, 사용자 체감과 최악 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 보장까지 확장되는 과정을 보여준다.
 

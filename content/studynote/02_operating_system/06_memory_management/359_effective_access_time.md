@@ -27,26 +27,26 @@ tags = ["studynote-operating-system"]
   2. <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/">TLB</a> 하드웨어 투입</strong>: 이를 막으려 TLB를 넣었지만, 하드웨어가 너무 비싸서 64칸밖에 못 만들었다. "겨우 64개 외워서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 나오겠냐?"는 의구심이 터졌다.
   3. **지역성(Locality) 기반 증명**: 컴퓨터는 루프(for/while)를 돌기 때문에 64칸만 있어도 히트율이 99%에 달한다는 사실을 EAT 수식으로 완벽하게 수치화하여 증명해 냈다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EAT (Effective Access Time)를 도출하는 마법의 분기점</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전제 조건 가설</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- TLB 검색 시간: 1 ns (거의 0에 가깝지만 계산을 위해)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- RAM 접근 시간: 100 ns</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- TLB 적중률: 99% (알파 = 0.99)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">길 1: TLB Hit 🟢 (99% 확률)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"TLB에서 주소를 찾음(1ns) + 램 가서 진짜 데이터 가져옴(100ns)"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Hit 경로 총 소요 시간 = 101 ns</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">길 2: TLB Miss 🔴 (1% 확률)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"TLB 찾다 실패(1ns) + 램 장부 읽으러 감(100ns)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ 장부 알아낸 후 램 진짜 데이터 가러 감(100ns)"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Miss 경로 총 소요 시간 = 201 ns</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────────┐
+│        EAT (Effective Access Time)를 도출하는 마법의 분기점       │
+├───────────────────────────────────────────────────────────────────┤
+│                                                                   │
+│ [ 전제 조건 가설 ]                                                │
+│ - TLB 검색 시간: 1 ns (거의 0에 가깝지만 계산을 위해)             │
+│ - RAM 접근 시간: 100 ns                                           │
+│ - TLB 적중률: 99% (알파 = 0.99)                                   │
+│                                                                   │
+│ [ 길 1: TLB Hit 🟢 (99% 확률) ]                                   │
+│  "TLB에서 주소를 찾음(1ns) + 램 가서 진짜 데이터 가져옴(100ns)"   │
+│   ▶ Hit 경로 총 소요 시간 = 101 ns                                │
+│                                                                   │
+│ [ 길 2: TLB Miss 🔴 (1% 확률) ]                                   │
+│  "TLB 찾다 실패(1ns) + 램 장부 읽으러 감(100ns)                   │
+│   + 장부 알아낸 후 램 진짜 데이터 가러 감(100ns)"                 │
+│   ▶ Miss 경로 총 소요 시간 = 201 ns                               │
+└───────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 이 두 갈래 길이 시스템의 운명을 결정한다. Hit가 나면 1번만 램에 가면 되니 100ns 수준에 방어하지만, Miss가 나면 장부를 읽느라 램에 2번 가야 해서 200ns라는 끔찍한 시간이 걸린다. 관건은 이 200ns 지뢰밭을 밟을 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 극도로 낮추는 것이다. 
 
 - **📢 섹션 요약 비유**: 복권 뽑기 상자에서 당첨([Hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/))을 뽑으면 1초 만에 젤리를 먹지만, 꽝(Miss)을 뽑으면 창고에 가서 열쇠를 가져와야 해 2초가 걸립니다. 다행히 이 상자에는 당첨표가 99장 들어있어 평균적으로는 매번 1초 언저리로 젤리를 먹는 마술 상자입니다.
@@ -112,17 +112,14 @@ TLB의 세계에서는 "겨우 1% 떨어졌네?"가 통하지 않는다. 99%와 
 - **공간 지역성(Spatial)**: [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) `A[0]`을 읽으면 곧바로 `A[1]`을 읽는다. 즉, 같은 4KB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 안에서 계속 놀기 때문에 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 캐시는 한 번 올려두면 수천 번의 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 실행되는 동안 절대 Miss가 나지 않는다.
 - **시간 지역성(Temporal)**: `for` 루프를 수만 번 돌면, 똑같은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 코드가 있는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 계속 반복해서 부른다. 
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최적화 포인트</div><div class="kb-diagram-cell">소프트웨어 코딩</div><div class="kb-diagram-cell">하드웨어(TLB)</div><div class="kb-diagram-cell">EAT 결과</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">좋은 케이스</div><div class="kb-diagram-cell">배열(Array)연속</div><div class="kb-diagram-cell">한 칸 유지(Hit)</div><div class="kb-diagram-cell">100ns 수렴</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최악 케이스</div><div class="kb-diagram-cell">무작위 포인터 점프</div><div class="kb-diagram-cell">매번 쫓겨남(Miss)</div><div class="kb-diagram-cell">200ns 붕괴</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬─────────────────────────────┐
+│ 최적화 포인트│ 소프트웨어 코딩│ 하드웨어(TLB)│ EAT 결과          │
+├──────────┼────────────┼────────────┼─────────────────────────────┤
+│ 좋은 케이스 │ 배열(Array)연속│ 한 칸 유지(Hit)│ 100ns 수렴       │
+│ 최악 케이스 │ 무작위 포인터 점프│ 매번 쫓겨남(Miss)│ 200ns 붕괴  │
+└──────────┴────────────┴────────────┴─────────────────────────────┘
+```
 **[매트릭스 해설]** 실질 메모리 접근 시간(EAT)은 하드웨어 혼자서 만드는 것이 아니다. 개발자가 메모리 파편화를 무시하고 포인터 점프(Linked List나 흩어진 객체)로 떡칠한 코드를 짜면, 하드웨어 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 캐시가 견디지 못하고 계속 미스를 뿜어대어 EAT가 박살 난다.
 
 - **📢 섹션 요약 비유**: 수첩에 번호를 64개밖에 못 적지만 99% 통화가 성공하는 이유는, 내가 평소에 전화 거는 사람이 엄마, 아빠, 여친 등 딱 5명(지역성) 안에서 뺑글뺑글 돌기 때문입니다. 하지만 갑자기 콜센터 직원이 되어 무작위 1000명에게 전화를 건다면 수첩([TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/))은 아무짝에도 쓸모없어집니다.
@@ -180,19 +177,15 @@ TLB의 세계에서는 "겨우 1% 떨어졌네?"가 통하지 않는다. 99%와 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">TLB 적중 (TLB Hit) / TLB 미스 (TLB Miss)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">TLB 적중률 (Hit Ratio) / 실질 메모리 접근 시간 (EAT, Effective Access Time)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ASID (Address-Space Identifier)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">다단계 페이징 (Hierarchical Paging)</div></div>
-</div>
-</div>
-
-
+```text
+[TLB 적중 (TLB Hit) / TLB 미스 (TLB Miss)]
+    │
+    ▼
+[TLB 적중률 (Hit Ratio) / 실질 메모리 접근 시간 (EAT, Effective Access Time)]
+    │
+    ├──▶ [ASID (Address-Space Identifier)]
+    └──▶ [다단계 페이징 (Hierarchical Paging)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

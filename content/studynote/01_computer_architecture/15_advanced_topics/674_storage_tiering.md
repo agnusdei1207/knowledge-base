@@ -40,17 +40,13 @@ tags = ["studynote-computer-architecture"]
 | Tier 2 | [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) | 수 밀리초~수십 밀리초 | 일반 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/), 덜 자주 쓰는 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 세트 |
 | Tier 3 | 오브젝트 아카이브, 테이프 | 초~분 단위 | 장기 보관 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 규제 보존 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Access telemetry -&gt; Heat score -&gt; Policy engine -&gt; Promote / Demote / Pin</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">recency / frequency / size / latency / write rate</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tier 0/1: NVMe/SSD &lt;-&gt; Tier 2: HDD &lt;-&gt; Tier 3: object/tape</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ Access telemetry -> Heat score -> Policy engine -> Promote / Demote / Pin  │
+│ recency / frequency / size / latency / write rate                           │
+│ Tier 0/1: NVMe/SSD <-> Tier 2: HDD <-> Tier 3: object/tape                 │
+└──────────────────────────────────────────────────────────────────────────────┘
+```
 
 여기서 중요한 설계 포인트는 이동 단위다. 블록 단위 티어링은 작은 hot spot만 골라 올릴 수 있어 효율적이지만 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)와 제어가 복잡하다. 반대로 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 또는 오브젝트 단위 티어링은 단순하지만, 큰 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 일부만 뜨거운 경우 전체를 통째로 올려야 해 비효율이 생길 수 있다. 또한 지나치게 민감한 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 위아래로 계속 흔들어, 백그라운드 복사 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)과 플래시 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 수명을 낭비하게 만든다.
 
@@ -129,23 +125,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단일 고정 스토리지 계층</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SSD / HDD 혼합 배치</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Access telemetry 기반 heat scoring</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">스토리지 티어링 (Storage Tiering)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 수명주기 정책 + Intelligent placement</div>
-</div>
-</div>
-
-
+```text
+단일 고정 스토리지 계층
+        │
+        ▼
+SSD / HDD 혼합 배치
+        │
+        ▼
+Access telemetry 기반 heat scoring
+        │
+        ▼
+스토리지 티어링 (Storage Tiering)
+        │
+        ▼
+클라우드 수명주기 정책 + Intelligent placement
+```
 
 이 흐름은 저장장치 설계가 "어떤 디스크를 살까"에서 출발해, 점점 더 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근 패턴을 관찰하고 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)적으로 배치하는 방향으로 진화했음을 보여준다.
 

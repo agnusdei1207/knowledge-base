@@ -20,23 +20,21 @@ tags = ["studynote-bigdata"]
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 - <strong>BASE Principle Workflow &amp; Distributed <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">Replication</a></strong>
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Data Write (Node A)</div><div class="kb-diagram-node">Propagation Delay</div><div class="kb-diagram-node">Data Read (Node B)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Value = 10 (Update)</div><div class="kb-diagram-cell">--- (Asynchronous Sync) ---&gt;</div><div class="kb-diagram-cell">Value = 5 (Soft State)</div></div>
-<div class="kb-diagram-note">v</div>
-<div class="kb-diagram-note">(Eventually Consistency)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+--------------&gt;</div><div class="kb-diagram-cell">Value = 10 (Synced)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Key Pillars of BASE</div></div>
-<div class="kb-diagram-note">1. BA: Basically Available (기본적 가용성)</div>
-<div class="kb-diagram-note">2. S : Soft State (소프트 스테이트)</div>
-<div class="kb-diagram-note">3. E : Eventual Consistency (결과적 일관성)</div>
-</div>
-</div>
-
-
+```text
+[ Data Write (Node A) ]      [ Propagation Delay ]      [ Data Read (Node B) ]
++---------------------+      +-------------------+      +---------------------+
+| Value = 10 (Update) | --- (Asynchronous Sync) ---> | Value = 5 (Soft State)|
++---------------------+                                 +---------------------+
+                                       |                           |
+                                       |                           v
+                                       |                (Eventually Consistency)
+                                       +--------------> | Value = 10 (Synced) |
+                                                        +---------------------+
+[ Key Pillars of BASE ]
+1. BA: Basically Available (기본적 가용성)
+2. S : Soft State (소프트 스테이트)
+3. E : Eventual Consistency (결과적 일관성)
+```
 
 1. <strong>Basically Available (<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/103_ba_as_is_analysis/">BA</a>):</strong>
    - 시스템의 일부분에 장애가 발생하더라도, 전체 시스템이 멈추지 않고 기본적인 응답을 제공함. 완벽한 응답은 아니더라도 가용한 상태를 유지함.
@@ -72,19 +70,15 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">상위 개념: 분산 데이터베이스, NoSQL</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">하위 개념: 결과적 일관성, 가용성 (Availability)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">연관 개념: CAP 정리, PACELC 이론, ACID</div></div>
-</div>
-</div>
-
-
+```text
+[상위 개념: 분산 데이터베이스, NoSQL]
+    │
+    ▼
+[하위 개념: 결과적 일관성, 가용성 (Availability)]
+    │
+    ▼
+[연관 개념: CAP 정리, PACELC 이론, ACID]
+```
 
 이 흐름도는 상위 개념: [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/), NoSQL에서 출발해 연관 개념: [CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) 정리, [PACELC](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/342_pacelc/) 이론, ACID까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

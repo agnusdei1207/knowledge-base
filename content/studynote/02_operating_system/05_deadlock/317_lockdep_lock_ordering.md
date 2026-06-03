@@ -31,31 +31,31 @@ Lockdep은 "실제 데드락이 터지게 놔두지 않고, 평소에 락 잡고
 
 **💡 비유**: 길거리에 신호등(락)이 1천 개 있다. 평소엔 차가 없어서 데드락이 안 난다. 하지만 내비게이션(Lockdep)이 평소 지나가는 차들의 동선을 지도로 몰래 다 그려 놨다가, "어? 저차는 북에서 남으로 가고 도착은 동에서 서로 가네. 1년 뒤면 저 두 동선이 겹쳐서 교차로 마비 나겠다!" 라며 데드락이 나기도 전에 도로공사(개발자)에 미리 경고장을 보내주는 조기 경보기.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Lockdep의 런타임 락 관계도(그래프) 빌딩과 경고</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시간 T1</div><div class="kb-diagram-note">: Process 1이 정상 실행 중</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Acquire Lock(X);</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Acquire Lock(Y);</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Lockdep 백그라운드 기록: "오케이. X-&gt;Y 방향 화살표 1개 콜"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시간 T2</div><div class="kb-diagram-note">: Process 2가 전혀 다른 로직 실행 중</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Acquire Lock(Y);</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Acquire Lock(Z);</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Lockdep 백그라운드 기록: "오케이. Y-&gt;Z 방향 더해서</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">우리의 현재 종합 족보는</div><div class="kb-diagram-node">X -&gt; Y -&gt; Z</div><div class="kb-diagram-note">다."</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시간 T3</div><div class="kb-diagram-note">: Process 3이 미친 짓 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Acquire Lock(Z);</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">... (여기서 에러 안 남) ...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Acquire Lock(X);</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Lockdep 격노: "내 족보에 X-&gt;Z 화살표가 있는데 네가 지금</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Z-&gt;X를 시도했어? 데드락은 안 났지만 너 데드락 잠재성 100%야!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">커널 패닉 워닝!!!"</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────┐
+│         Lockdep의 런타임 락 관계도(그래프) 빌딩과 경고          │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  [시간 T1]: Process 1이 정상 실행 중                            │
+│  Acquire Lock(X);                                               │
+│  Acquire Lock(Y);                                               │
+│  ▶ Lockdep 백그라운드 기록: "오케이. X->Y 방향 화살표 1개 콜"   │
+│                                                                 │
+│  [시간 T2]: Process 2가 전혀 다른 로직 실행 중                  │
+│  Acquire Lock(Y);                                               │
+│  Acquire Lock(Z);                                               │
+│  ▶ Lockdep 백그라운드 기록: "오케이. Y->Z 방향 더해서           │
+│     우리의 현재 종합 족보는 [X -> Y -> Z] 다."                  │
+│                                                                 │
+│  [시간 T3]: Process 3이 미친 짓 실행                            │
+│  Acquire Lock(Z);                                               │
+│  ... (여기서 에러 안 남) ...                                    │
+│  Acquire Lock(X);                                               │
+│  ▶ Lockdep 격노: "내 족보에 X->Z 화살표가 있는데 네가 지금      │
+│     Z->X를 시도했어? 데드락은 안 났지만 너 데드락 잠재성 100%야!│
+│     커널 패닉 워닝!!!"                                          │
+└─────────────────────────────────────────────────────────────────┘
+```
 
 **📢 섹션 요약 비유**: 아직 사람(데드락)이 죽지 않았는데, 범인이 매일 밤 칼(역방향 락)을 가는 걸 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/)(Lockdep)로 관찰하고 있다가 범죄가 일어나기도 전에 경찰차를 보내서 체포하는 `마이너리티 리포트(사전 예언)` 시스템입니다.
 
@@ -125,19 +125,15 @@ Lockdep은 "실제 데드락이 터지게 놔두지 않고, 평소에 락 잡고
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">동기화 결함 (순환 의존성) 코드 레벨 디버깅 기법</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">락 오더링 (Lock Ordering) 다이나믹 검증 도구 (Lockdep in Linux)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">분산 시스템에서의 교착 상태 탐지</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">교착 상태 예방 메커니즘을 위한 타임아웃 (Timeout) 활용</div></div>
-</div>
-</div>
-
-
+```text
+[동기화 결함 (순환 의존성) 코드 레벨 디버깅 기법]
+    │
+    ▼
+[락 오더링 (Lock Ordering) 다이나믹 검증 도구 (Lockdep in Linux)]
+    │
+    ├──▶ [분산 시스템에서의 교착 상태 탐지]
+    └──▶ [교착 상태 예방 메커니즘을 위한 타임아웃 (Timeout) 활용]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

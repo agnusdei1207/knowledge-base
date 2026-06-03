@@ -23,18 +23,14 @@ tags = ["studynote-network"]
 
 "가장 싸게, 가장 멀리, 가장 배터리를 적게 쓰게 만들자." 이 극단적인 세 가지 목표를 달성하기 위해, 프랑스의 스타트업 SigFox는 전송 속도와 다운로드 기능(양방향 통신)을 완전히 포기해버리는 과감한 결단을 내렸다. [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 극도로 좁힌 초협대역(UNB) 기술을 앞세워 글로벌 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 망을 구축하려 한 시도가 바로 SigFox다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">LPWAN 로라</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시그폭스 협대역 통신</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NB-IoT 전력 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[LPWAN 로라]
+    │
+    ▼
+[시그폭스 협대역 통신]
+    │
+    └──▶ [NB-IoT 전력 최적화]
+```
 
 - **📢 섹션 요약 비유**: 대화를 주고받는 스마트폰이나 카카오톡 대신, 하루에 딱 한 번 "잘 도착함"이라는 세 글자만 적힌 무료 엽서를 날려 보내는 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 통신망이다.
 
@@ -44,20 +40,22 @@ tags = ["studynote-network"]
 
 SigFox의 가장 큰 특징은 **UNB(Ultra Narrow Band)** 기술과 망 운영의 중앙집중화다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SigFox Cloud (프랑스 본사)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(모든 글로벌 데이터가 이곳으로 일단 모임)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SigFox Base Station</div><div class="kb-diagram-node">SigFox Base Station</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(한국 통신망)</div><div class="kb-diagram-cell">(유럽 통신망)</div></div>
-<div class="kb-diagram-note">(100Hz 초협대역 900MHz 무선 전파, 최대 50km)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">화물 트래커</div><div class="kb-diagram-cell">해상 부표</div><div class="kb-diagram-cell">도난 방지기</div><div class="kb-diagram-cell">원격 온도계</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────┐
+│              [ SigFox Cloud (프랑스 본사) ]            │
+│         (모든 글로벌 데이터가 이곳으로 일단 모임)      │
+└────────────▲──────────────────────────────▲────────────┘
+             │                              │
+┌────────────▼──────────┐      ┌────────────▼──────────┐
+│  [ SigFox Base Station] │      │  [ SigFox Base Station] │
+│      (한국 통신망)      │      │      (유럽 통신망)      │
+└────────────▲──────────┘      └────────────▲──────────┘
+             │ (100Hz 초협대역 900MHz 무선 전파, 최대 50km)
+      ┌──────┴─────┐                      ┌─────┴──────┐
+┌─────▼────┐ ┌─────▼────┐           ┌─────▼────┐ ┌─────▼────┐
+│ 화물 트래커│ │ 해상 부표│           │ 도난 방지기│ │ 원격 온도계│
+└──────────┘ └──────────┘           └──────────┘ └──────────┘
+```
 
 1. **UNB (Ultra Narrow Band)**: 일반적인 Wi-Fi가 20MHz의 폭을 쓴다면, SigFox는 불과 100Hz라는 바늘구멍 같은 좁은 폭으로 신호를 쏜다. [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 좁히면 잡음(Noise)이 들어올 틈이 적어져 수신 감도가 엄청나게 올라간다. 덕분에 적은 힘(배터리)으로도 전파를 수십 km 밖까지 밀어낼 수 있다.
 2. **랜덤 액세스 (Random Access)**: 단말기는 자신이 보내야 할 타이밍(스케줄링)을 묻지 않는다. 잠에서 깨면 그냥 주파수 대역 중 빈 곳에 12바이트짜리 메시지를 똑같이 3번(중복 전송) 쏘고 다시 잠든다. 하나라도 기지국에 걸리기를 바라는 극도로 단순한 구조다(이 때문에 충돌 확률이 높다).
@@ -126,19 +124,15 @@ SigFox는 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: LPWAN 로라</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 시그폭스 협대역 통신</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: NB-IoT 전력 최적화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율형 엣지 협업</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: LPWAN 로라]
+    │
+    ▼
+[현재 개념: 시그폭스 협대역 통신]
+    │
+    ├──▶ [확장 A: NB-IoT 전력 최적화]
+    └──▶ [확장 B: 자율형 엣지 협업]
+```
 
 시그폭스 협대역 통신는 [LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/) [로라](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/283_lora_low_rank_adaptation/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [NB-IoT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/620_nbiot_narrowband_iot_lte_guardband/) 전력 최적화와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

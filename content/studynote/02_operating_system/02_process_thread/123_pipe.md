@@ -24,30 +24,39 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경**: 1973년 Ken Thompson이 UNIX [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 3에 `pipe()` 시스템 콜과 쉘 파이프라인 연산자 `|`를 도입하였다. 이는 1964년 Douglas McIlroy가 제안한 "소프트웨어 부품을 파이프처럼 연결하라"는 철학의 실현이었으며, 이후 POSIX 표준에 편입되어 모든 UNIX 계열 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 기본 IPC로 자리 잡았다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파이프(Pipe)의 기본 동작 구조와 fork() 상속</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. pipe() 호출 → 커널이 순환 버퍼 생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kernel Pipe Buffer</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">D</div><div class="kb-diagram-cell">E</div><div class="kb-diagram-cell">F</div><div class="kb-diagram-cell">A</div><div class="kb-diagram-cell">B</div><div class="kb-diagram-cell">← 순환 버퍼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Circular Buffer)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">fd</div><div class="kb-diagram-node">0</div><div class="kb-diagram-note">(읽기) fd</div><div class="kb-diagram-node">1</div><div class="kb-diagram-note">(쓰기)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. fork() → 자식이 파일 디스크립터 테이블 상속</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Parent Child</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ close(fd</div><div class="kb-diagram-node">0</div><div class="kb-diagram-note">) │ │ close(fd</div><div class="kb-diagram-node">1</div><div class="kb-diagram-note">) │</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ fd</div><div class="kb-diagram-node">1</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">0</div><div class="kb-diagram-note">: 읽기만 │</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ write(fd</div><div class="kb-diagram-node">1</div><div class="kb-diagram-note">, buf) │ │ read(fd</div><div class="kb-diagram-node">0</div><div class="kb-diagram-note">, buf) │</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 실제 쉘 파이프라인: ls</div><div class="kb-diagram-cell">grep "txt"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Parent(ls) Child(grep)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">fd</div><div class="kb-diagram-node">1</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">0</div><div class="kb-diagram-note">: 필터링 후 "a.txt\n"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 부모는 읽기 끝을 닫고, 자식은 쓰기 끝을 닫아 단방향 확립</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 참조 카운트가 0이 되면 커널이 파이프 버퍼 자동 해제</div></div>
-</div>
-</div>
-
-
+```text
+  ┌──────────────────────────────────────────────────────────────────────┐
+  │            파이프(Pipe)의 기본 동작 구조와 fork() 상속               │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │                                                                      │
+  │  1. pipe() 호출 → 커널이 순환 버퍼 생성                              │
+  │                                                                      │
+  │  ┌─────────────────────────────────────────┐                         │
+  │  │         Kernel Pipe Buffer              │                         │
+  │  │     ┌───┬───┬───┬───┬───┬───┬───┐     │                           │
+  │  │     │ D │ E │ F │   │   │ A │ B │     │  ← 순환 버퍼              │
+  │  │     └───┴───┴───┴───┴───┴───┴───┘     │    (Circular Buffer)      │
+  │  └─────┬────────────────────────┬─────────┘                          │
+  │        │                        │                                    │
+  │     fd[0] (읽기)             fd[1] (쓰기)                            │
+  │        ▲                        ▲                                    │
+  │        │                        │                                    │
+  │  2. fork() → 자식이 파일 디스크립터 테이블 상속                      │
+  │                                                                      │
+  │  ┌─── Parent ─────────┐    ┌─── Child ──────────┐                    │
+  │  │ close(fd[0])       │    │ close(fd[1])       │                    │
+  │  │ fd[1]: 쓰기만 ─────────▶│ fd[0]: 읽기만      │                    │
+  │  │ write(fd[1], buf)  │    │ read(fd[0], buf)  │                     │
+  │  └────────────────────┘    └────────────────────┘                    │
+  │                                                                      │
+  │  3. 실제 쉘 파이프라인: ls | grep "txt"                              │
+  │     Parent(ls)                Child(grep)                            │
+  │     fd[1]: "a.txt\nb.doc\n" ──▶ fd[0]: 필터링 후 "a.txt\n"           │
+  │                                                                      │
+  │  * 부모는 읽기 끝을 닫고, 자식은 쓰기 끝을 닫아 단방향 확립          │
+  │  * 참조 카운트가 0이 되면 커널이 파이프 버퍼 자동 해제               │
+  └──────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 다이어그램은 파이프의 전체 생명주기를 세 단계로 보여준다. 첫째, `pipe()` 시스템 콜이 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부에 순환 버퍼(Circular Buffer)를 생성하고 두 개의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 디스크립터 fd[0](읽기 전용)과 fd[1](쓰기 전용)를 반환한다. 둘째, `fork()`가 호출되면 자식 프로세스는 부모의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 디스크립터 테이블을 복사하여 상속받으므로, 양쪽 프로세스 모두 동일한 파이프 버퍼에 접근할 수 있게 된다. 셋째, 부모는 자신이 사용하지 않는 읽기 끝(fd[0])을 닫고 자식은 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 끝(fd[1])을 닫아, 명확한 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름(Parent→Child)을 확립한다. 파이프 버퍼는 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 카운트([Reference](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) Count)로 관리되며, 모든 프로세스가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 디스크립터를 닫아 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 카운트가 0이 되면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 자동으로 해제하므로 [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/)([Memory Leak](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/))를 방지한다.
 
@@ -69,59 +78,72 @@ tags = ["studynote-operating-system"]
 
 ### PIPE_BUF와 [원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/)([Atomicity](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/)) 보장
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PIPE_BUF 원자성 보장 vs 초과 시 인터리빙</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">write() 크기 &lt;= PIPE_BUF (예: 4KB, Linux 기본)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">HELLO</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">HELLOWORLD</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">^^^^^^^^^^^^</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원자성 보장: 섞이지 않음</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">write() 크기 &gt; PIPE_BUF</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Writer A: write(fd, "ABCDEFGHIJ", 10)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Writer B: write(fd, "1234567890", 10)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ 결과:</div><div class="kb-diagram-node">ABCDE12345FGHIJ67890</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">인터리빙 발생!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">^^^^^^^^^^^^^</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A와 B의 데이터가 섞임</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PIPE_BUF 확인: getconf PIPE_BUF / cat /usr/include/limits.h</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Linux 기본값: 4,096 bytes (페이지 크기와 동일)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* PIPE_BUF 이하의 쓰기는 커널이 락(Lock)을 걸어 원자적 보장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 초과 시 커널이 락을 걸지 않아 여러 쓰기가 인터리빙됨</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────────────┐
+  │          PIPE_BUF 원자성 보장 vs 초과 시 인터리빙                   │
+  ├─────────────────────────────────────────────────────────────────────┤
+  │                                                                     │
+  │  [write() 크기 <= PIPE_BUF (예: 4KB, Linux 기본)]                   │
+  │                                                                     │
+  │  Writer A: write(fd, "HELLO", 5) ──▶ [HELLO        ]                │
+  │  Writer B: write(fd, "WORLD", 5) ──▶ [HELLOWORLD   ]                │
+  │                                      ^^^^^^^^^^^^                   │
+  │                                      원자성 보장: 섞이지 않음       │
+  │                                                                     │
+  │  [write() 크기 > PIPE_BUF]                                          │
+  │                                                                     │
+  │  Writer A: write(fd, "ABCDEFGHIJ", 10)                              │
+  │  Writer B: write(fd, "1234567890", 10)                              │
+  │                                                                     │
+  │  ┌─────────────────────────────────────┐                            │
+  │  │ 결과: [ABCDE12345FGHIJ67890]        │  ← 인터리빙 발생!          │
+  │  │        ^^^^^^^^^^^^^               │                             │
+  │  │        A와 B의 데이터가 섞임          │                          │
+  │  └─────────────────────────────────────┘                            │
+  │                                                                     │
+  │  PIPE_BUF 확인: getconf PIPE_BUF / cat /usr/include/limits.h        │
+  │  Linux 기본값: 4,096 bytes (페이지 크기와 동일)                     │
+  │                                                                     │
+  │  * PIPE_BUF 이하의 쓰기는 커널이 락(Lock)을 걸어 원자적 보장        │
+  │  * 초과 시 커널이 락을 걸지 않아 여러 쓰기가 인터리빙됨             │
+  └─────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** PIPE_BUF는 POSIX 표준이 보장하는 [원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/)([Atomicity](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/))의 경계 크기다. 리눅스에서 기본값은 4,096바이트([페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/))이며, `getconf PIPE_BUF` 명령으로 확인할 수 있다. 한 번의 `write()` 호출로 PIPE_BUF 이하의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓰면, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 내부적으로 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 획득하여 다른 프로세스의 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)가 끼어들지 못하도록 보호한다. 따라서 여러 프로세스가 동시에 파이프에 쓰더라도 각 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 분리되어 유지된다. 그러나 PIPE_BUF를 초과하는 크기를 쓰면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 락을 걸지 않으므로, 두 프로세스의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 인터리빙(Interleaving)되어 섞일 수 있다. 이는 다중 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 프로세스 환경에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 보장하기 위해 `PIPE_BUF` 크기를 설계 기준으로 삼아야 하는 이유다.
 
 ### 파이프의 블로킹([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)) 동작 조건
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파이프의 블로킹(Blocking) 동작 조건 정리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ 조건 │ read(fd</div><div class="kb-diagram-node">0</div><div class="kb-diagram-note">) 동작 │ write(fd</div><div class="kb-diagram-node">1</div><div class="kb-diagram-note">) 동작 │</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">버퍼에 데이터</div><div class="kb-diagram-cell">즉시 반환</div><div class="kb-diagram-cell">N/A</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">있음</div><div class="kb-diagram-cell">(버퍼 크기만큼)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">버퍼 비어있음</div><div class="kb-diagram-cell">블로킹 대기</div><div class="kb-diagram-cell">N/A</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(읽기 측 열림)</div><div class="kb-diagram-cell">(데이터 도착까지)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">버퍼 여유 있음</div><div class="kb-diagram-cell">N/A</div><div class="kb-diagram-cell">즉시 반환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(버퍼에 복사)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">버퍼 가득 참</div><div class="kb-diagram-cell">N/A</div><div class="kb-diagram-cell">블로킹 대기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(공간 생길 때까지)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">읽기 측 닫힘</div><div class="kb-diagram-cell">0 반환 (EOF)</div><div class="kb-diagram-cell">SIGPIPE 시그널 발생</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(모든 R fd 닫힘)</div><div class="kb-diagram-cell">"파이프 끊김"</div><div class="kb-diagram-cell">또는 EPIPE 에러</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">쓰기 측 닫힘</div><div class="kb-diagram-cell">버퍼 비면 0 반환</div><div class="kb-diagram-cell">N/A</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(모든 W fd 닫힘)</div><div class="kb-diagram-cell">버퍼 잔량 읽음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* O_NONBLOCK 설정 시 블로킹 대기 대신 EAGAIN 에러 즉시 반환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* SIGPIPE 무시: signal(SIGPIPE, SIG_IGN) 또는 write() 반환값 확인</div></div>
-</div>
-</div>
-
-
+```text
+  ┌────────────────────────────────────────────────────────────────────┐
+  │            파이프의 블로킹(Blocking) 동작 조건 정리                │
+  ├────────────────────────────────────────────────────────────────────┤
+  │                                                                    │
+  │  ┌────────────────┬──────────────────┬──────────────────────┐      │
+  │  │  조건           │ read(fd[0]) 동작  │ write(fd[1]) 동작    │    │
+  │  ├────────────────┼──────────────────┼──────────────────────┤      │
+  │  │ 버퍼에 데이터  │ 즉시 반환        │ N/A                   │     │
+  │  │ 있음            │ (버퍼 크기만큼)  │                      │     │
+  │  ├────────────────┼──────────────────┼──────────────────────┤      │
+  │  │ 버퍼 비어있음  │ 블로킹 대기      │ N/A                   │     │
+  │  │ (읽기 측 열림) │ (데이터 도착까지)│                      │      │
+  │  ├────────────────┼──────────────────┼──────────────────────┤      │
+  │  │ 버퍼 여유 있음 │ N/A              │ 즉시 반환             │     │
+  │  │                │                  │ (버퍼에 복사)         │     │
+  │  ├────────────────┼──────────────────┼──────────────────────┤      │
+  │  │ 버퍼 가득 참   │ N/A              │ 블로킹 대기           │     │
+  │  │                │                  │ (공간 생길 때까지)     │    │
+  │  ├────────────────┼──────────────────┼──────────────────────┤      │
+  │  │ 읽기 측 닫힘   │ 0 반환 (EOF)     │ SIGPIPE 시그널 발생    │    │
+  │  │ (모든 R fd 닫힘)│ "파이프 끊김"   │ 또는 EPIPE 에러      │      │
+  │  ├────────────────┼──────────────────┼──────────────────────┤      │
+  │  │ 쓰기 측 닫힘   │ 버퍼 비면 0 반환 │ N/A                   │     │
+  │  │ (모든 W fd 닫힘)│ 버퍼 잔량 읽음  │                      │      │
+  │  └────────────────┴──────────────────┴──────────────────────┘      │
+  │                                                                    │
+  │  * O_NONBLOCK 설정 시 블로킹 대기 대신 EAGAIN 에러 즉시 반환       │
+  │  * SIGPIPE 무시: signal(SIGPIPE, SIG_IGN) 또는 write() 반환값 확인 │
+  └────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 표는 파이프의 모든 블로킹 조건을 체계적으로 정리한 기술사 필수 참고 자료다. 가장 주의해야 할 상황은 두 가지다. 첫째, 버퍼가 가득 찬 상태에서 `write()`를 호출하면 프로세스가 블로킹된다. 이는 파이프가 유한 용량 버퍼(Bounded Buffer) 모델이기 때문이며, 이 블로킹 동작이 자연스러운 역압(Back-pressure) 메커니즘으로 작동한다. 둘째, 읽기 측 프로세스가 모든 fd[0]를 닫은 상태에서 `write()`를 호출하면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 SIGPIPE 시그널을 발생시켜 기본 동작으로 프로세스를 강제 종료한다. 이는 파이프의 생존 감지(Liveness [Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/)) 기능이지만, 예외 처리 없이 SIGPIPE로 프로세스가 비정상 종료되면 디버깅이 어렵다. 따라서 실무에서는 반드시 `signal(SIGPIPE, SIG_IGN)`으로 시그널을 무시하거나 `write()` 반환값에서 `errno == EPIPE`를 확인하여 우아하게 처리해야 한다.
 
@@ -200,19 +222,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">동기식 통신 (Blocking) vs 비동기식 통신 (Non-blocking)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">파이프 (Pipe)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">지명 파이프 (Named Pipe / FIFO)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">소켓 (Socket) 통신</div></div>
-</div>
-</div>
-
-
+```text
+[동기식 통신 (Blocking) vs 비동기식 통신 (Non-blocking)]
+    │
+    ▼
+[파이프 (Pipe)]
+    │
+    ├──▶ [지명 파이프 (Named Pipe / FIFO)]
+    └──▶ [소켓 (Socket) 통신]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

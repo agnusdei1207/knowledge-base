@@ -28,18 +28,14 @@ tags = ["studynote-network"]
   - <strong>멍청함 (<a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/">Stateless</a>)</strong>: 이전 통신의 맥락(문맥)을 전혀 기억하지 못합니다. 내가 네이버에 접속 요청을 한 적도 없는데, 뜬금없이 네이버 IP를 달고 응답(ACK) 패킷이 들어와도 "어? 네이버 IP 허용이네?" 하고 그냥 통과시켜 버립니다. (IP 스푸핑에 속수무책)
   - **내용물(Payload) 맹인**: [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 80번(정상 웹사이트 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))이기만 하면, 그 안에 [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/)나 SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 코드가 들어있어도 전혀 보지 못하고 통과시킵니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">방화벽 필터링 1,2,3 세대 진화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">패킷 필터, 애플리케이션 상태 필터 및 프록…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">상태 기반 감시 기술의 원리</div></div>
-</div>
-</div>
-
-
+```text
+[방화벽 필터링 1,2,3 세대 진화]
+    │
+    ▼
+[패킷 필터, 애플리케이션 상태 필터 및 프록…]
+    │
+    └──▶ [상태 기반 감시 기술의 원리]
+```
 
 - **📢 섹션 요약 비유**: 패킷 필터, 애플리케이션 상태 필터 및 프록…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -61,18 +57,14 @@ tags = ["studynote-network"]
 > - **패킷 필터 (1세대)**: 우편물 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 알바생입니다. 겉봉투에 '발신자: 친구', '수신자: 나'라고 적혀 있으면 그냥 내 책상에 올려놓습니다. 안에 폭탄 가루(악성코드)가 있어도 모릅니다.
 > - <strong>애플리케이션 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">프록시</a> (3세대)</strong>: 깐깐한 수석 경호원입니다. 친구가 보낸 편지라도 절대 나에게 바로 주지 않습니다. 경호원이 먼저 편지를 뜯어 화학 성분(Payload)을 다 검사하고 폭탄이 아님을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한 뒤에야, 새 봉투에 다시 넣어서 내 책상 위에 안전하게 놓아주는 철통 방어 시스템입니다. 속도는 느리지만 가장 확실합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">방화벽 필터링 1,2,3 세대 진화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">패킷 필터, 애플리케이션 상태 필터 및 프록…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">상태 기반 감시 기술의 원리</div></div>
-</div>
-</div>
-
-
+```text
+[방화벽 필터링 1,2,3 세대 진화]
+    │
+    ▼
+[패킷 필터, 애플리케이션 상태 필터 및 프록…]
+    │
+    └──▶ [상태 기반 감시 기술의 원리]
+```
 
 - **📢 섹션 요약 비유**: 패킷 필터, 애플리케이션 상태 필터 및 프록…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -130,19 +122,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 방화벽 필터링 1,2,3 세대 진화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 패킷 필터, 애플리케이션 상태 필터 및 프록…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 상태 기반 감시 기술의 원리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 방화벽 필터링 1,2,3 세대 진화]
+    │
+    ▼
+[현재 개념: 패킷 필터, 애플리케이션 상태 필터 및 프록…]
+    │
+    ├──▶ [확장 A: 상태 기반 감시 기술의 원리]
+    └──▶ [확장 B: 자동화된 신뢰 체계]
+```
 
 패킷 필터, 애플리케이션 상태 필터 및 프록…는 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 필터링 1,2,3 세대 진화에서 출발해 현재 메커니즘을 정교화하고, 이후 [상태 기반 감시](/knowledge-base/studynote/03_network/13_network_security_basics/692_stateful_inspection_firewall_principle/) 기술의 원리와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

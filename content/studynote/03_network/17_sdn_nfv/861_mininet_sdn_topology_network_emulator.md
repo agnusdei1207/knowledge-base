@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: 노트북이나 데스크탑(리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)) 단 한 대의 자원만으로, 수백 대의 가상 호스트(서버), [가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/)([OVS](/knowledge-base/studynote/03_network/17_sdn_nfv/860_ovs_open_vswitch_sdn_openflow/)), 가상 링크(랜선)로 이루어진 거대한 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/">SDN</a> 네트워크 토폴로지(네트워크 망 구조)를 눈 깜짝할 새 소프트웨어로 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>(Emulation)해 내는 초경량 네트워크 에뮬레이터</strong>입니다.
 - **용도**: 대학원생, 개발자, 네트워크 엔지니어들이 새로운 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 알고리즘이나 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 컨트롤러(ONOS, ODL 등)를 개발했을 때, 실 장비를 사지 않고 그 작동을 검증해 볼 수 있는 절대적인 테스트베드 샌드박스입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">OVS</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">미니넷</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ONOS / OpenDaylight</div></div>
-</div>
-</div>
-
-
+```text
+[OVS]
+    │
+    ▼
+[미니넷]
+    │
+    └──▶ [ONOS / OpenDaylight]
+```
 
 - **📢 섹션 요약 비유**: 미니넷은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -51,18 +47,14 @@ tags = ["studynote-network"]
 - 방(Host) 1,000개를 이을 거대한 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 장비가 필요합니다. 미니넷은 앞서 860번에서 배운 리눅스의 자랑, 최강의 [가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/) <strong><a href="/knowledge-base/studynote/03_network/17_sdn_nfv/860_ovs_open_vswitch_sdn_openflow/">OVS</a>(<a href="/knowledge-base/studynote/03_network/17_sdn_nfv/860_ovs_open_vswitch_sdn_openflow/">Open vSwitch</a>)</strong>를 냅다 띄웁니다. 
 - 그리고 이 [OVS](/knowledge-base/studynote/03_network/17_sdn_nfv/860_ovs_open_vswitch_sdn_openflow/) 구멍들에 1,000개의 방(Host)을 가상의 랜선(veth pair)으로 푹푹 꽂아버립니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">OVS</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">미니넷</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ONOS / OpenDaylight</div></div>
-</div>
-</div>
-
-
+```text
+[OVS]
+    │
+    ▼
+[미니넷]
+    │
+    └──▶ [ONOS / OpenDaylight]
+```
 
 - **📢 섹션 요약 비유**: 미니넷의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -127,19 +119,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: OVS</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 미니넷</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: ONOS / OpenDaylight</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 프로그래머블 네트워크</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: OVS]
+    │
+    ▼
+[현재 개념: 미니넷]
+    │
+    ├──▶ [확장 A: ONOS / OpenDaylight]
+    └──▶ [확장 B: 프로그래머블 네트워크]
+```
 
 미니넷는 OVS에서 출발해 현재 메커니즘을 정교화하고, 이후 ONOS / OpenDaylight와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

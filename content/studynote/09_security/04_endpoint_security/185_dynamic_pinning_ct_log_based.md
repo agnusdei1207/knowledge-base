@@ -33,24 +33,26 @@ tags = ["studynote-security"]
 
 [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) 기반 방어의 핵심은 "발급 사실을 숨길 수 없게 만든다"는 데 있다. CA는 인증서를 발급할 때 사전 인증서(Precertificate)나 인증서 정보를 [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)에 제출하고, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 이를 받았다는 [SCT](/knowledge-base/studynote/09_security/04_endpoint_security/167_sct_signed_certificate_timestamp/) ([Signed Certificate Timestamp](/knowledge-base/studynote/09_security/04_endpoint_security/167_sct_signed_certificate_timestamp/))를 반환한다. 서버는 인증서와 함께 SCT를 브라우저에 제시하고, 브라우저는 인증서 체인 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)과 함께 [SCT](/knowledge-base/studynote/09_security/04_endpoint_security/167_sct_signed_certificate_timestamp/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)도 확인한다. 동시에 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 소유자와 보안 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 지속적으로 모니터링해 자신이 요청하지 않은 인증서 발급을 탐지한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CT issuance and monitoring flow</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. CA receives issuance request for example.com</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ submit precertificate ▶ CT Log</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">returns SCT</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Server deploys certificate + SCT</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Browser verifies</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- certificate chain</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- SCT policy</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- revocation / local checks</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ monitors watch CT logs for unexpected issuance</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ CT issuance and monitoring flow                                     │
+├──────────────────────────────────────────────────────────────────────┤
+│ 1. CA receives issuance request for example.com                     │
+│        │                                                            │
+│        ├─ submit precertificate ───────────────▶ CT Log            │
+│        │                                   returns SCT             │
+│        ▼                                                            │
+│ 2. Server deploys certificate + SCT                                │
+│        │                                                            │
+│        ▼                                                            │
+│ 3. Browser verifies                                                 │
+│    - certificate chain                                              │
+│    - SCT policy                                                     │
+│    - revocation / local checks                                      │
+│        │                                                            │
+│        └─ monitors watch CT logs for unexpected issuance            │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림이 보여 주는 핵심은 CT가 "브라우저가 예전 키를 기억하는 구조"가 아니라, "CA가 새 발급을 반드시 공개하는 구조"라는 점이다. [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 [머클 트리](/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/) ([Merkle Tree](/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/)) 기반의 append-only 성질을 이용해 과거 기록 은닉을 어렵게 만들고, [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 소유자는 이 공개 장부를 감시해 위조 발급을 조기에 발견한다. 즉 차단의 무게중심이 로컬 메모리에서 공개 감시와 운영 대응으로 이동한다.
 
@@ -139,25 +141,24 @@ tags = ["studynote-security"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">공개 PKI 신뢰</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CA 오발급 · 침해 사고</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">동적 핀닝 (TOFU, HPKP)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">장점: 강한 비교 기준</div>
-<div class="kb-diagram-tree-item" style="--depth:2">한계: 자가 봉쇄 · 운영 부담</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CT (Certificate Transparency) 로그 공개</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CT 모니터링 + CAA + 자동 대응</div>
-</div>
-</div>
-
-
+```text
+공개 PKI 신뢰
+    │
+    ▼
+CA 오발급 · 침해 사고
+    │
+    ▼
+동적 핀닝 (TOFU, HPKP)
+    │
+    ├─ 장점: 강한 비교 기준
+    └─ 한계: 자가 봉쇄 · 운영 부담
+    │
+    ▼
+CT (Certificate Transparency) 로그 공개
+    │
+    ▼
+CT 모니터링 + CAA + 자동 대응
+```
 
 이 흐름은 인증서 방어가 "브라우저가 기억하는 방식"에서 "발급을 숨길 수 없게 만드는 방식"으로 이동한 과정을 보여 준다.
 

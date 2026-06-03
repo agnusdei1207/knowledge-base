@@ -35,22 +35,26 @@ RA의 핵심 원리는 "[검증](/knowledge-base/studynote/04_software_engineeri
 
 아래 그림은 RA 중심 발급 흐름을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RA가 포함된 인증서 발급 흐름</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">신청자</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ CSR · 도메인/조직 정보 제출</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">RA</div><div class="kb-diagram-note">신원 확인 · 도메인 검증 · 승인 여부 판단</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">승인된 요청만 전달</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CA</div><div class="kb-diagram-note">인증서 서명 및 발급</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">저장소/배포</div><div class="kb-diagram-note">인증서 공개 · CRL/OCSP 상태 연계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심: RA는 "누가 맞는지"를 확인하고, CA는 "서명할지"를 실행한다</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│                  RA가 포함된 인증서 발급 흐름                      │
+├────────────────────────────────────────────────────────────────────┤
+│ [신청자]                                                           │
+│   └─ CSR · 도메인/조직 정보 제출                                   │
+│              │                                                     │
+│              ▼                                                     │
+│ [RA] 신원 확인 · 도메인 검증 · 승인 여부 판단                      │
+│              │                                                     │
+│      승인된 요청만 전달                                            │
+│              ▼                                                     │
+│ [CA] 인증서 서명 및 발급                                           │
+│              │                                                     │
+│              ▼                                                     │
+│ [저장소/배포] 인증서 공개 · CRL/OCSP 상태 연계                      │
+│                                                                    │
+│ 핵심: RA는 "누가 맞는지"를 확인하고, CA는 "서명할지"를 실행한다   │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 RA는 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 수준에 따라 수행 업무가 달라진다. [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) ([DV](/knowledge-base/studynote/09_security/04_endpoint_security/177_dv_domain_validation_certificate/), [Domain Validation](/knowledge-base/studynote/09_security/04_endpoint_security/177_dv_domain_validation_certificate/)) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서는 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) ([Domain Name System](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/)) 레코드나 웹 토큰 파일을 통해 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 통제권을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 수 있다. 조직 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) ([OV](/knowledge-base/studynote/09_security/04_endpoint_security/178_ov_organization_validation_certificate/), [Organization Validation](/knowledge-base/studynote/09_security/04_endpoint_security/178_ov_organization_validation_certificate/))이나 확장 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) ([EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/), [Extended Validation](/knowledge-base/studynote/09_security/04_endpoint_security/176_ev_extended_validation_certificate/))은 법인 실체, 주소, 전화, 대표 권한 같은 더 엄격한 절차를 요구한다. 최근에는 ACME (Automatic Certificate [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) [Environment](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/)) 기반 자동화가 늘면서, RA 기능의 일부가 소프트웨어로 구현되기도 한다.
 
@@ -134,23 +138,21 @@ RA를 올바르게 두면 [인증](/knowledge-base/studynote/04_software_enginee
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">공개키 생성 · CSR 제출</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">RA (Registration Authority) 검증</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CA (Certification Authority) 서명</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">인증서 배포 · 신뢰 체인 형성</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">갱신 · 폐기 · ACME 자동화</div>
-</div>
-</div>
-
-
+```text
+공개키 생성 · CSR 제출
+    │
+    ▼
+RA (Registration Authority) 검증
+    │
+    ▼
+CA (Certification Authority) 서명
+    │
+    ▼
+인증서 배포 · 신뢰 체인 형성
+    │
+    ▼
+갱신 · 폐기 · ACME 자동화
+```
 
 이 흐름은 "신청 → [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) → 서명 → 사용 → 생명주기 관리"로 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 운영이 이어지는 전체 맥락을 보여준다.
 

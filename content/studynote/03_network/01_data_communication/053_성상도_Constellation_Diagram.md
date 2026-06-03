@@ -31,19 +31,15 @@ tags = ["studynote-network"]
 
 성상도는 I축과 Q축으로 구성된다. 각 점은 특정 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 패턴을 의미하며, 복소수 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)의 진폭과 위상을 함께 나타낸다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Q</div>
-<div class="kb-diagram-connector">↑</div>
-<div class="kb-diagram-note">• | •</div>
-<div class="kb-diagram-note">• • → I</div>
-<div class="kb-diagram-note">• | •</div>
-</div>
-</div>
-
-
+```text
+           Q
+           ↑
+      •    |    •
+           |
+  •─────────┼─────────• → I
+           |
+      •    |    •
+```
 
 | 요소 | 의미 | 해석 포인트 |
 | :--- | :--- | :--- |
@@ -120,23 +116,21 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">비트</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">심볼 매핑</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">I/Q 변조</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">성상도</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">EVM / SNR / BER 분석</div>
-</div>
-</div>
-
-
+```text
+비트
+    │
+    ▼
+심볼 매핑
+    │
+    ▼
+I/Q 변조
+    │
+    ▼
+성상도
+    │
+    ▼
+EVM / SNR / BER 분석
+```
 
 이 흐름은 디지털 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 아날로그 파형으로 바뀌고, 다시 품질 지표로 읽히는 과정을 보여준다.
 

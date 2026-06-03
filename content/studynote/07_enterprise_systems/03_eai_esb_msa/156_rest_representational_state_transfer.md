@@ -41,20 +41,21 @@ REST의 핵심 제약은 [Client-Server](/knowledge-base/studynote/04_software_e
 
 아래 그림은 REST 요청이 자원 중심으로 흘러가는 기본 구조를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">REST request flow</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GET /orders/100</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cache / Gateway / Proxy</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Resource endpoint -&gt; representation(JSON/XML)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; HTTP status + links + cache metadata</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ REST request flow                                            │
+├──────────────────────────────────────────────────────────────┤
+│ Client                                                       │
+│   │  GET /orders/100                                         │
+│   ▼                                                          │
+│ Cache / Gateway / Proxy                                      │
+│   │                                                          │
+│   ▼                                                          │
+│ Resource endpoint -> representation(JSON/XML)                │
+│   │                                                          │
+│   └-> HTTP status + links + cache metadata                   │
+└──────────────────────────────────────────────────────────────┘
+```
 
 즉 REST의 핵심은 URL만 예쁘게 짓는 것이 아니라, [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 자체가 가진 의미를 살려 <strong>웹의 기본 동작 원리 위에 API를 얹는 것</strong>이다. 그래서 메서드 의미와 캐시 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 무시한 채 `POST /getUser` 같은 형태를 쓰면 HTTP를 터널처럼 쓰는 셈이 된다.
 
@@ -74,7 +75,7 @@ REST는 [SOAP](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/15
 | 강점 | 단순성, 웹 친화성, 캐시 | 엄격한 계약, WS-* 확장 |
 | 적합한 영역 | 웹·모바일·공개 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) | 강한 계약과 레거시 B2B |
 
-REST는 이후 [Richardson Maturity Model](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/157_restful_api_richardson_maturity_model/), HATEOAS ([Hypermedia as the Engine of Application State](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/161_rest_level_3_hateoas/)), [API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/) 설계와도 연결된다. 즉 REST는 단순 호출 규칙이 아니라, 웹 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 전반의 설계 철학을 여는 출발점이다.
+REST는 이후 [Richardson Maturity Model](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/157_restful_api_richardson_maturity_model/), HATEOAS ([Hypermedia as the 엔진 of Application State](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/161_rest_level_3_hateoas/)), [API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/) 설계와도 연결된다. 즉 REST는 단순 호출 규칙이 아니라, 웹 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 전반의 설계 철학을 여는 출발점이다.
 
 - **📢 섹션 요약 비유**: REST가 잘 정리된 도서관 열람 체계라면, SOAP는 복잡하지만 엄격한 문서 결재 절차에 가깝다. 둘 다 쓸모 있지만 목적이 다르다.
 
@@ -123,22 +124,20 @@ REST를 제대로 적용하면 API의 [가독성](/knowledge-base/studynote/04_s
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">RPC over HTTP</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">REST resource design</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">RESTful API maturity</div>
-<div class="kb-diagram-tree-item" style="--depth:1">HTTP caching / stateless auth</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Hypermedia / API governance / modern web APIs</div>
-</div>
-</div>
-
-
+```text
+RPC over HTTP
+  │
+  ▼
+REST resource design
+  │
+  ▼
+RESTful API maturity
+  │
+  ├─> HTTP caching / stateless auth
+  │
+  ▼
+Hypermedia / API governance / modern web APIs
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

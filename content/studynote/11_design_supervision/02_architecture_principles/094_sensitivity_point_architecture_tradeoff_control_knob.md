@@ -31,19 +31,19 @@ tags = ["studynote-design"]
 
 민감도점은 아키텍처의 특정 파라미터(Parameter)와 시스템의 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)(Quality [Attribute](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)) 사이의 강력한 인과관계로 구성된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">민감도점(Sensitivity Point)의 작동 원리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">조종 레버: 아키텍처 결정</div><div class="kb-diagram-node">결과: 품질 속성의 극적 변화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 메시지 큐 폴링 주기 ─(조작)─▶ 1초 변경 ▶ 성능(속도) 떡상!!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. DB Connection 수 ─(조작)─▶ 축소 ▶ 가용성(안정성) 상승!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 데이터 암호화 비트 수 ─(조작)─▶ 256bit ──▶ 보안성(방어력) 폭발!</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                 민감도점(Sensitivity Point)의 작동 원리                │
+├──────────────────────────────────────────────────────────────┤
+│ [조종 레버: 아키텍처 결정]               [결과: 품질 속성의 극적 변화] │
+│                                                              │
+│ 1. 메시지 큐 폴링 주기 ─(조작)─▶ 1초 변경 ───▶ 성능(속도) 떡상!! │
+│                                                              │
+│ 2. DB Connection 수   ─(조작)─▶ 축소 ─────▶ 가용성(안정성) 상승!│
+│                                                              │
+│ 3. 데이터 암호화 비트 수 ─(조작)─▶ 256bit ──▶ 보안성(방어력) 폭발!│
+└──────────────────────────────────────────────────────────────┘
+```
 
 아키텍트는 설계 단계에서 "어떤 변수가 어떤 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 지배하는가?"를 명확히 매핑해야 한다. 예를 들어 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)([Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))의 민감도점은 `Cache TTL`, [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)([Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))의 민감도점은 `Heartbeat Timeout`, 보안([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))의 민감도점은 `Encryption Key Length`가 된다. 이 조종대를 위아래로 조작하며 최적의 상태(Sweet Spot)를 찾는 것이 아키텍처 튜닝이다.
 
@@ -100,23 +100,21 @@ tags = ["studynote-design"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">비기능 요구사항 정의 (NFR)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">품질 속성 시나리오 작성 (자극과 응답 수치화)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">민감도점 (Sensitivity Point) 도출 (조작 가능한 레버)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">타협점 (Trade-off Point) 식별 (품질 간 충돌 발생)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ATAM 평가 및 아키텍처 의사결정 문서화</div>
-</div>
-</div>
-
-
+```text
+비기능 요구사항 정의 (NFR)
+    │
+    ▼
+품질 속성 시나리오 작성 (자극과 응답 수치화)
+    │
+    ▼
+민감도점 (Sensitivity Point) 도출 (조작 가능한 레버)
+    │
+    ▼
+타협점 (Trade-off Point) 식별 (품질 간 충돌 발생)
+    │
+    ▼
+ATAM 평가 및 아키텍처 의사결정 문서화
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

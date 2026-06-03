@@ -42,21 +42,20 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 "왜 슬롯이 생기는가"와 "어느 명령이 항상 실행되는가"를 함께 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5단계 파이프라인에서 지연 분기가 동작하는 시간축 예시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사이클</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">2</div><div class="kb-diagram-cell">3</div><div class="kb-diagram-cell">4</div><div class="kb-diagram-cell">5</div><div class="kb-diagram-cell">6</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BEQ</div><div class="kb-diagram-cell">IF</div><div class="kb-diagram-cell">ID</div><div class="kb-diagram-cell">EX*</div><div class="kb-diagram-cell">MEM</div><div class="kb-diagram-cell">WB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ADD</div><div class="kb-diagram-cell">IF</div><div class="kb-diagram-cell">ID</div><div class="kb-diagram-cell">EX</div><div class="kb-diagram-cell">MEM</div><div class="kb-diagram-cell">WB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Target</div><div class="kb-diagram-cell">IF 보류</div><div class="kb-diagram-cell">IF 시작</div><div class="kb-diagram-cell">ID</div><div class="kb-diagram-cell">EX</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EX* : 분기 조건과 목표 주소가 여기서 확정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ADD : 분기 성공 여부와 관계없이 실행되는 Branch Delay Slot 명령</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│         5단계 파이프라인에서 지연 분기가 동작하는 시간축 예시            │
+├────────┬──────────┬──────────┬──────────┬──────────┬──────────┬──────────┤
+│ 사이클 │    1     │    2     │    3     │    4     │    5     │    6     │
+├────────┼──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
+│ BEQ    │ IF       │ ID       │ EX*      │ MEM      │ WB       │          │
+│ ADD    │          │ IF       │ ID       │ EX       │ MEM      │ WB       │
+│ Target │          │          │ IF 보류  │ IF 시작  │ ID       │ EX       │
+├────────┴──────────┴──────────┴──────────┴──────────┴──────────┴──────────┤
+│ EX* : 분기 조건과 목표 주소가 여기서 확정                                  │
+│ ADD : 분기 성공 여부와 관계없이 실행되는 Branch Delay Slot 명령            │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 컴파일러는 이 슬롯을 채울 때 보통 세 가지 선택을 한다. 첫째, 분기 이전에 있던 독립 명령을 끌어온다. 둘째, 분기 목적지에서 먼저 실행해도 안전한 명령을 복사한다. 셋째, 분기 미실행 경로에서 먼저 해도 되는 명령을 옮긴다. 이 셋 중 어떤 경우에도 중요한 기준은 <strong>부작용이 분기 결과와 충돌하지 않아야 한다</strong>는 점이다.
 
@@ -133,25 +132,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단순 파이프라인의 제어 해저드</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지연 분기 (Delayed Branch)</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ 분기 지연 슬롯 채우기</div>
-<div class="kb-diagram-note">─▶ 명령어 스케줄링 고도화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">정적 분기 처리 한계 노출</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">분기 예측 (Branch Prediction) · 추측 실행 (Speculative Execution)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">깊은 파이프라인 · 비순차 실행 중심의 현대 프론트엔드</div>
-</div>
-</div>
-
-
+```text
+단순 파이프라인의 제어 해저드
+        │
+        ▼
+지연 분기 (Delayed Branch)
+        │
+        ├─▶ 분기 지연 슬롯 채우기
+        │       └─▶ 명령어 스케줄링 고도화
+        │
+        ▼
+정적 분기 처리 한계 노출
+        │
+        ▼
+분기 예측 (Branch Prediction) · 추측 실행 (Speculative Execution)
+        │
+        ▼
+깊은 파이프라인 · 비순차 실행 중심의 현대 프론트엔드
+```
 
 이 흐름은 "노출된 시간차 보정"에서 "하드웨어가 시간차를 숨기는 방향"으로 분기 처리 기술이 진화했음을 보여준다.
 

@@ -29,17 +29,14 @@ tags = ["studynote-ai"]
 
 딥러닝 모델은 수백만 개의 파라미터를 가지므로, 모든 파라미터에 동일한 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)을 적용하는 것은 비효율적이다. 이를 해결하기 위해 <strong>적응형 <a href="/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/">학습률</a>(<a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/137_edutech_adaptive_learning_lms/">Adaptive Learning</a> Rate)</strong> 개념이 등장했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)은 산에서 내려갈 때 한 걸음의 보폭이다. 보폭이 너무 크면 건너편 산으로 튀어오르고, 보폭이 너무 작으면 평생 내려가도 산 중턱을 못 벗어난다.
 
@@ -49,41 +46,36 @@ tags = ["studynote-ai"]
 
 ### [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)과 [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">손실(Loss)</div>
-<div class="kb-diagram-note">← α 너무 큼: 발산</div>
-<div class="kb-diagram-note">↗↘↗↘</div>
-<div class="kb-diagram-note">높음│ / \</div>
-<div class="kb-diagram-note">/ \ ← α 적절: 수렴</div>
-<div class="kb-diagram-note">/ ↘↗↘↗→ 최솟값</div>
-<div class="kb-diagram-note">/ ●</div>
-<div class="kb-diagram-note">낮음│___/____________________</div>
-<div class="kb-diagram-tree-item" style="--depth:2">→ 가중치(Weight)</div>
-</div>
-</div>
-
-
+```
+손실(Loss)
+    │
+    │  ← α 너무 큼: 발산
+    │        ↗↘↗↘
+높음│       /    \
+    │      /      \   ← α 적절: 수렴
+    │     /        ↘↗↘↗→ 최솟값
+    │    /                  ●
+낮음│___/____________________
+    └──────────────────────→ 가중치(Weight)
+```
 
 ### [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) 발전 계보
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">옵티마이저(Optimizer) 계보</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SGD</div><div class="kb-diagram-cell">Momentum</div><div class="kb-diagram-cell">Adam</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기본 경사</div><div class="kb-diagram-cell">관성 추가</div><div class="kb-diagram-cell">Momentum +</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하강법</div><div class="kb-diagram-cell">지역 최솟값</div><div class="kb-diagram-cell">RMSProp 결합</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">탈출 가능</div><div class="kb-diagram-cell">적응형 학습률</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">w = w - α∇L</div><div class="kb-diagram-cell">v = βv-α∇L</div><div class="kb-diagram-cell">m̂, v̂ 보정 후 갱신</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">w = w + v</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────┐
+│             옵티마이저(Optimizer) 계보                │
+├──────────────┬──────────────┬───────────────────────┤
+│  SGD         │  Momentum    │  Adam                 │
+│  기본 경사   │  관성 추가   │  Momentum +           │
+│  하강법      │  지역 최솟값 │  RMSProp 결합         │
+│              │  탈출 가능   │  적응형 학습률         │
+└──────────────┴──────────────┴───────────────────────┘
+         ↓               ↓               ↓
+┌──────────────┐  ┌─────────────┐  ┌──────────────────┐
+│  w = w - α∇L │  │ v = βv-α∇L  │  │ m̂, v̂ 보정 후 갱신│
+│              │  │ w = w + v   │  │                  │
+└──────────────┘  └─────────────┘  └──────────────────┘
+```
 
 ### [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) 종류 비교
 

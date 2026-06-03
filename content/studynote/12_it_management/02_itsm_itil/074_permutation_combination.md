@@ -28,17 +28,11 @@ tags = ["it_management"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Ordering?</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Yes → Permutation</div>
-<div class="kb-diagram-tree-item" style="--depth:1">No → Combination</div>
-</div>
-</div>
-
-
+```text
+Ordering?
+  ├─ Yes → Permutation
+  └─ No  → Combination
+```
 
 | 개념 | 의미 |
 | :-- | :-- |
@@ -105,37 +99,25 @@ tags = ["it_management"]
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Permutation</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Combination</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Probability</div>
-</div>
-</div>
-
-
+```text
+Permutation
+  ↓
+Combination
+  ↓
+Probability
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Factorial</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Permutation / Combination</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Binomial Coefficient</div>
-</div>
-</div>
-
-
+```text
+Factorial
+  ↓
+Permutation / Combination
+  ↓
+Binomial Coefficient
+```
 
 ---
 

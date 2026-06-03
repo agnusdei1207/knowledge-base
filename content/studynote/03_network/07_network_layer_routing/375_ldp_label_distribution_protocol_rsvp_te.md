@@ -26,18 +26,14 @@ tags = ["studynote-network"]
   - [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/): "부산 지부로 가려면 1번 기차를 타라"라고 **지도를 알려주는 놈**.
   - <strong>LDP / RSVP-<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/361_ospf_traffic_engineering_te/">TE</a></strong>: 스파이들끼리 접선할 때 쓸 **"암구호(딱지 번호)를 맞춰주는 놈"**. "너 부산 지부 갈 때 검은 넥타이(100번 Label) 매고 와, 그럼 내가 붉은 장미(200번 Label) 건네주며 들여보내 줄게!"라고 사전 모의를 마치는 작업입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">LSR, LER</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LDP, RSVP-TE</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MPLS VPN</div></div>
-</div>
-</div>
-
-
+```text
+[LSR, LER]
+    │
+    ▼
+[LDP, RSVP-TE]
+    │
+    └──▶ [MPLS VPN]
+```
 
 - **📢 섹션 요약 비유**: ** 이 시그널링 프로토콜들은 릴레이 계주에서 **"바통 터치 구간 합의"**와 같습니다. 1번 주자가 "오른손으로 줄게(10번 라벨)", 2번 주자가 "그럼 난 왼손으로 받을게(20번 라벨 교환)"라고 달리기 전에 미리 룰을 정해둬야, 실전에서 0.1초의 낭비 없이 바통이 매끄럽게 전달됩니다.
 
@@ -54,29 +50,29 @@ tags = ["studynote-network"]
 - **장점**: 설정이 너무 쉽다. 그냥 라우터에 `mpls ip` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 한 줄만 치면 지들끼리 쑥덕거리고 1초 만에 터널이 완성된다.
 
 ### 2. RSVP-[TE](/knowledge-base/studynote/03_network/07_network_layer_routing/361_ospf_traffic_engineering_te/) (Resource Reservation [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) - [TE](/knowledge-base/studynote/03_network/07_network_layer_routing/361_ospf_traffic_engineering_te/)) - 운명 거스르기
-OSPF가 정해준 1등 길(고속도로)이 트래픽으로 터져나갈 때, 억지로 2등 길(국도)로 우회 터널을 뚫어야 할 때(Traffic Engineering) 투입되는 해결사다.
+OSPF가 정해준 1등 길(고속도로)이 트래픽으로 터져나갈 때, 억지로 2등 길(국도)로 우회 터널을 뚫어야 할 때(Traffic 엔진ering) 투입되는 해결사다.
 - **특징 (독립성)**: 기존 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) 지도를 대놓고 무시한다. "고속도로 꽉 막혔잖아! 돌아가더라도 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 빵빵한 국도 쪽에다가 딱지 번호 뿌려!"라며 <strong>관리자가 원하는 임의의 길(Explicit Path)로 억지로 터널(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/245_lsp_liskov_substitution_principle/">LSP</a>)을 비틀어 뚫어버린다.</strong>
 - **동작 (예약)**: 목적지까지 가면서 단순히 딱지만 배분하는 게 아니라, "내가 이 터널로 1Gbps 트래픽 보낼 거니까 너네 라우터 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 1Gbps 치 미리 비워놔!(Resource Reservation)"라고 강제 예약까지 걸어버린다.
 - **단점**: 길이 끊기면 OSPF처럼 자동으로 훅훅 복구되는 게 아니라, 터널을 처음부터 다시 파야 해서 관리자 설정이 더럽게 빡세고 라우터 CPU를 많이 잡아먹는다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LDP vs RSVP-TE의 터널(LSP) 개척 사상 차이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(위) 고속도로: 10Gbps (현재 9.9G 꽉 참)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">서울 LER</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">부산 LER</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">\ ↗</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(아래) 국도: 1Gbps (텅텅 비었음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* LDP의 만행: "OSPF님께서 고속도로가 1등이라고 하셨다! 무조건</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고속도로 위에 딱지(터널) 뚫어!!" ──▶ 망 터짐.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* RSVP-TE의 지능: "고속도로 꽉 찬 거 안 보여? 텅텅 빈 아래쪽 국도로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">내가 강제로 1Gbps 예약해서 터널 비틀어 뚫어줄게!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 망이 쾌적하게 로드 밸런싱됨.</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                LDP vs RSVP-TE의 터널(LSP) 개척 사상 차이           │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │                 (위) 고속도로: 10Gbps (현재 9.9G 꽉 참)         │
+ │   [ 서울 LER ] ───────────────────────────────▶ [ 부산 LER ] │
+ │                \                             ↗              │
+ │                 (아래) 국도: 1Gbps (텅텅 비었음)                 │
+ │                                                             │
+ │   * LDP의 만행: "OSPF님께서 고속도로가 1등이라고 하셨다! 무조건        │
+ │               고속도로 위에 딱지(터널) 뚫어!!" ──▶ 망 터짐.        │
+ │                                                             │
+ │   * RSVP-TE의 지능: "고속도로 꽉 찬 거 안 보여? 텅텅 빈 아래쪽 국도로  │
+ │                    내가 강제로 1Gbps 예약해서 터널 비틀어 뚫어줄게!"  │
+ │                    ──▶ 망이 쾌적하게 로드 밸런싱됨.               │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: <strong> LDP가 "내비게이션이 시키는 대로만 아무 생각 없이 표지판(Label)을 꽂고 다니는 </strong>수동적인 알바생<strong>"이라면, RSVP-TE는 차가 막히면 내비게이션을 무시하고, 자기 권력으로 경찰을 동원해 갓길과 샛길의 차들을 다 빼버린 뒤 뻥 뚫린 무정차 호송로(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/361_ospf_traffic_engineering_te/">TE</a> 터널)를 개척해 내는 </strong>"교통경찰대장"**입니다.
 
@@ -134,19 +130,15 @@ LDP, RSVP-TE는 [라우팅](/knowledge-base/studynote/03_network/07_network_laye
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: LSR, LER</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: LDP, RSVP-TE</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: MPLS VPN</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: LSR, LER]
+    │
+    ▼
+[현재 개념: LDP, RSVP-TE]
+    │
+    ├──▶ [확장 A: MPLS VPN]
+    └──▶ [확장 B: 의도 기반 라우팅]
+```
 
 LDP, RSVP-TE는 [LSR](/knowledge-base/studynote/03_network/07_network_layer_routing/374_lsr_label_switch_router_ler_edge/), LER에서 출발해 현재 메커니즘을 정교화하고, 이후 [MPLS](/knowledge-base/studynote/03_network/07_network_layer_routing/373_mpls_multiprotocol_label_switching_20bit/) VPN와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

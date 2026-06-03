@@ -23,18 +23,14 @@ tags = ["studynote-network"]
 - **공격 흐름**: 보안이 허술한 말단 신입사원의 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)(교두보)에 [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/) 메일을 보내 하나만 감염시킵니다. 그리고 이 PC를 숙주 삼아, <strong>사내망 내부(East-West 트래픽)를 옆으로, 옆으로 기어 다니며 이 서버 저 서버를 조용히 찔러보고 감염을 퍼뜨려 나가는 악질적인 확산 기법</strong>이 횡적 확산(Lateral Movement)입니다.
 - **기존망의 맹점**: 기존 사내망은 "우리는 한식구"라며 같은 대역(서브넷) 안에서는 서버들끼리 아무런 통제 없이 평문으로 쌩쌩 통신이 가능했기 때문에 해커가 한 번 들어오면 막을 방법이 없었습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">제로 트러스트 보안</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">마이크로 세그멘테이션</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SASE</div></div>
-</div>
-</div>
-
-
+```text
+[제로 트러스트 보안]
+    │
+    ▼
+[마이크로 세그멘테이션]
+    │
+    └──▶ [SASE]
+```
 
 - **📢 섹션 요약 비유**: 마이크로 세그멘테이션은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -44,18 +40,14 @@ tags = ["studynote-network"]
 
 - **개념**: [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)(클라우드) 내부의 네트워크를 크게 덩어리([VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/)) 짓는 것을 넘어서, <strong>서버 1대, 가상 머신(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a>) 1대, 심지어 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a>(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/">Docker</a>) 1개 단위의 극단적으로 작은 조각(Micro)으로 쪼개어, 각 조각들 사이에 엄격한 소형 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a>(통제 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>)을 겹겹이 세우는 최첨단 네트워크 격리 기술</strong>입니다. ([제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 아키텍처의 핵심 구현체)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">제로 트러스트 보안</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">마이크로 세그멘테이션</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SASE</div></div>
-</div>
-</div>
-
-
+```text
+[제로 트러스트 보안]
+    │
+    ▼
+[마이크로 세그멘테이션]
+    │
+    └──▶ [SASE]
+```
 
 - **📢 섹션 요약 비유**: 마이크로 세그멘테이션의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -118,19 +110,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 제로 트러스트 보안</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 마이크로 세그멘테이션</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: SASE</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 제로 트러스트 보안]
+    │
+    ▼
+[현재 개념: 마이크로 세그멘테이션]
+    │
+    ├──▶ [확장 A: SASE]
+    └──▶ [확장 B: 예측형 위협 대응]
+```
 
 마이크로 세그멘테이션는 [제로 트러스트 보안](/knowledge-base/studynote/03_network/14_network_security_threats/738_zero_trust_architecture_least_privilege/)에서 출발해 현재 메커니즘을 정교화하고, 이후 SASE와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

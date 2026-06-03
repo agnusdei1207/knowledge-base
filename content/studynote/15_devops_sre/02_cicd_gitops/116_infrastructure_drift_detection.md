@@ -18,24 +18,22 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">드리프트 발생 시나리오</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1. Terraform: security_group =</div><div class="kb-diagram-node">22, 443</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 운영자: AWS 콘솔에서 8080 포트 수동 추가 ⚠️</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3. 실제 상태:</div><div class="kb-diagram-node">22, 443, 8080</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Terraform 코드:</div><div class="kb-diagram-node">22, 443</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 드리프트 발생!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. terraform apply 실행 시:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">8080이 코드에 없으므로 삭제됨 → 서비스 장애!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해결: 주기적 terraform plan으로 Diff 감지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 코드 동기화 또는 수동 변경 되돌리기</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    드리프트 발생 시나리오                              │
+├───────────────────────────────────────────────────────┤
+│  1. Terraform: security_group = [22, 443]            │
+│  2. 운영자: AWS 콘솔에서 8080 포트 수동 추가 ⚠️      │
+│  3. 실제 상태: [22, 443, 8080]                        │
+│     Terraform 코드: [22, 443]                         │
+│     → 드리프트 발생!                                  │
+│  4. terraform apply 실행 시:                          │
+│     8080이 코드에 없으므로 삭제됨 → 서비스 장애!     │
+│                                                       │
+│  해결: 주기적 terraform plan으로 Diff 감지            │
+│     → 코드 동기화 또는 수동 변경 되돌리기             │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 드리프트는 건축 대장([IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/))과 실제 건물(인프라)이 다른 상태다. 건축 대장대로 리모델링하면 몰래 만든 방이 철거된다.
 
@@ -113,23 +111,21 @@ steps:
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">수동 인프라 관리 (콘솔 변경 빈번)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IaC 도입 (2014~) — 코드로 인프라 관리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">드리프트 문제 인식 (2018~) — 코드 vs 실제 불일치</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Driftctl / CF Drift Detection (2020~) — 자동 감지</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: 자동 Remediation — 드리프트 감지→자동 복원</div></div>
-</div>
-</div>
-
-
+```text
+[수동 인프라 관리 (콘솔 변경 빈번)]
+    │
+    ▼
+[IaC 도입 (2014~) — 코드로 인프라 관리]
+    │
+    ▼
+[드리프트 문제 인식 (2018~) — 코드 vs 실제 불일치]
+    │
+    ▼
+[Driftctl / CF Drift Detection (2020~) — 자동 감지]
+    │
+    ▼
+[현재: 자동 Remediation — 드리프트 감지→자동 복원]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 설계도([IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/))에는 <strong>방 3개</strong>라고 써있는데, 누군가 몰래 **방 1개를 더 만들었어요** (드리프트).

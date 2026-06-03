@@ -29,28 +29,30 @@ tags = ["studynote-network"]
 
 평문 통신의 [중간자 공격](/knowledge-base/studynote/03_network/14_network_security_threats/706_mitm_man_in_the_middle_hsts/) 위협과 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 핸드셰이크를 통한 방어 메커니즘을 구조도로 시각화하면, 신원 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 왜 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)만큼 중요한지 알 수 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">중간자 공격(MITM)과 TLS의 방어 원리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HTTP 평문 통신 (공격 노출)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">해커</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">은행 서버</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 해커가 중간에서 라우터를 장악하여 데이터를 그대로 읽고 가로챔</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">단순 암호화만 한 경우 (신원 검증 실패)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">해커</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">──(은행의 공개키)── 은행</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">해커</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">은행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 데이터는 암호화되었지만, 클라이언트는 해커를 은행으로 착각함</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">TLS 핸드셰이크 적용 (인증서 기반 방어)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">해커 통과</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">── 은행 서버</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(내장된 Root CA 공개키로 인증서 서명 검증)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ "이 인증서는 진짜 은행 것이 맞다!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라이언트 ── (은행의 공개키로 세션키 암호화) ──▶ 해커 (해독 불가)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 해커는 은행의 '개인키'가 없으므로 세션키를 알아낼 수 없어 공격 실패</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │              중간자 공격(MITM)과 TLS의 방어 원리               │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │  [HTTP 평문 통신 (공격 노출)]                                   │
+  │   클라이언트 ───── (계좌 비밀번호) ─────▶ [해커] ─────▶ 은행 서버    │
+  │   * 해커가 중간에서 라우터를 장악하여 데이터를 그대로 읽고 가로챔            │
+  │                                                             │
+  │  [단순 암호화만 한 경우 (신원 검증 실패)]                          │
+  │   클라이언트 ◀──(해커의 가짜 공개키)── [해커] ◀──(은행의 공개키)── 은행 │
+  │   클라이언트 ──(해커 키로 암호화)──▶ [해커] ──(은행 키로 암호화)─▶ 은행 │
+  │   * 데이터는 암호화되었지만, 클라이언트는 해커를 은행으로 착각함           │
+  │                                                             │
+  │  [TLS 핸드셰이크 적용 (인증서 기반 방어)]                          │
+  │   클라이언트 ◀── (은행의 공인 인증서) ── [해커 통과] ◀── 은행 서버    │
+  │        │                                                    │
+  │    (내장된 Root CA 공개키로 인증서 서명 검증)                       │
+  │    ✅ "이 인증서는 진짜 은행 것이 맞다!"                            │
+  │        │                                                    │
+  │   클라이언트 ── (은행의 공개키로 세션키 암호화) ──▶ 해커 (해독 불가) │
+  │   * 해커는 은행의 '개인키'가 없으므로 세션키를 알아낼 수 없어 공격 실패      │
+  └─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 단순히 암호화를 한다고 해서 보안이 완성되는 것은 아니다. 해커가 중간에서 자신의 공개키를 은행의 공개키인 양 클라이언트에게 건네주면(MITM), 클라이언트는 해커의 키로 암호화하여 통신하게 된다. [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 핸드셰이크는 이 문제를 '공인 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 기관([CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/), Certificate Authority)'이 서명한 X.509 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서로 해결한다. 은행 서버는 핸드셰이크 도중 CA의 디지털 서명이 찍힌 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 보낸다. 클라이언트(웹 브라우저)는 내장된 Root CA의 공개키로 이 서명이 위조되지 않았음을 수학적으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다. 해커는 CA의 개인키를 해킹하지 않는 이상 은행의 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 위조할 수 없으므로, 클라이언트는 안전하게 은행 서버의 진짜 공개키를 추출하여 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)키를 암호화해 전달할 수 있다.
 
@@ -74,33 +76,45 @@ tags = ["studynote-network"]
 
 전통적이고 이해하기 쉬운 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.2의 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 기반 핸드셰이크 과정을 살펴보면, 클라이언트와 서버가 2번의 왕복(2-[RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/))을 통해 보안 채널을 구축하는 물리적 타임라인을 파악할 수 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TLS 1.2 RSA 핸드셰이크 파이프라인 (2-RTT)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Client</div><div class="kb-diagram-node">Server</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Client Hello</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(지원하는 Cipher Suite, Client Random) ▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Server Hello</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀ (선택한 Cipher Suite, Server Random) ──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Certificate</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀ (서버의 X.509 공인 인증서) ──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. Server Hello Done</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">인증서 검증 완료 및 Pre-Master Secret 생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. Client Key Exchange</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(서버의 공개키로 암호화한 Pre-Master Secret) ▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6. Change Cipher Spec</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(이제부터 대칭키로 암호화 시작함) ▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">7. Finished (핸드셰이크 무결성 해시)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">8. Change Cipher Spec</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">9. Finished</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀ (핸드셰이크 무결성 해시) ──</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▼</div><div class="kb-diagram-node">핸드셰이크 완료. 안전한 Application Data 전송 시작</div><div class="kb-diagram-connector">▼</div></div>
-</div>
-</div>
-
-
+```text
+  ┌──────────────────────────────────────────────────────────────────┐
+  │                 TLS 1.2 RSA 핸드셰이크 파이프라인 (2-RTT)               │
+  ├──────────────────────────────────────────────────────────────────┤
+  │                                                                  │
+  │   [Client]                                            [Server]   │
+  │      │                                                   │       │
+  │      │ 1. Client Hello                                   │       │
+  │      │ (지원하는 Cipher Suite, Client Random)──────────▶ │       │
+  │      │                                                   │       │
+  │      │                                   2. Server Hello │       │
+  │      │ ◀─────────(선택한 Cipher Suite, Server Random) ── │       │
+  │      │                                                   │       │
+  │      │                                    3. Certificate │       │
+  │      │ ◀──────────────────────── (서버의 X.509 공인 인증서) ── │       │
+  │      │                                                   │       │
+  │      │                                4. Server Hello Done │       │
+  │      │ ◀──────────────────────────────────────────────── ── │       │
+  │      │                                                   │       │
+  │  [인증서 검증 완료 및 Pre-Master Secret 생성]                   │       │
+  │      │                                                   │       │
+  │      │ 5. Client Key Exchange                            │       │
+  │      │ (서버의 공개키로 암호화한 Pre-Master Secret) ───▶ │       │
+  │      │                                                   │       │
+  │      │ 6. Change Cipher Spec                             │       │
+  │      │ (이제부터 대칭키로 암호화 시작함) ────────────────▶ │       │
+  │      │                                                   │       │
+  │      │ 7. Finished (핸드셰이크 무결성 해시)              │       │
+  │      │ ─────────────────────────────────────────────────▶ │       │
+  │      │                                                   │       │
+  │      │                             8. Change Cipher Spec │       │
+  │      │ ◀──────────────────────────────────────────────── ── │       │
+  │      │                                                   │       │
+  │      │                                        9. Finished│       │
+  │      │ ◀────────────────────────── (핸드셰이크 무결성 해시) ── │       │
+  │      │                                                   │       │
+  │      ▼       [핸드셰이크 완료. 안전한 Application Data 전송 시작]      ▼       │
+  └──────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.2 핸드셰이크는 크게 4단계로 요약된다. 첫째, 서로 인사하며 사용할 암호화 방식과 난수(Random)를 교환한다(Hello). 둘째, 서버가 자신의 신분증([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서)을 보낸다. 셋째, 클라이언트는 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 안의 서버 공개키를 꺼내어, 앞으로 쓸 대칭키의 재료가 될 'Pre-[Master Secret](/knowledge-base/studynote/09_security/03_network_security/141_master_secret/)'을 암호화해서 서버에 보낸다. 서버는 자신의 개인키로 이를 복호화한다. 이제 양쪽은 [Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/) Random, Server Random, Pre-Master Secret이라는 3가지 동일한 재료를 가지게 되었고, 이를 조합하여 최종 '[Master Secret](/knowledge-base/studynote/09_security/03_network_security/141_master_secret/) ([세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 대칭키)'을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)해낸다. 마지막 넷째, [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 대칭키가 서로 똑같은지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하기 위해 지금까지 주고받은 메시지의 해시값을 대칭키로 암호화하여 교환(Finished)함으로써 핸드셰이크를 성공적으로 마친다.
 
@@ -129,29 +143,29 @@ tags = ["studynote-network"]
 
 핸드셰이크 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 절반으로 줄인 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3의 1-[RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/) 파이프라인 변화를 시각화하면 그 혁신성을 명확히 이해할 수 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TLS 1.2 vs TLS 1.3 핸드셰이크 지연(Latency) 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">TLS 1.2 : 2-RTT</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client Server</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client Hello ▶</div><div class="kb-diagram-cell">(1) 알고리즘 제안</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀── Server Hello</div><div class="kb-diagram-cell">(2) 알고리즘 확정, 인증서 전달</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Key Exchange ▶</div><div class="kb-diagram-cell">(3) 키 교환 재료 전송</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀── Finished</div><div class="kb-diagram-cell">(4) 검증 완료. 데이터 전송 준비 끝</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HTTP GET (Data) ▶</div><div class="kb-diagram-cell">(5) 이제야 실제 데이터 요청</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">TLS 1.3 : 1-RTT</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client Server</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client Hello + Key ▶</div><div class="kb-diagram-cell">(1) 암호 제안 + "내 키 재료도 일단 받아!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀── Server Hello + Cert ──</div><div class="kb-diagram-cell">(2) 암호 확정 + 인증서 + "내 키 재료 여깄다!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HTTP GET (Data) ▶</div><div class="kb-diagram-cell">(3) 즉시 대칭키 계산 후 데이터 전송 시작</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: TLS 1.3은 클라이언트가 처음 인사를 할 때, 아예 자신이 계산한 임시 공개키</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Key Share)를 먼저 던져버린다. 왕복 1번(1-RTT)을 완전히 제거했다.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌──────────────────────────────────────────────────────────────────┐
+  │                 TLS 1.2 vs TLS 1.3 핸드셰이크 지연(Latency) 비교        │
+  ├──────────────────────────────────────────────────────────────────┤
+  │                                                                  │
+  │ [TLS 1.2 : 2-RTT]                                                │
+  │ Client                      Server                               │
+  │   │─── Client Hello ─────────▶│ (1) 알고리즘 제안                     │
+  │   │◀── Server Hello ─────────│ (2) 알고리즘 확정, 인증서 전달            │
+  │   │─── Key Exchange ─────────▶│ (3) 키 교환 재료 전송                  │
+  │   │◀── Finished ─────────────│ (4) 검증 완료. 데이터 전송 준비 끝         │
+  │   │─── HTTP GET (Data) ──────▶│ (5) 이제야 실제 데이터 요청              │
+  │                                                                  │
+  │ [TLS 1.3 : 1-RTT]                                                │
+  │ Client                      Server                               │
+  │   │─── Client Hello + Key ───▶│ (1) 암호 제안 + "내 키 재료도 일단 받아!"  │
+  │   │◀── Server Hello + Cert ──│ (2) 암호 확정 + 인증서 + "내 키 재료 여깄다!"│
+  │   │─── HTTP GET (Data) ──────▶│ (3) 즉시 대칭키 계산 후 데이터 전송 시작     │
+  │                                                                  │
+  │ 결과: TLS 1.3은 클라이언트가 처음 인사를 할 때, 아예 자신이 계산한 임시 공개키 │
+  │      (Key Share)를 먼저 던져버린다. 왕복 1번(1-RTT)을 완전히 제거했다.       │
+  └──────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 과거 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.2에서는 클라이언트가 서버가 무슨 암호화 방식을 고를지 몰랐기 때문에 일단 인사(Hello)만 하고 서버의 대답을 기다려야 했다. [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3에서는 허용되는 암호화 방식이 단 5개로 줄어들었다. 클라이언트는 "네가 최신 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 고를 확률이 매우 높으니, 아예 내 임시 공개키([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) Share)를 처음 인사할 때 같이 보낼게!"라며 선제적으로 재료를 전송해버린다. 서버는 이를 받자마자 자신의 키를 조합해 대칭키를 만들고, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서와 자신의 키 재료를 클라이언트에게 보낸다. 클라이언트는 이를 받는 즉시(1-[RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/) 만에) 대칭키를 완성하여 바로 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 암호화해 쏠 수 있다. 이 1-RTT의 단축은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 심한 모바일 네트워크([LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)/[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/))에서 웹페이지 로딩 속도를 혁신적으로 끌어올린 원동력이다.
 
@@ -186,25 +200,27 @@ SSL/[TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thre
 
 웹 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 운영에서 가장 많이 겪는 병목인 'CPU 과부하'를 해결하는 SSL [Offloading](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) (Termination) 아키텍처를 시각화하면 대규모 트래픽 처리의 정석을 이해할 수 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대규모 시스템의 SSL Offloading 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">클라이언트</div><div class="kb-diagram-node">DMZ 구역</div><div class="kb-diagram-node">내부 사설망</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Web Server 1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(TLS Handshake)</div><div class="kb-diagram-cell">L7 Load</div><div class="kb-diagram-cell">(연산 부하 없음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Balancer</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Web Server 2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(무거운 RSA 복호화)</div><div class="kb-diagram-cell">(연산 부하 없음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인증서(Cert) 및 개인키 탑재 지점</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">판단: WAS(Web Application Server) 수십 대에 일일이 인증서를 설치하고 갱신하는</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">운영 지옥을 피하고, 웹 서버의 CPU를 비즈니스 로직(DB 쿼리 등)에만 100%</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">집중시키기 위해 프록시 단에서 핸드셰이크를 종료(Terminate)시키는 것이 정석.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌──────────────────────────────────────────────────────────────────┐
+  │                 대규모 시스템의 SSL Offloading 아키텍처                  │
+  ├──────────────────────────────────────────────────────────────────┤
+  │                                                                  │
+  │ [클라이언트]                 [DMZ 구역]                 [내부 사설망]       │
+  │                                                                  │
+  │      ───── HTTPS ─────▶ ┌──────────────┐ ─── HTTP ───▶ [Web Server 1] │
+  │    (TLS Handshake)    │  L7 Load     │                (연산 부하 없음) │
+  │                       │  Balancer    │                               │
+  │      ───── HTTPS ─────▶ │ (Nginx/ALB)  │ ─── HTTP ───▶ [Web Server 2] │
+  │   (무거운 RSA 복호화)     │              │                (연산 부하 없음) │
+  │                       └──────────────┘                               │
+  │                          ▲                                       │
+  │                          │ 인증서(Cert) 및 개인키 탑재 지점             │
+  │                                                                  │
+  │ 판단: WAS(Web Application Server) 수십 대에 일일이 인증서를 설치하고 갱신하는 │
+  │      운영 지옥을 피하고, 웹 서버의 CPU를 비즈니스 로직(DB 쿼리 등)에만 100%   │
+  │      집중시키기 위해 프록시 단에서 핸드셰이크를 종료(Terminate)시키는 것이 정석.│
+  └──────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 핸드셰이크 과정 중 서버가 클라이언트가 보낸 난수(Pre-[Master Secret](/knowledge-base/studynote/09_security/03_network_security/141_master_secret/))를 자신의 개인키로 푸는 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 복호화 연산은 일반 대칭키 연산보다 수십~수백 배의 CPU 사이클을 잡아먹는다. 초당 수천 명의 접속이 몰리면 일반 웹 서버는 버티지 못한다. 따라서 실무 아키텍처는 가장 앞단의 L7 로드밸런서(또는 전용 [SSL VPN](/knowledge-base/studynote/09_security/03_network_security/283_ssl_vpn/) 장비, [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/))에 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 몰아서 설치한다. 로드밸런서는 클라이언트와 무거운 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 핸드셰이크를 끝내고 페이로드를 복호화한 뒤, 안전한 내부 사설망([VPC](/knowledge-base/studynote/03_network/16_data_center_cloud/836_vpc_virtual_private_cloud_subnet_isolation/) 등) 안에 있는 백엔드 웹 서버로는 가벼운 평문 HTTP로 요청을 넘겨준다. 이를 통해 엄청난 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상과 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 관리의 중앙화를 동시에 이뤄낸다.
 
@@ -241,26 +257,27 @@ SSL/[TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thre
 
 마지막으로 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/1.1부터 최신 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/3에 이르기까지 핸드셰이크 오버헤드가 어떻게 압축되어 왔는지를 진화 로드맵으로 정리하면, 속도를 향한 집념을 엿볼 수 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">네트워크 핸드셰이크 진화 로드맵 (연결 속도 최적화)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HTTP/1.1 + TLS 1.2 (과거)</div><div class="kb-diagram-note">: 총 3-RTT</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TCP 3-way Handshake (1-RTT) + TLS 1.2 Handshake (2-RTT)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">= 엄청난 왕복 지연 비용 (해외 망 접속 시 치명적)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HTTP/2 + TLS 1.3 (현재 주력)</div><div class="kb-diagram-note">: 총 2-RTT</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TCP 3-way Handshake (1-RTT) + TLS 1.3 Handshake (1-RTT)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">= 암호화 협상 과정을 절반으로 줄여 속도 대폭 개선</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HTTP/3 (QUIC) + TLS 1.3 (미래/최신)</div><div class="kb-diagram-note">: 총 1-RTT</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">UDP 기반 QUIC (연결+보안 통합 Handshake) (1-RTT)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 심지어 이전에 접속했던 사이트는 0-RTT로 데이터 즉시 전송 가능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">초점 이동: "보안은 무겁다"는 편견을 깨고, TCP의 한계를 벗어나 보안과 통신 연결을</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하나의 동작으로 완전히 융합(Convergence)하는 방향으로 진화 중.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌──────────────────────────────────────────────────────────────────┐
+  │                 네트워크 핸드셰이크 진화 로드맵 (연결 속도 최적화)          │
+  ├──────────────────────────────────────────────────────────────────┤
+  │                                                                  │
+  │  [HTTP/1.1 + TLS 1.2 (과거)] : 총 3-RTT                          │
+  │   TCP 3-way Handshake (1-RTT) + TLS 1.2 Handshake (2-RTT)        │
+  │   = 엄청난 왕복 지연 비용 (해외 망 접속 시 치명적)                       │
+  │                                                                  │
+  │  [HTTP/2 + TLS 1.3 (현재 주력)] : 총 2-RTT                        │
+  │   TCP 3-way Handshake (1-RTT) + TLS 1.3 Handshake (1-RTT)        │
+  │   = 암호화 협상 과정을 절반으로 줄여 속도 대폭 개선                       │
+  │                                                                  │
+  │  [HTTP/3 (QUIC) + TLS 1.3 (미래/최신)] : 총 1-RTT                 │
+  │   UDP 기반 QUIC (연결+보안 통합 Handshake) (1-RTT)                 │
+  │   * 심지어 이전에 접속했던 사이트는 0-RTT로 데이터 즉시 전송 가능             │
+  │                                                                  │
+  │  초점 이동: "보안은 무겁다"는 편견을 깨고, TCP의 한계를 벗어나 보안과 통신 연결을│
+  │           하나의 동작으로 완전히 융합(Convergence)하는 방향으로 진화 중.    │
+  └──────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 초창기 웹 통신은 문을 두드려 연결을 맺는 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 핸드셰이크(1번 왕복)가 끝나야만, 비로소 보안 협상을 위한 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 핸드셰이크(2번 왕복)를 시작했다. 총 3번을 왕복해야 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보낼 수 있어 레이턴시가 컸다. [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3은 보안 왕복을 1번으로 줄였지만 TCP의 물리적 제약은 어쩔 수 없었다. 이 병목을 완전히 깨버린 것이 구글의 [QUIC](/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/) ([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/3)이다. QUIC은 무거운 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 대신 가벼운 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 위에 독자적인 연결 제어를 구현하여, '연결 수립'과 '[TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3 키 교환'을 패킷 하나에 뭉쳐서(Piggyback) 동시에 쏴버린다. 결국 단 한 번의 왕복(1-[RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/))만에 보안 채널이 뚫리는 기적을 만들어냈으며, 이는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화의 극치를 보여준다.
 
@@ -279,19 +296,15 @@ SSL/[TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thre
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: ESP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: SSL/TLS 핸드셰이크</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: VPN</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: ESP]
+    │
+    ▼
+[현재 개념: SSL/TLS 핸드셰이크]
+    │
+    ├──▶ [확장 A: VPN]
+    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
+```
 
 SSL/[TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 핸드셰이크는 ESP에서 출발해 현재 메커니즘을 정교화하고, 이후 VPN와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

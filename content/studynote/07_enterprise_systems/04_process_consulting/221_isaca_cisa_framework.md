@@ -43,20 +43,24 @@ CISA는 이 복잡한 기술 환경을 위험 기반 [감사](/knowledge-base/st
 
 아래 다이어그램은 CISA가 위험 기반으로 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)를 수행하는 기본 사이클을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CISA risk-based audit cycle</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Business objective</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Risk assessment -&gt; high / medium / low</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Control review -&gt; design and operating effectiveness</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Evidence &amp; reporting -&gt; findings / residual risk / recommendation</div></div>
-<div class="kb-diagram-note">follow-up and re-assessment</div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ CISA risk-based audit cycle                                       │
+├────────────────────────────────────────────────────────────────────┤
+│ Business objective                                                 │
+│        │                                                           │
+│        ▼                                                           │
+│ Risk assessment -> high / medium / low                             │
+│        │                                                           │
+│        ▼                                                           │
+│ Control review   -> design and operating effectiveness             │
+│        │                                                           │
+│        ▼                                                           │
+│ Evidence & reporting -> findings / residual risk / recommendation  │
+│        │                                                           │
+│        └────────────── follow-up and re-assessment ───────────────┘
+└────────────────────────────────────────────────────────────────────┘
+```
 
 여기서 핵심은 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 자원이 무한하지 않다는 사실이다. [CISA](/knowledge-base/studynote/11_design_supervision/01_audit_framework/022_cisa_certification_audit/) 관점은 모든 시스템을 똑같이 보는 대신, 자산 가치와 위협 수준이 높은 영역에 더 깊은 테스트를 배치한다. 그래서 CISA는 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 모음이 아니라 위험 우선순위화 프레임워크다.
 
@@ -126,23 +130,21 @@ ISACA와 [CISA](/knowledge-base/studynote/11_design_supervision/01_audit_framewo
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">IT Governance Need</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ISACA Standards and Community</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CISA Risk-based Audit Perspective</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Control Evaluation · Residual Risk</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Governance and Assurance Maturity</div>
-</div>
-</div>
-
-
+```text
+IT Governance Need
+    │
+    ▼
+ISACA Standards and Community
+    │
+    ▼
+CISA Risk-based Audit Perspective
+    │
+    ▼
+Control Evaluation · Residual Risk
+    │
+    ▼
+Governance and Assurance Maturity
+```
 
 이 흐름은 ISACA의 표준 생태계가 [CISA](/knowledge-base/studynote/11_design_supervision/01_audit_framework/022_cisa_certification_audit/) 실무 관점으로 연결되고, 다시 조직의 통제 성숙도로 확장되는 과정을 요약한다.
 

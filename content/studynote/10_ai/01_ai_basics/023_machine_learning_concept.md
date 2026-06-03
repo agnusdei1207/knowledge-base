@@ -40,23 +40,27 @@ tags = ["studynote-ai"]
 
 이 패러다임 역전이 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)의 본질이다. 개발자는 스팸 단어를 찾는 대신, 1만 통의 스팸과 1만 통의 정상 메일을 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에 던져준다. [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 수학적 최적화([경사 하강법](/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/), [Gradient Descent](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/165_gradient_descent/))를 통해 <strong>스팸을 구분하는 최적의 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a>(<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">Weight</a>)를 스스로 학습</strong>한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AI(인공지능) &gt; ML(머신러닝) &gt; DL(딥러닝) 포함 관계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AI (Artificial Intelligence)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ML (Machine Learning)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DL (Deep Learning)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· 다층 신경망(MLP, CNN, RNN)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· Transformer, GPT, BERT</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· Random Forest, SVM, XGBoost</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· 지도·비지도·강화 학습</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· 지식 표현, 전문가 시스템, 계획 등</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────┐
+│  AI(인공지능) > ML(머신러닝) > DL(딥러닝) 포함 관계        │
+├─────────────────────────────────────────────────────────┤
+│                                                         │
+│  ┌───────────────────────────────────────────────┐     │
+│  │  AI (Artificial Intelligence)                  │     │
+│  │  ┌───────────────────────────────────────┐    │     │
+│  │  │  ML (Machine Learning)                 │    │     │
+│  │  │  ┌─────────────────────────────────┐  │    │     │
+│  │  │  │  DL (Deep Learning)              │  │    │     │
+│  │  │  │  · 다층 신경망(MLP, CNN, RNN)     │  │    │     │
+│  │  │  │  · Transformer, GPT, BERT        │  │    │     │
+│  │  │  └─────────────────────────────────┘  │    │     │
+│  │  │  · Random Forest, SVM, XGBoost       │    │     │
+│  │  │  · 지도·비지도·강화 학습               │    │     │
+│  │  └───────────────────────────────────────┘    │     │
+│  │  · 지식 표현, 전문가 시스템, 계획 등           │     │
+│  └───────────────────────────────────────────────┘     │
+└─────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 전통 프로그래밍이 "요리 레시피를 모두 외워주는 선생님"이라면, [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)은 "수천 개의 요리 영상을 혼자 보고 '맛있는 요리의 공통점'을 스스로 터득하는 천재 셰프"다. 선생님이 없어도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 충분하면 혼자 배운다.
 
@@ -68,68 +72,72 @@ tags = ["studynote-ai"]
 
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 정답(Label)이 있는지, 상호작용 환경이 있는지에 따라 학습 방식이 갈린다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지도 학습</div><div class="kb-diagram-cell">비지도 학습</div><div class="kb-diagram-cell">강화 학습</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Supervised)</div><div class="kb-diagram-cell">(Unsupervised)</div><div class="kb-diagram-cell">(Reinforcement)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 + 정답</div><div class="kb-diagram-cell">데이터만 (정답 없음)</div><div class="kb-diagram-cell">환경 + 보상 신호</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">레이블 있음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· 회귀</div><div class="kb-diagram-cell">· 군집화(Clustering)</div><div class="kb-diagram-cell">· 에이전트 행동 선택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· 분류</div><div class="kb-diagram-cell">· 차원 축소(PCA)</div><div class="kb-diagram-cell">· 보상(Reward) 최대화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· 이상 탐지</div><div class="kb-diagram-cell">· 연관 규칙 학습</div><div class="kb-diagram-cell">· 최적 정책 탐색</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· 집값 예측</div><div class="kb-diagram-cell">· 고객 세그멘테이션</div><div class="kb-diagram-cell">· 알파고(AlphaGo)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· 스팸 분류</div><div class="kb-diagram-cell">· 추천 시스템</div><div class="kb-diagram-cell">· 자율주행, 로보틱스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· 암 진단</div><div class="kb-diagram-cell">· 이상 거래 탐지</div><div class="kb-diagram-cell">· 게임 AI</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────┬──────────────────────┬───────────────────┐
+│  지도 학습        │  비지도 학습           │  강화 학습          │
+│ (Supervised)    │  (Unsupervised)       │ (Reinforcement)   │
+├─────────────────┼──────────────────────┼───────────────────┤
+│ 데이터 + 정답     │ 데이터만 (정답 없음)   │ 환경 + 보상 신호    │
+│ 레이블 있음       │                      │                   │
+├─────────────────┼──────────────────────┼───────────────────┤
+│ · 회귀          │ · 군집화(Clustering)  │ · 에이전트 행동 선택 │
+│ · 분류          │ · 차원 축소(PCA)       │ · 보상(Reward) 최대화│
+│ · 이상 탐지      │ · 연관 규칙 학습       │ · 최적 정책 탐색    │
+├─────────────────┼──────────────────────┼───────────────────┤
+│ · 집값 예측      │ · 고객 세그멘테이션    │ · 알파고(AlphaGo)  │
+│ · 스팸 분류      │ · 추천 시스템         │ · 자율주행, 로보틱스 │
+│ · 암 진단        │ · 이상 거래 탐지       │ · 게임 AI          │
+└─────────────────┴──────────────────────┴───────────────────┘
+```
 
 ### 2. [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 학습 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 ([Training](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/) → Inference)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">머신러닝 파이프라인 (ML Pipeline)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Phase 1</div><div class="kb-diagram-note">학습 단계 (Training) — 오프라인/배치</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원시 데이터</div><div class="kb-diagram-cell">─▶</div><div class="kb-diagram-cell">전처리·피처</div><div class="kb-diagram-cell">─▶</div><div class="kb-diagram-cell">알고리즘 학습</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Raw Data)</div><div class="kb-diagram-cell">엔지니어링</div><div class="kb-diagram-cell">(경사 하강법으로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오차 최소화)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">학습된 모델 (Model)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">y = f(x; W, b)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(최적 가중치 W 내장)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Phase 2</div><div class="kb-diagram-note">추론 단계 (Inference) — 실시간 API</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">새로운 데이터</div><div class="kb-diagram-cell">──▶ ──▶ 예측 결과</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력</div><div class="kb-diagram-cell">완성된 모델 (Model)</div><div class="kb-diagram-cell">스팸 99.2%</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">집값 3.2억</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           머신러닝 파이프라인 (ML Pipeline)                      │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│  [Phase 1] 학습 단계 (Training) — 오프라인/배치                  │
+│                                                              │
+│  ┌──────────┐  ┌───────────────┐  ┌──────────────────────┐  │
+│  │ 원시 데이터│─▶│ 전처리·피처     │─▶│  알고리즘 학습         │  │
+│  │(Raw Data)│  │ 엔지니어링     │  │  (경사 하강법으로     │  │
+│  └──────────┘  └───────────────┘  │   오차 최소화)        │  │
+│                                   └──────────┬───────────┘  │
+│                                              │               │
+│                                              ▼               │
+│                                   ┌──────────────────────┐  │
+│                                   │  학습된 모델 (Model)   │  │
+│                                   │  y = f(x; W, b)      │  │
+│                                   │  (최적 가중치 W 내장)  │  │
+│                                   └──────────┬───────────┘  │
+│  ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─│─ ─ ─ ─ ─ ─ ─ │
+│  [Phase 2] 추론 단계 (Inference) — 실시간 API                   │
+│                                              │               │
+│  ┌─────────────┐                             ▼               │
+│  │ 새로운 데이터 │──▶ ┌──────────────────────┐ ──▶ 예측 결과   │
+│  │ 입력        │    │  완성된 모델 (Model)   │    스팸 99.2%  │
+│  └─────────────┘    └──────────────────────┘    집값 3.2억  │
+│                                                              │
+└──────────────────────────────────────────────────────────────┘
+```
 
 ### 3. 핵심 수학 원리 — [경사 하강법](/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/) ([Gradient Descent](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/165_gradient_descent/))
 
 모델 학습의 본질은 <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/">손실 함수</a>(<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/087_loss_function/">Loss Function</a>)</strong> 값을 최소화하는 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)(W)를 찾는 최적화 문제다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">손실(Loss)</div>
-<div class="kb-diagram-connector">▲</div>
-<div class="kb-diagram-note">● ← 초기 가중치 W₀ (무작위 출발)</div>
-<div class="kb-diagram-note">/ \ 기울기(Gradient) 반대 방향으로 조금씩 이동</div>
-<div class="kb-diagram-note">/ \ (학습률 η = 보폭 크기)</div>
-<div class="kb-diagram-note">/| ● ← 업데이트 W₁</div>
-<div class="kb-diagram-note">/ | ● ← 최솟값 수렴 (최적 W*)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">▶ 가중치(W)</div>
-</div>
-</div>
-
-
+```text
+손실(Loss)
+    ▲
+    │  ●  ← 초기 가중치 W₀ (무작위 출발)
+    │ / \
+    │/   \     기울기(Gradient) 반대 방향으로 조금씩 이동
+    /     \    (학습률 η = 보폭 크기)
+   /|      ●  ← 업데이트 W₁
+  / |       \
+ /  |        ● ← 최솟값 수렴 (최적 W*)
+────┼────────────────────────────────▶  가중치(W)
+```
 
 `W_new = W_old − η × ∂L/∂W`
 
@@ -156,28 +164,22 @@ tags = ["studynote-ai"]
 
 ### 2. 과적합([Overfitting](/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/)) vs 과소적합([Underfitting](/knowledge-base/studynote/10_ai/03_llm_nlp/246_underfitting_bias/)) 트레이드오프
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">모델 성능</div>
-<div class="kb-diagram-connector">▲</div>
-<div class="kb-diagram-note">★ 최적 지점</div>
-<div class="kb-diagram-note">╱╲</div>
-<div class="kb-diagram-note">╱ ╲ 검증 성능(Validation)</div>
-<div class="kb-diagram-note">╱ ╲____________________</div>
-<div class="kb-diagram-note">___ ╱</div>
-<div class="kb-diagram-note">╱ ╲ 훈련 성능(Training)</div>
-<div class="kb-diagram-note">╱ ╲___________________________________</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 모델 복잡도</div>
-<div class="kb-diagram-note">과소적합 과적합</div>
-<div class="kb-diagram-note">(Underfitting) (Overfitting)</div>
-<div class="kb-diagram-note">Bias↑ / Variance↓ Bias↓ / Variance↑</div>
-<div class="kb-diagram-note">해결: 복잡도↑, 피처 추가 해결: 정규화, 드롭아웃, 교차 검증</div>
-</div>
-</div>
-
-
+```text
+모델 성능
+    ▲
+    │           ★ 최적 지점
+    │          ╱╲
+    │         ╱  ╲  검증 성능(Validation)
+    │        ╱    ╲____________________
+    │  ___  ╱
+    │ ╱    ╲        훈련 성능(Training)
+    │╱      ╲___________________________________
+    └─────────────────────────────────────────▶  모델 복잡도
+         과소적합                  과적합
+     (Underfitting)           (Overfitting)
+     Bias↑ / Variance↓        Bias↓ / Variance↑
+     해결: 복잡도↑, 피처 추가    해결: 정규화, 드롭아웃, 교차 검증
+```
 
 📢 **섹션 요약 비유**: 과적합은 "기출문제만 달달 외운 수험생"과 같다. 모의고사(훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))는 100점이지만, 수능 당일(실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))에는 처음 보는 문제 앞에서 패닉이 온다. [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)([Regularization](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/134_regularization_dropout_batch_norm/))는 기출 의존도를 낮추고 개념 이해를 강제하는 학습법이다.
 
@@ -197,24 +199,26 @@ tags = ["studynote-ai"]
 
 ### 2. [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 아키텍처 — 프로덕션 ML의 필수 요소
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MLOps 파이프라인 (Production ML)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 수집·검증 ──▶ 피처 스토어 ──▶ 모델 학습</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Data Drift 감지) ▼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모델 레지스트리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(MLflow / W&amp;B)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">쿠버네티스 서빙</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(KServe / Seldon)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모델 성능 모니터링 ◀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Concept Drift 탐지)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 자동 재학습 트리거</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────┐
+│           MLOps 파이프라인 (Production ML)               │
+├────────────────────────────────────────────────────────┤
+│                                                        │
+│  데이터 수집·검증 ──▶ 피처 스토어 ──▶ 모델 학습           │
+│       │                                   │           │
+│       │ (Data Drift 감지)                  ▼           │
+│       │                         모델 레지스트리          │
+│       │                         (MLflow / W&B)         │
+│       │                                   │           │
+│       │                                   ▼           │
+│       │                         쿠버네티스 서빙          │
+│       │                         (KServe / Seldon)      │
+│       │                                   │           │
+│       └──────────── 모델 성능 모니터링 ◀───┘           │
+│                     (Concept Drift 탐지)               │
+│                     → 자동 재학습 트리거                 │
+└────────────────────────────────────────────────────────┘
+```
 
 ### 3. 기술사 빈출 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -267,35 +271,35 @@ tags = ["studynote-ai"]
 | <strong>딥러닝 (Deep <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/">Learning</a>)</strong> | ML의 하위 분야; 다층 신경망(MLP, [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/), [RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/))으로 자동 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 추출 |
 | <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/">XAI</a> (<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/255_xai_lime_shap_explainable_contribution/">Explainable AI</a>)</strong> | 블랙박스 ML 모델의 결정 근거를 인간이 이해할 수 있게 해석 |
 | <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/">MLOps</a></strong> | ML 모델의 개발·배포·[모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링·재학습 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 자동화 체계 |
-| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/081_feature_engineering/">Feature Engineering</a></strong> | 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 모델이 학습하기 좋은 형태의 변수로 변환하는 과정 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/081_feature_engineering/">Feature 엔진ering</a></strong> | 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 모델이 학습하기 좋은 형태의 변수로 변환하는 과정 |
 | <strong>과적합 (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/">Overfitting</a>)</strong> | 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 과도 최적화 → 새 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 예측력 저하; [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)로 방지 |
 | <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/">경사 하강법</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/165_gradient_descent/">Gradient Descent</a>)</strong> | [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)를 최소화하는 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 반복 업데이트로 찾는 핵심 최적화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
 | <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/">Foundation Model</a></strong> | 대규모 사전 학습 모델 ([GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/), [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/)); Fine-tuning으로 다양한 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)에 적용 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">규칙 기반 AI (Expert System) — 인간이 규칙 직접 코딩</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전통적 머신러닝 — 통계·최적화 기반 자동 학습</div></div>
-<div class="kb-diagram-note">(SVM, Decision Tree, Random Forest, XGBoost)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">비지도 학습 — 군집화·차원 축소</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">딥러닝 (Deep Learning) — 다층 신경망, GPU 혁명</div></div>
-<div class="kb-diagram-note">(CNN, RNN, LSTM, Transformer)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Foundation Model — GPT, BERT, SAM 등 대규모 사전 학습</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MLOps + AutoML — 프로덕션 ML 자동화 파이프라인</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Federated Learning + XAI — 프라이버시 보호·설명 가능 AI</div></div>
-</div>
-</div>
-
-
+```text
+[규칙 기반 AI (Expert System) — 인간이 규칙 직접 코딩]
+            │
+            ▼
+[전통적 머신러닝 — 통계·최적화 기반 자동 학습]
+  (SVM, Decision Tree, Random Forest, XGBoost)
+            │
+            ├─── [비지도 학습 — 군집화·차원 축소]
+            │
+            ▼
+[딥러닝 (Deep Learning) — 다층 신경망, GPU 혁명]
+  (CNN, RNN, LSTM, Transformer)
+            │
+            ▼
+[Foundation Model — GPT, BERT, SAM 등 대규모 사전 학습]
+            │
+            ▼
+[MLOps + AutoML — 프로덕션 ML 자동화 파이프라인]
+            │
+            ▼
+[Federated Learning + XAI — 프라이버시 보호·설명 가능 AI]
+```
 
 단순 규칙 코딩 → 통계 학습 → 신경망 → 대규모 사전 학습 → 자동화·민주화의 경로로 발전하며, 각 단계에서 컴퓨팅 파워와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규모가 핵심 변수였다.
 

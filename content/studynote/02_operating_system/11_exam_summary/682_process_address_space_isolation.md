@@ -46,26 +46,33 @@ tags = ["studynote-operating-system"]
 
 32비트 리눅스 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)에서 하나의 프로세스가 가지는 전형적인 4GB 주소 공간의 구조다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단일 프로세스의 논리적 가상 주소 공간 (4GB)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0xFFFFFFFF</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kernel Space (1GB, 모든 프로세스 공통)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0xC0000000</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User Stack (함수 지역변수, 아래로 자람)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(여유 공간)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Heap (malloc 동적 할당 메모리, 위로 자람)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BSS Segment (초기화되지 않은 전역 변수)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data Segment (초기화된 전역 변수)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Code (Text) Segment (실행할 기계어 코드)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0x08048000</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0x00000000 (접근 금지 영역 - Null Pointer 예방)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 단일 프로세스의 논리적 가상 주소 공간 (4GB)             │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │  0xFFFFFFFF ┌─────────────────────────────────────────┐           │
+  │             │                                         │           │
+  │             │   Kernel Space (1GB, 모든 프로세스 공통)     │           │
+  │             │                                         │           │
+  │  0xC0000000 ├─────────────────────────────────────────┤           │
+  │             │   User Stack (함수 지역변수, 아래로 자람)     │           │
+  │             │   ↓                                     │           │
+  │             │                                         │           │
+  │             │   (여유 공간)                             │           │
+  │             │                                         │           │
+  │             │   ↑                                     │           │
+  │             │   Heap (malloc 동적 할당 메모리, 위로 자람)  │           │
+  │             ├─────────────────────────────────────────┤           │
+  │             │   BSS Segment (초기화되지 않은 전역 변수)     │           │
+  │             ├─────────────────────────────────────────┤           │
+  │             │   Data Segment (초기화된 전역 변수)         │           │
+  │             ├─────────────────────────────────────────┤           │
+  │             │   Code (Text) Segment (실행할 기계어 코드)   │           │
+  │  0x08048000 └─────────────────────────────────────────┘           │
+  │  0x00000000   (접근 금지 영역 - Null Pointer 예방)                     │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 크롬 브라우저를 켜든 엑셀을 켜든, 프로그램 입장에서는 자기가 메모리 `0x08048000`번지부터 시작해서 3GB의 유저 공간을 독점하고 있다고 생각한다. 크롬의 `0x08048000`과 엑셀의 `0x08048000`은 똑같은 '가상 주소'이지만, CPU 안의 [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/)(메모리 관리 유닛)를 거치고 나면 실제 물리 램(RAM)에서는 전혀 다른 위치(예: 크롬은 1,000번지, 엑셀은 8,000번지)로 매핑되므로 절대 충돌하지 않는다. 
 
@@ -121,25 +128,26 @@ tags = ["studynote-operating-system"]
 
 ### 의사결정 및 튜닝 플로우
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">애플리케이션 아키텍처: 멀티프로세스 vs 멀티스레드 판단</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">동시 접속이 많은 고성능 웹 서버 / 애플리케이션 프레임워크 설계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하나의 작업(Task)에 치명적인 버그가 났을 때, 전체 시스템이 죽어도 되는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">멀티프로세스 (Multi-Process) 아키텍처 채택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(예: Chrome 브라우저, Nginx 워커 프로세스)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 탭 하나가 죽어도 다른 탭(주소 공간)은 완벽히 생존</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 단점: 메모리를 많이 먹고 IPC 통신 비용이 비쌈</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">멀티스레드 (Multi-Thread) 아키텍처 채택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(예: Tomcat WAS, Redis, 게임 서버)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 자원 소모가 적고 성능이 빠르나, 스레드 하나가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리를 오염시키면 프로세스 전체가 즉사함</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 애플리케이션 아키텍처: 멀티프로세스 vs 멀티스레드 판단        │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [동시 접속이 많은 고성능 웹 서버 / 애플리케이션 프레임워크 설계]               │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      하나의 작업(Task)에 치명적인 버그가 났을 때, 전체 시스템이 죽어도 되는가?    │
+  │          ├─ 아니오 ──▶ [멀티프로세스 (Multi-Process) 아키텍처 채택]     │
+  │          │            (예: Chrome 브라우저, Nginx 워커 프로세스)        │
+  │          │            - 탭 하나가 죽어도 다른 탭(주소 공간)은 완벽히 생존  │
+  │          │            - 단점: 메모리를 많이 먹고 IPC 통신 비용이 비쌈       │
+  │          │                                                        │
+  │          └─ 예 ─────▶ [멀티스레드 (Multi-Thread) 아키텍처 채택]        │
+  │                       (예: Tomcat WAS, Redis, 게임 서버)              │
+  │                       - 자원 소모가 적고 성능이 빠르나, 스레드 하나가       │
+  │                         메모리를 오염시키면 프로세스 전체가 즉사함           │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 크롬 브라우저가 과거 인터넷 익스플로러(멀티스레드 기반)를 이길 수 있었던 가장 큰 이유는 바로 "주소 공간 분리"를 탭(Tab)마다 적용한 [멀티프로세스 아키텍처](/knowledge-base/studynote/02_operating_system/02_process_thread/137_multiprocess_architecture/) 덕분이다. 악성 광고가 떠서 탭 하나가 세그폴트로 죽어도, 다른 탭에 켜둔 넷플릭스는 멈추지 않았다. 메모리를 낭비하더라도 '안정성'을 취한 아키텍트의 위대한 결정이었다.
 
@@ -183,19 +191,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">IPC 기법 성능 오버헤드</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">프로세스 주소 공간 분리 (Process Address Space Isolation)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">PCB 구성 요소 필수 암기</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">문맥 교환 TLB 플러시</div></div>
-</div>
-</div>
-
-
+```text
+[IPC 기법 성능 오버헤드]
+    │
+    ▼
+[프로세스 주소 공간 분리 (Process Address Space Isolation)]
+    │
+    ├──▶ [PCB 구성 요소 필수 암기]
+    └──▶ [문맥 교환 TLB 플러시]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

@@ -18,23 +18,24 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">아키텍처 보안 감리 체계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">감리 범위:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">네트워크 보안 아키텍처 (방화벽·DMZ·세그먼트)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인증·권한 아키텍처 (IAM·SSO·MFA)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 보안 (암호화·키 관리·DLP)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">접근 제어 (RBAC·ABAC·Least Privilege)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보안 모니터링 (SIEM·SOAR 통합)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Zero Trust 원칙 검증:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"Never Trust, Always Verify" 구현 여부</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────┐
+│       아키텍처 보안 감리 체계                         │
+├──────────────────────────────────────────────────────┤
+│                                                       │
+│  감리 범위:                                           │
+│  ┌────────────────────────────────────────────────┐  │
+│  │ 네트워크 보안 아키텍처 (방화벽·DMZ·세그먼트)   │  │
+│  │ 인증·권한 아키텍처 (IAM·SSO·MFA)              │  │
+│  │ 데이터 보안 (암호화·키 관리·DLP)               │  │
+│  │ 접근 제어 (RBAC·ABAC·Least Privilege)         │  │
+│  │ 보안 모니터링 (SIEM·SOAR 통합)                │  │
+│  └────────────────────────────────────────────────┘  │
+│                                                       │
+│  Zero Trust 원칙 검증:                                │
+│    "Never Trust, Always Verify" 구현 여부             │
+└──────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 시스템 아키텍처 보안 감리는 건물 준공 전 소방 안전 검사다. 건물이 완공되기 전 설계 단계에서 비상구·스프링클러·[방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)을 제대로 설계했는지 독립적으로 검사한다.
 
@@ -125,23 +126,21 @@ IAM:
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">전통 보안 감리 — 방화벽·DMZ·암호화 점검</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">클라우드 보안 감리 — IAM·VPC·암호화 키 관리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Zero Trust 아키텍처 감리 — mTLS·최소 권한 검증</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">컨테이너·마이크로서비스 감리 — 이미지 보안·서비스 메시</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IaC 자동 보안 감리 — Checkov·tfsec 정적 분석</div></div>
-</div>
-</div>
-
-
+```text
+[전통 보안 감리 — 방화벽·DMZ·암호화 점검]
+    │
+    ▼
+[클라우드 보안 감리 — IAM·VPC·암호화 키 관리]
+    │
+    ▼
+[Zero Trust 아키텍처 감리 — mTLS·최소 권한 검증]
+    │
+    ▼
+[컨테이너·마이크로서비스 감리 — 이미지 보안·서비스 메시]
+    │
+    ▼
+[IaC 자동 보안 감리 — Checkov·tfsec 정적 분석]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

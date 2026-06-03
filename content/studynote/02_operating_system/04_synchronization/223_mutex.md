@@ -24,28 +24,23 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경**: 시분할 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 환경에서 응용 프로그램(User Space)들은 언제 락이 풀릴지 알 수 없는 긴 작업을 수행했다. 이들에게 [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)을 쥐여주면 전체 시스템 응답성이 붕괴하므로, POSIX 표준([pthreads](/knowledge-base/studynote/02_operating_system/11_exam_summary/790_posix_threads_pthreads_standard_api/))은 유저 스페이스 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 위한 기본 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 도구로 Sleep 기반의 뮤텍스를 제정했다.
 
+```text
+  [뮤텍스(Mutex)의 획득(Lock)과 해제(Unlock) 생명 주기]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">뮤텍스(Mutex)의 획득(Lock)과 해제(Unlock) 생명 주기</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스레드 A</div><div class="kb-diagram-node">스레드 B</div></div>
-<div class="kb-diagram-note">1. mutex.lock() 호출</div>
-<div class="kb-diagram-note">▶ 성공! (임계구역 진입)</div>
-<div class="kb-diagram-note">1. mutex.lock() 호출</div>
-<div class="kb-diagram-note">▶ 실패! (이미 잠김)</div>
-<div class="kb-diagram-note">2. OS가 B를 'Wait Queue'에 넣고 Sleep 시킴.</div>
-<div class="kb-diagram-note">(B는 CPU를 놓고 기절함 💤)</div>
-<div class="kb-diagram-note">2. 임계구역 실행 (1초 소요)</div>
-<div class="kb-diagram-note">3. mutex.unlock() 호출</div>
-<div class="kb-diagram-note">▶ 락 반환!</div>
-<div class="kb-diagram-note">4. OS가 Wait Queue에 자고 있던 B를 깨움! (Wakeup)</div>
-<div class="kb-diagram-note">3. B가 Ready Queue로 이동하여 CPU를 할당받음.</div>
-<div class="kb-diagram-note">4. B가 임계구역 진입! 🏃‍♂️</div>
-</div>
-</div>
-
-
+  [ 스레드 A ]                                      [ 스레드 B ]
+  1. mutex.lock() 호출 
+     ▶ 성공! (임계구역 진입)
+                                                  1. mutex.lock() 호출
+                                                     ▶ 실패! (이미 잠김)
+                                                  2. OS가 B를 'Wait Queue'에 넣고 Sleep 시킴.
+                                                     (B는 CPU를 놓고 기절함 💤)
+  2. 임계구역 실행 (1초 소요)
+  3. mutex.unlock() 호출 
+     ▶ 락 반환!
+  4. OS가 Wait Queue에 자고 있던 B를 깨움! (Wakeup)
+                                                  3. B가 Ready Queue로 이동하여 CPU를 할당받음.
+                                                  4. B가 임계구역 진입! 🏃‍♂️
+```
 **[다이어그램 해설]** 뮤텍스의 가장 큰 장점은 A가 1초 동안 작업을 하더라도, B가 그 1초 동안 CPU를 전혀 낭비하지 않는다는 점이다. B가 자는 동안 CPU는 다른 생산적인 작업(C, D [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))을 처리할 수 있어 전체 시스템의 효율성([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))이 극대화된다.
 
 - **📢 섹션 요약 비유**: 은행 창구([임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/))가 꽉 찼을 때, 창구 앞에서 계속 서서 직원을 째려보는 것([스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/))이 아니라, 대기표를 뽑고 의자에 앉아 스마트폰을 보며(CPU 다른 작업 수행) 내 번호가 불릴 때까지 편안히 쉬는 것(뮤텍스)이 전체 대기실(시스템)을 평화롭게 만듭니다.
@@ -67,25 +62,26 @@ tags = ["studynote-operating-system"]
 - 뮤텍스는 "내가 잠갔으면(`lock`), 푸는 놈(`unlock`)도 무조건 나여야 한다."
 - 만약 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A가 뮤텍스를 잠갔는데, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) B가 `unlock()`을 호출하면 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 **"네가 잠근 것도 아닌데 어딜 감히 풀어!"** 라며 예외(Exception)를 뱉고 강제 종료시킨다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">뮤텍스(Mutex)의 소유권이 가져다주는 '우선순위 상속' 방어막</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">락 대기 상황</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 스레드 L(우선순위 낮음)이 뮤텍스를 잡고 있음.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 스레드 H(우선순위 높음)가 뮤텍스를 요청하고 Sleep.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🚨 여기서 중간 순위(M)가 L의 CPU를 뺏으려 덤벼드는 위기 발생!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">OS 커널의 구출 로직 (PI: Priority Inheritance)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 커널: "H가 자고 있네? H가 기다리는 락이 뭐지? 뮤텍스 1번!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 커널: "뮤텍스 1번의 소유자(Owner)가 누구지? 아 L이구나!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 커널: "L의 멱살을 잡고 우선순위를 일시적으로 H급으로 끌어올려!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 결과: 소유자가 명확히 기록되어 있기 때문에, 커널이 정확한 타깃(L)을</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">찾아서 우선순위를 상속시켜 역전 버그를 100% 방어해 낸다.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────────────────┐
+  │         뮤텍스(Mutex)의 소유권이 가져다주는 '우선순위 상속' 방어막      │
+  ├─────────────────────────────────────────────────────────────────────────┤
+  │                                                                         │
+  │   [ 락 대기 상황 ]                                                      │
+  │   1. 스레드 L(우선순위 낮음)이 뮤텍스를 잡고 있음.                      │
+  │   2. 스레드 H(우선순위 높음)가 뮤텍스를 요청하고 Sleep.                 │
+  │                                                                         │
+  │   🚨 여기서 중간 순위(M)가 L의 CPU를 뺏으려 덤벼드는 위기 발생!         │
+  │                                                                         │
+  │   [ OS 커널의 구출 로직 (PI: Priority Inheritance) ]                    │
+  │   - 커널: "H가 자고 있네? H가 기다리는 락이 뭐지? 뮤텍스 1번!"          │
+  │   - 커널: "뮤텍스 1번의 소유자(Owner)가 누구지? 아 L이구나!"            │
+  │   - 커널: "L의 멱살을 잡고 우선순위를 일시적으로 H급으로 끌어올려!"     │
+  │                                                                         │
+  │   ✅ 결과: 소유자가 명확히 기록되어 있기 때문에, 커널이 정확한 타깃(L)을│
+  │           찾아서 우선순위를 상속시켜 역전 버그를 100% 방어해 낸다.      │
+  └─────────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)는 소유권 기록이 없어서 H가 락을 기다려도 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 누구의 우선순위를 올려줘야 할지(타깃) 찾을 수 없다. 하지만 뮤텍스는 영수증(Owner)이 명확하므로, RTOS나 현대 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)에서 가장 치명적인 버그인 <strong>'<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/205_priority_inversion/">우선순위 역전</a>(<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/205_priority_inversion/">Priority Inversion</a>)'을 시스템 레벨에서 자동 치료</strong>할 수 있는 유일한 자물쇠다.
 
 - **📢 섹션 요약 비유**: 자전거에 채우는 일반 자물쇠([세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/))는 비밀번호만 알면 훔친 사람도 풀 수 있습니다. 반면 스마트 지문 자물쇠(뮤텍스)는 잠근 사람의 지문(소유권)이 아니면 절대 열리지 않아서 경찰(OS)이 주인을 정확히 추적해 낼 수 있는 완벽한 보안 시스템입니다.
@@ -134,26 +130,27 @@ tags = ["studynote-operating-system"]
      ```
      이렇게 뮤텍스는 수술용 메스처럼 "절대 안 쓰면 안 되는 최소한의 1줄"에만 아주 정밀하게 타격([Fine-grained](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/399_fine_grained_multithreading/))해야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">교착 상태(Deadlock)를 부르는 Mutex 사용 안티패턴 방어 트리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">요구사항: 스레드가 Mutex A와 Mutex B를 동시에 잡아야 함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 개발자의 Mutex 획득 순서 작성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스레드 1: lock(A) -&gt; lock(B)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스레드 2: lock(B) -&gt; lock(A)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">이대로 배포하면?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 🚨 영원한 데드락(Deadlock) 지옥 발생</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1번은 A쥐고 B기다리고, 2번은 B쥐고 A를 영원히 기다림.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▼</div><div class="kb-diagram-node">아키텍트의 설계 교정 (Lock Ordering)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모든 사내 코드는 자원을 잡을 때 알파벳 순서, 혹은</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 주소의 오름차순으로만 Mutex를 잡도록 강제함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(스레드 2도 무조건 lock(A) -&gt; lock(B) 순서 강제)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌──────────────────────────────────────────────────────────────────┐
+  │     교착 상태(Deadlock)를 부르는 Mutex 사용 안티패턴 방어 트리   │
+  ├──────────────────────────────────────────────────────────────────┤
+  │                                                                  │
+  │   [요구사항: 스레드가 Mutex A와 Mutex B를 동시에 잡아야 함]      │
+  │                │                                                 │
+  │                ▼ 개발자의 Mutex 획득 순서 작성                   │
+  │   스레드 1: lock(A) -> lock(B)                                   │
+  │   스레드 2: lock(B) -> lock(A)                                   │
+  │          ├─ [이대로 배포하면?]                                   │
+  │          │      │                                                │
+  │          │      ▼ 🚨 영원한 데드락(Deadlock) 지옥 발생           │
+  │          │  1번은 A쥐고 B기다리고, 2번은 B쥐고 A를 영원히 기다림.│
+  │          │                                                       │
+  │          ▼ [아키텍트의 설계 교정 (Lock Ordering)]                │
+  │          모든 사내 코드는 자원을 잡을 때 알파벳 순서, 혹은       │
+  │          메모리 주소의 오름차순으로만 Mutex를 잡도록 강제함.     │
+  │          (스레드 2도 무조건 lock(A) -> lock(B) 순서 강제)        │
+  └──────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 뮤텍스의 가장 큰 부작용은 프로그래머가 락의 획득과 해제를 수동으로 짝맞춰야 한다는 점이다. `lock()`을 하고 `unlock()` 전에 예외(Exception)가 터져서 함수를 빠져나가면? 그 뮤텍스는 우주가 멸망할 때까지 영원히 풀리지 않는 좀비 락(Orphaned [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))이 되어 시스템을 마비시킨다. 반드시 `try-finally` 블록이나 C++의 `std::lock_guard` (RAII 패턴)를 써서 스코프를 벗어날 때 락이 무조건 풀리도록 방어 코딩을 해야 한다.
 
 - **📢 섹션 요약 비유**: 자물쇠(Mutex)를 잘 채우는 것도 중요하지만, 열쇠를 안 잃어버리는 것이 핵심입니다. 집에 불이 났을 때(Exception 발생) 자물쇠가 자동으로 툭 풀리게 설계(RAII 패턴, finally)해 두지 않으면, 내 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 내가 못 꺼내서 타죽게 됩니다.
@@ -184,19 +181,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">임계 구역 (Critical Section)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">임계 구역 문제 해결의 3조건</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">선점형 커널 (Preemptive Kernel) vs 비선점형 커널 (Non-preemptive Kernel)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">피터슨의 해결책 (Peterson's Algorithm)</div></div>
-</div>
-</div>
-
-
+```text
+[임계 구역 (Critical Section)]
+    │
+    ▼
+[임계 구역 문제 해결의 3조건]
+    │
+    ├──▶ [선점형 커널 (Preemptive Kernel) vs 비선점형 커널 (Non-preemptive Kernel)]
+    └──▶ [피터슨의 해결책 (Peterson's Algorithm)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

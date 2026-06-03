@@ -42,19 +42,21 @@ P-State는 [ACPI](/knowledge-base/studynote/02_operating_system/01_overview_arch
 
 아래 그림은 현대 P-State 제어가 단순히 "OS가 MHz를 선택"하는 수준을 넘어, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 센서 피드백을 합쳐 폐루프 형태로 동작함을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P-State 제어의 폐루프 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부하 증가 / 반응성 요구 상승</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS 정책 또는 HWP/CPPC 힌트 ─▶ 성능 요청값 생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전압 조정 ─▶ 배수/클럭 조정 ─▶ 코어 성능 변화</div></div>
-<div class="kb-diagram-note">온도 · 전력 · 전류 피드백</div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                  P-State 제어의 폐루프 구조                         │
+├──────────────────────────────────────────────────────────────────────┤
+│ 부하 증가 / 반응성 요구 상승                                         │
+│              │                                                       │
+│              ▼                                                       │
+│   OS 정책 또는 HWP/CPPC 힌트 ─▶ 성능 요청값 생성                     │
+│              │                                                       │
+│              ▼                                                       │
+│   전압 조정 ─▶ 배수/클럭 조정 ─▶ 코어 성능 변화                      │
+│              ▲                         │                              │
+│              └──── 온도 · 전력 · 전류 피드백 ────────────────────────┘
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 핵심은 P-State가 고정 단계표가 아니라, 센서와 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 맞물린 능동형 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 제어라는 점이다. 같은 P0 요청이라도 열 여유, 전력 한도, 코어 수에 따라 실제 동작은 달라질 수 있다.
 
@@ -124,23 +126,21 @@ P-State의 기대효과는 CPU가 "일할 때도 똑똑하게" 전력을 쓰게 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">고정 클럭 CPU</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ACPI P-State 표 기반 제어</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DVFS 기반 전압·주파수 연동</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">HWP / CPPC 기반 하드웨어 자율 제어</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">워크로드 인지형 per-core 성능 최적화</div>
-</div>
-</div>
-
-
+```text
+고정 클럭 CPU
+    │
+    ▼
+ACPI P-State 표 기반 제어
+    │
+    ▼
+DVFS 기반 전압·주파수 연동
+    │
+    ▼
+HWP / CPPC 기반 하드웨어 자율 제어
+    │
+    ▼
+워크로드 인지형 per-core 성능 최적화
+```
 
 이 흐름은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 상태 관리가 단순 단계 선택에서 출발해, 오늘날에는 센서와 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 결합한 자율형 제어로 발전했음을 보여준다.
 

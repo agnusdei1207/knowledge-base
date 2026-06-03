@@ -18,28 +18,26 @@ tags = ["studynote-ict-convergence"]
 
 ## I. 대화형 vs 비대화형 [ZKP](/knowledge-base/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/)
 
+```
+대화형 ZKP (Interactive):
+  증명자와 검증자가 여러 라운드 메시지 교환
+  
+  증명자: 커밋(commit)
+  검증자: 챌린지(challenge)
+  증명자: 응답(response)
+  -> 반복 (보안 요구 수준만큼)
+  
+  문제: 블록체인 스마트 컨트랙트는
+        실시간 상호작용 불가!
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">대화형 ZKP (Interactive):</div>
-<div class="kb-diagram-note">증명자와 검증자가 여러 라운드 메시지 교환</div>
-<div class="kb-diagram-note">증명자: 커밋(commit)</div>
-<div class="kb-diagram-note">검증자: 챌린지(challenge)</div>
-<div class="kb-diagram-note">증명자: 응답(response)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">반복 (보안 요구 수준만큼)</div>
-<div class="kb-diagram-note">문제: 블록체인 스마트 컨트랙트는</div>
-<div class="kb-diagram-note">실시간 상호작용 불가!</div>
-<div class="kb-diagram-note">비대화형 ZKP (Non-Interactive, NIZK):</div>
-<div class="kb-diagram-note">단 하나의 증명 메시지만 전송</div>
-<div class="kb-diagram-note">누구든 언제든 검증 가능</div>
-<div class="kb-diagram-note">핵심 기술: Fiat-Shamir 휴리스틱</div>
-<div class="kb-diagram-note">챌린지를 랜덤 오라클(해시 함수)로 대체</div>
-<div class="kb-diagram-tree-item" style="--depth:2">챌린지를 증명자가 스스로 생성</div>
-</div>
-</div>
-
-
+비대화형 ZKP (Non-Interactive, NIZK):
+  단 하나의 증명 메시지만 전송
+  누구든 언제든 검증 가능
+  
+  핵심 기술: Fiat-Shamir 휴리스틱
+    챌린지를 랜덤 오라클(해시 함수)로 대체
+    -> 챌린지를 증명자가 스스로 생성
+```
 
 > 📢 **섹션 요약 비유**: 대화형은 퀴즈쇼처럼 MC가 질문하고 참가자가 답하는 것, 비대화형은 참가자가 미리 답변서를 작성해 제출하는 것 — 블록체인에서는 제출형만 가능.
 
@@ -47,27 +45,25 @@ tags = ["studynote-ict-convergence"]
 
 ## II. zk-SNARK 구성 요소
 
+```
+zk-SNARK 시스템 구성:
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">zk-SNARK 시스템 구성:</div>
-<div class="kb-diagram-note">1. 신뢰 설정 (Trusted Setup):</div>
-<div class="kb-diagram-note">비밀 파라미터 τ (독성 폐기물)로 CRS 생성</div>
-<div class="kb-diagram-note">CRS = (pk, vk)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">τ는 반드시 안전하게 폐기되어야 함!</div>
-<div class="kb-diagram-note">의식 (Ceremony): 수천 명이 참여해</div>
-<div class="kb-diagram-note">각자 랜덤성 기여 -&gt; 일부만 정직해도 안전</div>
-<div class="kb-diagram-note">2. 증명 (Prove):</div>
-<div class="kb-diagram-note">input(공개값) + witness(비밀값) + pk</div>
-<div class="kb-diagram-tree-item" style="--depth:1">증명 π 생성 (수백 바이트)</div>
-<div class="kb-diagram-note">3. 검증 (Verify):</div>
-<div class="kb-diagram-note">input(공개값) + π + vk</div>
-<div class="kb-diagram-tree-item" style="--depth:1">True/False (밀리초 단위)</div>
-</div>
-</div>
-
-
+1. 신뢰 설정 (Trusted Setup):
+   비밀 파라미터 τ (독성 폐기물)로 CRS 생성
+   CRS = (pk, vk)
+   -> τ는 반드시 안전하게 폐기되어야 함!
+   
+   의식 (Ceremony): 수천 명이 참여해
+   각자 랜덤성 기여 -> 일부만 정직해도 안전
+   
+2. 증명 (Prove):
+   input(공개값) + witness(비밀값) + pk
+   -> 증명 π 생성 (수백 바이트)
+   
+3. 검증 (Verify):
+   input(공개값) + π + vk
+   -> True/False (밀리초 단위)
+```
 
 | 단계     | 입력                    | 출력       | 수행자    |
 |--------|------------------------|---------|--------|
@@ -81,26 +77,24 @@ tags = ["studynote-ict-convergence"]
 
 ## III. Groth16 — 현재 표준
 
+```
+Groth16 (Jens Groth, 2016):
 
+증명 크기: 192바이트 (가장 작음)
+검증 시간: ~3ms (이더리움 가스: ~300,000)
+증명 시간: 회로 크기에 비례 (수 ms ~ 수 분)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Groth16 (Jens Groth, 2016):</div>
-<div class="kb-diagram-note">증명 크기: 192바이트 (가장 작음)</div>
-<div class="kb-diagram-note">검증 시간: ~3ms (이더리움 가스: ~300,000)</div>
-<div class="kb-diagram-note">증명 시간: 회로 크기에 비례 (수 ms ~ 수 분)</div>
-<div class="kb-diagram-note">구조:</div>
-<div class="kb-diagram-note">QAP (Quadratic Arithmetic Program)로</div>
-<div class="kb-diagram-note">계산 문제를 다항식 제약으로 변환</div>
-<div class="kb-diagram-note">예: "나는 x를 알고 있고 f(x) = y이다"</div>
-<div class="kb-diagram-tree-item" style="--depth:1">다항식 P(z)가 특정 조건 만족하는지 증명</div>
-<div class="kb-diagram-note">한계:</div>
-<div class="kb-diagram-note">회로별 신뢰 설정 필요 (회로 변경 시 재설정)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">PLONK/Halo2는 Universal Setup으로 개선</div>
-</div>
-</div>
-
-
+구조:
+  QAP (Quadratic Arithmetic Program)로
+  계산 문제를 다항식 제약으로 변환
+  
+  예: "나는 x를 알고 있고 f(x) = y이다"
+  -> 다항식 P(z)가 특정 조건 만족하는지 증명
+  
+한계:
+  회로별 신뢰 설정 필요 (회로 변경 시 재설정)
+  -> PLONK/Halo2는 Universal Setup으로 개선
+```
 
 > 📢 **섹션 요약 비유**: Groth16은 최소 포장재로 최대 정보를 담은 소포 — 192바이트로 수백만 연산 결과의 정확성을 증명.
 
@@ -137,30 +131,26 @@ Halo2 (Zcash 개발):
 
 ## V. 실무 시나리오 — zkSync Era 동작
 
+```
+zkSync Era (Ethereum Layer 2):
 
+사용자 트랜잭션 흐름:
+  1. 사용자 트랜잭션 수천 건 수집
+  2. Sequencer: 상태 전환 계산
+     (Before State Root -> After State Root)
+  3. Prover: zk-SNARK 증명 생성
+     회로: EVM 실행 + 상태 전환 검증
+     증명 시간: 초 ~ 수 분 (회로 크기)
+  4. Verifier Contract (Ethereum L1):
+     π + 공개 입출력 + vk
+     -> 가스 300,000 소비 (~$1~3)
+     -> 수천 건 트랜잭션 검증 완료!
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">zkSync Era (Ethereum Layer 2):</div>
-<div class="kb-diagram-note">사용자 트랜잭션 흐름:</div>
-<div class="kb-diagram-note">1. 사용자 트랜잭션 수천 건 수집</div>
-<div class="kb-diagram-note">2. Sequencer: 상태 전환 계산</div>
-<div class="kb-diagram-note">(Before State Root -&gt; After State Root)</div>
-<div class="kb-diagram-note">3. Prover: zk-SNARK 증명 생성</div>
-<div class="kb-diagram-note">회로: EVM 실행 + 상태 전환 검증</div>
-<div class="kb-diagram-note">증명 시간: 초 ~ 수 분 (회로 크기)</div>
-<div class="kb-diagram-note">4. Verifier Contract (Ethereum L1):</div>
-<div class="kb-diagram-note">π + 공개 입출력 + vk</div>
-<div class="kb-diagram-tree-item" style="--depth:2">가스 300,000 소비 (~$1~3)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">수천 건 트랜잭션 검증 완료!</div>
-<div class="kb-diagram-note">보안:</div>
-<div class="kb-diagram-note">L2 운영자가 악의적이어도</div>
-<div class="kb-diagram-note">유효한 증명 없이는 L1 통과 불가</div>
-<div class="kb-diagram-note">수학적으로 안전 (암호학적 가정 하에)</div>
-</div>
-</div>
-
-
+보안:
+  L2 운영자가 악의적이어도
+  유효한 증명 없이는 L1 통과 불가
+  수학적으로 안전 (암호학적 가정 하에)
+```
 
 > 📢 **섹션 요약 비유**: zkSync는 수천 명의 정산을 공인 회계사(zk-SNARK)가 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한 한 장의 확인서로 제출하는 것 — $1로 수천 건 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/).
 

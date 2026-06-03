@@ -36,28 +36,28 @@ tags = ["studynote-database"]
 | **4NF 제약 조건** | [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)에 자명하지 않은 [다치 종속](/knowledge-base/studynote/05_database/07_exam_summary/400_mvd_4nf/) $X \twoheadrightarrow Y$가 존재할 경우, $X$는 반드시 [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)의 [슈퍼 키](/knowledge-base/studynote/05_database/02_modeling_normalization/068_super_key_uniqueness/)여야 한다. | 조건을 위반하면 분해 |
 | **분해 메커니즘** | $R(X, Y, Z)$에서 $X \twoheadrightarrow Y$이고 $X \twoheadrightarrow Z$일 때, $R_1(X, Y)$와 $R_2(X, Z)$로 분해한다. | 1:N, 1:M의 격리 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다치 종속(MVD)의 폭발과 4NF를 통한 무손실 분해 원리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">원본 테이블 R (사원, 보유기술, 구사언어)</div><div class="kb-diagram-note">- 4NF 위반 (데이터 폭발)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사원 보유기술 구사언어 (기본 키: 전체 속성 결합)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">홍길동 Java 영어 (Java-영어는 아무 상관없음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">홍길동 Java 일어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">홍길동 C++ 영어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">홍길동 C++ 일어 -&gt; 단지 C++을 할 줄 알고 일어를 할 줄 안다는</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이유로 모든 조합이 생성됨.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">4NF 정규화 적용 (테이블을 찢어 격리)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">R1 (사원, 보유기술)</div><div class="kb-diagram-cell">R2 (사원, 구사언어)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">홍길동 Java</div><div class="kb-diagram-cell">홍길동 영어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">홍길동 C++</div><div class="kb-diagram-cell">홍길동 일어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 행의 수가 4개에서 2+2=4개로 큰 차이 없어 보이지만,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">새 기술 1개 추가 시 원본은 2행이 추가되고, 4NF는 1행만 추가됨!</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           다치 종속(MVD)의 폭발과 4NF를 통한 무손실 분해 원리         │
+├──────────────────────────────────────────────────────────────┤
+│ [ 원본 테이블 R (사원, 보유기술, 구사언어) ] - 4NF 위반 (데이터 폭발) │
+│ 사원    보유기술     구사언어   (기본 키: 전체 속성 결합)            │
+│ 홍길동   Java        영어      (Java-영어는 아무 상관없음)          │
+│ 홍길동   Java        일어                                      │
+│ 홍길동   C++         영어                                      │
+│ 홍길동   C++         일어      -> 단지 C++을 할 줄 알고 일어를 할 줄 안다는 │
+│                               이유로 모든 조합이 생성됨.          │
+│                                                              │
+│ [ 4NF 정규화 적용 (테이블을 찢어 격리) ]                           │
+│ ┌───────────────────────┐       ┌───────────────────────┐    │
+│ │ R1 (사원, 보유기술)       │       │ R2 (사원, 구사언어)       │    │
+│ │ 홍길동   Java          │       │ 홍길동   영어          │    │
+│ │ 홍길동   C++           │       │ 홍길동   일어          │    │
+│ └───────────────────────┘       └───────────────────────┘    │
+│ => 행의 수가 4개에서 2+2=4개로 큰 차이 없어 보이지만,                │
+│    새 기술 1개 추가 시 원본은 2행이 추가되고, 4NF는 1행만 추가됨!      │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램은 서로 무관한 '기술'과 '언어'를 하나의 [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)에 묶었을 때 일어나는 카테시안 곱([Cartesian Product](/knowledge-base/studynote/05_database/07_exam_summary/412_cartesian_product/)) 현상을 보여준다. 4NF는 이를 독립된 테이블 $R_1$과 $R_2$로 찢음으로써, 중복을 제거하고 나중에 조인([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/))할 때 원래의 정보를 손실 없이 100% 복원([무손실 분해](/knowledge-base/studynote/05_database/02_modeling_normalization/101_lossless_join_decomposition/))할 수 있게 한다.
 
@@ -121,23 +121,21 @@ BCNF가 1:1, 1:N의 [일대일](/knowledge-base/studynote/02_operating_system/02
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">제1정규형 (1NF) - 속성의 원자값 충족 (리스트 쪼개기)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">제2, 3정규형, BCNF - 함수적 종속성(FD) 제거 (일반적인 이상 현상 해결)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">다중값 데이터 폭발 (서로 무관한 1:N 관계 2개의 공존으로 인한 카테시안 곱 발생)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">다치 종속성 (Multi-Valued Dependency, MVD) 규명</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">제4정규형 (4NF) - MVD 발생 시 무손실 분해를 통한 독립 테이블 격리</div>
-</div>
-</div>
-
-
+```text
+제1정규형 (1NF) - 속성의 원자값 충족 (리스트 쪼개기)
+    │
+    ▼
+제2, 3정규형, BCNF - 함수적 종속성(FD) 제거 (일반적인 이상 현상 해결)
+    │
+    ▼
+다중값 데이터 폭발 (서로 무관한 1:N 관계 2개의 공존으로 인한 카테시안 곱 발생)
+    │
+    ▼
+다치 종속성 (Multi-Valued Dependency, MVD) 규명
+    │
+    ▼
+제4정규형 (4NF) - MVD 발생 시 무손실 분해를 통한 독립 테이블 격리
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

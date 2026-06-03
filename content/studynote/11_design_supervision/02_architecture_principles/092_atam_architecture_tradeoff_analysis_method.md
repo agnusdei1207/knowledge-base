@@ -40,22 +40,23 @@ ATAM의 핵심 메커니즘은 '시나리오(Scenario)' 기반의 [검증](/know
 | <strong>위험 요소 (<a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">Risk</a>)</strong> | 품질 목표 달성을 방해하는 잠재적인 설계 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) | "현재 DB가 단일 노드라 장애 시 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)(99.9%)을 못 채운다." |
 | <strong>비위험 요소 (Non-<a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">Risk</a>)</strong> | 현재 시나리오에서는 충분히 안전하다고 판명된 설계 결정 | "웹 서버 3대로는 현재 목표인 동시 접속 1만 명 처리에 문제없다." |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ATAM 작동 원리: 시나리오 투영 및 타협점 도출</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">품질 속성 시나리오</div><div class="kb-diagram-node">아키텍처 설계도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"초당 1만 건 결제 시 (DB 동기화 암호화 로직)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0.5초 이내 응답" ▶</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">분석 결과: 충돌 발생!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">성능(응답 지연) vs 보안(암호화)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Trade-off Point 식별 및 타협</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"야간 배치(비동기)로 변경 합의"</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           ATAM 작동 원리: 시나리오 투영 및 타협점 도출         │
+├──────────────────────────────────────────────────────────────┤
+│ [품질 속성 시나리오]           [아키텍처 설계도]                │
+│ "초당 1만 건 결제 시          (DB 동기화 암호화 로직)          │
+│  0.5초 이내 응답"      ─────▶                              │
+│                                      │                       │
+│                                      ▼                       │
+│                        [분석 결과: 충돌 발생!]                │
+│                        성능(응답 지연) vs 보안(암호화)         │
+│                                      │                       │
+│                                      ▼                       │
+│                        [Trade-off Point 식별 및 타협]        │
+│                        "야간 배치(비동기)로 변경 합의"         │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이처럼 ATAM은 막연한 "좋은 설계"를 찾는 것이 아니라, 구체적인 시나리오를 바탕으로 아키텍트의 설계 결정이 어떤 결과를 초래하는지 수학적/논리적으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 정밀 타격 회의다.
 
@@ -116,23 +117,21 @@ ATAM을 성공적으로 수행하면 프로젝트 후반부에 발생하는 아�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">비기능 요구사항 정의 (품질 속성)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">품질 속성 시나리오 (Quality Attribute Scenario) 작성</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SAAM (단일 속성 검증) ──▶ ATAM (Architecture Trade-off Analysis Method, 다중 속성/상충 분석)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CBAM (Cost Benefit Analysis Method, 경제성/비용 분석)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">아키텍처 확정 및 SAD (Software Architecture Document) 반영</div>
-</div>
-</div>
-
-
+```text
+비기능 요구사항 정의 (품질 속성)
+    │
+    ▼
+품질 속성 시나리오 (Quality Attribute Scenario) 작성
+    │
+    ▼
+SAAM (단일 속성 검증) ──▶ ATAM (Architecture Trade-off Analysis Method, 다중 속성/상충 분석)
+    │
+    ▼
+CBAM (Cost Benefit Analysis Method, 경제성/비용 분석)
+    │
+    ▼
+아키텍처 확정 및 SAD (Software Architecture Document) 반영
+```
 
 이 흐름도는 요구사항이 시나리오로 구체화되고, 기술적 타협([ATAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/))을 거쳐 경제적 타당성([CBAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/230_cbam_cost_benefit_analysis_method/))까지 확보되는 아키텍처 평가의 완전한 주기를 보여준다.
 

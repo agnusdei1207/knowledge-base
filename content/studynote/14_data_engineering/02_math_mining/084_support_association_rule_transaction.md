@@ -121,21 +121,18 @@ Support는 [연관 규칙](/knowledge-base/studynote/16_bigdata/05_analysis/106_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">거래 데이터 수집</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">항목집합 빈도 계산</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">minsup로 후보 필터링</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">confidence / lift 평가</div>
-</div>
-</div>
-
-
+```text
+거래 데이터 수집
+  │
+  ▼
+항목집합 빈도 계산
+  │
+  ▼
+minsup로 후보 필터링
+  │
+  ▼
+confidence / lift 평가
+```
 
 흐름의 핵심은 '빈도'로 후보를 줄이고, '연관성'으로 의미를 판단하는 것이다.
 

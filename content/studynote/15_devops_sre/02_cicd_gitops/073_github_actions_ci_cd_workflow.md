@@ -31,28 +31,32 @@ tags = ["studynote-devops-sre"]
 ### YAML 기반의 선언적 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인과 Runner 아키텍처
 GitHub Actions는 4개의 핵심 쇳덩어리 기어로 맞물려 돌아간다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GitHub Actions의 CI/CD 동작 아키텍처 흐름도</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. Event (방아쇠)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 개발자가 <code>main</code> 브랜치에 코드를 Push 하거나 PR을 날림</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. Workflow (작전 지시서 - YAML 파일)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- <code>.github/workflows/main.yml</code> 감지 및 실행 시작</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3. Runner (가상머신 작업자 - Ubuntu, Windows 등)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- GitHub가 클라우드에서 빈 깡통 서버(VM)를 즉시 하나 띄움</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">4. Job (작업 단위)</div><div class="kb-diagram-note">- 병렬 또는 순차 실행 │</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Step 1: 소스코드 체크아웃 (actions/checkout@v3)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Step 2: Node.js 설치 (actions/setup-node@v3)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Step 3: npm run test (자동 테스트)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Step 4: AWS S3로 배포 (aws-actions/...)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(성공 시)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">클라우드 운영 서버 (AWS, K8s) 배포 완료 및 슬랙 알림!</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────┐
+│           GitHub Actions의 CI/CD 동작 아키텍처 흐름도            │
+├────────────────────────────────────────────────────────┤
+│  [ 1. Event (방아쇠) ]                                  │
+│   - 개발자가 `main` 브랜치에 코드를 Push 하거나 PR을 날림     │
+│             │                                          │
+│             ▼                                          │
+│  [ 2. Workflow (작전 지시서 - YAML 파일) ]              │
+│   - `.github/workflows/main.yml` 감지 및 실행 시작        │
+│             │                                          │
+│             ▼                                          │
+│  [ 3. Runner (가상머신 작업자 - Ubuntu, Windows 등) ]      │
+│   - GitHub가 클라우드에서 빈 깡통 서버(VM)를 즉시 하나 띄움     │
+│   ┌──────────────────────────────────────────────────┐ │
+│   │ [ 4. Job (작업 단위) ] - 병렬 또는 순차 실행          │ │
+│   │  ├─ Step 1: 소스코드 체크아웃 (actions/checkout@v3)  │ │
+│   │  ├─ Step 2: Node.js 설치 (actions/setup-node@v3)   │ │
+│   │  ├─ Step 3: npm run test (자동 테스트)              │ │
+│   │  └─ Step 4: AWS S3로 배포 (aws-actions/...)       │ │
+│   └──────────────────────────────────────────────────┘ │
+│             │ (성공 시)                                 │
+│             ▼                                          │
+│  [ 클라우드 운영 서버 (AWS, K8s) 배포 완료 및 슬랙 알림! ]   │
+└────────────────────────────────────────────────────────┘
+```
 
 가장 강력한 무기는 <strong>액션 마켓플레이스(Action Marketplace)</strong>다. "AWS에 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인해 줘", "슬랙으로 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 보내줘" 같은 스크립트를 내가 짤 필요 없이, 다른 사람이 만들어둔 액션(예: `uses: aws-actions/configure-aws-credentials@v1`)을 레고 블록처럼 한 줄만 끼워 넣으면 복잡한 쇳덩어리 연동이 끝난다.
 
@@ -112,23 +116,21 @@ GitHub Actions는 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/0
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">수작업 배포의 한계 및 인간의 실수(Human Error)로 인한 서비스 장애 폭증</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">서버 설치형 CI/CD 도구의 등장 (Jenkins 등) ──▶ 인프라 유지보수 고통 발생</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 벤더의 관리형 파이프라인 서비스 등장 (AWS CodePipeline, Travis CI)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">코드 저장소(Git)와 CI/CD 파이프라인의 물리적 결합 ──▶ GitHub Actions 발표 (2018)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">마켓플레이스(생태계)를 통한 레고식 조립 및 서버리스(Serverless) CI/CD의 클라우드 천하통일</div>
-</div>
-</div>
-
-
+```text
+수작업 배포의 한계 및 인간의 실수(Human Error)로 인한 서비스 장애 폭증
+    │
+    ▼
+서버 설치형 CI/CD 도구의 등장 (Jenkins 등) ──▶ 인프라 유지보수 고통 발생
+    │
+    ▼
+클라우드 벤더의 관리형 파이프라인 서비스 등장 (AWS CodePipeline, Travis CI)
+    │
+    ▼
+코드 저장소(Git)와 CI/CD 파이프라인의 물리적 결합 ──▶ GitHub Actions 발표 (2018)
+    │
+    ▼
+마켓플레이스(생태계)를 통한 레고식 조립 및 서버리스(Serverless) CI/CD의 클라우드 천하통일
+```
 
 이 흐름도는 "가내수공업 → 거대 기계 도입(유지보수 고통) → 클라우드 아웃소싱 → 코드 저장소와의 궁극의 융합(SaaS화)"이라는 인프라 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)의 역사를 완벽하게 보여준다.
 

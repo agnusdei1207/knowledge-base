@@ -24,18 +24,16 @@ tags = ["studynote-software-engineering"]
 
 암호화가 필요한 이유는 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)을 지키기 위해서다. 네트워크를 지나가는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)나 디스크에 저장된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 중간에 읽히더라도, 키 없이는 내용을 알 수 없어야 한다. 다만 키를 어떻게 안전하게 나눌지라는 문제가 뒤따른다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">평문 + 비밀키 + IV/nonce</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">대칭키 암호화</div>
-<div class="kb-diagram-note">암호문 인증 태그(AEAD)</div>
-</div>
-</div>
-
-
+```text
+평문 + 비밀키 + IV/nonce
+         │
+         ▼
+    대칭키 암호화
+         │
+  ┌──────┴──────┐
+  ▼             ▼
+암호문        인증 태그(AEAD)
+```
 
 이 구조의 핵심은 암호화만이 아니라 "[무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)까지 함께 보장할 것인가"다.
 
@@ -55,16 +53,12 @@ tags = ["studynote-software-engineering"]
 | [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) | 블록 크기 맞춤 | 구현 실수 방지 |
 | [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 태그 | 변조 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 복호화 전에 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">AES/ChaCha20</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">암호문</div></div>
-<div class="kb-diagram-tree-item" style="--depth:2">키 / IV / nonce / mode</div>
-</div>
-</div>
-
-
+```text
+평문 ─▶ [AES/ChaCha20] ─▶ 암호문
+     │         ▲
+     │         │
+     └─ 키 / IV / nonce / mode
+```
 
 GCM이나 Poly1305 계열을 쓰면 암호화와 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 함께 다룰 수 있다. 반면 ECB는 같은 평문이 같은 패턴으로 드러나므로 거의 쓰지 않는다.
 
@@ -133,21 +127,18 @@ TLS에서는 대개 공개키 방식으로 [세션](/knowledge-base/studynote/02
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">DES → AES</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">블록/스트림 암호</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">AEAD(GCM, ChaCha20-Poly1305)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">TLS 세션 키 + 대용량 데이터 보호</div>
-</div>
-</div>
-
-
+```text
+DES → AES
+    │
+    ▼
+블록/스트림 암호
+    │
+    ▼
+AEAD(GCM, ChaCha20-Poly1305)
+    │
+    ▼
+TLS 세션 키 + 대용량 데이터 보호
+```
 
 이 흐름은 속도 중심의 암호화가 키 관리와 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)까지 확장된 과정을 보여준다. 앞으로도 대칭키는 빠른 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)의 본체로 남고, 공개키는 키 교환과 신원 확인을 맡는다.
 

@@ -20,23 +20,20 @@ tags = ["studynote-bigdata"]
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
+```text
+[ AQE Runtime Optimization Cycle ]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">AQE Runtime Optimization Cycle</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Write Shuffle Map Data</div></div>
-<div class="kb-diagram-note">V</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Collect Runtime Statistics</div></div>
-<div class="kb-diagram-note">V</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">←</div><div class="kb-diagram-node">Re-optimize Plan</div></div>
-<div class="kb-diagram-tree-item" style="--depth:3">Merge small partitions</div>
-<div class="kb-diagram-tree-item" style="--depth:3">Handle skewed data</div>
-<div class="kb-diagram-tree-item" style="--depth:3">Switch to Broadcast Join</div>
-</div>
-</div>
-
-
+  (Query Stage 1) --> [Write Shuffle Map Data]
+                            |
+                            V
+               [ Collect Runtime Statistics ]
+                            |
+                            V
+  (Query Stage 2) <-- [ Re-optimize Plan ]
+      - Merge small partitions
+      - Handle skewed data
+      - Switch to Broadcast Join
+```
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 
@@ -60,23 +57,21 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">정적 쿼리 계획 (Static Query Plan) — CBO</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">런타임 통계 수집 (Runtime Statistics)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">적응형 쿼리 실행 (AQE, Adaptive Query Execution)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">파티션 병합 / 스큐 조인 최적화 (Skew Join)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ML 기반 자동 튜닝 엔진 (Auto-tuning)</div></div>
-</div>
-</div>
-
-
+```text
+[정적 쿼리 계획 (Static Query Plan) — CBO]
+    │
+    ▼
+[런타임 통계 수집 (Runtime Statistics)]
+    │
+    ▼
+[적응형 쿼리 실행 (AQE, Adaptive Query Execution)]
+    │
+    ▼
+[파티션 병합 / 스큐 조인 최적화 (Skew Join)]
+    │
+    ▼
+[ML 기반 자동 튜닝 엔진 (Auto-tuning)]
+```
 
 Spark [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 최적화가 컴파일 시점 정적 계획에서 런타임 통계 기반 동적 최적화로 발전한 흐름이다.
 
@@ -91,7 +86,7 @@ Spark [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attentio
 
 **진행 상황**: 59 / 262
 
-← **이전**: [Tungsten Engine](/knowledge-base/studynote/16_bigdata/03_spark/058_tungsten_engine/)
+← **이전**: [Tungsten 엔진](/knowledge-base/studynote/16_bigdata/03_spark/058_tungsten_engine/)
 **다음**: [Spark Streaming (DStream) 아키텍처](/knowledge-base/studynote/16_bigdata/03_spark/060_spark_streaming_dstream/) →
 
 ---

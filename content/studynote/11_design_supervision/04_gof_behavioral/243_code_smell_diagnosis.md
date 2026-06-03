@@ -30,46 +30,43 @@ tags = ["studynote-design-supervision"]
 
 스멜을 방치하면 <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/">기술 부채</a> (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/">Technical Debt</a>)</strong> 가 복리로 쌓인다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 발견 시 수정 비용 대비 후기 발견 시 수정 비용은 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~100배 차이가 난다고 알려져 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Core Idea</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Expected Gain</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐    ┌──────────────┐    ┌──────────────┐
+│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
+└──────────────┘    └──────────────┘    └──────────────┘
+```
 
 - **📢 섹션 요약 비유**: 냄새나는 음식은 먹으면 탈이 나기 전에 버려야 한다 — [코드 스멜](/knowledge-base/studynote/04_software_engineering/06_software_architecture/370_code_smell/)도 버그가 터지기 전에 제거해야 한다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
+```
+┌──────────────────────────────────────────────────────────┐
+│                   코드 스멜 분류 체계                    │
+├──────────────────┬───────────────────────────────────────┤
+│  스멜 유형       │  영향 범위                            │
+├──────────────────┼───────────────────────────────────────┤
+│ Long Method      │  단일 메서드 내부                     │
+│ Large Class      │  단일 클래스 내부                     │
+│ Primitive        │  타입 시스템 전체                     │
+│ Obsession        │                                       │
+│ Shotgun Surgery  │  시스템 전체 (변경 시 파급 효과)      │
+│ Feature Envy     │  클래스 간 의존 관계                  │
+└──────────────────┴───────────────────────────────────────┘
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코드 스멜 분류 체계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스멜 유형</div><div class="kb-diagram-cell">영향 범위</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Long Method</div><div class="kb-diagram-cell">단일 메서드 내부</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Large Class</div><div class="kb-diagram-cell">단일 클래스 내부</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Primitive</div><div class="kb-diagram-cell">타입 시스템 전체</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Obsession</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Shotgun Surgery</div><div class="kb-diagram-cell">시스템 전체 (변경 시 파급 효과)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Feature Envy</div><div class="kb-diagram-cell">클래스 간 의존 관계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">피처 엔비 (Feature Envy) 예시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Order</div><div class="kb-diagram-cell">Customer</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- name</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">printLabel()</div><div class="kb-diagram-cell">──많이──▶</div><div class="kb-diagram-cell">- address</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(이 메서드가</div><div class="kb-diagram-cell">접근</div><div class="kb-diagram-cell">- postalCode</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Customer</div><div class="kb-diagram-cell">- country</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터에</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">집착)</div></div>
-<div class="kb-diagram-note">→ printLabel()을 Customer로 이동해야 함</div>
-</div>
-</div>
-
-
+[ 피처 엔비 (Feature Envy) 예시 ]
+┌─────────────┐        ┌─────────────────────────┐
+│  Order      │        │  Customer               │
+│             │        │  - name                 │
+│ printLabel()│──많이──▶│  - address              │
+│  (이 메서드가│  접근   │  - postalCode           │
+│  Customer   │        │  - country              │
+│  데이터에   │        │                         │
+│  집착)      │        │                         │
+└─────────────┘        └─────────────────────────┘
+        → printLabel()을 Customer로 이동해야 함
+```
 
 **① 롱 메서드 (Long Method)**
 - 진단: 메서드 길이 > 20줄, 들여쓰기 > 3단
@@ -110,20 +107,19 @@ tags = ["studynote-design-supervision"]
 | 샷건 수술 (Shotgun Surgery) | 메서드/필드 이동 | 클래스 합병 | [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/) ([Cohesion](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)) |
 | [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 엔비 (Feature Envy) | 메서드 이동 (Move Method) | 함수 추출 후 이동 | [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/), [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">프리미티브 강박</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">데이터 클럼프 (Data Clumps) ──▶ 라지 클래스</div>
-<div class="kb-diagram-note">파라미터 목록 과다 ▶ 롱 메서드</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">샷건 수술 / 피처 엔비</div>
-</div>
-</div>
-
-
+```
+프리미티브 강박
+    │
+    ▼
+데이터 클럼프 (Data Clumps) ──▶ 라지 클래스
+    │                               │
+    ▼                               ▼
+파라미터 목록 과다 ──────────▶ 롱 메서드
+    │                               │
+    └───────────────────────────────┘
+                                    ▼
+                            샷건 수술 / 피처 엔비
+```
 
 - **📢 섹션 요약 비유**: 감기→폐렴→패혈증처럼 스멜도 방치하면 연쇄 악화한다 — [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 잡는 것이 최선이다.
 

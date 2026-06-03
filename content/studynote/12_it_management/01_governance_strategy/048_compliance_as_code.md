@@ -18,41 +18,41 @@ tags = ["studynote-it-management"]
 
 ## Ⅰ. [Compliance](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/058_it_compliance_sox_basel_gdpr_isms/) [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) 개요
 
+```
+전통 컴플라이언스 vs Compliance as Code:
 
+전통 방식:
+  1. 정책 문서 작성 (Word/PDF)
+  2. IT 팀에 이메일로 전달
+  3. 구성 변경 후 수동 검토
+  4. 분기/연간 감사
+  
+  문제:
+  감사 준비 = 2~4주 수작업
+  감사 주기 사이 위반 지속
+  인적 오류 (체크리스트 누락)
+  클라우드 변경 속도를 따라가지 못함
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">전통 컴플라이언스 vs Compliance as Code:</div>
-<div class="kb-diagram-note">전통 방식:</div>
-<div class="kb-diagram-note">1. 정책 문서 작성 (Word/PDF)</div>
-<div class="kb-diagram-note">2. IT 팀에 이메일로 전달</div>
-<div class="kb-diagram-note">3. 구성 변경 후 수동 검토</div>
-<div class="kb-diagram-note">4. 분기/연간 감사</div>
-<div class="kb-diagram-note">문제:</div>
-<div class="kb-diagram-note">감사 준비 = 2~4주 수작업</div>
-<div class="kb-diagram-note">감사 주기 사이 위반 지속</div>
-<div class="kb-diagram-note">인적 오류 (체크리스트 누락)</div>
-<div class="kb-diagram-note">클라우드 변경 속도를 따라가지 못함</div>
-<div class="kb-diagram-note">Compliance as Code:</div>
-<div class="kb-diagram-note">정책 → 코드화 → CI/CD 파이프라인 통합</div>
-<div class="kb-diagram-note">인프라 변경 → 자동 정책 검사 → 위반 즉시 차단/알림</div>
-<div class="kb-diagram-note">도구:</div>
-<div class="kb-diagram-note">OPA (Open Policy Agent): 범용 정책 엔진</div>
-<div class="kb-diagram-note">AWS Config Rules: AWS 자원 규정 준수</div>
-<div class="kb-diagram-note">Azure Policy: Azure 자원 정책</div>
-<div class="kb-diagram-note">Terraform Sentinel: IaC 정책 게이트</div>
-<div class="kb-diagram-note">Chef InSpec: 인프라 규정 준수 테스트</div>
-<div class="kb-diagram-note">핵심 원칙:</div>
-<div class="kb-diagram-note">Policy as Code:</div>
-<div class="kb-diagram-note">정책 → Git 저장소 관리 (버전 관리, 변경 추적)</div>
-<div class="kb-diagram-note">검토/승인 → PR 프로세스</div>
-<div class="kb-diagram-note">Continuous Compliance:</div>
-<div class="kb-diagram-note">매 커밋/배포 시 정책 자동 검사</div>
-<div class="kb-diagram-note">"컴플라이언스 = 코드 빌드 테스트와 동일 레벨"</div>
-</div>
-</div>
+Compliance as Code:
+  정책 → 코드화 → CI/CD 파이프라인 통합
+  인프라 변경 → 자동 정책 검사 → 위반 즉시 차단/알림
+  
+  도구:
+  OPA (Open Policy Agent): 범용 정책 엔진
+  AWS Config Rules: AWS 자원 규정 준수
+  Azure Policy: Azure 자원 정책
+  Terraform Sentinel: IaC 정책 게이트
+  Chef InSpec: 인프라 규정 준수 테스트
 
-
+핵심 원칙:
+  Policy as Code:
+  정책 → Git 저장소 관리 (버전 관리, 변경 추적)
+  검토/승인 → PR 프로세스
+  
+  Continuous Compliance:
+  매 커밋/배포 시 정책 자동 검사
+  "컴플라이언스 = 코드 빌드 테스트와 동일 레벨"
+```
 
 > 📢 **섹션 요약 비유**: [Compliance](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/058_it_compliance_sox_basel_gdpr_isms/) [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) = 자동 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등 — 전통(교통 경찰이 주기적으로 점검). CaC([신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 위반 시 즉시 카메라로 탐지+통보). 속도 위반 없이 실시간 집행!
 
@@ -60,53 +60,59 @@ tags = ["studynote-it-management"]
 
 ## Ⅱ. [OPA](/knowledge-base/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/) ([Open Policy Agent](/knowledge-base/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/))
 
+```
+OPA (Open Policy Agent):
+  CNCF 프로젝트 (Cloud Native Computing Foundation)
+  범용 정책 엔진
+  
+  언어: Rego (OPA 전용 정책 언어)
+  용도: Kubernetes, API, IaC 정책
 
+Rego 정책 예시:
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">OPA (Open Policy Agent):</div>
-<div class="kb-diagram-note">CNCF 프로젝트 (Cloud Native Computing Foundation)</div>
-<div class="kb-diagram-note">범용 정책 엔진</div>
-<div class="kb-diagram-note">언어: Rego (OPA 전용 정책 언어)</div>
-<div class="kb-diagram-note">용도: Kubernetes, API, IaC 정책</div>
-<div class="kb-diagram-note">Rego 정책 예시:</div>
-<div class="kb-diagram-note">1. Kubernetes Pod 보안 정책:</div>
-<div class="kb-diagram-note">package kubernetes.admission</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">deny</div><div class="kb-diagram-node">msg</div><div class="kb-diagram-note">{</div></div>
-<div class="kb-diagram-note">input.request.kind.kind == "Pod"</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">container := input.request.object.spec.containers</div><div class="kb-diagram-node">_</div></div>
-<div class="kb-diagram-note">container.securityContext.privileged == true</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">msg := sprintf("특권 컨테이너 허용 안 됨: %v",</div><div class="kb-diagram-node">container.name</div><div class="kb-diagram-note">)</div></div>
-<div class="kb-diagram-note">}</div>
-<div class="kb-diagram-note">→ 특권 컨테이너 배포 시 자동 거부</div>
-<div class="kb-diagram-note">2. Terraform IaC 정책 (S3 퍼블릭 차단):</div>
-<div class="kb-diagram-note">package terraform</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">deny</div><div class="kb-diagram-node">msg</div><div class="kb-diagram-note">{</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">resource := input.resource_changes</div><div class="kb-diagram-node">_</div></div>
-<div class="kb-diagram-note">resource.type == "aws_s3_bucket"</div>
-<div class="kb-diagram-note">resource.change.after.acl == "public-read"</div>
-<div class="kb-diagram-note">msg := "S3 버킷 공개 읽기 허용 금지"</div>
-<div class="kb-diagram-note">}</div>
-<div class="kb-diagram-note">→ terraform plan 시 정책 검사 → 위반 차단</div>
-<div class="kb-diagram-note">3. API 접근 정책:</div>
-<div class="kb-diagram-note">package authz</div>
-<div class="kb-diagram-note">allow {</div>
-<div class="kb-diagram-note">input.method == "GET"</div>
-<div class="kb-diagram-note">input.user.role == "admin"</div>
-<div class="kb-diagram-note">}</div>
-<div class="kb-diagram-note">allow {</div>
-<div class="kb-diagram-note">input.method == "GET"</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">input.path ==</div><div class="kb-diagram-node">"public", "api"</div></div>
-<div class="kb-diagram-note">}</div>
-<div class="kb-diagram-note">→ API 게이트웨이에서 OPA로 권한 검사</div>
-<div class="kb-diagram-note">OPA 통합 포인트:</div>
-<div class="kb-diagram-note">Kubernetes: OPA Gatekeeper (Admission Controller)</div>
-<div class="kb-diagram-note">CI/CD: Conftest (Terraform/YAML 정책 검사)</div>
-<div class="kb-diagram-note">API 게이트웨이: Envoy + OPA</div>
-</div>
-</div>
+1. Kubernetes Pod 보안 정책:
+  package kubernetes.admission
+  
+  deny[msg] {
+    input.request.kind.kind == "Pod"
+    container := input.request.object.spec.containers[_]
+    container.securityContext.privileged == true
+    msg := sprintf("특권 컨테이너 허용 안 됨: %v", [container.name])
+  }
+  
+  → 특권 컨테이너 배포 시 자동 거부
 
+2. Terraform IaC 정책 (S3 퍼블릭 차단):
+  package terraform
+  
+  deny[msg] {
+    resource := input.resource_changes[_]
+    resource.type == "aws_s3_bucket"
+    resource.change.after.acl == "public-read"
+    msg := "S3 버킷 공개 읽기 허용 금지"
+  }
+  
+  → terraform plan 시 정책 검사 → 위반 차단
 
+3. API 접근 정책:
+  package authz
+  
+  allow {
+    input.method == "GET"
+    input.user.role == "admin"
+  }
+  allow {
+    input.method == "GET"
+    input.path == ["public", "api"]
+  }
+  
+  → API 게이트웨이에서 OPA로 권한 검사
+
+OPA 통합 포인트:
+  Kubernetes: OPA Gatekeeper (Admission Controller)
+  CI/CD: Conftest (Terraform/YAML 정책 검사)
+  API 게이트웨이: Envoy + OPA
+```
 
 > 📢 **섹션 요약 비유**: [OPA](/knowledge-base/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/) = 법전 코드화 — "특권 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 금지(법)"를 Rego 코드로. [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 배포 시 자동으로 법전 검사. 위반 즉시 거부. [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)관 없이도 24×7 법 집행!
 
@@ -114,45 +120,50 @@ tags = ["studynote-it-management"]
 
 ## Ⅲ. AWS [Config](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) + [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) [Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)
 
+```
+AWS Config:
+  AWS 자원 구성 변경 추적 + 정책 준수 검사
+  
+  동작:
+  1. 자원 변경 발생 (EC2, S3, IAM...)
+  2. AWS Config가 변경 기록 (Configuration Item)
+  3. Config Rules 자동 평가
+  4. 위반 → AWS Security Hub로 전달
 
+AWS Config Rules 예시:
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">AWS Config:</div>
-<div class="kb-diagram-note">AWS 자원 구성 변경 추적 + 정책 준수 검사</div>
-<div class="kb-diagram-note">동작:</div>
-<div class="kb-diagram-note">1. 자원 변경 발생 (EC2, S3, IAM...)</div>
-<div class="kb-diagram-note">2. AWS Config가 변경 기록 (Configuration Item)</div>
-<div class="kb-diagram-note">3. Config Rules 자동 평가</div>
-<div class="kb-diagram-note">4. 위반 → AWS Security Hub로 전달</div>
-<div class="kb-diagram-note">AWS Config Rules 예시:</div>
-<div class="kb-diagram-note">s3-bucket-public-read-prohibited:</div>
-<div class="kb-diagram-note">S3 버킷 퍼블릭 읽기 → NON_COMPLIANT</div>
-<div class="kb-diagram-note">ec2-instance-no-public-ip:</div>
-<div class="kb-diagram-note">EC2에 퍼블릭 IP → NON_COMPLIANT</div>
-<div class="kb-diagram-note">iam-password-policy:</div>
-<div class="kb-diagram-note">IAM 비밀번호 정책 최소 길이 14자 미만 → NON_COMPLIANT</div>
-<div class="kb-diagram-note">root-account-mfa-enabled:</div>
-<div class="kb-diagram-note">루트 계정 MFA 비활성화 → NON_COMPLIANT</div>
-<div class="kb-diagram-note">AWS Security Hub:</div>
-<div class="kb-diagram-note">여러 AWS 서비스 보안 결과 통합</div>
-<div class="kb-diagram-note">표준 준수 점수 자동 계산:</div>
-<div class="kb-diagram-note">CIS AWS Foundations Benchmark</div>
-<div class="kb-diagram-note">AWS Foundational Security Best Practices</div>
-<div class="kb-diagram-note">PCI DSS v3.2.1</div>
-<div class="kb-diagram-note">점수 예:</div>
-<div class="kb-diagram-note">CIS Level 1: 67% 준수</div>
-<div class="kb-diagram-note">→ 무엇을 고쳐야 100%?</div>
-<div class="kb-diagram-note">→ 우선순위별 수정 가이드</div>
-<div class="kb-diagram-note">자동 교정 (Auto Remediation):</div>
-<div class="kb-diagram-note">Config Rule 위반 → Lambda 자동 실행 → 수정</div>
-<div class="kb-diagram-note">예:</div>
-<div class="kb-diagram-note">S3 퍼블릭 → Lambda가 ACL을 private으로 변경</div>
-<div class="kb-diagram-note">IAM 비밀번호 정책 위반 → 자동 정책 업데이트</div>
-</div>
-</div>
+  s3-bucket-public-read-prohibited:
+  S3 버킷 퍼블릭 읽기 → NON_COMPLIANT
+  
+  ec2-instance-no-public-ip:
+  EC2에 퍼블릭 IP → NON_COMPLIANT
+  
+  iam-password-policy:
+  IAM 비밀번호 정책 최소 길이 14자 미만 → NON_COMPLIANT
+  
+  root-account-mfa-enabled:
+  루트 계정 MFA 비활성화 → NON_COMPLIANT
 
+AWS Security Hub:
+  여러 AWS 서비스 보안 결과 통합
+  표준 준수 점수 자동 계산:
+  
+  CIS AWS Foundations Benchmark
+  AWS Foundational Security Best Practices
+  PCI DSS v3.2.1
+  
+  점수 예:
+  CIS Level 1: 67% 준수
+  → 무엇을 고쳐야 100%?
+  → 우선순위별 수정 가이드
 
+자동 교정 (Auto Remediation):
+  Config Rule 위반 → Lambda 자동 실행 → 수정
+  
+  예:
+  S3 퍼블릭 → Lambda가 ACL을 private으로 변경
+  IAM 비밀번호 정책 위반 → 자동 정책 업데이트
+```
 
 > 📢 **섹션 요약 비유**: AWS [Config](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) = 자동 건물 점검 로봇 — S3 문(버킷) 열렸나 매초 감시. 열리면 즉시 닫음(자동 교정) + 관리자 알림. 24×7 자동 규정 준수!
 
@@ -160,49 +171,57 @@ tags = ["studynote-it-management"]
 
 ## Ⅳ. [Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/) Sentinel
 
+```
+Terraform Sentinel:
+  HashiCorp의 Policy as Code 프레임워크
+  IaC 배포 전 정책 검사 (Shift-Left!)
 
+정책 적용 단계:
+  terraform plan → Sentinel 정책 검사 → terraform apply
+  
+  정책 위반 시: apply 차단 (Advisory / Soft-Mandatory / Mandatory)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Terraform Sentinel:</div>
-<div class="kb-diagram-note">HashiCorp의 Policy as Code 프레임워크</div>
-<div class="kb-diagram-note">IaC 배포 전 정책 검사 (Shift-Left!)</div>
-<div class="kb-diagram-note">정책 적용 단계:</div>
-<div class="kb-diagram-note">terraform plan → Sentinel 정책 검사 → terraform apply</div>
-<div class="kb-diagram-note">정책 위반 시: apply 차단 (Advisory / Soft-Mandatory / Mandatory)</div>
-<div class="kb-diagram-note">Sentinel 정책 예시:</div>
-<div class="kb-diagram-note">1. 태그 필수 정책:</div>
-<div class="kb-diagram-note">import "tfplan/v2" as tfplan</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">required_tags =</div><div class="kb-diagram-node">"environment", "owner", "cost-center"</div></div>
-<div class="kb-diagram-note">resources = tfplan.find_resources("aws_instance")</div>
-<div class="kb-diagram-note">check_tags = rule {</div>
-<div class="kb-diagram-note">all resources as _, rc {</div>
-<div class="kb-diagram-note">all required_tags as tag {</div>
-<div class="kb-diagram-note">rc.change.after.tags contains tag</div>
-<div class="kb-diagram-note">}</div>
-<div class="kb-diagram-note">}</div>
-<div class="kb-diagram-note">}</div>
-<div class="kb-diagram-note">main = rule { check_tags }</div>
-<div class="kb-diagram-note">→ 태그 없는 EC2 배포 차단</div>
-<div class="kb-diagram-note">2. 인스턴스 유형 제한:</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">allowed_types =</div><div class="kb-diagram-node">"t3.micro", "t3.small", "t3.medium"</div></div>
-<div class="kb-diagram-note">check_type = rule {</div>
-<div class="kb-diagram-note">all resources as _, rc {</div>
-<div class="kb-diagram-note">rc.change.after.instance_type in allowed_types</div>
-<div class="kb-diagram-note">}</div>
-<div class="kb-diagram-note">}</div>
-<div class="kb-diagram-note">→ 프로덕션 제외 환경에서 큰 인스턴스 배포 차단</div>
-<div class="kb-diagram-note">정책 단계:</div>
-<div class="kb-diagram-note">Advisory: 경고만 (배포는 진행)</div>
-<div class="kb-diagram-note">Soft-Mandatory: 강제 + 권한자 override 가능</div>
-<div class="kb-diagram-note">Mandatory: 절대 차단</div>
-<div class="kb-diagram-note">Conftest (오픈소스 대안):</div>
-<div class="kb-diagram-note">Terraform, Kubernetes YAML, Helm에 OPA Rego 정책 적용</div>
-<div class="kb-diagram-note">Terraform Cloud 없이도 사용 가능</div>
-</div>
-</div>
+Sentinel 정책 예시:
 
+1. 태그 필수 정책:
+  import "tfplan/v2" as tfplan
+  
+  required_tags = ["environment", "owner", "cost-center"]
+  
+  resources = tfplan.find_resources("aws_instance")
+  
+  check_tags = rule {
+    all resources as _, rc {
+      all required_tags as tag {
+        rc.change.after.tags contains tag
+      }
+    }
+  }
+  
+  main = rule { check_tags }
+  
+  → 태그 없는 EC2 배포 차단
 
+2. 인스턴스 유형 제한:
+  allowed_types = ["t3.micro", "t3.small", "t3.medium"]
+  
+  check_type = rule {
+    all resources as _, rc {
+      rc.change.after.instance_type in allowed_types
+    }
+  }
+  
+  → 프로덕션 제외 환경에서 큰 인스턴스 배포 차단
+
+정책 단계:
+  Advisory: 경고만 (배포는 진행)
+  Soft-Mandatory: 강제 + 권한자 override 가능
+  Mandatory: 절대 차단
+
+Conftest (오픈소스 대안):
+  Terraform, Kubernetes YAML, Helm에 OPA Rego 정책 적용
+  Terraform Cloud 없이도 사용 가능
+```
 
 > 📢 **섹션 요약 비유**: [Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/) Sentinel = 공사 착공 전 허가 — 설계도([Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/) plan) 제출 시 법규 자동 검사. 태그 없음(필수 서류 미비) → 착공 불허. 공사 중 문제가 아닌 착공 전 예방!
 
@@ -210,48 +229,52 @@ tags = ["studynote-it-management"]
 
 ## Ⅴ. 실무 시나리오 — 금융사 CaC 구축
 
+```
+핀테크 스타트업 → 금융감독원 규제 준수 CaC:
 
+배경:
+  AWS 기반 서비스
+  규제: 전자금융감독규정, 클라우드 이용 기준
+  
+  감사 준비: 분기마다 2주 수작업
+  개발팀 위반 반복: S3 퍼블릭, IAM 과잉 권한
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">핀테크 스타트업 → 금융감독원 규제 준수 CaC:</div>
-<div class="kb-diagram-note">배경:</div>
-<div class="kb-diagram-note">AWS 기반 서비스</div>
-<div class="kb-diagram-note">규제: 전자금융감독규정, 클라우드 이용 기준</div>
-<div class="kb-diagram-note">감사 준비: 분기마다 2주 수작업</div>
-<div class="kb-diagram-note">개발팀 위반 반복: S3 퍼블릭, IAM 과잉 권한</div>
-<div class="kb-diagram-note">CaC 구축:</div>
-<div class="kb-diagram-note">1. 정책 코드화 (OPA + AWS Config):</div>
-<div class="kb-diagram-note">전자금융감독규정 주요 항목 → Rego + Config Rules</div>
-<div class="kb-diagram-note">정책 목록 (50개):</div>
-<div class="kb-diagram-tree-item" style="--depth:1">S3 암호화 필수 (AES-256)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">RDS 암호화 필수</div>
-<div class="kb-diagram-tree-item" style="--depth:1">퍼블릭 S3 버킷 금지</div>
-<div class="kb-diagram-tree-item" style="--depth:1">EC2 공개 접근 금지 (특수 경우 제외)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">로그 보존 1년 이상</div>
-<div class="kb-diagram-tree-item" style="--depth:1">MFA 전 IAM 사용자 적용</div>
-<div class="kb-diagram-tree-item" style="--depth:1">...</div>
-<div class="kb-diagram-note">2. CI/CD 통합:</div>
-<div class="kb-diagram-note">Terraform 변경 → Sentinel 정책 자동 검사</div>
-<div class="kb-diagram-note">Kubernetes 배포 → OPA Gatekeeper 검사</div>
-<div class="kb-diagram-note">PR 단계에서 정책 위반 즉시 피드백:</div>
-<div class="kb-diagram-note">"🚫 S3 버킷에 암호화 누락 (규정 제28조)"</div>
-<div class="kb-diagram-note">"✅ 8개 정책 통과"</div>
-<div class="kb-diagram-note">3. 실시간 대시보드:</div>
-<div class="kb-diagram-note">AWS Security Hub → Grafana 대시보드</div>
-<div class="kb-diagram-note">준수율 실시간 표시 (목표: 98%+)</div>
-<div class="kb-diagram-note">위반 항목 드릴다운 가능</div>
-<div class="kb-diagram-note">결과 (3개월):</div>
-<div class="kb-diagram-note">감사 준비 시간: 2주 → 1일 (대시보드 리포트 출력)</div>
-<div class="kb-diagram-note">반복 위반: 월 25건 → 2건 (자동 차단)</div>
-<div class="kb-diagram-note">개발팀 체감: "배포할 때 미리 알려줘서 좋음"</div>
-<div class="kb-diagram-note">규제 감사 결과:</div>
-<div class="kb-diagram-note">"컴플라이언스 자동화 우수 사례" 인정</div>
-<div class="kb-diagram-note">지적 사항: 3건 → 0건</div>
-</div>
-</div>
+CaC 구축:
 
+1. 정책 코드화 (OPA + AWS Config):
+  전자금융감독규정 주요 항목 → Rego + Config Rules
+  
+  정책 목록 (50개):
+  - S3 암호화 필수 (AES-256)
+  - RDS 암호화 필수
+  - 퍼블릭 S3 버킷 금지
+  - EC2 공개 접근 금지 (특수 경우 제외)
+  - 로그 보존 1년 이상
+  - MFA 전 IAM 사용자 적용
+  - ...
 
+2. CI/CD 통합:
+  Terraform 변경 → Sentinel 정책 자동 검사
+  Kubernetes 배포 → OPA Gatekeeper 검사
+  
+  PR 단계에서 정책 위반 즉시 피드백:
+  "🚫 S3 버킷에 암호화 누락 (규정 제28조)"
+  "✅ 8개 정책 통과"
+
+3. 실시간 대시보드:
+  AWS Security Hub → Grafana 대시보드
+  준수율 실시간 표시 (목표: 98%+)
+  위반 항목 드릴다운 가능
+
+결과 (3개월):
+  감사 준비 시간: 2주 → 1일 (대시보드 리포트 출력)
+  반복 위반: 월 25건 → 2건 (자동 차단)
+  개발팀 체감: "배포할 때 미리 알려줘서 좋음"
+  
+  규제 감사 결과:
+  "컴플라이언스 자동화 우수 사례" 인정
+  지적 사항: 3건 → 0건
+```
 
 > 📢 **섹션 요약 비유**: 핀테크 CaC = 자동 규정 준수 비서 — 코드 배포 시 규정집 자동 대조, 위반 즉시 차단, 대시보드로 실시간 점수. [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 준비 2주 → 1일. 개발자도 "미리 알려줘서 좋아요"!
 

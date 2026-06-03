@@ -35,25 +35,23 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 비용이 어디서 커지는지를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">shootdown 비용은 flush보다 "모두 멈추고 맞추는 과정"에 있다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Initiator Core Remote Core A Remote Core B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PTE update run run</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">local invalidate</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IPI / invalidate ▶ trap</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">flush local TLB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IPI / invalidate ▶ trap</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">done ▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">wait for all done</div><div class="kb-diagram-cell">flush local TLB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">done ▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">resume only after every stale translation is gone</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│        shootdown 비용은 flush보다 "모두 멈추고 맞추는 과정"에 있다   │
+├──────────────────────────────────────────────────────────────────────┤
+│ Initiator Core        Remote Core A           Remote Core B          │
+│      │                    │                        │                 │
+│ PTE update               run                      run                │
+│ local invalidate         │                        │                 │
+│ IPI / invalidate ─────▶ trap                     │                 │
+│      │                    flush local TLB         │                 │
+│ IPI / invalidate ───────────────────────────────▶ trap              │
+│      │                    done ────────────────▶  │                 │
+│ wait for all done        │                        flush local TLB    │
+│      │                    │                        done ──────────▶  │
+│ resume only after every stale translation is gone                   │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 | 단계 | 실제 작업 | 왜 비싼가 |
 | :--- | :--- | :--- |
@@ -137,24 +135,22 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단일 코어의 로컬 TLB flush</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">멀티코어 공유 주소 공간</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">TLB 슈팅다운 (IPI 기반 원격 invalidate)</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ ASID / PCID 기반 대상 축소</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ range-based invalidate</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ hardware broadcast invalidate</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">가상화·many-core 시대의 확장형 번역 캐시 일관성</div>
-</div>
-</div>
-
-
+```text
+단일 코어의 로컬 TLB flush
+        │
+        ▼
+멀티코어 공유 주소 공간
+        │
+        ▼
+TLB 슈팅다운 (IPI 기반 원격 invalidate)
+        │
+        ├─▶ ASID / PCID 기반 대상 축소
+        ├─▶ range-based invalidate
+        ├─▶ hardware broadcast invalidate
+        │
+        ▼
+가상화·many-core 시대의 확장형 번역 캐시 일관성
+```
 
 이 흐름은 "내 코어만 지우면 되던 시대"에서 출발해, "여러 코어의 번역 캐시를 정밀하게 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)하는 시대"로 발전하는 과정을 보여준다.
 

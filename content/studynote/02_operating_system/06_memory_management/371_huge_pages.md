@@ -27,24 +27,24 @@ tags = ["studynote-operating-system"]
   2. <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/">Page Table</a> Walk의 공포</strong>: 64비트는 [다단계 페이징](/knowledge-base/studynote/02_operating_system/06_memory_management/361_hierarchical_paging/)으로 램을 4번이나 연속해서 읽어야 한다. [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 미스 한 번의 타격이 너무 뼈아프다.
   3. **Huge Page의 도약**: 4KB 대신 2MB(512배) 덩어리를 쓰면, 64개의 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 칸으로 무려 128MB의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 커버할 수 있게 된다. 캐시 적중률이 기적처럼 99.9%로 치솟았다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4KB 일반 페이지 vs 2MB Huge Page의 TLB 소모량 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황: DB가 2MB짜리 덩어리 데이터를 순차적으로 읽으려 함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 4KB Standard Page (표준)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2MB / 4KB = 총 512개의 페이지 조각이 필요함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 이 데이터를 읽기 위해 귀한 TLB 방을 512칸이나 소모함!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(TLB 캐시가 초토화되고 쫓겨난 다른 데이터들이 미스를 냄)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2MB Huge Page (거대 페이지)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2MB 데이터 전체가 딱 1개의 거대한 물리 프레임으로 묶여 있음.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: TLB 방을 단 1칸만 소모하고도 2MB 전체를 커버함!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(나머지 511칸의 TLB 여유 공간으로 다른 앱들도 쾌적하게 돎)</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────┐
+│        4KB 일반 페이지 vs 2MB Huge Page의 TLB 소모량 비교              │
+├────────────────────────────────────────────────────────────────────────┤
+│                                                                        │
+│ [ 상황: DB가 2MB짜리 덩어리 데이터를 순차적으로 읽으려 함 ]            │
+│                                                                        │
+│ ▶ 4KB Standard Page (표준)                                             │
+│    2MB / 4KB = 총 512개의 페이지 조각이 필요함.                        │
+│    결과: 이 데이터를 읽기 위해 귀한 TLB 방을 512칸이나 소모함!         │
+│         (TLB 캐시가 초토화되고 쫓겨난 다른 데이터들이 미스를 냄)       │
+│                                                                        │
+│ ▶ 2MB Huge Page (거대 페이지)                                          │
+│    2MB 데이터 전체가 딱 1개의 거대한 물리 프레임으로 묶여 있음.        │
+│    결과: TLB 방을 단 1칸만 소모하고도 2MB 전체를 커버함!               │
+│         (나머지 511칸의 TLB 여유 공간으로 다른 앱들도 쾌적하게 돎)     │
+└────────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 거대 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)의 존재 이유는 오직 하나, '[TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/)(주소 번역 캐시) 아끼기'다. CPU 아키텍처 상 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 칩셋의 크기를 물리적으로 키우는 것은 발열과 비용 문제로 한계가 있다. 따라서 칩셋을 키울 수 없으니 소프트웨어 쪽에서 짐([페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))의 덩치를 키워, 하나의 캐시 엔트리가 커버하는 영토를 광활하게 넓혀버린 셈이다.
 
 - **📢 섹션 요약 비유**: 수백 명의 학생 이름을 선생님([TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/))이 일일이 다 외우려다 머리가 터졌는데, 아예 "1반, 2반, 3반"이라는 큰 묶음(거대 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))으로 묶어버리니 선생님이 반 이름 3개만 외우고도 전교생을 완벽하게 통제할 수 있게 된 셈입니다.
@@ -59,22 +59,22 @@ tags = ["studynote-operating-system"]
 - 기존 4KB [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/): `PGD(1단계) -> PUD(2단계) -> PMD(3단계) -> PTE(4단계)`의 4번 연속된 장부 탐색을 거쳐야 한다.
 - <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/">Huge Page</a> <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/">페이징</a></strong>: 3단계 장부인 <strong>PMD(<a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">Page</a> Middle <a href="/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/">Directory</a>)에서 PTE로 넘어가지 않고, 그냥 여기서 <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/">가지치기</a>를 멈추고 냅다 2MB 물리 메모리를 다이렉트로 매핑</strong>해버린다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Huge Page 사용 시 다단계 페이징 트리 생략 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">4KB 일반 페이지 (4번 램 읽음)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">4KB 쪼가리 데이터</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2MB Huge Page (3번 램 읽음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PGD ──▶ PUD ──▶ PMD (🌟여기에 특수 비트를 켬!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">2MB 거대 데이터 통짜 매핑</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 이점 1: TLB 미스가 나도 램 읽는 횟수가 4번에서 3번으로 줄어듦.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 이점 2: 수백 개의 PTE 장부 자체를 만들 필요가 없어 메모리가 크게 절약됨.</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│              Huge Page 사용 시 다단계 페이징 트리 생략 아키텍처            │
+├────────────────────────────────────────────────────────────────────────────┤
+│                                                                            │
+│ [ 4KB 일반 페이지 (4번 램 읽음) ]                                          │
+│ PGD ──▶ PUD ──▶ PMD ──▶ PTE ──▶ [ 4KB 쪼가리 데이터 ]                      │
+│                                                                            │
+│ [ 2MB Huge Page (3번 램 읽음) ]                                            │
+│ PGD ──▶ PUD ──▶ PMD (🌟여기에 특수 비트를 켬!)                             │
+│                  └────▶ [ 2MB 거대 데이터 통짜 매핑 ]                      │
+│                                                                            │
+│ ✅ 이점 1: TLB 미스가 나도 램 읽는 횟수가 4번에서 3번으로 줄어듦.          │
+│ ✅ 이점 2: 수백 개의 PTE 장부 자체를 만들 필요가 없어 메모리가 크게 절약됨.│
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 단순히 덩치만 커진 게 아니라, 장부 탐색 단계(Depth) 자체를 하드웨어적으로 한 단계 줄여버리는 흑마술이다. 만약 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스가 1GB짜리 초거대 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)(Gigantic [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))를 쓴다면, PUD(2단계)에서 탐색을 멈춰버리고 램을 딱 2번만 읽은 뒤 1GB 영토를 통째로 던져준다. 이 물리적 트리의 절단이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 극대화의 핵심 코어다.
 
@@ -111,18 +111,15 @@ tags = ["studynote-operating-system"]
 | **장점** | 레거시 앱 코드 수정 없이 즉시 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상 빔 맞음 | 완벽한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 보장, 런타임 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Jitter) 절대 없음 |
 | **단점 (최악)**| 뭉치려고 <strong>조각모음(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">Compaction</a>)</strong>을 돌려 렉 유발 | [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)이 까다롭고, 지정한 만큼 다른 앱이 램을 못 씀 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">환경</div><div class="kb-diagram-cell">TLB 적중률</div><div class="kb-diagram-cell">단편화 민감도</div><div class="kb-diagram-cell">OOM(메모리 부족) 위험</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4KB 표준</div><div class="kb-diagram-cell">🔴 보통~나쁨</div><div class="kb-diagram-cell">🟢 둔감 (안전)</div><div class="kb-diagram-cell">🟢 낮음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2MB 수동</div><div class="kb-diagram-cell">🟢 극강</div><div class="kb-diagram-cell">🔴 매우 민감</div><div class="kb-diagram-cell">🔴 높음 (선점됨)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">THP (자동)</div><div class="kb-diagram-cell">🟡 들쭉날쭉</div><div class="kb-diagram-cell">☠️ 지옥 (STW)</div><div class="kb-diagram-cell">☠️ 매우 높음</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬─────────────────────────────┐
+│ 환경       │ TLB 적중률   │ 단편화 민감도 │ OOM(메모리 부족) 위험│
+├──────────┼────────────┼────────────┼─────────────────────────────┤
+│ 4KB 표준   │ 🔴 보통~나쁨 │ 🟢 둔감 (안전)│ 🟢 낮음              │
+│ 2MB 수동   │ 🟢 극강     │ 🔴 매우 민감  │ 🔴 높음 (선점됨)      │
+│ THP (자동) │ 🟡 들쭉날쭉  │ ☠️ 지옥 (STW) │ ☠️ 매우 높음         │
+└──────────┴────────────┴────────────┴─────────────────────────────┘
+```
 **[매트릭스 해설]** THP는 이론상으론 훌륭했지만, 현실 세계의 램은 깨끗하게 유지되지 않는다. 램이 더러운(파편화된) 상태에서 THP가 "2MB 덩어리를 억지로 만들겠다"고 설치기 시작하면, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 사용 중인 앱들을 일시 정지시키고 메모리를 한쪽으로 싹 미는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/">Direct</a> <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">Compaction</a>(직접 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>)</strong>을 돌려버린다. 이때 서버가 1~2초씩 뻗는 대재앙이 터진다.
 
 - **📢 섹션 요약 비유**: 내 발에 딱 맞는 맞춤 신발(4KB)을 버리고, 발이 커질 걸 대비해 300mm짜리 초대형 장화([Huge Page](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/))를 신었더니, 뛰기는 편하지만([TLB Hit](/knowledge-base/studynote/02_operating_system/06_memory_management/358_tlb_hit_miss/)) 장화 안에서 발이 헛돌아 물집이 잡히고(내부 낭비), 좁은 골목길(메모리 파편화)에서는 아예 걸을 수조차 없는 부작용을 낳은 것입니다.
@@ -178,19 +175,15 @@ Java 기반의 대규모 스프링(Spring) 서버는 부팅 시 수 GB의 힙을
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">파편화 관리 및 조각 모음</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">거대 페이지 (Huge Pages / Transparent Huge Pages)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">아키텍처 종속적인 MMU 인터페이스</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ARM / x86의 메모리 매핑 아키텍처 차이</div></div>
-</div>
-</div>
-
-
+```text
+[파편화 관리 및 조각 모음]
+    │
+    ▼
+[거대 페이지 (Huge Pages / Transparent Huge Pages)]
+    │
+    ├──▶ [아키텍처 종속적인 MMU 인터페이스]
+    └──▶ [ARM / x86의 메모리 매핑 아키텍처 차이]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

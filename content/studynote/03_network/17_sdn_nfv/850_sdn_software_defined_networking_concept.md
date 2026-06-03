@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 라우터 1대 안에는 <strong>Control Plane (길을 묻고 찾는 똑똑한 지도, <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/">OSPF</a>/<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/">BGP</a>)</strong>과 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Plane (패킷을 진짜로 1번 구멍에서 2번 구멍으로 던져주는 칩셋)</strong>이 물리적으로 한 박스 안에 꽁꽁 묶여(Tightly Coupled) 있었습니다.
 - **분산의 저주**: 전국에 라우터가 1,000대 깔려 있으면, 관리자가 새로운 보안 룰을 넣기 위해 1,000대의 라우터에 일일이 로그인(CLI 타자 치기)해서 1,000번 세팅해야 합니다. 하나라도 휴먼 에러가 나면 전국망이 터집니다. 하드웨어 제조사(벤더)에게 100% 종속되어 새로운 앱 개발은 꿈도 못 꿨습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SD-WAN 가속 오버레이 토폴로지 암호망/…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">소프트웨어 정의 네트워킹</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SDN 데이터 평면</div></div>
-</div>
-</div>
-
-
+```text
+[SD-WAN 가속 오버레이 토폴로지 암호망/…]
+    │
+    ▼
+[소프트웨어 정의 네트워킹]
+    │
+    └──▶ [SDN 데이터 평면]
+```
 
 - **📢 섹션 요약 비유**: 소프트웨어 정의 네트워킹은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -61,18 +57,14 @@ SDN은 단순한 기술이 아닙니다. <strong>"모든 하드웨어 통신망�
 3. **애플리케이션 계층**: "동영상 트래픽 우선 처리해", "디도스 막아" 같은 비즈니스 로직(보안, [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/), 로드밸런서)을 파이썬 코드로 짜놓은 앱들.
 4. 이 3개의 층을 묶어주는 핏줄이 <strong>노스바운드 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a>(854번)</strong>와 <strong>사우스바운드 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a>(853번, 대표적으로 <a href="/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/">OpenFlow</a>)</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SD-WAN 가속 오버레이 토폴로지 암호망/…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">소프트웨어 정의 네트워킹</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SDN 데이터 평면</div></div>
-</div>
-</div>
-
-
+```text
+[SD-WAN 가속 오버레이 토폴로지 암호망/…]
+    │
+    ▼
+[소프트웨어 정의 네트워킹]
+    │
+    └──▶ [SDN 데이터 평면]
+```
 
 - **📢 섹션 요약 비유**: 옛날 전통적 라우터 군대는 '모든 사병이 각자 지도를 들고 고민하는 오합지졸'이었습니다. 사병 1,000명(라우터)이 각자 머리를 굴려 목적지를 찾아가려니, 장군(관리자)이 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 하나를 바꾸려면 1,000명의 사병 귀에다 대고 일일이 작전을 속삭여야 했습니다. <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/">SDN</a> 혁명</strong>은 장군이 사병 1,000명에게서 '지도(두뇌, 제어 평면)'를 전부 뺏어 불태워버리고 사병들을 생각 없는 깡통 근육([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면)으로 만든 것입니다. 대신 장군([SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 컨트롤러)이 막사에서 드론을 띄워 전쟁터 전체 지도를 완벽히 내려다보고(중앙 집중 통제), 무전기(오픈플로우)로 "1소대 좌로 가! 2소대 우로 가!"라고 버튼 한 번에 전체 대오를 움직입니다. 사병들은 고민할 필요 없이 즉각 움직이고, 장군은 파이썬 코딩(애플리케이션)으로 수십만 대의 군대를 춤추게 조종하는 궁극의 지휘 통제 시스템입니다.
 
@@ -130,19 +122,15 @@ SDN은 단순한 기술이 아닙니다. <strong>"모든 하드웨어 통신망�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: SD-WAN 가속 오버레이 토폴로지 암호망/…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 소프트웨어 정의 네트워킹</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: SDN 데이터 평면</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 프로그래머블 네트워크</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: SD-WAN 가속 오버레이 토폴로지 암호망/…]
+    │
+    ▼
+[현재 개념: 소프트웨어 정의 네트워킹]
+    │
+    ├──▶ [확장 A: SDN 데이터 평면]
+    └──▶ [확장 B: 프로그래머블 네트워크]
+```
 
 소프트웨어 정의 네트워킹는 [SD-WAN](/knowledge-base/studynote/03_network/16_data_center_cloud/849_sd_wan_software_defined_wide_area_network/) 가속 오버레이 토폴로지 암호망/…에서 출발해 현재 메커니즘을 정교화하고, 이후 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

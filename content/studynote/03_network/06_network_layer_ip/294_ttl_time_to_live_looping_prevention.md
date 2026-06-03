@@ -24,18 +24,14 @@ tags = ["studynote-network"]
 
 - **💡 비유**: TTL은 좀비 영화의 <strong>"시한폭탄 목걸이"</strong>와 같습니다. 패킷이라는 좀비의 목에 카운트다운 타이머(예: 64)를 채워 넣고, 검문소(라우터)를 하나 지날 때마다 숫자가 1씩 줄어듭니다. 목적지에 도착하기 전에 숫자가 0이 되면 펑! 하고 목걸이가 터져 좀비를 완벽히 제거합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">PMTU</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">TTL</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">프로토콜 필드</div></div>
-</div>
-</div>
-
-
+```text
+[PMTU]
+    │
+    ▼
+[TTL]
+    │
+    └──▶ [프로토콜 필드]
+```
 
 - **📢 섹션 요약 비유**: ** TTL은 놀이공원 범퍼카의 **"운행 시간 타이머"**입니다. 길을 잃고 출구를 못 찾아 범퍼카장에 평생 갇혀서 맴돌지 않도록, 동전(TTL)이 다 떨어지면 전기가 뚝 끊기며 차를 멈춰 세우는 완벽한 자율 차단 시스템입니다.
 
@@ -60,20 +56,20 @@ tags = ["studynote-network"]
 - **2차 슛**: 이번엔 <strong>TTL을 2</strong>로 세팅해 쏜다. 1번 라우터 통과 후 2번 라우터에서 0이 되어 죽는다. 2번 라우터가 에러를 쏜다. (2번 라우터 신상 파악 완료!)
 - **결과**: TTL을 1씩 늘려가며 계속 쏘면, 목적지에 도달할 때까지 중간에 있는 모든 거점 라우터들의 IP 지도를 완벽하게 털어낼([Tracing](/knowledge-base/studynote/04_software_engineering/uncategorized/657_observability/)) 수 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Traceroute의 TTL 역이용 꼼수 도식</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">내 PC</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">라우터 A</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">라우터 B</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">목적지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) TTL = 1 로 쏨 ──▶ 앗 죽었다! A가 에러 회신 (A 발각!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) TTL = 2 로 쏨 ▶ 앗 죽었다! B가 에러 회신 (B 발각!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) TTL = 3 으로 쏨 ▶ 앗 목적지 도착!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과 출력: 1. 라우터A IP / 2. 라우터B IP / 3. 목적지 IP</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                 Traceroute의 TTL 역이용 꼼수 도식              │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 내 PC ] ────▶ [ 라우터 A ] ────▶ [ 라우터 B ] ────▶ [ 목적지 ] │
+ │                                                             │
+ │   1) TTL = 1 로 쏨   ──▶ 앗 죽었다! A가 에러 회신 (A 발각!)           │
+ │   2) TTL = 2 로 쏨   ─────────────▶ 앗 죽었다! B가 에러 회신 (B 발각!)│
+ │   3) TTL = 3 으로 쏨 ────────────────────────────▶ 앗 목적지 도착!  │
+ │                                                             │
+ │   ▶ 결과 출력: 1. 라우터A IP / 2. 라우터B IP / 3. 목적지 IP        │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: ** 패킷의 수명을 제한하는 TTL은 원래 네트워크를 지키는 백신이었으나, 똑똑한 엔지니어들은 이 약점을 일부러 터뜨려가며 적진(네트워크 경로)의 스나이퍼 위치를 하나씩 색출해 내는 **"지뢰 탐지기(Traceroute)"**로 탈바꿈시켰습니다.
 
@@ -131,19 +127,15 @@ TTL는 네트워크 계층과 IP를 이해할 때 핵심 축을 잡아 주는 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: PMTU</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: TTL</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 프로토콜 필드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 대규모 주소 자동화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: PMTU]
+    │
+    ▼
+[현재 개념: TTL]
+    │
+    ├──▶ [확장 A: 프로토콜 필드]
+    └──▶ [확장 B: 대규모 주소 자동화]
+```
 
 TTL는 PMTU에서 출발해 현재 메커니즘을 정교화하고, 이후 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 필드와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

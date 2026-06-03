@@ -24,36 +24,36 @@ tags = ["studynote-bigdata"]
 
 ### 주요 산업 응용
 
+```text
+빅데이터 산업 응용 지도
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">빅데이터 산업 응용 지도</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">금융 (FinTech)</div><div class="kb-diagram-cell">실시간 사기 탐지, 신용 스코어링, 알고트레이딩</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">의료 (HealthTech)</div><div class="kb-diagram-cell">의료 영상 AI 진단, 신약 후보 발굴, 환자 재입원 예측</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제조 (Industry 4.0)</div><div class="kb-diagram-cell">예지 정비(Predictive Maintenance), 불량 탐지, 공급망 최적화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유통·커머스</div><div class="kb-diagram-cell">개인화 추천(Netflix, 쿠팡), 수요 예측, 재고 최적화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스마트시티</div><div class="kb-diagram-cell">교통 흐름 최적화, 에너지 소비 예측, 범죄 예측</div></div>
-</div>
-</div>
-
-
+  ┌──────────────┬──────────────────────────────────────────┐
+  │  금융 (FinTech) │ 실시간 사기 탐지, 신용 스코어링, 알고트레이딩│
+  ├──────────────┼──────────────────────────────────────────┤
+  │  의료 (HealthTech) │ 의료 영상 AI 진단, 신약 후보 발굴, 환자 재입원 예측│
+  ├──────────────┼──────────────────────────────────────────┤
+  │  제조 (Industry 4.0) │ 예지 정비(Predictive Maintenance), 불량 탐지, 공급망 최적화│
+  ├──────────────┼──────────────────────────────────────────┤
+  │  유통·커머스  │ 개인화 추천(Netflix, 쿠팡), 수요 예측, 재고 최적화│
+  ├──────────────┼──────────────────────────────────────────┤
+  │  스마트시티   │ 교통 흐름 최적화, 에너지 소비 예측, 범죄 예측│
+  └──────────────┴──────────────────────────────────────────┘
+```
 
 ### 금융 분야: 실시간 사기 탐지
 
+```text
+실시간 사기 탐지 파이프라인
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">실시간 사기 탐지 파이프라인</div>
-<div class="kb-diagram-note">카드 결제 이벤트 → Kafka → Flink (실시간 ML 추론)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이상 거래 탐지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Graph ML 모델)</div></div>
-<div class="kb-diagram-tree-item" style="--depth:3">정상 처리 승인 ── 즉시 차단 + 고객 알림</div>
-</div>
-</div>
-
-
+  카드 결제 이벤트 → Kafka → Flink (실시간 ML 추론)
+       │                              │
+       │                     ┌────────▼────────┐
+       │                     │  이상 거래 탐지  │
+       │                     │  (Graph ML 모델) │
+       │                     └────────┬────────┘
+       │                              │
+       └── 정상 처리 승인              └── 즉시 차단 + 고객 알림
+```
 
 - **📢 섹션 요약 비유**: 금융 사기 탐지는 **'은행의 눈에 보이지 않는 초고속 경보 시스템'** 입니다. 수백만 건의 거래를 1초 안에 분석해 이상한 패턴(새벽 3시 해외 고액 결제)을 포착하면 즉시 차단합니다.
 
@@ -113,25 +113,23 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">데이터 수집 (IoT, 거래, 로그, SNS)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">빅데이터 플랫폼 (저장·처리·분석)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">금융: 사기 탐지 / 신용 평가</div>
-<div class="kb-diagram-tree-item" style="--depth:2">의료: AI 진단 보조 / 신약 발굴</div>
-<div class="kb-diagram-tree-item" style="--depth:2">제조: 예지 정비 / 품질 관리</div>
-<div class="kb-diagram-tree-item" style="--depth:2">유통: 추천 엔진 / 수요 예측</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">데이터 기반 의사결정 (Data-Driven Culture)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">생성형 AI + 빅데이터 융합 (미래)</div>
-</div>
-</div>
-
-
+```text
+데이터 수집 (IoT, 거래, 로그, SNS)
+    │
+    ▼
+빅데이터 플랫폼 (저장·처리·분석)
+    │
+    ├─► 금융: 사기 탐지 / 신용 평가
+    ├─► 의료: AI 진단 보조 / 신약 발굴
+    ├─► 제조: 예지 정비 / 품질 관리
+    └─► 유통: 추천 엔진 / 수요 예측
+    │
+    ▼
+데이터 기반 의사결정 (Data-Driven Culture)
+    │
+    ▼
+생성형 AI + 빅데이터 융합 (미래)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

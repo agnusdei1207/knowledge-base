@@ -28,22 +28,23 @@ tags = ["studynote-bigdata"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SNA 분석 구조 및 주요 개념</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">노드 A 노드 B 노드 D</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">\</div><div class="kb-diagram-cell">중심성 지표:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">\</div><div class="kb-diagram-cell">A: Degree=3 (연결 많음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">노드 C \ 노드 E B: Betweenness 높음 (다리 역할)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">\ E: Eigenvector 높음 (영향력)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">노드 F</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">커뮤니티 탐지: {A,B,C} ←→ {D,E,F} (모듈러리티 최적화)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│                SNA 분석 구조 및 주요 개념                         │
+├──────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│   노드 A ──────── 노드 B ──────── 노드 D                         │
+│      │ \              │                                          │
+│      │  \             │          중심성 지표:                    │
+│      │   \            │          A: Degree=3 (연결 많음)         │
+│   노드 C   \──── 노드 E          B: Betweenness 높음 (다리 역할) │
+│               \                  E: Eigenvector 높음 (영향력)    │
+│                노드 F                                            │
+│                                                                  │
+├──────────────────────────────────────────────────────────────────┤
+│  커뮤니티 탐지:  {A,B,C} ←→ {D,E,F} (모듈러리티 최적화)         │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 ### 핵심 중심성 지표
 
@@ -135,23 +136,21 @@ SNA는 개인이 아닌 [관계](/knowledge-base/studynote/05_database/02_modeli
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 그래프 구성 (Network Graph) — 노드(행위자)와 엣지(관계) 모델링</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">중심성 분석 (Centrality Analysis) — 연결·매개·근접 중심성으로 핵심 노드 탐지</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">커뮤니티 탐지 (Community Detection) — Louvain·Girvan-Newman으로 그룹 식별</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">영향력 확산 모델 (Diffusion Model) — SIR·IC 모델로 정보·전파 시뮬레이션</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">그래프 머신러닝 (GNN — Graph Neural Network) — 관계 구조 학습으로 추천·예측</div></div>
-</div>
-</div>
-
-
+```text
+[네트워크 그래프 구성 (Network Graph) — 노드(행위자)와 엣지(관계) 모델링]
+    │
+    ▼
+[중심성 분석 (Centrality Analysis) — 연결·매개·근접 중심성으로 핵심 노드 탐지]
+    │
+    ▼
+[커뮤니티 탐지 (Community Detection) — Louvain·Girvan-Newman으로 그룹 식별]
+    │
+    ▼
+[영향력 확산 모델 (Diffusion Model) — SIR·IC 모델로 정보·전파 시뮬레이션]
+    │
+    ▼
+[그래프 머신러닝 (GNN — Graph Neural Network) — 관계 구조 학습으로 추천·예측]
+```
 
 이 흐름은 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 구축에서 중심성 분석·커뮤니티 탐지·GNN까지 [소셜 네트워크 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/107_classification/) 기술이 진화하는 경로를 나타낸다.
 

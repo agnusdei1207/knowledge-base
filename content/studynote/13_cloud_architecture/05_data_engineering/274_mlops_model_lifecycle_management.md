@@ -21,17 +21,15 @@ tags = ["studynote-cloud-architecture"]
 
 따라서 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) - ML 모델 생명주기 자동화를 이해할 때는 단순 정의보다 "어떤 병목을 줄이기 위해 경계를 다시 그렸는가"를 보는 것이 중요하다. 이 관점이 잡혀야 이후의 도구·플랫폼 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 기능 비교가 아니라 구조 비교로 바뀐다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MLOps - ML 모델 생명주기 자동화가 필요한 이유: 수집-저장-변환-소비 흐름의 병목을 제어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Source ─▶ Ingest ─▶ Store/Meta ─▶ Compute ─▶ Consume</div></div>
-<div class="kb-diagram-note">규모 증가와 품질·지연·거버넌스 요구가 동시에 충돌</div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ MLOps - ML 모델 생명주기 자동화가 필요한 이유: 수집-저장-변환-소비 흐름의 병목을 제어               │
+├──────────────────────────────────────────────────────────────┤
+│ Source ─▶ Ingest ─▶ Store/Meta ─▶ Compute ─▶ Consume              │
+│   │         │           │              │           │               │
+│   └────── 규모 증가와 품질·지연·거버넌스 요구가 동시에 충돌 ──────┘
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 그림은 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) - ML 모델 생명주기 자동화가 단일 기능이 아니라 입력, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 실행, 피드백을 잇는 흐름 전체를 다루는 주제임을 보여준다. 즉 어디서 제어하고 어디서 자율화할지를 정하는 것이 본질이다.
 
@@ -48,17 +46,15 @@ tags = ["studynote-cloud-architecture"]
 | 저장·메타 계층 | 원본과 [메타데이터 관리](/knowledge-base/studynote/16_bigdata/10_governance/203_metadata_management/) | lake, warehouse, [catalog](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) |
 | 활용 계층 | 분석·ML·서빙으로 소비 | BI, [feature store](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/), [reverse ETL](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/278_reverse_etl_operational_analytics/) |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MLOps - ML 모델 생명주기 자동화 핵심 원리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력/요구 ─▶ 정책 결정 ─▶ 실행/저장 ─▶ 검증/피드백</div></div>
-<div class="kb-diagram-note">병목이 생기면 제어 규칙과 데이터 경계를 재조정 ──</div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ MLOps - ML 모델 생명주기 자동화 핵심 원리                                          │
+├──────────────────────────────────────────────────────────────┤
+│ 입력/요구 ─▶ 정책 결정 ─▶ 실행/저장 ─▶ 검증/피드백            │
+│     │           │            │              │                │
+│     └────── 병목이 생기면 제어 규칙과 데이터 경계를 재조정 ──┘
+└──────────────────────────────────────────────────────────────┘
+```
 
 강한 통제는 안정성을 높이지만 지연과 복잡도를 늘리고, 느슨한 통제는 유연성을 높이지만 거버넌스와 관측성을 약화시킬 수 있다. 그래서 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) - ML 모델 생명주기 자동화는 기술 선택보다도 경계와 기본값을 정하는 설계 문제로 봐야 한다.
 

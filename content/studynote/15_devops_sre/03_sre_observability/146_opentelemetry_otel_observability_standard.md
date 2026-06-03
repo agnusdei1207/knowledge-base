@@ -18,19 +18,13 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">OTel 아키텍처:</div>
-<div class="kb-diagram-note">App + OTel SDK (계측) → OTel Collector → Backend</div>
-<div class="kb-diagram-note">Collector: 수집 → 처리(필터·샘플링) → 내보내기</div>
-<div class="kb-diagram-note">Backend: Prometheus(Metrics) + Jaeger(Traces) + Loki(Logs)</div>
-<div class="kb-diagram-note">Auto-instrumentation: 코드 변경 없이 자동 계측</div>
-</div>
-</div>
-
-
+```text
+OTel 아키텍처:
+  App + OTel SDK (계측) → OTel Collector → Backend
+  Collector: 수집 → 처리(필터·샘플링) → 내보내기
+  Backend: Prometheus(Metrics) + Jaeger(Traces) + Loki(Logs)
+  Auto-instrumentation: 코드 변경 없이 자동 계측
+```
 
 - **📢 섹션 요약 비유**: OTel은 <strong>만국 공통 측정 기준(미터법)</strong>이다. 어떤 나라(백엔드)든 같은 단위(포맷)로 측정하면 호환된다.
 
@@ -54,18 +48,12 @@ OpenTelemetry는 <strong>Observability의 <a href="/knowledge-base/studynote/15_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">OpenTracing (2016)</div><div class="kb-diagram-note">+</div><div class="kb-diagram-node">OpenCensus (Google, 2018)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">OpenTelemetry 통합 (2019)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">OTel Traces GA (2021)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">OTel Metrics GA (2023)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: OTel Logs GA — 3축 완성</div></div>
-</div>
-</div>
-
-
+```text
+[OpenTracing (2016)] + [OpenCensus (Google, 2018)]
+    → [OpenTelemetry 통합 (2019)]
+    → [OTel Traces GA (2021)] → [OTel Metrics GA (2023)]
+    → [현재: OTel Logs GA — 3축 완성]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. OTel은 <strong>만국 공통 단위(미터법)</strong>예요. 어디서든 <strong>같은 방식</strong>으로 측정해요.

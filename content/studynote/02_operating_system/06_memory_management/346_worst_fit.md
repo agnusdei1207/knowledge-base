@@ -27,23 +27,25 @@ tags = ["studynote-operating-system"]
   2. **재활용 가능한 조각(Usable Fragments)**: 구멍을 쪼갤 때 나오는 나머지 부스러기가 충분히 커야만 훗날 다른 작은 프로세스가 들어올 수 있다는 통계적 접근.
   3. **Worst-Fit의 제안**: 전체를 스캔해서 1위(가장 큰 구멍)를 찾아 그 녀석을 계속 반토막 내는 방식으로 운영하자고 제안됨.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최악 적합(Worst-Fit) 알고리즘의 동작 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황: 15MB 프로세스를 할당해야 함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">빈 공간 리스트 (정렬 안 된 상태)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hole 1</div><div class="kb-diagram-cell">─▶</div><div class="kb-diagram-cell">Hole 2</div><div class="kb-diagram-cell">─▶</div><div class="kb-diagram-cell">Hole 3</div><div class="kb-diagram-cell">─▶</div><div class="kb-diagram-cell">Hole 4</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">30MB</div><div class="kb-diagram-cell">20MB</div><div class="kb-diagram-cell">16MB</div><div class="kb-diagram-cell">50MB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(15 남음) (5 남음) (1 남음) (35 남음!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 탐색 과정: 4개의 구멍을 '모두' 검사하여 남는 공간 계산.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과 판정: 15MB를 넣었을 때 가장 많이 남는(35MB) Hole 4 선택!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">35MB 구멍</div><div class="kb-diagram-note">생성.</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────┐
+│           최악 적합(Worst-Fit) 알고리즘의 동작 시각화                  │
+├────────────────────────────────────────────────────────────────────────┤
+│                                                                        │
+│ [ 상황: 15MB 프로세스를 할당해야 함 ]                                  │
+│                                                                        │
+│ 빈 공간 리스트 (정렬 안 된 상태)                                       │
+│ ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐                 │
+│ │ Hole 1   │─▶│ Hole 2   │─▶│ Hole 3   │─▶│ Hole 4   │                 │
+│ │  30MB    │  │  20MB    │  │  16MB    │  │  50MB    │                 │
+│ └──────────┘  └──────────┘  └──────────┘  └──────────┘                 │
+│   (15 남음)       (5 남음)     (1 남음)     (35 남음!)                 │
+│                                                                        │
+│ ▶ 탐색 과정: 4개의 구멍을 '모두' 검사하여 남는 공간 계산.              │
+│ ▶ 결과 판정: 15MB를 넣었을 때 가장 많이 남는(35MB) Hole 4 선택!        │
+│ ▶ 남겨진 조각: 메모리 한구석에 훌륭하게 재활용 가능한 [35MB 구멍] 생성.│
+└────────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** First-Fit이나 Best-Fit이었다면 절대로 50MB라는 VIP룸(Hole 4)을 건드리지 않았을 것이다. 그러나 Worst-Fit은 가차 없이 가장 큰 방부터 썰어버린다. 50MB에서 15MB를 내어주고 남은 35MB는, 여전히 웬만한 프로그램은 다 수용할 수 있는 '우량주' 구멍이다. 1MB 찌꺼기를 만드는 Best-Fit의 오류를 완벽히 피한 것처럼 보인다.
 
 - **📢 섹션 요약 비유**: 수박(거대 공간)을 아껴뒀다가 썩히느니, 누가 수박 한 조각을 달라고 하면 무조건 제일 큰 수박부터 칼을 대서 반을 잘라주고 남은 반 통을 냉장고에 보관하는 쿨한 과일 장수의 방식입니다.
@@ -58,24 +60,26 @@ Worst-Fit 역시 탐색 속도를 줄이기 위해 장부(Free List) 정렬이�
 - 매번 O(N)으로 장부를 다 뒤지면 너무 느리므로, 구멍 크기가 **가장 큰 것부터 작은 것 순으로(내림차순)** 장부를 유지한다.
 - 이렇게 하면 [First-Fit](/knowledge-base/studynote/02_operating_system/06_memory_management/344_first_fit/) 방식으로 맨 앞단만 딱 찔러도 그게 곧 Worst-Fit이 된다. 
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Worst-Fit을 위한 장부(Free List) 내림차순 정렬 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 크기 내림차순 정렬된 빈 구멍 리스트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">50MB</div><div class="kb-diagram-cell">─▶</div><div class="kb-diagram-cell">30MB</div><div class="kb-diagram-cell">─▶</div><div class="kb-diagram-cell">16MB</div><div class="kb-diagram-cell">─▶</div><div class="kb-diagram-cell">5MB</div><div class="kb-diagram-cell">─▶</div><div class="kb-diagram-cell">2MB</div><div class="kb-diagram-cell">(거대 구멍이 맨 앞에 노출)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 15MB 요청 시 탐색</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">맨 앞의 50MB를 보고 "크네? 바로 할당!" (탐색 1번 만에 종료)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⚠ 치명적 약점 (평준화 현상)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">50MB를 쪼개서</div><div class="kb-diagram-node">35MB</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">두 번째로 밀려남.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다음엔 35MB가 맨 앞이 되어 또 쪼개짐.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결국 거대한 통짜 구멍은 순식간에 다 썰려나가고,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전체 시스템에 '중간 크기의 애매한 구멍'들만 가득 찬 도토리 키재기가 됨.</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│            Worst-Fit을 위한 장부(Free List) 내림차순 정렬 구조          │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│ [ 1. 크기 내림차순 정렬된 빈 구멍 리스트 ]                              │
+│ ┌────┐   ┌────┐   ┌───┐   ┌───┐   ┌───┐                                 │
+│ │50MB│─▶│30MB│─▶│16MB│─▶│5MB│─▶│2MB│ (거대 구멍이 맨 앞에 노출)         │
+│ └────┘   └────┘   └───┘   └───┘   └───┘                                 │
+│                                                                         │
+│ [ 2. 15MB 요청 시 탐색 ]                                                │
+│  맨 앞의 50MB를 보고 "크네? 바로 할당!" (탐색 1번 만에 종료)            │
+│                                                                         │
+│ ⚠ 치명적 약점 (평준화 현상)                                             │
+│ 50MB를 쪼개서 [35MB]가 됨 → 두 번째로 밀려남.                           │
+│ 다음엔 35MB가 맨 앞이 되어 또 쪼개짐.                                   │
+│ 결국 거대한 통짜 구멍은 순식간에 다 썰려나가고,                         │
+│ 전체 시스템에 '중간 크기의 애매한 구멍'들만 가득 찬 도토리 키재기가 됨. │
+└─────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** Worst-Fit의 슬픈 결말을 보여주는 도식이다. 큰 놈부터 계속 때리기 때문에, 시간이 조금만 지나면 시스템에 50MB, 100MB짜리 웅장한 대형 룸은 온데간데없이 멸종해 버린다. 그리고 10MB, 15MB 수준의 고만고만한 중간방들만 수십 개가 나뒹구는 '평준화의 비극'이 일어난다. 이때 진짜 50MB짜리 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 프로그램이 들어오려고 하면? 총 빈 공간은 300MB가 넘는데도 가장 큰 방이 15MB라서 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)([Out of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))으로 사망해 버린다.
 
@@ -110,18 +114,15 @@ Worst-Fit [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/
 - 실제로 수천 개의 프로세스를 무작위로 넣고 빼는 몬테카를로 시뮬레이션을 돌려보면, 최악 적합(Worst-Fit)이 남긴 큼지막한 자투리들이 나중에 들어온 작은 앱들을 쏙쏙 잘 흡수해 주어서, 쓰레기 자투리만 양산한 베스트 핏([Best-Fit](/knowledge-base/studynote/02_operating_system/06_memory_management/345_best_fit/))보다 총 공간 활용률이 미세하게 좋게 나오는 현상이 발생한다.
 - 즉 이름은 Worst(최악)이지만, 실제 성능은 Best(최적)를 이겨버리는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 패러독스다. 물론 그렇다 하더라도 First-Fit이라는 절대 강자를 이길 수는 없었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">평가 지표</div><div class="kb-diagram-cell">First-Fit</div><div class="kb-diagram-cell">Worst-Fit</div><div class="kb-diagram-cell">Best-Fit</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간 효율</div><div class="kb-diagram-cell">1등</div><div class="kb-diagram-cell">2등 (정렬시)</div><div class="kb-diagram-cell">3등 (꼴찌)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공간 활용</div><div class="kb-diagram-cell">1등</div><div class="kb-diagram-cell">2등</div><div class="kb-diagram-cell">3등 (역설적)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">큰 앱 수용</div><div class="kb-diagram-cell">2등</div><div class="kb-diagram-cell">3등 (최악)</div><div class="kb-diagram-cell">1등</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬────────────────┐
+│ 평가 지표  │ First-Fit  │ Worst-Fit  │ Best-Fit     │
+├──────────┼────────────┼────────────┼────────────────┤
+│ 시간 효율  │ 1등        │ 2등 (정렬시)│ 3등 (꼴찌)  │
+│ 공간 활용  │ 1등        │ 2등        │ 3등 (역설적) │
+│ 큰 앱 수용 │ 2등        │ 3등 (최악)  │ 1등         │
+└──────────┴────────────┴────────────┴────────────────┘
+```
 **[매트릭스 해설]** Best-Fit은 큰 블록을 지키는 데는 1등이지만 전체적인 공간 효율에서 꼴찌를 했다. Worst-Fit은 큰 블록을 다 부수어 먹어서 대형 앱 수용에서는 꼴찌지만 전체적인 공간 활용에서는 Best를 이겼다. 하지만 이 복잡한 트레이드오프의 진흙탕 싸움을 단박에 끝내버린 것이 뇌를 비우고 달리는 First-Fit의 압도적 스피드였다.
 
 - **📢 섹션 요약 비유**: '가장 예쁜 핏을 찾겠다(Best)'거나 '일부러 가장 안 맞는 핏을 고르겠다(Worst)'는 과도한 기교를 부리느니, 그냥 '대충 눈에 띄는 대로 입는 것(First)'이 가장 빨리 외출 준비를 마치는 지름길이라는 패션의 완성입니다.
@@ -178,19 +179,15 @@ Worst-Fit [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">최적 적합 (Best-Fit)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">최악 적합 (Worst-Fit)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">압축 (Compaction)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">버디 시스템 (Buddy System) 할당기</div></div>
-</div>
-</div>
-
-
+```text
+[최적 적합 (Best-Fit)]
+    │
+    ▼
+[최악 적합 (Worst-Fit)]
+    │
+    ├──▶ [압축 (Compaction)]
+    └──▶ [버디 시스템 (Buddy System) 할당기]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

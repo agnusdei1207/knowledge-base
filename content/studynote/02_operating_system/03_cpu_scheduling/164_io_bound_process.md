@@ -25,18 +25,16 @@ I/O 바운드 프로세스는 실행 시간 대부분을 입출력 완료 대기
 
 이 그림은 CPU 바운드와 I/O 바운드의 시간 사용 패턴 차이를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 사용 패턴 비교: 짧게 계산하고 오래 기다린다</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">CPU Bound :</div><div class="kb-diagram-node">████████████</div><div class="kb-diagram-node">██ I/O ██</div><div class="kb-diagram-node">██████████</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">I/O Bound :</div><div class="kb-diagram-node">██</div><div class="kb-diagram-node">▒▒▒▒▒▒▒▒▒▒</div><div class="kb-diagram-node">██</div><div class="kb-diagram-node">▒▒▒▒▒▒▒▒▒▒▒▒▒</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">█ = CPU Burst ▒ = I/O Wait</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│          CPU 사용 패턴 비교: 짧게 계산하고 오래 기다린다      │
+├──────────────────────────────────────────────────────────────┤
+│ CPU Bound : [████████████] [██ I/O ██] [██████████]          │
+│ I/O Bound : [██] [▒▒▒▒▒▒▒▒▒▒] [██] [▒▒▒▒▒▒▒▒▒▒▒▒▒]           │
+│                                                              │
+│ █ = CPU Burst     ▒ = I/O Wait                               │
+└──────────────────────────────────────────────────────────────┘
+```
 
 그림에서 보듯 I/O 바운드 프로세스의 핵심은 CPU 사용량이 적다는 점이 아니라, "다음 I/O를 빨리 시작시켜야 전체 흐름이 산다"는 점이다. 그래서 운영체제는 이들을 빠르게 깨워 다시 잠들게 하는 식으로 다루는 편이 유리하다.
 
@@ -57,19 +55,17 @@ I/O 바운드 프로세스는 보통 `Running → Blocked → Ready → Running`
 
 이 그림은 I/O 요청이 있을 때 상태가 어떻게 이동하는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I/O 바운드 프로세스의 상태 순환: 계산보다 대기가 길다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ready ──dispatch──▶ Running ──I/O request──▶ Blocked</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─time slice end</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I/O</div></div>
-<div class="kb-diagram-note">interrupt / completion ◀</div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│         I/O 바운드 프로세스의 상태 순환: 계산보다 대기가 길다   │
+├──────────────────────────────────────────────────────────────┤
+│ Ready ──dispatch──▶ Running ──I/O request──▶ Blocked         │
+│   ▲                         │                    │            │
+│   │                         └─time slice end─────┘            │
+│   │                                                       I/O │
+│   └──────────── interrupt / completion ◀─────────────────────┘
+└──────────────────────────────────────────────────────────────┘
+```
 
 [다단계 피드백 큐](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/) (Multilevel Feedback [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/), [MLFQ](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/)) 같은 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 이런 패턴을 이용해 상위 큐에 머무르게 하며, [완전 공정 스케줄러](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/202_cfs_completely_fair_scheduler/) (Completely Fair Scheduler, CFS)는 [가상 실행 시간](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/203_virtual_runtime_vruntime/) (virtual runtime)을 통해 과도한 독점을 막는다. 핵심은 "I/O 완료 직후 짧은 CPU 사용권을 빨리 주자"이지, 무조건 영원히 우대하자는 것이 아니다. 그래서 현대 시스템은 우선 반응성을 확보하되, 장기적으로는 공정성을 되찾는 보정 장치를 함께 둔다.
 
@@ -140,20 +136,18 @@ I/O 바운드 프로세스를 정확히 이해하면 스케줄링 문제를 단�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">CPU Burst / I/O Burst 구분</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">I/O 바운드 프로세스 식별</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 빠른 재스케줄 / 우선순위 보정</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 논블로킹 I/O / 이벤트 루프</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ io_uring / 고성능 네트워크 처리</div>
-</div>
-</div>
-
-
+```text
+CPU Burst / I/O Burst 구분
+    │
+    ▼
+I/O 바운드 프로세스 식별
+    │
+    ├─▶ 빠른 재스케줄 / 우선순위 보정
+    │
+    ├─▶ 논블로킹 I/O / 이벤트 루프
+    │
+    └─▶ io_uring / 고성능 네트워크 처리
+```
 
 이 흐름도는 프로세스 성향 분석이 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 정책을 거쳐, 애플리케이션 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 구조와 최신 I/O 인터페이스로 확장되는 과정을 보여준다.
 

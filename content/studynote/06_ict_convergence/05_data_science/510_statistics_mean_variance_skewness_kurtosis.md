@@ -39,18 +39,16 @@ tags = ["studynote-ict-convergence"]
 
 ### 산포도(Spread) 계층 구조
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">데이터 분포 요약</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">중심: Mean / Median / Mode</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">산포: Range</div><div class="kb-diagram-cell">IQR</div><div class="kb-diagram-cell">Variance</div><div class="kb-diagram-cell">Std Dev</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">형태: Skewness (비대칭)</div><div class="kb-diagram-cell">Kurtosis (꼬리)</div></div>
-</div>
-</div>
-
-
+```
+데이터 분포 요약
+┌──────────────────────────────────────────┐
+│  중심: Mean / Median / Mode              │
+├──────────────────────────────────────────┤
+│  산포: Range │ IQR │ Variance │ Std Dev  │
+├──────────────────────────────────────────┤
+│  형태: Skewness (비대칭) │ Kurtosis (꼬리)│
+└──────────────────────────────────────────┘
+```
 
 - <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">Variance</a>, σ²)</strong>: σ² = Σ(xᵢ − μ)² / n — 편차 제곱합의 평균. 단위가 원래 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 제곱이라 해석이 불편.
 - **표준편차 (Standard Deviation, σ)**: σ = √σ² — 원래 단위 복원. "평균에서 평균적으로 이만큼 떨어져 있다"는 직관.

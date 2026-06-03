@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: 컴퓨터 시스템이나 네트워크에서 발생하는 모든 이벤트를 실시간으로 모니터링하고 분석하여, 해킹, 악성코드 감염, 비정상적인 접근 등 <strong>보안 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>을 위반하는 침입(Intrusion) 행위를 '탐지(<a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/">Detection</a>)'하고 관리자에게 '경고(Alert)'를 보내는 보안 시스템</strong>입니다.
 - [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이 '사전 접근 제어(문단속)'라면, IDS는 '사후 감시 및 탐지(순찰)'를 담당합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">상태 기반 감시 기술의 원리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NIDS 공격</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스노트, Suricata 와 오용 탐지 vs…</div></div>
-</div>
-</div>
-
-
+```text
+[상태 기반 감시 기술의 원리]
+    │
+    ▼
+[NIDS 공격]
+    │
+    └──▶ [스노트, Suricata 와 오용 탐지 vs…]
+```
 
 - **📢 섹션 요약 비유**: NIDS 공격은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -55,18 +51,14 @@ tags = ["studynote-network"]
 - **장점**: 암호화된 트래픽([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/))이라도, 어차피 서버 내부에 도착하면 평문으로 풀리므로 <strong>암호화를 무력화하고 정확한 탐지</strong>가 가능합니다. 트로이 목마나 [백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/) 탐지에 탁월합니다.
 - **단점**: 서버 CPU를 잡아먹어 서버를 느려지게 만들며, 해커가 서버 관리자 권한(Root)을 탈취하면 HIDS 소프트웨어부터 강제로 꺼버릴 수 있습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">상태 기반 감시 기술의 원리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NIDS 공격</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스노트, Suricata 와 오용 탐지 vs…</div></div>
-</div>
-</div>
-
-
+```text
+[상태 기반 감시 기술의 원리]
+    │
+    ▼
+[NIDS 공격]
+    │
+    └──▶ [스노트, Suricata 와 오용 탐지 vs…]
+```
 
 - **📢 섹션 요약 비유**: NIDS 공격의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -127,19 +119,15 @@ NIDS 공격은 [네트워크 보안](/knowledge-base/studynote/03_network/20_per
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 상태 기반 감시 기술의 원리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: NIDS 공격</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 스노트, Suricata 와 오용 탐지 vs…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 상태 기반 감시 기술의 원리]
+    │
+    ▼
+[현재 개념: NIDS 공격]
+    │
+    ├──▶ [확장 A: 스노트, Suricata 와 오용 탐지 vs…]
+    └──▶ [확장 B: 자동화된 신뢰 체계]
+```
 
 NIDS 공격는 [상태 기반 감시](/knowledge-base/studynote/03_network/13_network_security_basics/692_stateful_inspection_firewall_principle/) 기술의 원리에서 출발해 현재 메커니즘을 정교화하고, 이후 [스노트](/knowledge-base/studynote/03_network/13_network_security_basics/694_snort_suricata_misuse_anomaly_detection/), [Suricata](/knowledge-base/studynote/09_security/05_web_app_security/240_suricata_multithreaded_nids_ids_ips_engine/) 와 오용 탐지 vs…와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

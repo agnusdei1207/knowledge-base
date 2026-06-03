@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)와 같은 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 환경에서 동작하는 가장 널리 사용되는 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/">오픈소스</a> <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/">오픈소스</a> <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/">서비스 메시</a>(<a href="/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/">Service Mesh</a>) 플랫폼(구현체)</strong>입니다.
 - [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간의 트래픽 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 보안([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 및 암호화), 그리고 가시성(모니터링) 모듈을 하나로 완벽하게 패키징하여 제공합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">서비스 메시</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Istio</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">사이드카 아키텍처</div></div>
-</div>
-</div>
-
-
+```text
+[서비스 메시]
+    │
+    ▼
+[Istio]
+    │
+    └──▶ [사이드카 아키텍처]
+```
 
 - **📢 섹션 요약 비유**: Istio는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -53,18 +49,14 @@ Istio가 1위가 된 결정적 이유는 이 기가 막힌 [데이터](/knowledg
 - **Citadel (보안관 역할)**: [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)들끼리 해킹(스니핑) 당하지 않게, 모든 Envoy [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)들에게 강력한 <strong>SSL 암호화 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>서(<a href="/knowledge-base/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/">mTLS</a>)</strong>를 자동으로 찍어내서 뿌리고 관리해 주는 조폐공사 겸 보안 사령관입니다. (831번 문서 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))
 - **Galley (검열관 역할)**: 사용자가 적어낸 트래픽 규칙(YAML [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))의 문법이 틀렸는지 맞았는지 미리 검사해 주는 오타 킬러입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">서비스 메시</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Istio</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">사이드카 아키텍처</div></div>
-</div>
-</div>
-
-
+```text
+[서비스 메시]
+    │
+    ▼
+[Istio]
+    │
+    └──▶ [사이드카 아키텍처]
+```
 
 - **📢 섹션 요약 비유**: Istio의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -128,19 +120,15 @@ Istio는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_re
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 서비스 메시</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: Istio</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 사이드카 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 서비스 메시]
+    │
+    ▼
+[현재 개념: Istio]
+    │
+    ├──▶ [확장 A: 사이드카 아키텍처]
+    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
+```
 
 Istio는 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) 아키텍처와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

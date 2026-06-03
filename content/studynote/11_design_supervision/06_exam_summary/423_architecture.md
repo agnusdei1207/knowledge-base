@@ -33,18 +33,15 @@ tags = ["studynote-design-supervision"]
 
 격리 테스트의 구조는 단순하다. 테스트 코드가 SUT를 만들고, 외부 협력 객체는 모킹 프레임워크로 만든 [테스트 더블](/knowledge-base/studynote/12_it_management/05_security_compliance/367_test_double_isolation/)로 주입한다. 그런 다음 반환값, 상태 변화, 호출 여부를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다. 핵심은 “무엇을 가짜로 바꾸는가”가 아니라 <strong>어떤 경계를 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 대상으로 삼는가</strong>다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Test Code</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">SUT</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주문 서비스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mock DB</div><div class="kb-diagram-cell">Mock API</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Fake MQ</div><div class="kb-diagram-cell">Stub Clock</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐      ┌────────────────────┐
+│ Test Code    │─────▶│ SUT                │
+└──────────────┘      │ 주문 서비스        │
+                      ├─────────┬──────────┤
+                      │ Mock DB │ Mock API │
+                      │ Fake MQ │ Stub Clock│
+                      └─────────┴──────────┘
+```
 
 | [테스트 더블](/knowledge-base/studynote/12_it_management/05_security_compliance/367_test_double_isolation/) | 역할 | 주 사용 목적 |
 | :--- | :--- | :--- |
@@ -124,23 +121,21 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">의존성 분리 설계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">테스트 더블 도입</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">모킹 프레임워크 기반 격리 테스트</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">계약 테스트 · 통합 테스트 보완</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">빠른 피드백 · 안정적 리팩토링 · 품질 게이트 강화</div>
-</div>
-</div>
-
-
+```text
+의존성 분리 설계
+      │
+      ▼
+테스트 더블 도입
+      │
+      ▼
+모킹 프레임워크 기반 격리 테스트
+      │
+      ▼
+계약 테스트 · 통합 테스트 보완
+      │
+      ▼
+빠른 피드백 · 안정적 리팩토링 · 품질 게이트 강화
+```
 
 이 흐름은 좋은 경계 설계에서 출발해, 빠른 단위 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 만들고, 다시 실제 연동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)으로 보완하는 현대 테스트 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 층위를 보여 준다.
 

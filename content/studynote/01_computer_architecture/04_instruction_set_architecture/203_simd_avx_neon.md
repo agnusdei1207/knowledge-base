@@ -25,22 +25,21 @@ tags = ["studynote-computer-architecture"]
 
 특히 CPU 클럭 상승이 발열 장벽에 막힌 뒤에는 "더 빠른 코어"보다 "한 번에 더 많이 처리하는 코어"가 중요해졌다. SIMD는 같은 코어 안에서 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 폭과 실행 유닛을 넓혀 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 키우는 현실적인 해법이었고, x86 진영에서는 [SSE](/knowledge-base/studynote/03_network/09_application_layer_web_email/481_sse_server_sent_events/) (Streaming [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) Extensions)에서 AVX로, ARM 진영에서는 NEON으로 진화했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">왜 SIMD가 필요한가: 같은 계산의 반복 비용을 줄이기 위해</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스칼라 방식</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">LOAD A</div><div class="kb-diagram-node">0</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">0</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">0</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">LOAD A</div><div class="kb-diagram-node">1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">1</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">LOAD A</div><div class="kb-diagram-node">2</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">2</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SIMD 방식</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">LOAD {A</div><div class="kb-diagram-node">0..3</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">0..3</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">0..3</div><div class="kb-diagram-note">}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">같은 수식이라도 "명령 4번"을 "명령 1번"으로 줄여 처리량을 높인다.</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│         왜 SIMD가 필요한가: 같은 계산의 반복 비용을 줄이기 위해      │
+├──────────────────────────────────────────────────────────────────────┤
+│ 스칼라 방식                                                          │
+│   LOAD A[0] → ADD B[0] → STORE C[0]                                 │
+│   LOAD A[1] → ADD B[1] → STORE C[1]                                 │
+│   LOAD A[2] → ADD B[2] → STORE C[2]                                 │
+│                                                                      │
+│ SIMD 방식                                                            │
+│   LOAD {A[0..3]} → ADD {B[0..3]} → STORE {C[0..3]}                  │
+│                                                                      │
+│ 같은 수식이라도 "명령 4번"을 "명령 1번"으로 줄여 처리량을 높인다.    │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 포인트는 SIMD가 계산 공식을 바꾸는 기술이 아니라, <strong>같은 공식을 묶어서 실행하는 방식</strong>이라는 점이다. 따라서 SIMD의 가치는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 자체보다도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배치와 반복 구조에서 먼저 드러난다.
 
@@ -56,23 +55,31 @@ AVX는 x86 계열에서 벡터 [레지스터](/knowledge-base/studynote/01_compu
 
 아래 구조는 [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) 실행이 왜 스칼라보다 유리한지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SIMD 레지스터와 레인 단위 병렬 실행 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력 벡터 A</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A3</div><div class="kb-diagram-cell">A2</div><div class="kb-diagram-cell">A1</div><div class="kb-diagram-cell">A0</div><div class="kb-diagram-cell">← 128-bit register</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력 벡터 B</div><div class="kb-diagram-cell">+</div><div class="kb-diagram-cell">+</div><div class="kb-diagram-cell">+</div><div class="kb-diagram-cell">+</div><div class="kb-diagram-cell">← lane ALUs</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C3</div><div class="kb-diagram-cell">C2</div><div class="kb-diagram-cell">C1</div><div class="kb-diagram-cell">C0</div><div class="kb-diagram-cell">← 결과 벡터</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                SIMD 레지스터와 레인 단위 병렬 실행 구조              │
+├──────────────────────────────────────────────────────────────────────┤
+│ 입력 벡터 A                                                          │
+│   ┌────────┬────────┬────────┬────────┐                              │
+│   │ A3     │ A2     │ A1     │ A0     │  ← 128-bit register         │
+│   └────────┴────────┴────────┴────────┘                              │
+│                │        │        │        │                          │
+│                ▼        ▼        ▼        ▼                          │
+│              ┌────┐   ┌────┐   ┌────┐   ┌────┐                       │
+│ 입력 벡터 B  │+   │   │+   │   │+   │   │+   │  ← lane ALUs         │
+│   ┌────────┬─┤    ├───┤    ├───┤    ├───┤    │                       │
+│   │ B3     │ │    │   │    │   │    │   │    │                      │
+│   │ B2     │ │    │   │    │   │    │   │    │                      │
+│   │ B1     │ │    │   │    │   │    │   │    │                      │
+│   │ B0     │ │    │   │    │   │    │   │    │                      │
+│   └────────┴─┴────┴───┴────┴───┴────┴───┴────┘                       │
+│                │        │        │        │                          │
+│                ▼        ▼        ▼        ▼                          │
+│   ┌────────┬────────┬────────┬────────┐                              │
+│   │ C3     │ C2     │ C1     │ C0     │  ← 결과 벡터                │
+│   └────────┴────────┴────────┴────────┘                              │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 실제 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 폭만으로 결정되지 않는다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 메모리에서 연속적으로 배치되어 있어야 한 번의 로드로 여러 원소를 가져올 수 있고, 각 원소가 서로 독립이어야 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화가 성립한다. 그래서 [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) 최적화는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 선택 이전에 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a> 구조, 정렬 (Alignment), 분기 제거, 루프 독립성 확보</strong>가 선행돼야 한다.
 
@@ -163,23 +170,21 @@ SIMD를 제대로 이해하려면 스칼라 연산, [GPU](/knowledge-base/studyn
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">스칼라 반복 연산</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">MMX (MultiMedia eXtension) · SSE (Streaming SIMD Extensions)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">AVX (Advanced Vector Extensions) · NEON (ARM Advanced SIMD)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">FMA (Fused Multiply-Add) · 마스크 연산 · gather/scatter</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SVE (Scalable Vector Extension) · 저정밀도 AI 벡터 연산</div>
-</div>
-</div>
-
-
+```text
+스칼라 반복 연산
+    │
+    ▼
+MMX (MultiMedia eXtension) · SSE (Streaming SIMD Extensions)
+    │
+    ▼
+AVX (Advanced Vector Extensions) · NEON (ARM Advanced SIMD)
+    │
+    ▼
+FMA (Fused Multiply-Add) · 마스크 연산 · gather/scatter
+    │
+    ▼
+SVE (Scalable Vector Extension) · 저정밀도 AI 벡터 연산
+```
 
 이 흐름은 "멀티미디어 가속"에서 출발한 SIMD가 이제 서버, 모바일, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 전처리까지 확장되는 과정을 보여준다.
 

@@ -50,26 +50,28 @@ tags = ["studynote-operating-system"]
 
 2세대 [마이크로커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/024_microkernel/)(L4)이 증명한 가장 강력한 최적화 기법이다. 짧은 메시지(수십 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 이내, 예: 명령 코드, 상태 값)는 메모리를 전혀 거치지 않고 CPU [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에만 담아서 전달한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">레지스터 기반 Fast-Path IPC 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">User Space</div><div class="kb-diagram-note">송신 프로세스 (A) 수신 프로세스 (B)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(R1, R2에 데이터 탑재) (대기 상태 - Blocked)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 1. Syscall (IPC_SEND)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Kernel Space</div><div class="kb-diagram-note">│</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L4 Kernel</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CPU 레지스터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">R0 : Syscall ID (변경됨)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">R1 : Data 1 ██████████ (메모리 복사 없음!)█████</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">R2 : Data 2 ██████████ (그대로 B에게 전달)█████</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 2. 스케줄러 개입 최소화: A의 남은 Time Slice를 B에게 즉시 양도 ──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 3. B의 주소 공간으로 전환 후 즉시 B 실행 (Return to User B)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 레지스터 기반 Fast-Path IPC 아키텍처                │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │  [User Space]       송신 프로세스 (A)          수신 프로세스 (B)    │
+  │                       (R1, R2에 데이터 탑재)      (대기 상태 - Blocked)│
+  │                             │                        ▲            │
+  │ ── 1. Syscall (IPC_SEND) ───┼────────────────────────┼─────────── │
+  │                             ▼                        │            │
+  │  [Kernel Space]       ┌───────────┐                  │            │
+  │                       │ L4 Kernel │                  │            │
+  │                       └───────────┘                  │            │
+  │     [CPU 레지스터]                                     │            │
+  │     R0 : Syscall ID   (변경됨)                         │            │
+  │     R1 : Data 1       ██████████ (메모리 복사 없음!)█████│            │
+  │     R2 : Data 2       ██████████ (그대로 B에게 전달)█████│            │
+  │                                                                   │
+  │ ── 2. 스케줄러 개입 최소화: A의 남은 Time Slice를 B에게 즉시 양도 ── │
+  │ ── 3. B의 주소 공간으로 전환 후 즉시 B 실행 (Return to User B) ───── │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 전통적인 IPC는 프로세스 A가 메모리에 메시지를 쓰면, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 이를 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 영역으로 복사(`copy_from_user`)하고, 다시 B의 메모리로 복사(`copy_to_user`)한다. 반면 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 기반 IPC는 A가 보낼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 CPU [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)(R1~Rn)에 직접 넣고 시스템 콜을 호출한다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 메모리 복사를 전혀 수행하지 않고, 단순히 주소 공간([Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/))을 B의 것으로 스위칭한 뒤 즉시 B를 실행(Return)시킨다. B는 깨어나자마자 자신의 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)(R1~Rn)에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 들어있는 것을 보게 된다. 메모리 접근이 0회이므로 속도가 비약적으로 상승한다.
 
@@ -90,23 +92,23 @@ tags = ["studynote-operating-system"]
 
 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 개수를 초과하는 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(네트워크 패킷, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 블록) 전송을 위한 기법이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단일 복사 (Single-copy) 메시지 패싱</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전통적 Double Copy</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App A ──(복사)──▶ Kernel Buffer ──(복사)──▶ App B (느림, 캐시 오염)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">L4 Single-copy</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">커널이 A와 B의 페이지 테이블(Page Table)을 동시 조작하여,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App A의 메모리에서 App B의 메모리로 ◀ 직접 복사 ▶ (1회만 수행)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Zero-copy (공유 메모리 링 버퍼)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App A ──(포인터 전달)──▶ Shared Memory 영역 ◀──(읽기)── App B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 메모리는 복사하지 않고, IPC로는 데이터의 '주소(Pointer)'만 전달</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 단일 복사 (Single-copy) 메시지 패싱                  │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │  [전통적 Double Copy]                                             │
+  │  App A ──(복사)──▶ Kernel Buffer ──(복사)──▶ App B (느림, 캐시 오염) │
+  │                                                                   │
+  │  [L4 Single-copy]                                                 │
+  │  커널이 A와 B의 페이지 테이블(Page Table)을 동시 조작하여,           │
+  │  App A의 메모리에서 App B의 메모리로 ◀ 직접 복사 ▶ (1회만 수행)      │
+  │                                                                   │
+  │  [Zero-copy (공유 메모리 링 버퍼)]                                  │
+  │  App A ──(포인터 전달)──▶ Shared Memory 영역 ◀──(읽기)── App B    │
+  │  * 메모리는 복사하지 않고, IPC로는 데이터의 '주소(Pointer)'만 전달    │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 작은 물건([레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/))은 만나는 즉시 주머니에 찔러 넣어주고, 큰 짐([Zero-copy](/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/))은 창고 열쇠(포인터)만 던져주어 무거운 짐을 들고 뛰는 바보 같은 짓을 막는 것입니다.
 
@@ -155,25 +157,27 @@ tags = ["studynote-operating-system"]
 
 ### 의사결정 및 튜닝 플로우
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마이크로커널 IPC 최적화 설계 의사결정 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">프로세스 간 데이터 전송 요구사항 분석</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전송할 데이터 크기가 매우 작은가? (레지스터 수용 가능)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Fast-path 동기식 레지스터 IPC 적용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(예: 상태 제어 명령, 짧은 응답 코드)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전송 데이터가 크고(MB 단위), 실시간 처리가 필요한가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">공유 메모리(Shared Memory) + 알림(Event) IPC</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(예: 카메라 비전 프레임, 오디오 스트림)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Single-copy 기반 전통적 메시지 큐 사용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(예: 환경 설정 파일 로드 등 일회성 큰 데이터)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 마이크로커널 IPC 최적화 설계 의사결정 플로우             │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [프로세스 간 데이터 전송 요구사항 분석]                                │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      전송할 데이터 크기가 매우 작은가? (레지스터 수용 가능)                 │
+  │          ├─ 예 ─────▶ [Fast-path 동기식 레지스터 IPC 적용]            │
+  │          │            (예: 상태 제어 명령, 짧은 응답 코드)             │
+  │          └─ 아니오                                                │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      전송 데이터가 크고(MB 단위), 실시간 처리가 필요한가?                 │
+  │          ├─ 예 ─────▶ [공유 메모리(Shared Memory) + 알림(Event) IPC] │
+  │          │            (예: 카메라 비전 프레임, 오디오 스트림)          │
+  │          └─ 아니오 ──▶ [Single-copy 기반 전통적 메시지 큐 사용]        │
+  │                         (예: 환경 설정 파일 로드 등 일회성 큰 데이터)     │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 모든 IPC를 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)로 만들면 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 버그([Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/))가 폭증하고, 모든 IPC를 메시지 복사로 만들면 시스템이 느려져 죽는다. 기술사는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 "크기"와 "빈도"를 기준으로 [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) 매커니즘을 다르게 매핑([Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/))하는 하이브리드 통신 아키텍처를 설계해야 한다.
 
@@ -217,19 +221,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">임베디드 실시간 OS (RTOS: VxWorks, FreeRTOS 등) 우선순위 데드라인 절대 보장 아키텍처</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">마이크로커널 IPC 메시지 패싱 지연 단축 기법 구조 설계 (Microkernel IPC Message Passing Latency)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">하이퍼바이저 링 레벨 (Ring -1 모드 VMX Root/Non-Root 모드)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">쉐도우 페이지 테이블 (Shadow Page Table) vs 확장 페이지 테이블 (EPT/NPT 하드웨어 보조)</div></div>
-</div>
-</div>
-
-
+```text
+[임베디드 실시간 OS (RTOS: VxWorks, FreeRTOS 등) 우선순위 데드라인 절대 보장 아키텍처]
+    │
+    ▼
+[마이크로커널 IPC 메시지 패싱 지연 단축 기법 구조 설계 (Microkernel IPC Message Passing Latency)]
+    │
+    ├──▶ [하이퍼바이저 링 레벨 (Ring -1 모드 VMX Root/Non-Root 모드)]
+    └──▶ [쉐도우 페이지 테이블 (Shadow Page Table) vs 확장 페이지 테이블 (EPT/NPT 하드웨어 보조)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

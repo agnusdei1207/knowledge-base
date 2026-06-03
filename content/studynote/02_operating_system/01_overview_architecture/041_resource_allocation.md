@@ -43,32 +43,31 @@ tags = ["studynote-operating-system"]
 
 ## Ⅱ. [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) ([Resource Allocation Graph](/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/))
 
+```
+자원 할당 그래프 (Resource Allocation Graph):
 
+노드:
+  원형: 프로세스 (P1, P2, P3)
+  사각형: 자원 유형 (R1, R2)
+  점: 자원 인스턴스
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">자원 할당 그래프 (Resource Allocation Graph):</div>
-<div class="kb-diagram-note">노드:</div>
-<div class="kb-diagram-note">원형: 프로세스 (P1, P2, P3)</div>
-<div class="kb-diagram-note">사각형: 자원 유형 (R1, R2)</div>
-<div class="kb-diagram-note">점: 자원 인스턴스</div>
-<div class="kb-diagram-note">간선 (Edge):</div>
-<div class="kb-diagram-note">요청 간선: P -&gt; R (프로세스가 자원 요청)</div>
-<div class="kb-diagram-note">할당 간선: R -&gt; P (자원이 프로세스에 할당됨)</div>
-<div class="kb-diagram-note">교착상태 탐지:</div>
-<div class="kb-diagram-note">단일 인스턴스 자원: 사이클 = 교착상태</div>
-<div class="kb-diagram-note">복수 인스턴스 자원: 사이클 + 추가 검사 필요</div>
-<div class="kb-diagram-note">예시 (교착상태):</div>
-<div class="kb-diagram-note">P1 --요청--&gt; R1 &lt;--할당-- P2</div>
-<div class="kb-diagram-note">P2 --요청--&gt; R2 &lt;--할당-- P1</div>
-<div class="kb-diagram-tree-item" style="--depth:1">사이클 존재 -&gt; 교착상태</div>
-<div class="kb-diagram-note">예시 (교착상태 아님):</div>
-<div class="kb-diagram-note">P1 --요청--&gt; R1 (인스턴스 2개, 1개 사용 중)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">R1에 여유 인스턴스 있음 -&gt; 해결 가능</div>
-</div>
-</div>
+간선 (Edge):
+  요청 간선: P -> R (프로세스가 자원 요청)
+  할당 간선: R -> P (자원이 프로세스에 할당됨)
 
+교착상태 탐지:
+  단일 인스턴스 자원: 사이클 = 교착상태
+  복수 인스턴스 자원: 사이클 + 추가 검사 필요
 
+예시 (교착상태):
+  P1 --요청--> R1 <--할당-- P2
+  P2 --요청--> R2 <--할당-- P1
+  -> 사이클 존재 -> 교착상태
+
+예시 (교착상태 아님):
+  P1 --요청--> R1 (인스턴스 2개, 1개 사용 중)
+  -> R1에 여유 인스턴스 있음 -> 해결 가능
+```
 
 > 📢 **섹션 요약 비유**: RAG는 [식사하는 철학자 문제](/knowledge-base/studynote/02_operating_system/04_synchronization/248_dining_philosophers_problem/) 지도 — 누가 어떤 젓가락을 잡고, 누가 기다리는지 그림으로 그려 교착상태 탐지.
 

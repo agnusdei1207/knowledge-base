@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - <strong>국가망 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/">종속성</a></strong>: 제주도나 거대한 공단은 한전(Macrogrid)의 전력선 하나에 목숨이 묶여있습니다. 북한 해커나 지진으로 변전소가 하나라도 터지면 수백만 명이 동시에 블랙아웃의 지옥을 겪습니다([단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) [SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)).
 - **재생에너지의 낭비**: 각 가정에 태양광을 달아도 남는 전기를 옆집에 팔지 못하고 썩혀버리는 중앙 집권의 한계가 터졌습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">vCPE NFV 고객 구내 망 통합 전환</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">마이크로그리드 통신 규격</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">산업용 이더넷 PROFINET 망</div></div>
-</div>
-</div>
-
-
+```text
+[vCPE NFV 고객 구내 망 통합 전환]
+    │
+    ▼
+[마이크로그리드 통신 규격]
+    │
+    └──▶ [산업용 이더넷 PROFINET 망]
+```
 
 - **📢 섹션 요약 비유**: [마이크로그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/163_microgrid_island_mode/) 통신 규격은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -43,18 +39,14 @@ tags = ["studynote-network"]
 
 - **개념**: 마을, 대학 캠퍼스, 섬, 공단 같은 소규모 지역에 <strong>태양광/풍력(<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 전원, DER)과 거대 배터리(<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/164_ess_energy_storage_system/">ESS</a>)를 설치하여, 평소에는 한전(메인 망)과 연결되어 전기를 사고팔다가(Grid-connected), 정전 시에는 한전을 끊어버리고 자기들끼리 독립적으로 전기를 자급자족(Islanded)하여 살아남는 지능형 소규모 독립 전력망</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">vCPE NFV 고객 구내 망 통합 전환</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">마이크로그리드 통신 규격</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">산업용 이더넷 PROFINET 망</div></div>
-</div>
-</div>
-
-
+```text
+[vCPE NFV 고객 구내 망 통합 전환]
+    │
+    ▼
+[마이크로그리드 통신 규격]
+    │
+    └──▶ [산업용 이더넷 PROFINET 망]
+```
 
 - **📢 섹션 요약 비유**: [마이크로그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/163_microgrid_island_mode/) 통신 규격의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -123,19 +115,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: vCPE NFV 고객 구내 망 통합 전환</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 마이크로그리드 통신 규격</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 산업용 이더넷 PROFINET 망</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: vCPE NFV 고객 구내 망 통합 전환]
+    │
+    ▼
+[현재 개념: 마이크로그리드 통신 규격]
+    │
+    ├──▶ [확장 A: 산업용 이더넷 PROFINET 망]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 [마이크로그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/163_microgrid_island_mode/) 통신 규격는 [vCPE](/knowledge-base/studynote/03_network/17_sdn_nfv/886_vcpe_virtual_customer_premises_equipment_edge_vnf/) [NFV](/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/) 고객 구내 망 통합 전환에서 출발해 현재 메커니즘을 정교화하고, 이후 산업용 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) [PROFINET](/knowledge-base/studynote/09_security/18_iot_ot_physical/900_profinet/) 망와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

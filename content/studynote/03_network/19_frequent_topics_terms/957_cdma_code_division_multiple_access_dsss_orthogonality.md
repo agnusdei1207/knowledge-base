@@ -23,18 +23,14 @@ tags = ["studynote-network"]
 - <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/089_시분할_다중접속_TDMA/">TDMA</a> (2G)</strong>: 주파수는 같이 쓰는데, 1초씩 번갈아 가며 말함 (사람 많아지면 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 터짐).
 - <strong>CDMA (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a> <a href="/knowledge-base/studynote/05_database/07_exam_summary/411_division_operation/">Division</a> <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/">Multiple Access</a>, 3G) 🌟</strong>: 시간과 주파수를 전혀 쪼개지 않습니다. <strong>모든 사용자가 동일한 주파수 대역을, 동일한 시간에 한꺼번에 씁니다. 대신 사용자마다 서로 섞이지 않는 '고유한 암호 코드(직교 코드)'를 부여하여 신호를 얇게 펴서 쏘고(<a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/956_dsss_direct_sequence_spread_spectrum_chipping_code/">DSSS</a> 확산), 수신자가 자기 코드만 추출해 내는 마법의 <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/">다중 접속</a> 방식</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DSSS</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">코드 분할 다중 접속</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">VLAN 트렁킹</div></div>
-</div>
-</div>
-
-
+```text
+[DSSS]
+    │
+    ▼
+[코드 분할 다중 접속]
+    │
+    └──▶ [VLAN 트렁킹]
+```
 
 - **📢 섹션 요약 비유**: 코드 분할 [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -54,18 +50,14 @@ CDMA는 앞서 배운 <strong><a href="/knowledge-base/studynote/03_network/19_f
    - 기지국은 철수의 목소리를 찾기 위해 믹서기(수신기)에 쓰레기 덩어리를 넣고 <strong>'철수의 A 암호 코드'</strong>를 다시 곱해버립니다(역확산).
    - **기적**: 철수의 암호와 [직교성](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/083_직교성_Orthogonality/)(서로 수학적 각도가 90도로 어긋남)을 가진 영희의 B 데이터는 믹서기에 갈리면서 바닥의 0(먼지)으로 짓눌려 사라져버립니다. **오직 철수의 A 데이터만이 산봉우리처럼 뾰족하게 확 살아나 100% 복원됩니다.**
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DSSS</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">코드 분할 다중 접속</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">VLAN 트렁킹</div></div>
-</div>
-</div>
-
-
+```text
+[DSSS]
+    │
+    ▼
+[코드 분할 다중 접속]
+    │
+    └──▶ [VLAN 트렁킹]
+```
 
 - **📢 섹션 요약 비유**: 코드 분할 [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -123,19 +115,15 @@ CDMA는 앞서 배운 <strong><a href="/knowledge-base/studynote/03_network/19_f
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: DSSS</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 코드 분할 다중 접속</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: VLAN 트렁킹</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: DSSS]
+    │
+    ▼
+[현재 개념: 코드 분할 다중 접속]
+    │
+    ├──▶ [확장 A: VLAN 트렁킹]
+    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
+```
 
 코드 분할 [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/)는 DSSS에서 출발해 현재 메커니즘을 정교화하고, 이후 [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 트렁킹와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

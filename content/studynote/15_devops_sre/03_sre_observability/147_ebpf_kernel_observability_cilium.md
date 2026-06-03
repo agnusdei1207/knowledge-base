@@ -40,35 +40,36 @@ eBPF는 이 문제를 해결한다:
 
 ### 1. [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) 실행 흐름
 
+```text
+eBPF 프로그램 실행 파이프라인
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">eBPF 프로그램 실행 파이프라인</div>
-<div class="kb-diagram-note">개발자 (User Space)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">eBPF 프로그램 작성 (C 코드 또는 bpftrace 스크립트)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─► LLVM/Clang으로 eBPF 바이트코드 컴파일</div></div>
-<div class="kb-diagram-note">syscall(bpf)</div>
-<div class="kb-diagram-note">커널 (Kernel Space)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① Verifier (검증기)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· 무한 루프 없음 확인 (DAG 분석)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· 메모리 경계 검사</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· 권한 검사</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">통과</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② JIT 컴파일러 → 네이티브 머신 코드 변환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ Hook 포인트에 부착</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· kprobe/kretprobe (커널 함수 진입/반환)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· tracepoint (정적 추적 포인트)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· XDP (네트워크 드라이버 레벨 패킷 처리)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· tc (트래픽 제어 훅)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· uprobe (유저스페이스 함수 추적)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">④ 이벤트 발생 시 eBPF 프로그램 실행 → Maps에 데이터 저장</div></div>
-<div class="kb-diagram-note">perf_event / ring buffer</div>
-<div class="kb-diagram-note">User Space 분석 도구 (BCC, bpftrace, Cilium)</div>
-</div>
-</div>
-
-
+  개발자 (User Space)
+  ┌──────────────────────────────────────────────────────────┐
+  │  eBPF 프로그램 작성 (C 코드 또는 bpftrace 스크립트)        │
+  │  └─► LLVM/Clang으로 eBPF 바이트코드 컴파일                │
+  └──────────────────────────────────────────────────────────┘
+                    │ syscall(bpf)
+  커널 (Kernel Space)
+  ┌──────────────────────────────────────────────────────────┐
+  │  ① Verifier (검증기)                                     │
+  │     · 무한 루프 없음 확인 (DAG 분석)                       │
+  │     · 메모리 경계 검사                                    │
+  │     · 권한 검사                                          │
+  │                    │ 통과                                │
+  │  ② JIT 컴파일러 → 네이티브 머신 코드 변환                  │
+  │                    │                                    │
+  │  ③ Hook 포인트에 부착                                     │
+  │     · kprobe/kretprobe (커널 함수 진입/반환)               │
+  │     · tracepoint (정적 추적 포인트)                       │
+  │     · XDP (네트워크 드라이버 레벨 패킷 처리)               │
+  │     · tc (트래픽 제어 훅)                                 │
+  │     · uprobe (유저스페이스 함수 추적)                      │
+  │                    │                                    │
+  │  ④ 이벤트 발생 시 eBPF 프로그램 실행 → Maps에 데이터 저장  │
+  └──────────────────────────────────────────────────────────┘
+                    │ perf_event / ring buffer
+  User Space 분석 도구 (BCC, bpftrace, Cilium)
+```
 
 ### 2. [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) Maps — [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)-유저 [데이터 공유](/knowledge-base/studynote/05_database/06_dw_olap_trends/386_data_clean_room_sharing/)
 
@@ -83,24 +84,23 @@ eBPF는 이 문제를 해결한다:
 
 ### 3. 주요 활용 분야
 
+```text
+eBPF 활용 영역
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">eBPF 활용 영역</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">네트워킹</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">XDP ─ 커널 NIC 드라이버 레벨에서 패킷 드롭/포워딩</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DDoS 방어, 로드밸런싱 (Katran, Cilium LB)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">관측성 (Observability)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">kprobe/tracepoint ─ 시스템 콜, 레이턴시, CPU 프로파일링</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사이드카 없는 서비스 메시 (Cilium, Hubble)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보안</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시스템 콜 감시 ─ 비정상 행동 탐지 (Falco, Tetragon)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">런타임 정책 적용 (Seccomp BPF)</div></div>
-</div>
-</div>
-
-
+  ┌──────────────────────────────────────────────────────────┐
+  │  네트워킹                                                 │
+  │  XDP ─ 커널 NIC 드라이버 레벨에서 패킷 드롭/포워딩         │
+  │         DDoS 방어, 로드밸런싱 (Katran, Cilium LB)          │
+  ├──────────────────────────────────────────────────────────┤
+  │  관측성 (Observability)                                   │
+  │  kprobe/tracepoint ─ 시스템 콜, 레이턴시, CPU 프로파일링   │
+  │  사이드카 없는 서비스 메시 (Cilium, Hubble)                │
+  ├──────────────────────────────────────────────────────────┤
+  │  보안                                                    │
+  │  시스템 콜 감시 ─ 비정상 행동 탐지 (Falco, Tetragon)       │
+  │  런타임 정책 적용 (Seccomp BPF)                           │
+  └──────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) Maps는 <strong>'<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>과 관리자 사이의 공용 화이트보드'</strong> 입니다. [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) 프로그램이 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서 발견한 정보(패킷 수, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간)를 화이트보드(Map)에 적으면, 관리자 도구가 화이트보드를 읽어 대시보드에 표시합니다.
 
@@ -188,24 +188,22 @@ eBPF는 "[커널](/knowledge-base/studynote/02_operating_system/01_overview_arch
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">BPF (Berkeley Packet Filter, 1992) — 패킷 필터링</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">eBPF (Extended BPF, Linux 3.18, 2014) — 커널 이벤트 전반</div>
-<div class="kb-diagram-tree-item" style="--depth:2">XDP — NIC 레벨 고속 패킷 처리 (DDoS 방어)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">kprobe/tracepoint — 커널 함수 추적</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Cilium — eBPF 기반 쿠버네티스 CNI·서비스 메시</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">사이드카 프록시(Envoy/Istio) 대체 움직임</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">eBPF for Windows / CO-RE / eBPF-as-a-Service (미래)</div>
-</div>
-</div>
-
-
+```text
+BPF (Berkeley Packet Filter, 1992) — 패킷 필터링
+    │
+    ▼
+eBPF (Extended BPF, Linux 3.18, 2014) — 커널 이벤트 전반
+    │
+    ├─► XDP — NIC 레벨 고속 패킷 처리 (DDoS 방어)
+    ├─► kprobe/tracepoint — 커널 함수 추적
+    ├─► Cilium — eBPF 기반 쿠버네티스 CNI·서비스 메시
+    │
+    ▼
+사이드카 프록시(Envoy/Istio) 대체 움직임
+    │
+    ▼
+eBPF for Windows / CO-RE / eBPF-as-a-Service (미래)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -220,6 +218,6 @@ eBPF는 "[커널](/knowledge-base/studynote/02_operating_system/01_overview_arch
 **진행 상황**: 147 / 373
 
 ← **이전**: [146. OpenTelemetry (OTel) - 관측 가능성 통합 표준](/knowledge-base/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/)
-**다음**: [148. 카오스 엔지니어링 (Chaos Engineering)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/148_chaos_engineering_resiliency_testing/) →
+**다음**: [148. 카오스 엔지니어링 (Chaos 엔진ering)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/148_chaos_engineering_resiliency_testing/) →
 
 ---

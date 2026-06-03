@@ -34,23 +34,25 @@ tags = ["studynote-enterprise-systems"]
 1. <strong>POS (Point of Sales) <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 직결</strong>: 편의점에서 바코드를 찍는 순간의 '실판매 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)'가 도매상을 거치지 않고 [SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) 서버를 통해 제조 공장에 실시간으로 공유된다. 공장은 왜곡된 도매상의 발주서 대신, 팩트(Fact)인 소비자 수요만 보고 생산 계획을 짠다.
 2. <strong><a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/099_vmi_vendor_managed_inventory/">VMI</a> (공급자 주도형 재고 관리)</strong>: 소매점(을)이 발주를 넣는 기존 방식을 뒤집어, 제조사(갑)가 소매점의 재고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링하다가 알아서 물건을 채워주는 방식이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전통적 공급망(채찍 발생) vs VMI 도입 후(채찍 억제)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전통적 방식: 정보 단절과 지연</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소비자 ─(10개)─▶ 소매점 ─(15개 발주)─▶ 도매상 ─(30개 발주)─▶ 공장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">각자 창고에 안전 재고를 몰래 쌓음</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">VMI 및 실시간 정보 공유 (EDI / POS 연동)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소비자 ─(10개 구매)─▶ 소매점 (발주 안 함, 판매 데이터만 전송)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▼</div><div class="kb-diagram-node">POS 실시간 데이터</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">공장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(10개 소진 확인 후 즉시 생산/배송)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│          전통적 공급망(채찍 발생) vs VMI 도입 후(채찍 억제)        │
+├──────────────────────────────────────────────────────────────┤
+│ [ 전통적 방식: 정보 단절과 지연 ]                            │
+│  소비자 ─(10개)─▶ 소매점 ─(15개 발주)─▶ 도매상 ─(30개 발주)─▶ 공장 │
+│    ▲               │                 │               │       │
+│    └───────────────┴─────────────────┴───────────────┘       │
+│                각자 창고에 안전 재고를 몰래 쌓음                   │
+│                                                              │
+│ [ VMI 및 실시간 정보 공유 (EDI / POS 연동) ]                 │
+│  소비자 ─(10개 구매)─▶ 소매점 (발주 안 함, 판매 데이터만 전송)       │
+│                        │                                     │
+│                        ▼ [POS 실시간 데이터]                 │
+│                 ┌────────────────┐                           │
+│                 │   SCM 통합 서버  │◀──────────────[공장]     │
+│                 └────────────────┘     (10개 소진 확인 후 즉시 생산/배송) │
+└──────────────────────────────────────────────────────────────┘
+```
 
 [VMI](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/099_vmi_vendor_managed_inventory/) 체제에서는 공장이 전체 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/)의 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 통제하므로, 각 유통 단계에서 발생하는 과장된 주문(뻥튀기)이 원천 차단된다. [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)(주문부터 도착까지의 시간)이 짧아지면 가수요가 사라져 채찍의 진폭 자체가 작아진다.
 
@@ -96,7 +98,7 @@ tags = ["studynote-enterprise-systems"]
 
 SCM을 통한 투명한 정보 공유와 VMI의 도입은 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 전체의 악성 재고를 없애고, 창고 유지 비용과 할인 매각에 따른 손실을 획기적으로 줄여준다. 이는 단순히 물류 비용의 절감이 아니라, 묶여 있던 현금 흐름을 개선하여 기업의 체질을 바꾸는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 무기가 된다.
 
-하지만 정보 보안 유출의 위험성과 특정 파트너에 대한 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)([Lock-in](/knowledge-base/studynote/12_it_management/05_security_compliance/362_lock_in_portability/))이 커진다는 한계가 존재한다. 향후에는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)([Blockchain](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)) 기술을 통해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 조작 불가능하게 상호 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하거나, AI가 날씨와 SNS 트렌드까지 분석해 공급자보다 먼저 최적의 [VMI](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/099_vmi_vendor_managed_inventory/) 물량을 계산하는 지능형 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/)(Cognitive [SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/))으로 진화할 것이다. 결론적으로 채찍 효과 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)는 "서로를 얼마나 믿고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 내어줄 수 있는가"에 대한 기업 간 신뢰 아키텍처의 완성도에 달려 있다.
+하지만 정보 보안 유출의 위험성과 특정 파트너에 대한 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)([Lock-in](/knowledge-base/studynote/12_it_management/05_security_compliance/362_lock_in_portability/))이 커진다는 한계가 존재한다. 향후에는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)([Blockchain](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)) 기술을 통해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 조작 불가능하게 상호 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하거나, AI가 날씨와 SNS 트렌드까지 분석해 공급자보다 먼저 최적의 [VMI](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/099_vmi_vendor_managed_inventory/) 수량을 계산하는 지능형 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/)(Cognitive [SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/))으로 진화할 것이다. 결론적으로 채찍 효과 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)는 "서로를 얼마나 믿고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 내어줄 수 있는가"에 대한 기업 간 신뢰 아키텍처의 완성도에 달려 있다.
 
 - **📢 섹션 요약 비유**: 채찍 효과를 없애는 과정은 각자 두꺼운 [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)을 입고 춤을 추던 사람들이 가벼운 옷으로 갈아입고 거울을 보며 똑같이 군무를 맞추는 것이다. 몸(재고)이 가벼워야 음악(고객의 수요)이 바뀔 때 즉각적으로 춤을 바꿀 수 있다.
 
@@ -113,23 +115,21 @@ SCM을 통한 투명한 정보 공유와 VMI의 도입은 [공급망](/knowledge
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">전통적 조달 체계 (서면 발주, 정보 단절)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">채찍 효과 (Bullwhip Effect) 및 악성 재고 발생</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">POS 데이터 실시간 공유 (Information Sharing, EDI 도입)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">VMI (공급자 주도형 재고 관리) 체계로 패러다임 전환</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CPFR (공동 기획/예측/보충) 및 AI 기반 지능형 SCM 확장</div>
-</div>
-</div>
-
-
+```text
+전통적 조달 체계 (서면 발주, 정보 단절)
+    │
+    ▼
+채찍 효과 (Bullwhip Effect) 및 악성 재고 발생
+    │
+    ▼
+POS 데이터 실시간 공유 (Information Sharing, EDI 도입)
+    │
+    ▼
+VMI (공급자 주도형 재고 관리) 체계로 패러다임 전환
+    │
+    ▼
+CPFR (공동 기획/예측/보충) 및 AI 기반 지능형 SCM 확장
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

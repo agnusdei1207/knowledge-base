@@ -22,17 +22,12 @@ ER (Entity-Relationship) 모델과 ERD (Entity-Relationship Diagram)는 개체�
 
 관계는 단순한 화살표가 아니다. 예를 들어 학생과 과목 사이의 수강은 "학생이 과목을 듣는다"는 의미를 담고, 주문과 상품 사이의 포함은 "주문이 여러 상품을 가진다"는 의미를 담는다. 이 의미를 정확히 적지 않으면 관계형 테이블에서는 나중에 해석이 꼬인다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">◇수강◇</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">학생</div><div class="kb-diagram-cell">과목</div></div>
-<div class="kb-diagram-note">N M</div>
-</div>
-</div>
-
-
+```text
+┌──────┐      ◇수강◇      ┌──────┐
+│ 학생 │──────────────────│ 과목 │
+└──────┘                  └──────┘
+   N                          M
+```
 
 관계를 모델링하는 이유는 업무 규칙을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조에 녹이기 위해서다. 그래서 관계는 설계도에서 보이는 선이 아니라, 시스템이 허용하는 연결 방식 자체라고 보는 것이 맞다.
 
@@ -52,31 +47,25 @@ ER (Entity-Relationship) 모델과 ERD (Entity-Relationship Diagram)는 개체�
 
 관계 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)은 관계 자체에 붙는 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이다. 예를 들어 수강일자, 주문수량, 배정시간은 학생이나 과목, 주문이나 상품 하나에 속하는 값이 아니라 관계가 성립할 때만 의미가 있다. 따라서 이런 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)은 관계선이 아니라 마름모에 붙어야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">수강일자</div>
-<div class="kb-diagram-note">◇수강◇</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">학생</div><div class="kb-diagram-cell">과목</div></div>
-</div>
-</div>
-
-
+```text
+          수강일자
+             │
+┌──────┐   ◇수강◇   ┌──────┐
+│ 학생 │───────────│ 과목 │
+└──────┘           └──────┘
+```
 
 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 관계(Recursive Relationship)는 같은 개체 집합 안에서 관계가 맺어지는 경우다. 직원이 직원을 관리하거나, 문서가 다른 문서를 참조하는 형태가 대표적이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">직원</div></div>
-<div class="kb-diagram-note">관리</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">직원</div></div>
-</div>
-</div>
-
-
+```text
+┌──────┐
+│ 직원 │
+└──┬───┘
+   │ 관리
+   └────────▶┌──────┐
+             │ 직원 │
+             └──────┘
+```
 
 관계는 개체의 존재 자체보다 개체 간 규칙을 표현하는 데 초점이 있다. 그래서 개체와 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 다 그린 뒤에도 관계가 빠지면 모델은 아직 완성되지 않은 것이다.
 
@@ -146,23 +135,21 @@ ER 모델은 개념 모델이고, 관계형 스키마는 구현 모델이다. ER
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">개체(Entity)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">관계(Relationship)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">카디낼리티 비율(Cardinality Ratio)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">참여 제약(Participation Constraint)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">관계형 스키마 변환</div>
-</div>
-</div>
-
-
+```text
+개체(Entity)
+    │
+    ▼
+관계(Relationship)
+    │
+    ▼
+카디낼리티 비율(Cardinality Ratio)
+    │
+    ▼
+참여 제약(Participation Constraint)
+    │
+    ▼
+관계형 스키마 변환
+```
 
 이 흐름은 "무엇이 있는가 → 어떻게 연결되는가 → 얼마나/반드시 연결되는가 → 테이블로 어떻게 옮기는가"를 보여준다.
 

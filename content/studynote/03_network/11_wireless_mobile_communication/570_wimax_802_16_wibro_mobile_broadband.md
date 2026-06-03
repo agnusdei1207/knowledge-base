@@ -23,29 +23,29 @@ tags = ["studynote-network"]
 - **필요성**: 2000년대 초중반, 3G([CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/)) 망은 음성 전화를 끊기지 않게 하는 데는 최고였으나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 속도가 1~2Mbps에 불과해 노트북으로 웹서핑을 하기에는 지옥이었다. 반면 집이나 카페의 Wi-Fi(802.[11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/))는 빠르지만 50미터만 벗어나거나 차를 타면 뚝 끊겼다. "유선 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 인터넷(ADSL)의 쾌적한 속도를, 길거리나 달리는 차 안(이동성)에서도 그대로 쓰게 할 순 없을까?"라는 거대한 갈증이 생겼다.
 - **등장 배경**: ① 3G 망의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 한계(비싼 요금과 느린 속도) 노출 → ② 인터넷(IP) 진영을 이끄는 인텔(Intel)과 삼성이 주축이 되어 "전화망 벤더들이 쥐고 있는 셀룰러 시장을 IT 인터넷 기술([OFDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/))로 엎어버리자"며 반란 연합 결성 → ③ 2006년 한국에서 세계 최초의 모바일 광대역 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)인 **WiBro (Wireless Broadband)** 상용화.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WiBro/WiMAX의 탄생 포지셔닝: Wi-Fi와 3G 셀룰러의 융합 시각화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">통신 속도(Mbps)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">100M</div><div class="kb-diagram-node">Wi-Fi (802.11)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">속도는 미친듯이 빠름.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단점: 10m만 벗어나면 뚝! 🚙이동성 0%</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ ⭐</div><div class="kb-diagram-node">WiMAX / WiBro</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">20M . . . . . . . . . . . . . . . . . . . . . 두 마리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">토끼 융합!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2M</div><div class="kb-diagram-node">3G 셀룰러 (CDMA)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">속도는 끔찍하게 느리고 비쌈.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장점: KTX를 타도 절대 안 끊김!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 이동성(Mobility)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">도보(1km/h) 시내주행(60) 고속철도(300)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 철학: "Wi-Fi의 광대역 빠른 속도를 챙기면서, 3G 망의 훌륭한 핸드오버</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이동성까지 다 가져오는 환상의 인터넷 전용망을 만들자!"</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│             WiBro/WiMAX의 탄생 포지셔닝: Wi-Fi와 3G 셀룰러의 융합 시각화│
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   통신 속도(Mbps)                                             │
+│      ▲                                                     │
+│ 100M ┼   [Wi-Fi (802.11)]                                   │
+│      │   속도는 미친듯이 빠름.                                  │
+│      │   단점: 10m만 벗어나면 뚝! 🚙이동성 0%                   │
+│      │                                  ⭐ [WiMAX / WiBro] │
+│  20M ┼ . . . . . . . . . . . . . . . . . . . . .  두 마리   │
+│      │                                        토끼 융합!   │
+│   2M ┼                     [3G 셀룰러 (CDMA)]               │
+│      │                     속도는 끔찍하게 느리고 비쌈.          │
+│      │                     장점: KTX를 타도 절대 안 끊김!       │
+│      └──────────────────────────────────────────▶ 이동성(Mobility)│
+│              도보(1km/h)       시내주행(60)       고속철도(300)   │
+│                                                             │
+│   => 철학: "Wi-Fi의 광대역 빠른 속도를 챙기면서, 3G 망의 훌륭한 핸드오버  │
+│            이동성까지 다 가져오는 환상의 인터넷 전용망을 만들자!"       │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** WiMAX(와이브로)는 철저한 틈새시장 파괴자(Disruptor)였다. 에릭슨이나 노키아 같은 기존 통신 제왕들은 3G([WCDMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/091_동기식_비동기식_CDMA_WCDMA/))를 조금씩 개선하며 돈을 벌고 싶어 했다. 하지만 컴퓨터 CPU를 만들던 인텔과, 통신 주도권을 뺏고 싶었던 한국(삼성)은 "음성 통화 중심의 무거운 3G망 다 버리고, 다짜고짜 IP(인터넷 패킷) 전용 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 무선망을 통째로 새로 깔아버리자!"라며 WiMAX 동맹을 맺었다. WiMAX는 처음부터 '전화'는 염두에 두지도 않고 오직 '인터넷 다운로드 속도'와 '이동성' 융합에만 올인한 [돌연변이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/638_mutation_testing_test_case_verification/) 천재였다.
 
@@ -67,23 +67,23 @@ WiMAX가 통신 역사에서 위대한 이유는, 현재 우리가 숨 쉬듯 �
 
 WiMAX(와이브로)는 태생이 '인터넷 전용망'이다. 음성 통화는 내가 말하는 50%, 상대가 말하는 50%가 대칭([FDD](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/103_fdd/))이어야 맞지만, 인터넷은 내가 클릭(1%)하면 서버에서 넷플릭스 영상이 쏟아져 내려오는(99%) 극단적 비대칭 환경이다. 이를 꿰뚫어 본 [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) 아키텍처의 선구안은 날카로웠다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WiMAX TDD 프레임 구조의 비대칭 트래픽 처리 마법</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 일반 음성 통화 환경의 시간표 조절 (1:1 비율)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DL</div><div class="kb-diagram-node">DL</div><div class="kb-diagram-note">(Guard)</div><div class="kb-diagram-node">UL</div><div class="kb-diagram-node">UL</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─ 폰</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(다운로드 2ms 쏘고, 잠시 쉬고, 업로드 2ms 받음)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 유튜브 폭풍 다운로드 환경의 스마트한 시간표 조절 (4:1 비율)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DL</div><div class="kb-diagram-node">DL</div><div class="kb-diagram-node">DL</div><div class="kb-diagram-node">DL</div><div class="kb-diagram-note">(Guard)</div><div class="kb-diagram-node">UL</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─ 폰</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(다운로드에 시간 슬롯 80% 몰빵! 폰은 아주 잠깐 "잘 받았어"만 올림)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 남는 주파수 낭비 없이, 오직 사람들이 인터넷을 쓰는 패턴(다운로드 몰빵)에</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">맞춰 프레임 구조를 찰흙처럼 주물러 주파수 효율을 극대화함!</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────┐
+│               WiMAX TDD 프레임 구조의 비대칭 트래픽 처리 마법        │
+├───────────────────────────────────────────────────────────────┤
+│                                                               │
+│   [1. 일반 음성 통화 환경의 시간표 조절 (1:1 비율)]                 │
+│   기지국 ─▶ [DL] [DL] (Guard) [UL] [UL] ◀─ 폰                 │
+│   (다운로드 2ms 쏘고, 잠시 쉬고, 업로드 2ms 받음)                     │
+│                                                               │
+│   [2. 유튜브 폭풍 다운로드 환경의 스마트한 시간표 조절 (4:1 비율)]     │
+│   기지국 ─▶ [DL] [DL] [DL] [DL] (Guard) [UL] ◀─ 폰             │
+│   (다운로드에 시간 슬롯 80% 몰빵! 폰은 아주 잠깐 "잘 받았어"만 올림)     │
+│                                                               │
+│   => 결과: 남는 주파수 낭비 없이, 오직 사람들이 인터넷을 쓰는 패턴(다운로드 몰빵)에 │
+│            맞춰 프레임 구조를 찰흙처럼 주물러 주파수 효율을 극대화함!       │
+└───────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** WiMAX는 애초에 전화(Voice)를 안 할 작정으로 만든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 망이다. 그래서 차선(주파수)을 업로드/다운로드로 쪼개는 돈 낭비를 안 하고, 그냥 넓은 1차선 터널 하나([TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/))를 팠다. 그리고 기지국이 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등을 켜서 "지금부터 4밀리초 동안은 위에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 쏟아부을 테니까 다 받아라! 다 끝났으면 1밀리초 동안만 너네 클릭 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(업로드) 올려라!" 하고 동적으로 통제했다. 이 비대칭성 덕분에 당시 3G망보다 훨씬 적은 주파수를 가지고도 노트북 인터넷이 날아다닐 정도의 쾌적한 다운로드 속도를 구현해 냈다. (DL: Downlink, UL: Uplink)
 
@@ -101,29 +101,28 @@ WiMAX는 분명 당시 최고의 기술이었다. 속도도 가장 빨랐고(시
 |:---|:---|:---|:---|
 | <strong>백워드 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/">호환성</a> (Legacy)</strong> | 기존 2G/3G 기지국과 전혀 안 맞음. **장비를 처음부터 다 새로 사서 깔아야 함** (맨땅에 헤딩) | 기존 3G [WCDMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/091_동기식_비동기식_CDMA_WCDMA/) 장비 위에 소프트웨어나 부품 얹어서 **재활용 스무스하게 업그레이드 가능** | 유럽 통신사들: "미쳤어? 수십조 원 들인 3G 철탑 다 버리고 너네꺼 새로 깔게?" (WiMAX 외면) |
 | **음성 통화 지원 (Voice)** | 오직 인터넷 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)망(IP). 전화하려면 카톡 보이스톡 같은 별도 VoIP 앱 깔아야 함 | 서킷망(음성) 뼈대를 태생부터 물려받아 언제든 완벽한 전화 통화 호환 보장 | 폰으로 전화가 안 되면 어떻게 폰을 파나? (단말기 제조사 외면) |
-| **규모의 경제 (Ecosystem)**| 인텔, 삼성, KT 등 일부 국가만 지지. 스마트폰 칩셋 생산량 부족으로 단말기 짱돌처럼 크고 비쌈 | 에릭슨, 노키아, 화웨이 등 전 세계 거대 통신 카르텔 연합. 칩셋 물량 수십억 개 쏟아져 가격 폭락 | **LTE가 중국/미국을 장악하며 승리.** WiMAX는 고립되어 갈라파고스화(도태)됨. |
+| **규모의 경제 (Ecosystem)**| 인텔, 삼성, KT 등 일부 국가만 지지. 스마트폰 칩셋 생산량 부족으로 단말기 짱돌처럼 크고 비쌈 | 에릭슨, 노키아, 화웨이 등 전 세계 거대 통신 카르텔 연합. 칩셋 수량 수십억 개 쏟아져 가격 폭락 | **LTE가 중국/미국을 장악하며 승리.** WiMAX는 고립되어 갈라파고스화(도태)됨. |
 
 WiMAX는 기술의 무덤이었다. WiMAX가 피땀 흘려 증명해 놓은 OFDMA와 [MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/) 기술이 "진짜 되네? 모바일에서도 빵빵 터지네?"라는 것을 확인한 [3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/)(전통 통신 연합)는, 곧바로 그 핵심 기술 뼈대만 자기들의 3G 망 구조에 쏙 빼내어 결합시켜버렸다. 그것이 바로 <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/">LTE</a> (Long Term Evolution)</strong>의 탄생이다. LTE는 이름 그대로 "기존 통신사 장비를 버리지 않고 장기적(Long Term)으로 안전하게 진화(Evolution)시켜 주겠다"고 통신사들을 꼬셨고, 수백조 원의 매몰 비용을 두려워하던 전 세계 통신사들은 열광하며 LTE의 손을 들어주었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모바일 인터넷 4G 표준 패권 전쟁 (갈라파고스의 비극)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">WiBro / WiMAX 진영 (인텔, 삼성, KT 주도)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"음성 전화 다 버려! 100% IP 인터넷만 남겨서 새로 판을 짠다!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 기술적 완벽함 100% ─▶ 하지만 기존 통신 인프라(기지국) 다 버려야 함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 폰 제조사: "칩도 비싸고 전 세계에서 몇 나라만 쓰는데 폰 못 만들어"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 에그(Egg)라는 징그러운 모바일 라우터만 주야장천 들고 다님. 몰락 시작.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LTE 진영 (3GPP 거대 카르텔 주도)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"WiMAX 기술(OFDMA) 훔쳐 와! 그걸 우리 옛날 3G 기지국 장비랑 엮어!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 기술적 더러움(레거시 짬뽕) ─▶ 하지만 기존 장비 100% 재활용 가능.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 전 세계 통신사 환호! ─▶ 퀄컴의 칩셋 대량 생산 ─▶ 폰에 기본 탑재 완료.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 전 세계 글로벌 단일 표준 (Scale의 승리) ─▶ WiMAX 관짝에 못 박음.</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────┐
+│               모바일 인터넷 4G 표준 패권 전쟁 (갈라파고스의 비극)      │
+├───────────────────────────────────────────────────────────────┤
+│                                                               │
+│   [WiBro / WiMAX 진영 (인텔, 삼성, KT 주도)]                      │
+│   "음성 전화 다 버려! 100% IP 인터넷만 남겨서 새로 판을 짠다!"          │
+│   ─▶ 기술적 완벽함 100% ─▶ 하지만 기존 통신 인프라(기지국) 다 버려야 함. │
+│   ─▶ 폰 제조사: "칩도 비싸고 전 세계에서 몇 나라만 쓰는데 폰 못 만들어"    │
+│   ─▶ 에그(Egg)라는 징그러운 모바일 라우터만 주야장천 들고 다님. 몰락 시작. │
+│                                                               │
+│   [LTE 진영 (3GPP 거대 카르텔 주도)]                               │
+│   "WiMAX 기술(OFDMA) 훔쳐 와! 그걸 우리 옛날 3G 기지국 장비랑 엮어!"     │
+│   ─▶ 기술적 더러움(레거시 짬뽕) ─▶ 하지만 기존 장비 100% 재활용 가능.   │
+│   ─▶ 전 세계 통신사 환호! ─▶ 퀄컴의 칩셋 대량 생산 ─▶ 폰에 기본 탑재 완료.│
+│   ─▶ 전 세계 글로벌 단일 표준 (Scale의 승리) ─▶ WiMAX 관짝에 못 박음.  │
+└───────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** WiMAX의 몰락 과정은 '생태계(Ecosystem)' 파편화의 무서움을 보여준다. 한국에서 '와이브로 에그(Egg)'를 기억하는가? 스마트폰 안에 와이브로 칩을 넣어주는 회사가 없으니, 유저들은 폰 외에 주머니에 도시락만 한 공유기(Egg)를 하나 더 들고 다니며 와이브로를 와이파이로 변환해 써야 했다. 결국 사용자는 두 기기를 충전하는 피로감에 지쳤다. 반면 LTE는 아이폰과 갤럭시에 태생부터 칩이 박혀 나왔다. 이로써 2011년을 기점으로 4G 표준 전쟁은 LTE의 압승으로 싱겁게 막을 내렸다.
 
@@ -181,19 +180,15 @@ WiMAX는 기술의 무덤이었다. WiMAX가 피땀 흘려 증명해 놓은 OFDM
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: MIMO 기반 공간 다중화 체계</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: WiMAX / 휴대인터넷 개요</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 무선 LAN 구조 분산: BSS, ESS</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 무선 자원 제어</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: MIMO 기반 공간 다중화 체계]
+    │
+    ▼
+[현재 개념: WiMAX / 휴대인터넷 개요]
+    │
+    ├──▶ [확장 A: 무선 LAN 구조 분산: BSS, ESS]
+    └──▶ [확장 B: 지능형 무선 자원 제어]
+```
 
 WiMAX / 휴대인터넷 개요는 [MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/) 기반 [공간 다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/100_공간_다중화_Spatial_Multiplexing/) 체계에서 출발해 현재 메커니즘을 정교화하고, 이후 무선 LAN 구조 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/): [BSS](/knowledge-base/studynote/02_operating_system/02_process_thread/083_bss_segment/), ESS와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

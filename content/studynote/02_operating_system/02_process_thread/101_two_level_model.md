@@ -31,23 +31,30 @@ tags = ["studynote-operating-system"]
 
 두 수준 모델은 사용자 영역과 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 영역 사이에 <strong>LWP (Lightweight <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/">Process</a>)</strong> 라는 가상 프로세서 계층을 두어 동적 매핑과 정적 바인딩을 동시에 조율한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">두 수준 (Two-level) 모델 아키텍처 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">사용자 공간: User Space</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 동적 할당 (Unbound Thread) ─ ─ 정적 할당 (Bound Thread) ─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">U1 U2 U3 U4</div><div class="kb-diagram-cell">U5</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">중간 계층: LWP Layer</div><div class="kb-diagram-connector">▼</div><div class="kb-diagram-note">다중화 (Multiplexing) ▼ 독점 (Binding)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LWP</div><div class="kb-diagram-cell">LWP</div><div class="kb-diagram-cell">LWP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">커널 공간: Kernel Space</div><div class="kb-diagram-connector">▼</div><div class="kb-diagram-note">▼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">KT1</div><div class="kb-diagram-cell">KT2</div><div class="kb-diagram-cell">KT3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(CPU 0 스케줄링) (CPU 1 스케줄링)</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────┐
+│                   두 수준 (Two-level) 모델 아키텍처 구조                   │
+├────────────────────────────────────────────────────────────────────────┤
+│                                                                        │
+│ [사용자 공간: User Space]                                                │
+│  ┌─ 동적 할당 (Unbound Thread) ─┐     ┌─ 정적 할당 (Bound Thread) ─┐     │
+│  │   U1      U2      U3      U4   │     │            U5            │     │
+│  └───│───────│───────│───────│────┘     └────────────│─────────────┘     │
+│      └───────┴───┬───┴───────┘                       │                   │
+│ =================│===================================│================ │
+│ [중간 계층: LWP Layer] ▼  다중화 (Multiplexing)           ▼ 독점 (Binding)  │
+│                ┌───┐   ┌───┐                       ┌───┐                 │
+│                │LWP│   │LWP│                       │LWP│                 │
+│                └───┘   └───┘                       └───┘                 │
+│                  │       │                           │                   │
+│ =================│=======│===========================│================ │
+│ [커널 공간: Kernel Space]  ▼                           ▼                   │
+│                ┌───┐   ┌───┐                       ┌───┐                 │
+│                │KT1│   │KT2│                       │KT3│                 │
+│                └───┘   └───┘                       └───┘                 │
+│                 (CPU 0 스케줄링)                     (CPU 1 스케줄링)         │
+└────────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조도의 핵심은 크게 두 가지 흐름이다. 첫째, U1~U4 (언바운드 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))는 가용한 LWP 위에서 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)에 의해 시분할 방식으로 동기화된다. 둘째, U5 (바운드 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))는 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 시점부터 고정된 LWP 및 KT3와 1:1로 직결된다. 
 만약 U1이 I/O 시스템 호출을 통해 KT1을 블로킹시키면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/114_scheduler_activation/">스케줄러 액티베이션</a> (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/114_scheduler_activation/">Scheduler Activation</a>)</strong> 이라는 기법을 통해 '업콜([Upcall](/knowledge-base/studynote/02_operating_system/02_process_thread/115_upcall/))' 신호를 사용자 공간에 보내 새로운 LWP를 임시로 내어준다. 사용자 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 이를 받아 U2나 U3를 즉시 실행시킴으로써 병목을 극복한다. U5는 애초에 독립되어 있으므로 어떤 상황에서도 방해받지 않는다.
@@ -109,25 +116,24 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">다대일 (Many-to-One) 모델</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">단일 스레드 블로킹 시 전체 프로세스 정지 한계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">일대일 (One-to-One) 모델 등장 (자원 폭증 문제 발생)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">다대다 (Many-to-Many) 모델 고안 (자원 최적화)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">두 수준 (Two-level) 모델 진화 (특정 스레드의 1:1 결합 지원)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">현대 언어 런타임 (Goroutine, Erlang)의 스케줄링 철학으로 계승</div>
-</div>
-</div>
-
-
+```text
+다대일 (Many-to-One) 모델
+    │
+    ▼
+단일 스레드 블로킹 시 전체 프로세스 정지 한계
+    │
+    ▼
+일대일 (One-to-One) 모델 등장 (자원 폭증 문제 발생)
+    │
+    ▼
+다대다 (Many-to-Many) 모델 고안 (자원 최적화)
+    │
+    ▼
+두 수준 (Two-level) 모델 진화 (특정 스레드의 1:1 결합 지원)
+    │
+    ▼
+현대 언어 런타임 (Goroutine, Erlang)의 스케줄링 철학으로 계승
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 놀이공원(컴퓨터)에 손님([스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))은 100명인데 타야 할 범퍼카([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))는 10대밖에 없어요.

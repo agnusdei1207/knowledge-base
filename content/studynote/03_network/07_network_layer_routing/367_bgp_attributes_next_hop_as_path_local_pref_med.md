@@ -25,18 +25,14 @@ tags = ["studynote-network"]
 - **💡 비유**: BGP의 Attributes는 게임 캐릭터의 <strong>"스탯(능력치) 보드"</strong>와 같습니다.
   - OSPF가 오직 '민첩성([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))' 딱 하나만 보고 싸운다면, [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 캐릭터는 '힘([Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))', '지능(Local_Pref)', '운(MED)', '체력([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-Path)' 등 수십 개의 복잡한 스탯을 가집니다. 라우터는 위에서부터 순서대로 스탯을 하나씩 대결시켜서 최종 승자(Best Path)를 결정합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">iBGP, eBGP, BGP Split Ho…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">BGP 속성</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">BGP Route Reflector / Co…</div></div>
-</div>
-</div>
-
-
+```text
+[iBGP, eBGP, BGP Split Ho…]
+    │
+    ▼
+[BGP 속성]
+    │
+    └──▶ [BGP Route Reflector / Co…]
+```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/">BGP</a> 속성값들은 무역 회사 사장님의 </strong>"결재 서류 결재 우선순위"**입니다. 단순히 배송이 빠른 택배사(최단 거리)를 고르는 게 아니라, 리베이트를 많이 주는 곳(Local Pref), 평소 거래를 튼 곳([Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)), 서류 절차가 짧은 곳([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-Path) 등 온갖 꼼수 점수를 매겨 가장 이문이 남는 택배사를 골라잡는 냉혹한 비즈니스 룰입니다.
 
@@ -66,23 +62,23 @@ tags = ["studynote-network"]
 - 이웃 국가(eBGP)에게 "우리 집 문이 2개 있는데, 1번 문(MED [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/))이 2번 문(MED 20)보다 들어오기 편하니까 1번 문으로 들어오렴~" 하고 미끼([Hint](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/))를 던지는 속성이다.
 - 단, 상대방 국가가 이 미끼를 씹어버리고 "내 맘대로(Local Pref) 보낼 건데?" 하면 강제할 방법은 없다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인바운드 / 아웃바운드 트래픽 제어의 정수</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">우리 회사 (AS 100)</div><div class="kb-diagram-node">KT (AS 200)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(문 A) ◀ (들어오게 꼬시기) (문 A)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(문 B) ▶ (나가도록 몰빵하기) ▶ (문 B)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. "직원들이 나갈 땐 무조건 문 B로 나가라!" (아웃바운드 통제)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Local_Pref</div><div class="kb-diagram-note">값을 B 쪽에 몰아준다.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. "손님들이 들어올 땐 무조건 문 A로 들어오게 꼬셔라!" (인바운드 통제)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">AS-Path 1번</div><div class="kb-diagram-note">, B문은 [ AS-Path</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">10번 ] 찍어서 사기를 친다. KT는 속아서 A문으로만 데이터를 준다.</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                인바운드 / 아웃바운드 트래픽 제어의 정수            │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 우리 회사 (AS 100) ]                 [ KT (AS 200) ]     │
+ │        (문 A) ◀─────── (들어오게 꼬시기) ──────── (문 A)       │
+ │        (문 B) ───────▶ (나가도록 몰빵하기) ───────▶ (문 B)       │
+ │                                                             │
+ │   1. "직원들이 나갈 땐 무조건 문 B로 나가라!" (아웃바운드 통제)        │
+ │      ▶ 우리 회사 라우터들에 [ Local_Pref ] 값을 B 쪽에 몰아준다. │
+ │                                                             │
+ │   2. "손님들이 들어올 땐 무조건 문 A로 들어오게 꼬셔라!" (인바운드 통제)  │
+ │      ▶ KT한테 엽서 줄 때, A문은 [ AS-Path 1번 ], B문은 [ AS-Path │
+ │        10번 ] 찍어서 사기를 친다. KT는 속아서 A문으로만 데이터를 준다.│
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 6. Next_Hop 속성의 주의점
 BGP에서 Next_Hop(다음 징검다리 IP)은 OSPF와 조금 다르다.
@@ -145,19 +141,15 @@ eBGP로 남의 나라에서 엽서를 받아 [iBGP](/knowledge-base/studynote/03
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: iBGP, eBGP, BGP Split Ho…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: BGP 속성</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: BGP Route Reflector / Co…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: iBGP, eBGP, BGP Split Ho…]
+    │
+    ▼
+[현재 개념: BGP 속성]
+    │
+    ├──▶ [확장 A: BGP Route Reflector / Co…]
+    └──▶ [확장 B: 의도 기반 라우팅]
+```
 
 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 속성는 [iBGP](/knowledge-base/studynote/03_network/07_network_layer_routing/366_ibgp_ebgp_split_horizon_rule/), eBGP, [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) Split Ho…에서 출발해 현재 메커니즘을 정교화하고, 이후 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) Route Reflector / Co…와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

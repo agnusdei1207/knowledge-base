@@ -38,20 +38,18 @@ tags = ["studynote-data-engineering"]
 | **Rank 2** | 행렬 (Matrix) | `[32, 64]` | 단일 흑백 이미지, 다중 샘플 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
 | **Rank 3+** | 텐서 (Tensor) | `[32, 28, 28, 3]` | 32장의 RGB(3채널) 컬러 이미지 배치 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">텐서의 차원 확장 (Rank Progression)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Rank 0 (점) :</div><div class="kb-diagram-node">7</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Rank 1 (선) :</div><div class="kb-diagram-node">7, 2, 4</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Rank 2 (면) : [</div><div class="kb-diagram-node">7, 2, 4</div><div class="kb-diagram-note">,</div><div class="kb-diagram-node">1, 5, 8</div><div class="kb-diagram-note">]</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Rank 3 (입체): [ [</div><div class="kb-diagram-node">7,2,4</div><div class="kb-diagram-note">,</div><div class="kb-diagram-node">1,5,8</div><div class="kb-diagram-note">], [</div><div class="kb-diagram-node">3,1,2</div><div class="kb-diagram-note">,</div><div class="kb-diagram-node">9,6,4</div><div class="kb-diagram-note">] ]</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">※ 차원이 올라갈수록 바깥쪽 대괄호(</div><div class="kb-diagram-note">)가 겹겹이 포장됨</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│             텐서의 차원 확장 (Rank Progression)              │
+├──────────────────────────────────────────────────────────────┤
+│ Rank 0 (점) : [7]                                            │
+│ Rank 1 (선) : [7, 2, 4]                                      │
+│ Rank 2 (면) : [ [7, 2, 4], [1, 5, 8] ]                       │
+│ Rank 3 (입체): [ [[7,2,4], [1,5,8]], [[3,1,2], [9,6,4]] ]    │
+│                                                              │
+│ ※ 차원이 올라갈수록 바깥쪽 대괄호( [ ] )가 겹겹이 포장됨     │
+└──────────────────────────────────────────────────────────────┘
+```
 
 텐서플로우는 이 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 구조 위에서 브로드캐스팅(Broadcasting)을 지원한다. 모양이 완전히 똑같지 않은 텐서끼리 덧셈이나 곱셈을 할 때, 작은 쪽의 텐서를 큰 쪽의 텐서 모양에 맞게 논리적으로 복사하여 늘려주는 기능이다. 이는 메모리 낭비를 줄이고 코드 작성을 극도로 단순하게 해준다.
 
@@ -109,23 +107,21 @@ NumPy [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Scalar &amp; Vector (기본 수치 데이터)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">NumPy ndarray (CPU 기반의 행렬 연산 표준)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Tensor (N차원 추상화, 형상 및 타입 명세)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">tf.Tensor &amp; Autograd (불변성, 병렬화, 자동 미분 추적)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Tensor Parallelism &amp; Distributed Training (분산 가속 훈련)</div>
-</div>
-</div>
-
-
+```text
+Scalar & Vector (기본 수치 데이터)
+    │
+    ▼
+NumPy ndarray (CPU 기반의 행렬 연산 표준)
+    │
+    ▼
+Tensor (N차원 추상화, 형상 및 타입 명세)
+    │
+    ▼
+tf.Tensor & Autograd (불변성, 병렬화, 자동 미분 추적)
+    │
+    ▼
+Tensor Parallelism & Distributed Training (분산 가속 훈련)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **L4/L7 로드밸런서 (481번)**: [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) '안'에 있는 서버 10대끼리 트래픽을 나눠주는 장비입니다. 서버가 다 터지거나 정전(Blackout)이 나면 속수무책입니다.
 - <strong>기존 <a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/">DNS</a> (Round Robin)</strong>: 유저가 물어보면 한국 IP ➜ 미국 IP ➜ 일본 IP를 그냥 순서대로 기계처럼 돌아가며 던져줍니다. 일본 서버가 불타서 죽어있어도 멍청하게 일본 IP를 던져주어 접속 에러(Time-out) 대참사를 만듭니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">CDN 엣지 노드 분산</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">GSLB 지리적 DNS 라우팅</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SIP INVITE 기반 핸드셰이크</div></div>
-</div>
-</div>
-
-
+```text
+[CDN 엣지 노드 분산]
+    │
+    ▼
+[GSLB 지리적 DNS 라우팅]
+    │
+    └──▶ [SIP INVITE 기반 핸드셰이크]
+```
 
 - **📢 섹션 요약 비유**: [GSLB](/knowledge-base/studynote/03_network/09_application_layer_web_email/507_gslb_global_server_load_balancing_dns/) 지리적 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -43,18 +39,14 @@ tags = ["studynote-network"]
 
 - **개념**: 전 세계에 흩어진 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)(서버)들 중에서, <strong>접속하려는 사용자와 가장 물리적 거리가 가깝고, 서버의 현재 건강 상태(Health)가 쌩쌩한 최적의 서버 IP 1개를 골라서 <a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/">DNS</a> 응답으로 던져주는 '지능형 글로벌 <a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/">DNS</a> <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 아키텍처'</strong>입니다. (DNS와 L4 로드밸런서의 궁극의 짬뽕)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">CDN 엣지 노드 분산</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">GSLB 지리적 DNS 라우팅</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SIP INVITE 기반 핸드셰이크</div></div>
-</div>
-</div>
-
-
+```text
+[CDN 엣지 노드 분산]
+    │
+    ▼
+[GSLB 지리적 DNS 라우팅]
+    │
+    └──▶ [SIP INVITE 기반 핸드셰이크]
+```
 
 - **📢 섹션 요약 비유**: [GSLB](/knowledge-base/studynote/03_network/09_application_layer_web_email/507_gslb_global_server_load_balancing_dns/) 지리적 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -122,19 +114,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: CDN 엣지 노드 분산</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: GSLB 지리적 DNS 라우팅</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: SIP INVITE 기반 핸드셰이크</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: CDN 엣지 노드 분산]
+    │
+    ▼
+[현재 개념: GSLB 지리적 DNS 라우팅]
+    │
+    ├──▶ [확장 A: SIP INVITE 기반 핸드셰이크]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 [GSLB](/knowledge-base/studynote/03_network/09_application_layer_web_email/507_gslb_global_server_load_balancing_dns/) 지리적 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)는 [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) 엣지 노드 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [SIP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/535_system_in_package/) INVITE 기반 핸드셰이크와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -109,21 +109,18 @@ IPFS는 콘텐츠 중심 배포와 [분산](/knowledge-base/studynote/08_algorit
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">파일</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">해시 / CID</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Merkle DAG</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">P2P 저장 / pinning</div>
-</div>
-</div>
-
-
+```text
+파일
+    │
+    ▼
+해시 / CID
+    │
+    ▼
+Merkle DAG
+    │
+    ▼
+P2P 저장 / pinning
+```
 
 이 흐름은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 저장이 위치 기반에서 내용 기반으로 바뀌는 과정을 보여준다.
 

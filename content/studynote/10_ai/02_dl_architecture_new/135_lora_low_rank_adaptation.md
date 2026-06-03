@@ -47,17 +47,11 @@ LoRA는 <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Full Fine-tuning (2018)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Adapter (2019)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">LoRA (2021, Microsoft)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">QLoRA (2023)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">DoRA (2024)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: LoRA+ · GaLore — 차세대</div></div>
-</div>
-</div>
-
-
+```text
+[Full Fine-tuning (2018)] → [Adapter (2019)]
+    → [LoRA (2021, Microsoft)] → [QLoRA (2023)]
+    → [DoRA (2024)] → [현재: LoRA+ · GaLore — 차세대]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. LoRA는 건물([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))을 **그대로 두고 간판만 바꾸는** 거예요.

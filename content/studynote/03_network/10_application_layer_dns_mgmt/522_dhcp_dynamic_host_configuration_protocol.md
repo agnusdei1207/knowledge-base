@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 네트워크에 접속하는 클라이언트([PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/), 스마트폰 등)에게 <strong>IP 주소, <a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/963_subnet_mask_cidr_classless_inter_domain_routing/">서브넷 마스크</a>, 기본 게이트웨이(라우터), <a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/">DNS</a> 서버 주소</strong> 등의 네트워크 구성 정보를 자동으로 동적 할당해 주는 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)입니다. 
 관리자의 수동 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)(Static IP) 수고를 덜어주고, 한정된 IP 자원을 효율적으로 관리할 수 있게 해줍니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">mDNS / LMNR</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DHCP 포트 67, 68</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DHCP 과정 4단계</div></div>
-</div>
-</div>
-
-
+```text
+[mDNS / LMNR]
+    │
+    ▼
+[DHCP 포트 67, 68]
+    │
+    └──▶ [DHCP 과정 4단계]
+```
 
 - **📢 섹션 요약 비유**: DHCP [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 67, 68는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -47,18 +43,14 @@ tags = ["studynote-network"]
 | **IP 자원 풀(Pool)**| 서버에 미리 할당 가능한 IP 주소 대역(Address Pool)을 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)해 둡니다. |
 | **임대(Lease) 개념** | IP를 영구적으로 주는 것이 아니라 일정 기간 **'임대'** 해줍니다. 기간이 만료되거나 기기가 접속을 끊으면 IP를 회수하여 다른 기기에게 재할당합니다. |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">mDNS / LMNR</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DHCP 포트 67, 68</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DHCP 과정 4단계</div></div>
-</div>
-</div>
-
-
+```text
+[mDNS / LMNR]
+    │
+    ▼
+[DHCP 포트 67, 68]
+    │
+    └──▶ [DHCP 과정 4단계]
+```
 
 - **📢 섹션 요약 비유**: DHCP [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 67, 68의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -115,19 +107,15 @@ DHCP [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_sy
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: mDNS / LMNR</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: DHCP 포트 67, 68</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: DHCP 과정 4단계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율 운영 네트워크</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: mDNS / LMNR]
+    │
+    ▼
+[현재 개념: DHCP 포트 67, 68]
+    │
+    ├──▶ [확장 A: DHCP 과정 4단계]
+    └──▶ [확장 B: 자율 운영 네트워크]
+```
 
 DHCP [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 67, 68는 [mDNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/521_mdns_multicast_dns_llmnr/) / LMNR에서 출발해 현재 메커니즘을 정교화하고, 이후 DHCP 과정 4단계와 자율 운영 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

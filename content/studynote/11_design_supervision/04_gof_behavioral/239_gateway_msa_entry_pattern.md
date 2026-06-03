@@ -30,58 +30,55 @@ tags = ["studynote-design-supervision"]
 
 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이가 동기 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) ([HyperText Transfer Protocol](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)) 요청의 진입점이라면, <strong><a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">메시</a>지 게이트웨이 (Message Gateway)</strong> 는 비동기 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 채널([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/), RabbitMQ)에서 동일한 역할을 수행한다—[메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 포맷 변환, [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 필터링.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Core Idea</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Expected Gain</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐    ┌──────────────┐    ┌──────────────┐
+│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
+└──────────────┘    └──────────────┘    └──────────────┘
+```
 
 - **📢 섹션 요약 비유**: 쇼핑몰 백화점의 정문 안내 데스크처럼, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이는 모든 방문객(요청)을 맞이하고 적절한 매장([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))으로 안내한다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">API Gateway 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">클라이언트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mobile App</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Web Browser</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Partner API</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">API Gateway</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. SSL 종료 (TLS Termination)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 인증/인가 (Auth/AuthZ)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 요청 라우팅 (Routing)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 속도 제한 (Rate Limiting)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 요청 집계 (Aggregation)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6. 로드 밸런싱 (Load Balancing)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">7. 캐싱 (Caching)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User Service</div><div class="kb-diagram-cell">Order Service</div><div class="kb-diagram-cell">Payment Service</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">:8081</div><div class="kb-diagram-cell">:8082</div><div class="kb-diagram-cell">:8083</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────────────┐
+│                    API Gateway 아키텍처                           │
+│                                                                  │
+│  [클라이언트]                                                     │
+│  Mobile App ─────┐                                               │
+│  Web Browser ────┤                                               │
+│  Partner API ────┤                                               │
+│                  ▼                                               │
+│         ┌────────────────────────────────────────┐               │
+│         │          API Gateway                   │               │
+│         │  ┌─────────────────────────────────┐   │               │
+│         │  │  1. SSL 종료 (TLS Termination)   │   │               │
+│         │  │  2. 인증/인가 (Auth/AuthZ)        │   │               │
+│         │  │  3. 요청 라우팅 (Routing)         │   │               │
+│         │  │  4. 속도 제한 (Rate Limiting)     │   │               │
+│         │  │  5. 요청 집계 (Aggregation)       │   │               │
+│         │  │  6. 로드 밸런싱 (Load Balancing)  │   │               │
+│         │  │  7. 캐싱 (Caching)               │   │               │
+│         │  └─────────────────────────────────┘   │               │
+│         └──────────────────┬───────────────────┘               │
+│                            │                                     │
+│          ┌─────────────────┼──────────────────────┐             │
+│          ▼                 ▼                       ▼             │
+│  ┌──────────────┐  ┌──────────────┐  ┌────────────────────┐     │
+│  │ User Service │  │ Order Service│  │  Payment Service   │     │
+│  │ :8081        │  │ :8082        │  │  :8083             │     │
+│  └──────────────┘  └──────────────┘  └────────────────────┘     │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 단일 게이트웨이 대신 클라이언트 유형별로 최적화된 게이트웨이를 두는 패턴:
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Mobile App ──▶ Mobile BFF ──▶ 마이크로서비스들</div>
-<div class="kb-diagram-note">Web App ──▶ Web BFF ──▶ 마이크로서비스들</div>
-<div class="kb-diagram-note">Partner ──▶ Partner GW ──▶ 마이크로서비스들</div>
-</div>
-</div>
-
-
+```
+Mobile App  ──▶  Mobile BFF  ──▶  마이크로서비스들
+Web App     ──▶  Web BFF     ──▶  마이크로서비스들
+Partner     ──▶  Partner GW  ──▶  마이크로서비스들
+```
 
 | 기능 | 설명 | 대표 구현 |
 |:---|:---|:---|

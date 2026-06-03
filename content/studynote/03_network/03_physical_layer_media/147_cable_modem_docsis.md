@@ -35,44 +35,34 @@ tags = ["studynote-network"]
 
 ### 1. HFC(Hybrid Fiber-Coaxial) 망 구조
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">인터넷</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">헤드엔드 (Headend)</div>
-<div class="kb-diagram-note">광섬유 (Fiber) ← 높은 대역폭, 간선망</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">광 노드 (Optical Node / CMTS 연결점)</div>
-<div class="kb-diagram-note">동축 케이블 (Coaxial) ← 라스트 마일, 가정까지</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">── 가정 A:</div><div class="kb-diagram-node">Cable Modem</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">Router</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">PC</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">── 가정 B:</div><div class="kb-diagram-node">Cable Modem</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">Router</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">PC</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">── 가정 C:</div><div class="kb-diagram-node">Cable Modem</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">TV</div></div>
-</div>
-</div>
-
-
+```text
+인터넷
+  │
+  ▼
+헤드엔드 (Headend)
+  │ 광섬유 (Fiber)          ← 높은 대역폭, 간선망
+  ▼
+광 노드 (Optical Node / CMTS 연결점)
+  │ 동축 케이블 (Coaxial)   ← 라스트 마일, 가정까지
+  ├── 가정 A: [Cable Modem] ─ [Router] ─ [PC]
+  ├── 가정 B: [Cable Modem] ─ [Router] ─ [PC]
+  └── 가정 C: [Cable Modem] ─ [TV]
+```
 
 - **CMTS (Cable Modem Termination System)**: 헤드엔드에 위치하는 장비로, 여러 케이블 [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/)과의 통신을 집선하고 인터넷과 연결함
 - **HFC (Hybrid Fiber-Coaxial)**: 헤드엔드 ~ 광 노드는 광섬유, 광 노드 ~ 가정은 [동축 케이블](/knowledge-base/studynote/03_network/03_physical_layer_media/127_coaxial_cable/)로 구성된 혼합 망
 
 ### 2. DOCSIS 주파수 할당 구조
 
+```text
+동축 케이블 주파수 대역 (DOCSIS 3.1 기준)
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">동축 케이블 주파수 대역 (DOCSIS 3.1 기준)</div>
-<div class="kb-diagram-note">5 MHz 85 MHz 1,218 MHz</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◄ 업스트림 (Upstream) ►</div><div class="kb-diagram-cell">◄ 다운스트림 (Downstream) ►</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가정 → CMTS</div><div class="kb-diagram-cell">CMTS → 가정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OFDMA 다중 접속</div><div class="kb-diagram-cell">OFDM 고속 다운로드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최대 ~1 Gbps 이론</div><div class="kb-diagram-cell">최대 ~10 Gbps 이론</div></div>
-</div>
-</div>
-
-
+  5 MHz                       85 MHz              1,218 MHz
+  │◄──── 업스트림 (Upstream) ────►│◄──── 다운스트림 (Downstream) ────►│
+  │  가정 → CMTS               │      CMTS → 가정                  │
+  │  OFDMA 다중 접속             │      OFDM 고속 다운로드             │
+  │  최대 ~1 Gbps 이론           │      최대 ~10 Gbps 이론            │
+```
 
 - 다운스트림이 더 넓은 주파수를 차지: 인터넷 사용 패턴이 다운로드 중심이기 때문
 - DOCSIS 3.1은 OFDM(Orthogonal Frequency-Division [Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)) 도입으로 기존 SC-QAM 대비 효율 대폭 향상
@@ -161,25 +151,24 @@ CATV 동축망 → HFC 구조 → CMTS (헤드엔드) → DOCSIS 표준 → 케�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">CATV 동축 케이블 인프라 (기존 TV 배선)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">HFC (Hybrid Fiber-Coaxial) 망 구축</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DOCSIS 1.0 / 2.0 (SC-QAM, 수십 Mbps)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DOCSIS 3.0 (채널 본딩, 1 Gbps)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DOCSIS 3.1 (OFDM/OFDMA, ~10 Gbps)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DOCSIS 4.0 (Full Duplex ESD, 멀티기가빗 업스트림)</div>
-</div>
-</div>
-
-
+```text
+CATV 동축 케이블 인프라 (기존 TV 배선)
+    │
+    ▼
+HFC (Hybrid Fiber-Coaxial) 망 구축
+    │
+    ▼
+DOCSIS 1.0 / 2.0 (SC-QAM, 수십 Mbps)
+    │
+    ▼
+DOCSIS 3.0 (채널 본딩, 1 Gbps)
+    │
+    ▼
+DOCSIS 3.1 (OFDM/OFDMA, ~10 Gbps)
+    │
+    ▼
+DOCSIS 4.0 (Full Duplex ESD, 멀티기가빗 업스트림)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

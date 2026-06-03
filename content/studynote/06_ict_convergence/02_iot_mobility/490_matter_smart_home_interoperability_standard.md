@@ -38,23 +38,26 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Matter 생태계 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Matter 컨트롤러</div><div class="kb-diagram-note">Apple Home / Google Home / Amazon Alexa</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Matter 프로토콜 (IPv6 기반)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전송 계층</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Thread</div><div class="kb-diagram-cell">Wi-Fi</div><div class="kb-diagram-cell">Ethernet</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(IPv6메시)</div><div class="kb-diagram-cell">(2.4/5GHz)</div><div class="kb-diagram-cell">(유선)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Matter 기기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조명·스위치·잠금장치·온도조절기·센서·가전 등</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Border Router</div><div class="kb-diagram-note">Thread ↔ Wi-Fi/Ethernet 브릿지</div></div>
-</div>
-</div>
-
-
+```
+┌────────────────────────────────────────────────────────────┐
+│                Matter 생태계 아키텍처                        │
+├────────────────────────────────────────────────────────────┤
+│  [Matter 컨트롤러]  Apple Home / Google Home / Amazon Alexa │
+│         │                                                  │
+│         │  Matter 프로토콜 (IPv6 기반)                      │
+│         │                                                  │
+│  [전송 계층]                                                │
+│  ┌──────────┬─────────────┬────────────────┐              │
+│  │ Thread   │   Wi-Fi     │   Ethernet     │              │
+│  │ (IPv6메시)│ (2.4/5GHz) │ (유선)          │              │
+│  └──────────┴─────────────┴────────────────┘              │
+│         │                                                  │
+│  [Matter 기기]                                              │
+│  조명·스위치·잠금장치·온도조절기·센서·가전 등               │
+│         │                                                  │
+│  [Border Router]  Thread ↔ Wi-Fi/Ethernet 브릿지           │
+└────────────────────────────────────────────────────────────┘
+```
 
 ### [Matter](/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/) 핵심 구성 요소
 

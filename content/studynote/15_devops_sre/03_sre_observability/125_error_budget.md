@@ -18,22 +18,21 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Error Budget 계산 및 의사결정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SLO = 99.9% (30일 기준)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Error Budget = 0.1% = 43.2분</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">이번 달 장애 10분 발생</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">남은 Budget = 33.2분 → 배포 계속 OK ✅</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">이번 달 장애 50분 발생</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">남은 Budget = -6.8분 → Budget 소진!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ Release Freeze! 안정화 집중 🚨</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    Error Budget 계산 및 의사결정                      │
+├───────────────────────────────────────────────────────┤
+│  SLO = 99.9% (30일 기준)                              │
+│  Error Budget = 0.1% = 43.2분                        │
+│                                                       │
+│  [이번 달 장애 10분 발생]                             │
+│   남은 Budget = 33.2분 → 배포 계속 OK ✅             │
+│                                                       │
+│  [이번 달 장애 50분 발생]                             │
+│   남은 Budget = -6.8분 → Budget 소진!                │
+│   → Release Freeze! 안정화 집중 🚨                   │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: Error Budget은 <strong>매월 주어지는 용돈(43분)</strong>이다. 장애가 나면 용돈이 줄고, 다 쓰면 <strong>새 장난감(<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/">피처</a>) 구매 금지(Release Freeze)</strong>.
 
@@ -95,23 +94,21 @@ Error Budget은 <strong>SRE의 가장 혁신적 도구</strong>이며, 개발팀
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">100% 가용성 목표 (전통, 비현실적)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Error Budget 개념 (Google SRE, 2003~)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SRE Book 공개 (2016) — Error Budget 대중화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Burn Rate Alert (2020~) — 소진 속도 알림</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: AI Error Budget — 자동 Budget 추천·정책 실행</div></div>
-</div>
-</div>
-
-
+```text
+[100% 가용성 목표 (전통, 비현실적)]
+    │
+    ▼
+[Error Budget 개념 (Google SRE, 2003~)]
+    │
+    ▼
+[SRE Book 공개 (2016) — Error Budget 대중화]
+    │
+    ▼
+[Burn Rate Alert (2020~) — 소진 속도 알림]
+    │
+    ▼
+[현재: AI Error Budget — 자동 Budget 추천·정책 실행]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. Error Budget은 <strong>매달 받는 용돈(43분)</strong>이에요. 장애가 나면 용돈이 줄어요.

@@ -77,33 +77,33 @@ tags = ["studynote-design-supervision"]
 
 ## III. 문서 검토
 
+```
+감리 문서 검토 대상:
 
+정책/절차서:
+  정보보호 정책, 운영 절차서
+  -> 실제 운영과 일치하는지 확인
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">감리 문서 검토 대상:</div>
-<div class="kb-diagram-note">정책/절차서:</div>
-<div class="kb-diagram-note">정보보호 정책, 운영 절차서</div>
-<div class="kb-diagram-tree-item" style="--depth:1">실제 운영과 일치하는지 확인</div>
-<div class="kb-diagram-note">변경 관리 기록:</div>
-<div class="kb-diagram-note">변경 요청서, 승인 이력</div>
-<div class="kb-diagram-tree-item" style="--depth:1">미승인 변경 여부 확인</div>
-<div class="kb-diagram-note">로그/감사 이력:</div>
-<div class="kb-diagram-note">시스템 로그, 접근 로그</div>
-<div class="kb-diagram-tree-item" style="--depth:1">무결성 확인 (조작 가능성)</div>
-<div class="kb-diagram-note">계약서/SLA:</div>
-<div class="kb-diagram-note">외주 업체와의 계약 조건</div>
-<div class="kb-diagram-tree-item" style="--depth:1">실제 서비스 수준과 비교</div>
-<div class="kb-diagram-note">샘플링 (Sampling):</div>
-<div class="kb-diagram-note">전수 검토 불가 시 대표 샘플 선정</div>
-<div class="kb-diagram-tree-item" style="--depth:1">통계적으로 유효한 샘플 크기 결정</div>
-<div class="kb-diagram-note">증거 보존:</div>
-<div class="kb-diagram-note">원본 문서 또는 공인된 사본</div>
-<div class="kb-diagram-note">수집 일시, 제공자 기록</div>
-</div>
-</div>
+변경 관리 기록:
+  변경 요청서, 승인 이력
+  -> 미승인 변경 여부 확인
 
+로그/감사 이력:
+  시스템 로그, 접근 로그
+  -> 무결성 확인 (조작 가능성)
 
+계약서/SLA:
+  외주 업체와의 계약 조건
+  -> 실제 서비스 수준과 비교
+
+샘플링 (Sampling):
+  전수 검토 불가 시 대표 샘플 선정
+  -> 통계적으로 유효한 샘플 크기 결정
+
+증거 보존:
+  원본 문서 또는 공인된 사본
+  수집 일시, 제공자 기록
+```
 
 > 📢 **섹션 요약 비유**: 문서 검토는 세금 신고서 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하기 — 신고한 내용과 실제 거래 내역([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))이 일치하는지 대조.
 

@@ -44,21 +44,22 @@ IHS가 필요한 두 번째 이유는 열 밀도다. die 위 특정 코어나 ch
 
 이 그림은 IHS가 열 경로에서 어떤 위치를 차지하는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 열 경로: 작은 hotspot을 넓은 면적으로 펼쳐 넘긴다</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Transistor Junction</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Silicon Die / Chiplet</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">internal TIM or solder</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IHS : copper + nickel cap</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">lateral heat spreading</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">external TIM</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Heatsink / Cold Plate</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Fin / Radiator</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Airflow / Coolant</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│            CPU 열 경로: 작은 hotspot을 넓은 면적으로 펼쳐 넘긴다          │
+├────────────────────────────────────────────────────────────────────────────┤
+│ [Transistor Junction]                                                      │
+│          │                                                                 │
+│          ▼                                                                 │
+│ [Silicon Die / Chiplet]                                                    │
+│          │  internal TIM or solder                                         │
+│          ▼                                                                 │
+│ [IHS : copper + nickel cap]  -> lateral heat spreading                     │
+│          │  external TIM                                                   │
+│          ▼                                                                 │
+│ [Heatsink / Cold Plate] -> [Fin / Radiator] -> [Airflow / Coolant]         │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 즉 좋은 IHS 구조는 "열을 빨리 빼는 것"과 "압력을 안전하게 받는 것"을 동시에 만족해야 한다.
 - **📢 섹션 요약 비유**: 뜨거운 프라이팬 한 점의 열을 넓은 철판으로 먼저 퍼뜨리면 손잡이가 덜 위험해지는 것처럼, IHS는 뜨거운 점열을 넓게 펼쳐 쿨러가 다루기 쉽게 만든다.
@@ -127,23 +128,21 @@ IHS가 잘 설계되면 CPU는 작은 die에서 발생한 높은 열밀도를 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Bare Die 패키지</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">금속 IHS 도입</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Soldered IHS / 고성능 TIM</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Chiplet hotspot 대응 패키징</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">고급 cold plate · vapor chamber 결합 구조</div>
-</div>
-</div>
-
-
+```text
+Bare Die 패키지
+        │
+        ▼
+금속 IHS 도입
+        │
+        ▼
+Soldered IHS / 고성능 TIM
+        │
+        ▼
+Chiplet hotspot 대응 패키징
+        │
+        ▼
+고급 cold plate · vapor chamber 결합 구조
+```
 
 이 흐름은 CPU 냉각이 단순 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 캡에서 출발해, 이제는 [chiplet](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) 열 분포와 냉각 인터페이스 전체를 조율하는 패키징 기술로 발전하고 있음을 보여 준다.
 

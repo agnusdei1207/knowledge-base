@@ -23,18 +23,14 @@ tags = ["studynote-network"]
 - SKT 입장에서는 빠르지만 비싼 유료망 타(Transit)는 것보다, 조금 느려도 서로 요금을 안 내기로 합의한(Peering) 망으로 트래픽을 쏟아붓고 싶어 합니다. 
 - 관리자가 이 "돈 아끼는 길"을 억지로 1등으로 만들게 해주는 <strong>권력의 지팡이</strong>가 바로 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)([Attribute](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">OSPF ABR / ASBR Area 위계…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">BGP 속성</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">EIGRP DUAL 지연 스케일 분산</div></div>
-</div>
-</div>
-
-
+```text
+[OSPF ABR / ASBR Area 위계…]
+    │
+    ▼
+[BGP 속성]
+    │
+    └──▶ [EIGRP DUAL 지연 스케일 분산]
+```
 
 - **📢 섹션 요약 비유**: [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -63,18 +59,14 @@ Local Pref가 똑같을 때 보는 2순위 대중적인 길 찾기 룰입니다.
 - **상황**: KT([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 100)와 SKT([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 200) 사이에 뚫린 연결 다리가 서울(A)과 부산(B) 두 곳입니다. 
 - **조작**: KT가 생각합니다. '서울 다리는 좁으니까, SKT 니네가 우리 쪽으로 패킷 쏠 때는 넓은 부산 다리(B)로 쏴라!' KT가 SKT에게 소문을 낼 때 부산 다리 경로에 <strong><code>MED 10</code></strong> (낮은 점수)을 적어 쏘고, 서울 다리엔 <strong><code>MED 100</code></strong>을 적어 쏩니다. SKT 라우터는 점수가 낮은 부산 다리를 1등으로 알고 트래픽을 쏟아붓습니다. (단, 이웃끼리만 통하고 멀리 퍼지진 않습니다.)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">OSPF ABR / ASBR Area 위계…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">BGP 속성</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">EIGRP DUAL 지연 스케일 분산</div></div>
-</div>
-</div>
-
-
+```text
+[OSPF ABR / ASBR Area 위계…]
+    │
+    ▼
+[BGP 속성]
+    │
+    └──▶ [EIGRP DUAL 지연 스케일 분산]
+```
 
 - **📢 섹션 요약 비유**: [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -140,19 +132,15 @@ Local Pref가 똑같을 때 보는 2순위 대중적인 길 찾기 룰입니다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: OSPF ABR / ASBR Area 위계…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: BGP 속성</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: EIGRP DUAL 지연 스케일 분산</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: OSPF ABR / ASBR Area 위계…]
+    │
+    ▼
+[현재 개념: BGP 속성]
+    │
+    ├──▶ [확장 A: EIGRP DUAL 지연 스케일 분산]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)는 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) ABR / ASBR Area 위계…에서 출발해 현재 메커니즘을 정교화하고, 이후 [EIGRP](/knowledge-base/studynote/03_network/07_network_layer_routing/355_eigrp_enhanced_igrp_dual_algorithm/) DUAL [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 스케일 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

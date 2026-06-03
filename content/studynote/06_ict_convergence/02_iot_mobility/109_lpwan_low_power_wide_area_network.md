@@ -20,23 +20,20 @@ tags = ["studynote-ict-convergence"]
 
 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 디바이스의 80% 이상은 하루 수 바이트의 소량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 전송하는 저빈도 센서다. Wi-Fi는 전파가 100m밖에 못 가고, [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)/5G는 칩셋 전력이 과다하여 산속 센서 배터리를 매일 교체해야 한다. **"멀리 + 배터리 10년"** 두 마리 토끼를 잡기 위해 속도를 극단적으로 희생한 LPWAN이 탄생했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">무선 기술별 거리-전력-속도 트레이드오프 지도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">커버리지 ▲</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">30km</div><div class="kb-diagram-cell">★ LPWAN (LoRa, NB-IoT)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5km</div><div class="kb-diagram-cell">● Cellular (4G/5G)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">200m</div><div class="kb-diagram-cell">▲ Wi-Fi</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">50m</div><div class="kb-diagram-cell">■ BLE/Zigbee</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 전송속도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">10bps 1kbps 100kbps 1Gbps</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">배터리: ■수시간 ▲수일 ●수개월 ★수년~10년</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────┐
+│       무선 기술별 거리-전력-속도 트레이드오프 지도          │
+├───────────────────────────────────────────────────────────┤
+│  커버리지 ▲                                               │
+│  30km │              ★ LPWAN (LoRa, NB-IoT)              │
+│   5km │        ● Cellular (4G/5G)                         │
+│ 200m  │   ▲ Wi-Fi                                         │
+│  50m  │ ■ BLE/Zigbee                                      │
+│       └──────────────────────────────→ 전송속도            │
+│       10bps  1kbps  100kbps  1Gbps                        │
+│  배터리: ■수시간 ▲수일 ●수개월 ★수년~10년               │
+└───────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: LPWAN은 전서구(비둘기 통신)다. 편지 한 장을 발목에 묶어 수백 km 날리고, 모이 한 줌으로 수년을 버틴다.
 
@@ -107,21 +104,18 @@ LPWAN은 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transfo
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">M2M (2000s) — GSM/GPRS 원격 계량</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LPWAN 1세대 (2012~) — Sigfox·LoRa 비면허 대역</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3GPP 표준화 (2016~) — NB-IoT·LTE-M 면허 대역</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: 5G mMTC + 위성 LPWAN — 전지구 IoT</div></div>
-</div>
-</div>
-
-
+```text
+[M2M (2000s) — GSM/GPRS 원격 계량]
+    │
+    ▼
+[LPWAN 1세대 (2012~) — Sigfox·LoRa 비면허 대역]
+    │
+    ▼
+[3GPP 표준화 (2016~) — NB-IoT·LTE-M 면허 대역]
+    │
+    ▼
+[현재: 5G mMTC + 위성 LPWAN — 전지구 IoT]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. LPWAN은 산꼭대기 센서가 편지 한 장(작은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 비둘기에 묶어 수십 km 날려보내는 통신이에요.

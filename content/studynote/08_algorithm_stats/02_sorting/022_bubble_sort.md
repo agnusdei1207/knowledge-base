@@ -23,31 +23,36 @@ tags = ["algorithm_stats"]
 
 > 이 도식은 버블 정렬의 1회전 스캔 시 큰 값이 우측으로 거품처럼 밀려가는 모습을 보여준다.
 
+```text
+[버블 정렬 1회전 (Pass 1) 메커니즘]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">버블 정렬 1회전 (Pass 1) 메커니즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">배열:</div><div class="kb-diagram-node">5, 3, 8, 1, 2</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1단계:</div><div class="kb-diagram-node">5, 3</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">3, 5, 8, 1, 2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5 &gt; 3 _swap</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2단계:</div><div class="kb-diagram-node">5, 8</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">3, 5, 8, 1, 2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5 &lt; 8 유지</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3단계:</div><div class="kb-diagram-node">8, 1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">3, 5, 1, 8, 2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">8 &gt; 1 _swap</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">4단계:</div><div class="kb-diagram-node">8, 2</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">3, 5, 1, 2, 8</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">8 &gt; 2 _swap</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 가장 큰 수 '8'이 제자리(맨 우측 끝)로 확정됨.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">관찰 포인트:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 1회의 전체 스캔(Pass)가 끝날 때마다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가장 큰 원소가 반드시 제자리를 찾아 고정됨</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 인접한 두 요소를 계속 비교하며</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">큰 값을 오른쪽으로 릴레이처럼 넘겨주기 때문</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- N개의 원소가 있다면 최대 N-1번 반복</div></div>
-</div>
-</div>
-
-
+┌──────────────────────────────────────────────────────┐
+│                                                      │
+│  배열: [ 5,  3,  8,  1,  2 ]                       │
+│                                                      │
+│  1단계: [ 5, 3 ] 비교 -> Swap! -> [ 3, 5, 8, 1, 2 ]
+│           5 > 3 _swap                          │
+│                                                      │
+│  2단계: [ 5, 8 ] 비교 -> 유지  -> [ 3, 5, 8, 1, 2 ]
+│           5 < 8  유지                          │
+│                                                      │
+│  3단계: [ 8, 1 ] 비교 -> Swap! -> [ 3, 5, 1, 8, 2 ]
+│           8 > 1 _swap                          │
+│                                                      │
+│  4단계: [ 8, 2 ] 비교 -> Swap! -> [ 3, 5, 1, 2, 8 ]
+│           8 > 2 _swap                          │
+│                                                      │
+│  결과: 가장 큰 수 '8'이 제자리(맨 우측 끝)로 확정됨. │
+│                                                      │
+│  관찰 포인트:                                        │
+│  - 1회의 전체 스캔(Pass)가 끝날 때마다               │
+│    가장 큰 원소가 반드시 제자리를 찾아 고정됨          │
+│  - 인접한 두 요소를 계속 비교하며                     │
+│    큰 값을 오른쪽으로 릴레이처럼 넘겨주기 때문         │
+│  - N개의 원소가 있다면 최대 N-1번 반복               │
+│                                                      │
+└──────────────────────────────────────────────────────┘
+```
 
 - **관찰**: 1회의 전체 스캔(Pass)이 끝날 때마다 가장 큰 원소가 반드시 제자리를 찾아 고정된다는 점이 버블 정렬의 핵심 특성이다.
 - **원인**: 인접한 두 요소를 계속 비교하며 큰 값을 오른쪽으로 릴레이처럼 넘겨주기 때문이다.
@@ -71,33 +76,37 @@ tags = ["algorithm_stats"]
 
 **최적화된 버블 정렬 (Optimized Bubble Sort)** 원리는 다음과 같다. 기본 버블 정렬은 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)이 이미 정렬되어 있어도 기계적으로 O(N²)번의 비교를 수행한다. 이를 개선하기 위해 `swapped`라는 boolean 변수를 도입한다. 안쪽 루프를 도는 동안 한 번이라도 교환이 일어났다면 `swapped = true`로 설정한다. 만약 안쪽 루프가 끝났는데 `swapped == false`라면, 이는 전체 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)이 완벽히 정렬되었음을 의미하므로 바깥 루프를 즉시 `break`한다.
 
+```text
+[최적화된 버블 정렬: 조기 종료]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">최적화된 버블 정렬: 조기 종료</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">[배열</div><div class="kb-diagram-node">1, 2, 3, 5, 4</div><div class="kb-diagram-note">입력 시 동작 비교]</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 기본 버블 정렬 (무지성 반복)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">1, 2, 3, 4, 5</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pass 2: Swap 없음 (확인만 함)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pass 3: Swap 없음 (확인만 함)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pass 4: Swap 없음 (확인만 함)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; 총 비교 연산 O(N²) 소요</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 최적화된 버블 정렬 (Early Exit)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pass 1: Swap 발생 (5와 4), swapped=true</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">1, 2, 3, 4, 5</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pass 2: Swap 없음, swapped=false</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; "더 이상 바꿀 게 없군. 즉시 종료!" (break)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; O(N) 근접</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심 통찰:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 플래그(Flag) 하나를 추가함으로써</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최선의 경우(Best Case) 성능을 극적으로 단축</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 교환 작업의 발생 여부가 전체 배열의</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">'정렬 상태 완료'를 입증하는 지표가 됨</div></div>
-</div>
-</div>
-
-
+┌──────────────────────────────────────────────────────┐
+│                                                      │
+│  [배열 [1, 2, 3, 5, 4] 입력 시 동작 비교]           │
+│                                                      │
+│  1. 기본 버블 정렬 (무지성 반복)                      │
+│  ────────────────────────────────────                │
+│  Pass 1: Swap 발생 (5와 4) -> [1, 2, 3, 4, 5]      │
+│  Pass 2: Swap 없음 (확인만 함)                       │
+│  Pass 3: Swap 없음 (확인만 함)                       │
+│  Pass 4: Swap 없음 (확인만 함)                       │
+│  -> 총 비교 연산 O(N²) 소요                         │
+│                                                      │
+│  2. 최적화된 버블 정렬 (Early Exit)                  │
+│  ────────────────────────────────────                │
+│  Pass 1: Swap 발생 (5와 4), swapped=true            │
+│          -> [1, 2, 3, 4, 5]                         │
+│  Pass 2: Swap 없음, swapped=false                   │
+│          -> "더 이상 바꿀 게 없군. 즉시 종료!" (break)  │
+│          -> O(N) 근접                               │
+│                                                      │
+│  핵심 통찰:                                          │
+│  - 플래그(Flag) 하나를 추가함으로써                   │
+│    최선의 경우(Best Case) 성능을 극적으로 단축        │
+│  - 교환 작업의 발생 여부가 전체 배열의                 │
+│    '정렬 상태 완료'를 입증하는 지표가 됨              │
+│                                                      │
+└──────────────────────────────────────────────────────┘
+```
 
 - **관찰**: [조기 종료](/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/) 최적화는 이미 정렬된 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)에 대해 버블 정렬의 [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/)를 O(N²)에서 O(N)로 향상시킨다.
 - **원인**: 교환 작업의 발생 여부가 전체 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)의 '정렬 상태 완료'를 입증하는 지표가 되기 때문이다.
@@ -116,24 +125,28 @@ tags = ["algorithm_stats"]
 
 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 및 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong>는 다음과 같다. 백엔드 API에서 리스트 정렬 시 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) `sort()` 함수를 쓰지 않고 이중 for문으로 직접 버블 정렬을 구현하는 행위는 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 장애의 직행이다. 사용하려는 언어의 내장 정렬이 안정 정렬(Stable)인지 확인해야 한다.
 
+```text
+[실무 정렬 알고리즘 의사결정 트리]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">실무 정렬 알고리즘 의사결정 트리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 정렬 요구사항 발생</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 크기가 50개 이하인가?</div><div class="kb-diagram-note">──(Yes)──&gt; 삽입 정렬</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(No)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">추가 메모리 O(N) 사용 가능한가?</div><div class="kb-diagram-note">──(No)──&gt; 힙 정렬</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Yes)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">안정성(Stable)이 필수인가?</div><div class="kb-diagram-note">──(Yes)──&gt; 합병/Timsort</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(No)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">퀵 정렬 (가장 범용적 우수)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 버블 정렬은 이 의사결정 트리에 진입조차 하지 못함</div></div>
-</div>
-</div>
-
-
+┌──────────────────────────────────────────────────────┐
+│                                                      │
+│  [데이터 정렬 요구사항 발생]                           │
+│            │                                          │
+│  [데이터 크기가 50개 이하인가?] ──(Yes)──> 삽입 정렬  │
+│            │ (No)                                    │
+│            ▼                                         │
+│  [추가 메모리 O(N) 사용 가능한가?] ──(No)──> 힙 정렬  │
+│            │ (Yes)                                   │
+│            ▼                                         │
+│  [안정성(Stable)이 필수인가?] ──(Yes)──> 합병/Timsort│
+│            │ (No)                                    │
+│            ▼                                         │
+│         퀵 정렬 (가장 범용적 우수)                     │
+│                                                      │
+│  * 버블 정렬은 이 의사결정 트리에 진입조차 하지 못함    │
+│                                                      │
+└──────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 버블 정렬은 자전거와 같습니다. 원리를 이해하고 균형 감각을 배우기에는 최고의 도구이지만, 고속도로(대규모 실무 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))에 올라타는 순간 병목과 사고의 원인이 되므로 차(Quick/[Merge Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/))로 갈아타야 합니다.
 
@@ -145,7 +158,7 @@ tags = ["algorithm_stats"]
 
 <strong>품질 관리 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong>는 다음과 같다. 다중 키 정렬 시 안정성이 요구되는지 반드시 확인해야 한다. 최악의 입력(역순 정렬)에 대해서도 올바르게 동작하는지 테스트해야 한다. Early Exit 최적화를 적용했다면, 실제로 정렬된 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)에 대해 O(N) 복잡도가 달성되는지 검증해야 한다.
 
-📢 **섹션 요약 비유**: 버블 정렬의 품질 관리는 twin 학생을 줄 세울 때와 같습니다. 키가 똑같은 쌍둥이형제가 있을 때,가보다 먼저 섰다면 줄을 세운 후에도가 앞에 서 있어야(안정성) 하는데, 불안정한 정렬은형제의 순서를 바꿔버릴 수 있습니다.
+📢 **섹션 요약 비유**: 버블 정렬의 품질 관리는 twin 학생을 줄 세울 때와 같습니다. 키가 똑같은 쌍둥이형제가 있을 때,가가가제제보다 먼저 섰다면 줄을 세운 후에도가가가제제 앞에 서 있어야(안정성) 하는데, 불안정한 정렬은형제의 순서를 바꿔버릴 수 있습니다.
 
 ---
 
@@ -161,49 +174,57 @@ tags = ["algorithm_stats"]
 
 ## 핵심 인사이트 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 ([Concept](/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/) Map)
 
+```text
+[버블 정렬 (Bubble Sort) 핵심 개념 맵]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">버블 정렬 (Bubble Sort) 핵심 개념 맵</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">버블 정렬 (Bubble Sort)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심 특성</div><div class="kb-diagram-cell">시간 복잡도</div><div class="kb-diagram-cell">변형 알고리즘</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Properties</div><div class="kb-diagram-cell">Time Complexity</div><div class="kb-diagram-cell">Variants</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">안정 정렬</div><div class="kb-diagram-cell">O(N²) 보통</div><div class="kb-diagram-cell">칵테일 셰이커</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Stable Sort</div><div class="kb-diagram-cell">O(N) 최적</div><div class="kb-diagram-cell">Comb Sort</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제자리 정렬</div><div class="kb-diagram-cell">(Early Exit)</div><div class="kb-diagram-cell">(개선된 거품)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">In-place Sort</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">직관적 구조</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정렬 알고리즘 선택 기준</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">N ≤ 50: 삽입 정렬 (작은 데이터에 효율)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">N &gt; 50 + 안정성 필수: 합병/Timsort</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">N &gt; 50 + 안정성 불필요: 퀵/힙 정렬</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">버블 정렬: 교육용으로만 사용</div></div>
-</div>
-</div>
-
-
+         ┌─────────────────────────────────┐
+         │      버블 정렬 (Bubble Sort)          │
+         └────────────────┬────────────────┘
+                          │
+      ┌───────────────────┼───────────────────┐
+      │                   │                    │
+      ▼                   ▼                    ▼
+┌──────────────┐  ┌──────────────┐  ┌──────────────┐
+│  핵심 특성     │  │   시간 복잡도   │  │   변형 알고리즘  │
+│  Properties   │  │  Time Complexity│ │  Variants   │
+├──────────────┤  ├──────────────┤  ├──────────────┤
+│ 안정 정렬     │  │ O(N²) 보통   │  │ 칵테일 셰이커  │
+│ Stable Sort   │  │ O(N) 최적   │  │ Comb Sort   │
+│ 제자리 정렬   │  │ (Early Exit) │  │ (개선된 거품)  │
+│ In-place Sort │  │              │  │              │
+│ 직관적 구조    │  │              │  │              │
+└──────────────┘  └──────────────┘  └──────────────┘
+      │                   │                    │
+      └───────────────────┴────────────────────┘
+                          │
+                          ▼
+         ┌─────────────────────────────────┐
+         │      정렬 알고리즘 선택 기준              │
+         ├─────────────────────────────────┤
+         │ N ≤ 50: 삽입 정렬 (작은 데이터에 효율)  │
+         │ N > 50 + 안정성 필수: 합병/Timsort    │
+         │ N > 50 + 안정성 불필요: 퀵/힙 정렬     │
+         │ 버블 정렬: 교육용으로만 사용            │
+         └─────────────────────────────────┘
+```
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">비교 기반 정렬 (Comparison-Based Sort) — 원소 간 비교로 순서를 결정하는 정렬 알고리즘의 공통 원리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">버블 정렬 (Bubble Sort) — 인접 원소 교환 반복, O(N²) 안정 제자리 정렬</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">조기 종료 최적화 (Early Exit) — 교환 발생 여부 플래그로 이미 정렬된 배열 O(N) 방어</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">삽입 정렬 (Insertion Sort) — 버블과 유사한 O(N²)이나 거의 정렬된 경우 실용적 성능</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">팀소트 (TimSort) — Python·Java 내장 정렬, 삽입 정렬+병합 정렬 하이브리드로 실무 표준</div></div>
-</div>
-</div>
-
-
+```text
+[비교 기반 정렬 (Comparison-Based Sort) — 원소 간 비교로 순서를 결정하는 정렬 알고리즘의 공통 원리]
+    │
+    ▼
+[버블 정렬 (Bubble Sort) — 인접 원소 교환 반복, O(N²) 안정 제자리 정렬]
+    │
+    ▼
+[조기 종료 최적화 (Early Exit) — 교환 발생 여부 플래그로 이미 정렬된 배열 O(N) 방어]
+    │
+    ▼
+[삽입 정렬 (Insertion Sort) — 버블과 유사한 O(N²)이나 거의 정렬된 경우 실용적 성능]
+    │
+    ▼
+[팀소트 (TimSort) — Python·Java 내장 정렬, 삽입 정렬+병합 정렬 하이브리드로 실무 표준]
+```
 
 이 흐름은 인접 교환이라는 단순 원리의 버블 정렬이 교육적 기준점이 되고, [조기 종료](/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/) 최적화로 최선 O(N)을 확보하며, 유사 전략의 삽입 정렬을 거쳐 실무 표준인 TimSort로 발전하는 비교 기반 정렬 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 진화 계보를 보여준다.
 

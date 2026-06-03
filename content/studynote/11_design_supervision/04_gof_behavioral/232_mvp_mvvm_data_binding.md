@@ -34,57 +34,51 @@ tags = ["studynote-design-supervision"]
 | 2005 | MVVM | Microsoft WPF 팀 (켄 쿠퍼, 존 고스만) |
 | 2010~ | MVVM 대중화 | AngularJS, Knockout.js, 이후 모든 SPA 프레임워크 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Core Idea</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Expected Gain</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐    ┌──────────────┐    ┌──────────────┐
+│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
+└──────────────┘    └──────────────┘    └──────────────┘
+```
 
 - **📢 섹션 요약 비유**: MVC가 "주방장이 요리도 하고 서빙도 하는" 구조라면, [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/)/MVVM은 "요리사(Model)와 웨이터([View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))를 완전히 분리하고 중간에 매니저를 둔" 구조다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MVP 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">interface</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">View</div><div class="kb-diagram-cell">◀</div><div class="kb-diagram-cell">Presenter</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(UI 컴포넌트</div><div class="kb-diagram-cell">직접 참조</div><div class="kb-diagram-cell">(프레젠테이션 로직 전담)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수동 업데이)</div><div class="kb-diagram-cell">▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이벤트 전달</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Model 조작</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Model</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(데이터 + 비즈니스)</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────┐
+│                    MVP 구조                          │
+│                                                     │
+│  ┌──────────┐  interface  ┌──────────────────────┐  │
+│  │   View   │◀────────────│     Presenter        │  │
+│  │(UI 컴포넌트│  직접 참조  │(프레젠테이션 로직 전담)│  │
+│  │ 수동 업데이)│────────────▶│                      │  │
+│  └──────────┘  이벤트 전달 └──────────┬───────────┘  │
+│                                      │ Model 조작   │
+│                              ┌───────▼───────────┐  │
+│                              │      Model        │  │
+│                              │ (데이터 + 비즈니스)  │  │
+│                              └───────────────────┘  │
+└─────────────────────────────────────────────────────┘
+```
 
 <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/">MVP</a> 핵심</strong>: Presenter가 IView 인터페이스를 통해 View를 갱신한다. View는 수동적(Passive [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))이며 스스로 아무것도 결정하지 않는다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MVVM 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 바인딩</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">View</div><div class="kb-diagram-cell">◀ ▶</div><div class="kb-diagram-cell">ViewModel</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(UI 템플)</div><div class="kb-diagram-cell">양방향 자동 동기화</div><div class="kb-diagram-cell">(관찰 가능 상태)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">View는 ViewModel을</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">직접 알지 못함 ▼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(바인딩 엔진이 연결)</div><div class="kb-diagram-cell">Model</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(도메인 로직)</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────┐
+│                   MVVM 구조                           │
+│                                                      │
+│  ┌─────────┐    데이터 바인딩    ┌──────────────────┐ │
+│  │  View   │◀═══════════════════▶│   ViewModel      │ │
+│  │ (UI 템플) │  양방향 자동 동기화 │ (관찰 가능 상태)  │ │
+│  └─────────┘                    └────────┬─────────┘ │
+│  View는 ViewModel을                      │           │
+│  직접 알지 못함                    ┌──────▼─────────┐  │
+│  (바인딩 엔진이 연결)               │    Model       │  │
+│                                   │ (도메인 로직)    │  │
+│                                   └────────────────┘  │
+└──────────────────────────────────────────────────────┘
+```
 
 **MVVM 핵심**: ViewModel은 Observable (관찰 가능한) [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 노출하고, 바인딩 엔진이 View를 자동으로 갱신한다. Presenter처럼 View를 직접 호출하지 않는다.
 

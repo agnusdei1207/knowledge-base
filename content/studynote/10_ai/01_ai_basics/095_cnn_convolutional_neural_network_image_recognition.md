@@ -31,19 +31,17 @@ tags = ["studynote-ai"]
 
 CNN은 크게 특징 추출(Feature Extraction) 영역과 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)([Classification](/knowledge-base/studynote/12_it_management/03_ea_isp/107_classification/)) 영역으로 나뉜다. 특징 추출은 [합성곱 층](/knowledge-base/studynote/10_ai/01_ai_basics/096_convolution_layer_filter_stride_padding/)([Convolution Layer](/knowledge-base/studynote/10_ai/01_ai_basics/096_convolution_layer_filter_stride_padding/))과 [풀링 층](/knowledge-base/studynote/10_ai/01_ai_basics/100_pooling_layer_max_pooling_downsampling_cnn/)([Pooling Layer](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/))의 반복으로 이루어지며, 최종 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)는 [완전 연결 층](/knowledge-base/studynote/10_ai/02_dl_architecture_new/102_fully_connected_layer_dense_flatten_softmax/)(Fully Connected Layer)이 담당한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CNN 파이프라인: 훑어보기와 압축의 반복</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Input Image</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Convolution Layer</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Pooling Layer</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2차원 배열 (특징 추출/필터 적용) (공간 차원 축소)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Convolution</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Pooling</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Flatten</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">FC Layer</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(고차원 특징) (추가 압축) (1차원 변환) (최종 분류)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           CNN 파이프라인: 훑어보기와 압축의 반복           │
+├──────────────────────────────────────────────────────────────┤
+│ [Input Image] ─▶ [Convolution Layer] ─▶ [Pooling Layer]    │
+│  2차원 배열      (특징 추출/필터 적용)  (공간 차원 축소) │
+│                                                              │
+│  ─▶ [Convolution] ─▶ [Pooling] ─▶ [Flatten] ─▶ [FC Layer] │
+│      (고차원 특징)    (추가 압축)   (1차원 변환)  (최종 분류)│
+└──────────────────────────────────────────────────────────────┘
+```
 
 [합성곱 연산](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/)은 슬라이딩 윈도우(Sliding Window) 방식으로 필터를 이동시키며 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 행렬을 내적([Dot](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/519_dot_dns_over_tls/) Product)하여 특징 맵([Feature Map](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/))을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한다. [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)은 [스트라이드](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)([Stride](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)) 단위로 서브샘플링(Subsampling)을 수행하여 특징 맵의 해상도를 낮추고 핵심 정보만 유지한다. 이때 채택된 필터 하나는 전체 이미지 영역에서 동일하게 재사용(Parameter Sharing)되므로 학습 파라미터를 크게 줄인다.
 
@@ -102,23 +100,21 @@ CNN은 이미지 처리에서 압도적인 연산 효율성과 높은 인식 정
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">전통적 이미지 인식 (Hand-crafted Feature)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">다층 퍼셉트론 (MLP) · 1차원 평탄화의 한계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">합성곱 신경망 (CNN) · 공간 정보 보존 및 파라미터 공유</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">심층 합성곱망 (ResNet, VGGNet) · 기울기 소실 극복</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">객체 탐지 및 분할 (YOLO, Mask R-CNN)</div>
-</div>
-</div>
-
-
+```text
+전통적 이미지 인식 (Hand-crafted Feature)
+    │
+    ▼
+다층 퍼셉트론 (MLP) · 1차원 평탄화의 한계
+    │
+    ▼
+합성곱 신경망 (CNN) · 공간 정보 보존 및 파라미터 공유
+    │
+    ▼
+심층 합성곱망 (ResNet, VGGNet) · 기울기 소실 극복
+    │
+    ▼
+객체 탐지 및 분할 (YOLO, Mask R-CNN)
+```
 
 이 흐름도는 사람이 직접 특징을 찾던 시대에서, 인공신경망이 공간 구조를 이해하는 CNN으로 진화하고, 이를 바탕으로 더 깊고 정밀한 시각 지능 시스템으로 발전하는 과정을 보여준다.
 

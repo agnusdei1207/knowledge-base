@@ -35,17 +35,14 @@ tags = ["studynote-ai"]
 | [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) ([Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)) | 입력 가장자리에 추가하는 테두리 | 제로 [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) [Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)) 일반적 |
 | 수용 영역 (Receptive Field) | 출력 뉴런 하나가 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)하는 입력 영역 | 깊을수록 넓어짐 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 필터는 '도장'이다. 동일한 도장(필터)을 종이(입력) 위에서 일정 간격([스트라이드](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/))으로 찍으며 문양(특징)을 추출한다. 가장자리에 여백([패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/))을 미리 만들어두면 종이 끝까지 고르게 찍을 수 있다.
 
@@ -70,26 +67,27 @@ $$O = \left\lfloor \frac{I - F + 2P}{S} \right\rfloor + 1$$
 
 ### [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 연산 흐름
 
+```
+입력 특징 맵 (5×5)           필터 (3×3)          출력 특징 맵 (3×3)
+┌───────────────────┐       ┌─────────┐       ┌───────────┐
+│ 1  2  3  4  5     │       │ 1  0  1 │       │ ?  ?  ?   │
+│ 6  7  8  9  10    │  ✦    │ 0  1  0 │  =   │ ?  ?  ?   │
+│ 11 12 13 14 15    │       │ 1  0  1 │       │ ?  ?  ?   │
+│ 16 17 18 19 20    │       └─────────┘       └───────────┘
+│ 21 22 23 24 25    │
+└───────────────────┘
+       Stride=1, Padding=0
+       출력 크기: (5-3+0)/1+1 = 3
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">입력 특징 맵 (5×5) 필터 (3×3) 출력 특징 맵 (3×3)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1 2 3 4 5</div><div class="kb-diagram-cell">1 0 1</div><div class="kb-diagram-cell">? ? ?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6 7 8 9 10</div><div class="kb-diagram-cell">✦</div><div class="kb-diagram-cell">0 1 0</div><div class="kb-diagram-cell">=</div><div class="kb-diagram-cell">? ? ?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">11 12 13 14 15</div><div class="kb-diagram-cell">1 0 1</div><div class="kb-diagram-cell">? ? ?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">16 17 18 19 20</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">21 22 23 24 25</div></div>
-<div class="kb-diagram-note">Stride=1, Padding=0</div>
-<div class="kb-diagram-note">출력 크기: (5-3+0)/1+1 = 3</div>
-<div class="kb-diagram-note">슬라이딩 순서:</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">0,0</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">0,1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">0,2</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1,0</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">1,1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">1,2</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2,0</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">2,1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">2,2</div></div>
-</div>
-</div>
-
-
+슬라이딩 순서:
+┌──────────────────────────────────────────────────┐
+│  [0,0] → [0,1] → [0,2]                          │
+│    ↓                                             │
+│  [1,0] → [1,1] → [1,2]                          │
+│    ↓                                             │
+│  [2,0] → [2,1] → [2,2]                          │
+└──────────────────────────────────────────────────┘
+```
 
 ### [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) 종류 비교
 
@@ -103,23 +101,19 @@ $$O = \left\lfloor \frac{I - F + 2P}{S} \right\rfloor + 1$$
 
 팽창 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/)은 필터 원소 사이에 <strong>팽창률(Dilation Rate, d)</strong>만큼 간격을 두어 <strong>수용 영역을 지수적으로 확장</strong>한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">일반 3×3 합성곱 팽창률 2인 3×3 합성곱</div>
-<div class="kb-diagram-note">(수용 영역: 3×3) (수용 영역: 5×5)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">■ ■ ■</div><div class="kb-diagram-cell">■ · ■ · ■</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">■ ■ ■</div><div class="kb-diagram-cell">· · · · ·</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">■ ■ ■</div><div class="kb-diagram-cell">■ · ■ · ■</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· · · · ·</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">■ · ■ · ■</div></div>
-<div class="kb-diagram-note">■ = 활성 가중치, · = 건너뜀</div>
-<div class="kb-diagram-note">파라미터 수는 동일, 수용 영역만 확장</div>
-</div>
-</div>
-
-
+```
+일반 3×3 합성곱       팽창률 2인 3×3 합성곱
+(수용 영역: 3×3)      (수용 영역: 5×5)
+┌─────────┐           ┌─────────────────┐
+│ ■ ■ ■   │           │ ■ · ■ · ■       │
+│ ■ ■ ■   │           │ · · · · ·       │
+│ ■ ■ ■   │           │ ■ · ■ · ■       │
+└─────────┘           │ · · · · ·       │
+                      │ ■ · ■ · ■       │
+                      └─────────────────┘
+■ = 활성 가중치, · = 건너뜀
+파라미터 수는 동일, 수용 영역만 확장
+```
 
 ### 전치 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) (Transposed Convolution, 업샘플링)
 
@@ -184,19 +178,17 @@ $$O = \left\lfloor \frac{I - F + 2P}{S} \right\rfloor + 1$$
 
 ### 공식 정리 (시험 필수)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">출력 크기 공식</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">O = floor( (I - F + 2P) / S ) + 1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 동일 패딩 조건: P = (F-1) / 2 (S=1일 때)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 팽창 합성곱 유효 필터 크기: F_d = F + (F-1)(d-1)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예) F=3, d=2 → F_d = 3 + 2×1 = 5</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────┐
+│           출력 크기 공식                                 │
+│                                                         │
+│   O = floor( (I - F + 2P) / S ) + 1                    │
+│                                                         │
+│   - 동일 패딩 조건: P = (F-1) / 2  (S=1일 때)          │
+│   - 팽창 합성곱 유효 필터 크기: F_d = F + (F-1)(d-1)   │
+│     예) F=3, d=2 → F_d = 3 + 2×1 = 5                  │
+└─────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/)은 '특징 탐정'이다. 작은 돋보기(필터)로 이미지 전체를 꼼꼼히([Stride](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)=1) 훑거나 빠르게([Stride](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)=2) 살피고, 가장자리도 놓치지 않으려면 여백([Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/))을 미리 만들어 두는 것이다.
 

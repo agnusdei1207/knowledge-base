@@ -36,27 +36,27 @@ tags = ["ict_convergence"]
 | **포그 층 (Fog Node)** | 라우터, 게이트웨이, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/), 셋톱박스 | <strong>실시간 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 필터링, 로컬 제어, <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a></strong> | 시간 민감형 실시간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
 | **클라우드 (Cloud)** | AWS, Azure 등 대형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 센터 | 장기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장, 딥러닝, 글로벌 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 수립 | 정제된 요약 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 및 빅데이터 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">포그 컴퓨팅의 3계층 데이터 처리 흐름</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">클라우드 층 (Cloud Layer)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 글로벌 분석, 딥러닝 훈련 (응답속도: 수 초 ~ 일 단위)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ (필터링된 알짜 데이터만 전송)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ ─ ─ ─ ─</div><div class="kb-diagram-cell">─ ─ ─ ─ ─ ─ WAN / 코어 네트워크 ─ ─ ─ ─ ─ ─ ─ ─ ─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (정책 및 모델 업데이트)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">포그 층 (Fog Layer)</div><div class="kb-diagram-note">★ 핵심</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 동네 라우터, 스마트 게이트웨이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 즉각적 제어, 쓰레기 데이터 폐기 (응답속도: ms 단위)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ (초당 수천 개의 로우 데이터 쏟아짐)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ ─ ─ ─ ─</div><div class="kb-diagram-cell">─ ─ ─ ─ ─ ─ LAN / 무선 네트워크 ─ ─ ─ ─ ─ ─ ─ ─ ─</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">디바이스 층 (Edge Devices)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- CCTV 센서, 로봇 팔, 스마트 워치</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│             포그 컴퓨팅의 3계층 데이터 처리 흐름               │
+├──────────────────────────────────────────────────────────────┤
+│  [ 클라우드 층 (Cloud Layer) ]                               │
+│  - 글로벌 분석, 딥러닝 훈련 (응답속도: 수 초 ~ 일 단위)      │
+│          ▲ (필터링된 알짜 데이터만 전송)                      │
+│          │                                                   │
+│ ─ ─ ─ ─ ─│─ ─ ─ ─ ─ ─ WAN / 코어 네트워크 ─ ─ ─ ─ ─ ─ ─ ─ ─  │
+│          ▼ (정책 및 모델 업데이트)                            │
+│  [ 포그 층 (Fog Layer) ] ★ 핵심                             │
+│  - 동네 라우터, 스마트 게이트웨이                             │
+│  - 즉각적 제어, 쓰레기 데이터 폐기 (응답속도: ms 단위)         │
+│          ▲ (초당 수천 개의 로우 데이터 쏟아짐)                │
+│          │                                                   │
+│ ─ ─ ─ ─ ─│─ ─ ─ ─ ─ ─ LAN / 무선 네트워크 ─ ─ ─ ─ ─ ─ ─ ─ ─  │
+│          │                                                   │
+│  [ 디바이스 층 (Edge Devices) ]                              │
+│  - CCTV 센서, 로봇 팔, 스마트 워치                           │
+└──────────────────────────────────────────────────────────────┘
+```
 
 포그 노드는 통신망 기지국이나 사내 라우터 등 인프라 장비에 소규모 서버급 연산 능력을 탑재하여, 의미 없는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(예: "온도 변화 없음")는 즉시 폐기하고 중요 이벤트만 클라우드로 넘겨 트래픽 다이어트를 수행한다.
 
@@ -116,23 +116,21 @@ tags = ["ict_convergence"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">중앙 집중형 클라우드 컴퓨팅 (Cloud)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">모바일 통신 및 트래픽 폭증 · 지연(Latency) 한계 직면</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">포그 컴퓨팅 (Fog Computing) · 인프라/게이트웨이 단의 분산 처리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">엣지 컴퓨팅 (Edge Computing) · 단말 기기 자체의 지능화 (AIoT)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드-포그-엣지 협력 아키텍처 (Hybrid Distributed Architecture)</div>
-</div>
-</div>
-
-
+```text
+중앙 집중형 클라우드 컴퓨팅 (Cloud)
+    │
+    ▼
+모바일 통신 및 트래픽 폭증 · 지연(Latency) 한계 직면
+    │
+    ▼
+포그 컴퓨팅 (Fog Computing) · 인프라/게이트웨이 단의 분산 처리
+    │
+    ▼
+엣지 컴퓨팅 (Edge Computing) · 단말 기기 자체의 지능화 (AIoT)
+    │
+    ▼
+클라우드-포그-엣지 협력 아키텍처 (Hybrid Distributed Architecture)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

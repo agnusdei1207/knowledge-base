@@ -18,24 +18,22 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Network Policy 예시</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">기본: Flat Network — 모든 Pod 간 통신 허용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">frontend ←→ backend ←→ db ←→ 모든 Pod</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 1개 Pod 침투 시 전체 위험</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Network Policy 적용: 마이크로 세그멘테이션</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">frontend → backend:8080 ✅</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">backend → db:5432 ✅</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">frontend → db:5432 ❌ (차단)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">외부 → frontend:443 ✅ (Ingress)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 최소 권한, 횡이동(Lateral Movement) 차단</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    Network Policy 예시                                │
+├───────────────────────────────────────────────────────┤
+│  [기본: Flat Network — 모든 Pod 간 통신 허용]         │
+│   frontend ←→ backend ←→ db ←→ 모든 Pod             │
+│   → 1개 Pod 침투 시 전체 위험                        │
+│                                                       │
+│  [Network Policy 적용: 마이크로 세그멘테이션]         │
+│   frontend → backend:8080 ✅                         │
+│   backend → db:5432 ✅                               │
+│   frontend → db:5432 ❌ (차단)                       │
+│   외부 → frontend:443 ✅ (Ingress)                   │
+│   → 최소 권한, 횡이동(Lateral Movement) 차단         │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: Flat Network는 모든 방 문이 열린 건물이고, Network Policy는 각 방에 카드키(라벨)가 있어야만 들어갈 수 있는 보안 건물이다.
 
@@ -113,23 +111,21 @@ Network Policy는 <strong>K8s <a href="/knowledge-base/studynote/02_operating_sy
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Flat Network (K8s 기본 — 모든 Pod 간 통신 허용)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">K8s Network Policy (2017) — L3/L4 Pod 간 격리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Calico (2018~) — BGP 기반 L3/L4 정책</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Cilium (2020~) — eBPF 기반 L7 정책</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: Cilium Service Mesh — Network Policy + L7 관측성 통합</div></div>
-</div>
-</div>
-
-
+```text
+[Flat Network (K8s 기본 — 모든 Pod 간 통신 허용)]
+    │
+    ▼
+[K8s Network Policy (2017) — L3/L4 Pod 간 격리]
+    │
+    ▼
+[Calico (2018~) — BGP 기반 L3/L4 정책]
+    │
+    ▼
+[Cilium (2020~) — eBPF 기반 L7 정책]
+    │
+    ▼
+[현재: Cilium Service Mesh — Network Policy + L7 관측성 통합]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. K8s 기본은 모든 방 문이 열려있는 <strong>자유로운 건물</strong>이에요.

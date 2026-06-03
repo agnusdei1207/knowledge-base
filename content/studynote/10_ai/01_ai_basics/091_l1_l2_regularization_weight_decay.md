@@ -37,19 +37,18 @@ L1/L2 규제 ([Regularization](/knowledge-base/studynote/14_data_engineering/03_
 | **L1 규제항** | $\[lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) \sum \|W\|$ ([가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 절댓값의 합, [Lasso](/knowledge-base/studynote/14_data_engineering/02_math_mining/102_lasso_ridge_regression_regularization/)) | 덜 중요한 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 정확히 '0'으로 만듦 (희소성) |
 | **L2 규제항** | $\[lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) \sum W^2$ ([가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 제곱의 합, Ridge) | 큰 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 강하게 억눌러 '0'에 가깝게 평탄화 (감쇠) |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">규제 기법에 따른 가중치 최적화 경로</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">오차 최소화 구역</div><div class="kb-diagram-node">가중치 패널티 구역</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">손실(Loss) 작아짐 ◀ 갈등 ▶ 가중치(W) 커지려 함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L1 규제 (마름모 꼴) : 교점이 축(0)에서 발생 ─▶ 가중치 = 0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L2 규제 (원 꼴) : 교점이 중간에서 발생 ─▶ 가중치 억제</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│             규제 기법에 따른 가중치 최적화 경로             │
+├──────────────────────────────────────────────────────────────┤
+│ [오차 최소화 구역]                    [가중치 패널티 구역] │
+│                                                            │
+│ 손실(Loss) 작아짐  ◀──── 갈등 ────▶ 가중치(W) 커지려 함   │
+│                                                            │
+│ L1 규제 (마름모 꼴) : 교점이 축(0)에서 발생 ─▶ 가중치 = 0   │
+│ L2 규제 (원 꼴)     : 교점이 중간에서 발생  ─▶ 가중치 억제  │
+└──────────────────────────────────────────────────────────────┘
+```
 
 딥러닝에서는 주로 L2 규제를 사용하며, 이를 <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a> 감쇠 (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">Weight</a> Decay)</strong>라고 부른다. [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 업데이트할 때마다 기존 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 값에서 일정 비율을 강제로 덜어냄으로써(Decay), 어떤 뉴런 하나가 독단적으로 결과값을 지배하지 못하게 모든 뉴런이 골고루 책임을 나누도록 만든다.
 
@@ -112,21 +111,22 @@ L1/L2 규제를 도입하면 훈련 [데이터](/knowledge-base/studynote/05_dat
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">오차 최소화 집착 (과적합 발생)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">손실 함수 + 패널티 항 도입 (Regularization)</div>
-<div class="kb-diagram-note">L1 규제 L2 규제 Elastic Net</div>
-<div class="kb-diagram-note">(Lasso) (Ridge) (L1+L2 혼합)</div>
-<div class="kb-diagram-note">희소모델 가중치감쇠</div>
-<div class="kb-diagram-note">최신 딥러닝의 일반화 최적화 (Dropout, Batch Norm과 결합)</div>
-</div>
-</div>
-
-
+```text
+오차 최소화 집착 (과적합 발생)
+    │
+    ▼
+손실 함수 + 패널티 항 도입 (Regularization)
+    │
+    ├─────────┬─────────┐
+    ▼         ▼         ▼
+  L1 규제   L2 규제   Elastic Net
+ (Lasso)   (Ridge)  (L1+L2 혼합)
+    │         │
+ 희소모델   가중치감쇠
+    │         │
+    ▼         ▼
+최신 딥러닝의 일반화 최적화 (Dropout, Batch Norm과 결합)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -20,23 +20,20 @@ tags = ["studynote-software-engineering"]
 
 MSA에서 [API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/) → Auth → Order → Payment → Notification으로 이어지는 요청 체인에서, 전체 응답이 2초 걸린다. "어디서 느린가?"를 찾으려면 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 일일이 시간순으로 대조해야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분산 트레이싱 Trace/Span 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Trace ID: abc-123 (전체 요청 1건)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ Span 1: API Gateway</div><div class="kb-diagram-node">0ms ─── 50ms</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ Span 2: Auth Service</div><div class="kb-diagram-node">50ms ── 100ms</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ Span 3: Order Service</div><div class="kb-diagram-node">100ms ─ 800ms</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">병목!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ ─ Span 3.1: DB Query</div><div class="kb-diagram-node">200ms ─ 750ms</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">원인!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ Span 4: Payment</div><div class="kb-diagram-node">800ms ─ 1200ms</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ Span 5: Notification</div><div class="kb-diagram-node">1200ms ─ 1250ms</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">총 응답: 1250ms</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│      분산 트레이싱 Trace/Span 구조                     │
+├───────────────────────────────────────────────────────┤
+│  Trace ID: abc-123 (전체 요청 1건)                    │
+│  ├─ Span 1: API Gateway    [0ms ─── 50ms]            │
+│  ├─ Span 2: Auth Service   [50ms ── 100ms]           │
+│  ├─ Span 3: Order Service  [100ms ─ 800ms] ← 병목!  │
+│  │   └─ Span 3.1: DB Query [200ms ─ 750ms] ← 원인!  │
+│  ├─ Span 4: Payment        [800ms ─ 1200ms]          │
+│  └─ Span 5: Notification   [1200ms ─ 1250ms]         │
+│  총 응답: 1250ms                                      │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: Trace ID는 택배 송장번호이고, 각 Span은 물류 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))에서의 체류 시간이다. 송장을 추적하면 어느 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)에서 택배가 멈췄는지 즉시 알 수 있다.
 
@@ -110,23 +107,21 @@ W3C Trace [Context](/knowledge-base/studynote/02_operating_system/01_overview_ar
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Google Dapper 논문 (2010) — 분산 트레이싱 개념 정립</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Zipkin (2012, Twitter) — 최초 OSS 분산 트레이싱</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Jaeger (2017, Uber) — CNCF 졸업 프로젝트</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">OpenTelemetry 통합 (2019~) — OpenTracing+OpenCensus 합병</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: eBPF Zero-instrumentation — 코드 변경 없는 자동 추적</div></div>
-</div>
-</div>
-
-
+```text
+[Google Dapper 논문 (2010) — 분산 트레이싱 개념 정립]
+    │
+    ▼
+[Zipkin (2012, Twitter) — 최초 OSS 분산 트레이싱]
+    │
+    ▼
+[Jaeger (2017, Uber) — CNCF 졸업 프로젝트]
+    │
+    ▼
+[OpenTelemetry 통합 (2019~) — OpenTracing+OpenCensus 합병]
+    │
+    ▼
+[현재: eBPF Zero-instrumentation — 코드 변경 없는 자동 추적]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 택배를 보내면 <strong>송장번호(<a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/303_trace_id/">Trace ID</a>)</strong>로 지금 어디에 있는지 추적할 수 있죠?
@@ -140,6 +135,6 @@ W3C Trace [Context](/knowledge-base/studynote/02_operating_system/01_overview_ar
 **진행 상황**: 112 / 973
 
 ← **이전**: [111. 관측 가능성 (Observability) - Metrics·Logs·Traces 3대 신호와 SRE 실천](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/)
-**다음**: [113. 카오스 엔지니어링 (Chaos Engineering) - Chaos Monkey·정상 상태 가설·실험 설계](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/113_chaos_engineering_chaos_monkey/) →
+**다음**: [113. 카오스 엔지니어링 (Chaos 엔진ering) - Chaos Monkey·정상 상태 가설·실험 설계](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/113_chaos_engineering_chaos_monkey/) →
 
 ---

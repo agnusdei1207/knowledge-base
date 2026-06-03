@@ -31,17 +31,15 @@ tags = ["studynote-data-engineering"]
 
 리니지는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름을 [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) ([Directed Acyclic Graph](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/255_apache_airflow_dag/))로 본다. 소스 테이블, 변환 로직, 타깃 테이블의 연결을 추적하면 역방향으로 원인을 찾고, 순방향으로 영향 범위를 찾을 수 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data Lineage Flow</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Source DB → ETL/ELT → Staging → Mart → Dashboard</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Backward / Forward Trace</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                    Data Lineage Flow                        │
+├──────────────────────────────────────────────────────────────┤
+│ Source DB → ETL/ELT → Staging → Mart → Dashboard            │
+│     ▲                                         │             │
+│     └──────────── Backward / Forward Trace ───┘             │
+└──────────────────────────────────────────────────────────────┘
+```
 
 | 구성 요소 | 역할 | 포인트 |
 | :--- | :--- | :--- |
@@ -118,23 +116,21 @@ tags = ["studynote-data-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">원본 데이터</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ETL / ELT</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Staging / Mart</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Dashboard / Report</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Lineage / Catalog / Governance</div>
-</div>
-</div>
-
-
+```text
+원본 데이터
+    │
+    ▼
+ETL / ELT
+    │
+    ▼
+Staging / Mart
+    │
+    ▼
+Dashboard / Report
+    │
+    ▼
+Lineage / Catalog / Governance
+```
 
 이 흐름은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 소비되기까지의 변환 족보를 시각화하는 과정을 보여준다.
 

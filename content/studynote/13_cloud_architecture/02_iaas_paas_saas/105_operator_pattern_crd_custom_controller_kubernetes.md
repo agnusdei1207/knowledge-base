@@ -36,22 +36,21 @@ tags = ["studynote-cloud-architecture"]
 | **CRD (Custom Resource Definition)** | K8s [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 확장 | `MySQL`, `Kafka` 등 기본 K8s에 없는 새로운 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 객체를 정의하여 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 서버가 인식하게 함 |
 | **Custom Controller** | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 로직 실행 | CRD로 생성된 리소스의 상태를 지속적으로 관찰(Watch)하고, 기대 상태([Desired State](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/080_kube_controller_manager_desired_state/))로 조정(Reconcile)함 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Operator Pattern: Watch &amp; Reconcile</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1.</div><div class="kb-diagram-node">사용자</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">K8s API 서버</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2.</div><div class="kb-diagram-node">Custom Controller</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─(Watch)─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(DBA의 지식이 코딩된 로봇)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3.</div><div class="kb-diagram-node">Custom Controller</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Stateful Application</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- DB 마스터 선출</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"현재 상태와 기대 상태가 다르군!" - 데이터 백업/복구</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"Reconcile(조정) 루프 실행!" - 스케일 아웃/인</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────┐
+│              Operator Pattern: Watch & Reconcile                │
+├─────────────────────────────────────────────────────────────────┤
+│ 1. [사용자] ─(CRD 정의 YAML)─▶ [K8s API 서버]                   │
+│                                  │                              │
+│ 2. [Custom Controller] ◀─(Watch)─┘                              │
+│    (DBA의 지식이 코딩된 로봇)                                   │
+│                                                                 │
+│ 3. [Custom Controller] ─(API 호출/명령)─▶ [Stateful Application]│
+│                                            - DB 마스터 선출     │
+│    "현재 상태와 기대 상태가 다르군!"       - 데이터 백업/복구   │
+│    "Reconcile(조정) 루프 실행!"            - 스케일 아웃/인     │
+└─────────────────────────────────────────────────────────────────┘
+```
 
 이 구조의 핵심은 K8s의 핵심 철학인 `선언적 API (Declarative API)`와 `제어 루프 (Control Loop)`를 사용자 애플리케이션 레벨까지 끌어올렸다는 점이다. 컨트롤러는 끝없이 현재 상태를 확인하고, 정의된 운영 지침에 따라 장애를 스스로 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)한다.
 
@@ -117,25 +116,24 @@ tags = ["studynote-cloud-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">기본 배포 및 복구</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Deployment · StatefulSet (K8s 내장 컨트롤러 한계)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CRD (Custom Resource Definition) (사용자 정의 단어 추가)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Custom Controller (로직 구현 및 제어 루프 확장)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Operator Pattern (DBA 지식의 코드화 및 완전 자동화)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">OperatorHub · OLM (Operator Lifecycle Manager) (생태계 및 생애주기 관리)</div>
-</div>
-</div>
-
-
+```text
+기본 배포 및 복구
+    │
+    ▼
+Deployment · StatefulSet (K8s 내장 컨트롤러 한계)
+    │
+    ▼
+CRD (Custom Resource Definition) (사용자 정의 단어 추가)
+    │
+    ▼
+Custom Controller (로직 구현 및 제어 루프 확장)
+    │
+    ▼
+Operator Pattern (DBA 지식의 코드화 및 완전 자동화)
+    │
+    ▼
+OperatorHub · OLM (Operator Lifecycle Manager) (생태계 및 생애주기 관리)
+```
 
 이 흐름도는 "단순 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 관리 → [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 확장 → 로직 확장 → [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 특화 완전 자동화 → 생태계 구축"으로 이어지는 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 운영의 발전 궤적을 보여준다.
 

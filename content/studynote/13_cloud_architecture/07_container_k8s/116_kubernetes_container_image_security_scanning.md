@@ -18,22 +18,19 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이미지 보안 스캐닝 파이프라인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 개발자: Dockerfile → docker build</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. CI: Trivy 스캔 → CVE 탐지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HIGH: 3개, CRITICAL: 1개 → ❌ 빌드 실패</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 수정: base image 업데이트, 라이브러리 패치</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 재스캔 → CVE 0개 → ✅ 레지스트리 Push</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. K8s: Admission Controller → 스캔 미통과 이미지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">배포 자동 거부</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    이미지 보안 스캐닝 파이프라인                       │
+├───────────────────────────────────────────────────────┤
+│  1. 개발자: Dockerfile → docker build                 │
+│  2. CI: Trivy 스캔 → CVE 탐지                        │
+│     HIGH: 3개, CRITICAL: 1개 → ❌ 빌드 실패          │
+│  3. 수정: base image 업데이트, 라이브러리 패치        │
+│  4. 재스캔 → CVE 0개 → ✅ 레지스트리 Push            │
+│  5. K8s: Admission Controller → 스캔 미통과 이미지   │
+│     배포 자동 거부                                    │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 이미지 스캐닝은 공항 수하물 X-ray다. 위험물([CVE](/knowledge-base/studynote/09_security/04_endpoint_security/409_cve_lifecycle/))이 발견되면 비행기(프로덕션)에 못 태운다.
 
@@ -100,23 +97,21 @@ tags = ["studynote-cloud-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">수동 취약점 관리 (2010s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Clair / Anchore (2016~) — 초기 이미지 스캐너</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Trivy / Snyk (2019~) — All-in-one, 개발자 친화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SBOM 의무화 (2021, 미국 행정명령 14028)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: CI + Registry + Admission 전 구간 스캐닝</div></div>
-</div>
-</div>
-
-
+```text
+[수동 취약점 관리 (2010s)]
+    │
+    ▼
+[Clair / Anchore (2016~) — 초기 이미지 스캐너]
+    │
+    ▼
+[Trivy / Snyk (2019~) — All-in-one, 개발자 친화]
+    │
+    ▼
+[SBOM 의무화 (2021, 미국 행정명령 14028)]
+    │
+    ▼
+[현재: CI + Registry + Admission 전 구간 스캐닝]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이미지는 <strong>도시락 상자</strong>예요. 안에 뭐가 들었는지 확인해야 해요.

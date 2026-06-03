@@ -18,20 +18,17 @@ tags = ["studynote-database"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ANSI/SPARC 3단계 + 데이터 독립성</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">외부 스키마</div><div class="kb-diagram-note">뷰 A, 뷰 B (사용자별 관점)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↕ ← 논리적 데이터 독립성</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">개념 스키마</div><div class="kb-diagram-note">테이블·관계·제약조건</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↕ ← 물리적 데이터 독립성</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">내부 스키마</div><div class="kb-diagram-note">인덱스·파티션·저장 구조</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    ANSI/SPARC 3단계 + 데이터 독립성                   │
+├───────────────────────────────────────────────────────┤
+│  [외부 스키마]   뷰 A, 뷰 B (사용자별 관점)          │
+│       ↕  ← 논리적 데이터 독립성                      │
+│  [개념 스키마]   테이블·관계·제약조건                 │
+│       ↕  ← 물리적 데이터 독립성                      │
+│  [내부 스키마]   인덱스·파티션·저장 구조              │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 뷰는 <strong>커튼(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/007_external_schema/">외부 스키마</a>)</strong>이다. 방(테이블)의 가구를 재배치해도 커튼만 바꾸면 밖에서 보는 모습(응용)은 그대로이다.
 
@@ -92,23 +89,21 @@ tags = ["studynote-database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">파일 시스템 (독립성 없음, ~1960s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ANSI/SPARC 3단계 (1975) — 데이터 독립성 정의</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">뷰 + Materialized View (2000s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Virtual Table / CTE (2010s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: 데이터 가상화 — 물리 저장 없이 통합 뷰 제공</div></div>
-</div>
-</div>
-
-
+```text
+[파일 시스템 (독립성 없음, ~1960s)]
+    │
+    ▼
+[ANSI/SPARC 3단계 (1975) — 데이터 독립성 정의]
+    │
+    ▼
+[뷰 + Materialized View (2000s)]
+    │
+    ▼
+[Virtual Table / CTE (2010s)]
+    │
+    ▼
+[현재: 데이터 가상화 — 물리 저장 없이 통합 뷰 제공]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 뷰는 방의 <strong>커튼</strong>이에요. 방 안(테이블)을 바꿔도 <strong>밖에서 보는 모습</strong>은 그대로예요.
@@ -121,7 +116,7 @@ tags = ["studynote-database"]
 
 **진행 상황**: 128 / 600
 
-← **이전**: [127. 정보공학 방법론 (IE, Information Engineering) - 데이터 중심 시스템 개발](/knowledge-base/studynote/05_database/02_modeling_normalization/127_information_engineering_methodology_ie/)
+← **이전**: [127. 정보공학 방법론 (IE, Information 엔진ering) - 데이터 중심 시스템 개발](/knowledge-base/studynote/05_database/02_modeling_normalization/127_information_engineering_methodology_ie/)
 **다음**: [129. ORM & 임피던스 불일치 (Object-Relational Mismatch)](/knowledge-base/studynote/05_database/02_modeling_normalization/129_orm_impedance_mismatch/) →
 
 ---

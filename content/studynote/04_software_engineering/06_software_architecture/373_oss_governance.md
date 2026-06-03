@@ -19,35 +19,36 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [OSS](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 거버넌스는 조직이 OSS를 보안이나에활용하기 위한 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 프로세스, 도구의 총칭이다. 이는 OSS의 "무료사용"라는 측면만 강조하여 관리 없이 무분별하게 도입하는 "로드unner"적 사고방식과, OSS를하는 ""적 사고방식 사이의 균형을 찾는 것을 목표로 한다.
+- **개념**: [OSS](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 거버넌스는 조직이 OSS를 안전かつ합법적에활용하기 위한 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 프로세스, 도구의 총칭이다. 이는 OSS의 "무료사용"라는 측면만 강조하여 관리 없이 무분별하게 도입하는 "로드unner"적 사고방식과, OSS를배척하는 "불적응"적 사고방식 사이의 균형을 찾는 것을 목표로 한다.
 
-- **필요성**: OSS는적으로 무료이지만, 각 OSS에는 저작자가정한 라이선스가 있다. 이 라이선스에는 소스 코드 공개 의무 (GPL), 상업적 사용 제한 (BSL), trademark 사용 제약 등 다양한 조건이 있다. 이러한 조건을 이해하면, 기업이예기치 않은 을 저지르거나, 대규모 보안 취약점에 노출될 수 있다.
+- **필요성**: OSS는일반적으로 무료이지만, 각 OSS에는 저작자가정한 라이선스가 있다. 이 라이선스에는 소스 코드 공개 의무 (GPL), 상업적 사용 제한 (BSL), trademark 사용 제약 등 다양한 조건이 있다. 이러한 조건을 이해불족하면, 기업이예기치 않은 법위반을 저지르거나, 대규모 보안 취약점에 노출될 수 있다.
 
-- **💡 비유**: [OSS](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 거버넌스는 <strong>'음식물의 원산지 표시와 위생 관리'</strong>와 같다. 음식을 만들 때 다양한 재료([OSS](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/))를 사용하는데, 각 재료마다 원산지(라이선스)가 다르고, 위생 관리(보안 관리)를하면식중독(보안 사고)이 발생할 수 있다. 따라서 모든 재료의 원산지를 파악하고([이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 관리), 위생 상태를 확인하며(보안 업데이트) 안전하게 식탁에 올려야 한다.
+- **💡 비유**: [OSS](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 거버넌스는 <strong>'음식물의 원산지 표시와 위생 관리'</strong>와 같다. 음식을 만들 때 다양한 재료([OSS](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/))를 사용하는데, 각 재료마다 원산지(라이선스)가 다르고, 위생 관리(보안 관리)를여과불적절하면식중독(보안 사고)이 발생할 수 있다. 따라서 모든 재료의 원산지를 파악하고([이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 관리), 위생 상태를 확인하며(보안 업데이트) 안전하게 식탁에 올려야 한다.
 
 - **등장 배경 및 발전 과정**:
-1. **1991년 Linux**: [OSS](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 운동의 시작점
-2. **2000년대 활발**: Apache, MySQL, Tomcat 등 기업용 [OSS](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 확산
-3. **2010년대**: GitHub 기반 [OSS](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 생태계 폭발적 성장
-4. **현재**: Log4j 사고, SolarWinds 공격 등을 계기로 [OSS](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [공급망 보안](/knowledge-base/studynote/04_software_engineering/06_software_architecture/374_supply_chain_security/) 중요성 대두
+  1. **1991년 Linux**: [OSS](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 운동의 시작점
+  2. **2000년대 활발**: Apache, MySQL, Tomcat 등 기업용 [OSS](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 확산
+  3. **2010년대**: GitHub 기반 [OSS](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 생태계 폭발적 성장
+  4. **현재**: Log4j 사고, SolarWinds 공격 등을 계기로 [OSS](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [공급망 보안](/knowledge-base/studynote/04_software_engineering/06_software_architecture/374_supply_chain_security/) 중요성 대두
 
-- **📢 섹션 요약 비유**: [OSS](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 거버넌스는 <strong>'국제 요리 재료 수입 관리'</strong>와 같다.부터([OSS](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/))를 수입하는데, 각 국가마다 식품 위생 기준(라이선스)이 다르고, 지정 산지(출처)인 곳에서 생산된 것(생성물)은 추가 검역이 필요하다. 또한 유효 기간(보안 업데이트)이 지나지 않도록 지속적인 관리(지속적 업데이트)가 필요하다.
+- **📢 섹션 요약 비유**: [OSS](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 거버넌스는 <strong>'국제 요리 재료 수입 관리'</strong>와 같다.세계각국부터식재([OSS](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/))를 수입하는데, 각 국가마다 식품 위생 기준(라이선스)이 다르고, 지정 산지(출처)이외적인 곳에서 생산된 것(파생성과물)은 추가 검역이 필요하다. 또한 유효 기간(보안 업데이트)이 지나지 않도록 지속적인 관리(지속적 업데이트)가 필요하다.
 
 ---
 
 다음은 오픈 소스 소프트웨어 ([OSS](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)) 거버의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오픈 소스 소프트웨어 (OSS) 거버</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                  오픈 소스 소프트웨어 (OSS) 거버                        │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
+│       │                    │                    │          │
+│       ▼                    ▼                    ▼          │
+│   요구 분석           설계·적용           품질 검증        │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램은 오픈 소스 소프트웨어 ([OSS](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)) 거버가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -137,30 +138,28 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 오픈 소스 소프트웨어 ([OSS](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)) 거버넌스의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 오픈 소스 소프트웨어 ([OSS](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)) 거버넌스의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
 | [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 오픈 소스 소프트웨어 ([OSS](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)) 거버넌스은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | 오픈 소스 소프트웨어 ([OSS](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)) 거버넌스 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
 | [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 오픈 소스 소프트웨어 ([OSS](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)) 거버넌스에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">오픈 소스 소프트웨어 (OSS) 거버넌스 개념 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 위기 (Software Crisis) 인식
+    │
+    ▼
+오픈 소스 소프트웨어 (OSS) 거버넌스 개념 정립
+    │
+    ▼
+표준화 및 방법론 체계화 (ISO, CMMI, Agile)
+    │
+    ▼
+클라우드 네이티브·AI 기반 확장 적용
+    │
+    ▼
+지속적 개선 및 DevOps·MLOps 통합
+```
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

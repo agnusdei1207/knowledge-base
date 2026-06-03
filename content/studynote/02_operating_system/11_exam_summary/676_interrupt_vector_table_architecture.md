@@ -60,32 +60,34 @@ tags = ["studynote-operating-system"]
 
 마우스를 클릭했을 때 CPU가 IDT를 참조하여 어떻게 동작하는지 살펴보자.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하드웨어 인터럽트 라우팅 및 IDT 참조 원리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황 1: 하드웨어 이벤트 발생</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 마우스 클릭 -&gt; 마우스 컨트롤러가 전기 신호를 보냄.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- APIC (인터럽트 컨트롤러)가 이를 받아 벡터 번호</div><div class="kb-diagram-node">44번</div><div class="kb-diagram-note">을 생성하여 CPU에 쏨.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황 2: CPU의 하드웨어적 반응</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- CPU는 하던 연산을 즉시 멈추고, 현재 상태(PC, 플래그 레지스터 등)를 스택에 백업.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- CPU 내부의</div><div class="kb-diagram-node">IDTR 레지스터</div><div class="kb-diagram-note">를 읽어 IDT 테이블의 시작 주소를 알아냄.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황 3: IDT 룩업 (Lookup)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- IDT 시작 주소 + (44 * 8바이트) 계산 = 44번 엔트리 주소 도달.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IDT 배열</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">...</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">43번 엔트리</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">(키보드 ISR 주소)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">44번 엔트리</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">(마우스 ISR 주소: 0xffffffff81abc000) ◀── 당첨!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">...</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황 4: 커널 공간 점프 및 ISR 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- CPU는 권한(Ring)을 검사한 후, PC(Program Counter)를 44번의 주소로 덮어씀.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Linux 커널의 <code>mouse_interrupt_handler()</code> 함수가 실행됨!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 처리가 끝나면 <code>iret</code> (Interrupt Return) 명령으로 아까 하던 일로 복귀.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 하드웨어 인터럽트 라우팅 및 IDT 참조 원리                │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │  [상황 1: 하드웨어 이벤트 발생]                                         │
+  │   - 마우스 클릭 -> 마우스 컨트롤러가 전기 신호를 보냄.                      │
+  │   - APIC (인터럽트 컨트롤러)가 이를 받아 벡터 번호 [ 44번 ]을 생성하여 CPU에 쏨.│
+  │                                                                   │
+  │  [상황 2: CPU의 하드웨어적 반응]                                        │
+  │   - CPU는 하던 연산을 즉시 멈추고, 현재 상태(PC, 플래그 레지스터 등)를 스택에 백업.│
+  │   - CPU 내부의 [ IDTR 레지스터 ]를 읽어 IDT 테이블의 시작 주소를 알아냄.      │
+  │                                                                   │
+  │  [상황 3: IDT 룩업 (Lookup)]                                        │
+  │   - IDT 시작 주소 + (44 * 8바이트) 계산 = 44번 엔트리 주소 도달.          │
+  │                                                                   │
+  │   [ IDT 배열 ]                                                     │
+  │     ...                                                           │
+  │     [ 43번 엔트리 ] -> (키보드 ISR 주소)                             │
+  │     [ 44번 엔트리 ] -> (마우스 ISR 주소: 0xffffffff81abc000) ◀── 당첨!│
+  │     ...                                                           │
+  │                                                                   │
+  │  [상황 4: 커널 공간 점프 및 ISR 실행]                                   │
+  │   - CPU는 권한(Ring)을 검사한 후, PC(Program Counter)를 44번의 주소로 덮어씀.│
+  │   - Linux 커널의 `mouse_interrupt_handler()` 함수가 실행됨!          │
+  │   - 처리가 끝나면 `iret` (Interrupt Return) 명령으로 아까 하던 일로 복귀.   │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** IDT의 핵심은 <strong>IDTR (IDT <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/">Register</a>)</strong>이다. 부팅 시 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 메모리 빈 공간에 이 256칸짜리 테이블을 예쁘게 그려놓고, `lidt`라는 어셈블리 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 통해 "CPU야, 앞으로 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 들어오면 여기 메모리 주소(IDTR)를 참조해라"라고 세팅한다. 이후 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 터지면, OS의 소프트웨어 개입 없이 <strong>순수 하드웨어(CPU)</strong>가 직접 산수(시작 주소 + 벡터*오프셋)를 해서 즉각 점프한다. 이것이 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 소프트웨어 분기문(`if-else`)보다 수백 배 빠른 이유다.
 
@@ -140,28 +142,30 @@ IVT를 타는 세 가지 사건의 미묘한 차이다.
 
 ### 의사결정 및 튜닝 플로우
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인터럽트 벡터 및 핸들링 성능 최적화 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">10Gbps 이상 고대역폭 네트워크 서버 (수백만 번의 인터럽트 발생)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하나의 특정 CPU 코어(예: Core 0)에만 모든 인터럽트가 몰리고 있는가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(top 명령어 실행 시 Core 0의 %hi(하드웨어 인터럽트) 수치만 100% 임)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SMP Affinity (IRQ 밸런싱) 튜닝 필요</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대책: <code>irqbalance</code> 데몬을 켜거나, /proc/irq/*/smp_affinity</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파일을 수정해 랜카드의 다중 큐(Multi-queue) 벡터를</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">여러 코어(Core 1, 2, 3...)로 분산시킨다.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인터럽트 폭풍(Interrupt Storm)으로 인해 시스템 전체가 뻗을 위험이 있는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NAPI (New API) 및 인터럽트 병합(Coalescing) 적용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대책: 랜카드가 패킷 하나당 인터럽트 1번(벡터 호출)을 쏘는 게</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">아니라, 100개 모아서 1번 쏘도록 하드웨어 튜닝.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ──▶ 기본 커널 인터럽트 핸들링 유지</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 인터럽트 벡터 및 핸들링 성능 최적화 플로우               │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [10Gbps 이상 고대역폭 네트워크 서버 (수백만 번의 인터럽트 발생)]             │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      하나의 특정 CPU 코어(예: Core 0)에만 모든 인터럽트가 몰리고 있는가?      │
+  │      (top 명령어 실행 시 Core 0의 %hi(하드웨어 인터럽트) 수치만 100% 임)  │
+  │          ├─ 예 ─────▶ [SMP Affinity (IRQ 밸런싱) 튜닝 필요]          │
+  │          │            대책: `irqbalance` 데몬을 켜거나, /proc/irq/*/smp_affinity │
+  │          │                  파일을 수정해 랜카드의 다중 큐(Multi-queue) 벡터를│
+  │          │                  여러 코어(Core 1, 2, 3...)로 분산시킨다.   │
+  │          └─ 아니오                                                │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      인터럽트 폭풍(Interrupt Storm)으로 인해 시스템 전체가 뻗을 위험이 있는가?│
+  │          ├─ 예 ─────▶ [NAPI (New API) 및 인터럽트 병합(Coalescing) 적용]│
+  │          │            대책: 랜카드가 패킷 하나당 인터럽트 1번(벡터 호출)을 쏘는 게 │
+  │          │                  아니라, 100개 모아서 1번 쏘도록 하드웨어 튜닝.   │
+  │          └─ 아니오 ──▶ 기본 커널 인터럽트 핸들링 유지                  │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** IDT를 거쳐 ISR로 점프하는 하드웨어 메커니즘 자체는 빠르지만, [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Save) 비용 때문에 초당 10만 번 이상 발생하면 CPU가 죽어난다. 아키텍트는 [하드웨어 인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/)(Vector)가 여러 코어에 골고루 떨어지도록(RSS: Receive Side Scaling) 벡터를 찢어발기거나, 아예 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 발생 횟수 자체를 묶어버리는([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Coalescing) 시스템 튜닝을 반드시 할 줄 알아야 한다.
 
@@ -204,19 +208,15 @@ IVT를 타는 세 가지 사건의 미묘한 차이다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">멀티태스킹 (Multitasking) 용어</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">인터럽트 벡터 테이블 구조화 (Interrupt Vector Table Architecture)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">트랩 (Trap) 기반 시스템 콜 구현</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">커널 모드 진입 메커니즘</div></div>
-</div>
-</div>
-
-
+```text
+[멀티태스킹 (Multitasking) 용어]
+    │
+    ▼
+[인터럽트 벡터 테이블 구조화 (Interrupt Vector Table Architecture)]
+    │
+    ├──▶ [트랩 (Trap) 기반 시스템 콜 구현]
+    └──▶ [커널 모드 진입 메커니즘]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

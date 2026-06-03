@@ -36,32 +36,39 @@ tags = ["studynote-cloud-architecture"]
 "야 그럼 [람다](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) 안에서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 다운로드 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 이런 거 임시 저장 어디다 함 ㅠ?" 
 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 봇의 찰나의 순간과 외부 위임 십자 스위칭 록온 맵 도해다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버리스 (Stateless) 외부 상태 위임 오프로딩(Off-load) 텐트 도해 🚀</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">👨‍💻</div><div class="kb-diagram-node">1. 유저 트래픽 (10만 명 접속 핑퐁 찌르기 툭 ㅋ)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">☁️</div><div class="kb-diagram-node">2. API Gateway (입구 대문 스나이퍼 봇 🛡️)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ ⚡ 이벤트 트리거 스파이크 폭발 쾅!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ 🤖</div><div class="kb-diagram-node">3. AWS Lambda 함수 봇 1만 대 동시 허공 생성 스케일 아웃 🚀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(1) 요청 수신 (내 램 RAM엔 기억 1도 없음 깡통 뇌 ㅋ)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(2) 🌟 외부 스토리지에서 상태 읽기 (Read 핑퐁) ──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(3) 비즈니스 로직 덧셈 곱셈 연산 윙윙 돌림 🪓</div><div class="kb-diagram-cell">◀ (외부 상태 창고)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│</div><div class="kb-diagram-node">DynamoDB</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ (4) 🌟 연산 끝난 결과물 외부에 덮어 쓰기(Write) ─</div><div class="kb-diagram-node">Redis Cache</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">S3 Bucket</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(5) 💀 응답 반환 후 0.1초 컷 자살 소멸 멸균 증발!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 아키텍트 팩폭 극딜: "야 이 씨발! 람다 뱃속에도 <code>/tmp</code> 라는 512MB짜리 임시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하드디스크 깡통 공간이 있긴 있어 ㅋ. 근데 람다가 웜 스타트(Warm Start)로 살아서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">뺑뺑이 돌 때나 잠깐 꼼수로 캐시 재탕 치는 거지!! ➔ 봇이 뒤졌다 새로 켜지면 <code>/tmp</code></div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">도 100% 싹 다 날아가는 1회용 신기루 쓰레기통이니까 하늘이 두 쪽 나도 절대!!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코어 비즈니스 영구 저장 데이터(State)를 저딴 데 의존(Dependency) 치며 쑤셔</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">박는 강결합 사일로 자살 짓 멈춰 도끼로 찢어 발겨버려 쾅 🚀!!!"</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          서버리스 (Stateless) 외부 상태 위임 오프로딩(Off-load) 텐트 도해 🚀 │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ 👨‍💻 [ 1. 유저 트래픽 (10만 명 접속 핑퐁 찌르기 툭 ㅋ) ]              │
+│            │                                                │
+│            ▼                                                │
+│ ☁️ [ 2. API Gateway (입구 대문 스나이퍼 봇 🛡️) ]                 │
+│            │                                                │
+│            ▼ ⚡ 이벤트 트리거 스파이크 폭발 쾅!                     │
+│ ┌─────────────────────────────────────────────────────────┐ │
+│ │ 🤖 [ 3. AWS Lambda 함수 봇 1만 대 동시 허공 생성 스케일 아웃 🚀 ]│ │
+│ │                                                         │ │
+│ │  (1) 요청 수신 (내 램 RAM엔 기억 1도 없음 깡통 뇌 ㅋ)             │ │
+│ │                                                         │ │
+│ │  (2) 🌟 외부 스토리지에서 상태 읽기 (Read 핑퐁) ──┐             │ │
+│ │                                               │             │ │
+│ │  (3) 비즈니스 로직 덧셈 곱셈 연산 윙윙 돌림 🪓     │ ◀ (외부 상태 창고)│ │
+│ │                                               │  [ DynamoDB ] │
+│ │  (4) 🌟 연산 끝난 결과물 외부에 덮어 쓰기(Write) ─┘  [ Redis Cache ]│ │
+│ │                                                  [ S3 Bucket ]│ │
+│ │  (5) 💀 응답 반환 후 0.1초 컷 자살 소멸 멸균 증발!                 │ │
+│ └─────────────────────────────────────────────────────────┘ │
+│                                                             │
+│ 🌟 아키텍트 팩폭 극딜: "야 이 씨발! 람다 뱃속에도 `/tmp` 라는 512MB짜리 임시 │
+│ 하드디스크 깡통 공간이 있긴 있어 ㅋ. 근데 람다가 웜 스타트(Warm Start)로 살아서│
+│ 뺑뺑이 돌 때나 잠깐 꼼수로 캐시 재탕 치는 거지!! ➔ 봇이 뒤졌다 새로 켜지면 `/tmp` │
+│ 도 100% 싹 다 날아가는 1회용 신기루 쓰레기통이니까 하늘이 두 쪽 나도 절대!!  │
+│ 코어 비즈니스 영구 저장 데이터(State)를 저딴 데 의존(Dependency) 치며 쑤셔   │
+│ 박는 강결합 사일로 자살 짓 멈춰 도끼로 찢어 발겨버려 쾅 🚀!!!"             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/200_12_factor_app_cloud_native_principles/">아키텍트의 피 터지는 메스: [12-Factor App</a> 의 절대 헌법 6계명 ✨]</strong>
 현대 클라우드 K8s를 지배하는 12팩터(12-Factor) 헌법 제6조: <strong>"프로세스(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/">Process</a>)는 상태가 없고(<a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/">Stateless</a>), 아무것도 공유하지 않는다(Share-nothing). 영구적으로 저장해야 할 모든 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>는 무조건 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">백킹 [서비스</a> Backing <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a> (외부 DB)]에 짱박아 록온(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>) 쳐라 쾅!!"</strong> 
@@ -145,23 +152,21 @@ tags = ["studynote-cloud-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Stateful (상태 유지 강결합 쇳덩이) 야만 시대 💀 / 유저 1만 명 로그인 세션(Session) 데이터를 걍 톰캣 웹 서버 1번 기계 램(RAM) 뱃속에 무식하게 다 쑤셔 박아 용접 강결합 저장 치고 꿀빰 ㅋ</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Scale-out 널뛰기 확장의 대재앙 멸망 터짐 💥 / 블프 100만 명 폭주해서 서버 1대 ➔ 10대로 증식 복사 스위칭 침 ➔ 로드밸런서가 유저를 빈 2번 서버로 날렸더니 "어 넌 누구 ㅋ 내 램에 너 세션 없어 튕겨 401 컷 💀!" 전 국민 로그인 팅김 셧다운 올스탑 동반 타살 뻗음 파국 쾅!!!</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Stateless (무상태) 외부 스토리지 짬처리 분할 찢기 대관식 🚀 / 아키텍트 대장 분노 철퇴 🪓 "야 이 씨발 좆소 코더야 서버 램에 유저 데이터 1바이트 찌끄레기도 평생 기억하지 마 백지화 강제 세척 쳐 쾅!!! 무.조.건 밖으로 꺼내 찢어발겨 중앙</div><div class="kb-diagram-node">Redis 캐시 / DB 쇳덩이 금고 텐트</div><div class="kb-diagram-note">1통에 다 쑤셔 밀어 박아 록온(Lock) 쳐라 쾅 ✨!!"</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Serverless / FaaS (AWS Lambda) 클라우드 쾌속 펌핑 융합 🚀 / 상태(State) 족쇄를 100% 벗어던진 서버 봇들은 존나 깃털 깡통이 됨 ➔ "오 개꿀 ㅋ 유저 클릭 1번 올 때마다 빈 깡통 봇 1대 0.1초 컷 허공 팝업 생성 띄워 연산 치고 1초 만에 바로 자살 삭제(Scale-to-Zero) 소각 쳐버려 쾅!!" 궁극의 요금 0원 무료 다이어트 기적 발동 ✨</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">AWS Step Functions &amp; Durable Functions 워크플로우 대통일 (현재) 🚀 / 서버리스 봇끼리 서로 쌩 다이렉트 직통 찌르다 대기 랙(Timeout) 타죽음 뻗는 지옥 딜레마(Orchestration 붕괴 💥) 를 막기 위해 ➔ 아예</div><div class="kb-diagram-node">비즈니스 전체 플로우 상태 도면을 쥐고 중앙 통치 조종하는 대장 뇌 기계 봇(상태 머신 텐트)</div><div class="kb-diagram-note">을 십자 융합 쳐 박아버려 ➔ 람다 1만 대를 100% 무결점 스텔스 톱니바퀴 핑퐁 제어 오토 힐링 롤백으로 지배 캐리해 내는 우주 최강 마스터피스 생태계 제국 안착 쾅 🚀!!</div></div>
-</div>
-</div>
-
-
+```text
+Stateful (상태 유지 강결합 쇳덩이) 야만 시대 💀 / 유저 1만 명 로그인 세션(Session) 데이터를 걍 톰캣 웹 서버 1번 기계 램(RAM) 뱃속에 무식하게 다 쑤셔 박아 용접 강결합 저장 치고 꿀빰 ㅋ
+    │
+    ▼
+Scale-out 널뛰기 확장의 대재앙 멸망 터짐 💥 / 블프 100만 명 폭주해서 서버 1대 ➔ 10대로 증식 복사 스위칭 침 ➔ 로드밸런서가 유저를 빈 2번 서버로 날렸더니 "어 넌 누구 ㅋ 내 램에 너 세션 없어 튕겨 401 컷 💀!" 전 국민 로그인 팅김 셧다운 올스탑 동반 타살 뻗음 파국 쾅!!!
+    │
+    ▼
+Stateless (무상태) 외부 스토리지 짬처리 분할 찢기 대관식 🚀 / 아키텍트 대장 분노 철퇴 🪓 "야 이 씨발 좆소 코더야 서버 램에 유저 데이터 1바이트 찌끄레기도 평생 기억하지 마 백지화 강제 세척 쳐 쾅!!! 무.조.건 밖으로 꺼내 찢어발겨 중앙 [Redis 캐시 / DB 쇳덩이 금고 텐트] 1통에 다 쑤셔 밀어 박아 록온(Lock) 쳐라 쾅 ✨!!"
+    │
+    ▼
+Serverless / FaaS (AWS Lambda) 클라우드 쾌속 펌핑 융합 🚀 / 상태(State) 족쇄를 100% 벗어던진 서버 봇들은 존나 깃털 깡통이 됨 ➔ "오 개꿀 ㅋ 유저 클릭 1번 올 때마다 빈 깡통 봇 1대 0.1초 컷 허공 팝업 생성 띄워 연산 치고 1초 만에 바로 자살 삭제(Scale-to-Zero) 소각 쳐버려 쾅!!" 궁극의 요금 0원 무료 다이어트 기적 발동 ✨
+    │
+    ▼
+AWS Step Functions & Durable Functions 워크플로우 대통일 (현재) 🚀 / 서버리스 봇끼리 서로 쌩 다이렉트 직통 찌르다 대기 랙(Timeout) 타죽음 뻗는 지옥 딜레마(Orchestration 붕괴 💥) 를 막기 위해 ➔ 아예 [비즈니스 전체 플로우 상태 도면을 쥐고 중앙 통치 조종하는 대장 뇌 기계 봇(상태 머신 텐트)] 을 십자 융합 쳐 박아버려 ➔ 람다 1만 대를 100% 무결점 스텔스 톱니바퀴 핑퐁 제어 오토 힐링 롤백으로 지배 캐리해 내는 우주 최강 마스터피스 생태계 제국 안착 쾅 🚀!!
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

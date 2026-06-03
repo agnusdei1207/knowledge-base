@@ -18,43 +18,49 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. [계층적 군집화](/knowledge-base/studynote/10_ai/05_data_science_ml/358_hierarchical_clustering/) 개요
 
+```
+계층적 군집화 두 방향:
 
+응집형 (Agglomerative, Bottom-Up):
+  초기: 각 데이터 포인트 = 독립 군집 (N개 군집)
+  단계: 가장 유사한 두 군집 합치기
+  종료: 모두 하나의 군집 (1개)
+  
+  N → N-1 → N-2 → ... → 2 → 1
+  
+  복잡도: O(n³) 또는 O(n² log n)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">계층적 군집화 두 방향:</div>
-<div class="kb-diagram-note">응집형 (Agglomerative, Bottom-Up):</div>
-<div class="kb-diagram-note">초기: 각 데이터 포인트 = 독립 군집 (N개 군집)</div>
-<div class="kb-diagram-note">단계: 가장 유사한 두 군집 합치기</div>
-<div class="kb-diagram-note">종료: 모두 하나의 군집 (1개)</div>
-<div class="kb-diagram-note">N → N-1 → N-2 → ... → 2 → 1</div>
-<div class="kb-diagram-note">복잡도: O(n³) 또는 O(n² log n)</div>
-<div class="kb-diagram-note">분리형 (Divisive, Top-Down):</div>
-<div class="kb-diagram-note">초기: 모든 데이터 = 하나의 군집</div>
-<div class="kb-diagram-note">단계: 가장 이질적인 군집 나누기</div>
-<div class="kb-diagram-note">종료: 각 포인트가 독립 군집</div>
-<div class="kb-diagram-note">1 → 2 → ... → N-1 → N</div>
-<div class="kb-diagram-note">더 복잡, 덜 사용됨</div>
-<div class="kb-diagram-note">덴드로그램 (Dendrogram):</div>
-<div class="kb-diagram-note">계층적 군집화의 시각화</div>
-<div class="kb-diagram-note">y축: 군집 간 거리 (합병 시 거리)</div>
-<div class="kb-diagram-note">x축: 데이터 포인트</div>
-<div class="kb-diagram-note">예시:</div>
-<div class="kb-diagram-note">A ─</div>
-<div class="kb-diagram-note">B ─ ─</div>
-<div class="kb-diagram-note">C ─</div>
-<div class="kb-diagram-note">D</div>
-<div class="kb-diagram-note">A와 B가 먼저 합쳐짐 (유사)</div>
-<div class="kb-diagram-note">C가 AB에 합쳐짐</div>
-<div class="kb-diagram-note">D가 ABC에 합쳐짐</div>
-<div class="kb-diagram-note">군집 수 결정 (덴드로그램 절단):</div>
-<div class="kb-diagram-note">덴드로그램을 특정 높이에서 절단</div>
-<div class="kb-diagram-note">→ 그 높이의 가지 수 = 군집 수</div>
-<div class="kb-diagram-note">최적 절단: 가장 긴 수직선 위치 (가장 큰 거리 점프)</div>
-</div>
-</div>
+분리형 (Divisive, Top-Down):
+  초기: 모든 데이터 = 하나의 군집
+  단계: 가장 이질적인 군집 나누기
+  종료: 각 포인트가 독립 군집
+  
+  1 → 2 → ... → N-1 → N
+  
+  더 복잡, 덜 사용됨
 
+덴드로그램 (Dendrogram):
+  계층적 군집화의 시각화
+  
+  y축: 군집 간 거리 (합병 시 거리)
+  x축: 데이터 포인트
+  
+  예시:
+  A ─┐
+  B ─┘─┐
+  C ────┘─┐
+  D ──────┘
 
+  A와 B가 먼저 합쳐짐 (유사)
+  C가 AB에 합쳐짐
+  D가 ABC에 합쳐짐
+
+군집 수 결정 (덴드로그램 절단):
+  덴드로그램을 특정 높이에서 절단
+  → 그 높이의 가지 수 = 군집 수
+  
+  최적 절단: 가장 긴 수직선 위치 (가장 큰 거리 점프)
+```
 
 > 📢 **섹션 요약 비유**: [계층적 군집화](/knowledge-base/studynote/10_ai/05_data_science_ml/358_hierarchical_clustering/)는 가족 족보 — 개인([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) → 가족 → 씨족 → 민족 → 인류. 덴드로그램은 족보 그림. 어느 세대까지 볼지(절단)는 내가 결정!
 
@@ -62,47 +68,57 @@ tags = ["studynote-ai"]
 
 ## Ⅱ. 연결 방법 (Linkage)
 
+```
+연결 방법 비교:
 
+단일 연결 (Single Linkage = MIN):
+  두 군집 간 거리 = 가장 가까운 두 점의 거리
+  
+  Dist(C1, C2) = min{dist(a,b): a∈C1, b∈C2}
+  
+  특성:
+  체인 효과 (Chaining Effect): 하나씩 이어붙임
+  긴 사슬 모양 군집 생성
+  이상치 민감
+  
+  적합: 고리 형태 군집, 연결 클러스터
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">연결 방법 비교:</div>
-<div class="kb-diagram-note">단일 연결 (Single Linkage = MIN):</div>
-<div class="kb-diagram-note">두 군집 간 거리 = 가장 가까운 두 점의 거리</div>
-<div class="kb-diagram-note">Dist(C1, C2) = min{dist(a,b): a∈C1, b∈C2}</div>
-<div class="kb-diagram-note">특성:</div>
-<div class="kb-diagram-note">체인 효과 (Chaining Effect): 하나씩 이어붙임</div>
-<div class="kb-diagram-note">긴 사슬 모양 군집 생성</div>
-<div class="kb-diagram-note">이상치 민감</div>
-<div class="kb-diagram-note">적합: 고리 형태 군집, 연결 클러스터</div>
-<div class="kb-diagram-note">완전 연결 (Complete Linkage = MAX):</div>
-<div class="kb-diagram-note">두 군집 간 거리 = 가장 먼 두 점의 거리</div>
-<div class="kb-diagram-note">Dist(C1, C2) = max{dist(a,b): a∈C1, b∈C2}</div>
-<div class="kb-diagram-note">특성:</div>
-<div class="kb-diagram-note">컴팩트한 구형 군집</div>
-<div class="kb-diagram-note">이상치에 강함 (최대 거리 기준)</div>
-<div class="kb-diagram-note">균일한 크기 군집</div>
-<div class="kb-diagram-note">적합: 구형 군집, 노이즈 있는 데이터</div>
-<div class="kb-diagram-note">평균 연결 (Average Linkage = UPGMA):</div>
-<div class="kb-diagram-note">두 군집 간 모든 쌍의 평균 거리</div>
-<div class="kb-diagram-note">Dist(C1, C2) = avg{dist(a,b): a∈C1, b∈C2}</div>
-<div class="kb-diagram-note">특성: Single과 Complete의 중간</div>
-<div class="kb-diagram-note">Ward 연결:</div>
-<div class="kb-diagram-note">합병 시 군집 내 분산(WCSS) 증가량 최소화</div>
-<div class="kb-diagram-note">Dist(C1, C2) = 합병 후 WCSS - (C1 WCSS + C2 WCSS)</div>
-<div class="kb-diagram-note">특성:</div>
-<div class="kb-diagram-note">균일한 크기의 컴팩트한 군집</div>
-<div class="kb-diagram-note">대부분 상황에서 최고 성능</div>
-<div class="kb-diagram-note">권장: 일반적으로 Ward 방법이 기본 선택</div>
-<div class="kb-diagram-note">비교 시각화:</div>
-<div class="kb-diagram-note">단일: A B C D (체인)</div>
-<div class="kb-diagram-note">완전: A─ B─ (두 덩어리)</div>
-<div class="kb-diagram-note">C─ D─</div>
-<div class="kb-diagram-note">Ward: 균일한 크기 덩어리</div>
-</div>
-</div>
+완전 연결 (Complete Linkage = MAX):
+  두 군집 간 거리 = 가장 먼 두 점의 거리
+  
+  Dist(C1, C2) = max{dist(a,b): a∈C1, b∈C2}
+  
+  특성:
+  컴팩트한 구형 군집
+  이상치에 강함 (최대 거리 기준)
+  균일한 크기 군집
+  
+  적합: 구형 군집, 노이즈 있는 데이터
 
+평균 연결 (Average Linkage = UPGMA):
+  두 군집 간 모든 쌍의 평균 거리
+  
+  Dist(C1, C2) = avg{dist(a,b): a∈C1, b∈C2}
+  
+  특성: Single과 Complete의 중간
 
+Ward 연결:
+  합병 시 군집 내 분산(WCSS) 증가량 최소화
+  
+  Dist(C1, C2) = 합병 후 WCSS - (C1 WCSS + C2 WCSS)
+  
+  특성:
+  균일한 크기의 컴팩트한 군집
+  대부분 상황에서 최고 성능
+  
+  권장: 일반적으로 Ward 방법이 기본 선택
+
+비교 시각화:
+  단일: A───B───C───D (체인)
+  완전: A─┐ B─┐ (두 덩어리)
+        C─┘ D─┘
+  Ward: 균일한 크기 덩어리
+```
 
 > 📢 **섹션 요약 비유**: 연결 방법은 반 편성 기준 — 단일(가장 친한 친구 기준: 체인 효과), 완전(가장 멀리 있는 애도 같은 반), Ward(비슷한 능력 그룹). 대부분 Ward가 최선!
 
@@ -110,48 +126,53 @@ tags = ["studynote-ai"]
 
 ## Ⅲ. [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 구현
 
+```
+응집형 계층적 군집화 알고리즘:
 
+입력: n개 데이터 포인트
+출력: 덴드로그램
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">응집형 계층적 군집화 알고리즘:</div>
-<div class="kb-diagram-note">입력: n개 데이터 포인트</div>
-<div class="kb-diagram-note">출력: 덴드로그램</div>
-<div class="kb-diagram-note">의사코드 (단순 버전):</div>
-<div class="kb-diagram-note">1. 거리 행렬 D 계산 (n×n)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">D</div><div class="kb-diagram-node">i</div><div class="kb-diagram-node">j</div><div class="kb-diagram-note">= dist(xi, xj)</div></div>
-<div class="kb-diagram-note">2. 각 포인트 = 독립 군집 (C = {C1, C2, ..., Cn})</div>
-<div class="kb-diagram-note">3. n-1 반복:</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- 가장 작은 D</div><div class="kb-diagram-node">Ci, Cj</div><div class="kb-diagram-note">찾기</div></div>
-<div class="kb-diagram-tree-item" style="--depth:2">Ci와 Cj 합병 → Ck</div>
-<div class="kb-diagram-tree-item" style="--depth:2">덴드로그램 기록 (합병 거리, 높이)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">D 업데이트 (Ck와 나머지 군집 거리 재계산)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">C에서 Ci, Cj 제거, Ck 추가</div>
-<div class="kb-diagram-note">4. 덴드로그램 반환</div>
-<div class="kb-diagram-note">Python 구현:</div>
-<div class="kb-diagram-note">from scipy.cluster.hierarchy import linkage, dendrogram</div>
-<div class="kb-diagram-note">from scipy.spatial.distance import pdist</div>
-<div class="kb-diagram-note">import matplotlib.pyplot as plt</div>
-<div class="kb-diagram-note"># 거리 계산 + 계층 군집화</div>
-<div class="kb-diagram-note">Z = linkage(X, method='ward', metric='euclidean')</div>
-<div class="kb-diagram-note"># 덴드로그램 시각화</div>
-<div class="kb-diagram-note">dendrogram(Z, labels=labels, color_threshold=5)</div>
-<div class="kb-diagram-note">plt.show()</div>
-<div class="kb-diagram-note"># 특정 군집 수로 절단</div>
-<div class="kb-diagram-note">from scipy.cluster.hierarchy import fcluster</div>
-<div class="kb-diagram-note">labels = fcluster(Z, t=3, criterion='maxclust')</div>
-<div class="kb-diagram-note">시간 복잡도:</div>
-<div class="kb-diagram-note">Naive: O(n³)</div>
-<div class="kb-diagram-note">SLINK (Single): O(n²)</div>
-<div class="kb-diagram-note">CLINK (Complete): O(n²)</div>
-<div class="kb-diagram-note">Ward (Lance-Williams): O(n² log n)</div>
-<div class="kb-diagram-note">n = 10,000:</div>
-<div class="kb-diagram-note">O(n³) = 10^12 → 수 시간</div>
-<div class="kb-diagram-note">→ 대규모 데이터: k-means 선호</div>
-</div>
-</div>
+의사코드 (단순 버전):
+  1. 거리 행렬 D 계산 (n×n)
+     D[i][j] = dist(xi, xj)
+  
+  2. 각 포인트 = 독립 군집 (C = {C1, C2, ..., Cn})
+  
+  3. n-1 반복:
+     - 가장 작은 D[Ci, Cj] 찾기
+     - Ci와 Cj 합병 → Ck
+     - 덴드로그램 기록 (합병 거리, 높이)
+     - D 업데이트 (Ck와 나머지 군집 거리 재계산)
+     - C에서 Ci, Cj 제거, Ck 추가
+  
+  4. 덴드로그램 반환
 
+Python 구현:
+  from scipy.cluster.hierarchy import linkage, dendrogram
+  from scipy.spatial.distance import pdist
+  import matplotlib.pyplot as plt
+  
+  # 거리 계산 + 계층 군집화
+  Z = linkage(X, method='ward', metric='euclidean')
+  
+  # 덴드로그램 시각화
+  dendrogram(Z, labels=labels, color_threshold=5)
+  plt.show()
+  
+  # 특정 군집 수로 절단
+  from scipy.cluster.hierarchy import fcluster
+  labels = fcluster(Z, t=3, criterion='maxclust')
 
+시간 복잡도:
+  Naive: O(n³)
+  SLINK (Single): O(n²)
+  CLINK (Complete): O(n²)
+  Ward (Lance-Williams): O(n² log n)
+  
+  n = 10,000:
+  O(n³) = 10^12 → 수 시간
+  → 대규모 데이터: k-means 선호
+```
 
 > 📢 **섹션 요약 비유**: 계층 군집 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 거리 기반 합치기 — 거리표(D) 보면서 가장 가까운 둘을 계속 합쳐요. 족보가 완성될 때까지!
 
@@ -204,44 +225,47 @@ k-means vs 계층 군집화:
 
 ## Ⅴ. 실무 시나리오 — 고객 세그먼트 분석
 
+```
+온라인 쇼핑몰 고객 세그먼트:
 
+데이터:
+  1,000명 고객
+  특성: [구매 빈도, 평균 금액, 마지막 구매 일수 (RFM)]
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">온라인 쇼핑몰 고객 세그먼트:</div>
-<div class="kb-diagram-note">데이터:</div>
-<div class="kb-diagram-note">1,000명 고객</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">특성:</div><div class="kb-diagram-node">구매 빈도, 평균 금액, 마지막 구매 일수 (RFM)</div></div>
-<div class="kb-diagram-note">전처리:</div>
-<div class="kb-diagram-note">StandardScaler로 정규화 (단위 통일)</div>
-<div class="kb-diagram-note">계층적 군집화 적용:</div>
-<div class="kb-diagram-note">Z = linkage(X_scaled, method='ward')</div>
-<div class="kb-diagram-note">덴드로그램 분석:</div>
-<div class="kb-diagram-note">y=5 높이에서 가장 긴 수직선</div>
-<div class="kb-diagram-note">→ 절단 높이 = 5 → 4개 군집 최적</div>
-<div class="kb-diagram-note">군집 해석 (4개):</div>
-<div class="kb-diagram-note">군집 0: VIP 고객 (빈도 높음, 금액 높음, 최근)</div>
-<div class="kb-diagram-note">군집 1: 충성 고객 (빈도 중간, 금액 중간)</div>
-<div class="kb-diagram-note">군집 2: 휴면 고객 (빈도 낮음, 오래됨)</div>
-<div class="kb-diagram-note">군집 3: 신규 고객 (최근, 빈도 낮음)</div>
-<div class="kb-diagram-note">마케팅 활용:</div>
-<div class="kb-diagram-note">VIP: 프리미엄 멤버십 초대</div>
-<div class="kb-diagram-note">충성: 포인트 더블 이벤트</div>
-<div class="kb-diagram-note">휴면: 재활성화 캠페인 이메일</div>
-<div class="kb-diagram-note">신규: 첫 구매 할인 → 재구매 유도</div>
-<div class="kb-diagram-note">k-means 대비 장점:</div>
-<div class="kb-diagram-note">군집 수(4개) 덴드로그램으로 결정</div>
-<div class="kb-diagram-note">(k-means: 미리 k=4로 지정해야)</div>
-<div class="kb-diagram-note">군집 계층 분석:</div>
-<div class="kb-diagram-note">VIP와 충성 고객이 먼저 합쳐짐 (유사)</div>
-<div class="kb-diagram-note">→ 함께 "우량 고객" 캠페인도 가능</div>
-<div class="kb-diagram-note">결과:</div>
-<div class="kb-diagram-note">휴면 고객 캠페인 응답률: 12% (업계 평균 5%)</div>
-<div class="kb-diagram-note">신규→충성 전환율: 28% (이전 15%)</div>
-</div>
-</div>
+전처리:
+  StandardScaler로 정규화 (단위 통일)
 
+계층적 군집화 적용:
+  Z = linkage(X_scaled, method='ward')
+  
+  덴드로그램 분석:
+  y=5 높이에서 가장 긴 수직선
+  → 절단 높이 = 5 → 4개 군집 최적
 
+군집 해석 (4개):
+  군집 0: VIP 고객 (빈도 높음, 금액 높음, 최근)
+  군집 1: 충성 고객 (빈도 중간, 금액 중간)
+  군집 2: 휴면 고객 (빈도 낮음, 오래됨)
+  군집 3: 신규 고객 (최근, 빈도 낮음)
+
+마케팅 활용:
+  VIP: 프리미엄 멤버십 초대
+  충성: 포인트 더블 이벤트
+  휴면: 재활성화 캠페인 이메일
+  신규: 첫 구매 할인 → 재구매 유도
+
+k-means 대비 장점:
+  군집 수(4개) 덴드로그램으로 결정
+  (k-means: 미리 k=4로 지정해야)
+  
+  군집 계층 분석:
+  VIP와 충성 고객이 먼저 합쳐짐 (유사)
+  → 함께 "우량 고객" 캠페인도 가능
+  
+결과:
+  휴면 고객 캠페인 응답률: 12% (업계 평균 5%)
+  신규→충성 전환율: 28% (이전 15%)
+```
 
 > 📢 **섹션 요약 비유**: 고객 세그먼트 분석은 손님 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) — 덴드로그램으로 VIP·충성·휴면·신규 4그룹 자동 발견. k-means 달리 그룹 수도 자동으로 알아내요!
 

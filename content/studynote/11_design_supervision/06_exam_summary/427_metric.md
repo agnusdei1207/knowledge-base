@@ -22,16 +22,13 @@ tags = ["studynote-design-supervision"]
 
 요구사항이 모호한 초반에는 빠른 의사결정을 위해 간이법이 필요하고, 요구가 구체화되면 상세법이나 [기능점수](/knowledge-base/studynote/04_software_engineering/uncategorized/673_function_point_ilf_eif/) 기반 산정으로 오차를 줄여야 한다. 감리 관점에서는 어떤 기법을 썼느냐보다 <strong>왜 그 시점에 그 기법이 적절했는가</strong>와 <strong>산정 근거가 재현 가능한가</strong>가 더 중요하다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RFP/초기 요구 ──▶ 간이 산정 ──▶ 상세 산정/FP ──▶ 계약·정산 검증</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">빠른 예산 판단 오차 축소 객관적 근거 확보</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ RFP/초기 요구 ──▶ 간이 산정 ──▶ 상세 산정/FP ──▶ 계약·정산 검증 │
+├──────────────────────────────────────────────────────────────┤
+│ 빠른 예산 판단      오차 축소         객관적 근거 확보         │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 그림은 비용 산정이 한 번의 숫자 계산이 아니라, 요구사항 성숙도에 따라 단계적으로 정밀도를 높여 가는 과정임을 보여 준다.
 
@@ -49,17 +46,15 @@ tags = ["studynote-design-supervision"]
 | 상세법 | 기능별 복잡도와 세부 공정을 반영 | 요구사항이 안정된 뒤 정확도 향상 |
 | [기능점수](/knowledge-base/studynote/04_software_engineering/uncategorized/673_function_point_ilf_eif/) | 사용자 기능 규모를 표준 항목으로 계량 | 계약·정산·감리에서 객관적 증빙에 유리 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Requirement</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ EI / EO / EQ / ILF / EIF 식별</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">UFP 산정 ──▶ VAF 보정 ──▶ FP 규모 확정 ──▶ 생산성·단가 적용</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ Requirement                                                   │
+│    │                                                         │
+│    ├─ EI / EO / EQ / ILF / EIF 식별                          │
+│    ▼                                                         │
+│ UFP 산정 ──▶ VAF 보정 ──▶ FP 규모 확정 ──▶ 생산성·단가 적용   │
+└──────────────────────────────────────────────────────────────┘
+```
 
 시험에서는 UFP(Unadjusted [Function Point](/knowledge-base/studynote/12_it_management/04_sdlc_testing/140_function_point/)), VAF(Value Adjustment Factor), AFP(Adjusted [Function Point](/knowledge-base/studynote/12_it_management/04_sdlc_testing/140_function_point/)) 용어를 한 번 정도 연결해 주면 답안이 풍부해진다. 다만 지나치게 계산식만 나열하지 말고, <strong><a href="/knowledge-base/studynote/04_software_engineering/uncategorized/673_function_point_ilf_eif/">기능점수</a>는 요구를 숫자로 바꿔 계약과 정산의 공통 언어를 만든다</strong>는 점을 분명히 써야 한다.
 
@@ -127,23 +122,21 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">초기 요구 정의</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">간이 산정</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">상세 산정 / Function Point</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">비용 · 일정 · 인력 계획 수립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">종료 후 정산 검증</div>
-</div>
-</div>
-
-
+```text
+초기 요구 정의
+    │
+    ▼
+간이 산정
+    │
+    ▼
+상세 산정 / Function Point
+    │
+    ▼
+비용 · 일정 · 인력 계획 수립
+    │
+    ▼
+종료 후 정산 검증
+```
 
 이 흐름은 비용 산정이 단발성 추정이 아니라, 사업 전 주기에서 반복 보정되는 관리 활동임을 보여 준다.
 

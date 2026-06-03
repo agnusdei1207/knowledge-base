@@ -25,21 +25,28 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 공격이 왜 "틀린 점프 -> 흔적 남김 -> 취소 후 유출" 순서로 이해되어야 하는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Branch Target Injection attack chain</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Attacker trains shared predictor / BTB alias</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Victim reaches indirect branch</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">transient jump to gadget</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">secret-dependent cache touch</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">misprediction resolved -&gt; architectural rollback</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">cache timing still reveals secret</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│ Branch Target Injection attack chain                                      │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Attacker trains shared predictor / BTB alias                              │
+│                          │                                                 │
+│                          ▼                                                 │
+│ Victim reaches indirect branch                                             │
+│                          │                                                 │
+│                          ▼                                                 │
+│ transient jump to gadget                                                   │
+│                          │                                                 │
+│                          ▼                                                 │
+│ secret-dependent cache touch                                               │
+│                          │                                                 │
+│                          ▼                                                 │
+│ misprediction resolved -> architectural rollback                           │
+│                          │                                                 │
+│                          ▼                                                 │
+│ cache timing still reveals secret                                          │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 분기 목표 주입은 누군가 내비게이션의 최근 목적지 기록을 몰래 바꿔 놓아, 내가 잠깐 엉뚱한 골목으로 들어가게 만드는 일과 같다. 곧바로 길을 바로잡아도 타이어 자국은 남아서 내가 어디를 스쳤는지 들켜 버린다.
 
@@ -61,21 +68,24 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 공격자 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)과 피해자 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)이 어떻게 예측기 상태 하나로 연결되는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Shared predictor state becomes a covert cross-domain hint</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Attacker domain</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">indirect branch training -&gt; poison BTB entry -&gt; target = gadget</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">predictor alias survives switch</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Victim domain</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">indirect call / jmp -&gt; transiently redirected to gadget</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">secret load -&gt; cache footprint -&gt; timing-based leak</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│ Shared predictor state becomes a covert cross-domain hint                 │
+├────────────────────────────────────────────────────────────────────────────┤
+│ [Attacker domain]                                                          │
+│   indirect branch training -> poison BTB entry -> target = gadget         │
+│                                   │                                        │
+│                                   ▼                                        │
+│                       predictor alias survives switch                      │
+│                                   │                                        │
+│                                   ▼                                        │
+│ [Victim domain]                                                            │
+│   indirect call / jmp -> transiently redirected to gadget                 │
+│                                   │                                        │
+│                                   ▼                                        │
+│              secret load -> cache footprint -> timing-based leak           │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 중요한 점은 공격자가 피해자 분기의 "정답 주소"를 바꾸는 것이 아니라, <strong>정답이 준비되기 전 잠깐 믿게 만들 가짜 주소</strong>를 심는다는 사실이다. 그래서 소스 코드만 보면 멀쩡한 간접 호출도, [마이크로아키텍처](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/204_microarchitecture/) 수준에서는 보안 경계를 가로지르는 예측 오염 통로가 될 수 있다.
 
@@ -154,23 +164,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">고성능 분기 예측 · 투기 실행</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">간접 분기 예측기 · BTB 공유</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">분기 목표 주입 (Spectre variant 2)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Retpoline · IBPB · IBRS · STIBP</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">eIBRS · predictor domain partitioning</div>
-</div>
-</div>
-
-
+```text
+고성능 분기 예측 · 투기 실행
+                │
+                ▼
+간접 분기 예측기 · BTB 공유
+                │
+                ▼
+분기 목표 주입 (Spectre variant 2)
+                │
+                ▼
+Retpoline · IBPB · IBRS · STIBP
+                │
+                ▼
+eIBRS · predictor domain partitioning
+```
 
 이 흐름은 단순 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화였던 [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)이, 이제는 보안 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 분리와 함께 설계되어야 하는 핵심 자원으로 재해석되고 있음을 보여 준다.
 

@@ -24,18 +24,14 @@ tags = ["studynote-network"]
 
 - **💡 비유**: 전화번호의 맨 앞자리를 보고 지역을 아는 것과 같습니다. <strong><code>02</code></strong>로 시작하면 "아, 서울(A클래스)이구나, 지역 번호가 짧고 번호가 많지!", <strong><code>031</code></strong>로 시작하면 "경기도(B클래스)구나!", <strong><code>064</code></strong>로 시작하면 "제주도(C클래스)구나!"라고, <strong>맨 앞자리 숫자만 보고도 동네의 크기와 규칙을 단번에 눈치채는 직관적 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/">식별</a>법</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">IP 주소 고갈 문제, 클라스풀 주소체계</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">클래스 A, B, C, D, E</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">사설 IP 영역: 10.x, 172.16.x…</div></div>
-</div>
-</div>
-
-
+```text
+[IP 주소 고갈 문제, 클라스풀 주소체계]
+    │
+    ▼
+[클래스 A, B, C, D, E]
+    │
+    └──▶ [사설 IP 영역: 10.x, 172.16.x…]
+```
 
 - **📢 섹션 요약 비유**: ** A, B, C 클래스는 택배 박스의 크기입니다. 우체국 기계가 박스 표면의 **"시작 바코드(최상위 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/))"**만 슥 읽어보고 이것이 초대형 박스(A), 중형 박스(B), 소형 박스(C)인지 0.001초 만에 자동 분류하는 고전적인 하드웨어 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 기술입니다.
 
@@ -71,21 +67,20 @@ tags = ["studynote-network"]
 - **십진수 범위**: **240 ~ 255** (단, `255.255.255.255`는 전체 브로드캐스트용)
 - **특징**: IANA가 미래를 위해 꽁꽁 숨겨둔 주소. 컴퓨터에 이 주소를 입력하면 "유효하지 않은 주소입니다"라며 OS 단에서 에러를 뿜어낸다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클래스(Class) 구분 요약 1초 판별법</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IP: 172.16.5.9 ──▶ 첫 숫자 172 ──▶ (128~191 사이네?) ──▶ B 클래스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IP: 10.0.0.1 ──▶ 첫 숫자 10 ──▶ (0~127 사이네?) ──▶ A 클래스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IP: 203.25.1.1 ──▶ 첫 숫자 203 ──▶ (192~223 사이네?) ──▶ C 클래스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IP: 224.0.0.5 ──▶ 첫 숫자 224 ──▶ (224~239 사이네?) ──▶ D 멀티!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 라우터는 이렇게 십진수가 아닌 이진수 맨 앞자리 0, 10, 110만 보고</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">순식간에 네트워크 길이를 잘라버린다! (서브넷 마스크가 필요 없음)</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                클래스(Class) 구분 요약 1초 판별법               │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   IP: 172.16.5.9  ──▶ 첫 숫자 172 ──▶ (128~191 사이네?) ──▶ B 클래스 │
+ │   IP: 10.0.0.1    ──▶ 첫 숫자 10  ──▶ (0~127 사이네?)   ──▶ A 클래스 │
+ │   IP: 203.25.1.1  ──▶ 첫 숫자 203 ──▶ (192~223 사이네?) ──▶ C 클래스 │
+ │   IP: 224.0.0.5   ──▶ 첫 숫자 224 ──▶ (224~239 사이네?) ──▶ D 멀티!  │
+ │                                                             │
+ │   * 라우터는 이렇게 십진수가 아닌 이진수 맨 앞자리 0, 10, 110만 보고 │
+ │     순식간에 네트워크 길이를 잘라버린다! (서브넷 마스크가 필요 없음)    │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: ** A, B, C 클래스는 **"대/중/소 아파트 단지"**이고, D 클래스는 아파트 단지 내에 설치된 **"동네 방송국 전용 채널 주파수"**이며, E 클래스는 일반인이 절대 들어갈 수 없는 **"군사 통제 구역"**입니다.
 
@@ -143,19 +138,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: IP 주소 고갈 문제, 클라스풀 주소체계</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 클래스 A, B, C, D, E</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 사설 IP 영역: 10.x, 172.16.x…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 대규모 주소 자동화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: IP 주소 고갈 문제, 클라스풀 주소체계]
+    │
+    ▼
+[현재 개념: 클래스 A, B, C, D, E]
+    │
+    ├──▶ [확장 A: 사설 IP 영역: 10.x, 172.16.x…]
+    └──▶ [확장 B: 대규모 주소 자동화]
+```
 
 클래스 A, B, C, D, E는 IP 주소 고갈 문제, 클라스풀 주소체계에서 출발해 현재 메커니즘을 정교화하고, 이후 사설 IP 영역: [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/).x, 172.16.x…와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

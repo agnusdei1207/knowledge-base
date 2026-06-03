@@ -34,27 +34,27 @@ tags = ["studynote-ict-convergence"]
 
 ### ERC-4337 [계정 추상화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/087_account_abstraction_erc_4337/) 구조
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ERC-4337 Account Abstraction 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">UserOperation (서명된 의도)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Bundler (번들러)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">여러 UserOp 묶어 트랜잭션으로 L1 제출</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EntryPoint Contract (단일 전역 컨트랙트)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① validateUserOp 검증</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② Paymaster 가스비 대납 확인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스마트 컨트랙트 계정 (Smart Account)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소셜 복구 (Social Recovery)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">세션 키 (Session Key)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다중 서명 지원</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가스비 ERC-20으로 지불</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────┐
+│            ERC-4337 Account Abstraction 흐름             │
+│                                                         │
+│  사용자                                                  │
+│    │ UserOperation (서명된 의도)                         │
+│    ▼                                                    │
+│  Bundler (번들러)                                        │
+│    │ 여러 UserOp 묶어 트랜잭션으로 L1 제출               │
+│    ▼                                                    │
+│  EntryPoint Contract (단일 전역 컨트랙트)                │
+│    │ ① validateUserOp 검증                              │
+│    │ ② Paymaster 가스비 대납 확인                        │
+│    ▼                                                    │
+│  스마트 컨트랙트 계정 (Smart Account)                    │
+│    ├ 소셜 복구 (Social Recovery)                         │
+│    ├ 세션 키 (Session Key)                               │
+│    ├ 다중 서명 지원                                      │
+│    └ 가스비 ERC-20으로 지불                              │
+└─────────────────────────────────────────────────────────┘
+```
 
 ### 멀티시그 vs ERC-4337 비교
 

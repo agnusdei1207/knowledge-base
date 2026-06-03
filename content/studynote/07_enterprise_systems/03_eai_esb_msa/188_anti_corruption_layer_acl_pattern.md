@@ -33,20 +33,18 @@ ACL은 보통 신규 [서비스](/knowledge-base/studynote/13_cloud_architecture
 
 아래 그림은 ACL이 의미 체계를 어떻게 격리하는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Domain protection with ACL</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New Service -&gt; Canonical Model -&gt; ACL -&gt; Legacy API / DB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ request mapping</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ response mapping</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ error / code translation</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">domain purity preserved</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Domain protection with ACL                                           │
+├──────────────────────────────────────────────────────────────────────┤
+│ New Service -> Canonical Model -> ACL -> Legacy API / DB            │
+│                   ▲                │                                  │
+│                   │                ├─ request mapping                │
+│                   │                ├─ response mapping               │
+│                   │                └─ error / code translation       │
+│                   └──── domain purity preserved                      │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 | 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -127,23 +125,21 @@ ACL이 잘 설계되면 신규 [서비스](/knowledge-base/studynote/13_cloud_ar
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">레거시 직접 연동의 의미 오염</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">어댑터 / 퍼사드 기반 인터페이스 정리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ACL을 통한 도메인 번역 계층 도입</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">계약 테스트 · 표준 모델 정착</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">레거시 교체 시 경계만 유지하고 뒤편 교체</div>
-</div>
-</div>
-
-
+```text
+레거시 직접 연동의 의미 오염
+        │
+        ▼
+어댑터 / 퍼사드 기반 인터페이스 정리
+        │
+        ▼
+ACL을 통한 도메인 번역 계층 도입
+        │
+        ▼
+계약 테스트 · 표준 모델 정착
+        │
+        ▼
+레거시 교체 시 경계만 유지하고 뒤편 교체
+```
 
 이 흐름은 "연결"에서 출발해 "의미 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)"를 거쳐, 최종적으로 레거시 교체 유연성까지 확보하는 과정을 보여 준다.
 

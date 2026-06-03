@@ -32,27 +32,28 @@ tags = ["studynote-cloud-architecture"]
 ### C, A, P의 정의와 불가능성의 트라이앵글
 3가지 속성은 각각 시스템의 영혼(거버넌스)을 대변한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CAP 정리의 불가능성 트라이앵글 (Impossibility Triangle)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Consistency (일관성)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모든 노드가 같은 순간에</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">완벽히 같은 데이터를 보여줌</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RDBMS / \ MongoDB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(오라클, MySQL) (HBase)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CA (분산 포기) / \ CP (가용성 포기)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Availability (가용성)</div><div class="kb-diagram-node">Partition Tolerance</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버가 살아있다면, AP (일관성 포기) (네트워크 분할 허용)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">무조건 정상 응답을 줌! Cassandra, DynamoDB 핑 끊겨도 생존!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심 논리: 클라우드 분산 시스템에서 'P(네트워크 단절)'는 무조건</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">발생하는 숙명(기본값)이다. 따라서 현대 아키텍트의 실질적 선택은</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CP(일관성 몰빵)냐, AP(가용성 몰빵)냐 둘 중 하나뿐이다.</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────┐
+│           CAP 정리의 불가능성 트라이앵글 (Impossibility Triangle) │
+├────────────────────────────────────────────────────────┤
+│                      [ Consistency (일관성) ]            │
+│                      모든 노드가 같은 순간에              │
+│                      완벽히 같은 데이터를 보여줌           │
+│                           /      \                     │
+│                  RDBMS  /          \   MongoDB         │
+│               (오라클, MySQL)       (HBase)             │
+│                       /              \                 │
+│         CA (분산 포기) /                \ CP (가용성 포기)│
+│                    /                    \              │
+│[ Availability (가용성) ] ───────── [ Partition Tolerance ]│
+│  서버가 살아있다면,           AP (일관성 포기)  (네트워크 분할 허용)│
+│  무조건 정상 응답을 줌!     Cassandra, DynamoDB 핑 끊겨도 생존! │
+│                                                        │
+│ * 핵심 논리: 클라우드 분산 시스템에서 'P(네트워크 단절)'는 무조건 │
+│   발생하는 숙명(기본값)이다. 따라서 현대 아키텍트의 실질적 선택은│
+│   CP(일관성 몰빵)냐, AP(가용성 몰빵)냐 둘 중 하나뿐이다.        │
+└────────────────────────────────────────────────────────┘
+```
 
 - <strong>C (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">Consistency</a>, <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a>)</strong>: 유저가 한국 서버에 `A=1`을 썼다면, 0.001초 뒤에 미국 서버를 조회해도 무조건 `A=1`이 나와야 한다. (동기식 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/))
 - <strong>A (<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">Availability</a>, <a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a>)</strong>: 한국 서버가 죽든, 케이블이 끊어지든, 클라이언트는 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)(에러) 없이 무조건 응답을 받아야 한다.
@@ -114,25 +115,24 @@ tags = ["studynote-cloud-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단일(Single) RDBMS 중심의 완벽한 ACID 데이터베이스 시대 (CA 구조)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">글로벌 인터넷 서비스 폭발 ──▶ 단일 서버 성능 한계 봉착 (Scale-out 분산화 필요)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">네트워크 분할(Partition)이 필연적인 분산 시스템 환경 도래</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">에릭 브루어(Eric Brewer)의 CAP 정리 발표 ──▶ 분산 환경에서 완벽함(C+A+P)은 불가능함 증명</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">비즈니스 성격에 맞춘 쇳덩어리 아키텍처(NoSQL)의 분화 (CP 계열 vs AP 계열)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">네트워크 정상 상태까지 고려한 PACELC 정리로 진화 및 최종적 일관성(Eventual)의 대중화</div>
-</div>
-</div>
-
-
+```text
+단일(Single) RDBMS 중심의 완벽한 ACID 데이터베이스 시대 (CA 구조)
+    │
+    ▼
+글로벌 인터넷 서비스 폭발 ──▶ 단일 서버 성능 한계 봉착 (Scale-out 분산화 필요)
+    │
+    ▼
+네트워크 분할(Partition)이 필연적인 분산 시스템 환경 도래
+    │
+    ▼
+에릭 브루어(Eric Brewer)의 CAP 정리 발표 ──▶ 분산 환경에서 완벽함(C+A+P)은 불가능함 증명
+    │
+    ▼
+비즈니스 성격에 맞춘 쇳덩어리 아키텍처(NoSQL)의 분화 (CP 계열 vs AP 계열)
+    │
+    ▼
+네트워크 정상 상태까지 고려한 PACELC 정리로 진화 및 최종적 일관성(Eventual)의 대중화
+```
 
 이 흐름도는 "오라클의 완벽주의([CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/)) → [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)화로 인한 네트워크 장애의 일상화(P) → 물리적 불가능성 증명([CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/)) → 목적에 따른 아키텍처의 포기/진화([NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) 파편화)"라는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공학의 위대한 깨달음을 보여준다.
 

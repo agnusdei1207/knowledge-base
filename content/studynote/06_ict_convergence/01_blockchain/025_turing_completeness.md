@@ -20,25 +20,24 @@ tags = ["studynote-ict-convergence"]
 
 앨런 튜링(Alan Turing)은 1936년 "어떤 계산이 기계적으로 수행 가능한가?"를 연구하며 튜링 기계 개념을 제시했다. 튜링 완전 시스템은 이 이론적 기계가 할 수 있는 모든 계산을 수행할 수 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">튜링 완전 vs 불완전: 블록체인 비교</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이더리움 EVM (튜링 완전)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 조건 분기: if/else ✅</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 반복 루프: for/while ✅</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 임의 저장소 접근 ✅</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Halting 불확실 → Gas Limit으로 해결</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비트코인 Script (튜링 불완전)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 조건 분기: 제한적 ✅</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 반복 루프: ❌ (의도적 제거)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 임의 저장소 접근: ❌</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Halting 보장 → 보안성 ↑, 표현력 ↓</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────┐
+│        튜링 완전 vs 불완전: 블록체인 비교                   │
+├──────────────────────────────────────────────────────────┤
+│                                                          │
+│  이더리움 EVM (튜링 완전)                                  │
+│  ├─ 조건 분기: if/else ✅                                 │
+│  ├─ 반복 루프: for/while ✅                               │
+│  ├─ 임의 저장소 접근 ✅                                    │
+│  └─ Halting 불확실 → Gas Limit으로 해결                   │
+│                                                          │
+│  비트코인 Script (튜링 불완전)                              │
+│  ├─ 조건 분기: 제한적 ✅                                   │
+│  ├─ 반복 루프: ❌ (의도적 제거)                            │
+│  ├─ 임의 저장소 접근: ❌                                   │
+│  └─ Halting 보장 → 보안성 ↑, 표현력 ↓                     │
+└──────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 튜링 완전 시스템은 만능 계산기(어떤 수식도 풀 수 있음)이고, 튜링 불완전 시스템은 사칙연산 전용 계산기(제한적이지만 안전하고 예측 가능)이다.
 
@@ -146,23 +145,21 @@ function withdraw() public {
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">비트코인 Script — 의도적 튜링 불완전, 단순 거래 검증</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">이더리움 EVM — 튜링 완전, 스마트 컨트랙트</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Solidity/DeFi — 복잡한 금융 로직 구현</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">보안 감사 (CEI, Formal Verification) — 취약점 탐지</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">차세대 스마트 컨트랙트 언어 — 안전성 중심 설계</div></div>
-</div>
-</div>
-
-
+```text
+[비트코인 Script — 의도적 튜링 불완전, 단순 거래 검증]
+    │
+    ▼
+[이더리움 EVM — 튜링 완전, 스마트 컨트랙트]
+    │
+    ▼
+[Solidity/DeFi — 복잡한 금융 로직 구현]
+    │
+    ▼
+[보안 감사 (CEI, Formal Verification) — 취약점 탐지]
+    │
+    ▼
+[차세대 스마트 컨트랙트 언어 — 안전성 중심 설계]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

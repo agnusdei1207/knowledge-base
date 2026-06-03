@@ -25,22 +25,26 @@ tags = ["studynote-computer-architecture"]
 
 다음 그림은 회전 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 언제 발생하는지 보여준다. 핵심은 헤드 위치가 맞아도, 섹터의 각도 위치가 맞지 않으면 바로 접근할 수 없다는 점이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">회전 지연 발생 시점: 트랙은 맞았지만 섹터가 아직 안 옴</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) 탐색 완료</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">목표 트랙 도착</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) 하지만 목표 섹터는 다른 각도에 있음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Platter 회전 방향</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ ○ ○ ○</div><div class="kb-diagram-node">목표 섹터</div><div class="kb-diagram-note">○ ○ ○ │ │</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Head</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) 목표 섹터가 Head 아래로 올 때까지 대기 = Rotational Latency</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────────┐
+│           회전 지연 발생 시점: 트랙은 맞았지만 섹터가 아직 안 옴            │
+├──────────────────────────────────────────────────────────────────────────────┤
+│  1) 탐색 완료                                                               │
+│     헤드 ─────────▶ [목표 트랙 도착]                                         │
+│                                                                              │
+│  2) 하지만 목표 섹터는 다른 각도에 있음                                      │
+│                                                                              │
+│                 ┌──────────── Platter 회전 방향 ────────────┐                │
+│                 ▼                                           │                │
+│            ┌──────────────────────────────────────┐         │                │
+│            │   ○  ○  ○  [목표 섹터]  ○  ○  ○      │         │                │
+│            └──────────────────────────────────────┘         │                │
+│                         ▲                                    │                │
+│                       [Head]                                 │                │
+│                                                                              │
+│  3) 목표 섹터가 Head 아래로 올 때까지 대기 = Rotational Latency             │
+└──────────────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림은 회전 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 "위치를 못 찾은 문제"가 아니라 "타이밍이 아직 안 맞은 문제"라는 점을 강조한다. 그래서 디스크 접근 시간은 단순 거리 문제가 아니라, 반지름 방향의 이동과 원주 방향의 대기가 합쳐진 2차원적 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 구조로 이해해야 한다.
 
@@ -65,23 +69,24 @@ tags = ["studynote-computer-architecture"]
 
 다음 그림은 디스크 접근 시간이 어떻게 합쳐지는지 보여준다. 회전 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 전송 전에 반드시 끼어드는 중간 대기 구간이며, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)량이 작을수록 상대적으로 더 아프게 느껴진다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디스크 접근 시간의 구성: 찾고, 기다리고, 전송한다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요청 발생</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ Seek Time : 헤드가 목표 트랙으로 이동</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt; 3 ~ 10 ms &gt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ Rotational Latency : 목표 섹터가 Head 아래로 올 때까지 대기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt; 2 ~ 6 ms &gt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ Transfer Time : 실제 데이터 읽기/쓰기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;── 데이터 크기에 비례 ──&gt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">총 접근 시간 = Seek Time + Rotational Latency + Transfer Time</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                 디스크 접근 시간의 구성: 찾고, 기다리고, 전송한다           │
+├──────────────────────────────────────────────────────────────────────────────┤
+│  요청 발생                                                                   │
+│     │                                                                        │
+│     ├─▶ Seek Time                 : 헤드가 목표 트랙으로 이동                │
+│     │      <────── 3 ~ 10 ms ──────>                                         │
+│     │                                                                        │
+│     ├─▶ Rotational Latency        : 목표 섹터가 Head 아래로 올 때까지 대기   │
+│     │      <────── 2 ~ 6 ms ───────>                                         │
+│     │                                                                        │
+│     └─▶ Transfer Time             : 실제 데이터 읽기/쓰기                    │
+│            <── 데이터 크기에 비례 ──>                                        │
+│                                                                              │
+│  총 접근 시간 = Seek Time + Rotational Latency + Transfer Time              │
+└──────────────────────────────────────────────────────────────────────────────┘
+```
 
 여기서 설계상의 함정은 RPM을 높여도 회전 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 선형으로 조금씩만 줄어든다는 점이다. 7,200 RPM에서 15,000 RPM으로 거의 두 배 이상 빨라져도 평균 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 4.17ms에서 2.00ms로 줄어드는 수준이다. 이 때문에 제조사는 더 높은 RPM을 위해 발열, 진동, 소음, 베어링 마모를 감수해야 하고, 결국 기계식 저장장치의 한계가 드러난다.
 
@@ -159,23 +164,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">자기 디스크 기반 저장</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">탐색 시간 (Seek Time) + 회전 지연 (Rotational Latency)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">디스크 스케줄링 · 버퍼 캐시 · 배치 쓰기</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">고RPM HDD (10K/15K) · 엔터프라이즈 최적화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SSD (Solid State Drive) · NVMe (Non-Volatile Memory Express)</div>
-</div>
-</div>
-
-
+```text
+자기 디스크 기반 저장
+    │
+    ▼
+탐색 시간 (Seek Time) + 회전 지연 (Rotational Latency)
+    │
+    ▼
+디스크 스케줄링 · 버퍼 캐시 · 배치 쓰기
+    │
+    ▼
+고RPM HDD (10K/15K) · 엔터프라이즈 최적화
+    │
+    ▼
+SSD (Solid State Drive) · NVMe (Non-Volatile Memory Express)
+```
 
 이 흐름은 기계적 대기를 관리하던 시대에서, 아예 회전 자체를 제거하는 방향으로 스토리지가 진화해 왔음을 보여준다.
 

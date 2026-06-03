@@ -47,17 +47,11 @@ LayerNorm:  Transformer 표준 (배치 무관)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">L1/L2 정규화 (전통)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Dropout (2012, Hinton)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">BatchNorm (2015)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">LayerNorm (2016, Transformer)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: RMSNorm (Llama) — 더 효율적 정규화</div></div>
-</div>
-</div>
-
-
+```text
+[L1/L2 정규화 (전통)] → [Dropout (2012, Hinton)]
+    → [BatchNorm (2015)] → [LayerNorm (2016, Transformer)]
+    → [현재: RMSNorm (Llama) — 더 효율적 정규화]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 과적합은 **한 문제집만 외우는** 거예요. 새 시험에서 틀려요.

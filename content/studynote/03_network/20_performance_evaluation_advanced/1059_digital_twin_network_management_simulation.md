@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 통신망 구조를 바꾸거나 새로운 보안 장비([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))를 넣을 때, 똑같은 테스트망(Staging)을 꾸리는 건 수십억 원이 들어 불가능에 가깝습니다.
 - GNS3나 EVE-NG 같은 구형 가상 에뮬레이터가 있었지만, 이놈들은 현실 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 '현재 CPU 부하량'이나 '실시간 폭증하는 트래픽' 같은 진짜 라이브 상황을 반영하지 못하는 죽어있는 장난감이라 테스트 신뢰도가 바닥이었습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">트래픽 텔레메트리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">디지털 트윈 및 관제 시스템 연동</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">양자 암호 키 분배</div></div>
-</div>
-</div>
-
-
+```text
+[트래픽 텔레메트리]
+    │
+    ▼
+[디지털 트윈 및 관제 시스템 연동]
+    │
+    └──▶ [양자 암호 키 분배]
+```
 
 - **📢 섹션 요약 비유**: [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 및 관제 시스템 연동은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -43,18 +39,14 @@ tags = ["studynote-network"]
 
 - **개념**: 현실 세계(Physical)에 존재하는 물리적 네트워크 인프라([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/), 라우터, 케이블, 트래픽 환경)를 컴퓨터 사이버 공간(Cyber)에 <strong>실시간(Real-time)으로 똑같이 <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a>한 '가상 쌍둥이(Twin)' 모델</strong>을 만들고, 현실과 가상을 끊임없이 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)하여 시뮬레이션, 장애 예측, 관제를 수행하는 차세대 네트워크 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 기술입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">트래픽 텔레메트리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">디지털 트윈 및 관제 시스템 연동</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">양자 암호 키 분배</div></div>
-</div>
-</div>
-
-
+```text
+[트래픽 텔레메트리]
+    │
+    ▼
+[디지털 트윈 및 관제 시스템 연동]
+    │
+    └──▶ [양자 암호 키 분배]
+```
 
 - **📢 섹션 요약 비유**: [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 및 관제 시스템 연동의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -124,19 +116,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 트래픽 텔레메트리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 디지털 트윈 및 관제 시스템 연동</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 양자 암호 키 분배</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 트래픽 텔레메트리]
+    │
+    ▼
+[현재 개념: 디지털 트윈 및 관제 시스템 연동]
+    │
+    ├──▶ [확장 A: 양자 암호 키 분배]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 및 관제 시스템 연동는 트래픽 텔레메트리에서 출발해 현재 메커니즘을 정교화하고, 이후 양자 암호 키 분배와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -23,18 +23,14 @@ tags = ["studynote-network"]
 - <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a> 통과</strong>: 데이터가 랜선으로 나가려면 무조건 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/))을 거쳐야 합니다. 이 과정에서 메모리 복사([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))가 수차례 일어납니다.
 - **CPU 혹사**: 100Gbps 랜카드로 쏟아지는 패킷을 조립하느라 정작 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 연산을 해야 할 비싼 CPU가 패킷 까대기([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 처리)를 하다가 100% 과부하로 서버가 기절해버립니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">NTP / GPS 동기화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">RDMA / RoCE 스토리지 서버 네트워킹</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">VXLAN 오버레이 VTEP 터널링 연결기법</div></div>
-</div>
-</div>
-
-
+```text
+[NTP / GPS 동기화]
+    │
+    ▼
+[RDMA / RoCE 스토리지 서버 네트워킹]
+    │
+    └──▶ [VXLAN 오버레이 VTEP 터널링 연결기법]
+```
 
 - **📢 섹션 요약 비유**: [RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) / [RoCE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/523_roce/) 스토리지 서버 네트워킹은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -60,18 +56,14 @@ tags = ["studynote-network"]
 - RoCE는 무지성 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 기반이라 데이터가 가다 손실되면 답이 없습니다. [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)단에서 혼잡 제어(PFC) 세팅을 미친 듯이 해줘야 합니다.
 - <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/814_iwarp_tcp_ip_based_rdma_compatibility/">iWARP</a></strong>: "그냥 안전 빵 튼튼한 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 뼈대 위에서 RDMA를 돌리자!"는 파생형인데, [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 특유의 무거운 오버헤드 때문에 속도에서 밀려 지금은 [RoCE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/523_roce/) v2에 거의 압살당했습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">NTP / GPS 동기화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">RDMA / RoCE 스토리지 서버 네트워킹</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">VXLAN 오버레이 VTEP 터널링 연결기법</div></div>
-</div>
-</div>
-
-
+```text
+[NTP / GPS 동기화]
+    │
+    ▼
+[RDMA / RoCE 스토리지 서버 네트워킹]
+    │
+    └──▶ [VXLAN 오버레이 VTEP 터널링 연결기법]
+```
 
 - **📢 섹션 요약 비유**: [RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) / [RoCE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/523_roce/) 스토리지 서버 네트워킹의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -126,19 +118,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: NTP / GPS 동기화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: RDMA / RoCE 스토리지 서버 네트워킹</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: VXLAN 오버레이 VTEP 터널링 연결기법</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: NTP / GPS 동기화]
+    │
+    ▼
+[현재 개념: RDMA / RoCE 스토리지 서버 네트워킹]
+    │
+    ├──▶ [확장 A: VXLAN 오버레이 VTEP 터널링 연결기법]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 [RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) / [RoCE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/523_roce/) 스토리지 서버 네트워킹는 [NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/) / GPS [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) 오버레이 VTEP [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) 연결기법와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

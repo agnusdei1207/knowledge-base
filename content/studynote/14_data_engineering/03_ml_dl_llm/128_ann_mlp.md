@@ -18,23 +18,21 @@ tags = ["studynote-dataengineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MLP 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">입력층</div><div class="kb-diagram-note">x₁, x₂, ..., xₙ</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↓ (가중치 W₁)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">은닉층 1</div><div class="kb-diagram-note">h₁ = σ(W₁·x + b₁)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↓ (가중치 W₂)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">은닉층 2</div><div class="kb-diagram-note">h₂ = σ(W₂·h₁ + b₂)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↓ (가중치 W₃)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">출력층</div><div class="kb-diagram-note">y = softmax(W₃·h₂ + b₃)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">학습: 역전파 (Backpropagation)로 가중치 업데이트</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    MLP 구조                                           │
+├───────────────────────────────────────────────────────┤
+│  [입력층]    x₁, x₂, ..., xₙ                        │
+│     ↓ (가중치 W₁)                                     │
+│  [은닉층 1]  h₁ = σ(W₁·x + b₁)                      │
+│     ↓ (가중치 W₂)                                     │
+│  [은닉층 2]  h₂ = σ(W₂·h₁ + b₂)                     │
+│     ↓ (가중치 W₃)                                     │
+│  [출력층]    y = softmax(W₃·h₂ + b₃)                 │
+│                                                       │
+│  학습: 역전파 (Backpropagation)로 가중치 업데이트    │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: MLP는 여러 층의 <strong>체(필터)</strong>이다. 입력이 여러 체를 통과하면서 점점 세밀하게 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)된다.
 
@@ -91,23 +89,21 @@ MLP는 <strong>딥러닝의 가장 기본 빌딩 블록</strong>이며, Transfor
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">퍼셉트론 (Rosenblatt, 1958)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">XOR 문제 (Minsky, 1969) — 인공지능 겨울</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MLP + 역전파 (Rumelhart, 1986)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">딥러닝 (Hinton, 2006~) — GPU·ReLU·데이터</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: MLP-Mixer / gMLP — MLP만으로 Vision 처리</div></div>
-</div>
-</div>
-
-
+```text
+[퍼셉트론 (Rosenblatt, 1958)]
+    │
+    ▼
+[XOR 문제 (Minsky, 1969) — 인공지능 겨울]
+    │
+    ▼
+[MLP + 역전파 (Rumelhart, 1986)]
+    │
+    ▼
+[딥러닝 (Hinton, 2006~) — GPU·ReLU·데이터]
+    │
+    ▼
+[현재: MLP-Mixer / gMLP — MLP만으로 Vision 처리]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)은 <strong>1단 필터</strong>예요. 간단한 것만 걸러낼 수 있어요.

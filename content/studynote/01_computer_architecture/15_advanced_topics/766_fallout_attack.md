@@ -42,18 +42,16 @@ tags = ["studynote-computer-architecture"]
 
 다음 그림은 폴아웃이 "[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 대기실"의 잔상을 읽는 흐름을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Fallout leak path</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Victim store ──▶ Store Buffer ──▶ L1 / memory commit</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">partial address match</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Attacker faulting load ── transient forward ──▶ cache decode</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Fallout leak path                                                 │
+├────────────────────────────────────────────────────────────────────┤
+│ Victim store ──▶ Store Buffer ──▶ L1 / memory commit             │
+│                    ▲                                               │
+│                    │ partial address match                         │
+│ Attacker faulting load ── transient forward ──▶ cache decode      │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 공격자는 먼저 피해자가 저장한 값이 스토어 버퍼를 거치도록 만든다. 이어서 하위 주소 비트가 겹치도록 설계한 로드 명령을 예외 상황과 함께 던지면, CPU는 완전한 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 전에 스토어 버퍼의 값을 잠깐 전달할 수 있다. 그 뒤 공격자는 캐시 접근 시간 차이를 통해 어느 값이 포워딩되었는지 추정한다. 이 과정은 결정적 단일 읽기보다 반복 관측에 가깝지만, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 포인터처럼 구조가 뚜렷한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에는 꽤 강력하게 작동한다.
 
@@ -123,23 +121,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Store buffering</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Store-to-Load Forwarding</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Store Buffer residue</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Fallout: pointer / KASLR leakage</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Buffer clear + core isolation</div>
-</div>
-</div>
-
-
+```text
+Store buffering
+    │
+    ▼
+Store-to-Load Forwarding
+    │
+    ▼
+Store Buffer residue
+    │
+    ▼
+Fallout: pointer / KASLR leakage
+    │
+    ▼
+Buffer clear + core isolation
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

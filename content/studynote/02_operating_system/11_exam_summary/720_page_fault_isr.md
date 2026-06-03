@@ -47,34 +47,37 @@ tags = ["studynote-operating-system"]
 
 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 폴트는 일반적인 하드웨어 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)와 달리, [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 '재시작(Restart)'해야 하는 특성 때문에 처리가 훨씬 까다롭다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Page Fault 처리 6단계 (인터럽트 및 I/O 대기)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황: CPU가 0x5000 주소를 읽으려다 <code>Invalid</code> 비트를 발견함</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1.</div><div class="kb-diagram-node">Trap 발생</div><div class="kb-diagram-note">MMU가 현재 명령어의 실행을 즉시 취소(Abort)하고,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS의 Page Fault ISR (Int 14) 로 제어권을 넘김.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; CPU는 실패한 명령어의 주소(PC 레지스터)를 스택에 백업함.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2.</div><div class="kb-diagram-node">검증</div><div class="kb-diagram-note">OS가 페이지 테이블을 열어봄.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "해킹인가?" (권한 밖의 주소) -&gt; 프로세스 Kill (Segfault)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "진짜 내 데이터인데 Swap에 있나?" -&gt; 디스크 주소 확인.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3.</div><div class="kb-diagram-node">빈 공간 확보</div><div class="kb-diagram-note">OS가 RAM에 빈 프레임(Frame)이 있는지 찾음.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 꽉 찼으면 LRU 알고리즘으로 남의 페이지를 디스크로 내쫓음(Swap-out).</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">4.</div><div class="kb-diagram-node">디스크 I/O 실행 및 Sleep</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- OS가 디스크 컨트롤러에 "이 페이지 RAM에 복사해 줘"라고 명령함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 이 작업은 10ms(천만 클럭)이나 걸리므로, OS는 이 앱을 Sleep 시키고</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다른 앱에게 CPU를 줘버림 (Context Switch).</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">5.</div><div class="kb-diagram-node">I/O 완료 인터럽트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 디스크가 복사를 마치고 인터럽트를 쏘면, OS가 테이블을 <code>Valid</code>로 바꿈.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 자고 있던 앱을 Ready 큐로 깨움.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">6.</div><div class="kb-diagram-node">명령어 재시작 (Restart)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 앱이 다시 CPU를 잡으면, 아까 실패했던 바로 그 <code>LOAD</code> 명령어부터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">아무 일 없었다는 듯이 다시 실행함! 이번엔 성공!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 Page Fault 처리 6단계 (인터럽트 및 I/O 대기)           │
+  ├───────────────────────────────────────────────────────────────────┤
+  │  [상황: CPU가 0x5000 주소를 읽으려다 `Invalid` 비트를 발견함]              │
+  │                                                                   │
+  │   1. [Trap 발생] MMU가 현재 명령어의 실행을 즉시 취소(Abort)하고,         │
+  │      OS의 Page Fault ISR (Int 14) 로 제어권을 넘김.                  │
+  │      -> CPU는 실패한 명령어의 주소(PC 레지스터)를 스택에 백업함.             │
+  │                                                                   │
+  │   2. [검증] OS가 페이지 테이블을 열어봄.                              │
+  │      - "해킹인가?" (권한 밖의 주소) -> 프로세스 Kill (Segfault)          │
+  │      - "진짜 내 데이터인데 Swap에 있나?" -> 디스크 주소 확인.                │
+  │                                                                   │
+  │   3. [빈 공간 확보] OS가 RAM에 빈 프레임(Frame)이 있는지 찾음.           │
+  │      - 꽉 찼으면 LRU 알고리즘으로 남의 페이지를 디스크로 내쫓음(Swap-out).   │
+  │                                                                   │
+  │   4. [디스크 I/O 실행 및 Sleep]                                     │
+  │      - OS가 디스크 컨트롤러에 "이 페이지 RAM에 복사해 줘"라고 명령함.        │
+  │      - 이 작업은 10ms(천만 클럭)이나 걸리므로, OS는 이 앱을 **Sleep** 시키고│
+  │        다른 앱에게 CPU를 줘버림 (Context Switch).                     │
+  │                                                                   │
+  │   5. [I/O 완료 인터럽트]                                             │
+  │      - 디스크가 복사를 마치고 인터럽트를 쏘면, OS가 테이블을 `Valid`로 바꿈.  │
+  │      - 자고 있던 앱을 Ready 큐로 깨움.                                  │
+  │                                                                   │
+  │   6. [명령어 재시작 (Restart)]                                        │
+  │      - 앱이 다시 CPU를 잡으면, 아까 실패했던 바로 그 `LOAD` 명령어부터      │
+  │        아무 일 없었다는 듯이 다시 실행함! 이번엔 성공!                      │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 재시작"은 말처럼 쉽지 않다. 예를 들어 `A = A + 1`을 하다가 `A`를 쓰는 도중에 [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Fault가 났다고 치자. CPU가 이 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 처음부터 다시 실행하면 `A`가 두 번 더해지는 버그가 날 수 있다. 따라서 현대 CPU는 폴트가 났을 때 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 변경 사항을 깔끔하게 <strong><a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/">롤백</a>(<a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/">Undo</a>)</strong> 해두는 무서운 하드웨어적 복잡성을 견디며 이 ISR을 지원하고 있다.
 
@@ -118,25 +121,27 @@ tags = ["studynote-operating-system"]
 
 ### 의사결정 및 튜닝 플로우
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 및 I/O 성능 병목(Page Fault) 최적화 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">앱 기동 시간이 너무 느리거나, 특정 작업 시 지터(Jitter)가 심하게 튐</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Page Fault를 막기 위해, 필요한 메모리를 부팅 즉시 램에 다 꽂아두고 싶은가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">mlock() / mlockall() 시스템 콜 사용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(해당 프로세스의 모든 페이지를 RAM에 고정(Pinning)하여</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Swap-out을 원천 차단하고 Page Fault를 0으로 만듦)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 (서버 메모리가 부족해서 아껴 써야 함)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">그럼에도 처음 메모리를 할당(<code>malloc</code>)할 때 발생하는 폴트를 줄이고 싶은가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Huge Page (대용량 페이지) 적용 검토</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(4KB마다 터지는 폴트를 2MB마다 1번 터지게 빈도를 500배 줄임.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단, 내부 단편화로 인한 OOM 리스크는 감수해야 함)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 메모리 및 I/O 성능 병목(Page Fault) 최적화 플로우          │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [앱 기동 시간이 너무 느리거나, 특정 작업 시 지터(Jitter)가 심하게 튐]           │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      Page Fault를 막기 위해, 필요한 메모리를 부팅 즉시 램에 다 꽂아두고 싶은가? │
+  │          ├─ 예 ─────▶ [mlock() / mlockall() 시스템 콜 사용]         │
+  │          │            (해당 프로세스의 모든 페이지를 RAM에 고정(Pinning)하여│
+  │          │             Swap-out을 원천 차단하고 Page Fault를 0으로 만듦)  │
+  │          └─ 아니오 (서버 메모리가 부족해서 아껴 써야 함)                   │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      그럼에도 처음 메모리를 할당(`malloc`)할 때 발생하는 폴트를 줄이고 싶은가?  │
+  │          ├──▶ [Huge Page (대용량 페이지) 적용 검토]                  │
+  │          │    (4KB마다 터지는 폴트를 2MB마다 1번 터지게 빈도를 500배 줄임.   │
+  │          │     단, 내부 단편화로 인한 OOM 리스크는 감수해야 함)             │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Fault는 게으른 OS의 훈장이지만, 속도가 생명인 HFT(고빈도 매매) 트레이딩 서버나 실시간 RTOS에서는 용납될 수 없는 재앙이다. 최상급 시스템 프로그래머는 프로그램 시작 시 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/)([Dummy](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/)) 데이터를 한 번씩 다 써넣는(Prefaulting) 코드를 삽입하여, 실제 트래픽이 들어올 때 폴트가 터지는 것을 막는 장인정신을 발휘한다.
 
@@ -178,19 +183,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">요구 페이징 (Demand Paging)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">페이지 폴트 (Page Fault) ISR</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">유효/무효 비트 (Valid/Invalid)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">페이지 교체 LRU 원리</div></div>
-</div>
-</div>
-
-
+```text
+[요구 페이징 (Demand Paging)]
+    │
+    ▼
+[페이지 폴트 (Page Fault) ISR]
+    │
+    ├──▶ [유효/무효 비트 (Valid/Invalid)]
+    └──▶ [페이지 교체 LRU 원리]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

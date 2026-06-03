@@ -11,8 +11,8 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 컴퓨터virus는 다른 정상 프로그램이나 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 (자기관증) 가능한 코드를 붙여넣어(매복)하며, 숙주 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 실행될 때 함께Activated(활성화)되어-system을 감염시키고(피해)를 주는 자기복제 기능이 있는 악성 소프트웨어다.
-> 2. **가치**: virus의 가장 큰 특징은virus(학자)들이 "비버(Biber)"라고 불렀다"Justاط(교류)"하던1970년대 아르파넷(ARPANET) 시대에 처음으로 보고되었으며, 감염 경로가 다양하여 floppy disk, [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/), email 첨부파일 등 다양한 매체를 통해(확산)될 수 있다.
+> 1. **본질**: 컴퓨터virus는 다른 정상 프로그램이나 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 자기증식(자기관증) 가능한 코드를 붙여넣어매복(매복)하며, 숙주 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 실행될 때 함께Activated(활성화)되어-system을 감염시키고피해(피해)를 주는 자기복제 기능이 있는 악성 소프트웨어다.
+> 2. **가치**: virus의 가장 큰 특징은virus학자(학자)들이 "비버(Biber)"라고 불렀다"Justاط회(교류)"하던1970년대 아르파넷(ARPANET) 시대에 처음으로 보고되었으며, 감염 경로가 다양하여 floppy disk, [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/), email 첨부파일 등 다양한 매체를 통해확산(확산)될 수 있다.
 > 3. **한계**:virus는 반드시 숙주 프로그램이 있어야 실행되므로 사용자의Interactor(상호작용)([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 실행)이 필요하며, 현대 안티바이러스 솔루션은 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/)([Heuristic](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/)) 분석과 시그니처 기반 탐지를 통해virus를 효과적으로 차단하고 있다.
 
 ---
@@ -20,10 +20,10 @@ tags = ["studynote-operating-system"]
 ## Ⅰ. 개요 및 필요성
 
 ### virus의 등장
-컴퓨터virus의 개념은 1970년대에(보고)되었으며,"Creeper" virus가(최초의) 보고된virus로 알려져 있다. virus는 원래 "곰층(감염자)"이라는 의미로, 정상 프로그램에 기생하여 그 생명(주변)을 유지하는 점에서 생물학적virus와 유사하다.
+컴퓨터virus의 개념은 1970년대에보고(보고)되었으며,"Creeper" virus가최조적(최초의) 보고된virus로 알려져 있다. virus는 원래 "곰층(감염자)"이라는 의미로, 정상 프로그램에 기생하여 그 생명주전(주변)을 유지하는 점에서 생물학적virus와 유사하다.
 
-**virus vs(기타) 멀웨어 비교:**
-|(특성)|virus|[Worm](/knowledge-base/studynote/02_operating_system/10_security/590_worm/)|Trojan|
+**virus vs적기타(기타) 멀웨어 비교:**
+|특성(특성)|virus|[Worm](/knowledge-base/studynote/02_operating_system/10_security/590_worm/)|Trojan|
 |---|---|---|---|
 | **자기복제** | 예 | 예 | 아니오 |
 | **감염 경로** | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)/프로그램 | 네트워크 | 수동 배포 |
@@ -39,16 +39,16 @@ tags = ["studynote-operating-system"]
 ### 감염 단계
 ```text
 [Phase 1: 감염 유입]
-- 바이러스가 정상 호스트 코드에 부착
-- 호스트 코드 수정: 기존 코드 앞에 점프(JMP) 명령어 삽입
+  - 바이러스가 정상 호스트 코드에 부착
+  - 호스트 코드 수정: 기존 코드 앞에 점프(JMP) 명령어 삽입
 
 [Phase 2: 활성화]
-- 사용자 실행 시 virus 코드로 제어권 이동
--virus 자체 복제 수행
+  - 사용자 실행 시 virus 코드로 제어권 이동
+  -virus 자체 복제 수행
 
 [Phase 3: 실행]
-- 원래 호스트 코드 실행 (감염 여부 숨기기)
-- Payload 실행 (파일 삭제, 데이터 탈취, 백도어 설치 등)
+  - 원래 호스트 코드 실행 (감염 여부 숨기기)
+  - Payload 실행 (파일 삭제, 데이터 탈취, 백도어 설치 등)
 ```
 
 ### 주요 유형
@@ -68,21 +68,22 @@ tags = ["studynote-operating-system"]
 
 ## Ⅲ. 비교 및 연결
 
+```text
+[비교 다이어그램]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">비교 다이어그램</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Malware</div></div>
-<div class="kb-diagram-note">Virus Worm Trojan</div>
-<div class="kb-diagram-note">v v v</div>
-<div class="kb-diagram-note">기생적 자율적 위장</div>
-<div class="kb-diagram-note">자기복제 네트워크전파 가짜선물</div>
-<div class="kb-diagram-note">숙주필요 비호스트 수동실행</div>
-</div>
-</div>
-
-
+        +--------+
+        | Malware|
+        +---+----+
+            |
+     +-----+------+-----+
+     |     |            |
+  Virus  Worm       Trojan
+     |     |            |
+     v     v            v
+  기생적  자율적        위장
+  자기복제 네트워크전파   가짜선물
+  숙주필요  비호스트      수동실행
+```
 
 | 구분 |virus|[Worm](/knowledge-base/studynote/02_operating_system/10_security/590_worm/)|Trojan|
 |---|---|---|---|
@@ -98,7 +99,7 @@ tags = ["studynote-operating-system"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 사례: Melissa 매크로virus (1999)
-**개요**: Microsoft [Word](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) 문서에VBA 매크로 형태로(감염)되며, 감염된 문서를 열면 Outlook을 통해 50명의 연락처로 자발적으로(확장)되었다. Within 3시간(3시간 이내)에 약 200만 명이 감염되었다.
+**개요**: Microsoft [Word](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) 문서에VBA 매크로 형태로감염(감염)되며, 감염된 문서를 열면 Outlook을 통해 50명의 연락처로 자발적으로확산(확장)되었다. Within 3시간(3시간 이내)에 약 200만 명이 감염되었다.
 
 **대응 방안**:
 - 안티바이러스 Application Control(애플리케이션 제어) 배포
@@ -139,26 +140,22 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">로직 밤 (Logic Bomb) / 타이머 밤</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">바이러스 (Virus)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">웜 (Worm)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">버퍼 오버플로우 (Buffer Overflow) 원리</div></div>
-</div>
-</div>
-
-
+```text
+[로직 밤 (Logic Bomb) / 타이머 밤]
+    │
+    ▼
+[바이러스 (Virus)]
+    │
+    ├──▶ [웜 (Worm)]
+    └──▶ [버퍼 오버플로우 (Buffer Overflow) 원리]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 컴퓨터virus는 감기에 걸린 사람과 같다. 다른 사람과 손을 잡거나 기침을 하면 병이 옮겨가는 것처럼,virus도 감염된 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 다른 사람에게 전달하면 Spread(확산)된다.
-2.virus는virus(방역) 프로그램(백신)이 없으면 컴퓨터 속에서 몰래 퍼져나가서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 죽이거나 비밀을 훔쳐가는 나쁜 썩은 물건이다.
+2.virus는virus방역(방역) 프로그램(백신)이 없으면 컴퓨터 속에서 몰래 퍼져나가서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 죽이거나 비밀을 훔쳐가는 나쁜 썩은 물건이다.
 3. 우리느 출처가 불명확한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 함부로 열거나, immunization(면역)이 안 된 컴퓨터에다가 이상한 프로그램을 깔아주면 안 된다. 그것이virus를 막는 가장 좋은 방법이다.
 
 ---

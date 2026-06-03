@@ -38,22 +38,18 @@ tags = ["studynote-devops"]
 | Deploy Credential | 원격 실행 자격 | 장기 비밀키 유출 위험 |
 | Target Server | 실제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 실행 | 침해 시 수평 이동 경로 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">개발자 코드 푸시</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CI 빌드 / 테스트</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Jenkins 배포 실행</div>
-<div class="kb-diagram-note">(SSH / API / Agent)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">대상 서버에 직접 반영</div>
-</div>
-</div>
-
-
+```text
+개발자 코드 푸시
+    │
+    ▼
+CI 빌드 / 테스트
+    │
+    ▼
+Jenkins 배포 실행
+    │  (SSH / API / Agent)
+    ▼
+대상 서버에 직접 반영
+```
 
 문제는 배포가 편할수록 권한이 넓어진다는 점이다. 그래서 푸시 모델은 운영 편의성보다 통제와 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)가 더 중요한 곳에서 특히 주의가 필요하다.
 

@@ -31,23 +31,24 @@ tags = ["studynote-computer-architecture"]
 ### 배럴 시프터 (Barrel Shifter)의 마법
 단순한 시프트 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 한 칸 미는 데 1클럭이 든다. 10칸을 밀려면 10클럭이 걸린다. 현대 CPU는 이를 용납하지 않고, <strong>배럴 시프터</strong>라는 거대한 [MUX](/knowledge-base/studynote/03_network/19_frequent_topics_terms/944_mux_demux_multiplexer_demultiplexer_circuit_sharing/)([멀티플렉서](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/041_multiplexer/)) 그물망을 깔아버렸다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시프트 연산의 아키텍처 분기 및 빈자리 처리 규칙</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원본 데이터 <code>10110000</code> (음수) 을 우측으로 1칸 시프트 (&gt;&gt; 1)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">밀려 나감:</div><div class="kb-diagram-node">?</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(끝의 0은 밖으로 추락)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">분기 1: 논리 시프트 (Logical)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">빈자리에 무조건 0 채움 ──▶ <code>01011000</code> (양수가 돼버림!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">분기 2: 산술 시프트 (Arithmetic)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부호(MSB 1)를 복사해서 채움 ──▶ <code>11011000</code> (음수 유지!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">분기 3: 순환 시프트 (Circular / Rotate)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">추락한 0을 줏어서 맨 앞에 넣음 ──▶ <code>01011000</code> (비트 안 버림)</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────┐
+│           시프트 연산의 아키텍처 분기 및 빈자리 처리 규칙      │
+├────────────────────────────────────────────────────────┤
+│   원본 데이터 `10110000` (음수) 을 우측으로 1칸 시프트 (>> 1) │
+│                                                        │
+│   밀려 나감:  [?] 1 0 1 1 0 0 0  ──▶ (끝의 0은 밖으로 추락)  │
+│                                                        │
+│   [ 분기 1: 논리 시프트 (Logical) ]                         │
+│   빈자리에 무조건 0 채움 ──▶ `01011000` (양수가 돼버림!)    │
+│                                                        │
+│   [ 분기 2: 산술 시프트 (Arithmetic) ]                      │
+│   부호(MSB 1)를 복사해서 채움 ──▶ `11011000` (음수 유지!)   │
+│                                                        │
+│   [ 분기 3: 순환 시프트 (Circular / Rotate) ]               │
+│   추락한 0을 줏어서 맨 앞에 넣음 ──▶ `01011000` (비트 안 버림)│
+└────────────────────────────────────────────────────────┘
+```
 
 이 배럴 시프터 하드웨어는 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 들어오자마자 몇 칸을 밀어낼지 쇳덩어리 결선으로 한방에 결정한다. 31칸을 밀어내든 1칸을 밀어내든 무조건 단 1클럭 사이클 내에 처리가 완료되는 압도적인 병렬성을 자랑한다.
 
@@ -106,23 +107,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">ALU 내부의 거대한 곱셈기/나눗셈기 병목 (지연 폭발)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">2진수 가중치 특성을 활용한 시프트(위치 이동) 연산 도입</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">빈자리 처리에 따른 아키텍처 분기 (논리/산술/순환 시프트 분리)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">순차 시프트의 클럭 낭비를 잡기 위한 배럴 시프터(Barrel Shifter) HW 융합</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">컴파일러 최적화(Strength Reduction) 및 암호학/그래픽스 비트 제어 코어로 정착</div>
-</div>
-</div>
-
-
+```text
+ALU 내부의 거대한 곱셈기/나눗셈기 병목 (지연 폭발)
+    │
+    ▼
+2진수 가중치 특성을 활용한 시프트(위치 이동) 연산 도입
+    │
+    ▼
+빈자리 처리에 따른 아키텍처 분기 (논리/산술/순환 시프트 분리)
+    │
+    ▼
+순차 시프트의 클럭 낭비를 잡기 위한 배럴 시프터(Barrel Shifter) HW 융합
+    │
+    ▼
+컴파일러 최적화(Strength Reduction) 및 암호학/그래픽스 비트 제어 코어로 정착
+```
 
 이 흐름도는 "연산 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)의 한계 직면 → 물리적 이동을 통한 수학적 회피 → 클럭 단축 하드웨어 개발 → 소프트웨어 최적화 룰 확립"으로 이어지는 시프트 연산의 아키텍처 지배 과정을 보여준다.
 

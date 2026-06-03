@@ -32,38 +32,42 @@ tags = ["studynote-operating-system"]
 
 C언어로 쌩 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 쑤셔서 데몬을 띄우는, 피도 눈물도 없는 전통적 7단계 십자 융합 도해다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전통적 데몬화(Daemonization) 7단계 탈출 흑마법 록온 도해 🚀</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">💀</div><div class="kb-diagram-node">터미널 종속 상태 (부모 밑에 깔린 노예)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1️⃣</div><div class="kb-diagram-node">1차 fork() ➔ 부모 자살 🔪</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- <code>fork()</code> 쳐서 내 복제본(자식)을 띄움. 그리고 찐짜 나(부모)는 걍 자살 <code>exit()</code></div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- ➔ 자식은 고아가 되어 백그라운드로 튕겨 나가고, 터미널 쉘은 "어 끝났네 ㅋ"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하고 프롬프트(<code>$</code>)를 다시 띄워줌 (백그라운드 진입 성공 ✨).</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2️⃣</div><div class="kb-diagram-node">setsid() ➔ 새로운 세션 왕국 창조 👑</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 고아가 된 자식이 <code>setsid()</code> 를 외침! 기존 터미널 그룹(Session)에서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">완전히 호적 파고 나와서 "내가 내 나라의 1대 왕(Session Leader)이다 쾅!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이 순간 터미널과의 끈적한 탯줄(SIGHUP 시그널)이 100% 물리적 절단됨 ✂️.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3️⃣</div><div class="kb-diagram-node">2차 fork() ➔ 세션 리더 포기 기만술 🎭</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 근데 세션 리더(왕)는 언제든 다시 빈 터미널을 주워 먹고 지배할 수 있는 맹점이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">있음 ➔ 다시 터미널에 묶일 리스크 존재 💥.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 그래서 1번 더 <code>fork()</code> 치고 자살함!! "나는 왕의 자식이지만 왕은 아니다 ㅋ"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➔ 영원히 터미널을 가질 수 없는 완벽한 고자 봇(True Daemon) 탄생 🚀!!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">4️⃣</div><div class="kb-diagram-node">chdir("/") ➔ 작업 폴더 초기화 방폭문</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 딴 데 처박혀 있으면 나중에 USB 마운트 해제할 때 <code>Device Busy</code> 뻗음 💀.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 무.조.건. 안전빵인 최상위 루트 디렉토리(<code>/</code>)로 작업 방을 옮겨 락킹 쳐 쾅!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">5️⃣</div><div class="kb-diagram-node">umask(0) ➔ 권한 마스크 포맷 리셋</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 부모가 물려준 더러운 파일 쓰기 권한 제한(umask)을 0으로 싹 다 포맷 지우개.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">6️⃣ &amp; 7️⃣</div><div class="kb-diagram-node">close(0,1,2) ➔ 눈, 코, 입 다 막고 /dev/null 에 처박기 🪓</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 키보드(0), 모니터(1), 에러창(2) 3대 기본 통로를 가위로 싹둑 다 잘라버림!!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 그리고 그 끊어진 구멍에 쓰레기통 블랙홀(<code>/dev/null</code>)을 강제 용접시켜 박음.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- ➔ 찌끄레기 로그 화면에 뱉다가 파이프 터져 죽는 파국 원천 차단 무결점 텐트!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          전통적 데몬화(Daemonization) 7단계 탈출 흑마법 록온 도해 🚀 │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ 💀 [ 터미널 종속 상태 (부모 밑에 깔린 노예) ]                      │
+│                                                             │
+│ 1️⃣ [ 1차 fork() ➔ 부모 자살 🔪 ]                              │
+│   - `fork()` 쳐서 내 복제본(자식)을 띄움. 그리고 찐짜 나(부모)는 걍 자살 `exit()` │
+│   - ➔ 자식은 고아가 되어 백그라운드로 튕겨 나가고, 터미널 쉘은 "어 끝났네 ㅋ" │
+│     하고 프롬프트(`$`)를 다시 띄워줌 (백그라운드 진입 성공 ✨).        │
+│                                                             │
+│ 2️⃣ [ setsid() ➔ 새로운 세션 왕국 창조 👑 ]                       │
+│   - 고아가 된 자식이 `setsid()` 를 외침! 기존 터미널 그룹(Session)에서 │
+│     완전히 호적 파고 나와서 "내가 내 나라의 1대 왕(Session Leader)이다 쾅!"│
+│     이 순간 터미널과의 끈적한 탯줄(SIGHUP 시그널)이 100% 물리적 절단됨 ✂️.│
+│                                                             │
+│ 3️⃣ [ 2차 fork() ➔ 세션 리더 포기 기만술 🎭 ]                    │
+│   - 근데 세션 리더(왕)는 언제든 다시 빈 터미널을 주워 먹고 지배할 수 있는 맹점이 │
+│     있음 ➔ 다시 터미널에 묶일 리스크 존재 💥.                      │
+│   - 그래서 1번 더 `fork()` 치고 자살함!! "나는 왕의 자식이지만 왕은 아니다 ㅋ" │
+│     ➔ 영원히 터미널을 가질 수 없는 완벽한 고자 봇(True Daemon) 탄생 🚀!! │
+│                                                             │
+│ 4️⃣ [ chdir("/") ➔ 작업 폴더 초기화 방폭문 ]                     │
+│   - 딴 데 처박혀 있으면 나중에 USB 마운트 해제할 때 `Device Busy` 뻗음 💀. │
+│   - 무.조.건. 안전빵인 최상위 루트 디렉토리(`/`)로 작업 방을 옮겨 락킹 쳐 쾅! │
+│                                                             │
+│ 5️⃣ [ umask(0) ➔ 권한 마스크 포맷 리셋 ]                        │
+│   - 부모가 물려준 더러운 파일 쓰기 권한 제한(umask)을 0으로 싹 다 포맷 지우개. │
+│                                                             │
+│ 6️⃣ & 7️⃣ [ close(0,1,2) ➔ 눈, 코, 입 다 막고 /dev/null 에 처박기 🪓 ]│
+│   - 키보드(0), 모니터(1), 에러창(2) 3대 기본 통로를 가위로 싹둑 다 잘라버림!! │
+│   - 그리고 그 끊어진 구멍에 쓰레기통 블랙홀(`/dev/null`)을 강제 용접시켜 박음.│
+│   - ➔ 찌끄레기 로그 화면에 뱉다가 파이프 터져 죽는 파국 원천 차단 무결점 텐트!│
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[아키텍트의 피 터지는 핵심 원리: 더블 포크 (Double Fork)의 기만술 ✨]**
 데몬화의 0순위 킬링 포인트를 묻는다면 기술사 100%는 "왜 `fork()`를 두 번 치냐 미친놈아?" 라고 묻는다.
@@ -139,23 +143,21 @@ C언어로 쌩 리눅스 [커널](/knowledge-base/studynote/02_operating_system/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">야만의 터미널 노예 시대 / 쉘 창 띄워놓고 서버 돌리다 실수로 <code>X</code> 끄면 ➔ SIGHUP 빔 맞고 서버 100% 동반 셧다운 타 죽음 폭파 💥 💀</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">전통적 C언어 Daemonization 대관식 🚀 / "터미널이랑 피를 끊어 호적 파 쾅!!" 더블 포크(Double Fork) 치고 <code>setsid()</code>, <code>/dev/null</code> 블랙홀 쓰레기통 융합 쳐서 완벽 무결점 고립 무정단 독립 생존망 구축 록온 완료 ✨</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SysVinit 쉘 스크립트 떡칠 붕괴 💀 / 데몬 켤 때마다 리눅스 부팅 폴더에다가 <code>start/stop/status</code> 쉘 스크립트 1,000줄 수동 노가다 타자 쳐 쑤셔 박다 의존성 꼬여 파국 터짐</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">systemd 모던 매니저 대통일 융합 🚀 / "C언어 데몬 코드 다 찢어 폐기 소각 쳐!! 걍 <code></div><div class="kb-diagram-node">Service</div><div class="kb-diagram-note"></code> 텍스트 1장에 <code>Restart=on-failure</code> 딱 1줄 갈기면 ➔ 서버 뻗을 때 0.1초 컷 오토 좀비 부활 쾌속 펌핑 때리는 마스터 봇 강림 쾅!!"</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">도커(Docker) / K8s 클라우드 네이티브 엑소더스 (현재) / 데몬화(백그라운드) 짓거리 자체를 100% 영구 사형 폐지 컷! ➔ "컨테이너 뱃속 앱은 무.조.건 포그라운드로 멱살 잡혀 달려야 함!!" K8s 대장 뇌가 밖에서 헬스 체크(Liveness) 찌르며 데몬의 짬처리 역할을 완벽 대체 흡수 승천 융합 달성 ✨</div>
-</div>
-</div>
-
-
+```text
+야만의 터미널 노예 시대 / 쉘 창 띄워놓고 서버 돌리다 실수로 `X` 끄면 ➔ SIGHUP 빔 맞고 서버 100% 동반 셧다운 타 죽음 폭파 💥 💀
+    │
+    ▼
+전통적 C언어 Daemonization 대관식 🚀 / "터미널이랑 피를 끊어 호적 파 쾅!!" 더블 포크(Double Fork) 치고 `setsid()`, `/dev/null` 블랙홀 쓰레기통 융합 쳐서 완벽 무결점 고립 무정단 독립 생존망 구축 록온 완료 ✨
+    │
+    ▼
+SysVinit 쉘 스크립트 떡칠 붕괴 💀 / 데몬 켤 때마다 리눅스 부팅 폴더에다가 `start/stop/status` 쉘 스크립트 1,000줄 수동 노가다 타자 쳐 쑤셔 박다 의존성 꼬여 파국 터짐
+    │
+    ▼
+systemd 모던 매니저 대통일 융합 🚀 / "C언어 데몬 코드 다 찢어 폐기 소각 쳐!! 걍 `[Service]` 텍스트 1장에 `Restart=on-failure` 딱 1줄 갈기면 ➔ 서버 뻗을 때 0.1초 컷 오토 좀비 부활 쾌속 펌핑 때리는 마스터 봇 강림 쾅!!"
+    │
+    ▼
+도커(Docker) / K8s 클라우드 네이티브 엑소더스 (현재) / 데몬화(백그라운드) 짓거리 자체를 100% 영구 사형 폐지 컷! ➔ "컨테이너 뱃속 앱은 무.조.건 포그라운드로 멱살 잡혀 달려야 함!!" K8s 대장 뇌가 밖에서 헬스 체크(Liveness) 찌르며 데몬의 짬처리 역할을 완벽 대체 흡수 승천 융합 달성 ✨
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

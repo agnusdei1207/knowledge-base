@@ -25,19 +25,17 @@ tags = ["studynote-algorithm"]
 
 아래 예시는 왜 탐욕 선택만으로는 부족한지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Greedy can miss the global best matching</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">U1 -&gt; V1, V2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">U2 -&gt; V1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">greedy pick U1-V1 -&gt; U2 unmatched (1 match)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">better: U1-V2, U2-V1 -&gt; 2 matches</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│               Greedy can miss the global best matching               │
+├──────────────────────────────────────────────────────────────────────┤
+│ U1 -> V1, V2                                                         │
+│ U2 -> V1                                                             │
+│                                                                      │
+│ greedy pick U1-V1  -> U2 unmatched  (1 match)                        │
+│ better: U1-V2, U2-V1 -> 2 matches                                    │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 즉 이분 매칭의 본질은 "지금 비어 있는 자리 하나 찾기"가 아니라, <strong>이미 잡힌 짝을 흔들어 더 많은 짝을 만들 수 있는지</strong>를 보는 데 있다. 이 재배치 개념이 바로 증대 경로로 이어진다.
 
@@ -61,19 +59,16 @@ tags = ["studynote-algorithm"]
 
 아래 그림은 증대 경로를 따라 매칭 상태를 뒤집는 과정을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Augmenting path flips the matching</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">before : U1 == V1 U2 free V2 free</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">edges : U2 -- V1, U1 -- V2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">path : U2 -- V1 == U1 -- V2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">after : U2 == V1 U1 == V2</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                 Augmenting path flips the matching                   │
+├──────────────────────────────────────────────────────────────────────┤
+│ before : U1 == V1      U2 free      V2 free                          │
+│ edges  : U2 -- V1, U1 -- V2                                           │
+│ path   : U2 -- V1 == U1 -- V2                                         │
+│ after  : U2 == V1      U1 == V2                                       │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 [DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) 기반 최대 매칭은 흔히 `O(VE)` 정도로 이해하며, 코딩 테스트와 중간 규모 배정 문제에서 많이 쓰인다. 더 큰 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에서는 Hopcroft-Karp [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 [너비 우선 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/) ([BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/), Breadth-First Search) 으로 여러 최단 증대 경로를 한꺼번에 찾고, [깊이 우선 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) ([DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/), Depth-First Search) 으로 확장해 `O(E√V)`까지 줄여 준다.
 
@@ -109,24 +104,21 @@ tags = ["studynote-algorithm"]
 
 아래 결정 흐름은 어떤 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 선택할지 빠르게 정리해 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Which matching formulation should you use?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">graph bipartite?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no -&gt; general matching / different formulation</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">need only maximum count?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes -&gt; DFS matching or Hopcroft-Karp</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">cost/weight important?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes -&gt; Hungarian / Min-Cost Max-Flow</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ online arrival? -&gt; online matching / approximation</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│              Which matching formulation should you use?              │
+├──────────────────────────────────────────────────────────────────────┤
+│ graph bipartite?                                                     │
+│        ├─ no  -> general matching / different formulation            │
+│        └─ yes                                                         │
+│ need only maximum count?                                             │
+│        ├─ yes -> DFS matching or Hopcroft-Karp                       │
+│        └─ no                                                          │
+│ cost/weight important?                                               │
+│        ├─ yes -> Hungarian / Min-Cost Max-Flow                       │
+│        └─ online arrival? -> online matching / approximation         │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 ### 기술사 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -175,24 +167,22 @@ tags = ["studynote-algorithm"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Bipartite graph check</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Matching representation</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Augmenting path search</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Maximum matching</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Kőnig / Hall theory</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Hopcroft-Karp scaling</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Hungarian / Min-Cost extensions</div>
-</div>
-</div>
-
-
+```text
+Bipartite graph check
+    │
+    ▼
+Matching representation
+    │
+    ▼
+Augmenting path search
+    │
+    ▼
+Maximum matching
+    │
+    ├─ Kőnig / Hall theory
+    ├─ Hopcroft-Karp scaling
+    └─ Hungarian / Min-Cost extensions
+```
 
 이 흐름은 이분 구조 판정에서 출발해, 증대 경로 기반 최대 매칭으로 확장되고, 이후 이론과 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)·대규모 처리 문제로 이어지는 발전 방향을 보여 준다.
 

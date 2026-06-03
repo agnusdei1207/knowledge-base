@@ -29,27 +29,27 @@ tags = ["studynote-network"]
 
 물리적 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/) 네트워크(WAN)가 인터넷 기반의 VPN 아키텍처로 전환되면서 기업이 얻는 구조적, 비용적 이점을 도식화하면 VPN의 존재 이유가 명확해진다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전용선(Leased Line) vs VPN 아키텍처 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">과거: 고비용 물리적 전용선 망</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지사 A (월 500만 원, 10Mbps) ▶ 본사 망</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지사 B (월 500만 원, 10Mbps) ▶ 라우터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 안전하지만 거리에 비례하여 천문학적인 구축 및 유지 비용 발생</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 출장 간 직원은 사내망에 접속할 물리적 방법이 아예 없음</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: 가상 사설망 (VPN) 인프라</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">인터넷</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">IPSec VPN 터널</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">──▶ 본사 방화벽</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(월 10만 원, 1Gbps) (VPN GW)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">인터넷</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">SSL VPN 터널</div><div class="kb-diagram-connector">◀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(공용 Wi-Fi 등 아무 곳에서나 접속)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 기존 인터넷 회선을 재활용하므로 비용이 1/10 수준으로 극단적 절감</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 터널링과 암호화 기술이 '논리적'으로 전용선과 동일한 보안성을 보장</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │                 전용선(Leased Line) vs VPN 아키텍처 비교              │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │  [과거: 고비용 물리적 전용선 망]                                    │
+  │   지사 A ──────── (월 500만 원, 10Mbps) ────────▶ 본사 망        │
+  │   지사 B ──────── (월 500만 원, 10Mbps) ────────▶ 라우터         │
+  │   * 안전하지만 거리에 비례하여 천문학적인 구축 및 유지 비용 발생           │
+  │   * 출장 간 직원은 사내망에 접속할 물리적 방법이 아예 없음                 │
+  │                                                             │
+  │  [현재: 가상 사설망 (VPN) 인프라]                                  │
+  │   지사 A ───▶ [인터넷] ◀──▶ [IPSec VPN 터널] ◀──▶ 본사 방화벽  │
+  │                 │ (월 10만 원, 1Gbps)            (VPN GW)   │
+  │   출장 직원 ───▶ [인터넷] ◀──▶ [ SSL VPN 터널 ] ◀──────────┘  │
+  │                 (공용 Wi-Fi 등 아무 곳에서나 접속)                 │
+  │                                                             │
+  │   * 기존 인터넷 회선을 재활용하므로 비용이 1/10 수준으로 극단적 절감        │
+  │   * 터널링과 암호화 기술이 '논리적'으로 전용선과 동일한 보안성을 보장       │
+  └─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 과거의 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/)([Leased Line](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/))은 통신사가 본사와 지사 간에 물리적인 케이블 경로를 독립적으로 할당해주어 해킹 위험이 없었으나, 거리가 멀어질수록 비용이 기하급수적으로 상승하고 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 확장이 매우 어려웠다. VPN은 '인터넷'이라는 이미 거미줄처럼 깔린 값싸고 방대한 공공 인프라를 활용한다. 지사 장비나 개인 노트북에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)할 때 이를 암호화하고 가상의 목적지 주소를 덧붙여(캡슐화) 인터넷으로 던지면, 본사 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)(VPN 게이트웨이)이 이를 받아 복호화하여 사내망으로 넣어준다. 논리적인 소프트웨어 기술로 물리적 한계를 극복한 가장 성공적인 네트워크 혁신 사례다.
 
@@ -73,25 +73,33 @@ tags = ["studynote-network"]
 
 VPN이 '사설망'이라는 환상(Illusion)을 만들어내기 위해 패킷 수준에서 벌어지는 3단계의 마법 같은 조작 과정을 캡슐화 관점에서 추적해보자.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VPN 패킷 처리 파이프라인 (캡슐화 및 암호화)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1단계: 사용자 패킷 생성 (평문)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원본 IP 헤더</div><div class="kb-diagram-cell">TCP Header</div><div class="kb-diagram-cell">사내 기밀 데이터 (Payload)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(10.x 사설망IP)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ VPN Agent 또는 Gateway에서 인터셉트</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2단계: 암호화 및 인증 (Encryption &amp; Auth) - 내용 은닉</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ESP Header</div><div class="kb-diagram-cell">* 암호화된 (TCP + Data) *</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3단계: 터널링 (Tunneling) - 라우팅 정보 은닉 및 새 주소 부여</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">새로운 IP 헤더</div><div class="kb-diagram-cell">ESP Header</div><div class="kb-diagram-cell">* 암호화된 (원본IP+TCP+Data)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(공인 IP)</div><div class="kb-diagram-cell">(무결성 검증용)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 퍼블릭 인터넷 망 횡단 (해커는 새 IP 헤더만 볼 수 있음)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌──────────────────────────────────────────────────────────────────┐
+  │                 VPN 패킷 처리 파이프라인 (캡슐화 및 암호화)              │
+  ├──────────────────────────────────────────────────────────────────┤
+  │                                                                  │
+  │ [1단계: 사용자 패킷 생성 (평문)]                                       │
+  │ ┌───────────────┬───────────────┬──────────────────────────────┐ │
+  │ │ 원본 IP 헤더  │   TCP Header  │  사내 기밀 데이터 (Payload)  │ │
+  │ │(10.x 사설망IP)│               │                              │ │
+  │ └───────────────┴───────────────┴──────────────────────────────┘ │
+  │        │                                                         │
+  │        ▼ VPN Agent 또는 Gateway에서 인터셉트                          │
+  │ [2단계: 암호화 및 인증 (Encryption & Auth) - 내용 은닉]                │
+  │        │        ┌───────────────┬──────────────────────────────┐ │
+  │        │        │ ESP Header    │  * 암호화된 (TCP + Data) *   │ │
+  │        │        └───────────────┴──────────────────────────────┘ │
+  │        │                                                         │
+  │        ▼                                                         │
+  │ [3단계: 터널링 (Tunneling) - 라우팅 정보 은닉 및 새 주소 부여]             │
+  │ ┌───────────────┬───────────────┬──────────────────────────────┐ │
+  │ │ 새로운 IP 헤더│ ESP Header    │  * 암호화된 (원본IP+TCP+Data)│ │
+  │ │ (공인 IP)     │ (무결성 검증용) │                              │ │
+  │ └───────────────┴───────────────┴──────────────────────────────┘ │
+  │        │                                                         │
+  │        ▼ 퍼블릭 인터넷 망 횡단 (해커는 새 IP 헤더만 볼 수 있음)             │
+  └──────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 내부 PC가 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한 원본 패킷은 출발지와 목적지가 모두 사설 IP([10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/).x.x.x 등)로 되어 있어 인터넷 라우터를 통과할 수 없으며 평문이라 내용이 노출된다. VPN은 이 패킷을 가로채어 두 가지 처리를 한다. 첫째, 패킷 내용(때로는 원본 IP 헤더까지)을 강력한 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 알고리즘으로 암호화하여 스니핑을 막고 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 해시([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))를 붙인다. 둘째, '새로운 껍데기([New](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) IP Header)'를 씌우는데, 이 껍데기의 출발지는 내 쪽 VPN 게이트웨이의 공인 IP, 목적지는 상대방 본사 VPN 게이트웨이의 공인 IP다. 인터넷의 라우터들은 이 겉껍데기만 보고 패킷을 본사까지 배달해준다. 본사에 도착하면 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이 껍데기를 벗기고, 암호를 풀어 원래의 평문 패킷을 사내망으로 전달한다. 이것이 [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/)([Tunneling](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/))의 본질이다.
 
@@ -115,26 +123,29 @@ VPN은 네트워크를 연결하는 '형태'에 따라 크게 두 가지 아키�
 
 이 두 가지 VPN 기술이 OSI 계층 모델에서 어떻게 다르게 캡슐화를 수행하는지 비교하면, [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 통과([NAT Traversal](/knowledge-base/studynote/03_network/07_network_layer_routing/384_nat_t_ipsec_nat_traversal_udp_4500/))의 난이도 차이를 근본적으로 이해할 수 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IPSec VPN vs SSL VPN의 캡슐화 계층 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IPSec VPN 캡슐화 (L3 레벨)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New IP Header</div><div class="kb-diagram-cell">ESP</div><div class="kb-diagram-cell">(Orig IP) + TCP + Payload</div><div class="kb-diagram-cell">ESP</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(인터넷 라우팅)</div><div class="kb-diagram-cell">(L3.5)</div><div class="kb-diagram-cell">Trailer</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 특징: L4(TCP) 밖에서 완전히 새롭게 감싸므로 통신 표준과 다름.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일부 깐깐한 방화벽이나 호텔/공항 공유기에서 ESP(프로토콜 50)를 차단함.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SSL VPN 캡슐화 (L4/L7 레벨)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IP Header</div><div class="kb-diagram-cell">TCP</div><div class="kb-diagram-cell">TLS</div><div class="kb-diagram-cell">암호화된 내부망 패킷(L3~)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(인터넷 라우팅)</div><div class="kb-diagram-cell">(443)</div><div class="kb-diagram-cell">(보안)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 특징: 겉보기에는 완벽히 평범한 인터넷 보안 웹 서핑(HTTPS, 포트 443) 트래픽과</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동일함. 전 세계 어떤 방화벽이나 공유기도 웹 서핑(443)은 막지 않으므로,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SSL VPN은 어디서든 실패 없이 100% 접속된다.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌──────────────────────────────────────────────────────────────────┐
+  │                 IPSec VPN vs SSL VPN의 캡슐화 계층 비교                │
+  ├──────────────────────────────────────────────────────────────────┤
+  │                                                                  │
+  │ [IPSec VPN 캡슐화 (L3 레벨)]                                       │
+  │   ┌───────────────┬───────┬──────────────────────────────┬───────┐ │
+  │   │ New IP Header │  ESP  │ (Orig IP) + TCP + Payload  │  ESP  │ │
+  │   │ (인터넷 라우팅)  │(L3.5) │                            │Trailer│ │
+  │   └───────────────┴───────┴──────────────────────────────┴───────┘ │
+  │   * 특징: L4(TCP) 밖에서 완전히 새롭게 감싸므로 통신 표준과 다름.               │
+  │           일부 깐깐한 방화벽이나 호텔/공항 공유기에서 ESP(프로토콜 50)를 차단함.  │
+  │                                                                  │
+  │ [SSL VPN 캡슐화 (L4/L7 레벨)]                                      │
+  │   ┌───────────────┬───────┬───────┬───────────────────────┐      │
+  │   │   IP Header   │  TCP  │  TLS  │ 암호화된 내부망 패킷(L3~) │      │
+  │   │ (인터넷 라우팅)  │ (443) │ (보안) │                       │      │
+  │   └───────────────┴───────┴───────┴───────────────────────┘      │
+  │   * 특징: 겉보기에는 완벽히 평범한 인터넷 보안 웹 서핑(HTTPS, 포트 443) 트래픽과 │
+  │           동일함. 전 세계 어떤 방화벽이나 공유기도 웹 서핑(443)은 막지 않으므로,│
+  │           SSL VPN은 어디서든 실패 없이 100% 접속된다.                     │
+  └──────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** IPSec은 네트워크 생태계 깊숙한 곳(L3 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))에서 패킷을 뜯어고친다. 강력하고 투명한 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)을 제공하지만, 캡슐화된 [ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/) 패킷 구조가 일반적인 인터넷 트래픽([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/[UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/))과는 이질적이어서 엄격한 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 규칙이나 낡은 공유기의 [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 환경을 통과하다가 버려지는 경우가 많다. 반면, SSL VPN은 영리하게도 암호화된 내부망 패킷 전체를 우리가 매일 쓰는 웹 브라우저 보안 통신([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/), [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 443포트)의 페이로드 자리에 쑤셔 넣는다. [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 입장에서 이 트래픽은 직원이 구글이나 네이버에 접속하는 평범한 웹 서핑 트래픽과 완벽히 똑같이 보이므로 절대 차단하지 않는다. 이 '[방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 통과의 극단적 유연성' 덕분에 오늘날 재택근무용 VPN 시장은 [SSL VPN](/knowledge-base/studynote/09_security/03_network_security/283_ssl_vpn/)(또는 이를 응용한 기술)이 천하통일했다.
 
@@ -169,27 +180,30 @@ VPN를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 �
 
 이러한 기존 VPN의 '내부망 과도한 개방' 문제를 해결하기 위해 등장한 것이 바로 [ZTNA](/knowledge-base/studynote/12_it_management/05_security_compliance/339_ztna/) ([Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) Network Access) 패러다임이다. 기존 VPN과 ZTNA의 접근 제어 아키텍처 차이를 시각화하면 보안의 중심축 이동을 볼 수 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">레거시 VPN vs ZTNA (Zero Trust) 아키텍처 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">과거: 기존 VPN 기반 "성벽 방어" (Perimeter Security)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">VPN 방화벽 인증 통과</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">─ 사내 네트워크 망 (VLAN) ─</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DB</div><div class="kb-diagram-node">Web</div><div class="kb-diagram-node">HR 시스템</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문제점: "문을 통과한 자는 모두 믿는다."</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인증된 외주 직원이 실수로 핵심 DB 서버까지 스캔하고 접근할 수 있음.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">미래: ZTNA 기반 "앱 단위 격리" (Zero Trust)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ZTNA 클라우드 브로커</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Web</div><div class="kb-diagram-note">(허용된 앱만 노출)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(지속적 컨텍스트 검증) (접근 절대 불가)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IAM 정책 엔진</div><div class="kb-diagram-node">DB</div><div class="kb-diagram-node">HR 시스템</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해결책: "아무도 믿지 마라." 네트워크(망) 단위의 접속을 아예 불허하고,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자의 신원과 기기 상태를 지속 평가하여 '허가된 단일 애플리케이션'과</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1:1 프록시 통신만 열어준다. 사내망 구조 자체를 숨겨버린다.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌──────────────────────────────────────────────────────────────────┐
+  │                 레거시 VPN vs ZTNA (Zero Trust) 아키텍처 비교          │
+  ├──────────────────────────────────────────────────────────────────┤
+  │                                                                  │
+  │ [과거: 기존 VPN 기반 "성벽 방어" (Perimeter Security)]                 │
+  │                                                                  │
+  │   원격 접속자 ──▶ [ VPN 방화벽 인증 통과 ] ──▶ ┌─ 사내 네트워크 망 (VLAN) ─┐│
+  │                                       │ [DB]  [Web]  [HR 시스템] ││
+  │   문제점: "문을 통과한 자는 모두 믿는다."         └──────────────────────┘│
+  │          인증된 외주 직원이 실수로 핵심 DB 서버까지 스캔하고 접근할 수 있음.    │
+  │                                                                  │
+  │ [미래: ZTNA 기반 "앱 단위 격리" (Zero Trust)]                          │
+  │                                                                  │
+  │   원격 접속자 ──▶ [ ZTNA 클라우드 브로커 ] ──▶ [Web] (허용된 앱만 노출)     │
+  │                    ▲                                              │
+  │                    │(지속적 컨텍스트 검증)           (접근 절대 불가)      │
+  │               [IAM 정책 엔진]                   [DB]    [HR 시스템]  │
+  │                                                                  │
+  │   해결책: "아무도 믿지 마라." 네트워크(망) 단위의 접속을 아예 불허하고,         │
+  │          사용자의 신원과 기기 상태를 지속 평가하여 '허가된 단일 애플리케이션'과 │
+  │          1:1 프록시 통신만 열어준다. 사내망 구조 자체를 숨겨버린다.          │
+  └──────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 전통적인 VPN은 접속자가 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)을 통과하면 사내 IP를 부여받고 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 내부의 '망'에 들어서게 된다. 마치 성문을 통과하면 성 내부의 모든 길을 자유롭게 돌아다닐 수 있는 것과 같다. 이는 내부자 위협(Insider Threat)이나 탈취된 계정에 의한 수평 이동 공격(Lateral Movement)에 극도로 취약하다. [ZTNA](/knowledge-base/studynote/12_it_management/05_security_compliance/339_ztna/)(예: Zscaler, Cloudflare Access)는 접속자가 망에 들어오는 것 자체를 막는다. 중앙의 브로커([프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/))가 사용자의 권한을 깐깐하게 심사한 뒤, 그 직원이 일할 때 필요한 딱 하나의 '서버 앱(예: 인사 시스템 웹페이지)'만 1:1로 직접 중계해준다. 사용자는 다른 서버가 네트워크상에 존재하는지조차 알 수 없다 (Dark Cloud). 이것이 VPN을 대체해 나가고 있는 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 보안의 핵심 사상이다.
 
@@ -226,23 +240,26 @@ VPN 기술은 '비싼 물리적 선을 값싼 논리적 선으로 대체'하는 
 
 전통적인 인프라 기반 VPN에서 사용자 및 앱 중심의 [SASE](/knowledge-base/studynote/03_network/14_network_security_threats/740_sase_secure_access_service_edge_sdwan_cloud/) 아키텍처로 네트워크 보안망이 진화하는 거시적 로드맵을 요약하면 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VPN 패러다임 진화 로드맵: Legacy에서 SASE로</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1세대: Legacy VPN</div><div class="kb-diagram-node">2세대: SD-WAN &amp; ZTNA</div><div class="kb-diagram-node">3세대: SASE</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">온프레미스 하드웨어 중심 소프트웨어 중심 동적 터널 클라우드 네이티브 융합</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"망에 접속하라" "앱에 접속하라" "보안 클라우드를 거쳐라"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data Center</div><div class="kb-diagram-cell">Multi-Cloud</div><div class="kb-diagram-cell">Edge Cloud</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Hub &amp; Spoke)</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">(Mesh Network)</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">(FWaaS+ZTNA)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">초점 이동: 사내망(방화벽)으로 트래픽을 모으는 헤어핀(Hairpin) 구조의 병목을 깨고,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전 세계 퍼블릭 클라우드 엣지(Edge)에서 사용자와 가장 가까운 곳에서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VPN 인증과 방화벽 검사를 끝내는 분산형 클라우드 보안으로 진화 중.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌──────────────────────────────────────────────────────────────────┐
+  │              VPN 패러다임 진화 로드맵: Legacy에서 SASE로                │
+  ├──────────────────────────────────────────────────────────────────┤
+  │                                                                  │
+  │  [1세대: Legacy VPN]       [2세대: SD-WAN & ZTNA]   [3세대: SASE]    │
+  │   온프레미스 하드웨어 중심      소프트웨어 중심 동적 터널    클라우드 네이티브 융합 │
+  │   "망에 접속하라"           "앱에 접속하라"           "보안 클라우드를 거쳐라"│
+  │         │                       │                       │        │
+  │         ▼                       ▼                       ▼        │
+  │ ┌───────────────┐       ┌───────────────┐       ┌───────────────┐│
+  │ │ Data Center   │       │ Multi-Cloud   │       │ Edge Cloud    ││
+  │ │ (Hub & Spoke) │ ───▶  │ (Mesh Network)│ ───▶  │ (FWaaS+ZTNA)  ││
+  │ └───────────────┘       └───────────────┘       └───────────────┘│
+  │                                                                  │
+  │  초점 이동: 사내망(방화벽)으로 트래픽을 모으는 헤어핀(Hairpin) 구조의 병목을 깨고, │
+  │           전 세계 퍼블릭 클라우드 엣지(Edge)에서 사용자와 가장 가까운 곳에서      │
+  │           VPN 인증과 방화벽 검사를 끝내는 분산형 클라우드 보안으로 진화 중.       │
+  └──────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 기존 VPN은 지방이나 해외에 있는 직원이 인터넷 서핑([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 접속 등)을 할 때도 무조건 본사에 있는 커다란 VPN [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)을 한 번 거쳐서 나가게 만드는 비효율(헤어핀 구조)을 강요했다. 클라우드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(M365, Salesforce) 사용이 폭발하면서 이 본사 병목은 한계에 달했다. 결국 기업들은 각 지사에 똑똑한 라우터([SD-WAN](/knowledge-base/studynote/03_network/16_data_center_cloud/849_sd_wan_software_defined_wide_area_network/))를 놓아 최적의 경로를 찾게 만들었고, 나아가 글로벌 클라우드 사업자(Zscaler, Palo Alto 등)가 전 세계 수백 군데에 뿌려놓은 '클라우드 보안 엣지([SASE](/knowledge-base/studynote/03_network/14_network_security_threats/740_sase_secure_access_service_edge_sdwan_cloud/))'를 거치도록 아키텍처를 뒤집었다. 이제 직원은 본사 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)까지 억지로 올 필요 없이, 가장 가까운 클라우드 엣지 노드에 접속([ZTNA](/knowledge-base/studynote/12_it_management/05_security_compliance/339_ztna/))하여 검사를 받고 원하는 앱으로 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 다이렉트 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)을 타게 된다.
 
@@ -261,19 +278,15 @@ VPN 기술은 '비싼 물리적 선을 값싼 논리적 선으로 대체'하는 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: SSL/TLS 핸드셰이크</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: VPN</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: PKI 공개키 인프라</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: SSL/TLS 핸드셰이크]
+    │
+    ▼
+[현재 개념: VPN]
+    │
+    ├──▶ [확장 A: PKI 공개키 인프라]
+    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
+```
 
 VPN는 SSL/[TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 핸드셰이크에서 출발해 현재 메커니즘을 정교화하고, 이후 [PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) 공개키 인프라와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

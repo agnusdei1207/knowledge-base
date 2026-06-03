@@ -24,23 +24,19 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경**: 피터슨 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 같은 초창기 소프트웨어 락은 구조적으로 무조건 `while` 루프를 돌며 기다릴 수밖에 없었다. 이후 멀티 프로세서([SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/)) [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 발전하면서, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부의 극도로 짧은 락([인터럽트 핸들러](/knowledge-base/studynote/02_operating_system/01_overview_architecture/021_interrupt_handler/) 등)을 제어하기 위해 "잠들면 안 되는 상황"이 생겼고, Busy Waiting을 고의로 활용하는 [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)([Spinlock](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/))이 OS의 핵심 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 요소로 자리 잡았다.
 
+```text
+  [Busy Waiting(스핀락) vs Sleep/Wakeup(뮤텍스)의 비용 역전 모델]
 
+  [ 1. 락 대기 시간이 짧을 때 (성공적 Busy Waiting) ]
+  스레드 A: 락 획득 ─▶ (10ns 작업) ─▶ 락 반환!
+  스레드 B: while(락 열렸나?) ─▶ (10ns 낭비) ─▶ 락 획득! 🏃‍♂️ (문맥 교환 오버헤드 0%)
+  ✅ 결과: 스레드 B의 압도적 승리. 대기 지연 거의 제로.
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Busy Waiting(스핀락) vs Sleep/Wakeup(뮤텍스)의 비용 역전 모델</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 락 대기 시간이 짧을 때 (성공적 Busy Waiting)</div></div>
-<div class="kb-diagram-note">스레드 A: 락 획득 ─▶ (10ns 작업) ─▶ 락 반환!</div>
-<div class="kb-diagram-note">스레드 B: while(락 열렸나?) ─▶ (10ns 낭비) ─▶ 락 획득! 🏃‍♂️ (문맥 교환 오버헤드 0%)</div>
-<div class="kb-diagram-note">✅ 결과: 스레드 B의 압도적 승리. 대기 지연 거의 제로.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 락 대기 시간이 길 때 (재앙적 Busy Waiting)</div></div>
-<div class="kb-diagram-note">스레드 A: 락 획득 ─▶ (DB 통신 1초 작업) ─▶ 락 반환!</div>
-<div class="kb-diagram-note">스레드 B: while(락 열렸나?) ─▶ 1초 동안 CPU 점유율 100% 찍으며 무한 루프 돎 💥</div>
-<div class="kb-diagram-note">🚨 결과: B가 CPU를 불태우며 낭비하는 바람에 다른 중요한 작업(C, D)이 올 스톱.</div>
-</div>
-</div>
-
-
+  [ 2. 락 대기 시간이 길 때 (재앙적 Busy Waiting) ]
+  스레드 A: 락 획득 ─▶ (DB 통신 1초 작업) ─▶ 락 반환!
+  스레드 B: while(락 열렸나?) ─▶ 1초 동안 CPU 점유율 100% 찍으며 무한 루프 돎 💥
+  🚨 결과: B가 CPU를 불태우며 낭비하는 바람에 다른 중요한 작업(C, D)이 올 스톱.
+```
 **[다이어그램 해설]** Busy Waiting은 그 자체로 악(Evil)이 아니다. "타이밍(시간)"에 따라 천사와 악마를 오간다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 아키텍트는 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)의 코드 길이를 철저히 계산하여 이 대기 방식이 약이 될지 독이 될지 판단해야 한다.
 
 - **📢 섹션 요약 비유**: 엘리베이터 문이 닫히고 있을 때, 손을 집어넣어 문을 열고 타는 것(Busy Waiting)은 3초를 절약하는 스마트한 행동입니다. 하지만 고장 나서 수리 중인 엘리베이터 앞에서 계속 버튼을 누르며 서 있는 것(멍청한 Busy Waiting)은 내 인생의 시간을 불태우는 미친 짓입니다.
@@ -107,28 +103,31 @@ tags = ["studynote-operating-system"]
 2. <strong>고빈도 거래 (HFT, High Frequency Trading) 서버의 극단적 <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/700_spinlock_busy_waiting/">Busy Wait</a></strong>: 주식 거래소에서 1나노초 단위로 주문을 때려야 하는 HFT 서버는 OS 스케줄러의 Sleep/Wakeup 비용(2000ns)을 용납할 수 없다.
    - **아키텍트 결단**: HFT 개발자는 C++로 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 데이터를 읽을 때, `select()`나 `epoll()` 같은 OS의 Sleep 기반 함수를 쓰지 않는다. 대신 특정 CPU 코어 하나를 OS로부터 완전히 격리(`isolcpus`) 시킨 뒤, 무한 `while(true)` 루프를 돌리며 랜카드([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/)) 메모리에 패킷이 꽂히는 순간을 Busy Waiting으로 직접 감시([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/))한다. 발열이 폭발하든 말든 오직 반응 속도 하나를 위해 수백만 원짜리 코어를 뺑뺑이 전용으로 태워버리는 극단적 실무 아키텍처다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동기화 설계 시 Busy Waiting 도입 여부 아키텍트 결정 트리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">요구사항: 스레드 간 동기화 로직 구현</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 1. 임계 구역(Critical Section)의 성격 분석</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">임계 구역 안에 디스크 읽기, 네트워크 등 I/O 작업이 섞여 있는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">예 (I/O 작업 존재)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 🚨 절대 금지 (Busy Wait 불가)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I/O는 수 ms에서 수 초까지 튈 수 있다.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 조치: 무조건 Mutex나 Semaphore (Sleep) 사용.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">아니오 (순수 메모리 연산만 존재)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 2. 코어의 개수는?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">싱글 코어</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">🚨 데드락 위험. Sleep(Mutex) 사용</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">멀티 코어 (SMP)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">✅ Spinlock 또는</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CAS 기반 Lock-free 자료구조(Busy Wait) 적극 채택!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(문맥 교환 오버헤드 0으로 초고속 TPS 획득)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌──────────────────────────────────────────────────────────────────┐
+  │     동기화 설계 시 Busy Waiting 도입 여부 아키텍트 결정 트리     │
+  ├──────────────────────────────────────────────────────────────────┤
+  │                                                                  │
+  │   [요구사항: 스레드 간 동기화 로직 구현]                         │
+  │                │                                                 │
+  │                ▼ 1. 임계 구역(Critical Section)의 성격 분석      │
+  │   임계 구역 안에 디스크 읽기, 네트워크 등 I/O 작업이 섞여 있는가?│
+  │          ├─ [예 (I/O 작업 존재)]                                 │
+  │          │      │                                                │
+  │          │      ▼ 🚨 절대 금지 (Busy Wait 불가)                  │
+  │          │  I/O는 수 ms에서 수 초까지 튈 수 있다.                │
+  │          │  ▶ 조치: 무조건 Mutex나 Semaphore (Sleep) 사용.       │
+  │          │                                                       │
+  │          └─ [아니오 (순수 메모리 연산만 존재)]                   │
+  │                 │                                                │
+  │                 ▼ 2. 코어의 개수는?                              │
+  │          ├─ [ 싱글 코어 ] ─▶ 🚨 데드락 위험. Sleep(Mutex) 사용   │
+  │          │                                                       │
+  │          └─ [ 멀티 코어 (SMP) ] ─▶ ✅ Spinlock 또는              │
+  │             CAS 기반 Lock-free 자료구조(Busy Wait) 적극 채택!    │
+  │             (문맥 교환 오버헤드 0으로 초고속 TPS 획득)           │
+  └──────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** Busy Waiting을 실무에 적용하려면 2가지 확신이 필요하다. 첫째, 남이 락을 잡고 있는 시간이 내가 잠들고 깨는 시간(수 마이크로초)보다 무조건 짧다는 확신(순수 메모리 연산). 둘째, 나를 풀어줄 놈이 지금 다른 코어에서 열심히 달리고 있다는 확신(멀티 코어). 이 두 가지가 없다면 [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)은 서버를 태우는 난로에 불과하다.
 
 - **📢 섹션 요약 비유**: Busy Waiting은 독한 항생제입니다. 세균([문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 오버헤드)이 명확할 때 짧게 치고 빠지면 최고의 명약이지만, 감기 기운(긴 I/O 작업)에 무식하게 투여하면 환자의 간(CPU)을 다 망가뜨려 사람을 죽이게 됩니다.
@@ -159,19 +158,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">메모리 장벽 (Memory Barrier / Memory Fence)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">바쁜 대기 (Busy Waiting)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Test-and-Set 명령어</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Compare-and-Swap (CAS) 명령어</div></div>
-</div>
-</div>
-
-
+```text
+[메모리 장벽 (Memory Barrier / Memory Fence)]
+    │
+    ▼
+[바쁜 대기 (Busy Waiting)]
+    │
+    ├──▶ [Test-and-Set 명령어]
+    └──▶ [Compare-and-Swap (CAS) 명령어]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

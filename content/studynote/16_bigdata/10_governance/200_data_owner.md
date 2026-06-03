@@ -38,7 +38,7 @@ tags = ["studynote-bigdata"]
 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 삭제 불이행 | 보유 기간 [결정자](/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/) 부재 → 불필요 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 무한 축적 |
 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 방치 | 품질 기준 결정 권한자 없음 |
 
-**📢 섹션 요약 비유**: [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Owner가 없는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 <strong>무주공산()</strong>과 같다. 아무도 책임지지 않으면 누구나 사용하다가 결국 아무도 관리하지 않게 된다.
+**📢 섹션 요약 비유**: [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Owner가 없는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 <strong>무주공산(無主空山)</strong>과 같다. 아무도 책임지지 않으면 누구나 사용하다가 결국 아무도 관리하지 않게 된다.
 
 ---
 
@@ -46,24 +46,28 @@ tags = ["studynote-bigdata"]
 
 ### 2.1 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Owner 위치와 책임 구조
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 거버넌스 책임 계층</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CDO (Chief Data Officer)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전사 데이터 전략 및 거버넌스 총괄</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">도메인별 위임</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Customer DO</div><div class="kb-diagram-cell">Finance DO</div><div class="kb-diagram-cell">Product DO</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(CMO급)</div><div class="kb-diagram-cell">(CFO급)</div><div class="kb-diagram-cell">(CPO급)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고객 도메인</div><div class="kb-diagram-cell">재무 도메인</div><div class="kb-diagram-cell">제품 도메인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">접근정책 결정</div><div class="kb-diagram-cell">접근정책 결정</div><div class="kb-diagram-cell">접근정책 결정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data Steward Data Steward Data Steward</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(운영 위임) (운영 위임) (운영 위임)</div></div>
-</div>
-</div>
-
-
+```
+┌───────────────────────────────────────────────────────────────┐
+│                    데이터 거버넌스 책임 계층                     │
+│                                                               │
+│  ┌─────────────────────────────────────────────────────────┐  │
+│  │  CDO (Chief Data Officer)                               │  │
+│  │  전사 데이터 전략 및 거버넌스 총괄                         │  │
+│  └───────────────────────────────────┬─────────────────────┘  │
+│                                      │ 도메인별 위임             │
+│  ┌──────────────┬──────────────┬─────▼─────────────────────┐  │
+│  │ Customer DO  │ Finance DO   │    Product DO              │  │
+│  │ (CMO급)      │ (CFO급)      │    (CPO급)                 │  │
+│  │              │              │                            │  │
+│  │ 고객 도메인   │ 재무 도메인   │ 제품 도메인                │  │
+│  │ 접근정책 결정 │ 접근정책 결정 │ 접근정책 결정              │  │
+│  └──────┬───────┴──────┬───────┴────────────┬──────────────┘  │
+│         │              │                    │                 │
+│         ▼              ▼                    ▼                 │
+│     Data Steward   Data Steward         Data Steward         │
+│     (운영 위임)     (운영 위임)           (운영 위임)           │
+└───────────────────────────────────────────────────────────────┘
+```
 
 ### 2.2 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Owner의 핵심 책임 6가지
 
@@ -105,7 +109,7 @@ tags = ["studynote-bigdata"]
 
 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) | [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Owner 직책 | 예시 |
 |:---|:---|:---|
-| 고객([Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/)) | CMO (Chief Marketing Officer) | 고객 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/), [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
+| 고객([C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/)) | CMO (Chief Marketing Officer) | 고객 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/), [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
 | 재무(Finance) | CFO (Chief Financial Officer) | 매출, 비용, 예산 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
 | 인사(HR) | CHRO (Chief Human Resources Officer) | 직원 정보, 급여 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
 | 제품(Product) | CPO (Chief Product Officer) | 제품 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/), 재고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
@@ -119,25 +123,25 @@ tags = ["studynote-bigdata"]
 
 ### 4.1 접근 요청 승인 프로세스
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">접근 요청자가 시스템에 요청</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Data Steward: 비즈니스 필요성·위험 검토</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">저위험</div><div class="kb-diagram-cell">──▶ Steward가 직접 승인 (위임 권한 내)</div></div>
-<div class="kb-diagram-note">고위험 / 대량 데이터</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Data Owner: 최종 승인/거부</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Data Custodian: 기술적 권한 부여</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">감사 로그에 이력 기록</div></div>
-</div>
-</div>
-
-
+```
+[접근 요청자가 시스템에 요청]
+         │
+         ▼
+[Data Steward: 비즈니스 필요성·위험 검토]
+         │
+    ┌────▼────┐
+    │ 저위험  │──▶ Steward가 직접 승인 (위임 권한 내)
+    └────┬────┘
+         │고위험 / 대량 데이터
+         ▼
+[Data Owner: 최종 승인/거부]
+         │
+         ▼
+[Data Custodian: 기술적 권한 부여]
+         │
+         ▼
+[감사 로그에 이력 기록]
+```
 
 ### 4.2 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Owner 지정 실패 패턴
 
@@ -190,25 +194,24 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 생성 (Data Creation) — 비즈니스 프로세스에서 데이터 발생</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 오너 (Data Owner) — 데이터 자산의 최종 책임자 지정</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 스튜어드 (Data Steward) — 일상적 품질·분류 관리 담당자</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 거버넌스 위원회 (DGC) — 정책 수립·충돌 조정 조직</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 메시 도메인 오너십 — 도메인팀이 데이터 제품 소유·배포</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">GDPR / 개인정보 책임 — 법적 데이터 오너십과 컴플라이언스 통합</div></div>
-</div>
-</div>
-
-
+```text
+[데이터 생성 (Data Creation) — 비즈니스 프로세스에서 데이터 발생]
+    │
+    ▼
+[데이터 오너 (Data Owner) — 데이터 자산의 최종 책임자 지정]
+    │
+    ▼
+[데이터 스튜어드 (Data Steward) — 일상적 품질·분류 관리 담당자]
+    │
+    ▼
+[데이터 거버넌스 위원회 (DGC) — 정책 수립·충돌 조정 조직]
+    │
+    ▼
+[데이터 메시 도메인 오너십 — 도메인팀이 데이터 제품 소유·배포]
+    │
+    ▼
+[GDPR / 개인정보 책임 — 법적 데이터 오너십과 컴플라이언스 통합]
+```
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 오너는 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)의 핵심 책임 주체로, 스튜어드와의 역할 분담을 통해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질·보안·컴플라이언스를 조직적으로 보장한다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

@@ -26,18 +26,14 @@ tags = ["studynote-network"]
 - **특징**: "나는 이번 통신에서 무조건 3개의 에러까지는 스스로 고치게 만들겠어!"라고 목표를 정하면, 그에 맞춰 <strong>유연하게 블록의 길이와 <a href="/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/">힌트</a>(패리티)의 개수를 맘대로 조절할 수 있는 엄청난 범용성</strong>을 자랑합니다.
 - **용도**: 여러 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 산발적으로 깨지는 랜덤 에러가 잦은 [위성 통신](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/592_satellite_communication_characteristics/), 무선 페이저(삐삐), 그리고 NAND [플래시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/)([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)) 컨트롤러의 하드웨어 수명 연장을 위한 에러 정정 칩셋에 널리 쓰였습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">리드-솔로몬 코드</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">BCH 코드 / 골레이 코드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">길쌈 코드</div></div>
-</div>
-</div>
-
-
+```text
+[리드-솔로몬 코드]
+    │
+    ▼
+[BCH 코드 / 골레이 코드]
+    │
+    └──▶ [길쌈 코드]
+```
 
 - **📢 섹션 요약 비유**: BCH 코드 / 골레이 코드는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -52,18 +48,14 @@ tags = ["studynote-network"]
 - <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong>: 이 23비트짜리 패킷이 날아가다가, 재수 없게 아무 자리에서나 <strong>최대 3비트가 동시에 에러로 뒤집혀도(0➔1), 수신기가 이 3개의 위치를 완벽하게 찾아내어 100% 원본으로 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a></strong>해 냅니다.
 - **심우주의 영웅**: 이 압도적인 효율성과 에러 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 능력 덕분에, 1979년 목성과 토성의 초고화질 사진을 찍어 지구로 보낸 <strong>보이저 1호(Voyager 1)와 2호의 무선 통신 핵심 에러 제어 코드로 채택</strong>되어 인류의 우주 탐사에 지대한 공헌을 했습니다. (NASA의 최애 코드였습니다.)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">리드-솔로몬 코드</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">BCH 코드 / 골레이 코드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">길쌈 코드</div></div>
-</div>
-</div>
-
-
+```text
+[리드-솔로몬 코드]
+    │
+    ▼
+[BCH 코드 / 골레이 코드]
+    │
+    └──▶ [길쌈 코드]
+```
 
 - **📢 섹션 요약 비유**: BCH 코드 / 골레이 코드의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -125,19 +117,15 @@ BCH 코드 / 골레이 코드는 [데이터](/knowledge-base/studynote/05_databa
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 리드-솔로몬 코드</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: BCH 코드 / 골레이 코드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 길쌈 코드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고신뢰 저지연 링크 제어</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 리드-솔로몬 코드]
+    │
+    ▼
+[현재 개념: BCH 코드 / 골레이 코드]
+    │
+    ├──▶ [확장 A: 길쌈 코드]
+    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
+```
 
 BCH 코드 / 골레이 코드는 [리드-솔로몬 코드](/knowledge-base/studynote/03_network/04_data_link_layer_error/199_reed_solomon_code_burst_error/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [길쌈 코드](/knowledge-base/studynote/03_network/04_data_link_layer_error/201_convolutional_code_viterbi/)와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

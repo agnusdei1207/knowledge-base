@@ -35,22 +35,25 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 높일 때 전력이 왜 급격히 커지는지, 그리고 어느 지점에서 발열 벽에 막히는지를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">성능 상승과 전력 증가의 연결 구조: f 증가가 끝이 아니다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">목표: 더 짧은 실행 시간</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 클럭 주파수 f 증가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 타이밍 여유 감소</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 전압 V 상향 필요 가능성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 동적 전력 증가: P ≈ α×C×V²×f</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 전력 증가 ─▶ 발열 증가 ─▶ 냉각 한계 접근 ─▶ 스로틀링 발생</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 순간 성능은 오를 수 있지만 지속 성능은 열 한계에 묶인다</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│        성능 상승과 전력 증가의 연결 구조: f 증가가 끝이 아니다      │
+├──────────────────────────────────────────────────────────────────────┤
+│ 목표: 더 짧은 실행 시간                                             │
+│    │                                                                 │
+│    ├─▶ 클럭 주파수 f 증가                                            │
+│    │       │                                                         │
+│    │       └─▶ 타이밍 여유 감소                                      │
+│    │                │                                                │
+│    │                └─▶ 전압 V 상향 필요 가능성                      │
+│    │                         │                                        │
+│    ├─────────────────────────┴─▶ 동적 전력 증가: P ≈ α×C×V²×f        │
+│    │                                                                  │
+│    └─▶ 전력 증가 ─▶ 발열 증가 ─▶ 냉각 한계 접근 ─▶ 스로틀링 발생      │
+│                                                                  │
+│ 결과: 순간 성능은 오를 수 있지만 지속 성능은 열 한계에 묶인다        │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 여기에 [정적 전력](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/468_static_power/), 즉 누설 전력도 더해진다. 공정이 미세화될수록 트랜지스터를 꺼 둔 상태에서도 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)가 새기 쉬워져 유휴 구간 전력까지 무시하기 어려워진다. 그래서 현대 프로세서는 단순 고주파화 대신 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 조절, 클록 게이팅 ([Clock Gating](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/470_clock_gating/)), 파워 게이팅 ([Power Gating](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/471_power_gating/)), 코어 선택적 활성화 같은 기법을 함께 사용한다.
 
@@ -130,25 +133,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">데나드 스케일링 (Dennard Scaling)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클럭 상승 중심 성능 개선</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">전력 장벽 (Power Wall) · 열 설계 전력 (TDP) 제약</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DVFS (Dynamic Voltage and Frequency Scaling) · 멀티코어</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">다크 실리콘 (Dark Silicon) · 이기종 컴퓨팅</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">와트당 성능 중심 최적화</div>
-</div>
-</div>
-
-
+```text
+데나드 스케일링 (Dennard Scaling)
+    │
+    ▼
+클럭 상승 중심 성능 개선
+    │
+    ▼
+전력 장벽 (Power Wall) · 열 설계 전력 (TDP) 제약
+    │
+    ▼
+DVFS (Dynamic Voltage and Frequency Scaling) · 멀티코어
+    │
+    ▼
+다크 실리콘 (Dark Silicon) · 이기종 컴퓨팅
+    │
+    ▼
+와트당 성능 중심 최적화
+```
 
 이 흐름은 "공짜 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상"의 시대에서 "제한된 에너지 안의 최적 배분" 시대로 패러다임이 이동한 과정을 보여 준다.
 

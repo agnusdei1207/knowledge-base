@@ -32,30 +32,28 @@ tags = ["studynote-ict-convergence"]
 
 DQN은 딥러닝과 강화학습이 만났을 때 벌어지는 최악의 버그들을 두 가지 특수 파이프라인으로 완벽하게 진압했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DQN의 학습 붕괴 방어를 위한 2대 파이프라인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 문제 1: 데이터의 시간적 편향 (Correlation)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- 게임을 하면</div><div class="kb-diagram-node">1초 화면 -&gt; 2초 화면 -&gt; 3초 화면</div><div class="kb-diagram-note">이 연속으로 들어옴</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 비슷한 화면만 연달아 학습하면 딥러닝이 과적합으로 바보가 됨!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">-</div><div class="kb-diagram-node">해결책</div><div class="kb-diagram-note">경험 리플레이 (Experience Replay)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; 매 순간의 캡처 화면을 거대한 '리플레이 버퍼(메모리)'에 저장함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; 학습할 땐 순서대로 안 뽑고, 버퍼에서 무작위(Random)로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">과거 기억을 섞어서 끄집어내어 학습함! (노이즈 파괴)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 문제 2: 움직이는 과녁 (Moving Target)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Q_new = R + γ * Max(Q_next) 공식에서, Q_next를 예측하는</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">신경망과 Q_new를 학습하는 신경망이 똑같은 놈임.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 내가 1보 걸을 때마다 정답지도 같이 1보 도망가는 미친 상황 발생!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">-</div><div class="kb-diagram-node">해결책</div><div class="kb-diagram-note">타겟 네트워크 (Target Network) 분리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; 정답지를 예측하는 '타겟 신경망'을 아예 복사해서 하나 더 만듦</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; 이 타겟망의 가중치는 꽁꽁 얼려두고(Freeze) 1만 번에 한 번씩만</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메인 신경망과 동기화시킴! (정답지가 가만히 멈춰 있게 됨)</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────┐
+│             [ DQN의 학습 붕괴 방어를 위한 2대 파이프라인 ]      │
+├────────────────────────────────────────────────────────┤
+│ 1. 문제 1: 데이터의 시간적 편향 (Correlation)              │
+│    - 게임을 하면 [1초 화면 -> 2초 화면 -> 3초 화면]이 연속으로 들어옴│
+│    - 비슷한 화면만 연달아 학습하면 딥러닝이 과적합으로 바보가 됨! │
+│    - [해결책] 경험 리플레이 (Experience Replay)             │
+│      -> 매 순간의 캡처 화면을 거대한 '리플레이 버퍼(메모리)'에 저장함│
+│      -> 학습할 땐 순서대로 안 뽑고, 버퍼에서 무작위(Random)로    │
+│         과거 기억을 섞어서 끄집어내어 학습함! (노이즈 파괴)         │
+│                                                        │
+│ 2. 문제 2: 움직이는 과녁 (Moving Target)                  │
+│    - Q_new = R + γ * Max(Q_next) 공식에서, Q_next를 예측하는│
+│      신경망과 Q_new를 학습하는 신경망이 똑같은 놈임.             │
+│    - 내가 1보 걸을 때마다 정답지도 같이 1보 도망가는 미친 상황 발생! │
+│    - [해결책] 타겟 네트워크 (Target Network) 분리           │
+│      -> 정답지를 예측하는 '타겟 신경망'을 아예 복사해서 하나 더 만듦│
+│      -> 이 타겟망의 가중치는 꽁꽁 얼려두고(Freeze) 1만 번에 한 번씩만│
+│         메인 신경망과 동기화시킴! (정답지가 가만히 멈춰 있게 됨)     │
+└────────────────────────────────────────────────────────┘
+```
 
 1. <strong>상태(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a>)로서의 이미지</strong>: DQN의 입력값은 숫자가 아니다. 게임 화면 픽셀 그대로다. 딥마인드는 최근 4개의 프레임(화면)을 겹쳐서 CNN에 밀어 넣었다. 사진 1장만 주면 공이 위로 가는지 아래로 가는지 모르지만, 4장을 겹쳐서 주면 CNN이 스스로 '공의 이동 방향과 속도(벡터)'까지 완벽히 인식해 낸다.
 2. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/">End-to-End</a> 학습</strong>: "픽셀 화면을 넣으면, 조이스틱 버튼(행동)이 튀어나온다." 중간에 인간이 '공의 위치를 찾아라' 같은 힌트를 단 하나도 주지 않았음에도, 오직 점수(보상) 하나만 보고 기계가 화면을 스스로 씹어먹는 엔드투엔드([End-to-End](/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/))를 달성했다.

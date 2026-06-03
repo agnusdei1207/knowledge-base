@@ -108,21 +108,18 @@ CAB는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">변경 요청</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">리스크 평가</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CAB / ECAB 승인</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">실행 / 검토</div>
-</div>
-</div>
-
-
+```text
+변경 요청
+    │
+    ▼
+리스크 평가
+    │
+    ▼
+CAB / ECAB 승인
+    │
+    ▼
+실행 / 검토
+```
 
 이 흐름은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 변경이 통제된 절차를 통해 운영되는 과정을 보여준다.
 

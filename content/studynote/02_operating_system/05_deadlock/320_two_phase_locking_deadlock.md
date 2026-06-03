@@ -28,28 +28,28 @@ DBMS의 세계에서는 [데이터](/knowledge-base/studynote/05_database/01_db_
 
 **💡 비유**: 뷔페([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 테이블)에 진입한 사람(2PL [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)). [1단계 확장기]: 새우 초밥 접시(자원 락) 집고, 연어 초밥 접시 집어 손에 가득 쌓는다. [2단계 수축기]: 다 처먹고 나서 빈 접시 하나라도 테이블 위에 팅~ 내려놓는(Unlock) 그 순간부터? 영원히 그 뷔페의 어떤 새 초밥도 다시는 집지 못한다([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) 금지 룰)며 식당 밖으로 퇴장해야만 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2PL (Two-Phase Locking)의 락 획득 곡선과 비극</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Lock 획득 개수</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">4개 ─</div><div class="kb-diagram-node">정점 도달</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">락 포인트 (Lock Point)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3개 ─ / \ ◀ 여기서 락 1개 푸는 순간 돌이킬 수 없음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2개 ─ / \</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1개 ─ / \</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0개 ─ / \ ▶ 시간 흐름</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Phase 1</div><div class="kb-diagram-node">Phase 2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(확장:잡기만)</div><div class="kb-diagram-cell">(수축:풀기만)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2PL 룰의 위대한 성패 (왜 데드락 공장인가?)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과 1. 2PL을 지키면 스케줄 트랜잭션 오염을 원천 차단함!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과 2. 하지만 Phase 1에서 락을 4개 다 모을 때까지 한 번도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">양보(Unlock) 안 하고 버티다 보니, 딴 놈이랑 부딪히면 얄짤</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">없이 서로 자원만 쥐고 침묵하는 "데드락"이 1000% 폭주함.</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────┐
+│         2PL (Two-Phase Locking)의 락 획득 곡선과 비극          │
+├────────────────────────────────────────────────────────────────┤
+│                                                                │
+│  Lock 획득 개수                                                │
+│       ▲                                                        │
+│  4개 ─┤      [정점 도달]  ◀ 락 포인트 (Lock Point)             │
+│  3개 ─┤       /  \    ◀ 여기서 락 1개 푸는 순간 돌이킬 수 없음 │
+│  2개 ─┤      /    \                                            │
+│  1개 ─┤     /      \                                           │
+│  0개 ─┼────/──────────\───────▶ 시간 흐름                      │
+│         [Phase 1] | [Phase 2]                                  │
+│       (확장:잡기만) | (수축:풀기만)                            │
+│                                                                │
+│  [2PL 룰의 위대한 성패 (왜 데드락 공장인가?)]                  │
+│  ▶ 결과 1. 2PL을 지키면 스케줄 트랜잭션 오염을 원천 차단함!    │
+│  ▶ 결과 2. 하지만 Phase 1에서 락을 4개 다 모을 때까지 한 번도  │
+│     양보(Unlock) 안 하고 버티다 보니, 딴 놈이랑 부딪히면 얄짤  │
+│     없이 서로 자원만 쥐고 침묵하는 "데드락"이 1000% 폭주함.    │
+└────────────────────────────────────────────────────────────────┘
+```
 
 **📢 섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 안 꼬이게 할 심산으로 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)이 자원을 미련하게 품 안에 잔뜩 껴안기만 하다가 나중에야 한 번에 뿜어버리는 극단적 이기주의 룰 때문에, "양손 무거운 두 사람이 외나무다리에서 마주치면 영원히 오가도 못하고 꽉 막히는 교착([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))" 병목 현상을 필연적으로 잉태합니다.
 
@@ -120,19 +120,15 @@ DBMS의 세계에서는 [데이터](/knowledge-base/studynote/05_database/01_db_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">교착 상태 예방 메커니즘을 위한 타임아웃 (Timeout) 활용</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2단계 잠금 프로토콜 (2PL)과 데드락 (데이터베이스 연관) (Two Phase Locking Deadlock)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">메모리 계층 구조 (Memory Hierarchy)와 레지스터-캐시-메인메모리 접근</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">논리 주소 (Logical/Virtual Address)</div></div>
-</div>
-</div>
-
-
+```text
+[교착 상태 예방 메커니즘을 위한 타임아웃 (Timeout) 활용]
+    │
+    ▼
+[2단계 잠금 프로토콜 (2PL)과 데드락 (데이터베이스 연관) (Two Phase Locking Deadlock)]
+    │
+    ├──▶ [메모리 계층 구조 (Memory Hierarchy)와 레지스터-캐시-메인메모리 접근]
+    └──▶ [논리 주소 (Logical/Virtual Address)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

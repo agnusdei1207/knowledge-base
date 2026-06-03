@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **매크로 셀**: 과거 3G, 4G 시절 동네 산꼭대기나 아파트 옥상에 세우던 반경 수 km 커버리지의 거대 철탑 기지국입니다.
 - <strong><a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a> 고주파의 재앙</strong>: [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/), 6G의 고주파수([mmWave](/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/))는 100m도 못 가서 소멸합니다. 서울 전체를 덮으려면 이 거대 철탑을 강남구에만 수천 개 세워야 하는데 땅값이 비싸고 미관상 주민들이 철거 시위를 벌여 공사가 불가능합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">5G SA/NSA 아키텍처 비교망</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스몰 셀 조밀화 간섭 통제망</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Massive MIMO 빔 관리 시스템</div></div>
-</div>
-</div>
-
-
+```text
+[5G SA/NSA 아키텍처 비교망]
+    │
+    ▼
+[스몰 셀 조밀화 간섭 통제망]
+    │
+    └──▶ [Massive MIMO 빔 관리 시스템]
+```
 
 - **📢 섹션 요약 비유**: 스몰 셀 조밀화 간섭 통제망은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -48,18 +44,14 @@ tags = ["studynote-network"]
 2. **피코 셀 (Pico)**: 반경 100m 이내. 대형 마트, 야구장, 기차역 지붕용.
 3. **펨토 셀 (Femto)**: 반경 10m. 가정집이나 소규모 사무실 천장용 (초소형 와이파이 공유기 크기).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">5G SA/NSA 아키텍처 비교망</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스몰 셀 조밀화 간섭 통제망</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Massive MIMO 빔 관리 시스템</div></div>
-</div>
-</div>
-
-
+```text
+[5G SA/NSA 아키텍처 비교망]
+    │
+    ▼
+[스몰 셀 조밀화 간섭 통제망]
+    │
+    └──▶ [Massive MIMO 빔 관리 시스템]
+```
 
 - **📢 섹션 요약 비유**: 스몰 셀 조밀화 간섭 통제망의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -123,19 +115,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 5G SA/NSA 아키텍처 비교망</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 스몰 셀 조밀화 간섭 통제망</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: Massive MIMO 빔 관리 시스템</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 5G SA/NSA 아키텍처 비교망]
+    │
+    ▼
+[현재 개념: 스몰 셀 조밀화 간섭 통제망]
+    │
+    ├──▶ [확장 A: Massive MIMO 빔 관리 시스템]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 스몰 셀 조밀화 간섭 통제망는 [5G SA](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/150_5g_sa_standalone_architecture/)/[NSA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/766_nsa_non_standalone_5g_lte_core/) 아키텍처 비교망에서 출발해 현재 메커니즘을 정교화하고, 이후 [Massive MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/) 빔 관리 시스템와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

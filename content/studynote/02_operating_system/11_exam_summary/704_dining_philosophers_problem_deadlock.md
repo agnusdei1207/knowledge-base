@@ -135,26 +135,29 @@ synchronized void test(int i) {
 
 ### 의사결정 및 튜닝 플로우
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다중 락(Multiple Locks) 획득 아키텍처 검증 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">하나의 트랜잭션/메서드 안에서 2개 이상의 락(Mutex)을 연속으로 획득하는 코드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모든 스레드가 동일한 순서(예: A-&gt;B-&gt;C)로만 락을 획득하도록 강제되었는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Circular Wait (데드락) 발생 확정!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대책: 객체의 HashCode나 고유 ID를 비교하여, 무조건</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">작은 값부터 락을 얻도록 소팅(Sorting) 로직 추가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">락을 쥐고 있는 중에 외부 통신(API 호출, 디스크 I/O)이 발생하는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">시스템 전체 병목 (Throughput 저하) 발생</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대책: 락을 쥐는 임계 구역 안에서는 순수 메모리 연산만.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I/O 작업은 락을 풀고 나서(Release 후) 수행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ──▶ 안전한 동시성 아키텍처 설계 완료</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 다중 락(Multiple Locks) 획득 아키텍처 검증 플로우           │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [하나의 트랜잭션/메서드 안에서 2개 이상의 락(Mutex)을 연속으로 획득하는 코드]     │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      모든 스레드가 동일한 순서(예: A->B->C)로만 락을 획득하도록 강제되었는가?  │
+  │          ├─ 아니오 ──▶ [Circular Wait (데드락) 발생 확정!]            │
+  │          │            대책: 객체의 HashCode나 고유 ID를 비교하여, 무조건    │
+  │          │                  작은 값부터 락을 얻도록 소팅(Sorting) 로직 추가 │
+  │          └─ 예                                                    │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      락을 쥐고 있는 중에 외부 통신(API 호출, 디스크 I/O)이 발생하는가?       │
+  │          ├─ 예 ─────▶ [시스템 전체 병목 (Throughput 저하) 발생]       │
+  │          │            대책: 락을 쥐는 임계 구역 안에서는 순수 메모리 연산만.   │
+  │          │                  I/O 작업은 락을 풀고 나서(Release 후) 수행    │
+  │          │                                                        │
+  │          └─ 아니오 ──▶ 안전한 동시성 아키텍처 설계 완료                    │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** "식사하는 철학자" 문제는 OS 수업에서나 나오는 옛날이야기가 아니다. 지금 여러분이 개발하는 엔터프라이즈 시스템에서 `Thread-1`이 `Table A`를 잠그고 `Table B`를 찾는 동안, `Thread-2`가 `Table B`를 잠그고 `Table A`를 찾는 바로 그 지옥([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))을 정확히 모델링한 것이다. 다중 락을 걸 때는 무조건 '[Lock Ordering](/knowledge-base/studynote/02_operating_system/05_deadlock/317_lockdep_lock_ordering/)(순서 강제)'이 아키텍트의 머릿속에 1원칙으로 박혀 있어야 한다.
 
@@ -197,19 +200,15 @@ synchronized void test(int i) {
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">생산자 소비자 유한 버퍼</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">식사하는 철학자 교착 문제 (Dining Philosophers Problem Deadlock)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">교착 상태 4가지 조건</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">자원 할당 그래프 사이클</div></div>
-</div>
-</div>
-
-
+```text
+[생산자 소비자 유한 버퍼]
+    │
+    ▼
+[식사하는 철학자 교착 문제 (Dining Philosophers Problem Deadlock)]
+    │
+    ├──▶ [교착 상태 4가지 조건]
+    └──▶ [자원 할당 그래프 사이클]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

@@ -23,7 +23,7 @@ tags = ["studynote-software-engineering"]
 
 - **필요성**: 수천 줄의 코드로 은행 프로그램을 짰다(절차적 지향). 고객의 잔고(`balance`) 변수를 아무 함수나 마구잡이로 가져다 더하고 뺐다. 어느 날 잔고가 마이너스 통장이 되는 버그가 터졌는데, 도대체 수천 개의 함수 중 누가 이 변수를 건드렸는지 범인을 찾을 수가 없다(스파게티 코드). 그래서 변수([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))와 그 변수를 만지는 함수를 단단한 캡슐 하나에 묶어서 남들이 함부로 만지지 못하게 잠가버릴 절대적인 필요성(캡슐화)이 대두되었다.
 
-- **💡 비유**: 자동차 공장과 같습니다. 자동차를 통짜 쇳덩어리 하나로 주물러서 만들지 않습니다. 엔진, 바퀴, 핸들(객체)을 각자 따로 만듭니다. 엔진 내부에 폭발이 어떻게 일어나는지 운전자는 알 필요 없이 엑셀만 밟으면 됩니다(<strong>캡슐화와 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a></strong>). 구형 바퀴를 떼어내고 규격만 맞으면 신형 바퀴를 바로 껴서 돌릴 수 있습니다(**다형성**). 옛날 자동차의 설계도를 가져와 약간만 고쳐서 트럭을 새로 만들어 냅니다(<strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/">상속</a></strong>).
+- **💡 비유**: 자동차 공장과 같습니다. 자동차를 통짜 쇳덩어리 하나로 주물러서 만들지 않습니다. 엔진, 바퀴, 핸들(객체)을 각자 따로 만듭니다. 엔진 내부에 폭발이 어떻게 일어나는지 운전자는 알 필요 없이 엑셀만 밟으면 됩니다(<strong>캡슐화와 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a></strong>). 구형 바퀴를 떼어내고 규격만 맞으면 새로운 유형의 바퀴를 바로 껴서 돌릴 수 있습니다(**다형성**). 옛날 자동차의 설계도를 가져와 약간만 고쳐서 트럭을 새로 만들어 냅니다(<strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/">상속</a></strong>).
 
 - **등장 배경 및 발전 과정**:
   1. **절차적 한계와 Simula/Smalltalk (1960s)**: 시뮬레이션 프로그램을 돌리기 위해, 현실의 배나 사람을 코드로 모델링하는 `Class`와 `Object`의 개념이 최초로 제안되었다.
@@ -36,17 +36,18 @@ tags = ["studynote-software-engineering"]
 
 다음은 객체지향 프로그래밍 (OOP)의 4대의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">객체지향 프로그래밍 (OOP)의 4대</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                  객체지향 프로그래밍 (OOP)의 4대                        │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
+│       │                    │                    │          │
+│       ▼                    ▼                    ▼          │
+│   요구 분석           설계·적용           품질 검증        │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램은 객체지향 프로그래밍 (OOP)의 4대가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -136,30 +137,28 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 객체지향 프로그래밍 (OOP)의 4대 특징의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 객체지향 프로그래밍 (OOP)의 4대 특징의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
 | [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 객체지향 프로그래밍 (OOP)의 4대 특징은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | 객체지향 프로그래밍 (OOP)의 4대 특징 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
 | [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 객체지향 프로그래밍 (OOP)의 4대 특징에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">객체지향 프로그래밍 (OOP)의 4대 특징 개념 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 위기 (Software Crisis) 인식
+    │
+    ▼
+객체지향 프로그래밍 (OOP)의 4대 특징 개념 정립
+    │
+    ▼
+표준화 및 방법론 체계화 (ISO, CMMI, Agile)
+    │
+    ▼
+클라우드 네이티브·AI 기반 확장 적용
+    │
+    ▼
+지속적 개선 및 DevOps·MLOps 통합
+```
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

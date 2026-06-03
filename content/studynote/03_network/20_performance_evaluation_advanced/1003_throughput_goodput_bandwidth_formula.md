@@ -29,18 +29,14 @@ tags = ["studynote-network"]
   - 자동차로 치면 퇴근길 강남대로에서 찍힌 '실제 평균 시속 15km'입니다. (변동하는 현실)
   - **법칙**: $[Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) \le [Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)$ ([처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)은 죽었다 깨어나도 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 넘을 수 없습니다.)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 지연</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">처리량 수식화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Erlang</div></div>
-</div>
-</div>
-
-
+```text
+[네트워크 지연]
+    │
+    ▼
+[처리량 수식화]
+    │
+    └──▶ [Erlang]
+```
 
 - **📢 섹션 요약 비유**: [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 수식화는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -55,18 +51,14 @@ tags = ["studynote-network"]
   - 통신망을 통과한 총 패킷 양([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))에서, 쓸데없는 포장지 껍데기(헤더, 오버헤드)와 에러 나서 버려진 재전송 패킷을 싹 다 빼버리고, <strong>"오직 앱(Application) 계층에서 쓸 수 있는 100% 순수한 알맹이(페이로드) <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>만 1초에 몇 개 도착했는가?"</strong>를 잰 궁극의 순살 수치입니다.
   - 사용자가 체감하는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 다운로드 속도는 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)도, [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)도 아닌 이 <strong>굿풋(Goodput)</strong>과 100% 일치합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 지연</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">처리량 수식화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Erlang</div></div>
-</div>
-</div>
-
-
+```text
+[네트워크 지연]
+    │
+    ▼
+[처리량 수식화]
+    │
+    └──▶ [Erlang]
+```
 
 - **📢 섹션 요약 비유**: [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 수식화의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -125,19 +117,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 네트워크 지연</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 처리량 수식화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: Erlang</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 네트워크 지연]
+    │
+    ▼
+[현재 개념: 처리량 수식화]
+    │
+    ├──▶ [확장 A: Erlang]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 수식화는 [네트워크 지연](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/)에서 출발해 현재 메커니즘을 정교화하고, 이후 Erlang와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

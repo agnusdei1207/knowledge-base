@@ -21,17 +21,12 @@ tags = ["studynote-design-supervision"]
 
 최종 요약 집대성의 목적은 모든 내용을 한 장으로 줄이는 데 있지 않다. 오히려 어떤 문제가 나와도 “이 문제는 생명주기 어디에 놓이는가, 어떤 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)과 연결되는가, 감리 시 어떤 증적으로 확인되는가”를 즉시 꺼내기 위한 회상 지도에 가깝다. 즉, [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)과 연결을 동시에 만족해야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">최종 회상 프레임</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구·업무 ─▶ 설계원칙/패턴 ─▶ 구현·테스트 ─▶ 운영·감리 증적</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모든 주제를 한 흐름으로 묶는 축</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────── 최종 회상 프레임 ────────────────────────┐
+│ 요구·업무 ─▶ 설계원칙/패턴 ─▶ 구현·테스트 ─▶ 운영·감리 증적       │
+│    └──────────────── 모든 주제를 한 흐름으로 묶는 축 ────────────┘ │
+└───────────────────────────────────────────────────────────────────┘
+```
 
 따라서 이 문서는 단순 요약집이 아니라, 답안을 빠르게 전개하기 위한 <strong>아키텍처·감리 공통 관제판</strong>으로 이해하는 것이 맞다.
 - **📢 섹션 요약 비유**: 큰 여행 가방을 그대로 들고 가기보다, 필요한 옷과 지도를 한 번에 찾을 수 있게 정리한 여행 파우치와 같다.
@@ -41,19 +36,14 @@ tags = ["studynote-design-supervision"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 최종 요약 집대성의 원리는 세 축으로 정리된다. 첫째, 생명주기 축으로 질문 위치를 찾는다. 둘째, 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 축으로 기술 선택 이유를 붙인다. 셋째, 감리 증적 축으로 평가 언어를 완성한다. 이 세 축을 동시에 갖고 있어야 단순 암기가 아닌 실전 답안 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)기가 된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">통합 설계 3축</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">생명주기 축 : 기획 → 분석 → 설계 → 구현 → 시험 → 운영 → 개선</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">품질 축 : 성능 / 보안 / 가용성 / 유지보수성 / 확장성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">감리 축 : 통제 기준 / 증적 확보 / 결함 조치 / 재검증</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 세 축의 교차점이 최종 답안 포맷</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────── 통합 설계 3축 ──────────────────────────┐
+│ 생명주기 축 : 기획 → 분석 → 설계 → 구현 → 시험 → 운영 → 개선      │
+│ 품질 축     : 성능 / 보안 / 가용성 / 유지보수성 / 확장성            │
+│ 감리 축     : 통제 기준 / 증적 확보 / 결함 조치 / 재검증            │
+│                    └─ 세 축의 교차점이 최종 답안 포맷              │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 | 핵심 축 | 포함 개념 | 최종 답안 사용법 |
 | :--- | :--- | :--- |
@@ -113,21 +103,18 @@ tags = ["studynote-design-supervision"]
 - **실전 답안 템플릿**: 정의 → 원리 → 비교 → 판단 → 기대효과의 반복 가능한 서술 틀
 
 ### 📈 관련 키워드 및 발전 흐름도
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">개별 주제 학습</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">생명주기·품질 속성별 재분류</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">감리 증적·판단 기준 연결</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">최종 통합 프레임으로 실전 답안화</div>
-</div>
-</div>
-
-
+```text
+개별 주제 학습
+        │
+        ▼
+생명주기·품질 속성별 재분류
+        │
+        ▼
+감리 증적·판단 기준 연결
+        │
+        ▼
+최종 통합 프레임으로 실전 답안화
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 많은 장난감을 그냥 한꺼번에 외우면 필요할 때 찾기 어려워요.

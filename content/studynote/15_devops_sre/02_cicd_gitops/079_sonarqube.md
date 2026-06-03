@@ -31,31 +31,31 @@ tags = ["studynote-devops-sre"]
 ### [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) 엔진과 Quality Gate의 자동화 융합
 소나큐브는 코드를 '실행(Run)'하지 않고, 코드의 구조(AST 트리)를 수학적으로 쪼개어 검사한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SonarQube 기반 CI/CD 품질 검증 파이프라인 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 코드 작성 및 Push</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발자 ──▶ (if-else 100개 박힌 스파게티 코드) ──▶ GitHub</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (Webhook 트리거)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. CI/CD 파이프라인 (Jenkins / GitHub Actions)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 빌드 (Build)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 단위 테스트 (JUnit 등)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 🔎 Sonar Scanner 실행! (소스코드 정적 분석 시작)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (분석 결과를 SonarQube 서버로 전송)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3. SonarQube 서버 (품질 판독소)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 버그(Bug): 3건 (Null Pointer 예외 가능성 발견!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 취약점(Vulnerability): 1건 (SQL 인젝션 위험!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 악취(Code Smell): 50건 (함수가 너무 길고 복잡함!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 커버리지(Coverage): 40% (테스트 안 짠 코드가 절반 넘음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (⭐ Quality Gate 판정 ⭐)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">4. 배포 차단 (Build FAILED)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"회사 기준(A등급, 커버리지 80% 이상) 미달! 배포 파이프라인 폭파!"</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────┐
+│           SonarQube 기반 CI/CD 품질 검증 파이프라인 아키텍처       │
+├────────────────────────────────────────────────────────┤
+│   [ 1. 코드 작성 및 Push ]                              │
+│    개발자 ──▶ (if-else 100개 박힌 스파게티 코드) ──▶ GitHub  │
+│             │                                          │
+│             ▼ (Webhook 트리거)                         │
+│   [ 2. CI/CD 파이프라인 (Jenkins / GitHub Actions) ]     │
+│    ├─ 빌드 (Build)                                      │
+│    ├─ 단위 테스트 (JUnit 등)                              │
+│    └─ 🔎 Sonar Scanner 실행! (소스코드 정적 분석 시작)       │
+│             │                                          │
+│             ▼ (분석 결과를 SonarQube 서버로 전송)          │
+│   [ 3. SonarQube 서버 (품질 판독소) ]                      │
+│    - 버그(Bug): 3건 (Null Pointer 예외 가능성 발견!)          │
+│    - 취약점(Vulnerability): 1건 (SQL 인젝션 위험!)          │
+│    - 악취(Code Smell): 50건 (함수가 너무 길고 복잡함!)         │
+│    - 커버리지(Coverage): 40% (테스트 안 짠 코드가 절반 넘음)   │
+│             │                                          │
+│             ▼ (⭐ Quality Gate 판정 ⭐)                   │
+│   [ 4. 배포 차단 (Build FAILED) ]                       │
+│    "회사 기준(A등급, 커버리지 80% 이상) 미달! 배포 파이프라인 폭파!" │
+└────────────────────────────────────────────────────────┘
+```
 
 가장 핵심적이고 무자비한 쇳덩어리 기어는 <strong>퀄리티 게이트(Quality Gate)</strong>다. 아무리 테스트를 통과하고 컴파일이 잘 되어도, 소나큐브가 "이 코드에 중대 보안 취약점 1개가 있다"고 판정(Gate Failed)하는 순간, Jenkins의 배포 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 붉은색 에러를 뿜으며 기계적으로 중단된다. 개발자는 코드를 고치기 전까지는 절대 서버에 코드를 올릴 수 없다.
 
@@ -115,23 +115,21 @@ tags = ["studynote-devops-sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">개발자 개인의 역량에만 의존한 코딩 (주관적 리뷰의 한계 및 스파게티 코드 양산)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">PMD, Checkstyle, FindBugs 등 개별적인 정적 분석/Lint 도구들의 파편화된 등장</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">이 모든 도구와 지표를 하나의 웹 대시보드로 통합 관리하는 'SonarQube' 플랫폼 탄생</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CI/CD 파이프라인(Jenkins)과 융합하여 빌드를 강제로 멈추는 Quality Gate 거버넌스 확립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">레거시 코드는 무시하고 '새로운 코드(New Code)'의 품질만 엄격히 통제하는 Clean as You Code 철학 안착</div>
-</div>
-</div>
-
-
+```text
+개발자 개인의 역량에만 의존한 코딩 (주관적 리뷰의 한계 및 스파게티 코드 양산)
+    │
+    ▼
+PMD, Checkstyle, FindBugs 등 개별적인 정적 분석/Lint 도구들의 파편화된 등장
+    │
+    ▼
+이 모든 도구와 지표를 하나의 웹 대시보드로 통합 관리하는 'SonarQube' 플랫폼 탄생
+    │
+    ▼
+CI/CD 파이프라인(Jenkins)과 융합하여 빌드를 강제로 멈추는 Quality Gate 거버넌스 확립
+    │
+    ▼
+레거시 코드는 무시하고 '새로운 코드(New Code)'의 품질만 엄격히 통제하는 Clean as You Code 철학 안착
+```
 
 이 흐름도는 "파편화된 잔소리 도구 → 중앙 집중형 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 대시보드(소나큐브) → [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD)과의 강제 융합을 통한 통제권 행사"라는 코드 품질 거버넌스의 진화를 보여준다.
 

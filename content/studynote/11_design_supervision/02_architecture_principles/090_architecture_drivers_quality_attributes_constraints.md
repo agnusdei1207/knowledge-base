@@ -31,25 +31,25 @@ tags = ["studynote-design"]
 
 [아키텍처 드라이버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/202_architecture_drivers_quality_attributes/)는 크게 핵심 기능, 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/), 제약 사항의 3대 요소로 구성되며, 이들이 결합하여 최종적인 설계 결정을 이끌어낸다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">아키텍처 드라이버 (Architecture Drivers)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 핵심 기능 (Primary Functionality)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 시스템의 존재 이유 (예: 실시간 매칭, 대용량 결제)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 품질 속성 (Quality Attributes)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 가용성, 성능, 보안성, 확장성, 유지보수성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- (상충 관계 발생 -&gt; 트레이드오프 분석 필수)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 제약 사항 (Constraints)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 비즈니스 제약 (예산, 일정, 라이선스)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 기술적 제약 (레거시 연동, 특정 OS 사용 강제)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">아키텍처 도면 / 구조 결정</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│             아키텍처 드라이버 (Architecture Drivers)         │
+├──────────────────────────────────────────────────────────────┤
+│ 1. 핵심 기능 (Primary Functionality)                         │
+│    - 시스템의 존재 이유 (예: 실시간 매칭, 대용량 결제)       │
+│                                                              │
+│ 2. 품질 속성 (Quality Attributes)                            │
+│    - 가용성, 성능, 보안성, 확장성, 유지보수성                │
+│    - (상충 관계 발생 -> 트레이드오프 분석 필수)              │
+│                                                              │
+│ 3. 제약 사항 (Constraints)                                   │
+│    - 비즈니스 제약 (예산, 일정, 라이선스)                    │
+│    - 기술적 제약 (레거시 연동, 특정 OS 사용 강제)            │
+└───────────────────────┬──────────────────────────────────────┘
+                        │
+                        ▼
+                 [ 아키텍처 도면 / 구조 결정 ]
+```
 
 가장 다루기 까다로운 부분은 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) ([Quality Attributes](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/279_quality_attributes_scenario/))이다. 추상적인 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)은 반드시 "환경-자극-응답-측정"으로 이어지는 구체적인 [품질 속성 시나리오](/knowledge-base/studynote/12_it_management/05_security_compliance/352_process/) ([Quality Attribute Scenario](/knowledge-base/studynote/12_it_management/05_security_compliance/352_process/))로 작성되어야 실질적인 드라이버로 작동할 수 있다. 예를 들어 "시스템은 안정적이어야 한다"는 드라이버가 될 수 없으며, "DB 서버 다운 시(자극) 3초 이내에(측정) 예비 서버로 전환된다(응답)"로 구체화해야 한다.
 
@@ -110,23 +110,21 @@ tags = ["studynote-design"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">비즈니스 목표 및 제약 사항 발생</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">요구사항 수집 및 분류 (기능 / 비기능)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">아키텍처 드라이버 식별 (핵심기능, 품질속성, 제약사항)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">유틸리티 트리 (Utility Tree) 작성 및 우선순위 도출</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">아키텍처 설계 결정 및 트레이드오프 분석 (ATAM)</div>
-</div>
-</div>
-
-
+```text
+비즈니스 목표 및 제약 사항 발생
+    │
+    ▼
+요구사항 수집 및 분류 (기능 / 비기능)
+    │
+    ▼
+아키텍처 드라이버 식별 (핵심기능, 품질속성, 제약사항)
+    │
+    ▼
+유틸리티 트리 (Utility Tree) 작성 및 우선순위 도출
+    │
+    ▼
+아키텍처 설계 결정 및 트레이드오프 분석 (ATAM)
+```
 
 이 흐름도는 모호한 비즈니스 목표가 구체적인 [아키텍처 드라이버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/202_architecture_drivers_quality_attributes/)로 정제되고, 최종적으로 아키텍처 설계와 평가로 이어지는 일련의 과정을 보여준다.
 

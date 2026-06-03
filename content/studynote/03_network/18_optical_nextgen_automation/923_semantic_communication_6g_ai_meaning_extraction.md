@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 기존 인터넷은 "원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 똑같은 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)([Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/))를 손실 없이 얼마나 빠르고 정확하게(에러 제어) 전달할 것인가?"라는 **구문론적(Syntactic)** 문제에만 미친 듯이 집착했습니다.
 - **재앙의 시작**: 자율주행차가 시속 100km로 달립니다. 앞에 '빨간불'이 켜졌습니다. 차는 이 신호등 사진(4K 해상도, 100MB)을 5G로 중앙 서버에 보냅니다. 그런데 트래픽이 막혀 100MB 사진 중 하늘 쪽 픽셀 1%가 깨졌다고 폰이 '재전송([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/))'을 요구하며 시간을 끌다가 차가 박살 납니다. <strong>중요한 건 '빨간불(의미)'이지, 배경 하늘의 화질(<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>)이 아니었습니다!</strong>
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">QKD</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시맨틱 통신 망</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">메타버스 네트워크 대역/QoS 렌더링 오프로…</div></div>
-</div>
-</div>
-
-
+```text
+[QKD]
+    │
+    ▼
+[시맨틱 통신 망]
+    │
+    └──▶ [메타버스 네트워크 대역/QoS 렌더링 오프로…]
+```
 
 - **📢 섹션 요약 비유**: 시맨틱 통신 망은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -43,18 +39,14 @@ tags = ["studynote-network"]
 
 - **개념**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 무지성 0과 1 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)로 전송하는 것을 멈추고, <strong>송신 측 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/">인공지능</a>(<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a>)이 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>에 담긴 진짜 '의미(Semantic, 맥락)'와 '목적'만을 엑기스처럼 추출 및 고도로 압축하여 전송하고, 수신 측 AI가 그 의미를 바탕으로 원본 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 다시 지능적으로 복원해 내는 <a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/">6G</a> 차세대 지능형 융합 통신 패러다임</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">QKD</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시맨틱 통신 망</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">메타버스 네트워크 대역/QoS 렌더링 오프로…</div></div>
-</div>
-</div>
-
-
+```text
+[QKD]
+    │
+    ▼
+[시맨틱 통신 망]
+    │
+    └──▶ [메타버스 네트워크 대역/QoS 렌더링 오프로…]
+```
 
 - **📢 섹션 요약 비유**: 시맨틱 통신 망의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -121,19 +113,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: QKD</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 시맨틱 통신 망</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 메타버스 네트워크 대역/QoS 렌더링 오프로…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: QKD]
+    │
+    ▼
+[현재 개념: 시맨틱 통신 망]
+    │
+    ├──▶ [확장 A: 메타버스 네트워크 대역/QoS 렌더링 오프로…]
+    └──▶ [확장 B: 의미 기반 통신 최적화]
+```
 
 시맨틱 통신 망는 QKD에서 출발해 현재 메커니즘을 정교화하고, 이후 [메타버스 네트워크](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/924_metaverse_network_qos_rendering_offload_mec/) 대역/[QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 렌더링 오프로…와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

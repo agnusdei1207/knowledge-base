@@ -59,31 +59,38 @@ GCD는 개발자에게 크게 3가지 종류의 큐를 제공한다.
 
 UI [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 멈추지 않게 무거운 작업을 백그라운드로 넘기고, 끝나면 다시 UI를 그리는 GCD의 영원한 국민 패턴이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GCD 비동기 처리(dispatch_async) 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">UI Thread (Main Queue)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">버튼 클릭! "대용량 이미지 다운로드 시작"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. dispatch_async (Global Queue)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (UI 스레드는 블로킹되지 않고 즉시 다음 UI를 그림!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스크롤 등 사용자 터치 계속 반응 중...</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=============================================</div><div class="kb-diagram-node">Global Queue</div><div class="kb-diagram-note">====</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Background Thread (Worker Pool에서 커널이 자동 할당)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 커널: "어? 글로벌 큐에 블록(일감)이 들어왔네? 노는 스레드 하나 깨워!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 이미지 다운로드 100MB 진행 (수 초 소요)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 다운로드 완료! 화면에 그려야지!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">dispatch_async (Main Queue)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(스레드는 다른 일감 찾으러 감)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=============================================</div><div class="kb-diagram-node">Main Queue</div><div class="kb-diagram-note">======</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">UI Thread</div><div class="kb-diagram-connector">◀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 메인 런루프가 큐에 쌓인 '화면 업데이트 블록'을 발견하고 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 이미지 화면에 짠! (UI 버벅임 0%)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 GCD 비동기 처리(dispatch_async) 아키텍처             │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │  [UI Thread (Main Queue)]                                         │
+  │   버튼 클릭! "대용량 이미지 다운로드 시작"                               │
+  │         │                                                         │
+  │         │  1. dispatch_async (Global Queue) ──────────┐           │
+  │         │                                             │           │
+  │         ▼  (UI 스레드는 블로킹되지 않고 즉시 다음 UI를 그림!)  │           │
+  │   스크롤 등 사용자 터치 계속 반응 중...                         │           │
+  │                                                       ▼           │
+  │  ============================================= [Global Queue] ====│
+  │                                                                   │
+  │  [Background Thread (Worker Pool에서 커널이 자동 할당)]               │
+  │   - 커널: "어? 글로벌 큐에 블록(일감)이 들어왔네? 노는 스레드 하나 깨워!" │
+  │         │                                                         │
+  │         │  2. 이미지 다운로드 100MB 진행 (수 초 소요)                   │
+  │         │                                                         │
+  │         │  3. 다운로드 완료! 화면에 그려야지!                            │
+  │         │     dispatch_async (Main Queue) ────────────┐           │
+  │         ▼                                             │           │
+  │  (스레드는 다른 일감 찾으러 감)                                │           │
+  │                                                       │           │
+  │  ============================================= [Main Queue] ======│
+  │                                                       │           │
+  │  [UI Thread] ◀────────────────────────────────────────┘           │
+  │   - 메인 런루프가 큐에 쌓인 '화면 업데이트 블록'을 발견하고 실행             │
+  │   - 이미지 화면에 짠! (UI 버벅임 0%)                                 │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 개발자는 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 만들거나 없애는 코드를 한 줄도 쓰지 않는다. 그저 `dispatch_async(global_queue) { ... }` 괄호(블록) 안에 코드를 묶어서 던질 뿐이다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 `workqueue` 시스템이 이 블록을 낚아채서 잉여 CPU 코어에 배정한다. 일이 끝나면 UI를 고치기 위해 다시 `dispatch_async(main_queue) { ... }` 로 메인 큐에 블록을 던진다. 이 핑퐁 구조가 iOS 앱 개발의 알파이자 오메가다.
 
@@ -138,25 +145,28 @@ GCD가 다른 언어의 단순한 [스레드 풀](/knowledge-base/studynote/02_o
 
 ### 의사결정 및 튜닝 플로우
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">iOS/macOS 동시성 프로그래밍 (Concurrency) 설계 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">앱에서 시간이 오래 걸리는 작업(네트워크, 파일, DB)을 수행해야 함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">태스크 간의 종속성(A가 끝나야 B가 실행)이 복잡하고 취소(Cancel)가 필요한가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NSOperation / OperationQueue 사용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(GCD 위에 얹어진 객체지향 래퍼. 취소/의존성 트리 완벽 지원)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 (단순한 Fire-and-forget 백그라운드 작업이다)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터의 상호 배제(동기화)를 위해 락(Lock)이 필요한 상황인가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Custom Serial Dispatch Queue 생성 및 sync 호출</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Mutex보다 빠르고 데드락 위험이 낮음)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Global Concurrent Queue 비동기(async) 처리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">작업 완료 후 반드시 Main Queue로 돌아와 UI 갱신!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 iOS/macOS 동시성 프로그래밍 (Concurrency) 설계 플로우       │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [앱에서 시간이 오래 걸리는 작업(네트워크, 파일, DB)을 수행해야 함]               │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      태스크 간의 종속성(A가 끝나야 B가 실행)이 복잡하고 취소(Cancel)가 필요한가? │
+  │          ├─ 예 ─────▶ [NSOperation / OperationQueue 사용]            │
+  │          │            (GCD 위에 얹어진 객체지향 래퍼. 취소/의존성 트리 완벽 지원)│
+  │          └─ 아니오 (단순한 Fire-and-forget 백그라운드 작업이다)              │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      데이터의 상호 배제(동기화)를 위해 락(Lock)이 필요한 상황인가?             │
+  │          ├─ 예 ─────▶ [Custom Serial Dispatch Queue 생성 및 sync 호출] │
+  │          │            (Mutex보다 빠르고 데드락 위험이 낮음)                 │
+  │          │                                                        │
+  │          └─ 아니오 ──▶ [Global Concurrent Queue 비동기(async) 처리]    │
+  │                         작업 완료 후 반드시 Main Queue로 돌아와 UI 갱신!     │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** GCD는 무적의 도구가 아니다. 블록을 한 번 큐에 던지면, 큐에서 꺼내져 실행을 시작하기 전까지는 취소할 방법이 매우 까다롭다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 다운로드처럼 "사용자가 취소 버튼을 누르면 즉시 멈춰야 하는" 태스크라면, 무지성 `dispatch_async` 대신 상태([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)) 관리가 가능한 `NSOperation` 객체로 감싸거나, 최신의 `Task` (Swift [Concurrency](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/266_other_transparency/)) 아키텍처를 적용하는 것이 유지보수성을 살리는 길이다.
 
@@ -180,7 +190,7 @@ GCD가 다른 언어의 단순한 [스레드 풀](/knowledge-base/studynote/02_o
 
 ### 미래 전망
 - <strong>Swift <a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/266_other_transparency/">Concurrency</a> (async/await)</strong>: GCD는 10년간 iOS 생태계를 지배했지만, "콜백 안에 콜백"이 겹치는 파멸의 피라미드(Callback Hell)와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 레이스 위험을 문법적으로 막지 못했다. 최근 Apple은 [코루틴](/knowledge-base/studynote/02_operating_system/02_process_thread/141_coroutine/)([Coroutine](/knowledge-base/studynote/02_operating_system/02_process_thread/141_coroutine/)) 기반의 `async/await`와 메모리 격리를 강제하는 `Actor` 모델을 언어(Swift) 차원에 도입했다. GCD의 철학은 백엔드 엔진으로서 계속 돌아가지만, 개발자가 마주하는 인터페이스는 이 안전한 Actor 모델로 100% 세대교체 중이다.
-- <strong>이기종 가속 (<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/">GPU</a>, Neural Engine)</strong>: GCD가 단순히 CPU 코어에만 일감을 배분하던 것을 넘어, 애플의 Metal 프레임워크와 결합하여 이미지 처리 블록을 던지면 OS가 알아서 [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/)(신경망 엔진)나 GPU의 큐로 디스패치해 주는 시스템 레벨의 이기종([Heterogeneous](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/273_heterogeneous_db/)) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 스케줄러로 진화하고 있다.
+- <strong>이기종 가속 (<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/">GPU</a>, Neural 엔진)</strong>: GCD가 단순히 CPU 코어에만 일감을 배분하던 것을 넘어, 애플의 Metal 프레임워크와 결합하여 이미지 처리 블록을 던지면 OS가 알아서 [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/)(신경망 엔진)나 GPU의 큐로 디스패치해 주는 시스템 레벨의 이기종([Heterogeneous](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/273_heterogeneous_db/)) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 스케줄러로 진화하고 있다.
 
 ### 결론
 Grand Central Dispatch (GCD)는 "어떻게 하면 평범한 개발자도 C언어로 완벽한 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 프로그래밍을 짤 수 있을까?"라는 Apple의 집요한 고민이 만들어낸 시스템 소프트웨어의 걸작이다. [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))라는 OS의 무거운 하드웨어적 추상을 블록(Block)이라는 소프트웨어적 작업 단위로 치환해 냄으로써, 멀티코어의 성능을 공짜로 끌어다 쓸 수 있게 만들었다. 비록 최신 비동기 문법(async/await)에 자리를 내어주고 있지만, 그 기저에 깔린 [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) 오케스트레이션과 큐 기반의 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 회피 철학은 모든 현대 비동기 프로그래밍 프레임워크의 영원한 교과서다.
@@ -200,19 +210,15 @@ Grand Central Dispatch (GCD)는 "어떻게 하면 평범한 개발자도 C언어
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">안드로이드 바인더(Binder) IPC 스레드 풀 및 객체 참조 매핑 메커니즘</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">macOS/iOS Grand Central Dispatch (GCD) 블록 및 디스패치 큐 기반 동시성 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Windows 커널 비동기 프로시저 호출 (APC) 및 지연된 프로시저 호출 (DPC)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">시스템 레지스트리 (Windows Registry) 및 구성 데이터베이스 관리 구조</div></div>
-</div>
-</div>
-
-
+```text
+[안드로이드 바인더(Binder) IPC 스레드 풀 및 객체 참조 매핑 메커니즘]
+    │
+    ▼
+[macOS/iOS Grand Central Dispatch (GCD) 블록 및 디스패치 큐 기반 동시성 구조]
+    │
+    ├──▶ [Windows 커널 비동기 프로시저 호출 (APC) 및 지연된 프로시저 호출 (DPC)]
+    └──▶ [시스템 레지스트리 (Windows Registry) 및 구성 데이터베이스 관리 구조]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

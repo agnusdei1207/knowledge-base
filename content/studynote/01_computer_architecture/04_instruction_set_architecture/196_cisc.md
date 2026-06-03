@@ -27,24 +27,23 @@ CISC (Complex [Instruction](/knowledge-base/studynote/01_computer_architecture/0
 
 아래 그림은 CISC가 왜 "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 짧지만 CPU 내부 일감은 무거운 구조"인지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CISC one instruction, many internal steps</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Program view</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">ADD</div><div class="kb-diagram-node">A</div><div class="kb-diagram-note">,</div><div class="kb-diagram-node">B</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">one instruction</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU internal work</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) read memory B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) read memory A</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) execute add in ALU</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4) write result back to memory A</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Result</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">short code, but long decode/control/execution path</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│           CISC one instruction, many internal steps                        │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Program view                                                               │
+│   ADD [A], [B]        -> one instruction                                   │
+│                                                                            │
+│ CPU internal work                                                          │
+│   1) read memory B                                                         │
+│   2) read memory A                                                         │
+│   3) execute add in ALU                                                    │
+│   4) write result back to memory A                                         │
+│                                                                            │
+│ Result                                                                     │
+│   short code, but long decode/control/execution path                       │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 핵심은 <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 개수 감소가 곧 하드웨어 단순화는 아니라는 점</strong>이다. 프로그래머가 한 줄만 써도, 중앙처리장치(CPU, Central Processing Unit) 내부에서는 여러 단계의 제어와 메모리 왕복이 필요할 수 있다. 즉 CISC는 소프트웨어의 부담을 줄이는 대신, 하드웨어가 복잡성을 떠안는 구조다.
 
@@ -69,26 +68,29 @@ CISC의 핵심은 단순히 "[명령어](/knowledge-base/studynote/01_computer_a
 
 아래 그림은 현대 CISC 프로세서의 실제 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 전략을 요약한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Modern CISC execution flow</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">External instruction stream</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">x86 CISC instruction bytes</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Front-end decoder</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- find instruction boundary</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- decode addressing mode</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- split into micro-operations</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Internal engine</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- register rename</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- out-of-order scheduling</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- execution units</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">retire / commit</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│               Modern CISC execution flow                                   │
+├────────────────────────────────────────────────────────────────────────────┤
+│ External instruction stream                                                │
+│   x86 CISC instruction bytes                                               │
+│            │                                                               │
+│            ▼                                                               │
+│   Front-end decoder                                                        │
+│   - find instruction boundary                                              │
+│   - decode addressing mode                                                 │
+│   - split into micro-operations                                            │
+│            │                                                               │
+│            ▼                                                               │
+│   Internal engine                                                          │
+│   - register rename                                                        │
+│   - out-of-order scheduling                                                │
+│   - execution units                                                        │
+│            │                                                               │
+│            ▼                                                               │
+│   retire / commit                                                          │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조 덕분에 오늘날 CISC는 과거처럼 "복잡한 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 통째로 천천히 실행하는 구조"에 머물지 않는다. 대신 복잡한 바깥 형식을 유지하여 기존 소프트웨어를 살리고, 내부에서는 단순 실행 단위로 재구성해 높은 클럭과 병렬성을 확보한다. 결국 현대 CISC의 본질은 <strong>복잡한 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 그 자체보다, 복잡함을 감추는 번역 계층</strong>에 있다.
 
@@ -181,23 +183,21 @@ CISC의 가장 큰 효과는 역사적으로 <strong>코드 밀도 향상, 프�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">메모리 비용 높음 · 컴파일러 미성숙</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">복합 명령어 · 가변 길이 명령어 · 풍부한 주소 지정</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">마이크로코드 기반 제어</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">x86 호환성 축적</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">마이크로 연산 변환 · 비순차 실행 · 내부 RISC화</div>
-</div>
-</div>
-
-
+```text
+메모리 비용 높음 · 컴파일러 미성숙
+              │
+              ▼
+복합 명령어 · 가변 길이 명령어 · 풍부한 주소 지정
+              │
+              ▼
+마이크로코드 기반 제어
+              │
+              ▼
+x86 호환성 축적
+              │
+              ▼
+마이크로 연산 변환 · 비순차 실행 · 내부 RISC화
+```
 
 이 흐름은 CISC가 <strong>개발자 편의와 코드 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a></strong>에서 출발해, 오늘날에는 <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/">호환성</a>을 유지한 채 내부 실행 구조를 현대화</strong>하는 방향으로 진화했음을 보여준다.
 

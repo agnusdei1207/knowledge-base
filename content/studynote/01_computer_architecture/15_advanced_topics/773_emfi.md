@@ -23,18 +23,19 @@ EMFI (Electromagnetic [Fault Injection](/knowledge-base/studynote/02_operating_s
 
 이 기법이 위험한 이유는 “정답을 훔치는” 것이 아니라 “정답을 틀리게 계산하게 만드는” 데 있다. 예를 들어 서명 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 권한 검사, 암호 라운드 중 한 단계만 틀려도 Secure Boot나 키 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 체계 전체가 붕괴될 수 있다. 즉 EMFI는 소프트웨어 버그가 없어도 하드웨어 타이밍 여유를 깨뜨려 보안 모델 자체를 흔든다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EMFI changes logic without touching VCC or CLK pins</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pulse source -&gt; micro-coil ))) -&gt; package surface</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">local timing disturbance</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">instruction skip / data corruption</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ EMFI changes logic without touching VCC or CLK pins         │
+├──────────────────────────────────────────────────────────────┤
+│ Pulse source -> micro-coil ))) -> package surface           │
+│                                      │                      │
+│                                      ▼                      │
+│                          local timing disturbance           │
+│                                      │                      │
+│                                      ▼                      │
+│                     instruction skip / data corruption      │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 핵심은 공격 경로가 전원선이 아니라 칩 근처 공간이라는 점이다. 그래서 외부 핀 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)만으로는 부족하며, 패키지와 다이 내부까지 포함한 물리 보안 설계가 필요하다.
 
@@ -54,18 +55,18 @@ EMFI 공격 장비는 보통 펄스 [생성](/knowledge-base/studynote/02_operat
 | XY 스테이지 (XY Stage) | 칩 표면 좌표 탐색 | [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 지도의 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) |
 | 관측 장비 (Oscilloscope/[Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Trace) | 성공 여부 판정 | 재현 가능한 fault model 확보 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Trigger -&gt; Delay tune -&gt; EM pulse -&gt; Local coupling</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">trace detect ns offset micro-coil die region</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">attack controller</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">bit flip / wrong branch / reset</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ Trigger -> Delay tune -> EM pulse -> Local coupling         │
+├──────────────────────────────────────────────────────────────┤
+│ trace detect   ns offset      micro-coil       die region   │
+│      │             │               │               │        │
+│      └────── attack controller ────┴───────────────┘        │
+│                                      │                      │
+│                                      ▼                      │
+│                     bit flip / wrong branch / reset         │
+└──────────────────────────────────────────────────────────────┘
+```
 
 실제 성공은 “한 번 쏜다”가 아니라 “위치와 시간을 스캔한다”에 가깝다. 먼저 칩 표면을 훑어 어떤 좌표에서 [instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) skip, [bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) flip, reset이 잘 나는지 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 지도를 만들고, 그다음 목표 함수 실행 타이밍에 맞춰 반복 주입한다. 즉 EMFI의 핵심 원리는 전자기 유도 자체보다도 <strong>공간 매핑 + 시간 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a> + 결과 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a></strong>의 조합에 있다.
 
@@ -149,25 +150,24 @@ EMFI를 고려한 설계는 단순히 물리 공격 한 종류를 막는 데 그
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">전역 글리칭</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">전압 글리칭 · 클럭 글리칭</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">EMFI (Electromagnetic Fault Injection)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Instruction Skip · Data Corruption</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DFA (Differential Fault Analysis) · Secure Boot Bypass</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Active Shield · Fault-aware Design</div>
-</div>
-</div>
-
-
+```text
+전역 글리칭
+  │
+  ▼
+전압 글리칭 · 클럭 글리칭
+  │
+  ▼
+EMFI (Electromagnetic Fault Injection)
+  │
+  ▼
+Instruction Skip · Data Corruption
+  │
+  ▼
+DFA (Differential Fault Analysis) · Secure Boot Bypass
+  │
+  ▼
+Active Shield · Fault-aware Design
+```
 
 이 흐름은 “[결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 주입의 정밀화 → 오류 활용 → 방어의 다층화”라는 발전 방향을 보여준다.
 

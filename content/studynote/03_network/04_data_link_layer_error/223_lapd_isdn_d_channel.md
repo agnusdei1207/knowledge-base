@@ -24,20 +24,19 @@ tags = ["studynote-network"]
 - **비유**: LAPD는 큰 사무실의 '내선 전화 교환원'과 같다. 외부에서 들어오는 굵은 케이블(물리 링크) 하나를 받아서, "이건 1번 자리 팩스로(TEI 1, SAPI 16)", "저건 2번 자리 전화기로(TEI 2, SAPI 0)" 분류하여 정확히 꽂아주는 역할을 한다.
 - **발전 과정**: LAPB가 점대점([P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/)) 통신에 특화되었다면, LAPD는 점대다중점(Point-to-Multipoint) 환경을 위해 HDLC의 주소 필드를 확장(1바이트 → 2바이트)하여 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)([Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)) 기능을 추가한 형태로 발전했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ISDN 인터페이스와 LAPD의 위치</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">TE1 (단말기1)</div><div class="kb-diagram-note">─</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">TE2 (단말기2)</div><div class="kb-diagram-note">─ ── S/T 인터페이스 (멀티드롭) ──</div><div class="kb-diagram-node">NT1/네트워크</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">TE3 (단말기3)</div><div class="kb-diagram-note">─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* B 채널 (64kbps): 실제 음성/데이터 전송 (투명하게 통과)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* D 채널 (16kbps): 호 제어 신호 전송 (LAPD 프로토콜 사용)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────┐
+  │                 ISDN 인터페이스와 LAPD의 위치             │
+  ├─────────────────────────────────────────────────────────┤
+  │                                                         │
+  │   [TE1 (단말기1)] ─┐                                      │
+  │   [TE2 (단말기2)] ─┼── S/T 인터페이스 (멀티드롭) ── [NT1/네트워크] │
+  │   [TE3 (단말기3)] ─┘                                      │
+  │                                                         │
+  │  * B 채널 (64kbps): 실제 음성/데이터 전송 (투명하게 통과) │
+  │  * D 채널 (16kbps): 호 제어 신호 전송 (LAPD 프로토콜 사용)│
+  └─────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: LAPD는 하나의 도로(D 채널) 위에 여러 대의 마을버스(단말기)가 동시에 달릴 수 있도록, 각 버스마다 고유한 노선 번호(TEI/SAPI)를 부여하는 정교한 교통 통제 시스템입니다.
 
@@ -60,20 +59,23 @@ LAPD 프레임 구조의 가장 큰 특징은 [HDLC](/knowledge-base/studynote/0
 
 하나의 ISDN 회선에 여러 대의 전화기([TE](/knowledge-base/studynote/03_network/07_network_layer_routing/361_ospf_traffic_engineering_te/))가 물려있을 때, 외부에서 호([Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/))가 들어오면 네트워크(NT)는 어떻게 특정 전화기를 울리게 할까?
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LAPD의 SAPI/TEI 기반 데이터 분기 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물리적 D 채널 (16kbps 또는 64kbps)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▼</div><div class="kb-diagram-node">SAPI: 0</div><div class="kb-diagram-connector">▼</div><div class="kb-diagram-node">SAPI: 16</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">호 제어 처리기 X.25 패킷 처리기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TEI:1 TEI:2 TEI:127 TEI:1 TEI:3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(전화1)(전화2)(브로드캐스트) (단말1) (단말3)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────┐
+  │               LAPD의 SAPI/TEI 기반 데이터 분기 구조             │
+  ├───────────────────────────────────────────────────────────────┤
+  │                                                               │
+  │                 물리적 D 채널 (16kbps 또는 64kbps)            │
+  │                           │                                   │
+  │       ┌───────────────────┴───────────────────┐               │
+  │       ▼ [SAPI: 0] (호 제어)                   ▼ [SAPI: 16]    │
+  │    호 제어 처리기                         X.25 패킷 처리기    │
+  │       │                                       │               │
+  │   ┌───┼───┐                               ┌───┴───┐           │
+  │   ▼   ▼   ▼                               ▼       ▼           │
+  │ TEI:1 TEI:2 TEI:127                     TEI:1   TEI:3         │
+  │(전화1)(전화2)(브로드캐스트)                (단말1) (단말3)        │
+  └───────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** LAPD 수신단은 먼저 프레임의 SAPI 값을 읽어 이 프레임이 음성 전화를 연결하기 위한 '[신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)'인지, 아니면 인터넷을 하기 위한 '패킷 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)'인지 논리적으로 분류한다. 그 다음 TEI 값을 읽어 정확히 어떤 물리적 단말기를 향한 것인지 찾아간다. TEI 값이 127인 경우는 연결된 모든 단말기에게 전송하는 브로드캐스트(Broadcast) 용도로, 주로 외부에서 전화가 걸려왔을 때 모든 전화기를 동시에 울리게(Ring) 할 때 사용된다.
 
@@ -141,19 +143,15 @@ LAPD는 통신 역사상 처음으로 '음성 호 제어 [신호](/knowledge-bas
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: LAPB</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: LAPD</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: PPP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고신뢰 저지연 링크 제어</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: LAPB]
+    │
+    ▼
+[현재 개념: LAPD]
+    │
+    ├──▶ [확장 A: PPP]
+    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
+```
 
 LAPD는 LAPB에서 출발해 현재 메커니즘을 정교화하고, 이후 PPP와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

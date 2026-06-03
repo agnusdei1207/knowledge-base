@@ -41,26 +41,29 @@ tags = ["studynote-bigdata"]
 
 이 그림은 통합 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)의 기본 구조를 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data catalog integration architecture</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sources</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Data Lake / Warehouse / Database</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 변환 작업 / 오케스트레이터 / 모델링 도구</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 대시보드 / 노트북 / 기계학습 피처 저장소</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 품질 검사 / 계보 이벤트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Connectors / Crawlers / 응용 프로그래밍 인터페이스 / OpenLineage</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Catalog Core</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ entity model ─ glossary ─ lineage graph</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ ownership ─ policy tag ─ freshness / quality</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ search index ─ access integration</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Analysts / Engineers / Governance / 인공지능 도우미</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Data catalog integration architecture                              │
+├────────────────────────────────────────────────────────────────────┤
+│ Sources                                                            │
+│  ├─ Data Lake / Warehouse / Database                               │
+│  ├─ 변환 작업 / 오케스트레이터 / 모델링 도구                       │
+│  ├─ 대시보드 / 노트북 / 기계학습 피처 저장소                       │
+│  └─ 품질 검사 / 계보 이벤트                                        │
+│                │                                                   │
+│                ▼                                                   │
+│ Connectors / Crawlers / 응용 프로그래밍 인터페이스 / OpenLineage   │
+│                │                                                   │
+│                ▼                                                   │
+│ Catalog Core                                                       │
+│  ├─ entity model   ├─ glossary   ├─ lineage graph                  │
+│  ├─ ownership      ├─ policy tag ├─ freshness / quality            │
+│  └─ search index   └─ access integration                           │
+│                │                                                   │
+│                ▼                                                   │
+│ Analysts / Engineers / Governance / 인공지능 도우미                │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 | 핵심 구성 | 역할 | 실무 포인트 |
 | :--- | :--- | :--- |
@@ -147,25 +150,24 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">부서별 데이터 사일로</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">기술 메타데이터 수집</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">검색 가능한 데이터 카탈로그</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">계보 · 품질 · 소유권 통합</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">정책 태깅 · 거버넌스 자동화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">능동형 메타데이터와 인공지능 기반 데이터 발견</div>
-</div>
-</div>
-
-
+```text
+부서별 데이터 사일로
+    │
+    ▼
+기술 메타데이터 수집
+    │
+    ▼
+검색 가능한 데이터 카탈로그
+    │
+    ▼
+계보 · 품질 · 소유권 통합
+    │
+    ▼
+정책 태깅 · 거버넌스 자동화
+    │
+    ▼
+능동형 메타데이터와 인공지능 기반 데이터 발견
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

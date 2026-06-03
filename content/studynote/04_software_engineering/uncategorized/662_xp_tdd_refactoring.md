@@ -29,25 +29,29 @@ tags = ["studynote-software-engineering"]
 
 전통적인 사후 테스트 방식과 TDD의 [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/) 길이를 비교하면, [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 발견 시점과 수정 비용의 극적인 차이를 확인할 수 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">폭포수 (사후 테스트) vs TDD (사전 테스트) 피드백 루프</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">폭포수 모델: 긴 피드백 루프</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구사항 ──▶ 설계 ──▶ 구현 ──▶ 통합 ──▶ 테스트 ──▶ 결함 발견!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(수주~수개월 소요)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결함 수정 비용: 매우 높음 (설계부터 다시 고쳐야 할 수 있음)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">TDD 모델: 마이크로 피드백 루프</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Red ──▶ Green ──▶ Refactor</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">통합 ──▶ 배포</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── (수분~수시간) ──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결함 수정 비용: 매우 낮음 (방금 짠 코드 10줄 내외에서 발생)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💡 결론: TDD는 결함 발견 시점을 극단적으로 앞당기는(Shift-Left)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">엔지니어링 프로세스 혁신이다.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌──────────────────────────────────────────────────────────────┐
+  │         폭포수 (사후 테스트) vs TDD (사전 테스트) 피드백 루프       │
+  ├──────────────────────────────────────────────────────────────┤
+  │                                                              │
+  │  [폭포수 모델: 긴 피드백 루프]                                   │
+  │  요구사항 ──▶ 설계 ──▶ 구현 ──▶ 통합 ──▶ 테스트 ──▶ 결함 발견!│
+  │    ▲                                                │        │
+  │    └──────────────── (수주~수개월 소요) ───────────────┘        │
+  │      결함 수정 비용: 매우 높음 (설계부터 다시 고쳐야 할 수 있음)     │
+  │                                                              │
+  │  [TDD 모델: 마이크로 피드백 루프]                                │
+  │    ┌─────────────────┐                                       │
+  │    │                 ▼                                       │
+  │  요구사항 ──▶ [Red ──▶ Green ──▶ Refactor] ──▶ 통합 ──▶ 배포 │
+  │                 ▲                 │                          │
+  │                 └── (수분~수시간) ──┘                          │
+  │      결함 수정 비용: 매우 낮음 (방금 짠 코드 10줄 내외에서 발생)     │
+  │                                                              │
+  │  💡 결론: TDD는 결함 발견 시점을 극단적으로 앞당기는(Shift-Left)   │
+  │           엔지니어링 프로세스 혁신이다.                           │
+  └──────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 흐름도의 핵심은 [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)의 '길이'와 '시간'이다. 폭포수 모델에서는 개발자가 코드를 작성한 후 테스터가 이를 확인하기까지 수 주가 걸리며, 이때 발견된 버그는 어디서 발생했는지 추적하기 위해 엄청난 [컨텍스트 스위칭](/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/) 비용을 요구한다. 반면 TDD는 코드를 작성하는 매 순간(수 분 단위)마다 테스트가 백그라운드에서 실행되어 피드백을 준다. 방금 작성한 5줄의 코드 때문에 실패했다는 것을 즉각 알 수 있으므로 디버깅 비용이 0에 수렴하게 된다. 따라서 TDD는 단순한 테스팅 기법이 아니라, 디버깅 시간을 줄여 전체 개발 속도를 높이는 가속 엔진이다.
 
@@ -141,30 +145,28 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | [XP](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/) [테스트 주도 개발](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/077_tdd_test_driven_development/) ([TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/)) [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | [XP](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/) [테스트 주도 개발](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/077_tdd_test_driven_development/) ([TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/)) [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
 | [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | [XP](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/) [테스트 주도 개발](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/077_tdd_test_driven_development/) ([TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/)) [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | [XP](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/) [테스트 주도 개발](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/077_tdd_test_driven_development/) ([TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/)) [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) 적용 결과는 QA 활동을 통해 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)되고 측정된다 |
 | [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | [XP](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/) [테스트 주도 개발](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/077_tdd_test_driven_development/) ([TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/)) [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">XP 테스트 주도 개발 (TDD) 리팩토링 개념 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 위기 (Software Crisis) 인식
+    │
+    ▼
+XP 테스트 주도 개발 (TDD) 리팩토링 개념 정립
+    │
+    ▼
+표준화 및 방법론 체계화 (ISO, CMMI, Agile)
+    │
+    ▼
+클라우드 네이티브·AI 기반 확장 적용
+    │
+    ▼
+지속적 개선 및 DevOps·MLOps 통합
+```
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

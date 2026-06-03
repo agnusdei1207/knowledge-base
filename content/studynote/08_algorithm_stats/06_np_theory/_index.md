@@ -23,22 +23,26 @@ tags = ["algorithm_stats"]
 
 이 그림은 복잡도 클래스 간의 포함 관계를 시각화한다 (P ≠ NP 가정 시).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Complexity Class Hierarchy (P vs NP)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NP-Hard</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NP-Complete</div><div class="kb-diagram-note">(가장 어려운 NP 문제들) │</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TSP, SAT, Knapsack, Clique</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NP (Nondeterministic Polynomial)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(답의 검산이 다항 시간 내 가능)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">P (Polynomial)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(해결이 다항 시간 내 가능)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Complexity Class Hierarchy (P vs NP)        │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ NP-Hard ] ────────────────────────────────────────┐     │
+│          │                                            │     │
+│          │   [ NP-Complete ] (가장 어려운 NP 문제들)  │     │
+│          │   ┌────────────────────────────────┐       │     │
+│          │   │  TSP, SAT, Knapsack, Clique    │       │     │
+│          │   └────────────────────────────────┘       │     │
+│          ▼                                            │     │
+│   [ NP (Nondeterministic Polynomial) ]                │     │
+│   (답의 검산이 다항 시간 내 가능)                     │     │
+│          ▲                                            │     │
+│   [ P (Polynomial) ]                                  │     │
+│   (해결이 다항 시간 내 가능)                          │     │
+│                                                       │     │
+└───────────────────────────────────────────────────────┘     │
+```
 
 이 다이어그램의 핵심은 '환산 (Reduction)'이다. NP-완전 문제 중 단 하나라도 다항 시간 내에 풀 수 있는 알고리즘이 발견된다면, 모든 NP 문제는 P가 된다 (P=NP). 실무에서는 내가 직면한 문제가 이 거대한 원 안에 속해 있는지 판단하는 것이 아키텍처 설계의 첫 단추가 된다.
 
@@ -72,23 +76,25 @@ A라는 문제를 풀기 위해 B라는 문제의 알고리즘을 이용하는 �
 
 이 구조도는 NP-완전 문제에 대한 기술사적 대응 전략을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Strategies for NP-Complete Problems</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Approximation (근사 알고리즘)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 정답은 아니지만 "최적해의 k배 이내"임을 보장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Heuristic (휴리스틱)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 경험적으로 빠르게 풀기 (Genetic, Annealing 등)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Special Cases (제약 조건 활용)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 입력 데이터의 특수성 이용 (Tree 구조 등)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. Backtracking with Pruning</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 가지치기를 통해 탐색 공간 획기적 절감</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│               Strategies for NP-Complete Problems           │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   1. Approximation (근사 알고리즘)                          │
+│      - 정답은 아니지만 "최적해의 k배 이내"임을 보장         │
+│                                                             │
+│   2. Heuristic (휴리스틱)                                   │
+│      - 경험적으로 빠르게 풀기 (Genetic, Annealing 등)       │
+│                                                             │
+│   3. Special Cases (제약 조건 활용)                         │
+│      - 입력 데이터의 특수성 이용 (Tree 구조 등)             │
+│                                                             │
+│   4. Backtracking with Pruning                              │
+│      - 가지치기를 통해 탐색 공간 획기적 절감                │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '완벽주의의 포기'이다. 실무에서 TSP 문제를 만났을 때 모든 경우의 수를 따지는 것은 자살 행위다. 기술사는 비즈니스가 허용하는 오차 범위 내에서 가장 빠른 근사 알고리즘을 제안하는 '현실적 타협'의 전문가가 되어야 한다.
 
@@ -129,22 +135,23 @@ A라는 문제를 풀기 위해 B라는 문제의 알고리즘을 이용하는 �
 
 이 도식은 문제 해결 시 기술사가 거치는 '복잡도 진단 프로세스'를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Complexity Diagnosis Workflow</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">New Problem</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Search Known NPC Problems</div><div class="kb-diagram-note">──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Reduction Check)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Is it NP-Complete?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (YES) ▼ (NO)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Strategy: Heuristics</div><div class="kb-diagram-node">Strategy: Dynamic Prog</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Genetic Algorithm - Greedy</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Simulated Annealing - Optimal Algorithm</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│               Complexity Diagnosis Workflow                 │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ New Problem ] ──▶ [ Search Known NPC Problems ] ──┐     │
+│          │                    │ (Reduction Check)     │     │
+│   ┌──────┴────────────────────▼───────────────────────┴───┐ │
+│   │ Is it NP-Complete?                                    │ │
+│   └──────┬──────────────────────────────┬─────────────────┘ │
+│          ▼ (YES)                        ▼ (NO)              │
+│   [ Strategy: Heuristics ]       [ Strategy: Dynamic Prog ] │
+│   - Genetic Algorithm            - Greedy                   │
+│   - Simulated Annealing          - Optimal Algorithm        │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 기술사의 복잡도 진단은 '건축 설계 시 지반 검사'와 같습니다. 지반이 암반(P)인지 늪지대(NP)인지 먼저 파악해야, 건물을 지을지(정공법) 아니면 다리(근사해)를 놓을지 결정할 수 있습니다.
 
@@ -180,24 +187,22 @@ A라는 문제를 풀기 위해 B라는 문제의 알고리즘을 이용하는 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">P 문제 (다항 시간 해결 가능)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">NP 문제 (다항 시간 검증 가능)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">NP-Hard: P 이상 어려움</div>
-<div class="kb-diagram-tree-item" style="--depth:2">NP-Complete: NP ∩ NP-Hard</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">NP-Complete 대표 문제</div>
-<div class="kb-diagram-tree-item" style="--depth:2">SAT (Boolean Satisfiability)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">TSP (Traveling Salesman Problem)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">배낭 문제 (Knapsack)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">클리크 문제 (Clique)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">근사 알고리즘 / 휴리스틱 / 양자 알고리즘</div>
-</div>
-</div>
-
-
+```text
+P 문제 (다항 시간 해결 가능)
+    │
+    ▼
+NP 문제 (다항 시간 검증 가능)
+    │
+    ├─► NP-Hard: P 이상 어려움
+    └─► NP-Complete: NP ∩ NP-Hard
+    │
+    ▼
+NP-Complete 대표 문제
+    ├─► SAT (Boolean Satisfiability)
+    ├─► TSP (Traveling Salesman Problem)
+    ├─► 배낭 문제 (Knapsack)
+    └─► 클리크 문제 (Clique)
+    │
+    ▼
+근사 알고리즘 / 휴리스틱 / 양자 알고리즘
+```

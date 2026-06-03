@@ -23,20 +23,26 @@ tags = ["design_supervision"]
 
 이 그림은 행위 패턴이 객체 간의 통신 복잡도를 어떻게 단순화하는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Behavioral Patterns Interaction Model</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Spaghetti Logic</div><div class="kb-diagram-node">Behavioral Pattern</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(직접 호출, 꼬인 관계) (패턴을 통한 정돈된 소통)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A</div><div class="kb-diagram-cell">B</div><div class="kb-diagram-cell">A</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C</div><div class="kb-diagram-cell">D</div><div class="kb-diagram-cell">C</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">D</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 메시지 전달 규칙을 추상화하여 의존성 파단 방지</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Behavioral Patterns Interaction Model       │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Spaghetti Logic ]             [ Behavioral Pattern ]    │
+│   (직접 호출, 꼬인 관계)          (패턴을 통한 정돈된 소통) │
+│   ┌───┐ ◀───▶ ┌───┐               ┌───┐       ┌───┐         │
+│   │ A │       │ B │               │ A │ ──▶   │ B │         │
+│   └───┘ ◀───▶ └───┘               └───┘       └───┘         │
+│     ▲           ▲                   │           ▲           │
+│     │           │                   ▼           │           │
+│   ┌───┐ ◀───▶ ┌───┐               ┌───┐       ┌───┐         │
+│   │ C │       │ D │               │ C │ ──▶   │ D │         │
+│   └───┘ ◀───▶ └───┘               └───┘       └───┘         │
+│                                                              │
+│   * 핵심: 메시지 전달 규칙을 추상화하여 의존성 파단 방지    │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '흐름의 제어'이다. 객체들이 서로의 내부를 알 필요 없이 약속된 인터페이스를 통해 대화하게 함으로써, 특정 객체의 로직이 바뀌어도 다른 객체는 영향을 받지 않는다. 실무에서는 이러한 패턴 적용이 대규모 프로젝트의 '변경 전파 (Ripple Effect)'를 막는 결정적 요인이 된다.
 
@@ -71,23 +77,27 @@ tags = ["design_supervision"]
 
 이 구조도는 <strong>전략 패턴</strong>이 어떻게 조건문을 제거하고 확장을 용이하게 하는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Strategy Pattern: Algorithmic Fusion</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Context: Payment</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- setStrategy(Strategy s)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- pay(amount) ──▶ strategy.execute(amount)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (Dependency Injection)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Strategy (Interface)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- execute(amount)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CardStrategy</div><div class="kb-diagram-node">PayStrategy</div><div class="kb-diagram-node">CashStrategy</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 효과: 새로운 결제 수단 추가 시 Context 수정 없음 (OCP)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Strategy Pattern: Algorithmic Fusion        │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Context: Payment ]                                      │
+│   - setStrategy(Strategy s)                                 │
+│   - pay(amount) ──▶ strategy.execute(amount)                │
+│          │                                                  │
+│          ▼ (Dependency Injection)                           │
+│   [ Strategy (Interface) ]                                  │
+│   - execute(amount)                                         │
+│          ▲                                                  │
+│   ┌──────┴─────────────┬────────────────────────┐            │
+│   ▼                    ▼                        ▼            │
+│ [ CardStrategy ]    [ PayStrategy ]          [ CashStrategy ]│
+│                                                             │
+│   * 효과: 새로운 결제 수단 추가 시 Context 수정 없음 (OCP)  │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '제어의 위임'이다. 결제 모듈 (Context)은 실제 결제가 어떻게 이루어지는지 몰라도 된다. 단지 전략 (Strategy) 객체에게 실행을 부탁할 뿐이다. 실무에서는 이 구조를 통해 복잡한 비즈니스 규칙을 독립적인 모듈로 격리하여 운영 안정성을 확보한다.
 
@@ -129,19 +139,21 @@ tags = ["design_supervision"]
 
 이 도식은 기술사가 설계한 '지능형 행위 제어 아키텍처'의 판단 흐름을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Behavioral Pattern Decision Tree</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">YES</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Strategy</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">YES</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">State</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">YES</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Observer</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">YES</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Command</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│               Behavioral Pattern Decision Tree              │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   알고리즘을 런타임에 바꿔야 하나? ──▶ [YES] ──▶ Strategy    │
+│          │                                                  │
+│   상태에 따라 행동이 완전히 변하나? ──▶ [YES] ──▶ State      │
+│          │                                                  │
+│   상태 변화를 여러 곳에 알려야 하나? ──▶ [YES] ──▶ Observer  │
+│          │                                                  │
+│   요청을 저장하거나 취소해야 하나? ──▶ [YES] ──▶ Command     │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 기술사의 행위 설계는 '회사의 업무 매뉴얼 작성'과 같습니다. 직원이 바뀌어도 매뉴얼(패턴)만 있으면 업무(프로그램)가 차질 없이 돌아가고, 상황(상태)에 따라 직원이 스스로 판단(행위 위임)하게 하여 사장님(메인 루틴)의 부담을 덜어주는 전략입니다.
 

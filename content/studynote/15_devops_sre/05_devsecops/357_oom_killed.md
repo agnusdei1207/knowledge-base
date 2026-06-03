@@ -31,23 +31,23 @@ Linux [커널](/knowledge-base/studynote/02_operating_system/01_overview_archite
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">K8s QoS 클래스와 OOM Score 우선순위</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">BestEffort</div><div class="kb-diagram-note">oom_adj=1000 — 가장 먼저 종료</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Request=0, Limit=0 (설정 없음)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Burstable</div><div class="kb-diagram-note">oom_adj=1~999 — 중간 우선순위</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Request &lt; Limit 또는 일부 컨테이너만 설정</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Guaranteed</div><div class="kb-diagram-note">oom_adj=-998 — 마지막에 종료</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Request == Limit (모든 컨테이너)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">cgroup v2 경계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">memory.limit_in_bytes 초과 시 해당 cgroup 내 프로세스 종료</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│             K8s QoS 클래스와 OOM Score 우선순위                  │
+├──────────────────────────────────────────────────────────────────┤
+│  [BestEffort] oom_adj=1000 — 가장 먼저 종료                     │
+│  Request=0, Limit=0 (설정 없음)                                  │
+│                                                                  │
+│  [Burstable] oom_adj=1~999 — 중간 우선순위                      │
+│  Request < Limit 또는 일부 컨테이너만 설정                       │
+│                                                                  │
+│  [Guaranteed] oom_adj=-998 — 마지막에 종료                      │
+│  Request == Limit (모든 컨테이너)                                │
+│                                                                  │
+│  cgroup v2 경계                                                  │
+│  memory.limit_in_bytes 초과 시 해당 cgroup 내 프로세스 종료     │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 | [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 클래스   | 조건                          | [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 종료 순서 | oom_adj 범위 |
 | :----------- | :---------------------------- | :------------ | :----------- |
@@ -118,25 +118,24 @@ Guaranteed QoS와 VPA를 도입하면 [OOM](/knowledge-base/studynote/02_operati
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Linux OOM Killer (커널 기반 프로세스 강제 종료)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">cgroup v1 — 컨테이너 메모리 격리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">K8s Resource Request/Limit + QoS 클래스</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">cgroup v2 — 계층적 메모리 제어 강화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">VPA (Vertical Pod Autoscaler) — 자동 자원 최적화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">AI 기반 사전 예측적 자원 관리 (Karpenter)</div>
-</div>
-</div>
-
-
+```text
+Linux OOM Killer (커널 기반 프로세스 강제 종료)
+    │
+    ▼
+cgroup v1 — 컨테이너 메모리 격리
+    │
+    ▼
+K8s Resource Request/Limit + QoS 클래스
+    │
+    ▼
+cgroup v2 — 계층적 메모리 제어 강화
+    │
+    ▼
+VPA (Vertical Pod Autoscaler) — 자동 자원 최적화
+    │
+    ▼
+AI 기반 사전 예측적 자원 관리 (Karpenter)
+```
 
 흐름은 "사후 강제 종료 → 격리 경계 → [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 기반 우선순위 → 자동 최적화 → [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 예측"으로 진화한다.
 

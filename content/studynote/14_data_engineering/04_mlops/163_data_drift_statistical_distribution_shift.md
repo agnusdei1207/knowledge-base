@@ -22,24 +22,21 @@ tags = ["studynote-data-engineering"]
 
 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 드리프트 (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Drift)</strong>는 ML 모델이 학습된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 통계적 특성(분포)이 시간이 지나면서 실제 운영 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 달라지는 현상이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">학습 시점 데이터 분포 운영 시점 데이터 분포</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정상 범위</div><div class="kb-diagram-cell">분포 이동</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">██</div><div class="kb-diagram-cell">██</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">████</div><div class="kb-diagram-cell">████</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">██████</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">██████</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">████████</div><div class="kb-diagram-cell">시간</div><div class="kb-diagram-cell">████████</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">██████████</div><div class="kb-diagram-cell">경과</div><div class="kb-diagram-cell">██████████</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">████████████</div><div class="kb-diagram-cell">████████████</div></div>
-<div class="kb-diagram-note">평균: μ=0, σ=1 평균: μ=1.5, σ=1.3</div>
-<div class="kb-diagram-note">(분포가 오른쪽으로 이동)</div>
-</div>
-</div>
-
-
+```
+학습 시점 데이터 분포            운영 시점 데이터 분포
+        ↓                               ↓
+┌──────────────────┐         ┌──────────────────────┐
+│    정상 범위      │         │    분포 이동           │
+│        ██        │         │         ██            │
+│       ████       │         │        ████           │
+│      ██████      │   →     │       ██████          │
+│     ████████     │  시간   │      ████████         │
+│    ██████████    │  경과   │     ██████████        │
+│   ████████████   │         │   ████████████        │
+└──────────────────┘         └──────────────────────┘
+  평균: μ=0, σ=1               평균: μ=1.5, σ=1.3
+                                (분포가 오른쪽으로 이동)
+```
 
 ### 1.2 드리프트 발생 원인 및 사례
 
@@ -65,24 +62,22 @@ tags = ["studynote-data-engineering"]
 | <strong>Prior <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">Probability</a> Shift</strong> | 출력(레이블) Y의 분포 변화 | P_train(Y) ≠ P_serve(Y) | 사기 비율이 1%→5%로 증가 |
 | <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/164_concept_drift_target_mapping_change/">Concept Drift</a></strong> | 입출력 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) P(Y\|X)의 변화 | P_train(Y\|X) ≠ P_serve(Y\|X) | 같은 신용점수여도 상환 능력 변화 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">드리프트 종류별 영향</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Covariate Shift: 입력 분포만 변화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">X: ████ → X: ████████ (새 패턴의 입력 데이터 증가)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P(Y</div><div class="kb-diagram-cell">X) 관계는 동일 → 새 분포에 맞는 재학습으로 해결</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Prior Prob Shift: 레이블 분포만 변화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Y=0: 99%, Y=1: 1% → Y=0: 95%, Y=1: 5%</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클래스 불균형 변화 → 임계값 재조정 또는 재학습</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Concept Drift: 관계 자체가 변화 (가장 치명적!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고소득 = 고상환능력 → 고소득이어도 상환 능력 불안정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P(Y</div><div class="kb-diagram-cell">X) 변화 → 반드시 재학습 필요</div></div>
-</div>
-</div>
-
-
+```
+드리프트 종류별 영향
+┌───────────────────────────────────────────────────────────┐
+│  Covariate Shift:   입력 분포만 변화                       │
+│  X: ████ → X: ████████    (새 패턴의 입력 데이터 증가)    │
+│  P(Y|X) 관계는 동일 → 새 분포에 맞는 재학습으로 해결      │
+├───────────────────────────────────────────────────────────┤
+│  Prior Prob Shift:  레이블 분포만 변화                     │
+│  Y=0: 99%, Y=1: 1% → Y=0: 95%, Y=1: 5%                  │
+│  클래스 불균형 변화 → 임계값 재조정 또는 재학습            │
+├───────────────────────────────────────────────────────────┤
+│  Concept Drift:     관계 자체가 변화 (가장 치명적!)        │
+│  고소득 = 고상환능력 → 고소득이어도 상환 능력 불안정       │
+│  P(Y|X) 변화 → 반드시 재학습 필요                         │
+└───────────────────────────────────────────────────────────┘
+```
 
 ### 2.2 드리프트 감지 방법
 
@@ -90,19 +85,16 @@ tags = ["studynote-data-engineering"]
 
 PSI는 두 분포 간 차이를 단일 숫자로 표현하는 가장 널리 쓰이는 지표다.
 
+```
+PSI = Σ (기대 비율 - 실제 비율) × ln(기대 비율 / 실제 비율)
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">PSI = Σ (기대 비율 - 실제 비율) × ln(기대 비율 / 실제 비율)</div>
-<div class="kb-diagram-note">PSI 해석 기준:</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PSI &lt; 0.1</div><div class="kb-diagram-cell">안정 (분포 변화 미미)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0.1 ≤ PSI &lt; 0.2</div><div class="kb-diagram-cell">주의 (경미한 드리프트)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PSI ≥ 0.2</div><div class="kb-diagram-cell">경보 (재학습 강력 권고)</div></div>
-</div>
-</div>
-
-
+PSI 해석 기준:
+┌──────────────────────────────────────────────┐
+│  PSI < 0.1    │ 안정 (분포 변화 미미)         │
+│  0.1 ≤ PSI < 0.2 │ 주의 (경미한 드리프트)    │
+│  PSI ≥ 0.2    │ 경보 (재학습 강력 권고)       │
+└──────────────────────────────────────────────┘
+```
 
 #### KS Test (Kolmogorov-Smirnov Test)
 
@@ -147,25 +139,25 @@ MMD는 두 분포에서 추출한 샘플로
 
 ### 2.4 드리프트 모니터링 아키텍처
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">드리프트 모니터링 시스템</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서빙 서버</div><div class="kb-diagram-cell">실시간 요청 데이터 로깅</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Inference)</div><div class="kb-diagram-cell">→ S3/BigQuery 저장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">드리프트</div><div class="kb-diagram-cell">주기적 배치 실행 (예: 매시간)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">감지 엔진</div><div class="kb-diagram-cell">학습 데이터 분포 vs 최근 서빙 데이터 분포</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PSI / KS Test / KL Divergence 계산</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">알람 시스</div><div class="kb-diagram-cell">임계값 초과 시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">템</div><div class="kb-diagram-cell">→ Slack/PagerDuty 알람</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ CT 파이프라인 자동 트리거</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대시보드</div><div class="kb-diagram-cell">피처별 PSI 시계열 시각화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Grafana)</div><div class="kb-diagram-cell">드리프트 히스토리 추적</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────────┐
+│                  드리프트 모니터링 시스템                      │
+├──────────────┬───────────────────────────────────────────────┤
+│   서빙 서버   │  실시간 요청 데이터 로깅                       │
+│  (Inference) │  → S3/BigQuery 저장                           │
+├──────────────┼───────────────────────────────────────────────┤
+│   드리프트   │  주기적 배치 실행 (예: 매시간)                  │
+│   감지 엔진  │  학습 데이터 분포 vs 최근 서빙 데이터 분포      │
+│              │  PSI / KS Test / KL Divergence 계산           │
+├──────────────┼───────────────────────────────────────────────┤
+│   알람 시스  │  임계값 초과 시                                │
+│   템         │  → Slack/PagerDuty 알람                       │
+│              │  → CT 파이프라인 자동 트리거                   │
+├──────────────┼───────────────────────────────────────────────┤
+│   대시보드   │  피처별 PSI 시계열 시각화                      │
+│   (Grafana)  │  드리프트 히스토리 추적                        │
+└──────────────┴───────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 드리프트 감지는 혈액검사와 같다. 정상 범위(학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포)에서 얼마나 벗어났는지를 PSI라는 혈액 지표로 수치화하고, 0.2를 넘으면 재치료(재학습) 처방을 내린다.
 
@@ -185,19 +177,16 @@ MMD는 두 분포에서 추출한 샘플로
 
 ### 3.2 피처별 드리프트 모니터링 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
+```
+모든 피처를 동일 가중치로 모니터링하는 것은 비효율적!
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">모든 피처를 동일 가중치로 모니터링하는 것은 비효율적!</div>
-<div class="kb-diagram-note">피처 중요도 기반 우선순위:</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tier 1 (중요 피처): SHAP 상위 10개 → 매시간 모니터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tier 2 (일반 피처): SHAP 상위 50개 → 매일 모니터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tier 3 (저중요 피처): 나머지 → 매주 모니터</div></div>
-</div>
-</div>
-
-
+피처 중요도 기반 우선순위:
+┌─────────────────────────────────────────────────────┐
+│  Tier 1 (중요 피처): SHAP 상위 10개 → 매시간 모니터 │
+│  Tier 2 (일반 피처): SHAP 상위 50개 → 매일 모니터  │
+│  Tier 3 (저중요 피처): 나머지 → 매주 모니터         │
+└─────────────────────────────────────────────────────┘
+```
 
 ### 3.3 드리프트 감지 도구 비교
 
@@ -268,24 +257,24 @@ else:
 
 ### 4.3 드리프트 모니터링 실무 설계
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">드리프트 모니터링 설계 프레임워크</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 수집</div><div class="kb-diagram-cell">서빙 요청 데이터 샘플링 (1~10%)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">레이블 있을 때 정답도 수집</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">감지 주기</div><div class="kb-diagram-cell">실시간: 스트리밍 이상치 감지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">배치: PSI/KS 일 1회 계산</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">알람 정책</div><div class="kb-diagram-cell">Tier 1: PSI &gt; 0.2 → 즉시 재학습 트리거</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tier 2: PSI &gt; 0.1 → 강화 모니터링</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tier 3: PSI &lt; 0.1 → 정상</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보고 체계</div><div class="kb-diagram-cell">일간 드리프트 리포트 → 자동 이메일 발송</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">월간 피처 중요도 리뷰 → 피처 재설계</div></div>
-</div>
-</div>
-
-
+```
+┌────────────────────────────────────────────────────────┐
+│           드리프트 모니터링 설계 프레임워크              │
+├──────────────┬─────────────────────────────────────────┤
+│  데이터 수집  │  서빙 요청 데이터 샘플링 (1~10%)        │
+│              │  레이블 있을 때 정답도 수집              │
+├──────────────┼─────────────────────────────────────────┤
+│  감지 주기   │  실시간: 스트리밍 이상치 감지             │
+│              │  배치: PSI/KS 일 1회 계산               │
+├──────────────┼─────────────────────────────────────────┤
+│  알람 정책   │  Tier 1: PSI > 0.2 → 즉시 재학습 트리거 │
+│              │  Tier 2: PSI > 0.1 → 강화 모니터링      │
+│              │  Tier 3: PSI < 0.1 → 정상              │
+├──────────────┼─────────────────────────────────────────┤
+│  보고 체계   │  일간 드리프트 리포트 → 자동 이메일 발송  │
+│              │  월간 피처 중요도 리뷰 → 피처 재설계     │
+└──────────────┴─────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 드리프트 모니터링은 공장의 품질관리 시스템과 같다. 제품(모델 출력)이 불량이 되기 전에 원자재(입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 규격 검사를 통해 PSI 수치로 이상을 미리 잡아낸다. PSI 0.2 초과는 원자재 불량 경보와 같고, 즉시 공정(재학습)을 멈추고 원인을 찾는다.
 
@@ -335,26 +324,24 @@ else:
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">학습 데이터 분포 P(x) ← 모델 학습 시점</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">운영 데이터 분포 Q(x) ← 시간 경과 후 변화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">드리프트 유형 분류</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Covariate Shift: P(X) ≠ Q(X) (입력 분포 변화)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Prior Probability Shift: P(Y) ≠ Q(Y) (레이블 분포 변화)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─► Concept Drift: P(Y</div><div class="kb-diagram-cell">X) ≠ Q(Y</div><div class="kb-diagram-cell">X) (관계 자체 변화)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">감지 도구: PSI · KS Test · KL Divergence · Evidently AI</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CT 트리거 발동 → 자동 재학습 → 평가 게이트 → 배포</div>
-</div>
-</div>
-
-
+```text
+학습 데이터 분포 P(x) ← 모델 학습 시점
+    │
+    ▼
+운영 데이터 분포 Q(x) ← 시간 경과 후 변화
+    │
+    ▼
+드리프트 유형 분류
+    ├─► Covariate Shift: P(X) ≠ Q(X) (입력 분포 변화)
+    ├─► Prior Probability Shift: P(Y) ≠ Q(Y) (레이블 분포 변화)
+    └─► Concept Drift: P(Y|X) ≠ Q(Y|X) (관계 자체 변화)
+    │
+    ▼
+감지 도구: PSI · KS Test · KL Divergence · Evidently AI
+    │
+    ▼
+CT 트리거 발동 → 자동 재학습 → 평가 게이트 → 배포
+```
 
 ---
 

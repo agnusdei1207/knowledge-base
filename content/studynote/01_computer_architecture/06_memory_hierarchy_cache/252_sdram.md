@@ -25,20 +25,18 @@ SDRAM ([Synchronous](/knowledge-base/studynote/03_network/01_data_communication/
 
 아래 그림은 SDRAM이 해결하려는 문제를 보여준다. 핵심은 셀을 즉시 읽게 만든 것이 아니라, 언제 명령을 싣고 언제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 받을지 모두가 같은 박자로 합의했다는 점이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Async DRAM vs SDRAM : uncertain wait -&gt; scheduled wait</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Async DRAM</div><div class="kb-diagram-cell">SDRAM</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Request -&gt; ??? -&gt; Data</div><div class="kb-diagram-cell">CLK: ─ ─ ─ ─ ─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Wait length varies</div><div class="kb-diagram-cell">─ ─ ─ ─ ─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Controller guesses</div><div class="kb-diagram-cell">CMD: ACT ---- READ ---- NOP ---- DATA</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">safe margin</div><div class="kb-diagram-cell">&lt;--- fixed cycle latency ---&gt;</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│          Async DRAM vs SDRAM : uncertain wait -> scheduled wait     │
+├───────────────────────┬──────────────────────────────────────────────┤
+│ Async DRAM            │ SDRAM                                        │
+├───────────────────────┼──────────────────────────────────────────────┤
+│ Request -> ??? -> Data│ CLK:   ┌─┐ ┌─┐ ┌─┐ ┌─┐ ┌─┐                   │
+│ Wait length varies    │        └─┘ └─┘ └─┘ └─┘ └─┘                   │
+│ Controller guesses    │ CMD:   ACT ---- READ ---- NOP ---- DATA      │
+│ safe margin           │             <--- fixed cycle latency --->    │
+└───────────────────────┴──────────────────────────────────────────────┘
+```
 
 즉 SDRAM의 등장은 "메모리가 빨라졌다"보다 "메모리를 다룰 수 있게 되었다"에 가깝다. 이 예측 가능성 덕분에 메모리 컨트롤러는 다음 명령을 미리 배치하고, CPU는 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 사용 계획을 세울 수 있게 되었다.
 
@@ -61,18 +59,16 @@ SDRAM의 내부는 단순 저장소가 아니라, <strong>행 활성화-열 읽�
 
 아래 그림은 SDRAM의 명령 흐름과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 출력 지점을 한눈에 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SDRAM command pipeline over clock</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cycle</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">2</div><div class="kb-diagram-cell">3</div><div class="kb-diagram-cell">4</div><div class="kb-diagram-cell">5</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CMD</div><div class="kb-diagram-cell">ACT</div><div class="kb-diagram-cell">NOP</div><div class="kb-diagram-cell">READ</div><div class="kb-diagram-cell">NOP</div><div class="kb-diagram-cell">NOP</div><div class="kb-diagram-cell">DATA</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">State</div><div class="kb-diagram-cell">Row open</div><div class="kb-diagram-cell">Sense</div><div class="kb-diagram-cell">Col sel</div><div class="kb-diagram-cell">CL wait</div><div class="kb-diagram-cell">CL wait</div><div class="kb-diagram-cell">Burst</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                 SDRAM command pipeline over clock                    │
+├──────┬──────────┬──────────┬──────────┬──────────┬──────────┬────────┤
+│Cycle │    0     │    1     │    2     │    3     │    4     │   5    │
+├──────┼──────────┼──────────┼──────────┼──────────┼──────────┼────────┤
+│CMD   │ ACT      │ NOP      │ READ     │ NOP      │ NOP      │ DATA   │
+│State │ Row open │ Sense    │ Col sel  │ CL wait  │ CL wait  │ Burst  │
+└──────┴──────────┴──────────┴──────────┴──────────┴──────────┴────────┘
+```
 
 여기서 중요한 점은 첫 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 나오기 전까지는 여전히 몇 클럭을 기다려야 한다는 사실이다. 대신 첫 단어가 나오기 시작하면 [버스트 모드](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/320_burst_mode/)로 연속 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 실어 보낼 수 있어, 긴 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 여러 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 나눠 갖게 된다. 또한 여러 뱅크를 번갈아 사용하면 한 뱅크가 PRECHARGE 중일 때 다른 뱅크에서 READ를 진행하여 내부 유휴 시간을 감출 수 있다.
 
@@ -117,19 +113,17 @@ SDRAM의 위치를 정확히 이해하려면 비동기 DRAM과 [DDR SDRAM](/know
 
 아래 그림은 왜 실무에서 인터리빙과 순차 접근이 중요한지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Bank interleaving hides internal delay</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Clock 0..2</div><div class="kb-diagram-cell">Clock 3..5</div><div class="kb-diagram-cell">Clock 6..8</div><div class="kb-diagram-cell">Result</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Bank0: ACT/READ</div><div class="kb-diagram-cell">Bank0: PRE</div><div class="kb-diagram-cell">Bank0: ready</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Bank1: idle</div><div class="kb-diagram-cell">Bank1: ACT/READ</div><div class="kb-diagram-cell">Bank1: PRE</div><div class="kb-diagram-cell">Data stream overlaps</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Bank2: idle</div><div class="kb-diagram-cell">Bank2: idle</div><div class="kb-diagram-cell">Bank2: ACT/READ</div><div class="kb-diagram-cell">instead of full stall</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                 Bank interleaving hides internal delay               │
+├───────────────┬───────────────┬───────────────┬──────────────────────┤
+│Clock 0..2     │Clock 3..5     │Clock 6..8     │Result                │
+├───────────────┼───────────────┼───────────────┼──────────────────────┤
+│Bank0: ACT/READ│Bank0: PRE     │Bank0: ready   │                      │
+│Bank1: idle    │Bank1: ACT/READ│Bank1: PRE     │Data stream overlaps  │
+│Bank2: idle    │Bank2: idle    │Bank2: ACT/READ│instead of full stall │
+└───────────────┴───────────────┴───────────────┴──────────────────────┘
+```
 
 기술사 답안 관점에서는 "언제 채택하고 무엇을 보완해야 하는가"를 말해야 한다. SDRAM 계열은 범용 메인 메모리의 표준이지만, 극단적 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 필요한 그래픽 처리에는 GDDR (Graphics [Double Data Rate](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/253_ddr_sdram/)) 계열이, 더 높은 집적 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 필요한 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 가속기에는 [HBM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/) ([High Bandwidth Memory](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/))이 선택된다. 즉 SDRAM은 기본 해법이지만, 요구사항이 커질수록 패키징·채널 구조·전력 전략이 추가로 따라온다.
 
@@ -161,23 +155,22 @@ SDRAM이 남긴 가장 큰 효과는 메모리 접근을 시스템 설계의 통
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">비동기 DRAM</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SDRAM (Synchronous Dynamic Random Access Memory)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">명령 동기화 -&gt; ACTIVATE / READ / PRECHARGE</div>
-<div class="kb-diagram-tree-item" style="--depth:2">연속 전송 -&gt; Burst Mode -&gt; Row Buffer locality</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DDR (Double Data Rate) SDRAM</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">멀티채널 · GDDR (Graphics Double Data Rate) · HBM (High Bandwidth Memory)</div>
-</div>
-</div>
-
-
+```text
+비동기 DRAM
+    │
+    ▼
+SDRAM (Synchronous Dynamic Random Access Memory)
+    │
+    ├─ 명령 동기화 -> ACTIVATE / READ / PRECHARGE
+    │
+    ├─ 연속 전송 -> Burst Mode -> Row Buffer locality
+    │
+    ▼
+DDR (Double Data Rate) SDRAM
+    │
+    ▼
+멀티채널 · GDDR (Graphics Double Data Rate) · HBM (High Bandwidth Memory)
+```
 
 이 흐름은 "응답 시점 통제"에서 시작해 "병렬성 확대와 패키징 확장"으로 진화하는 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 개선의 축을 보여준다.
 

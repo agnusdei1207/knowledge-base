@@ -45,30 +45,36 @@ tags = ["studynote-operating-system"]
 
 사용자는 프로그램과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 묶어(Job) OS에 제출하고, 결과를 다음 날 아침에 확인한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일괄 처리 시스템 (Batch System) 동작 흐름</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">사용자 (Users)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- User A: Job 1 제출 (월말 정산)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- User B: Job 2 제출 (데이터 백업)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- User C: Job 3 제출 (통계 리포트 생성)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">입력 스풀러 (Input Spooler)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 하드디스크의 Job Queue에 작업들을 순서대로 쌓아둠.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Job Queue</div><div class="kb-diagram-note">:</div><div class="kb-diagram-node">Job 1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Job 2</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Job 3</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">운영체제 (Job Scheduler)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- CPU가 한가해지면 Job Queue에서 하나씩 꺼내어 메모리에 적재 후 실행.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CPU 실행</div><div class="kb-diagram-note">:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Job 1 실행 완료 (1시간 소요) -&gt; 결과 출력</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 즉시 Job 2 실행 시작 (상호작용 없음) -&gt; 결과 출력</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 즉시 Job 3 실행 시작 -&gt; 결과 출력</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">출력 스풀러 (Output Spooler) 및 프린터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 아침에 사용자가 출근하여 프린트된 결과물이나 파일을 확인.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 일괄 처리 시스템 (Batch System) 동작 흐름            │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │  [사용자 (Users)]                                                   │
+  │   - User A: Job 1 제출 (월말 정산)                                    │
+  │   - User B: Job 2 제출 (데이터 백업)                                   │
+  │   - User C: Job 3 제출 (통계 리포트 생성)                               │
+  │            │                                                      │
+  │  ==========▼======================================================│
+  │  [입력 스풀러 (Input Spooler)]                                       │
+  │   - 하드디스크의 Job Queue에 작업들을 순서대로 쌓아둠.                    │
+  │                                                                   │
+  │     [ Job Queue ] : [ Job 1 ] -> [ Job 2 ] -> [ Job 3 ]           │
+  │                                                                   │
+  │  ==========▼======================================================│
+  │  [운영체제 (Job Scheduler)]                                          │
+  │   - CPU가 한가해지면 Job Queue에서 하나씩 꺼내어 메모리에 적재 후 실행.       │
+  │                                                                   │
+  │   [ CPU 실행 ] :                                                    │
+  │   1. Job 1 실행 완료 (1시간 소요) -> 결과 출력                           │
+  │   2. 즉시 Job 2 실행 시작 (상호작용 없음) -> 결과 출력                    │
+  │   3. 즉시 Job 3 실행 시작 -> 결과 출력                                 │
+  │                                                                   │
+  │  ==========▼======================================================│
+  │  [출력 스풀러 (Output Spooler) 및 프린터]                             │
+  │   - 아침에 사용자가 출근하여 프린트된 결과물이나 파일을 확인.                 │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 스케줄러는 사용자의 개입(키보드 입력 등)을 전혀 기다리지 않는다. Job 1이 끝나면 단 1밀리초의 낭비 없이 곧바로 Job 2를 메모리로 끌고 와서 CPU를 태운다. 이 시스템의 목적은 사용자의 편의가 아니라, 수백억짜리 기계(CPU)를 1초도 쉬지 않게 풀가동(100% Utilization)시키는 데 있다.
 
@@ -143,26 +149,29 @@ tags = ["studynote-operating-system"]
 
 ### 의사결정 및 튜닝 플로우
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대용량 데이터 시스템 (Batch vs Real-time) 설계 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">수백만 건의 데이터를 처리해야 하는 비즈니스 로직 개발</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자가 화면(UI)에서 요청 버튼을 누르고 그 자리에서 결과를 기다리는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">대화형(Online) 시스템 아키텍처</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 지표: Response Time(응답 시간) 최우선</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 동기식 API 통신 및 빠른 인덱싱 DB 사용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 (통계, 정산, 마이그레이션, 메일 대량 발송)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터의 양이 수 기가바이트 이상이며, 몇 시간 뒤에 끝나도 괜찮은가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">일괄 처리(Batch Processing) 시스템 도입</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 지표: Throughput 극대화, Turnaround Time 준수</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 스케줄러(Quartz, Airflow, Cron) 기반 심야 구동</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ──▶ 메시지 큐(RabbitMQ/Kafka) 기반 비동기 스트리밍 처리</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 대용량 데이터 시스템 (Batch vs Real-time) 설계 플로우        │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [수백만 건의 데이터를 처리해야 하는 비즈니스 로직 개발]                     │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      사용자가 화면(UI)에서 요청 버튼을 누르고 그 자리에서 결과를 기다리는가?  │
+  │          ├─ 예 (송금, 결제, 검색) ──▶ [대화형(Online) 시스템 아키텍처]     │
+  │          │                        - 지표: Response Time(응답 시간) 최우선│
+  │          │                        - 동기식 API 통신 및 빠른 인덱싱 DB 사용  │
+  │          └─ 아니오 (통계, 정산, 마이그레이션, 메일 대량 발송)               │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      데이터의 양이 수 기가바이트 이상이며, 몇 시간 뒤에 끝나도 괜찮은가?      │
+  │          ├─ 예 ─────▶ [일괄 처리(Batch Processing) 시스템 도입]      │
+  │          │            - 지표: Throughput 극대화, Turnaround Time 준수  │
+  │          │            - 스케줄러(Quartz, Airflow, Cron) 기반 심야 구동  │
+  │          │                                                        │
+  │          └─ 아니오 ──▶ 메시지 큐(RabbitMQ/Kafka) 기반 비동기 스트리밍 처리│
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** "배치가 느리다"고 불평하는 것은 배치의 목적을 이해하지 못한 것이다. 배치는 빠르려고 고안된 것이 아니라 "무거운 것을 무너지지 않고 확실하게 옮기려고" 고안된 것이다. 기술사는 비즈니스 오너에게 "이 작업은 실시간으로 하면 시스템이 죽습니다. 익일 오전 2시 배치로 돌려서 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))을 보장하는 구조로 가야 합니다"라고 설득할 수 있어야 한다.
 
@@ -206,19 +215,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">시스템 프로그램과 응용 프로그램의 차이</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">일괄 처리 시스템 (Batch Processing System) 성능 지표</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">다중 프로그래밍 (Multiprogramming) 한계 자원</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">시분할 시스템 응답 시간 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[시스템 프로그램과 응용 프로그램의 차이]
+    │
+    ▼
+[일괄 처리 시스템 (Batch Processing System) 성능 지표]
+    │
+    ├──▶ [다중 프로그래밍 (Multiprogramming) 한계 자원]
+    └──▶ [시분할 시스템 응답 시간 최적화]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

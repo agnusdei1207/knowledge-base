@@ -1,5 +1,5 @@
 +++
-title = "SRE Site Reliability Engineering"
+title = "SRE Site Reliability 엔진ering"
 date = 2026-05-09
 
 [taxonomies]
@@ -10,7 +10,7 @@ tags = ["studynote-devops-sre"]
 +++
 
 > **핵심 인사이트**
-> - [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/))는 구글이 정의한 "소프트웨어 엔지니어링 방식으로 운영 문제를 해결하는 방법론"이다.
+> - [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/))는 구글이 정의한 "소프트웨어 엔지니어링 방식으로 운영 문제를 해결하는 방법론"이다.
 > - [Toil](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/) ([토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)) 자동화, [Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) (에러 버짓) 관리, 50% 운영 업무 상한선이 SRE의 세 핵심 원칙이다.
 > - DevOps는 문화·철학이고, SRE는 그 철학을 구체적으로 구현하는 실천 방법론이다.
 
@@ -26,19 +26,16 @@ SRE는 Google이 2003년에 시작한 직군으로, "[신뢰성](/knowledge-base
 | 초점        | 빠른 전달 + 안정성 균형        | [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 정량화 + 자동화            |
 | 지표        | [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/), 배포 빈도           | [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/), [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/), [Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)           |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SRE 핵심 원칙</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. SLO 기반 신뢰성 목표 정의</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Error Budget으로 혁신-안정성 균형</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Toil 자동화 (운영 업무 50% 상한)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. Blameless Postmortem 문화</div></div>
-</div>
-</div>
-
-
+```
+┌────────────────────────────────────────────────────┐
+│                 SRE 핵심 원칙                      │
+│                                                    │
+│  1. SLO 기반 신뢰성 목표 정의                      │
+│  2. Error Budget으로 혁신-안정성 균형              │
+│  3. Toil 자동화 (운영 업무 50% 상한)               │
+│  4. Blameless Postmortem 문화                      │
+└────────────────────────────────────────────────────┘
+```
 
 > 📢 **Ⅰ 섹션 요약 비유**
 > DevOps가 "빠르고 안정적으로 달리자"는 철학이라면, SRE는 그 철학을 속도계·계기판·자동운전으로 구현하는 것이다.
@@ -67,18 +64,13 @@ On-[call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_
 
 [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) ([Service Level Objective](/knowledge-base/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/))가 99.9%이면 월 43.8분의 다운타임이 허용되는 예산이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Error Budget 소진 시나리오</div>
-<div class="kb-diagram-note">예산 여유 있음: 신기능 배포 가속 가능</div>
-<div class="kb-diagram-note">예산 소진 경고: 배포 속도 조절, 안정화 우선</div>
-<div class="kb-diagram-note">예산 완전 소진: 기능 동결, 신뢰성 개선 집중</div>
-</div>
-</div>
-
-
+```
+Error Budget 소진 시나리오
+─────────────────────────
+예산 여유 있음: 신기능 배포 가속 가능
+예산 소진 경고: 배포 속도 조절, 안정화 우선
+예산 완전 소진: 기능 동결, 신뢰성 개선 집중
+```
 
 이를 통해 개발팀과 운영팀이 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 공동 목표로 삼게 된다.
 
@@ -121,20 +113,14 @@ PRR (Production Readiness [Review](/knowledge-base/studynote/04_software_enginee
 
 ### 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">SRE</div>
-<div class="kb-diagram-tree-item" style="--depth:2">SLI/SLO/SLA → 신뢰성 정량화</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Error Budget → 혁신-안정성 균형</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Toil 자동화 → 운영 부담 50% 이하</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Blameless Postmortem → 장애 학습 문화</div>
-<div class="kb-diagram-tree-item" style="--depth:2">PRR / Capacity Planning → 서비스 출시 품질 보증</div>
-</div>
-</div>
-
-
+```
+SRE
+    ├── SLI/SLO/SLA → 신뢰성 정량화
+    ├── Error Budget → 혁신-안정성 균형
+    ├── Toil 자동화 → 운영 부담 50% 이하
+    ├── Blameless Postmortem → 장애 학습 문화
+    └── PRR / Capacity Planning → 서비스 출시 품질 보증
+```
 
 > 🧒 **어린이 비유**
 > SRE는 놀이공원 안전 관리자예요. 고장 나도 괜찮은 시간([Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/))을 미리 정해두고, 그 이상 고장나면 새로운 놀이기구 도입을 잠깐 멈추는 규칙을 지켜요.

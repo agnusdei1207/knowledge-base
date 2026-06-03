@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **기존 ARQ의 문제**: 수신기가 100바이트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 받았는데 딱 1바이트가 깨졌습니다. 기존 ARQ는 "에이 더러워! 버려!" 하고 **방금 받은 100바이트를 메모리에서 싹 지워버린 뒤(삭제)**, 송신기에 NAK를 보내 처음부터 다시 100바이트를 받습니다.
 - **하이브리드(HARQ)의 발상**: "야, 1바이트 깨졌다고 99바이트 멀쩡한 정보까지 다 지우는 건 너무 아깝지 않냐? **버리지 말고 메모리에 일단 살려둬 봐(소프트 콤바인).** 그리고 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)만 살짝 더 보내달라고 하자!"
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">폴라 코드</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HARQ</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Chase Combining / IR</div></div>
-</div>
-</div>
-
-
+```text
+[폴라 코드]
+    │
+    ▼
+[HARQ]
+    │
+    └──▶ [Chase Combining / IR]
+```
 
 - **📢 섹션 요약 비유**: HARQ는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -50,18 +46,14 @@ HARQ는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rel
    - 수신기는 두 번째로 날아온 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 보고 푸는 게 아니라, <strong>아까 버퍼에 짱박아둔 1차 실패 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>와 방금 날아온 2차 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 퍼즐 맞추듯 수학적으로 융합(Combining)</strong>해 버립니다.
    - 이렇게 확률값을 덧셈하면 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)의 세기([SNR](/knowledge-base/studynote/03_network/01_data_communication/024_신호_대_잡음비/))가 2배로 폭증하면서, 에러가 마법처럼 씻은 듯이 고쳐집니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">폴라 코드</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HARQ</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Chase Combining / IR</div></div>
-</div>
-</div>
-
-
+```text
+[폴라 코드]
+    │
+    ▼
+[HARQ]
+    │
+    └──▶ [Chase Combining / IR]
+```
 
 - **📢 섹션 요약 비유**: HARQ의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -129,19 +121,15 @@ HARQ는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rel
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 폴라 코드</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: HARQ</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: Chase Combining / IR</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고신뢰 저지연 링크 제어</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 폴라 코드]
+    │
+    ▼
+[현재 개념: HARQ]
+    │
+    ├──▶ [확장 A: Chase Combining / IR]
+    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
+```
 
 HARQ는 [폴라 코드](/knowledge-base/studynote/03_network/04_data_link_layer_error/204_polar_code_5g_control_channel/)에서 출발해 현재 메커니즘을 정교화하고, 이후 Chase Combining / IR와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

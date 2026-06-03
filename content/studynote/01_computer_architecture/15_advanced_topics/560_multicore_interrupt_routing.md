@@ -43,20 +43,21 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 멀티코어 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 왜 "한 번 배달하고 끝"이 아니라, 코어 지역성과 코어 간 협업까지 포함하는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">멀티코어 인터럽트 경로: 장치 인터럽트는 분배기와 코어 로컬 인터페이스를 거친다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Device / MSI-X Vector</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Distributor / I/O APIC ── target mask / priority ──▶ Core Local IF</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ Core 0 ─▶ Core 1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ Core 2 ─▶ Core N</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IPI / reschedule / TLB shootdown ▶</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ 멀티코어 인터럽트 경로: 장치 인터럽트는 분배기와 코어 로컬 인터페이스를 거친다 │
+├──────────────────────────────────────────────────────────────────────────────┤
+│ Device / MSI-X Vector                                                       │
+│          │                                                                   │
+│          ▼                                                                   │
+│   Distributor / I/O APIC ── target mask / priority ──▶ Core Local IF        │
+│          │                                                    │              │
+│          ├─▶ Core 0                                           ├─▶ Core 1    │
+│          ├─▶ Core 2                                           └─▶ Core N    │
+│          │                                                                   │
+│          └────────────── IPI / reschedule / TLB shootdown ───────────────▶  │
+└──────────────────────────────────────────────────────────────────────────────┘
+```
 
 중요한 것은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로와 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 경로를 맞추는 것이다. 예를 들어 16개의 수신 큐를 가진 NIC는 각 큐의 [MSI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/)-X 벡터를 해당 큐를 소비하는 코어에 붙일 때 가장 효율적이다. 반대로 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)는 한 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/), 실제 패킷 처리는 다른 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)에서 하게 두면 캐시 라인 이동과 원격 메모리 접근이 늘어 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 커진다.
 
@@ -80,7 +81,7 @@ tags = ["studynote-computer-architecture"]
 
 이 개념은 네트워크 Receive Side Scaling, 스토리지 멀티큐, [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 스케줄링과도 직접 연결된다. [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)만 잘해도 되는 것이 아니라, 패킷 처리 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)·큐 메모리·장치 [Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/) ([DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/)) 경로까지 같은 [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 노드에 놓여야 진짜 효과가 난다. 결국 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)은 CPU 내부 기술이면서 동시에 시스템 배치 전략이다.
 
-- **📢 섹션 요약 비유**: 정적 pinning이 같은 기사에게 같은 배송 구역을 맡기는 방식이라면, 동적 balancing은 그때그때 빈 기사에게 배송을 던지는 방식이다. 어느 쪽이 낫냐는 길 찾기 익숙함과 물량 변동성을 같이 봐야 결정된다.
+- **📢 섹션 요약 비유**: 정적 pinning이 같은 기사에게 같은 배송 구역을 맡기는 방식이라면, 동적 balancing은 그때그때 빈 기사에게 배송을 던지는 방식이다. 어느 쪽이 낫냐는 길 찾기 익숙함과 수량 변동성을 같이 봐야 결정된다.
 
 ---
 
@@ -136,23 +137,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단일 코어 공유 IRQ</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">대칭형 다중처리 (Symmetric Multiprocessing, SMP)용 I/O APIC · GIC Distributor</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">MSI / MSI-X 기반 다중 큐 인터럽트</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">NUMA-aware Affinity · IPI 최적화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Interrupt Remapping · Posted Interrupt</div>
-</div>
-</div>
-
-
+```text
+단일 코어 공유 IRQ
+        │
+        ▼
+대칭형 다중처리 (Symmetric Multiprocessing, SMP)용 I/O APIC · GIC Distributor
+        │
+        ▼
+MSI / MSI-X 기반 다중 큐 인터럽트
+        │
+        ▼
+NUMA-aware Affinity · IPI 최적화
+        │
+        ▼
+Interrupt Remapping · Posted Interrupt
+```
 
 이 흐름은 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 단순 외부 신호에서 출발해, 점차 멀티코어·[가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)·보안까지 고려하는 시스템 수준 배치 기술로 발전하는 과정을 보여 준다.
 

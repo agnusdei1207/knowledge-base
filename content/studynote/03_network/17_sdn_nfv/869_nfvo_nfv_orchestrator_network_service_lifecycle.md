@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: 868번 MANO 프레임워크의 3계층 중 <strong>가장 최상위(맨 꼭대기)에 위치하는 중앙 오케스트레이터(지휘자)</strong>입니다.
 - **역할**: 하위 관리자인 [VIM](/knowledge-base/studynote/03_network/17_sdn_nfv/871_vim_virtualised_infrastructure_manager_openstack_k8s/)(인프라 자원 관리)과 [VNFM](/knowledge-base/studynote/03_network/17_sdn_nfv/870_vnfm_vnf_manager_lifecycle_scaling_healing/)(개별 앱 관리)을 총괄 지휘하여, 개별 조각([VNF](/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/))들이 모여 완성되는 <strong>'종단 간(<a href="/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/">End-to-End</a>) 네트워크 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 전체의 생명주기(Lifecycle)'를 100% 자동화하여 기획, <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>, 수정, 삭제하는 거시적 뇌 역할</strong>을 수행합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">MANO</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NFVO</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">VNFM</div></div>
-</div>
-</div>
-
-
+```text
+[MANO]
+    │
+    ▼
+[NFVO]
+    │
+    └──▶ [VNFM]
+```
 
 - **📢 섹션 요약 비유**: NFVO는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -53,18 +49,14 @@ tags = ["studynote-network"]
 - [VNFM](/knowledge-base/studynote/03_network/17_sdn_nfv/870_vnfm_vnf_manager_lifecycle_scaling_healing/) A(보안팀)가 "우리 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 터질 거 같으니까 서버 자원 10GB만 더 줘!"라고 요청하고, [VNFM](/knowledge-base/studynote/03_network/17_sdn_nfv/870_vnfm_vnf_manager_lifecycle_scaling_healing/) B(영상팀)가 "우리도 20GB 더 줘!"라고 아우성칩니다.
 - NFVO는 이 요청들을 다 승인하지 않습니다. 국가 전체의 가용 자원을 내려다보며 "영상팀은 안 급하니까 기각! 보안팀 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)에만 자원 10GB 할당([Orchestration](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/))해!"라고 <strong>자원 충돌을 중재하고 거시적 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>에 따라 분배하는 판사 역할</strong>을 합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">MANO</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NFVO</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">VNFM</div></div>
-</div>
-</div>
-
-
+```text
+[MANO]
+    │
+    ▼
+[NFVO]
+    │
+    └──▶ [VNFM]
+```
 
 - **📢 섹션 요약 비유**: NFVO의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -125,19 +117,15 @@ NFVO는 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_top
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: MANO</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: NFVO</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: VNFM</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 프로그래머블 네트워크</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: MANO]
+    │
+    ▼
+[현재 개념: NFVO]
+    │
+    ├──▶ [확장 A: VNFM]
+    └──▶ [확장 B: 프로그래머블 네트워크]
+```
 
 NFVO는 MANO에서 출발해 현재 메커니즘을 정교화하고, 이후 VNFM와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

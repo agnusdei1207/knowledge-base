@@ -24,21 +24,19 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경**: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 시분할(Time-Sharing) [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)에서 프린터 출력 스풀러나 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내의 작업 큐를 여러 프로세스가 동시에 건드리다 시스템이 죽는 일이 잦았다. 학자들은 이 파괴가 일어나는 공통된 코드 영역을 '임계 구역(Critical Section)'이라 명명하고, 이 구역을 안전하게 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하기 위한 소프트웨어/하드웨어적 해결책(데커, 피터슨, TAS)을 연구하기 시작했다.
 
+```text
+  [프로세스의 일반적 생명 주기 속 임계 구역의 위치]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">프로세스의 일반적 생명 주기 속 임계 구역의 위치</div></div>
-<div class="kb-diagram-note">do {</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">진입 구역 (Entry Section)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─ "저기요! 저 지금 터널(공유자원) 들어갑니다! 문 잠글게요!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">임계 구역 (Critical Section)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─ 🚨 위험 구역! 공유 변수(count) 수정, DB 업데이트 실행</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">퇴장 구역 (Exit Section)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─ "다 썼습니다! 터널 문 열고 나갈게요!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">나머지 구역 (Remainder Section)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─ 혼자 쓰는 변수 계산 등 안전하고 자유로운 구역</div></div>
-<div class="kb-diagram-note">} while (true);</div>
-</div>
-</div>
-
-
+  do {
+      [ 진입 구역 (Entry Section) ]    ◀─ "저기요! 저 지금 터널(공유자원) 들어갑니다! 문 잠글게요!"
+      
+      [ 임계 구역 (Critical Section) ] ◀─ 🚨 위험 구역! 공유 변수(count) 수정, DB 업데이트 실행
+      
+      [ 퇴장 구역 (Exit Section) ]     ◀─ "다 썼습니다! 터널 문 열고 나갈게요!"
+      
+      [ 나머지 구역 (Remainder Section) ]◀─ 혼자 쓰는 변수 계산 등 안전하고 자유로운 구역
+  } while (true);
+```
 **[다이어그램 해설]** 코드를 작성할 때 이 4가지 구역을 명확히 구분하는 것이 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 프로그래밍의 기초다. 진입 구역에서 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 걸고, 퇴장 구역에서 락을 푼다. 나머지 구역(Remainder)은 락 없이 수천 개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 동시에 100% 성능으로 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 실행되는 곳이므로, 아키텍트는 <strong>임계 구역(Critical)의 길이를 최대한 짧게 만들고, 나머지 구역(Remainder)을 최대한 길게 뽑아내는 것</strong>이 튜닝의 핵심 역량이다.
 
 - **📢 섹션 요약 비유**: 회사에서 직원들이 각자 자기 자리(나머지 구역)에서 일할 때는 터치가 없지만, 하나뿐인 복사기(임계 구역)를 쓸 때는 반드시 번호표(진입 구역)를 뽑고 한 명씩만 쓰고 비켜주는(퇴장 구역) 질서를 지켜야 합니다.
@@ -68,27 +66,29 @@ tags = ["studynote-operating-system"]
 - <strong>데커의 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> (Dekker's <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">Algorithm</a>)</strong>: 깃발(`flag`)과 차례(`turn`) 변수를 교묘하게 조합해 3조건을 모두 만족한 최초의 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/). 하지만 코드가 너무 길고 복잡했다.
 - <strong>피터슨의 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> (Peterson's <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">Algorithm</a>)</strong>: 데커를 아주 우아하게 압축한 교과서의 바이블.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">피터슨(Peterson) 알고리즘의 우아한 임계 구역 방어 메커니즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">공유 변수</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">bool flag</div><div class="kb-diagram-node">2</div><div class="kb-diagram-note">= {false, false}; // "나 들어가고 싶어!" 깃발</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">int turn; // "누구 먼저 할래?" 양보 변수</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">프로세스 0 (P0) 의 동작</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">flag</div><div class="kb-diagram-node">0</div><div class="kb-diagram-note">= true; // 1. 내 깃발 듦 (진입 의사 표시)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">turn = 1; // 2. 일단 P1에게 양보함 (대인배 모드)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// 3. P1도 깃발을 들었고, 심지어 차례도 1(P1)이면 나는 무한 대기!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">while (flag</div><div class="kb-diagram-node">1</div><div class="kb-diagram-note">== true &amp;&amp; turn == 1) {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/* Busy Waiting (대기) */</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=====</div><div class="kb-diagram-node">임계 구역 (Critical Section) 실행!</div><div class="kb-diagram-note">=====</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">flag</div><div class="kb-diagram-node">0</div><div class="kb-diagram-note">= false; // 4. 나 다 썼어! 깃발 내림 (퇴장)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────────────┐
+  │         피터슨(Peterson) 알고리즘의 우아한 임계 구역 방어 메커니즘  │
+  ├─────────────────────────────────────────────────────────────────────┤
+  │                                                                     │
+  │   [ 공유 변수 ]                                                     │
+  │   bool flag[2] = {false, false};  // "나 들어가고 싶어!" 깃발       │
+  │   int turn;                       // "누구 먼저 할래?" 양보 변수    │
+  │                                                                     │
+  │   [ 프로세스 0 (P0) 의 동작 ]                                       │
+  │   flag[0] = true;   // 1. 내 깃발 듦 (진입 의사 표시)               │
+  │   turn = 1;         // 2. 일단 P1에게 양보함 (대인배 모드)          │
+  │                                                                     │
+  │   // 3. P1도 깃발을 들었고, 심지어 차례도 1(P1)이면 나는 무한 대기! │
+  │   while (flag[1] == true && turn == 1) {                            │
+  │        /* Busy Waiting (대기) */                                    │
+  │   }                                                                 │
+  │                                                                     │
+  │   ===== [ 임계 구역 (Critical Section) 실행! ] =====                │
+  │                                                                     │
+  │   flag[0] = false;  // 4. 나 다 썼어! 깃발 내림 (퇴장)              │
+  └─────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 피터슨 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 위대함은 `turn`이라는 '양보의 미덕'에 있다. 서로 먼저 들어가겠다고 `flag`를 들어도, 마지막에 `turn = 상대방`으로 덮어쓴 프로세스가 결국 상대방을 먼저 들여보내 주게 된다. 즉, 핑퐁을 치더라도 절대 데드락에 빠지지 않으며([진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 만족), 서로 한 번씩 번갈아 들어가므로 기아([한정된 대기](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/217_bounded_waiting/))도 발생하지 않는 완벽한 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 구조다.
 
 - **📢 섹션 요약 비유**: 외나무다리에서 두 운전자가 만났습니다. 둘 다 "나 지나갈래([flag](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/))!" 하고 빵빵대다가 사고(상호배제 실패)가 날 뻔합니다. 피터슨 규칙은 무조건 창문을 열고 "먼저 가시죠(turn)"라고 말하는 것입니다. 동시에 "먼저 가시죠"를 외치더라도 마지막에 말한 사람이 결국 상대방을 보내주게 되어 사고 없이 완벽히 다리를 건넙니다.
@@ -123,29 +123,29 @@ tags = ["studynote-operating-system"]
 2. <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/280_read_write_lock/">Read-Write Lock</a> (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/247_readers_writers_problem/">독자-저자 문제</a> 해결)</strong>: 게시판 글 조회수. 글을 읽는(Read) 사람은 1만 명, 글을 수정(Write)하는 사람은 1명이다. 무식하게 임계 구역에 일반 Mutex를 걸면 읽는 사람 1만 명이 한 명씩 줄을 서야 한다 (읽는 것끼린 충돌도 안 나는데!).
    - **실무 조치**: 읽기와 쓰기의 성격을 분리한 `ReadWriteLock`을 도입한다. 임계 구역에 진입할 때 `Read Lock`은 1만 명이 동시에 들어갈 수 있게 허용(공유)하고, `Write Lock`이 진입할 때만 [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)를 걸어 모두를 쫓아낸다. 임계 구역의 성질을 파악한 극강의 튜닝이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">임계 구역(Critical Section) 최소화를 위한 리팩토링 기법</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">❌ Bad Code (병목 발생)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">lock.acquire(); // 진입 구역</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">int val = SharedQueue.pop(); // 임계 구역 (1ms)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Heavy_DB_Query(val); // 🚨 남의 눈치 안봐도 되는</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">API_Network_Send(val); // 🚨 느린 I/O를 통째로 가둠</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">lock.release(); // 퇴장 구역</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">✅ Good Code (병행성 극대화)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">int val;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">lock.acquire(); // 진입 구역</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">val = SharedQueue.pop(); // ⭐ 임계 구역: 오직 공유 큐 조작만!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">lock.release(); // 잽싸게 퇴장 구역!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// --- 아래부터는 자유의 땅 (Remainder Section) ---</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Heavy_DB_Query(val); // 1000개 스레드가 동시 실행 가능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">API_Network_Send(val);</div></div>
-</div>
-</div>
-
-
+```text
+  ┌────────────────────────────────────────────────────────────────────┐
+  │     임계 구역(Critical Section) 최소화를 위한 리팩토링 기법        │
+  ├────────────────────────────────────────────────────────────────────┤
+  │                                                                    │
+  │   [ ❌ Bad Code (병목 발생) ]                                      │
+  │   lock.acquire();             // 진입 구역                         │
+  │   int val = SharedQueue.pop(); // 임계 구역 (1ms)                  │
+  │   Heavy_DB_Query(val);        // 🚨 남의 눈치 안봐도 되는          │
+  │   API_Network_Send(val);      // 🚨 느린 I/O를 통째로 가둠         │
+  │   lock.release();             // 퇴장 구역                         │
+  │                                                                    │
+  │   [ ✅ Good Code (병행성 극대화) ]                                 │
+  │   int val;                                                         │
+  │   lock.acquire();             // 진입 구역                         │
+  │   val = SharedQueue.pop();    // ⭐ 임계 구역: 오직 공유 큐 조작만!│
+  │   lock.release();             // 잽싸게 퇴장 구역!                 │
+  │                                                                    │
+  │   // --- 아래부터는 자유의 땅 (Remainder Section) ---              │
+  │   Heavy_DB_Query(val);        // 1000개 스레드가 동시 실행 가능    │
+  │   API_Network_Send(val);                                           │
+  └────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** "어디에 락을 걸 것인가?" 이것이 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 프로그래밍의 실력을 가르는 가장 결정적 잣대다. 코딩의 편의성을 위해 임계 구역을 무식하게 넓게 잡으면([Coarse-grained](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/398_coarse_grained_multithreading/) [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)), 시스템은 싱글 코어 시절로 회귀한다. 반대로 너무 잘게 쪼개면([Fine-grained](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/399_fine_grained_multithreading/) [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 데드락의 함정에 빠진다. 공유 자원의 수명([Scope](/knowledge-base/studynote/09_security/05_web_app_security/512_oauth_scope/))을 정확히 인지하고 그 부분만 메스로 도려내는 외과 수술이 필요하다.
 
 - **📢 섹션 요약 비유**: 화장실(임계 구역) 안에서 똥만 싸고 빨리 나와야지, 화장실 안에서 휴대폰 게임하고 웹툰까지 다 보고 나오면(나머지 구역의 남용) 밖에 줄 서 있는 사람들 폭동이 일어납니다. 화장실에선 볼일만 보고 휴대폰은 나와서 소파에서 해야 시스템이 부드럽습니다.
@@ -176,19 +176,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">윈도우 스케줄링</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">임계 구역 (Critical Section)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">태스크 스케줄링의 캐시 일관성 (Cache Coherence) 문제</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">에너지 인지 스케줄링 (Energy-Aware Scheduling, EAS)</div></div>
-</div>
-</div>
-
-
+```text
+[윈도우 스케줄링]
+    │
+    ▼
+[임계 구역 (Critical Section)]
+    │
+    ├──▶ [태스크 스케줄링의 캐시 일관성 (Cache Coherence) 문제]
+    └──▶ [에너지 인지 스케줄링 (Energy-Aware Scheduling, EAS)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

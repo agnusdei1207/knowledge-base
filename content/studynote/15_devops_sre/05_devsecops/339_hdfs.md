@@ -29,26 +29,28 @@ Hadoop은 값싼 상용 서버(commodity hardware) + 소프트웨어 중복으�
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HDFS + MapReduce vs Spark 흐름</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HDFS 저장 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NameNode (메타데이터)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파일 위치, 블록 정보</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">v</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DataNode1 DataNode2 DataNode3 (각 64/128MB 블록)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(복제본 3개로 내결함성 보장)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MapReduce vs Spark</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MapReduce: Map -&gt; Disk Write -&gt; Shuffle -&gt; Reduce</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(중간 결과 항상 HDFS에 기록, 느리지만 안정)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Spark: Map -&gt; RDD (메모리) -&gt; Reduce</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(중간 결과 메모리 유지, 반복 처리 100x 빠름)</div></div>
-</div>
-</div>
-
-
+```text
++---------------------------------------------------------+
+|              HDFS + MapReduce vs Spark 흐름              |
++---------------------------------------------------------+
+|                                                         |
+|  [HDFS 저장 구조]                                        |
+|  NameNode (메타데이터)                                   |
+|       |  파일 위치, 블록 정보                            |
+|       v                                                 |
+|  DataNode1  DataNode2  DataNode3  (각 64/128MB 블록)    |
+|  (복제본 3개로 내결함성 보장)                             |
+|                                                         |
+|  [MapReduce vs Spark]                                   |
+|                                                         |
+|  MapReduce: Map -> Disk Write -> Shuffle -> Reduce      |
+|  (중간 결과 항상 HDFS에 기록, 느리지만 안정)              |
+|                                                         |
+|  Spark: Map -> RDD (메모리) -> Reduce                   |
+|  (중간 결과 메모리 유지, 반복 처리 100x 빠름)             |
+|                                                         |
++---------------------------------------------------------+
+```
 
 | 항목 | [Hadoop MapReduce](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/395_hadoop_mapreduce_disk_bottleneck/) | [Apache Spark](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/) |
 |:---|:---|:---|
@@ -123,19 +125,14 @@ Hadoop은 값싼 상용 서버(commodity hardware) + 소프트웨어 중복으�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단일 서버 시대 Hadoop 시대 Spark + Cloud 시대</div>
-<div class="kb-diagram-note">RDBMS 한계 -&gt; Hadoop HDFS + MapReduce -&gt; Spark (메모리 처리)</div>
-<div class="kb-diagram-note">단일 서버 스케일업 Google GFS/MapReduce 논문 Kafka + 스트리밍</div>
-<div class="kb-diagram-note">페타바이트 불가 YARN 자원 관리 Delta Lake, Iceberg</div>
-<div class="kb-diagram-note">Hive SQL on Hadoop 서버리스 Spark</div>
-</div>
-</div>
-
-
+```text
+단일 서버 시대             Hadoop 시대               Spark + Cloud 시대
+------------------   --------------------------   ------------------------
+RDBMS 한계           ->  Hadoop HDFS + MapReduce  ->  Spark (메모리 처리)
+단일 서버 스케일업         Google GFS/MapReduce 논문   Kafka + 스트리밍
+페타바이트 불가            YARN 자원 관리               Delta Lake, Iceberg
+                           Hive SQL on Hadoop           서버리스 Spark
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -149,7 +146,7 @@ Hadoop은 값싼 상용 서버(commodity hardware) + 소프트웨어 중복으�
 
 **진행 상황**: 339 / 373
 
-← **이전**: [338. Platform Engineering IDP Golden Path 개발자 경험 (Platform Engineering Internal](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/338_process/)
+← **이전**: [338. Platform 엔진ering IDP Golden Path 개발자 경험 (Platform 엔진ering Internal](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/338_process/)
 **다음**: [340. 카프카 분산 메시지 스트리밍 (Apache Kafka Topic Partition Offset Consumer Group ISR](/knowledge-base/studynote/15_devops_sre/05_devsecops/340_pub_sub/) →
 
 ---

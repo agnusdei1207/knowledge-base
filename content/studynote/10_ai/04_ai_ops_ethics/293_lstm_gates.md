@@ -23,17 +23,14 @@ LSTM이 기본 RNN과 결정적으로 다른 점은 "무엇을 기억하고 무�
 
 LSTM의 3가지 게이트는 이 선택적 기억·망각 메커니즘을 수학적으로 구현한 것이다. 모든 게이트는 <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/">시그모이드</a>(<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/">Sigmoid</a>, σ) 함수</strong>를 통해 0~1 사이 값을 출력하며, 이 값이 정보를 통과시킬지(1) 막을지(0) 결정하는 밸브 역할을 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 세 게이트는 수족관 관리 시스템이다. 삭제 게이트는 "오래된 더러운 물 빼기 밸브", 입력 게이트는 "새 깨끗한 물 넣기 밸브", 출력 게이트는 "물고기(결과)를 꺼내 보여주는 창"이다. 세 밸브를 학습이 알아서 최적으로 조절해 수족관(셀 상태) 상태를 최상으로 유지한다.
 
@@ -41,33 +38,35 @@ LSTM의 3가지 게이트는 이 선택적 기억·망각 메커니즘을 수학
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LSTM 3가지 게이트 상세 수식 및 정보 흐름도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력: x_t (현재 입력), h_(t-1) (이전 은닉 상태)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">연결 벡터: concat(</div><div class="kb-diagram-node">h_(t-1), x_t</div><div class="kb-diagram-note">)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① 삭제 게이트 (Forget Gate):</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">f_t = σ(W_f ·</div><div class="kb-diagram-node">h_(t-1), x_t</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">0~1 출력</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">역할: C_(t-1) × f_t → f_t=0이면 과거 셀상태 완전 소거</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"지난 문장의 주어를 잊어야 새 주어를 받을 수 있다"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② 입력 게이트 (Input Gate):</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">i_t = σ(W_i ·</div><div class="kb-diagram-node">h_(t-1), x_t</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">0~1 출력</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">C̃_t = tanh(W_c ·</div><div class="kb-diagram-node">h_(t-1), x_t</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">후보값 (-1~1)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">역할: C_(t-1) × f_t + i_t × C̃_t → 새 정보 추가량 결정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"이 새 단어가 맥락에서 얼마나 중요한지 판단"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ 셀 상태 업데이트:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C_t = f_t × C_(t-1) + i_t × C̃_t ← 핵심 덧셈 경로!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(이 덧셈이 역전파 시 기울기를 소실 없이 전달하는 고속도로)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">④ 출력 게이트 (Output Gate):</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">o_t = σ(W_o ·</div><div class="kb-diagram-node">h_(t-1), x_t</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">0~1 출력</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">h_t = o_t × tanh(C_t)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">역할: 셀 상태 중 얼마를 h_t(단기 출력)로 내보낼지 결정</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│          LSTM 3가지 게이트 상세 수식 및 정보 흐름도                   │
+├──────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  입력: x_t (현재 입력), h_(t-1) (이전 은닉 상태)                    │
+│  연결 벡터: concat([h_(t-1), x_t])                                 │
+│                                                                  │
+│  ① 삭제 게이트 (Forget Gate):                                      │
+│     f_t = σ(W_f · [h_(t-1), x_t] + b_f)   ← 0~1 출력             │
+│     역할: C_(t-1) × f_t → f_t=0이면 과거 셀상태 완전 소거             │
+│           "지난 문장의 주어를 잊어야 새 주어를 받을 수 있다"             │
+│                                                                  │
+│  ② 입력 게이트 (Input Gate):                                       │
+│     i_t = σ(W_i · [h_(t-1), x_t] + b_i)   ← 0~1 출력             │
+│     C̃_t = tanh(W_c · [h_(t-1), x_t] + b_c) ← 후보값 (-1~1)       │
+│     역할: C_(t-1) × f_t + i_t × C̃_t → 새 정보 추가량 결정          │
+│           "이 새 단어가 맥락에서 얼마나 중요한지 판단"                  │
+│                                                                  │
+│  ③ 셀 상태 업데이트:                                                │
+│     C_t = f_t × C_(t-1) + i_t × C̃_t   ← 핵심 덧셈 경로!           │
+│     (이 덧셈이 역전파 시 기울기를 소실 없이 전달하는 고속도로)            │
+│                                                                  │
+│  ④ 출력 게이트 (Output Gate):                                      │
+│     o_t = σ(W_o · [h_(t-1), x_t] + b_o)   ← 0~1 출력             │
+│     h_t = o_t × tanh(C_t)                                       │
+│     역할: 셀 상태 중 얼마를 h_t(단기 출력)로 내보낼지 결정              │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 | 게이트 | 수식 | 출력 범위 | 기능 | 예시 |
 |:---|:---|:---|:---|:---|

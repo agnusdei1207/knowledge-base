@@ -25,27 +25,27 @@ tags = ["studynote-operating-system"]
 **필요성 및 등장 배경**
 해커가 성(시스템)을 공격하기 전, 성벽에 어느 문([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))이 열려 있는지, 그 문 뒤에 어떤 경비병([버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)이 낮은 취약한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))이 서 있는지를 모르면 공격 페이로드(Exploit)를 구성할 수 없다. 방어자 입장에서도 관리자 모르게 임의로 열려 있는 [백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/)([Backdoor](/knowledge-base/studynote/09_security/15_malware_attack_vectors/727_backdoor/)) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)나 잘못 설정된 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/))하기 위해 능동적인 스캐닝이 필요하다. 과거에는 단순히 연결을 맺어보는 방식([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) Connect)을 썼으나, 서버 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)(Log)에 기록이 남는 한계를 극복하기 위해 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 허점을 찌르는 '은닉 스캔 (Stealth Scan)' 기법들이 Nmap을 중심으로 대거 등장하게 되었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">포트 상태 식별(Port State)의 3가지 핵심 판단 모델</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Open (열림)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">타겟 서버에 특정 서비스 데몬(Apache, SSH 등)이 해당 포트를</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">리스닝(Listening)하고 있으며, 연결 수락 응답(SYN/ACK)을</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보내는 상태. (가장 주요한 공격 표면)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Closed (닫힘)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버가 켜져 있고 방화벽도 패킷을 허용하지만, 해당 포트에</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실행 중인 서비스(프로그램)가 없어서 OS 커널이 "거부"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">의미인 RST (Reset) 패킷을 반환하는 상태.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Filtered (필터됨 / 방화벽 차단)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">방화벽(Firewall) 규칙(Drop)이나 라우터 ACL에 의해 탐침</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">패킷이 중간에 폐기되어, 서버로부터 아무런 응답도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">돌아오지 않거나 ICMP Unreachable 메시지만 오는 상태.</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│      포트 상태 식별(Port State)의 3가지 핵심 판단 모델      │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  [Open (열림)]                                              │
+│  타겟 서버에 특정 서비스 데몬(Apache, SSH 등)이 해당 포트를 │
+│  리스닝(Listening)하고 있으며, 연결 수락 응답(SYN/ACK)을    │
+│  보내는 상태. (가장 주요한 공격 표면)                       │
+│                                                             │
+│  [Closed (닫힘)]                                            │
+│  서버가 켜져 있고 방화벽도 패킷을 허용하지만, 해당 포트에   │
+│  실행 중인 서비스(프로그램)가 없어서 OS 커널이 "거부"       │
+│  의미인 RST (Reset) 패킷을 반환하는 상태.                   │
+│                                                             │
+│  [Filtered (필터됨 / 방화벽 차단)]                          │
+│  방화벽(Firewall) 규칙(Drop)이나 라우터 ACL에 의해 탐침     │
+│  패킷이 중간에 폐기되어, 서버로부터 아무런 응답도           │
+│  돌아오지 않거나 ICMP Unreachable 메시지만 오는 상태.       │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 스캐닝 도구의 핵심 알고리즘은 패킷 전송 후 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 뱉어내는 이 3가지 상태(Open, Closed, Filtered)의 응답 패턴을 해석하는 것이다. 스캐너는 마치 노크를 하는 사람과 같다. 노크를 했을 때 "들어오세요(SYN/ACK)" 하면 Open, "아무도 없어요 돌아가세요(RST)" 하면 Closed다. 그런데 문을 두드렸는데 아무런 대답도 없고 쥐죽은 듯 조용하다면(No Response), 아예 집 앞 철문([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))에서 경비원에게 차단당해 노크 소리조차 집에 닿지 않았음(Filtered)을 유추할 수 있는 것이다.
 
@@ -70,29 +70,32 @@ OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architectu
 
 가장 널리 쓰이며 강력한 <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> SYN 스캔(Nmap -sS)</strong> 은 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 성립 로직을 중간에 잘라버려 애플리케이션 계층(L7)의 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 회피하는 우아한 기법이다. 이를 구현하려면 스캐너 프로그램이 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 기본 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 스택을 우회하여 헤더를 직접 조작할 수 있는 원시 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)([Raw](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/) [Socket](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/), 루트 권한 필요) 제어 권한을 가져야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TCP SYN (Half-Open) 스캐닝의 OS 커널 상호작용 흐름</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">타겟 포트가 열려 있을 때 (Open)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스캐너 OS (해커) 타겟 OS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(1) 조작된 TCP SYN 패킷 전송 ▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀──(2) 포트 리스닝 중! SYN/ACK 응답</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(포트 Open 판단 기록)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(3) TCP RST 패킷 즉시 전송 ▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 타겟 OS 커널은 연결이 비정상 종료된</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">것으로 처리하고, Apache/Nginx 같은</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L7 앱에는 연결 시도를 전달조차 안함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(= 웹 서버 접속 로그 파일에 안 남음!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">타겟 포트가 닫혀 있을 때 (Closed)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(1) 조작된 TCP SYN 패킷 전송 ▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀──(2) 프로세스 없음! RST/ACK 응답</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(포트 Closed 판단 기록)</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────┐
+│      TCP SYN (Half-Open) 스캐닝의 OS 커널 상호작용 흐름       │
+├───────────────────────────────────────────────────────────────┤
+│                                                               │
+│  [타겟 포트가 열려 있을 때 (Open)]                            │
+│  스캐너 OS (해커)                                타겟 OS      │
+│         │ ───(1) 조작된 TCP SYN 패킷 전송 ────────▶ │         │
+│         │                                          │          │
+│         │ ◀──(2) 포트 리스닝 중! SYN/ACK 응답 ────── │        │
+│         │                                          │          │
+│    (포트 Open 판단 기록)                           │          │
+│         │                                          │          │
+│         │ ───(3) TCP RST 패킷 즉시 전송 ──────────▶ │         │
+│               → 타겟 OS 커널은 연결이 비정상 종료된 │         │
+│                 것으로 처리하고, Apache/Nginx 같은  │         │
+│                 L7 앱에는 연결 시도를 전달조차 안함 │         │
+│                 (= 웹 서버 접속 로그 파일에 안 남음!)│        │
+│                                                               │
+│  [타겟 포트가 닫혀 있을 때 (Closed)]                          │
+│         │ ───(1) 조작된 TCP SYN 패킷 전송 ────────▶ │         │
+│         │                                          │          │
+│         │ ◀──(2) 프로세스 없음! RST/ACK 응답 ─────── │        │
+│    (포트 Closed 판단 기록)                                    │
+└───────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 타이밍 도식은 "은닉성(Stealth)"의 비밀이 애플리케이션(L7)과 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)(L4) 사이의 경계에 있음을 설명한다. 일반적인 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) Connect 스캔은 3-Way Handshake를 완수(ACK 송신)하므로 타겟 시스템의 웹 서버나 DB [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)까지 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)이 올라가 접속 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)(예: `access.log`)가 찍힌다. 그러나 SYN 스캔은 타겟 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 `SYN/ACK`를 던지는 순간 스캐너가 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 열려있다는 확신을 얻고, 비정상적 종료를 뜻하는 `RST(Reset)` 패킷을 쏴버린다. 타겟의 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 이 연결을 미완성(실패)으로 간주하여 상위 애플리케이션으로 올려보내지 않고 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 단에서 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)을 찢어버린다. 따라서 웹 서버 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)에는 해커의 발자국이 전혀 남지 않는 완벽한 정찰이 가능해진다.
 
@@ -114,27 +117,28 @@ OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architectu
 
 **역발상 메커니즘**: 정상적인 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 규약에 따르면, 연결을 맺지도 않았는데 난데없이 FIN이나 이상한 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) 조합이 날아올 경우, [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 열려(Open) 있으면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 "이게 무슨 뚱딴지같은 소리야" 하고 **패킷을 조용히 무시(Drop)** 한다. 하지만 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 닫혀(Closed) 있으면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 원칙에 따라 "여긴 닫혀있다"며 친절하게 <strong>RST 패킷</strong>을 반환한다. 스캐너는 이 원리를 역이용하여, 아무 응답이 없으면 Open(또는 Filtered)으로 역산별하는 고도의 심리전을 구사한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">방화벽 우회를 위한 XMAS 스캔의 역추론(Inverse) 알고리즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황: 방화벽이 외부에서 들어오는 SYN(연결 요청)만 차단함</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">방화벽</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">타겟 OS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(SYN이 아니므로 방화벽 통과!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">타겟 커널(RFC 규약)의 반응 판단 로직</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IF (응답 패킷 == 없음 / 타임아웃) {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 타겟 서비스가 열려 있어서 이상한 패킷을 묵살했군!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 판단: Open 또는 방화벽 Filtered</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ELSE IF (응답 패킷 == RST) {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 서비스가 죽어 있어서 커널 규약대로 RST를 뱉었군!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 판단: 확실히 Closed</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│      방화벽 우회를 위한 XMAS 스캔의 역추론(Inverse) 알고리즘│
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  [상황: 방화벽이 외부에서 들어오는 SYN(연결 요청)만 차단함] │
+│                                                             │
+│  해커 ──(FIN+URG+PSH 패킷 발송)──▶ [방화벽] ──▶ 타겟 OS     │
+│          (SYN이 아니므로 방화벽 통과!)                      │
+│                                                             │
+│  [타겟 커널(RFC 규약)의 반응 판단 로직]                     │
+│                                                             │
+│  IF (응답 패킷 == 없음 / 타임아웃) {                        │
+│     => 타겟 서비스가 열려 있어서 이상한 패킷을 묵살했군!    │
+│     => 판단: Open 또는 방화벽 Filtered                      │
+│  }                                                          │
+│  ELSE IF (응답 패킷 == RST) {                               │
+│     => 서비스가 죽어 있어서 커널 규약대로 RST를 뱉었군!     │
+│     => 판단: 확실히 Closed                                  │
+│  }                                                          │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 초창기 상태 비저장([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)) [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)들은 단순히 "SYN 비트가 켜진 패킷(새로운 연결 시도)만 외부에서 내부로 못 들어오게 막자"는 1차원적 룰을 세웠다. XMAS 스캔은 크리스마스 트리에 불을 모두 켠 것처럼 FIN, URG, PSH [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)를 모두 켜서 보낸다. [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)은 이 패킷에 SYN 비트가 없으므로 기존에 연결된 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)의 일부라 착각하고 통과시켜 버린다. 그리고 목적지 서버의 OS는 RFC 규약의 허점대로 행동하여 정보를 흘려준다. 다만 윈도우(Windows) OS는 이 RFC 규약을 따르지 않아 무조건 RST를 뱉으므로 윈도우 환경에서는 이 스캔 방식이 통하지 않는다는 OS 종속적 특징을 지닌다.
 
@@ -198,19 +202,15 @@ OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architectu
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">서비스 거부 (DoS) 및 분산 서비스 거부 (DDoS) 네트워크 자원 고갈 공격</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">포트 스캐닝 (Port Scanning) 도구 원리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">침입 탐지 시스템 (IDS) / 침입 방지 시스템 (IPS) 시스템 콜 트레이싱 기반 이상 탐지</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">샌드박싱 (Sandboxing) 기술 커널 래퍼</div></div>
-</div>
-</div>
-
-
+```text
+[서비스 거부 (DoS) 및 분산 서비스 거부 (DDoS) 네트워크 자원 고갈 공격]
+    │
+    ▼
+[포트 스캐닝 (Port Scanning) 도구 원리]
+    │
+    ├──▶ [침입 탐지 시스템 (IDS) / 침입 방지 시스템 (IPS) 시스템 콜 트레이싱 기반 이상 탐지]
+    └──▶ [샌드박싱 (Sandboxing) 기술 커널 래퍼]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

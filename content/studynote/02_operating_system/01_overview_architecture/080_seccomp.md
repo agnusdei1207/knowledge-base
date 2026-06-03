@@ -31,25 +31,28 @@ tags = ["studynote-operating-system"]
 ### One-way Transition (돌아올 수 없는 강)
 seccomp는 프로세스가 자신을 샌드박스 안에 가두는 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 잠금장치다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">seccomp 기반 시스템 콜 차단 아키텍처 (eBPF 융합)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">유저 프로세스 (예: Nginx Worker)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 초기화 단계에서 seccomp 모드 활성화 (prctl 호출)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"앞으로 나는 read, write, sigreturn, exit만 쓴다!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(★ 한 번 활성화되면 절대 취소 불가능. 자식에게도 유전됨)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">리눅스 커널 스페이스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해커 침투 ──▶ <code>execve("/bin/sh")</code> 시스템 콜 발동 시도!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">BPF 필터 머신 (커널 내부의 판사)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">검사: "허락된 명단(Whitelist)에 execve가 있는가?"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ (Yes) 시스템 콜 통과, 실행 허가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ (No) 즉결 처형! ──▶ 프로세스 강제 종료 (SIGKILL)</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────┐
+│           seccomp 기반 시스템 콜 차단 아키텍처 (eBPF 융합)   │
+├────────────────────────────────────────────────────────┤
+│   [ 유저 프로세스 (예: Nginx Worker) ]                    │
+│     1. 초기화 단계에서 seccomp 모드 활성화 (prctl 호출)     │
+│        "앞으로 나는 read, write, sigreturn, exit만 쓴다!"  │
+│        (★ 한 번 활성화되면 절대 취소 불가능. 자식에게도 유전됨)│
+│                            │                           │
+│                            ▼                           │
+│ ═══════════════════════════════════════════════════════│
+│   [ 리눅스 커널 스페이스 ]                              │
+│                                                        │
+│     해커 침투 ──▶ `execve("/bin/sh")` 시스템 콜 발동 시도! │
+│                            │                           │
+│                            ▼                           │
+│     [ BPF 필터 머신 (커널 내부의 판사) ]                 │
+│      검사: "허락된 명단(Whitelist)에 execve가 있는가?"     │
+│       ├──▶ (Yes) 시스템 콜 통과, 실행 허가               │
+│       └──▶ (No) 즉결 처형! ──▶ 프로세스 강제 종료 (SIGKILL) │
+└────────────────────────────────────────────────────────┘
+```
 
 **seccomp-bpf의 혁명**: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) seccomp(Strict Mode)는 딱 4개의 시스템 콜(`read`, `write`, `exit`, `sigreturn`)만 허용해서 아무짝에도 쓸모가 없었다. 이후 [BPF](/knowledge-base/studynote/02_operating_system/01_overview_architecture/069_ebpf/)([Berkeley Packet Filter](/knowledge-base/studynote/02_operating_system/01_overview_architecture/069_ebpf/)) 엔진을 결합하여, 유저가 원하는 300여 개의 시스템 콜 중 입맛에 맞게 필터링 룰을 짜서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 주입할 수 있는 `seccomp-bpf(Filter Mode)`로 진화하며 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)) 보안의 절대 표준이 되었다.
 
@@ -107,23 +110,21 @@ seccomp는 "모든 애플리케이션은 잠재적 폭탄이며, 그들이 [커�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">웹 브라우저 및 탈옥 앱 등에서 커널 취약점 공격(Exploit) 심화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">최소 권한의 원칙 (Principle of Least Privilege) 대두</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">리눅스 커널에 seccomp (Strict Mode, 4개 시스템 콜만 허용) 탑재</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">과도한 제한으로 실효성 부족 ──▶ BPF(필터) 융합 ──▶ seccomp-bpf (Filter Mode) 진화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Docker/Kubernetes 기본 보안 프로파일의 핵심 엔진 및 최신 브라우저 샌드박스로 정착</div>
-</div>
-</div>
-
-
+```text
+웹 브라우저 및 탈옥 앱 등에서 커널 취약점 공격(Exploit) 심화
+    │
+    ▼
+최소 권한의 원칙 (Principle of Least Privilege) 대두
+    │
+    ▼
+리눅스 커널에 seccomp (Strict Mode, 4개 시스템 콜만 허용) 탑재
+    │
+    ▼
+과도한 제한으로 실효성 부족 ──▶ BPF(필터) 융합 ──▶ seccomp-bpf (Filter Mode) 진화
+    │
+    ▼
+Docker/Kubernetes 기본 보안 프로파일의 핵심 엔진 및 최신 브라우저 샌드박스로 정착
+```
 
 이 흐름도는 "무차별 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공격 방치 → 초강력 차단(실용성 없음) → 유연한 필터링 융합 → 현대 클라우드 네이티브의 절대적 보안 표준으로 정착"이라는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 격리 기술의 진화를 보여준다.
 

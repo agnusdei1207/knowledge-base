@@ -41,25 +41,24 @@ DV의 핵심 원리는 간단하다. CA는 신청자가 [도메인](/knowledge-b
 
 아래 그림은 DV가 실제로 무엇을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하고, 무엇을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하지 않는지를 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DV issuance and renewal loop</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ACME client</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ generate key pair + CSR</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ request cert for example.com</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CA</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ send challenge: HTTP-01 / DNS-01 / TLS-ALPN-01</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ verify domain control from public Internet</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ issue certificate + log issuance to CT</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ renew before short lifetime expires</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Proven: domain control + encrypted channel</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Not proven: legal organization, business legitimacy, brand identity</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ DV issuance and renewal loop                                         │
+├──────────────────────────────────────────────────────────────────────┤
+│ ACME client                                                          │
+│   ├─ generate key pair + CSR                                         │
+│   ├─ request cert for example.com                                    │
+│   ▼                                                                  │
+│ CA                                                                   │
+│   ├─ send challenge: HTTP-01 / DNS-01 / TLS-ALPN-01                  │
+│   ├─ verify domain control from public Internet                      │
+│   ├─ issue certificate + log issuance to CT                          │
+│   └─ renew before short lifetime expires                             │
+│                                                                      │
+│ Proven: domain control + encrypted channel                           │
+│ Not proven: legal organization, business legitimacy, brand identity  │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조의 장점은 발급 시간이 짧고 갱신이 자동이라는 점이다. 반면 수명이 짧은 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서는 자동화가 깨지면 만료 사고로 바로 이어지므로, DV 운영의 핵심 역량은 "한 번 발급받는 기술"보다 "계속 무중단으로 갱신하는 운영"에 있다.
 
@@ -146,28 +145,27 @@ DV [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/30
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">평문 HTTP 확산</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">HTTPS 보급 필요</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ACME 자동화 도입</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DV (Domain Validation) 대량 발급</div>
-<div class="kb-diagram-tree-item" style="--depth:2">무료화</div>
-<div class="kb-diagram-tree-item" style="--depth:2">자동 갱신</div>
-<div class="kb-diagram-tree-item" style="--depth:2">짧은 수명 인증서 운영</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">조직 신원 공백 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">OV / EV · CT 모니터링 · CAA · 피싱 대응의 다층 보완</div>
-</div>
-</div>
-
-
+```text
+평문 HTTP 확산
+    │
+    ▼
+HTTPS 보급 필요
+    │
+    ▼
+ACME 자동화 도입
+    │
+    ▼
+DV (Domain Validation) 대량 발급
+    ├─ 무료화
+    ├─ 자동 갱신
+    └─ 짧은 수명 인증서 운영
+    │
+    ▼
+조직 신원 공백 인식
+    │
+    ▼
+OV / EV · CT 모니터링 · CAA · 피싱 대응의 다층 보완
+```
 
 이 흐름은 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 생태계가 "암호화의 보급"에서 출발해, 이후 신원 보강과 오발급 감시를 함께 고려하는 방향으로 확장된다는 점을 보여 준다.
 

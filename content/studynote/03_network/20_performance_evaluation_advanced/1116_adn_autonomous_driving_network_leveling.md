@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/), 클라우드, 에지 컴퓨팅이 융합되면서 네트워크 기기가 수백만 대로 늘어났습니다.
 - **운영의 붕괴**: 장애가 터지면 엔지니어가 1080번 패킷 덤프를 뜨고, 알람 수만 개를 눈으로 보며 "어디 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 터졌지?" 찾는데 3시간이 걸립니다([MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) 장기화). 사람이 고치다가 치는 오타 하나가 대형 통신 대란(카카오톡 먹통 사태 등)을 일으킵니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Massive MIMO 빔 관리 시스템</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">자율 구동 네트워크 레벨링</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">네트워크 보안</div></div>
-</div>
-</div>
-
-
+```text
+[Massive MIMO 빔 관리 시스템]
+    │
+    ▼
+[자율 구동 네트워크 레벨링]
+    │
+    └──▶ [네트워크 보안]
+```
 
 - **📢 섹션 요약 비유**: 자율 구동 네트워크 레벨링은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -44,18 +40,14 @@ tags = ["studynote-network"]
 화웨이, TM 포럼 등이 주도하여 만든 네트워크 운영의 완전 자동화 아키텍처입니다.
 - **개념**: 1054번 [IBN](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/)(의도 기반), 1058번 [스트리밍 텔레메트리](/knowledge-base/studynote/03_network/17_sdn_nfv/879_streaming_telemetry_grpc_push_based_monitoring/) 빅데이터, 그리고 <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/099_aiops_chatbot_itsm_automation/">AIOps</a>(<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/">인공지능</a> 운영)</strong> 엔진을 하나로 융합하여, <strong>네트워크의 설계, 구축, 운영, 장애 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 전 과정을 인간의 개입(Zero-Touch) 없이 AI가 스스로 인지, 분석, 결정, 조치하는 자율 신경 통제망</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Massive MIMO 빔 관리 시스템</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">자율 구동 네트워크 레벨링</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">네트워크 보안</div></div>
-</div>
-</div>
-
-
+```text
+[Massive MIMO 빔 관리 시스템]
+    │
+    ▼
+[자율 구동 네트워크 레벨링]
+    │
+    └──▶ [네트워크 보안]
+```
 
 - **📢 섹션 요약 비유**: 자율 구동 네트워크 레벨링의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -108,7 +100,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 과거 <strong>Level 0~1 구형 네트워크망</strong>은 <strong>'사공이 10명인 나룻배'</strong>입니다. 바위(트래픽 장애)가 나타나면 선장(엔지니어)이 소리치고, 사공들이 땀 흘리며 수동으로 노를 저어 피하느라 배가 뒤집히기 일쑤였습니다. 이 나룻배를 최신식으로 개조하는 로드맵이 <strong><a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/902_adn_autonomous_driving_network_level5_zero_touch/">ADN</a>(자율 구동 네트워크 레벨링)</strong>입니다. 현재 기업들이 도달한 <strong>Level 3</strong>는 <strong>'경로 추천 내비게이션 보트'</strong>입니다. 앞에 바위가 감지되면 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시스템이 "선장님, 오른쪽으로 피하는 코드를 짤까요?"라고 물어보며, 선장이 '승인(Enter)' 버튼을 누르면 그제야 방향을 틉니다. 최종 진화형인 <strong>Level 5</strong>는 조타실마저 뜯어내 버린 <strong>'완전 자율주행 우주선'</strong>입니다. 운전석(CLI 콘솔) 자체가 없습니다. 태풍(디도스)이 오든 빙산(광케이블 단선)이 부딪히든, 인간 선장은 방에서 낮잠을 자고 있습니다. 우주선의 딥러닝 뇌가 스스로 피해가고 구멍 난 엔진을 고치며, 목적지까지 단 1초의 흔들림([네트워크 지연](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/)) 없이 승객(패킷)을 배달해 내는 궁극의 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 통신망 생태계입니다.
+- **📢 섹션 요약 비유**: 과거 <strong>Level 0~1 구형 네트워크망</strong>은 <strong>'사공이 10명인 나룻배'</strong>입니다. 바위(트래픽 장애)가 나타나면 선장(엔지니어)이 소리치고, 사공들이 땀 흘리며 수동으로 노를 저어 피하느라 배가 뒤집히기 일쑤였습니다. 이 나룻배를 최정보으로 개조하는 로드맵이 <strong><a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/902_adn_autonomous_driving_network_level5_zero_touch/">ADN</a>(자율 구동 네트워크 레벨링)</strong>입니다. 현재 기업들이 도달한 <strong>Level 3</strong>는 <strong>'경로 추천 내비게이션 보트'</strong>입니다. 앞에 바위가 감지되면 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시스템이 "선장님, 오른쪽으로 피하는 코드를 짤까요?"라고 물어보며, 선장이 '승인(Enter)' 버튼을 누르면 그제야 방향을 틉니다. 최종 진화형인 <strong>Level 5</strong>는 조타실마저 뜯어내 버린 <strong>'완전 자율주행 우주선'</strong>입니다. 운전석(CLI 콘솔) 자체가 없습니다. 태풍(디도스)이 오든 빙산(광케이블 단선)이 부딪히든, 인간 선장은 방에서 낮잠을 자고 있습니다. 우주선의 딥러닝 뇌가 스스로 피해가고 구멍 난 엔진을 고치며, 목적지까지 단 1초의 흔들림([네트워크 지연](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/)) 없이 승객(패킷)을 배달해 내는 궁극의 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 통신망 생태계입니다.
 
 ---
 
@@ -131,19 +123,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: Massive MIMO 빔 관리 시스템</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 자율 구동 네트워크 레벨링</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 네트워크 보안</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: Massive MIMO 빔 관리 시스템]
+    │
+    ▼
+[현재 개념: 자율 구동 네트워크 레벨링]
+    │
+    ├──▶ [확장 A: 네트워크 보안]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 자율 구동 네트워크 레벨링는 [Massive MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/) 빔 관리 시스템에서 출발해 현재 메커니즘을 정교화하고, 이후 [네트워크 보안](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -27,18 +27,12 @@ tags = ["design_supervision"]
 
 이 도식은 실지 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 마지막 날 이루어지는 종료 회의의 위상과 목적을 보여줍니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">실지 감사 기간 수집</div><div class="kb-diagram-node">필터링 및 조율</div><div class="kb-diagram-node">감리 종료 후</div></div>
-<div class="kb-diagram-tree-item" style="--depth:1">발견 사항 A (수용) --\ /--&gt; 최종 감리 보고서 등재 (시정조치 대상)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">종료 회의</div><div class="kb-diagram-note">] --+</div></div>
-<div class="kb-diagram-tree-item" style="--depth:1">발견 사항 C (오탐) --/ (증거 대조/합의) \--&gt; 오탐/기각 처리 (보고서 제외)</div>
-</div>
-</div>
-
-
+```text
+[실지 감사 기간 수집]         [ 필터링 및 조율 ]              [감리 종료 후]
+  - 발견 사항 A (수용)  --\                         /--> 최종 감리 보고서 등재 (시정조치 대상)
+  - 발견 사항 B (이견)  --->  [[  종료 회의  ]]  --+ 
+  - 발견 사항 C (오탐)  --/    (증거 대조/합의)     \--> 오탐/기각 처리 (보고서 제외)
+```
 
 이 흐름의 핵심은 모든 발견 사항이 그대로 보고서에 실리는 것이 아니라는 점입니다. 종료 회의라는 깔때기(Funnel)를 거치며, 사실에 근거하지 않거나 범위를 벗어난 무리한 지적은 걸러지고, 진짜 중요하고 조치 가능한 핵심 항목들만 최종 보고서로 압축됩니다.
 
@@ -59,23 +53,20 @@ tags = ["design_supervision"]
 
 종료 회의에서 감리인의 가장 중요한 무기는 '증거'입니다. 이 다이어그램은 종료 회의 중 이견(Disagreement)이 발생했을 때 이를 논리적으로 처리하는 메커니즘을 보여줍니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">감리인: 지적 사항 발표</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">"보안 취약점 X가 존재하여 조치가 필요함"</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">사업자: 이견 제기</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">"그것은 우리 과업 범위가 아니라 타 부서 연동 시스템의 문제임"</div></div>
-<div class="kb-diagram-note">▼ (감리인의 3단계 검증 로직 가동)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">①</div><div class="kb-diagram-node">경계 검증</div><div class="kb-diagram-note">해당 모듈이 RFP 및 요구사항 명세서(범위) 내에 있는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">②</div><div class="kb-diagram-node">증거 대조</div><div class="kb-diagram-note">타 부서 시스템의 응답값 때문이라는 네트워크 패킷 덤프가 확인되었는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">③</div><div class="kb-diagram-node">위험 평가</div><div class="kb-diagram-note">사업자 소관이 아니더라도, 전체 시스템 다운을 유발하는 치명적 리스크인가?</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">최종 합의 도출</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">"필수 조치는 해당 부서로 이관(감리 제외)하되, 현 시스템에서는 방어 코드(예외처리)를 넣는 것으로 권고사항 하향 합의"</div></div>
-</div>
-</div>
-
-
+```text
+[감리인: 지적 사항 발표] -> "보안 취약점 X가 존재하여 조치가 필요함"
+         │
+         ▼
+[사업자: 이견 제기] -> "그것은 우리 과업 범위가 아니라 타 부서 연동 시스템의 문제임"
+         │
+         ▼ (감리인의 3단계 검증 로직 가동)
+   ① [경계 검증] 해당 모듈이 RFP 및 요구사항 명세서(범위) 내에 있는가?
+   ② [증거 대조] 타 부서 시스템의 응답값 때문이라는 네트워크 패킷 덤프가 확인되었는가?
+   ③ [위험 평가] 사업자 소관이 아니더라도, 전체 시스템 다운을 유발하는 치명적 리스크인가?
+         │
+         ▼
+[최종 합의 도출] -> "필수 조치는 해당 부서로 이관(감리 제외)하되, 현 시스템에서는 방어 코드(예외처리)를 넣는 것으로 권고사항 하향 합의"
+```
 
 이 동작 원리의 핵심은 '책임 떠넘기기'가 아니라 '[리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 완화([Risk Mitigation](/knowledge-base/studynote/09_security/01_intro_principles/036_risk_mitigation/))'에 초점을 맞춘다는 점입니다. 사업자의 반론이 타당하다면 즉각 지적을 철회하거나 수위를 낮추어(필수 조치 → 권고 사항), 보고서의 무결성을 지키고 사업자의 수용성을 높여야 합니다. 종료 회의에서 감리인이 자존심 때문에 틀린 지적을 고집하는 것은 최악의 아마추어리즘입니다.
 
@@ -112,22 +103,20 @@ tags = ["design_supervision"]
    - **상황**: 감리원이 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 환경에 대한 이해 부족으로, 비동기 통신(Event-Driven)에 따른 '최종적 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)([Eventual Consistency](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/))'의 짧은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 불일치를 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)으로 오인하여 지적함. 사업자가 아키텍처 철학을 바탕으로 강력히 반발함.
    - **판단**: 즉각적인 수용과 수정이 필요합니다. 아키텍처 설계 사상([Saga Pattern](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga_pattern/), [CQRS](/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/) 등)에 대한 사업자의 증빙(설계서)이 타당하다면, 총괄 감리원은 감리원의 오류를 인정하고 해당 지적을 기각(Drop)해야 합니다. 이를 억지로 덮으려 하면 감리 전체의 기술적 신뢰도가 붕괴됩니다.
 
+```text
+[종료 회의 갈등 관리 및 이견 조율 플로우]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">종료 회의 갈등 관리 및 이견 조율 플로우</div></div>
-<div class="kb-diagram-note">(이견 발생)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ 1단계: 사실 확인 (Is it a Fact?) ──&gt; 증거 불충분 시 ──&gt;</div><div class="kb-diagram-node">지적 철회</div></div>
-<div class="kb-diagram-note">(코드, 로그, RFP 기준 대조)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ 2단계: 범위 확인 (Is it in Scope?) ──&gt; 범위 외 사항 시 ──&gt;</div><div class="kb-diagram-node">권고사항 하향 또는 발주처 이관</div></div>
-<div class="kb-diagram-note">(계약상 구현 의무가 있는가?)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ 3단계: 임팩트 판단 (Is it Critical?) ──&gt; 치명적 문제 시 ──&gt;</div><div class="kb-diagram-node">필수 조치 강행 (발주자 중재 요청)</div></div>
-<div class="kb-diagram-note">(시스템 안정성에 영향을 주는가?)</div>
-</div>
-</div>
-
-
+(이견 발생)
+    │
+    ├─ 1단계: 사실 확인 (Is it a Fact?) ──> 증거 불충분 시 ──> [지적 철회]
+    │      (코드, 로그, RFP 기준 대조)
+    │
+    ├─ 2단계: 범위 확인 (Is it in Scope?) ──> 범위 외 사항 시 ──> [권고사항 하향 또는 발주처 이관]
+    │      (계약상 구현 의무가 있는가?)
+    │
+    └─ 3단계: 임팩트 판단 (Is it Critical?) ──> 치명적 문제 시 ──> [필수 조치 강행 (발주자 중재 요청)]
+           (시스템 안정성에 영향을 주는가?)
+```
 
 이 플로우는 종료 회의가 평행선으로 달리지 않고 신속하게 결론에 도달하도록 돕는 강력한 도구입니다.
 
@@ -163,23 +152,21 @@ tags = ["design_supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">감리 수행 — 중간 감리·단계 감리로 이슈 발굴</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">감리 결과 정리 — 감리 이슈 목록·조치 권고사항 작성</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">종료 회의 (Exit Meeting) — 감리인·피감리인 간 이슈 합의</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">감리 보고서 확정 — 합의 내용 반영 후 발주자 제출</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">조치 결과 확인 — 권고사항 이행 여부 사후 점검</div></div>
-</div>
-</div>
-
-
+```text
+[감리 수행 — 중간 감리·단계 감리로 이슈 발굴]
+    │
+    ▼
+[감리 결과 정리 — 감리 이슈 목록·조치 권고사항 작성]
+    │
+    ▼
+[종료 회의 (Exit Meeting) — 감리인·피감리인 간 이슈 합의]
+    │
+    ▼
+[감리 보고서 확정 — 합의 내용 반영 후 발주자 제출]
+    │
+    ▼
+[조치 결과 확인 — 권고사항 이행 여부 사후 점검]
+```
 종료 회의는 감리 이슈에 대한 이견을 공식 합의로 전환하는 관문으로, [감리 보고서](/knowledge-base/studynote/11_design_supervision/01_audit_framework/018_audit_report/)의 품질과 권고사항 이행력을 결정하는 핵심 단계다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

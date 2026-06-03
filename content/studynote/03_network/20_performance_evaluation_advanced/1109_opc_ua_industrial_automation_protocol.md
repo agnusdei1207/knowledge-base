@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - <strong>벤더 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/">종속성</a> (<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/">Silo</a>)</strong>: 1107번에서 필드버스가 늙어서 산업용 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)([PROFINET](/knowledge-base/studynote/09_security/18_iot_ot_physical/900_profinet/) 등)으로 넘어왔다고 했습니다. 하지만 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 선만 같을 뿐, 지멘스 기계와 로크웰 기계는 서로 주고받는 '말의 뜻(애플리케이션 계층 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))'이 달라서 번역 소프트웨어(미들웨어)를 수백 개 사다 꽂아야 했습니다.
 - **클라우드 소통 불가**: 기계의 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 클라우드(AWS, Azure)나 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)(본사 관리망)로 쏘아 올리려 해도 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)과 윈도우(DCOM) [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) 때문에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 공장 밖으로 나가질 못했습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">OT 망 분리 원단 통제</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">OPC UA 자동화 프레임 표준 통신</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">무손실 이더넷</div></div>
-</div>
-</div>
-
-
+```text
+[OT 망 분리 원단 통제]
+    │
+    ▼
+[OPC UA 자동화 프레임 표준 통신]
+    │
+    └──▶ [무손실 이더넷]
+```
 
 - **📢 섹션 요약 비유**: [OPC UA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/631_opc_ua_smart_factory_protocol/) 자동화 프레임 표준 통신은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -49,18 +45,14 @@ tags = ["studynote-network"]
 - 1108번에서 봤듯 공장망은 해킹당하면 다 죽습니다.
 - OPC UA는 뼈대 자체가 <strong>보안(Security-by-Design)</strong>입니다. 통신을 맺기 전에 X.509 인증서 교환(1067번 [mTLS](/knowledge-base/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/) 뺨침)으로 기계끼리 신원 조회를 칼같이 하고, 패킷 전체를 AES-256으로 암호화/서명하여 쏩니다. [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 친화적인 인터넷 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 4840, [HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/) 443)를 써서 사내망을 쉽게 통과하면서도 해커의 중간자 공격을 완벽히 차단합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">OT 망 분리 원단 통제</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">OPC UA 자동화 프레임 표준 통신</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">무손실 이더넷</div></div>
-</div>
-</div>
-
-
+```text
+[OT 망 분리 원단 통제]
+    │
+    ▼
+[OPC UA 자동화 프레임 표준 통신]
+    │
+    └──▶ [무손실 이더넷]
+```
 
 - **📢 섹션 요약 비유**: [OPC UA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/631_opc_ua_smart_factory_protocol/) 자동화 프레임 표준 통신의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -126,19 +118,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: OT 망 분리 원단 통제</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: OPC UA 자동화 프레임 표준 통신</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 무손실 이더넷</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: OT 망 분리 원단 통제]
+    │
+    ▼
+[현재 개념: OPC UA 자동화 프레임 표준 통신]
+    │
+    ├──▶ [확장 A: 무손실 이더넷]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 [OPC UA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/631_opc_ua_smart_factory_protocol/) 자동화 프레임 표준 통신는 [OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/) 망 분리 원단 통제에서 출발해 현재 메커니즘을 정교화하고, 이후 [무손실 이더넷](/knowledge-base/studynote/03_network/16_data_center_cloud/845_lossless_ethernet_dcb_pfc_roce_fcoe/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

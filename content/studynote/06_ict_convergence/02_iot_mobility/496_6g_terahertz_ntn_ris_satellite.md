@@ -41,27 +41,29 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6G 통합 네트워크 아키텍처 (3계층)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">비지상 계층 - NTN</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LEO 위성(Starlink 등, 550km) / MEO(8,000km) / GEO(36,000km)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HAPS(High-Altitude Platform Station, 20km 성층권)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위성-지상 직접 통신 / 위성간 ISL 링크</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">지상 계층 - Terrestrial</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6G gNB(THz 기지국, 초소형·밀집 배치)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">RIS 계층</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RIS(Reconfigurable Intelligent Surface)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 메타물질 패널(수백~수천 개 반사 소자)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 전파 방향·위상 프로그래머블 제어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 능동 증폭 없이 신호 반사·굴절 → 음영지역 제거</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">단말 계층</div><div class="kb-diagram-note">스마트폰·XR·자율주행·IoT</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────┐
+│           6G 통합 네트워크 아키텍처 (3계층)                 │
+├──────────────────────────────────────────────────────────┤
+│  [비지상 계층 - NTN]                                       │
+│  LEO 위성(Starlink 등, 550km) / MEO(8,000km) / GEO(36,000km)│
+│  HAPS(High-Altitude Platform Station, 20km 성층권)         │
+│        │  위성-지상 직접 통신 / 위성간 ISL 링크             │
+│        ▼                                                  │
+│  [지상 계층 - Terrestrial]                                 │
+│  6G gNB(THz 기지국, 초소형·밀집 배치)                      │
+│        │                                                  │
+│  [RIS 계층]                                                │
+│  ┌────────────────────────────────────────────────┐      │
+│  │ RIS(Reconfigurable Intelligent Surface)        │      │
+│  │ - 메타물질 패널(수백~수천 개 반사 소자)           │      │
+│  │ - 전파 방향·위상 프로그래머블 제어               │      │
+│  │ - 능동 증폭 없이 신호 반사·굴절 → 음영지역 제거   │      │
+│  └────────────────────────────────────────────────┘      │
+│        ▼                                                  │
+│  [단말 계층]  스마트폰·XR·자율주행·IoT                      │
+└──────────────────────────────────────────────────────────┘
+```
 
 ### [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 핵심 기술 비교
 

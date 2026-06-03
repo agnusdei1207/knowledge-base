@@ -21,18 +21,14 @@ tags = ["studynote-network"]
 
 [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 클라이언트([PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/), 스마트폰)가 네트워크에 처음 연결되어 IP 주소를 성공적으로 할당받기까지는 <strong>Discover, Offer, Request, Acknowledge</strong>의 4단계(DORA)를 거칩니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DHCP 포트 67, 68</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DHCP 과정 4단계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DHCP Relay Agent</div></div>
-</div>
-</div>
-
-
+```text
+[DHCP 포트 67, 68]
+    │
+    ▼
+[DHCP 과정 4단계]
+    │
+    └──▶ [DHCP Relay Agent]
+```
 
 - **📢 섹션 요약 비유**: [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 과정 4단계는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -40,21 +36,19 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Client</div><div class="kb-diagram-node">DHCP Server</div></div>
-<div class="kb-diagram-note">(IP 없음) (IP Pool 관리)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. DHCP Discover (Broadcast) ▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀ 2. DHCP Offer (Broadcast/Unicast)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. DHCP Request (Broadcast) ▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀ 4. DHCP Ack (Broadcast/Unicast)</div></div>
-<div class="kb-diagram-note">(IP 할당 완료!)</div>
-</div>
-</div>
-
-
+```text
+[ Client ]                                  [ DHCP Server ]
+(IP 없음)                                    (IP Pool 관리)
+   │     1. DHCP Discover (Broadcast) ────────────▶│
+   │                                               │
+   │◀─────────── 2. DHCP Offer (Broadcast/Unicast) │
+   │                                               │
+   │     3. DHCP Request (Broadcast) ─────────────▶│
+   │                                               │
+   │◀─────────── 4. DHCP Ack (Broadcast/Unicast)   │
+   │                                               │
+(IP 할당 완료!)
+```
 
 ### 1. [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) Discover (발견)
 - **방향**: [Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/) ➔ Server (Broadcast)
@@ -130,19 +124,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: DHCP 포트 67, 68</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: DHCP 과정 4단계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: DHCP Relay Agent</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율 운영 네트워크</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: DHCP 포트 67, 68]
+    │
+    ▼
+[현재 개념: DHCP 과정 4단계]
+    │
+    ├──▶ [확장 A: DHCP Relay Agent]
+    └──▶ [확장 B: 자율 운영 네트워크]
+```
 
 [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 과정 4단계는 [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 67, 68에서 출발해 현재 메커니즘을 정교화하고, 이후 [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) Relay Agent와 자율 운영 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

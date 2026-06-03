@@ -23,23 +23,22 @@ tags = ["studynote-design-supervision"]
 
 [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)은 이 문제를 근본적으로 해결한다. 현재 잔액 대신 "100원 입금", "50원 출금", "200원 입금" 같은 이벤트들을 순서대로 저장한다. 현재 잔액(250원)은 이 이벤트들을 재생하여 계산한다. 어떤 시점의 잔액도 해당 시점까지의 이벤트를 재생하면 알 수 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이벤트 소싱 vs 전통 CRUD 저장 방식 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전통 CRUD</div><div class="kb-diagram-note">- 현재 상태만 저장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">계좌 잔액: 250원 (이력 없음)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">이벤트 소싱</div><div class="kb-diagram-note">- 이벤트 스트림 저장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이벤트 #1: AccountOpened(balance=0) @2026-01-01</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이벤트 #2: MoneyDeposited(amount=100) @2026-01-02</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이벤트 #3: MoneyWithdrawn(amount=50) @2026-01-03</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이벤트 #4: MoneyDeposited(amount=200) @2026-01-04</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">현재 상태 = 이벤트 #1~#4 순차 재생 → 잔액 250원</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│        이벤트 소싱 vs 전통 CRUD 저장 방식 비교              │
+├─────────────────────────────────────────────────────────────┤
+│  [전통 CRUD] - 현재 상태만 저장                              │
+│  계좌 잔액: 250원 (이력 없음)                                │
+│                                                             │
+│  [이벤트 소싱] - 이벤트 스트림 저장                          │
+│  이벤트 #1: AccountOpened(balance=0)  @2026-01-01           │
+│  이벤트 #2: MoneyDeposited(amount=100) @2026-01-02          │
+│  이벤트 #3: MoneyWithdrawn(amount=50)  @2026-01-03          │
+│  이벤트 #4: MoneyDeposited(amount=200) @2026-01-04          │
+│                                                             │
+│  현재 상태 = 이벤트 #1~#4 순차 재생 → 잔액 250원            │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이벤트는 append-only로만 저장된다. 한번 기록된 이벤트는 수정하거나 삭제하지 않는다. 이 불변성(immutability)이 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 추적의 신뢰성을 보장한다.
 
@@ -58,20 +57,18 @@ tags = ["studynote-design-supervision"]
 | 프로젝션 | 이벤트로부터 읽기 모델 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | [CQRS](/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/) 읽기 모델과 결합 |
 | [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) | 특정 시점 상태 저장으로 재생 최적화 | N번째 이벤트마다 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스냅샷을 통한 이벤트 재생 최적화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이벤트 스트림:</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">E1 E2 E3 ... E500</div><div class="kb-diagram-node">스냅샷</div><div class="kb-diagram-note">E501 E502 ... E750</div><div class="kb-diagram-node">스냅샷</div><div class="kb-diagram-note">...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">현재 상태 복원 시:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가장 최근 스냅샷 로드 + 스냅샷 이후 이벤트만 재생</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(전체 이벤트 재생 불필요 → 성능 최적화)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│      스냅샷을 통한 이벤트 재생 최적화                        │
+├─────────────────────────────────────────────────────────────┤
+│  이벤트 스트림:                                             │
+│  E1 E2 E3 ... E500 [스냅샷] E501 E502 ... E750 [스냅샷] ... │
+│                                                             │
+│  현재 상태 복원 시:                                         │
+│  가장 최근 스냅샷 로드 + 스냅샷 이후 이벤트만 재생          │
+│  (전체 이벤트 재생 불필요 → 성능 최적화)                    │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이벤트 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 진화가 [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)의 핵심 기술 도전이다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 정의한 이벤트 구조가 비즈니스 변화로 바뀌어야 할 때, 이미 저장된 이벤트를 변경할 수 없으므로 업캐스팅(upcasting) 기법으로 이전 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 이벤트를 최신 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)으로 변환하여 처리한다.
 

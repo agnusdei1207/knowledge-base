@@ -27,28 +27,29 @@ tags = ["studynote-operating-system"]
   2. **Set-Associative 캐시의 약점**: 하드웨어는 멍청하게 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 뒷자리([Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))만 보고 캐시 방을 정하므로 특정 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 쏠리는 걸 막지 못했다.
   3. **소프트웨어(OS)의 수습**: 캐시를 뜯어고칠 수 없으니, 차라리 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 물리 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 할당기([버디 시스템](/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/))가 하드웨어의 이 수학적 매핑 공식을 역산해서 겹치지 않는 색깔의 프레임을 선별해 찔러주는 우회로를 발명했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">캐시 컬러링(Page Coloring) 부재 시의 충돌 지옥 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">하드웨어 캐시 매핑 룰 (예: 방 4개짜리 L2 캐시)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">무조건 캐시 0번 방 사용 (빨간색)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">무조건 캐시 1번 방 사용 (파란색)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황: 앱이 3장의 페이지(A, B, C)를 OS에 달라고 함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1. OS가 생각 없이 아무렇게나 할당 (컬러링 X)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS: "램에 0번, 4번, 8번 프레임 비었네? 자 다 가져가!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">결과: A, B, C 세 데이터가 모조리</div><div class="kb-diagram-node">캐시 0번 방 (빨간색)</div><div class="kb-diagram-note">에 몰림!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">재앙: CPU가 A를 읽고 B를 읽으려 하면 A를 쫓아내야 함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">캐시 방 1~3번은 텅텅 비었는데 0번 방에서만 전쟁이 남 (Miss)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2. 캐시 컬러링 적용 (Cache Coloring O)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS: "빨간색 0번 줬으니, 그다음은 파란색 1번, 그다음은 노란색 2번 줘!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: A(빨강), B(파랑), C(노랑)이 캐시 0번, 1번, 2번 방에</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">평화롭게 각자 쏙쏙 들어감! 캐시 충돌률 0% 달성!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│        캐시 컬러링(Page Coloring) 부재 시의 충돌 지옥 시각화            │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│ [ 하드웨어 캐시 매핑 룰 (예: 방 4개짜리 L2 캐시) ]                      │
+│ 램 0번, 4번, 8번 프레임 ──▶ [ 무조건 캐시 0번 방 사용 (빨간색) ]        │
+│ 램 1번, 5번, 9번 프레임 ──▶ [ 무조건 캐시 1번 방 사용 (파란색) ]        │
+│                                                                         │
+│ [ 상황: 앱이 3장의 페이지(A, B, C)를 OS에 달라고 함 ]                   │
+│                                                                         │
+│ ▶ 1. OS가 생각 없이 아무렇게나 할당 (컬러링 X)                          │
+│    OS: "램에 0번, 4번, 8번 프레임 비었네? 자 다 가져가!"                │
+│    결과: A, B, C 세 데이터가 모조리 [캐시 0번 방 (빨간색)]에 몰림!      │
+│    재앙: CPU가 A를 읽고 B를 읽으려 하면 A를 쫓아내야 함.                │
+│          캐시 방 1~3번은 텅텅 비었는데 0번 방에서만 전쟁이 남 (Miss)    │
+│                                                                         │
+│ ▶ 2. 캐시 컬러링 적용 (Cache Coloring O)                                │
+│    OS: "빨간색 0번 줬으니, 그다음은 파란색 1번, 그다음은 노란색 2번 줘!"│
+│    결과: A(빨강), B(파랑), C(노랑)이 캐시 0번, 1번, 2번 방에            │
+│         평화롭게 각자 쏙쏙 들어감! 캐시 충돌률 0% 달성!                 │
+└─────────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 가상 주소로는 A, B, C가 1, 2, 3페이지로 나란히 연속되어 있지만 물리 램에서는 OS 맘대로 흩어진다. 이때 하드웨어 캐시 컨트롤러는 가상 주소가 아닌 물리 램 주소의 뒷자리를 잘라 캐시 방 번호를 정한다(PIPT 룰). 만약 OS가 준 물리 램 주소들의 뒷자리가 우연히 모조리 똑같다면 캐시 한 칸에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 터져나가는 악성 병목([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))이 걸린다. 컬러링은 물리 램 주소 뒷자리가 골고루 섞이도록 OS가 통제하는 색채 마술이다.
 
 - **📢 섹션 요약 비유**: 로또 번호(램 주소)를 수동으로 찍을 때 생각 없이 뒷자리가 0으로 끝나는 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/), 20, 30만 몽땅 고르면(컬러링 X) 꽝 맞을 확률이 기형적으로 높아집니다. 당첨([캐시 히트](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/)) 확률을 높이려면 끝자리가 1, 2, 3 골고루 섞이게(컬러링 O) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 투자하는 것이 공학적 통계의 진리입니다.
@@ -104,19 +105,16 @@ tags = ["studynote-operating-system"]
 - **L3 해싱(Hashing) 도입**: 최신 인텔 CPU는 램 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/)를 캐시 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)로 그냥 꽂지 않고, 칩셋 내부의 흑마술 해시(Hash) 회로를 돌려서 자기들 맘대로 섞어서 방을 배정한다. 즉, OS가 아무리 예쁘게 빨강, 파랑을 나눠서 줘봐야 하드웨어 내부 해시가 그걸 자기 맘대로 갈기갈기 섞어버린다.
 - 결과적으로 현대 x86 리눅스에서는 [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Coloring 코드가 거의 제거되거나 비활성화되었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시대/환경</div><div class="kb-diagram-cell">캐시 Set 크기</div><div class="kb-diagram-cell">하드웨어 해시</div><div class="kb-diagram-cell">캐시 컬러링 효과</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2000년대</div><div class="kb-diagram-cell">4-way (작음)</div><div class="kb-diagram-cell">안 씀 (정직함)</div><div class="kb-diagram-cell">🌟 극강의 효과</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최신 x86</div><div class="kb-diagram-cell">16-way (거대)</div><div class="kb-diagram-cell">자체 해싱 돌림</div><div class="kb-diagram-cell">☠️ 거의 무의미함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ARM/임베디드</div><div class="kb-diagram-cell">4-way 수준</div><div class="kb-diagram-cell">안 씀</div><div class="kb-diagram-cell">🌟 여전히 유효</div></div>
-</div>
-</div>
-
-
-**[매트릭스 해설]** 소프트웨어(OS)의 우아한 튜닝이 하드웨어의 무식한 물량 공세(16-way, 해싱)에 밀려버린 대표적 사례다. 다만, 전력과 칩 공간이 부족해 무거운 16-way 캐시나 해시를 못 다는 모바일 ARM 칩셋이나 DSP, 실시간 임베디드 OS에서는 여전히 메모리를 쥐어짜기 위한 필수 코어 알고리즘으로 살아 숨 쉰다.
+```text
+┌──────────┬────────────┬────────────┬──────────────────────────┐
+│ 시대/환경  │ 캐시 Set 크기 │ 하드웨어 해시 │ 캐시 컬러링 효과 │
+├──────────┼────────────┼────────────┼──────────────────────────┤
+│ 2000년대 │ 4-way (작음) │ 안 씀 (정직함)│ 🌟 극강의 효과      │
+│ 최신 x86 │ 16-way (거대)│ 자체 해싱 돌림│ ☠️ 거의 무의미함    │
+│ ARM/임베디드│ 4-way 수준  │ 안 씀        │ 🌟 여전히 유효     │
+└──────────┴────────────┴────────────┴──────────────────────────┘
+```
+**[매트릭스 해설]** 소프트웨어(OS)의 우아한 튜닝이 하드웨어의 무식한 수량 공세(16-way, 해싱)에 밀려버린 대표적 사례다. 다만, 전력과 칩 공간이 부족해 무거운 16-way 캐시나 해시를 못 다는 모바일 ARM 칩셋이나 DSP, 실시간 임베디드 OS에서는 여전히 메모리를 쥐어짜기 위한 필수 코어 알고리즘으로 살아 숨 쉰다.
 
 - **📢 섹션 요약 비유**: 옛날엔 식당 테이블이 4인석(4-way)이라 손님이 5명 오면 1명이 무조건 쫓겨나서 철저한 예약제(캐시 컬러링)가 필수였습니다. 하지만 요즘 식당은 테이블 하나가 16인석(16-way) 뷔페로 바뀌어서 예약 안 하고 아무렇게나 우르르 몰려와도 절대 튕겨 나가지 않는 여유를 부리는 것과 같습니다.
 
@@ -167,19 +165,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">로컬 노드 할당 vs 인터리브 할당</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">캐시 컬러링 (Cache Coloring) / 페이지 컬러링</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">가비지 컬렉션 (Garbage Collection) 기초</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">가상 메모리 (Virtual Memory) 개념</div></div>
-</div>
-</div>
-
-
+```text
+[로컬 노드 할당 vs 인터리브 할당]
+    │
+    ▼
+[캐시 컬러링 (Cache Coloring) / 페이지 컬러링]
+    │
+    ├──▶ [가비지 컬렉션 (Garbage Collection) 기초]
+    └──▶ [가상 메모리 (Virtual Memory) 개념]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

@@ -21,7 +21,7 @@ tags = ["studynote-computer-architecture"]
 
 FLOPS (Floating-point Operations Per Second)는 컴퓨터가 초당 몇 번의 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 연산을 완료할 수 있는지를 나타내는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표다. 여기서 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/)은 정수보다 훨씬 넓은 범위의 실수를 다루기 위한 표현 방식으로, 기상 예측, 유체 해석, 3차원 그래픽, [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 모델 학습처럼 연속값 계산이 많은 분야에서 핵심이 된다. 즉 FLOPS는 "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 몇 개 실행했는가"보다 "실수 계산을 얼마나 많이 끝냈는가"에 초점을 둔다.
 
-이 지표가 중요해진 이유는 초기의 [MIPS](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/201_mips/) (Million Instructions Per Second)만으로는 과학기술 계산 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 제대로 설명할 수 없었기 때문이다. [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 하나의 무게는 아키텍처마다 다르지만, [IEEE 754](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/088_ieee_754/) (Institute of Electrical and Electronics Engineers 754) 규격 기반의 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 곱셈·덧셈은 상대적으로 비교 기준을 세우기 쉽다. 그래서 슈퍼컴퓨터 분야에서는 "얼마나 많은 명령을 셌는가"보다 "얼마나 큰 수치 계산을 감당할 수 있는가"를 보려는 방향으로 기준이 이동했다.
+이 지표가 중요해진 이유는 초기의 [MIPS](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/201_mips/) (Million Instructions Per Second)만으로는 과학기술 계산 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 제대로 설명할 수 없었기 때문이다. [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 하나의 무게는 아키텍처마다 다르지만, [IEEE 754](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/088_ieee_754/) (Institute of Electrical and Electronics 엔진ers 754) 규격 기반의 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 곱셈·덧셈은 상대적으로 비교 기준을 세우기 쉽다. 그래서 슈퍼컴퓨터 분야에서는 "얼마나 많은 명령을 셌는가"보다 "얼마나 큰 수치 계산을 감당할 수 있는가"를 보려는 방향으로 기준이 이동했다.
 
 FLOPS가 필요한 또 다른 이유는 현대 계산의 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성이 매우 높기 때문이다. 단일 코어가 순차적으로 명령을 처리하는 시대와 달리, 오늘날의 CPU (Central Processing Unit), [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ([Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)), [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/) ([Neural Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/))는 같은 형태의 실수 연산을 대량 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 처리한다. 이때 FLOPS는 개별 코어의 속도보다, 시스템 전체가 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 계산을 어떤 밀도로 밀어낼 수 있는지 보여 주는 공통 언어가 된다.
 
@@ -38,22 +38,29 @@ FLOPS는 단순히 [클럭 주파수](/knowledge-base/studynote/01_computer_arch
 
 아래 그림은 FLOPS가 왜 "연산기 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)도"와 직결되는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FLOPS가 커지는 구조: 병렬 FP 파이프라인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력 벡터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FPU 1</div><div class="kb-diagram-cell">FPU 2</div><div class="kb-diagram-cell">FPU 3</div><div class="kb-diagram-cell">FPU 4</div><div class="kb-diagram-cell">...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FP32/F64</div><div class="kb-diagram-cell">FP32/F64</div><div class="kb-diagram-cell">FP32/F64</div><div class="kb-diagram-cell">FP32/F64</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">병렬 곱셈/덧셈/FMA 수행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">누산기 (Accumulator)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과 벡터 생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심: 같은 1사이클 안에 여러 FPU가 동시에 일할수록 FLOPS가 증가한다.</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                 FLOPS가 커지는 구조: 병렬 FP 파이프라인             │
+├──────────────────────────────────────────────────────────────────────┤
+│ 입력 벡터                                                            │
+│   │                                                                  │
+│   ▼                                                                  │
+│ ┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐             │
+│ │ FPU 1    │   │ FPU 2    │   │ FPU 3    │   │ FPU 4    │  ...        │
+│ │ FP32/F64 │   │ FP32/F64 │   │ FP32/F64 │   │ FP32/F64 │             │
+│ └────┬─────┘   └────┬─────┘   └────┬─────┘   └────┬─────┘             │
+│      │              │              │              │                   │
+│      ├───── 병렬 곱셈/덧셈/FMA 수행 ─────┬─────────┤                   │
+│      │                                  │                             │
+│      ▼                                  ▼                             │
+│                    누산기 (Accumulator)                               │
+│                          │                                            │
+│                          ▼                                            │
+│                    결과 벡터 생성                                     │
+│                                                                      │
+│ 핵심: 같은 1사이클 안에 여러 FPU가 동시에 일할수록 FLOPS가 증가한다. │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 예를 들어 2.0 GHz에서 동작하는 프로세서가 코어당 매 사이클 8개의 FP32 (32-bit [Floating Point](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/)) 연산을 처리하고, 이런 코어가 64개 있다면 이론상 최대 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 `64 × 8 × 2.0 GHz = 1024 GFLOPS`, 즉 약 1.024 TFLOPS가 된다. 여기에 벡터 폭을 늘리거나 FMA를 적극 사용하면 같은 클럭에서도 FLOPS가 더 커진다. 그래서 현대 고성능 칩은 클럭만 무작정 올리기보다 벡터 연산기와 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 파이프라인을 넓히는 방향으로 발전해 왔다.
 
@@ -146,25 +153,24 @@ FLOPS는 현대 컴퓨터가 얼마나 강한 수치 계산 능력을 갖고 있
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단일 연산기 기반 실수 계산</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">FPU (Floating Point Unit) 확장</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SIMD (Single Instruction Multiple Data) · 벡터화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">FMA (Fused Multiply-Add) 기반 연산 밀도 향상</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">GPU (Graphics Processing Unit) · 대규모 병렬 FLOPS 경쟁</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">혼합 정밀도(FP32/FP16/BF16) · AI/HPC 실효 성능 최적화</div>
-</div>
-</div>
-
-
+```text
+단일 연산기 기반 실수 계산
+    │
+    ▼
+FPU (Floating Point Unit) 확장
+    │
+    ▼
+SIMD (Single Instruction Multiple Data) · 벡터화
+    │
+    ▼
+FMA (Fused Multiply-Add) 기반 연산 밀도 향상
+    │
+    ▼
+GPU (Graphics Processing Unit) · 대규모 병렬 FLOPS 경쟁
+    │
+    ▼
+혼합 정밀도(FP32/FP16/BF16) · AI/HPC 실효 성능 최적화
+```
 
 이 흐름은 단일 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 연산기에서 출발해, 벡터화와 대규모 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)처리, 그리고 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)별 최적화로 FLOPS 활용이 확장된 과정을 보여 준다.
 

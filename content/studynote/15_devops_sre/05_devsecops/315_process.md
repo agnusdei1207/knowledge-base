@@ -27,19 +27,18 @@ Helm의 핵심 구성:
 | Release      | 클러스터에 설치된 Chart 인스턴스              |
 | values.yaml  | 파라미터 기본값 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)                          |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Helm 동작 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Chart (템플릿)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ values.yaml ──render──▶ K8s 매니페스트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">kubectl apply</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Release 생성</div></div>
-</div>
-</div>
-
-
+```
+┌────────────────────────────────────────────────────┐
+│                   Helm 동작 흐름                   │
+│                                                    │
+│  Chart (템플릿)                                    │
+│     + values.yaml  ──render──▶  K8s 매니페스트    │
+│                                      │             │
+│                               kubectl apply        │
+│                                      │             │
+│                                  Release 생성       │
+└────────────────────────────────────────────────────┘
+```
 
 > 📢 **Ⅰ 섹션 요약 비유**
 > [Helm](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/) Chart는 요리 레시피, values.yaml은 재료 목록, Release는 완성된 요리다.
@@ -48,22 +47,16 @@ Helm의 핵심 구성:
 
 ## Ⅱ. Chart 구조
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">mychart/</div>
-<div class="kb-diagram-tree-item" style="--depth:0">Chart.yaml # 메타데이터 (이름, 버전, appVersion)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">values.yaml # 기본 파라미터 값</div>
-<div class="kb-diagram-tree-item" style="--depth:0">templates/</div>
-<div class="kb-diagram-note">── deployment.yaml # Go 템플릿 매니페스트</div>
-<div class="kb-diagram-note">── service.yaml</div>
-<div class="kb-diagram-note">── _helpers.tpl # 재사용 템플릿 정의</div>
-<div class="kb-diagram-tree-item" style="--depth:0">charts/ # 의존 Sub-Chart</div>
-</div>
-</div>
-
-
+```
+mychart/
+├── Chart.yaml          # 메타데이터 (이름, 버전, appVersion)
+├── values.yaml         # 기본 파라미터 값
+├── templates/
+│   ├── deployment.yaml # Go 템플릿 매니페스트
+│   ├── service.yaml
+│   └── _helpers.tpl    # 재사용 템플릿 정의
+└── charts/             # 의존 Sub-Chart
+```
 
 Go 템플릿 예시 (`deployment.yaml`):
 
@@ -128,19 +121,13 @@ helm history my-nginx      # 릴리스 이력 조회
 
 ### 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Helm Package Manager</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Chart → 패키지 구조 (Chart.yaml, values.yaml, templates/)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Repository → ArtifactHub, Bitnami, OCI Registry</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Release → install / upgrade / rollback</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Helmfile / ArgoCD → GitOps 기반 Helm 관리</div>
-</div>
-</div>
-
-
+```
+Helm Package Manager
+    ├── Chart → 패키지 구조 (Chart.yaml, values.yaml, templates/)
+    ├── Repository → ArtifactHub, Bitnami, OCI Registry
+    ├── Release → install / upgrade / rollback
+    └── Helmfile / ArgoCD → GitOps 기반 Helm 관리
+```
 
 > 🧒 **어린이 비유**
 > Helm은 레고 설명서 세트예요. Chart가 설명서, values.yaml이 원하는 색깔 선택표, Release는 완성된 레고 작품이에요.
@@ -152,6 +139,6 @@ helm history my-nginx      # 릴리스 이력 조회
 **진행 상황**: 315 / 373
 
 ← **이전**: [PV PVC PersistentVolume](/knowledge-base/studynote/15_devops_sre/05_devsecops/314_pv_pvc/)
-**다음**: [SRE Site Reliability Engineering](/knowledge-base/studynote/15_devops_sre/05_devsecops/316_management/) →
+**다음**: [SRE Site Reliability 엔진ering](/knowledge-base/studynote/15_devops_sre/05_devsecops/316_management/) →
 
 ---

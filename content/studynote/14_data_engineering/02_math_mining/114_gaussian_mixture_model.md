@@ -18,20 +18,17 @@ tags = ["studynote-dataengineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">K-Means (하드) vs GMM (소프트) 클러스터링</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">K-Means</div><div class="kb-diagram-node">GMM</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">○○○ ●●● ○○◐ ◐●●</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">확정 할당 확률적 할당</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"A 아니면 B" "A에 70%, B에 30%"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원형 클러스터만 타원형 클러스터 가능</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    K-Means (하드) vs GMM (소프트) 클러스터링           │
+├───────────────────────────────────────────────────────┤
+│  [K-Means]              [GMM]                         │
+│   ○○○ ●●●               ○○◐ ◐●●                     │
+│   확정 할당              확률적 할당                   │
+│   "A 아니면 B"           "A에 70%, B에 30%"           │
+│   원형 클러스터만         타원형 클러스터 가능          │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: K-Means는 학생을 "반드시 A반 또는 B반"에 배정하는 것이고, GMM은 "A반에 70% 속하고 B반에도 30% 속한다"고 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적으로 표현하는 것이다.
 
@@ -98,23 +95,21 @@ GMM은 K-Means의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">K-Means (1957) — 하드 클러스터링</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">EM 알고리즘 (1977, Dempster) — 불완전 데이터 MLE</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">GMM + EM (1990s) — 소프트 클러스터링 표준</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Bayesian GMM (2000s) — 자동 K 결정</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: VAE·Flow — 심층 생성 모델이 GMM을 대체/확장</div></div>
-</div>
-</div>
-
-
+```text
+[K-Means (1957) — 하드 클러스터링]
+    │
+    ▼
+[EM 알고리즘 (1977, Dempster) — 불완전 데이터 MLE]
+    │
+    ▼
+[GMM + EM (1990s) — 소프트 클러스터링 표준]
+    │
+    ▼
+[Bayesian GMM (2000s) — 자동 K 결정]
+    │
+    ▼
+[현재: VAE·Flow — 심층 생성 모델이 GMM을 대체/확장]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. K-Means는 학생을 <strong>"반드시 A반!"</strong>이라고 정하는 거예요.

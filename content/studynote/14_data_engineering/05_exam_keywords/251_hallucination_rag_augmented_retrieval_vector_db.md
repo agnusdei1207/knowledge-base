@@ -44,28 +44,40 @@ LLM은 다음 토큰(Token)을 예측하는 [확률](/knowledge-base/studynote/0
 
 RAG는 세 단계로 구성된다: <strong>검색(Retrieval) → 증강(Augmentation) → <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>(Generation)</strong>.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RAG 파이프라인 (RAG Pipeline)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 질의(Query)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">임베딩(Embedding)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">쿼리 인코더</div><div class="kb-diagram-cell">►</div><div class="kb-diagram-cell">벡터 DB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Query Encoder)</div><div class="kb-diagram-cell">(Vector DB)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pinecone/</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Weaviate/Milvus</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유사도 검색(Top-K)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">컨텍스트 주입(Context Injection)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ 프롬프트 = "다음 문서를 참고하여 답하라:</div><div class="kb-diagram-node">검색문서1,2,3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ 사용자 질의"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LLM 생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Generation)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사실 기반 응답(Grounded Response)</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                    RAG 파이프라인 (RAG Pipeline)                 │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  사용자 질의(Query)                                               │
+│        │                                                         │
+│        ▼                                                         │
+│  ┌───────────────┐    임베딩(Embedding)     ┌──────────────────┐ │
+│  │  쿼리 인코더   │ ─────────────────────► │  벡터 DB         │ │
+│  │(Query Encoder)│                         │ (Vector DB)      │ │
+│  └───────────────┘                         │  Pinecone/       │ │
+│                                            │  Weaviate/Milvus │ │
+│                                            └────────┬─────────┘ │
+│                                                     │           │
+│                                          유사도 검색(Top-K)      │
+│                                                     │           │
+│                                                     ▼           │
+│  ┌──────────────────────────────────────────────────────────┐   │
+│  │             컨텍스트 주입(Context Injection)               │   │
+│  │  프롬프트 = "다음 문서를 참고하여 답하라: [검색문서1,2,3]  │   │
+│  │             + 사용자 질의"                                 │   │
+│  └────────────────────────┬─────────────────────────────────┘   │
+│                           │                                      │
+│                           ▼                                      │
+│                   ┌───────────────┐                              │
+│                   │    LLM 생성   │                              │
+│                   │ (Generation)  │                              │
+│                   └───────────────┘                              │
+│                           │                                      │
+│                           ▼                                      │
+│                   사실 기반 응답(Grounded Response)               │
+└─────────────────────────────────────────────────────────────────┘
+```
 
 ### 2.2 벡터 DB([Vector Database](/knowledge-base/studynote/12_it_management/05_security_compliance/223_vector_database_embedding/)) 핵심 개념
 
@@ -91,11 +103,11 @@ RAG는 세 단계로 구성된다: <strong>검색(Retrieval) → 증강(Augmenta
 
 ## Ⅲ. 비교 및 연결
 
-### 3.1 [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) vs [Fine-tuning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/) vs [Prompt Engineering](/knowledge-base/studynote/12_it_management/05_security_compliance/224_prompt_engineering_guideline/) 비교
+### 3.1 [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) vs [Fine-tuning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/) vs [Prompt 엔진ering](/knowledge-base/studynote/12_it_management/05_security_compliance/224_prompt_engineering_guideline/) 비교
 
 | 기법 | 지식 갱신 | 비용 | 정확도 | 적합 시나리오 |
 |:---|:---|:---|:---|:---|
-| <strong><a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/149_prompt_engineering_cot_few_shot/">프롬프트 엔지니어링</a>(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/224_prompt_engineering_guideline/">Prompt Engineering</a>)</strong> | 불가 | 최저 | 낮음 | 단순 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/149_prompt_engineering_cot_few_shot/">프롬프트 엔지니어링</a>(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/224_prompt_engineering_guideline/">Prompt 엔진ering</a>)</strong> | 불가 | 최저 | 낮음 | 단순 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) |
 | <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/">RAG</a></strong> | 실시간 | 중간 | 높음 | 최신 정보 필요 |
 | <strong>파인튜닝(<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/">Fine-tuning</a>)</strong> | 배치성 | 고비용 | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 특화 | 특정 스타일/언어 |
 | <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/">RAG</a> + <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/">Fine-tuning</a></strong> | 실시간 + 배치 | 최고 | 최고 | 엔터프라이즈 |
@@ -128,20 +140,17 @@ RAG는 세 단계로 구성된다: <strong>검색(Retrieval) → 증강(Augmenta
 
 ### 4.2 할루시네이션 감지 및 방어 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">할루시네이션 방어 계층</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력 계층</div><div class="kb-diagram-cell">질의 분류 → 검색 필요성 판단</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">검색 계층</div><div class="kb-diagram-cell">하이브리드 검색(벡터 + BM25 키워드)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">생성 계층</div><div class="kb-diagram-cell">소스 인용 강제(Citation Grounding)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">검증 계층</div><div class="kb-diagram-cell">NLI(자연어 추론) 기반 사실 검증</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">출력 계층</div><div class="kb-diagram-cell">신뢰도 점수(Confidence Score) 사용자 노출</div></div>
-</div>
-</div>
-
-
+```
+┌────────────────────────────────────────────────────────┐
+│              할루시네이션 방어 계층                      │
+├────────────┬──────────────────────────────────────────┤
+│ 입력 계층  │ 질의 분류 → 검색 필요성 판단              │
+│ 검색 계층  │ 하이브리드 검색(벡터 + BM25 키워드)       │
+│ 생성 계층  │ 소스 인용 강제(Citation Grounding)        │
+│ 검증 계층  │ NLI(자연어 추론) 기반 사실 검증            │
+│ 출력 계층  │ 신뢰도 점수(Confidence Score) 사용자 노출 │
+└────────────┴──────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: RAG는 오픈북 시험(Open Book Exam)으로 바꾸는 것이다. 모든 것을 외워야 했던 기존 방식 대신, 시험장에 자료집(외부 DB)을 들고 들어가 참조하며 답변한다. 자료집의 품질(벡터 DB)과 빠르게 찾는 능력([임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 검색)이 좋아야 좋은 점수를 받는다.
 
@@ -185,21 +194,17 @@ RAG는 단순 문서 검색에서 <strong>에이전틱 <a href="/knowledge-base/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">LLM 할루시네이션 (사실과 다른 생성)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">RAG: 외부 문서 검색 → 컨텍스트로 생성</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Vector DB: FAISS · Pinecone · Weaviate</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Chunking · Embedding · Re-ranking</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Advanced RAG: Self-RAG · Corrective RAG · Graph RAG</div>
-</div>
-</div>
-
-
+```text
+LLM 할루시네이션 (사실과 다른 생성)
+    │
+    ▼
+RAG: 외부 문서 검색 → 컨텍스트로 생성
+    ├─► Vector DB: FAISS · Pinecone · Weaviate
+    └─► Chunking · Embedding · Re-ranking
+    │
+    ▼
+Advanced RAG: Self-RAG · Corrective RAG · Graph RAG
+```
 2. RAG는 그 학생에게 시험 중에 도서관을 이용할 수 있게 해주는 거예요. 책에서 관련 내용을 찾아서 그걸 보고 답을 쓰니까 훨씬 정확해지죠.
 3. 벡터 DB는 그 도서관에서 "의미가 비슷한 책들"을 빠르게 찾아주는 똑똑한 사서예요. 제목이 달라도 내용이 비슷하면 딱 골라줘요.
 

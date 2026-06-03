@@ -31,17 +31,14 @@ tags = ["studynote-ai"]
    - 보유한 <strong>전체 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 처음부터 끝까지 한 바퀴 다 훑어보고 학습을 1회 완료한 상태</strong>를 뜻한다.
    - 모의고사 문제집 전체 1회독 = 1 에폭이다. 위 예시에서 10번의 이터레이션이 무사히 끝나면 마침내 1 에폭이 된다. 딥러닝은 보통 50~100 에폭 이상 문제집을 반복해서 푼다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 피자 100판(전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 먹어 치우는 대회입니다. 입안에 한 번에 우겨 넣을 수 있는 피자 조각 수가 10조각([Batch Size](/knowledge-base/studynote/10_ai/05_data_science_ml/346_batch_size_generalization/))이라면, 당신은 10번 씹어 삼키는 동작(Iteration)을 반복해야 책상 위 피자가 다 사라집니다. 피자 100판을 싹 비우고 다음 판 세트를 다시 꺼내 오는 순간이 바로 1 회독(Epoch) 달성입니다.
 
@@ -66,16 +63,13 @@ tags = ["studynote-ai"]
 | 일반화 | 훈련 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 아니라 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)으로 품질을 판단하게 만든다. |
 | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 학습 | 대규모 모델에서 학습 속도와 자원 배치를 현실화한다. |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Input → Transform → Score → Apply</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">state → update → monitor → feedback</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Input → Transform → Score → Apply            │
+├──────────────────────────────────────────────┤
+│ state → update    → monitor → feedback       │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 바구니에 사과를 1,000개(Large Batch) 담아 무게를 재면 평균값이 항상 일정해 든든하지만 바구니가 너무 무거워 구덩이에 빠지면 못 나옵니다. 16개(Small Batch)만 담아서 재면 매번 평균이 널뛰기해서 헷갈리지만, 오히려 그 널뛰는 요동치는 힘 덕분에 함정을 폴짝 훌쩍 뛰어넘는 아이러니한 이점이 생깁니다.
 

@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 해커 1대의 PC가 아닌, <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>된(Distributed) 수만~수백만 대의 감염된 기기(좀비 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/">PC</a>, <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a> 기기)들을 동원하여 타겟 서버에 엄청난 트래픽 폭탄을 일제히 쏟아부어 서버를 마비시키는 가장 파괴적인 네트워크 공격 기법</strong>입니다.
 - 공격이 전 세계의 수만 개 IP에서 산발적으로 날아오기 때문에, [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이 특정 IP 하나를 차단한다고 해서 막을 수 있는 수준이 아닙니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DoS</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">분산 서비스 거부 공격 봇넷 시스템 C&amp;C…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SYN Flood 공격</div></div>
-</div>
-</div>
-
-
+```text
+[DoS]
+    │
+    ▼
+[분산 서비스 거부 공격 봇넷 시스템 C&C…]
+    │
+    └──▶ [SYN Flood 공격]
+```
 
 - **📢 섹션 요약 비유**: [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [서비스 거부 공격](/knowledge-base/studynote/03_network/19_frequent_topics_terms/989_dos_denial_of_service/) [봇넷](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/) 시스템 C&C…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -49,18 +45,14 @@ tags = ["studynote-network"]
 3. <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/">Botnet</a> (<a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/">봇넷</a> / 좀비 부대 / 핸들러와 데몬)</strong>:
    - 악성코드(미라이 [봇넷](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/) 등)에 감염되어 숙주 컴퓨터 몰래 24시간 백그라운드로 돌아가며 C&C 서버의 명령만 애타게 기다리는 <strong>수백만 대의 노예 좀비 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/">PC</a>, 스마트 TV, IP 카메라 집단</strong>입니다. 공격 명령이 떨어지면 일제히 네이버나 은행 서버를 향해 무차별로 쓰레기 패킷을 쏘아 올려 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 불태워버립니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DoS</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">분산 서비스 거부 공격 봇넷 시스템 C&amp;C…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SYN Flood 공격</div></div>
-</div>
-</div>
-
-
+```text
+[DoS]
+    │
+    ▼
+[분산 서비스 거부 공격 봇넷 시스템 C&C…]
+    │
+    └──▶ [SYN Flood 공격]
+```
 
 - **📢 섹션 요약 비유**: [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [서비스 거부 공격](/knowledge-base/studynote/03_network/19_frequent_topics_terms/989_dos_denial_of_service/) [봇넷](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/) 시스템 C&C…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -119,19 +111,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: DoS</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 분산 서비스 거부 공격 봇넷 시스템 C&amp;C…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: SYN Flood 공격</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: DoS]
+    │
+    ▼
+[현재 개념: 분산 서비스 거부 공격 봇넷 시스템 C&C…]
+    │
+    ├──▶ [확장 A: SYN Flood 공격]
+    └──▶ [확장 B: 예측형 위협 대응]
+```
 
 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [서비스 거부 공격](/knowledge-base/studynote/03_network/19_frequent_topics_terms/989_dos_denial_of_service/) [봇넷](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/) 시스템 C&C…는 DoS에서 출발해 현재 메커니즘을 정교화하고, 이후 [SYN Flood](/knowledge-base/studynote/09_security/03_network_security/255_syn_flood/) 공격와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -27,23 +27,27 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 중앙 집중식 구조가 왜 "모든 요청은 중앙으로, 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 공용 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)로" 흘러가는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">중앙 집중식 중재의 기본 구조: 요청은 중앙, 전송은 공용 버스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Master A Req/Grant</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CPU</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Arbiter │</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DMA</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(중앙 중재기) │</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">I/O</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">│</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀</div><div class="kb-diagram-cell">우선순위</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Shared System Bus</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Address</div><div class="kb-diagram-cell">Data</div><div class="kb-diagram-cell">Control</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Memory / Target</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│           중앙 집중식 중재의 기본 구조: 요청은 중앙, 전송은 공용 버스      │
+├──────────────────────────────────────────────────────────────────────┤
+│  Master A        Req/Grant        ┌───────────────┐                 │
+│ [CPU] ───────────────────────────▶│   Arbiter     │                 │
+│ [DMA] ───────────────────────────▶│ (중앙 중재기) │                 │
+│ [I/O] ───────────────────────────▶│               │                 │
+│          ◀────────────────────────│   우선순위     │                 │
+│                                   └──────┬────────┘                 │
+│                                          │                          │
+│                                          ▼                          │
+│                         ┌────────────────────────────────────┐       │
+│                         │ Shared System Bus                  │       │
+│                         │ Address │ Data │ Control           │       │
+│                         └────────────────────────────────────┘       │
+│                                          │                          │
+│                                          ▼                          │
+│                                   [Memory / Target]                 │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 핵심은 <strong>중재와 전송이 분리</strong>된다는 점이다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 통해 흐르지만, 누가 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 쓸지는 중앙 중재기가 먼저 결정한다. 따라서 중앙 집중식 중재는 단순한 신호선 배치가 아니라, 시스템 전체의 질서를 먼저 만드는 제어 계층이라고 이해해야 한다.
 
@@ -69,19 +73,19 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 중앙 중재기의 내부 판단 흐름을 단순화한 것이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">중앙 중재기의 의사결정 흐름: 빠름과 공정성의 균형</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요청 수집 우선순위 판정 승인 발행 버스 해제 확인</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">BR0 BR1 BR2</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">priority / RR</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">BGn asserted</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">BB deasserted</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 선택된 Master만 전송</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">신규 요청 발생 시 다음 중재 사이클에서 다시 평가</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│               중앙 중재기의 의사결정 흐름: 빠름과 공정성의 균형           │
+├──────────────────────────────────────────────────────────────────────┤
+│  요청 수집        우선순위 판정         승인 발행          버스 해제 확인   │
+│ [BR0 BR1 BR2] ─▶ [priority / RR] ─▶ [BGn asserted] ─▶ [BB deasserted] │
+│       │                │                    │                    │      │
+│       │                │                    ▼                    │      │
+│       │                └────────────▶ 선택된 Master만 전송 ───────┘      │
+│       │                                                             │
+│       └──── 신규 요청 발생 시 다음 중재 사이클에서 다시 평가             │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 흐름이 중요한 이유는 중앙 집중식이 단순히 선을 연결하는 문제가 아니라, <strong>매 사이클마다 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>을 실행하는 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a></strong>이기 때문이다. 고정 우선순위는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 상한을 계산하기 쉽지만 낮은 우선순위 장치가 굶을 수 있고, [라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/)은 공정하지만 긴급 DMA가 즉시 통과하지 못할 수 있다. 따라서 중앙 중재기 설계는 회로 설계와 운영 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 설계가 만나는 지점이다.
 
@@ -159,24 +163,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">공유 시스템 버스</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">버스 중재 (Bus Arbitration)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 중앙 집중식 중재 (Centralized Arbitration)</div>
-<div class="kb-diagram-note">──▶ 독립 요청 · 데이지 체인 · 폴링</div>
-<div class="kb-diagram-note">──▶ 고정 우선순위 · 라운드 로빈 · QoS</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">버스 매트릭스 · 스위치 기반 인터커넥트</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">PCIe (PCI Express) · NoC (Network on Chip)</div>
-</div>
-</div>
-
-
+```text
+공유 시스템 버스
+    │
+    ▼
+버스 중재 (Bus Arbitration)
+    │
+    ├──▶ 중앙 집중식 중재 (Centralized Arbitration)
+    │         │
+    │         ├──▶ 독립 요청 · 데이지 체인 · 폴링
+    │         │
+    │         └──▶ 고정 우선순위 · 라운드 로빈 · QoS
+    │
+    ▼
+버스 매트릭스 · 스위치 기반 인터커넥트
+    │
+    ▼
+PCIe (PCI Express) · NoC (Network on Chip)
+```
 
 이 흐름은 "공유 선로 하나를 누가 쓸지 정하던 단계"에서 출발해, "여러 경로와 여러 큐를 중앙 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 관리하는 단계"로 진화하는 과정을 보여준다. 즉 형태는 바뀌어도 경쟁 자원을 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)적으로 조정하는 핵심 사고는 계속 이어진다.
 

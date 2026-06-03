@@ -49,27 +49,26 @@ tags = ["studynote-operating-system"]
 
 CPU가 [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/) `0x1234`를 부르면 MMU가 이를 물리 주소로 번역하는 과정이다. ([페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 크기는 4KB = $2^{12}$ [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/))
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU의 페이징(Paging) 주소 변환 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. CPU가 논리 주소를 쏜다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 논리 주소: 13비트 이진수 (예: <code>00001</code> + <code>010101010101</code>)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 상위 비트 (p): 페이지 번호 (Page Number) = <code>1</code>번 페이지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 하위 비트 (d): 페이지 내 오프셋 (Offset) = <code>01010...</code> 번지</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. MMU의 Page Table 조회</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- MMU는 CR3 레지스터를 타고 메모리에 있는 '페이지 테이블'로 간다.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 테이블의 <code>1번</code> 인덱스를 찾아본다.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "가상 1번 페이지 ──매핑──▶ 물리 5번 프레임(Frame)에 있음!" 발견.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3. 물리 주소 조립 및 RAM 접근</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 물리 주소(f) = 프레임 번호(<code>5</code>) + 오프셋(d 그대로 복붙)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 오프셋은 절대 변하지 않는다 (페이지와 프레임 크기가 100% 똑같기 때문)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 최종 물리 주소 <code>5</code> + <code>01010...</code> 번지의 램(RAM) 데이터를 읽어옴!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 CPU의 페이징(Paging) 주소 변환 아키텍처               │
+  ├───────────────────────────────────────────────────────────────────┤
+  │  [ 1. CPU가 논리 주소를 쏜다 ]                                         │
+  │   - 논리 주소: 13비트 이진수 (예: `00001` + `010101010101`)              │
+  │   - 상위 비트 (p): 페이지 번호 (Page Number) = `1`번 페이지            │
+  │   - 하위 비트 (d): 페이지 내 오프셋 (Offset) = `01010...` 번지         │
+  │                                                                   │
+  │  [ 2. MMU의 Page Table 조회 ]                                       │
+  │   - MMU는 CR3 레지스터를 타고 메모리에 있는 '페이지 테이블'로 간다.          │
+  │   - 테이블의 `1번` 인덱스를 찾아본다.                                    │
+  │   - "가상 1번 페이지 ──매핑──▶ 물리 5번 프레임(Frame)에 있음!" 발견.     │
+  │                                                                   │
+  │  [ 3. 물리 주소 조립 및 RAM 접근 ]                                     │
+  │   - 물리 주소(f) = 프레임 번호(`5`) + 오프셋(d 그대로 복붙)                │
+  │   - 오프셋은 **절대 변하지 않는다** (페이지와 프레임 크기가 100% 똑같기 때문)│
+  │   - 최종 물리 주소 `5` + `01010...` 번지의 램(RAM) 데이터를 읽어옴!     │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 오프셋(Offset)은 책의 '줄 번호'다. 소설책의 1페이지를 통째로 뜯어서 책장 5번째 칸에 넣었다 치자. 내가 "1페이지의 3번째 줄을 읽고 싶어"라고 할 때, 책이 몇 번째 책장 칸으로 이사 갔든 그 종이 안에서 <strong>위에서부터 3번째 줄(Offset)</strong>이라는 사실은 물리적으로 변하지 않는다. 따라서 MMU는 앞의 껍데기 번호([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) -> Frame)만 번역하고 꼬리표(Offset)는 그대로 갖다 붙이는 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) $O(1)$ 연산을 수행한다.
 
@@ -122,25 +121,27 @@ CPU가 [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_m
 
 ### 의사결정 및 튜닝 플로우
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 페이징 및 페이지 크기(Page Size) 튜닝 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">새로운 클라우드 인스턴스에서 애플리케이션 메모리 구조 튜닝</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">애플리케이션이 거대한 연속된 메모리를 장시간 사용하는가? (예: DB, JVM)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Transparent Huge Pages (THP) 제어 검토</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 2MB Huge Page 활성화로 TLB Miss를 완벽히 차단.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 단, JVM 같은 경우 OS의 THP(자동)와 충돌할 수 있으므로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS THP는 끄고, 앱(JVM) 파라미터에서 명시적 활성화 권장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 (웹 서버, 수만 개의 자잘한 컨테이너 프로세스)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">기본 4KB 페이징 시스템 유지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 작은 프로세스에 Huge Page를 주면 프로세스 끝에 수 MB의 빈 공간이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">남는 '내부 단편화(Internal Fragmentation)' 폭탄이 터져 OOM 발생.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 메모리 페이징 및 페이지 크기(Page Size) 튜닝 플로우         │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [새로운 클라우드 인스턴스에서 애플리케이션 메모리 구조 튜닝]                 │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      애플리케이션이 거대한 연속된 메모리를 장시간 사용하는가? (예: DB, JVM)   │
+  │          ├─ 예 ─────▶ [Transparent Huge Pages (THP) 제어 검토]      │
+  │          │            - 2MB Huge Page 활성화로 TLB Miss를 완벽히 차단.  │
+  │          │            - 단, JVM 같은 경우 OS의 THP(자동)와 충돌할 수 있으므로│
+  │          │              OS THP는 끄고, 앱(JVM) 파라미터에서 명시적 활성화 권장│
+  │          └─ 아니오 (웹 서버, 수만 개의 자잘한 컨테이너 프로세스)             │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      [기본 4KB 페이징 시스템 유지]                                     │
+  │      - 작은 프로세스에 Huge Page를 주면 프로세스 끝에 수 MB의 빈 공간이    │
+  │        남는 '내부 단편화(Internal Fragmentation)' 폭탄이 터져 OOM 발생. │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** "[페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 시스템은 OS가 알아서 하는 거니까 개발자는 몰라도 된다?" 절대 아니다. OS가 4KB로 썰어놓은 걸 무시하고, 개발자가 Java [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 수 기가바이트 단위로 랜덤 액세스하면 하드웨어의 TLB가 터져나가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 10배 느려진다. 아키텍트는 캐시 친화적인(Cache-friendly) 메모리 접근 패턴과 적절한 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 사이즈 튜닝을 통해 하드웨어를 달래야 한다.
 
@@ -182,19 +183,15 @@ CPU가 [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_m
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">동적 할당 First/Best/Worst Fit</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">페이징 시스템 프레임 테이블 (Paging System Frame Table)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TLB 적중률 캐시 속도</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">다단계 페이지 테이블 사이즈 줄이기</div></div>
-</div>
-</div>
-
-
+```text
+[동적 할당 First/Best/Worst Fit]
+    │
+    ▼
+[페이징 시스템 프레임 테이블 (Paging System Frame Table)]
+    │
+    ├──▶ [TLB 적중률 캐시 속도]
+    └──▶ [다단계 페이지 테이블 사이즈 줄이기]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

@@ -38,23 +38,21 @@ tags = ["studynote-cloud"]
 | Persistence | 클러스터 상태 저장 | [etcd](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/078_etcd_distributed_key_value_store/) |
 | Watch | 변경 알림 | scheduler, controller, [kubelet](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/082_kubelet_node_agent/) |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">kubectl / controller / kubelet</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kube-API Server</div></div>
-<div class="kb-diagram-note">authn / authz / admission</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">etcd</div>
-<div class="kb-diagram-tree-item" style="--depth:5">watch ▶ controller manager</div>
-<div class="kb-diagram-tree-item" style="--depth:5">watch ▶ scheduler</div>
-<div class="kb-diagram-tree-item" style="--depth:5">watch ▶ kubelet</div>
-</div>
-</div>
-
-
+```text
+kubectl / controller / kubelet
+           │
+           ▼
+  ┌──────────────────┐
+  │  Kube-API Server  │
+  └───────┬──────────┘
+          │ authn / authz / admission
+          ▼
+         etcd
+          │
+          ├─ watch ▶ controller manager
+          ├─ watch ▶ scheduler
+          └─ watch ▶ kubelet
+```
 
 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Server는 원하는 상태([desired state](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/080_kube_controller_manager_desired_state/))를 수락하고, 그 상태를 etcd에 저장한 뒤, 다른 컴포넌트가 watch로 반응하게 만든다. 그래서 Kubernetes의 제어는 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Server를 중심으로 수렴한다.
 
@@ -105,21 +103,18 @@ Kube-[API](/knowledge-base/studynote/02_operating_system/01_overview_architectur
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">kubectl / controller / kubelet</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Kube-API Server</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">인증 → 인가 → 승인 → 저장(etcd)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Watch 기반 제어평면 반응</div>
-</div>
-</div>
-
-
+```text
+kubectl / controller / kubelet
+    │
+    ▼
+Kube-API Server
+    │
+    ▼
+인증 → 인가 → 승인 → 저장(etcd)
+    │
+    ▼
+Watch 기반 제어평면 반응
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

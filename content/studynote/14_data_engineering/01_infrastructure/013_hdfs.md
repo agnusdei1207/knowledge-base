@@ -27,23 +27,20 @@ HDFS는 이 거대한 [파일](/knowledge-base/studynote/02_operating_system/09_
 
 아래 다이어그램은 기존 로컬 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템이 거대 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 처리하지 못하는 한계와 HDFS가 이를 어떻게 잘게 쪼개어 네트워크 공간으로 확장하는지 비교하여 보여준다.
 
+```text
+[단일 파일 시스템의 한계와 HDFS 블록 분할 메커니즘]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">단일 파일 시스템의 한계와 HDFS 블록 분할 메커니즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Local File System 한계</div><div class="kb-diagram-node">HDFS 블록 기반 분산 스토리지</div></div>
-<div class="kb-diagram-note">(128MB 단위 분할)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파일 크기: 500GB</div><div class="kb-diagram-cell">파일 (500GB)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS Disk</div><div class="kb-diagram-cell">↓ ↓ ↓ ...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(최대 100GB)</div><div class="kb-diagram-cell">(Network)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">❌ 공간 부족!</div><div class="kb-diagram-cell">Blk 1</div><div class="kb-diagram-cell">Blk 2</div><div class="kb-diagram-cell">Blk 3</div><div class="kb-diagram-cell">...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── ── ── ── ── ──</div><div class="kb-diagram-cell">Blk N</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">노드A</div><div class="kb-diagram-node">노드B</div><div class="kb-diagram-node">노드C</div><div class="kb-diagram-note">...</div><div class="kb-diagram-node">노드Z</div></div>
-</div>
-</div>
-
-
+[Local File System 한계]            [HDFS 블록 기반 분산 스토리지]
+                                   ┌───────────────────────┐ (128MB 단위 분할)
+ 파일 크기: 500GB                      │     파일 (500GB)       │
+ ┌─────────────────┐               └─┬──────┬──────┬───────┘
+ │   OS Disk       │                 ↓      ↓      ↓  ...  
+ │  (최대 100GB)   │          ┌─────┐┌─────┐┌─────┐   (Network)
+ │ ❌ 공간 부족!    │          │Blk 1││Blk 2││Blk 3│... ┌─────┐
+ └─────────────────┘          └──┬──┘└──┬──┘└──┬──┘   │Blk N│
+                                 ↓      ↓      ↓      └──┬──┘
+                              [노드A] [노드B] [노드C] ... [노드Z]
+```
 
 이 흐름의 핵심은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 자체를 하나의 큰 덩어리로 취급하지 않고 물리적으로 철저히 해체한다는 점이다. 클라이언트는 HDFS라는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적인 단일 폴더 뷰를 보지만, 내부적으로는 128MB의 정형화된 블록들이 무작위 노드에 뿌려진다. 이러한 블록 단위 분할 덕분에 HDFS는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 크기의 물리적 제한을 완전히 없앴으며, 디스크 I/O를 수십 대의 노드에서 동시에 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 읽어들이는 극단적인 속도 향상을 이루어냈다.
 
@@ -65,23 +62,27 @@ HDFS 아키텍처는 마스터-슬레이브(Master-Slave) 구조의 극단을 �
 
 아래의 HDFS 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 아키텍처 계층도는 클라이언트가 거대 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 HDFS에 저장할 때 NameNode와 DataNode가 어떻게 상호작용하는지 통신 흐름을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">HDFS Client (사용자 / Spark 등)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 쓰기 요청 (파일 분할)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NameNode</div><div class="kb-diagram-cell">2. 메타데이터 기록 및</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(장부/디렉토리)</div><div class="kb-diagram-cell">블록을 저장할 DataNode 목록 반환</div></div>
-<div class="kb-diagram-note">3. 할당된 노드 리스트 (예: D1, D3, D5) 반환</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DataNode 1</div><div class="kb-diagram-cell">4. 블록</div><div class="kb-diagram-cell">DataNode 3</div><div class="kb-diagram-cell">5. 파이프</div><div class="kb-diagram-cell">DataNode 5</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(블록 1-본본)</div><div class="kb-diagram-cell">──전송 &gt;</div><div class="kb-diagram-cell">(블록 1-복제1)</div><div class="kb-diagram-cell">──라인 &gt;</div><div class="kb-diagram-cell">(블록 1-복제2)</div></div>
-<div class="kb-diagram-note">6. 3초마다 Heartbeat 및 Block Report 송신</div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────┐
+│                    [HDFS Client (사용자 / Spark 등)]          │
+│                      │ 1. 쓰기 요청 (파일 분할)               │
+└──────────────────────┼────────────────────────────────────────┘
+                       ▼
+             ┌──────────────────┐
+             │    NameNode      │ 2. 메타데이터 기록 및 
+             │ (장부/디렉토리)  │ 블록을 저장할 DataNode 목록 반환
+             └───────┬──────────┘
+                     │ 3. 할당된 노드 리스트 (예: D1, D3, D5) 반환
+        ┌────────────┴─────────────┐
+        ▼                          ▼
+┌──────────────┐          ┌──────────────┐          ┌──────────────┐
+│ DataNode 1   │ 4. 블록  │ DataNode 3   │ 5. 파이프│ DataNode 5   │
+│ (블록 1-본본)│──전송───>│ (블록 1-복제1)│──라인───>│ (블록 1-복제2)│
+└──────────────┘          └──────────────┘          └──────────────┘
+      ▲                           ▲                        ▲
+      └───────────────────────────┴────────────────────────┘
+                 6. 3초마다 Heartbeat 및 Block Report 송신
+```
 
 이 구조도의 핵심 트레이드오프는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 흐름과 제어(장부)의 흐름이 철저히 분리되어 있다는 점이다. 클라이언트는 어떤 노드에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 저장할지 NameNode에게 묻지만(제어 흐름), 실제 테라바이트급 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 마스터 노드를 거치지 않고 Client와 [DataNode](/knowledge-base/studynote/14_data_engineering/01_infrastructure/015_datanode/) 간에 직접 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인으로 전송된다([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름). 이는 마스터 노드가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 트래픽에 파묻혀 병목 상태가 되는 것을 완벽히 방지하는 HDFS의 가장 위대한 아키텍처적 승리다.
 
@@ -104,24 +105,22 @@ HDFS는 [WORM](/knowledge-base/studynote/02_operating_system/10_security/590_wor
 
 다음의 상태 상태도는 HDFS가 [결함 허용](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/296_fault_tolerance_architecture/)([Fault Tolerance](/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/))을 달성하기 위해, [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)본 중 하나가 소실되었을 때 일어나는 자가 치유(Self-healing) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 보여준다.
 
+```text
+[HDFS 노드 장애 발생 시 블록 자가 복구 (Under-replicated) 메커니즘]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">HDFS 노드 장애 발생 시 블록 자가 복구 (Under-replicated) 메커니즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">정상 상태</div><div class="kb-diagram-note">D1(블록A), D2(블록A), D3(블록A) 유지 =&gt; 복제 계수(Replication Factor) 3 만족</div></div>
-<div class="kb-diagram-note">💥 DataNode 2 하드웨어 크래시 (Heartbeat 중단)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NameNode 감지</div><div class="kb-diagram-note">"D2가 10분간 무응답. 블록A의 복제본이 2개(D1, D3)로 떨어짐!"</div></div>
-<div class="kb-diagram-note">복구 명령 (Replication Command) 하달</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">파이프라인 재가동</div><div class="kb-diagram-note">D1에게 지시 ──복사──&gt;</div><div class="kb-diagram-node">새로운 D4 노드</div><div class="kb-diagram-note">에 블록A 전송</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상태 수렴</div><div class="kb-diagram-note">D1, D3, D4가 블록A를 소유하게 되어 다시 안전한 복제 계수 3 회복 완료</div></div>
-</div>
-</div>
-
-
+[정상 상태] D1(블록A), D2(블록A), D3(블록A) 유지 => 복제 계수(Replication Factor) 3 만족
+     │
+     │ 💥 DataNode 2 하드웨어 크래시 (Heartbeat 중단)
+     ▼
+[NameNode 감지] "D2가 10분간 무응답. 블록A의 복제본이 2개(D1, D3)로 떨어짐!"
+     │
+     │ 복구 명령 (Replication Command) 하달
+     ▼
+[파이프라인 재가동] D1에게 지시 ──복사──> [새로운 D4 노드]에 블록A 전송
+     │
+     ▼
+[상태 수렴] D1, D3, D4가 블록A를 소유하게 되어 다시 안전한 복제 계수 3 회복 완료
+```
 
 A 방식(로컬/[NAS](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/492_nas_network_attached_storage/) 디스크)은 속도가 매우 빠르고 중간 수정이 자유롭지만 디스크 장애에 극도로 취약하다. 이를 막기 위한 하드웨어 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 장비는 비용이 막대하다. 반면 B 방식(HDFS)은 무조건 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 3벌씩 복사해 다른 랙(Rack) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시켜 두므로, 서버실에 불이 나 랙 하나가 통째로 타버려도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유실률이 0에 수렴한다. 다만 중간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수정할 수 없으므로([Immutable](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/298_immutable/)), 실무에서는 HDFS의 이 치명적인 업데이트 불가 단점을 메우기 위해 HDFS 위에서 동작하는 델타 레이크([Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/))나 아파치 아이스버그(Iceberg) 같은 [오픈 테이블 포맷](/knowledge-base/studynote/14_data_engineering/01_infrastructure/054_open_table_format_iceberg_delta_hudi/) 계층을 융합하여 ACID 트랜잭션과 수정을 지원하도록 진화시켰다.
 
@@ -137,23 +136,18 @@ A 방식(로컬/[NAS](/knowledge-base/studynote/02_operating_system/08_storage_a
 2. <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/017_rack_awareness/">랙 인지</a> (<a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/017_rack_awareness/">Rack Awareness</a>) 설계</strong>: [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 전원이 나가는 물리적 대장애를 막기 위해, HDFS는 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)본 3개를 같은 랙(Rack) 서버에 전부 몰아넣지 않고, 1개는 같은 랙, 나머지 2개는 물리적으로 다른 랙에 배치하도록 클러스터 토폴로지를 스크립트로 구성해야 한다. 
 3. <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a> 보장 (<a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/">NameNode</a> HA)</strong>: [NameNode](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/) 자체가 죽으면 전체 클러스터 장부가 사라져 아무것도 못하는 [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))이 된다. 실무 환경에서는 반드시 [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) NameNode와 Standby NameNode를 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)(High [Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 구성)하고, 그 사이에 저널노드(JournalNode)를 두어 실시간으로 장부 기록을 동기화해야 한다.
 
+```text
+[HDFS 스토리지 운영 효율화 및 파일 최적화 의사결정 트리]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">HDFS 스토리지 운영 효율화 및 파일 최적화 의사결정 트리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">일일 로그 데이터가 10KB 단위로 HDFS에 지속 유입</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">단순 적재 방치 시</div><div class="kb-diagram-note">──&gt;</div><div class="kb-diagram-node">NameNode 메타데이터 메모리 폭발 💥 (클러스터 중단)</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">어떻게 전처리할 것인가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ (주기적 배치 병합) ──&gt;</div><div class="kb-diagram-node">Spark/Hive 잡으로 자정마다 작은 파일을 1GB 파케이(Parquet)로 뭉치기</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ (Hadoop 기본 아카이브) ──&gt;</div><div class="kb-diagram-node">HAR (Hadoop Archive) 명령어로 묶음 압축 저장</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ (스트리밍 버퍼링) ──&gt;</div><div class="kb-diagram-node">Kafka → Flink 파이프라인에서 메모리에 들고 있다가 128MB가 차면 Flush</div></div>
-</div>
-</div>
-
-
+[일일 로그 데이터가 10KB 단위로 HDFS에 지속 유입]
+       ↓
+[단순 적재 방치 시] ──> [NameNode 메타데이터 메모리 폭발 💥 (클러스터 중단)]
+       ↓
+[어떻게 전처리할 것인가?]
+  ├─ (주기적 배치 병합) ──> [Spark/Hive 잡으로 자정마다 작은 파일을 1GB 파케이(Parquet)로 뭉치기]
+  ├─ (Hadoop 기본 아카이브) ──> [HAR (Hadoop Archive) 명령어로 묶음 압축 저장]
+  └─ (스트리밍 버퍼링) ──> [Kafka → Flink 파이프라인에서 메모리에 들고 있다가 128MB가 차면 Flush]
+```
 
 이 의사결정의 핵심은 HDFS를 절대 범용 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 디스크처럼 써서는 안 된다는 점이다. 실무에서는 [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)) 등에서 유입되는 수많은 자잘한 이벤트 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)스태시(Logstash)나 플링크(Flink) 단계에서 윈도우 버퍼에 들고 있다가, 최소 128MB 이상의 덩어리가 되었을 때 한 방에 HDFS로 떨어뜨리는(Flush) 구조가 강제된다. 또한 저장 시에는 단순 Text가 아니라 Columnar 포맷([Parquet](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/), ORC)과 Snappy [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)을 결합하여 I/O 비용을 극한으로 깎아내야 한다.
 
@@ -186,23 +180,21 @@ HDFS는 빅데이터 시대에 스토리지가 가야 할 '[분산](/knowledge-b
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">GFS (Google File System) — 대규모 분산 파일시스템 설계 원리 제시</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HDFS (Hadoop Distributed File System) — GFS 영감, 블록 분산 저장·복제</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NameNode / DataNode — 메타데이터 중앙 관리 + 실제 블록 분산 저장 구조</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HDFS Federation — 다수 NameNode로 네임스페이스 수평 확장</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">클라우드 오브젝트 스토리지 (S3/GCS) — HDFS 이후 데이터 레이크 저장소 주류</div></div>
-</div>
-</div>
-
-
+```text
+[GFS (Google File System) — 대규모 분산 파일시스템 설계 원리 제시]
+    │
+    ▼
+[HDFS (Hadoop Distributed File System) — GFS 영감, 블록 분산 저장·복제]
+    │
+    ▼
+[NameNode / DataNode — 메타데이터 중앙 관리 + 실제 블록 분산 저장 구조]
+    │
+    ▼
+[HDFS Federation — 다수 NameNode로 네임스페이스 수평 확장]
+    │
+    ▼
+[클라우드 오브젝트 스토리지 (S3/GCS) — HDFS 이후 데이터 레이크 저장소 주류]
+```
 
 이 흐름은 GFS 논문에서 영감을 받은 HDFS가 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 생태계의 핵심 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 저장 계층으로 자리잡고, 페더레이션 확장을 거쳐 클라우드 [오브젝트 스토리지](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/494_object_storage/)로 대체·보완되는 진화 과정을 보여준다.
 

@@ -20,19 +20,21 @@ tags = ["studynote-security"]
 
 [보안 거버넌스](/knowledge-base/studynote/09_security/01_intro_principles/006_security_governance/) 계층구조에서 절차는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))→표준(Standard)→지침(Guideline)→절차(Procedure)의 4계층 중 가장 구체적인 실행 레벨에 위치한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보안 문서 계층구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Policy (정책) → "반드시 지켜야 할 원칙 선언"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Standard (표준) → "정책을 충족하는 구체적 기준"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Guideline(지침) → "권고 사항, 최선의 실무"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Procedure(절차) → "단계별 실행 방법 (HOW)"</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────┐
+│          보안 문서 계층구조                                 │
+├──────────────────────────────────────────────────────────┤
+│                                                          │
+│  Policy   (정책)   → "반드시 지켜야 할 원칙 선언"           │
+│     │                                                    │
+│  Standard (표준)   → "정책을 충족하는 구체적 기준"           │
+│     │                                                    │
+│  Guideline(지침)   → "권고 사항, 최선의 실무"               │
+│     │                                                    │
+│  Procedure(절차)   → "단계별 실행 방법 (HOW)"               │
+│                                                          │
+└──────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 법률(원칙), 표준은 시행령(기준), 지침은 권고안(최선 방법), 절차는 업무 매뉴얼(단계별 실행)이다. 법이 있어도 구체적 업무 절차가 없으면 현장에서 혼란이 생긴다.
 
@@ -42,42 +44,37 @@ tags = ["studynote-security"]
 
 ### 보안 절차 매뉴얼 구성 요소
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보안 절차 매뉴얼 표준 구성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 목적 및 범위 : 이 절차의 적용 대상 및 목적</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 책임 및 역할 : 수행 주체(담당자, 승인자, 감독자)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 사전 조건 : 절차 수행 전 갖춰야 할 상태/권한</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 단계별 절차 : 순서별 상세 수행 방법 (번호 목록)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 예외 처리 : 비정상 상황 발생 시 조치 방법</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6. 기록 및 증적 : 로그 기록 항목, 보관 기간</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">7. 검토 주기 : 최종 개정일, 다음 검토 예정일</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────┐
+│            보안 절차 매뉴얼 표준 구성                      │
+├─────────────────────────────────────────────────────────┤
+│  1. 목적 및 범위    : 이 절차의 적용 대상 및 목적           │
+│  2. 책임 및 역할    : 수행 주체(담당자, 승인자, 감독자)      │
+│  3. 사전 조건       : 절차 수행 전 갖춰야 할 상태/권한       │
+│  4. 단계별 절차     : 순서별 상세 수행 방법 (번호 목록)      │
+│  5. 예외 처리       : 비정상 상황 발생 시 조치 방법          │
+│  6. 기록 및 증적    : 로그 기록 항목, 보관 기간              │
+│  7. 검토 주기       : 최종 개정일, 다음 검토 예정일          │
+└─────────────────────────────────────────────────────────┘
+```
 
 ### [인시던트 대응](/knowledge-base/studynote/09_security/13_secops_ir_forensics/652_incident_response_nist_800_61/) 절차 (IRP, [Incident Response](/knowledge-base/studynote/09_security/16_data_privacy/806_incident_response/) Procedure) 예시
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">1단계 탐지</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">SOC 분석가 이상 여부 판단</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2단계 봉쇄</div><div class="kb-diagram-note">감염 시스템 네트워크 격리 (ACL 차단)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3단계 박멸</div><div class="kb-diagram-note">악성코드 제거, 취약점 패치 적용</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">4단계 복구</div><div class="kb-diagram-note">서비스 정상화, 무결성 검증</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">5단계 사후</div><div class="kb-diagram-note">원인 분석, 재발 방지 대책 수립, 보고서 작성</div></div>
-</div>
-</div>
-
-
+```text
+[1단계 탐지]  SIEM 경보 수신 → SOC 분석가 이상 여부 판단
+     │
+     ▼
+[2단계 봉쇄]  감염 시스템 네트워크 격리 (ACL 차단)
+     │
+     ▼
+[3단계 박멸]  악성코드 제거, 취약점 패치 적용
+     │
+     ▼
+[4단계 복구]  서비스 정상화, 무결성 검증
+     │
+     ▼
+[5단계 사후]  원인 분석, 재발 방지 대책 수립, 보고서 작성
+```
 
 - **📢 섹션 요약 비유**: 보안 절차는 소방 대피 훈련 매뉴얼이다. 화재 감지기 울림(탐지) → 창문 닫기(봉쇄) → 대피([복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)) → 집결 지점 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)([검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))처럼, 명확한 단계가 있으면 혼란 없이 모든 사람이 동일한 행동을 한다.
 
@@ -137,23 +134,21 @@ tags = ["studynote-security"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">보안 정책 (Policy) — 원칙 선언</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">보안 표준/절차 (Procedure) — 단계별 실행 방법 명문화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ISMS-P 인증 — 절차 준수 증적 및 심사</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SOAR Playbook — 절차의 자동화 구현</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AI 기반 적응형 절차 — 위협 패턴 기반 자동 업데이트</div></div>
-</div>
-</div>
-
-
+```text
+[보안 정책 (Policy) — 원칙 선언]
+    │
+    ▼
+[보안 표준/절차 (Procedure) — 단계별 실행 방법 명문화]
+    │
+    ▼
+[ISMS-P 인증 — 절차 준수 증적 및 심사]
+    │
+    ▼
+[SOAR Playbook — 절차의 자동화 구현]
+    │
+    ▼
+[AI 기반 적응형 절차 — 위협 패턴 기반 자동 업데이트]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

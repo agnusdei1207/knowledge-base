@@ -22,22 +22,23 @@ tags = ["studynote-network"]
 디지털 광통신은 빛의 깜빡임(펄스)을 0과 1로 인식하여 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전송한다. 이상적인 환경이라면 송신단에서 보낸 네모반듯한 펄스가 수신단에도 동일한 형태로 도착해야 한다. 그러나 빛이 광섬유라는 유리 매질을 통과하면서, 다양한 원인에 의해 펄스가 전진 방향으로 넓게 퍼지는 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>(Dispersion)</strong> 현상이 발생한다.
 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이 심해지면 앞선 펄스의 꼬리와 뒤따라오는 펄스의 머리가 겹치는 [심볼 상호 간섭](/knowledge-base/studynote/03_network/01_data_communication/022_심볼_상호_간섭_ISI/)(ISI, Inter-Symbol Interference)이 유발된다. 수신단은 이를 독립된 0과 1로 구별하지 못하고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 에러율(BER)이 급증하게 된다. 속도를 높일수록(펄스 간격이 좁을수록), 거리를 늘릴수록 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)의 파괴력은 배가된다. 따라서 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)의 종류(모드, 파장, 편광)를 정확히 이해하고, 이를 통제하거나 보상(Compensation)하는 아키텍처의 설계는 100G, 400G를 넘어선 테라급 광네트워크 구축의 절대적 선결 조건이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 도식은 분산으로 인한 펄스 퍼짐과 심볼 상호 간섭(ISI) 발생 메커니즘을 시각화한다.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">분산에 의한 ISI (Inter-Symbol Interference) 발생</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">송신단 펄스</div><div class="kb-diagram-node">장거리 전송 중</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾ ==&gt; ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">수신단 도달 시: ISI 파괴</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">__--‾‾‾‾--__ &lt;-- 앞뒤 펄스 겹침</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ \ (0과 1 판독 불가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾</div></div>
-</div>
-</div>
-
-
+```text
+이 도식은 분산으로 인한 펄스 퍼짐과 심볼 상호 간섭(ISI) 발생 메커니즘을 시각화한다.
+┌────────────────────────────────────────────────────────┐
+│ [분산에 의한 ISI (Inter-Symbol Interference) 발생]     │
+│                                                        │
+│ [송신단 펄스]             [장거리 전송 중]             │
+│   __      __                _        _                 │
+│  |  |    |  |             /   \    /   \               │
+│  |  |    |  |            /     \  /     \              │
+│ ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾  ==>  ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾           │
+│                                                        │
+│                  [수신단 도달 시: ISI 파괴]            │
+│                     __--‾‾‾‾--__   <-- 앞뒤 펄스 겹침  │
+│                   /              \     (0과 1 판독 불가│
+│                 ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾                   │
+└────────────────────────────────────────────────────────┘
+```
 이 그림의 핵심은 전송 거리가 길어짐에 따라 원래 날카로웠던 사각 펄스가 둥글고 넓게 퍼진다는 점이다. 퍼짐의 폭이 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 간격([Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) Interval)을 초과하는 순간 두 펄스가 섞여버려 통신은 마비된다. 따라서 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 늘리려면([비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 간격을 좁히려면) 반드시 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 계수(ps/nm·km)를 최소화해야만 한다.
 
 - **📢 섹션 요약 비유**: 일렬로 출발한 마라톤 선수들이 체력 차이로 점점 간격이 벌어지다가, 결국 앞팀의 꼴찌와 뒤팀의 1등이 뒤섞여 누가 어느 팀인지 구분할 수 없게 되는 아수라장과 같습니다.
@@ -56,22 +57,21 @@ tags = ["studynote-network"]
 | <strong>구조 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> (Waveguide)</strong>| 파장 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)의 하위 | 코어와 클래딩 간 빛 에너지 분포 비율이 파장에 따라 변함 | 코어 구조 설계를 통해 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)값 상쇄 제어 |
 | <strong>편광 모드 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> (PMD)</strong>| 고속 [SMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/771_smf_upf_session_management_user_plane/) (10G 이상) | 코어의 미세한 찌그러짐(타원형)에 의해 수직/수평 편광 성분의 이동 속도 차이 | 광케이블 정밀 제조 및 DSP 디지털 보상 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 도식은 SMF에서 파장 분산(색 분산)을 구성하는 재료 분산과 구조 분산의 상쇄 관계를 보여준다.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SMF의 파장 분산 곡선 메커니즘</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분산값 (ps/nm·km)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+</div><div class="kb-diagram-cell">/ ---- 재료 분산 (파장이 길수록 +)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0 / x ▶ 파장(λ, nm)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ ↑ 영 분산 파장 (Zero Dispersion)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-</div><div class="kb-diagram-cell">/ (일반 SMF는 1310nm 부근)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ ── 구조 분산 (코어 설계로 - 값 유도)</div></div>
-</div>
-</div>
-
-
+```text
+이 도식은 SMF에서 파장 분산(색 분산)을 구성하는 재료 분산과 구조 분산의 상쇄 관계를 보여준다.
+┌──────────────────────────────────────────────────────────────┐
+│ [SMF의 파장 분산 곡선 메커니즘]                              │
+│                                                              │
+│ 분산값 (ps/nm·km)                                           │
+│   ▲                                                          │
+│ + │              / ---- 재료 분산 (파장이 길수록 +)        │
+│   │            /                                             │
+│ 0 ├──────────/─────────────x─────▶ 파장(λ, nm)           │
+│   │        /               ↑ 영 분산 파장 (Zero Dispersion) │
+│ - │      /                  (일반 SMF는 1310nm 부근)         │
+│   │    / ── 구조 분산 (코어 설계로 - 값 유도)                │
+└──────────────────────────────────────────────────────────────┘
+```
 이 흐름의 핵심은 유리의 고유한 재료 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)(+)과 코어 구조로 유도한 구조 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)(-)이 합쳐져 전체 파장 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)을 이룬다는 점이다. 두 그래프가 만나 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)값이 '0'이 되는 지점([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) Dispersion Wavelength)이 광통신의 스위트 스팟이 된다. 일반 SMF는 이 지점이 1310nm지만, [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 손실이 가장 적은 1550nm 대역(EDFA 사용 대역)으로 이 영분산 지점을 이동시킨 것이 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 천이 광섬유(DSF) 아키텍처다.
 
 - **📢 섹션 요약 비유**: 빨간색 차와 파란색 차가 고속도로를 달리는데, 도로 재질(재료 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)) 때문에 파란 차가 빨라지려 하면, 타이어 구조(구조 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/))를 조작해 빨간 차의 저항을 줄여서 결국 똑같이 도착하게 만드는 정밀 튜닝과 같습니다.
@@ -90,25 +90,23 @@ tags = ["studynote-network"]
 | **물리적 극복** | 코어 [굴절률](/knowledge-base/studynote/03_network/03_physical_layer_media/129_refractive_index_tir/) 구배 (GI-MMF) | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 보상 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) (DCF), FBG (광섬유 격자) |
 | **소프트웨어 보상**| 사실상 불가 | 코히어런트 DSP 칩을 통한 전기적 역산 보상 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 의사결정 트리 구조는 실무에서 광통신 에러 발생 시 분산 원인 추적의 기준을 제시한다.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">광 링크 에러 추적 프레임워크 (분산 관점)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">에러 증가 및 아이패턴(Eye Pattern) 폐쇄 현상 감지</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">(사용 매체는?) ── MMF ──&gt;</div><div class="kb-diagram-node">모드 분산 지배적</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SMF &gt; 케이블 거리 초과, 규격(OM) 확인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">v</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">(속도는?) ── &lt; 10G ──&gt;</div><div class="kb-diagram-node">파장 분산 지배적</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&gt; 10G &gt; 광원 스펙트럼 좁은 DFB-LD 교체</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">v</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">편광 모드 분산(PMD) 복합 발생</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&gt; 물리적 케이블 뒤틀림 확인 또는 최신 DSP 모듈 장비 교체 적용</div></div>
-</div>
-</div>
-
-
+```text
+이 의사결정 트리 구조는 실무에서 광통신 에러 발생 시 분산 원인 추적의 기준을 제시한다.
+┌────────────────────────────────────────────────────────┐
+│ [광 링크 에러 추적 프레임워크 (분산 관점)]             │
+│                                                        │
+│ [에러 증가 및 아이패턴(Eye Pattern) 폐쇄 현상 감지]    │
+│        │                                               │
+│   (사용 매체는?) ── MMF ──> [ 모드 분산 지배적 ]     │
+│        │ SMF                      └> 케이블 거리 초과, 규격(OM) 확인│
+│        v                                               │
+│   (속도는?) ── < 10G ──> [ 파장 분산 지배적 ]        │
+│        │ > 10G                    └> 광원 스펙트럼 좁은 DFB-LD 교체 │
+│        v                                               │
+│ [ 편광 모드 분산(PMD) 복합 발생 ]                      │
+│   └> 물리적 케이블 뒤틀림 확인 또는 최신 DSP 모듈 장비 교체 적용 │
+└────────────────────────────────────────────────────────┘
+```
 이 비교도의 핵심은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)의 종류(MMF vs [SMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/771_smf_upf_session_management_user_plane/))와 전송 속도의 임계점(10G)을 기준으로 지배적 원인이 계단식으로 달라진다는 것이다. 실무자는 아이패턴을 측정해 왜곡이 발생했을 때 맹목적으로 장비를 재부팅할 것이 아니라, 물리적 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)의 거리 한계인지, 광원의 파장 퍼짐 한계인지 정확히 기저 원인을 짚어내야 한다.
 
 - **📢 섹션 요약 비유**: 환자가 배가 아플 때(에러 발생), 식습관([매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 거리) 때문인지, 먹은 음식의 종류(파장 폭) 때문인지, 아니면 스트레스성(PMD 뒤틀림)인지 정확히 진단해야 올바른 약을 처방할 수 있는 이치입니다.
@@ -123,23 +121,22 @@ tags = ["studynote-network"]
 - **아키텍처 결정**: 중간 증폭기(EDFA) 노드마다 역방향(-) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)값을 갖는 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 보상 광섬유(DCF, Dispersion Compensating Fiber)</strong> [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 삽입한다. (+) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)으로 뚱뚱해진 펄스가 DCF의 (-) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)을 통과하면서 다시 날씬해지도록 물리적 상쇄를 유도한다.
 - <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>: 처음부터 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이 0인 광섬유(DSF)에 여러 파장(WDM)을 동시에 쏘는 것. [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이 '완전히 0'인 상태에서 파장들이 겹쳐서 오래 달리면, 비선형 현상인 FWM(Four-Wave Mixing, 빛의 상호간섭으로 유령 파장 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/))이 폭발적으로 발생해 통신이 붕괴된다. 따라서 실무 WDM 망에서는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)을 아예 0으로 만들지 않고 약간의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)을 남겨두는 <strong>비영 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 천이 광섬유(NZ-DSF)</strong>를 필수적으로 채택한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 도식은 장거리 WDM 통신망에서 분산 보상 모듈(DCF)의 직렬 배치 아키텍처를 보여준다.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">장거리 전송로의 분산 누적 및 DCF 보상 설계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(+) 분산 누적</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▲</div><div class="kb-diagram-node">일반 SMF 80km</div><div class="kb-diagram-node">일반 SMF</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0 / \ / ▶ 거리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">송신</div><div class="kb-diagram-note">\ /</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ \</div><div class="kb-diagram-node">DCF</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">역보상</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(-) 분산 \----/</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 펄스가 퍼졌다(SMF)가 다시 압축(DCF)되는 과정 반복</div></div>
-</div>
-</div>
-
-
+```text
+이 도식은 장거리 WDM 통신망에서 분산 보상 모듈(DCF)의 직렬 배치 아키텍처를 보여준다.
+┌────────────────────────────────────────────────────────┐
+│ [장거리 전송로의 분산 누적 및 DCF 보상 설계]           │
+│                                                        │
+│ (+) 분산 누적                                          │
+│   ▲          [일반 SMF 80km]          [일반 SMF]       │
+│   │           /----------\            /                │
+│ 0 ├─────────/────────────\──────────/───────▶ 거리    │
+│   │  [송신]              \        /                │
+│   │                      \[DCF] /  <-- 역보상          │
+│ (-) 분산                 \----/                        │
+│                                                        │
+│ => 펄스가 퍼졌다(SMF)가 다시 압축(DCF)되는 과정 반복   │
+└────────────────────────────────────────────────────────┘
+```
 이 흐름의 요지는 장거리 백본에서 펄스 퍼짐을 막기 위해 주기적으로 반대 특성의 필터(DCF)를 끼워 넣어 전체 누적 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)을 0에 가깝게 통제한다는 것이다. 이는 물리 계층에서 이루어지는 정교한 [아날로그 신호](/knowledge-base/studynote/03_network/01_data_communication/003_아날로그_신호_vs_디지털_신호/) 복원 작업으로, 과보상도 과소보상도 피해야 하는 고난도 엔지니어링 영역이다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -172,19 +169,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 단일모드 광섬유 / 다중모드 광섬유</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 분산</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 광증폭기</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고속 광전송 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 단일모드 광섬유 / 다중모드 광섬유]
+    │
+    ▼
+[현재 개념: 분산]
+    │
+    ├──▶ [확장 A: 광증폭기]
+    └──▶ [확장 B: 고속 광전송 최적화]
+```
 
 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)는 [단일모드 광섬유](/knowledge-base/studynote/03_network/03_physical_layer_media/132_single_mode_multi_mode_fiber/) / 다중모드 광섬유에서 출발해 현재 메커니즘을 정교화하고, 이후 광증폭기와 고속 광전송 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

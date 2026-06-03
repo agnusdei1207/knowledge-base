@@ -28,18 +28,14 @@ tags = ["studynote-network"]
   - <strong>DP (지정 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>)</strong>: 각 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)(선로) 구간에서 물을 내려보낼 권리를 가진 <strong>"책임 밸브"</strong>입니다.
   - <strong>Block (차단 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>)</strong>: 물이 역류하지 않게 평소엔 꽉 잠가두는 <strong>"비상용 예비 밸브"</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">BPDU</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">루트 브리지, 루트 포트, 지정 포트, 차단…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">브리지 ID, 비용</div></div>
-</div>
-</div>
-
-
+```text
+[BPDU]
+    │
+    ▼
+[루트 브리지, 루트 포트, 지정 포트, 차단…]
+    │
+    └──▶ [브리지 ID, 비용]
+```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/">STP</a> 선거는 </strong>"왕(Root)을 뽑고, 각 영주들이 왕에게 충성 맹세를 하러 가는 가장 빠른 고속도로([RP](/knowledge-base/studynote/03_network/07_network_layer_routing/370_pim_rp_rendezvous_point_rpf_loop_prevention/))를 하나씩 뚫은 뒤, 불법 우회로(Block)에는 성벽을 쌓아버리는 완벽한 봉건제 왕국 건설 과정"**입니다.
 
@@ -68,26 +64,28 @@ tags = ["studynote-network"]
 
 ### 4. 차단 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) (Block [Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) / Non-Designated [Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))
 - 위에서 [RP](/knowledge-base/studynote/03_network/07_network_layer_routing/370_pim_rp_rendezvous_point_rpf_loop_prevention/) 대결에서도 떨어지고, 선로 주인을 가리는 DP 대결에서도 진 루저(패배자) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)의 운명이다.
-- 이 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)는 논리적으로 "막힘([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/))" 상태로 진입하여 컴퓨터의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 패킷이나 프레임을 절대 통과시키지 않는다. 이로써 <strong>루프(원형) 고리가 완벽히 끊어져 트리(나뭇가지) 모양이 완성</strong>된다.
+- 이 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)는 논리적으로 "병목([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/))" 상태로 진입하여 컴퓨터의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 패킷이나 프레임을 절대 통과시키지 않는다. 이로써 <strong>루프(원형) 고리가 완벽히 끊어져 트리(나뭇가지) 모양이 완성</strong>된다.
 - **안전핀**: 하지만 Block [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)는 완전히 귀를 막은 건 아니다. 상대방이 보내는 [BPDU](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/254_bpdu_bridge_protocol_data_unit/)(상태 엽서)는 계속 듣고(Listen) 있다. 만약 20초(Max Age) 동안 상대방 DP가 BPDU를 보내지 않으면 "어? 선로가 죽었나?" 하고 자기가 닫아둔 문을 서서히 열기 시작하여 통신 장애를 50초 만에 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)(Self-healing)해 낸다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">STP 4대 역할 배정 다이어그램</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Root Bridge (대장)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DP ↙ ↘ DP (대장의 포트는 100% DP)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RP ↙ ↘ RP (대장에게 가는 가장 빠른 길)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스위치 B</div><div class="kb-diagram-node">스위치 C</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(ID: 2등) (ID: 3등)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DP Block</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">선로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(선로의 주인은 2등인 B가 차지. C의 포트는 막힘)</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                STP 4대 역할 배정 다이어그램                   │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │            [ Root Bridge (대장) ]                           │
+ │                DP ↙      ↘ DP (대장의 포트는 100% DP)       │
+ │                  /        \                                 │
+ │                 /          \                                │
+ │             RP ↙            ↘ RP  (대장에게 가는 가장 빠른 길) │
+ │       [ 스위치 B ] ────────── [ 스위치 C ]                  │
+ │           (ID: 2등)          (ID: 3등)                      │
+ │                 DP          Block                           │
+ │                 │             │                             │
+ │                 └──── 선로 ───┘                             │
+ │          (선로의 주인은 2등인 B가 차지. C의 포트는 막힘)          │
+ │                                                             │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: ** RP가 왕궁으로 출근하는 **"나만의 전용 하이패스 차로"**라면, DP는 동네 도로를 관리하는 **"관할 구역 통행권"<strong>이고, Block <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>는 꼬리물기 사고가 나지 않게 차단봉을 내려놓은 </strong>"비상용 갓길"**입니다.
 
@@ -145,19 +143,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: BPDU</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 루트 브리지, 루트 포트, 지정 포트, 차단…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 브리지 ID, 비용</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 캠퍼스 패브릭</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: BPDU]
+    │
+    ▼
+[현재 개념: 루트 브리지, 루트 포트, 지정 포트, 차단…]
+    │
+    ├──▶ [확장 A: 브리지 ID, 비용]
+    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
+```
 
 루트 [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/), 루트 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), 지정 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), 차단…는 BPDU에서 출발해 현재 메커니즘을 정교화하고, 이후 [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) ID, 비용와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

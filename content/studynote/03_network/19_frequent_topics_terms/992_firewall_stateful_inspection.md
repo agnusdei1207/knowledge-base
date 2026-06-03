@@ -32,32 +32,40 @@ tags = ["studynote-network"]
 
 다음은 기존 1세대([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)) [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)의 근본적 취약점과 3세대(Stateful) [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이 이를 어떻게 동적인 상태 추적으로 해결하는지를 극명하게 보여주는 구조도이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">방화벽 패러다임 비교: Stateless(1세대) vs Stateful(3세대)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">문제점: Stateless Packet Filtering (상태 미저장)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">내부 PC</div><div class="kb-diagram-node">1세대 방화벽</div><div class="kb-diagram-node">외부 웹서버</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IP: 10.0.0.2 Rule: OUT 80 허용 IP: 8.8.8.8</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Port: 50000 Rule: IN 1024~65535 허용 Port: 80</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요청 (Src:50000, Dst:80) ▶</div><div class="kb-diagram-cell">▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀ 응답 (Src:80, Dst:50000)</div><div class="kb-diagram-cell">◀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⚠ 해커의 침투: 해커(외부)가 Src Port를 80으로 조작하여 내부의 아무 포트(예:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">22번 SSH)로 패킷을 쏘면, "IN 1024~65535 허용" 룰 때문에 방화벽이 뚫림!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">해결책: Stateful Inspection (상태 기반 검사)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">내부 PC</div><div class="kb-diagram-node">3세대 방화벽</div><div class="kb-diagram-node">외부 웹서버</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">State Table 메모리</div><div class="kb-diagram-connector">▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(SYN 패킷)</div><div class="kb-diagram-cell">TCP, 10.0.0.2:50000</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↔ 8.8.8.8:80</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(상태: ESTABLISHED)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀ 응답</div><div class="kb-diagram-cell">(State Table 조회!)</div><div class="kb-diagram-cell">◀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(SYN-ACK 패킷)</div><div class="kb-diagram-cell">➜ 장부에 있으니 통과!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">❌ 해커의 뜬금없는 패킷 (장부에 없는 조작된 ACK) ─ ⛔ 차단 (Drop)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│      방화벽 패러다임 비교: Stateless(1세대) vs Stateful(3세대)         │
+├──────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│ [문제점: Stateless Packet Filtering (상태 미저장)]                   │
+│                                                                  │
+│  [내부 PC]                 [1세대 방화벽]                 [외부 웹서버]│
+│  IP: 10.0.0.2               Rule: OUT 80 허용          IP: 8.8.8.8 │
+│  Port: 50000                Rule: IN 1024~65535 허용     Port: 80    │
+│       │ ──── 요청 (Src:50000, Dst:80) ────▶ │ ────────────▶│       │
+│       │                                    │               │       │
+│       │ ◀──── 응답 (Src:80, Dst:50000) ──── │ ◀────────────│       │
+│                                            │                       │
+│ ⚠ 해커의 침투: 해커(외부)가 Src Port를 80으로 조작하여 내부의 아무 포트(예: │
+│ 22번 SSH)로 패킷을 쏘면, "IN 1024~65535 허용" 룰 때문에 방화벽이 뚫림!     │
+│                                                                  │
+│                                                                  │
+│ [해결책: Stateful Inspection (상태 기반 검사)]                       │
+│                                                                  │
+│  [내부 PC]                 [3세대 방화벽]                 [외부 웹서버]│
+│       │                    ┌──────────────────┐                │       │
+│       │ ──── 요청 ────▶ │ [State Table 메모리] │ ─────▶ │       │
+│       │   (SYN 패킷)        │ TCP, 10.0.0.2:50000│                │       │
+│       │                    │  ↔ 8.8.8.8:80      │                │       │
+│       │                    │ (상태: ESTABLISHED)  │                │       │
+│       │                    └──────────────────┘                │       │
+│       │                                    │                       │
+│       │ ◀──── 응답 ──── │ (State Table 조회!)  │ ◀───── │       │
+│       │   (SYN-ACK 패킷)    │ ➜ 장부에 있으니 통과! │                │       │
+│                                            │                       │
+│ ❌ 해커의 뜬금없는 패킷 (장부에 없는 조작된 ACK) ─ ⛔ 차단 (Drop)         │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 도식은 보안의 핵심인 '맥락([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))'의 중요성을 명확히 짚어준다. 상단의 1세대 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)은 기억력이 없기 때문에 인터넷(외부)에서 들어오는 응답 패킷을 허용하려면 수만 개의 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 열어두는 위험한 규칙(Rule)을 작성해야만 했다. 해커는 단순히 출발지 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 80번으로 위장하여 이 허술한 문을 통과했다. 반면 하단의 Stateful [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)은 내부 PC가 '먼저' 외부로 SYN 요청을 보낼 때, 즉시 자신의 빠른 메모리 영역인 상태 테이블([State Table](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/066_state_table/))에 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 정보(출발지/목적지 IP와 [Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/), [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 상태)를 꼼꼼히 기록([세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/))한다. 이후 외부에서 응답 패킷이 들어오면, 무거운 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 룰셋(수천 줄의 [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/))을 처음부터 끝까지 검색하지 않고, 단지 이 [State Table](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/066_state_table/) 장부만 빠르게 조회(Lookup)하여 장부에 있으면 무조건 통과시킨다. 해커가 아무리 교묘하게 패킷을 조작해도, 내부에서 먼저 요청한 기록이 테이블에 없다면 즉각 폐기(Drop)되므로 [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)과 처리 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 동시에 극대화된다.
 
@@ -87,29 +95,43 @@ Stateful [방화벽](/knowledge-base/studynote/03_network/13_network_security_ba
 
 다음은 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 전이 상태에 따라 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 내부의 [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Table과 룰셋(Rule-set) 엔진이 상호작용하는 메커니즘을 상세히 보여주는 구조 흐름도이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Stateful Inspection 엔진의 내부 동작 라이프사이클 (2-Track)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">새로운 패킷 인입</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. State Table 조회 (캐시)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Fast Path 해시 매칭)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">불일치</div><div class="kb-diagram-node">일치 (Match!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Slow Path</div><div class="kb-diagram-note">│</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ 2. ACL 정책 검사 │</div><div class="kb-diagram-node">Fast Path</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(TCP SYN의 경우)</div><div class="kb-diagram-cell">(방화벽 룰셋)</div><div class="kb-diagram-cell">(초고속 통과)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">허용(Permit)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 세션 기록 생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Table Entry)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">패킷 허용 및 인터페이스 전송 (Forwarding)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 비정상 시나리오 (Drop)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">차단</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">차단</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│      Stateful Inspection 엔진의 내부 동작 라이프사이클 (2-Track)         │
+├──────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  [새로운 패킷 인입] ─────────────────┐                             │
+│       │                            ▼                             │
+│       │            ┌────────────────────────────┐                │
+│       │            │ 1. State Table 조회 (캐시) │                │
+│       │            │  (Fast Path 해시 매칭)      │                │
+│       │            └─────────┬─────────┬────────┘                │
+│       │                      │         │                         │
+│       │                 [불일치]    [일치 (Match!)]               │
+│       │                      │         │                         │
+│       ▼                      ▼         └──────────┐              │
+│  [Slow Path]        ┌─────────────────┐           │              │
+│                  │ 2. ACL 정책 검사 │           │ [Fast Path]  │
+│  (TCP SYN의 경우)   │ (방화벽 룰셋)    │           │ (초고속 통과)  │
+│                  └────────┬────────┘           │              │
+│                           │                    │              │
+│                      [허용(Permit)]            │              │
+│                           │                    │              │
+│                           ▼                    │              │
+│                  ┌─────────────────┐           │              │
+│                  │ 3. 세션 기록 생성 │           │              │
+│                  │ (Table Entry)   │           │              │
+│                  └────────┬────────┘           │              │
+│                           │                    │              │
+│                           ▼                    ▼              │
+│                     [패킷 허용 및 인터페이스 전송 (Forwarding)]       │
+│                                                                  │
+│ ──────────────────────────────────────────────────────────────── │
+│  * 비정상 시나리오 (Drop)                                          │
+│  - 테이블에 없는 상태에서 TCP ACK 또는 RST 패킷만 들어올 경우 ──▶ [차단] │
+│  - 룰셋(ACL)에서 거부(Deny)된 첫 패킷 (예: 텔넷 접근) ───────▶ [차단] │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 다이어그램은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 보안이 어떻게 시스템 구조 속에서 타협점을 찾는지를 논리적으로 규명한다. 핵심은 가장 빈번하게 발생하는 후속 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 패킷들(동영상의 스트리밍 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조각들 등)이 2번(무거운 [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) 검사)과 3번을 거치지 않고, 1번([State Table](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/066_state_table/) 조회)에서 바로 Fast Path를 타고 초고속으로 전송(Forwarding)된다는 점이다. 이 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 아키텍처 덕분에 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)의 룰(Rule)이 수만 줄로 늘어나더라도 기존 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)의 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))은 전혀 저하되지 않는다. 해커가 상태 테이블 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)을 우회하기 위해 처음부터 SYN이 아닌 조작된 ACK 패킷이나 은닉된 널(NULL) 스캔 패킷을 쏘더라도, [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Table에 일치하는 기록이 없으므로 곧바로 Slow Path로 넘어가고, [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 규격에 맞지 않는 "SYN 없는 ACK"는 룰셋 엔진에 의해 즉각 폐기(Drop)된다. 이것이 Stateful 장비가 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 스캔이나 [세션 하이재킹](/knowledge-base/studynote/03_network/14_network_security_threats/707_session_hijacking_tcp_seq_cookie/) 시도에 대해 강건한 이유다.
 
@@ -132,19 +154,17 @@ Stateful [방화벽](/knowledge-base/studynote/03_network/13_network_security_ba
 
 TCP는 연결 지향(Connection-oriented)이므로 SYN, FIN 등의 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)([Flag](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/))로 상태를 명확히 추적할 수 있다. 하지만 상태([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)) 개념 자체가 아예 없는 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) (예: [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/))나 [ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) (예: Ping)는 어떻게 Stateful [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이 처리할까? [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)은 '가상 상태 (Pseudo-[state](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))'를 만들어 낸다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로토콜</div><div class="kb-diagram-cell">Stateful 방화벽의 가상 상태(Pseudo-state) 추적 방식</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">UDP (DNS 등)</div><div class="kb-diagram-cell">출발지/목적지 IP와 포트를 기반으로 매핑 정보 생성. 응답 패킷이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">돌아올 때까지만 매우 짧은 시간(예: 30초) 동안만 테이블 유지.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ICMP (Ping)</div><div class="kb-diagram-cell">ICMP Type(Echo Request/Reply)과 Sequence 번호를 조합</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하여 세션 식별 아이디처럼 사용. 타이머(수 초) 초과 시 자동 삭제.</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────┬────────────────────────────────────────────────────────┐
+│ 프로토콜      │ Stateful 방화벽의 가상 상태(Pseudo-state) 추적 방식          │
+├───────────────┼────────────────────────────────────────────────────────┤
+│ UDP (DNS 등)  │ 출발지/목적지 IP와 포트를 기반으로 매핑 정보 생성. 응답 패킷이  │
+│               │ 돌아올 때까지만 매우 짧은 시간(예: 30초) 동안만 테이블 유지.  │
+├───────────────┼────────────────────────────────────────────────────────┤
+│ ICMP (Ping)   │ ICMP Type(Echo Request/Reply)과 Sequence 번호를 조합    │
+│               │ 하여 세션 식별 아이디처럼 사용. 타이머(수 초) 초과 시 자동 삭제. │
+└───────────────┴────────────────────────────────────────────────────────┘
+```
 
 **[매트릭스 해설]** [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)(예: [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 질의)가 내부에서 밖으로 나가면, [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)은 이를 위해 잠시 [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Table에 임시 장부(Virtual [Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/))를 만든다. 그리고 외부 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버에서 응답이 되돌아오면, 이 응답을 통과시킨 직후 타이머에 의해 장부를 재빨리 파기해 버린다. 이는 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) Flooding과 같은 [DoS](/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/) 공격 시 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)의 메모리가 고갈되는 것을 막기 위한 필수 융합 보안 기법이다. 상태가 없는 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)조차 강제로 상태를 덧씌워 통제하는 것이 Stateful 철학의 핵심이다.
 
@@ -162,28 +182,33 @@ TCP는 연결 지향(Connection-oriented)이므로 SYN, FIN 등의 [플래그](/
 
 의사결정 과정에서 실무 네트워크 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 및 보안 아키텍처를 설계할 때 자주 범하는 '비대칭 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)' 장애 해결 플로우는 아래와 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비대칭 라우팅(Asymmetric Routing)에 의한 Stateful 방화벽 장애 판단</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">클라이언트 통신 실패 보고 (접속 Timeout)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">방화벽 로그 확인</div><div class="kb-diagram-note">"TCP 패킷 차단: Out of State (상태 불일치)" 로그 발생?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예 ▶ 비대칭 라우팅(Asymmetric Routing) 의심 장애</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 토폴로지 분석</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">패킷이 나가는 경로(FW 1)와 들어오는 경로(FW 2)가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서로 다른 방화벽 장비로 구성되어 있는가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(또는 L3 스위치의 로드밸런싱이 활성화되었는가?)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">해결 방안 결정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A. 라우팅 프로토콜(OSPF/BGP)을 조정하여 In/Out</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">트래픽이 반드시 같은 방화벽(동일 장비)을 타도록 강제</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B. 불가피할 경우, 두 방화벽을 액티브-액티브(A/A)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클러스터링으로 묶어 State Table 메모리를 실시간 동기화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ──▶ 단순 방화벽 포트 미개방(ACL 룰 누락) 또는 서버 장애</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────────┐
+│         비대칭 라우팅(Asymmetric Routing)에 의한 Stateful 방화벽 장애 판단     │
+├───────────────────────────────────────────────────────────────────┤
+│                                                                   │
+│   [클라이언트 통신 실패 보고 (접속 Timeout)]                              │
+│                │                                                  │
+│                ▼                                                  │
+│      [방화벽 로그 확인] "TCP 패킷 차단: Out of State (상태 불일치)" 로그 발생?│
+│          ├─ 예 ────▶ 비대칭 라우팅(Asymmetric Routing) 의심 장애         │
+│          │                     │                                  │
+│          │                     ▼                                  │
+│          │             [네트워크 토폴로지 분석]                       │
+│          │             패킷이 나가는 경로(FW 1)와 들어오는 경로(FW 2)가  │
+│          │             서로 다른 방화벽 장비로 구성되어 있는가?           │
+│          │             (또는 L3 스위치의 로드밸런싱이 활성화되었는가?)      │
+│          │                     │                                  │
+│          │                     ▼                                  │
+│          │             [해결 방안 결정]                             │
+│          │             A. 라우팅 프로토콜(OSPF/BGP)을 조정하여 In/Out   │
+│          │                트래픽이 반드시 같은 방화벽(동일 장비)을 타도록 강제 │
+│          │             B. 불가피할 경우, 두 방화벽을 액티브-액티브(A/A)    │
+│          │                클러스터링으로 묶어 State Table 메모리를 실시간 동기화│
+│          │                                                        │
+│          └─ 아니오 ──▶ 단순 방화벽 포트 미개방(ACL 룰 누락) 또는 서버 장애  │
+└───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** Stateful [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)을 운영할 때 네트워크 엔지니어가 가장 골머리를 앓는 것이 '비대칭 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)(Asymmetric [Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))'이다. 대형 인프라에서는 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)을 이중화하여 사용하는데, 내부 클라이언트의 SYN 요청이 1번 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)(FW1)을 타고 밖으로 나갔다면 [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Table은 FW1에만 기록된다. 그런데 라우터가 경로를 효율적으로 쓰겠다고 응답 패킷(SYN-ACK)을 2번 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)(FW2) 쪽으로 보내면 어떻게 될까? FW2는 아무런 요청 기록([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))이 없으므로 이 패킷을 해킹 시도(위조된 응답)로 간주하고 가차 없이 폐기(Drop)해 버린다. 이는 [Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/) 장비 시절에는 없었던 장애다. 이를 해결하기 위해 엔지니어는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 경로를 정교하게 튜닝하여 'In/Out 대칭 경로'를 맞추거나, 전용 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 케이블(HA Sync)로 두 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)의 [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) 장부를 밀리초(ms) 단위로 실시간 복사하게 만들어 어느 쪽으로 응답이 들어와도 통과되게 만들어야 한다.
 
@@ -231,19 +256,15 @@ Stateful Inspection 기술의 발명은 보안을 대하는 패러다임을 "점
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: ARP 스푸핑</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 방화벽</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: WAF</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: ARP 스푸핑]
+    │
+    ▼
+[현재 개념: 방화벽]
+    │
+    ├──▶ [확장 A: WAF]
+    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
+```
 
 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)는 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)에서 출발해 현재 메커니즘을 정교화하고, 이후 WAF와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

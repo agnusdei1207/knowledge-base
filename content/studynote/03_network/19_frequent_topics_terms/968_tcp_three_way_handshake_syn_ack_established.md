@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: TCP는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보내기 전, 반드시 출발지와 목적지 컴퓨터 사이에 가상의 터널(논리적 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 연결)을 먼저 튼튼하게 뚫어놓고 통신을 시작하는 **연결 지향형(Connection-oriented)** 프로토콜입니다.
 - 이 터널을 뚫는 작업이 바로 3번 악수하기(3-Way Handshake)이며, 연결을 끊고 터널을 폭파할 때는 4번 악수(4-Way Handshake)를 합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">TCP 슬라이딩 윈도우</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">TCP 쓰리웨이 핸드셰이크</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">혼잡 윈도우</div></div>
-</div>
-</div>
-
-
+```text
+[TCP 슬라이딩 윈도우]
+    │
+    ▼
+[TCP 쓰리웨이 핸드셰이크]
+    │
+    └──▶ [혼잡 윈도우]
+```
 
 - **📢 섹션 요약 비유**: [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 쓰리웨이 핸드셰이크는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -43,18 +39,14 @@ tags = ["studynote-network"]
 
 클라이언트(내 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))가 네이버 서버 접속 시의 핑퐁 과정입니다. 이 단계에서 헤더의 깃발(Control [Flag](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/): SYN, ACK)이 미친 듯이 활약합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">TCP 슬라이딩 윈도우</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">TCP 쓰리웨이 핸드셰이크</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">혼잡 윈도우</div></div>
-</div>
-</div>
-
-
+```text
+[TCP 슬라이딩 윈도우]
+    │
+    ▼
+[TCP 쓰리웨이 핸드셰이크]
+    │
+    └──▶ [혼잡 윈도우]
+```
 
 - **📢 섹션 요약 비유**: [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 쓰리웨이 핸드셰이크의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -140,19 +132,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: TCP 슬라이딩 윈도우</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: TCP 쓰리웨이 핸드셰이크</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 혼잡 윈도우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: TCP 슬라이딩 윈도우]
+    │
+    ▼
+[현재 개념: TCP 쓰리웨이 핸드셰이크]
+    │
+    ├──▶ [확장 A: 혼잡 윈도우]
+    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
+```
 
 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 쓰리웨이 핸드셰이크는 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 슬라이딩 윈도우에서 출발해 현재 메커니즘을 정교화하고, 이후 [혼잡 윈도우](/knowledge-base/studynote/03_network/08_transport_layer/429_cwnd_congestion_window_concept/)와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

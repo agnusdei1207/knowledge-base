@@ -50,29 +50,33 @@ AutoML에서 하이퍼파라미터 최적화(Hyperparameter Optimization, HPO)�
 
 아래 그림은 베이지안 HPO의 반복 루프를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Search Space</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">lr, depth, reg</div></div>
-<div class="kb-diagram-note">초기 랜덤 샘플</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">결과 저장</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Train / Validate</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Trial History</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">expensive run</div><div class="kb-diagram-cell">x, score, runtime</div></div>
-<div class="kb-diagram-note">실제 점수 ▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Surrogate Model</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Gaussian Process /</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TPE posterior</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Acquisition Func.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EI / UCB</div></div>
-<div class="kb-diagram-note">다음 후보 x*</div>
-<div class="kb-diagram-tree-item" style="--depth:8">▶ 반복</div>
-</div>
-</div>
-
-
+```text
+┌────────────────┐
+│ Search Space   │
+│ lr, depth, reg │
+└───────┬────────┘
+        │ 초기 랜덤 샘플
+        ▼
+┌────────────────┐      결과 저장      ┌────────────────────┐
+│ Train / Validate│──────────────────▶ │ Trial History      │
+│ expensive run   │                    │ x, score, runtime  │
+└───────┬────────┘                    └─────────┬──────────┘
+        │                                       │
+        │ 실제 점수                              ▼
+        │                              ┌────────────────────┐
+        │                              │ Surrogate Model    │
+        │                              │ Gaussian Process / │
+        │                              │ TPE posterior      │
+        │                              └─────────┬──────────┘
+        │                                        │
+        │                                        ▼
+        │                              ┌────────────────────┐
+        └───────────────────────────── │ Acquisition Func.  │
+                                       │ EI / UCB           │
+                                       └─────────┬──────────┘
+                                                 │ 다음 후보 x*
+                                                 └──────────────▶ 반복
+```
 
 이 과정에서 Gaussian [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) (GP)는 저차원 연속 공간에서 불확실성 표현이 뛰어나고, TPE (Tree-structured Parzen Estimator)는 혼합형·조건부 공간에서 실무 적응력이 좋다. 획득 함수도 역할이 다르다. Expected Improvement (EI)는 현재 최고 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)보다 얼마나 더 좋아질지를 기대값으로 계산하고, Upper [Confidence](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) Bound (UCB)는 평균 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 불확실성을 함께 보며 아직 덜 탐색된 영역에 기회를 준다.
 
@@ -159,25 +163,24 @@ AutoML 전체 그림에서 베이지안 HPO는 독립 [모듈](/knowledge-base/s
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">수동 튜닝 · Grid Search</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Random Search 기반 기준선 확보</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Bayesian Optimization</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ GP / TPE 대리 모델</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ EI / UCB 획득 함수</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Hyperband · ASHA 결합</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">BOHB · 다목적 AutoML · 메타러닝 Warm Start</div>
-</div>
-</div>
-
-
+```text
+수동 튜닝 · Grid Search
+    │
+    ▼
+Random Search 기반 기준선 확보
+    │
+    ▼
+Bayesian Optimization
+    │
+    ├─▶ GP / TPE 대리 모델
+    └─▶ EI / UCB 획득 함수
+    │
+    ▼
+Hyperband · ASHA 결합
+    │
+    ▼
+BOHB · 다목적 AutoML · 메타러닝 Warm Start
+```
 
 이 흐름은 "조합 나열"에서 출발해 "불확실성을 학습하는 탐색"과 "자원 예산을 함께 최적화하는 AutoML"로 발전하는 방향을 보여준다.
 

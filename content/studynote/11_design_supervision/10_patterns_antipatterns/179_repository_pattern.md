@@ -43,25 +43,27 @@ DDD에서는 특히 이 문제가 크게 드러난다. 주문, 회원, 결제 �
 
 아래 그림은 레파지토리가 계층 사이에서 어떤 역할을 하는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Repository in domain-centered architecture</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Application Service</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">findByOrderId() / save(order)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OrderRepository interface</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">speaks domain language</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Repository implementation</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ ORM mapping</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ SQL / query builder</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ transaction / unit-of-work cooperation</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Database / cache / external store</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Returned to service: Aggregate Root + Value Objects</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Repository in domain-centered architecture                           │
+├──────────────────────────────────────────────────────────────────────┤
+│ Application Service                                                  │
+│   │  findByOrderId() / save(order)                                   │
+│   ▼                                                                  │
+│ OrderRepository interface                                            │
+│   │  speaks domain language                                          │
+│   ▼                                                                  │
+│ Repository implementation                                            │
+│   ├─ ORM mapping                                                     │
+│   ├─ SQL / query builder                                             │
+│   └─ transaction / unit-of-work cooperation                          │
+│   │                                                                  │
+│   ▼                                                                  │
+│ Database / cache / external store                                    │
+│                                                                      │
+│ Returned to service: Aggregate Root + Value Objects                  │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 여기서 중요한 규칙이 있다. 레파지토리는 보통 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/">애그리게이트</a> 루트만 외부에 노출</strong>한다. `OrderRepository`는 있어도 `OrderItemRepository`를 따로 두지 않는 식이다. 그래야 [애그리게이트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/) 내부 규칙이 바깥에서 임의로 깨지지 않는다. 또한 조회 요구가 지나치게 복잡해져 리포트·대시보드·통계 성격이 강해지면, 모든 읽기 작업을 레파지토리에 억지로 넣기보다 Query Service나 [CQRS](/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/) ([Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) Query Responsibility Segregation) 읽기 모델로 분리하는 편이 낫다.
 
@@ -148,26 +150,24 @@ Spring [Data](/knowledge-base/studynote/05_database/01_db_architecture_relationa
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">직접 SQL / ORM 노출</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DAO 수준의 저장 분리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DDD에서 애그리게이트 경계 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Repository interface 도입</div>
-<div class="kb-diagram-tree-item" style="--depth:2">도메인 언어 메서드</div>
-<div class="kb-diagram-tree-item" style="--depth:2">테스트 대역 교체</div>
-<div class="kb-diagram-tree-item" style="--depth:2">인프라 구현 은닉</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CQRS · Query Service · Unit of Work와 결합한 고도화</div>
-</div>
-</div>
-
-
+```text
+직접 SQL / ORM 노출
+    │
+    ▼
+DAO 수준의 저장 분리
+    │
+    ▼
+DDD에서 애그리게이트 경계 인식
+    │
+    ▼
+Repository interface 도입
+    ├─ 도메인 언어 메서드
+    ├─ 테스트 대역 교체
+    └─ 인프라 구현 은닉
+    │
+    ▼
+CQRS · Query Service · Unit of Work와 결합한 고도화
+```
 
 이 흐름은 레파지토리가 단순 저장 래퍼가 아니라, [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델과 [영속성](/knowledge-base/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/) 경계를 더 정교하게 분리하는 방향으로 발전했음을 보여 준다.
 

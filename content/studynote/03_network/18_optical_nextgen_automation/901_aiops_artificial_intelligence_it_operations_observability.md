@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **경고 피로도(Alert Fatigue)**: 옛날 모니터링 시스템은 융통성 없는 룰 기반(Rule-based)이었습니다. "CPU가 90% 넘으면 무조건 빨간불 띄워!" 밤새 백업을 돌리느라 잠깐 CPU가 올라간 건데도 사일렌이 울려서 엔지니어가 자다 깨서 뛰어왔습니다(오탐, False Positive). 
 - 이런 쓰레기 알람이 하루 1만 개씩 터지니 엔지니어들은 노이로제에 걸려 알람 소리를 아예 음소거해버리는 사태가 벌어졌습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">무선 광통신 대기권 전송 FSO 기상 조건…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AIOps</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">자율-구동 네트워크</div></div>
-</div>
-</div>
-
-
+```text
+[무선 광통신 대기권 전송 FSO 기상 조건…]
+    │
+    ▼
+[AIOps]
+    │
+    └──▶ [자율-구동 네트워크]
+```
 
 - **📢 섹션 요약 비유**: AIOps는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -43,18 +39,14 @@ tags = ["studynote-network"]
 
 - **개념**: 글로벌 IT 리서치 기업 가트너(Gartner)가 명명한 개념으로, <strong>수만 대의 IT 인프라, 애플리케이션, 네트워크 장비에서 실시간으로 쏟아지는 방대한 텔레메트리(원격 측정) 및 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a>(<a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/535_syslog_protocol_udp_514/">Syslog</a>) 빅데이터를 수집하여, <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/">인공지능</a>(<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/">머신러닝</a>/딥러닝) 모델로 분석함으로써 시스템의 이상 징후를 예측(예지)하고, 근본 원인을 핀셋으로 찾아내며, 나아가 사람 개입 없이 스스로 자가 치유(자동화 조치)까지 해내는 차세대 지능형 IT 운영 관제 프레임워크</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">무선 광통신 대기권 전송 FSO 기상 조건…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AIOps</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">자율-구동 네트워크</div></div>
-</div>
-</div>
-
-
+```text
+[무선 광통신 대기권 전송 FSO 기상 조건…]
+    │
+    ▼
+[AIOps]
+    │
+    └──▶ [자율-구동 네트워크]
+```
 
 - **📢 섹션 요약 비유**: AIOps의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -126,19 +118,15 @@ AIOps는 광통신·차세대·자동화를 이해할 때 핵심 축을 잡아 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 무선 광통신 대기권 전송 FSO 기상 조건…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: AIOps</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 자율-구동 네트워크</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 무선 광통신 대기권 전송 FSO 기상 조건…]
+    │
+    ▼
+[현재 개념: AIOps]
+    │
+    ├──▶ [확장 A: 자율-구동 네트워크]
+    └──▶ [확장 B: 의미 기반 통신 최적화]
+```
 
 AIOps는 [무선 광통신](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/900_fso_free_space_optics_hybrid_rf_backup/) 대기권 전송 [FSO](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/900_fso_free_space_optics_hybrid_rf_backup/) 기상 조건…에서 출발해 현재 메커니즘을 정교화하고, 이후 [자율-구동 네트워크](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/902_adn_autonomous_driving_network_level5_zero_touch/)와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

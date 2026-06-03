@@ -25,19 +25,17 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 멀티코어가 등장한 배경을 "클럭 증가" 중심에서 "[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 증가" 중심으로 바꾼 흐름으로 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">성능 향상의 축 변화: 더 빠른 1코어 → 함께 일하는 N코어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">과거 접근</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1 Core × 매우 높은 Clock ──▶ 발열 증가 ──▶ 한계 도달</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">현대 접근</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">N Cores × 적정 Clock ──▶ 병렬 처리 ──▶ 총 처리량 향상</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│      성능 향상의 축 변화: 더 빠른 1코어 → 함께 일하는 N코어 │
+├──────────────────────────────────────────────────────────────┤
+│ 과거 접근                                                   │
+│   1 Core × 매우 높은 Clock  ──▶ 발열 증가 ──▶ 한계 도달      │
+│                                                              │
+│ 현대 접근                                                   │
+│   N Cores × 적정 Clock      ──▶ 병렬 처리 ──▶ 총 처리량 향상 │
+└──────────────────────────────────────────────────────────────┘
+```
 
 핵심은 멀티코어가 단순한 "코어 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)"가 아니라, 물리 한계에 대응하기 위한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 전략의 전환이라는 점이다. 따라서 멀티코어를 이해할 때는 코어 개수보다 먼저, 왜 클럭 중심 시대가 끝났는지를 같이 기억해야 한다.
 
@@ -61,20 +59,21 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 여러 코어가 공유 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다룰 때 왜 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 제어가 필요한지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공유 데이터 X에 대한 멀티코어 접근과 일관성 유지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core 0 Shared LLC Core 1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L1: X=10</div><div class="kb-diagram-cell">◀ ▶</div><div class="kb-diagram-cell">X=10</div><div class="kb-diagram-cell">◀ ▶</div><div class="kb-diagram-cell">L1: X=10</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">write X=20</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상태 변경 + 다른 복사본 무효화 요청 ▶ invalidate</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L1: X=invalid</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│        공유 데이터 X에 대한 멀티코어 접근과 일관성 유지      │
+├──────────────────────────────────────────────────────────────┤
+│ Core 0              Shared LLC               Core 1          │
+│ ┌──────────┐        ┌──────────┐        ┌──────────┐         │
+│ │ L1: X=10 │◀──────▶│   X=10   │◀──────▶│ L1: X=10 │         │
+│ └────┬─────┘        └──────────┘        └────┬─────┘         │
+│      │  write X=20                                │          │
+│      ▼                                            │          │
+│  상태 변경 + 다른 복사본 무효화 요청 ───────────────▶ invalidate │
+│                                                   ▼          │
+│                                             L1: X=invalid    │
+└──────────────────────────────────────────────────────────────┘
+```
 
 멀티코어의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 단순히 코어를 많이 붙인다고 끝나지 않는다. 코어가 늘수록 메모리 접근 경쟁, 캐시 간섭, 연결망 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 커지므로, 실제 확장성은 공유 자원을 얼마나 잘 설계했는지에 달려 있다. 그래서 현대 프로세서는 코어 수 증가와 함께 프리패치, [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) ([Non-Uniform Memory Access](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/)) 최적화, 하이브리드 코어 배치까지 함께 고려한다.
 
@@ -151,22 +150,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">싱글 코어 고클럭 경쟁</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">전력 벽 (Power Wall) · 발열 벽 (Thermal Wall)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">멀티코어 프로세서 (Multi-core Processor)</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ 캐시 일관성 (Cache Coherence) · MESI</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ SMP (Symmetric Multiprocessing) 스케줄링</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ NUMA · 이기종 멀티코어 · CPU+가속기 통합</div>
-</div>
-</div>
-
-
+```text
+싱글 코어 고클럭 경쟁
+        │
+        ▼
+전력 벽 (Power Wall) · 발열 벽 (Thermal Wall)
+        │
+        ▼
+멀티코어 프로세서 (Multi-core Processor)
+        │
+        ├──▶ 캐시 일관성 (Cache Coherence) · MESI
+        │
+        ├──▶ SMP (Symmetric Multiprocessing) 스케줄링
+        │
+        └──▶ NUMA · 이기종 멀티코어 · CPU+가속기 통합
+```
 
 이 흐름은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상 전략이 "클럭 증가"에서 "[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 구조 + [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 관리 + 자원 배치 최적화"로 이동하는 과정을 보여준다.
 

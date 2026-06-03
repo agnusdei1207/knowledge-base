@@ -43,22 +43,21 @@ tags = ["studynote-computer-architecture"]
 
 다음 그림은 좋은 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 메커니즘이 "가능하면 낮은 계층에서 바로 고치고, 안 되면 단계적으로 올리는" 구조임을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Soft error recovery ladder: recover locally first, escalate only if needed</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Detect</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Contain</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Recover</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Resume or Escalate</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; ECC fix</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; Replay / Rollback</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; TMR vote</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; Isolate core / poison page / freeze output</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; Parity / ECC / Lockstep compare / Watchdog</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Persistent fault --------------------------------------&gt; retire / reset</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│ Soft error recovery ladder: recover locally first, escalate only if needed│
+├────────────────────────────────────────────────────────────────────────────┤
+│ Strike -> [Detect] -> [Contain] -> [Recover] -> [Resume or Escalate]      │
+│             │          │             │                                     │
+│             │          │             ├-> ECC fix                           │
+│             │          │             ├-> Replay / Rollback                 │
+│             │          │             └-> TMR vote                          │
+│             │          └-> Isolate core / poison page / freeze output      │
+│             └-> Parity / ECC / Lockstep compare / Watchdog                 │
+│                                                                            │
+│ Persistent fault  --------------------------------------> retire / reset   │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 핵심 원리는 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 기술마다 보호하는 범위와 시간 특성이 다르다는 점이다. ECC는 메모리 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 반전에 매우 빠르지만, 이미 레지스터와 제어 흐름으로 번진 오류는 checkpoint/rollback이 더 적합하다. lockstep은 자동차 MCU ([Microcontroller](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/130_microcontroller/) Unit)처럼 결정론적 응답이 중요한 환경에서 강력하고, TMR은 우주·원전처럼 현장 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 어려운 곳에서 비용을 감수할 가치가 있다.
 
@@ -131,23 +130,21 @@ soft error는 일시적이어서 재시도나 상태 복원이 잘 통하는 반
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Parity · ECC 기반 국소 오류 탐지</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Retry · Rollback · Checkpoint</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Lockstep · DMR 기반 실시간 비교</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">TMR · Fail-operational 시스템</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">선택적 하드닝 · 예측형 신뢰성 관리</div>
-</div>
-</div>
-
-
+```text
+Parity · ECC 기반 국소 오류 탐지
+        │
+        ▼
+Retry · Rollback · Checkpoint
+        │
+        ▼
+Lockstep · DMR 기반 실시간 비교
+        │
+        ▼
+TMR · Fail-operational 시스템
+        │
+        ▼
+선택적 하드닝 · 예측형 신뢰성 관리
+```
 
 이 흐름은 단일 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 보호에서 출발해, 지금은 시스템 전체가 오류를 흡수하고 운영 정책까지 바꾸는 방향으로 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 진화하고 있음을 보여 준다.
 

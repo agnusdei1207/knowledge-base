@@ -25,18 +25,14 @@ tags = ["studynote-network"]
 - **💡 비유**: 
   - **스플릿 호라이즌 (수평선 분할)**: 친구 철수(A)가 영희(B)에게 "내일 비 온대!"라고 알려줬습니다. 영희가 다음날 철수에게 가서 <strong>"야, 내일 비 온대!"라고 자기가 들은 소문을 원래 말해준 당사자에게 역으로 다시 말하는 바보짓을 입을 꿰매어 강제로 막는 규칙</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">링크 상태 라우팅 알고리즘</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">거리 벡터 라우팅 루프 방지</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">홀드다운 타이머, 트리거드 업데이트</div></div>
-</div>
-</div>
-
-
+```text
+[링크 상태 라우팅 알고리즘]
+    │
+    ▼
+[거리 벡터 라우팅 루프 방지]
+    │
+    └──▶ [홀드다운 타이머, 트리거드 업데이트]
+```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> 루프 방지책들은 귀가 너무 얇아 사기를 잘 당하는 바보 라우터(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/">RIP</a>)에게 씌워준 </strong>"사기 예방 지침서"**입니다. 이 지침서 없이는 네트워크가 5분 만에 거짓 정보의 소용돌이에 휘말려 파멸합니다.
 
@@ -63,23 +59,24 @@ tags = ["studynote-network"]
 - 하지만 B는 입을 닫는 대신, A에게 <strong>"네가 알려준 Z망 길, 거리가 16(독약)이라서 도달 불가 상태야!"</strong>라고 아주 구체적인 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 사살용 거짓 엽서를 되돌려(Reverse) 보낸다.
 - 왜 이렇게 귀찮은 짓을 하느냐? A가 "아, 내가 알려준 길을 B가 확실하게 지웠구나!"라고 100% 맘 편하게 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할(Acknowledge) 수 있도록 확실하게 도장을 찍어주는 것이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스플릿 호라이즌 vs 포이즌 리버스 차이</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황: A가 B에게 "Z망으로 가는 길"을 가르쳐 주었다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 스플릿 호라이즌의 대응:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B ──▶ A (말을 걸 때) : "...... (Z망에 대해선 입을 꾹 닫음)"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 포이즌 리버스의 대응:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B ──▶ A (말을 걸 때) : "야 A야! 네가 알려준 Z망 말인데,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">홉 카운트 16(무한대)이라 썩었더라!!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결론: 포이즌 리버스가 대역폭을 좀 더 쓰지만(엽서가 커지니까),</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">루프를 끊어버리는 방어력은 훨씬 강력하고 확실하다.</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                스플릿 호라이즌 vs 포이즌 리버스 차이             │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 상황: A가 B에게 "Z망으로 가는 길"을 가르쳐 주었다 ]               │
+ │                                                             │
+ │   * 스플릿 호라이즌의 대응:                                     │
+ │     B ──▶ A (말을 걸 때) : "...... (Z망에 대해선 입을 꾹 닫음)"      │
+ │                                                             │
+ │   * 포이즌 리버스의 대응:                                       │
+ │     B ──▶ A (말을 걸 때) : "야 A야! 네가 알려준 Z망 말인데,        │
+ │                             홉 카운트 16(무한대)이라 썩었더라!!"   │
+ │                                                             │
+ │   ▶ 결론: 포이즌 리버스가 대역폭을 좀 더 쓰지만(엽서가 커지니까),       │
+ │           루프를 끊어버리는 방어력은 훨씬 강력하고 확실하다.            │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: ** 포이즌 리버스는 스팸 메일(루프 정보)이 왔을 때 그냥 차단하고 무시하는(스플릿 호라이즌) 것을 넘어, 스팸 발송자에게 **"없는 메일 주소입니다(반송-독약)"**라고 답장을 때려서 아예 스팸 DB에서 내 주소를 완벽히 지워버리게 만드는 적극적이고 잔인한 복수극입니다.
 
@@ -137,19 +134,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 링크 상태 라우팅 알고리즘</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 거리 벡터 라우팅 루프 방지</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 홀드다운 타이머, 트리거드 업데이트</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 링크 상태 라우팅 알고리즘]
+    │
+    ▼
+[현재 개념: 거리 벡터 라우팅 루프 방지]
+    │
+    ├──▶ [확장 A: 홀드다운 타이머, 트리거드 업데이트]
+    └──▶ [확장 B: 의도 기반 라우팅]
+```
 
 [거리 벡터](/knowledge-base/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 루프 방지는 [링크 상태](/knowledge-base/studynote/03_network/07_network_layer_routing/348_link_state_routing_dijkstra_spf/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [홀드다운 타이머](/knowledge-base/studynote/03_network/07_network_layer_routing/350_distance_vector_hold_down_timer_triggered_update/), 트리거드 업데이트와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

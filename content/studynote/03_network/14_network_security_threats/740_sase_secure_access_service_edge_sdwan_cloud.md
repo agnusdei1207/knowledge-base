@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 과거 기업망은 본사([Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/))에 거대한 보안 장비([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/), [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/))를 쌓아두고, 지사(Spoke)나 재택 근무자는 무조건 VPN을 뚫고 본사를 한 번 찍은 뒤 인터넷으로 나가는 백홀링(Backhauling) 구조를 썼습니다.
 - **한계 폭발**: 코로나19로 재택근무가 터지고, 업무를 MS 365 같은 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 클라우드에서 다 하다 보니, 수만 명의 트래픽이 본사 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)으로 몰려들어 회사 인터넷이 매일 마비되고(병목 현상), 속도가 느려 터지는 재앙이 발생했습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">마이크로 세그멘테이션</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SASE</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CASB</div></div>
-</div>
-</div>
-
-
+```text
+[마이크로 세그멘테이션]
+    │
+    ▼
+[SASE]
+    │
+    └──▶ [CASB]
+```
 
 - **📢 섹션 요약 비유**: SASE는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -57,18 +53,14 @@ SASE는 단일 제품이 아니라, 여러 혁신 기술을 하나로 묶은 패
 3. <strong><a href="/knowledge-base/studynote/03_network/14_network_security_threats/741_casb_cloud_access_security_broker/">CASB</a> (클라우드 접근 보안 브로커)</strong>: 직원이 회사 기밀을 엉뚱한 구글 드라이브 개인 계정에 몰래 업로드하려는 것을 엣지 클라우드가 잡아내서 쳐냅니다 (741번).
 4. <strong>FWaaS (<a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a> 애즈 어 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>)</strong>: 하드웨어 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 기계를 버리고, 클라우드 위에서 돌아가는 무한 확장 소프트웨어 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">마이크로 세그멘테이션</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SASE</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CASB</div></div>
-</div>
-</div>
-
-
+```text
+[마이크로 세그멘테이션]
+    │
+    ▼
+[SASE]
+    │
+    └──▶ [CASB]
+```
 
 - **📢 섹션 요약 비유**: SASE의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -122,19 +114,15 @@ SASE는 [네트워크 보안](/knowledge-base/studynote/03_network/20_performanc
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 마이크로 세그멘테이션</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: SASE</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: CASB</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 마이크로 세그멘테이션]
+    │
+    ▼
+[현재 개념: SASE]
+    │
+    ├──▶ [확장 A: CASB]
+    └──▶ [확장 B: 예측형 위협 대응]
+```
 
 SASE는 [마이크로 세그멘테이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/)에서 출발해 현재 메커니즘을 정교화하고, 이후 CASB와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

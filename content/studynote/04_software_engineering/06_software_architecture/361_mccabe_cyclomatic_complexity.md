@@ -21,27 +21,28 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: 맥케이브 순환 복잡도는 1976년 토마스 맥케이브(Thomas McCabe)가 제안한 소프트웨어 복잡도 측정법으로, 프로그램의 제어 흐름 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)([Control Flow](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/186_control_flow_instructions/) [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/))를 구성하고 그 안에서 <strong>독립적 실행 경로의 최소 개수</strong>를 수학적으로 계산한다. 핵심 아이디어는 "코드가 복잡한 이유는 분기(If, While, For 등)가 많기 때문"이라는 직관에 기반한다.
 
-- **필요성**:개발에서 복잡한 모듈은 이해하기 어렵고, 버그가 발생할 확률이 높으며, 테스트。 복잡도를 정량화하면 "이 함수는 지금 V(G)=25로 너무 복잡하니까 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) 이하로 줄여라"처럼 객관적 기준을 제시할 수 있다.
+- **필요성**:연건개발에서 복잡한 모듈은 이해하기 어렵고, 버그가 발생할 확률이 높으며, 테스트야흔난철저.  복잡도를 정량화하면 "이 함수는 지금 V(G)=25로 너무 복잡하니까 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) 이하로 줄여라"처럼 객관적 기준을 제시할 수 있다.
 
 - **💡 비유**: 맥케이브 복잡도는 <strong>'미로의 갈림길 수'</strong>와 같다. 미로에서 목적지까지 가는 방법이 분기점 하나면 2가지 경로, 분기점 두 개면 최대 4가지 경로가 된다. 분기점이 많을수록 미로가 복잡해지듯, 프로그램도 분기문이 많을수록 테스트해야 할 경로가 폭발적으로 증가한다.
 
-- **📢 섹션 요약 비유**: 맥케이브 순환 복잡도는 미로에 있는 <strong>'갈림길 표시'</strong>이다. 갈림길이 3개인 미로는 최대 8가지 경로(2³)가 있으므로, 도달률을 100%로 만들려면 8번을 다 시도해야 한다. 이 미로의 복잡도를 "V(G) = 3"이라고 표시해두면, 복잡도 3 정도면 테스트 가능하지만 복잡도 20이면 미로 자체를 단순화해야 한다.
+- **📢 섹션 요약 비유**: 맥케이브 순환 복잡도는 미로에 있는 <strong>'갈림길 표시판'</strong>이다. 갈림길이 3개인 미로는 최대 8가지 경로(2³)가 있으므로, 도달률을 100%로 만들려면 8번을 다 시도해야 한다. 이 미로의 복잡도를 "V(G) = 3"이라고 표시해두면, 복잡도 3 정도면 테스트 가능하지만 복잡도 20이면 미로 자체를 단순화해야 한다.
 
 ---
 
 다음은 소프트웨어 복잡도 측정의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소프트웨어 복잡도 측정</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                  소프트웨어 복잡도 측정                                │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
+│       │                    │                    │          │
+│       ▼                    ▼                    ▼          │
+│   요구 분석           설계·적용           품질 검증        │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램은 소프트웨어 복잡도 측정가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -131,30 +132,28 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 소프트웨어 복잡도 측정의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 소프트웨어 복잡도 측정의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
 | [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 소프트웨어 복잡도 측정은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | 소프트웨어 복잡도 측정 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
 | [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 소프트웨어 복잡도 측정에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">소프트웨어 복잡도 측정 개념 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 위기 (Software Crisis) 인식
+    │
+    ▼
+소프트웨어 복잡도 측정 개념 정립
+    │
+    ▼
+표준화 및 방법론 체계화 (ISO, CMMI, Agile)
+    │
+    ▼
+클라우드 네이티브·AI 기반 확장 적용
+    │
+    ▼
+지속적 개선 및 DevOps·MLOps 통합
+```
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

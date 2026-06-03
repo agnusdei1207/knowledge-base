@@ -31,22 +31,21 @@ tags = ["database"]
 3. **이행의 공리 (Transitivity Rule)**: $X \rightarrow Y$ 이고 $Y \rightarrow Z$ 이면, $X \rightarrow Z$ 이다.
    - 꼬리물기다. `사번 \rightarrow 부서코드`이고 `부서코드 \rightarrow 부서명`이면, 결과적으로 `사번 \rightarrow 부서명`이 성립한다. [제3정규형](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/)([3NF](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/)) 위반의 핵심 원인이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">암스트롱의 3대 기본 공리 흐름</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1. 반사 (Reflexivity) :</div><div class="kb-diagram-node">X, Y</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Y</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(전체 집합은 부분 집합을 결정함)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2. 첨가 (Augmentation) :</div><div class="kb-diagram-node">X</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Y</div><div class="kb-diagram-note">=&gt;</div><div class="kb-diagram-node">X, Z</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Y, Z</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(양쪽에 같은 속성 Z를 더해도 유지됨)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3. 이행 (Transitivity) :</div><div class="kb-diagram-node">X</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Y</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Z</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=&gt;</div><div class="kb-diagram-node">X</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Z</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(건너뛰기 결정이 가능함)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                  암스트롱의 3대 기본 공리 흐름                │
+├──────────────────────────────────────────────────────────────┤
+│ 1. 반사 (Reflexivity)  : [ X, Y ] ────────────▶ [ Y ]       │
+│                          (전체 집합은 부분 집합을 결정함)     │
+│                                                              │
+│ 2. 첨가 (Augmentation) : [ X ] ─▶ [ Y ]  => [ X, Z ] ─▶ [ Y, Z ] │
+│                          (양쪽에 같은 속성 Z를 더해도 유지됨) │
+│                                                              │
+│ 3. 이행 (Transitivity) : [ X ] ─▶ [ Y ] ─▶ [ Z ]           │
+│                          => [ X ] ───────────▶ [ Z ]       │
+│                          (건너뛰기 결정이 가능함)             │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 세 가지 공리는 <strong>건전성(Soundness, 잘못된 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/">종속성</a>을 만들지 않음)</strong>과 <strong>완전성(Completeness, 모든 참인 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/">종속성</a>을 찾을 수 있음)</strong>을 수학적으로 보장한다.
 
@@ -99,24 +98,21 @@ tags = ["database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">비즈니스 룰 분석</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">명시적 함수적 종속성 (FD) 도출</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">암스트롱의 공리 (Armstrong's Axioms) 적용</div>
-<div class="kb-diagram-note">(반사, 첨가, 이행을 통한 폐포 F+ 계산)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">숨겨진 종속성 (이행적 종속 등) 발견</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">정규화 (Normalization) 및 무손실 분해 검증</div>
-</div>
-</div>
-
-
+```text
+비즈니스 룰 분석
+    │
+    ▼
+명시적 함수적 종속성 (FD) 도출
+    │
+    ▼
+암스트롱의 공리 (Armstrong's Axioms) 적용
+    │ (반사, 첨가, 이행을 통한 폐포 F+ 계산)
+    ▼
+숨겨진 종속성 (이행적 종속 등) 발견
+    │
+    ▼
+정규화 (Normalization) 및 무손실 분해 검증
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

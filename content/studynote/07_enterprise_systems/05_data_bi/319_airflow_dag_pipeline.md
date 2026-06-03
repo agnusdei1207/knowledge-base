@@ -29,28 +29,27 @@ Airflow는 Airbnb가 2014년 개발하고 2016년 Apache 인큐베이터에 기�
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Airflow 아키텍처와 DAG 구성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Airflow 컴포넌트:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">웹 서버 (Web Server) → UI · REST API 제공</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스케줄러 (Scheduler) → DAG 파싱 · 태스크 스케줄링</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실행자 (Executor) → 태스크 실행 방식 결정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SequentialExecutor: 순차 실행 (개발용)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CeleryExecutor: 분산 실행 (Worker 노드 추가 가능)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">KubernetesExecutor: K8s Pod로 격리 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">워커 (Worker) → 실제 태스크 실행 프로세스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메타 DB (Metadata DB) → DAG·실행 기록·상태 저장 (PostgreSQL 권장)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DAG 예시 (Python):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">extract → transform → validate → load</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(t1) → (t2) → (t3) → (t4)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">t1 &gt;&gt; t2 &gt;&gt; t3 &gt;&gt; t4 ← 의존성 선언 (Python 코드)</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────────────┐
+│                Airflow 아키텍처와 DAG 구성                          │
+├──────────────────────────────────────────────────────────────────┤
+│  Airflow 컴포넌트:                                                 │
+│  웹 서버 (Web Server) → UI · REST API 제공                         │
+│  스케줄러 (Scheduler) → DAG 파싱 · 태스크 스케줄링                  │
+│  실행자 (Executor) → 태스크 실행 방식 결정                           │
+│    SequentialExecutor: 순차 실행 (개발용)                           │
+│    CeleryExecutor: 분산 실행 (Worker 노드 추가 가능)                │
+│    KubernetesExecutor: K8s Pod로 격리 실행                         │
+│  워커 (Worker) → 실제 태스크 실행 프로세스                          │
+│  메타 DB (Metadata DB) → DAG·실행 기록·상태 저장 (PostgreSQL 권장) │
+│                                                                  │
+│  DAG 예시 (Python):                                               │
+│  extract → transform → validate → load                           │
+│  (t1)  →    (t2)    →   (t3)   → (t4)                           │
+│                                                                  │
+│  t1 >> t2 >> t3 >> t4  ← 의존성 선언 (Python 코드)                │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 | 개념               | 설명                              | 역할                      |
 |:----------------|:---------------------------------|:------------------------|
@@ -118,23 +117,21 @@ Airflow 도입으로 [데이터 파이프라인](/knowledge-base/studynote/01_co
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">cron 기반 스크립트 (의존성·재시도 관리 어려움)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Airflow DAG (Python으로 파이프라인 코드화)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CeleryExecutor → KubernetesExecutor (분산·격리 실행)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DataOps: dbt + Airflow + 데이터 품질 테스트 통합</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Prefect · Dagster (현대적 데이터 자산 중심 오케스트레이터)</div>
-</div>
-</div>
-
-
+```
+cron 기반 스크립트 (의존성·재시도 관리 어려움)
+    │
+    ▼
+Airflow DAG (Python으로 파이프라인 코드화)
+    │
+    ▼
+CeleryExecutor → KubernetesExecutor (분산·격리 실행)
+    │
+    ▼
+DataOps: dbt + Airflow + 데이터 품질 테스트 통합
+    │
+    ▼
+Prefect · Dagster (현대적 데이터 자산 중심 오케스트레이터)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

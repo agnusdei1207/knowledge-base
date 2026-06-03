@@ -27,21 +27,18 @@ tags = ["studynote-algorithm"]
 
 아래 그림은 [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)의 핵심 흐름을 한눈에 요약한다. 정렬의 중심이 "매번 전체를 다시 보는 것"이 아니라, <strong>힙 경계와 정렬 완료 구간을 나눠 관리하는 것</strong>임을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Heap Sort idea</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">unsorted array</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; build max heap</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; swap root with last element</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; shrink heap boundary</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; sift down new root</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; sorted suffix grows to the right</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Heap Sort idea                                                     │
+├────────────────────────────────────────────────────────────────────┤
+│ unsorted array                                                     │
+│      -> build max heap                                             │
+│      -> swap root with last element                                │
+│      -> shrink heap boundary                                       │
+│      -> sift down new root                                         │
+│      -> sorted suffix grows to the right                           │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 따라서 [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)은 "트리 정렬"처럼 보이지만, 실제 구현은 대부분 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 위에서 제자리 (In-place)로 이루어진다. 이 점이 메모리 추가 사용이 큰 병합 정렬 ([Merge Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/))과 구별되는 핵심이다.
 
@@ -64,20 +61,17 @@ tags = ["studynote-algorithm"]
 
 아래 구조는 힙 영역과 이미 정렬이 끝난 접미 구간이 어떻게 공존하는지 보여 준다. [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)은 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 하나 안에서 두 세계를 동시에 관리한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">In-place heap region and sorted suffix</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">index : 0 1 2 3 4 5 6</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">value : 90 70 40 20 60 10 30</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">heap :</div><div class="kb-diagram-node">0........4</div><div class="kb-diagram-node">5..6 sorted</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">step : swap a</div><div class="kb-diagram-node">0</div><div class="kb-diagram-note">with a</div><div class="kb-diagram-node">4</div><div class="kb-diagram-note">, then sift-down new a</div><div class="kb-diagram-node">0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">rule : parent=(i-1)/2, left=2i+1, right=2i+2</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ In-place heap region and sorted suffix                             │
+├────────────────────────────────────────────────────────────────────┤
+│ index : 0   1   2   3   4   5   6                                  │
+│ value : 90  70  40  20  60  10  30                                 │
+│ heap  : [0........4] | [5..6 sorted]                               │
+│ step  : swap a[0] with a[4], then sift-down new a[0]               │
+│ rule  : parent=(i-1)/2, left=2i+1, right=2i+2                      │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 여기서 자주 놓치는 포인트가 Build-Heap의 복잡도다. 겉보기에는 각 노드마다 내려 보내니 `O(n log n)`처럼 보이지만, 실제로는 아래쪽 노드들이 거의 움직이지 않기 때문에 바닥부터 만드는 방법은 `O(n)`에 수렴한다. 즉 [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)의 총비용은 <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 힙 구성 <code>O(n)</code> + 추출 반복 <code>O(n log n)</code></strong> 으로 이해하는 것이 정확하다.
 
@@ -164,25 +158,24 @@ tags = ["studynote-algorithm"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">완전 이진 트리 이해</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">배열 기반 최대 힙 구성</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">루트 최댓값 반복 추출</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Heapify 로 힙 속성 복구</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">제자리 O(n log n) 정렬 완성</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">우선순위 큐 / Introsort 안전망으로 확장</div>
-</div>
-</div>
-
-
+```text
+완전 이진 트리 이해
+        │
+        ▼
+배열 기반 최대 힙 구성
+        │
+        ▼
+루트 최댓값 반복 추출
+        │
+        ▼
+Heapify 로 힙 속성 복구
+        │
+        ▼
+제자리 O(n log n) 정렬 완성
+        │
+        ▼
+우선순위 큐 / Introsort 안전망으로 확장
+```
 
 이 흐름은 "힙 구조 이해 → [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 구현 → 반복 추출 → [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) → 정렬 완성 → 하이브리드 정렬 및 자료구조 응용"으로 이어지는 연결을 보여 준다.
 

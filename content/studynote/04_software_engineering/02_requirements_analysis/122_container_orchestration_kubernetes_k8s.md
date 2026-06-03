@@ -18,24 +18,22 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">K8s 클러스터 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Control Plane (Master)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">API Server ← kubectl / CI/CD</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">etcd (상태 저장소)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Scheduler (Pod 배치)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Controller Manager (Reconciliation)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Worker Nodes</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">kubelet → Pod(Container) 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">kube-proxy → 네트워크 라우팅</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Container Runtime (containerd)</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    K8s 클러스터 아키텍처                              │
+├───────────────────────────────────────────────────────┤
+│  [Control Plane (Master)]                             │
+│   API Server ← kubectl / CI/CD                       │
+│   etcd (상태 저장소)                                  │
+│   Scheduler (Pod 배치)                                │
+│   Controller Manager (Reconciliation)                 │
+│                                                       │
+│  [Worker Nodes]                                       │
+│   kubelet → Pod(Container) 실행                      │
+│   kube-proxy → 네트워크 라우팅                       │
+│   Container Runtime (containerd)                      │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: K8s는 항공 관제탑(Control Plane)이 수백 대 비행기([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))의 이착륙·경로·연료(리소스)를 자동 관리하는 시스템이다.
 
@@ -93,23 +91,21 @@ K8s는 <strong>클라우드 네이티브의 운영 체제</strong>이며, [CNCF]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Docker (2013) — 컨테이너 런타임</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Docker Swarm / Mesos (2014~) — 초기 오케스트레이션</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Kubernetes (2014, Google→CNCF) — 산업 표준</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Managed K8s (EKS/GKE/AKS, 2018~)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: K8s + Service Mesh + GitOps — 클라우드 네이티브 풀스택</div></div>
-</div>
-</div>
-
-
+```text
+[Docker (2013) — 컨테이너 런타임]
+    │
+    ▼
+[Docker Swarm / Mesos (2014~) — 초기 오케스트레이션]
+    │
+    ▼
+[Kubernetes (2014, Google→CNCF) — 산업 표준]
+    │
+    ▼
+[Managed K8s (EKS/GKE/AKS, 2018~)]
+    │
+    ▼
+[현재: K8s + Service Mesh + GitOps — 클라우드 네이티브 풀스택]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. K8s는 <strong>항공 관제탑</strong>이에요. 수백 대 비행기([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))를 자동으로 관리해요.

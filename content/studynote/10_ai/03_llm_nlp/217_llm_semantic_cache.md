@@ -26,17 +26,14 @@ tags = ["studynote-ai"]
 그래서 엔지니어들은 기존의 빠른 메모리([Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/))를 도입하려 했다. 그런데 치명적인 문제가 터졌다. A 유저가 "서울 날씨 어때?"라고 묻고, B 유저가 "오늘 서울 비 옴?"이라고 물었다. <strong>기존 캐시는 두 문장의 글자가 완전히 다르다며 둘 다 캐시 미스(Cache Miss)를 띄우고 결국 무거운 <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/">GPT</a>-4를 두 번 다 호출</strong>해 버린 것이다. 
 이 멍청한 글자 매칭의 한계를 부수기 위해, 두 문장의 '의미(Semantic)'를 수학적 화살표(벡터)로 변환해, 화살표의 방향이 비슷하면 그냥 같은 질문으로 퉁쳐서 캐시 된 답변을 쏴주는 <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/280_ppo_proximal_policy_optimization/">시맨틱 캐시</a> (<a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/280_ppo_proximal_policy_optimization/">Semantic Cache</a>)</strong>가 LLMOps의 황제로 등극했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 기존 캐시는 '글자 맞추기 로봇'이다. "사장님 어디 계셔?"와 "보스 지금 어딨어?"를 전혀 다른 말로 인식해 사장실 문을 두 번이나 벌컥벌컥 열고 들어가서 사장님([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))을 피곤하게 만든다. 반면 [시맨틱 캐시](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/280_ppo_proximal_policy_optimization/)는 '눈치 100단 비서'다. 손님들이 이리저리 다르게 물어봐도 "아, 결국 다 사장님 위치 물어보는 거네!"라고 눈치를 0.1초 만에 까고, 사장님 방에 들어가지도 않은 채 자기가 밖에서 똑같이 알아서 대답해 주어 사장님(비싼 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 요금)의 낮잠을 완벽히 지켜주는 최고의 방패다.
 
@@ -46,27 +43,27 @@ tags = ["studynote-ai"]
 
 [시맨틱 캐시](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/280_ppo_proximal_policy_optimization/) 아키텍처는 유저와 거대 언어 모델([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)) 사이에 아주 가볍고 빠른 <strong>'<a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/">임베딩</a>(<a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/">Embedding</a>) 모델'</strong>과 <strong>'<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/223_vector_database_embedding/">벡터 데이터베이스</a>(<a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/151_vector_database_embedding_ann_search/">Vector DB</a>)'</strong>를 바리케이드로 끼워 넣는다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LLM 비용 파산을 막는 시맨틱 캐시 (Semantic Cache) 아키텍처 도해</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">유저 질문 진입</div><div class="kb-diagram-note">: "내일 강남역 우산 챙겨야 해?"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 초고속 의미 번역 (Embedding)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 아주 가벼운 임베딩 모델이 질문을 스캔함.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">0.8, -0.4, 0.2</div><div class="kb-diagram-note">로 변환! (소요 시간 0.01초)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 벡터 DB에서 유사도 검색 (Semantic Similarity Match)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 벡터 DB(Redis, Pinecone) 안의 '과거 질문-답변 저장소'를 뒤짐.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 어? 아까 30분 전에 누가 "강남 내일 비 옴?" 이라고 물어봐서 저장해 둔</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">벡터</div><div class="kb-diagram-node">0.79, -0.41, 0.18</div><div class="kb-diagram-note">랑 코사인 유사도(거리)가 98%나 일치하네?!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3. 캐시 히트 (Cache Hit!) - 통행료 0원, 0.1초 컷</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 무겁고 비싼 GPT-4 (OpenAI 서버)로 질문을 넘기지 않고 아예 끊어버림!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 과거 저장소에 있던 답변 ─▶ "네, 내일 강남에 폭우가 예상됩니다"를 1초 만에</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유저 화면에 즉시 렌더링해서 쏴줌! (서버비 굳음, 대기 시간 박살 냄)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           LLM 비용 파산을 막는 시맨틱 캐시 (Semantic Cache) 아키텍처 도해 │
+├──────────────────────────────────────────────────────────────┤
+│  [유저 질문 진입]: "내일 강남역 우산 챙겨야 해?"                      │
+│                                                              │
+│  [1. 초고속 의미 번역 (Embedding)]                             │
+│   * 아주 가벼운 임베딩 모델이 질문을 스캔함.                         │
+│   * ─▶ 텍스트를 고차원 숫자 벡터 [0.8, -0.4, 0.2]로 변환! (소요 시간 0.01초)│
+│                                                              │
+│  [2. 벡터 DB에서 유사도 검색 (Semantic Similarity Match)]      │
+│   * 벡터 DB(Redis, Pinecone) 안의 '과거 질문-답변 저장소'를 뒤짐.      │
+│   * 어? 아까 30분 전에 누가 "강남 내일 비 옴?" 이라고 물어봐서 저장해 둔       │
+│     벡터 [0.79, -0.41, 0.18] 랑 코사인 유사도(거리)가 98%나 일치하네?!   │
+│                                                              │
+│  [3. 캐시 히트 (Cache Hit!) - 통행료 0원, 0.1초 컷]              │
+│   * 무겁고 비싼 GPT-4 (OpenAI 서버)로 질문을 넘기지 않고 아예 끊어버림!     │
+│   * 과거 저장소에 있던 답변 ─▶ "네, 내일 강남에 폭우가 예상됩니다"를 1초 만에   │
+│     유저 화면에 즉시 렌더링해서 쏴줌! (서버비 굳음, 대기 시간 박살 냄)       │
+└──────────────────────────────────────────────────────────────┘
+```
 
 <strong>핵심 원리 (<a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/359_cosine_similarity/">코사인 유사도</a> <a href="/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/">임계치</a> 조절)</strong>:
 이 마법의 생명줄은 <strong>'유사도 <a href="/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/">임계치</a>(Similarity Threshold)'</strong> 튜닝에 있다. 0부터 1 사이의 코사인 거리 점수에서, 관리자가 커트라인을 $0.95$로 빡세게 잡아두면 "강남 날씨"와 "강북 날씨"를 미세하게 다른 질문으로 칼같이 찢어내어 [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/)(오답 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/))을 막는다. 커트라인을 $0.8$로 널널하게 잡으면 웬만한 날씨 질문은 다 캐시(Cache)에 걸려([Hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/) Rate 폭발) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 비용이 1/10로 쪼그라들지만, 가끔 엉뚱한 대답을 쏴주는 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 진다. [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)(은행 vs 쇼핑몰)의 민감도에 따라 이 다이얼을 정밀하게 돌리는 것이 아키텍트의 존재 이유다.

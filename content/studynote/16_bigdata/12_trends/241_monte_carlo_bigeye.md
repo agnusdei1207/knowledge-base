@@ -21,15 +21,11 @@ tags = ["studynote-bigdata"]
 
 [데이터 옵저버빌리티](/knowledge-base/studynote/16_bigdata/13_intro_trends/255_data_observability/) (Monte Carlo, Bigeye) [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/) [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)은 빅데이터 환경에서 [데이터 옵저버빌리티](/knowledge-base/studynote/16_bigdata/13_intro_trends/255_data_observability/)을 실제 문서, 시스템, 운영 흐름에 연결하는 문제를 다룬다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 환경이 빠르게 바뀌어도 기준이 없으면 선택 기준이 흔들리고, 결국 비용과 품질이 같이 흔들린다. 그래서 이 주제는 최신 흐름을 따라가는 이야기이면서 동시에, 무엇을 기준으로 선택할지 정리하는 구조다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기준</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">실행</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">증거</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐   ┌──────────────┐   ┌──────────────┐
+│ 기준           │──▶│ 실행           │──▶│ 증거           │
+└──────────────┘   └──────────────┘   └──────────────┘
+```
 
 - **📢 섹션 요약 비유**: 출입 검사대처럼, 시작점이 정해져야 다음 단계도 흔들리지 않는다.
 
@@ -45,15 +41,11 @@ tags = ["studynote-bigdata"]
 | 실행 | 처리/[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 절차와 자동화가 연결되어야 한다 |
 | 증거 | 결과/증거 | 기록이 남아야 재현과 추적이 된다 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기준</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">실행</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">증거</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐   ┌──────────────┐   ┌──────────────┐
+│ 기준           │──▶│ 실행           │──▶│ 증거           │
+└──────────────┘   └──────────────┘   └──────────────┘
+```
 
 Monte Carlo와 Bigeye은 이 흐름을 보강하는 대표 축이다. 하나는 기술 발전 방향이고, 다른 하나는 실제 운영 방식이다. 둘을 같이 봐야 과도한 단순화도, 과도한 복잡화도 피할 수 있다.
 
@@ -116,23 +108,21 @@ Monte Carlo와 Bigeye은 이 흐름을 보강하는 대표 축이다. 하나는 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">몬테카를로 시뮬레이션 (Monte Carlo Simulation) — 불확실성 수치화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 관측 가능성 (Data Observability) — BigEye/Monte Carlo 플랫폼</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 신선도 (Data Freshness) — 자동 감지</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 품질 알림 (Data Quality Alert) — 이상 조기 경보</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AI 기반 데이터 신뢰성 (AI-driven Data Reliability) — 자동 복구</div></div>
-</div>
-</div>
-
-
+```text
+[몬테카를로 시뮬레이션 (Monte Carlo Simulation) — 불확실성 수치화]
+    │
+    ▼
+[데이터 관측 가능성 (Data Observability) — BigEye/Monte Carlo 플랫폼]
+    │
+    ▼
+[데이터 신선도 (Data Freshness) — 자동 감지]
+    │
+    ▼
+[데이터 품질 알림 (Data Quality Alert) — 이상 조기 경보]
+    │
+    ▼
+[AI 기반 데이터 신뢰성 (AI-driven Data Reliability) — 자동 복구]
+```
 
 이 흐름은 몬테카를로 시뮬레이션으로 불확실성을 수치화하고, [관측 가능성](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/) 플랫폼에서 신선도와 품질 이상을 자동 감지해 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 관리로 이어지는 과정을 보여준다.
 

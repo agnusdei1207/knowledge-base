@@ -36,21 +36,21 @@ tags = ["database"]
 | <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/096_full_functional_dependency/">완전 함수적 종속</a> (Full)</strong> | 기본키 전체 집합에 의해서만 결정됨 | 단일키 또는 설계가 잘 된 복합키 환경 |
 | **부분 함수적 종속 (Partial)** | 기본키의 진부분집합에 의해 결정됨 | 복합키 환경에서 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 배치가 잘못된 경우 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수강 테이블의 부분 함수적 종속 메커니즘 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">복합 기본키</div><div class="kb-diagram-node">일반 속성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 학번 (부분 종속) ▶ 학생이름 (이름은 학번만 알면 됨)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(완전 종속) ▶ 성적 (누가 어떤 과목인지 필요)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 과목코드 ─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 문제점: 과목코드가 달라져도 학번만 같으면 이름은 항상 같음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 결과: 한 학생이 5과목을 들으면 학생이름이 5번 중복 저장됨</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           수강 테이블의 부분 함수적 종속 메커니즘 시각화     │
+├──────────────────────────────────────────────────────────────┤
+│  [복합 기본키]                         [일반 속성]             │
+│                                                              │
+│  ┌─ 학번 ─────┐ ───(부분 종속)───▶  학생이름 (이름은 학번만 알면 됨)│
+│  │            │                                              │
+│  │            ├ ───(완전 종속)───▶  성적 (누가 어떤 과목인지 필요)  │
+│  └─ 과목코드 ─┘                                              │
+│                                                              │
+│  * 문제점: 과목코드가 달라져도 학번만 같으면 이름은 항상 같음  │
+│  * 결과: 한 학생이 5과목을 들으면 학생이름이 5번 중복 저장됨   │
+└──────────────────────────────────────────────────────────────┘
+```
 
 위 다이어그램에서 보듯, `성적`은 `학번`과 `과목코드`가 모두 필요하므로 완전 종속이지만, `학생이름`은 `학번`에만 종속되어 부분 종속을 발생시킨다.
 
@@ -113,23 +113,21 @@ tags = ["database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">기본키와 속성 관계 정의</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">완전 함수적 종속 vs 부분 함수적 종속 (Partial FD) 발생</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">테이블 무결성 붕괴 (삽입/갱신/삭제 이상)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">제2정규형 (2NF) 적용 (테이블 분해)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">조인(Join) 성능과 데이터 무결성 간의 트레이드오프 최적화</div>
-</div>
-</div>
-
-
+```text
+기본키와 속성 관계 정의
+    │
+    ▼
+완전 함수적 종속 vs 부분 함수적 종속 (Partial FD) 발생
+    │
+    ▼
+테이블 무결성 붕괴 (삽입/갱신/삭제 이상)
+    │
+    ▼
+제2정규형 (2NF) 적용 (테이블 분해)
+    │
+    ▼
+조인(Join) 성능과 데이터 무결성 간의 트레이드오프 최적화
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

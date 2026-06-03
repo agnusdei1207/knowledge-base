@@ -27,28 +27,29 @@ tags = ["studynote-operating-system"]
   2. **Race Condition의 물리적 파괴**: 메모리 변수가 깨지는 걸 넘어, 실제 기계 모터가 꼬여서 하드웨어가 박살 나는 것을 목격함.
   3. <strong>Device <a href="/knowledge-base/studynote/02_operating_system/09_file_system/567_file_locking_shared_exclusive/">File Locking</a></strong>: OS가 `/dev/cdrom` 같은 장치 파일에 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 걸어 접근 권한 자체를 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)단에서 틀어막아버리는 원시적 [샌드박싱](/knowledge-base/studynote/02_operating_system/10_security/602_sandboxing_kernel_wrapper/) 도입.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단독 장치(CD 레코더)를 둘러싼 예약(Reservation) 및 거부 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황: 물리적인 CD-ROM 레코더 1대 존재</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1. 예약 성공 (Reservation Granted)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 앱 A(네로 버닝롬) : "<code>open('/dev/cdrom')</code> 혼자 쓸게 예약!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- OS 커널 : "지금 빈 기계니까 너 써. 장치에 🔒Lock 건다."</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 앱 A ──(레이저로 CD를 신나게 굽기 시작)──▶ CD-ROM</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2. 무자비한 거부 (Exclusive Access Denied)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 0.1초 뒤, 앱 B(음악 플레이어) : "나 CD 트레이 좀 열어줘!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- OS 커널 : "미쳤냐? A가 굽는 중인데 문 열면 CD 뻑나! 꺼져!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- OS 커널 ──💥 즉시 에러(EBUSY / Access Denied) ──▶ 앱 B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 앱 B는 무한 대기(Block)하거나, 튕겨서 에러 창을 띄움.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 3. 반환 (Release)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 앱 A가 굽기 완료. <code>close('/dev/cdrom')</code> 호출.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- OS 커널 : "🔒Lock 해제! 자 이제 다음 사람 와서 써라!"</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│        단독 장치(CD 레코더)를 둘러싼 예약(Reservation) 및 거부 시각화│
+├──────────────────────────────────────────────────────────────────────┤
+│                                                                      │
+│ [ 상황: 물리적인 CD-ROM 레코더 1대 존재 ]                            │
+│                                                                      │
+│ ▶ 1. 예약 성공 (Reservation Granted)                                 │
+│  - 앱 A(네로 버닝롬) : "`open('/dev/cdrom')` 혼자 쓸게 예약!"        │
+│  - OS 커널 : "지금 빈 기계니까 너 써. 장치에 🔒Lock 건다."           │
+│  - 앱 A ──(레이저로 CD를 신나게 굽기 시작)──▶ CD-ROM                 │
+│                                                                      │
+│ ▶ 2. 무자비한 거부 (Exclusive Access Denied)                         │
+│  - 0.1초 뒤, 앱 B(음악 플레이어) : "나 CD 트레이 좀 열어줘!"         │
+│  - OS 커널 : "미쳤냐? A가 굽는 중인데 문 열면 CD 뻑나! 꺼져!"        │
+│  - OS 커널 ──💥 즉시 에러(EBUSY / Access Denied) ──▶ 앱 B            │
+│  - 앱 B는 무한 대기(Block)하거나, 튕겨서 에러 창을 띄움.             │
+│                                                                      │
+│ ▶ 3. 반환 (Release)                                                  │
+│  - 앱 A가 굽기 완료. `close('/dev/cdrom')` 호출.                     │
+│  - OS 커널 : "🔒Lock 해제! 자 이제 다음 사람 와서 써라!"             │
+└──────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 가상 메모리나 CPU 스케줄러가 '어떻게든 속여서 같이 쓰게 만들어주는' 평화주의자라면, 단독 장치 제어는 '안 되는 건 절대 안 돼'라고 철퇴를 내리는 독재자다. 앱 B 입장에서는 시스템이 먹통이 된 것 같아 불쾌하지만, 저 철퇴가 없었다면 CD 수십 장이 뻑나고 공장 기계가 폭발하는 하드웨어 대형 참사를 맞았을 것이다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)(UX)을 포기하고 하드웨어의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)([Integrity](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/))을 수호한 가장 원초적인 방어막이다.
 
 - **📢 섹션 요약 비유**: 수술실(단독 장치)에 외과 의사(앱 A)가 들어가서 배를 가르고 심장 수술을 하고 있습니다. 이때 치과 의사(앱 B)가 "나도 이 환자 사랑니 하나만 뽑을게!" 하고 수술실 문을 열고 들어오면 환자(기계)는 감염으로 즉사합니다. 수술실은 무조건 '수술 중 붉은불([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))'을 켜고 문을 잠가 안에서 의사가 직접 문을 열고 나올 때까지 밖에서 아무도 못 들어오게 철통 방어를 해야 하는 특수 구역입니다.
@@ -98,17 +99,14 @@ tags = ["studynote-operating-system"]
 - OS는 자비를 베풀지 않는다. 마이크를 독점하던 앱의 <strong>락(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>)을 강제로 망치로 부숴버리고</strong>, 연결 세션을 강제 절단(`Revoke`)한 뒤 최상위 프로세스에게 마이크를 넘겨버린다.
 - 독점 앱은 영문도 모른 채 `I/O Interrupted Error`를 맞고 피를 토하며 뻗어버리지만, 시스템 전체가 데드락에 빠져 죽는 것보다는 한 놈 희생시키는 것이 백배 이득이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위기 상황</div><div class="kb-diagram-cell">멍청한 OS 대처</div><div class="kb-diagram-cell">똑똑한 OS 대처</div><div class="kb-diagram-cell">결과적 차이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">앱이 락 안품</div><div class="kb-diagram-cell">영원히 기다림</div><div class="kb-diagram-cell">타임아웃(Timeout)</div><div class="kb-diagram-cell">특정 앱만 에러 처리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데드락 꼬임</div><div class="kb-diagram-cell">화면 완전 멈춤</div><div class="kb-diagram-cell">락 강제 부수기 💥</div><div class="kb-diagram-cell">남은 놈들 살려냄</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬────────────────────────────────┐
+│ 위기 상황  │ 멍청한 OS 대처│ 똑똑한 OS 대처 │ 결과적 차이           │
+├──────────┼────────────┼────────────┼────────────────────────────────┤
+│ 앱이 락 안품│ 영원히 기다림 │ 타임아웃(Timeout)│ 특정 앱만 에러 처리│
+│ 데드락 꼬임│ 화면 완전 멈춤│ 락 강제 부수기 💥│ 남은 놈들 살려냄    │
+└──────────┴────────────┴────────────┴────────────────────────────────┘
+```
 **[매트릭스 해설]** 단독 장치 예약은 필연적으로 인간(프로그래머)의 실수로 인해 시스템이 터지는 버그를 유발한다. 그래서 OS는 앱에게 "네가 혼자 다 써!"라고 권한을 주면서도, 뒤로는 몰래 초시계([Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/))를 켜두고 "10초 안에 방 안 빼면 내가 강제로 문 부수고 들어간다"는 예비 키(Revoke)를 항상 손에 쥐고 있어야만 시스템의 영속성이 보장된다.
 
 - **📢 섹션 요약 비유**: 독서실 1인실(단독 장치)을 예약한 학생이 안에서 문을 잠그고 24시간 동안 안 나옵니다(데드락). 관리자(OS)가 밖에서 착하게 기다려주면 독서실 망합니다. 관리자는 12시간 지나면 경고 방송을 때리고, 마스터키로 강제로 문을 따서 짐을 복도에 내던져버린(Preemption) 뒤 다른 학생을 받아야 독서실이 평화롭게 돌아갑니다.
@@ -168,19 +166,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">스풀링 (Spooling, Simultaneous Peripheral Operation On-Line)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">예약 및 단독 장치 접근 제어 (Device Reservation Exclusive Access)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">블로킹 I/O (Blocking I/O)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">논블로킹 I/O (Non-blocking I/O)</div></div>
-</div>
-</div>
-
-
+```text
+[스풀링 (Spooling, Simultaneous Peripheral Operation On-Line)]
+    │
+    ▼
+[예약 및 단독 장치 접근 제어 (Device Reservation Exclusive Access)]
+    │
+    ├──▶ [블로킹 I/O (Blocking I/O)]
+    └──▶ [논블로킹 I/O (Non-blocking I/O)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

@@ -30,26 +30,29 @@ tags = ["studynote-operating-system"]
 
 정상 종료 시, 프로세스는 런타임 라이브러리의 사용자 수준 정리를 거친 후 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)로 진입하여 완전히 해체된다. 반면 비정상 종료는 앞단을 무시하고 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 즉각 목을 쳐버린다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로세스 종료 파이프라인 (exit() vs SIGKILL)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">정상 종료 경로: exit(status) 호출</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 사용자 수준 정리 (C Runtime)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- atexit() 등록 핸들러 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- stdio 버퍼 플러시 (파일 쓰기 완료)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (_exit 시스템 콜로 커널 진입)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 커널 수준 정리 (OS Kernel)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─ (SIGKILL 비정상 종료 시 이리로 직행)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 메모리 영역 할당 해제 및 파일 디스크립터 닫기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 상태를 좀비 (ZOMBIE)로 변경하고 종료 상태(Exit Status) 저장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 부모 프로세스에 SIGCHLD 시그널 전송</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3. 부모의 수거 (wait)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 부모가 wait() 호출 시 PCB까지 최종 삭제 (완전 소멸)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           프로세스 종료 파이프라인 (exit() vs SIGKILL)          │
+├──────────────────────────────────────────────────────────────┤
+│  [정상 종료 경로: exit(status) 호출]                             │
+│       │                                                      │
+│       ▼                                                      │
+│  [1. 사용자 수준 정리 (C Runtime)]                              │
+│   - atexit() 등록 핸들러 실행                                  │
+│   - stdio 버퍼 플러시 (파일 쓰기 완료)                           │
+│       │                                                      │
+│       ▼  (_exit 시스템 콜로 커널 진입)                           │
+│                                                              │
+│  [2. 커널 수준 정리 (OS Kernel)] ◀─ (SIGKILL 비정상 종료 시 이리로 직행)│
+│   - 메모리 영역 할당 해제 및 파일 디스크립터 닫기                   │
+│   - 상태를 좀비 (ZOMBIE)로 변경하고 종료 상태(Exit Status) 저장     │
+│   - 부모 프로세스에 SIGCHLD 시그널 전송                           │
+│       │                                                      │
+│       ▼                                                      │
+│  [3. 부모의 수거 (wait)]                                        │
+│   - 부모가 wait() 호출 시 PCB까지 최종 삭제 (완전 소멸)            │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램은 비정상 종료의 위험성을 명확히 보여준다. `SIGKILL(9)` 시그널을 받으면 1단계인 사용자 수준 정리(버퍼 플러시 등)를 건너뛰고 2단계로 직행한다. 메모리나 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 쓰려던 임시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 허공으로 증발해버리는 것이다. 따라서 [프로세스 상태](/knowledge-base/studynote/02_operating_system/02_process_thread/086_process_state/) 전이는 자원 누수를 막는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 방어 메커니즘과 직결된다.
 
@@ -108,25 +111,24 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">프로세스 수명 마감</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">exit() 시스템 콜 · 시그널 (Signal) 종료</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">상태 반환 및 자원 회수 대기</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">좀비/고아 프로세스 발생 방지 · wait() 동기화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">우아한 종료 (Graceful Shutdown)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 컨테이너의 파드 라이프사이클 융합 (SIGTERM/SIGKILL 파이프라인)</div>
-</div>
-</div>
-
-
+```text
+프로세스 수명 마감
+    │
+    ▼
+exit() 시스템 콜 · 시그널 (Signal) 종료
+    │
+    ▼
+상태 반환 및 자원 회수 대기
+    │
+    ▼
+좀비/고아 프로세스 발생 방지 · wait() 동기화
+    │
+    ▼
+우아한 종료 (Graceful Shutdown)
+    │
+    ▼
+클라우드 컨테이너의 파드 라이프사이클 융합 (SIGTERM/SIGKILL 파이프라인)
+```
 이 흐름도는 단순한 개별 프로그램의 종료 메커니즘이 대규모 [분산 클라우드](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/242_distributed_cloud_edge_computing_aws_outposts/) 시스템의 [무중단 배포](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/082_zero_downtime_deployment_rolling_blue_green_canary/) 관리 기능으로 스케일업되는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

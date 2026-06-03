@@ -18,18 +18,12 @@ tags = ["studynote-enterprise-systems"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">HRIS: 인사 데이터 (급여·근태·조직)</div>
-<div class="kb-diagram-note">e-HR: 셀프서비스 (휴가·급여조회)</div>
-<div class="kb-diagram-note">TMS: 채용 → 온보딩 → 교육 → 평가 → 승계</div>
-<div class="kb-diagram-note">→ People Analytics: 데이터 기반 HR 의사결정</div>
-</div>
-</div>
-
-
+```text
+HRIS: 인사 데이터 (급여·근태·조직)
+e-HR: 셀프서비스 (휴가·급여조회)
+TMS:  채용 → 온보딩 → 교육 → 평가 → 승계
+  → People Analytics: 데이터 기반 HR 의사결정
+```
 
 - **📢 섹션 요약 비유**: HRIS는 인사과의 <strong>장부(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>)</strong>, e-HR은 **직원용 키오스크(셀프서비스)**, TMS는 **인재 육성 로드맵**.
 
@@ -64,18 +58,12 @@ tags = ["studynote-enterprise-systems"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">수작업 인사 (1990s)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">HRIS (SAP HR, 2000s)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">e-HR 셀프서비스 (2005~)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">TMS (2010s)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">People Analytics (2018~)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: AI HR — 이력서 스크리닝·이직 예측 자동화</div></div>
-</div>
-</div>
-
-
+```text
+[수작업 인사 (1990s)] → [HRIS (SAP HR, 2000s)]
+    → [e-HR 셀프서비스 (2005~)] → [TMS (2010s)]
+    → [People Analytics (2018~)]
+    → [현재: AI HR — 이력서 스크리닝·이직 예측 자동화]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. HRIS는 회사의 <strong>직원 명부</strong>예요. 누가 어디서 일하고 급여가 얼마인지 기록해요.

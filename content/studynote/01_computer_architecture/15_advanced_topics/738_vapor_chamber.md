@@ -43,20 +43,21 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 작은 열원이 어떻게 넓은 평면 방열 면적으로 바뀌는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Vapor chamber spreads one hotspot into a wide condenser area</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Top skin / condenser area</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">vapor spreads laterally ---&gt; ---&gt; ---&gt;</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">hotspot</div><div class="kb-diagram-note">evaporate =&gt; vapor transport =&gt; condense at edges │</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">liquid return through wick &lt;--- &lt;--- &lt;---</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Bottom skin / evaporator area</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│      Vapor chamber spreads one hotspot into a wide condenser area         │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Top skin / condenser area                                                 │
+│ ┌────────────────────────────────────────────────────────────────────────┐ │
+│ │ vapor spreads laterally  ---> ---> --->                               │ │
+│ │                                                                        │ │
+│ │   [hotspot]  evaporate  =>  vapor transport  =>  condense at edges    │ │
+│ │                                                                        │ │
+│ │ liquid return through wick  <--- <--- <---                            │ │
+│ └────────────────────────────────────────────────────────────────────────┘ │
+│ Bottom skin / evaporator area                                            │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 따라서 베이퍼 체임버는 "얇은 구조에서 넓은 면적을 살리는" 데 특히 강하다.
 - **📢 섹션 요약 비유**: 뜨거운 물이 든 얇은 수평 물주머니를 상상하면 쉽다. 가운데만 데워도 안쪽 증기가 퍼지며 열을 옆으로 나눠, 한 점의 뜨거움을 넓은 면적으로 풀어 준다.
@@ -126,23 +127,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Solid copper spreader</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Heatpipe-based transport</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Flat vapor chamber for 2D spreading</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Hybrid VC + graphite / fin integration</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Package-level and ultra-thin composite vapor chambers</div>
-</div>
-</div>
-
-
+```text
+Solid copper spreader
+        │
+        ▼
+Heatpipe-based transport
+        │
+        ▼
+Flat vapor chamber for 2D spreading
+        │
+        ▼
+Hybrid VC + graphite / fin integration
+        │
+        ▼
+Package-level and ultra-thin composite vapor chambers
+```
 
 이 흐름은 방열 구조가 단순 금속 전도에서 출발해, 점점 더 얇은 제품 안에서 열을 넓고 지능적으로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)하는 방향으로 진화했음을 보여 준다.
 

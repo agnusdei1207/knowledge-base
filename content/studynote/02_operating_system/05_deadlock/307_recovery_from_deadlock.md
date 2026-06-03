@@ -27,26 +27,26 @@ tags = ["studynote-operating-system"]
 
 **💡 비유**: 교차로 4대 알박기 꼬리물기 사고(데드락). 탐지(경찰)가 떴다. 4대 다 비킬 생각을 안 하니, 견인차([복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))가 출동해서 차 1대를 통째로 들어서 폐차장으로 던져버리거나(Kill), 차에서 운전자를 대포로 쏴 쫓아내고 차를 뒤로 쑥 빼버린다(Preempt). 그 빈 공간 1개가 생기는 순간 나머지 3대는 신나서 시동을 걸고 지나갈 수 있다. 무사히 돌아가는 시스템을 위해 한 놈을 바치는 제물(Victim) 의식.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">교착 상태 복구(Recovery)의 2대 처단 강령</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">탐지 결과 보고 접수: "P1→P2→P3→P1 데드락 확진!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">루트 1 (Process Termination): 사람을 청부 살해!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① 전체 사살 (Abort All): "P1, P2, P3 셋 다 죽여(Kill)!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1방에 해결! (하지만 여태껏 쓴 자원과 노력 몽땅 증발)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② 순차 사살 (Abort One-by-One): "일단 만만한 P1만 짤라!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1놈 자르고, 다시 스캔 돌려서 데드락 풀렸는지 확인.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 풀렸으면 P2, P3은 구출! 안 풀렸으면 P2도 짤라!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">루트 2 (Resource Preemption): 소매치기 강탈!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① 희생자 선정 (Victim): "비용이 제일 싼 P2를 털자"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② 롤백 (Rollback): "P2야 네가 쥔 자원 A 당장 토해내렴."</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ 기아(Starvation) 방지: "야 P2 너무 여러 번 털리는데?"</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────┐
+│         교착 상태 복구(Recovery)의 2대 처단 강령               │
+├────────────────────────────────────────────────────────────────┤
+│                                                                │
+│  탐지 결과 보고 접수: "P1→P2→P3→P1 데드락 확진!"               │
+│                                                                │
+│  [루트 1 (Process Termination): 사람을 청부 살해!]             │
+│  ① 전체 사살 (Abort All): "P1, P2, P3 셋 다 죽여(Kill)!"       │
+│     ▶ 1방에 해결! (하지만 여태껏 쓴 자원과 노력 몽땅 증발)     │
+│  ② 순차 사살 (Abort One-by-One): "일단 만만한 P1만 짤라!"      │
+│     ▶ 1놈 자르고, 다시 스캔 돌려서 데드락 풀렸는지 확인.       │
+│     ▶ 풀렸으면 P2, P3은 구출! 안 풀렸으면 P2도 짤라!           │
+│                                                                │
+│  [루트 2 (Resource Preemption): 소매치기 강탈!]                │
+│  ① 희생자 선정 (Victim): "비용이 제일 싼 P2를 털자"            │
+│  ② 롤백 (Rollback): "P2야 네가 쥔 자원 A 당장 토해내렴."       │
+│  ③ 기아(Starvation) 방지: "야 P2 너무 여러 번 털리는데?"       │
+└────────────────────────────────────────────────────────────────┘
+```
 
 **📢 섹션 요약 비유**: 탐지가 암을 발견(진단서 발급)한 거라면, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)는 직접 메스를 들고 암 덩어리의 피가 통하는 혈관(사이클 간선) 중 가장 만만한 하나를 쓱! 하고 잘라버리는 무자비한 집도의(Surgeon)입니다.
 
@@ -115,19 +115,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">탐지 알고리즘의 오버헤드</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">교착 상태 복구 (Recovery from Deadlock)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">프로세스 종료 방식</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">프로세스 순차 종료 방식</div></div>
-</div>
-</div>
-
-
+```text
+[탐지 알고리즘의 오버헤드]
+    │
+    ▼
+[교착 상태 복구 (Recovery from Deadlock)]
+    │
+    ├──▶ [프로세스 종료 방식]
+    └──▶ [프로세스 순차 종료 방식]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

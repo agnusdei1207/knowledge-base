@@ -2,10 +2,10 @@
 title = "📦 tarball이 뭔지 1분 만에 이해하기"
 
 [taxonomies]
-tags = ["study"]
+tags = ["work"]
 
 [extra]
-tags = ["study"]
+tags = ["work"]
 +++
 
 > **결론부터: ZIP 같은 거예요. 끝.** (더 자세히 보고 싶으면 아래로)

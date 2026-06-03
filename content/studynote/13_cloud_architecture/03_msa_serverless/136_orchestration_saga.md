@@ -18,17 +18,11 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">오케스트레이터 → 주문 서비스: "주문 생성" → 성공</div>
-<div class="kb-diagram-note">오케스트레이터 → 결제 서비스: "결제 처리" → 실패</div>
-<div class="kb-diagram-note">오케스트레이터 → 주문 서비스: "주문 취소" (보상)</div>
-</div>
-</div>
-
-
+```text
+오케스트레이터 → 주문 서비스: "주문 생성" → 성공
+오케스트레이터 → 결제 서비스: "결제 처리" → 실패
+오케스트레이터 → 주문 서비스: "주문 취소" (보상)
+```
 
 - **📢 섹션 요약 비유**: Orchestration은 <strong>교향곡 지휘자</strong>이다. 지휘자가 각 악기에 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 보내 연주를 조율한다.
 
@@ -52,17 +46,11 @@ tags = ["studynote-cloud-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">2PC (1990s)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Choreography Saga (2014~)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Cadence (Uber, 2017)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Temporal (2020~ 오픈소스)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: Durable Execution 표준화</div></div>
-</div>
-</div>
-
-
+```text
+[2PC (1990s)] → [Choreography Saga (2014~)]
+    → [Cadence (Uber, 2017)] → [Temporal (2020~ 오픈소스)]
+    → [현재: Durable Execution 표준화]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. Orchestration은 <strong>교향곡 지휘자</strong>예요. 지휘자가 <strong>각 악기에 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a></strong>를 보내요.

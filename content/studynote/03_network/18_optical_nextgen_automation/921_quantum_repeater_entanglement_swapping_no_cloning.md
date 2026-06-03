@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 922번 문서에서 배울 <strong><a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/922_qkd_quantum_key_distribution_bb84_eavesdropping/">QKD</a>(<a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/922_qkd_quantum_key_distribution_bb84_eavesdropping/">양자 암호 통신</a>)</strong>는 100% 해킹이 불가능한 완벽한 보안망입니다.
 - **물리학적 한계**: 일반 광케이블은 100km마다 빛을 '복사해서 증폭(증폭기)'시키면 지구 끝까지 가지만, 양자는 <strong>'<a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a> 불가능성 정리 (No-Cloning Theorem)'</strong> 때문에 중간에 중계기가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽거나 복사하려 드는 순간 양자 상태가 붕괴(파괴)되어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 날아갑니다. 그래서 양자 통신은 서울에서 천안(약 100km)까지만 가능하고 부산까지는 아예 보낼 수가 없었습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">스마트 컨트랙트 분산망 오라클</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">양자 중계기</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">QKD</div></div>
-</div>
-</div>
-
-
+```text
+[스마트 컨트랙트 분산망 오라클]
+    │
+    ▼
+[양자 중계기]
+    │
+    └──▶ [QKD]
+```
 
 - **📢 섹션 요약 비유**: 양자 중계기는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -43,18 +39,14 @@ tags = ["studynote-network"]
 
 - **개념**: [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)(Copy)를 허용하지 않는 양자의 물리학적 한계를 우회하기 위해, <strong>'<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/220_quantum_entanglement/">양자 얽힘</a>(<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/220_quantum_entanglement/">Quantum Entanglement</a>)'과 '양자 텔레포테이션(순간 이동)'이라는 특수 마법진을 중간 기착지마다 설치하여, 양자 정보를 복사하지 않고도 수천 km 밖으로 릴레이 전송해 내는 차세대 핵심 통신 인프라 장비</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">스마트 컨트랙트 분산망 오라클</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">양자 중계기</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">QKD</div></div>
-</div>
-</div>
-
-
+```text
+[스마트 컨트랙트 분산망 오라클]
+    │
+    ▼
+[양자 중계기]
+    │
+    └──▶ [QKD]
+```
 
 - **📢 섹션 요약 비유**: 양자 중계기의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -124,19 +116,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 스마트 컨트랙트 분산망 오라클</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 양자 중계기</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: QKD</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 스마트 컨트랙트 분산망 오라클]
+    │
+    ▼
+[현재 개념: 양자 중계기]
+    │
+    ├──▶ [확장 A: QKD]
+    └──▶ [확장 B: 의미 기반 통신 최적화]
+```
 
 양자 중계기는 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 분산망 오라클에서 출발해 현재 메커니즘을 정교화하고, 이후 QKD와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

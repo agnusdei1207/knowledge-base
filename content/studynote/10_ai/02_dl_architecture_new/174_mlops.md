@@ -23,21 +23,19 @@ MLOps는 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_l
 
 이 차이 때문에 노트북에서 95% 정확도를 낸 모델이 운영 환경에서는 곧바로 무너질 수 있다. 훈련 때와 다른 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포가 유입되거나, 서빙 전처리가 훈련 전처리와 어긋나거나, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ([Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))·[라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)이 달라 재현이 실패할 수 있기 때문이다. MLOps는 바로 이 불일치를 줄이기 위해 등장했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Why ML needs operations beyond normal deployment</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Software release</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Code change -&gt; build -&gt; test -&gt; deploy</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Machine Learning release</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data change + Code change + Feature change + Label delay</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; train -&gt; evaluate -&gt; register -&gt; deploy -&gt; monitor</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; retrain / rollback when quality shifts</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Why ML needs operations beyond normal deployment                     │
+├──────────────────────────────────────────────────────────────────────┤
+│ Software release                                                    │
+│   Code change -> build -> test -> deploy                            │
+│                                                                      │
+│ Machine Learning release                                             │
+│   Data change + Code change + Feature change + Label delay          │
+│        -> train -> evaluate -> register -> deploy -> monitor        │
+│        -> retrain / rollback when quality shifts                    │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 즉 MLOps의 필요성은 "AI를 더 자동화하자"가 아니라, <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/">머신러닝</a> 시스템이 본질적으로 불안정한 입력 현실을 상대한다</strong>는 데서 나온다. 운영을 설계하지 않으면 좋은 모델도 금방 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)가 된다.
 
@@ -49,20 +47,18 @@ MLOps는 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_l
 
 MLOps의 핵심은 세 가지다. 첫째, **재현성 (Reproducibility)**: 같은 코드와 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)면 같은 모델이 다시 나와야 한다. 둘째, **자동화된 전달 체계**: 실험 결과가 사람 손을 거치며 깨지지 않도록 학습·[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)·배포를 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인으로 연결해야 한다. 셋째, **폐루프 운영 (Closed Loop Operations)**: 배포 후 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하를 감지하면 다시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·학습 단계로 돌아갈 수 있어야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Reference MLOps loop</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Raw Data -&gt; Validation -&gt; Feature Pipeline -&gt; Training -&gt; Evaluation</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">^</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">v</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Monitoring &lt;- Serving &lt;- Deployment &lt;- Registry &lt;- Model Artifact</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ drift / latency breach / new labels -&gt; retraining trigger</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Reference MLOps loop                                                 │
+├──────────────────────────────────────────────────────────────────────┤
+│ Raw Data -> Validation -> Feature Pipeline -> Training -> Evaluation │
+│    ^                                                │                │
+│    │                                                v                │
+│ Monitoring <- Serving <- Deployment <- Registry <- Model Artifact    │
+│    │                                                                  │
+│    └─ drift / latency breach / new labels -> retraining trigger      │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 | 구성 요소 | 역할 | 없을 때 생기는 문제 |
 | :--- | :--- | :--- |
@@ -162,27 +158,27 @@ MLOps를 제대로 구축하면 모델 개선 주기가 짧아지고, 장애 원
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Notebook experiment</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Reproducible training</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Experiment tracking + model registry</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CI / CD for ML pipelines</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Monitoring + drift detection</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CT (Continuous Training) + safe rollout</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">LLMOps / governed AI operations</div>
-</div>
-</div>
-
-
+```text
+Notebook experiment
+    │
+    ▼
+Reproducible training
+    │
+    ▼
+Experiment tracking + model registry
+    │
+    ▼
+CI / CD for ML pipelines
+    │
+    ▼
+Monitoring + drift detection
+    │
+    ▼
+CT (Continuous Training) + safe rollout
+    │
+    ▼
+LLMOps / governed AI operations
+```
 
 이 흐름은 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)이 개인 실험에서 출발해, 배포 자동화와 [관측 가능성](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/)을 거쳐 조직 차원의 운영 체계로 발전하는 과정을 보여 준다.
 

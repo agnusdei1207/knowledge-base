@@ -30,20 +30,19 @@ JIT는 이러한 전통적 낭비를 박살 내기 위해 등장했다. 땅도 �
 
 [JIT](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/) 시스템의 뼈대는 <strong>풀(Pull) 생산 시스템</strong>과 이를 통신하게 해주는 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/">칸반</a> (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/">Kanban</a>, 간판) 시스템</strong>이다. 주문이 발생한 하류 공정이 상류 공정에게 필요한 부품을 요구하는 역방향 정보 흐름을 가진다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">JIT와 칸반 시스템의 Pull 방식 메커니즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">원자재/상류 공정</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">조립/하류 공정</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">고객 주문</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"바퀴 4개 필요해"</div><div class="kb-diagram-cell">"자동차 1대 조립 시작"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (칸반 티켓 전달) ▼ (칸반 티켓 전달) ▼</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">바퀴 4개 생산</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">조립 완료</div><div class="kb-diagram-connector">▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ 칸반 티켓이 없으면 절대 먼저 기계를 돌리지 않는다. (재고 = 0)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│            JIT와 칸반 시스템의 Pull 방식 메커니즘          │
+├──────────────────────────────────────────────────────────────┤
+│ [원자재/상류 공정] ◀──요청── [조립/하류 공정] ◀──요청── [고객 주문]│
+│       │                         │                         │    │
+│       │ "바퀴 4개 필요해"       │ "자동차 1대 조립 시작"  │    │
+│       ▼      (칸반 티켓 전달)   ▼      (칸반 티켓 전달)  ▼    │
+│  [바퀴 4개 생산] ──제공──▶ [조립 완료] ───────출하───────▶│
+│                                                              │
+│ ※ 칸반 티켓이 없으면 절대 먼저 기계를 돌리지 않는다. (재고 = 0) │
+└──────────────────────────────────────────────────────────────┘
+```
 
 도요타는 공정 간 통신을 위해 부품 상자에 종이 명찰인 '[칸반](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/)'을 달았다. 하류 공정이 부품을 꺼내 쓰고 빈 상자와 [칸반](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/)을 상류로 돌려보내면, 상류는 딱 그 [칸반](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/)에 적힌 수량만큼만 생산하여 채운다. 즉, [칸반](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/)은 작업 지시서이자 생산을 통제하는 물리적 토큰이다.
 
@@ -99,23 +98,21 @@ JIT를 완벽히 정착시키면 창고와 재고 관리 비용이 소멸하고 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">푸시 생산 (Push System) 및 대량 과잉 재고</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">풀 생산 (Pull System) 전환으로 발상 변경</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">JIT (Just In Time) 및 칸반 (Kanban) 도입</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">애자일 (Agile) 방법론 및 소프트웨어 칸반 보드로 진화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">글로벌 공급망 위기 이후 JIT와 JIC(Just-In-Case)의 융합</div>
-</div>
-</div>
-
-
+```text
+푸시 생산 (Push System) 및 대량 과잉 재고
+    │
+    ▼
+풀 생산 (Pull System) 전환으로 발상 변경
+    │
+    ▼
+JIT (Just In Time) 및 칸반 (Kanban) 도입
+    │
+    ▼
+애자일 (Agile) 방법론 및 소프트웨어 칸반 보드로 진화
+    │
+    ▼
+글로벌 공급망 위기 이후 JIT와 JIC(Just-In-Case)의 융합
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

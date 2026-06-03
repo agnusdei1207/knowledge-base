@@ -23,24 +23,21 @@ tags = ["studynote-cloud-architecture"]
 
 Docker라는 이름이 널리 쓰이지만, 실제 현장에서는 containerd와 runc의 역할 분리가 더 중요하다. 이미지 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/), [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/), [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 수명 관리가 한 덩어리로 섞이면 디버깅이 어려워지기 때문이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Pod spec</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">kubelet</div>
-<div class="kb-diagram-note">CRI</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">containerd ── 이미지 / 스냅샷 관리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">runc ── OCI bundle ──&gt; namespaces / cgroups</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Linux kernel start process</div>
-</div>
-</div>
-
-
+```text
+Pod spec
+  │
+  ▼
+kubelet
+  │  CRI
+  ▼
+containerd ── 이미지 / 스냅샷 관리
+  │
+  ▼
+runc ── OCI bundle ──> namespaces / cgroups
+  │
+  ▼
+Linux kernel start process
+```
 
 - **📢 섹션 요약 비유**: 학교에서 담임은 출석과 자리 배치를 관리하고, 실제 의자는 행정실이 준비하며, 학생을 앉히는 손은 반장처럼 따로 있다.
 
@@ -82,7 +79,7 @@ containerd와 runc는 같은 '런타임'으로 묶여 말하지만, 세밀하게
 | containerd | 상위 런타임 데몬 | 생명주기 관리 |
 | [runc](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/667_container_runtime_hw_isolation/) | 저수준 실행기 | [프로세스 생성](/knowledge-base/studynote/02_operating_system/02_process_thread/104_process_creation/) |
 
-[Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) Engine은 개발자 경험과 빌드·런·푸시를 한 제품에 묶은 반면, containerd와 runc는 운영 계층에 더 가깝다. 그래서 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 플랫폼을 설계할 때는 '도구 이름'보다 '어느 계층을 책임지는가'를 먼저 봐야 한다.
+[Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 엔진은 개발자 경험과 빌드·런·푸시를 한 제품에 묶은 반면, containerd와 runc는 운영 계층에 더 가깝다. 그래서 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 플랫폼을 설계할 때는 '도구 이름'보다 '어느 계층을 책임지는가'를 먼저 봐야 한다.
 
 - **📢 섹션 요약 비유**: 차를 사는 것과, 엔진·변속기·브레이크 부품을 따로 관리하는 것은 같은 이동이라도 관리 방식이 다르다.
 
@@ -132,24 +129,21 @@ containerd와 runc는 같은 '런타임'으로 묶여 말하지만, 세밀하게
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Pod manifest</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">kubelet</div>
-<div class="kb-diagram-note">CRI</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">containerd</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">runc</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Linux kernel / container process</div>
-</div>
-</div>
-
-
+```text
+Pod manifest
+  │
+  ▼
+kubelet
+  │  CRI
+  ▼
+containerd
+  │
+  ▼
+runc
+  │
+  ▼
+Linux kernel / container process
+```
 
 흐름을 끊지 않고 계층별로 보면 배포 문제와 실행 문제를 분리할 수 있다.
 

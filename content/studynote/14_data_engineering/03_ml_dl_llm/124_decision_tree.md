@@ -18,20 +18,19 @@ tags = ["studynote-dataengineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">의사결정 트리 예시 (대출 승인)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">나이 ≥ 30?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Yes No</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">소득 ≥ 5000?</div><div class="kb-diagram-node">학력 = 대졸?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Yes No Yes No</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">승인 ✅ 거절 ❌ 승인 ✅ 거절 ❌</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    의사결정 트리 예시 (대출 승인)                      │
+├───────────────────────────────────────────────────────┤
+│            [나이 ≥ 30?]                               │
+│           /          \                                │
+│         Yes          No                               │
+│    [소득 ≥ 5000?]     [학력 = 대졸?]                  │
+│     /      \          /       \                       │
+│   Yes      No       Yes      No                      │
+│  승인 ✅  거절 ❌   승인 ✅  거절 ❌                  │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 의사결정 트리는 <strong>20 질문 게임</strong>이다. "나이가 30 이상?" "소득이 5000만원 이상?" 등 질문을 반복하여 답에 도달한다.
 
@@ -88,23 +87,21 @@ tags = ["studynote-dataengineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">ID3 (Quinlan, 1986) — 엔트로피 기반</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">C4.5 (1993) — ID3 개선, 연속 변수 처리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CART (Breiman, 1984→2001) — 지니, 회귀 트리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Random Forest (2001) — 배깅 앙상블</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: XGBoost / LightGBM — 부스팅 앙상블</div></div>
-</div>
-</div>
-
-
+```text
+[ID3 (Quinlan, 1986) — 엔트로피 기반]
+    │
+    ▼
+[C4.5 (1993) — ID3 개선, 연속 변수 처리]
+    │
+    ▼
+[CART (Breiman, 1984→2001) — 지니, 회귀 트리]
+    │
+    ▼
+[Random Forest (2001) — 배깅 앙상블]
+    │
+    ▼
+[현재: XGBoost / LightGBM — 부스팅 앙상블]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 의사결정 트리는 <strong>20 질문 게임</strong>이에요. "나이가 30 이상?" "키가 크?" 질문으로 답을 찾아요.

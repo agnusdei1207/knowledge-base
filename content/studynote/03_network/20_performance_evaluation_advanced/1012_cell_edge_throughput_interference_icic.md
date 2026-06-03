@@ -25,18 +25,14 @@ tags = ["studynote-network"]
   1. <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a> 감쇠 (Path Loss)</strong>: 거리가 멀어 전파 힘([신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))이 바닥을 칩니다.
   2. **인접 셀 간섭 (ICI, Inter-Cell Interference)**: 옆 동네(B 기지국)에서 쏘는 똑같은 주파수 전파가 내 귀로 흘러들어와 굉음(잡음 노이즈)을 냅니다. [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(S)는 약한데 잡음(N)이 커서 941번의 <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/941_shannon_hartley_theorem_channel_capacity_snr/">샤논-하틀리</a> 속도 공식</strong>에 의해 다운로드 속도([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))가 0으로 수직 낙하합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">프론트홀</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">셀 엣지 수율</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CoMP</div></div>
-</div>
-</div>
-
-
+```text
+[프론트홀]
+    │
+    ▼
+[셀 엣지 수율]
+    │
+    └──▶ [CoMP]
+```
 
 - **📢 섹션 요약 비유**: 셀 엣지 수율은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -47,18 +43,14 @@ tags = ["studynote-network"]
 - **개념**: 기지국 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 가장 약하고 간섭이 제일 심한 <strong>악조건의 경계 지역(Cell Edge)에 위치한 단말기(스마트폰)가 얻어낼 수 있는 '실질적인 최소 보장 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 전송 속도(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">Throughput</a>)'</strong>입니다.
 - 통신사 간 품질(QoE) 경쟁의 핵심 지표입니다. 기지국 밑에서 2Gbps가 나오는 것보다, 산골짜기 경계선에서 10Mbps가 안 끊기고 나오는 것이 고객 만족도를 100배 올립니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">프론트홀</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">셀 엣지 수율</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CoMP</div></div>
-</div>
-</div>
-
-
+```text
+[프론트홀]
+    │
+    ▼
+[셀 엣지 수율]
+    │
+    └──▶ [CoMP]
+```
 
 - **📢 섹션 요약 비유**: 셀 엣지 수율의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -126,19 +118,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 프론트홀</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 셀 엣지 수율</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: CoMP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 프론트홀]
+    │
+    ▼
+[현재 개념: 셀 엣지 수율]
+    │
+    ├──▶ [확장 A: CoMP]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 셀 엣지 수율는 [프론트홀](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/)에서 출발해 현재 메커니즘을 정교화하고, 이후 CoMP와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

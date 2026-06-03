@@ -42,21 +42,23 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 주소가 어떻게 서명되고 다시 검증되는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PAC 서명 흐름: 주소만 같아도 안 되고, 문맥이 같아야 통과한다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Unsigned Pointer + Modifier(SP / Type) + Secret Key</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">PAC bits | Virtual Addr</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리·스택 저장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 인증 명령 직전 재계산 ◀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">match ──▶ 정상 사용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">mismatch ──▶ invalid ptr</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│      PAC 서명 흐름: 주소만 같아도 안 되고, 문맥이 같아야 통과한다      │
+├──────────────────────────────────────────────────────────────────────┤
+│ Unsigned Pointer + Modifier(SP / Type) + Secret Key                │
+│               │                                                     │
+│               ├─ PAC 생성 명령 ───────▶ [ PAC bits | Virtual Addr ] │
+│               │                                 │                   │
+│               │                                 ▼                   │
+│               │                          메모리·스택 저장           │
+│               │                                 │                   │
+│               └─ 인증 명령 직전 재계산 ◀────────┘                   │
+│                                                 │                   │
+│                              match ─────────────┼──▶ 정상 사용      │
+│                              mismatch ──────────┴──▶ invalid ptr    │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 실무에서 가장 널리 쓰이는 형태는 리턴 주소 서명이다. 함수 진입 시 `PACIASP`처럼 [스택 포인터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/)를 문맥으로 섞어 리턴 주소를 서명하고, 함수 복귀 직전에 `AUTIASP`로 다시 검증한다. 이렇게 하면 공격자가 다른 함수에서 훔친 리턴 주소를 그대로 붙여 넣거나, 동일 주소라도 다른 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 깊이에서 재사용하는 공격을 더 어렵게 만들 수 있다.
 
@@ -133,23 +135,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">ASLR (Address Space Layout Randomization) · NX (No-eXecute)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">소프트웨어 CFI (Control-Flow Integrity)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">PAC (Pointer Authentication Code)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">BTI (Branch Target Identification)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">MTE (Memory Tagging Extension) · 통합 하드웨어 메모리 방어</div>
-</div>
-</div>
-
-
+```text
+ASLR (Address Space Layout Randomization) · NX (No-eXecute)
+                    │
+                    ▼
+소프트웨어 CFI (Control-Flow Integrity)
+                    │
+                    ▼
+PAC (Pointer Authentication Code)
+                    │
+                    ▼
+BTI (Branch Target Identification)
+                    │
+                    ▼
+MTE (Memory Tagging Extension) · 통합 하드웨어 메모리 방어
+```
 
 이 흐름은 "주소를 숨기는 단계"에서 "흐름을 제한하는 단계", 다시 "포인터 자체를 서명하고 메모리 태그까지 검증하는 단계"로 보안이 깊어지는 과정을 보여 준다.
 

@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/">SPOF</a> (단일 고장점)</strong>: 컨트롤러 서버 1대에 전국망 1,000대의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 맡기면, 1대가 죽었을 때 전국 통신이 마비됩니다. 
 - **해결책**: 컨트롤러 서버를 3대, 5대, 7대로 여러 대 묶어서(Cluster) 구축합니다. 한 놈이 죽으면 옆에 놈이 리더(Master) 자리를 물려받아 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 통제를 멈춤 없이 이어나갑니다(Active-Standby 또는 Active-Active 구조의 고가용성, HA 보장).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">ONOS / OpenDaylight</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SDN 분산 컨트롤러 이중화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">네트워크 슬라이스 오케스트레이터 중앙 논리…</div></div>
-</div>
-</div>
-
-
+```text
+[ONOS / OpenDaylight]
+    │
+    ▼
+[SDN 분산 컨트롤러 이중화]
+    │
+    └──▶ [네트워크 슬라이스 오케스트레이터 중앙 논리…]
+```
 
 - **📢 섹션 요약 비유**: [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 컨트롤러 이중화는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -47,18 +43,14 @@ tags = ["studynote-network"]
 - **뇌의 분열**: 양쪽 그룹은 상대방이 진짜 죽어서 통신이 안 되는 건지, 아니면 선만 끊긴 건지 구별하지 못합니다. 
 - 그래서 양쪽이 모두 "아, 저쪽 대장이 죽었구나! 이제 우리 그룹이 리더로 승격해서 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들에게 명령(플로우 테이블)을 내리자!"라고 스스로 착각하여 <strong>하나의 망에 두 명의 왕(Master)이 동시에 존재</strong>하게 됩니다. 이들이 서로 모순되는 경로(명령)를 하달하면서 네트워크 전체 트래픽이 지옥(블랙홀)으로 빠집니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">ONOS / OpenDaylight</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SDN 분산 컨트롤러 이중화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">네트워크 슬라이스 오케스트레이터 중앙 논리…</div></div>
-</div>
-</div>
-
-
+```text
+[ONOS / OpenDaylight]
+    │
+    ▼
+[SDN 분산 컨트롤러 이중화]
+    │
+    └──▶ [네트워크 슬라이스 오케스트레이터 중앙 논리…]
+```
 
 - **📢 섹션 요약 비유**: [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 컨트롤러 이중화의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -129,19 +121,15 @@ ONOS는 5대의 뇌를 뒀다고 5대가 한 [스위치](/knowledge-base/studyno
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: ONOS / OpenDaylight</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: SDN 분산 컨트롤러 이중화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 네트워크 슬라이스 오케스트레이터 중앙 논리…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 프로그래머블 네트워크</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: ONOS / OpenDaylight]
+    │
+    ▼
+[현재 개념: SDN 분산 컨트롤러 이중화]
+    │
+    ├──▶ [확장 A: 네트워크 슬라이스 오케스트레이터 중앙 논리…]
+    └──▶ [확장 B: 프로그래머블 네트워크]
+```
 
 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 컨트롤러 이중화는 ONOS / OpenDaylight에서 출발해 현재 메커니즘을 정교화하고, 이후 [네트워크 슬라이스 오케스트레이터](/knowledge-base/studynote/03_network/17_sdn_nfv/864_network_slice_orchestrator_sdn_nfv_management/) 중앙 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)…와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

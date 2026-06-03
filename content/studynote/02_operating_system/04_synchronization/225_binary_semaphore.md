@@ -24,26 +24,25 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경**: 데이크스트라가 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)를 처음 제안했을 때, 학계에서는 이 개념 하나로 N개의 자원 분배와 1개의 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)를 모두 처리하려 했다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 유닉스 시스템에서는 뮤텍스라는 별도의 개념이 명확히 확립되기 전까지, 이 이진 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)가 시스템의 모든 [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)를 책임지는 전가의 보도처럼 쓰였다.
 
+```text
+  [이진 세마포어를 이용한 상호 배제(Mutual Exclusion) 구현]
 
+  [ 초기 설정: Binary_Semaphore S = 1 (문 열림) ]
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">이진 세마포어를 이용한 상호 배제(Mutual Exclusion) 구현</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">초기 설정: Binary_Semaphore S = 1 (문 열림)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스레드 A</div><div class="kb-diagram-node">스레드 B</div></div>
-<div class="kb-diagram-note">1. wait(S); 호출</div>
-<div class="kb-diagram-note">▶ S가 1이므로 0으로 깎고 무사 통과!</div>
-<div class="kb-diagram-note">2. ===== 임계 구역 실행 중 ===== 1. wait(S); 호출</div>
-<div class="kb-diagram-note">▶ S가 이미 0이므로 진입 실패!</div>
-<div class="kb-diagram-note">▶ B는 대기 큐로 쫓겨나 Sleep(수면) 상태가 됨.</div>
-<div class="kb-diagram-note">3. 임계 구역 탈출</div>
-<div class="kb-diagram-note">4. signal(S); 호출</div>
-<div class="kb-diagram-note">▶ S를 다시 1로 올리고, 자고 있던 B를 깨움(Wakeup).</div>
-<div class="kb-diagram-note">2. 깨어난 B가 S를 0으로 만들고 진입 성공!</div>
-</div>
-</div>
+  [ 스레드 A ]                                      [ 스레드 B ]
+  1. wait(S); 호출
+     ▶ S가 1이므로 0으로 깎고 무사 통과!
+  
+  2. ===== 임계 구역 실행 중 =====                   1. wait(S); 호출
+                                                  ▶ S가 이미 0이므로 진입 실패! 
+                                                  ▶ B는 대기 큐로 쫓겨나 Sleep(수면) 상태가 됨.
+                                                  
+  3. 임계 구역 탈출
+  4. signal(S); 호출
+     ▶ S를 다시 1로 올리고, 자고 있던 B를 깨움(Wakeup).
 
-
+                                                  2. 깨어난 B가 S를 0으로 만들고 진입 성공!
+```
 **[다이어그램 해설]** [카운팅 세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/226_counting_semaphore/)에서 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)값만 1로 세팅한 것과 다름없다. 0과 1 사이만 토글(Toggle)되면서, 두 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 절대로 동시에 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)에 들어갈 수 없는 완벽한 [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)를 달성한다. 외형적으로 보면 우리가 아는 일반적인 Mutex의 동작과 100% 똑같다.
 
 - **📢 섹션 요약 비유**: 이진 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)는 '[스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)'입니다. 위로 올리면(1) 전기가 통하고, 아래로 내리면(0) 전기가 끊깁니다. 2단이나 3단이 없는 가장 극단적이고 확실한 On/Off 차단기입니다.
@@ -58,21 +57,21 @@ tags = ["studynote-operating-system"]
 뮤텍스([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/))는 자물쇠를 잠근 놈(Owner)이 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 기록된다. 따라서 다른 놈이 문을 열려고 하면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 예외를 던지며 막아준다.
 하지만 이진 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)는 **그냥 허공에 떠 있는 숫자(0과 1)일 뿐, 누가 0으로 내렸는지 기억하지 않는다.**
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이진 세마포어의 소유권(Ownership) 부재로 인한 기괴한 현상</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스레드 A</div><div class="kb-diagram-node">스레드 B (해커 또는 실수)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">wait(S) ─▶ S를 0으로 만들고 들어감</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(임계 구역에서 1시간짜리 작업 중) signal(S) ─▶ 밖에서 S를 1로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">바꿔버리고 자기가 들어가버림!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🚨 대참사: A는 자기가 문을 잠갔다고 철석같이 믿고 있는데,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상관없는 B가 밖에서 문을 열고 들어와 버림 (상호배제 붕괴)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌────────────────────────────────────────────────────────────────────────┐
+  │         이진 세마포어의 소유권(Ownership) 부재로 인한 기괴한 현상      │
+  ├────────────────────────────────────────────────────────────────────────┤
+  │                                                                        │
+  │   [ 스레드 A ]                        [ 스레드 B (해커 또는 실수) ]    │
+  │   wait(S) ─▶ S를 0으로 만들고 들어감                                   │
+  │                                                                        │
+  │   (임계 구역에서 1시간짜리 작업 중)       signal(S) ─▶ 밖에서 S를 1로  │
+  │                                       바꿔버리고 자기가 들어가버림!    │
+  │                                                                        │
+  │   🚨 대참사: A는 자기가 문을 잠갔다고 철석같이 믿고 있는데,            │
+  │            상관없는 B가 밖에서 문을 열고 들어와 버림 (상호배제 붕괴)   │
+  └────────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 이진 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)는 프로그래머의 "도덕성(코딩을 실수 없이 완벽하게 할 것이다)"에 전적으로 의존한다. 누군가 코드 한 줄을 실수해서 남의 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 중에 `signal()`을 날려버리면 방어할 방법이 아예 없다. (뮤텍스였다면 B가 `unlock()`을 치는 순간 "소유자가 아닙니다"라며 `IllegalMonitorStateException`을 뱉고 B를 죽여버렸을 것이다).
 
 ### 단점의 역발상: 시그널링 (Signaling) 도구로서의 활용
@@ -120,23 +119,24 @@ tags = ["studynote-operating-system"]
    - **사망 선고**: 며칠 잘 돌다가 중간 순위 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 개입하여 <strong>'<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/205_priority_inversion/">우선순위 역전</a>(<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/205_priority_inversion/">Priority Inversion</a>)'</strong>이 터졌다. 이진 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)는 소유권이 없어 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 우선순위 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)([PI](/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/))을 발동시키지 못했다. 결국 최고 우선순위 태스크가 데드라인을 놓쳐 자동차가 벽에 꼴아박았다. 
    - **실무 규칙**: 하드 리얼타임 시스템에서 <strong>공유 자원 <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a>(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/">상호 배제</a>) 목적</strong>으로 이진 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)를 쓰는 것은 범죄 행위다. 반드시 `rt_mutex` 를 써야만 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발자의 동기화 객체 1차 선택 가이드라인 (Semaphore vs Mutex)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">질문 1</div><div class="kb-diagram-note">내가 지키려는 자원이 2개 이상인가? (DB 풀, 스레드 풀 등)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">예</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">카운팅 세마포어 (Counting Semaphore) 사용.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">아니오 (단일 변수, 단일 파일 보호)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▼</div><div class="kb-diagram-node">질문 2</div><div class="kb-diagram-note">목적이 자원 보호인가, 신호 전달인가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">자원 보호 (내가 잠그고 내가 품)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 🚨 무조건 Mutex 사용. (이진 세마포어 절대 금지)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">신호 전달 (A가 일 끝나면 B에게 알려줌)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ ✅ 이진 세마포어 (초기값 0) 또는 Condition Variable</div></div>
-</div>
-</div>
-
-
+```text
+  ┌────────────────────────────────────────────────────────────────────┐
+  │     개발자의 동기화 객체 1차 선택 가이드라인 (Semaphore vs Mutex)  │
+  ├────────────────────────────────────────────────────────────────────┤
+  │                                                                    │
+  │   [질문 1] 내가 지키려는 자원이 2개 이상인가? (DB 풀, 스레드 풀 등)│
+  │          ├─ [예] ─▶ 카운팅 세마포어 (Counting Semaphore) 사용.     │
+  │          │                                                         │
+  │          └─ [아니오 (단일 변수, 단일 파일 보호)]                   │
+  │                 │                                                  │
+  │                 ▼ [질문 2] 목적이 자원 보호인가, 신호 전달인가?    │
+  │          ├─ [자원 보호 (내가 잠그고 내가 품)]                      │
+  │          │   ▶ 🚨 무조건 Mutex 사용. (이진 세마포어 절대 금지)     │
+  │          │                                                         │
+  │          └─ [신호 전달 (A가 일 끝나면 B에게 알려줌)]               │
+  │              ▶ ✅ 이진 세마포어 (초기값 0) 또는 Condition Variable │
+  └────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 버그의 90%는 도구의 용도를 착각해서 발생한다. 이진 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)로 [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)를 흉내 내는 것은 가능하지만, 문이 실수로 열리는 것과 [우선순위 역전](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/205_priority_inversion/)의 폭탄을 끌어안는 짓이다. 아키텍트는 "잠그는 놈과 푸는 놈이 일치하는가?"를 먼저 묻고, 일치한다면 [Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/), 다르다면 이진 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)(이벤트)로 코딩 컨벤션을 찢어놓아야 한다.
 
 - **📢 섹션 요약 비유**: 이진 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)는 식칼과 같습니다. 요리([신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 전달)를 할 수도 있고, 억지로 나무를 자를([상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)) 수도 있습니다. 하지만 나무를 자를 땐 톱([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/))이라는 훨씬 안전하고 전용으로 만들어진 도구가 있는데 굳이 식칼을 쓰다가 손을 벨(버그) 필요가 없습니다.
@@ -167,19 +167,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선점형 커널 (Preemptive Kernel) vs 비선점형 커널 (Non-preemptive Kernel)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">이진 세마포어 (Binary Semaphore)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">메모리 장벽 (Memory Barrier / Memory Fence)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">하드웨어 명령어 기반 동기화</div></div>
-</div>
-</div>
-
-
+```text
+[선점형 커널 (Preemptive Kernel) vs 비선점형 커널 (Non-preemptive Kernel)]
+    │
+    ▼
+[이진 세마포어 (Binary Semaphore)]
+    │
+    ├──▶ [메모리 장벽 (Memory Barrier / Memory Fence)]
+    └──▶ [하드웨어 명령어 기반 동기화]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

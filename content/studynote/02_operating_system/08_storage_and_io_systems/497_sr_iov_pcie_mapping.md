@@ -25,31 +25,37 @@ tags = ["studynote-operating-system"]
 - <strong>전통 <a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a> 소프트 랜카드 통제 vs SR-IOV 깡 스루풋 매핑 비교 다이어그램</strong>:
 어떻게 중간 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 브릿지 스크립트를 죽이고 호스트 바닥으로 우회 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)를 파열 찔렀는지 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 층위로 분해하면 명확 파괴 판별된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일반 S/W 가상 스위치 vs SR-IOV 다이렉트 펀칭 뚫기 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">과거 절망: 소프트웨어 가상화 구조 (Virtio, VMware VMXNET3 등) 체증</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VM 1</div><div class="kb-diagram-cell">VM 2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS</div><div class="kb-diagram-cell">OS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── ── ◀─ (서로 데이터를 받으려면 무조건 아래를 거쳐야 함)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">하이퍼바이저 Host OS 커널 (거대 병목 스로틀링 늪 관문 락)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ vSwitch (가짜 S/W 스위치 스크립트 복사 대마왕) ─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (CPU 코어 열라 처먹고 간신히 번역 넘김)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">쇳덩어리 물리 랜카드 칩셋 100G (진짜 하드웨어)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현대 극강: SR-IOV (하드웨어 레벨 다이렉트 패스 스루 - OS Bypass!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VM 1</div><div class="kb-diagram-cell">VM 2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">본인전용 VF1</div><div class="kb-diagram-cell">본인전용 VF2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* VF (Virtual Function)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">하이퍼바이저 OS</div><div class="kb-diagram-note">(아예 나몰라라 패스! 경로 우회 스루풋 투명인간화 뚫기!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물리 100G 랜카드 / NVMe</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">PF대빵</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─ 랜카드 칩 자체가 구멍을 여러개</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파서 각각 VM에 직접 쏴 꽂아버림!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌──────────────────────────────────────────────────────────────────────────────────┐
+  │                 일반 S/W 가상 스위치 vs SR-IOV 다이렉트 펀칭 뚫기 아키텍처       │
+  ├──────────────────────────────────────────────────────────────────────────────────┤
+  │                                                                                  │
+  │   [ 과거 절망: 소프트웨어 가상화 구조 (Virtio, VMware VMXNET3 등) 체증 ]         │
+  │     | VM 1 |       | VM 2 |                                                      │
+  │     |  OS  |       |  OS  |                                                      │
+  │     └──┬───┘       └──┬───┘  ◀─ (서로 데이터를 받으려면 무조건 아래를 거쳐야 함) │
+  │   ==== ▼=========== ▼=========================================                   │
+  │   [ 하이퍼바이저 Host OS 커널 (거대 병목 스로틀링 늪 관문 락) ]                  │
+  │         └─ vSwitch (가짜 S/W 스위치 스크립트 복사 대마왕) ─┘                     │
+  │                     ▼ (CPU 코어 열라 처먹고 간신히 번역 넘김)                    │
+  │   == == == == == == = ▼ == == == == == == == == == == == == == ==                │
+  │        [ 쇳덩어리 물리 랜카드 칩셋 100G (진짜 하드웨어) ]                        │
+  │                                                                                  │
+  │   ──────────────────────────────────────────────────────────────────             │
+  │                                                                                  │
+  │   [ 현대 극강: SR-IOV (하드웨어 레벨 다이렉트 패스 스루 - OS Bypass!) ]          │
+  │     |  VM 1  |              |  VM 2  |                                           │
+  │     |본인전용 VF1|              |본인전용 VF2|                                   │
+  │     └────┬───┘              └────┬───┘   * VF (Virtual Function)                 │
+  │   =======│=======================│=============================                  │
+  │   [ 하이퍼바이저 OS ]   (아예 나몰라라 패스! 경로 우회 스루풋 투명인간화 뚫기!)  │
+  │   == == =│== == == == == == == ==│== == == == == == == == == == =                │
+  │        ┌─▼────────────────────────▼─┐                                            │
+  │        │   물리 100G 랜카드 / NVMe       │                                       │
+  │        │ [PF대빵]  (VF1 구멍) (VF2 구멍)  │ ◀─ 랜카드 칩 자체가 구멍을 여러개    │
+  │        └────────────────────────────┘    파서 각각 VM에 직접 쏴 꽂아버림!        │
+  └──────────────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 전통적 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 통신은 패킷이 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 배 밖으로 나가려면 무조건 엄마(Host [KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/)/VMware ESXi [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))의 배 속에 있는 소프트웨어적인 거름망 브릿지 연산을 통과(복사와 헤더 검사를 CPU로 처리)해야 했다([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 지옥). 하지만 아랫그림의 <strong>SR-IOV 방식을 도입 결합하면, 그 밑에 꽂혀있는 진짜 인텔 랜카드 기판 자체가 "나 VF(가짜 랜카드 구역) 1번인데, 내 구멍 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>를 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/">KVM</a> <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 위로 냅다 질러서 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a> 1번 똥구멍에 다이렉트로 결합 박아버리겠다 쑤셔 매핑!"</strong> 를 전담한다. 중간 호스트 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 패킷이 나가는지 들어오는지 전혀 터치할 수도, 복사 오버헤드를 타지도 못하게 소외 붕괴(Bypass 완전 우회)당하여, VM에서 핑을 때리면 그게 중간 OS [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 하나도 없이 0밀리초 무결점으로 다이렉트 물리 전파 광케이블을 타고 외부 인터넷으로 나락 뚫고 나가 폭발하는 진가를 낸다. 
 
@@ -130,19 +136,15 @@ SR-IOV (Single Root I/O [Virtualization](/knowledge-base/studynote/06_ict_conver
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">인터럽트 공유 (Interrupt Sharing) 및 MSI/MSI-X (Message Signaled Interrupts)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SR-IOV (Single Root I/O Virtualization)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">컴퓨테이셔널 스토리지 (Computational Storage / Smart SSD)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NVMe over Fabrics (NVMe-oF)</div></div>
-</div>
-</div>
-
-
+```text
+[인터럽트 공유 (Interrupt Sharing) 및 MSI/MSI-X (Message Signaled Interrupts)]
+    │
+    ▼
+[SR-IOV (Single Root I/O Virtualization)]
+    │
+    ├──▶ [컴퓨테이셔널 스토리지 (Computational Storage / Smart SSD)]
+    └──▶ [NVMe over Fabrics (NVMe-oF)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

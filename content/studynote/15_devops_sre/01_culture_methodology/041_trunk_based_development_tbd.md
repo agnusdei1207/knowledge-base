@@ -18,40 +18,42 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅰ. TBD 고도화 핵심: [피처 플래그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/)
 
+```
+피처 플래그 (Feature Flag / Feature Toggle):
 
+기본 개념:
+  코드는 메인에 병합 완료
+  기능 ON/OFF는 런타임 설정으로 제어
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">피처 플래그 (Feature Flag / Feature Toggle):</div>
-<div class="kb-diagram-note">기본 개념:</div>
-<div class="kb-diagram-note">코드는 메인에 병합 완료</div>
-<div class="kb-diagram-note">기능 ON/OFF는 런타임 설정으로 제어</div>
-<div class="kb-diagram-note">장점:</div>
-<div class="kb-diagram-tree-item" style="--depth:1">미완성 코드도 안전하게 메인 병합</div>
-<div class="kb-diagram-tree-item" style="--depth:1">사용자별/비율별 점진적 롤아웃</div>
-<div class="kb-diagram-tree-item" style="--depth:1">문제 발생 시 즉시 롤백 (재배포 불필요)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">A/B 테스트 용이</div>
-<div class="kb-diagram-note">구현 패턴:</div>
-<div class="kb-diagram-note">단순 Boolean:</div>
-<div class="kb-diagram-note">if (featureFlag.isEnabled("new-checkout")):</div>
-<div class="kb-diagram-note">showNewCheckout()</div>
-<div class="kb-diagram-note">else:</div>
-<div class="kb-diagram-note">showOldCheckout()</div>
-<div class="kb-diagram-note">사용자 비율 롤아웃:</div>
-<div class="kb-diagram-note">if (featureFlag.getVariant("new-ui", userId) == "B"):</div>
-<div class="kb-diagram-note">showNewUI()</div>
-<div class="kb-diagram-note">피처 플래그 수명주기:</div>
-<div class="kb-diagram-note">생성 → 개발 중 OFF → 테스트 ON →</div>
-<div class="kb-diagram-note">카나리 (1%~10%) → 전체 롤아웃 → 플래그 제거</div>
-<div class="kb-diagram-note">경고: "플래그 부채(Flag Debt)"</div>
-<div class="kb-diagram-note">삭제되지 않은 플래그 누적 = 기술 부채</div>
-<div class="kb-diagram-note">분기 폭발, 가독성 저하</div>
-<div class="kb-diagram-note">도구: LaunchDarkly, Unleash, Flagsmith</div>
-<div class="kb-diagram-note">AWS AppConfig, Azure App Configuration</div>
-</div>
-</div>
+장점:
+  - 미완성 코드도 안전하게 메인 병합
+  - 사용자별/비율별 점진적 롤아웃
+  - 문제 발생 시 즉시 롤백 (재배포 불필요)
+  - A/B 테스트 용이
 
+구현 패턴:
 
+단순 Boolean:
+  if (featureFlag.isEnabled("new-checkout")):
+    showNewCheckout()
+  else:
+    showOldCheckout()
+
+사용자 비율 롤아웃:
+  if (featureFlag.getVariant("new-ui", userId) == "B"):
+    showNewUI()
+
+피처 플래그 수명주기:
+  생성 → 개발 중 OFF → 테스트 ON →
+  카나리 (1%~10%) → 전체 롤아웃 → 플래그 제거
+
+경고: "플래그 부채(Flag Debt)"
+  삭제되지 않은 플래그 누적 = 기술 부채
+  분기 폭발, 가독성 저하
+
+도구: LaunchDarkly, Unleash, Flagsmith
+     AWS AppConfig, Azure App Configuration
+```
 
 > 📢 **섹션 요약 비유**: [피처 플래그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/)는 TV 채널 리모컨 — 방송(코드)은 전송 완료, 시청자(사용자)별로 채널을 켜고 끄는 것은 리모컨([플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/))으로 제어.
 
@@ -59,38 +61,37 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅱ. 소규모 PR과 [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/)
 
+```
+TBD 코드 리뷰 원칙:
 
+소규모 PR 권고:
+  변경 라인: 200줄 이하 (이상적: 50~100줄)
+  하나의 논리적 변경만 포함
+  리뷰 완료 시간: 24시간 이내
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">TBD 코드 리뷰 원칙:</div>
-<div class="kb-diagram-note">소규모 PR 권고:</div>
-<div class="kb-diagram-note">변경 라인: 200줄 이하 (이상적: 50~100줄)</div>
-<div class="kb-diagram-note">하나의 논리적 변경만 포함</div>
-<div class="kb-diagram-note">리뷰 완료 시간: 24시간 이내</div>
-<div class="kb-diagram-note">큰 PR의 문제:</div>
-<div class="kb-diagram-tree-item" style="--depth:1">리뷰어 집중력 한계 (400줄 이상 = 위험 증가)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">통합 충돌 가능성 ↑</div>
-<div class="kb-diagram-tree-item" style="--depth:1">리뷰 지연 → 장기 브랜치 전락</div>
-<div class="kb-diagram-note">PR 분할 전략:</div>
-<div class="kb-diagram-note">Stacked PR: PR A → PR B → PR C (순서)</div>
-<div class="kb-diagram-note">독립 PR: 기능별 독립 분할</div>
-<div class="kb-diagram-note">코드 리뷰 Good Practices:</div>
-<div class="kb-diagram-note">X 재작성 요구 (아이디어 강요)</div>
-<div class="kb-diagram-note">O 개선 제안 + 근거</div>
-<div class="kb-diagram-note">X "이건 왜 이렇게 했어요?" (공격적)</div>
-<div class="kb-diagram-note">O "이 부분이 X 이유로 Y 방식이 좋을 것 같아요"</div>
-<div class="kb-diagram-note">O 코드 + 아이디어 분리: "Nit:" 접두어</div>
-<div class="kb-diagram-note">리뷰 체크리스트:</div>
-<div class="kb-diagram-note">기능 정확성 (버그 없음)</div>
-<div class="kb-diagram-note">테스트 커버리지 (핵심 케이스 포함)</div>
-<div class="kb-diagram-note">성능 (불필요한 N+1 쿼리 등)</div>
-<div class="kb-diagram-note">보안 (입력 검증, 권한 확인)</div>
-<div class="kb-diagram-note">가독성 (복잡한 로직 설명 있음)</div>
-</div>
-</div>
+큰 PR의 문제:
+  - 리뷰어 집중력 한계 (400줄 이상 = 위험 증가)
+  - 통합 충돌 가능성 ↑
+  - 리뷰 지연 → 장기 브랜치 전락
 
+PR 분할 전략:
+  Stacked PR: PR A → PR B → PR C (순서)
+  독립 PR: 기능별 독립 분할
+  
+코드 리뷰 Good Practices:
+  X 재작성 요구 (아이디어 강요)
+  O 개선 제안 + 근거
+  X "이건 왜 이렇게 했어요?" (공격적)
+  O "이 부분이 X 이유로 Y 방식이 좋을 것 같아요"
+  O 코드 + 아이디어 분리: "Nit:" 접두어
 
+리뷰 체크리스트:
+  기능 정확성 (버그 없음)
+  테스트 커버리지 (핵심 케이스 포함)
+  성능 (불필요한 N+1 쿼리 등)
+  보안 (입력 검증, 권한 확인)
+  가독성 (복잡한 로직 설명 있음)
+```
 
 > 📢 **섹션 요약 비유**: 소규모 PR은 숙제 나눠내기 — 한 번에 100장 제출보다 10장씩 10번 제출이 선생님(리뷰어)도 집중해서 검토 가능.
 
@@ -98,42 +99,42 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅲ. TBD + [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 통합
 
+```
+TBD 기반 CI/CD 파이프라인:
 
+Trunk 브랜치 보호 정책:
+  - 직접 push 금지
+  - PR + 1인 이상 리뷰 필수
+  - CI 통과 필수 (테스트 그린)
+  - 합의 후 Squash or Rebase 병합
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">TBD 기반 CI/CD 파이프라인:</div>
-<div class="kb-diagram-note">Trunk 브랜치 보호 정책:</div>
-<div class="kb-diagram-tree-item" style="--depth:1">직접 push 금지</div>
-<div class="kb-diagram-tree-item" style="--depth:1">PR + 1인 이상 리뷰 필수</div>
-<div class="kb-diagram-tree-item" style="--depth:1">CI 통과 필수 (테스트 그린)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">합의 후 Squash or Rebase 병합</div>
-<div class="kb-diagram-note">CI 파이프라인 (2~5분 내 완료 목표):</div>
-<div class="kb-diagram-note">코드 빌드 (Build)</div>
-<div class="kb-diagram-note">단위 테스트 (Unit Test)</div>
-<div class="kb-diagram-note">정적 분석 (Lint / SAST)</div>
-<div class="kb-diagram-note">취약점 스캔 (SCA)</div>
-<div class="kb-diagram-note">도커 이미지 빌드</div>
-<div class="kb-diagram-note">이미지 스캔</div>
-<div class="kb-diagram-note">CD 파이프라인:</div>
-<div class="kb-diagram-note">스테이징 자동 배포 (Continuous Delivery)</div>
-<div class="kb-diagram-note">통합 테스트 / E2E 테스트</div>
-<div class="kb-diagram-note">프로덕션 배포 (승인 또는 자동)</div>
-<div class="kb-diagram-note">TBD + GitOps:</div>
-<div class="kb-diagram-note">Trunk → ArgoCD/Flux → 쿠버네티스 클러스터</div>
-<div class="kb-diagram-note">코드 리포지토리 = 인프라 소스 오브 트루스</div>
-<div class="kb-diagram-note">배포 전략 연계:</div>
-<div class="kb-diagram-note">카나리 배포 + 피처 플래그 조합</div>
-<div class="kb-diagram-note">블루/그린 배포 + TBD</div>
-<div class="kb-diagram-note">롤링 업데이트</div>
-<div class="kb-diagram-note">메트릭:</div>
-<div class="kb-diagram-note">리드 타임: 코드 커밋 → 프로덕션 배포</div>
-<div class="kb-diagram-note">배포 빈도: Elite 팀 = 주 1회 이상 (DORA)</div>
-<div class="kb-diagram-note">MTTR: 장애 복구 시간 1시간 이하 (Elite)</div>
-</div>
-</div>
+CI 파이프라인 (2~5분 내 완료 목표):
+  코드 빌드 (Build)
+  단위 테스트 (Unit Test)
+  정적 분석 (Lint / SAST)
+  취약점 스캔 (SCA)
+  도커 이미지 빌드
+  이미지 스캔
 
+CD 파이프라인:
+  스테이징 자동 배포 (Continuous Delivery)
+  통합 테스트 / E2E 테스트
+  프로덕션 배포 (승인 또는 자동)
 
+TBD + GitOps:
+  Trunk → ArgoCD/Flux → 쿠버네티스 클러스터
+  코드 리포지토리 = 인프라 소스 오브 트루스
+  
+배포 전략 연계:
+  카나리 배포 + 피처 플래그 조합
+  블루/그린 배포 + TBD
+  롤링 업데이트
+
+메트릭:
+  리드 타임: 코드 커밋 → 프로덕션 배포
+  배포 빈도: Elite 팀 = 주 1회 이상 (DORA)
+  MTTR: 장애 복구 시간 1시간 이하 (Elite)
+```
 
 > 📢 **섹션 요약 비유**: TBD + [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD는 자동 조립 라인 — 코드 커밋(재료 투입) → 자동 테스트(품질 검사) → 자동 배포(출고) 사이클이 하루에도 여러 번.
 

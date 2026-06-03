@@ -29,18 +29,13 @@ tags = ["design_supervision"]
 
 이 도식은 감리 보고서가 어떻게 파편화된 데이터들을 경영진의 의사결정 자료로 압축하는지를 보여줍니다.
 
+```text
+[원천 데이터]                  [분석 및 구조화]                  [최종 산출물: 감리 보고서]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">원천 데이터</div><div class="kb-diagram-node">분석 및 구조화</div><div class="kb-diagram-node">최종 산출물: 감리 보고서</div></div>
-<div class="kb-diagram-tree-item" style="--depth:0">수천 줄의 로그 ------\ ─ 1. 총평 (경영진/발주자 용)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">100여 개 툴 탐지결과 ---&gt; ( MECE 논리 트리 기반 필터링 ) ====&gt; ─ 2. 분야별 결과 (PM/PL 용)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">면담 회의록 ---------/ (중복 제거, 근본 원인 도출) ─ 3. 시정조치 권고 (개발자 용)</div>
-</div>
-</div>
-
-
+- 수천 줄의 로그 ------\                                       ┌─ 1. 총평 (경영진/발주자 용)
+- 100여 개 툴 탐지결과 ---> ( MECE 논리 트리 기반 필터링 ) ====> ├─ 2. 분야별 결과 (PM/PL 용)
+- 면담 회의록 ---------/     (중복 제거, 근본 원인 도출)         └─ 3. 시정조치 권고 (개발자 용)
+```
 
 이 흐름의 핵심은 보고서의 각 파트가 읽는 대상(Target Audience)의 눈높이에 맞춰 다르게 작성된다는 점입니다. 발주자 대표는 총평만 읽어도 상황을 파악해야 하고, 실무 개발자는 시정조치 권고 사항을 보고 코드를 수정할 수 있어야 합니다.
 
@@ -110,21 +105,16 @@ tags = ["design_supervision"]
    - **상황**: 시스템 아키텍처가 전면 재설계되어야 할 수준의 중대한 보안 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 적시해야 함 (일정 1달 이상 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 예상).
    - **판단**: 보고서에 일방적으로 작성하기 전에, [종료 회의](/knowledge-base/studynote/11_design_supervision/01_audit_framework/019_exit_meeting/)([Exit Meeting](/knowledge-base/studynote/11_design_supervision/01_audit_framework/019_exit_meeting/))나 사전 브리핑을 통해 발주자와 사업자에게 해당 이슈의 심각성([Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/))을 선제적으로 설명해야 합니다. 보고서에는 "현재 구조의 법적 한계(문제점) -> 단기적 [워크어라운드](/knowledge-base/studynote/12_it_management/02_itsm_itil/076_workaround_temporary_fix_incident/)(단기 조치) -> 장기적 아키텍처 개편(장기 조치)"로 나누어 작성하여, 프로젝트가 파국(소송)으로 가지 않도록 출구 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 제시하는 고도의 판단력이 필요합니다.
 
+```text
+[감리 보고서 품질 검증 플로우]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">감리 보고서 품질 검증 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">(개별 감리원 작성) ──&gt;</div><div class="kb-diagram-node">교차 리뷰(Peer Review)</div><div class="kb-diagram-note">──&gt;</div><div class="kb-diagram-node">총괄 감리원 검토</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(MECE 위배, 톤앤매너, 강제성 조율)</div></div>
-<div class="kb-diagram-note">(서로 다른 영역 간 충돌 확인)</div>
-<div class="kb-diagram-note">(예: 응용-성능 양호 vs DB-쿼리 엉망)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">감리법인 심의실 최종 승인(QA)</div><div class="kb-diagram-note">──&gt; 발행</div></div>
-</div>
-</div>
-
-
+(개별 감리원 작성) ──> [교차 리뷰(Peer Review)] ──> [총괄 감리원 검토]
+                              │                           │ (MECE 위배, 톤앤매너, 강제성 조율)
+                     (서로 다른 영역 간 충돌 확인)        │
+                     (예: 응용-성능 양호 vs DB-쿼리 엉망) │
+                                                          ▼
+                                            [감리법인 심의실 최종 승인(QA)] ──> 발행
+```
 
 이 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 플로우의 핵심은 개별 감리원의 주관적 판단이 감리 법인의 공식적인(객관적인) 목소리로 정제되는 과정입니다. 영역 간의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 충돌이 보고서 내에 존재하면 감리의 신뢰성은 바닥에 떨어집니다.
 
@@ -162,23 +152,21 @@ tags = ["design_supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">감리 계획 수립 — 범위·일정·체크리스트 확정</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현장 감리 수행 — 문서 검토, 인터뷰, 산출물 확인</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">결과 분석 — 지적 사항 분류 (중결함·경결함·권고)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">감리 보고서 (Audit Report) — 총평·분야별 결과·시정 조치 권고</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시정 조치 이행 → 이행 점검 → 차기 감리 환류</div></div>
-</div>
-</div>
-
-
+```text
+[감리 계획 수립 — 범위·일정·체크리스트 확정]
+    │
+    ▼
+[현장 감리 수행 — 문서 검토, 인터뷰, 산출물 확인]
+    │
+    ▼
+[결과 분석 — 지적 사항 분류 (중결함·경결함·권고)]
+    │
+    ▼
+[감리 보고서 (Audit Report) — 총평·분야별 결과·시정 조치 권고]
+    │
+    ▼
+[시정 조치 이행 → 이행 점검 → 차기 감리 환류]
+```
 감리 보고서는 감리 수행의 최종 결과물로, 중결함·경결함·권고 사항을 구분하여 발주기관과 사업자가 합의·이행해야 할 공식 문서다.
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 감리 보고서는 선생님이 나눠주는 '학교 생활 통지표'와 같아요.

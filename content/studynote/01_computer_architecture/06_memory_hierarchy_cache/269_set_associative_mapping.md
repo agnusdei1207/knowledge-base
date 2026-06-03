@@ -44,24 +44,24 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 집합 연관 사상이 왜 “전체 탐색이 아닌 제한된 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 비교”인지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4-Way Set Associative: index narrows the set, tags search the ways</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">address =</div><div class="kb-diagram-node">Tag</div><div class="kb-diagram-node">Set Index</div><div class="kb-diagram-node">Block Offset</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ line 내부 바이트 선택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ set 42 선택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">set 42</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">way 0 :</div><div class="kb-diagram-node">valid</div><div class="kb-diagram-node">tag A</div><div class="kb-diagram-node">data</div><div class="kb-diagram-note">── compare ──</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">way 1 :</div><div class="kb-diagram-node">valid</div><div class="kb-diagram-node">tag B</div><div class="kb-diagram-node">data</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">hit/miss</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">way 2 :</div><div class="kb-diagram-node">valid</div><div class="kb-diagram-node">tag C</div><div class="kb-diagram-node">data</div><div class="kb-diagram-note">── compare ──</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">way 3 :</div><div class="kb-diagram-node">valid</div><div class="kb-diagram-node">tag D</div><div class="kb-diagram-node">data</div><div class="kb-diagram-note">── compare ──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">miss and set full ─▶ replacement policy picks one victim in set 42</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ 4-Way Set Associative: index narrows the set, tags search the ways  │
+├──────────────────────────────────────────────────────────────────────┤
+│ address = [   Tag   ][ Set Index ][ Block Offset ]                  │
+│                        │              │                              │
+│                        │              └─ line 내부 바이트 선택       │
+│                        └──────────────▶ set 42 선택                  │
+│                                                                      │
+│ set 42                                                               │
+│   ┌──────── way 0 : [valid][tag A][data] ── compare ──┐              │
+│   ├──────── way 1 : [valid][tag B][data] ── compare ──┼──▶ hit/miss  │
+│   ├──────── way 2 : [valid][tag C][data] ── compare ──┤              │
+│   └──────── way 3 : [valid][tag D][data] ── compare ──┘              │
+│                                                                      │
+│ miss and set full ─▶ replacement policy picks one victim in set 42   │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 핵심은 교체 판단도 세트 단위로만 이루어진다는 점이다. 4-Way 캐시에서 새 블록이 들어왔을 때 쫓겨나는 후보는 캐시 전체 512줄이 아니라, 같은 세트의 4개 웨이뿐이다. 이 덕분에 교체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 상태 비트와 비교 회로가 통제 가능한 범위에 머무른다. 실무에서는 정확한 LRU보다 의사 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) (Pseudo-[LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/))처럼 더 가벼운 근사 기법을 많이 쓰는 이유도 여기서 나온다.
 
@@ -139,28 +139,29 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">메모리 계층 구조 (Memory Hierarchy)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">캐시 메모리 (Cache Memory)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">캐시 사상 (Cache Mapping)</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ 직접 사상 (Direct Mapping)</div>
-<div class="kb-diagram-note">─ 충돌 미스 증가</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">집합 연관 사상 (Set Associative Mapping)</div>
-<div class="kb-diagram-tree-item" style="--depth:4">세트 인덱스 (Set Index) · 웨이 (Way)</div>
-<div class="kb-diagram-tree-item" style="--depth:4">교체 정책 (Replacement Policy)</div>
-<div class="kb-diagram-tree-item" style="--depth:4">의사 LRU · 웨이 예측 · 캐시 파티셔닝</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">완전 연관 사상 (Fully Associative)과의 비용-성능 절충</div>
-</div>
-</div>
-
-
+```text
+메모리 계층 구조 (Memory Hierarchy)
+        │
+        ▼
+캐시 메모리 (Cache Memory)
+        │
+        ▼
+캐시 사상 (Cache Mapping)
+        │
+        ├─▶ 직접 사상 (Direct Mapping)
+        │        │
+        │        └─ 충돌 미스 증가
+        │
+        ▼
+집합 연관 사상 (Set Associative Mapping)
+        │
+        ├─ 세트 인덱스 (Set Index) · 웨이 (Way)
+        ├─ 교체 정책 (Replacement Policy)
+        └─ 의사 LRU · 웨이 예측 · 캐시 파티셔닝
+        │
+        ▼
+완전 연관 사상 (Fully Associative)과의 비용-성능 절충
+```
 
 이 흐름은 “단순한 고정 배치 → 충돌 문제 노출 → 제한된 자유도 부여 → 비용 최적화 기법 확장”으로 이어지는 캐시 설계의 발전 방향을 보여준다.
 

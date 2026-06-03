@@ -18,25 +18,21 @@ tags = ["studynote-bigdata"]
 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) [맵리듀스](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/)에서 맵(Map)은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 있는 곳에서 지역적으로 실행([Data Locality](/knowledge-base/studynote/14_data_engineering/01_infrastructure/019_data_locality/))되지만, 리듀스(Reduce)는 여러 맵 노드에 흩어진 동일 키 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 모아야 한다. 이때 맵의 출력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 네트워크를 타고 리듀서 노드로 이동하는 과정이 <strong>셔플(Shuffle)</strong>이며, 리듀서에 도착한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 키([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)) 순서대로 정리하는 과정이 <strong>정렬(Sort)</strong>이다. 이 단계는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리의 핵심이면서도 가장 자원이 많이 소모되는 구간이다.
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
+```text
+[ Shuffle & Sort Internal Process (셔플 및 정렬 내부 프로세스) ]
 
+[ Map Side ]               [ Network / Transfer ]           [ Reduce Side ]
+1. Map Output Buffer       3. HTTP Copy (Pull)             4. Merge & Sort
+   - Spill to Local Disk      - Reducer pulls files           - In-memory merge
+   - Local Sort & Partition     from Mapper nodes             - External merge sort
+2. Combiner (Optional)     <------------------------>      5. Grouping by Key
+   - Local Aggregation      (Massive Network Flow)            - Input for Reducer
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Shuffle &amp; Sort Internal Process (셔플 및 정렬 내부 프로세스)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Map Side</div><div class="kb-diagram-node">Network / Transfer</div><div class="kb-diagram-node">Reduce Side</div></div>
-<div class="kb-diagram-note">1. Map Output Buffer 3. HTTP Copy (Pull) 4. Merge &amp; Sort</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Spill to Local Disk - Reducer pulls files - In-memory merge</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Local Sort &amp; Partition from Mapper nodes - External merge sort</div>
-<div class="kb-diagram-note">2. Combiner (Optional) &lt;------------------------&gt; 5. Grouping by Key</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Local Aggregation (Massive Network Flow) - Input for Reducer</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Data Flow Diagram</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">V1, V1</div><div class="kb-diagram-note">) @ Reducer 1</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Shuffle</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">V2, V2</div><div class="kb-diagram-note">) @ Reducer 2</div></div>
-<div class="kb-diagram-note">(K2, V2) @ Node C --/</div>
-</div>
-</div>
-
-
+[ Data Flow Diagram ]
+(K1, V1) @ Node A --\      /--> (K1, [V1, V1]) @ Reducer 1
+(K1, V1) @ Node B ----> [ Shuffle ] ----> (K2, [V2, V2]) @ Reducer 2
+(K2, V2) @ Node C --/
+```
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 | 비교 항목 | 셔플 (Shuffle) 단계 | 정렬 (Sort) 단계 |
@@ -61,23 +57,21 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">맵 출력 (Map Output) — 키-값 쌍 생성</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">파티셔닝 (Partitioning) — 리듀서 할당</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">정렬 및 병합 (Sort and Merge) — 로컬 디스크 처리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">셔플 (Shuffle) — 네트워크 전송</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">리듀서 입력 (Reducer Input) — 그룹화·집계</div></div>
-</div>
-</div>
-
-
+```text
+[맵 출력 (Map Output) — 키-값 쌍 생성]
+    │
+    ▼
+[파티셔닝 (Partitioning) — 리듀서 할당]
+    │
+    ▼
+[정렬 및 병합 (Sort and Merge) — 로컬 디스크 처리]
+    │
+    ▼
+[셔플 (Shuffle) — 네트워크 전송]
+    │
+    ▼
+[리듀서 입력 (Reducer Input) — 그룹화·집계]
+```
 
 이 흐름은 맵 단계의 출력을 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)과 로컬 정렬로 묶은 뒤, 셔플을 통해 리듀서로 보내 집계하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 과정을 보여준다.
 

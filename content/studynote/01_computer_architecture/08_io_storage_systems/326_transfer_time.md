@@ -25,23 +25,22 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 전송 시간이 "디스크 표면 → 장치 버퍼 → 시스템 메모리"의 연속 흐름에서 결정된다는 점을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전송 시간의 실제 경로: 찾은 뒤에 얼마나 빨리 옮기나</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Platter/낸드 플래시</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Device Buffer</div><div class="kb-diagram-connector">▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주기억장치</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ DMA</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 버스트 전송·프리패치</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 기록 밀도·회전수·채널 수가 좌우</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심 병목</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- HDD: 플래터에서 읽어내는 내부 전송률</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- SSD: 낸드 채널 병렬도와 컨트롤러 처리량</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│              전송 시간의 실제 경로: 찾은 뒤에 얼마나 빨리 옮기나     │
+├──────────────────────────────────────────────────────────────────────┤
+│ [Platter/낸드 플래시] ── 내부 읽기 ──▶ [Device Buffer] ── 인터페이스 ──▶ │
+│                                                            주기억장치    │
+│      │                         │                            │        │
+│      │                         │                            └─ DMA    │
+│      │                         └─ 버스트 전송·프리패치                 │
+│      └─ 기록 밀도·회전수·채널 수가 좌우                                │
+│                                                                      │
+│ 핵심 병목                                                             │
+│ - HDD: 플래터에서 읽어내는 내부 전송률                                │
+│ - SSD: 낸드 채널 병렬도와 컨트롤러 처리량                             │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 핵심은 케이블 표기 속도가 곧 실제 전송 시간이 아니라는 점이다. [SATA](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/341_sata/) ([Serial ATA](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/341_sata/)) 3.0이 6Gb/s를 지원하더라도 [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) 내부 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)가 초당 200MB밖에 못 읽으면 체감 전송 시간은 내부 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 속도에 묶인다. 그래서 저장장치를 평가할 때는 인터페이스 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/), [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 전송률, 요청 크기를 함께 봐야 한다.
 
@@ -65,22 +64,20 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 ZBR이 왜 전송 시간에 직접 영향을 주는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ZBR이 전송 시간을 줄이는 이유</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">안쪽 트랙 (둘레 짧음) 같은 1회전 바깥 트랙 (둘레 김)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">o o o o o o</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">o o o o o o o o o</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">적은 섹터 수 많은 섹터 수</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">7,200RPM이 동일해도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 안쪽 트랙: 1회전에 읽는 양이 적음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 바깥 트랙: 1회전에 읽는 양이 많음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 같은 시간에 더 많은 바이트를 넘기므로 전송 시간이 짧아짐</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                 ZBR이 전송 시간을 줄이는 이유                        │
+├──────────────────────────────────────────────────────────────────────┤
+│ 안쪽 트랙 (둘레 짧음)      같은 1회전        바깥 트랙 (둘레 김)      │
+│ [ o o o o o o ]        ───────────────▶    [ o o o o o o o o o ]     │
+│   적은 섹터 수                                    많은 섹터 수        │
+│                                                                      │
+│ 7,200RPM이 동일해도                                                   │
+│ - 안쪽 트랙: 1회전에 읽는 양이 적음                                   │
+│ - 바깥 트랙: 1회전에 읽는 양이 많음                                   │
+│ => 같은 시간에 더 많은 바이트를 넘기므로 전송 시간이 짧아짐           │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 차이 때문에 HDD는 같은 제품 안에서도 LBA (Logical Block Address) 위치에 따라 초반 영역이 후반 영역보다 빠르다. 반면 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) ([Solid State Drive](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))는 회전 구조가 없으므로 위치별 차이보다 컨트롤러, 낸드 플래시 채널, [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성, [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 증폭이 전송 시간을 좌우한다. 따라서 전송 시간을 이해할 때는 단순 공식만 외우기보다 "[매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)가 한 단위 시간에 몇 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)를 연속으로 뽑아낼 수 있는가"를 구조적으로 보는 것이 중요하다.
 
@@ -158,23 +155,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">탐색 시간·회전 지연 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">전송 시간 (Transfer Time) 분리 측정</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ZBR (Zoned Bit Recording) · Read-Ahead · DMA</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">RAID Striping · 대용량 순차 I/O 최적화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SSD 병렬 채널 · NVMe (Non-Volatile Memory Express) 기반 고대역폭 스토리지</div>
-</div>
-</div>
-
-
+```text
+탐색 시간·회전 지연 인식
+        │
+        ▼
+전송 시간 (Transfer Time) 분리 측정
+        │
+        ▼
+ZBR (Zoned Bit Recording) · Read-Ahead · DMA
+        │
+        ▼
+RAID Striping · 대용량 순차 I/O 최적화
+        │
+        ▼
+SSD 병렬 채널 · NVMe (Non-Volatile Memory Express) 기반 고대역폭 스토리지
+```
 
 이 흐름은 저장장치 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 논의가 "위치 찾기"에서 시작해, 점차 "얼마나 많이 동시에 옮길 수 있는가"로 확장되어 왔음을 보여준다.
 

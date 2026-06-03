@@ -23,15 +23,11 @@ tags = ["studynote-design-supervision"]
 
 따라서 SBOM은 단순 문서가 아니라 "우리 제품 안에 무엇이 들어 있는가"를 증명하는 디지털 재고 목록이다. 기술사 답안에서는 정의만 쓰지 말고, 왜 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)/[Continuous Delivery](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/))에서 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)해야 하는지, 왜 서명과 취약점 연계가 필요한지까지 연결해 써야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Source Code</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Build / CI</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">SBOM Output</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Scan / Audit</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────┐      ┌─────────────┐      ┌─────────────┐      ┌─────────────┐
+│ Source Code │ ───▶ │ Build / CI  │ ───▶ │ SBOM Output │ ───▶ │ Scan / Audit│
+└─────────────┘      └─────────────┘      └─────────────┘      └─────────────┘
+```
 
 이 그림은 SBOM이 사후 문서 작성이 아니라 빌드 과정 안에서 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되어야 신뢰할 수 있다는 점을 보여 준다.
 
@@ -49,21 +45,26 @@ SBOM의 핵심 원리는 인벤토리, 의존성, 출처의 세 가지를 함께
 | 의존성 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) | 어떤 구성요소가 누구를 참조하는지 표현 | 영향 범위 분석과 패치 우선순위 산정에 필요 |
 | 출처·[무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 정보 | 빌드 환경, 서명, [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 도구, 공급자 정보 기록 | 위조 방지와 납품 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)까지 연결해야 함 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Build Pipeline</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SBOM Generator</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">SPDX / CycloneDX</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VEX / Signature</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Scan / Response</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────┐
+│ Build Pipeline    │
+└───────────────────┘
+          │
+          ▼
+┌───────────────────┐      ┌───────────────────┐
+│ SBOM Generator    │ ───▶ │ SPDX / CycloneDX  │
+└───────────────────┘      └───────────────────┘
+                                     │
+                                     ▼
+                             ┌───────────────────┐
+                             │ VEX / Signature   │
+                             └───────────────────┘
+                                     │
+                                     ▼
+                             ┌───────────────────┐
+                             │ Scan / Response   │
+                             └───────────────────┘
+```
 
 즉 좋은 SBOM은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 한 장이 아니라, [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)·활용까지 이어지는 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 운영 체계의 일부다.
 
@@ -127,24 +128,22 @@ SBOM은 취약점 스캐너와 비슷해 보이지만 역할이 다르다. 어�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">오픈소스 의존성 증가</div>
-<div class="kb-diagram-note">v</div>
-<div class="kb-diagram-note">공급망 가시성 요구</div>
-<div class="kb-diagram-note">v</div>
-<div class="kb-diagram-note">SBOM 표준화(SPDX / CycloneDX)</div>
-<div class="kb-diagram-note">+--&gt; 취약점 대조(SCA)</div>
-<div class="kb-diagram-note">+--&gt; 악용 가능성 판단(VEX)</div>
-<div class="kb-diagram-note">+--&gt; 서명 / 증빙 / 납품 검증</div>
-<div class="kb-diagram-note">v</div>
-<div class="kb-diagram-note">DevSecOps 공급망 통제 고도화</div>
-</div>
-</div>
-
-
+```text
+오픈소스 의존성 증가
+    |
+    v
+공급망 가시성 요구
+    |
+    v
+SBOM 표준화(SPDX / CycloneDX)
+    |
+    +--> 취약점 대조(SCA)
+    +--> 악용 가능성 판단(VEX)
+    +--> 서명 / 증빙 / 납품 검증
+    |
+    v
+DevSecOps 공급망 통제 고도화
+```
 
 이 흐름은 SBOM이 단순 문서에서 출발해 [공급망 보안](/knowledge-base/studynote/04_software_engineering/06_software_architecture/374_supply_chain_security/) 운영의 핵심 증거로 발전하는 과정을 요약한다.
 

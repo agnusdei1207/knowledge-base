@@ -21,18 +21,18 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: 결정 커버리지는 분기문(if, while, for, [switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 등)에서 가능한 모든 결과(참과 거짓)가 최소 한 번씩 실행되었는지를 측정하는 지표이다. 결정 커버리지율(%)은 "실행된 결정 결과 수 / 전체 결정 결과 수 × 100"으로 계산한다.
 
-- **필요성**: 구문 커버리지는 모든 문장이 실행되면 100%가 되지만, 분기문의만 실행되어도 모든 문장이 실행된 것이 된다. 예를 들어 if (condition) { A } else { B }에서 condition이 항상 참이면 A만 실행되고 B는 실행되지 않지만, 구문 커버리지는 100%이다. 결정 커버리지는 이러한 만 테스트되는 상황을 방지한다.
+- **필요성**: 구문 커버리지는 모든 문장이 실행되면 100%가 되지만, 분기문의편측분지만 실행되어도 모든 문장이 실행된 것이 된다. 예를 들어 if (condition) { A } else { B }에서 condition이 항상 참이면 A만 실행되고 B는 실행되지 않지만, 구문 커버리지는 100%이다. 결정 커버리지는 이러한 편측만 테스트되는 상황을 방지한다.
 
 - **결정(Decision)의 정의**: 결정은 분기문을 통해 생성되는 논리적 결과이다. if, while, for, do-while, [switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/), ?: (삼항 연산자) 등이 결정에 해당한다. 각 결정은 최소 2개의 결과(참/거짓, 혹은 해당 분기 수)를 갖는다.
 
-- **비유**: 결정 커버리지는 <strong>'교차로 양쪽 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/">진행</a> <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>'</strong>과 같다. 교차로에서 좌회전과 우회전(두 branch)이 있는데, 항상 좌회만 한다면(만 테스트) 우회전 경로의 안전성을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하지 못한다. 양쪽 모두 한 번씩 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)해봐야 교차로 전체의 안전을/를한 것이다.
+- **비유**: 결정 커버리지는 <strong>'교차로 양쪽 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/">진행</a> <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>'</strong>과 같다. 교차로에서 좌회전과 우회전(두 branch)이 있는데, 항상 좌회만 한다면(편측만 테스트) 우회전 경로의 안전성을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하지 못한다. 양쪽 모두 한 번씩 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)해봐야 교차로 전체의 안전성을확인한 것이다.
 
 - **등장 배경 및 발전 과정**:
-1. **1970년대**: 구조적 테스트 기법의 일환으로 결정 커버리지 개념 도입
-2. **1990년대**: DO-178B 표준에서 안전 중요 소프트웨어에 필수적인 커버리지 수준으로 규정
-3. **현재**: 자동, 항공기 제어 시스템 등 안전 중요 시스템 테스트의 핵심 지표
+  1. **1970년대**: 구조적 테스트 기법의 일환으로 결정 커버리지 개념 도입
+  2. **1990년대**: DO-178B 표준에서 안전 중요 소프트웨어에 필수적인 커버리지 수준으로 규정
+  3. **현재**: 자동구동프로그램, 항공기 제어 시스템 등 안전 중요 시스템 테스트의 핵심 지표
 
-- **섹션 요약 비유**: 결정 커버리지는 <strong>'배낭 양쪽 경로 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a>'</strong>과 같다. 산책길에서 왼쪽 길과 오른쪽 길(두 branch)이 갈라지고, 항상 왼쪽으로만 가면 오른쪽 길에이/가이나부터지 않다。양쪽 모두 한 번씩 걸어보면"오른쪽 길은 험난하지만 경치가 좋다"는 것을알 수 있다. 테스트도 마찬가지로 두 모두 테스트해야 시스템 전체를할 수 있다.
+- **섹션 요약 비유**: 결정 커버리지는 <strong>'배낭려행 양쪽 경로 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a>'</strong>과 같다. 산책길에서 왼쪽 길과 오른쪽 길(두 branch)이 갈라지고, 항상 왼쪽으로만 가면 오른쪽 길에하가あるか분부터ない. 양쪽 모두 한 번씩 걸어보면"오른쪽 길은 험난하지만 경치가 좋다"는 것을알 수 있다. 테스트도 마찬가지로 두분지 모두 테스트해야 시스템 전체를파악할 수 있다.
 
 ---
 
@@ -40,17 +40,18 @@ tags = ["studynote-software-engineering"]
 
 다음은 결정 커버리지 (Decision Co의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결정 커버리지 (Decision Co</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                  결정 커버리지 (Decision Co                        │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
+│       │                    │                    │          │
+│       ▼                    ▼                    ▼          │
+│   요구 분석           설계·적용           품질 검증        │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램은 결정 커버리지 (Decision Co가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 결과물을 산출하는 흐름을 보여준다.
 
@@ -140,30 +141,28 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 결정 커버리지 (Decision Coverage / 분기 커버리지)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 결정 커버리지 (Decision Coverage / 분기 커버리지)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
 | [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 결정 커버리지 (Decision Coverage / 분기 커버리지)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | 결정 커버리지 (Decision Coverage / 분기 커버리지) 적용 결과는 QA 활동을 통해 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)되고 측정된다 |
 | [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 결정 커버리지 (Decision Coverage / 분기 커버리지)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">결정 커버리지 (Decision Coverage / 분기 커버리지) 개념 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 위기 (Software Crisis) 인식
+    │
+    ▼
+결정 커버리지 (Decision Coverage / 분기 커버리지) 개념 정립
+    │
+    ▼
+표준화 및 방법론 체계화 (ISO, CMMI, Agile)
+    │
+    ▼
+클라우드 네이티브·AI 기반 확장 적용
+    │
+    ▼
+지속적 개선 및 DevOps·MLOps 통합
+```
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

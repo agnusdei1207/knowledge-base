@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/">AS</a> (Autonomous System, 자율 시스템)</strong>: KT, SKT, 구글, 아마존처럼 자신들만의 거대한 라우터 군단과 독자적인 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)([OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) 등)을 굴리는 '하나의 거대한 인터넷 국가(기업)'입니다. 각 AS는 전 세계에서 유일한 고유 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 번호(ASN)를 가집니다. (예: 구글은 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 15169)
 - <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/">BGP</a></strong>: 이 거대한 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 국가와 국가 사이의 국경을 넘어 트래픽을 쏴주는 <strong>전 세계 인터넷의 대동맥(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/346_egp_exterior_gateway_protocol_bgp/">EGP</a>) <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a></strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">OSPF 링크 상태 데이터베이스</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">BGP AS-Path</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">서브넷 마스크 / CIDR</div></div>
-</div>
-</div>
-
-
+```text
+[OSPF 링크 상태 데이터베이스]
+    │
+    ▼
+[BGP AS-Path]
+    │
+    └──▶ [서브넷 마스크 / CIDR]
+```
 
 - **📢 섹션 요약 비유**: [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-Path는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -47,18 +43,14 @@ BGP의 경로 찾기(Path Vector) 원리의 절대적인 핵심 꼬리표([속�
 - **예시**: [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 장부에 목적지 `8.8.8.8`로 가는 길이 `AS-Path: [15169, 701, 4766]` 이라고 적혀있다면? 
   "아, 내 패킷이 목적지에 가려면 한국 통신사(4766)를 거치고, 미국 통신사(701)를 거쳐서, 최종 구글(15169)로 들어가는구나!"라는 거시적인 대륙 횡단 지도가 완성됩니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">OSPF 링크 상태 데이터베이스</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">BGP AS-Path</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">서브넷 마스크 / CIDR</div></div>
-</div>
-</div>
-
-
+```text
+[OSPF 링크 상태 데이터베이스]
+    │
+    ▼
+[BGP AS-Path]
+    │
+    └──▶ [서브넷 마스크 / CIDR]
+```
 
 - **📢 섹션 요약 비유**: [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-Path의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -126,19 +118,15 @@ OSPF나 RIP는 루프가 돌면 죽습니다. BGP는 [AS](/knowledge-base/studyn
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: OSPF 링크 상태 데이터베이스</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: BGP AS-Path</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 서브넷 마스크 / CIDR</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: OSPF 링크 상태 데이터베이스]
+    │
+    ▼
+[현재 개념: BGP AS-Path]
+    │
+    ├──▶ [확장 A: 서브넷 마스크 / CIDR]
+    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
+```
 
 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-Path는 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) [링크 상태](/knowledge-base/studynote/03_network/07_network_layer_routing/348_link_state_routing_dijkstra_spf/) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [서브넷 마스크](/knowledge-base/studynote/03_network/19_frequent_topics_terms/963_subnet_mask_cidr_classless_inter_domain_routing/) / CIDR와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -25,21 +25,21 @@ COMA (Cache-Only Memory Access)는 [분산](/knowledge-base/studynote/08_algorit
 
 아래 그림은 NUMA와 COMA가 같은 문제를 어떻게 다르게 보는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NUMA와 COMA의 핵심 차이: "누가 어디에 살아야 하는가"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NUMA</div><div class="kb-diagram-cell">COMA</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주소 0x1000의 홈 노드</div><div class="kb-diagram-cell">주소 0x1000은 이름표(Tag)일 뿐, 현재 위치는 가변적</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가 미리 정해짐</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU0가 필요하면</div><div class="kb-diagram-cell">CPU0가 자주 쓰면 데이터가 CPU0 쪽 메모리로 이동 가능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원격 읽기 수행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"데이터 위치 고정"</div><div class="kb-diagram-cell">"데이터 위치 유동"</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────────┐
+│              NUMA와 COMA의 핵심 차이: "누가 어디에 살아야 하는가"           │
+├───────────────────────┬──────────────────────────────────────────────────────┤
+│ NUMA                  │ COMA                                                 │
+├───────────────────────┼──────────────────────────────────────────────────────┤
+│ 주소 0x1000의 홈 노드 │ 주소 0x1000은 이름표(Tag)일 뿐, 현재 위치는 가변적   │
+│ 가 미리 정해짐        │                                                      │
+│                       │                                                      │
+│ CPU0가 필요하면       │ CPU0가 자주 쓰면 데이터가 CPU0 쪽 메모리로 이동 가능  │
+│ 원격 읽기 수행        │                                                      │
+│                       │                                                      │
+│ "데이터 위치 고정"    │ "데이터 위치 유동"                                   │
+└───────────────────────┴──────────────────────────────────────────────────────┘
+```
 
 핵심은 COMA가 메모리 접근 시간을 평균화하려는 것이 아니라, 자주 쓰는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 **실제 거주 위치를 바꿔서** 원격 접근 자체를 줄이려 한다는 점이다. 즉 캐시가 프로세서 가까이에 복사본을 두는 수준을 넘어, 시스템 전체 주기억장치가 캐시처럼 행동하게 만들겠다는 시도다.
 
@@ -61,21 +61,25 @@ COMA에서는 각 노드의 로컬 메모리가 단순한 [DRAM](/knowledge-base
 
 아래 그림은 COMA의 기본 동작 흐름을 압축한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">COMA 데이터 탐색 · 이동 · 갱신 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) CPU0가 블록 A 요청</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">로컬 Attraction Memory 미스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) 디렉터리가 "A는 Node2에 있음" 확인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">read 위주 ▶ Node0에 복제</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">write 위주 ▶ Node2 사본 회수 후 Node0로 이주</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) 이후 CPU0는 로컬 접근으로 처리</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                    COMA 데이터 탐색 · 이동 · 갱신 흐름                      │
+├──────────────────────────────────────────────────────────────────────────────┤
+│ 1) CPU0가 블록 A 요청                                                      │
+│        │                                                                    │
+│        ▼                                                                    │
+│    로컬 Attraction Memory 미스                                              │
+│        │                                                                    │
+│        ▼                                                                    │
+│ 2) 디렉터리가 "A는 Node2에 있음" 확인                                       │
+│        │                                                                    │
+│        ├──────── read 위주 ────────▶ Node0에 복제                           │
+│        │                                                                    │
+│        └──────── write 위주 ───────▶ Node2 사본 회수 후 Node0로 이주        │
+│                                                                             │
+│ 3) 이후 CPU0는 로컬 접근으로 처리                                           │
+└──────────────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조의 장점은 [데이터 지역성](/knowledge-base/studynote/14_data_engineering/01_infrastructure/019_data_locality/)이 이동하는 워크로드에 매우 잘 맞는다는 점이다. 어떤 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 계속 한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 소비하면, 결국 그 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 해당 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 근처에 자리 잡게 된다. 그러나 단점도 분명하다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 찾기 위한 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 탐색, [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 시 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)본 무효화, 유일한 원본이 축출(Eviction)될 때 새로운 거처를 찾아야 하는 작업이 모두 하드웨어 복잡도를 급격히 키운다.
 
@@ -160,26 +164,24 @@ COMA의 기대효과는 분명하다. 잘 맞는 워크로드에서는 [데이�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">공유 메모리 확장 문제</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">NUMA (Non-Uniform Memory Access)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">원격 메모리 지연 최소화 시도</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">COMA (Cache-Only Memory Access)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">데이터 이주(Migration) · 복제(Replication)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">디렉터리 기반 위치 추적</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ccNUMA (Cache-Coherent NUMA) 중심의 현실적 절충</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">OS 기반 Page Migration · NUMA Balancing · CXL Memory Pooling</div>
-</div>
-</div>
-
-
+```text
+공유 메모리 확장 문제
+    │
+    ▼
+NUMA (Non-Uniform Memory Access)
+    │
+    ├─ 원격 메모리 지연 최소화 시도
+    ▼
+COMA (Cache-Only Memory Access)
+    │
+    ├─ 데이터 이주(Migration) · 복제(Replication)
+    ├─ 디렉터리 기반 위치 추적
+    ▼
+ccNUMA (Cache-Coherent NUMA) 중심의 현실적 절충
+    │
+    ▼
+OS 기반 Page Migration · NUMA Balancing · CXL Memory Pooling
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

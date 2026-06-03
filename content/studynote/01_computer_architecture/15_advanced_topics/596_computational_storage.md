@@ -25,20 +25,19 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 왜 계산형 스토리지가 필요한지 직관적으로 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Computational storage turns many storage devices into many small workers</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Host-only model</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Many Drives -&gt; Raw Data Flood -&gt; Host CPU Farm -&gt; Result</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Computational-storage model</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Many Device Workers -&gt; Local Filter / Transform -&gt; Small Partial Results -&gt; Host</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">The host orchestrates; devices reduce and preprocess near the data</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│ Computational storage turns many storage devices into many small workers   │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Host-only model                                                            │
+│ Many Drives -> Raw Data Flood -> Host CPU Farm -> Result                   │
+│                                                                            │
+│ Computational-storage model                                                │
+│ Many Device Workers -> Local Filter / Transform -> Small Partial Results -> Host │
+│                                                                            │
+│ The host orchestrates; devices reduce and preprocess near the data         │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 핵심은 CPU를 없애는 것이 아니라 CPU가 모든 바이트를 직접 받는 구조를 바꾸는 것이다. 따라서 계산형 스토리지는 단독 장치 기술이 아니라, 저장 경로 전체에서 “어떤 연산을 어디에 배치할지”를 다시 묻는 시스템 설계 방식으로 이해해야 한다.
 
@@ -60,21 +59,20 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 이 계층들이 어떻게 협력하는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Computational storage is an orchestration model, not just a single drive</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Host Orchestrator</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Dispatch function -&gt; CSD #1 -&gt; local result</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Dispatch function -&gt; CSD #2 -&gt; local result</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Dispatch function -&gt; CSP -&gt; filtered / joined result</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Aggregate partial outputs -&gt; final answer</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CSA packages the scheduling, security, and management around this flow</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│ Computational storage is an orchestration model, not just a single drive  │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Host Orchestrator                                                          │
+│     │                                                                      │
+│     ├─ Dispatch function -> CSD #1 -> local result                         │
+│     ├─ Dispatch function -> CSD #2 -> local result                         │
+│     ├─ Dispatch function -> CSP  -> filtered / joined result               │
+│     └─ Aggregate partial outputs -> final answer                           │
+│                                                                            │
+│ CSA packages the scheduling, security, and management around this flow     │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 여기서 중요한 원리는 제어와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 분리다. 호스트는 어떤 함수를 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 집합에 적용할지 지시하고, 저장 근처 장치는 그 함수의 지역적 실행을 맡는다. 다시 말해 계산형 스토리지는 “스토리지가 똑똑해졌다”보다 <strong>호스트는 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/">orchestration</a>, 장치는 local compute</strong>라는 분업으로 이해해야 정확하다.
 
@@ -151,25 +149,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Host-only Storage + Centralized Compute</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Drive-level Smart SSD offload</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Computational Storage Drive (CSD)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Computational Storage Processor (CSP)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Computational Storage Array (CSA)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Data-Centric Distributed Infrastructure</div>
-</div>
-</div>
-
-
+```text
+Host-only Storage + Centralized Compute
+                  │
+                  ▼
+Drive-level Smart SSD offload
+                  │
+                  ▼
+Computational Storage Drive (CSD)
+                  │
+                  ▼
+Computational Storage Processor (CSP)
+                  │
+                  ▼
+Computational Storage Array (CSA)
+                  │
+                  ▼
+Data-Centric Distributed Infrastructure
+```
 
 이 흐름은 저장장치가 수동적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보관소에서 출발해, 이제는 장치·프로세서·[배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 수준의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 실행 환경으로 확장되고 있음을 보여 준다.
 

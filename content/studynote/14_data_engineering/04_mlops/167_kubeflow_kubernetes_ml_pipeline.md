@@ -22,26 +22,26 @@ tags = ["studynote-data-engineering"]
 
 <strong>Kubeflow</strong>는 Google이 주도하여 개발한 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 기반의 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) ML 플랫폼으로, ML 모델의 개발부터 배포까지 전 과정을 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 클러스터에서 실행할 수 있도록 설계됐다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">쿠버네티스 (Kubernetes) 클러스터</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kubeflow</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kubeflow</div><div class="kb-diagram-cell">Katib</div><div class="kb-diagram-cell">KServe</div><div class="kb-diagram-cell">Notebooks</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pipelines</div><div class="kb-diagram-cell">(AutoML)</div><div class="kb-diagram-cell">(모델 서빙)</div><div class="kb-diagram-cell">(JupyterHub)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DAG 기반</div><div class="kb-diagram-cell">HPO</div><div class="kb-diagram-cell">REST/gRPC</div><div class="kb-diagram-cell">JupyterLab</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ML 파이프</div><div class="kb-diagram-cell">Grid/Random</div><div class="kb-diagram-cell">다중 프레임</div><div class="kb-diagram-cell">GPU 지원</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">라인 실행</div><div class="kb-diagram-cell">Bayesian</div><div class="kb-diagram-cell">워크 서빙</div><div class="kb-diagram-cell">팀 공유</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">컨테이너화</div><div class="kb-diagram-cell">HyperBand</div><div class="kb-diagram-cell">카나리 배포</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Training</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Operator</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(TFJob, PyTorchJob,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MXNetJob, XGBoostJob)</div></div>
-</div>
-</div>
-
-
+```
+쿠버네티스 (Kubernetes) 클러스터
+┌─────────────────────────────────────────────────────────────────┐
+│                         Kubeflow                                │
+├──────────────┬──────────────┬──────────────┬────────────────────┤
+│  Kubeflow    │    Katib     │   KServe     │  Notebooks         │
+│  Pipelines   │   (AutoML)   │  (모델 서빙)  │  (JupyterHub)      │
+│              │              │              │                    │
+│  DAG 기반    │  HPO         │  REST/gRPC   │  JupyterLab        │
+│  ML 파이프   │  Grid/Random │  다중 프레임  │  GPU 지원          │
+│  라인 실행   │  Bayesian    │  워크 서빙    │  팀 공유           │
+│  컨테이너화  │  HyperBand   │  카나리 배포  │                    │
+└──────────────┴──────────────┴──────────────┴────────────────────┘
+│              │              │              │
+│              Training       │              │
+│              Operator       │              │
+│  (TFJob, PyTorchJob,        │              │
+│   MXNetJob, XGBoostJob)     │              │
+└─────────────────────────────────────────────────────────────────┘
+```
 
 ### 1.2 Kubeflow가 해결하는 문제
 
@@ -62,27 +62,38 @@ tags = ["studynote-data-engineering"]
 
 ### 2.1 Kubeflow Pipelines 아키텍처
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kubeflow Pipelines 내부 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Python Pipeline DSL</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">@dsl.pipeline 데코레이터로 DAG 정의</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pipeline SDK → YAML/JSON 컴파일</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kubeflow Pipelines 백엔드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">API Server</div><div class="kb-diagram-cell">Pipeline Persistence</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(REST API)</div><div class="kb-diagram-cell">(MySQL)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Scheduler</div><div class="kb-diagram-cell">Artifact Store</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Argo WF)</div><div class="kb-diagram-cell">(MinIO/S3)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 각 단계는 쿠버네티스 Pod로 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">피처</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">학습</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">평가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전처리</div><div class="kb-diagram-cell">엔지니어</div><div class="kb-diagram-cell">Pod</div><div class="kb-diagram-cell">Pod</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pod</div><div class="kb-diagram-cell">링 Pod</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                  Kubeflow Pipelines 내부 구조                   │
+├──────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  Python Pipeline DSL                                             │
+│  @dsl.pipeline 데코레이터로 DAG 정의                             │
+│         │                                                        │
+│         ▼                                                        │
+│  Pipeline SDK → YAML/JSON 컴파일                                │
+│         │                                                        │
+│         ▼                                                        │
+│  ┌─────────────────────────────────────────────┐               │
+│  │  Kubeflow Pipelines 백엔드                   │               │
+│  │  ┌──────────────┐  ┌──────────────────────┐ │               │
+│  │  │  API Server  │  │  Pipeline Persistence│ │               │
+│  │  │  (REST API)  │  │  (MySQL)             │ │               │
+│  │  └──────────────┘  └──────────────────────┘ │               │
+│  │  ┌──────────────┐  ┌──────────────────────┐ │               │
+│  │  │  Scheduler   │  │  Artifact Store      │ │               │
+│  │  │  (Argo WF)   │  │  (MinIO/S3)          │ │               │
+│  │  └──────────────┘  └──────────────────────┘ │               │
+│  └─────────────────────────────────────────────┘               │
+│         │                                                        │
+│         ▼ 각 단계는 쿠버네티스 Pod로 실행                        │
+│  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐          │
+│  │ 데이터   │→│ 피처     │→│ 학습     │→│ 평가     │          │
+│  │ 전처리   │ │ 엔지니어 │ │ Pod      │ │ Pod      │          │
+│  │ Pod      │ │ 링 Pod   │ │          │ │          │          │
+│  └──────────┘ └──────────┘ └──────────┘ └──────────┘          │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 ### 2.2 Kubeflow Pipelines Python DSL 예시
 
@@ -143,26 +154,28 @@ def ml_pipeline(data_path: str, epochs: int = 10):
 
 ### 2.3 Katib (하이퍼파라미터 최적화)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Katib 아키텍처</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">목표 메트릭: Maximize Accuracy</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하이퍼파라미터 검색 공간:</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">learning_rate:</div><div class="kb-diagram-node">0.0001, 0.01</div><div class="kb-diagram-note">(log uniform)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">batch_size:</div><div class="kb-diagram-node">16, 32, 64, 128</div><div class="kb-diagram-note">(discrete)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">optimizer:</div><div class="kb-diagram-node">'adam', 'sgd', 'rmsprop'</div><div class="kb-diagram-note">(categorical)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Katib Controller ──→ 검색 알고리즘 선택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Trial 1: lr=0.001, bs=32, opt=adam → Acc=0.91</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Trial 2: lr=0.01, bs=64, opt=sgd → Acc=0.88</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Trial 3: lr=0.0001,bs=16, opt=adam → Acc=0.93</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Trial N: lr=0.002, bs=32, opt=adam → Acc=0.95</div><div class="kb-diagram-cell">← 최적</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                    Katib 아키텍처                                │
+├──────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  목표 메트릭: Maximize Accuracy                                  │
+│  하이퍼파라미터 검색 공간:                                       │
+│    learning_rate: [0.0001, 0.01] (log uniform)                  │
+│    batch_size: [16, 32, 64, 128] (discrete)                     │
+│    optimizer: ['adam', 'sgd', 'rmsprop'] (categorical)          │
+│                                                                  │
+│  Katib Controller ──→ 검색 알고리즘 선택                        │
+│                                                                  │
+│  ┌─────────────────────────────────────────────────┐           │
+│  │  Trial 1: lr=0.001, bs=32, opt=adam → Acc=0.91 │           │
+│  │  Trial 2: lr=0.01,  bs=64, opt=sgd  → Acc=0.88 │           │
+│  │  Trial 3: lr=0.0001,bs=16, opt=adam → Acc=0.93 │           │
+│  │  ...                                             │           │
+│  │  Trial N: lr=0.002, bs=32, opt=adam → Acc=0.95 │ ← 최적   │
+│  └─────────────────────────────────────────────────┘           │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 #### Katib 검색 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 비교
 
@@ -176,28 +189,32 @@ def ml_pipeline(data_path: str, epochs: int = 10):
 
 ### 2.4 KServe (모델 서빙)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">KServe 아키텍처</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">InferenceService (CRD)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Transformer (선택) Predictor Explainer</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전처리/후처리 → (모델 서빙) → 예측 설명</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Triton/TF Serving / SHAP/LIME</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PyTorch/Sklearn (선택)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지원 프레임워크:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TensorFlow</div><div class="kb-diagram-cell">PyTorch</div><div class="kb-diagram-cell">Sklearn</div><div class="kb-diagram-cell">XGBoost</div><div class="kb-diagram-cell">LightGBM</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ONNX</div><div class="kb-diagram-cell">Triton</div><div class="kb-diagram-cell">HuggingFace</div><div class="kb-diagram-cell">MLflow</div><div class="kb-diagram-cell">Custom</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서빙 기능:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- REST/gRPC 자동 엔드포인트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 카나리 배포 (canaryTrafficPercent)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 자동 스케일링 (KNative 기반)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 배치 추론 (InferenceGraph)</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                     KServe 아키텍처                              │
+├──────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  InferenceService (CRD)                                         │
+│  ┌──────────────────────────────────────────────────────┐      │
+│  │  Transformer (선택)    Predictor          Explainer  │      │
+│  │  전처리/후처리 →       (모델 서빙)    →   예측 설명  │      │
+│  │  Triton/TF Serving /   SHAP/LIME                     │      │
+│  │  PyTorch/Sklearn       (선택)                        │      │
+│  └──────────────────────────────────────────────────────┘      │
+│                                                                  │
+│  지원 프레임워크:                                                │
+│  ┌─────────────────────────────────────────────────────┐       │
+│  │ TensorFlow │ PyTorch │ Sklearn │ XGBoost │ LightGBM │       │
+│  │ ONNX       │ Triton  │ HuggingFace │ MLflow │ Custom│       │
+│  └─────────────────────────────────────────────────────┘       │
+│                                                                  │
+│  서빙 기능:                                                      │
+│  - REST/gRPC 자동 엔드포인트                                    │
+│  - 카나리 배포 (canaryTrafficPercent)                           │
+│  - 자동 스케일링 (KNative 기반)                                 │
+│  - 배치 추론 (InferenceGraph)                                   │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: Kubeflow Pipelines는 자동화된 공장 조립 라인과 같다. 각 작업([컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/))은 독립적인 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 기계이고, DAG는 조립 순서도이며, Katib은 최적 재료 배합(하이퍼파라미터)을 자동으로 찾아주는 레시피 최적화 로봇이다.
 
@@ -221,23 +238,22 @@ def ml_pipeline(data_path: str, epochs: int = 10):
 
 ### 3.2 [Training](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/) Operators ([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 학습)
 
+```
+TFJob (분산 TensorFlow 학습):
+┌─────────────────────────────────────────────┐
+│  TFJob                                       │
+│  ├── Chief Pod (1개): 마스터 워커           │
+│  ├── Worker Pod (4개): 데이터 병렬 학습     │
+│  └── PS Pod (2개): 파라미터 서버            │
+└─────────────────────────────────────────────┘
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">TFJob (분산 TensorFlow 학습):</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TFJob</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Chief Pod (1개): 마스터 워커</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Worker Pod (4개): 데이터 병렬 학습</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── PS Pod (2개): 파라미터 서버</div></div>
-<div class="kb-diagram-note">PyTorchJob (분산 PyTorch 학습):</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PyTorchJob</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Master Pod (1개)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Worker Pod (N개): DDP 분산 학습</div></div>
-</div>
-</div>
-
-
+PyTorchJob (분산 PyTorch 학습):
+┌─────────────────────────────────────────────┐
+│  PyTorchJob                                  │
+│  ├── Master Pod (1개)                       │
+│  └── Worker Pod (N개): DDP 분산 학습        │
+└─────────────────────────────────────────────┘
+```
 
 ### 3.3 Kubeflow vs Airflow 비교
 
@@ -287,27 +303,26 @@ def ml_pipeline(data_path: str, epochs: int = 10):
 
 ### 4.3 Kubeflow 도입 시 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kubeflow 도입 체크리스트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인프라</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 쿠버네티스 1.21+ 클러스터 준비</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ GPU 노드 (nvidia-device-plugin) 설치</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 스토리지 클래스 (NFS, Ceph) 구성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 로드 밸런서 또는 Istio Ingress 설정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">팀 역량</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 쿠버네티스 운영 경험 (최소 1명)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ Python + Docker 역량</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ Kubeflow Pipelines SDK 학습</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대안 검토</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 클라우드 관리형 (Vertex AI, SageMaker) 비용 비교</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ Apache Airflow로 충분한지 검토</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────────┐
+│            Kubeflow 도입 체크리스트                           │
+├──────────────────────────────────────────────────────────────┤
+│  인프라                                                       │
+│  □ 쿠버네티스 1.21+ 클러스터 준비                            │
+│  □ GPU 노드 (nvidia-device-plugin) 설치                      │
+│  □ 스토리지 클래스 (NFS, Ceph) 구성                         │
+│  □ 로드 밸런서 또는 Istio Ingress 설정                      │
+├──────────────────────────────────────────────────────────────┤
+│  팀 역량                                                     │
+│  □ 쿠버네티스 운영 경험 (최소 1명)                           │
+│  □ Python + Docker 역량                                      │
+│  □ Kubeflow Pipelines SDK 학습                               │
+├──────────────────────────────────────────────────────────────┤
+│  대안 검토                                                   │
+│  □ 클라우드 관리형 (Vertex AI, SageMaker) 비용 비교          │
+│  □ Apache Airflow로 충분한지 검토                            │
+└──────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: Kubeflow 도입은 수제 요리 공방을 산업용 자동화 식품 공장으로 전환하는 것과 같다. 처음엔 설비 투자(K8s 구축)가 크지만, 대량 생산 단계에서는 수동 대비 압도적인 효율성과 재현성을 제공한다. 단, 공장 운영 전문가(K8s 엔지니어)가 반드시 필요하다.
 
@@ -358,26 +373,24 @@ Kubeflow는 ML 워크로드를 [클라우드 네이티브](/knowledge-base/study
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">수동 ML 실험 (노트북 기반)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ML 파이프라인 자동화</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Kubeflow Pipelines: K8s 기반 DAG 파이프라인</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Katib: 하이퍼파라미터 자동 최적화</div>
-<div class="kb-diagram-tree-item" style="--depth:2">KServe: 멀티 프레임워크 모델 서빙</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">컨테이너 기반 재현성 (Docker + K8s)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SageMaker Pipelines · Vertex AI Pipelines (클라우드 관리형)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">LLMOps 파이프라인: 프롬프트 관리 · RAG · PEFT 스케줄링</div>
-</div>
-</div>
-
-
+```text
+수동 ML 실험 (노트북 기반)
+    │
+    ▼
+ML 파이프라인 자동화
+    ├─► Kubeflow Pipelines: K8s 기반 DAG 파이프라인
+    ├─► Katib: 하이퍼파라미터 자동 최적화
+    └─► KServe: 멀티 프레임워크 모델 서빙
+    │
+    ▼
+컨테이너 기반 재현성 (Docker + K8s)
+    │
+    ▼
+SageMaker Pipelines · Vertex AI Pipelines (클라우드 관리형)
+    │
+    ▼
+LLMOps 파이프라인: 프롬프트 관리 · RAG · PEFT 스케줄링
+```
 
 ---
 

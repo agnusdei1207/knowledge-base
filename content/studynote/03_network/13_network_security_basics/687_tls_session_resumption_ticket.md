@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - SSL/[TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 연결의 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 핸드셰이크는 공개키/개인키 기반의 무거운 수학 연산([RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/), [ECDHE](/knowledge-base/studynote/09_security/03_network_security/131_ecdhe_ephemeral_ecdh/) 등)을 동반하므로 CPU 자원을 엄청나게 잡아먹고 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))을 유발합니다.
 - 특히 스마트폰이 와이파이에서 LTE로 망을 갈아탈 때마다 이 무거운 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)을 매번 새로 맺으면 체감 속도가 최악이 됩니다. <strong>한 번 안전하게 뚫어놓은 터널(만들어놓은 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">세션</a>키)을 버리지 않고 잠시 쟁여두었다가, 짧은 시간 내에 재접속하면 암호 연산을 싹 생략하고 그 열쇠를 그대로 다시 재활용(재개)하는 기법</strong>이 필수적이 되었습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">MAC-then-Encrypt 패러다임 /…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">세션 재개 기능 구성</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SNI 개요 와 ESNI / ECH 검열 우…</div></div>
-</div>
-</div>
-
-
+```text
+[MAC-then-Encrypt 패러다임 /…]
+    │
+    ▼
+[세션 재개 기능 구성]
+    │
+    └──▶ [SNI 개요 와 ESNI / ECH 검열 우…]
+```
 
 - **📢 섹션 요약 비유**: [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 재개 기능 구성은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -52,18 +48,14 @@ tags = ["studynote-network"]
 - **원리 (서버 메모리 해방)**: 이 방식은 놀이공원 자유이용권과 같습니다. 서버는 첫 접속이 끝나면 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)키와 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 정보들을 <strong>'서버만 풀 수 있는 마스터 암호키(STEK)'로 통째로 꽁꽁 암호화해서 '티켓(Ticket)' 형태</strong>로 만들어 클라이언트에게 던져버리고, 서버 본인은 그 기억을 자기 머릿속에서 완전히 지워버립니다.
 - **재접속**: 사용자가 재접속할 때 이 '티켓'을 통째로 내밉니다. 서버는 메모리를 뒤질 필요 없이, 건네받은 티켓의 자물쇠를 자기 마스터키로 찰칵 풀어서 그 안에 든 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)키를 꺼내어 통신을 재개합니다. 네이버 서버가 1억 대라도 티켓만 까보면 되니 서버 확장에 완벽히 대응합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">MAC-then-Encrypt 패러다임 /…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">세션 재개 기능 구성</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SNI 개요 와 ESNI / ECH 검열 우…</div></div>
-</div>
-</div>
-
-
+```text
+[MAC-then-Encrypt 패러다임 /…]
+    │
+    ▼
+[세션 재개 기능 구성]
+    │
+    └──▶ [SNI 개요 와 ESNI / ECH 검열 우…]
+```
 
 - **📢 섹션 요약 비유**: [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 재개 기능 구성의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -124,19 +116,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: MAC-then-Encrypt 패러다임 /…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 세션 재개 기능 구성</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: SNI 개요 와 ESNI / ECH 검열 우…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: MAC-then-Encrypt 패러다임 /…]
+    │
+    ▼
+[현재 개념: 세션 재개 기능 구성]
+    │
+    ├──▶ [확장 A: SNI 개요 와 ESNI / ECH 검열 우…]
+    └──▶ [확장 B: 자동화된 신뢰 체계]
+```
 
 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 재개 기능 구성는 MAC-then-Encrypt 패러다임 /…에서 출발해 현재 메커니즘을 정교화하고, 이후 [SNI](/knowledge-base/studynote/03_network/13_network_security_basics/688_sni_esni_ech_encrypted_client_hello/) 개요 와 [ESNI](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1064_esni_ech_tls_1_3_encrypted_sni/) / ECH 검열 우…와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

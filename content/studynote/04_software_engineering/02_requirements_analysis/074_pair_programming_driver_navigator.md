@@ -97,37 +97,25 @@ Driver가 타이핑하고 Navigator가 큰 그림과 오류를 본다.
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Pair Programming</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Driver / Navigator</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Quality / Sharing</div>
-</div>
-</div>
-
-
+```text
+Pair Programming
+  ↓
+Driver / Navigator
+  ↓
+Quality / Sharing
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">XP</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Pair Programming</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Collaborative Coding</div>
-</div>
-</div>
-
-
+```text
+XP
+  ↓
+Pair Programming
+  ↓
+Collaborative Coding
+```
 
 ---
 

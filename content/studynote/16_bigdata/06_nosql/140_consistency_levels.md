@@ -20,40 +20,35 @@ tags = ["studynote-bigdata"]
 
 ### [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 약화의 필요성
 
+```text
+단일 노드 DB: 강한 일관성 자동 보장 (문제 없음)
 
+분산 DB: 노드 간 복제 지연이 항상 존재
+          쓰기 → Node A → 복제 → Node B, C, D
+          지연: 수ms ~ 수백ms (리전 간)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단일 노드 DB: 강한 일관성 자동 보장 (문제 없음)</div>
-<div class="kb-diagram-note">분산 DB: 노드 간 복제 지연이 항상 존재</div>
-<div class="kb-diagram-note">쓰기 → Node A → 복제 → Node B, C, D</div>
-<div class="kb-diagram-note">지연: 수ms ~ 수백ms (리전 간)</div>
-<div class="kb-diagram-note">선택:</div>
-<div class="kb-diagram-note">강한 일관성: 모든 복제 확인 후 응답 → 지연 증가</div>
-<div class="kb-diagram-note">약한 일관성: 일부 복제 후 응답 → 빠르지만 오래된 데이터 가능</div>
-</div>
-</div>
-
-
+선택:
+  강한 일관성: 모든 복제 확인 후 응답 → 지연 증가
+  약한 일관성: 일부 복제 후 응답 → 빠르지만 오래된 데이터 가능
+```
 
 ### Cosmos DB 5가지 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 수준 스펙트럼
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일관성 수준 스펙트럼 (강함 → 약함)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Strong Bounded Session Consistent Eventual</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Staleness</div><div class="kb-diagram-cell">Prefix</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">● ● ● ● ●</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일관성: ████████████████████░░░░░░░░░░░░░░░░░░░</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가용성: ░░░░░░░░░░░░░░░░░░░░████████████████████</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지연: 높음 → 낮음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">처리량: 낮음 → 높음</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│          일관성 수준 스펙트럼 (강함 → 약함)                    │
+│                                                              │
+│  Strong     Bounded    Session   Consistent   Eventual       │
+│    │        Staleness    │         Prefix         │          │
+│    │           │         │            │           │          │
+│    ●───────────●─────────●────────────●───────────●          │
+│                                                              │
+│  일관성: ████████████████████░░░░░░░░░░░░░░░░░░░             │
+│  가용성: ░░░░░░░░░░░░░░░░░░░░████████████████████             │
+│  지연:   높음 ──────────────────────────────→ 낮음            │
+│  처리량: 낮음 ──────────────────────────────→ 높음            │
+└──────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**
 > [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 수준은 뉴스 속보의 신선도 기준과 같다. 강한 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)은 "방금 일어난 사건만" 보도(가장 최신), 최종 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)은 "어제 뉴스도 오늘 보도 가능"(결국 동일). 속보의 정확도를 높일수록 방송이 느려지는 것처럼, [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 강화할수록 응답이 느려진다.
@@ -64,62 +59,64 @@ tags = ["studynote-bigdata"]
 
 ### 5가지 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 수준 상세
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Strong (선형화 가능, Linearizability)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">복제 완료 확인</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">Read</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보장: 모든 읽기가 가장 최신 쓰기를 반영</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비용: 가장 높은 지연, 단일 마스터에 의존</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">적합: 금융 거래, 재고 관리, 선거 투표</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Bounded Staleness (한계 있는 부실함)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최대 K 버전 또는 T 시간만큼 오래된 데이터 허용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보장: 지정된 시간/버전 범위 내 일관성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비용: Strong보다 낮은 지연</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">적합: 주가 표시(1초 지연 허용), 실시간 순위표</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Session (세션 일관성)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">같은 클라이언트 세션 내 읽기-자신의-쓰기 보장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다른 세션: Eventual</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보장: 내가 쓴 것은 내가 즉시 읽을 수 있음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비용: 중간</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">적합: 사용자 프로필 수정, SNS 게시글 작성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. Consistent Prefix (일관된 접두사)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">쓰기 순서는 보장, 최신 여부는 미보장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A→B→C 순으로 쓰면 읽을 때 A, A+B, A+B+C (순서 역전 없음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보장: 인과 관계 순서 유지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">적합: 댓글 스레드, 채팅 메시지 순서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. Eventual (최종 일관성)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최종적으로 모든 복제본이 동일한 값에 수렴</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">타이밍 보장 없음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비용: 가장 낮은 지연, 가장 높은 가용성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">적합: 소셜 좋아요 수, 상품 조회수, DNS</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────┐
+│  1. Strong (선형화 가능, Linearizability)                         │
+│                                                                 │
+│  Write → [복제 완료 확인] → Read                                  │
+│  보장: 모든 읽기가 가장 최신 쓰기를 반영                            │
+│  비용: 가장 높은 지연, 단일 마스터에 의존                           │
+│  적합: 금융 거래, 재고 관리, 선거 투표                              │
+├─────────────────────────────────────────────────────────────────┤
+│  2. Bounded Staleness (한계 있는 부실함)                          │
+│                                                                 │
+│  최대 K 버전 또는 T 시간만큼 오래된 데이터 허용                      │
+│  보장: 지정된 시간/버전 범위 내 일관성                              │
+│  비용: Strong보다 낮은 지연                                        │
+│  적합: 주가 표시(1초 지연 허용), 실시간 순위표                       │
+├─────────────────────────────────────────────────────────────────┤
+│  3. Session (세션 일관성)                                         │
+│                                                                 │
+│  같은 클라이언트 세션 내 읽기-자신의-쓰기 보장                       │
+│  다른 세션: Eventual                                             │
+│  보장: 내가 쓴 것은 내가 즉시 읽을 수 있음                          │
+│  비용: 중간                                                       │
+│  적합: 사용자 프로필 수정, SNS 게시글 작성                          │
+├─────────────────────────────────────────────────────────────────┤
+│  4. Consistent Prefix (일관된 접두사)                             │
+│                                                                 │
+│  쓰기 순서는 보장, 최신 여부는 미보장                               │
+│  A→B→C 순으로 쓰면 읽을 때 A, A+B, A+B+C (순서 역전 없음)         │
+│  보장: 인과 관계 순서 유지                                         │
+│  적합: 댓글 스레드, 채팅 메시지 순서                                │
+├─────────────────────────────────────────────────────────────────┤
+│  5. Eventual (최종 일관성)                                        │
+│                                                                 │
+│  최종적으로 모든 복제본이 동일한 값에 수렴                           │
+│  타이밍 보장 없음                                                 │
+│  비용: 가장 낮은 지연, 가장 높은 가용성                             │
+│  적합: 소셜 좋아요 수, 상품 조회수, DNS                            │
+└─────────────────────────────────────────────────────────────────┘
+```
 
 ### [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 수준과 [CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) 정리의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
 
+```text
+CAP 정리와 일관성 스펙트럼:
 
+CP 시스템 (일관성 + 분할 내성):
+  → Strong Consistency 가능
+  → Partition 발생 시 가용성 포기
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">CAP 정리와 일관성 스펙트럼:</div>
-<div class="kb-diagram-note">CP 시스템 (일관성 + 분할 내성):</div>
-<div class="kb-diagram-note">→ Strong Consistency 가능</div>
-<div class="kb-diagram-note">→ Partition 발생 시 가용성 포기</div>
-<div class="kb-diagram-note">AP 시스템 (가용성 + 분할 내성):</div>
-<div class="kb-diagram-note">→ Eventual Consistency</div>
-<div class="kb-diagram-note">→ Partition 발생 시 오래된 데이터 반환 가능</div>
-<div class="kb-diagram-note">Cosmos DB:</div>
-<div class="kb-diagram-note">Strong → CP 동작</div>
-<div class="kb-diagram-note">Eventual → AP 동작</div>
-<div class="kb-diagram-note">Bounded/Session/Prefix → 중간 지점</div>
-</div>
-</div>
+AP 시스템 (가용성 + 분할 내성):
+  → Eventual Consistency
+  → Partition 발생 시 오래된 데이터 반환 가능
 
-
+Cosmos DB:
+  Strong → CP 동작
+  Eventual → AP 동작
+  Bounded/Session/Prefix → 중간 지점
+```
 
 | [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 수준 | [CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 읽기 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) | [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) |
 |:---:|:---:|:---:|:---:|
@@ -149,20 +146,16 @@ tags = ["studynote-bigdata"]
 
 ### 벡터 클록 ([Vector Clock](/knowledge-base/studynote/05_database/04_transactions_concurrency/258_vector_clock/))을 통한 인과 순서 추적
 
+```text
+벡터 클록: 분산 시스템에서 이벤트 인과 관계 추적
 
+Node A 쓰기: [A:1, B:0, C:0]
+Node B가 A 읽고 쓰기: [A:1, B:1, C:0]  ← A의 쓰기가 원인
+Node C 독립 쓰기: [A:0, B:0, C:1]      ← A와 무관
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">벡터 클록: 분산 시스템에서 이벤트 인과 관계 추적</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Node A 쓰기:</div><div class="kb-diagram-node">A:1, B:0, C:0</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Node B가 A 읽고 쓰기:</div><div class="kb-diagram-node">A:1, B:1, C:0</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">A의 쓰기가 원인</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Node C 독립 쓰기:</div><div class="kb-diagram-node">A:0, B:0, C:1</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">A와 무관</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">충돌 감지:</div><div class="kb-diagram-node">A:1, B:1</div><div class="kb-diagram-note">vs</div><div class="kb-diagram-node">A:1, C:1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">동시 쓰기 충돌</div></div>
-<div class="kb-diagram-note">해결: Last-Write-Wins, 앱 레벨 병합, CRDT</div>
-</div>
-</div>
-
-
+충돌 감지: [A:1, B:1] vs [A:1, C:1] → 동시 쓰기 충돌
+해결: Last-Write-Wins, 앱 레벨 병합, CRDT
+```
 
 📢 **섹션 요약 비유**
 > 벡터 클록은 편지의 발신 날짜와 같다. 편지를 받고 답장을 쓴다면(인과 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)), 내 답장 날짜가 원본 편지 날짜보다 늦어야 한다. 두 편지의 날짜가 같다면([동시 쓰기](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/276_write_through/)), 어느 것이 원본인지 알 수 없어 충돌을 해결해야 한다.
@@ -173,24 +166,22 @@ tags = ["studynote-bigdata"]
 
 ### 워크로드별 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 수준 결정 가이드
 
+```text
+Q1. 금융 거래(계좌 이체, 재고 차감)?
+    → Strong (선형화 필수)
 
+Q2. 사용자가 자신의 프로필을 즉시 확인?
+    → Session (Read-Your-Own-Write)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Q1. 금융 거래(계좌 이체, 재고 차감)?</div>
-<div class="kb-diagram-note">→ Strong (선형화 필수)</div>
-<div class="kb-diagram-note">Q2. 사용자가 자신의 프로필을 즉시 확인?</div>
-<div class="kb-diagram-note">→ Session (Read-Your-Own-Write)</div>
-<div class="kb-diagram-note">Q3. 실시간 주가/환율 표시 (1초 지연 허용)?</div>
-<div class="kb-diagram-note">→ Bounded Staleness (K=10초)</div>
-<div class="kb-diagram-note">Q4. 게시글 댓글 순서가 중요?</div>
-<div class="kb-diagram-note">→ Consistent Prefix (순서 역전 금지)</div>
-<div class="kb-diagram-note">Q5. 좋아요 수, 공유 수 (약간 오래된 값 허용)?</div>
-<div class="kb-diagram-note">→ Eventual (최대 성능, 최소 비용)</div>
-</div>
-</div>
+Q3. 실시간 주가/환율 표시 (1초 지연 허용)?
+    → Bounded Staleness (K=10초)
 
+Q4. 게시글 댓글 순서가 중요?
+    → Consistent Prefix (순서 역전 금지)
 
+Q5. 좋아요 수, 공유 수 (약간 오래된 값 허용)?
+    → Eventual (최대 성능, 최소 비용)
+```
 
 ### 혼합 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) (Best Practices)
 
@@ -240,23 +231,21 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">CAP 이론 (CAP Theorem) — 일관성·가용성·분할 허용성 트레이드오프</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">강한 일관성 (Strong Consistency) — 모든 노드 즉시 동기화, 지연 증가</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">결과적 일관성 (Eventual Consistency) — 최종 동기화, 성능 우선</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">일관성 수준 조정 (Consistency Level Tuning) — Quorum·ONE·ALL 선택</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">PACELC 모델 — 네트워크 분할 없을 때도 지연 vs 일관성 트레이드오프</div></div>
-</div>
-</div>
-
-
+```text
+[CAP 이론 (CAP Theorem) — 일관성·가용성·분할 허용성 트레이드오프]
+    │
+    ▼
+[강한 일관성 (Strong Consistency) — 모든 노드 즉시 동기화, 지연 증가]
+    │
+    ▼
+[결과적 일관성 (Eventual Consistency) — 최종 동기화, 성능 우선]
+    │
+    ▼
+[일관성 수준 조정 (Consistency Level Tuning) — Quorum·ONE·ALL 선택]
+    │
+    ▼
+[PACELC 모델 — 네트워크 분할 없을 때도 지연 vs 일관성 트레이드오프]
+```
 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 수준은 [CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) 이론의 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)-[가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 트레이드오프를 운영 환경에서 세분화하여, [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 단위로 강도를 선택할 수 있게 한 NoSQL의 핵심 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)이다.
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 수준은 정보의 신선도 기준 — "방금 막 나온 뉴스"(Strong)부터 "어제 뉴스도 OK"(Eventual)까지 얼마나 최신 정보가 필요한지에 따라 골라요.

@@ -25,21 +25,20 @@ IPsec 오프로드 가속기는 네트워크 계층 보안을 선로 속도에 �
 
 이 그림은 왜 보안 처리가 CPU 병목으로 바뀌는지, 그리고 오프로드가 무엇을 떼어 가는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보안은 필요하지만, 패킷마다 CPU가 직접 봉인하면 선로 속도를 못 따라간다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소프트웨어 경로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Application -&gt; Kernel IPsec -&gt; SA 조회 -&gt; 암호화/인증 -&gt; NIC -&gt; Wire</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 패킷마다 상태관리 + 헤더변환 + 암호연산</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오프로드 경로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Application -&gt; 정책 결정(Host) -&gt; Offload NIC/DPU -&gt; Wire</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 반복적인 데이터 평면 변환을 하드웨어가 전담</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│        보안은 필요하지만, 패킷마다 CPU가 직접 봉인하면 선로 속도를 못 따라간다        │
+├────────────────────────────────────────────────────────────────────────────┤
+│ 소프트웨어 경로                                                           │
+│ Application -> Kernel IPsec -> SA 조회 -> 암호화/인증 -> NIC -> Wire     │
+│                 ▲            ▲               ▲                            │
+│                 └─ 패킷마다 상태관리 + 헤더변환 + 암호연산                │
+│                                                                            │
+│ 오프로드 경로                                                              │
+│ Application -> 정책 결정(Host) -> Offload NIC/DPU -> Wire                 │
+│                        └─ 반복적인 데이터 평면 변환을 하드웨어가 전담      │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 IPsec 오프로드가 뜻하는 바는 "보안을 NIC에 전부 던진다"가 아니다. [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 설치, [IKE](/knowledge-base/studynote/03_network/07_network_layer_routing/383_ike_isakmp_sa_security_association/) 협상, 키 교체, 예외 패킷 처리 같은 제어 평면은 여전히 호스트가 맡고, 가장 반복적이고 비싼 fast path만 하드웨어가 담당한다. 그래서 이 기술의 핵심은 기능 전체의 대체가 아니라 <strong>반복 경로의 전문화</strong>다.
 
@@ -61,19 +60,17 @@ IPsec 오프로드 아키텍처의 핵심은 "[정책](/knowledge-base/studynote
 
 이 그림은 송신과 수신에서 오프로드 파이프라인이 어떻게 작동하는지 요약한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IPsec 오프로드 데이터 평면의 핵심 단계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">송신: Host Packet -&gt; SA Lookup -&gt; Seq Number -&gt; ESP Add -&gt; AES-GCM -&gt; Send</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수신: Receive Packet -&gt; ESP Parse -&gt; SA Lookup -&gt; AES-GCM -&gt; Replay Check</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; Plain Packet -&gt; Host</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Host CPU는 정책·IKE를, NIC/DPU는 반복적인 패킷 변환을 맡는다.</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                   IPsec 오프로드 데이터 평면의 핵심 단계                   │
+├────────────────────────────────────────────────────────────────────────────┤
+│ 송신: Host Packet -> SA Lookup -> Seq Number -> ESP Add -> AES-GCM -> Send│
+│ 수신: Receive Packet -> ESP Parse -> SA Lookup -> AES-GCM -> Replay Check │
+│                                                 -> Plain Packet -> Host   │
+│                                                                            │
+│ Host CPU는 정책·IKE를, NIC/DPU는 반복적인 패킷 변환을 맡는다.             │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 여기서 자주 나뉘는 구현이 inline과 lookaside다. inline 오프로드는 NIC가 실제 전송 경로 한가운데서 패킷을 바로 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)·해제하므로 CPU 개입이 가장 적다. 반면 lookaside 오프로드는 호스트가 패킷 조립을 일부 맡고, 암호 연산만 별도 가속기에 맡기는 구조라 통합은 쉽지만 버퍼 왕복과 소프트웨어 잔여 비용이 더 남는다.
 
@@ -93,7 +90,7 @@ IPsec 오프로드를 이해할 때 가장 많이 헷갈리는 비교 대상은 
 
 또 다른 비교 대상은 전송 계층 보안 (Transport Layer [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/), [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)) 오프로드다. [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 오프로드가 애플리케이션 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 종단과 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 중심으로 동작한다면, IPsec 오프로드는 호스트 간 또는 게이트웨이 간 패킷 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)를 담당한다. 즉 둘은 경쟁 관계라기보다 <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a> 계층이 다른 <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 수단</strong>이며, 최근 DPU는 이 둘을 함께 처리하는 방향으로 진화하고 있다.
 
-결국 IPsec 오프로드는 일반적인 [네트워크 인터페이스 카드](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/) (Network Interface Card, [NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/)) 오프로딩이나 [TOE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/588_toe/) ([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP Offload Engine)보다 더 강한 보안 상태를 다뤄야 한다는 점에서 어렵다. 체크섬이나 세그먼트 분할처럼 stateless한 작업과 달리, IPsec은 키·시퀀스 번호·재전송 방지 윈도우를 정확히 유지해야 하므로 하드웨어 설계의 정합성이 더 중요하다.
+결국 IPsec 오프로드는 일반적인 [네트워크 인터페이스 카드](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/) (Network Interface Card, [NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/)) 오프로딩이나 [TOE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/588_toe/) ([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP Offload 엔진)보다 더 강한 보안 상태를 다뤄야 한다는 점에서 어렵다. 체크섬이나 세그먼트 분할처럼 stateless한 작업과 달리, IPsec은 키·시퀀스 번호·재전송 방지 윈도우를 정확히 유지해야 하므로 하드웨어 설계의 정합성이 더 중요하다.
 
 - **📢 섹션 요약 비유**: 단순 포장 자동화가 상자만 접는 기계라면, IPsec 오프로드는 고객별 자물쇠 번호까지 기억하는 금고 배송 시스템에 가깝다. 빠르기만 해서는 안 되고, 누구 물건인지 끝까지 틀리지 않아야 한다.
 
@@ -149,23 +146,21 @@ IPsec 오프로드 가속기를 잘 적용하면 보안 트래픽이 더 이상 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 VPN 처리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CPU 내 암호 명령어 가속</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Lookaside 보안 가속기</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Inline IPsec Offload NIC</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DPU 기반 통합 보안 데이터 평면</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 VPN 처리
+        │
+        ▼
+CPU 내 암호 명령어 가속
+        │
+        ▼
+Lookaside 보안 가속기
+        │
+        ▼
+Inline IPsec Offload NIC
+        │
+        ▼
+DPU 기반 통합 보안 데이터 평면
+```
 
 이 흐름은 보안 가속이 "CPU를 조금 돕는 단계"에서 출발해, 이제는 패킷 경로 전체를 전용 하드웨어가 책임지는 방향으로 진화하고 있음을 보여 준다.
 

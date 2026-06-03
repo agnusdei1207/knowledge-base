@@ -41,21 +41,25 @@ TjMax는 통상 <strong>Tjunction Max <a href="/knowledge-base/studynote/10_ai/0
 
 이 그림은 센서 값이 어떻게 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 동작으로 이어지는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hotspot sensing -&gt; control -&gt; protect: TjMax는 제어 기준점이다</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Core / Cache Hotspot</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DTS : distance to TjMax 측정</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">PCU / Firmware</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">boost 유지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ margin 감소 -----------&gt; 배수·전압 하향</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ margin = 0 -----------&gt; PROCHOT# / throttling</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 보호 실패 ------------&gt; THERMTRIP# / emergency shutdown</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│        Hotspot sensing -> control -> protect: TjMax는 제어 기준점이다      │
+├────────────────────────────────────────────────────────────────────────────┤
+│ [Core / Cache Hotspot]                                                     │
+│          │                                                                 │
+│          ▼                                                                 │
+│ [DTS : distance to TjMax 측정]                                             │
+│          │                                                                 │
+│          ▼                                                                 │
+│ [PCU / Firmware] ---- margin 충분 ----> boost 유지                         │
+│          │                                                                 │
+│          ├─ margin 감소 -----------> 배수·전압 하향                        │
+│          │                                                                 │
+│          ├─ margin = 0 -----------> PROCHOT# / throttling                  │
+│          │                                                                 │
+│          └─ 보호 실패 ------------> THERMTRIP# / emergency shutdown        │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 핵심은 TjMax가 단순 경고선이 아니라는 점이다. 이 값은 하드웨어 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 로직의 기준점이며, 운영체제가 응답하기 전에 CPU가 먼저 행동할 수 있다.
 - **📢 섹션 요약 비유**: TjMax는 절벽 가장자리다. 내비게이션이 "앞으로 10m, 5m"라고 계속 알려 주다가 0m가 되면, 운전자가 늦게 반응하더라도 자동차가 스스로 급브레이크를 밟는 것과 같다.
@@ -126,23 +130,21 @@ TjMax 기준이 명확해야 CPU는 가능한 한 빠르게 달리면서도 실�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단순 온도 다이오드 모니터링</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DTS 기반 per-core 온도 감지</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">TjMax 기준 thermal throttling</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">PROCHOT# / THERMTRIP# 하드웨어 보호</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">hotspot·상승률 반영 예측형 열 제어</div>
-</div>
-</div>
-
-
+```text
+단순 온도 다이오드 모니터링
+        │
+        ▼
+DTS 기반 per-core 온도 감지
+        │
+        ▼
+TjMax 기준 thermal throttling
+        │
+        ▼
+PROCHOT# / THERMTRIP# 하드웨어 보호
+        │
+        ▼
+hotspot·상승률 반영 예측형 열 제어
+```
 
 이 흐름은 열 관리가 단순 감시에서 출발해, 이제는 실리콘 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)와 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 제어를 동시에 수행하는 하드웨어 정책으로 발전했음을 보여 준다.
 

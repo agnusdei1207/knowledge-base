@@ -43,20 +43,23 @@ VLC의 기본 원리는 IM/[DD](/knowledge-base/studynote/04_software_engineerin
 
 아래 그림은 Li-Fi 셀에서 조명과 통신이 함께 동작하는 모습을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Li-Fi room cell: light and data together</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Ethernet / Switch</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Li-Fi Controller</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Ceiling LED AP</div><div class="kb-diagram-note">&gt;&gt;&gt; visible-light downlink &gt;&gt;&gt;</div><div class="kb-diagram-node">Laptop / Phone + PD</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IR / RF uplink (optional)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Wall blocks light leakage → higher spatial reuse / stronger room security</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                    Li-Fi room cell: light and data together               │
+├────────────────────────────────────────────────────────────────────────────┤
+│ [Ethernet / Switch]                                                       │
+│        │                                                                   │
+│        ▼                                                                   │
+│ [Li-Fi Controller]                                                         │
+│        │                                                                   │
+│        ▼                                                                   │
+│ [Ceiling LED AP]  >>> visible-light downlink >>>  [Laptop / Phone + PD]   │
+│        ▲                                              │                    │
+│        └──────────── IR / RF uplink (optional) ───────┘                    │
+│                                                                            │
+│ Wall blocks light leakage  → higher spatial reuse / stronger room security │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조의 핵심은 다운로드는 천장 조명에서 넓게 제공하되, 업로드는 적외선이나 다른 보조 채널로 분리할 수 있다는 점이다. 또한 조명 셀 반경이 작아 같은 건물 안에서도 공간 재사용이 쉽고, 벽을 통과하지 않으므로 [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)이 높다. 반면 손으로 수신부를 가리거나, 직사광선이 강하게 들어오거나, 단말이 빠르게 이동하면 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 품질이 급격히 나빠질 수 있다.
 
@@ -127,22 +130,20 @@ VLC의 기본 원리는 IM/[DD](/knowledge-base/studynote/04_software_engineerin
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">광무선 통신 (OWC)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">가시광 통신 (VLC)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">IM/DD · LED 변조 · Photodiode 수신</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Li-Fi 네트워킹</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">실내 고밀도 셀 · 보안 구역 통신 · 위치기반 서비스 · 6G 실내망</div>
-</div>
-</div>
-
-
+```text
+광무선 통신 (OWC)
+    │
+    ▼
+가시광 통신 (VLC)
+    │
+    ├── IM/DD · LED 변조 · Photodiode 수신
+    │
+    ▼
+Li-Fi 네트워킹
+    │
+    ▼
+실내 고밀도 셀 · 보안 구역 통신 · 위치기반 서비스 · 6G 실내망
+```
 
 이 흐름은 VLC가 단순 조명 제어가 아니라, 광무선 전송에서 시작해 실내 네트워크와 공간 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 확장되는 기술 축임을 보여준다.
 

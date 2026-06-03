@@ -33,24 +33,27 @@ tags = ["studynote-computer-architecture"]
 ### 호스트 규격과 네트워크 규격의 충돌
 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 정렬 아키텍처는 크게 호스트 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 순서(HBO)와 네트워크 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 순서(NBO)의 2-Tier 구조로 분리되어 동작한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">바이트 정렬 스와핑(Swapping) 방어 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">x86 호스트 (Little Endian)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원본 데이터 <code>0x11223344</code> (메모리엔 <code>44 33 22 11</code>로 누워있음)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">htonl() 함수 (Host to Network Long) 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ S/W가 강제로 바이트를 뒤집어 버림: <code>11 22 33 44</code></div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">인터넷 세계 (Network Byte Order = Big Endian)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전송되는 스트림: <code>11 22 33 44</code> (라우터가 보고 좋아함!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ARM 호스트 (수신측)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ntohl() 함수 (Network to Host) 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 자기 뇌 구조(Endian)에 맞게 알아서 재배치 후 연산!</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────┐
+│           바이트 정렬 스와핑(Swapping) 방어 아키텍처        │
+├────────────────────────────────────────────────────────┤
+│   [ x86 호스트 (Little Endian) ]                       │
+│   원본 데이터 `0x11223344` (메모리엔 `44 33 22 11`로 누워있음) │
+│                        │                               │
+│                        ▼                               │
+│      [ htonl() 함수 (Host to Network Long) 실행 ]       │
+│   ──▶ S/W가 강제로 바이트를 뒤집어 버림: `11 22 33 44`     │
+│                        │                               │
+│                        ▼                               │
+│   [ 인터넷 세계 (Network Byte Order = Big Endian) ]    │
+│   전송되는 스트림: `11 22 33 44` (라우터가 보고 좋아함!)       │
+│                        │                               │
+│                        ▼                               │
+│   [ ARM 호스트 (수신측) ]                                │
+│      [ ntohl() 함수 (Network to Host) 실행 ]           │
+│   ──▶ 자기 뇌 구조(Endian)에 맞게 알아서 재배치 후 연산!     │
+└────────────────────────────────────────────────────────┘
+```
 
 운영체제가 제공하는 `htonl`, `ntohs` 같은 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)([Socket](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)) API는 일종의 통역사다. 이 매크로는 컴파일러가 알아서 현재 시스템이 [리틀 엔디안](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/115_little_endian/)이면 순서를 180도 뒤집고, 이미 [빅 엔디안](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/114_big_endian/) 시스템이라면 연산을 통째로 무시(Null)하는 스마트한 전처리기로 융합되어 오버헤드를 막는다.
 
@@ -109,23 +112,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이기종 아키텍처(IBM, Intel) 간 통신 규격 부재로 인한 데이터 붕괴</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">엔디안(Endianness) 전쟁 및 바이트 정렬(Byte Ordering) 개념 부상</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">호스트 바이트 순서(HBO)와 네트워크 바이트 순서(NBO)의 2-Tier 분리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">S/W 레벨의 바이트 스와핑(hton, ntoh 매크로) 융합</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">현대 분산 시스템의 직렬화(Protobuf, Thrift) 프레임워크 내재화 추상화</div>
-</div>
-</div>
-
-
+```text
+이기종 아키텍처(IBM, Intel) 간 통신 규격 부재로 인한 데이터 붕괴
+    │
+    ▼
+엔디안(Endianness) 전쟁 및 바이트 정렬(Byte Ordering) 개념 부상
+    │
+    ▼
+호스트 바이트 순서(HBO)와 네트워크 바이트 순서(NBO)의 2-Tier 분리
+    │
+    ▼
+S/W 레벨의 바이트 스와핑(hton, ntoh 매크로) 융합
+    │
+    ▼
+현대 분산 시스템의 직렬화(Protobuf, Thrift) 프레임워크 내재화 추상화
+```
 
 이 흐름도는 "시스템 파편화 → 충돌 발생 → 글로벌 네트워크 통일 표준(NBO) 제정 → 소프트웨어 번역 계층 도입 → 현대 프레임워크의 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)"로 이어지는 통신 규격의 발전사를 보여준다.
 

@@ -36,35 +36,39 @@ tags = ["studynote-bigdata"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 제품 구조 (Data Product Structure)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 제품: sales.gold.daily_orders</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">📋 스키마 계약 (Data Contract)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- order_date: DATE NOT NULL</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- total_amount: DECIMAL(18,2) NOT NULL</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- region: STRING (values: KR/US/EU)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 버전: v2.1.0 (SemVer)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">📊 SLA 지표</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 신선도: 매일 09:00 KST 이전 갱신 보장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 가용성: 99.5% (월간)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 완전성: null_rate &lt; 1%</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 정확성: amount_variance &lt; 0.01%</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🔍 발견 가능성 (Data Catalog 등록)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 소유 팀: Sales Analytics Team</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 연락처: #data-sales Slack 채널</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 리니지: bronze.orders → silver.orders_clean → gold.daily</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 사용 예시 쿼리 3개 등록</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🔌 접근 인터페이스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Delta Table URI: catalog.schema.table (Spark/SQL)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Delta Sharing: REST API (외부 소비자)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Kafka Topic: <code>sales.daily_orders.v2</code> (스트리밍)</div></div>
-</div>
-</div>
-
-
+```
+┌───────────────────────────────────────────────────────────────────┐
+│               데이터 제품 구조 (Data Product Structure)             │
+├───────────────────────────────────────────────────────────────────┤
+│                                                                   │
+│  ┌─────────────────────────────────────────────────────────────┐ │
+│  │  데이터 제품: sales.gold.daily_orders                         │ │
+│  ├─────────────────────────────────────────────────────────────┤ │
+│  │  📋 스키마 계약 (Data Contract)                               │ │
+│  │  - order_date: DATE NOT NULL                                  │ │
+│  │  - total_amount: DECIMAL(18,2) NOT NULL                       │ │
+│  │  - region: STRING (values: KR/US/EU)                          │ │
+│  │  - 버전: v2.1.0 (SemVer)                                      │ │
+│  ├─────────────────────────────────────────────────────────────┤ │
+│  │  📊 SLA 지표                                                  │ │
+│  │  - 신선도: 매일 09:00 KST 이전 갱신 보장                       │ │
+│  │  - 가용성: 99.5% (월간)                                        │ │
+│  │  - 완전성: null_rate < 1%                                     │ │
+│  │  - 정확성: amount_variance < 0.01%                            │ │
+│  ├─────────────────────────────────────────────────────────────┤ │
+│  │  🔍 발견 가능성 (Data Catalog 등록)                            │ │
+│  │  - 소유 팀: Sales Analytics Team                              │ │
+│  │  - 연락처: #data-sales Slack 채널                             │ │
+│  │  - 리니지: bronze.orders → silver.orders_clean → gold.daily  │ │
+│  │  - 사용 예시 쿼리 3개 등록                                     │ │
+│  ├─────────────────────────────────────────────────────────────┤ │
+│  │  🔌 접근 인터페이스                                            │ │
+│  │  - Delta Table URI: catalog.schema.table (Spark/SQL)          │ │
+│  │  - Delta Sharing: REST API (외부 소비자)                       │ │
+│  │  - Kafka Topic: `sales.daily_orders.v2` (스트리밍)             │ │
+│  └─────────────────────────────────────────────────────────────┘ │
+└───────────────────────────────────────────────────────────────────┘
+```
 
 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 제품 5대 특성 (Dehghani 정의)</strong>
 
@@ -175,23 +179,21 @@ quality_checks:
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 레이크 (Data Lake) — 원시 데이터 저장</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 메시 (Data Mesh) — 도메인 소유권</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 제품 (Data Product) — 소비 가능 단위</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 계약 (Data Contract) — SLA 보장</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 마켓플레이스 (Data Marketplace) — 내부 거래</div></div>
-</div>
-</div>
-
-
+```text
+[데이터 레이크 (Data Lake) — 원시 데이터 저장]
+    │
+    ▼
+[데이터 메시 (Data Mesh) — 도메인 소유권]
+    │
+    ▼
+[데이터 제품 (Data Product) — 소비 가능 단위]
+    │
+    ▼
+[데이터 계약 (Data Contract) — SLA 보장]
+    │
+    ▼
+[데이터 마켓플레이스 (Data Marketplace) — 내부 거래]
+```
 
 이 흐름은 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 모으는 레이크에서 출발해 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 소유권을 가진 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)되고, 소비 가능한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 제품과 계약을 거쳐 마켓플레이스로 거래되는 흐름을 보여준다.
 

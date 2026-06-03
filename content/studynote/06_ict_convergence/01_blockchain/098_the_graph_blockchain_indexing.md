@@ -31,25 +31,30 @@ tags = ["studynote-ict-convergence"]
 
 The [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 색인하는 주체와 이를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)·지원하는 주체들이 GRT ([Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/) Token) 생태계 안에서 상호작용하는 구조다. 핵심 개발 단위는 <strong>서브그래프 (Subgraph)</strong>로, 특정 컨트랙트의 이벤트를 어떻게 가공할지 정의한 명세서다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">The Graph 분산형 인덱싱 및 쿼리 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">블록체인 네트워크</div><div class="kb-diagram-note">(Ethereum, Polygon 등)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이벤트 로그 / 블록 데이터 발생</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">The Graph Network (탈중앙화 노드 그룹)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">인덱서 (Indexer)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">위임자</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 블록 파싱, Subgraph DB 업데이트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 쿼리 응답 및 증명 생성</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">큐레이터 (Curator)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 유망한 Subgraph에 GRT 토큰 예치 (Signal)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GraphQL Query (요청/응답)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Web3 DApp 클라이언트</div><div class="kb-diagram-note">(DeFi 대시보드, NFT 마켓플레이스)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           The Graph 분산형 인덱싱 및 쿼리 아키텍처           │
+├──────────────────────────────────────────────────────────────┤
+│  [블록체인 네트워크] (Ethereum, Polygon 등)                  │
+│          │                                                   │
+│          │ 이벤트 로그 / 블록 데이터 발생                    │
+│          ▼                                                   │
+│  ┌────────────────────────────────────────────────────────┐  │
+│  │ The Graph Network (탈중앙화 노드 그룹)                 │  │
+│  │                                                        │  │
+│  │   [ 인덱서 (Indexer) ] ◀── GRT 위임 ── [ 위임자 ]     │  │
+│  │   - 블록 파싱, Subgraph DB 업데이트                    │  │
+│  │   - 쿼리 응답 및 증명 생성                             │  │
+│  │                                                        │  │
+│  │   [ 큐레이터 (Curator) ]                               │  │
+│  │   - 유망한 Subgraph에 GRT 토큰 예치 (Signal)           │  │
+│  └────────────────────────────────────────────────────────┘  │
+│          │                                                   │
+│          │ GraphQL Query (요청/응답)                         │
+│          ▼                                                   │
+│  [Web3 DApp 클라이언트] (DeFi 대시보드, NFT 마켓플레이스)    │
+└──────────────────────────────────────────────────────────────┘
+```
 
 서브그래프는 매니페스트 (YAML), [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) ([GraphQL](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/246_graphql_query_language_overfetching_solution/)), 매핑 스크립트 (AssemblyScript)로 구성된다. 인덱서는 서브그래프 명세에 따라 이더리움 블록을 수집해 PostgreSQL 같은 DB에 저장한다. 클라이언트는 복잡한 블록 탐색 없이 [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) API보다 유연한 [GraphQL](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/246_graphql_query_language_overfetching_solution/) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)로 원하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(예: 상위 10명의 홀더)를 단번에 가져온다.
 
@@ -110,23 +115,21 @@ The Graph를 적용하면 [DApp](/knowledge-base/studynote/06_ict_convergence/01
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Full Node 자체 운영 (비용 극대화, 데이터 파싱 어려움)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">중앙화 RPC 노드 제공자 (Infura, Alchemy 등 - SPOF 발생)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">서브그래프 (Subgraph) 기반 특정 이벤트 정의</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">The Graph 프로토콜 (탈중앙화 인덱서 네트워크 형성)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">멀티체인 및 L2 네트워크 인덱싱 지원 확장</div>
-</div>
-</div>
-
-
+```text
+Full Node 자체 운영 (비용 극대화, 데이터 파싱 어려움)
+    │
+    ▼
+중앙화 RPC 노드 제공자 (Infura, Alchemy 등 - SPOF 발생)
+    │
+    ▼
+서브그래프 (Subgraph) 기반 특정 이벤트 정의
+    │
+    ▼
+The Graph 프로토콜 (탈중앙화 인덱서 네트워크 형성)
+    │
+    ▼
+멀티체인 및 L2 네트워크 인덱싱 지원 확장
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

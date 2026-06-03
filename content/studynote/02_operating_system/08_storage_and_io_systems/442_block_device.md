@@ -27,28 +27,29 @@ tags = ["studynote-operating-system"]
   2. **디스크(원판)의 발명**: 레코드판처럼 바늘을 들어 100번째 곡 위치에 툭 떨어뜨리는 랜덤 액세스(Random Access)가 가능해졌다.
   3. <strong>LBA (<a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a> 블록 주소) 표준화</strong>: 실린더, 헤드, 섹터(CHS)라는 복잡한 물리적 3차원 위치를 OS가 다 계산하다 빡쳐서, 하드웨어 칩셋에 "네가 알아서 1차원 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)(LBA 0번~끝번)로 매핑해서 나한테 바쳐라!"라며 블록 장치의 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 인터페이스를 완성했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블록 장치(Block Device)의 구조와 랜덤 액세스(Seek) 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">하드디스크 / SSD 내부 논리 구조 (LBA: Logical Block Address)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">... ──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Blk</div><div class="kb-diagram-cell">Blk</div><div class="kb-diagram-cell">Blk</div><div class="kb-diagram-cell">Blk</div><div class="kb-diagram-cell">Blk</div><div class="kb-diagram-cell">Blk</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">2</div><div class="kb-diagram-cell">3</div><div class="kb-diagram-cell">4</div><div class="kb-diagram-cell">99999</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">... ──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ OS의 명령: "블록 2번 가져오고, 바로 블록 99999번 가져와!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">기계적 움직임 (Random Access)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 디스크 헤드(바늘)가 블록 2번 위치로 쓱 이동 (Seek Time)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 디스크가 빙글 돌아서 2번 블록을 4KB 통째로 퍽! 떠서 RAM에 줌.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 바늘을 번쩍 들어 블록 99999번 위치로 휙 날아감! (건너뛰기 성공)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 99999번 블록 4KB를 퍽! 퍼서 RAM에 줌.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 핵심: '주소(Block Number)'가 있기 때문에 원하는 곳으로 순간이동</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Seek)이 가능하며, 이 덕분에 디렉토리/파일 트리가 만들어짐.</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────────────┐
+│        블록 장치(Block Device)의 구조와 랜덤 액세스(Seek) 시각화      │
+├───────────────────────────────────────────────────────────────────────┤
+│                                                                       │
+│ [ 하드디스크 / SSD 내부 논리 구조 (LBA: Logical Block Address) ]      │
+│ ┌─────┬─────┬─────┬─────┬─────┬─── ... ──┬─────┐                      │
+│ │ Blk │ Blk │ Blk │ Blk │ Blk │        │ Blk │                        │
+│ │  0  │  1  │  2  │  3  │  4  │        │99999│                        │
+│ └─────┴─────┴─────┴─────┴─────┴─── ... ──┴─────┘                      │
+│                                                                       │
+│ ▶ OS의 명령: "블록 2번 가져오고, 바로 블록 99999번 가져와!"           │
+│                                                                       │
+│ [ 기계적 움직임 (Random Access) ]                                     │
+│   1. 디스크 헤드(바늘)가 블록 2번 위치로 쓱 이동 (Seek Time)          │
+│   2. 디스크가 빙글 돌아서 2번 블록을 4KB 통째로 퍽! 떠서 RAM에 줌.    │
+│   3. 바늘을 번쩍 들어 블록 99999번 위치로 휙 날아감! (건너뛰기 성공)  │
+│   4. 99999번 블록 4KB를 퍽! 퍼서 RAM에 줌.                            │
+│                                                                       │
+│ ✅ 핵심: '주소(Block Number)'가 있기 때문에 원하는 곳으로 순간이동    │
+│         (Seek)이 가능하며, 이 덕분에 디렉토리/파일 트리가 만들어짐.   │
+└───────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** "주소가 존재한다"는 것은 컴퓨터 공학에서 신의 권력을 뜻한다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템의 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)(Inode)는 "사진.jpg [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 4번 블록, 10번 블록, 15번 블록에 쪼개져 저장되어 있다"는 보물지도를 갖고 있다. OS는 이 지도를 보고 블록 장치의 바늘을 4, [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/), 15번으로 휙휙 점프(Seek)시켜 조각들을 램으로 모은 뒤 하나의 사진 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 조립해 낸다. [문자 장치](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/443_character_device/)(키보드)였다면 절대 불가능한 기적이다.
 
 - **📢 섹션 요약 비유**: 카세트테이프([문자 장치](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/443_character_device/)/순차 접근)로 영어 듣기 평가를 할 때는 "3번 문제 다시 들려주세요" 하면 선생님이 테이프를 지잉지잉 되감느라 속이 터집니다. 하지만 CD 플레이어(블록 장치/랜덤 액세스)는 리모컨으로 트랙 3번 버튼을 딱 누르면 레이저 바늘이 1초 만에 점프해서 재생을 시작하는 압도적인 편의성의 차이입니다.
@@ -99,17 +100,14 @@ SSD는 사실 OS를 속이고 있는 완벽한 사기꾼이다.
 - [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 내부에 있는 초소형 컴퓨터(ARM 컨트롤러)와 펌웨어인 <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/">FTL</a></strong>이 씩 웃으며, "응 3번에 쓸게"라고 OS에게 대답해 놓고는, 몰래 텅 빈 <strong>90번 블록</strong>에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓴 뒤, 자기 내부 비밀 장부(매핑 테이블)에 "앞으로 OS가 3번 달라고 하면 90번을 줘라"라고 화살표를 슬쩍 꺾어버린다([Wear Leveling](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/479_wear_leveling/)). 
 - OS는 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 내부에서 이런 엽기적인 주소 돌려막기와 블록 짬처리가 벌어지는 줄 1도 모른 채, "역시 내 LBA 지시는 완벽하게 통제되고 있어"라고 착각하며 살아간다. 하드웨어가 스스로 펌웨어를 달고 똑똑해져서 OS의 짐을 덜어준 하극상의 현장이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">저장 장치</div><div class="kb-diagram-cell">I/O 병목 원인</div><div class="kb-diagram-cell">커널 튜닝 포인트</div><div class="kb-diagram-cell">수명 관리 주체</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HDD</div><div class="kb-diagram-cell">바늘의 물리적 이동</div><div class="kb-diagram-cell">I/O 스케줄러 정렬</div><div class="kb-diagram-cell">모터 고장 전 무한</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SSD</div><div class="kb-diagram-cell">덮어쓰기 지우기 렉</div><div class="kb-diagram-cell">TRIM 명령어 활성화</div><div class="kb-diagram-cell">FTL (마모도 분산)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬────────────────────────────────┐
+│ 저장 장치  │ I/O 병목 원인 │ 커널 튜닝 포인트 │ 수명 관리 주체      │
+├──────────┼────────────┼────────────┼────────────────────────────────┤
+│ HDD      │ 바늘의 물리적 이동│ I/O 스케줄러 정렬│ 모터 고장 전 무한 │
+│ SSD      │ 덮어쓰기 지우기 렉│ TRIM 명령어 활성화│ FTL (마모도 분산)│
+└──────────┴────────────┴────────────┴────────────────────────────────┘
+```
 **[매트릭스 해설]** 리눅스 서버 엔지니어가 랙에 HDD를 꽂았는지 SSD를 꽂았는지에 따라 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 튜닝의 방향이 180도 달라지는 이유다. HDD에는 바늘 동선을 아끼는 무거운 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))를 깔아줘야 살고, [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) SSD에는 바늘이 없으니 무거운 큐를 다 박살 내고 멀티코어로 냅다 전기를 꽂아버리는 다중 큐(Multi-[Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) Block Layer) 아키텍처를 세팅해야 100만 IOPS가 터진다.
 
 - **📢 섹션 요약 비유**: HDD가 물건을 찾으러 창고 복도를 일일이 뛰어다니는 지게차 알바생이라면, SSD는 손가락만 까딱하면 텔레포트로 물건이 눈앞에 뚝 떨어지는 초능력자입니다. 알바생에겐 동선을 짜주는 비서(엘리베이터 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/))가 필수지만, 초능력자에겐 비서를 붙이는 것 자체가 시간을 갉아먹는 방해물(`noop` [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/))이 됩니다.
@@ -167,19 +165,15 @@ SSD는 사실 OS를 속이고 있는 완벽한 사기꾼이다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">I/O 장치의 분류</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">블록 장치 (Block Device)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">문자 장치</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">네트워크 장치 (소켓 인터페이스)</div></div>
-</div>
-</div>
-
-
+```text
+[I/O 장치의 분류]
+    │
+    ▼
+[블록 장치 (Block Device)]
+    │
+    ├──▶ [문자 장치]
+    └──▶ [네트워크 장치 (소켓 인터페이스)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

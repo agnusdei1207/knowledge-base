@@ -33,28 +33,33 @@ tags = ["studynote-bigdata"]
 
 ### Superset [기술 아키텍처](/knowledge-base/studynote/12_it_management/03_ea_isp/106_ta_as_is_analysis/)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Apache Superset 아키텍처</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프론트엔드 (React + TypeScript)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SQL Lab: 고급 SQL 에디터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Chart Builder: 데이터셋 기반 차트 제작</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Dashboard: 차트 조합·공유</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">백엔드 (Python Flask)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Superset Core: 쿼리 실행, 보안, API</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Celery: 비동기 쿼리 실행, 캐시 갱신</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SQLAlchemy: 다양한 DB 연결</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인프라</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Redis</div><div class="kb-diagram-cell">PostgreSQL/</div><div class="kb-diagram-cell">데이터 소스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(캐시+메시지큐)</div><div class="kb-diagram-cell">MySQL</div><div class="kb-diagram-cell">(Druid, ClickHouse,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(메타데이터)</div><div class="kb-diagram-cell">BigQuery, Snowflake,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Trino, PostgreSQL)</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────────┐
+│                  Apache Superset 아키텍처                    │
+├──────────────────────────────────────────────────────────────┤
+│  프론트엔드 (React + TypeScript)                             │
+│  ┌────────────────────────────────────────────────────────┐ │
+│  │  SQL Lab: 고급 SQL 에디터                               │ │
+│  │  Chart Builder: 데이터셋 기반 차트 제작                 │ │
+│  │  Dashboard: 차트 조합·공유                              │ │
+│  └────────────────────────────────────────────────────────┘ │
+│                          │                                   │
+│  백엔드 (Python Flask)                                       │
+│  ┌────────────────────────────────────────────────────────┐ │
+│  │  Superset Core: 쿼리 실행, 보안, API                   │ │
+│  │  Celery: 비동기 쿼리 실행, 캐시 갱신                   │ │
+│  │  SQLAlchemy: 다양한 DB 연결                             │ │
+│  └────────────────────────────────────────────────────────┘ │
+│                          │                                   │
+│  인프라                                                      │
+│  ┌────────────────┬───────────────┬──────────────────────┐  │
+│  │ Redis          │ PostgreSQL/   │ 데이터 소스           │  │
+│  │ (캐시+메시지큐)│ MySQL         │ (Druid, ClickHouse,   │  │
+│  │                │ (메타데이터)  │  BigQuery, Snowflake, │  │
+│  │                │               │  Trino, PostgreSQL)   │  │
+│  └────────────────┴───────────────┴──────────────────────┘  │
+└─────────────────────────────────────────────────────────────┘
+```
 
 ### SQL Lab: 핵심 기능
 
@@ -74,25 +79,22 @@ SQL Lab 주요 기능:
 
 Superset의 차트 제작 흐름:
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 소스 연결</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터셋 생성</div></div>
-<div class="kb-diagram-note">테이블 직접 연결 또는 SQL로 가상 데이터셋 생성</div>
-<div class="kb-diagram-note">(비즈니스 로직을 SQL로 표현)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">차트 제작 (Chart Builder)</div></div>
-<div class="kb-diagram-note">데이터셋 선택 → 차트 유형 선택 → 필드 드래그앤드롭</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">대시보드 구성</div></div>
-<div class="kb-diagram-note">차트들을 드래그앤드롭으로 배치</div>
-</div>
-</div>
-
-
+```
+[데이터 소스 연결]
+      │
+      ▼
+[데이터셋 생성]
+  테이블 직접 연결 또는 SQL로 가상 데이터셋 생성
+  (비즈니스 로직을 SQL로 표현)
+      │
+      ▼
+[차트 제작 (Chart Builder)]
+  데이터셋 선택 → 차트 유형 선택 → 필드 드래그앤드롭
+      │
+      ▼
+[대시보드 구성]
+  차트들을 드래그앤드롭으로 배치
+```
 
 **📢 섹션 요약 비유**: Superset의 SQL Lab은 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 과학자의 실험실</strong>과 같다. 원하는 실험([쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/))을 자유롭게 수행하고, 결과를 즉시 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)하며, 성공한 실험은 팀과 공유할 수 있다.
 
@@ -194,25 +196,24 @@ Apache Superset은 <strong>기술 팀 주도 <a href="/knowledge-base/studynote/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">BI 도구</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시각화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Superset</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SQL Lab</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">대시보드</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">셀프서비스 분석</div></div>
-</div>
-</div>
-
-
+```text
+[BI 도구]
+    │
+    ▼
+[시각화]
+    │
+    ▼
+[Apache Superset]
+    │
+    ▼
+[SQL Lab]
+    │
+    ▼
+[대시보드]
+    │
+    ▼
+[셀프서비스 분석]
+```
 
 전통 BI가 웹 기반 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 도구를 거쳐 SQL Lab과 셀프서비스 분석 플랫폼으로 진화하는 흐름이다.
 

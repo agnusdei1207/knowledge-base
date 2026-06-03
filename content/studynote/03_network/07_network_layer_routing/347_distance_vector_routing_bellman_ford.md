@@ -27,18 +27,14 @@ tags = ["studynote-network"]
   - 꼬마: "저쪽(Vector 방향)으로 3블록(Distance 거리)만 가면 된대요! 저희 형이 그랬어요!"
   - 나: "오케이 땡큐!" (나는 전체 지도를 본 적이 없지만 꼬마 말만 믿고 무작정 걸어갑니다).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">EGP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">거리 벡터 라우팅 알고리즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">링크 상태 라우팅 알고리즘</div></div>
-</div>
-</div>
-
-
+```text
+[EGP]
+    │
+    ▼
+[거리 벡터 라우팅 알고리즘]
+    │
+    └──▶ [링크 상태 라우팅 알고리즘]
+```
 
 - **📢 섹션 요약 비유**: <strong> 거리 벡터 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>은 교실에서 하는 </strong>"전언 게임(소리 없는 아우성)"**입니다. 맨 뒷자리 학생은 원본 글씨(전체 지도)를 보지 못하고, 오직 바로 앞사람(이웃 라우터)이 귓속말로 속삭여주는 단어(거리 정보)만 100% 진실로 믿고 받아 적습니다.
 
@@ -52,23 +48,25 @@ RIP를 돌리는 라우터들의 삶은 아주 단순무식하다.
 2. **브로드캐스트 의존**: 엽서를 조용히 주는 게 아니라, 브로드캐스트(`255.255.255.255`)로 "동네 사람들! 내 수첩 좀 봐!!" 하고 시끄럽게 방송을 때린다.
 3. <strong>덧셈 갱신 (<a href="/knowledge-base/studynote/08_algorithm_stats/11_graph_algorithms/170_bellman_ford/">벨만-포드</a>)</strong>: 옆집 라우터 A가 "나 10번 동네까지 2칸(Hop) 만에 가!"라고 방송하면, 그걸 들은 B는 자기 수첩에 "아, A가 2칸 만에 가니까, 난 A를 거쳐서 가면 3칸(2+1) 만에 가겠네!"라고 1을 더해서 저장해 둔다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">벨만-포드(Bellman-Ford) 테이블 갱신 도식</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">목적지 Z망</div><div class="kb-diagram-note">──(1칸)──</div><div class="kb-diagram-node">라우터 A</div><div class="kb-diagram-note">──(1칸)──</div><div class="kb-diagram-node">라우터 B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) A의 수첩 초기 상태: "Z망 ──▶ 거리: 1칸 (내가 직접 연결됨)"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) A가 B에게 수첩을 복사해서 휙 던져줌 (30초 주기 방송)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) B의 뇌구조 (벨만-포드 연산 작동):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"음.. A가 Z망까지 1칸 걸린다고?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">그럼 나는 A한테 가려면 1칸 걸리니까 (1+1 = 2칸이네!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">내 수첩에 적자!</div><div class="kb-diagram-node">Z망 ──▶ A방향으로 ──▶ 총 2칸!</div><div class="kb-diagram-note">"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 단점: A가 B를 속이거나, A 뒤에 선이 끊겨도 B는 확인할 방법이 없음.</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                벨만-포드(Bellman-Ford) 테이블 갱신 도식          │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 목적지 Z망 ] ──(1칸)── [ 라우터 A ] ──(1칸)── [ 라우터 B ] │
+ │                                                             │
+ │   1) A의 수첩 초기 상태: "Z망 ──▶ 거리: 1칸 (내가 직접 연결됨)"     │
+ │                                                             │
+ │   2) A가 B에게 수첩을 복사해서 휙 던져줌 (30초 주기 방송)              │
+ │                                                             │
+ │   3) B의 뇌구조 (벨만-포드 연산 작동):                             │
+ │      "음.. A가 Z망까지 1칸 걸린다고?                              │
+ │      그럼 나는 A한테 가려면 1칸 걸리니까 (1+1 = 2칸이네!)           │
+ │      내 수첩에 적자! [Z망 ──▶ A방향으로 ──▶ 총 2칸!]"              │
+ │                                                             │
+ │   ▶ 단점: A가 B를 속이거나, A 뒤에 선이 끊겨도 B는 확인할 방법이 없음.│
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 2. 수렴 시간 (Convergence Time)의 비극
 - <strong>수렴(Convergence)</strong>이란, 동네 어딘가 선이 끊어졌을 때 모든 라우터가 "아 1번 길 끊어졌대! 2번 우회로로 지도 고쳐!"라고 100% 지도를 갱신 완료하여 평화로워진 상태를 말한다.
@@ -137,19 +135,15 @@ RIP를 돌리는 라우터들의 삶은 아주 단순무식하다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: EGP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 거리 벡터 라우팅 알고리즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 링크 상태 라우팅 알고리즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: EGP]
+    │
+    ▼
+[현재 개념: 거리 벡터 라우팅 알고리즘]
+    │
+    ├──▶ [확장 A: 링크 상태 라우팅 알고리즘]
+    └──▶ [확장 B: 의도 기반 라우팅]
+```
 
 거리 벡터 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)는 EGP에서 출발해 현재 메커니즘을 정교화하고, 이후 [링크 상태](/knowledge-base/studynote/03_network/07_network_layer_routing/348_link_state_routing_dijkstra_spf/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

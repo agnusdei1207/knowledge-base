@@ -21,18 +21,14 @@ tags = ["studynote-network"]
 
 인터넷 익스플로러와 공인인증서 시절, 미국이 강력한 암호화 기술의 해외 수출을 법으로 금지(무기류로 취급)하던 시절이 있었습니다. 한국은 금융 결제를 위해 독자적인 암호화 알고리즘이 절실히 필요했습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">AES</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SEED, ARIA, LEA</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">블록 암호 운영 모드, CFB, OFB, C…</div></div>
-</div>
-</div>
-
-
+```text
+[AES]
+    │
+    ▼
+[SEED, ARIA, LEA]
+    │
+    └──▶ [블록 암호 운영 모드, CFB, OFB, C…]
+```
 
 - **📢 섹션 요약 비유**: SEED, ARIA, LEA는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -54,18 +50,14 @@ tags = ["studynote-network"]
 - **개요**: 스마트폰, [사물인터넷](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)([IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)), 드론 시대가 오자 ARIA조차 배터리를 너무 먹어서 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 힘들게 되었습니다. 그래서 "방어력은 ARIA급으로 두되, 무게를 깃털처럼 가볍게 만들자"고 NSR이 작정하고 만든 <strong>초경량 <a href="/knowledge-base/studynote/09_security/02_crypto/076_symmetric_encryption/">대칭키 암호</a></strong>입니다.
 - **특징**: 무거운 톱니바퀴 연산(S-Box)을 버리고, 덧셈/비트이동/XOR이라는 가벼운 연산(ARX 구조) 3개만 미친 듯이 돌려 배터리 소모를 막아냅니다. 국제 표준(ISO/IEC)으로 당당히 등재되어 세계 경량 암호 시장을 씹어 먹고 있습니다. (앞선 650번 문서 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">AES</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SEED, ARIA, LEA</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">블록 암호 운영 모드, CFB, OFB, C…</div></div>
-</div>
-</div>
-
-
+```text
+[AES]
+    │
+    ▼
+[SEED, ARIA, LEA]
+    │
+    └──▶ [블록 암호 운영 모드, CFB, OFB, C…]
+```
 
 - **📢 섹션 요약 비유**: SEED, ARIA, LEA의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -121,19 +113,15 @@ SEED, ARIA, LEA는 [네트워크 보안](/knowledge-base/studynote/03_network/20
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: AES</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: SEED, ARIA, LEA</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 블록 암호 운영 모드, CFB, OFB, C…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: AES]
+    │
+    ▼
+[현재 개념: SEED, ARIA, LEA]
+    │
+    ├──▶ [확장 A: 블록 암호 운영 모드, CFB, OFB, C…]
+    └──▶ [확장 B: 자동화된 신뢰 체계]
+```
 
 SEED, ARIA, LEA는 AES에서 출발해 현재 메커니즘을 정교화하고, 이후 [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) 운영 모드, CFB, OFB, C…와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

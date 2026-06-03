@@ -31,25 +31,27 @@ tags = ["studynote-computer-architecture"]
 
 법칙이 없었다면 [EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/) (Electronic Design Automation) 합성 툴은 회로를 하나의 게이트 족으로 묶어 최적화하지 못했을 것이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">드모르간 법칙의 물리적 게이트 등가 변환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 제 1법칙: NAND = NOT(A·B) = NOT_A OR NOT_B</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">A ── A ──</div><div class="kb-diagram-node">NOT</div><div class="kb-diagram-note">──</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">──</div><div class="kb-diagram-node">NAND</div><div class="kb-diagram-note">── ≡</div><div class="kb-diagram-node">OR</div><div class="kb-diagram-note">── 출력</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">B ── B ──</div><div class="kb-diagram-node">NOT</div><div class="kb-diagram-note">──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 제 2법칙: NOR = NOT(A+B) = NOT_A AND NOT_B</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">A ── A ──</div><div class="kb-diagram-node">NOT</div><div class="kb-diagram-note">──</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">──</div><div class="kb-diagram-node">NOR</div><div class="kb-diagram-note">≡</div><div class="kb-diagram-node">AND</div><div class="kb-diagram-note">─ 출력</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">B ── B ──</div><div class="kb-diagram-node">NOT</div><div class="kb-diagram-note">──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결론: NAND 또는 NOR 한 종류만으로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AND / OR / NOT 모두 구현 가능 → 범용 게이트</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────┐
+│       드모르간 법칙의 물리적 게이트 등가 변환                 │
+├───────────────────────────────────────────────────────────┤
+│                                                           │
+│  ▶ 제 1법칙: NAND = NOT(A·B) = NOT_A OR NOT_B             │
+│                                                           │
+│     A ──┐                    A ──[NOT]──┐                 │
+│         ├──[NAND]──  ≡            [OR]── 출력             │
+│     B ──┘                    B ──[NOT]──┘                 │
+│                                                           │
+│  ▶ 제 2법칙: NOR = NOT(A+B) = NOT_A AND NOT_B             │
+│                                                           │
+│     A ──┐                    A ──[NOT]──┐                 │
+│         ├──[NOR]───  ≡            [AND]─ 출력             │
+│     B ──┘                    B ──[NOT]──┘                 │
+│                                                           │
+│  결론: NAND 또는 NOR 한 종류만으로                          │
+│        AND / OR / NOT 모두 구현 가능 → 범용 게이트           │
+└───────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: "비가 오고 천둥이 친다"의 반대말은 "비가 안 오거나 천둥이 안 친다"이다. "비가 안 오고 천둥도 안 친다"(AND → AND)가 아니다. 드모르간은 일상 언어 속에 숨어있는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)의 참모습을 꺼내주는 진실의 거울이다.
 
@@ -63,48 +65,51 @@ tags = ["studynote-computer-architecture"]
 
 복잡한 수식 $F = ((A + B') \cdot C)'$ 을 드모르간으로 단계적으로 전개하면:
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">드모르간 법칙을 활용한 Logic Depth 압축 최적화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">초기 수식: 괄호 4단 중첩 → 게이트 직렬 4단</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">F = ( (A + B') · C )'</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1단계: 바깥쪽 부정 분배 — 제 1법칙 적용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">F = (A + B')' + C' ← AND(·)가 OR(+)로 뒤집힘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2단계: 안쪽 부정 분배 — 제 2법칙 적용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">F = (A' · B'') + C' ← OR(+)가 AND(·)로 뒤집힘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3단계: 이중 부정 상쇄 (B'' = B)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">F = A'B + C' ← 2단 SOP(Sum of Products) 완성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4단 직렬 ──▶ 2단 병렬: 클럭 지연(Propagation Delay) 반토막</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│         드모르간 법칙을 활용한 Logic Depth 압축 최적화           │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│  [초기 수식: 괄호 4단 중첩 → 게이트 직렬 4단]                  │
+│  F = ( (A + B') · C )'                                       │
+│                                                              │
+│  [1단계: 바깥쪽 부정 분배 — 제 1법칙 적용]                      │
+│  F = (A + B')'  +  C'      ← AND(·)가 OR(+)로 뒤집힘          │
+│                                                              │
+│  [2단계: 안쪽 부정 분배 — 제 2법칙 적용]                        │
+│  F = (A' · B'') + C'       ← OR(+)가 AND(·)로 뒤집힘          │
+│                                                              │
+│  [3단계: 이중 부정 상쇄 (B'' = B)]                             │
+│  F = A'B + C'              ← 2단 SOP(Sum of Products) 완성    │
+│                                                              │
+│  4단 직렬  ──▶  2단 병렬: 클럭 지연(Propagation Delay) 반토막  │
+└──────────────────────────────────────────────────────────────┘
+```
 
 ### 범용 게이트 ([Universal Gate](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/031_universal_gate/)) 구현 예시
 
 NAND 하나만으로 AND, OR, NOT을 모두 합성하는 방법:
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NAND 게이트로 만드는 완전한 논리 함수 세계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NOT(A) : A ──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── NAND ── NOT_A (입력 단락 연결)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A ──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AND(A,B) : A ── ──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─NAND─ ─NAND─ ─ A·B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B ──</div><div class="kb-diagram-cell">(단락)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OR(A,B) : A ─NAND─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─NAND── A+B (드모르간 제1법칙 역이용)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B ─NAND─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✔ NAND 4개만 있으면 세상 모든 논리 함수를 조합 가능</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│          NAND 게이트로 만드는 완전한 논리 함수 세계              │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│  NOT(A)   :  A ──┐                                          │
+│                   ├── NAND ── NOT_A     (입력 단락 연결)       │
+│               A ──┘                                          │
+│                                                              │
+│  AND(A,B) :  A ──┐              ┌──┐                         │
+│                   ├─NAND─┬─NAND─┘  └─ A·B                   │
+│               B ──┘      │ (단락)                            │
+│                                                              │
+│  OR(A,B)  :  A ─NAND─┐                                      │
+│                        ├─NAND── A+B  (드모르간 제1법칙 역이용) │
+│               B ─NAND─┘                                      │
+│                                                              │
+│  ✔ NAND 4개만 있으면 세상 모든 논리 함수를 조합 가능             │
+└──────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 마트료시카 인형처럼 4중으로 겹겹이 포장된 선물 상자를 열려면 한 겹씩 풀어야 해서 시간이 한참 걸린다. 드모르간의 칼로 상자를 한 번에 납작하게 쫙 펼쳐 내용물을 1열로 나란히 진열하면 원하는 물건을 1초 만에 집어들 수 있다.
 
@@ -125,24 +130,26 @@ NAND 하나만으로 AND, OR, NOT을 모두 합성하는 방법:
 
 프로그래밍 언어의 조건문 리팩토링에서도 드모르간이 그대로 작동한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소프트웨어 조건문에서의 드모르간 법칙 적용</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">원본 — 부정 괄호 덕지덕지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">if !(user.isAdmin &amp;&amp; user.isActive) { deny(); }</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">드모르간 제1법칙 적용 후 — 가독성 폭발</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">if (!user.isAdmin</div><div class="kb-diagram-cell">!user.isActive) { deny(); }</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">원본 — 이중 부정 혼란</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">if !(errorCode == 0</div><div class="kb-diagram-cell">retryCount &gt; 3) { abort(); }</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">드모르간 제2법칙 적용 후</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">if (errorCode != 0 &amp;&amp; retryCount &lt;= 3) { abort(); }</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✔ 수식 간소화 = 버그 감소 + 코드 리뷰 속도 향상</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│        소프트웨어 조건문에서의 드모르간 법칙 적용                │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│  [원본 — 부정 괄호 덕지덕지]                                  │
+│  if !(user.isAdmin && user.isActive) { deny(); }             │
+│                                                              │
+│  [드모르간 제1법칙 적용 후 — 가독성 폭발]                       │
+│  if (!user.isAdmin || !user.isActive) { deny(); }            │
+│                                                              │
+│  [원본 — 이중 부정 혼란]                                       │
+│  if !(errorCode == 0 || retryCount > 3) { abort(); }         │
+│                                                              │
+│  [드모르간 제2법칙 적용 후]                                     │
+│  if (errorCode != 0 && retryCount <= 3) { abort(); }         │
+│                                                              │
+│  ✔ 수식 간소화 = 버그 감소 + 코드 리뷰 속도 향상               │
+└──────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 드모르간은 레고 블록의 만능 어댑터다. 길쭉한 블록(OR 게이트), 네모 블록(AND 게이트)을 비싸게 따로 살 필요 없이 가장 싸고 흔한 세모 블록(NAND) 하나만 잔뜩 사서 끼워 맞추면 어떤 성이든 다 지을 수 있다.
 
@@ -207,32 +214,26 @@ NAND 하나만으로 AND, OR, NOT을 모두 합성하는 방법:
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">부울 대수 (Boolean Algebra)</div></div>
-<div class="kb-diagram-note">논리 연산의 수학적 체계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">드모르간의 법칙 (De Morgan's Law)</div></div>
-<div class="kb-diagram-note">NOT 분배 시 AND ↔ OR 반전</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NAND / NOR 범용 게이트 (Universal Gate)</div></div>
-<div class="kb-diagram-note">단일 게이트로 모든 회로 구현</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">카르노 맵 최적화 (Karnaugh Map)</div></div>
-<div class="kb-diagram-note">SOP ↔ POS 변환으로 회로 간소화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">논리 합성 엔진 (Logic Synthesis EDA)</div></div>
-<div class="kb-diagram-note">드모르간 기반 자동 최적화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">VLSI / SoC 설계 (고성능 저전력)</div></div>
-<div class="kb-diagram-note">Critical Path 단축, fmax 향상</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AI 기반 자동 합성 (ML-driven EDA)</div></div>
-<div class="kb-diagram-note">머신러닝으로 드모르간 변환 공간 탐색</div>
-</div>
-</div>
-
-
+```text
+[부울 대수 (Boolean Algebra)]
+  │  논리 연산의 수학적 체계
+  ▼
+[드모르간의 법칙 (De Morgan's Law)]
+  │  NOT 분배 시 AND ↔ OR 반전
+  ├──▶ [NAND / NOR 범용 게이트 (Universal Gate)]
+  │      단일 게이트로 모든 회로 구현
+  ├──▶ [카르노 맵 최적화 (Karnaugh Map)]
+  │      SOP ↔ POS 변환으로 회로 간소화
+  ▼
+[논리 합성 엔진 (Logic Synthesis EDA)]
+  │  드모르간 기반 자동 최적화
+  ▼
+[VLSI / SoC 설계 (고성능 저전력)]
+  │  Critical Path 단축, fmax 향상
+  ▼
+[AI 기반 자동 합성 (ML-driven EDA)]
+     머신러닝으로 드모르간 변환 공간 탐색
+```
 
 드모르간의 법칙은 19세기 수학의 산물이지만, 오늘날 수백억 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) SoC의 합성 엔진과 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 칩 최적화까지 정확히 동일한 원리로 작동하며 디지털 세계의 근간을 이루고 있다.
 

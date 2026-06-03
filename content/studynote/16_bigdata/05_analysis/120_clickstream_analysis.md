@@ -30,26 +30,29 @@ tags = ["studynote-bigdata"]
 
 ### 클릭스트림 [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클릭스트림 실시간 분석 파이프라인</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">이벤트 수집</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">브라우저 JavaScript SDK / 모바일 SDK</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클릭, 페이지뷰, 스크롤, 폼 입력, 구매 완료</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">이벤트 스트림</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Apache Kafka (초당 수백만 이벤트 버퍼링)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스트림 처리 (실시간)</div><div class="kb-diagram-node">배치 처리 (일/주/월)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Apache Spark Streaming Apache Spark SQL</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Apache Flink 데이터 웨어하우스 (BigQuery/Redshift)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">실시간 대시보드</div><div class="kb-diagram-node">분석 리포트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A/B 테스트 모니터링 퍼널 분석, 코호트 분석</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이상 트래픽 감지 경로 분석, 세그먼트 분석</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│              클릭스트림 실시간 분석 파이프라인                      │
+├────────────────────────────────────────────────────────────────────┤
+│  [이벤트 수집]                                                     │
+│   브라우저 JavaScript SDK / 모바일 SDK                             │
+│   클릭, 페이지뷰, 스크롤, 폼 입력, 구매 완료                       │
+│       │                                                            │
+│       ▼                                                            │
+│  [이벤트 스트림]                                                   │
+│   Apache Kafka (초당 수백만 이벤트 버퍼링)                         │
+│       │                                                            │
+│       ▼                                                            │
+│  [스트림 처리 (실시간)]       [배치 처리 (일/주/월)]               │
+│   Apache Spark Streaming      Apache Spark SQL                     │
+│   Apache Flink                데이터 웨어하우스 (BigQuery/Redshift) │
+│       │                              │                             │
+│       ▼                              ▼                             │
+│  [실시간 대시보드]            [분석 리포트]                         │
+│  A/B 테스트 모니터링         퍼널 분석, 코호트 분석                 │
+│  이상 트래픽 감지             경로 분석, 세그먼트 분석              │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 ### 핵심 분석 유형
 
@@ -156,23 +159,21 @@ GA4 (Google Analytics 4)와 Adobe Analytics 같은 상용 툴은 클릭스트림
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">사용자 행동 이벤트 수집 (클릭·스크롤·페이지뷰)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Kafka (실시간 이벤트 스트리밍 수집)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Spark Streaming (실시간 집계 및 세션화)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">퍼널 분석 / 코호트 분석 (전환율·이탈 패턴 도출)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">A/B 테스트 → 제품 개선 (First-Party 데이터 전략)</div></div>
-</div>
-</div>
-
-
+```text
+[사용자 행동 이벤트 수집 (클릭·스크롤·페이지뷰)]
+    │
+    ▼
+[Apache Kafka (실시간 이벤트 스트리밍 수집)]
+    │
+    ▼
+[Apache Spark Streaming (실시간 집계 및 세션화)]
+    │
+    ▼
+[퍼널 분석 / 코호트 분석 (전환율·이탈 패턴 도출)]
+    │
+    ▼
+[A/B 테스트 → 제품 개선 (First-Party 데이터 전략)]
+```
 클릭스트림은 Kafka로 수집·Spark로 집계하여 퍼널/코호트 분석으로 전환율 패턴을 도출하고, A/B 테스트를 통해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 주도 제품 개선 사이클로 완결된다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

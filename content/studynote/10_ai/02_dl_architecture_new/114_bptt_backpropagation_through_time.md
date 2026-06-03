@@ -18,22 +18,22 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BPTT: 시간 축 펼침 후 역전파</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">RNN 순환 구조</div><div class="kb-diagram-node">시간 축 펼침 (Unfolding)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ h ── h₁ → h₂ → h₃ → h₄</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── x x₁ x₂ x₃ x₄</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">역전파: L → h₄ → h₃ → h₂ → h₁ (시간 역방향)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기울기: ∂L/∂W = Σ(∂L/∂h_t × ∂h_t/∂W)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문제: T=1000이면 h₁까지 1000단계 역전파 → 폭발/소실</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해결: Truncated BPTT (k=20으로 잘라서 역전파)</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    BPTT: 시간 축 펼침 후 역전파                       │
+├───────────────────────────────────────────────────────┤
+│  [RNN 순환 구조]        [시간 축 펼침 (Unfolding)]    │
+│   ┌──▶ h ──┐            h₁ → h₂ → h₃ → h₄          │
+│   │   │    │            ↑    ↑    ↑    ↑             │
+│   └── x ───┘            x₁   x₂   x₃   x₄          │
+│                                                       │
+│  역전파: L → h₄ → h₃ → h₂ → h₁ (시간 역방향)       │
+│  기울기: ∂L/∂W = Σ(∂L/∂h_t × ∂h_t/∂W)              │
+│                                                       │
+│  문제: T=1000이면 h₁까지 1000단계 역전파 → 폭발/소실 │
+│  해결: Truncated BPTT (k=20으로 잘라서 역전파)       │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: BPTT는 1000페이지 소설을 처음부터 끝까지 형광펜(기울기)으로 표시하는 것이고, Truncated BPTT는 20페이지씩 끊어서 표시하는 것이다.
 
@@ -91,23 +91,21 @@ BPTT는 [RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">역전파 (1986, Rumelhart) — FC 네트워크 학습</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">BPTT (1990, Werbos) — RNN 시간 축 역전파</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Truncated BPTT — 실무 메모리·기울기 제어</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LSTM (1997) — 기울기 소실 완화, BPTT 효과 극대화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Transformer (2017) — BPTT 불필요, 병렬 학습</div></div>
-</div>
-</div>
-
-
+```text
+[역전파 (1986, Rumelhart) — FC 네트워크 학습]
+    │
+    ▼
+[BPTT (1990, Werbos) — RNN 시간 축 역전파]
+    │
+    ▼
+[Truncated BPTT — 실무 메모리·기울기 제어]
+    │
+    ▼
+[LSTM (1997) — 기울기 소실 완화, BPTT 효과 극대화]
+    │
+    ▼
+[Transformer (2017) — BPTT 불필요, 병렬 학습]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. BPTT는 1000페이지 소설을 읽고 <strong>처음부터 끝까지 형광펜</strong>으로 중요한 부분을 표시하는 거예요.

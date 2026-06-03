@@ -23,18 +23,14 @@ tags = ["studynote-network"]
 - **용도**: 해커가 최초 침투(Exploit) 성공 이후, 나중에 편하게 재접속하기 위해 관리자 권한을 탈취해 몰래 설치해 둡니다([트로이 목마](/knowledge-base/studynote/02_operating_system/10_security/586_trojan_horse_wrapper/) 형태).
 - **작동 방식**: 백도어 프로그램은 서버 뒷단에 숨어서 <strong>특정 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>(예: 31337번 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>)를 몰래 열어두고 리스닝(Listening) 상태</strong>로 해커의 연결을 하염없이 기다립니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">포트 포워딩</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">백도어</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">제로 트러스트 보안</div></div>
-</div>
-</div>
-
-
+```text
+[포트 포워딩]
+    │
+    ▼
+[백도어]
+    │
+    └──▶ [제로 트러스트 보안]
+```
 
 - **📢 섹션 요약 비유**: 백도어는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -46,18 +42,14 @@ tags = ["studynote-network"]
 - **원리**: 밖에서 들어오는 게 막히면, <strong>안에 있는 놈(백도어 악성코드)이 문을 열고 밖으로 연락</strong>을 취하는 꼼수입니다. [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)은 내부에 있는 직원이 바깥(인터넷)으로 웹서핑 나가는 아웃바운드 트래픽은 잘 안 막기 때문입니다.
 - <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/608_beacon_technology_ibeacon_eddystone/">Beacon</a> (<a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/608_beacon_technology_ibeacon_eddystone/">비컨</a>) 전송</strong>: 내부에 심어진 백도어가, 인터넷 어딘가에 숨겨진 해커의 본부 서버(C&C 서버)를 향해 <strong>"해커님, 저 잘 살아있습니다. 혹시 지시할 명령 없나요?"라는 짧은 안부 인사(<a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/608_beacon_technology_ibeacon_eddystone/">Beacon</a>) 패킷을 정기적으로(예: 1시간에 한 번씩) 똑똑 두드리며 보냅니다.</strong> 해커가 "서버 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 지워!"라고 답장을 내리면 그때 악성 행위를 폭발시킵니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">포트 포워딩</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">백도어</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">제로 트러스트 보안</div></div>
-</div>
-</div>
-
-
+```text
+[포트 포워딩]
+    │
+    ▼
+[백도어]
+    │
+    └──▶ [제로 트러스트 보안]
+```
 
 - **📢 섹션 요약 비유**: 백도어의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -121,19 +113,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 포트 포워딩</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 백도어</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 제로 트러스트 보안</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 포트 포워딩]
+    │
+    ▼
+[현재 개념: 백도어]
+    │
+    ├──▶ [확장 A: 제로 트러스트 보안]
+    └──▶ [확장 B: 예측형 위협 대응]
+```
 
 백도어는 [포트 포워딩](/knowledge-base/studynote/03_network/14_network_security_threats/736_port_forwarding_jump_station_bastion_host/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [제로 트러스트 보안](/knowledge-base/studynote/03_network/14_network_security_threats/738_zero_trust_architecture_least_privilege/)와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -20,21 +20,26 @@ tags = ["studynote-design-supervision"]
 ## Ⅰ. 개요 및 필요성
 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 노드 아키텍처 감리는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)([Blockchain](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)) 네트워크의 노드 아키텍처와 운영 통제를 대상으로 설계 기준과 운영 결과가 같은 방향으로 움직이는지 판단하는 감리 항목이다. [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)와 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템이 확산되면서 문서상 구조와 실제 배포 구조를 함께 추적하는 능력이 중요해졌다. 특히 합의 노드가 기준선으로 정리되지 않으면 키 관리는 사람 의존 절차로 흩어지고, 최종적으로 최종성이 남지 않아 의사결정이 감각에 의존하게 된다. 추적성이 약하면 이식성 저하, 장애 전파, 유지보수 단절이 동시에 나타난다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구사항·위험 인식</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">합의 노드 기준 수립</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">키 관리 설계 반영</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최종성 증적 확보</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────┐
+│ 요구사항·위험 인식 │
+└────────┬─────────┘
+         │
+         ▼
+┌──────────────────┐
+│ 합의 노드 기준 수립 │
+└────────┬─────────┘
+         │
+         ▼
+┌──────────────────┐
+│ 키 관리 설계 반영 │
+└────────┬─────────┘
+         │
+         ▼
+┌──────────────────┐
+│ 최종성 증적 확보 │
+└──────────────────┘
+```
 - **📢 섹션 요약 비유**: [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 노드 아키텍처 감리는 설계도만 보는 검토가 아니라, 건물의 구조도와 실제 비상구 작동 여부를 함께 확인하는 점검과 같다.
 
 ---
@@ -48,16 +53,16 @@ tags = ["studynote-design-supervision"]
 | 실행 메커니즘 | 키 관리를 설계, 구현, 운영 절차에 반영한다. | 사람 의존이 아닌 반복 가능한 구조가 중요하다. |
 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 증적 | 최종성을 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 보고서, 테스트, 승인 이력으로 남긴다. | 재현 가능한 증적이 있어야 시정조치가 닫힌다. |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정책·표준 계층</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">구현·운영 계층</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모니터링·증적 계층</div><div class="kb-diagram-cell">시정조치·개선 계층</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────┐      ┌──────────────────┐
+│ 정책·표준 계층    │ ───▶ │ 구현·운영 계층    │
+└────────┬─────────┘      └────────┬─────────┘
+         │                           │
+         ▼                           ▼
+┌──────────────────┐ ◀──── ┌──────────────────┐
+│ 모니터링·증적 계층 │      │ 시정조치·개선 계층 │
+└──────────────────┘      └──────────────────┘
+```
 - **📢 섹션 요약 비유**: 합의 노드, 키 관리, 최종성은 따로 도는 바퀴가 아니라 서로 맞물린 톱니바퀴라서 하나라도 헛돌면 전체 통제가 무너진다.
 
 ---

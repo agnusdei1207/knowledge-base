@@ -25,19 +25,17 @@ tags = ["studynote-design-supervision"]
 
 즉 이 패턴의 필요성은 "후킹 포인트가 있으면 편하다"가 아니라, <strong>횡단 관심사를 업무 코드에서 분리해 책임 경계를 선명하게 만드는 것</strong>에 있다. 설계감리 관점에서도 공통 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)의 위치와 순서를 눈으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 수 있어 구조 품질을 평가하기 쉽다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Without interception pattern</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Controller A -&gt; auth + log + business</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Controller B -&gt; auth + log + business</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Controller C -&gt; auth missing + business</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">result: duplication, drift, missing policy</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Without interception pattern                                         │
+├──────────────────────────────────────────────────────────────────────┤
+│ Controller A -> auth + log + business                               │
+│ Controller B -> auth + log + business                               │
+│ Controller C -> auth missing + business                             │
+│                                                                      │
+│ result: duplication, drift, missing policy                          │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 인터셉터와 필터는 교실마다 따로 출석 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)을 하는 대신, 학교 정문과 복도에 공통 검사 지점을 두어 규칙을 한 번에 지키게 만드는 방식과 같다.
 
@@ -57,28 +55,32 @@ tags = ["studynote-design-supervision"]
 
 아래 그림은 요청이 들어와 응답이 나가기까지 이 설계망이 어떻게 작동하는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Request / response policy mesh</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">request</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Filter 1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Filter 2</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Filter N</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">reject? yes -&gt; 4xx/5xx response</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ no</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Front Controller</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Interceptor preHandle</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">reject? yes -&gt; 401/403 / redirect</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ no</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Handler / Service</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Interceptor postHandle / afterCompletion</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Response Filters: header / compression / trace finish</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Request / response policy mesh                                       │
+├──────────────────────────────────────────────────────────────────────┤
+│ Client                                                               │
+│   │ request                                                          │
+│   ▼                                                                  │
+│ [Filter 1] -> [Filter 2] -> [Filter N]                               │
+│   │ reject? yes -> 4xx/5xx response                                  │
+│   ▼ no                                                               │
+│ Front Controller                                                     │
+│   │                                                                  │
+│   ▼                                                                  │
+│ [Interceptor preHandle]                                              │
+│   │ reject? yes -> 401/403 / redirect                                │
+│   ▼ no                                                               │
+│ Handler / Service                                                    │
+│   │                                                                  │
+│   ▼                                                                  │
+│ [Interceptor postHandle / afterCompletion]                           │
+│   ▼                                                                  │
+│ [Response Filters: header / compression / trace finish]              │
+│   ▼                                                                  │
+│ Client                                                               │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조의 핵심은 <strong>순서와 중단 가능성</strong>이다. 예를 들어 문자 인코딩은 가장 앞단에서 처리해야 하고, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 실패는 Controller에 도달하기 전에 막는 편이 낫다. 반면 어떤 핸들러가 선택되었는지 알아야 하는 권한 검사나 메뉴 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)는 Interceptor가 더 적합하다. 응답이 나갈 때는 필터가 헤더나 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)을 마무리하고, 인터셉터는 실행 시간과 예외 정보를 정리한다.
 
@@ -164,23 +166,21 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">개별 Controller마다 공통 코드 중복</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Front Controller 도입</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Filter / Middleware 전역 체인</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Interceptor 기반 핸들러 전후 제어</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">AOP · Security Chain · Observability로 확장된 정책망</div>
-</div>
-</div>
-
-
+```text
+개별 Controller마다 공통 코드 중복
+    │
+    ▼
+Front Controller 도입
+    │
+    ▼
+Filter / Middleware 전역 체인
+    │
+    ▼
+Interceptor 기반 핸들러 전후 제어
+    │
+    ▼
+AOP · Security Chain · Observability로 확장된 정책망
+```
 
 이 흐름은 웹 요청 처리가 단순 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)에서 출발해, 공통 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 외곽 체인으로 분리하는 프레임워크 중심 구조로 발전하는 과정을 보여 준다.
 

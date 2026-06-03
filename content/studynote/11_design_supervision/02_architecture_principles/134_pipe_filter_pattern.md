@@ -23,22 +23,22 @@ tags = ["studynote-design-supervision"]
 
 이 패턴은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인, [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/)(Extract-Transform-Load), 이미지·오디오 처리, 텍스트 분석, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 등 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 일련의 변환 단계를 거치는 모든 시나리오에 적용된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파이프-필터 패턴 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력 데이터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 파이프 파이프</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">필터 A</div><div class="kb-diagram-cell">&gt;</div><div class="kb-diagram-cell">필터 B</div><div class="kb-diagram-cell">&gt;</div><div class="kb-diagram-cell">필터 C</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(검증)</div><div class="kb-diagram-cell">(변환)</div><div class="kb-diagram-cell">(집계)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">출력 데이터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">각 필터: 독립적, 재사용 가능, 교체 가능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파이프: 동기(메모리) 또는 비동기(메시지 큐)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│             파이프-필터 패턴 구조                             │
+├─────────────────────────────────────────────────────────────┤
+│  입력 데이터                                                 │
+│      │                                                      │
+│  ┌───▼───┐  파이프  ┌───────┐  파이프  ┌───────┐           │
+│  │필터 A  │ ──────> │필터 B  │ ──────> │필터 C  │           │
+│  │(검증)  │         │(변환)  │         │(집계)  │           │
+│  └───────┘         └───────┘         └───┬───┘           │
+│                                          │                  │
+│                                      출력 데이터             │
+│  각 필터: 독립적, 재사용 가능, 교체 가능                    │
+│  파이프: 동기(메모리) 또는 비동기(메시지 큐)                │
+└─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 공장 조립 라인처럼 원자재(입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 컨베이어 벨트([파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/))를 따라 이동하며 각 작업대(필터)에서 가공된다.
 
@@ -54,19 +54,17 @@ tags = ["studynote-design-supervision"]
 | [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변환·처리 | [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 파싱, 필드 변환, 집계 |
 | Consumer | 최종 저장·전송 | DB 저장, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 전송, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 출력 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ETL 파이프라인 예시 (파이프-필터 적용)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Producer</div><div class="kb-diagram-node">Transformer</div><div class="kb-diagram-node">Transformer</div><div class="kb-diagram-node">Consumer</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DB 쿼리 → JSON 파싱 → 필드 매핑 → Elasticsearch</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Kafka Topic A) (Kafka Topic B) 저장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">각 단계가 Kafka Topic(파이프)으로 연결됨</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│       ETL 파이프라인 예시 (파이프-필터 적용)                 │
+├─────────────────────────────────────────────────────────────┤
+│  [Producer]      [Transformer]    [Transformer]  [Consumer] │
+│  DB 쿼리    →   JSON 파싱    →   필드 매핑    →  Elasticsearch│
+│               (Kafka Topic A)  (Kafka Topic B)   저장        │
+│                                                             │
+│  각 단계가 Kafka Topic(파이프)으로 연결됨                    │
+└─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 조리법(레시피)에서 재료를 손질→볶기→간 맞추기→플레이팅 순서로 처리하듯, [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)-필터는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 단계적으로 변환한다.
 

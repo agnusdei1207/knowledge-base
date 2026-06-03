@@ -24,18 +24,14 @@ tags = ["studynote-network"]
 
 - **💡 비유**: 일반 택배 기사(IP)는 문 앞에 물건을 툭 던져두고 가거나, 배달을 가다가 오토바이가 고장 나도 고객에게 전화를 주지 않습니다. <strong>ICMP</strong>는 배달 기사 오토바이에 같이 타고 있는 <strong>"고객 센터 직원"</strong>입니다. 배달이 실패하는 순간, 직원(ICMP)이 즉각 본사(송신자)에 전화를 걸어 "주소가 틀려서(Destination Unreachable) 반송 처리했습니다!"라고 정확한 사고 사유를 리포팅해 줍니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">ARP 캐시 오염</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ICMP 진단/오류 알림</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ICMP 메시지 종류</div></div>
-</div>
-</div>
-
-
+```text
+[ARP 캐시 오염]
+    │
+    ▼
+[ICMP 진단/오류 알림]
+    │
+    └──▶ [ICMP 메시지 종류]
+```
 
 - **📢 섹션 요약 비유**: ** ICMP는 말 못 하는 벙어리인 IP 패킷에게 **"비상 연락용 입(Mouth)"**을 달아준 것입니다. 덕분에 패킷이 절벽에서 떨어져 죽을 때 윽! 하고 단말마(에러 메시지)를 지르며 자기가 죽은 이유를 남길 수 있게 되었습니다.
 
@@ -48,22 +44,21 @@ ICMP는 독자적인 택배 상자를 쓰지 않는다. ICMP 메시지는 만들
 - [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임 안에 -> IP 헤더([프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 번호=1)가 있고 -> 그 뒤에 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/[UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 대신 <strong>ICMP 메시지 블록</strong>이 위치한다.
 - 즉, 3계층(IP)을 돕기 위한 녀석이지만 구조적으로는 3.5계층처럼 IP 패킷의 등창에 업혀서 날아가는 묘한 형태다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ICMP 패킷의 캡슐화 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2계층 이더넷 헤더</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3계층 IP 헤더 (Protocol = 1)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ICMP 헤더 (Type, Code, Checksum 등)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ICMP 데이터 (에러가 난 원본 패킷의 머리 부분 일부)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 에러 보고 시, 송신자가 "어떤 패킷이 죽었는지" 알아볼 수 있도록</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">죽어버린 원본 IP 패킷의 헤더 20바이트를 ICMP 뱃속에 같이 담아서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">돌려보내 주는(증거물 첨부) 친절함이 있다.</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                ICMP 패킷의 캡슐화 구조                          │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 2계층 이더넷 헤더 ]                                        │
+ │   [ 3계층 IP 헤더 (Protocol = 1) ]                            │
+ │   [ ICMP 헤더 (Type, Code, Checksum 등) ]                     │
+ │   [ ICMP 데이터 (에러가 난 원본 패킷의 머리 부분 일부) ]            │
+ │                                                             │
+ │   * 에러 보고 시, 송신자가 "어떤 패킷이 죽었는지" 알아볼 수 있도록      │
+ │     죽어버린 원본 IP 패킷의 헤더 20바이트를 ICMP 뱃속에 같이 담아서    │
+ │     돌려보내 주는(증거물 첨부) 친절함이 있다.                      │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 2. 무한 에러의 방지 (ICMP의 침묵 규칙)
 ICMP 메시지를 보내다가 그 ICMP 메시지 자체가 또 배달 사고로 죽어버리면 어떻게 될까?
@@ -131,19 +126,15 @@ ICMP 진단/오류 알림은 네트워크 계층과 IP를 이해할 때 핵심 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: ARP 캐시 오염</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: ICMP 진단/오류 알림</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: ICMP 메시지 종류</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 대규모 주소 자동화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: ARP 캐시 오염]
+    │
+    ▼
+[현재 개념: ICMP 진단/오류 알림]
+    │
+    ├──▶ [확장 A: ICMP 메시지 종류]
+    └──▶ [확장 B: 대규모 주소 자동화]
+```
 
 ICMP 진단/오류 알림는 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 캐시 오염에서 출발해 현재 메커니즘을 정교화하고, 이후 ICMP 메시지 종류와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

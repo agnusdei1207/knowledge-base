@@ -30,19 +30,18 @@ tags = ["studynote-enterprise"]
 
 [데이터 가상화](/knowledge-base/studynote/05_database/06_dw_olap_trends/360_data_virtualization/) 시스템은 사용자로부터 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 받아 이를 각 원천 시스템이 이해할 수 있는 언어로 번역하고, 결과를 취합하여 전달하는 미들웨어 역할을 수행한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">사용자/BI 도구</div><div class="kb-diagram-note">(Standard SQL 쿼리 실행)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 가상화 계층 (DV Layer)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">추상화</div><div class="kb-diagram-node">연방 쿼리 최적화</div><div class="kb-diagram-node">캐싱</div><div class="kb-diagram-node">데이터 보안 및 거버넌스</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SQL DB</div><div class="kb-diagram-node">NoSQL DB</div><div class="kb-diagram-node">SaaS API</div><div class="kb-diagram-node">Flat Files</div></div>
-</div>
-</div>
-
-
+```text
+[사용자/BI 도구] (Standard SQL 쿼리 실행)
+           │
+           ▼
+┌──────────────────────────────────────────────────────────────┐
+│                  데이터 가상화 계층 (DV Layer)                │
+│ [추상화] [연방 쿼리 최적화] [캐싱] [데이터 보안 및 거버넌스]  │
+└──────────────────────────────────────────────────────────────┘
+      │               │               │               │
+      ▼               ▼               ▼               ▼
+ [SQL DB]        [NoSQL DB]       [SaaS API]      [Flat Files]
+```
 
 | 주요 메커니즘 | 설명 | 핵심 기술 |
 |:---|:---|:---|
@@ -108,23 +107,21 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">물리적 ETL 복사 - 지연·중복 스토리지 문제</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">연합 쿼리 (Federated Query) 초기 방식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">데이터 가상화 레이어 - 논리적 단일 뷰 제공</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Denodo/Dremio - 실시간 쿼리 푸시다운 최적화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Data Fabric 구성 요소로 편입·진화</div>
-</div>
-</div>
-
-
+```
+물리적 ETL 복사 - 지연·중복 스토리지 문제
+    │
+    ▼
+연합 쿼리 (Federated Query) 초기 방식
+    │
+    ▼
+데이터 가상화 레이어 - 논리적 단일 뷰 제공
+    │
+    ▼
+Denodo/Dremio - 실시간 쿼리 푸시다운 최적화
+    │
+    ▼
+Data Fabric 구성 요소로 편입·진화
+```
 
 > **키워드**: [Data Virtualization](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/247_data_virtualization_federated_query/), Logical [Data Warehouse](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/208_data_warehouse_schema_on_write_inmon/), [Federated Query](/knowledge-base/studynote/14_data_engineering/04_mlops/195_federated_query_data_fabric_distributed_join/), Denodo, Dremio, Query Pushdown
 

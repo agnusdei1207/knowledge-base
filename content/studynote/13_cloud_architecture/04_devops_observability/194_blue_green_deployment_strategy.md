@@ -33,21 +33,23 @@ tags = ["studynote-cloud-architecture"]
 
 ### 블루-그린 배포 구조
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Load Balancer / DNS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Blue 환경 (v1)</div><div class="kb-diagram-cell">←── 현재 운영</div><div class="kb-diagram-cell">Green 환경(v2)</div><div class="kb-diagram-cell">←── 준비 중</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">App v1 x4</div><div class="kb-diagram-node">App v2 x4</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DB: Schema A</div><div class="kb-diagram-node">DB: Schema B</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">트래픽 전환 후</div></div>
-<div class="kb-diagram-note">LB → Green 100% / Blue 대기 (즉시 롤백 대기)</div>
-</div>
-</div>
-
-
+```
+  ┌─────────────────────────────────────────────────────────────┐
+  │                     Load Balancer / DNS                      │
+  └──────────────────────────┬──────────────────────────────────┘
+                             │
+           ┌─────────────────┼─────────────────┐
+           ▼                                   ▼
+  ┌─────────────────┐                ┌─────────────────┐
+  │  Blue 환경 (v1) │  ←── 현재 운영 │  Green 환경(v2) │ ←── 준비 중
+  │  [App v1 x4]    │                │  [App v2 x4]    │
+  │  [DB: Schema A] │                │  [DB: Schema B] │
+  └─────────────────┘                └─────────────────┘
+           │
+           ▼
+  [트래픽 전환 후]
+  LB → Green 100% / Blue 대기 (즉시 롤백 대기)
+```
 
 ### 배포 절차
 
@@ -199,21 +201,18 @@ spec:
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Blue (현재 운영) ↔ Green (대기 환경)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">배포: Green에 신버전 → 검증 → 라우터 전환</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">롤백: 라우터를 Blue로 되돌림 (즉시)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">비용 절감: 클라우드 Auto-Provision Green 환경</div>
-</div>
-</div>
-
-
+```text
+Blue (현재 운영) ↔ Green (대기 환경)
+    │
+    ▼
+배포: Green에 신버전 → 검증 → 라우터 전환
+    │
+    ▼
+롤백: 라우터를 Blue로 되돌림 (즉시)
+    │
+    ▼
+비용 절감: 클라우드 Auto-Provision Green 환경
+```
 2. 새 무대에 문제가 생기면 5초 만에 다시 옛날 무대로 돌아갈 수 있어서 관객은 거의 눈치채지 못해.
 3. 대신 무대 두 개를 동시에 준비해야 하니까, 잠깐 비용이 2배가 돼. 하지만 그게 안전을 보장하는 값어치야.
 

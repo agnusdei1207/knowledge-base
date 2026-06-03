@@ -28,18 +28,14 @@ tags = ["studynote-network"]
 3. <strong>Multicast (<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/">멀티캐스트</a>)</strong>: 
    - **설명**: "이 증권 시세 데이터는 구독 신청한 100명한테만 뿌려줘!" 특정 그룹([멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) IP)에게만 복사해서 뿌리는 트래픽입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">BDI</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">BUM 트래픽</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">마이크로 터스트 존 방화벽 보안 적용 체계…</div></div>
-</div>
-</div>
-
-
+```text
+[BDI]
+    │
+    ▼
+[BUM 트래픽]
+    │
+    └──▶ [마이크로 터스트 존 방화벽 보안 적용 체계…]
+```
 
 - **📢 섹션 요약 비유**: BUM 트래픽은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -50,18 +46,14 @@ tags = ["studynote-network"]
 - 과거 3-Tier 망에서는 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 몇 개 없어 그냥 플러딩(복사해서 다 뿌리기)을 해도 견딜 만했습니다.
 - **재앙의 시작**: 802번 문서의 **Spine-Leaf** 구조에서는 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 수백 대, 서버가 수만 대입니다. 하나의 브로드캐스트 패킷([ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/))이 발생하면 수만 개의 랙 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(Leaf)로 복사되고, 이게 다시 또 복사되며 거대한 폭풍(Broadcast Storm)이 일어나 100억짜리 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 망 전체가 뻗어버립니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">BDI</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">BUM 트래픽</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">마이크로 터스트 존 방화벽 보안 적용 체계…</div></div>
-</div>
-</div>
-
-
+```text
+[BDI]
+    │
+    ▼
+[BUM 트래픽]
+    │
+    └──▶ [마이크로 터스트 존 방화벽 보안 적용 체계…]
+```
 
 - **📢 섹션 요약 비유**: BUM 트래픽의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -131,19 +123,15 @@ BUM 트래픽은 [데이터센터](/knowledge-base/studynote/03_network/16_data_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: BDI</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: BUM 트래픽</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 마이크로 터스트 존 방화벽 보안 적용 체계…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: BDI]
+    │
+    ▼
+[현재 개념: BUM 트래픽]
+    │
+    ├──▶ [확장 A: 마이크로 터스트 존 방화벽 보안 적용 체계…]
+    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
+```
 
 BUM 트래픽는 BDI에서 출발해 현재 메커니즘을 정교화하고, 이후 마이크로 터스트 존 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 보안 적용 체계…와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

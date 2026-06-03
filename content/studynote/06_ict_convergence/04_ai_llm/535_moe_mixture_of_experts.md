@@ -29,25 +29,27 @@ tags = ["studynote-ict-convergence"]
 
 MoE는 다수의 전문가 층(Experts)과 이들을 제어하는 게이팅 네트워크(Router)로 구성된다.
 
+```text
+[ Mixture of Experts (MoE) Architecture ]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Mixture of Experts (MoE) Architecture</div></div>
-<div class="kb-diagram-note">Input (Token)</div>
-<div class="kb-diagram-note">+--------v--------+</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Gating Network</div><div class="kb-diagram-cell">(Router: Softmax based)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Top-K Selection)</div></div>
-<div class="kb-diagram-note">+---v---+ +---v---+ +---v---+ +-------+</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Expert1</div><div class="kb-diagram-cell">Expert2</div><div class="kb-diagram-cell">Expert3</div><div class="kb-diagram-cell">..</div><div class="kb-diagram-cell">ExpertN</div><div class="kb-diagram-cell">(FFN Layers)</div></div>
-<div class="kb-diagram-note">+----------v----------+</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sum (Weighted)</div></div>
-<div class="kb-diagram-note">+--------v--------+</div>
-<div class="kb-diagram-note">Output (Token)</div>
-</div>
-</div>
-
-
+         Input (Token)
+               |
+      +--------v--------+
+      | Gating Network  | (Router: Softmax based)
+      | (Top-K Selection)|
+      +---+----+----+---+
+          |    |    |
+    +-----+    |    +-----+
+    |          |          |
++---v---+  +---v---+  +---v---+  +-------+
+|Expert1|  |Expert2|  |Expert3|..|ExpertN| (FFN Layers)
++---+---+  +---+---+  +---+---+  +-------+
+    |          |          |
+    +----------v----------+
+      | Sum (Weighted)  |
+      +--------v--------+
+         Output (Token)
+```
 
 1. <strong>Gating/<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">Routing</a></strong>: 입력 토큰이 들어오면 게이팅 네트워크가 각 전문가의 적합도를 계산하고, 가장 높은 점수를 받은 [Top-K](/knowledge-base/studynote/06_ict_convergence/05_data_science/414_llm_decoder_top_k_temperature/)(보통 1~2개) 전문가에게 데이터를 전달한다.
 2. **Experts (FFN)**: 각 전문가는 특화된 지식을 학습한 피드포워드 신경망(FFN)이다. 예를 들어, 수학 전문가, 코드 전문가, 인문학 전문가 등으로 자연스럽게 역할이 분담된다.

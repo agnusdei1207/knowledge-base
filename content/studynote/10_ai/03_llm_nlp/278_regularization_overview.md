@@ -27,17 +27,14 @@ tags = ["studynote-ai"]
 
 규제 기법은 <strong>과적합을 방지하기 위한 다양한 접근법</strong>이다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 모델 구조, [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/), 학습 과정 각 단계에서 개입할 수 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 과적합 방지는 학생이 기출문제만 달달 외워서 시험을 통과하려는 것을 막고, 개념을 진짜로 이해하도록 유도하는 교육 방법이다. 규제가 없으면 AI도 답을 외우고, 규제가 있으면 진짜 패턴을 학습한다.
 
@@ -47,24 +44,23 @@ tags = ["studynote-ai"]
 
 ### 규제 기법 전체 구조
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">규제(Regularization) 기법 분류</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">손실 함수 기반</div><div class="kb-diagram-cell">L1 규제 (Lasso) : λΣ</div><div class="kb-diagram-cell">w</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L2 규제 (Ridge) : λΣw²</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Elastic Net : L1 + L2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">구조/학습 기반</div><div class="kb-diagram-cell">Dropout : 뉴런 무작위 비활성화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Early Stopping : 검증 손실 기반 중단</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Batch Norm : 활성화 분포 정규화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Max-Norm : 가중치 노름 제한</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 기반</div><div class="kb-diagram-cell">Data Aug. : 훈련 데이터 증강</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mixup/CutMix : 샘플 혼합</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────────┐
+│               규제(Regularization) 기법 분류                │
+├──────────────────┬────────────────────────────────────────┤
+│  손실 함수 기반  │  L1 규제 (Lasso) : λΣ|w|              │
+│                  │  L2 규제 (Ridge) : λΣw²               │
+│                  │  Elastic Net    : L1 + L2              │
+├──────────────────┼────────────────────────────────────────┤
+│  구조/학습 기반  │  Dropout        : 뉴런 무작위 비활성화 │
+│                  │  Early Stopping : 검증 손실 기반 중단  │
+│                  │  Batch Norm     : 활성화 분포 정규화   │
+│                  │  Max-Norm       : 가중치 노름 제한      │
+├──────────────────┼────────────────────────────────────────┤
+│  데이터 기반     │  Data Aug.      : 훈련 데이터 증강     │
+│                  │  Mixup/CutMix   : 샘플 혼합            │
+└──────────────────┴────────────────────────────────────────┘
+```
 
 ### 규제 기법 비교표
 
@@ -79,21 +75,16 @@ tags = ["studynote-ai"]
 
 ### 과적합 발생 진단
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">에포크</div>
-<div class="kb-diagram-note">↓ 과적합 시작</div>
-<div class="kb-diagram-note">손 │ \ 훈련 손실 (계속 감소)</div>
-<div class="kb-diagram-note">실 │ \</div>
-<div class="kb-diagram-note">\ 검증 손실 (증가 시작)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">→ 에포크</div>
-<div class="kb-diagram-note">← 정상 학습 →↑← 과적합 →</div>
-</div>
-</div>
-
-
+```
+에포크
+    │                ↓ 과적합 시작
+손  │  ────────────────\         훈련 손실 (계속 감소)
+실  │                   \────────
+    │     ────────\                검증 손실 (증가 시작)
+    │              \──────────
+    └───────────────────────────→ 에포크
+         ← 정상 학습 →↑← 과적합 →
+```
 
 - **📢 섹션 요약 비유**: 규제 기법들은 학생의 공부 방법 교정 도구들이다. L1/L2는 "중요하지 않은 내용은 잊어버려"이고, Dropout은 "매번 교과서 일부를 가리고 공부해봐"이며, Early Stopping은 "점수가 더 이상 안 오르면 그만해"다.
 
@@ -135,19 +126,16 @@ tags = ["studynote-ai"]
 
 ### 규제 강도(λ) 선택 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">λ (정규화 강도) 선택 가이드:</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">λ 너무 큼 → 과소적합 (모든 가중치 → 0)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">λ 너무 작음 → 규제 효과 없음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">λ 적절 → 일반화 성능 극대화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">탐색 범위: 1e-5 ~ 1e-1 (로그 스케일)</div></div>
-</div>
-</div>
-
-
+```
+λ (정규화 강도) 선택 가이드:
+┌─────────────────────────────────────────────┐
+│  λ 너무 큼   →  과소적합 (모든 가중치 → 0) │
+│  λ 너무 작음 →  규제 효과 없음             │
+│  λ 적절      →  일반화 성능 극대화         │
+│                                             │
+│  탐색 범위: 1e-5 ~ 1e-1 (로그 스케일)     │
+└─────────────────────────────────────────────┘
+```
 
 ### 최신 규제 기법
 

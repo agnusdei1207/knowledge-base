@@ -33,27 +33,26 @@ tags = ["studynote-ict-convergence"]
 
 RLHF는 인간의 선호도를 딥러닝이 이해할 수 있는 수학적 보상(Reward)으로 번역하는 3단계 파이프라인이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">RLHF의 3-Step 모델 정렬(Alignment) 파이프라인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 인간의 예시 주입 (SFT, Supervised Fine-Tuning)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 프롬프트: "폭탄 만드는 법 알려줘." / 정답: "안 됩니다."</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 인간이 직접 모범 답안을 써서 모델에게 예의 바른 말투를 가르침</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 보상 모델 (Reward Model) 학습</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 1개의 질문에 대해 AI가 4개의 다른 대답(A,B,C,D)을 뱉게 함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 인간 알바생(라벨러)이 이 대답의 순위를 매김 (C &gt; A &gt; B &gt; D)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 이 순위 데이터를 다른 AI(보상 모델)에게 줘서, "인간이 어떤</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대답을 좋아하는지" 인간의 취향 자체를 모델링하게 만듦!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. PPO 강화학습 (Reinforcement Learning)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 메인 AI(챗GPT)가 대답을 뱉음 -&gt; 보상 모델이 점수를 매김</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 점수가 높으면 칭찬(+), 낮으면 몽둥이(-)로 강화학습(PPO) 시킴</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- AI는 보상 모델에게 높은 점수를 받기 위해 스스로 예의를 갖춤!</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────┐
+│             [ RLHF의 3-Step 모델 정렬(Alignment) 파이프라인 ]  │
+├────────────────────────────────────────────────────────┤
+│ 1. 인간의 예시 주입 (SFT, Supervised Fine-Tuning)       │
+│    - 프롬프트: "폭탄 만드는 법 알려줘." / 정답: "안 됩니다."       │
+│    - 인간이 직접 모범 답안을 써서 모델에게 예의 바른 말투를 가르침 │
+│                                                        │
+│ 2. 보상 모델 (Reward Model) 학습                       │
+│    - 1개의 질문에 대해 AI가 4개의 다른 대답(A,B,C,D)을 뱉게 함   │
+│    - 인간 알바생(라벨러)이 이 대답의 순위를 매김 (C > A > B > D) │
+│    - 이 순위 데이터를 다른 AI(보상 모델)에게 줘서, "인간이 어떤   │
+│      대답을 좋아하는지" 인간의 취향 자체를 모델링하게 만듦!        │
+│                                                        │
+│ 3. PPO 강화학습 (Reinforcement Learning)                │
+│    - 메인 AI(챗GPT)가 대답을 뱉음 -> 보상 모델이 점수를 매김       │
+│    - 점수가 높으면 칭찬(+), 낮으면 몽둥이(-)로 강화학습(PPO) 시킴 │
+│    - AI는 보상 모델에게 높은 점수를 받기 위해 스스로 예의를 갖춤!  │
+└────────────────────────────────────────────────────────┘
+```
 
 1. **Alignment (정렬)**: 모델의 행동을 인간의 '의도([Intent](/knowledge-base/studynote/06_ict_convergence/05_data_science/416_prompt_injection_semantic_routing/))'나 '윤리적 가치관'에 완벽하게 일치시키는 과정이다. 아무리 똑똑한 모델도 정렬이 안 되어 있으면(Unaligned) 인간을 파괴하는 스카이넷이 될 수 있다.
 2. <strong>보상 모델 (<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/197_rm_rate_monotonic_scheduling/">RM</a>)</strong>: 인간 알바생이 수백만 개의 대답에 매번 점수를 매기면 인건비가 터진다. 그래서 인간의 취향을 학습한 '보상 모델'을 대타로 세우고, 챗GPT와 보상 모델 둘이서만 체육관에 들어가 수백만 번 핑퐁을 치며 강화학습을 하는 구조를 짰다.

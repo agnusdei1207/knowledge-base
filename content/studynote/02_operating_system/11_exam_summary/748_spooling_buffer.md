@@ -19,43 +19,46 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**:
-- I/O 장치(예: 프린터)로 향하는 출력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 곧바로 장치로 쏘지 않고, 임시로 하드 디스크의 특정 영역(Spool [Directory](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/))에 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 형태로 모아둔(큐잉) 다음, 별도의 OS 시스템 데몬이 이를 가져다 장치에 순차적으로 넘겨주는 방식이다.
+- **개념**: 
+  - I/O 장치(예: 프린터)로 향하는 출력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 곧바로 장치로 쏘지 않고, 임시로 하드 디스크의 특정 영역(Spool [Directory](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/))에 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 형태로 모아둔(큐잉) 다음, 별도의 OS 시스템 데몬이 이를 가져다 장치에 순차적으로 넘겨주는 방식이다.
 
-- **필요성(문제의식)**:
-- 과거 시스템에서 워드프로세서가 문서를 인쇄할 때, 프린터는 한 페이지를 찍는 데 수십 초가 걸렸다. 프린터가 종이를 토해낼 때까지 워드프로세서는 다른 작업을 전혀 하지 못하고 멈춰서 기다려야 했다.
-- 게다가 프린터는 '독점 장치(Dedicated Device)'라서 여러 명이 동시에 인쇄 버튼을 누르면 인쇄물이 섞여버리는(Interleaved) 대참사가 났다.
-- **해결책**: "사용자 프로그램은 디스크(빠른 장치)에 인쇄물을 그냥 던져놓고([Spooling](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/)) 퇴근하라 해라! 나중에 프린터가 한가해지면 OS가 디스크에서 하나씩 꺼내 깔끔하게 뽑아줄게."
+- **필요성(문제의식)**: 
+  - 과거 시스템에서 워드프로세서가 문서를 인쇄할 때, 프린터는 한 페이지를 찍는 데 수십 초가 걸렸다. 프린터가 종이를 토해낼 때까지 워드프로세서는 다른 작업을 전혀 하지 못하고 멈춰서 기다려야 했다.
+  - 게다가 프린터는 '독점 장치(Dedicated Device)'라서 여러 명이 동시에 인쇄 버튼을 누르면 인쇄물이 섞여버리는(Interleaved) 대참사가 났다.
+  - **해결책**: "사용자 프로그램은 디스크(빠른 장치)에 인쇄물을 그냥 던져놓고([Spooling](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/)) 퇴근하라 해라! 나중에 프린터가 한가해지면 OS가 디스크에서 하나씩 꺼내 깔끔하게 뽑아줄게."
 
-- 식당에서 요리사(CPU)가 느린 서빙 카트(프린터)에 요리([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 직접 올릴 때까지 기다리면 다음 요리를 못 만든다.
-- 대신 거대한 주방 테이블(디스크 스풀)에 완성된 요리를 차곡차곡 쌓아놓고 곧바로 다음 요리에 들어가면, 홀 서빙 직원(스풀러 데몬)이 테이블에서 1번 요리, 2번 요리를 차례대로 카트에 실어 손님에게 천천히 내어주는 것과 완벽히 일치한다.
+  - 식당에서 요리사(CPU)가 느린 서빙 카트(프린터)에 요리([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 직접 올릴 때까지 기다리면 다음 요리를 못 만든다. 
+  - 대신 거대한 주방 테이블(디스크 스풀)에 완성된 요리를 차곡차곡 쌓아놓고 곧바로 다음 요리에 들어가면, 홀 서빙 직원(스풀러 데몬)이 테이블에서 1번 요리, 2번 요리를 차례대로 카트에 실어 손님에게 천천히 내어주는 것과 완벽히 일치한다.
 
-- **등장 배경**:
-- 1950~60년대 천공 카드 리더기나 마그네틱 테이프 같은 끔찍하게 느린 입출력 기기 때문에 고가의 메인프레임 CPU가 멍때리는 시간을 줄이기 위해 개발되었다. 'On-Line'이라는 말은 천공 카드를 오프라인 장비로 따로 빼서 읽던 시절, 본체(On-Line) 디스크를 활용해 이 갭을 메웠다는 역사적 의미를 담고 있다.
+- **등장 배경**: 
+  - 1950~60년대 천공 카드 리더기나 마그네틱 테이프 같은 끔찍하게 느린 입출력 기기 때문에 고가의 메인프레임 CPU가 멍때리는 시간을 줄이기 위해 개발되었다. 'On-Line'이라는 말은 천공 카드를 오프라인 장비로 따로 빼서 읽던 시절, 본체(On-Line) 디스크를 활용해 이 갭을 메웠다는 역사적 의미를 담고 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스풀링 적용 전후의 시스템 처리 흐름 차이</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">적용 전: 직접 I/O (응용 프로그램 차단 병목)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App A ──(직접 인쇄 시작)──▶ 프린터 (1분 소요)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App B ──(인쇄 버튼 누름)──▶ ⚠ 사용 중 거부 (Busy) 또는 데이터 섞임</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ App A는 프린터가 다 찍을 때까지 1분간 화면이 멈춤(Freeze) 발생</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">적용 후: 디스크 스풀링 구조 (비동기 해방)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">디스크 스풀 영역</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">App A 해방!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(File 1)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">디스크 스풀 영역</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">App B 해방!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(File 2)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (스풀 큐 - FIFO)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">OS Spooler Daemon</div><div class="kb-diagram-note">(백그라운드 프로세스)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. File 1 꺼내서 프린터 전송</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 다 끝나면 File 2 전송</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프린터 (느려도 상관없이 자기 페이스대로 인쇄)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │                 스풀링 적용 전후의 시스템 처리 흐름 차이             │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │  [적용 전: 직접 I/O (응용 프로그램 차단 병목)]                     │
+  │                                                             │
+  │  App A ──(직접 인쇄 시작)──▶ 프린터 (1분 소요)                     │
+  │  App B ──(인쇄 버튼 누름)──▶ ⚠ 사용 중 거부 (Busy) 또는 데이터 섞임  │
+  │   ※ App A는 프린터가 다 찍을 때까지 1분간 화면이 멈춤(Freeze) 발생      │
+  │                                                             │
+  │  [적용 후: 디스크 스풀링 구조 (비동기 해방)]                       │
+  │                                                             │
+  │  App A ──▶ [디스크 스풀 영역] (1초 만에 저장 완료 -> App A 해방!) │
+  │                 │    (File 1)                               │
+  │  App B ──▶ [디스크 스풀 영역] (1초 만에 저장 완료 -> App B 해방!) │
+  │                 │    (File 2)                               │
+  │                 │                                           │
+  │                 ▼ (스풀 큐 - FIFO)                           │
+  │           [ OS Spooler Daemon ]  (백그라운드 프로세스)         │
+  │                 │ 1. File 1 꺼내서 프린터 전송                  │
+  │                 │ 2. 다 끝나면 File 2 전송                      │
+  │                 ▼                                           │
+  │              프린터 (느려도 상관없이 자기 페이스대로 인쇄)             │
+  └─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** [스풀링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/) 아키텍처의 핵심은 거대한 하드 디스크를 '버퍼'로 삼아 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 송신자(응용 프로그램)와 수신자(프린터)의 시간 축을 완전히 분리(Decoupling)하는 데 있다. 사용자는 인쇄를 누르자마자 1초 만에 디스크 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)가 끝나므로 인쇄가 끝난 줄 착각하고 즉시 다른 문서 작업으로 돌아갈 수 있다. 반면 OS 내부에 몰래 숨어있는 스풀러 데몬(`lpd`, `CUPS` 등)은 디스크에 차곡차곡 쌓인 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(큐)을 들여다보며, 프린터가 쉬고 있을 때마다 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 꺼내 차례대로 넘겨준다. 독점 장치가 마치 다중 사용자 공유 장치인 것처럼 보이는 가상화의 한 형태다.
 
@@ -80,26 +83,29 @@ tags = ["studynote-operating-system"]
 
 두 기술 모두 송신자와 수신자의 "속도 차이를 보완"하기 위해 임시 저장소를 둔다는 철학은 같지만, 규모와 목적지에서 명확한 급의 차이가 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 버퍼링 vs 디스크 스풀링의 구조적 차이</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">버퍼링 (Buffering)</div><div class="kb-diagram-node">스풀링 (Spooling)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위치: 메인 메모리 (RAM) 위치: 하드 디스크 (보조기억장치)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">크기: 작음 (수 KB ~ 수 MB) 크기: 큼 (수백 MB ~ 수 GB)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">메모리 버퍼</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">디스크 Spool</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App B ─▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단일 작업(Single Job)의 속도 보완</div><div class="kb-diagram-cell">▼</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">(디스크에 쓰기 전에 메모리에 묶기)</div><div class="kb-diagram-node">스풀 데몬</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 프린터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다중 작업(Multi Job)의 큐잉 및 독점장치 공유</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ 차이점 요약: 버퍼링은 1개 작업의 데이터 조각을 잠시 모아주는 "임시 바구니"고,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스풀링은 여러 사용자의 거대한 작업을 겹치지 않게 줄 세우는 "대형 창고"다.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 메모리 버퍼링 vs 디스크 스풀링의 구조적 차이            │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [ 버퍼링 (Buffering) ]          [ 스풀링 (Spooling) ]             │
+  │                                                                   │
+  │   위치: 메인 메모리 (RAM)           위치: 하드 디스크 (보조기억장치)         │
+  │   크기: 작음 (수 KB ~ 수 MB)        크기: 큼 (수백 MB ~ 수 GB)           │
+  │                                                                   │
+  │   App ──▶[메모리 버퍼]──▶ 디스크   App A ─▶ [디스크 Spool]            │
+  │              ▲                        │      │      │            │
+  │              │                        │   App B ─▶  │            │
+  │  단일 작업(Single Job)의 속도 보완        │             ▼            │
+  │  (디스크에 쓰기 전에 메모리에 묶기)         │        [스풀 데몬]           │
+  │                                       │             │            │
+  │                                       └───────────▶ 프린터        │
+  │                                  다중 작업(Multi Job)의 큐잉 및 독점장치 공유 │
+  │                                                                   │
+  │   ※ 차이점 요약: 버퍼링은 1개 작업의 데이터 조각을 잠시 모아주는 "임시 바구니"고, │
+  │               스풀링은 여러 사용자의 거대한 작업을 겹치지 않게 줄 세우는 "대형 창고"다.│
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** [버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/)은 한 프로세스가 테이프나 디스크로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보낼 때, 메모리 램(RAM)에 일정량의 버퍼 블록을 만들어 두고 거기를 채우는 동안 CPU 연산을 겹치게(Overlap) 만드는 미시적 기술이다. 이는 '단일 프로세스' 내에서 이루어진다. 반면 [스풀링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/)은 저장 매체가 거대한 디스크이며, OS 레벨에서 A 프로그램, B 프로그램이 동시에 던진 출력물 전체를 가상의 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))로 관리하여 '여러 프로세스'가 하나의 독점 장치를 안전하게 공유([Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/))할 수 있게 만드는 거시적 스케줄링 기술이다. [버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/)이 하천의 작은 웅덩이라면 [스풀링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/)은 거대한 다목적 댐과 같다.
 
@@ -133,30 +139,31 @@ tags = ["studynote-operating-system"]
 ### 실무 시나리오 및 트러블슈팅
 
 1. **시나리오 — 사내 프린트 서버 디스크 Full 장애 (Spool 폭주)**: 연말정산 시기에 500명의 직원이 동시에 PDF 증빙 서류 수십 장을 프린터 서버에 전송했다. 리눅스 서버의 `/var` [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 용량이 100%가 되면서 프린터 데몬뿐 아니라 서버의 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 기록 기능([syslog](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/535_syslog_protocol_udp_514/))까지 모조리 죽어버리는 시스템 장애가 발생.
-- <strong>아키텍트 판단 (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a> 분리 및 용량 통제)</strong>: 디스크 [스풀링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/)의 치명적 약점은 스풀 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 커질 때 OS의 중요 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)을 침범한다는 것이다. 아키텍트는 서버 설계 시 반드시 시스템 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)(`/var/log`)과 스풀 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)(`/var/spool`)을 별도의 물리 디스크나 LVM 볼륨으로 분리([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/))해야 한다. 또한 CUPS [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)(`MaxJobSize`, `MaxJobs`)을 튜닝하여 큐에 쌓이는 최대 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 용량의 상한선(Limit)을 걸어 장애 전파를 막는다.
+   - <strong>아키텍트 판단 (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a> 분리 및 용량 통제)</strong>: 디스크 [스풀링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/)의 치명적 약점은 스풀 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 커질 때 OS의 중요 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)을 침범한다는 것이다. 아키텍트는 서버 설계 시 반드시 시스템 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)(`/var/log`)과 스풀 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)(`/var/spool`)을 별도의 물리 디스크나 LVM 볼륨으로 분리([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/))해야 한다. 또한 CUPS [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)(`MaxJobSize`, `MaxJobs`)을 튜닝하여 큐에 쌓이는 최대 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 용량의 상한선(Limit)을 걸어 장애 전파를 막는다.
 
 2. **시나리오 — 비동기 배치(Batch) 작업의 병목 해결**: 고객이 웹 페이지에서 "1년 치 엑셀 리포트 다운로드" 버튼을 누르면 서버 렌더링에 3분이 걸려, 사용자가 브라우저 로딩 창을 띄워놓고 기다리다 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 에러를 맞고 이탈함.
-- <strong>아키텍트 판단 (소프트웨어적 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/">스풀링</a> 도입)</strong>: 동기적 웹 요청을 <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/">스풀링</a> 패턴</strong>으로 바꾼다. 브라우저가 요청을 보내면 웹 서버는 즉시 "요청이 접수되었습니다"라고 비동기 응답([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 202 Accepted)을 던지고 사용자를 해방시킨다. 엑셀 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 작업은 메시지 큐([Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/), SQS 등 스풀 역할)에 쌓이고, 백그라운드 워커 프로세스(스풀 데몬)가 여유 리소스 내에서 엑셀을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)해 S3에 올린 뒤 이메일이나 푸시 알림으로 다운로드 링크를 보내는 방식으로 전체 UX와 시스템 안정성을 구출한다.
+   - <strong>아키텍트 판단 (소프트웨어적 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/">스풀링</a> 도입)</strong>: 동기적 웹 요청을 <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/">스풀링</a> 패턴</strong>으로 바꾼다. 브라우저가 요청을 보내면 웹 서버는 즉시 "요청이 접수되었습니다"라고 비동기 응답([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 202 Accepted)을 던지고 사용자를 해방시킨다. 엑셀 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 작업은 메시지 큐([Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/), SQS 등 스풀 역할)에 쌓이고, 백그라운드 워커 프로세스(스풀 데몬)가 여유 리소스 내에서 엑셀을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)해 S3에 올린 뒤 이메일이나 푸시 알림으로 다운로드 링크를 보내는 방식으로 전체 UX와 시스템 안정성을 구출한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메시지 큐(Message Queue)를 활용한 현대적 스풀링 설계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">동기식(Sync) 구조 - 타임아웃 장애 발생</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client (리포트 요청: 3분 대기) ▶ Web Server ──▶ DB 부하</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">X 타임아웃 발생 (연결 끊김, CPU 낭비)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">비동기식(Async) 스풀링 구조 - 안정적 처리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">거대한 완충 댐 (Spool/MQ)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">메시지 큐 (Kafka, SQS)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">──3. 폴링 ── Worker</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲</div><div class="kb-diagram-cell">(작업 ID: 1234 생성)</div><div class="kb-diagram-cell">(백그라운드)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. "요청 접수" 즉시 응답</div><div class="kb-diagram-cell">▼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(리포트 DB)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client ──4.나중에 작업완료 알림 ◀── (푸시 알림/이메일 전송)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 메시지 큐(Message Queue)를 활용한 현대적 스풀링 설계        │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [동기식(Sync) 구조 - 타임아웃 장애 발생]                               │
+  │   Client ─────(리포트 요청: 3분 대기)─────▶ Web Server ──▶ DB 부하      │
+  │      X 타임아웃 발생 (연결 끊김, CPU 낭비)                                │
+  │                                                                   │
+  │   [비동기식(Async) 스풀링 구조 - 안정적 처리]                            │
+  │                   [ 거대한 완충 댐 (Spool/MQ) ]                     │
+  │   Client ──1.요청──▶ [ 메시지 큐 (Kafka, SQS) ]  ◀──3. 폴링 ── Worker │
+  │      ▲             │  (작업 ID: 1234 생성)  │              (백그라운드)│
+  │      │             └─────────┬────────────┘                   │  │
+  │      │ 2. "요청 접수" 즉시 응답  │                              ▼  │
+  │      └───────────────────────┘                         (리포트 DB)│
+  │                                                                │  │
+  │   Client ──4.나중에 작업완료 알림 ◀── (푸시 알림/이메일 전송) ────────┘  │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 아키텍처 도식은 반세기 전에 개발된 OS 프린터 [스풀링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/)의 개념이 오늘날 어떻게 대용량 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템의 생존 전략으로 쓰이는지 보여준다. 느린 프린터가 "느린 DB/배치 워커"로 치환되었고, 디스크 스풀 폴더가 "[Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 메시지 큐"로 치환되었을 뿐 사상은 100% 동일하다. 생산자([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/))가 소비자의 처리 속도에 발목 잡히지 않게 중간에 비동기식 큐라는 완충 지대를 두는 것, 이것이 병목을 해소하고 확장성(Scalability)을 달성하는 [스풀링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/) 철학의 정수다.
 
@@ -187,7 +194,7 @@ tags = ["studynote-operating-system"]
 
 [스풀링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/)은 "장치가 느리다면, 그냥 빠른 장치를 대타로 세워 속이자"라는 해커적인 발상에서 시작된 기술이다. 메모리 버퍼가 미세한 톱니바퀴의 맞물림을 돕는 윤활유라면, 디스크 [스풀링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/)은 시스템 간의 거대한 시차를 비동기라는 마법으로 감춰버리는 대형 댐이다. 시스템을 설계할 때 '어쩔 수 없이 느린 하드웨어나 타 시스템'을 마주하게 된다면 아키텍트의 머릿속에 가장 먼저 떠올라야 하는 제1의 디자인 패턴이다.
 
-- **📢 섹션 요약 비유**: 쏟아지는 장맛비(애플리케이션의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 폭주)를 작은 하수구(느린 프린터)로 무작정 흘려보내 홍수가 나게 방치하는 대신, 거대한 다목적 댐(스풀 디스크)을 지어 빗물을 안전하게 담아두고 하수구가 소화할 수 있을 만큼만 졸졸 흘려보내는 완벽한 치수() 공학입니다.
+- **📢 섹션 요약 비유**: 쏟아지는 장맛비(애플리케이션의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 폭주)를 작은 하수구(느린 프린터)로 무작정 흘려보내 홍수가 나게 방치하는 대신, 거대한 다목적 댐(스풀 디스크)을 지어 빗물을 안전하게 담아두고 하수구가 소화할 수 있을 만큼만 졸졸 흘려보내는 완벽한 치수(治水) 공학입니다.
 
 ---
 
@@ -202,19 +209,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">I/O 풀링 (Polling) 오버헤드</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스풀링 (Spooling) 버퍼</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">메모리 매핑 파일 (mmap)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">쓰기 시 복사 (COW)</div></div>
-</div>
-</div>
-
-
+```text
+[I/O 풀링 (Polling) 오버헤드]
+    │
+    ▼
+[스풀링 (Spooling) 버퍼]
+    │
+    ├──▶ [메모리 매핑 파일 (mmap)]
+    └──▶ [쓰기 시 복사 (COW)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

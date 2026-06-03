@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 공장의 수치 제어기([PLC](/knowledge-base/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/)), 컨베이어 벨트 센서들은 흔히 PROFINET이나 Modbus 같은 <strong>L2 (2계층, 데이터링크 계층) 기반의 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">이더넷</a> 통신(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> 주소 통신)</strong>만을 알아듣도록 수십 년 전에 설계되었습니다.
 - 공장을 무선([5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/))으로 바꾸려면 로봇 엉덩이에 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 모뎀을 달아야 하는데, [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 코어망([5GC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/768_5gc_5g_core_network_evolution/))은 L3 (IP 패킷) 방식의 라우팅만 처리합니다. L2 방식의 공장 언어는 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 망 입구에서 튕겨 나갑니다. 기존엔 중간에 무거운 변환 공유기(라우터)를 주렁주렁 달아야 해서 1ms 초저지연이 다 깨졌습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">프라이빗 5G망</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">5G LAN 스위치 대체 이더넷 투명 연계형…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">홀로그램 무선 전송 압축/다시점 비디오 체계…</div></div>
-</div>
-</div>
-
-
+```text
+[프라이빗 5G망]
+    │
+    ▼
+[5G LAN 스위치 대체 이더넷 투명 연계형…]
+    │
+    └──▶ [홀로그램 무선 전송 압축/다시점 비디오 체계…]
+```
 
 - **📢 섹션 요약 비유**: [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) LAN [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 대체 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 투명 연계형…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -44,18 +40,14 @@ tags = ["studynote-network"]
 - **개념**: [3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) Rel-16에서 도입된 혁신 기술로, [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 코어망(UPF) 전체가 IP 라우터가 아닌 <strong>거대한 하나의 L2 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">이더넷</a> <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>(투명한 브릿지)</strong>처럼 동작하도록 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 망의 통신 계층 뼈대를 파격적으로 하향 조정하여 호환시켜 주는 융합 망 기술입니다.
 - **핵심 원리**: 공장 로봇 A와 로봇 B는 허공에 떠 있는 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 무선 전파를 통해 통신하고 있지만, 정작 로봇들의 뇌(제어기)는 "아, 우리는 지금 5m짜리 파란색 유선 랜선 하나로 직접 꽂혀 있구나!"라고 완벽하게 착각(투명 연계)하게 만듭니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">프라이빗 5G망</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">5G LAN 스위치 대체 이더넷 투명 연계형…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">홀로그램 무선 전송 압축/다시점 비디오 체계…</div></div>
-</div>
-</div>
-
-
+```text
+[프라이빗 5G망]
+    │
+    ▼
+[5G LAN 스위치 대체 이더넷 투명 연계형…]
+    │
+    └──▶ [홀로그램 무선 전송 압축/다시점 비디오 체계…]
+```
 
 - **📢 섹션 요약 비유**: [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) LAN [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 대체 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 투명 연계형…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -117,19 +109,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 프라이빗 5G망</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 5G LAN 스위치 대체 이더넷 투명 연계형…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 홀로그램 무선 전송 압축/다시점 비디오 체계…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 네트워크 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 프라이빗 5G망]
+    │
+    ▼
+[현재 개념: 5G LAN 스위치 대체 이더넷 투명 연계형…]
+    │
+    ├──▶ [확장 A: 홀로그램 무선 전송 압축/다시점 비디오 체계…]
+    └──▶ [확장 B: AI 기반 네트워크 최적화]
+```
 
 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) LAN [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 대체 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 투명 연계형…는 프라이빗 5G망에서 출발해 현재 메커니즘을 정교화하고, 이후 홀로그램 무선 전송 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)/다시점 비디오 체계…와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

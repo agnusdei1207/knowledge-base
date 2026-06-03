@@ -21,18 +21,14 @@ tags = ["studynote-network"]
 
 - **개념**: 별도의 무결손(Lossless) [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 환경을 억지로 구축할 필요 없이, <strong>우리가 일상적으로 쓰는 전통적인 <a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a>/IP <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a>의 표준 동작 방식 그대로 위에서 <a href="/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/">RDMA</a> (원격 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/450_dma_direct_memory_access/">직접 메모리 접근</a>) 기능과 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 우회 기술을 구현해 내는 네트워크 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a></strong>입니다. ([IETF](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/) 표준)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">RoCE</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">iWARP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">오버레이 네트워크 논리 스위치 L2 확장 터…</div></div>
-</div>
-</div>
-
-
+```text
+[RoCE]
+    │
+    ▼
+[iWARP]
+    │
+    └──▶ [오버레이 네트워크 논리 스위치 L2 확장 터…]
+```
 
 - **📢 섹션 요약 비유**: iWARP는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -51,18 +47,14 @@ tags = ["studynote-network"]
 - TCP는 본질적으로 '[신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)' 보장 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)입니다. 인터넷 가다가 패킷이 땅에 떨어져(Drop) 사라지면? [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 자체가 폰에서 다시 쏘라고(재전송) 알아서 완벽하게 커버를 쳐줍니다.
 - <strong>결과 (<a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/">호환성</a> 극대화)</strong>: [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)의 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 그 어떤 특수 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)(PFC 등 무결손 세팅)을 할 필요가 단 1도 없습니다. <strong>그냥 용산에서 산 만원짜리 싸구려 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>를 써도, iWARP 랜카드(RNIC)만 꽂으면 인터넷(WAN)을 넘나들며 완벽하게 <a href="/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/">RDMA</a> 통신이 성립</strong>합니다. 전산실 아저씨들이 가장 편해하는 기술입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">RoCE</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">iWARP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">오버레이 네트워크 논리 스위치 L2 확장 터…</div></div>
-</div>
-</div>
-
-
+```text
+[RoCE]
+    │
+    ▼
+[iWARP]
+    │
+    └──▶ [오버레이 네트워크 논리 스위치 L2 확장 터…]
+```
 
 - **📢 섹션 요약 비유**: iWARP의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -71,7 +63,7 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 - [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)은 최고지만, TCP는 태생적으로 너무 무겁고 복잡합니다. 
-- iWARP 랜카드(하드웨어 칩셋)가 이 복잡한 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 패킷을 다 포장하고 에러 처리를 하려다 보니([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) Offload Engine, [TOE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/588_toe/)), 칩셋의 설계가 미친 듯이 복잡해지고 단가가 비싸졌습니다.
+- iWARP 랜카드(하드웨어 칩셋)가 이 복잡한 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 패킷을 다 포장하고 에러 처리를 하려다 보니([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) Offload 엔진, [TOE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/588_toe/)), 칩셋의 설계가 미친 듯이 복잡해지고 단가가 비싸졌습니다.
 - 반면 [RoCE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/523_roce/) v2는 칩셋 만들기가 쉽고, 속도([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 면에서 iWARP보다 조금 더 빠릅니다. 결국 현재 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 클라우드 인프라의 거대한 대세 패권(엔비디아 주도)은 [RoCE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/523_roce/) v2가 가져갔고, iWARP는 일부 스토리지 망(마이크로소프트 진영) 등에서 제한적으로 쓰이고 있습니다.
 
 iWARP를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. RoCE가 기반 조건을 만든다면, iWARP는 그 위에서 핵심 메커니즘을 구현하고, [오버레이 네트워크](/knowledge-base/studynote/03_network/16_data_center_cloud/815_overlay_network_virtualization_l2_extension/) [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) L2 확장 터…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 확장성과 운영 자동화에 어떤 차이를 만드는지 비교하는 것이 중요하다.
@@ -124,19 +116,15 @@ iWARP는 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_c
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: RoCE</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: iWARP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 오버레이 네트워크 논리 스위치 L2 확장 터…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: RoCE]
+    │
+    ▼
+[현재 개념: iWARP]
+    │
+    ├──▶ [확장 A: 오버레이 네트워크 논리 스위치 L2 확장 터…]
+    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
+```
 
 iWARP는 RoCE에서 출발해 현재 메커니즘을 정교화하고, 이후 [오버레이 네트워크](/knowledge-base/studynote/03_network/16_data_center_cloud/815_overlay_network_virtualization_l2_extension/) [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) L2 확장 터…와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

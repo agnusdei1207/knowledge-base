@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 1033번 [지그비](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/)([Zigbee](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/)), 1032번 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)([BLE](/knowledge-base/studynote/03_network/12_iot_wpan_edge/607_ble_bluetooth_low_energy_iot/)), Wi-Fi, [Z-Wave](/knowledge-base/studynote/03_network/12_iot_wpan_edge/610_z_wave_900mhz_smart_home_iot/) 등 수십 개의 통신 기술이 난립했습니다.
 - 삼성 전구를 사면 애플 시리(Siri)로 불을 끌 수가 없었고, 거실에 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)(브릿지)를 제조사별로 주렁주렁 5대씩 꽂아놔야 하는 생태계 파편화([Fragmentation](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/))가 스마트홈 대중화의 목을 조르고 있었습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">CoAP 프로토콜 및 REST 인터페이스</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">매터와 스레드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SD-WAN 중앙 정책 관리형 브랜치</div></div>
-</div>
-</div>
-
-
+```text
+[CoAP 프로토콜 및 REST 인터페이스]
+    │
+    ▼
+[매터와 스레드]
+    │
+    └──▶ [SD-WAN 중앙 정책 관리형 브랜치]
+```
 
 - **📢 섹션 요약 비유**: [매터](/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/)와 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -44,18 +40,14 @@ tags = ["studynote-network"]
 - **개념**: 애플, 구글, 아마존, 삼성전자(CSA 연합체)가 손잡고 발표한 <strong>스마트홈 기기 간의 궁극적 '상호 운용성(<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/084_blockchain_interoperability_polkadot_cosmos/">Interoperability</a>)'을 보장하는 글로벌 로열티 프리(무료) 통합 통신 표준</strong>입니다.
 - **혁명적 효과**: 이제 전구 껍데기에 <strong>'<a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/">Matter</a> 로고'</strong> 하나만 딱 찍혀 있으면, 이 전구가 샤오미 거든 삼성 거든 아무 상관이 없습니다. 내가 아이폰(애플 홈)을 쓰든 갤럭시에 빅스비(스마트싱스)를 쓰든, 바코드만 찍으면 1초 만에 100% 한 방에 연동되어 통제됩니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">CoAP 프로토콜 및 REST 인터페이스</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">매터와 스레드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SD-WAN 중앙 정책 관리형 브랜치</div></div>
-</div>
-</div>
-
-
+```text
+[CoAP 프로토콜 및 REST 인터페이스]
+    │
+    ▼
+[매터와 스레드]
+    │
+    └──▶ [SD-WAN 중앙 정책 관리형 브랜치]
+```
 
 - **📢 섹션 요약 비유**: [매터](/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/)와 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -124,19 +116,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: CoAP 프로토콜 및 REST 인터페이스</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 매터와 스레드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: SD-WAN 중앙 정책 관리형 브랜치</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: CoAP 프로토콜 및 REST 인터페이스]
+    │
+    ▼
+[현재 개념: 매터와 스레드]
+    │
+    ├──▶ [확장 A: SD-WAN 중앙 정책 관리형 브랜치]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 [매터](/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/)와 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 [CoAP](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 및 [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) 인터페이스에서 출발해 현재 메커니즘을 정교화하고, 이후 [SD-WAN](/knowledge-base/studynote/03_network/16_data_center_cloud/849_sd_wan_software_defined_wide_area_network/) 중앙 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 관리형 브랜치와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -20,25 +20,23 @@ tags = ["studynote-data-engineering"]
 
 ### 1.1 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장 아키텍처의 진화
 
+```
+1세대: 데이터 웨어하우스 (DW)
+  장점: ACID, 스키마 관리, BI 연동
+  단점: 고비용, 정형 데이터만, 확장성 한계
 
+      ↓ (비정형/반정형 데이터 폭증)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">1세대: 데이터 웨어하우스 (DW)</div>
-<div class="kb-diagram-note">장점: ACID, 스키마 관리, BI 연동</div>
-<div class="kb-diagram-note">단점: 고비용, 정형 데이터만, 확장성 한계</div>
-<div class="kb-diagram-note">↓ (비정형/반정형 데이터 폭증)</div>
-<div class="kb-diagram-note">2세대: 데이터 레이크 (Data Lake)</div>
-<div class="kb-diagram-note">장점: 저비용(S3), 정형+비정형, 무한 확장</div>
-<div class="kb-diagram-note">단점: ACID 없음, 스키마 관리 어려움, 데이터 늪(Data Swamp)</div>
-<div class="kb-diagram-note">↓ (ML 워크로드 + 실시간 분석 요구)</div>
-<div class="kb-diagram-note">3세대: 데이터 레이크하우스 (Data Lakehouse)</div>
-<div class="kb-diagram-note">장점: DW + 레이크 장점 통합</div>
-<div class="kb-diagram-note">핵심: Delta Lake / Apache Iceberg / Apache Hudi</div>
-</div>
-</div>
+2세대: 데이터 레이크 (Data Lake)
+  장점: 저비용(S3), 정형+비정형, 무한 확장
+  단점: ACID 없음, 스키마 관리 어려움, 데이터 늪(Data Swamp)
 
+      ↓ (ML 워크로드 + 실시간 분석 요구)
 
+3세대: 데이터 레이크하우스 (Data Lakehouse)
+  장점: DW + 레이크 장점 통합
+  핵심: Delta Lake / Apache Iceberg / Apache Hudi
+```
 
 ### 1.2 세 아키텍처 비교
 
@@ -61,23 +59,17 @@ tags = ["studynote-data-engineering"]
 
 Delta Lake는 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 스토리지 레이어로, [오브젝트 스토리지](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/494_object_storage/)([Object Storage](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/494_object_storage/)) 위에 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)(`_delta_log/`)를 추가해 ACID를 구현한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">S3 또는 ADLS 버킷</div>
-<div class="kb-diagram-tree-item" style="--depth:0">_delta_log/ ← 트랜잭션 로그 (JSON 파일들)</div>
-<div class="kb-diagram-note">── 00000000000000000000.json (커밋 0: 초기 생성)</div>
-<div class="kb-diagram-note">── 00000000000000000001.json (커밋 1: 데이터 추가)</div>
-<div class="kb-diagram-note">── 00000000000000000002.json (커밋 2: 업데이트)</div>
-<div class="kb-diagram-note">── 00000000000000000010.checkpoint.parquet (체크포인트)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">part-00000-abc.parquet ← 실제 데이터 파일</div>
-<div class="kb-diagram-tree-item" style="--depth:0">part-00001-def.parquet</div>
-<div class="kb-diagram-tree-item" style="--depth:0">part-00002-ghi.parquet</div>
-</div>
-</div>
-
-
+```
+S3 또는 ADLS 버킷
+├── _delta_log/                ← 트랜잭션 로그 (JSON 파일들)
+│   ├── 00000000000000000000.json   (커밋 0: 초기 생성)
+│   ├── 00000000000000000001.json   (커밋 1: 데이터 추가)
+│   ├── 00000000000000000002.json   (커밋 2: 업데이트)
+│   └── 00000000000000000010.checkpoint.parquet (체크포인트)
+├── part-00000-abc.parquet     ← 실제 데이터 파일
+├── part-00001-def.parquet
+└── part-00002-ghi.parquet
+```
 
 <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a> <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a> 동작 원리</strong>:
 - 모든 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 작업(INSERT, UPDATE, DELETE, MERGE)은 먼저 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)에 기록
@@ -88,23 +80,23 @@ Delta Lake는 [오픈소스](/knowledge-base/studynote/12_it_management/05_secur
 
 [Parquet](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/)([파케이](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/))는 Apache에서 개발한 컬럼 지향(Columnar) 바이너리 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 형식으로, 분석 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)에 최적화되어 있다.
 
+```
+행 지향 저장 (Row-oriented, CSV/JSON):
+┌────┬──────────┬────────┬────────┐
+│ ID │   이름   │  나이  │  매출  │
+├────┼──────────┼────────┼────────┤
+│  1 │  홍길동  │   30   │  1000  │
+│  2 │  김철수  │   25   │  2000  │
+│  3 │  이영희  │   35   │  1500  │
+└────┴──────────┴────────┴────────┘
+→ "매출 합계"를 구하려면 모든 행을 읽어야 함
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">행 지향 저장 (Row-oriented, CSV/JSON):</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ID</div><div class="kb-diagram-cell">이름</div><div class="kb-diagram-cell">나이</div><div class="kb-diagram-cell">매출</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">홍길동</div><div class="kb-diagram-cell">30</div><div class="kb-diagram-cell">1000</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2</div><div class="kb-diagram-cell">김철수</div><div class="kb-diagram-cell">25</div><div class="kb-diagram-cell">2000</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3</div><div class="kb-diagram-cell">이영희</div><div class="kb-diagram-cell">35</div><div class="kb-diagram-cell">1500</div></div>
-<div class="kb-diagram-note">→ "매출 합계"를 구하려면 모든 행을 읽어야 함</div>
-<div class="kb-diagram-note">컬럼 지향 저장 (Columnar, Parquet):</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">매출 컬럼만 읽기:</div><div class="kb-diagram-node">1000,2000,1500</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ SUM = 4500 ← 다른 컬럼 스킵</div></div>
-</div>
-</div>
-
-
+컬럼 지향 저장 (Columnar, Parquet):
+┌──────────────────────────────────┐
+│ 매출 컬럼만 읽기: [1000,2000,1500]│
+│ → SUM = 4500  ← 다른 컬럼 스킵  │
+└──────────────────────────────────┘
+```
 
 <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/">Parquet</a> <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a> 효율</strong>: 동일 타입의 값이 연속 저장되어 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)률이 매우 높다.
 
@@ -158,22 +150,27 @@ RESTORE TABLE orders TO VERSION AS OF 3;
 
 ### 3.2 [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) 전체 아키텍처
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 레이크하우스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BI 도구</div><div class="kb-diagram-cell">ML 플랫폼</div><div class="kb-diagram-cell">SQL 엔진</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tableau</div><div class="kb-diagram-cell">MLflow</div><div class="kb-diagram-cell">Spark SQL</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">통합 쿼리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Delta Lake / Iceberg / Hudi</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(ACID + 스키마 관리 + 타임 트래블)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오브젝트 스토리지 (S3 / Azure ADLS / GCS)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Parquet 파일 + _delta_log/ 트랜잭션 로그</div></div>
-</div>
-</div>
-
-
+```
+┌────────────────────────────────────────────────────────┐
+│                   데이터 레이크하우스                    │
+│                                                        │
+│  ┌──────────┐  ┌──────────┐  ┌──────────┐             │
+│  │ BI 도구  │  │ ML 플랫폼│  │ SQL 엔진 │             │
+│  │ Tableau  │  │ MLflow   │  │ Spark SQL│             │
+│  └────┬─────┘  └────┬─────┘  └────┬─────┘            │
+│       └─────────────┴─────────────┘                   │
+│                      │ 통합 쿼리                        │
+│  ┌───────────────────▼──────────────────────────────┐  │
+│  │         Delta Lake / Iceberg / Hudi               │  │
+│  │    (ACID + 스키마 관리 + 타임 트래블)             │  │
+│  └───────────────────┬──────────────────────────────┘  │
+│                      │                                 │
+│  ┌───────────────────▼──────────────────────────────┐  │
+│  │     오브젝트 스토리지 (S3 / Azure ADLS / GCS)    │  │
+│  │     Parquet 파일 + _delta_log/ 트랜잭션 로그     │  │
+│  └──────────────────────────────────────────────────┘  │
+└────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/)는 '스마트 물류창고'다 — 물건([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))은 거대한 야외 창고(S3)에 [Parquet](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/) 박스로 쌓이고, [Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 모든 입출고 기록을 ACID로 보장하며, ML·BI 팀이 같은 창고를 공유한다.
 
@@ -246,23 +243,18 @@ VACUUM delta.`/data/orders` RETAIN 168 HOURS;  -- 7일 이내 보존
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Data Lake (유연 · 거버넌스 부족)</div>
-<div class="kb-diagram-note">╳</div>
-<div class="kb-diagram-note">▼ Data Warehouse (정확 · 유연성 부족)</div>
-<div class="kb-diagram-note">Lakehouse 통합</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Delta Lake: ACID + Time Travel + Parquet</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Apache Iceberg: Hidden Partitioning</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Apache Hudi: Upsert + CDC 특화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Unity Catalog · Open Table Format 표준화</div>
-</div>
-</div>
-
-
+```text
+Data Lake (유연 · 거버넌스 부족)
+    │         ╳
+    ▼     Data Warehouse (정확 · 유연성 부족)
+Lakehouse 통합
+    ├─► Delta Lake: ACID + Time Travel + Parquet
+    ├─► Apache Iceberg: Hidden Partitioning
+    └─► Apache Hudi: Upsert + CDC 특화
+    │
+    ▼
+Unity Catalog · Open Table Format 표준화
+```
 2. [Parquet](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 블록을 종류별로 꽉꽉 눌러서 지퍼백에 담아 놓은 것 — 같은 종류끼리 있으니 공간도 적게 차지하고, 필요한 것만 꺼내기도 쉬워.
 3. 타임 트래블은 '되감기 버튼'이야 — 실수로 블록을 버렸어도 어제 창고 상태로 되돌릴 수 있으니 걱정 없어!
 

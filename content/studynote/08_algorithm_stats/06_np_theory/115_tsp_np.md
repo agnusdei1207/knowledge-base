@@ -18,42 +18,45 @@ tags = ["studynote-algorithm-stats"]
 
 ## Ⅰ. [TSP](/knowledge-base/studynote/12_it_management/03_ea_isp/106_fenwick_tree/) 정의
 
+```
+TSP (Traveling Salesman Problem — 외판원 문제):
 
+문제:
+  n개 도시와 도시 간 거리가 주어졌을 때
+  모든 도시를 정확히 한 번 방문하고
+  출발 도시로 돌아오는 최단 경로를 찾아라
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">TSP (Traveling Salesman Problem — 외판원 문제):</div>
-<div class="kb-diagram-note">문제:</div>
-<div class="kb-diagram-note">n개 도시와 도시 간 거리가 주어졌을 때</div>
-<div class="kb-diagram-note">모든 도시를 정확히 한 번 방문하고</div>
-<div class="kb-diagram-note">출발 도시로 돌아오는 최단 경로를 찾아라</div>
-<div class="kb-diagram-note">입력:</div>
-<div class="kb-diagram-note">완전 그래프 G = (V, E)</div>
-<div class="kb-diagram-note">각 엣지 비용 c(i,j) (거리/시간/비용)</div>
-<div class="kb-diagram-note">출력 (최적화):</div>
-<div class="kb-diagram-note">해밀톤 순환 (Hamiltonian Cycle) 중 최소 비용</div>
-<div class="kb-diagram-note">결정 문제 (Decision Problem):</div>
-<div class="kb-diagram-note">"비용 k 이하의 해밀톤 순환이 존재하는가?"</div>
-<div class="kb-diagram-note">→ NP-완전</div>
-<div class="kb-diagram-note">최적화 문제:</div>
-<div class="kb-diagram-note">최소 비용 해밀톤 순환 찾기</div>
-<div class="kb-diagram-note">→ NP-하드</div>
-<div class="kb-diagram-note">브루트 포스 복잡도:</div>
-<div class="kb-diagram-note">n! / 2 (대칭 TSP)</div>
-<div class="kb-diagram-note">n=10: 181,440 → 가능</div>
-<div class="kb-diagram-note">n=20: 6×10^17 → 불가능</div>
-<div class="kb-diagram-note">n=50: 3×10^62 → 완전 불가능</div>
-<div class="kb-diagram-note">TSP 유형:</div>
-<div class="kb-diagram-note">메트릭 TSP: 삼각 부등식 성립 (c(i,k) ≤ c(i,j)+c(j,k))</div>
-<div class="kb-diagram-note">→ Christofides 1.5-근사 적용 가능</div>
-<div class="kb-diagram-note">일반 TSP: 삼각 부등식 없음</div>
-<div class="kb-diagram-note">→ 상수 근사 불가능 (P≠NP 가정)</div>
-<div class="kb-diagram-note">유클리드 TSP: 2D 평면 내 거리</div>
-<div class="kb-diagram-note">→ PTAS 존재 (임의 정확도 근사)</div>
-</div>
-</div>
+입력:
+  완전 그래프 G = (V, E)
+  각 엣지 비용 c(i,j) (거리/시간/비용)
 
+출력 (최적화):
+  해밀톤 순환 (Hamiltonian Cycle) 중 최소 비용
 
+결정 문제 (Decision Problem):
+  "비용 k 이하의 해밀톤 순환이 존재하는가?"
+  → NP-완전
+
+최적화 문제:
+  최소 비용 해밀톤 순환 찾기
+  → NP-하드
+
+브루트 포스 복잡도:
+  n! / 2 (대칭 TSP)
+  n=10: 181,440 → 가능
+  n=20: 6×10^17 → 불가능
+  n=50: 3×10^62 → 완전 불가능
+
+TSP 유형:
+  메트릭 TSP: 삼각 부등식 성립 (c(i,k) ≤ c(i,j)+c(j,k))
+    → Christofides 1.5-근사 적용 가능
+    
+  일반 TSP: 삼각 부등식 없음
+    → 상수 근사 불가능 (P≠NP 가정)
+    
+  유클리드 TSP: 2D 평면 내 거리
+    → PTAS 존재 (임의 정확도 근사)
+```
 
 > 📢 **섹션 요약 비유**: TSP는 배달원의 딜레마 — 여러 집을 배달하는 가장 짧은 경로는? 집이 20개만 넘어도 모든 경우를 확인하는 건 우주 나이보다 오래 걸려요.
 
@@ -61,38 +64,40 @@ tags = ["studynote-algorithm-stats"]
 
 ## Ⅱ. NP 증명
 
+```
+TSP NP-완전 증명:
 
+TSP(결정) ∈ NP:
+  주어진 경로가 해밀톤 순환이고 비용 k 이하인지 확인
+  O(n) → 다항 시간 ✓
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">TSP NP-완전 증명:</div>
-<div class="kb-diagram-note">TSP(결정) ∈ NP:</div>
-<div class="kb-diagram-note">주어진 경로가 해밀톤 순환이고 비용 k 이하인지 확인</div>
-<div class="kb-diagram-note">O(n) → 다항 시간 ✓</div>
-<div class="kb-diagram-note">해밀톤 경로 ≤p TSP:</div>
-<div class="kb-diagram-note">해밀톤 경로 (Hamiltonian Path) 문제:</div>
-<div class="kb-diagram-note">모든 정점을 정확히 한 번 방문하는 경로 존재?</div>
-<div class="kb-diagram-note">→ 이미 NP-완전 (증명 생략)</div>
-<div class="kb-diagram-note">변환:</div>
-<div class="kb-diagram-note">G = (V, E): 해밀톤 경로 인스턴스</div>
-<div class="kb-diagram-note">TSP 인스턴스 G' 구성:</div>
-<div class="kb-diagram-tree-item" style="--depth:2">동일 정점 V</div>
-<div class="kb-diagram-tree-item" style="--depth:2">G의 엣지: 비용 0</div>
-<div class="kb-diagram-tree-item" style="--depth:2">G에 없는 엣지 추가: 비용 1</div>
-<div class="kb-diagram-tree-item" style="--depth:2">k = 0 설정</div>
-<div class="kb-diagram-note">해밀톤 경로 ↔ 비용 0의 해밀톤 순환:</div>
-<div class="kb-diagram-note">G에 해밀톤 경로 → G'에 비용 0 경로 + 마지막→처음 엣지 비용 0</div>
-<div class="kb-diagram-note">(시작→끝 엣지를 G에 추가하면 해밀톤 순환)</div>
-<div class="kb-diagram-note">따라서 해밀톤 경로 ≤p TSP(결정)</div>
-<div class="kb-diagram-note">TSP(결정) ∈ NP-완전 ✓</div>
-<div class="kb-diagram-note">TSP 최적화 ∈ NP-하드:</div>
-<div class="kb-diagram-note">TSP(결정)을 해결하면 TSP(최적화) 해결 가능</div>
-<div class="kb-diagram-note">(이진 탐색으로 최솟값 탐색)</div>
-<div class="kb-diagram-note">→ TSP 최적화 ≥ TSP(결정) → NP-하드 ✓</div>
-</div>
-</div>
+해밀톤 경로 ≤p TSP:
 
+  해밀톤 경로 (Hamiltonian Path) 문제:
+    모든 정점을 정확히 한 번 방문하는 경로 존재?
+    → 이미 NP-완전 (증명 생략)
+    
+  변환:
+    G = (V, E): 해밀톤 경로 인스턴스
+    
+    TSP 인스턴스 G' 구성:
+    - 동일 정점 V
+    - G의 엣지: 비용 0
+    - G에 없는 엣지 추가: 비용 1
+    - k = 0 설정
+    
+  해밀톤 경로 ↔ 비용 0의 해밀톤 순환:
+    G에 해밀톤 경로 → G'에 비용 0 경로 + 마지막→처음 엣지 비용 0
+    (시작→끝 엣지를 G에 추가하면 해밀톤 순환)
+    
+  따라서 해밀톤 경로 ≤p TSP(결정)
+  TSP(결정) ∈ NP-완전 ✓
 
+TSP 최적화 ∈ NP-하드:
+  TSP(결정)을 해결하면 TSP(최적화) 해결 가능
+  (이진 탐색으로 최솟값 탐색)
+  → TSP 최적화 ≥ TSP(결정) → NP-하드 ✓
+```
 
 > 📢 **섹션 요약 비유**: [TSP](/knowledge-base/studynote/12_it_management/03_ea_isp/106_fenwick_tree/) NP-완전 증명은 "같은 어려움의 다른 옷" — 해밀톤 경로라는 이미 어려운 문제를 TSP로 변환. TSP가 해밀톤 경로만큼 어렵다는 것을 증명해요.
 
@@ -100,45 +105,50 @@ tags = ["studynote-algorithm-stats"]
 
 ## Ⅲ. 근사 및 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/)
 
+```
+TSP 근사 알고리즘:
 
+1. 최근접 이웃 (Nearest Neighbor, 휴리스틱):
+   현재 위치에서 가장 가까운 미방문 도시 선택
+   
+   시간: O(n²)
+   품질: 최적 대비 ~20~25% 이상
+   → 빠르지만 품질 낮음
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">TSP 근사 알고리즘:</div>
-<div class="kb-diagram-note">1. 최근접 이웃 (Nearest Neighbor, 휴리스틱):</div>
-<div class="kb-diagram-note">현재 위치에서 가장 가까운 미방문 도시 선택</div>
-<div class="kb-diagram-note">시간: O(n²)</div>
-<div class="kb-diagram-note">품질: 최적 대비 ~20~25% 이상</div>
-<div class="kb-diagram-note">→ 빠르지만 품질 낮음</div>
-<div class="kb-diagram-note">2. 2-opt (로컬 서치 휴리스틱):</div>
-<div class="kb-diagram-note">두 엣지를 교차 교환으로 경로 개선</div>
-<div class="kb-diagram-note">if c(A,C) + c(B,D) &lt; c(A,B) + c(C,D):</div>
-<div class="kb-diagram-note">경로 일부 역전 (reverse)</div>
-<div class="kb-diagram-note">시간: O(n²) per iteration</div>
-<div class="kb-diagram-note">품질: 최적 대비 ~5% 이내 (실용적)</div>
-<div class="kb-diagram-note">3. Christofides 알고리즘 (1976):</div>
-<div class="kb-diagram-note">메트릭 TSP 1.5-근사 보장</div>
-<div class="kb-diagram-note">단계:</div>
-<div class="kb-diagram-note">1. 최소 스패닝 트리 (MST) T 구성</div>
-<div class="kb-diagram-note">2. T에서 홀수 차수 정점 집합 O 추출</div>
-<div class="kb-diagram-note">3. O의 최소 완전 매칭 M 계산</div>
-<div class="kb-diagram-note">4. T ∪ M로 오일러 회로 생성</div>
-<div class="kb-diagram-note">5. 오일러 회로에서 숏컷 → 해밀톤 순환</div>
-<div class="kb-diagram-note">비용: c(MST) + c(M) ≤ OPT + OPT/2 = 1.5 OPT</div>
-<div class="kb-diagram-note">2020년: 1.5보다 작은 (1.5-ε) 근사 발표 (Karlin et al.)</div>
-<div class="kb-diagram-note">4. 동적 프로그래밍 (Held-Karp):</div>
-<div class="kb-diagram-note">정확한 최적해</div>
-<div class="kb-diagram-note">시간: O(2^n × n²)</div>
-<div class="kb-diagram-note">공간: O(2^n × n)</div>
-<div class="kb-diagram-note">n=20: 수분, n=30: 수시간, n=50: 불가능</div>
-<div class="kb-diagram-note">LKH (Lin-Kernighan-Helsgott):</div>
-<div class="kb-diagram-note">실용적 최고 성능 TSP 솔버</div>
-<div class="kb-diagram-note">100만 도시도 최적에 가까운 해 탐색 가능</div>
-<div class="kb-diagram-note">k-opt 로컬 서치 + 복잡한 개선</div>
-</div>
-</div>
+2. 2-opt (로컬 서치 휴리스틱):
+   두 엣지를 교차 교환으로 경로 개선
+   
+   if c(A,C) + c(B,D) < c(A,B) + c(C,D):
+       경로 일부 역전 (reverse)
+   
+   시간: O(n²) per iteration
+   품질: 최적 대비 ~5% 이내 (실용적)
 
+3. Christofides 알고리즘 (1976):
+   메트릭 TSP 1.5-근사 보장
+   
+   단계:
+   1. 최소 스패닝 트리 (MST) T 구성
+   2. T에서 홀수 차수 정점 집합 O 추출
+   3. O의 최소 완전 매칭 M 계산
+   4. T ∪ M로 오일러 회로 생성
+   5. 오일러 회로에서 숏컷 → 해밀톤 순환
+   
+   비용: c(MST) + c(M) ≤ OPT + OPT/2 = 1.5 OPT
+   
+   2020년: 1.5보다 작은 (1.5-ε) 근사 발표 (Karlin et al.)
 
+4. 동적 프로그래밍 (Held-Karp):
+   정확한 최적해
+   시간: O(2^n × n²)
+   공간: O(2^n × n)
+   n=20: 수분, n=30: 수시간, n=50: 불가능
+
+LKH (Lin-Kernighan-Helsgott):
+  실용적 최고 성능 TSP 솔버
+  100만 도시도 최적에 가까운 해 탐색 가능
+  k-opt 로컬 서치 + 복잡한 개선
+```
 
 > 📢 **섹션 요약 비유**: Christofides는 트리로 틀 잡고 연결 — 최소 스패닝 트리로 뼈대를 잡고, 빠진 연결을 매칭으로 보완. "1.5배 이내"가 수학적으로 보장된 설계!
 
@@ -146,39 +156,41 @@ tags = ["studynote-algorithm-stats"]
 
 ## Ⅳ. 메타휴리스틱
 
+```
+메타휴리스틱 (Meta-heuristic):
 
+TSP에 적용되는 고급 최적화 기법:
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">메타휴리스틱 (Meta-heuristic):</div>
-<div class="kb-diagram-note">TSP에 적용되는 고급 최적화 기법:</div>
-<div class="kb-diagram-note">1. 유전 알고리즘 (Genetic Algorithm):</div>
-<div class="kb-diagram-note">초기 경로 집단 (Population)</div>
-<div class="kb-diagram-note">교배 (Crossover): 두 경로의 일부 교환</div>
-<div class="kb-diagram-note">돌연변이 (Mutation): 랜덤 경로 순서 교환</div>
-<div class="kb-diagram-note">선택 (Selection): 좋은 경로 생존</div>
-<div class="kb-diagram-note">→ 수천 세대 반복</div>
-<div class="kb-diagram-note">효과: 국소 최적에서 탈출 가능</div>
-<div class="kb-diagram-note">2. 모의 담금질 (Simulated Annealing):</div>
-<div class="kb-diagram-note">철을 냉각시키는 것처럼 점점 온도(탐색 범위) 낮춤</div>
-<div class="kb-diagram-note">초기: 나쁜 해도 수용 (탐색)</div>
-<div class="kb-diagram-note">후기: 좋은 해만 수용 (수렴)</div>
-<div class="kb-diagram-note">수식: 수용 확률 = exp(-ΔC/T)</div>
-<div class="kb-diagram-note">T → 0 으로 감소 (냉각 스케줄)</div>
-<div class="kb-diagram-note">3. 개미 군집 최적화 (Ant Colony Optimization):</div>
-<div class="kb-diagram-note">개미의 페로몬 흔적 모방</div>
-<div class="kb-diagram-note">좋은 경로: 페로몬 증가 → 더 많이 선택</div>
-<div class="kb-diagram-note">TSP에 특히 효과적 (경로 연속성)</div>
-<div class="kb-diagram-note">성능 비교 (n=1000 도시):</div>
-<div class="kb-diagram-note">Nearest Neighbor: 최적 + 25%, 0.01초</div>
-<div class="kb-diagram-note">2-opt: 최적 + 5%, 1초</div>
-<div class="kb-diagram-note">유전 알고리즘: 최적 + 2~3%, 30초</div>
-<div class="kb-diagram-note">LKH (최고 솔버): 최적 + 0.1%, 수분</div>
-<div class="kb-diagram-note">Held-Karp (정확): 불가능 (n=1000)</div>
-</div>
-</div>
+1. 유전 알고리즘 (Genetic Algorithm):
+   초기 경로 집단 (Population)
+   교배 (Crossover): 두 경로의 일부 교환
+   돌연변이 (Mutation): 랜덤 경로 순서 교환
+   선택 (Selection): 좋은 경로 생존
+   → 수천 세대 반복
+   
+   효과: 국소 최적에서 탈출 가능
 
+2. 모의 담금질 (Simulated Annealing):
+   철을 냉각시키는 것처럼 점점 온도(탐색 범위) 낮춤
+   초기: 나쁜 해도 수용 (탐색)
+   후기: 좋은 해만 수용 (수렴)
+   
+   수식: 수용 확률 = exp(-ΔC/T)
+   T → 0 으로 감소 (냉각 스케줄)
 
+3. 개미 군집 최적화 (Ant Colony Optimization):
+   개미의 페로몬 흔적 모방
+   좋은 경로: 페로몬 증가 → 더 많이 선택
+   
+   TSP에 특히 효과적 (경로 연속성)
+
+성능 비교 (n=1000 도시):
+  Nearest Neighbor:    최적 + 25%, 0.01초
+  2-opt:              최적 + 5%, 1초
+  유전 알고리즘:       최적 + 2~3%, 30초
+  LKH (최고 솔버):    최적 + 0.1%, 수분
+  Held-Karp (정확):  불가능 (n=1000)
+```
 
 > 📢 **섹션 요약 비유**: 메타휴리스틱은 자연을 모방한 탐색 — 유전 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 진화처럼, 담금질은 철 냉각처럼, 개미는 페로몬처럼. 자연이 수억 년 동안 최적화한 방법을 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에 차용!
 
@@ -186,48 +198,52 @@ tags = ["studynote-algorithm-stats"]
 
 ## Ⅴ. 실무 시나리오 — 물류 배송 경로 최적화
 
+```
+이커머스 배송 경로 최적화:
 
+배경:
+  하루 500개 배송지 (n=500)
+  트럭 10대 배치 (10-대 VRP: Vehicle Routing Problem)
+  목표: 총 이동 거리 최소화
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이커머스 배송 경로 최적화:</div>
-<div class="kb-diagram-note">배경:</div>
-<div class="kb-diagram-note">하루 500개 배송지 (n=500)</div>
-<div class="kb-diagram-note">트럭 10대 배치 (10-대 VRP: Vehicle Routing Problem)</div>
-<div class="kb-diagram-note">목표: 총 이동 거리 최소화</div>
-<div class="kb-diagram-note">VRP와 TSP 관계:</div>
-<div class="kb-diagram-note">VRP = 여러 외판원 TSP (용량 제약 포함)</div>
-<div class="kb-diagram-note">TSP ≤ VRP (TSP는 VRP의 특수 사례)</div>
-<div class="kb-diagram-note">실용 시스템 구현:</div>
-<div class="kb-diagram-note">1. 지역 클러스터링:</div>
-<div class="kb-diagram-note">500개 배송지 → 10개 클러스터 (k-means)</div>
-<div class="kb-diagram-note">각 트럭: 약 50개 배송지 담당</div>
-<div class="kb-diagram-note">2. TSP for 각 클러스터:</div>
-<div class="kb-diagram-note">50개 도시 TSP → 2-opt + LKH</div>
-<div class="kb-diagram-note">50개 도시: ~1초 내 최적 근사 가능</div>
-<div class="kb-diagram-note">3. 결과:</div>
-<div class="kb-diagram-note">총 이동 거리 계산</div>
-<div class="kb-diagram-note">Google Maps API로 실제 경로 검증</div>
-<div class="kb-diagram-note">성능:</div>
-<div class="kb-diagram-note">최근접 이웃만: 800km/일</div>
-<div class="kb-diagram-note">2-opt 개선: 650km/일 (19% 절감)</div>
-<div class="kb-diagram-note">LKH: 600km/일 (25% 절감)</div>
-<div class="kb-diagram-note">비용:</div>
-<div class="kb-diagram-note">연간 연료 절감: 약 3,000만원 (대형 물류)</div>
-<div class="kb-diagram-note">LKH 계산 시간: 500개 배송지 × 10 트럭 = 수분</div>
-<div class="kb-diagram-note">실용 도구:</div>
-<div class="kb-diagram-note">Google OR-Tools: 구글 오픈소스 VRP/TSP</div>
-<div class="kb-diagram-note">OSRM: 오픈소스 경로 계산 엔진</div>
-<div class="kb-diagram-note">Python-TSP 라이브러리: 2-opt, Simulated Annealing</div>
-<div class="kb-diagram-note">AI 발전:</div>
-<div class="kb-diagram-note">DeepMind, Google Brain:</div>
-<div class="kb-diagram-note">강화학습 기반 TSP 솔버</div>
-<div class="kb-diagram-note">학습된 모델로 새 문제 빠르게 해결</div>
-<div class="kb-diagram-note">→ Pointer Network, Attention Model</div>
-</div>
-</div>
+VRP와 TSP 관계:
+  VRP = 여러 외판원 TSP (용량 제약 포함)
+  TSP ≤ VRP (TSP는 VRP의 특수 사례)
 
+실용 시스템 구현:
 
+  1. 지역 클러스터링:
+     500개 배송지 → 10개 클러스터 (k-means)
+     각 트럭: 약 50개 배송지 담당
+     
+  2. TSP for 각 클러스터:
+     50개 도시 TSP → 2-opt + LKH
+     50개 도시: ~1초 내 최적 근사 가능
+     
+  3. 결과:
+     총 이동 거리 계산
+     Google Maps API로 실제 경로 검증
+
+성능:
+  최근접 이웃만: 800km/일
+  2-opt 개선: 650km/일 (19% 절감)
+  LKH: 600km/일 (25% 절감)
+  
+  비용:
+  연간 연료 절감: 약 3,000만원 (대형 물류)
+  LKH 계산 시간: 500개 배송지 × 10 트럭 = 수분
+
+실용 도구:
+  Google OR-Tools: 구글 오픈소스 VRP/TSP
+  OSRM: 오픈소스 경로 계산 엔진
+  Python-TSP 라이브러리: 2-opt, Simulated Annealing
+
+AI 발전:
+  DeepMind, Google Brain:
+  강화학습 기반 TSP 솔버
+  학습된 모델로 새 문제 빠르게 해결
+  → Pointer Network, Attention Model
+```
 
 > 📢 **섹션 요약 비유**: 물류 [TSP](/knowledge-base/studynote/12_it_management/03_ea_isp/106_fenwick_tree/) 최적화는 배달원 루트 최적화 — 500개 집을 배달하는 최단 경로를 컴퓨터가 수분 내 계산. 25% 단축하면 연간 수천만 원 연료비 절감!
 

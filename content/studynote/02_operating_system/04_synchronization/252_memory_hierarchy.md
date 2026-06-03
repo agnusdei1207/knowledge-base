@@ -24,26 +24,22 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경**: CPU의 속도 발전은 무어의 법칙을 따라 기하급수적으로 빨라졌으나, 메모리 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/)([DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/))의 속도 향상은 물리적 한계로 더디게 발전했다. (이 둘의 속도 차이를 '[Memory Wall](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/433_memory_wall/)'이라 한다). 이 거대한 속도 격차를 메우기 위해 CPU와 RAM 사이에 징검다리(캐시)를 놓는 계층 구조가 1980년대부터 컴퓨터 구조의 절대 진리로 자리 잡았다.
 
+```text
+  [메모리 계층 구조의 피라미드와 속도/비용 스펙트럼]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">메모리 계층 구조의 피라미드와 속도/비용 스펙트럼</div></div>
-<div class="kb-diagram-note">▲ (Speed ⚡, Cost 💰) 극대화 / (Capacity 💾) 최소화</div>
-<div class="kb-diagram-note">╱ ╲</div>
-<div class="kb-diagram-note">╱ ╲</div>
-<div class="kb-diagram-note">╱ Register ╲ ◀─ CPU 내부 (0.1 ns) / 바이트(Byte) 단위 / 수백만 원</div>
-<div class="kb-diagram-note">╱ ╲</div>
-<div class="kb-diagram-note">╱ L1 / L2 Cache ╲ ◀─ CPU 내부 (1~10 ns) / 메가바이트(MB) 단위 / 수십만 원</div>
-<div class="kb-diagram-note">╱ ╲</div>
-<div class="kb-diagram-note">╱ Main Memory (RAM) ╲ ◀─ 마더보드 (100 ns) / 기가바이트(GB) 단위 / 만 원</div>
-<div class="kb-diagram-note">╱ ╲</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Disk (SSD / HDD)</div><div class="kb-diagram-cell">◀─ 외부 장치 (1,000,000 ns) / 테라바이트(TB) 단위 / 십 원</div></div>
-<div class="kb-diagram-note">▼ (Capacity 💾) 극대화 / (Speed ⚡, Cost 💰) 최소화</div>
-</div>
-</div>
-
-
+               ▲ (Speed ⚡, Cost 💰) 극대화  /  (Capacity 💾) 최소화
+             ╱   ╲
+           ╱       ╲
+         ╱ Register  ╲    ◀─ CPU 내부 (0.1 ns) / 바이트(Byte) 단위 / 수백만 원
+       ╱───────────────╲
+     ╱    L1 / L2 Cache  ╲  ◀─ CPU 내부 (1~10 ns) / 메가바이트(MB) 단위 / 수십만 원
+   ╱───────────────────────╲
+  ╱       Main Memory (RAM)  ╲ ◀─ 마더보드 (100 ns) / 기가바이트(GB) 단위 / 만 원
+╱─────────────────────────────╲
+│      Disk (SSD / HDD)       │ ◀─ 외부 장치 (1,000,000 ns) / 테라바이트(TB) 단위 / 십 원
+└─────────────────────────────┘
+               ▼ (Capacity 💾) 극대화  /  (Speed ⚡, Cost 💰) 최소화
+```
 **[다이어그램 해설]** 위로 갈수록 1바이트당 가격이 살인적으로 비싸지기 때문에 용량을 키울 수가 없다. 아래로 갈수록 속도는 수백만 배 느려지지만 미친 듯이 싸고 전원이 꺼져도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 보존되는(Non-volatile) 혜택을 얻는다. 아키텍트의 목표는 이 피라미드의 꼭대기(캐시)에 "지금 당장 쓸 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)"만 기가 막히게 올려놓는 것이다.
 
 - **📢 섹션 요약 비유**: 도서관에서 공부할 때, 책상 위에 펴놓은 책(캐시)은 1초 만에 읽을 수 있지만 몇 권 못 놓습니다. 도서관 서가(RAM)에 있는 책은 많지만 걸어가서 가져오는 데 1분이 걸립니다. 국립중앙도서관(하드디스크)에 있는 책은 무한대지만 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 타고 가서 가져오는 데 1시간이 걸리는 이치입니다.
@@ -113,24 +109,25 @@ OS와 하드웨어는 이 법칙을 맹신한다. 그래서 CPU가 RAM에서 [�
    - DB(Disk)에서 쿼리를 때려 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가져오는 건 너무 느리다([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/) 급 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)).
    - **아키텍트 조치**: 자주 찾는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(게시판 1페이지, [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 정보)는 지역성(Locality)이 뚜렷하므로, DB(디스크 계층) 앞단에 [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/)(메인 메모리 계층) 서버를 따로 박아둔다. 즉, Redis는 백엔드 인프라 아키텍처 관점에서 거대한 '[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) L3 캐시' 역할을 수행하는 것이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">성능 최적화(Optimization) 시 메모리 계층 튜닝 아키텍처 트리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">요구사항: 초당 100만 건의 트랜잭션을 처리하는 애플리케이션 개발</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1단계: 디스크 I/O (가장 느림) 타파</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ DB Hit를 줄이고 Redis 같은 In-Memory 캐시를 떡칠한다.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2단계: 메인 메모리 I/O (중간 지연) 타파</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 자바의 GC(Garbage Collection)를 튜닝하거나, 객체 할당을</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">줄여(Object Pool) RAM에 갔다 오는 빈도를 낮춘다.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3단계: L1/L2 Cache Miss (초미세 지연) 타파</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Linked List를 버리고 배열(Array) 위주의 연속된 메모리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">배치(Data-Oriented Design)로 바꿔 캐시 프리패치 극대화.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌────────────────────────────────────────────────────────────────────┐
+  │     성능 최적화(Optimization) 시 메모리 계층 튜닝 아키텍처 트리    │
+  ├────────────────────────────────────────────────────────────────────┤
+  │                                                                    │
+  │   [요구사항: 초당 100만 건의 트랜잭션을 처리하는 애플리케이션 개발]│
+  │                                                                    │
+  │   [ 1단계: 디스크 I/O (가장 느림) 타파 ]                           │
+  │     ▶ DB Hit를 줄이고 Redis 같은 In-Memory 캐시를 떡칠한다.        │
+  │                                                                    │
+  │   [ 2단계: 메인 메모리 I/O (중간 지연) 타파 ]                      │
+  │     ▶ 자바의 GC(Garbage Collection)를 튜닝하거나, 객체 할당을      │
+  │        줄여(Object Pool) RAM에 갔다 오는 빈도를 낮춘다.            │
+  │                                                                    │
+  │   [ 3단계: L1/L2 Cache Miss (초미세 지연) 타파 ]                   │
+  │     ▶ Linked List를 버리고 배열(Array) 위주의 연속된 메모리        │
+  │        배치(Data-Oriented Design)로 바꿔 캐시 프리패치 극대화.     │
+  └────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 백엔드 아키텍처의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 개선은 결국 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 피라미드의 위쪽으로 밀어 올려서, 아래쪽(Disk, RAM)으로 내려가는 횟수를 줄이는 싸움"이다. 가장 느린 계층부터 하나씩 병목을 부수고 올라가는 것이 탑티어 엔지니어의 최적화 정석이다.
 
 - **📢 섹션 요약 비유**: 창고(디스크)에서 매번 물건을 가져와 파는 식당은 망합니다. 잘 팔리는 메뉴의 재료는 주방 앞 냉장고(RAM)에 채워두고, 방금 주문받은 파썰기는 바로 도마(캐시) 위에 세팅해 두어야 1초 만에 음식이 나가는 대박집이 됩니다.
@@ -161,19 +158,15 @@ OS와 하드웨어는 이 법칙을 맹신한다. 그래서 CPU가 RAM에서 [�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">윈도우 동기화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">메모리 계층 구조 (Memory Hierarchy)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">리눅스 동기화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RCU (Read-Copy-Update)</div></div>
-</div>
-</div>
-
-
+```text
+[윈도우 동기화]
+    │
+    ▼
+[메모리 계층 구조 (Memory Hierarchy)]
+    │
+    ├──▶ [리눅스 동기화]
+    └──▶ [RCU (Read-Copy-Update)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

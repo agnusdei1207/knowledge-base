@@ -31,22 +31,16 @@ MSP는 이런 어려움을 대신 처리해 주는 외부 운영 파트너다. �
 
 MSP의 핵심 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 클라우드 도입 지원, 24x7 운영, 그리고 비용 최적화다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">기업</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">MSP</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Migration</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Managed Operation</div>
-<div class="kb-diagram-tree-item" style="--depth:1">FinOps</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">AWS / Azure / GCP</div>
-</div>
-</div>
-
-
+```text
+기업
+  ↓
+MSP
+  ├─ Migration
+  ├─ Managed Operation
+  └─ FinOps
+       ↓
+AWS / Azure / GCP
+```
 
 | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | 설명 |
 | :-- | :-- |
@@ -108,41 +102,29 @@ MSP는 클라우드 운영의 복잡도를 줄여 준다. 그러나 단순 외�
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">CSP</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">MSP</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">운영 / 보안 / FinOps</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">클라우드 성숙도 향상</div>
-</div>
-</div>
-
-
+```text
+CSP
+   ↓
+MSP
+   ↓
+운영 / 보안 / FinOps
+   ↓
+클라우드 성숙도 향상
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">온프레미스</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">클라우드 도입</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">MSP 운영 대행</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">FinOps / Governance</div>
-</div>
-</div>
-
-
+```text
+온프레미스
+   ↓
+클라우드 도입
+   ↓
+MSP 운영 대행
+   ↓
+FinOps / Governance
+```
 
 ---
 

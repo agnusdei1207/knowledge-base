@@ -37,24 +37,22 @@ tags = ["studynote-data-engineering"]
 
 ### 2-1. 리니지 유형: 테이블 vs 컬럼 레벨
 
+```
+[테이블 레벨 리니지 (Coarse-Grained)]
+raw_orders ──→ stg_orders ──→ int_revenue ──→ fct_daily_revenue
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">테이블 레벨 리니지 (Coarse-Grained)</div></div>
-<div class="kb-diagram-note">raw_orders ──→ stg_orders ──→ int_revenue ──→ fct_daily_revenue</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">컬럼 레벨 리니지 (Column-Level Lineage, 세밀)</div></div>
-<div class="kb-diagram-note">raw_orders.order_amount</div>
-<div class="kb-diagram-note">▼ (SUM + ROUND)</div>
-<div class="kb-diagram-note">int_revenue.revenue_usd</div>
-<div class="kb-diagram-note">▼ (GROUP BY date)</div>
-<div class="kb-diagram-note">fct_daily_revenue.daily_total</div>
-<div class="kb-diagram-note">▼ (JOIN + SELECT)</div>
-<div class="kb-diagram-note">rpt_executive_dashboard.revenue_kpi</div>
-</div>
-</div>
-
-
+[컬럼 레벨 리니지 (Column-Level Lineage, 세밀)]
+raw_orders.order_amount
+    │
+    ▼  (SUM + ROUND)
+int_revenue.revenue_usd
+    │
+    ▼  (GROUP BY date)
+fct_daily_revenue.daily_total
+    │
+    ▼  (JOIN + SELECT)
+rpt_executive_dashboard.revenue_kpi
+```
 
 컬럼 레벨 리니지가 중요한 이유: GDPR에서 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 컬럼(예: `user_email`)이 어느 파생 테이블·BI 뷰에까지 전파됐는지 알아야 삭제 요청을 완전히 이행할 수 있다.
 
@@ -71,22 +69,21 @@ tags = ["studynote-data-engineering"]
 
 ### 2-3. 주요 [데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/) 도구 비교
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Apache Atlas</div><div class="kb-diagram-cell">오픈소스, HBase·Hive 강결합</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(아파치 아틀라스)</div><div class="kb-diagram-cell">태그 기반 분류, 정책 연동(Ranger)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Amundsen</div><div class="kb-diagram-cell">Lyft 오픈소스, 검색·탐색 최적화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(아문센)</div><div class="kb-diagram-cell">Neo4j 기반 메타데이터 그래프</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DataHub</div><div class="kb-diagram-cell">LinkedIn 오픈소스, 푸시·풀 수집</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(데이터허브)</div><div class="kb-diagram-cell">GraphQL API, 플러그인 생태계 풍부</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Alation / Atlan</div><div class="kb-diagram-cell">상용, AI 기반 추천·자동 분류</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(앨레이션 / 아틀란)</div><div class="kb-diagram-cell">Data Fabric 통합 지원</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────────┐
+│  Apache Atlas           │  오픈소스, HBase·Hive 강결합        │
+│  (아파치 아틀라스)       │  태그 기반 분류, 정책 연동(Ranger)   │
+├──────────────────────────────────────────────────────────────┤
+│  Amundsen               │  Lyft 오픈소스, 검색·탐색 최적화    │
+│  (아문센)               │  Neo4j 기반 메타데이터 그래프        │
+├──────────────────────────────────────────────────────────────┤
+│  DataHub                │  LinkedIn 오픈소스, 푸시·풀 수집    │
+│  (데이터허브)           │  GraphQL API, 플러그인 생태계 풍부   │
+├──────────────────────────────────────────────────────────────┤
+│  Alation / Atlan        │  상용, AI 기반 추천·자동 분류        │
+│  (앨레이션 / 아틀란)    │  Data Fabric 통합 지원               │
+└──────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: [데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)는 "회사 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 도서관"이다. 어떤 책(테이블)이 있고, 누가 썼고(오너), 어떤 내용이고([스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)), 어느 책에서 파생됐는지(리니지)를 모두 기록한다.
 
@@ -96,24 +93,23 @@ tags = ["studynote-data-engineering"]
 
 ### 3-1. 태그 기반 [데이터 분류](/knowledge-base/studynote/09_security/16_data_privacy/808_data_classification/) 체계
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">데이터 분류 태그 계층</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">민감도 (Sensitivity)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PUBLIC → INTERNAL → CONFIDENTIAL → SECRET</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개인정보 (Privacy)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PII (개인식별정보) → PHI (건강정보)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ PCI (카드정보) → Non-PII</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">품질 (Quality)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GOLDEN (황금 데이터) → TRUSTED → RAW</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">도메인 (Domain)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ORDER · CUSTOMER · PRODUCT · FINANCE</div></div>
-</div>
-</div>
-
-
+```
+데이터 분류 태그 계층
+┌─────────────────────────────────────────────┐
+│ 민감도 (Sensitivity)                        │
+│   PUBLIC → INTERNAL → CONFIDENTIAL → SECRET │
+├─────────────────────────────────────────────┤
+│ 개인정보 (Privacy)                          │
+│   PII (개인식별정보) → PHI (건강정보)        │
+│   → PCI (카드정보) → Non-PII               │
+├─────────────────────────────────────────────┤
+│ 품질 (Quality)                              │
+│   GOLDEN (황금 데이터) → TRUSTED → RAW      │
+├─────────────────────────────────────────────┤
+│ 도메인 (Domain)                             │
+│   ORDER · CUSTOMER · PRODUCT · FINANCE      │
+└─────────────────────────────────────────────┘
+```
 
 ### 3-2. [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/)·CCPA와 리니지 연계
 
@@ -134,21 +130,15 @@ tags = ["studynote-data-engineering"]
 
 dbt([data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) build tool, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 빌드 툴)는 SQL 변환 모델 간 의존관계에서 리니지를 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">dbt 프로젝트 DAG (Directed Acyclic Graph, 방향성 비순환 그래프)</div>
-<div class="kb-diagram-note">raw_orders ─</div>
-<div class="kb-diagram-note">raw_customers─ ─→ stg_orders ─→ int_order_enriched ─→ fct_orders</div>
-<div class="kb-diagram-note">raw_products ─ ↑</div>
-<div class="kb-diagram-note">컬럼 리니지 자동 추적</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">BI 대시보드</div>
-</div>
-</div>
-
-
+```
+dbt 프로젝트 DAG (Directed Acyclic Graph, 방향성 비순환 그래프)
+raw_orders ─┐
+raw_customers─┤─→ stg_orders ─→ int_order_enriched ─→ fct_orders
+raw_products ─┘         ↑                                    │
+                   컬럼 리니지 자동 추적                      │
+                                                             ▼
+                                                    BI 대시보드
+```
 
 ### 4-2. 리니지 도입 로드맵
 
@@ -205,21 +195,18 @@ dbt([data](/knowledge-base/studynote/05_database/01_db_architecture_relational/0
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">데이터 출처 불명 (신뢰 부족)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">데이터 리니지: 원본 → 변환 → 소비 경로 추적</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">데이터 카탈로그: 메타데이터 · 태깅 · 검색</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">도구: DataHub · Amundsen · OpenLineage · Atlas</div>
-</div>
-</div>
-
-
+```text
+데이터 출처 불명 (신뢰 부족)
+    │
+    ▼
+데이터 리니지: 원본 → 변환 → 소비 경로 추적
+    │
+    ▼
+데이터 카탈로그: 메타데이터 · 태깅 · 검색
+    │
+    ▼
+도구: DataHub · Amundsen · OpenLineage · Atlas
+```
 2. 이 정보가 있으면 "이 분석 결과가 왜 틀렸지?"라는 질문에 원재료(원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))부터 조리 과정(변환)까지 바로 찾아볼 수 있다.
 3. 특히 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)법([GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/)) 위반 시 "이 정보가 어디까지 퍼졌나"를 즉시 추적할 수 있어 법적 책임을 다할 수 있다.
 

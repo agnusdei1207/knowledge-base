@@ -33,31 +33,35 @@ AWS 왈: "어? 결제 봇 아까 1시간 전에 트래픽 없어서 다 죽여�
 
 [콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/)가 터지는 0.1초의 타임라인 엑스레이 스캔 도해다. 어디서 CPU 랙이 타죽는지 발가벗겨 본다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AWS Lambda 서버리스 콜드 스타트(Cold Start) 지연 분해 도해 🚀</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">❄️</div><div class="kb-diagram-node">Cold Start 타임라인 (유휴 상태 후 첫 핑퐁 찌르기)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. AWS 인프라 준비 랙 (AWS 짬처리 영역 - 약 100~300ms)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 허공에 ENI(가상 랜카드) 꼽고, 도커 샌드박스 컨테이너 환경 뿅 띄움.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 📦 S3에 저장해둔 내 코드 압축 파일(<code>.zip</code>) 다운로드 받아 압축 풂.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 런타임 부팅 랙 (언어별 편차 존나 큼 💥 - 100ms ~ 3초)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Node.js / Python: 가벼운 인터프리터라 0.1초 컷 쾌속 켜짐.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Java (JVM) / C#: 무거운 가상머신 메모리 올리고 JIT 컴파일 치느라</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">여기서 2~3초 쇳덩이 랙 타임아웃 뻗음 💀 파국 터짐.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3. 내 소스 코드 초기화 랙 (Init 짬처리 영역 - 수십 ms)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- DB 커넥션 맺기, 외부 API 토큰 따오기 등 전역 변수(Global) 세팅 핑퐁.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">4. 찐 비즈니스 함수 실행 (여기가 진짜 유저 요금 나가는 구간 ✨)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "결제 완료 ㅋ" (10ms 컷 쾌속 종료).</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">🔥 웜 스타트 (Warm Start) 회피 기동 록온!</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">☀️ 방금 콜드 스타트로 켜진 봇이 죽지 않고 5분 동안 떠 있을 때 또 찌름!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- 1~3번 과정 싹 다</div><div class="kb-diagram-node">100% 스킵 패스 면제 Bypass 🚀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 오직 4번 (찐 비즈니스 함수 10ms)만 쾌속 실행되고 빛의 속도로 0.01초 즉답!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          AWS Lambda 서버리스 콜드 스타트(Cold Start) 지연 분해 도해 🚀 │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ ❄️ [ Cold Start 타임라인 (유휴 상태 후 첫 핑퐁 찌르기) ]           │
+│                                                             │
+│  [ 1. AWS 인프라 준비 랙 (AWS 짬처리 영역 - 약 100~300ms) ]       │
+│   - 허공에 ENI(가상 랜카드) 꼽고, 도커 샌드박스 컨테이너 환경 뿅 띄움.    │
+│   - 📦 S3에 저장해둔 내 코드 압축 파일(`.zip`) 다운로드 받아 압축 풂.     │
+│                                                             │
+│  [ 2. 런타임 부팅 랙 (언어별 편차 존나 큼 💥 - 100ms ~ 3초) ]       │
+│   - Node.js / Python: 가벼운 인터프리터라 0.1초 컷 쾌속 켜짐.        │
+│   - Java (JVM) / C#: 무거운 가상머신 메모리 올리고 JIT 컴파일 치느라     │
+│     여기서 2~3초 쇳덩이 랙 타임아웃 뻗음 💀 파국 터짐.                │
+│                                                             │
+│  [ 3. 내 소스 코드 초기화 랙 (Init 짬처리 영역 - 수십 ms) ]         │
+│   - DB 커넥션 맺기, 외부 API 토큰 따오기 등 전역 변수(Global) 세팅 핑퐁. │
+│                                                             │
+│  [ 4. 찐 비즈니스 함수 실행 (여기가 진짜 유저 요금 나가는 구간 ✨) ]     │
+│   - "결제 완료 ㅋ" (10ms 컷 쾌속 종료).                            │
+│                                                             │
+│        ======= [ 🔥 웜 스타트 (Warm Start) 회피 기동 록온! ] ========│
+│                                                             │
+│ ☀️ 방금 콜드 스타트로 켜진 봇이 죽지 않고 5분 동안 떠 있을 때 또 찌름!    │
+│   - 1~3번 과정 싹 다 [100% 스킵 패스 면제 Bypass 🚀]              │
+│   - 오직 4번 (찐 비즈니스 함수 10ms)만 쾌속 실행되고 빛의 속도로 0.01초 즉답!│
+└─────────────────────────────────────────────────────────────┘
+```
 
 <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">아키텍트의 메스 🪓: [초기</a>화(Init) 코드를 함수 밖으로 찢어 올려라!]</strong>
 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 코더들의 1순위 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)은 DB 커넥션을 맺는 코드를 `handler` 함수 "안쪽(내부)"에 짜 박아두는 짓이다. 
@@ -140,23 +144,21 @@ AWS 왈: "어? 결제 봇 아까 1시간 전에 트래픽 없어서 다 죽여�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">On-Premise 물리 서버 / 24시간 내내 쇳덩이 전원 켜놔서 기본 전기세 눈탱이 맞고, 트래픽 0명이어도 돈 100% 풀로 털려 피눈물 적자 뻗음 💥 💀</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Serverless / FaaS (AWS Lambda) 대관식 🚀 / "야 서버 전원 다 꺼!! 유저 클릭(Event) 들어오는 그 0.1초 찰나에만 컨테이너 허공 팝업 띄워서 연산 치고 0.1초 어치 동전(밀리초 과금)만 내고 자살 컷 쳐 쾅!!" ➔ 완벽한 종량제 Pay-as-you-go 혁명 ✨</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Cold Start (콜드 스타트 랙 붕괴 💀) / 허공에 새로 도커 파고 자바(JVM) 엔진 부팅 켜느라 3초 타임아웃 랙 뻗어 유저 다 앱 지우고 도망 파국 멸망 터짐 💥</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">아키텍트 십자 융합 튜닝 방폭문 전개 🪓 / "언어 스크립트(Node/Go) 깃털 다이어트 갈아 끼워! 전역 변수 초기화(Init) 위로 찢어 올려 오프로딩 쳐! 돈 발라서 Provisioned Concurrency 웜(Warm) 록온 때려 박아 쾅 🚀!!!"</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">AWS SnapStart &amp; WebAssembly 엣지 융합 (현재) / 걍 켜진 상태 램 메모리를 사진(Snapshot) 찰칵 덤프 찍어 영구 박제해 뒀다가 ➔ 콜드 핑 오면 0.01초 컷으로 부팅 스킵하고 그 사진 그대로 메모리 복원(Resume) 강제 이식 덮어쓰기 쳐버리는 우주 쾌속 웜 스타트 스위칭 기만 생태계 대통일 달성 쾅!!</div>
-</div>
-</div>
-
-
+```text
+On-Premise 물리 서버 / 24시간 내내 쇳덩이 전원 켜놔서 기본 전기세 눈탱이 맞고, 트래픽 0명이어도 돈 100% 풀로 털려 피눈물 적자 뻗음 💥 💀
+    │
+    ▼
+Serverless / FaaS (AWS Lambda) 대관식 🚀 / "야 서버 전원 다 꺼!! 유저 클릭(Event) 들어오는 그 0.1초 찰나에만 컨테이너 허공 팝업 띄워서 연산 치고 0.1초 어치 동전(밀리초 과금)만 내고 자살 컷 쳐 쾅!!" ➔ 완벽한 종량제 Pay-as-you-go 혁명 ✨
+    │
+    ▼
+Cold Start (콜드 스타트 랙 붕괴 💀) / 허공에 새로 도커 파고 자바(JVM) 엔진 부팅 켜느라 3초 타임아웃 랙 뻗어 유저 다 앱 지우고 도망 파국 멸망 터짐 💥
+    │
+    ▼
+아키텍트 십자 융합 튜닝 방폭문 전개 🪓 / "언어 스크립트(Node/Go) 깃털 다이어트 갈아 끼워! 전역 변수 초기화(Init) 위로 찢어 올려 오프로딩 쳐! 돈 발라서 Provisioned Concurrency 웜(Warm) 록온 때려 박아 쾅 🚀!!!"
+    │
+    ▼
+AWS SnapStart & WebAssembly 엣지 융합 (현재) / 걍 켜진 상태 램 메모리를 사진(Snapshot) 찰칵 덤프 찍어 영구 박제해 뒀다가 ➔ 콜드 핑 오면 0.01초 컷으로 부팅 스킵하고 그 사진 그대로 메모리 복원(Resume) 강제 이식 덮어쓰기 쳐버리는 우주 쾌속 웜 스타트 스위칭 기만 생태계 대통일 달성 쾅!!
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

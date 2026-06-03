@@ -15,7 +15,7 @@ tags = ["ai"]
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 기계가 인간의 인지, 학습, 추론 능력을 수학적 모델과 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 모방하여, 불확실한 환경에서 최적의 결정을 내리는 에이전트를 설계하는 학문이다.
 > 2. **가치**: 명시적 하드코딩의 한계를 넘어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로부터 내재된 패턴([가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))을 추출함으로써, 복잡계 비즈니스 로직의 처리 레이턴시를 단축하고 확장성을 극대화한다.
-> 3. **융합**: 거대 [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Engineering), [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 컴퓨팅, 그리고 운영 생명주기를 통제하는 MLOps와 결합하여 자율 구동형 기업 인프라로 진화 중이다.
+> 3. **융합**: 거대 [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔진ering), [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 컴퓨팅, 그리고 운영 생명주기를 통제하는 MLOps와 결합하여 자율 구동형 기업 인프라로 진화 중이다.
 
 ---
 
@@ -27,22 +27,17 @@ tags = ["ai"]
 
 다음은 전통적 프로그래밍 패러다임과 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 학습 패러다임의 근본적인 구조 역전을 보여주는 도식이다.
 
+```text
+[전통적 소프트웨어 (Rule-based)]
+데이터 (Data) ────┐
+                  ├─> [ CPU / 연산기 ] ──> 정답 (Output)
+규칙 (Rules) ─────┘
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">전통적 소프트웨어 (Rule-based)</div></div>
-<div class="kb-diagram-note">데이터 (Data)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─&gt;</div><div class="kb-diagram-node">CPU / 연산기</div><div class="kb-diagram-note">──&gt; 정답 (Output)</div></div>
-<div class="kb-diagram-note">규칙 (Rules)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">인공지능 소프트웨어 (Data-driven)</div></div>
-<div class="kb-diagram-note">데이터 (Data)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─&gt;</div><div class="kb-diagram-node">머신러닝 알고리즘</div><div class="kb-diagram-note">──&gt; 학습된 모델 (Model/Rules)</div></div>
-<div class="kb-diagram-note">정답 (Output)</div>
-</div>
-</div>
-
-
+[인공지능 소프트웨어 (Data-driven)]
+데이터 (Data) ────┐
+                  ├─> [ 머신러닝 알고리즘 ] ──> 학습된 모델 (Model/Rules)
+정답 (Output) ────┘
+```
 
 이 도식의 핵심은 컴퓨팅 아키텍처의 입력과 출력이 완전히 뒤바뀌었다는 점이다. 과거에는 인간이 짠 규칙(로직)이 입력되었다면, [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 패러다임에서는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 그에 매칭되는 정답을 입력하면 기계가 그 사이의 숨겨진 상관관계(모델, 즉 암묵적 규칙)를 출력으로 반환한다. 따라서 개발자는 로직을 디버깅하는 대신 모델이 훈련할 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 품질과 편향성을 제어하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공학적 접근에 집중해야 하며, 이는 시스템 개발론 전체의 변화를 의미한다. 실무에서는 이러한 패러다임 이동 때문에 MLOps와 같은 새로운 운영 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 필수적으로 요구된다.
 
@@ -64,23 +59,25 @@ tags = ["ai"]
 
 다음은 지능형 에이전트가 환경과 상호작용하며 자신을 강화하는 폐쇄 루프(Closed-loop) 아키텍처 구조도이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Environment (환경)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상태(State) &amp; 보상(Reward)</div><div class="kb-diagram-cell">행동(Action)</div></div>
-<div class="kb-diagram-note">Agent (지능형 에이전트)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Feature Tensor</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sensors &gt;</div><div class="kb-diagram-cell">Inference</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Engine (Model) ─</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Loss Gradient</div><div class="kb-diagram-note">(Weights + b) │ │</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Learner</div><div class="kb-diagram-cell">&lt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Actuators</div><div class="kb-diagram-cell">&lt;── ─</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────┐
+│                   Environment (환경)                   │
+└──────┬─────────────────────────────────────────▲───────┘
+       │ 상태(State) & 보상(Reward)              │ 행동(Action)
+       ▼                                         │
+┌────────────────── Agent (지능형 에이전트) ──────────────┐
+│ ┌─────────┐   [Feature Tensor] ┌───────────────┐   │
+│ │ Sensors ├───────────────────>│ Inference     │   │
+│ └─────────┘                    │ Engine (Model)├───┼─┐
+│ ┌─────────┐   [Loss Gradient]  │ (Weights + b) │   │ │
+│ │ Learner │<───────────────────┤               │   │ │
+│ └─────────┘                    └───────────────┘   │ │
+│                                                    │ │
+│                                ┌───────────────┐   │ │
+│                                │ Actuators     │<──┼─┘
+│                                └───────────────┘   │
+└────────────────────────────────────────────────────────┘
+```
 
 이 그림의 핵심은 센서를 통해 들어온 환경의 상태 정보가 일방향으로 흘러 끝나는 것이 아니라, 행동(Action)을 통해 다시 환경을 변화시키고 그 결과가 학습기(Learner)로 회귀하는 순환 구조를 가진다는 점이다. 추론 엔진에 내장된 파라미터([Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/), [Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/))는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에는 무작위 상태이지만, 학습기의 손실 기울기(Loss Gradient) 피드백을 통해 점점 최적점으로 수렴한다. 따라서 이 [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))이 짧고 측정되는 보상(Reward)이 정확할수록 에이전트의 지능은 기하급수적으로 고도화된다.
 
@@ -124,22 +121,20 @@ else:
 
 실무 시스템 설계 시, 무조건적인 최신 기술 도입을 막기 위한 아키텍처 의사결정 흐름도는 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">요구사항 및 데이터 분석</div></div>
-<div class="kb-diagram-tree-item" style="--depth:1">도메인 룰이 100% 명확하며 법적 감사/소명이 필수적인가?</div>
-<div class="kb-diagram-note">─(Yes)──&gt; 💡 Rule-based / Expert System 도입 (금융 코어 원장)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">(No)─&gt; 데이터의 주된 형태가 RDB에 저장된 정형(Tabular) 데이터인가?</div>
-<div class="kb-diagram-tree-item" style="--depth:4">(Yes)──&gt; 💡 Machine Learning (XGBoost, Random Forest)</div>
-<div class="kb-diagram-note">=&gt; 높은 해석력, 낮은 인프라 비용, 빠른 학습 사이클</div>
-<div class="kb-diagram-tree-item" style="--depth:4">(No, 비정형: 이미지, 텍스트, 음성)──&gt; 💡 Deep Learning (CNN, Transformer)</div>
-<div class="kb-diagram-note">=&gt; 높은 GPU 비용 감수, 블랙박스 위험 존재하나 최고 분류 성능 확보</div>
-</div>
-</div>
-
-
+```text
+[요구사항 및 데이터 분석]
+   │
+   ├─> 도메인 룰이 100% 명확하며 법적 감사/소명이 필수적인가?
+   │     └─(Yes)──> 💡 Rule-based / Expert System 도입 (금융 코어 원장)
+   │
+   └─(No)─> 데이터의 주된 형태가 RDB에 저장된 정형(Tabular) 데이터인가?
+         │
+         ├─(Yes)──> 💡 Machine Learning (XGBoost, Random Forest)
+         │          => 높은 해석력, 낮은 인프라 비용, 빠른 학습 사이클
+         │
+         └─(No, 비정형: 이미지, 텍스트, 음성)──> 💡 Deep Learning (CNN, Transformer)
+                    => 높은 GPU 비용 감수, 블랙박스 위험 존재하나 최고 분류 성능 확보
+```
 
 이 의사결정 매트릭스의 핵심은 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)의 특성과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 형태에 따라 최적의 기술이 완전히 달라진다는 점이다. 최신 딥러닝 모델이 항상 정답은 아니며, 테이블 형태의 고객 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 분석할 때는 여전히 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 모델이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 가성비 측면에서 딥러닝을 압도하는 경우가 많다. 실무에서는 단일 기술을 고집하기보다 예측은 딥러닝으로 수행하고, 최종 통제는 규칙 기반 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 엔진이 담당하는 '하이브리드 아키텍처'를 설계하는 것이 시스템의 안정성을 보장하는 길이다.
 
@@ -160,22 +155,16 @@ else:
 
 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 및 실패 시나리오 (<a href="/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/">데이터 드리프트</a>)</strong>
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">AI 운영의 치명적 안티패턴: 방치된 쇠락</div></div>
-<div class="kb-diagram-note">(학습 완료 배포) ──&gt; 정확도 95% 달성 (성공 선언)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">(시간 경과) &gt; 사용자 행동 패턴 및 시장 트렌드 급변 (Concept Drift 발생)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">(모니터링 부재) ──&gt; 알람 없이 시스템은 계속 구동 (Silent Failure)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">(비즈니스 타격) ──&gt; 예측 모델 오작동으로 인한 엉뚱한 추천 쇄도, 막대한 고객 이탈 초래</div>
-</div>
-</div>
-
-
+```text
+[ AI 운영의 치명적 안티패턴: 방치된 쇠락 ]
+(학습 완료 배포) ──> 정확도 95% 달성 (성공 선언)
+       ↓
+(시간 경과) ──────> 사용자 행동 패턴 및 시장 트렌드 급변 (Concept Drift 발생)
+       ↓
+(모니터링 부재) ──> 알람 없이 시스템은 계속 구동 (Silent Failure)
+       ↓
+(비즈니스 타격) ──> 예측 모델 오작동으로 인한 엉뚱한 추천 쇄도, 막대한 고객 이탈 초래
+```
 
 이 장애 전파도는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시스템의 고장이 전통적 S/W처럼 '서버 다운'의 형태로 나타나지 않고, 인프라는 정상이지만 '지능이 서서히 멍청해지는' 침묵의 고장(Silent Failure) 형태로 나타남을 경고한다. 실무 엔지니어는 모델을 배포한 직후부터 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 통계적 분포(평균, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/))가 훈련 시점과 틀어지는지를 K-S 통계량이나 PSI 지표로 추적하는 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 대시보드를 구축해야 한다. 이를 방치하는 것은 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 프로젝트 실패의 1원인이다.
 
@@ -207,21 +196,18 @@ else:
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Machine Learning (머신러닝)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Deep Learning (딥러닝)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MLOps (머신러닝 운영)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Turing Test (튜링 테스트)</div></div>
-</div>
-</div>
-
-
+```text
+[Machine Learning (머신러닝)]
+    │
+    ▼
+[Deep Learning (딥러닝)]
+    │
+    ▼
+[MLOps (머신러닝 운영)]
+    │
+    ▼
+[Turing Test (튜링 테스트)]
+```
 
 이 흐름도는 선행 개념이 현재 개념으로 응축되고, 다시 확장 개념으로 이어지는 순서를 보여준다.
 

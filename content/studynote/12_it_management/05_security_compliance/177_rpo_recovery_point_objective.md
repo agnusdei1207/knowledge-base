@@ -42,21 +42,19 @@ RPO의 핵심 공식은 단순하다. <strong>실제 <a href="/knowledge-base/st
 
 아래 그림은 RPO가 타임라인에서 어떻게 계산되는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RPO timeline</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Transactions: 10:00 10:05 10:10 10:15 10:20 10:25</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Snapshots: B1 B2 B3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Disaster: X at 10:27</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Recoverable point: B3 at 10:20</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Actual data loss window = 10:27 - 10:20 = 7 minutes</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RPO target means this gap must stay within the allowed limit</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ RPO timeline                                                         │
+├──────────────────────────────────────────────────────────────────────┤
+│ Transactions: 10:00 10:05 10:10 10:15 10:20 10:25                   │
+│ Snapshots:      B1          B2          B3                           │
+│ Disaster:                                   X at 10:27              │
+│ Recoverable point:                          B3 at 10:20             │
+│                                                                      │
+│ Actual data loss window = 10:27 - 10:20 = 7 minutes                 │
+│ RPO target means this gap must stay within the allowed limit         │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림에서 핵심은 RPO가 장애 이후에 계산되는 <strong>실제 결과값</strong>이면서, 동시에 그 결과값이 넘지 않도록 미리 정하는 <strong>목표값</strong>이라는 점이다. 그래서 "[백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)이 있었다"는 사실만으로는 충분하지 않고, 실제로 어느 시점까지 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능한지와 그 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)이 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)되어야 한다.
 
@@ -140,26 +138,25 @@ RPO를 명확히 정의하면 조직은 "[데이터](/knowledge-base/studynote/0
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">업무 영향 분석</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">데이터 등급 분류</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">RPO 목표 설정</div>
-<div class="kb-diagram-tree-item" style="--depth:2">0에 가까움 -&gt; 동기 복제 · 미러 사이트</div>
-<div class="kb-diagram-tree-item" style="--depth:2">짧음 -&gt; 비동기 복제 · 로그 전송</div>
-<div class="kb-diagram-tree-item" style="--depth:2">김 -&gt; 스냅샷 · 주기 백업</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">복구 테스트 · 시점 정합성 검증</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">BCP (Business Continuity Planning) / DR 거버넌스 고도화</div>
-</div>
-</div>
-
-
+```text
+업무 영향 분석
+    │
+    ▼
+데이터 등급 분류
+    │
+    ▼
+RPO 목표 설정
+    │
+    ├─ 0에 가까움  -> 동기 복제 · 미러 사이트
+    ├─ 짧음        -> 비동기 복제 · 로그 전송
+    └─ 김          -> 스냅샷 · 주기 백업
+    │
+    ▼
+복구 테스트 · 시점 정합성 검증
+    │
+    ▼
+BCP (Business Continuity Planning) / DR 거버넌스 고도화
+```
 
 이 흐름은 RPO가 단일 숫자가 아니라, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중요도 분류에서 시작해 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 전략과 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 체계로 이어지는 의사결정 축임을 보여 준다.
 

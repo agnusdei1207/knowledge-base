@@ -26,18 +26,15 @@ tags = ["software_engineering"]
 
 아래 그림은 왜 pairwise가 집단 우선순위 토론에 잘 맞는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Why pairwise works</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">hard : rank A, B, C, D, E all at once</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">easier: decide A vs B, then A vs C, then B vs C ...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">output: traceable wins / losses -&gt; final priority order</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Why pairwise works                                                │
+├────────────────────────────────────────────────────────────────────┤
+│ hard  : rank A, B, C, D, E all at once                            │
+│ easier: decide A vs B, then A vs C, then B vs C ...               │
+│ output: traceable wins / losses -> final priority order           │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 핵심은 절대 순위를 한 번에 맞히는 것이 아니라, 국소 비교의 결과를 누적해 전체 순서를 만드는 데 있다. 그래서 pairwise는 복잡한 백로그를 작은 판단 조각으로 쪼개는 도구이며, 논쟁을 없애기보다 논쟁의 근거를 구조화하는 도구라고 보는 편이 정확하다.
 
@@ -52,7 +49,7 @@ tags = ["software_engineering"]
 | 단계 | 해야 할 일 | 주의점 |
 | :--- | :--- | :--- |
 | 후보 확정 | 비교 대상 목록을 동결 | 중간에 항목을 추가하면 매트릭스를 다시 짜야 한다 |
-| 기준 정의 | 예: [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/) 3개월 내 business impact | 한 세션에는 하나의 기준만 유지한다 |
+| 기준 정의 | 예: [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/) 3개월 내 비즈니스 impact | 한 세션에는 하나의 기준만 유지한다 |
 | 쌍대 비교 | 모든 조합을 1회씩 비교 | 동일 참가자와 동일 정보 조건이 중요하다 |
 | 점수 집계 | 승수, [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/), tie 점수 반영 | tie가 많으면 기준이 모호하다는 신호다 |
 | 순위 검토 | dependency, cost, risk와 함께 해석 | score가 곧 실행 순서는 아니다 |
@@ -61,23 +58,21 @@ tags = ["software_engineering"]
 
 아래 예시는 4개 요구사항을 pairwise matrix로 우선순위화한 모습이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Example pairwise priority matrix</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">criterion: MVP 3개월 내 business impact</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A=결제 안정성 B=검색 속도 C=쿠폰 발급 D=통계 대시보드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A B C D score</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A - 1 1 1 3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B 0 - 1 1 2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C 0 0 - 1 1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">D 0 0 0 - 0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">comparisons = 4×3/2 = 6</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Example pairwise priority matrix                                  │
+├────────────────────────────────────────────────────────────────────┤
+│ criterion: MVP 3개월 내 business impact                           │
+│ A=결제 안정성  B=검색 속도  C=쿠폰 발급  D=통계 대시보드           │
+│                                                                    │
+│        A   B   C   D   score                                      │
+│ A      -   1   1   1     3                                        │
+│ B      0   -   1   1     2                                        │
+│ C      0   0   -   1     1                                        │
+│ D      0   0   0   -     0                                        │
+│ comparisons = 4×3/2 = 6                                           │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 이 표는 결제 안정성이 세 번 모두 이겨 1순위가 되고, 검색 속도는 두 번 이겨 2순위가 된다는 뜻이다. 단순 승패형 pairwise에서는 1점과 0점만 써도 되지만, tie를 허용해야 하면 0.5점씩 나눌 수 있다. 더 나아가 중요도 차이의 강도까지 반영하려면 이후 AHP 같은 가중 pairwise 기법으로 확장할 수 있다.
 
@@ -106,31 +101,32 @@ tags = ["software_engineering"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 pairwise를 잘 쓰는 핵심은 후보를 줄이고 기준을 고정하는 것이다. 예를 들어 신규 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/) 기능이 30개라면, 먼저 MoSCoW나 business case로 8~10개의 핵심 기능만 남긴 뒤 pairwise를 적용하는 편이 좋다. 그다음 결과를 cost, dependency, release constraint와 겹쳐 보면, 우선순위와 실행 가능성 사이의 균형점이 보인다.
+실무에서 pairwise를 잘 쓰는 핵심은 후보를 줄이고 기준을 고정하는 것이다. 예를 들어 신규 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/) 기능이 30개라면, 먼저 MoSCoW나 비즈니스 case로 8~10개의 핵심 기능만 남긴 뒤 pairwise를 적용하는 편이 좋다. 그다음 결과를 cost, dependency, release constraint와 겹쳐 보면, 우선순위와 실행 가능성 사이의 균형점이 보인다.
 
 아래 판단 흐름은 pairwise를 언제 바로 쓰고, 언제 먼저 후보를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해야 하는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">When to use pairwise priority matrix</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">candidate items &gt; 12 ?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes ─▶ coarse filter first (MoSCoW / Kano / business case)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">single comparison criterion fixed?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no ─▶ define criterion before matrix</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes ─▶ run pairwise session</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">overlay effort / dependency / capacity before roadmap</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ When to use pairwise priority matrix                              │
+├────────────────────────────────────────────────────────────────────┤
+│ candidate items > 12 ?                                            │
+│   ├─ yes ─▶ coarse filter first (MoSCoW / Kano / business case)   │
+│   └─ no                                                           │
+│        │                                                          │
+│        ▼                                                          │
+│ single comparison criterion fixed?                                │
+│   ├─ no  ─▶ define criterion before matrix                        │
+│   └─ yes ─▶ run pairwise session                                  │
+│                    │                                               │
+│                    ▼                                               │
+│        overlay effort / dependency / capacity before roadmap      │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 ### 실무 판단 기준
 
 1. **후보 수 관리**: 보통 5~12개 수준의 핵심 항목에 적용할 때 효율이 좋다.
-2. **기준 단일화**: business value, [risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) reduction, regulatory urgency 중 무엇을 볼지 한 번에 하나만 정한다.
+2. **기준 단일화**: 비즈니스 value, [risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) reduction, regulatory urgency 중 무엇을 볼지 한 번에 하나만 정한다.
 3. **참여자 고정**: 같은 정보와 같은 권한 구조를 가진 평가자가 끝까지 비교해야 결과 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)이 높다.
 4. **근거 기록**: 승패만 적지 말고 왜 이겼는지 한 줄 근거를 남겨 나중에 설명 가능성을 확보한다.
 5. <strong>사후 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>: pairwise 결과를 비용, 의존성, 일정 제약과 다시 겹쳐 실제 실행 순서로 번역한다.
@@ -173,25 +169,23 @@ tags = ["software_engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">candidate requirements</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">coarse filtering</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">pairwise comparisons</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ win / loss matrix</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ explicit priority order</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">weighted extension with AHP</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">roadmap / backlog / release planning</div>
-</div>
-</div>
-
-
+```text
+candidate requirements
+    │
+    ▼
+coarse filtering
+    │
+    ▼
+pairwise comparisons
+    │
+    ├──────────────▶ win / loss matrix
+    ├──────────────▶ explicit priority order
+    ▼
+weighted extension with AHP
+    │
+    ▼
+roadmap / backlog / release planning
+```
 
 이 흐름도는 pairwise가 대량 후보를 바로 정렬하는 만능 해법이 아니라, 후보 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 뒤에 적용해 정밀한 순위를 만들고 필요하면 AHP로 확장하는 단계적 의사결정 구조임을 보여 준다.
 

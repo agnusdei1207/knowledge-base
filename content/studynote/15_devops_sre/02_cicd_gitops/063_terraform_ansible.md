@@ -29,18 +29,13 @@ Terraform은 최종 상태를 선언하는 데 강하고, Ansible은 각 서버�
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
+```text
+Terraform
+Code -> Plan -> State -> Apply -> Provider -> Cloud API
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Terraform</div>
-<div class="kb-diagram-note">Code -&gt; Plan -&gt; State -&gt; Apply -&gt; Provider -&gt; Cloud API</div>
-<div class="kb-diagram-note">Ansible</div>
-<div class="kb-diagram-note">Inventory -&gt; Playbook -&gt; Task -&gt; Host Change</div>
-</div>
-</div>
-
-
+Ansible
+Inventory -> Playbook -> Task -> Host Change
+```
 
 | 개념 | [Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/) | [Ansible](/knowledge-base/studynote/15_devops_sre/05_devsecops/198_ansible_os_configuration_management_ssh/) |
 | :-- | :-- | :-- |
@@ -106,43 +101,31 @@ Terraform과 Ansible을 적절히 분리하면 인프라는 더 예측 가능해
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Infrastructure as Code</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Terraform</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">State / Provider</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Ansible</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Configuration Management</div>
-</div>
-</div>
-
-
+```text
+Infrastructure as Code
+  ↓
+Terraform
+  ↓
+State / Provider
+  ↓
+Ansible
+  ↓
+Configuration Management
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">수동 서버 설정</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">스크립트 자동화</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Terraform / Ansible</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">GitOps / IaC</div>
-</div>
-</div>
-
-
+```text
+수동 서버 설정
+  ↓
+스크립트 자동화
+  ↓
+Terraform / Ansible
+  ↓
+GitOps / IaC
+```
 
 ---
 

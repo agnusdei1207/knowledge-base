@@ -43,20 +43,19 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 동기식 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 "정해진 클럭 수 뒤에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽는다"는 사실을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Synchronous Bus Cycle : fixed timing contract</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Clock</div><div class="kb-diagram-cell">C1</div><div class="kb-diagram-cell">C2</div><div class="kb-diagram-cell">C3</div><div class="kb-diagram-cell">C4</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Master</div><div class="kb-diagram-cell">Addr + Read</div><div class="kb-diagram-cell">Hold control</div><div class="kb-diagram-cell">Sample data</div><div class="kb-diagram-cell">Finish</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Slave</div><div class="kb-diagram-cell">Decode addr</div><div class="kb-diagram-cell">Access data</div><div class="kb-diagram-cell">Drive bus</div><div class="kb-diagram-cell">Release</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data bus</div><div class="kb-diagram-cell">----</div><div class="kb-diagram-cell">----</div><div class="kb-diagram-cell">VALID DATA</div><div class="kb-diagram-cell">----</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Rule: data must become valid by the agreed sampling edge.</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│            Synchronous Bus Cycle : fixed timing contract            │
+├──────────────┬──────────────┬──────────────┬──────────────┬──────────┤
+│ Clock        │      C1      │      C2      │      C3      │    C4    │
+├──────────────┼──────────────┼──────────────┼──────────────┼──────────┤
+│ Master       │ Addr + Read  │ Hold control │ Sample data  │ Finish   │
+│ Slave        │ Decode addr  │ Access data  │ Drive bus    │ Release  │
+│ Data bus     │    ----      │    ----      │  VALID DATA  │   ----   │
+├──────────────┴──────────────┴──────────────┴──────────────┴──────────┤
+│ Rule: data must become valid by the agreed sampling edge.           │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조에서 가장 중요한 식은 간단하다. <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/133_clock_cycle_time/">클럭 주기</a> ≥ 주소 해석 시간 + 장치 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/">응답 시간</a> + 배선 <a href="/knowledge-base/studynote/03_network/01_data_communication/016_전파_지연/">전파 지연</a> + 안전 마진</strong>이어야 한다. 메모리가 이 시간 안에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 올리지 못하면, 마스터는 잘못된 값을 읽게 된다. 그래서 실제 시스템은 느린 장치를 위해 대기 상태를 삽입하거나, 아예 빠른 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)와 느린 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 분리한다.
 
@@ -128,24 +127,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">공통 시간 기준 수립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">동기식 버스 (Synchronous Bus)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 고정 버스 사이클 · 버스트 전송</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SDRAM (Synchronous Dynamic Random Access Memory)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DDR (Double Data Rate) 계열 고속 메모리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">멀티버스 구조 · 브리지 · 클럭 도메인 분리</div>
-</div>
-</div>
-
-
+```text
+공통 시간 기준 수립
+    │
+    ▼
+동기식 버스 (Synchronous Bus)
+    │
+    ├─▶ 고정 버스 사이클 · 버스트 전송
+    │
+    ▼
+SDRAM (Synchronous Dynamic Random Access Memory)
+    │
+    ▼
+DDR (Double Data Rate) 계열 고속 메모리
+    │
+    ▼
+멀티버스 구조 · 브리지 · 클럭 도메인 분리
+```
 
 이 흐름은 "시간 합의"에서 출발해 "고속 메모리 최적화"로 발전하고, 이후에는 다시 "경계 분리"와 "[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 관리"로 확장되는 방향을 보여준다.
 

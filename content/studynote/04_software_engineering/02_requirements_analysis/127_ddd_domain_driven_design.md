@@ -18,23 +18,21 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DDD 전략적·전술적 설계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전략적 설계 — 큰 그림</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Bounded Context: 도메인별 경계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Context Map: BC 간 관계 (ACL, OHS, CF)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ubiquitous Language: 공통 용어</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전술적 설계 — 코드 레벨</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Entity (식별자), Value Object (불변)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Aggregate (일관성 경계), Repository (저장소)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Domain Service, Domain Event</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    DDD 전략적·전술적 설계                             │
+├───────────────────────────────────────────────────────┤
+│  [전략적 설계 — 큰 그림]                              │
+│   Bounded Context: 도메인별 경계                     │
+│   Context Map: BC 간 관계 (ACL, OHS, CF)             │
+│   Ubiquitous Language: 공통 용어                     │
+│                                                       │
+│  [전술적 설계 — 코드 레벨]                            │
+│   Entity (식별자), Value Object (불변)               │
+│   Aggregate (일관성 경계), Repository (저장소)        │
+│   Domain Service, Domain Event                       │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: DDD는 회사 조직도([전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/): 부서 경계)와 업무 매뉴얼(전술: 역할·규칙)을 동시에 설계하는 것이다.
 
@@ -93,23 +91,21 @@ DDD는 <strong>복잡한 비즈니스 <a href="/knowledge-base/studynote/05_data
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 중심 설계 (ERD 기반, ~2000s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DDD (Eric Evans, 2003) — 도메인 중심</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CQRS + Event Sourcing (2010~)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DDD + MSA (2014~) — Bounded Context = Service</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: Event Storming + DDD — 협업 기반 도메인 분석</div></div>
-</div>
-</div>
-
-
+```text
+[데이터 중심 설계 (ERD 기반, ~2000s)]
+    │
+    ▼
+[DDD (Eric Evans, 2003) — 도메인 중심]
+    │
+    ▼
+[CQRS + Event Sourcing (2010~)]
+    │
+    ▼
+[DDD + MSA (2014~) — Bounded Context = Service]
+    │
+    ▼
+[현재: Event Storming + DDD — 협업 기반 도메인 분석]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. DDD는 <strong>레고 설명서</strong>처럼 만들 물건([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))을 먼저 이해하고 설계하는 거예요.

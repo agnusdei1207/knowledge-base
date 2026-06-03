@@ -41,22 +41,21 @@ CPU 내부의 PCU ([Power](/knowledge-base/studynote/14_data_engineering/02_math
 
 이 그림은 CPU가 왜 처음에는 빠르고, 긴 부하에서는 결국 지속 가능한 수준으로 내려오는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">짧은 작업은 PL2를 쓰고, 장기 평균이 차오르면 PL1 근처로 수렴한다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Power</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">^</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PL2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">burst turbo 구간</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PL1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+-------------------------------------- -------------------------------&gt; t</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tau 평균 창이 차며 전력과 클럭이 낮아진다</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│      짧은 작업은 PL2를 쓰고, 장기 평균이 차오르면 PL1 근처로 수렴한다      │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Power                                                                      │
+│  ^                                                                         │
+│  |  PL2 ────────────────┐                                                  │
+│  |                      │  burst turbo 구간                                │
+│  |                      │                                                  │
+│  |  PL1 ────────────────────────────────┬───────────────────────────────   │
+│  |                                      │                                  │
+│  +--------------------------------------┴-------------------------------> t │
+│                         Tau 평균 창이 차며 전력과 클럭이 낮아진다          │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 메인보드 제조사나 노트북 OEM은 이 값을 임의로 조정할 수 있다. PL1을 크게 높이거나 PL1=PL2로 맞추면 장시간 더 빠를 수 있지만, 그 대가로 발열, 소음, 소비전력, 전원부 부담이 커진다.
 - **📢 섹션 요약 비유**: PL2는 신용카드 한도처럼 잠깐 빌려 쓰는 힘이고, Tau는 그 카드값이 얼마나 빨리 월말 청구서로 돌아오는지를 정하는 규칙이다. 결국 오래 살려면 월급 수준인 PL1 안에서 살아야 한다.
@@ -127,23 +126,21 @@ PL1과 PL2가 잘 설계되면 시스템은 두 마리 토끼를 잡는다. 짧�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단일 TDP 중심 설계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">PL1 (지속 전력) + PL2 (순간 전력)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Tau 기반 평균 전력 제어</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">OEM / BIOS별 전력 프로파일 튜닝</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">workload·배터리·열상승률 반영 적응형 전력 제어</div>
-</div>
-</div>
-
-
+```text
+단일 TDP 중심 설계
+        │
+        ▼
+PL1 (지속 전력) + PL2 (순간 전력)
+        │
+        ▼
+Tau 기반 평균 전력 제어
+        │
+        ▼
+OEM / BIOS별 전력 프로파일 튜닝
+        │
+        ▼
+workload·배터리·열상승률 반영 적응형 전력 제어
+```
 
 이 흐름은 전력 관리가 단순 정적 숫자에서 출발해, 이제는 시간 축과 플랫폼 상태를 함께 반영하는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 계층으로 발전했음을 보여 준다.
 

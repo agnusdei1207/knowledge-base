@@ -66,19 +66,15 @@ H = (c1 * d^(m-1) + c2 * d^(m-2) + ... + cm * d^0) mod q
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">상위 개념: 문자열 탐색, 해시 함수</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">하위 개념: Rolling Hash, Fingerprinting</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">융합 응용: Bloom Filter (공간 효율적 필터링)</div></div>
-</div>
-</div>
-
-
+```text
+[상위 개념: 문자열 탐색, 해시 함수]
+    │
+    ▼
+[하위 개념: Rolling Hash, Fingerprinting]
+    │
+    ▼
+[융합 응용: Bloom Filter (공간 효율적 필터링)]
+```
 
 이 흐름도는 상위 개념: 문자열 탐색, [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)에서 출발해 융합 응용: [Bloom Filter](/knowledge-base/studynote/12_it_management/02_itsm_itil/061_bloomfilter/) (공간 효율적 필터링)까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

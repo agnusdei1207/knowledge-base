@@ -37,20 +37,21 @@ LLMOps는 기존 기계 학습 운영([MLOps](/knowledge-base/studynote/12_it_ma
 | <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/133_fine_tuning/">미세 조정</a> (<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/">Fine-Tuning</a>)</strong> | [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)(Llama 등)을 회사 내부망에 띄울 때, 사내 특수 용어나 문체(~다체 등)를 가르치기 위해 아주 적은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 모델의 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 미세하게 업데이트([LoRA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/) 기법)한다. | [PEFT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/306_peft_lora/), [LoRA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/), Hugging Face |
 | **가드레일 및 평가 자동화** | LLM이 사내 기밀을 내뱉거나 혐오 발언을 하지 않도록, 또 다른 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)-as-a-Judge)를 문지기로 세워 실시간으로 응답의 안전성을 평가하고 필터링한다. | NeMo [Guardrails](/knowledge-base/studynote/09_security/19_ai_advanced_security/965_llm_guardrails/), [Ragas](/knowledge-base/studynote/10_ai/03_llm_nlp/225_rag_evaluation_ragas/) |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LLMOps의 심장: RAG(검색 증강 생성) 동작 흐름도</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1.</div><div class="kb-diagram-node">사용자 질문</div><div class="kb-diagram-note">"우리 회사 연차 규정 알려줘."</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2.</div><div class="kb-diagram-node">문서 검색</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">관련 텍스트 추출</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3.</div><div class="kb-diagram-node">프롬프트 합성</div><div class="kb-diagram-note">"아래 사내 규정을 보고 대답해:</div><div class="kb-diagram-node">규정 텍스트</div><div class="kb-diagram-note">"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">4.</div><div class="kb-diagram-node">LLM 호출</div><div class="kb-diagram-note">프롬프트를 GPT-4 API로 전송</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">5.</div><div class="kb-diagram-node">가드레일 검열</div><div class="kb-diagram-note">답변에 기밀이 없는지 검사 후 사용자에게 반환</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           LLMOps의 심장: RAG(검색 증강 생성) 동작 흐름도          │
+├──────────────────────────────────────────────────────────────┤
+│ 1. [사용자 질문] "우리 회사 연차 규정 알려줘."                  │
+│        │                                                     │
+│ 2. [문서 검색] 벡터 DB에서 사내 규정집 검색 ──▶ 관련 텍스트 추출 │
+│        │                                                     │
+│ 3. [프롬프트 합성] "아래 사내 규정을 보고 대답해: [규정 텍스트]"    │
+│        │                                                     │
+│ 4. [LLM 호출] 프롬프트를 GPT-4 API로 전송                        │
+│        │                                                     │
+│ 5. [가드레일 검열] 답변에 기밀이 없는지 검사 후 사용자에게 반환      │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램은 LLMOps가 LLM의 뇌(기존 지식)에 의존하지 않고, 철저히 외부에서 주입된 정보만을 요약하도록 강제하는 과정을 보여준다. 이를 통해 [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/)을 근본적으로 차단한다.
 
@@ -108,30 +109,28 @@ LLMOps를 성공적으로 구축하면, 기업은 천문학적인 비용이 드�
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/">RAG</a> (<a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/585_rag_retrieval_augmented_generation/">Retrieval-Augmented Generation</a>)</strong> | LLM의 [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/)을 억제하고 최신/사내 지식을 주입하기 위한 LLMOps의 가장 핵심적인 아키텍처. |
-| <strong><a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/149_prompt_engineering_cot_few_shot/">프롬프트 엔지니어링</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/224_prompt_engineering_guideline/">Prompt Engineering</a>)</strong> | LLM의 출력 품질을 결정하는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 설계 기법으로, LLMOps를 통해 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)과 성능이 관리된다. |
+| <strong><a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/149_prompt_engineering_cot_few_shot/">프롬프트 엔지니어링</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/224_prompt_engineering_guideline/">Prompt 엔진ering</a>)</strong> | LLM의 출력 품질을 결정하는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 설계 기법으로, LLMOps를 통해 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)과 성능이 관리된다. |
 | <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/133_fine_tuning/">미세 조정</a> (<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/">Fine-Tuning</a> / <a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/">LoRA</a>)</strong> | RAG로 해결되지 않는 모델의 말투나 고유한 지식 구조를 가르치기 위한 저비용 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 튜닝 기법. |
 | <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/223_vector_database_embedding/">벡터 데이터베이스</a> (<a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/151_vector_database_embedding_ann_search/">Vector DB</a>)</strong> | 문서를 의미적 유사도를 기준으로 저장하고 0.1초 만에 검색해 RAG에 공급하는 전용 저장소. |
 | <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/">MLOps</a></strong> | LLMOps의 근본이 되는 운영 사상이자, 자체 모델 학습과 예측 서빙에 집중하는 기존 기계 학습 파이프라인. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">전통적 머신러닝 운영 (MLOps - 재학습 및 예측 정확도 중심)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">파운데이션 모델의 등장 (GPT-3, 파라미터 폭발, 직접 학습 불가능)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">프롬프트 엔지니어링 대두 (명령어에 따라 출력 품질이 변동)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">할루시네이션(환각) 억제를 위한 RAG(검색 증강 생성) 도입</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">LLMOps 통합 아키텍처 (프롬프트 형상 관리, RAG 파이프라인, 평가 및 비용 통제)</div>
-</div>
-</div>
-
-
+```text
+전통적 머신러닝 운영 (MLOps - 재학습 및 예측 정확도 중심)
+    │
+    ▼
+파운데이션 모델의 등장 (GPT-3, 파라미터 폭발, 직접 학습 불가능)
+    │
+    ▼
+프롬프트 엔지니어링 대두 (명령어에 따라 출력 품질이 변동)
+    │
+    ▼
+할루시네이션(환각) 억제를 위한 RAG(검색 증강 생성) 도입
+    │
+    ▼
+LLMOps 통합 아키텍처 (프롬프트 형상 관리, RAG 파이프라인, 평가 및 비용 통제)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -146,6 +145,6 @@ LLMOps를 성공적으로 구축하면, 기업은 천문학적인 비용이 드�
 **진행 상황**: 108 / 973
 
 ← **이전**: [107. MLOps - 머신러닝 생명주기 관리](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/107_mlops_machine_learning_lifecycle/)
-**다음**: [109. 플랫폼 엔지니어링 (Platform Engineering) - 개발자 인지 부하 해소와 IDP 셀프서비스](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/) →
+**다음**: [109. 플랫폼 엔지니어링 (Platform 엔진ering) - 개발자 인지 부하 해소와 IDP 셀프서비스](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/) →
 
 ---

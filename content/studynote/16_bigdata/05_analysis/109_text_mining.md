@@ -28,24 +28,31 @@ tags = ["studynote-bigdata"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">텍스트 마이닝 전체 파이프라인</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">원시 텍스트</div><div class="kb-diagram-note">"오늘 배송은 늦었지만, 제품 품질은 기대 이상이에요"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1단계: 전처리 (Preprocessing)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">형태소 분석 → 품사 태깅 → 불용어 제거 → 정규화/소문자화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">KoNLPy(Okt/Mecab) / NLTK / spaCy</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2단계: 특성 추출 (Feature Extraction)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Bag-of-Words</div><div class="kb-diagram-cell">TF-IDF</div><div class="kb-diagram-cell">Word2Vec / BERT</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단어 빈도</div><div class="kb-diagram-cell">중요도 가중치</div><div class="kb-diagram-cell">의미적 임베딩 벡터</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3단계: 분석 태스크</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분류</div><div class="kb-diagram-cell">군집화</div><div class="kb-diagram-cell">요약</div><div class="kb-diagram-cell">NER</div><div class="kb-diagram-cell">감성 분석</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│                텍스트 마이닝 전체 파이프라인                        │
+├────────────────────────────────────────────────────────────────────┤
+│  [원시 텍스트] "오늘 배송은 늦었지만, 제품 품질은 기대 이상이에요"  │
+│          │                                                          │
+│          ▼                                                          │
+│  [1단계: 전처리 (Preprocessing)]                                    │
+│   형태소 분석 → 품사 태깅 → 불용어 제거 → 정규화/소문자화           │
+│   KoNLPy(Okt/Mecab) / NLTK / spaCy                                 │
+│          │                                                          │
+│          ▼                                                          │
+│  [2단계: 특성 추출 (Feature Extraction)]                            │
+│   ┌──────────────┬────────────────┬──────────────────────────┐     │
+│   │  Bag-of-Words│   TF-IDF       │  Word2Vec / BERT          │     │
+│   │  단어 빈도   │  중요도 가중치 │  의미적 임베딩 벡터       │     │
+│   └──────────────┴────────────────┴──────────────────────────┘     │
+│          │                                                          │
+│          ▼                                                          │
+│  [3단계: 분석 태스크]                                               │
+│   ┌──────────┬──────────┬──────────┬──────────┬──────────────┐     │
+│   │  분류    │  군집화  │  요약    │  NER     │  감성 분석   │     │
+│   └──────────┴──────────┴──────────┴──────────┴──────────────┘     │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 ### 텍스트 표현 방법 진화
 
@@ -115,7 +122,7 @@ TF-IDF   = TF(t,d) × IDF(t)
 |:---|:---|
 | [비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/) 활용 | 기존 수치 분석이 놓친 80% 텍스트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 인사이트 추출 |
 | 업무 자동화 | 문서 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/), 요약, 정보 추출 자동화로 인력 비용 절감 |
-| 의사결정 지원 | VoC (Voice of [Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/)), 뉴스, SNS 종합 인사이트 대시보드 |
+| 의사결정 지원 | VoC (Voice of [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/)), 뉴스, SNS 종합 인사이트 대시보드 |
 | 지식 발굴 | 수백만 건 문서에서 사람이 발견하지 못한 패턴과 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 자동 추출 |
 | 실시간 처리 | [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) + Spark Streaming으로 실시간 텍스트 스트림 분석 |
 
@@ -139,30 +146,29 @@ TF-IDF   = TF(t,d) × IDF(t)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">비정형 텍스트 (Unstructured Text) — 원시 자연어 데이터</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전처리 (Preprocessing) — 토큰화·불용어 제거·정규화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">TF-IDF / BoW — 텍스트 수치 벡터화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NLP (자연어 처리) — 형태소 분석·개체명 인식·감성 분석</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">워드 임베딩 (Word Embedding) — Word2Vec·GloVe 의미 벡터화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LLM 기반 텍스트 분석 — BERT·GPT 사전학습 모델 응용</div></div>
-</div>
-</div>
-
-
+```text
+[비정형 텍스트 (Unstructured Text) — 원시 자연어 데이터]
+    │
+    ▼
+[전처리 (Preprocessing) — 토큰화·불용어 제거·정규화]
+    │
+    ▼
+[TF-IDF / BoW — 텍스트 수치 벡터화]
+    │
+    ▼
+[NLP (자연어 처리) — 형태소 분석·개체명 인식·감성 분석]
+    │
+    ▼
+[워드 임베딩 (Word Embedding) — Word2Vec·GloVe 의미 벡터화]
+    │
+    ▼
+[LLM 기반 텍스트 분석 — BERT·GPT 사전학습 모델 응용]
+```
 텍스트 마이닝은 규칙 기반 전처리에서 출발해 통계적 벡터화 → 딥러닝 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) → [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 분석으로 발전하며 [비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/) 가치화의 핵심 기술이 되었다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 - 텍스트 마이닝은 컴퓨터가 글을 읽고 "여기서 중요한 게 뭔지" 스스로 알아내는 거예요.
-- TF-IDF는 "모든 글에 나오는 '은/는/이/가'보다, 이 글에서만 많이 나오는 특별한 단어가 중요하다"고 판단하는 방법이에요.
+- TF-IDF는 "모든 글에 나오는 '은/이/가'보다, 이 글에서만 많이 나오는 특별한 단어가 중요하다"고 판단하는 방법이에요.
 - BERT는 단어의 앞뒤 문맥까지 다 읽고 이해하는 아주 똑똑한 독서 로봇이에요!
 
 ---

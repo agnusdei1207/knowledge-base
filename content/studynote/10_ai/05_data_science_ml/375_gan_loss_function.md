@@ -27,17 +27,14 @@ tags = ["studynote-ai"]
 
 두 네트워크가 적대적으로 학습하면서 G의 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 품질이 점점 향상된다. 경찰(D)과 위조지폐범(G)의 게임 비유로 유명하다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: GAN은 위조지폐범(G)과 경찰(D)의 쫓고 쫓기는 게임이다. 경찰은 진짜/가짜를 구별하는 눈을 키우고, 위조지폐범은 더 정교한 지폐를 만든다. 이 게임이 끝나면 위조지폐범은 진짜와 구별 불가능한 지폐를 만들 수 있게 된다.
 
@@ -59,18 +56,16 @@ min_G max_D V(D, G) = E_{x~p_data}[log D(x)] + E_{z~p_z}[log(1 - D(G(z)))]
 - log(1 - D(G(z))) 최소화 → D(G(z))=1이 되도록 D를 속임
 - 실용적 구현: log(D(G(z))) 최대화 (Non-saturating Loss) — 학습 초반 그래디언트 소실 방지
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Generator G</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">G(z) (가짜)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">x ~ p_data (실제) ►</div><div class="kb-diagram-node">Discriminator D</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">D(x) → 1 (실제) D(G(z)) → 0 (가짜)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↑ D 학습 방향 ↑ G는 D(G(z)) → 1 목표</div></div>
-</div>
-</div>
-
-
+```
+┌───────────────────────────────────────────────────────────┐
+│  z ~ p_z  →  [Generator G]  →  G(z) (가짜)               │
+│                                  │                        │
+│  x ~ p_data (실제)  ────────────►[Discriminator D]        │
+│                                  │                        │
+│              D(x) → 1 (실제)    D(G(z)) → 0 (가짜)        │
+│              ↑ D 학습 방향         ↑ G는 D(G(z)) → 1 목표   │
+└───────────────────────────────────────────────────────────┘
+```
 
 ### 내쉬 균형 (Nash Equilibrium) 분석
 
@@ -99,16 +94,13 @@ JSD(p_data || p_G) ≥ 0이고 p_data = p_G일 때만 0이므로, G는 p_G → p
 
 분포 p_data가 다양한 모드(Multi-modal)를 가질 때, G가 D를 속이는 데 충분한 일부 모드만 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하고 나머지를 무시하는 현상:
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">p_data: ● ● ● ● (4개 군집)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">p_G: ● (1개만 생성)</div></div>
-</div>
-</div>
-
-
+```
+┌────────────────────────────────────────────────────────┐
+│  p_data:  ●      ●        ●       ● (4개 군집)         │
+│                                                        │
+│  p_G:     ●                          (1개만 생성)      │
+└────────────────────────────────────────────────────────┘
+```
 
 ### WGAN (Wasserstein [GAN](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/154_gan_generative_adversarial_network/)) 개선
 

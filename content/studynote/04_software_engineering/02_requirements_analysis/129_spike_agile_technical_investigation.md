@@ -18,20 +18,17 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Spike 프로세스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 불확실성 식별: "이 라이브러리가 요건을 충족할까?"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Spike 생성: 타임박스 2일, 목표 명확히</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 조사·PoC: 프로토타입·성능 테스트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 결과 공유: "A 라이브러리 사용 결정, 이유는..."</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 원래 스토리: 이제 추정 가능 → 스프린트 투입</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    Spike 프로세스                                     │
+├───────────────────────────────────────────────────────┤
+│  1. 불확실성 식별: "이 라이브러리가 요건을 충족할까?"│
+│  2. Spike 생성: 타임박스 2일, 목표 명확히            │
+│  3. 조사·PoC: 프로토타입·성능 테스트                 │
+│  4. 결과 공유: "A 라이브러리 사용 결정, 이유는..."   │
+│  5. 원래 스토리: 이제 추정 가능 → 스프린트 투입      │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: Spike는 <strong>정찰대</strong>이다. 본대(개발팀)가 진격하기 전에 정찰대가 먼저 가서 "이 길이 안전한지" [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
 
@@ -88,23 +85,21 @@ Spike는 <strong>Agile에서 기술 리스크를 사전 제거하는 유일한 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">XP (Extreme Programming, 1999) — Spike 개념 도입</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Scrum + Spike (2005~)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SAFe Spike (2015~) — 대규모 Agile에서의 Spike</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">PoC as Code (2020~) — Spike 산출물 재사용</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: AI Spike — LLM으로 기술 조사 자동화</div></div>
-</div>
-</div>
-
-
+```text
+[XP (Extreme Programming, 1999) — Spike 개념 도입]
+    │
+    ▼
+[Scrum + Spike (2005~)]
+    │
+    ▼
+[SAFe Spike (2015~) — 대규모 Agile에서의 Spike]
+    │
+    ▼
+[PoC as Code (2020~) — Spike 산출물 재사용]
+    │
+    ▼
+[현재: AI Spike — LLM으로 기술 조사 자동화]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. Spike는 <strong>정찰대</strong>예요. 본대(개발팀)가 가기 전에 <strong>먼저 가서 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>해요.

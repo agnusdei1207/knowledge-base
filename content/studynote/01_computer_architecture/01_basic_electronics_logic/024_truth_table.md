@@ -25,20 +25,18 @@ tags = ["studynote-computer-architecture"]
 - [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 기준: 시뮬레이션 결과와 대조하여 올바른 동작 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)
 - 최적화 입력: [카르노 맵](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/)·Quine-McCluskey 알고리즘의 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2입력 기본 게이트 진리표 모음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A</div><div class="kb-diagram-cell">B</div><div class="kb-diagram-cell">AND</div><div class="kb-diagram-cell">OR</div><div class="kb-diagram-cell">XOR</div><div class="kb-diagram-cell">NAND</div><div class="kb-diagram-cell">NOR</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">0</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────┐
+│       2입력 기본 게이트 진리표 모음                  │
+├─────┬─────┬─────┬────┬─────┬──────┬──────┐
+│  A  │  B  │ AND │ OR │ XOR │ NAND │ NOR  │
+├─────┼─────┼─────┼────┼─────┼──────┼──────┤
+│  0  │  0  │  0  │ 0  │  0  │  1   │  1   │
+│  0  │  1  │  0  │ 1  │  1  │  1   │  0   │
+│  1  │  0  │  0  │ 1  │  1  │  1   │  0   │
+│  1  │  1  │  1  │ 1  │  0  │  0   │  0   │
+└─────┴─────┴─────┴────┴─────┴──────┴──────┘
+```
 
 - **📢 섹션 요약 비유**: 진리표는 요리 레시피의 재료 조합표다. 재료(입력)의 모든 조합에 따라 요리 결과(출력)가 정해지며, 이 표가 있으면 어떤 조합도 예측할 수 있다.
 
@@ -50,24 +48,18 @@ tags = ["studynote-computer-architecture"]
 
 출력이 1인 행(최소항, Minterm)을 OR로 결합한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">예: F(A,B,C) = A'BC + AB'C + ABC' + ABC</div>
-<div class="kb-diagram-note">A B C | F ← F=1인 행: 011, 101, 110, 111</div>
-<div class="kb-diagram-note">0 0 0 | 0 → 최소항: m3, m5, m6, m7</div>
-<div class="kb-diagram-note">0 0 1 | 0 → SOP: F = Σm(3,5,6,7)</div>
-<div class="kb-diagram-note">0 1 0 | 0</div>
-<div class="kb-diagram-note">0 1 1 | 1 ← m3</div>
-<div class="kb-diagram-note">1 0 0 | 0</div>
-<div class="kb-diagram-note">1 0 1 | 1 ← m5</div>
-<div class="kb-diagram-note">1 1 0 | 1 ← m6</div>
-<div class="kb-diagram-note">1 1 1 | 1 ← m7</div>
-</div>
-</div>
-
-
+```text
+예: F(A,B,C) = A'BC + AB'C + ABC' + ABC
+A B C | F          ← F=1인 행: 011, 101, 110, 111
+0 0 0 | 0          → 최소항: m3, m5, m6, m7
+0 0 1 | 0          → SOP: F = Σm(3,5,6,7)
+0 1 0 | 0
+0 1 1 | 1  ← m3
+1 0 0 | 0
+1 0 1 | 1  ← m5
+1 1 0 | 1  ← m6
+1 1 1 | 1  ← m7
+```
 
 ### [카르노 맵](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/)([Karnaugh Map](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/))과의 연계
 
@@ -141,23 +133,21 @@ XOR(배타적 OR)은 홀수 개의 입력이 1일 때만 출력 1이며, [패리
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">불 대수 — 0/1 이진 논리의 수학적 기반</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">진리표 — 모든 입력 조합에 대한 출력 완전 명세</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">카르노 맵 / Quine-McCluskey — 진리표 기반 논리 최적화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">논리 게이트 구현 — AND/OR/NOT/NAND/NOR/XOR</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HDL (VHDL/Verilog) — 진리표를 하드웨어 기술 언어로 합성</div></div>
-</div>
-</div>
-
-
+```text
+[불 대수 — 0/1 이진 논리의 수학적 기반]
+    │
+    ▼
+[진리표 — 모든 입력 조합에 대한 출력 완전 명세]
+    │
+    ▼
+[카르노 맵 / Quine-McCluskey — 진리표 기반 논리 최적화]
+    │
+    ▼
+[논리 게이트 구현 — AND/OR/NOT/NAND/NOR/XOR]
+    │
+    ▼
+[HDL (VHDL/Verilog) — 진리표를 하드웨어 기술 언어로 합성]
+```
 불 대수에서 진리표, [카르노 맵](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/025_karnaugh_map/) 최적화, 게이트 구현, [HDL](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/072_hdl/) 합성으로 이어지는 디지털 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 설계의 흐름이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

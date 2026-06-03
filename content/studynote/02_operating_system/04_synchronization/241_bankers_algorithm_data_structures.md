@@ -77,26 +77,27 @@ $m$ = 자원의 종류 수 (예: CPU, 프린터, 디스크 ... 3종류)
 - **의미**: 프로세스 $i$가 작업을 끝내기 위해 미래에 추가로 요구할 수 있는 자원 $j$의 개수.
 - **핵심 공식**: `Need[i][j] = Max[i][j] - Allocation[i][j]`
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자원 할당 및 반환 시 4대 자료구조의 동기화 업데이트 연산</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시나리오: 프로세스 P(i)가 자원(Request)을 추가로 요청함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 할당(대출) 승인 시 OS 커널 내부 업데이트 로직:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Available = Available - Request;</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Allocation</div><div class="kb-diagram-node">i</div><div class="kb-diagram-note">= Allocation</div><div class="kb-diagram-node">i</div><div class="kb-diagram-note">+ Request;</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Need</div><div class="kb-diagram-node">i</div><div class="kb-diagram-note">= Need</div><div class="kb-diagram-node">i</div><div class="kb-diagram-note">- Request;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(※ Max 행렬은 변하지 않음. 불변의 계약서임)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 프로세스 P(i) 종료 후 자원 반납(상환) 시 로직:</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Available = Available + Allocation</div><div class="kb-diagram-node">i</div><div class="kb-diagram-note">;</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Allocation</div><div class="kb-diagram-node">i</div><div class="kb-diagram-note">= 0;</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Need</div><div class="kb-diagram-node">i</div><div class="kb-diagram-note">= 0;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 결론: Available(금고)이 줄어들었다 늘어나는 완벽한 복식부기 회계!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌────────────────────────────────────────────────────────────────────────┐
+  │         자원 할당 및 반환 시 4대 자료구조의 동기화 업데이트 연산       │
+  ├────────────────────────────────────────────────────────────────────────┤
+  │                                                                        │
+  │   [ 시나리오: 프로세스 P(i)가 자원(Request)을 추가로 요청함 ]          │
+  │                                                                        │
+  │   1. 할당(대출) 승인 시 OS 커널 내부 업데이트 로직:                    │
+  │      Available = Available - Request;                                  │
+  │      Allocation[i] = Allocation[i] + Request;                          │
+  │      Need[i] = Need[i] - Request;                                      │
+  │      (※ Max 행렬은 변하지 않음. 불변의 계약서임)                       │
+  │                                                                        │
+  │   2. 프로세스 P(i) 종료 후 자원 반납(상환) 시 로직:                    │
+  │      Available = Available + Allocation[i];                            │
+  │      Allocation[i] = 0;                                                │
+  │      Need[i] = 0;                                                      │
+  │                                                                        │
+  │   ✅ 결론: Available(금고)이 줄어들었다 늘어나는 완벽한 복식부기 회계! │
+  └────────────────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 이 4개의 구조체는 기업의 '대차대조표'입니다. 돈이 나가고 들어올 때마다 자산(Available), 부채(Allocation), 자본(Need)이 톱니바퀴처럼 한 번에 맞물려 돌아가야 장부에 빵꾸가 나지 않습니다.
 
@@ -139,26 +140,26 @@ $m$ = 자원의 종류 수 (예: CPU, 프린터, 디스크 ... 3종류)
    - **원인**: `Max` 행렬 때문이다. 어떤 스레드가 `new Object()`를 몇 번 할지, 커넥션을 몇 개 맺을지 코드를 짜는 개발자 본인조차 알 수 없다. 트래픽에 따라 동적으로 변하기 때문이다.
    - **실무 결단**: 애초에 `Max`를 모르니 `Need`를 계산할 수 없고, [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 자체가 시작도 못 한다. 따라서 개발자는 이 완벽한 예방 공식을 포기하고, `tryLock` 타임아웃이나 `Circuit Breaker(서킷 브레이커)` 같은 런타임 방어막(Reactive)에 의존하는 아키텍처를 짤 수밖에 없다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">K8s 스케줄링에서 4대 자료구조를 활용한 파드(Pod) 배치 결정</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">워커 노드 1의 잔고 (Available) = CPU 4코어, Mem 8GB</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 신규 파드 A 배포 요청</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Request(Alloc) = CPU 2, Mem 4G</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Limit(Max) = CPU 4, Mem 8G</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 검증: Alloc(2,4) &lt;= Available(4,8) 이므로 ✅ 배포 승인!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 갱신 후 Available = CPU 2, Mem 4G 남음.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 신규 파드 B 배포 요청</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Request(Alloc) = CPU 3, Mem 2G</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Limit(Max) = CPU 3, Mem 4G</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 검증: Alloc의 CPU(3) &gt; Available의 CPU(2) 🚨 초과!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결론: 배포 거부 (Pending 상태 돌입). 다른 노드 탐색.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌──────────────────────────────────────────────────────────────────┐
+  │     K8s 스케줄링에서 4대 자료구조를 활용한 파드(Pod) 배치 결정   │
+  ├──────────────────────────────────────────────────────────────────┤
+  │                                                                  │
+  │   [ 워커 노드 1의 잔고 (Available) = CPU 4코어, Mem 8GB ]        │
+  │                                                                  │
+  │   [ 1. 신규 파드 A 배포 요청 ]                                   │
+  │     ▶ Request(Alloc) = CPU 2, Mem 4G                             │
+  │     ▶ Limit(Max) = CPU 4, Mem 8G                                 │
+  │     ▶ 검증: Alloc(2,4) <= Available(4,8) 이므로 ✅ 배포 승인!    │
+  │     ▶ 갱신 후 Available = CPU 2, Mem 4G 남음.                    │
+  │                                                                  │
+  │   [ 2. 신규 파드 B 배포 요청 ]                                   │
+  │     ▶ Request(Alloc) = CPU 3, Mem 2G                             │
+  │     ▶ Limit(Max) = CPU 3, Mem 4G                                 │
+  │     ▶ 검증: Alloc의 CPU(3) > Available의 CPU(2) 🚨 초과!         │
+  │     ▶ 결론: 배포 거부 (Pending 상태 돌입). 다른 노드 탐색.       │
+  └──────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 클라우드 엔지니어가 밥 먹듯이 짜는 YAML [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 `Request`와 `Limit`가 바로 은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 `Allocation`과 `Max` 행렬의 클라우드 버전이다. 이 수치를 대충 "에라 모르겠다" 하고 빼놓고 배포하면 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 장부(행렬)를 못 써서 데드락(Node [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))이 터져버리므로, 이 값을 정교하게 산정하는 것이 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)([DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/))의 핵심 역량이다.
 
 - **📢 섹션 요약 비유**: 은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 장부는 완벽하지만 "미래에 돈을 얼마나 쓸지 완벽한 사업계획서(Max)를 가져와라"고 요구합니다. 스타트업(일반 프로그램)은 미래를 몰라서 이 대출을 못 받습니다. 하지만 이미 규모가 확정된 대기업 부서(K8s [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))는 예산안(Limit)을 정확히 가져올 수 있으므로 이 장부 시스템이 완벽하게 들어맞습니다.
@@ -189,19 +190,15 @@ $m$ = 자원의 종류 수 (예: CPU, 프린터, 디스크 ... 3종류)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">모니터 시그널 의미론</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">은행원 알고리즘의 4대 자료구조 (Max, Allocation, Need, Available)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">우선순위 역전 (Priority Inversion)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">우선순위 상속 (Priority Inheritance Protocol)</div></div>
-</div>
-</div>
-
-
+```text
+[모니터 시그널 의미론]
+    │
+    ▼
+[은행원 알고리즘의 4대 자료구조 (Max, Allocation, Need, Available)]
+    │
+    ├──▶ [우선순위 역전 (Priority Inversion)]
+    └──▶ [우선순위 상속 (Priority Inheritance Protocol)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

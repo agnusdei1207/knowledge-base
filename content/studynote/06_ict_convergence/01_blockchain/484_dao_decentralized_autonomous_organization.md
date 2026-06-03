@@ -36,28 +36,29 @@ tags = ["studynote-ict-convergence"]
 
 ### [DAO](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/) 거버넌스 프로세스
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DAO 거버넌스 사이클</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 제안(Proposal)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">토큰 홀더 → 스마트 컨트랙트에 제안 제출</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(최소 토큰 보유량 요건: Proposal Threshold)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 투표(Voting Period, 예: 3일~7일)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">홀더: 찬성(For) / 반대(Against) / 기권(Abstain)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위임(Delegation): 투표권 위임 가능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 쿼럼(Quorum) 달성 확인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예: 전체 공급량의 4% 이상 참여 필요</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 타임락(Timelock, 예: 2일~7일)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">승인된 제안 → 즉시 실행 아님 → 대기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이 기간 긴급 철회(Guardian) 가능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 실행(Execution)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">타임락 만료 → 스마트 컨트랙트 자동 실행</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────┐
+│            DAO 거버넌스 사이클                       │
+│                                                     │
+│  1. 제안(Proposal)                                  │
+│     토큰 홀더 → 스마트 컨트랙트에 제안 제출         │
+│     (최소 토큰 보유량 요건: Proposal Threshold)      │
+│                                                     │
+│  2. 투표(Voting Period, 예: 3일~7일)                 │
+│     홀더: 찬성(For) / 반대(Against) / 기권(Abstain) │
+│     위임(Delegation): 투표권 위임 가능               │
+│                                                     │
+│  3. 쿼럼(Quorum) 달성 확인                          │
+│     예: 전체 공급량의 4% 이상 참여 필요              │
+│                                                     │
+│  4. 타임락(Timelock, 예: 2일~7일)                   │
+│     승인된 제안 → 즉시 실행 아님 → 대기             │
+│     이 기간 긴급 철회(Guardian) 가능                │
+│                                                     │
+│  5. 실행(Execution)                                 │
+│     타임락 만료 → 스마트 컨트랙트 자동 실행          │
+└─────────────────────────────────────────────────────┘
+```
 
 ### 주요 [DAO](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/) 거버넌스 비교
 
@@ -76,19 +77,13 @@ tags = ["studynote-ict-convergence"]
 
 ### The [DAO](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/) 해킹 사건 (2016)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">취약 컨트랙트: splitDAO() 함수</div>
-<div class="kb-diagram-note">공격자: ETH 출금 → 잔액 차감 전 재진입 → 반복 출금</div>
-<div class="kb-diagram-note">피해: 360만 ETH ($6000만, 당시 ETH 공급의 15%)</div>
-<div class="kb-diagram-note">결과: 이더리움 하드포크 → ETH / ETC 분리</div>
-<div class="kb-diagram-note">교훈: DAO 컨트랙트 보안 감사 필수, 타임락 도입</div>
-</div>
-</div>
-
-
+```
+취약 컨트랙트: splitDAO() 함수
+공격자: ETH 출금 → 잔액 차감 전 재진입 → 반복 출금
+피해: 360만 ETH ($6000만, 당시 ETH 공급의 15%)
+결과: 이더리움 하드포크 → ETH / ETC 분리
+교훈: DAO 컨트랙트 보안 감사 필수, 타임락 도입
+```
 
 ### 거버넌스 공격 유형
 
@@ -118,7 +113,7 @@ tags = ["studynote-ict-convergence"]
 - **프로그래밍 가능한 규칙의 한계**: 정성적 판단이 필요한 사안은 코드화 어려움
 - **멀티시그(Multi-Sig) 병용**: 긴급 대응을 위한 Gnosis [Safe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/) 기반 관리자 키
 
-- **📢 섹션 요약 비유**: — "DAO의 이상()은 완전 자율 조직이지만, 현실은 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)가 모든 경우를 처리 못하므로 '반자율' 수준에서 운영된다.
+- **📢 섹션 요약 비유**: — "DAO의 이상(理想)은 완전 자율 조직이지만, 현실은 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)가 모든 경우를 처리 못하므로 '반자율' 수준에서 운영된다.
 
 ---
 

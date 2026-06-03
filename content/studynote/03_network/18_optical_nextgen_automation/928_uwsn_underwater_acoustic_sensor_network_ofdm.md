@@ -25,18 +25,14 @@ tags = ["studynote-network"]
 2. **음파(Acoustic) 도입의 필수**: 돌고래처럼 음파(소리 파동)를 씁니다. 음파는 바닷속에서 수십 km를 날아갑니다. 
 3. <strong>소리의 치명적 느림 (<a href="/knowledge-base/studynote/03_network/01_data_communication/016_전파_지연/">전파 지연</a> 폭발)</strong>: 전파(빛)는 1초에 30만 km를 가지만, 바닷속 소리는 1초에 고작 <strong>1,500m</strong>를 갑니다. 10km 밖의 잠수함에 핑(Ping)을 쏘면 왕복하는 데 무려 13초(13,000ms)가 걸리는 끔찍한 딜레이가 터집니다([CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CD 같은 기존 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 전면 붕괴).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">스마트 헬스케어 BAN</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">수중 통신</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">지중 통신</div></div>
-</div>
-</div>
-
-
+```text
+[스마트 헬스케어 BAN]
+    │
+    ▼
+[수중 통신]
+    │
+    └──▶ [지중 통신]
+```
 
 - **📢 섹션 요약 비유**: 수중 통신은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -46,18 +42,14 @@ tags = ["studynote-network"]
 
 - **개념**: 바다 깊은 곳 해저 지형(해일 감지)이나 석유 파이프라인에 설치된 수천 개의 <strong>수중 센서 노드들이 무선 음파(Acoustic)를 통해 서로 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 주고받으며, 바다 표면의 수면 릴레이 부표(Sink Node)를 거쳐 육지의 인공위성이나 기지국으로 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 쏘아 올리는 3차원 입체 해양 통신 인프라</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">스마트 헬스케어 BAN</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">수중 통신</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">지중 통신</div></div>
-</div>
-</div>
-
-
+```text
+[스마트 헬스케어 BAN]
+    │
+    ▼
+[수중 통신]
+    │
+    └──▶ [지중 통신]
+```
 
 - **📢 섹션 요약 비유**: 수중 통신의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -121,19 +113,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 스마트 헬스케어 BAN</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 수중 통신</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 지중 통신</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 스마트 헬스케어 BAN]
+    │
+    ▼
+[현재 개념: 수중 통신]
+    │
+    ├──▶ [확장 A: 지중 통신]
+    └──▶ [확장 B: 의미 기반 통신 최적화]
+```
 
 수중 통신는 스마트 헬스케어 BAN에서 출발해 현재 메커니즘을 정교화하고, 이후 [지중 통신](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/929_mi_magnetic_induction_underground_radio_communication/)와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

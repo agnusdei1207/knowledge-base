@@ -97,43 +97,31 @@ tags = ["studynote-security"]
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Input Validation</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Secure Coding</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">OWASP Top 10</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">SAST / DevSecOps</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Secure SDLC</div>
-</div>
-</div>
-
-
+```text
+Input Validation
+   ↓
+Secure Coding
+   ↓
+OWASP Top 10
+   ↓
+SAST / DevSecOps
+   ↓
+Secure SDLC
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">취약한 코드</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">시큐어 코딩</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">자동 보안 점검</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">DevSecOps</div>
-</div>
-</div>
-
-
+```text
+취약한 코드
+   ↓
+시큐어 코딩
+   ↓
+자동 보안 점검
+   ↓
+DevSecOps
+```
 
 ---
 

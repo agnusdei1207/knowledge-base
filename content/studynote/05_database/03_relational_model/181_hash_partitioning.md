@@ -25,20 +25,19 @@ tags = ["studynote-database"]
 
 아래 그림은 해시 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)이 "정렬 의미" 대신 "부하 균형"을 택하는 구조임을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Business meaning vs physical balance</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">order_no values : 1001 1002 1003 1004 1005 1006 1007 1008</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">range layout : P_recent</div><div class="kb-diagram-node">1001 1002 1003 1004 1005 1006 1007 1008</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">hash layout : P0</div><div class="kb-diagram-node">1001 1005</div><div class="kb-diagram-note">P1</div><div class="kb-diagram-node">1002 1006</div><div class="kb-diagram-note">P2</div><div class="kb-diagram-node">1003 1007</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">P3</div><div class="kb-diagram-node">1004 1008</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">result : order meaning is weaker, load balance is stronger</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Business meaning vs physical balance                               │
+├────────────────────────────────────────────────────────────────────┤
+│ order_no values : 1001 1002 1003 1004 1005 1006 1007 1008          │
+│                                                                    │
+│ range layout  : P_recent[1001 1002 1003 1004 1005 1006 1007 1008]  │
+│ hash layout   : P0[1001 1005] P1[1002 1006] P2[1003 1007]          │
+│                 P3[1004 1008]                                      │
+│                                                                    │
+│ result        : order meaning is weaker, load balance is stronger  │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 핵심은 해시가 무작위 저장처럼 보이지만, 실제로는 <strong>같은 키가 항상 같은 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a>으로 가는 결정적 (Deterministic) 규칙</strong>이라는 점이다. 그래서 `customer_id = 12345` 같은 동등 조건은 특정 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)으로 좁힐 수 있지만, `BETWEEN` 같은 범위 조건은 의미를 잃기 쉽다.
 
@@ -52,21 +51,25 @@ tags = ["studynote-database"]
 
 여기서 중요한 점은 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)마다 해시 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 다를 수 있다는 것이다. 설계자는 보통 `hash(key) mod N`처럼 개념적으로 이해하면 충분하지만, 실제 구현은 벤더가 숨긴 내부 버킷 구조를 쓸 수 있다. 중요한 것은 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 이름이 아니라 <strong>같은 키가 같은 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a>으로 안정적으로 매핑되고, 전체 분포가 한쪽으로 지나치게 치우치지 않는가</strong>다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Deterministic routing and pruning</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">incoming row : customer_id = 1005</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">hash(customer_id) = 84291</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">bucket mapping -&gt; partition 3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">store in P3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">query customer_id = 1005 -&gt; probe P3 first</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">query customer_id BETWEEN ... -&gt; often scan many or all partitions</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Deterministic routing and pruning                                  │
+├────────────────────────────────────────────────────────────────────┤
+│ incoming row : customer_id = 1005                                  │
+│        │                                                           │
+│        ▼                                                           │
+│ hash(customer_id) = 84291                                          │
+│        │                                                           │
+│        ▼                                                           │
+│ bucket mapping -> partition 3                                      │
+│        │                                                           │
+│        ▼                                                           │
+│ store in P3                                                        │
+│                                                                    │
+│ query customer_id = 1005  -> probe P3 first                        │
+│ query customer_id BETWEEN ... -> often scan many or all partitions │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 실무 구성 요소를 정리하면 다음과 같다.
 
@@ -156,24 +159,22 @@ tags = ["studynote-database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">입력 집중 · 데이터 쏠림 문제</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">높은 카디널리티 키 선정</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">해시 함수 + 버킷 매핑</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">해시 파티셔닝 (Hash Partitioning)</div>
-<div class="kb-diagram-tree-item" style="--depth:4">동등 조건 프루닝 (=, IN)</div>
-<div class="kb-diagram-tree-item" style="--depth:4">병렬 입출력 · 쓰기 분산</div>
-<div class="kb-diagram-tree-item" style="--depth:4">Range + Hash 복합 파티셔닝 확장</div>
-</div>
-</div>
-
-
+```text
+입력 집중 · 데이터 쏠림 문제
+        │
+        ▼
+높은 카디널리티 키 선정
+        │
+        ▼
+해시 함수 + 버킷 매핑
+        │
+        ▼
+해시 파티셔닝 (Hash Partitioning)
+        │
+        ├──────────────► 동등 조건 프루닝 (=, IN)
+        ├──────────────► 병렬 입출력 · 쓰기 분산
+        └──────────────► Range + Hash 복합 파티셔닝 확장
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

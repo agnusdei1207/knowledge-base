@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: '속이다, 기만하다'라는 뜻으로, 해커가 자신의 컴퓨터 시스템이나 송신 데이터를 숨기고, <strong>마치 신뢰할 수 있는 정상적인 사용자나 시스템인 것처럼 신분을 위장(Spoof)하여 접근 제어를 우회하거나 정보를 빼돌리는 공격 기법</strong>의 총칭입니다.
 - 인터넷 통신 규약([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP) 자체가 초창기에 "상대방이 보낸 주소는 진짜겠지?"라고 맹신하도록 허술하게 설계된 약점을 파고든 공격입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">도청 네트워크 토폴로지 취약</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스푸핑 기만 위장 공격 종류 및 특성 분석</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ARP 스푸핑</div></div>
-</div>
-</div>
-
-
+```text
+[도청 네트워크 토폴로지 취약]
+    │
+    ▼
+[스푸핑 기만 위장 공격 종류 및 특성 분석]
+    │
+    └──▶ [ARP 스푸핑]
+```
 
 - **📢 섹션 요약 비유**: [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) 기만 위장 공격 종류 및 특성 분석은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -59,18 +55,14 @@ tags = ["studynote-network"]
 - **위장 대상**: **이메일 발신자 주소 (From:)**
 - 이메일을 보낼 때 발신자 란에 `admin@naver.com`이나 `president@whitehouse.gov`처럼 권위 있는 주소를 마음대로 적어서 보내, 수신자가 무심코 첨부파일(악성코드)을 열어보게 유도하는 사기 수법입니다. 이를 막기 위해 [SPF](/knowledge-base/studynote/03_network/09_application_layer_web_email/495_spf_sender_policy_framework/), [DKIM](/knowledge-base/studynote/03_network/09_application_layer_web_email/496_dkim_domainkeys_identified_mail/), [DMARC](/knowledge-base/studynote/03_network/09_application_layer_web_email/497_dmarc_domain_based_message_authentication/) 같은 방어 기술이 쓰입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">도청 네트워크 토폴로지 취약</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스푸핑 기만 위장 공격 종류 및 특성 분석</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ARP 스푸핑</div></div>
-</div>
-</div>
-
-
+```text
+[도청 네트워크 토폴로지 취약]
+    │
+    ▼
+[스푸핑 기만 위장 공격 종류 및 특성 분석]
+    │
+    └──▶ [ARP 스푸핑]
+```
 
 - **📢 섹션 요약 비유**: [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) 기만 위장 공격 종류 및 특성 분석의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -130,19 +122,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 도청 네트워크 토폴로지 취약</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 스푸핑 기만 위장 공격 종류 및 특성 분석</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: ARP 스푸핑</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 도청 네트워크 토폴로지 취약]
+    │
+    ▼
+[현재 개념: 스푸핑 기만 위장 공격 종류 및 특성 분석]
+    │
+    ├──▶ [확장 A: ARP 스푸핑]
+    └──▶ [확장 B: 예측형 위협 대응]
+```
 
 [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) 기만 위장 공격 종류 및 특성 분석는 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 네트워크 토폴로지 취약에서 출발해 현재 메커니즘을 정교화하고, 이후 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

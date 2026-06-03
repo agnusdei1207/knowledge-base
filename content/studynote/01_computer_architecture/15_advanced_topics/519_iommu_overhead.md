@@ -35,27 +35,29 @@ IOMMU는 장치가 보는 IOVA (I/O Virtual Address)를 실제 물리 주소로 
 
 이 그림은 오버헤드가 어디에서 생기는지 한눈에 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DMA fast path와 map/unmap control path가 함께 비용을 만든다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Device DMA (IOVA)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">device translation cache via ATS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">hit</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ translated request</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">miss</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IOMMU IOTLB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">hit</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ translated request</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">miss</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I/O page walk in memory ▶ fill IOTLB ▶ memory</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Driver / Kernel path</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">pin pages → map buffer list → DMA start → unmap → IOTLB invalidate</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│          DMA fast path와 map/unmap control path가 함께 비용을 만든다 │
+├──────────────────────────────────────────────────────────────────────┤
+│ Device DMA (IOVA)                                                    │
+│      │                                                               │
+│      ▼                                                               │
+│ [ device translation cache via ATS ]                                 │
+│      │ hit                                                           │
+│      ├──────────────────────────────▶ translated request             │
+│      │ miss                                                          │
+│      ▼                                                               │
+│ [ IOMMU IOTLB ]                                                      │
+│      │ hit                                                           │
+│      ├──────────────────────────────▶ translated request             │
+│      │ miss                                                          │
+│      ▼                                                               │
+│ I/O page walk in memory  ─────────▶ fill IOTLB ───────▶ memory       │
+│                                                                      │
+│ Driver / Kernel path                                                 │
+│   pin pages → map buffer list → DMA start → unmap → IOTLB invalidate │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 | 비용원 | 언제 커지는가 | 대표 증상 | 완화 방향 |
 | :--- | :--- | :--- | :--- |
@@ -139,25 +141,24 @@ IOMMU를 잘 설계하고 튜닝하면, 장치 격리와 고성능 I/O를 동시
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">물리 주소 기반 전통 DMA</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">가상화 · DMA 공격 대응 필요</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">IOMMU (VT-d / AMD-Vi / ARM System Memory Management Unit)</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ IOTLB · huge page 최적화</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ ATS / PRI / PASID</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">VFIO · SR-IOV · SVA</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CXL 시대의 이종 장치 메모리 공유와 확장형 주소 번역</div>
-</div>
-</div>
-
-
+```text
+물리 주소 기반 전통 DMA
+        │
+        ▼
+가상화 · DMA 공격 대응 필요
+        │
+        ▼
+IOMMU (VT-d / AMD-Vi / ARM System Memory Management Unit)
+        │
+        ├─▶ IOTLB · huge page 최적화
+        ├─▶ ATS / PRI / PASID
+        │
+        ▼
+VFIO · SR-IOV · SVA
+        │
+        ▼
+CXL 시대의 이종 장치 메모리 공유와 확장형 주소 번역
+```
 
 이 흐름은 "장치는 물리 주소만 본다"는 단순 모델에서 출발해, "장치도 보호된 [가상 주소 공간](/knowledge-base/studynote/02_operating_system/07_virtual_memory/382_virtual_address_space/) 안에서 동작하는" 방향으로 발전하는 과정을 보여준다.
 

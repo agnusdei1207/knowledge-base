@@ -21,29 +21,30 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: 기능 적합성 (Functional Suitability)은 소프트웨어가 명시된 기능적 요구사항과 사용자의 필요를 충족하는 기능을 제공하는 능력이다. 이는 ISO/IEC 25010 품질 모델에서 가장 기본적인 품질 특성으로, 소프트웨어가 "제 역할 을 하는지"를 평가하는 핵심 지표이다. 기능 적합성은 적절성, [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/), [상호운용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/287_interoperability_tactics/), 준수성, 보안성의 5개 하위 특성으로 세분화된다.
 
-- **필요성**: 소프트웨어의 다른 모든 품질이 우수하더라도, 소프트웨어의 기본 기능이 사용자의 필요를 충족하지 못한다면 그 소프트웨어는 가치가 없다. 기능 적합성이 낮으면 사용자는 원하는 작업을 달성할 수 없어 업무 생산성이 저하되고, 추가 작업(대안 탐색, 수동 작업 등)을 수행해야 하는 부담이 발생한다. 따라서 기능 적합성은 모든 품질 활동의 이며、가장 먼저 확보해야 할 품질 특성이다.
+- **필요성**: 소프트웨어의 다른 모든 품질이 우수하더라도, 소프트웨어의 기본 기능이 사용자의 필요를 충족하지 못한다면 그 소프트웨어는 가치가 없다. 기능 적합성이 낮으면 사용자는 원하는 작업을 달성할 수 없어 업무 생산성이 저하되고, 추가 작업(대안 연건 탐색, 수동 작업 등)을 수행해야 하는 부담이 발생한다. 따라서 기능 적합성은 모든 품질 활동의 기본에서あり, 가장 먼저 확보해야 할 품질 특성이다.
 
-- **💡 비유**: 기능 적합성은 "칼의 날카로움"과 같다. 칼이 예쁘게 만들어지고([사용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/286_usability_tactics/)), 잘 들리고(효율성), 녹이 슬지 않으면([신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)) 다 좋지만, 칼이 뛨Rpél (적절성 부족)하거나, 원하는 형태로 자르지 못하면([정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/) 부족) 그 칼은 실패한이다.
+- **💡 비유**: 기능 적합성은 "칼의 날카로움"과 같다. 칼이 예쁘게 만들어지고([사용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/286_usability_tactics/)), 잘 들리고(효율성), 녹이 슬지 않으면([신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)) 다 좋지만, 칼이 뛨Rpél (적절성 부족)하거나, 원하는 형태로 자르지 못하면([정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/) 부족) 그 칼은 실패한제품에서ある.
 
-- **등장 배경**: 기능 적합성 개념은 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의초기부터 중요하게 다뤄졌으며, ISO/IEC 9126에서는 "기능성"으로 불렸다. ISO/IEC 25010으로 개정될 때 "기능 적합성"으로 용어가 명확화되었으며, 하위 특성의 도 정교화되었다.
+- **등장 배경**: 기능 적합성 개념은 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의초기부터 중요하게 다뤄졌으며, ISO/IEC 9126에서는 "기능성"으로 불렸다. ISO/IEC 25010으로 개정될 때 "기능 적합성"으로 용어가 명확화되었으며, 하위 특성의 분류도 정교화되었다.
 
-- **📢 섹션 요약 비유**: 기능 적합성은 "음식점의 메뉴"와 같다. 음식점 환경이 깔끔하고(사용), 서비스가 빠르고(효율성), 맛이 일관적이면([신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)) 다 좋지만, 메뉴에 고객이 원하는 요리가 없거나(적절성 부족), 주문한 요리가 잘못 나오면([정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/) 부족) 고객은한다.
+- **📢 섹션 요약 비유**: 기능 적합성은 "음식점의 메뉴"와 같다. 음식점 환경이 깔끔하고(使用性), 서비스가 빠르고(효율성), 맛이 일관적이면([신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)) 다 좋지만, 메뉴에 고객이 원하는 요리가 없거나(적절성 부족), 주문한 요리가 잘못 나오면([정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/) 부족) 고객은실망이귀한다.
 
 ---
 
 다음은 기능 적합성 (Functional S의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기능 적합성 (Functional S</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                  기능 적합성 (Functional S                        │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
+│       │                    │                    │          │
+│       ▼                    ▼                    ▼          │
+│   요구 분석           설계·적용           품질 검증        │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램은 기능 적합성 (Functional S가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -133,30 +134,28 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 기능 적합성 (Functional Suitability)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 기능 적합성 (Functional Suitability)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
 | [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 기능 적합성 (Functional Suitability)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | 기능 적합성 (Functional Suitability) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
 | [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 기능 적합성 (Functional Suitability)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">기능 적합성 (Functional Suitability) 개념 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 위기 (Software Crisis) 인식
+    │
+    ▼
+기능 적합성 (Functional Suitability) 개념 정립
+    │
+    ▼
+표준화 및 방법론 체계화 (ISO, CMMI, Agile)
+    │
+    ▼
+클라우드 네이티브·AI 기반 확장 적용
+    │
+    ▼
+지속적 개선 및 DevOps·MLOps 통합
+```
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

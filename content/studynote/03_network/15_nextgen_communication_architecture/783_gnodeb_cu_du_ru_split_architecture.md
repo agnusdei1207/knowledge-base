@@ -33,18 +33,14 @@ tags = ["studynote-network"]
 - **역할**: 각 동네의 DU 수십 개를 광케이블로 뒤에서 묶어서 총괄하는 2차 고급 두뇌입니다. (클라우드 서버에 존재)
 - **처리 내용**: 상위 계층(RRC, PDCP)의 좀 덜 급하고 무거운 업무([사용자 인증](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/) 암호화, IP 패킷 조립, 코어망 5GC로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 넘기기) 등 <strong>비실시간(Non-real-time) <a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a> 연산</strong>을 중앙 집중적으로 총괄 처리합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">O-RAN</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">기지국 DU</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">프론트홀</div></div>
-</div>
-</div>
-
-
+```text
+[O-RAN]
+    │
+    ▼
+[기지국 DU]
+    │
+    └──▶ [프론트홀]
+```
 
 - **📢 섹션 요약 비유**: 기지국 DU는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -55,18 +51,14 @@ tags = ["studynote-network"]
 - <strong>4G의 문제 (<a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/">프론트홀</a> 병목)</strong>: [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)(RU)에서 중앙 두뇌([BBU](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/688_bbu/))로 날것의 아날로그 전파 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 그대로 보내려면(CPRI 규격), [프론트홀](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/) 광케이블에 엄청난 양의 트래픽 쓰나미가 몰려옵니다. [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 20Gbps 속도를 날것 그대로 서울로 보내려면 광케이블이 견디지 못하고 다 터집니다.
 - <strong><a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a> 분할 구조(Split Option)의 해결책</strong>: 두뇌를 반(DU)으로 쪼개서 전봇대 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)(RU) 바로 밑에 딱 붙여둡니다. <strong>전봇대 밑의 DU가 그 무거운 아날로그 전파 파도를 현장에서 즉시 가볍게 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>(디지털 코딩)해 버린 뒤, 가벼워진 알맹이 패킷만 중앙의 CU로 쏴줍니다.</strong> 이렇게 하면 중간 광케이블([프론트홀](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/)/[미드홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1010_midhaul_network_c_ran_fronthaul_du_cu/))의 부담이 수십 분의 1로 줄어들어 통신사가 망 구축 비용을 아낄 수 있습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">O-RAN</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">기지국 DU</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">프론트홀</div></div>
-</div>
-</div>
-
-
+```text
+[O-RAN]
+    │
+    ▼
+[기지국 DU]
+    │
+    └──▶ [프론트홀]
+```
 
 - **📢 섹션 요약 비유**: 기지국 DU의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -127,19 +119,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: O-RAN</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 기지국 DU</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 프론트홀</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 네트워크 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: O-RAN]
+    │
+    ▼
+[현재 개념: 기지국 DU]
+    │
+    ├──▶ [확장 A: 프론트홀]
+    └──▶ [확장 B: AI 기반 네트워크 최적화]
+```
 
 기지국 DU는 O-RAN에서 출발해 현재 메커니즘을 정교화하고, 이후 [프론트홀](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

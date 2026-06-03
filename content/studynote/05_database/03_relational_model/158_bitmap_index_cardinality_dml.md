@@ -35,21 +35,20 @@ tags = ["studynote-database"]
 
 아래 그림은 세 개의 저카디널리티 조건을 결합하는 과정을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Bitmap filtering flow</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Row ID 1 2 3 4 5 6</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Gender=F 1 0 1 0 1 0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">City=SEOUL 1 1 0 0 1 0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VIP=Y 0 1 1 0 1 0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AND result 0 0 0 0 1 0 -&gt; Row 5</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Read path: bitmap scan -&gt; bitwise AND/OR -&gt; candidate ROWID read</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Bitmap filtering flow                                             │
+├────────────────────────────────────────────────────────────────────┤
+│ Row ID      1  2  3  4  5  6                                      │
+│ Gender=F    1  0  1  0  1  0                                      │
+│ City=SEOUL  1  1  0  0  1  0                                      │
+│ VIP=Y       0  1  1  0  1  0                                      │
+│ ----------------------------------------------------------------  │
+│ AND result   0  0  0  0  1  0  -> Row 5                           │
+│                                                                    │
+│ Read path: bitmap scan -> bitwise AND/OR -> candidate ROWID read  │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 의미는 "조건별 후보를 따로 찾은 뒤 합치는 것"이 아니라, <strong>행 전체를 한 번에 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/">마스</a>킹한다</strong>는 데 있다. CPU (Central Processing Unit)는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 연산에 매우 강하므로, [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)된 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)맵 여러 장을 메모리에서 빠르게 결합할 수 있다. 특히 조건이 늘어날수록 B-Tree는 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 병합 비용이 커질 수 있지만, [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)맵은 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)열 조합이 오히려 자연스럽다.
 
@@ -132,21 +131,19 @@ tags = ["studynote-database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Full Scan</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">B-Tree Index</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Equality focus -&gt; Hash Index</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Low-cardinality analytics -&gt; Bitmap Index</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Star Schema / Data Warehouse optimization</div>
-</div>
-</div>
-
-
+```text
+Full Scan
+    │
+    ▼
+B-Tree Index
+    │
+    ├─ Equality focus -> Hash Index
+    │
+    └─ Low-cardinality analytics -> Bitmap Index
+                                │
+                                ▼
+Star Schema / Data Warehouse optimization
+```
 
 이 흐름도는 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 선택이 "더 최신 구조"의 문제가 아니라, 질의 패턴과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포에 따라 갈라지는 설계 분기임을 보여준다.
 

@@ -18,22 +18,19 @@ tags = ["studynote-bigdata"]
 
 ## Ⅰ. 개요 및 필요성
 
+```text
+데이터 경제 생태계:
 
+  데이터 생산자      데이터 중개자       데이터 소비자
+  ─────────────     ─────────────────   ──────────────
+  IoT 기기          데이터 거래소        AI/ML 기업
+  SNS 사용자        클라우드 플랫폼      금융기관
+  기업 내부 시스템   데이터 클리닝 서비스  연구기관
+  정부 공공기관      익명화·비식별화      스타트업
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">데이터 경제 생태계:</div>
-<div class="kb-diagram-note">데이터 생산자 데이터 중개자 데이터 소비자</div>
-<div class="kb-diagram-note">IoT 기기 데이터 거래소 AI/ML 기업</div>
-<div class="kb-diagram-note">SNS 사용자 클라우드 플랫폼 금융기관</div>
-<div class="kb-diagram-note">기업 내부 시스템 데이터 클리닝 서비스 연구기관</div>
-<div class="kb-diagram-note">정부 공공기관 익명화·비식별화 스타트업</div>
-<div class="kb-diagram-note">데이터 흐름:</div>
-<div class="kb-diagram-note">생산 → 수집 → 가공 → 판매/제공 → 분석 → 가치 창출</div>
-</div>
-</div>
-
-
+  데이터 흐름:
+  생산 → 수집 → 가공 → 판매/제공 → 분석 → 가치 창출
+```
 
 - **📢 섹션 요약 비유**: [데이터 경제](/knowledge-base/studynote/16_bigdata/01_intro/011_data_economy/)는 원유 경제와 비슷하다. 원유를 채굴하고([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집), 정제하고([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 가공), 주유소에서 팔고([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 거래소), 자동차를 움직이는([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)/[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 가치) 전체 생태계가 [데이터 경제](/knowledge-base/studynote/16_bigdata/01_intro/011_data_economy/)다.
 
@@ -53,23 +50,20 @@ tags = ["studynote-bigdata"]
 
 ### [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 가치 평가 방법론
 
+```text
+비용 기반: 데이터 수집·저장·처리 비용
+  → 실제 가치 반영 어려움
 
+시장 기반: 유사 데이터 시장 거래 가격 참조
+  → 참조 시장 존재 시 유효
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">비용 기반: 데이터 수집·저장·처리 비용</div>
-<div class="kb-diagram-note">→ 실제 가치 반영 어려움</div>
-<div class="kb-diagram-note">시장 기반: 유사 데이터 시장 거래 가격 참조</div>
-<div class="kb-diagram-note">→ 참조 시장 존재 시 유효</div>
-<div class="kb-diagram-note">수익 기반: 데이터 활용으로 기대되는 수익</div>
-<div class="kb-diagram-note">→ 데이터 기여도 분리 어려움</div>
-<div class="kb-diagram-note">샤플리 값(Shapley Value):</div>
-<div class="kb-diagram-note">→ 게임 이론 기반, 데이터 기여도 공정 분배</div>
-<div class="kb-diagram-note">→ AI 학습에서 각 데이터셋의 기여 정량화</div>
-</div>
-</div>
+수익 기반: 데이터 활용으로 기대되는 수익
+  → 데이터 기여도 분리 어려움
 
-
+샤플리 값(Shapley Value):
+  → 게임 이론 기반, 데이터 기여도 공정 분배
+  → AI 학습에서 각 데이터셋의 기여 정량화
+```
 
 - **📢 섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 가치 평가는 무형 자산 감정이다. 부동산처럼 시세가 명확하지 않은 특허·브랜드·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다양한 방법론(비용·시장·수익 기반)으로 가치를 추정한다.
 
@@ -151,23 +145,21 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 자산 인식 — 데이터를 경쟁 자원으로 인식</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 수익화 — 직접 판매·API·간접 수익</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 거래소 — 표준화된 데이터 시장 형성</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 가치 평가 — 샤플리 값·시장 기반 가격 결정</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 공간 — Gaia-X 주권 데이터 인프라</div></div>
-</div>
-</div>
-
-
+```text
+[데이터 자산 인식 — 데이터를 경쟁 자원으로 인식]
+    │
+    ▼
+[데이터 수익화 — 직접 판매·API·간접 수익]
+    │
+    ▼
+[데이터 거래소 — 표준화된 데이터 시장 형성]
+    │
+    ▼
+[데이터 가치 평가 — 샤플리 값·시장 기반 가격 결정]
+    │
+    ▼
+[데이터 공간 — Gaia-X 주권 데이터 인프라]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

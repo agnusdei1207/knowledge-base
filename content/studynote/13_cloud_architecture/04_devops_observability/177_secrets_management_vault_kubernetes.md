@@ -23,20 +23,18 @@ tags = ["studynote-cloud-architecture"]
 
 문제가 커지는 이유는 [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/)이 한 번만 저장되지 않기 때문이다. 개발자가 로컬 `.env`에 넣고, 파이프라인이 배포 변수로 복사하고, [Helm](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/) 차트가 다시 렌더링하고, Pod가 [환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/)로 주입받으면 같은 값의 복사본이 여러 지점에 남는다. 유출 이후에는 어떤 경로로 퍼졌는지 추적하기 어려워지고, 비밀번호 회전(Rotation)도 "값 하나 변경"이 아니라 다수 애플리케이션의 재배포 작업으로 바뀐다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Secret Sprawl: 복사본이 늘수록 회수 비용이 커진다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Source Repo ─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CI Variable ─ ─▶ app.yaml ─▶ Pod env ─▶ Log / Crash dump</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Docker Image ─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Wiki / Chat ─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유출 이후 해야 할 일: 탐색, 폐기, 회전, 재배포, 감사</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ Secret Sprawl: 복사본이 늘수록 회수 비용이 커진다            │
+├──────────────────────────────────────────────────────────────┤
+│ Source Repo    ─┐                                           │
+│ CI Variable    ─┼─▶ app.yaml ─▶ Pod env ─▶ Log / Crash dump │
+│ Docker Image   ─┤                                           │
+│ Wiki / Chat    ─┘                                           │
+│                                                              │
+│ 유출 이후 해야 할 일: 탐색, 폐기, 회전, 재배포, 감사          │
+└──────────────────────────────────────────────────────────────┘
+```
 
 [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) Secret이 등장한 이유도 바로 이 배포 문제를 줄이기 위해서다. 다만 [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) Secret은 "클러스터 안에 값을 전달하는 기본 객체"이지, 자격 증명 수명주기 전체를 관리하는 플랫폼은 아니다. Base64 인코딩 자체는 보안이 아니며, 실제 안전성은 [etcd](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/078_etcd_distributed_key_value_store/) 암호화, [RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/), [네임스페이스 격리](/knowledge-base/studynote/02_operating_system/02_process_thread/151_namespace_isolation/), [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 설정이 함께 있어야 확보된다.
 
@@ -52,34 +50,33 @@ Vault와 Kubernetes를 함께 쓸 때 핵심은 "[시크릿](/knowledge-base/stu
 | :--- | :--- | :--- |
 | [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 방식 (Auth Method) | [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Account, Identity and Access [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) ([IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/)) 등으로 요청자 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 누가 요청했는가? |
 | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) ([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)) | 경로·기능 단위 접근 권한 매핑 | 무엇까지 읽거나 생성할 수 있는가? |
-| [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) 엔진 ([Secret](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) Engine) | [Key Value](/knowledge-base/studynote/14_data_engineering/01_infrastructure/036_key_value/) (KV), [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/), [Public Key Infrastructure](/knowledge-base/studynote/09_security/uncategorized/984_pki_public_key_infrastructure_ca_ra_certificate/) ([PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/)) 값 제공 | 어떤 유형의 [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/)을 발급할 것인가? |
+| [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) 엔진 ([Secret](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) 엔진) | [Key Value](/knowledge-base/studynote/14_data_engineering/01_infrastructure/036_key_value/) (KV), [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/), [Public Key Infrastructure](/knowledge-base/studynote/09_security/uncategorized/984_pki_public_key_infrastructure_ca_ra_certificate/) ([PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/)) 값 제공 | 어떤 유형의 [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/)을 발급할 것인가? |
 | 임대 (Lease) | [TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/), 갱신, 폐기(Revoke) 관리 | 얼마 동안 유효해야 하는가? |
 | [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 장치 ([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/) Device) | 요청·응답 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 기록 | 누가 언제 접근했는가? |
 
 아래 그림은 [Vault](/knowledge-base/studynote/09_security/11_iam_access_control/567_vault/) 기반 런타임 주입 구조를 보여준다. 중요한 점은 애플리케이션이 장기 토큰을 이미지에 담지 않고, Pod의 [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Account를 이용해 순간적으로 필요한 자격 증명만 받아 쓴다는 점이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Pod</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App Container reads /vault/secrets/db</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Vault Agent authenticates and renews lease</div></div>
-<div class="kb-diagram-note">ServiceAccount JWT</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Vault Kubernetes Auth</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">verify JWT → map role → attach policy</div></div>
-<div class="kb-diagram-note">allow: database/creds/app</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Secret Engine</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">KV v2 / Database / PKI</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">issue secret + TTL + revoke handle</div></div>
-<div class="kb-diagram-tree-item" style="--depth:8">▶ Audit Log</div>
-<div class="kb-diagram-tree-item" style="--depth:8">▶ Renewal / Revoke</div>
-</div>
-</div>
-
-
+```text
+┌──────────────────── Pod ────────────────────┐
+│ App Container reads /vault/secrets/db       │
+│ Vault Agent authenticates and renews lease  │
+└──────────────────────┬──────────────────────┘
+                       │ ServiceAccount JWT
+                       ▼
+┌──────────────────────────────────────────────┐
+│ Vault Kubernetes Auth                        │
+│ verify JWT → map role → attach policy        │
+└──────────────────────┬──────────────────────┘
+                       │ allow: database/creds/app
+                       ▼
+┌──────────────────────────────────────────────┐
+│ Secret Engine                                │
+│ KV v2 / Database / PKI                       │
+│ issue secret + TTL + revoke handle           │
+└───────────────┬──────────────────────────────┘
+                ├────────▶ Audit Log
+                └────────▶ Renewal / Revoke
+```
 
 정적 [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/)과 동적 [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/)의 차이도 중요하다. [Key Value](/knowledge-base/studynote/14_data_engineering/01_infrastructure/036_key_value/) (KV) 엔진은 미리 저장된 비밀번호를 전달하지만, [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) 엔진은 DB에 임시 계정을 새로 만들어 30분·1시간처럼 짧은 TTL로 내보낼 수 있다. 전자는 배포 단순성이 강점이고, 후자는 유출 시 피해 반경을 줄이는 데 강하다.
 
@@ -117,7 +114,7 @@ Vault와 Kubernetes를 함께 쓸 때 핵심은 "[시크릿](/knowledge-base/stu
 | 단일 클러스터 · 소수의 정적 값 | [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) [Secret](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) + [etcd](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/078_etcd_distributed_key_value_store/) 암호화 + [RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/) | 복잡도 대비 효과가 높음 |
 | 다중 클러스터 · 엄격한 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 요구 | [Vault](/knowledge-base/studynote/09_security/11_iam_access_control/567_vault/) | 중앙 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/), 회전 통합 |
 | [퍼블릭 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/) 중심 운영 | 관리형 [Secret Manager](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/095_secret_manager_hashicorp_vault_aws/) + External Secrets / [CSI](/knowledge-base/studynote/12_it_management/02_itsm_itil/068_csi/) | 운영 부담을 낮추면서 [IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/) 연계 |
-| [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별 임시 DB 계정 필요 | [Vault](/knowledge-base/studynote/09_security/11_iam_access_control/567_vault/) [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) Engine | 동적 발급과 [TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/) 기반 회수 가능 |
+| [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별 임시 DB 계정 필요 | [Vault](/knowledge-base/studynote/09_security/11_iam_access_control/567_vault/) [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) 엔진 | 동적 발급과 [TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/) 기반 회수 가능 |
 | [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) 중심 조직 | SOPS/Sealed Secrets + 외부 저장소 | Git review와 런타임 보안을 분리 |
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -165,23 +162,21 @@ Vault와 Kubernetes를 함께 쓸 때 핵심은 "[시크릿](/knowledge-base/stu
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">하드코딩된 비밀번호 · .env 파일</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Kubernetes Secret + etcd 암호화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">외부 저장소 연동 (External Secrets / CSI)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Vault 동적 시크릿 · Lease · Rotation</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Workload Identity 기반 Zero Trust secret delivery</div>
-</div>
-</div>
-
-
+```text
+하드코딩된 비밀번호 · .env 파일
+    │
+    ▼
+Kubernetes Secret + etcd 암호화
+    │
+    ▼
+외부 저장소 연동 (External Secrets / CSI)
+    │
+    ▼
+Vault 동적 시크릿 · Lease · Rotation
+    │
+    ▼
+Workload Identity 기반 Zero Trust secret delivery
+```
 
 이 흐름은 "값 저장" 중심에서 "정체성 검증과 짧은 수명" 중심으로 [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) 관리가 성숙해지는 과정을 보여준다.
 
@@ -198,6 +193,6 @@ Vault와 Kubernetes를 함께 쓸 때 핵심은 "[시크릿](/knowledge-base/stu
 **진행 상황**: 176 / 371
 
 ← **이전**: [176. 컨테이너 이미지 취약점 스캐닝 (Container Image Vulnerability Scanning)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/176_container_image_vulnerability_scanning/)
-**다음**: [178. SRE (Site Reliability Engineering, 사이트 신뢰성 공학)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/178_sre_site_reliability_engineering/) →
+**다음**: [178. SRE (Site Reliability 엔진ering, 사이트 신뢰성 공학)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/178_sre_site_reliability_engineering/) →
 
 ---

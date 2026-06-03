@@ -31,21 +31,20 @@ SR [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_el
 
 SR [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)의 핵심은 에지 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) (Edge-Triggered)다. 입력 S와 R은 클럭이 활성되는 찰나에만 출력 Q를 바꾸고, 그 외의 시간에는 내부 상태를 유지한다. 내부적으로는 두 래치를 엇갈리게 연결한 마스터-슬레이브 (Master-Slave) 구조나 [클럭 게이팅](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/470_clock_gating/) 구조를 사용할 수 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SR 플립플롭의 상태 갱신 규칙</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CLK 에지에서만 S/R 평가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">S R</div><div class="kb-diagram-cell">Q(next)</div><div class="kb-diagram-cell">의미</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0 0</div><div class="kb-diagram-cell">Q</div><div class="kb-diagram-cell">유지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1 0</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">Set</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0 1</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">Reset</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1 1</div><div class="kb-diagram-cell">?</div><div class="kb-diagram-cell">금지 상태 (불능/불확정)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                 SR 플립플롭의 상태 갱신 규칙                │
+├──────────────────────────────────────────────────────────────┤
+│ CLK 에지에서만 S/R 평가                                     │
+│                                                              │
+│ S  R  | Q(next) | 의미                                       │
+│ ------+---------+------------------------------------------  │
+│ 0  0  |   Q     | 유지                                       │
+│ 1  0  |   1     | Set                                        │
+│ 0  1  |   0     | Reset                                      │
+│ 1  1  |   ?     | 금지 상태 (불능/불확정)                    │
+└──────────────────────────────────────────────────────────────┘
+```
 
 | 항목 | 의미 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -122,23 +121,21 @@ SR [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_el
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">SR 래치 (Set-Reset Latch)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SR 플립플롭 (Set-Reset Flip-Flop)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">JK 플립플롭 (JK Flip-Flop)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">D 플립플롭 (D Flip-Flop)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">레지스터 (Register) · 파이프라인 (Pipeline)</div>
-</div>
-</div>
-
-
+```text
+SR 래치 (Set-Reset Latch)
+    │
+    ▼
+SR 플립플롭 (Set-Reset Flip-Flop)
+    │
+    ▼
+JK 플립플롭 (JK Flip-Flop)
+    │
+    ▼
+D 플립플롭 (D Flip-Flop)
+    │
+    ▼
+레지스터 (Register) · 파이프라인 (Pipeline)
+```
 
 이 흐름은 "즉시 반응하는 기억"에서 "시점이 통제된 기억"으로, 다시 "실무용 단순 저장"으로 정리되는 진화 과정을 보여준다.
 

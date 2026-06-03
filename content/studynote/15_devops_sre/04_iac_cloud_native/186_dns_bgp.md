@@ -35,20 +35,29 @@ tags = ["studynote-devops-sre"]
 
 아래 그림은 DNS와 BGP를 통합 감시하는 대표 구조다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DNS + BGP 통합 모니터링망 구성</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">External DNS Probes</div><div class="kb-diagram-node">Recursive Resolvers</div><div class="kb-diagram-node">Route Collectors</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Answer Diff TTL Drift / NXDOMAIN Origin AS / AS Path</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Correlation / Detection Engine</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DNSSEC Validate RPKI Validate Baseline Compare</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Alert / Ticket / Traffic Mitigation</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                  DNS + BGP 통합 모니터링망 구성                             │
+├──────────────────────────────────────────────────────────────────────────────┤
+│ [External DNS Probes]      [Recursive Resolvers]      [Route Collectors]   │
+│         │                           │                         │              │
+│         ├──────────────┬────────────┴──────────────┬─────────┘              │
+│         ▼              ▼                           ▼                        │
+│  Answer Diff      TTL Drift / NXDOMAIN      Origin AS / AS Path            │
+│         │              │                           │                        │
+│         └──────────────┴──────────────┬────────────┘                        │
+│                                       ▼                                     │
+│                         [Correlation / Detection Engine]                    │
+│                                       │                                     │
+│                  ┌────────────────────┼────────────────────┐                │
+│                  ▼                    ▼                    ▼                │
+│          DNSSEC Validate       RPKI Validate      Baseline Compare         │
+│                  │                    │                    │                │
+│                  └────────────────────┴────────────────────┘                │
+│                                       ▼                                     │
+│                         [Alert / Ticket / Traffic Mitigation]               │
+└──────────────────────────────────────────────────────────────────────────────┘
+```
 
 | 관측 항목 | 의미 | 이상 징후 예시 |
 | :--- | :--- | :--- |
@@ -129,27 +138,25 @@ tags = ["studynote-devops-sre"]
 | ROA (Route Origin [Authorization](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)) | 허용된 Origin [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 선언 정보 |
 | Route Leak | [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 하이재킹과 유사한 경로 이상 |
 | Anycast | 정상 응답 편차를 만드는 운영 요소 |
-| [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)) | 외부 인터넷 이상을 운영 관점에서 흡수하는 역할 |
+| [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)) | 외부 인터넷 이상을 운영 관점에서 흡수하는 역할 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단순 가용성 모니터링</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DNS 응답 무결성 점검 · DNSSEC</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">BGP 경로 관측 · RPKI · ROA 검증</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Passive DNS + Route Collector 상관분석</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">인터넷 외부 의존성 관측 · 공격/장애 통합 대응</div>
-</div>
-</div>
-
-
+```text
+단순 가용성 모니터링
+    │
+    ▼
+DNS 응답 무결성 점검 · DNSSEC
+    │
+    ▼
+BGP 경로 관측 · RPKI · ROA 검증
+    │
+    ▼
+Passive DNS + Route Collector 상관분석
+    │
+    ▼
+인터넷 외부 의존성 관측 · 공격/장애 통합 대응
+```
 
 이 흐름은 “[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 내부 상태 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) → 인터넷 이름/경로 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) → 외부 인터넷 전체 관측”으로 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 관측 범위가 넓어지는 과정을 보여준다.
 

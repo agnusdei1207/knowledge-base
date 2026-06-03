@@ -38,19 +38,20 @@ tags = ["it_management"]
 | <strong><a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/137_edutech_adaptive_learning_lms/">Adaptive Learning</a> Rate (보폭 조절)</strong> | 많이 변한 파라미터는 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)을 줄이고, 적게 변한 파라미터는 늘림 | `AdaGrad`, `RMSProp` |
 | **하이브리드 (통합형)** | 관성으로 방향을 유지하면서 파라미터별 보폭도 같이 조절함 | `Adam`, `AdamW` |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Adam 옵티마이저의 가중치 업데이트 원리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 기울기(Gradient)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ (1) 1차 모멘트: 과거 방향의 관성 계산 (Momentum)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ (2) 2차 모멘트: 기울기 제곱합으로 보폭 계산</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">새로운 가중치</div><div class="kb-diagram-note">=</div><div class="kb-diagram-node">이전 가중치</div><div class="kb-diagram-note">- (학습률 × 관성) / (보폭+ε)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│             Adam 옵티마이저의 가중치 업데이트 원리           │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│  [현재 기울기(Gradient)]                                     │
+│           │                                                  │
+│           ├─▶ (1) 1차 모멘트: 과거 방향의 관성 계산 (Momentum) │
+│           │                                                  │
+│           └─▶ (2) 2차 모멘트: 기울기 제곱합으로 보폭 계산      │
+│                                                              │
+│  [새로운 가중치] = [이전 가중치] - (학습률 × 관성) / (보폭+ε)│
+└──────────────────────────────────────────────────────────────┘
+```
 
 가장 널리 쓰이는 `Adam (Adaptive Moment Estimation)`은 이 두 가지 기법을 정교하게 결합한 형태다. 1차 모멘트로 매끄러운 방향성을 잡고, 2차 모멘트로 변수마다 맞춤형 보폭을 적용함으로써 험준한 오차 지형에서도 빠르고 안정적으로 최소점을 찾아간다.
 
@@ -113,23 +114,21 @@ tags = ["it_management"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">전체 데이터 기반 업데이트</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SGD (Stochastic Gradient Descent) : 미니배치 단위 이동</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Momentum : 관성을 활용해 지역 최적해 탈출</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">AdaGrad / RMSProp : 특징별로 보폭을 다르게 조절 (Adaptive)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Adam / AdamW : 관성과 적응형 보폭을 결합한 현대적 표준</div>
-</div>
-</div>
-
-
+```text
+전체 데이터 기반 업데이트
+    │
+    ▼
+SGD (Stochastic Gradient Descent) : 미니배치 단위 이동
+    │
+    ▼
+Momentum : 관성을 활용해 지역 최적해 탈출
+    │
+    ▼
+AdaGrad / RMSProp : 특징별로 보폭을 다르게 조절 (Adaptive)
+    │
+    ▼
+Adam / AdamW : 관성과 적응형 보폭을 결합한 현대적 표준
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

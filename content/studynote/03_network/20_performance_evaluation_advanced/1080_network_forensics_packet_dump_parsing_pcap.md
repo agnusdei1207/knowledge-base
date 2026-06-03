@@ -23,18 +23,14 @@ tags = ["studynote-network"]
 - <strong><a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/668_network_forensics/">네트워크 포렌식</a> (<a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/668_network_forensics/">Network Forensics</a>) 🌟</strong>:
   - 공격자가 내부망으로 어떻게 뚫고 들어와서(침입 경로), 어떤 악성코드를 퍼뜨렸고(내부 전파), 최종적으로 어떤 기밀문서를 들고 튀었는지([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유출), <strong>인터넷 랜선을 타고 날아간 '네트워크 트래픽 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>(패킷)' 자체를 가로채어 수집, 분석, 역추적, 증거로 채택하는 사이버 수사 기법</strong>입니다. "패킷은 거짓말을 하지 않는다(Packets never lie)."
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">망분리 논리적 / 물리적 VDI 전이 모델</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 포렌식 패킷 덤프 파싱</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IPS 시그니처 정규식</div></div>
-</div>
-</div>
-
-
+```text
+[망분리 논리적 / 물리적 VDI 전이 모델]
+    │
+    ▼
+[네트워크 포렌식 패킷 덤프 파싱]
+    │
+    └──▶ [IPS 시그니처 정규식]
+```
 
 - **📢 섹션 요약 비유**: [네트워크 포렌식](/knowledge-base/studynote/09_security/13_secops_ir_forensics/668_network_forensics/) 패킷 덤프 파싱은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -52,18 +48,14 @@ tags = ["studynote-network"]
 - [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)으로 쏟아지는 초당 1GB의 어마어마한 패킷 쓰레기들을, 감시자 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)(Wireshark, tcpdump 등)가 차곡차곡 받아 하드디스크에 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 저장합니다. 
 - 이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 전 세계 공통 확장자 표준이 바로 <strong><code>.pcap</code> (Packet Capture)</strong>입니다. 이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 안에는 범죄자가 친 엔터키(Enter) 1바이트 헥사(Hex) 코드까지 원본 그대로 냉동 보관되어 있습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">망분리 논리적 / 물리적 VDI 전이 모델</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 포렌식 패킷 덤프 파싱</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IPS 시그니처 정규식</div></div>
-</div>
-</div>
-
-
+```text
+[망분리 논리적 / 물리적 VDI 전이 모델]
+    │
+    ▼
+[네트워크 포렌식 패킷 덤프 파싱]
+    │
+    └──▶ [IPS 시그니처 정규식]
+```
 
 - **📢 섹션 요약 비유**: [네트워크 포렌식](/knowledge-base/studynote/09_security/13_secops_ir_forensics/668_network_forensics/) 패킷 덤프 파싱의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -131,19 +123,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 망분리 논리적 / 물리적 VDI 전이 모델</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 네트워크 포렌식 패킷 덤프 파싱</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: IPS 시그니처 정규식</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 망분리 논리적 / 물리적 VDI 전이 모델]
+    │
+    ▼
+[현재 개념: 네트워크 포렌식 패킷 덤프 파싱]
+    │
+    ├──▶ [확장 A: IPS 시그니처 정규식]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 [네트워크 포렌식](/knowledge-base/studynote/09_security/13_secops_ir_forensics/668_network_forensics/) 패킷 덤프 파싱는 [망분리](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/) 논리적 / 물리적 [VDI](/knowledge-base/studynote/11_design_supervision/01_audit_framework/079_developer_cleanroom_vdi_security/) 전이 모델에서 출발해 현재 메커니즘을 정교화하고, 이후 [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/) 시그니처 정규식와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

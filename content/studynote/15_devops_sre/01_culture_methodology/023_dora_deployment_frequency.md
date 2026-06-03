@@ -22,22 +22,22 @@ tags = ["studynote-devops-sre"]
 
 전통적인 폭포수(Waterfall) 방식에서는 6~12개월마다 대규모 릴리스를 하나씩 내보내며, 이로 인해 누적된 버그와 대규모 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 위험이 상시 존재한다. 배포 빈도를 높이면 변경 규모가 작아져 문제 발생 시 원인 추적이 쉬워지고, 사용자 피드백을 빠르게 반영하는 린 사이클([Lean](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/) Cycle)이 완성된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DORA 4대 메트릭 상호 관계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">속도 (Velocity)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 배포 빈도 (Deployment Frequency) ← 이번 주제</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 변경 리드 타임 (MLT: Mean Lead Time for Changes)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">안정성 (Stability)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 변경 실패율 (CFR: Change Failure Rate)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 서비스 복구 시간 (MTTR: Mean Time To Restore)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심 통찰: Elite 팀 = 속도 높음 + 안정성 높음 (트레이드오프 없음!)</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────┐
+│            DORA 4대 메트릭 상호 관계                         │
+├────────────────────────────────────────────────────────────┤
+│                                                            │
+│  속도 (Velocity)                                           │
+│  ├─ 배포 빈도 (Deployment Frequency)  ← 이번 주제          │
+│  └─ 변경 리드 타임 (MLT: Mean Lead Time for Changes)       │
+│                                                            │
+│  안정성 (Stability)                                        │
+│  ├─ 변경 실패율 (CFR: Change Failure Rate)                  │
+│  └─ 서비스 복구 시간 (MTTR: Mean Time To Restore)          │
+│                                                            │
+│  핵심 통찰: Elite 팀 = 속도 높음 + 안정성 높음 (트레이드오프 없음!)│
+└────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 배포 빈도는 식당의 신메뉴 출시 속도와 같다. 6개월마다 대형 메뉴 개편(대규모 릴리스)을 하는 식당보다, 매주 작은 개선(잦은 소규모 배포)을 하는 식당이 고객 취향 변화에 훨씬 빠르게 적응한다.
 
@@ -56,23 +56,26 @@ tags = ["studynote-devops-sre"]
 
 ### 고빈도 배포를 가능하게 하는 기술 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Elite 팀의 고빈도 배포 지원 아키텍처</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코드 커밋 (Git Push)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CI Pipeline: 빌드 → 단위테스트 → 통합테스트 → 이미지 빌드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(GitHub Actions / Jenkins / CircleCI)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CD Pipeline: 스테이징 배포 → E2E 테스트 → 프로덕션 배포</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(ArgoCD / Spinnaker / Flux)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Feature Flag: 특정 사용자에게만 신기능 활성화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(LaunchDarkly / Unleash)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">카나리 배포: 5% 트래픽 → 점진적 확대 → 100%</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│         Elite 팀의 고빈도 배포 지원 아키텍처                   │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│  코드 커밋 (Git Push)                                        │
+│       │                                                      │
+│       ▼                                                      │
+│  CI Pipeline: 빌드 → 단위테스트 → 통합테스트 → 이미지 빌드     │
+│       │  (GitHub Actions / Jenkins / CircleCI)               │
+│       ▼                                                      │
+│  CD Pipeline: 스테이징 배포 → E2E 테스트 → 프로덕션 배포       │
+│       │  (ArgoCD / Spinnaker / Flux)                         │
+│       ▼                                                      │
+│  Feature Flag: 특정 사용자에게만 신기능 활성화                  │
+│       │  (LaunchDarkly / Unleash)                            │
+│       ▼                                                      │
+│  카나리 배포: 5% 트래픽 → 점진적 확대 → 100%                   │
+└──────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: Elite 팀의 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD는 컨베이어 벨트 공장이다. 개발자가 코드를 올리면 자동으로 테스트·검사·포장·배송이 끊임없이 이루어져 하루에도 수십 번 소비자(사용자) 손에 제품이 전달된다.
 
@@ -124,7 +127,7 @@ tags = ["studynote-devops-sre"]
 | **비즈니스 민첩성** | 시장 변화에 즉각 대응 | Time-to-Market 70% 단축 |
 | <strong><a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a> <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a></strong> | 소규모 배포로 장애 영향 최소화 | 장애 당 영향 범위 80% 감소 |
 
-[DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 배포 빈도는 [플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/)([Platform Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/))과 결합하여, 개발팀이 인프라 관심사 없이 코드만 올리면 자동으로 배포되는 골든 패스(Golden Path) 구현으로 진화하고 있다. 2024년 [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 보고서는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 코드 어시스턴트가 배포 빈도를 추가로 1.5배 향상시킬 수 있다고 발표했다.
+[DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 배포 빈도는 [플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/)([Platform 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/))과 결합하여, 개발팀이 인프라 관심사 없이 코드만 올리면 자동으로 배포되는 골든 패스(Golden Path) 구현으로 진화하고 있다. 2024년 [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 보고서는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 코드 어시스턴트가 배포 빈도를 추가로 1.5배 향상시킬 수 있다고 발표했다.
 
 - **📢 섹션 요약 비유**: [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 배포 빈도는 조직의 소프트웨어 심장박동 수다. 건강한 심장(Elite 팀)은 분당 일정 박동을 유지하고, 쇠약한 심장(Low 팀)은 몇 달에 한 번 겨우 뛴다. 박동이 빠를수록 몸([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))이 활기차게 살아있다.
 
@@ -142,23 +145,21 @@ tags = ["studynote-devops-sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">수동 배포 (빅뱅 릴리스) — 수개월 주기, 고위험</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CI 자동화 — 빌드·테스트 자동화, 주 1회 가능</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CD + MSA — 독립 서비스 배포, 일 수 회</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Feature Flag + 카나리 — On Demand 안전 배포</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">플랫폼 엔지니어링 + AI 코드 어시스턴트 — 배포 자동화 극한</div></div>
-</div>
-</div>
-
-
+```text
+[수동 배포 (빅뱅 릴리스) — 수개월 주기, 고위험]
+    │
+    ▼
+[CI 자동화 — 빌드·테스트 자동화, 주 1회 가능]
+    │
+    ▼
+[CD + MSA — 독립 서비스 배포, 일 수 회]
+    │
+    ▼
+[Feature Flag + 카나리 — On Demand 안전 배포]
+    │
+    ▼
+[플랫폼 엔지니어링 + AI 코드 어시스턴트 — 배포 자동화 극한]
+```
 수동 대규모 배포에서 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 자동화, [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 분리, Feature Flag를 거쳐 [플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/)과 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 보조로 극한의 배포 빈도를 달성하는 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 성숙화 흐름이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

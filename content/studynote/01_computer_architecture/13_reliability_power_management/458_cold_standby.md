@@ -35,22 +35,23 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 콜드 스탠바이의 정상 시점과 장애 시점이 어떻게 다른지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">콜드 스탠바이의 평시/장애시 동작 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">평상시</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Active 시스템</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">사용자</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">백업 저장소</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Standby 시스템</div><div class="kb-diagram-note">= 전원 OFF 또는 미기동 상태</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장애 발생 후</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Active 장애</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Standby 전원 ON</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">OS/애플리케이션 기동 ─▶ 백업 복원 ─▶ 서비스 절체</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                콜드 스탠바이의 평시/장애시 동작 흐름               │
+├──────────────────────────────────────────────────────────────────────┤
+│ 평상시                                                               │
+│ [Active 시스템] ── 서비스 제공 ──▶ 사용자                            │
+│        │                                                             │
+│        └── 백업/스냅샷 ──▶ [백업 저장소]                              │
+│                                   │                                  │
+│ [Standby 시스템] = 전원 OFF 또는 미기동 상태                         │
+├──────────────────────────────────────────────────────────────────────┤
+│ 장애 발생 후                                                          │
+│ [Active 장애]                                                         │
+│      ▼                                                                │
+│ [Standby 전원 ON] ─▶ OS/애플리케이션 기동 ─▶ 백업 복원 ─▶ 서비스 절체 │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조에서 가장 중요한 두 지표는 RTO와 RPO다. RTO는 장애 이후 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 다시 열기까지 허용되는 최대 시간이고, RPO는 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시점 기준으로 잃어도 되는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 범위다. 콜드 스탠바이는 실시간 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)를 하지 않는 경우가 많기 때문에 RTO는 길어지고, [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 주기가 길수록 RPO도 커진다.
 
@@ -95,24 +96,21 @@ tags = ["studynote-computer-architecture"]
 
 아래 판단 흐름은 설계 단계에서 자주 쓰이는 질문 순서를 요약한 것이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">콜드 스탠바이 채택 판단 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) 수시간 장애 허용 가능한가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ─▶ Warm/Hot 검토</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) 최근 데이터 손실 허용 가능한가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ─▶ 실시간 복제 보강 또는 Warm 검토</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) 복구 자동화/IaC/복원 훈련이 준비됐는가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ─▶ 실제 장애 시 복구 실패 위험 큼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예 ─▶ Cold Standby 채택 가능</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│                 콜드 스탠바이 채택 판단 흐름                      │
+├────────────────────────────────────────────────────────────────────┤
+│ 1) 수시간 장애 허용 가능한가?                                     │
+│    ├─ 아니오 ─▶ Warm/Hot 검토                                     │
+│    └─ 예                                                           │
+│ 2) 최근 데이터 손실 허용 가능한가?                                │
+│    ├─ 아니오 ─▶ 실시간 복제 보강 또는 Warm 검토                   │
+│    └─ 예                                                           │
+│ 3) 복구 자동화/IaC/복원 훈련이 준비됐는가?                        │
+│    ├─ 아니오 ─▶ 실제 장애 시 복구 실패 위험 큼                    │
+│    └─ 예 ─▶ Cold Standby 채택 가능                                │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -155,24 +153,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">정기 백업 중심 복구</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">콜드 스탠바이 (Cold Standby)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">자동 설치/이미지 복구 ─▶ IaC 기반 콜드 복구 고도화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">웜 스탠바이 (Warm Standby)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">파일럿 라이트 (Pilot Light)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">핫 스탠바이 (Hot Standby) · 실시간 고가용성</div>
-</div>
-</div>
-
-
+```text
+정기 백업 중심 복구
+    │
+    ▼
+콜드 스탠바이 (Cold Standby)
+    │
+    ├─ 자동 설치/이미지 복구 ─▶ IaC 기반 콜드 복구 고도화
+    │
+    ▼
+웜 스탠바이 (Warm Standby)
+    │
+    ▼
+파일럿 라이트 (Pilot Light)
+    │
+    ▼
+핫 스탠바이 (Hot Standby) · 실시간 고가용성
+```
 
 이 흐름은 “완전 수동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) → 자동화된 저비용 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) → 부분 상시 기동 → 즉시 절체”로 준비 수준이 진화하는 과정을 보여준다.
 

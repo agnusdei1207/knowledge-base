@@ -22,19 +22,14 @@ RDBMS(Relational [Database](/knowledge-base/studynote/05_database/04_transaction
 
 애플리케이션에서만 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하면 화면과 API가 바뀔 때마다 규칙이 빠져나간다. 반면 DB 제약은 입력 경로가 여러 개여도 마지막에 한 번 더 막아 준다. 그래서 정합성 사고를 줄이려면 비즈니스 규칙을 가능한 한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계층에 내려야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">INSERT / UPDATE</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">도메인 검사</div></div>
-<div class="kb-diagram-tree-item" style="--depth:1">통과 → 저장</div>
-<div class="kb-diagram-tree-item" style="--depth:1">실패 → 오류 / 롤백</div>
-</div>
-</div>
-
-
+```text
+INSERT / UPDATE
+     │
+     ▼
+[도메인 검사]
+   ├─ 통과 → 저장
+   └─ 실패 → 오류 / 롤백
+```
 
 이 그림처럼 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)은 "저장 직전의 관문"이다. 이 관문이 없으면 잘못된 값이 보고서와 집계까지 번진다.
 
@@ -55,21 +50,16 @@ RDBMS(Relational [Database](/knowledge-base/studynote/05_database/04_transaction
 | DEFAULT | 값 미입력 | 상태값, [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 시각 |
 | 코드 테이블 | 허용 목록 통제 | 성별, 상태, 등급 코드 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">도메인 정의</div>
-<div class="kb-diagram-tree-item" style="--depth:1">타입/길이</div>
-<div class="kb-diagram-tree-item" style="--depth:1">NOT NULL</div>
-<div class="kb-diagram-tree-item" style="--depth:1">CHECK</div>
-<div class="kb-diagram-tree-item" style="--depth:1">DEFAULT / 코드 테이블</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">유효한 값만 저장</div>
-</div>
-</div>
-
-
+```text
+도메인 정의
+   │
+   ├─ 타입/길이
+   ├─ NOT NULL
+   ├─ CHECK
+   └─ DEFAULT / 코드 테이블
+   ▼
+유효한 값만 저장
+```
 
 CHECK는 단순한 범위 규칙에 강하고, 코드 테이블은 재사용 가능한 코드 집합에 강하다. 둘을 혼용하면 값의 의미와 관리 책임이 분리되어 더 안전하다.
 
@@ -135,23 +125,21 @@ CHECK는 단순한 범위 규칙에 강하고, 코드 테이블은 재사용 가
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">값의 형식 정의</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">데이터 타입 / 길이 / NOT NULL</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CHECK / DEFAULT / 코드 테이블</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">도메인 무결성</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">엔터티·참조 무결성과 결합</div>
-</div>
-</div>
-
-
+```text
+값의 형식 정의
+    │
+    ▼
+데이터 타입 / 길이 / NOT NULL
+    │
+    ▼
+CHECK / DEFAULT / 코드 테이블
+    │
+    ▼
+도메인 무결성
+    │
+    ▼
+엔터티·참조 무결성과 결합
+```
 
 이 흐름은 "값 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)"이 "[관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)"보다 먼저라는 점을 보여준다. 이후에는 애플리케이션과 DB의 이중 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 통해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질을 장기적으로 유지한다.
 

@@ -24,25 +24,20 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경**: 1968년 피터 데닝(Peter Denning)이 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 시스템의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 붕괴 현상을 'Thrashing(요동치다, 몸부림치다)'이라 명명하며 학계에 보고했다. 이 현상은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 "[다중 프로그래밍 정도](/knowledge-base/studynote/02_operating_system/04_synchronization/258_degree_of_multiprogramming/)([Degree of Multiprogramming](/knowledge-base/studynote/02_operating_system/04_synchronization/258_degree_of_multiprogramming/))"를 무한정 높일 수 없다는 물리적 한계를 인류에게 각인시킨 역사적 사건이다.
 
+```text
+  [다중 프로그래밍 정도(Multiprogramming)와 CPU 이용률의 스래싱 곡선]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">다중 프로그래밍 정도(Multiprogramming)와 CPU 이용률의 스래싱 곡선</div></div>
-<div class="kb-diagram-note">100% (C) 스래싱 발생! (수직 낙하)</div>
-<div class="kb-diagram-note">(A) 정상 구간 .</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU</div><div class="kb-diagram-cell">.··············</div><div class="kb-diagram-cell">..··(↓)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이용률</div><div class="kb-diagram-cell">.· (↑) 이용률</div><div class="kb-diagram-cell">.··</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">.·</div><div class="kb-diagram-cell">.·</div></div>
-<div class="kb-diagram-note">.· ▼ .·</div>
-<div class="kb-diagram-note">.· (B) 임계점 (Thrashing Point)</div>
-<div class="kb-diagram-note">0%</div>
-<div class="kb-diagram-note">0 10 20 30 40</div>
-<div class="kb-diagram-note">메모리에 띄운 프로그램(프로세스) 개수</div>
-</div>
-</div>
-
-
+      100% ┼                     (C) 스래싱 발생! (수직 낙하)
+           │   (A) 정상 구간        . 
+  CPU      │     .··············  │           ..··(↓) 
+  이용률    │   .· (↑) 이용률     │        .··   
+           │  .·                 │      .·     
+           │ .·                  ▼   .·        
+           │.·                  (B) 임계점 (Thrashing Point)
+        0% ┼───────────────────────────────────────────── 
+             0        10        20        30         40
+                   메모리에 띄운 프로그램(프로세스) 개수
+```
 **[다이어그램 해설]** 이 그래프는 OS 역사상 가장 유명한 절벽이다. 
 - (A) 구간: 프로그램을 많이 띄울수록 CPU가 쉴 틈 없이 일해서 이용률이 정비례로 솟구친다 (이상적 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)).
 - (B) 임계점: RAM의 모든 빈 공간이 사라진 한계점이다.
@@ -105,25 +100,25 @@ tags = ["studynote-operating-system"]
    - **아키텍트 결단**: 클라우드 엔지니어는 서버를 세팅할 때 무조건 `sudo swapoff -a` 명령어로 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)(스왑) 자체를 끄거나 비활성화한다.
    - <strong>현대적 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> (Fail-Fast)</strong>: 서버는 메모리가 모자라면 10분 동안 디스크를 긁으며 스래싱(연명 치료)을 하는 대신, 즉시 <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/425_oom_killer_score/">OOM Killer</a></strong>가 튀어나와 메모리를 제일 많이 먹는 놈을 쏴 죽인다(즉사). 그리고 K8s가 1초 만에 새 파드를 띄워 서버를 재개시킨다. 스래싱을 막기 위해 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 유연함을 포기하고 "빠른 죽음과 빠른 부활"을 택한 모던 아키텍처의 혁명이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 부족(OOM) 시나리오에 대처하는 아키텍트의 의사결정 트리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">요구사항: 16GB 서버에 트래픽 폭주로 메모리 20GB 요구 발생</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 운영체제의 스왑(Swap) 파라미터 튜닝</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. Swap 공간을 넉넉히(16GB) 잡아둔다 (고전적 방식)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 작동: 16G 램 + 4G 스왑(디스크) 사용. 프로그램 생존함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: 🚨 완벽한 스래싱(Thrashing) 발생. API 응답 속도가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">10ms에서 5,000ms로 500배 폭증하며 유저 다 떨어져 나감.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. Swap 공간을 아예 삭제(0GB)해버린다 (클라우드 네이티브)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 작동: 16G 램 꽉 차는 순간 OS가 OOM 에러 뱉고 앱 킬(Kill).</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: ✅ 서버가 느려지는 꼴을 절대 안 봄(Fail-fast).</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">죽은 앱은 로드밸런서가 즉시 차단하고 새 노드로 트래픽 우회.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌────────────────────────────────────────────────────────────────────────┐
+  │     메모리 부족(OOM) 시나리오에 대처하는 아키텍트의 의사결정 트리      │
+  ├────────────────────────────────────────────────────────────────────────┤
+  │                                                                        │
+  │   [요구사항: 16GB 서버에 트래픽 폭주로 메모리 20GB 요구 발생]          │
+  │                │                                                       │
+  │                ▼ 운영체제의 스왑(Swap) 파라미터 튜닝                   │
+  │   [ 1. Swap 공간을 넉넉히(16GB) 잡아둔다 (고전적 방식) ]               │
+  │     ▶ 작동: 16G 램 + 4G 스왑(디스크) 사용. 프로그램 생존함.            │
+  │     ▶ 결과: 🚨 완벽한 스래싱(Thrashing) 발생. API 응답 속도가          │
+  │             10ms에서 5,000ms로 500배 폭증하며 유저 다 떨어져 나감.     │
+  │                                                                        │
+  │   [ 2. Swap 공간을 아예 삭제(0GB)해버린다 (클라우드 네이티브) ]        │
+  │     ▶ 작동: 16G 램 꽉 차는 순간 OS가 OOM 에러 뱉고 앱 킬(Kill).        │
+  │     ▶ 결과: ✅ 서버가 느려지는 꼴을 절대 안 봄(Fail-fast).             │
+  │             죽은 앱은 로드밸런서가 즉시 차단하고 새 노드로 트래픽 우회.│
+  └────────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** "메모리가 부족하면 스왑을 늘려라"는 쌍팔년도 조언이다. [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)(RDBMS, [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/)) 서버에서 스왑이 도는 순간 그 서버는 죽은 것이나 다름없다. 현대 인프라는 스래싱이라는 고통스러운 연명 치료를 혐오한다. 메모리가 부족하면 쿨하게 뻗고 램(RAM)을 사서 끼우는([Scale-up](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)) 것이 돈과 정신 건강을 지키는 유일한 정답이다.
 
 - **📢 섹션 요약 비유**: 피를 너무 많이 흘려 죽어가는 환자에게, 인공 심폐기(스왑 메모리)를 달아 식물인간으로 10년을 살게 하는 것이 고전적 스래싱 방치입니다. 현대 시스템은 가망이 없으면 즉시 안락사([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) Kill) 시키고, 똑같은 [클론](/knowledge-base/studynote/02_operating_system/02_process_thread/149_clone_system_call/)(새 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))을 바로 태어나게 하는 과격하지만 확실한 부활 시스템입니다.
@@ -154,19 +149,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">락-프리 (Lock-free) 자료구조</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스래싱 (Thrashing)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스케줄러 일드 (sched_yield)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ABA 문제</div></div>
-</div>
-</div>
-
-
+```text
+[락-프리 (Lock-free) 자료구조]
+    │
+    ▼
+[스래싱 (Thrashing)]
+    │
+    ├──▶ [스케줄러 일드 (sched_yield)]
+    └──▶ [ABA 문제]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

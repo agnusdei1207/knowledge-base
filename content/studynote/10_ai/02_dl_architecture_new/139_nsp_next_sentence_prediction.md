@@ -18,19 +18,13 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">NSP 학습:</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CLS</div><div class="kb-diagram-note">문장A</div><div class="kb-diagram-node">SEP</div><div class="kb-diagram-note">문장B</div><div class="kb-diagram-node">SEP</div></div>
-<div class="kb-diagram-note">→ IsNext (50%): 원래 연속 문장</div>
-<div class="kb-diagram-note">→ NotNext (50%): 랜덤 다른 문서의 문장</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">CLS</div><div class="kb-diagram-note">토큰으로 이진 분류</div></div>
-</div>
-</div>
-
-
+```text
+NSP 학습:
+  [CLS] 문장A [SEP] 문장B [SEP]
+  → IsNext (50%): 원래 연속 문장
+  → NotNext (50%): 랜덤 다른 문서의 문장
+  → [CLS] 토큰으로 이진 분류
+```
 
 - **📢 섹션 요약 비유**: NSP는 <strong>연결된 퍼즐 조각인지 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>하는 것이다. 두 조각이 맞는지(IsNext) 아닌지(NotNext) 판별한다.
 
@@ -54,17 +48,11 @@ NSP는 <strong>문장 <a href="/knowledge-base/studynote/05_database/02_modeling
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">BERT NSP (2018)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">RoBERTa: NSP 제거 (2019)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">ALBERT: SOP 대체 (2019)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: 대부분 모델에서 NSP 미사용</div></div>
-</div>
-</div>
-
-
+```text
+[BERT NSP (2018)] → [RoBERTa: NSP 제거 (2019)]
+    → [ALBERT: SOP 대체 (2019)]
+    → [현재: 대부분 모델에서 NSP 미사용]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. NSP는 <strong>퍼즐 조각 맞추기</strong>예요. 두 조각이 **원래 붙어있었는지** [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해요.

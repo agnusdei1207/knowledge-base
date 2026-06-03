@@ -25,28 +25,32 @@ tags = ["algorithm_stats"]
 
 > 이 도식은 선택 정렬의 작동을 보여준다.
 
+```text
+[선택 정렬 (Selection Sort) 작동 원리]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선택 정렬 (Selection Sort) 작동 원리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">배열:</div><div class="kb-diagram-node">64, 25, 12, 22, 11</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Pass 1</div><div class="kb-diagram-note">전체에서 최솟값 탐색</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">전체:</div><div class="kb-diagram-node">64, 25, 12, 22, 11</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">25, 12, 22, 11 중 최솟값 = 11</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">교환: 11 ↔ 64</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">결과:</div><div class="kb-diagram-node">11, 25, 64, 22, 12</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">11 자리 확정</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Pass 2</div><div class="kb-diagram-note">남은 부분에서 최솟값 탐색</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">남은:</div><div class="kb-diagram-node">25, 64, 22, 12</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">64, 22, 12 중 최솟값 = 12</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">교환: 12 ↔ 25</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">결과:</div><div class="kb-diagram-node">11, 12, 64, 22, 25</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">12 자리 확정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">총 교환 횟수: 정확히 N-1회 (항상)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">총 비교 횟수: N(N-1)/2 = O(N²)</div></div>
-</div>
-</div>
-
-
+┌──────────────────────────────────────────────────────┐
+│                                                      │
+│  배열: [64, 25, 12, 22, 11]                       │
+│                                                      │
+│  [Pass 1] 전체에서 최솟값 탐색                       │
+│  ────────────────────────────────────                │
+│  전체: [64, 25, 12, 22, 11]                       │
+│          25, 12, 22, 11 중 최솟값 = 11             │
+│  교환: 11 ↔ 64                                    │
+│  결과: [11, 25, 64, 22, 12] ← 11 자리 확정         │
+│                                                      │
+│  [Pass 2] 남은 부분에서 최솟값 탐색                  │
+│  ────────────────────────────────────                │
+│  남은: [25, 64, 22, 12]                           │
+│          64, 22, 12 중 최솟값 = 12                 │
+│  교환: 12 ↔ 25                                    │
+│  결과: [11, 12, 64, 22, 25] ← 12 자리 확정         │
+│                                                      │
+│  총 교환 횟수: 정확히 N-1회 (항상)                  │
+│  총 비교 횟수: N(N-1)/2 = O(N²)                    │
+│                                                      │
+└──────────────────────────────────────────────────────┘
+```
 
 - **관찰**: 선택 정렬은 매 회전에서 가장 작은 원소를 찾기 위해 나머지 모든 원소를 비교하므로 총 비교 횟수는 O(N²)이다.
 - **원인**: 각 단계에서 아직 정렬되지 않은 전체를 선형 탐색해야 하기 때문이다.
@@ -59,30 +63,33 @@ tags = ["algorithm_stats"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-선택 정렬의 핵심 특성은 <strong>불안정성(Unstable Sort)</strong>이다. 동일 값 가진 원소가 두 개 이상 있을 때, 사이의 상대적 순서가 정렬 후 변경될 수 있다. 이것은 멀리 떨어진 원소끼리 직접 교환(Swap)하기 때문이다.
+선택 정렬의 핵심 특성은 <strong>불안정성(Unstable Sort)</strong>이다. 동일 값 가진 원소가 두 개 이상 있을 때, 타문 사이의 상대적 순서가 정렬 후 변경될 수 있다. 이것은 멀리 떨어진 원소끼리 직접 교환(Swap)하기 때문이다.
 
 **불안정성의 예시**: [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) `[{A:5, idx:0}, {A:5, idx:1}, {A:3}]`에서 값이 5인 두 요소의 원래 순서는 A가 B보다 앞이었다. 선택 정렬에서 5와 3을 교환할 때 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 0과 2가 교환되면, 결과에서 A와 B의 순서가 뒤집힐 수 있다.
 
+```text
+[불안정성 (Unstability) 설명]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">불안정성 (Unstability) 설명</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">입력</div><div class="kb-diagram-note">학생 레코드:</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">(Alice, 90), (Bob, 90), (Charlie, 80)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Alice가 Bob보다 먼저 등록됨)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">선택 정렬 (값 90인 두 학생의 순서가 바뀔 수 있음):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pass 1: 최솟값 80(Charlie) 발견</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ Charlie ↔ Alice 교환</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">결과:</div><div class="kb-diagram-node">(Charlie, 80), (Bob, 90), (Alice, 90)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✗ Alice와 Bob의 순서가 뒤집힘!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">버블 정렬 (안정 정렬):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인접 교환만 하므로 동일 값 사이 교차가 일어나지 않음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 순서 유지!</div></div>
-</div>
-</div>
-
-
+┌──────────────────────────────────────────────────────┐
+│                                                      │
+│  [입력] 학생 레코드:                                  │
+│  [(Alice, 90), (Bob, 90), (Charlie, 80)]           │
+│  (Alice가 Bob보다 먼저 등록됨)                       │
+│                                                      │
+│  선택 정렬 (값 90인 두 학생의 순서가 바뀔 수 있음):   │
+│  ────────────────────────────────────                │
+│  Pass 1: 최솟값 80(Charlie) 발견                    │
+│           → Charlie ↔ Alice 교환                     │
+│  결과: [(Charlie, 80), (Bob, 90), (Alice, 90)]     │
+│        ✗ Alice와 Bob의 순서가 뒤집힘!                │
+│                                                      │
+│  버블 정렬 (안정 정렬):                               │
+│  ────────────────────────────────────                │
+│  인접 교환만 하므로 동일 값 사이 교차가 일어나지 않음   │
+│  → 순서 유지!                                        │
+│                                                      │
+└──────────────────────────────────────────────────────┘
+```
 
 - **관찰**: 선택 정렬의 불안정성은 다중 키 정렬에서 문제가 될 수 있다.
 - **원인**: 멀리 떨어진 원소끼리 직접 교환하기 때문이다.
@@ -99,29 +106,30 @@ tags = ["algorithm_stats"]
 
 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 및 주의사항</strong>: 일반적인 상황에서 선택 정렬은 다른 O(N²) 알고리즘보다 성능이 낮다. 안정성이 중요한 경우에는 절대 사용하지 않는다.
 
+```text
+[선택 정렬 의사코드]
 
+┌──────────────────────────────────────────────────────┐
+│                                                      │
+│  function selection_sort(A):                         │
+│      n = length(A)                                  │
+│      for i in range(0, n-1):                        │
+│          min_idx = i                                │
+│          for j in range(i+1, n):                    │
+│              if A[j] < A[min_idx]:                  │
+│                  min_idx = j                        │
+│          swap(A[i], A[min_idx])                     │
+│                                                      │
+│  [시간 복잡도 분석]                                  │
+│  ────────────────────────────────────                │
+│  비교 횟수: N(N-1)/2 = O(N²)                       │
+│  교환 횟수: N-1 = O(1)                              │
+│  공간 복잡도: O(1) (제자리)                         │
+│                                                      │
+└──────────────────────────────────────────────────────┘
+```
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선택 정렬 의사코드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">function selection_sort(A):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">n = length(A)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">for i in range(0, n-1):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">min_idx = i</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">for j in range(i+1, n):</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">if A</div><div class="kb-diagram-node">j</div><div class="kb-diagram-note">&lt; A</div><div class="kb-diagram-node">min_idx</div><div class="kb-diagram-note">:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">min_idx = j</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">swap(A</div><div class="kb-diagram-node">i</div><div class="kb-diagram-note">, A</div><div class="kb-diagram-node">min_idx</div><div class="kb-diagram-note">)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시간 복잡도 분석</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비교 횟수: N(N-1)/2 = O(N²)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">교환 횟수: N-1 = O(1)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공간 복잡도: O(1) (제자리)</div></div>
-</div>
-</div>
-
-
-
-📢 **섹션 요약 비유**: 선택 정렬은 물건를 정리할 때, 전체 수납장를 훑어보고 가장 중요한 것을 가장 앞쪽 선반에 넣는 것과 같습니다. 이론적으로는 이해하기 쉽지만, 실용적으로는 더방법이/가합니다.
+📢 **섹션 요약 비유**: 선택 정렬은 물건를 정리할 때, 전체 수납장를 훑어보고 가장 중요한 것을 가장 앞쪽 선반에 넣는 것과 같습니다. 이론적으로는 이해하기 쉽지만, 실용적으로는 더효솔적な방법이あります.
 
 ---
 
@@ -131,7 +139,7 @@ tags = ["algorithm_stats"]
 
 <strong>품질 관리 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong>: 동일 값을 가진 요소들의 순서가 중요한 경우에는 안정 정렬(합병, 삽입, [Timsort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/019_timsort/))을 사용해야 한다. 교환 횟수보다 비교 횟수가 성능을 좌우하는 일반적인 상황에서는 [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)이 선택 정렬보다 우수하다.
 
-📢 **섹션 요약 비유**: 선택 정렬의품질 관리는 twin 학생의 순서를 중요시하는 줄서기에서, "형제를에서에서 그냥 빨리 세워"라는 명령을 내리는 것과 같습니다.
+📢 **섹션 요약 비유**: 선택 정렬의품질 관리는 twin 학생의 순서를 중요시하는 줄서기에서, "형제를불재호에서 그냥 빨리 세워"라는 명령을 내리는 것과 같습니다.
 
 ---
 
@@ -141,28 +149,32 @@ tags = ["algorithm_stats"]
 
 선택 정렬은 교육적 가치를 제외하고는 실질적인 활용도가 낮은 알고리즘이다. 그러나 그 의의는 "최소 교환 정렬"이라는 개념을 확립하여 [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)의 이론적 기초가 되었다는 점에 있다.
 
-📢 **섹션 요약 비유**: 선택 정렬은 오래된 자전거와 같습니다. 지금은 누구도 그 자전거로하지 않지만, 현대 자전거의구조를 설명하기 위해서는 반드시 한 번쯤 살펴봐야 합니다.
+📢 **섹션 요약 비유**: 선택 정렬은 오래된 자전거와 같습니다. 지금은 누구도 그 자전거로경새하지 않지만, 현대 자전거의기본구조원리를 설명하기 위해서는 반드시 한 번쯤 살펴봐야 합니다.
 
 ---
 
 ## 핵심 인사이트 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 ([Concept](/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/) Map)
 
+```text
+[선택 정렬 (Selection Sort) 핵심 개념 맵]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선택 정렬 (Selection Sort) 핵심 개념 맵</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">선택 정렬 (Selection Sort)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심 특성</div><div class="kb-diagram-cell">시간 복잡도</div><div class="kb-diagram-cell">불안정성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Properties</div><div class="kb-diagram-cell">Time Complexity</div><div class="kb-diagram-cell">Unstability</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최소 교환</div><div class="kb-diagram-cell">O(N²) 비교</div><div class="kb-diagram-cell">동일 키 순서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">O(N) Swap</div><div class="kb-diagram-cell">O(N) 교환</div><div class="kb-diagram-cell">보존 안 됨</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제자리 정렬</div><div class="kb-diagram-cell">(고정 N-1회)</div><div class="kb-diagram-cell">멀리 원소 교환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">직관적 구조</div></div>
-</div>
-</div>
-
-
+         ┌─────────────────────────────────┐
+         │      선택 정렬 (Selection Sort)          │
+         └────────────────┬────────────────┘
+                          │
+      ┌───────────────────┼───────────────────┐
+      │                   │                    │
+      ▼                   ▼                    ▼
+┌──────────────┐  ┌──────────────┐  ┌──────────────┐
+│  핵심 특성     │  │   시간 복잡도   │  │   불안정성    │
+│  Properties   │  │  Time Complexity│ │  Unstability │
+├──────────────┤  ├──────────────┤  ├──────────────┤
+│ 최소 교환     │  │ O(N²) 비교   │  │ 동일 키 순서  │
+│ O(N) Swap    │  │ O(N) 교환   │  │ 보존 안 됨   │
+│ 제자리 정렬   │  │ (고정 N-1회) │  │ 멀리 원소 교환│
+│ 직관적 구조   │  │              │  │              │
+└──────────────┘  └──────────────┘  └──────────────┘
+```
 
 
 ### 📌 관련 개념 맵
@@ -177,23 +189,21 @@ tags = ["algorithm_stats"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">버블 정렬 — 인접 교환 O(N²), 안정, 비효율적</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">선택 정렬 — 최솟값 탐색 후 교환 O(N²), 불안정, 최소 교환 횟수</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">삽입 정렬 — 거의 정렬 시 O(N), O(N²) 평균, 안정</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">힙 정렬 (Heap Sort) — 선택 정렬 아이디어를 힙으로 최적화 O(N log N), 불안정</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">퀵 정렬 / 병합 정렬 — 분할 정복 O(N log N), 실용 최고 성능</div></div>
-</div>
-</div>
-
-
+```text
+[버블 정렬 — 인접 교환 O(N²), 안정, 비효율적]
+    │
+    ▼
+[선택 정렬 — 최솟값 탐색 후 교환 O(N²), 불안정, 최소 교환 횟수]
+    │
+    ▼
+[삽입 정렬 — 거의 정렬 시 O(N), O(N²) 평균, 안정]
+    │
+    ▼
+[힙 정렬 (Heap Sort) — 선택 정렬 아이디어를 힙으로 최적화 O(N log N), 불안정]
+    │
+    ▼
+[퀵 정렬 / 병합 정렬 — 분할 정복 O(N log N), 실용 최고 성능]
+```
 이 흐름은 단순하지만 교환 횟수가 최소인 선택 정렬의 "최솟값 반복 탐색" 핵심 아이디어가 힙 자료구조를 통해 O(N log N) [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)로 계승되는 O(N²) 정렬 군의 발전과 그 이론적 의의를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

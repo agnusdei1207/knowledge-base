@@ -23,23 +23,27 @@ ISA가 필요한 이유는 세 가지이다. 첫째, <strong>호환성 (Compatib
 
 이 그림은 ISA가 컴퓨터 시스템 계층 구조에서 차지하는 독보적인 위치를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">The Role of ISA in Computing Stack</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Software</div><div class="kb-diagram-note">: C, Java, Python, OS</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ISA</div><div class="kb-diagram-note">: x86, ARM, RISC-V (The Interface)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Hardware</div><div class="kb-diagram-note">: Pipeline, Cache, Logic Gates</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* ISA가 정의하는 것들:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 명령어 (Add, Load, Jump...)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 레지스터 (Size, Number)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 데이터 타입 (Integer, Floating point)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 메모리 주소 지정 방식 (Addressing Modes)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│              The Role of ISA in Computing Stack             │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Software ] : C, Java, Python, OS                        │
+│          │                                                  │
+│   =======▼================================================  │
+│   [ ISA ] : x86, ARM, RISC-V (The Interface)                │
+│   =======▲================================================  │
+│          │                                                  │
+│   [ Hardware ] : Pipeline, Cache, Logic Gates               │
+│                                                             │
+│   * ISA가 정의하는 것들:                                    │
+│     1. 명령어 (Add, Load, Jump...)                          │
+│     2. 레지스터 (Size, Number)                              │
+│     3. 데이터 타입 (Integer, Floating point)                │
+│     4. 메모리 주소 지정 방식 (Addressing Modes)             │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '불변의 계약'이다. 하드웨어가 5nm에서 3nm로 미세화되어도 ISA가 x86으로 유지된다면, 10년 전 작성된 엑셀 프로그램은 여전히 돌아간다. 실무에서는 이러한 ISA의 영속성이 거대한 소프트웨어 생태계를 지탱하는 힘이 된다.
 
@@ -81,20 +85,24 @@ CPU가 명령어 내의 오퍼랜드(데이터)가 어디에 있는지 찾아내
 
 이 구조도는 RISC 아키텍처의 핵심인 <strong>Load/Store Architecture</strong>를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RISC Load/Store Architecture Flow</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Memory</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Registers</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Result</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Compute Unit</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Store)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 연산은 오직 레지스터 간에만 발생함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 효과: 파이프라이닝 최적화가 매우 용이함</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 RISC Load/Store Architecture Flow           │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Memory ] ────(Load)────▶ [ Registers ]                  │
+│                                     │                       │
+│                                     ▼                       │
+│   [ Result ] ◀───(ALU Op)─── [ Compute Unit ]               │
+│       │                             ▲                       │
+│       │                             │                       │
+│       └──────────(Store)────────────┘                       │
+│                                                             │
+│   * 핵심: 연산은 오직 레지스터 간에만 발생함                │
+│   * 효과: 파이프라이닝 최적화가 매우 용이함                 │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '역할의 분리'이다. 메모리에서 데이터를 가져오는 일(Load)과 실제 계산하는 일(ALU Op)을 철저히 분리함으로써, CPU의 각 단계를 공장 컨베이어 벨트처럼 일정하게 돌릴 수 있다. 실무에서 RISC 기반의 ARM이 저전력 고효율을 내는 비결이 바로 이 단순함에 있다.
 
@@ -133,21 +141,21 @@ CPU가 명령어 내의 오퍼랜드(데이터)가 어디에 있는지 찾아내
 
 이 도식은 ISA 전환 시 기술사가 고려해야 할 소프트웨어 이식성 (Portability) 체크리스트를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ISA Migration Complexity Matrix</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Level 1: Scripting</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">Easy (Interpreter)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Level 2: Managed</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">Medium (VM/JIT)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Level 3: Native</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">Hard (Recompile)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Level 4: Assembly</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">Critical (Rewrite)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심 판단: 하드웨어 비용 절감이 소프트웨어 재작성 비용을</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상쇄할 수 있는가? (TCO 분석 필수)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│               ISA Migration Complexity Matrix               │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Level 1: Scripting ] (Python, JS) -> Easy (Interpreter) │
+│   [ Level 2: Managed ] (Java, C#)     -> Medium (VM/JIT)    │
+│   [ Level 3: Native ] (C, C++, Rust)  -> Hard (Recompile)   │
+│   [ Level 4: Assembly ] (Inline Asm)  -> Critical (Rewrite) │
+│                                                             │
+│   * 핵심 판단: 하드웨어 비용 절감이 소프트웨어 재작성 비용을  │
+│     상쇄할 수 있는가? (TCO 분석 필수)                       │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 기술사의 ISA 판단은 '철도 궤간(표준)의 선택'과 같습니다. 한 번 깔린 철로(ISA)를 바꾸는 것은 엄청난 비용이 들지만, 더 넓고 빠른 새 철로가 미래 경쟁력을 보장한다면 과감히 환승역(에뮬레이션/재컴파일)을 만들어야 합니다.
 

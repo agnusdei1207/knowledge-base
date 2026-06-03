@@ -33,30 +33,36 @@ Gartner Magic Quadrant BI & Analytics 분야에서 지속적 리더 위치를 �
 
 ### Tableau 플랫폼 아키텍처
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tableau 플랫폼 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 연결 계층</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Live Connection</div><div class="kb-diagram-cell">Extract (.hyper)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 직접 DB 쿼리</div><div class="kb-diagram-cell">─ 인메모리 컬럼형 엔진</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 항상 최신</div><div class="kb-diagram-cell">─ 빠른 쿼리 성능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ DB 성능 의존</div><div class="kb-diagram-cell">─ 갱신 스케줄 필요</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분석·계산 계층 ▼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VizQL 엔진</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">드래그앤드롭 → SQL/MDX 자동 변환 → 결과 시각화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">계산 유형:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① 계산 필드 (Calculated Field): 커스텀 수식</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② LOD 표현식: FIXED/INCLUDE/EXCLUDE</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ 테이블 계산: 누적합, 순위, 전년 대비</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공유·배포 계층 ▼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tableau Desktop</div><div class="kb-diagram-cell">Tableau Server / Tableau Cloud (SaaS)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(로컬 제작 도구)</div><div class="kb-diagram-cell">(공유·임베딩·중앙 거버넌스)</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────────┐
+│                  Tableau 플랫폼 구조                         │
+├──────────────────────────────────────────────────────────────┤
+│  데이터 연결 계층                                            │
+│  ┌──────────────────────────────────────────────────────┐   │
+│  │  Live Connection  │  Extract (.hyper)                │   │
+│  │  ─ 직접 DB 쿼리   │  ─ 인메모리 컬럼형 엔진          │   │
+│  │  ─ 항상 최신      │  ─ 빠른 쿼리 성능               │   │
+│  │  ─ DB 성능 의존   │  ─ 갱신 스케줄 필요              │   │
+│  └──────────────────────────────────────────────────────┘   │
+│                          │                                   │
+│  분석·계산 계층           ▼                                   │
+│  ┌──────────────────────────────────────────────────────┐   │
+│  │                   VizQL 엔진                          │   │
+│  │  드래그앤드롭 → SQL/MDX 자동 변환 → 결과 시각화        │   │
+│  │                                                      │   │
+│  │  계산 유형:                                           │   │
+│  │  ① 계산 필드 (Calculated Field): 커스텀 수식          │   │
+│  │  ② LOD 표현식: FIXED/INCLUDE/EXCLUDE                 │   │
+│  │  ③ 테이블 계산: 누적합, 순위, 전년 대비              │   │
+│  └──────────────────────────────────────────────────────┘   │
+│                          │                                   │
+│  공유·배포 계층           ▼                                   │
+│  ┌────────────────┬─────────────────────────────────────┐   │
+│  │Tableau Desktop │Tableau Server / Tableau Cloud (SaaS)│   │
+│  │(로컬 제작 도구)│(공유·임베딩·중앙 거버넌스)           │   │
+│  └────────────────┴─────────────────────────────────────┘   │
+└─────────────────────────────────────────────────────────────┘
+```
 
 ### LOD (Level of Detail) 표현식
 
@@ -162,27 +168,27 @@ Tableau는 셀프서비스 분석의 <strong>표준</strong>을 만든 플랫폼
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">:---</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">VizQL</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LOD 표현식</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Live Connection</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Extract (.hyper)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Tableau Prep</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Tableau Pulse</div></div>
-</div>
-</div>
-
-
+```text
+[:---]
+    │
+    ▼
+[VizQL]
+    │
+    ▼
+[LOD 표현식]
+    │
+    ▼
+[Live Connection]
+    │
+    ▼
+[Extract (.hyper)]
+    │
+    ▼
+[Tableau Prep]
+    │
+    ▼
+[Tableau Pulse]
+```
 
 이 흐름도는 :---에서 출발해 Tableau Prep까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

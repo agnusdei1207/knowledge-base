@@ -47,32 +47,32 @@ tags = ["studynote-operating-system"]
 
 소스 코드(`.c`)가 기계어(`.exe`)가 되고, 메모리(RAM)에 올라가 실행될 때까지 주소가 변하는 과정이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주소 바인딩 시점 (Binding Time) 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. Compile Time Binding</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 소스코드 컴파일 시점에 물리 주소 확정.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 컴파일러가 만든 기계어: <code>JUMP 0x1000</code> (진짜 램의 1000번지로 가라!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 단점: 1000번지에 이미 딴 앱이 있으면 이 프로그램은 켜지지도 않음.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. Load Time Binding</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 컴파일러는 <code>JUMP +500</code> (시작점에서 500칸 뒤) 라는 상대 주소만 만듦.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 로더(Loader)가 램을 뒤져보니 4000번지가 비어있음.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 로더가 프로그램을 램에 올리면서 <code>4000 + 500 = 4500</code>으로 몽땅 계산해서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기계어 코드를 <code>JUMP 4500</code>으로 수정(Relocation)해 버림.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 단점: 한 번 램에 올라가면 4500이 박혀버리므로 도중에 스왑/이사를 못 함.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3. Execution Time Binding (Runtime Binding)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">── 현대의 표준</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 컴파일러와 로더 모두 가상 주소(예: 0번지부터 시작)만 씀.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 램의 4000번지에 올려놓지만, 코드 자체는 여전히 <code>JUMP 500</code>임.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- CPU가 <code>JUMP 500</code>을 실행하는 그 1나노초의 찰나!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- CPU 안의 MMU(하드웨어)가 4000(Base)을 더해서 4500으로 번역해 줌!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 장점: 프로그램이 실행 도중 8000번지로 이사를 가도, MMU가 8000(Base)만</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">더해주면 되기 때문에 완벽하게 스와핑(Swapping)이 가능해짐.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 주소 바인딩 시점 (Binding Time) 비교                 │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │  [ 1. Compile Time Binding ]                                      │
+  │   - 소스코드 컴파일 시점에 물리 주소 확정.                               │
+  │   - 컴파일러가 만든 기계어: `JUMP 0x1000` (진짜 램의 1000번지로 가라!)     │
+  │   - 단점: 1000번지에 이미 딴 앱이 있으면 이 프로그램은 켜지지도 않음.         │
+  │                                                                   │
+  │  [ 2. Load Time Binding ]                                         │
+  │   - 컴파일러는 `JUMP +500` (시작점에서 500칸 뒤) 라는 상대 주소만 만듦.    │
+  │   - 로더(Loader)가 램을 뒤져보니 4000번지가 비어있음.                    │
+  │   - 로더가 프로그램을 램에 올리면서 `4000 + 500 = 4500`으로 몽땅 계산해서   │
+  │     기계어 코드를 `JUMP 4500`으로 수정(Relocation)해 버림.             │
+  │   - 단점: 한 번 램에 올라가면 4500이 박혀버리므로 도중에 스왑/이사를 못 함.    │
+  │                                                                   │
+  │  [ 3. Execution Time Binding (Runtime Binding) ] ◀── 현대의 표준 │
+  │   - 컴파일러와 로더 모두 가상 주소(예: 0번지부터 시작)만 씀.                 │
+  │   - 램의 4000번지에 올려놓지만, 코드 자체는 여전히 `JUMP 500`임.           │
+  │   - CPU가 `JUMP 500`을 실행하는 그 1나노초의 찰나!                      │
+  │   - CPU 안의 **MMU(하드웨어)**가 4000(Base)을 더해서 4500으로 번역해 줌!   │
+  │   - 장점: 프로그램이 실행 도중 8000번지로 이사를 가도, MMU가 8000(Base)만    │
+  │          더해주면 되기 때문에 완벽하게 스와핑(Swapping)이 가능해짐.         │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 로드 타임 바인딩은 "이삿짐센터 직원이 내 여권의 주소를 새 집 주소로 지우개로 지우고 펜으로 다시 써주는 것(소프트웨어 연산 오버헤드 큼)"이다. 반면 [실행 시간 바인딩](/knowledge-base/studynote/02_operating_system/06_memory_management/327_execution_time_binding/)은 여권 주소는 그냥 '홍길동 집'으로 놔두고, 우체부가 나를 찾을 때만 "홍길동은 지금 8000번지에 있어"라고 동사무소([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) [Base Register](/knowledge-base/studynote/02_operating_system/06_memory_management/329_base_register/))에서 실시간으로 번역(하드웨어 연산)해 주는 것이다.
 
@@ -113,25 +113,28 @@ tags = ["studynote-operating-system"]
 
 ### 의사결정 및 튜닝 플로우
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 주소 바인딩 아키텍처 및 빌드 전략 선택 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">소프트웨어를 빌드하고 타겟 플랫폼에 배포하기 위한 컴파일러 옵션 결정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">타겟 시스템이 MMU가 없는 초소형 임베디드(RTOS, Bare-metal)인가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">절대 주소 컴파일 (Compile Time Binding)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대책: 링커 스크립트(.ld)를 통해 물리적 RAM 주소를 하드코딩</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 (범용 x86, ARM 프로세서가 달린 서버/스마트폰이다)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">외부 라이브러리(.so, .dll)를 컴파일 시 합칠 것인가(Static), 로드 시 묶을 것인가(Dynamic)?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Static ─▶ 실행 파일 크기가 수백 MB로 커지나 의존성 에러 없음.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">실행 및 로드 타임 바인딩 극대화 (최신 트렌드)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리(RAM)를 아끼기 위해 공유 라이브러리를 사용하며,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PLT/GOT 테이블을 통해 런타임에 주소를 지연 바인딩함.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 메모리 주소 바인딩 아키텍처 및 빌드 전략 선택 플로우       │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [소프트웨어를 빌드하고 타겟 플랫폼에 배포하기 위한 컴파일러 옵션 결정]         │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      타겟 시스템이 MMU가 없는 초소형 임베디드(RTOS, Bare-metal)인가?        │
+  │          ├─ 예 ─────▶ [절대 주소 컴파일 (Compile Time Binding)]      │
+  │          │            대책: 링커 스크립트(.ld)를 통해 물리적 RAM 주소를 하드코딩│
+  │          └─ 아니오 (범용 x86, ARM 프로세서가 달린 서버/스마트폰이다)        │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      외부 라이브러리(.so, .dll)를 컴파일 시 합칠 것인가(Static), 로드 시 묶을 것인가(Dynamic)? │
+  │          ├─ Static ─▶ 실행 파일 크기가 수백 MB로 커지나 의존성 에러 없음.    │
+  │          │                                                        │
+  │          └─ Dynamic ─▶ [실행 및 로드 타임 바인딩 극대화 (최신 트렌드)]     │
+  │                         메모리(RAM)를 아끼기 위해 공유 라이브러리를 사용하며,  │
+  │                         PLT/GOT 테이블을 통해 런타임에 주소를 지연 바인딩함.   │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** "코드 한 줄을 짰을 때 이 변수의 주소가 언제 확정되는가?"를 이해하는 것은 아키텍트의 깊이를 결정한다. 내가 짠 앱을 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)(Alpine Linux)로 말아 배포할 때 뻑하면 `libc.so` 에러가 나는 이유는, 당신이 동적 바인딩([Load Time](/knowledge-base/studynote/02_operating_system/06_memory_management/326_load_time_binding/))을 선택해 놓고 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 안에 도서관([라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/))을 안 지어놨기 때문이다. 이때는 정적 링킹(Static)으로 돌려 하나의 거대한 덩어리로 묶는 것이 가장 훌륭한 트러블슈팅이다.
 
@@ -173,19 +176,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">교착 상태 복구 (프로세스 킬)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">주소 바인딩 컴파일/로드/실행 (Address Binding Compile Load Execution)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">논리 주소 물리 주소 변환 MMU</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">외부 단편화 가변 분할</div></div>
-</div>
-</div>
-
-
+```text
+[교착 상태 복구 (프로세스 킬)]
+    │
+    ▼
+[주소 바인딩 컴파일/로드/실행 (Address Binding Compile Load Execution)]
+    │
+    ├──▶ [논리 주소 물리 주소 변환 MMU]
+    └──▶ [외부 단편화 가변 분할]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

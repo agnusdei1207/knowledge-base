@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/">ARP</a> (<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/">Address Resolution Protocol</a>)</strong>: 컴퓨터가 통신할 때, 상대방의 IP 주소를 이용해 물리적인 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소(랜카드 번호)를 찾아내는 프로토콜입니다. 
 - **문제점**: ARP는 "192.168.0.1(공유기 IP) 가진 놈 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 뭐야?"라고 물었을 때, 누군가 "그거 나야! 내 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 [AA](/knowledge-base/studynote/12_it_management/03_ea_isp/105_aa_as_is_analysis/):BB야!"라고 대답하면, <strong>그 대답이 진짜인지 가짜인지 전혀 의심하지 않고 자신의 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/">ARP</a> 캐시(메모리) 장부에 그대로 덮어써 버리는 치명적인 건망증과 순진함</strong>을 가지고 있습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">스푸핑 기만 위장 공격 종류 및 특성 분석</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ARP 스푸핑</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IP 스푸핑</div></div>
-</div>
-</div>
-
-
+```text
+[스푸핑 기만 위장 공격 종류 및 특성 분석]
+    │
+    ▼
+[ARP 스푸핑]
+    │
+    └──▶ [IP 스푸핑]
+```
 
 - **📢 섹션 요약 비유**: [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -49,18 +45,14 @@ tags = ["studynote-network"]
 4. 이제 희생자 A가 네이버에 접속하려고 패킷을 날리면, 그 패킷은 진짜 공유기가 아니라 **모조리 해커의 컴퓨터로 쏙쏙 들어옵니다.**
 5. 해커는 패킷 안에 든 평문 비밀번호를 쓱 훔쳐본 뒤(스니핑), 들키지 않게 다시 진짜 공유기로 패킷을 친절하게 토스(Relay)해 줍니다. 희생자 A는 인터넷이 잘 되니까 자기가 해킹당하고 있다는 사실을 영원히 모릅니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">스푸핑 기만 위장 공격 종류 및 특성 분석</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ARP 스푸핑</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IP 스푸핑</div></div>
-</div>
-</div>
-
-
+```text
+[스푸핑 기만 위장 공격 종류 및 특성 분석]
+    │
+    ▼
+[ARP 스푸핑]
+    │
+    └──▶ [IP 스푸핑]
+```
 
 - **📢 섹션 요약 비유**: [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -128,19 +120,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 스푸핑 기만 위장 공격 종류 및 특성 분석</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: ARP 스푸핑</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: IP 스푸핑</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 스푸핑 기만 위장 공격 종류 및 특성 분석]
+    │
+    ▼
+[현재 개념: ARP 스푸핑]
+    │
+    ├──▶ [확장 A: IP 스푸핑]
+    └──▶ [확장 B: 예측형 위협 대응]
+```
 
 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)는 [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) 기만 위장 공격 종류 및 특성 분석에서 출발해 현재 메커니즘을 정교화하고, 이후 IP [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

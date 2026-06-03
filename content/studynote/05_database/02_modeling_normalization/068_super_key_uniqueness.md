@@ -28,21 +28,15 @@ tags = ["database"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Attributes</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Uniqueness</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Super Key</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Minimality Check</div>
-</div>
-</div>
-
-
+```text
+Attributes
+  ↓
+Uniqueness
+  ↓
+Super Key
+  ↓
+Minimality Check
+```
 
 | 개념 | 의미 |
 | :-- | :-- |
@@ -110,41 +104,29 @@ tags = ["database"]
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Attributes</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Super Key</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Candidate Key</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Primary Key</div>
-</div>
-</div>
-
-
+```text
+Attributes
+  ↓
+Super Key
+  ↓
+Candidate Key
+  ↓
+Primary Key
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Uniqueness</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Super Key</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Minimality</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Key Design</div>
-</div>
-</div>
-
-
+```text
+Uniqueness
+  ↓
+Super Key
+  ↓
+Minimality
+  ↓
+Key Design
+```
 
 ---
 

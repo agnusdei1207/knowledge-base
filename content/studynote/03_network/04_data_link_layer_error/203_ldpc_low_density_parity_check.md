@@ -23,18 +23,14 @@ tags = ["studynote-network"]
 - **방치된 이유**: 이 거대한 행렬 덩어리를 1초에 수백 번씩 곱하고 더하려면 당시 1960년대의 진공관/[트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 컴퓨터로는 1년을 돌려도 불가능했습니다. 결국 "수학적으론 완벽하지만 현실에선 쓸 수 없는 망상"으로 취급되어 버려졌습니다.
 - **부활 (1990년대 후반)**: CPU와 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 칩셋([ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/)) 성능이 미친 듯이 발전하면서 학자들이 다시 논문을 꺼내 컴퓨터를 돌려봤더니, 최강이라 불리던 '[터보 코드](/knowledge-base/studynote/03_network/04_data_link_layer_error/202_turbo_code_shannon_limit/)'를 씹어먹는 샤논 한계의 끝판왕임이 증명되며 화려하게 부활했습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">터보 코드</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LDPC</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">폴라 코드</div></div>
-</div>
-</div>
-
-
+```text
+[터보 코드]
+    │
+    ▼
+[LDPC]
+    │
+    └──▶ [폴라 코드]
+```
 
 - **📢 섹션 요약 비유**: LDPC는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -46,18 +42,14 @@ tags = ["studynote-network"]
 - **패리티 방정식**: 수신기가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 받으면 이 거대한 0 밭인 행렬과 곱하기를 합니다. `0`을 곱하면 다 사라지므로, 듬성듬성 있는 `1`들끼리만 연결된 수십 개의 '매우 단순한 방정식'이 튀어나옵니다.
 - <strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/">신뢰도</a> 전파 (Belief Propagation)</strong>: 이 수십 개의 단순한 방정식 노드들이 서로 선을 긋고 "나는 이게 에러 같아", "난 저게 에러 같아"라며 메시지([확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/))를 주고받습니다. 몇 번의 핑퐁(반복)을 거치면 거대한 1만 비트의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중 어디가 깨졌는지 단번에 찾아내어 고칩니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">터보 코드</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LDPC</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">폴라 코드</div></div>
-</div>
-</div>
-
-
+```text
+[터보 코드]
+    │
+    ▼
+[LDPC]
+    │
+    └──▶ [폴라 코드]
+```
 
 - **📢 섹션 요약 비유**: LDPC의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -123,19 +115,15 @@ LDPC는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rel
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 터보 코드</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: LDPC</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 폴라 코드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고신뢰 저지연 링크 제어</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 터보 코드]
+    │
+    ▼
+[현재 개념: LDPC]
+    │
+    ├──▶ [확장 A: 폴라 코드]
+    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
+```
 
 LDPC는 [터보 코드](/knowledge-base/studynote/03_network/04_data_link_layer_error/202_turbo_code_shannon_limit/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [폴라 코드](/knowledge-base/studynote/03_network/04_data_link_layer_error/204_polar_code_5g_control_channel/)와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

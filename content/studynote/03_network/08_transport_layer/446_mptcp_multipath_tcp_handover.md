@@ -26,18 +26,14 @@ tags = ["studynote-network"]
   - <strong>기존 <a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a></strong>: 오토바이 1대만 써서 피자 10판을 배달합니다. 오토바이가 고장 나면 배달은 완전히 망합니다.
   - **MPTCP**: 오토바이(와이파이)와 트럭([5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)) 2대를 동시에 부릅니다. 피자 10판 중 5판은 오토바이에, 5판은 트럭에 나눠 싣습니다(서브플로우). 배달 속도가 2배로 빨라집니다. 만약 오토바이가 고장 나도 트럭에 남은 5판을 몰아 실으면 되니까 배달이 절대 취소([세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 끊김)되지 않습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">영 윈도우 탐색</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MPTCP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SCTP</div></div>
-</div>
-</div>
-
-
+```text
+[영 윈도우 탐색]
+    │
+    ▼
+[MPTCP]
+    │
+    └──▶ [SCTP]
+```
 
 - **📢 섹션 요약 비유**: ** MPTCP는 **"양손잡이의 서류 작성"**입니다. 한 손(단일 경로)으로만 글씨를 쓰다가 손에 쥐가 나면 펜을 놓아야 했던 과거와 달리, 양손(다중 경로)에 펜을 쥐고 글씨를 써서 속도도 2배로 올리고 한쪽 손을 다쳐도 남은 손으로 멈춤 없이 글을 써 내려가는 궁극의 멀티태스킹입니다.
 
@@ -66,24 +62,27 @@ MPTCP는 기존의 낡은 방화벽이나 멍청한 라우터들을 속이기 �
 - 스마트폰은 양쪽 길로 미친 듯이 들어오는 조각들을 받는다.
 - **조립의 마법**: 1번 길로 온 조각과 2번 길로 온 조각의 순서가 섞이면 안 된다. 그래서 MPTCP는 기존 TCP의 `Seq Number` 위에 <strong><code>DSN (Data Sequence Number)</code></strong>라는 왕 대가리 번호표를 옵션 칸에 하나 더 붙여서 날린다. 이 DSN 덕분에 스마트폰은 두 길로 들어온 조각들을 100% 완벽하게 원상 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)(Reassembly)해 낸다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MPTCP의 무단절 핸드오버 (Handover) 시나리오</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">내 스마트폰</div><div class="kb-diagram-node">넷플릭스 서버</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Subflow 1: Wi-Fi) (1Gbps 쌩쌩) ▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Subflow 2: 5G/LTE) (대기 중 or 보조) ▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 상황: 내가 집을 나서서 엘리베이터를 탔다! (Wi-Fi 툭 끊김!!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 일반 TCP: Wi-Fi 세션 터짐 ──▶ 넷플릭스 영상 멈춤 (로딩 뱅글뱅글)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* MPTCP의 기적:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"Wi-Fi 터졌어? 괜찮아! 이미 5G 터널(Subflow 2)이 묶여있잖아!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">넷플릭스야! 5G 터널 쪽으로 데이터 100% 다 돌려 쏴!!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: 사용자는 화면의 끊김을 0.001초도 느끼지 못한 채 영상을 본다.</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                MPTCP의 무단절 핸드오버 (Handover) 시나리오        │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 내 스마트폰 ]                                 [ 넷플릭스 서버 ] │
+ │                                                             │
+ │   (Subflow 1: Wi-Fi) ════════(1Gbps 쌩쌩)════════▶        │
+ │   (Subflow 2: 5G/LTE) ──────(대기 중 or 보조)──────▶        │
+ │                                                             │
+ │   * 상황: 내가 집을 나서서 엘리베이터를 탔다! (Wi-Fi 툭 끊김!!)        │
+ │                                                             │
+ │   * 일반 TCP: Wi-Fi 세션 터짐 ──▶ 넷플릭스 영상 멈춤 (로딩 뱅글뱅글)   │
+ │                                                             │
+ │   * MPTCP의 기적:                                            │
+ │     "Wi-Fi 터졌어? 괜찮아! 이미 5G 터널(Subflow 2)이 묶여있잖아!   │
+ │      넷플릭스야! 5G 터널 쪽으로 데이터 100% 다 돌려 쏴!!"             │
+ │                                                             │
+ │   ▶ 결과: 사용자는 화면의 끊김을 0.001초도 느끼지 못한 채 영상을 본다.│
+ └─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: ** MPTCP는 물탱크(서버)에 꽂힌 **"투 갈래 호스"**입니다. 원래는 굵은 정수기 호스(와이파이) 하나만 썼는데, 그 옆에 얇은 수도 호스([5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/))를 하나 더 꽂아 물통을 두 배 빨리 채웁니다. 그러다 정수기 호스가 꼬여서 막혀도, 남은 수도 호스에서 계속 물이 나오기 때문에 물통 채우기(다운로드) 작업이 중단되는 일은 절대 없습니다.
 
@@ -141,19 +140,15 @@ MPTCP는 전송 계층을 이해할 때 핵심 축을 잡아 주는 개념이다
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 영 윈도우 탐색</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: MPTCP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: SCTP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 영 윈도우 탐색]
+    │
+    ▼
+[현재 개념: MPTCP]
+    │
+    ├──▶ [확장 A: SCTP]
+    └──▶ [확장 B: 적응형 저지연 전송]
+```
 
 MPTCP는 [영 윈도우](/knowledge-base/studynote/03_network/08_transport_layer/445_zero_window_probe_persist_timer/) 탐색에서 출발해 현재 메커니즘을 정교화하고, 이후 SCTP와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

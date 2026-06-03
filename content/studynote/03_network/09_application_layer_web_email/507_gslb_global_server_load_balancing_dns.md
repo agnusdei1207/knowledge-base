@@ -30,31 +30,35 @@ tags = ["studynote-network"]
   1. <strong>바보 같은 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/">라운드 로빈</a> <a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/">DNS</a> (Round-Robin <a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/">DNS</a>)의 붕괴</strong>: 옛날 DNS에 A 레코드 IP 3개를 묶어놓으면 무식하게 1, 2, 3번 순서대로 유저한테 던져줬다. 근데 2번 서버 전원이 뽑혀 죽어있는데도 DNS는 "자, 2번 접속해!"라고 유저를 죽음의 구덩이(Blackhole)로 밀어 넣었다. 서버 생사(Health)를 확인하지 않는 DNS의 치명적 한계다.
   2. <strong>CDN과 <a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/100_multi_region_deployment_pipeline_disaster_recovery/">Multi-Region</a> 클라우드 아키텍처 폭발</strong>: AWS가 등장하며 클릭 한 방으로 서울, 뉴욕, 시드니에 똑같은 서버를 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)해 띄울 수 있게 되었다. 이 흩어진 글로벌 점(Region)들을 하나로 묶어서([Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)) 가장 가까운 곳으로 유저를 보내줄 글로벌 네비게이션이 무조건 필요해졌다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GSLB (지능형 DNS)의 트래픽 라우팅 핑퐁 vs 바보 DNS의 멸망 도해</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">💀</div><div class="kb-diagram-node">AS-IS 바보 DNS (라운드 로빈의 저주)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 서울 유저: "나 <code>a.com</code> 접속할래 IP 내놔!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 바보 DNS: "응, 우리 회사 서버 IP 3개 있어. 1번(서울), 2번(미국), 3번(죽은 서버)."</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"옛다 랜덤으로 3번(죽은 서버) 당첨! 일루 가!" (유저 무지성 학살)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">🛡️ 아키텍트의 융합 수술: GSLB (Route 53)</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🌟</div><div class="kb-diagram-node">TO-BE GSLB (지오 라우팅 + 헬스 체크 생존망)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">👨‍💻 프랑스 파리 유저 ➔ "www.a.com 접속!" (DNS 질의 핑 🚀)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🧠</div><div class="kb-diagram-node">GSLB 코어 뇌 0.01초 미친 연산 가동</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1️⃣ (위치 추적): "어? 패킷 쏜 놈 IP 까보니 파리 대륙이네?" (Geo-Location)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2️⃣ (서버 생사): "파리 서버 1, 2번 살아있나 찔러봐!(Health Check 핑)"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3️⃣ (용량 튜닝): "파리 1번 서버는 트래픽 90% 꽉 찼네. 2번 서버가 10%라 널널함!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">➔ GSLB 응답 틱!: "프랑스 놈아! 너한테 0.1초 만에 화면 띄워줄</div><div class="kb-diagram-node">파리 2번 서버 IP</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단 1개만 딱 핀셋으로 던져줄게! 일루 직행해 쓩!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 아키텍트 분석: GSLB는 도메인을 IP로 바꾸는 전화번호부가 아니다. 전 세계 수백 개의</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">건물(데이터센터) 중에 '가장 살 빠진 건강한 놈' 하나를 골라 유저의 멱살을 잡고</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가장 가까운 길(Shortest Path)로 던져버리는 글로벌 트래픽의 스나이퍼(저격수)다!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          GSLB (지능형 DNS)의 트래픽 라우팅 핑퐁 vs 바보 DNS의 멸망 도해 │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ 💀 [ AS-IS 바보 DNS (라운드 로빈의 저주) ]                        │
+│  - 서울 유저: "나 `a.com` 접속할래 IP 내놔!"                        │
+│  - 바보 DNS: "응, 우리 회사 서버 IP 3개 있어. 1번(서울), 2번(미국), 3번(죽은 서버)."│
+│             "옛다 랜덤으로 3번(죽은 서버) 당첨! 일루 가!" (유저 무지성 학살)   │
+│                                                             │
+│        ======= [ 🛡️ 아키텍트의 융합 수술: GSLB (Route 53) ] ========│
+│                                                             │
+│ 🌟 [ TO-BE GSLB (지오 라우팅 + 헬스 체크 생존망) ]                 │
+│                                                             │
+│  👨‍💻 프랑스 파리 유저 ➔ "www.a.com 접속!" (DNS 질의 핑 🚀)          │
+│                                                             │
+│  🧠 [ GSLB 코어 뇌 0.01초 미친 연산 가동 ]                          │
+│   1️⃣ (위치 추적): "어? 패킷 쏜 놈 IP 까보니 파리 대륙이네?" (Geo-Location)  │
+│   2️⃣ (서버 생사): "파리 서버 1, 2번 살아있나 찔러봐!(Health Check 핑)"     │
+│   3️⃣ (용량 튜닝): "파리 1번 서버는 트래픽 90% 꽉 찼네. 2번 서버가 10%라 널널함!"│
+│                                                             │
+│  ➔ GSLB 응답 틱!: "프랑스 놈아! 너한테 0.1초 만에 화면 띄워줄 [파리 2번 서버 IP] │
+│     단 1개만 딱 핀셋으로 던져줄게! 일루 직행해 쓩!"                      │
+│                                                             │
+│ 🌟 아키텍트 분석: GSLB는 도메인을 IP로 바꾸는 전화번호부가 아니다. 전 세계 수백 개의 │
+│   건물(데이터센터) 중에 '가장 살 빠진 건강한 놈' 하나를 골라 유저의 멱살을 잡고 │
+│   가장 가까운 길(Shortest Path)로 던져버리는 글로벌 트래픽의 스나이퍼(저격수)다! │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** "서버 앞단에 L4/L7 로드밸런서(ALB/ELB) 빵빵하게 박아뒀는데, 왜 GSLB(Route 53)를 돈 주고 또 사야 하죠?" 인프라 주니어의 대표적인 삽질 질문이다. L4/L7 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 '어떤 한 건물(IDC)' 입구에 세워둔 경비원이다. 그 건물 자체에 폭탄이 떨어져 전기가 나가면 입구 경비원(L4)도 같이 죽는다. 이 건물이 통째로 날아갔을 때(Region Failure), 저쪽 옆 대륙에 있는 튼튼한 2번째 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 건물로 유저들의 차를 1초 만에 우회시켜(Fail-over) 살려내는 짓은, 오직 지구 전체 궤도 밖에서 내려다보고 있는 신의 눈(GSLB [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/))만이 해낼 수 있는 궁극의 공간 분할 방어막([Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/)-[Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/))이다.
 
@@ -91,18 +95,14 @@ tags = ["studynote-network"]
 - **아키텍트의 극딜 처방**: GSLB 장애 전환(Fail-over) 아키텍처의 생명줄은 <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/">TTL</a> 튜닝</strong>에 있다! 
   "동적 GSLB로 찢어발기는 CNAME이나 A 레코드의 <strong>TTL은 하늘이 두 쪽 나도 60초(1분) 이하로 극단적 토막 컷(Low <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/">TTL</a>)을 쳐라!!</strong>" 그래야 장애 시 1분만 에러가 나고, 1분 뒤에 캐시가 날아가면서 유저 폰이 다시 GSLB한테 "바뀐 도쿄 IP 빨리 내놔!" 라고 물어보러(Re-query) 오면서 생태계가 살아난다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">CDN</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">GSLB</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Anycast 기반 CDN 설계</div></div>
-</div>
-</div>
-
-
+```text
+[CDN]
+    │
+    ▼
+[GSLB]
+    │
+    └──▶ [Anycast 기반 CDN 설계]
+```
 
 - **📢 섹션 요약 비유**: GSLB 장애 전환과 [TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/) 캐시의 딜레마는 <strong>'중국집 이전 안내문'</strong>과 같습니다. 중국집(서버)이 옆 건물로 이사(장애 전환) 갔습니다. GSLB 사장님은 문 앞에 "이사 갔음!(새 IP)" 종이를 붙여놨죠. 그런데 철수(유저 브라우저)가 머릿속에 <strong>'이 집은 1년 동안 안 옮길 거야(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/">TTL</a>=1년)'</strong>라고 뇌피셜(캐시)을 박아놨다면? 이사 안내문을 볼 생각도 안 하고 1년 내내 텅 빈 옛날 중국집 터로 밥 먹으러 가서 굶어 죽는 겁니다. 그래서 사장님은 손님들 뇌에 강제로 <strong>"우리 집 주소는 1분마다(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/">TTL</a>=60) 무조건 새로 확인해라!"</strong>라는 세뇌 마법(Low [TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/))을 걸어놔야만 이사 갔을 때 손님을 살릴 수 있습니다.
 
@@ -144,30 +144,32 @@ tags = ["studynote-network"]
    - **초일류 아키텍트의 회피 기동**: 진정한 [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/)-Active는 DB [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 이길 수 없다면 찢지 않는다. GSLB 룰을 뜯어고친다. 
    <strong>"한국/일본(아시아) 트래픽은 하늘이 두 쪽 나도 무조건 [서울 센터] 딱 1곳(<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/">Active</a>)으로만 100% 처넣어라! 그리고 유럽/미국 유저 트래픽은 100% [미국 센터]로만 처넣어라! (Geographic Sticky <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">Routing</a> 융합)"</strong> 유저 한 명의 트래픽 패킷이 대륙 간을 이리저리 핑퐁으로 넘어 다니는 짓(Cross-Region)을 GSLB 멱살 잡고 원천 금지(Sticky [Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 락킹) 시켜버려야만 DB [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 랙이라는 물리적 저주([CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) 정리의 함정)를 우회하여 생태계를 방어할 수 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실무 아키텍처: 카카오 화재를 1초 만에 방어하는 GSLB 재해 복구(DR) 핑퐁 맵</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🌍</div><div class="kb-diagram-node">AWS Route 53 (GSLB) / 1분 TTL 세팅 완료</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 룰: (메인 1번) 서울 리전 ➔ (백업 2번) 도쿄 리전 (Fail-over 정책)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">🚨 재앙 발생: 서울 데이터센터 화재 (Blackout)</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1️⃣ 00:00초: 서울 데이터센터(Active) 전원 쫙 뽑힘 💥 뻗음!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2️⃣ 00:05초: GSLB 헬스 체크 봇(Bot) 왈: "야 서울센터야 응답해! 5초째 핑 씹네? 💀"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3️⃣ 00:15초: GSLB 뇌 발동: "서울 3번 연속 핑 실패 확정!</div><div class="kb-diagram-node">사망 처리(Unhealthy)</div><div class="kb-diagram-note">!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🌟 즉시</div><div class="kb-diagram-node">도쿄 백업 센터 IP</div><div class="kb-diagram-note">로 도메인 번호판 바꿔 껴버려!!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">🛡️ 부활의 핑퐁: 유저 브라우저의 Cache Busting</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4️⃣ 00:20초: 유저가 폰으로 접속 ➔ "어라? 나 방금 서울 뻗기 직전에 폰에 저장된</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(캐시된) 서울 IP로 들어갔는데 502 에러 나며 다 터졌잖아 ㅠㅠ 💦"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">5️⃣ 01:00초: 🌟 (마법 발동) 아키텍트가 세팅해 둔</div><div class="kb-diagram-node">1분 TTL</div><div class="kb-diagram-note">수명 폭파!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">폰 왈: "어! 캐시 수명(1분) 다 끝났네 쓰레기통 버려! GSLB 형님한테</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IP 주소 새로 받아와야지!(DNS Re-query)"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">6️⃣ 01:01초: GSLB 왈: "야 서울 죽었어! 방금 따끈하게 바꾼</div><div class="kb-diagram-node">도쿄 IP</div><div class="kb-diagram-note">가져가!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유저 폰 ➔ (0.1초 만에 도쿄 센터로 꺾어 접속 🚀 1분 만에 서비스 부활!)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │         실무 아키텍처: 카카오 화재를 1초 만에 방어하는 GSLB 재해 복구(DR) 핑퐁 맵 │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │ 🌍 [ AWS Route 53 (GSLB) / 1분 TTL 세팅 완료 ]                 │
+  │   - 룰: (메인 1번) 서울 리전 ➔ (백업 2번) 도쿄 리전 (Fail-over 정책)    │
+  │                                                             │
+  │        ======= [ 🚨 재앙 발생: 서울 데이터센터 화재 (Blackout) ] ========│
+  │                                                             │
+  │ 1️⃣ 00:00초: 서울 데이터센터(Active) 전원 쫙 뽑힘 💥 뻗음!                │
+  │ 2️⃣ 00:05초: GSLB 헬스 체크 봇(Bot) 왈: "야 서울센터야 응답해! 5초째 핑 씹네? 💀"│
+  │ 3️⃣ 00:15초: GSLB 뇌 발동: "서울 3번 연속 핑 실패 확정! [사망 처리(Unhealthy)]! │
+  │            🌟 즉시 [도쿄 백업 센터 IP]로 도메인 번호판 바꿔 껴버려!!"        │
+  │                                                             │
+  │        ======= [ 🛡️ 부활의 핑퐁: 유저 브라우저의 Cache Busting ] ========│
+  │                                                             │
+  │ 4️⃣ 00:20초: 유저가 폰으로 접속 ➔ "어라? 나 방금 서울 뻗기 직전에 폰에 저장된   │
+  │            (캐시된) 서울 IP로 들어갔는데 502 에러 나며 다 터졌잖아 ㅠㅠ 💦"    │
+  │ 5️⃣ 01:00초: 🌟 (마법 발동) 아키텍트가 세팅해 둔 [1분 TTL] 수명 폭파!        │
+  │            폰 왈: "어! 캐시 수명(1분) 다 끝났네 쓰레기통 버려! GSLB 형님한테   │
+  │            IP 주소 새로 받아와야지!(DNS Re-query)"                  │
+  │ 6️⃣ 01:01초: GSLB 왈: "야 서울 죽었어! 방금 따끈하게 바꾼 [도쿄 IP] 가져가!"   │
+  │            유저 폰 ➔ (0.1초 만에 도쿄 센터로 꺾어 접속 🚀 1분 만에 서비스 부활!)│
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** "[재해 복구](/knowledge-base/studynote/04_software_engineering/06_software_architecture/379_dr_architecture/)([DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/)) 망 빵빵하게 짰다더니 왜 화재 났을 때 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)에 3시간이나 걸렸어?!" 기업 CEO가 IT 본부장을 해고할 때 들이미는 팩트 시트다. [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 망 껍데기(도쿄 센터 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/))를 아무리 예쁘게 만들어놔도, GSLB 자동 전환(Fail-over) 자동화 스크립트와 [TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/)(1분 컷) 튜닝이 박혀있지 않으면 의미가 없다. 인간 DBA가 새벽에 전화 받고 깨서 수동으로 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 창 들어가서 마우스로 서울 IP를 도쿄 IP로 바꾸고(30분 소요), 전 세계 통신사(KT/SKT)의 낡은 24시간짜리 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 캐시가 날아가기를 눈물 흘리며 기도하는(하루 소요) 동안 회사는 파산한다. 진정한 DR은 장애 감지 ➔ [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 변경 ➔ 캐시 폭파 ➔ 유저 접속 재개의 전 4단계 파이프라인이 <strong>GSLB의 심장부 안에서 인간의 개입(Manual) 0%로 1분 안에 톱니바퀴처럼 굴러가는 자동화(Automation) 융합</strong>에 생명줄이 달려있다.
 
@@ -222,19 +224,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: CDN</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: GSLB</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: Anycast 기반 CDN 설계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 애플리케이션 전달</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: CDN]
+    │
+    ▼
+[현재 개념: GSLB]
+    │
+    ├──▶ [확장 A: Anycast 기반 CDN 설계]
+    └──▶ [확장 B: 지능형 애플리케이션 전달]
+```
 
 GSLB는 CDN에서 출발해 현재 메커니즘을 정교화하고, 이후 Anycast 기반 [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) 설계와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

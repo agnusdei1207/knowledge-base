@@ -102,37 +102,25 @@ Integrity
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Constraints</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Integrity</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Quality</div>
-</div>
-</div>
-
-
+```text
+Constraints
+  ↓
+Integrity
+  ↓
+Quality
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Domain / Key / Entity / Referential</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Integrity Constraints</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Data Quality</div>
-</div>
-</div>
-
-
+```text
+Domain / Key / Entity / Referential
+  ↓
+Integrity Constraints
+  ↓
+Data Quality
+```
 
 ---
 

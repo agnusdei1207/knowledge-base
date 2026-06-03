@@ -20,17 +20,17 @@ tags = ["studynote-devops-sre"]
 
 이전에는 [Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) 도구마다 별도 SDK를 사용해야 했다. OpenTelemetry는 OpenCensus(Google)와 OpenTracing([CNCF](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/))의 합병 프로젝트로, 단일 표준 SDK로 [Metrics](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/)·[Logs](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·Traces 모두 계측한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OpenTelemetry 아키텍처</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">앱 → OTel SDK → OTLP → OTel Collector</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Jaeger Prometheus Loki</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────┐
+│           OpenTelemetry 아키텍처                │
+│                                                  │
+│  앱 → OTel SDK → OTLP → OTel Collector          │
+│                             │                   │
+│                    ┌────────┼────────┐           │
+│                    ▼        ▼        ▼           │
+│                 Jaeger  Prometheus  Loki         │
+└──────────────────────────────────────────────────┘
+```
 
 > 📢 **Ⅰ 섹션 요약 비유**
 > OTel은 [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/)-C 표준 — 기기(SDK)는 하나의 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에 연결하고, [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)(Exporter)를 교체하면 다른 충전기(백엔드)에 꽂힌다.
@@ -56,21 +56,16 @@ OTLP ([OpenTelemetry](/knowledge-base/studynote/15_devops_sre/03_sre_observabili
 
 ## Ⅲ. [OTel](/knowledge-base/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/) Collector [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인
 
+```
+Receiver → Processor → Exporter
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Receiver → Processor → Exporter</div>
-<div class="kb-diagram-note">OTLP Receiver</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Batch Processor (배치 압축)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Attributes Processor (태그 추가/제거)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Jaeger Exporter (Trace)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Prometheus Exporter (Metrics)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Loki Exporter (Logs)</div>
-</div>
-</div>
-
-
+OTLP Receiver
+  ├── Batch Processor (배치 압축)
+  ├── Attributes Processor (태그 추가/제거)
+  ├── Jaeger Exporter (Trace)
+  ├── Prometheus Exporter (Metrics)
+  └── Loki Exporter (Logs)
+```
 
 Agent 모드([사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)/[데몬셋](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/089_daemonset_kubernetes_background_node_agent/))와 Gateway 모드(클러스터 중앙 집결)를 조합해 사용한다.
 
@@ -113,20 +108,14 @@ Auto-instrumentation은 [HTTP](/knowledge-base/studynote/03_network/09_applicati
 
 ### 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">OpenTelemetry</div>
-<div class="kb-diagram-tree-item" style="--depth:2">SDK → Metrics / Logs / Traces 계측</div>
-<div class="kb-diagram-tree-item" style="--depth:2">OTLP → 표준 전송 프로토콜</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Collector → 중앙 파이프라인 (Agent + Gateway)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Auto-instrumentation → 코드리스 계측</div>
-<div class="kb-diagram-tree-item" style="--depth:2">CNCF → Cloud Native 표준화</div>
-</div>
-</div>
-
-
+```
+OpenTelemetry
+    ├── SDK → Metrics / Logs / Traces 계측
+    ├── OTLP → 표준 전송 프로토콜
+    ├── Collector → 중앙 파이프라인 (Agent + Gateway)
+    ├── Auto-instrumentation → 코드리스 계측
+    └── CNCF → Cloud Native 표준화
+```
 
 > 🧒 **어린이 비유**
 > OTel은 모든 가전제품의 리모컨을 하나로 통합하는 만능 리모컨이에요. 어떤 TV(백엔드)에도 같은 버튼(SDK)으로 조종할 수 있어요.

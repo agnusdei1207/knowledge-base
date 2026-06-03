@@ -25,18 +25,14 @@ tags = ["studynote-network"]
   - 도마가 아니라, <strong>'과거의 기억을 간직한 미끄럼틀(<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/058_shift_register/">Shift Register</a>)'</strong>에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 1비트씩 연속해서 집어넣습니다. 
   - 지금 들어간 1비트가 출력될 때, 그 1비트만 쓰이는 게 아니라 **방금 전, 2초 전, 3초 전에 미끄럼틀을 지나갔던 과거의 비트들과 서로 '길쌈(베 짜기, 얽힘)'되어서** 완전히 새로운 여러 개의 비트로 뻥튀기되어 출력됩니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">BCH 코드 / 골레이 코드</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">길쌈 코드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">터보 코드</div></div>
-</div>
-</div>
-
-
+```text
+[BCH 코드 / 골레이 코드]
+    │
+    ▼
+[길쌈 코드]
+    │
+    └──▶ [터보 코드]
+```
 
 - **📢 섹션 요약 비유**: 길쌈 코드는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -53,18 +49,14 @@ tags = ["studynote-network"]
 3. 갈림길이 나올 때마다, <strong>"내가 지금 받은 쓰레기 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>와 가장 비슷하게 생긴(해밍 거리가 가장 짧은) 길(생존 경로, Survivor Path)"</strong>이 어디인지 확률을 계산하며 따라갑니다.
 4. 이 짓을 끝까지 반복하여 가장 확률이 높은 단 하나의 최적 경로를 찾아내면, 그것이 바로 <strong>"송신기가 원래 보냈던 진짜 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>!"</strong>라고 100% 확신하며 에러를 고쳐냅니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">BCH 코드 / 골레이 코드</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">길쌈 코드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">터보 코드</div></div>
-</div>
-</div>
-
-
+```text
+[BCH 코드 / 골레이 코드]
+    │
+    ▼
+[길쌈 코드]
+    │
+    └──▶ [터보 코드]
+```
 
 - **📢 섹션 요약 비유**: 길쌈 코드의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -128,19 +120,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: BCH 코드 / 골레이 코드</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 길쌈 코드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 터보 코드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고신뢰 저지연 링크 제어</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: BCH 코드 / 골레이 코드]
+    │
+    ▼
+[현재 개념: 길쌈 코드]
+    │
+    ├──▶ [확장 A: 터보 코드]
+    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
+```
 
 길쌈 코드는 BCH 코드 / 골레이 코드에서 출발해 현재 메커니즘을 정교화하고, 이후 [터보 코드](/knowledge-base/studynote/03_network/04_data_link_layer_error/202_turbo_code_shannon_limit/)와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

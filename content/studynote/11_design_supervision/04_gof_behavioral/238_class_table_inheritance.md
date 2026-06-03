@@ -24,54 +24,50 @@ STI ([Single Table Inheritance](/knowledge-base/studynote/11_design_supervision/
 
 JPA (Java Persistence [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)) 에서는 `@Inheritance(strategy = InheritanceType.JOINED)` 로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하며, 마틴 파울러의 PEAA (Patterns of Enterprise Application [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/)) 에서 Class Table Inheritance라는 이름으로 정의되었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Vehicle (추상 부모)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">Car (doors, fuelType 컬럼)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">Truck (payload, trailerHitch 컬럼)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">Motorcycle (hasSidecar 컬럼)</div>
-</div>
-</div>
-
-
+```
+Vehicle (추상 부모)
+ ├── Car       (doors, fuelType 컬럼)
+ ├── Truck     (payload, trailerHitch 컬럼)
+ └── Motorcycle (hasSidecar 컬럼)
+```
 
 각 클래스가 별도 테이블을 갖고, 자식 테이블의 `id`는 부모 `vehicles.id`를 참조한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Core Idea</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Expected Gain</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐    ┌──────────────┐    ┌──────────────┐
+│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
+└──────────────┘    └──────────────┘    └──────────────┘
+```
 
 - **📢 섹션 요약 비유**: 병원에서 기본 진료 기록(부모 테이블)은 모든 환자가 공유하고, 외과·내과·소아과는 각자의 전문 차트(자식 테이블)를 추가로 가지는 것과 같다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Class Table Inheritance 테이블 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">vehicles (부모 테이블)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">id</div><div class="kb-diagram-cell">type</div><div class="kb-diagram-cell">make</div><div class="kb-diagram-cell">model</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">Car</div><div class="kb-diagram-cell">Toyota</div><div class="kb-diagram-cell">Camry</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2</div><div class="kb-diagram-cell">Truck</div><div class="kb-diagram-cell">Ford</div><div class="kb-diagram-cell">F-150</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3</div><div class="kb-diagram-cell">Motorcycle</div><div class="kb-diagram-cell">Honda</div><div class="kb-diagram-cell">CBR500</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">cars trucks motorcycles</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">id(FK)</div><div class="kb-diagram-cell">doors</div><div class="kb-diagram-cell">id(FK)</div><div class="kb-diagram-cell">payload</div><div class="kb-diagram-cell">id(FK)</div><div class="kb-diagram-cell">sidecar</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">4</div><div class="kb-diagram-cell">2</div><div class="kb-diagram-cell">1500kg</div><div class="kb-diagram-cell">3</div><div class="kb-diagram-cell">false</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ 자식 id = 부모 id (FK이자 PK)</div></div>
-</div>
-</div>
-
-
+```
+┌───────────────────────────────────────────────────────────────────┐
+│              Class Table Inheritance 테이블 구조                   │
+│                                                                   │
+│  vehicles (부모 테이블)                                            │
+│  ┌─────┬────────────┬──────────────┬──────────────────────────┐   │
+│  │ id  │ type       │ make         │ model                    │   │
+│  ├─────┼────────────┼──────────────┼──────────────────────────┤   │
+│  │  1  │ Car        │ Toyota       │ Camry                    │   │
+│  │  2  │ Truck      │ Ford         │ F-150                    │   │
+│  │  3  │ Motorcycle │ Honda        │ CBR500                   │   │
+│  └─────┴────────────┴──────────────┴──────────────────────────┘   │
+│          │                  │                     │               │
+│          ▼                  ▼                     ▼               │
+│  cars                 trucks              motorcycles             │
+│  ┌───────────────┐  ┌──────────────────┐  ┌──────────────────┐   │
+│  │ id(FK) │ doors│  │ id(FK) │ payload │  │ id(FK)│ sidecar  │   │
+│  ├────────┼──────┤  ├────────┼─────────┤  ├───────┼──────────┤   │
+│  │   1    │   4  │  │   2    │  1500kg │  │   3   │  false   │   │
+│  └────────┴──────┘  └────────┴─────────┘  └───────┴──────────┘   │
+│                                                                   │
+│  ※ 자식 id = 부모 id (FK이자 PK)                                  │
+└───────────────────────────────────────────────────────────────────┘
+```
 
 ```java
 @Entity

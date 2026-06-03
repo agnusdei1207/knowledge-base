@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 과거엔 부처별로 낡고 구린 무전기(주파수)를 따로 썼습니다. 경찰은 100MHz, 소방관은 400MHz. 세월호 참사 같은 국가적 재난에서 경찰청장과 해경이 서로 무전이 안 닿아 카카오톡으로 지시를 내리다 골든타임을 놓치는 참사가 발생했습니다.
 - **사진/영상 전송 불가**: 구형 무전기는 "치직- 현장 불났음" 음성만 들릴 뿐, 현장의 잔해 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 영상을 지휘소로 보낼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 속도가 아예 없었습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">지중 통신</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">재난 통신망</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">EMP</div></div>
-</div>
-</div>
-
-
+```text
+[지중 통신]
+    │
+    ▼
+[재난 통신망]
+    │
+    └──▶ [EMP]
+```
 
 - **📢 섹션 요약 비유**: 재난 통신망은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -43,18 +39,14 @@ tags = ["studynote-network"]
 
 - **개념**: 우리 국민이 흔히 쓰는 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 4G [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 통신 인프라(영상, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송)를 기반으로 하되, <strong>국가 재난안전(Public Safety) 목적에 맞게 '절대 끊기지 않는 생존성(재난망 특화 기능)'과 '우선순위(QPP, 914번)'를 극대화시켜 구축한 전국 단일망 통신 시스템</strong>입니다. (한국이 세계 최초 구축)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">지중 통신</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">재난 통신망</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">EMP</div></div>
-</div>
-</div>
-
-
+```text
+[지중 통신]
+    │
+    ▼
+[재난 통신망]
+    │
+    └──▶ [EMP]
+```
 
 - **📢 섹션 요약 비유**: 재난 통신망의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -122,19 +114,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 지중 통신</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 재난 통신망</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: EMP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 지중 통신]
+    │
+    ▼
+[현재 개념: 재난 통신망]
+    │
+    ├──▶ [확장 A: EMP]
+    └──▶ [확장 B: 의미 기반 통신 최적화]
+```
 
 재난 통신망는 [지중 통신](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/929_mi_magnetic_induction_underground_radio_communication/)에서 출발해 현재 메커니즘을 정교화하고, 이후 EMP와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

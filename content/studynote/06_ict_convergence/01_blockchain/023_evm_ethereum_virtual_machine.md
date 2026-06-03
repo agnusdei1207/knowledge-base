@@ -22,26 +22,29 @@ tags = ["studynote-ict-convergence"]
 
 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)코인의 스크립트 언어가 단순한 전송 조건만 처리하는 한계를 극복하기 위해 비탈릭 부테린(Vitalik Buterin)이 2015년 설계한 EVM은 튜링 완전(Turing-Complete)한 연산을 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 위에서 처리할 수 있게 했다. EVM이 없다면 [DeFi](/knowledge-base/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/)([탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 금융), NFT, [DAO](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/) 같은 복잡한 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 애플리케이션은 존재할 수 없다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EVM 실행 계층 전체 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Solidity / Vyper 소스 코드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(컴파일)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EVM 바이트코드 (Bytecode)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(트랜잭션으로 블록체인에 배포)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EVM 실행 환경</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 스택 (Stack, 1024 슬롯 최대)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 메모리 (Memory, 휘발성)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 스토리지 (Storage, 영구)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 프로그램 카운터 (PC)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(가스 소비하며 실행)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상태 전이 (State Transition) — 블록체인 상태 업데이트</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                EVM 실행 계층 전체 구조                        │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  Solidity / Vyper 소스 코드                                  │
+│          │ (컴파일)                                          │
+│          ▼                                                  │
+│  EVM 바이트코드 (Bytecode)                                   │
+│          │ (트랜잭션으로 블록체인에 배포)                      │
+│          ▼                                                  │
+│  ┌───────────────────────────────────┐                      │
+│  │  EVM 실행 환경                    │                      │
+│  │  ├─ 스택 (Stack, 1024 슬롯 최대) │                      │
+│  │  ├─ 메모리 (Memory, 휘발성)      │                      │
+│  │  ├─ 스토리지 (Storage, 영구)     │                      │
+│  │  └─ 프로그램 카운터 (PC)         │                      │
+│  └───────────────────────────────────┘                      │
+│          │ (가스 소비하며 실행)                               │
+│          ▼                                                  │
+│  상태 전이 (State Transition) — 블록체인 상태 업데이트         │
+└─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: EVM은 전 세계가 공동 소유한 슈퍼컴퓨터다. 아무도 혼자 멈추거나 조작할 수 없고, 모든 참가자가 동시에 같은 프로그램을 돌려 결과를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.
 
@@ -64,23 +67,24 @@ EVM은 256비트(32바이트) 단위의 [스택](/knowledge-base/studynote/08_al
 
 [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)는 EVM의 각 연산코드([Opcode](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/159_opcode/)) 실행 비용을 ETH로 환산한 단위다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가스 동작 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 → 트랜잭션 전송 (Gas Limit + Gas Price 설정)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EVM 실행 → 각 Opcode마다 가스 차감</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ ADD: 3 gas</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ SSTORE (새 값): 20,000 gas (비쌈!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ SSTORE (업데이트): 2,900 gas</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ KECCAK256: 30 + 6×데이터크기 gas</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가스 소진 전 완료 → 남은 가스 환불</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가스 소진(Out of Gas) → 트랜잭션 전체 롤백</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────┐
+│              가스 동작 흐름                           │
+├─────────────────────────────────────────────────────┤
+│                                                     │
+│  사용자 → 트랜잭션 전송 (Gas Limit + Gas Price 설정) │
+│              │                                      │
+│              ▼                                      │
+│  EVM 실행 → 각 Opcode마다 가스 차감                  │
+│    ├─ ADD: 3 gas                                    │
+│    ├─ SSTORE (새 값): 20,000 gas (비쌈!)             │
+│    ├─ SSTORE (업데이트): 2,900 gas                   │
+│    └─ KECCAK256: 30 + 6×데이터크기 gas               │
+│              │                                      │
+│  가스 소진 전 완료 → 남은 가스 환불                   │
+│  가스 소진(Out of Gas) → 트랜잭션 전체 롤백           │
+└─────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)는 자동차 연료다. 출발 전 연료([Gas](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/) Limit)를 넣고, 복잡한 길(복잡한 연산)을 갈수록 기름을 더 소비하며, 연료가 바닥나면 목적지 못 가고 출발 지점으로 되돌아온다([롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)).
 
@@ -149,23 +153,21 @@ EVM은 이더리움 생태계의 근간이며, [EVM](/knowledge-base/studynote/1
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">비트코인 스크립트 — 제한된 조건부 실행</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">EVM v1 (2015) — 튜링 완전 스마트 컨트랙트 실행</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">EVM 호환 L1 체인 — BSC, Polygon, Avalanche</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">EVM on L2 — Optimism, Arbitrum (롤업 기반 확장)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ZK-EVM — 영지식 증명 기반 EVM 검증 (Scroll, zkSync)</div></div>
-</div>
-</div>
-
-
+```text
+[비트코인 스크립트 — 제한된 조건부 실행]
+    │
+    ▼
+[EVM v1 (2015) — 튜링 완전 스마트 컨트랙트 실행]
+    │
+    ▼
+[EVM 호환 L1 체인 — BSC, Polygon, Avalanche]
+    │
+    ▼
+[EVM on L2 — Optimism, Arbitrum (롤업 기반 확장)]
+    │
+    ▼
+[ZK-EVM — 영지식 증명 기반 EVM 검증 (Scroll, zkSync)]
+```
 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)코인의 단순 스크립트에서 출발해 튜링 완전 EVM을 거쳐, L2 [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)과 ZK 증명 기반 EVM으로 확장성과 보안을 동시에 달성하는 방향으로 진화 중이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

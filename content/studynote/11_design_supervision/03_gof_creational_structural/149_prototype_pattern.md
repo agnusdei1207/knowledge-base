@@ -31,29 +31,35 @@ tags = ["studynote-design-supervision"]
 
 [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/) 패턴의 뼈대는 클라이언트가 복잡한 하위 클래스의 이름을 몰라도, 인터페이스에 뚫린 `clone()` [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 하나만 누르면 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)본이 튀어나오는 다형성 캡슐화에 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로토타입 패턴의 다형성 복제(Clone) 십자 융합 아키텍처 도해</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">👨‍💻</div><div class="kb-diagram-node">클라이언트 (Client)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "야 나 이 객체 이름(Class) 뭔지 모르겠고 관심도 없음 ㅋ</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">걍 니 뱃속 복제 버튼(clone) 누를 테니까 쌍둥이 1마리 뱉어내!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (의존성 단절 쉴드 🛡️)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🧬 Prototype (Interface)</div><div class="kb-diagram-cell">◀── 복제 헌법 (ex. Cloneable)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ clone(): Prototype</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── (구현 / Overriding)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🐉 ConcretePrototype_A</div><div class="kb-diagram-cell">🦇 ConcretePrototype_B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(오크 몬스터 원본)</div><div class="kb-diagram-cell">(드래곤 몬스터 원본)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- hp=100, weapon="도끼"</div><div class="kb-diagram-cell">- hp=900, weapon="불"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ clone() {</div><div class="kb-diagram-cell">+ clone() {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">return copy(this);</div><div class="kb-diagram-cell">return copy(this);</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div><div class="kb-diagram-cell">}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🚀 1방 컷 메모리 딥 카피 복제 🚀 1방 컷 메모리 딥 카피 복제</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          프로토타입 패턴의 다형성 복제(Clone) 십자 융합 아키텍처 도해 │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ 👨‍💻 [ 클라이언트 (Client) ]                                 │
+│   - "야 나 이 객체 이름(Class) 뭔지 모르겠고 관심도 없음 ㅋ        │
+│      걍 니 뱃속 복제 버튼(clone) 누를 테니까 쌍둥이 1마리 뱉어내!"   │
+│            │                                                │
+│            ▼ (의존성 단절 쉴드 🛡️)                             │
+│ ┌────────────────────────┐                                  │
+│ │ 🧬 Prototype (Interface) │ ◀── 복제 헌법 (ex. Cloneable) │
+│ │ + clone(): Prototype     │                                  │
+│ └────────────────────────┘                                  │
+│            ▲                                                │
+│            ├── (구현 / Overriding)                          │
+│            │                                                │
+│ ┌────────────────────────┐      ┌────────────────────────┐  │
+│ │ 🐉 ConcretePrototype_A │      │ 🦇 ConcretePrototype_B │  │
+│ │ (오크 몬스터 원본)       │      │ (드래곤 몬스터 원본)     │  │
+│ ├────────────────────────┤      ├────────────────────────┤  │
+│ │ - hp=100, weapon="도끼"│      │ - hp=900, weapon="불"  │  │
+│ │ + clone() {            │      │ + clone() {            │  │
+│ │   return copy(this);   │      │   return copy(this);   │  │
+│ │ }                      │      │ }                      │  │
+│ └────────────────────────┘      └────────────────────────┘  │
+│  🚀 1방 컷 메모리 딥 카피 복제      🚀 1방 컷 메모리 딥 카피 복제 │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **핵심 작동 메커니즘**:
 자바(Java) 생태계에서는 이 뼈대가 아예 언어 코어에 내장되어 있다. `Cloneable` 마커 인터페이스를 달고 `Object.clone()` 메서드를 오버라이딩하면 끝난다. 클라이언트는 자신이 쥐고 있는 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 변수가 오크인지 드래곤인지 알 필요 없이(Decoupling), 걍 인터페이스의 `clone()`만 찌르면 알아서 자기 종족과 똑같은 상태([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)) 값을 100% 복원한 새 인스턴스가 툭 튀어나오는 동적 다형성의 예술이다. 추가로 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)된 몬스터의 X, Y 좌표(위치)만 `setter`로 살짝 튜닝해 주면 완벽한 새 객체 세팅이 0.1초 컷으로 끝난다.
@@ -127,23 +133,21 @@ DB를 찌르고 네트워크 파싱을 쳐야만 태어나는 거대한 환경 [
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">무지성 new 연산자 강결합 떡칠 / DB 찌르고 파싱하는 10시간짜리 초기화 랙(Overhead) 객체를 매번 새로 창조해 CPU 타 죽음 폭발 💥</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">팩토리(Factory) 패턴 도입 / 생성 로직을 캡슐화했으나, 몬스터 종류가 100개면 공장(Class) 클래스도 100개 만들어야 하는 클래스 팽창(Class Explosion) 지옥 늪 💀</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">프로토타입 (Prototype) 흑마법 강림 ✨ / 클래스 새로 안 파고! 걍 원본 객체 배 갈라서 메모리 복사(Clone)로 1초 만에 도장 무한 찍어내 펌핑 쾌속 혁명!</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">얕은 복사(Shallow Copy) 연쇄 타살 파국 터짐 💥 ➔ 아키텍트 딥 카피(Deep Copy) 수술로 완벽 이혼 격리 생존 방벽 록온 쉴드 🛡️</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">모던 생태계 융합 / 자바의 낡은 Cloneable 버리고 복사 생성자(Copy Constructor) 통제 및 Spring 프레임워크 @Scope("prototype") 자가 증식 자동화 펌핑으로 100% 대통일 완료</div>
-</div>
-</div>
-
-
+```text
+무지성 new 연산자 강결합 떡칠 / DB 찌르고 파싱하는 10시간짜리 초기화 랙(Overhead) 객체를 매번 새로 창조해 CPU 타 죽음 폭발 💥
+    │
+    ▼
+팩토리(Factory) 패턴 도입 / 생성 로직을 캡슐화했으나, 몬스터 종류가 100개면 공장(Class) 클래스도 100개 만들어야 하는 클래스 팽창(Class Explosion) 지옥 늪 💀
+    │
+    ▼
+프로토타입 (Prototype) 흑마법 강림 ✨ / 클래스 새로 안 파고! 걍 원본 객체 배 갈라서 메모리 복사(Clone)로 1초 만에 도장 무한 찍어내 펌핑 쾌속 혁명!
+    │
+    ▼
+얕은 복사(Shallow Copy) 연쇄 타살 파국 터짐 💥 ➔ 아키텍트 딥 카피(Deep Copy) 수술로 완벽 이혼 격리 생존 방벽 록온 쉴드 🛡️
+    │
+    ▼
+모던 생태계 융합 / 자바의 낡은 Cloneable 버리고 복사 생성자(Copy Constructor) 통제 및 Spring 프레임워크 @Scope("prototype") 자가 증식 자동화 펌핑으로 100% 대통일 완료
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

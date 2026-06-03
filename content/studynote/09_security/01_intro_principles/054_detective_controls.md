@@ -109,21 +109,18 @@ Event/Log → Detection Rule → Alert → Investigation
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이상 발생</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">로그/센서</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">탐지 규칙</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">경보 / 조사</div>
-</div>
-</div>
-
-
+```text
+이상 발생
+    │
+    ▼
+로그/센서
+    │
+    ▼
+탐지 규칙
+    │
+    ▼
+경보 / 조사
+```
 
 이 흐름은 보안 이상을 인지하고 대응으로 이어지는 관측 과정을 보여준다.
 

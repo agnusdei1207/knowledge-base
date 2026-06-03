@@ -23,22 +23,22 @@ tags = ["computer_architecture"]
 
 이 그림은 시스템의 신뢰성을 나타내는 RAS 지표의 상호 관계를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RAS (Reliability, Availability, Serviceability)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Reliability (신뢰성) : 고장 나지 않고 얼마나 오래 가나?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Availability (가용성) : 필요할 때 즉시 사용 가능한가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Serviceability (유지보수성) : 고장 시 얼마나 빨리 고치나?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Availability Formula</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A = MTBF / (MTBF + MTTR)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* MTBF: Mean Time Between Failures</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* MTTR: Mean Time To Repair</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 RAS (Reliability, Availability, Serviceability) │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   1. Reliability (신뢰성)  : 고장 나지 않고 얼마나 오래 가나? │
+│   2. Availability (가용성) : 필요할 때 즉시 사용 가능한가?   │
+│   3. Serviceability (유지보수성) : 고장 시 얼마나 빨리 고치나?│
+│                                                             │
+│   [ Availability Formula ]                                  │
+│   A = MTBF / (MTBF + MTTR)                                  │
+│   * MTBF: Mean Time Between Failures                        │
+│   * MTTR: Mean Time To Repair                               │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '가용성 공식'이다. 가용성을 높이려면 고장이 덜 나게 하거나(MTBF ↑), 고장 났을 때 빨리 복구(MTTR ↓)해야 한다. 실무에서는 이를 위해 이중화 (Redundancy)와 실시간 모니터링 체계를 구축한다.
 
@@ -71,19 +71,21 @@ tags = ["computer_architecture"]
 
 이 구조도는 DVFS가 전력 소모를 어떻게 최적화하는지 시각화한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Dynamic Voltage and Frequency Scaling</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Workload</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Controller</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Power Mgmt IC</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">High Load</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">High V / High f</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Peak Perf</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Low Load</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Low V / Low f</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Power Save</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 원리: 전력은 전압의 제곱에 비례하므로 전압 조절이 핵심</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Dynamic Voltage and Frequency Scaling       │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Workload ] ──▶ [ Controller ] ──▶ [ Power Mgmt IC ]     │
+│          ▲                │                  │              │
+│          │                ▼                  ▼              │
+│   [ High Load ]  -> [ High V / High f ] -> [ Peak Perf ]    │
+│   [ Low Load  ]  -> [ Low V / Low f  ]  -> [ Power Save ]   │
+│                                                             │
+│   * 원리: 전력은 전압의 제곱에 비례하므로 전압 조절이 핵심  │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '동적 대응'이다. 문서 작업만 할 때는 전압을 낮춰 배터리를 아끼고, 게임을 켤 때는 전압을 높여 성능을 뽑아낸다. 실무에서는 이 조절 과정의 지연 시간 (Transition Latency)을 최소화하는 것이 사용자 경험의 핵심이다.
 
@@ -124,19 +126,20 @@ tags = ["computer_architecture"]
 
 이 도식은 시스템 장애 발생 시 복구 경로를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Fault Recovery and Continuity Flow</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Fault Detected</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Isolation</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Reconfiguration</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(격리) (재구성)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Correctable?</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Transparent Recovery</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Fail-over to Backup</div><div class="kb-diagram-connector">◀</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│               Fault Recovery and Continuity Flow            │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Fault Detected ] ──▶ [ Isolation ] ──▶ [ Reconfiguration ] │
+│          │                  (격리)               (재구성)      │
+│          ▼                                         │        │
+│   [ Correctable? ] ──(YES)──▶ [ Transparent Recovery ]      │
+│          │                                         │        │
+│        (NO) ──▶ [ Fail-over to Backup ] ◀──────────┘        │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 기술사의 설계 판단은 '재난 대책 본부장'의 역할과 같습니다. 사고가 날 것을 미리 대비하여 대피소(이중화)를 짓고, 평상시에는 에너지 낭비를 감시하여 가장 효율적인 도시(시스템)를 운영하는 관리 능력이 핵심입니다.
 

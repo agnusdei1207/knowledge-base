@@ -25,19 +25,14 @@ tags = ["studynote-network"]
 
 다음은 굴절률의 차이에 따라 빛이 경계면에서 꺾이거나 갇히는 상태의 변화를 보여주는 배경도이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">매질2: 소한 매질 (낮은 굴절률 n2)</div><div class="kb-diagram-note">(1) 굴절 | (2) 임계 상태 | (3) 전반사 발생!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">\</div><div class="kb-diagram-cell">경계면</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">매질 경계면</div><div class="kb-diagram-note">\</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">매질1: 밀한 매질 (높은 굴절률 n1)</div><div class="kb-diagram-note">\ | / | / \</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(광원)</div><div class="kb-diagram-cell">입사각 (작음)</div><div class="kb-diagram-cell">입사각 = 임계각</div><div class="kb-diagram-cell">입사각 &gt; 임계각</div></div>
-</div>
-</div>
-
-
+```text
+[매질2: 소한 매질 (낮은 굴절률 n2)]       | (1) 굴절       | (2) 임계 상태    | (3) 전반사 발생!
+                                       |   \            | ─── 경계면 ───   |
+───[매질 경계면]───────────────────────┼────\───────────┼──────────────────┼───────────────
+                                       |     \          |      /           |      / \
+[매질1: 밀한 매질 (높은 굴절률 n1)]      |      \         |     /            |     /   \
+ (광원)                                |   입사각 (작음) | 입사각 = 임계각  | 입사각 > 임계각
+```
 *이 그림의 핵심은 빛이 굴절률이 높은 곳에서 낮은 곳으로 갈 때 입사각을 점점 눕히면, 어느 순간(임계각) 경계면을 따라 흐르다가, 그 각도를 넘어서면 100% 매질1 내부로 튕겨버린다는 점이다. 이런 물리적 배치는 광섬유의 코어(밀한 매질)와 클래딩(소한 매질) 구조의 근거가 되며, 따라서 수 km의 광케이블이 구부러지더라도 빛 입자가 코어 내부에 영구적으로 갇혀 목적지까지 에너지 손실 없이 도달하게 만든다.*
 
 - **📢 섹션 요약 비유**: 물속(밀한 매질)에서 수면(경계)을 향해 손전등을 직각으로 쏘면 물 밖으로 빛이 나가지만, 비스듬히 누워서 쏘면 수면이 거울처럼 변해 빛이 물속 바닥으로 다시 튕겨버리는 마술과 같습니다.
@@ -63,23 +58,19 @@ $$ NA = \sqrt{n_1^2 - n_2^2} $$
 
 다음은 광섬유 내에서 스넬의 법칙과 전반사가 연쇄적으로 일어나는 동작 흐름도이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">(수용각 원뿔)</div>
-<div class="kb-diagram-tree-item" style="--depth:3">. .---</div>
-<div class="kb-diagram-note">\ / 광원 (Laser) 진입</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">&gt;&lt;</div><div class="kb-diagram-node">클래딩 n2</div></div>
-<div class="kb-diagram-note">\ / 전반사 발생!</div>
-<div class="kb-diagram-note">공기(n0=1) \ / (입사각 &gt; 임계각)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">----------------\---/---------------------------</div><div class="kb-diagram-node">코어 n1</div><div class="kb-diagram-note">(n1 &gt; n2)</div></div>
-<div class="kb-diagram-note">V</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">경계면 반사</div><div class="kb-diagram-node">클래딩 n2</div></div>
-</div>
-</div>
-
-
+```text
+       (수용각 원뿔)
+       ---.    .---
+           \  /     광원 (Laser) 진입
+────────────><────────────────────────────────── [클래딩 n2]
+             \         /  전반사 발생!
+  공기(n0=1)  \       /  (입사각 > 임계각)
+               \     /
+----------------\---/--------------------------- [코어 n1] (n1 > n2)
+                 \ /
+                  V 
+─────────── 경계면 반사 ───────────────────────── [클래딩 n2]
+```
 *이 흐름의 핵심은 최초 공기에서 코어로 진입할 때 허용된 각도(수용각) 내로 들어온 빛만이 내부 경계면에서 임계각 이상의 조건을 만족하여 끝없는 전반사 루프에 진입한다는 점이다. 만약 수용각 밖에서 억지로 쏜 빛은 내부 경계면에 수직에 가깝게 부딪히면서 클래딩 밖으로 새어 나가 소멸한다. 실무에서는 광 [트랜시버](/knowledge-base/studynote/03_network/03_physical_layer_media/153_transceiver_mau_sfp/)(SFP)의 레이저 다이오드가 이 수용각 내로 정확히 포커싱되도록 기계적으로 엄격히 통제된다.*
 
 - **📢 섹션 요약 비유**: 터널(광섬유) 안으로 당구공(빛)을 찰지게 굴릴 때, 너무 정면으로 벽에 던지면 벽을 뚫고 나가버리지만, 벽을 훑듯이 비스듬히 던지면(임계각 이상) 당구공이 터널 벽을 지그재그로 무한히 튕기며 끝까지 굴러가는 것과 같습니다.
@@ -109,28 +100,27 @@ $$ NA = \sqrt{n_1^2 - n_2^2} $$
 
 다음은 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 내 광케이블 포설 및 장애 대처 시 굴절률/전반사 원리에 기반한 점검 플로우이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">광 링크 (Link) 다운 또는 CRC 에러 폭증 발생</div></div>
-<div class="kb-diagram-tree-item" style="--depth:5">▶ (광 트랜시버(SFP)의 레이저 출력(TX) 값이 정상인가?)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">수신단(RX) 측의 광 파워 미터 측정 진행</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">수신단 RX 값이 극도로 낮음 (-20dBm 이하 손실 발생)</div></div>
-<div class="kb-diagram-tree-item" style="--depth:5">▶ (케이블 경로 상 90도 직각으로 심하게 꺾인 구간이 있는가?)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">매크로 벤딩 손실 (Macrobending Loss) 발생</div></div>
-<div class="kb-diagram-note">전반사 임계각 조건 파괴로 빛이 클래딩 밖으로 방사됨.</div>
-<div class="kb-diagram-note">=&gt; 곡률 반경(Radius)을 완만하게 둥글게 펴주어 원복.</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">접속부 (Splicing / Connector) 점검</div></div>
-<div class="kb-diagram-tree-item" style="--depth:5">▶ (서로 굴절률/코어 직경이 다른 케이블(SMF-MMF)을 혼용 연결했는가?)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">임피던스 불일치 및 수용각 파괴</div></div>
-<div class="kb-diagram-note">빛이 산란되어 심각한 접속 손실 야기. 케이블 규격 통일.</div>
-</div>
-</div>
-
-
+```text
+[광 링크 (Link) 다운 또는 CRC 에러 폭증 발생]
+           │
+           ├─▶ (광 트랜시버(SFP)의 레이저 출력(TX) 값이 정상인가?)
+           │   └─ Yes ──▶ [수신단(RX) 측의 광 파워 미터 측정 진행]
+           │
+           ▼
+[수신단 RX 값이 극도로 낮음 (-20dBm 이하 손실 발생)]
+           │
+           ├─▶ (케이블 경로 상 90도 직각으로 심하게 꺾인 구간이 있는가?)
+           │   └─ Yes ──▶ 🚨 [매크로 벤딩 손실 (Macrobending Loss) 발생]
+           │                  전반사 임계각 조건 파괴로 빛이 클래딩 밖으로 방사됨.
+           │                  => 곡률 반경(Radius)을 완만하게 둥글게 펴주어 원복.
+           │
+           ▼
+[접속부 (Splicing / Connector) 점검]
+           │
+           ├─▶ (서로 굴절률/코어 직경이 다른 케이블(SMF-MMF)을 혼용 연결했는가?)
+           │   └─ Yes ──▶ 🚨 [임피던스 불일치 및 수용각 파괴]
+           │                  빛이 산란되어 심각한 접속 손실 야기. 케이블 규격 통일.
+```
 *이 흐름의 핵심은 전반사는 빛이 '완벽한 각도'로 유지될 때만 성립하는 섬세한 조건이라는 점이다. 실무에서 광케이블을 타이(Tie)로 꽉 조이거나 직각으로 구부리면, 코어 내부의 각도가 임계각보다 작아져 빛이 거울(경계)을 뚫고 밖으로 새어버리는 굽힘 손실(Bending Loss)이 일어난다. 따라서 랙 마운팅 시 광케이블은 반드시 둥근 곡률 반경(일반적으로 케이블 외경의 10배 이상)을 유지하도록 가이드 롤러를 사용해 배선해야 한다.*
 
 <strong>실무 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> (치명적 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a> 사례)</strong>
@@ -175,19 +165,15 @@ $$ NA = \sqrt{n_1^2 - n_2^2} $$
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 광섬유 케이블</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 굴절률, 전반사</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 멀티모드 계단형 광섬유</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고속 광전송 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 광섬유 케이블]
+    │
+    ▼
+[현재 개념: 굴절률, 전반사]
+    │
+    ├──▶ [확장 A: 멀티모드 계단형 광섬유]
+    └──▶ [확장 B: 고속 광전송 최적화]
+```
 
 굴절률, 전반사는 [광섬유 케이블](/knowledge-base/studynote/03_network/03_physical_layer_media/128_optical_fiber_cable/)에서 출발해 현재 메커니즘을 정교화하고, 이후 멀티모드 계단형 광섬유와 고속 광전송 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

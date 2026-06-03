@@ -31,24 +31,27 @@ tags = ["studynote-security"]
 ### 섀넌의 2대 철학과 SPN (Substitution-Permutation Network) 구조
 가장 완벽한 현대 [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/)인 AES는 데이터를 블록 단위로 자른 뒤, S-box와 P-box라는 쇳덩어리 기계 장치를 통과시킨다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AES 블록 암호의 내부 라운드(Round) 아키텍처 흐름</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">평문 데이터 (128-bit Block)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">반복 라운드 (10회 ~ 14회 뺑뺑이 루프)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. SubBytes (혼돈/Confusion) : S-Box 치환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 'A'라는 데이터를 규칙이 전혀 없는 다른 값 'K'로 바꿈</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. ShiftRows (확산/Diffusion) : 행 단위로 밀어버림</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. MixColumns (극강 확산) : 열을 수학적 행렬 곱셈으로 믹싱</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 1비트만 바뀌어도 블록 전체가 미친 듯이 연쇄 폭발함!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. AddRoundKey : 매 라운드마다 쪼개진 암호키(Key)를 XOR</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">암호문 데이터 (128-bit Block) 도출 완료!</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────┐
+│           AES 블록 암호의 내부 라운드(Round) 아키텍처 흐름         │
+├────────────────────────────────────────────────────────┤
+│   [ 평문 데이터 (128-bit Block) ]                         │
+│             │                                          │
+│  [ 반복 라운드 (10회 ~ 14회 뺑뺑이 루프) ]                  │
+│   ┌──────────────────────────────────────────────────┐ │
+│   │ 1. SubBytes (혼돈/Confusion) : S-Box 치환         │ │
+│   │    - 'A'라는 데이터를 규칙이 전혀 없는 다른 값 'K'로 바꿈 │ │
+│   │                                                  │ │
+│   │ 2. ShiftRows (확산/Diffusion) : 행 단위로 밀어버림   │ │
+│   │ 3. MixColumns (극강 확산) : 열을 수학적 행렬 곱셈으로 믹싱│ │
+│   │    - 1비트만 바뀌어도 블록 전체가 미친 듯이 연쇄 폭발함!   │ │
+│   │                                                  │ │
+│   │ 4. AddRoundKey : 매 라운드마다 쪼개진 암호키(Key)를 XOR │ │
+│   └─────────────────────────┬────────────────────────┘ │
+│                             ▼                          │
+│   [ 암호문 데이터 (128-bit Block) 도출 완료! ]             │
+└────────────────────────────────────────────────────────┘
+```
 
 <strong>혼돈(Confusion)</strong>은 암호문과 '키([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))' 사이의 관계를 숨겨서 해커가 키를 역추적하지 못하게 S-box로 값을 바꿔치기하는 것이다. <strong>확산(Diffusion)</strong>은 원본 평문의 글자 하나(a ➔ b)만 살짝 바뀌어도, 출력되는 암호문 블록 전체(128비트)가 180도 완전히 다른 쓰레기 값(눈사태 효과, Avalanche Effect)으로 렌더링되어 패턴 분석을 원천 봉쇄하는 물리적 믹싱 궤적이다.
 
@@ -108,23 +111,21 @@ DES의 치명적 약점은 암호키 길이가 56비트에 불과했다는 점�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">스트림 암호의 한계 (네트워크 전송 중 비트 손실 시 복구 불가 등 취약점)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">혼돈(Confusion)과 확산(Diffusion)을 동시 구현하기 위한 블록 암호 철학 등장</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">IBM의 Feistel 구조 기반 DES (64비트 블록 / 56비트 키) 표준 제정 (1970년대)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">컴퓨터 연산력 폭발에 의한 Brute-force 공격으로 DES 붕괴 및 Triple-DES 한계 봉착</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SPN 구조를 적용하여 병렬 처리가 가능하고 양자 내성까지 갖춘 AES-256 절대 표준 정착</div>
-</div>
-</div>
-
-
+```text
+스트림 암호의 한계 (네트워크 전송 중 비트 손실 시 복구 불가 등 취약점)
+    │
+    ▼
+혼돈(Confusion)과 확산(Diffusion)을 동시 구현하기 위한 블록 암호 철학 등장
+    │
+    ▼
+IBM의 Feistel 구조 기반 DES (64비트 블록 / 56비트 키) 표준 제정 (1970년대)
+    │
+    ▼
+컴퓨터 연산력 폭발에 의한 Brute-force 공격으로 DES 붕괴 및 Triple-DES 한계 봉착
+    │
+    ▼
+SPN 구조를 적용하여 병렬 처리가 가능하고 양자 내성까지 갖춘 AES-256 절대 표준 정착
+```
 
 이 흐름도는 "속도와 단순성의 한계 → 수학적 믹싱(블록) 구조 발명 → 연산력 발전에 따른 과거 표준([DES](/knowledge-base/studynote/09_security/02_crypto/086_des_data_encryption_standard/))의 죽음 → 완벽한 수학적 안전성과 하드웨어 가속([AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/))의 통일"이라는 암호 공학의 잔혹한 생존사를 보여준다.
 

@@ -23,19 +23,27 @@ ERP 시스템이 필요한 이유는 세 가지이다. 첫째, <strong>전사적
 
 이 그림은 ERP가 기업의 각 부서를 어떻게 하나의 통합 데이터베이스로 연결하는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ERP Integrated Architecture Model</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Sales</div><div class="kb-diagram-node">Finance</div><div class="kb-diagram-node">Human Resource</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Unified Database (SSOT)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Production</div><div class="kb-diagram-node">Inventory</div><div class="kb-diagram-node">Procurement</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* SSOT: Single Source of Truth (단일 진실 원천)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 ERP Integrated Architecture Model           │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│      [ Sales ]       [ Finance ]      [ Human Resource ]    │
+│          │                │                 │               │
+│          └───────────┐    │    ┌────────────┘               │
+│                      ▼    ▼    ▼                            │
+│               ┌──────────────────────────┐                  │
+│               │  Unified Database (SSOT) │                  │
+│               └──────────────────────────┘                  │
+│                      ▲    ▲    ▲                            │
+│          ┌───────────┘    │    └────────────┐               │
+│          │                │                 │               │
+│    [ Production ]    [ Inventory ]     [ Procurement ]      │
+│                                                             │
+│   * SSOT: Single Source of Truth (단일 진실 원천)          │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '통합 (Integration)'이다. 데이터가 한 번만 입력되면 모든 관련 모듈에 자동으로 전파되어 중복 입력을 없앤다. 실무에서는 이 과정에서 데이터 표준화가 선행되어야만 진정한 통합의 효과 (Efficiency)를 누릴 수 있다.
 
@@ -67,19 +75,21 @@ ERP의 물리적 진화 단계이다.
 
 이 구조도는 ERP 구축 시 가장 중요한 **BPR (Business Process Reengineering)** 연계 과정을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ERP Implementation: Fit-to-Standard</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Package Standard</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">As-Is Biz</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Customization</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Process BPR</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 기술사 가이드: "시스템을 고치지 말고, 업무를 고쳐라"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Fit-to-Standard를 통한 유지보수성 확보가 핵심)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 ERP Implementation: Fit-to-Standard         │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Package Standard ] ◀─── (Gap Analysis) ───▶ [ As-Is Biz ]│
+│          │                                         │        │
+│          ▼                                         ▼        │
+│   [ Customization ] ◀─────── (Decide) ──────▶ [ Process BPR ]│
+│                                                             │
+│   * 기술사 가이드: "시스템을 고치지 말고, 업무를 고쳐라"    │
+│     (Fit-to-Standard를 통한 유지보수성 확보가 핵심)        │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '커스터마이징의 최소화'이다. 기업의 낡은 업무 관행에 시스템을 맞추면(Over-customizing), 나중에 시스템 업그레이드가 불가능해지는 '기술 부채'의 늪에 빠진다. 실무에서는 글로벌 베스트 프랙티스에 맞춰 업무 프로세스를 혁신하는 용기가 필요하다.
 
@@ -120,20 +130,20 @@ ERP의 물리적 진화 단계이다.
 
 이 도식은 ERP 프로젝트의 단계별 기술사적 체크리스트를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ERP Project Critical Success Factors</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 기획: CEO의 강력한 리더십과 비전 공유</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 설계: 프로세스 표준화(BPR) 및 데이터 정제</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 구축: 핵심 커스터마이징 최소화 및 인터페이스 테스트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 오픈: 변화 관리 교육 및 현장 안정화 지원</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 금언: "가장 나쁜 ERP는 사람의 손을 다시 거치는 ERP다"</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│               ERP Project Critical Success Factors          │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   1. 기획: CEO의 강력한 리더십과 비전 공유                  │
+│   2. 설계: 프로세스 표준화(BPR) 및 데이터 정제              │
+│   3. 구축: 핵심 커스터마이징 최소화 및 인터페이스 테스트    │
+│   4. 오픈: 변화 관리 교육 및 현장 안정화 지원               │
+│                                                             │
+│   * 금언: "가장 나쁜 ERP는 사람의 손을 다시 거치는 ERP다"   │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 기술사의 ERP 판단은 '대수술을 집도하는 외과의'와 같습니다. 환자(기업)의 낡은 혈관(프로세스)을 잘라내고 인공 혈관(ERP 표준)을 이식할 때, 전신 마취(변화 관리)와 사후 관리(안정화)까지 책임지는 정밀한 수술과 같습니다.
 

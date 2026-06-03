@@ -23,16 +23,16 @@ tags = ["studynote-software-engineering"]
 
 - **필요성**: 결정 커버리지가 각 분기의 참/거짓만을 검증하고, 경로 커버리지가 시작~끝까지의 전체 흐름을 검증한다. 프로그램이 복잡한 중첩 분기나 순환을 포함할 경우, 가능한 경로 수가 급격히 증가하여 모든 경로를 테스트하는 것이 어려워질 수 있다.
 
-- **경로(Path)의 정의**: 시작 노드에서 시작하여 끝 노드에 도달하기까지 거치는 노드와 엣지의 순서이다. 순환이 없는 프로그램에서는 경로 수가하지만, 순환이 있으면 무한한 경로가 존재할 수 있다.
+- **경로(Path)의 정의**: 시작 노드에서 시작하여 끝 노드에 도달하기까지 거치는 노드와 엣지의 순서이다. 순환이 없는 프로그램에서는 경로 수가유한하지만, 순환이 있으면 무한한 경로가 존재할 수 있다.
 
-- **비유**: 경로 커버리지는 <strong>'모든 가능한 이동 경로 테스트'</strong>와 같다. 도시에서 A 지점에서 B 지점까지 다양한 길이 있을 때, 모든 가능한 경로를테스트해야 한다. 직통로, 우회길, 고속도로 등 모든 경우를 테스트하여 가장 빠른 길, 가장 안전한 길 등을 파악하는 것이다.
+- **비유**: 경로 커버리지는 <strong>'모든 가능한 이동 경로 테스트'</strong>와 같다. 도시에서 A 지점에서 B 지점까지 다양한 길이 있을 때, 모든 가능한 경로를テスト해야 한다. 직통로, 우회길, 고속도로 등 모든 경우를 테스트하여 가장 빠른 길, 가장 안전한 길 등을 파악하는 것이다.
 
 - **등장 배경 및 발전 과정**:
-1. **1970년대**: 소프트웨어 테스트 이론에서 경로 커버리지 개념 발전
-2. **1990년대**: Basis Path Testing 등 체계적 경로 테스트 기법 확립
-3. **현재**: Formal Verification과 결합하여 안전 중요 시스템 검증에 활용
+  1. **1970년대**: 소프트웨어 테스트 이론에서 경로 커버리지 개념 발전
+  2. **1990년대**: Basis Path Testing 등 체계적 경로 테스트 기법 확립
+  3. **현재**: Formal Verification과 결합하여 안전 중요 시스템 검증에 활용
 
-- **섹션 요약 비유**: 경로 커버리지는 <strong>'멀티엔딩 소설 모든 결말 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a>'</strong>과 같다. 소설에서 Choices에 따라 다양한 결말이 있는데, 모든 결말을 읽어야 작가가했다모두의을/를했다고 할 수 있다. 소프트웨어에서도 모든 실행 경로(결말)를테스트해야 시스템 전체 동작을 검증한 것이다.
+- **섹션 요약 비유**: 경로 커버리지는 <strong>'멀티엔딩 소설 모든 결말 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a>'</strong>과 같다. 소설에서 Choices에 따라 다양한 결말이 있는데, 모든 결말을 읽어야 작가가의도한すべ고의전개를함개료했다고 할 수 있다. 소프트웨어에서도 모든 실행 경로(결말)를テスト해야 시스템 전체 동작을 검증한 것이다.
 
 ---
 
@@ -40,17 +40,18 @@ tags = ["studynote-software-engineering"]
 
 다음은 경로 커버리지 (Path Covera의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">경로 커버리지 (Path Covera</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                  경로 커버리지 (Path Covera                        │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
+│       │                    │                    │          │
+│       ▼                    ▼                    ▼          │
+│   요구 분석           설계·적용           품질 검증        │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램은 경로 커버리지 (Path Covera가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -140,30 +141,28 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 경로 커버리지 (Path Coverage)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 경로 커버리지 (Path Coverage)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
 | [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 경로 커버리지 (Path Coverage)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | 경로 커버리지 (Path Coverage) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
 | [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 경로 커버리지 (Path Coverage)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">경로 커버리지 (Path Coverage) 개념 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 위기 (Software Crisis) 인식
+    │
+    ▼
+경로 커버리지 (Path Coverage) 개념 정립
+    │
+    ▼
+표준화 및 방법론 체계화 (ISO, CMMI, Agile)
+    │
+    ▼
+클라우드 네이티브·AI 기반 확장 적용
+    │
+    ▼
+지속적 개선 및 DevOps·MLOps 통합
+```
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

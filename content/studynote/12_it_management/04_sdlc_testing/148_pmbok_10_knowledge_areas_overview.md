@@ -30,22 +30,27 @@ tags = ["studynote-it-management"]
 
 10대 지식 영역은 단순히 병렬로 나열된 것이 아니다. <strong>통합관리(Integration)</strong>라는 중앙 대뇌가 나머지 9개 신경망을 완벽하게 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) 지휘하는 종속적 구조를 갖는다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PMBOK 10대 지식 영역의 중앙집권 오케스트레이션 도해</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 통합관리 (Integration)</div><div class="kb-diagram-cell">← 대뇌 허브, 모든 영역 조율</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2.범위</div><div class="kb-diagram-node">3.일정</div><div class="kb-diagram-node">4.비용</div><div class="kb-diagram-node">5.품질</div><div class="kb-diagram-node">6.자원</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Scope) (Schedule) (Cost) (Quality) (Resource)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WBS CPM/간트차트 EVM 예산 QA/QC 팀/RACI</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">7.소통</div><div class="kb-diagram-node">8.리스크</div><div class="kb-diagram-node">9.조달</div><div class="kb-diagram-node">10.이해관계자</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Comms) (Risk) (Procure) (Stakeholder)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">채널/보고 리스크 등록부 RFP/계약 권력관심 격자</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────────┐
+│              PMBOK 10대 지식 영역의 중앙집권 오케스트레이션 도해            │
+├─────────────────────────────────────────────────────────────────────┤
+│          ┌──────────────────────────────────┐                      │
+│          │   1. 통합관리 (Integration)       │ ← 대뇌 허브, 모든 영역 조율 │
+│          └──────────────┬───────────────────┘                      │
+│                         │                                           │
+│   ┌────────┬────────────┼────────────┬──────────┐                  │
+│   ▼        ▼            ▼            ▼          ▼                  │
+│  [2.범위] [3.일정]    [4.비용]    [5.품질]  [6.자원]               │
+│  (Scope) (Schedule)   (Cost)      (Quality) (Resource)              │
+│   WBS    CPM/간트차트   EVM 예산     QA/QC     팀/RACI              │
+│                                                                     │
+│   ┌────────┬────────────┬────────────┬──────────┐                  │
+│   ▼        ▼            ▼            ▼          ▼                  │
+│  [7.소통] [8.리스크]  [9.조달]   [10.이해관계자]                   │
+│ (Comms)  (Risk)       (Procure)  (Stakeholder)                      │
+│ 채널/보고 리스크 등록부   RFP/계약     권력관심 격자                      │
+└─────────────────────────────────────────────────────────────────────┘
+```
 
 **[핵심 산출물 및 특징 요약]**
 1. **통합관리**: [프로젝트 헌장](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/232_project_charter_sponsor/) 승인, 전체 변경 통제([CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/)), 최종 종료 수행.
@@ -117,23 +122,21 @@ tags = ["studynote-it-management"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">초기 프로젝트 주먹구구 관리 / "감으로 일정 짜고, 문제 터지면 밤새서 막자" (영웅주의 코딩, 파국 잦음)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">PMI 협회의 PMBOK 제정 / 체계적인 5대 프로세스 그룹과 10대 지식 영역(Knowledge Area) 헌법 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">폭포수(Waterfall)의 극한 발전 / 요구사항 분석 후 WBS, CPM, EVM 등 완벽한 계획 수립 및 문서화 떡칠</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">소프트웨어 산업 속도 변화 랙 발생 / 1년짜리 문서 계획 다 짜놨더니 세상이 바뀜 (Agile 애자일의 역습)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">PMBOK 7판 대혁명 / 프로세스 달달 외우는 거 버리고, 원칙(Principle)과 가치(Value) 인도 중심으로 애자일 100% 융합 선언</div>
-</div>
-</div>
-
-
+```text
+초기 프로젝트 주먹구구 관리 / "감으로 일정 짜고, 문제 터지면 밤새서 막자" (영웅주의 코딩, 파국 잦음)
+    │
+    ▼
+PMI 협회의 PMBOK 제정 / 체계적인 5대 프로세스 그룹과 10대 지식 영역(Knowledge Area) 헌법 정립
+    │
+    ▼
+폭포수(Waterfall)의 극한 발전 / 요구사항 분석 후 WBS, CPM, EVM 등 완벽한 계획 수립 및 문서화 떡칠
+    │
+    ▼
+소프트웨어 산업 속도 변화 랙 발생 / 1년짜리 문서 계획 다 짜놨더니 세상이 바뀜 (Agile 애자일의 역습)
+    │
+    ▼
+PMBOK 7판 대혁명 / 프로세스 달달 외우는 거 버리고, 원칙(Principle)과 가치(Value) 인도 중심으로 애자일 100% 융합 선언
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

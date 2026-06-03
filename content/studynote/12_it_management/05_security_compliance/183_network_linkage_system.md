@@ -37,33 +37,39 @@ tags = ["studynote-it-management"]
 | :--- | :--- | :--- |
 | Source Collector | 원천 망의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)·레코드·이벤트 수집 | 어떤 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 받을지 allowlist 필요 |
 | Staging Zone | 임시 저장 및 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 추출 | 원본과 정제본 분리 보관 |
-| Inspection Engine | [Antivirus](/knowledge-base/studynote/09_security/04_endpoint_security/323_antivirus/) ([AV](/knowledge-base/studynote/09_security/04_endpoint_security/323_antivirus/)), CDR, [DLP](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/386_dlp/), [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 수행 | 정적 검사와 동적 검사의 조합 중요 |
-| [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) / Approval Engine | 규칙 판단 또는 결재 워크플로우 | 역할 분리와 승인 책임 추적 필요 |
+| Inspection 엔진 | [Antivirus](/knowledge-base/studynote/09_security/04_endpoint_security/323_antivirus/) ([AV](/knowledge-base/studynote/09_security/04_endpoint_security/323_antivirus/)), CDR, [DLP](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/386_dlp/), [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 수행 | 정적 검사와 동적 검사의 조합 중요 |
+| [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) / Approval 엔진 | 규칙 판단 또는 결재 워크플로우 | 역할 분리와 승인 책임 추적 필요 |
 | Transfer Broker | [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 또는 통제된 중개 전송 | 재전송, 순서 보장, 큐 적체 관리 |
 | [Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/) / [SIEM](/knowledge-base/studynote/09_security/13_secops_ir_forensics/624_siem/) ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Information and [Event Management](/knowledge-base/studynote/12_it_management/02_itsm_itil/074_event_management/)) | [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 보관과 [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/) | 최소 1년 이상 보관, 경보 연계 |
 
 아래 그림은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/), 배치, 인터페이스 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 망연계를 통과할 때의 공통 흐름을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Network linkage reference flow</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Source zone</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">files / records / API events</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Collector / Staging</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">metadata extraction</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Inspection</div><div class="kb-diagram-note">Antivirus + CDR + DLP + schema validation</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ reject / quarantine -&gt; audit</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ pass</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Approval / Policy Engine</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Transfer Broker / Relay</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">one-way or controlled bi-direction</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Target zone + SIEM / immutable logs</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Network linkage reference flow                                      │
+├──────────────────────────────────────────────────────────────────────┤
+│ Source zone                                                         │
+│   files / records / API events                                      │
+│        │                                                            │
+│        ▼                                                            │
+│ [Collector / Staging]                                               │
+│        │ metadata extraction                                        │
+│        ▼                                                            │
+│ [Inspection] Antivirus + CDR + DLP + schema validation              │
+│        │                                                            │
+│        ├─ reject / quarantine -> audit                              │
+│        └─ pass                                                      │
+│             ▼                                                       │
+│      [Approval / Policy Engine]                                     │
+│             │                                                       │
+│             ▼                                                       │
+│      [Transfer Broker / Relay]                                      │
+│             │                                                       │
+│        one-way or controlled bi-direction                           │
+│             ▼                                                       │
+│ Target zone + SIEM / immutable logs                                 │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 여기서 핵심은 "연결"보다 "중개"다. 보안 수준이 가장 높은 환경에서는 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Diode로 물리적 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 전송만 허용하고, 일반 업무망에서는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 전송 게이트웨이나 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 릴레이가 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 기반 양방향 흐름을 제한적으로 제공한다. 즉 망연계는 단일 제품명이 아니라, <strong>분리된 경계 위에 어떤 형태의 안전한 흐름을 설계할지에 대한 아키텍처 패턴</strong>이다.
 
@@ -147,26 +153,25 @@ tags = ["studynote-it-management"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">망분리 도입</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">업무상 데이터 교환 필요 발생</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Staging + Inspection + Approval</div>
-<div class="kb-diagram-tree-item" style="--depth:2">단방향 고보안 -&gt; Data Diode</div>
-<div class="kb-diagram-tree-item" style="--depth:2">파일 교환 -&gt; Transfer Gateway + CDR</div>
-<div class="kb-diagram-tree-item" style="--depth:2">시스템 연계 -&gt; API / Message Relay</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Audit + SIEM + DR 연계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Zero Trust와 결합한 현대적 경계 운영</div>
-</div>
-</div>
-
-
+```text
+망분리 도입
+    │
+    ▼
+업무상 데이터 교환 필요 발생
+    │
+    ▼
+Staging + Inspection + Approval
+    │
+    ├─ 단방향 고보안 -> Data Diode
+    ├─ 파일 교환     -> Transfer Gateway + CDR
+    └─ 시스템 연계   -> API / Message Relay
+    │
+    ▼
+Audit + SIEM + DR 연계
+    │
+    ▼
+Zero Trust와 결합한 현대적 경계 운영
+```
 
 이 흐름은 망연계가 단순 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 복사가 아니라, 분리된 환경에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 안전하게 이동시키기 위한 통제 체계로 진화했음을 보여 준다.
 

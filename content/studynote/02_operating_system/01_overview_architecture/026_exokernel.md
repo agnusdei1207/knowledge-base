@@ -18,19 +18,18 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS 커널 아키텍처 비교</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전통 모놀리식/마이크로</div><div class="kb-diagram-cell">엑소커널</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HW 추상화 통일 (VFS,</div><div class="kb-diagram-cell">HW 안전 다중화만 담당</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가상 메모리, TCP/IP)</div><div class="kb-diagram-cell">추상화 = LibOS에 위임</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모든 앱이 같은 추상화</div><div class="kb-diagram-cell">앱별 맞춤형 LibOS 구현 가능</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────┐
+│          OS 커널 아키텍처 비교                               │
+├────────────────────────┬───────────────────────────────────┤
+│ 전통 모놀리식/마이크로  │         엑소커널                  │
+├────────────────────────┼───────────────────────────────────┤
+│ HW 추상화 통일 (VFS,   │ HW 안전 다중화만 담당             │
+│ 가상 메모리, TCP/IP)   │ 추상화 = LibOS에 위임             │
+│                        │                                   │
+│ 모든 앱이 같은 추상화  │ 앱별 맞춤형 LibOS 구현 가능       │
+└────────────────────────┴───────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 전통 OS는 요리사(OS)가 모든 식재료(HW)를 미리 손질해서 제공하는 레스토랑이고, 엑소커널은 신선한 식재료(HW)를 직접 제공하고 요리(LibOS)는 고객(앱)이 직접 하는 자연식품 가게다.
 
@@ -123,23 +122,21 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">모놀리식 커널 — 통합 추상화, 고성능·고결합</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">엑소커널 — 추상화 최소화, LibOS에 위임 (MIT, 1994)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Unikernel — 단일 앱 전용 경량 OS 이미지</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MicroVM (Firecracker) — 경량 VM으로 기능별 격리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">eBPF — 커널 수준 확장을 유저 코드로 안전 실행</div></div>
-</div>
-</div>
-
-
+```text
+[모놀리식 커널 — 통합 추상화, 고성능·고결합]
+    │
+    ▼
+[엑소커널 — 추상화 최소화, LibOS에 위임 (MIT, 1994)]
+    │
+    ▼
+[Unikernel — 단일 앱 전용 경량 OS 이미지]
+    │
+    ▼
+[MicroVM (Firecracker) — 경량 VM으로 기능별 격리]
+    │
+    ▼
+[eBPF — 커널 수준 확장을 유저 코드로 안전 실행]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

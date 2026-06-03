@@ -40,20 +40,21 @@ tags = ["studynote-security"]
 | **내부 해시 (Inner Hash)** | `Hash((K ⊕ ipad) || Message)` $\rightarrow$ 메시지를 1차적으로 키와 비벼서 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) |
 | **외부 해시 (Outer Hash)** | `Hash((K ⊕ opad) || Inner_Hash_Result)` $\rightarrow$ 길이 연장 공격을 수학적으로 차단 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HMAC의 이중 샌드위치 방어 아키텍처 (XOR &amp; Hash)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1차: 내부 방어벽</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">( 비밀키 ⊕ ipad ) +</div><div class="kb-diagram-node">원본 메시지</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Hash 엔진</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2차: 외부 방어벽</div><div class="kb-diagram-note">(1차 해시 덩어리)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">( 비밀키 ⊕ opad ) +</div><div class="kb-diagram-node">1차 해시 덩어리</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Hash 엔진</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">★</div><div class="kb-diagram-node">최종 HMAC 태그</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           HMAC의 이중 샌드위치 방어 아키텍처 (XOR & Hash)    │
+├──────────────────────────────────────────────────────────────┤
+│ [1차: 내부 방어벽]                                           │
+│  ( 비밀키 ⊕ ipad )  +  [ 원본 메시지 ] ──▶ [ Hash 엔진 ]     │
+│                                                 │            │
+│                                                 ▼            │
+│ [2차: 외부 방어벽]                        (1차 해시 덩어리)  │
+│  ( 비밀키 ⊕ opad )  +  [ 1차 해시 덩어리 ] ──▶ [ Hash 엔진 ] │
+│                                                 │            │
+│                                                 ▼            │
+│                                         ★ [ 최종 HMAC 태그 ] │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 기묘한 이중 구조 덕분에 내부에 사용된 해시 엔진([MD5](/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/) 등)에 다소 취약점이 발견되더라도, 밖을 감싼 두 번째 껍질 구조가 방어선을 유지하여 전체 HMAC의 안전성이 훼손되지 않는 기적 같은 방어력을 발휘한다.
 
@@ -112,21 +113,18 @@ HMAC은 공개키 기반의 [전자서명](/knowledge-base/studynote/03_network/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단방향 해시 함수 (SHA-1, SHA-2) · 무결성 제공, 위조에 무방비</div>
-<div class="kb-diagram-note">▼ (비밀키 결합 시도 및 취약점 발견)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단순 결합 MAC · <code>Hash(K</div><div class="kb-diagram-cell">M)</code> 시도, 길이 연장 공격에 붕괴</div></div>
-<div class="kb-diagram-note">▼ (안전한 키 혼입 구조의 발명)</div>
-<div class="kb-diagram-note">HMAC (Hash-based MAC) · XOR 패딩과 이중 해시 샌드위치 구조로 완벽 방어</div>
-<div class="kb-diagram-note">▼ (실무 플랫폼 적용)</div>
-<div class="kb-diagram-note">JWT 서명 / AWS API 인증 · 현대 웹/클라우드 환경의 표준 인증 매커니즘으로 안착</div>
-</div>
-</div>
-
-
+```text
+단방향 해시 함수 (SHA-1, SHA-2) · 무결성 제공, 위조에 무방비
+    │
+    ▼ (비밀키 결합 시도 및 취약점 발견)
+단순 결합 MAC · `Hash(K||M)` 시도, 길이 연장 공격에 붕괴
+    │
+    ▼ (안전한 키 혼입 구조의 발명)
+HMAC (Hash-based MAC) · XOR 패딩과 이중 해시 샌드위치 구조로 완벽 방어
+    │
+    ▼ (실무 플랫폼 적용)
+JWT 서명 / AWS API 인증 · 현대 웹/클라우드 환경의 표준 인증 매커니즘으로 안착
+```
 
 이 흐름도는 단순한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 기술이 해커의 공격을 방어하기 위해 수학적 구조를 고도화하고, 최종적으로 산업 표준 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 기술로 자리 잡는 궤적을 보여준다.
 

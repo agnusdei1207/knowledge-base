@@ -41,19 +41,18 @@ BPMN의 기본 문법은 이벤트(Event), 액티비티(Activity), 게이트웨�
 
 아래 그림은 고객 요청이 접수된 뒤 사람 승인과 시스템 자동 처리, 그리고 외부 기관과의 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 교환이 BPMN에서 어떻게 구분되는지 요약한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pool: Company</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Lane: Sales</div><div class="kb-diagram-node">Start</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Review Task</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">End</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Approve Task</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Lane: System</div><div class="kb-diagram-node">Service Task</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pool: Credit Agency - - - Message Flow - - -</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Pool: Company                                                       │
+│   Lane: Sales     [Start] -> [Review Task] -> <XOR> ----> [End]    │
+│                                 │                                   │
+│   Lane: Finance                 └--------> [Approve Task]           │
+│                                                 │                   │
+│   Lane: System                               [Service Task]         │
+│                                                 │                   │
+│ Pool: Credit Agency                  - - - Message Flow - - -       │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 [BPMN](/knowledge-base/studynote/04_software_engineering/03_design_architecture/163_bpmn_business_process_modeling_notation/) 2.0이 중요한 이유는 단지 시각 표준이어서가 아니라, XML (eXtensible Markup Language) 기반 교환 형식을 통해 모델을 도구 간에 옮기고 일부 엔진에서는 실행까지 연계할 수 있기 때문이다. 다만 모든 BPMN이 곧바로 실행 가능한 것은 아니며, 모델링 목적이 커뮤니케이션인지 실행 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)인지에 따라 상세 수준을 조절해야 한다.
 
@@ -120,23 +119,21 @@ BPMN을 잘 사용하면 설계 문서와 운영 모델 사이의 거리가 줄�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Flowchart 기반 절차 표현</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">BPMN 1.x 표준화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">BPMN 2.0 · XML interchange</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Executable Process Model · WfMS</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">BPMN + DMN + Mining 연계</div>
-</div>
-</div>
-
-
+```text
+Flowchart 기반 절차 표현
+    │
+    ▼
+BPMN 1.x 표준화
+    │
+    ▼
+BPMN 2.0 · XML interchange
+    │
+    ▼
+Executable Process Model · WfMS
+    │
+    ▼
+BPMN + DMN + Mining 연계
+```
 
 이 흐름은 단순 절차 도식이 점차 실행 가능 모델과 분석 생태계로 확장되는 과정을 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)한다.
 

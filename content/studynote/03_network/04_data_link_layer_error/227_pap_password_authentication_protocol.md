@@ -25,18 +25,14 @@ tags = ["studynote-network"]
 
 - **💡 비유**: 클럽(서버)에 들어가기 위해 문지기(라우터)에게 <strong>"내 이름은 홍길동이고 암호는 1234야!"라고 큰 소리로 외치는 것</strong>과 같습니다. 문지기는 장부에 이름이 있는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 들여보내 주지만(PAP), 옆에 서 있던 도둑(해커)이 그 소리를 그대로 듣고 다음 날 똑같이 외쳐서 클럽에 들어갈 수 있는 보안 사고([도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/), Sniffing)가 발생하기 쉽습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">NCP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">PAP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CHAP</div></div>
-</div>
-</div>
-
-
+```text
+[NCP]
+    │
+    ▼
+[PAP]
+    │
+    └──▶ [CHAP]
+```
 
 - **📢 섹션 요약 비유**: <strong> PAP <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>은 마치 비밀번호를 쓴 </strong>"투명한 유리 엽서"**를 우체부에게 건네어 수취인에게 보내는 것과 같습니다. 누구나 중간에 엿볼 수 있습니다.
 
@@ -50,19 +46,23 @@ PAP는 클라이언트가 능동적으로 자격 증명을 제시하는 방식(C
 1. **Authenticate-Request (요청)**: [Peer](/knowledge-base/studynote/06_ict_convergence/01_blockchain/060_hyperledger_architecture_peer_orderer_msp/)(클라이언트)가 서버에게 ID와 비밀번호를 평문으로 전송한다.
 2. <strong>Authenticate-Ack / <a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/211_nak_negative_acknowledgement/">Nak</a> (응답)</strong>: Authenticator(서버)가 내부 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스와 대조 후 승인(ACK) 또는 거절([NAK](/knowledge-base/studynote/03_network/04_data_link_layer_error/211_nak_negative_acknowledgement/)) 메시지를 반환한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PAP 동작 방식 시퀀스</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">클라이언트 (Peer)</div><div class="kb-diagram-node">서버 (Authenticator)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Authenticate-Request (ID, PW)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(평문으로 전송됨 - Sniffing 위험)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Authenticate-Ack 또는 Nak</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                     PAP 동작 방식 시퀀스                    │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [클라이언트 (Peer)]                       [서버 (Authenticator)]│
+ │           │                                         │       │
+ │           │     1. Authenticate-Request (ID, PW)    │       │
+ │           ├────────────────────────────────────────▶│       │
+ │           │      (평문으로 전송됨 - Sniffing 위험)     │       │
+ │           │                                         │       │
+ │           │     2. Authenticate-Ack 또는 Nak          │       │
+ │           │◀────────────────────────────────────────┤       │
+ │           │                                         │       │
+ │                                                             │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 2. 치명적인 취약점: Cleartext 전송
 - **스니핑(Sniffing)**: 와이어샤크(Wireshark) 같은 패킷 분석 도구를 사용해 네트워크 트래픽을 캡처하면, PAP 패킷 내에 포함된 `Peer-ID`와 `Password` 필드의 문자열이 그대로 노출된다.
@@ -125,19 +125,15 @@ PAP는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rela
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: NCP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: PAP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: CHAP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고신뢰 저지연 링크 제어</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: NCP]
+    │
+    ▼
+[현재 개념: PAP]
+    │
+    ├──▶ [확장 A: CHAP]
+    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
+```
 
 PAP는 NCP에서 출발해 현재 메커니즘을 정교화하고, 이후 CHAP와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

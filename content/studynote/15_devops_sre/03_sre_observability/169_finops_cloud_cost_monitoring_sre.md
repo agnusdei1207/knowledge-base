@@ -12,7 +12,7 @@ tags = ["studynote-devops-sre"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [FinOps](/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops/) (Financial Operations)는 클라우드 비용을 재무팀의 월말 보고서가 아니라 운영 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 다뤄, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별 비용 원인과 최적화 행동을 실시간에 가깝게 연결하는 클라우드 재무 운영 체계다.
-> 2. **가치**: [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/))의 안정성 목표와 FinOps의 비용 효율 목표를 함께 보면, 과잉 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/)·유휴 자원·과도한 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 저장 같은 낭비를 줄이면서도 [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) ([Service Level Objective](/knowledge-base/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/))를 지키는 설계가 가능해진다.
+> 2. **가치**: [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/))의 안정성 목표와 FinOps의 비용 효율 목표를 함께 보면, 과잉 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/)·유휴 자원·과도한 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 저장 같은 낭비를 줄이면서도 [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) ([Service Level Objective](/knowledge-base/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/))를 지키는 설계가 가능해진다.
 > 3. **판단 포인트**: 비용 절감의 핵심은 단순히 "싸게 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)"가 아니라, 어떤 리소스가 어떤 고객 가치와 연결되는지 태깅·할당·[이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/) 체계를 갖춰 비용 대비 효과가 낮은 지점을 빠르게 교정하는 데 있다.
 
 ---
@@ -33,21 +33,23 @@ FinOps가 필요한 이유는 비용이 더 이상 순수한 재무 지표가 �
 
 다음 그림은 비용 관측 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 기본 구조를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FinOps Cost Monitoring: 청구 데이터와 운영 데이터를 결합</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cloud Billing API / CUR / Kubernetes Metrics / APM / Logs</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cost Allocation Layer (tag, label, account, service)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ Unit Cost Dashboard</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ Anomaly Detection</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ Budget / SLO-aware Alert</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Rightsizing / 예약 구매 / 종료 자동화</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────┐
+│         FinOps Cost Monitoring: 청구 데이터와 운영 데이터를 결합         │
+├──────────────────────────────────────────────────────────────────────────┤
+│ Cloud Billing API / CUR / Kubernetes Metrics / APM / Logs              │
+│                │                                                        │
+│                ▼                                                        │
+│      Cost Allocation Layer (tag, label, account, service)              │
+│                │                                                        │
+│                ├─▶ Unit Cost Dashboard                                 │
+│                ├─▶ Anomaly Detection                                   │
+│                └─▶ Budget / SLO-aware Alert                            │
+│                                │                                        │
+│                                ▼                                        │
+│                Rightsizing / 예약 구매 / 종료 자동화                    │
+└──────────────────────────────────────────────────────────────────────────┘
+```
 
 핵심 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)은 아래처럼 "총액"보다 "원인과 단위"를 보도록 설계한다.
 
@@ -133,7 +135,7 @@ SRE와의 연결도 중요하다. 다중 가용 영역 (Multi-AZ) 구성은 비�
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)) | 비용을 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)과 함께 다루는 운영 관점 |
+| [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)) | 비용을 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)과 함께 다루는 운영 관점 |
 | [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) ([Service Level Objective](/knowledge-base/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/)) | 비용 절감이 침해하면 안 되는 최소 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 목표 |
 | Kubecost / OpenCost | [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 워크로드 단위 비용 할당과 분석 도구 |
 | Infracost | [IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) 변경 시 예상 비용을 사전에 검토하는 도구 |
@@ -141,22 +143,19 @@ SRE와의 연결도 중요하다. 다중 가용 영역 (Multi-AZ) 구성은 비�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">월말 청구서 확인</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">태그 기반 비용 할당</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">FinOps 대시보드 + 이상 탐지</div>
-<div class="kb-diagram-tree-item" style="--depth:3">▶ Rightsizing / 예약 구매</div>
-<div class="kb-diagram-tree-item" style="--depth:3">▶ 로그·스토리지 최적화</div>
-<div class="kb-diagram-tree-item" style="--depth:3">▶ SLO 연계 비용 의사결정</div>
-</div>
-</div>
-
-
+```text
+월말 청구서 확인
+      │
+      ▼
+태그 기반 비용 할당
+      │
+      ▼
+FinOps 대시보드 + 이상 탐지
+      │
+      ├─▶ Rightsizing / 예약 구매
+      ├─▶ 로그·스토리지 최적화
+      └─▶ SLO 연계 비용 의사결정
+```
 
 이 흐름은 클라우드 비용 관리가 "청구서 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)" 단계에서 "운영 자동화와 설계 판단" 단계로 발전하는 과정을 보여준다.
 

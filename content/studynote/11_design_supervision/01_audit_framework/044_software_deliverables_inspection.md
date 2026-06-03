@@ -18,41 +18,43 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅰ. 산출물 검사 개요
 
+```
+소프트웨어 산출물 검사:
 
+결함 발견 비용의 법칙:
+  요구사항 단계 결함 발견: 1배 비용
+  설계 단계: 5배
+  구현 단계: 10배
+  테스트 단계: 20배
+  인도 후/운영: 100배
+  
+  → 조기 검사가 ROI 최대화
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 산출물 검사:</div>
-<div class="kb-diagram-note">결함 발견 비용의 법칙:</div>
-<div class="kb-diagram-note">요구사항 단계 결함 발견: 1배 비용</div>
-<div class="kb-diagram-note">설계 단계: 5배</div>
-<div class="kb-diagram-note">구현 단계: 10배</div>
-<div class="kb-diagram-note">테스트 단계: 20배</div>
-<div class="kb-diagram-note">인도 후/운영: 100배</div>
-<div class="kb-diagram-note">→ 조기 검사가 ROI 최대화</div>
-<div class="kb-diagram-note">산출물 유형별 검사:</div>
-<div class="kb-diagram-note">요구사항 단계:</div>
-<div class="kb-diagram-note">요구사항 명세서 (SRS)</div>
-<div class="kb-diagram-note">유스케이스 다이어그램</div>
-<div class="kb-diagram-note">설계 단계:</div>
-<div class="kb-diagram-note">소프트웨어 아키텍처 문서 (SAD)</div>
-<div class="kb-diagram-note">DB 설계서, 인터페이스 정의서</div>
-<div class="kb-diagram-note">구현 단계:</div>
-<div class="kb-diagram-note">소스 코드 (Code Review)</div>
-<div class="kb-diagram-note">단위 테스트 케이스</div>
-<div class="kb-diagram-note">테스트 단계:</div>
-<div class="kb-diagram-note">테스트 계획서, 테스트 케이스</div>
-<div class="kb-diagram-note">테스트 결과 보고서</div>
-<div class="kb-diagram-note">인도 단계:</div>
-<div class="kb-diagram-note">사용자 매뉴얼, 운영 매뉴얼</div>
-<div class="kb-diagram-note">설치 가이드</div>
-<div class="kb-diagram-note">검사 유형 분류:</div>
-<div class="kb-diagram-note">비공식 검토 → 공식 인스펙션 (공식성 증가)</div>
-<div class="kb-diagram-note">Informal Review → Walkthrough → Peer Review → Inspection → Audit</div>
-</div>
-</div>
+산출물 유형별 검사:
+  요구사항 단계:
+    요구사항 명세서 (SRS)
+    유스케이스 다이어그램
+    
+  설계 단계:
+    소프트웨어 아키텍처 문서 (SAD)
+    DB 설계서, 인터페이스 정의서
+    
+  구현 단계:
+    소스 코드 (Code Review)
+    단위 테스트 케이스
+    
+  테스트 단계:
+    테스트 계획서, 테스트 케이스
+    테스트 결과 보고서
+    
+  인도 단계:
+    사용자 매뉴얼, 운영 매뉴얼
+    설치 가이드
 
-
+검사 유형 분류:
+  비공식 검토 → 공식 인스펙션 (공식성 증가)
+  Informal Review → Walkthrough → Peer Review → Inspection → Audit
+```
 
 > 📢 **섹션 요약 비유**: 산출물 검사는 음식점 위생 점검 — 재료(요구사항)부터 조리(코딩), 서빙(테스트)까지 각 단계에서 검사. 재료가 상했을 때 바로 버리는 게, 손님이 먹은 후보다 훨씬 저렴해요.
 
@@ -113,55 +115,60 @@ Fagan 인스펙션 (Fagan Inspection):
 
 ## Ⅲ. 코드 검토
 
+```
+코드 검토 (Code Review):
 
+현대적 코드 검토 방법:
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">코드 검토 (Code Review):</div>
-<div class="kb-diagram-note">현대적 코드 검토 방법:</div>
-<div class="kb-diagram-note">1. 동료 검토 (Peer Review):</div>
-<div class="kb-diagram-note">1명 작성자 + 1~3명 검토자</div>
-<div class="kb-diagram-note">GitHub Pull Request 기반</div>
-<div class="kb-diagram-note">GitHub PR 워크플로우:</div>
-<div class="kb-diagram-note">작성자: 기능 브랜치 → PR 생성</div>
-<div class="kb-diagram-note">검토자: 라인별 코멘트</div>
-<div class="kb-diagram-note">작성자: 수정 → 리뷰 재요청</div>
-<div class="kb-diagram-note">승인 후 머지</div>
-<div class="kb-diagram-note">2. Gerrit (Google 내부 → 오픈소스):</div>
-<div class="kb-diagram-note">코드 변경 단위로 검토</div>
-<div class="kb-diagram-note">+2 (승인), +1 (동의), -1 (반대), -2 (거부)</div>
-<div class="kb-diagram-note">두 명의 +2 필요 → 머지</div>
-<div class="kb-diagram-note">코드 검토 체크리스트:</div>
-<div class="kb-diagram-note">기능 정확성:</div>
-<div class="kb-diagram-tree-item" style="--depth:1">요구사항 충족 여부</div>
-<div class="kb-diagram-tree-item" style="--depth:1">엣지 케이스 처리</div>
-<div class="kb-diagram-tree-item" style="--depth:1">에러 처리 완전성</div>
-<div class="kb-diagram-note">코드 품질:</div>
-<div class="kb-diagram-tree-item" style="--depth:1">가독성 (변수명, 함수명)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">단일 책임 원칙 준수</div>
-<div class="kb-diagram-tree-item" style="--depth:1">중복 코드 없음 (DRY)</div>
-<div class="kb-diagram-note">보안:</div>
-<div class="kb-diagram-tree-item" style="--depth:1">SQL 인젝션, XSS 취약점</div>
-<div class="kb-diagram-tree-item" style="--depth:1">인증/인가 처리</div>
-<div class="kb-diagram-tree-item" style="--depth:1">민감 정보 하드코딩 없음</div>
-<div class="kb-diagram-note">성능:</div>
-<div class="kb-diagram-tree-item" style="--depth:1">N+1 쿼리 문제</div>
-<div class="kb-diagram-tree-item" style="--depth:1">불필요한 반복 연산</div>
-<div class="kb-diagram-note">테스트:</div>
-<div class="kb-diagram-tree-item" style="--depth:1">단위 테스트 포함 여부</div>
-<div class="kb-diagram-tree-item" style="--depth:1">테스트 커버리지</div>
-<div class="kb-diagram-note">자동화 도구:</div>
-<div class="kb-diagram-note">SonarQube: 정적 분석 (버그, 취약점, 코드 스멜)</div>
-<div class="kb-diagram-note">ESLint/Pylint: 린트 (코딩 스타일, 잠재 오류)</div>
-<div class="kb-diagram-note">Snyk: 의존성 보안 취약점</div>
-<div class="kb-diagram-note">Codacy: 자동 코드 검토</div>
-<div class="kb-diagram-note">CI/CD 통합:</div>
-<div class="kb-diagram-note">PR 생성 시 자동 품질 게이트</div>
-<div class="kb-diagram-note">문제 있으면 머지 차단</div>
-</div>
-</div>
+1. 동료 검토 (Peer Review):
+   1명 작성자 + 1~3명 검토자
+   GitHub Pull Request 기반
+   
+   GitHub PR 워크플로우:
+   작성자: 기능 브랜치 → PR 생성
+   검토자: 라인별 코멘트
+   작성자: 수정 → 리뷰 재요청
+   승인 후 머지
+   
+2. Gerrit (Google 내부 → 오픈소스):
+   코드 변경 단위로 검토
+   +2 (승인), +1 (동의), -1 (반대), -2 (거부)
+   두 명의 +2 필요 → 머지
 
+코드 검토 체크리스트:
+  기능 정확성:
+  - 요구사항 충족 여부
+  - 엣지 케이스 처리
+  - 에러 처리 완전성
+  
+  코드 품질:
+  - 가독성 (변수명, 함수명)
+  - 단일 책임 원칙 준수
+  - 중복 코드 없음 (DRY)
+  
+  보안:
+  - SQL 인젝션, XSS 취약점
+  - 인증/인가 처리
+  - 민감 정보 하드코딩 없음
+  
+  성능:
+  - N+1 쿼리 문제
+  - 불필요한 반복 연산
+  
+  테스트:
+  - 단위 테스트 포함 여부
+  - 테스트 커버리지
 
+자동화 도구:
+  SonarQube: 정적 분석 (버그, 취약점, 코드 스멜)
+  ESLint/Pylint: 린트 (코딩 스타일, 잠재 오류)
+  Snyk: 의존성 보안 취약점
+  Codacy: 자동 코드 검토
+  
+  CI/CD 통합:
+  PR 생성 시 자동 품질 게이트
+  문제 있으면 머지 차단
+```
 
 > 📢 **섹션 요약 비유**: 코드 검토는 동료 출판 전 검수 — 혼자 쓴 논문(코드)을 동료(검토자)가 교정하고, 편집장([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD)이 형식 검사. 서로 봐주면 실수가 적어요.
 
@@ -217,46 +224,50 @@ ISO 15504 (SPICE):
 
 ## Ⅴ. 실무 시나리오 — [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 품질 게이트
 
+```
+CI/CD 통합 산출물 품질 게이트:
 
+구성:
+  GitHub PR → CI/CD 파이프라인 자동 검사
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">CI/CD 통합 산출물 품질 게이트:</div>
-<div class="kb-diagram-note">구성:</div>
-<div class="kb-diagram-note">GitHub PR → CI/CD 파이프라인 자동 검사</div>
-<div class="kb-diagram-note">파이프라인 단계:</div>
-<div class="kb-diagram-note">1. 코드 정적 분석 (SonarQube):</div>
-<div class="kb-diagram-note">버그: 0개 (배포 차단)</div>
-<div class="kb-diagram-note">취약점: 0개 (Critical)</div>
-<div class="kb-diagram-note">코드 스멜: 10개 이하 (경고)</div>
-<div class="kb-diagram-note">커버리지: 80% 이상</div>
-<div class="kb-diagram-note">2. 보안 스캔 (Snyk):</div>
-<div class="kb-diagram-note">Critical 취약점 0개</div>
-<div class="kb-diagram-note">의존성 라이선스 검사</div>
-<div class="kb-diagram-note">3. 성능 테스트 (JMeter):</div>
-<div class="kb-diagram-note">API 응답 P99 &lt; 500ms</div>
-<div class="kb-diagram-note">4. 코드 검토 승인:</div>
-<div class="kb-diagram-note">시니어 개발자 1명 이상 Approve</div>
-<div class="kb-diagram-note">Quality Gate 구성 예:</div>
-<div class="kb-diagram-note">sonar-project.properties:</div>
-<div class="kb-diagram-note">sonar.qualitygate.wait=true</div>
-<div class="kb-diagram-note">조건:</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Coverage &lt; 80% → FAILED</div>
-<div class="kb-diagram-tree-item" style="--depth:1">New Bugs &gt; 0 → FAILED</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Security Hotspots Reviewed &lt; 100% → FAILED</div>
-<div class="kb-diagram-note">자동 검사 + 수동 검토 조합:</div>
-<div class="kb-diagram-note">자동화 (도구): 형식, 취약점, 커버리지</div>
-<div class="kb-diagram-note">수동 검토 (인간): 비즈니스 로직, 아키텍처 결정</div>
-<div class="kb-diagram-note">80/20 법칙: 자동화 80% + 수동 20%로</div>
-<div class="kb-diagram-note">최대 효과 달성</div>
-<div class="kb-diagram-note">팀 성과 지표:</div>
-<div class="kb-diagram-note">PR 평균 검토 시간: 4시간 이내</div>
-<div class="kb-diagram-note">PR 통과율: 85% (처음 시도에서)</div>
-<div class="kb-diagram-note">배포 후 버그: 스프린트 당 2개 이하</div>
-</div>
-</div>
+파이프라인 단계:
+  1. 코드 정적 분석 (SonarQube):
+     버그: 0개 (배포 차단)
+     취약점: 0개 (Critical)
+     코드 스멜: 10개 이하 (경고)
+     커버리지: 80% 이상
+     
+  2. 보안 스캔 (Snyk):
+     Critical 취약점 0개
+     의존성 라이선스 검사
+     
+  3. 성능 테스트 (JMeter):
+     API 응답 P99 < 500ms
+     
+  4. 코드 검토 승인:
+     시니어 개발자 1명 이상 Approve
 
+Quality Gate 구성 예:
+  sonar-project.properties:
+  sonar.qualitygate.wait=true
+  
+  조건:
+  - Coverage < 80% → FAILED
+  - New Bugs > 0 → FAILED
+  - Security Hotspots Reviewed < 100% → FAILED
 
+자동 검사 + 수동 검토 조합:
+  자동화 (도구): 형식, 취약점, 커버리지
+  수동 검토 (인간): 비즈니스 로직, 아키텍처 결정
+  
+  80/20 법칙: 자동화 80% + 수동 20%로
+  최대 효과 달성
+
+팀 성과 지표:
+  PR 평균 검토 시간: 4시간 이내
+  PR 통과율: 85% (처음 시도에서)
+  배포 후 버그: 스프린트 당 2개 이하
+```
 
 > 📢 **섹션 요약 비유**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 품질 게이트는 공항 보안 검색대 — 체크인([PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)) → 보안 검사([SonarQube](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/)/Snyk) → 탑승구 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(코드 검토 승인) → 이륙(배포). 기준 미달은 탑승 거부!
 

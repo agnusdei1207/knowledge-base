@@ -1,5 +1,5 @@
 +++
-title = "120. 데이터 역공학 (Data Reverse Engineering) - 기존 DB에서 ERD·모델 복원"
+title = "120. 데이터 역공학 (Data Reverse 엔진ering) - 기존 DB에서 ERD·모델 복원"
 date = 2026-04-19
 
 [taxonomies]
@@ -18,20 +18,19 @@ tags = ["studynote-database"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정공학 vs 역공학</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">정공학 (Forward Engineering)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구사항 → ERD → 릴레이션 → 물리 DB</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">역공학 (Reverse Engineering)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물리 DB → 릴레이션 → ERD → 비즈니스 의미 복원</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">활용: 레거시 현행화, 마이그레이션, 문서화</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    정공학 vs 역공학                                   │
+├───────────────────────────────────────────────────────┤
+│  [정공학 (Forward Engineering)]                       │
+│   요구사항 → ERD → 릴레이션 → 물리 DB               │
+│                                                       │
+│  [역공학 (Reverse Engineering)]                       │
+│   물리 DB → 릴레이션 → ERD → 비즈니스 의미 복원      │
+│                                                       │
+│  활용: 레거시 현행화, 마이그레이션, 문서화             │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 정공학은 설계도를 그려서 건물을 짓는 것이고, [역공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/)은 이미 지어진 건물을 조사해서 설계도를 복원하는 것이다.
 
@@ -89,23 +88,21 @@ tags = ["studynote-database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">수동 DB 문서화 (종이·엑셀, 1990s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CASE 도구 역공학 (ERwin, 2000s) — DDL→ERD 자동 변환</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">메타데이터 관리 (2010s) — 데이터 카탈로그 연동</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">자동 문서화 (dbt docs, 2020s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: AI 기반 역공학 — 테이블 관계·비즈니스 의미 자동 추론</div></div>
-</div>
-</div>
-
-
+```text
+[수동 DB 문서화 (종이·엑셀, 1990s)]
+    │
+    ▼
+[CASE 도구 역공학 (ERwin, 2000s) — DDL→ERD 자동 변환]
+    │
+    ▼
+[메타데이터 관리 (2010s) — 데이터 카탈로그 연동]
+    │
+    ▼
+[자동 문서화 (dbt docs, 2020s)]
+    │
+    ▼
+[현재: AI 기반 역공학 — 테이블 관계·비즈니스 의미 자동 추론]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 정공학은 **레시피를 보고 요리를 만드는** 거예요.

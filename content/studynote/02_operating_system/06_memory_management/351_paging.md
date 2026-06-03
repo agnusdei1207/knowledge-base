@@ -27,26 +27,31 @@ tags = ["studynote-operating-system"]
   2. **극단적인 고정 분할의 도입**: 다시 옛날의 '고정 분할' 방식으로 돌아가되, 방 크기를 수십 MB가 아니라 현미경 수준인 <strong>4KB</strong>로 극단적으로 작게 고정해버렸다.
   3. <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/">단편화</a>의 멸종</strong>: 모든 프레임과 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 4KB로 100% 동일한 규격을 가지므로, 남는 자투리 공간([외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)) 자체가 수학적으로 발생할 수 없게 되었다. 빈 프레임이 있으면 그냥 넣으면 딱 맞는다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페이징의 시각적 구조 (페이지와 프레임의 1:1 매핑)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">논리 메모리 (CPU가 보는 가상 공간)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ Page 0 │──</div><div class="kb-diagram-node">페이지 테이블 (매핑 장부)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Page 1</div><div class="kb-diagram-cell">── ▶</div><div class="kb-diagram-cell">Page</div><div class="kb-diagram-cell">Frame</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Page 2</div><div class="kb-diagram-cell">── ──</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">4</div><div class="kb-diagram-cell">─ ─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Page 3</div><div class="kb-diagram-cell">──</div><div class="kb-diagram-cell">2</div><div class="kb-diagram-cell">3</div><div class="kb-diagram-cell">─ ─ ─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3</div><div class="kb-diagram-cell">7</div><div class="kb-diagram-cell">─ ─ ─ ─</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">물리 메모리 (실제 RAM)</div><div class="kb-diagram-connector">▼</div><div class="kb-diagram-note">▼ ▼ ▼ ▼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Frame 0</div><div class="kb-diagram-cell">Frame 1</div><div class="kb-diagram-cell">Frame 2</div><div class="kb-diagram-cell">Frame 3</div><div class="kb-diagram-cell">Frame 4</div><div class="kb-diagram-cell">Frame 5</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(빈 방)</div><div class="kb-diagram-cell">Page 0</div><div class="kb-diagram-cell">(빈 방)</div><div class="kb-diagram-cell">Page 2</div><div class="kb-diagram-cell">Page 1</div><div class="kb-diagram-cell">(빈 방)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Frame 7에 Page 3 있음 - 생략)</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│        페이징의 시각적 구조 (페이지와 프레임의 1:1 매핑)           │
+├────────────────────────────────────────────────────────────────────┤
+│                                                                    │
+│ [ 논리 메모리 (CPU가 보는 가상 공간) ]                             │
+│ ┌─────────┐                                                        │
+│ │ Page 0  │──┐     [ 페이지 테이블 (매핑 장부) ]                   │
+│ ├─────────┤  │     ┌──────┬───────┐                                │
+│ │ Page 1  │──┼────▶│ Page │ Frame │                                │
+│ ├─────────┤  │     ├──────┼───────┤                                │
+│ │ Page 2  │──┼──┐  │  0   │   1   │ ──┐                            │
+│ ├─────────┤  │  │  │  1   │   4   │ ─┼─┐                           │
+│ │ Page 3  │──┘  │  │  2   │   3   │ ─┼┼─┼─┐                        │
+│ └─────────┘     │  │  3   │   7   │ ─┼┼─┼─┼─┐                      │
+│                   │  └──────┴───────┘  ││ │ │ │                    │
+│                   │                      ││ │ │ │                  │
+│ [ 물리 메모리 (실제 RAM) ]                  ▼▼ ▼ ▼ ▼               │
+│ ┌─────────┬─────────┬─────────┬─────────┬─────────┬─────────┐      │
+│ │ Frame 0 │ Frame 1 │ Frame 2 │ Frame 3 │ Frame 4 │ Frame 5 │      │
+│ │ (빈 방)  │ Page 0  │ (빈 방)  │ Page 2  │ Page 1  │ (빈 방)  │   │
+│ └─────────┴─────────┴─────────┴─────────┴─────────┴─────────┘      │
+│           (Frame 7에 Page 3 있음 - 생략)                           │
+└────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** CPU는 여전히 프로그램이 0페이지부터 3페이지까지 예쁘게 한 줄로 붙어있다고 착각한다. 하지만 실제 물리 램에서는 1번 프레임, 4번 프레임 등 중구난방으로 흩어져 있다. 이 혼돈을 질서로 바꾸는 유일한 열쇠가 바로 한가운데 위치한 '[페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)'이다. 이 테이블 덕분에 OS는 남는 프레임이 어디에 있든 전혀 상관없이 마음껏 테트리스를 할 수 있게 되었다.
 
 - **📢 섹션 요약 비유**: 이삿짐을 쌀 때 가구(프로그램)를 통째로 옮기려다 좁은 문(메모리 파편화)에 막히는 대신, 가구를 나사 단위(4KB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))로 모조리 분해해서 상자(프레임)에 나눠 담고 나중에 조립 설명서([페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/))를 보고 합치는 기적의 수납술입니다.
@@ -61,25 +66,29 @@ CPU가 뱉어내는 32비트(또는 64비트)의 긴 이진수 [논리 주소](/
 - <strong>p (<a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">Page</a> Number, <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> 번호)</strong>: [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)을 찾기 위한 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 번호. (이 책의 몇 번째 장인가?)
 - <strong>d (<a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">Page</a> Offset, 오프셋)</strong>: 해당 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 안에서 위에서부터 몇 번째 줄인가를 나타내는 변위. (그 장의 몇 번째 줄인가?)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">논리 주소를 물리 주소로 번역하는 과정 (MMU)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CPU 발출 논리 주소</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">p (3)</div><div class="kb-diagram-cell">d (1050)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼</div><div class="kb-diagram-cell">(오프셋은 그대로 물리 주소로 패스됨)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">페이지 테이블</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인덱스(p) 프레임(f)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">... ...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3 ──▶ 8</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">... ...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">f (8)</div><div class="kb-diagram-cell">d (1050)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">변환된 최종 물리 주소 (RAM 접근)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────────┐
+│              논리 주소를 물리 주소로 번역하는 과정 (MMU)            │
+├─────────────────────────────────────────────────────────────────────┤
+│                                                                     │
+│ [ CPU 발출 논리 주소 ]                                              │
+│ ┌─────────┬──────────┐                                              │
+│ │  p (3)  │ d (1050) │                                              │
+│ └─────────┴──────────┘                                              │
+│      │          │                                                   │
+│      ▼          │ (오프셋은 그대로 물리 주소로 패스됨)              │
+│ [ 페이지 테이블 ] │                                                 │
+│  인덱스(p)  프레임(f)                                               │
+│   ...      ...  │                                                   │
+│    3   ──▶ 8   │                                                    │
+│   ...      ...  │                                                   │
+│                 ▼                                                   │
+│         ┌─────────┬──────────┐                                      │
+│         │  f (8)  │ d (1050) │                                      │
+│         └─────────┴──────────┘                                      │
+│         [ 변환된 최종 물리 주소 (RAM 접근) ]                        │
+└─────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 하드웨어 매커니즘의 가장 위대한 점은 '오프셋(d)'은 전혀 변하지 않고 통과(Bypass)한다는 것이다. 프레임의 크기와 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)의 크기가 4KB로 완벽하게 동일하기 때문에, [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 내에서 1050번째 떨어진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는, 물리 램 프레임 안에서도 정확히 1050번째 위치에 존재한다. MMU는 오직 방 번호(p)를 실제 아파트 동 번호(f)로 1:1 치환해 주는 작업만 수행하면 된다. 
 
@@ -114,17 +123,14 @@ CPU가 뱉어내는 32비트(또는 64비트)의 긴 이진수 [논리 주소](/
 1. <strong>용량 세금 (<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/">Page Table</a> Size)</strong>: 32비트 시스템에서 4KB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 쓰면, [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 장부(테이블) 하나당 4MB의 메모리를 먹는다. 100개 프로세스가 뜨면 장부 크기만 400MB의 램을 파먹는다.
 2. **속도 세금 (2번 읽기)**: CPU가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 원할 때, 메모리에 있는 '[페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)'을 읽으러 한 번 가고, 알아낸 주소로 '실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)'를 읽으러 메모리에 또 한 번 가야 한다. **메모리 접근 시간이 정확히 2배로 느려졌다.**
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기법</div><div class="kb-diagram-cell">단편화 해결</div><div class="kb-diagram-cell">추가되는 낭비</div><div class="kb-diagram-cell">속도 지연 극복법</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가변 분할</div><div class="kb-diagram-cell">해결 불가</div><div class="kb-diagram-cell">외부단편화(큼)</div><div class="kb-diagram-cell">(지연 없음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페이징</div><div class="kb-diagram-cell">외부 완벽해결</div><div class="kb-diagram-cell">내부단편화(작음)</div><div class="kb-diagram-cell">TLB 캐시 하드웨어 도입</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬─────────────────────────────────────┐
+│ 기법       │ 단편화 해결  │ 추가되는 낭비 │ 속도 지연 극복법             │
+├──────────┼────────────┼────────────┼─────────────────────────────────────┤
+│ 가변 분할  │ 해결 불가   │ 외부단편화(큼) │ (지연 없음)                  │
+│ 페이징     │ 외부 완벽해결│ 내부단편화(작음)│ **TLB 캐시 하드웨어** 도입 │
+└──────────┴────────────┴────────────┴─────────────────────────────────────┘
+```
 **[매트릭스 해설]** 컴퓨터 공학에서 '공짜 점심'은 없다. 공간적 유연성(비연속 할당)을 얻은 대가로 메모리 접근 속도가 2배로 느려지는 치명상을 입었다. 인류는 이 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)의 느린 속도를 구원하기 위해 [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) 안에 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 하드웨어 캐시인 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/)([Translation Look-aside Buffer](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/))를 긴급히 투입하여, 99%의 확률로 테이블을 안 읽고 바로 주소를 찾아가게 만듦으로써 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 아키텍처를 완성시켰다.
 
 - **📢 섹션 요약 비유**: [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)은 책에 '찾아보기(색인)'를 만든 것과 같습니다. 지식이 어지럽게 흩어져 있어도 색인만 보면 다 찾을 수 있지만, 매번 뒷장의 색인표([페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/))를 펼쳤다가 다시 본문으로 돌아가야 하므로 독서 속도가 2배로 느려지는 딜레마를 낳았습니다.
@@ -179,19 +185,15 @@ CPU가 뱉어내는 32비트(또는 64비트)의 긴 이진수 [논리 주소](/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">비연속 메모리 할당 (Non-contiguous Memory Allocation)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">페이징 (Paging)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">페이지 크기 (Page Size)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">페이지 테이블 (Page Table)</div></div>
-</div>
-</div>
-
-
+```text
+[비연속 메모리 할당 (Non-contiguous Memory Allocation)]
+    │
+    ▼
+[페이징 (Paging)]
+    │
+    ├──▶ [페이지 크기 (Page Size)]
+    └──▶ [페이지 테이블 (Page Table)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

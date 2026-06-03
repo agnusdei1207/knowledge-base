@@ -31,21 +31,15 @@ tags = ["studynote-cloud"]
 
 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 중앙에서 정의하지만, 차단은 각 워크로드 근처에서 수행하는 것이 핵심이다. 그래서 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 컨트롤러와 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이 함께 필요하다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">정책 컨트롤러</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">레이블 기반 규칙</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">분산 방화벽 / Enforcer</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Web → DB 허용, Web → HR 차단</div>
-</div>
-</div>
-
-
+```text
+정책 컨트롤러
+   ↓
+레이블 기반 규칙
+   ↓
+분산 방화벽 / Enforcer
+   ↓
+Web → DB 허용, Web → HR 차단
+```
 
 | 구성 요소 | 역할 |
 | :-- | :-- |
@@ -110,41 +104,29 @@ tags = ["studynote-cloud"]
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Zero Trust</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">마이크로 세그멘테이션</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Network Policy / Distributed Firewall</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">횡적 이동 차단</div>
-</div>
-</div>
-
-
+```text
+Zero Trust
+   ↓
+마이크로 세그멘테이션
+   ↓
+Network Policy / Distributed Firewall
+   ↓
+횡적 이동 차단
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">경계 방화벽</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">SDN 기반 분산 방화벽</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Kubernetes NetworkPolicy</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">서비스 메시 + mTLS</div>
-</div>
-</div>
-
-
+```text
+경계 방화벽
+   ↓
+SDN 기반 분산 방화벽
+   ↓
+Kubernetes NetworkPolicy
+   ↓
+서비스 메시 + mTLS
+```
 
 ---
 

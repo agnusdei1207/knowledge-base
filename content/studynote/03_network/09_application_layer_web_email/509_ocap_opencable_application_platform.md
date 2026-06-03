@@ -31,31 +31,34 @@ tags = ["studynote-network"]
   1. **양방향(Interactive) 방송의 돈 냄새**: 옛날엔 TV를 일방적으로 보기만 했다. 근데 "리모컨으로 퀴즈 정답 누르기, TV로 짜장면 배달시키기(T-Commerce)"가 돈이 된다는 걸 깨달았다. 이 복잡한 로직을 셋톱박스 쇳덩이에 돌리려면 빵빵한 범용 OS가 필요해졌다.
   2. **독점 미들웨어 벤더의 폭리 척살**: 예전엔 OpenTV나 NDS 같은 사기업 미들웨어를 방송사가 비싼 라이선스 내고 썼다([벤더 종속](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/) [Vendor Lock-in](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/254_cloud_vendor_lock_in_avoidance_portability_multi_cloud/)). "야 이놈들한테 끌려다니지 말고, 유럽 애들이 잘 만들어둔 개방형 자바 표준(DVB-MHP) 훔쳐 와서 북미 공용 표준(OCAP)으로 통일해 버리자!" (미국 케이블 업계의 독립 선언).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OCAP의 십자 융합 아키텍처: 쇳덩이(H/W)를 가리는 자바(JVM) 방패 도해</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🎮</div><div class="kb-diagram-node">최상단: 대국민 TV 어플리케이션 계층 (Interactive Apps)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 홈쇼핑 앱, VOD 넷플릭스 껍데기 앱, TV 맞고 게임 (100% Java 언어로 코딩됨!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">🛡️ 1차 쉴드망: OCAP Java API (표준 껍데기)</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">☕</div><div class="kb-diagram-node">미들웨어 계층 (OCAP Middleware / JVM) 🌟 이 아키텍처의 심장!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- JVM (Java Virtual Machine): 자바 코드를 기계어로 번역해 주는 통역사.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- OCAP 전용 API: "야 셋톱박스 채널 1번으로 돌려!(Tune)", "화면에 자막 띄워!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➔ (앱 개발자는 밑에 깔린 삼성이든 LG 기계든 알 바 아님, 이 껍데기 API만 찌름)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">🛡️ 2차 쉴드망: OS와 드라이버의 더러운 속사정</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">⚙️</div><div class="kb-diagram-node">하위 하드웨어 계층 (OS &amp; Hardware) - 철저히 소외된 쇳덩이들</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- A사 셋톱: 리눅스(Linux) OS + 브로드컴 칩 + 구형 튜너</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- B사 셋톱: VxWorks(RTOS) OS + 퀄컴 칩 + 신형 튜너</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 아키텍트 극딜: 이게 '의존성 역전(Dependency Inversion)'의 마스터피스다.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하위 쇳덩이(리눅스냐 VxWorks냐)가 상위 앱의 생사를 쥐고 흔들던 더러운 강결합 시대</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Silo)를 부수고, 정가운데에 두꺼운 OCAP(Java) 콘크리트 방화벽을 깔아버렸다!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이제 상위 앱은 무조건 OCAP API만 보고 평화롭게 1번만 코딩(WORA)하면, 그 명령을</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해석해서 아래 쇳덩이 드라이버를 조종하는 더러운 짬처리는 JVM 통역사가 다 알아서 깐다!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          OCAP의 십자 융합 아키텍처: 쇳덩이(H/W)를 가리는 자바(JVM) 방패 도해 │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ 🎮 [ 최상단: 대국민 TV 어플리케이션 계층 (Interactive Apps) ]       │
+│   - 홈쇼핑 앱, VOD 넷플릭스 껍데기 앱, TV 맞고 게임 (100% Java 언어로 코딩됨!)│
+│                                                             │
+│        ======= [ 🛡️ 1차 쉴드망: OCAP Java API (표준 껍데기) ] ========│
+│                                                             │
+│ ☕ [ 미들웨어 계층 (OCAP Middleware / JVM) 🌟 이 아키텍처의 심장! ]│
+│   - JVM (Java Virtual Machine): 자바 코드를 기계어로 번역해 주는 통역사.│
+│   - OCAP 전용 API: "야 셋톱박스 채널 1번으로 돌려!(Tune)", "화면에 자막 띄워!"│
+│     ➔ (앱 개발자는 밑에 깔린 삼성이든 LG 기계든 알 바 아님, 이 껍데기 API만 찌름)│
+│                                                             │
+│        ======= [ 🛡️ 2차 쉴드망: OS와 드라이버의 더러운 속사정 ] ========│
+│                                                             │
+│ ⚙️ [ 하위 하드웨어 계층 (OS & Hardware) - 철저히 소외된 쇳덩이들 ]  │
+│   - A사 셋톱: 리눅스(Linux) OS + 브로드컴 칩 + 구형 튜너                │
+│   - B사 셋톱: VxWorks(RTOS) OS + 퀄컴 칩 + 신형 튜너                  │
+│                                                             │
+│ 🌟 아키텍트 극딜: 이게 '의존성 역전(Dependency Inversion)'의 마스터피스다. │
+│   하위 쇳덩이(리눅스냐 VxWorks냐)가 상위 앱의 생사를 쥐고 흔들던 더러운 강결합 시대│
+│   (Silo)를 부수고, 정가운데에 두꺼운 OCAP(Java) 콘크리트 방화벽을 깔아버렸다!  │
+│   이제 상위 앱은 무조건 OCAP API만 보고 평화롭게 1번만 코딩(WORA)하면, 그 명령을 │
+│   해석해서 아래 쇳덩이 드라이버를 조종하는 더러운 짬처리는 JVM 통역사가 다 알아서 깐다!│
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** "셋톱박스 모델이 50갠데 앱을 어떻게 하나로 다 돌림?"의 기적을 만든 북미 통신 규격 도해다. 이 아키텍처의 절대 헌법은 <strong>'하드웨어 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a>(Hardware <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">Abstraction</a>)'</strong>다. OCAP의 뇌는 JVM(자바 가상 머신)이다. 옛날 C언어 앱은 모토로라 칩에 맞춰 빌드해 놓으면 삼성 칩에선 에러 뿜고 즉사했다(기계어 종속). 자바 언어로 앱을 짜면 `클래스(.class)` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이라는 중간 껍데기가 나온다. 이 껍데기는 삼성 칩이든 LG 칩이든 그 셋톱박스 위에 깔려있는 JVM이 지가 알아서 0.1초 만에 칩에 맞는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(기계어)로 찰떡같이 실시간 통역([JIT](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/))을 때려준다. OCAP은 이 위대한 자바의 'Write Once, Run Anywhere(한 번 짜서 어디서든 돌려라)' 철학을 거실 TV 쇳덩이 속으로 우겨넣어 파편화된 방송 생태계를 강제 통일시킨 위대한 대법관 쉴드다.
 
@@ -83,18 +86,14 @@ TV로 홈쇼핑 결제를 누를 때, [데이터](/knowledge-base/studynote/05_d
   - 유저가 홈쇼핑 결제 [확인] 버튼을 누르는 순간! 영상 채널(In-Band)은 가만히 놔두고, 셋톱박스 안에 박힌 쪼꼬만 [케이블 모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/147_cable_modem_docsis/)(DOCSIS/OOB)이 작동해서 <strong>옆구리 비밀 통로(OOB)를 통해 "철수 1만 원 결제 쾅!" <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 방송국 서버로 빛의 속도로 쏘아 올린다(Return Channel 업링크 발동)!!</strong> 
   - 단순한 비디오 바보 상자(TV)를 인터넷이 되는 거대한 '거실 컴퓨터'로 융합 각성시켜 버린 양방향 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 핏줄의 핵심 심장부다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Anycast 기반 CDN 설계</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">OCAP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DASH</div></div>
-</div>
-</div>
-
-
+```text
+[Anycast 기반 CDN 설계]
+    │
+    ▼
+[OCAP]
+    │
+    └──▶ [DASH]
+```
 
 - **📢 섹션 요약 비유**: In-Band(인밴드)와 OOB(아웃오브밴드)의 차이는 <strong>'TV 홈쇼핑과 내 핸드폰'</strong>과 똑같습니다. In-Band는 TV 화면에서 호스트가 "자! 고등어 1상자 3만 원 팝니다!(화면 쏴주기)" 라고 일방적으로 떠드는 폭포수 소리(다운로드)입니다. TV 화면에 대고 백날 "나 1개 살게!" 소리쳐봐야(업로드 불가) 안 먹히죠. 그래서 OOB(아웃오브밴드)라는 비밀 핏줄이 필요합니다. 홈쇼핑 보다가 내 손에 든 <strong>'핸드폰 전화기(OOB 업링크 비밀 통로)'</strong>를 들어서 상담원한테 "나 1개 살게 결제해!" 라고 위로 역주행 쏘아 올리는 투-트랙(Two-track) 십자 통신망이 완벽한 양방향 쇼핑의 본질입니다.
 
@@ -141,31 +140,34 @@ TV로 홈쇼핑 결제를 누를 때, [데이터](/knowledge-base/studynote/05_d
    아키텍트는 앱 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 단에 <strong>'무자비한 채널 변경 이벤트(Channel Change Event) 후킹 방어막'</strong>을 친다! 
    "유저가 리모컨 채널 버튼 딱 누르는 찰나의 0.1초 이벤트가 떨어지면! OCAP 앱 매니저가 11번 홈쇼핑 앱의 모가지를 강제로 잡고 `destroyApp()` 메소드를 쾅 호출한다 ➔ 그 안에 내가 심어둔 [모든 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 강제 Close, 타이머 [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 강제 [Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Kill] 스크립트가 0.01초 만에 싹 찌꺼기를 지우고 앱 자체를 RAM에서 완벽 소각(Evict) 시켜버린다!!" 채널 휙휙 돌아가는 변덕스러운 TV 환경에서, 이전 채널의 앱 찌꺼기가 새 채널로 침범(Memory Spill-over)하는 사태를 생명주기 훅(Hook)으로 완벽히 척살해 내는 샌드박스 방어술이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실무 아키텍처: 방송사-셋톱박스 간의 피 터지는 OCAP 계층 샌드위치 도면</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">📺</div><div class="kb-diagram-node">최상단 앱 생태계 (Broadcast Xlet / EPG 앱)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 개발자 왈: "나는 걍 Java로 <code>button.draw()</code> 만 치고 편하게 코딩 꿀 빰 ㅋ"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">🛡️ 1차 방패 뇌: OCAP 미들웨어 껍데기 API</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">☕</div><div class="kb-diagram-node">OCAP Execution Engine (자바 JVM + OCAP API)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 뇌 발동: "오 앱놈이 화면에 버튼 그려달라네? 근데 밑에 깔린 기계 새끼가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">삼성(Broadcom 칩)이네? 그럼 내가 브로드컴 전용 기계어 드라이버 신호로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0.01초 만에 통역(Translate)해서 아랫놈한테 멱살 잡아 명령 토스 쏴줄게 쓩!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">🌪️ 2차 심해 근육: 쇳덩이 드라이버 HAL 층</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">⚙️</div><div class="kb-diagram-node">Hardware Abstraction Layer (HAL 쇳덩이 드라이버)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 브로드컴 칩 왈: "응 위에서 JVM 형님이 명령 내리셨네? 당장 TV 브라운관 모니터에</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RGB 색상 픽셀 값 전압 쏴서 버튼 그려버려 찌잉 쾅!!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 아키텍트의 극딜: OCAP의 위대함은 앱(App)을 가볍게(Portability) 만든 게 끝이 아니다.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">진짜 본질은, 밑바닥 하드웨어 벤더(삼성, LG) 새끼들이 지들 칩셋 장사(Silo 독점)로</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">방송사를 협박(Vendor Lock-in)하지 못하도록, 중간 허리에</div><div class="kb-diagram-node">JVM 가상 샌드위치</div><div class="kb-diagram-note">를</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">쑤셔 박아 기계의 노예 상태에서 소프트웨어 생태계를 영원히 찢어 해방(Liberation)시킨</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자본주의적 인프라 대통합의 첫 번째 흑마법이라는 사실이다!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │         실무 아키텍처: 방송사-셋톱박스 간의 피 터지는 OCAP 계층 샌드위치 도면 │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │ 📺 [ 최상단 앱 생태계 (Broadcast Xlet / EPG 앱) ]                │
+  │   - 개발자 왈: "나는 걍 Java로 `button.draw()` 만 치고 편하게 코딩 꿀 빰 ㅋ" │
+  │                                                             │
+  │        ======= [ 🛡️ 1차 방패 뇌: OCAP 미들웨어 껍데기 API ] ========│
+  │                                                             │
+  │ ☕ [ OCAP Execution Engine (자바 JVM + OCAP API) ]          │
+  │   - 뇌 발동: "오 앱놈이 화면에 버튼 그려달라네? 근데 밑에 깔린 기계 새끼가   │
+  │     삼성(Broadcom 칩)이네? 그럼 내가 브로드컴 전용 기계어 드라이버 신호로   │
+  │     0.01초 만에 통역(Translate)해서 아랫놈한테 멱살 잡아 명령 토스 쏴줄게 쓩!"│
+  │                                                             │
+  │        ======= [ 🌪️ 2차 심해 근육: 쇳덩이 드라이버 HAL 층 ] ========│
+  │                                                             │
+  │ ⚙️ [ Hardware Abstraction Layer (HAL 쇳덩이 드라이버) ]           │
+  │   - 브로드컴 칩 왈: "응 위에서 JVM 형님이 명령 내리셨네? 당장 TV 브라운관 모니터에│
+  │     RGB 색상 픽셀 값 전압 쏴서 버튼 그려버려 찌잉 쾅!!"                  │
+  │                                                             │
+  │ 🌟 아키텍트의 극딜: OCAP의 위대함은 앱(App)을 가볍게(Portability) 만든 게 끝이 아니다.│
+  │   진짜 본질은, 밑바닥 하드웨어 벤더(삼성, LG) 새끼들이 지들 칩셋 장사(Silo 독점)로 │
+  │   방송사를 협박(Vendor Lock-in)하지 못하도록, 중간 허리에 [JVM 가상 샌드위치]를 │
+  │   쑤셔 박아 기계의 노예 상태에서 소프트웨어 생태계를 영원히 찢어 해방(Liberation)시킨│
+  │   자본주의적 인프라 대통합의 첫 번째 흑마법이라는 사실이다!                   │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** "그냥 안드로이드 깔면 되는 거 아님? 왜 그 고생을 함?" 스마트폰 뽕에 취한 2026년 MZ 세대의 흔한 착각을 박살 내는 도해다. 2000년대 초반엔 셋톱박스 안에 안드로이드 같은 범용 OS가 우주에 아예 존재하지 않았다(선사시대). 당시 케이블 회사들은 기계를 바꿀 때마다 리모컨 앱을 C언어로 처음부터 끝까지 다 다시 새로 짜느라(Re-write) 피눈물을 흘리며 파산 위기에 처했다. OCAP은 안드로이드가 세상을 먹기 훨씬 전, **[하드웨어 ➔ OS ➔ 미들웨어(JVM) ➔ 앱]** 이라는 완벽한 모던 계층 분리 4단(Decoupling) 샌드위치 아키텍처를 TV 쇳덩이 환경에 가장 먼저 선구적으로 때려 박은, 거실 융합 플랫폼의 단군 할아버지(원시적 [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/)) 모델로써 기술사적 0순위 가치를 지닌다.
 
@@ -228,19 +230,15 @@ TV로 홈쇼핑 결제를 누를 때, [데이터](/knowledge-base/studynote/05_d
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: Anycast 기반 CDN 설계</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: OCAP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: DASH</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 애플리케이션 전달</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: Anycast 기반 CDN 설계]
+    │
+    ▼
+[현재 개념: OCAP]
+    │
+    ├──▶ [확장 A: DASH]
+    └──▶ [확장 B: 지능형 애플리케이션 전달]
+```
 
 OCAP는 Anycast 기반 [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) 설계에서 출발해 현재 메커니즘을 정교화하고, 이후 DASH와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

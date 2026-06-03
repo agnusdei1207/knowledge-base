@@ -39,26 +39,27 @@ tags = ["studynote-algorithm"]
 ### 1. [선택 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/024_selection_sort/)의 동작 메커니즘 (Step-by-Step)
 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 크기가 N일 때, 총 N-1번의 패스(Pass)를 거칩니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선택 정렬(Selection Sort) 동작 과정 - 오름차순</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">초기 배열:</div><div class="kb-diagram-node">8, 5, 2, 6, 9, 3</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1회전 (Pass 1)</div><div class="kb-diagram-note">- 가장 작은 수 '2'를 탐색하여 1번째 원소와 스왑</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">8, 5, 2, 6, 9, 3</div><div class="kb-diagram-connector">==&gt;</div><div class="kb-diagram-note">'2' 탐색 완료</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2*, 5, 8, 6, 9, 3</div><div class="kb-diagram-connector">==&gt;</div><div class="kb-diagram-note">8과 2 스왑 (정렬된 영역: 2)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2회전 (Pass 2)</div><div class="kb-diagram-note">- 두 번째로 작은 수 '3'을 탐색하여 2번째 원소와 스왑</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2*</div><div class="kb-diagram-node">5, 8, 6, 9, 3</div><div class="kb-diagram-connector">==&gt;</div><div class="kb-diagram-note">'3' 탐색 완료</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2*</div><div class="kb-diagram-node">3*, 8, 6, 9, 5</div><div class="kb-diagram-connector">==&gt;</div><div class="kb-diagram-note">5와 3 스왑 (정렬된 영역: 2, 3)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3회전 (Pass 3)</div><div class="kb-diagram-note">- 세 번째로 작은 수 '5'를 탐색하여 3번째 원소와 스왑</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2*, 3*</div><div class="kb-diagram-node">8, 6, 9, 5</div><div class="kb-diagram-connector">==&gt;</div><div class="kb-diagram-note">'5' 탐색 완료</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2*, 3*</div><div class="kb-diagram-node">5*, 6, 9, 8</div><div class="kb-diagram-connector">==&gt;</div><div class="kb-diagram-note">8과 5 스왑</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 위 과정을 N-1번 반복. (이미 1~N-1이 정렬되면 마지막 원소는 자동 정렬됨)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│             [ 선택 정렬(Selection Sort) 동작 과정 - 오름차순 ]          │
+│                                                             │
+│ 초기 배열: [ 8, 5, 2, 6, 9, 3 ]                             │
+│                                                             │
+│ [ 1회전 (Pass 1) ] - 가장 작은 수 '2'를 탐색하여 1번째 원소와 스왑 │
+│   [ 8, 5, 2, 6, 9, 3 ]  ==> '2' 탐색 완료                       │
+│   [ 2*, 5, 8, 6, 9, 3 ] ==> 8과 2 스왑 (정렬된 영역: 2)         │
+│                                                             │
+│ [ 2회전 (Pass 2) ] - 두 번째로 작은 수 '3'을 탐색하여 2번째 원소와 스왑 │
+│   2* | [ 5, 8, 6, 9, 3 ] ==> '3' 탐색 완료                       │
+│   2* | [ 3*, 8, 6, 9, 5 ] ==> 5와 3 스왑 (정렬된 영역: 2, 3)       │
+│                                                             │
+│ [ 3회전 (Pass 3) ] - 세 번째로 작은 수 '5'를 탐색하여 3번째 원소와 스왑 │
+│   2*, 3* | [ 8, 6, 9, 5 ] ==> '5' 탐색 완료                     │
+│   2*, 3* | [ 5*, 6, 9, 8 ] ==> 8과 5 스왑                       │
+│                                                             │
+│ * 위 과정을 N-1번 반복. (이미 1~N-1이 정렬되면 마지막 원소는 자동 정렬됨) │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 그림에서 볼 수 있듯, 1회전마다 무조건 정렬된 원소가 앞에서부터 1개씩 고정([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))됩니다. 탐색 범위는 1회전 N, 2회전 N-1, 3회전 N-2... 형태로 점점 줄어듭니다.
 
@@ -140,23 +141,21 @@ tags = ["studynote-algorithm"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">정렬되지 않은 배열 — 최솟값 탐색 (O(N) 선형)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">선택 정렬 (Selection Sort) — O(N²) 비교, O(N) 교환</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">힙(Heap) 기반 최솟값 탐색 — O(log N)으로 가속</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">힙 정렬 (Heap Sort) — O(N log N), In-place, 불안정</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">우선순위 큐 (Priority Queue) — 운영체제 스케줄러·다익스트라</div></div>
-</div>
-</div>
-
-
+```text
+[정렬되지 않은 배열 — 최솟값 탐색 (O(N) 선형)]
+    │
+    ▼
+[선택 정렬 (Selection Sort) — O(N²) 비교, O(N) 교환]
+    │
+    ▼
+[힙(Heap) 기반 최솟값 탐색 — O(log N)으로 가속]
+    │
+    ▼
+[힙 정렬 (Heap Sort) — O(N log N), In-place, 불안정]
+    │
+    ▼
+[우선순위 큐 (Priority Queue) — 운영체제 스케줄러·다익스트라]
+```
 단순 [선형 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/030_linear_search/)으로 최솟값을 고르는 [선택 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/024_selection_sort/)의 아이디어가 이진 힙으로 가속되어 [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)이 탄생하고, [우선순위 큐](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/)를 통해 OS 스케줄러와 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 전반에 응용되는 진화 흐름이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

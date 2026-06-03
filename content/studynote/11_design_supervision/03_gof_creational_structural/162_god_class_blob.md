@@ -35,19 +35,21 @@ tags = ["studynote-design-supervision"]
 
 아래 그림은 갓 클래스가 어떻게 시스템의 모든 방향으로 손을 뻗으며 구조 병목이 되는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">God Class / Blob의 구조적 병목</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OrderManager</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인증</div><div class="kb-diagram-cell">주문</div><div class="kb-diagram-cell">결제</div><div class="kb-diagram-cell">메일</div><div class="kb-diagram-cell">통계</div><div class="kb-diagram-cell">캐시</div><div class="kb-diagram-cell">예외처리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">UserDB PG사 Mail Report Cache Audit</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Gateway Server Store Log</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                God Class / Blob의 구조적 병목                │
+├──────────────────────────────────────────────────────────────┤
+│                       OrderManager                           │
+│  ┌────────────────────────────────────────────────────────┐  │
+│  │ 인증 │ 주문 │ 결제 │ 메일 │ 통계 │ 캐시 │ 예외처리     │  │
+│  └────────────────────────────────────────────────────────┘  │
+│      │       │      │      │      │      │                 │
+│      ├───────┼──────┼──────┼──────┼──────┤                 │
+│      ▼       ▼      ▼      ▼      ▼      ▼                 │
+│   UserDB   PG사   Mail   Report Cache  Audit                │
+│                 Gateway Server Store  Log                   │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이런 구조는 정량 지표로도 드러난다. 가중 메서드 수 (WMC, Weighted Methods per Class)가 높고, 객체 간 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) (CBO, [Coupling](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) Between Objects)가 크며, 메서드 [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/) 결여 (LCOM, Lack of [Cohesion](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/) in Methods)가 커질수록 갓 클래스 가능성이 높다. 특히 외부 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 과다 접근 (ATFD, Access to Foreign [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 높으면 "자기 일보다 남의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 끌어와 처리하는 클래스"일 가능성이 크다.
 
@@ -132,25 +134,25 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">객체지향 설계 원칙</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SRP (Single Responsibility Principle)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">안티 패턴 (Anti-Pattern)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">갓 클래스 / 블랍 (God Class / Blob)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 품질 지표: CBO · LCOM · WMC · ATFD</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 리팩토링: Extract Class · Interface Segregation</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">도메인 경계 재정립</div>
-</div>
-</div>
-
-
+```text
+객체지향 설계 원칙
+    │
+    ▼
+SRP (Single Responsibility Principle)
+    │
+    ▼
+안티 패턴 (Anti-Pattern)
+    │
+    ▼
+갓 클래스 / 블랍 (God Class / Blob)
+    │
+    ├─▶ 품질 지표: CBO · LCOM · WMC · ATFD
+    │
+    └─▶ 리팩토링: Extract Class · Interface Segregation
+                 │
+                 ▼
+         도메인 경계 재정립
+```
 
 이 흐름은 설계 원칙 위반이 [안티 패턴](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/161_anti_pattern/)으로 드러나고, 이를 정량 지표와 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)으로 되돌리는 과정을 보여 준다.
 

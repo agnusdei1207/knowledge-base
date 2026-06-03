@@ -26,30 +26,30 @@ tags = ["studynote-database"]
 | **Durability (영속성)** | 성공적으로 완료된 트랜잭션의 결과는 영구적으로 반영되어야 함. | Redo Log, WAL (Write-Ahead Logging) |
 
 #### 2. 데이터베이스 아키텍처 및 쿼리 처리 흐름 (ASCII)
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Database Architecture &amp; Query Processing / 데이터베이스 아키텍처 및 쿼리 처리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Client / 클라이언트 (SQL Query)</div></div>
-<div class="kb-diagram-note">v</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Query Processor (질의 처리기)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Parser (파서): SQL 문법 검사 및 파싱 트리 생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Optimizer (최적화기): 실행 계획(Execution Plan) 수립 (비용)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Execution Engine (실행 엔진): 계획에 따라 데이터 요청</div></div>
-<div class="kb-diagram-note">(데이터 요청)</div>
-<div class="kb-diagram-note">v</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Storage Engine (저장 엔진)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Transaction Manager (트랜잭션 관리): ACID 보장, 락(Lock)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Buffer Manager (버퍼 관리): 메모리(RAM) 캐싱 및 플러시(Flush)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Recovery Manager (회복 관리): WAL, Undo/Redo 로깅</div></div>
-<div class="kb-diagram-note">(디스크 I/O)</div>
-<div class="kb-diagram-note">v</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Physical Storage / 물리적 저장소 (Data Files, B-Tree Index, Logs)</div></div>
-</div>
-</div>
-
-
+```text
+    [ Database Architecture & Query Processing / 데이터베이스 아키텍처 및 쿼리 처리 ]
+    
+    [ Client / 클라이언트 (SQL Query) ]
+             |
+             v
+    +-----------------------------------------------------------------+
+    | Query Processor (질의 처리기)                                   |
+    |  1. Parser (파서): SQL 문법 검사 및 파싱 트리 생성              |
+    |  2. Optimizer (최적화기): 실행 계획(Execution Plan) 수립 (비용) |
+    |  3. Execution Engine (실행 엔진): 계획에 따라 데이터 요청       |
+    +-----------------------------------------------------------------+
+             | (데이터 요청)
+             v
+    +-----------------------------------------------------------------+
+    | Storage Engine (저장 엔진)                                      |
+    |  - Transaction Manager (트랜잭션 관리): ACID 보장, 락(Lock)     |
+    |  - Buffer Manager (버퍼 관리): 메모리(RAM) 캐싱 및 플러시(Flush)|
+    |  - Recovery Manager (회복 관리): WAL, Undo/Redo 로깅            |
+    +-----------------------------------------------------------------+
+             | (디스크 I/O)
+             v
+    [ Physical Storage / 물리적 저장소 (Data Files, B-Tree Index, Logs) ]
+```
 
 #### 3. B-Tree 인덱스 알고리즘
 데이터베이스에서 B-Tree(Balanced Tree) 인덱스는 데이터 검색 속도를 $O(\log N)$으로 획기적으로 낮추는 핵심 구조다. 모든 리프(Leaf) 노드가 같은 깊이를 가지도록 밸런스를 유지하여, 최악의 경우에도 예측 가능한 디스크 I/O 횟수를 보장한다. 이는 단순한 선형 탐색(Full Table Scan)의 막대한 성능 저하를 방어하는 가장 근본적인 자료구조다.

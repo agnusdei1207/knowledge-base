@@ -26,18 +26,14 @@ tags = ["studynote-network"]
   - **Stop-and-Wait**: 손님이 초밥 1접시를 다 먹고 빈 접시를 내려놓을 때까지, 주방장이 다음 초밥을 레일에 올리지 않고 팔짱 끼고 기다립니다 (속도 최악).
   - **슬라이딩 윈도우**: 주방장이 손님 테이블 빈 공간([Window Size](/knowledge-base/studynote/03_network/04_data_link_layer_error/215_window_size_sender_receiver/))을 봅니다. "오, 5접시 놓을 수 있네!" 주방장은 **한 번에 5접시를 레일에 쫙 깝니다**. 손님이 1접시를 다 먹고 빈 그릇을 치우면(ACK), 주방장은 빈자리가 1개 났으므로 기다리지 않고 **새 초밥 1접시를 레일에 바로 밀어 넣습니다(Sliding)**.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">CLOSE_WAIT / LAST_ACK 상태</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">TCP 흐름 제어</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">윈도우 스케일옵션</div></div>
-</div>
-</div>
-
-
+```text
+[CLOSE_WAIT / LAST_ACK 상태]
+    │
+    ▼
+[TCP 흐름 제어]
+    │
+    └──▶ [윈도우 스케일옵션]
+```
 
 - **📢 섹션 요약 비유**: ** 슬라이딩 윈도우는 마트 계산대 위 **"컨베이어 벨트"**입니다. 내 앞에 공간(윈도우)이 허락하는 한, 굳이 점원이 바코드를 다 찍을 때까지 안 기다리고 내 장바구니의 물건을 컨베이어 벨트 위에 한꺼번에 쏟아놓을 수 있게 해주는 궁극의 연속 전송 시스템입니다.
 
@@ -63,25 +59,25 @@ tags = ["studynote-network"]
 5. 창문이 오른쪽으로 한 칸 이동하면서, 창문 안에 **2, 3, 4번** 패킷이 들어온다.
 6. 송신자는 기다릴 필요 없이 1번을 지우고, 방금 창문 안에 새로 들어온 <strong>4번 패킷을 즉각 발사</strong>한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">슬라이딩 윈도우의 동작 애니메이션 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1단계: 최초 전송</div><div class="kb-diagram-note">(윈도우 크기 3칸)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">데이터:</div><div class="kb-diagram-node">1번 | 2번 | 3번</div><div class="kb-diagram-note">4번 | 5번 | 6번</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">윈도우</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동작: 1, 2, 3번을 ACK 없이 한 방에 냅다 발사!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2단계: 1번 영수증(ACK) 도착!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">데이터: 1번</div><div class="kb-diagram-node">2번 | 3번 | 4번</div><div class="kb-diagram-note">5번 | 6번</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">윈도우</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동작: 윈도우가 우측으로 한 칸 밀림(Sliding).</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">새로 창문 안에 들어온 4번을 즉각 발사!!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ "이 짓을 10초에 수십만 번 반복하며 기가비트 속도를 뽑아낸다!"</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                슬라이딩 윈도우의 동작 애니메이션 시각화            │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 1단계: 최초 전송 ] (윈도우 크기 3칸)                       │
+ │   데이터:  [ 1번 | 2번 | 3번 ] | 4번 | 5번 | 6번                │
+ │          └─── 윈도우 ────┘                                  │
+ │   동작: 1, 2, 3번을 ACK 없이 한 방에 냅다 발사!                  │
+ │                                                             │
+ │   [ 2단계: 1번 영수증(ACK) 도착! ]                            │
+ │   데이터:  1번 | [ 2번 | 3번 | 4번 ] | 5번 | 6번                │
+ │                └─── 윈도우 ────┘                            │
+ │   동작: 윈도우가 우측으로 한 칸 밀림(Sliding).                     │
+ │        새로 창문 안에 들어온 4번을 즉각 발사!!                     │
+ │                                                             │
+ │   ▶ "이 짓을 10초에 수십만 번 반복하며 기가비트 속도를 뽑아낸다!"      │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 3. Window 0 ([Zero Window](/knowledge-base/studynote/03_network/08_transport_layer/445_zero_window_probe_persist_timer/))의 딜레마
 만약 수신자 PC가 멈춰서 버퍼가 꽉 찼다. 수신자는 영수증에 `Window Size = 0`을 적어 보낸다.
@@ -146,19 +142,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: CLOSE_WAIT / LAST_ACK 상태</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: TCP 흐름 제어</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 윈도우 스케일옵션</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: CLOSE_WAIT / LAST_ACK 상태]
+    │
+    ▼
+[현재 개념: TCP 흐름 제어]
+    │
+    ├──▶ [확장 A: 윈도우 스케일옵션]
+    └──▶ [확장 B: 적응형 저지연 전송]
+```
 
 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/)는 CLOSE_WAIT / LAST_ACK 상태에서 출발해 현재 메커니즘을 정교화하고, 이후 [윈도우 스케일옵션](/knowledge-base/studynote/03_network/08_transport_layer/422_tcp_window_scale_option/)와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

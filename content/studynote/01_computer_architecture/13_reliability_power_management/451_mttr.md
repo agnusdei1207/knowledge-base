@@ -25,20 +25,19 @@ MTTR이 중요해진 이유는 현대 [서비스](/knowledge-base/studynote/13_c
 
 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)([Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)) 계산에서도 이 점이 분명하게 드러난다. 같은 시스템이라도 MTBF는 다소 짧지만 MTTR이 매우 짧으면, MTBF는 길어도 MTTR이 긴 시스템보다 실제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 연속성이 더 좋을 수 있다. 그래서 엔터프라이즈 서버와 클라우드 아키텍처는 "안 고장 나는 기계"보다 "고장 나도 바로 돌아오는 구조"를 더 중시한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가용성을 바꾸는 더 직접적인 손잡이: MTTR 단축</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장애 발생 ──▶ 서비스 중단 ──▶ 복구 완료</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;----------- MTTR -----------&gt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가용성 ≈ MTBF / (MTBF + MTTR)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MTBF를 2배로 늘리기보다 MTTR을 1/10로 줄이는 편이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비용 대비 효과가 더 큰 경우가 많다.</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│      가용성을 바꾸는 더 직접적인 손잡이: MTTR 단축           │
+├──────────────────────────────────────────────────────────────┤
+│ 장애 발생 ──▶ 서비스 중단 ──▶ 복구 완료                      │
+│              <----------- MTTR ----------->                 │
+│                                                              │
+│ 가용성 ≈ MTBF / (MTBF + MTTR)                               │
+│                                                              │
+│ MTBF를 2배로 늘리기보다 MTTR을 1/10로 줄이는 편이           │
+│ 비용 대비 효과가 더 큰 경우가 많다.                         │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 그림이 보여주는 핵심은 MTTR이 장애 이후 구간 전체를 지배한다는 점이다. 즉 MTTR 개선은 유지보수 인력의 숙련도만이 아니라 설계, 운영, 자동화 수준을 함께 반영하는 시스템 공학 문제다.
 
@@ -62,22 +61,23 @@ MTTR을 짧게 만드는 구조적 핵심은 "고장 난 대상을 빨리 고치
 
 아래 흐름은 MTTR이 실제로 어떻게 만들어지는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MTTR의 내부 구성: 빠른 수리보다 빠른 전환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장애 발생</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">탐지</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">진단</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">격리</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">대체/수리</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">검증</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T1 T2 T3 T4 T5</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MTTR = T1 + T2 + T3 + T4 + T5</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">병목 예시:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- T1 길면: 장애를 늦게 알아서 대응이 늦다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- T4 길면: 부품은 갈았지만 데이터 복구가 늦다</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│             MTTR의 내부 구성: 빠른 수리보다 빠른 전환         │
+├──────────────────────────────────────────────────────────────┤
+│ 장애 발생                                                    │
+│    │                                                         │
+│    ▼                                                         │
+│ [탐지] ──▶ [진단] ──▶ [격리] ──▶ [대체/수리] ──▶ [검증]       │
+│   T1        T2         T3         T4              T5         │
+│                                                              │
+│ MTTR = T1 + T2 + T3 + T4 + T5                                │
+│                                                              │
+│ 병목 예시:                                                   │
+│ - T1 길면: 장애를 늦게 알아서 대응이 늦다                    │
+│ - T4 길면: 부품은 갈았지만 데이터 복구가 늦다                │
+└──────────────────────────────────────────────────────────────┘
+```
 
 따라서 좋은 MTTR 설계는 단순한 정비 시간이 아니라 [서비스 전환](/knowledge-base/studynote/12_it_management/02_itsm_itil/066_service_transition/) 아키텍처를 포함한다. [BMC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/710_bmc/) ([Baseboard Management Controller](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/710_bmc/)) 같은 원격 관리 칩, 이중 전원, 핫스왑 디스크, 자동 재배포, 상태 비저장([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)) 애플리케이션 구조가 함께 맞물릴 때 MTTR은 비약적으로 줄어든다.
 
@@ -156,25 +156,24 @@ MTTR을 줄이면 가장 먼저 얻는 효과는 [가용성](/knowledge-base/stu
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">고장 발생의 통계적 이해</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">MTTF (Mean Time To Failure) · MTBF (Mean Time Between Failures)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">MTTR (Mean Time To Repair) · 가용성 (Availability)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">핫스왑 (Hot-swap) · 페일오버 (Fail-over) · 이중화 (Redundancy)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">RTO (Recovery Time Objective) · 재해 복구 (Disaster Recovery)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">자가 치유 (Self-healing) · 예지 정비 (Predictive Maintenance)</div>
-</div>
-</div>
-
-
+```text
+고장 발생의 통계적 이해
+    │
+    ▼
+MTTF (Mean Time To Failure) · MTBF (Mean Time Between Failures)
+    │
+    ▼
+MTTR (Mean Time To Repair) · 가용성 (Availability)
+    │
+    ▼
+핫스왑 (Hot-swap) · 페일오버 (Fail-over) · 이중화 (Redundancy)
+    │
+    ▼
+RTO (Recovery Time Objective) · 재해 복구 (Disaster Recovery)
+    │
+    ▼
+자가 치유 (Self-healing) · 예지 정비 (Predictive Maintenance)
+```
 
 이 흐름은 고장 확률을 측정하는 단계에서 출발해, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 자동화와 사전 대응 중심 아키텍처로 확장되는 과정을 보여준다.
 

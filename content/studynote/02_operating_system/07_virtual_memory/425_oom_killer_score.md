@@ -27,29 +27,32 @@ tags = ["studynote-operating-system"]
   2. **뻥카의 들통**: 앱들이 가짜 주소에 진짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 시작하며 물리 프레임을 요구하자 스왑마저 다 털려버림.
   3. **사형 집행인의 등장**: 뻥카를 쳐서 시스템을 위기에 빠뜨린 OS가 뒷수습을 하기 위해 가장 램을 많이 요구한 놈부터 총살시켜 증거 인멸(?)을 하는 아키텍처가 확립되었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OOM Killer가 총을 뽑아 드는 절망적 런타임 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황: RAM 16GB + Swap 8GB 모두 사용률 100% 도달!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MySQL (15GB)</div><div class="kb-diagram-cell">파이썬 봇 (8GB)</div><div class="kb-diagram-cell">SSH 접속 (1GB)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1. 최후의 순간 (Page Fault)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SSH 접속 데몬이 "나 로그인 처리할 4KB만 줘!" 라고 외침.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS 커널: "빈방 0개... 캐시도 다 지움... 스왑도 꽉 참... 좆됐다"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2. 재판장 (OOM Score 계산 발동)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">커널이</div><div class="kb-diagram-node">oom_score</div><div class="kb-diagram-note">살생부 랭킹을 매김.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- MySQL (15GB 쳐먹음) -&gt; 800점</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 파이썬 봇 (8GB 쳐먹음) -&gt; 500점</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- SSH 데몬 (VIP 권한 + 1GB) -&gt; 10점</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 3. 처형 (Execution)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OOM Killer: "MySQL 네 이놈! 네가 점수 1등이다! 죽어라!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💥 SIGKILL 발사 -&gt; MySQL 즉사 -&gt; 15GB 램 허공에 확 풀림!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ SSH 데몬은 무사히 램을 받아 로깅 성공. 서버 커널 생존!</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│        OOM Killer가 총을 뽑아 드는 절망적 런타임 시각화            │
+├────────────────────────────────────────────────────────────────────┤
+│                                                                    │
+│ [ 상황: RAM 16GB + Swap 8GB 모두 사용률 100% 도달! ]               │
+│ ┌───────────────┬────────────────┬──────────────┐                  │
+│ │ MySQL (15GB)  │ 파이썬 봇 (8GB)  │ SSH 접속 (1GB)│               │
+│ └───────────────┴────────────────┴──────────────┘                  │
+│                                                                    │
+│ ▶ 1. 최후의 순간 (Page Fault)                                      │
+│   SSH 접속 데몬이 "나 로그인 처리할 4KB만 줘!" 라고 외침.          │
+│   OS 커널: "빈방 0개... 캐시도 다 지움... 스왑도 꽉 참... 좆됐다"  │
+│                                                                    │
+│ ▶ 2. 재판장 (OOM Score 계산 발동)                                  │
+│   커널이 [ oom_score ] 살생부 랭킹을 매김.                         │
+│   - MySQL (15GB 쳐먹음) -> 800점                                   │
+│   - 파이썬 봇 (8GB 쳐먹음) -> 500점                                │
+│   - SSH 데몬 (VIP 권한 + 1GB) -> 10점                              │
+│                                                                    │
+│ ▶ 3. 처형 (Execution)                                              │
+│   OOM Killer: "MySQL 네 이놈! 네가 점수 1등이다! 죽어라!"          │
+│   💥 SIGKILL 발사 -> MySQL 즉사 -> 15GB 램 허공에 확 풀림!         │
+│   ✅ SSH 데몬은 무사히 램을 받아 로깅 성공. 서버 커널 생존!        │
+└────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 초보 개발자들은 MySQL이 갑자기 죽어버린 걸 보고 "리눅스가 미쳤어!"라고 원망하지만, 사실 리눅스는 MySQL을 죽여서 [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/)(터미널)와 서버 심장부를 살려낸 다크나이트다. 만약 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 킬러가 저 총을 안 쐈다면 당신은 서버에 SSH로 접속조차 못 하고 AWS 콘솔에서 하드웨어 강제 리부팅 버튼을 눌러야만 했을 것이다.
 
 - **📢 섹션 요약 비유**: 풍선(RAM)에 바람([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 계속 불어넣어 터지기 0.001초 직전입니다. 풍선 전체가 터져서(서버 패닉) 다 죽는 걸 막기 위해, 엄마([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) Killer)가 바늘을 들고 달려와서 바람을 가장 많이 차지하고 있던 거대한 방 하나를 콕 찔러 바람을 쫙 빼버림(프로세스 사살)으로써 풍선 전체가 터지는 걸 기적처럼 막아내는 긴급 조치입니다.
@@ -102,17 +105,14 @@ tags = ["studynote-operating-system"]
 - <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/">Heuristic</a> Overcommit (진취적, 리눅스 디폴트)</strong>: "야, 쟤들 `malloc(1GB)` 해놓고 실제론 10MB밖에 안 쓰는 허풍쟁이들인 거 다 알아. 램 16GB여도 30GB어치 수표 팍팍 남발해서 다 받아줘! 혹시 나중에 수표 막을 돈 부족해지면? 그때 가서 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 킬러로 한 놈 쏴 죽이고 무마하면 돼!"
 - 리눅스는 이 야만적인 Overcommit과 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) Killer의 콜라보 덕분에 적은 램으로도 어마어마하게 많은 컨테이너를 띄우며 클라우드 서버 생태계를 압살할 수 있었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Overcommit</div><div class="kb-diagram-cell">램 10GB일때 할당량</div><div class="kb-diagram-cell">OOM 킬러 출동 빈도</div><div class="kb-diagram-cell">다중 프로그래밍 밀도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비활성화 (0)</div><div class="kb-diagram-cell">딱 10GB만 허가</div><div class="kb-diagram-cell">절대 출동 안함 (평화)</div><div class="kb-diagram-cell">낮음 (보수적 낭비)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">활성화 (1)</div><div class="kb-diagram-cell">30GB 이상 뻥튀기</div><div class="kb-diagram-cell">가끔 탕! 쏘고 감 (야생)</div><div class="kb-diagram-cell">최상 (클라우드 최적화)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬──────────────────────────────────────────────┐
+│ Overcommit│ 램 10GB일때 할당량│ OOM 킬러 출동 빈도│ 다중 프로그래밍 밀도          │
+├──────────┼────────────┼────────────┼──────────────────────────────────────────────┤
+│ 비활성화 (0)│ 딱 10GB만 허가│ 절대 출동 안함 (평화)│ 낮음 (보수적 낭비)           │
+│ 활성화 (1) │ 30GB 이상 뻥튀기│ 가끔 탕! 쏘고 감 (야생)│ **최상 (클라우드 최적화)**│
+└──────────┴────────────┴────────────┴──────────────────────────────────────────────┘
+```
 **[매트릭스 해설]** [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 킬러는 리눅스가 무능해서 만든 에러 코드가 아니다. 오히려 리눅스가 램 자본주의를 극한으로 쥐어짜기(Overcommit) 위해 의도적으로 배치해 둔 '폭력적인 시장 조정자'에 가깝다. 이 살생부가 있기에 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 배짱 있게 메모리 장사를 할 수 있다.
 
 - **📢 섹션 요약 비유**: 비행기 표 100장을 팔 때, 취소표를 예상하고 110장(Overcommit)을 파는 짓과 같습니다. 110명이 다 공항에 오면 자리가 없어 폭동(패닉)이 날 텐데, 이때 공항 경찰([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) Killer)을 불러서 가장 덩치 큰 10명을 강제로 질질 끌어내 비행기 밖으로 내쫓아버리고 이륙을 감행하는 것이 리눅스 항공사의 영업 비결입니다.
@@ -168,19 +168,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">ZRAM / 커널 스왑 압축 기술</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">OOM Killer (Out-of-Memory) 작동 우선순위 점수 (oom_score) 매커니즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NUMA 환경의 가상 메모리 스케줄링 (NUMA 노드 별 페이지 할당 / numactl)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">캐시 친화적 가상 메모리 관리 배치</div></div>
-</div>
-</div>
-
-
+```text
+[ZRAM / 커널 스왑 압축 기술]
+    │
+    ▼
+[OOM Killer (Out-of-Memory) 작동 우선순위 점수 (oom_score) 매커니즘]
+    │
+    ├──▶ [NUMA 환경의 가상 메모리 스케줄링 (NUMA 노드 별 페이지 할당 / numactl)]
+    └──▶ [캐시 친화적 가상 메모리 관리 배치]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

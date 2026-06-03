@@ -27,30 +27,34 @@ tags = ["studynote-operating-system"]
   2. <strong>클라우드(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/">하이퍼바이저</a>)의 절대 권력</strong>: 내 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 밖에서 쳐다보는 호스트 OS([하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/))는 내 메모리를 맘대로 훔쳐볼 수 있는 신(God)의 권력이었다.
   3. **실리콘(칩셋) 기반의 독립 선언**: OS나 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 같은 소프트웨어를 일절 믿지 않고, 오직 실리콘 조각(AMD/Intel CPU)이 쥐고 있는 마스터키만 믿는 극단적 하드웨어 암호화가 상용화됨.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 암호화 기술(SME/SEV)의 런타임 보안 아키텍처 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">해커의 공격: 물리 램(RAM) 칩을 통째로 뽑아가서 데이터를 덤프 뜸!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1. 과거의 시스템 (평문 램)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">물리 RAM</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note"><code>Password: 1234</code></div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💥 결과: 해커가 램을 읽는 순간 은행 서버 고객 비번 100% 유출!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2. 메모리 암호화(AMD SME/Intel MKTME) 적용 시</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">물리 RAM</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note"><code>XyZ@#9!qP</code> (쓰레기 난수)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 결과: 해커가 램을 뽑아가도 아무것도 해독 불가 (방어 성공).</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">그렇다면 정당한 CPU는 저 쓰레기 값을 어떻게 읽을까?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">물리 RAM (XyZ@#9!qP)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(전기 신호가 메인보드를 타고 이동)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CPU 칩셋 내부: 메모리 컨트롤러 (AES 암호 해독기 탑재)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"어? 암호화된 데이터네? 내 몸속에 있는 마스터키로 0.001초만에 풀어!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(복호화 진행)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CPU 코어 내부 L1 캐시</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note"><code>Password: 1234</code></div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ CPU는 램이 암호화되어있는 줄 1도 모르고 평소 속도대로 처리함!</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────────────┐
+│        메모리 암호화 기술(SME/SEV)의 런타임 보안 아키텍처 시각화      │
+├───────────────────────────────────────────────────────────────────────┤
+│                                                                       │
+│ [ 해커의 공격: 물리 램(RAM) 칩을 통째로 뽑아가서 데이터를 덤프 뜸! ]  │
+│                                                                       │
+│ ▶ 1. 과거의 시스템 (평문 램)                                          │
+│  [ 물리 RAM ] ──안에 들어있는 값──▶ `Password: 1234`                  │
+│  💥 결과: 해커가 램을 읽는 순간 은행 서버 고객 비번 100% 유출!        │
+│                                                                       │
+│ ▶ 2. 메모리 암호화(AMD SME/Intel MKTME) 적용 시                       │
+│  [ 물리 RAM ] ──안에 들어있는 값──▶ `XyZ@#9!qP` (쓰레기 난수)         │
+│  ✅ 결과: 해커가 램을 뽑아가도 아무것도 해독 불가 (방어 성공).        │
+│                                                                       │
+│ [ 그렇다면 정당한 CPU는 저 쓰레기 값을 어떻게 읽을까? ]               │
+│                                                                       │
+│  [ 물리 RAM (XyZ@#9!qP) ]                                             │
+│         │ (전기 신호가 메인보드를 타고 이동)                          │
+│         ▼                                                             │
+│  [ CPU 칩셋 내부: 메모리 컨트롤러 (AES 암호 해독기 탑재) ]            │
+│  "어? 암호화된 데이터네? 내 몸속에 있는 마스터키로 0.001초만에 풀어!" │
+│         │ (복호화 진행)                                               │
+│         ▼                                                             │
+│  [ CPU 코어 내부 L1 캐시 ] ──평문 상태──▶ `Password: 1234`            │
+│  ✅ CPU는 램이 암호화되어있는 줄 1도 모르고 평소 속도대로 처리함!     │
+└───────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 이 아키텍처의 소름 돋는 점은 <strong>"CPU 칩의 울타리(Boundary) 바깥으로 나가는 모든 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>는 무조건 암호화되어 메인보드 전선을 탄다"</strong>는 것이다. 해커가 램을 뽑아가는 걸 넘어 메인보드 램 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)에 도청기([Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) Sniffer)를 달아도 무의미하다. 오직 CPU라는 물리적 성곽 안쪽(L1, L2 캐시)에 들어와서 연산될 때만 진짜 평문 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 잠시 풀린다(Cleartext in Cache). 이것이 [기밀 컴퓨팅](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/795_confidential_computing/)의 미학이다.
 
 - **📢 섹션 요약 비유**: CIA 본부(CPU) 밖으로 비밀 요원([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 파견 나갈 때는 무조건 성형수술과 변장(암호화)을 시켜서 내보냅니다. 적(해커)이 길거리(RAM)에서 요원을 납치해도 누군지 절대 모릅니다. 요원이 다시 CIA 본부 1층 보안 검색대(메모리 컨트롤러)를 통과할 때만 분장을 지우고 원래 얼굴(평문)로 돌아와 본부 안에서 편하게 일하는 첩보 영화 같은 시스템입니다.
@@ -106,19 +110,16 @@ OS가 메모리를 할당할 때, 하드웨어에 "이 [페이지](/knowledge-ba
 기존 클라우드의 보안 상식은 "내가 아마존(AWS) 서버를 빌려 쓰니, 아마존의 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)와 직원들은 절대 내 코드를 훔쳐보지 않는 착한 천사들일 것이다"라는 맹목적인 믿음에 기반했다. 
 하지만 이 하드웨어 암호화(SEV/TDX) 기술이 도입되면서, <strong>"나는 클라우드 인프라 제공자(AWS, MS)를 잠재적 해커(Untrusted)로 간주한다. 그들이 내 서버를 훔쳐보려 해도 물리적으로 막아버리겠다"</strong>는 진정한 의미의 '[기밀 컴퓨팅](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/795_confidential_computing/)([Confidential Computing](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/795_confidential_computing/))'이 성립되었다. [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 노드나 은행권이 클라우드로 대이동할 수 있었던 결정적인 물리적 담보가 바로 이 기술이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해커의 위치</div><div class="kb-diagram-cell">기존 일반 서버</div><div class="kb-diagram-cell">Intel SGX</div><div class="kb-diagram-cell">AMD SEV (VM)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">앱 내부 버그</div><div class="kb-diagram-cell">☠️ 다 털림</div><div class="kb-diagram-cell">🟢 부분 방어</div><div class="kb-diagram-cell">☠️ 다 털림</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS 루트 권한</div><div class="kb-diagram-cell">☠️ 다 털림</div><div class="kb-diagram-cell">🟢 완벽 방어</div><div class="kb-diagram-cell">☠️ 다 털림</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하이퍼바이저</div><div class="kb-diagram-cell">☠️ 다 털림</div><div class="kb-diagram-cell">🟢 완벽 방어</div><div class="kb-diagram-cell">🟢 완벽 방어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">램 물리 탈취</div><div class="kb-diagram-cell">☠️ 다 털림</div><div class="kb-diagram-cell">🟢 완벽 방어</div><div class="kb-diagram-cell">🟢 완벽 방어</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬────────────────────┐
+│ 해커의 위치│ 기존 일반 서버 │ Intel SGX  │ AMD SEV (VM) │
+├──────────┼────────────┼────────────┼────────────────────┤
+│ 앱 내부 버그│ ☠️ 다 털림  │ 🟢 부분 방어 │ ☠️ 다 털림   │
+│ OS 루트 권한│ ☠️ 다 털림  │ 🟢 완벽 방어 │ ☠️ 다 털림   │
+│ 하이퍼바이저│ ☠️ 다 털림  │ 🟢 완벽 방어 │ 🟢 완벽 방어 │
+│ 램 물리 탈취│ ☠️ 다 털림  │ 🟢 완벽 방어 │ 🟢 완벽 방어 │
+└──────────┴────────────┴────────────┴────────────────────┘
+```
 **[매트릭스 해설]** 인텔 SGX가 방어력 하나는 무적(앱 안에서 남의 스레드가 훔쳐보는 것까지 막아냄)이지만, 코드를 다 뜯어고쳐야 하는 재앙 수준의 불편함 때문에 널리 쓰이지 못했다. AMD SEV는 앱 내부의 버그나 게스트 OS가 해킹당하는 건 못 막지만(이건 백신이 할 일), 가장 무서운 "[하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)의 도둑질"과 "물리 램 탈취"를 코드 수정 한 줄 없이 완벽하게 막아주어 클라우드 사업자들의 환호를 받으며 천하를 통일했다. (이후 인텔도 꼬리를 내리고 AMD SEV와 똑같은 방식의 Intel TDX를 내놓았다).
 
 - **📢 섹션 요약 비유**: 기존엔 월세방(클라우드 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))을 빌리면 집주인([하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/))이 마스터키를 가지고 마음대로 방을 뒤질 수 있었습니다. SEV/TDX 기술은 내가 방을 빌리자마자 집주인의 마스터키 구멍을 아예 쇳물로 부어 막아버리고 나만 아는 홍채 인식기를 달아버린 겁니다. 집주인은 월세만 받을 뿐 내 방에 영원히 들어올 수 없습니다.
@@ -178,19 +179,15 @@ A 회사의 윈도우 코드와 B 회사의 윈도우 코드가 내용이 완전
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">커널 페이지 테이블 격리 (KPTI, Kernel Page-Table Isolation)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">메모리 암호화 가상화 (AMD SME/SEV, Intel SGX)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">파일시스템 버퍼 캐시(Buffer Cache)와 가상 메모리 페이지 캐시(Page Cache)의 통합 원리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Cgroups 메모리 서브시스템의 자원 제한 (Memory Limit) 동작</div></div>
-</div>
-</div>
-
-
+```text
+[커널 페이지 테이블 격리 (KPTI, Kernel Page-Table Isolation)]
+    │
+    ▼
+[메모리 암호화 가상화 (AMD SME/SEV, Intel SGX)]
+    │
+    ├──▶ [파일시스템 버퍼 캐시(Buffer Cache)와 가상 메모리 페이지 캐시(Page Cache)의 통합 원리]
+    └──▶ [Cgroups 메모리 서브시스템의 자원 제한 (Memory Limit) 동작]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

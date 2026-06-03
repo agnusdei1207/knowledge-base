@@ -101,23 +101,21 @@ TDD와 CI가 있으면 characterization test(캐릭터라이제이션 테스트)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">스멜 발견</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">테스트 확보</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">작은 리팩토링</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">회귀 검증</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CI 통과 후 반영</div>
-</div>
-</div>
-
-
+```text
+스멜 발견
+  │
+  ▼
+테스트 확보
+  │
+  ▼
+작은 리팩토링
+  │
+  ▼
+회귀 검증
+  │
+  ▼
+CI 통과 후 반영
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

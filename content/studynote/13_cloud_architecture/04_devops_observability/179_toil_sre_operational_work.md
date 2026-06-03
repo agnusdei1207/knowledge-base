@@ -11,7 +11,7 @@ tags = ["studynote-cloud-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)([Toil](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/))은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 유지에는 필요하지만 사람 손으로 반복되고 자동화 가능하며 장기 자산을 남기지 않는 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)) 운영 노동이다.
+> 1. **본질**: [토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)([Toil](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/))은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 유지에는 필요하지만 사람 손으로 반복되고 자동화 가능하며 장기 자산을 남기지 않는 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)) 운영 노동이다.
 > 2. **가치**: [토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)을 계량하고 줄이면 SRE는 티켓 처리반이 아니라 [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) ([Service Level Objective](/knowledge-base/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/)), 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/), 플랫폼 개선 같은 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 엔지니어링에 시간을 쓸 수 있다.
 > 3. **판단 포인트**: 자주 발생하고, 규칙이 분명하며, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 규모와 함께 늘어나는 작업이라면 "열심히 더 하자"가 아니라 자동화 백로그로 전환해야 한다.
 
@@ -25,21 +25,25 @@ tags = ["studynote-cloud-architecture"]
 
 아래 그림은 [토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)이 왜 단순한 귀찮은 일이 아니라 운영 병목이 되는지 보여준다. 핵심은 [토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)이 많아질수록 개선 시간이 줄고, 개선 시간이 줄수록 다시 [토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)이 늘어나는 악순환이 생긴다는 점이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서비스 성장과 토일의 증폭</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자·트래픽 증가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">배포·알람·복구·증설 요청 증가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사람이 매번 수행하는 수동 절차</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 실수 증가 · 대응 편차 증가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 개선 시간 감소</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자동화 지연 → 다시 토일 증가</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ 서비스 성장과 토일의 증폭                                    │
+├──────────────────────────────────────────────────────────────┤
+│ 사용자·트래픽 증가                                            │
+│        │                                                      │
+│        ▼                                                      │
+│ 배포·알람·복구·증설 요청 증가                                 │
+│        │                                                      │
+│        ▼                                                      │
+│ 사람이 매번 수행하는 수동 절차                                │
+│        │                                                      │
+│        ├─▶ 실수 증가 · 대응 편차 증가                         │
+│        └─▶ 개선 시간 감소                                     │
+│                     │                                         │
+│                     ▼                                         │
+│              자동화 지연 → 다시 토일 증가                     │
+└──────────────────────────────────────────────────────────────┘
+```
 
 따라서 SRE에서 [토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)은 "성실함의 증거"가 아니라 "자동화되지 않은 운영 부채의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)"로 봐야 한다. [토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)을 줄이지 못하면 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)은 사람 숙련도와 야근에 의존하게 되고, 결국 장애 대응 속도와 배포 속도 모두 떨어진다.
 
@@ -64,20 +68,25 @@ tags = ["studynote-cloud-architecture"]
 
 [토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)을 줄이는 과정은 보통 아래처럼 성숙한다. 중요한 점은 문서화만으로는 [토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)이 사라지지 않고, 실행 권한이 사람에서 시스템으로 넘어가야 비로소 운영 비용이 줄어든다는 점이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">토일 제거 성숙도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수동 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문서화된 Runbook</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스크립트 / 예약 작업</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이벤트 기반 자동화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Self-Service Platform / Auto Remediation</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ 토일 제거 성숙도                                              │
+├──────────────────────────────────────────────────────────────┤
+│ 수동 실행                                                     │
+│   │                                                           │
+│   ▼                                                           │
+│ 문서화된 Runbook                                              │
+│   │                                                           │
+│   ▼                                                           │
+│ 스크립트 / 예약 작업                                          │
+│   │                                                           │
+│   ▼                                                           │
+│ 이벤트 기반 자동화                                            │
+│   │                                                           │
+│   ▼                                                           │
+│ Self-Service Platform / Auto Remediation                      │
+└──────────────────────────────────────────────────────────────┘
+```
 
 예를 들어 인증서 갱신을 사람이 캘린더 보고 처리하면 [토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)이지만, 만료일을 감지해 자동 발급·배포·[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)까지 이어지면 플랫폼 기능이 된다. 알람도 마찬가지다. 사람이 같은 경고를 매일 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 "문제 없음"으로 닫는다면, 그 알람은 운영 가시성이 아니라 [토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/) 생성기다.
 
@@ -103,7 +112,7 @@ tags = ["studynote-cloud-architecture"]
 
 [토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)은 SLO와도 직접 연결된다. [토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)이 많으면 알람 품질 개선, 배포 안정화, 관측성 정비 같은 예방적 작업이 밀려 Error Budget을 더 빠르게 소모하게 된다. 그래서 [토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/) 관리는 단순 효율화가 아니라, [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 목표를 지키기 위한 선행 조건이다.
 
-또한 Platform Engineering과의 연결도 중요하다. 여러 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 팀이 같은 운영 절차를 반복한다면, 개별 팀이 각자 스크립트를 만드는 것보다 공통 플랫폼 기능으로 흡수하는 편이 효과가 크다. 이때 [토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)은 개인의 일상 문제가 아니라, 플랫폼 제품화 우선순위를 알려 주는 데이터가 된다.
+또한 Platform 엔진ering과의 연결도 중요하다. 여러 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 팀이 같은 운영 절차를 반복한다면, 개별 팀이 각자 스크립트를 만드는 것보다 공통 플랫폼 기능으로 흡수하는 편이 효과가 크다. 이때 [토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)은 개인의 일상 문제가 아니라, 플랫폼 제품화 우선순위를 알려 주는 데이터가 된다.
 
 - **📢 섹션 요약 비유**: [토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)과 엔지니어링의 차이는 매일 우편을 손으로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하는 일과 자동 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기를 설계하는 일의 차이와 같다. 둘 다 우편 업무지만, 하나는 시간을 계속 쓰고 다른 하나는 앞으로의 시간을 아낀다.
 
@@ -153,34 +162,33 @@ tags = ["studynote-cloud-architecture"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)) | [토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)을 줄여 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 엔지니어링 시간을 확보하려는 운영 모델 |
+| [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)) | [토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)을 줄여 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 엔지니어링 시간을 확보하려는 운영 모델 |
 | [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) ([Service Level Indicator](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)) / [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) ([Service Level Objective](/knowledge-base/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/)) | [토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/) 감소로 확보한 시간을 어디에 재투자할지 결정하는 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 기준 |
 | Runbook | 수동 절차를 표준화해 자동화 가능한 형태로 바꾸는 중간 단계 |
 | Auto Remediation | [토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)을 사람이 아니라 시스템이 직접 처리하게 만드는 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 계층 |
-| [Platform Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/) | 반복 운영 절차를 공통 제품 기능으로 흡수하는 조직적 확장 방식 |
+| [Platform 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/) | 반복 운영 절차를 공통 제품 기능으로 흡수하는 조직적 확장 방식 |
 | Alerting Hygiene | 반복 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)만 강요하는 알람을 줄여 [토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/) 발생 자체를 억제하는 활동 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">수동 운영 요청</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">토일 분류 · 시간 측정</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Runbook 표준화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">스크립트 · 워크플로 자동화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Auto Remediation · Self-Service Platform</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SRE의 신뢰성 개선 시간 확보</div>
-</div>
-</div>
-
-
+```text
+수동 운영 요청
+    │
+    ▼
+토일 분류 · 시간 측정
+    │
+    ▼
+Runbook 표준화
+    │
+    ▼
+스크립트 · 워크플로 자동화
+    │
+    ▼
+Auto Remediation · Self-Service Platform
+    │
+    ▼
+SRE의 신뢰성 개선 시간 확보
+```
 
 이 흐름은 반복 수동 작업을 단순 기록으로 끝내지 않고, 플랫폼 기능으로 승격시키는 성숙 경로를 보여준다.
 
@@ -196,7 +204,7 @@ tags = ["studynote-cloud-architecture"]
 
 **진행 상황**: 178 / 371
 
-← **이전**: [178. SRE (Site Reliability Engineering, 사이트 신뢰성 공학)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/178_sre_site_reliability_engineering/)
+← **이전**: [178. SRE (Site Reliability 엔진ering, 사이트 신뢰성 공학)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/178_sre_site_reliability_engineering/)
 **다음**: [180. SLI (Service Level Indicator, 서비스 수준 지표)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/180_sli_service_level_indicator/) →
 
 ---

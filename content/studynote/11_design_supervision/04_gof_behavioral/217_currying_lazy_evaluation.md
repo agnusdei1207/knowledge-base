@@ -20,17 +20,11 @@ tags = ["studynote-design-supervision"]
 ## Ⅰ. 개요 및 필요성
 커링의 어원: Haskell Curry (수학자/논리학자)의 이름에서 유래.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">일반 함수: f(a, b, c) → result</div>
-<div class="kb-diagram-note">커링 함수: f(a) → g(b) → h(c) → result</div>
-<div class="kb-diagram-note">f(a)(b)(c) → result</div>
-</div>
-</div>
-
-
+```
+일반 함수:  f(a, b, c) → result
+커링 함수:  f(a) → g(b) → h(c) → result
+            f(a)(b)(c) → result
+```
 
 **목적**: 함수를 특화(Specialize)시켜 재사용성을 높인다.
 
@@ -57,15 +51,11 @@ f(a, b, c) 커링:    f(a) → (b → (c → result))    // 3단계 단인수 �
 f(a, b, c) 부분 적용 (a 고정): g(b, c) → result    // 2인수 함수 반환
 ```
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Core Idea</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Expected Gain</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐    ┌──────────────┐    ┌──────────────┐
+│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
+└──────────────┘    └──────────────┘    └──────────────┘
+```
 
 - **📢 섹션 요약 비유**: 커링은 볼펜 조립공장처럼 부품(인수)을 하나씩 끼워 넣어 완성하는 것 — 중간에 멈추면 "펜대만 있는 반제품"(부분 적용 함수)이 되고, 나중에 남은 부품을 끼우면 완성된 볼펜(결과값)이 나온다.
 
@@ -74,48 +64,44 @@ f(a, b, c) 부분 적용 (a 고정): g(b, c) → result    // 2인수 함수 반
 ## Ⅱ. 아키텍처 및 핵심 원리
 [지연 평가](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/)는 표현식이 실제로 사용될 때까지 계산을 미루는 평가 전략이다.
 
+```
+즉시 평가 (Eager Evaluation, 기본 방식):
+  List<Integer> nums = List.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+  List<Integer> result = new ArrayList<>();
+  for (int n : nums) {
+      if (n % 2 == 0) result.add(n * 2);  // 모든 원소를 즉시 처리
+  }
+  // → 10개 모두 filter 시도, 5개 map 수행
 
+지연 평가 (Lazy Evaluation, Java Stream):
+  nums.stream()
+      .filter(n -> n % 2 == 0)   // 아직 실행 안 됨 (중간 연산)
+      .map(n -> n * 2)            // 아직 실행 안 됨 (중간 연산)
+      .findFirst();               // 터미널 연산 → 실행 시작
+  // → 짝수 첫 번째를 찾으면 즉시 중단 (나머지 원소 처리 안 함)
+```
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">즉시 평가 (Eager Evaluation, 기본 방식):</div>
-<div class="kb-diagram-note">List&lt;Integer&gt; nums = List.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);</div>
-<div class="kb-diagram-note">List&lt;Integer&gt; result = new ArrayList&lt;&gt;();</div>
-<div class="kb-diagram-note">for (int n : nums) {</div>
-<div class="kb-diagram-note">if (n % 2 == 0) result.add(n * 2); // 모든 원소를 즉시 처리</div>
-<div class="kb-diagram-note">}</div>
-<div class="kb-diagram-note">// → 10개 모두 filter 시도, 5개 map 수행</div>
-<div class="kb-diagram-note">지연 평가 (Lazy Evaluation, Java Stream):</div>
-<div class="kb-diagram-note">nums.stream()</div>
-<div class="kb-diagram-note">.filter(n -&gt; n % 2 == 0) // 아직 실행 안 됨 (중간 연산)</div>
-<div class="kb-diagram-note">.map(n -&gt; n * 2) // 아직 실행 안 됨 (중간 연산)</div>
-<div class="kb-diagram-note">.findFirst(); // 터미널 연산 → 실행 시작</div>
-<div class="kb-diagram-note">// → 짝수 첫 번째를 찾으면 즉시 중단 (나머지 원소 처리 안 함)</div>
-</div>
-</div>
-
-
-
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Java Stream 지연 평가 파이프라인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소스(Source) 중간 연산(Intermediate) 터미널 연산</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Collection</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">.filter()</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">.collect()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Array</div><div class="kb-diagram-cell">.map()</div><div class="kb-diagram-cell">.count()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Stream.of()</div><div class="kb-diagram-cell">.sorted()</div><div class="kb-diagram-cell">.findFirst</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">.distinct()</div><div class="kb-diagram-cell">.reduce()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">.limit()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">← 아직 실행 안됨 →</div><div class="kb-diagram-cell">← 이 시점에 실행!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실제 파이프라인 처리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(pull 방식으로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원소를 하나씩 끌어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">당겨 처리)</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────────────┐
+│               Java Stream 지연 평가 파이프라인                   │
+│                                                                 │
+│  소스(Source)        중간 연산(Intermediate)      터미널 연산    │
+│  ┌────────────┐      ┌────────────────────┐      ┌──────────┐  │
+│  │  Collection │─────▶│ .filter()          │─────▶│.collect()│  │
+│  │  Array      │      │ .map()             │      │.count()  │  │
+│  │  Stream.of()│      │ .sorted()          │      │.findFirst│  │
+│  └────────────┘      │ .distinct()        │      │.reduce() │  │
+│                       │ .limit()           │      └────┬─────┘  │
+│                       │                    │           │        │
+│                       │  ← 아직 실행 안됨 → │  ← 이 시점에 실행! │
+│                       └────────────────────┘           │        │
+│                                                        ▼        │
+│                                               실제 파이프라인 처리 │
+│                                               (pull 방식으로     │
+│                                                원소를 하나씩 끌어 │
+│                                                당겨 처리)         │
+└─────────────────────────────────────────────────────────────────┘
+```
 
 Haskell은 기본적으로 모든 표현식을 [지연 평가](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/)한다:
 

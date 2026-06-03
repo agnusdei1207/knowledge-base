@@ -24,18 +24,14 @@ tags = ["studynote-network"]
 
 코로나19 사태로 '재택근무'가 폭발하고 클라우드([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/)) 시대가 열리자, 사내 PC에서만 접속할 수 있는 [망분리](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/) 규제는 IT 혁신을 가로막는 최악의 족쇄가 되었습니다. "망을 무조건 끊어 놓는 게 능사가 아니다. <strong>망을 연결하되, 절대 해킹당하지 않는 새로운 통제 모델</strong>을 만들자." 이것이 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)의 출발점입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">홈 네트워크 게이트웨이 / 월패드 프로토콜…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">망분리 및 제로 트러스트 연결형 논리망 보안…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">기기 간 상호인증체계 관리 기법 P2P 연결…</div></div>
-</div>
-</div>
-
-
+```text
+[홈 네트워크 게이트웨이 / 월패드 프로토콜…]
+    │
+    ▼
+[망분리 및 제로 트러스트 연결형 논리망 보안…]
+    │
+    └──▶ [기기 간 상호인증체계 관리 기법 P2P 연결…]
+```
 
 - **📢 섹션 요약 비유**: [망분리](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/) 및 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 연결형 논리망 보안…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -51,18 +47,14 @@ tags = ["studynote-network"]
 - **방식**: 직원 책상에는 PC가 1대만 있습니다. 서버 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)([VDI](/knowledge-base/studynote/11_design_supervision/01_audit_framework/079_developer_cleanroom_vdi_security/)) 기술을 이용해 업무는 내 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)(내부망)에서 직접 하고, 인터넷 서핑을 할 때는 클릭 한 번으로 중앙 서버에 떠 있는 '가상 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 화면(외부망)'을 띄워서 그 안에서만 서핑하는 방식입니다. (또는 반대로 구성)
 - **장단점**: 물리적 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 비용을 아끼고 공간을 차지하지 않습니다. 하지만 중앙 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 서버([VDI](/knowledge-base/studynote/11_design_supervision/01_audit_framework/079_developer_cleanroom_vdi_security/)) 구축 비용이 만만치 않게 비싸고 화면이 버벅거릴 수 있습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">홈 네트워크 게이트웨이 / 월패드 프로토콜…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">망분리 및 제로 트러스트 연결형 논리망 보안…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">기기 간 상호인증체계 관리 기법 P2P 연결…</div></div>
-</div>
-</div>
-
-
+```text
+[홈 네트워크 게이트웨이 / 월패드 프로토콜…]
+    │
+    ▼
+[망분리 및 제로 트러스트 연결형 논리망 보안…]
+    │
+    └──▶ [기기 간 상호인증체계 관리 기법 P2P 연결…]
+```
 
 - **📢 섹션 요약 비유**: [망분리](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/) 및 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 연결형 논리망 보안…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -116,19 +108,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 홈 네트워크 게이트웨이 / 월패드 프로토콜…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 망분리 및 제로 트러스트 연결형 논리망 보안…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 기기 간 상호인증체계 관리 기법 P2P 연결…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율형 엣지 협업</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 홈 네트워크 게이트웨이 / 월패드 프로토콜…]
+    │
+    ▼
+[현재 개념: 망분리 및 제로 트러스트 연결형 논리망 보안…]
+    │
+    ├──▶ [확장 A: 기기 간 상호인증체계 관리 기법 P2P 연결…]
+    └──▶ [확장 B: 자율형 엣지 협업]
+```
 
 [망분리](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/) 및 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 연결형 논리망 보안…는 홈 네트워크 게이트웨이 / 월패드 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)…에서 출발해 현재 메커니즘을 정교화하고, 이후 기기 간 상호인증체계 관리 기법 [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 연결…와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

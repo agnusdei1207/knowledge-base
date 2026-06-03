@@ -17,17 +17,13 @@ tags = ["studynote-design-supervision"]
 ## Ⅰ. 개요 및 필요성
 전통적인 구조에서는 애플리케이션 코드가 필요한 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 직접 호출하며 흐름을 통제한다. 하지만 UI 프레임워크, 배치 엔진, 서버 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)처럼 수명주기와 공통 처리 절차가 복잡한 환경에서는 이 방식이 확장성과 일관성을 빠르게 해친다. 그래서 상위 골격이 흐름을 잡고, 하위 구성요소는 정해진 시점에만 참여하도록 만드는 할리우드 원칙이 필요해진다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">직접 호출</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App 코드</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Library</div></div>
-<div class="kb-diagram-tree-item" style="--depth:3">수명주기·예외처리·공통정책이 흩어지면 전체 흐름 관리가 어려워짐</div>
-</div>
-</div>
-
-
+```text
+┌────────────┐      직접 호출      ┌────────────┐
+│ App 코드   │───────────────────▶│ Library    │
+└────────────┘                    └────────────┘
+       │                                  │
+       └──── 수명주기·예외처리·공통정책이 흩어지면 전체 흐름 관리가 어려워짐 ────┘
+```
 
 이 원칙은 하위 모듈의 자유를 빼앗는 것이 아니라, 공통 흐름과 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 한곳에 모아 품질을 일정하게 유지하도록 돕는다. 그래서 프레임워크 중심 아키텍처에서 특히 중요하다.
 - **📢 섹션 요약 비유**: 공연장에서 배우가 조명실에 계속 전화하는 대신, 무대 감독이 cue를 줄 때만 움직여야 공연이 매끄럽습니다.
@@ -35,21 +31,19 @@ tags = ["studynote-design-supervision"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 할리우드 원칙의 본질은 상위 모듈이 실행 순서와 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 소유하고, 하위 모듈은 등록된 확장 포인트를 통해 필요한 순간에 호출된다는 점이다. 이것이 바로 IoC의 실무적 표현이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">register</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Plugin/Bean</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Framework</div></div>
-<div class="kb-diagram-note">lifecycle │ callback</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실행 시점</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">framework가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">plugin 호출</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────┐    register    ┌────────────┐
+│ Plugin/Bean│──────────────▶│Framework   │
+└────────────┘               └────────────┘
+                                    │
+                          lifecycle │ callback
+                                    ▼
+                              ┌────────────┐
+                              │ 실행 시점  │
+                              │ framework가│
+                              │ plugin 호출│
+                              └────────────┘
+```
 
 | 구성 요소 | 역할 | 대표 예시 |
 | :--- | :--- | :--- |
@@ -98,23 +92,21 @@ tags = ["studynote-design-supervision"]
 - <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/">Template Method</a></strong>: 변하지 않는 흐름은 상위가, 가변 지점은 하위가 맡는다.
 
 ### 📈 관련 키워드 및 발전 흐름도
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">직접 호출 중심 애플리케이션 증가</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">수명주기·공통정책 관리 복잡화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">할리우드 원칙과 IoC 채택</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">프레임워크·컨테이너·플러그인 구조 확산</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">확장성 높은 표준 실행 파이프라인 정착</div>
-</div>
-</div>
-
-
+```text
+직접 호출 중심 애플리케이션 증가
+    │
+    ▼
+수명주기·공통정책 관리 복잡화
+    │
+    ▼
+할리우드 원칙과 IoC 채택
+    │
+    ▼
+프레임워크·컨테이너·플러그인 구조 확산
+    │
+    ▼
+확장성 높은 표준 실행 파이프라인 정착
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 운동회에서 친구들이 마음대로 달리면 서로 부딪혀요.

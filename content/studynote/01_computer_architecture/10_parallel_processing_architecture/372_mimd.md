@@ -25,20 +25,18 @@ MIMD (Multiple [Instruction](/knowledge-base/studynote/01_computer_architecture/
 
 아래 그림은 MIMD가 왜 범용 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리의 기본 모델인지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MIMD의 핵심: 각 코어가 다른 일을 함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코어 0</div><div class="kb-diagram-cell">코어 1</div><div class="kb-diagram-cell">코어 2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">웹 요청 처리</div><div class="kb-diagram-cell">DB 질의 실행</div><div class="kb-diagram-cell">로그 압축/암호화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Instr A...</div><div class="kb-diagram-cell">Instr B...</div><div class="kb-diagram-cell">Instr C...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data A...</div><div class="kb-diagram-cell">Data B...</div><div class="kb-diagram-cell">Data C...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공통 목표: 서로 다른 작업을 동시에 수행하여 전체 처리량을 높임</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                  MIMD의 핵심: 각 코어가 다른 일을 함                │
+├──────────────┬──────────────────────┬───────────────────────────────┤
+│ 코어 0       │ 코어 1               │ 코어 2                        │
+│ 웹 요청 처리 │ DB 질의 실행         │ 로그 압축/암호화              │
+│ Instr A...   │ Instr B...           │ Instr C...                    │
+│ Data A...    │ Data B...            │ Data C...                     │
+├──────────────┴──────────────────────┴───────────────────────────────┤
+│ 공통 목표: 서로 다른 작업을 동시에 수행하여 전체 처리량을 높임      │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 요점은 MIMD가 동일 연산의 대량 복제가 아니라, <strong>서로 다른 제어 흐름을 <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>로 공존</strong>시키는 구조라는 점이다. 그래서 MIMD는 [멀티태스킹](/knowledge-base/studynote/02_operating_system/11_exam_summary/675_multitasking_terminology_preemptive/) [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/), [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 서버, [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/), [분산 분석](/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/) 시스템처럼 "일의 종류가 많은 환경"에 특히 적합하다.
 
@@ -59,21 +57,19 @@ MIMD는 메모리 조직 방식에 따라 크게 [공유 메모리](/knowledge-b
 
 다음 그림은 MIMD의 두 대표 구현에서 병목이 어디서 생기는지 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MIMD의 두 구현과 병목 위치</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공유 메모리형</div><div class="kb-diagram-cell">분산 메모리형</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Core0</div><div class="kb-diagram-node">Core1</div><div class="kb-diagram-node">Core2</div><div class="kb-diagram-node">Node0: CPU+RAM</div><div class="kb-diagram-note">─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Network ─</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Node1: CPU+RAM</div><div class="kb-diagram-connector">▶</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Shared Memory / LLC</div><div class="kb-diagram-node">Node2: CPU+RAM</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">병목: coherence, lock</div><div class="kb-diagram-cell">병목: latency, serialization</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                    MIMD의 두 구현과 병목 위치                       │
+├───────────────────────────────┬──────────────────────────────────────┤
+│ 공유 메모리형                 │ 분산 메모리형                        │
+│ [Core0] [Core1] [Core2]       │ [Node0: CPU+RAM] ─┐                 │
+│    │       │       │          │                   ├─ Network ─┐     │
+│    └───────┼───────┘          │ [Node1: CPU+RAM] ─┘           ├─▶   │
+│            ▼                  │                                 │    │
+│    Shared Memory / LLC        │ [Node2: CPU+RAM] ──────────────┘    │
+│    병목: coherence, lock       │ 병목: latency, serialization        │
+└───────────────────────────────┴──────────────────────────────────────┘
+```
 
 MIMD에서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 깎는 핵심 요인은 네 가지다. 첫째, 여러 실행 흐름이 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조를 건드릴 때 생기는 경합 조건 ([Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/))이다. 둘째, 락 과다 사용으로 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 구간이 커지는 문제이며, 이는 암달의 법칙 (Amdahl's Law)으로 곧바로 연결된다. 셋째, [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)에서는 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) 프로토콜이, 넷째, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 메모리에서는 메시지 크기와 빈도가 실제 확장성을 제한한다. 그래서 MIMD 설계는 단순한 "[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 실행"이 아니라 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 공유를 최소화하고 통신 단위를 설계하는 일</strong>에 가깝다.
 
@@ -151,29 +147,24 @@ MIMD의 가장 큰 효과는 범용 시스템이 현실 세계의 복잡한 업�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">플린의 분류법 (Flynn's Taxonomy)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SMP (Symmetric Multiprocessing)</div>
-<div class="kb-diagram-note">공유 메모리 MIMD의 보편화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">멀티코어 CPU · NUMA (Non-Uniform Memory Access)</div>
-<div class="kb-diagram-note">코어 수 증가와 메모리 계층 복잡화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클러스터 · MPI (Message Passing Interface)</div>
-<div class="kb-diagram-note">분산 메모리 확장</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 · 마이크로서비스 · 쿠버네티스 (Kubernetes)</div>
-<div class="kb-diagram-note">대규모 서비스형 MIMD 운영</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CXL (Compute Express Link) · 랙 스케일 아키텍처</div>
-</div>
-</div>
-
-
+```text
+플린의 분류법 (Flynn's Taxonomy)
+    │
+    ▼
+SMP (Symmetric Multiprocessing)
+    │  공유 메모리 MIMD의 보편화
+    ▼
+멀티코어 CPU · NUMA (Non-Uniform Memory Access)
+    │  코어 수 증가와 메모리 계층 복잡화
+    ▼
+클러스터 · MPI (Message Passing Interface)
+    │  분산 메모리 확장
+    ▼
+클라우드 · 마이크로서비스 · 쿠버네티스 (Kubernetes)
+    │  대규모 서비스형 MIMD 운영
+    ▼
+CXL (Compute Express Link) · 랙 스케일 아키텍처
+```
 
 이 흐름은 MIMD가 단일 머신 내부 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성에서 시작해, 멀티코어·[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 클러스터·클라우드 운영 모델로 확장되고 있음을 보여준다.
 

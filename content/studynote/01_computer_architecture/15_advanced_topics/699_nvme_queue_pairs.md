@@ -43,21 +43,23 @@ NVMe는 이 문제를 정면으로 해결하기 위해 등장했다. 핵심 철�
 
 아래 그림은 큐 쌍이 코어별 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성을 어떻게 끌어내는지를 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NVMe queue pairs: parallel paths per core</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU Core 0 ──▶ SQ0 ──▶ Doorbell0 ──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── CQ0 ◀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU Core 1 ──▶ SQ1 ──▶ Doorbell1 ── NVMe Controller ──▶ flash media</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── CQ1 ◀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU Core N ──▶ SQN ──▶ DoorbellN ──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── CQN ◀ completion via MSI-X or polling</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                NVMe queue pairs: parallel paths per core            │
+├──────────────────────────────────────────────────────────────────────┤
+│ CPU Core 0 ──▶ SQ0 ──▶ Doorbell0 ──┐                                │
+│                ▲        │           │                                │
+│                └── CQ0 ◀┘           │                                │
+│                                      ▼                               │
+│ CPU Core 1 ──▶ SQ1 ──▶ Doorbell1 ──┐ NVMe Controller ──▶ flash media  │
+│                ▲        │           │                                │
+│                └── CQ1 ◀┘           │                                │
+│                                      ▼                               │
+│ CPU Core N ──▶ SQN ──▶ DoorbellN ──┘                                │
+│                ▲                                                    │
+│                └── CQN ◀──── completion via MSI-X or polling        │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 즉 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 큐 쌍은 단순히 큐 개수를 늘린 것이 아니라, <strong>호스트 멀티코어 구조와 저장장치 <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>성을 맞물리게 만든 인터페이스 계약</strong>이다. 그래서 드라이버와 애플리케이션이 이를 제대로 활용할 때 IOPS (Input/Output Operations Per Second)와 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간이 함께 개선된다.
 
@@ -129,24 +131,21 @@ NVMe는 이 문제를 정면으로 해결하기 위해 등장했다. 핵심 철�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">AHCI (Advanced Host Controller Interface)</div>
-<div class="kb-diagram-note">: 단일 큐, 깊이 32</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">NVMe (Non-Volatile Memory Express)</div>
-<div class="kb-diagram-note">: 다중 Queue Pair 기반 병렬 I/O</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ MSI-X (Message Signaled Interrupts eXtended)</div>
-<div class="kb-diagram-note">: 완료 통지 분산</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SPDK (Storage Performance Development Kit) · Polling</div>
-<div class="kb-diagram-note">: 사용자 공간 저지연 최적화</div>
-</div>
-</div>
-
-
+```text
+AHCI (Advanced Host Controller Interface)
+    : 단일 큐, 깊이 32
+    │
+    ▼
+NVMe (Non-Volatile Memory Express)
+    : 다중 Queue Pair 기반 병렬 I/O
+    │
+    ├──▶ MSI-X (Message Signaled Interrupts eXtended)
+    │     : 완료 통지 분산
+    │
+    ▼
+SPDK (Storage Performance Development Kit) · Polling
+    : 사용자 공간 저지연 최적화
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

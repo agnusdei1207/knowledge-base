@@ -21,18 +21,14 @@ tags = ["studynote-network"]
 
 - <strong>FDM (Frequency <a href="/knowledge-base/studynote/05_database/07_exam_summary/411_division_operation/">Division</a> <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/">Multiplexing</a>)</strong>: 하나의 굵은 케이블(또는 허공)이 가진 1,000MHz의 넓은 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을, 10MHz씩 100개의 조각(라디오 채널)으로 무 자르듯 썰어서 100명의 사용자에게 1차선, 2차선처럼 나눠주는 구식 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) 방식입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">직교주파수분할다중접속</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">FDM 가드 밴드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OFDM 사이클릭 프리픽스</div></div>
-</div>
-</div>
-
-
+```text
+[직교주파수분할다중접속]
+    │
+    ▼
+[FDM 가드 밴드]
+    │
+    └──▶ [OFDM 사이클릭 프리픽스]
+```
 
 - **📢 섹션 요약 비유**: FDM 가드 밴드는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -46,18 +42,14 @@ tags = ["studynote-network"]
 
 - **개념**: 인접한 주파수 채널들이 서로의 꼬리로 인해 섞이고 간섭(ACI)하는 것을 원천 방지하기 위해, <strong>의도적으로 채널과 채널 사이에 아무 데이터도 싣지 않고 텅 비워두는(비무장 지대) 안전 이격 공간(주파수 버퍼 구역)</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">직교주파수분할다중접속</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">FDM 가드 밴드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OFDM 사이클릭 프리픽스</div></div>
-</div>
-</div>
-
-
+```text
+[직교주파수분할다중접속]
+    │
+    ▼
+[FDM 가드 밴드]
+    │
+    └──▶ [OFDM 사이클릭 프리픽스]
+```
 
 - **📢 섹션 요약 비유**: FDM 가드 밴드의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -114,19 +106,15 @@ FDM 가드 밴드를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 직교주파수분할다중접속</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: FDM 가드 밴드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: OFDM 사이클릭 프리픽스</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 직교주파수분할다중접속]
+    │
+    ▼
+[현재 개념: FDM 가드 밴드]
+    │
+    ├──▶ [확장 A: OFDM 사이클릭 프리픽스]
+    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
+```
 
 FDM 가드 밴드는 [직교주파수분할다중접속](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/)에서 출발해 현재 메커니즘을 정교화하고, 이후 OFDM 사이클릭 프리픽스와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

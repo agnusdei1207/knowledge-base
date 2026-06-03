@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - <strong>블랙박스(Blackbox) <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/">종속성</a></strong>: [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)을 사려면 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 전문 회사에서 만든 전용 하드웨어 기계를 사야 했고, 로드밸런서를 사려면 로드밸런서 전용 기계를 사야 했습니다. (하드웨어와 소프트웨어가 1:1로 본드처럼 붙어있음)
 - **자원 낭비와 비효율**: [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 트래픽이 몰리면 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 기계는 터질 것 같은데, 옆에 있는 로드밸런서 기계는 파리만 날리고 있어도 둘의 자원을 공유([스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/))할 방법이 없었습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 슬라이스 오케스트레이터 중앙 논리…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NFV</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">VNF</div></div>
-</div>
-</div>
-
-
+```text
+[네트워크 슬라이스 오케스트레이터 중앙 논리…]
+    │
+    ▼
+[NFV]
+    │
+    └──▶ [VNF]
+```
 
 - **📢 섹션 요약 비유**: NFV는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -43,18 +39,14 @@ tags = ["studynote-network"]
 
 - **개념**: 유럽통신표준화기구(ETSI)가 주도하여 제정한 표준으로, [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/), L4 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/), [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 코어망([EPC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/753_epc_evolved_packet_core_sgw_pgw/), [5GC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/768_5gc_5g_core_network_evolution/)) 등 <strong>과거엔 전용 하드웨어 장비로만 존재하던 '네트워크 기능(Network Function)'들을 100% 소프트웨어화(<a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a>)하여, 범용 x86 클라우드 서버 위에서 가상머신(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a>)이나 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a> 형태로 실행시키는 차세대 네트워크 아키텍처 전환 기술</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 슬라이스 오케스트레이터 중앙 논리…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NFV</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">VNF</div></div>
-</div>
-</div>
-
-
+```text
+[네트워크 슬라이스 오케스트레이터 중앙 논리…]
+    │
+    ▼
+[NFV]
+    │
+    └──▶ [VNF]
+```
 
 - **📢 섹션 요약 비유**: NFV의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -127,19 +119,15 @@ NFV는 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topi
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 네트워크 슬라이스 오케스트레이터 중앙 논리…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: NFV</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: VNF</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 프로그래머블 네트워크</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 네트워크 슬라이스 오케스트레이터 중앙 논리…]
+    │
+    ▼
+[현재 개념: NFV]
+    │
+    ├──▶ [확장 A: VNF]
+    └──▶ [확장 B: 프로그래머블 네트워크]
+```
 
 NFV는 [네트워크 슬라이스 오케스트레이터](/knowledge-base/studynote/03_network/17_sdn_nfv/864_network_slice_orchestrator_sdn_nfv_management/) 중앙 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)…에서 출발해 현재 메커니즘을 정교화하고, 이후 VNF와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

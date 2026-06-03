@@ -31,22 +31,22 @@ tags = ["studynote-devops-sre"]
 
 Fastlane의 핵심은 각각의 배포 단계를 담당하는 '액션 (Action)'들을 조합하여, 하나의 고속도로(차선, Lane)로 이어붙이는 아키텍처다. 
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Fastlane 기반 모바일 CI/CD 파이프라인</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Git Repository</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CI Runner (Mac/Linux)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">App Stores</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Fastfile (Lane: release)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. match (인증서 동기화)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. increment_build_number (버전 업)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. gym (앱 빌드 &amp; 패키징 - IPA/APK 생성)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. snapshot (스크린샷 자동 캡처)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. deliver / supply (스토어 및 메타 업로드)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│             Fastlane 기반 모바일 CI/CD 파이프라인            │
+├──────────────────────────────────────────────────────────────┤
+│ [Git Repository] ─▶ [CI Runner (Mac/Linux)] ─▶ [App Stores]  │
+│                                                              │
+│       ┌────────── Fastfile (Lane: release) ──────────┐       │
+│       │                                              │       │
+│       │ 1. match (인증서 동기화)                     │       │
+│       │ 2. increment_build_number (버전 업)          │       │
+│       │ 3. gym (앱 빌드 & 패키징 - IPA/APK 생성)     │       │
+│       │ 4. snapshot (스크린샷 자동 캡처)             │       │
+│       │ 5. deliver / supply (스토어 및 메타 업로드)  │       │
+│       └──────────────────────────────────────────────┘       │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램은 Git에 코드가 푸시되면 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 러너가 Fastlane을 호출하여, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 처리부터 스토어 등록까지의 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 끊김 없이 관통하는 흐름을 보여준다.
 
@@ -111,23 +111,21 @@ Fastlane의 도입은 단순히 개발자의 귀찮음을 줄여주는 것을 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">수동 빌드 및 배포 (IDE 툴 의존, 휴먼 에러)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">쉘 스크립트 기반 자동화 (유지보수 지옥)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">도구의 표준화: Fastlane 등장 (Action 및 Lane 분리)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">인증서 중앙 관리: Fastlane Match 도입</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">모바일 DevOps 플랫폼 결합: 범용 CI + Fastlane의 완전 자동화</div>
-</div>
-</div>
-
-
+```text
+수동 빌드 및 배포 (IDE 툴 의존, 휴먼 에러)
+    │
+    ▼
+쉘 스크립트 기반 자동화 (유지보수 지옥)
+    │
+    ▼
+도구의 표준화: Fastlane 등장 (Action 및 Lane 분리)
+    │
+    ▼
+인증서 중앙 관리: Fastlane Match 도입
+    │
+    ▼
+모바일 DevOps 플랫폼 결합: 범용 CI + Fastlane의 완전 자동화
+```
 
 이 흐름도는 개발자 개인의 로컬 PC에서 이루어지던 수동 작업이 점차 코드로 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)되고, 궁극적으로 클라우드 CI와 결합하여 모바일 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)로 진화하는 과정을 보여준다.
 

@@ -29,24 +29,27 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">뮤테이션 테스트 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원본 코드: if (score &gt; 60) { pass = true; }</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">뮤턴트 생성:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">뮤턴트 1: if (score &gt;= 60) ... &lt;- 경계값 변이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">뮤턴트 2: if (score &lt; 60) ... &lt;- 조건 반전</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">뮤턴트 3: pass = false; &lt;- 반환값 변이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">테스트 실행:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 뮤턴트 1 -&gt; 테스트 실패 -&gt; 탐지됨 (ok)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 뮤턴트 2 -&gt; 테스트 통과 -&gt; 생존 (테스트 구멍)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">뮤테이션 스코어 = 탐지됨 / (탐지됨 + 생존) x 100</div></div>
-</div>
-</div>
-
-
+```text
++--------------------------------------------------------------+
+|                  뮤테이션 테스트 흐름                          |
++--------------------------------------------------------------+
+|                                                              |
+|  원본 코드: if (score > 60) { pass = true; }                 |
+|                                                              |
+|  뮤턴트 생성:                                                |
+|  +----------------------------------------------------------+ |
+|  | 뮤턴트 1: if (score >= 60) ...  <- 경계값 변이           | |
+|  | 뮤턴트 2: if (score < 60) ...   <- 조건 반전             | |
+|  | 뮤턴트 3: pass = false;         <- 반환값 변이            | |
+|  +----------------------------------------------------------+ |
+|                                                              |
+|  테스트 실행:                                                |
+|  - 뮤턴트 1 -> 테스트 실패 -> 탐지됨 (ok)                   |
+|  - 뮤턴트 2 -> 테스트 통과 -> 생존 (테스트 구멍)             |
+|                                                              |
+|  뮤테이션 스코어 = 탐지됨 / (탐지됨 + 생존) x 100            |
++--------------------------------------------------------------+
+```
 
 | 뮤테이션 유형 | 예시 |
 |:---|:---|
@@ -119,19 +122,14 @@ tags = ["studynote-devops-sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">코드 커버리지 중심 뮤테이션 테스트 등장 현대 테스트 품질</div>
-<div class="kb-diagram-note">라인 커버리지 100% -&gt; PITest, Stryker 등장 -&gt; CI/CD 통합 스코어링</div>
-<div class="kb-diagram-note">브랜치 커버리지 테스트 품질 정량화 선택적 적용 전략</div>
-<div class="kb-diagram-note">의미 없는 테스트 뮤테이션 스코어 기준 AI 기반 뮤턴트 생성</div>
-<div class="kb-diagram-note">생존 뮤턴트 리포트 Property-based Testing</div>
-</div>
-</div>
-
-
+```text
+코드 커버리지 중심         뮤테이션 테스트 등장             현대 테스트 품질
+------------------   --------------------------   ------------------------
+라인 커버리지 100%  ->  PITest, Stryker 등장        ->  CI/CD 통합 스코어링
+브랜치 커버리지          테스트 품질 정량화              선택적 적용 전략
+의미 없는 테스트         뮤테이션 스코어 기준              AI 기반 뮤턴트 생성
+                          생존 뮤턴트 리포트               Property-based Testing
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -146,6 +144,6 @@ tags = ["studynote-devops-sre"]
 **진행 상황**: 337 / 373
 
 ← **이전**: [336. Contract Testing MSA API 소비자 주도 계약 테스트 (Contract Testing MSA Consumer-Driven](/knowledge-base/studynote/15_devops_sre/05_devsecops/336_msa_api/)
-**다음**: [338. Platform Engineering IDP Golden Path 개발자 경험 (Platform Engineering Internal](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/338_process/) →
+**다음**: [338. Platform 엔진ering IDP Golden Path 개발자 경험 (Platform 엔진ering Internal](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/338_process/) →
 
 ---

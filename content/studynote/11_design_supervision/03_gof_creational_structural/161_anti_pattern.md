@@ -33,22 +33,24 @@ tags = ["studynote-design-supervision"]
 
 안티 패턴은 보통 한 번에 완성되지 않는다. 작은 편의가 반복되고, 그 편의가 복잡도와 의존성을 키우면서 점차 구조적 문제로 굳어진다. 즉 안티 패턴의 핵심은 특정 문법이 아니라 <strong>잘못된 구조가 습관으로 누적되는 과정</strong>에 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">안티 패턴이 굳어지는 전형적 누적 사이클</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일정 압박</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"일단 여기 붙이자"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">임시 해결책 추가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">책임 분리 없이 기존 코드에 덧붙임</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결합도 증가 · 중복 증가 · 예외 처리 난립</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수정이 무서운 코드로 고착</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기능 추가 때 다시 같은 방식이 반복됨</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│               안티 패턴이 굳어지는 전형적 누적 사이클               │
+├──────────────────────────────────────────────────────────────────────┤
+│  일정 압박                                                            │
+│      │ "일단 여기 붙이자"                                            │
+│      ▼                                                                │
+│  임시 해결책 추가                                                     │
+│      │ 책임 분리 없이 기존 코드에 덧붙임                              │
+│      ▼                                                                │
+│  결합도 증가 · 중복 증가 · 예외 처리 난립                             │
+│      │                                                                │
+│      ▼                                                                │
+│  수정이 무서운 코드로 고착                                            │
+│      │                                                                │
+│      └──── 기능 추가 때 다시 같은 방식이 반복됨                        │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 대표적인 안티 패턴은 다음과 같다.
 
@@ -134,23 +136,21 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">디자인 패턴 활용 원칙</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">안티 패턴 (Anti-Pattern)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">갓 클래스 (God Class) · 싱글톤 단점</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">어댑터 vs 퍼사드 · 브리지 vs 전략 비교</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">패턴 오남용 방지 · 정적 팩토리/조합 설계 재검토</div>
-</div>
-</div>
-
-
+```text
+디자인 패턴 활용 원칙
+    │
+    ▼
+안티 패턴 (Anti-Pattern)
+    │
+    ▼
+갓 클래스 (God Class) · 싱글톤 단점
+    │
+    ▼
+어댑터 vs 퍼사드 · 브리지 vs 전략 비교
+    │
+    ▼
+패턴 오남용 방지 · 정적 팩토리/조합 설계 재검토
+```
 
 이 흐름은 좋은 패턴 이해에서 시작해, 잘못된 적용을 경계하고, 구체적 안티 패턴과 패턴 간 비교로 설계 판단력을 넓혀 가는 순서를 보여 준다.
 

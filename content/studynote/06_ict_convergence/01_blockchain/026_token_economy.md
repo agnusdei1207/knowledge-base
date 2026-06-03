@@ -18,20 +18,17 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">토큰 유형 분류</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결제 토큰 (Payment Token) : 비트코인 — 교환 매개</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유틸리티 (Utility Token) : ETH — 서비스 접근 수단</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">거버넌스 (Governance) : UNI, COMP — 프로토콜 투표권</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">증권형 (Security Token) : 금융 자산 디지털화, 규제 적용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NFT (Non-Fungible) : 고유 디지털 자산 소유권</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────┐
+│          토큰 유형 분류                                     │
+├──────────────────────────────────────────────────────────┤
+│ 결제 토큰  (Payment Token) : 비트코인 — 교환 매개           │
+│ 유틸리티  (Utility Token)  : ETH — 서비스 접근 수단          │
+│ 거버넌스  (Governance)     : UNI, COMP — 프로토콜 투표권    │
+│ 증권형    (Security Token) : 금융 자산 디지털화, 규제 적용   │
+│ NFT       (Non-Fungible)   : 고유 디지털 자산 소유권        │
+└──────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 토큰은 테마파크의 코인이다. 코인을 구입하여(토큰 매입) 놀이기구를 타고([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 이용), 코인이 부족해지면 가치가 올라간다(희소성). 하지만 테마파크가 코인을 무한정 발행하면 코인 가치가 떨어진다(인플레이션).
 
@@ -60,20 +57,17 @@ tags = ["studynote-ict-convergence"]
 
 ### EIP-1559 소각 메커니즘 (이더리움)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">트랜잭션 수수료</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Base Fee</div><div class="kb-diagram-cell">→ 소각(Burn) → 공급량 감소 → 희소성↑</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(변동)</div></div>
-<div class="kb-diagram-note">Tip (Priority Fee) → 검증자 보상</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">검증자</div></div>
-</div>
-</div>
-
-
+```text
+[트랜잭션 수수료]
+       │
+  ┌────┴────┐
+  │ Base Fee│ → 소각(Burn) → 공급량 감소 → 희소성↑
+  │(변동)   │
+  └────┬────┘
+       │ Tip (Priority Fee) → 검증자 보상
+       ▼
+[검증자]
+```
 
 - **📢 섹션 요약 비유**: EIP-1559의 수수료 소각은 버스표를 구입할 때마다 일부를 불태우는 것이다. 사용할수록 표([ETH](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/118_eth/))가 줄어들어 남은 표의 가치가 오른다. 사용량이 많을수록 오히려 희소성이 높아지는 디플레이션 메커니즘이다.
 
@@ -132,23 +126,21 @@ tags = ["studynote-ict-convergence"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">비트코인 채굴 보상 — 최초의 토큰 이코노미</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">이더리움 가스비 + ERC-20 토큰 — 범용 토큰 표준</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DeFi 유동성 채굴 — 토큰 이코노미 확장</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DAO 거버넌스 토큰 — 탈중앙화 조직 의사결정</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">지속 가능 토큰 이코노미 — 소각·스테이킹·효용 설계</div></div>
-</div>
-</div>
-
-
+```text
+[비트코인 채굴 보상 — 최초의 토큰 이코노미]
+    │
+    ▼
+[이더리움 가스비 + ERC-20 토큰 — 범용 토큰 표준]
+    │
+    ▼
+[DeFi 유동성 채굴 — 토큰 이코노미 확장]
+    │
+    ▼
+[DAO 거버넌스 토큰 — 탈중앙화 조직 의사결정]
+    │
+    ▼
+[지속 가능 토큰 이코노미 — 소각·스테이킹·효용 설계]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -18,31 +18,30 @@ tags = ["studynote-it-management"]
 
 ## Ⅰ. [그로스 해킹](/knowledge-base/studynote/12_it_management/01_governance_strategy/041_growth_hacking/) 개념과 IT 관리 연계
 
+```
+그로스 해킹 정의:
+Sean Ellis (2010년 최초 정의):
+  "모든 의사결정을 성장 목표(Growth Goal)에 집중시키는 사람"
 
+IT 관리 연계 구조:
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">그로스 해킹 정의:</div>
-<div class="kb-diagram-note">Sean Ellis (2010년 최초 정의):</div>
-<div class="kb-diagram-note">"모든 의사결정을 성장 목표(Growth Goal)에 집중시키는 사람"</div>
-<div class="kb-diagram-note">IT 관리 연계 구조:</div>
-<div class="kb-diagram-note">비즈니스 전략</div>
-<div class="kb-diagram-note">v</div>
-<div class="kb-diagram-note">OKR 설정 (Objectives &amp; Key Results)</div>
-<div class="kb-diagram-note">Objective: "월간 활성 사용자 50% 증가"</div>
-<div class="kb-diagram-note">KR1: MAU 100만 → 150만</div>
-<div class="kb-diagram-note">KR2: D1 유지율 40% → 55%</div>
-<div class="kb-diagram-note">KR3: 유료 전환율 2% → 3.5%</div>
-<div class="kb-diagram-note">v</div>
-<div class="kb-diagram-note">그로스 해킹 실험 사이클</div>
-<div class="kb-diagram-note">가설 → 실험 설계 → A/B 테스트 → 데이터 분석 → 확장/폐기</div>
-<div class="kb-diagram-note">v</div>
-<div class="kb-diagram-note">KPI 추적 (Google Analytics, Mixpanel, Amplitude)</div>
-<div class="kb-diagram-note">DAU, MAU, 유지율, NPS, ARPU 등</div>
-</div>
-</div>
-
-
+  비즈니스 전략
+        |
+        v
+  OKR 설정 (Objectives & Key Results)
+  Objective: "월간 활성 사용자 50% 증가"
+  KR1: MAU 100만 → 150만
+  KR2: D1 유지율 40% → 55%
+  KR3: 유료 전환율 2% → 3.5%
+        |
+        v
+  그로스 해킹 실험 사이클
+  가설 → 실험 설계 → A/B 테스트 → 데이터 분석 → 확장/폐기
+        |
+        v
+  KPI 추적 (Google Analytics, Mixpanel, Amplitude)
+  DAU, MAU, 유지율, NPS, ARPU 등
+```
 
 > 📢 **섹션 요약 비유**: [그로스 해킹](/knowledge-base/studynote/12_it_management/01_governance_strategy/041_growth_hacking/)은 디지털 대항해 — OKR이라는 목적지를 정하고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 나침반, A/B 테스트가 바람의 방향 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/).
 
@@ -50,34 +49,34 @@ tags = ["studynote-it-management"]
 
 ## Ⅱ. AARRR 퍼널 병목 분석
 
+```
+AARRR 퍼널 (Pirate Metrics):
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">AARRR 퍼널 (Pirate Metrics):</div>
-<div class="kb-diagram-note">A - Acquisition (획득):</div>
-<div class="kb-diagram-note">DAU/MAU 비율, 채널별 CPA(Cost Per Acquisition)</div>
-<div class="kb-diagram-note">병목 지표: 광고 클릭률 &lt; 1% → 크리에이티브 실험</div>
-<div class="kb-diagram-note">A - Activation (활성화):</div>
-<div class="kb-diagram-note">첫 핵심 가치 경험 달성률</div>
-<div class="kb-diagram-note">병목 지표: 온보딩 완료율 &lt; 30% → 온보딩 UX 개선</div>
-<div class="kb-diagram-note">R - Retention (유지):</div>
-<div class="kb-diagram-note">D1/D7/D30 유지율 (Cohort 분석)</div>
-<div class="kb-diagram-note">병목 지표: D7 &lt; 25% → 푸시 알림 실험</div>
-<div class="kb-diagram-note">R - Referral (추천):</div>
-<div class="kb-diagram-note">바이럴 계수 K = (초대 발송률) × (수락률)</div>
-<div class="kb-diagram-note">K &gt; 1 = 바이럴 성장 (자가 증식)</div>
-<div class="kb-diagram-note">R - Revenue (수익):</div>
-<div class="kb-diagram-note">ARPU, LTV, CAC</div>
-<div class="kb-diagram-note">LTV &gt; CAC × 3 = 건강한 성장 지표</div>
-<div class="kb-diagram-note">병목 분석 도구:</div>
-<div class="kb-diagram-note">퍼널 시각화: Mixpanel, Amplitude</div>
-<div class="kb-diagram-note">Cohort 분석: 동일 시점 가입 집단 추적</div>
-<div class="kb-diagram-note">Heat Map: 클릭 패턴 시각화</div>
-</div>
-</div>
-
-
+A - Acquisition (획득):
+  DAU/MAU 비율, 채널별 CPA(Cost Per Acquisition)
+  병목 지표: 광고 클릭률 < 1% → 크리에이티브 실험
+  
+A - Activation (활성화):
+  첫 핵심 가치 경험 달성률
+  병목 지표: 온보딩 완료율 < 30% → 온보딩 UX 개선
+  
+R - Retention (유지):
+  D1/D7/D30 유지율 (Cohort 분석)
+  병목 지표: D7 < 25% → 푸시 알림 실험
+  
+R - Referral (추천):
+  바이럴 계수 K = (초대 발송률) × (수락률)
+  K > 1 = 바이럴 성장 (자가 증식)
+  
+R - Revenue (수익):
+  ARPU, LTV, CAC
+  LTV > CAC × 3 = 건강한 성장 지표
+  
+병목 분석 도구:
+  퍼널 시각화: Mixpanel, Amplitude
+  Cohort 분석: 동일 시점 가입 집단 추적
+  Heat Map: 클릭 패턴 시각화
+```
 
 > 📢 **섹션 요약 비유**: AARRR 퍼널은 물통에 구멍 찾기 — 어느 단계에서 사용자가 빠져나가는지 가장 큰 구멍(병목)부터 막아야 효율적.
 
@@ -158,38 +157,37 @@ tags = ["studynote-it-management"]
 
 ## Ⅴ. 실무 시나리오 — [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 기업 성장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
+```
+B2B SaaS 그로스 해킹 사례:
 
+초기 상황:
+  MAU 5,000 → 목표: 1년 내 MAU 30,000
+  
+OKR 설정:
+  O: "자기증식 성장 엔진 구축"
+  KR1: 유저 추천(Referral) 비율 10% → 25%
+  KR2: 체험판 → 유료 전환율 8% → 15%
+  KR3: D30 유지율 45% → 60%
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">B2B SaaS 그로스 해킹 사례:</div>
-<div class="kb-diagram-note">초기 상황:</div>
-<div class="kb-diagram-note">MAU 5,000 → 목표: 1년 내 MAU 30,000</div>
-<div class="kb-diagram-note">OKR 설정:</div>
-<div class="kb-diagram-note">O: "자기증식 성장 엔진 구축"</div>
-<div class="kb-diagram-note">KR1: 유저 추천(Referral) 비율 10% → 25%</div>
-<div class="kb-diagram-note">KR2: 체험판 → 유료 전환율 8% → 15%</div>
-<div class="kb-diagram-note">KR3: D30 유지율 45% → 60%</div>
-<div class="kb-diagram-note">병목 분석 결과:</div>
-<div class="kb-diagram-note">AARRR 퍼널 분석:</div>
-<div class="kb-diagram-note">Acquisition: 양호 (SEO 유입 충분)</div>
-<div class="kb-diagram-note">Activation: 문제! (온보딩 완료율 22%)</div>
-<div class="kb-diagram-note">Retention: 문제! (D30 유지율 45%)</div>
-<div class="kb-diagram-note">Referral: 낮음 (K 계수 0.3)</div>
-<div class="kb-diagram-note">Revenue: Activation 개선 시 연동 개선 기대</div>
-<div class="kb-diagram-note">실험 우선순위:</div>
-<div class="kb-diagram-note">ICE 1위: 온보딩 간소화 (Impact 9, Conf 8, Ease 8) = 8.3</div>
-<div class="kb-diagram-note">ICE 2위: 핵심 기능 이메일 튜토리얼 (7, 8, 9) = 8.0</div>
-<div class="kb-diagram-note">ICE 3위: 추천 인센티브 추가 (8, 7, 5) = 6.7</div>
-<div class="kb-diagram-note">실험 결과 (3개월):</div>
-<div class="kb-diagram-note">온보딩 간소화: 완료율 22% → 51% (A/B 테스트 통계적 유의성 p&lt;0.01)</div>
-<div class="kb-diagram-note">D30 유지율: 45% → 56% (+24.4%)</div>
-<div class="kb-diagram-note">체험판 전환율: 8% → 14% (+75%)</div>
-<div class="kb-diagram-note">MAU 성장: 5,000 → 18,000 (260% 증가)</div>
-</div>
-</div>
+병목 분석 결과:
+  AARRR 퍼널 분석:
+    Acquisition: 양호 (SEO 유입 충분)
+    Activation: 문제! (온보딩 완료율 22%)
+    Retention: 문제! (D30 유지율 45%)
+    Referral: 낮음 (K 계수 0.3)
+    Revenue: Activation 개선 시 연동 개선 기대
 
+실험 우선순위:
+  ICE 1위: 온보딩 간소화 (Impact 9, Conf 8, Ease 8) = 8.3
+  ICE 2위: 핵심 기능 이메일 튜토리얼 (7, 8, 9) = 8.0
+  ICE 3위: 추천 인센티브 추가 (8, 7, 5) = 6.7
 
+실험 결과 (3개월):
+  온보딩 간소화: 완료율 22% → 51% (A/B 테스트 통계적 유의성 p<0.01)
+  D30 유지율: 45% → 56% (+24.4%)
+  체험판 전환율: 8% → 14% (+75%)
+  MAU 성장: 5,000 → 18,000 (260% 증가)
+```
 
 > 📢 **섹션 요약 비유**: [그로스 해킹](/knowledge-base/studynote/12_it_management/01_governance_strategy/041_growth_hacking/)은 스타트업의 바다에서 빠른 항해 — 목적지([OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/))를 정하고 실험(A/B)으로 가장 빠른 바람(병목 해결)을 찾아 돛을 올리는 것.
 

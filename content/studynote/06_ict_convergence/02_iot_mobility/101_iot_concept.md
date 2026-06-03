@@ -36,22 +36,24 @@ IoT 시스템은 크게 3개의 계층으로 구성된다. [데이터](/knowledg
 | **네트워크 계층 (Connectivity)** | 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 플랫폼으로 안전하게 전송 | [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/), Wi-Fi, [LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/) ([LoRa](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/), [NB-IoT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/620_nbiot_narrowband_iot_lte_guardband/)), [MQTT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/622_mqtt_publish_subscribe_qos/) |
 | **디바이스 계층 (Sensing)** | 아날로그 물리량 측정 및 제어(Actuation) | 센서(온도, 조도, 위치 등), 액추에이터(모터, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)), RFID |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IoT의 Sense - Think - Act 루프</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3. Actuation</div><div class="kb-diagram-node">2. Processing</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">행동 실행 / 제어 ◀ 명령 클라우드 / 엣지 서버</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물리적 변화 발생</div><div class="kb-diagram-cell">데이터 분석</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현실 세계 (Physical World)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물리량 감지</div><div class="kb-diagram-cell">원격 전송</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. Sensing</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Network (LPWAN)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">센서 단말기</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                  IoT의 Sense - Think - Act 루프              │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│ [ 3. Actuation ]                       [ 2. Processing ]     │
+│  행동 실행 / 제어 ◀───── 명령 ────── 클라우드 / 엣지 서버    │
+│       │                                      ▲               │
+│       │ 물리적 변화 발생                     │ 데이터 분석   │
+│       ▼                                      │               │
+│ [ 현실 세계 (Physical World) ]               │               │
+│       │                                      │               │
+│       │ 물리량 감지                          │ 원격 전송     │
+│       ▼                                      │               │
+│ [ 1. Sensing ]  ──────── 데이터 ──────▶ [ Network (LPWAN) ]  │
+│  센서 단말기                                                 │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램은 현실의 변화를 감지해 디지털로 보내고, 분석된 결과가 다시 현실의 물리적 동작(모터 제어, 온도 조절 등)으로 환원되는 IoT의 본질적 순환 고리를 보여준다.
 
@@ -107,23 +109,21 @@ IoT 인프라가 제대로 구축되면 기업은 '예측 유지보수(Predictiv
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">M2M (Machine to Machine) - 폐쇄망 단방향 제어</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">IoT (Internet of Things) - IP 기반 개방형 초연결 네트워크 구축</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Edge Computing + IoT - 클라우드 부하 분산 및 실시간 처리 확보</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">AIoT (AI + IoT) - 단말기 스스로 추론 및 의사결정 수행</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">IoE (Internet of Everything) - 만물과 프로세스의 지능적 융합 및 최적화</div>
-</div>
-</div>
-
-
+```text
+M2M (Machine to Machine) - 폐쇄망 단방향 제어
+    │
+    ▼
+IoT (Internet of Things) - IP 기반 개방형 초연결 네트워크 구축
+    │
+    ▼
+Edge Computing + IoT - 클라우드 부하 분산 및 실시간 처리 확보
+    │
+    ▼
+AIoT (AI + IoT) - 단말기 스스로 추론 및 의사결정 수행
+    │
+    ▼
+IoE (Internet of Everything) - 만물과 프로세스의 지능적 융합 및 최적화
+```
 이 흐름도는 단순한 '연결'에서 출발해 연산 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 줄이고, 궁극적으로 사물 자체가 지능을 가지는 방향으로 진화하는 IoT의 궤적을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

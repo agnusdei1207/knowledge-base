@@ -25,18 +25,16 @@ tags = ["security"]
 
 <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">전통적 소프트웨어 보안 vs [AI</a> 모델 보안 위협 표면 도식]</strong>
 이 도식은 코드 기반 시스템과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시스템 간의 공격 벡터(Attack Vector)가 어떻게 변화했는지를 보여준다.
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">전통적 App Security</div><div class="kb-diagram-node">AI/ML Model Security</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Source Code (로직)</div><div class="kb-diagram-cell">◀(SQLi)</div><div class="kb-diagram-cell">Training Data (데이터)</div><div class="kb-diagram-cell">◀(Poisoning)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Compiler/Build</div><div class="kb-diagram-cell">ML Algorithm (가중치)</div><div class="kb-diagram-cell">◀(Backdoor)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Runtime (실행)</div><div class="kb-diagram-cell">◀(RCE)</div><div class="kb-diagram-cell">Inference (추론/프롬프트)</div><div class="kb-diagram-cell">◀(Evasion)</div></div>
-</div>
-</div>
-
-
+```text
+[ 전통적 App Security ]         [ AI/ML Model Security ]
+┌───────────────────┐         ┌───────────────────────────┐
+│ Source Code (로직)│◀(SQLi)  │ Training Data (데이터)    │◀(Poisoning)
+├───────────────────┤         ├───────────────────────────┤
+│ Compiler/Build    │         │ ML Algorithm (가중치)     │◀(Backdoor)
+├───────────────────┤         ├───────────────────────────┤
+│ Runtime (실행)    │◀(RCE)   │ Inference (추론/프롬프트) │◀(Evasion)
+└───────────────────┘         └───────────────────────────┘
+```
 이 비교의 핵심은 공격자가 더 이상 서버의 루트 권한(Root)을 얻기 위해 복잡한 익스플로잇(Exploit)을 작성할 필요가 없다는 점이다. 단순히 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 셋에 미세한 노이즈를 섞거나([Data Poisoning](/knowledge-base/studynote/09_security/19_ai_advanced_security/947_data_poisoning/)), 챗봇에게 교묘하게 작성된 자연어 문장([Prompt Injection](/knowledge-base/studynote/09_security/19_ai_advanced_security/955_prompt_injection/))을 던지는 것만으로도 시스템을 완전히 통제하거나 기밀 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 탈취할 수 있다. 따라서 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 보안은 개발 전 단계(학습 [데이터 정제](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/266_data_cleansing/))부터 배포 이후(추론 필터링)까지 이어지는 새로운 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 파이프라인의 보안(DevSecMLOps)을 요구한다.
 
 > 📢 **섹션 요약 비유**: 전통적인 보안이 도둑이 들어오지 못하게 은행의 '자물쇠(코드)'를 튼튼하게 만드는 것이라면, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 보안은 은행원([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델)이 보이스피싱 전화를 받고 스스로 금고 문을 열어주지 않도록 '판단력과 신원 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 절차([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 프롬프트 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))'를 교육하는 것입니다.
@@ -56,18 +54,14 @@ tags = ["security"]
 
 **FGSM (Fast Gradient Sign Method) 기반 적대적 공격 메커니즘]**
 이 도식은 원본 이미지에 노이즈를 추가하여 인공지능이 어떻게 완벽하게 속게 되는지를 수학적 직관으로 보여준다.
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">원본 이미지 (판다)</div><div class="kb-diagram-node">적대적 노이즈 (Perturbation)</div><div class="kb-diagram-node">조작된 이미지 (긴팔원숭이)</div></div>
-<div class="kb-diagram-note">x (데이터) + ε * sign(∇x J(θ, x, y)) = x' (조작된 데이터)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Confidence:</div><div class="kb-diagram-cell">손실 함수(J)를 최대화하는</div><div class="kb-diagram-cell">Confidence:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Panda (99.8%)</div><div class="kb-diagram-cell">방향(∇)으로 미세 이동(ε)</div><div class="kb-diagram-cell">Gibbon (99.3%)</div></div>
-</div>
-</div>
-
-
+```text
+   [원본 이미지 (판다)]       [적대적 노이즈 (Perturbation)]     [조작된 이미지 (긴팔원숭이)]
+       x (데이터)        +    ε * sign(∇x J(θ, x, y))   =        x' (조작된 데이터)
+┌──────────────────────┐  ┌──────────────────────────┐   ┌────────────────────────┐
+│ Confidence:          │  │ 손실 함수(J)를 최대화하는│   │ Confidence:            │
+│ Panda (99.8%)        │  │ 방향(∇)으로 미세 이동(ε) │   │ Gibbon (99.3%)         │
+└──────────────────────┘  └──────────────────────────┘   └────────────────────────┘
+```
 이 흐름의 핵심은 공격이 철저하게 "모델의 오차(Loss) 기울기를 역이용"하는 수학적 최적화 과정이라는 점이다. 사람의 눈에는 조작된 이미지(x')가 여전히 판다로 보이지만, 모델 내부의 신경망 연산에서는 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)와 곱해진 노이즈가 증폭되어 완전히 다른 클래스(긴팔원숭이)로 판정된다. 이를 방어하는 가장 효과적인 방법은 [적대적 예제](/knowledge-base/studynote/09_security/19_ai_advanced_security/942_adversarial_example/)를 미리 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하여 정답(판다)과 함께 재학습시키는 <strong><a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/968_adversarial_training/">적대적 훈련</a>(<a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/968_adversarial_training/">Adversarial Training</a>)</strong>이나, 입력 이미지의 노이즈를 제거하는 **입력 정제(Input Sanitization)** 기법이다.
 
 최근 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 보안에서는 OWASP [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) Top 10이 글로벌 표준으로 자리 잡았으며, LLM01([프롬프트 인젝션](/knowledge-base/studynote/09_security/19_ai_advanced_security/955_prompt_injection/))과 LLM06(민감 정보 노출)을 막기 위해 입력과 출력 사이에 시맨틱 라우터(Semantic Router)나 가드레일을 배치하는 아키텍처가 필수적이다.
@@ -89,20 +83,16 @@ tags = ["security"]
 
 <strong><a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/988_crypto_agility/">양자 위협에 대비하는 [암호 민첩성</a> (<a href="/knowledge-base/studynote/09_security/03_network_security/153_crypto_agility/">Crypto Agility</a>) 구조도]</strong>
 이 도식은 하드코딩된 암호 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 위험성과, [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) 전환을 위한 유연한 아키텍처를 비교한다.
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Legacy: Hardcoded Crypto</div><div class="kb-diagram-node">Modern: Crypto Agility Architecture</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Application Code</div><div class="kb-diagram-cell">Application Code (암호 로직 분리)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L AES-256 + RSA-2048</div><div class="kb-diagram-cell">↓ 호출 (API)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Crypto Abstraction Layer (KMS)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">교체 불가</div><div class="kb-diagram-cell">─ RSA/ECC (Current)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Q-Day 파국</div><div class="kb-diagram-note">─ Kyber/Dilithium (PQC Ready)</div></div>
-</div>
-</div>
-
-
+```text
+[ Legacy: Hardcoded Crypto ]      [ Modern: Crypto Agility Architecture ]
+┌─────────────────────────┐       ┌─────────────────────────────────────┐
+│ Application Code        │       │ Application Code (암호 로직 분리)   │
+│  L  AES-256 + RSA-2048  │       │   ↓ 호출 (API)                      │
+└─────────────────────────┘       │ [ Crypto Abstraction Layer (KMS) ]  │
+            │ 교체 불가           │   ├─ RSA/ECC (Current)              │
+         [Q-Day 파국]             │   └─ Kyber/Dilithium (PQC Ready)    │
+                                  └─────────────────────────────────────┘
+```
 이 비교의 핵심은 [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)가 상용화되는 시점([Q-Day](/knowledge-base/studynote/09_security/03_network_security/151_quantum_computing_threats/))에 대응하기 위해, 지금 당장 모든 암호를 PQC로 바꾸는 것이 아니라 <strong>"언제든 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>을 스위칭할 수 있는 구조(<a href="/knowledge-base/studynote/09_security/03_network_security/153_crypto_agility/">Crypto Agility</a>)"</strong>를 만드는 것이 중요하다는 점이다. 현재 공격자들이 암호화된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 미리 수집해두고 [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)가 개발되면 복호화하려는 <strong>"Harvest Now, Decrypt Later (<a href="/knowledge-base/studynote/09_security/03_network_security/152_hndl_harvest_now_decrypt_later/">HNDL</a>)"</strong> 공격을 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 중이므로, 장기 보관이 필요한 기밀 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 즉시 [KEM](/knowledge-base/studynote/09_security/03_network_security/134_kem_key_encapsulation/)([Key Encapsulation Mechanism](/knowledge-base/studynote/09_security/03_network_security/134_kem_key_encapsulation/)) 기반의 [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) 하이브리드 암호화로 전환해야 한다.
 
 > 📢 **섹션 요약 비유**: 현재의 암호([RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/))가 매우 복잡한 자물쇠라면, [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)는 이 자물쇠를 단번에 녹여버리는 만능 용접기입니다. [양자 내성 암호](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/)([PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/))는 용접기의 열을 흡수하는 전혀 다른 재질(격자 수학)로 만든 새로운 자물쇠로 교체하는 작업입니다.
@@ -128,7 +118,7 @@ tags = ["security"]
    - **문제**: 배포된 컨트랙트에 재진입(Reentrancy) 취약점이 존재하여 해커가 무한 루프로 자금을 탈취함. ([블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)은 코드 수정/패치가 불가능함)
    - **의사결정**: 배포 후 패치가 불가능한 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)의 특성상, 배포 전 <strong>정형 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>(<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/093_smart_contract_formal_verification/">Formal Verification</a>)</strong>과 외부 전문 업체의 [보안 감사](/knowledge-base/studynote/04_software_engineering/11_testing_validation/527_security_audit_trail/)([Smart Contract](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) [Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/))를 의무화하는 것이 유일한 해법이다.
 
-> 📢 **섹션 요약 비유**: AI와 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)이라는 강력한 최신형 스포츠카를 샀다면, 그에 걸맞은 탄소 세라믹 브레이크([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 가드레일, 정형 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))를 장착해야 합니다. 구형 자전거의 브레이크(기존 보안)를 달고 고속 주행을 하면 첫 번째 코너에서 반드시 사고가 납니다.
+> 📢 **섹션 요약 비유**: AI와 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)이라는 강력한 최새로운 유형의 스포츠카를 샀다면, 그에 걸맞은 탄소 세라믹 브레이크([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 가드레일, 정형 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))를 장착해야 합니다. 구형 자전거의 브레이크(기존 보안)를 달고 고속 주행을 하면 첫 번째 코너에서 반드시 사고가 납니다.
 
 ---
 
@@ -158,23 +148,21 @@ AI와 [양자 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">전통 보안 — 시그니처·룰 기반 방어</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AI 기반 위협 등장 — 적대적 공격·데이터 포이즈닝·프롬프트 인젝션</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AI 보안 (AI Security) — LLM 방화벽·XAI·모델 강건화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">PQC (양자 내성 암호) — Q-Day 대비 암호 민첩성 확보</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AI TRiSM — 신뢰·위험·보안 통합 거버넌스</div></div>
-</div>
-</div>
-
-
+```text
+[전통 보안 — 시그니처·룰 기반 방어]
+    │
+    ▼
+[AI 기반 위협 등장 — 적대적 공격·데이터 포이즈닝·프롬프트 인젝션]
+    │
+    ▼
+[AI 보안 (AI Security) — LLM 방화벽·XAI·모델 강건화]
+    │
+    ▼
+[PQC (양자 내성 암호) — Q-Day 대비 암호 민첩성 확보]
+    │
+    ▼
+[AI TRiSM — 신뢰·위험·보안 통합 거버넌스]
+```
 AI와 [양자 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/)의 부상은 전통 보안 패러다임을 무력화하며, [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 가드레일·[PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) 전환·[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) TRiSM이라는 3축의 선제적 아키텍처를 요구한다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

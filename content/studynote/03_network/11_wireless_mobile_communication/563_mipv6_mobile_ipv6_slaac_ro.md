@@ -23,24 +23,23 @@ tags = ["studynote-network"]
 - **필요성**: 이전 세대인 [MIPv4](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/562_mipv4_mobile_ipv4_ha_fa_triangular/)(562번 문서)는 위대한 사상이지만 실무에서는 쓰레기였다. 타지(외부망)로 갈 때마다 호텔 지배인 같은 멍텅구리 라우터(FA)가 반드시 깔려 있어야 했고, 모든 데이터가 서울 집(HA)을 억지로 한 번 찍고 꺾여 들어오는 '세모 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)' 때문에 속도가 너무 느려서 영상 통화나 스트리밍이 다 끊겼다. 더 빠르고 군더더기 없는 아키텍처 재설계가 절실했다.
 - **등장 배경**: ① [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 도입에 따른 주소 고갈 및 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 병목 해결 [모멘텀](/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/) 형성 → ② MIPv4의 삼각 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 FA 장비 종속성에 대한 거센 비판 → ③ 이동성 지원을 외부 패치가 아니라 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) "순정 코어 스펙"으로 녹여낸 MIPv6의 탄생 및 [IETF](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/) 표준 제정.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MIPv4의 억지 구조 vs MIPv6의 다이렉트 자율 구조 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">과거: MIPv4 아키텍처 (장애물과 병목 투성이)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 임시 IP(COA) 발급: 멍청한 FA 라우터가 대신 터널을 파고 할당해 줘야 함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 통신 경로: 구글(CN) ──▶ 엄마 집(HA) ──(꺾임)──▶ 호텔 라우터(FA) ─▶ 폰</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: FA 장비 없으면 인터넷 불가, 세모 라우팅으로 지연 최악!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">혁신: MIPv6 아키텍처 (군더더기 0%)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 임시 IP(COA) 발급: 폰이 SLAAC로 1초 만에 스스로 주소를 찍어내 버림(FA 소멸)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 통신 경로: (최초 1회만) 구글(CN) ──▶ HA ──▶ 폰</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(경로 최적화 후) 구글(CN) (다이렉트!) ▶ 폰</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 폰과 서버가 다이렉트로 통신. 지연 시간 최소화 및 속도 극대화!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│             MIPv4의 억지 구조 vs MIPv6의 다이렉트 자율 구조 비교     │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [과거: MIPv4 아키텍처 (장애물과 병목 투성이)]                        │
+│   - 임시 IP(COA) 발급: 멍청한 FA 라우터가 대신 터널을 파고 할당해 줘야 함  │
+│   - 통신 경로: 구글(CN) ──▶ 엄마 집(HA) ──(꺾임)──▶ 호텔 라우터(FA) ─▶ 폰│
+│   => 결과: FA 장비 없으면 인터넷 불가, 세모 라우팅으로 지연 최악!          │
+│                                                             │
+│   [혁신: MIPv6 아키텍처 (군더더기 0%)]                             │
+│   - 임시 IP(COA) 발급: 폰이 SLAAC로 1초 만에 스스로 주소를 찍어내 버림(FA 소멸)│
+│   - 통신 경로: (최초 1회만) 구글(CN) ──▶ HA ──▶ 폰                 │
+│              (경로 최적화 후) 구글(CN) ═════(다이렉트!)═════▶ 폰   │
+│   => 결과: 폰과 서버가 다이렉트로 통신. 지연 시간 최소화 및 속도 극대화!       │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** MIPv6는 통신 공학의 '다이어트' 승리다. 가장 눈에 띄는 것은 FA(Foreign Agent)의 완전한 삭제다. IPv6는 폰이 공유기에 붙는 순간 앞자리 주소(Prefix)만 받으면 뒷자리 주소를 자기 맘대로 찍어내는 마법([SLAAC](/knowledge-base/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/))이 있기 때문에 지배인(FA)이 임시 방 번호를 줄 필요가 없어졌다. 그리고 가장 중요한 것은, 서버(CN)가 단말기의 진짜 임시 주소를 직접 폰에게 통보받아(Binding Update), 굳이 서울 집(HA)을 거치지 않고 다이렉트로 터널링을 뚫어 데이터를 쏟아붓는 경로 최적화(Route Optimization)가 기본값(Default)으로 탑재되었다는 점이다.
 
@@ -65,26 +64,34 @@ tags = ["studynote-network"]
 
 MIPv6의 가장 눈부신 마법은 "세모 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)"을 어떻게 다이렉트 직통 연결로 바꿔버리느냐 하는 것이다. 이 과정의 핵심이 <strong>바인딩 캐시(Binding Cache)</strong>와 <strong>Return Routability(수신 가능성 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>)</strong> 절차다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MIPv6 경로 최적화 (Route Optimization)의 다이렉트 댄스</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스마트폰 MN (대전 COA)</div><div class="kb-diagram-node">서울 집 (HA)</div><div class="kb-diagram-node">구글 서버 (CN)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. (구글이 처음 보낼 땐) ▶</div><div class="kb-diagram-cell">──(터널 포워딩) ▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=== 아 답답해! 내가 구글에 직접 내 현재 대전 주소를 알려줘야겠다! ===</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Return Routability (RR) 검증: "내가 진짜 폰 맞는지 확인해봐"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ (HoTI 메시지: HA 거쳐서 보냄) ─▶</div><div class="kb-diagram-cell">▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ (CoTI 메시지: 다이렉트로 보냄) ─ ▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 구글이 두 메시지 답장(HoT, CoT)을 폰에 줌. 폰은 암호키 획득!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. Binding Update (BU): "나 인증 끝났지? 앞으로 대전으로 쏴!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 경로 최적화 통신 시작 (다이렉트 스트리밍 🚀)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 서울 집(HA)은 통신에서 완전히 빠지고, 스마트폰과 구글 서버가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">직접 초고속으로 데이터를 주고받으며 세모 라우팅 병목을 부수어버림!</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────┐
+│               MIPv6 경로 최적화 (Route Optimization)의 다이렉트 댄스  │
+├───────────────────────────────────────────────────────────────┤
+│                                                               │
+│   [스마트폰 MN (대전 COA)]           [서울 집 (HA)]         [구글 서버 (CN)]│
+│            │                             │                      │  │
+│            │ 1. (구글이 처음 보낼 땐) ───▶ │ ──(터널 포워딩)──────▶│  │
+│            │                             │                      │  │
+│   === 아 답답해! 내가 구글에 직접 내 현재 대전 주소를 알려줘야겠다! ===         │
+│            │                             │                      │  │
+│            │ 2. Return Routability (RR) 검증: "내가 진짜 폰 맞는지 확인해봐" │
+│            ├─ (HoTI 메시지: HA 거쳐서 보냄) ─▶│ ───────────────────▶│  │
+│            ├─ (CoTI 메시지: 다이렉트로 보냄) ─┼─────────────────────▶│  │
+│            │                             │                      │  │
+│            │ 3. 구글이 두 메시지 답장(HoT, CoT)을 폰에 줌. 폰은 암호키 획득! │
+│            │◀─────────────────────────────┼──────────────────────┤  │
+│            │                             │                      │  │
+│            │ 4. Binding Update (BU): "나 인증 끝났지? 앞으로 대전으로 쏴!" │
+│            ├─────────────────────────────┼─────────────────────▶│  │
+│            │                             │                      │  │
+│            │ 5. 경로 최적화 통신 시작 (다이렉트 스트리밍 🚀)              │  │
+│            │◀═════════════════════════════════════════════════▶│  │
+│                                                               │
+│   => 결과: 서울 집(HA)은 통신에서 완전히 빠지고, 스마트폰과 구글 서버가       │
+│            직접 초고속으로 데이터를 주고받으며 세모 라우팅 병목을 부수어버림!  │
+└───────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 단말기(MN)가 대전에 도착하면 일단은 옛날 방식([MIPv4](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/562_mipv4_mobile_ipv4_ha_fa_triangular/))처럼 구글이 쏜 패킷이 서울(HA)을 거쳐 꺾여 들어온다. 답답함을 느낀 폰은 구글(CN)에게 "나 대전(COA)에 있어!"라고 바인딩 업데이트(BU)를 날리고 싶다. 하지만 해커가 "내가 단말기인데 나 부산에 있어!"라고 가짜 메시지를 날려 트래픽을 가로채는 공격([Session Hijacking](/knowledge-base/studynote/09_security/03_network_security/271_session_hijacking/))을 막아야 한다. 그래서 폰은 2번 단계([RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))에서 서울 집을 거쳐서 메시지 하나, 대전에서 직접 메시지 하나를 구글에 쏘아 "나는 원래 서울 집에 등록된 정상 유저이면서, 지금 대전에 있는 진짜 폰이 맞다"는 것을 암호학적으로 동시에 증명해 낸다(Return Routability). 증명이 끝나면 구글 서버는 폰의 대전 주소를 메모리에 저장(Binding Cache)하고 5번 단계처럼 HA를 무시한 채 다이렉트 직통 터널로 엄청난 속도의 영상을 쏟아부어 준다.
 
@@ -102,24 +109,25 @@ MIPv6의 가장 눈부신 마법은 "세모 [라우팅](/knowledge-base/studynot
 
 MIPv4는 짐을 박스에 담고 그 위에 더 큰 종이 박스를 통째로 하나 더 씌워(IP-in-IP 캡슐화) 배송했다. 패킷이 뚱뚱해지고 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)에서 사기꾼으로 몰려 차단([Ingress](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/) Filtering)당하기 일쑤였다. 반면 MIPv6는 박스를 2개 씌우지 않는다. 박스 겉면에는 무조건 '현재 대전 주소(COA)'를 적어 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)을 당당히 통과하고, 박스 모서리의 '확장 헤더'라는 작은 메모지에 "사실 내 진짜 영구 주소는 서울 집(HoA) 1.1.1.1이야"라고 살짝 적어 넣는 기법(Home Address Option)을 써서 트래픽 낭비와 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 차단 문제를 우아하게 붕괴시켰다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MIPv6 확장 헤더를 이용한 스마트한 캡슐화 붕괴</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">단말기가 구글로 보낼 때 - 방화벽(Ingress Filter) 통과 마법</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">출발지 IP: 대전 임시 주소(COA) ──▶ (방화벽 통과 OK! 대전 놈 맞네!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">목적지 IP: 구글 서버(CN)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IPv6 확장 헤더 (Destination Options Header)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Home Address Option: "나 사실 서울 집(HoA) 1.1.1.1 이야!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">구글 서버의 똑똑한 처리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">구글: "어? 겉엔 대전 주소인데, 확장 헤더를 까보니 진짜 신분은 서울 사람이네?"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">구글: "그래, 그럼 응답은 네 진짜 신분(HoA)에 맞춰서 대전으로 직통 쏴줄게!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 뚱뚱한 이중 터널링 없이, 얇은 확장 메모지 하나로 모든 문제를 해결함!</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────┐
+│               MIPv6 확장 헤더를 이용한 스마트한 캡슐화 붕괴        │
+├───────────────────────────────────────────────────────────────┤
+│                                                               │
+│   [단말기가 구글로 보낼 때 - 방화벽(Ingress Filter) 통과 마법]            │
+│   출발지 IP: 대전 임시 주소(COA) ──▶ (방화벽 통과 OK! 대전 놈 맞네!)         │
+│   목적지 IP: 구글 서버(CN)                                          │
+│                                                               │
+│   [IPv6 확장 헤더 (Destination Options Header)]                   │
+│   - Home Address Option: "나 사실 서울 집(HoA) 1.1.1.1 이야!"     │
+│   ------------------------------------------------------------- │
+│   [구글 서버의 똑똑한 처리]                                          │
+│   구글: "어? 겉엔 대전 주소인데, 확장 헤더를 까보니 진짜 신분은 서울 사람이네?"  │
+│   구글: "그래, 그럼 응답은 네 진짜 신분(HoA)에 맞춰서 대전으로 직통 쏴줄게!"    │
+│                                                               │
+│   => 뚱뚱한 이중 터널링 없이, 얇은 확장 메모지 하나로 모든 문제를 해결함!    │
+└───────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 아키텍처는 MIPv4가 가졌던 태생적 딜레마(자기 진짜 주소를 쓰면 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)에 막히고, 임시 주소를 쓰면 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)이 끊김)를 돌파한 천재적 아이디어다. 네트워크의 라우터들은 바쁘기 때문에 패킷의 겉면 '출발지 주소'만 보고 휙휙 넘긴다. 겉면은 '대전 주소(COA)'이므로 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)을 무사히 넘는다. 최종 도착지인 구글 서버(CN)만 박스 안의 '확장 헤더 메모지'를 읽어보고, "아! 이 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)의 진짜 주인공은 1.1.1.1(HoA)이구나!"라며 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)을 절대 끊지 않고 그대로 통신을 유지해 준다. MIPv6 단말기와 서버만 할 수 있는 둘만의 암호 같은 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이다.
 
@@ -193,19 +201,15 @@ MIPv6를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: MIPv4</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: MIPv6</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 다이버시티 시스템</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 무선 자원 제어</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: MIPv4]
+    │
+    ▼
+[현재 개념: MIPv6]
+    │
+    ├──▶ [확장 A: 다이버시티 시스템]
+    └──▶ [확장 B: 지능형 무선 자원 제어]
+```
 
 MIPv6는 MIPv4에서 출발해 현재 메커니즘을 정교화하고, 이후 [다이버시티 시스템](/knowledge-base/studynote/03_network/03_physical_layer_media/170_diversity_system_equalizer/)와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

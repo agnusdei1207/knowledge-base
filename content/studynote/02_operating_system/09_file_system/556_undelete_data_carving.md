@@ -30,31 +30,39 @@ tags = ["studynote-operating-system"]
 - <strong>OS 삭제(Unlink) 시 i-node와 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> 블록의 괴리 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> 폭주 뷰</strong>:
 유저가 `rm 해킹증거.pdf` 를 쳤을 때 디스크 물리적 블록과 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)에서 어떻게 사기(가짜 삭제)가 쳐지는지 렌더를 까보면 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"방 이름표만 뜯었지, 방 안의 물건은 고스란히 남아 있다!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🚨</div><div class="kb-diagram-node">정상 상태 (삭제 전 록백)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Directory 노드 (폴더 뷰)</div><div class="kb-diagram-node">i-node 테이블</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">45번 i-node</div><div class="kb-diagram-note">주소포인터</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">실제 볼륨 디스크 고기 덩어리 Data Blocks</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(70번 블록: PDF 시작 헤더 %PDF-1.4 렌더)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(71번 블록: 내용 막샬샬)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🔥</div><div class="kb-diagram-node">1단계: 유저 'rm 해킹증거.pdf' 엔터 타격!!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 커널 VFS (디렉터리 파일 조작 붓): "폴더 글자 지운다 컷!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 해당 i-node 45번 포인터 끈을 가위로 싹둑 자르고 Free List 에 반납!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(끝. 하드디스크 모터는 70번 71번 데이터 근처엔 가보지도 않음 늪!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">✅</div><div class="kb-diagram-node">2단계: 경찰 카빙 봇 출동 (PhotoRec, Autopsy 탈곡기 빔!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 장부(i-node)가 없으니 포인터 추적 불가.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 경찰 봇: (1번 블록부터 무식하게 순차 스캔 얍!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 70번 블록 발견!: "오앗! %PDF-1.4 (머리말 매직 헥사) 찾았다! 록백!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 여기서부터 PDF 뒷 꼬리말 (%%EOF) 나올 때까지 71번까지 싹 다 긁어모아</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수술 꿰매기 합체! ──&gt; 완전히 죽었던 파일 부활의 멱살 복원 통달!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────────────────────┐
+  │                 "방 이름표만 뜯었지, 방 안의 물건은 고스란히 남아 있다!"          │
+  ├───────────────────────────────────────────────────────────────────────────────────┤
+  │                                                                                   │
+  │  🚨 [ 정상 상태 (삭제 전 록백) ]                                                  │
+  │                                                                                   │
+  │     [ Directory 노드 (폴더 뷰) ]           [ i-node 테이블 ]                      │
+  │      "해킹증거.pdf" -> 인덱스 45번 빔!      [45번 i-node] 주소포인터              │
+  │                                                  │                                │
+  │  =========================▼======================▼============                    │
+  │                                                                                   │
+  │     [ 실제 볼륨 디스크 고기 덩어리 Data Blocks ]                                  │
+  │       (70번 블록: PDF 시작 헤더 %PDF-1.4 렌더)                                    │
+  │       (71번 블록: 내용 막샬샬)                                                    │
+  │                                                                                   │
+  │  =========================▼===================================                    │
+  │                                                                                   │
+  │  🔥 [ 1단계: 유저 'rm 해킹증거.pdf' 엔터 타격!! ]                                 │
+  │     => 커널 VFS (디렉터리 파일 조작 붓): "폴더 글자 지운다 컷!"                   │
+  │     => 해당 i-node 45번 포인터 끈을 가위로 싹둑 자르고 Free List 에 반납!         │
+  │        (끝. 하드디스크 모터는 70번 71번 데이터 근처엔 가보지도 않음 늪!)          │
+  │                                                                                   │
+  │  =========================▼===================================                    │
+  │                                                                                   │
+  │  ✅ [ 2단계: 경찰 카빙 봇 출동 (PhotoRec, Autopsy 탈곡기 빔!) ]                   │
+  │     => 장부(i-node)가 없으니 포인터 추적 불가.                                    │
+  │     => 경찰 봇: (1번 블록부터 무식하게 순차 스캔 얍!)                             │
+  │     => 70번 블록 발견!: "오앗! %PDF-1.4 (머리말 매직 헥사) 찾았다! 록백!"         │
+  │     => 여기서부터 PDF 뒷 꼬리말 (%%EOF) 나올 때까지 71번까지 싹 다 긁어모아       │
+  │        수술 꿰매기 합체! ──> 완전히 죽었던 파일 부활의 멱살 복원 통달!            │
+  └───────────────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 포렌식 [파일 카빙](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/938_file_carving/)([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Carving)의 핵심 생존 아키텍처다. 유저가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 지워도, 심지어 디스크를 실수로 날려 빠른 포맷(Quick Format)을 쳐도 절대 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 죽지 않는다(OS의 게으른 메타 초기화 스왑). [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 폴더 목록과 i-node 장부만 텅 빈 백지로 바꿀 뿐, 수 테라바이트(TB) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 진짜 바닥 블록을 청소해주지 않는다. 수사관 봇은 저기 돌아다니는 바닥 고기([Raw](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/) Block)들을 1바이트씩 돋보기로 보면서 `JPG`, `PNG`, `PDF`, `HWP` 의 고유한 시작 유전자 번호(Signature / [Magic Number](/knowledge-base/studynote/02_operating_system/09_file_system/503_magic_number_file_signature/) 503장 연계)를 식별하면 그 파편들을 풀로 붙여 영혼을 소환(Undelete)해 내는 기적을 쏘아버린다 도출.
 
@@ -136,19 +144,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">백업 (Backup) 및 복구 (Restore) / 전체 백업 vs 증분(Incremental) 백업</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">삭제된 파일 복구 (Undelete) 및 포렌식 디스크 이미지 카빙(Carving) 원리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">임시 파일 시스템 (tmpfs / ramfs)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">가상 장치 파일 시스템 (sysfs, procfs)</div></div>
-</div>
-</div>
-
-
+```text
+[백업 (Backup) 및 복구 (Restore) / 전체 백업 vs 증분(Incremental) 백업]
+    │
+    ▼
+[삭제된 파일 복구 (Undelete) 및 포렌식 디스크 이미지 카빙(Carving) 원리]
+    │
+    ├──▶ [임시 파일 시스템 (tmpfs / ramfs)]
+    └──▶ [가상 장치 파일 시스템 (sysfs, procfs)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

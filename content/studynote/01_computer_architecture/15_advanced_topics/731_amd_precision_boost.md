@@ -46,20 +46,25 @@ AMD 플랫폼에서 자주 보는 제약어는 다음과 같다.
 
 아래 그림은 [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) Boost가 단순히 "온도 낮으면 올리고 높으면 내린다"가 아니라, 여러 한계선을 동시에 보고 결정을 내리는 구조임을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Precision Boost control loop on Ryzen processors</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Telemetry inputs: temperature + PPT + TDC + EDC + active cores</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SMU evaluates safe next frequency step</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">headroom exists limit is close</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; raise boost -&gt; hold or lower boost</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">repeat continuously for mixed single / multi-core load</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────┐
+│            Precision Boost control loop on Ryzen processors           │
+├────────────────────────────────────────────────────────────────────────┤
+│ Telemetry inputs: temperature + PPT + TDC + EDC + active cores       │
+│                │                                                       │
+│                ▼                                                       │
+│         SMU evaluates safe next frequency step                         │
+│                │                                                       │
+│      ┌─────────┴─────────┐                                             │
+│      ▼                   ▼                                             │
+│ headroom exists      limit is close                                    │
+│ -> raise boost       -> hold or lower boost                            │
+│      │                   │                                             │
+│      └─────────┬─────────┘                                             │
+│                ▼                                                       │
+│     repeat continuously for mixed single / multi-core load            │
+└────────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조가 중요한 이유는, 실제 워크로드가 극단적인 싱글 코어 또는 풀로드 둘 중 하나만으로 이루어지지 않기 때문이다. 웹 브라우저, 게임, 개발 도구, 백그라운드 서비스가 뒤섞인 현실의 부하에서는 순간마다 병목이 달라지며, [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) Boost는 그 변화를 가능한 빨리 따라간다. 그래서 Ryzen [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 볼 때는 단순 base/boost 숫자보다, <strong>부스트가 얼마나 오래, 얼마나 유연하게 유지되는지</strong>가 더 본질적이다.
 
@@ -135,26 +140,24 @@ AMD 플랫폼에서 자주 보는 제약어는 다음과 같다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">고정 클럭 CPU + 수동 오버클럭 문화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Cool'n'Quiet</div>
-<div class="kb-diagram-note">: 효율 중심의 동적 V/f 제어</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Ryzen SenseMI / 센서 중심 제어</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Precision Boost</div>
-<div class="kb-diagram-note">: 헤드룸을 세밀하게 성능으로 환원</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Precision Boost 2 · PBO · Eco Mode</div>
-<div class="kb-diagram-note">: 플랫폼 특성에 맞춘 확장형 자동 제어</div>
-</div>
-</div>
-
-
+```text
+고정 클럭 CPU + 수동 오버클럭 문화
+    │
+    ▼
+Cool'n'Quiet
+: 효율 중심의 동적 V/f 제어
+    │
+    ▼
+Ryzen SenseMI / 센서 중심 제어
+    │
+    ▼
+Precision Boost
+: 헤드룸을 세밀하게 성능으로 환원
+    │
+    ▼
+Precision Boost 2 · PBO · Eco Mode
+: 플랫폼 특성에 맞춘 확장형 자동 제어
+```
 
 이 흐름은 AMD 전력 관리가 "절전 중심"에서 "센서 기반 정밀 부스트 중심"으로 확장된 과정을 보여 준다.
 

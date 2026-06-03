@@ -23,23 +23,26 @@ tags = ["algorithm_stats"]
 
 이 그림은 수치 해석의 기본 원리인 '반복법 (Iteration)'을 통한 해의 수렴 과정을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Iterative Convergence to Solution</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Value ▲</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* (Actual Root)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ / _--</div><div class="kb-diagram-node">x2</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│/ _-</div><div class="kb-diagram-node">x1</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">|_-</div><div class="kb-diagram-node">x0: Initial Guess</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Iterations (Step)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 반복할수록 실제 정답(*)에 가까워짐</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 위기: 발산(Divergence)하거나 지역 최적해에 빠질 수 있음</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Iterative Convergence to Solution           │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   Value ▲                                                   │
+│         │                                                   │
+│         │   * (Actual Root)                                 │
+│         │  /                                                │
+│         │ /  _-- [ x2 ]                                     │
+│         │/ _-    [ x1 ]                                     │
+│         |_-      [ x0: Initial Guess ]                      │
+│         └──────────────────────────────────▶                │
+│                   Iterations (Step)                         │
+│                                                             │
+│   * 핵심: 반복할수록 실제 정답(*)에 가까워짐                │
+│   * 위기: 발산(Divergence)하거나 지역 최적해에 빠질 수 있음 │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '수렴 (Convergence)'이다. 알고리즘이 정답을 향해 얼마나 빠르게, 그리고 안정적으로 다가가는지가 성능의 척도이다. 실무에서는 이러한 수렴 속도를 높이기 위해 **Newton-Raphson** 법이나 **켤레 경사법 (Conjugate Gradient)** 등의 고도화된 기법이 동원된다.
 
@@ -71,20 +74,21 @@ tags = ["algorithm_stats"]
 
 이 구조도는 <strong>뉴턴 방법 (Newton's Method)</strong>을 이용한 최적화 흐름을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Newton's Method: Higher-order Optimization</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Current Point: x_n</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Calc First Derivative (f')</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Update x_(n+1)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Calc Second Derivative (f'')</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Hessian Matrix)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 장점: 경사 하강법보다 훨씬 빠르게 정답에 수렴함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 단점: 2차 미분(Hessian) 계산량이 매우 큼 (메모리 폭발)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Newton's Method: Higher-order Optimization  │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Current Point: x_n ] ──▶ [ Calc First Derivative (f') ] │
+│                                     │                       │
+│   [ Update x_(n+1) ] ◀── [ Calc Second Derivative (f'') ]   │
+│                                     │ (Hessian Matrix)      │
+│                                                             │
+│   * 장점: 경사 하강법보다 훨씬 빠르게 정답에 수렴함         │
+│   * 단점: 2차 미분(Hessian) 계산량이 매우 큼 (메모리 폭발)  │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '공학적 트레이드오프'이다. 정확하고 빠른 알고리즘(Newton)은 그만큼 많은 메모리와 계산량을 요구한다. 실무에서는 이를 보완하기 위해 2차 미분을 근사하는 **L-BFGS** 알고리즘 등이 널리 쓰인다.
 
@@ -125,19 +129,21 @@ tags = ["algorithm_stats"]
 
 이 도식은 기술사가 사용하는 '수치 최적화 알고리즘 선정 맵'을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Optimization Algorithm Selection Map</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">YES</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Gradient Descent / Newton</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NO</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">유전 알고리즘 / Simulated Annealing</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">YES</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Stochastic GD (Adam)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NO</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">L-BFGS / Quasi-Newton</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│               Optimization Algorithm Selection Map          │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   함수가 미분 가능한가? ──▶ [YES] ──▶ Gradient Descent / Newton │
+│          │                                                  │
+│        [NO] ──▶ 유전 알고리즘 / Simulated Annealing         │
+│                                                             │
+│   변수가 수백만 개인가? ──▶ [YES] ──▶ Stochastic GD (Adam)   │
+│          │                                                  │
+│        [NO] ──▶ L-BFGS / Quasi-Newton                       │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 기술사의 수치 해석 판단은 '정밀 기계 수리공'과 같습니다. 나사가 헛도는 원인(오차 누적)을 찾아내고, 기계가 너무 뜨거워지지 않게(연산량 조절) 가장 적합한 윤활유(알고리즘)를 선택하는 전문가입니다.
 
@@ -173,25 +179,22 @@ tags = ["algorithm_stats"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">수치 해석 기초</div>
-<div class="kb-diagram-tree-item" style="--depth:2">이분 탐색 (Bisection Method) — 방정식 근 탐색</div>
-<div class="kb-diagram-tree-item" style="--depth:2">뉴턴-랩슨법 (Newton-Raphson) — 빠른 수렴</div>
-<div class="kb-diagram-tree-item" style="--depth:2">고정점 반복법 (Fixed-Point Iteration)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">선형 시스템 풀이</div>
-<div class="kb-diagram-tree-item" style="--depth:2">가우스 소거법 (Gaussian Elimination)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">LU 분해</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">수치 적분 (Numerical Integration)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">직사각형/사다리꼴 규칙</div>
-<div class="kb-diagram-tree-item" style="--depth:2">심슨의 규칙 (Simpson's Rule)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">부동소수점 오류 → 안정적 수치 알고리즘 설계</div>
-</div>
-</div>
-
-
+```text
+수치 해석 기초
+    ├─► 이분 탐색 (Bisection Method) — 방정식 근 탐색
+    ├─► 뉴턴-랩슨법 (Newton-Raphson) — 빠른 수렴
+    └─► 고정점 반복법 (Fixed-Point Iteration)
+    │
+    ▼
+선형 시스템 풀이
+    ├─► 가우스 소거법 (Gaussian Elimination)
+    └─► LU 분해
+    │
+    ▼
+수치 적분 (Numerical Integration)
+    ├─► 직사각형/사다리꼴 규칙
+    └─► 심슨의 규칙 (Simpson's Rule)
+    │
+    ▼
+부동소수점 오류 → 안정적 수치 알고리즘 설계
+```

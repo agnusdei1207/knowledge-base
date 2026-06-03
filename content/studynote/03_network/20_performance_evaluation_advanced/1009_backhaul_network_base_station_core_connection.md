@@ -24,18 +24,14 @@ tags = ["studynote-network"]
 2. **백홀 (Backhaul) 🌟**: 동네 기지국 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)에서 ➜ 서울 통신사 중앙 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)(코어망)까지 (유선 광케이블 구간).
 3. **백본 (Backbone / Core Network)**: 서울 통신사 서버 ➜ 태평양 건너 카카오/구글 메인 서버까지 (초거대 국가 간 광망).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">MTTR 회선 이중화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">백홀</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">미드홀</div></div>
-</div>
-</div>
-
-
+```text
+[MTTR 회선 이중화]
+    │
+    ▼
+[백홀]
+    │
+    └──▶ [미드홀]
+```
 
 - **📢 섹션 요약 비유**: 백홀은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -46,18 +42,14 @@ tags = ["studynote-network"]
 - **개념**: <strong>말단 엣지(Edge)의 접속망(<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/178_small_cell_macro_femto/">스몰셀</a>, 기지국, <a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/">AP</a>)들이 수집한 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 한데 모아 중앙 코어 네트워크(<a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/753_epc_evolved_packet_core_sgw_pgw/">EPC</a>, <a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/768_5gc_5g_core_network_evolution/">5GC</a>)나 백본망으로 전달해 주는 통신사의 '중간 수송용 등뼈(척추) 네트워크'</strong>입니다. 
 - **병목의 무덤**: 앞단([5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/))이 아무리 20Gbps로 폰과 미친 듯이 쏴대도, 이 뒷단(백홀 광케이블) 파이프가 1Gbps짜리 구형 랜선으로 꽉 막혀있으면 폰 속도도 무조건 1Gbps로 꼬라박습니다(병목 현상). 5G의 진짜 속도는 이 땅속 백홀 공사를 100기가짜리로 튼튼하게 파묻어 놨느냐에 달렸습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">MTTR 회선 이중화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">백홀</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">미드홀</div></div>
-</div>
-</div>
-
-
+```text
+[MTTR 회선 이중화]
+    │
+    ▼
+[백홀]
+    │
+    └──▶ [미드홀]
+```
 
 - **📢 섹션 요약 비유**: 백홀의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -95,7 +87,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: <strong>백홀(Backhaul)</strong>은 택배 물류망에서 <strong>'동네 대리점과 서울 중앙 물류 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/">허브</a>(옥천 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/">허브</a>)를 잇는 11톤짜리 대형 화물 트럭(광케이블)'</strong>입니다. 다마스 택배기사([5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 무선 전파)가 고객 집을 돌며 엄청 빨리 택배([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 1,000개를 수거해서 동네 대리점(기지국)에 쌓아뒀습니다. 그런데 서울 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)(코어망)로 실어 나를 백홀 트럭이 코딱지만 한 1톤짜리라면? 동네 대리점 창고가 꽉 차서 펑 터져버리고 고객의 택배는 며칠 동안 배송 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(병목)에 빠집니다. 5G라는 초음속 다마스가 힘을 발휘하려면, 이 동네 대리점에서 뒷단 중앙 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)로 짐을 통째로 넘겨주는(Back-haul) 화물 트럭의 차선(광케이블 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))을 100차선짜리로 무지막지하게 뻥 뚫어놔야만(용량 증설) 인터넷 생태계가 막힘없이 쾌속 순환하는 숨겨진 진짜 핏줄입니다.
+- **📢 섹션 요약 비유**: <strong>백홀(Backhaul)</strong>은 택배 물류망에서 <strong>'동네 대리점과 서울 중앙 물류 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/">허브</a>(옥천 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/">허브</a>)를 잇는 11톤짜리 대형 화물 트럭(광케이블)'</strong>입니다. 다마스 택배기사([5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 무선 전파)가 고객 집을 돌며 엄청 빨리 택배([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 1,000개를 수거해서 동네 대리점(기지국)에 쌓아뒀습니다. 그런데 서울 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)(코어망)로 실어 나를 백홀 트럭이 코딱지만 한 1톤짜리라면? 동네 대리점 창고가 꽉 차서 펑 터져버리고 고객의 택배는 며칠 동안 배송 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(병목)에 빠집니다. 5G라는 초음속 다마스가 힘을 발휘하려면, 이 동네 대리점에서 뒷단 중앙 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)로 짐을 통째로 넘겨주는(Back-haul) 화물 트럭의 차선(광케이블 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))을 100차선짜리로 무지막지하게 뻥 뚫어놔야만(용량 증설) 인터넷 생태계가 병목없이 쾌속 순환하는 숨겨진 진짜 핏줄입니다.
 
 ---
 
@@ -118,19 +110,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: MTTR 회선 이중화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 백홀</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 미드홀</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: MTTR 회선 이중화]
+    │
+    ▼
+[현재 개념: 백홀]
+    │
+    ├──▶ [확장 A: 미드홀]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 백홀는 [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) 회선 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [미드홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1010_midhaul_network_c_ran_fronthaul_du_cu/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

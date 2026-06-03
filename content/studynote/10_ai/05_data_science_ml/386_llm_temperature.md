@@ -23,17 +23,14 @@ LLM은 각 토큰 위치에서 어휘 전체에 대한 로짓 벡터를 출력�
 
 온도 개념은 열역학에서 온도가 높을수록 입자 운동이 무질서해지는 것과 동일한 직관이다. 통계 역학의 볼츠만 분포 (Boltzmann Distribution)에서 유래했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 온도는 주사위의 "공정함 조절기"다. 온도를 낮추면 가장 무거운 면이 항상 나오는 부정 주사위, 온도를 높이면 모든 면이 똑같이 나오는 공정 주사위가 된다.
 
@@ -52,24 +49,22 @@ T  : 온도 파라미터 (T > 0)
 
 ### T 값에 따른 분포 변화
 
+```
+원래 로짓: z = [3.0, 1.0, 0.5, -1.0]  (어휘 4개)
 
+T=0.1 (낮음):  P ≈ [0.998, 0.002, 0.000, 0.000]  ← 거의 결정론적
+T=1.0 (기본):  P ≈ [0.780, 0.105, 0.064, 0.051]  ← 표준
+T=2.0 (높음):  P ≈ [0.512, 0.236, 0.168, 0.084]  ← 다양성 증가
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-note">원래 로짓: z =</div><div class="kb-diagram-node">3.0, 1.0, 0.5, -1.0</div><div class="kb-diagram-note">(어휘 4개)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">T=0.1 (낮음): P ≈</div><div class="kb-diagram-node">0.998, 0.002, 0.000, 0.000</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">거의 결정론적</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">T=1.0 (기본): P ≈</div><div class="kb-diagram-node">0.780, 0.105, 0.064, 0.051</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">표준</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">T=2.0 (높음): P ≈</div><div class="kb-diagram-node">0.512, 0.236, 0.168, 0.084</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">다양성 증가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T=0.1 ███████████████████████████████▌</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▌</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T=1.0 ████████████████▌</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">██▌ █▌ █▌</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T=2.0 ██████████▌</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">█████▌ ████▌ ██▌</div></div>
-</div>
-</div>
-
-
+┌──────────────────────────────────────────────────┐
+│  T=0.1  ███████████████████████████████▌         │
+│         ▌                                        │
+│  T=1.0  ████████████████▌                        │
+│              ██▌  █▌ █▌                          │
+│  T=2.0  ██████████▌                              │
+│              █████▌  ████▌  ██▌                  │
+└──────────────────────────────────────────────────┘
+```
 
 ### T=0 극한: 그리디 디코딩 (Greedy Decoding)
 

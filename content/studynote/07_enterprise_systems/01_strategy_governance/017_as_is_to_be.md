@@ -27,24 +27,24 @@ tags = ["enterprise_systems"]
 
 다음 도식은 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-IS에서 TO-BE로 나아가는 전반적인 갭 분석([Gap Analysis](/knowledge-base/studynote/12_it_management/03_ea_isp/107_gap_analysis_task_identification/)) 프레임워크의 흐름을 보여준다. 
 
+```text
+[ 갭 분석 (Gap Analysis) 기반 전환 메커니즘 ]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">갭 분석 (Gap Analysis) 기반 전환 메커니즘</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AS-IS (현재)</div><div class="kb-diagram-cell">GAP 도출</div><div class="kb-diagram-cell">TO-BE (미래)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">• 수작업 결재</div><div class="kb-diagram-node">문제점/원인</div><div class="kb-diagram-note">• 모바일 결재</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 파편화된 DB</div><div class="kb-diagram-cell">▼</div><div class="kb-diagram-cell">• 중앙 통합 DW</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 리드타임 5일</div><div class="kb-diagram-cell">▼</div><div class="kb-diagram-cell">• 리드타임 1일</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이행 전략 (Transition)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 시스템 구축 로드맵</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 데이터 마이그레이션</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 조직/인력 재배치</div></div>
-</div>
-</div>
-
-
+┌──────────────────┐               ┌──────────────────┐
+│   AS-IS (현재)   │   GAP 도출    │  TO-BE (미래)    │
+│                  │  ──────────>  │                  │
+│ • 수작업 결재    │ [문제점/원인] │ • 모바일 결재    │
+│ • 파편화된 DB    │   ▼           │ • 중앙 통합 DW   │
+│ • 리드타임 5일   │   ▼           │ • 리드타임 1일   │
+└──────────────────┘   ▼           └──────────────────┘
+                       ▼
+             ┌────────────────────────┐
+             │ 이행 전략 (Transition) │
+             │ - 시스템 구축 로드맵   │
+             │ - 데이터 마이그레이션  │
+             │ - 조직/인력 재배치     │
+             └────────────────────────┘
+```
 
 이 도식의 핵심은 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-IS와 TO-BE가 단순히 그림을 두 장 그리는 작업으로 끝나서는 안 되며, 반드시 두 상태 간의 물리적, [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 차이를 수치화한 **'Gap(차이)'** 을 추출하여 이를 해결하는 구체적인 <strong>이행 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a>(로드맵)</strong> 으로 수렴되어야 한다는 점이다. 이행 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 빠진 TO-BE 모델은 실현 불가능한 공상과학에 불과하다. 실무에서는 Gap 분석 결과를 바탕으로 어떤 시스템을 먼저 개발할지 우선순위(Quick Win)를 결정하게 된다.
 
@@ -67,23 +67,24 @@ tags = ["enterprise_systems"]
 
 아래의 도식은 복잡한 엔터프라이즈 환경에서 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-IS를 진단할 때 적용하는 다계층(Multi-tier) 분석 구조도이다.
 
+```text
+[ 전사 아키텍처(EA) 기반 AS-IS 분석 계층도 ]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">전사 아키텍처(EA) 기반 AS-IS 분석 계층도</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Business</div><div class="kb-diagram-note">프로세스 병목 탐지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부서 A (기안) ──지연──&gt; 부서 B (승인) ──반려──&gt; 부서 A</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Application</div><div class="kb-diagram-note">시스템 스파게티 연동 파악</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ERP_1.0 (EAI/수동연계) CRM_Legacy</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Data</div><div class="kb-diagram-note">데이터 사일로(Silo) 및 불일치 진단</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Oracle DB (고객) MS SQL (회원) - 불일치 발생</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Tech</div><div class="kb-diagram-note">물리적 인프라 한계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">On-Premise IDC (확장성 부족, 장애 시 SPOF 위험)</div></div>
-</div>
-</div>
-
-
+┌────────────────────────────────────────────────────────┐
+│ [Business] 프로세스 병목 탐지                          │
+│ 부서 A (기안) ──지연──> 부서 B (승인) ──반려──> 부서 A│
+├────────────────────────────────────────────────────────┤
+│ [Application] 시스템 스파게티 연동 파악                │
+│ ERP_1.0 ────(EAI/수동연계)──── CRM_Legacy            │
+│    ▲                              ▲                   │
+├────┼──────────────────────────────┼──────────────────┤
+│ [Data] 데이터 사일로(Silo) 및 불일치 진단              │
+│ Oracle DB (고객)           MS SQL (회원) - 불일치 발생 │
+├────────────────────────────────────────────────────────┤
+│ [Tech] 물리적 인프라 한계                              │
+│ On-Premise IDC (확장성 부족, 장애 시 SPOF 위험)        │
+└────────────────────────────────────────────────────────┘
+```
 
 이 구조도의 핵심은 표면적으로 드러나는 '프로세스의 병목(비즈니스 계층)'이 실은 그 아래 깔려 있는 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 불일치'나 '노후화된 애플리케이션 연동'이라는 깊은 뿌리에서 기인한다는 점이다. 따라서 유능한 IT 컨설턴트는 단순히 업무 담당자 인터뷰만으로 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-IS를 끝내지 않고, 시스템 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), DB [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/), 서버 부하율까지 파헤쳐 근본 원인(Root Cause)을 찾아낸다. TO-BE 설계 시에는 이 밑바닥 인프라(Tech/[Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))부터 클라우드나 통합 DB로 뜯어고친 뒤 그 위에 스마트한 프로세스를 얹는 상향식/하향식 양방향 재설계가 일어난다.
 
@@ -108,20 +109,17 @@ tags = ["enterprise_systems"]
 
 아래의 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)도는 가장 실무적으로 권장되는 '점진적 전환([Strangler Fig Pattern](/knowledge-base/studynote/12_it_management/05_security_compliance/308_strangler_fig_pattern/))' 과정을 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)한 것이다.
 
+```text
+[ 점진적 TO-BE 이행 모델 (MSA 전환 시나리오) ]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">점진적 TO-BE 이행 모델 (MSA 전환 시나리오)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1단계 : AS-IS</div><div class="kb-diagram-node">2단계 : 과도기 (Transition)</div><div class="kb-diagram-node">3단계 : TO-BE</div></div>
-<div class="kb-diagram-note">API Gateway (라우터 도입) API Gateway</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Monolithic</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(AS-IS)</div><div class="kb-diagram-cell">=&gt;</div><div class="kb-diagram-cell">신규</div><div class="kb-diagram-cell">(가로채기)</div><div class="kb-diagram-cell">노후</div><div class="kb-diagram-cell">=&gt;</div><div class="kb-diagram-cell">신규 MSA</div><div class="kb-diagram-cell">(100%)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">100% 트래픽</div><div class="kb-diagram-cell">MSA_A</div><div class="kb-diagram-cell">AS-IS</div><div class="kb-diagram-cell">A, B, C</div></div>
-</div>
-</div>
-
-
+[ 1단계 : AS-IS ]      [ 2단계 : 과도기 (Transition) ]    [ 3단계 : TO-BE ]
+                      API Gateway (라우터 도입)           API Gateway
+┌───────────┐         /                    \               |
+│ Monolithic│       ┌──────┐             ┌───────┐       ┌───────┐
+│ (AS-IS)   │   =>  │신규  │ (가로채기)  │노후   │  =>   │신규 MSA│ (100%)
+│ 100% 트래픽│       │MSA_A │             │AS-IS  │       │A, B, C │
+└───────────┘       └──────┘             └───────┘       └───────┘
+```
 
 이 [상태도](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/065_state_diagram/)의 핵심은 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-IS에서 TO-BE로 넘어갈 때 중간 단계인 <strong>'과도기(Transition <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a>)'</strong> 아키텍처를 설계하는 것이다. 한 번에 TO-BE로 바꾸는 것은 위험하므로, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이를 앞단에 두어 특정 기능(예: 결제) 트래픽만 새로 만든 TO-BE [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)로 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)하고, 나머지는 기존 [AS-IS](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) 레거시로 보내는 방식이다. 시간이 지남에 따라 [AS-IS](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)은 점차 숨통이 끊어져(Strangler) 사라지고, 마침내 완전한 TO-BE 상태에 도달한다. 실무에서는 이러한 과도기 아키텍처 설계 역량이 수석 아키텍트의 가장 중요한 자질이다.
 
@@ -182,25 +180,24 @@ tags = ["enterprise_systems"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">현황 진단 없는 시스템 도입 — 요구 사항 불명확, 프로젝트 실패율 높음</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AS-IS 분석 (현재 상태 모델링) — 업무 프로세스·데이터·시스템 현황 가시화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">GAP 분석 (Gap Analysis) — AS-IS와 TO-BE 차이 식별, 우선순위 도출</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">TO-BE 모델링 (미래 상태 설계) — 개선 목표 프로세스·아키텍처 정의</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전환 계획 (Transition Plan / Roadmap) — 단계별 이행 일정, 위험 관리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">지속적 개선 (Continuous Improvement) — 운영 피드백 → AS-IS 갱신 → 반복 사이클</div></div>
-</div>
-</div>
-
-
+```text
+[현황 진단 없는 시스템 도입 — 요구 사항 불명확, 프로젝트 실패율 높음]
+    │
+    ▼
+[AS-IS 분석 (현재 상태 모델링) — 업무 프로세스·데이터·시스템 현황 가시화]
+    │
+    ▼
+[GAP 분석 (Gap Analysis) — AS-IS와 TO-BE 차이 식별, 우선순위 도출]
+    │
+    ▼
+[TO-BE 모델링 (미래 상태 설계) — 개선 목표 프로세스·아키텍처 정의]
+    │
+    ▼
+[전환 계획 (Transition Plan / Roadmap) — 단계별 이행 일정, 위험 관리]
+    │
+    ▼
+[지속적 개선 (Continuous Improvement) — 운영 피드백 → AS-IS 갱신 → 반복 사이클]
+```
 이 흐름은 현황 분석 없이 추진되던 시스템 도입 실패 경험을 바탕으로 [AS-IS](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)→GAP→TO-BE 체계가 정립되고, 이를 지속적 개선 사이클로 내재화하는 엔터프라이즈 변환 관리 방법론의 발전을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

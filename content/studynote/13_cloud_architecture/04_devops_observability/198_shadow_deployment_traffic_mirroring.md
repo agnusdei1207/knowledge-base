@@ -33,26 +33,29 @@ tags = ["studynote-cloud-architecture"]
 
 ### 트래픽 [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/) 구조
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라이언트</div></div>
-<div class="kb-diagram-note">요청</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서비스 메시 (Istio Envoy)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">또는 API Gateway</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원본</div><div class="kb-diagram-cell">미러링 (100% 복제)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">운영 서비스</div><div class="kb-diagram-cell">Shadow 서비스 (신버전)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(v1)</div><div class="kb-diagram-cell">(v2, 격리 환경)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">사용자에게 응답</div><div class="kb-diagram-node">응답 버림 / 로그만 기록</div></div>
-<div class="kb-diagram-tree-item" style="--depth:8">에러 여부</div>
-<div class="kb-diagram-tree-item" style="--depth:8">응답 시간</div>
-<div class="kb-diagram-tree-item" style="--depth:8">v1과 결과 차이</div>
-</div>
-</div>
-
-
+```
+  ┌────────────┐
+  │   클라이언트  │
+  └─────┬──────┘
+        │ 요청
+        ▼
+  ┌─────────────────────────────────┐
+  │   서비스 메시 (Istio Envoy)      │
+  │   또는 API Gateway               │
+  └────────┬──────────┬─────────────┘
+           │ 원본     │ 미러링 (100% 복제)
+           ▼          ▼
+  ┌──────────────┐  ┌─────────────────────┐
+  │ 운영 서비스   │  │  Shadow 서비스 (신버전) │
+  │ (v1)         │  │  (v2, 격리 환경)      │
+  └──────┬───────┘  └────────┬────────────┘
+         │                    │
+         ▼                    ▼
+  [사용자에게 응답]      [응답 버림 / 로그만 기록]
+                        - 에러 여부
+                        - 응답 시간
+                        - v1과 결과 차이
+```
 
 ### [Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) 트래픽 [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)
 
@@ -81,18 +84,18 @@ spec:
 
 ### 신버전 격리 환경 구성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Shadow 환경</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">shadow-search-v2</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">shadow-db-v2</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">별도 격리 DB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Read-only replica 또는 별도 인스턴스)</div></div>
-</div>
-</div>
-
-
+```
+  ┌─────────────────────────────────────────────┐
+  │                Shadow 환경                   │
+  │                                             │
+  │  [shadow-search-v2]                          │
+  │       │                                     │
+  │       ▼                                     │
+  │  [shadow-db-v2]  ← 별도 격리 DB              │
+  │  (Read-only replica 또는 별도 인스턴스)        │
+  │                                             │
+  └─────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: [Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) `mirror` [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)은 마치 전화 통화를 녹음하는 것과 같다. 통화([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))는 정상 진행되고, 복사본이 조용히 다른 시스템(Shadow)에 전달되어 분석된다.
 
@@ -198,19 +201,15 @@ class ShadowComparisonService:
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Shadow Deployment: 트래픽 미러링 + 응답 비교</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Istio Mirror: 서비스 메시 기반 트래픽 복제</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">검증 완료 → Canary/Blue-Green 전환</div>
-</div>
-</div>
-
-
+```text
+Shadow Deployment: 트래픽 미러링 + 응답 비교
+    │
+    ▼
+Istio Mirror: 서비스 메시 기반 트래픽 복제
+    │
+    ▼
+검증 완료 → Canary/Blue-Green 전환
+```
 2. 학생들(사용자)은 기존 선생님의 수업만 듣고, 새 선생님의 결과는 교장선생님(개발팀)만 확인해.
 3. 새 선생님이 틀린 답을 말하거나 너무 느리다면 수업 방식을 고치고, 완벽해지면 그때 공식 선생님으로 교체해.
 
@@ -221,6 +220,6 @@ class ShadowComparisonService:
 **진행 상황**: 197 / 371
 
 ← **이전**: [197. 다크 론칭 (Dark Launching)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/197_dark_launching_traffic_shadow/)
-**다음**: [199. 플랫폼 엔지니어링 (Platform Engineering)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/199_platform_engineering_idp_golden_path/) →
+**다음**: [199. 플랫폼 엔지니어링 (Platform 엔진ering)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/199_platform_engineering_idp_golden_path/) →
 
 ---

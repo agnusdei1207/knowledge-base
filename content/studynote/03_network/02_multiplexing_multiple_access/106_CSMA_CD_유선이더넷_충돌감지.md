@@ -38,26 +38,27 @@ tags = ["network"]
 | **충돌 감지** | [Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/) [Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/) | 내 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전송하는 도중에 비정상적 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 감지되면 충돌로 판정 | 최소 프레임 (64Byte) |
 | **임의 대기** | Backoff | 충돌 발생 시 [잼 신호](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/107_잼_신호_백오프_알고리즘/)([Jam Signal](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/107_잼_신호_백오프_알고리즘/))를 뿌린 후 무작위 시간 동안 대기 | BEB [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CSMA/CD 의 충돌 감지 타이밍 딜레마</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">송신자 A</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">수신자 B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간 0.0s : A가 데이터 전송 시작 (채널이 비어 있다고 판단)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간 0.5s : B도 A의 신호가 아직 도착 안 해서 비어있는 줄 알고 송신 시작</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간 0.6s : 💥 케이블 중간에서 A의 신호와 B의 신호 충돌 발생!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간 1.1s : 충돌로 파괴된 반사파가 A에게 도달하여 A가 충돌을 인지함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🚨 핵심 조건: A가 충돌을 인지하는 1.1s 시점에, A는 "아직 데이터를 쏘고</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">있는 중"이어야만 내 데이터가 충돌했음을 알 수 있다!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">만약 데이터가 너무 짧아 0.8s에 전송을 끝내버렸다면?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A는 "오 성공적으로 보냈군" 하고 완벽히 착각하게 됨.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 해결책: 이더넷 최소 프레임 크기를 강제로 64바이트로 규정하여, 충돌파가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">돌아올 때까지(RTT) 무조건 송신기를 틀어놓게 만든 물리적 제약.</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                  CSMA/CD 의 충돌 감지 타이밍 딜레마                  │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│ [송신자 A] ───────────────── (케이블) ─────────────────▶ [수신자 B] │
+│                                                              │
+│ 시간 0.0s : A가 데이터 전송 시작 (채널이 비어 있다고 판단)          │
+│ 시간 0.5s : B도 A의 신호가 아직 도착 안 해서 비어있는 줄 알고 송신 시작│
+│ 시간 0.6s : 💥 케이블 중간에서 A의 신호와 B의 신호 충돌 발생!        │
+│ 시간 1.1s : 충돌로 파괴된 반사파가 A에게 도달하여 A가 충돌을 인지함   │
+│                                                              │
+│ 🚨 핵심 조건: A가 충돌을 인지하는 1.1s 시점에, A는 "아직 데이터를 쏘고│
+│             있는 중"이어야만 내 데이터가 충돌했음을 알 수 있다!     │
+│             만약 데이터가 너무 짧아 0.8s에 전송을 끝내버렸다면?    │
+│             A는 "오 성공적으로 보냈군" 하고 완벽히 착각하게 됨.      │
+│                                                              │
+│ ✅ 해결책: 이더넷 최소 프레임 크기를 강제로 64바이트로 규정하여, 충돌파가│
+│          돌아올 때까지(RTT) 무조건 송신기를 틀어놓게 만든 물리적 제약.│
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램은 충돌 감지(CD)를 위해 네트워크 케이블의 길이와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 최소 크기가 왜 톱니바퀴처럼 맞물려야 하는지 보여준다. 만약 충돌 횟수가 계속 늘어나면, 이진 지수 백오프 (BEB, Binary Exponential Backoff) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 사용해 대기 시간의 범위를 2배, 4배, 8배로 지수적으로 늘리며 네트워크의 혼잡을 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시킨다.
 
@@ -118,21 +119,18 @@ tags = ["network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">ALOHA (최초의 무선 패킷 통신망, 단순 경쟁으로 충돌 매우 잦음)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CSMA/CD (유선 이더넷, 통신 전 감지 및 충돌 발생 후 백오프 대기)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">L2 Switch &amp; Full-Duplex (하드웨어 포트 분리, CD 비활성화 및 충돌 원천 봉쇄)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CSMA/CA (Wi-Fi 무선 통신망, 충돌 감지가 어려워 충돌 회피 알고리즘으로 진화)</div>
-</div>
-</div>
-
-
+```text
+ALOHA (최초의 무선 패킷 통신망, 단순 경쟁으로 충돌 매우 잦음)
+    │
+    ▼
+CSMA/CD (유선 이더넷, 통신 전 감지 및 충돌 발생 후 백오프 대기)
+    │
+    ▼
+L2 Switch & Full-Duplex (하드웨어 포트 분리, CD 비활성화 및 충돌 원천 봉쇄)
+    │
+    ▼
+CSMA/CA (Wi-Fi 무선 통신망, 충돌 감지가 어려워 충돌 회피 알고리즘으로 진화)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

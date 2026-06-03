@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **비대칭키의 약점**: 공개키 [암호학](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/)([RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/))은 너무 훌륭하지만, 인터넷에 떠도는 수많은 공개키가 "진짜 그 사람의 공개키인지, 아니면 해커가 파놓은 가짜([Spoofing](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)) 공개키인지" 확신할 방법이 없었습니다. ([중간자 공격](/knowledge-base/studynote/03_network/14_network_security_threats/706_mitm_man_in_the_middle_hsts/) 취약)
 - <strong><a href="/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/">PKI</a> (공개키 기반 구조)</strong>: 이 딜레마를 깨기 위해, 절대적으로 믿을 수 있는 <strong>제3의 공인된 기관(신뢰할 수 있는 기관, <a href="/knowledge-base/studynote/09_security/04_endpoint_security/329_ttp/">TTP</a>)</strong>을 십자가처럼 세워두고, 그 기관이 "이 공개키의 주인은 진짜 네이버닷컴(naver.com)이 확실합니다"라고 <strong>디지털 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>서(X.509)</strong>에 강력한 전자 도장을 찍어 보증(Binding)해 주는 전 세계적인 보안 인프라 체계입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">전자서명 생성/검증 프로세스 개요</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">공개키 기반 구조 아키텍처 보안 증명 시스템</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">인증국, 등록기관, 저장소 체계</div></div>
-</div>
-</div>
-
-
+```text
+[전자서명 생성/검증 프로세스 개요]
+    │
+    ▼
+[공개키 기반 구조 아키텍처 보안 증명 시스템]
+    │
+    └──▶ [인증국, 등록기관, 저장소 체계]
+```
 
 - **📢 섹션 요약 비유**: 공개키 기반 구조 아키텍처 보안 증명 시스템은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -52,18 +48,14 @@ tags = ["studynote-network"]
 4. **사용자 (Entity / Subscriber)**: 
    - [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 돈 주고 발급받는 웹 서버(네이버 등)나 우리 같은 일반 인터넷 이용자입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">전자서명 생성/검증 프로세스 개요</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">공개키 기반 구조 아키텍처 보안 증명 시스템</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">인증국, 등록기관, 저장소 체계</div></div>
-</div>
-</div>
-
-
+```text
+[전자서명 생성/검증 프로세스 개요]
+    │
+    ▼
+[공개키 기반 구조 아키텍처 보안 증명 시스템]
+    │
+    └──▶ [인증국, 등록기관, 저장소 체계]
+```
 
 - **📢 섹션 요약 비유**: 공개키 기반 구조 아키텍처 보안 증명 시스템의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -121,19 +113,15 @@ PKI는 피라미드 다단계처럼 꼬리에 꼬리를 무는 보증 시스템�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 전자서명 생성/검증 프로세스 개요</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 공개키 기반 구조 아키텍처 보안 증명 시스템</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 인증국, 등록기관, 저장소 체계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 전자서명 생성/검증 프로세스 개요]
+    │
+    ▼
+[현재 개념: 공개키 기반 구조 아키텍처 보안 증명 시스템]
+    │
+    ├──▶ [확장 A: 인증국, 등록기관, 저장소 체계]
+    └──▶ [확장 B: 자동화된 신뢰 체계]
+```
 
 공개키 기반 구조 아키텍처 보안 증명 시스템는 [전자서명](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)/[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 프로세스 개요에서 출발해 현재 메커니즘을 정교화하고, 이후 [인증국](/knowledge-base/studynote/03_network/13_network_security_basics/677_ca_ra_certificate_authority_registration/), 등록기관, 저장소 체계와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

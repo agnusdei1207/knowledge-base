@@ -26,18 +26,14 @@ tags = ["studynote-network"]
   - <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a>(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">Routing</a>)</strong>: [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 본사에서 "오늘은 대전 물류센터를 거쳐 가는 게 가장 빠르다"라고 매일 아침 <strong>최적 배송 경로표(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> 테이블)를 짜는 두뇌 작업</strong>입니다.
   - **포워딩(Forwarding)**: 대전 물류센터의 컨베이어 벨트 직원이, 박스의 우편번호(IP)를 슥 보고 무의식적으로 "이건 광주행 3번 트럭! 저건 부산행 5번 트럭!" 하고 <strong>실제로 짐을 밀어 넣는 육체 노동</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">PON / AON</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 계층의 핵심 3기능</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IPv4</div></div>
-</div>
-</div>
-
-
+```text
+[PON / AON]
+    │
+    ▼
+[네트워크 계층의 핵심 3기능]
+    │
+    └──▶ [IPv4]
+```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a>이 머릿속으로 </strong>"내비게이션 경로 탐색 버튼"**을 누르는 두뇌 회전이라면, 포워딩은 교차로에 도착할 때마다 핸들을 돌리고 **"우회전 깜빡이"**를 켜는 몸의 움직임입니다.
 
@@ -57,24 +53,25 @@ tags = ["studynote-network"]
 - 아까 머리를 쥐어짜서 만들어 둔 '[라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블'을 뒤져본다. "아, 8.8.8.x 대역은 3번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(Tx)로 던지라고 적혀있네!"
 - 패킷을 스위칭 패브릭(내부 고속도로)을 통해 3번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 빛의 속도로 넘긴다. ([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)이 1초에 한 번 일어나는 회의라면, 포워딩은 1초에 수백만 번 일어나는 단순 반복 노동이다.)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">라우팅(Routing)과 포워딩(Forwarding)의 분리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">라우팅 소프트웨어 두뇌 (OSPF, BGP 연산)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"미국 가는 최적의 길은 Port 3이다! 테이블 업데이트!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">라우팅 테이블 (Routing Table)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 10.1.1.0/24 ──▶ Port 1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 8.8.8.0/24 ──▶ Port 3 (미국행)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"목적지 IP 8.8.8.8 발견! 테이블 뒤져보자!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">포워딩 하드웨어 (데이터 패킷 스위칭)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">패킷 들어옴 (Rx) ▼ 3번으로 발송!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Port 1) (Port 3)</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                라우팅(Routing)과 포워딩(Forwarding)의 분리     │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 라우팅 소프트웨어 두뇌 (OSPF, BGP 연산) ]                     │
+ │      │ "미국 가는 최적의 길은 Port 3이다! 테이블 업데이트!"          │
+ │      ▼                                                      │
+ │   [ 라우팅 테이블 (Routing Table) ]                            │
+ │     - 10.1.1.0/24 ──▶ Port 1                              │
+ │     - 8.8.8.0/24  ──▶ Port 3 (미국행)                       │
+ │      ▲                                                      │
+ │      │ "목적지 IP 8.8.8.8 발견! 테이블 뒤져보자!"                 │
+ │   [ 포워딩 하드웨어 (데이터 패킷 스위칭) ]                         │
+ │      ▲                                          │           │
+ │      │ 패킷 들어옴 (Rx)                           ▼ 3번으로 발송!│
+ │   (Port 1)                                   (Port 3)       │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 3. 혼잡 제어 ([Congestion Control](/knowledge-base/studynote/03_network/08_transport_layer/428_tcp_congestion_control_network_perspective/)) - 체증 방지
 망 내부에 패킷이 너무 많이 몰려 라우터 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)/버퍼)가 넘치면 패킷 유실이 발생하고, 유실된 패킷을 재전송하느라 트래픽이 기하급수적으로 폭발하는 <strong>혼잡 붕괴(Congestion Collapse)</strong>가 발생한다.
@@ -82,7 +79,7 @@ tags = ["studynote-network"]
 - 큐가 꽉 차기 직전에 미리 눈치채고, 중요도가 낮은 패킷을 **일부러 무작위로 몇 개 버린다(Drop)**. 
 - 패킷이 버려지면 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 4계층에서 눈치를 채고 "아 망이 혼잡하구나! 속도 줄이자!"라며 스스로 송신 윈도우 크기를 확 줄이게 유도한다. 이처럼 3계층과 4계층이 핑퐁을 치며 인터넷 대재앙을 막아낸다.
 
-- **📢 섹션 요약 비유**: ** 라우터의 포워딩은 밀려드는 택배 상자를 빠르게 분류하는 **"로봇 팔"<strong>이고, <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>은 로봇 팔에게 명령을 내리는 </strong>"메인 컴퓨터"**이며, 혼잡 제어는 컨베이어 벨트가 넘칠 것 같으면 잠시 전원을 끄고 물량을 조절하는 **"안전 센서"**입니다. 이 세 개가 완벽히 맞물려 돌아가야 지구 반대편으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 갑니다.
+- **📢 섹션 요약 비유**: ** 라우터의 포워딩은 밀려드는 택배 상자를 빠르게 분류하는 **"로봇 팔"<strong>이고, <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>은 로봇 팔에게 명령을 내리는 </strong>"메인 컴퓨터"**이며, 혼잡 제어는 컨베이어 벨트가 넘칠 것 같으면 잠시 전원을 끄고 수량을 조절하는 **"안전 센서"**입니다. 이 세 개가 완벽히 맞물려 돌아가야 지구 반대편으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 갑니다.
 
 ---
 
@@ -138,19 +135,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: PON / AON</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 네트워크 계층의 핵심 3기능</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: IPv4</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 대규모 주소 자동화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: PON / AON]
+    │
+    ▼
+[현재 개념: 네트워크 계층의 핵심 3기능]
+    │
+    ├──▶ [확장 A: IPv4]
+    └──▶ [확장 B: 대규모 주소 자동화]
+```
 
 네트워크 계층의 핵심 3기능는 [PON](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/284_pon_passive_optical_network_vs_aon_active/) / AON에서 출발해 현재 메커니즘을 정교화하고, 이후 IPv4와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

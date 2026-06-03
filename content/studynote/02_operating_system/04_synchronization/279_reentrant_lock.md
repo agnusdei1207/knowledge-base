@@ -54,26 +54,28 @@ tags = ["studynote-operating-system"]
 - [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A가 `unlock()`을 한 번 더 호출해서 **카운트가 0이 되는 순간!**
 - 비로소 락의 문이 철컥 열리며 대기하던 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) B가 들어올 수 있게 된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">재진입 락 (Reentrant Lock)의 재귀적 호출과 카운팅 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">public synchronized void 이체() {</div><div class="kb-diagram-node">락 상태 모니터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// 1. 여기서 스레드 A가 락 획득! -&gt; 소유자: A, Count: 1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">출금(); // 2. 내부에서 다른 메서드 호출</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">public synchronized void 출금() {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// 3. 일반 락이면 여기서 셀프 데드락으로 뻗어버림!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// 하지만 재진입 락이면? "나 A야!" -&gt; 소유자: A, Count: 2 (통과!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">잔액 = 잔액 - 100;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">} // 4. 출금 끝 (1차 Unlock) -&gt; 소유자: A, Count: 1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// 5. 이체 끝 (2차 Unlock) -&gt; 소유자: 없음, Count: 0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// ★ 비로소 밖에서 기다리던 스레드 B가 락을 쥐고 진입 가능!</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────────┐
+│           재진입 락 (Reentrant Lock)의 재귀적 호출과 카운팅 시각화           │
+├──────────────────────────────────────────────────────────────────────────────┤
+│                                                                              │
+│ public synchronized void 이체() {        [ 락 상태 모니터 ]                  │
+│     // 1. 여기서 스레드 A가 락 획득!         -> 소유자: A, Count: 1          │
+│                                                                              │
+│     출금(); // 2. 내부에서 다른 메서드 호출                                  │
+│ }                                                                            │
+│                                                                              │
+│ public synchronized void 출금() {                                            │
+│     // 3. 일반 락이면 여기서 셀프 데드락으로 뻗어버림!                       │
+│     // 하지만 재진입 락이면? "나 A야!"       -> 소유자: A, Count: 2 (통과!)  │
+│                                                                              │
+│     잔액 = 잔액 - 100;                                                       │
+│ } // 4. 출금 끝 (1차 Unlock)             -> 소유자: A, Count: 1              │
+│                                                                              │
+│ // 5. 이체 끝 (2차 Unlock)               -> 소유자: 없음, Count: 0           │
+│ // ★ 비로소 밖에서 기다리던 스레드 B가 락을 쥐고 진입 가능!                  │
+└──────────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 구조 덕분에 개발자는 메서드 안에서 다른 동기화된 메서드를 호출할 때 "이게 락이 걸려있나 안 걸려있나?"를 눈치 보며 설계할 필요가 없어진다. 코드를 아주 깔끔하고 모듈화(조립)하기 좋게 만들어주는 객체 지향 프로그래밍의 구원자다.
 
@@ -124,19 +126,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">이진 세마포어 vs 뮤텍스 차이 (소유권 유무)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">재진입 가능 락 (Reentrant Lock / Recursive Lock)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">읽기-쓰기 락 (Read-Write Lock)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">교착 상태 (Deadlock) 정의</div></div>
-</div>
-</div>
-
-
+```text
+[이진 세마포어 vs 뮤텍스 차이 (소유권 유무)]
+    │
+    ▼
+[재진입 가능 락 (Reentrant Lock / Recursive Lock)]
+    │
+    ├──▶ [읽기-쓰기 락 (Read-Write Lock)]
+    └──▶ [교착 상태 (Deadlock) 정의]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

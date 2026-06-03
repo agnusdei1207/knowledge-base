@@ -45,45 +45,48 @@ boolean eligible = interpreter.evaluate(rule, user);
 | [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) NOT | 부정 | `NOT A` |
 | 괄호 그룹 | 우선순위 조정 | `(A OR B) AND C` |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Core Idea</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Expected Gain</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐    ┌──────────────┐    ┌──────────────┐
+│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
+└──────────────┘    └──────────────┘    └──────────────┘
+```
 
 - **📢 섹션 요약 비유**: 인터프리터 패턴은 번역가 팀 — 원문(표현식)을 받아 어휘 분석가(Lexer)가 단어로 쪼개고, 문법 분석가(Parser)가 문장 구조(AST)를 파악하고, 번역가(Evaluator)가 최종 의미(true/false)를 판단한다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Boolean Parser Interpreter Pipeline</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력: "age &gt;= 18 AND (role = 'ADMIN' OR score &gt; 100)"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Step 1: Lexer (렉서 / 토크나이저)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">age</div><div class="kb-diagram-node">&gt;=</div><div class="kb-diagram-node">18</div><div class="kb-diagram-node">AND</div><div class="kb-diagram-node">(</div><div class="kb-diagram-node">role</div><div class="kb-diagram-node">=</div><div class="kb-diagram-node">'ADMIN'</div><div class="kb-diagram-node">OR</div><div class="kb-diagram-note">... │</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">토큰 스트림</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Step 2: Parser (파서, 재귀 하강)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AST (추상 구문 트리)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AND</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">age&gt;=18 OR</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">role=ADMIN score&gt;100</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AST</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Step 3: Evaluator (평가기)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">context = { age: 25, role: "USER", score: 150 }</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AND(age&gt;=18:true, OR(role=ADMIN:false, score&gt;100:true))</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">= AND(true, OR(false, true)) = AND(true, true) = true</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">출력: true (조건 충족)</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────────────┐
+│           Boolean Parser Interpreter Pipeline                   │
+│                                                                 │
+│  입력: "age >= 18 AND (role = 'ADMIN' OR score > 100)"          │
+│                                                                 │
+│  Step 1: Lexer (렉서 / 토크나이저)                               │
+│    ┌─────────────────────────────────────────────────────────┐  │
+│    │ [age] [>=] [18] [AND] [(] [role] [=] ['ADMIN'] [OR]... │  │
+│    └────────────────────────────┬────────────────────────────┘  │
+│                                 │ 토큰 스트림                    │
+│  Step 2: Parser (파서, 재귀 하강)                                │
+│    ┌─────────────────────────────────────────────────────────┐  │
+│    │           AST (추상 구문 트리)                            │  │
+│    │                  AND                                    │  │
+│    │                 /   \                                   │  │
+│    │           age>=18    OR                                 │  │
+│    │                     /  \                                │  │
+│    │              role=ADMIN  score>100                      │  │
+│    └────────────────────────────┬────────────────────────────┘  │
+│                                 │ AST                           │
+│  Step 3: Evaluator (평가기)                                      │
+│    ┌─────────────────────────────────────────────────────────┐  │
+│    │ context = { age: 25, role: "USER", score: 150 }         │  │
+│    │ AND(age>=18:true, OR(role=ADMIN:false, score>100:true))  │  │
+│    │ = AND(true, OR(false, true)) = AND(true, true) = true   │  │
+│    └─────────────────────────────────────────────────────────┘  │
+│                                                                 │
+│  출력: true (조건 충족)                                           │
+└─────────────────────────────────────────────────────────────────┘
+```
 
 ```bnf
 expression  ::= or_expr
@@ -187,22 +190,18 @@ String rule = "role = 'ADMIN' OR (role = 'MANAGER' AND department = resource.dep
 boolean allowed = engine.evaluate(rule, new PermissionContext(currentUser, targetResource));
 ```
 
+```
+성능 문제:
+  같은 규칙 문자열을 매 요청마다 파싱 → 파싱 비용 반복 발생
 
+최적화:
+  규칙 문자열 → AST 변환 결과를 캐시
+  (규칙 변경 시 캐시 무효화)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">성능 문제:</div>
-<div class="kb-diagram-note">같은 규칙 문자열을 매 요청마다 파싱 → 파싱 비용 반복 발생</div>
-<div class="kb-diagram-note">최적화:</div>
-<div class="kb-diagram-note">규칙 문자열 → AST 변환 결과를 캐시</div>
-<div class="kb-diagram-note">(규칙 변경 시 캐시 무효화)</div>
-<div class="kb-diagram-note">Map&lt;String, Expression&gt; astCache = new ConcurrentHashMap&lt;&gt;();</div>
-<div class="kb-diagram-note">Expression ast = astCache.computeIfAbsent(ruleText, parser::parse);</div>
-<div class="kb-diagram-note">boolean result = ast.evaluate(context); // 파싱 없이 평가만</div>
-</div>
-</div>
-
-
+  Map<String, Expression> astCache = new ConcurrentHashMap<>();
+  Expression ast = astCache.computeIfAbsent(ruleText, parser::parse);
+  boolean result = ast.evaluate(context);  // 파싱 없이 평가만
+```
 
 | 적합 | 부적합 |
 |:---|:---|

@@ -27,22 +27,20 @@ tags = ["data_engineering"]
 
 이를 해결하기 위해 "일단 원형 그대로 저장부터 하고, 구조는 분석가가 필요할 때 해석하자"는 극단적인 유연성을 채택한 것이 바로 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 온 리드입니다.
 
+```text
+[전통적 저장 방식의 한계와 스키마 온 리드의 패러다임 전환]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">전통적 저장 방식의 한계와 스키마 온 리드의 패러다임 전환</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Schema-on-Write (과거)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">JSON/CSV 유입 ──&gt;</div><div class="kb-diagram-node">ETL 서버: 스키마 검증 및 데이터 변환/삭제</div><div class="kb-diagram-note">(병목 지점)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">── (스키마 불일치 데이터 폐기) ──&gt;</div><div class="kb-diagram-node">RDBMS</div></div>
-<div class="kb-diagram-note">↓ (유연성 확보)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Schema-on-Read (현대)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">JSON/CSV 유입 ──&gt;</div><div class="kb-diagram-node">Data Lake (S3): 가공 없이 즉시 원형 적재</div><div class="kb-diagram-note">(속도 극대화)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">분석가 Query 실행</div><div class="kb-diagram-note">──&gt; 동적으로 스키마(View) 맵핑하여 데이터 해석</div></div>
-</div>
-</div>
-
-
+┌─────────────────── [ Schema-on-Write (과거) ] ───────────────────┐
+│ JSON/CSV 유입 ──> [ ETL 서버: 스키마 검증 및 데이터 변환/삭제 ]  │ (병목 지점)
+│                 └── (스키마 불일치 데이터 폐기) ──> [ RDBMS ]   │
+└──────────────────────────────────────────────────────────────────┘
+                                   ↓ (유연성 확보)
+┌──────────────────── [ Schema-on-Read (현대) ] ───────────────────┐
+│ JSON/CSV 유입 ──> [ Data Lake (S3): 가공 없이 즉시 원형 적재 ]   │ (속도 극대화)
+│                          ↓                                       │
+│ [ 분석가 Query 실행 ] ──> 동적으로 스키마(View) 맵핑하여 데이터 해석│
+└──────────────────────────────────────────────────────────────────┘
+```
 이 도식은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 수집 단계에서 '검열소([ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/))'를 제거함으로써 얻는 수집의 자유를 보여줍니다. [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 온 리드는 창고(Storage) 문을 활짝 열어놓고 어떤 규격의 화물이든 우선 받아들입니다. 정제 과정에서 발생하는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))이 사라져 실시간 대량 적재가 가능해지며, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 가진 잠재적 정보 손실(Loss)을 원천 차단하는 것이 가장 큰 존재 이유입니다.
 
 > 📢 **섹션 비유**: 옛날 사진관([Schema-on-Write](/knowledge-base/studynote/14_data_engineering/01_infrastructure/010_schema_on_write/))에서는 미리 액자 틀을 짜놓고 거기에 맞춰 사진을 잘라서만 보관했지만, 최신 디지털 앨범([Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/)-on-Read)은 일단 고해상도 원본 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 무한정 저장해 두고 나중에 필요할 때 원하는 액자 크기로 잘라 쓰는 것과 같습니다.
@@ -58,32 +56,31 @@ tags = ["data_engineering"]
 | <strong><a href="/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/">Raw</a> Storage</strong> | 원시 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 저장 | S3나 HDFS에 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/), CSV [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 줄바꿈 기호(LF) 등으로만 구분된 채 저장됨 | 글자가 빽빽하게 적힌 종이 |
 | <strong>Meta <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/">Schema</a>)</strong> | 구조 해석을 위한 메타 정보 | 외부 메타스토어([Hive](/knowledge-base/studynote/05_database/04_transactions_concurrency/544_hive/) Metastore)나 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 런타임에 "첫 번째 쉼표까지는 이름, 두 번째는 나이"라고 정의 | 종이 위에 덧대는 투명한 표 테두리 |
 | **Parser / SerDe** | [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)를 의미 단위로 역직렬화 | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 포맷([JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/), [Parquet](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/) 등)에 맞춰 텍스트를 구조화된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(컬럼)로 파싱 (Serializer/Deserializer) | 외국어를 번역해 주는 통역기 |
-| **Compute Engine** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 읽기 및 연산 | Spark나 Presto 엔진이 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 렌즈를 통해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽어 메모리에 DataFrame 구성 | 표를 보고 연산하는 회계사 |
+| **Compute 엔진** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 읽기 및 연산 | Spark나 Presto 엔진이 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 렌즈를 통해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽어 메모리에 DataFrame 구성 | 표를 보고 연산하는 회계사 |
 
 이 메커니즘의 핵심은 <strong>"<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 자체에는 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/">스키마</a> 강제성이 없다"</strong>는 것입니다. 하나의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 대해 A 부서는 3개의 컬럼으로 해석하는 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)를 적용하고, B 부서는 5개의 컬럼으로 해석하는 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)를 동시에 적용할 수 있습니다.
 
+```text
+[Spark 스키마 온 리드 추론(Infer Schema) 동작 흐름]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Spark 스키마 온 리드 추론(Infer Schema) 동작 흐름</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Raw Data (S3의 JSON 파일)</div></div>
-<div class="kb-diagram-note">{"id": 1, "user_name": "Alice", "age": 30, "address": "Seoul"}</div>
-<div class="kb-diagram-note">{"id": 2, "user_name": "Bob", "age": "Unknown"} &lt;─ (데이터 타입 오염 존재)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Spark DataFrame Reader</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">spark.read.option("inferSchema", "true").json(path)</div></div>
-<div class="kb-diagram-note">(1차 스캔: 샘플링을 통한 스키마 동적 추론)</div>
-<div class="kb-diagram-tree-item" style="--depth:7">id: Long</div>
-<div class="kb-diagram-tree-item" style="--depth:7">user_name: String</div>
-<div class="kb-diagram-tree-item" style="--depth:7">age: String (정수와 문자가 섞여 있어 넓은 타입으로 자동 격상)</div>
-<div class="kb-diagram-note">(2차 스캔: 추론된 스키마를 덧씌워 데이터 읽기 실행)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">최종 결과: 구조화된 In-Memory DataFrame 생성 완료</div></div>
-</div>
-</div>
-
-
+       [ Raw Data (S3의 JSON 파일) ]
+       {"id": 1, "user_name": "Alice", "age": 30, "address": "Seoul"}
+       {"id": 2, "user_name": "Bob", "age": "Unknown"}  <─ (데이터 타입 오염 존재)
+                              ↓
+       ┌────────────────────────────────────────────────────────┐
+       │ [ Apache Spark DataFrame Reader ]                      │
+       │ spark.read.option("inferSchema", "true").json(path)    │
+       └──────────────────────┬─────────────────────────────────┘
+                              │ 
+              (1차 스캔: 샘플링을 통한 스키마 동적 추론)
+              - id: Long
+              - user_name: String
+              - age: String (정수와 문자가 섞여 있어 넓은 타입으로 자동 격상)
+                              │
+              (2차 스캔: 추론된 스키마를 덧씌워 데이터 읽기 실행)
+                              ↓
+       [ 최종 결과: 구조화된 In-Memory DataFrame 생성 완료 ]
+```
 이 흐름도는 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 온 리드가 실제로 코드로 어떻게 동작하는지를 보여줍니다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 내부에는 타입 충돌(age 필드에 정수와 문자열 혼재)이 있지만, 시스템은 저장 시점에 이를 거부하지 않았습니다. 대신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽어 들이는(Read) 순간, 컴퓨팅 엔진(Spark)이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 내용물을 스캔하여 가장 안전한 자료형(String)으로 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)를 동적 추론(Infer [Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/))합니다. 이처럼 읽는 순간에 해석 로직이 개입하므로, 분석가의 목적에 따라 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)를 유연하게 덮어씌울 수 있는 <strong>다형성(Polymorphism)</strong>을 획득하게 됩니다.
 
 > 📢 **섹션 비유**: 암호화된 고대 문서(원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 발굴해 일단 금고에 보관해 두고, 나중에 해독 안경([스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/))을 낀 고고학자가 나타나면 그 안경의 종류에 따라 문서가 경제 장부로도, 역사서로도 해석될 수 있는 원리입니다.
@@ -120,25 +117,20 @@ tags = ["data_engineering"]
 - **원인**: 스토리지 입구에 방어막이 전혀 없어 쓰레기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 그대로 적재되었고, 파싱 타임에 오염이 발견됨.
 - **해결 (운영 방어 플로우)**:
 
+```text
+[Schema-on-Read 환경에서의 불량 데이터 격리 (Corrupt Record Handling)]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Schema-on-Read 환경에서의 불량 데이터 격리 (Corrupt Record Handling)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">쿼리 실행 (Spark DataFrame Load)</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">파서(Parser)가 JSON 레코드를 한 줄씩 해석 시도</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Q1. 레코드 구조가 명시된 스키마에 위배되거나 파싱 불가능한가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">── (No) ──&gt;</div><div class="kb-diagram-node">정상 DataFrame에 병합</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">── (Yes) ─&gt;</div><div class="kb-diagram-node">Mode 옵션에 따른 분기 처리</div></div>
-<div class="kb-diagram-tree-item" style="--depth:7">1. FAILFAST 모드: 즉시 Exception 발생시키고 작업 전체 강제 종료 (가장 엄격)</div>
-<div class="kb-diagram-tree-item" style="--depth:7">2. DROPMALFORMED 모드: 에러 난 줄을 조용히 무시하고 버림 (데이터 유실 위험)</div>
-<div class="kb-diagram-tree-item" style="--depth:7">3. PERMISSIVE 모드: (권장) 에러 난 원문 전체를 '_corrupt_record'라는 별도 컬럼에 담고 나머지는 NULL 처리</div>
-</div>
-</div>
-
-
+[ 쿼리 실행 (Spark DataFrame Load) ]
+         ↓
+[ 파서(Parser)가 JSON 레코드를 한 줄씩 해석 시도 ]
+         ↓
+[Q1. 레코드 구조가 명시된 스키마에 위배되거나 파싱 불가능한가?]
+ ├── (No) ──> [ 정상 DataFrame에 병합 ]
+ └── (Yes) ─> [ Mode 옵션에 따른 분기 처리 ]
+               ├── 1. FAILFAST 모드: 즉시 Exception 발생시키고 작업 전체 강제 종료 (가장 엄격)
+               ├── 2. DROPMALFORMED 모드: 에러 난 줄을 조용히 무시하고 버림 (데이터 유실 위험)
+               └── 3. PERMISSIVE 모드: (권장) 에러 난 원문 전체를 '_corrupt_record'라는 별도 컬럼에 담고 나머지는 NULL 처리
+```
 이 의사결정 흐름도는 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 온 리드의 치명적 약점인 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 부패에 대한 사후 대응' 메커니즘을 보여줍니다. 실무 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어링에서 스파크를 사용할 때는 무조건 `PERMISSIVE` 모드(기본값)를 활용하여, 파싱에 실패한 불량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 시스템이 터지지 않게 우회 수용하면서 별도의 격리된 컬럼(`_corrupt_record`)에 보관해야 합니다. 이후 분석가가 이 컬럼만 따로 필터링하여 개발팀에 버그 리포팅을 하는 형태의 '사후 정합성 거버넌스'를 구축해야 합니다.
 
 <strong>도입 판단 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong>
@@ -173,23 +165,21 @@ tags = ["data_engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Schema-on-Write(전통 RDBMS)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">빅데이터 등장</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 레이크</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Schema-on-Read</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">레이크하우스(Delta Lake)</div></div>
-</div>
-</div>
-
-
+```text
+[Schema-on-Write(전통 RDBMS)]
+    │
+    ▼
+[빅데이터 등장]
+    │
+    ▼
+[데이터 레이크]
+    │
+    ▼
+[Schema-on-Read]
+    │
+    ▼
+[레이크하우스(Delta Lake)]
+```
 
 [Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/)-on-Read는 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/) 위에서 읽을 때 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)를 해석하는 빅데이터 접근법이다.
 

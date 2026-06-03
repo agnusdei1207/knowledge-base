@@ -11,9 +11,9 @@ tags = ["ict_convergence"]
 # 07. 머클 트리 (Merkle Tree)
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 머클 트리(Merkle Tree)는 해시 트리(Hash Tree)라고도 불리며, 거래 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 노드(Leaf Node)에 놓고, 각 두 노드를 순차적으로 해시하여 으로 올라가며 최종 단일 해시값인 [머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/)([Merkle Root](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/))를 도출하는 [이진 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/060_binary_tree/)([Binary Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/060_binary_tree/)) 구조이다.
-> 2. **가치**: [머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/)만으로 해당 블록 내모든 거래의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 효율적으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 있으며, 머클 증명(Merkle Proof)을 통해 특정 거래의 존재를 최소한의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 proofs 할 수 있다.
-> 3. **융합**: 비트코인, 이더리움을은/는와/과하다 모든 주요 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에서 활용되며, [IPFS](/knowledge-base/studynote/06_ict_convergence/01_blockchain/055_ipfs_interplanetary_file_system/)([분산 파일 시스템](/knowledge-base/studynote/02_operating_system/09_file_system/553_distributed_file_system/)), [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 투명성(Log), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 등에 적용된다.
+> 1. **본질**: 머클 트리(Merkle Tree)는 해시 트리(Hash Tree)라고도 불리며, 거래 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 리프노드(Leaf Node)에 놓고, 각 두 노드를 순차적으로 해시하여 상류으로 올라가며 최종 단일 해시값인 [머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/)([Merkle Root](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/))를 도출하는 [이진 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/060_binary_tree/)([Binary Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/060_binary_tree/)) 구조이다.
+> 2. **가치**: [머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/)만으로 해당 블록 내소유 거래의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 효율적으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 있으며, 머클 증명(Merkle Proof)을 통해 특정 거래의 존재를 최소한의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 proofs 할 수 있다.
+> 3. **융합**: 비트코인, 이더리움을은じめ와/과하는 모든 주요 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에서 활용되며, [IPFS](/knowledge-base/studynote/06_ict_convergence/01_blockchain/055_ipfs_interplanetary_file_system/)([분산 파일 시스템](/knowledge-base/studynote/02_operating_system/09_file_system/553_distributed_file_system/)), [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 투명성(Log), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 등광범위な분야에 적용된다.
 
 ---
 
@@ -21,61 +21,71 @@ tags = ["ict_convergence"]
 
 ### 개념의 정의
 
-머클 트리(Merkle Tree)는 1979년 랄프 머클(Ralph Merkle)이 특허를 등록한 해시 트리 자료구조이다. [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에서는 각 블록의 거래 목록([Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) List)을 노드(Leaf Node)에 놓고, 인접한 두 거래의 해시값을 결합하여 의 부모 노드를 만드는 과정을(Root Node)에 도달할 때까지 반복한다. 모든 노드의 해시값이 최종적으로 결합된 단일 해시값을 [머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/)([Merkle Root](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/))라고 하며, 이것은 해당 블록 내 모든 거래의-integrity를 대표한다.
+머클 트리(Merkle Tree)는 1979년 랄프 머클(Ralph Merkle)이 특허를 등록한 해시 트리 자료구조이다. [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에서는 각 블록의 거래 목록([Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) List)을 리프노드(Leaf Node)에 놓고, 인접한 두 거래의 해시값을 결합하여 상류의 부모 노드를 만드는 과정을근절점(Root Node)에 도달할 때까지 반복한다. 모든 리프노드의 해시값이 최종적으로 결합된 단일 해시값을 [머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/)([Merkle Root](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/))라고 하며, 이것은 해당 블록 내 모든 거래의-integrity를 대표한다.
 
 ### 탄생 배경과 필요성
 
-디지털 금융 시스템에서 거래 기록의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 가장 중요한 과제 중 하나이다. 그러나 수천 건의 거래가 포함된 블록에서 특정 거래 한 건의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하려면 모든 거래를 다시 해시해야 한다면한 계산 비용이 발생한다. 머클 트리는 이러한 문제의책으로, 전체 거래 목록이 아닌 [머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/) 하나의 해시값으로 모든 거래의-integrity를보장할 수 있게 하였다. 또한 특정 거래의 존재를 증명하는 머클 증명(Merkle Proof)을 활용하면, 전체 거래 목록 중의의 해시값만을 활용하여 효율적으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 있다.
+디지털 금융 시스템에서 거래 기록의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 가장 중요한 과제 중 하나이다. 그러나 수천 건의 거래가 포함된 블록에서 특정 거래 한 건의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하려면 모든 거래를 다시 해시해야 한다면막대한 계산 비용이 발생한다. 머클 트리는 이러한 문제의해결책으로, 전체 거래 목록이 아닌 [머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/) 하나의 해시값으로 모든 거래의-integrity를단보할 수 있게 하였다. 또한 특정 거래의 존재를 증명하는 머클 증명(Merkle Proof)을 활용하면, 전체 거래 목록 중의ごく일부의 해시값만을 리용하여 효율적으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 있다.
 
 ### 💡 analogy
 
-머클 트리는기업의 임원 회의 구조에 비유할 수 있다. 각 부서장(노드)이 부서의업무 보고서(거래)를 요약하여(해시) 부장에게 보고하면, 각 부장(부모 노드)은 자신의 부서 요약들을 다시 종합하여(상위 해시) 경영진에게 보고한다. 최종적으로 대표이사([머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/))는 전체 company 상황을 단일 보고서(루트 해시)로 전달받는다. 만약 어느 부서의 거래 기록이 위조되면, 그 부서의 요약이 달라지고, 경영진의 최종 보고서도 달라져서 조작 사실이즉시에된다.
+머클 트리는기업의 임원 회의 구조에 비유할 수 있다. 각 부서장(리프노드)이 자부서의업무 보고서(거래)를 요약하여(해시) 부장에게 보고하면, 각 부장(부모 노드)은 자신의 부서 요약들을 다시 종합하여(상위 해시) 경영진에게 보고한다. 최종적으로 대표이사([머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/))는 전체 company 상황을 단일 보고서(루트 해시)로 전달받는다. 만약 어느 부서의 거래 기록이 위조되면, 그 부서의 요약이 달라지고, 경영진의 최종 보고서도 달라져서 조작 사실이즉시에감지된다.
 
 ### 배경 설명
 
-머클 트리의 을 단계별로 설명하면 다음과 같다. 먼저, 각 거래에 SHA-256 해시 알고리즘을 적용하여 해시값()을 얻는다.에, 두 개의 노드를 결합(Concatenation)하고, 결합된 값에 다시 SHA-256 해시를 적용하여 부모 노드의 해시값을얻는다.의을 각 쌍에 적용하여 의수을/를에 줄인다. 만약 노드의 수가수인 경우, 마지막 노드를 자신과 결합하여 해시를 계산한다(또는 자신을 복사). 이 과정을에 도달할 때까지반복하며, 최종적으로얻은 단일 해시값이 [머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/)이다. 어떤 거래 한 건이라도 내용이 바뀌면 그 거래의 해시값이 변하고, 연결된 모든 상위 노드의 해시값이에 변하며, 결과적으로 [머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/)가 달라진다.
+머클 트리의 구축과정을 단계별로 설명하면 다음과 같다. 먼저, 각 거래에 SHA-256 해시 알고리즘을 적용하여 취인 해시값(엽ノード)을 얻는다.다음에, 린り합う 두 개의 리프노드를 결합(Concatenation)하고, 결합된 값에 다시 SHA-256 해시를 적용하여 부모 노드의 해시값을얻는다.이조작을 각 쌍에 적용하여 상류의ノード수를반분에 줄인다. 만약 리프노드의 수가기수인 경우, 마지막 노드를 자신과 결합하여 해시를 계산한다(또는 자신을 복사). 이 과정을근절점에 도달할 때까지반복하며, 최종적으로얻은 단일 해시값이 [머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/)이다. 어떤 거래 한 건이라도 내용이 바뀌면 그 거래의 해시값이 변하고, 연결된 모든 상위 노드의 해시값이련쇄적에 변하며, 결과적으로 [머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/)가 달라진다.
 
 ### 📢 비유 요약
 
-머클 트리는기업 조직도의 보고 체계와 같다. 각 사원(노드)이 담당 업무의 핵심만 요약하여(해시) 팀장에게 보고하고, 팀장(부모 노드)은 팀원의 요약을 종합하여(상위 해시) 대표이사([머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/))에게 보고한다. 만약 어느 사원이 실적을 조작하면, 그 사원 → 팀장 → 대표이사 순서로에 반영되어, 대표이사level에서 전체 조작이 드러난다. 전체 보고서를 확인하지 않고도, 결과값([머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/))의 변화만으로 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 있다.
+머클 트리는기업 조직도의 보고 체계와 같다. 각 사원(리프노드)이 담당 업무의 핵심내용만 요약하여(해시) 팀장에게 보고하고, 팀장(부모 노드)은각 팀원의 요약을 종합하여(상위 해시) 대표이사([머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/))에게 보고한다. 만약 어느 사원이 실적을 조작하면, 그 사원 → 팀장 → 대표이사 순서로련쇄적에 반영되어, 대표이사level에서 전체 조작이 드러난다. 전체 보고서를일자일구 확인하지 않고도,최종 결과값([머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/))의 변화만으로 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 있다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-### 머클 트리구조
+### 머클 트리구조도해
 
+```
+거래 목록 (Leaf Nodes):
+┌─────────┐  ┌─────────┐  ┌─────────┐  ┌─────────┐
+│ TX Hash1 │  │ TX Hash2 │  │ TX Hash3 │  │ TX Hash4 │
+└────┬────┘  └────┬────┘  └────┬────┘  └────┬────┘
+     │            │            │            │
+     ▼            ▼            ▼            ▼
+┌─────────┐  ┌─────────┐  ┌─────────┐  ┌─────────┐
+│H(1)    │  │H(2)     │  │H(3)     │  │H(4)     │
+└────┬────┘  └────┬────┘  └────┬────┘  └────┬────┘
+     │            │            │            │
+     └─────┬──────┘            └─────┬──────┘
+           │                         │
+           ▼                         ▼
+     ┌──────────┐              ┌──────────┐
+     │H(1,2)   │              │H(3,4)    │
+     │ = Hash  │              │ = Hash   │
+     │(H1│H2) │              │(H3│H4)   │
+     └────┬────┘              └────┬────┘
+           │                         │
+           └───────────┬─────────────┘
+                       ▼
+              ┌──────────────────┐
+              │   머클 루트        │
+              │  (Merkle Root)   │
+              │  = Hash          │
+              │ (H(1,2)│H(3,4)) │
+              └──────────────────┘
+```
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">거래 목록 (Leaf Nodes):</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TX Hash1</div><div class="kb-diagram-cell">TX Hash2</div><div class="kb-diagram-cell">TX Hash3</div><div class="kb-diagram-cell">TX Hash4</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">H(1)</div><div class="kb-diagram-cell">H(2)</div><div class="kb-diagram-cell">H(3)</div><div class="kb-diagram-cell">H(4)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">H(1,2)</div><div class="kb-diagram-cell">H(3,4)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">= Hash</div><div class="kb-diagram-cell">= Hash</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(H1</div><div class="kb-diagram-cell">H2)</div><div class="kb-diagram-cell">(H3</div><div class="kb-diagram-cell">H4)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">머클 루트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Merkle Root)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">= Hash</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(H(1,2)</div><div class="kb-diagram-cell">H(3,4))</div></div>
-</div>
-</div>
-
-
-
-머클 트리의 핵심 원리를하면 다음과 같다. 트리 깊이에 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)없이 [머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/)는 항상크기(비트코인에서는 32바이트)이다. 노드부터까지의 경로에 있는 노드들을 활용하면, 전체 노드 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 없이도 특정 노드의 존재를 증명할 수 있다. 이것이 머클 증명(Merkle Proof)이다.
+머클 트리의 핵심 원리를정리하면 다음과 같다. 트리 깊이에 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)없이 [머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/)는 항상고정크기(비트코인에서는 32바이트)이다. 리프노드부터근절점까지의 경로에 있는 노드들을 활용하면, 전체 리프노드 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 없이도 특정 리프노드의 존재를 증명할 수 있다. 이것이 머클 증명(Merkle Proof)이다.
 
 ### 머클 증명 (Merkle Proof)
 
-머클 증명은 특정 거래가 해당 블록에 포함되어 있음을 증명하는 메커니즘이다. 증명받고자 하는 노드의 해시값부터 시작하여,형제 노드(Sibling Node)의 해시값들을 순차적으로 적용해 로 올라가며 최종적으로얻은 [머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/)가 실제 블록의 [머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/)와 일치하면, 해당 거래의 존재가 유효하다고 판단된다. 노드가 8개인 경우, 어떤 거래를 증명하는 데 필요한의은/는 3개의형제 노드 해시값뿐이다(트리의 height가 log2(8) = 3이기 때문).
+머클 증명은 특정 거래가 해당 블록에 포함되어 있음을 증명하는 메커니즘이다. 증명받고자 하는 리프노드의 해시값부터 시작하여,형제 노드(Sibling Node)의 해시값들을 순차적으로 적용해 상류로 올라가며 최종적으로얻은 [머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/)가 실제 블록의 [머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/)와 일치하면, 해당 거래의 존재가 유효하다고 판단된다. 리프노드가 8개인 경우, 어떤 거래를 증명하는 데 필요한의는 최대 3개의형제 노드 해시값뿐이다(트리의 height가 log2(8) = 3이기 때문).
 
-머클 증명의 예를 들어보면, TX3의 존재를 증명하려면: 먼저 TX3의 해시(H3)를알고 있다.에형제 노드 H4를얻어 H(3,4)를 계산한다. 그 다음형제 노드 H(1,2)를얻어 최종적으로 [머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/)를 계산한다. 컴퓨팅된 [머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/)와 실제 블록의 [머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/)가 일치하면, TX3가 블록에 포함되어 있음이 증명된다. 전체 거래 목록이 아니라 단지 2~3개의 해시값만으로이/가이다。
+머클 증명의 예를 들어보면, TX3의 존재를 증명하려면: 수선 TX3의 해시(H3)를알고 있다.다음에형제 노드 H4를얻어 H(3,4)를 계산한다. 그 다음형제 노드 H(1,2)를얻어 최종적으로 [머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/)를 계산한다. 계산된 [머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/)와 실제 블록의 [머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/)가 일치하면, TX3가 블록에 포함되어 있음이 증명된다. 전체 거래 목록이 아니라 단지 2~3개의 해시값만으로これ이/가가능에서ある. 
 
 ### 📢 비유 요약
 
-머클 증명은주민등록의자동설계도와 같다. 전체 건물을 조사하지 않고도, 특정가 해당 건물에 존재함을 입주계약서(형제 노드)와 관리사무소([머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/))의 비교만으로 입증할 수 있다. 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 완전을/를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하지 않고도,구조적 특성으로 인해 최소한의 정보만으로을/를할 수 있다이/가 머클 트리의 핵심이다.
+머클 증명은주민등록등본의자동설계도와 같다. 전체 건물을 조사하지 않고도, 특정주호가 해당 건물에 존재함을 입주계약서(형제 노드)와 관리사무소기록([머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/))의 비교만으로 입증할 수 있다. 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 완전성을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하지 않고도,구조적 특성으로 인해 최소한의 정보만으로유효성을확인에서きる점이 머클 트리의 핵심이다.
 
 ---
 
@@ -83,19 +93,19 @@ tags = ["ict_convergence"]
 
 ### 비트코인에서의 머클 트리 활용
 
-비트코인에서는 각 블록의 거래 목록으로 머클 트리를 하고, 그 루트 값([머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/))을 블록 헤더에 저장한다. 채굴자는 블록을 만들기 위해, 포함하려는 거래들로 머클 트리를 하고 이 될 만한 논스([Nonce](/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/)) 값을 찾는증명(PoW)을 수행한다.SPV(Simplified Payment [Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)) 클라이언트는 전체 블록을 다운로드하지 않고, 블록 헤더와 머클 증명만을활용하여 특정 거래의 존재를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 있다. 이것은 모바일 지갑에서하게 활용된다.
+비트코인에서는 각 블록의 거래 목록으로 머클 트리를 구축하고, 그 루트 값([머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/))을 블록 헤더에 저장한다. 채굴자는새로운しい 블록을 만들기 위해, 포함하려는 거래들로 머클 트리를 재구성하고 정해이 될 만한 논스([Nonce](/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/)) 값을 찾는작업량증명(PoW)을 수행한다.SPV(Simplified Payment [Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)) 클라이언트는 전체 블록을 다운로드하지 않고, 블록 헤더와 머클 증명만을리용하여 특정 거래의 존재를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 있다. 이것은 모바일 지갑アプリケーション에서엄범하게 활용된다.
 
 ### IPFS에서의 활용
 
-[IPFS](/knowledge-base/studynote/06_ict_convergence/01_blockchain/055_ipfs_interplanetary_file_system/)([InterPlanetary File System](/knowledge-base/studynote/06_ict_convergence/01_blockchain/055_ipfs_interplanetary_file_system/))는 [분산 파일 시스템](/knowledge-base/studynote/02_operating_system/09_file_system/553_distributed_file_system/)으로, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 해시값(CID, Content [Identifier](/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/))으로 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 식별한다. 큰 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을에, 각 블록의 해시값으로 머클 트리(더 정확히는IPFS에서는DAG, [Directed Acyclic Graph](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/255_apache_airflow_dag/))를한다. 이를 통해 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 일부만을하여하다와/과이/가이며, 네트워크의의이/가하여있다부터에복원할 수 있다. 이것은P2P [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 공유의 효율성을 크게 향상시킨다.
+[IPFS](/knowledge-base/studynote/06_ict_convergence/01_blockchain/055_ipfs_interplanetary_file_system/)([InterPlanetary File System](/knowledge-base/studynote/06_ict_convergence/01_blockchain/055_ipfs_interplanetary_file_system/))는 [분산 파일 시스템](/knowledge-base/studynote/02_operating_system/09_file_system/553_distributed_file_system/)으로, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)내용적 해시값(CID, Content [Identifier](/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/))으로 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 식별한다. 큰 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을교소적ブロック에분할し, 각 블록의 해시값으로 머클 트리(더 정확히는IPFS에서는DAG, [Directed Acyclic Graph](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/255_apache_airflow_dag/))를구축한다. 이를 통해 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 일부만을リクエストし고ダウンロード하는こ와/과가가능에서あり, 망락내의타의ノード이/가지유하고 있는부분부터효솔적에복원할 수 있다. 이것은P2P [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 공유의 효율성을 크게 향상시킨다.
 
 ### [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 투명성 ([Certificate Transparency](/knowledge-base/studynote/09_security/04_endpoint_security/165_ct_certificate_transparency/))
 
-구글(Google)은 웹사이트의 SSL/[TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를하기 위해 머클 트리 기반의 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 투명성([Certificate Transparency](/knowledge-base/studynote/09_security/04_endpoint_security/165_ct_certificate_transparency/), [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/)) 로그를 운영한다. 모든 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 기관([CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/))이 발급한 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 투명성 로그에 기록하며, 이를 통해 웹사이트 운영자나 인들이부정하게 발급된 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를할 수 있다. 머클 트리 구조 덕분에로그는 자신의 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서가로그에 포함되어 있는지효율적으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 있다.
+구글(Google)은 웹사이트의 SSL/[TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를감시하기 위해 머클 트리 기반의 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 투명성([Certificate Transparency](/knowledge-base/studynote/09_security/04_endpoint_security/165_ct_certificate_transparency/), [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/)) 로그를 운영한다. 모든 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 기관([CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/))이 발급한 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 투명성 로그에 기록하며, 이를 통해 웹사이트 운영자나 일반인들이부정하게 발급된 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를감지할 수 있다. 머클 트리 구조 덕분에ログ참여자는 자신의 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서가로그에 포함되어 있는지효율적으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 있다.
 
 ### 📢 비유 요약
 
-머클 트리의 실무 활용은호텔의 중앙 창구시스템와/과와/과이/가할 수 있다. 호텔 중앙 창구([머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/))는 오늘 체크인한모두의 정보를 보유한 것이 아니라, 각 층(부모 노드)이 자기 층 게스트을 요약한 것을 종합한 것이다. 특정 손님이 체크인했는지 확인하려면, 해당 층사무실에하고 창구에_double check하는 과정(머클 증명)을 거친다. 전체 명부를 확인하는 것보다 훨씬 효율적이다.
+머클 트리의 실무 활용은호텔의 중앙 창구システム와/과らえるこ와/과가에서きる. 호텔 중앙 창구([머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/))는 오늘 체크인한すべ고의ゲスト 정보를 보유한 것이 아니라, 각 층(부모 노드)이 자기 층 게스트명단을 요약한 것을 종합한 것이다. 특정 손님이 체크인했는지 확인하려면, 해당 층사무실에확인하고중앙 창구에_double check하는 과정(머클 증명)을 거친다. 전체 명부를 확인하는 것보다 훨씬 효율적이다.
 
 ---
 
@@ -103,19 +113,19 @@ tags = ["ict_convergence"]
 
 ### [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)
 
-머클 트리에서 가장 중요한품질관리 항목은 거래 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이다. 노드(거래 해시값)로부터([머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/))까지 각 단계에서 올바른 해시 연산이 수행되었는지를 검사한다. [머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/)가 변경되지 않았다면, 그 트리에 포함된 모든 노드의 내용은변조되지 않았음을 보장한다.네트워크에서는、이/가을/를하다에、의을/를실행한다.
+머클 트리에서 가장 중요한품질관리 항목은 거래 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이다. 리프노드(거래 해시값)로부터근절점([머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/))까지 각 단계에서 올바른 해시 연산이 수행되었는지를 검사한다. [머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/)가 변경되지 않았다면, 그 트리에 포함된 모든 리프노드의 내용은변조되지 않았음을 보장한다.ビットコインネットワーク에서는, ノード이/가새로운しいブロック을/를수신하는たび에, 이검정을실행한다.
 
 ### 머클 증명 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 구현
 
-머클 증명의에서의은/는,형제 노드의 해시값을 올바른 순서로 결합하는 것이다. 해시 결합 시�쪽과 오른쪽의이/가결과 값에 영향을 미치므로, 왼쪽과 오른쪽의형제 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를정확히 구분하여야 한다. 잘못된으로 결합하면 다른 [머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/)가 도출되어 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)에 실패하게 된다.
+머클 증명의실장에おい고중요な의는,형제 노드의 해시값을 올바른 순서로 결합하는 것이다. 해시 결합 시좌�쪽과 오른쪽의순서가결과 값에 영향을 미치므로, 왼쪽과 오른쪽의형제 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를정확히 구분하여야 한다. 잘못된순서으로 결합하면 다른 [머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/)가 도출되어 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)에 실패하게 된다.
 
 ### 효율성 분석
 
-머클 트리의을/를로 분석하면 다음과 같다. 노드가 N개일 때, 트리의(Height)는 log2(N)이다. 어떤 거래를 증명하는 데 필요한형제 노드의 수는와 동일한 log2(N)개이다. 예를 들어, 노드가 1,000개( transactions)라면, 트리의는 약 10이고, 거래 하나를 증명하는 데 필요한형제 노드는 최대 10개이다. 이는 전체 거래 목록(1,000개)을 처리하는 것보다 약 100배 효율적이다.
+머클 트리의효솔성을정량적로 분석하면 다음과 같다. 리프노드가 N개일 때, 트리의심도(Height)는 log2(N)이다. 어떤 거래를 증명하는 데 필요한형제 노드의 수는심도와 동일한 log2(N)개이다. 예를 들어, 리프노드가 1,000개( transactions)라면, 트리의심도는 약 10이고, 거래 하나를 증명하는 데 필요한형제 노드는 최대 10개이다. 이는 전체 거래 목록(1,000개)을 처리하는 것보다 약 100배 효율적이다.
 
 ### 📢 비유 요약
 
-머클 트리의품질 관리는은행의 지폐 감정 절차를 연상시킨다. 은행원은 일련번호, 지문, watermarks 등의 보안요소를 직접확인해야 한다. 머클 트리 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)도 동일한 원리로, "이노드가 이 트리에 속해 있는가?"를형제 노드들의 도움으로확인하며, 이것만으로 전체 거래 목록의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)이 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된다.
+머클 트리의품질 관리는은행의 지폐 감정 절차를 연상시킨다. 은행원은 일련번호, 지문, watermarks 등초표의다개 보안요소를 직접확인해야 한다. 머클 트리 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)도 동일한 원리로, "이엽노드가 이 트리에 속해 있는가?"를형제 노드들의 도움으로확인하며, 이것만으로 전체 거래 목록의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)이 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된다.
 
 ---
 
@@ -123,53 +133,70 @@ tags = ["ict_convergence"]
 
 ### [머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/) 대나무 숲 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
 
-머클 트리의 노드가 수 개인 경우의 방법은마다 다를 수 있다. 가장 간단한 방법은 마지막수 노드를 자신과 결합하여 해시를 컴퓨팅하는 것이다([복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)). 그러나 이는 이지 않은 측면이 있어, 일부 구현에서는 이러한을 하기 위한를 하고 있다. 또한 노드가 2의 거듭제곱이 아닌 경우에도 완전 [이진 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/060_binary_tree/)(full [binary tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/060_binary_tree/))를 구성할 수 있도록padding이나처리가 필요하다.
+머클 트리의 리프노드가 기수 개인 경우의 처리방법은실장마다 다를 수 있다. 가장 간단한 방법은 마지막기수 리프노드를 자신과 결합하여 해시를 계산하는 것이다([복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)). 그러나 이는 효솔적이지 않은 측면이 있어, 일부 구현에서는 이러한불평형을 처리하기 위한공부를 연구하고 있다. 또한 리프노드가 2의 거듭제곱이 아닌 경우에도 완전 [이진 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/060_binary_tree/)(full [binary tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/060_binary_tree/))를 구성할 수 있도록padding이나특수적처리가 필요하다.
 
 ### 범용 머클 트리의 발전
 
-고전적인 머클 트리에도 다양한 머클 트리가 개발되고 있다. 머클 마우틴 트리(Merkle Mountain Range)는 노드를 여러 개의 [이진 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/060_binary_tree/)로 구성하여, 새 노드 추가 시 전체 트리를 하지 않아도 되는 효율적 구조이다. Verkle 트리(Verkle Tree)는 벡터 커밋먼트(Vector Commitment)를활용하여 머클 트리의 크기를대폭으로 줄인 것으로, 이더리움의의에서 활용될 것으로고 있다. Verkle 트리는Proof 크기가약 6~8배 더 작아, 레이트 클라이언트(클라이언트)의을 크게 줄일 수 있다.
+고전적인 머클 트리이외에도 다양한 개량판 머클 트리가 개발되고 있다. 머클 마우틴 트리(Merkle Mountain Range)는 리프노드를 여러 개의 [이진 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/060_binary_tree/)로 구성하여, 새 리프노드 추가 시 전체 트리를 재계산하지 않아도 되는 효율적 구조이다. Verkle 트리(Verkle Tree)는 벡터 커밋먼트(Vector Commitment)를활용하여 머클 트리의 크기를대폭으로 줄인 것으로, 이더리움의금후의アップグレード에서 활용될 것으로기대되고 있는. Verkle 트리는Proof 크기가약 6~8배 더 작아, 레이트 클라이언트(ライトクライアント)의부하을 크게 줄일 수 있다.
 
 ### 📢 비유 요약
 
-머클 트리의 발전은우체국 시스템의와/과와/과이/가할 수 있다.초기에는 모든 소포를 수inspect하여 발신자 목록을 확인하였다(전체 노드 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)). 머클 트리 도입 후에는 중계소의 요약 정보만으로 특정 소포의 존재를할 수 있게 되었다(머클 증명). Verkle 트리는의 중계소를더 효율적으로 재배치하여, 필요한 절차의 수를 더욱 줄인에 해당한다.
+머클 트리의 발전은우체국 시스템의진화와らえるこ와/과가에서きる.초기에는 모든 소포를 전수inspect하여 발신자 목록을 확인하였다(전체 리프노드 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)). 머클 트리 도입 후에는각 중계소의 요약 정보만으로 특정 소포의 존재를검정할 수 있게 되었다(머클 증명). Verkle 트리는이 중계소를더 효율적으로 재배치하여, 필요한확인 절차의 수를 더욱 줄인개량형에 해당한다.
 
 ### 결론
 
-머클 트리는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 기술의으로서, 거래 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 효율적 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 가능하게 하는 핵심 자료구조이다. 노드부터까지의 단순하지만 강력한 해시 체인 구조 덕분에, 전체 거래 목록 전체를 처리하지 않고도 특정 거래의 존재와 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 증명할 수 있다. 또한 SPV 클라이언트, [IPFS](/knowledge-base/studynote/06_ict_convergence/01_blockchain/055_ipfs_interplanetary_file_system/), [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 투명성 등 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) aplicações에서도 널리 활용되며, Verkle 트리 등 차세대 자료구조의 발전으로 앞으로도 계속 중요한 역할을 할 것이다.
+머클 트리는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 기술의중요부건으로서, 거래 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 효율적 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 가능하게 하는 핵심 자료구조이다. 리프노드부터근절점까지의 단순하지만 강력한 해시 체인 구조 덕분에, 전체 거래 목록 전체를 처리하지 않고도 특정 거래의 존재와 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 증명할 수 있다. 또한 SPV 클라이언트, [IPFS](/knowledge-base/studynote/06_ict_convergence/01_blockchain/055_ipfs_interplanetary_file_system/), [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 투명성 등 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 외 aplicações에서도 널리 활용되며, Verkle 트리 등 차세대 자료구조의 발전으로 앞으로도 계속 중요한 역할을 할 것이다.
 
 ---
 
 ## 핵심 인사이트 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 ([Concept](/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/) Map)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">머클 트리 동작 원리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">거래 목록 (Leaf Nodes)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TX1</div><div class="kb-diagram-cell">TX2</div><div class="kb-diagram-cell">TX3</div><div class="kb-diagram-cell">TX4</div><div class="kb-diagram-cell">TX5</div><div class="kb-diagram-cell">TX6</div><div class="kb-diagram-cell">TX7</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">H1</div><div class="kb-diagram-node">H2</div><div class="kb-diagram-node">H3</div><div class="kb-diagram-node">H4</div><div class="kb-diagram-node">H5</div><div class="kb-diagram-node">H6</div><div class="kb-diagram-node">H7</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 1: 노드의형제 결합</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">H(1,2)</div><div class="kb-diagram-cell">H(3,4)</div><div class="kb-diagram-cell">H(5,6)</div><div class="kb-diagram-cell">H(7,7)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 2:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">H(1,2,3,4)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 3:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">머클 루트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Merkle Root)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">머클 증명 (Merkle Proof) 예시: TX5를 증명하려면?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TX5의형제: H6 ──► H(5,6)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">H(5,6)의형제: H(7,7) ──► H(5,6,7)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">H(5,6,7)의형제: H(1,2,3,4) ──► 머클 루트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 필요한형제 노드: H6, H(7,7), H(1,2,3,4) = 3개 (log₂8)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 전체 노드(8개)를모두 확인할 필요가 없음!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심 특성:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 효율적 무결성 검증 (전체 대신 log N 개 검증)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 머클 증명으로 특정 노드 존재 proofs</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 노드 하나라도 변경되면 최종 루트가 달라짐</div></div>
-</div>
-</div>
-
-
+```
++------------------------------------------------------------------+
+|                    머클 트리 동작 원리                              |
++------------------------------------------------------------------+
+|                                                                  |
+│  거래 목록 (Leaf Nodes)                                          │
+│  ┌──────┐ ┌──────┐ ┌──────┐ ┌──────┐ ┌──────┐ ┌──────┐ ┌──────┐│
+│  │ TX1  │ │ TX2  │ │ TX3  │ │ TX4  │ │ TX5  │ │ TX6  │ │ TX7  ││
+│  └──┬───┘ └──┬───┘ └──┬───┘ └──┬───┘ └──┬───┘ └──┬───┘ └──┬───┘│
+│     │        │        │        │        │        │        │      │
+│     ▼        ▼        ▼        ▼        ▼        ▼        ▼      │
+│  [H1]     [H2]     [H3]     [H4]     [H5]     [H6]     [H7]       │
+│                                                                  │
+│  Level 1: 叶노드의兄弟 결합                                        │
+│     ┌───┴───┐       ┌───┴───┐       ┌───┴───┐       ┌───┴───┐    │
+│     │ H(1,2) │       │ H(3,4) │       │ H(5,6) │       │ H(7,7) │    │
+│     └────┬────┘       └────┬────┘       └────┬────┘       └────┬────┘    │
+│          │                │                │                │        │
+│          ▼                ▼                ▼                ▼        │
+│  Level 2:                                                             │
+│          ┌──────────────┴──────────────┐                         │
+│          │        H(1,2,3,4)           │                         │
+│          └──────────────┬──────────────┘                         │
+│                         │                                          │
+│                         ▼                                          │
+│  Level 3:                   ┌──────────────┴──────────────┐        │
+│                             │       머클 루트              │        │
+│                             │    (Merkle Root)           │        │
+│                             └────────────────────────────┘        │
+│                                                                          │
++------------------------------------------------------------------+
+|  머클 증명 (Merkle Proof) 예시: TX5를 증명하려면?                     |
+|                                                                          │
+|  TX5의兄弟: H6 ──► H(5,6)                                             │
+|  H(5,6)의兄弟: H(7,7) ──► H(5,6,7)                                   │
+|  H(5,6,7)의兄弟: H(1,2,3,4) ──► 머클 루트                             |
+|                                                                          │
+|  → 필요한兄弟 노드: H6, H(7,7), H(1,2,3,4) = 3개 (log₂8)                │
+|  → 전체 叶노드(8개)를모두 확인할 필요가 없음!                           │
++------------------------------------------------------------------+
+|  핵심 특성:                                                           |
+|  - 효율적 무결성 검증 (전체 대신 log N 개 검증)                       |
+|  - 머클 증명으로 특정 叶노드 존재 proofs                               |
+|  - 叶노드 하나라도 변경되면 최종 루트가 달라짐                         |
++------------------------------------------------------------------+
+```
 
 ### 📌 관련 개념 맵
 
@@ -182,25 +209,24 @@ tags = ["ict_convergence"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">해시 함수 (Hash Function)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">해시 트리 (Hash Tree)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">머클 트리 (Merkle Tree)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">머클 루트 (Merkle Root)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SPV 경량 검증 (Simplified Payment Verification)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Verkle 트리 (Verkle Tree)</div></div>
-</div>
-</div>
-
-
+```text
+[해시 함수 (Hash Function)]
+    │
+    ▼
+[해시 트리 (Hash Tree)]
+    │
+    ▼
+[머클 트리 (Merkle Tree)]
+    │
+    ▼
+[머클 루트 (Merkle Root)]
+    │
+    ▼
+[SPV 경량 검증 (Simplified Payment Verification)]
+    │
+    ▼
+[Verkle 트리 (Verkle Tree)]
+```
 
 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)에서 출발하여 머클 트리로 구조화되고 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 거쳐 차세대 Verkle 트리로 진화하는 흐름이다.
 

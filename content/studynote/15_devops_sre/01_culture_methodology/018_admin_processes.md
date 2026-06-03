@@ -27,28 +27,28 @@ tags = ["devops_sre"]
 
 아래 도식은 과거의 위험한 수동 관리 방식과 현대의 릴리스 일치형 관리 프로세스의 아키텍처적 차이를 보여준다.
 
+```text
+이 도식은 관리 프로세스가 실행되는 환경의 일관성을 대조한다. 12 팩터 원칙은 스크립트조차 버전 통제 하에 묶어 두어 편류를 막는다.
 
+[과거: 환경 불일치로 인한 장애 위험 (안티패턴)]
+┌─ Admin PC ─────┐        ┌── Prod Server ──────────┐
+│ v1.0 스크립트  │ ──SSH──> │ Web App (v2.0 실행 중)  │
+│ (수동 실행)    │        │ DB (v2.0 스키마)        │
+└────────────────┘        └─────────────────────────┘
+  └─ 치명적 결과: v1.0 스크립트가 v2.0 DB 스키마를 덮어써서 장애 발생!
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 도식은 관리 프로세스가 실행되는 환경의 일관성을 대조한다. 12 팩터 원칙은 스크립트조차 버전 통제 하에 묶어 두어 편류를 막는다.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">과거: 환경 불일치로 인한 장애 위험 (안티패턴)</div></div>
-<div class="kb-diagram-note">─ Admin PC ── Prod Server</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">v1.0 스크립트</div><div class="kb-diagram-cell">──SSH──&gt;</div><div class="kb-diagram-cell">Web App (v2.0 실행 중)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(수동 실행)</div><div class="kb-diagram-cell">DB (v2.0 스키마)</div></div>
-<div class="kb-diagram-tree-item" style="--depth:1">치명적 결과: v1.0 스크립트가 v2.0 DB 스키마를 덮어써서 장애 발생!</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현대: 12 Factor 기반 릴리스 일치형 관리 프로세스</div></div>
-<div class="kb-diagram-note">Container Registry</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Immutable Image v2.0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(동일한 이미지 배포)</div><div class="kb-diagram-cell">(동일한 이미지 기반 단발성 실행)</div></div>
-<div class="kb-diagram-note">── Prod Environment (K8s)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Deployment: Web App</div><div class="kb-diagram-node">Job: DB Mig.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Entrypoint: start_web.sh - Entrypoint:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Env: Prod Config db_migrate.sh</div></div>
-</div>
-</div>
-
-
+[현대: 12 Factor 기반 릴리스 일치형 관리 프로세스]
+┌───────────────── Container Registry ───────────────────┐
+│              [ Immutable Image v2.0 ]                │
+└───────┬────────────────────────────────────┬─────────┘
+        │ (동일한 이미지 배포)                 │ (동일한 이미지 기반 단발성 실행)
+        ↓                                    ↓
+┌── Prod Environment (K8s) ────────────────────────────┐
+│ [ Deployment: Web App ]            [ Job: DB Mig. ]  │
+│ - Entrypoint: start_web.sh         - Entrypoint:     │
+│ - Env: Prod Config                   db_migrate.sh   │
+└──────────────────────────────────────────────────────┘
+```
 
 이 흐름의 핵심은 '동일한 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이미지([아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/))'와 '동일한 환경변수([Config](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/))'를 사용한다는 점이다. 스크립트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 개발자가 앱 코드를 작성할 때 같은 Git 리포지토리 내에 커밋되며, 배포 시점에 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 내부로 함께 패키징된다. 따라서 마이그레이션 스크립트를 실행할 때 앱 코드와의 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 충돌이 일어날 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)은 0%로 수렴한다.
 
@@ -70,26 +70,27 @@ tags = ["devops_sre"]
 
 아래의 [상태 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/236_state_machine_diagram_uml_dynamic/)은 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에서 신규 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 배포 시, 일반 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(Web App)가 뜨기 전에 관리 프로세스(DB 마이그레이션)가 어떻게 선행 제어되는지를 보여준다.
 
+```text
+이 도식은 무중단 배포의 안전성을 확보하기 위해, 마이그레이션(Admin Process)이 일반 프로세스(Web App)의 롤아웃을 블로킹(Blocking)하고 제어하는 생명주기를 나타낸다.
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 도식은 무중단 배포의 안전성을 확보하기 위해, 마이그레이션(Admin Process)이 일반 프로세스(Web App)의 롤아웃을 블로킹(Blocking)하고 제어하는 생명주기를 나타낸다.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CD Pipeline: Deploy v2.0</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">(1)</div><div class="kb-diagram-node">Pre-Sync Hook</div><div class="kb-diagram-note">──&gt; ─ K8s Job (Admin Process)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">트리거 발생</div><div class="kb-diagram-cell">Image: myapp:v2.0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CMD: "flyway migrate"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Env: Prod_DB_Config</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Success</div><div class="kb-diagram-node">Fail</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">(2)</div><div class="kb-diagram-node">Sync / Rollout</div><div class="kb-diagram-node">Rollback Pipeline</div></div>
-<div class="kb-diagram-note">─ K8s Deployment ── 관리 작업 실패로 인해</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Image: myapp:v2.0</div><div class="kb-diagram-cell">Web App 배포는 중단되고</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CMD: "start web"</div><div class="kb-diagram-cell">기존 v1.0 상태 유지</div></div>
-</div>
-</div>
-
-
+[ CD Pipeline: Deploy v2.0 ]
+         │
+         ↓
+  (1) [Pre-Sync Hook] ──> ┌─ K8s Job (Admin Process) ────┐
+      트리거 발생         │ Image: myapp:v2.0            │
+                          │ CMD: "flyway migrate"        │
+                          │ Env: Prod_DB_Config          │
+                          └──────────┬───────────────────┘
+                                     │ 
+                           [Success] │ [Fail]
+                  ┌──────────────────┴─────────────┐
+                  ↓                                ↓
+  (2) [Sync / Rollout]               [Rollback Pipeline]
+      ┌─ K8s Deployment ──┐          관리 작업 실패로 인해
+      │ Image: myapp:v2.0 │          Web App 배포는 중단되고
+      │ CMD: "start web"  │          기존 v1.0 상태 유지
+      └───────────────────┘
+```
 
 이 구조의 핵심은 <strong>의존성 순서(Dependency Order)</strong>와 <strong>격리(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/">Isolation</a>)</strong>다. 관리 스크립트가 실행되는 K8s Job은 웹 앱을 띄우는 Deployment와 완전히 동일한 환경([ConfigMap](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/102_configmap_secret_kubernetes_12_factor_app/), [Secret](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/))을 공유받는다. 하지만 생명주기는 분리되어 있어, 스크립트가 무거운 CPU 연산을 일으켜도 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중인 웹 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)의 자원을 빼앗지 않는다. 또한, 스크립트 실행이 실패하면 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 전체가 멈추어 불완전한 상태의 앱 코드가 배포되는 것을 막는 방파제(Gate) 역할을 수행한다.
 
@@ -129,20 +130,16 @@ docker run -it --rm --env-file .env.prod myapp:v2.0 python console.py
 
 아래 다이어그램은 권한 통제([RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/)) 관점에서의 시너지와 [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">외부 망 내부 클러스터 망 (K8s)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Developer</div><div class="kb-diagram-note">─(X SSH/DB 접속 불가)─ │</div><div class="kb-diagram-node">K8s Job (Admin)</div><div class="kb-diagram-note">──&gt;</div><div class="kb-diagram-node">Prod Database</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt;</div><div class="kb-diagram-cell">(SA: db-admin) (내부 DNS 통신)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Git Push)</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">GitOps (ArgoCD)</div><div class="kb-diagram-note">이 배포 선언(YAML)을 감지하여 K8s API로 Job만 생성함</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────── 외부 망 ───────────────┐     ┌───────────── 내부 클러스터 망 (K8s) ──────────────┐
+│                                       │     │                                                   │
+│ [Developer] ─(X SSH/DB 접속 불가)─    │     │  [ K8s Job (Admin) ]  ──> [ Prod Database ]   │
+│      │                                │  => │      (SA: db-admin)         (내부 DNS 통신)   │
+│      └──────(Git Push)──────┐         │     │                                                   │
+└─────────────────────────────┼─────────┘     └───────────────────────────────────────────────────┘
+                              ↓
+                   [ GitOps (ArgoCD) ] 이 배포 선언(YAML)을 감지하여 K8s API로 Job만 생성함
+```
 
 이 구조에서는 인간 개발자가 프로덕션 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)나 서버에 직접 접근할 권한이 전혀 필요 없다. 오직 코드를 작성해 Git에 올리면, 인프라 자체가 관리 프로세스 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 띄우고 내부 [서비스 계정](/knowledge-base/studynote/15_devops_sre/05_devsecops/275_iam_role_for_service_accounts/)([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Account)을 통해 작업을 수행한 후 사멸한다. 이는 완벽한 [직무 분리](/knowledge-base/studynote/09_security/11_iam_access_control/578_sod_segregation_of_duties/)(Segregation of Duties)이자 완벽한 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 추적([Audit Trail](/knowledge-base/studynote/11_design_supervision/01_audit_framework/065_audit_trail_worm_storage_compliance/))을 제공한다.
 
@@ -168,25 +165,23 @@ docker run -it --rm --env-file .env.prod myapp:v2.0 python console.py
 
 다음은 관리 프로세스 설계를 위한 기술적 점검 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)이다.
 
+```text
+[실무 도입 및 보안 체크리스트 의사결정 트리]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">실무 도입 및 보안 체크리스트 의사결정 트리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">일회성 스크립트/배치 실행 요구 접수</div></div>
-<div class="kb-diagram-tree-item" style="--depth:1">Q1. 이 스크립트 파일이 Git 저장소(코드베이스)에 포함되어 있는가?</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ No ──&gt;</div><div class="kb-diagram-node">반려</div><div class="kb-diagram-note">개발자 로컬 PC의 임의 스크립트 반입 금지</div></div>
-<div class="kb-diagram-note">─ Yes ──&gt; ↓</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Q2. 스크립트 실행 시 운영 DB의 접속 정보가 소스코드에 하드코딩 되었는가?</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ Yes ──&gt;</div><div class="kb-diagram-node">반려</div><div class="kb-diagram-note">12 Factor 'Config 분리' 위반. 환경변수/Vault 매핑 지시</div></div>
-<div class="kb-diagram-note">─ No &gt; ↓</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Q3. 실패 시 롤백(Rollback) 대책이 스크립트에 명시되어 있는가? (트랜잭션 묶음)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ No ──&gt;</div><div class="kb-diagram-node">경고</div><div class="kb-diagram-note">Flyway 같은 멱등성 도구 활용 권고</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ Yes ──&gt;</div><div class="kb-diagram-node">승인</div><div class="kb-diagram-note">K8s Job 매니페스트 생성 후 배포 파이프라인 연동</div></div>
-</div>
-</div>
-
-
+[일회성 스크립트/배치 실행 요구 접수]
+   │
+   ├─ Q1. 이 스크립트 파일이 Git 저장소(코드베이스)에 포함되어 있는가?
+   │  ├─ No ──> [반려] 개발자 로컬 PC의 임의 스크립트 반입 금지
+   │  └─ Yes ──> ↓
+   │
+   ├─ Q2. 스크립트 실행 시 운영 DB의 접속 정보가 소스코드에 하드코딩 되었는가?
+   │  ├─ Yes ──> [반려] 12 Factor 'Config 분리' 위반. 환경변수/Vault 매핑 지시
+   │  └─ No ───> ↓
+   │
+   └─ Q3. 실패 시 롤백(Rollback) 대책이 스크립트에 명시되어 있는가? (트랜잭션 묶음)
+      ├─ No ──> [경고] Flyway 같은 멱등성 도구 활용 권고
+      └─ Yes ──> [승인] K8s Job 매니페스트 생성 후 배포 파이프라인 연동
+```
 
 이 판단 기준은 운영망의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 지키는 최후의 보루다. 아무리 코드를 잘 짜도 관리자 권한을 가진 스크립트 하나가 전체 시스템을 삭제할 수 있기 때문에, 이 과정은 철저히 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에 의해 기계적으로 통제되어야 한다.
 
@@ -220,23 +215,21 @@ docker run -it --rm --env-file .env.prod myapp:v2.0 python console.py
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">12 팩터 앱 (12-Factor App) — 클라우드 네이티브 개발 원칙 12가지</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">일회성 작업 (One-off Tasks) — DB 마이그레이션·스크립트·seed 데이터</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">관리 프로세스 (Admin Processes) — 서비스와 동일한 릴리스·환경에서 실행</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">컨테이너 오케스트레이션 (Kubernetes Job) — 일회성 작업 격리·추적 자동화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">GitOps — 관리 작업 코드화, PR 기반 이력 관리, 자동 롤백</div></div>
-</div>
-</div>
-
-
+```text
+[12 팩터 앱 (12-Factor App) — 클라우드 네이티브 개발 원칙 12가지]
+    │
+    ▼
+[일회성 작업 (One-off Tasks) — DB 마이그레이션·스크립트·seed 데이터]
+    │
+    ▼
+[관리 프로세스 (Admin Processes) — 서비스와 동일한 릴리스·환경에서 실행]
+    │
+    ▼
+[컨테이너 오케스트레이션 (Kubernetes Job) — 일회성 작업 격리·추적 자동화]
+    │
+    ▼
+[GitOps — 관리 작업 코드화, PR 기반 이력 관리, 자동 롤백]
+```
 관리 프로세스는 12팩터의 마지막 원칙으로, 운영 스크립트를 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)와 동일한 코드·환경에서 실행하여 "내 PC에서는 됐는데" 오류를 근본적으로 차단한다.
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 게임기(운영 환경)에서 게임(일반 앱)을 할 때와, 게임 업데이트 패치(관리 프로세스)를 할 때 다른 기계를 쓰면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 날아갈 수 있어요.

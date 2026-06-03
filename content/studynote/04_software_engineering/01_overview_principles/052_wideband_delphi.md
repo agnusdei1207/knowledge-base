@@ -31,18 +31,17 @@ tags = ["studynote-software-engineering"]
 
 와이드밴드 [델파이](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/214_delphi_method_expert_consensus_forecasting/)의 핵심은 "설명은 공개, 숫자는 익명"이다. 먼저 킥오프 미팅에서 범위와 제약을 맞추고, 각자 추정치를 낸 뒤, 극단값이 왜 그렇게 나왔는지 공개 토론한다. 그 다음 다시 익명 재투표를 반복한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">와이드밴드 델파이의 반복 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">킥오프 미팅 → 1차 익명 산정 → 결과 공유 → 공개 토론</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">재산정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수렴 조건: 범위 축소, 중앙값 안정화, 주요 가정 합의</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│               와이드밴드 델파이의 반복 구조                  │
+├──────────────────────────────────────────────────────────────┤
+│ 킥오프 미팅 → 1차 익명 산정 → 결과 공유 → 공개 토론         │
+│                    │                         │              │
+│                    └──────────── 재산정 ──────┘              │
+│                                                              │
+│ 수렴 조건: 범위 축소, 중앙값 안정화, 주요 가정 합의          │
+└──────────────────────────────────────────────────────────────┘
+```
 
 | 단계 | 목적 | 산출물 |
 | :--- | :--- | :--- |
@@ -119,21 +118,18 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">전통 델파이 (Delphi Method)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">와이드밴드 델파이</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Planning Poker</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">WBS · 스토리 포인트 · 리스크 조정</div>
-</div>
-</div>
-
-
+```text
+전통 델파이 (Delphi Method)
+    │
+    ▼
+와이드밴드 델파이
+    │
+    ▼
+Planning Poker
+    │
+    ▼
+WBS · 스토리 포인트 · 리스크 조정
+```
 
 이 흐름은 "전문가 중심 합의"가 "팀 중심 반복 산정"으로 바뀌는 과정을 보여준다.
 

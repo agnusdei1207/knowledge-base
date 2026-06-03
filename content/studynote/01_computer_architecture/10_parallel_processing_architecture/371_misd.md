@@ -42,20 +42,25 @@ MISD의 핵심은 <strong>단일 입력을 여러 해석 경로에 태우는 것
 
 아래 그림은 MISD를 가장 이해하기 쉬운 "교차 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)형"으로 단순화한 모습이다. 같은 입력이 여러 계산 경로로 들어가지만, 각 경로는 서로 다른 해석을 수행하고 마지막에 비교 또는 투표가 이뤄진다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MISD의 핵심: 하나의 입력을 여러 해석 경로에 태움</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단일 데이터 스트림 (Single Data Stream)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">명령 흐름 A</div><div class="kb-diagram-cell">명령 흐름 B</div><div class="kb-diagram-cell">명령 흐름 C</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">필터링/변환</div><div class="kb-diagram-cell">진단/예측</div><div class="kb-diagram-cell">안전 규칙 검사</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비교 · 투표 · 경보 로직</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최종 제어/판단 출력</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│            MISD의 핵심: 하나의 입력을 여러 해석 경로에 태움         │
+├──────────────────────────────────────────────────────────────────────┤
+│                단일 데이터 스트림 (Single Data Stream)              │
+│                                  │                                   │
+│                    ┌─────────────┼─────────────┐                     │
+│                    ▼             ▼             ▼                     │
+│        ┌────────────────┐ ┌────────────────┐ ┌────────────────┐     │
+│        │ 명령 흐름 A    │ │ 명령 흐름 B    │ │ 명령 흐름 C    │     │
+│        │ 필터링/변환    │ │ 진단/예측      │ │ 안전 규칙 검사 │     │
+│        └───────┬────────┘ └───────┬────────┘ └───────┬────────┘     │
+│                └────────────┬─────┴────────────┬─────┘              │
+│                             ▼                  │                    │
+│                    비교 · 투표 · 경보 로직     │                    │
+│                             ▼                  │                    │
+│                        최종 제어/판단 출력     │                    │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조에서 병목은 보통 두 곳에서 생긴다. 첫째, 입력을 여러 경로에 안정적으로 공급하는 과정에서 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 비용과 지연이 발생한다. 둘째, 각 경로의 결과를 비교하는 단계에서 가장 느린 경로가 전체 응답시간을 결정한다. 따라서 MISD는 단순 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화가 아니라 <strong>정확성을 위해 일부 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>을 희생하는 구조</strong>라고 보는 편이 맞다.
 
@@ -131,25 +136,25 @@ MISD의 가장 큰 효과는 <strong>한 입력에 대한 판단 <a href="/knowl
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">플린 분류 (Flynn's Taxonomy)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SISD · SIMD · MIMD · MISD</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">MISD의 희귀성 인식</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 범용 처리에서는 비효율</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 고신뢰 처리 요구</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">파이프라인형 필터링 · 다중 검증 경로</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">결함 허용 제어기 · 안전 감시 시스템으로 응용</div>
-</div>
-</div>
-
-
+```text
+플린 분류 (Flynn's Taxonomy)
+    │
+    ▼
+SISD · SIMD · MIMD · MISD
+    │
+    ▼
+MISD의 희귀성 인식
+    │
+    ├─▶ 범용 처리에서는 비효율
+    │
+    └─▶ 고신뢰 처리 요구
+              │
+              ▼
+     파이프라인형 필터링 · 다중 검증 경로
+              │
+              ▼
+   결함 허용 제어기 · 안전 감시 시스템으로 응용
+```
 
 이 흐름은 MISD가 "주류 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 구조"로 성장했다기보다, [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계의 한 귀퉁이에서 출발해 고신뢰·실시간 분야로 의미가 옮겨 간 과정을 보여준다.
 

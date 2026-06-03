@@ -35,22 +35,23 @@ RUM의 기본 구조는 브라우저나 앱 안에 심어진 경량 수집기와
 
 아래 그림은 RUM [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어떻게 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되고 분석되는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RUM 수집 아키텍처</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실제 사용자 브라우저/앱</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 성능 API: Navigation / Resource / Paint / Event Timing</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 오류 수집: JS Error, API Fail, Crash</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 사용자 맥락: URL, 기기, 브라우저, 지역, 네트워크 유형</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ RUM SDK</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Beacon/API 전송 ──▶ 수집 엔드포인트 ──▶ 저장/집계 파이프라인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대시보드 · 경보 · 세그먼트 분석 · APM 연계</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                     RUM 수집 아키텍처                               │
+├──────────────────────────────────────────────────────────────────────┤
+│ 실제 사용자 브라우저/앱                                             │
+│   ├─ 성능 API: Navigation / Resource / Paint / Event Timing         │
+│   ├─ 오류 수집: JS Error, API Fail, Crash                           │
+│   ├─ 사용자 맥락: URL, 기기, 브라우저, 지역, 네트워크 유형          │
+│   └─ RUM SDK                                                         │
+│              │                                                       │
+│              ▼                                                       │
+│       Beacon/API 전송 ──▶ 수집 엔드포인트 ──▶ 저장/집계 파이프라인   │
+│                                              │                      │
+│                                              ▼                      │
+│                    대시보드 · 경보 · 세그먼트 분석 · APM 연계        │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 | 지표 | 의미 | 대표 기준 |
 | :--- | :--- | :--- |
@@ -79,7 +80,7 @@ RUM은 [합성 모니터링](/knowledge-base/studynote/15_devops_sre/03_sre_obse
 
 예를 들어 해외 모바일 사용자의 결제 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) LCP가 급등했다면, RUM은 어느 지역·브라우저·기기에서 문제가 큰지 알려 준다. 그다음 [합성 모니터링](/knowledge-base/studynote/15_devops_sre/03_sre_observability/164_synthetic_monitoring_dummy_client/)은 특정 리전에서 재현 여부를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, APM은 백엔드 응답 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)인지 외부 결제 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 병목인지 보여 준다. 즉 RUM은 증상, APM은 원인 추적의 단서, [합성 모니터링](/knowledge-base/studynote/15_devops_sre/03_sre_observability/164_synthetic_monitoring_dummy_client/)은 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) 역할을 한다.
 
-또한 RUM은 디지털 경험 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 (Digital Experience Monitoring)과 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)) 운영을 연결한다. 서버 [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) ([Service Level Indicator](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/))가 정상이어도 사용자 경험 SLI가 나쁘다면, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 기술적으로 살아 있어도 사업적으로는 실패할 수 있다.
+또한 RUM은 디지털 경험 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 (Digital Experience Monitoring)과 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)) 운영을 연결한다. 서버 [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) ([Service Level Indicator](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/))가 정상이어도 사용자 경험 SLI가 나쁘다면, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 기술적으로 살아 있어도 사업적으로는 실패할 수 있다.
 
 - **📢 섹션 요약 비유**: [합성 모니터링](/knowledge-base/studynote/15_devops_sre/03_sre_observability/164_synthetic_monitoring_dummy_client/)이 미리 준비된 시험 문제를 푸는 모의고사라면, RUM은 실제 시험장에서 학생들이 어떻게 느꼈는지 성적표를 받는 과정과 같다.
 
@@ -134,24 +135,22 @@ RUM을 도입하면 사용자 경험 문제를 추측이 아니라 측정으로 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">서버 중심 모니터링</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">브라우저 성능 API · 모바일 SDK 계측</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">RUM (Real User Monitoring)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Core Web Vitals 측정</div>
-<div class="kb-diagram-tree-item" style="--depth:2">오류율 · 세그먼트 분석</div>
-<div class="kb-diagram-tree-item" style="--depth:2">사용자 체감 SLI 도출</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Synthetic Monitoring · APM · DEM 통합 관측성</div>
-</div>
-</div>
-
-
+```text
+서버 중심 모니터링
+    │
+    ▼
+브라우저 성능 API · 모바일 SDK 계측
+    │
+    ▼
+RUM (Real User Monitoring)
+    │
+    ├─ Core Web Vitals 측정
+    ├─ 오류율 · 세그먼트 분석
+    └─ 사용자 체감 SLI 도출
+    │
+    ▼
+Synthetic Monitoring · APM · DEM 통합 관측성
+```
 
 이 흐름도는 인프라 중심 관측이 사용자 경험 중심 관측으로 확장되고, 다시 통합 관측성 체계로 연결되는 과정을 보여 준다.
 

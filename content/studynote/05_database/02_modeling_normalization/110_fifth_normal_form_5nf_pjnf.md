@@ -20,21 +20,19 @@ tags = ["studynote-database"]
 
 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)는 단계별로 특정 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)을 제거한다: [2NF](/knowledge-base/studynote/05_database/02_modeling_normalization/104_second_normal_form_2nf_full_fd/)(부분 FD), [3NF](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/)(이행 FD), [BCNF](/knowledge-base/studynote/05_database/04_transactions_concurrency/529_bcnf/)([결정자](/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/) 조건), [4NF](/knowledge-base/studynote/05_database/02_modeling_normalization/108_fourth_normal_form_4nf/)([MVD](/knowledge-base/studynote/05_database/07_exam_summary/400_mvd_4nf/)). 4NF까지 통과한 [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)에서도 <strong>3개 속성이 순환 꼬리물기(A→B→C→A)</strong>를 하는 특수 구조에서 [갱신 이상](/knowledge-base/studynote/05_database/02_modeling_normalization/093_update_anomaly/)이 발생할 수 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5NF 수술: 순환 종속 3단 분해</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">원본 R(과목, 강사, 교재)</div><div class="kb-diagram-note">— 3속성이 기본키</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 2개 분해 시 Spurious Tuple 발생 (손실!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 3개 분해 시 무손실 복원 ✅</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">R1(과목,강사) ⋈ R2(강사,교재) ⋈ R3(과목,교재) = R</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 각 테이블에 2속성만 저장 → 갱신 이상 완전 제거</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 이것이 5NF (PJ-NF) 달성</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│       5NF 수술: 순환 종속 3단 분해                      │
+├───────────────────────────────────────────────────────┤
+│  [원본 R(과목, 강사, 교재)] — 3속성이 기본키           │
+│  → 2개 분해 시 Spurious Tuple 발생 (손실!)            │
+│  → 3개 분해 시 무손실 복원 ✅                          │
+│                                                       │
+│  R1(과목,강사) ⋈ R2(강사,교재) ⋈ R3(과목,교재) = R    │
+│  → 각 테이블에 2속성만 저장 → 갱신 이상 완전 제거     │
+│  → 이것이 5NF (PJ-NF) 달성                           │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 5NF는 결벽증 정리 전문가가 물건을 1종류씩 진공포장하여 서랍 100개에 따로 넣은 무균실이다.
 
@@ -95,23 +93,21 @@ tags = ["studynote-database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">1NF~3NF (Codd, 1970s) — FD 기반 정규화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">BCNF (1974) — 결정자 조건 강화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">4NF (Fagin, 1977) — MVD 제거</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">5NF/PJ-NF (Fagin, 1979) — JD 제거, 정규화 이론 완결</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: 실무에서는 BCNF~4NF + 역정규화로 성능 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[1NF~3NF (Codd, 1970s) — FD 기반 정규화]
+    │
+    ▼
+[BCNF (1974) — 결정자 조건 강화]
+    │
+    ▼
+[4NF (Fagin, 1977) — MVD 제거]
+    │
+    ▼
+[5NF/PJ-NF (Fagin, 1979) — JD 제거, 정규화 이론 완결]
+    │
+    ▼
+[현재: 실무에서는 BCNF~4NF + 역정규화로 성능 최적화]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 5NF는 방 청소의 <strong>최종 단계</strong>예요. 먼지 한 톨까지 진공 포장해서 서랍에 넣는 거예요!

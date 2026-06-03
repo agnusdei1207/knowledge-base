@@ -32,20 +32,23 @@ tags = ["ict_convergence"]
 2. <strong>조건 충족 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a> (<a href="/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/">Oracle</a>)</strong>: 물품 배송 완료 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 등 외부 현실 세계의 정보가 오라클([Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/)) 네트워크를 통해 컨트랙트에 전달된다.
 3. **자동 집행 (Execution)**: 조건이 참(True)으로 판별되는 즉시, 코드가 판매자의 지갑으로 대금을 자동 이체한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">탈중앙화 에스크로 자동화 프로세스</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">구매자</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스마트 컨트랙트</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">오라클</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(조건 대기 중)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조건 충족 (IF 배송 완료)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대금 자동 송금</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">판매자</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│              탈중앙화 에스크로 자동화 프로세스              │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ [구매자] ───(코인 예치)───▶ [스마트 컨트랙트] ◀──(배송데이터)── [오라클] │
+│                           (조건 대기 중)                    │
+│                                │                            │
+│                      조건 충족 (IF 배송 완료)               │
+│                                │                            │
+│                                ▼                            │
+│                         대금 자동 송금                      │
+│                                │                            │
+│                                ▼                            │
+│                            [판매자]                         │
+└─────────────────────────────────────────────────────────────┘
+```
 여기서 가장 중요한 원리는 '결정론적 집행'이다. 코드는 중간에 변심하거나 뇌물을 받지 않으며, 조건이 맞으면 0.1초의 망설임 없이 동작한다.
 
 - **📢 섹션 요약 비유**: 자판기와 같다. 자판기는 내가 1000원을 넣고 버튼을 누르는 순간, 주인 눈치를 보지 않고 무조건 캔콜라를 떨어뜨린다. 코드가 곧 규칙이다.
@@ -101,23 +104,21 @@ tags = ["ict_convergence"]
 | <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/">DAO</a> (<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/">Decentralized Autonomous Organization</a>)</strong> | [중재자](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/)(배심원) 역할을 수행할 수 있는 [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 커뮤니티 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">중앙화 에스크로 (플랫폼 독점, 고비용)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">스마트 컨트랙트 도입 (코드 기반 자동화 에스크로)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">오라클 연동 (디지털 자산 → 실물 거래 확장 시도)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">멀티시그 (Multi-sig) 결합 (분쟁 조정을 위한 2-of-3 구조)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">탈중앙화 사법 시스템 (Kleros 등 배심원 프로토콜로 진화)</div>
-</div>
-</div>
-
-
+```text
+중앙화 에스크로 (플랫폼 독점, 고비용)
+    │
+    ▼
+스마트 컨트랙트 도입 (코드 기반 자동화 에스크로)
+    │
+    ▼
+오라클 연동 (디지털 자산 → 실물 거래 확장 시도)
+    │
+    ▼
+멀티시그 (Multi-sig) 결합 (분쟁 조정을 위한 2-of-3 구조)
+    │
+    ▼
+탈중앙화 사법 시스템 (Kleros 등 배심원 프로토콜로 진화)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 당근마켓에서 모르는 형에게 장난감을 살 때, 돈을 먼저 주면 형이 도망갈까 봐 무섭잖아요?

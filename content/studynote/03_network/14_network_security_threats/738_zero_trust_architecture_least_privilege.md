@@ -24,18 +24,14 @@ tags = ["studynote-network"]
   1. 직원이 감염된 노트북을 들고 출근해 사내망에 꽂으면, <strong>신뢰 구역 안쪽에서부터 악성코드(<a href="/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/">랜섬웨어</a>)가 퍼져</strong> 속수무책으로 털렸습니다. 
   2. 클라우드(AWS, [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/))가 도입되고 직원들이 카페나 집(재택근무)에서 일하게 되면서, "어디까지가 내부망이고 어디가 외부망인지" 경계선 자체가 완전히 증발해 버렸습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">백도어</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">제로 트러스트 보안</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">마이크로 세그멘테이션</div></div>
-</div>
-</div>
-
-
+```text
+[백도어]
+    │
+    ▼
+[제로 트러스트 보안]
+    │
+    └──▶ [마이크로 세그멘테이션]
+```
 
 - **📢 섹션 요약 비유**: [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 보안은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -56,18 +52,14 @@ tags = ["studynote-network"]
 ### 원칙 3: 지속적인 모니터링과 평가 (Continuous Inspection)
 - 한 번 로그인 통과했다고 끝이 아닙니다. 접속 중에도 직원이 평소와 달리 갑자기 기밀문서 100GB를 압축해서 다운받으려 하거나 새벽 3시에 접속하면, [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)/[SIEM](/knowledge-base/studynote/09_security/13_secops_ir_forensics/624_siem/))이 이 '이상 행위([Anomaly](/knowledge-base/studynote/05_database/04_transactions_concurrency/530_anomaly/))'를 포착하고 <strong>즉각 세션을 강제로 끊어버리고 재인증을 요구</strong>합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">백도어</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">제로 트러스트 보안</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">마이크로 세그멘테이션</div></div>
-</div>
-</div>
-
-
+```text
+[백도어]
+    │
+    ▼
+[제로 트러스트 보안]
+    │
+    └──▶ [마이크로 세그멘테이션]
+```
 
 - **📢 섹션 요약 비유**: [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 보안의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -130,19 +122,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 백도어</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 제로 트러스트 보안</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 마이크로 세그멘테이션</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 백도어]
+    │
+    ▼
+[현재 개념: 제로 트러스트 보안]
+    │
+    ├──▶ [확장 A: 마이크로 세그멘테이션]
+    └──▶ [확장 B: 예측형 위협 대응]
+```
 
 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 보안는 [백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [마이크로 세그멘테이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/)와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -25,21 +25,19 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 이상적인 비례성 곡선과 현실 서버의 차이가 어디에서 생기는지를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부하와 전력이 함께 움직여야 진짜 효율이 높다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부하 수준 이상적 시스템 비례성 낮은 시스템</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0% 0% 전력 35~60% 전력</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">20% 20% 전력 50~65% 전력</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">50% 50% 전력 70~80% 전력</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">100% 100% 전력 100% 전력</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심 문제: 유휴 전력 바닥(P_idle)이 높으면 낮은 부하 시간이 곧 낭비가 된다</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│              부하와 전력이 함께 움직여야 진짜 효율이 높다                 │
+├────────────────────────────────────────────────────────────────────────────┤
+│ 부하 수준          이상적 시스템            비례성 낮은 시스템             │
+│ 0%                 0% 전력                  35~60% 전력                    │
+│ 20%                20% 전력                 50~65% 전력                    │
+│ 50%                50% 전력                 70~80% 전력                    │
+│ 100%               100% 전력                100% 전력                      │
+│                                                                            │
+│ 핵심 문제: 유휴 전력 바닥(P_idle)이 높으면 낮은 부하 시간이 곧 낭비가 된다 │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 따라서 에너지 비례성은 단순한 칩 절전 기술이 아니라, [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 운영 모델을 바꾸는 질문이다. "서버가 켜져 있는가"보다 "켜져 있을 때도 부하에 맞게 충분히 내려오는가"가 더 중요해진다.
 
@@ -53,20 +51,24 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 에너지 비례성이 부품, 서버, 클러스터 계층이 함께 움직일 때 만들어진다는 점을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">에너지 비례성을 만드는 3계층 제어: 부품 → 서버 → 클러스터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수요 변화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">클러스터</div><div class="kb-diagram-note">오토스케일링 · 빈 패킹 · 일부 노드 OFF</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">서버</div><div class="kb-diagram-note">팬 제어 · 장치 전원 정책 · 메모리/스토리지 저전력 상태</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">부품</div><div class="kb-diagram-note">CPU DVFS · C-state · DRAM Self-Refresh · NIC 링크 절전</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 같은 처리량을 더 적은 활성 자원으로 수행 + 유휴 자원의 바닥 전력 축소</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│         에너지 비례성을 만드는 3계층 제어: 부품 → 서버 → 클러스터         │
+├────────────────────────────────────────────────────────────────────────────┤
+│ 수요 변화                                                                   │
+│   │                                                                         │
+│   ▼                                                                         │
+│ [클러스터] 오토스케일링 · 빈 패킹 · 일부 노드 OFF                          │
+│   │                                                                         │
+│   ▼                                                                         │
+│ [서버] 팬 제어 · 장치 전원 정책 · 메모리/스토리지 저전력 상태              │
+│   │                                                                         │
+│   ▼                                                                         │
+│ [부품] CPU DVFS · C-state · DRAM Self-Refresh · NIC 링크 절전              │
+│                                                                            │
+│ 결과: 같은 처리량을 더 적은 활성 자원으로 수행 + 유휴 자원의 바닥 전력 축소 │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 | 계층 | 대표 기법 | 직접 줄이는 전력 | 한계 |
 | :-- | :-- | :-- | :-- |
@@ -103,19 +105,17 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 현장에서 자주 쓰는 저부하 대응 판단 흐름을 압축한 것이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">저부하 대응 판단: 남길 것인가, 몰아줄 것인가, 끌 것인가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">평균 부하 하락</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 짧은 하락 ▶ DVFS · C-state 유지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 수분~수시간 저부하 ▶ 워크로드 통합 + 일부 노드 Sleep</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 장시간 예측 가능한 유휴 ▶ 노드 OFF · 서버리스/배치 전환</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│          저부하 대응 판단: 남길 것인가, 몰아줄 것인가, 끌 것인가          │
+├────────────────────────────────────────────────────────────────────────────┤
+│ 평균 부하 하락                                                               │
+│     │                                                                       │
+│     ├─ 짧은 하락 ───────────────▶ DVFS · C-state 유지                      │
+│     ├─ 수분~수시간 저부하 ───────▶ 워크로드 통합 + 일부 노드 Sleep         │
+│     └─ 장시간 예측 가능한 유휴 ───▶ 노드 OFF · 서버리스/배치 전환          │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 ### 적용 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -162,23 +162,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">항상 켜진 고정 서버</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CPU DVFS · C-state 기반 절전</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">장치별 파워다운 · 전력 게이팅</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">VM/컨테이너 통합 · 오토스케일링</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">서버리스 · 조합형 인프라 기반 수요 비례 운영</div>
-</div>
-</div>
-
-
+```text
+항상 켜진 고정 서버
+        │
+        ▼
+CPU DVFS · C-state 기반 절전
+        │
+        ▼
+장치별 파워다운 · 전력 게이팅
+        │
+        ▼
+VM/컨테이너 통합 · 오토스케일링
+        │
+        ▼
+서버리스 · 조합형 인프라 기반 수요 비례 운영
+```
 
 이 흐름은 "부품 절전"에서 출발해 "클러스터 전체가 부하에 따라 줄어드는 운영"으로 사고가 확장되는 과정을 보여준다.
 

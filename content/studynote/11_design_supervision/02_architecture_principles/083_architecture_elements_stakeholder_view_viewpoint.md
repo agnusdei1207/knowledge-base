@@ -11,7 +11,7 @@ tags = ["studynote-design"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-- **본질**: IEEE (Institute of Electrical and Electronics Engineers) 1471과 ISO (International Organization for Standardization) 42010은 아키텍처를 "무엇을 그렸는가"가 아니라 "누구의 어떤 질문에 답하는가"로 정의한다.
+- **본질**: IEEE (Institute of Electrical and Electronics 엔진ers) 1471과 ISO (International Organization for Standardization) 42010은 아키텍처를 "무엇을 그렸는가"가 아니라 "누구의 어떤 질문에 답하는가"로 정의한다.
 - **가치**: [Stakeholder](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) → Concern → Viewpoint → View의 흐름을 지키면 동일한 시스템도 운영, 개발, 보안, 경영 관점에서 충돌 없이 설명할 수 있다.
 - **판단 포인트**: Concern을 먼저 분리하지 않으면 Viewpoint 선택이 흔들리고, 결국 모든 정보를 하나의 그림에 우겨 넣는 실패로 이어진다.
 
@@ -23,18 +23,17 @@ tags = ["studynote-design"]
 
 아키텍처 문서가 필요한 이유는 설계 결과를 남기기 위해서만이 아니다. 누가 무엇을 알고 결정을 내려야 하는지, 어떤 판단이 누구에게 설명되어야 하는지를 남겨야 변경과 운영이 흔들리지 않는다. 문서가 빈약하면 기능 구현보다 해석이 먼저 달라지고, 해석이 달라지면 개발과 운영 기준이 엇갈린다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">질문이 다름</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">운영팀</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">가용성/복구시간</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발팀</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">모듈 경계/변경성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보안팀</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">인증/권한/감사</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐   질문이 다름   ┌────────────────┐
+│ 운영팀       │──────────────▶│ 가용성/복구시간 │
+└──────────────┘               └────────────────┘
+┌──────────────┐               ┌────────────────┐
+│ 개발팀       │──────────────▶│ 모듈 경계/변경성│
+└──────────────┘               └────────────────┘
+┌──────────────┐               ┌────────────────┐
+│ 보안팀       │──────────────▶│ 인증/권한/감사  │
+└──────────────┘               └────────────────┘
+```
 
 위 그림처럼 [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/)마다 관심사가 다르므로, 문서의 목적은 "모든 질문을 하나로 합치기"가 아니라 "질문을 분리한 뒤 각각 선명하게 답하기"다.
 
@@ -51,21 +50,23 @@ tags = ["studynote-design"]
 | Viewpoint | 뷰포인트 | 어떤 양식과 규칙으로 답할 것인가 |
 | [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) | 뷰 | 실제 시스템에 대한 작성 결과물 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Stakeholder</div><div class="kb-diagram-cell">사람/조직</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Concern</div><div class="kb-diagram-cell">질문/요구</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Viewpoint</div><div class="kb-diagram-cell">표현 규칙</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">View</div><div class="kb-diagram-cell">실제 도면</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐
+│ Stakeholder  │  사람/조직
+└──────┬───────┘
+       ▼
+┌──────────────┐
+│   Concern    │  질문/요구
+└──────┬───────┘
+       ▼
+┌──────────────┐
+│ Viewpoint    │  표현 규칙
+└──────┬───────┘
+       ▼
+┌──────────────┐
+│    View      │  실제 도면
+└──────────────┘
+```
 
 이때 `Viewpoint`는 단순한 그림 스타일이 아니다. 어떤 [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/)를 대상으로 하는지, 어떤 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 다루는지, 어떤 표기법과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 규칙을 쓸지까지 포함하는 "설계된 질문지"다. 반대로 `View`는 그 질문지에 맞춰 실제 시스템의 구조를 설명한 인스턴스다.
 
@@ -149,25 +150,24 @@ tags = ["studynote-design"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이해관계자 식별</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">관심사 정리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">뷰포인트 선택</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">뷰 작성</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">시나리오 검증</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">아키텍처 합의</div>
-</div>
-</div>
-
-
+```text
+이해관계자 식별
+    │
+    ▼
+관심사 정리
+    │
+    ▼
+뷰포인트 선택
+    │
+    ▼
+뷰 작성
+    │
+    ▼
+시나리오 검증
+    │
+    ▼
+아키텍처 합의
+```
 
 이 흐름은 "누구의 질문인가 → 무엇을 답할 것인가 → 어떤 양식으로 보여줄 것인가 → 실제 시스템은 어떤가"로 이어진다.
 

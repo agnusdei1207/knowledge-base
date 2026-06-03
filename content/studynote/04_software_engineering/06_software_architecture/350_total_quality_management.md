@@ -19,31 +19,32 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 전사적 품질 관리 (TQM, Total Quality [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))는 조직의 모든 구성원이 품질 개선에 참여하여, 고객 만족을 지속적으로 달성하는 것을 목표로 하는 품질 경영 철학이다. TQM은 1950년대 미국에서 시작되어, 1980년대에 일본의 제조업 경쟁력의 배경으로 주목받으며에했다. TQM의 핵심 원칙으로는 고객 중심, 전사적 참여, 지속적인 개선, 의사결정의 사실 기반, 프로세스 중심, 품질 우선이 있다.
+- **개념**: 전사적 품질 관리 (TQM, Total Quality [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))는 조직의 모든 구성원이 품질 개선에 참여하여, 고객 만족을 지속적으로 달성하는 것을 목표로 하는 품질 경영 철학이다. TQM은 1950년대 미국에서 시작되어, 1980년대에 일본의 제조업 경쟁력의 배경으로 주목받으며세계적에보급한. TQM의 핵심 원칙으로는 고객 중심, 전사적 참여, 지속적인 개선, 의사결정의 사실 기반, 프로세스 중심, 품질 우선이 있다.
 
-- **필요성**: 소프트웨어 개발에서 품질 관리는 개발팀만의 문제가 아니라 조직 전체의 문제이다. 품질 목표를 달성하려면 경영진의 리더십, 개발팀의 실천, 영업/고객지원 등의 협력이 필요하다. TQM은 이러한 조직 전체의 노력을 체계적으로통합하여품질개선을/를하다방법론을 제공한다.
+- **필요성**: 소프트웨어 개발에서 품질 관리는 개발팀만의 문제가 아니라 조직 전체의 문제이다. 품질 목표를 달성하려면 경영진의 리더십, 개발팀의 실천, 영업/고객지원 등의 협력이 필요하다. TQM은 이러한 조직 전체의 노력을 체계적으로통합하여품질개선을실현하는방법론을 제공한다.
 
 - **💡 비유**: TQM은 "건강을 위한 생활 습관"에 비유할 수 있다. 건강유지를 위해 운동(개발), 식단(요구사항), 수면(휴식) 등을 모두 신경 써야 하듯이, 조직에서도 모두가 품질 개선에 참여해야 한다.
 
-- **등장 배경**: TQM은 1951년 미국 품질관리협회(AQCA)가 발전시킨 개념으로, 1980년대 일본 제조업의 품질 경쟁력을 분석하면서에。기업이다Toyota, Motorola 등이 TQM 기반의품질를 실천하여을/를。
+- **등장 배경**: TQM은 1951년 미국 품질관리협회(AQCA)가 발전시킨 개념으로, 1980년대 일본 제조업의 품질 경쟁력을 분석하면서세계적에주목된. 주요기업에서あるToyota, Motorola 등이 TQM 기반의품질경영를 실천하여성공을수めた. 
 
-- **📢 섹션 요약 비유**: TQM은 "가족 전체의건강관리"와 같다. 한 사람만 건강한 생활습관을 유지해도 전체 건강이 좋아지듯이, 조직에서도가 참여하여 품질 개선에 힘써야 한다.
+- **📢 섹션 요약 비유**: TQM은 "가족 전체의건강관리"와 같다. 한 사람만 건강한 생활습관을 유지해도 전체 건강이 좋아지듯이, 조직에서도전체가 참여하여 품질 개선에 힘써야 한다.
 
 ---
 
 다음은 전사적 품질 관리 (TQM, Tota의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전사적 품질 관리 (TQM, Tota</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                  전사적 품질 관리 (TQM, Tota                        │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
+│       │                    │                    │          │
+│       ▼                    ▼                    ▼          │
+│   요구 분석           설계·적용           품질 검증        │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램은 전사적 품질 관리 (TQM, Tota가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -133,30 +134,28 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 전사적 품질 관리 (TQM, Total Quality [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 전사적 품질 관리 (TQM, Total Quality [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
 | [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 전사적 품질 관리 (TQM, Total Quality [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | 전사적 품질 관리 (TQM, Total Quality [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
 | [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 전사적 품질 관리 (TQM, Total Quality [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">전사적 품질 관리 (TQM, Total Quality Management) 개념 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 위기 (Software Crisis) 인식
+    │
+    ▼
+전사적 품질 관리 (TQM, Total Quality Management) 개념 정립
+    │
+    ▼
+표준화 및 방법론 체계화 (ISO, CMMI, Agile)
+    │
+    ▼
+클라우드 네이티브·AI 기반 확장 적용
+    │
+    ▼
+지속적 개선 및 DevOps·MLOps 통합
+```
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

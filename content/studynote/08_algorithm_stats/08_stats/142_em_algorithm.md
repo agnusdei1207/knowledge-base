@@ -59,20 +59,26 @@ Q 함수를 최대화하는 새 파라미터를 찾음:
 
 **EM 반복 사이클**:
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EM 반복 사이클</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">초기화 θ⁽⁰⁾</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">E-단계: Z 사후 분포로 Q(θ</div><div class="kb-diagram-cell">θ_old) 계산</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">M-단계: Q 함수 최대화 → θ_new 갱신</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수렴? ▶ Yes → 종료</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">No ◀</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────┐
+│                   EM 반복 사이클                      │
+│                                                      │
+│   초기화 θ⁽⁰⁾                                        │
+│        │                                             │
+│        ▼                                             │
+│   ┌─────────────────────────────────────────────┐   │
+│   │  E-단계: Z 사후 분포로 Q(θ|θ_old) 계산      │   │
+│   └──────────────────┬──────────────────────────┘   │
+│                      │                               │
+│                      ▼                               │
+│   ┌─────────────────────────────────────────────┐   │
+│   │  M-단계: Q 함수 최대화 → θ_new 갱신         │   │
+│   └──────────────────┬──────────────────────────┘   │
+│                      │                               │
+│          수렴?   ────▶ Yes → 종료                    │
+│           No ◀────────                               │
+└─────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: EM은 "가구 배치 최적화"와 같다. E-단계는 "사람들이 이 방에서 주로 어디 있는지 관찰"하고, M-단계는 "그 패턴에 맞게 가구를 옮기는" 것이다. 반복할수록 가구 배치가 점점 나아진다.
 
@@ -142,19 +148,17 @@ P(x) = Σ_{k=1}^{K} π_k · N(x | μ_k, Σ_k)
 
 <strong>EM 변형 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>:
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EM 알고리즘 변형 계열</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">표준 EM</div><div class="kb-diagram-cell">변분 EM</div><div class="kb-diagram-cell">온라인 EM</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Batch)</div><div class="kb-diagram-cell">(Variational)</div><div class="kb-diagram-cell">(Stochastic)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전체 데이터</div><div class="kb-diagram-cell">근사 사후</div><div class="kb-diagram-cell">미니배치 갱신</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">한 번에 처리</div><div class="kb-diagram-cell">분포 사용</div><div class="kb-diagram-cell">(대규모 데이터)</div></div>
-</div>
-</div>
-
-
+```
+┌───────────────────────────────────────────────┐
+│             EM 알고리즘 변형 계열               │
+├──────────────┬──────────────┬─────────────────┤
+│  표준 EM     │   변분 EM    │   온라인 EM      │
+│ (Batch)     │ (Variational) │ (Stochastic)    │
+├──────────────┼──────────────┼─────────────────┤
+│ 전체 데이터  │ 근사 사후    │ 미니배치 갱신    │
+│ 한 번에 처리 │ 분포 사용    │ (대규모 데이터)  │
+└──────────────┴──────────────┴─────────────────┘
+```
 
 📢 **섹션 요약 비유**: EM [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 응용은 "불완전한 퍼즐 맞추기"와 같다. 빠진 조각(잠재변수)을 "아마 이 모양이겠지"로 임시 채우고 전체 그림을 맞춰보고, 다시 빠진 조각 모양을 수정하기를 반복하면 결국 완성된 그림이 나타난다.
 
@@ -176,23 +180,21 @@ P(x) = Σ_{k=1}^{K} π_k · N(x | μ_k, Σ_k)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">잠재 변수 모델 (Latent Variable Model) — 관측 불가능한 숨겨진 변수 포함</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">EM 알고리즘 (Expectation-Maximization) — E단계(기댓값 계산) + M단계(파라미터 최적화) 반복</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">GMM (Gaussian Mixture Model) — EM으로 혼합 가우시안 파라미터 추정</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">베이지안 EM (Bayesian EM) — 사전 분포를 결합한 MAP 추정으로 과적합 방지</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">변분 추론 (Variational Inference) — EM의 확장, 복잡한 사후 분포 근사</div></div>
-</div>
-</div>
-
-
+```text
+[잠재 변수 모델 (Latent Variable Model) — 관측 불가능한 숨겨진 변수 포함]
+    │
+    ▼
+[EM 알고리즘 (Expectation-Maximization) — E단계(기댓값 계산) + M단계(파라미터 최적화) 반복]
+    │
+    ▼
+[GMM (Gaussian Mixture Model) — EM으로 혼합 가우시안 파라미터 추정]
+    │
+    ▼
+[베이지안 EM (Bayesian EM) — 사전 분포를 결합한 MAP 추정으로 과적합 방지]
+    │
+    ▼
+[변분 추론 (Variational Inference) — EM의 확장, 복잡한 사후 분포 근사]
+```
 
 이 흐름은 잠재 변수를 포함한 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 모델의 우도 최대화를 위해 EM [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 개발되고, [GMM](/knowledge-base/studynote/10_ai/05_data_science_ml/360_gmm_em_algorithm/) 등의 응용을 거쳐 베이지안 방법과 변분 추론으로 발전하는 과정을 보여준다.
 

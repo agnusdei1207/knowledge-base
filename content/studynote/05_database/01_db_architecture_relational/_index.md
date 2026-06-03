@@ -17,43 +17,55 @@ tags = ["database"]
 
 ### 개념: 데이터베이스란 무엇인가
 
-데이터베이스 (Database)는 조직화된 데이터의으로, 시스템에 의해 효율적인 접근, 삽입, 수정, 삭제 동작이 가능한 구조화된 저장소이다. 단순히 파일시스템에 데이터를 저장하는 것과는 달리, 데이터베이스는 데이터 독립성 (Data Independence)을 제공하여 응용 프로그램이 물리적 저장 구조의 변경 없이 데이터를 다룰 수 있게 한다. 이것은 프로그램과 데이터의 결합도를 낮추어 유지보수성과 확장성을 높이는 핵심 설계 목표이다.
+데이터베이스 (Database)는 조직화된 데이터의집합으로,전자계산기 시스템에 의해 효율적인 접근, 삽입, 수정, 삭제 동작이 가능한 구조화된 저장소이다. 단순히 파일시스템중에 데이터를 보존하는 것과는 달리, 데이터베이스는 데이터 독립성 (Data Independence)을 제공하여 응용 프로그램이 물리적 저장 구조의 변경 없이 데이터를 다룰 수 있게 한다. 이것은 프로그램과 데이터의 결합도를 낮추어 유지보수성과 확장성을 높이는 핵심 설계 목표이다.
 
-데이터베이스 관리 시스템 (DBMS: Database Management System)은 사용자와 데이터베이스 사이에서 중재자 역할을 수행하는 소프트웨어 계층으로, 사용자의 질의어를 분석하여 최적의 계획을 생성하고, 동시에 여러 사용자의 요청을 관리하며, 시스템 장애 발생 시 데이터를 일관된 상태로 복구시키는 종합적 관리 프레임워크이다.
+데이터베이스 관리 시스템 (DBMS: Database Management System)은 사용자와 데이터베이스 사이에서 중재자 역할을 수행하는 소프트웨어 계층으로, 사용자의 질의어를 분석하여 최적의집행 계획을 생성하고, 동시에 여러 사용자의 요청을 관리하며, 시스템 장애 발생 시 데이터를 일관된 상태로 복구시키는 종합적 관리 프레임워크이다.
 
 ### 필요성: 왜 파일 시스템이 아닌 데이터베이스인가
 
-초기에는 기업들이 데이터를 파일 시스템에 직접 저장하여 관리했다. 그러나 데이터 이 증가하고 동시 접근 요구가 발생하면서 여러 심각한 문제가 노출되었다. 첫째, 데이터 중복 (Data Redundancy)으로 인한 저장 공간 낭비와 업데이트 이상 (Update Anomaly)이 발생했다. 둘째, 동시성 제어가 없어 여러 사용자가동일 파일을 동시에 하면 데이터 무결성이 깨졌다. 셋째, 장애 발생 시 수동 복구만이 가능하여 서비스 가용성이 극히 낮았다.
+초기에는 기업들이 데이터를 파일 시스템에 직접 저장하여 관리했다. 그러나 데이터 량이 증가하고 동시 접근 요구가 발생하면서 여러 심각한 문제가 노출되었다. 첫째, 데이터 중복 (Data Redundancy)으로 인한 저장 공간 낭비와 갱신 이상 (Update Anomaly)이 발생했다. 둘째, 동시성 제어가 없어 여러 사용자가동일 파일을 동시에 수정하면 데이터 무결성이 깨졌다. 셋째, 장애 발생 시 수동 복구만이 가능하여 서비스 가용성이 극히 낮았다.
 
-이러한 한계를 극복하기 위해 IBM (International Business Machines Corporation)에서 개발한 IDS (Integrated Data Store)가 관계형 데이터베이스의 모태가 되었고, 이후 Oracle (Oracle Corporation), IBM DB2, MySQL (MySQL AB), PostgreSQL (PostgreSQL Global Development Group) 등 다양한 상용 및 오픈소스 DBMS가 등장했다. 이러한 시스템들은 데이터 무결성 보장과 동시성 제어를 자동화하여, 응용 프로그램 개발자가 비지니스 로직에 집중할 수 있도록 해준다.
+이러한 한계를 극복하기 위해 IBM (International Business Machines Corporation)에서 개발한 IDS (Integrated Data Store)가최조적 관계형 데이터베이스의 모태가 되었고, 이후 Oracle (Oracle Corporation), IBM DB2, MySQL (MySQL AB), PostgreSQL (PostgreSQL Global Development Group) 등 다양한 상용 및 오픈소스 DBMS가 등장했다. 이러한 시스템들은 데이터 무결성 보장과 동시성 제어를 자동화하여, 응용 프로그램 개발자가 비지니스 로직에 집중할 수 있도록 해준다.
 
 ### 데이터베이스 시스템의 Three-Level Architecture
 
 데이터베이스의 구조를 이해하기 위해서는ANSI/SPARC (American National Standards Institute/Standards Planning and Requirements Committee)에서 제안한 Three-Level Architecture를 살펴봐야 한다. 이 아키텍처는 데이터베이스를 세 개의 논리적 계층으로 분리하여, 각 계층이 특정 수준의 추상화를 담당한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">External Level (외부 계층)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User A</div><div class="kb-diagram-cell">User B</div><div class="kb-diagram-cell">User C</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(개발자)</div><div class="kb-diagram-cell">(관리자)</div><div class="kb-diagram-cell">(분석가)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">View 1</div><div class="kb-diagram-cell">View 2</div><div class="kb-diagram-cell">View 3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Conceptual Level (개념 계층)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">통합된 전체 데이터베이스 구조를 정의</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(모든 사용자 관점을 통합한 하나의 논리적 구조)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✓ 스키마 (Schema)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✓ 관계 (Relationships)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✓ 제약조건 (Constraints)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Internal Level (내부 계층)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인덱스</div><div class="kb-diagram-cell">버퍼</div><div class="kb-diagram-cell">스토어</div><div class="kb-diagram-cell">로그</div><div class="kb-diagram-cell">통계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B-Tree</div><div class="kb-diagram-cell">Manager</div><div class="kb-diagram-cell">Manager</div><div class="kb-diagram-cell">Manager</div><div class="kb-diagram-cell">Info</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물리적 저장 구조 및 접근 경로 정의</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                    External Level (외부 계층)                    │
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐            │
+│  │   User A    │  │   User B    │  │   User C    │            │
+│  │  (개발자)   │  │  (관리자)   │  │  (분석가)   │            │
+│  │ View 1      │  │ View 2      │  │ View 3      │            │
+│  └──────┬──────┘  └──────┬──────┘  └──────┬──────┘            │
+└─────────┼────────────────┼────────────────┼────────────────────┘
+          │                │                │
+          ▼                ▼                ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                    Conceptual Level (개념 계층)                   │
+│                                                                  │
+│         통합된 전체 데이터베이스 구조를 정의                        │
+│         (모든 사용자 관점을 통합한 하나의 논리적 구조)              │
+│         ✓ 스키마 (Schema)                                        │
+│         ✓ 관계 (Relationships)                                   │
+│         ✓ 제약조건 (Constraints)                                  │
+│                                                                  │
+└──────────────────────────────┬──────────────────────────────────┘
+                               │
+                               ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                    Internal Level (내부 계층)                    │
+│                                                                  │
+│  ┌─────────┬─────────┬─────────┬─────────┬─────────┐           │
+│  │  인덱스  │ 버퍼    │  스토어 │  로그   │  통계   │           │
+│  │ B-Tree  │ Manager │ Manager │ Manager │ Info   │           │
+│  └─────────┴─────────┴─────────┴─────────┴─────────┘           │
+│                                                                  │
+│         물리적 저장 구조 및 접근 경로 정의                          │
+│                                                                  │
+└─────────────────────────────────────────────────────────────────┘
+```
 
 이 구조도의 핵심은 각 계층의 분리이다. 외부 계층은 개별 사용자의 관점을 제공하고, 개념 계층은 전체 데이터베이스의 통합된 논리적 구조를 정의하며, 내부 계층은 물리적 저장 방식과 접근 방법을 관리한다. 이러한 분리는 데이터베이스 관리에 세 가지 중요한 특성을 제공한다. 첫째, 프로그램 데이터 독립성 (Program-Data Independence)으로 인해 물리적 저장 구조 변경이 응용 프로그램에 영향을 주지 않는다. 둘째, 다중 사용자 관점 지원으로 인해 다양한 이해관계자가 자신의 필요한 데이터만 볼 수 있다. 셋째, 보안 관리 용이성으로 인해 각 외부 스키마에 대한 접근 권한을 개별적으로 제어할 수 있다.
 
@@ -71,101 +83,150 @@ tags = ["database"]
 
 DBMS는 다층적 아키텍처로 구성되며, 각 구성 요소는 특정한 역할을 담당하여 전체 시스템의 일관성과 성능을 유지한다. 주요 구성 요소는 쿼리 처리기, 저장 관리기, 트랜잭션 관리자, 회복 관리자로 나눌 수 있다.
 
+```
+┌──────────────────────────────────────────────────────────────────────┐
+│                         DBMS Architecture                             │
+│                                                                      │
+│  ┌────────────────────────────────────────────────────────────────┐  │
+│  │                    Query Processor (쿼리 처리기)               │  │
+│  │  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────┐     │  │
+│  │  │   Parser    │→ │  Optimizer  │→ │    Executor         │     │  │
+│  │  │  (구문 분석) │  │  (최적화)   │  │    (실행)            │     │  │
+│  │  └─────────────┘  └─────────────┘  └─────────────────────┘     │  │
+│  └────────────────────────────────────────────────────────────────┘  │
+│                               │                                       │
+│                               ▼                                       │
+│  ┌────────────────────────────────────────────────────────────────┐  │
+│  │                 Storage Manager (저장 관리기)                   │  │
+│  │  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐      │  │
+│  │  │ Buffer   │  │  File    │  │  Index   │  │   Data   │      │  │
+│  │  │ Manager  │  │ Manager  │  │ Manager  │  │ Dictionary│     │  │
+│  │  └──────────┘  └──────────┘  └──────────┘  └──────────┘      │  │
+│  └────────────────────────────────────────────────────────────────┘  │
+│                               │                                       │
+│                               ▼                                       │
+│  ┌────────────────────────────────────────────────────────────────┐  │
+│  │              Transaction Manager (트랜잭션 관리자)               │  │
+│  │  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐         │  │
+│  │  │ Concurrency  │  │   Lock      │  │  Scheduler   │         │  │
+│  │  │ Control     │  │  Manager    │  │             │         │  │
+│  │  └──────────────┘  └──────────────┘  └──────────────┘         │  │
+│  └────────────────────────────────────────────────────────────────┘  │
+│                               │                                       │
+│                               ▼                                       │
+│  ┌────────────────────────────────────────────────────────────────┐  │
+│  │               Recovery Manager (회복 관리자)                    │  │
+│  │  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐         │  │
+│  │  │  Log Manager │  │  Checkpoint │  │  ARIES       │         │  │
+│  │  │             │  │  Manager    │  │  Algorithm   │         │  │
+│  │  └──────────────┘  └──────────────┘  └──────────────┘         │  │
+│  └────────────────────────────────────────────────────────────────┘  │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
+이 아키텍처에서 쿼리 처리기는 사용자로부터 받은SQL문을 구문 분석하고 최적의 실행 계획을 생성하는 역할을 담당한다. 구문 분석기는SQL문의 문법적 정확성을 검증하고 파스 트리를 생성하며, 최적화기는 다양한 실행 대안 중 비용이 가장 낮은 계획을 선택한다. 저장 관리기는 디스크 상적 데이터와 메모리 사이의수거전수을 관리하며, 버퍼 풀을 통해빈번한 디스크 접근의 부담을 줄인다. 트랜잭션 관리자와 회복 관리자는 각각 동시성 제어와 장애 복구를 담당하여 데이터의 무결성을 보장한다.
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DBMS Architecture</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Query Processor (쿼리 처리기)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Parser</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">Optimizer</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">Executor</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(구문 분석)</div><div class="kb-diagram-cell">(최적화)</div><div class="kb-diagram-cell">(실행)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Storage Manager (저장 관리기)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Buffer</div><div class="kb-diagram-cell">File</div><div class="kb-diagram-cell">Index</div><div class="kb-diagram-cell">Data</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Manager</div><div class="kb-diagram-cell">Manager</div><div class="kb-diagram-cell">Manager</div><div class="kb-diagram-cell">Dictionary</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Transaction Manager (트랜잭션 관리자)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Concurrency</div><div class="kb-diagram-cell">Lock</div><div class="kb-diagram-cell">Scheduler</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Control</div><div class="kb-diagram-cell">Manager</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Recovery Manager (회복 관리자)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Log Manager</div><div class="kb-diagram-cell">Checkpoint</div><div class="kb-diagram-cell">ARIES</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Manager</div><div class="kb-diagram-cell">Algorithm</div></div>
-</div>
-</div>
-
-
-
-이 아키텍처에서 쿼리 처리기는 사용자로부터 받은SQL문을 구문 분석하고 최적의 실행 계획을 생성하는 역할을 담당한다. 구문 분석기는SQL문의 문법적 정확성을 검증하고 파스 트리를 생성하며, 최적화기는 다양한 실행 대안 중 비용이 가장 낮은 계획을 선택한다. 저장 관리기는 디스크 데이터와 메모리 사이의수을 관리하며, 버퍼 풀을 통해한 디스크 접근의 부담을 줄인다. 트랜잭션 관리자와 회복 관리자는 각각 동시성 제어와 장애 복구를 담당하여 데이터의 무결성을 보장한다.
-
-실무에서 중요한 점은 이러한 구성 요소들이 독립적으로 작동하는 것이 아니라 긴밀하게 연동된다는 것이다. 예를 들어, 쿼리 최적화기가 생성한 실행 계획은 저장 관리기의 인덱스 정보를 참조하고, 트랜잭션 관리자의 잠금 설정은 회복 관리기의 로그 기록과 협력한다. 이러한 통합적계가 데이터베이스 시스템의 복잡성을 관리하면서도 높은 성능을 달성하게 해준다.
+실무에서 중요한 점은 이러한 구성 요소들이 독립적으로 작동하는 것이 아니라 긴밀하게 연동된다는 것이다. 예를 들어, 쿼리 최적화기가 생성한 실행 계획은 저장 관리기의 인덱스 정보를 참조하고, 트랜잭션 관리자의 잠금 설정은 회복 관리기의 로그 기록과 협력한다. 이러한 통합적설계가 데이터베이스 시스템의 복잡성을 관리하면서도 높은 성능을 달성하게 해준다.
 
 ### 데이터 저장 구조: 디스크 vs 메모리
 
-데이터베이스의 성능을 이해하기 위해서는데이터이/가에저장된다이나, 그리고의처럼된다이나를 분석해야 한다. 디스크 기반 데이터베이스에서 데이터는 디스크 스토리지에 저장되고, 요청 시 메모리의 버퍼 풀에 적재되어 처리된다. 디스크 접근은 메모리 접근보다 수천 배에서 수 배 느리기 때문에, DBMS의 대부분의 최적화 노력은 불필요한 디스크 접근을 최소화하는 데 집중된다.
+데이터베이스의 성능을 이해하기 위해서는データ이/가どこ에보존されるか, 그리고어느よう에アクセスされるか를 분석해야 한다. 디스크 기반 데이터베이스에서 데이터는 디스크 스토리지에 저장되고, 요청 시 메모리의 버퍼 풀에 적재되어 처리된다. 디스크 접근은 메모리 접근보다 수천 배에서 수만 배 느리기 때문에, DBMS의 대부분의 최적화 노력은 불필요한 디스크 접근을 최소화하는 데 집중된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Memory Hierarchy in DBMS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Register ▲ but 가장 비쌈</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L1 Cache</div><div class="kb-diagram-cell">── CPU 가까이에 위치, 수십 사이클 접근</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L2 Cache</div><div class="kb-diagram-cell">── 수백 사이클 접근</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L3 Cache</div><div class="kb-diagram-cell">── 수천 사이클 접근</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Main Memory</div><div class="kb-diagram-cell">──수 나노초 접근 (DRAM)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SSD/HDD ▼──수 마이크로초 ~ 밀리초 접근 (디스크)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실제 DBMS 동작:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Query 요청</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">버퍼 풀 확인 (메모리)</div><div class="kb-diagram-cell">◀── 첫 번째 체크: 수십 나노초</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Page1</div><div class="kb-diagram-cell">Page2</div><div class="kb-diagram-cell">Page3</div><div class="kb-diagram-cell">Page4</div><div class="kb-diagram-cell">...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">( miss 시 )</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디스크에서 해당 페이지 읽기</div><div class="kb-diagram-cell">◀── 두 번째 체크: 수백 마이크로초</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디스크 I/O 발생</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">버퍼 풀에 페이지 적재 후 연산 수행</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    Memory Hierarchy in DBMS                            │
+│                                                                         │
+│  Register ──────▲最快的 but 가장 비쌈                                    │
+│       │         │                                                         │
+│  L1 Cache ──────│── CPU 가까이에 위치, 수십 사이클 접근                    │
+│       │         │                                                         │
+│  L2 Cache ──────│── 수백 사이클 접근                                      │
+│       │         │                                                         │
+│  L3 Cache ──────│── 수천 사이클 접근                                      │
+│       │         │                                                         │
+│  Main Memory ───│──数十 나노초 접근 (DRAM)                                │
+│       │         │                                                         │
+│  SSD/HDD ───────▼──数百 마이크로초 ~ 밀리초 접근 (디스크)                   │
+│                                                                         │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│  실제 DBMS 동작:                                                         │
+│                                                                         │
+│   Query 요청                                                              │
+│       │                                                                  │
+│       ▼                                                                  │
+│   ┌──────────────────────────────────────┐                              │
+│   │  버퍼 풀 확인 (메모리)                 │ ◀── 첫 번째 체크: 수십 나노초   │
+│   │  ┌─────┬─────┬─────┬─────┬─────┐    │                              │
+│   │  │Page1│Page2│Page3│Page4│ ... │    │                              │
+│   │  └─────┴─────┴─────┴─────┴─────┘    │                              │
+│   └──────────────────────────────────────┘                              │
+│              │ ( miss 시 )                                               │
+│              ▼                                                          │
+│   ┌──────────────────────────────────────┐                              │
+│   │  디스크에서 해당 페이지 읽기             │ ◀── 두 번째 체크: 수백 마이크로초 │
+│   │  디스크 I/O 발생                        │                              │
+│   └──────────────────────────────────────┘                              │
+│              │                                                          │
+│              ▼                                                          │
+│   버퍼 풀에 페이지 적재 후 연산 수행                                        │
+│                                                                         │
+└─────────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림은 DBMS가 메모리 계층을 어떻게 활용하는지를 보여준다. CPU의 레지스터에서부터 디스크까지 접근 시간은 기하급수적으로 증가한다. 따라서 DBMS는 "지역성 (Locality)" 원칙에 따라 최근 사용된 데이터를 메모리에 유지하려 노력한다. 버퍼 풀에서 원하는 데이터가 발견되면 "버퍼 히트 (Buffer Hit)"이고, 디스크까지 접근해야 하면 "버퍼 미스 (Buffer Miss)"이다. 일반적인 OLTP 작업에서 버퍼 히트율이 95% 이상 되지 않으면 성능 문제가 발생한다. 실무에서는 이 비율을 반드시 모니터링해야 한다.
 
 ### 인덱스 구조: B-Tree와 B+Tree
 
-인덱스 (Index)는 데이터베이스에서 데이터 검색을하기 위한 핵심 자료구조이다. 가장 널리 사용되는 인덱스 구조는 B-Tree (Balanced Tree)와 그 변형인 B+Tree이다. B+Tree는leaf 노드에만 실제 데이터에의을/를저장, 노드는 탐색 위한 key만저장하는 특성을 가져서, 동일한 트리 높이라도 더 많은 key을/를 저장할 수 있다.
+인덱스 (Index)는 데이터베이스에서 데이터 검색을가속하기 위한 핵심 자료구조이다. 가장 널리 사용되는 인덱스 구조는 B-Tree (Balanced Tree)와 그 변형인 B+Tree이다. B+Tree는leaf 노드에만 실제 데이터へ의ポインタ을/를보존し,내부 노드는 탐색 위한 key치만보존하는 특성을 가져서, 동일한 트리 높이라도 더 많은 key치를 저장할 수 있다.
 
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                         B+Tree Structure                                 │
+│                                                                         │
+│                              [50]                                        │
+│                           /        \                                     │
+│                    [20,30]           [70,90]                            │
+│                   /    |    \       /    |    \                          │
+│              [10]  [25] [35] [60] [75] [85] [95]                        │
+│               │      │    |    |    |    |    │                         │
+│               ▼      ▼    ▼    ▼    ▼    ▼    ▼                         │
+│          ┌─────────────────────────────────────────────────────┐        │
+│          │  Leaf Nodes (실제 데이터 포인터 저장)                 │        │
+│          │  ┌───────┬───────┬───────┬───────┬───────┬───────┐  │        │
+│          │  │Data1  │Data2  │Data3  │Data4  │Data5  │Data6  │  │        │
+│          │  └───────┴───────┴───────┴───────┴───────┴───────┘  │        │
+│          │       ↔              ↔              ↔              │        │
+│          │   Sequential Linked List (순차 탐색 가능)            │        │
+│          └─────────────────────────────────────────────────────┘        │
+│                                                                         │
+├─────────────────────────────────────────────────────────────────────────┤
+│  예시: 70을 찾는 과정                                                    │
+│                                                                         │
+│  Step 1: Root에서 70 > 50 → 오른쪽 서브트리 이동                          │
+│          [50]                                                           │
+│            └──[70,90]  ◀── 여기서 50 < 70 <= 90                         │
+│                                                                         │
+│  Step 2: 내부 노드에서 70의 leaf 노드 위치 확인                           │
+│          [70,90]                                                        │
+│            └── [75] → [85] → [95]  (leaf 노드 연결)                     │
+│                        ◀── 70은 이 leaf들 사이에 위치                    │
+│                                                                         │
+│  Step 3: Leaf 노드에서 70 찾기                                          │
+│          [70] → 실제 데이터 포인터                                       │
+│                                                                         │
+│  총 탐색 깊이: 3단계 (Tree 높이 = 3)                                      │
+│                                                                         │
+└─────────────────────────────────────────────────────────────────────────┘
+```
 
+B+Tree의 핵심적인 특징은 다음과 같다. 첫째, 모든 leaf 노드가동일 깊이에 위치하여 어떤 key값을 찾든 동일한수의 노드에 접근한다. 둘째, leaf 노드들이 상호 연결되어 있어 범위 조회 (Range Query)이고효적이다. 예를 들어 50에서 80 사이의 모든 데이터를 찾을 때, 50을 찾은 후 연결된 leaf 노드들을 따라가면 된다. 셋째, 내부 노드는 key값만보존하여 메모리에 더 많이 적재될 수 있고, 이는 디스크 접근 횟수를 줄여준다. 실무에서 MySQL의 InnoDB 엔진이 B+Tree를 사용하고, 이는Primary Key색인와 Secondary Index 모두에 적용된다.
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B+Tree Structure</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">50</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">20,30</div><div class="kb-diagram-node">70,90</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">10</div><div class="kb-diagram-node">25</div><div class="kb-diagram-node">35</div><div class="kb-diagram-node">60</div><div class="kb-diagram-node">75</div><div class="kb-diagram-node">85</div><div class="kb-diagram-node">95</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Leaf Nodes (실제 데이터 포인터 저장)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data1</div><div class="kb-diagram-cell">Data2</div><div class="kb-diagram-cell">Data3</div><div class="kb-diagram-cell">Data4</div><div class="kb-diagram-cell">Data5</div><div class="kb-diagram-cell">Data6</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↔ ↔ ↔</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sequential Linked List (순차 탐색 가능)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예시: 70을 찾는 과정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Step 1: Root에서 70 &gt; 50 → 오른쪽 서브트리 이동</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">50</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">──</div><div class="kb-diagram-node">70,90</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">── 여기서 50 &lt; 70 &lt;= 90</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Step 2: 내부 노드에서 70의 leaf 노드 위치 확인</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">70,90</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">──</div><div class="kb-diagram-node">75</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">85</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">95</div><div class="kb-diagram-note">(leaf 노드 연결)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀── 70은 이 leaf들 사이에 위치</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Step 3: Leaf 노드에서 70 찾기</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">70</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">실제 데이터 포인터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">총 탐색 깊이: 3단계 (Tree 높이 = 3)</div></div>
-</div>
-</div>
-
-
-
-B+Tree의 핵심적인 특징은 다음과 같다. 첫째, 모든 leaf 노드가동일 깊이에 위치하여 어떤 key값을 찾든 동일한수의 노드에 접근한다. 둘째, leaf 노드들이 상호 연결되어 있어 범위 쿼리 (Range Query)이적이다. 예를 들어 50에서 80 사이의 모든 데이터를 찾을 때, 50을 찾은 후 연결된 leaf 노드들을 따라가면 된다. 셋째, 내부 노드는 key값만저장하여 메모리에 더 많이 적재될 수 있고, 이는 디스크 접근 횟수를 줄여준다. 실무에서 MySQL의 InnoDB 엔진이 B+Tree를 사용하고, 이는Primary Key와 Secondary Index 모두에 적용된다.
-
-반면, Hash 인덱스는 등치 쿼리 (Equality Query)에되어 O(1)의 접근 시간을 제공하지만, 범위 쿼리이나 정렬 연산에는 사용할 수 없다. 따라서 인덱스 선택은 작업의 성격에 따라 달라져야 한다.
+반면, Hash 인덱스는 등치 조회 (Equality Query)에특화되어 O(1)의 접근 시간을 제공하지만, 범위 조회이나 정렬 연산에는 사용할 수 없다. 따라서 인덱스 선택은 작업의 성격에 따라 달라져야 한다.
 
 ### 📢 섹션 요약 비유
 
-DBMS의 아키텍처를 은행 시스템에 비유할 수 있다. 쿼리 처리기는 창구 직원에 해당하여 고객의 요청을 받아들이고 적절한 부서로 전달한다. 저장 관리자는와 금고 관리에 해당하여 실제 돈(데이터)의 입출고를 관리한다. 트랜잭션 관리자는와/과시스템에 해당하여 동시에 여러 거래가 발생해도 거래의 무결성을 보장한다. 회복 관리자는 사고 발생 시 돈을 찾는 보험 시스템에 해당하여 장애 상황에서도 데이터를 복구할 수 있게 해준다. 이 모든 구성 요소가 협력하여 은행이 돈을 안전하고 효율적으로 관리하듯, DBMS도 데이터를 안전하고 효율적으로 관리한다.
+DBMS의 아키텍처를 은행 시스템에 비유할 수 있다. 쿼리 처리기는 창구 직원에 해당하여 고객의 요청을 받아들이고 적절한 부서로 전달한다. 저장 관리자는금고와 금고 관리인에 해당하여 실제 돈(데이터)의 입출고를 관리한다. 트랜잭션 관리자는안방カメラ와/과감시システム에 해당하여 동시에 여러 거래가 발생해도 거래의 무결성을 보장한다. 회복 관리자는 사고 발생 시 돈을 찾는 보험 시스템에 해당하여 장애 상황에서도 데이터를 복구할 수 있게 해준다. 이 모든 구성 요소가 협력하여 은행이 돈을 안전하고 효율적으로 관리하듯, DBMS도 데이터를 안전하고 효율적으로 관리한다.
 
 ---
 
@@ -173,79 +234,101 @@ DBMS의 아키텍처를 은행 시스템에 비유할 수 있다. 쿼리 처리�
 
 ### 파일 시스템 vs 데이터베이스: 근본적 차이
 
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│               파일 시스템 vs 데이터베이스: 구조적 비교                    │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│  ┌─────────────────────┐    ┌─────────────────────┐                    │
+│  │     File System     │    │      Database       │                    │
+│  ├─────────────────────┤    ├─────────────────────┤                    │
+│  │ 응용 프로그램이       │    │ DBMS가 중재자로     │                    │
+│  │ 직접 파일 접근       │    │ 데이터 접근을 관리   │                    │
+│  │                     │    │                     │                    │
+│  │ 데이터 참조:         │    │ 데이터 참조:         │                    │
+│  │ 파일 경로 + 오프셋   │    │ 논리적 스키마 통해   │                    │
+│  │                     │    │                     │                    │
+│  │ 일관성 보장:         │    │ 일관성 보장:         │                    │
+│  │ 응용 프로그램 개발자  │    │ 시스템 차원에서 자동  │                    │
+│  │ 책임 (수동)          │    │ 보장 (ACID 트랜잭션)  │                    │
+│  │                     │    │                     │                    │
+│  │ 동시성 제어:         │    │ 동시성 제어:         │                    │
+│  │ 파일 잠금 (제한적)   │    │ 고급 잠금 메커니즘    │                    │
+│  │                     │    │ (2PL, 타임스탬프 등)  │                    │
+│  │ 회복 기능:           │    │ 회복 기능:           │                    │
+│  │ 수동 백업/복원       │    │ 자동 로그 기반 복구   │                    │
+│  │                     │    │ (ARIES 등)           │                    │
+│  └─────────────────────┘    └─────────────────────┘                    │
+│                                                                         │
+│  ════════════════════════════════════════════════════════════════════  │
+│                                                                         │
+│  핵심 결론:                                                              │
+│  파일 시스템은 "데이터를 저장하는 창고"라면,                              │
+│  데이터베이스는 "데이터를 저장하고 관리하는 종합管理システム"이다.            │
+│                                                                         │
+│  따라서:                                                                 │
+│  • 소규모 단일 사용자 단순 저장 → 파일 시스템으로 충분                    │
+│  • 대규모 다중 사용자 트랜잭션 처리 → 데이터베이스 필수                    │
+│                                                                         │
+└─────────────────────────────────────────────────────────────────────────┘
+```
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파일 시스템 vs 데이터베이스: 구조적 비교</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">File System</div><div class="kb-diagram-cell">Database</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">응용 프로그램이</div><div class="kb-diagram-cell">DBMS가 중재자로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">직접 파일 접근</div><div class="kb-diagram-cell">데이터 접근을 관리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 참조:</div><div class="kb-diagram-cell">데이터 참조:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파일 경로 + 오프셋</div><div class="kb-diagram-cell">논리적 스키마 통해</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일관성 보장:</div><div class="kb-diagram-cell">일관성 보장:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">응용 프로그램 개발자</div><div class="kb-diagram-cell">시스템 차원에서 자동</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">책임 (수동)</div><div class="kb-diagram-cell">보장 (ACID 트랜잭션)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동시성 제어:</div><div class="kb-diagram-cell">동시성 제어:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파일 잠금 (제한적)</div><div class="kb-diagram-cell">고급 잠금 메커니즘</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(2PL, 타임스탬프 등)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">회복 기능:</div><div class="kb-diagram-cell">회복 기능:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수동 백업/복원</div><div class="kb-diagram-cell">자동 로그 기반 복구</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(ARIES 등)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심 결론:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파일 시스템은 "데이터를 저장하는 창고"라면,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터베이스는 "데이터를 저장하고 관리하는 종합관리시스템"이다.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">따라서:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 소규모 단일 사용자 단순 저장 → 파일 시스템으로 충분</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 대규모 다중 사용자 트랜잭션 처리 → 데이터베이스 필수</div></div>
-</div>
-</div>
-
-
-
-이 비교에서 중요한 점은 데이터베이스가 단순히 데이터를 저장하는 도구를 넘어, 데이터 관리에 필요한 모든 기능을 통합적으로 제공하는 시스템이라는 것이다. 파일 시스템에서는 개발자가 직접 구현해야 하는 동시성 제어, 무결성 검증, 장애 복구을 데이터베이스는 자동으로 제공한다. 그러나 이것이 데이터베이스가 항상 우월하다는 것은 아니다. 대용량 파일 저장, 로그 기록, 설정관리 단순한 용도에는 파일 시스템이 더 효율적일 수 있다.
+이 비교에서 중요한 점은 데이터베이스가 단순히 데이터를 저장하는 도구를 넘어, 데이터 관리에 필요한 모든 기능을 통합적으로 제공하는 시스템이라는 것이다. 파일 시스템에서는 개발자가 직접 구현해야 하는 동시성 제어, 무결성 검증, 장애 복구등공능을 데이터베이스는 자동으로 제공한다. 그러나 이것이 데이터베이스가 항상 우월하다는 것은 아니다. 대용량 파일 저장, 로그 기록, 설정관리등 단순한 용도에는 파일 시스템이 더 효율적일 수 있다.
 
 ### RDBMS vs NoSQL: 각각 언제 적합한가
 
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    RDBMS vs NoSQL: 선택 기준 매트릭스                     │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│  ┌────────────────┬─────────────────────┬─────────────────────┐        │
+│  │    기준        │       RDBMS         │       NoSQL         │        │
+│  ├────────────────┼─────────────────────┼─────────────────────┤        │
+│  │ 데이터 모델    │ 고정 스키마           │ 유연한 스키마        │        │
+│  │               │ (정형 데이터에 최적)   │ (반정형/비정형 가능)  │        │
+│  ├────────────────┼─────────────────────┼─────────────────────┤        │
+│  │ 확장성         │ 수직 확장 (Scale-up)  │ 수평 확장 (Scale-out)│        │
+│  │               │ 대규모 증설 시 한계     │ 테라바이트~페타바이트 │        │
+│  ├────────────────┼─────────────────────┼─────────────────────┤        │
+│  │ 일관성 모델    │ 강철 일관성 (ACID)    │ 최종 일관성 선택 가능 │        │
+│  │               │ 모든 트랜잭션 보장     │ 지연 허용 시高性能   │        │
+│  ├────────────────┼─────────────────────┼─────────────────────┤        │
+│  │ 查询 언어      │ 표준화된 SQL         │ 다양하지만 비표준화   │        │
+│  │               │ 학습 가능성 높음      │ 각 시스템 별도 학습   │        │
+│  ├────────────────┼─────────────────────┼─────────────────────┤        │
+│  │ 트랜잭션 지원  │ 완전한 ACID          │ 제한적 (많은 경우)   │        │
+│  │               │ 금융/회계에 필수      │ 복합 연산 시 주의     │        │
+│  ├────────────────┼─────────────────────┼─────────────────────┤        │
+│  │成熟도          │ 수십 년 검증         │ 상대적으로 신규       │        │
+│  │               │ 안정적, 풍부한 도구   │ 검증 중인 기술도多有 │        │
+│  ├────────────────┼─────────────────────┼─────────────────────┤        │
+│  │ 주요 용도     │ 핵심 비즈니스 시스템   │ 대량 데이터 처리     │        │
+│  │               │ ERP, CRM, 회계 시스템  │ 소셜, IoT, 캐시    │        │
+│  └────────────────┴─────────────────────┴─────────────────────┘        │
+│                                                                         │
+│  ════════════════════════════════════════════════════════════════════  │
+│                                                                         │
+│  실무 선택 가이드:                                                       │
+│                                                                         │
+│  ✓ RDBMS 선택:                                                          │
+│    - 데이터 무결성이 최우선 (금융, 의료,ERP)                              │
+│    - 복잡한 관계와 조인이 필요한 경우                                      │
+│    - 장기적 안정성과 검증된 기술 선호                                      │
+│                                                                         │
+│  ✓ NoSQL 선택:                                                          │
+│    - 급격한 트래픽 증가에 유연하게 대응해야 하는 경우                       │
+│    - 저장할 데이터의 구조가 자주 변하는 경우                               │
+│    - 단순한 데이터 모델로 복잡한 조인이 불필요한 경우                       │
+│                                                                         │
+└─────────────────────────────────────────────────────────────────────────┘
+```
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RDBMS vs NoSQL: 선택 기준 매트릭스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기준</div><div class="kb-diagram-cell">RDBMS</div><div class="kb-diagram-cell">NoSQL</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 모델</div><div class="kb-diagram-cell">고정 스키마</div><div class="kb-diagram-cell">유연한 스키마</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(정형 데이터에 최적)</div><div class="kb-diagram-cell">(반정형/비정형 가능)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">확장성</div><div class="kb-diagram-cell">수직 확장 (Scale-up)</div><div class="kb-diagram-cell">수평 확장 (Scale-out)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대규모 증설 시 한계</div><div class="kb-diagram-cell">테라바이트~페타바이트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일관성 모델</div><div class="kb-diagram-cell">강철 일관성 (ACID)</div><div class="kb-diagram-cell">최종 일관성 선택 가능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모든 트랜잭션 보장</div><div class="kb-diagram-cell">지연 허용 시성능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">쿼리 언어</div><div class="kb-diagram-cell">표준화된 SQL</div><div class="kb-diagram-cell">다양하지만 비표준화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">학습 가능성 높음</div><div class="kb-diagram-cell">각 시스템 별도 학습</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">트랜잭션 지원</div><div class="kb-diagram-cell">완전한 ACID</div><div class="kb-diagram-cell">제한적 (많은 경우)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">금융/회계에 필수</div><div class="kb-diagram-cell">복합 연산 시 주의</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">도</div><div class="kb-diagram-cell">수십 년 검증</div><div class="kb-diagram-cell">상대적으로 신규</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">안정적, 풍부한 도구</div><div class="kb-diagram-cell">검증 중인 기술도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주요 용도</div><div class="kb-diagram-cell">핵심 비즈니스 시스템</div><div class="kb-diagram-cell">대량 데이터 처리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ERP, CRM, 회계 시스템</div><div class="kb-diagram-cell">소셜, IoT, 캐시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실무 선택 가이드:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✓ RDBMS 선택:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 데이터 무결성이 최우선 (금융, 의료,ERP)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 복잡한 관계와 조인이 필요한 경우</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 장기적 안정성과 검증된 기술 선호</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✓ NoSQL 선택:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 급격한 트래픽 증가에 유연하게 대응해야 하는 경우</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 저장할 데이터의 구조가 자주 변하는 경우</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 단순한 데이터 모델로 복잡한 조인이 불필요한 경우</div></div>
-</div>
-</div>
-
-
-
-CAP 정리 (Brewer의 정리)를, 분산 시스템에서 일관성 (Consistency), 가용성 (Availability), 분할 내성 (Partition Tolerance)을 동시에 보장할 수 없으며, 네트워크 분할 상황에서는 가용성과 일관성 중 하나를 선택해야 한다. RDBMS는 일관성을 선택한 것이고, 대부분의 NoSQL 시스템은 가용성을 선택한 결과이다. 그러나 이는 단순한 이분법이 아니며, 최근의 NewSQL 시스템은 양쪽의 장점을 결합하려는 시도이다.
+CAP 정리 (Brewer의 정리)를사い출せば, 분산 시스템에서 일관성 (Consistency), 가용성 (Availability), 분할 내성 (Partition Tolerance)을 동시에 보장할 수 없으며, 네트워크 분할 상황에서는 가용성과 일관성 중 하나를 선택해야 한다. RDBMS는 일관성을 선택한 것이고, 대부분의 NoSQL 시스템은 가용성을 선택한 결과이다. 그러나 이는 단순한 이분법이 아니며, 최근의 NewSQL 시스템은 양쪽의 장점을 결합하려는 시도이다.
 
 ### 📢 섹션 요약 비유
 
-RDBMS와 NoSQL의 관계를 도서관과 아마존 창고에 비유할 수 있다. RDBMS는 체계적인 분류 체계와 목차를 가진 중앙 도서관에 비유할 수 있다. 모든 책은 정해진 위치에 있으며, 도서관 카탈로그를 통해 정확한 위치를 찾을 수 있다. 하지만 새로운 분류가 추가되거나 분류 체계가 바뀌려면 전체 목록을 수정해야 하는 번거로움이 있다. 반면 NoSQL은 물류 창고처럼 물건을 효율적으로 보관하고 빠르게 찾을 수 있지만, 특정 도서관에서처럼 정밀한 분류 체계는 없다. 물건은 많아도 정리가 체계적이지 않아 특정을 찾기가 어려울 수 있다. 결국 어떤 것을 선택하느냐는 무엇을 저장하고 어떻게 찾는냐에 따라 달라진다.
+RDBMS와 NoSQL의 관계를 도서관과 아마존 창고에 비유할 수 있다. RDBMS는 체계적인 분류 체계와 목차를 가진 중앙 도서관에 비유할 수 있다. 모든 책은 정해진 위치에 있으며, 도서관 카탈로그를 통해 정확한 위치를 찾을 수 있다. 하지만 새로운 분류가 추가되거나 분류 체계가 바뀌려면 전체 목록을 수정해야 하는 번거로움이 있다. 반면 NoSQL은 물류 창고처럼 물건을 효율적으로 보관하고 빠르게 찾을 수 있지만, 특정 도서관에서처럼 정밀한 분류 체계는 없다. 물건은 많아도 정리가 체계적이지 않아 특정물품을 찾기가 어려울 수 있다. 결국 어떤 것을 선택하느냐는 무엇을 저장하고 어떻게 찾는냐에 따라 달라진다.
 
 ---
 
@@ -253,111 +336,137 @@ RDBMS와 NoSQL의 관계를 도서관과 아마존 창고에 비유할 수 있�
 
 ### 데이터베이스 설계의 현실적 고려사항
 
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│              Database Design Decision Framework                          │
+│                                                                         │
+│  Phase 1: 요구사항 분석                                                  │
+│  ┌─────────────────────────────────────────────────────────────────┐   │
+│  │  • 업무 분석: 어떤 데이터가 생성되고 사용되는가?                  │   │
+│  │  • 사용자 수: 단일 사용자 vs 다중 사용자?                         │   │
+│  │  • 트랜잭션 빈도: 초당 몇 건의 CRUD가 발생하나?                  │   │
+│  │  • 가용성 요구: 99.99% vs 99.9%?                                │   │
+│  │  • 규제 요구: 금융 PCI-DSS, 의료 HIPAA 등                       │   │
+│  └─────────────────────────────────────────────────────────────────┘   │
+│                              │                                           │
+│                              ▼                                           │
+│  Phase 2: 논리적 설계                                                    │
+│  ┌─────────────────────────────────────────────────────────────────┐   │
+│  │  • 정규화: 제1정규형~제3정규형 / BCNF 고려                       │   │
+│  │  • 엔티티 정의: 실세계 객체를 어떻게 모델링하는가?                │   │
+│  │  • 관계 설정: 1:1, 1:N, M:N 관계 올바르게 매핑                   │   │
+│  │  • 도메인 무결성: 데이터 타입, 범위,NULL 허용 여부                │   │
+│  └─────────────────────────────────────────────────────────────────┘   │
+│                              │                                           │
+│                              ▼                                           │
+│  Phase 3: 물리적 설계                                                    │
+│  ┌─────────────────────────────────────────────────────────────────┐   │
+│  │  • 인덱스 전략: Clustered vs Non-Clustered, 단일 vs 복합        │   │
+│  │  • 파티셔닝: 수평 vs 수직, 파티션 키 선택 기준                   │   │
+│  │  • 테이블 스페이스: 데이터와 인덱스 분리, I/O 분산               │   │
+│  │  • 버퍼 풀 크기:_workload에 따른 적절한 메모리 할당             │   │
+│  └─────────────────────────────────────────────────────────────────┘   │
+│                              │                                           │
+│                              ▼                                           │
+│  Phase 4: 구현 및 모니터링                                               │
+│  ┌─────────────────────────────────────────────────────────────────┐   │
+│  │  • 쿼리 실행 계획 분석: EXPLAIN PLAN 활용                       │   │
+│  │  • 성능 지표 모니터링: 버퍼 히트율, 인덱스 사용률, 잠금 대기     │   │
+│  │  • 주기적 분석: STATISTICS 업데이트, 인덱스 재구성              │   │
+│  └─────────────────────────────────────────────────────────────────┘   │
+│                                                                         │
+└─────────────────────────────────────────────────────────────────────────┘
+```
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Database Design Decision Framework</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Phase 1: 요구사항 분석</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 업무 분석: 어떤 데이터가 생성되고 사용되는가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 사용자 수: 단일 사용자 vs 다중 사용자?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 트랜잭션 빈도: 초당 몇 건의 CRUD가 발생하나?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 가용성 요구: 99.99% vs 99.9%?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 규제 요구: 금융 PCI-DSS, 의료 HIPAA 등</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Phase 2: 논리적 설계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 정규화: 제1정규형~제3정규형 / BCNF 고려</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 엔티티 정의: 실세계 객체를 어떻게 모델링하는가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 관계 설정: 1:1, 1:N, M:N 관계 올바르게 매핑</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 도메인 무결성: 데이터 타입, 범위,NULL 허용 여부</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Phase 3: 물리적 설계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 인덱스 전략: Clustered vs Non-Clustered, 단일 vs 복합</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 파티셔닝: 수평 vs 수직, 파티션 키 선택 기준</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 테이블 스페이스: 데이터와 인덱스 분리, I/O 분산</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 버퍼 풀 크기:_workload에 따른 적절한 메모리 할당</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Phase 4: 구현 및 모니터링</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 쿼리 실행 계획 분석: EXPLAIN PLAN 활용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 성능 지표 모니터링: 버퍼 히트율, 인덱스 사용률, 잠금 대기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 주기적 분석: STATISTICS 업데이트, 인덱스 재구성</div></div>
-</div>
-</div>
-
-
-
-실무에서 데이터베이스 설계는 단순히 테이블을 만드는 것이 아니라, 장기적인 운영과 유지보수를 고려한 종합적 의사결정 과정이다. 논리적 설계 단계에서 지나치게 정규화를 진행하면 업데이트예외은지만 조인 성능이 저하되고, 반대로 정규화를 소홀히 하면 데이터 중복으로 인한 저장 공간 낭비와 업데이트이 발생한다. 따라서 과 비정규화 사이의 적절한 균형 점이 필요하다.
+실무에서 데이터베이스 설계는 단순히 테이블을 만드는 것이 아니라, 장기적인 운영과 유지보수를 고려한 종합적 의사결정 과정이다. 논리적 설계 단계에서 지나치게 정규화를 진행하면 업데이트이상은방げ지만 조인 성능이 저하되고, 반대로 정규화를 소홀히 하면 데이터 중복으로 인한 저장 공간 낭비와 업데이트곤난이 발생한다. 따라서 정규형과 비정규화 사이의 적절한 균형 점이 필요하다.
 
 ### 안티패턴: 흔히 저지르는 실수들
 
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    Database Design Anti-Patterns                         │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│  ❌ 안티패턴 1: 모든 것을 하나의 거대한 테이블에 저장                      │
+│  ┌─────────────────────────────────────────────────────────────────┐   │
+│  │ Problems:                                                       │   │
+│  │ • 테이블 스캔 시 불필요한 데이터까지 읽어와 I/O 증가               │   │
+│  │ • 인덱싱 전략 복잡화                                             │   │
+│  │ • 동시성 제어 어려움 (전체 테이블 잠금 위험)                       │   │
+│  │ • 백업 및 복구 시간 증가                                          │   │
+│  └─────────────────────────────────────────────────────────────────┘   │
+│                                                                         │
+│  ❌ 안티패턴 2: Primary Key에 의미없는 값 사용 (예: UUID 사용)             │
+│  ┌─────────────────────────────────────────────────────────────────┐   │
+│  │ Problems:                                                       │   │
+│  │ • B-Tree 인덱스 분포 불균형 (UUID는 순서가 없음)                  │   │
+│  │ • 인덱스 크기 증가 (128비트 vs 32비트 정수)                       │   │
+│  │ • 디스크碎片化 증가                                              │   │
+│  │ • 범위 查询 성능 저하                                             │   │
+│  └─────────────────────────────────────────────────────────────────┘   │
+│                                                                         │
+│  ❌ 안티패턴 3: NULL 값을 남용하거나 일관성 없이 사용                      │
+│  ┌─────────────────────────────────────────────────────────────────┐   │
+│  │ Problems:                                                       │   │
+│  │ • NULL 비교는 항상 삼치 논리 (TRUE/FALSE/UNKNOWN)                │   │
+│  │ • SQL 작성 시 디버깅困难                                          │   │
+│  │ • 인덱스 사용 제한 (IS NULL은 인덱스 활용 가능 but 느림)         │   │
+│  │ • 응용 프로그램에서 NULL 처리 로직 복잡화                         │   │
+│  └─────────────────────────────────────────────────────────────────┘   │
+│                                                                         │
+│  ❌ 안티패턴 4: 외래 키 제약조건을 사용하지 않거나 무시                     │
+│  ┌─────────────────────────────────────────────────────────────────┐   │
+│  │ Problems:                                                       │   │
+│  │ • 논리적 데이터 무결성이 DBMS 차원에서 보장되지 않음              │   │
+│  │ • 응용 프로그램에서 수동으로 검증 필요 (놓치기 쉬움)               │   │
+│  │ • 데이터 불일치 발생 가능                                          │   │
+│  │ • 참조 무결성 점검이 응용 프로그램 성능 저하 요인                  │   │
+│  └─────────────────────────────────────────────────────────────────┘   │
+│                                                                         │
+│  ❌ 안티패턴 5: 인덱스 많으면 좋다고 생각하기 (과도한 인덱싱)               │
+│  ┌─────────────────────────────────────────────────────────────────┐   │
+│  │ Problems:                                                       │   │
+│  │ • 인덱스 미사용 시 저장 공간 낭비 (테이블 크기의 몇 배)            │   │
+│  │ • INSERT/UPDATE/DELETE 시 모든 인덱스 업데이트 필요 → 쓰기 성능 저하│   │
+│  │ • 옵티마이저가 잘못된 인덱스를 선택할 가능성                       │   │
+│  │ • 통계 정보 왜곡 가능                                            │   │
+│  └─────────────────────────────────────────────────────────────────┘   │
+│                                                                         │
+└─────────────────────────────────────────────────────────────────────────┘
+```
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Database Design Anti-Patterns</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">❌ 안티패턴 1: 모든 것을 하나의 거대한 테이블에 저장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problems:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 테이블 스캔 시 불필요한 데이터까지 읽어와 I/O 증가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 인덱싱 전략 복잡화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 동시성 제어 어려움 (전체 테이블 잠금 위험)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 백업 및 복구 시간 증가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">❌ 안티패턴 2: Primary Key에 의미없는 값 사용 (예: UUID 사용)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problems:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• B-Tree 인덱스 분포 불균형 (UUID는 순서가 없음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 인덱스 크기 증가 (128비트 vs 32비트 정수)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 디스크 증가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 범위 쿼리 성능 저하</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">❌ 안티패턴 3: NULL 값을 남용하거나 일관성 없이 사용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problems:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• NULL 비교는 항상 삼치 논리 (TRUE/FALSE/UNKNOWN)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• SQL 작성 시 디버깅</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 인덱스 사용 제한 (IS NULL은 인덱스 활용 가능 but 느림)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 응용 프로그램에서 NULL 처리 로직 복잡화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">❌ 안티패턴 4: 외래 키 제약조건을 사용하지 않거나 무시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problems:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 논리적 데이터 무결성이 DBMS 차원에서 보장되지 않음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 응용 프로그램에서 수동으로 검증 필요 (놓치기 쉬움)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 데이터 불일치 발생 가능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 참조 무결성 점검이 응용 프로그램 성능 저하 요인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">❌ 안티패턴 5: 인덱스 많으면 좋다고 생각하기 (과도한 인덱싱)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problems:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 인덱스 미사용 시 저장 공간 낭비 (테이블 크기의 몇 배)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• INSERT/UPDATE/DELETE 시 모든 인덱스 업데이트 필요 → 쓰기 성능 저하</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 옵티마이저가 잘못된 인덱스를 선택할 가능성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 통계 정보 왜곡 가능</div></div>
-</div>
-</div>
-
-
-
-실무에서 이러한 안티패턴들은 초기 개발 단계에서는 큰 문제가 아닌 것처럼 보이지만, 데이터 이 증가하고 사용자가 늘어나면서 심각한 성능 저하와 관리을 야기한다. 특히 인덱스에 대해서는 "있으면 좋은 것"이 아니라 "비용이 수반되는 것"이라는 관점이 필요하다. 인덱스는 SELECT 성능을 향상시키지만, 해당 컬럼이하는 INSERT/UPDATE/DELETE 연산의 비용을 증가시킨다. 따라서 가장 빈번한 쿼리의 WHERE 절과 ORDER BY 절을 분석하여, 실제 효과가 큰 인덱스만을해야 한다.
+실무에서 이러한 안티패턴들은 초기 개발 단계에서는 큰 문제가 아닌 것처럼 보이지만, 데이터 량이 증가하고 사용자가 늘어나면서 심각한 성능 저하와 관리곤난을 야기한다. 특히 인덱스에 대해서는 "있으면 좋은 것"이 아니라 "비용이 수반되는 것"이라는 관점이 필요하다.각 인덱스는 SELECT 성능을 향상시키지만, 해당 컬럼이관여하는 INSERT/UPDATE/DELETE 연산의 비용을 증가시킨다. 따라서 가장 빈번한 쿼리의 WHERE 절과 ORDER BY 절을 분석하여, 실제 효과가 큰 인덱스만을생성해야 한다.
 
 ### 도입 체크리스트
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Database System Introduction Checklist</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기술적 검증 항목:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 요구되는 일관성 수준 (ACID) 을 명확히 정의했는가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 예상 데이터 크기와률을 산정했는가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 트랜잭션 처리량 (TPS) 목표를 설정했는가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 필요한 가용성 수준 ( uptime %)을 규정했는가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 데이터 회복 목표 (RTO: Recovery Time Objective)를 정했는가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 데이터 복제 목표 (RPO: Recovery Point Objective)를 정했는가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">운영 및 보안 항목:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 백업 전략 (전체/증분/차등)을 수립했는가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 접근 제어 정책 (RBAC: Role-Based Access Control)을 설계했는가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 감사 로깅 (Audit Logging) 요구사항을 파악했는가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 암호화 요구사항 (저장의, 의)을 확인했는가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 모니터링 및 경보 체계 구축 계획을 세웠는가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">팀 역량 항목:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ DBA (Database Administrator) 역량이 확보되어 있는가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ SQL 작성 및 최적화 교육이 실시되었는가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 장애 대응 프로세스 (Runbook)가 문서화되어 있는가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 정기적인 DR (Disaster Recovery) 훈련 계획이 있는가?</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│              Database System Introduction Checklist                      │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│  기술적 검증 항목:                                                        │
+│  □ 요구되는 일관성 수준 (ACID) 을 명확히 정의했는가?                     │
+│  □ 예상 데이터 크기와成長률을 산정했는가?                                │
+│  □ 트랜잭션 처리량 (TPS) 목표를 설정했는가?                              │
+│  □ 필요한 가용성 수준 ( uptime %)을 규정했는가?                         │
+│  □ 데이터 회복 목표 (RTO: Recovery Time Objective)를 정했는가?           │
+│  □ 데이터 복제 목표 (RPO: Recovery Point Objective)를 정했는가?         │
+│                                                                         │
+│  운영 및 보안 항목:                                                       │
+│  □ 백업 전략 (전체/증분/차등)을 수립했는가?                              │
+│  □ 접근 제어 정책 (RBAC: Role-Based Access Control)을 설계했는가?      │
+│  □ 감사 로깅 (Audit Logging) 요구사항을 파악했는가?                     │
+│  □ 암호화 요구사항 (保存時の暗号化, 転送時の暗号化)을 확인했는가?        │
+│  □ 모니터링 및 경보 체계 구축 계획을 세웠는가?                           │
+│                                                                         │
+│  팀 역량 항목:                                                            │
+│  □ DBA (Database Administrator) 역량이 확보되어 있는가?                │
+│  □ SQL 작성 및 최적화 교육이 실시되었는가?                              │
+│  □ 장애 대응 프로세스 (Runbook)가 문서화되어 있는가?                    │
+│  □ 정기적인 DR (Disaster Recovery) 훈련 계획이 있는가?                 │
+│                                                                         │
+└─────────────────────────────────────────────────────────────────────────┘
+```
 
 ### 📢 섹션 요약 비유
 
@@ -369,41 +478,49 @@ RDBMS와 NoSQL의 관계를 도서관과 아마존 창고에 비유할 수 있�
 
 ### 도입 효과: Before vs After
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Database System 도입 효과 분석</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">항목</div><div class="kb-diagram-cell">도입 전</div><div class="kb-diagram-cell">도입 후</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 접근 방식</div><div class="kb-diagram-cell">파일 경로 직접 참조</div><div class="kb-diagram-cell">SQL 통한 논리적 접근</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(응용에 강결합)</div><div class="kb-diagram-cell">(데이터 독립성)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 일관성</div><div class="kb-diagram-cell">응용 프로그램 개발자</div><div class="kb-diagram-cell">DBMS가 자동 보장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수동 검증 (오류 가능)</div><div class="kb-diagram-cell">(트랜잭션 메커니즘)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동시성 처리</div><div class="kb-diagram-cell">파일 잠금만으로 제한</div><div class="kb-diagram-cell">고급 잠금 프로토콜</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(교착 상태 빈번)</div><div class="kb-diagram-cell">(직렬 가능성 보장)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장애 복구</div><div class="kb-diagram-cell">수동 백업/복원</div><div class="kb-diagram-cell">자동 로그 기반 복구</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(시간 소요 큼)</div><div class="kb-diagram-cell">(ARIES 등)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발 생산성</div><div class="kb-diagram-cell">각 응용이 데이터 관리</div><div class="kb-diagram-cell">표준화된SQL 사용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">로직 직접 구현</div><div class="kb-diagram-cell">재사용성 향상</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보안 관리</div><div class="kb-diagram-cell">응용 수준 개별 구현</div><div class="kb-diagram-cell">중앙 집중적 접근 제어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(일관성 부족)</div><div class="kb-diagram-cell">(보안 정책 통일)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정량적 기대 효과:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 개발 시간: 30~50% 단축 (SQL 재사용, 비지니스 로직 집중)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 데이터 무결성 문제: 90% 이상 감소 (DBMS 자동 검증)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 장애 복구 시간: 수시간 → 수분 (자동 복구 메커니즘)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 동시 사용자 처리: 10배 이상 증가 (적절한 동시성 제어)</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    Database System 도입 효과 분석                        │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│  ┌────────────────┬───────────────────┬───────────────────┐            │
+│  │    항목        │    도입 전         │    도입 후         │            │
+│  ├────────────────┼───────────────────┼───────────────────┤            │
+│  │ 데이터 접근 방식 │ 파일 경로 직접 참조 │ SQL 통한 논리적 접근│            │
+│  │                │ (응용에 강결합)      │ (데이터 독립성)     │            │
+│  ├────────────────┼───────────────────┼───────────────────┤            │
+│  │ 데이터 일관성   │ 응용 프로그램 개발자│ DBMS가 자동 보장    │            │
+│  │                │ 수동 검증 (오류 가능)│ (트랜잭션 메커니즘)  │            │
+│  ├────────────────┼───────────────────┼───────────────────┤            │
+│  │ 동시성 처리    │ 파일 잠금만으로 제한│ 고급 잠금 프로토콜  │            │
+│  │                │ (교착 상태 빈번)    │ (직렬 가능성 보장)  │            │
+│  ├────────────────┼───────────────────┼───────────────────┤            │
+│  │ 장애 복구      │ 수동 백업/복원     │ 자동 로그 기반 복구  │            │
+│  │                │ (시간 소요 큼)     │ (ARIES 등)         │            │
+│  ├────────────────┼───────────────────┼───────────────────┤            │
+│  │ 개발 생산성    │ 각 응용이 데이터 관리│ 표준화된SQL 사용   │            │
+│  │                │ 로직 직접 구현      │ 재사용성 향상       │            │
+│  ├────────────────┼───────────────────┼───────────────────┤            │
+│  │ 보안 관리      │ 응용 수준 개별 구현 │ 중앙 집중적 접근 제어│            │
+│  │                │ (일관성 부족)      │ (보안 정책 통일)    │            │
+│  └────────────────┴───────────────────┴───────────────────┘            │
+│                                                                         │
+│  정량적 기대 효과:                                                        │
+│  • 개발 시간: 30~50% 단축 (SQL 재사용, 비지니스 로직 집중)              │
+│  • 데이터 무결성 문제: 90% 이상 감소 (DBMS 자동 검증)                   │
+│  • 장애 복구 시간: 수시간 → 수분 (자동 복구 메커니즘)                     │
+│  • 동시 사용자 처리: 10배 이상 증가 (적절한 동시성 제어)                  │
+│                                                                         │
+└─────────────────────────────────────────────────────────────────────────┘
+```
 
 ### 미래 전망: 데이터베이스 기술의 진화 방향
 
-데이터베이스 기술은 세 가지 방향으로 진화하고 있다. 첫째, 분산 및 클라우드 네이티브 방향으로, DBMS의 한계를 넘어 클라우드 환경에 최적화된 분산 데이터베이스가 주류가 되고 있다. Google Spanner, Amazon Aurora, CockroachDB 등이 이 범주에 해당한다. 둘째, 다중 모델 방향으로, 하나의 데이터베이스가 관계형, 문서, 그래프, KV 등 다양한 데이터 모델을 동시에 지원하여 사용 사례에 따라 다른 모델을 사용할 수 있게 된다. ArangoDB, Cosmos DB 등이 대표적인 사례이다. 셋째, 및 자동화 방향으로, AI/ML을 활용한 쿼리 최적화, 자동 인덱스 생성, 자체 튜닝이 추가되고 있다.
+데이터베이스 기술은 세 가지 방향으로 진화하고 있다. 첫째, 분산 및 클라우드 네이티브 방향으로,전통적단궤 DBMS의 한계를 넘어 클라우드 환경에 최적화된 분산 데이터베이스가 주류가 되고 있다. Google Spanner, Amazon Aurora, CockroachDB 등이 이 범주에 해당한다. 둘째, 다중 모델지지적 방향으로, 하나의 데이터베이스가 관계형, 문서, 그래프, KV 등 다양한 데이터 모델을 동시에 지원하여 사용 사례에 따라 다른 모델을 사용할 수 있게 된다. ArangoDB, Cosmos DB 등이 대표적인 사례이다. 셋째,지능화 및 자동화 방향으로, AI/ML을 활용한 쿼리 최적화, 자동 인덱스 생성, 자체 튜닝등공능이 추가되고 있다.
 
 ### 📢 섹션 요약 비유
 
-데이터베이스의 진화는 도시의 성장과 비슷하다. 처음에는 소규모 마을 수준의 단일 데이터베이스로 충분했지만, 도시가 성장하고 사람들이 많아질수록 하나의 중앙 시장으로는 감당할 수 없게 되었다. 그래서 여러 동네에 분산된 시장이 필요하듯 분산 데이터베이스가 등장했다. 또한 마을 사람들이 각자 다른 방식으로 장을 보는 것처럼, 데이터도 다양한 방식으로 관리되어야 하므로 다중 모델 데이터베이스가 필요하다. 그리고 마을 운영을자동하여 것처럼, 데이터베이스도 AI를 활용하여 스스로 최적화되고 관리되는하고 있다.
+데이터베이스의 진화는 도시의 성장과 비슷하다. 처음에는 소규모 마을 수준의 단일 데이터베이스로 충분했지만, 도시가 성장하고 사람들이 많아질수록 하나의 중앙 시장으로는 감당할 수 없게 되었다. 그래서 여러 동네에 분산된 시장이 필요하듯 분산 데이터베이스가 등장했다. 또한 마을 사람들이 각자 다른 방식으로 장을 보는 것처럼, 데이터도 다양한 방식으로 관리되어야 하므로 다중 모델 데이터베이스가 필요하다. 그리고 마을 운영을자동화し고ほしい 것처럼, 데이터베이스도 AI를 활용하여 스스로 최적화되고 관리되는방향발전하고 있다.
 
 ---
 
@@ -424,7 +541,7 @@ RDBMS와 NoSQL의 관계를 도서관과 아마존 창고에 비유할 수 있�
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-데이터베이스는 우리 생각과 자료를 정리해서 저장하는 큰 서랍장과 같아요. 서랍에는 예쁜 종이로 표시한 칸들이 있어서,，，친구 등 자료를 나누어 넣을 수 있답니다.
+데이터베이스는 우리 생각과 자료를 정리해서 저장하는 큰 서랍장과 같아요. 서랍에는 예쁜 종이로 표시한 칸들이 있어서,파파，마마，친구 등 자료를 나누어 넣을 수 있답니다.
 
 이 서랍장에는 자료가 잘 빠지거나 섞이지 않도록 도와주는 마법이 있어요. 여러 사람이 동시에 서랍을 사용해도, 누구는 넣고 누구는 빼도 항상 깔끔하게 정리되어 있답니다.
 

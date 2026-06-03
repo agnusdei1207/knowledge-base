@@ -25,23 +25,23 @@ tags = ["studynote-database"]
 
 아래 그림은 뷰 경계가 남아 있을 때와 사라질 때의 차이를 보여 준다. 중요한 점은 최종 결과 건수보다, <strong>중간 결과가 언제 줄어드느냐</strong>가 비용을 바꾼다는 사실이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">View boundary as optimization wall</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Before merge</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Main block : CUSTOMERS join</div><div class="kb-diagram-node">V</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">View V : ORDERS join ORDER_ITEMS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ region='SEOUL' predicate stays outside</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">After merge</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Single block : CUSTOMERS join ORDERS join ORDER_ITEMS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ region predicate can influence join order</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Same answer / different search space / different temp result size</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ View boundary as optimization wall                                 │
+├────────────────────────────────────────────────────────────────────┤
+│ Before merge                                                       │
+│   Main block : CUSTOMERS join [V]                                  │
+│   View V    : ORDERS join ORDER_ITEMS                              │
+│                 ▲                                                  │
+│                 └─ region='SEOUL' predicate stays outside          │
+│                                                                    │
+│ After merge                                                        │
+│   Single block : CUSTOMERS join ORDERS join ORDER_ITEMS            │
+│                  + region predicate can influence join order        │
+│                                                                    │
+│ Same answer / different search space / different temp result size  │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 즉 뷰 머징의 필요성은 "뷰를 없애자"가 아니다. <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>적 분리는 유지하되, 물리 실행에서는 불필요한 경계를 걷어 내자</strong>는 데 있다.
 
@@ -89,21 +89,21 @@ SELECT c.customer_name, o.order_id
 
 물론 모든 머징이 단순하지는 않다. 일반적으로 투영·선택·조인만 있는 [단순 뷰](/knowledge-base/studynote/05_database/03_relational_model/152_simple_view_vs_complex_view/)는 머징이 쉽다. 반면 집계가 들어간 뷰는 일부 [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) ([Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) System)에서 더 엄격한 "복합 뷰 머징"이나 조인 백 ([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) Back) 형태로 다뤄질 수 있으며, 아무 조건 없이 합칠 수 있는 것은 아니다. 따라서 기술사 답안에서는 "집계 뷰는 무조건 불가"처럼 단정하기보다, <strong>기본적으로 제약이 크고 의미 보존 검사가 더 엄격하다</strong>고 설명하는 편이 정확하다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Optimizer rewrite path</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SQL parse</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Query block graph</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Merge safety check</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ safe -&gt; remove view boundary -&gt; global cost optimization</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ unsafe -&gt; keep block / materialize / separate optimization</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Final physical plan</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Optimizer rewrite path                                             │
+├────────────────────────────────────────────────────────────────────┤
+│ SQL parse                                                          │
+│   ▼                                                                │
+│ Query block graph                                                  │
+│   ▼                                                                │
+│ Merge safety check                                                 │
+│   ├─ safe   -> remove view boundary -> global cost optimization    │
+│   └─ unsafe -> keep block / materialize / separate optimization    │
+│   ▼                                                                │
+│ Final physical plan                                                │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 뷰 머징은 부서별 회의 자료를 본부 회의 전에 통합 브리핑본으로 다시 묶는 일과 같다. 자료를 합칠 수 있으면 전체 일정 조정이 쉬워지고, 합치면 안 되는 민감 자료는 별도 봉투로 남겨 둬야 한다.
 
@@ -183,26 +183,25 @@ DBMS마다 `MERGE`, `NO_MERGE`, `MATERIALIZED`, `NOT MATERIALIZED`처럼 [힌트
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Readable SQL with inline view</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Query block analysis</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Merge safety check</div>
-<div class="kb-diagram-tree-item" style="--depth:4">keep boundary / materialize</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">View merging</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Predicate movement + join reorder</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Lower intermediate result cost</div>
-</div>
-</div>
-
-
+```text
+Readable SQL with inline view
+        │
+        ▼
+Query block analysis
+        │
+        ▼
+Merge safety check
+        │
+        ├──────────────► keep boundary / materialize
+        ▼
+View merging
+        │
+        ▼
+Predicate movement + join reorder
+        │
+        ▼
+Lower intermediate result cost
+```
 
 이 흐름도는 "[가독성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/)을 위한 분리 → 안전성 검사 → 경계 제거 여부 결정 → 전역 최적화 → 중간 결과 축소"라는 뷰 머징의 사고 흐름을 보여 준다.
 

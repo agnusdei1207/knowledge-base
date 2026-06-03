@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 과거에 억지로 체인을 엮을 때는 [PBR](/knowledge-base/studynote/03_network/07_network_layer_routing/372_policy_based_routing_pbr_route_map/)([정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))이나 [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 꼼수를 썼습니다.
 - **한계**: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 매번 패킷의 본문(IP, [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))을 샅샅이 까보고 "아, 얜 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 거친 애구나" 하고 수동으로 판단해야 했습니다. 트래픽이 몰리면 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 뇌정지가 왔고, 가상 앱([VNF](/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/)) 10개를 거치는 복잡한 체인은 길을 잃어버리기 일쑤였습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">서비스 체이닝 (Service Chainin…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 서비스 헤더</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">P4 (Programming Protocol…</div></div>
-</div>
-</div>
-
-
+```text
+[서비스 체이닝 (Service Chainin…]
+    │
+    ▼
+[네트워크 서비스 헤더]
+    │
+    └──▶ [P4 (Programming Protocol…]
+```
 
 - **📢 섹션 요약 비유**: 네트워크 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 헤더는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -44,18 +40,14 @@ tags = ["studynote-network"]
 - **개념**: [IETF](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/)(국제 인터넷 표준화 기구)에서 제정한 공식 [SFC](/knowledge-base/studynote/03_network/17_sdn_nfv/872_service_chaining_sfc_vnf_traffic_steering/)([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 기능 체이닝) 전용 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 규약입니다. 
 - 원래 패킷 겉면에 <strong>'이 패킷이 어떤 징검다리 코스(체인)를 밟아야 하며, 지금 현재 몇 번째 징검다리를 밟았는지(경로와 상태)'를 적어놓은 꼬리표(헤더 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>)를 추가로 씌워서(인캡슐레이션) 전송하는 기술</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">서비스 체이닝 (Service Chainin…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 서비스 헤더</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">P4 (Programming Protocol…</div></div>
-</div>
-</div>
-
-
+```text
+[서비스 체이닝 (Service Chainin…]
+    │
+    ▼
+[네트워크 서비스 헤더]
+    │
+    └──▶ [P4 (Programming Protocol…]
+```
 
 - **📢 섹션 요약 비유**: 네트워크 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 헤더의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -128,19 +120,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 서비스 체이닝 (Service Chainin…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 네트워크 서비스 헤더</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: P4 (Programming Protocol…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 프로그래머블 네트워크</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 서비스 체이닝 (Service Chainin…]
+    │
+    ▼
+[현재 개념: 네트워크 서비스 헤더]
+    │
+    ├──▶ [확장 A: P4 (Programming Protocol…]
+    └──▶ [확장 B: 프로그래머블 네트워크]
+```
 
 네트워크 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 헤더는 [서비스 체이닝](/knowledge-base/studynote/03_network/17_sdn_nfv/872_service_chaining_sfc_vnf_traffic_steering/) ([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Chainin…에서 출발해 현재 메커니즘을 정교화하고, 이후 [P4](/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/) (Programming [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)…와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

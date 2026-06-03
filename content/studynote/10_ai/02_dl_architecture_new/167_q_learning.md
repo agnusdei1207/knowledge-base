@@ -25,20 +25,19 @@ tags = ["studynote-ai"]
 
 아래 그림은 큐-러닝이 왜 필요한지, 즉 "지금의 선택이 나중 결과와 연결된다"는 점을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">큐-러닝이 푸는 문제: 지금 행동의 미래 가치를 추정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">S0(출발) ──오른쪽──▶ S1 ──오른쪽──▶ Goal(+10)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──아래쪽──▶ Trap(-5)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">S0에서 '오른쪽'의 즉시 보상은 0일 수 있다.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">그래도 두 단계 뒤 Goal(+10) 가능성이 높다면</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">현재 행동의 Q값은 크게 평가되어야 한다.</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│        큐-러닝이 푸는 문제: 지금 행동의 미래 가치를 추정        │
+├──────────────────────────────────────────────────────────────┤
+│ S0(출발) ──오른쪽──▶ S1 ──오른쪽──▶ Goal(+10)                │
+│    │                                                         │
+│    └──아래쪽──▶ Trap(-5)                                     │
+│                                                              │
+│ S0에서 '오른쪽'의 즉시 보상은 0일 수 있다.                    │
+│ 그래도 두 단계 뒤 Goal(+10) 가능성이 높다면                  │
+│ 현재 행동의 Q값은 크게 평가되어야 한다.                      │
+└──────────────────────────────────────────────────────────────┘
+```
 
 즉, 큐-러닝은 "당장 받은 점수"만 보는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 아니라 "앞으로 벌어질 결과"를 현재 의사결정에 접어 넣는 방법이다. 이 특징 덕분에 미로 탐색, 게임 플레이, 로봇 경로 선택처럼 순차 의사결정이 필요한 문제에서 기본 기준점으로 자주 사용된다.
 
@@ -58,20 +57,24 @@ Q(s, a) ← Q(s, a) + α [ r + γ max_a' Q(s', a') - Q(s, a) ]
 
 아래 흐름은 에이전트가 값을 갱신하는 순환 구조를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">큐-러닝 학습 루프 (Learning Loop)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">현재 상태 s 관측</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ε-탐욕 정책 (ε-Greedy Policy)으로 행동 a 선택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">환경이 보상 r, 다음 상태 s' 반환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Q(s,a) 갱신: 현재 보상 + 다음 상태의 최대 기대가치 반영</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다음 상태 s'에서 반복</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│              큐-러닝 학습 루프 (Learning Loop)               │
+├──────────────────────────────────────────────────────────────┤
+│ 현재 상태 s 관측                                             │
+│      │                                                       │
+│      ▼                                                       │
+│ ε-탐욕 정책 (ε-Greedy Policy)으로 행동 a 선택                │
+│      │                                                       │
+│      ▼                                                       │
+│ 환경이 보상 r, 다음 상태 s' 반환                             │
+│      │                                                       │
+│      ▼                                                       │
+│ Q(s,a) 갱신: 현재 보상 + 다음 상태의 최대 기대가치 반영      │
+│      │                                                       │
+│      └────────────── 다음 상태 s'에서 반복 ──────────────────┘ │
+└──────────────────────────────────────────────────────────────┘
+```
 
 | 요소 | 의미 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -156,23 +159,21 @@ Q(s, a) ← Q(s, a) + α [ r + γ max_a' Q(s', a') - Q(s, a) ]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">MDP (Markov Decision Process)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">상태 가치 · 행동 가치 · 보상 설계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">큐-러닝 (Q-Learning) · ε-탐욕 정책 (ε-Greedy Policy)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SARSA · 오프-폴리시/온-폴리시 비교</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DQN (Deep Q-Network) · Double DQN · Deep RL</div>
-</div>
-</div>
-
-
+```text
+MDP (Markov Decision Process)
+    │
+    ▼
+상태 가치 · 행동 가치 · 보상 설계
+    │
+    ▼
+큐-러닝 (Q-Learning) · ε-탐욕 정책 (ε-Greedy Policy)
+    │
+    ▼
+SARSA · 오프-폴리시/온-폴리시 비교
+    │
+    ▼
+DQN (Deep Q-Network) · Double DQN · Deep RL
+```
 
 이 흐름도는 [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)이 "작은 표 기반 문제"에서 출발해 "함수 근사 기반 대규모 문제"로 확장되는 경로를 보여준다.
 

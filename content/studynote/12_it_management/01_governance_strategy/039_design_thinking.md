@@ -51,29 +51,31 @@ IDEO/Stanford d.school 프레임워크:
 
 ## II. 인간 중심 설계의 3요소
 
+```
+IDEO의 혁신 공간 (Innovation Sweet Spot):
 
+         Desirability (인간 요구)
+              /    \\
+             /      \\
+      Feasibility -- Viability
+      (기술 가능성)  (사업 타당성)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">IDEO의 혁신 공간 (Innovation Sweet Spot):</div>
-<div class="kb-diagram-note">Desirability (인간 요구)</div>
-<div class="kb-diagram-note">Feasibility -- Viability</div>
-<div class="kb-diagram-note">(기술 가능성) (사업 타당성)</div>
-<div class="kb-diagram-note">혁신 = 세 가지 교집합</div>
-<div class="kb-diagram-note">전통적 문제:</div>
-<div class="kb-diagram-note">기술 중심: "이 기술로 무엇을 만들 수 있나?"</div>
-<div class="kb-diagram-tree-item" style="--depth:1">아무도 원하지 않는 것 만들 위험</div>
-<div class="kb-diagram-note">비즈니스 중심: "수익이 나는 것은?"</div>
-<div class="kb-diagram-tree-item" style="--depth:1">고객 경험 희생</div>
-<div class="kb-diagram-note">디자인 씽킹:</div>
-<div class="kb-diagram-note">인간 요구에서 출발</div>
-<div class="kb-diagram-tree-item" style="--depth:1">기술 가능성 탐색</div>
-<div class="kb-diagram-tree-item" style="--depth:1">사업 타당성 검토</div>
-<div class="kb-diagram-note">결과: 고객이 원하고 / 만들 수 있고 / 돈도 되는 것</div>
-</div>
-</div>
+혁신 = 세 가지 교집합
 
-
+전통적 문제:
+  기술 중심: "이 기술로 무엇을 만들 수 있나?"
+  -> 아무도 원하지 않는 것 만들 위험
+  
+  비즈니스 중심: "수익이 나는 것은?"
+  -> 고객 경험 희생
+  
+디자인 씽킹:
+  인간 요구에서 출발
+  -> 기술 가능성 탐색
+  -> 사업 타당성 검토
+  
+결과: 고객이 원하고 / 만들 수 있고 / 돈도 되는 것
+```
 
 > 📢 **섹션 요약 비유**: 세 원이 겹치는 중앙이 좋은 제품 — 사람들이 원하고(Desirability), 만들 수 있고(Feasibility), 돈도 되는(Viability) 교집합.
 
@@ -150,36 +152,35 @@ HMW 아이디어:
 
 ## V. 실무 시나리오 — 사내 IT 셀프서비스 시스템
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">상황:</div>
-<div class="kb-diagram-note">IT 헬프데스크 요청이 주당 500건</div>
-<div class="kb-diagram-note">해결 시간: 평균 3일</div>
-<div class="kb-diagram-note">직원 불만 높음</div>
-<div class="kb-diagram-note">공감 단계:</div>
-<div class="kb-diagram-note">현장 관찰: 직원들이 IT에 전화/이메일만 함</div>
-<div class="kb-diagram-note">인터뷰 10명:</div>
-<div class="kb-diagram-note">"패스워드 재설정 때문에 IT 연락? 너무 오래 걸림"</div>
-<div class="kb-diagram-note">"어디에 요청해야 하는지 모름"</div>
-<div class="kb-diagram-note">문제 정의 (POV):</div>
-<div class="kb-diagram-note">직원들은 IT 문제를 즉시 자가 해결할 방법이</div>
-<div class="kb-diagram-note">필요하다. 왜냐하면 현재 절차가 불명확하고</div>
-<div class="kb-diagram-note">응답까지 시간이 너무 오래 걸리기 때문이다.</div>
-<div class="kb-diagram-note">HMW: "어떻게 하면 직원 스스로 일반 IT 문제를</div>
-<div class="kb-diagram-note">5분 안에 해결할 수 있을까?"</div>
-<div class="kb-diagram-note">아이디어 -&gt; 프로토타입:</div>
-<div class="kb-diagram-note">셀프서비스 포털 (로우파이 목업, 2일)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">20명 테스트 -&gt; "패스워드 재설정 버튼 못 찾음"</div>
-<div class="kb-diagram-tree-item" style="--depth:1">버튼 위치 변경 후 재테스트 -&gt; 통과</div>
-<div class="kb-diagram-note">결과 (6개월 후):</div>
-<div class="kb-diagram-note">IT 요청 500건 -&gt; 180건 (64% 감소)</div>
-<div class="kb-diagram-note">평균 해결 시간: 3일 -&gt; 15분</div>
-</div>
-</div>
-
-
+```
+상황:
+  IT 헬프데스크 요청이 주당 500건
+  해결 시간: 평균 3일
+  직원 불만 높음
+  
+공감 단계:
+  현장 관찰: 직원들이 IT에 전화/이메일만 함
+  인터뷰 10명:
+  "패스워드 재설정 때문에 IT 연락? 너무 오래 걸림"
+  "어디에 요청해야 하는지 모름"
+  
+문제 정의 (POV):
+  직원들은 IT 문제를 즉시 자가 해결할 방법이
+  필요하다. 왜냐하면 현재 절차가 불명확하고
+  응답까지 시간이 너무 오래 걸리기 때문이다.
+  
+HMW: "어떻게 하면 직원 스스로 일반 IT 문제를
+       5분 안에 해결할 수 있을까?"
+       
+아이디어 -> 프로토타입:
+  셀프서비스 포털 (로우파이 목업, 2일)
+  -> 20명 테스트 -> "패스워드 재설정 버튼 못 찾음"
+  -> 버튼 위치 변경 후 재테스트 -> 통과
+  
+결과 (6개월 후):
+  IT 요청 500건 -> 180건 (64% 감소)
+  평균 해결 시간: 3일 -> 15분
+```
 
 > 📢 **섹션 요약 비유**: 직원 인터뷰 없이 "최첨단 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 챗봇"을 만들었다면 실패 — 실제 문제는 버튼 위치였음. 공감 없이는 올바른 해결 불가.
 

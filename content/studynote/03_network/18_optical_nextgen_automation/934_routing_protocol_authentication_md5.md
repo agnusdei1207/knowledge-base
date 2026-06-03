@@ -26,18 +26,14 @@ tags = ["studynote-network"]
 
 이처럼 가장 밑바닥 인프라인 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이 털리는 것을 막기 위해, 시스코([Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/)), 주니퍼(Juniper) 등은 라우터끼리 깐깐하게 암호를 대고 소통하는 <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a> <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>(<a href="/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/">Authentication</a>)</strong>과 <strong>BCP(최고 권장 방어 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a>)</strong>을 필수적으로 도입했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">패킷 단편화 오프셋 중첩 검증 룰 방화벽 모…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">라우팅 프로토콜 인증 방어망</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RPKI (Resource Public Ke…</div></div>
-</div>
-</div>
-
-
+```text
+[패킷 단편화 오프셋 중첩 검증 룰 방화벽 모…]
+    │
+    ▼
+[라우팅 프로토콜 인증 방어망]
+    │
+    └──▶ [RPKI (Resource Public Ke…]
+```
 
 - **📢 섹션 요약 비유**: 도로에 교통경찰이 "우회전하세요"라고 지시하는데, 그 사람이 진짜 경찰인지 범죄자가 경찰복을 입고 거짓말을 하는지 모릅니다. 그래서 라우터(경찰)들끼리 무전을 할 때는 무조건 끝에 "우리끼리만 아는 비밀 암호([MD5](/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/) 해시)"를 덧붙여서 말하게 만들어 가짜를 걸러내는 기술입니다.
 
@@ -56,22 +52,23 @@ BGP는 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_tra
 - <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/">MD5</a> 적용 시 방어</strong>: [MD5](/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)을 켜면 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 헤더의 옵션 필드에 서명이 들어간다. 해커가 가짜 RST 패킷을 쏘더라도 서명이 없으므로 라우터가 가볍게 무시(우회)해버린다.
 - <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/">TTL</a> 보안 기법 (GTSM, Generalized <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/">TTL</a> <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a> Mechanism)</strong>: 진짜 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 라우터들은 보통 서로 딱 달라붙어 있다(1 홉 거리). 따라서 보낼 때 [TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/)(수명) 값을 최대치인 255로 세팅해서 보낸다. 상대방 라우터가 받았을 때 `TTL이 254`가 아니면(즉, 해커가 멀리서 여러 라우터를 거쳐 보낸 해킹 패킷이라면) 얄짤없이 버려버리는 기발한 물리적 방어 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)(BCP)이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">라우팅 MD5 인증 기반 방어 메커니즘 시각화 (BGP 하이재킹 방어)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">진짜 라우터 A</div><div class="kb-diagram-node">진짜 라우터 B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비밀번호: "korea123" 비밀번호: "korea123"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1. 경로 전송 ──</div><div class="kb-diagram-node">데이터 + MD5(데이터+korea123)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">2. 검증 완료! 수락⭕</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🚨</div><div class="kb-diagram-node">해커 X</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"내가 라우터 A인 척 엉터리 경로를 줘야지!" (비번 모름)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3. 가짜 경로 전송 ──</div><div class="kb-diagram-node">엉터리 데이터 + 엉터리 해시</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">4. 해시 불일치! ❌</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(가짜 패킷 즉시 차단/Drop)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────┐
+│           라우팅 MD5 인증 기반 방어 메커니즘 시각화 (BGP 하이재킹 방어)  │
+├──────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│ [ 진짜 라우터 A ]                              [ 진짜 라우터 B ]         │
+│  비밀번호: "korea123"                         비밀번호: "korea123"       │
+│                                                                          │
+│ 1. 경로 전송 ──[데이터 + MD5(데이터+korea123)]──▶ 2. 검증 완료! 수락⭕   │
+│                                                                          │
+│ 🚨 [ 해커 X ]                                                            │
+│ "내가 라우터 A인 척 엉터리 경로를 줘야지!" (비번 모름)                   │
+│                                                                          │
+│ 3. 가짜 경로 전송 ──[엉터리 데이터 + 엉터리 해시]──▶ 4. 해시 불일치! ❌  │
+│                                           (가짜 패킷 즉시 차단/Drop)     │
+└──────────────────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 방어망의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -134,19 +131,15 @@ BGP는 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_tra
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 패킷 단편화 오프셋 중첩 검증 룰 방화벽 모…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 라우팅 프로토콜 인증 방어망</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: RPKI (Resource Public Ke…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 패킷 단편화 오프셋 중첩 검증 룰 방화벽 모…]
+    │
+    ▼
+[현재 개념: 라우팅 프로토콜 인증 방어망]
+    │
+    ├──▶ [확장 A: RPKI (Resource Public Ke…]
+    └──▶ [확장 B: 의미 기반 통신 최적화]
+```
 
 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 방어망는 패킷 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 오프셋 중첩 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 룰 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 모…에서 출발해 현재 메커니즘을 정교화하고, 이후 [RPKI](/knowledge-base/studynote/09_security/uncategorized/935_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/) (Resource Public Ke…와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

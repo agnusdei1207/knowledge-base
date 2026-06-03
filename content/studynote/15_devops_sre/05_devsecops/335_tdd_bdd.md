@@ -31,37 +31,47 @@ BDD는 TDD의 테스트가 너무 기술적이어서 비개발자가 이해하�
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
+```text
++--------------------------------------------------------+
+|                TDD Red-Green-Refactor 사이클            |
++--------------------------------------------------------+
+|                                                        |
+|      +-------------------------------------------+    |
+|      |              RED (실패)                   |    |
+|      |  테스트 먼저 작성 -> 실행 -> 실패 확인    |    |
+|      +---------------------+---------------------+    |
+|                            |                          |
+|                            v                          |
+|      +-------------------------------------------+    |
+|      |              GREEN (성공)                 |    |
+|      |  테스트 통과하는 최소 코드 작성            |    |
+|      +---------------------+---------------------+    |
+|                            |                          |
+|                            v                          |
+|      +-------------------------------------------+    |
+|      |           REFACTOR (개선)                 |    |
+|      |  코드 품질 개선, 테스트는 계속 통과        |    |
+|      +---------------------+---------------------+    |
+|                            |                          |
+|                            +--- 다음 테스트로 반복 -----+
++--------------------------------------------------------+
 
+테스트 피라미드:
+       ^
+      /      /E2E\     (소수, 느림, 비용 높음)
+    /-----   / 통합  \   (중간, 외부 시스템 필요)
+  /--------- /  단위테스트 \ (다수, 빠름, 격리됨)
+/-------------```
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TDD Red-Green-Refactor 사이클</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RED (실패)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">테스트 먼저 작성 -&gt; 실행 -&gt; 실패 확인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">v</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GREEN (성공)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">테스트 통과하는 최소 코드 작성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">v</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">REFACTOR (개선)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코드 품질 개선, 테스트는 계속 통과</div></div>
-<div class="kb-diagram-note">+--- 다음 테스트로 반복 -----+</div>
-<div class="kb-diagram-note">테스트 피라미드:</div>
-<div class="kb-diagram-note">^</div>
-<div class="kb-diagram-note">/ /E2E\ (소수, 느림, 비용 높음)</div>
-<div class="kb-diagram-note">/----- / 통합 \ (중간, 외부 시스템 필요)</div>
-<div class="kb-diagram-note">/--------- / 단위테스트 \ (다수, 빠름, 격리됨)</div>
-<div class="kb-diagram-note">/-------------<code><code><code></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">[</div><div class="kb-diagram-node">165_bdd_behavior_driven_development|BDD</div><div class="kb-diagram-note">] Given/When/Then 예시:</div></div>
-<div class="kb-diagram-note"></code></code></code>gherkin</div>
-<div class="kb-diagram-note">Feature: 사용자 로그인</div>
-<div class="kb-diagram-note">Scenario: 올바른 자격증명으로 로그인 성공</div>
-<div class="kb-diagram-note">Given 사용자 "alice"가 가입되어 있고</div>
-<div class="kb-diagram-note">When 사용자가 올바른 비밀번호로 로그인하면</div>
-<div class="kb-diagram-note">Then 대시보드 페이지로 이동한다</div>
-</div>
-</div>
+[[165_bdd_behavior_driven_development|BDD]] Given/When/Then 예시:
 
-
+```gherkin
+Feature: 사용자 로그인
+  Scenario: 올바른 자격증명으로 로그인 성공
+    Given 사용자 "alice"가 가입되어 있고
+    When 사용자가 올바른 비밀번호로 로그인하면
+    Then 대시보드 페이지로 이동한다
+```
 
 > 📢 **섹션 요약 비유**: [[165_bdd_behavior_driven_development|BDD]] 시나리오는 영화 대본이다. 개발자(감독), QA(스크립터), PO(작가)가 같은 대본으로 소통하고, 대본이 곧 자동화 테스트가 된다.
 
@@ -118,7 +128,7 @@ BDD는 TDD의 테스트가 너무 기술적이어서 비개발자가 이해하�
 
 [[164_tdd_test_driven_development|TDD]]/[[165_bdd_behavior_driven_development|BDD]] 실천 팀은 버그 수정 비용을 줄이고, 리팩터링에 대한 두려움이 없어진다. 테스트 스위트가 안전망이 되어 빠른 기능 개발이 가능해진다.
 
-TDD의 핵심은 <strong>"테스트가 설계를 주도한다"</strong>는 것이다. 테스트 불가능한 코드는 설계 문제의 징후다. TDD를 통해 자연스럽게 좋은 설계([[243_srp_single_responsibility_principle|SRP]], [[190_enterprise_di_framework_lifecycle|DI]], 느슨한 결합)를 달성한다.
+TDD의 핵심은 **"테스트가 설계를 주도한다"**는 것이다. 테스트 불가능한 코드는 설계 문제의 징후다. TDD를 통해 자연스럽게 좋은 설계([[243_srp_single_responsibility_principle|SRP]], [[190_enterprise_di_framework_lifecycle|DI]], 느슨한 결합)를 달성한다.
 
 > 📢 **섹션 요약 비유**: [[164_tdd_test_driven_development|TDD]] 없는 개발은 안전망 없는 고공 줄타기다. 처음에는 빠르지만 실수하면 치명적이다. 테스트가 안전망이 되어야 빠르게 달릴 수 있다.
 
@@ -138,19 +148,14 @@ TDD의 핵심은 <strong>"테스트가 설계를 주도한다"</strong>는 것�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">테스트 후행 시대 TDD/BDD 등장 현대 테스트 자동화</div>
-<div class="kb-diagram-note">코딩 후 테스트 -&gt; TDD 방법론 (Kent Beck) -&gt; BDD + 비즈니스 협업</div>
-<div class="kb-diagram-note">수동 QA 중심 Extreme Programming Cucumber/Behave</div>
-<div class="kb-diagram-note">회귀 버그 방치 xUnit 테스트 프레임워크 Contract Testing (Pact)</div>
-<div class="kb-diagram-note">JUnit, NUnit, pytest AI 기반 테스트 생성</div>
-</div>
-</div>
-
-
+```text
+테스트 후행 시대          TDD/BDD 등장               현대 테스트 자동화
+-----------------   ----------------------   ------------------------
+코딩 후 테스트     ->  TDD 방법론 (Kent Beck)    ->  BDD + 비즈니스 협업
+수동 QA 중심            Extreme Programming         Cucumber/Behave
+회귀 버그 방치           xUnit 테스트 프레임워크        Contract Testing (Pact)
+                         JUnit, NUnit, pytest          AI 기반 테스트 생성
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

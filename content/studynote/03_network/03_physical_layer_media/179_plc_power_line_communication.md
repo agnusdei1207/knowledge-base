@@ -42,21 +42,21 @@ PLC의 핵심 원리는 <strong>저주파 전력과 고주파 <a href="/knowledg
 
 아래 그림은 전력과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 한 선에서 어떻게 공존하는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PLC signal coexistence on one wire</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">user data</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">PLC modem -&gt; coupling circuit -&gt; power line</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">50/60Hz power already flowing</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">same copper conductor carries both</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">receiver side ▼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">power line -&gt; filter split -&gt; low-pass -&gt; appliance power</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&gt; band-pass -&gt; PLC demodulator</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ PLC signal coexistence on one wire                                 │
+├────────────────────────────────────────────────────────────────────┤
+│ [user data] -> PLC modem -> coupling circuit -> power line         │
+│                                          │                         │
+│                                  50/60Hz power already flowing     │
+│                                          │                         │
+│                            same copper conductor carries both      │
+│                                          │                         │
+│ receiver side                            ▼                         │
+│   power line -> filter split -> low-pass  -> appliance power       │
+│                             └> band-pass -> PLC demodulator        │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 주파수 대역과 용도에 따라 PLC는 크게 두 갈래로 나뉜다.
 
@@ -106,22 +106,19 @@ PLC는 [스마트 그리드](/knowledge-base/studynote/06_ict_convergence/02_iot
 - 서로 다른 변압기·상 분리 구간을 넘어야 하는 경우
 - 외부 전파 방사와 규제 대응이 중요한 경우
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PLC adoption checklist</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Need communication but rewiring is difficult?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no -&gt; use dedicated copper/fiber or wireless</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ same transformer / same building zone? -&gt; continue</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ noise level manageable? -&gt; PLC candidate</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ required rate low to moderate? -&gt; good fit</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ strict high-bandwidth backbone? -&gt; avoid PLC</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ PLC adoption checklist                                             │
+├────────────────────────────────────────────────────────────────────┤
+│ Need communication but rewiring is difficult?                      │
+│   ├─ no  -> use dedicated copper/fiber or wireless                 │
+│   └─ yes                                                           │
+│        ├─ same transformer / same building zone? -> continue       │
+│        ├─ noise level manageable? -> PLC candidate                 │
+│        ├─ required rate low to moderate? -> good fit               │
+│        └─ strict high-bandwidth backbone? -> avoid PLC             │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 실무 판단의 핵심은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 수치보다 <strong>환경 적합성</strong>이다. PLC는 조건이 맞으면 매우 경제적이지만, 조건이 틀리면 링크 품질이 들쭉날쭉해 운영 비용이 더 커질 수 있다. 따라서 현장 시험, 분전 구조 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/), 잡음 계측, 규제 검토가 선행되어야 한다.
 
@@ -155,22 +152,19 @@ PLC의 가장 큰 효과는 <strong>기존 전력 인프라를 활용해 통신 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">기존 전력선 재활용 필요</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">전력 대역과 데이터 대역 분리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">PLC (Power Line Communication)</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ 협대역 PLC와 스마트 그리드</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ 광대역 PLC와 홈 네트워크</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ 하이브리드 유선/무선 보완망</div>
-</div>
-</div>
-
-
+```text
+기존 전력선 재활용 필요
+        │
+        ▼
+전력 대역과 데이터 대역 분리
+        │
+        ▼
+PLC (Power Line Communication)
+        │
+        ├──────────────▶ 협대역 PLC와 스마트 그리드
+        ├──────────────▶ 광대역 PLC와 홈 네트워크
+        └──────────────▶ 하이브리드 유선/무선 보완망
+```
 
 이 흐름도는 PLC가 "전력선 재사용"에서 출발해, 용도에 따라 협대역·광대역으로 갈라지고 다른 매질과 결합하는 방향으로 발전해 왔음을 보여 준다.
 

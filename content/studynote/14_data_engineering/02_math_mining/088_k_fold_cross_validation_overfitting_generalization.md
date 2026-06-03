@@ -37,22 +37,21 @@ K-Fold [교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_vali
 | <strong>반복 학습/<a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong> | 루프를 K번 돌면서 서로 다른 폴드를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)용으로 선택 | 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 한 번씩 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)에 참여 |
 | **최종 평가** | K번의 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 결과([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표)를 평균 산출 | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)을 줄이고 안정적인 일반화 점수 도출 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5-Fold Cross Validation 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전체 데이터 세트 분할 (K=5)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Iteration 1:</div><div class="kb-diagram-node">VALID</div><div class="kb-diagram-node">TRAIN</div><div class="kb-diagram-node">TRAIN</div><div class="kb-diagram-node">TRAIN</div><div class="kb-diagram-node">TRAIN</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Score 1</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Iteration 2:</div><div class="kb-diagram-node">TRAIN</div><div class="kb-diagram-node">VALID</div><div class="kb-diagram-node">TRAIN</div><div class="kb-diagram-node">TRAIN</div><div class="kb-diagram-node">TRAIN</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Score 2</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Iteration 3:</div><div class="kb-diagram-node">TRAIN</div><div class="kb-diagram-node">TRAIN</div><div class="kb-diagram-node">VALID</div><div class="kb-diagram-node">TRAIN</div><div class="kb-diagram-node">TRAIN</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Score 3</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Iteration 4:</div><div class="kb-diagram-node">TRAIN</div><div class="kb-diagram-node">TRAIN</div><div class="kb-diagram-node">TRAIN</div><div class="kb-diagram-node">VALID</div><div class="kb-diagram-node">TRAIN</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Score 4</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Iteration 5:</div><div class="kb-diagram-node">TRAIN</div><div class="kb-diagram-node">TRAIN</div><div class="kb-diagram-node">TRAIN</div><div class="kb-diagram-node">TRAIN</div><div class="kb-diagram-node">VALID</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Score 5</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 최종 검증 점수 = (Score 1 + 2 + 3 + 4 + 5) / 5</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                  5-Fold Cross Validation 구조                │
+├──────────────────────────────────────────────────────────────┤
+│ 전체 데이터 세트 분할 (K=5)                                  │
+│                                                              │
+│ Iteration 1: [VALID] [TRAIN] [TRAIN] [TRAIN] [TRAIN] ─▶ Score 1│
+│ Iteration 2: [TRAIN] [VALID] [TRAIN] [TRAIN] [TRAIN] ─▶ Score 2│
+│ Iteration 3: [TRAIN] [TRAIN] [VALID] [TRAIN] [TRAIN] ─▶ Score 3│
+│ Iteration 4: [TRAIN] [TRAIN] [TRAIN] [VALID] [TRAIN] ─▶ Score 4│
+│ Iteration 5: [TRAIN] [TRAIN] [TRAIN] [TRAIN] [VALID] ─▶ Score 5│
+│                                                              │
+│ 🌟 최종 검증 점수 = (Score 1 + 2 + 3 + 4 + 5) / 5            │
+└──────────────────────────────────────────────────────────────┘
+```
 
 가장 많이 쓰이는 K값은 5 또는 10이다. 극단적으로 K를 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 전체 개수(N)와 동일하게 두면, 단 1개의 샘플만 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)에 사용하는 `LOOCV (Leave-One-Out Cross Validation)`가 된다.
 
@@ -114,28 +113,26 @@ K-Fold [교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_vali
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">성능 평가의 시작</div></div>
-<div class="kb-diagram-note">Hold-out Validation (단순 분할, 변동성 큼)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 활용 및 신뢰도 극대화</div></div>
-<div class="kb-diagram-note">K-Fold Cross Validation (반복 검증, 변동성 억제)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 특성에 따른 파생 기법</div></div>
-<div class="kb-diagram-note">Stratified K-Fold (불균형 극복) / Group K-Fold (누수 방지)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시계열 특화 분할</div></div>
-<div class="kb-diagram-note">Time Series Split (미래 데이터 참조 금지)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">최상위 검증 아키텍처</div></div>
-<div class="kb-diagram-note">Nested Cross Validation (튜닝과 평가의 완전한 분리)</div>
-</div>
-</div>
-
-
+```text
+[성능 평가의 시작]
+Hold-out Validation (단순 분할, 변동성 큼)
+        │
+        ▼
+[데이터 활용 및 신뢰도 극대화]
+K-Fold Cross Validation (반복 검증, 변동성 억제)
+        │
+        ▼
+[데이터 특성에 따른 파생 기법]
+Stratified K-Fold (불균형 극복) / Group K-Fold (누수 방지)
+        │
+        ▼
+[시계열 특화 분할]
+Time Series Split (미래 데이터 참조 금지)
+        │
+        ▼
+[최상위 검증 아키텍처]
+Nested Cross Validation (튜닝과 평가의 완전한 분리)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

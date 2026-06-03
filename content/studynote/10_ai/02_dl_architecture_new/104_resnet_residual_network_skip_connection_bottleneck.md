@@ -30,22 +30,28 @@ tags = ["studynote-ai"]
 
 ResNet의 핵심 원리는 기존의 네트워크가 $H(x)$라는 최적의 함수를 직접 학습하려 했던 것과 달리, 출력과 입력의 차이인 $F(x) = H(x) - x$ 즉, '잔차(Residual)'를 학습하도록 구조를 바꾼 것이다. 최종 출력은 $F(x) + x$가 되며, 여기서 $x$는 아무런 변형 없이 전달되는 스킵 커넥션 (Skip Connection)이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">잔차 블록 (Residual Block)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력 x</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Skip Connection)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">가중치 층 (Weight Layer)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ReLU 활성화 (Activation)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">가중치 층 (Weight Layer)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">F(x) (+) ▶ F(x) + x</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(잔차) 더하기(Add) (최종 출력)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                  잔차 블록 (Residual Block)                  │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│       입력 x ─────────────────────────┐                      │
+│         │                             │ (Skip Connection)    │
+│         ▼                             │                      │
+│    [ 가중치 층 (Weight Layer) ]       │                      │
+│         │                             │                      │
+│         ▼                             │                      │
+│    [ ReLU 활성화 (Activation) ]       │                      │
+│         │                             │                      │
+│         ▼                             │                      │
+│    [ 가중치 층 (Weight Layer) ]       │                      │
+│         │                             │                      │
+│         ▼                             ▼                      │
+│      F(x)  ────────── (+) ────────▶ F(x) + x                 │
+│         (잔차)      더하기(Add)     (최종 출력)              │
+│                                                              │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 구조 덕분에 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 층이 학습해야 할 양이 줄어들고, [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 과정에서 미분을 수행할 때 $x$에 대한 미분값 1이 항상 유지되어 오차 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 앞단까지 강력하게 전달된다. 또한, 152층 이상의 깊은 네트워크에서는 연산량을 줄이기 위해 $1 \times 1$ [합성곱 층](/knowledge-base/studynote/10_ai/01_ai_basics/096_convolution_layer_filter_stride_padding/)을 앞뒤로 배치하여 차원을 축소했다가 다시 늘리는 보틀넥 ([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/)) 구조를 적용한다.
 
@@ -103,23 +109,21 @@ ResNet의 도입으로 딥러닝 모델은 수백 층 이상으로 깊어질 수
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">망의 깊이 한계 도달 (기울기 소실)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CNN (Convolutional Neural Network) · VGGNet (단순 깊이 증가)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ResNet (Residual Network) · 스킵 커넥션 (Skip Connection) 도입</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">보틀넥 (Bottleneck) 아키텍처 · 파라미터 최적화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DenseNet (모든 층 연결) · Transformer (잔차 연결의 표준화)</div>
-</div>
-</div>
-
-
+```text
+망의 깊이 한계 도달 (기울기 소실)
+    │
+    ▼
+CNN (Convolutional Neural Network) · VGGNet (단순 깊이 증가)
+    │
+    ▼
+ResNet (Residual Network) · 스킵 커넥션 (Skip Connection) 도입
+    │
+    ▼
+보틀넥 (Bottleneck) 아키텍처 · 파라미터 최적화
+    │
+    ▼
+DenseNet (모든 층 연결) · Transformer (잔차 연결의 표준화)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

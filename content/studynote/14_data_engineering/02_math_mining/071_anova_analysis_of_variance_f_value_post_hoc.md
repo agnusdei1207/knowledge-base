@@ -29,21 +29,15 @@ ANOVA는 다수 집단 차이를 한 번에 본다.
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Group Means</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">F Statistic</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">p-value</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Post Hoc</div>
-</div>
-</div>
-
-
+```text
+Group Means
+  ↓
+F Statistic
+  ↓
+p-value
+  ↓
+Post Hoc
+```
 
 | 요소 | 의미 |
 | :-- | :-- |
@@ -110,41 +104,29 @@ ANOVA는 여러 집단의 차이를 체계적으로 검증한다.
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Groups</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">ANOVA</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">F-value</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Post Hoc</div>
-</div>
-</div>
-
-
+```text
+Groups
+  ↓
+ANOVA
+  ↓
+F-value
+  ↓
+Post Hoc
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">t-Test</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">ANOVA</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Post Hoc</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Multiple Comparison</div>
-</div>
-</div>
-
-
+```text
+t-Test
+  ↓
+ANOVA
+  ↓
+Post Hoc
+  ↓
+Multiple Comparison
+```
 
 ---
 

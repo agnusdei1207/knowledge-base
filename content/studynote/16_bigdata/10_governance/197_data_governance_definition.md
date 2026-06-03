@@ -38,18 +38,20 @@ tags = ["studynote-bigdata"]
 
 ### 1.3 거버넌스 vs [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 거버넌스 (What &amp; Why)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정책 · 표준</div><div class="kb-diagram-cell">역할 · 책임</div><div class="kb-diagram-cell">원칙 · 목표</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 관리 (How)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">품질관리</div><div class="kb-diagram-cell">메타데이터</div><div class="kb-diagram-cell">보안관리</div><div class="kb-diagram-cell">아키텍처관리</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────┐
+│             데이터 거버넌스 (What & Why)                  │
+│  ┌──────────────┐  ┌─────────────┐  ┌────────────────┐  │
+│  │  정책 · 표준  │  │  역할 · 책임 │  │  원칙 · 목표   │  │
+│  └──────────────┘  └─────────────┘  └────────────────┘  │
+│                         │                                │
+│                         ▼                                │
+│             데이터 관리 (How)                             │
+│  ┌─────────┐ ┌──────────┐ ┌─────────┐ ┌─────────────┐  │
+│  │ 품질관리 │ │ 메타데이터│ │ 보안관리 │ │ 아키텍처관리 │  │
+│  └─────────┘ └──────────┘ └─────────┘ └─────────────┘  │
+└─────────────────────────────────────────────────────────┘
+```
 
 **📢 섹션 요약 비유**: [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)는 국가의 <strong>헌법</strong>이다. 헌법이 "무엇을 허용하고 무엇을 금지하는지" 원칙을 정하면, 각 부처([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리)가 그 원칙을 실제 법령과 행정으로 구현한다.
 
@@ -59,25 +61,30 @@ tags = ["studynote-bigdata"]
 
 ### 2.1 거버넌스 프레임워크 구조
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 거버넌스 프레임워크</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">거버넌스 위원회 (Governance Council)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CDO (Chief Data Officer) + 부문별 Data Owner</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정책 수립 · 의사결정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정책·표준</div><div class="kb-diagram-cell">역할·책임 (RACI)</div><div class="kb-diagram-cell">프로세스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· 접근정책</div><div class="kb-diagram-cell">· Data Owner</div><div class="kb-diagram-cell">· 이슈 해결</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· 보유정책</div><div class="kb-diagram-cell">· Data Steward</div><div class="kb-diagram-cell">· 변경 관리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· 품질표준</div><div class="kb-diagram-cell">· Data Custodian</div><div class="kb-diagram-cell">· 인증 절차</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· 명명규칙</div><div class="kb-diagram-cell">· Data Consumer</div><div class="kb-diagram-cell">· 감사</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">거버넌스 도구 (Tooling)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 카탈로그</div><div class="kb-diagram-cell">품질 도구</div><div class="kb-diagram-cell">리니지</div><div class="kb-diagram-cell">MDM</div><div class="kb-diagram-cell">감사로그</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────────┐
+│                  데이터 거버넌스 프레임워크                    │
+│                                                              │
+│  ┌──────────────────────────────────────────────────────┐    │
+│  │         거버넌스 위원회 (Governance Council)           │    │
+│  │   CDO (Chief Data Officer) + 부문별 Data Owner        │    │
+│  └─────────────────────────┬────────────────────────────┘    │
+│                            │ 정책 수립 · 의사결정              │
+│  ┌────────────┬────────────▼────────┬───────────────────┐    │
+│  │  정책·표준  │   역할·책임 (RACI)  │     프로세스       │    │
+│  │            │                     │                   │    │
+│  │ · 접근정책  │ · Data Owner        │ · 이슈 해결        │    │
+│  │ · 보유정책  │ · Data Steward      │ · 변경 관리        │    │
+│  │ · 품질표준  │ · Data Custodian    │ · 인증 절차        │    │
+│  │ · 명명규칙  │ · Data Consumer     │ · 감사            │    │
+│  └────────────┴─────────────────────┴───────────────────┘    │
+│                            │                                 │
+│  ┌─────────────────────────▼──────────────────────────────┐  │
+│  │                  거버넌스 도구 (Tooling)                 │  │
+│  │  데이터 카탈로그 │ 품질 도구 │ 리니지 │ MDM │ 감사로그  │  │
+│  └────────────────────────────────────────────────────────┘  │
+└──────────────────────────────────────────────────────────────┘
+```
 
 ### 2.2 표준 및 성숙도 모델
 
@@ -135,20 +142,14 @@ tags = ["studynote-bigdata"]
 
 ### 4.2 도구 선택 기준
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">규모·예산이 크고 엔터프라이즈 요구 → Collibra, Informatica AXON</div>
-<div class="kb-diagram-note">오픈소스 선호, Hadoop 생태계 → Apache Atlas</div>
-<div class="kb-diagram-note">클라우드 네이티브(AWS) → AWS Glue Data Catalog + Lake Formation</div>
-<div class="kb-diagram-note">클라우드 네이티브(GCP) → Dataplex + Data Catalog</div>
-<div class="kb-diagram-note">클라우드 네이티브(Azure) → Microsoft Purview</div>
-<div class="kb-diagram-note">확장성 높은 오픈소스 → DataHub (LinkedIn), OpenMetadata</div>
-</div>
-</div>
-
-
+```
+규모·예산이 크고 엔터프라이즈 요구 → Collibra, Informatica AXON
+오픈소스 선호, Hadoop 생태계 → Apache Atlas
+클라우드 네이티브(AWS) → AWS Glue Data Catalog + Lake Formation
+클라우드 네이티브(GCP) → Dataplex + Data Catalog
+클라우드 네이티브(Azure) → Microsoft Purview
+확장성 높은 오픈소스 → DataHub (LinkedIn), OpenMetadata
+```
 
 ### 4.3 기술사 답안 포인트
 
@@ -195,23 +196,21 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 관리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 품질</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 거버넌스</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 카탈로그</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 메시 거버넌스</div></div>
-</div>
-</div>
-
-
+```text
+[데이터 관리]
+    │
+    ▼
+[데이터 품질]
+    │
+    ▼
+[데이터 거버넌스]
+    │
+    ▼
+[데이터 카탈로그]
+    │
+    ▼
+[데이터 메시 거버넌스]
+```
 
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리의 기초가 품질 관리로 구체화되고, 거버넌스와 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)를 거쳐 [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/) 시대의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 거버넌스로 발전하는 흐름이다.
 

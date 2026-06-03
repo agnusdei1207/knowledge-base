@@ -42,19 +42,18 @@ tags = ["studynote-algorithm"]
 
 ### 메모리 레이아웃
 
+```
+base address = 0x1000, sizeof(int) = 4
 
+┌──────┬──────┬──────┬──────┬──────┐
+│  10  │  20  │  30  │  40  │  50  │  ← 원소 값
+├──────┼──────┼──────┼──────┼──────┤
+│0x1000│0x1004│0x1008│0x100C│0x1010│  ← 주소
+└──────┴──────┴──────┴──────┴──────┘
+   [0]    [1]    [2]    [3]    [4]
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">base address = 0x1000, sizeof(int) = 4</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">10</div><div class="kb-diagram-cell">20</div><div class="kb-diagram-cell">30</div><div class="kb-diagram-cell">40</div><div class="kb-diagram-cell">50</div><div class="kb-diagram-cell">← 원소 값</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0x1000</div><div class="kb-diagram-cell">0x1004</div><div class="kb-diagram-cell">0x1008</div><div class="kb-diagram-cell">0x100C</div><div class="kb-diagram-cell">0x1010</div><div class="kb-diagram-cell">← 주소</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">0</div><div class="kb-diagram-node">1</div><div class="kb-diagram-node">2</div><div class="kb-diagram-node">3</div><div class="kb-diagram-node">4</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">접근: arr</div><div class="kb-diagram-node">3</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">O(1)</div></div>
-</div>
-</div>
-
-
+접근: arr[3] = *(base + 3×4) = *(0x100C) = 40   →  O(1)
+```
 
 ### 다차원 배열: 행 우선 vs 열 우선
 
@@ -71,19 +70,15 @@ tags = ["studynote-algorithm"]
 
 ### 동적 배열 성장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
+```
+초기 capacity = 1
+삽입마다 size 초과 시 capacity × 2 재할당
 
+[1]→[1,2]→[1,2,3,4]→[1..8]→...
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">초기 capacity = 1</div>
-<div class="kb-diagram-note">삽입마다 size 초과 시 capacity × 2 재할당</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">1,2</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">1,2,3,4</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">1..8</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">...</div></div>
-<div class="kb-diagram-note">분할상환 분석:</div>
-<div class="kb-diagram-note">n번 삽입 총 복사 횟수 = 1+2+4+...+n &lt; 2n → O(1) amortized</div>
-</div>
-</div>
-
-
+분할상환 분석:
+  n번 삽입 총 복사 횟수 = 1+2+4+...+n < 2n  →  O(1) amortized
+```
 
 📢 **섹션 요약 비유**: 동적 배열은 방이 꽉 차면 두 배 큰 집으로 이사하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)—이삿짐이 가끔 많지만, 평균적으로는 한 번에 조금씩 옮기는 셈이다.
 
@@ -117,18 +112,12 @@ tags = ["studynote-algorithm"]
 
 ### 기술사 판단 기준
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">읽기/순회 위주 + 크기 예측 가능 → 정적 배열 또는 ArrayList</div>
-<div class="kb-diagram-note">삽입/삭제 빈번 + 순서 중요 → 연결 리스트</div>
-<div class="kb-diagram-note">키-값 매핑 + 순서 불필요 → 해시 테이블</div>
-<div class="kb-diagram-note">정렬된 범위 쿼리 → 트리맵 or 세그먼트 트리</div>
-</div>
-</div>
-
-
+```
+읽기/순회 위주 + 크기 예측 가능  →  정적 배열 또는 ArrayList
+삽입/삭제 빈번 + 순서 중요        →  연결 리스트
+키-값 매핑 + 순서 불필요           →  해시 테이블
+정렬된 범위 쿼리                   →  트리맵 or 세그먼트 트리
+```
 
 📢 **섹션 요약 비유**: 도서관 책장에 번호로 꽂힌 책(배열)은 "23번 책"을 바로 꺼낼 수 있지만, 중간에 새 책을 끼우려면 나머지를 한 칸씩 밀어야 한다.
 
@@ -157,21 +146,18 @@ tags = ["studynote-algorithm"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">동적 배열 (Dynamic Array)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">연결 리스트 (Linked List)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">힙 (Heap)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">해시 테이블 (Hash Table)</div></div>
-</div>
-</div>
-
-
+```text
+[동적 배열 (Dynamic Array)]
+    │
+    ▼
+[연결 리스트 (Linked List)]
+    │
+    ▼
+[힙 (Heap)]
+    │
+    ▼
+[해시 테이블 (Hash Table)]
+```
 
 이 흐름도는 선행 개념이 현재 개념으로 응축되고, 다시 확장 개념으로 이어지는 순서를 보여준다.
 

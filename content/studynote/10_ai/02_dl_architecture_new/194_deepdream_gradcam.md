@@ -25,17 +25,14 @@ tags = ["studynote-ai"]
 
 하지만 딥 드림은 예술적 장난에 가까웠고, 진짜 실무에서는 "AI가 왜 이 엑스레이를 폐암이라고 했지?"라는 정확한 인과관계 추적이 필요했다. 그래서 딥 드림의 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 철학을 진화시켜, 뇌의 마지막 출력단에서 쏟아지는 피(기울기, Gradient)의 흐름을 역추적해, 사진 위에 시뻘건 열화상으로 "나 여기 보고 암이라고 100% 확신했어!"라고 칠해주는 **Grad-CAM** 기술이 XAI의 표준으로 자리 잡았다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 딥 드림은 구름을 보며 상상력을 발휘하는 꼬마 아이에게 도화지를 준 것이다. 구름 속에 살짝 강아지 귀 같은 모양이 보이면, 꼬마가 그 위에 강아지 얼굴 100개를 미친 듯이 덧칠해 기괴한 꿈([환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/))의 그림을 완성한다. 반면 Grad-CAM은 깐깐한 경찰 조사관이다. 로봇이 "저 사진에 도둑이 있다"라고 하면, 조사관이 사진에 빨간 레이저 포인터를 딱 쏘며 "사진 속 저 사람의 검은 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)크 부분 때문에 도둑이라고 의심했지?"라고 정확한 물증 부위(히트맵)를 콕 짚어내는 족집게 도구다.
 
@@ -45,25 +42,24 @@ tags = ["studynote-ai"]
 
 Grad-CAM (Gradient-weighted Class Activation [Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/))은 딥러닝 망을 부수지 않고도, [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)([Backpropagation](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)) 기울기 흐름을 가로채는 천재적인 수학적 [스파이](/knowledge-base/studynote/04_software_engineering/11_testing_validation/461_spy_test_double/) 기법을 쓴다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Grad-CAM의 기울기 역추적 시각화 (Heatmap) 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 정방향 추론 (Forward Pass)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력 사진(강아지) ─▶ 1층 ─▶ 2층 ─▶ 마지막 100번째 CNN 층(특징 맵) ─▶ 결과(99% 강아지)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 역방향 스파이 추적 (Backward Pass &amp; Gradient)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 목표: "결과(99% 강아지) 점수에 가장 큰 영향을 준 곳은 100층 중 어디지?"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 계산: 결과값에서부터 100번째 CNN 층을 향해 편미분(Gradient)을 쏴 올림.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 피(기울기)가 가장 많이 몰린 특징 맵의 필터 번호(예: 3번, 7번)를 찾음.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3. 열화상 렌더링 (Heatmap Overlay)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 피가 몰린 3번, 7번 특징 맵의 그림(Activation)들을 곱해서 합침.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 흑백 사진이었던 특징 맵에 빨강(중요함)-파랑(안 중요함) 색깔을 칠함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 원본 강아지 사진 위에 빨간 형광펜 레이어를 오버랩(Overlay)으로 투명하게 덧씌움!</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           Grad-CAM의 기울기 역추적 시각화 (Heatmap) 아키텍처        │
+├──────────────────────────────────────────────────────────────┤
+│  [1. 정방향 추론 (Forward Pass)]                              │
+│   입력 사진(강아지) ─▶ 1층 ─▶ 2층 ─▶ 마지막 100번째 CNN 층(특징 맵) ─▶ 결과(99% 강아지)│
+│                                                              │
+│  [2. 역방향 스파이 추적 (Backward Pass & Gradient)]               │
+│   * 목표: "결과(99% 강아지) 점수에 가장 큰 영향을 준 곳은 100층 중 어디지?"   │
+│   * 계산: 결과값에서부터 100번째 CNN 층을 향해 편미분(Gradient)을 쏴 올림. │
+│          ─▶ 피(기울기)가 가장 많이 몰린 특징 맵의 필터 번호(예: 3번, 7번)를 찾음.│
+│                                                              │
+│  [3. 열화상 렌더링 (Heatmap Overlay)]                          │
+│   * 피가 몰린 3번, 7번 특징 맵의 그림(Activation)들을 곱해서 합침.         │
+│   * 흑백 사진이었던 특징 맵에 빨강(중요함)-파랑(안 중요함) 색깔을 칠함.        │
+│   * 원본 강아지 사진 위에 빨간 형광펜 레이어를 오버랩(Overlay)으로 투명하게 덧씌움!│
+└──────────────────────────────────────────────────────────────┘
+```
 
 **핵심 원리 (기울기 가중합)**:
 [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 모델의 마지막 컨볼루션 층(Layer)은 보통 512개 정도의 흑백 특징 맵([Feature Map](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/)) 필터들을 가지고 있다. 1번 필터는 뾰족한 귀를 찾는 필터고, 2번 필터는 동그란 눈을 찾는 필터다. Grad-CAM은 딥러닝 결과값에서 역으로 미분을 돌려, 이 512개의 필터 중 이번 정답("강아지")을 맞추는 데 어떤 필터가 가장 멱살을 잡고 캐리했는지 <strong>기울기 점수(Gradient <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">Weight</a>)</strong>를 매긴다. 그리고 그 점수만큼 필터 그림들을 다 더해서 짜부라뜨린 뒤 시뻘겋게 열화상 처리를 하는 것이다.

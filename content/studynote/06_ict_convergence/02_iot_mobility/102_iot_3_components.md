@@ -31,21 +31,21 @@ tags = ["studynote-ict-convergence"]
 
 IoT의 핵심 원리는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 획득(Sense)하고, 전달(Connect)하며, 처리(Think)하는 선형적인 [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/) 구조다. 각 구성 요소는 물리적 세계의 신호를 사이버 세계의 서비스로 변환하는 각 단계의 부담을 나눠 가진다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IoT 3-Component Core Architecture: 데이터 흐름</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Physical World</div><div class="kb-diagram-node">Communication</div><div class="kb-diagram-node">Cyber World</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">( Component 1 ) ( Component 2 ) ( Component 3 )</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Device</div><div class="kb-diagram-node">Network</div><div class="kb-diagram-node">Platform</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· Sensing</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">· Routing</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">· Analytics</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· Actuating</div><div class="kb-diagram-cell">◀</div><div class="kb-diagram-cell">· Gateway</div><div class="kb-diagram-cell">◀</div><div class="kb-diagram-cell">· AI/Control</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">센서/MCU/RTOS 5G/LPWAN/MQTT AWS/Azure/AI</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│          IoT 3-Component Core Architecture: 데이터 흐름       │
+├──────────────────────────────────────────────────────────────┤
+│ [Physical World]       [Communication]        [Cyber World]  │
+│                                                              │
+│  ( Component 1 )        ( Component 2 )       ( Component 3 )│
+│  [   Device    ]        [   Network   ]       [  Platform   ]│
+│  +-------------+        +-------------+       +-------------+│
+│  │ · Sensing   │───────▶│ · Routing   │──────▶│ · Analytics ││
+│  │ · Actuating │◀───────│ · Gateway   │◀──────│ · AI/Control││
+│  +-------------+        +-------------+       +-------------+│
+│   센서/MCU/RTOS         5G/LPWAN/MQTT         AWS/Azure/AI   │
+└──────────────────────────────────────────────────────────────┘
+```
 
 - **디바이스 (Device)**: 스마트 센서와 액추에이터(Actuator)로 구성되며 임베디드 OS가 탑재된다. 주변 환경 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽어 들이고 플랫폼의 명령을 물리적 동작으로 수행한다.
 - **네트워크 (Network)**: Wi-Fi, 5G부터 저전력 장거리 통신망인 [LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/) (Low [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Wide Area Network)까지, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 빠르고 손실 없이 목적지로 라우팅한다.
@@ -104,23 +104,21 @@ IoT의 핵심 원리는 [데이터](/knowledge-base/studynote/05_database/01_db_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단순 사물 통신 (M2M)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">IoT 3대 구성 요소 확립 (Device - Network - Platform)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">경량화 프로토콜 (MQTT) 및 저전력 통신망 (LPWAN) 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">엣지 컴퓨팅 (Edge Computing) 확산 및 트래픽 분산</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지능형 사물인터넷 (AIoT) 및 디지털 트윈 (Digital Twin) 융합</div>
-</div>
-</div>
-
-
+```text
+단순 사물 통신 (M2M)
+    │
+    ▼
+IoT 3대 구성 요소 확립 (Device - Network - Platform)
+    │
+    ▼
+경량화 프로토콜 (MQTT) 및 저전력 통신망 (LPWAN) 적용
+    │
+    ▼
+엣지 컴퓨팅 (Edge Computing) 확산 및 트래픽 분산
+    │
+    ▼
+지능형 사물인터넷 (AIoT) 및 디지털 트윈 (Digital Twin) 융합
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

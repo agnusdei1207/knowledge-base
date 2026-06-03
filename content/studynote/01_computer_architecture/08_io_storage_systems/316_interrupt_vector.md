@@ -25,24 +25,27 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 왜 벡터가 필요한지를 보여준다. 핵심은 <strong>탐색형 처리</strong>를 <strong><a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a>형 처리</strong>로 바꾸는 데 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인터럽트 원인 식별 방식의 차이: 탐색 vs 인덱스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비벡터/탐색형 처리</div><div class="kb-diagram-cell">벡터 기반 처리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인터럽트 발생</div><div class="kb-diagram-cell">인터럽트 발생</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장치 A 확인</div><div class="kb-diagram-cell">벡터 번호 수신</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">아니면 장치 B 확인</div><div class="kb-diagram-cell">▼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">테이블 인덱스 계산</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">아니면 장치 C 확인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">...</div><div class="kb-diagram-cell">ISR 주소 즉시 획득</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원인 찾은 뒤 분기</div><div class="kb-diagram-cell">▼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ISR 실행</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│              인터럽트 원인 식별 방식의 차이: 탐색 vs 인덱스           │
+├───────────────────────────────┬──────────────────────────────────────┤
+│ 비벡터/탐색형 처리            │ 벡터 기반 처리                        │
+├───────────────────────────────┼──────────────────────────────────────┤
+│ 인터럽트 발생                 │ 인터럽트 발생                         │
+│   │                           │   │                                  │
+│   ▼                           │   ▼                                  │
+│ 장치 A 확인                   │ 벡터 번호 수신                       │
+│   │                           │   │                                  │
+│ 아니면 장치 B 확인            │   ▼                                  │
+│   │                           │ 테이블 인덱스 계산                   │
+│ 아니면 장치 C 확인            │   │                                  │
+│   │                           │   ▼                                  │
+│ ...                           │ ISR 주소 즉시 획득                   │
+│   ▼                           │   │                                  │
+│ 원인 찾은 뒤 분기             │   ▼                                  │
+│                               │ ISR 실행                             │
+└───────────────────────────────┴──────────────────────────────────────┘
+```
 
 이 구조 덕분에 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 처리는 “누가 문제를 일으켰는지 찾는 시간”보다 “정해진 번호로 점프하는 시간”이 중심이 된다. 즉 [인터럽트 벡터](/knowledge-base/studynote/02_operating_system/01_overview_architecture/019_interrupt_vector/)는 단순한 주소 목록이 아니라, 시스템이 사건을 <strong>예측 가능한 시간 안에 처리하도록 만드는 시간 절약 장치</strong>다.
 
@@ -66,20 +69,25 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 벡터 기반 분기의 최소 흐름을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인터럽트 벡터 참조 및 분기 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장치/예외 발생</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인터럽트 컨트롤러가 벡터 번호 전달</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU가 테이블 기준 주소(Base) 확보</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">엔트리 위치 계산 = Base + (Vector Number × Entry Size)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해당 엔트리 읽기 ──▶ ISR 주소/속성 확인 ──▶ 해당 ISR로 분기</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                    인터럽트 벡터 참조 및 분기 흐름                    │
+├──────────────────────────────────────────────────────────────────────┤
+│ 장치/예외 발생                                                       │
+│     │                                                                │
+│     ▼                                                                │
+│ 인터럽트 컨트롤러가 벡터 번호 전달                                   │
+│     │                                                                │
+│     ▼                                                                │
+│ CPU가 테이블 기준 주소(Base) 확보                                    │
+│     │                                                                │
+│     ▼                                                                │
+│ 엔트리 위치 계산 = Base + (Vector Number × Entry Size)               │
+│     │                                                                │
+│     ▼                                                                │
+│ 해당 엔트리 읽기 ──▶ ISR 주소/속성 확인 ──▶ 해당 ISR로 분기           │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이때 중요한 것은 CPU가 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 원인을 “추론”하지 않는다는 점이다. 벡터 방식에서는 이미 번호가 결정되어 들어오므로, CPU는 <strong>조회</strong>만 하면 된다. 그래서 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 처리의 첫 분기 비용이 낮아지고, 예외/장치/소프트웨어 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 같은 프레임으로 다루기 쉬워진다.
 
@@ -89,18 +97,16 @@ tags = ["studynote-computer-architecture"]
 
 예를 들어 x86 계열에서는 총 256개 벡터 공간을 두고, 보통 0~31은 CPU 예외, 32 이상은 외부 장치 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)에 배치한다. 이 분리는 장치 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 예외 처리 공간을 침범하지 않게 하며, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 설계에서 충돌을 피하는 기본 원칙이 된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">x86 계열 벡터 공간의 대표적 배치</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">벡터 구간</div><div class="kb-diagram-cell">주 용도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0 ~ 31</div><div class="kb-diagram-cell">CPU 예외 (Divide Error, Page Fault 등)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">32 ~ 255</div><div class="kb-diagram-cell">외부 장치 인터럽트, 시스템 정의 벡터</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                   x86 계열 벡터 공간의 대표적 배치                   │
+├───────────────────────┬──────────────────────────────────────────────┤
+│ 벡터 구간             │ 주 용도                                       │
+├───────────────────────┼──────────────────────────────────────────────┤
+│ 0  ~ 31               │ CPU 예외 (Divide Error, Page Fault 등)       │
+│ 32 ~ 255              │ 외부 장치 인터럽트, 시스템 정의 벡터          │
+└───────────────────────┴──────────────────────────────────────────────┘
+```
 
 즉 [인터럽트 벡터](/knowledge-base/studynote/02_operating_system/01_overview_architecture/019_interrupt_vector/)는 단순한 “주소표”에서 끝나지 않는다. 어떤 벡터는 치명적 예외를, 어떤 벡터는 네트워크 수신 큐를, 어떤 벡터는 타이머 틱을 대표하며, 그 번호 배치 자체가 시스템 설계 철학을 반영한다.
 
@@ -152,21 +158,26 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 실무에서 자주 만나는 의사결정 흐름이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고속 장치 인터럽트 벡터 설계 판단 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장치가 고속·다중 큐 장치인가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MSI-X 지원 확인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">큐 수 기준으로 벡터 분산 할당</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코어 친화성/NUMA (Non-Uniform Memory Access) 배치 조정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">아니오 ──▶ 단일 벡터 또는 공유 인터럽트 사용 검토</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                 고속 장치 인터럽트 벡터 설계 판단 흐름               │
+├──────────────────────────────────────────────────────────────────────┤
+│ 장치가 고속·다중 큐 장치인가?                                        │
+│        │                                                             │
+│   ┌────┴────┐                                                        │
+│   │   예    │                                                        │
+│   ▼         │                                                        │
+│ MSI-X 지원 확인                                                      │
+│   │                                                                   │
+│   ▼                                                                   │
+│ 큐 수 기준으로 벡터 분산 할당                                         │
+│   │                                                                   │
+│   ▼                                                                   │
+│ 코어 친화성/NUMA (Non-Uniform Memory Access) 배치 조정               │
+│                                                                       │
+│   └──── 아니오 ──▶ 단일 벡터 또는 공유 인터럽트 사용 검토            │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -208,23 +219,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">폴링 기반 원인 탐색</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">인터럽트 발생과 벡터 번호 분리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">IVT (Interrupt Vector Table) 기반 주소 분기</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">IDT (Interrupt Descriptor Table) 기반 보호 모드 진입 제어</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">APIC · MSI · MSI-X 기반 멀티코어/다중 큐 벡터 분산</div>
-</div>
-</div>
-
-
+```text
+폴링 기반 원인 탐색
+    │
+    ▼
+인터럽트 발생과 벡터 번호 분리
+    │
+    ▼
+IVT (Interrupt Vector Table) 기반 주소 분기
+    │
+    ▼
+IDT (Interrupt Descriptor Table) 기반 보호 모드 진입 제어
+    │
+    ▼
+APIC · MSI · MSI-X 기반 멀티코어/다중 큐 벡터 분산
+```
 
 이 흐름은 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 처리가 <strong>탐색 중심 → 주소 매핑 중심 → 권한 제어 포함 → <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 중심</strong>으로 발전해 온 과정을 보여준다.
 

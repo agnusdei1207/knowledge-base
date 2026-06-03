@@ -18,24 +18,23 @@ tags = ["studynote-it-management"]
 
 ## Ⅰ. 개요 및 필요성
 
+```text
+와해성 혁신 궤도:
 
+성능
+  │               기존 기술 궤도
+  │              /──────────────────→
+  │             /  ← 주류 고객 요구 수준
+  │            /
+  │           /────────── 와해성 기술 궤도
+  │          /           (점차 주류 잠식)
+  │         /(저가/단순/새 시장)
+  │────────/
+  └──────────────────────────────→ 시간
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">와해성 혁신 궤도:</div>
-<div class="kb-diagram-note">성능</div>
-<div class="kb-diagram-note">기존 기술 궤도</div>
-<div class="kb-diagram-note">/ ← 주류 고객 요구 수준</div>
-<div class="kb-diagram-note">/ 와해성 기술 궤도</div>
-<div class="kb-diagram-note">/ (점차 주류 잠식)</div>
-<div class="kb-diagram-note">/(저가/단순/새 시장)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">→ 시간</div>
-<div class="kb-diagram-note">처음: 와해성 기술 &lt;&lt; 기존 기술 (성능 열등)</div>
-<div class="kb-diagram-note">나중: 와해성 기술이 주류 요구 수준에 도달 → 시장 역전</div>
-</div>
-</div>
-
-
+처음: 와해성 기술 << 기존 기술 (성능 열등)
+나중: 와해성 기술이 주류 요구 수준에 도달 → 시장 역전
+```
 
 - **📢 섹션 요약 비유**: 와해성 혁신은 다윗과 골리앗이다. 다윗(와해성 기술)은 처음에 골리앗(기존 기술)보다 약하지만, 다른 무기(저가·단순·[접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/))로 새 영역에서 성장해 결국 골리앗을 쓰러뜨린다.
 
@@ -55,21 +54,16 @@ tags = ["studynote-it-management"]
 
 ### Innovator's Dilemma (혁신가의 딜레마)
 
+```text
+기존 기업 행동 패턴:
+  1. 와해성 기술 인지 → "성능이 낮아서 주류 고객에겐 필요없어"
+  2. 기존 고마진 고객 집중 → 와해성 기술 무시
+  3. 와해성 기술 성장 → "아직 우리 고객 수준 못 됨"
+  4. 와해성 기술 주류 도달 → 기존 고객 이탈 시작
+  5. 뒤늦은 대응 → 이미 시장 잃음
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">기존 기업 행동 패턴:</div>
-<div class="kb-diagram-note">1. 와해성 기술 인지 → "성능이 낮아서 주류 고객에겐 필요없어"</div>
-<div class="kb-diagram-note">2. 기존 고마진 고객 집중 → 와해성 기술 무시</div>
-<div class="kb-diagram-note">3. 와해성 기술 성장 → "아직 우리 고객 수준 못 됨"</div>
-<div class="kb-diagram-note">4. 와해성 기술 주류 도달 → 기존 고객 이탈 시작</div>
-<div class="kb-diagram-note">5. 뒤늦은 대응 → 이미 시장 잃음</div>
-<div class="kb-diagram-note">→ 합리적 결정의 누적 = 시장 붕괴</div>
-</div>
-</div>
-
-
+→ 합리적 결정의 누적 = 시장 붕괴
+```
 
 - **📢 섹션 요약 비유**: Innovator's Dilemma는 개구리 냄비 이야기다. 서서히 데워지는 물(와해성 기술 성장)을 인지하지 못하고 안주하다가 결국 시장에서 퇴출된다.
 
@@ -137,23 +131,21 @@ AI가 와해성 혁신의 새로운 파도로 부상하고 있다. [LLM](/knowle
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Sustaining Innovation — 기존 고객 대상 지속 개선</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Disruptive Innovation — 새 시장 저성능 → 주류 잠식</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Innovator's Dilemma — 기존 강자의 합리적 실패</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">양손잡이 경영 — 기존 최적화 + 와해성 탐색 동시</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AI 와해 — LLM이 지식 산업 전반에 새 파도 형성</div></div>
-</div>
-</div>
-
-
+```text
+[Sustaining Innovation — 기존 고객 대상 지속 개선]
+    │
+    ▼
+[Disruptive Innovation — 새 시장 저성능 → 주류 잠식]
+    │
+    ▼
+[Innovator's Dilemma — 기존 강자의 합리적 실패]
+    │
+    ▼
+[양손잡이 경영 — 기존 최적화 + 와해성 탐색 동시]
+    │
+    ▼
+[AI 와해 — LLM이 지식 산업 전반에 새 파도 형성]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

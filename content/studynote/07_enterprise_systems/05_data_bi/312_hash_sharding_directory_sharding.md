@@ -53,29 +53,30 @@ DynamoDB: 내부 가상 노드 자동 관리
 
 ### [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램: [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 해시 링
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Consistent Hash Ring</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">315</div><div class="kb-diagram-cell">45</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(VB)</div><div class="kb-diagram-cell">(VA)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ring</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">270 (VC)</div><div class="kb-diagram-cell">(0~360)</div><div class="kb-diagram-cell">90 (VA)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">225</div><div class="kb-diagram-cell">135</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(VB) (VC)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">180</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Node A: VNode @ 45, 90, 180</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Node B: VNode @ 135, 225, 315</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Node C: VNode @ 270, (...)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Key "user123" → hash → 200 → 시계방향 첫 VNode →</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">225(VB) → Node B에 저장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Node C 추가 시: hash(C) 위치 이전 키만 재배치 (1/N)</div></div>
-</div>
-</div>
-
-
+```
+  ┌─────────────────────────────────────────────────────┐
+  │              Consistent Hash Ring                   │
+  │                     0                               │
+  │              ┌──────┴──────┐                        │
+  │         315  │             │  45                    │
+  │        (VB)  │             │  (VA)                  │
+  │              │    Ring     │                        │
+  │   270 (VC)   │  (0~360)   │  90 (VA)               │
+  │              │             │                        │
+  │        225   │             │  135                   │
+  │        (VB)  └──────┬──────┘  (VC)                 │
+  │                    180                              │
+  │                                                     │
+  │  Node A: VNode @ 45, 90, 180                        │
+  │  Node B: VNode @ 135, 225, 315                      │
+  │  Node C: VNode @ 270, (...)                         │
+  │                                                     │
+  │  Key "user123" → hash → 200 → 시계방향 첫 VNode →   │
+  │  225(VB) → Node B에 저장                            │
+  │                                                     │
+  │  Node C 추가 시: hash(C) 위치 이전 키만 재배치 (1/N) │
+  └─────────────────────────────────────────────────────┘
+```
 
 ### [Directory](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) [Sharding](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/243_sharding_horizontal_scaling_database/) 구조
 
@@ -157,23 +158,21 @@ DynamoDB: 내부 가상 노드 자동 관리
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단일 DB 서버 한계 - 수평 분할(Sharding) 필요</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Range Sharding - 핫스팟 문제 발생</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Hash Sharding - 균등 분산, 범위 조회 불리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Directory Sharding - 룩업 테이블 기반 유연한 재분배</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Consistent Hashing + Virtual Node - 확장성 극대화</div>
-</div>
-</div>
-
-
+```
+단일 DB 서버 한계 - 수평 분할(Sharding) 필요
+    │
+    ▼
+Range Sharding - 핫스팟 문제 발생
+    │
+    ▼
+Hash Sharding - 균등 분산, 범위 조회 불리
+    │
+    ▼
+Directory Sharding - 룩업 테이블 기반 유연한 재분배
+    │
+    ▼
+Consistent Hashing + Virtual Node - 확장성 극대화
+```
 
 > **키워드**: [Sharding](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/243_sharding_horizontal_scaling_database/), [Hash Sharding](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/282_embedded_document_pattern/), [Directory](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) [Sharding](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/243_sharding_horizontal_scaling_database/), [Consistent Hashing](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/244_consistent_hashing_ring_distribution/), Virtual Node, Horizontal Scaling, Hotspot
 

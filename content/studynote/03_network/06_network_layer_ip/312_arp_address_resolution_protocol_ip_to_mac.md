@@ -24,18 +24,14 @@ tags = ["studynote-network"]
 
 - **💡 비유**: ARP는 교실에서 일어나는 <strong>"이름 부르기"</strong>와 같습니다. 선생님이 "출석 번호 15번(IP 주소)인 사람, 자기 주민번호([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소) 좀 알려줘!"라고 교실 전체에 소리칩니다(Broadcast). 15번이 아닌 학생들은 듣고 무시하고, 15번 학생만 벌떡 일어나 "저요! 제 주민번호는 123456([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소)입니다!"라고 선생님 귀에 대고 조용히 대답(Unicast)합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">STUN, TURN, ICE</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ARP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ARP 프레임</div></div>
-</div>
-</div>
-
-
+```text
+[STUN, TURN, ICE]
+    │
+    ▼
+[ARP]
+    │
+    └──▶ [ARP 프레임]
+```
 
 - **📢 섹션 요약 비유**: <strong> ARP는 친구 집 주소(IP)는 아는데 </strong>현관문 비밀번호([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))**를 모를 때, 아파트 복도에 서서 "101호 사는 사람 비밀번호 좀 알려줘!"라고 확성기를 켜는 무식하지만 가장 확실한 통신 조회 방식입니다.
 
@@ -60,23 +56,24 @@ tags = ["studynote-network"]
 - 이때 내 PC는 네이버의 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 묻는 ARP를 날리는 것이 아니라, **내부망 라우터(공유기)의 IP에 대한 ARP Request를 날린다.** 
 - 즉, [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임의 겉면(목적지 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))은 라우터 MAC이 적히고, 알맹이(IP 패킷)의 목적지 IP는 네이버 IP가 적혀 날아간다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ARP Cache Table (ARP 테이블) 확인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C:\Users\Admin&gt; arp -a</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인터페이스: 192.168.0.10 --- 0x2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인터넷 주소 물리적 주소 유형</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">192.168.0.1 00-11-22-33-44-55 동적 (Dynamic)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">192.168.0.20 AA-BB-CC-DD-EE-FF 동적 (Dynamic)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 동적(Dynamic) : 방금 전 방송을 때려서 알아낸 임시 정보 (금방 지워짐)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 정적(Static) : 관리자가 영구적으로 하드코딩해 둔 정보</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ "이 표에 주소가 없으면 내 PC는 무조건 방송(Request)부터 때린다!"</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                ARP Cache Table (ARP 테이블) 확인              │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   C:\Users\Admin> arp -a                                    │
+ │                                                             │
+ │   인터페이스: 192.168.0.10 --- 0x2                            │
+ │     인터넷 주소         물리적 주소           유형                │
+ │     192.168.0.1       00-11-22-33-44-55     동적 (Dynamic)      │
+ │     192.168.0.20      AA-BB-CC-DD-EE-FF     동적 (Dynamic)      │
+ │                                                             │
+ │   * 동적(Dynamic) : 방금 전 방송을 때려서 알아낸 임시 정보 (금방 지워짐)│
+ │   * 정적(Static)  : 관리자가 영구적으로 하드코딩해 둔 정보           │
+ │                                                             │
+ │   ▶ "이 표에 주소가 없으면 내 PC는 무조건 방송(Request)부터 때린다!" │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: <strong> 통신을 시작하기 전 무조건 거쳐야 하는 ARP 과정은, 배달 기사님이 택배(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>)를 싣고 출발하기 전, 수첩(ARP 테이블)을 뒤져보고 번호가 없으면 </strong>114(ARP 브로드캐스트)에 전화해서 정확한 번지를 물어보는 필수 사전 조사 작업**입니다.
 
@@ -134,19 +131,15 @@ ARP는 네트워크 계층과 IP를 이해할 때 핵심 축을 잡아 주는 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: STUN, TURN, ICE</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: ARP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: ARP 프레임</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 대규모 주소 자동화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: STUN, TURN, ICE]
+    │
+    ▼
+[현재 개념: ARP]
+    │
+    ├──▶ [확장 A: ARP 프레임]
+    └──▶ [확장 B: 대규모 주소 자동화]
+```
 
 ARP는 STUN, TURN, ICE에서 출발해 현재 메커니즘을 정교화하고, 이후 ARP 프레임와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

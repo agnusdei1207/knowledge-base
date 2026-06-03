@@ -18,22 +18,19 @@ tags = ["studynote-database"]
 
 ## Ⅰ. 개요 및 필요성
 
+```text
+데이터 무결성 유형:
+  ┌─────────────────────────────────────────┐
+  │  개체 무결성:  기본키 ≠ NULL, 고유      │
+  │  참조 무결성:  외래키 → 부모 행 존재    │
+  │  도메인 무결성: 열 값이 허용 범위 내    │
+  │  사용자 정의:  비즈니스 규칙 제약       │
+  └─────────────────────────────────────────┘
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">데이터 무결성 유형:</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개체 무결성: 기본키 ≠ NULL, 고유</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">참조 무결성: 외래키 → 부모 행 존재</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">도메인 무결성: 열 값이 허용 범위 내</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 정의: 비즈니스 규칙 제약</div></div>
-<div class="kb-diagram-note">DB 보안 3A:</div>
-<div class="kb-diagram-note">인증(Authentication) → 권한 부여(Authorization) → 감사(Audit)</div>
-<div class="kb-diagram-note">"누구냐?" "무엇을 할 수 있냐?" "무엇을 했냐?"</div>
-</div>
-</div>
-
-
+DB 보안 3A:
+  인증(Authentication) → 권한 부여(Authorization) → 감사(Audit)
+  "누구냐?"              "무엇을 할 수 있냐?"         "무엇을 했냐?"
+```
 
 - **📢 섹션 요약 비유**: DB [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)과 보안은 은행 금고의 두 안전장치다. [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)(금고 안 돈의 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/))은 잘못된 금액 입력을 막고, 보안(금고 [접근 통제](/knowledge-base/studynote/04_software_engineering/06_software_architecture/387_access_control_pattern/))은 허가된 직원만 금고에 접근할 수 있게 한다.
 
@@ -141,25 +138,24 @@ DB 서버 레이어:
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">파일 시스템 — 무결성·보안 미흡</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">RDBMS 제약 조건 — 개체·참조·도메인 무결성</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">RBAC·DAC·MAC — 접근 통제 모델 표준화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">암호화·감사 — 열 수준 암호화, 감사 로그</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">제로 트러스트 DB — 내부 사용자도 항상 검증</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 메시 — 분산 도메인별 무결성·보안 자치</div></div>
-</div>
-</div>
-
-
+```text
+[파일 시스템 — 무결성·보안 미흡]
+    │
+    ▼
+[RDBMS 제약 조건 — 개체·참조·도메인 무결성]
+    │
+    ▼
+[RBAC·DAC·MAC — 접근 통제 모델 표준화]
+    │
+    ▼
+[암호화·감사 — 열 수준 암호화, 감사 로그]
+    │
+    ▼
+[제로 트러스트 DB — 내부 사용자도 항상 검증]
+    │
+    ▼
+[데이터 메시 — 분산 도메인별 무결성·보안 자치]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

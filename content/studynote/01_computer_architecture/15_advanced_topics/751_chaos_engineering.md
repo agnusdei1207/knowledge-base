@@ -1,5 +1,5 @@
 +++
-title = "751. 카오스 엔지니어링 (Chaos Engineering) HW 모의"
+title = "751. 카오스 엔지니어링 (Chaos 엔진ering) HW 모의"
 date = 2026-05-08
 
 [taxonomies]
@@ -11,7 +11,7 @@ tags = ["studynote-computer-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 카오스 엔지니어링 (Chaos Engineering)은 실제 운영 또는 운영과 매우 유사한 환경에서 노드 종료, 네트워크 단절, 디스크 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 같은 <strong>하드웨어성 장애를 의도적으로 모의</strong>해 시스템의 정상 상태가 얼마나 유지되는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 실험 방법이다.
+> 1. **본질**: 카오스 엔지니어링 (Chaos 엔진ering)은 실제 운영 또는 운영과 매우 유사한 환경에서 노드 종료, 네트워크 단절, 디스크 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 같은 <strong>하드웨어성 장애를 의도적으로 모의</strong>해 시스템의 정상 상태가 얼마나 유지되는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 실험 방법이다.
 > 2. **가치**: 값싼 범용 서버와 복잡한 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템에서는 고장을 없애는 것보다 <strong>고장이 나도 전체 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>가 계속 가치 제공을 하도록 만드는 것</strong>이 더 현실적이므로, 회복탄력성 (Resilience)을 운영 문화로 내재화할 수 있다.
 > 3. **판단 포인트**: 좋은 카오스 실험은 무작위 파괴가 아니라 <strong>정상 상태 가설, 제한된 폭발 반경 (Blast <a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/541_radius_remote_authentication_aaa/">Radius</a>), 관측 지표, 중단 조건</strong>을 갖춘 통제된 실험이어야 한다.
 
@@ -19,7 +19,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-카오스 엔지니어링 (Chaos Engineering)은 "장애는 언젠가 반드시 발생한다"는 전제에서 출발한다. 클라우드와 대규모 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템은 수많은 서버, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/), [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 계층, 스토리지 경로, 외부 의존성 위에 놓여 있어 일부 구성요소가 매일 고장 나는 것이 오히려 정상이다. 따라서 현대 시스템 설계의 질문은 "어떻게 절대 안 죽게 만들까"보다 **"일부가 죽어도 사용자가 핵심 기능을 계속 쓰게 만들까"** 로 이동했다.
+카오스 엔지니어링 (Chaos 엔진ering)은 "장애는 언젠가 반드시 발생한다"는 전제에서 출발한다. 클라우드와 대규모 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템은 수많은 서버, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/), [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 계층, 스토리지 경로, 외부 의존성 위에 놓여 있어 일부 구성요소가 매일 고장 나는 것이 오히려 정상이다. 따라서 현대 시스템 설계의 질문은 "어떻게 절대 안 죽게 만들까"보다 **"일부가 죽어도 사용자가 핵심 기능을 계속 쓰게 만들까"** 로 이동했다.
 
 여기서 "HW 모의"라는 말은 물리적 장비를 꼭 망가뜨린다는 뜻이 아니라, <strong>실제 하드웨어 장애와 비슷한 증상</strong>을 운영 계층에서 재현한다는 의미다. 예를 들어 서버 전원 차단은 인스턴스 종료로, 네트워크 카드 불안정은 패킷 손실과 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)으로, 랙 전원 장애는 가용 영역 ([Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) Zone, AZ) 차단으로 모의할 수 있다. 중요한 것은 물리 장치 자체보다 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>가 체감하는 실패 패턴</strong>을 실험하는 것이다.
 
@@ -35,22 +35,25 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 카오스 실험이 파괴 행위가 아니라 <strong>가설 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 루프</strong>임을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Chaos Engineering experiment</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Steady-state SLI</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hypothesis</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Bounded experiment</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(stop node / cut link / throttle disk / lose AZ)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Observe SLI + traces + alerts</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── within guardrail ─▶ learn and codify</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── out of guardrail ─▶ abort and fix</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                    Chaos Engineering experiment                     │
+├──────────────────────────────────────────────────────────────────────┤
+│ Steady-state SLI                                                     │
+│      │                                                               │
+│      ▼                                                               │
+│ Hypothesis                                                           │
+│      │                                                               │
+│      ▼                                                               │
+│ Bounded experiment                                                   │
+│      │   (stop node / cut link / throttle disk / lose AZ)            │
+│      ▼                                                               │
+│ Observe SLI + traces + alerts                                        │
+│      │                                                               │
+│      ├── within guardrail ─▶ learn and codify                        │
+│      └── out of guardrail ─▶ abort and fix                           │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 실험 유형도 계층별로 나눌 수 있다. 서버 종료, 디스크 I/O [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 네트워크 손실, 시간 동기 흔들림, 전원 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 상실처럼 <strong>인프라 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a>을 닮은 시나리오</strong>가 대표적이다. 이때 중요한 것은 한 번에 전부 무너뜨리는 것이 아니라, 작은 폭발 반경에서 시작해 점진적으로 키우는 것이다.
 
@@ -69,7 +72,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-카오스 엔지니어링은 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/750_fault_injection_test/">결함 주입 테스트</a></strong>와 가까우면서도 범위가 더 넓다. Fault Injection이 특정 부품이나 경로의 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 메커니즘을 정밀하게 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다면, Chaos Engineering은 실제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 경계에서 <strong>시스템 전체의 회복탄력성</strong>을 본다. 또 <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/379_dr_architecture/">재해 복구</a> 훈련 (Disaster <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">Recovery</a> Drill)</strong> 이 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 단위의 대형 시나리오를 정기적으로 연습하는 활동이라면, 카오스 엔지니어링은 그보다 더 자주, 더 작은 단위로 운영 중 가정을 흔드는 실험 문화에 가깝다.
+카오스 엔지니어링은 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/750_fault_injection_test/">결함 주입 테스트</a></strong>와 가까우면서도 범위가 더 넓다. Fault Injection이 특정 부품이나 경로의 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 메커니즘을 정밀하게 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다면, Chaos 엔진ering은 실제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 경계에서 <strong>시스템 전체의 회복탄력성</strong>을 본다. 또 <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/379_dr_architecture/">재해 복구</a> 훈련 (Disaster <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">Recovery</a> Drill)</strong> 이 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 단위의 대형 시나리오를 정기적으로 연습하는 활동이라면, 카오스 엔지니어링은 그보다 더 자주, 더 작은 단위로 운영 중 가정을 흔드는 실험 문화에 가깝다.
 
 | 항목 | [결함 주입 테스트](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/750_fault_injection_test/) | 카오스 엔지니어링 | [재해 복구](/knowledge-base/studynote/04_software_engineering/06_software_architecture/379_dr_architecture/) 훈련 |
 | :--- | :--- | :--- | :--- |
@@ -80,7 +83,7 @@ tags = ["studynote-computer-architecture"]
 
 또한 [무정전 운영](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/749_non_stop_operation/) 아키텍처와도 연결된다. Non-Stop이 노드 내부나 장비 수준에서 단절을 흡수한다면, 카오스 엔지니어링은 <strong>클러스터·<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>·지역 단위에서 그런 가정이 실제로 유지되는지</strong>를 본다. 즉 하나는 구조를 만드는 작업이고, 다른 하나는 그 구조를 운영 현실 속에서 계속 증명하는 작업이다.
 
-이 과정에서 고장 모드 및 영향 분석 (Failure Mode and Effects Analysis, [FMEA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/752_fmea/))은 훌륭한 출발점이 된다. FMEA로 우선순위 높은 고장 모드를 뽑고, Fault Injection으로 부품 수준에서 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한 뒤, Chaos Engineering으로 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준까지 실험 범위를 넓히면 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 체계가 훨씬 닫힌 고리가 된다.
+이 과정에서 고장 모드 및 영향 분석 (Failure Mode and Effects Analysis, [FMEA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/752_fmea/))은 훌륭한 출발점이 된다. FMEA로 우선순위 높은 고장 모드를 뽑고, Fault Injection으로 부품 수준에서 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한 뒤, Chaos 엔진ering으로 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준까지 실험 범위를 넓히면 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 체계가 훨씬 닫힌 고리가 된다.
 
 - **📢 섹션 요약 비유**: 카오스 엔지니어링은 소화기를 만져 보는 교육을 넘어서, 실제 건물에서 출입문 일부를 막아 보고도 사람들이 제대로 대피하는지 확인하는 전체 훈련에 가깝다.
 
@@ -135,26 +138,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">부품 수준 신뢰성 설계</div>
-<div class="kb-diagram-note">: FMEA · redundancy · watchdog</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">결함 주입 테스트 (Fault Injection Test)</div>
-<div class="kb-diagram-note">: 특정 보호 메커니즘 검증</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">카오스 엔지니어링 (Chaos Engineering)</div>
-<div class="kb-diagram-note">: service-level resilience experiment</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 게임 데이 (Game Day)</div>
-<div class="kb-diagram-note">: 팀 단위 복구 훈련</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 자가 복구 운영</div>
-<div class="kb-diagram-note">: autoscaling · circuit breaker · policy guardrail</div>
-</div>
-</div>
-
-
+```text
+부품 수준 신뢰성 설계
+: FMEA · redundancy · watchdog
+    │
+    ▼
+결함 주입 테스트 (Fault Injection Test)
+: 특정 보호 메커니즘 검증
+    │
+    ▼
+카오스 엔지니어링 (Chaos Engineering)
+: service-level resilience experiment
+    │
+    ├──▶ 게임 데이 (Game Day)
+    │     : 팀 단위 복구 훈련
+    │
+    └──▶ 자가 복구 운영
+          : autoscaling · circuit breaker · policy guardrail
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

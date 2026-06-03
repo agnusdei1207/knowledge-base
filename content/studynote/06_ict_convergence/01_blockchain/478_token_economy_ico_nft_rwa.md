@@ -35,26 +35,25 @@ tags = ["studynote-ict-convergence"]
 
 ### 토큰 표준 비교 구조
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이더리움 토큰 표준</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ERC-20 (Fungible Token)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">transfer(address, uint256)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">balanceOf(address) → uint256</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">totalSupply() → uint256</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ERC-721 (Non-Fungible Token)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ownerOf(tokenId) → address</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">transferFrom(from, to, tokenId)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">tokenURI(tokenId) → string (메타데이터 링크)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ERC-1155 (Multi-Token)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">balanceOf(account, id) → uint256</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">safeTransferFrom(from, to, id, amount, data)</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────┐
+│              이더리움 토큰 표준                   │
+│                                                  │
+│  ERC-20 (Fungible Token)                         │
+│  ├ transfer(address, uint256)                    │
+│  ├ balanceOf(address) → uint256                  │
+│  └ totalSupply() → uint256                       │
+│                                                  │
+│  ERC-721 (Non-Fungible Token)                    │
+│  ├ ownerOf(tokenId) → address                    │
+│  ├ transferFrom(from, to, tokenId)               │
+│  └ tokenURI(tokenId) → string (메타데이터 링크)  │
+│                                                  │
+│  ERC-1155 (Multi-Token)                          │
+│  ├ balanceOf(account, id) → uint256              │
+│  └ safeTransferFrom(from, to, id, amount, data)  │
+└──────────────────────────────────────────────────┘
+```
 
 ### ICO / STO / IEO / RWA 비교
 
@@ -75,19 +74,13 @@ tags = ["studynote-ict-convergence"]
 
 성공적인 토큰 생태계는 세 집단의 인센티브가 정렬되어야 한다:
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">사용자(User)</div>
-<div class="kb-diagram-note">토큰으로 서비스 이용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">프로토콜(Protocol) ←→ 투자자/검증자</div>
-<div class="kb-diagram-note">(수수료 수익) (토큰 가치 상승)</div>
-</div>
-</div>
-
-
+```
+  사용자(User)
+      │ 토큰으로 서비스 이용
+      ▼
+  프로토콜(Protocol)  ←→  투자자/검증자
+  (수수료 수익)            (토큰 가치 상승)
+```
 
 **실패 사례**: 토큰 발행 → 가격 펌핑 → 창업자 Exit → 생태계 붕괴 (Rug Pull)
 **성공 사례**: Uniswap UNI, Compound [COMP](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1013_comp_coordinated_multipoint_transmission/) → 실사용 가치 + 거버넌스 권한 결합

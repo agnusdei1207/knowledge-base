@@ -27,23 +27,23 @@ tags = ["studynote-operating-system"]
   2. <strong>하드웨어(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/">MMU</a>)의 진화</strong>: 과거에는 CPU가 주소를 번역할 힘이 없어 덧셈 한 번([베이스 레지스터](/knowledge-base/studynote/02_operating_system/06_memory_management/329_base_register/))으로 끝내야 했지만, 하드웨어 칩셋이 발달하며 복잡한 매핑 테이블을 실시간으로 번역해 줄 수 있게 되었다.
   3. **가상 주소 공간의 탄생**: 프로그램에게는 "너 혼자 메모리 다 쓰고 있어"라는 환상(Virtual Address)을 심어주고, 뒤로는 무자비하게 쪼개어 빈 곳에 쑤셔 넣는([Physical Address](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/)) 추상화의 벽이 세워졌다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">연속 할당(Contiguous) vs 비연속 할당(Non-contiguous) 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">30MB 프로세스 A가 메모리에 들어오는 모습</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 과거: 연속 메모리 할당 (파편화로 인해 적재 실패)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">물리 램:</div><div class="kb-diagram-node">빈 10MB</div><div class="kb-diagram-node">앱X</div><div class="kb-diagram-node">빈 15MB</div><div class="kb-diagram-node">앱Y</div><div class="kb-diagram-node">빈 20MB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⚠ 결과: 총 빈 공간은 45MB지만, 연속된 30MB가 없어 거절(Crash!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 현대: 비연속 메모리 할당 (페이징 기반)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">논리 구조: 프로세스 A를</div><div class="kb-diagram-node">10M</div><div class="kb-diagram-node">10M</div><div class="kb-diagram-node">10M</div><div class="kb-diagram-note">3조각으로 찢음!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">물리 램:</div><div class="kb-diagram-node">A 1조각</div><div class="kb-diagram-node">앱X</div><div class="kb-diagram-node">A 2조각</div><div class="kb-diagram-node">앱Y</div><div class="kb-diagram-node">A 3조각 + 빈 10MB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 결과: 빈 곳 아무 데나 흩어져서 꽂아 넣음. 단편화 멸종, 적재 성공!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────────┐
+│     연속 할당(Contiguous) vs 비연속 할당(Non-contiguous) 비교       │
+├─────────────────────────────────────────────────────────────────────┤
+│                                                                     │
+│ [ 30MB 프로세스 A가 메모리에 들어오는 모습 ]                        │
+│                                                                     │
+│ ▶ 과거: 연속 메모리 할당 (파편화로 인해 적재 실패)                  │
+│ 물리 램: [빈 10MB][앱X][빈 15MB][앱Y][빈 20MB]                      │
+│ ⚠ 결과: 총 빈 공간은 45MB지만, 연속된 30MB가 없어 거절(Crash!)      │
+│                                                                     │
+│ ▶ 현대: 비연속 메모리 할당 (페이징 기반)                            │
+│ 논리 구조: 프로세스 A를 [10M][10M][10M] 3조각으로 찢음!             │
+│ 물리 램: [A 1조각][앱X][A 2조각][앱Y][A 3조각 + 빈 10MB]            │
+│ ✅ 결과: 빈 곳 아무 데나 흩어져서 꽂아 넣음. 단편화 멸종, 적재 성공!│
+└─────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 비연속 할당의 위력이 단적으로 드러난다. 공간이 쪼개져 있다는([외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)) 사실 자체가 더 이상 에러의 원인이 되지 않는다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 남은 빈 공간들을 테트리스 블록 쪼개듯 마음대로 활용할 수 있게 되어, 물리 메모리의 사용률(Utilization)이 이론적 한계치인 99%에 육박하게 된다.
 
 - **📢 섹션 요약 비유**: 이삿짐을 쌀 때 거대한 침대를 통째로 트럭에 싣지 못해 쩔쩔매다가, 침대를 전부 나사 단위로 분해(비연속 할당)해서 빈 박스 구석구석에 쑤셔 넣고, 나중에 새집에서 설명서([페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/))를 보고 다시 조립하는 궁극의 공간 최적화입니다.
@@ -70,25 +70,26 @@ tags = ["studynote-operating-system"]
 
 찢어진 조각들을 CPU가 다시 하나의 프로그램으로 인식하며 실행하려면, [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/)를 물리 주소로 이어주는 거대한 딕셔너리(Dictionary) 장부가 필요하다. [연속 할당](/knowledge-base/studynote/02_operating_system/09_file_system/523_contiguous_allocation/) 시절 1개뿐이던 [베이스 레지스터](/knowledge-base/studynote/02_operating_system/06_memory_management/329_base_register/)가 수만 줄짜리 테이블로 거대해진 것이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비연속 할당(페이징)의 주소 번역 매핑 테이블 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CPU (프로그램 A 실행)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"논리 조각 1번(Page 1) 데이터 내놔!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">매핑 테이블 (메모리 상주)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀─ "음, 1번 조각은 램 구석 8번지에 있네!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">논리</div><div class="kb-diagram-cell">물리 프레임 번호</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">물리 메모리 (RAM)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">0</div><div class="kb-diagram-node">1</div><div class="kb-diagram-node">2</div><div class="kb-diagram-node">A-0조각</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ 1 │ 8 │ ──</div><div class="kb-diagram-node">4</div><div class="kb-diagram-node">5</div><div class="kb-diagram-node">6</div><div class="kb-diagram-node">7</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">A-1조각</div><div class="kb-diagram-node">9</div><div class="kb-diagram-node">10</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(순서가 마구잡이로 뒤섞여 있음!)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────────┐
+│              비연속 할당(페이징)의 주소 번역 매핑 테이블 구조       │
+├─────────────────────────────────────────────────────────────────────┤
+│                                                                     │
+│ [ CPU (프로그램 A 실행) ]                                           │
+│  "논리 조각 1번(Page 1) 데이터 내놔!"                               │
+│         │                                                           │
+│         ▼                                                           │
+│ ┌───────────────────────┐                                           │
+│ │ 매핑 테이블 (메모리 상주) │                                       │
+│ ├──────┬────────────────┤ ◀─ "음, 1번 조각은 램 구석 8번지에 있네!" │
+│ │ 논리 │ 물리 프레임 번호│                                          │
+│ ├──────┼────────────────┤          [ 물리 메모리 (RAM) ]            │
+│ │  0   │      3       │ ────▶   [ 0 ][ 1 ][ 2 ][ A-0조각 ]          │
+│ │  1   │      8       │ ──┐      [ 4 ][ 5 ][ 6 ][ 7 ]               │
+│ │  2   │      4       │   └────▶[ A-1조각 ][ 9 ][ 10 ]              │
+│ └──────┴────────────────┘          (순서가 마구잡이로 뒤섞여 있음!) │
+└─────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** CPU는 자기가 실행하는 코드가 램의 3번 방에 있는지 8번 방에 있는지 전혀 알지 못하며 알 필요도 없다. 오직 MMU와 이 '매핑 테이블([Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/))'이 뒤에서 암호 해독하듯 주소를 가로채 연결해 줄 뿐이다. 1번 조각을 읽고 바로 다음 줄인 2번 조각을 요구하면, 램에서는 8번 방을 읽었다가 갑자기 4번 방으로 미친 듯이 점프하여 읽는다. 이것이 비연속 할당의 기계적 본질이다.
 
@@ -123,17 +124,14 @@ tags = ["studynote-operating-system"]
 - <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/">페이징</a>(기계적 고정 자르기)</strong>은 코드의 의미를 깡그리 무시하고 무조건 4KB 도끼로 깍둑썰기를 해버린다. 사람 눈에는 끔찍해 보이지만 기계 입장에서는 방 크기가 전부 4KB로 똑같으므로, 빈방이 생기면 묻지도 따지지도 않고 아무 조각이나 쑤셔 넣으면 된다. ([외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) 0%).
 - 결국 컴퓨터 공학은 '인간의 의미'를 버리고 '기계의 수학적 효율'을 택했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비연속 방식</div><div class="kb-diagram-cell">자르는 기준</div><div class="kb-diagram-cell">조각의 크기</div><div class="kb-diagram-cell">단편화 발생 양상</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페이징</div><div class="kb-diagram-cell">깡그리 무시</div><div class="kb-diagram-cell">4KB 똑같음</div><div class="kb-diagram-cell">내부 단편화 미세</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">세그멘테이션</div><div class="kb-diagram-cell">함수/코드 등</div><div class="kb-diagram-cell">10KB, 50MB 다름</div><div class="kb-diagram-cell">외부 단편화 재앙</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬───────────────────────────────┐
+│ 비연속 방식│ 자르는 기준   │ 조각의 크기   │ 단편화 발생 양상      │
+├──────────┼────────────┼────────────┼───────────────────────────────┤
+│ 페이징     │ 깡그리 무시   │ 4KB 똑같음   │ 내부 단편화 미세       │
+│ 세그멘테이션│ 함수/코드 등  │ 10KB, 50MB 다름│ **외부 단편화 재앙**│
+└──────────┴────────────┴────────────┴───────────────────────────────┘
+```
 **[매트릭스 해설]** 이 표는 70년대 OS 아키텍처 전쟁의 결과를 보여준다. 의미(Semantic)를 추구했던 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)은 런타임 물리 할당의 비효율성에 무너졌고, 철저하게 평등하고 무식한 고정 분할을 가져온 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)이 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 유일신으로 등극했다. 현재 인텔 x86 하드웨어 구조에 세그먼트 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)가 남아있긴 하지만, 리눅스는 이를 유명무실하게 0번지로 덮어두고 100% [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)만으로 메모리를 관리한다.
 
 - **📢 섹션 요약 비유**: 돼지고기를 부위별로 예쁘게 잘라서 보관하려다([세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)) 냉동고 빈 공간이 애매하게 남아서 다 못 넣었는데, 그냥 믹서기에 갈아서 규격 다짐육 통([페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/))에 담았더니 냉동고에 남는 빈틈 하나 없이 완벽하게 수납된 셈입니다.
@@ -188,19 +186,15 @@ C나 C++ 개발자가 [배열](/knowledge-base/studynote/08_algorithm_stats/04_d
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">슬랩 할당기 (Slab Allocator)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">비연속 메모리 할당 (Non-contiguous Memory Allocation)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">페이징 (Paging)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">페이지 크기 (Page Size)</div></div>
-</div>
-</div>
-
-
+```text
+[슬랩 할당기 (Slab Allocator)]
+    │
+    ▼
+[비연속 메모리 할당 (Non-contiguous Memory Allocation)]
+    │
+    ├──▶ [페이징 (Paging)]
+    └──▶ [페이지 크기 (Page Size)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

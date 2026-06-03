@@ -24,23 +24,28 @@ tags = ["studynote-bigdata"]
   - **Ambari Agent**: 각 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 노드에서 실행되며, 서버의 명령을 수행하고 상태를 보고한다.
   - **Web UI**: 사용자가 브라우저를 통해 클러스터를 제어하는 대시보드이다.
 
+```text
+[Apache Ambari Architecture]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Ambari Architecture</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Admin User (Web UI)</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ambari Server</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Database, REST API, Resource Manager, State Store)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ambari Agent</div><div class="kb-diagram-cell">Ambari Agent</div><div class="kb-diagram-cell">Ambari Agent</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Worker Node 1)</div><div class="kb-diagram-cell">(Worker Node 2)</div><div class="kb-diagram-cell">(Worker Node N)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Install SW</div><div class="kb-diagram-cell">- Start Service</div><div class="kb-diagram-cell">- Health Check</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Monitoring</div><div class="kb-diagram-cell">- Config Update</div><div class="kb-diagram-cell">- Metrics Send</div></div>
-</div>
-</div>
-
-
+   +---------------------------------------------------------+
+   |                    Admin User (Web UI)                  |
+   +----------------------------+----------------------------+
+                                |
+                                \/
+   +---------------------------------------------------------+
+   |                     Ambari Server                       |
+   |   (Database, REST API, Resource Manager, State Store)   |
+   +----------------------------+----------------------------+
+           ||                   ||                   ||
+           \/                   \/                   \/
+   +----------------+   +----------------+   +----------------+
+   | Ambari Agent   |   | Ambari Agent   |   | Ambari Agent   |
+   | (Worker Node 1)|   | (Worker Node 2)|   | (Worker Node N)|
+   +----------------+   +----------------+   +----------------+
+   | - Install SW   |   | - Start Service|   | - Health Check |
+   | - Monitoring   |   | - Config Update|   | - Metrics Send |
+   +----------------+   +----------------+   +----------------+
+```
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 
@@ -66,23 +71,21 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Hadoop 클러스터 수동 관리 — XML 설정 파일 직접 편집의 복잡성</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Ambari — 웹 UI·REST API 기반 중앙 집중 클러스터 관리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Ambari Blueprints — JSON 템플릿으로 클러스터 프로비저닝 자동화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Cloudera Manager / CDP — 엔터프라이즈급 관리 플랫폼으로 발전</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Kubernetes on Hadoop — 컨테이너 오케스트레이션과의 통합 관리</div></div>
-</div>
-</div>
-
-
+```text
+[Hadoop 클러스터 수동 관리 — XML 설정 파일 직접 편집의 복잡성]
+    │
+    ▼
+[Apache Ambari — 웹 UI·REST API 기반 중앙 집중 클러스터 관리]
+    │
+    ▼
+[Ambari Blueprints — JSON 템플릿으로 클러스터 프로비저닝 자동화]
+    │
+    ▼
+[Cloudera Manager / CDP — 엔터프라이즈급 관리 플랫폼으로 발전]
+    │
+    ▼
+[Kubernetes on Hadoop — 컨테이너 오케스트레이션과의 통합 관리]
+```
 Ambari는 [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 생태계의 복잡한 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 웹 UI와 [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) API로 단순화한 관리 플랫폼으로, 현대 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 환경에서 [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 통합 관리로 진화하고 있다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

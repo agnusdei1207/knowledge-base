@@ -22,27 +22,24 @@ tags = ["studynote-cloud-architecture"]
 
 [와이드 컬럼 저장소](/knowledge-base/studynote/14_data_engineering/01_infrastructure/038_wide_column/)는 <strong>"<a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a>는 무조건 빠르게, 읽기는 행 키 기준으로"</strong> 라는 단순하지만 강력한 원칙으로 이 문제를 해결한다.
 
+```
+[와이드 컬럼 저장소 개념]
+Row Key: "sensor:IoT-001:2024-01-15:09:00:00"
+┌──────────────────────────────────────────────────────────┐
+│  Column Family "cf_data"                                 │
+│  ├── temperature: 23.5                                   │
+│  ├── humidity: 60.2                                      │
+│  └── pressure: 1013.25                                   │
+│  Column Family "cf_meta"                                 │
+│  ├── firmware: "v2.1"                                    │
+│  └── location: "서울 강남"                                │
+└──────────────────────────────────────────────────────────┘
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">와이드 컬럼 저장소 개념</div></div>
-<div class="kb-diagram-note">Row Key: "sensor:IoT-001:2024-01-15:09:00:00"</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Column Family "cf_data"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── temperature: 23.5</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── humidity: 60.2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── pressure: 1013.25</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Column Family "cf_meta"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── firmware: "v2.1"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── location: "서울 강남"</div></div>
-<div class="kb-diagram-note">특징:</div>
-<div class="kb-diagram-tree-item" style="--depth:0">행마다 컬럼 수와 종류가 다를 수 있음</div>
-<div class="kb-diagram-tree-item" style="--depth:0">행 키로 데이터 정렬·분산</div>
-<div class="kb-diagram-tree-item" style="--depth:0">컬럼 패밀리 단위 압축·저장 최적화</div>
-</div>
-</div>
-
-
+특징:
+- 행마다 컬럼 수와 종류가 다를 수 있음
+- 행 키로 데이터 정렬·분산
+- 컬럼 패밀리 단위 압축·저장 최적화
+```
 
 📢 **섹션 요약 비유**: [와이드 컬럼 저장소](/knowledge-base/studynote/14_data_engineering/01_infrastructure/038_wide_column/)는 무한히 확장 가능한 엑셀 시트다. 각 행(Row [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))이 서로 다른 수의 열을 가질 수 있고, 시트가 너무 커지면 자동으로 여러 컴퓨터에 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 저장된다.
 
@@ -52,47 +49,42 @@ tags = ["studynote-cloud-architecture"]
 
 ### [LSM-Tree](/knowledge-base/studynote/05_database/06_dw_olap_trends/377_lsm_tree_storage_engine/) ([Log-Structured Merge-Tree](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/221_lsm_tree_memtable_sequential_flush_compaction/)) [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 엔진
 
+```
+[LSM-Tree 쓰기 흐름]
+쓰기 요청 → WAL(Write-Ahead Log) → MemTable(메모리 버퍼)
+                                        │ MemTable 가득 찰 때
+                                        ▼
+                              SSTable (Sorted String Table)
+                              → 디스크에 순차 쓰기 (랜덤 I/O 없음!)
+                                        │ 백그라운드 Compaction
+                                        ▼
+                              더 큰 SSTable로 병합 (Leveled Compaction)
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">LSM-Tree 쓰기 흐름</div></div>
-<div class="kb-diagram-note">쓰기 요청 → WAL(Write-Ahead Log) → MemTable(메모리 버퍼)</div>
-<div class="kb-diagram-note">MemTable 가득 찰 때</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SSTable (Sorted String Table)</div>
-<div class="kb-diagram-note">→ 디스크에 순차 쓰기 (랜덤 I/O 없음!)</div>
-<div class="kb-diagram-note">백그라운드 Compaction</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">더 큰 SSTable로 병합 (Leveled Compaction)</div>
-<div class="kb-diagram-note">핵심 원리:</div>
-<div class="kb-diagram-note">1. 모든 쓰기는 순차 (Random I/O → Sequential I/O)</div>
-<div class="kb-diagram-note">2. 인메모리 버퍼 → 디스크 플러시</div>
-<div class="kb-diagram-note">3. Compaction으로 읽기 성능 주기적 최적화</div>
-</div>
-</div>
-
-
+핵심 원리:
+1. 모든 쓰기는 순차 (Random I/O → Sequential I/O)
+2. 인메모리 버퍼 → 디스크 플러시
+3. Compaction으로 읽기 성능 주기적 최적화
+```
 
 ### [Cassandra](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 아키텍처 (Masterless Ring)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cassandra 링 토폴로지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Node A (token 0~249)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Node D (token 750~999) Node B (token 250~499)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Node C (token 500~749)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">특징:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 마스터 없음 (모든 노드 동등)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 컨시스턴트 해싱으로 데이터 분산</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Replication Factor: 3 (각 데이터 3개 노드 복제)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Gossip Protocol: 노드 상태 전파</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────┐
+│               Cassandra 링 토폴로지                       │
+│                                                         │
+│            Node A (token 0~249)                         │
+│           /                      \                      │
+│  Node D  (token 750~999)    Node B (token 250~499)      │
+│           \                      /                      │
+│            Node C (token 500~749)                       │
+│                                                         │
+│  특징:                                                   │
+│  - 마스터 없음 (모든 노드 동등)                           │
+│  - 컨시스턴트 해싱으로 데이터 분산                         │
+│  - Replication Factor: 3 (각 데이터 3개 노드 복제)        │
+│  - Gossip Protocol: 노드 상태 전파                       │
+└─────────────────────────────────────────────────────────┘
+```
 
 ### [Cassandra](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 수준 ([Consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) Level)
 
@@ -130,24 +122,20 @@ WRITE QUORUM + READ QUORUM = 강한 일관성 보장
 
 ### [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키 설계 원칙
 
+```
+[좋은 파티션 키 설계]
+사례: IoT 센서 시계열 데이터
 
+❌ 나쁜 설계:
+   파티션 키: sensor_id
+   클러스터링 키: timestamp
+   문제: 한 센서 데이터가 영원히 같은 파티션에 쌓임 → 파티션 크기 무한 증가
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">좋은 파티션 키 설계</div></div>
-<div class="kb-diagram-note">사례: IoT 센서 시계열 데이터</div>
-<div class="kb-diagram-note">❌ 나쁜 설계:</div>
-<div class="kb-diagram-note">파티션 키: sensor_id</div>
-<div class="kb-diagram-note">클러스터링 키: timestamp</div>
-<div class="kb-diagram-note">문제: 한 센서 데이터가 영원히 같은 파티션에 쌓임 → 파티션 크기 무한 증가</div>
-<div class="kb-diagram-note">✅ 좋은 설계 (Bucket 전략):</div>
-<div class="kb-diagram-note">파티션 키: sensor_id + year_month (예: "IoT-001:2024-01")</div>
-<div class="kb-diagram-note">클러스터링 키: timestamp</div>
-<div class="kb-diagram-note">효과: 월별로 파티션 분리 → 파티션 크기 제어 + 시간 범위 쿼리 최적화</div>
-</div>
-</div>
-
-
+✅ 좋은 설계 (Bucket 전략):
+   파티션 키: sensor_id + year_month (예: "IoT-001:2024-01")
+   클러스터링 키: timestamp
+   효과: 월별로 파티션 분리 → 파티션 크기 제어 + 시간 범위 쿼리 최적화
+```
 
 ```cql
 -- Cassandra CQL 예시
@@ -176,24 +164,20 @@ LIMIT 100;
 
 ### 와이드 컬럼 적용 시나리오
 
+```
+[IoT 스마트 팩토리 아키텍처]
+센서 1,000개 × 초당 100건 = 100,000 이벤트/초
 
+Kafka 버퍼 → Flink 스트림 처리 → Cassandra (실시간 저장)
+                                  → 파티션: sensor_id + date
+                                  → 클러스터링: timestamp
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">IoT 스마트 팩토리 아키텍처</div></div>
-<div class="kb-diagram-note">센서 1,000개 × 초당 100건 = 100,000 이벤트/초</div>
-<div class="kb-diagram-note">Kafka 버퍼 → Flink 스트림 처리 → Cassandra (실시간 저장)</div>
-<div class="kb-diagram-note">→ 파티션: sensor_id + date</div>
-<div class="kb-diagram-note">→ 클러스터링: timestamp</div>
-<div class="kb-diagram-note">Cassandra 적합 이유:</div>
-<div class="kb-diagram-tree-item" style="--depth:0">초당 10만+ 쓰기 처리 가능</div>
-<div class="kb-diagram-tree-item" style="--depth:0">24/7 무중단 (Masterless)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">파티션 키 기반 초고속 범위 쿼리</div>
-<div class="kb-diagram-tree-item" style="--depth:0">TTL로 오래된 데이터 자동 삭제</div>
-</div>
-</div>
-
-
+Cassandra 적합 이유:
+- 초당 10만+ 쓰기 처리 가능
+- 24/7 무중단 (Masterless)
+- 파티션 키 기반 초고속 범위 쿼리
+- TTL로 오래된 데이터 자동 삭제
+```
 
 ### [Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
@@ -250,20 +234,15 @@ LIMIT 100;
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Wide-Column: 행 키 + 컬럼 패밀리 구조</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Cassandra: 고가용성 · 멀티 DC · 최종 일관성</div>
-<div class="kb-diagram-tree-item" style="--depth:2">HBase: HDFS 기반 · 강한 일관성</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Bigtable: Google 관리형 서비스</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">활용: IoT 시계열 · 로그 · 대규모 쓰기 워크로드</div>
-</div>
-</div>
-
-
+```text
+Wide-Column: 행 키 + 컬럼 패밀리 구조
+    ├─► Cassandra: 고가용성 · 멀티 DC · 최종 일관성
+    ├─► HBase: HDFS 기반 · 강한 일관성
+    └─► Bigtable: Google 관리형 서비스
+    │
+    ▼
+활용: IoT 시계열 · 로그 · 대규모 쓰기 워크로드
+```
 2. [LSM-Tree](/knowledge-base/studynote/05_database/06_dw_olap_trends/377_lsm_tree_storage_engine/) [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)는 칠판에 먼저 적고 나중에 공책에 옮기는 방식이다. 칠판 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(메모리)는 빠르고, 나중에 공책 정리(SSTable [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/))는 순서대로 하니 효율적이다.
 3. Cassandra의 Tunable Consistency는 투표 규칙이다. "1명만 찬성해도 통과"(빠름), "과반수 찬성해야 통과"(믿음직), "만장일치"(정확) 중 상황에 따라 고를 수 있다.
 

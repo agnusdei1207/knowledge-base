@@ -50,31 +50,30 @@ SQL 대응:
 
 ## Ⅱ. 셀렉트 교환법칙과 결합법칙
 
+```
+셀렉트의 대수 법칙:
 
+교환법칙:
+  σ_c1(σ_c2(R)) = σ_c2(σ_c1(R))
+  조건 적용 순서 바꿔도 결과 동일
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">셀렉트의 대수 법칙:</div>
-<div class="kb-diagram-note">교환법칙:</div>
-<div class="kb-diagram-note">σ_c1(σ_c2(R)) = σ_c2(σ_c1(R))</div>
-<div class="kb-diagram-note">조건 적용 순서 바꿔도 결과 동일</div>
-<div class="kb-diagram-note">결합 (Cascade):</div>
-<div class="kb-diagram-note">σ_c1(σ_c2(R)) = σ_c1∧c2(R)</div>
-<div class="kb-diagram-note">두 셀렉트를 하나로 합칠 수 있음</div>
-<div class="kb-diagram-note">최적화 활용:</div>
-<div class="kb-diagram-note">원래: σ_나이&gt;30(σ_학과='컴퓨터'(학생))</div>
-<div class="kb-diagram-note">방법1: 학과='컴퓨터' 먼저 (인덱스 있으면 유리)</div>
-<div class="kb-diagram-tree-item" style="--depth:4">결과 작은 테이블에 나이&gt;30 적용</div>
-<div class="kb-diagram-note">방법2: 나이&gt;30 먼저 (선택도 높으면 먼저)</div>
-<div class="kb-diagram-note">방법3: 결합 σ_(학과='컴퓨터')∧(나이&gt;30)(학생)</div>
-<div class="kb-diagram-tree-item" style="--depth:4">결합 인덱스 활용 가능</div>
-<div class="kb-diagram-note">옵티마이저가 통계 기반으로 최적 순서 결정:</div>
-<div class="kb-diagram-note">각 조건의 선택도(Selectivity) 추정</div>
-<div class="kb-diagram-note">= 결과 행 수 / 전체 행 수 (0~1)</div>
-</div>
-</div>
+결합 (Cascade):
+  σ_c1(σ_c2(R)) = σ_c1∧c2(R)
+  두 셀렉트를 하나로 합칠 수 있음
 
-
+최적화 활용:
+  원래: σ_나이>30(σ_학과='컴퓨터'(학생))
+  
+  방법1: 학과='컴퓨터' 먼저 (인덱스 있으면 유리)
+         -> 결과 작은 테이블에 나이>30 적용
+  방법2: 나이>30 먼저 (선택도 높으면 먼저)
+  방법3: 결합 σ_(학과='컴퓨터')∧(나이>30)(학생)
+         -> 결합 인덱스 활용 가능
+  
+옵티마이저가 통계 기반으로 최적 순서 결정:
+  각 조건의 선택도(Selectivity) 추정
+  = 결과 행 수 / 전체 행 수 (0~1)
+```
 
 > 📢 **섹션 요약 비유**: 셀렉트 교환법칙은 두 체를 어떤 순서로 써도 결과 동일 — 순서는 효율성(속도)을 위해 바꾸는 것.
 
@@ -82,34 +81,34 @@ SQL 대응:
 
 ## Ⅲ. [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/)와 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)
 
+```
+선택도 (Selectivity):
+  = 조건 만족 행 수 / 전체 행 수
+  0에 가까울수록 높은 선택도 (결과 작음)
 
+인덱스 사용 기준:
+  선택도 낮음 (< 1~5%): Index Scan 유리
+  선택도 높음 (> 10~20%): Full Table Scan 유리
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">선택도 (Selectivity):</div>
-<div class="kb-diagram-note">= 조건 만족 행 수 / 전체 행 수</div>
-<div class="kb-diagram-note">0에 가까울수록 높은 선택도 (결과 작음)</div>
-<div class="kb-diagram-note">인덱스 사용 기준:</div>
-<div class="kb-diagram-note">선택도 낮음 (&lt; 1~5%): Index Scan 유리</div>
-<div class="kb-diagram-note">선택도 높음 (&gt; 10~20%): Full Table Scan 유리</div>
-<div class="kb-diagram-note">예시:</div>
-<div class="kb-diagram-note">WHERE 학번 = '20240001' -- 선택도 ≈ 0.001% -&gt; Index</div>
-<div class="kb-diagram-note">WHERE 학년 = 1 -- 선택도 ≈ 25% -&gt; Full Scan</div>
-<div class="kb-diagram-note">인덱스 유형별 효율:</div>
-<div class="kb-diagram-note">B-Tree Index: 범위, 동등 조건</div>
-<div class="kb-diagram-note">나이 &gt; 25, 이름 LIKE '홍%'</div>
-<div class="kb-diagram-note">Hash Index: 동등 조건만</div>
-<div class="kb-diagram-note">학번 = '20240001'</div>
-<div class="kb-diagram-note">Composite Index: 다중 조건</div>
-<div class="kb-diagram-note">(학과, 나이) 복합 인덱스</div>
-<div class="kb-diagram-tree-item" style="--depth:2">WHERE 학과='컴퓨터' AND 나이&gt;25</div>
-<div class="kb-diagram-note">실행 계획 확인:</div>
-<div class="kb-diagram-note">EXPLAIN SELECT * FROM 학생 WHERE 나이 &gt; 25;</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Index Scan vs Full Scan 확인</div>
-</div>
-</div>
+예시:
+  WHERE 학번 = '20240001'  -- 선택도 ≈ 0.001% -> Index
+  WHERE 학년 = 1           -- 선택도 ≈ 25% -> Full Scan
 
+인덱스 유형별 효율:
+  B-Tree Index: 범위, 동등 조건
+    나이 > 25, 이름 LIKE '홍%'
+    
+  Hash Index: 동등 조건만
+    학번 = '20240001'
+    
+  Composite Index: 다중 조건
+    (학과, 나이) 복합 인덱스
+    -> WHERE 학과='컴퓨터' AND 나이>25
 
+실행 계획 확인:
+  EXPLAIN SELECT * FROM 학생 WHERE 나이 > 25;
+  -> Index Scan vs Full Scan 확인
+```
 
 > 📢 **섹션 요약 비유**: [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/)는 도서관 색인 사용 기준 — 책이 1만 권인데 한 권 찾기([선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 낮음)는 색인 유리, 절반 찾기(높음)는 전체 훑기 빠름.
 
@@ -117,31 +116,30 @@ SQL 대응:
 
 ## Ⅳ. Predicate Pushdown (조건 밀어내기)
 
+```
+Predicate Pushdown 최적화:
 
+원리: 셀렉트 조건을 최대한 일찍(아래로) 적용
+      데이터량 조기 감소 -> 전체 쿼리 성능 향상
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Predicate Pushdown 최적화:</div>
-<div class="kb-diagram-note">원리: 셀렉트 조건을 최대한 일찍(아래로) 적용</div>
-<div class="kb-diagram-note">데이터량 조기 감소 -&gt; 전체 쿼리 성능 향상</div>
-<div class="kb-diagram-note">예시 쿼리:</div>
-<div class="kb-diagram-note">SELECT 학생.이름, 수강.과목</div>
-<div class="kb-diagram-note">FROM 학생 JOIN 수강 ON 학생.학번 = 수강.학번</div>
-<div class="kb-diagram-note">WHERE 학생.학과 = '컴퓨터';</div>
-<div class="kb-diagram-note">비효율적 실행:</div>
-<div class="kb-diagram-note">1. 학생 × 수강 (전체 조인) - 매우 큰 결과</div>
-<div class="kb-diagram-note">2. WHERE 학과='컴퓨터' 필터 - 이미 늦음</div>
-<div class="kb-diagram-note">Predicate Pushdown 적용:</div>
-<div class="kb-diagram-note">1. σ_학과='컴퓨터'(학생) - 학생 먼저 필터 (작아짐)</div>
-<div class="kb-diagram-note">2. 작은 학생 ⋈ 수강 - 훨씬 작은 조인</div>
-<div class="kb-diagram-note">분산 SQL에서:</div>
-<div class="kb-diagram-note">Spark, Presto: 필터를 데이터 소스(파일 스캔)까지 내림</div>
-<div class="kb-diagram-note">Parquet/ORC 컬럼 통계로 파일 단위 스킵</div>
-<div class="kb-diagram-tree-item" style="--depth:1">수백 TB 데이터에서 실제로 읽는 데이터 대폭 감소</div>
-</div>
-</div>
+예시 쿼리:
+  SELECT 학생.이름, 수강.과목
+  FROM 학생 JOIN 수강 ON 학생.학번 = 수강.학번
+  WHERE 학생.학과 = '컴퓨터';
 
+비효율적 실행:
+  1. 학생 × 수강 (전체 조인) - 매우 큰 결과
+  2. WHERE 학과='컴퓨터' 필터 - 이미 늦음
 
+Predicate Pushdown 적용:
+  1. σ_학과='컴퓨터'(학생) - 학생 먼저 필터 (작아짐)
+  2. 작은 학생 ⋈ 수강 - 훨씬 작은 조인
+
+분산 SQL에서:
+  Spark, Presto: 필터를 데이터 소스(파일 스캔)까지 내림
+  Parquet/ORC 컬럼 통계로 파일 단위 스킵
+  -> 수백 TB 데이터에서 실제로 읽는 데이터 대폭 감소
+```
 
 > 📢 **섹션 요약 비유**: Predicate Pushdown은 쇼핑 전에 예산 정하기 — 모든 물건을 카트에 담고 마지막에 비싼 것 빼는 것보다, 처음부터 예산 안의 것만 담기.
 
@@ -149,36 +147,36 @@ SQL 대응:
 
 ## Ⅴ. 실무 시나리오 — 빅데이터 필터 최적화
 
+```
+빅데이터 환경에서 셀렉트 최적화:
 
+데이터: S3에 저장된 10TB Parquet 파일 (주문 데이터)
+쿼리: 2024년 1월 1일 이후 특정 고객의 주문
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">빅데이터 환경에서 셀렉트 최적화:</div>
-<div class="kb-diagram-note">데이터: S3에 저장된 10TB Parquet 파일 (주문 데이터)</div>
-<div class="kb-diagram-note">쿼리: 2024년 1월 1일 이후 특정 고객의 주문</div>
-<div class="kb-diagram-note">나쁜 쿼리:</div>
-<div class="kb-diagram-note">SELECT * FROM orders</div>
-<div class="kb-diagram-note">WHERE customer_id = 12345</div>
-<div class="kb-diagram-note">AND order_date &gt;= '2024-01-01';</div>
-<div class="kb-diagram-note">(인덱스 없음, 10TB 전체 스캔)</div>
-<div class="kb-diagram-note">최적화 1: 파티셔닝</div>
-<div class="kb-diagram-note">order_date 컬럼으로 파티셔닝</div>
-<div class="kb-diagram-note">S3 경로: s3://bucket/orders/year=2024/month=01/</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Partition Pruning: 2024/01 이후 파티션만 스캔</div>
-<div class="kb-diagram-tree-item" style="--depth:1">스캔량: 10TB -&gt; 1TB (90% 감소)</div>
-<div class="kb-diagram-note">최적화 2: 컬럼 통계 (Parquet Statistics)</div>
-<div class="kb-diagram-note">각 파일 내 min/max 통계 저장</div>
-<div class="kb-diagram-note">order_date 범위 조건으로 파일 스킵</div>
-<div class="kb-diagram-tree-item" style="--depth:1">스캔량: 1TB -&gt; 100GB (다시 90% 감소)</div>
-<div class="kb-diagram-note">최적화 3: 블룸 필터 (Bloom Filter)</div>
-<div class="kb-diagram-note">customer_id 컬럼에 블룸 필터 적용</div>
-<div class="kb-diagram-note">특정 customer_id 없는 파일 스킵</div>
-<div class="kb-diagram-tree-item" style="--depth:1">최종 스캔: 몇 GB 수준</div>
-<div class="kb-diagram-note">결과: 10TB -&gt; ~10GB 스캔 (1000배 성능 향상)</div>
-</div>
-</div>
+나쁜 쿼리:
+  SELECT * FROM orders
+  WHERE customer_id = 12345
+  AND order_date >= '2024-01-01';
+  (인덱스 없음, 10TB 전체 스캔)
 
+최적화 1: 파티셔닝
+  order_date 컬럼으로 파티셔닝
+  S3 경로: s3://bucket/orders/year=2024/month=01/
+  -> Partition Pruning: 2024/01 이후 파티션만 스캔
+  -> 스캔량: 10TB -> 1TB (90% 감소)
 
+최적화 2: 컬럼 통계 (Parquet Statistics)
+  각 파일 내 min/max 통계 저장
+  order_date 범위 조건으로 파일 스킵
+  -> 스캔량: 1TB -> 100GB (다시 90% 감소)
+
+최적화 3: 블룸 필터 (Bloom Filter)
+  customer_id 컬럼에 블룸 필터 적용
+  특정 customer_id 없는 파일 스킵
+  -> 최종 스캔: 몇 GB 수준
+
+결과: 10TB -> ~10GB 스캔 (1000배 성능 향상)
+```
 
 > 📢 **섹션 요약 비유**: 빅데이터 필터 최적화는 도서관에서 찾는 책 연도/장르/작가 순으로 범위 좁히기 — 단계별 필터링으로 찾아볼 책 수를 극적으로 줄인다.
 

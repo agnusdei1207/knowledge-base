@@ -25,21 +25,24 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 UMA의 중앙 집중 병목이 왜 NUMA로 바뀌는지를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">UMA vs NUMA 전환 이유</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">UMA: 모든 CPU가 하나의 메모리 길목으로 몰림</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CPU0</div><div class="kb-diagram-node">CPU1</div><div class="kb-diagram-node">CPU2</div><div class="kb-diagram-node">CPU3</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">공유 메모리 / 단일 병목</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NUMA: 소켓마다 가까운 메모리를 두고, 필요할 때만 서로 건너감</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Socket0</div><div class="kb-diagram-note">──Local──</div><div class="kb-diagram-node">Mem0</div><div class="kb-diagram-node">Socket1</div><div class="kb-diagram-note">──Local──</div><div class="kb-diagram-node">Mem1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Interconnect</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────── UMA vs NUMA 전환 이유 ───────────────────────────┐
+│                                                                           │
+│ UMA: 모든 CPU가 하나의 메모리 길목으로 몰림                               │
+│                                                                           │
+│  [CPU0]   [CPU1]   [CPU2]   [CPU3]                                        │
+│     │        │        │        │                                          │
+│     └────────┴────────┴────────┴────────┐                                 │
+│                                          ▼                                 │
+│                              [공유 메모리 / 단일 병목]                    │
+│                                                                           │
+│ NUMA: 소켓마다 가까운 메모리를 두고, 필요할 때만 서로 건너감              │
+│                                                                           │
+│  [Socket0]──Local──[Mem0]      [Socket1]──Local──[Mem1]                   │
+│      └─────────────── Interconnect ───────────────┘                       │
+│                                                                           │
+└───────────────────────────────────────────────────────────────────────────┘
+```
 
 NUMA를 기억할 때 가장 중요한 문장은 "확장성을 얻기 위해 균일성을 포기한 구조"다. 메모리 접근 시간이 더 이상 모두 같지 않기 때문에, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)와 응용프로그램은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어느 노드에 놓이는지 신경 써야 한다.
 
@@ -63,23 +66,24 @@ NUMA를 기억할 때 가장 중요한 문장은 "확장성을 얻기 위해 균
 
 아래 그림은 로컬 접근과 원격 접근의 차이를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">NUMA 메모리 접근 경로</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Local Access Remote Access</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core on Node0 ▶ Mem0 Core on Node0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 같은 노드 ▶ Interconnect</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(짧은 경로)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Mem1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(다른 노드)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: Local &lt; Remote</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지연시간 감소, 대역폭 유리 지연시간 증가, 혼잡 시 편차 확대</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────── NUMA 메모리 접근 경로 ────────────────────────┐
+│                                                                       │
+│                Local Access                      Remote Access         │
+│                                                                       │
+│  Core on Node0 ───────▶ Mem0               Core on Node0              │
+│        │                   │                     │                     │
+│        │                   └─ 같은 노드          └──────▶ Interconnect │
+│        │                         (짧은 경로)                  │         │
+│        │                                                      ▼         │
+│        └────────────────────────────────────────────────────▶ Mem1       │
+│                                                           (다른 노드)   │
+│                                                                       │
+│  결과: Local < Remote                                                 │
+│        지연시간 감소, 대역폭 유리      지연시간 증가, 혼잡 시 편차 확대 │
+│                                                                       │
+└───────────────────────────────────────────────────────────────────────┘
+```
 
 실무에서는 이 차이가 작게는 1.3배, 크게는 2배 이상으로 벌어질 수 있다. 특히 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조를 여러 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 공유하며 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)까지 섞이면, 원격 접근 비용에 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) 비용이 덧붙어 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 더 나빠진다. 그래서 [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화의 핵심은 "연산하는 코어 가까이에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 두는 것"이다.
 
@@ -129,21 +133,27 @@ NUMA를 제대로 이해하려면 [UMA](/knowledge-base/studynote/01_computer_ar
 
 아래 진단 흐름은 [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 튜닝의 기본 사고방식을 요약한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">NUMA 병목 진단 흐름</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">성능 저하 발생</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원격 메모리 접근 비율이 높은가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예 아니오</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스레드-메모리 락 경합, I/O, 알고리즘 병목 등</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지역성 점검 다른 원인 우선 확인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU pinning / 메모리 바인딩 / interleave 정책 검토</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────── NUMA 병목 진단 흐름 ────────────────────┐
+│                                                             │
+│  성능 저하 발생                                              │
+│        │                                                     │
+│        ▼                                                     │
+│  원격 메모리 접근 비율이 높은가?                            │
+│        │                                                     │
+│   ┌────┴────┐                                                │
+│   │         │                                                │
+│  예        아니오                                            │
+│   │         │                                                │
+│   ▼         ▼                                                │
+│ 스레드-메모리  락 경합, I/O, 알고리즘 병목 등                │
+│ 지역성 점검    다른 원인 우선 확인                          │
+│   │                                                          │
+│   ▼                                                          │
+│ CPU pinning / 메모리 바인딩 / interleave 정책 검토          │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 기술사 관점에서 기억할 체크리스트는 분명하다. 첫째, 멀티소켓 서버를 단일 대형 자원으로만 보지 말고 노드 단위로 본다. 둘째, first-touch [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 워크로드에 유리한지, 아니면 interleave가 더 안정적인지 판단한다. 셋째, 모니터링 시 CPU 사용률뿐 아니라 [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) [hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/)/miss, remote access, [page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) migration 지표를 함께 본다.
 
@@ -176,29 +186,28 @@ NUMA의 가장 큰 효과는 대형 서버의 확장 한계를 뒤로 미룬다�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">공유 메모리 확장 요구</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">UMA (Uniform Memory Access)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">코어 증가에 따른 중앙 메모리 병목</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">NUMA (Non-Uniform Memory Access)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">캐시 일관성 강화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ccNUMA (cache-coherent NUMA)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">운영체제/가상화 최적화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">First-Touch · AutoNUMA · vNUMA</div>
-<div class="kb-diagram-tree-item" style="--depth:2">더 큰 메모리 풀 요구</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Chiplet NUMA · CXL 기반 메모리 확장</div>
-</div>
-</div>
-
-
+```text
+공유 메모리 확장 요구
+    │
+    ▼
+UMA (Uniform Memory Access)
+    │
+    ├─ 코어 증가에 따른 중앙 메모리 병목
+    ▼
+NUMA (Non-Uniform Memory Access)
+    │
+    ├─ 캐시 일관성 강화
+    ▼
+ccNUMA (cache-coherent NUMA)
+    │
+    ├─ 운영체제/가상화 최적화
+    ▼
+First-Touch · AutoNUMA · vNUMA
+    │
+    ├─ 더 큰 메모리 풀 요구
+    ▼
+Chiplet NUMA · CXL 기반 메모리 확장
+```
 
 이 흐름은 "[공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)의 단순성 유지 → 확장성 한계 노출 → 위치 인식형 최적화 → [메모리 풀](/knowledge-base/studynote/02_operating_system/06_memory_management/369_memory_pool/) 확장"으로 발전하는 방향을 보여준다.
 

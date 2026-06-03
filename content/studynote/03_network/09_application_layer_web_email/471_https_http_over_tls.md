@@ -30,28 +30,30 @@ tags = ["studynote-network"]
   2. <strong>TLS의 표준화 (<a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/">IETF</a>)</strong>: SSL 3.0을 기반으로 IETF가 표준화한 것이 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)(Transport Layer [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)) 1.0이며, 이후 1.2를 거쳐 현재는 속도와 보안이 극대화된 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3이 주력으로 사용된다.
   3. **HTTPS Everywhere 캠페인**: 구글 등 빅테크 주도로 HTTPS 미적용 사이트에 브라우저 "주의 요함(Not Secure)" 경고를 띄우고, 검색 노출(SEO) 패널티를 부여하면서 전 세계적인 HTTPS 강제화가 이루어졌다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HTTP 통신 vs HTTPS 통신 패킷 스니핑 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HTTP 통신 - 포트 80</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라이언트 공격자 (Sniffer)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ GET /login HTTP/1.1 ▶ 👁️ "ID: admin,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Host: bank.com</div><div class="kb-diagram-cell">PW: 1234" 획득</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Body: id=admin&amp;pw=1234 ▶ (평문 그대로 노출)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HTTPS 통신 - 포트 443</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라이언트 공격자 (Sniffer)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(TLS Handshake로 대칭키 교환 완료)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ x8qF9z... (암호화된 바이트 스트림) ▶ 👁️ "?????????"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ (해독 불가능)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⚠️ HTTPS는 데이터 Payload뿐만 아니라, HTTP Header(URL 경로,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">쿠키 등) 전체를 암호화하여 중간자가 접속 중인 도메인(SNI 예외)외에는</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">세부 정보를 전혀 알 수 없게 만든다.</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          HTTP 통신 vs HTTPS 통신 패킷 스니핑 비교              │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ [HTTP 통신 - 포트 80]                                         │
+│ 클라이언트                             공격자 (Sniffer)        │
+│   │                                       │                 │
+│   ├─ GET /login HTTP/1.1 ───────────────▶ 👁️ "ID: admin,   │
+│   │  Host: bank.com                         │ PW: 1234" 획득│
+│   │  Body: id=admin&pw=1234 ────────────▶ (평문 그대로 노출) │
+│                                                             │
+│ [HTTPS 통신 - 포트 443]                                       │
+│ 클라이언트                             공격자 (Sniffer)        │
+│   │                                       │                 │
+│   │  (TLS Handshake로 대칭키 교환 완료)       │                 │
+│   ├─ x8qF9z... (암호화된 바이트 스트림) ─────▶ 👁️ "?????????"  │
+│   │─────────────────────────────────────▶ (해독 불가능)    │
+│                                                             │
+│ ⚠️ HTTPS는 데이터 Payload뿐만 아니라, HTTP Header(URL 경로,     │
+│ 쿠키 등) 전체를 암호화하여 중간자가 접속 중인 도메인(SNI 예외)외에는 │
+│ 세부 정보를 전혀 알 수 없게 만든다.                               │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 환경에서는 Wireshark 같은 스니핑 툴로 패킷을 캡처하면 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 헤더와 페이로드가 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 평문으로 적나라하게 보인다. 공격자는 같은 Wi-Fi 망에 있기만 해도 다른 사람의 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)를 훔쳐 계정을 탈취([Session Hijacking](/knowledge-base/studynote/09_security/03_network_security/271_session_hijacking/))할 수 있다. 반면 HTTPS 환경에서는 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 핸드셰이크를 통해 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 [세션 키](/knowledge-base/studynote/09_security/03_network_security/140_session_key/)(대칭키)로 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 패킷 전체를 통째로 암호화한다. 중간자는 트래픽의 출발지와 목적지 IP, 그리고 암호화된 쓰레기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Ciphertext)만 볼 수 있을 뿐, 사용자가 구체적으로 어느 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)(/login)에 접속했는지, 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보냈는지는 해독할 수 없다.
 
@@ -75,31 +77,43 @@ HTTPS의 핵심 딜레마는 속도와 보안의 충돌이다. <strong>비대칭
 
 HTTPS는 이 둘을 절묘하게 결합한 <strong>하이브리드(Hybrid) 암호화</strong>를 채택했다. 만날 때(Handshake)는 무겁지만 안전한 비대칭키를 써서 '비밀 암호표([세션 키](/knowledge-base/studynote/09_security/03_network_security/140_session_key/))'를 나눠 가지고, 이후 본격적인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통신은 빠르고 가벼운 대칭키([세션 키](/knowledge-base/studynote/09_security/03_network_security/140_session_key/))로 암호화하여 통신하는 방식이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TLS Handshake 흐름도 (하이브리드 암호화 과정)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Client Browser</div><div class="kb-diagram-node">Web Server</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Client Hello (지원하는 암호군, 난수A 전달)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Server Hello (암호군 선택, 난수B 전달)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Certificate (서버 인증서-공개키 포함 전달)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. Server Hello Done</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(브라우저가 내장된 CA 공개키로 서버 인증서 검증 ✅)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Pre-Master Secret(난수C) 생성)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. Client Key Exchange</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(서버 공개키로 난수C 암호화하여 전송 🔒)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(서버 개인키로 해독 🔓)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ 💥</div><div class="kb-diagram-node">비밀키 융합</div><div class="kb-diagram-note">난수 A + B + C 조합으로 "세션 키" 동시 생성!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6. Change Cipher Spec / Finished</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(이제부터 '세션 키'로 대칭키 암호화 시작할게!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">7. Change Cipher Spec / Finished</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(나도 '세션 키'로 암호화 준비 끝!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ 8. 🔒</div><div class="kb-diagram-node">HTTP 데이터 전송</div><div class="kb-diagram-note">(AES 세션 키로 초고속 암호화) │</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────┐
+│            TLS Handshake 흐름도 (하이브리드 암호화 과정)           │
+├───────────────────────────────────────────────────────────────┤
+│                                                               │
+│ [Client Browser]                               [Web Server]   │
+│   │                                                 │         │
+│   │ 1. Client Hello (지원하는 암호군, 난수A 전달)         │         │
+│   │────────────────────────────────────────────────▶│         │
+│   │                                                 │         │
+│   │ 2. Server Hello (암호군 선택, 난수B 전달)           │         │
+│   │ 3. Certificate (서버 인증서-공개키 포함 전달)         │         │
+│   │ 4. Server Hello Done                            │         │
+│   │◀────────────────────────────────────────────────│         │
+│   │                                                 │         │
+│   │ (브라우저가 내장된 CA 공개키로 서버 인증서 검증 ✅)     │         │
+│   │ (Pre-Master Secret(난수C) 생성)                    │         │
+│   │                                                 │         │
+│   │ 5. Client Key Exchange                          │         │
+│   │    (서버 공개키로 난수C 암호화하여 전송 🔒)             │         │
+│   │────────────────────────────────────────────────▶│         │
+│   │                                   (서버 개인키로 해독 🔓) │
+│   │                                                 │         │
+│   │ 💥 [비밀키 융합] 난수 A + B + C 조합으로 "세션 키" 동시 생성! │
+│   │                                                 │         │
+│   │ 6. Change Cipher Spec / Finished                │         │
+│   │    (이제부터 '세션 키'로 대칭키 암호화 시작할게!)       │         │
+│   │────────────────────────────────────────────────▶│         │
+│   │                                                 │         │
+│   │ 7. Change Cipher Spec / Finished                │         │
+│   │    (나도 '세션 키'로 암호화 준비 끝!)                │         │
+│   │◀────────────────────────────────────────────────│         │
+│   │                                                 │         │
+│   │ 8. 🔒 [HTTP 데이터 전송] (AES 세션 키로 초고속 암호화) │         │
+│   │◀───────────────────────────────────────────────▶│         │
+└───────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 위 흐름은 전통적인 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.2 기반의 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 핸드셰이크 과정을 보여준다. 가장 중요한 핵심은 5번 단계다. 클라이언트는 서버가 준 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 안에서 '서버의 공개키'를 쏙 빼낸 뒤, 자신이 임의로 만든 난수(Pre-Master [Secret](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/))를 이 공개키로 암호화하여 서버에 던진다. 이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 오직 서버의 금고 깊숙이 있는 '개인키'로만 풀 수 있으므로, 해커가 중간에서 가로채도 절대 해독할 수 없다. 이렇게 안전하게 공유된 3개의 난수(A, B, C)를 수학적 공식에 넣어 양쪽이 동시에 똑같은 <strong>'대칭키(<a href="/knowledge-base/studynote/09_security/03_network_security/140_session_key/">세션 키</a>)'</strong>를 만들어낸다. 이후 8번 단계부터 이루어지는 수많은 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 요청/응답(HTML, 이미지 등)은 오직 이 [세션 키](/knowledge-base/studynote/09_security/03_network_security/140_session_key/)를 이용해 빠르고 안전하게 암호화된다. 이 [세션 키](/knowledge-base/studynote/09_security/03_network_security/140_session_key/)는 통신이 끝나면 폐기되므로 완벽한 보안이 유지된다.
 
@@ -136,25 +150,31 @@ HTTPS는 강력한 보안을 대가로 "핸드셰이크 [지연](/knowledge-base
 2. <strong>시나리오 — <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>서 만료로 인한 대규모 장애 (Certificate Outage)</strong>: 유명 글로벌 게임 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 1년짜리 상용 SSL [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 갱신을 누락하여, 전 세계 수백만 유저의 접속이 "[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 만료(NET::ERR_CERT_DATE_INVALID)" 에러와 함께 차단되는 대형 장애가 발생했다.
    - **판단**: 실무에서는 사람이 수동으로 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 갱신하는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)을 철폐해야 한다. Let's Encrypt와 같은 ACME [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 기반의 무료 90일 단기 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 활용하여, crontab이나 [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) Cert-Manager를 통해 갱신, 발급, 적용 프로세스를 100% 자동화(Automation)하는 것이 모범 사례다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실무 아키텍처: SSL Offloading (SSL Termination)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">인터넷 망 - 험난한 외부</div><div class="kb-diagram-node">사내 VPC - 안전한 내부망</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client A ──(HTTPS/443)──▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client B ──(HTTPS/443)──▶</div><div class="kb-diagram-cell">Load Balancer</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client C ──(HTTPS/443)──▶</div><div class="kb-diagram-cell">(Nginx / AWS ALB)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">인증서 보관 &amp; 암호화 해독</div></div>
-<div class="kb-diagram-note">(HTTP/80 평문으로 분산)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Backend 1</div><div class="kb-diagram-cell">Backend 2</div><div class="kb-diagram-cell">Backend 3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Tomcat)</div><div class="kb-diagram-cell">(Node.js)</div><div class="kb-diagram-cell">(Spring)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 판단 지점: 백엔드 서버들의 CPU 자원을 비즈니스 로직(DB 처리 등)에만</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">온전히 집중하게 하고, 로드밸런서가 무거운 암/복호화 연산을 전담한다.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │       실무 아키텍처: SSL Offloading (SSL Termination)         │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │ [인터넷 망 - 험난한 외부]           [사내 VPC - 안전한 내부망]      │
+  │                                                             │
+  │ Client A ──(HTTPS/443)──▶│                                 │
+  │ Client B ──(HTTPS/443)──▶│         Load Balancer           │
+  │ Client C ──(HTTPS/443)──▶│         (Nginx / AWS ALB)       │
+  │                          │    [인증서 보관 & 암호화 해독]        │
+  │                          │                 │               │
+  │                          └─────────────────┼───────────────┘
+  │                                            │
+  │                     ┌──────────(HTTP/80 평문으로 분산)─────────┐
+  │                     ▼                      ▼                 ▼
+  │               ┌──────────┐           ┌──────────┐      ┌──────────┐
+  │               │ Backend 1│           │ Backend 2│      │ Backend 3│
+  │               │ (Tomcat) │           │ (Node.js)│      │ (Spring) │
+  │               └──────────┘           └──────────┘      └──────────┘
+  │                                                             │
+  │ ✅ 판단 지점: 백엔드 서버들의 CPU 자원을 비즈니스 로직(DB 처리 등)에만│
+  │ 온전히 집중하게 하고, 로드밸런서가 무거운 암/복호화 연산을 전담한다.   │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 수많은 트래픽이 몰리는 엔터프라이즈 환경에서 모든 백엔드 서버(WAS) 각각에 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 설치하고 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 복호화를 수행하는 것은 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 관리 포인트 증가와 CPU 낭비라는 이중고를 낳는다. 따라서 실무 아키텍처는 시스템 최전방의 게이트웨이나 로드밸런서에만 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 하나 설치한다. 클라이언트로부터 날아온 HTTPS 암호화 트래픽은 여기서 평문([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/))으로 해독(Termination)된 뒤, 안전한 사내망 내부의 백엔드 서버들에게 가볍게 뿌려진다. 이를 'SSL [Offloading](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)'이라 부르며, 관리 효율성과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 극대화하는 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 설계의 기본 패턴이다.
 
@@ -203,19 +223,15 @@ HTTPS는 선택의 영역이던 "보안 부가기능"에서, 오늘날 웹이 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: HTTP/3 특징</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: HTTPS</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: WWW 캐싱 메커니즘 / 프록시</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 애플리케이션 전달</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: HTTP/3 특징]
+    │
+    ▼
+[현재 개념: HTTPS]
+    │
+    ├──▶ [확장 A: WWW 캐싱 메커니즘 / 프록시]
+    └──▶ [확장 B: 지능형 애플리케이션 전달]
+```
 
 HTTPS는 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/3 특징에서 출발해 현재 메커니즘을 정교화하고, 이후 WWW [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 메커니즘 / [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

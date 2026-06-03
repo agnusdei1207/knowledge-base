@@ -26,18 +26,14 @@ tags = ["studynote-network"]
   - **Dense Mode (밀집 모드)**: 농장주가 100개의 밭에 무조건 스프링클러(물)를 콸콸 틀어버립니다(Flooding). 그러다 옥수수밭 주인이 "여기 비 와서 물 필요 없어!"라고 전화하면, 그쪽 밸브(Prune)만 살짝 잠가줍니다. (물이 너무 낭비됨).
   - **Sparse Mode (희소 모드)**: 기본적으로 100개의 밸브를 꽉 잠가놓습니다. 수박밭 주인이 목이 말라 중앙 통제실([RP](/knowledge-base/studynote/03_network/07_network_layer_routing/370_pim_rp_rendezvous_point_rpf_loop_prevention/))에 "물 좀 주세요!"라고 요청서([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/))를 보내면, 그때서야 수박밭으로 가는 파이프의 밸브만 싹 열어줍니다(Pull). (물이 1방울도 낭비 안 됨).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">BGP Route Reflector / Co…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">멀티캐스트 라우팅</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RP, RPF 멀티캐스트 루프 방지</div></div>
-</div>
-</div>
-
-
+```text
+[BGP Route Reflector / Co…]
+    │
+    ▼
+[멀티캐스트 라우팅]
+    │
+    └──▶ [RP, RPF 멀티캐스트 루프 방지]
+```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/430_pim/">PIM</a>-DM이 원치도 않는 집에까지 무조건 신문을 쑤셔 넣고 거부해야만 끊어주는 </strong>"악질 스팸 찌라시 배달"<strong>이라면, <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/430_pim/">PIM</a>-SM은 내가 넷플릭스 구독 버튼(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/">Join</a>)을 눌렀을 때만 집으로 영상을 쏴주는 </strong>"합리적인 VOD 구독 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)"**입니다.
 
@@ -59,23 +55,28 @@ PIM은 이름 그대로 "[Protocol](/knowledge-base/studynote/03_network/06_netw
 2. <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/">Join</a> (당겨오기)</strong>: 제주도의 시청자가 리모컨을 눌렀다([IGMP](/knowledge-base/studynote/03_network/06_network_layer_ip/333_igmp_internet_group_management_protocol_multicast/) [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/)). 제주도 라우터는 시청자가 생겼으니, 무조건 중앙 우체국인 RP를 향해 거꾸로 거슬러 올라가며 <strong>"영상 줘!(<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/430_pim/">PIM</a> <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/">Join</a>)"</strong> 메시지를 쏜다.
 3. **트리 완성 (Shared Tree)**: RP에서부터 제주도까지 내려오는 밸브가 착착 열리면서 영상이 배달된다. 만약 춘천에 시청자가 없으면 춘천 쪽 밸브는 영원히 닫혀 있다. 단 1바이트의 트래픽 낭비도 없다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PIM-SM(Sparse Mode)의 랑데부(만남) 도식</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">방송국 (Source)</div><div class="kb-diagram-node">제주도 시청자 (Receiver)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 영상 송출 (나 방송 시작함!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">송신 라우터</div><div class="kb-diagram-node">수신 라우터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. RP로 직행! 3. "RP야 영상 줘!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(PIM Join)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">RP (Rendezvous Point)</div><div class="kb-diagram-note">라우터 ┃</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(송신자와 수신자가 만나는 중앙 우체국)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ "RP라는 중매쟁이가 없으면 송신자와 수신자는 영영 만나지 못한다!"</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                PIM-SM(Sparse Mode)의 랑데부(만남) 도식           │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 방송국 (Source) ]                    [ 제주도 시청자 (Receiver) ]│
+ │          │                                          ▲       │
+ │          │ 1. 영상 송출 (나 방송 시작함!)                   │       │
+ │          ▼                                          │       │
+ │   [ 송신 라우터 ]                                [ 수신 라우터 ]  │
+ │          │                                          ▲       │
+ │          │ 2. RP로 직행!               3. "RP야 영상 줘!" │       │
+ │          │                             (PIM Join)   │       │
+ │          ▼                                          │       │
+ │       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━      │
+ │       ┃       [ RP (Rendezvous Point) ] 라우터      ┃      │
+ │       ┃       (송신자와 수신자가 만나는 중앙 우체국)          ┃      │
+ │       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━      │
+ │                                                             │
+ │   ▶ "RP라는 중매쟁이가 없으면 송신자와 수신자는 영영 만나지 못한다!"   │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 3. SPT Switchover (지름길 타기 꼼수)
 [PIM](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/430_pim/)-SM의 단점은 수만 명의 시청자가 모두 [RP](/knowledge-base/studynote/03_network/07_network_layer_routing/370_pim_rp_rendezvous_point_rpf_loop_prevention/)(중앙 우체국)에 모여서 영상을 받아 가다 보니 [RP](/knowledge-base/studynote/03_network/07_network_layer_routing/370_pim_rp_rendezvous_point_rpf_loop_prevention/) 라우터가 과로사로 터진다는 점이다.
@@ -139,19 +140,15 @@ PIM은 이름 그대로 "[Protocol](/knowledge-base/studynote/03_network/06_netw
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: BGP Route Reflector / Co…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 멀티캐스트 라우팅</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: RP, RPF 멀티캐스트 루프 방지</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: BGP Route Reflector / Co…]
+    │
+    ▼
+[현재 개념: 멀티캐스트 라우팅]
+    │
+    ├──▶ [확장 A: RP, RPF 멀티캐스트 루프 방지]
+    └──▶ [확장 B: 의도 기반 라우팅]
+```
 
 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)는 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) Route Reflector / Co…에서 출발해 현재 메커니즘을 정교화하고, 이후 [RP](/knowledge-base/studynote/03_network/07_network_layer_routing/370_pim_rp_rendezvous_point_rpf_loop_prevention/), RPF [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 루프 방지와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

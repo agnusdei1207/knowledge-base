@@ -98,41 +98,29 @@ Queue: enqueue / dequeue
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Stack</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">LIFO</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Queue</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">FIFO</div>
-</div>
-</div>
-
-
+```text
+Stack
+  ↓
+LIFO
+  ↓
+Queue
+  ↓
+FIFO
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">List</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Stack / Queue</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Deque</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Scheduling / Traversal</div>
-</div>
-</div>
-
-
+```text
+List
+  ↓
+Stack / Queue
+  ↓
+Deque
+  ↓
+Scheduling / Traversal
+```
 
 ---
 

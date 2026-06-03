@@ -31,21 +31,15 @@ tags = ["studynote-security"]
 
 Bolt-on 방식은 애플리케이션 바깥쪽에 보안 계층을 추가한다. 대표적으로 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/), [IDS](/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/)/[IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/), [WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/), 백신, 프록시가 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">사용자 요청</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">WAF / IPS / Firewall</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">취약한 애플리케이션</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">DB / 내부 자원</div>
-</div>
-</div>
-
-
+```text
+사용자 요청
+   ↓
+WAF / IPS / Firewall
+   ↓
+취약한 애플리케이션
+   ↓
+DB / 내부 자원
+```
 
 | 외곽 보안 | 막기 쉬운 것 | 막기 어려운 것 |
 | :-- | :-- | :-- |
@@ -109,41 +103,29 @@ Bolt-on은 종종 "[Defense in Depth](/knowledge-base/studynote/09_security/01_i
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">기능 우선 개발</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Bolt-on Security</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">기술 부채 / 우회 공격</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Security by Design / DevSecOps</div>
-</div>
-</div>
-
-
+```text
+기능 우선 개발
+   ↓
+Bolt-on Security
+   ↓
+기술 부채 / 우회 공격
+   ↓
+Security by Design / DevSecOps
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">사후 방어</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">WAF / IPS / Firewall</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">보안 설계 내재화</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Shift-Left / DevSecOps</div>
-</div>
-</div>
-
-
+```text
+사후 방어
+   ↓
+WAF / IPS / Firewall
+   ↓
+보안 설계 내재화
+   ↓
+Shift-Left / DevSecOps
+```
 
 ---
 

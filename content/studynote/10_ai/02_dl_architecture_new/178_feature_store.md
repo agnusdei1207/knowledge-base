@@ -25,20 +25,18 @@ tags = ["studynote-ai"]
 
 그래서 [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)는 단순 저장소가 아니라 <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/">피처</a>의 의미, <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> 규칙, 제공 시점, 소비 경로를 표준화하는 운영 계층</strong>으로 등장했다. 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 많이 모으는 것이 아니라, 모델이 언제 어디서나 <strong>같은 의미의 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/">피처</a></strong>를 받게 하는 것이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Why teams need a feature store</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Team A -&gt; defines user_30d_spend in SQL</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Team B -&gt; redefines user_30d_spend in Python</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Serving API -&gt; redefines it again in application code</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">result: duplicate work + inconsistent feature meaning</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">fix : one shared feature definition and serving path</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Why teams need a feature store                                       │
+├──────────────────────────────────────────────────────────────────────┤
+│ Team A -> defines user_30d_spend in SQL                              │
+│ Team B -> redefines user_30d_spend in Python                         │
+│ Serving API -> redefines it again in application code                │
+│                                                                      │
+│ result: duplicate work + inconsistent feature meaning                │
+│ fix   : one shared feature definition and serving path               │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)는 요리사마다 양파를 각자 써는 주방이 아니라, 중앙 조리실에서 재료를 같은 규격으로 손질해 두어 모든 요리가 같은 맛을 내게 하는 공용 준비실과 같다.
 
@@ -58,24 +56,28 @@ tags = ["studynote-ai"]
 
 아래 그림은 [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)가 학습과 추론 사이에서 어떤 역할을 하는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Feature Store architecture</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Raw events / DB / stream</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Feature pipelines (batch / stream transforms)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Feature Registry</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ schema / owner / version</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ entity / freshness policy</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Offline Store ──▶ training / backfill</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ point-in-time join</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Online Store ──▶ low-latency inference</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ materialization / stream updates</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Feature Store architecture                                           │
+├──────────────────────────────────────────────────────────────────────┤
+│ Raw events / DB / stream                                             │
+│        │                                                             │
+│        ▼                                                             │
+│ Feature pipelines (batch / stream transforms)                        │
+│        │                                                             │
+│        ├──────────────▶ Feature Registry                             │
+│        │                  ├─ schema / owner / version                │
+│        │                  └─ entity / freshness policy               │
+│        │                                                             │
+│        ├──────────────▶ Offline Store ──▶ training / backfill        │
+│        │                     ▲                                        │
+│        │                     └─ point-in-time join                    │
+│        │                                                             │
+│        └──────────────▶ Online Store  ──▶ low-latency inference      │
+│                              ▲                                        │
+│                              └─ materialization / stream updates      │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조에서 가장 중요한 기술 포인트는 <strong>Point-in-Time Correctness</strong>다. 모델이 2026년 4월 1일 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 학습한다면, 그 시점 이후에 들어온 이벤트가 절대 섞이면 안 된다. 이를 위해 오프라인 스토어는 과거 시점 기준으로 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)를 조회할 수 있어야 하고, 온라인 스토어는 현재 시점의 최신 값을 빠르게 제공해야 한다. 같은 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)라도 학습과 추론이 보는 시점이 다르기 때문에, "같은 정의 + 다른 시간 축"을 제대로 다뤄야 한다.
 
@@ -152,7 +154,7 @@ tags = ["studynote-ai"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [Feature Engineering](/knowledge-base/studynote/12_it_management/02_itsm_itil/081_feature_engineering/) | 원천 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 모델 입력 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)로 바꾸는 과정이며 [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)의 출발점이다. |
+| [Feature 엔진ering](/knowledge-base/studynote/12_it_management/02_itsm_itil/081_feature_engineering/) | 원천 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 모델 입력 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)로 바꾸는 과정이며 [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)의 출발점이다. |
 | Offline Store | 과거 시점 기준 학습·백필 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 제공해 재현성을 보장한다. |
 | Online Store | 실시간 추론에서 최신 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)를 낮은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)으로 제공한다. |
 | Point-in-Time [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) | 미래 정보 누수를 막고 학습 시점 정합성을 보장하는 핵심 기능이다. |
@@ -161,25 +163,24 @@ tags = ["studynote-ai"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">원천 이벤트 / 업무 데이터</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">피처 엔지니어링</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Feature Registry 구축</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Offline Store -&gt; 학습 / 백필 / 재현성</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Online Store -&gt; 실시간 추론 / 최신성</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Point-in-Time Join · Materialization</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Model Registry · Monitoring과 연결된 MLOps 고도화</div>
-</div>
-</div>
-
-
+```text
+원천 이벤트 / 업무 데이터
+    │
+    ▼
+피처 엔지니어링
+    │
+    ▼
+Feature Registry 구축
+    │
+    ├─ Offline Store -> 학습 / 백필 / 재현성
+    └─ Online Store  -> 실시간 추론 / 최신성
+    │
+    ▼
+Point-in-Time Join · Materialization
+    │
+    ▼
+Model Registry · Monitoring과 연결된 MLOps 고도화
+```
 
 이 흐름은 [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)가 단순 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장소가 아니라, [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 정의를 운영 자산으로 승격시키는 플랫폼이라는 점을 보여 준다.
 

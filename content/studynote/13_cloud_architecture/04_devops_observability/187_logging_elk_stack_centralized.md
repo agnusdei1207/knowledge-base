@@ -32,35 +32,30 @@ ELK Stack은 이 문제의 표준 [오픈소스](/knowledge-base/studynote/12_it
 
 ### ELK [Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 수집 흐름
 
+```
+[ELK Stack 중앙화 로깅 아키텍처]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">ELK Stack 중앙화 로깅 아키텍처</div></div>
-<div class="kb-diagram-note">마이크로서비스들</div>
-<div class="kb-diagram-tree-item" style="--depth:0">Service A: 로그 출력 (stdout/file)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">Service B: 로그 출력</div>
-<div class="kb-diagram-tree-item" style="--depth:0">Service C: 로그 출력</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">수집 에이전트</div></div>
-<div class="kb-diagram-note">Filebeat / Fluentd / Fluentbit</div>
-<div class="kb-diagram-note">(각 노드에 DaemonSet으로 배포)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">수집·변환·파싱</div></div>
-<div class="kb-diagram-note">Logstash / Kafka (버퍼)</div>
-<div class="kb-diagram-note">(필드 추출, 필터링, 강화)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">저장·인덱싱</div></div>
-<div class="kb-diagram-note">Elasticsearch 클러스터</div>
-<div class="kb-diagram-note">(샤딩, 복제, 역인덱스)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시각화·검색</div></div>
-<div class="kb-diagram-note">Kibana 대시보드</div>
-<div class="kb-diagram-note">(로그 검색, 시각화, 알람)</div>
-</div>
-</div>
-
-
+마이크로서비스들
+├── Service A: 로그 출력 (stdout/file)
+├── Service B: 로그 출력
+└── Service C: 로그 출력
+         ↓
+[수집 에이전트]
+  Filebeat / Fluentd / Fluentbit
+  (각 노드에 DaemonSet으로 배포)
+         ↓
+[수집·변환·파싱]
+  Logstash / Kafka (버퍼)
+  (필드 추출, 필터링, 강화)
+         ↓
+[저장·인덱싱]
+  Elasticsearch 클러스터
+  (샤딩, 복제, 역인덱스)
+         ↓
+[시각화·검색]
+  Kibana 대시보드
+  (로그 검색, 시각화, 알람)
+```
 
 | [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) | 역할 | 대안 |
 |:---|:---|:---|
@@ -154,21 +149,17 @@ ELK Stack은 이 문제의 표준 [오픈소스](/knowledge-base/studynote/12_it
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">각 서버별 개별 로그 파일 (분산 시 확인 불가)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">중앙 집중 로깅: ELK (Elastic · Logstash · Kibana) · Loki</div>
-<div class="kb-diagram-tree-item" style="--depth:2">구조화 로그: JSON 형식 + Trace ID 포함</div>
-<div class="kb-diagram-tree-item" style="--depth:2">로그 레벨: DEBUG · INFO · WARN · ERROR · FATAL</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">AIOps: 로그 패턴 자동 분석 · 이상 탐지</div>
-</div>
-</div>
-
-
+```text
+각 서버별 개별 로그 파일 (분산 시 확인 불가)
+    │
+    ▼
+중앙 집중 로깅: ELK (Elastic · Logstash · Kibana) · Loki
+    ├─► 구조화 로그: JSON 형식 + Trace ID 포함
+    └─► 로그 레벨: DEBUG · INFO · WARN · ERROR · FATAL
+    │
+    ▼
+AIOps: 로그 패턴 자동 분석 · 이상 탐지
+```
 2. ELK Stack은 전국 모든 지점의 일기장을 한 곳에 모아서 쉽게 검색하는 시스템이에요.
 3. 문제가 생기면 "14시 32분에 무슨 일이 있었나?" 한 번 검색으로 원인을 바로 찾을 수 있어요!
 

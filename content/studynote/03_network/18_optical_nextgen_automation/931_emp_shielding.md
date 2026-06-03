@@ -24,18 +24,14 @@ tags = ["studynote-network"]
 
 통신사(Telco)나 국가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터의 엔지니어들은 이 재앙으로부터 망을 살려내기 위해, 건물을 벙커로 만들고 케이블의 재질을 바꾸는 극한의 물리적 보안 지침(EMP 방호 시설 지침)을 설계했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">재난 통신망</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">EMP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스니핑 탐지</div></div>
-</div>
-</div>
-
-
+```text
+[재난 통신망]
+    │
+    ▼
+[EMP]
+    │
+    └──▶ [스니핑 탐지]
+```
 
 - **📢 섹션 요약 비유**: 번개가 칠 때 긴 피뢰침에 엄청난 전기가 흐르는 것처럼, EMP가 터지면 도시의 모든 통신 케이블과 전선이 피뢰침이 되어 서버로 번개를 쏘아 보냅니다. EMP 방호는 아예 번개가 타지 못하는 재질(광케이블)로 길을 깔고, 서버를 거대한 철창([패러데이 케이지](/knowledge-base/studynote/09_security/18_iot_ot_physical/939_faraday_cage/)) 안에 가둬서 번개를 튕겨내는 기술입니다.
 
@@ -55,24 +51,29 @@ tags = ["studynote-network"]
 - 전기는 광케이블로 보낼 수 없으니, 외부에서 전력선(금속)이 케이지 안으로 뚫고 들어와야만 한다.
 - 이 전력선을 타고 EMP 과전압이 밀려 들어오는 것을 막기 위해, 시설 입구(Point of Entry)에 거대한 <strong>EMP 방호 필터(Surge Arrester)</strong>를 달아 수만 볼트의 [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/) 전류를 0.001초 만에 땅으로 빼버린다(접지, Grounding).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터센터의 EMP 물리적 방호 (Shielding) 시스템 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">💥</div><div class="kb-diagram-node">외부: EMP 폭발 발생! (수만 V의 전자기 폭풍)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⚡ ⚡ ⚡</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🛡️</div><div class="kb-diagram-node">데이터센터 건물의 패러데이 케이지 (철판 쉴딩 룸)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(외부 전력선 ⚡)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">EMP 차단 필터</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(과전류를 즉시 땅으로 버림 / 접지)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 안전한 전기 220V</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(외부 통신망)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">100% 유리 재질이라 전파 영향 0</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">코어 라우터</div><div class="kb-diagram-node">메인 서버 랙</div><div class="kb-diagram-note">(생존 완료!)</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────────┐
+│           데이터센터의 EMP 물리적 방호 (Shielding) 시스템 시각화  │
+├───────────────────────────────────────────────────────────────────┤
+│                                                                   │
+│ 💥 [ 외부: EMP 폭발 발생! (수만 V의 전자기 폭풍) ]                │
+│        ⚡          ⚡          ⚡                                 │
+│                                                                   │
+│ 🛡️ [ 데이터센터 건물의 패러데이 케이지 (철판 쉴딩 룸) ]           │
+│  ==========================================================       │
+│  │     (외부 전력선 ⚡)                                           │
+│  │         │                                                      │
+│  │   [ EMP 차단 필터 ] ──▶ (과전류를 즉시 땅으로 버림 / 접지)     │
+│  │         │                                                      │
+│  │         ▼ 안전한 전기 220V                                     │
+│  │                                                                │
+│  │  (외부 통신망)                                                 │
+│  │  ━━━ (광케이블) ━━━▶ [ 100% 유리 재질이라 전파 영향 0 ]        │
+│  │                                                                │
+│  │   [ 코어 라우터 ] ───── [ 메인 서버 랙 ] (생존 완료!)          │
+│  ==========================================================       │
+└───────────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: EMP의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -133,19 +134,15 @@ EMP는 광통신·차세대·자동화를 이해할 때 핵심 축을 잡아 주
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 재난 통신망</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: EMP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 스니핑 탐지</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 재난 통신망]
+    │
+    ▼
+[현재 개념: EMP]
+    │
+    ├──▶ [확장 A: 스니핑 탐지]
+    └──▶ [확장 B: 의미 기반 통신 최적화]
+```
 
 EMP는 [재난 통신망](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/930_ps_lte_public_safety_mcptt_d2d_survival/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [스니핑 탐지](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/932_sniffing_detection_arp_ping/)와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

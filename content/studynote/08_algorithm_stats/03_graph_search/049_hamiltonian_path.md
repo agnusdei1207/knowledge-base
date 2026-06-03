@@ -38,17 +38,11 @@ tags = ["studynote-algorithm"]
 
 **Ore 정리 (1960)**: n ≥ 3인 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에서 인접하지 않은 모든 정점 쌍 (u, v)에 대해 deg(u) + deg(v) ≥ n이면 해밀턴 회로 존재
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">주의: 이 조건들은 충분조건이지 필요조건이 아님</div>
-<div class="kb-diagram-note">→ 조건 불만족 ≠ 해밀턴 경로 없음</div>
-<div class="kb-diagram-note">→ 조건 만족 = 해밀턴 경로 반드시 존재</div>
-</div>
-</div>
-
-
+```
+주의: 이 조건들은 충분조건이지 필요조건이 아님
+  → 조건 불만족 ≠ 해밀턴 경로 없음
+  → 조건 만족 = 해밀턴 경로 반드시 존재
+```
 
 ### [백트래킹](/knowledge-base/studynote/08_algorithm_stats/01_basics/010_backtracking/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
 
@@ -69,24 +63,24 @@ solve(pos):
 
 ### [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 — [백트래킹](/knowledge-base/studynote/08_algorithm_stats/01_basics/010_backtracking/) 탐색 트리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">그래프: A─B─C─D (선형)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">백트래킹 탐색 트리 (A에서 시작):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ C</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ D → 해밀턴 경로: A-B-C-D ✓</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ (역추적)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ (역추적)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ (역추적)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최악: n! 탐색 (가지치기 없을 때)</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────┐
+│  그래프: A─B─C─D (선형)                                  │
+│           │   │                                          │
+│           └───┘                                          │
+│                                                          │
+│  백트래킹 탐색 트리 (A에서 시작):                         │
+│  A                                                       │
+│  ├─ B                                                    │
+│  │  ├─ C                                                 │
+│  │  │  ├─ D  → 해밀턴 경로: A-B-C-D ✓                   │
+│  │  │  └─ (역추적)                                       │
+│  │  └─ (역추적)                                          │
+│  └─ (역추적)                                             │
+│                                                          │
+│  최악: n! 탐색 (가지치기 없을 때)                         │
+└──────────────────────────────────────────────────────────┘
+```
 
 ### DP + 비트마스크 (O(2ⁿn²))
 
@@ -179,23 +173,21 @@ TSP 최적화 = NP-hard
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">그래프 완전 탐색 (DFS/BFS — 다항식 P)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">해밀턴 경로 (Hamiltonian Path — NP-완전)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">외판원 문제 (TSP — 해밀턴 회로의 최적화 버전)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DP + 비트마스크 (소규모 n≤20 정확해 O(2ⁿn²))</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">메타휴리스틱 (대규모 근사해 — 유전 알고리즘·모의담금질)</div></div>
-</div>
-</div>
-
-
+```text
+[그래프 완전 탐색 (DFS/BFS — 다항식 P)]
+    │
+    ▼
+[해밀턴 경로 (Hamiltonian Path — NP-완전)]
+    │
+    ▼
+[외판원 문제 (TSP — 해밀턴 회로의 최적화 버전)]
+    │
+    ▼
+[DP + 비트마스크 (소규모 n≤20 정확해 O(2ⁿn²))]
+    │
+    ▼
+[메타휴리스틱 (대규모 근사해 — 유전 알고리즘·모의담금질)]
+```
 해밀턴 경로는 P≠NP 가설에 의해 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 해가 없는 NP-완전 문제로, 소규모에서 DP+비트마스크, 대규모에서 메타휴리스틱 근사가 실용적 해법이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

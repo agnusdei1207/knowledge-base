@@ -29,21 +29,15 @@ tags = ["studynote-data-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Data</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Center</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Spread</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Interpretation</div>
-</div>
-</div>
-
-
+```text
+Data
+  ↓
+Center
+  ↓
+Spread
+  ↓
+Interpretation
+```
 
 | 지표 | 의미 | 특징 |
 | :-- | :-- | :-- |
@@ -115,41 +109,29 @@ tags = ["studynote-data-engineering"]
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Data Distribution</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Central Tendency</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Dispersion</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Statistical Interpretation</div>
-</div>
-</div>
-
-
+```text
+Data Distribution
+  ↓
+Central Tendency
+  ↓
+Dispersion
+  ↓
+Statistical Interpretation
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Mean / Median</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Variance / SD</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">IQR</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Robust Statistics</div>
-</div>
-</div>
-
-
+```text
+Mean / Median
+  ↓
+Variance / SD
+  ↓
+IQR
+  ↓
+Robust Statistics
+```
 
 ---
 

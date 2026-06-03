@@ -26,26 +26,27 @@ tags = ["studynote-operating-system"]
 
 **💡 비유**: 줄을 서서 식판(A)을 받고 반찬(B)을 받으려는데 반찬이 다 떨어져 멈춰 서면, 배식원이 "뒤에 식판 필요한 사람 있으니까, 너 식판 도로 뺏고 반찬 채워질 때까지 아예 식당 밖으로 나가!" 하고 내쫓는 것. 내 뒤통수에 붙어있던 대기열(데드락 후보군)은 해소된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비선점(No Preemption) 부정을 통한 교착상태 타파</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황</div><div class="kb-diagram-note">프로세스 P1이 자원 R1(프린터) 점유 중.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이제 R2(디스크)를 요청하는데 꽉 쳐서 막힘!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">비선점 (오리지널 룰)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P1은 R2가 나올 때까지 R1 안 놓고 그 자리에서 꿀잠.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 누군가 R1을 원하면 영구 데드락(Deadlock) 발동!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">비선점 부정 (강제 선점으로 룰 파괴)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS: "야 P1, R2 없으니까 눈 감아. 그리고 네가 쥔 R1 내놔!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P1: 프린트 절반 출력 중인데요? (강제로 뽑히고 상태 소멸)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 대기 중이던 P2가 R1을 쓰며 스무스하게 진행.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문제: P1이 다시 깨어날 때, 절반 인쇄된 문서는 어떻게</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">롤백하고 다시 복원할 것인가? (엄청난 복구 오버헤드 장벽)</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────┐
+│         비선점(No Preemption) 부정을 통한 교착상태 타파       │
+├───────────────────────────────────────────────────────────────┤
+│                                                               │
+│  [상황] 프로세스 P1이 자원 R1(프린터) 점유 중.                │
+│         이제 R2(디스크)를 요청하는데 꽉 쳐서 막힘!            │
+│                                                               │
+│  [비선점 (오리지널 룰)]                                       │
+│  P1은 R2가 나올 때까지 R1 안 놓고 그 자리에서 꿀잠.           │
+│  → 누군가 R1을 원하면 영구 데드락(Deadlock) 발동!             │
+│                                                               │
+│  [비선점 부정 (강제 선점으로 룰 파괴)]                        │
+│  OS: "야 P1, R2 없으니까 눈 감아. 그리고 네가 쥔 R1 내놔!"    │
+│  P1: 프린트 절반 출력 중인데요? (강제로 뽑히고 상태 소멸)     │
+│  → 대기 중이던 P2가 R1을 쓰며 스무스하게 진행.                │
+│                                                               │
+│  문제: P1이 다시 깨어날 때, 절반 인쇄된 문서는 어떻게         │
+│  롤백하고 다시 복원할 것인가? (엄청난 복구 오버헤드 장벽)     │
+└───────────────────────────────────────────────────────────────┘
+```
 
 **📢 섹션 요약 비유**: [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/) 부정은 수채화 그리다 물감이 모자라 기다리니, 미술 선생님이 "기다리는 동안 도화지도 딴 친구 줘!" 하고 뺏어버리는 겁니다. 교실 안 그림 그리는 사람은 계속 돌아가지만(데드락 없음) 뺏긴 내 도화지는 다시 처음부터 스케치해야 합니다([롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)의 피로도).
 
@@ -114,19 +115,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">점유 대기 부정</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">비선점 부정 (Deny No Preemption)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">순환 대기 부정</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">교착 상태 회피 (Deadlock Avoidance)</div></div>
-</div>
-</div>
-
-
+```text
+[점유 대기 부정]
+    │
+    ▼
+[비선점 부정 (Deny No Preemption)]
+    │
+    ├──▶ [순환 대기 부정]
+    └──▶ [교착 상태 회피 (Deadlock Avoidance)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

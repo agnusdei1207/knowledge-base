@@ -30,24 +30,24 @@ tags = ["studynote-operating-system"]
 
 `clone()` 시스템 콜의 핵심은 매개변수로 전달되는 `flags`의 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 마스킹([Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) Masking) 조합이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">clone() 시스템 콜의 아키텍처와 자원 공유 플래그 맵핑</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">long clone(unsigned long flags, void *child_stack, ...);</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">자원 관리 4대 핵심 플래그 (CLONE_*)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. CLONE_VM : 메모리 공간(Address Space) 공유 여부</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. CLONE_FS : 파일 시스템(루트, 현재 디렉토리) 공유 여부</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. CLONE_FILES : 열린 파일 디스크립터(FD) 테이블 공유 여부</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. CLONE_SIGHAND : 시그널 핸들러 공유 여부</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스택(Stack)의 철칙</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">★ 스레드든 프로세스든 각자의 실행 흐름을 보장해야 하므로,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell"><code>child_stack</code> 매개변수로 반드시 새로운 깡통 스택을 줘야 한다!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          clone() 시스템 콜의 아키텍처와 자원 공유 플래그 맵핑        │
+├─────────────────────────────────────────────────────────────┤
+│  long clone(unsigned long flags, void *child_stack, ...);   │
+│                                                             │
+│ [ 자원 관리 4대 핵심 플래그 (CLONE_*) ]                          │
+│                                                             │
+│  1. CLONE_VM      : 메모리 공간(Address Space) 공유 여부          │
+│  2. CLONE_FS      : 파일 시스템(루트, 현재 디렉토리) 공유 여부       │
+│  3. CLONE_FILES   : 열린 파일 디스크립터(FD) 테이블 공유 여부        │
+│  4. CLONE_SIGHAND : 시그널 핸들러 공유 여부                       │
+│                                                             │
+│ [ 스택(Stack)의 철칙 ]                                        │
+│  ★ 스레드든 프로세스든 각자의 실행 흐름을 보장해야 하므로,             │
+│    `child_stack` 매개변수로 반드시 **새로운 깡통 스택**을 줘야 한다!     │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[내부 동작 메커니즘]**
 - [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)가 꺼져 있으면(`0`), [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 부모의 자료구조(예: `mm_struct`)를 딥 카피(Copy)하여 자식에게 독립적인 사본을 쥐여준다. (물론 최적화를 위해 Copy-on-Write가 적용됨)
@@ -94,7 +94,7 @@ tags = ["studynote-operating-system"]
 
 리눅스의 `clone()` 시스템 콜은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 아키텍처의 우아한 추상화를 보여주는 궁극의 마스터피스다. 과거 "프로세스용 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 함수", "[스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)용 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 함수"를 따로 만들며 코드를 누더기로 유지하던 타 OS들과 달리, 리눅스는 모든 실행 흐름을 '[Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)'라는 하나의 구조체(`task_struct`)로 대통합하고, 오직 `clone()`의 '공유 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)(Flags)' 조합만으로 그 Task의 성격을 동적으로 변태 시키는 놀라운 메커니즘을 완성했다.
 
-이 유연성 덕분에 리눅스는 무거운 DB 서버 프로세스부터 극도로 가벼운 실시간 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)까지 완벽히 소화하며 전 세계 서버와 안드로이드 시장을 평정했다. 나아가 이 `clone()`의 깃발 꽂기 철학([Namespace](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/) [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/))은 수십 년 뒤 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/))와 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(K8s)라는 클라우드 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 대혁명의 물리적 뼈대(Engine)로 완벽하게 환생하여 현재까지 IT 제국을 지탱하고 있다.
+이 유연성 덕분에 리눅스는 무거운 DB 서버 프로세스부터 극도로 가벼운 실시간 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)까지 완벽히 소화하며 전 세계 서버와 안드로이드 시장을 평정했다. 나아가 이 `clone()`의 깃발 꽂기 철학([Namespace](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/) [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/))은 수십 년 뒤 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/))와 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(K8s)라는 클라우드 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 대혁명의 물리적 뼈대(엔진)로 완벽하게 환생하여 현재까지 IT 제국을 지탱하고 있다.
 
 - **📢 섹션 요약 비유**: `clone()` 시스템 콜은 요리사의 '만능 밀가루 반죽'입니다. 똑같은 반죽 하나에 이스트([플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/))를 어떻게 섞고 굽느냐에 따라 무거운 식빵(프로세스)이 되기도 하고, 가벼운 바게트([스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))가 되기도 하며, 속이 텅 빈 마카롱([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))이 되기도 하는 궁극의 리눅스 생태계 베이스 캠프입니다.
 
@@ -111,23 +111,21 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">초기 Unix fork() 시스템 콜 / 부모의 모든 자원을 100% 딥 카피(Copy)하는 무거운 생성</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Copy-On-Write (COW) 도입 / 읽기만 할 땐 부모 페이지를 가리키다, 쓸 때만 물리적 복사로 튜닝</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">경량 프로세스(LWP)와 스레드 요구 증대 / 잦은 Context Switch 오버헤드와 통신 랙 발생</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">리눅스 clone() 시스템 콜 대통합 / 자원의 '복사(Copy)' 대신 정밀한 플래그 기반 '공유(Share)' 튜닝 아키텍처 완성</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Namespace 플래그 (CLONE_NEW*) 확장 / 도커(Docker) 컨테이너 격리의 핵심 심장으로 진화 폭발 🚀</div>
-</div>
-</div>
-
-
+```text
+초기 Unix fork() 시스템 콜 / 부모의 모든 자원을 100% 딥 카피(Copy)하는 무거운 생성
+    │
+    ▼
+Copy-On-Write (COW) 도입 / 읽기만 할 땐 부모 페이지를 가리키다, 쓸 때만 물리적 복사로 튜닝
+    │
+    ▼
+경량 프로세스(LWP)와 스레드 요구 증대 / 잦은 Context Switch 오버헤드와 통신 랙 발생
+    │
+    ▼
+리눅스 clone() 시스템 콜 대통합 / 자원의 '복사(Copy)' 대신 정밀한 플래그 기반 '공유(Share)' 튜닝 아키텍처 완성
+    │
+    ▼
+Namespace 플래그 (CLONE_NEW*) 확장 / 도커(Docker) 컨테이너 격리의 핵심 심장으로 진화 폭발 🚀
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

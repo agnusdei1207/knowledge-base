@@ -37,17 +37,13 @@ tags = ["studynote-algorithm"]
 
 ### [SVD](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/230_svd_matrix_factorization_random_forest_xgboost_boosting/) ([Singular Value Decomposition](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/230_svd_matrix_factorization_random_forest_xgboost_boosting/)) 구조
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">A = U · Σ · Vᵀ</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">m × n</div><div class="kb-diagram-cell">=</div><div class="kb-diagram-cell">m × m</div><div class="kb-diagram-cell">×</div><div class="kb-diagram-cell">m × n</div><div class="kb-diagram-cell">×</div><div class="kb-diagram-cell">n × n</div></div>
-<div class="kb-diagram-note">(원본 행렬) (좌 특이벡터) (특이값 대각) (우 특이벡터)</div>
-</div>
-</div>
-
-
+```
+      A          =     U      ·    Σ      ·   Vᵀ
+  ┌────────┐       ┌───────┐   ┌───────┐   ┌───────┐
+  │ m × n  │   =   │ m × m │ × │ m × n │ × │ n × n │
+  └────────┘       └───────┘   └───────┘   └───────┘
+  (원본 행렬)    (좌 특이벡터) (특이값 대각) (우 특이벡터)
+```
 
 - **U**: 열이 좌 특이벡터 (Left Singular Vectors), UᵀU = I
 - **Σ**: 대각 원소 σ₁ ≥ σ₂ ≥ ... ≥ σᵣ ≥ 0 (특이값, Singular Values)
@@ -89,18 +85,12 @@ SVD 후 k=50 성분 유지:
 
 A = QR (Q: 직교, R: 상삼각)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">a₁₁ a₁₂ a₁₃ q₁₁ q₁₂ q₁₃ r₁₁ r₁₂ r₁₃</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">a₂₁ a₂₂ a₂₃</div><div class="kb-diagram-cell">=</div><div class="kb-diagram-cell">q₂₁ q₂₂ q₂₃</div><div class="kb-diagram-cell">×</div><div class="kb-diagram-cell">0 r₂₂ r₂₃</div></div>
-<div class="kb-diagram-tree-item" style="--depth:0">a₃₁ a₃₂ a₃₃ q₃₁ q₃₂ q₃₃ 0 0 r₃₃</div>
-<div class="kb-diagram-note">직교 행렬 Q 상삼각 R</div>
-</div>
-</div>
-
-
+```
+┌ a₁₁ a₁₂ a₁₃ ┐   ┌ q₁₁ q₁₂ q₁₃ ┐   ┌ r₁₁ r₁₂ r₁₃ ┐
+│ a₂₁ a₂₂ a₂₃ │ = │ q₂₁ q₂₂ q₂₃ │ × │  0  r₂₂ r₂₃ │
+└ a₃₁ a₃₂ a₃₃ ┘   └ q₃₁ q₃₂ q₃₃ ┘   └  0   0  r₃₃ ┘
+                    직교 행렬 Q            상삼각 R
+```
 
 최소제곱 풀이 Ax ≈ b (m > n):
 ```
@@ -222,23 +212,21 @@ NumPy: `np.linalg.svd()`, PyTorch: `torch.linalg.svd()` — 현대 ML 프레임�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">LU</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">QR</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SVD</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">고유분해</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">콜레스키</div></div>
-</div>
-</div>
-
-
+```text
+[LU]
+    │
+    ▼
+[QR]
+    │
+    ▼
+[SVD]
+    │
+    ▼
+[고유분해]
+    │
+    ▼
+[콜레스키]
+```
 
 이 흐름도는 LU에서 출발해 콜레스키까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

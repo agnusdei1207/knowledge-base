@@ -20,25 +20,25 @@ tags = ["cloud_architecture"]
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 GitOps는 푸시(Push) 기반의 기존 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD와 달리 풀(Pull) 기반의 상태 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 메커니즘을 지향한다.
 
+```text
+[ Architecture of GitOps Pipeline ]
 
+    (Developer)         (Git Repository)           (GitOps Agent)
+      +-----+             +-------------+          +--------------+
+      | Code|--- Push --->| Manifests   |<-- Poll--| ArgoCD / Flux|
+      +-----+             | (YAML, Helm)|          +--------------+
+                                |                         |
+                                |                         v
+                                |                 +---------------+
+                                +--- Reconcile -->| Kubernetes    |
+                                                  | Cluster       |
+                                                  +---------------+
+                                                  (Actual State)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Architecture of GitOps Pipeline</div></div>
-<div class="kb-diagram-note">(Developer) (Git Repository) (GitOps Agent)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Code</div><div class="kb-diagram-cell">--- Push ---&gt;</div><div class="kb-diagram-cell">Manifests</div><div class="kb-diagram-cell">&lt;-- Poll--</div><div class="kb-diagram-cell">ArgoCD / Flux</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+-----+</div><div class="kb-diagram-cell">(YAML, Helm)</div><div class="kb-diagram-cell">+--------------+</div></div>
-<div class="kb-diagram-note">v</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+--- Reconcile --&gt;</div><div class="kb-diagram-cell">Kubernetes</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cluster</div></div>
-<div class="kb-diagram-note">(Actual State)</div>
-<div class="kb-diagram-note">1. Git Manifests: 쿠버네티스 객체 선언문 (Desired State)</div>
-<div class="kb-diagram-note">2. Poll &amp; Diff: Git의 최신 커밋과 클러스터 실시간 상태 비교</div>
-<div class="kb-diagram-note">3. Sync &amp; Deploy: 차이점 발견 시 클러스터에 배포/수정 적용</div>
-</div>
-</div>
-
-
+1. Git Manifests: 쿠버네티스 객체 선언문 (Desired State)
+2. Poll & Diff: Git의 최신 커밋과 클러스터 실시간 상태 비교
+3. Sync & Deploy: 차이점 발견 시 클러스터에 배포/수정 적용
+```
 
 **핵심 메커니즘:**
 1. **선언적 정의:** 시스템의 전체 상태를 선언적 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(YAML, [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 등)로 기술한다.
@@ -76,21 +76,17 @@ GitOps는 개발자의 운영 개입을 최소화하고 소프트웨어 [공급�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">수동 kubectl apply (명령형 배포)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">GitOps: Git = Single Source of Truth</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Pull 방식: ArgoCD · Flux (클러스터가 Git 감시)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Push 방식: Jenkins (CI가 클러스터에 배포)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Progressive Delivery: Argo Rollouts · Flagger</div>
-</div>
-</div>
-
-
+```text
+수동 kubectl apply (명령형 배포)
+    │
+    ▼
+GitOps: Git = Single Source of Truth
+    ├─► Pull 방식: ArgoCD · Flux (클러스터가 Git 감시)
+    └─► Push 방식: Jenkins (CI가 클러스터에 배포)
+    │
+    ▼
+Progressive Delivery: Argo Rollouts · Flagger
+```
 2. 만약 누군가 몰래 피자 조각을 훔쳐 가면, 로봇이 요리책과 다르다는 걸 알고 다시 피자를 채워 넣는답니다.
 3. 요리책 내용만 잘 적어두면 언제든 똑같은 피자를 맛볼 수 있어요!
 

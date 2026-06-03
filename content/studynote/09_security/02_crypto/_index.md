@@ -23,21 +23,23 @@ tags = ["security"]
 
 이 그림은 평문이 암호문을 거쳐 다시 복호화되는 암호 시스템의 기본 구조를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Basic Cryptographic System Flow</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Plaintext (평문)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Encryption</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Ciphertext</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ (Key)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Result</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Decryption</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Network</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ (Key)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 대칭키: 암호화 키 = 복호화 키</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 비대칭키: 암호화 키 (공개키) ≠ 복호화 키 (개인키)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Basic Cryptographic System Flow             │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Plaintext (평문) ] ──▶ [ Encryption ] ──▶ [ Ciphertext ]│
+│          │                     ▲ (Key)             │        │
+│          │                     │                   │        │
+│          ▼                     │                   ▼        │
+│   [ Result ] ◀── [ Decryption ] ◀── [ Network ] ◀──┘        │
+│                    ▲ (Key)                                  │
+│                                                             │
+│   * 대칭키: 암호화 키 = 복호화 키                           │
+│   * 비대칭키: 암호화 키 (공개키) ≠ 복호화 키 (개인키)       │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '키 (Key) 관리'이다. 아무리 강력한 알고리즘을 써도 키를 뺏기면 보안은 끝난다. 실무에서는 이러한 키 교환의 어려움을 해결하기 위해 공개키 암호 방식을 사용하거나, HSM (Hardware Security Module)과 같은 전용 하드웨어를 통해 키를 보호한다.
 
@@ -72,21 +74,23 @@ tags = ["security"]
 
 이 구조도는 현대 인터넷 보안의 꽃인 <strong>하이브리드 암호 시스템 (SSL/TLS)</strong>의 원리를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hybrid Cryptosystem Logic</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 비대칭키(RSA/ECC)로 '대칭키'를 안전하게 교환한다.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 일단 공유된 '대칭키(AES)'로 실제 대량 데이터를</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">빛의 속도로 암호화하여 통신한다.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Client</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Server</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(AES Encrypted Web Data) ◀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 이점: 비대칭키의 안전성과 대칭키의 성능을 모두 취함</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Hybrid Cryptosystem Logic                   │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   1. 비대칭키(RSA/ECC)로 '대칭키'를 안전하게 교환한다.      │
+│   2. 일단 공유된 '대칭키(AES)'로 실제 대량 데이터를         │
+│      빛의 속도로 암호화하여 통신한다.                       │
+│                                                             │
+│   [ Client ] ──── (Encrypted AES Key) ───▶ [ Server ]       │
+│       │                                       │             │
+│       └─── (AES Encrypted Web Data) ◀─────────┘             │
+│                                                             │
+│   * 이점: 비대칭키의 안전성과 대칭키의 성능을 모두 취함     │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '역할의 조화'이다. 비대칭키는 비밀번호를 처음 정할 때만 쓰고, 실제 수다(데이터 전송)는 대칭키로 한다. 실무에서는 이 복잡한 과정을 TLS 프로토콜이 핸드쉐이크 단계에서 자동으로 수행한다.
 
@@ -129,20 +133,23 @@ tags = ["security"]
 
 이 도식은 해시 함수의 보안성을 높이는 **Salting & Stretching** 과정을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Password Hashing Best Practices</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Password</div><div class="kb-diagram-note">+</div><div class="kb-diagram-node">Random Salt</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Hash Function</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Repeat 5,000 times</div><div class="kb-diagram-connector">◀</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Final Secure Hash</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Store in DB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 효과: 1. 똑같은 비밀번호도 해시값이 달라짐 (Salt)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 해킹 시 연산 부담을 기하급수적으로 늘림 (Stretch)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│               Password Hashing Best Practices               │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Password ] + [ Random Salt ] ──▶ [ Hash Function ]      │
+│                                              │              │
+│   ┌────────────────── [ Repeat 5,000 times ] ◀┘              │
+│   │                                                         │
+│   ▼                                                         │
+│   [ Final Secure Hash ] ──▶ [ Store in DB ]                 │
+│                                                             │
+│   * 효과: 1. 똑같은 비밀번호도 해시값이 달라짐 (Salt)       │
+│           2. 해킹 시 연산 부담을 기하급수적으로 늘림 (Stretch)│
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 기술사의 암호 판단은 '금고 전문가의 조언'과 같습니다. 금고의 강도(알고리즘)도 중요하지만, 열쇠를 어디에 숨길지(키 관리), 비밀번호는 얼마나 자주 바꿀지(키 라이프사이클)를 종합하여 털리지 않는 요새를 만드는 것이 핵심입니다.
 

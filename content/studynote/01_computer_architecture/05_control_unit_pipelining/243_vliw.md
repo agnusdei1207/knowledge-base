@@ -25,21 +25,23 @@ VLIW (Very Long [Instruction](/knowledge-base/studynote/01_computer_architecture
 
 아래 그림은 "판단 시점"이 왜 중요한지 보여준다. VLIW의 핵심은 연산 자체보다 <strong><a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>성 판정 비용을 언제 지불하느냐</strong>에 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">병렬성 판단 위치의 차이: 실행 시점 vs 컴파일 시점</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수퍼스칼라</div><div class="kb-diagram-cell">VLIW</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">명령어 스트림</div><div class="kb-diagram-node">명령어 스트림</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">하드웨어 스케줄러</div><div class="kb-diagram-node">컴파일러가 미리 스케줄 완료</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">실행 유닛 동시 배분</div><div class="kb-diagram-node">긴 명령어 그대로 실행 유닛에 배분</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장점: 범용성 높음</div><div class="kb-diagram-cell">장점: 하드웨어 단순</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비용: 회로 복잡도 큼</div><div class="kb-diagram-cell">비용: 컴파일러 의존 큼</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                 병렬성 판단 위치의 차이: 실행 시점 vs 컴파일 시점            │
+├───────────────────────────────┬──────────────────────────────────────────────┤
+│ 수퍼스칼라                    │ VLIW                                         │
+│ [명령어 스트림]               │ [명령어 스트림]                              │
+│        │                      │        │                                     │
+│        ▼                      │        ▼                                     │
+│ [하드웨어 스케줄러]           │ [컴파일러가 미리 스케줄 완료]               │
+│        │                      │        │                                     │
+│        ▼                      │        ▼                                     │
+│ [실행 유닛 동시 배분]         │ [긴 명령어 그대로 실행 유닛에 배분]         │
+│        │                      │                                              │
+│ 장점: 범용성 높음             │ 장점: 하드웨어 단순                          │
+│ 비용: 회로 복잡도 큼          │ 비용: 컴파일러 의존 큼                      │
+└───────────────────────────────┴──────────────────────────────────────────────┘
+```
 
 따라서 VLIW는 "무조건 빠른 구조"가 아니라, <strong>예측 가능한 코드에서는 하드웨어 복잡도를 덜어 효율을 얻는 구조</strong>다. 이 철학 때문에 디지털 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 프로세서 (DSP, Digital [Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) Processor), 미디어 처리, [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 가속기처럼 연산 패턴이 비교적 정형화된 분야에서 자주 채택된다.
 
@@ -61,22 +63,25 @@ VLIW의 핵심은 <strong>긴 <a href="/knowledge-base/studynote/01_computer_arc
 
 아래 그림은 VLIW 한 [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/)가 어떻게 실행 유닛으로 흘러가는지 보여준다. 이 그림의 핵심은 <strong>"<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/">워드</a> 내부 형식이 곧 <a href="/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/">실행 계획</a>"</strong>이라는 점이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VLIW 실행 흐름: 명령어 포맷 안에 일정표가 들어 있음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">컴파일러 분석</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Load</div><div class="kb-diagram-node">Add</div><div class="kb-diagram-node">Mul</div><div class="kb-diagram-node">Branch</div><div class="kb-diagram-note">── 병렬 가능 여부 판단</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VLIW 워드 생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Slot 0</div><div class="kb-diagram-cell">Slot 1</div><div class="kb-diagram-cell">Slot 2</div><div class="kb-diagram-cell">Slot 3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Load</div><div class="kb-diagram-cell">Add</div><div class="kb-diagram-cell">Mul</div><div class="kb-diagram-cell">NOP</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Load/Store Integer Unit Multiply Unit Empty</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 하드웨어는 "같이 실행 가능한가?"를 다시 계산하지 않고 그대로 수행</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                   VLIW 실행 흐름: 명령어 포맷 안에 일정표가 들어 있음         │
+├──────────────────────────────────────────────────────────────────────────────┤
+│ 컴파일러 분석                                                                 │
+│   └─▶ [Load] [Add] [Mul] [Branch]  ── 병렬 가능 여부 판단                    │
+│                                                                               │
+│ VLIW 워드 생성                                                                 │
+│   ┌────────────┬────────────┬────────────┬────────────┐                       │
+│   │ Slot 0     │ Slot 1     │ Slot 2     │ Slot 3     │                       │
+│   │ Load       │ Add        │ Mul        │ NOP        │                       │
+│   └─────┬──────┴─────┬──────┴─────┬──────┴─────┬──────┘                       │
+│         │            │            │            │                              │
+│         ▼            ▼            ▼            ▼                              │
+│   Load/Store   Integer Unit  Multiply Unit   Empty                            │
+│                                                                               │
+│ 결과: 하드웨어는 "같이 실행 가능한가?"를 다시 계산하지 않고 그대로 수행       │
+└──────────────────────────────────────────────────────────────────────────────┘
+```
 
 실제로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 좌우하는 것은 슬롯 수보다 <strong>컴파일러가 얼마나 <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>성을 잘 발굴하느냐</strong>다. 루프가 규칙적이면 컴파일러는 한 반복의 로드, 다음 반복의 연산, 그다음 반복의 저장을 겹쳐 배치하는 소프트웨어 파이프라이닝을 적용할 수 있다. 반면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의존성이 강하거나 분기 방향이 자주 바뀌면 동시 실행 가능한 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 줄어들어, 긴 [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/)의 일부를 NOP으로 채워야 한다.
 
@@ -161,22 +166,20 @@ VLIW의 기대효과는 명확하다. 런타임 스케줄링 회로를 줄여 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">명령어 파이프라이닝 (Instruction Pipelining)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">명령어 수준 병렬성 (ILP, Instruction Level Parallelism) 탐색</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 하드웨어 중심 접근: 수퍼스칼라 · OoO</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 소프트웨어 중심 접근: VLIW</div>
-<div class="kb-diagram-tree-item" style="--depth:8">▶ 소프트웨어 파이프라이닝</div>
-<div class="kb-diagram-tree-item" style="--depth:8">▶ 슬롯 기반 정적 스케줄링</div>
-<div class="kb-diagram-tree-item" style="--depth:8">▶ EPIC → DSA 기반 가속기 확장</div>
-</div>
-</div>
-
-
+```text
+명령어 파이프라이닝 (Instruction Pipelining)
+    │
+    ▼
+명령어 수준 병렬성 (ILP, Instruction Level Parallelism) 탐색
+    │
+    ├─▶ 하드웨어 중심 접근: 수퍼스칼라 · OoO
+    │
+    └─▶ 소프트웨어 중심 접근: VLIW
+                │
+                ├─▶ 소프트웨어 파이프라이닝
+                ├─▶ 슬롯 기반 정적 스케줄링
+                └─▶ EPIC → DSA 기반 가속기 확장
+```
 
 이 흐름은 "파이프라인 이후 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성을 어떻게 끌어낼 것인가"라는 질문에서, 하드웨어 중심과 소프트웨어 중심이라는 두 갈래가 분화되는 구조를 보여준다.
 

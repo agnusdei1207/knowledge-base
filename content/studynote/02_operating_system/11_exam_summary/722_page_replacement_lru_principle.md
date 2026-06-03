@@ -48,25 +48,24 @@ tags = ["studynote-operating-system"]
 
 프레임이 3개(램 용량)인 시스템에서, 프로세스가 다음 순서대로 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 요구한다고 치자: `1 -> 2 -> 3 -> 1 -> 4`
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LRU 페이지 교체 시뮬레이션 (프레임 3개)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">입력: 1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">1</div><div class="kb-diagram-note">할당 (Page Fault)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">입력: 2</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">1, 2</div><div class="kb-diagram-note">할당 (Page Fault)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">입력: 3</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">1, 2, 3</div><div class="kb-diagram-note">할당 (Page Fault)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">입력: 1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">램에 1이 있음! (Hit!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">★ LRU의 핵심: 1이 방금 쓰였으므로, 1의 나이를 "가장 최신"으로 갱신함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(오래된 순서: 2 -&gt; 3 -&gt; 1)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">입력: 4</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">램이 꽉 참. 누군가 쫓아내야 함 (Page Fault)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 1은 방금 썼다. 3은 그전에 썼다. 2가 가장 옛날에 썼다.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "2번 페이지, 넌 아웃이야!" (Victim = 2)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- 램 상태:</div><div class="kb-diagram-node">1, 4, 3</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">1 -&gt; 4)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 LRU 페이지 교체 시뮬레이션 (프레임 3개)                 │
+  ├───────────────────────────────────────────────────────────────────┤
+  │  [ 입력: 1 ] -> 램 빔. [1] 할당 (Page Fault)                      │
+  │  [ 입력: 2 ] -> 램 빔. [1, 2] 할당 (Page Fault)                   │
+  │  [ 입력: 3 ] -> 램 빔. [1, 2, 3] 할당 (Page Fault)                │
+  │  =================================================================│
+  │  [ 입력: 1 ] -> 램에 1이 있음! (Hit!)                             │
+  │    ★ LRU의 핵심: 1이 방금 쓰였으므로, 1의 나이를 "가장 최신"으로 갱신함. │
+  │    (오래된 순서: 2 -> 3 -> 1)                                     │
+  │  =================================================================│
+  │  [ 입력: 4 ] -> 램이 꽉 참. 누군가 쫓아내야 함 (Page Fault)         │
+  │    - 1은 방금 썼다. 3은 그전에 썼다. 2가 가장 옛날에 썼다.              │
+  │    - "2번 페이지, 넌 아웃이야!" (Victim = 2)                      │
+  │    - 램 상태: [1, 4, 3] (오래된 순서: 3 -> 1 -> 4)                │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 만약 이 상황에서 <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/">FIFO</a></strong>를 썼다면? 무조건 제일 먼저 들어온 `1`을 쫓아내고 `4`를 넣었을 것이다. 그런데 바로 방금 `1`을 썼지 않은가? `1`을 쫓아내면 십중팔구 다음번 호출에 또 `1`을 부를 텐데 그때 또 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)가 터진다. LRU는 이처럼 "방금 쓴 건 다시 살려주는" 스마트한 방어 로직을 갖췄다.
 
@@ -123,24 +122,26 @@ tags = ["studynote-operating-system"]
 
 ### 의사결정 및 튜닝 플로우
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">캐시 교체(Eviction) 전략 아키텍처 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">한정된 메모리(RAM/Redis/CDN)에 데이터를 캐싱하는 시스템 설계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터의 접근 패턴이 최근 시간(Recency)에 강한 영향을 받는가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(예: 방금 올린 게시글, 최근 로그인한 유저 세션)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">LRU (Least Recently Used) 알고리즘 채택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대책: 가장 보편적이고 안전한 선택. Redis 기본 설정.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 (시간보다 '조회수(빈도)'가 더 중요한 랭킹 데이터다)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LFU (Least Frequently Used) 알고리즘 채택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 오랫동안 안 썼더라도, 누적 조회수(Frequency)가 높은 데이터는 안 지우고</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">살려두는 전략. (단, 최근에 뜬 신규 트렌드 데이터가 불리해지는 단점 존재)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 캐시 교체(Eviction) 전략 아키텍처 플로우              │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [한정된 메모리(RAM/Redis/CDN)에 데이터를 캐싱하는 시스템 설계]               │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      데이터의 접근 패턴이 최근 시간(Recency)에 강한 영향을 받는가?             │
+  │      (예: 방금 올린 게시글, 최근 로그인한 유저 세션)                        │
+  │          ├─ 예 ─────▶ [LRU (Least Recently Used) 알고리즘 채택]      │
+  │          │            대책: 가장 보편적이고 안전한 선택. Redis 기본 설정.     │
+  │          └─ 아니오 (시간보다 '조회수(빈도)'가 더 중요한 랭킹 데이터다)         │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      [LFU (Least Frequently Used) 알고리즘 채택]                      │
+  │      - 오랫동안 안 썼더라도, 누적 조회수(Frequency)가 높은 데이터는 안 지우고 │
+  │        살려두는 전략. (단, 최근에 뜬 신규 트렌드 데이터가 불리해지는 단점 존재) │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** LRU는 완벽하지 않다. "10년 동안 100만 번 조회된 레전드 글"이 어제 하루 안 읽혔다는 이유로, "방금 올라와서 1번 읽힌 스팸 글"에게 자리를 내어주고 캐시에서 쫓겨나는 것이 LRU의 치명적 맹점(Frequency 무시)이다. 고도화된 아키텍처는 최근성([LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/))과 빈도([LFU](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/))를 섞어 쓰는 W-TinyLFU(Caffeine Cache) 같은 하이브리드 모델을 사용한다.
 
@@ -183,19 +184,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">유효/무효 비트 (Valid/Invalid)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">페이지 교체 LRU 원리 (Page Replacement Lru Principle)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">FIFO 벨라디의 모순</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">최적 알고리즘 (OPT) 구현 불가</div></div>
-</div>
-</div>
-
-
+```text
+[유효/무효 비트 (Valid/Invalid)]
+    │
+    ▼
+[페이지 교체 LRU 원리 (Page Replacement Lru Principle)]
+    │
+    ├──▶ [FIFO 벨라디의 모순]
+    └──▶ [최적 알고리즘 (OPT) 구현 불가]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

@@ -21,16 +21,13 @@ tags = ["studynote-database"]
 
 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [고립화 수준](/knowledge-base/studynote/05_database/07_exam_summary/458_isolation_levels_read_uncommitted_to_serializable/) ([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/) Level)은 ANSI/ISO SQL 표준 4단계에 초점을 맞춘 개념이다. 여러 SQL을 하나의 성공·실패 단위로 묶어야 업무 정합성이 유지된다. 경계가 흐리면 일부만 반영된 중간 상태가 남는다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Request -&gt; Tx boundary -&gt; Current concept -&gt; Commit/RB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Work unit -&gt; control point -&gt; consistency</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ Request -> Tx boundary -> Current concept -> Commit/RB       │
+├──────────────────────────────────────────────────────────────┤
+│ Work unit -> control point -> consistency                    │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 그림은 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [고립화 수준](/knowledge-base/studynote/05_database/07_exam_summary/458_isolation_levels_read_uncommitted_to_serializable/)을 독립 기능이 아니라 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름에서 특정 통제 지점을 맡는 구조로 이해해야 한다는 점을 압축해 보여 준다.
 
@@ -49,16 +46,13 @@ tags = ["studynote-database"]
 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 영향 | [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [고립화 수준](/knowledge-base/studynote/05_database/07_exam_summary/458_isolation_levels_read_uncommitted_to_serializable/)은 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/), 지연시간, 운영 복잡도 중 적어도 하나에 직접 영향을 준다. | 이득과 비용을 같이 보지 않으면 과설계가 된다. |
 | 운영 주의 | `블로킹 현상 완화 (MVCC의 가장 큰 장점`·`Read Uncommitted`과 경계를 혼동하면 적용 위치가 어긋난다. | 장애 시 관찰할 지표와 우회 전략을 미리 준비해야 한다. |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Begin -&gt; current concept -&gt; Commit / Rollback</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">State change -&gt; control command -&gt; durable result</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ Begin -> current concept -> Commit / Rollback                │
+├──────────────────────────────────────────────────────────────┤
+│ State change -> control command -> durable result            │
+└──────────────────────────────────────────────────────────────┘
+```
 
 핵심은 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [고립화 수준](/knowledge-base/studynote/05_database/07_exam_summary/458_isolation_levels_read_uncommitted_to_serializable/)을 단순 옵션이 아니라 입력 조건, 처리 순서, 결과 보장을 함께 묶는 설계 규칙으로 보는 것이다. 그래서 구현 전에 평가 시점·충돌 지점·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성을 먼저 정리해야 한다.
 
@@ -119,19 +113,15 @@ tags = ["studynote-database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">블로킹 현상 완화 (MVCC의 가장 큰 장점</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">트랜잭션 고립화 수준</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Read Uncommitted</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Read Committed</div></div>
-</div>
-</div>
-
-
+```text
+[블로킹 현상 완화 (MVCC의 가장 큰 장점]
+    │
+    ▼
+[트랜잭션 고립화 수준]
+    │
+    ├──▶ [Read Uncommitted]
+    └──▶ [Read Committed]
+```
 
 [블로킹 현상 완화](/knowledge-base/studynote/05_database/04_transactions_concurrency/226_blocking_resolution_mvcc_advantage/) (MVCC의 가장 큰 장점에서 출발한 논점이 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [고립화 수준](/knowledge-base/studynote/05_database/07_exam_summary/458_isolation_levels_read_uncommitted_to_serializable/)에서 핵심 판단으로 모이고, 이후 [Read Uncommitted](/knowledge-base/studynote/05_database/04_transactions_concurrency/228_read_uncommitted_isolation_level/)·[Read Committed](/knowledge-base/studynote/05_database/04_transactions_concurrency/229_read_committed_isolation_level/) 같은 확장 주제로 이어지는 흐름을 보여 준다.
 

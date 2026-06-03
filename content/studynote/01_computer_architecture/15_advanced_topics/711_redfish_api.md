@@ -47,24 +47,27 @@ Redfish [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas
 
 다음 그림은 Redfish가 자원 탐색과 제어를 어떻게 수행하는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Redfish 자원 기반 관리 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자동화 도구 / 스크립트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GET /redfish/v1/Systems/1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">POST .../Actions/ComputerSystem.Reset</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PATCH .../Bios/Settings</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HTTPS / JSON / TLS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BMC Redfish</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Service</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Model</div><div class="kb-diagram-cell">Action</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Systems Chassis / Managers / UpdateService</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                    Redfish 자원 기반 관리 흐름                       │
+├──────────────────────────────────────────────────────────────────────┤
+│ 자동화 도구 / 스크립트                                               │
+│   GET /redfish/v1/Systems/1                                          │
+│   POST .../Actions/ComputerSystem.Reset                              │
+│   PATCH .../Bios/Settings                                            │
+│                 │ HTTPS / JSON / TLS                                 │
+│                 ▼                                                    │
+│           ┌──────────────┐                                           │
+│           │ BMC Redfish  │                                           │
+│           │ Service      │                                           │
+│           ├──────┬───────┤                                           │
+│           │Model │Action │                                           │
+│           └──┬───┴───┬───┘                                           │
+│              │       │                                               │
+│              ▼       ▼                                               │
+│         Systems   Chassis / Managers / UpdateService                 │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 핵심 원리는 세 가지다. 첫째, <strong>발견 가능성</strong>이다. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 루트에서 링크를 따라가며 기능을 탐색할 수 있다. 둘째, <strong>표준 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/">스키마</a></strong>다. Reset, PowerState, EthernetInterface 같은 공통 모델을 사용해 벤더 차이를 줄인다. 셋째, <strong>웹 보안과 <a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/507_session_management_security/">세션 관리</a></strong>다. [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) (Transport Layer [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)), [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 토큰, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 기반 접근 제어를 활용해 레거시 프로토콜보다 더 안전하게 운영할 수 있다.
 
@@ -130,23 +133,21 @@ Redfish의 효과는 하드웨어 관리가 개발 친화적으로 바뀐다는 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">벤더별 전용 관리 도구</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">IPMI 중심 레거시 원격 제어</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">웹 표준 기반 Redfish 등장</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">UpdateService · EventService 기반 자동화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">베어메탈 API화 · 컴포저블 인프라 확장</div>
-</div>
-</div>
-
-
+```text
+벤더별 전용 관리 도구
+    │
+    ▼
+IPMI 중심 레거시 원격 제어
+    │
+    ▼
+웹 표준 기반 Redfish 등장
+    │
+    ▼
+UpdateService · EventService 기반 자동화
+    │
+    ▼
+베어메탈 API화 · 컴포저블 인프라 확장
+```
 
 이 흐름은 하드웨어 관리가 "명령 실행" 중심에서 "자원 모델과 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 자동화" 중심으로 이동한 과정을 보여준다.
 

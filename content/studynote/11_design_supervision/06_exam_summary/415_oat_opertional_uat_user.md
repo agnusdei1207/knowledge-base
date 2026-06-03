@@ -21,16 +21,13 @@ tags = ["studynote-design-supervision"]
 
 특히 전환 직전에는 [시스템 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/405_system_test/)가 통과했더라도 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/), 배치 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/), 권한 분리, 장애 대응, 헬프데스크 인수 같은 운영 요소가 빠질 수 있다. 반대로 OAT가 완료되어도 실제 사용자가 화면 흐름, 예외 처리, 출력물, 마감 업무를 승인하지 않으면 인수 완료로 보기 어렵다. 그래서 기술사 답안에서는 “무엇을 언제 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는가”를 시간축으로 제시하는 것이 중요하다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시스템 테스트</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">OAT 수행</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">UAT 수행</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">전환 승인</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">운영 개시</div></div>
-<div class="kb-diagram-tree-item" style="--depth:3">기능 결함 정리 ─운영 준비 확인 ─업무 적합 확인 ─최종 Go/No-Go</div>
-</div>
-</div>
-
-
+```text
+┌────────────┐   ┌────────────┐   ┌────────────┐   ┌────────────┐   ┌────────────┐
+│ 시스템 테스트 │──▶│ OAT 수행     │──▶│ UAT 수행     │──▶│ 전환 승인     │──▶│ 운영 개시     │
+└────────────┘   └────────────┘   └────────────┘   └────────────┘   └────────────┘
+      │                  │                  │                  │
+      └─기능 결함 정리   └─운영 준비 확인   └─업무 적합 확인   └─최종 Go/No-Go
+```
 
 - **📢 섹션 요약 비유**: 새 집에 들어가기 전, 전기·[가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)가 되는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 절차가 OAT이고 실제로 가족이 살아도 불편 없는지 보는 절차가 UAT다.
 
@@ -40,21 +37,23 @@ tags = ["studynote-design-supervision"]
 
 또 OAT와 UAT는 완전히 직렬일 수도, 일부 병행될 수도 있다. 다만 병행하더라도 감리인은 각 시험의 종료 조건을 분리해 본다. 예를 들어 UAT에서 업무 흐름이 맞아도 OAT에서 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 목표시간이나 운영 절차가 미흡하면 운영 개시를 보류해야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">운영 기준선 확정</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OAT: 복구·배치·권한</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">UAT: 시나리오·승인</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Go/No-Go 의사결정</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────┐
+│ 운영 기준선 확정      │
+└──────────┬───────────┘
+           ▼
+┌──────────────────────┐
+│ OAT: 복구·배치·권한   │
+└──────────┬───────────┘
+           ▼
+┌──────────────────────┐
+│ UAT: 시나리오·승인    │
+└──────────┬───────────┘
+           ▼
+┌──────────────────────┐
+│ Go/No-Go 의사결정     │
+└──────────────────────┘
+```
 
 | 단계 | 핵심 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 항목 | 대표 증적 |
 |:---|:---|:---|
@@ -117,25 +116,24 @@ OAT와 UAT의 감리 시점을 올바르게 설계하면 “개발 완료”와 
 - 관련 키워드: [시스템 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/405_system_test/), [OAT](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/707_oat_operational_acceptance_testing/), UAT, 컷오버, Go/No-Go, [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/), 운영 매뉴얼, 인수 서명
 - 발전 흐름: 기능 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 중심 테스트 → 운영 준비도 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)([OAT](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/707_oat_operational_acceptance_testing/)) → 사용자 수용성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)(UAT) → 전환 승인 거버넌스 강화
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">요구사항 검증</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">시스템 테스트</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">OAT(운영 가능성)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">UAT(업무 수용성)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Go/No-Go 승인</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">운영 안정화</div>
-</div>
-</div>
-
-
+```text
+요구사항 검증
+     │
+     ▼
+시스템 테스트
+     │
+     ▼
+OAT(운영 가능성)
+     │
+     ▼
+UAT(업무 수용성)
+     │
+     ▼
+Go/No-Go 승인
+     │
+     ▼
+운영 안정화
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

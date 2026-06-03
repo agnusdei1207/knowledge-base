@@ -35,24 +35,24 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 CPU가 가속기에 작업을 위임할 때의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름과 병목 위치를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU-가속기 오프로딩 경로: 성능은 연산기 수와 데이터 이동이 함께 결정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 시스템 메모리 인터커넥트 가속기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제어/스케줄링 입력 배치 저장 고속 링크 실행 배열</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전송 전송</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Thread</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Input Batch</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Link Queue</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">PE Array</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Runtime</div><div class="kb-diagram-cell">SIMD/MAC</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과 회수</div><div class="kb-diagram-cell">▼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">완료 통지/예외 처리 ◀ 병목 가능 지점</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">로컬 메모리</div><div class="kb-diagram-cell">재사용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">재사용 버퍼</div><div class="kb-diagram-cell">버퍼</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│        CPU-가속기 오프로딩 경로: 성능은 연산기 수와 데이터 이동이 함께 결정 │
+├────────────────────────────────────────────────────────────────────────────┤
+│  CPU                  시스템 메모리            인터커넥트         가속기      │
+│  제어/스케줄링        입력 배치 저장           고속 링크          실행 배열   │
+│  ┌────────┐   전송    ┌────────────┐   전송    ┌────────────┐   ┌──────────┐ │
+│  │ Thread │─────────▶│ Input Batch │─────────▶│ Link Queue  │──▶│ PE Array  │ │
+│  │ Runtime│          └────────────┘           └────────────┘   │ SIMD/MAC │ │
+│  └────────┘                    ▲                      │          └────┬─────┘ │
+│        ▲                       │                      │               │       │
+│        │              결과 회수 │                      │               ▼       │
+│  완료 통지/예외 처리 ◀──────────┘                 병목 가능 지점   ┌──────────┐ │
+│                                                           로컬 메모리 │ 재사용  │ │
+│                                                           재사용 버퍼 │ 버퍼    │ │
+│                                                                      └──────────┘ │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조에서 자주 쓰이는 요소를 정리하면 다음과 같다.
 
@@ -97,26 +97,26 @@ tags = ["studynote-computer-architecture"]
 
 아래 판단 흐름은 현장에서 자주 쓰는 의사결정 틀이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가속기 도입 판단: 연산보다 이동과 변화 빈도를 먼저 본다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) 반복 연산 비중이 큰가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ─▶ CPU 최적화 우선</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) 데이터 전송 오버헤드를 상쇄할 만큼 작업 단위가 큰가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ─▶ 캐시/벡터화/멀티코어 개선 우선</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) 알고리즘과 모델이 자주 바뀌는가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예 ─▶ GPU/FPGA 쪽이 유리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ─▶ ASIC/NPU 검토</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4) 지연시간, 전력, 개발 생태계 중 무엇이 최우선인가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 요구조건 조합에 맞춰 최종 선택</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────────────┐
+│                 가속기 도입 판단: 연산보다 이동과 변화 빈도를 먼저 본다 │
+├───────────────────────────────────────────────────────────────────────┤
+│ 1) 반복 연산 비중이 큰가?                                             │
+│    ├─ 아니오 ─▶ CPU 최적화 우선                                       │
+│    └─ 예                                                               │
+│         │                                                              │
+│ 2) 데이터 전송 오버헤드를 상쇄할 만큼 작업 단위가 큰가?               │
+│    ├─ 아니오 ─▶ 캐시/벡터화/멀티코어 개선 우선                         │
+│    └─ 예                                                               │
+│         │                                                              │
+│ 3) 알고리즘과 모델이 자주 바뀌는가?                                   │
+│    ├─ 예 ─▶ GPU/FPGA 쪽이 유리                                         │
+│    └─ 아니오 ─▶ ASIC/NPU 검토                                          │
+│         │                                                              │
+│ 4) 지연시간, 전력, 개발 생태계 중 무엇이 최우선인가?                  │
+│    └─ 요구조건 조합에 맞춰 최종 선택                                   │
+└───────────────────────────────────────────────────────────────────────┘
+```
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -165,25 +165,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">범용 CPU 중심 처리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SIMD · 벡터 프로세서 기반 병렬화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">GPU (Graphics Processing Unit) 기반 대규모 데이터 병렬 처리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">FPGA (Field-Programmable Gate Array) · 도메인 특화 가속</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">NPU (Neural Processing Unit) · ASIC (Application-Specific Integrated Circuit)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">칩렛 · 통합 메모리 · CXL (Compute Express Link) 기반 이기종 통합</div>
-</div>
-</div>
-
-
+```text
+범용 CPU 중심 처리
+    │
+    ▼
+SIMD · 벡터 프로세서 기반 병렬화
+    │
+    ▼
+GPU (Graphics Processing Unit) 기반 대규모 데이터 병렬 처리
+    │
+    ▼
+FPGA (Field-Programmable Gate Array) · 도메인 특화 가속
+    │
+    ▼
+NPU (Neural Processing Unit) · ASIC (Application-Specific Integrated Circuit)
+    │
+    ▼
+칩렛 · 통합 메모리 · CXL (Compute Express Link) 기반 이기종 통합
+```
 
 이 흐름은 “범용 실행 → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 → [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 특화 → 시스템 수준 통합”으로 진화하는 방향을 보여준다.
 

@@ -18,17 +18,11 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">OTel 아키텍처:</div>
-<div class="kb-diagram-note">앱 → OTel SDK → OTel Collector → 백엔드</div>
-<div class="kb-diagram-note">(자동 계측) (수집·변환) (Grafana/Datadog)</div>
-</div>
-</div>
-
-
+```text
+OTel 아키텍처:
+  앱 → OTel SDK → OTel Collector → 백엔드
+         (자동 계측)   (수집·변환)   (Grafana/Datadog)
+```
 
 - **📢 섹션 요약 비유**: OTel은 [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/)-C 충전기이다. 어떤 기기(벤더)든 <strong>하나의 케이블(<a href="/knowledge-base/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/">OTel</a>)</strong>로 연결된다.
 
@@ -63,18 +57,12 @@ OpenTelemetry는 <strong><a href="/knowledge-base/studynote/13_cloud_architectur
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">OpenTracing + OpenCensus (2016~)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">OpenTelemetry 통합 (2019)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">OTel GA (2023, Traces+Metrics)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">OTel Logs GA (2024)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: OTel Profiling — 프로파일링까지 통합</div></div>
-</div>
-</div>
-
-
+```text
+[OpenTracing + OpenCensus (2016~)] → [OpenTelemetry 통합 (2019)]
+    → [OTel GA (2023, Traces+Metrics)]
+    → [OTel Logs GA (2024)]
+    → [현재: OTel Profiling — 프로파일링까지 통합]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. OpenTelemetry는 <strong>만능 충전기(<a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/">USB</a>-C)</strong>예요. 어떤 벤더(기기)든 <strong>하나로 연결</strong>돼요.

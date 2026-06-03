@@ -123,45 +123,51 @@ SLA:
 
 ## Ⅲ. ITSM과 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 통합
 
+```
+전통 ITSM vs DevOps 충돌:
 
+전통 ITSM 변경 관리:
+  모든 변경 → CAB 검토 (1주 주기)
+  → 검토·승인 후 배포
+  → 통제됨, 느림
+  
+  DevOps 목표: 하루 수십~수백 배포
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">전통 ITSM vs DevOps 충돌:</div>
-<div class="kb-diagram-note">전통 ITSM 변경 관리:</div>
-<div class="kb-diagram-note">모든 변경 → CAB 검토 (1주 주기)</div>
-<div class="kb-diagram-note">→ 검토·승인 후 배포</div>
-<div class="kb-diagram-note">→ 통제됨, 느림</div>
-<div class="kb-diagram-note">DevOps 목표: 하루 수십~수백 배포</div>
-<div class="kb-diagram-note">충돌:</div>
-<div class="kb-diagram-note">DevOps 팀: "CAB이 속도를 막는다"</div>
-<div class="kb-diagram-note">ITSM 팀: "변경 관리 없으면 장애 증가"</div>
-<div class="kb-diagram-note">→ 현실: 변경 관련 장애가 전체의 60~70%</div>
-<div class="kb-diagram-note">해결: 경량화된 변경 관리</div>
-<div class="kb-diagram-note">1. 변경 유형 재분류:</div>
-<div class="kb-diagram-note">표준 변경 (Standard): 사전 승인 불필요</div>
-<div class="kb-diagram-tree-item" style="--depth:1">이미 승인된 패턴 (예: AWS 오토스케일링)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">CI/CD 파이프라인 자동 배포</div>
-<div class="kb-diagram-note">일반 변경 (Normal): 경량 CAB</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Slack/Jira 기반 비동기 승인 (24시간)</div>
-<div class="kb-diagram-note">긴급 변경 (Emergency): 사후 검토</div>
-<div class="kb-diagram-tree-item" style="--depth:1">신속 배포 후 24시간 내 사후 보고</div>
-<div class="kb-diagram-note">2. 자동화된 변경 승인:</div>
-<div class="kb-diagram-note">모든 테스트 통과 + SAST + SCA</div>
-<div class="kb-diagram-note">→ 저위험 변경 자동 승인</div>
-<div class="kb-diagram-note">사람 검토: 고위험 변경만</div>
-<div class="kb-diagram-note">3. 변경 실패율 추적:</div>
-<div class="kb-diagram-note">DORA 지표: Change Failure Rate (CFR)</div>
-<div class="kb-diagram-note">목표: &lt; 15% (Elite: &lt; 5%)</div>
-<div class="kb-diagram-note">SRE와 ITSM 융합:</div>
-<div class="kb-diagram-note">Error Budget: 허용 오류 예산</div>
-<div class="kb-diagram-note">→ SLA 99.9% = 0.1% 오류 예산</div>
-<div class="kb-diagram-note">→ 오류 예산 소진 → 기능 개발 중단</div>
-<div class="kb-diagram-note">→ 안정성 우선</div>
-</div>
-</div>
+충돌:
+  DevOps 팀: "CAB이 속도를 막는다"
+  ITSM 팀: "변경 관리 없으면 장애 증가"
+  
+  → 현실: 변경 관련 장애가 전체의 60~70%
 
+해결: 경량화된 변경 관리
 
+1. 변경 유형 재분류:
+   표준 변경 (Standard): 사전 승인 불필요
+   - 이미 승인된 패턴 (예: AWS 오토스케일링)
+   - CI/CD 파이프라인 자동 배포
+   
+   일반 변경 (Normal): 경량 CAB
+   - Slack/Jira 기반 비동기 승인 (24시간)
+   
+   긴급 변경 (Emergency): 사후 검토
+   - 신속 배포 후 24시간 내 사후 보고
+
+2. 자동화된 변경 승인:
+   모든 테스트 통과 + SAST + SCA
+   → 저위험 변경 자동 승인
+   
+   사람 검토: 고위험 변경만
+
+3. 변경 실패율 추적:
+   DORA 지표: Change Failure Rate (CFR)
+   목표: < 15% (Elite: < 5%)
+
+SRE와 ITSM 융합:
+  Error Budget: 허용 오류 예산
+  → SLA 99.9% = 0.1% 오류 예산
+  → 오류 예산 소진 → 기능 개발 중단
+  → 안정성 우선
+```
 
 > 📢 **섹션 요약 비유**: [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000_itsm_certification/)+DevOps는 빠른 배달+안전 — 빠른 배달([DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/))을 위해 안전 검사([ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000_itsm_certification/))를 자동화. 저위험 소포는 자동 통과, 위험 화물만 검사!
 
@@ -220,48 +226,51 @@ SMB:
 
 ## Ⅴ. 실무 시나리오 — 통신사 [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000_itsm_certification/) 혁신
 
+```
+대형 통신사 ITSM 최적화:
 
+현황:
+  IT 인원 2,000명
+  월 티켓: 80,000건
+  FCR: 45% (낮음)
+  MTTR P1: 8시간 (목표 4시간)
+  ITSM 도구: BMC Remedy (레거시, 비싸고 복잡)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">대형 통신사 ITSM 최적화:</div>
-<div class="kb-diagram-note">현황:</div>
-<div class="kb-diagram-note">IT 인원 2,000명</div>
-<div class="kb-diagram-note">월 티켓: 80,000건</div>
-<div class="kb-diagram-note">FCR: 45% (낮음)</div>
-<div class="kb-diagram-note">MTTR P1: 8시간 (목표 4시간)</div>
-<div class="kb-diagram-note">ITSM 도구: BMC Remedy (레거시, 비싸고 복잡)</div>
-<div class="kb-diagram-note">문제 분석:</div>
-<div class="kb-diagram-note">FCR 낮음:</div>
-<div class="kb-diagram-note">→ L1 담당자 권한/지식 부족</div>
-<div class="kb-diagram-note">→ 불필요한 에스컬레이션</div>
-<div class="kb-diagram-note">높은 MTTR:</div>
-<div class="kb-diagram-note">→ CMDB 부정확 → 영향 분석 오래 걸림</div>
-<div class="kb-diagram-note">→ 담당자 수동 배정</div>
-<div class="kb-diagram-note">개선 계획 (18개월):</div>
-<div class="kb-diagram-note">1. ServiceNow 이관:</div>
-<div class="kb-diagram-note">AI 기반 티켓 분류·자동 배정</div>
-<div class="kb-diagram-note">예측 인텔리전스 활성화</div>
-<div class="kb-diagram-note">2. 지식 관리 강화:</div>
-<div class="kb-diagram-note">상위 100개 인시던트 지식 문서화</div>
-<div class="kb-diagram-note">L1 참조 가이드 → FCR 향상</div>
-<div class="kb-diagram-note">3. CMDB 정확도 개선:</div>
-<div class="kb-diagram-note">자동 발견(Discovery) 도구 활용</div>
-<div class="kb-diagram-note">주간 정합성 검사</div>
-<div class="kb-diagram-note">4. 변경 관리 경량화:</div>
-<div class="kb-diagram-note">표준 변경 확대 (전체 변경의 60%)</div>
-<div class="kb-diagram-note">긴급 변경 비율 목표 5% 이하</div>
-<div class="kb-diagram-note">결과 (18개월):</div>
-<div class="kb-diagram-note">FCR: 45% → 72%</div>
-<div class="kb-diagram-note">MTTR P1: 8시간 → 3.2시간</div>
-<div class="kb-diagram-note">월 티켓: 80,000 → 65,000 (15% 감소)</div>
-<div class="kb-diagram-note">긴급 변경 비율: 18% → 6%</div>
-<div class="kb-diagram-note">CSAT: 3.4 → 4.1/5.0</div>
-<div class="kb-diagram-note">비용: BMC Remedy 유지보수 → ServiceNow 이관 후 3년 TCO 15% 절감</div>
-</div>
-</div>
+문제 분석:
+  FCR 낮음:
+  → L1 담당자 권한/지식 부족
+  → 불필요한 에스컬레이션
+  
+  높은 MTTR:
+  → CMDB 부정확 → 영향 분석 오래 걸림
+  → 담당자 수동 배정
 
+개선 계획 (18개월):
 
+1. ServiceNow 이관:
+   AI 기반 티켓 분류·자동 배정
+   예측 인텔리전스 활성화
+
+2. 지식 관리 강화:
+   상위 100개 인시던트 지식 문서화
+   L1 참조 가이드 → FCR 향상
+
+3. CMDB 정확도 개선:
+   자동 발견(Discovery) 도구 활용
+   주간 정합성 검사
+
+4. 변경 관리 경량화:
+   표준 변경 확대 (전체 변경의 60%)
+   긴급 변경 비율 목표 5% 이하
+
+결과 (18개월):
+  FCR: 45% → 72%
+  MTTR P1: 8시간 → 3.2시간
+  월 티켓: 80,000 → 65,000 (15% 감소)
+  긴급 변경 비율: 18% → 6%
+  CSAT: 3.4 → 4.1/5.0
+  비용: BMC Remedy 유지보수 → ServiceNow 이관 후 3년 TCO 15% 절감
+```
 
 > 📢 **섹션 요약 비유**: 통신사 [ITSM](/knowledge-base/studynote/12_it_management/02_itsm_itil/096_iso_iec_20000_itsm_certification/) 혁신은 콜센터 업그레이드 — [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기(자동 배정), 지식 시스템(L1 권한 강화), [CMDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/091_cmdb/) 지도(영향 분석). FCR 45%→72% = 고객 절반 더 빠른 해결!
 

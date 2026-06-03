@@ -23,47 +23,48 @@ tags = ["studynote-ai"]
 
 Transformer에서 Q, K, V는 같은 입력 벡터를 서로 다른 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 행렬(W_Q, W_K, W_V)로 선형 변환하여 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된다. 이 분리 덕분에 "어디를 주목할지(Q·K)"와 "무엇을 가져올지(V)"가 독립적으로 학습된다.
 
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
-
-- **📢 섹션 요약 비유**: Q는 "나는 딥러닝 책을 찾아"(질문), K는 "이 책의 주제는 딥러닝"(색인 태그), V는 "이 책의 실제 내용"이다. Q·K가 잘 맞을수록(유사도 ) 그 책의 V(내용)를 더 많이 가져온다. 사서(어텐션)는 이 과정을 모든 책에 동시에 수행해 가장 관련 높은 책 내용들을 혼합해 답을 만든다.
+- **📢 섹션 요약 비유**: Q는 "나는 딥러닝 책을 찾아"(질문), K는 "이 책의 주제는 딥러닝"(색인 태그), V는 "이 책의 실제 내용"이다. Q·K가 잘 맞을수록(유사도 고) 그 책의 V(내용)를 더 많이 가져온다. 사서(어텐션)는 이 과정을 모든 책에 동시에 수행해 가장 관련 높은 책 내용들을 혼합해 답을 만든다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스케일드 내적 어텐션 (Scaled Dot-Product Attention) 연산 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력 행렬 X (시퀀스 길이 T × 임베딩 차원 d_model)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ Q = X · W_Q (T × d_k 행렬)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ K = X · W_K (T × d_k 행렬)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ V = X · W_V (T × d_v 행렬)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① Q·Kᵀ: (T×d_k) × (d_k×T) = (T×T) 유사도 행렬</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">각 위치 쌍의 관련도 점수를 한 번에 계산 (완전 병렬!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② 스케일링: (Q·Kᵀ) / √d_k</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이유: d_k가 크면 내적값이 커서 softmax가 극값 포화 → 기울기 소실</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">√d_k로 나눠서 분산을 1로 정규화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ 소프트맥스: Softmax((Q·Kᵀ)/√d_k) → 어텐션 가중치 행렬 (T×T)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">각 행의 합 = 1 (확률 분포)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">④ 가중합: Attention(Q,K,V) = Softmax(Q·Kᵀ/√d_k) · V</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ (T×T) · (T×d_v) = (T×d_v) 최종 출력</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심: 전체 연산이 행렬 곱(Matrix Multiplication) 하나로 처리!</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│     스케일드 내적 어텐션 (Scaled Dot-Product Attention) 연산 흐름    │
+├──────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  입력 행렬 X (시퀀스 길이 T × 임베딩 차원 d_model)                    │
+│      │                                                           │
+│      ├──▶ Q = X · W_Q  (T × d_k 행렬)                            │
+│      ├──▶ K = X · W_K  (T × d_k 행렬)                            │
+│      └──▶ V = X · W_V  (T × d_v 행렬)                            │
+│                                                                  │
+│  ① Q·Kᵀ:  (T×d_k) × (d_k×T) = (T×T) 유사도 행렬                 │
+│     각 위치 쌍의 관련도 점수를 한 번에 계산 (완전 병렬!)               │
+│                                                                  │
+│  ② 스케일링: (Q·Kᵀ) / √d_k                                       │
+│     이유: d_k가 크면 내적값이 커서 softmax가 극값 포화 → 기울기 소실  │
+│     √d_k로 나눠서 분산을 1로 정규화                                  │
+│                                                                  │
+│  ③ 소프트맥스: Softmax((Q·Kᵀ)/√d_k) → 어텐션 가중치 행렬 (T×T)      │
+│     각 행의 합 = 1 (확률 분포)                                      │
+│                                                                  │
+│  ④ 가중합: Attention(Q,K,V) = Softmax(Q·Kᵀ/√d_k) · V            │
+│     → (T×T) · (T×d_v) = (T×d_v) 최종 출력                        │
+│                                                                  │
+│  핵심: 전체 연산이 행렬 곱(Matrix Multiplication) 하나로 처리!         │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 | 행렬 | 형태 | 역할 |
 |:---|:---|:---|

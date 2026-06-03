@@ -27,19 +27,20 @@ tags = ["studynote-enterprise"]
 
 아래 흐름은 연쇄 장애가 어떻게 커지는지를 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Slow dependency can poison healthy callers</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User Request -&gt; Order Service -&gt; Payment Service -&gt; External API</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ slow / timeout</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ waiting threads accumulate</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">queue growth -&gt; pool exhaustion</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│               Slow dependency can poison healthy callers            │
+├──────────────────────────────────────────────────────────────────────┤
+│ User Request -> Order Service -> Payment Service -> External API    │
+│                               │                  │                  │
+│                               │                  └─ slow / timeout  │
+│                               │                                     │
+│                               └─ waiting threads accumulate         │
+│                                                     │               │
+│                                                     ▼               │
+│                                      queue growth -> pool exhaustion│
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/)는 이 경로에서 "외부 API가 이미 아픈데 왜 계속 문을 두드리느냐"를 묻는 장치다. 장애를 없애지는 못하지만, 장애 범위를 국소화해 시스템 전체 붕괴를 막는다.
 
@@ -59,20 +60,19 @@ tags = ["studynote-enterprise"]
 
 아래 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)는 대부분의 구현이 공유하는 기본 골격이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Circuit Breaker state machine</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">failure rate / slow calls &gt; threshold</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CLOSED -------------------------------------------&gt; OPEN</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">success traffic</div><div class="kb-diagram-cell">wait time</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;----------------------- HALF-OPEN &lt;--------------</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">enough probe success any probe failure</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                     Circuit Breaker state machine                    │
+├──────────────────────────────────────────────────────────────────────┤
+│   failure rate / slow calls > threshold                             │
+│  CLOSED  ------------------------------------------->  OPEN         │
+│    │                                                    │           │
+│    │ success traffic                                    │ wait time  │
+│    │                                                    ▼           │
+│    └<-----------------------  HALF-OPEN  <--------------┘           │
+│             enough probe success        any probe failure            │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 여기서 중요한 것은 "무엇을 실패로 세느냐"다. 일반적으로 연결 실패, [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/), 5xx 응답, 과도한 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 실패로 집계하지만, 잘못된 사용자 입력으로 인한 4xx 응답까지 실패로 포함하면 브레이커가 왜곡된다. 즉 [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/)는 <strong>비즈니스 예외</strong>보다 <strong>의존성 건강 상태</strong>를 감시해야 한다.
 
@@ -160,24 +160,22 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Remote call instability</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Timeout / Retry control</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Circuit Breaker state machine</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Open -&gt; fail fast / fallback</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Half-Open -&gt; probe recovery</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Closed -&gt; normal traffic with metrics</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Bulkhead · Service Mesh · Resilience operations</div>
-</div>
-</div>
-
-
+```text
+Remote call instability
+    │
+    ▼
+Timeout / Retry control
+    │
+    ▼
+Circuit Breaker state machine
+    │
+    ├─ Open  -> fail fast / fallback
+    ├─ Half-Open -> probe recovery
+    └─ Closed -> normal traffic with metrics
+    │
+    ▼
+Bulkhead · Service Mesh · Resilience operations
+```
 
 이 흐름은 단순 원격 호출이 운영형 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/)탄력성 제어 체계로 발전하는 과정을 보여 준다.
 

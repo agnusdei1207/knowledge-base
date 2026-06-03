@@ -25,18 +25,15 @@ Prototype은 첫 번째 문제에 답한다. 비싼 초기화를 한 번 수행�
 
 또 하나 중요한 점은 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)다. Prototype은 GoF (Gang of Four) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 패턴이고, Flyweight는 구조 패턴이다. 그럼에도 둘이 자주 같이 비교되는 이유는, 아키텍트가 실무에서 느끼는 질문이 "패턴 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)"보다 "메모리와 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 어떻게 아낄 것인가"이기 때문이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Which cost hurts more?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">new() itself expensive? ──▶ Prototype</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">many similar objects coexist? ──▶ Flyweight</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">both are true? ──▶ combine clone + shared state</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Which cost hurts more?                                               │
+├──────────────────────────────────────────────────────────────────────┤
+│ new() itself expensive?          ──▶ Prototype                       │
+│ many similar objects coexist?    ──▶ Flyweight                      │
+│ both are true?                   ──▶ combine clone + shared state    │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 즉 두 패턴의 출발점은 "효율화"라는 공통 목표가 아니라, <strong>시간 최적화와 공간 최적화라는 서로 다른 질문</strong>이다. 이 경계를 먼저 잡아야 올바른 설계가 시작된다.
 
@@ -50,24 +47,22 @@ Prototype의 핵심 메커니즘은 "초기화 비용을 앞당겨 치르고, �
 
 Flyweight의 핵심 메커니즘은 "상태를 내재 상태와 외재 상태로 나누는 것"이다. 내재 상태 (Intrinsic [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))는 여러 객체가 공통으로 가질 수 있고 보통 불변이어야 한다. 외재 상태 (Extrinsic [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))는 위치, 시간, 사용자별 값처럼 호출 시점마다 달라지는 정보이며, 클라이언트가 별도로 들고 전달한다. 이 분리가 성공하면 메모리는 `공유 상태 1개 + 외재 상태 × N` 구조로 줄어든다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Prototype</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Prototype Registry</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ prepared object</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ shallow copy -&gt; 빠르지만 내부 참조 공유 가능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ deep copy -&gt; 안전하지만 복사 비용 증가</div></div>
-<div class="kb-diagram-note">Flyweight</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Flyweight Factory</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ shared intrinsic state cache</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ glyph A, font 12, black -&gt; 1회만 저장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ clients pass position / order / runtime state</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────── Prototype ───────────────────────────────┐
+│ Prototype Registry                                                   │
+│   └─ prepared object                                                 │
+│          │                                                           │
+│          ├─ shallow copy -> 빠르지만 내부 참조 공유 가능            │
+│          └─ deep copy    -> 안전하지만 복사 비용 증가               │
+└──────────────────────────────────────────────────────────────────────┘
+┌──────────────────────────── Flyweight ───────────────────────────────┐
+│ Flyweight Factory                                                    │
+│   └─ shared intrinsic state cache                                    │
+│          │                                                           │
+│          ├─ glyph A, font 12, black  -> 1회만 저장                  │
+│          └─ clients pass position / order / runtime state            │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 | 구분 | [Prototype](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/) | [Flyweight](/knowledge-base/studynote/04_software_engineering/04_testing_quality/265_flyweight_pattern_instance_sharing/) |
 | :--- | :--- | :--- |
@@ -173,21 +168,20 @@ Prototype과 Flyweight를 올바르게 구분하면 객체 설계의 [성능](/k
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">객체 성능 문제</div>
-<div class="kb-diagram-tree-item" style="--depth:2">생성 시점이 비싸다 ──▶ Prototype</div>
-<div class="kb-diagram-note">─ shallow copy / deep copy 판단</div>
-<div class="kb-diagram-tree-item" style="--depth:2">동시 상주 수가 많다 ──▶ Flyweight</div>
-<div class="kb-diagram-tree-item" style="--depth:8">intrinsic / extrinsic state 분리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">복제 최적화 + 공유 최적화의 병행 설계</div>
-</div>
-</div>
-
-
+```text
+객체 성능 문제
+    │
+    ├─ 생성 시점이 비싸다 ──▶ Prototype
+    │                           │
+    │                           └─ shallow copy / deep copy 판단
+    │
+    └─ 동시 상주 수가 많다 ──▶ Flyweight
+                                │
+                                └─ intrinsic / extrinsic state 분리
+    │
+    ▼
+복제 최적화 + 공유 최적화의 병행 설계
+```
 
 이 흐름은 객체 효율화 논의가 패턴 이름 암기보다, 비용이 생기는 시점을 먼저 가르는 판단 문제임을 보여 준다.
 

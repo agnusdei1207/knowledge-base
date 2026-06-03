@@ -20,22 +20,18 @@ tags = ["datastructure", "studynote-algorithm"]
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 큐의 구조는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 넣는 뒤쪽인 Rear와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 빼는 앞쪽인 Front로 구성된다.
 
+```text
+[ Queue Architecture: FIFO Principle ]
 
+     Enqueue (Rear)                               Dequeue (Front)
+    ---------------> [ [D] | [C] | [B] | [A] ] --------------->
+                       Rear             Front
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Queue Architecture: FIFO Principle</div></div>
-<div class="kb-diagram-note">Enqueue (Rear) Dequeue (Front)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">D</div><div class="kb-diagram-node">C</div><div class="kb-diagram-node">B</div><div class="kb-diagram-node">A</div><div class="kb-diagram-connector">→</div></div>
-<div class="kb-diagram-note">Rear Front</div>
-<div class="kb-diagram-note">1. Enqueue: Rear 위치에 새로운 요소 추가 (Rear = Rear + 1)</div>
-<div class="kb-diagram-note">2. Dequeue: Front 위치의 요소 제거 및 반환 (Front = Front + 1)</div>
-<div class="kb-diagram-note">3. Peek/Front: 제거 없이 가장 앞에 있는 요소 확인</div>
-<div class="kb-diagram-note">4. IsEmpty/IsFull: 큐의 상태 확인</div>
-</div>
-</div>
-
-
+1. Enqueue: Rear 위치에 새로운 요소 추가 (Rear = Rear + 1)
+2. Dequeue: Front 위치의 요소 제거 및 반환 (Front = Front + 1)
+3. Peek/Front: 제거 없이 가장 앞에 있는 요소 확인
+4. IsEmpty/IsFull: 큐의 상태 확인
+```
 
 **[선형 큐 vs 원형 큐 (Linear vs Circular)]**
 *   **선형 큐(Linear Queue)**: [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)의 끝까지 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 채우면 앞쪽이 비어 있어도 활용하지 못하는 단점이 있음.
@@ -66,19 +62,15 @@ tags = ["datastructure", "studynote-algorithm"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">상위 개념: 선형 자료구조 (Linear Data Structure)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">하위/파생 개념: 원형 큐 (Circular Queue), 우선순위 큐 (Priority Queue), 덱 (Deque), 메시지 큐 (MQ)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">연관 알고리즘: BFS (너비 우선 탐색), 다익스트라 (Dijkstra)</div></div>
-</div>
-</div>
-
-
+```text
+[상위 개념: 선형 자료구조 (Linear Data Structure)]
+    │
+    ▼
+[하위/파생 개념: 원형 큐 (Circular Queue), 우선순위 큐 (Priority Queue), 덱 (Deque), 메시지 큐 (MQ)]
+    │
+    ▼
+[연관 알고리즘: BFS (너비 우선 탐색), 다익스트라 (Dijkstra)]
+```
 
 이 흐름도는 상위 개념: 선형 자료구조 (Linear [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Structure)에서 출발해 연관 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/): [BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/) ([너비 우선 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/)), [다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/) ([Dijkstra](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/))까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

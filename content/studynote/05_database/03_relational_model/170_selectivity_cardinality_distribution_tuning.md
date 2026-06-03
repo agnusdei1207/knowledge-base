@@ -27,21 +27,20 @@ tags = ["studynote-database"]
 
 이 그림은 왜 세 지표를 함께 봐야 하는지를 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Column stats are not decoration; they decide the path</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Query A : WHERE customer_id = 8273151</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NDV high -&gt; selectivity tiny -&gt; index seek is natural</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Query B : WHERE gender = 'F'</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NDV low -&gt; selectivity wide -&gt; full scan may be cheaper</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Query C : WHERE grade = 'VIP'</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NDV low + skewed distribution -&gt; histogram can flip the answer</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│        Column stats are not decoration; they decide the path         │
+├──────────────────────────────────────────────────────────────────────┤
+│ Query A : WHERE customer_id = 8273151                               │
+│   NDV high  -> selectivity tiny  -> index seek is natural           │
+│                                                                      │
+│ Query B : WHERE gender = 'F'                                        │
+│   NDV low   -> selectivity wide  -> full scan may be cheaper         │
+│                                                                      │
+│ Query C : WHERE grade = 'VIP'                                       │
+│   NDV low + skewed distribution -> histogram can flip the answer     │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 같은 "[인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 있느냐"보다 더 중요한 질문은 "그 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)로 찾은 뒤 실제로 얼마나 많은 행과 블록을 읽게 되느냐"다. 그래서 튜닝은 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 개수 경쟁이 아니라, 통계의 질과 해석의 문제다.
 
@@ -65,19 +64,17 @@ tags = ["studynote-database"]
 
 아래 흐름은 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)가 평균 가정에서 정밀 가정으로 이동하는 과정을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Predicate -&gt; row estimate -&gt; access path selection</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WHERE grade = 'VIP'</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ NDV only -&gt; 1 / 3 = 33.3% -&gt; Full Scan candidate</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Histogram found -&gt; actual = 0.2% -&gt; Index Scan candidate</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Same column, different value can yield a different best path</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│          Predicate -> row estimate -> access path selection          │
+├──────────────────────────────────────────────────────────────────────┤
+│ WHERE grade = 'VIP'                                                  │
+│      │                                                               │
+│      ├─ NDV only        -> 1 / 3   = 33.3%  -> Full Scan candidate   │
+│      ├─ Histogram found -> actual  = 0.2%   -> Index Scan candidate  │
+│      └─ Same column, different value can yield a different best path │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 실무에서 더 어려운 부분은 다중 조건이다. `city = 'Seoul' AND district = 'Gangnam'` 처럼 서로 상관된 컬럼을 독립이라고 가정하면 예상 행 수가 실제와 크게 달라질 수 있다. 그래서 최신 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)는 컬럼 그룹 통계, 동적 샘플링, 적응형 계획 같은 보정 장치를 둔다.
 
@@ -162,22 +159,19 @@ tags = ["studynote-database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Rule-based tuning</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CBO (Cost-Based Optimizer)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">NDV / Density -&gt; selectivity estimate</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Histogram -&gt; skew correction</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Extended Stats -&gt; correlation correction</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Stable access path and join plan tuning</div>
-</div>
-</div>
-
-
+```text
+Rule-based tuning
+    │
+    ▼
+CBO (Cost-Based Optimizer)
+    │
+    ├─ NDV / Density -> selectivity estimate
+    ├─ Histogram     -> skew correction
+    └─ Extended Stats -> correlation correction
+    │
+    ▼
+Stable access path and join plan tuning
+```
 
 이 흐름은 튜닝의 초점이 "[인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 유무"에서 "통계 기반 추정 정확도"로 이동해 온 과정을 보여 준다.
 

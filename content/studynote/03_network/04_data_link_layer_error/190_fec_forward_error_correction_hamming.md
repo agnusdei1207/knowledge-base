@@ -27,18 +27,14 @@ tags = ["studynote-network"]
 
 이런 환경에서는 수신기가 <strong>스스로 찢어진 사진을 테이프로 붙여서 복원해 내는 능력(FEC)</strong>이 생명입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">비트 에러율</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">순방향 에러 수정</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">역방향 에러 수정 / 자동 재전송 요청</div></div>
-</div>
-</div>
-
-
+```text
+[비트 에러율]
+    │
+    ▼
+[순방향 에러 수정]
+    │
+    └──▶ [역방향 에러 수정 / 자동 재전송 요청]
+```
 
 - **📢 섹션 요약 비유**: 순방향 에러 수정은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -52,18 +48,14 @@ FEC를 가능하게 하는 대표적인 마법의 알고리즘이 1950년 리차
 - **수신기의 추리**: 수신기에 1비트가 에러가 나서 `1001`로 도착했습니다. 수신기는 뒤에 달린 3비트의 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)를 벤 다이어그램(행렬 연산)에 넣고 쓱쓱 돌려봅니다.
 - **기적의 교정**: "아하! [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)들을 조합해 보니 정확히 <strong>'3번째 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>'</strong>에서 모순이 발생했네. 원래 1이었는데 번개 맞고 0으로 깨졌구나!" ➔ <strong>수신기가 스스로 3번째 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>를 다시 1로 휙 뒤집어 완벽한 원본으로 수리(Correction)해 냅니다.</strong>
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">비트 에러율</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">순방향 에러 수정</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">역방향 에러 수정 / 자동 재전송 요청</div></div>
-</div>
-</div>
-
-
+```text
+[비트 에러율]
+    │
+    ▼
+[순방향 에러 수정]
+    │
+    └──▶ [역방향 에러 수정 / 자동 재전송 요청]
+```
 
 - **📢 섹션 요약 비유**: 순방향 에러 수정의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -124,19 +116,15 @@ FEC를 가능하게 하는 대표적인 마법의 알고리즘이 1950년 리차
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 비트 에러율</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 순방향 에러 수정</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 역방향 에러 수정 / 자동 재전송 요청</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고신뢰 저지연 링크 제어</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 비트 에러율]
+    │
+    ▼
+[현재 개념: 순방향 에러 수정]
+    │
+    ├──▶ [확장 A: 역방향 에러 수정 / 자동 재전송 요청]
+    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
+```
 
 순방향 에러 수정는 [비트 에러율](/knowledge-base/studynote/03_network/04_data_link_layer_error/189_ber_bit_error_rate/)에서 출발해 현재 메커니즘을 정교화하고, 이후 역방향 에러 수정 / 자동 재전송 요청와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

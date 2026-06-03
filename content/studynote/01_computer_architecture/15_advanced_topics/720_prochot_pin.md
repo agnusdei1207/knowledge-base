@@ -41,20 +41,23 @@ PROCHOT#의 핵심은 <strong>공유된 활성-로우 <a href="/knowledge-base/s
 
 아래 그림은 PROCHOT#이 CPU 전용 핀이 아니라, CPU와 보드가 함께 쓰는 열 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)선이라는 점을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PROCHOT#의 양방향 열 보호 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 내부</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DTS ─▶ TCC ─▶ PROCHOT# 드라이버</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">공유 Active-Low 라인</div></div>
-<div class="kb-diagram-note">EC / VRM / GPU / Battery Hotspot 감지</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 배수 제한 · 팬 최대화 · 플랫폼 전력 억제</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                  PROCHOT#의 양방향 열 보호 구조                     │
+├──────────────────────────────────────────────────────────────────────┤
+│  CPU 내부                                                            │
+│  DTS ─▶ TCC ─▶ PROCHOT# 드라이버 ───────┐                           │
+│                                         │                           │
+│                                         ▼                           │
+│                              [ 공유 Active-Low 라인 ]               │
+│                                         ▲                           │
+│                                         │                           │
+│             EC / VRM / GPU / Battery Hotspot 감지 ──────────────────┘
+│                                         │                           │
+│                                         ▼                           │
+│          CPU 배수 제한 · 팬 최대화 · 플랫폼 전력 억제               │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 결국 PROCHOT#의 설계 철학은 간단하다. <strong>누가 뜨거운지보다, 지금 당장 전체 시스템이 열을 줄여야 하느냐</strong>를 가장 빠른 하드웨어 경로로 판단하고 전달하는 것이다.
 
@@ -126,23 +129,21 @@ PROCHOT#의 기대효과는 속도보다 생존을 우선하는 하드웨어 협
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">CPU 내부 온도 감지</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">TCC 기반 내부 스로틀링</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">PROCHOT# 기반 보드 연동</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">BD PROCHOT 기반 외부 열원 반영</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">플랫폼 전체 열 보호 · 최종 THERMTRIP# 연계</div>
-</div>
-</div>
-
-
+```text
+CPU 내부 온도 감지
+    │
+    ▼
+TCC 기반 내부 스로틀링
+    │
+    ▼
+PROCHOT# 기반 보드 연동
+    │
+    ▼
+BD PROCHOT 기반 외부 열원 반영
+    │
+    ▼
+플랫폼 전체 열 보호 · 최종 THERMTRIP# 연계
+```
 
 이 흐름은 CPU 단독 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)가 어떻게 보드 전체 열 협조 제어로 확장되었는지 보여준다.
 

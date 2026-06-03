@@ -30,25 +30,35 @@ tags = ["studynote-network"]
   2. **가벼움의 미학**: 1981년 [IETF](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/)(RFC 783)에서 TCP의 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)과 FTP의 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)을 싹 다 덜어낸 TFTP 표준을 제정했다.
   3. **인프라 자동화의 핵심**: 라우터나 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)를 입히거나 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 빼낼 때, 복잡한 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 절차 없이 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 한 줄로 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 쏴버리는 용도로 네트워크 장비 벤더([Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/) 등)의 절대적 지지를 받으며 살아남았다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TFTP 통신 흐름도: Stop-and-Wait 메커니즘 (RRQ)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Client (깡통 라우터/PC)</div><div class="kb-diagram-node">TFTP Server (69)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Read Request (RRQ): "boot.img 줘!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(인증 절차 아예 없음! 그냥 파일 이름만 던짐)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Data Block 1 (512 Bytes)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. ACK 1 (1번 블록 잘 받았어!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. Data Block 2 (512 Bytes)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. ACK 2 (2번 블록 잘 받았어!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(중략)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6. Data Block N (500 Bytes) - 마지막 조각!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 결과: 블록 크기가 512 바이트보다 작게 오면 "파일 끝(EOF)"으로 인식!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          TFTP 통신 흐름도: Stop-and-Wait 메커니즘 (RRQ)         │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ [Client (깡통 라우터/PC)]                    [TFTP Server (69)] │
+│         │                                         │         │
+│         │ 1. Read Request (RRQ): "boot.img 줘!"   │         │
+│         │────────────────────────────────────────▶│         │
+│         │ (인증 절차 아예 없음! 그냥 파일 이름만 던짐)     │         │
+│         │                                         │         │
+│         │ 2. Data Block 1 (512 Bytes)             │         │
+│         │◀────────────────────────────────────────│         │
+│         │                                         │         │
+│         │ 3. ACK 1 (1번 블록 잘 받았어!)            │         │
+│         │────────────────────────────────────────▶│         │
+│         │                                         │         │
+│         │ 4. Data Block 2 (512 Bytes)             │         │
+│         │◀────────────────────────────────────────│         │
+│         │                                         │         │
+│         │ 5. ACK 2 (2번 블록 잘 받았어!)            │         │
+│         │────────────────────────────────────────▶│         │
+│         │                 (중략)                    │         │
+│         │ 6. Data Block N (500 Bytes) - 마지막 조각!│         │
+│         │◀────────────────────────────────────────│         │
+│         │                                         │         │
+│  🌟 결과: 블록 크기가 512 바이트보다 작게 오면 "파일 끝(EOF)"으로 인식! │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** TFTP는 UDP를 쓴다. UDP는 패킷 유실을 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)해주지 않기 때문에 TFTP가 애플리케이션 레벨에서 가장 멍청하고 원시적인 핑퐁 게임인 **Stop-and-Wait (정지 대기)** 알고리즘을 사용한다. 서버가 512바이트짜리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록(1번)을 던지면, 클라이언트가 "1번 잘 받았어(ACK)"라고 대답할 때까지 서버는 다음 블록(2번)을 절대 던지지 않고 멈춰 서서 기다린다. 만약 중간에 패킷 유실되어 ACK가 안 오면 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)을 걸고 똑같은 블록을 재전송한다. 512바이트씩 찔끔찔끔 보내고 멈추기를 반복하므로 대용량 전송 시 속도는 매우 처참하지만, 구현해야 할 소스 코드가 불과 수백 줄에 불과할 정도로 극단적으로 가볍다는 것이 최대 무기다. 마지막 블록이 512바이트 미만(예: 500바이트)으로 오면 클라이언트는 아! 이게 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 끝이구나! 하고 다운로드를 종료한다.
 
@@ -94,18 +104,14 @@ TFTP 서버는 기본적으로 [UDP](/knowledge-base/studynote/03_network/08_tra
   3. 클라이언트는 즉시 TFTP 서버로 달려가 이 부팅 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 다운로드받아 메모리(RAM)에 올려 OS 설치를 시작한다. 이것이 엔터프라이즈 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터에서 수천 대의 서버를 한 방에 자동 포맷하고 리눅스를 까는 <strong>PXE (Preboot Execution <a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/">Environment</a>)</strong> 아키텍처의 심장부다.
 - <strong>보안 (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a>)</strong>: TFTP는 보안의 S자도 없는 위험한 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이다. 만약 TFTP 서버를 외부에 퍼블릭으로 열어둔다면 누구나 `GET /etc/passwd` 같은 요청을 날려 서버의 핵심 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 무단으로 빼갈 수 있다([Directory Traversal](/knowledge-base/studynote/09_security/05_web_app_security/420_directory_traversal/)). 실무에서는 철저하게 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)([ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/))으로 감싸진 OOB(Out-of-Band) 관리망 안에서만 일시적으로 열어서 쓰고 닫아야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">액티브 FTP vs 패시브 FTP 동작 원리…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">TFTP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SFTP</div></div>
-</div>
-</div>
-
-
+```text
+[액티브 FTP vs 패시브 FTP 동작 원리…]
+    │
+    ▼
+[TFTP]
+    │
+    └──▶ [SFTP]
+```
 
 - **📢 섹션 요약 비유**: FTP가 정식으로 서류 심사를 거쳐 짐을 싣는 거대한 이삿짐센터라면, TFTP는 서류 검사도 없이 "저기 있는 박스 줘" 하면 그냥 던져주는 무인 보관함입니다. 빠르고 편하지만 도둑이 들기 딱 좋은 시스템이죠.
 
@@ -133,25 +139,29 @@ TFTP를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 
 2. <strong>시나리오 — <a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/">Cisco</a> 라우터 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a> <a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">백업</a>(<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">Config</a> <a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">Backup</a>) <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/">타임아웃</a> 장애</strong>: 네트워크 엔지니어가 본사에서 지방 지사에 있는 [Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/) 라우터에 접속해 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 쳤다. `copy running-config tftp://10.0.0.5/backup.cfg`. 라우터 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 중앙 TFTP 서버로 덤프 뜨려는 시도였다. 하지만 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 용량이 2MB가 넘었고 핑(Ping)이 50ms인 지방 WAN 구간이라, TFTP의 지독한 Stop-and-Wait 전송 속도 탓에 전송이 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)되다 결국 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)으로 실패했다.
    - **판단**: TFTP의 기본 블록 크기(Block Size)는 512바이트다. 2MB를 보내려면 4,000번 왕복([RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/))을 해야 한다. WAN 구간처럼 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))이 있는 곳에서는 최악이다. 실무에서는 RFC 2348 확장을 활용해 클라이언트와 서버가 사전에 `blksize=8192` [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 등으로 블록 크기 협상(Option Negotiation)을 거치도록 튜닝하거나, 라우터 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 방식을 [SCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/747_scp/)([SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 기반 복사)나 FTP로 업그레이드하는 것이 장애를 막는 정석이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실무 아키텍처: PXE Network Booting (TFTP 융합 아키텍처)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">디스크 없는 깡통 PC</div><div class="kb-diagram-note">(전원 ON!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. DHCP 브로드캐스트 (나 IP 좀 줘! 부팅 파일 위치도!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DHCP 서버</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. DHCP 응답 (IP: 192.168.1.10, TFTP IP: 192.168.1.100,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부트파일: pxelinux.0)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. TFTP RRQ (pxelinux.0 줘!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TFTP 서버 (Port 69)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. TFTP DATA (부팅 커널 이미지 쪼개서 전송)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 결과: 하드디스크가 텅 비어있던 PC가 메모리에 OS 이미지를 적재하고</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">운영체제 부팅 스크린을 띄우며 마법처럼 깨어난다!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │      실무 아키텍처: PXE Network Booting (TFTP 융합 아키텍처)      │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │ [디스크 없는 깡통 PC] (전원 ON!)                               │
+  │   │                                                         │
+  │   │ 1. DHCP 브로드캐스트 (나 IP 좀 줘! 부팅 파일 위치도!)             │
+  │   │────────────────────────────────────────────────────────▶│
+  │   │                                      [ DHCP 서버 ]       │
+  │   │ 2. DHCP 응답 (IP: 192.168.1.10, TFTP IP: 192.168.1.100, │
+  │   │              부트파일: pxelinux.0)                       │
+  │   │◀────────────────────────────────────────────────────────│
+  │                                                             │
+  │   │ 3. TFTP RRQ (pxelinux.0 줘!)                            │
+  │   │───────────────────────────────▶ [ TFTP 서버 (Port 69) ] │
+  │   │ 4. TFTP DATA (부팅 커널 이미지 쪼개서 전송)                  │
+  │   │◀───────────────────────────────                         │
+  │                                                             │
+  │ 🌟 결과: 하드디스크가 텅 비어있던 PC가 메모리에 OS 이미지를 적재하고    │
+  │ 운영체제 부팅 스크린을 띄우며 마법처럼 깨어난다!                       │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 클라우드 인프라를 지탱하는 베어메탈 서버 자동화의 바이블이다. 이 시퀀스에서 TFTP가 빠지면 네트워크 부팅 자체가 성립되지 않는다. 아무것도 모르는 깡통([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/))에게 가장 가벼운 언어([UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/))로 생명의 불씨(OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))를 던져주어 일단 부팅을 시키고 나면, 그다음부터는 올라간 진짜 OS가 무겁고 튼튼한 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/[HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 통신망을 잡고 나머지 설치 패키지를 고속으로 다운받는다. TFTP는 우주선이 궤도에 오를 때까지만 쓰고 버리는 '1단 로켓' 역할을 완벽히 수행한다.
 
@@ -199,19 +209,15 @@ TFTP를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 액티브 FTP vs 패시브 FTP 동작 원리…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: TFTP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: SFTP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 애플리케이션 전달</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 액티브 FTP vs 패시브 FTP 동작 원리…]
+    │
+    ▼
+[현재 개념: TFTP]
+    │
+    ├──▶ [확장 A: SFTP]
+    └──▶ [확장 B: 지능형 애플리케이션 전달]
+```
 
 TFTP는 [액티브](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) [FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) vs 패시브 [FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) 동작 원리…에서 출발해 현재 메커니즘을 정교화하고, 이후 SFTP와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

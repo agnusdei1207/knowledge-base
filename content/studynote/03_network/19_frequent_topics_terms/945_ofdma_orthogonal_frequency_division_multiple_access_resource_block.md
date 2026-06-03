@@ -24,18 +24,14 @@ tags = ["studynote-network"]
 - <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/089_시분할_다중접속_TDMA/">TDMA</a> (시분할)</strong>: 같은 채널을 1초씩 돌아가면서 씀(2G).
 - <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/">CDMA</a> (코드 분할)</strong>: 3G 시대의 꽃. 주파수는 같이 쓰되 암호를 걸어 쏨. 사용자가 너무 많아지면 서로의 암호가 소음(잡음)으로 뭉개져 10Mbps 이상 속도를 내기 불가능했습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">다중화기 / 역다중화기</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">직교주파수분할다중접속</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">FDM 가드 밴드</div></div>
-</div>
-</div>
-
-
+```text
+[다중화기 / 역다중화기]
+    │
+    ▼
+[직교주파수분할다중접속]
+    │
+    └──▶ [FDM 가드 밴드]
+```
 
 - **📢 섹션 요약 비유**: 직교주파수분할다중접속은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -46,18 +42,14 @@ tags = ["studynote-network"]
 - **개념**: 4G [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/), [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/), 최신 Wi-Fi 6의 심장이 되는 다원 접속 기술입니다. 
 - 넓은 주파수 대역폭을 수백~수천 개의 <strong>엄청나게 얇은 <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/085_부반송파_Subcarrier/">부반송파</a>(Sub-carrier) 잔가지들로 촘촘히 잘게 쪼갠 뒤</strong>, 이 잔가지들을 묶어서 타일 형태의 <strong>'자원 블록(Resource Block, RB)'</strong>이라는 블록 레고를 만들고, 이 블록들을 여러 사용자에게 0.001초 단위로 입맛대로 분배하여 전송하는 방식입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">다중화기 / 역다중화기</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">직교주파수분할다중접속</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">FDM 가드 밴드</div></div>
-</div>
-</div>
-
-
+```text
+[다중화기 / 역다중화기]
+    │
+    ▼
+[직교주파수분할다중접속]
+    │
+    └──▶ [FDM 가드 밴드]
+```
 
 - **📢 섹션 요약 비유**: 직교주파수분할다중접속의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -121,19 +113,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 다중화기 / 역다중화기</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 직교주파수분할다중접속</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: FDM 가드 밴드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 다중화기 / 역다중화기]
+    │
+    ▼
+[현재 개념: 직교주파수분할다중접속]
+    │
+    ├──▶ [확장 A: FDM 가드 밴드]
+    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
+```
 
 직교주파수분할다중접속는 [다중화기](/knowledge-base/studynote/03_network/19_frequent_topics_terms/944_mux_demux_multiplexer_demultiplexer_circuit_sharing/) / 역다중화기에서 출발해 현재 메커니즘을 정교화하고, 이후 FDM 가드 밴드와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

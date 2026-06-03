@@ -27,21 +27,20 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 왜 연산기가 놀게 되는지를 시간축으로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 월의 핵심: 계산보다 공급이 늦다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간축</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tensor Core 연산 ── 2ns ──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 완료</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DRAM 접근 80~120ns</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 도착</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 연산기는 짧게 일하고, 대부분의 시간은 데이터 대기(Stall)에 소비됨</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                    메모리 월의 핵심: 계산보다 공급이 늦다                 │
+├────────────────────────────────────────────────────────────────────────────┤
+│ 시간축                                                                     │
+│                                                                            │
+│ Tensor Core 연산  ── 2ns ──┐                                                │
+│                            └─ 완료                                          │
+│ DRAM 접근      ─────────────────────────────── 80~120ns ──────────────────┐ │
+│                                                                          └─ 도착 │
+│                                                                            │
+│ 결과: 연산기는 짧게 일하고, 대부분의 시간은 데이터 대기(Stall)에 소비됨     │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 핵심은 메모리 월이 메모리가 "느리다"는 단순 불평이 아니라, <strong>연산기와 메모리의 발전 속도 차이가 시스템 설계 전체를 바꾸게 만든 현상</strong>이라는 점이다. 이 병목을 무시하면 코어를 늘릴수록 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상은 둔화되고, 전력과 비용만 빠르게 증가한다.
 
@@ -65,21 +64,20 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 가속기에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어디서 병목되는지를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AI 가속기의 데이터 이동 경로와 병목 위치</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DRAM/HBM ──▶ L2/Shared Buffer ──▶ Register File ──▶ Tensor Core</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 연산 수행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 짧은 지연, 높은 재사용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 타일 적재·재배치</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 가장 큰 지연·전력 소모 지점</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">병목 패턴: 재사용 실패 → HBM 재접근 증가 → 대역폭 포화 → 코어 유휴 증가</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                 AI 가속기의 데이터 이동 경로와 병목 위치                  │
+├────────────────────────────────────────────────────────────────────────────┤
+│ DRAM/HBM ──▶ L2/Shared Buffer ──▶ Register File ──▶ Tensor Core          │
+│    │               │                     │                  │              │
+│    │               │                     │                  └─ 연산 수행   │
+│    │               │                     └─ 짧은 지연, 높은 재사용         │
+│    │               └─ 타일 적재·재배치                                 │
+│    └─ 가장 큰 지연·전력 소모 지점                                        │
+│                                                                            │
+│ 병목 패턴: 재사용 실패 → HBM 재접근 증가 → 대역폭 포화 → 코어 유휴 증가    │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 이를 정량적으로 보는 대표 개념이 산술 집약도 (Arithmetic Intensity)다. 이는 읽고 쓴 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 수 대비 얼마나 많은 연산을 수행했는지를 뜻하며, 값이 낮을수록 메모리 바운드, 높을수록 계산 바운드에 가깝다. 같은 100 TFLOPS급 가속기라도 산술 집약도가 낮은 워크로드는 이론 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 일부만 쓰고, 집약도가 높은 행렬 연산은 연산기를 더 잘 채운다.
 
@@ -159,23 +157,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">폰 노이만 구조의 데이터 이동 병목</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">캐시 메모리 · 데이터 지역성 · 프리페치</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">GPU/NPU 온칩 버퍼 · 타일링 · 커널 융합</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">HBM · 2.5D/3D 패키징 · 대역폭 확장</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">PIM · CIM · Near-Memory Computing</div>
-</div>
-</div>
-
-
+```text
+폰 노이만 구조의 데이터 이동 병목
+        │
+        ▼
+캐시 메모리 · 데이터 지역성 · 프리페치
+        │
+        ▼
+GPU/NPU 온칩 버퍼 · 타일링 · 커널 융합
+        │
+        ▼
+HBM · 2.5D/3D 패키징 · 대역폭 확장
+        │
+        ▼
+PIM · CIM · Near-Memory Computing
+```
 
 이 흐름은 "[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 숨기기 → 재사용 확대 → 공급 통로 확장 → 이동 자체 축소"로 메모리 월 대응 철학이 깊어지는 과정을 보여준다.
 

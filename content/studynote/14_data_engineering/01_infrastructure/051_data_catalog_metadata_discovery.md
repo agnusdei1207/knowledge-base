@@ -115,26 +115,24 @@ tags = ["studynote-data-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">데이터 사일로 → 데이터 늪(Data Swamp) 위기</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">데이터 카탈로그 등장</div>
-<div class="kb-diagram-tree-item" style="--depth:2">크롤러 자동 메타데이터 수집 (물리적 메타데이터)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">비즈니스 용어집 (Business Glossary) 수동 매핑</div>
-<div class="kb-diagram-tree-item" style="--depth:2">데이터 리니지 — ETL 흐름 시각화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">데이터 거버넌스 통합 (PII 태깅 · 접근 제어)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">데이터 메시 + 카탈로그 = 데이터 마켓플레이스</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">AI 기반 자동 태깅 · LLM 메타데이터 생성 (미래)</div>
-</div>
-</div>
-
-
+```text
+데이터 사일로 → 데이터 늪(Data Swamp) 위기
+    │
+    ▼
+데이터 카탈로그 등장
+    ├─► 크롤러 자동 메타데이터 수집 (물리적 메타데이터)
+    ├─► 비즈니스 용어집 (Business Glossary) 수동 매핑
+    └─► 데이터 리니지 — ETL 흐름 시각화
+    │
+    ▼
+데이터 거버넌스 통합 (PII 태깅 · 접근 제어)
+    │
+    ▼
+데이터 메시 + 카탈로그 = 데이터 마켓플레이스
+    │
+    ▼
+AI 기반 자동 태깅 · LLM 메타데이터 생성 (미래)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

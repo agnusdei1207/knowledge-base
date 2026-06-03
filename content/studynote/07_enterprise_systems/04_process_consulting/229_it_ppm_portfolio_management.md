@@ -43,27 +43,29 @@ IT PPM은 보통 <strong>수요 수집 → 평가 → 예산 버킷 배분 → �
 
 아래 그림은 수요를 어떻게 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오 의사결정으로 바꾸는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IT PPM decision cycle</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Demand intake</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; candidate projects / mandatory work / ideas</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Scoring</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; strategic fit / ROI / risk / compliance / dependency</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Bucket balance</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; Run / Grow / Transform allocation</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Capacity gate</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; budget / architect / DBA / security reviewer availability</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Decision</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; fund / defer / pilot / stop</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Quarterly review</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; rebalance by market and delivery result</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ IT PPM decision cycle                                                │
+├──────────────────────────────────────────────────────────────────────┤
+│ Demand intake                                                        │
+│   -> candidate projects / mandatory work / ideas                     │
+│                                                                      │
+│ Scoring                                                              │
+│   -> strategic fit / ROI / risk / compliance / dependency            │
+│                                                                      │
+│ Bucket balance                                                       │
+│   -> Run / Grow / Transform allocation                               │
+│                                                                      │
+│ Capacity gate                                                        │
+│   -> budget / architect / DBA / security reviewer availability       │
+│                                                                      │
+│ Decision                                                             │
+│   -> fund / defer / pilot / stop                                     │
+│                                                                      │
+│ Quarterly review                                                     │
+│   -> rebalance by market and delivery result                         │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조에서 가장 중요한 단계는 <strong>Capacity gate</strong>다. 예산이 있다고 해서 곧바로 착수할 수 있는 것이 아니다. [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 관리자, 보안 검토자, 아키텍트처럼 희소한 자원이 부족하면 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오 전체 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 떨어진다. 따라서 PPM은 프로젝트 승인 체계이면서 동시에 조직 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 조절 장치다.
 
@@ -141,23 +143,21 @@ IT PPM이 정착하면 중복 투자가 줄고, 우선순위 결정 근거가 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Project-by-project approval</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Portfolio visibility and scoring</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Run / Grow / Transform budget split</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Capacity-based prioritization and stop gate</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Lean PPM and value-stream funding</div>
-</div>
-</div>
-
-
+```text
+Project-by-project approval
+        │
+        ▼
+Portfolio visibility and scoring
+        │
+        ▼
+Run / Grow / Transform budget split
+        │
+        ▼
+Capacity-based prioritization and stop gate
+        │
+        ▼
+Lean PPM and value-stream funding
+```
 
 이 흐름은 개별 프로젝트 중심 관리에서, 동적 자원 재배분과 가치 흐름 중심 거버넌스로 진화하는 과정을 보여준다.
 

@@ -36,23 +36,21 @@ tags = ["ict_convergence"]
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 방식</strong> | N번의 [타원곡선](/knowledge-base/studynote/09_security/03_network_security/120_elliptic_curve_equation/) 연산 수행 | 1번의 [타원곡선](/knowledge-base/studynote/09_security/03_network_security/120_elliptic_curve_equation/) 연산으로 묶어서 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
 | **수학적 특성** | 비선형적 (합치기 불가) | 선형적 (덧셈을 통한 [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) Aggregation 가능) |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">슈노르 서명의 다중 서명 병합(Aggregation) 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ECDSA 방식: 3명 서명 시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서명1(Alice) + 서명2(Bob) + 서명3(Carol) ─▶ 블록에 3개 다 저장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(공간 낭비 심함, 누가 참여했는지 다 보임)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">슈노르 서명 방식: 3명 서명 시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서명1(Alice)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서명2(Bob) ─(수학적 덧셈 융합)─▶ 슈퍼 서명 1개로 압축</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서명3(Carol) 블록에 1개만 저장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(공간 극단적 절약, 1명이 했는지 3명이 했는지 구별 불가)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           슈노르 서명의 다중 서명 병합(Aggregation) 시각화   │
+├──────────────────────────────────────────────────────────────┤
+│ [ ECDSA 방식: 3명 서명 시 ]                                  │
+│ 서명1(Alice) + 서명2(Bob) + 서명3(Carol) ─▶ 블록에 3개 다 저장│
+│ (공간 낭비 심함, 누가 참여했는지 다 보임)                    │
+│                                                              │
+│ [ 슈노르 서명 방식: 3명 서명 시 ]                            │
+│ 서명1(Alice) ┐                                              │
+│ 서명2(Bob)   ├─(수학적 덧셈 융합)─▶ 슈퍼 서명 1개로 압축   │
+│ 서명3(Carol) ┘                       블록에 1개만 저장      │
+│ (공간 극단적 절약, 1명이 했는지 3명이 했는지 구별 불가)      │
+└──────────────────────────────────────────────────────────────┘
+```
 
 슈노르 서명은 단순히 크기를 줄이는 것을 넘어, 연산 로직을 선형 방정식 구조로 단순화하여 보안 증명이 ECDSA보다 훨씬 명확하고 깔끔하다.
 
@@ -113,23 +111,21 @@ tags = ["ict_convergence"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">비트코인 탄생 및 ECDSA 채택 (안정성 중시)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">다중 서명(Multi-Sig) 및 스마트 컨트랙트 수요 증가</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">블록 용량 고갈 및 트랜잭션 지연/수수료 폭등 문제 직면</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">슈노르 서명 (Schnorr Signature) 알고리즘 도입</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">서명 병합(Key Aggregation)을 통한 프라이버시 및 확장성 동시 확보</div>
-</div>
-</div>
-
-
+```text
+비트코인 탄생 및 ECDSA 채택 (안정성 중시)
+    │
+    ▼
+다중 서명(Multi-Sig) 및 스마트 컨트랙트 수요 증가
+    │
+    ▼
+블록 용량 고갈 및 트랜잭션 지연/수수료 폭등 문제 직면
+    │
+    ▼
+슈노르 서명 (Schnorr Signature) 알고리즘 도입
+    │
+    ▼
+서명 병합(Key Aggregation)을 통한 프라이버시 및 확장성 동시 확보
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

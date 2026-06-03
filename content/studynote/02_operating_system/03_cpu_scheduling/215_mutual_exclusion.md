@@ -24,22 +24,21 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경**: 에츠허르 데이크스트라(Edsger W. [Dijkstra](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/))가 1965년에 발표한 논문에서 이 문제를 최초로 수학적으로 정의하고 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)([Semaphore](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/))라는 개념으로 구현해 냈다. 이 철학은 이후 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 커널의 [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)([Spinlock](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/))부터 응용 프로그램의 [Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/)(Mutual Exclusion의 약자) 객체로까지 끝없이 진화해 왔다.
 
+```text
+  [상호 배제(Mutual Exclusion)의 동작 시각화]
 
+  (상황: 프로세스 A, B, C가 공유 변수 'X'에 접근하려 함)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">상호 배제(Mutual Exclusion)의 동작 시각화</div></div>
-<div class="kb-diagram-note">(상황: 프로세스 A, B, C가 공유 변수 'X'에 접근하려 함)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">프로세스 A</div><div class="kb-diagram-connector">▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">임계 구역 (X 수정 중)</div></div>
-<div class="kb-diagram-note">▲ 절대 진입 불가 방어막!</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">프로세스 B</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">⛔ (대기실로 쫓겨나서 Sleep)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">프로세스 C</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">⛔ (대기실로 쫓겨나서 Sleep)</div></div>
-<div class="kb-diagram-tree-item" style="--depth:1">&gt; A가 볼일을 다 보고 '락 해제'를 외치기 전까지 B와 C는 1만 년이라도 대기해야 한다.</div>
-</div>
-</div>
-
-
+  [ 프로세스 A ] ───(진입 성공, 락 획득)──▶ ┌────────────────────┐
+                                          │ 임계 구역 (X 수정 중)│
+                                          └──────────────────────┘
+                                                ▲ 절대 진입 불가 방어막!
+                                                                 │
+  [ 프로세스 B ] ───(진입 시도, 락 확인)──▶ ⛔ (대기실로 쫓겨나서 Sleep)
+  [ 프로세스 C ] ───(진입 시도, 락 확인)──▶ ⛔ (대기실로 쫓겨나서 Sleep)
+  
+  >> A가 볼일을 다 보고 '락 해제'를 외치기 전까지 B와 C는 1만 년이라도 대기해야 한다.
+```
 **[다이어그램 해설]** [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)는 평등이나 효율성을 따지는 것이 아니다. 오로지 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 안전성' 하나만을 위해 나머지 시스템의 효율성([병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리)을 철저하게 포기(직렬화)하는 극단적 처방이다. 따라서 이 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)(빨간 네모 상자)의 길이를 최대한 짧게 만드는 것이 프로그래머의 가장 큰 덕목이다.
 
 - **📢 섹션 요약 비유**: 아무리 차가 밀려도 기찻길 건널목에 차단기([상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/))가 내려오면 모든 자동차는 서야 합니다. 기차(현재 실행 중인 프로세스)가 완전히 다 지나갈 때까지 기다리는 것이 답답해 보여도, 차단기를 무시하는 순간 대형 참사([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 파괴)가 일어나기 때문입니다.
@@ -69,31 +68,33 @@ tags = ["studynote-operating-system"]
 - **가정의 배제**: CPU의 속도나 코어 개수에 대한 어떠한 가정도 해서는 안 된다. (내 CPU가 엄청 빠르니까 안 부딪히겠지? ─▶ 기각)
 - <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/">임계 구역</a> 외의 간섭 금지</strong>: [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) 밖에 있는 놈이 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)에 들어가려는 놈을 막아서는 안 된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Test-And-Set (하드웨어 명령어) 기반의 상호 배제 원리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// 1. 하드웨어가 보장하는 원자적(절대 안 끊기는) 함수</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">boolean TestAndSet(bool *target) {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">bool old_val = *target;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">*target = true; // 💥 읽고 1로 덮어쓰기를 1클럭에 동시 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">return old_val;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// 2. 프로세스의 진입 로직</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">bool lock = false;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">while (TestAndSet(&amp;lock)) {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// lock이 true면 계속 헛돎. (남이 쓴다는 뜻)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// 3. 🚨 위 while 문을 통과했다는 뜻은, 내가 확인했을 때 lock이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// false였고, 내가 그 순간 true로 완벽히 바꿔버렸다는 뜻!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">임계 구역 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// 4. 퇴장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">lock = false;</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────────────┐
+  │         Test-And-Set (하드웨어 명령어) 기반의 상호 배제 원리        │
+  ├─────────────────────────────────────────────────────────────────────┤
+  │                                                                     │
+  │  // 1. 하드웨어가 보장하는 원자적(절대 안 끊기는) 함수              │
+  │  boolean TestAndSet(bool *target) {                                 │
+  │      bool old_val = *target;                                        │
+  │      *target = true;   // 💥 읽고 1로 덮어쓰기를 1클럭에 동시 실행  │
+  │      return old_val;                                                │
+  │  }                                                                  │
+  │                                                                     │
+  │  // 2. 프로세스의 진입 로직                                         │
+  │  bool lock = false;                                                 │
+  │                                                                     │
+  │  while (TestAndSet(&lock)) {                                        │
+  │      // lock이 true면 계속 헛돎. (남이 쓴다는 뜻)                   │
+  │  }                                                                  │
+  │                                                                     │
+  │  // 3. 🚨 위 while 문을 통과했다는 뜻은, 내가 확인했을 때 lock이    │
+  │  //    false였고, 내가 그 순간 true로 완벽히 바꿔버렸다는 뜻!       │
+  │  [ 임계 구역 실행 ]                                                 │
+  │                                                                     │
+  │  // 4. 퇴장                                                         │
+  │  lock = false;                                                      │
+  └─────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)의 근본은 "내가 문을 열고 들어가는 그 찰나의 순간에, 다른 놈이 같이 손잡이를 잡지 못하게 하는 것"이다. `TestAndSet` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 실리콘 레벨에서 메모리 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)([Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)) 자체를 1클럭 동안 강제로 잠가버림으로써, 두 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 동시에 `lock` 변수에 접근하는 것을 하드웨어적으로 원천 차단해 낸다.
 
 - **📢 섹션 요약 비유**: 방 문을 잠글 때, 문고리를 돌리는 동작과 열쇠를 채우는 동작 사이에 1초의 틈이 있으면 도둑이 찰나에 들어옵니다(소프트웨어 방식의 실패). 하지만 "지문 인식과 동시에 문이 쾅 닫히고 잠기는" 0초짜리 스마트 도어록(하드웨어 원자적 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))을 쓰면 절대 뚫리지 않는 완벽한 [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)가 완성됩니다.
@@ -130,26 +131,27 @@ tags = ["studynote-operating-system"]
    - **장애 발생**: [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 100개가 접속하면, 메서드 하나가 실행되는 동안 다른 99개의 메서드는 몽땅 Block 상태로 뻗어버려 서버 TPS가 처참하게 박살 난다.
    - **아키텍트 교정**: [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) 영역([임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/))은 **수술 부위처럼 가장 작게 도려내야 한다**. 메서드 전체가 아닌, 공유 변수를 읽고 쓰는 딱 2줄의 블록(Block)에만 락을 걸거나, 자바의 `ConcurrentHashMap`이나 `AtomicInteger` 같은 [락-프리](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/)([Lock-free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/)) 객체로 리팩토링하여 OS 수준의 [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/)) 개입을 아예 없애버려야 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 수백 배 향상된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상호 배제(Mutex) 설계 시 병렬성(Parallelism) 극대화 의사결정</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">요구사항: 초당 10만 건의 주문을 처리하는 장바구니 리스트 보호</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 락(Lock) 단위(Granularity)의 결정</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 전체 리스트에 락을 건다 (Coarse-grained Lock)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 구현: 쉬움 (버그 날 확률 적음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 결과: 10만 건이 1차선 도로를 타며 서버 CPU 1%만 쓰고 뻗음.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 리스트의 개별 노드마다 락을 건다 (Fine-grained Lock)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 구현: 지옥 (데드락 터질 확률 기하급수적 상승)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 결과: 100차선 도로가 열려 코어 100개가 풀가동됨.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3. 락을 안 걸고 해결한다 (Lock-free / CAS / TLS)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 판단: 현대 아키텍처의 정답. 각 스레드별로 임시 장바구니를</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주고 나중에 한 방에 합치거나, CAS 연산으로 덮어씀.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────────────┐
+  │     상호 배제(Mutex) 설계 시 병렬성(Parallelism) 극대화 의사결정    │
+  ├─────────────────────────────────────────────────────────────────────┤
+  │                                                                     │
+  │   [요구사항: 초당 10만 건의 주문을 처리하는 장바구니 리스트 보호]   │
+  │                │                                                    │
+  │                ▼ 락(Lock) 단위(Granularity)의 결정                  │
+  │      [ 1. 전체 리스트에 락을 건다 (Coarse-grained Lock) ]           │
+  │       ├─▶ 구현: 쉬움 (버그 날 확률 적음)                            │
+  │       └─▶ 결과: 10만 건이 1차선 도로를 타며 서버 CPU 1%만 쓰고 뻗음.│
+  │                                                                     │
+  │      [ 2. 리스트의 개별 노드마다 락을 건다 (Fine-grained Lock) ]    │
+  │       ├─▶ 구현: 지옥 (데드락 터질 확률 기하급수적 상승)             │
+  │       └─▶ 결과: 100차선 도로가 열려 코어 100개가 풀가동됨.          │
+  │                                                                     │
+  │      [ 3. 락을 안 걸고 해결한다 (Lock-free / CAS / TLS) ]           │
+  │       ├─▶ 판단: 현대 아키텍처의 정답. 각 스레드별로 임시 장바구니를 │
+  │                 주고 나중에 한 방에 합치거나, CAS 연산으로 덮어씀.  │
+  └─────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 포기하고 안전을 사는 행위다. 락을 크고 굵게 잡으면(1번) 개발자는 편하지만 서버가 죽고, 작게 쪼개면(2번) 개발자가 데드락의 공포에 미쳐버린다. 최고 수준의 엔지니어링은 [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)를 우아하게 포기하면서도 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 지키는 아키텍처(3번)를 짜는 것이다.
 
 - **📢 섹션 요약 비유**: 도둑([경쟁 조건](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/))을 막으려고 백화점(서버) 정문 하나에만 뚱뚱한 경비원(굵은 락)을 세워두면, 도둑은 막아도 손님들 입장 줄이 10km가 되어 백화점이 망합니다. 매장마다 작은 경비원(미세 락)을 두거나, 아예 훔칠 물건이 없는 쇼룸(락 프리)으로 만드는 것이 비즈니스를 살리는 길입니다.
@@ -180,19 +182,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">동적 우선순위 승급 (Priority Boost)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상호 배제 (Mutual Exclusion, Mutex)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">에너지 인지 스케줄링 (Energy-Aware Scheduling, EAS)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">코-스케줄링 (Co-scheduling / Gang Scheduling)</div></div>
-</div>
-</div>
-
-
+```text
+[동적 우선순위 승급 (Priority Boost)]
+    │
+    ▼
+[상호 배제 (Mutual Exclusion, Mutex)]
+    │
+    ├──▶ [에너지 인지 스케줄링 (Energy-Aware Scheduling, EAS)]
+    └──▶ [코-스케줄링 (Co-scheduling / Gang Scheduling)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

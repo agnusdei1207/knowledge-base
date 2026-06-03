@@ -22,21 +22,19 @@ tags = ["studynote-data-engineering"]
 
 <strong>컨셉 드리프트 (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/">Concept</a> Drift)</strong>는 ML 모델이 학습할 때 전제한 입력 X와 출력 Y 사이의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/), 즉 [조건부 확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/132_conditional_probability/) P(Y|X)가 시간이 지나면서 변화하는 현상이다.
 
+```
+학습 시점                      운영 시점 (컨셉 드리프트 후)
+┌───────────────────────┐     ┌──────────────────────────────┐
+│  X = [신용점수 높음]   │     │  X = [신용점수 높음]          │
+│  Y = [대출 상환 ✓]    │     │  Y = [대출 상환 ✗]           │
+│                       │  →  │                              │
+│  P(Y=상환|X=고신용)   │     │  P(Y=상환|X=고신용)           │
+│         = 0.95        │     │         = 0.70               │
+│                       │     │  (경기 침체로 규칙 붕괴)      │
+└───────────────────────┘     └──────────────────────────────┘
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">학습 시점 운영 시점 (컨셉 드리프트 후)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">X =</div><div class="kb-diagram-node">신용점수 높음</div><div class="kb-diagram-note">│ X =</div><div class="kb-diagram-node">신용점수 높음</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Y =</div><div class="kb-diagram-node">대출 상환 ✓</div><div class="kb-diagram-note">│ Y =</div><div class="kb-diagram-node">대출 상환 ✗</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P(Y=상환</div><div class="kb-diagram-cell">X=고신용)</div><div class="kb-diagram-cell">P(Y=상환</div><div class="kb-diagram-cell">X=고신용)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">= 0.95</div><div class="kb-diagram-cell">= 0.70</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(경기 침체로 규칙 붕괴)</div></div>
-<div class="kb-diagram-note">입력 데이터(신용점수)는 동일해도 정답(상환 여부)의 규칙이 변함!</div>
-</div>
-</div>
-
-
+입력 데이터(신용점수)는 동일해도 정답(상환 여부)의 규칙이 변함!
+```
 
 ### 1.2 [데이터 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/)와의 핵심 차이
 
@@ -63,66 +61,56 @@ tags = ["studynote-data-engineering"]
 | **Incremental Drift** | 작은 변화가 누적 | 경사 상승 | 인플레이션으로 가격 패턴 변화 | 증분 학습 |
 | **Recurring Drift** | 주기적으로 반복 | 주기적 파형 | 계절성 패턴 (여름/겨울) | 계절별 모델 |
 
+```
+드리프트 유형별 시각적 패턴
 
+성능
+  ↑
+  │▓▓▓▓▓         ░░░░░░   Sudden:   ▓→░ 급격히 변화
+  │▓▓▓▓▓▓▓░░░░░░░         Gradual:  ▓ 서서히 ░로 전환
+  │▓▓▓▓▓▒▒▒░░░░░           Incremental: 단계적 악화
+  │▓▓░░▓▓░░▓▓░░            Recurring:   주기적 반복
+  └─────────────────────→ 시간
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">드리프트 유형별 시각적 패턴</div>
-<div class="kb-diagram-note">성능</div>
-<div class="kb-diagram-connector">↑</div>
-<div class="kb-diagram-note">▓▓▓▓▓ ░░░░░░ Sudden: ▓→░ 급격히 변화</div>
-<div class="kb-diagram-note">▓▓▓▓▓▓▓░░░░░░░ Gradual: ▓ 서서히 ░로 전환</div>
-<div class="kb-diagram-note">▓▓▓▓▓▒▒▒░░░░░ Incremental: 단계적 악화</div>
-<div class="kb-diagram-note">▓▓░░▓▓░░▓▓░░ Recurring: 주기적 반복</div>
-<div class="kb-diagram-tree-item" style="--depth:1">→ 시간</div>
-<div class="kb-diagram-note">▓ = 이전 개념 지배 ░ = 새 개념 지배 ▒ = 전환 구간</div>
-</div>
-</div>
-
-
+  ▓ = 이전 개념 지배  ░ = 새 개념 지배  ▒ = 전환 구간
+```
 
 ### 2.2 컨셉 드리프트 감지 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
 
 #### DDM (Drift [Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/) Method)
 
+```
+DDM 알고리즘 원리:
+  - 오류율 p_i와 표준편차 s_i를 추적
+  - 경고 수준: p_i + s_i ≥ p_min + 2 × s_min
+  - 드리프트 수준: p_i + s_i ≥ p_min + 3 × s_min
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">DDM 알고리즘 원리:</div>
-<div class="kb-diagram-tree-item" style="--depth:1">오류율 p_i와 표준편차 s_i를 추적</div>
-<div class="kb-diagram-tree-item" style="--depth:1">경고 수준: p_i + s_i ≥ p_min + 2 × s_min</div>
-<div class="kb-diagram-tree-item" style="--depth:1">드리프트 수준: p_i + s_i ≥ p_min + 3 × s_min</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오류율</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">드리프트 수준 (3σ)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 경고 수준 (2σ)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정상 수준</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 시간</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↑재학습 트리거</div></div>
-</div>
-</div>
-
-
+┌──────────────────────────────────────────────────────┐
+│  오류율                                               │
+│   ↑                                                  │
+│   │         ╭──────────╮  드리프트 수준 (3σ)         │
+│   │    ╭────╯           ╰──  경고 수준 (2σ)          │
+│   │────╯                     정상 수준                │
+│   └────────────────────────────────→ 시간            │
+│                    ↑재학습 트리거                     │
+└──────────────────────────────────────────────────────┘
+```
 
 #### ADWIN (ADaptive WINdowing)
 
+```
+ADWIN 원리:
+  - 가변 크기 슬라이딩 윈도우 유지
+  - 윈도우 내 두 서브윈도우의 평균 비교
+  - 차이가 임계값 초과 시 오래된 데이터 제거 = 드리프트 감지
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">ADWIN 원리:</div>
-<div class="kb-diagram-tree-item" style="--depth:1">가변 크기 슬라이딩 윈도우 유지</div>
-<div class="kb-diagram-tree-item" style="--depth:1">윈도우 내 두 서브윈도우의 평균 비교</div>
-<div class="kb-diagram-tree-item" style="--depth:1">차이가 임계값 초과 시 오래된 데이터 제거 = 드리프트 감지</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 스트림</div><div class="kb-diagram-note">: d1, d2, d3, ... dt</div></div>
-<div class="kb-diagram-tree-item" style="--depth:8">vs</div>
-<div class="kb-diagram-note">서브윈도우1 서브윈도우2</div>
-<div class="kb-diagram-note">(과거 평균) (최근 평균)</div>
-<div class="kb-diagram-note">차이가 크면 = 드리프트!</div>
-</div>
-</div>
-
-
+[데이터 스트림]: d1, d2, d3, ... dt
+                 ├──────────────────────────────┤
+                 └────────┤  vs  ├──────────────┘
+                 서브윈도우1    서브윈도우2
+                 (과거 평균)    (최근 평균)
+                      차이가 크면 = 드리프트!
+```
 
 #### Page-Hinkley Test
 
@@ -151,25 +139,25 @@ Page-Hinkley 통계량:
 
 ### 2.4 컨셉 드리프트 감지 아키텍처
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">컨셉 드리프트 감지 파이프라인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실시간 서빙 스트림</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">요청 X, 예측 Ŷ</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">스트림 처리기 (Flink/Spark)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">레이블 수집 (지연 가능)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">실제 결과 Y</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">레이블 조인 ──→ 드리프트 감지 엔진</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(조인 타임아웃: 1~7일)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">드리프트 감지 엔진:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DDM / ADWIN / Page-Hinkley 중 선택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">드리프트 감지됨?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Yes → CT 파이프라인 트리거 → 알람</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">No → 모니터링 계속</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────────┐
+│                컨셉 드리프트 감지 파이프라인                  │
+├──────────────────────────────────────────────────────────────┤
+│  실시간 서빙 스트림                                           │
+│  [요청 X, 예측 Ŷ] ──→ 스트림 처리기 (Flink/Spark)           │
+│                                                              │
+│  레이블 수집 (지연 가능)                                      │
+│  [실제 결과 Y] ──→ 레이블 조인 ──→ 드리프트 감지 엔진        │
+│                    (조인 타임아웃: 1~7일)                     │
+│                                                              │
+│  드리프트 감지 엔진:                                          │
+│  DDM / ADWIN / Page-Hinkley 중 선택                         │
+│         ↓                                                    │
+│  드리프트 감지됨?                                             │
+│  Yes → CT 파이프라인 트리거 → 알람                           │
+│  No  → 모니터링 계속                                         │
+└──────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 컨셉 드리프트 감지는 요리 대회 심사 기준이 바뀌는 것을 감지하는 것과 같다. 맛(입력 X)이 아무리 좋아도 심사 기준(P(Y|X))이 바뀌면 점수(Y)가 달라진다. ADWIN은 최근 심사 결과 패턴이 과거와 달라지면 즉시 경보를 울린다.
 
@@ -187,42 +175,39 @@ Page-Hinkley 통계량:
 | **광고 클릭** | 특정 키워드 클릭률 | 재택근무 키워드 급상승 | Sudden + Gradual |
 
 <strong>COVID-19 대응 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>:
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">봉쇄 선언 (Day 0)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Sudden Drift 감지 (DDM 경보)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">즉시 재학습 트리거 (CT 파이프라인)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">→ 봉쇄 이전 데이터 가중치 = 0 (또는 매우 낮음)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">→ 봉쇄 이후 데이터만으로 재학습</div>
-<div class="kb-diagram-tree-item" style="--depth:2">→ 불확실성 높음: 앙상블 + 넓은 신뢰구간 사용</div>
-</div>
-</div>
-
-
+```
+봉쇄 선언 (Day 0)
+     │
+     ▼
+Sudden Drift 감지 (DDM 경보)
+     │
+     ▼
+즉시 재학습 트리거 (CT 파이프라인)
+     │
+     ├─→ 봉쇄 이전 데이터 가중치 = 0 (또는 매우 낮음)
+     ├─→ 봉쇄 이후 데이터만으로 재학습
+     └─→ 불확실성 높음: 앙상블 + 넓은 신뢰구간 사용
+```
 
 ### 3.2 Recurring Drift 대응: 멀티 모델 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
+```
+계절별 컨셉 드리프트 (전자상거래 구매 패턴)
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">계절별 컨셉 드리프트 (전자상거래 구매 패턴)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1월 2월 3월 ... 11월 12월 1월 2월 ...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">설날</div><div class="kb-diagram-cell">...</div><div class="kb-diagram-cell">크리</div><div class="kb-diagram-cell">설날</div><div class="kb-diagram-cell">...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">패턴</div><div class="kb-diagram-cell">...</div><div class="kb-diagram-cell">스마</div><div class="kb-diagram-cell">패턴</div><div class="kb-diagram-cell">...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전략: 월별/분기별 전용 모델 유지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모델 스위치:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">11월→ 크리스마스 모델 활성화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1월 → 설날 모델 활성화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">평시 → 일반 모델 유지</div></div>
-</div>
-</div>
-
-
+┌──────────────────────────────────────────────────────┐
+│  1월   2월   3월  ... 11월  12월  1월   2월  ...     │
+│  │설날 │     │    ... │     │크리 │설날 │    ...     │
+│  │패턴 │     │    ... │     │스마 │패턴 │    ...     │
+│                                                      │
+│  전략: 월별/분기별 전용 모델 유지                     │
+│  ┌──────────────────────────────────┐               │
+│  │ 모델 스위치:                      │               │
+│  │  11월→ 크리스마스 모델 활성화     │               │
+│  │  1월 → 설날 모델 활성화           │               │
+│  │  평시 → 일반 모델 유지            │               │
+│  └──────────────────────────────────┘               │
+└──────────────────────────────────────────────────────┘
+```
 
 ### 3.3 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) 기반 적응 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
@@ -242,24 +227,24 @@ Page-Hinkley 통계량:
 
 컨셉 드리프트 감지의 가장 큰 난점은 <strong>실제 레이블(Y)이 즉시 수집되지 않는다</strong>는 것이다.
 
+```
+레이블 지연 유형별 대응:
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">레이블 지연 유형별 대응:</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지연 유형</div><div class="kb-diagram-cell">대응 전략</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">짧은 지연</div><div class="kb-diagram-cell">추가 감독 신호 (클릭, 구매) 활용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(수분~수시간)</div><div class="kb-diagram-cell">→ 빠른 컨셉 드리프트 감지 가능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">중간 지연</div><div class="kb-diagram-cell">예측 결과 분포 변화로 간접 감지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(수일)</div><div class="kb-diagram-cell">→ Prediction Drift 모니터링</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">긴 지연</div><div class="kb-diagram-cell">적극적 레이블링 (Active Learning)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(수주~수개월)</div><div class="kb-diagram-cell">→ 의심 샘플 우선 레이블링</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(예: 대출 상환</div><div class="kb-diagram-cell">→ 간접 지표(연체율 등)로 조기 감지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">12개월)</div></div>
-</div>
-</div>
-
-
+┌────────────────┬────────────────────────────────────────────┐
+│  지연 유형     │  대응 전략                                  │
+├────────────────┼────────────────────────────────────────────┤
+│  짧은 지연     │  추가 감독 신호 (클릭, 구매) 활용           │
+│  (수분~수시간) │  → 빠른 컨셉 드리프트 감지 가능             │
+├────────────────┼────────────────────────────────────────────┤
+│  중간 지연     │  예측 결과 분포 변화로 간접 감지             │
+│  (수일)        │  → Prediction Drift 모니터링                │
+├────────────────┼────────────────────────────────────────────┤
+│  긴 지연       │  적극적 레이블링 (Active Learning)          │
+│  (수주~수개월) │  → 의심 샘플 우선 레이블링                  │
+│  (예: 대출 상환│  → 간접 지표(연체율 등)로 조기 감지         │
+│   12개월)      │                                             │
+└────────────────┴────────────────────────────────────────────┘
+```
 
 ### 4.2 기술사 시험 핵심 포인트
 
@@ -276,25 +261,27 @@ COVID-19는 전례 없는 Sudden Drift를 유발했다. 항공·숙박·소매 �
 
 ### 4.3 컨셉 드리프트 대응 프레임워크
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">컨셉 드리프트 대응 의사결정 트리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">드리프트 감지됨</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sudden vs Gradual?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Sudden → 즉시 재학습 (최근 데이터만)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ 이전 모델 롤백 준비</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Gradual/Incremental</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">레이블 충분?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Yes → 슬라이딩 윈도우 재학습</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ No → Active Learning + 간접 지표 활용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Recurring?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 계절 피처 추가 + 멀티 모델 전략</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────────┐
+│             컨셉 드리프트 대응 의사결정 트리                   │
+├──────────────────────────────────────────────────────────────┤
+│  드리프트 감지됨                                              │
+│       │                                                      │
+│       ▼                                                      │
+│  Sudden vs Gradual?                                          │
+│  ├─ Sudden → 즉시 재학습 (최근 데이터만)                     │
+│  │          + 이전 모델 롤백 준비                             │
+│  └─ Gradual/Incremental                                      │
+│            │                                                 │
+│            ▼                                                 │
+│       레이블 충분?                                           │
+│       ├─ Yes → 슬라이딩 윈도우 재학습                        │
+│       └─ No  → Active Learning + 간접 지표 활용              │
+│                                                              │
+│  Recurring?                                                  │
+│  → 계절 피처 추가 + 멀티 모델 전략                           │
+└──────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 컨셉 드리프트 대응은 내비게이션 지도 업데이트와 같다. 갑자기 도로가 바뀌면(Sudden) 즉시 업데이트하고, 서서히 신도시가 생기면(Gradual) 주기적으로 업데이트하며, 매년 공사 구간이 바뀌면(Recurring) 계절마다 다른 지도를 준비한다.
 
@@ -343,28 +330,25 @@ COVID-19는 전례 없는 Sudden Drift를 유발했다. 항공·숙박·소매 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">모델 학습 시점의 관계 P(Y|X)</div>
-<div class="kb-diagram-note">시간 경과</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">컨셉 드리프트 발생: P(Y|X) 변화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">드리프트 유형 분류</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Sudden: 정책 변화 · 팬데믹</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Gradual: 사용자 취향 서서히 변화</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Incremental: 물가 상승 등 누적</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Recurring: 계절성 주기 반복</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">감지: DDM · ADWIN · Page-Hinkley (온라인)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">대응: CT 재학습 · 윈도우 전략 · 멀티모델 · 앙상블 적응</div>
-</div>
-</div>
-
-
+```text
+모델 학습 시점의 관계 P(Y|X)
+    │ 시간 경과
+    ▼
+컨셉 드리프트 발생: P(Y|X) 변화
+    │
+    ▼
+드리프트 유형 분류
+    ├─► Sudden: 정책 변화 · 팬데믹
+    ├─► Gradual: 사용자 취향 서서히 변화
+    ├─► Incremental: 물가 상승 등 누적
+    └─► Recurring: 계절성 주기 반복
+    │
+    ▼
+감지: DDM · ADWIN · Page-Hinkley (온라인)
+    │
+    ▼
+대응: CT 재학습 · 윈도우 전략 · 멀티모델 · 앙상블 적응
+```
 
 ---
 

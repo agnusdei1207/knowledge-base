@@ -24,18 +24,14 @@ tags = ["studynote-network"]
 
 - **💡 비유**: [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 헤더는 택배 박스 겉면에 붙어있는 <strong>"종합 송장 스티커"</strong>와 같습니다. 스티커에는 보내는 사람(Source IP)과 받는 사람(Dest IP)은 물론이고, 박스 무게(Total Length), 내용물이 옷인지 책인지([Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)), 그리고 유통기한([TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/))까지 박스를 배달하는 데 필요한 모든 정보가 암호 같은 숫자로 빼곡히 적혀 있습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">IPv4</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IPv4 헤더 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">버전, 헤더 길이, 서비스 타입, 전체 길이</div></div>
-</div>
-</div>
-
-
+```text
+[IPv4]
+    │
+    ▼
+[IPv4 헤더 구조]
+    │
+    └──▶ [버전, 헤더 길이, 서비스 타입, 전체 길이]
+```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/">IPv4</a> 헤더는 20바이트라는 극도로 좁은 </strong>"여권(Passport) 앞장"**에 이름, 국적, 생년월일, 만료일 등 라우터(출입국 심사관)가 요구하는 모든 필수 정보를 우겨 넣은 완벽한 디자인의 결정체입니다.
 
@@ -66,27 +62,26 @@ tags = ["studynote-network"]
 - **Source IP Address (4바이트)**: 보내는 놈의 32비트 IP 주소.
 - **Destination IP Address (4바이트)**: 받는 놈의 32비트 IP 주소.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IPv4 헤더 (20 Bytes 고정부) 도식</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0 15 31 (Bits)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(4B)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VER</div><div class="kb-diagram-cell">IHL</div><div class="kb-diagram-cell">TOS</div><div class="kb-diagram-cell">Total Length</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(4B)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Identification</div><div class="kb-diagram-cell">Flag</div><div class="kb-diagram-cell">Fragment Offset</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(4B)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TTL</div><div class="kb-diagram-cell">Protocol</div><div class="kb-diagram-cell">Header Checksum</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(4B)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Source IP Address (32bit)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(4B)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Destination IP Address (32bit)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">...</div><div class="kb-diagram-node">Options (0~40B) - 거의 안 씀</div><div class="kb-diagram-note">...</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                IPv4 헤더 (20 Bytes 고정부) 도식               │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   0                   15                  31 (Bits)         │
+ │   ┌────┬────┬────────┬──────────────────────┐ (4B)          │
+ │   │VER │IHL │  TOS   │     Total Length     │               │
+ │   ├────┴────┴────────┼────┬─────────────────┤ (4B)          │
+ │   │  Identification  │Flag│ Fragment Offset │               │
+ │   ├────────┬─────────┼────┴─────────────────┤ (4B)          │
+ │   │  TTL   │ Protocol│   Header Checksum    │               │
+ │   ├────────┴─────────┴──────────────────────┤ (4B)          │
+ │   │         Source IP Address (32bit)       │               │
+ │   ├─────────────────────────────────────────┤ (4B)          │
+ │   │      Destination IP Address (32bit)     │               │
+ │   └─────────────────────────────────────────┘               │
+ │        ... [ Options (0~40B) - 거의 안 씀 ] ...               │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: ** 라우터는 우체국 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 스캐너입니다. 패킷이 날아오면 1행에서 박스 크기를 재고, 2행에서 박스가 찢어졌는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, 3행에서 유통기한([TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/))을 살핀 뒤, 4/5행의 도착지 주소(IP)를 보고 컨베이어 벨트를 튕겨냅니다. 이 완벽한 5줄의 조합이 전 세계 인터넷을 돌아가게 합니다.
 
@@ -144,19 +139,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: IPv4</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: IPv4 헤더 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 버전, 헤더 길이, 서비스 타입, 전체 길이</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 대규모 주소 자동화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: IPv4]
+    │
+    ▼
+[현재 개념: IPv4 헤더 구조]
+    │
+    ├──▶ [확장 A: 버전, 헤더 길이, 서비스 타입, 전체 길이]
+    └──▶ [확장 B: 대규모 주소 자동화]
+```
 
 [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 헤더 구조는 IPv4에서 출발해 현재 메커니즘을 정교화하고, 이후 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/), 헤더 길이, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 타입, 전체 길이와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

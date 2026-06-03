@@ -25,18 +25,17 @@ Write-Back은 캐시의 [쓰기](/knowledge-base/studynote/13_cloud_architecture
 
 아래 그림은 Write-Back이 "매번 쓰지 않고, 퇴출 시점에 몰아서 쓴다"는 시간축상의 차이를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Write-Back의 핵심: 수정은 즉시, 메모리 반영은 나중</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU Store #1 CPU Store #2 CPU Store #3 Eviction</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cache Line: clean ──▶ dirty ▶ dirty ▶ writeback</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Main Memory: old ▶ final data</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────┐
+│               Write-Back의 핵심: 수정은 즉시, 메모리 반영은 나중        │
+├──────────────────────────────────────────────────────────────────────────┤
+│ CPU Store #1     CPU Store #2     CPU Store #3             Eviction     │
+│     │                │                │                      │           │
+│     ▼                ▼                ▼                      ▼           │
+│ Cache Line:   clean ──▶ dirty ───────▶ dirty ──────────────▶ writeback  │
+│ Main Memory:  old   ────────────────────────────────────────▶ final data │
+└──────────────────────────────────────────────────────────────────────────┘
+```
 
 즉 Write-Back은 "[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 자체를 없애는" 기술이 아니라, 여러 번의 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 하나의 메모리 반영으로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이다. 대신 그 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 구간 동안 메모리에는 구버전이 남아 있으므로, 시스템은 어느 쪽이 최신인지 정확히 추적할 장치를 반드시 가져야 한다.
 
@@ -57,22 +56,27 @@ Write-Back 캐시는 단순히 "나중에 쓰자"고 선언하는 것으로 끝�
 
 다음 그림은 Write-Back에서 실제 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 요청이 처리되는 내부 흐름을 요약한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Write-Back 캐시의 쓰기 처리 순서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) CPU store</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) Cache hit? ── 아니오 ──▶ 블록 적재(보통 Write Allocate)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) 캐시 데이터 갱신</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4) Dirty Bit = 1 설정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5) 라인 교체 시 Dirty 검사 ── 0 ──▶ 그냥 폐기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 1 ──▶ Write Buffer ──▶ 하위 메모리 기록</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────────────┐
+│                  Write-Back 캐시의 쓰기 처리 순서                    │
+├───────────────────────────────────────────────────────────────────────┤
+│ 1) CPU store                                                         │
+│      │                                                               │
+│      ▼                                                               │
+│ 2) Cache hit? ── 아니오 ──▶ 블록 적재(보통 Write Allocate)           │
+│      │ 예                                                            │
+│      ▼                                                               │
+│ 3) 캐시 데이터 갱신                                                  │
+│      │                                                               │
+│      ▼                                                               │
+│ 4) Dirty Bit = 1 설정                                                │
+│      │                                                               │
+│      ▼                                                               │
+│ 5) 라인 교체 시 Dirty 검사 ── 0 ──▶ 그냥 폐기                        │
+│                         │                                             │
+│                         └─ 1 ──▶ Write Buffer ──▶ 하위 메모리 기록    │
+└───────────────────────────────────────────────────────────────────────┘
+```
 
 여기서 중요한 병목은 "평상시 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)"가 아니라 "더티 라인이 쫓겨나는 순간"이다. 캐시 미스가 발생해 새 블록을 넣어야 하는데 희생 라인이 더티 상태라면, 먼저 그 라인을 메모리로 내려보내야 자리를 비울 수 있다. 그래서 고성능 프로세서는 퇴출 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 버퍼에 넘겨 백그라운드로 처리하고, 앞단의 파이프라인은 가능한 빨리 다음 명령으로 넘어가게 만든다.
 
@@ -157,23 +161,21 @@ Write-Back의 가장 큰 효과는 메모리 계층의 병목을 줄여 CPU가 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Write-Through 중심의 단순 일관성</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Write-Back + 더티 비트 (Dirty Bit)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Write Allocate + 쓰기 버퍼 (Write Buffer)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">MESI 기반 멀티코어 캐시 일관성</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DMA 동기화 · Flush/Fence · 확장 메모리 계층</div>
-</div>
-</div>
-
-
+```text
+Write-Through 중심의 단순 일관성
+        │
+        ▼
+Write-Back + 더티 비트 (Dirty Bit)
+        │
+        ▼
+Write Allocate + 쓰기 버퍼 (Write Buffer)
+        │
+        ▼
+MESI 기반 멀티코어 캐시 일관성
+        │
+        ▼
+DMA 동기화 · Flush/Fence · 확장 메모리 계층
+```
 
 이 흐름은 "즉시 기록"에서 출발해 "[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 기록 + 상태 추적 + 시스템 차원의 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)"로 설계 관심사가 확장되는 과정을 보여준다.
 

@@ -42,20 +42,18 @@ LLC는 목표 [전압](/knowledge-base/studynote/01_computer_architecture/01_bas
 
 이 그림은 LLC가 "[전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 무조건 올리는 기능"이 아니라, 부하 인가와 해제의 기울기를 바꾸는 조정기라는 점을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LLC changes the trade-off between droop under load and overshoot</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Vcore</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1.30V ─ aggressive LLC /\ overshoot risk</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1.25V ─ balanced LLC \ heavy load --/ \</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1.20V ─ spec load-line \____________________/</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">idle load applied load released</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│        LLC changes the trade-off between droop under load and overshoot   │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Vcore                                                                      │
+│ 1.30V ─ aggressive LLC ──────┐                    /\ overshoot risk        │
+│ 1.25V ─ balanced LLC ──────\  └──── heavy load --/  \────                  │
+│ 1.20V ─ spec load-line ─────\____________________/                         │
+│                                                                            │
+│          idle                 load applied          load released          │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 실제로 소프트웨어 모니터링 툴은 빠른 스파이크를 다 보지 못할 수 있다. 따라서 정밀 평가는 오실로스코프 기반 측정이 가장 정확하고, 일반 사용자는 장기 스트레스 테스트와 실제 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 피크, 발열, 오류 로그를 함께 보며 보수적으로 접근해야 한다.
 - **📢 섹션 요약 비유**: 약간 느슨한 스프링은 눌렀다가 놓을 때 덜 튀지만, 너무 빡빡한 스프링은 눌릴 때는 단단해 보여도 놓는 순간 크게 튀어 오른다.
@@ -129,23 +127,21 @@ LLC는 [다상 전원부](/knowledge-base/studynote/01_computer_architecture/15_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">고정 전압 설정 중심 오버클럭</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">제조사 규격 기반 Load Line 개념 정착</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">BIOS LLC 단계별 조정</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">디지털 VRM의 세밀한 과도 응답 제어</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">텔레메트리 기반 적응형 Load Line 최적화</div>
-</div>
-</div>
-
-
+```text
+고정 전압 설정 중심 오버클럭
+        │
+        ▼
+제조사 규격 기반 Load Line 개념 정착
+        │
+        ▼
+BIOS LLC 단계별 조정
+        │
+        ▼
+디지털 VRM의 세밀한 과도 응답 제어
+        │
+        ▼
+텔레메트리 기반 적응형 Load Line 최적화
+```
 
 이 흐름은 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 튜닝이 단순 정적 수치 조정에서 출발해, 이제는 부하 변화와 과도 현상까지 함께 다루는 동적 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 제어로 발전하고 있음을 보여 준다.
 

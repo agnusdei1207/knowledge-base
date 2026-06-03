@@ -21,18 +21,16 @@ tags = ["studynote-computer-architecture"]
 
 스마트폰은 항상 네트워크에 연결되고 앱이 많기 때문에, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)만으로 생체 정보와 결제 키를 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하기 어렵다. Apple은 이를 위해 메인 [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) (Application Processor)와 별도로 SEP를 두고, 지문·얼굴 매칭 결과와 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 키를 그 안에서 관리한다. 사용자는 단순히 편리한 잠금 해제를 경험하지만, 내부적으로는 "일반 컴퓨팅 세계"와 "개인 신원·결제 세계"가 분리되어 있는 셈이다. SEP는 이 분리를 제품 수준에서 가장 성공적으로 구현한 사례로 자주 언급된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Apple SoC with dedicated SEP</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AP / iOS apps / kernel</div><div class="kb-diagram-cell">SEP / sepOS / secure keys</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User request -----------&gt;</div><div class="kb-diagram-cell">biometric match / sign / rate</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Result only &lt;-------------</div><div class="kb-diagram-cell">limiting inside boundary</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                 Apple SoC with dedicated SEP                │
+├──────────────────────────────────────────────────────────────┤
+│ AP / iOS apps / kernel     |     SEP / sepOS / secure keys  │
+│                            |                                 │
+│ User request  -----------> |  biometric match / sign / rate │
+│ Result only <------------- |  limiting inside boundary      │
+└──────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 집 현관은 넓게 열고 닫아도, 비밀번호 금고는 별도 금고실에서만 다루는 것과 같다. 현관이 시끄러워도 금고 규칙은 바뀌지 않는다.
 
@@ -49,19 +47,17 @@ SEP는 부트 [ROM](/knowledge-base/studynote/01_computer_architecture/06_memory
 | Secure Mailbox | AP와 제한적 통신 | 결과만 반환, 내부 상태 비공개 |
 | Replay-protected Storage | [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)·[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 상태 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) | 오프라인 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)·[롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 방지 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Typical SEP-protected operation</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sensor / passcode -&gt; AP -&gt; SEP request</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ compare / derive / sign</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ enforce retry policy</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Return: yes/no, token, or wrapped result only</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                Typical SEP-protected operation              │
+├──────────────────────────────────────────────────────────────┤
+│ Sensor / passcode -> AP -> SEP request                      │
+│                           │                                  │
+│                           ├─ compare / derive / sign         │
+│                           └─ enforce retry policy            │
+│ Return: yes/no, token, or wrapped result only               │
+└──────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 은행 창구에 서류를 내면 안쪽에서 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)만 하고 승인 도장만 찍어 돌려주는 방식과 같다. 도장 기준표 자체는 밖으로 나오지 않는다.
 
@@ -108,21 +104,18 @@ SEP는 소비자 기기에서 하드웨어 격리가 어떻게 [개인정보](/k
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Secure Boot into sepOS</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">UID-based Key Management</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Biometric / Passcode Decision</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Approved Result to AP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Retry / Lockout Policy</div></div>
-</div>
-</div>
-
-
+```text
+[Secure Boot into sepOS]
+    │
+    ▼
+[UID-based Key Management]
+    │
+    ▼
+[Biometric / Passcode Decision]
+    │
+    ├──▶ [Approved Result to AP]
+    └──▶ [Retry / Lockout Policy]
+```
 
 이 흐름은 SEP가 단순 키 저장소가 아니라, [보안 부팅](/knowledge-base/studynote/02_operating_system/10_security/608_secure_boot/) 이후 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 판단과 시도 제한 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)까지 집행하는 구조임을 보여준다. 즉 Apple 기기의 신뢰 모델은 SEP 운영 규칙 위에서 완성된다.
 

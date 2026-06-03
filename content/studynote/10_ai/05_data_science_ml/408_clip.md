@@ -26,17 +26,14 @@ tags = ["studynote-ai"]
 - **유연한 확장성**: 새로운 카테고리를 인식하기 위해 모델을 재학습할 필요 없이 텍스트 설명만 추가하면 됨
 - **범용성**: 사물 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)뿐만 아니라 이미지 검색, 스타일 변환, [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)형 모델의 가이드 등 다양한 분야에 적용 가능
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: CLIP은 이름표가 붙은 물건만 외우는 것이 아니라, "털이 복슬복슬하고 귀가 쫑긋한 동물"이라는 설명을 듣고 처음 보는 동물을 찾아내는 똑똑한 탐정과 같다.
 
@@ -53,23 +50,21 @@ CLIP은 두 개의 독립적인 [인코더](/knowledge-base/studynote/01_compute
 | <strong>Joint <a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/">Embedding</a></strong> | 이미지와 텍스트 벡터가 만나는 공간 | 의미가 같은 쌍은 가깝게, 다른 쌍은 멀게 배치 |
 | <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/413_clip_multimodal_contrastive_loss/">Contrastive Loss</a></strong> | 실제 쌍의 유사도는 높이고 나머지는 낮춤 | 행렬 대각선 성분의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 최대화 |
 
+```text
+[ CLIP 대조 학습 프로세스 ]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">CLIP 대조 학습 프로세스</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Text Encoder</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">T1, T2, ..., Tn</div><div class="kb-diagram-note">(Vectors)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Image Encoder</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">I1, I2, ..., In</div><div class="kb-diagram-note">(Vectors)</div></div>
-<div class="kb-diagram-note">3. 유사도 행렬 계산 (Cosine Similarity Matrix)</div>
-<div class="kb-diagram-note">T1 T2 T3 ... ▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Similarity Space</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I1</div><div class="kb-diagram-cell">(I1,T1)</div><div class="kb-diagram-cell">(I1,T2)</div><div class="kb-diagram-cell">(I1,T3)</div><div class="kb-diagram-cell">* (I_i, T_i) ──▶ Maximize</div></div>
-<div class="kb-diagram-tree-item" style="--depth:3">* (I_i, T_j) ──▶ Minimize</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I2</div><div class="kb-diagram-cell">(I2,T1)</div><div class="kb-diagram-cell">(I2,T2)</div><div class="kb-diagram-cell">(I2,T3)</div></div>
-</div>
-</div>
-
-
+   1. 텍스트 입력 ──▶ [ Text Encoder ] ──▶ [ T1, T2, ..., Tn ] (Vectors)
+                                                    │
+   2. 이미지 입력 ──▶ [ Image Encoder ] ──▶ [ I1, I2, ..., In ] (Vectors)
+                                                    │
+   3. 유사도 행렬 계산 (Cosine Similarity Matrix)   │
+           T1      T2      T3  ...                 ▼
+      ┌───────┬───────┬───────┐            [ Similarity Space ]
+   I1 │ (I1,T1)│ (I1,T2)│ (I1,T3)│          * (I_i, T_i) ──▶ Maximize
+      ├───────┼───────┼───────┤          * (I_i, T_j) ──▶ Minimize
+   I2 │ (I2,T1)│ (I2,T2)│ (I2,T3)│
+      └───────┴───────┴───────┘
+```
 
 <strong>제로샷 추론(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">Zero</a>-shot Inference)</strong>:
 - "A photo of a [CLASS]" 라는 템플릿에 타겟 클래스를 넣어 텍스트 벡터를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한 후, 입력 이미지 벡터와 가장 유사한 클래스를 정답으로 선택한다.
@@ -96,7 +91,7 @@ CLIP은 408번의 <strong>대조 학습(Contrastive <a href="/knowledge-base/stu
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 고려 사항
-1. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/224_prompt_engineering_guideline/">Prompt Engineering</a></strong>: "dog"라고만 하는 것보다 "A photo of a dog"라고 구체적으로 묘사하는 것이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 더 잘 나온다.
+1. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/224_prompt_engineering_guideline/">Prompt 엔진ering</a></strong>: "dog"라고만 하는 것보다 "A photo of a dog"라고 구체적으로 묘사하는 것이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 더 잘 나온다.
 2. <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">Domain</a> Adaptation</strong>: 일반적인 인터넷 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 학습되었으므로, 의료나 정밀 제조 등 특수 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에서는 추가적인 [미세 조정](/knowledge-base/studynote/10_ai/02_dl_architecture_new/133_fine_tuning/)이 필요할 수 있다.
 3. **Retrieval 활용**: 대규모 이미지 DB에서 특정 텍스트 설명과 일치하는 이미지를 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/)으로 찾는 시맨틱 검색(Semantic Search)에 즉시 적용 가능하다.
 

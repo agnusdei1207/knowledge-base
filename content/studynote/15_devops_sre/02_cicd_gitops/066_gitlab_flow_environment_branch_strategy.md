@@ -95,41 +95,29 @@ GitLab Flow는 환경 승격과 배포 추적을 단순화한다. 그래서 기�
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">feature</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">main</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">dev / staging / prod</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Deployment Traceability</div>
-</div>
-</div>
-
-
+```text
+feature
+  ↓
+main
+  ↓
+dev / staging / prod
+  ↓
+Deployment Traceability
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">GitHub Flow</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">GitLab Flow</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Environment Branching</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">CI/CD</div>
-</div>
-</div>
-
-
+```text
+GitHub Flow
+  ↓
+GitLab Flow
+  ↓
+Environment Branching
+  ↓
+CI/CD
+```
 
 ---
 

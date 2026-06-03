@@ -26,17 +26,14 @@ tags = ["studynote-ai"]
 
 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) 방법은 이 두 문제를 구조적으로 해결한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 편향은 "과녁 중심에서 체계적으로 빗나가는 것", [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)은 "여기저기 흩어져 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 없는 것"이다. 명중률을 높이려면 두 가지를 동시에 줄여야 한다.
 
@@ -77,22 +74,19 @@ Fₘ(x) = Fₘ₋₁(x) + η · hₘ(x)   (η: 학습률)
 hₘ(x): m번째 약한 학습기 (이전 잔차 학습)
 ```
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Bagging (병렬)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">트리1</div><div class="kb-diagram-note">─</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">트리2</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">ŷ_bag</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">트리n</div><div class="kb-diagram-note">─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Boosting (순차)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">트리1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">잔차1 →</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">트리2</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">잔차2 → ... →</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">트리n</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">합산 → ŷ_boost</div></div>
-</div>
-</div>
-
-
+```
+┌───────────────────────────────────────────────────────┐
+│ Bagging (병렬)                                        │
+│  데이터 → [트리1] ─┐                                  │
+│  데이터 → [트리2] ─┼─ 평균(회귀)/투표(분류) → ŷ_bag  │
+│  데이터 → [트리n] ─┘                                  │
+│                                                       │
+│ Boosting (순차)                                       │
+│  데이터 → [트리1] → 잔차1 →                           │
+│           [트리2] → 잔차2 → ... →                     │
+│           [트리n] → 합산 → ŷ_boost                    │
+└───────────────────────────────────────────────────────┘
+```
 
 | 방법 | 해결 문제 | 결합 방식 | 대표 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
 |:---|:---|:---|:---|

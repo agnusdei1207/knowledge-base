@@ -20,21 +20,19 @@ tags = ["studynote-bigdata"]
 
 기존 [OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/)(배치 기반 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/))은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 적재부터 분석까지 T+1(다음 날)이 표준이었다. 실시간 마케팅·운영·[IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 환경에서 T+1 분석은 너무 늦다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기존 OLAP vs 실시간 OLAP 비교</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기존 OLAP (배치)</div><div class="kb-diagram-cell">실시간 OLAP</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">배치 ETL → T+1 적재</div><div class="kb-diagram-cell">스트리밍 직접 적재, T+수초</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">야간 집계 (수 시간)</div><div class="kb-diagram-cell">서브초(&lt; 1초) 쿼리 응답</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Snowflake, Redshift</div><div class="kb-diagram-cell">Druid, Pinot, ClickHouse</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">복잡한 JOIN 지원</div><div class="kb-diagram-cell">JOIN 제한, 사전 집계 최적화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정확한 ACID</div><div class="kb-diagram-cell">Eventually Consistent</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│          기존 OLAP vs 실시간 OLAP 비교                         │
+├──────────────────────────┬───────────────────────────────────┤
+│    기존 OLAP (배치)        │    실시간 OLAP                    │
+├──────────────────────────┼───────────────────────────────────┤
+│  배치 ETL → T+1 적재       │  스트리밍 직접 적재, T+수초         │
+│  야간 집계 (수 시간)        │  서브초(< 1초) 쿼리 응답           │
+│  Snowflake, Redshift      │  Druid, Pinot, ClickHouse         │
+│  복잡한 JOIN 지원           │  JOIN 제한, 사전 집계 최적화        │
+│  정확한 ACID               │  Eventually Consistent            │
+└──────────────────────────┴───────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 기존 OLAP는 신문(어제 뉴스 집계), 실시간 OLAP는 실시간 뉴스 스트리밍이다. 어제 주가보다 지금 주가를 보고 싶은 트레이더에게는 실시간이 필수다.
 
@@ -44,21 +42,18 @@ tags = ["studynote-bigdata"]
 
 ### Apache Druid 아키텍처
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">이벤트 소스</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">실시간 인제스션 노드</div></div>
-<div class="kb-diagram-note">(실시간 분할·인덱싱)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">히스토리컬 노드 (Parquet+인덱스 저장)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">쿼리 노드 (서브초 집계 처리)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">브로커 (쿼리 라우팅)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">대시보드 / API</div></div>
-</div>
-</div>
-
-
+```text
+[이벤트 소스] → Kafka → [실시간 인제스션 노드]
+                              │ (실시간 분할·인덱싱)
+                              ▼
+                    [히스토리컬 노드 (Parquet+인덱스 저장)]
+                              │
+                    [쿼리 노드 (서브초 집계 처리)]
+                              │
+                    [브로커 (쿼리 라우팅)]
+                              │
+                    [대시보드 / API]
+```
 
 ### 실시간 [OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/) 3대 엔진 비교
 
@@ -131,23 +126,21 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">배치 OLAP — T+1 적재, 야간 집계, DW</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">실시간 OLAP — 스트리밍 즉시 적재, 서브초 쿼리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Druid/Pinot/ClickHouse — 실시간 OLAP 3대 엔진</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">람다/카파 아키텍처 통합 — 배치+실시간 유니파이</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Real-time Lakehouse — Iceberg+Delta+실시간 OLAP</div></div>
-</div>
-</div>
-
-
+```text
+[배치 OLAP — T+1 적재, 야간 집계, DW]
+    │
+    ▼
+[실시간 OLAP — 스트리밍 즉시 적재, 서브초 쿼리]
+    │
+    ▼
+[Druid/Pinot/ClickHouse — 실시간 OLAP 3대 엔진]
+    │
+    ▼
+[람다/카파 아키텍처 통합 — 배치+실시간 유니파이]
+    │
+    ▼
+[Real-time Lakehouse — Iceberg+Delta+실시간 OLAP]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

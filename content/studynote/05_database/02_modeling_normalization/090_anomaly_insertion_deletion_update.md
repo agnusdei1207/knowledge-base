@@ -36,25 +36,24 @@ tags = ["database"]
 | <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/092_deletion_anomaly/">삭제 이상</a></strong> | 특정 정보를 지울 때, 같은 행에 묶여 있던 유지해야 할 핵심 정보까지 연쇄적으로 날아감 | 의도치 않은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유실 |
 | <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/093_update_anomaly/">갱신 이상</a></strong> | 중복 저장된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중 일부만 수정되어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 간에 모순 발생 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 불일치 및 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 하락 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정규화되지 않은 뚱뚱한 테이블에서의 3대 이상 현상</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">학번(PK) │ 과목명(PK) │   이름   │  학과  │  성적</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">101</div><div class="kb-diagram-cell">DB</div><div class="kb-diagram-cell">김철수</div><div class="kb-diagram-cell">컴퓨터</div><div class="kb-diagram-cell">A</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">101</div><div class="kb-diagram-cell">OS</div><div class="kb-diagram-cell">김철수</div><div class="kb-diagram-cell">컴퓨터</div><div class="kb-diagram-cell">B</div><div class="kb-diagram-cell">◀ 갱신 이상</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">102</div><div class="kb-diagram-cell">회계</div><div class="kb-diagram-cell">이영희</div><div class="kb-diagram-cell">경영</div><div class="kb-diagram-cell">A</div><div class="kb-diagram-cell">◀ 삭제 이상</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">삽입 이상</div><div class="kb-diagram-note">: 신입생 '박민수(컴퓨터)' 입학 (아직 수강과목 없음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 과목명(PK)이 NULL이라 삽입 불가!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">삭제 이상</div><div class="kb-diagram-note">: '이영희'가 회계 수강 취소 (행 삭제)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 이영희가 경영학과라는 학생 정보까지 영구 삭제!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">갱신 이상</div><div class="kb-diagram-note">: '김철수'가 수학과로 전과</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; DB 행만 '수학과'로 바꾸면 OS 행과 데이터 불일치!</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│        정규화되지 않은 뚱뚱한 테이블에서의 3대 이상 현상     │
+├──────────────────────────────────────────────────────────────┤
+│ [ 학번(PK) │ 과목명(PK) │   이름   │  학과  │  성적 ]      │
+│ ──────────────────────────────────────────────────────────── │
+│   101      │    DB      │  김철수  │ 컴퓨터 │   A          │
+│   101      │    OS      │  김철수  │ 컴퓨터 │   B          │ ◀ 갱신 이상
+│   102      │   회계     │  이영희  │  경영  │   A          │ ◀ 삭제 이상
+│                                                              │
+│ [삽입 이상]: 신입생 '박민수(컴퓨터)' 입학 (아직 수강과목 없음) │
+│             => 과목명(PK)이 NULL이라 삽입 불가!              │
+│ [삭제 이상]: '이영희'가 회계 수강 취소 (행 삭제)             │
+│             => 이영희가 경영학과라는 학생 정보까지 영구 삭제!│
+│ [갱신 이상]: '김철수'가 수학과로 전과                        │
+│             => DB 행만 '수학과'로 바꾸면 OS 행과 데이터 불일치!│
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램은 학생 엔티티와 수강 엔티티가 합쳐졌을 때 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 간의 함수적 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)이 꼬이면서 발생하는 구체적인 에러 상황을 보여준다.
 
@@ -116,23 +115,21 @@ tags = ["database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">데이터 중복 방치 (비정규화 테이블)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">3대 이상 현상 발생 (삽입 / 삭제 / 갱신 이상)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">함수적 종속성 분석 (결정자와 종속자 파악)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">정규화 (Normalization: 1NF → 2NF → 3NF → BCNF)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">성능/무결성 트레이드오프 및 반정규화 (De-normalization) 판단</div>
-</div>
-</div>
-
-
+```text
+데이터 중복 방치 (비정규화 테이블)
+    │
+    ▼
+3대 이상 현상 발생 (삽입 / 삭제 / 갱신 이상)
+    │
+    ▼
+함수적 종속성 분석 (결정자와 종속자 파악)
+    │
+    ▼
+정규화 (Normalization: 1NF → 2NF → 3NF → BCNF)
+    │
+    ▼
+성능/무결성 트레이드오프 및 반정규화 (De-normalization) 판단
+```
 
 이 흐름도는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중복이 유발한 문제가 어떻게 구조적 분석을 거쳐 해결되고, 최종 실무적 타협점까지 이어지는지 보여준다.
 

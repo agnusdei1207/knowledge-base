@@ -27,26 +27,30 @@ tags = ["studynote-operating-system"]
   2. **1비트 근사의 맹점**: 하드웨어가 달아준 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 1개만 보니, 수백만 장의 램 중에 0인 놈들이 너무 많아 누굴 죽일지 찾느라 램 전체를 스캔(O(N))하는 렉이 걸림.
   3. **Clock의 등장**: 전체를 찾을 필요 없이 시곗바늘이 멈춘 곳에서부터 돌다가 0이 나오는 순간 그놈만 족치고 스탑! [탐색 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/) 극소화와 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) 흉내 내기를 동시에 달성하며 실무의 왕좌에 오름.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시계(Clock) 알고리즘의 2차 기회 부여 런타임 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">둥그런 원형 큐 구조 (램 프레임들)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">페이지 A (R=1)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">── (시곗바늘 시작점)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">페이지 D (R=1)</div><div class="kb-diagram-node">페이지 B (R=0)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">페이지 C (R=1)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 위기: 빈방이 없어서 누군가 쫓아내야 함 (Page Fault)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1️⃣ 바늘이 A를 가리킴: "R=1 이네? 너 살려준다(2차 기회)."</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; A의 비트를 R=0 으로 깎아내리고 바늘은 다음으로 이동.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2️⃣ 바늘이 B를 가리킴: "R=0 이네? 너 내가 저번 바퀴에 0으로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">깎아놨는데 그동안 한 번도 안 썼단 얘기지? 너 당첨! 나가!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; 💥 B를 디스크로 내쫓고 빈자리에 새 페이지를 끼워 넣음.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; 바늘은 C를 가리킨 상태로 휴식 모드 돌입.</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────────┐
+│        시계(Clock) 알고리즘의 2차 기회 부여 런타임 시각화         │
+├───────────────────────────────────────────────────────────────────┤
+│                                                                   │
+│ [ 둥그런 원형 큐 구조 (램 프레임들) ]                             │
+│                                                                   │
+│        [ 페이지 A (R=1) ]  ◀── (시곗바늘 시작점)                  │
+│       /                 \                                         │
+│ [ 페이지 D (R=1) ]   [ 페이지 B (R=0) ]                           │
+│       \                 /                                         │
+│        [ 페이지 C (R=1) ]                                         │
+│                                                                   │
+│ ▶ 위기: 빈방이 없어서 누군가 쫓아내야 함 (Page Fault)             │
+│                                                                   │
+│ 1️⃣ 바늘이 A를 가리킴: "R=1 이네? 너 살려준다(2차 기회)."         │
+│    -> A의 비트를 R=0 으로 깎아내리고 바늘은 다음으로 이동.        │
+│                                                                   │
+│ 2️⃣ 바늘이 B를 가리킴: "R=0 이네? 너 내가 저번 바퀴에 0으로       │
+│    깎아놨는데 그동안 한 번도 안 썼단 얘기지? 너 당첨! 나가!"      │
+│    -> 💥 B를 디스크로 내쫓고 빈자리에 새 페이지를 끼워 넣음.      │
+│    -> 바늘은 C를 가리킨 상태로 휴식 모드 돌입.                    │
+└───────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 이 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 우아함은 '바늘이 돌면서 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 0으로 깎아내린다'는 데 있다. 내가 아무리 예전에 램에 들어왔어도(FIFO의 맹점 극복), 시곗바늘이 내 앞을 지나가기 직전에 CPU가 날 한 번 터치(R=1)해 주면, 나는 방패(1)를 들고 바늘의 공격을 튕겨내며 생명을 한 바퀴 연장 받는다. 이것이 LRU의 '최근 사용 우대' 철학이 $O(1)$의 회전 큐에 완벽히 스며든 결과다.
 
 - **📢 섹션 요약 비유**: 서바이벌 게임에서 폭탄(시곗바늘)이 순서대로 돌아갑니다. 폭탄을 받았을 때 주머니에 '방어막 코인(R=1)'이 있으면 코인을 내고(R=0) 폭탄을 옆 사람에게 넘길 수 있습니다(2차 기회). 하지만 방어막 코인이 없는 사람(R=0)에게 폭탄이 오면 그 자리에서 즉사([페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 쫓겨남)하는 잔혹하고도 공평한 룰렛 게임입니다.
@@ -103,17 +107,14 @@ tags = ["studynote-operating-system"]
 
 시곗바늘이 돌면서 이 4가지 클래스를 필터링한다. 무조건 `(0, 0)`을 찾을 때까지 바늘을 돌리고 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 깎아내린다. 디스크 I/O를 죽어라 피하려는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 눈물겨운 발악이 녹아있는 실전형 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시곗바늘 회전</div><div class="kb-diagram-cell">찾는 타겟 (R, M)</div><div class="kb-diagram-cell">실패 시 행동</div><div class="kb-diagram-cell">최악의 바퀴 수</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1회전</div><div class="kb-diagram-cell">(0, 0) 타겟</div><div class="kb-diagram-cell">(0,1)은 패스</div><div class="kb-diagram-cell">4바퀴 이상 돌며</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2회전</div><div class="kb-diagram-cell">(0, 1) 타겟</div><div class="kb-diagram-cell">R을 0으로 깎음</div><div class="kb-diagram-cell">미친 듯이 스캔함</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬────────────────────────────┐
+│ 시곗바늘 회전│ 찾는 타겟 (R, M)│ 실패 시 행동  │ 최악의 바퀴 수 │
+├──────────┼────────────┼────────────┼────────────────────────────┤
+│ 1회전    │ (0, 0) 타겟 │ (0,1)은 패스  │ 4바퀴 이상 돌며        │
+│ 2회전    │ (0, 1) 타겟 │ R을 0으로 깎음│ 미친 듯이 스캔함       │
+└──────────┴────────────┴────────────┴────────────────────────────┘
+```
 **[매트릭스 해설]** 개선된 Clock은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 끝내주지만, 바늘이 램 400만 장을 4바퀴나 뱅글뱅글 헛돌 수도 있는(OS 데몬 과부하) 위험성을 안고 있다. 실무 OS는 이 바늘이 너무 빨리 돌 때([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Scan Rate 급증)를 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))의 전조 증상으로 파악하고 비상벨을 울린다.
 
 - **📢 섹션 요약 비유**: 청소할 때 안 쓰는 물건(R=0)을 버리는 걸 넘어, "기왕 버릴 거면 당근마켓에 팔기 귀찮은 물건(Dirty)보다 그냥 쓰레기통에 바로 던지면 되는 물건(Clean)부터 버리자!"라고 얌체같이 우선순위를 짠 극강의 게으름/효율성 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)입니다.
@@ -169,19 +170,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">LRU 근사 알고리즘 (LRU Approximation)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2차 기회 알고리즘 (Second-Chance / Clock Algorithm)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">개선된 2차 기회 알고리즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">LFU (Least Frequently Used) 알고리즘</div></div>
-</div>
-</div>
-
-
+```text
+[LRU 근사 알고리즘 (LRU Approximation)]
+    │
+    ▼
+[2차 기회 알고리즘 (Second-Chance / Clock Algorithm)]
+    │
+    ├──▶ [개선된 2차 기회 알고리즘]
+    └──▶ [LFU (Least Frequently Used) 알고리즘]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

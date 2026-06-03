@@ -30,23 +30,17 @@ BCP는 "서버를 되살리는 문서"가 아니다. 재난이 발생했을 때 
 
 비상 계획의 출발점은 "무엇이 가장 중요한가"를 가르는 일이다. 이를 위해 BIA와 RA를 먼저 수행한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">재난/장애 발생</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">BIA (Business Impact Analysis)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">RA (Risk Assessment)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">RTO / RPO 설정</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">복구 전략과 자원 배치</div>
-</div>
-</div>
-
-
+```text
+재난/장애 발생
+    ↓
+BIA (Business Impact Analysis)
+    ↓
+RA (Risk Assessment)
+    ↓
+RTO / RPO 설정
+    ↓
+복구 전략과 자원 배치
+```
 
 - [BIA](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/212_bia_business_impact_analysis_rto_rpo_dr/) ([Business Impact Analysis](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/212_bia_business_impact_analysis_rto_rpo_dr/))는 업무별 피해 규모와 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 우선순위를 정한다.
 - [RA](/knowledge-base/studynote/09_security/03_network_security/161_ra_registration_authority/) ([Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Assessment)는 화재, 홍수, [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 같은 위협의 발생 가능성과 영향을 본다.
@@ -101,23 +95,17 @@ BCP는 작성보다 운영이 더 중요하다. 계획은 시간이 지나면 �
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">재난/재해</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">BIA + RA</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">RTO / RPO</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">인력 / 장소 / 시스템 / 공급망 대응</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">훈련 / 점검 / 개선</div>
-</div>
-</div>
-
-
+```text
+재난/재해
+   ↓
+BIA + RA
+   ↓
+RTO / RPO
+   ↓
+인력 / 장소 / 시스템 / 공급망 대응
+   ↓
+훈련 / 점검 / 개선
+```
 
 ---
 

@@ -29,24 +29,21 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Purdue 참조 모델 계층 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 4: 기업 네트워크 (ERP, MES, IT 시스템)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DMZ (방화벽 + 데이터 다이오드)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 3: 제조 운영 (MES, 히스토리안, 엔지니어링 워크스테이션)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">내부 방화벽</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 2: 제어 감시 (SCADA, HMI, DCS)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제어망 방화벽</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 1: 기본 제어 (PLC, RTU, 지능형 장치)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">필드버스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 0: 물리 공정 (센서, 액추에이터, 모터)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│              Purdue 참조 모델 계층 구조                          │
+├──────────────────────────────────────────────────────────────────┤
+│  Level 4: 기업 네트워크 (ERP, MES, IT 시스템)                   │
+│           ─── DMZ (방화벽 + 데이터 다이오드) ───────────────── │
+│  Level 3: 제조 운영 (MES, 히스토리안, 엔지니어링 워크스테이션)  │
+│           ─── 내부 방화벽 ──────────────────────────────────── │
+│  Level 2: 제어 감시 (SCADA, HMI, DCS)                           │
+│           ─── 제어망 방화벽 ────────────────────────────────── │
+│  Level 1: 기본 제어 (PLC, RTU, 지능형 장치)                     │
+│           ─── 필드버스 ──────────────────────────────────────  │
+│  Level 0: 물리 공정 (센서, 액추에이터, 모터)                    │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 | 레벨  | 구성 요소                  | [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 수단                    |
 | :---- | :------------------------- | :--------------------------- |
@@ -115,25 +112,24 @@ tags = ["studynote-devops-sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">에어갭 ICS (물리적 완전 격리)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Purdue 모델 (계층별 논리 분리)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">IT-OT DMZ + 데이터 다이오드 (Industry 4.0 연동)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">IEC 62443 (국제 OT 보안 표준화)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">OT IDS + 자산 가시성 (이상 탐지 고도화)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">5G 사설망 + AI 기반 자율 방어 ICS</div>
-</div>
-</div>
-
-
+```text
+에어갭 ICS (물리적 완전 격리)
+    │
+    ▼
+Purdue 모델 (계층별 논리 분리)
+    │
+    ▼
+IT-OT DMZ + 데이터 다이오드 (Industry 4.0 연동)
+    │
+    ▼
+IEC 62443 (국제 OT 보안 표준화)
+    │
+    ▼
+OT IDS + 자산 가시성 (이상 탐지 고도화)
+    │
+    ▼
+5G 사설망 + AI 기반 자율 방어 ICS
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

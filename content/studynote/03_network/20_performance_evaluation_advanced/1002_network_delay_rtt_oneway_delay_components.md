@@ -26,18 +26,14 @@ tags = ["studynote-network"]
 2. <strong>왕복 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> (<a href="/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/">RTT</a>, <a href="/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/">Round Trip Time</a>)</strong>: 
    - 패킷이 미국 서버에 도착했다가, 서버가 "잘 받았어!" 하고 답장(ACK)을 쏴서 <strong>내 컴퓨터로 다시 돌아오기까지 걸린 총 왕복 시간</strong>입니다. ([명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) `Ping`을 때렸을 때 나오는 시간이 바로 이 RTT입니다.) 웹서핑, 게임 등 양방향 통신에서 사람의 빡침을 결정하는 핵심 수치입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">QoS / QoE 차이 비교</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 지연</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">처리량 수식화</div></div>
-</div>
-</div>
-
-
+```text
+[QoS / QoE 차이 비교]
+    │
+    ▼
+[네트워크 지연]
+    │
+    └──▶ [처리량 수식화]
+```
 
 - **📢 섹션 요약 비유**: 네트워크 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -62,18 +58,14 @@ tags = ["studynote-network"]
 - 전기 신호가 랜선에 다 실린 후, 빛의 속도(또는 전기의 속도)로 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000km 떨어진 미국 해저 케이블 바닥을 가로질러 <strong>물리적으로 날아가는(이동하는) 순수 비행시간</strong>입니다.
 - (계산법: 거리 / 빛의 속도). 거리가 멀면 무슨 짓을 해도 줄일 수 없는 우주 물리학의 한계치입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">QoS / QoE 차이 비교</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 지연</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">처리량 수식화</div></div>
-</div>
-</div>
-
-
+```text
+[QoS / QoE 차이 비교]
+    │
+    ▼
+[네트워크 지연]
+    │
+    └──▶ [처리량 수식화]
+```
 
 - **📢 섹션 요약 비유**: 네트워크 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -134,19 +126,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: QoS / QoE 차이 비교</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 네트워크 지연</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 처리량 수식화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: QoS / QoE 차이 비교]
+    │
+    ▼
+[현재 개념: 네트워크 지연]
+    │
+    ├──▶ [확장 A: 처리량 수식화]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 네트워크 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)는 [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) / QoE 차이 비교에서 출발해 현재 메커니즘을 정교화하고, 이후 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 수식화와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

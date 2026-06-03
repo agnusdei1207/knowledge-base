@@ -38,25 +38,26 @@ tags = ["studynote-operating-system"]
 
 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 1:1 매핑 구조와 블로킹 격리 원리를 시각화한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">커널 수준 스레드 (KLT) 1:1 매핑 모델 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">사용자 영역 (User Space)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로세스</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ULT 1</div><div class="kb-diagram-node">ULT 2</div><div class="kb-diagram-node">ULT 3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Mode Boundary ─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 1:1 ▼ 1:1 ▼ 1:1</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">커널 영역 (Kernel Space)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">KLT 1</div><div class="kb-diagram-node">KLT 2</div><div class="kb-diagram-node">KLT 3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블로킹 발생!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">(Wait 큐 이동)</div><div class="kb-diagram-node">코어 1 할당</div><div class="kb-diagram-node">코어 2 할당</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: KLT 1이 멈춰도 커널 스케줄러가 KLT 2, 3을 타 코어에서 실행시킴</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           커널 수준 스레드 (KLT) 1:1 매핑 모델 아키텍처           │
+├──────────────────────────────────────────────────────────────┤
+│  [ 사용자 영역 (User Space) ]                                │
+│  ┌──────────────────────────────────────────────────┐        │
+│  │ 프로세스                                          │        │
+│  │  [ ULT 1 ]          [ ULT 2 ]          [ ULT 3 ] │        │
+│  └───│──────────────────│──────────────────│────────┘        │
+│ ─────┼──────────────────┼──────────────────┼─ Mode Boundary ─│
+│      ▼ 1:1              ▼ 1:1              ▼ 1:1           │
+│  [ 커널 영역 (Kernel Space) ]                                │
+│     [ KLT 1 ]          [ KLT 2 ]          [ KLT 3 ]          │
+│       │ 블로킹 발생!        │                  │               │
+│       ▼                   ▼                  ▼               │
+│     (Wait 큐 이동)     [ 코어 1 할당 ]    [ 코어 2 할당 ]         │
+│                                                              │
+│ * 핵심: KLT 1이 멈춰도 커널 스케줄러가 KLT 2, 3을 타 코어에서 실행시킴 │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램은 KLT 모델에서 블로킹 장애가 어떻게 격리되는지를 보여준다. 유저 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 시스템 콜을 호출하여 대기 상태에 빠지면, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 해당 KLT의 상태만 'Wait'로 변경하고 동일 프로세스에 속한 다른 KLT들은 다른 물리 코어에서 작업을 멈추지 않고 지속하게 만든다.
 
@@ -117,23 +118,21 @@ KLT [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_schedul
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">프로세스 시분할 (단일 실행 흐름)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">사용자 수준 스레드 (가벼움, 블로킹 취약)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">커널 수준 스레드 (1:1 매핑, 블로킹 면역, 무거움)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">다대다 (M:N) 매핑 / 하이브리드 모델</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">코루틴 및 가상 스레드 (Virtual Thread) 런타임 결합</div>
-</div>
-</div>
-
-
+```text
+프로세스 시분할 (단일 실행 흐름)
+    │
+    ▼
+사용자 수준 스레드 (가벼움, 블로킹 취약)
+    │
+    ▼
+커널 수준 스레드 (1:1 매핑, 블로킹 면역, 무거움)
+    │
+    ▼
+다대다 (M:N) 매핑 / 하이브리드 모델
+    │
+    ▼
+코루틴 및 가상 스레드 (Virtual Thread) 런타임 결합
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

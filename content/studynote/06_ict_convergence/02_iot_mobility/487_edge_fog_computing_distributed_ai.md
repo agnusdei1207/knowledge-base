@@ -33,24 +33,21 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라우드 - 포그 - 엣지 3계층 분산 컴퓨팅 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">클라우드 계층</div><div class="kb-diagram-note">대규모 학습·장기 저장·글로벌 정책 관리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WAN / 인터넷 (지연 50~200ms)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">포그 계층</div><div class="kb-diagram-note">지역 집계·전처리·정책 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(포그 노드: 기지국, 엣지 서버, 소규모 데이터센터)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LAN / 5G 백홀 (지연 5~20ms)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">엣지 계층</div><div class="kb-diagram-note">실시간 추론·제어·필터링</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(엣지 디바이스: 게이트웨이, 카메라, 로봇, 차량 탑재 컴퓨터)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">직접 연결 (지연 &lt; 1ms)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">디바이스</div><div class="kb-diagram-note">센서·액추에이터 (데이터 생성)</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────┐
+│       클라우드 - 포그 - 엣지 3계층 분산 컴퓨팅 아키텍처        │
+├──────────────────────────────────────────────────────────┤
+│  [클라우드 계층]  대규모 학습·장기 저장·글로벌 정책 관리          │
+│       │  WAN / 인터넷 (지연 50~200ms)                     │
+│  [포그 계층]    지역 집계·전처리·정책 실행                      │
+│  (포그 노드: 기지국, 엣지 서버, 소규모 데이터센터)               │
+│       │  LAN / 5G 백홀 (지연 5~20ms)                     │
+│  [엣지 계층]    실시간 추론·제어·필터링                         │
+│  (엣지 디바이스: 게이트웨이, 카메라, 로봇, 차량 탑재 컴퓨터)       │
+│       │  직접 연결 (지연 < 1ms)                            │
+│  [디바이스]     센서·액추에이터 (데이터 생성)                    │
+└──────────────────────────────────────────────────────────┘
+```
 
 ### 엣지 vs 포그 vs 클라우드 비교
 

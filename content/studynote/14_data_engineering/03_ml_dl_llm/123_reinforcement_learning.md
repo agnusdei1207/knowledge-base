@@ -18,21 +18,22 @@ tags = ["studynote-dataengineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">강화 학습 프레임워크</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Agent</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">현재 상태 s → 행동 a 선택 (Policy π)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Environment</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">행동 a 수행 → 보상 r + 새 상태 s' 반환</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Agent</div><div class="kb-diagram-note">보상 r을 기반으로 Policy 업데이트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 반복하여 누적 보상 최대화</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    강화 학습 프레임워크                                │
+├───────────────────────────────────────────────────────┤
+│  [Agent]                                              │
+│   현재 상태 s → 행동 a 선택 (Policy π)               │
+│      │                                                │
+│      ▼                                                │
+│  [Environment]                                        │
+│   행동 a 수행 → 보상 r + 새 상태 s' 반환             │
+│      │                                                │
+│      ▼                                                │
+│  [Agent] 보상 r을 기반으로 Policy 업데이트            │
+│   → 반복하여 누적 보상 최대화                        │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)은 게임을 처음 하는 아이가 <strong>점수(보상)</strong>를 올리기 위해 여러 버튼을 눌러보면서(시행착오) 최적 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 스스로 터득하는 것이다.
 
@@ -93,23 +94,21 @@ tags = ["studynote-dataengineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Q-Learning (1989) — 테이블 기반</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DQN (2013, DeepMind) — 딥 Q-Network</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AlphaGo (2016) — 바둑 세계 챔피언 달성</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">PPO (2017, OpenAI) — 실용적 Policy Gradient</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: RLHF (ChatGPT) + GRPO — LLM 정렬</div></div>
-</div>
-</div>
-
-
+```text
+[Q-Learning (1989) — 테이블 기반]
+    │
+    ▼
+[DQN (2013, DeepMind) — 딥 Q-Network]
+    │
+    ▼
+[AlphaGo (2016) — 바둑 세계 챔피언 달성]
+    │
+    ▼
+[PPO (2017, OpenAI) — 실용적 Policy Gradient]
+    │
+    ▼
+[현재: RLHF (ChatGPT) + GRPO — LLM 정렬]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)은 **게임을 처음 하면서** 점수(보상)를 올리는 방법을 배우는 거예요.

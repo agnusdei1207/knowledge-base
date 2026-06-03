@@ -49,24 +49,24 @@ tags = ["studynote-operating-system"]
 
 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/), 메시지 큐, [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)이 이 방식을 사용한다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 통과하는 경로를 추적해 본다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메시지 패싱 (Pipe/Socket) 동작 및 오버헤드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">User Space</div><div class="kb-diagram-note">프로세스 A (송신자) 프로세스 B (수신자)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. write() ▲ 4. read()</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Kernel Space</div><div class="kb-diagram-node">1차 Memory Copy</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▼</div><div class="kb-diagram-node">2차 Memory Copy</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">커널 내부 버퍼 (Mailbox)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">★ 오버헤드 분석:</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1. 시스템 콜 오버헤드: write()와 read() 호출 시 2번의</div><div class="kb-diagram-node">Context Switch</div><div class="kb-diagram-note">발생.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2. 복사 오버헤드: 유저 $\rightarrow$ 커널, 커널 $\rightarrow$ 유저로</div><div class="kb-diagram-node">2번의 메모리 카피</div><div class="kb-diagram-note">발생.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 대기 오버헤드: 버퍼가 꽉 차거나 비어있으면 프로세스가 블로킹(Sleep) 됨.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 메시지 패싱 (Pipe/Socket) 동작 및 오버헤드              │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │  [User Space]       프로세스 A (송신자)          프로세스 B (수신자)     │
+  │                         │ 1. write()               ▲ 4. read()    │
+  │  =======================▼==========================│==============│
+  │  [Kernel Space]         │ [1차 Memory Copy]        │              │
+  │                         ▼                          │ [2차 Memory Copy]
+  │                  [ 커널 내부 버퍼 (Mailbox) ]──────┘              │
+  │                                                                   │
+  │  ★ 오버헤드 분석:                                                   │
+  │   1. 시스템 콜 오버헤드: write()와 read() 호출 시 2번의 [Context Switch] 발생.│
+  │   2. 복사 오버헤드: 유저 $\rightarrow$ 커널, 커널 $\rightarrow$ 유저로 [2번의 메모리 카피] 발생. │
+  │   3. 대기 오버헤드: 버퍼가 꽉 차거나 비어있으면 프로세스가 블로킹(Sleep) 됨.  │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** "10MB짜리 사진을 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)로 보낸다"고 가정하자. 10MB [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리로 복사되고, 다시 수신자의 유저 메모리로 복사된다. 총 20MB의 메모리 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 낭비된다. 만약 초당 1만 장의 사진을 처리하는 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이라면 이 **2-Copy 오버헤드** 때문에 CPU가 100%를 치게 된다.
 
@@ -76,24 +76,26 @@ tags = ["studynote-operating-system"]
 
 POSIX `shm_open()`과 `mmap()`을 활용한 가장 빠른 [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) 방식이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공유 메모리 (Shared Memory) 동작 및 오버헤드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">User Space</div><div class="kb-diagram-note">프로세스 A (송신자) 프로세스 B (수신자)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(단순 포인터 쓰기/읽기, 시스템 콜 없음!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">==============</div><div class="kb-diagram-node">공유 메모리 영역 (Shared Page)</div><div class="kb-diagram-note">================</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Kernel Space</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 커널은 처음에 메모리를 매핑(mmap)해 줄 때만 개입하고, 이후엔 빠짐.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">★ 오버헤드 분석:</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1. 통신 오버헤드: </div><div class="kb-diagram-node">Zero-Copy</div><div class="kb-diagram-note">, 커널 개입 없음. 성능 최강.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 동기화 오버헤드: A가 쓰고 있는데 B가 읽으면 데이터가 깨짐 (Race Condition).</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">반드시</div><div class="kb-diagram-node">세마포어/뮤텍스</div><div class="kb-diagram-note">를 사용해야 하므로 여기서</div><div class="kb-diagram-node">Lock 오버헤드</div><div class="kb-diagram-note">가 발생!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 공유 메모리 (Shared Memory) 동작 및 오버헤드             │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │  [User Space]       프로세스 A (송신자)          프로세스 B (수신자)     │
+  │                         │                          ▲              │
+  │                         │ (단순 포인터 쓰기/읽기, 시스템 콜 없음!)        │
+  │                         ▼                          │              │
+  │  ============== [ 공유 메모리 영역 (Shared Page) ] ================│
+  │                                                                   │
+  │  [Kernel Space]                                                   │
+  │   - 커널은 처음에 메모리를 매핑(mmap)해 줄 때만 개입하고, 이후엔 빠짐.      │
+  │                                                                   │
+  │  ★ 오버헤드 분석:                                                   │
+  │   1. 통신 오버헤드: **[Zero-Copy], 커널 개입 없음. 성능 최강.**          │
+  │   2. 동기화 오버헤드: A가 쓰고 있는데 B가 읽으면 데이터가 깨짐 (Race Condition).│
+  │      반드시 [세마포어/뮤텍스]를 사용해야 하므로 여기서 [Lock 오버헤드]가 발생!│
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 자체는 복사가 0회([Zero-copy](/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/))이므로 빛의 속도다. 하지만 치명적인 약점이 있다. 송신자가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다 쓰지도 않았는데 수신자가 읽어가는 것을 막기 위해 개발자가 직접 락([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/))을 걸어야 한다. 이 락을 잡고 푸는 과정 자체가 결국 시스템 콜과 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 스위치를 유발하므로, <strong>"작은 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 엄청나게 자주 보낼 때는 락 오버헤드 때문에 오히려 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>보다 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/">공유 메모리</a>가 더 느려질 수 있다"</strong>는 것이 시스템 아키텍트들의 숨겨진 비밀이다.
 
@@ -137,25 +139,28 @@ POSIX `shm_open()`과 `mmap()`을 활용한 가장 빠른 [IPC](/knowledge-base/
 
 ### 의사결정 및 튜닝 플로우
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">성능 최적화를 위한 IPC 아키텍처 선택 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">두 개의 독립된 프로세스 간에 데이터를 주고받아야 함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주고받는 데이터의 크기가 메가바이트(MB) 단위 이상으로 큰가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Shared Memory (공유 메모리) 채택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(개발 복잡도가 높더라도 2-Copy 오버헤드를 막아야 함)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 (수십 바이트 크기의 단순한 제어 명령어, JSON 등)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서로 다른 물리적 컴퓨터(네트워크) 간의 통신 가능성을 열어두어야 하는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TCP/UDP Socket 채택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(오버헤드는 가장 크지만 완벽한 확장성 제공)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Unix Domain Socket 또는 Message Queue 채택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(단일 머신 내에서 개발 생산성과 속도의 최적 타협점)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 성능 최적화를 위한 IPC 아키텍처 선택 플로우               │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [두 개의 독립된 프로세스 간에 데이터를 주고받아야 함]                       │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      주고받는 데이터의 크기가 메가바이트(MB) 단위 이상으로 큰가?               │
+  │          ├─ 예 ─────▶ [Shared Memory (공유 메모리) 채택]             │
+  │          │            (개발 복잡도가 높더라도 2-Copy 오버헤드를 막아야 함) │
+  │          └─ 아니오 (수십 바이트 크기의 단순한 제어 명령어, JSON 등)         │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      서로 다른 물리적 컴퓨터(네트워크) 간의 통신 가능성을 열어두어야 하는가?      │
+  │          ├─ 예 ─────▶ [TCP/UDP Socket 채택]                         │
+  │          │            (오버헤드는 가장 크지만 완벽한 확장성 제공)           │
+  │          │                                                        │
+  │          └─ 아니오 ──▶ [Unix Domain Socket 또는 Message Queue 채택] │
+  │                         (단일 머신 내에서 개발 생산성과 속도의 최적 타협점)  │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** "[공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)가 무조건 제일 빠르니까 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)만 쓰자!"라고 주장하는 것은 주니어의 흔한 착각이다. [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)를 쓸 때 발생하는 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 락([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/)) 병목이나 락 해제 누락([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))에 따른 유지보수 비용은 상상을 초월한다. 시스템 아키텍트는 <strong>"<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>이 깡패인 대용량 미디어 처리에는 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/">공유 메모리</a>를, 비즈니스 로직이 중요한 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/">마이크로서비스</a> 간 통신에는 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/">소켓</a>이나 메시지 큐"</strong>를 배치하는 이분법적 전략을 가져가야 한다.
 
@@ -199,19 +204,15 @@ POSIX `shm_open()`과 `mmap()`을 활용한 가장 빠른 [IPC](/knowledge-base/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">모놀리식 vs 마이크로 커널 성능 비교</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IPC 기법 성능 오버헤드 (IPC Performance Overhead)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">프로세스 주소 공간 분리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">PCB 구성 요소 필수 암기</div></div>
-</div>
-</div>
-
-
+```text
+[모놀리식 vs 마이크로 커널 성능 비교]
+    │
+    ▼
+[IPC 기법 성능 오버헤드 (IPC Performance Overhead)]
+    │
+    ├──▶ [프로세스 주소 공간 분리]
+    └──▶ [PCB 구성 요소 필수 암기]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

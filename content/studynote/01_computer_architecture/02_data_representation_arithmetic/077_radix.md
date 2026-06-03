@@ -35,18 +35,15 @@ tags = ["studynote-computer-architecture"]
 | [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) | 0~9 | 인간이 가장 익숙 | 일상 수치 |
 | 16 | 0~9, A~F | 4비트 묶음이 쉬움 | 주소, 메모리 덤프 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">16진수 A 3 F</div>
-<div class="kb-diagram-note">자리값 16² 16¹ 16⁰</div>
-<div class="kb-diagram-note">2진수 1010 0011 1111</div>
-<div class="kb-diagram-note">A 3 F</div>
-</div>
-</div>
-
-
+```text
+16진수  A   3   F
+        │   │   │
+자리값 16² 16¹ 16⁰
+        │   │   │
+2진수  1010 0011 1111
+        └───┴───┴───┘
+         A    3    F
+```
 
 16진수는 4비트씩 묶어 읽기 좋기 때문에 메모리 주소, 색상 코드, 디버깅 덤프에서 자주 쓰인다. 8진수는 3비트 묶음과 잘 맞아 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 시스템에서 많이 사용됐다.
 
@@ -97,21 +94,18 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">자연수 세기</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">자리값을 가진 숫자 체계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">2진수 / 8진수 / 10진수 / 16진수</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">메모리 주소 · 비트 마스크 · 디버깅 덤프</div>
-</div>
-</div>
-
-
+```text
+자연수 세기
+    │
+    ▼
+자리값을 가진 숫자 체계
+    │
+    ▼
+2진수 / 8진수 / 10진수 / 16진수
+    │
+    ▼
+메모리 주소 · 비트 마스크 · 디버깅 덤프
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

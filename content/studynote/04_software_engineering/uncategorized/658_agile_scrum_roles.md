@@ -32,26 +32,29 @@ tags = ["studynote-software-engineering"]
 
 전통적인 PM 중심 구조와 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/)의 3역할 체제의 권한 흐름 차이를 시각화하면 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전통적 PM 조직 구조 vs 스크럼 (Scrum) 역할 분담 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전통적 폭포수(Waterfall) 모델</div><div class="kb-diagram-node">애자일 스크럼(Scrum) 모델</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Project Manager</div><div class="kb-diagram-note">(What) (How)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ (일정/작업 통제)</div><div class="kb-diagram-node">PO</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Dev Team</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">기획</div><div class="kb-diagram-node">개발</div><div class="kb-diagram-node">테스트</div><div class="kb-diagram-node">Product</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(각 부서 간 소통 단절, (비즈니스 가치 창출)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">책임 전가 발생) ▲</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(장애물 제거)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Scrum Master</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Process)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">특징: 수직적 명령 하달 (Command) 특징: 수평적 상호 협력 및 견제</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">책임의 집중 (PM 병목) 책임의 분산 (자가 조직화)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────┐
+  │         전통적 PM 조직 구조 vs 스크럼 (Scrum) 역할 분담 구조       │
+  ├───────────────────────────────────────────────────────────────┤
+  │                                                               │
+  │  [전통적 폭포수(Waterfall) 모델]     [애자일 스크럼(Scrum) 모델]        │
+  │                                                               │
+  │        [Project Manager]            (What)        (How)       │
+  │         │ (일정/작업 통제)             [PO] ◀────▶ [Dev Team]  │
+  │   ┌─────┼─────┐                       │            │         │
+  │   ▼     ▼     ▼                       ▼            ▼         │
+  │ [기획] [개발] [테스트]                 [     Product     ]        │
+  │ (각 부서 간 소통 단절,                  (비즈니스 가치 창출)           │
+  │  책임 전가 발생)                                 ▲               │
+  │                                              │ (장애물 제거)      │
+  │                                              │               │
+  │                                        [Scrum Master]         │
+  │                                           (Process)           │
+  │                                                               │
+  │  특징: 수직적 명령 하달 (Command)     특징: 수평적 상호 협력 및 견제     │
+  │        책임의 집중 (PM 병목)             책임의 분산 (자가 조직화)      │
+  └───────────────────────────────────────────────────────────────┘
+```
 
   **[다이어그램 해설]** 전통적 모델에서는 PM이 맨 꼭대기에 앉아 기획, 개발, 테스트 담당자들에게 작업을 할당하고 일정을 독촉하는 중앙집권적 통제([Command and Control](/knowledge-base/studynote/09_security/15_malware_attack_vectors/746_c2/)) 구조를 갖는다. 반면, [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 모델은 상하 관계가 없는 수평적 삼각형 구조를 이룬다. Product Owner(PO)는 '무엇(What)'을 만들지 결정하고 비즈니스 가치를 극대화할 책임을 지며, Development Team은 '어떻게(How)' 만들지 결정하는 기술적 주도권을 갖는다. [Scrum Master](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/064_scrum_master_sm/)([SM](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/421_streaming_multiprocessor/))는 이들이 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 원칙에 맞게 소통하도록 돕고 외부의 간섭(장애물)을 차단하는 서번트 리더(Servant Leader) 역할을 한다. 이 상호 견제 구조가 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/)의 핵심 엔진이다.
 
@@ -145,30 +148,28 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) (Scrum) 역할 분담의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) (Scrum) 역할 분담의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
 | [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) (Scrum) 역할 분담은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) (Scrum) 역할 분담 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
 | [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) (Scrum) 역할 분담에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">애자일 스크럼 (Scrum) 역할 분담 개념 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 위기 (Software Crisis) 인식
+    │
+    ▼
+애자일 스크럼 (Scrum) 역할 분담 개념 정립
+    │
+    ▼
+표준화 및 방법론 체계화 (ISO, CMMI, Agile)
+    │
+    ▼
+클라우드 네이티브·AI 기반 확장 적용
+    │
+    ▼
+지속적 개선 및 DevOps·MLOps 통합
+```
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

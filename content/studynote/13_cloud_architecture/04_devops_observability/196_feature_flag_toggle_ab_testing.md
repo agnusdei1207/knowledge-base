@@ -42,29 +42,29 @@ Facebook, Google, Netflix 등은 수천 개의 [피처 플래그](/knowledge-bas
 
 ### [피처 플래그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/) 동작 구조
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Feature Flag 관리 서버</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(LaunchDarkly / Unleash / AWS AppConfig)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">플래그 정의: new_checkout_flow</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 기본값: OFF</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 대상: user_segment = "beta_users"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 가중치: 10% 랜덤 사용자</div></div>
-<div class="kb-diagram-note">SDK 폴링 or 웹훅</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">애플리케이션 코드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">if (featureFlag.isEnabled("new_checkout_flow",</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">currentUser)) {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">showNewCheckout(); // 신기능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">} else {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">showOldCheckout(); // 기존 기능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-</div>
-</div>
-
-
+```
+  ┌─────────────────────────────────────────────────────┐
+  │              Feature Flag 관리 서버                   │
+  │  (LaunchDarkly / Unleash / AWS AppConfig)            │
+  │                                                      │
+  │  플래그 정의: new_checkout_flow                       │
+  │    - 기본값: OFF                                     │
+  │    - 대상: user_segment = "beta_users"               │
+  │    - 가중치: 10% 랜덤 사용자                          │
+  └──────────────────────┬──────────────────────────────┘
+                         │ SDK 폴링 or 웹훅
+                         ▼
+  ┌──────────────────────────────────────────────────────┐
+  │                 애플리케이션 코드                       │
+  │                                                      │
+  │  if (featureFlag.isEnabled("new_checkout_flow",      │
+  │                             currentUser)) {          │
+  │      showNewCheckout();   // 신기능                  │
+  │  } else {                                            │
+  │      showOldCheckout();   // 기존 기능               │
+  │  }                                                   │
+  └──────────────────────────────────────────────────────┘
+```
 
 ### LaunchDarkly SDK 예시 (Java)
 
@@ -174,21 +174,17 @@ if (showNewUI) {
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Feature Branch + 배포 = 기능 공개 (분리 불가)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Feature Flag: 코드 배포 ≠ 기능 공개 (Decouple)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">LaunchDarkly · Unleash · ConfigCat</div>
-<div class="kb-diagram-tree-item" style="--depth:2">A/B Testing · Percentage Rollout</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Trunk-Based Development + Feature Flag = CD 극대화</div>
-</div>
-</div>
-
-
+```text
+Feature Branch + 배포 = 기능 공개 (분리 불가)
+    │
+    ▼
+Feature Flag: 코드 배포 ≠ 기능 공개 (Decouple)
+    ├─► LaunchDarkly · Unleash · ConfigCat
+    └─► A/B Testing · Percentage Rollout
+    │
+    ▼
+Trunk-Based Development + Feature Flag = CD 극대화
+```
 2. "이제 팔아도 돼"라는 신호가 오면 상자만 뜯으면 바로 판매 시작, 문제 생기면 다시 포장해서 치우면 돼.
 3. 가게를 다시 꾸미지(재배포) 않아도 판매 ON/OFF를 할 수 있어서 엄청 편리해.
 

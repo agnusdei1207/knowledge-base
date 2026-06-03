@@ -26,17 +26,14 @@ tags = ["studynote-ai"]
 - **지역 최적해 탈출**: [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)을 다시 높이는 'Restart' 과정을 통해 좁고 깊은 골짜기(Sharp Minima)에서 벗어나 더 넓고 평탄한 골짜기(Flat Minima)를 찾음
 - **하이퍼파라미터 민감도 완화**: 복잡한 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링 설계 없이도 비교적 우수한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 보장
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 코사인 어닐링은 산을 내려갈 때 처음에는 성큼성큼 뛰어가다가(높은 LR), 바닥에 가까워질수록 보폭을 줄여 조심스럽게 걷는(낮은 LR) 것과 같다. 때로는 담을 넘기 위해 다시 점프(Restart)를 하기도 한다.
 
@@ -53,24 +50,20 @@ tags = ["studynote-ai"]
 | **T_cur** | 현재 에폭 또는 스텝 | [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 상태 추적 |
 | **T_max** | 한 주기(Cycle)의 최대 에폭 | 주기성 조절 |
 
+```text
+[ 코사인 어닐링 학습률 변화 곡선 ]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">코사인 어닐링 학습률 변화 곡선</div></div>
-<div class="kb-diagram-note">Learning Rate</div>
-<div class="kb-diagram-connector">▲</div>
-<div class="kb-diagram-note">max █ * *</div>
-<div class="kb-diagram-note">█ * *</div>
-<div class="kb-diagram-note">█* * * *</div>
-<div class="kb-diagram-note">█ * * *</div>
-<div class="kb-diagram-note">█ * * *</div>
-<div class="kb-diagram-note">min █ *──* *──▶ Epoch</div>
-<div class="kb-diagram-note">Cycle 1 Cycle 2</div>
-</div>
-</div>
-
-
+  Learning Rate
+      ▲
+  max █  * *
+      █ *     *
+      █*       *        * *
+      █         *      *   *
+      █          *    *     *
+  min █───────────*──*───────*──▶ Epoch
+      └─────────────────────────┘
+         Cycle 1      Cycle 2
+```
 
 **수학적 메커니즘**:
 - [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) η_t는 `η_min + 0.5 * (η_max - η_min) * (1 + cos(π * T_cur / T_max))` 공식에 의해 결정된다.

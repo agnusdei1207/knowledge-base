@@ -27,27 +27,27 @@ tags = ["studynote-operating-system"]
   2. <strong>가볍고 안전한 격리(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/">Isolation</a>)의 열망</strong>: 리눅스 프로세스(`chroot`, `namespace`) 수준에서 가볍게 띄우되, 자원 뺏기를 막을 강력한 장치가 필요했다.
   3. **cgroups의 등장**: 프로세스 그룹에 하드 리밋(Hard Limit)을 거는 [cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) v1(그리고 더 정교한 v2)이 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 병합되며 마침내 가벼운 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/))의 시대가 폭발적으로 열렸다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">cgroups 유무에 따른 메모리 릭(Leak) 터짐 시의 파급력 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">서버 물리 RAM: 16GB / 컨테이너 A, B 구동 중</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1. 과거 야생 상태 (cgroups OFF - 리눅스 전역 교체)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 컨테이너 A에 메모리 릭 발생! 램을 무한대로 빨아들임 (10GB -&gt; 15GB)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- OS는 A를 돕기 위해 멀쩡한 B의 램(5GB)을 강제로 뺏어 스왑으로 날림.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💥 결과: A 때문에 아무 죄 없는 B 서버가 렉 걸려 마비됨. 서버 전체 뇌사!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2. 현대 클라우드 상태 (cgroups ON - 철저한 격리)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 설정: <code>docker run -m 4g 컨테이너A</code> (A는 최대 4GB로 묶임)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 컨테이너 A에 메모리 릭 발생! 램이 4GB에 도달함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- OS: "A 놈아, 서버에 램 12GB가 남아돌지만, 넌 Limit 4GB 쳤네?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">절대 B의 램을 뺏지 말고 네 철창 안에서 혼자 알아서 쫓아내고 놀아라!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- A가 4GB 안에서 아등바등 대다 결국 폭발함 (OOM Killed).</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 결과: 미친놈 A 하나만 깔끔하게 죽고, B는 평화롭게 로켓 속도로 생존!</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│        cgroups 유무에 따른 메모리 릭(Leak) 터짐 시의 파급력 시각화         │
+├────────────────────────────────────────────────────────────────────────────┤
+│                                                                            │
+│ [ 서버 물리 RAM: 16GB / 컨테이너 A, B 구동 중 ]                            │
+│                                                                            │
+│ ▶ 1. 과거 야생 상태 (cgroups OFF - 리눅스 전역 교체)                       │
+│  - 컨테이너 A에 메모리 릭 발생! 램을 무한대로 빨아들임 (10GB -> 15GB)      │
+│  - OS는 A를 돕기 위해 멀쩡한 B의 램(5GB)을 강제로 뺏어 스왑으로 날림.      │
+│  💥 결과: A 때문에 아무 죄 없는 B 서버가 렉 걸려 마비됨. 서버 전체 뇌사!   │
+│                                                                            │
+│ ▶ 2. 현대 클라우드 상태 (cgroups ON - 철저한 격리)                         │
+│  - 설정: `docker run -m 4g 컨테이너A` (A는 최대 4GB로 묶임)                │
+│  - 컨테이너 A에 메모리 릭 발생! 램이 4GB에 도달함.                         │
+│  - OS: "A 놈아, 서버에 램 12GB가 남아돌지만, 넌 Limit 4GB 쳤네?            │
+│        절대 B의 램을 뺏지 말고 네 철창 안에서 혼자 알아서 쫓아내고 놀아라!"│
+│  - A가 4GB 안에서 아등바등 대다 결국 폭발함 (OOM Killed).                  │
+│  ✅ 결과: 미친놈 A 하나만 깔끔하게 죽고, B는 평화롭게 로켓 속도로 생존!    │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** cgroups는 리눅스 메모리 관리의 가장 큰 아이러니를 보여준다. 전체 램(RAM)이 12GB나 텅텅 비어있는데도, 프로세스를 "메모리가 부족하다([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))"며 무참히 쏴 죽이는 인위적이고 융통성 없는 에러를 발생시킨다. 자원의 활용도(Efficiency)를 기꺼이 포기하고, 그 대가로 타인에 대한 방어막([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/))과 시스템 전체의 생존([Stability](/knowledge-base/studynote/08_algorithm_stats/02_sorting/021_stability/))을 쟁취한 클라우드 아키텍처의 비정한 선택이다.
 
 - **📢 섹션 요약 비유**: 은행(서버) 금고에 현금이 100억(16GB 램)이 쌓여있어도, 마이너스 통장 한도가 1천만 원([cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) 4GB)인 고객이 와서 "내 통장에서 1천 1백만 원 꺼내 줘!" 하면 은행원은 가차 없이 "잔액 부족([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))입니다" 하고 쫓아냅니다. 은행 전체 돈이 내 돈이 아니듯, 철저한 한도 관리가 금융 사고를 막는 1원칙입니다.
@@ -103,17 +103,14 @@ cgroups를 조종하는 [쿠버네티스](/knowledge-base/studynote/06_ict_conve
 - 🚨 **핵심**: cgroups의 `memory.limit_in_bytes` 카운터는 순수 힙([익명 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/391_anonymous_memory/))뿐만 아니라, <strong>이 앱이 낳은 거대한 <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">Page</a> Cache <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 조각들의 무게까지 몽땅 합산하여 한도를 깎아 먹는다!</strong>
 - 결국 힙은 2GB밖에 안 썼는데, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache가 1.5GB 쌓이면서 총 3.5GB가 되어 Limit(3GB)을 돌파, 어이없게도 멀쩡한 자바 앱이 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) Killer에게 암살당한다. 실무 백엔드에서 90% 이상 겪게 되는 "원인 모를 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 튕김"의 진짜 범인이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">램 사용 내역</div><div class="kb-diagram-cell">힙(익명) 크기</div><div class="kb-diagram-cell">Page Cache</div><div class="kb-diagram-cell">cgroups Limit 도달</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">앱의 착각</div><div class="kb-diagram-cell">2GB (안전)</div><div class="kb-diagram-cell">"OS가 관리함"</div><div class="kb-diagram-cell">Limit 3GB 안 넘음!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS의 채점</div><div class="kb-diagram-cell">2GB</div><div class="kb-diagram-cell">+ 1.5GB 누적</div><div class="kb-diagram-cell">💥 3.5GB &gt; 3GB (OOM)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬──────────────────────────┐
+│ 램 사용 내역│ 힙(익명) 크기 │ Page Cache │ cgroups Limit 도달 │
+├──────────┼────────────┼────────────┼──────────────────────────┤
+│ 앱의 착각  │ 2GB (안전)  │ "OS가 관리함"│ Limit 3GB 안 넘음!  │
+│ OS의 채점  │ 2GB        │ + 1.5GB 누적│ 💥 3.5GB > 3GB (OOM)  │
+└──────────┴────────────┴────────────┴──────────────────────────┘
+```
 **[매트릭스 해설]** cgroups는 무자비한 사채업자다. 네가 빌려 간 힙 메모리 원금뿐만 아니라, 네가 몰래 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템에 싸질러놓은 더티 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시 이자까지 모두 합산해서 청구서를 들이민다. 이것을 막으려면 자바 앱 실행 시 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 로깅을 끄거나 O_DIRECT를 써서 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시 우회를 시도해야만 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 폭사를 막을 수 있다.
 
 - **📢 섹션 요약 비유**: 비행기 수화물 제한(Limit)이 20kg입니다. 나는 캐리어(힙 메모리)를 딱 15kg 맞춰 싸서 안심하고 공항에 갔습니다. 그런데 승무원([cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/))이 내가 등 뒤에 멘 작은 백팩과 손에 든 면세점 쇼핑백([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache)의 무게까지 모조리 저울에 올려놓더니 총 22kg이라며 비행기 탑승을 거부([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))해 버리는, 자비 없는 전체 무게 합산 룰입니다.
@@ -169,19 +166,15 @@ cgroups를 조종하는 [쿠버네티스](/knowledge-base/studynote/06_ict_conve
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">파일시스템 버퍼 캐시(Buffer Cache)와 가상 메모리 페이지 캐시(Page Cache)의 통합 원리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Cgroups 메모리 서브시스템의 자원 제한 (Memory Limit) 동작</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">eBPF 기반 메모리 할당 트레이싱</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">I/O 장치의 분류</div></div>
-</div>
-</div>
-
-
+```text
+[파일시스템 버퍼 캐시(Buffer Cache)와 가상 메모리 페이지 캐시(Page Cache)의 통합 원리]
+    │
+    ▼
+[Cgroups 메모리 서브시스템의 자원 제한 (Memory Limit) 동작]
+    │
+    ├──▶ [eBPF 기반 메모리 할당 트레이싱]
+    └──▶ [I/O 장치의 분류]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

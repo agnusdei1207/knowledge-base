@@ -20,22 +20,21 @@ tags = ["studynote-it-management"]
 
 SWOT(Strengths·Weaknesses·Opportunities·Threats) 분석은 1960년대 스탠퍼드 연구팀이 개발한 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 분석 프레임워크로, 반세기가 지난 지금도 경영 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)·IT [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 수립의 출발점으로 광범위하게 사용된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SWOT → TOWS 전략 도출 매트릭스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Strengths (S)</div><div class="kb-diagram-cell">Weaknesses (W)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Opportunities</div><div class="kb-diagram-cell">SO 전략</div><div class="kb-diagram-cell">WO 전략</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(O)</div><div class="kb-diagram-cell">강점×기회</div><div class="kb-diagram-cell">약점×기회</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(공격 전략)</div><div class="kb-diagram-cell">(개선 전략)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Threats (T)</div><div class="kb-diagram-cell">ST 전략</div><div class="kb-diagram-cell">WT 전략</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">강점×위협</div><div class="kb-diagram-cell">약점×위협</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(차별화 전략)</div><div class="kb-diagram-cell">(방어 전략)</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│              SWOT → TOWS 전략 도출 매트릭스              │
+├───────────────┬──────────────────┬────────────────────┤
+│               │   Strengths (S)  │  Weaknesses (W)    │
+├───────────────┼──────────────────┼────────────────────┤
+│ Opportunities │  SO 전략          │  WO 전략            │
+│      (O)      │  강점×기회        │  약점×기회          │
+│               │  (공격 전략)      │  (개선 전략)        │
+├───────────────┼──────────────────┼────────────────────┤
+│  Threats (T)  │  ST 전략          │  WT 전략            │
+│               │  강점×위협        │  약점×위협          │
+│               │  (차별화 전략)    │  (방어 전략)        │
+└───────────────┴──────────────────┴────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: SWOT는 자신의 능력 목록(강점·약점)과 주변 환경(기회·위협)을 적는 것이고, TOWS는 "내 강점으로 어떤 기회를 잡을까, 약점 때문에 어떤 위협이 치명적일까"를 계산하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 게임이다.
 
@@ -131,23 +130,21 @@ SWOT → TOWS [전략](/knowledge-base/studynote/04_software_engineering/04_test
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">PEST/PESTEL — 거시 외부 환경 분석</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SWOT — 내부 강·약점 + 외부 기회·위협 통합 분석</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">TOWS 매트릭스 — SWOT 4요소 교차 전략 도출</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">BSC 연계 — TOWS 전략 → 4대 관점 KPI 설정</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Dynamic SWOT — 빅데이터 기반 실시간 환경 변화 반영</div></div>
-</div>
-</div>
-
-
+```text
+[PEST/PESTEL — 거시 외부 환경 분석]
+    │
+    ▼
+[SWOT — 내부 강·약점 + 외부 기회·위협 통합 분석]
+    │
+    ▼
+[TOWS 매트릭스 — SWOT 4요소 교차 전략 도출]
+    │
+    ▼
+[BSC 연계 — TOWS 전략 → 4대 관점 KPI 설정]
+    │
+    ▼
+[Dynamic SWOT — 빅데이터 기반 실시간 환경 변화 반영]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -117,38 +117,37 @@ tags = ["studynote-bigdata"]
 
 ## Ⅲ. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질과 가치의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
 
+```
+데이터 품질 6대 차원 (ISO 8000):
+  정확성 (Accuracy): 실제 값과의 오차율
+  완전성 (Completeness): 결측값 없는 비율
+  일관성 (Consistency): 시스템 간 동일 표현
+  적시성 (Timeliness): 최신성, 지연 시간
+  유일성 (Uniqueness): 중복 레코드 없음
+  유효성 (Validity): 비즈니스 규칙 준수율
 
+데이터 품질과 가치 함수:
+  Data Value = f(품질, 관련성, 희소성, 시의성)
+  
+  품질 < 임계값 → 음(-)의 가치:
+    오염된 데이터 기반 잘못된 ML 모델
+    → 잘못된 제품 추천 → 고객 이탈
+    → 데이터 없을 때보다 더 나쁜 결과
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">데이터 품질 6대 차원 (ISO 8000):</div>
-<div class="kb-diagram-note">정확성 (Accuracy): 실제 값과의 오차율</div>
-<div class="kb-diagram-note">완전성 (Completeness): 결측값 없는 비율</div>
-<div class="kb-diagram-note">일관성 (Consistency): 시스템 간 동일 표현</div>
-<div class="kb-diagram-note">적시성 (Timeliness): 최신성, 지연 시간</div>
-<div class="kb-diagram-note">유일성 (Uniqueness): 중복 레코드 없음</div>
-<div class="kb-diagram-note">유효성 (Validity): 비즈니스 규칙 준수율</div>
-<div class="kb-diagram-note">데이터 품질과 가치 함수:</div>
-<div class="kb-diagram-note">Data Value = f(품질, 관련성, 희소성, 시의성)</div>
-<div class="kb-diagram-note">품질 &lt; 임계값 → 음(-)의 가치:</div>
-<div class="kb-diagram-note">오염된 데이터 기반 잘못된 ML 모델</div>
-<div class="kb-diagram-note">→ 잘못된 제품 추천 → 고객 이탈</div>
-<div class="kb-diagram-note">→ 데이터 없을 때보다 더 나쁜 결과</div>
-<div class="kb-diagram-note">데이터 품질 부채 (Data Quality Debt):</div>
-<div class="kb-diagram-note">낮은 품질 데이터 방치 → 다운스트림 시스템 오염</div>
-<div class="kb-diagram-note">수정 비용 = 발견 지점까지의 처리 비용 × 10배 법칙</div>
-<div class="kb-diagram-note">예시:</div>
-<div class="kb-diagram-note">소스 시스템 수정 비용: 1</div>
-<div class="kb-diagram-note">ETL 단계 수정 비용: 10</div>
-<div class="kb-diagram-note">데이터웨어하우스 수정 비용: 100</div>
-<div class="kb-diagram-note">ML 모델 재훈련 비용: 1,000</div>
-<div class="kb-diagram-note">데이터 품질 ROI:</div>
-<div class="kb-diagram-note">품질 개선 투자 비용 vs 오류 데이터로 인한 손실 방지</div>
-<div class="kb-diagram-note">IBM 연구: 데이터 품질 불량 → 미국 기업 연간 3.1조 달러 손실</div>
-</div>
-</div>
+데이터 품질 부채 (Data Quality Debt):
+  낮은 품질 데이터 방치 → 다운스트림 시스템 오염
+  수정 비용 = 발견 지점까지의 처리 비용 × 10배 법칙
+  
+  예시:
+    소스 시스템 수정 비용: 1
+    ETL 단계 수정 비용: 10
+    데이터웨어하우스 수정 비용: 100
+    ML 모델 재훈련 비용: 1,000
 
-
+데이터 품질 ROI:
+  품질 개선 투자 비용 vs 오류 데이터로 인한 손실 방지
+  IBM 연구: 데이터 품질 불량 → 미국 기업 연간 3.1조 달러 손실
+```
 
 > 📢 **섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질은 요리 재료 신선도 — 신선한 재료(고품질 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))는 맛있는 요리(올바른 의사결정), 상한 재료는 배탈(잘못된 결정)을 만들어요.
 
@@ -156,39 +155,39 @@ tags = ["studynote-bigdata"]
 
 ## Ⅳ. [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)와 자산 관리
 
+```
+데이터 자산 관리 (Data Asset Management) 구조:
 
+데이터 카탈로그 (Data Catalog):
+  자산 목록화: 데이터셋명, 소유자, 위치
+  메타데이터: 스키마, 샘플, 품질 점수
+  데이터 계보(Lineage): 출처 → 변환 → 사용처
+  도구: Apache Atlas, Collibra, Alation
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">데이터 자산 관리 (Data Asset Management) 구조:</div>
-<div class="kb-diagram-note">데이터 카탈로그 (Data Catalog):</div>
-<div class="kb-diagram-note">자산 목록화: 데이터셋명, 소유자, 위치</div>
-<div class="kb-diagram-note">메타데이터: 스키마, 샘플, 품질 점수</div>
-<div class="kb-diagram-note">데이터 계보(Lineage): 출처 → 변환 → 사용처</div>
-<div class="kb-diagram-note">도구: Apache Atlas, Collibra, Alation</div>
-<div class="kb-diagram-note">데이터 소유권 (Data Ownership):</div>
-<div class="kb-diagram-note">데이터 오너 (Data Owner): 비즈니스 책임자</div>
-<div class="kb-diagram-note">데이터 스튜어드 (Data Steward): 품질 관리자</div>
-<div class="kb-diagram-note">데이터 소비자 (Data Consumer): 분석가, 서비스</div>
-<div class="kb-diagram-note">규제 컴플라이언스와 가치:</div>
-<div class="kb-diagram-note">GDPR (EU): 개인정보 삭제권</div>
-<div class="kb-diagram-note">→ 데이터 정리 의무 = 가치 훼손 위험</div>
-<div class="kb-diagram-note">→ 컴플라이언스 = 데이터 가치 보호</div>
-<div class="kb-diagram-note">CCPA (미국): 개인정보 판매 옵트아웃</div>
-<div class="kb-diagram-note">PIPA (한국): 개인정보보호법</div>
-<div class="kb-diagram-note">데이터 자산 가치 보호:</div>
-<div class="kb-diagram-note">데이터 분류 (공개/내부/기밀/극비)</div>
-<div class="kb-diagram-note">접근 제어 RBAC</div>
-<div class="kb-diagram-note">암호화 (at-rest, in-transit)</div>
-<div class="kb-diagram-note">감사 로그</div>
-<div class="kb-diagram-note">데이터 자산 가치 감가상각:</div>
-<div class="kb-diagram-note">고객 연락처: 연간 20~30% 노후화 (이직, 이사)</div>
-<div class="kb-diagram-note">시장 동향 데이터: 빠른 노후화 (분기별 갱신 필요)</div>
-<div class="kb-diagram-note">불변 역사 데이터: 노후화 없음 (오히려 시간 가치 증가)</div>
-</div>
-</div>
+데이터 소유권 (Data Ownership):
+  데이터 오너 (Data Owner): 비즈니스 책임자
+  데이터 스튜어드 (Data Steward): 품질 관리자
+  데이터 소비자 (Data Consumer): 분석가, 서비스
 
+규제 컴플라이언스와 가치:
+  GDPR (EU): 개인정보 삭제권
+    → 데이터 정리 의무 = 가치 훼손 위험
+    → 컴플라이언스 = 데이터 가치 보호
+    
+  CCPA (미국): 개인정보 판매 옵트아웃
+  PIPA (한국): 개인정보보호법
+  
+데이터 자산 가치 보호:
+  데이터 분류 (공개/내부/기밀/극비)
+  접근 제어 RBAC
+  암호화 (at-rest, in-transit)
+  감사 로그
 
+데이터 자산 가치 감가상각:
+  고객 연락처: 연간 20~30% 노후화 (이직, 이사)
+  시장 동향 데이터: 빠른 노후화 (분기별 갱신 필요)
+  불변 역사 데이터: 노후화 없음 (오히려 시간 가치 증가)
+```
 
 > 📢 **섹션 요약 비유**: [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)는 도서관 사서 — 책([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))마다 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)번호([메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/))를 붙이고, 대출 기록(접근 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))을 관리하고, 낡은 책(노후 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 교체해요.
 
@@ -196,46 +195,47 @@ tags = ["studynote-bigdata"]
 
 ## Ⅴ. 실무 시나리오 — 고객 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자산 평가
 
+```
+유통 기업 고객 데이터 자산 가치 평가 사례:
 
+보유 데이터:
+  고객 구매 이력: 500만 명 × 3년 × 12회/년
+  행동 데이터: 앱 로그 200GB/일
+  인구통계: 나이, 지역, 소득 추정
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">유통 기업 고객 데이터 자산 가치 평가 사례:</div>
-<div class="kb-diagram-note">보유 데이터:</div>
-<div class="kb-diagram-note">고객 구매 이력: 500만 명 × 3년 × 12회/년</div>
-<div class="kb-diagram-note">행동 데이터: 앱 로그 200GB/일</div>
-<div class="kb-diagram-note">인구통계: 나이, 지역, 소득 추정</div>
-<div class="kb-diagram-note">비용 접근법:</div>
-<div class="kb-diagram-note">수집 비용: 앱 개발 + 서버 = 연간 2억원</div>
-<div class="kb-diagram-note">저장 비용: 클라우드 스토리지 = 연간 5,000만원</div>
-<div class="kb-diagram-note">관리 비용: DBA, 컴플라이언스 = 연간 3억원</div>
-<div class="kb-diagram-note">5년 누적 총비용: 약 27억원</div>
-<div class="kb-diagram-note">→ 자산 가치 하한선: 27억원</div>
-<div class="kb-diagram-note">DCF 접근법 (간접 가치):</div>
-<div class="kb-diagram-note">개인화 추천 시스템 적용:</div>
-<div class="kb-diagram-note">전환율 3% → 4.5% (+50%)</div>
-<div class="kb-diagram-note">연간 매출 1,000억 → 1,500억 (+500억)</div>
-<div class="kb-diagram-note">할인율 8%, 유효 수명 5년:</div>
-<div class="kb-diagram-note">NPV = 500억 × PVIFA(8%, 5) = 500억 × 3.99 ≈ 1,995억원</div>
-<div class="kb-diagram-note">고객 이탈 예측 모델:</div>
-<div class="kb-diagram-note">이탈 방어 성공 10만 명 × ARPU 100만원 = 100억원/년</div>
-<div class="kb-diagram-note">NPV ≈ 100억 × 3.99 ≈ 399억원</div>
-<div class="kb-diagram-note">시장비교법:</div>
-<div class="kb-diagram-note">유사 규모 고객 데이터 시장가: $50/record</div>
-<div class="kb-diagram-note">500만 × $50 ≈ 2,500억 원 (참고용)</div>
-<div class="kb-diagram-note">종합 평가:</div>
-<div class="kb-diagram-note">비용법: 27억원 (하한)</div>
-<div class="kb-diagram-note">DCF법: 2,394억원 (1,995 + 399)</div>
-<div class="kb-diagram-note">시장비교법: 2,500억원 (참고)</div>
-<div class="kb-diagram-note">최종 추정 가치 범위: 2,000억~2,500억원</div>
-<div class="kb-diagram-note">시사점:</div>
-<div class="kb-diagram-note">비용(27억) vs 가치(2,000억+) = 약 100배 차이</div>
-<div class="kb-diagram-note">데이터를 비용 항목이 아닌 자산으로 인식 필요</div>
-<div class="kb-diagram-note">거버넌스 투자로 품질 유지 = 가치 보존</div>
-</div>
-</div>
+비용 접근법:
+  수집 비용: 앱 개발 + 서버 = 연간 2억원
+  저장 비용: 클라우드 스토리지 = 연간 5,000만원
+  관리 비용: DBA, 컴플라이언스 = 연간 3억원
+  5년 누적 총비용: 약 27억원
+  → 자산 가치 하한선: 27억원
 
+DCF 접근법 (간접 가치):
+  개인화 추천 시스템 적용:
+    전환율 3% → 4.5% (+50%)
+    연간 매출 1,000억 → 1,500억 (+500억)
+    할인율 8%, 유효 수명 5년:
+    NPV = 500억 × PVIFA(8%, 5) = 500억 × 3.99 ≈ 1,995억원
+  
+  고객 이탈 예측 모델:
+    이탈 방어 성공 10만 명 × ARPU 100만원 = 100억원/년
+    NPV ≈ 100억 × 3.99 ≈ 399억원
 
+시장비교법:
+  유사 규모 고객 데이터 시장가: $50/record
+  500만 × $50 ≈ 2,500억 원 (참고용)
+
+종합 평가:
+  비용법: 27억원 (하한)
+  DCF법: 2,394억원 (1,995 + 399)
+  시장비교법: 2,500억원 (참고)
+  최종 추정 가치 범위: 2,000억~2,500억원
+
+시사점:
+  비용(27억) vs 가치(2,000억+) = 약 100배 차이
+  데이터를 비용 항목이 아닌 자산으로 인식 필요
+  거버넌스 투자로 품질 유지 = 가치 보존
+```
 
 > 📢 **섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자산 평가는 금광 가치 평가 — 굴착 비용(비용법)이 아니라 캐낼 수 있는 금의 총 가치(DCF법)로 광산 가치를 매겨야 해요.
 

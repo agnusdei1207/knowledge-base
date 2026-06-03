@@ -31,17 +31,14 @@ tags = ["studynote-ai"]
 | LightGBM | 리프 중심 트리 성장 + 히스토그램 최적화 | 2017 |
 | CatBoost | 범주형 변수 자동 처리 | 2017 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [부스팅](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)은 "선생님이 틀린 문제만 집중적으로 가르쳐주는 과외"다. 매 회차마다 이전에 틀렸던 문제에 더 많은 시간을 투자해 약점을 없애나간다.
 
@@ -51,43 +48,46 @@ tags = ["studynote-ai"]
 
 ### [AdaBoost](/knowledge-base/studynote/12_it_management/02_itsm_itil/077_Adaboost/) 동작 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Round 1: 균등 가중치 w = 1/n</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">h_1 학습 → 오분류 샘플에 가중치 증가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">○○○○○●●● (●=오분류, 가중치 증가)</div></div>
-<div class="kb-diagram-note">Round 2: 증가된 가중치</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">h_2 학습 → 이전 오분류에 집중</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">○○○○○●●● → ○○○○○●●●</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(●에 더 큰 원)</div></div>
-<div class="kb-diagram-note">... T 라운드 반복 ...</div>
-<div class="kb-diagram-note">최종: H(x) = sign( Σ α_t · h_t(x) )</div>
-<div class="kb-diagram-note">α_t = 0.5 · ln((1-ε_t)/ε_t) ← 모델 정확도 기반 가중치</div>
-</div>
-</div>
-
-
+```
+  Round 1: 균등 가중치 w = 1/n
+  ┌──────────────────────────────────────────┐
+  │  h_1 학습 → 오분류 샘플에 가중치 증가   │
+  │  ○○○○○●●●  (●=오분류, 가중치 증가)    │
+  └──────────────────────┬───────────────────┘
+                         │
+  Round 2: 증가된 가중치
+  ┌──────────────────────▼───────────────────┐
+  │  h_2 학습 → 이전 오분류에 집중           │
+  │  ○○○○○●●●  → ○○○○○●●●               │
+  │         (●에 더 큰 원)                  │
+  └──────────────────────┬───────────────────┘
+                         │
+         ... T 라운드 반복 ...
+                         │
+  최종: H(x) = sign( Σ α_t · h_t(x) )
+        α_t = 0.5 · ln((1-ε_t)/ε_t)  ← 모델 정확도 기반 가중치
+```
 
 ### [Gradient Boosting](/knowledge-base/studynote/10_ai/01_ai_basics/034_gradient_boosting/) 핵심 구조
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">F_0(x) = 초기 예측 (평균값)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">잔차(Residual) = 실제값 - 예측값</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">r_1 = y - F_0(x)</div></div>
-<div class="kb-diagram-note">h_1(x) ← r_1을 예측하도록 트리 학습</div>
-<div class="kb-diagram-note">F_1(x) = F_0(x) + η · h_1(x) (η: 학습률)</div>
-<div class="kb-diagram-note">r_2 = y - F_1(x)</div>
-<div class="kb-diagram-note">h_2(x) ← r_2를 예측 ...</div>
-<div class="kb-diagram-note">반복 → F_M(x) = F_0 + η·Σh_m(x)</div>
-</div>
-</div>
-
-
+```
+  F_0(x) = 초기 예측 (평균값)
+     │
+  ┌──▼──────────────────────────────────────┐
+  │  잔차(Residual) = 실제값 - 예측값       │
+  │  r_1 = y - F_0(x)                       │
+  └──┬──────────────────────────────────────┘
+     │
+  h_1(x) ← r_1을 예측하도록 트리 학습
+     │
+  F_1(x) = F_0(x) + η · h_1(x)  (η: 학습률)
+     │
+  r_2 = y - F_1(x)
+     │
+  h_2(x) ← r_2를 예측 ...
+     │
+  반복 → F_M(x) = F_0 + η·Σh_m(x)
+```
 
 ### XGBoost의 핵심 개선사항
 
@@ -102,24 +102,28 @@ tags = ["studynote-ai"]
 
 ### LightGBM vs XGBoost
 
+```
+  XGBoost:  레벨 단위 (Level-wise) 트리 성장
+  ┌──────────────────────────────────────┐
+  │       Root                           │
+  │      /    \                          │
+  │   Node1   Node2  ← 같은 깊이 동시    │
+  │   /  \    /  \                       │
+  │ L1   L2  L3   L4                     │
+  └──────────────────────────────────────┘
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">XGBoost: 레벨 단위 (Level-wise) 트리 성장</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Root</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Node1 Node2 ← 같은 깊이 동시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L1 L2 L3 L4</div></div>
-<div class="kb-diagram-note">LightGBM: 리프 단위 (Leaf-wise) 트리 성장</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Root</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Node1 Node2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L1 L2 ← 가장 손실 큰 리프 먼저</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L3 L4 ← 연속 분할 → 깊고 비대칭</div></div>
-<div class="kb-diagram-note">→ LightGBM이 더 빠르지만 과적합 위험 ↑</div>
-</div>
-</div>
-
-
+  LightGBM: 리프 단위 (Leaf-wise) 트리 성장
+  ┌──────────────────────────────────────┐
+  │       Root                           │
+  │      /    \                          │
+  │   Node1   Node2                      │
+  │   /  \                               │
+  │ L1   L2  ← 가장 손실 큰 리프 먼저   │
+  │ /  \                                 │
+  │L3   L4  ← 연속 분할 → 깊고 비대칭  │
+  └──────────────────────────────────────┘
+  → LightGBM이 더 빠르지만 과적합 위험 ↑
+```
 
 - **📢 섹션 요약 비유**: XGBoost는 "실수한 부분을 집중 보완하는 특수 교관이 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 벌점까지 적용하여 너무 과하게 외우는 것(과적합)을 방지"하는 시스템이다.
 
@@ -138,21 +142,17 @@ tags = ["studynote-ai"]
 
 ### [부스팅](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/) 과적합 제어
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">부스팅 과적합 제어 방법:</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 학습률 (Learning Rate η) 감소</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 더 많은 트리 필요 (트레이드오프)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. max_depth 제한 (보통 3~6)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 조기 종료 (Early Stopping)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. Subsampling (배깅 기법 차용)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. L1/L2 정규화 (XGBoost, LightGBM)</div></div>
-</div>
-</div>
-
-
+```
+  부스팅 과적합 제어 방법:
+  ┌─────────────────────────────────────────┐
+  │ 1. 학습률 (Learning Rate η) 감소        │
+  │    → 더 많은 트리 필요 (트레이드오프)   │
+  │ 2. max_depth 제한 (보통 3~6)            │
+  │ 3. 조기 종료 (Early Stopping)           │
+  │ 4. Subsampling (배깅 기법 차용)         │
+  │ 5. L1/L2 정규화 (XGBoost, LightGBM)    │
+  └─────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [부스팅](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)의 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)은 매운 소스를 넣을 때와 같다. 조금씩(낮은 η) 넣어야 맛의 균형을 잡을 수 있고, 한꺼번에 많이(높은 η) 넣으면 음식이 망가진다(과적합).
 

@@ -25,16 +25,12 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리와 중앙 HPC의 차이를 압축해 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sensors -&gt; Many ECUs -&gt; Copy / Sync Loss -&gt; Late Fusion</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sensors -&gt; Central HPC -&gt; Shared Timebase -&gt; Fast Fusion -&gt; Plan / Control</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│ Sensors -> Many ECUs -> Copy / Sync Loss -> Late Fusion                   │
+│ Sensors -> Central HPC -> Shared Timebase -> Fast Fusion -> Plan / Control│
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 결국 자율주행용 HPC의 필요성은 연산량 증가만이 아니라, <strong>센서 융합과 안전 판단을 같은 시간표 위에서 처리해야 한다는 요구</strong>에서 나온다. 이 점이 일반 차량 인포테인먼트 컴퓨터와 가장 큰 차이다.
 
@@ -57,18 +53,18 @@ tags = ["studynote-computer-architecture"]
 
 액추에이터 경로는 [TSN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/546_tsn_hardware/) ([Time-Sensitive Networking](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/168_industrial_ethernet_tsn/)) Ethernet이나 CAN-FD (Controller Area Network Flexible Data-Rate) 같은 결정론적 버스로 이어지는 경우가 많다. 이 그림은 자율주행용 HPC의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)면과 안전면이 어떻게 분리되는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Camera / Radar / LiDAR -&gt; ISP / DSP -&gt; Shared Memory -&gt; GPU / NPU</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Planner CPU</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Safety MCU &lt;---- Monitor / Vote ---</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; TSN Ethernet / CAN-FD -&gt; Actuator Path</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│ Camera / Radar / LiDAR -> ISP / DSP -> Shared Memory -> GPU / NPU         │
+│                                                       │                    │
+│                                                       ▼                    │
+│                                                   Planner CPU              │
+│                                                       │                    │
+│                     Safety MCU <---- Monitor / Vote ---┘                    │
+│                         │                                                   │
+│                         └-> TSN Ethernet / CAN-FD -> Actuator Path         │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 중요한 점은 연산면과 안전면의 우선순위가 다르다는 것이다. [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)/NPU는 많은 프레임을 빠르게 처리해야 하지만, safety island는 처리량보다 "틀리면 멈추거나 안전하게 강등할 수 있는가"가 중요하다. 그래서 자율주행용 HPC는 하나의 [SoC](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/) ([System on Chip](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/)) 안에서도 [hypervisor](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/), memory [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질 ([QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/)), [IOMMU](/knowledge-base/studynote/02_operating_system/10_security/627_iommu_dma_isolation/) (Input/Output [Memory Management Unit](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/284_mmu/)), watchdog, lock-step 같은 수단으로 자원을 격리한다.
 
@@ -155,23 +151,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">기능별 분산 ECU</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">도메인 컨트롤러 기반 통합</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">중앙 HPC + 센서 융합 + hypervisor 격리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Zonal architecture + TSN 백본 + OTA 운영</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">이중화 central compute · chiplet · 에너지 효율형 AI 가속</div>
-</div>
-</div>
-
-
+```text
+기능별 분산 ECU
+        │
+        ▼
+도메인 컨트롤러 기반 통합
+        │
+        ▼
+중앙 HPC + 센서 융합 + hypervisor 격리
+        │
+        ▼
+Zonal architecture + TSN 백본 + OTA 운영
+        │
+        ▼
+이중화 central compute · chiplet · 에너지 효율형 AI 가속
+```
 
 이 흐름은 차량 컴퓨팅이 단순 제어기 묶음에서 출발해, 이제는 중앙 플랫폼과 소프트웨어 운영 체계를 함께 갖춘 실시간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 센터형 구조로 진화하고 있음을 보여 준다.
 

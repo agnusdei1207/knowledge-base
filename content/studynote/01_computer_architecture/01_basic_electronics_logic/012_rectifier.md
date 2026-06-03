@@ -22,18 +22,20 @@ tags = ["studynote-computer-architecture"]
 
 발전소에서 오는 교류는 송전에 유리하지만, CPU나 메모리 같은 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 칩들은 일정한 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)의 직류만으로 동작한다. 이 전력 형식의 불일치를 해결하지 못하면 컴퓨터는 켜질 수조차 없다. 따라서 파워서플라이 (PSU, [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Supply Unit)의 가장 앞단에서 교류 파형의 마이너스(-) 구간을 통제하는 1차 정류 작업이 반드시 선행되어야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">교류(AC)에서 직류(DC)로 가는 전력 정제 파이프라인</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">220V 교류</div><div class="kb-diagram-node">1차 정류</div><div class="kb-diagram-node">평활 커패시터</div><div class="kb-diagram-node">레귤레이터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 정류 회로가 파도의 방향을 하나로 통일하고, 커패시터가 빈틈을</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">채우면, 레귤레이터가 완벽한 직선의 직류를 깎아낸다.</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           교류(AC)에서 직류(DC)로 가는 전력 정제 파이프라인      │
+├──────────────────────────────────────────────────────────────┤
+│  [220V 교류]   [1차 정류]    [평활 커패시터]   [레귤레이터]     │
+│      /\           /\  /\       /─/─/─/       ───────        │
+│     /  \   ──▶   /  \/  \ ──▶ / / / /  ──▶                 │
+│  ──/────\──    ──/──────────  ──/─────────  ──────────────── │
+│         /                                                    │
+│        \/                                                    │
+│ * 정류 회로가 파도의 방향을 하나로 통일하고, 커패시터가 빈틈을 │
+│   채우면, 레귤레이터가 완벽한 직선의 직류를 깎아낸다.          │
+└──────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 밭에서 뽑아온 흙투성이 무(교류)를 식탁에 올리기 위해, 제일 먼저 껍질을 벗기고 큼직하게 썰어 기본 뼈대(맥동 직류)를 잡는 1차 주방 칼질 작업과 같다.
 
@@ -106,23 +108,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">교류 (AC, Alternating Current) — 전압 방향이 주기적으로 바뀌는 입력</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">다이오드 (Diode) — 한 방향으로만 전류를 흐르게 하는 소자</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">브리지 전파 정류 (Bridge Full-Wave Rectification) — 4개 다이오드로 양·음파를 모두 활용</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">맥동 직류 (Pulsating DC) — 방향은 같지만 리플이 남은 출력</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">동기식 정류 (Synchronous Rectification) — MOSFET 스위칭으로 손실을 줄인 고효율 방식</div></div>
-</div>
-</div>
-
-
+```text
+[교류 (AC, Alternating Current) — 전압 방향이 주기적으로 바뀌는 입력]
+    │
+    ▼
+[다이오드 (Diode) — 한 방향으로만 전류를 흐르게 하는 소자]
+    │
+    ▼
+[브리지 전파 정류 (Bridge Full-Wave Rectification) — 4개 다이오드로 양·음파를 모두 활용]
+    │
+    ▼
+[맥동 직류 (Pulsating DC) — 방향은 같지만 리플이 남은 출력]
+    │
+    ▼
+[동기식 정류 (Synchronous Rectification) — MOSFET 스위칭으로 손실을 줄인 고효율 방식]
+```
 
 이 흐름은 교류의 양·음 파형을 [다이오드](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/)와 [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)로 한 방향 직류로 바꾼 뒤, 더 높은 효율을 위해 [MOSFET](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/017_mosfet/) 기반 동기식 정류로 진화하는 과정을 보여준다.
 

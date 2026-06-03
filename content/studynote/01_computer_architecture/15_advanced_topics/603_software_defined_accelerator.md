@@ -25,19 +25,17 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 왜 "새 실리콘을 매번 찍을 수 없는 분야"에서 SDA가 등장했는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Workload changes faster than silicon refresh in many domains</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Algorithm v1 -&gt; fixed accelerator fits</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Algorithm v2 -&gt; dataflow changes</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Algorithm v3 -&gt; precision / memory pattern changes</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ASIC : efficient but rigid SDA : same silicon, new configuration</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│          Workload changes faster than silicon refresh in many domains     │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Algorithm v1 -> fixed accelerator fits                                    │
+│ Algorithm v2 -> dataflow changes                                          │
+│ Algorithm v3 -> precision / memory pattern changes                        │
+│                                                                            │
+│ ASIC : efficient but rigid    SDA : same silicon, new configuration        │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 따라서 SDA의 본질은 "하드웨어를 소프트웨어처럼 만든다"가 아니라, <strong>자주 바뀌는 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 규칙을 감당할 만큼만 하드웨어의 유연성을 열어 둔다</strong>는 데 있다. 범위를 정한 유연성이기 때문에 효율과 적응성을 함께 잡을 수 있다.
 
@@ -59,18 +57,17 @@ SDA는 보통 컴파일러와 런타임이 만든 [설정](/knowledge-base/study
 
 이 그림은 SDA가 어떻게 "프로그램을 실행"하는 대신 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름을 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)"하는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Host software -&gt; config -&gt; domain accelerator fabric</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Model / Kernel -&gt; Compiler -&gt; Configuration -&gt; Reconfigurable Fabric</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Input DMA -&gt; Local Buffer -------- ------&gt; Output DMA</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">routing / precision / schedule</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│              Host software -> config -> domain accelerator fabric         │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Model / Kernel -> Compiler -> Configuration -> Reconfigurable Fabric      │
+│                                   │                 │                      │
+│ Input DMA -> Local Buffer --------┘                 └------> Output DMA   │
+│                                                     │                      │
+│                                      routing / precision / schedule       │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조는 거대 단위 재구성 아키텍처 ([Coarse-Grained](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/398_coarse_grained_multithreading/) Reconfigurable [Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/), CGRA)와 닮은 경우가 많다. 연산 타일이 정수 산술, 행렬 곱셈, 벡터 처리처럼 비교적 큰 단위로 묶여 있기 때문에, FPGA보다 재구성은 빠르고 ASIC보다 유연하다. 대신 소프트웨어가 하드웨어 자원을 잘 배치하지 못하면 이론 성능이 나지 않으므로, 하드웨어만큼 컴파일러가 핵심 자산이 된다.
 
@@ -147,25 +144,24 @@ SDA를 잘 설계하면 칩 하나가 여러 세대의 워크로드를 더 오�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">범용 CPU 기반 가속</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Fixed-function accelerator</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">FPGA 기반 재구성 가속</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Software-Defined Accelerator</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Compiler-co-designed NPU / DPU</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">도메인별 adaptive accelerator ecosystem</div>
-</div>
-</div>
-
-
+```text
+범용 CPU 기반 가속
+    │
+    ▼
+Fixed-function accelerator
+    │
+    ▼
+FPGA 기반 재구성 가속
+    │
+    ▼
+Software-Defined Accelerator
+    │
+    ▼
+Compiler-co-designed NPU / DPU
+    │
+    ▼
+도메인별 adaptive accelerator ecosystem
+```
 
 이 흐름은 가속 기술이 "고정 기능과 범용 소프트웨어"의 양극단에서 출발해, 이제는 컴파일러와 하드웨어가 함께 움직이는 적응형 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 가속기로 발전하고 있음을 보여 준다.
 

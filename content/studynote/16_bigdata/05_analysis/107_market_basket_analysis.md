@@ -28,27 +28,34 @@ tags = ["studynote-bigdata"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장바구니 분석 전체 파이프라인</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 수집</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">POS 거래 로그 / 온라인 주문 DB / 클릭스트림</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전처리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">거래 ID 기준 그룹핑 → 항목 집합 (Itemset) 변환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이상치 제거 (반품 거래, 테스트 주문 등)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">빈발 항목 집합 마이닝</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Apriori / FP-Growth (Frequent Pattern Growth)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ min_support 적용 → 빈발 항목 집합 추출</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">규칙 생성 및 평가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Support ≥ 0.01 Confidence ≥ 0.5 Lift ≥ 1.5</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">비즈니스 적용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">진열 배치</div><div class="kb-diagram-cell">추천 엔진</div><div class="kb-diagram-cell">번들 프로모션</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────┐
+│               장바구니 분석 전체 파이프라인                     │
+├────────────────────────────────────────────────────────────────┤
+│  [데이터 수집]                                                  │
+│   POS 거래 로그 / 온라인 주문 DB / 클릭스트림                   │
+│          │                                                      │
+│          ▼                                                      │
+│  [전처리]                                                       │
+│   거래 ID 기준 그룹핑 → 항목 집합 (Itemset) 변환               │
+│   이상치 제거 (반품 거래, 테스트 주문 등)                       │
+│          │                                                      │
+│          ▼                                                      │
+│  [빈발 항목 집합 마이닝]                                        │
+│   Apriori / FP-Growth (Frequent Pattern Growth)                 │
+│   → min_support 적용 → 빈발 항목 집합 추출                     │
+│          │                                                      │
+│          ▼                                                      │
+│  [규칙 생성 및 평가]                                            │
+│   Support ≥ 0.01   Confidence ≥ 0.5   Lift ≥ 1.5              │
+│          │                                                      │
+│          ▼                                                      │
+│  [비즈니스 적용]                                                │
+│   ┌─────────────┬──────────────┬────────────────┐              │
+│   │  진열 배치  │  추천 엔진   │  번들 프로모션 │              │
+│   └─────────────┴──────────────┴────────────────┘              │
+└────────────────────────────────────────────────────────────────┘
+```
 
 ### 핵심 지표 해석 가이드
 
@@ -143,23 +150,21 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">장바구니 데이터 (POS 트랜잭션 — 판매 기록)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">연관 규칙 (Association Rules) — 지지도/신뢰도/향상도</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Apriori 알고리즘 — 빈발 항목집합 (Frequent Itemset)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">FP-Growth — 대용량 패턴 마이닝</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">협업 필터링 (Collaborative Filtering) — 개인화 추천</div></div>
-</div>
-</div>
-
-
+```text
+[장바구니 데이터 (POS 트랜잭션 — 판매 기록)]
+    │
+    ▼
+[연관 규칙 (Association Rules) — 지지도/신뢰도/향상도]
+    │
+    ▼
+[Apriori 알고리즘 — 빈발 항목집합 (Frequent Itemset)]
+    │
+    ▼
+[FP-Growth — 대용량 패턴 마이닝]
+    │
+    ▼
+[협업 필터링 (Collaborative Filtering) — 개인화 추천]
+```
 
 장바구니 분석이 단순 빈도 패턴 탐색에서 대용량 마이닝과 개인화 [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)으로 발전한 흐름이다.
 

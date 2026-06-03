@@ -26,18 +26,14 @@ tags = ["studynote-network"]
   - <strong>재전송(<a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a>)</strong>: 학생이 3번 문제를 못 풀면 선생님께 "3번 정답 알려주세요!"라고 손을 듭니다(재전송 요청). 선생님이 걸어올 때까지 아무 문제도 못 풀고 기다려야 합니다.
   - **FEC(전진 에러 수정)**: 선생님이 애초에 시험지를 나눠줄 때, 맨 뒷장에 <strong>"모든 홀수 번호의 정답을 다 더하면 100이 나온다"라는 마법의 <a href="/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/">힌트</a> 종이(패리티 패킷)</strong>를 하나 끼워 줍니다. 학생이 3번을 못 풀어도, 1번, 5번, 7번 답을 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/) 공식에 쑤셔 넣으면 3번 답을 스스로 유추(복원)해서 맞출 수 있습니다! 선생님을 부를 필요가 없습니다!
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">TLS 1.3 기본 내장</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">FEC 기능 선택적 포함</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">패킷 손실 복구 메커니즘 개선</div></div>
-</div>
-</div>
-
-
+```text
+[TLS 1.3 기본 내장]
+    │
+    ▼
+[FEC 기능 선택적 포함]
+    │
+    └──▶ [패킷 손실 복구 메커니즘 개선]
+```
 
 - **📢 섹션 요약 비유**: <strong> FEC는 택배를 보낼 때 컵 4개 세트를 시키면, 배송 중 1개가 깨질까 봐 아예 </strong>예비용 컵 1개를 박스에 더 구겨 넣어서([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비) 총 5개를 보내는 극강의 "고객 불만(재전송) 원천 차단법"**입니다. 깨지면 예비용을 쓰면 되니 클레임이 걸리지 않습니다.
 
@@ -64,24 +60,24 @@ tags = ["studynote-network"]
 1. <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>의 미친 낭비</strong>: 안 그래도 패킷이 꽉 차서 혼잡한 인터넷인데, 4개 보낼 때마다 쓸데없는 1개(P)를 계속 덧붙여 보내니 인터넷 전체가 쓰레기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 1.2배 터져나갔다. (특히 패킷 유실률이 낮은 유선망에서는 완전 돈 낭비).
 2. **스마트폰 배터리 살살 녹는다**: [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)용 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/) 패킷(P)을 풀기 위해 스마트폰 CPU가 미친 듯이 XOR 수학 공식을 돌려야 한다. 영상을 1시간 봤을 뿐인데 폰이 핫팩처럼 뜨거워지고 배터리가 증발했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">초기 QUIC의 FEC와 현대 IETF QUIC의 차이</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2013년 구글의 초기 QUIC (gQUIC)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"야! 재전송은 구시대의 유물이야! 무조건 XOR 갈겨서 FEC 덧붙여 쏴!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 배터리 광탈 + 오버헤드 낭비로 개같이 욕먹음.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2021년 표준 IETF QUIC (RFC 9000)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"구글아, 깝치지 말고 FEC 빼라. 그냥 기존 TCP 놈들이 쓰던</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">선택적 확인 응답(SACK) 업그레이드해서 재전송(Retransmit) 하는 게</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가성비 젤 좋다."</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ "결국 현재 우리가 쓰는 HTTP/3(QUIC)에는 FEC 기능이 빠져있거나,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">아예 안 쓰는(Deprecated) 모듈로 구석에 처박혀 있다."</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                초기 QUIC의 FEC와 현대 IETF QUIC의 차이           │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 2013년 구글의 초기 QUIC (gQUIC) ]                         │
+ │   "야! 재전송은 구시대의 유물이야! 무조건 XOR 갈겨서 FEC 덧붙여 쏴!"│
+ │   ──▶ 배터리 광탈 + 오버헤드 낭비로 개같이 욕먹음.                  │
+ │                                                             │
+ │   [ 2021년 표준 IETF QUIC (RFC 9000) ]                        │
+ │   "구글아, 깝치지 말고 FEC 빼라. 그냥 기존 TCP 놈들이 쓰던           │
+ │    선택적 확인 응답(SACK) 업그레이드해서 재전송(Retransmit) 하는 게 │
+ │    가성비 젤 좋다."                                            │
+ │                                                             │
+ │   ▶ "결국 현재 우리가 쓰는 HTTP/3(QUIC)에는 FEC 기능이 빠져있거나,   │
+ │      아예 안 쓰는(Deprecated) 모듈로 구석에 처박혀 있다."           │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: <strong> FEC 도입의 실패는 안전을 위한다고 </strong>모든 경차에 무거운 전차(탱크) 장갑판을 두르고 달리게 한 격**입니다. 가벼운 접촉 사고(패킷 유실)에는 안 다쳐서 좋지만, 굳이 안 나도 될 사고를 대비하느라 차가 무거워져서 연비([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))와 엔진(스마트폰 배터리)이 다 박살 나버렸기 때문에 폐기된 과잉 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)입니다.
 
@@ -139,19 +135,15 @@ FEC 기능 선택적 포함은 전송 계층을 이해할 때 핵심 축을 잡�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: TLS 1.3 기본 내장</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: FEC 기능 선택적 포함</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 패킷 손실 복구 메커니즘 개선</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: TLS 1.3 기본 내장]
+    │
+    ▼
+[현재 개념: FEC 기능 선택적 포함]
+    │
+    ├──▶ [확장 A: 패킷 손실 복구 메커니즘 개선]
+    └──▶ [확장 B: 적응형 저지연 전송]
+```
 
 FEC 기능 선택적 포함는 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3 기본 내장에서 출발해 현재 메커니즘을 정교화하고, 이후 패킷 손실 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 메커니즘 개선와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

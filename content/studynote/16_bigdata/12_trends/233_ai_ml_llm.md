@@ -21,15 +21,11 @@ tags = ["studynote-bigdata"]
 
 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) + 빅데이터 융합 (대규모 ML 학습, [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) ([Large Language Model](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)) 기반 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석)은 빅데이터 환경에서 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 융합을 실제 문서, 시스템, 운영 흐름에 연결하는 문제를 다룬다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 환경이 빠르게 바뀌어도 기준이 없으면 선택 기준이 흔들리고, 결국 비용과 품질이 같이 흔들린다. 그래서 이 주제는 최신 흐름을 따라가는 이야기이면서 동시에, 무엇을 기준으로 선택할지 정리하는 구조다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구사항</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">구성 요소</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">운영 결과</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐   ┌──────────────┐   ┌──────────────┐
+│ 요구사항         │──▶│ 구성 요소        │──▶│ 운영 결과        │
+└──────────────┘   └──────────────┘   └──────────────┘
+```
 
 - **📢 섹션 요약 비유**: 도시의 구역 분할처럼, 시작점이 정해져야 다음 단계도 흔들리지 않는다.
 
@@ -45,15 +41,11 @@ tags = ["studynote-bigdata"]
 | 구성 요소 | 처리/[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 절차와 자동화가 연결되어야 한다 |
 | 운영 결과 | 결과/증거 | 기록이 남아야 재현과 추적이 된다 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구사항</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">구성 요소</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">운영 결과</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐   ┌──────────────┐   ┌──────────────┐
+│ 요구사항         │──▶│ 구성 요소        │──▶│ 운영 결과        │
+└──────────────┘   └──────────────┘   └──────────────┘
+```
 
 ML 학습와 LLM은 이 흐름을 보강하는 대표 축이다. 하나는 기술 발전 방향이고, 다른 하나는 실제 운영 방식이다. 둘을 같이 봐야 과도한 단순화도, 과도한 복잡화도 피할 수 있다.
 
@@ -116,23 +108,21 @@ ML 학습와 LLM은 이 흐름을 보강하는 대표 축이다. 하나는 기�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">:---</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ML 학습</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LLM</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 분석</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">대규모 처리</div></div>
-</div>
-</div>
-
-
+```text
+[:---]
+    │
+    ▼
+[ML 학습]
+    │
+    ▼
+[LLM]
+    │
+    ▼
+[데이터 분석]
+    │
+    ▼
+[대규모 처리]
+```
 
 이 흐름도는 :---에서 출발해 대규모 처리까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

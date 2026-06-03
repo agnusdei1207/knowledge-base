@@ -27,18 +27,14 @@ tags = ["studynote-network"]
   - **2단계 (SYN-ACK)**: "독수리, 여기는 본부! 잘 들린다! 내 목소리도 잘 들리나? 오버!"
   - **3단계 (ACK)**: "본부, 잘 들린다! 지금부터 작전 명령 하달하겠다! 오버!" (이때부터 진짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 시작).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">긴급 포인터</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">TCP 3-Way Handshake</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ISN 무작위 할당 이유</div></div>
-</div>
-</div>
-
-
+```text
+[긴급 포인터]
+    │
+    ▼
+[TCP 3-Way Handshake]
+    │
+    └──▶ [ISN 무작위 할당 이유]
+```
 
 - **📢 섹션 요약 비유**: ** 3-Way Handshake는 전화 통화의 첫 3초입니다. 내가 **"여보세요(SYN)"** 하면, 상대방이 **"네, 여보세요(SYN-ACK)"** 하고, 내가 다시 **"아 네, 안녕하세요(ACK)"**라고 서로의 목소리가 들린다는 것을 확정 지은 뒤에야 비로소 "저기 돈 좀 빌려주라"는 진짜 본론([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 꺼냅니다.
 
@@ -71,24 +67,26 @@ tags = ["studynote-network"]
 - 이 패킷이 서버에 도착하는 순간 3번의 악수가 끝난다.
 - **상태 변화**: 클라이언트와 서버 양쪽 모두 <strong><code>ESTABLISHED</code> (연결 확립)</strong> 상태가 되며, 이때부터 진짜 웹페이지 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/))가 쏟아져 나오기 시작한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TCP 3-Way Handshake 시퀀스 번호의 교환 도식</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">클라이언트</div><div class="kb-diagram-node">서버</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(SYN_SENT) (LISTEN)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ 1.</div><div class="kb-diagram-node">SYN</div><div class="kb-diagram-note">Seq = 100 │</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(SYN_RCVD)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ 2.</div><div class="kb-diagram-node">SYN, ACK</div><div class="kb-diagram-note">Seq = 500, ACK = 101 (100+1) │</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(ESTABLISHED)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ 3.</div><div class="kb-diagram-node">ACK</div><div class="kb-diagram-note">Seq = 101, ACK = 501 (500+1) │</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(ESTABLISHED)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=== 이제부터 진짜 데이터 통신 (HTTP 등) 시작! ===</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                TCP 3-Way Handshake 시퀀스 번호의 교환 도식        │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 클라이언트 ]                                    [ 서버 ]      │
+ │   (SYN_SENT)                                    (LISTEN)    │
+ │       │                                               │     │
+ │       │ 1. [SYN] Seq = 100                            │     │
+ │       ├───────────────────────────────────────────────▶     │
+ │       │                                           (SYN_RCVD)│
+ │       │ 2. [SYN, ACK] Seq = 500, ACK = 101 (100+1)    │     │
+ │       ◀───────────────────────────────────────────────┤     │
+ │ (ESTABLISHED)                                         │     │
+ │       │ 3. [ACK] Seq = 101, ACK = 501 (500+1)         │     │
+ │       ├───────────────────────────────────────────────▶     │
+ │       │                                         (ESTABLISHED)│
+ │       │ === 이제부터 진짜 데이터 통신 (HTTP 등) 시작! ===       │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 3-Way Handshake의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -142,19 +140,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 긴급 포인터</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: TCP 3-Way Handshake</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: ISN 무작위 할당 이유</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 긴급 포인터]
+    │
+    ▼
+[현재 개념: TCP 3-Way Handshake]
+    │
+    ├──▶ [확장 A: ISN 무작위 할당 이유]
+    └──▶ [확장 B: 적응형 저지연 전송]
+```
 
 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 3-Way Handshake는 [긴급 포인터](/knowledge-base/studynote/03_network/08_transport_layer/415_tcp_urgent_pointer/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [ISN](/knowledge-base/studynote/03_network/08_transport_layer/417_isn_initial_sequence_number_randomization/) 무작위 할당 이유와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -23,18 +23,15 @@ tags = ["ict_convergence"]
 
 2024년 기준 비트코인 체인은 약 600GB, 이더리움은 1TB+까지 커졌다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)인 IBD (Initial Block Download)는 수일~수주가 걸릴 수 있다. 즉, 풀 노드는 빠른 사용성보다 독립 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 우선할 때 선택하는 구조다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">신뢰 모델: 무엇을 직접 볼 것인가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">라이트 노드(SPV) ── 헤더 + Merkle 증명 ──► 포함 여부만 확인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">풀 노드 ── 블록 + 거래 + 스크립트 ──► 규칙 위반 거절</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프루닝 노드 ── 검증 후 과거 본문 삭제 ──► 검증 권한 유지</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                   신뢰 모델: 무엇을 직접 볼 것인가            │
+├──────────────────────────────────────────────────────────────┤
+│ 라이트 노드(SPV) ── 헤더 + Merkle 증명 ──► 포함 여부만 확인  │
+│ 풀 노드        ── 블록 + 거래 + 스크립트 ──► 규칙 위반 거절  │
+│ 프루닝 노드    ── 검증 후 과거 본문 삭제 ──► 검증 권한 유지  │
+└──────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [라이트 노드](/knowledge-base/studynote/06_ict_convergence/01_blockchain/082_light_node_spv_simplified_payment_verification/)는 신문 헤드라인만 읽는 사람이고, 풀 노드는 원문과 첨부자료까지 직접 확인하는 사서다.
 
@@ -54,17 +51,14 @@ tags = ["ict_convergence"]
 | 피어 릴레이 | 유효 정보 전파 | 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) |
 | 보관 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) | prune/archive 선택 | 저장과 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)성의 균형 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IBD (Initial Block Download): 헤더 → 본문 → 검증 → UTXO 갱신</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Peers ─► Headers ─► Bodies ─► Rule Check ─► Local State ─► Relay</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 실패 시 즉시 폐기</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────┐
+│ IBD (Initial Block Download): 헤더 → 본문 → 검증 → UTXO 갱신 │
+├────────────────────────────────────────────────────────────────┤
+│ Peers ─► Headers ─► Bodies ─► Rule Check ─► Local State ─► Relay│
+│                               └── 실패 시 즉시 폐기 ───────────┘│
+└────────────────────────────────────────────────────────────────┘
+```
 
 이 구조의 장점은 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 책임이 한 노드 안에서 닫힌다는 점이다. 반면 저장과 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 비용은 그만큼 커진다. 그래서 풀 노드는 단순 저장 장치가 아니라, [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 규칙을 로컬에서 재현하는 계산 장치로 봐야 한다.
 
@@ -95,17 +89,15 @@ tags = ["ict_convergence"]
 
 운영 판단은 목적부터 나눠야 한다. 개인 지갑이나 저사양 장비라면 [라이트 노드](/knowledge-base/studynote/06_ict_convergence/01_blockchain/082_light_node_spv_simplified_payment_verification/)나 프루닝 노드가 충분할 수 있지만, 거래소·수탁·[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 서비스처럼 "틀린 블록을 직접 거절해야 하는" 업무라면 풀 노드가 필요하다. 과거 상태를 근거로 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)와 분석을 해야 한다면 아카이브 노드가 맞다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">직접 검증이 필요한가? ─ 예 ─► Full / Pruned / Archive</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">아니오 ─► Light (SPV)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">과거 상태 질의가 필요한가? ─ 예 ─► Archive</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ 직접 검증이 필요한가? ─ 예 ─► Full / Pruned / Archive      │
+│                   │                                          │
+│                   아니오 ─► Light (SPV)                      │
+│                                                              │
+│ 과거 상태 질의가 필요한가? ─ 예 ─► Archive                  │
+└──────────────────────────────────────────────────────────────┘
+```
 
 체크리스트는 간단하다.
 1. 잔액과 거래를 외부 API에 의존하지 않고 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 하는가?
@@ -138,21 +130,19 @@ tags = ["ict_convergence"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">제네시스 블록</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">IBD (Initial Block Download)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">전체 검증(Full Validation)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Pruned Full Node</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Archive Node</div>
-</div>
-</div>
-
-
+```text
+제네시스 블록
+    │
+    ▼
+IBD (Initial Block Download)
+    │
+    ▼
+전체 검증(Full Validation)
+    │
+    ├────────► Pruned Full Node
+    │
+    └────────► Archive Node
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

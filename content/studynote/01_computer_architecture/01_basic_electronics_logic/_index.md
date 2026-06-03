@@ -1,5 +1,5 @@
 +++
-title = "01. 디지털 논리 회로 및 컴퓨터 기초"
+title = "🔌 01. 디지털 논리 회로 및 컴퓨터 기초"
 
 [extra]
 tags = ["computer_architecture"]
@@ -23,19 +23,21 @@ tags = ["computer_architecture"]
 
 이 그림은 물리적 소자인 트랜지스터가 어떻게 논리 게이트를 거쳐 상위 시스템으로 추상화되는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hardware Abstraction Layers (Bottom-up)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Layer 4: Computer Architecture</div><div class="kb-diagram-note">(CPU, Registers)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Layer 3: Logic Modules</div><div class="kb-diagram-note">(Adders, Multiplexers)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Layer 2: Logic Gates</div><div class="kb-diagram-note">(AND, OR, NOT, XOR)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Layer 1: Physical Device</div><div class="kb-diagram-note">(Transistors, CMOS)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│              Hardware Abstraction Layers (Bottom-up)         │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Layer 4: Computer Architecture ] (CPU, Registers)       │
+│          ▲                                                  │
+│   [ Layer 3: Logic Modules ] (Adders, Multiplexers)         │
+│          ▲                                                  │
+│   [ Layer 2: Logic Gates ] (AND, OR, NOT, XOR)              │
+│          ▲                                                  │
+│   [ Layer 1: Physical Device ] (Transistors, CMOS)          │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '계층적 빌드업'이다. 개별 트랜지스터를 일일이 설계하는 대신, 이를 묶어 게이트를 만들고, 게이트를 묶어 덧셈기를 만드는 식으로 복잡도를 관리한다. 실무에서는 이러한 논리 설계를 위해 <strong>VHDL</strong>이나 **Verilog** 같은 하드웨어 기술 언어 (HDL)를 사용하여 디지털 회로를 코딩하듯 설계한다.
 
@@ -68,19 +70,21 @@ tags = ["computer_architecture"]
 
 이 구조도는 순서 논리 회로의 핵심인 <strong>플립플롭 (Flip-Flop)</strong>과 클럭 신호의 관계를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sequential Logic &amp; Memory Element</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Input</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Combinational Logic</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Output</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Flip-Flop (State)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Clock Pulse</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* State: 과거의 정보를 저장 (기억 장치)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* Clock: 시스템의 동기화와 속도를 결정</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Sequential Logic & Memory Element           │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Input ] ──▶ [ Combinational Logic ] ──▶ [ Output ]      │
+│                        ▲        │                           │
+│                        │        ▼                           │
+│                  [ Flip-Flop (State) ] ◀── [ Clock Pulse ]  │
+│                                                             │
+│   * State: 과거의 정보를 저장 (기억 장치)                   │
+│   * Clock: 시스템의 동기화와 속도를 결정                    │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '피드백 루프'와 '클럭 (Clock)'이다. 클럭 신호가 들어올 때마다 상태가 갱신되며, 이를 통해 컴퓨터는 '시간의 흐름'에 따라 순차적인 작업을 수행할 수 있다. 실무에서는 이 클럭 속도가 바로 CPU의 GHz 단위를 결정하며, 클럭 사이의 신호 전달 지연 (Propagation Delay)이 성능의 물리적 한계점이 된다.
 
@@ -122,20 +126,23 @@ tags = ["computer_architecture"]
 
 이 도식은 부울 함수 간소화의 비즈니스적 파급 효과를 보여준다.
 
+```text
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Logic Optimization Flow &amp; ROI</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Complex Equation  / 복잡한 방정식</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Karnaugh Map  / 카르노 맵</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Minimized  / 최소화됨</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Benefits  / 이점</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Fewer Gates -&gt; Lower Chip Area (Cost ↓)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Shorter Paths -&gt; Higher Speed (Frequency ↑)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Less Switching -&gt; Lower Power Consumption (Battery ↑)</div></div>
-</div>
-</div>
-
-
+┌─────────────────────────────────────────────────────────────┐
+│               Logic Optimization Flow & ROI                 │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Complex Equation  / 복잡한 방정식] ──▶ [ Karnaugh Map  / 카르노 맵] ──▶ [ Minimized  / 최소화됨]│
+│                                                     │       │
+│   ┌─────────────────────────────────────────────────┘       │
+│   ▼                                                         │
+│   [ Benefits  / 이점]                                              │
+│   1. Fewer Gates -> Lower Chip Area (Cost ↓)                │
+│   2. Shorter Paths -> Higher Speed (Frequency ↑)            │
+│   3. Less Switching -> Lower Power Consumption (Battery ↑)  │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 기술사의 논리 설계는 '최단 거리 길 찾기'와 같습니다. 복잡하게 꼬인 수식(길)을 가장 단순한 형태(지름길)로 펴주어, 전기 신호가 가장 빠르게 목적지에 도달하게 만드는 지도 제작자의 역할을 수행합니다.
 

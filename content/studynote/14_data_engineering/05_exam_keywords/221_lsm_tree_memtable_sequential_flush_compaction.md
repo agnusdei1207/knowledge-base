@@ -38,30 +38,34 @@ tags = ["studynote-data-engineering"]
 
 ### 2-1. 전체 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 경로
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">클라이언트 쓰기 요청</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WAL (Write-Ahead</div><div class="kb-diagram-cell">← 내구성 보장 (crash recovery)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Log, 선행 기록 로그)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Memtable</div><div class="kb-diagram-cell">← 인메모리 정렬 구조 (Red-Black Tree 또는 SkipList)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(메모리 쓰기 버퍼)</div></div>
-<div class="kb-diagram-note">임계 크기 초과 시</div>
-<div class="kb-diagram-note">flush</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 0 SSTable</div><div class="kb-diagram-cell">← 불변(Immutable), 순차 정렬 파일</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Sorted String Table)</div></div>
-<div class="kb-diagram-note">Compaction</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 1 ~ Level N</div><div class="kb-diagram-cell">← 레벨 올라갈수록 파일 크기 10× 증가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SSTables</div></div>
-</div>
-</div>
-
-
+```
+클라이언트 쓰기 요청
+        │
+        ▼
+┌──────────────────────┐
+│   WAL (Write-Ahead   │  ← 내구성 보장 (crash recovery)
+│   Log, 선행 기록 로그) │
+└──────────────────────┘
+        │
+        ▼
+┌──────────────────────┐
+│     Memtable         │  ← 인메모리 정렬 구조 (Red-Black Tree 또는 SkipList)
+│  (메모리 쓰기 버퍼)   │
+└──────────────────────┘
+   임계 크기 초과 시
+        │ flush
+        ▼
+┌──────────────────────┐
+│   Level 0 SSTable    │  ← 불변(Immutable), 순차 정렬 파일
+│ (Sorted String Table)│
+└──────────────────────┘
+        │ Compaction
+        ▼
+┌──────────────────────┐
+│   Level 1 ~ Level N  │  ← 레벨 올라갈수록 파일 크기 10× 증가
+│     SSTables         │
+└──────────────────────┘
+```
 
 ### 2-2. 구성 요소 상세
 
@@ -76,22 +80,17 @@ tags = ["studynote-data-engineering"]
 
 ### 2-3. [Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) (병합·정렬) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Leveled Compaction Size-Tiered Compaction</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">L0:</div><div class="kb-diagram-node">f1</div><div class="kb-diagram-node">f2</div><div class="kb-diagram-node">f3</div><div class="kb-diagram-node">f4</div><div class="kb-diagram-note">Tier1:</div><div class="kb-diagram-node">s1</div><div class="kb-diagram-node">s2</div><div class="kb-diagram-node">s3</div><div class="kb-diagram-node">s4</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">overlap 검사</div><div class="kb-diagram-cell">유사 크기끼리 병합</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">L1:</div><div class="kb-diagram-node">merged_file</div><div class="kb-diagram-note">Tier2:</div><div class="kb-diagram-node">larger_file</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">크기 10× 증가 Tier3:</div><div class="kb-diagram-node">huge_file</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">L2:</div><div class="kb-diagram-node">───────────────</div></div>
-<div class="kb-diagram-note">(각 레벨 총 크기 제한 있음) 쓰기 증폭 낮음 / 읽기 증폭 높음</div>
-<div class="kb-diagram-note">읽기 증폭 낮음 / 쓰기 증폭 높음</div>
-</div>
-</div>
-
-
+```
+Leveled Compaction                  Size-Tiered Compaction
+────────────────────               ──────────────────────
+L0: [f1][f2][f3][f4]               Tier1: [s1][s2][s3][s4]
+       │ overlap 검사                        │ 유사 크기끼리 병합
+L1: [   merged_file   ]            Tier2: [   larger_file   ]
+       │ 크기 10× 증가              Tier3: [      huge_file     ]
+L2: [ ─────────────── ]
+(각 레벨 총 크기 제한 있음)          쓰기 증폭 낮음 / 읽기 증폭 높음
+읽기 증폭 낮음 / 쓰기 증폭 높음
+```
 
 | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | [쓰기 증폭](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/) (WA) | 읽기 증폭 ([RA](/knowledge-base/studynote/09_security/03_network_security/161_ra_registration_authority/)) | 공간 증폭 ([SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/)) | 적합 워크로드 |
 |:---|:---:|:---:|:---:|:---|
@@ -145,20 +144,15 @@ tags = ["studynote-data-engineering"]
 
 ### 4-2. [Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 튜닝 핵심 파라미터
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">RocksDB Leveled Compaction 주요 설정</div>
-<div class="kb-diagram-note">max_bytes_for_level_base = 256MB (L1 최대 크기)</div>
-<div class="kb-diagram-note">max_bytes_for_level_multiplier = 10 (레벨별 10× 증가)</div>
-<div class="kb-diagram-note">level0_file_num_compaction_trigger = 4 (L0 파일 4개 쌓이면 compaction)</div>
-<div class="kb-diagram-note">write_buffer_size = 64MB (Memtable 크기)</div>
-<div class="kb-diagram-note">max_write_buffer_number = 3 (동시 Memtable 수)</div>
-</div>
-</div>
-
-
+```
+RocksDB Leveled Compaction 주요 설정
+────────────────────────────────────
+max_bytes_for_level_base = 256MB   (L1 최대 크기)
+max_bytes_for_level_multiplier = 10 (레벨별 10× 증가)
+level0_file_num_compaction_trigger = 4 (L0 파일 4개 쌓이면 compaction)
+write_buffer_size = 64MB           (Memtable 크기)
+max_write_buffer_number = 3        (동시 Memtable 수)
+```
 
 📢 **섹션 요약 비유**: 파라미터 튜닝은 "쓰레기통 크기([Memtable](/knowledge-base/studynote/05_database/07_exam_summary/494_memtable_sstable_flush/))와 청소 주기([Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) trigger)를 조절하는 것"이다. 통이 작으면 자주 비워야 하고, 너무 크면 넘친다.
 
@@ -206,22 +200,18 @@ LSM 트리가 현대 [분산](/knowledge-base/studynote/08_algorithm_stats/08_st
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">B-Tree (읽기 최적화, 랜덤 I/O)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">LSM-Tree (쓰기 최적화, 순차 I/O)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">MemTable (인메모리 정렬)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Flush → SSTable (디스크 정렬 파일)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Compaction: Size-Tiered · Leveled</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">적용: Cassandra · HBase · RocksDB · LevelDB</div>
-</div>
-</div>
-
-
+```text
+B-Tree (읽기 최적화, 랜덤 I/O)
+    │
+    ▼
+LSM-Tree (쓰기 최적화, 순차 I/O)
+    ├─► MemTable (인메모리 정렬)
+    ├─► Flush → SSTable (디스크 정렬 파일)
+    └─► Compaction: Size-Tiered · Leveled
+    │
+    ▼
+적용: Cassandra · HBase · RocksDB · LevelDB
+```
 2. 메모장이 꽉 차면 한꺼번에 깔끔하게 묶어서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 캐비닛에 넣는데, 이것이 SSTable 플러시이다.
 3. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 캐비닛에 쌓인 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)들을 주기적으로 합쳐서 큰 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 정리하는 작업이 Compaction이고, 이 덕분에 나중에 찾을 때도 빠르다.
 

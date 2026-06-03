@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: 방대한 네트워크 장비와 서버에서 매일 쏟아지는 테라바이트급 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 트래픽 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 알람을 <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/">인공지능</a>(<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/">머신러닝</a>/딥러닝) 모델이 실시간으로 수집 및 분석하여, 사람을 대신해 네트워크의 이상 징후를 탐지하고 자동으로 문제를 해결(자동화)하는 차세대 IT 운영 관리 체계</strong>입니다.
 - 통신망(Network)에 적용되면 <strong>'자율 주행 네트워크(Autonomous Network)'</strong>의 두뇌가 됩니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 프로그래밍 모델 P4 지원 고정 하…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">자율 주행 넷망</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">AI 내재화</div></div>
-</div>
-</div>
-
-
+```text
+[네트워크 프로그래밍 모델 P4 지원 고정 하…]
+    │
+    ▼
+[자율 주행 넷망]
+    │
+    └──▶ [AI 내재화]
+```
 
 - **📢 섹션 요약 비유**: 자율 주행 넷망은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -48,18 +44,14 @@ AIOps를 구현하기 위한 가장 중요한 실무 아키텍처가 IBN입니�
   - 관리자는 시스템에 기계어 대신 사람이 쓰는 말(의도, [Intent](/knowledge-base/studynote/06_ict_convergence/05_data_science/416_prompt_injection_semantic_routing/))을 던집니다. **"이번 주말 콘서트장에 홀로그램 영상망(VIP) 절대 안 끊기게 보장해 줘!"** (선언적 방식, [Declarative](/knowledge-base/studynote/15_devops_sre/05_devsecops/219_declarative_yaml/)).
   - IBN의 두뇌([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))가 이 '의도'를 스스로 해석하여, "음, 콘서트장이니까 B 라우터를 켜고 C [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 룰을 수정해야겠군" 하고 <strong>수백 대의 장비 세팅 값을 AI가 스스로 다 짜서 자동으로 밀어 넣습니다(Translation &amp; <a href="/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/">Provisioning</a>).</strong>
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 프로그래밍 모델 P4 지원 고정 하…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">자율 주행 넷망</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">AI 내재화</div></div>
-</div>
-</div>
-
-
+```text
+[네트워크 프로그래밍 모델 P4 지원 고정 하…]
+    │
+    ▼
+[자율 주행 넷망]
+    │
+    └──▶ [AI 내재화]
+```
 
 - **📢 섹션 요약 비유**: 자율 주행 넷망의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -120,19 +112,15 @@ AIOps를 구현하기 위한 가장 중요한 실무 아키텍처가 IBN입니�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 네트워크 프로그래밍 모델 P4 지원 고정 하…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 자율 주행 넷망</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: AI 내재화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 네트워크 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 네트워크 프로그래밍 모델 P4 지원 고정 하…]
+    │
+    ▼
+[현재 개념: 자율 주행 넷망]
+    │
+    ├──▶ [확장 A: AI 내재화]
+    └──▶ [확장 B: AI 기반 네트워크 최적화]
+```
 
 자율 주행 넷망는 네트워크 프로그래밍 모델 [P4](/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/) 지원 고정 하…에서 출발해 현재 메커니즘을 정교화하고, 이후 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 내재화와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

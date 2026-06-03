@@ -18,18 +18,12 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">1단계: 새 기능 → MSA로 개발 (모놀리스 옆에)</div>
-<div class="kb-diagram-note">2단계: API GW → 새 기능은 MSA로 라우팅, 나머지는 모놀리스</div>
-<div class="kb-diagram-note">3단계: 기능 하나씩 MSA로 이전 → 모놀리스 축소</div>
-<div class="kb-diagram-note">4단계: 모놀리스 완전 제거 (교살 완료)</div>
-</div>
-</div>
-
-
+```text
+1단계: 새 기능 → MSA로 개발 (모놀리스 옆에)
+2단계: API GW → 새 기능은 MSA로 라우팅, 나머지는 모놀리스
+3단계: 기능 하나씩 MSA로 이전 → 모놀리스 축소
+4단계: 모놀리스 완전 제거 (교살 완료)
+```
 
 - **📢 섹션 요약 비유**: Strangler Fig는 <strong>무화과 나무가 기존 나무를 감싸며 대체</strong>하는 것이다. 기존 나무(모놀리스)가 점차 사라진다.
 
@@ -53,17 +47,11 @@ Strangler Fig는 <strong>모놀리스→<a href="/knowledge-base/studynote/01_co
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Big Bang Rewrite (고위험)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Strangler Fig (Fowler, 2004)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">API GW 기반 라우팅 (2015~)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: 도메인별 Strangler — DDD 기반 분해</div></div>
-</div>
-</div>
-
-
+```text
+[Big Bang Rewrite (고위험)] → [Strangler Fig (Fowler, 2004)]
+    → [API GW 기반 라우팅 (2015~)]
+    → [현재: 도메인별 Strangler — DDD 기반 분해]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. Strangler Fig는 **덩굴이 큰 나무를 감싸** 천천히 대체하는 거예요.

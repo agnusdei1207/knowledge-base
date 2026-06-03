@@ -36,17 +36,12 @@ tags = ["studynote-design"]
 
 ### [감리 수행](/knowledge-base/studynote/11_design_supervision/01_audit_framework/017_audit_execution/) 절차
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">감리 계획 → 착수 검토 → 감리 수행 → 감리 보고 → 후속 조치</div>
-<div class="kb-diagram-note">감리 계획서 예비 분석 현장 감리 감리 결과서 시정 조치 확인</div>
-<div class="kb-diagram-note">(발주기관 승인) (문서 검토) (인터뷰·테스트) (권고사항) (이행 확인)</div>
-</div>
-</div>
-
-
+```
+감리 계획 → 착수 검토 → 감리 수행 → 감리 보고 → 후속 조치
+  ↓              ↓             ↓           ↓           ↓
+감리 계획서    예비 분석      현장 감리   감리 결과서  시정 조치 확인
+(발주기관 승인)  (문서 검토)   (인터뷰·테스트)  (권고사항)  (이행 확인)
+```
 
 ### [감리 보고서](/knowledge-base/studynote/11_design_supervision/01_audit_framework/018_audit_report/) 필수 항목
 
@@ -107,54 +102,47 @@ tags = ["studynote-design"]
 
 ## 📌 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">감리 품질 관리 (Audit Quality Management)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">품질 3대 기준</div>
-<div class="kb-diagram-note">── 독립성 (Independence)</div>
-<div class="kb-diagram-note">── 전문 역량 (Competency)</div>
-<div class="kb-diagram-note">── 정당한 주의 (Due Care)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">감리 절차</div>
-<div class="kb-diagram-note">── 계획→착수→수행→보고→후속</div>
-<div class="kb-diagram-note">── 감리 보고서 (권고·주의·시정)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">위협 요소</div>
-<div class="kb-diagram-note">── 독립성 위협 (이해충돌)</div>
-<div class="kb-diagram-note">── 역량 미달</div>
-<div class="kb-diagram-note">── 증거 은폐</div>
-<div class="kb-diagram-tree-item" style="--depth:0">관련 표준</div>
-<div class="kb-diagram-tree-item" style="--depth:2">전자정부법 (국내)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">ISACA ITAF</div>
-<div class="kb-diagram-tree-item" style="--depth:2">ISO 19011 (감사 지침)</div>
-</div>
-</div>
-
-
+```
+감리 품질 관리 (Audit Quality Management)
+├── 품질 3대 기준
+│   ├── 독립성 (Independence)
+│   ├── 전문 역량 (Competency)
+│   └── 정당한 주의 (Due Care)
+├── 감리 절차
+│   ├── 계획→착수→수행→보고→후속
+│   └── 감리 보고서 (권고·주의·시정)
+├── 위협 요소
+│   ├── 독립성 위협 (이해충돌)
+│   ├── 역량 미달
+│   └── 증거 은폐
+└── 관련 표준
+    ├── 전자정부법 (국내)
+    ├── ISACA ITAF
+    └── ISO 19011 (감사 지침)
+```
 
 ---
 
 ## 📈 관련 키워드 및 발전 흐름도
 
+```
+┌─────────────────────────────────────────────────────────────────┐
+│              감리 품질 관리 발전 흐름                            │
+├──────────────┬────────────────────┬─────────────────────────────┤
+│ 2001년       │ 정보시스템 감리제도 │ 정보화촉진기본법 감리 의무화  │
+│ 2010년       │ 전자정부법 감리 조항│ 현행 IT 감리 법적 근거 강화  │
+│ 2015년       │ 감리기준 고시 개정  │ 행안부 감리 표준 체계화       │
+│ 2019년       │ 클라우드 감리 추가  │ 클라우드 전환 감리 영역 신설 │
+│ 2022년       │ AI·빅데이터 감리    │ 신기술 사업 감리 지침 도입   │
+└──────────────┴────────────────────┴─────────────────────────────┘
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">감리 품질 관리 발전 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2001년</div><div class="kb-diagram-cell">정보시스템 감리제도</div><div class="kb-diagram-cell">정보화촉진기본법 감리 의무화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2010년</div><div class="kb-diagram-cell">전자정부법 감리 조항</div><div class="kb-diagram-cell">현행 IT 감리 법적 근거 강화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2015년</div><div class="kb-diagram-cell">감리기준 고시 개정</div><div class="kb-diagram-cell">행안부 감리 표준 체계화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2019년</div><div class="kb-diagram-cell">클라우드 감리 추가</div><div class="kb-diagram-cell">클라우드 전환 감리 영역 신설</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2022년</div><div class="kb-diagram-cell">AI·빅데이터 감리</div><div class="kb-diagram-cell">신기술 사업 감리 지침 도입</div></div>
-<div class="kb-diagram-note">핵심 키워드 연결:</div>
-<div class="kb-diagram-note">전자정부법 → 의무 감리 → 감리 계획 → 현장 감리</div>
-<div class="kb-diagram-note">대상 기준 감리법인 착수보고서 체크리스트</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">감리 보고서 → 권고사항 이행 → 감리 품질 KQI 측정</div>
-</div>
-</div>
-
-
+핵심 키워드 연결:
+전자정부법 → 의무 감리 → 감리 계획 → 현장 감리
+    ↓              ↓           ↓            ↓
+대상 기준       감리법인    착수보고서    체크리스트
+    ↓
+감리 보고서 → 권고사항 이행 → 감리 품질 KQI 측정
+```
 
 ---
 

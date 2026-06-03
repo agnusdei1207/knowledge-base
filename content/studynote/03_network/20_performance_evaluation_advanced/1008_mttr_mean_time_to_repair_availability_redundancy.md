@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 서버나 스위치가 고장 나서 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 접속이 불가능한 '블랙아웃(마비)' 시간을 다운타임이라고 부릅니다. 
 - 대기업 통신망은 이 다운타임 1초가 수백만 원의 매출 손실로 직결되므로, 고장을 안 내는 것보다 <strong>'고장이 나더라도 고객이 눈치채기 전에 1초 만에 살려내는 것'</strong>에 사활을 겁니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">MTBF 통신망 생존성</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MTTR 회선 이중화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">백홀</div></div>
-</div>
-</div>
-
-
+```text
+[MTBF 통신망 생존성]
+    │
+    ▼
+[MTTR 회선 이중화]
+    │
+    └──▶ [백홀]
+```
 
 - **📢 섹션 요약 비유**: [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) 회선 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -44,18 +40,14 @@ tags = ["studynote-network"]
 - **개념**: <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/">평균 수리 시간</a></strong>. 장비나 시스템이 고장 나서 멈춘(Failure) 순간부터, 엔지니어가 달려와 고장을 인지하고 부품을 갈아 끼워 <strong>완벽하게 원래 정상 상태(Restore)로 다시 부활시킬 때까지 걸린 1회당 '평균 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a>(수리) 소요 시간'</strong>입니다.
 - 숫자가 작을수록 훌륭하고 돈값을 하는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">MTBF 통신망 생존성</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MTTR 회선 이중화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">백홀</div></div>
-</div>
-</div>
-
-
+```text
+[MTBF 통신망 생존성]
+    │
+    ▼
+[MTTR 회선 이중화]
+    │
+    └──▶ [백홀]
+```
 
 - **📢 섹션 요약 비유**: [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) 회선 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -122,19 +114,15 @@ $$ [Availability](/knowledge-base/studynote/01_computer_architecture/13_reliabil
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: MTBF 통신망 생존성</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: MTTR 회선 이중화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 백홀</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: MTBF 통신망 생존성]
+    │
+    ▼
+[현재 개념: MTTR 회선 이중화]
+    │
+    ├──▶ [확장 A: 백홀]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) 회선 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)는 [MTBF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/) 통신망 생존성에서 출발해 현재 메커니즘을 정교화하고, 이후 [백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

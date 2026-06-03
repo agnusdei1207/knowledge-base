@@ -34,24 +34,26 @@ tags = ["database"]
 | **완전 함수 종속** | $X \rightarrow Y$일 때, $X$의 진부분집합 $X'$에 대해 $X' \rightarrow Y$가 성립하지 않는 상태 | 테이블에 잔류 (정상) |
 | **부분 함수 종속** | $X \rightarrow Y$일 때, $X$의 진부분집합 $X'$에 대해서도 $X' \rightarrow Y$가 성립하는 상태 | 새 테이블로 분리 (2NF 대상) |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2NF 무손실 분해 메커니즘 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1NF 상태 (부분 종속 존재)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">복합 기본 키</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(학번) (과목코드)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부분 종속 완전 종속</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(학생이름) (학과) (성적)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분해 (Decomposition)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2NF 달성 (두 개의 테이블로 분리)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;학생 테이블&gt; &lt;수강 테이블&gt;</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">(학번)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">(학번, 과목코드)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(성적)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                  2NF 무손실 분해 메커니즘 시각화                  │
+├──────────────────────────────────────────────────────────────┤
+│ [ 1NF 상태 (부분 종속 존재) ]                                    │
+│       ┌───────── 복합 기본 키 ─────────┐                      │
+│       │ (학번)           (과목코드)    │                      │
+│       └──┬───┘               └───┬───┘                      │
+│          │                       │                            │
+│          │ ┌───── 부분 종속 ─────┘ ┌───── 완전 종속 ─────┐    │
+│          ▼ ▼                      ▼                     ▼    │
+│      (학생이름)                 (학과)                  (성적)    │
+│                                                              │
+│ ───────────────────── 분해 (Decomposition) ───────────────── │
+│                                                              │
+│ [ 2NF 달성 (두 개의 테이블로 분리) ]                              │
+│  <학생 테이블>                           <수강 테이블>           │
+│  [ (학번) ] ──▶ (학생이름, 학과)        [ (학번, 과목코드) ] ──▶ (성적) │
+└──────────────────────────────────────────────────────────────┘
+```
 이 다이어그램은 복합 키의 일부인 '학번'에 종속된 '학생이름'과 '학과'를 떼어내어 새로운 학생 테이블을 만들고, 본래 수강 테이블에는 완전 함수 종속된 '성적'만 남기는 과정을 보여준다. 이를 통해 부분 종속이 완전히 제거된다.
 
 - **📢 섹션 요약 비유**: 수술실에서 암세포를 제거하는 것과 같다. 정상 세포(완전 종속 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))는 그대로 두고, 다른 곳에 기생하는 암세포(부분 종속 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))만 정확히 도려내어 배양 접시(새 테이블)에 따로 분리하는 외과 수술이다.
@@ -110,23 +112,21 @@ tags = ["database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">비정규 릴레이션 (중복과 이상 현상 내재)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">제1정규형 (1NF) · 도메인이 원자값</div>
-<div class="kb-diagram-note">▼ (본 문서)</div>
-<div class="kb-diagram-note">제2정규형 (2NF) · 부분 함수 종속 제거</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">제3정규형 (3NF) · 이행적 함수 종속 제거</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">BCNF (Boyce-Codd Normal Form) · 모든 결정자가 후보 키</div>
-</div>
-</div>
-
-
+```text
+비정규 릴레이션 (중복과 이상 현상 내재)
+    │
+    ▼
+제1정규형 (1NF) · 도메인이 원자값
+    │
+    ▼ (본 문서)
+제2정규형 (2NF) · 부분 함수 종속 제거
+    │
+    ▼
+제3정규형 (3NF) · 이행적 함수 종속 제거
+    │
+    ▼
+BCNF (Boyce-Codd Normal Form) · 모든 결정자가 후보 키
+```
 이 흐름도는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)가 중복을 제거하며 점점 더 구조적 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 갖춰가는 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)의 진화 단계를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

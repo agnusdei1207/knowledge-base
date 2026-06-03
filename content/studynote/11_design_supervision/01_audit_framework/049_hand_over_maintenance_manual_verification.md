@@ -18,42 +18,43 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅰ. 인수인계 개요
 
+```
+인수인계 (Hand-Over / System Transition):
+  개발 조직 → 운영 조직으로 시스템 이관
 
+인수인계 시점:
+  SI 프로젝트: 개발 완료 후 운영 이관
+  클라우드 마이그레이션: 구 시스템 → 신 시스템
+  조직 변경: 내부 팀 간 이관
+  아웃소싱: 자체 운영 → 위탁 운영
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">인수인계 (Hand-Over / System Transition):</div>
-<div class="kb-diagram-note">개발 조직 → 운영 조직으로 시스템 이관</div>
-<div class="kb-diagram-note">인수인계 시점:</div>
-<div class="kb-diagram-note">SI 프로젝트: 개발 완료 후 운영 이관</div>
-<div class="kb-diagram-note">클라우드 마이그레이션: 구 시스템 → 신 시스템</div>
-<div class="kb-diagram-note">조직 변경: 내부 팀 간 이관</div>
-<div class="kb-diagram-note">아웃소싱: 자체 운영 → 위탁 운영</div>
-<div class="kb-diagram-note">인수인계 범위:</div>
-<div class="kb-diagram-note">1. 시스템 (Hardware/Software):</div>
-<div class="kb-diagram-note">서버, 네트워크 장비, 소프트웨어 라이선스</div>
-<div class="kb-diagram-note">2. 소스코드 및 산출물:</div>
-<div class="kb-diagram-note">소스코드 + 형상 관리 저장소</div>
-<div class="kb-diagram-note">설계 문서, 테스트 결과</div>
-<div class="kb-diagram-note">DB 스키마, 데이터 사전</div>
-<div class="kb-diagram-note">3. 운영 문서:</div>
-<div class="kb-diagram-note">운영 매뉴얼, 장애 대응 절차</div>
-<div class="kb-diagram-note">배포 절차서, 모니터링 가이드</div>
-<div class="kb-diagram-note">4. 지식 이전 (Knowledge Transfer):</div>
-<div class="kb-diagram-note">운영팀 교육 (OJT)</div>
-<div class="kb-diagram-note">핵심 개발자와 운영팀 동행 기간</div>
-<div class="kb-diagram-note">인수인계 체크리스트:</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">소스코드 저장소 접근 권한 이전</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">운영 서버 관리자 계정 이전</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">암호화 키/인증서 이전</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">제3자 API 키/라이선스 이전</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">운영 매뉴얼 전달 및 교육</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">장애 대응 절차서 전달 및 훈련</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">모니터링 알림 수신자 변경</div></div>
-</div>
-</div>
+인수인계 범위:
 
+1. 시스템 (Hardware/Software):
+  서버, 네트워크 장비, 소프트웨어 라이선스
 
+2. 소스코드 및 산출물:
+  소스코드 + 형상 관리 저장소
+  설계 문서, 테스트 결과
+  DB 스키마, 데이터 사전
+
+3. 운영 문서:
+  운영 매뉴얼, 장애 대응 절차
+  배포 절차서, 모니터링 가이드
+
+4. 지식 이전 (Knowledge Transfer):
+  운영팀 교육 (OJT)
+  핵심 개발자와 운영팀 동행 기간
+
+인수인계 체크리스트:
+  [ ] 소스코드 저장소 접근 권한 이전
+  [ ] 운영 서버 관리자 계정 이전
+  [ ] 암호화 키/인증서 이전
+  [ ] 제3자 API 키/라이선스 이전
+  [ ] 운영 매뉴얼 전달 및 교육
+  [ ] 장애 대응 절차서 전달 및 훈련
+  [ ] 모니터링 알림 수신자 변경
+```
 
 > 📢 **섹션 요약 비유**: 인수인계 = 건물 열쇠 교환 — 새 주인(운영팀)이 모든 열쇠(서버 계정, 소스코드, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 키)와 관리 매뉴얼(빌딩 관리 지침) 받아야 진정한 이관. 일부 열쇠 누락 = 운영 불가!
 
@@ -61,50 +62,56 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅱ. 유지보수 유형
 
+```
+ISO/IEC 14764 유지보수 4유형:
 
+1. 교정 유지보수 (Corrective Maintenance):
+  버그, 오류 수정
+  
+  예:
+  계산 오류 수정, 시스템 오작동 해결
+  
+  SLA:
+  긴급(P1): 4시간 내 복구
+  중요(P2): 24시간 내 수정
+  일반(P3): 5영업일 내 수정
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">ISO/IEC 14764 유지보수 4유형:</div>
-<div class="kb-diagram-note">1. 교정 유지보수 (Corrective Maintenance):</div>
-<div class="kb-diagram-note">버그, 오류 수정</div>
-<div class="kb-diagram-note">예:</div>
-<div class="kb-diagram-note">계산 오류 수정, 시스템 오작동 해결</div>
-<div class="kb-diagram-note">SLA:</div>
-<div class="kb-diagram-note">긴급(P1): 4시간 내 복구</div>
-<div class="kb-diagram-note">중요(P2): 24시간 내 수정</div>
-<div class="kb-diagram-note">일반(P3): 5영업일 내 수정</div>
-<div class="kb-diagram-note">2. 적응 유지보수 (Adaptive Maintenance):</div>
-<div class="kb-diagram-note">외부 환경 변화에 대응</div>
-<div class="kb-diagram-note">예:</div>
-<div class="kb-diagram-note">OS 업그레이드 대응</div>
-<div class="kb-diagram-note">법령 변경 (세율 변경 등)</div>
-<div class="kb-diagram-note">새 API 버전 마이그레이션</div>
-<div class="kb-diagram-note">3. 완전 유지보수 (Perfective Maintenance):</div>
-<div class="kb-diagram-note">기능 개선, 성능 향상</div>
-<div class="kb-diagram-note">예:</div>
-<div class="kb-diagram-note">사용자 요청 신기능 추가</div>
-<div class="kb-diagram-note">쿼리 최적화</div>
-<div class="kb-diagram-note">UI/UX 개선</div>
-<div class="kb-diagram-note">* 유지보수 공수의 65~70% 차지</div>
-<div class="kb-diagram-note">4. 예방 유지보수 (Preventive Maintenance):</div>
-<div class="kb-diagram-note">잠재적 오류 예방</div>
-<div class="kb-diagram-note">예:</div>
-<div class="kb-diagram-note">코드 리팩토링</div>
-<div class="kb-diagram-note">문서 최신화</div>
-<div class="kb-diagram-note">보안 패치 적용</div>
-<div class="kb-diagram-note">기술 부채 해소</div>
-<div class="kb-diagram-note">유지보수 비율 (업계 평균):</div>
-<div class="kb-diagram-note">완전: 65%</div>
-<div class="kb-diagram-note">교정: 17%</div>
-<div class="kb-diagram-note">적응: 12%</div>
-<div class="kb-diagram-note">예방: 6%</div>
-<div class="kb-diagram-note">→ 기능 개선이 가장 많음</div>
-<div class="kb-diagram-note">→ 예방 유지보수 비율 낮을수록 기술 부채 증가</div>
-</div>
-</div>
+2. 적응 유지보수 (Adaptive Maintenance):
+  외부 환경 변화에 대응
+  
+  예:
+  OS 업그레이드 대응
+  법령 변경 (세율 변경 등)
+  새 API 버전 마이그레이션
 
+3. 완전 유지보수 (Perfective Maintenance):
+  기능 개선, 성능 향상
+  
+  예:
+  사용자 요청 신기능 추가
+  쿼리 최적화
+  UI/UX 개선
+  
+  * 유지보수 공수의 65~70% 차지
 
+4. 예방 유지보수 (Preventive Maintenance):
+  잠재적 오류 예방
+  
+  예:
+  코드 리팩토링
+  문서 최신화
+  보안 패치 적용
+  기술 부채 해소
+
+유지보수 비율 (업계 평균):
+  완전: 65%
+  교정: 17%
+  적응: 12%
+  예방: 6%
+  
+  → 기능 개선이 가장 많음
+  → 예방 유지보수 비율 낮을수록 기술 부채 증가
+```
 
 > 📢 **섹션 요약 비유**: 유지보수 4유형 = 자동차 관리 유형 — 교정(고장 수리), 적응(새 도로 규정 대응), 완전([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 업그레이드), 예방(정기 점검). 65%는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 개선(완전)이 차지!
 
@@ -209,44 +216,50 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅴ. 실무 시나리오 — 공공 시스템 인수인계 감리
 
+```
+행정기관 정보시스템 인수인계 감리:
 
+배경:
+  개발사 A → 운영사 B로 이관
+  시스템: 민원 처리 플랫폼 (일 5만 건)
+  계약: 유지보수 SLA P1=4시간, P2=24시간
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">행정기관 정보시스템 인수인계 감리:</div>
-<div class="kb-diagram-note">배경:</div>
-<div class="kb-diagram-note">개발사 A → 운영사 B로 이관</div>
-<div class="kb-diagram-note">시스템: 민원 처리 플랫폼 (일 5만 건)</div>
-<div class="kb-diagram-note">계약: 유지보수 SLA P1=4시간, P2=24시간</div>
-<div class="kb-diagram-note">감리 점검 결과:</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">이슈 1</div><div class="kb-diagram-note">소스코드 버전 불일치</div></div>
-<div class="kb-diagram-note">이관된 소스: v2.1</div>
-<div class="kb-diagram-note">운영 서버: v2.3 (2개 핫픽스 미반영)</div>
-<div class="kb-diagram-note">조치: 운영 서버에서 소스 재추출 후 이관 완료</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">이슈 2</div><div class="kb-diagram-note">Runbook 미작성</div></div>
-<div class="kb-diagram-note">"DB 연결 오류" 시나리오 없음</div>
-<div class="kb-diagram-note">개발자만 알고 있는 노하우</div>
-<div class="kb-diagram-note">조치: 개발사 동행 기간 2주 연장</div>
-<div class="kb-diagram-note">핵심 4개 장애 시나리오 Runbook 작성</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">이슈 3</div><div class="kb-diagram-note">암호화 키 이관 절차 없음</div></div>
-<div class="kb-diagram-note">API 연동 키 3개 개발사 서버에 있음</div>
-<div class="kb-diagram-note">조치: Key Management 절차 수립</div>
-<div class="kb-diagram-note">HSM(Hardware Security Module) 이관</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">이슈 4</div><div class="kb-diagram-note">SLA P1 비현실적</div></div>
-<div class="kb-diagram-note">DB 장애 시 P1=4시간 복구 명시</div>
-<div class="kb-diagram-note">실제 DB 복구 훈련: 최소 6시간</div>
-<div class="kb-diagram-note">조치: SLA 재협의 (P1=8시간, P2=48시간)</div>
-<div class="kb-diagram-note">또는 자동 Failover(레플리카) 구성</div>
-<div class="kb-diagram-note">최종 인수인계:</div>
-<div class="kb-diagram-note">이슈 4개 → 조치 완료</div>
-<div class="kb-diagram-note">인수인계 완료 서명 + 감리보고서 제출</div>
-<div class="kb-diagram-note">교훈:</div>
-<div class="kb-diagram-note">Runbook은 개발 중 작성이 가장 효율적</div>
-<div class="kb-diagram-note">SLA는 기술 검토 후 현실적으로 설정</div>
-</div>
-</div>
+감리 점검 결과:
 
+[이슈 1] 소스코드 버전 불일치
+  이관된 소스: v2.1
+  운영 서버: v2.3 (2개 핫픽스 미반영)
+  
+  조치: 운영 서버에서 소스 재추출 후 이관 완료
 
+[이슈 2] Runbook 미작성
+  "DB 연결 오류" 시나리오 없음
+  개발자만 알고 있는 노하우
+  
+  조치: 개발사 동행 기간 2주 연장
+  핵심 4개 장애 시나리오 Runbook 작성
+
+[이슈 3] 암호화 키 이관 절차 없음
+  API 연동 키 3개 개발사 서버에 있음
+  
+  조치: Key Management 절차 수립
+  HSM(Hardware Security Module) 이관
+
+[이슈 4] SLA P1 비현실적
+  DB 장애 시 P1=4시간 복구 명시
+  실제 DB 복구 훈련: 최소 6시간
+  
+  조치: SLA 재협의 (P1=8시간, P2=48시간)
+  또는 자동 Failover(레플리카) 구성
+
+최종 인수인계:
+  이슈 4개 → 조치 완료
+  인수인계 완료 서명 + 감리보고서 제출
+  
+교훈:
+  Runbook은 개발 중 작성이 가장 효율적
+  SLA는 기술 검토 후 현실적으로 설정
+```
 
 > 📢 **섹션 요약 비유**: 인수인계 감리 = 중고차 매매 검수 — 열쇠 전부 있나(소스코드), 수리 매뉴얼 있나(Runbook), 보험증서 있나([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)), 숨겨진 이상 없나([버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 불일치). 계약 전 꼼꼼히!
 

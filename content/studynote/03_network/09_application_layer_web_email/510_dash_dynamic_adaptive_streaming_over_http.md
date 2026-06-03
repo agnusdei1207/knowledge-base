@@ -35,34 +35,38 @@ tags = ["studynote-network"]
   1. **모바일 네트워크의 치명적 변덕성(Volatility)**: 집안 유선 랜선과 달리, 폰은 들고 걸어 다니는 순간 음영 지역, 혼잡 지역(만원 지하철)을 거치며 인터넷 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)([Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))이 1Gbps에서 1Mbps로 수십 번씩 미친 널뛰기를 친다. 고정 화질로는 이 미친 파도를 절대 탈 수 없었다.
   2. <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/">CDN</a> 엣지 장사의 폭발 (<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a> 맹신주의)</strong>: 비싼 스트리밍 전용 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)(RTSP/[UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/))을 쓰려면 전 세계 100개국에 전용 스트리밍 비디오 서버를 비싸게 다 박아야 했다. "아 돈 아까워! 걍 동네방네 널린 싸구려 [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/)(아파치 웹서버) 캐시에 정적 텍스트처럼 영상 조각(.ts) 얹어서 그냥 범용 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)(80포트)로 쏴버려!!" 비싼 비디오 장비의 종말을 고한 클라우드 원가 절감술이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DASH 아키텍처의 심장: 10만 개 깍두기 조각과 MPD 지도(Map) 도해</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🎬</div><div class="kb-diagram-node">오리진 서버 (원본 영상 1개: 오징어게임 1시간)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">🔪 1차 수술: 트랜스코딩 &amp; 분쇄기 융합</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">⚙️</div><div class="kb-diagram-node">AWS MediaConvert 인코딩 엔진</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 4K 화질 (10Mbps) ➔ 1초~5초 조각으로 3,000개 토막 냄 (0_4k.m4s, 1_4k.m4s...)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 1080p 화질 (5Mbps) ➔ 1초~5초 조각으로 3,000개 토막 냄 (0_1080p.m4s...)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 144p 쓰레기 화질 (0.5Mbps) ➔ 똑같이 3,000개 토막 냄 웩!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🌟 4.</div><div class="kb-diagram-node">MPD 파일 (Media Presentation Description)</div><div class="kb-diagram-note">생성!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➔ "야! 0~5초 구간 4K는 저기 URL, 144p는 여기 URL 있어!" (전체 조각 주소록 맵)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">📱 2차 타격: 스마트폰 플레이어의 눈치 핑퐁</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">👨‍💻</div><div class="kb-diagram-node">유저 폰 (유튜브 앱)</div><div class="kb-diagram-note">➔ 처음 접속 시 MPD 지도 파일 딱 1장만 다운받음!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">⏱️ 00:00초: (와이파이 빵빵) "오 인터넷 쩔어! 야 서버야 4K 1번 조각 내놔!" ➔</div><div class="kb-diagram-node">화질 쨍쨍</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⏱️ 00:05초: (지하철 탐 랙걸림) 폰 왈: "어 쉣, 핑 개판이네? 나 4K 받을 힘 없어 💀"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 "당장 2번 조각은 144p 쓰레기 화질로 노선 갈아타서 가져와!!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➔ (화면 픽셀 갑자기 네모 깍두기로 깨짐. 근데 영상은 1초도 안 멈춤!! 🚀)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⏱️ 00:10초: (지하철 내림 빵빵) 폰 왈: "오케이 통신 회복! 다시 1080p 3번 조각으로 컴백!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 아키텍트 극딜: 서버는 지능이 없다! 그냥 썰어놓은 조각 1만 개만 S3에 던져놓고 방치함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">영상 화질을 올릴지 내릴지 결정하는 '뇌(Brain)'는 100% 클라이언트(스마트폰) 앱</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단에 박혀있다! 유저의 폰이 스스로 1초마다 A/B/C 화질 중 뭘 퍼먹을지(Pull) 결정하는</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">극강의 '클라이언트 주도적(Client-Driven) 상태 무결성 방어 아키텍처'다.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │         DASH 아키텍처의 심장: 10만 개 깍두기 조각과 MPD 지도(Map) 도해 │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │ 🎬 [ 오리진 서버 (원본 영상 1개: 오징어게임 1시간) ]                  │
+  │                                                             │
+  │        ======= [ 🔪 1차 수술: 트랜스코딩 & 분쇄기 융합 ] ========   │
+  │                                                             │
+  │ ⚙️ [ AWS MediaConvert 인코딩 엔진 ]                             │
+  │   1. 4K 화질 (10Mbps) ➔ 1초~5초 조각으로 3,000개 토막 냄 (0_4k.m4s, 1_4k.m4s...)│
+  │   2. 1080p 화질 (5Mbps) ➔ 1초~5초 조각으로 3,000개 토막 냄 (0_1080p.m4s...)  │
+  │   3. 144p 쓰레기 화질 (0.5Mbps) ➔ 똑같이 3,000개 토막 냄 웩!           │
+  │   🌟 4. [MPD 파일 (Media Presentation Description)] 생성!         │
+  │     ➔ "야! 0~5초 구간 4K는 저기 URL, 144p는 여기 URL 있어!" (전체 조각 주소록 맵) │
+  │                                                             │
+  │        ======= [ 📱 2차 타격: 스마트폰 플레이어의 눈치 핑퐁 ] ========│
+  │                                                             │
+  │ 👨‍💻 [ 유저 폰 (유튜브 앱) ] ➔ 처음 접속 시 MPD 지도 파일 딱 1장만 다운받음!   │
+  │                                                             │
+  │  ⏱️ 00:00초: (와이파이 빵빵) "오 인터넷 쩔어! 야 서버야 4K 1번 조각 내놔!" ➔ [화질 쨍쨍]│
+  │  ⏱️ 00:05초: (지하철 탐 랙걸림) 폰 왈: "어 쉣, 핑 개판이네? 나 4K 받을 힘 없어 💀"│
+  │            🌟 "당장 2번 조각은 144p 쓰레기 화질로 노선 갈아타서 가져와!!"         │
+  │            ➔ (화면 픽셀 갑자기 네모 깍두기로 깨짐. 근데 영상은 1초도 안 멈춤!! 🚀)│
+  │  ⏱️ 00:10초: (지하철 내림 빵빵) 폰 왈: "오케이 통신 회복! 다시 1080p 3번 조각으로 컴백!"│
+  │                                                             │
+  │ 🌟 아키텍트 극딜: 서버는 지능이 없다! 그냥 썰어놓은 조각 1만 개만 S3에 던져놓고 방치함.│
+  │   영상 화질을 올릴지 내릴지 결정하는 '뇌(Brain)'는 100% 클라이언트(스마트폰) 앱 │
+  │   단에 박혀있다! 유저의 폰이 스스로 1초마다 A/B/C 화질 중 뭘 퍼먹을지(Pull) 결정하는│
+  │   극강의 '클라이언트 주도적(Client-Driven) 상태 무결성 방어 아키텍처'다.        │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** "지하철 탈 때마다 유튜브 화질이 지 혼자 구려지는데 왜 영상은 안 멈추지?" 의 해답이다. 과거 100MB짜리 통짜 영상을 받을 땐, [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%쯤 받았는데 인터넷이 느려지면 남은 90MB를 가져올 때까지 화면이 [버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/)(뺑뺑이)에 걸렸다. 
 DASH의 천재성은 <strong>'시간축 절단(Chunking)'과 '다중 화질 렌더링(Multi-bitrate)'의 십자 교차점</strong>에 있다. 영상을 5초짜리 레고 블록 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000개로 박살 내놨다. 유저 폰 안에는 <strong>AAB (Adaptive Bitrate <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">Algorithm</a>) 엔진</strong>이 1초마다 눈알을 굴린다. "내가 방금 1번 조각 받을 때 속도가 10Mbps 나왔으니 다음 2번 조각은 4K 퀄리티 불러도 되겠지?" ➔ "어라? 2번 받을 땐 속도가 1Mbps로 떡락했네? 야! 3번 조각은 당장 144p 화질 주소(MPD 맵 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))로 바꿔 찔러!" 
@@ -93,18 +97,14 @@ DASH의 천재성은 <strong>'시간축 절단(Chunking)'과 '다중 화질 렌�
 - **아키텍트의 피눈물 (이중 인코딩 지옥 💥)**: 백엔드 개발자들의 통곡. "아씨 아이폰 유저(HLS)랑 안드로이드/[PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 유저(DASH)한테 둘 다 쏘려면, 원본 1개를 HLS용으로 1만 번 자르고, DASH용으로 1만 번 또 잘라서 아마존 S3 용량 2배로 돈 처먹어야 하네?! AWS 과금 폭탄 💀!!"
 - <strong>구원의 빛 (<a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/906_cmaf_common_media_application_format_low_latency/">CMAF</a> - Common <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/">Media</a> Application Format 융합 ✨)</strong>: 마이크로소프트와 애플이 결국 휴전 협정([CMAF](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/906_cmaf_common_media_application_format_low_latency/))을 맺었다!! <strong>"야! 조각 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>(Chunk) 껍데기 알맹이는 <code>fMP4</code> 딱 1개 표준 쇳덩이로 완벽 통일해서 똑같이 쓰자!! 대신 폰한테 길 알려주는 껍데기 텍스트 지도(Manifest)만 2장(Apple용 m3u8 1장, 안드로이드용 MPD 1장) 따로 얹어서 주면 끝이잖아!!"</strong> 인코딩 스토리지 비용을 정확히 50% 반갈죽 반 토막 쳐버린 미디어 클라우드 아키텍처 대통합의 피날레다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">OCAP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DASH</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DNS 계층적 분산 구조 (루트</div></div>
-</div>
-</div>
-
-
+```text
+[OCAP]
+    │
+    ▼
+[DASH]
+    │
+    └──▶ [DNS 계층적 분산 구조 (루트]
+```
 
 - **📢 섹션 요약 비유**: HLS와 DASH의 전쟁은 <strong>'비디오 테이프 규격 전쟁 (VHS vs 베타맥스)'</strong>과 같습니다. 애플(HLS)이 선빵을 쳐서 시장을 반 먹었고, 구글 연합(DASH)이 나머지 반을 먹었죠. 비디오 가게(넷플릭스 서버) 사장님은 똑같은 영화를 애플 전용 테이프 1,000개, 구글 전용 1,000개 이중으로 만들어서 비싼 창고(S3)에 보관하느라 파산 직전이었습니다. 결국 둘이 합의([CMAF](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/906_cmaf_common_media_application_format_low_latency/) 표준 융합)해서 <strong>'안에 들어가는 마그네틱 필름(실제 영상 조각)'은 1개 규격으로 똑같이 공용으로 쓰고, 겉에 붙이는 '종이 라벨(지도 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>)'만 애플용, 구글용 2개로 따로 스티커 붙여 팔자!</strong> 라며 극적인 대통합 원가 절감을 이룩한 겁니다.
 
@@ -158,36 +158,39 @@ DASH의 천재성은 <strong>'시간축 절단(Chunking)'과 '다중 화질 렌�
    본편 영상 조각 100개(`1.m4s ... 100.m4s`) 사이에다가, 백엔드 로직이 몰래 <strong>"치킨 광고 조각 3개(<code>ad1.m4s, ad2.m4s</code>)"</strong>를 풀로 붙여서 103개짜리 1통의 무결점 MPD(지도 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)) 리스트로 완벽하게 위장 스티칭(Stitching) 조립을 쳐서 폰한테 던져버린다!! 
    유저 폰은 이 조각이 본편 영화인지 15초 광고인지 뇌(구분)가 1%도 없다! 걍 지도에 적힌 대로 순서대로 조각들을 퍼먹으며 스무스하게 렌더링 칠 뿐이다([버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/) 0초 무결점 전환). 그리고 애드블락(광고 차단기)은 "이게 본편이야 광고야?" 분간을 못해 눈뜬장님이 되어 광고 차단을 100% 실패하게 된다. 로딩의 마찰(Friction)과 광고 차단의 창과 방패 전쟁을 서버단(SSAI)으로 멱살 잡아 끌고 와 일거양득으로 소각시킨 자본주의 미디어 엔지니어링의 최고존엄이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실무 아키텍처: DASH(적응형 스트리밍) 스마트폰 클라이언트 뇌(ABR) 핑퐁 맵</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🗺️</div><div class="kb-diagram-node">1단계: 마스터 지도 파일(MPD) 파싱 (Parsing)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 스마트폰 앱이 넷플릭스 접속 ➔ XML 지도(MPD) 1장 딱 받음.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 지도 내용: "자, 0~5초 구간! 4K 조각은 100MB, 1080p는 30MB, 144p는 1MB임!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">🧠 2단계: 스마트폰 ABR(적응형) 엔진 풀가동!!</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">📡</div><div class="kb-diagram-node">1회차 0~5초 구간 다운로드 (Test Ping)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 스마트폰 왈: "음 지금 인터넷 빵빵하네 속도(Bandwidth) 100Mbps 나옴 ㅋ</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">가장 최고존엄 화질인</div><div class="kb-diagram-node">4K 100MB 조각</div><div class="kb-diagram-note">URL 찔러서 당장 가져와버려!! 쾅!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➔ (유저 화면: 오징어게임 4K 쨍쨍하게 나옴 우왕 굿 ✨)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">🚨 3단계: 지옥철 터널 진입 (대역폭 폭락 파국)</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">💀</div><div class="kb-diagram-node">2회차 5~10초 구간 다운로드 (Survival Mode)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 스마트폰 왈: "삐빅 쉣!! 터널 들어와서 인터넷 속도 2Mbps로 떡락 1/50 토막 남 💥</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">이대로 가다간</div><div class="kb-diagram-node">100MB 4K 조각</div><div class="kb-diagram-note">다 받는 데 50초 걸림 (영상 멈추고 45초 로딩 버퍼링각)"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- 🌟</div><div class="kb-diagram-node">결단(Adaptation) 발동!</div><div class="kb-diagram-note">: "야!! 4K 자존심 당장 쓰레기통에 찢어 던져!!!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">화면 깍두기 돼서 욕 좀 먹어도, 영상 멈춰서 환불(이탈) 터지는 거보단 100배 나음!!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지도(MPD) 다시 펴! 2Mbps 속도로 5초 안에 받을 수 있는 젤 밑바닥 쓰레기 화질 찾어!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1MB짜리 144p 조각</div><div class="kb-diagram-note">저거 URL 당장 GET 쳐서 입에 쑤셔 넣어 쾅!! 살아야 해!!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🌟 아키텍트 극딜: 넷플릭스의 심장은 화질(Quality)이 아니라</div><div class="kb-diagram-node">생존(Survival)</div><div class="kb-diagram-note">이다.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유저는 화질이 살짝 깨지면 "어 터널이라 그런갑다" 참는다. 하지만 뺑뺑이(로딩 바)가</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">도는 순간 빡쳐서 3초 만에 앱을 끈다. DASH는</div><div class="kb-diagram-node">화질의 일관성</div><div class="kb-diagram-note">을 도끼로 찢어 버리고</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">무정단 재생(Zero Buffering)</div><div class="kb-diagram-note">이라는 유일한 목숨줄 1개에 모든 아키텍처를 희생 융합</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시킨 극단적 Trade-off(타협) 공학의 마스터피스다.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │         실무 아키텍처: DASH(적응형 스트리밍) 스마트폰 클라이언트 뇌(ABR) 핑퐁 맵 │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │ 🗺️ [ 1단계: 마스터 지도 파일(MPD) 파싱 (Parsing) ]                  │
+  │   - 스마트폰 앱이 넷플릭스 접속 ➔ XML 지도(MPD) 1장 딱 받음.               │
+  │   - 지도 내용: "자, 0~5초 구간! 4K 조각은 100MB, 1080p는 30MB, 144p는 1MB임!"│
+  │                                                             │
+  │        ======= [ 🧠 2단계: 스마트폰 ABR(적응형) 엔진 풀가동!! ] ========│
+  │                                                             │
+  │ 📡 [ 1회차 0~5초 구간 다운로드 (Test Ping) ]                       │
+  │   - 스마트폰 왈: "음 지금 인터넷 빵빵하네 속도(Bandwidth) 100Mbps 나옴 ㅋ    │
+  │     가장 최고존엄 화질인 [4K 100MB 조각] URL 찔러서 당장 가져와버려!! 쾅!"      │
+  │   ➔ (유저 화면: 오징어게임 4K 쨍쨍하게 나옴 우왕 굿 ✨)                   │
+  │                                                             │
+  │        ======= [ 🚨 3단계: 지옥철 터널 진입 (대역폭 폭락 파국) ] ======== │
+  │                                                             │
+  │ 💀 [ 2회차 5~10초 구간 다운로드 (Survival Mode) ]                  │
+  │   - 스마트폰 왈: "삐빅 쉣!! 터널 들어와서 인터넷 속도 2Mbps로 떡락 1/50 토막 남 💥 │
+  │     이대로 가다간 [100MB 4K 조각] 다 받는 데 50초 걸림 (영상 멈추고 45초 로딩 버퍼링각)"│
+  │   - 🌟 [결단(Adaptation) 발동!]: "야!! 4K 자존심 당장 쓰레기통에 찢어 던져!!! │
+  │     화면 깍두기 돼서 욕 좀 먹어도, 영상 멈춰서 환불(이탈) 터지는 거보단 100배 나음!! │
+  │     지도(MPD) 다시 펴! 2Mbps 속도로 5초 안에 받을 수 있는 젤 밑바닥 쓰레기 화질 찾어!│
+  │     [1MB짜리 144p 조각] 저거 URL 당장 GET 쳐서 입에 쑤셔 넣어 쾅!! 살아야 해!!" │
+  │                                                             │
+  │ 🌟 아키텍트 극딜: 넷플릭스의 심장은 화질(Quality)이 아니라 [생존(Survival)]이다.  │
+  │   유저는 화질이 살짝 깨지면 "어 터널이라 그런갑다" 참는다. 하지만 뺑뺑이(로딩 바)가   │
+  │   도는 순간 빡쳐서 3초 만에 앱을 끈다. DASH는 [화질의 일관성]을 도끼로 찢어 버리고 │
+  │   [무정단 재생(Zero Buffering)]이라는 유일한 목숨줄 1개에 모든 아키텍처를 희생 융합 │
+  │   시킨 극단적 Trade-off(타협) 공학의 마스터피스다.                            │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** "DASH랑 옛날 스트리밍이랑 대체 뭐가 다른 거임?" IT 면접 필수 족보, 적응형 스트리밍(ABR: Adaptive Bitrate)의 처절한 핑퐁 도해다. 핵심은 서버(Server)는 바보라는 거다. 서버는 그냥 도마 위에 4K 고기, 1080p 고기, 144p 고기를 잔뜩 썰어놓고 구경만 한다([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)). 
 화질을 비틀어 꺾는 '운전대(Control)'는 100% 클라이언트(스마트폰 앱)의 뇌 속에 존재한다. 스마트폰은 1개 조각(Chunk)을 다운받을 때마다, 초시계로 '얼마나 빨리 다운받았는지([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))'를 계산하여 현재 통신망 상태를 역추적(Estimation)한다. 이 숫자를 바탕으로 다음(Next) 5초 미래에 가져올 조각의 화질 퀄리티를 상향(Up-shift)/하향(Down-shift) 스위칭 치는 1인칭 생존 서바이벌 게임이다. 끊김(Rebuffering)을 0%로 만들면서도 가능한 최고의 쨍한 화질 선(Line)을 아슬아슬하게 줄타기하는 이 폰 단말기 속 ABR [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 최적화야말로 스트리밍 기업(유튜브, 넷플)의 코어 밥줄 영업 기밀(Trade [Secret](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/))이다.
@@ -257,19 +260,15 @@ DASH의 천재성은 <strong>'시간축 절단(Chunking)'과 '다중 화질 렌�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: OCAP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: DASH</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: DNS 계층적 분산 구조 (루트</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 애플리케이션 전달</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: OCAP]
+    │
+    ▼
+[현재 개념: DASH]
+    │
+    ├──▶ [확장 A: DNS 계층적 분산 구조 (루트]
+    └──▶ [확장 B: 지능형 애플리케이션 전달]
+```
 
 DASH는 OCAP에서 출발해 현재 메커니즘을 정교화하고, 이후 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 계층적 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 구조 (루트와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -23,27 +23,27 @@ tags = ["studynote-network"]
 - **필요성**: 2G/3G 시절 기지국은 스탠드 조명 같았다. 거실 한구석에 있는 나에게 빛을 보내려면 거실 전체를 환하게 밝혀야 했다. 그래서 내 눈부심은 해결돼도 거실 전체의 사람들은 내가 켠 불빛 때문에 눈이 부셨다(간섭, Interference). 사용자가 1만 명으로 늘어나자 서로 뿜어대는 전파가 섞여 통신망이 자멸했다. "방 전체를 비추지 말고, 오직 내 얼굴만 비추는 핀 조명(Pin Light)으로 쏠 수 없을까?"라는 공간 혁신의 절대적 요구가 [스마트 안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/177_smart_antenna_phased_array/)를 낳았다.
 - **등장 배경**: ① 도심 가입자 폭증으로 인한 재사용 주파수의 [동일 채널 간섭](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/555_co_channel_adjacent_interference/)(CCI) 한계 도달 → ② 군사용 레이더(위상 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 레이더, Phased [Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) Radar) 기술의 민간 통신 분야 이전 → ③ 4G [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)-Advanced를 거쳐 수백 개의 소자를 때려 박는 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/)([Beamforming](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/))과 [MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/) 스펙으로 화려한 표준화 정착.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기존 무지향성 안테나 vs 스마트 안테나의 공간 혁명 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">과거: 무지향성/섹터 안테나 (비효율의 끝판왕)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">((( 📡 ))) ──▶ (모든 방향으로 퍼져나감)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">피해자 1</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">진짜 통화자</div><div class="kb-diagram-note">(신호 받음)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">피해자 2</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">── (💥고막 테러!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 내 통화를 위해 옆 동네 기지국 사용자들까지 간섭(노이즈) 폭격을 맞음.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">혁신: 스마트 안테나 (빔포밍, Beamforming)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">진짜 통화자</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ \ (다른 곳은 전파 파워가 0에 수렴)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">피해자 1</div><div class="kb-diagram-node">피해자 2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(조-용함) (조-용함)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 원하는 타겟만 정밀 저격! 주변 낭비 에너지가 0이 되며,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">반대로 간섭 신호가 날아오는 곳엔 귀를 닫아(Nulling) 생존율 100%!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│             기존 무지향성 안테나 vs 스마트 안테나의 공간 혁명 시각화 │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [과거: 무지향성/섹터 안테나 (비효율의 끝판왕)]                     │
+│         ((( 📡 ))) ──▶ (모든 방향으로 퍼져나감)                   │
+│   [피해자 1] ◀── (💥고막 테러!)         [진짜 통화자] (신호 받음)      │
+│   [피해자 2] ◀── (💥고막 테러!)                               │
+│   => 결과: 내 통화를 위해 옆 동네 기지국 사용자들까지 간섭(노이즈) 폭격을 맞음.│
+│                                                             │
+│   [혁신: 스마트 안테나 (빔포밍, Beamforming)]                      │
+│            📡 ════════════════════════════════════▶ [진짜 통화자] │
+│            / \  (다른 곳은 전파 파워가 0에 수렴)                     │
+│   [피해자 1]      [피해자 2]                                      │
+│   (조-용함)       (조-용함)                                      │
+│                                                             │
+│   => 결과: 원하는 타겟만 정밀 저격! 주변 낭비 에너지가 0이 되며,       │
+│            반대로 간섭 신호가 날아오는 곳엔 귀를 닫아(Nulling) 생존율 100%!│
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** [스마트 안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/177_smart_antenna_phased_array/)의 본질은 '공간(Space)의 필터링'이다. 옛날엔 주파수를 쪼개고([FDD](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/103_fdd/)), 시간을 쪼개서([TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/)) 간섭을 피했다면, [스마트 안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/177_smart_antenna_phased_array/)는 '각도'를 쪼갠다. 이 기술의 최고 사기성(Cheat [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))은 두 가지다. 첫째, 전파를 한곳으로 모아 쏘기 때문에 10W의 전력으로도 100W를 쏘는 것처럼 멀리 도달한다(커버리지 확장). 둘째, 악성 해커나 방해 전파(Jammer)가 9시 방향에서 날아오면, [스마트 안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/177_smart_antenna_phased_array/)는 9시 방향의 수신 귀를 강제로 닫아버리는 '널링(Nulling)'을 구사해 방해 전파를 100% 무력화시킨다. 군사 통신에서 먼저 쓰인 이유가 바로 이 강력한 방어력에 있다.
 
@@ -57,26 +57,26 @@ tags = ["studynote-network"]
 
 [스마트 안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/177_smart_antenna_phased_array/)는 커다란 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 1개가 아니라, 수십 개의 아주 작은 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)(Element)들이 바둑판처럼 나란히 서 있는 형태다. 이 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)들이 '시간차(위상차)' 공격을 하여 빔을 꺾어버린다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위상(Phase) 조절을 통한 빔포밍 각도 꺾기의 마술</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">안테나 소자 4개가 나란히 서 있음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">안테나 1 📡 ─▶ (0초에 빵! 쏨)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">안테나 2 📡 ─▶ (0.1초 뒤에 쏨)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">안테나 3 📡 ─▶ (0.2초 뒤에 쏨)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">안테나 4 📡 ─▶ (0.3초 뒤에 쏨)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공중에서의 파동 합성 (허공):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1번이 가장 먼저 날아가고, 4번이 가장 늦게 출발하니까 파동의 물결선이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정면(0도)이 아니라 아래쪽(45도) 방향으로 비스듬하게 꺾여서 합체됨!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">수학적 결합</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"각 안테나에 들어가는 신호의 타이밍(위상, Phase) $\theta$만 0.001초씩</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다르게 꼬아주면, 안테나 기계를 모터로 안 돌려도 허공에서 빔이 꺾인다!"</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────┐
+│               위상(Phase) 조절을 통한 빔포밍 각도 꺾기의 마술      │
+├───────────────────────────────────────────────────────────────┤
+│                                                               │
+│   [안테나 소자 4개가 나란히 서 있음]                                │
+│   안테나 1  📡 ─▶ (0초에 빵! 쏨)                                │
+│   안테나 2  📡 ─▶ (0.1초 뒤에 쏨)                               │
+│   안테나 3  📡 ─▶ (0.2초 뒤에 쏨)                               │
+│   안테나 4  📡 ─▶ (0.3초 뒤에 쏨)                               │
+│                                                               │
+│   공중에서의 파동 합성 (허공):                                    │
+│   1번이 가장 먼저 날아가고, 4번이 가장 늦게 출발하니까 파동의 물결선이     │
+│   정면(0도)이 아니라 아래쪽(45도) 방향으로 비스듬하게 꺾여서 합체됨!        │
+│                                                               │
+│   [수학적 결합]                                                 │
+│   "각 안테나에 들어가는 신호의 타이밍(위상, Phase) $\theta$만 0.001초씩  │
+│    다르게 꼬아주면, 안테나 기계를 모터로 안 돌려도 허공에서 빔이 꺾인다!"    │
+└───────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** [스마트 안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/177_smart_antenna_phased_array/) 철탑을 밖에서 보면 그냥 네모난 플라스틱 판때기다. 모터로 고개를 이리저리 돌리지 않는다. 이 판때기 안에는 수십 개의 소형 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 있는데, 뒷단의 DSP(디지털 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 처리) 칩셋이 각 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)에 전기를 1밀리초씩 시간차를 두고 쏴준다(Phase Shifting). 그러면 전파 파동들이 공중에서 파도타기를 하듯 겹치면서(간섭 무늬), 특정 각도 방향으로만 에너지가 엄청나게 증폭되는 거대한 메가 빔(Main Lobe)이 만들어진다. 소프트웨어 코딩만으로 빔의 방향을 1초에 1,000번씩 상하좌우로 빛의 속도로 꺾어댈 수 있는 기적의 물리학이다.
 
@@ -118,28 +118,30 @@ tags = ["studynote-network"]
 
 결국 최신 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기지국은 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 128개나 되기 때문에, 이 두 가지 철학을 융합한다. [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 4개 단위로 촘촘히 묶어서(Sub-[array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)) 강력한 빔([Beamforming](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/))을 4가닥 만들고, 이 4가닥의 빔 그룹을 물리적으로 약간씩 떨어뜨려 배치하여 다이버시티(Diversity) 효과까지 동시에 챙겨 버리는 무지막지한 공간 하이브리드 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 쓴다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">적응형 배열(Adaptive Array)의 간섭 제거(Nulling) 마법</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황: 12시 방향의 폰과 통신 중인데, 3시 방향에서 해커의 방해 전파 유입!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">폰 (12시) 해커/간섭 (3시 방향)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">📱 💥 (지지직!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(메인 빔: Main Lobe)</div><div class="kb-diagram-cell">(여기로 귀를 닫아라!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ 증폭 수신 \ (Nulling 널 빔 발생)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(100점)</div><div class="kb-diagram-cell">╳ ◀─ (수신 파워 0으로 차단)</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스마트 안테나 (기지국 DSP)</div><div class="kb-diagram-connector">◀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; DSP 수학 알고리즘: "전파 파동 방정식을 계산해서, 3시 방향에서 들어오는</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모든 파동이 서로 마이너스(-) 상쇄 간섭을 일으키도록 안테나 위상을 조작해!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 기지국은 오직 12시 방향의 소리만 듣고, 3시 방향의 노이즈는 완벽한</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">귀머거리가 되어 무시(Interference Cancellation)해버림.</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────┐
+│               적응형 배열(Adaptive Array)의 간섭 제거(Nulling) 마법 │
+├───────────────────────────────────────────────────────────────┤
+│                                                               │
+│   [상황: 12시 방향의 폰과 통신 중인데, 3시 방향에서 해커의 방해 전파 유입!] │
+│                                                               │
+│       폰 (12시)                       해커/간섭 (3시 방향)           │
+│        📱                              💥 (지지직!)               │
+│         ▲                               │                     │
+│         │ (메인 빔: Main Lobe)           │ (여기로 귀를 닫아라!)    │
+│   ╭─────┴─────╮                         ▼                     │
+│  /   증폭 수신   \                       (Nulling 널 빔 발생)   │
+│  │    (100점)   │                        ╳ ◀─ (수신 파워 0으로 차단)│
+│  \             /                        │                     │
+│   ╰─────┬─────╯                         │                     │
+│      [ 스마트 안테나 (기지국 DSP) ] ◀─────────┘                     │
+│                                                               │
+│   => DSP 수학 알고리즘: "전파 파동 방정식을 계산해서, 3시 방향에서 들어오는 │
+│      모든 파동이 서로 마이너스(-) 상쇄 간섭을 일으키도록 안테나 위상을 조작해!" │
+│   => 결과: 기지국은 오직 12시 방향의 소리만 듣고, 3시 방향의 노이즈는 완벽한 │
+│            귀머거리가 되어 무시(Interference Cancellation)해버림.      │
+└───────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** [스마트 안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/177_smart_antenna_phased_array/)가 "스마트"한 진짜 이유는 빔을 쏘는 것(Main Lobe)보다, 적을 향해 방패(Null Lobe)를 치는 능력 때문이다. 전투기 레이더나 기지국은 간섭 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 강하게 들어오는 방향을 실시간으로 계산한다. 그리고 그 방향에서 들어오는 파동 위상을 정확히 반대(-180도)로 뒤집어서 더해버리는 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)([Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)) 곱셈 연산을 수행한다. 이러면 3시 방향에서 들어오는 그 어떤 폭음도 DSP 칩셋 안에서는 "0"으로 소멸한다. 도심 한가운데 수만 개의 기지국이 겹쳐 있어도 간섭 없이 버티는 것은 이 Nulling(널링) 방어벽 덕분이다.
 
@@ -199,19 +201,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 등화기</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 스마트 안테나</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 스위칭 빔 vs 적응형 어레이</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 무선 자원 제어</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 등화기]
+    │
+    ▼
+[현재 개념: 스마트 안테나]
+    │
+    ├──▶ [확장 A: 스위칭 빔 vs 적응형 어레이]
+    └──▶ [확장 B: 지능형 무선 자원 제어]
+```
 
 [스마트 안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/177_smart_antenna_phased_array/)는 [등화기](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/566_equalizer_isi_inter_symbol_interference/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [스위칭 빔](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/568_switched_beam_vs_adaptive_array/) vs 적응형 어레이와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

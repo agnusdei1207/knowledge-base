@@ -38,22 +38,24 @@ Transformer는 2017년 구글이 "Attention Is All You Need" 논문에서 발표
 | <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/299_multi_head_attention/">멀티 헤드 어텐션</a></strong> | 어텐션을 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 여러 개 수행 | 문법적 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/), 의미적 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 등 다양한 관점의 문맥 포착 |
 | <strong>위치 인코딩 (<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/300_positional_encoding/">Positional Encoding</a>)</strong> | [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 입력으로 잃어버린 단어의 순서 정보 주입 | 사인/코사인 함수를 사용해 위치마다 고유한 값 부여 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Self-Attention의 Q, K, V 계산 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"The", "cat", "sat" (모든 단어 동시 입력)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (선형 변환)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Query(Q)</div><div class="kb-diagram-note">: "나는 어떤 정보가 필요한가?"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Key(K)</div><div class="kb-diagram-note">: "나는 이런 정보를 가지고 있다"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Value(V)</div><div class="kb-diagram-note">: "나의 실제 의미 값은 이것이다"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Attention Score = Softmax( (Q × K^T) / √d ) × V</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"cat"과 "sat"의 연관성이 높음을 수학적으로 도출</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│             Self-Attention의 Q, K, V 계산 흐름             │
+├──────────────────────────────────────────────────────────────┤
+│ "The", "cat", "sat" (모든 단어 동시 입력)                  │
+│        │                                                   │
+│        ▼ (선형 변환)                                       │
+│    [ Query(Q) ] : "나는 어떤 정보가 필요한가?"             │
+│    [ Key(K) ]   : "나는 이런 정보를 가지고 있다"           │
+│    [ Value(V) ] : "나의 실제 의미 값은 이것이다"           │
+│        │                                                   │
+│        ▼                                                   │
+│  Attention Score = Softmax( (Q × K^T) / √d ) × V          │
+│        │                                                   │
+│        ▼                                                   │
+│   "cat"과 "sat"의 연관성이 높음을 수학적으로 도출          │
+└──────────────────────────────────────────────────────────────┘
+```
 
 [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/)(Bidirectional [Encoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) Representations from Transformers)는 이 [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 구조 중에서 [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)를 버리고 <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/">인코더</a>만</strong>을 차용한 모델이다. BERT의 가장 큰 원리는 문장의 일부 단어를 빈칸([MASK])으로 뚫어놓고, 주변의 양방향 문맥을 모두 고려해 빈칸을 맞추도록 대규모 사전 학습(Pre-training)을 수행한다는 점이다.
 
@@ -116,23 +118,25 @@ Transformer와 BERT의 등장은 자연어 처리 역사상 가장 거대한 도
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">RNN / LSTM (순차 처리, 장기 의존성 한계)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Attention Mechanism 도입 (Seq2Seq 성능 개선)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Transformer (RNN 제거, 100% 병렬 Self-Attention)</div>
-<div class="kb-diagram-note">인코더 활용 디코더 활용 인코더-디코더 모두 활용</div>
-<div class="kb-diagram-note">(BERT 계열) (GPT 계열) (T5, BART 계열)</div>
-<div class="kb-diagram-note">문맥 이해 최적화 텍스트 생성 최적화</div>
-<div class="kb-diagram-note">다양한 도메인 파인튜닝 및 초거대 LLM(GPT-4 등) 진화</div>
-</div>
-</div>
-
-
+```text
+RNN / LSTM (순차 처리, 장기 의존성 한계)
+    │
+    ▼
+Attention Mechanism 도입 (Seq2Seq 성능 개선)
+    │
+    ▼
+Transformer (RNN 제거, 100% 병렬 Self-Attention)
+    │
+    ├──────────────┬──────────────┐
+    ▼              ▼              ▼
+  인코더 활용    디코더 활용  인코더-디코더 모두 활용
+ (BERT 계열)    (GPT 계열)      (T5, BART 계열)
+    │              │
+ 문맥 이해 최적화 텍스트 생성 최적화
+    │              │
+    ▼              ▼
+ 다양한 도메인 파인튜닝 및 초거대 LLM(GPT-4 등) 진화
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

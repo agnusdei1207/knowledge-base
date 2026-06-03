@@ -23,21 +23,24 @@ tags = ["algorithm_stats"]
 
 이 그림은 정렬 알고리즘의 성능 차이가 데이터 규모에 따라 얼마나 극명하게 벌어지는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sorting Complexity Performance</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Time ▲</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ /</div><div class="kb-diagram-node">O(N^2)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ (Bubble, Selection)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ /</div><div class="kb-diagram-node">O(N log N)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ (Quick, Merge, Heap)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Number of Items (N)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Sorting Complexity Performance              │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   Time ▲                                                    │
+│        │                                / [ O(N^2) ]        │
+│        │                               /  (Bubble, Selection)│
+│        │                              /                     │
+│        │                             /                      │
+│        │              / [ O(N log N) ]                      │
+│        │             /  (Quick, Merge, Heap)                │
+│        │            /                                       │
+│        └──────────────────────────────────────────────▶     │
+│                          Number of Items (N)                │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '$O(N \log N)$의 장벽'이다. 비교 기반 정렬의 이론적 하한선은 $O(N \log N)$이며, 실무에서는 이 장벽을 넘기 위해 기수 정렬 (Radix Sort)과 같은 특수 기법을 쓰거나, 퀵 정렬의 최악의 경우를 방어하는 하이브리드 기법을 사용한다.
 
@@ -67,20 +70,23 @@ tags = ["algorithm_stats"]
 
 이 구조도는 병합 정렬의 분할과 병합 과정을 시각화한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Merge Sort: Divide and Conquer</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">38, 27, 43, 3, 9, 82, 10</div><div class="kb-diagram-note">(Original)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">38, 27, 43</div><div class="kb-diagram-node">3, 9, 82, 10</div><div class="kb-diagram-note">(Divide)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">27, 38, 43</div><div class="kb-diagram-node">3, 9, 10, 82</div><div class="kb-diagram-note">(Sort &amp; Merge)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3, 9, 10, 27, 38, 43, 82</div><div class="kb-diagram-note">(Final Merge)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 쪼개는 것은 쉽지만, 합칠 때 정렬하는 것이 기술</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Merge Sort: Divide and Conquer              │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ 38, 27, 43, 3, 9, 82, 10 ] (Original)                   │
+│          │                                                  │
+│   [ 38, 27, 43 ] [ 3, 9, 82, 10 ] (Divide)                  │
+│          │               │                                  │
+│   [ 27, 38, 43 ] [ 3, 9, 10, 82 ] (Sort & Merge)            │
+│          │               │                                  │
+│   [ 3, 9, 10, 27, 38, 43, 82 ] (Final Merge)                │
+│                                                             │
+│   * 핵심: 쪼개는 것은 쉽지만, 합칠 때 정렬하는 것이 기술    │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '병합 시점의 비교 연산'이다. 두 개의 정렬된 배열을 하나로 합치는 것은 $O(N)$에 가능하므로, 전체 깊이 $\log N$과 곱해져 $N \log N$의 속도가 나온다. 실무에서는 대량의 데이터를 외부 저장소 (Disk)에서 정렬해야 하는 <strong>외부 정렬 (External Sort)</strong>의 기본 알고리즘으로 쓰인다.
 
@@ -121,21 +127,23 @@ tags = ["algorithm_stats"]
 
 이 도식은 데이터 크기에 따라 정렬 알고리즘을 혼합하여 사용하는 **Timsort** (Java/Python 표준)의 논리 구조를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hybrid Sorting Strategy (Timsort)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Input Data</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Size Check</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (Small) ▼ (Large)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Insertion</div><div class="kb-diagram-node">Partition into Runs</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Sort</div><div class="kb-diagram-node">Sort Runs with Insertion Sort</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Merge Runs with Merge Sort</div><div class="kb-diagram-connector">◀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 철학: 작은 구간은 삽입 정렬이, 전체는 병합 정렬이 빠르다</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│               Hybrid Sorting Strategy (Timsort)             │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Input Data ] ──▶ [ Size Check ]                         │
+│          │                                                  │
+│   ┌──────┴──────┬──────────────────────────────────┐        │
+│   ▼ (Small)     ▼ (Large)                          │        │
+│ [ Insertion ] [ Partition into Runs ]              │        │
+│   Sort        [ Sort Runs with Insertion Sort ]    │        │
+│               [ Merge Runs with Merge Sort ] ◀─────┘        │
+│                                                             │
+│   * 철학: 작은 구간은 삽입 정렬이, 전체는 병합 정렬이 빠르다 │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 기술사의 정렬 판단은 '이삿짐 분류'와 같습니다. 짐이 적을 땐 그냥 눈으로 보고 옮기고(삽입), 짐이 많을 땐 큰 상자별로 나누어 체계적으로 옮기는(퀵/병합) 상황별 맞춤 전략이 필요합니다.
 
@@ -171,21 +179,18 @@ tags = ["algorithm_stats"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">비교 정렬 하한: Ω(n log n)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">최적 비교 정렬: 합병·힙·퀵(평균)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">외부 정렬 (External Sort) — 메모리 초과 시</div>
-<div class="kb-diagram-tree-item" style="--depth:2">다방향 합병 정렬</div>
-<div class="kb-diagram-tree-item" style="--depth:2">교체 선택 (Replacement Selection)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">병렬 정렬 (Parallel Sort) — 멀티코어·분산 환경</div>
-<div class="kb-diagram-tree-item" style="--depth:2">비트닉 정렬 (Bitonic Sort)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">샘플 정렬 (Sample Sort) — MPI 환경</div>
-</div>
-</div>
-
-
+```text
+비교 정렬 하한: Ω(n log n)
+    │
+    ├─► 최적 비교 정렬: 합병·힙·퀵(평균)
+    │
+    ▼
+외부 정렬 (External Sort) — 메모리 초과 시
+    ├─► 다방향 합병 정렬
+    └─► 교체 선택 (Replacement Selection)
+    │
+    ▼
+병렬 정렬 (Parallel Sort) — 멀티코어·분산 환경
+    ├─► 비트닉 정렬 (Bitonic Sort)
+    └─► 샘플 정렬 (Sample Sort) — MPI 환경
+```

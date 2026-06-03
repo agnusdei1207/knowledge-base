@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/">사일로</a>(<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/">Silo</a>)의 저주</strong>: 1번 부서(유선망)는 시스코 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) CLI 화면을 쳐다보고, 2번 부서(무선망)는 아루바(Aruba) 와이파이 화면을 쳐다보며 각자 따로 [보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/)([ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/))을 짰습니다.
 - 교수가 노트북을 뽑아서 회의실(무선망)로 가면, 회의실 AP에 다시 보안 IP와 권한을 수동으로 먹여줘야 하는 노가다가 발생했습니다. 사내 이동성(Mobility)이 0점이었습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">엣지 가상화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SD-LAN</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">멀티 테넌트</div></div>
-</div>
-</div>
-
-
+```text
+[엣지 가상화]
+    │
+    ▼
+[SD-LAN]
+    │
+    └──▶ [멀티 테넌트]
+```
 
 - **📢 섹션 요약 비유**: SD-LAN는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -44,18 +40,14 @@ tags = ["studynote-network"]
 - **개념**: 앞서 850번대에서 배운 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)([소프트웨어 정의 네트워킹](/knowledge-base/studynote/03_network/17_sdn_nfv/850_sdn_software_defined_networking_concept/))의 중앙 통제 철학을 거대한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터가 아닌, <strong>일반 기업 사옥이나 대학교 캠퍼스의 유무선 로컬 네트워크(LAN/<a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/571_wlan_bss_ess_structure/">WLAN</a>) 구역에 적용하여, 모든 물리 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>와 AP를 중앙에서 단일 소프트웨어(컨트롤러)로 통합 제어, 배포, <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a>링하는 차세대 구내망 기술</strong>입니다.
 - **솔루션 예시**: [Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/) DNA Center (SDA), Aruba Central, Juniper Mist 등.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">엣지 가상화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SD-LAN</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">멀티 테넌트</div></div>
-</div>
-</div>
-
-
+```text
+[엣지 가상화]
+    │
+    ▼
+[SD-LAN]
+    │
+    └──▶ [멀티 테넌트]
+```
 
 - **📢 섹션 요약 비유**: SD-LAN의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -121,19 +113,15 @@ SD-LAN는 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_t
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 엣지 가상화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: SD-LAN</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 멀티 테넌트</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 프로그래머블 네트워크</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 엣지 가상화]
+    │
+    ▼
+[현재 개념: SD-LAN]
+    │
+    ├──▶ [확장 A: 멀티 테넌트]
+    └──▶ [확장 B: 프로그래머블 네트워크]
+```
 
 SD-LAN는 [엣지 가상화](/knowledge-base/studynote/03_network/17_sdn_nfv/886_vcpe_virtual_customer_premises_equipment_edge_vnf/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [멀티 테넌트](/knowledge-base/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/)와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -26,17 +26,14 @@ tags = ["studynote-ai"]
 - 각 뉴런이 독립적으로 유용한 특성 학습 강제
 - 다양한 서브 네트워크의 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) 효과
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 드롭아웃은 팀 과제에서 매번 팀원 일부를 랜덤으로 결석시키는 방법이다. 항상 한 팀원에게 의존하지 못하게 되면, 모든 팀원이 스스로 문제를 해결할 능력을 키우게 된다.
 
@@ -46,42 +43,32 @@ tags = ["studynote-ai"]
 
 ### 드롭아웃 동작 방식
 
+```
+학습 시 (Training Mode):
+입력층  은닉층(p=0.5로 50% 비활성화)  출력층
+  ○      ○                              ○
+  ○  →   ✕  (비활성화)    →           ○
+  ○      ○                              ○
+  ○  →   ✕  (비활성화)    →
+  ○      ○
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">학습 시 (Training Mode):</div>
-<div class="kb-diagram-note">입력층 은닉층(p=0.5로 50% 비활성화) 출력층</div>
-<div class="kb-diagram-note">○ ○ ○</div>
-<div class="kb-diagram-note">○ → ✕ (비활성화) → ○</div>
-<div class="kb-diagram-note">○ ○ ○</div>
-<div class="kb-diagram-note">○ → ✕ (비활성화) →</div>
-<div class="kb-diagram-note">○ ○</div>
-<div class="kb-diagram-note">추론/테스트 시 (Inference Mode):</div>
-<div class="kb-diagram-note">입력층 은닉층(전체 활성화 + 스케일) 출력층</div>
-<div class="kb-diagram-note">○ ○ × (1-p) ○</div>
-<div class="kb-diagram-note">○ → ○ × (1-p) → ○</div>
-<div class="kb-diagram-note">○ ○ × (1-p) ○</div>
-</div>
-</div>
-
-
+추론/테스트 시 (Inference Mode):
+입력층  은닉층(전체 활성화 + 스케일)  출력층
+  ○      ○ × (1-p)                     ○
+  ○  →   ○ × (1-p)         →          ○
+  ○      ○ × (1-p)                     ○
+```
 
 ### Inverted [Dropout](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/) (역방향 드롭아웃)
 
 현대 구현에서는 <strong>학습 시 살아남은 뉴런의 출력을 1/(1-p)로 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/">스케일 업</a></strong>하는 Inverted Dropout을 사용한다. 이렇게 하면 테스트 시 스케일 조정 없이 그대로 사용 가능하다.
 
+```
+학습 시:  마스크 m ~ Bernoulli(1-p)
+           y = (x * m) / (1-p)   ← 살아남은 뉴런 스케일 업
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">학습 시: 마스크 m ~ Bernoulli(1-p)</div>
-<div class="kb-diagram-note">y = (x * m) / (1-p) ← 살아남은 뉴런 스케일 업</div>
-<div class="kb-diagram-note">테스트 시: y = x ← 그대로 사용 (스케일 불필요)</div>
-</div>
-</div>
-
-
+테스트 시: y = x                 ← 그대로 사용 (스케일 불필요)
+```
 
 ### 드롭아웃 비율 선택
 
@@ -94,21 +81,17 @@ tags = ["studynote-ai"]
 
 ### [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) 효과 해석
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">n개 뉴런에 드롭아웃 p=0.5 적용 → 2^n 가지 서브 네트워크</div>
-<div class="kb-diagram-note">예) 1000개 뉴런 → 2^1000 가지 서브 네트워크를 암묵적으로 평균화</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서브 네트워크 1: ○ ✕ ○ ✕ ○ → 가중치 공유</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서브 네트워크 2: ✕ ○ ✕ ○ ○ → 가중치 공유</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서브 네트워크 3: ○ ○ ✕ ✕ ○ → 가중치 공유</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">... 모두 가중치를 공유하므로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 2^n 모델의 기하 평균 ≈ 앙상블 효과</div></div>
-</div>
-</div>
-
-
+```
+n개 뉴런에 드롭아웃 p=0.5 적용 →  2^n 가지 서브 네트워크
+예) 1000개 뉴런 → 2^1000 가지 서브 네트워크를 암묵적으로 평균화
+┌──────────────────────────────────────────────┐
+│  서브 네트워크 1:  ○ ✕ ○ ✕ ○ → 가중치 공유 │
+│  서브 네트워크 2:  ✕ ○ ✕ ○ ○ → 가중치 공유 │
+│  서브 네트워크 3:  ○ ○ ✕ ✕ ○ → 가중치 공유 │
+│         ...       모두 가중치를 공유하므로    │
+│  결과: 2^n 모델의 기하 평균 ≈ 앙상블 효과   │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 드롭아웃으로 훈련된 네트워크는 수십억 개의 서로 다른 전문가 위원회를 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 공유하며 동시에 훈련한 것과 같다. 테스트 시엔 모든 전문가가 함께 투표([앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/))해 최종 결정을 내린다.
 
@@ -157,20 +140,17 @@ Spatial Dropout: 채널(Feature Map) 전체 무작위 제거
 
 ### 드롭아웃 사용 가이드
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">적용 권장: FC 레이어 (p=0.5)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">큰 모델, 적은 데이터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">과적합이 심한 경우</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주의 필요: Batch Norm과 함께 사용 시 p 낮춰야</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">너무 작은 네트워크 (표현력 부족 위험)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RNN/LSTM (시퀀스 방향이 아닌 수직 방향만)</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────┐
+│  적용 권장:  FC 레이어 (p=0.5)                      │
+│             큰 모델, 적은 데이터                     │
+│             과적합이 심한 경우                       │
+├─────────────────────────────────────────────────────┤
+│  주의 필요:  Batch Norm과 함께 사용 시 p 낮춰야      │
+│             너무 작은 네트워크 (표현력 부족 위험)    │
+│             RNN/LSTM (시퀀스 방향이 아닌 수직 방향만)│
+└─────────────────────────────────────────────────────┘
+```
 
 ### 최신 트렌드
 

@@ -108,21 +108,18 @@ x → z = w·x + b → sigmoid(z) → P(y=1) → class
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">선형 점수</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">시그모이드</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">확률 출력</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">이진 분류</div>
-</div>
-</div>
-
-
+```text
+선형 점수
+    │
+    ▼
+시그모이드
+    │
+    ▼
+확률 출력
+    │
+    ▼
+이진 분류
+```
 
 이 흐름은 연속값을 0과 1 사이 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)로 바꾸어 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하는 과정을 보여준다.
 

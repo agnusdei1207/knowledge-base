@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 기존 라우터는 우직한 우체부입니다. 왼쪽에서 10바이트짜리 1번 패킷과 2번 패킷이 날아옵니다. 
 - 라우터는 이 두 패킷을 임시 메모리에 잠시 담아뒀다(Store)가, 절대 내용물에 손대지 않고 1번 패킷을 앞문으로 날리고([Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/)), 끝난 뒤에 2번 패킷을 날립니다. 즉 도로에 차 2대가 따로 지나가야 하니 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)(시간과 용량)이 2배로 듭니다. (나비 넥타이 병목 현상)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">MOS</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 코딩</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">에지 보안 SASE 진화 모델 SSE</div></div>
-</div>
-</div>
-
-
+```text
+[MOS]
+    │
+    ▼
+[네트워크 코딩]
+    │
+    └──▶ [에지 보안 SASE 진화 모델 SSE]
+```
 
 - **📢 섹션 요약 비유**: 네트워크 코딩은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -52,18 +48,14 @@ tags = ["studynote-network"]
 5. 라우터 R은 이 Z 상자 1개만 1초 만에 휙 던집니다([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 절반, 1초 절약!).
 6. 도착지에서 철수는 이미 쥐고 있는 자기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) X와 Z 상자를 받아 다시 XOR(역산) 방정식(`$Z \oplus X$`)을 돌리면 놀랍게도 영희가 보낸 Y 상자가 짜잔 하고 복원됩니다. 영희도 마찬가지입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">MOS</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 코딩</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">에지 보안 SASE 진화 모델 SSE</div></div>
-</div>
-</div>
-
-
+```text
+[MOS]
+    │
+    ▼
+[네트워크 코딩]
+    │
+    └──▶ [에지 보안 SASE 진화 모델 SSE]
+```
 
 - **📢 섹션 요약 비유**: 네트워크 코딩의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -99,7 +91,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 기존 라우터는 '단순한 택배 기사'입니다. 바나나 상자 하나, 사과 상자 하나를 받으면 오토바이에 상자 두 개를 따로 싣고 두 번 배달하느라 길([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))이 꽉 막히고 시간이 오래 걸렸습니다. **네트워크 코딩(Network Coding)** 라우터는 '미치광이 천재 수학 요리사'입니다. 라우터가 바나나와 사과를 받자마자 믹서기(XOR 연산)에 넣고 갈아버려 '바나나+사과 짬뽕 주스(조합 패킷)' 딱 1통을 찍어냅니다. 라우터는 오토바이에 가볍게 주스 1통만 싣고 좁은 골목길을 한 번에 쌩 달려갑니다([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 절반 축소). 도착지에서는 이 짬뽕 주스를 받은 사람들이 자기 집에 있던 바나나 성분을 빼버리는 역산(디코딩 화학 분리)을 돌려 원래 사과 알맹이를 1초 만에 완벽하게 복원해 먹는, 중간 과정의 부피를 수학으로 압축해 길 막힘을 박살 내는 위대한 방정식 물류 혁명입니다.
+- **📢 섹션 요약 비유**: 기존 라우터는 '단순한 택배 기사'입니다. 바나나 상자 하나, 사과 상자 하나를 받으면 오토바이에 상자 두 개를 따로 싣고 두 번 배달하느라 길([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))이 꽉 막히고 시간이 오래 걸렸습니다. **네트워크 코딩(Network Coding)** 라우터는 '미치광이 천재 수학 요리사'입니다. 라우터가 바나나와 사과를 받자마자 믹서기(XOR 연산)에 넣고 갈아버려 '바나나+사과 짬뽕 주스(조합 패킷)' 딱 1통을 찍어냅니다. 라우터는 오토바이에 가볍게 주스 1통만 싣고 좁은 골목길을 한 번에 쌩 달려갑니다([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 절반 축소). 도착지에서는 이 짬뽕 주스를 받은 사람들이 자기 집에 있던 바나나 성분을 빼버리는 역산(디코딩 화학 분리)을 돌려 원래 사과 알맹이를 1초 만에 완벽하게 복원해 먹는, 중간 과정의 부피를 수학으로 압축해 길 병목을 박살 내는 위대한 방정식 물류 혁명입니다.
 
 ---
 
@@ -122,19 +114,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: MOS</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 네트워크 코딩</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 에지 보안 SASE 진화 모델 SSE</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: MOS]
+    │
+    ▼
+[현재 개념: 네트워크 코딩]
+    │
+    ├──▶ [확장 A: 에지 보안 SASE 진화 모델 SSE]
+    └──▶ [확장 B: 의미 기반 통신 최적화]
+```
 
 네트워크 코딩는 MOS에서 출발해 현재 메커니즘을 정교화하고, 이후 에지 보안 [SASE](/knowledge-base/studynote/03_network/14_network_security_threats/740_sase_secure_access_service_edge_sdwan_cloud/) 진화 모델 SSE와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

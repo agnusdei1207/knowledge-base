@@ -18,7 +18,7 @@ tags = ["studynote-operating-system"]
 
 ### Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
-- **개념**: API (Application Programming Interface)는 특정 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)나 기능을 호출하기 위한 함수, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조, [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)의 집합이다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 영역에서 POSIX (Portable [Operating System](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) Interface)는 서로 다른 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 환경에서도 동일한 API를 통해 프로그램을 재컴파일만으로 실행할 수 있게 하는 IEEE (Institute of Electrical and Electronics Engineers) 표준 규격이다.
+- **개념**: API (Application Programming Interface)는 특정 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)나 기능을 호출하기 위한 함수, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조, [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)의 집합이다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 영역에서 POSIX (Portable [Operating System](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) Interface)는 서로 다른 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 환경에서도 동일한 API를 통해 프로그램을 재컴파일만으로 실행할 수 있게 하는 IEEE (Institute of Electrical and Electronics 엔진ers) 표준 규격이다.
 
 - **필요성**: [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)마다 내부적인 [시스템 호출](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/) 방식과 하드웨어 제어 로직은 모두 다르다. 만약 표준화된 API가 없다면, 리눅스용으로 짠 코드를 유닉스나 맥OS로 옮길 때마다 모든 [시스템 호출](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/) 코드를 새로 작성해야 한다. POSIX는 이러한 기술적 파편화를 해결하여 "한 번 작성한 코드가 어디서든 소스 수준에서 호환됨"을 보장한다.
 
@@ -31,20 +31,20 @@ tags = ["studynote-operating-system"]
 - <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> 다이어그램: API를 통한 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/">시스템 호출</a> <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a> 구조</strong>
 이 도식은 애플리케이션이 복잡한 [시스템 호출](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/)을 직접 다루지 않고, 표준 API와 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 통해 어떻게 일관된 인터페이스를 제공받는지 시여한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User Application</div></div>
-<div class="kb-diagram-note">(1) Standard API Call (e.g., fopen)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">POSIX / Win32 Library</div><div class="kb-diagram-cell">◀── 추상화 계층 (Abstraction Layer)</div></div>
-<div class="kb-diagram-note">(2) Internal System Call (Trap)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Operating System</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Linux</div><div class="kb-diagram-node">FreeBSD</div><div class="kb-diagram-node">macOS</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">── 서로 다른 내부 구현</div></div>
-</div>
-</div>
-
-
+```text
+  ┌──────────────────────────────┐
+  │      User Application        │
+  └──────────────┬───────────────┘
+                 │ (1) Standard API Call (e.g., fopen)
+  ┌──────────────▼───────────────┐
+  │    POSIX / Win32 Library     │ ◀── 추상화 계층 (Abstraction Layer)
+  └──────────────┬───────────────┘
+                 │ (2) Internal System Call (Trap)
+  ┌──────────────▼───────────────┐
+  │      Operating System        │
+  │  [Linux]  [FreeBSD]  [macOS] │ ◀── 서로 다른 내부 구현
+  └──────────────────────────────┘
+```
 
 **[다이어그램 해설]** 개발자는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 복잡한 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 번호나 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 규약을 알 필요가 없다. 단지 `fopen()`이라는 POSIX 표준 API를 호출할 뿐이다. [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 계층 (예: `libc`)은 이 요청을 받아 리눅스 환경이라면 리눅스의 [시스템 호출](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/) 번호로 변환하고, BSD 환경이라면 해당 환경에 맞는 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)로 변환하여 처리한다. 이 구조의 핵심은 "상위 계층은 하위 계층의 변화에 무관하다"는 캡슐화와 정보 은닉에 있다. 결과적으로 API는 애플리케이션과 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 사이의 거대한 방화벽이자 번역기 역할을 수행하여 개발 생산성을 극대화한다.
 
@@ -67,20 +67,18 @@ tags = ["studynote-operating-system"]
 - <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> 구조 다이어그램: POSIX 표준 범위 및 구성</strong>
 POSIX가 다루는 기술 영역은 단순히 [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/)을 넘어 프로세스 관리, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템, 셸 환경 등을 포괄한다. 이 다이어그램은 POSIX.1부터 확장 규격까지의 범위를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">POSIX Standard (IEEE 1003)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">POSIX.1</div><div class="kb-diagram-node">POSIX.2</div><div class="kb-diagram-node">Extended POSIX</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- System Inter.</div><div class="kb-diagram-cell">- Shell &amp; Utils</div><div class="kb-diagram-cell">- Threads (pthreads)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- File I/O</div><div class="kb-diagram-cell">- Command Line</div><div class="kb-diagram-cell">- Real-time Ext.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Signals</div><div class="kb-diagram-cell">- Scripting</div><div class="kb-diagram-cell">- Network (Sockets)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">C Library API</div><div class="kb-diagram-node">Shell Interface</div><div class="kb-diagram-node">System Services</div></div>
-</div>
-</div>
-
-
+```text
+ ┌───────────────────────────────────────────────────────────┐
+ │                  POSIX Standard (IEEE 1003)               │
+ ├──────────────────┬──────────────────┬─────────────────────┤
+ │  [POSIX.1]       │  [POSIX.2]       │ [Extended POSIX]    │
+ │  - System Inter. │  - Shell & Utils │ - Threads (pthreads)│
+ │  - File I/O      │  - Command Line  │ - Real-time Ext.    │
+ │  - Signals       │  - Scripting     │ - Network (Sockets) │
+ └────────┬─────────┴────────┬─────────┴────────┬────────────┘
+          │                  │                               │
+   [C Library API]    [Shell Interface]   [System Services]
+```
 
 **[다이어그램 해설]** POSIX는 매우 방대한 표준이다. 핵심인 POSIX.1은 C 언어 인터페이스를 통해 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 입출력, 프로세스 관리, 시그널 전송 등 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 핵심 기능을 정의한다. POSIX.2는 셸 ([Shell](/knowledge-base/studynote/02_operating_system/01_overview_architecture/044_shell/))의 동작 방식과 `ls`, `grep` 같은 기본 유틸리티의 명령 행 인자 규격을 정의하여 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 간의 사용자 경험과 스크립트 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)을 보장한다. 또한 현대 멀티코어 환경에 필수적인 `pthreads` (POSIX Threads)와 실시간 확장을 통해 복잡한 시스템 설계를 지원한다. 이러한 포괄적인 표준화 덕분에 리눅스용으로 개발된 웹 서버나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스가 유닉스 계열의 다른 시스템으로 손쉽게 포팅될 수 있으며, 이는 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 생태계 성장의 기술적 토대가 되었다.
 
@@ -133,21 +131,19 @@ int main() {
 - <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> 비교 다이어그램: API와 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/">시스템 호출</a>의 N:M 매핑 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a></strong>
 하나의 API가 여러 [시스템 호출](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/)을 부르거나, 여러 API가 하나의 [시스템 호출](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/)을 공유하는 유연한 구조를 시각화한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">User APIs</div><div class="kb-diagram-node">System Calls</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">printf()</div><div class="kb-diagram-cell">── ──▶</div><div class="kb-diagram-cell">write()</div><div class="kb-diagram-cell">(N:1)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">puts()</div><div class="kb-diagram-cell">──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">fprintf()</div><div class="kb-diagram-cell">──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ ▶</div><div class="kb-diagram-cell">open()</div><div class="kb-diagram-cell">(1:1)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">malloc()</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">brk()</div><div class="kb-diagram-cell">(1:N)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">mmap()</div></div>
-</div>
-</div>
-
-
+```text
+    [User APIs]             [System Calls]
+  ┌─────────────┐         ┌─────────────────┐
+  │   printf()  │──┐   ┌──▶│    write()     │ (N:1)
+  │   puts()    │──┴───┘   └────────────────┘
+  │   fprintf() │──┐       ┌────────────────┐
+  └─────────────┘  └──▶───▶│    open()      │ (1:1)
+                           └────────────────┘
+  ┌─────────────┐          ┌────────────────┐
+  │   malloc()  │─────▶────│    brk()       │ (1:N)
+  └─────────────┘     └────│    mmap()      │
+                           └────────────────┘
+```
 
 **[다이어그램 해설]** API와 [시스템 호출](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/)은 반드시 1:1로 대응하지 않는다. ① **N:1 매핑**: `printf()`, `puts()`, `fprintf()` 등 다양한 출력 API는 결국 내부적으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 화면에 쓰는 `write()`라는 하나의 [시스템 호출](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/)로 수렴한다. 이는 사용자 편의를 위해 다양한 인터페이스를 제공하면서도 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 단순하게 유지하는 전략이다. ② **1:N 매핑**: 메모리 할당 API인 `malloc()`은 요청 크기에 따라 작은 메모리는 `brk()`를, 큰 메모리는 `mmap()` [시스템 호출](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/)을 사용하는 등 내부적으로 복잡한 판단 로직을 가진다. 이러한 유연성 덕분에 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 내부 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 로직을 API 사용자 몰래 변경할 수 있으며, 이는 시스템 진화의 핵심 동력이 된다.
 
@@ -175,21 +171,21 @@ int main() {
 - <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> 운영 플로우: 플랫폼 독립적 소프트웨어 설계 의사결정</strong>
 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 간 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)을 유지하면서 최적의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 도출하기 위한 아키텍처 설계 판단 흐름을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">OS Specific Task?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">No</div><div class="kb-diagram-node">Yes</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Use POSIX API</div><div class="kb-diagram-node">Create Abstraction Layer</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(e.g., #ifdef __LINUX__)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Unified Application Code</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Compile for Target OS</div></div>
-</div>
-</div>
-
-
+```text
+ [OS Specific Task?]
+                │
+    ┌─────┴─────┐
+  [No]        [Yes]
+    │           │
+    ▼           ▼
+[Use POSIX API] [Create Abstraction Layer]
+    │           │ (e.g., #ifdef __LINUX__)
+    │           ▼
+    └──────▶ [Unified Application Code]
+                │
+                ▼
+      [Compile for Target OS]
+```
 
 **[다이어그램 해설]** 실무에서 가장 권장되는 방식은 가능한 한 POSIX 표준 API를 사용하는 것이다. 하지만 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)마다 고유한 고성능 기능 (e.g., Linux의 `epoll` vs Windows의 `IOCP`)을 써야 할 때가 있다. 이때는 비표준 기능을 코드 곳곳에 뿌리는 것이 아니라, 별도의 '[추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 계층 ([Abstraction](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) Layer)'을 만들어 감싸야 한다. 내부적으로는 `#ifdef` 등을 통해 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)별 코드를 분리하되, 상위 애플리케이션은 단일한 인터페이스를 보게 설계하는 것이다. 이렇게 하면 새로운 OS 지원이 필요할 때 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 계층만 수정하면 되므로 시스템 유연성과 유지보수성이 극대화된다.
 
@@ -235,23 +231,21 @@ int main() {
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">시스템 호출 (System Call) — 커널 기능을 사용자 공간에 노출</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">POSIX (Portable Operating System Interface) — 유닉스 계열 표준 API 규격</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">표준 C 라이브러리 (libc) — POSIX 래핑, 언어 수준 이식성 보장</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">컨테이너 런타임 (Container Runtime) — POSIX 네임스페이스·cgroups 추상화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">클라우드 네이티브 API (REST/gRPC) — 플랫폼 독립 분산 인터페이스로 진화</div></div>
-</div>
-</div>
-
-
+```text
+[시스템 호출 (System Call) — 커널 기능을 사용자 공간에 노출]
+    │
+    ▼
+[POSIX (Portable Operating System Interface) — 유닉스 계열 표준 API 규격]
+    │
+    ▼
+[표준 C 라이브러리 (libc) — POSIX 래핑, 언어 수준 이식성 보장]
+    │
+    ▼
+[컨테이너 런타임 (Container Runtime) — POSIX 네임스페이스·cgroups 추상화]
+    │
+    ▼
+[클라우드 네이티브 API (REST/gRPC) — 플랫폼 독립 분산 인터페이스로 진화]
+```
 
 이 흐름은 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 기능을 직접 호출하던 [시스템 호출](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/)에서 POSIX 표준으로 이식성이 확보되고, [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)·클라우드 환경에서 플랫폼 독립 API 계층으로 지속 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)되는 인터페이스 표준화의 발전 과정을 보여준다.
 

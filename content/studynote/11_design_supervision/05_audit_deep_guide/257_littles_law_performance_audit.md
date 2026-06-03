@@ -12,7 +12,7 @@ tags = ["studynote-design-supervision"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 리틀의 법칙(Little's Law) `L = λW`는 시스템 내 평균 요청 수(L), 처리율(λ, TPS), 평균 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)(W)의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 나타내며, 세 지표 중 하나를 알면 나머지를 계산할 수 있다.
-> 2. **가치**: [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/)([Thread Pool](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/))과 커넥션 풀(Connection Pool) 크기를 수학적으로 산정할 수 있어 "감() 기반" [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)에서 "근거 기반" [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)으로 전환한다.
+> 2. **가치**: [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/)([Thread Pool](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/))과 커넥션 풀(Connection Pool) 크기를 수학적으로 산정할 수 있어 "감(感) 기반" [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)에서 "근거 기반" [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)으로 전환한다.
 > 3. **판단 포인트**: 감리 현장에서 [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) 크기 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 근거 문서가 없거나, 리틀의 법칙과 크게 괴리된 값이 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)된 경우 재검토를 요구한다.
 
 ---
@@ -27,7 +27,7 @@ L = λ × W
 
 L (Lambda) : 시스템 내 평균 요청 수 (동시 처리 중인 요청)
 λ (Lambda) : 처리율 (TPS, Transactions Per Second)
-W (Wait) : 평균 응답 시간 (초, second)
+W (Wait)   : 평균 응답 시간 (초, second)
 ```
 
 | 변수 | 실무 매핑 | 예시 값 |
@@ -36,80 +36,85 @@ W (Wait) : 평균 응답 시간 (초, second)
 | λ | TPS (초당 처리 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 수) | 100 tps |
 | W | 평균 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) | 0.5초 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Core Idea</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Expected Gain</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐    ┌──────────────┐    ┌──────────────┐
+│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
+└──────────────┘    └──────────────┘    └──────────────┘
+```
 
 - **📢 섹션 요약 비유**: 리틀의 법칙은 "마트 계산대(시스템)에 항상 몇 명이 줄 서 있는지(L)는 시간당 처리 고객 수(λ)와 1명당 걸리는 시간(W)의 곱"이라는 상식적 수학이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
+```
+┌─────────────────────────────────────────────────────────────┐
+│  실무 계산 예시                                               │
+│                                                             │
+│  목표 성능:                                                  │
+│  - 목표 TPS (λ): 200 tps                                    │
+│  - 평균 응답 시간 (W): 0.3초                                 │
+│                                                             │
+│  필요 스레드 수 (L):                                         │
+│  L = λ × W = 200 × 0.3 = 60개                               │
+│                                                             │
+│  안전 마진 (20%) 적용:                                       │
+│  스레드 풀 설정 = 60 × 1.2 = 72개  →  75개 설정             │
+│                                                             │
+│  커넥션 풀 산정:                                             │
+│  - DB 쿼리 TPS: 150 tps (쿼리 비중 75%)                     │
+│  - 평균 DB 응답 시간: 0.1초                                  │
+│  L_db = 150 × 0.1 = 15개  →  커넥션 풀 20개 설정            │
+└─────────────────────────────────────────────────────────────┘
+```
 
+```
+┌─────────────────────────────────────────────────────────────┐
+│              스레드 풀 설정 시나리오 비교                     │
+│                                                             │
+│  [과소 설정: 스레드 풀 = 10개]                               │
+│                                                             │
+│  요청 60개 ──► 활성 스레드 10개 ──► 대기 큐 50개             │
+│                    │                                        │
+│                    ▼                                        │
+│  응답 시간 급증, 타임아웃(Timeout) 발생, 500 오류             │
+│                                                             │
+│  [과다 설정: 스레드 풀 = 500개]                              │
+│                                                             │
+│  요청 60개 ──► 활성 스레드 60개 ──► 유휴 스레드 440개        │
+│                    │                                        │
+│                    ▼                                        │
+│  메모리 낭비 (스레드 1개 = 약 1MB 스택)                      │
+│  불필요한 컨텍스트 스위칭(Context Switching) 오버헤드         │
+│                                                             │
+│  [적정 설정: 스레드 풀 = 75개]                               │
+│                                                             │
+│  요청 60개 ──► 활성 스레드 60개 ──► 여유 스레드 15개         │
+│                    │                                        │
+│                    ▼                                        │
+│  안정적 TPS 유지, 피크 부하 흡수 가능                        │
+└─────────────────────────────────────────────────────────────┘
+```
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실무 계산 예시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">목표 성능:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 목표 TPS (λ): 200 tps</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 평균 응답 시간 (W): 0.3초</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">필요 스레드 수 (L):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L = λ × W = 200 × 0.3 = 60개</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">안전 마진 (20%) 적용:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스레드 풀 설정 = 60 × 1.2 = 72개 → 75개 설정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">커넥션 풀 산정:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- DB 쿼리 TPS: 150 tps (쿼리 비중 75%)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 평균 DB 응답 시간: 0.1초</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L_db = 150 × 0.1 = 15개 → 커넥션 풀 20개 설정</div></div>
-</div>
-</div>
-
-
-
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스레드 풀 설정 시나리오 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">과소 설정: 스레드 풀 = 10개</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요청 60개 ──► 활성 스레드 10개 ──► 대기 큐 50개</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">응답 시간 급증, 타임아웃(Timeout) 발생, 500 오류</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">과다 설정: 스레드 풀 = 500개</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요청 60개 ──► 활성 스레드 60개 ──► 유휴 스레드 440개</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 낭비 (스레드 1개 = 약 1MB 스택)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">불필요한 컨텍스트 스위칭(Context Switching) 오버헤드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">적정 설정: 스레드 풀 = 75개</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요청 60개 ──► 활성 스레드 60개 ──► 여유 스레드 15개</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">안정적 TPS 유지, 피크 부하 흡수 가능</div></div>
-</div>
-</div>
-
-
-
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">커넥션 풀 최적화 원리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WAS 스레드 ──► 커넥션 풀에서 커넥션 획득</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">커넥션 풀 부족 시:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스레드가 커넥션 대기 ──► 응답 시간 증가 ──► 스레드 풀 포화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">권장 공식:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DB 커넥션 풀 = (WAS 스레드 풀) × (DB 쿼리 비중)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">× (DB 응답 시간 / WAS 응답 시간)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HikariCP(히카리CP) 권장:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">connections = ((core_count × 2) + effective_spindle_count)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예: CPU 4코어, SSD 1개 = (4×2)+1 = 9개 (약 10개 설정)</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────────┐
+│              커넥션 풀 최적화 원리                            │
+│                                                             │
+│  WAS 스레드 ──► 커넥션 풀에서 커넥션 획득                    │
+│                                                             │
+│  커넥션 풀 부족 시:                                          │
+│  스레드가 커넥션 대기 ──► 응답 시간 증가 ──► 스레드 풀 포화  │
+│                                                             │
+│  권장 공식:                                                  │
+│  DB 커넥션 풀 = (WAS 스레드 풀) × (DB 쿼리 비중)            │
+│               × (DB 응답 시간 / WAS 응답 시간)              │
+│                                                             │
+│  HikariCP(히카리CP) 권장:                                    │
+│  connections = ((core_count × 2) + effective_spindle_count) │
+│                                                             │
+│  예: CPU 4코어, SSD 1개 = (4×2)+1 = 9개 (약 10개 설정)      │
+└─────────────────────────────────────────────────────────────┘
+```
 
 | 항목 | 설명 | 포인트 |
 |:---|:---|:---|
@@ -149,31 +154,27 @@ W (Wait) : 평균 응답 시간 (초, second)
 | **4단계** | [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)값 vs 이론값 비교 | 20% 이내 오차 허용 |
 | **5단계** | [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/) 결과와 일치 여부 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | [APM](/knowledge-base/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 활성 수 모니터링 |
 
+```
+# Tomcat server.xml
+<Executor name="tomcatThreadPool"
+          maxThreads="75"       ← 리틀의 법칙 기반 설정
+          minSpareThreads="10"/>
 
+# Spring Boot application.yml
+server:
+  tomcat:
+    threads:
+      max: 75
+      min-spare: 10
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note"># Tomcat server.xml</div>
-<div class="kb-diagram-note">&lt;Executor name="tomcatThreadPool"</div>
-<div class="kb-diagram-note">maxThreads="75" ← 리틀의 법칙 기반 설정</div>
-<div class="kb-diagram-note">minSpareThreads="10"/&gt;</div>
-<div class="kb-diagram-note"># Spring Boot application.yml</div>
-<div class="kb-diagram-note">server:</div>
-<div class="kb-diagram-note">tomcat:</div>
-<div class="kb-diagram-note">threads:</div>
-<div class="kb-diagram-note">max: 75</div>
-<div class="kb-diagram-note">min-spare: 10</div>
-<div class="kb-diagram-note"># HikariCP (DB 커넥션 풀)</div>
-<div class="kb-diagram-note">spring:</div>
-<div class="kb-diagram-note">datasource:</div>
-<div class="kb-diagram-note">hikari:</div>
-<div class="kb-diagram-note">maximum-pool-size: 20 ← L_db = λ_db × W_db</div>
-<div class="kb-diagram-note">minimum-idle: 5</div>
-<div class="kb-diagram-note">connection-timeout: 30000</div>
-</div>
-</div>
-
-
+# HikariCP (DB 커넥션 풀)
+spring:
+  datasource:
+    hikari:
+      maximum-pool-size: 20    ← L_db = λ_db × W_db
+      minimum-idle: 5
+      connection-timeout: 30000
+```
 
 ### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. 위험 시나리오와 점검 범위가 문서로 합의되었는가?
@@ -198,7 +199,7 @@ W (Wait) : 평균 응답 시간 (초, second)
 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 개념 | 설명 |
 |:---|:---|:---|
 | 상위 개념 | 큐잉 이론 (Queuing Theory) | 리틀의 법칙의 수학적 기반 |
-| 상위 개념 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 공학 ([Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) Engineering) | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 설계·분석 학문 |
+| 상위 개념 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 공학 ([Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 엔진ering) | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 설계·분석 학문 |
 | 하위 개념 | [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) ([Thread Pool](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/)) | L = λW 적용 대상 |
 | 하위 개념 | 커넥션 풀 (Connection Pool) | DB 접속 자원 관리 |
 | 연관 개념 | TPS (Transactions Per Second) | λ 값의 실무 측정 |

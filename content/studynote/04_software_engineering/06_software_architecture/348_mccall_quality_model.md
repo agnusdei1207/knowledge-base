@@ -23,27 +23,28 @@ tags = ["studynote-software-engineering"]
 
 - **필요성**: [소프트웨어 품질](/knowledge-base/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/)은 다차원적인 개념으로, 단일한 기준으로 평가할 수 없다. 맥콜 모델은 이러한 다양한 품질 차원을 체계적으로 분류하여, 개발자와 품질 관리자가 소프트웨어의 Strengths and Weaknesses를 다각적으로 파악하고, 적절한 품질 개선 활동을 계획하는 데 도움이 된다.
 
-- **💡 비유**: 맥콜 품질 모델은 "자동차의 종합 검사"에 비유할 수 있다. 자동차를 단순히 "좋다/나쁘다"에서는지 않고、(제품 운영), 성(제품 수정), 변환 가능성(제품 전이)을 에하여、의이/가과 같은에하여있다이나을/를판단하다.
+- **💡 비유**: 맥콜 품질 모델은 "자동차의 종합 검사"에 비유할 수 있다. 자동차를 단순히 "좋다/나쁘다"에서는なく, 주행동(제품 운영), 정비성(제품 수정), 변환 가능성(제품 전이)을 분별적에평가하여, 그차가어느ようなシーン에적하고 있는か을/를판단하는.
 
 - **등장 배경**: 맥콜 품질 모델은 1970년대 미 공군의 [소프트웨어 품질](/knowledge-base/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/) 개선 프로젝트에서 탄생하였다. 이후 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) 분야에서 널리 활용되며, ISO/IEC 9126, ISO/IEC 25010 등의 국제 표준에 영향을 주었다.
 
-- **📢 섹션 요약 비유**: 맥콜 품질 모델은 "건강검진"과 같다. 단순히 "건강하다/아프다"에서는지 않고、([신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/))、([사용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/286_usability_tactics/))、(효율) 등을 적으로하여、々의건강 상태을/를부터판단하다。
+- **📢 섹션 요약 비유**: 맥콜 품질 모델은 "건강검진항목"과 같다. 단순히 "건강하다/아프다"에서는なく, 혈압([신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)), 시력([사용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/286_usability_tactics/)), 폐기능(효율성) 등을 분별적으로평가하여, 인々의건강 상태를다방면부터판단하는. 
 
 ---
 
 다음은 맥콜(McCall)의 품질 모델의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">맥콜(McCall)의 품질 모델</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                  맥콜(McCall)의 품질 모델                           │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
+│       │                    │                    │          │
+│       ▼                    ▼                    ▼          │
+│   요구 분석           설계·적용           품질 검증        │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램은 맥콜(McCall)의 품질 모델가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -133,30 +134,28 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 맥콜(McCall)의 품질 모델의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 맥콜(McCall)의 품질 모델의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
 | [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 맥콜(McCall)의 품질 모델은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | 맥콜(McCall)의 품질 모델 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
 | [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 맥콜(McCall)의 품질 모델에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">맥콜(McCall)의 품질 모델 개념 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 위기 (Software Crisis) 인식
+    │
+    ▼
+맥콜(McCall)의 품질 모델 개념 정립
+    │
+    ▼
+표준화 및 방법론 체계화 (ISO, CMMI, Agile)
+    │
+    ▼
+클라우드 네이티브·AI 기반 확장 적용
+    │
+    ▼
+지속적 개선 및 DevOps·MLOps 통합
+```
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

@@ -18,24 +18,23 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">QoS 레벨별 핸드셰이크</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">QoS 0 — Fire and Forget</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pub ──PUBLISH──▶ Broker (끝, 확인 없음)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">QoS 1 — At Least Once</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pub ──PUBLISH──▶ Broker ──PUBACK──▶ Pub</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(PUBACK 없으면 재전송 → 중복 가능)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">QoS 2 — Exactly Once</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pub ──PUBLISH──▶ Broker ──PUBREC──▶ Pub</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pub ──PUBREL──▶ Broker ──PUBCOMP──▶ Pub</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(4-way 핸드셰이크, 정확히 1회 보장)</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    QoS 레벨별 핸드셰이크                              │
+├───────────────────────────────────────────────────────┤
+│  [QoS 0 — Fire and Forget]                            │
+│   Pub ──PUBLISH──▶ Broker  (끝, 확인 없음)           │
+│                                                       │
+│  [QoS 1 — At Least Once]                              │
+│   Pub ──PUBLISH──▶ Broker ──PUBACK──▶ Pub            │
+│   (PUBACK 없으면 재전송 → 중복 가능)                  │
+│                                                       │
+│  [QoS 2 — Exactly Once]                               │
+│   Pub ──PUBLISH──▶ Broker ──PUBREC──▶ Pub            │
+│   Pub ──PUBREL──▶ Broker ──PUBCOMP──▶ Pub            │
+│   (4-way 핸드셰이크, 정확히 1회 보장)                 │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 0은 엽서(도착 보장 없음), [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 1은 등기우편(배달 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/), 중복 가능), [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 2는 내용증명(정확히 1회, 증거 남김)이다.
 
@@ -95,23 +94,21 @@ tags = ["studynote-ict-convergence"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">MQTT v3.1 (1999) — QoS 0/1/2 정의</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MQTT 3.1.1 (2014, OASIS) — 표준화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">QoS 1 + 멱등 패턴 (실무 Best Practice)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MQTT 5.0 (2019) — Shared Subscription</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: MQTT over QUIC — 전송 계층 신뢰성 강화</div></div>
-</div>
-</div>
-
-
+```text
+[MQTT v3.1 (1999) — QoS 0/1/2 정의]
+    │
+    ▼
+[MQTT 3.1.1 (2014, OASIS) — 표준화]
+    │
+    ▼
+[QoS 1 + 멱등 패턴 (실무 Best Practice)]
+    │
+    ▼
+[MQTT 5.0 (2019) — Shared Subscription]
+    │
+    ▼
+[현재: MQTT over QUIC — 전송 계층 신뢰성 강화]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 0은 <strong>엽서</strong>예요. 보내면 끝이고 도착할지 모르지만 **가장 가벼워요**.

@@ -20,24 +20,24 @@ tags = ["studynote-design-supervision"]
 
 위험 기반 감리는 전통적인 "모든 항목 균등 점검" 방식에서 "고위험 집중 감리" 방식으로의 패러다임 전환이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위험 기반 감리 위험 매트릭스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">영향도 높음</div><div class="kb-diagram-cell">중위험 ★고위험 ★최고위험</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">중간</div><div class="kb-diagram-cell">저위험 중위험 ★고위험</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">낮음</div><div class="kb-diagram-cell">무시 저위험 중위험</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">낮음 중간 높음 ← 발생 가능성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">감리 자원 배분:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">★최고위험: 집중 감리 (40%)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">★고위험: 주요 감리 (30%)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">중위험: 표준 감리 (20%)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">저위험: 최소 감리 (10%)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────┐
+│          위험 기반 감리 위험 매트릭스                      │
+├─────────────────────────────────────────────────────────┤
+│                                                         │
+│  영향도   높음 │  중위험   ★고위험   ★최고위험           │
+│          중간 │  저위험    중위험   ★고위험               │
+│          낮음 │  무시     저위험    중위험                │
+│               └──────────────────────────              │
+│                 낮음      중간      높음  ← 발생 가능성   │
+│                                                         │
+│  감리 자원 배분:                                         │
+│  ★최고위험: 집중 감리 (40%)                              │
+│  ★고위험:  주요 감리 (30%)                               │
+│   중위험:  표준 감리 (20%)                               │
+│   저위험:  최소 감리 (10%)                               │
+└─────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 위험 기반 감리는 소방서의 화재 위험 지도다. 모든 건물에 소방관을 균등 배치하는 대신, 화재 위험이 높은 건물(화학 공장, 목조 건물)에 더 많은 소방관을 집중 배치한다.
 
@@ -126,23 +126,21 @@ ISO 31000(위험 관리 표준)과 ISACA의 [COBIT](/knowledge-base/studynote/12
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">전통적 균등 감리 — 모든 항목 동일 비중 점검</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">위험 기반 감리 — 위험도 기반 자원 집중 배분</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">준거 기반 + 위험 기반 통합 감리 — 법 준수 + 실질 위험</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AI 위험 예측 감리 — 과거 데이터 기반 위험 자동 식별</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">지속 감리 — 실시간 모니터링 + 위험 기반 자동 알림</div></div>
-</div>
-</div>
-
-
+```text
+[전통적 균등 감리 — 모든 항목 동일 비중 점검]
+    │
+    ▼
+[위험 기반 감리 — 위험도 기반 자원 집중 배분]
+    │
+    ▼
+[준거 기반 + 위험 기반 통합 감리 — 법 준수 + 실질 위험]
+    │
+    ▼
+[AI 위험 예측 감리 — 과거 데이터 기반 위험 자동 식별]
+    │
+    ▼
+[지속 감리 — 실시간 모니터링 + 위험 기반 자동 알림]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

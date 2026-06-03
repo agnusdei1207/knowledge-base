@@ -23,17 +23,14 @@ tags = ["studynote-computer-architecture"]
 
 특히 클라우드 호스트나 엣지 보안 장비처럼 “들어오는 패킷 대부분을 걸러내거나 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)만 해도 되는” 환경에서는, 패킷을 굳이 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 스택까지 올리는 것 자체가 낭비다. [BPF](/knowledge-base/studynote/02_operating_system/01_overview_architecture/069_ebpf/) HW [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)은 이 낭비를 줄이기 위해 등장했다. 즉, 제어 평면은 호스트가 유지하되 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면의 반복 작업은 [NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/) 쪽에서 끝내는 분업 모델이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Wire -&gt; NIC parser -&gt; BPF offload engine</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ drop / redirect / count -&gt; host bypass</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ exception traffic -&gt; host DMA -&gt; kernel path</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────┐
+│ Wire -> NIC parser -> BPF offload engine                                │
+│                          │                                               │
+│                          ├─ drop / redirect / count -> host bypass       │
+│                          └─ exception traffic -> host DMA -> kernel path  │
+└──────────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 핵심은 “빠른 실행”보다 “호스트로 올릴 패킷 자체를 줄인다”는 데 있다. 하드웨어에서 끝낼 수 있는 판단을 앞당길수록 CPU, 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/), 캐시 오염, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 후속 처리가 한꺼번에 줄어든다.
 
@@ -54,20 +51,18 @@ tags = ["studynote-computer-architecture"]
 
 대표적인 연결점은 [XDP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/670_xdp/) [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)과 Traffic Control (TC) [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)이다. XDP는 수신 경로 가장 앞단에서 드롭·리다이렉트 같은 단순 액션에 강하고, TC는 큐잉·클래스 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)처럼 조금 더 풍부한 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 연결되기 쉽다. 다만 둘 다 하드웨어가 지원하는 범위를 넘어서면 소프트웨어 실행으로 돌아가거나 로드 자체가 거절된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Control plane on host, fast path on NIC</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Host</div><div class="kb-diagram-cell">NIC / DPU</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Loader sends BPF object</div><div class="kb-diagram-cell">4. Packet parser extracts headers</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Kernel verifier checks</div><div class="kb-diagram-cell">5. Offloaded program looks up map</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Offload driver approves</div><div class="kb-diagram-cell">6. Action: drop / redirect / mark / count</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">7. Host updates maps / stats</div><div class="kb-diagram-cell">8. Only exception traffic goes upward</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ Control plane on host, fast path on NIC                                     │
+├───────────────────────────────┬──────────────────────────────────────────────┤
+│ Host                          │ NIC / DPU                                   │
+│                               │                                              │
+│ 1. Loader sends BPF object    │ 4. Packet parser extracts headers           │
+│ 2. Kernel verifier checks     │ 5. Offloaded program looks up map           │
+│ 3. Offload driver approves    │ 6. Action: drop / redirect / mark / count   │
+│ 7. Host updates maps / stats  │ 8. Only exception traffic goes upward       │
+└───────────────────────────────┴──────────────────────────────────────────────┘
+```
 
 핵심 제약도 분명하다. 모든 헬퍼 함수가 지원되지 않으며, 대형 맵이나 복잡한 루프, 깊은 상태 추적은 [NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/) 온칩 메모리와 실행 파이프라인에 잘 맞지 않는다. 그래서 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) 가능한 프로그램은 대개 “짧고, 결정적이고, 헤더 중심적”이어야 한다.
 
@@ -150,23 +145,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">고정 기능 NIC 오프로드</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">커널 BPF (Berkeley Packet Filter)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">XDP (eXpress Data Path) / TC (Traffic Control)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">BPF HW 오프로딩</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SmartNIC · DPU 기반 프로그래머블 데이터 평면</div>
-</div>
-</div>
-
-
+```text
+고정 기능 NIC 오프로드
+        │
+        ▼
+커널 BPF (Berkeley Packet Filter)
+        │
+        ▼
+XDP (eXpress Data Path) / TC (Traffic Control)
+        │
+        ▼
+BPF HW 오프로딩
+        │
+        ▼
+SmartNIC · DPU 기반 프로그래머블 데이터 평면
+```
 
 이 흐름은 “정해진 기능만 가속”에서 출발해, “[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 코드로 쓰고 그 코드를 하드웨어에 내린다”는 방향으로 진화한 과정을 보여준다.
 

@@ -36,23 +36,26 @@ tags = ["ict_convergence"]
 | **합의 (Consensus)** | `PoH (Proof of History, 역사 증명)` 메커니즘으로 노드 간 통신 없이 자체 타이머로 시간 순서 합의 |
 | <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/094_data_availability_da_layer_celestia/">데이터 가용성</a> (<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/">DA</a>)</strong> | 거대한 상태([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 각 고사양 노드가 직접 저장 및 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 유지 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모놀리식 블록체인 아키텍처의 직렬/병렬 처리 메커니즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">User Transaction</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">10만 건 폭주</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단일 레이어 (Layer 1) 노드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. PoH (Proof of History) 기반 타임스탬프 각인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(노드 간 합의 지연 제거)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 다중 컨트랙트 병렬 실행 (Sealevel 엔진)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Tx 1</div><div class="kb-diagram-node">Tx 2</div><div class="kb-diagram-node">Tx 3</div><div class="kb-diagram-note">... 동시 연산 │</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 전체 블록 데이터 직접 저장 (DA)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Result</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">초고속 블록 생성 (단일 지연시간)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│       모놀리식 블록체인 아키텍처의 직렬/병렬 처리 메커니즘   │
+├──────────────────────────────────────────────────────────────┤
+│ [ User Transaction ] ─▶ 10만 건 폭주                         │
+│                                                              │
+│       ┌────────── 단일 레이어 (Layer 1) 노드 ──────────┐       │
+│       │                                                │       │
+│       │ 1. PoH (Proof of History) 기반 타임스탬프 각인 │       │
+│       │    (노드 간 합의 지연 제거)                    │       │
+│       │                                                │       │
+│       │ 2. 다중 컨트랙트 병렬 실행 (Sealevel 엔진)     │       │
+│       │    [Tx 1] [Tx 2] [Tx 3] ... 동시 연산          │       │
+│       │                                                │       │
+│       │ 3. 전체 블록 데이터 직접 저장 (DA)             │       │
+│       └────────────────────────────────────────────────┘       │
+│                                                              │
+│ [ Result ] ─▶ 초고속 블록 생성 (단일 지연시간)               │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 그림은 분업 없이 한 거대한 노드가 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리와 고유 합의 알고리즘을 무기로 세 가지 역할을 한 방에 꿰뚫어 처리하는 모놀리식의 강력함을 보여준다.
 
@@ -115,24 +118,22 @@ tags = ["ict_convergence"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">비트코인 / 이더리움 1.0 (초기 모놀리식)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">확장성 한계 직면 (낮은 TPS, 높은 가스비)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">모놀리식의 극대화 (Solana, Aptos)</div>
-<div class="kb-diagram-note">(고성능 노드 + 병렬 실행 + PoH 합의 도입)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">초고속 TPS 달성 및 유동성 통합 유지</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">모듈러 체인(L2 롤업)과의 생태계 주도권 경쟁</div>
-</div>
-</div>
-
-
+```text
+비트코인 / 이더리움 1.0 (초기 모놀리식)
+    │
+    ▼
+확장성 한계 직면 (낮은 TPS, 높은 가스비)
+    │
+    ▼
+모놀리식의 극대화 (Solana, Aptos)
+(고성능 노드 + 병렬 실행 + PoH 합의 도입)
+    │
+    ▼
+초고속 TPS 달성 및 유동성 통합 유지
+    │
+    ▼
+모듈러 체인(L2 롤업)과의 생태계 주도권 경쟁
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

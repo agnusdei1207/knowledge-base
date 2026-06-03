@@ -21,24 +21,22 @@ tags = ["studynote-bigdata"]
 
 Modern [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Stack은 전통적인 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) (Extract-Transform-Load) 기반 [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 구축 방식이 느리고 비싸며 변경에 둔감하다는 문제에서 출발했다. 과거에는 소스 시스템에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 뽑아 별도 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 서버에서 변환한 뒤 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)에 적재하는 구조가 일반적이었다. 이 방식은 안정적이지만, 커넥터 개발·인프라 운영·[스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 변경 대응 비용이 커서 작은 팀이 빠르게 분석 환경을 만들기 어려웠다.
 
-클라우드 [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)가 성숙하면서 상황이 바뀌었다. 먼저 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 비교적 빨리 적재하고, 변환은 저장소 내부의 강력한 SQL 엔진에서 수행하는 [ELT](/knowledge-base/studynote/14_data_engineering/01_infrastructure/034_elt/) 방식이 현실적이 됐다. 여기에 관리형 커넥터, dbt 기반 Analytics Engineering, 셀프서비스 BI가 결합되면서 "[데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/) 전체를 직접 만들지 않아도 되는" 조립형 아키텍처가 등장했다.
+클라우드 [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)가 성숙하면서 상황이 바뀌었다. 먼저 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 비교적 빨리 적재하고, 변환은 저장소 내부의 강력한 SQL 엔진에서 수행하는 [ELT](/knowledge-base/studynote/14_data_engineering/01_infrastructure/034_elt/) 방식이 현실적이 됐다. 여기에 관리형 커넥터, dbt 기반 Analytics 엔진ering, 셀프서비스 BI가 결합되면서 "[데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/) 전체를 직접 만들지 않아도 되는" 조립형 아키텍처가 등장했다.
 
 아래 그림은 전통 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)과 Modern [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Stack의 차이를 보여준다. 핵심은 변환 위치와 구축 속도, 그리고 각 계층의 책임 분리가 달라졌다는 점이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전통 ETL vs Modern Data Stack</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전통: Source ─▶ ETL Server ─▶ On-prem Warehouse ─▶ BI</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">변환이 앞단에 몰려 변경 비용이 큼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MDS : Source ─▶ Managed EL/CDC ─▶ Cloud Warehouse</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ dbt ─▶ BI / Reverse ETL</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">먼저 적재하고 나중에 변환해 민첩성을 높임</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ 전통 ETL vs Modern Data Stack                               │
+├──────────────────────────────────────────────────────────────┤
+│ 전통: Source ─▶ ETL Server ─▶ On-prem Warehouse ─▶ BI       │
+│        변환이 앞단에 몰려 변경 비용이 큼                    │
+│                                                              │
+│ MDS : Source ─▶ Managed EL/CDC ─▶ Cloud Warehouse            │
+│                                └─▶ dbt ─▶ BI / Reverse ETL   │
+│        먼저 적재하고 나중에 변환해 민첩성을 높임            │
+└──────────────────────────────────────────────────────────────┘
+```
 
 그래서 MDS는 특정 제품 묶음의 이름이라기보다, "[클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 분석 시스템을 어떻게 더 빨리 조립할 것인가"에 대한 설계 철학으로 보는 편이 맞다. Fivetran, Airbyte, [Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/), [BigQuery](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/), [Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/), dbt, [Looker](/knowledge-base/studynote/16_bigdata/08_visualization/166_looker/), Tableau는 그 철학을 구현하는 대표 도구들일 뿐, 핵심은 ELT와 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)형 계층화에 있다.
 
@@ -60,25 +58,30 @@ Modern [Data](/knowledge-base/studynote/05_database/01_db_architecture_relationa
 
 아래 구조는 MDS의 전형적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름을 보여준다. Raw에서 Mart로 갈수록 비즈니스 의미가 강해지고, dbt 테스트와 계보가 중간 통제 장치 역할을 한다.
 
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ Modern Data Stack 파이프라인                                 │
+├──────────────────────────────────────────────────────────────┤
+│ SaaS / DB / Event Source                                     │
+│          │                                                   │
+│          ▼                                                   │
+│   Managed EL/CDC Connector                                   │
+│          │                                                   │
+│          ▼                                                   │
+│   Cloud Warehouse / Lakehouse                                │
+│   ┌──────────┬────────────┬──────────┐                       │
+│   │ Raw      │ Staging    │ Mart     │                       │
+│   └──────────┴────────────┴──────────┘                       │
+│          │            ▲                                      │
+│          └──── dbt models · tests · lineage ─────┐           │
+│                                                   ▼           │
+│                         BI / Semantic Layer / Reverse ETL     │
+└──────────────────────────────────────────────────────────────┘
+```
 
+이 구조에서 dbt가 중요한 이유는 변환 로직을 SQL [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)과 테스트, 문서, 의존성 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)로 바꿔 주기 때문이다. 예전에는 변환이 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 도구 안의 블랙박스 작업이거나 BI 화면 속 계산식에 흩어져 있었지만, MDS에서는 분석 로직을 [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/)와 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리 대상으로 끌어올린다. 그래서 Modern [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Stack의 성장은 단순 도구 교체라기보다 "Analytics 엔진ering"이라는 역할의 등장과도 연결된다.
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Modern Data Stack 파이프라인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SaaS / DB / Event Source</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Managed EL/CDC Connector</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cloud Warehouse / Lakehouse</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Raw</div><div class="kb-diagram-cell">Staging</div><div class="kb-diagram-cell">Mart</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">dbt models · tests · lineage</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BI / Semantic Layer / Reverse ETL</div></div>
-</div>
-</div>
-
-
-
-이 구조에서 dbt가 중요한 이유는 변환 로직을 SQL [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)과 테스트, 문서, 의존성 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)로 바꿔 주기 때문이다. 예전에는 변환이 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 도구 안의 블랙박스 작업이거나 BI 화면 속 계산식에 흩어져 있었지만, MDS에서는 분석 로직을 [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/)와 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리 대상으로 끌어올린다. 그래서 Modern [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Stack의 성장은 단순 도구 교체라기보다 "Analytics Engineering"이라는 역할의 등장과도 연결된다.
-
-또한 Modern [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Stack은 최종 분석 결과를 다시 업무 시스템에 돌려보내는 Reverse ETL과도 잘 맞는다. 고객 세그먼트, 이탈 예측 점수, 마케팅 타깃 리스트를 고객 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 관리([Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) [Relationship](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/), [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/))나 광고 플랫폼으로 되돌리는 흐름이 가능해지면서, [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)는 보고서 저장소를 넘어 운영 의사결정의 중심이 된다.
+또한 Modern [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Stack은 최종 분석 결과를 다시 업무 시스템에 돌려보내는 Reverse ETL과도 잘 맞는다. 고객 세그먼트, 이탈 예측 점수, 마케팅 타깃 리스트를 고객 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 관리([C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) [Relationship](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/), [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/))나 광고 플랫폼으로 되돌리는 흐름이 가능해지면서, [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)는 보고서 저장소를 넘어 운영 의사결정의 중심이 된다.
 
 - **📢 섹션 요약 비유**: MDS는 재료 창고에 요리 레시피와 검수표를 같이 붙여 두는 주방과 같다. 누가 요리해도 같은 레시피와 같은 기준으로 음식을 만들 수 있어 품질이 흔들리지 않는다.
 
@@ -159,23 +162,21 @@ Modern [Data](/knowledge-base/studynote/05_database/01_db_architecture_relationa
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">온프레미스 ETL / EDW</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 데이터 웨어하우스</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ELT + dbt 기반 Analytics Engineering</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Semantic Layer · Reverse ETL</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Streaming / Open Format Hybrid MDS</div>
-</div>
-</div>
-
-
+```text
+온프레미스 ETL / EDW
+    │
+    ▼
+클라우드 데이터 웨어하우스
+    │
+    ▼
+ELT + dbt 기반 Analytics Engineering
+    │
+    ▼
+Semantic Layer · Reverse ETL
+    │
+    ▼
+Streaming / Open Format Hybrid MDS
+```
 
 이 흐름은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼의 중심이 "무거운 적재 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인"에서 "클라우드 창고 중심의 민첩한 조립형 운영"으로 이동하는 과정을 보여준다.
 

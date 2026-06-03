@@ -20,23 +20,26 @@ tags = ["studynote-dataengineering"]
 
 "내일 날씨는 오늘 날씨에만 달려있다(어제·그저께 무관)"라는 단순한 가정이 놀라울 만큼 강력한 예측 모델을 만든다. Google PageRank는 "사용자가 현재 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)에서 다음 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)로 넘어갈 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)"을 [마르코프 체인](/knowledge-base/studynote/08_algorithm_stats/08_stats/140_markov_chain/)으로 모델링하여 검색 순위를 결정한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">날씨 마르코프 체인 예시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0.7</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">맑음</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">비</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0.4</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0.6</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전이행렬 P =</div><div class="kb-diagram-cell">0.7 0.3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0.4 0.6</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정상분포: π = (4/7, 3/7) ≈ (57%, 43%)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 장기적으로 맑은 날이 57%, 비 오는 날이 43%</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│      날씨 마르코프 체인 예시                            │
+├───────────────────────────────────────────────────────┤
+│              0.7                                      │
+│   ┌──────────────────┐                                │
+│   │                  ▼                                │
+│  [맑음] ─── 0.3 ──▶ [비]                              │
+│   ▲                  │                                │
+│   └──── 0.4 ─────────┘                                │
+│                  0.6                                  │
+│   ┌──────────────────┐                                │
+│   │                  ▼                                │
+│  전이행렬 P = | 0.7  0.3 |                            │
+│              | 0.4  0.6 |                             │
+│                                                       │
+│  정상분포: π = (4/7, 3/7) ≈ (57%, 43%)               │
+│  → 장기적으로 맑은 날이 57%, 비 오는 날이 43%         │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [마르코프 체인](/knowledge-base/studynote/08_algorithm_stats/08_stats/140_markov_chain/)은 "오늘이 맑으면 내일도 70% 맑다"는 규칙만으로 1년 치 날씨 비율을 예측하는 마법의 주사위다.
 
@@ -104,23 +107,21 @@ tags = ["studynote-dataengineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">마르코프 체인 이론 (Markov, 1906) — 무기억성 확률 모델</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HMM (1960s~) — 은닉 상태 추론, 음성 인식</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MCMC (Metropolis, 1953→Hastings, 1970) — 베이지안 샘플링</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">PageRank (1998, Google) — 웹 검색 순위</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MDP + 강화학습 (2010s~) — AlphaGo, 로보틱스</div></div>
-</div>
-</div>
-
-
+```text
+[마르코프 체인 이론 (Markov, 1906) — 무기억성 확률 모델]
+    │
+    ▼
+[HMM (1960s~) — 은닉 상태 추론, 음성 인식]
+    │
+    ▼
+[MCMC (Metropolis, 1953→Hastings, 1970) — 베이지안 샘플링]
+    │
+    ▼
+[PageRank (1998, Google) — 웹 검색 순위]
+    │
+    ▼
+[MDP + 강화학습 (2010s~) — AlphaGo, 로보틱스]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [마르코프 체인](/knowledge-base/studynote/08_algorithm_stats/08_stats/140_markov_chain/)은 <strong>"오늘 맑으면 내일도 맑을 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a> 70%"</strong>라는 간단한 규칙으로 날씨를 예측하는 거예요.

@@ -25,18 +25,14 @@ tags = ["studynote-network"]
 - **East-West (동서 횡적) 트래픽 🌟**: 우리 회사 내부망 안에서 웹 서버 ➜ WAS 서버 ➜ DB 서버끼리 데이터를 주고받는 내부 트래픽입니다. 옛날엔 "우리 식구끼리 뭐 어때" 하고 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 없이 그냥 고속도로를 뻥 뚫어놨습니다.
 - **재앙(Lateral Movement)**: 해커가 [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/) 메일로 인사팀 말단 직원 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 1대를 감염시킵니다(성문 통과). 그 뒤 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이 없는 내부 고속도로(East-West)를 타고 횡적 이동하여 중앙 DB 서버까지 광속으로 돌진해 기밀을 통째로 털어갑니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">제로 트러스트 구조</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">마이크로 세그멘테이션</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">eBPF 커널 네트워킹 후킹 시스템</div></div>
-</div>
-</div>
-
-
+```text
+[제로 트러스트 구조]
+    │
+    ▼
+[마이크로 세그멘테이션]
+    │
+    └──▶ [eBPF 커널 네트워킹 후킹 시스템]
+```
 
 - **📢 섹션 요약 비유**: 마이크로 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -46,18 +42,14 @@ tags = ["studynote-network"]
 
 - **개념**: 하나의 거대한 내부 네트워크 서브넷 대역을 무수히 많고 미세한 조각(Micro [Segment](/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/))으로 잘게 쪼개고, 그 <strong>쪼개진 조각(서버나 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a> 단위)마다 각각 독립적인 가상 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a>(<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>)을 씌워 서로 간의 통신을 물리적/논리적으로 완벽하게 격리시키는 <a href="/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/">제로 트러스트</a>(<a href="/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/">Zero Trust</a>)의 핵심 보안 기술</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">제로 트러스트 구조</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">마이크로 세그멘테이션</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">eBPF 커널 네트워킹 후킹 시스템</div></div>
-</div>
-</div>
-
-
+```text
+[제로 트러스트 구조]
+    │
+    ▼
+[마이크로 세그멘테이션]
+    │
+    └──▶ [eBPF 커널 네트워킹 후킹 시스템]
+```
 
 - **📢 섹션 요약 비유**: 마이크로 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -124,19 +116,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 제로 트러스트 구조</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 마이크로 세그멘테이션</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: eBPF 커널 네트워킹 후킹 시스템</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 제로 트러스트 구조]
+    │
+    ▼
+[현재 개념: 마이크로 세그멘테이션]
+    │
+    ├──▶ [확장 A: eBPF 커널 네트워킹 후킹 시스템]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 마이크로 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)는 [제로 트러스트 구조](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1043_ztna_zero_trust_network_access_architecture/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 네트워킹 후킹 시스템와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

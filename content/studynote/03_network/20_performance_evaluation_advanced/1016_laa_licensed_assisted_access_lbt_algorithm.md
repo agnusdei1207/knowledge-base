@@ -23,18 +23,14 @@ tags = ["studynote-network"]
 - **개념**: 통신사가 메인 닻인 <strong>'면허 대역(Licensed, 요금 낸 주파수)'</strong>의 통제를 받으면서(Assisted), 공짜 주파수인 <strong>'비면허 대역(Unlicensed, 5GHz 와이파이 주파수)'</strong>을 보조 차선([CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/), 1014번)으로 끌어와 다운로드 속도를 극대화하는 통신 기술입니다.
 - 단, [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 시대엔 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 말고 [5G NR](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/763_5g_nr_new_radio_scalable_numerology/) 전파를 공터에 밀어 넣는 <strong>NR-U (NR-Unlicensed)</strong>로 뼈대가 똑같이 이어집니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">언면허 대역망</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LAA</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">와이파이 오프로딩</div></div>
-</div>
-</div>
-
-
+```text
+[언면허 대역망]
+    │
+    ▼
+[LAA]
+    │
+    └──▶ [와이파이 오프로딩]
+```
 
 - **📢 섹션 요약 비유**: LAA는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -55,18 +51,14 @@ LAA가 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_archi
   - 그리고 마음속으로 주사위를 굴려 <strong>랜덤한 시간(Backoff Time) 동안 강제 취침(대기)</strong>에 들어갑니다. 잠에서 깨면 다시 귀를 대고 들어봅니다.
 - **효과**: 이 LBT(Listen Before Talk) 매너 덕분에 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 전파와 Wi-Fi 전파가 1개의 주파수 방안에서 서로 양보하며(Fair Coexistence) 평화롭게 100% 공존(상생)할 수 있게 되었습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">언면허 대역망</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LAA</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">와이파이 오프로딩</div></div>
-</div>
-</div>
-
-
+```text
+[언면허 대역망]
+    │
+    ▼
+[LAA]
+    │
+    └──▶ [와이파이 오프로딩]
+```
 
 - **📢 섹션 요약 비유**: LAA의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -129,19 +121,15 @@ LAA는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_c
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 언면허 대역망</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: LAA</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 와이파이 오프로딩</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 언면허 대역망]
+    │
+    ▼
+[현재 개념: LAA]
+    │
+    ├──▶ [확장 A: 와이파이 오프로딩]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 LAA는 [언면허 대역망](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1015_unlicensed_band_lte_u_nr_u_wifi_coexistence/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [와이파이 오프로딩](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1017_wifi_offloading_cellular_traffic_congestion/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

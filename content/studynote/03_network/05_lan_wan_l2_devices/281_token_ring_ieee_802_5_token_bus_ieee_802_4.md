@@ -26,18 +26,14 @@ tags = ["studynote-network"]
   - <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">이더넷</a>(<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/">CSMA</a>/CD)</strong>: 토론회에서 누구나 눈치껏 빈틈을 타서 말하다가, 목소리가 겹치면 멈췄다 다시 말하는 **"자유 토론"** (사람이 적으면 빠르지만, 많아지면 시장통이 됨).
   - **토큰 링(Token Ring)**: 토론회에서 <strong>"하나뿐인 마이크(Token)"</strong>를 옆 사람에게 시계 방향으로 돌려가며, 마이크를 쥔 사람만 말할 수 있는 **"순차적 발언"** (사람이 적을 땐 마이크 기다리느라 속 터지지만, 사람이 많아도 한 명씩은 무조건 말할 기회가 옴).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">로컬 루프</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">토큰 링</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">FDDI</div></div>
-</div>
-</div>
-
-
+```text
+[로컬 루프]
+    │
+    ▼
+[토큰 링]
+    │
+    └──▶ [FDDI]
+```
 
 - **📢 섹션 요약 비유**: ** 토큰 제어 방식은 놀이공원의 **"회전목마 1인승"**과 같습니다. 줄을 서서 기다려야 하는 지루함은 있지만, 일단 타기만 하면 중간에 남과 부딪혀 튕겨 나갈(충돌) 확률이 완벽한 0%로 보장되는 가장 안전한 탑승물입니다.
 
@@ -53,21 +49,22 @@ IBM이 개발하여 1980년대~90년대 초반 기업망을 장악했던 4Mbps /
 3. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 수신 및 복사</strong>: 프레임이 링을 돌아 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) C에 도착하면, C는 자기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)임을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 자기 하드디스크에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 복사한 뒤, 꼬리에 "잘 받았음(ACK)" 표시를 해서 다시 링에 흘려보낸다.
 4. **토큰 반환 (Token Release)**: 한 바퀴를 빙 돌아 다시 송신자 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) A에게 돌아오면, [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) A는 자기가 띄운 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 무사히 배달되었음을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, 그 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 파기한 뒤 다시 'Free Token'으로 만들어 옆 사람에게 넘겨준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">토큰 링(Token Ring)의 데이터 전송 흐름</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">PC A</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">PC B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) 빈 토큰</div><div class="kb-diagram-cell">(나 아님, 패스!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가로챔 ▼</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">PC C</div><div class="kb-diagram-note">(내꺼네? 복사!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">PC D</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">── 3) ACK 달고 돌아옴</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4) PC A: "C가 잘 받았군! 이제 짐 치우고 다시 빈 토큰으로 굴려!"</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                토큰 링(Token Ring)의 데이터 전송 흐름           │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ PC A ]  ── 2) 바쁜 토큰(A->C) ──▶ [ PC B ]              │
+ │   1) 빈 토큰                                │ (나 아님, 패스!)  │
+ │    가로챔                                  ▼                 │
+ │      ▲                                                      │
+ │      │                               [ PC C ] (내꺼네? 복사!)  │
+ │      │                                 │                    │
+ │   [ PC D ]  ◀── 3) ACK 달고 돌아옴 ──── ┘                    │
+ │                                                             │
+ │   4) PC A: "C가 잘 받았군! 이제 짐 치우고 다시 빈 토큰으로 굴려!"    │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 2. 토큰 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) (Token [Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/), IEEE 802.4)의 구조
 - 물리적으로는 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)처럼 일자형 [동축 케이블](/knowledge-base/studynote/03_network/03_physical_layer_media/127_coaxial_cable/)([Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))을 쓰지만, 내부 소프트웨어 설정으로 "[PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 1 -> [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 2 -> [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 3" 순서로 논리적인 토큰을 던져주는 끔찍한 혼종이다.
@@ -134,19 +131,15 @@ IBM이 개발하여 1980년대~90년대 초반 기업망을 장악했던 4Mbps /
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 로컬 루프</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 토큰 링</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: FDDI</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 캠퍼스 패브릭</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 로컬 루프]
+    │
+    ▼
+[현재 개념: 토큰 링]
+    │
+    ├──▶ [확장 A: FDDI]
+    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
+```
 
 토큰 링는 [로컬 루프](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/280_local_loop_subscriber_line/)에서 출발해 현재 메커니즘을 정교화하고, 이후 FDDI와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

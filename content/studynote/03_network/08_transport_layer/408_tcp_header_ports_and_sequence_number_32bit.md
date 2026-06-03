@@ -27,18 +27,14 @@ tags = ["studynote-network"]
   - 하지만 걱정 없습니다. 각 퍼즐 뒷면([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 헤더)에는 `(X:12, Y:45)`라는 <strong>정확한 고유 위치 번호(Seq)</strong>가 인쇄되어 있습니다.
   - 받는 사람은 그냥 뒷면 번호만 보고 순서대로 끼워 맞추기만 하면 원래 그림(1GB [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 원본)이 100% 복구됩니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">TCP 세그먼트 헤더</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">소스/목적지 포트 번호, 일련번호</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확인응답번호</div></div>
-</div>
-</div>
-
-
+```text
+[TCP 세그먼트 헤더]
+    │
+    ▼
+[소스/목적지 포트 번호, 일련번호]
+    │
+    └──▶ [확인응답번호]
+```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/">포트 번호</a>가 우체국 직원이 편지를 들고 </strong>"아파트 101호(크롬), 102호(카톡)"**를 찾아가게 해주는 동호수라면, 시퀀스 넘버는 그 101호 주인이 받은 장문의 편지 100장에 적혀 있는 **"[페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 번호(1쪽, 2쪽, 3쪽...)"**입니다. 이 두 개가 합쳐져야 완벽한 배달과 조립이 끝납니다.
 
@@ -62,22 +58,22 @@ tags = ["studynote-network"]
 - 만약 항상 0부터 시작한다면, 해커가 내 PC인 척 위장(IP [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/))하고 `Seq=1`인 가짜 접속 종료(FIN) 패킷을 서버에 던져버리면, 서버는 "아, 진짜 유저가 1번 순서로 접속 끊으라네?" 하고 홀라당 세션을 끊어버리는 대참사([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [Session Hijacking](/knowledge-base/studynote/09_security/03_network_security/271_session_hijacking/))가 발생한다.
 - 난수([ISN](/knowledge-base/studynote/03_network/08_transport_layer/417_isn_initial_sequence_number_randomization/))로 시작하면 해커가 다음 번호를 예측할 확률이 43억 분의 1로 떨어지므로 완벽한 보안 방어막이 형성된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">와이어샤크(Wireshark)에서 보는 Relative Seq 번호</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">실제 인터넷 위를 날아다니는 진짜 패킷의 번호 (Raw)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Seq = 3,456,789,123 (복잡해서 인간이 눈으로 분석 불가능!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">와이어샤크가 엔지니어 뇌 보호를 위해 보여주는 가짜 번호 (Relative)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Seq = 1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 팁: 와이어샤크는 최초 접속 시 뽑힌 미친 난수(ISN)를 지가 알아서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell"><code>0</code> 또는 <code>1</code>로 치환(Relative)해서 1, 2, 3 순서로 예쁘게</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보여준다. 실제론 저 32비트짜리 괴물 같은 숫자가 돌아가고 있다.</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                와이어샤크(Wireshark)에서 보는 Relative Seq 번호    │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 실제 인터넷 위를 날아다니는 진짜 패킷의 번호 (Raw) ]               │
+ │   Seq = 3,456,789,123  (복잡해서 인간이 눈으로 분석 불가능!)       │
+ │                                                             │
+ │   [ 와이어샤크가 엔지니어 뇌 보호를 위해 보여주는 가짜 번호 (Relative) ] │
+ │   Seq = 1                                                   │
+ │                                                             │
+ │   * 팁: 와이어샤크는 최초 접속 시 뽑힌 미친 난수(ISN)를 지가 알아서      │
+ │        `0` 또는 `1`로 치환(Relative)해서 1, 2, 3 순서로 예쁘게     │
+ │        보여준다. 실제론 저 32비트짜리 괴물 같은 숫자가 돌아가고 있다.    │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 3. 32비트의 랩어라운드 (Wrap-around)
 시퀀스 넘버는 32비트 공간이라 최대 42억 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)(약 4GB)까지 번호를 매길 수 있다.
@@ -140,19 +136,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: TCP 세그먼트 헤더</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 소스/목적지 포트 번호, 일련번호</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 확인응답번호</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: TCP 세그먼트 헤더]
+    │
+    ▼
+[현재 개념: 소스/목적지 포트 번호, 일련번호]
+    │
+    ├──▶ [확장 A: 확인응답번호]
+    └──▶ [확장 B: 적응형 저지연 전송]
+```
 
 소스/목적지 [포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/), 일련번호는 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 세그먼트 헤더에서 출발해 현재 메커니즘을 정교화하고, 이후 [확인응답번호](/knowledge-base/studynote/03_network/08_transport_layer/409_tcp_acknowledgment_number_cumulative_ack/)와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

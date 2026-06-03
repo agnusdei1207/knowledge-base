@@ -26,17 +26,14 @@ tags = ["studynote-ai"]
 
 이 기술이 없다면 구글의 [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/)([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))도, 애플 시리(Siri)의 알람 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)("내일 강남역에서 회식 메모해 줘" $\rightarrow$ 시간/장소 추출) 기능도 아예 존재할 수 없다. NER은 흩날리는 텍스트 쓰레기 산에서 다이아몬드(핵심 정보)만 핀셋으로 건져 올리는 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)의 가장 강력한 채굴기다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: NER은 택배 물류 센터의 초정밀 '바코드 스캐너'다. 텍스트라는 거대한 택배 박스가 1초에 1만 개씩 쏟아져 들어올 때, 박스를 뜯어볼 필요 없이 박스 겉면의 바코드(단어)만 쓱 스캔해서 "아 이건 서울(지명) 가는 거! 저건 삼성전자(기관)로 가는 거!"라고 1초 만에 레일(DB) 위로 촥촥 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)해 버리는 완벽한 무인 자동화 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 시스템이다.
 
@@ -46,30 +43,29 @@ tags = ["studynote-ai"]
 
 NER은 단순히 단어가 긍정인지 부정인지 1개로 찍는 [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/)과 다르다. 문장의 모든 글자 덩어리(Token) 하나하나마다 "너의 신분이 무엇이냐"라고 수십 번 연속으로 묻고 대답하는 **시퀀스 라벨링 (Sequence Labeling)** 아키텍처를 따른다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개체명 인식 (NER)의 문장 태깅 (Sequence Labeling) 아키텍처 도해</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. BIO 태깅 (BIO Tagging) - 단어에 신분증표 달아주기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 문장: "이재용 회장은 오늘 삼성전자에 갔다."</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* B (Begin 시작), I (Inside 내부), O (Outside 쩌리/일반단어)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이재용 ─▶ B-PER (인물 시작!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">회장은 ─▶ O (그냥 단어)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오늘 ─▶ B-DAT (날짜 시작!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">삼성 ─▶ B-ORG (조직 시작!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">삼성+전자</div><div class="kb-diagram-note">로 묶임!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">갔다. ─▶ O (그냥 단어)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 딥러닝 추론망 (Bi-LSTM + CRF 또는 BERT 뇌)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">* 문제: '삼성'이</div><div class="kb-diagram-node">B-ORG</div><div class="kb-diagram-note">인지 어떻게 알아?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 마법 1 (Bi-LSTM): 양방향으로 문장을 싹 훑어보고 "뒤에 '전자'가 붙은 걸</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보니 이건 과일이 아니라 회사네!"라고 눈치챔.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">* 마법 2 (CRF 족쇄): "앞 단어가</div><div class="kb-diagram-node">B-ORG</div><div class="kb-diagram-note">면 다음 단어는 절대</div><div class="kb-diagram-node">I-PER</div><div class="kb-diagram-note">가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">올 수 없어!"라는 문법적 철칙을 강제로 씌워 오답 차단.</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           개체명 인식 (NER)의 문장 태깅 (Sequence Labeling) 아키텍처 도해  │
+├──────────────────────────────────────────────────────────────┤
+│  [1. BIO 태깅 (BIO Tagging) - 단어에 신분증표 달아주기]               │
+│   * 문장: "이재용 회장은 오늘 삼성전자에 갔다."                         │
+│   * B (Begin 시작), I (Inside 내부), O (Outside 쩌리/일반단어)       │
+│                                                              │
+│     이재용 ─▶ B-PER (인물 시작!)                                │
+│     회장은 ─▶ O     (그냥 단어)                                 │
+│     오늘   ─▶ B-DAT (날짜 시작!)                                │
+│     삼성   ─▶ B-ORG (조직 시작!)                                │
+│     전자에 ─▶ I-ORG (조직 단어의 연장선!) ──▶ [삼성+전자]로 묶임!      │
+│     갔다.  ─▶ O     (그냥 단어)                                 │
+│                                                              │
+│  [2. 딥러닝 추론망 (Bi-LSTM + CRF 또는 BERT 뇌)]               │
+│   * 문제: '삼성'이 [B-ORG]인지 어떻게 알아?                          │
+│   * 마법 1 (Bi-LSTM): 양방향으로 문장을 싹 훑어보고 "뒤에 '전자'가 붙은 걸 │
+│                       보니 이건 과일이 아니라 회사네!"라고 눈치챔.        │
+│   * 마법 2 (CRF 족쇄): "앞 단어가 [B-ORG]면 다음 단어는 절대 [I-PER]가   │
+│                       올 수 없어!"라는 문법적 철칙을 강제로 씌워 오답 차단. │
+└──────────────────────────────────────────────────────────────┘
+```
 
 **핵심 원리 (문맥 추론과 동음이의어 돌파)**:
 NER의 진정한 흑마술은 **BIO (Begin-Inside-Outside)** 태깅 룰과, 이를 해석하는 모델의 <strong>문맥(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/">Context</a>)</strong> 흡수력이다. 과거의 모델은 사전에 '아마존'이라는 단어가 있으면 무조건 회사(ORG)로 찍었다. 하지만 딥러닝([BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/))이 탑재된 NER은 "아마존 정글에서 뱀이 나왔다"라는 문장을 보면, 뒤에 '정글'과 '뱀'이 있다는 주변 단어([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))들의 기운(Attention)을 싹 빨아들여, 0.1초 만에 "아, 이번 아마존은 회사가 아니라 장소(Location)구나!"라고 동음이의어를 100% 완벽하게 분기 처리해 낸다.

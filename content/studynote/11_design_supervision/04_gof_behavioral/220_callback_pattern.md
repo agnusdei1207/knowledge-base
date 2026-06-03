@@ -52,43 +52,40 @@ setTimeout(() => console.log("1초 후 실행"), 1000);
 element.addEventListener("click", () => console.log("클릭됨")); // 이벤트 발생 시
 ```
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Core Idea</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Expected Gain</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐    ┌──────────────┐    ┌──────────────┐
+│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
+└──────────────┘    └──────────────┘    └──────────────┘
+```
 
 - **📢 섹션 요약 비유**: 콜백은 식당에서 "음식 나오면 문자 주세요" 방식 — 음식이 나올 때까지 자리에 앉아 기다리지(블로킹) 않고, [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 번호표(콜백 함수)를 주고 다른 일을 하다가 호출받는 것이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Callback Pattern 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 작업 요청 + 콜백 함수 전달</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Caller</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(호출자)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Async Executor</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(비동기 실행자)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예: Timer,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 다른 작업 계속 수행</div><div class="kb-diagram-cell">IO, Network</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Caller</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다른 일 중</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 작업 완료</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 콜백 함수 호출됨</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Callback</div><div class="kb-diagram-cell">◀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Handler</div><div class="kb-diagram-cell">(에러, 결과 데이터 전달)</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────────┐
+│                    Callback Pattern 흐름                     │
+│                                                              │
+│  ┌──────────┐  1. 작업 요청 + 콜백 함수 전달                  │
+│  │  Caller  │─────────────────────────────────────────┐     │
+│  │ (호출자)  │                                         │     │
+│  └──────────┘                                         ▼     │
+│                                           ┌─────────────────┐│
+│                                           │ Async Executor  ││
+│                                           │ (비동기 실행자)  ││
+│                                           │  예: Timer,     ││
+│  ┌──────────┐  2. 다른 작업 계속 수행      │  IO, Network   ││
+│  │  Caller  │                             └────────┬────────┘│
+│  │ 다른 일 중│                                      │         │
+│  └──────────┘                    3. 작업 완료       │         │
+│                                                    │         │
+│  ┌──────────┐  4. 콜백 함수 호출됨                  │         │
+│  │  Callback│◀───────────────────────────────────┘         │
+│  │  Handler │  (에러, 결과 데이터 전달)                      │
+│  └──────────┘                                              │
+└──────────────────────────────────────────────────────────────┘
+```
 
 비동기 작업이 체인처럼 연결될 때:
 
@@ -112,20 +109,14 @@ getUser(userId, function(err, user) {
 // 피라미드 형태 → "Pyramid of Doom"
 ```
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">콜백 (Callback)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">→ 문제: 중첩, 에러 처리 분산</div>
-<div class="kb-diagram-tree-item" style="--depth:3">→ Promise (ES6)</div>
-<div class="kb-diagram-tree-item" style="--depth:6">→ 문제: .then() 체인 길어짐</div>
-<div class="kb-diagram-tree-item" style="--depth:8">→ async/await (ES2017)</div>
-<div class="kb-diagram-tree-item" style="--depth:8">→ 추가: Observable/RxJS (반응형 스트림)</div>
-</div>
-</div>
-
-
+```
+콜백 (Callback)
+  └→ 문제: 중첩, 에러 처리 분산
+       └→ Promise (ES6)
+            └→ 문제: .then() 체인 길어짐
+                 └→ async/await (ES2017)
+                      └→ 추가: Observable/RxJS (반응형 스트림)
+```
 
 | 항목 | 설명 | 포인트 |
 |:---|:---|:---|
@@ -146,22 +137,17 @@ getUser(userId, function(err, user) {
 | Observable (RxJS) | 스트림 연산자 | `.catchError()` | 중간~높음 | Angular, 반응형 |
 | CompletableFuture | `.thenApply()` | `.exceptionally()` | 중간 | Java |
 
+```
+동기 콜백 실행:
+  호출자 → sort([3,1,2], compareFn)
+  실행: compareFn이 sort() 내부에서 즉시, 반복 호출
+  반환: 정렬 완료 후 sort()가 반환
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">동기 콜백 실행:</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">3,1,2</div><div class="kb-diagram-note">, compareFn)</div></div>
-<div class="kb-diagram-note">실행: compareFn이 sort() 내부에서 즉시, 반복 호출</div>
-<div class="kb-diagram-note">반환: 정렬 완료 후 sort()가 반환</div>
-<div class="kb-diagram-note">비동기 콜백 실행:</div>
-<div class="kb-diagram-note">호출자 → setTimeout(cb, 1000)</div>
-<div class="kb-diagram-note">실행: 1000ms 후 Event Loop가 cb를 호출</div>
-<div class="kb-diagram-note">반환: setTimeout()은 즉시 반환 (cb 실행 전)</div>
-</div>
-</div>
-
-
+비동기 콜백 실행:
+  호출자 → setTimeout(cb, 1000)
+  실행: 1000ms 후 Event Loop가 cb를 호출
+  반환: setTimeout()은 즉시 반환 (cb 실행 전)
+```
 
 - **📢 섹션 요약 비유**: 동기 콜백은 요리사가 "썰어줘" 라고 부르면 즉시 도와주는 보조 요리사, 비동기 콜백은 타이머를 맞춰두고 "알람 울리면 오븐 꺼줘" 라고 부탁하는 것이다.
 

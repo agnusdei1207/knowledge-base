@@ -24,18 +24,14 @@ tags = ["studynote-network"]
 
 - **💡 비유**: 비행기에 탑승(랜선 연결)하자마자 바로 이륙([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송)할 수는 없습니다. 기장은 먼저 문을 닫고([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)), 관제탑과 무전을 주고받으며 이륙 허가를 듣고(Listening), 비행기 계기판을 세팅하며 활주로를 구른([Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/)) 뒤에야, 비로소 창공을 향해 날아오릅니다(Forwarding).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">브리지 ID, 비용</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">STP 4단계 상태 전이</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">컨버전스 시간</div></div>
-</div>
-</div>
-
-
+```text
+[브리지 ID, 비용]
+    │
+    ▼
+[STP 4단계 상태 전이]
+    │
+    └──▶ [컨버전스 시간]
+```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/">STP</a> 4단계는 건물을 짓기 전 지반이 튼튼한지 검사하는 </strong>"안전 진단 기간"**입니다. 루프라는 싱크홀이 없는지 한참을 두드려본 후에야 비로소 인터넷이라는 건물을 올리기 시작합니다.
 
@@ -63,24 +59,28 @@ tags = ["studynote-network"]
 ### 5. Forwarding (전송 상태) - "문이 열리네요"
 - **동작**: 모든 안전 검사가 끝났다! 드디어 <strong>사용자 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>(IP 패킷 등)를 주고받을 수 있는 완전한 통신 개통 상태</strong>다. [BPDU](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/254_bpdu_bridge_protocol_data_unit/) 전송과 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 학습도 동시에 계속 이루어진다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">STP 포트 상태 전이 타이밍 (요약)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Link UP !</div><div class="kb-diagram-note">(랜선 꽂힘)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Blocking</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(사용자 데이터 ❌ / BPDU 수신 ⭕)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">즉시 이동</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Listening</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(사용자 데이터 ❌ / BPDU 송수신 ⭕)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">15초 소요</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Learning</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(사용자 데이터 ❌ / MAC 주소 학습 시작 ⭕)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">15초 소요</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Forwarding</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(사용자 데이터 ⭕ / 정상 통신 개시!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 결론: 랜선을 꽂고 실제로 인터넷이 되기까지 "최소 30초"가 걸린다!</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                STP 포트 상태 전이 타이밍 (요약)                 │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ Link UP ! ] (랜선 꽂힘)                                   │
+ │       │                                                     │
+ │       ▼                                                     │
+ │   [ Blocking ]   ──▶ (사용자 데이터 ❌ / BPDU 수신 ⭕)          │
+ │       │ 즉시 이동                                             │
+ │       ▼                                                     │
+ │   [ Listening ]  ──▶ (사용자 데이터 ❌ / BPDU 송수신 ⭕)        │
+ │       │ 15초 소요                                            │
+ │       ▼                                                     │
+ │   [ Learning ]   ──▶ (사용자 데이터 ❌ / MAC 주소 학습 시작 ⭕) │
+ │       │ 15초 소요                                            │
+ │       ▼                                                     │
+ │   [ Forwarding ] ──▶ (사용자 데이터 ⭕ / 정상 통신 개시!)        │
+ │                                                             │
+ │  * 결론: 랜선을 꽂고 실제로 인터넷이 되기까지 "최소 30초"가 걸린다!    │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/">STP</a> 4단계는 신병 훈련소입니다. 입소하자마자 제자리에 엎드려 조교의 말만 듣고(</strong>[Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)**), 점호 때 목소리를 크게 내보고(**Listening**), 군대 수칙을 머릿속에 외운(**[Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/)**) 뒤에야 비로소 자대에 배치되어 총을 쏘며 작전을 수행(**Forwarding**)하게 됩니다.
 
@@ -138,19 +138,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 브리지 ID, 비용</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: STP 4단계 상태 전이</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 컨버전스 시간</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 캠퍼스 패브릭</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 브리지 ID, 비용]
+    │
+    ▼
+[현재 개념: STP 4단계 상태 전이]
+    │
+    ├──▶ [확장 A: 컨버전스 시간]
+    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
+```
 
 [STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/) 4단계 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)는 [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) ID, 비용에서 출발해 현재 메커니즘을 정교화하고, 이후 [컨버전스 시간](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/258_stp_convergence_time_30_50_seconds/)와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

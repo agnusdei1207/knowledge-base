@@ -142,6 +142,15 @@ def get_parent_path(path_str: str) -> str:
     return "/" + "/".join(parts[:-1]) + "/"
 
 
+def graph_group_for(path_str: str) -> str:
+    parts = [part for part in path_str.strip("/").split("/") if part]
+    if not parts:
+        return "root"
+    if parts[0] == "studynote" and len(parts) > 1:
+        return "/".join(parts[:2])
+    return parts[0]
+
+
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     BACKLINKS_OUT.mkdir(parents=True, exist_ok=True)
@@ -259,24 +268,26 @@ def main() -> None:
 
     # Fallback global graph.json
     sorted_linked_ids = sorted(degrees.keys(), key=lambda x: degrees[x], reverse=True)
-    selected_ids = set(sorted_linked_ids[:200])
+    selected_ids = set(sorted_linked_ids[:900])
     docs_by_nid = {node_ids[doc["path"]]: doc for doc in docs}
     
     nodes = []
-    for nid in sorted_linked_ids[:200]:
+    for nid in sorted_linked_ids[:900]:
         if nid in docs_by_nid:
             doc = docs_by_nid[nid]
             nodes.append({
                 "id": nid,
                 "title": doc["title"],
                 "url": doc["url"],
-                "section": doc["section"]
+                "section": doc["section"],
+                "degree": degrees.get(nid, 0),
+                "group": graph_group_for(doc["path"]),
             })
             
     graph_links = [
         link for link in links
         if link["source"] in selected_ids and link["target"] in selected_ids
-    ][:500]
+    ][:2800]
 
     (OUT / "site-index.json").write_text(json.dumps(tree, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
     for doc in docs:

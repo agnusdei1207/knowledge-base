@@ -48,32 +48,44 @@ df.filter(df.amount > 1000).select("user_id", "amount")
 
 ### 1. Spark SQL 실행 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SQL 문자열 / DataFrame API / Dataset API</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파서 (Parser) — SQL → 비해석 논리 계획 (Unresolved LP)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Analyzer — 카탈로그 참조 → 해석된 논리 계획 (Resolved LP)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(테이블명, 컬럼명, 타입 검증)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Catalyst Optimizer — 규칙 기반 + 비용 기반 최적화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· 술어 푸시다운 (Predicate Pushdown)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· 컬럼 프루닝 (Column Pruning)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· 상수 폴딩, 조인 순서 최적화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물리 계획 선택 (Physical Planning) — 최적 물리 계획 선택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(SortMergeJoin vs BroadcastHashJoin 결정 등)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코드 생성 (Codegen) — Tungsten, JVM 바이트코드 직접 생성</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">분산 RDD 실행 (Spark Core)</div>
-</div>
-</div>
-
-
+```
+┌───────────────────────────────────────────────────────────────┐
+│  SQL 문자열 / DataFrame API / Dataset API                      │
+└──────────────────────┬────────────────────────────────────────┘
+                       │
+                       ▼
+┌──────────────────────────────────────────────────────────────┐
+│  파서 (Parser) — SQL → 비해석 논리 계획 (Unresolved LP)        │
+└──────────────────────┬───────────────────────────────────────┘
+                       │
+                       ▼
+┌──────────────────────────────────────────────────────────────┐
+│  Analyzer — 카탈로그 참조 → 해석된 논리 계획 (Resolved LP)    │
+│  (테이블명, 컬럼명, 타입 검증)                                 │
+└──────────────────────┬───────────────────────────────────────┘
+                       │
+                       ▼
+┌──────────────────────────────────────────────────────────────┐
+│  Catalyst Optimizer — 규칙 기반 + 비용 기반 최적화             │
+│  · 술어 푸시다운 (Predicate Pushdown)                         │
+│  · 컬럼 프루닝 (Column Pruning)                               │
+│  · 상수 폴딩, 조인 순서 최적화                                 │
+└──────────────────────┬───────────────────────────────────────┘
+                       │
+                       ▼
+┌──────────────────────────────────────────────────────────────┐
+│  물리 계획 선택 (Physical Planning) — 최적 물리 계획 선택      │
+│  (SortMergeJoin vs BroadcastHashJoin 결정 등)                 │
+└──────────────────────┬───────────────────────────────────────┘
+                       │
+                       ▼
+┌──────────────────────────────────────────────────────────────┐
+│  코드 생성 (Codegen) — Tungsten, JVM 바이트코드 직접 생성      │
+└──────────────────────┬───────────────────────────────────────┘
+                       │
+                       ▼
+             분산 RDD 실행 (Spark Core)
+```
 
 ### 2. [Hive](/knowledge-base/studynote/05_database/04_transactions_concurrency/544_hive/) 메타스토어 연동
 
@@ -120,7 +132,7 @@ result = spark.sql("SELECT * FROM hive_db.sales WHERE year = 2024")
 ### 2. 연결 개념
 
 - <strong><a href="/knowledge-base/studynote/16_bigdata/03_spark/057_catalyst_optimizer/">Catalyst Optimizer</a></strong>: Spark SQL의 최적화 핵심 엔진 (별도 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))
-- <strong><a href="/knowledge-base/studynote/16_bigdata/03_spark/058_tungsten_engine/">Tungsten Engine</a></strong>: 물리적 실행 최적화, Off-[heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/) 메모리, Codegen
+- <strong><a href="/knowledge-base/studynote/16_bigdata/03_spark/058_tungsten_engine/">Tungsten 엔진</a></strong>: 물리적 실행 최적화, Off-[heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/) 메모리, Codegen
 - **AQE (Adaptive Query Execution)**: 런타임 통계 기반 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) 동적 재최적화
 - <strong><a href="/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/">Delta Lake</a></strong>: Spark SQL 위에서 ACID [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)과 TIME TRAVEL 제공
 
@@ -180,7 +192,7 @@ Spark 3.0+부터 `spark.sql.ansi.enabled=true` [설정](/knowledge-base/studynot
 | 개념 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 설명 |
 |:---|:---|:---|
 | [Catalyst Optimizer](/knowledge-base/studynote/16_bigdata/03_spark/057_catalyst_optimizer/) | 내부 구성 | SQL/DataFrame → 최적 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) 변환 |
-| [Tungsten Engine](/knowledge-base/studynote/16_bigdata/03_spark/058_tungsten_engine/) | 내부 구성 | 물리 실행 최적화, 메모리/CPU 효율화 |
+| [Tungsten 엔진](/knowledge-base/studynote/16_bigdata/03_spark/058_tungsten_engine/) | 내부 구성 | 물리 실행 최적화, 메모리/CPU 효율화 |
 | AQE | 확장 기능 | 런타임 재최적화, [Skew Join](/knowledge-base/studynote/16_bigdata/03_spark/069_skew_join/) 자동 처리 |
 | [Hive](/knowledge-base/studynote/05_database/04_transactions_concurrency/544_hive/) Metastore | 통합 대상 | 테이블 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 공유 |
 | [Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/) | 응용 | Spark SQL 위의 ACID [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 계층 |
@@ -188,23 +200,21 @@ Spark 3.0+부터 `spark.sql.ansi.enabled=true` [설정](/knowledge-base/studynot
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Catalyst Optimizer</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Tungsten Engine</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AQE (Adaptive Query Execution)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Hive Metastore</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Delta Lake</div></div>
-</div>
-</div>
-
-
+```text
+[Catalyst Optimizer]
+    │
+    ▼
+[Tungsten Engine]
+    │
+    ▼
+[AQE (Adaptive Query Execution)]
+    │
+    ▼
+[Hive Metastore]
+    │
+    ▼
+[Delta Lake]
+```
 
 이 흐름도는 Catalyst Optimizer에서 출발해 Delta Lake까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

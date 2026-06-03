@@ -19,34 +19,35 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 코드 스멜은 "는 컴파일러가 요구하는 은/는이/가, 설계가 나쁘거나, 가독성이 낮거나, 이/가" 상태를 표현하는 은유이다. 스멜(냄새)는 직접적으로 하지만은 않지만,하면 에를 미치는 것과 같이, 문제 있는 코드도 시스템 전체에 악영향을 줄 수 있다.
+- **개념**: 코드 스멜은 "コード는 컴파일러가 요구하는 문법은정しい이/가, 설계가 나쁘거나, 가독성이 낮거나, 보수성이저い" 상태를 표현하는 은유이다. 스멜(냄새)는 직접적으로 유해하지만은 않지만,방치하면 주위에악영향를 미치는 것과 같이, 문제 있는 코드도 시스템 전체에 악영향을 줄 수 있다.
 
-- **필요성**: 버그는 코드실행에 이나 에러를 내지만, 코드 스멜은 "아직 에러는 없지만, 시간이 지나면 분명히 문제가 될 "이다. 따라서 코드 스멜을 사전에하여 리팩토링함으로써, 버그 발생 가능성을방지할 수 있다.
+- **필요성**: 버그는 코드실행시에 명らかな 에러를 내지만, 코드 스멜은 "아직 에러는 없지만, 시간이 지나면 분명히 문제가 될 부분"이다. 따라서 코드 스멜을 사전에감지하여 리팩토링함으로써,미래적な 버그 발생 가능성을사전방지할 수 있다.
 
-- **💡 비유**: 코드 스멜은 <strong>'아파트의(균열)'</strong>와 같다. 현재는이 서 있지만, 균열이 있으면 시간이 지나면부터이/가、구조적 문제가 발생할 수 있다. 균열을보고 "지금은지 않다니 가만히 있자"라고 하면, later비가 들지만,초기에처리하면로 해결할 수 있다.
+- **💡 비유**: 코드 스멜은 <strong>'아파트장벽의クラック(균열)'</strong>와 같다. 현재는장벽이 서 있지만, 균열이 있으면 시간이 지나면そこ부터수가삼み, 구조적 문제가 발생할 수 있다. 균열을보고 "지금은탑れない니 가만히 있자"라고 하면, later료대규모수선비가 들지만,초기에처리하면간단な수보로 해결할 수 있다.
 
 - **등장 배경 및 발전 과정**:
-1. **1999년 마틴 파울러**: 저서 "[Refactoring](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/078_refactoring_code_smells/): Improving the Design of Existing [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)"에서 코드 스멜 개념 체계화
-2. <strong>2000년대 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/">정적 분석</a> 도구</strong>: [SonarQube](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/) 등이 코드 스멜을 자동하는 기능 도입
-3. **현재**: [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 개발에서 코드 Mandatory 요소로 자리잡음
+  1. **1999년 마틴 파울러**: 저서 "[Refactoring](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/078_refactoring_code_smells/): Improving the Design of Existing [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)"에서 코드 스멜 개념 체계화
+  2. <strong>2000년대 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/">정적 분석</a> 도구</strong>: [SonarQube](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/) 등이 코드 스멜을 자동검출하는 기능 도입
+  3. **현재**: [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 개발에서 코드レビュー Mandatory 요소로 자리잡음
 
-- **📢 섹션 요약 비유**: 코드 스멜은 <strong>'음식물 쓰레기 통의 слабый 냄새'</strong>와 같다. 쓰레기통이 바로 무너지는 것은 아니지만, 냄새가 나기 시작하면곧가 날아오고, 더하면가 발생한다.에서도 스멜을하면버그이/가、에는리팩터링가 필요해진다.
+- **📢 섹션 요약 비유**: 코드 스멜은 <strong>'음식물 쓰레기 통의 слабый 냄새'</strong>와 같다. 쓰레기통이 바로 무너지는 것은 아니지만, 냄새가 나기 시작하면곧창승가 날아오고, 더방치하면저가 발생한다.コード에서도 스멜을방치하면バグ이/가발생し, 최종적에는대규모중구가 필요해진다.
 
 ---
 
 다음은 코드 스멜 ([Code Smell](/knowledge-base/studynote/12_it_management/05_security_compliance/365_5_solid_code_smell/))의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코드 스멜 (Code Smell)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                  코드 스멜 (Code Smell)                          │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
+│       │                    │                    │          │
+│       ▼                    ▼                    ▼          │
+│   요구 분석           설계·적용           품질 검증        │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램은 코드 스멜 ([Code Smell](/knowledge-base/studynote/12_it_management/05_security_compliance/365_5_solid_code_smell/))가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -136,30 +137,28 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 코드 스멜 ([Code Smell](/knowledge-base/studynote/12_it_management/05_security_compliance/365_5_solid_code_smell/))의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 코드 스멜 ([Code Smell](/knowledge-base/studynote/12_it_management/05_security_compliance/365_5_solid_code_smell/))의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
 | [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 코드 스멜 ([Code Smell](/knowledge-base/studynote/12_it_management/05_security_compliance/365_5_solid_code_smell/))은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | 코드 스멜 ([Code Smell](/knowledge-base/studynote/12_it_management/05_security_compliance/365_5_solid_code_smell/)) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
 | [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 코드 스멜 ([Code Smell](/knowledge-base/studynote/12_it_management/05_security_compliance/365_5_solid_code_smell/))에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">코드 스멜 (Code Smell) 개념 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 위기 (Software Crisis) 인식
+    │
+    ▼
+코드 스멜 (Code Smell) 개념 정립
+    │
+    ▼
+표준화 및 방법론 체계화 (ISO, CMMI, Agile)
+    │
+    ▼
+클라우드 네이티브·AI 기반 확장 적용
+    │
+    ▼
+지속적 개선 및 DevOps·MLOps 통합
+```
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

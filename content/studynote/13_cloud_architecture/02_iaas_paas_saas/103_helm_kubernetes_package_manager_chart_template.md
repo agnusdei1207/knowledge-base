@@ -38,23 +38,25 @@ tags = ["studynote-cloud-architecture"]
 | `values.yaml` | 환경별 변수 정의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) | 사용자가 덮어쓸 수 있는 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)값의 모음 |
 | 릴리스 (Release) | 클러스터에 배포된 차트의 인스턴스 | [헬름](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/)이 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 추적하며 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/))의 기준이 됨 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">헬름 (Helm) 렌더링 및 배포 흐름</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Chart: 뼈대</div><div class="kb-diagram-node">사용자 설정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">templates/*.yaml + values.yaml</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">{{ .Values.port }} port: 8080</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Helm Engine</div><div class="kb-diagram-connector">◀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(렌더링)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">완성된 매니페스트 (YAML)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">port: 8080</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Kubernetes API Server</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                  헬름 (Helm) 렌더링 및 배포 흐름                 │
+├──────────────────────────────────────────────────────────────┤
+│  [Chart: 뼈대]                 [사용자 설정]                  │
+│  templates/*.yaml   +        values.yaml                   │
+│  {{ .Values.port }}            port: 8080                  │
+│           │                          │                     │
+│           └──────▶ [Helm Engine] ◀───┘                     │
+│                        (렌더링)                              │
+│                           │                                │
+│                           ▼                                │
+│                 완성된 매니페스트 (YAML)                      │
+│                    port: 8080                              │
+│                           │                                │
+│                           ▼                                │
+│               [Kubernetes API Server]                      │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 구조 덕분에 소스 코드를 수정하지 않고도 `helm install my-app ./chart -f values-prod.yaml` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 한 줄로 운영 환경에 맞는 완벽한 배포본을 찍어낼 수 있다.
 
@@ -119,23 +121,21 @@ tags = ["studynote-cloud-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">수동 YAML 배포 (Manual Apply)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">템플릿 기반 배포 엔진 (Helm) · 커스터마이즈 (Kustomize)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">오픈소스 차트 공유 생태계 (Artifact Hub)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">자동화 파이프라인 결합 (CI/CD Integration)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">선언적 상태 동기화 (GitOps 연동 - ArgoCD / Flux)</div>
-</div>
-</div>
-
-
+```text
+수동 YAML 배포 (Manual Apply)
+    │
+    ▼
+템플릿 기반 배포 엔진 (Helm) · 커스터마이즈 (Kustomize)
+    │
+    ▼
+오픈소스 차트 공유 생태계 (Artifact Hub)
+    │
+    ▼
+자동화 파이프라인 결합 (CI/CD Integration)
+    │
+    ▼
+선언적 상태 동기화 (GitOps 연동 - ArgoCD / Flux)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

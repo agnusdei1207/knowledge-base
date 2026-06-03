@@ -21,18 +21,14 @@ tags = ["studynote-network"]
 
 - **개념**: [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP의 연결 지향적인 특성(3-Way Handshake)을 교묘하게 악용하여, <strong>타겟 서버에 수만 개의 가짜 <code>[SYN]</code> 요청 패킷만 쏟아부은 뒤 마지막 <code>[ACK]</code> 응답을 고의로 생략함으로써, 서버의 연결 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/089_wait_queue/">대기 큐</a>(Backlog <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/">Queue</a>)를 고갈시켜 시스템을 마비(<a href="/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/">DoS</a>)시키는 자원 고갈 공격</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">분산 서비스 거부 공격 봇넷 시스템 C&amp;C…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SYN Flood 공격</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SYN Flood 대응</div></div>
-</div>
-</div>
-
-
+```text
+[분산 서비스 거부 공격 봇넷 시스템 C&C…]
+    │
+    ▼
+[SYN Flood 공격]
+    │
+    └──▶ [SYN Flood 대응]
+```
 
 - **📢 섹션 요약 비유**: [SYN Flood](/knowledge-base/studynote/09_security/03_network_security/255_syn_flood/) 공격은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -42,18 +38,14 @@ tags = ["studynote-network"]
 
 [SYN Flood](/knowledge-base/studynote/09_security/03_network_security/255_syn_flood/) 공격는 공격 유형과 방어 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 경계를 설명하는 축라는 관점에서 이해해야 한다. [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [서비스 거부 공격](/knowledge-base/studynote/03_network/19_frequent_topics_terms/989_dos_denial_of_service/) [봇넷](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/) 시스템 C&C…와 [SYN Flood](/knowledge-base/studynote/09_security/03_network_security/255_syn_flood/) 대응 사이의 연결점으로 놓고 보면 개념의 역할이 더 분명해진다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">분산 서비스 거부 공격 봇넷 시스템 C&amp;C…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SYN Flood 공격</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SYN Flood 대응</div></div>
-</div>
-</div>
-
-
+```text
+[분산 서비스 거부 공격 봇넷 시스템 C&C…]
+    │
+    ▼
+[SYN Flood 공격]
+    │
+    └──▶ [SYN Flood 대응]
+```
 
 - **📢 섹션 요약 비유**: [SYN Flood](/knowledge-base/studynote/09_security/03_network_security/255_syn_flood/) 공격의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -123,19 +115,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 분산 서비스 거부 공격 봇넷 시스템 C&amp;C…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: SYN Flood 공격</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: SYN Flood 대응</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 분산 서비스 거부 공격 봇넷 시스템 C&C…]
+    │
+    ▼
+[현재 개념: SYN Flood 공격]
+    │
+    ├──▶ [확장 A: SYN Flood 대응]
+    └──▶ [확장 B: 예측형 위협 대응]
+```
 
 [SYN Flood](/knowledge-base/studynote/09_security/03_network_security/255_syn_flood/) 공격는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [서비스 거부 공격](/knowledge-base/studynote/03_network/19_frequent_topics_terms/989_dos_denial_of_service/) [봇넷](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/) 시스템 C&C…에서 출발해 현재 메커니즘을 정교화하고, 이후 [SYN Flood](/knowledge-base/studynote/09_security/03_network_security/255_syn_flood/) 대응와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

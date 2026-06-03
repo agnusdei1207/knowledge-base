@@ -23,20 +23,19 @@ DRY는 앤드루 헌트(Andrew Hunt)와 데이비드 토마스(David Thomas)가 
 
 중복이 쌓이면 버그 수정 한 건이 5군데에서 같은 작업을 반복해야 하는 상황이 만들어진다. 그중 한 곳이라도 빠지면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 불일치나 보안 취약점이 생긴다. DRY는 이 위험을 단일 진실 공급원(Single Source of Truth)으로 봉쇄한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">중복 코드의 문제 전파 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구사항 변경: "세금 계산 방식 변경"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">OrderService.calcTax()</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">수정 ✓</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CartService.calcTax()</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">수정 빠뜨림 ✗ → 버그 발생</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ReportService.calcTax()</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">수정 빠뜨림 ✗ → 데이터 불일치</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DRY 적용 후: TaxCalculator 단일 클래스 → 한 곳만 수정 ✓</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│         중복 코드의 문제 전파 구조                           │
+├─────────────────────────────────────────────────────────────┤
+│  요구사항 변경: "세금 계산 방식 변경"                        │
+│                                                             │
+│  [OrderService.calcTax()] ← 수정 ✓                          │
+│  [CartService.calcTax()]  ← 수정 빠뜨림 ✗ → 버그 발생       │
+│  [ReportService.calcTax()]← 수정 빠뜨림 ✗ → 데이터 불일치   │
+│                                                             │
+│  DRY 적용 후: TaxCalculator 단일 클래스 → 한 곳만 수정 ✓    │
+└─────────────────────────────────────────────────────────────┘
+```
 
 DRY를 적용하지 않으면 [코드베이스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/007_codebase/)의 크기만 커지고 응집도는 낮아진다. 요구사항 변경이 여러 파일에 흩어진 중복을 모두 찾아 수정하는 고통스러운 작업으로 이어지기 때문이다.
 
@@ -55,24 +54,22 @@ DRY를 실현하는 핵심 메커니즘은 추출(Extract)과 [참조](/knowledg
 | 로직 중복 | 팀 간 소통 부재 | 공통 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/), 내부 패키지화 |
 | 문서 중복 | 코드-문서 불일치 | 자동 문서 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)(JavaDoc, Swagger) |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DRY 적용 전후 코드 구조 변화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Before:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ServiceA { double tax = price * 0.1; }</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ServiceB { double tax = price * 0.1; } ← 중복</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ServiceC { double tax = price * 0.1; }</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">After:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TaxPolicy { double calc(price) { return price * 0.1; } }</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ServiceA { tax = TaxPolicy.calc(price); } ← 단일 참조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ServiceB { tax = TaxPolicy.calc(price); }</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ServiceC { tax = TaxPolicy.calc(price); }</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│         DRY 적용 전후 코드 구조 변화                         │
+├─────────────────────────────────────────────────────────────┤
+│ Before:                                                     │
+│   ServiceA { double tax = price * 0.1; }                    │
+│   ServiceB { double tax = price * 0.1; }   ← 중복           │
+│   ServiceC { double tax = price * 0.1; }                    │
+│                                                             │
+│ After:                                                      │
+│   TaxPolicy { double calc(price) { return price * 0.1; } }  │
+│   ServiceA { tax = TaxPolicy.calc(price); }  ← 단일 참조    │
+│   ServiceB { tax = TaxPolicy.calc(price); }                 │
+│   ServiceC { tax = TaxPolicy.calc(price); }                 │
+└─────────────────────────────────────────────────────────────┘
+```
 
 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 영역에서 DRY는 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)([Normalization](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/))로 표현된다. 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 여러 테이블에 중복 저장하면 업데이트 이상([Update Anomaly](/knowledge-base/studynote/05_database/02_modeling_normalization/093_update_anomaly/))이 발생하므로, 3정규형([3NF](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/), [Third Normal Form](/knowledge-base/studynote/05_database/04_transactions_concurrency/528_third_normal_form/))까지 적용해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 단일 진실 공급원을 보장한다.
 

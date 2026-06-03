@@ -40,58 +40,58 @@ ASCII로 'a'를 8비트로 저장한다면, 영어 텍스트에서 40%를 차지
 
 ### 허프만 트리 구축 (그리디 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))
 
+```
+빈도: A=5, B=2, C=1, D=3, E=4
 
+단계 1: 우선순위 큐(최소 힙) 초기화
+  [C:1, B:2, D:3, E:4, A:5]
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">빈도: A=5, B=2, C=1, D=3, E=4</div>
-<div class="kb-diagram-note">단계 1: 우선순위 큐(최소 힙) 초기화</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">C:1, B:2, D:3, E:4, A:5</div></div>
-<div class="kb-diagram-note">단계 2: 두 개 최소 노드 병합 반복</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">C:1</div><div class="kb-diagram-note">+</div><div class="kb-diagram-node">B:2</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">CB:3</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">큐:</div><div class="kb-diagram-node">CB:3, D:3, E:4, A:5</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CB:3</div><div class="kb-diagram-note">+</div><div class="kb-diagram-node">D:3</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">CBD:6</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">큐:</div><div class="kb-diagram-node">E:4, A:5, CBD:6</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">E:4</div><div class="kb-diagram-note">+</div><div class="kb-diagram-node">A:5</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">EA:9</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">큐:</div><div class="kb-diagram-node">CBD:6, EA:9</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CBD:6</div><div class="kb-diagram-note">+</div><div class="kb-diagram-node">EA:9</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">root:15</div></div>
-<div class="kb-diagram-note">단계 3: 허프만 트리 완성</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">root:15</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CBD:6</div><div class="kb-diagram-node">EA:9</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CB:3</div><div class="kb-diagram-node">D:3</div><div class="kb-diagram-node">E:4</div><div class="kb-diagram-node">A:5</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">C:1</div><div class="kb-diagram-node">B:2</div></div>
-<div class="kb-diagram-note">코드 (왼쪽=0, 오른쪽=1):</div>
-<div class="kb-diagram-note">A: 11 (2비트)</div>
-<div class="kb-diagram-note">B: 001 (3비트)</div>
-<div class="kb-diagram-note">C: 000 (3비트)</div>
-<div class="kb-diagram-note">D: 01 (2비트)</div>
-<div class="kb-diagram-note">E: 10 (2비트)</div>
-</div>
-</div>
+단계 2: 두 개 최소 노드 병합 반복
+  [C:1] + [B:2] → [CB:3]
+  큐: [CB:3, D:3, E:4, A:5]
 
+  [CB:3] + [D:3] → [CBD:6]
+  큐: [E:4, A:5, CBD:6]
 
+  [E:4] + [A:5] → [EA:9]
+  큐: [CBD:6, EA:9]
+
+  [CBD:6] + [EA:9] → [root:15]
+
+단계 3: 허프만 트리 완성
+        [root:15]
+       /          \
+   [CBD:6]       [EA:9]
+   /    \         /    \
+[CB:3] [D:3]  [E:4]  [A:5]
+ /   \
+[C:1][B:2]
+
+코드 (왼쪽=0, 오른쪽=1):
+  A: 11    (2비트)
+  B: 001   (3비트)
+  C: 000   (3비트)
+  D: 01    (2비트)
+  E: 10    (2비트)
+```
 
 ### 프리픽스 코드 (Prefix-free [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)) 특성
 
+```
+허프만 코드:  A=11, B=001, C=000, D=01, E=10
 
+디코딩 "001011":
+  0 → 진행
+  00 → 진행
+  001 → B (완성!)
+  0 → 진행
+  01 → D (완성!)
+  1 → 진행
+  11 → A (완성!)
+  결과: B D A
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">허프만 코드: A=11, B=001, C=000, D=01, E=10</div>
-<div class="kb-diagram-note">디코딩 "001011":</div>
-<div class="kb-diagram-note">0 → 진행</div>
-<div class="kb-diagram-note">00 → 진행</div>
-<div class="kb-diagram-note">001 → B (완성!)</div>
-<div class="kb-diagram-note">0 → 진행</div>
-<div class="kb-diagram-note">01 → D (완성!)</div>
-<div class="kb-diagram-note">1 → 진행</div>
-<div class="kb-diagram-note">11 → A (완성!)</div>
-<div class="kb-diagram-note">결과: B D A</div>
-<div class="kb-diagram-note">구분자(공백) 없이도 유일 복호화 가능 ← 프리픽스 코드의 핵심</div>
-</div>
-</div>
-
-
+구분자(공백) 없이도 유일 복호화 가능 ← 프리픽스 코드의 핵심
+```
 
 ### 정적 vs 적응형 허프만 코딩
 
@@ -141,19 +141,13 @@ ASCII로 'a'를 8비트로 저장한다면, 영어 텍스트에서 40%를 차지
 
 ### 기술사 판단 기준
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단순 반복 데이터 → RLE 우선</div>
-<div class="kb-diagram-note">빈도 불균일 데이터 (텍스트) → 허프만 코딩</div>
-<div class="kb-diagram-note">반복 패턴 + 빈도 불균일 (일반 파일) → DEFLATE = LZ77 + 허프만</div>
-<div class="kb-diagram-note">극고압축 텍스트 → bzip2 (BWT + 허프만)</div>
-<div class="kb-diagram-note">실시간 스트리밍 압축 → 적응형 허프만 또는 Zstandard</div>
-</div>
-</div>
-
-
+```
+단순 반복 데이터                       →  RLE 우선
+빈도 불균일 데이터 (텍스트)            →  허프만 코딩
+반복 패턴 + 빈도 불균일 (일반 파일)   →  DEFLATE = LZ77 + 허프만
+극고압축 텍스트                        →  bzip2 (BWT + 허프만)
+실시간 스트리밍 압축                   →  적응형 허프만 또는 Zstandard
+```
 
 📢 **섹션 요약 비유**: 허프만 코딩만으로는 반복 패턴을 못 잡지만, LZ77이 반복을 없애고 허프만이 남은 기호를 최적 코드로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하면 ZIP이 탄생한다.
 
@@ -180,25 +174,24 @@ ASCII로 'a'를 8비트로 저장한다면, 영어 텍스트에서 40%를 차지
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 표현 (Data Representation)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">가변 길이 코드 (Variable-Length Code)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">허프만 코딩 (Huffman Coding)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">엔트로피 압축 (Entropy Compression)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">산술 코딩 (Arithmetic Coding)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LZ77/DEFLATE 압축 (Lempel-Ziv Compression)</div></div>
-</div>
-</div>
-
-
+```text
+[데이터 표현 (Data Representation)]
+    │
+    ▼
+[가변 길이 코드 (Variable-Length Code)]
+    │
+    ▼
+[허프만 코딩 (Huffman Coding)]
+    │
+    ▼
+[엔트로피 압축 (Entropy Compression)]
+    │
+    ▼
+[산술 코딩 (Arithmetic Coding)]
+    │
+    ▼
+[LZ77/DEFLATE 압축 (Lempel-Ziv Compression)]
+```
 
 문자 빈도를 기반으로 최적 가변 길이 코드를 생성하는 허프만 코딩에서 현대 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 표준으로 이어지는 흐름이다.
 

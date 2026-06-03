@@ -34,28 +34,32 @@ tags = ["studynote-operating-system"]
 - **등장 배경**: 
   - 구글이 자신들의 거대한 데이터센터에서 수만 개의 검색 엔진 프로세스와 배치(Batch) 잡을 한 서버에 섞어 돌리려다 자원 충돌로 골머리를 앓자, 이를 해결하기 위해 직접 만들어 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 커뮤니티에 던진 기술이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">네임스페이스와 cgroups의 상호보완성 (컨테이너 완성)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">리눅스 커널 (Host OS: 64 Core, 128GB RAM)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 컨테이너 A (Web Server)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">👁️ Namespace (환상): "나는 PID 1번이야! 나혼자 있네?"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⛓️ cgroups (족쇄): CPU 2개, RAM 4GB 만 허용됨.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(트래픽 폭주!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"CPU 10개 더 쓸래!" ──▶ ⛔ cgroups: "안돼! 넌 2개뿐이야!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"RAM 5GB 줘!" ──▶ ⚡ cgroups: "선 넘었네. 죽어라!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(OOM Killer 발동 -&gt; A 사망)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 컨테이너 B (DB Server)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">👁️ Namespace: "나도 PID 1번이야!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⛓️ cgroups: CPU 16개, RAM 64GB 허용됨.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: A가 미쳐 날뛰다가 스스로 굶어 죽어버렸지만,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B는 A의 영향을 1%도 받지 않고 평화롭게 동작함! 🟢</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │                 네임스페이스와 cgroups의 상호보완성 (컨테이너 완성)     │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │   [ 리눅스 커널 (Host OS: 64 Core, 128GB RAM) ]                 │
+  │                                                             │
+  │   ┌── 컨테이너 A (Web Server) ──────────────────────────┐     │
+  │   │  👁️ Namespace (환상): "나는 PID 1번이야! 나혼자 있네?"     │     │
+  │   │  ⛓️ cgroups (족쇄):  CPU 2개, RAM 4GB 만 허용됨.          │     │
+  │   │                                                         │     │
+  │   │   (트래픽 폭주!)                                           │     │
+  │   │   "CPU 10개 더 쓸래!" ──▶ ⛔ cgroups: "안돼! 넌 2개뿐이야!" │     │
+  │   │   "RAM 5GB 줘!"      ──▶ ⚡ cgroups: "선 넘었네. 죽어라!"   │     │
+  │   │                            (OOM Killer 발동 -> A 사망)    │     │
+  │   └─────────────────────────────────────────────────────────┘     │
+  │                                                             │
+  │   ┌── 컨테이너 B (DB Server) ───────────────────────────┐     │
+  │   │  👁️ Namespace: "나도 PID 1번이야!"                        │     │
+  │   │  ⛓️ cgroups: CPU 16개, RAM 64GB 허용됨.                  │     │
+  │   │                                                         │     │
+  │   │   ▶ 결과: A가 미쳐 날뛰다가 스스로 굶어 죽어버렸지만,             │     │
+  │   │           B는 A의 영향을 1%도 받지 않고 평화롭게 동작함! 🟢      │     │
+  │   └─────────────────────────────────────────────────────────┘     │
+  └─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** "[도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/))는 그 자체가 기술이 아니라, 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 Namespace와 Cgroups를 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 편하게 포장한 예쁜 상자일 뿐이다"라는 말의 실체가 바로 이 그림이다. Namespace는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로 파티션을 쳐서 눈을 가리는 기술이라면, Cgroups는 물리적인 자원의 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 밸브를 잠가버리는 기술이다. 두 개 중 하나라도 없으면 현대의 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)([Cloud Native](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/)) 생태계는 존재할 수 없다. A [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 해킹당해 암호화폐 채굴 스크립트가 돌더라도, cgroups가 CPU를 2개로 물리적으로 압박하므로 호스트 서버 전체가 다운되는 최악의 사태(Blast [Radius](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/541_radius_remote_authentication_aaa/) 확장)를 원천 차단한다.
 
@@ -81,25 +85,24 @@ Cgroups는 단순히 "CPU, 램 제한" 하나로 끝나는 게 아니라 여러 
 
 아키텍트는 이 두 자원의 물리적 성질 차이를 뼈저리게 이해해야 한다. cgroups가 목을 조를 때 나타나는 현상이 완전히 다르다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cgroups 한계 돌파 시: CPU vs RAM의 운명 차이</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. CPU (압축성 자원) - Limit 1코어 설정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">앱이 코어 3개어치 연산을 미친 듯이 시도함!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Cgroups의 조치: "안돼, 기다려!" (Throttling 발동)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: 앱은 죽지 않음. 단지 엄청나게 느려져서 응답이 10배 지연됨.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(사용자 불만은 생기지만, 서버는 살아서 꾸역꾸역 일은 계속함 = 고무줄)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. Memory (비압축성 자원) - Limit 1GB 설정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">앱이 메모리 1.1GB 할당(malloc &amp; write)을 시도함!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Cgroups의 조치: "기다려준다고 해결될 문제가 아님. 사형!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: 커널이 즉시 <code>SIGKILL (-9)</code> 발송. 앱 즉사 (OOMKilled) 💀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(램은 쪼그려 앉을 수가 없음. 모자라면 누군가 죽어야만 공간이 나옴 = 유리잔)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 Cgroups 한계 돌파 시: CPU vs RAM의 운명 차이             │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │  [ 1. CPU (압축성 자원) - Limit 1코어 설정 ]                         │
+  │   앱이 코어 3개어치 연산을 미친 듯이 시도함!                              │
+  │   ▶ Cgroups의 조치: "안돼, 기다려!" (Throttling 발동)                │
+  │   ▶ 결과: 앱은 죽지 않음. 단지 엄청나게 느려져서 응답이 10배 지연됨.          │
+  │   (사용자 불만은 생기지만, 서버는 살아서 꾸역꾸역 일은 계속함 = 고무줄)          │
+  │                                                                   │
+  │  [ 2. Memory (비압축성 자원) - Limit 1GB 설정 ]                      │
+  │   앱이 메모리 1.1GB 할당(malloc & write)을 시도함!                    │
+  │   ▶ Cgroups의 조치: "기다려준다고 해결될 문제가 아님. 사형!"              │
+  │   ▶ 결과: 커널이 즉시 `SIGKILL (-9)` 발송. 앱 즉사 (OOMKilled) 💀     │
+  │   (램은 쪼그려 앉을 수가 없음. 모자라면 누군가 죽어야만 공간이 나옴 = 유리잔)      │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이것이 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)(K8s) 클러스터에서 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 자꾸 재시작(CrashLoopBackOff)하는 원인의 99%다. CPU는 시간을 쪼개서 뒤로 미룰 수 있으니 앱이 느려지기만(Throttled) 할 뿐 죽지 않는다. 하지만 메모리는 물질적인 공간이라 1바이트라도 선을 넘으면 유리가 깨지듯 시스템이 터진다. 따라서 [Cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) 메모리 리밋에 도달하면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 자비 없이 프로세스의 목을 날린다. 인프라 엔지니어는 CPU 리밋은 타이트하게 쪼여서 오버커밋(돈 절약)을 노려도 되지만, 메모리 리밋은 절대적으로 여유(Slack)를 두어 방어적으로 설계해야 한다는 철칙이 여기서 나온다.
 
@@ -141,25 +144,28 @@ Cgroups는 단순히 "CPU, 램 제한" 하나로 끝나는 게 아니라 여러 
    - **원인 분석**: Cgroups의 한계치(Limit)가 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)되지 않으면, [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)는 호스트의 물리적 램을 끝까지 빨아먹는다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 시스템 전체 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 킬러가 깨어났지만, 운 나쁘게 DB가 아닌 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 필수 데몬을 죽여버리거나 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/) 지옥에 빠져 호스트 OS가 붕괴된 것이다.
    - <strong>아키텍트 판단 (<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/">QoS</a> Guaranteed 클래스 강제)</strong>: 인프라 아키텍트는 "Limit 없는 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)는 서버에 터뜨린 시한폭탄"으로 규정해야 한다. [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에서 `LimitRange`나 `ResourceQuota` [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 강제로 박아 넣어, 개발자가 램 `limits`를 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하지 않은 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)는 아예 클러스터에 배포되지 않도록 거부(Reject)하는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 엔진([OPA](/knowledge-base/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/) Gatekeeper)을 구축하여 하위 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)의 폭주가 상위 호스트 OS로 번지는 것을 물리적으로 절단해야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kubernetes 자원 통제(QoS)를 위한 Cgroups 매핑 트리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">K8s Pod 배포 시 Resource 설정이 Cgroups로 번역되는 과정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발자 설정 Cgroups 번역 (커널 파라미터)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU requests: 1 ──▶ cpu.shares = 1024</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(바쁠 때 최소한 1코어 비율의 시간은 보장해 줌)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU limits: 2 ──▶ cpu.cfs_quota_us = 200000</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(1주기 100ms당 최대 200ms만 허용. 초과시 기절)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Memory requests: 1G ──▶ Cgroups OOM Score 조정 (보호막 생성)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(램 부족할 때 이 파드를 제일 늦게 죽이도록 가점)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Memory limits: 2G ──▶ memory.max = 2147483648</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(2GB 단 1바이트라도 초과 시 즉각 SIGKILL 사형!)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 Kubernetes 자원 통제(QoS)를 위한 Cgroups 매핑 트리      │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [ K8s Pod 배포 시 Resource 설정이 Cgroups로 번역되는 과정 ]           │
+  │                                                                   │
+  │      개발자 설정          Cgroups 번역 (커널 파라미터)                 │
+  │   -------------------------------------------------------------   │
+  │   CPU requests: 1     ──▶ cpu.shares = 1024                       │
+  │                           (바쁠 때 최소한 1코어 비율의 시간은 보장해 줌)      │
+  │                                                                   │
+  │   CPU limits: 2       ──▶ cpu.cfs_quota_us = 200000               │
+  │                           (1주기 100ms당 최대 200ms만 허용. 초과시 기절)   │
+  │                                                                   │
+  │   Memory requests: 1G ──▶ Cgroups OOM Score 조정 (보호막 생성)          │
+  │                           (램 부족할 때 이 파드를 제일 늦게 죽이도록 가점)      │
+  │                                                                   │
+  │   Memory limits: 2G   ──▶ memory.max = 2147483648                 │
+  │                           (2GB 단 1바이트라도 초과 시 즉각 SIGKILL 사형!)    │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)의 화려한 YAML [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 사실 밑단에서 100% [Cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) 파라미터 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 1:1 치환되는 '거대한 [Cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) 관리 매크로'일 뿐이다. K8s의 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)([Kubelet](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/082_kubelet_node_agent/))는 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 뜨면 호스트 리눅스의 `/sys/fs/cgroup/` 폴더 밑에 방을 파고 저 값들을 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 텍스트로 적어 넣는다. 그러면 그 순간부터 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 자원 감시망이 동작하며 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 무자비하게 옥죈다. 인프라 엔지니어가 K8s 장애를 분석할 때 YAML만 보지 않고 호스트 서버에 접속해 직접 `/sys/fs/cgroup/`의 통계(stat) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 뜯어보는 이유가 이 날것의 진실을 마주하기 위해서다.
 
@@ -205,19 +211,15 @@ Cgroups는 단순히 "CPU, 램 제한" 하나로 끝나는 게 아니라 여러 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">클론(clone) 시스템 콜 스레드 공유 플래그</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">cgroups 메모리, CPU 자원 제한 격리 컨테이너 (Cgroups Memory CPU Isolation Container)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">안드로이드 LMK (Low Memory Killer) 작동</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">iOS 앱 샌드박싱 구조</div></div>
-</div>
-</div>
-
-
+```text
+[클론(clone) 시스템 콜 스레드 공유 플래그]
+    │
+    ▼
+[cgroups 메모리, CPU 자원 제한 격리 컨테이너 (Cgroups Memory CPU Isolation Container)]
+    │
+    ├──▶ [안드로이드 LMK (Low Memory Killer) 작동]
+    └──▶ [iOS 앱 샌드박싱 구조]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

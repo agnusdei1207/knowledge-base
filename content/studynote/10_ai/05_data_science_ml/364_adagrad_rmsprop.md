@@ -21,17 +21,14 @@ tags = ["studynote-ai"]
 
 기본 SGD([Stochastic Gradient Descent](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/241_optimizer_sgd_minibatch_adam_momentum_adaptive/))는 모든 파라미터에 동일한 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)(η)을 적용한다. 텍스트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 "the"같은 자주 나오는 단어의 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)는 그래디언트가 크므로 큰 업데이트가, "quasar" 같은 드문 단어는 작은 업데이트가 필요하다. Adagrad는 이를 각 파라미터의 과거 그래디언트 제곱 합(G_t)을 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) 분모에 넣어 자동으로 조정한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: Adagrad는 "자주 쓰는 도로는 속도를 줄이고, 처음 가는 샛길은 빠르게" 학습하는 지능형 내비게이션이다. 이미 많이 업데이트된 파라미터(자주 쓴 도로)는 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)을 줄여 안정화하고, 거의 업데이트 안 된 파라미터(새 샛길)는 빠르게 학습시킨다.
 
@@ -39,27 +36,26 @@ tags = ["studynote-ai"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Adagrad vs RMSProp 수식 비교</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Adagrad:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">G_t = G_{t-1} + g_t² (누적 제곱 합)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">θ_t = θ_{t-1} - η/√(G_t+ε) · g_t</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문제: G_t는 단조 증가 → η/√(G_t) → 0 (학습률 소멸!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RMSProp:</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">E</div><div class="kb-diagram-node">g²</div><div class="kb-diagram-note">_t = ρ·E</div><div class="kb-diagram-node">g²</div><div class="kb-diagram-note">_{t-1} + (1-ρ)·g_t² (EMA)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">θ_t = θ_{t-1} - η/√(E</div><div class="kb-diagram-node">g²</div><div class="kb-diagram-note">_t+ε) · g_t</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해결: EMA로 최근 그래디언트만 반영 → 학습률 안정!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Adam (결합):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">m_t = β₁·m_{t-1} + (1-β₁)·g_t (1차 모멘트)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">v_t = β₂·v_{t-1} + (1-β₂)·g_t² (2차 모멘트)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">θ_t = θ_{t-1} - η·m̂_t/√(v̂_t+ε)</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────┐
+│      Adagrad vs RMSProp 수식 비교                        │
+├──────────────────────────────────────────────────────────┤
+│  Adagrad:                                                │
+│  G_t = G_{t-1} + g_t²          (누적 제곱 합)          │
+│  θ_t = θ_{t-1} - η/√(G_t+ε) · g_t                     │
+│  문제: G_t는 단조 증가 → η/√(G_t) → 0 (학습률 소멸!)  │
+│                                                          │
+│  RMSProp:                                               │
+│  E[g²]_t = ρ·E[g²]_{t-1} + (1-ρ)·g_t²  (EMA)         │
+│  θ_t = θ_{t-1} - η/√(E[g²]_t+ε) · g_t                │
+│  해결: EMA로 최근 그래디언트만 반영 → 학습률 안정!     │
+│                                                          │
+│  Adam (결합):                                           │
+│  m_t = β₁·m_{t-1} + (1-β₁)·g_t  (1차 모멘트)         │
+│  v_t = β₂·v_{t-1} + (1-β₂)·g_t²  (2차 모멘트)        │
+│  θ_t = θ_{t-1} - η·m̂_t/√(v̂_t+ε)                    │
+└──────────────────────────────────────────────────────────┘
+```
 
 | [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) | [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) 누적 | 소멸 문제 | 특이 사항 |
 |:---|:---|:---|:---|

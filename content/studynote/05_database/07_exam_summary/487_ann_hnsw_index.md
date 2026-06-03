@@ -27,16 +27,13 @@ tags = ["studynote-database"]
 
 이 그림은 현재 주제가 입력 조건, 통제 규칙, 결과 보장 사이에서 어떤 위치를 차지하는지 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Input -&gt; Rule -&gt; Current Concept -&gt; Outcome</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ann-hnsw-index -&gt; current scope -&gt; rag-framework-db</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ Input -> Rule -> Current Concept -> Outcome                 │
+├──────────────────────────────────────────────────────────────┤
+│ ann-hnsw-index     -> current scope -> rag-framework-db   │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 구조에서 핵심은 `ANN HNSW 인덱스 근사 탐색 구조망 적용`가 독립 기능이 아니라, 앞단의 조건과 뒷단의 운영 결과를 이어 주는 제어 지점이라는 점이다. 따라서 정의만 외우기보다 적용 시점과 실패 시 영향을 같이 기억해야 한다.
 
@@ -57,16 +54,13 @@ tags = ["studynote-database"]
 
 이 그림은 현재 개념이 선행 조건을 받아 실제 동작 규칙으로 바꾸고, 운영 결과로 밀어 넣는 흐름을 단순화해 나타낸 것이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pre-condition -&gt; Current Rule -&gt; Validation -&gt; Result</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코사인 유사도 각도 유사 탐… -&gt; ANN HNSW 인덱스 근사… -&gt; RAG (검색 증강 생성) …</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ Pre-condition -> Current Rule -> Validation -> Result       │
+├──────────────────────────────────────────────────────────────┤
+│ 코사인 유사도 각도 유사 탐… -> ANN HNSW 인덱스 근사… -> RAG (검색 증강 생성) … │
+└──────────────────────────────────────────────────────────────┘
+```
 
 결국 `ANN HNSW 인덱스 근사 탐색 구조망 적용`는 한 문장 정의보다 입력 조건, 처리 순서, 결과 보장을 묶어 보는 것이 중요하다. 그래서 설계 문서에는 적용 대상, 실패 시 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 경로, 측정 지표를 같이 적어 두는 편이 좋다.
 
@@ -127,19 +121,15 @@ tags = ["studynote-database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">코사인 유사도 각도 유사 탐색 엔진망 연계</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ANN HNSW 인덱스 근사 탐색 구조망 적용</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RAG (검색 증강 생성) 프레임워크 DB…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">데이터 메시 도메인 기반 오너십 분산</div></div>
-</div>
-</div>
-
-
+```text
+[코사인 유사도 각도 유사 탐색 엔진망 연계]
+    │
+    ▼
+[ANN HNSW 인덱스 근사 탐색 구조망 적용]
+    │
+    ├──▶ [RAG (검색 증강 생성) 프레임워크 DB…]
+    └──▶ [데이터 메시 도메인 기반 오너십 분산]
+```
 
 이 흐름도는 선행 문제에서 현재 개념으로 초점이 모이고, 이후 `RAG (검색 증강 생성) 프레임워크 DB 매핑`와 `데이터 메시 도메인 기반 오너십 분산` 같은 확장 주제로 이어지는 학습 경로를 보여 준다.
 

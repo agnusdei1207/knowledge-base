@@ -29,21 +29,15 @@ tags = ["studynote-data-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">H0 / H1</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Test Statistic</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">p-value</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Decision</div>
-</div>
-</div>
-
-
+```text
+H0 / H1
+  ↓
+Test Statistic
+  ↓
+p-value
+  ↓
+Decision
+```
 
 | 항목 | 의미 |
 | :-- | :-- |
@@ -113,41 +107,29 @@ tags = ["studynote-data-engineering"]
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">H0 / H1</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Test Statistic</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">p-value</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Decision</div>
-</div>
-</div>
-
-
+```text
+H0 / H1
+  ↓
+Test Statistic
+  ↓
+p-value
+  ↓
+Decision
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Hypothesis</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Hypothesis Testing</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">p-value / Alpha</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Statistical Decision</div>
-</div>
-</div>
-
-
+```text
+Hypothesis
+  ↓
+Hypothesis Testing
+  ↓
+p-value / Alpha
+  ↓
+Statistical Decision
+```
 
 ---
 

@@ -26,17 +26,14 @@ tags = ["studynote-ai"]
 선택지는 단 하나뿐이었다. [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 80GB짜리 1대가 안 되면, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 10대를 케이블로 묶어서 800GB짜리 가상의 거대 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 1대처럼 만들어버리자! 이것이 바로 여러 대의 기계를 수평으로 늘어놓고 일을 쪼개는 <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/">스케일 아웃</a>(<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/">Scale-out</a>, 수평적 확장)</strong> [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 로드 인프라의 위대한 탄생이다. 
 이제 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 인프라 엔지니어들의 숙제는 "어떻게 코드를 짜야 이 멍청한 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 1,000대가 서로 싸우거나 놀지 않고 완벽한 오케스트라처럼 1조 개짜리 파라미터를 나눠서 계산할 것인가?"로 옮겨갔다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [스케일 업](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)([Scale-up](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/))은 피자를 엄청나게 많이 굽기 위해 주방장 1명에게 최고의 프라이팬과 람보르기니 오토바이를 사줘서 <strong>'초인적인 요리사 1명'</strong>을 만드는 짓이다(한계가 명확함). 반면 [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)([Scale-out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/))은 오토바이 살 돈으로 동네 알바생 100명을 고용해 <strong>'컨베이어 벨트 분업 공장'</strong>을 만드는 짓이다. 알바생 한 명 한 명은 느리지만, 100명이 합을 맞추면 초인 요리사보다 50배 더 많은 피자를 찍어내는 무적의 군단이 된다.
 
@@ -46,31 +43,31 @@ tags = ["studynote-ai"]
 
 수많은 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 군단([Scale-out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/))에게 1조 개짜리 모델을 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시키는 방법은 뇌(모델)를 찢느냐, 책([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 찢느냐에 따라 3차원 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 학습(3D Parallelism) 아키텍처로 진화했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Scale-out 스케일 아웃 파라미터 분산(3D Parallelism) 아키텍처 도해</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 데이터 병렬화 (Data Parallelism) - "책을 찢어 나눠 읽기"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* GPU 1, GPU 2, GPU 3 모두 똑같은 '완벽한 전체 뇌(Model)' 복사본을 가짐.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 대신 훈련할 100만 장의 사진(데이터)을 33만 장씩 찢어서 각자 GPU에 던짐.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 계산 끝나면 지들끼리 "내 결과값(Gradient) 섞자!"(All-Reduce 통신) 합체.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">한계</div><div class="kb-diagram-note">: 모델 뇌 크기가 GPU 1대(80GB)보다 크면 아예 이 방식은 시도도 못 함!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 텐서 병렬화 (Tensor Parallelism) - "뇌의 가로(행렬)를 찢기"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 거대한 행렬 곱셈 1개를 반으로 가름.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* GPU 1은 수학 공식의 앞부분 절반 계산, GPU 2는 뒷부분 절반 계산.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 계산 속도가 미치도록 빠르지만, 둘이 한 몸이라 통신을 1초에 1,000번씩 해야 함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 그래서 같은 기계통(Node) 안에 있는 GPU들끼리만 엮어야 렉이 안 걸림.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3. 파이프라인 병렬화 (Pipeline Parallelism) - "뇌의 세로(층)를 찢기"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 트랜스포머 100층짜리 모델을 썰어버림.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">* GPU 1은</div><div class="kb-diagram-node">1층~25층</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">26층~50층</div><div class="kb-diagram-note">에 토스.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 컨베이어 벨트처럼 릴레이로 일을 넘김. 통신량이 적어 기계 간(Inter-node) 연결 용이!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">★ 최종판: 3D Parallelism (위의 3개를 다 섞어버린 GPT 훈련법)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 1,000대 GPU = 파이프라인으로 세로 찢고 + 텐서로 가로 찢고 + 데이터로 복사!</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           Scale-out 스케일 아웃 파라미터 분산(3D Parallelism) 아키텍처 도해│
+├──────────────────────────────────────────────────────────────┤
+│  [1. 데이터 병렬화 (Data Parallelism) - "책을 찢어 나눠 읽기"]        │
+│   * GPU 1, GPU 2, GPU 3 모두 똑같은 '완벽한 전체 뇌(Model)' 복사본을 가짐. │
+│   * 대신 훈련할 100만 장의 사진(데이터)을 33만 장씩 찢어서 각자 GPU에 던짐. │
+│   * 계산 끝나면 지들끼리 "내 결과값(Gradient) 섞자!"(All-Reduce 통신) 합체. │
+│   [한계]: 모델 뇌 크기가 GPU 1대(80GB)보다 크면 아예 이 방식은 시도도 못 함!│
+│                                                              │
+│  [2. 텐서 병렬화 (Tensor Parallelism) - "뇌의 가로(행렬)를 찢기"]      │
+│   * 거대한 행렬 곱셈 1개를 반으로 가름.                               │
+│   * GPU 1은 수학 공식의 앞부분 절반 계산, GPU 2는 뒷부분 절반 계산.        │
+│   * 계산 속도가 미치도록 빠르지만, 둘이 한 몸이라 통신을 1초에 1,000번씩 해야 함.│
+│   ─▶ 그래서 같은 기계통(Node) 안에 있는 GPU들끼리만 엮어야 렉이 안 걸림.  │
+│                                                              │
+│  [3. 파이프라인 병렬화 (Pipeline Parallelism) - "뇌의 세로(층)를 찢기"] │
+│   * 트랜스포머 100층짜리 모델을 썰어버림.                              │
+│   * GPU 1은 [1층~25층] 담당 ─▶ 끝나면 결괏값을 GPU 2 [26층~50층]에 토스.│
+│   * 컨베이어 벨트처럼 릴레이로 일을 넘김. 통신량이 적어 기계 간(Inter-node) 연결 용이!│
+│                                                              │
+│  [★ 최종판: 3D Parallelism (위의 3개를 다 섞어버린 GPT 훈련법)]       │
+│   * 1,000대 GPU = 파이프라인으로 세로 찢고 + 텐서로 가로 찢고 + 데이터로 복사! │
+└──────────────────────────────────────────────────────────────┘
+```
 
 <strong>핵심 원리 (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">ZeRO</a> <a href="/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/">옵티마이저</a>의 기적)</strong>:
 마이크로소프트가 만든 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 학습의 치트키, <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">ZeRO</a> (<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/334_vram_zero_optimizer/">Zero Redundancy Optimizer</a>)</strong>가 [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)의 대미를 장식했다. [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 100대가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화를 할 때, 예전엔 각 GPU가 1,000억 개짜리 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 업데이트용 '[옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)([Optimizer](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_optimizer/))와 그래디언트(Gradient)' 쓰레기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 각자 메모리에 중복(Redundancy)해서 품고 있느라 램(RAM)이 터져나갔다. 

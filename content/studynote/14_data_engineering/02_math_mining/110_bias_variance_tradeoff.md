@@ -20,21 +20,22 @@ tags = ["studynote-dataengineering"]
 
 ML 모델의 오차는 3가지 원천으로 구성된다: (1) 모델의 단순화로 인한 <strong>편향(<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/">Bias</a>)</strong>, (2) 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변화에 대한 민감도인 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>(<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">Variance</a>)</strong>, (3) 제거 불가능한 **노이즈(Irreducible Error)**. 모델 복잡도를 높이면 편향이 줄지만 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이 폭증하고, 낮추면 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)은 줄지만 편향이 커진다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">편향-분산 트레이드오프 오차 곡선</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Error</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">\ Bias² Variance /</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">\ Total Error /</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">\__/ \___/ ← Sweet Spot</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Model Complexity</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단순(선형) 복잡(깊은 트리/DNN)</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│        편향-분산 트레이드오프 오차 곡선                 │
+├───────────────────────────────────────────────────────┤
+│  Error                                                │
+│   ▲                                                   │
+│   │ \  Bias²            Variance  /                   │
+│   │   \                         /                     │
+│   │     \    Total Error      /                       │
+│   │       \     ______      /                         │
+│   │         \__/      \___/   ← Sweet Spot            │
+│   │                                                   │
+│   └───────────────────────────────▶ Model Complexity  │
+│     단순(선형)                복잡(깊은 트리/DNN)       │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 편향은 "시험 공부 안 한 학생"(아무것도 모름), [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)은 "문제집 답을 통째로 외운 학생"(문제만 바뀌면 못 풂)이다. 최고는 "원리를 이해한 학생"(Sweet Spot)이다.
 
@@ -106,23 +107,21 @@ $\text{Total Error} = \text{[Bias](/knowledge-base/studynote/01_computer_archite
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">편향-분산 분해 이론 (Geman, 1992) — 오차 분해 공식</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">배깅·부스팅 (1990s~2000s) — 앙상블로 편향·분산 제어</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Dropout·정규화 (2010s) — 딥러닝 과적합 방지</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Double Descent (2019~) — 초거대 모델의 새로운 오차 곡선</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: LLM 시대 — 스케일링 법칙(Scaling Law)과 편향-분산 재정의</div></div>
-</div>
-</div>
-
-
+```text
+[편향-분산 분해 이론 (Geman, 1992) — 오차 분해 공식]
+    │
+    ▼
+[배깅·부스팅 (1990s~2000s) — 앙상블로 편향·분산 제어]
+    │
+    ▼
+[Dropout·정규화 (2010s) — 딥러닝 과적합 방지]
+    │
+    ▼
+[Double Descent (2019~) — 초거대 모델의 새로운 오차 곡선]
+    │
+    ▼
+[현재: LLM 시대 — 스케일링 법칙(Scaling Law)과 편향-분산 재정의]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. <strong>편향</strong>은 시험 공부를 너무 안 해서 아는 게 하나도 없는 상태예요.

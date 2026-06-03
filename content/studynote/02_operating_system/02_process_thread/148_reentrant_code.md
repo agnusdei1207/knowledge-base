@@ -30,24 +30,26 @@ tags = ["studynote-operating-system"]
 
 재진입성을 보장하려면 코드 내부의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어떻게 관리되는지가 가장 중요하다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비재진입 함수 vs 재진입 가능 함수 메모리 동작 원리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">비재진입 함수 (Non-Reentrant)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">int sum() { static int count=0; return ++count; }</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">인터럽트 발생!</div><div class="kb-diagram-note">─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Thread B 재진입 ─▶ count=2 반환 (정상) ◀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Thread A 복귀 ─▶ 이미 count가 2로 오염됨 ─▶ 엉뚱한 값 반환 💥</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">재진입 가능 함수 (Reentrant)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">int sum(int *count) { return ++(*count); }</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">각 호출마다 자신의 Stack(지역 변수/매개변수)만 사용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ Thread A와 Thread B의 메모리 공간이 완전히 분리됨! 🛡️</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          비재진입 함수 vs 재진입 가능 함수 메모리 동작 원리       │
+├─────────────────────────────────────────────────────────────┤
+│ [ 비재진입 함수 (Non-Reentrant) ]                           │
+│ int sum() { static int count=0; return ++count; }           │
+│                                                             │
+│ Thread A 호출 ─▶ count=1 ─▶ [인터럽트 발생!] ─┐               │
+│                                           │                 │
+│ Thread B 재진입 ─▶ count=2 반환 (정상) ◀───┘                 │
+│                                                             │
+│ Thread A 복귀 ─▶ 이미 count가 2로 오염됨 ─▶ 엉뚱한 값 반환 💥  │
+│                                                             │
+│ [ 재진입 가능 함수 (Reentrant) ]                            │
+│ int sum(int *count) { return ++(*count); }                  │
+│                                                             │
+│ 각 호출마다 자신의 Stack(지역 변수/매개변수)만 사용           │
+│ ─▶ Thread A와 Thread B의 메모리 공간이 완전히 분리됨! 🛡️     │
+└─────────────────────────────────────────────────────────────┘
+```
 
 재진입 가능 코드가 되기 위한 절대 조건은 다음과 같다.
 1. <strong>정적/전역 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 수정 금지</strong>: `static` 변수나 전역 변수를 읽고 쓰지 않아야 한다.
@@ -112,23 +114,21 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">절차적 단일 실행 (순차 처리)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">하드웨어 인터럽트 · 시그널 (Signal) 등장 / 흐름의 비동기적 중단 발생</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">재진입 가능 코드 (Reentrant Code) 도입 / 정적 변수 제거 및 _r 라이브러리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">멀티스레드 (Multi-Thread) 환경 도래 / 스레드 안전성 (Thread-Safety) 요구</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">함수형 프로그래밍 (Functional Programming) · 순수 함수 (Pure Function) 패러다임 확산</div>
-</div>
-</div>
-
-
+```text
+절차적 단일 실행 (순차 처리)
+    │
+    ▼
+하드웨어 인터럽트 · 시그널 (Signal) 등장 / 흐름의 비동기적 중단 발생
+    │
+    ▼
+재진입 가능 코드 (Reentrant Code) 도입 / 정적 변수 제거 및 _r 라이브러리
+    │
+    ▼
+멀티스레드 (Multi-Thread) 환경 도래 / 스레드 안전성 (Thread-Safety) 요구
+    │
+    ▼
+함수형 프로그래밍 (Functional Programming) · 순수 함수 (Pure Function) 패러다임 확산
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

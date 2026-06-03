@@ -35,25 +35,27 @@ APS는 크게 모델링(제약 조건 정의), 최적화 엔진(선형 계획법
 | **인메모리 고속 처리 (Memory-Resident)** | 디스크 I/O를 배제하고 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 RAM에 올려 수학적 최적화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 연산 | 실시간 의사결정 속도 확보 |
 | **What-If 시뮬레이션** | '긴급 주문이 삽입되었을 때' 등 가상의 상황을 시뮬레이션하여 마진 및 납기 변화 예측 | 영업-생산 부서 간 객관적 타협안 도출 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">APS의 What-If 최적화 알고리즘 흐름 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">입력 데이터: 현실 제약</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BOM(자재명세서) / 라우팅(공정순서) / 설비상태 / 인력 교대조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인메모리 시뮬레이션 엔진 (APS Core)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 제약 조건 모델링 (Constraints Modeling)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 수학적 최적화 탐색 (Heuristics, 선형 계획법 적용)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 가상 시나리오(What-If) 반복 연산</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">출력: 3D 최적 스케줄링 간트 차트 (Gantt Chart)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 납기일 준수도 최대화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 기계 셋업(교체) 비용 최소화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 수익 극대화 의사결정안 도출</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                  APS의 What-If 최적화 알고리즘 흐름 시각화                │
+├──────────────────────────────────────────────────────────────┤
+│ [ 입력 데이터: 현실 제약 ]                                        │
+│  BOM(자재명세서) / 라우팅(공정순서) / 설비상태 / 인력 교대조       │
+│             │                                                │
+│             ▼                                                │
+│ ┌───── 인메모리 시뮬레이션 엔진 (APS Core) ─────────────────────┐ │
+│ │  1. 제약 조건 모델링 (Constraints Modeling)                │ │
+│ │  2. 수학적 최적화 탐색 (Heuristics, 선형 계획법 적용)         │ │
+│ │  3. 가상 시나리오(What-If) 반복 연산                       │ │
+│ └───────────┬────────────────────────────────────────────────┘ │
+│             │                                                │
+│             ▼                                                │
+│ [ 출력: 3D 최적 스케줄링 간트 차트 (Gantt Chart) ]                 │
+│  - 납기일 준수도 최대화                                          │
+│  - 기계 셋업(교체) 비용 최소화                                     │
+│  - 수익 극대화 의사결정안 도출                                     │
+└──────────────────────────────────────────────────────────────┘
+```
 이 흐름도는 APS가 복잡한 제조 환경의 제약 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 실시간 메모리 연산으로 처리하여, 수익성이 가장 높은 최적의 [간트 차트](/knowledge-base/studynote/04_software_engineering/01_overview_principles/039_gantt_chart/)([스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) 표)를 동적으로 그려내는 메커니즘을 나타낸다.
 
 - **📢 섹션 요약 비유**: APS의 엔진은 체스 세계 챔피언을 꺾은 슈퍼컴퓨터와 같다. 상대(주문)의 움직임 한 번에 앞으로 일어날 수 있는 수만 가지의 경우의 수(What-If)를 빛의 속도로 머릿속(메모리)에서 돌려보고, 가장 이득이 큰 한 수를 두는 체스 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)이다.
@@ -112,23 +114,21 @@ APS는 생산 관리 시스템([MES](/knowledge-base/studynote/07_enterprise_sys
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">MRP (Material Requirements Planning) · 무한 능력 가정</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">MRP II (Manufacturing Resource Planning) · 생산 자원까지 확장 고려</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ERP (Enterprise Resource Planning) · 전사적 자원 통합 (여전히 무한 능력 기반)</div>
-<div class="kb-diagram-note">▼ (본 문서)</div>
-<div class="kb-diagram-note">APS (Advanced Planning and Scheduling) · 유한 능력 기반(Constraints) 실시간 최적화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">AI-driven SCM (인공지능 공급망) · 기계학습 기반 예측 제약 자동화</div>
-</div>
-</div>
-
-
+```text
+MRP (Material Requirements Planning) · 무한 능력 가정
+    │
+    ▼
+MRP II (Manufacturing Resource Planning) · 생산 자원까지 확장 고려
+    │
+    ▼
+ERP (Enterprise Resource Planning) · 전사적 자원 통합 (여전히 무한 능력 기반)
+    │
+    ▼ (본 문서)
+APS (Advanced Planning and Scheduling) · 유한 능력 기반(Constraints) 실시간 최적화
+    │
+    ▼
+AI-driven SCM (인공지능 공급망) · 기계학습 기반 예측 제약 자동화
+```
 이 흐름도는 제조업의 계획 시스템이 단순한 수량 계산([MRP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/082_mrp_material_requirements_planning/))에서 제약 조건을 포함한 인메모리 수학적 최적화(APS)를 거쳐 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반으로 지능화되는 진화의 궤적을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

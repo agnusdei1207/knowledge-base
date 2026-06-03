@@ -39,18 +39,15 @@ tags = ["studynote-computer-architecture"]
 | LTO (Linear Tape-Open) 테이프 | 매우 낮은 비용, air gap 효과 | 복원 시간이 길고 로봇/[라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 관리 필요 | 장기 보존, 규제 대응 |
 | [MAID](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/691_maid_storage/) (Massive [Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) of [Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) Disks) | 디스크 기반이라 검색이 비교적 쉬움 | 테이프보다 전력과 장비 비용이 큼 | 드물지만 조금 더 자주 찾는 보관 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Active data -&gt; Retention policy -&gt; Archive package</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ compress / deduplicate / encrypt / checksum</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ catalog metadata + legal hold</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Write Once Read Many (WORM) storage</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ Active data -> Retention policy -> Archive package                          │
+│                               │                                              │
+│                               ├─ compress / deduplicate / encrypt / checksum│
+│                               ├─ catalog metadata + legal hold              │
+│                               └─ Write Once Read Many (WORM) storage        │
+└──────────────────────────────────────────────────────────────────────────────┘
+```
 
 여기서 Write Once Read Many ([WORM](/knowledge-base/studynote/02_operating_system/10_security/590_worm/)) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)가 특히 중요하다. WORM은 기록 후 임의 수정이나 삭제를 어렵게 만들어 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)과 규제 준수를 돕고, [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)는 나중에 "무엇을 어디에 저장했는가"를 찾게 해 준다. [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 없이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)만 쌓아 두면 저장은 했지만 찾을 수 없는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 무덤이 되기 쉽다.
 
@@ -130,23 +127,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">운영 데이터 축적</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">보존 정책 기반 분류</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Archive package + metadata + immutability</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Object archive / tape / MAID</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Integrity audit + rehydration workflow</div>
-</div>
-</div>
-
-
+```text
+운영 데이터 축적
+        │
+        ▼
+보존 정책 기반 분류
+        │
+        ▼
+Archive package + metadata + immutability
+        │
+        ▼
+Object archive / tape / MAID
+        │
+        ▼
+Integrity audit + rehydration workflow
+```
 
 이 흐름은 오래된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 단순히 옮겨 담는 수준에서 벗어나, [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)·불변성·복원 절차를 함께 갖춘 장기 보존 체계로 발전하는 과정을 보여준다.
 

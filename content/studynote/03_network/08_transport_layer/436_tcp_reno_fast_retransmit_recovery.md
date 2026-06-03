@@ -24,20 +24,16 @@ tags = ["studynote-network"]
 
 - **💡 비유**: [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) Reno는 <strong>"고속도로의 감속 단속 카메라"</strong>와 같습니다.
   - **Tahoe (구형)**: 시속 100km로 달리다가 과속(패킷 드랍)에 걸리면, 경찰이 강제로 차를 세우고 **시동을 끈 다음, 1단 기어부터 다시 엑셀을 밟게 만듭니다 (CWND 1 추락)**.
-  - **Reno (신형)**: 시속 100km로 달리다가 과속 카메라(3 Dup-ACK)를 발견하면, 차를 멈추지 않고 <strong>브레이크만 밟아 시속 50km(절반)로 통과한 뒤, 멈춤 없이 계속 달릴 수 있습니다 (<a href="/knowledge-base/studynote/03_network/08_transport_layer/434_fast_recovery_skip_slow_start/">빠른 회복</a>)</strong>. 단, 진짜 앞에 싱크홀([Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/))이 파여 있으면 Reno도 어쩔 수 없이 멈춥니다.
+  - **Reno (새로운 유형의)**: 시속 100km로 달리다가 과속 카메라(3 Dup-ACK)를 발견하면, 차를 멈추지 않고 <strong>브레이크만 밟아 시속 50km(절반)로 통과한 뒤, 멈춤 없이 계속 달릴 수 있습니다 (<a href="/knowledge-base/studynote/03_network/08_transport_layer/434_fast_recovery_skip_slow_start/">빠른 회복</a>)</strong>. 단, 진짜 앞에 싱크홀([Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/))이 파여 있으면 Reno도 어쩔 수 없이 멈춥니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">TCP Tahoe 모델</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">TCP Reno 모델</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TCP NewReno / SACK</div></div>
-</div>
-</div>
-
-
+```text
+[TCP Tahoe 모델]
+    │
+    ▼
+[TCP Reno 모델]
+    │
+    └──▶ [TCP NewReno / SACK]
+```
 
 - **📢 섹션 요약 비유**: ** Reno의 등장은 네트워크 롤러코스터에 **"안전망"**을 깔아준 것입니다. 롤러코스터가 바닥(CWND=1)까지 곤두박질치는 끔찍한 승차감을 없애고, 중간 허공(절반 수위)에서 튕겨 올라가게 만들어 승객([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 멀미를 느끼지 않게 부드러운 톱니바퀴 주행을 완성했습니다.
 
@@ -64,25 +60,26 @@ Reno는 완벽해 보였지만, 창문(Window) 크기가 거대해지면서 약�
 5. 1/2로 깎인 속도가 다시 <strong>1/4로 토막</strong>이 난다. 만약 3개가 잃어버렸다면 1/8로 토막 난다.
 6. 결국 레노의 '[빠른 회복](/knowledge-base/studynote/03_network/08_transport_layer/434_fast_recovery_skip_slow_start/)' [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 스스로를 깎아 먹다가 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)([Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/))을 맞고 바닥(CWND=1)으로 꼬라박는 비극이 발생한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TCP Reno의 다중 유실에 의한 자멸 시나리오</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 송신자가 패킷 1, 2, 3, 4, 5를 발사함. (창문 크기 5)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 재수 없게 바다에서 2번, 4번 2개가 유실됨!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1라운드 징징거림</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 수신자: "2번 내놔! 2번 내놔! 2번 내놔!" (3 Dup-ACK)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Reno 왈: "오케이 2번 다시 쏜다. 속도는 절반(1/2)으로 깎음!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2라운드 징징거림</div><div class="kb-diagram-note">(방금 전 송신된 2번이 도착한 직후)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 수신자: "2번 잘 받았고, 아까 안 온 4번 내놔! 4번 내놔!" (3 Dup)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Reno 왈: "헐... 또 사고 났네? 속도 또 절반(1/4)으로 깎음!!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ "한 번의 사고(같은 창문)로 터진 건데, Reno는 사고가 2번 난 줄 알고</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">과잉 대응을 하여 자기 속도를 스스로 갉아먹는 치명적 바보짓을 한다."</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                TCP Reno의 다중 유실에 의한 자멸 시나리오           │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   * 송신자가 패킷 1, 2, 3, 4, 5를 발사함. (창문 크기 5)            │
+ │   * 재수 없게 바다에서 2번, 4번 2개가 유실됨!                        │
+ │                                                             │
+ │   [ 1라운드 징징거림 ]                                          │
+ │   - 수신자: "2번 내놔! 2번 내놔! 2번 내놔!" (3 Dup-ACK)         │
+ │   - Reno 왈: "오케이 2번 다시 쏜다. 속도는 절반(1/2)으로 깎음!"      │
+ │                                                             │
+ │   [ 2라운드 징징거림 ] (방금 전 송신된 2번이 도착한 직후)              │
+ │   - 수신자: "2번 잘 받았고, 아까 안 온 4번 내놔! 4번 내놔!" (3 Dup) │
+ │   - Reno 왈: "헐... 또 사고 났네? 속도 또 절반(1/4)으로 깎음!!"     │
+ │                                                             │
+ │   ▶ "한 번의 사고(같은 창문)로 터진 건데, Reno는 사고가 2번 난 줄 알고│
+ │      과잉 대응을 하여 자기 속도를 스스로 갉아먹는 치명적 바보짓을 한다." │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 3. 해결책을 향한 갈망
 엔지니어들은 빡쳤다. "아니 10번, 20번 잃어버렸으면, 수신자가 처음부터 <strong>'나 10번이랑 20번 두 개 잃어버렸어!'</strong>라고 영수증에 콕 집어서 말해주면, 굳이 속도를 두 번 안 깎아도 되잖아!!" 
@@ -144,19 +141,15 @@ Reno는 완벽해 보였지만, 창문(Window) 크기가 거대해지면서 약�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: TCP Tahoe 모델</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: TCP Reno 모델</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: TCP NewReno / SACK</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: TCP Tahoe 모델]
+    │
+    ▼
+[현재 개념: TCP Reno 모델]
+    │
+    ├──▶ [확장 A: TCP NewReno / SACK]
+    └──▶ [확장 B: 적응형 저지연 전송]
+```
 
 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) Reno 모델는 [TCP Tahoe](/knowledge-base/studynote/03_network/08_transport_layer/435_tcp_tahoe_timeout_dup_ack_drop_to_1/) 모델에서 출발해 현재 메커니즘을 정교화하고, 이후 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) NewReno / SACK와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

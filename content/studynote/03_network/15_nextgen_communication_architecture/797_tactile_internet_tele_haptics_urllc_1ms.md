@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **텔레햅틱 (원격 촉각)**: 물리적으로 멀리 떨어진 공간의 사물을 만지는 듯한 힘(Force), 진동, 촉감(Tactile) 피드백 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를, 통신망을 통해 실시간으로 양방향 전송하여 사용자에게 생생하게 전달하는 체계입니다.
 - **Tactile Internet (촉각 인터넷)**: ITU-T가 정의한 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)/6G의 궁극적 목표망으로, 시각/청각(비디오/오디오)을 넘어서 <strong>인간의 '촉각'을 완벽하게 모사하기 위해 극도로 짧은 지연시간(초저지연)과 100%에 가까운 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a>(<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a>)을 보장하는 차세대 통신 인프라</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">홀로그램 무선 전송 압축/다시점 비디오 체계…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">텔레햅틱 체계 기술 네트워크 응답 시간/제어…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">메이커 빔 생성 안테나 메타 표면 적용 무전…</div></div>
-</div>
-</div>
-
-
+```text
+[홀로그램 무선 전송 압축/다시점 비디오 체계…]
+    │
+    ▼
+[텔레햅틱 체계 기술 네트워크 응답 시간/제어…]
+    │
+    └──▶ [메이커 빔 생성 안테나 메타 표면 적용 무전…]
+```
 
 - **📢 섹션 요약 비유**: 텔레햅틱 체계 기술 네트워크 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)/제어…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -46,18 +42,14 @@ tags = ["studynote-network"]
 - **촉각 (Haptic Feedback)**: 손가락으로 로봇팔을 움직여 단단한 쇳덩어리를 쳤을 때, 그 딱딱한 충격량 패킷이 뇌로 되돌아와 햅틱 장갑을 때려주는 시간이 <strong>최대 1~5ms (0.001~0.005초)</strong>를 넘어가면 뇌는 심각한 불일치(멀미, 조작 오류)를 느낍니다. 
 - 이 5ms 벽을 뚫어내는 것이 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [uRLLC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/)(761번 문서)와 [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 통신망의 최대 기술 과제입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">홀로그램 무선 전송 압축/다시점 비디오 체계…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">텔레햅틱 체계 기술 네트워크 응답 시간/제어…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">메이커 빔 생성 안테나 메타 표면 적용 무전…</div></div>
-</div>
-</div>
-
-
+```text
+[홀로그램 무선 전송 압축/다시점 비디오 체계…]
+    │
+    ▼
+[텔레햅틱 체계 기술 네트워크 응답 시간/제어…]
+    │
+    └──▶ [메이커 빔 생성 안테나 메타 표면 적용 무전…]
+```
 
 - **📢 섹션 요약 비유**: 텔레햅틱 체계 기술 네트워크 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)/제어…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -126,19 +118,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 홀로그램 무선 전송 압축/다시점 비디오 체계…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 텔레햅틱 체계 기술 네트워크 응답 시간/제어…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 메이커 빔 생성 안테나 메타 표면 적용 무전…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 네트워크 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 홀로그램 무선 전송 압축/다시점 비디오 체계…]
+    │
+    ▼
+[현재 개념: 텔레햅틱 체계 기술 네트워크 응답 시간/제어…]
+    │
+    ├──▶ [확장 A: 메이커 빔 생성 안테나 메타 표면 적용 무전…]
+    └──▶ [확장 B: AI 기반 네트워크 최적화]
+```
 
 텔레햅틱 체계 기술 네트워크 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)/제어…는 홀로그램 무선 전송 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)/다시점 비디오 체계…에서 출발해 현재 메커니즘을 정교화하고, 이후 메이커 빔 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 메타 표면 적용 무전…와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

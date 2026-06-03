@@ -18,17 +18,11 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">촬영: 다방향 카메라(30~100대) → 포인트 클라우드 → 3D 메시</div>
-<div class="kb-diagram-note">재생: XR 헤드셋 또는 홀로그래픽 디스플레이</div>
-<div class="kb-diagram-note">시청: 자유 시점에서 360도 감상</div>
-</div>
-</div>
-
-
+```text
+촬영: 다방향 카메라(30~100대) → 포인트 클라우드 → 3D 메시
+재생: XR 헤드셋 또는 홀로그래픽 디스플레이
+시청: 자유 시점에서 360도 감상
+```
 
 - **📢 섹션 요약 비유**: 2D 영상은 **사진(고정 각도)**, 볼류메트릭은 <strong>조각상(어느 각도에서든 감상 가능)</strong>이다.
 
@@ -62,17 +56,11 @@ tags = ["studynote-ict-convergence"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">2D 영상</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">360 영상 (2016)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">볼류메트릭 (2018~)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">NeRF (2020)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">3D Gaussian Splatting (2023)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: 실시간 볼류메트릭 스트리밍</div></div>
-</div>
-</div>
-
-
+```text
+[2D 영상] → [360 영상 (2016)] → [볼류메트릭 (2018~)]
+    → [NeRF (2020)] → [3D Gaussian Splatting (2023)]
+    → [현재: 실시간 볼류메트릭 스트리밍]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 2D 영상은 <strong>사진(한 방향)</strong>이에요. 볼류메트릭은 <strong>조각상(모든 방향)</strong>이에요.

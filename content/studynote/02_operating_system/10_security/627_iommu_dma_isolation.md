@@ -53,30 +53,38 @@ tags = ["studynote-operating-system"]
 
 IOMMU는 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 버스를 타고 들어오는 트랜잭션의 <strong>BDF (<a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">Bus</a>, Device, Function)</strong> 번호를 읽어, 이 요청이 어느 디바이스에서 왔는지 식별하고 해당 디바이스 전용의 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)을 탐색한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IOMMU 아키텍처 및 DMA 주소 변환 매커니즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">가상머신 (Guest OS)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 가상 물리 주소(GPA) 0x1000을 물리 장치에 DMA 하라고 지시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (하이퍼바이저 개입 없이 디바이스로 직접 명령 하달)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">물리 디바이스 (예: SR-IOV NIC, GPU)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "주소 0x1000 에 패킷을 기록(Write)하겠다" (DMA 요청 발생)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (PCIe 버스를 통해 메모리로 이동 중...)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=========================</div><div class="kb-diagram-node">IOMMU 검문소</div><div class="kb-diagram-note">========================</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Requestor ID 확인: "이 DMA는 PCIe 03:00.1 장치에서 옴"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Device Table 탐색: 하이퍼바이저가 설정해둔 BDF 03:00.1 테이블 조회</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. DMA Remapping: "해당 VM의 GPA 0x1000은</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실제 Host 물리 주소 HPA 0x9000 임!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 권한 검사: 쓰기 권한(W) 확인 후 통과</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (변환된 올바른 주소)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">물리 메모리 (Host RAM)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- HPA 0x9000 에 데이터가 안전하게 기록됨</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 IOMMU 아키텍처 및 DMA 주소 변환 매커니즘                 │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │  [가상머신 (Guest OS)]                                              │
+  │   - 가상 물리 주소(GPA) 0x1000을 물리 장치에 DMA 하라고 지시           │
+  │          │                                                        │
+  │          ▼ (하이퍼바이저 개입 없이 디바이스로 직접 명령 하달)             │
+  │                                                                   │
+  │  [물리 디바이스 (예: SR-IOV NIC, GPU)]                                │
+  │   - "주소 0x1000 에 패킷을 기록(Write)하겠다" (DMA 요청 발생)           │
+  │          │                                                        │
+  │          ▼ (PCIe 버스를 통해 메모리로 이동 중...)                       │
+  │  ========================= [ IOMMU 검문소 ] ========================│
+  │  │                                                               ││
+  │  │ 1. Requestor ID 확인: "이 DMA는 PCIe 03:00.1 장치에서 옴"         ││
+  │  │                                                               ││
+  │  │ 2. Device Table 탐색: 하이퍼바이저가 설정해둔 BDF 03:00.1 테이블 조회 ││
+  │  │                                                               ││
+  │  │ 3. DMA Remapping: "해당 VM의 GPA 0x1000은                     ││
+  │  │                     실제 Host 물리 주소 HPA 0x9000 임!"         ││
+  │  │                                                               ││
+  │  │ 4. 권한 검사: 쓰기 권한(W) 확인 후 통과                            ││
+  │  =================================================================│
+  │          │                                                        │
+  │          ▼ (변환된 올바른 주소)                                       │
+  │                                                                   │
+  │  [물리 메모리 (Host RAM)]                                           │
+  │   - HPA 0x9000 에 데이터가 안전하게 기록됨                            │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 가상머신([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))에 디바이스가 패스스루([Passthrough](/knowledge-base/studynote/02_operating_system/10_security/657_vfio_virtual_function_io_passthrough/))되어 있으면, [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 드라이버는 진짜 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/)([HPA](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/))를 알지 못하므로 자신이 아는 가짜 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/)(GPA)를 디바이스의 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 기록해 버린다. 디바이스는 그 GPA가 진짜인 줄 알고 메인 보드로 DMA를 쏜다. 이때 중간에 IOMMU가 없다면 엉뚱한 [HPA](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/) 영역이 덮어써져 호스트 서버가 즉각 패닉([Kernel Panic](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/))에 빠진다. IOMMU는 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 패킷 헤더에서 장치 고유 번호(Requestor ID)를 추출한 뒤, [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 세팅해둔 IOMMU [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)을 참조하여 이 GPA를 올바른 HPA로 실시간 변환(Remapping)한다. 이렇게 하여 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)의 소프트웨어적 개입 없이, 하드웨어 속도 그대로 DMA가 성공한다.
 
@@ -127,28 +135,33 @@ IOMMU는 단순히 주소만 변환하는 것이 아니라, [가상화](/knowled
 
 ### 의사결정 및 튜닝 플로우
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I/O 가상화 및 패스스루 튜닝 의사결정 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">VM에 고성능 하드웨어(GPU, NIC, NVMe) 직접 할당 (Passthrough) 요구</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버 BIOS에서 VT-d (또는 AMD-Vi) 기능이 켜져 있는가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ▶ 부팅 불가 / 물리 장치 할당 옵션 비활성화됨</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동일한 물리 장치를 여러 VM이 "동시에" 공유해야 하는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">PCIe Passthrough (VFIO)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(장치 전체를 1개 VM에 독점 할당)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물리 장치가 하드웨어 차원의 분할(SR-IOV 등)을 지원하는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SR-IOV 적용 후 VF를 VM에 분배</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(IOMMU가 VF 별로 DMA 완벽 격리 수행)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">vGPU(그리드) 소프트웨어 라이선스 활용</div><div class="kb-diagram-note">또는</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Virtio 반가상화 모델 타협 적용</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 I/O 가상화 및 패스스루 튜닝 의사결정 플로우             │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [VM에 고성능 하드웨어(GPU, NIC, NVMe) 직접 할당 (Passthrough) 요구]    │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      서버 BIOS에서 VT-d (또는 AMD-Vi) 기능이 켜져 있는가?                │
+  │          ├─ 아니오 ────▶ 부팅 불가 / 물리 장치 할당 옵션 비활성화됨       │
+  │          └─ 예                                                    │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      동일한 물리 장치를 여러 VM이 "동시에" 공유해야 하는가?               │
+  │          ├─ 아니오 ────▶ [PCIe Passthrough (VFIO)]               │
+  │          │            (장치 전체를 1개 VM에 독점 할당)               │
+  │          │                                                        │
+  │          └─ 예                                                    │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      물리 장치가 하드웨어 차원의 분할(SR-IOV 등)을 지원하는가?            │
+  │          ├─ 예 ─────▶ [SR-IOV 적용 후 VF를 VM에 분배]             │
+  │          │            (IOMMU가 VF 별로 DMA 완벽 격리 수행)          │
+  │          └─ 아니오 ──▶ [vGPU(그리드) 소프트웨어 라이선스 활용] 또는    │
+  │                         [Virtio 반가상화 모델 타협 적용]              │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** IOMMU는 마법이 아니다. 하나의 물리 디바이스(예: 평범한 그래픽 카드)를 반으로 쪼개서 두 VM에 주는 기능은 디바이스 자체 하드웨어 기능([SR-IOV](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/497_sr_iov_pcie_mapping/), vGPU)에 달려 있다. IOMMU는 분할된 디바이스들이 서로 메모리를 훔쳐보지 못하게 '독립된 벽(IOMMU Group)'을 세워주는 인프라 보호막 역할을 할 뿐이다. [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 장치를 할당할 때는 항상 동일한 IOMMU 그룹에 속한 장치들은 세트로 넘겨야 한다는 점이 실무 설계의 함정(Caveat)이다.
 
@@ -192,19 +205,15 @@ IOMMU(Intel VT-d)는 단순히 I/O [성능](/knowledge-base/studynote/04_softwar
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">쉐도우 페이지 테이블 (Shadow Page Table) vs 확장 페이지 테이블 (EPT/NPT 하드웨어 보조)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IOMMU (Input/Output MMU) 역할</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">컨테이너 런타임 (runc, containerd) OCI 규격 표준화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">라이브 마이그레이션 (Live Migration) 메모리 더티 페이지 프리-카피(Pre-copy) 알고리즘 방식</div></div>
-</div>
-</div>
-
-
+```text
+[쉐도우 페이지 테이블 (Shadow Page Table) vs 확장 페이지 테이블 (EPT/NPT 하드웨어 보조)]
+    │
+    ▼
+[IOMMU (Input/Output MMU) 역할]
+    │
+    ├──▶ [컨테이너 런타임 (runc, containerd) OCI 규격 표준화]
+    └──▶ [라이브 마이그레이션 (Live Migration) 메모리 더티 페이지 프리-카피(Pre-copy) 알고리즘 방식]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

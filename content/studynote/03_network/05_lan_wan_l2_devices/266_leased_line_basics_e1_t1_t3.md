@@ -24,18 +24,14 @@ tags = ["studynote-network"]
 
 - **💡 비유**: 일반 인터넷이 차가 막힐 수도 있고 옆 차가 끼어들 수도 있는 <strong>"무료 공용 고속도로"</strong>라면, 전용선은 내 돈을 내고 산봉우리를 뚫어 우리 집과 회사만 연결해 놓은 <strong>"나만의 프라이빗 지하 터널"</strong>과 같습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">PoE</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전용선 기초</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">다이얼업 다중화, X.25</div></div>
-</div>
-</div>
-
-
+```text
+[PoE]
+    │
+    ▼
+[전용선 기초]
+    │
+    └──▶ [다이얼업 다중화, X.25]
+```
 
 - **📢 섹션 요약 비유**: ** 전용선은 일반 버스나 지하철(인터넷)을 타지 않고, 매달 엄청난 렌트비를 통신사에 내고 **"기사님이 딸린 고급 리무진(1:1 독점 연결)"**을 24시간 대기시켜 놓는 것과 같습니다.
 
@@ -54,21 +50,22 @@ tags = ["studynote-network"]
 북미와 달리 유럽 연합(ITU-T)은 조금 더 넉넉한 규격을 제정했다.
 - **E1**: 64Kbps 음성 회선 <strong>30개</strong>에 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 및 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 제어용 2개를 합쳐 총 32개의 채널을 묶었다. 대역폭은 <strong>2.048 Mbps</strong>다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디지털 전용선 (T-Carrier) 속도 계층</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DS0 (기본 채널)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">64 Kbps (음성 1통화 분량)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (24개를 묶음)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">T1 (DS1)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">1.544 Mbps (초기 벤처기업/지사 급)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (T1을 28개 묶음)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">T3 (DS3)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">45 Mbps (대기업 본사/데이터센터 급)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 요금제: 1990년대 기준, T1 전용선 한 달 임대료는 수백만 원에 달했다.</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                디지털 전용선 (T-Carrier) 속도 계층              │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ DS0 (기본 채널) ] ──▶ 64 Kbps (음성 1통화 분량)            │
+ │           │                                                 │
+ │           ▼ (24개를 묶음)                                    │
+ │   [ T1 (DS1) ] ────────▶ 1.544 Mbps (초기 벤처기업/지사 급)    │
+ │           │                                                 │
+ │           ▼ (T1을 28개 묶음)                                 │
+ │   [ T3 (DS3) ] ────────▶ 45 Mbps (대기업 본사/데이터센터 급)    │
+ │                                                             │
+ │   * 요금제: 1990년대 기준, T1 전용선 한 달 임대료는 수백만 원에 달했다. │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 전용선 기초의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -128,19 +125,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: PoE</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 전용선 기초</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 다이얼업 다중화, X.25</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 캠퍼스 패브릭</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: PoE]
+    │
+    ▼
+[현재 개념: 전용선 기초]
+    │
+    ├──▶ [확장 A: 다이얼업 다중화, X.25]
+    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
+```
 
 전용선 기초는 PoE에서 출발해 현재 메커니즘을 정교화하고, 이후 다이얼업 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/), X.25와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

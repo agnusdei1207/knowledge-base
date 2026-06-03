@@ -24,24 +24,21 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경**: 과거 유닉스 시스템과 리눅스 O(1) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 시절, "데스크톱 환경의 마우스 렉을 없애라!"는 지상 과제가 떨어졌다. 마우스를 관리하는 프로세스에 무조건 보너스를 줘야 하는데, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 누가 마우스 프로세스인지 모른다. 결국 "잠을 오래 자다 깬 놈은 마우스일 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 높다"는 휴리스틱 코드를 수천 줄씩 박아 넣게 되었다.
 
+```text
+  [휴리스틱(Heuristics)을 통한 프로세스 성격 자동 분류 메커니즘]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">휴리스틱(Heuristics)을 통한 프로세스 성격 자동 분류 메커니즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">커널 스케줄러의 은밀한 감시 카메라</div></div>
-<div class="kb-diagram-note">▶ 프로세스 A: 10ms 퀀텀을 주니까 1ms만 쓰고 I/O 하러 도망감.</div>
-<div class="kb-diagram-note">(이 행동을 3번 반복함)</div>
-<div class="kb-diagram-note">💡 스케줄러의 휴리스틱 결론: "얘는 타자를 치는 놈이 분명해! (I/O Bound)</div>
-<div class="kb-diagram-note">응답 속도가 생명이니 보너스 +5점을 주고 VIP 큐에 박제해라!"</div>
-<div class="kb-diagram-note">▶ 프로세스 B: 10ms 퀀텀을 주니까 10ms 꽉꽉 채워 쓰고 더 달라고 아우성침.</div>
-<div class="kb-diagram-note">(이 행동을 3번 반복함)</div>
-<div class="kb-diagram-note">💡 스케줄러의 휴리스틱 결론: "얘는 동영상 인코딩 하는 놈이야! (CPU Bound)</div>
-<div class="kb-diagram-note">앞에서 얼쩡거리면 남들 방해되니까 보너스 -5점을 주고 지하실로 내쫓아!"</div>
-</div>
-</div>
-
-
+  [ 커널 스케줄러의 은밀한 감시 카메라 ]
+  
+  ▶ 프로세스 A: 10ms 퀀텀을 주니까 1ms만 쓰고 I/O 하러 도망감. 
+     (이 행동을 3번 반복함)
+     💡 스케줄러의 휴리스틱 결론: "얘는 타자를 치는 놈이 분명해! (I/O Bound)
+        응답 속도가 생명이니 보너스 +5점을 주고 VIP 큐에 박제해라!"
+        
+  ▶ 프로세스 B: 10ms 퀀텀을 주니까 10ms 꽉꽉 채워 쓰고 더 달라고 아우성침.
+     (이 행동을 3번 반복함)
+     💡 스케줄러의 휴리스틱 결론: "얘는 동영상 인코딩 하는 놈이야! (CPU Bound)
+        앞에서 얼쩡거리면 남들 방해되니까 보너스 -5점을 주고 지하실로 내쫓아!"
+```
 **[다이어그램 해설]** 휴리스틱의 본질은 "패턴 인식"이다. OS는 프로세스가 어떤 프로그램인지 코드를 읽어보지 않는다. 오직 스톱워치(타이머) 하나 들고 "얼마나 빨리 나가느냐, 꽉 채워 쓰느냐" 두 가지만 측정해서 흑백 논리로 계급을 갈라버린다. 90%의 상황에서는 이 눈치가 소름 돋게 잘 맞아떨어져 시스템을 엄청나게 쾌적하게 만든다.
 
 - **📢 섹션 요약 비유**: 식당 주인이 손님이 앉자마자 "이 손님은 혼자 왔고 스마트폰만 보니까 금방 밥만 먹고 갈 사람(I/O 바운드)이다. 2인석에 앉히자"라고 경험(휴리스틱)으로 판단하는 것과 같습니다. 빠르고 효율적이지만 가끔 틀릴 때가 있습니다.
@@ -102,24 +99,27 @@ tags = ["studynote-operating-system"]
 2. <strong>안티바이러스 / <a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">백업</a> 솔루션의 휴리스틱 회피 설계</strong>: 데스크톱에서 돌아가는 알약, V3나 시스템 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 데몬들은 개발자가 코드를 짤 때 극도로 조심해야 한다. CPU를 미친 듯이 써서 [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/) 검사를 하면 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 휴리스틱 센서에 걸려 악성 프로세스로 찍히고 강등되어 검사가 하루 종일 걸릴 수 있다.
    - **아키텍처 결단**: [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 프로세스를 짤 때는 `for` 루프를 돌릴 때마다 의도적으로 `usleep(1000)` 이나 디스크 비동기 I/O를 섞어 넣어 억지로 대기 시간(Sleep_avg)을 벌어주는 코딩 기법([Heuristic](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/) Cheating)을 써야 OS로부터 쩌리 취급을 받지 않고 부드럽게 백그라운드 작업을 마칠 수 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">휴리스틱(추측) 알고리즘 도입 시 아키텍트의 리스크 평가 트리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">신규 기능: AI 기반의 유저 행동 예측 프리패치(Prefetch) 로직</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 이 기능은 휴리스틱(과거 패턴 기반 추측)인가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">예</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 리스크 검증 1: 엣지 케이스에서의 타격도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"만약 AI의 추측이 완벽히 빗나갔을 때 시스템이 죽는가?"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예: 절대 도입 금지 (수학적 증명 로직으로 변경)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오: 도입 승인. 단, 틀렸을 때의 롤백 코드 필수</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">아니오 (결정론적 알고리즘)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">100% 신뢰 가능하므로 코어 로직(Kernel)에 병합 승인.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────────────┐
+  │     휴리스틱(추측) 알고리즘 도입 시 아키텍트의 리스크 평가 트리     │
+  ├─────────────────────────────────────────────────────────────────────┤
+  │                                                                     │
+  │   [신규 기능: AI 기반의 유저 행동 예측 프리패치(Prefetch) 로직]     │
+  │                │                                                    │
+  │                ▼ 이 기능은 휴리스틱(과거 패턴 기반 추측)인가?       │
+  │          ├─ [예]                                                    │
+  │          │   │                                                      │
+  │          │   ▼ 리스크 검증 1: 엣지 케이스에서의 타격도              │
+  │          │   "만약 AI의 추측이 완벽히 빗나갔을 때 시스템이 죽는가?" │
+  │          │     ├─ 예: 절대 도입 금지 (수학적 증명 로직으로 변경)    │
+  │          │     └─ 아니오: 도입 승인. 단, 틀렸을 때의 롤백 코드 필수 │
+  │          │                                                          │
+  │          └─ [아니오 (결정론적 알고리즘)]                            │
+  │                 │                                                   │
+  │                 ▼                                                   │
+  │             100% 신뢰 가능하므로 코어 로직(Kernel)에 병합 승인.     │
+  └─────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 컴퓨터 아키텍처에서 휴리스틱은 "성능을 영끌하기 위한 마약"과 같다. 먹으면 평소엔 기가 막히게 빠르지만, 예외 상황이 터지면 수습이 안 되는 거대한 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)([Technical Debt](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/))를 낳는다. 리누스 토발즈가 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서 이 휴리스틱 덩어리인 O(1) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)를 가차 없이 찢어버린 이유가 바로 이 "유지보수의 더러움과 예측 불가능성" 때문이었다.
 
 - **📢 섹션 요약 비유**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)(휴리스틱)이 내가 좋아하는 영화를 찰떡같이 맞춰줄 땐 편하지만, 한 번 실수로 끔찍한 공포 영화를 틀어버리면 트라우마를 남깁니다. 중요한 인프라 설계일수록 화려한 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)(휴리스틱)보다 투박하지만 100% 확실한 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(결정론적 로직)를 선호하는 이유입니다.
@@ -133,7 +133,7 @@ tags = ["studynote-operating-system"]
 
 ### 결론 및 미래 전망
 휴리스틱 코드로 범벅이 된 CPU [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 시대는 리눅스 CFS의 등장으로 완전한 종말을 맞이했다. "인간이 규칙(Rule)을 하드코딩해서 기계를 가르치려 들면 결국 엣지 케이스에 털린다"는 컴퓨터 과학의 뼈아픈 교훈을 남겼기 때문이다.
-그러나 휴리스틱 철학 자체는 죽지 않았다. 안티바이러스의 악성코드 탐지([Heuristic](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/) Engine), CPU 파이프라인의 [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)([Branch Prediction](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)), [캐시 교체 알고리즘](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/271_replacement_policy/)([LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/)) 등 완벽한 정답이 없는 공간에서는 여전히 최고의 성능을 뽑아내는 핵심 엔진이다. 미래에는 이 어설픈 if-else 휴리스틱이 완벽한 딥러닝(Deep [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/)) 및 강화학습(RL) 모델로 대체되어, [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 알아서 게임과 웹서핑의 패턴을 완벽히 분리해 내는 진정한 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 시대로 진화할 것이다.
+그러나 휴리스틱 철학 자체는 죽지 않았다. 안티바이러스의 악성코드 탐지([Heuristic](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/) 엔진), CPU 파이프라인의 [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)([Branch Prediction](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)), [캐시 교체 알고리즘](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/271_replacement_policy/)([LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/)) 등 완벽한 정답이 없는 공간에서는 여전히 최고의 성능을 뽑아내는 핵심 엔진이다. 미래에는 이 어설픈 if-else 휴리스틱이 완벽한 딥러닝(Deep [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/)) 및 강화학습(RL) 모델로 대체되어, [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 알아서 게임과 웹서핑의 패턴을 완벽히 분리해 내는 진정한 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 시대로 진화할 것이다.
 
 - **📢 섹션 요약 비유**: 옛날엔 바둑을 둘 때 "가운데 두는 게 대충 좋더라(휴리스틱)"라는 사람의 감에 의존하다가 이세돌에게 졌다면, 알파고는 그 감을 수억 번의 수학적 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 계산과 학습으로 업그레이드하여 절대 틀리지 않는 신의 직관을 완성했습니다. 휴리스틱은 버려진 게 아니라 AI라는 이름으로 진화한 것입니다.
 
@@ -150,19 +150,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">POSIX 스케줄링 API</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">휴리스틱 (Heuristics) 기반 스케줄링</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">리눅스 CFS (Completely Fair Scheduler)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">대상 지연 시간 (Target Latency) / 최소 입자 (Minimum Granularity)</div></div>
-</div>
-</div>
-
-
+```text
+[POSIX 스케줄링 API]
+    │
+    ▼
+[휴리스틱 (Heuristics) 기반 스케줄링]
+    │
+    ├──▶ [리눅스 CFS (Completely Fair Scheduler)]
+    └──▶ [대상 지연 시간 (Target Latency) / 최소 입자 (Minimum Granularity)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

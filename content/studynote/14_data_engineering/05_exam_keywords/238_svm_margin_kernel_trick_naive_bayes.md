@@ -42,73 +42,69 @@ SVM의 핵심 아이디어: **마진을 최대화하는 유일한 하이퍼플�
 
 ### SVM 최대 마진 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기
 
+```
+하이퍼플레인: w·x + b = 0
 
+마진 (Margin) = 2 / ||w||
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">하이퍼플레인: w·x + b = 0</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마진 (Margin) = 2 /</div><div class="kb-diagram-cell">w</div></div>
-<div class="kb-diagram-note">서포트 벡터 (Support Vector):</div>
-<div class="kb-diagram-note">양성 경계: w·x + b = +1</div>
-<div class="kb-diagram-note">음성 경계: w·x + b = -1</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최적화 목표:</div><div class="kb-diagram-cell">w</div><div class="kb-diagram-cell">를 최소화 (마진 최대화)</div></div>
-<div class="kb-diagram-note">subject to: y_i(w·x_i + b) ≥ 1 for all i</div>
-<div class="kb-diagram-note">ASCII 구조:</div>
-<div class="kb-diagram-note">◉ ← 서포트 벡터 (양성)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">○</div><div class="kb-diagram-cell">마</div><div class="kb-diagram-cell">●</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">○</div><div class="kb-diagram-cell">진</div><div class="kb-diagram-cell">●</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">○</div><div class="kb-diagram-cell">●</div></div>
-<div class="kb-diagram-note">◉ ← 서포트 벡터 (음성)</div>
-<div class="kb-diagram-note">양성 경계 음성 경계</div>
-<div class="kb-diagram-note">하이퍼플레인 (w·x+b=0)</div>
-</div>
-</div>
+서포트 벡터 (Support Vector):
+  양성 경계: w·x + b = +1
+  음성 경계: w·x + b = -1
 
+최적화 목표: ||w||를 최소화 (마진 최대화)
+  subject to: y_i(w·x_i + b) ≥ 1  for all i
 
+ASCII 구조:
+  ─────────────────────────────────────────
+           ◉ ← 서포트 벡터 (양성)
+       ○  |마|  ●
+     ○    |진|    ●
+       ○  |  |  ●
+           ◉ ← 서포트 벡터 (음성)
+  ─────────────────────────────────────────
+       ↑         ↑
+   양성 경계  음성 경계
+         하이퍼플레인 (w·x+b=0)
+```
 
 ### 소프트 마진 (Soft Margin) — C 파라미터
 
 현실 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 완전히 선형 분리되지 않는다. 소프트 마진은 일부 오분류를 허용한다.
 
+```
+최적화: minimize ||w||² + C × Σξ_i
+  ξ_i: 슬랙 변수 (오분류 허용량)
+  C: 정규화 파라미터
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최적화: minimize</div><div class="kb-diagram-cell">w</div><div class="kb-diagram-cell">² + C × Σξ_i</div></div>
-<div class="kb-diagram-note">ξ_i: 슬랙 변수 (오분류 허용량)</div>
-<div class="kb-diagram-note">C: 정규화 파라미터</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C 파라미터 효과</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C 작음 (넓은 마진)</div><div class="kb-diagram-cell">C 큼 (좁은 마진)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일부 오분류 허용</div><div class="kb-diagram-cell">오분류 강하게 페널티</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고편향, 저분산</div><div class="kb-diagram-cell">저편향, 고분산</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 과소적합 위험</div><div class="kb-diagram-cell">→ 과적합 위험</div></div>
-</div>
-</div>
-
-
+┌──────────────────────────────────────────────┐
+│    C 파라미터 효과                              │
+├──────────────────┬───────────────────────────┤
+│  C 작음 (넓은 마진)│  C 큼 (좁은 마진)           │
+│  일부 오분류 허용  │  오분류 강하게 페널티        │
+│  고편향, 저분산    │  저편향, 고분산              │
+│  → 과소적합 위험  │  → 과적합 위험              │
+└──────────────────┴───────────────────────────┘
+```
 
 ### [커널 트릭](/knowledge-base/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/) ([Kernel Trick](/knowledge-base/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/))
 
 비선형 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 문제를 고차원 공간에서 선형 문제로 변환하는 핵심 기법이다.
 
+```
+원리:
+  저차원 비선형 데이터   →   고차원 선형 분리 가능
+  (직접 매핑 불필요)         (커널 함수로 내적만 계산)
 
+K(x_i, x_j) = φ(x_i) · φ(x_j)
+  → φ()는 명시적 계산 불필요!
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">원리:</div>
-<div class="kb-diagram-note">저차원 비선형 데이터 → 고차원 선형 분리 가능</div>
-<div class="kb-diagram-note">(직접 매핑 불필요) (커널 함수로 내적만 계산)</div>
-<div class="kb-diagram-note">K(x_i, x_j) = φ(x_i) · φ(x_j)</div>
-<div class="kb-diagram-note">→ φ()는 명시적 계산 불필요!</div>
-<div class="kb-diagram-note">비선형 분류 예시:</div>
-<div class="kb-diagram-note">1차원: ●●○○●● (선형 분리 불가)</div>
-<div class="kb-diagram-note">▼ 커널 매핑</div>
-<div class="kb-diagram-note">2차원: ○○ ← 위</div>
-<div class="kb-diagram-note">●● ← 아래 (선형 분리 가능!)</div>
-</div>
-</div>
-
-
+비선형 분류 예시:
+  1차원: ●●○○●●  (선형 분리 불가)
+        │
+        ▼ 커널 매핑
+  2차원: ○○  ← 위
+         ●●  ← 아래  (선형 분리 가능!)
+```
 
 ### 주요 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 함수 비교
 
@@ -182,33 +178,21 @@ P(정상 | "할인", "무료", "지금")
 
 ### SVM 적용 파이프라인
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">데이터 준비 전처리 모델 선택 튜닝</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">원시 데이터</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">정규화</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">커널 선택</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">C, γ/d</div></div>
-<div class="kb-diagram-note">(필수!!) Linear? GridSearch</div>
-<div class="kb-diagram-note">표준화 RBF? CV 평가</div>
-<div class="kb-diagram-note">MinMaxScaler Poly?</div>
-</div>
-</div>
-
-
+```
+데이터 준비        전처리         모델 선택       튜닝
+[원시 데이터] → [정규화]    → [커널 선택] → [C, γ/d]
+                (필수!!)       Linear?       GridSearch
+                표준화          RBF?          CV 평가
+                MinMaxScaler    Poly?
+```
 
 <strong>SVM에서 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/">피처</a> 스케일링이 필수인 이유:</strong>
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">거리 기반 알고리즘 → 피처 단위에 민감</div>
-<div class="kb-diagram-note">예: 나이(0~100) vs 연봉(0~10,000,000)</div>
-<div class="kb-diagram-note">→ 연봉이 마진 계산을 지배</div>
-<div class="kb-diagram-note">→ StandardScaler 또는 MinMaxScaler 전처리 필수</div>
-</div>
-</div>
-
-
+```
+거리 기반 알고리즘 → 피처 단위에 민감
+예: 나이(0~100) vs 연봉(0~10,000,000)
+  → 연봉이 마진 계산을 지배
+  → StandardScaler 또는 MinMaxScaler 전처리 필수
+```
 
 ### 기술사 판단 포인트
 
@@ -254,21 +238,18 @@ SVM은 마진 최대화라는 우아한 수학적 원리로 고차원·소규모
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">선형 분류 (퍼셉트론)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SVM: 최대 마진 초평면 + 커널 트릭 (비선형 매핑)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">나이브 베이즈: 조건부 독립 가정 분류</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">앙상블: Random Forest · XGBoost → 딥러닝</div>
-</div>
-</div>
-
-
+```text
+선형 분류 (퍼셉트론)
+    │
+    ▼
+SVM: 최대 마진 초평면 + 커널 트릭 (비선형 매핑)
+    │
+    ▼
+나이브 베이즈: 조건부 독립 가정 분류
+    │
+    ▼
+앙상블: Random Forest · XGBoost → 딥러닝
+```
 2. [커널 트릭](/knowledge-base/studynote/10_ai/01_ai_basics/059_kernel_trick_rbf_polynomial/)은 평평한 종이에 섞인 점을 분리하기 어려울 때 종이를 3D로 구겨 올리면 선을 그을 수 있게 되는 마법이다.
 3. [나이브 베이즈](/knowledge-base/studynote/10_ai/03_llm_nlp/264_naive_bayes/)는 "무료"라는 단어가 스팸 메일에 많이 나온다는 과거 통계를 보고 새 메일이 스팸인지 빠르게 판단하는 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 계산기다.
 

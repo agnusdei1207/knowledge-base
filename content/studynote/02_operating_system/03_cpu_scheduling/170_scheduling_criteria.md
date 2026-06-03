@@ -25,19 +25,17 @@ tags = ["studynote-operating-system"]
 
 아래 그림은 스케줄링 기준이 왜 크게 두 관점으로 나뉘는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스케줄링 평가는 두 개의 질문으로 요약된다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시스템 입장</div><div class="kb-diagram-cell">사용자 입장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU를 얼마나 놀리지 않는가</div><div class="kb-diagram-cell">내가 얼마나 빨리 결과를 받는가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ CPU 이용률, 처리량</div><div class="kb-diagram-cell">→ 반환/대기/응답 시간</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자원 효율, 총량</div><div class="kb-diagram-cell">체감 속도, 공정성, 즉시성</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│         스케줄링 평가는 두 개의 질문으로 요약된다            │
+├────────────────────────────┬─────────────────────────────────┤
+│ 시스템 입장                │ 사용자 입장                    │
+│ CPU를 얼마나 놀리지 않는가 │ 내가 얼마나 빨리 결과를 받는가 │
+│ → CPU 이용률, 처리량       │ → 반환/대기/응답 시간          │
+├────────────────────────────┼─────────────────────────────────┤
+│ 자원 효율, 총량            │ 체감 속도, 공정성, 즉시성      │
+└────────────────────────────┴─────────────────────────────────┘
+```
 
 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 메인프레임 시대에는 비싼 CPU를 놀리지 않는 것이 가장 중요한 목표였기 때문에 CPU 이용률과 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 중심 지표였다. 그러나 시분할, 데스크톱, 웹, 모바일 환경으로 넘어오면서 "얼마나 빨리 첫 반응을 주는가"가 훨씬 중요해졌다. 스케줄링 기준은 이렇게 하드웨어 중심 효율에서 사용자 경험 중심 평가로 확장돼 왔다.
 
@@ -51,20 +49,19 @@ tags = ["studynote-operating-system"]
 
 아래 시간축은 다섯 기준이 프로세스 생애주기의 어느 구간을 보는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로세스 시간축에서 보는 스케줄링 기준</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">도착 첫 실행 완료</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Ready</div><div class="kb-diagram-note">─wait1─</div><div class="kb-diagram-node">Run</div><div class="kb-diagram-note">─I/O─</div><div class="kb-diagram-node">Ready</div><div class="kb-diagram-note">─wait2─</div><div class="kb-diagram-node">Run</div><div class="kb-diagram-connector">▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt; response time &gt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt; turnaround time &gt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">waiting time = wait1 + wait2</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│            프로세스 시간축에서 보는 스케줄링 기준            │
+├──────────────────────────────────────────────────────────────┤
+│ 도착            첫 실행                            완료       │
+│  │                │                                 │         │
+│  ▼                ▼                                 ▼         │
+│ [Ready]─wait1─[Run]─I/O─[Ready]─wait2─[Run]───────────────▶  │
+│   <──── response time ────>                                │
+│   <──────────── turnaround time ────────────>              │
+│ waiting time = wait1 + wait2                               │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 그림에서 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) ([Response Time](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/))은 도착 후 첫 CPU 할당까지의 시간이고, [반환 시간](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/172_turnaround_waiting_response_time/) ([Turnaround Time](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/172_turnaround_waiting_response_time/))은 도착부터 완료까지의 전체 시간이다. 대기 시간 (Waiting Time)은 오직 준비 큐에서 기다린 시간만 더한 값이므로 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 자체의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 비교하기에 특히 유용하다. CPU 이용률 ([CPU Utilization](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/171_cpu_utilization_throughput/))은 `busy time / total time`, [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))은 `완료된 작업 수 / 단위 시간`으로 계산한다.
 
@@ -104,19 +101,16 @@ tags = ["studynote-operating-system"]
 
 실무에서는 먼저 "우리 시스템의 대표 성공 기준이 무엇인가"를 정해야 한다. 사용자와 직접 상호작용하는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)라면 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/), 특히 평균이 아니라 p95·p99 같은 상위 백분위 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 중요하다. 배치 작업이라면 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)과 [반환 시간](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/172_turnaround_waiting_response_time/)이 핵심이며, 경성 실시간 시스템이라면 다섯 기준보다 데드라인 준수율이 우선이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시스템 목적에 따른 우선 지표 선택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대화형 UI / 웹 API -&gt; 응답 시간, tail latency 우선</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">배치 / 분석 / 렌더링 -&gt; 처리량, 반환 시간 우선</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">혼합 서버 -&gt; 작업 등급 분리 후 균형 조정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">경성 실시간 제어 -&gt; 최악 지연, deadline miss 우선</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│              시스템 목적에 따른 우선 지표 선택               │
+├──────────────────────────────────────────────────────────────┤
+│ 대화형 UI / 웹 API      -> 응답 시간, tail latency 우선      │
+│ 배치 / 분석 / 렌더링    -> 처리량, 반환 시간 우선            │
+│ 혼합 서버               -> 작업 등급 분리 후 균형 조정       │
+│ 경성 실시간 제어        -> 최악 지연, deadline miss 우선     │
+└──────────────────────────────────────────────────────────────┘
+```
 
 예를 들어 모바일 앱 백엔드에서 평균 CPU 이용률이 60%라 해도 p99 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)이 800ms로 튀면 사용자는 느리다고 느낀다. 이 경우 CPU 이용률을 더 높이는 것이 아니라, 인터랙티브 요청의 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)을 줄이는 쪽으로 스케줄링과 큐 분리 정책을 조정해야 한다. 반대로 야간 배치 시스템은 첫 반응이 조금 늦어도 전체 완료 시간이 짧고 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 높으면 더 좋은 결과가 될 수 있다.
 
@@ -163,22 +157,18 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">워크로드 성격 파악</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">주요 평가 기준 선택</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ CPU 이용률 · 처리량</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 반환 시간 · 대기 시간</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 응답 시간 · tail latency</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">스케줄링 알고리즘 및 파라미터 결정</div>
-</div>
-</div>
-
-
+```text
+워크로드 성격 파악
+    │
+    ▼
+주요 평가 기준 선택
+    │
+    ├──────────────▶ CPU 이용률 · 처리량
+    ├──────────────▶ 반환 시간 · 대기 시간
+    ├──────────────▶ 응답 시간 · tail latency
+    ▼
+스케줄링 알고리즘 및 파라미터 결정
+```
 
 이 흐름도는 스케줄링 기준이 단순 설명 항목이 아니라, 워크로드 분석에서 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 선택과 모니터링까지 이어지는 실무 의사결정의 출발점임을 보여준다.
 

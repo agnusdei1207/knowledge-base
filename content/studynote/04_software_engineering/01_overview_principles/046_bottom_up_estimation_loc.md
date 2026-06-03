@@ -18,47 +18,50 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 상향식 비용 산정
 
+```
+상향식 (Bottom-Up) 비용 산정:
 
+WBS (Work Breakdown Structure):
+  프로젝트를 계층적 작업으로 분해
+  
+  프로젝트
+  ├── 모듈A
+  │   ├── 설계: 5일, 1명
+  │   ├── 구현: 15일, 2명
+  │   └── 테스트: 5일, 1명
+  ├── 모듈B
+  │   ├── 설계: 3일, 1명
+  │   ├── 구현: 10일, 2명
+  │   └── 테스트: 3일, 1명
+  └── 통합 테스트: 10일, 2명
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">상향식 (Bottom-Up) 비용 산정:</div>
-<div class="kb-diagram-note">WBS (Work Breakdown Structure):</div>
-<div class="kb-diagram-note">프로젝트를 계층적 작업으로 분해</div>
-<div class="kb-diagram-note">프로젝트</div>
-<div class="kb-diagram-tree-item" style="--depth:1">모듈A</div>
-<div class="kb-diagram-note">── 설계: 5일, 1명</div>
-<div class="kb-diagram-note">── 구현: 15일, 2명</div>
-<div class="kb-diagram-note">── 테스트: 5일, 1명</div>
-<div class="kb-diagram-tree-item" style="--depth:1">모듈B</div>
-<div class="kb-diagram-note">── 설계: 3일, 1명</div>
-<div class="kb-diagram-note">── 구현: 10일, 2명</div>
-<div class="kb-diagram-note">── 테스트: 3일, 1명</div>
-<div class="kb-diagram-tree-item" style="--depth:1">통합 테스트: 10일, 2명</div>
-<div class="kb-diagram-note">합산:</div>
-<div class="kb-diagram-note">노력 = Σ (작업 × 인원 × 일수)</div>
-<div class="kb-diagram-note">비용 = 노력 × 단가 + 비인력 비용</div>
-<div class="kb-diagram-note">상향식 장점:</div>
-<div class="kb-diagram-note">세부 항목 고려 → 정확도 높음</div>
-<div class="kb-diagram-note">담당자 직접 추정 → 현실적</div>
-<div class="kb-diagram-note">작업 누락 최소화 (WBS 완전성 전제)</div>
-<div class="kb-diagram-note">상향식 단점:</div>
-<div class="kb-diagram-note">WBS 완성 필요 → 초기 불가</div>
-<div class="kb-diagram-note">시간·노력 많이 소요</div>
-<div class="kb-diagram-note">세부 작업 과소/과대 추정 가능</div>
-<div class="kb-diagram-note">합산 시 상호작용 비용 누락 가능</div>
-<div class="kb-diagram-note">이중 검증:</div>
-<div class="kb-diagram-note">상향식 추정 + 하향식(유추) 비교</div>
-<div class="kb-diagram-note">차이 &gt; 20% → 원인 분석</div>
-<div class="kb-diagram-note">위험: 하향식 &lt; 상향식</div>
-<div class="kb-diagram-note">→ 범위 과소 측정 또는 팀 비효율</div>
-<div class="kb-diagram-note">전제 조건:</div>
-<div class="kb-diagram-note">상향식은 요구사항 정의 완료 후</div>
-<div class="kb-diagram-note">설계 수준 WBS 구성 가능 시점에 적용</div>
-</div>
-</div>
+합산:
+  노력 = Σ (작업 × 인원 × 일수)
+  
+  비용 = 노력 × 단가 + 비인력 비용
 
+상향식 장점:
+  세부 항목 고려 → 정확도 높음
+  담당자 직접 추정 → 현실적
+  작업 누락 최소화 (WBS 완전성 전제)
 
+상향식 단점:
+  WBS 완성 필요 → 초기 불가
+  시간·노력 많이 소요
+  세부 작업 과소/과대 추정 가능
+  합산 시 상호작용 비용 누락 가능
+
+이중 검증:
+  상향식 추정 + 하향식(유추) 비교
+  차이 > 20% → 원인 분석
+  
+  위험: 하향식 < 상향식
+  → 범위 과소 측정 또는 팀 비효율
+
+전제 조건:
+  상향식은 요구사항 정의 완료 후
+  설계 수준 WBS 구성 가능 시점에 적용
+```
 
 > 📢 **섹션 요약 비유**: 상향식은 재료비 정확 계산 — 레시피([WBS](/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/))대로 재료 하나하나 가격 합산. 시간은 걸리지만 정확. 레시피도 없는 초기엔 사용 불가!
 
@@ -120,45 +123,48 @@ LOC 단점:
 
 ## Ⅲ. 언어별 LOC/[FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 비율
 
+```
+언어별 FP(기능점수) 당 LOC 비교:
 
+언어            LOC/FP (중앙값)    특징
+Assembly        320                저수준 제어
+C               128                시스템 프로그래밍
+C++             64                 객체지향
+Java            55                 엔터프라이즈
+C#              54                 .NET
+Python          33                 간결, 높은 생산성
+Ruby            28                 DSL 최적화
+Cobol           107                레거시 비즈니스
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">언어별 FP(기능점수) 당 LOC 비교:</div>
-<div class="kb-diagram-note">언어 LOC/FP (중앙값) 특징</div>
-<div class="kb-diagram-note">Assembly 320 저수준 제어</div>
-<div class="kb-diagram-note">C 128 시스템 프로그래밍</div>
-<div class="kb-diagram-note">C++ 64 객체지향</div>
-<div class="kb-diagram-note">Java 55 엔터프라이즈</div>
-<div class="kb-diagram-note">C# 54 .NET</div>
-<div class="kb-diagram-note">Python 33 간결, 높은 생산성</div>
-<div class="kb-diagram-note">Ruby 28 DSL 최적화</div>
-<div class="kb-diagram-note">Cobol 107 레거시 비즈니스</div>
-<div class="kb-diagram-note">(출처: Capers Jones QSM 통계)</div>
-<div class="kb-diagram-note">의미:</div>
-<div class="kb-diagram-note">1 FP 기능을 구현하는 데:</div>
-<div class="kb-diagram-note">C: 128줄</div>
-<div class="kb-diagram-note">Python: 33줄</div>
-<div class="kb-diagram-note">→ C로 100,000 LOC = 781 FP</div>
-<div class="kb-diagram-note">→ Python으로 100,000 LOC = 3,030 FP</div>
-<div class="kb-diagram-note">LOC만으로 비교하면 Python이 3.9배 기능 더 많음!</div>
-<div class="kb-diagram-note">→ LOC 기반 비교는 동일 언어에서만 유효</div>
-<div class="kb-diagram-note">생산성 비교 (LOC/인월):</div>
-<div class="kb-diagram-note">COBOL: 50~100</div>
-<div class="kb-diagram-note">Java: 150~300</div>
-<div class="kb-diagram-note">Python: 300~600</div>
-<div class="kb-diagram-note">Python 팀이 LOC 적어도 더 많은 기능 구현 가능</div>
-<div class="kb-diagram-note">규모 추정 시 고려:</div>
-<div class="kb-diagram-note">언어 선택이 LOC 추정에 직접 영향</div>
-<div class="kb-diagram-note">LOC 기반 산정 = 언어 고정 후 사용</div>
-<div class="kb-diagram-note">대안: 기능점수(FP)</div>
-<div class="kb-diagram-note">언어 독립적 규모 측정</div>
-<div class="kb-diagram-note">사용자 관점 기능으로 측정</div>
-<div class="kb-diagram-note">비교 용이</div>
-</div>
-</div>
+(출처: Capers Jones QSM 통계)
 
+의미:
+  1 FP 기능을 구현하는 데:
+  C: 128줄
+  Python: 33줄
+  
+  → C로 100,000 LOC = 781 FP
+  → Python으로 100,000 LOC = 3,030 FP
+  
+  LOC만으로 비교하면 Python이 3.9배 기능 더 많음!
+  → LOC 기반 비교는 동일 언어에서만 유효
 
+생산성 비교 (LOC/인월):
+  COBOL: 50~100
+  Java:  150~300
+  Python: 300~600
+  
+  Python 팀이 LOC 적어도 더 많은 기능 구현 가능
+
+규모 추정 시 고려:
+  언어 선택이 LOC 추정에 직접 영향
+  LOC 기반 산정 = 언어 고정 후 사용
+
+대안: 기능점수(FP)
+  언어 독립적 규모 측정
+  사용자 관점 기능으로 측정
+  비교 용이
+```
 
 > 📢 **섹션 요약 비유**: LOC/FP는 언어별 단어 효율 — 같은 내용(기능)을 영어(C)는 100단어, 한자(Python)는 30단어로 표현. 단어 수만 보면 오해!
 
@@ -166,45 +172,49 @@ LOC 단점:
 
 ## Ⅳ. [COCOMO](/knowledge-base/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/) II LOC 기반 모델
 
+```
+COCOMO II (Constructive Cost Model):
+  LOC 기반 가장 널리 사용되는 비용 모델
 
+기본 공식:
+  PM = A × (Size)^E × ΠEM_i
+  
+  PM: 노력 (인월, Person-Months)
+  Size: KSLOC (천 줄 단위 SLOC)
+  A: 2.94 (보정 상수)
+  E: 경험적 지수 (규모 효과)
+  EM_i: 노력 승수 (17개 비용 드라이버)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">COCOMO II (Constructive Cost Model):</div>
-<div class="kb-diagram-note">LOC 기반 가장 널리 사용되는 비용 모델</div>
-<div class="kb-diagram-note">기본 공식:</div>
-<div class="kb-diagram-note">PM = A × (Size)^E × ΠEM_i</div>
-<div class="kb-diagram-note">PM: 노력 (인월, Person-Months)</div>
-<div class="kb-diagram-note">Size: KSLOC (천 줄 단위 SLOC)</div>
-<div class="kb-diagram-note">A: 2.94 (보정 상수)</div>
-<div class="kb-diagram-note">E: 경험적 지수 (규모 효과)</div>
-<div class="kb-diagram-note">EM_i: 노력 승수 (17개 비용 드라이버)</div>
-<div class="kb-diagram-note">규모 효과 (Scale Factor):</div>
-<div class="kb-diagram-note">E = 0.91 + 0.01 × ΣSF_i</div>
-<div class="kb-diagram-note">SF 예시:</div>
-<div class="kb-diagram-note">선례성 (Precedentedness): 유사 프로젝트 경험</div>
-<div class="kb-diagram-note">팀 응집성 (Team Cohesion)</div>
-<div class="kb-diagram-note">프로세스 성숙도 (Process Maturity)</div>
-<div class="kb-diagram-note">E 범위: 0.91~1.23</div>
-<div class="kb-diagram-note">비용 드라이버 (EM, 일부):</div>
-<div class="kb-diagram-note">RELY (신뢰성 요구): 0.82~1.26</div>
-<div class="kb-diagram-note">CPLX (복잡도): 0.73~1.74</div>
-<div class="kb-diagram-note">ACAP (분석가 역량): 0.71~1.42</div>
-<div class="kb-diagram-note">TOOL (도구 사용): 0.78~1.17</div>
-<div class="kb-diagram-note">예시 계산:</div>
-<div class="kb-diagram-note">Size = 100 KSLOC, E = 1.05</div>
-<div class="kb-diagram-note">EM_RELY = 1.10, EM_CPLX = 1.30, EM_ACAP = 0.85</div>
-<div class="kb-diagram-note">PM = 2.94 × (100)^1.05 × 1.10 × 1.30 × 0.85</div>
-<div class="kb-diagram-note">= 2.94 × 140 × 1.218</div>
-<div class="kb-diagram-note">= 501 인월</div>
-<div class="kb-diagram-note">5년짜리 팀 10명 → 50개월 → 4.2년</div>
-<div class="kb-diagram-note">기간 추정:</div>
-<div class="kb-diagram-note">TDEV = 3.67 × (PM)^(0.28+0.002×ΣSF)</div>
-<div class="kb-diagram-note">= 3.67 × 501^0.33 ≈ 29.5개월</div>
-</div>
-</div>
+규모 효과 (Scale Factor):
+  E = 0.91 + 0.01 × ΣSF_i
+  
+  SF 예시:
+  선례성 (Precedentedness): 유사 프로젝트 경험
+  팀 응집성 (Team Cohesion)
+  프로세스 성숙도 (Process Maturity)
+  
+  E 범위: 0.91~1.23
 
+비용 드라이버 (EM, 일부):
+  RELY (신뢰성 요구): 0.82~1.26
+  CPLX (복잡도): 0.73~1.74
+  ACAP (분석가 역량): 0.71~1.42
+  TOOL (도구 사용): 0.78~1.17
 
+예시 계산:
+  Size = 100 KSLOC, E = 1.05
+  EM_RELY = 1.10, EM_CPLX = 1.30, EM_ACAP = 0.85
+  
+  PM = 2.94 × (100)^1.05 × 1.10 × 1.30 × 0.85
+     = 2.94 × 140 × 1.218
+     = 501 인월
+  
+  5년짜리 팀 10명 → 50개월 → 4.2년
+
+기간 추정:
+  TDEV = 3.67 × (PM)^(0.28+0.002×ΣSF)
+       = 3.67 × 501^0.33 ≈ 29.5개월
+```
 
 > 📢 **섹션 요약 비유**: [COCOMO](/knowledge-base/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/) II는 요리 시간 계산기 — 재료 양(LOC) × 어려운 레시피(복잡도) × 초보 요리사(역량 드라이버) = 완성 시간. 변수가 많을수록 정확!
 
@@ -212,47 +222,52 @@ LOC 단점:
 
 ## Ⅴ. 실무 시나리오 — SI 프로젝트 상향식 산정
 
+```
+중견 기업 ERP 커스터마이징 프로젝트:
 
+WBS 기반 상향식 산정:
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">중견 기업 ERP 커스터마이징 프로젝트:</div>
-<div class="kb-diagram-note">WBS 기반 상향식 산정:</div>
-<div class="kb-diagram-note">모듈 1: 구매 관리</div>
-<div class="kb-diagram-note">요구사항 분석: 5일 × 1명 = 5 인일</div>
-<div class="kb-diagram-note">DB 설계: 3일 × 1명 = 3 인일</div>
-<div class="kb-diagram-note">화면 개발 (10개): 15일 × 2명 = 30 인일</div>
-<div class="kb-diagram-note">API 개발: 10일 × 2명 = 20 인일</div>
-<div class="kb-diagram-note">단위 테스트: 5일 × 1명 = 5 인일</div>
-<div class="kb-diagram-note">소계: 63 인일</div>
-<div class="kb-diagram-note">모듈 2: 재고 관리</div>
-<div class="kb-diagram-note">소계: 85 인일</div>
-<div class="kb-diagram-note">모듈 3: 영업 관리</div>
-<div class="kb-diagram-note">소계: 90 인일</div>
-<div class="kb-diagram-note">공통 작업:</div>
-<div class="kb-diagram-note">아키텍처 설계: 10 인일</div>
-<div class="kb-diagram-note">통합 테스트: 20 인일</div>
-<div class="kb-diagram-note">배포: 5 인일</div>
-<div class="kb-diagram-note">총합: 273 인일 = 13.65 인월</div>
-<div class="kb-diagram-note">LOC 검증:</div>
-<div class="kb-diagram-note">개발 LOC 추정: ~15,000 SLOC (Java)</div>
-<div class="kb-diagram-note">Java 생산성: 200 LOC/인월</div>
-<div class="kb-diagram-note">= 75 인월 (← 차이 큼!)</div>
-<div class="kb-diagram-note">차이 분석:</div>
-<div class="kb-diagram-note">상향식 13.65 인월 vs LOC 75 인월</div>
-<div class="kb-diagram-note">원인: 기존 ERP 위에 커스터마이징</div>
-<div class="kb-diagram-note">→ 순수 신규 개발 LOC 비율 낮음</div>
-<div class="kb-diagram-note">→ LOC 모델이 과대 추정</div>
-<div class="kb-diagram-note">결론: 상향식이 더 현실적</div>
-<div class="kb-diagram-note">LOC는 레거시/커스터마이징에 부적합</div>
-<div class="kb-diagram-note">최종 산정:</div>
-<div class="kb-diagram-note">상향식 기반 14인월 (10% 완충 포함)</div>
-<div class="kb-diagram-note">팀 구성: 3명 → 기간 약 5개월</div>
-<div class="kb-diagram-note">총 비용: 14인월 × 500만 = 7,000만원</div>
-</div>
-</div>
+모듈 1: 구매 관리
+  요구사항 분석: 5일 × 1명 = 5 인일
+  DB 설계: 3일 × 1명 = 3 인일
+  화면 개발 (10개): 15일 × 2명 = 30 인일
+  API 개발: 10일 × 2명 = 20 인일
+  단위 테스트: 5일 × 1명 = 5 인일
+  소계: 63 인일
 
+모듈 2: 재고 관리
+  소계: 85 인일
 
+모듈 3: 영업 관리
+  소계: 90 인일
+
+공통 작업:
+  아키텍처 설계: 10 인일
+  통합 테스트: 20 인일
+  배포: 5 인일
+
+총합: 273 인일 = 13.65 인월
+
+LOC 검증:
+  개발 LOC 추정: ~15,000 SLOC (Java)
+  Java 생산성: 200 LOC/인월
+  = 75 인월 (← 차이 큼!)
+
+차이 분석:
+  상향식 13.65 인월 vs LOC 75 인월
+  
+  원인: 기존 ERP 위에 커스터마이징
+  → 순수 신규 개발 LOC 비율 낮음
+  → LOC 모델이 과대 추정
+  
+  결론: 상향식이 더 현실적
+  LOC는 레거시/커스터마이징에 부적합
+
+최종 산정:
+  상향식 기반 14인월 (10% 완충 포함)
+  팀 구성: 3명 → 기간 약 5개월
+  총 비용: 14인월 × 500만 = 7,000만원
+```
 
 > 📢 **섹션 요약 비유**: SI 프로젝트 상향식은 견적서 — 화면 10개 × 요금, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 20개 × 요금, 테스트 포함. 재료 하나하나 더하기. LOC 모델과 비교해서 차이 크면 이유 분석!
 

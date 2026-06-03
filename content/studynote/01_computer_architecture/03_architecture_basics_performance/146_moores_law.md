@@ -33,23 +33,22 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 무어의 법칙이 단순한 숫자 증가가 아니라, 설계 선택지를 어떻게 넓혀 왔는지를 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Moore's Law: same die area, more design options over time</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Old node Smaller node Denser chip</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1x area ──▶ 1x area ──▶ more transistors</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">More transistors are spent on:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ larger cache</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ more cores</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ wider execution units</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ better control logic (branch, prefetch, security, AI blocks)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Result: more function per chip, lower cost per function</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│        Moore's Law: same die area, more design options over time    │
+├──────────────────────────────────────────────────────────────────────┤
+│ Old node         Smaller node          Denser chip                   │
+│   1x area   ──▶    1x area       ──▶   more transistors             │
+│                                                                      │
+│ More transistors are spent on:                                       │
+│   ├─ larger cache                                                     │
+│   ├─ more cores                                                       │
+│   ├─ wider execution units                                            │
+│   └─ better control logic (branch, prefetch, security, AI blocks)    │
+│                                                                      │
+│ Result: more function per chip, lower cost per function              │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 흐름이 오래 유지될 수 있었던 배경에는 포토리소그래피 (Photolithography) [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 향상, 공정 수율 개선, 설계 자동화 (Electronic Design Automation, [EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/)), 대규모 생산 경제가 있었다. 즉 무어의 법칙은 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 숫자만의 이야기가 아니라, 제조·설계·경제가 동시에 맞물릴 때만 성립한다.
 
@@ -125,26 +124,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">개별 트랜지스터 시대</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">집적회로 (Integrated Circuit, IC) 확산</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">무어의 법칙 (Moore's Law)</div>
-<div class="kb-diagram-note">: 집적도 증가 · 기능당 비용 하락</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 데나드 스케일링 (Dennard Scaling)</div>
-<div class="kb-diagram-note">: 고클럭 시대 뒷받침</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">전력의 벽 (Power Wall) · 공정 비용 급등</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">멀티코어 · 칩렛 · 2.5D/3D 패키징 · More than Moore</div>
-</div>
-</div>
-
-
+```text
+개별 트랜지스터 시대
+    │
+    ▼
+집적회로 (Integrated Circuit, IC) 확산
+    │
+    ▼
+무어의 법칙 (Moore's Law)
+: 집적도 증가 · 기능당 비용 하락
+    │
+    ├──▶ 데나드 스케일링 (Dennard Scaling)
+    │     : 고클럭 시대 뒷받침
+    │
+    ▼
+전력의 벽 (Power Wall) · 공정 비용 급등
+    │
+    ▼
+멀티코어 · 칩렛 · 2.5D/3D 패키징 · More than Moore
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -18,39 +18,42 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. K-Means [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
 
+```
+K-Means 알고리즘 단계:
 
+입력: 데이터 X = {x1, x2, ..., xn}, 군집 수 K
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">K-Means 알고리즘 단계:</div>
-<div class="kb-diagram-note">입력: 데이터 X = {x1, x2, ..., xn}, 군집 수 K</div>
-<div class="kb-diagram-note">1. 초기화:</div>
-<div class="kb-diagram-note">K개 중심점(Centroid) 무작위 선택</div>
-<div class="kb-diagram-note">μ1, μ2, ..., μK</div>
-<div class="kb-diagram-note">2. 배정 (Assignment):</div>
-<div class="kb-diagram-note">각 데이터 포인트를 가장 가까운 중심점 군집에 배정</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C(i) = argmin_k</div><div class="kb-diagram-cell">xi - μk</div><div class="kb-diagram-cell">²</div></div>
-<div class="kb-diagram-note">3. 업데이트 (Update):</div>
-<div class="kb-diagram-note">각 군집의 새 중심점 계산 (평균)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">μk = (1/</div><div class="kb-diagram-cell">Ck</div><div class="kb-diagram-cell">) Σ_{xi∈Ck} xi</div></div>
-<div class="kb-diagram-note">4. 수렴 확인:</div>
-<div class="kb-diagram-note">중심점이 더 이상 변하지 않으면 종료</div>
-<div class="kb-diagram-note">아니면 2로 반복</div>
-<div class="kb-diagram-note">목적 함수 (최소화):</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">J = Σ_k Σ_{xi∈Ck}</div><div class="kb-diagram-cell">xi - μk</div><div class="kb-diagram-cell">²</div></div>
-<div class="kb-diagram-note">= 군집 내 거리 제곱합 (WCSS: Within-Cluster Sum of Squares)</div>
-<div class="kb-diagram-note">시각화 예시:</div>
-<div class="kb-diagram-note">초기: × × × ○ ○ × ○ ○</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">반복1:</div><div class="kb-diagram-node">× × ×</div><div class="kb-diagram-node">○ ○ ○ ○</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">군집 배정</div></div>
-<div class="kb-diagram-note">반복2: 중심점 이동 → 재배정</div>
-<div class="kb-diagram-note">수렴: 안정된 군집 형성</div>
-<div class="kb-diagram-note">시간 복잡도: O(n × K × I × d)</div>
-<div class="kb-diagram-note">n: 데이터 수, K: 군집 수</div>
-<div class="kb-diagram-note">I: 반복 횟수, d: 차원 수</div>
-</div>
-</div>
+1. 초기화:
+   K개 중심점(Centroid) 무작위 선택
+   μ1, μ2, ..., μK
 
+2. 배정 (Assignment):
+   각 데이터 포인트를 가장 가까운 중심점 군집에 배정
+   C(i) = argmin_k ||xi - μk||²
 
+3. 업데이트 (Update):
+   각 군집의 새 중심점 계산 (평균)
+   μk = (1/|Ck|) Σ_{xi∈Ck} xi
+
+4. 수렴 확인:
+   중심점이 더 이상 변하지 않으면 종료
+   아니면 2로 반복
+
+목적 함수 (최소화):
+  J = Σ_k Σ_{xi∈Ck} ||xi - μk||²
+  = 군집 내 거리 제곱합 (WCSS: Within-Cluster Sum of Squares)
+
+시각화 예시:
+  
+  초기:  × × × ○ ○ × ○ ○
+  반복1: [× × ×] [○ ○ ○ ○]  ← 군집 배정
+  반복2: 중심점 이동 → 재배정
+  수렴:  안정된 군집 형성
+
+시간 복잡도: O(n × K × I × d)
+  n: 데이터 수, K: 군집 수
+  I: 반복 횟수, d: 차원 수
+```
 
 > 📢 **섹션 요약 비유**: K-Means는 반장 선거 — K명의 반장(중심점) 선출 후 가장 가까운 반장 지지(배정), 지지자 평균 위치로 반장 이동(업데이트). 안정될 때까지 반복!
 
@@ -58,41 +61,46 @@ tags = ["studynote-ai"]
 
 ## Ⅱ. 최적 K 선택
 
+```
+최적 K 선택 방법:
 
+1. Elbow Method (엘보우 방법):
+   K 증가에 따른 WCSS 감소 곡선
+   "꺾임점(Elbow)" = 최적 K
+   
+   K:   1    2    3    4    5    6
+   WCSS: 100  50   25   20   18   17
+                   ^
+                  Elbow → K=3 선택
+   
+   한계: 명확한 꺾임점 없을 수 있음
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">최적 K 선택 방법:</div>
-<div class="kb-diagram-note">1. Elbow Method (엘보우 방법):</div>
-<div class="kb-diagram-note">K 증가에 따른 WCSS 감소 곡선</div>
-<div class="kb-diagram-note">"꺾임점(Elbow)" = 최적 K</div>
-<div class="kb-diagram-note">K: 1 2 3 4 5 6</div>
-<div class="kb-diagram-note">WCSS: 100 50 25 20 18 17</div>
-<div class="kb-diagram-note">^</div>
-<div class="kb-diagram-note">Elbow → K=3 선택</div>
-<div class="kb-diagram-note">한계: 명확한 꺾임점 없을 수 있음</div>
-<div class="kb-diagram-note">2. Silhouette Score:</div>
-<div class="kb-diagram-note">군집 품질 지표: -1 ~ 1</div>
-<div class="kb-diagram-note">s(i) = (b(i) - a(i)) / max(a(i), b(i))</div>
-<div class="kb-diagram-note">a(i): 같은 군집 내 평균 거리 (작을수록 좋음)</div>
-<div class="kb-diagram-note">b(i): 가장 가까운 다른 군집까지 평균 거리 (클수록 좋음)</div>
-<div class="kb-diagram-note">s → 1: 올바른 군집</div>
-<div class="kb-diagram-note">s → 0: 경계에 있음</div>
-<div class="kb-diagram-note">s → -1: 잘못된 군집</div>
-<div class="kb-diagram-note">최적 K = 평균 Silhouette Score 최대</div>
-<div class="kb-diagram-note">3. Gap Statistics:</div>
-<div class="kb-diagram-note">균일 분포 데이터 대비 군집 품질 비교</div>
-<div class="kb-diagram-note">기대 이상의 군집 구조가 있는 K 선택</div>
-<div class="kb-diagram-note">4. 도메인 지식:</div>
-<div class="kb-diagram-note">"고객 세그먼트 3개" → K=3</div>
-<div class="kb-diagram-note">비즈니스 요구 반영이 중요</div>
-<div class="kb-diagram-note">실무 권장:</div>
-<div class="kb-diagram-note">Elbow + Silhouette 이중 확인</div>
-<div class="kb-diagram-note">최종 K는 도메인 전문가 검토</div>
-</div>
-</div>
+2. Silhouette Score:
+   군집 품질 지표: -1 ~ 1
+   
+   s(i) = (b(i) - a(i)) / max(a(i), b(i))
+   
+   a(i): 같은 군집 내 평균 거리 (작을수록 좋음)
+   b(i): 가장 가까운 다른 군집까지 평균 거리 (클수록 좋음)
+   
+   s → 1: 올바른 군집
+   s → 0: 경계에 있음
+   s → -1: 잘못된 군집
+   
+   최적 K = 평균 Silhouette Score 최대
 
+3. Gap Statistics:
+   균일 분포 데이터 대비 군집 품질 비교
+   기대 이상의 군집 구조가 있는 K 선택
 
+4. 도메인 지식:
+   "고객 세그먼트 3개" → K=3
+   비즈니스 요구 반영이 중요
+   
+실무 권장:
+  Elbow + Silhouette 이중 확인
+  최종 K는 도메인 전문가 검토
+```
 
 > 📢 **섹션 요약 비유**: K 선택은 학급 수 결정 — Elbow는 "반 추가해도 별로 나아지지 않는 지점", Silhouette은 "각 학생이 자기 반이 맞는지 점수". 둘 다 보고 최적 반 수 선택!
 
@@ -100,40 +108,42 @@ tags = ["studynote-ai"]
 
 ## Ⅲ. K-Means++ [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화
 
+```
+K-Means 초기화 문제:
 
+기본 무작위 초기화 문제:
+  나쁜 초기 중심점 → 나쁜 수렴 결과
+  
+  예: 3개 군집 데이터
+  두 초기 중심점이 같은 군집에 → 잘못된 결과
+  
+  해결: 여러 번 실행 후 최적 선택 (n_init)
+  → 계산 비용 증가
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">K-Means 초기화 문제:</div>
-<div class="kb-diagram-note">기본 무작위 초기화 문제:</div>
-<div class="kb-diagram-note">나쁜 초기 중심점 → 나쁜 수렴 결과</div>
-<div class="kb-diagram-note">예: 3개 군집 데이터</div>
-<div class="kb-diagram-note">두 초기 중심점이 같은 군집에 → 잘못된 결과</div>
-<div class="kb-diagram-note">해결: 여러 번 실행 후 최적 선택 (n_init)</div>
-<div class="kb-diagram-note">→ 계산 비용 증가</div>
-<div class="kb-diagram-note">K-Means++ 초기화:</div>
-<div class="kb-diagram-note">1. 첫 중심점 무작위 선택</div>
-<div class="kb-diagram-note">2. 나머지 중심점: 거리 비례 확률로 선택</div>
-<div class="kb-diagram-note">(기존 중심점에서 멀수록 선택 확률 높음)</div>
-<div class="kb-diagram-note">3. K개 중심점 선택 완료 후 일반 K-Means 실행</div>
-<div class="kb-diagram-note">효과:</div>
-<div class="kb-diagram-tree-item" style="--depth:1">초기 중심점이 잘 분산됨</div>
-<div class="kb-diagram-tree-item" style="--depth:1">수렴 속도 빠름</div>
-<div class="kb-diagram-tree-item" style="--depth:1">결과 안정성 향상</div>
-<div class="kb-diagram-note">시간 복잡도: O(n × K × d) 추가</div>
-<div class="kb-diagram-note">(일반 K-Means와 크게 차이 없음)</div>
-<div class="kb-diagram-note">sklearn 기본값:</div>
-<div class="kb-diagram-note">from sklearn.cluster import KMeans</div>
-<div class="kb-diagram-note">km = KMeans(n_clusters=3, init='k-means++')</div>
-<div class="kb-diagram-note"># init='k-means++' 가 기본값</div>
-<div class="kb-diagram-note">Mini-Batch K-Means:</div>
-<div class="kb-diagram-note">대용량 데이터: 전체 대신 미니 배치로 업데이트</div>
-<div class="kb-diagram-note">속도 향상, 약간의 품질 감소</div>
-<div class="kb-diagram-note">10M+ 데이터에 적합</div>
-</div>
-</div>
+K-Means++ 초기화:
+  1. 첫 중심점 무작위 선택
+  2. 나머지 중심점: 거리 비례 확률로 선택
+     (기존 중심점에서 멀수록 선택 확률 높음)
+  3. K개 중심점 선택 완료 후 일반 K-Means 실행
+  
+  효과:
+  - 초기 중심점이 잘 분산됨
+  - 수렴 속도 빠름
+  - 결과 안정성 향상
+  
+  시간 복잡도: O(n × K × d) 추가
+  (일반 K-Means와 크게 차이 없음)
+  
+  sklearn 기본값:
+  from sklearn.cluster import KMeans
+  km = KMeans(n_clusters=3, init='k-means++')
+  # init='k-means++' 가 기본값
 
-
+Mini-Batch K-Means:
+  대용량 데이터: 전체 대신 미니 배치로 업데이트
+  속도 향상, 약간의 품질 감소
+  10M+ 데이터에 적합
+```
 
 > 📢 **섹션 요약 비유**: K-Means++는 반장 후보 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 배치 — 첫 반장은 아무나, 두 번째 반장은 첫 반장에서 최대한 먼 곳에서 선택. 골고루 퍼진 출발점!
 
@@ -141,48 +151,53 @@ tags = ["studynote-ai"]
 
 ## Ⅳ. 한계와 대안 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
 
+```
+K-Means 한계:
 
+1. 원형 군집만 잘 됨:
+   볼록(Convex) 형태 가정
+   초승달, 링, 나선형 → 실패
+   
+   데이터:  ○○●●○○
+           ●●○○●●  
+   K-Means: 좌우 2개 군집으로 잘못 나눔
+   → 고리(Ring) 형태 군집 실패
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">K-Means 한계:</div>
-<div class="kb-diagram-note">1. 원형 군집만 잘 됨:</div>
-<div class="kb-diagram-note">볼록(Convex) 형태 가정</div>
-<div class="kb-diagram-note">초승달, 링, 나선형 → 실패</div>
-<div class="kb-diagram-note">데이터: ○○●●○○</div>
-<div class="kb-diagram-note">●●○○●●</div>
-<div class="kb-diagram-note">K-Means: 좌우 2개 군집으로 잘못 나눔</div>
-<div class="kb-diagram-note">→ 고리(Ring) 형태 군집 실패</div>
-<div class="kb-diagram-note">2. K 사전 지정 필요:</div>
-<div class="kb-diagram-note">최적 K 모름</div>
-<div class="kb-diagram-note">3. 이상치(Outlier) 민감:</div>
-<div class="kb-diagram-note">이상치 하나가 중심점을 크게 이동</div>
-<div class="kb-diagram-note">4. 불균등 크기/밀도 군집:</div>
-<div class="kb-diagram-note">대형 군집 + 소형 군집 → 실패</div>
-<div class="kb-diagram-note">대안 알고리즘:</div>
-<div class="kb-diagram-note">DBSCAN:</div>
-<div class="kb-diagram-note">밀도 기반 → 임의 형태 군집</div>
-<div class="kb-diagram-note">이상치 자동 탐지</div>
-<div class="kb-diagram-note">K 불필요 (epsilon, minPts 파라미터)</div>
-<div class="kb-diagram-note">계층적 군집화 (Hierarchical):</div>
-<div class="kb-diagram-note">덴드로그램으로 군집 구조 시각화</div>
-<div class="kb-diagram-note">K 사전 지정 불필요</div>
-<div class="kb-diagram-note">GMM (Gaussian Mixture Model):</div>
-<div class="kb-diagram-note">연속 확률 분포 기반</div>
-<div class="kb-diagram-note">타원형 군집 가능</div>
-<div class="kb-diagram-note">EM 알고리즘</div>
-<div class="kb-diagram-note">Spectral Clustering:</div>
-<div class="kb-diagram-note">그래프 기반 → 비볼록 군집</div>
-<div class="kb-diagram-note">고차원에 취약</div>
-<div class="kb-diagram-note">선택 기준:</div>
-<div class="kb-diagram-note">원형 군집: K-Means (빠름)</div>
-<div class="kb-diagram-note">임의 형태: DBSCAN</div>
-<div class="kb-diagram-note">계층 구조 확인: Hierarchical</div>
-<div class="kb-diagram-note">확률 기반: GMM</div>
-</div>
-</div>
+2. K 사전 지정 필요:
+   최적 K 모름
 
+3. 이상치(Outlier) 민감:
+   이상치 하나가 중심점을 크게 이동
 
+4. 불균등 크기/밀도 군집:
+   대형 군집 + 소형 군집 → 실패
+
+대안 알고리즘:
+
+DBSCAN:
+  밀도 기반 → 임의 형태 군집
+  이상치 자동 탐지
+  K 불필요 (epsilon, minPts 파라미터)
+  
+계층적 군집화 (Hierarchical):
+  덴드로그램으로 군집 구조 시각화
+  K 사전 지정 불필요
+  
+GMM (Gaussian Mixture Model):
+  연속 확률 분포 기반
+  타원형 군집 가능
+  EM 알고리즘
+
+Spectral Clustering:
+  그래프 기반 → 비볼록 군집
+  고차원에 취약
+
+선택 기준:
+  원형 군집: K-Means (빠름)
+  임의 형태: DBSCAN
+  계층 구조 확인: Hierarchical
+  확률 기반: GMM
+```
 
 > 📢 **섹션 요약 비유**: K-Means 한계는 직선 가위 — 원형(○)은 잘 자르지만 구불구불한 모양(~)은 못 자라요. DBSCAN은 형태 따라가는 곡선 가위!
 
@@ -190,50 +205,53 @@ tags = ["studynote-ai"]
 
 ## Ⅴ. 실무 시나리오 — 고객 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)
 
+```
+E-커머스 고객 세그멘테이션:
 
+데이터: 고객 10만명
+특성: 구매 빈도(F), 최근 구매일(R), 구매 금액(M) — RFM 분석
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">E-커머스 고객 세그멘테이션:</div>
-<div class="kb-diagram-note">데이터: 고객 10만명</div>
-<div class="kb-diagram-note">특성: 구매 빈도(F), 최근 구매일(R), 구매 금액(M) — RFM 분석</div>
-<div class="kb-diagram-note">전처리:</div>
-<div class="kb-diagram-note">1. 표준화 (StandardScaler):</div>
-<div class="kb-diagram-note">F: 월 평균 0.8회 (범위: 0~20)</div>
-<div class="kb-diagram-note">R: 마지막 구매 30일 전 (범위: 0~365)</div>
-<div class="kb-diagram-note">M: 평균 5만원 (범위: 0~500만)</div>
-<div class="kb-diagram-note">→ 스케일 차이 → 정규화 필수</div>
-<div class="kb-diagram-note">K 선택:</div>
-<div class="kb-diagram-note">Elbow → K=4 (WCSS 꺾임)</div>
-<div class="kb-diagram-note">Silhouette → K=4 (0.62)</div>
-<div class="kb-diagram-note">비즈니스: 4개 세그먼트 (VIP, 일반, 잠재, 이탈위험)</div>
-<div class="kb-diagram-note">K-Means++ 실행:</div>
-<div class="kb-diagram-note">4개 군집 결과:</div>
-<div class="kb-diagram-note">군집0 (VIP): F높음, R최근, M높음 → 2,000명 (2%)</div>
-<div class="kb-diagram-note">군집1 (일반): F보통, R보통, M보통 → 45,000명 (45%)</div>
-<div class="kb-diagram-note">군집2 (잠재): F낮음, R최근, M낮음 → 30,000명 (30%)</div>
-<div class="kb-diagram-note">군집3 (이탈위험): F낮음, R오래됨, M낮음 → 23,000명 (23%)</div>
-<div class="kb-diagram-note">마케팅 액션:</div>
-<div class="kb-diagram-note">VIP: 프리미엄 멤버십, 전담 CS</div>
-<div class="kb-diagram-note">일반: 교차 판매(Cross-sell) 프로모션</div>
-<div class="kb-diagram-note">잠재: 웰컴 쿠폰, 재구매 유도</div>
-<div class="kb-diagram-note">이탈위험: 재활성화 이메일, 30% 할인</div>
-<div class="kb-diagram-note">결과:</div>
-<div class="kb-diagram-note">이탈위험 군집 재활성화율: 8% → 21%</div>
-<div class="kb-diagram-note">VIP 구매 빈도: +15%</div>
-<div class="kb-diagram-note">전체 매출: +12% (6개월)</div>
-<div class="kb-diagram-note">코드 스니펫:</div>
-<div class="kb-diagram-note">from sklearn.cluster import KMeans</div>
-<div class="kb-diagram-note">from sklearn.preprocessing import StandardScaler</div>
-<div class="kb-diagram-note">scaler = StandardScaler()</div>
-<div class="kb-diagram-note">X_scaled = scaler.fit_transform(X_rfm)</div>
-<div class="kb-diagram-note">km = KMeans(n_clusters=4, init='k-means++',</div>
-<div class="kb-diagram-note">n_init=10, random_state=42)</div>
-<div class="kb-diagram-note">labels = km.fit_predict(X_scaled)</div>
-</div>
-</div>
+전처리:
+  1. 표준화 (StandardScaler):
+     F: 월 평균 0.8회 (범위: 0~20)
+     R: 마지막 구매 30일 전 (범위: 0~365)
+     M: 평균 5만원 (범위: 0~500만)
+     → 스케일 차이 → 정규화 필수
 
+K 선택:
+  Elbow → K=4 (WCSS 꺾임)
+  Silhouette → K=4 (0.62)
+  비즈니스: 4개 세그먼트 (VIP, 일반, 잠재, 이탈위험)
 
+K-Means++ 실행:
+  4개 군집 결과:
+  군집0 (VIP): F높음, R최근, M높음 → 2,000명 (2%)
+  군집1 (일반): F보통, R보통, M보통 → 45,000명 (45%)
+  군집2 (잠재): F낮음, R최근, M낮음 → 30,000명 (30%)
+  군집3 (이탈위험): F낮음, R오래됨, M낮음 → 23,000명 (23%)
+
+마케팅 액션:
+  VIP: 프리미엄 멤버십, 전담 CS
+  일반: 교차 판매(Cross-sell) 프로모션
+  잠재: 웰컴 쿠폰, 재구매 유도
+  이탈위험: 재활성화 이메일, 30% 할인
+
+결과:
+  이탈위험 군집 재활성화율: 8% → 21%
+  VIP 구매 빈도: +15%
+  전체 매출: +12% (6개월)
+
+코드 스니펫:
+  from sklearn.cluster import KMeans
+  from sklearn.preprocessing import StandardScaler
+  
+  scaler = StandardScaler()
+  X_scaled = scaler.fit_transform(X_rfm)
+  
+  km = KMeans(n_clusters=4, init='k-means++',
+              n_init=10, random_state=42)
+  labels = km.fit_predict(X_scaled)
+```
 
 > 📢 **섹션 요약 비유**: 고객 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)은 학급 능력별 반 편성 — RFM 점수로 VIP반·일반반·잠재반·이탈위험반 나누고, 각 반에 맞는 맞춤 교육(마케팅) 적용!
 

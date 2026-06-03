@@ -27,24 +27,29 @@ tags = ["studynote-operating-system"]
   2. **Intel 80386의 채택**: 32비트 시대를 연 인텔은 "우리가 만든 칩셋이 보안도 짱이고 효율도 짱이다!"를 보여주기 위해 이 융합 아키텍처를 CPU 하드웨어 회로(GDT/LDT -> CR3)에 영구적으로 납땜해 버렸다.
   3. **복잡성의 저주**: 두 개의 테이블을 연달아 읽어야 하는 오버헤드는 상상을 초월했고, 결국 이 위대한 발명은 범용 OS 시장에서 외면받는 비운의 아키텍처가 되었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Paged Segmentation의 '이중 찢기' 논리적 시각화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 개발자의 코드 (논리적 공간)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Main 함수 세그먼트 (10KB)</div><div class="kb-diagram-node">배열 데이터 세그먼트 (5KB)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 1차 분할: 세그멘테이션 (보안 및 권한 부여)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Seg 0 (10KB)</div><div class="kb-diagram-cell">Read-Only</div><div class="kb-diagram-cell">Seg 1 (5KB)</div><div class="kb-diagram-cell">Read-Write</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 2차 분할: 페이징 (물리적 테트리스를 위한 4KB 난도질)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pg 0</div><div class="kb-diagram-cell">Pg 1</div><div class="kb-diagram-cell">Pg 2</div><div class="kb-diagram-cell">Pg 0</div><div class="kb-diagram-cell">Pg 1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4KB</div><div class="kb-diagram-cell">4KB</div><div class="kb-diagram-cell">2KB</div><div class="kb-diagram-cell">4KB</div><div class="kb-diagram-cell">1KB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(내부단편 2KB) (내부단편 3KB 발생, 외부단편 0!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 물리 램에 흩뿌리기 (빈 프레임 아무 곳에나 쏙쏙 들어감)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────────┐
+│        Paged Segmentation의 '이중 찢기' 논리적 시각화               │
+├─────────────────────────────────────────────────────────────────────┤
+│                                                                     │
+│ 1. 개발자의 코드 (논리적 공간)                                      │
+│ [ Main 함수 세그먼트 (10KB) ] [ 배열 데이터 세그먼트 (5KB) ]        │
+│                                                                     │
+│ 2. 1차 분할: 세그멘테이션 (보안 및 권한 부여)                       │
+│ ┌────────────────────────┐  ┌────────────────────────┐              │
+│ │ Seg 0 (10KB) | Read-Only│  │ Seg 1 (5KB) | Read-Write │           │
+│ └────────────────────────┘  └────────────────────────┘              │
+│                                                                     │
+│ 3. 2차 분할: 페이징 (물리적 테트리스를 위한 4KB 난도질)             │
+│ ┌──────┬──────┬──────┐      ┌──────┬──────┐                         │
+│ │ Pg 0 │ Pg 1 │ Pg 2 │      │ Pg 0 │ Pg 1 │                         │
+│ │ 4KB  │ 4KB  │ 2KB  │      │ 4KB  │ 1KB  │                         │
+│ └──────┴──────┴──────┘      └──────┴──────┘                         │
+│  (내부단편 2KB)                  (내부단편 3KB 발생, 외부단편 0!)   │
+│                                                                     │
+│ 4. 물리 램에 흩뿌리기 (빈 프레임 아무 곳에나 쏙쏙 들어감)           │
+└─────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 이 그림은 아키텍처의 아름다운 타협을 보여준다. 세그먼트 차원에서는 크기가 10KB, 5KB로 제각각이지만, 램에 들어갈 때는 무조건 4KB 도끼로 썰린다. 5KB짜리 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 세그먼트는 4KB(꽉참) + 1KB(내부단편화 발생) 2장의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)로 나뉘어 빈 램 구석구석에 쑤셔 박힌다. 결과적으로 끔찍했던 '[외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)'는 멸종하고, 귀여운 '[내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)(1~3KB)'만 남는 기적이 일어난다.
 
 - **📢 섹션 요약 비유**: 수박과 바나나를 섞이지 않게 예쁜 과일 통(세그먼트)에 나눠 담은 뒤, 통째로 냉장고에 넣지 않고 과일들을 믹서기에 갈아 똑같은 크기의 얼음틀([페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))에 얼려버림으로써 냉장고 빈 공간을 100% 꽉 채우는 기법입니다.
@@ -57,24 +62,29 @@ tags = ["studynote-operating-system"]
 
 CPU가 내뿜는 최초의 [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/)(Logical Address)가 실제 전기 신호인 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/)([Physical Address](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/))로 바뀌기까지, MMU는 숨 막히는 이중 번역을 수행한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">x86 아키텍처의 논리 -&gt; 선형 -&gt; 물리 번역 게이트</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. CPU가 논리 주소 발출</div><div class="kb-diagram-note">&lt;세그먼트 셀렉터 S, 오프셋 D&gt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (세그먼트 테이블 1차 방문 - GDT/LDT)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. S를 인덱스로 세그먼트 크기(Limit) 위반 여부 깐깐하게 검사</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 통과 시: 세그먼트 Base 주소 + 오프셋 D = 🌟선형 주소(Linear) 탄생</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(선형 주소: 32비트짜리 가상 주소 공간)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (페이지 테이블 2차 방문 - CR3 기반)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ 1. 선형 주소를</div><div class="kb-diagram-node">P1 | P2 | Offset</div><div class="kb-diagram-note">페이징 트리 규격으로 자름 │</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 페이지 테이블을 뒤져서 매핑된 프레임 번호 f 획득</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 최종 물리 주소 (Physical Address) 도달!</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────────────────────┐
+│              x86 아키텍처의 논리 -> 선형 -> 물리 번역 게이트                             │
+├──────────────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                          │
+│ [ 1. CPU가 논리 주소 발출 ] <세그먼트 셀렉터 S, 오프셋 D>                                │
+│            │                                                                             │
+│            ▼ (세그먼트 테이블 1차 방문 - GDT/LDT)                                        │
+│ ┌─────────────────────────────────────────┐                                              │
+│ │ 1. S를 인덱스로 세그먼트 크기(Limit) 위반 여부 깐깐하게 검사         │                 │
+│ │ 2. 통과 시: 세그먼트 Base 주소 + 오프셋 D = 🌟선형 주소(Linear) 탄생│                  │
+│ └─────────────────────────────────────────┘                                              │
+│            │ (선형 주소: 32비트짜리 가상 주소 공간)                                      │
+│            ▼ (페이지 테이블 2차 방문 - CR3 기반)                                         │
+│ ┌─────────────────────────────────────────┐                                              │
+│ │ 1. 선형 주소를 [ P1 | P2 | Offset ] 페이징 트리 규격으로 자름      │                   │
+│ │ 2. 페이지 테이블을 뒤져서 매핑된 프레임 번호 f 획득                 │                  │
+│ └─────────────────────────────────────────┘                                              │
+│            │                                                                             │
+│            ▼                                                                             │
+│ [ 2. 최종 물리 주소 (Physical Address) 도달! ]                                           │
+└──────────────────────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 파이프라인은 정말로 잔혹하다. CPU가 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 하나를 실행하기 위해, 하드웨어는 1) 세그먼트 장부(GDT)를 읽고 Limit을 빼기 연산하고 Base와 오프셋을 더하기 연산한 다음, 2) 그 결과값을 다시 쪼개어 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 장부(PT)를 2번이나 읽고서야 겨우 목적지에 도착한다. 보안(Limit Check)과 유연성([페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/))을 모두 얻은 대가로 번역 속도가 나락으로 떨어졌다.
 
@@ -114,18 +124,15 @@ CPU가 내뿜는 최초의 [논리 주소](/knowledge-base/studynote/02_operatin
    - 이렇게 되면 `논리 주소 + 0 = 선형 주소`가 되므로, [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)은 0.001초 만에 통과해버리고, 사실상 100% <strong>순수 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/">페이징</a> 시스템</strong>으로만 작동하게 된다.
    - 이로 인해 Paged Segmentation이라는 키메라 아키텍처는 현재 x86 내부에서 식물인간 상태로 호흡기만 달고 있는 신세가 되었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS 종류</div><div class="kb-diagram-cell">세그멘테이션 활용</div><div class="kb-diagram-cell">페이징 활용</div><div class="kb-diagram-cell">아키텍처 상태</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MULTICS</div><div class="kb-diagram-cell">100% 활용</div><div class="kb-diagram-cell">100% 활용</div><div class="kb-diagram-cell">융합 교과서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">현대 Linux</div><div class="kb-diagram-cell">무력화 (Base=0)</div><div class="kb-diagram-cell">100% 의존</div><div class="kb-diagram-cell">사실상 순수 페이징</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">현대 Win</div><div class="kb-diagram-cell">무력화 (Base=0)</div><div class="kb-diagram-cell">100% 의존</div><div class="kb-diagram-cell">사실상 순수 페이징</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬──────────────────────────────┐
+│ OS 종류    │ 세그멘테이션 활용│ 페이징 활용   │ 아키텍처 상태     │
+├──────────┼────────────┼────────────┼──────────────────────────────┤
+│ MULTICS  │ 100% 활용   │ 100% 활용   │ 융합 교과서                │
+│ 현대 Linux │ **무력화 (Base=0)**│ 100% 의존   │ 사실상 순수 페이징│
+│ 현대 Win   │ **무력화 (Base=0)**│ 100% 의존   │ 사실상 순수 페이징│
+└──────────┴────────────┴────────────┴──────────────────────────────┘
+```
 **[매트릭스 해설]** 인텔이 하드웨어로 강요했던 아키텍처를, 전 세계의 소프트웨어(OS) 해커들이 집단으로 거부하고 우회해버린 컴퓨터 공학 역사상 가장 짜릿한 하극상이다. 개발자들은 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)([세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)의 장점)의 아쉬움을 달래기 위해, [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 엔트리(PTE) 안에 R/W [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)와 NX [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 욱여넣는 방식으로 보안 기능을 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 쪽으로 이식해 버렸다.
 
 - **📢 섹션 요약 비유**: 집주인(인텔)이 현관문에 무겁고 깐깐한 자물쇠([세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/))를 달아놨지만, 세입자(리눅스)가 열쇠 돌리기 귀찮아서 평생 자물쇠를 테이프로 칭칭 감아 열어두고(Flat Model), 방문에 달린 비밀번호([페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/))만 잠그고 사는 격입니다.
@@ -177,19 +184,15 @@ CPU가 내뿜는 최초의 [논리 주소](/knowledge-base/studynote/02_operatin
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">세그멘테이션과 외부 단편화 (가변 크기이므로 재발생)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">세그멘테이션 기반 페이징 (Paged Segmentation)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">커널 메모리 할당 방식 (kmalloc, vmalloc)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">메모리 풀 (Memory Pool) 기법</div></div>
-</div>
-</div>
-
-
+```text
+[세그멘테이션과 외부 단편화 (가변 크기이므로 재발생)]
+    │
+    ▼
+[세그멘테이션 기반 페이징 (Paged Segmentation)]
+    │
+    ├──▶ [커널 메모리 할당 방식 (kmalloc, vmalloc)]
+    └──▶ [메모리 풀 (Memory Pool) 기법]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

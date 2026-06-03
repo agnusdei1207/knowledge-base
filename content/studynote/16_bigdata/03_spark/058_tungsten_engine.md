@@ -1,5 +1,5 @@
 +++
-title = "Tungsten Engine"
+title = "Tungsten 엔진"
 date = 2024-03-23
 
 [taxonomies]
@@ -22,20 +22,18 @@ tags = ["studynote-bigdata"]
 - <strong><a href="/knowledge-base/studynote/09_security/uncategorized/610_memory_management/">Memory Management</a> &amp; Binary Processing</strong>: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 Java 객체로 변환하지 않고 바이너리 형태로 메모리에 직접 저장한다. Unsafe Row 형식을 사용하여 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)화 비용을 최소화한다.
 - **Cache-aware Computation**: CPU 캐시(L1/L2/L3)의 지역성(Locality)을 고려한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 사용하여 캐시 미스를 줄인다.
 
+```text
+[ Tungsten CPU & Memory Optimization ]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Tungsten CPU &amp; Memory Optimization</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Standard JVM Approach</div><div class="kb-diagram-node">Tungsten Approach</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Java Object (Rich)</div><div class="kb-diagram-cell">Binary Data (Row format)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Metadata, Padding)</div><div class="kb-diagram-cell">&lt;----&gt;</div><div class="kb-diagram-cell">(Compact, No Metadata)</div></div>
-<div class="kb-diagram-note">High GC Pressure Direct Memory Access</div>
-<div class="kb-diagram-note">High Cache Misses Cache-aware Algorithms</div>
-</div>
-</div>
-
-
+   [ Standard JVM Approach ]          [ Tungsten Approach ]
+   +-----------------------+        +--------------------------+
+   |   Java Object (Rich)  |        | Binary Data (Row format) |
+   | (Metadata, Padding)   | <----> | (Compact, No Metadata)   |
+   +-----------------------+        +--------------------------+
+               |                                |
+       High GC Pressure                 Direct Memory Access
+      High Cache Misses                 Cache-aware Algorithms
+```
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 
@@ -60,23 +58,21 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">RDD</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DataFrame</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Tungsten 엔진</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">코드 생성 (Code Generation)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Photon 엔진</div></div>
-</div>
-</div>
-
-
+```text
+[RDD]
+    │
+    ▼
+[DataFrame]
+    │
+    ▼
+[Tungsten 엔진]
+    │
+    ▼
+[코드 생성 (Code Generation)]
+    │
+    ▼
+[Photon 엔진]
+```
 
 Spark의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 표현이 RDD에서 DataFrame으로 발전하고 Tungsten 최적화를 거쳐 하드웨어 가속 엔진으로 이어지는 흐름이다.
 

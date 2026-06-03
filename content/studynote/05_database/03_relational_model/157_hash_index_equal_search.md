@@ -33,24 +33,29 @@ B+Tree [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154
 
 아래 그림은 해시 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 "정렬 없이 주소로 직행"하는 방식을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해시 인덱스의 동등 검색 처리 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WHERE user_id = 'A1024'</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해시 함수(Hash Function) 계산</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">hash('A1024') = 57</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">버킷 57 선택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">bucket 57</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ ('A1024', ROWID 8841)</div><div class="kb-diagram-cell">◀─ 일치 항목 발견</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ ('B9910', ROWID 1020)</div><div class="kb-diagram-cell">(충돌 시 같은 버킷 탐색)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ ('K2201', ROWID 7714)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ROWID (Row Identifier)로 실제 행 접근</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           해시 인덱스의 동등 검색 처리 흐름                 │
+├──────────────────────────────────────────────────────────────┤
+│ WHERE user_id = 'A1024'                                     │
+│                │                                             │
+│                ▼                                             │
+│   해시 함수(Hash Function) 계산                             │
+│   hash('A1024') = 57                                         │
+│                │                                             │
+│                ▼                                             │
+│        버킷 57 선택                                          │
+│   ┌──────────────────────────────┐                           │
+│   │ bucket 57                    │                           │
+│   │ ├─ ('A1024', ROWID 8841)     │ ◀─ 일치 항목 발견         │
+│   │ ├─ ('B9910', ROWID 1020)     │    (충돌 시 같은 버킷 탐색)│
+│   │ └─ ('K2201', ROWID 7714)     │                           │
+│   └──────────────────────────────┘                           │
+│                │                                             │
+│                ▼                                             │
+│      ROWID (Row Identifier)로 실제 행 접근                  │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 구조에서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 좌우하는 것은 <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/">해시 함수</a>의 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 품질</strong>과 **적재율 (Load Factor)** 이다. 버킷 수가 너무 적거나 특정 값이 한쪽으로 몰리면 충돌이 증가해, 원래 기대했던 상수 시간 접근이 점차 [선형 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/030_linear_search/)처럼 무거워진다. 그래서 해시 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 "계산 한 번이면 끝"이라는 인상보다, <strong>충돌을 얼마나 낮게 유지하느냐</strong>가 설계의 본질이다.
 
@@ -130,23 +135,23 @@ B+Tree [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">풀스캔(Full Scan) 한계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">B+Tree 인덱스 기반 범용 검색</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 동등 검색 특화 요구 증가</div>
-<div class="kb-diagram-note">해시 인덱스 (Hash Index)</div>
-<div class="kb-diagram-note">─▶ 충돌 관리 · 적재율 관리</div>
-<div class="kb-diagram-note">─▶ 해시 조인 · 메모리 캐시 · 일관 해싱</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">질의 패턴별 인덱스 선택 최적화</div>
-</div>
-</div>
-
-
+```text
+풀스캔(Full Scan) 한계
+    │
+    ▼
+B+Tree 인덱스 기반 범용 검색
+    │
+    ├─▶ 동등 검색 특화 요구 증가
+    │        │
+    │        ▼
+    │   해시 인덱스 (Hash Index)
+    │        │
+    │        ├─▶ 충돌 관리 · 적재율 관리
+    │        └─▶ 해시 조인 · 메모리 캐시 · 일관 해싱
+    │
+    ▼
+질의 패턴별 인덱스 선택 최적화
+```
 
 이 흐름도는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)가 "모든 검색을 하나의 구조로 해결"하는 방향이 아니라, 질의 성격에 따라 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 세분화해 온 과정을 보여준다.
 

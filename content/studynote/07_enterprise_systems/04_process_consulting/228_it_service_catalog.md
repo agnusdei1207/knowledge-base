@@ -43,26 +43,27 @@ IT [서비스 카탈로그](/knowledge-base/studynote/12_it_management/02_itsm_i
 
 아래 그림은 사용자의 클릭이 실제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 제공으로 이어지는 흐름을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Service catalog fulfillment flow</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User portal</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; choose service item</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; submit request form</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Workflow engine</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; manager / budget / security approval</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Technical mapping</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; VM template / account role / network policy</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Automation</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; IaC run / account creation / CMDB update</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Output</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; notify user / start SLA tracking / chargeback</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Service catalog fulfillment flow                                     │
+├──────────────────────────────────────────────────────────────────────┤
+│ User portal                                                          │
+│   -> choose service item                                             │
+│   -> submit request form                                             │
+│                                                                      │
+│ Workflow engine                                                      │
+│   -> manager / budget / security approval                            │
+│                                                                      │
+│ Technical mapping                                                    │
+│   -> VM template / account role / network policy                     │
+│                                                                      │
+│ Automation                                                           │
+│   -> IaC run / account creation / CMDB update                        │
+│                                                                      │
+│ Output                                                               │
+│   -> notify user / start SLA tracking / chargeback                   │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 핵심은 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)가 "정적 설명서"가 아니라 <strong>요청 이행의 시작점</strong>이라는 사실이다. 비즈니스 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)와 기술 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 간의 매핑이 없다면 포털은 예쁜 접수 화면에 그친다. 반대로 이 매핑이 잘 되어 있으면 "신입사원 온보딩" 같은 하나의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 항목이 계정 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 권한 매핑, 장비 지급이라는 여러 기술 작업으로 자동 분해된다.
 
@@ -141,23 +142,21 @@ IT [서비스 카탈로그](/knowledge-base/studynote/12_it_management/02_itsm_i
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Help desk request by email</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Static service list</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Portal-based request standardization</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Approval workflow + CMDB mapping</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Self-service and zero-touch fulfillment</div>
-</div>
-</div>
-
-
+```text
+Help desk request by email
+        │
+        ▼
+Static service list
+        │
+        ▼
+Portal-based request standardization
+        │
+        ▼
+Approval workflow + CMDB mapping
+        │
+        ▼
+Self-service and zero-touch fulfillment
+```
 
 이 흐름은 사람 의존형 요청 처리에서, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중심·자동화 중심 운영으로 발전하는 단계를 요약한다.
 

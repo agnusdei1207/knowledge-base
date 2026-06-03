@@ -19,19 +19,20 @@ tags = ["studynote-design-supervision"]
 
 [웹어셈블리](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/319_webassembly_architecture/)는 C, C++, 러스트 ([Rust](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/782_memory_safety_rust_compiler_verification/)) 같은 언어로 작성한 로직을 브라우저가 안전하게 실행 가능한 바이너리 형식으로 변환해 준다. 이를 통해 기존 네이티브 수준에 가까운 계산 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 웹 환경으로 가져오되, 최종 사용자 배포는 여전히 웹처럼 간편하게 할 수 있다. 즉 핵심은 웹 전체를 대체하는 것이 아니라, <strong>계산 집약 구간만 선택적으로 가속</strong>하는 데 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 이벤트</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">UI 로직 (JavaScript)</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">화면 갱신·DOM 조작</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Wasm 모듈 실행</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과 반환·화면 반영</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐   ┌──────────────────────┐   ┌──────────────────┐
+│ 사용자 이벤트 │──▶│ UI 로직 (JavaScript) │──▶│ 화면 갱신·DOM 조작 │
+└──────────────┘   └──────────┬───────────┘   └──────────────────┘
+                               │
+                               ▼
+                      ┌──────────────────┐
+                      │ Wasm 모듈 실행    │
+                      └─────────┬────────┘
+                                ▼
+                      ┌──────────────────┐
+                      │ 결과 반환·화면 반영 │
+                      └──────────────────┘
+```
 
 기술사 답안에서는 [웹어셈블리](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/319_webassembly_architecture/)를 “브라우저용 네이티브”라고 단정하기보다, 자바스크립트와 협력하는 계산 가속 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)로 설명하는 편이 정확하다. 감리 관점에서도 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상뿐 아니라 배포 크기, 보안 샌드박스, 디버깅 난이도를 함께 고려해야 한다.
 
@@ -40,21 +41,21 @@ tags = ["studynote-design-supervision"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 [웹어셈블리](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/319_webassembly_architecture/) 구조는 보통 사용자 인터페이스 계층은 자바스크립트가 맡고, 계산 핵심은 [Wasm](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/701_webassembly_wasm_frontend_performance/) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 담당하는 이중 구조로 본다. 브라우저는 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 내려받아 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화하고, 자바스크립트는 필요한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 선형 메모리 (Linear Memory)에 전달하거나 공유 버퍼를 통해 주고받는다. 무거운 계산은 웹 워커 (Web Worker)와 결합해 주 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 차단을 줄일 수 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">JavaScript UI Layer</div></div>
-<div class="kb-diagram-note">DOM · Event · State</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Wasm Module Core</div></div>
-<div class="kb-diagram-note">Linear Memory / Shared Buffer</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Web Worker 병렬 처리</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────┐
+│ JavaScript UI Layer │
+└──────────┬──────────┘
+           │ DOM · Event · State
+           ▼
+┌─────────────────────┐
+│  Wasm Module Core   │
+└──────────┬──────────┘
+           │ Linear Memory / Shared Buffer
+           ▼
+┌─────────────────────┐
+│ Web Worker 병렬 처리 │
+└─────────────────────┘
+```
 
 | 구성 요소 | 핵심 역할 | 감리·기술사 포인트 |
 |:---|:---|:---|
@@ -114,23 +115,21 @@ tags = ["studynote-design-supervision"]
 | 브라우저 샌드박스 | Wasm이 안전하게 실행되는 보안 경계 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">브라우저 기능 고도화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CPU 집약 구간 식별</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Wasm 모듈 분리 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Worker · 메모리 최적화 결합</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">고성능 웹 도구 · 대화형 앱 구현</div>
-</div>
-</div>
-
-
+```text
+브라우저 기능 고도화
+        │
+        ▼
+CPU 집약 구간 식별
+        │
+        ▼
+Wasm 모듈 분리 적용
+        │
+        ▼
+Worker · 메모리 최적화 결합
+        │
+        ▼
+고성능 웹 도구 · 대화형 앱 구현
+```
 
 이 흐름은 단순 화면 렌더링 웹에서 출발해, 점차 계산 집약 기능을 브라우저 내부로 끌어오는 현대 프런트엔드의 진화를 압축한다.
 

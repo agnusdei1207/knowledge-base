@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 기존 시스코, 주니퍼 같은 거대 벤더의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 장비는 하드웨어 칩셋([ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/))과 네트워크 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(NOS, 예: 시스코 IOS)가 100% 결합하여 종속되어 나오는 폐쇄형(Blackbox) 장비였습니다.
 - 사용자는 장비 안에 새로운 기능(예: 새로운 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 기능)을 맘대로 코딩해 넣을 수 없었고, 고장 나거나 업그레이드하려면 무조건 벤더사가 부르는 게 값인 눈탱이 유지보수 비용을 물어야 했습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SDDC</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">화이트박스 스위치</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OVS</div></div>
-</div>
-</div>
-
-
+```text
+[SDDC]
+    │
+    ▼
+[화이트박스 스위치]
+    │
+    └──▶ [OVS]
+```
 
 - **📢 섹션 요약 비유**: 화이트박스 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -44,18 +40,14 @@ tags = ["studynote-network"]
 - **개념**: 특정 제조사에 종속되지 않은 <strong>범용 깡통 하드웨어(Bare-metal <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">Switch</a>) <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>를 구매한 뒤, 사용자가 자신의 입맛에 맞는 <a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/385_third_party_cookie_deprecation_cdw/">서드파티</a> 개방형 네트워크 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a>(NOS) 소프트웨어를 자유롭게 골라서 탑재(Install)해 사용하는 분리형 차세대 네트워크 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> 장비</strong>입니다.
 - **철학**: [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)(소프트웨어 정의 네트워크)의 "하드웨어와 소프트웨어의 완벽한 분리(Decoupling)" 철학이 물리적 장비 제조 단게까지 파고든 극단적 결과물입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SDDC</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">화이트박스 스위치</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OVS</div></div>
-</div>
-</div>
-
-
+```text
+[SDDC]
+    │
+    ▼
+[화이트박스 스위치]
+    │
+    └──▶ [OVS]
+```
 
 - **📢 섹션 요약 비유**: 화이트박스 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -121,19 +113,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: SDDC</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 화이트박스 스위치</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: OVS</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 프로그래머블 네트워크</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: SDDC]
+    │
+    ▼
+[현재 개념: 화이트박스 스위치]
+    │
+    ├──▶ [확장 A: OVS]
+    └──▶ [확장 B: 프로그래머블 네트워크]
+```
 
 화이트박스 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 SDDC에서 출발해 현재 메커니즘을 정교화하고, 이후 OVS와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

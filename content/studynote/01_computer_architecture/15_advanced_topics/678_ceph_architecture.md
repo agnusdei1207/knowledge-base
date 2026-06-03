@@ -40,20 +40,22 @@ Ceph의 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_archit
 | CRUSH | 장애 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)을 고려한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배치 계산 | 랙·호스트·실 단위 규칙 설계 필요 |
 | RADOS | Ceph의 기본 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 객체 저장 계층 | 상위 인터페이스의 공통 토대 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">get cluster map</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MON quorum --------------------&gt; CRUSH placement</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PG selection</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OSD set A OSD set B OSD set C</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">replica / shard replica / shard replica / shard</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────┐
+│ Client                                                                  │
+│   │ get cluster map                                                      │
+│   ▼                                                                      │
+│ MON quorum --------------------> CRUSH placement                         │
+│                                      │                                   │
+│                                      ▼                                   │
+│                               PG selection                               │
+│                                      │                                   │
+│                     ┌────────────────┼────────────────┐                  │
+│                     ▼                ▼                ▼                  │
+│                  OSD set A        OSD set B        OSD set C             │
+│               replica / shard  replica / shard  replica / shard          │
+└──────────────────────────────────────────────────────────────────────────┘
+```
 
 이 기반 위에서 Ceph는 세 가지 대표 인터페이스를 제공한다. 객체 저장은 RADOS Gateway (RGW), 블록 저장은 RADOS [Block Device](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/442_block_device/) ([RBD](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/754_rbd/)), [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 공유는 Ceph [File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) System (CephFS)이 담당한다. 즉, 저장 본체는 하나인데 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 얼굴만 다르게 씌우는 구조라서, [프라이빗 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/008_private_cloud/)에서 스토리지 종류를 통합하는 데 큰 장점이 있다.
 
@@ -135,23 +137,21 @@ Ceph가 주는 가장 큰 효과는 저장장치를 전용 장비 중심에서 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">전용 스토리지 배열 중심 구조</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">범용 서버 기반 분산 저장 요구</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">RADOS + CRUSH 기반 Ceph 아키텍처</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">RBD / CephFS / RGW 통합 저장 플랫폼</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">프라이빗 클라우드와 클라우드 네이티브 저장 토대</div>
-</div>
-</div>
-
-
+```text
+전용 스토리지 배열 중심 구조
+        │
+        ▼
+범용 서버 기반 분산 저장 요구
+        │
+        ▼
+RADOS + CRUSH 기반 Ceph 아키텍처
+        │
+        ▼
+RBD / CephFS / RGW 통합 저장 플랫폼
+        │
+        ▼
+프라이빗 클라우드와 클라우드 네이티브 저장 토대
+```
 
 이 흐름은 저장 시스템이 전용 하드웨어 상자에서 벗어나, 규칙과 소프트웨어가 중심이 되는 플랫폼으로 진화했음을 보여준다.
 

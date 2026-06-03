@@ -30,17 +30,14 @@ tags = ["studynote-ai"]
 | [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 엔지니어링 | Wide & Deep: 수동 Cross Feature | 불필요 (공유 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)) |
 | 희소 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | [협업 필터링](/knowledge-base/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/): [콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/) 취약 | [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)으로 저차원 밀집 표현 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)은 "쇼핑몰에서 손님이 어떤 상품을 클릭할지 예측하는 점원"이다. 단순히 나이·성별만 보면 부족하고, "30대 남성이 스포츠 신발을 자주 보던 패턴"처럼 조합 패턴을 읽어야 정확하다.
 
@@ -50,42 +47,40 @@ tags = ["studynote-ai"]
 
 ### DeepFM 전체 구조
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">입력 (Sparse Features: UserID, ItemID, Category, ...)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Embedding Layer (공유 임베딩)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">e_1</div><div class="kb-diagram-node">e_2</div><div class="kb-diagram-node">e_3</div><div class="kb-diagram-node">e_4</div><div class="kb-diagram-note">...</div><div class="kb-diagram-node">e_d</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FM 컴포넌트</div><div class="kb-diagram-cell">DNN 컴포넌트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">y_FM = &lt;w,x&gt;</div><div class="kb-diagram-cell">Layer 1: ReLU(W1·e + b1)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ Σᵢ&lt;ΣⱼVᵢ·Vⱼ·xᵢxⱼ</div><div class="kb-diagram-cell">Layer 2: ReLU(W2·h1 + b2)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(1차 + 2차 상호작용)</div><div class="kb-diagram-cell">Layer 3: σ(W3·h2 + b3)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">y = sigmoid(y_FM + y_DNN)</div>
-<div class="kb-diagram-note">(최종 CTR 예측값)</div>
-</div>
-</div>
-
-
+```
+  입력 (Sparse Features: UserID, ItemID, Category, ...)
+  ┌──────────────────────────────────────────────────────┐
+  │             Embedding Layer (공유 임베딩)             │
+  │  [e_1]  [e_2]  [e_3]  [e_4]  ...  [e_d]            │
+  └────────────┬───────────────────────────┬─────────────┘
+               │                           │
+  ┌────────────▼────────┐  ┌───────────────▼─────────────┐
+  │   FM 컴포넌트        │  │      DNN 컴포넌트            │
+  │                     │  │                             │
+  │ y_FM = <w,x>        │  │ Layer 1: ReLU(W1·e + b1)   │
+  │   + Σᵢ<ΣⱼVᵢ·Vⱼ·xᵢxⱼ│  │ Layer 2: ReLU(W2·h1 + b2) │
+  │ (1차 + 2차 상호작용) │  │ Layer 3: σ(W3·h2 + b3)    │
+  └────────────┬────────┘  └───────────────┬─────────────┘
+               │                           │
+               └──────────┬────────────────┘
+                           ▼
+                    y = sigmoid(y_FM + y_DNN)
+                    (최종 CTR 예측값)
+```
 
 ### FM (Factorization Machine, 인수분해 머신) 원리
 
 FM 의 2차 상호작용 항:
 
+```
+  기존 Polynomial Model: Σᵢ Σⱼ wᵢⱼ · xᵢ · xⱼ  → 파라미터 O(d²)
 
+  FM 분해:             Σᵢ Σⱼ <Vᵢ, Vⱼ> · xᵢ · xⱼ → 파라미터 O(kd)
+  where <Vᵢ, Vⱼ> = Σf vᵢf · vⱼf  (잠재 벡터 내적)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">기존 Polynomial Model: Σᵢ Σⱼ wᵢⱼ · xᵢ · xⱼ → 파라미터 O(d²)</div>
-<div class="kb-diagram-note">FM 분해: Σᵢ Σⱼ &lt;Vᵢ, Vⱼ&gt; · xᵢ · xⱼ → 파라미터 O(kd)</div>
-<div class="kb-diagram-note">where &lt;Vᵢ, Vⱼ&gt; = Σf vᵢf · vⱼf (잠재 벡터 내적)</div>
-<div class="kb-diagram-note">FM 전개를 통한 효율적 계산: O(kd) 복잡도 달성</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">= 1/2 · (</div><div class="kb-diagram-cell">Σᵢ vᵢxᵢ</div><div class="kb-diagram-cell">² - Σᵢ</div><div class="kb-diagram-cell">vᵢ</div><div class="kb-diagram-cell">²xᵢ²)</div></div>
-</div>
-</div>
-
-
+  FM 전개를 통한 효율적 계산: O(kd) 복잡도 달성
+  = 1/2 · (||Σᵢ vᵢxᵢ||² - Σᵢ ||vᵢ||²xᵢ²)
+```
 
 ### Wide & Deep vs DeepFM 비교
 

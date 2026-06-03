@@ -47,17 +47,11 @@ WHERE절: SELECT * FROM emp WHERE sal > (SELECT AVG(sal) FROM emp)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">기본 서브쿼리 (SQL-86)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">상관 서브쿼리 (SQL-92)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">CTE (SQL:1999)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Window Function (SQL:2003)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: 옵티마이저 자동 서브쿼리→JOIN 변환</div></div>
-</div>
-</div>
-
-
+```text
+[기본 서브쿼리 (SQL-86)] → [상관 서브쿼리 (SQL-92)]
+    → [CTE (SQL:1999)] → [Window Function (SQL:2003)]
+    → [현재: 옵티마이저 자동 서브쿼리→JOIN 변환]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 서브쿼리는 <strong>질문 속의 질문</strong>이에요. "평균이 얼마야?" → "평균보다 높은 사람은?"

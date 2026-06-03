@@ -37,17 +37,14 @@ tags = ["studynote-ai"]
 - 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 잡음(Noise) 과다
 - [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 부재
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 과대적합은 수능 특정 기출문제만 통째로 외운 수험생과 같다. 그 문제들은 100점이지만, 조금이라도 변형된 새 문제 앞에서는 속수무책이다.
 
@@ -57,26 +54,22 @@ tags = ["studynote-ai"]
 
 ### 2.1 [편향-분산 트레이드오프](/knowledge-base/studynote/14_data_engineering/02_math_mining/110_bias_variance_tradeoff/) ([Bias-Variance Tradeoff](/knowledge-base/studynote/14_data_engineering/02_math_mining/110_bias_variance_tradeoff/))
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">오차</div>
-<div class="kb-diagram-note">총 오차 = 편향² + 분산 + 노이즈</div>
-<div class="kb-diagram-note">╲ 분산(Variance)</div>
-<div class="kb-diagram-note">╲ ╱</div>
-<div class="kb-diagram-note">╲ ╱</div>
-<div class="kb-diagram-note">╲ ╱ 편향(Bias)</div>
-<div class="kb-diagram-note">╲ ╱</div>
-<div class="kb-diagram-note">╲ ╱</div>
-<div class="kb-diagram-note">최적점╲╱</div>
-<div class="kb-diagram-tree-item" style="--depth:1">모델 복잡도</div>
-<div class="kb-diagram-note">단순 ←→ 복잡</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">과소적합</div><div class="kb-diagram-node">과대적합</div></div>
-</div>
-</div>
-
-
+```
+  오차
+  │
+  │  총 오차 = 편향² + 분산 + 노이즈
+  │
+  │   ╲  분산(Variance)
+  │    ╲          ╱
+  │     ╲        ╱
+  │      ╲      ╱  편향(Bias)
+  │       ╲    ╱
+  │        ╲  ╱
+  │     최적점╲╱
+  └─────────────────────────── 모델 복잡도
+       단순  ←→  복잡
+  [과소적합]     [과대적합]
+```
 
 - <strong>편향(<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/">Bias</a>)</strong>: 모델이 단순하여 실제 패턴을 포착하지 못하는 오차 → 과소적합
 - <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>(<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">Variance</a>)</strong>: 모델이 복잡하여 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 잡음에 민감하게 반응하는 오차 → 과대적합
@@ -95,20 +88,20 @@ tags = ["studynote-ai"]
 
 ### 2.3 학습 곡선 ([Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) Curve) 해석
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">학습 곡선 - 과대적합 패턴</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오차</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ ─ ─ ─ ─ ─ ─ ─ ─ ← 검증 오차 (높음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">← 훈련 오차 (낮음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 에폭</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">훈련 데이터 증가 / 반복 학습</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────┐
+│          학습 곡선 - 과대적합 패턴              │
+│                                              │
+│  오차                                         │
+│  ↑                                           │
+│  │  ─ ─ ─ ─ ─ ─ ─ ─ ─    ← 검증 오차 (높음)   │
+│  │                                           │
+│  │                                           │
+│  │ ─────────────────────  ← 훈련 오차 (낮음)   │
+│  └────────────────────────────────→ 에폭     │
+│        훈련 데이터 증가 / 반복 학습              │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)([Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/))이 높다는 것은 모델이 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)마다 결과가 들쑥날쑥하다는 뜻이다. 마치 같은 요리사가 날씨에 따라 음식 맛이 완전히 달라지는 상황—오늘은 미슐랭, 내일은 급식이다.
 
@@ -146,17 +139,11 @@ tags = ["studynote-ai"]
 
 ### 4.2 [드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/) ([Dropout](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/)) 동작
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">훈련 시 (Dropout 적용): 추론 시 (Dropout 미적용):</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">입력</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">○</div><div class="kb-diagram-node">○</div><div class="kb-diagram-node">×</div><div class="kb-diagram-node">○</div><div class="kb-diagram-node">×</div><div class="kb-diagram-node">입력</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">○</div><div class="kb-diagram-node">○</div><div class="kb-diagram-node">○</div><div class="kb-diagram-node">○</div><div class="kb-diagram-node">○</div></div>
-<div class="kb-diagram-note">(× = 비활성화) (전체 뉴런 사용)</div>
-</div>
-</div>
-
-
+```
+훈련 시 (Dropout 적용):        추론 시 (Dropout 미적용):
+  [입력] → [○][○][×][○][×]       [입력] → [○][○][○][○][○]
+           (× = 비활성화)                 (전체 뉴런 사용)
+```
 
 [드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/) 비율(p)이 0.5일 경우 추론 시 각 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 (1-p)로 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)하거나, 훈련 시 역스케일링(Inverted [Dropout](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/)) 적용.
 

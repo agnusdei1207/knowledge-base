@@ -31,42 +31,36 @@ tags = ["studynote-design-supervision"]
 | 메서드 길이 30줄 초과 | 실무 기준 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~20줄 권고 |
 | 동일 코드 2회 이상 반복 | 복붙 후 변수명만 다름 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Core Idea</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Expected Gain</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐    ┌──────────────┐    ┌──────────────┐
+│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
+└──────────────┘    └──────────────┘    └──────────────┘
+```
 
 - **📢 섹션 요약 비유**: 긴 요리 레시피를 '양념장 만들기', '채소 다듬기' 같이 소분류로 쪼개는 것과 같다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">분리 전</div><div class="kb-diagram-node">분리 후</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">processOrder()</div><div class="kb-diagram-cell">processOrder()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ // 주문 검증</div><div class="kb-diagram-cell">─ validateOrder() ◀─ 분리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">if (!order.valid) ...</div><div class="kb-diagram-cell">─ calculateTotal() ◀─ 분리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ // 합계 계산</div><div class="kb-diagram-cell">─ sendConfirmation() ◀─ 분리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">total = qty * price ...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ // 확인 메일</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">sendEmail(...)</div><div class="kb-diagram-cell">validateOrder()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">if (!order.valid) throw ..</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">calculateTotal()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">return qty * price * tax</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">sendConfirmation()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">sendEmail(order.email)</div></div>
-</div>
-</div>
-
-
+```
+[ 분리 전 ]                          [ 분리 후 ]
+┌──────────────────────────────┐    ┌──────────────────────────────┐
+│ processOrder()               │    │ processOrder()               │
+│  ├─ // 주문 검증              │    │  ├─ validateOrder()  ◀─ 분리 │
+│  │   if (!order.valid) ...   │    │  ├─ calculateTotal() ◀─ 분리 │
+│  ├─ // 합계 계산              │    │  └─ sendConfirmation() ◀─ 분리│
+│  │   total = qty * price ... │    └──────────────────────────────┘
+│  └─ // 확인 메일              │    ┌─────────────────────────────┐
+│      sendEmail(...)          │    │ validateOrder()             │
+└──────────────────────────────┘    │  if (!order.valid) throw .. │
+                                    ├─────────────────────────────┤
+                                    │ calculateTotal()            │
+                                    │  return qty * price * tax   │
+                                    ├─────────────────────────────┤
+                                    │ sendConfirmation()          │
+                                    │  sendEmail(order.email)     │
+                                    └─────────────────────────────┘
+```
 
 1. <strong>새 메서드 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong> — 의도를 드러내는 이름 결정 (how가 아닌 **what**)
 2. **코드 복사** — 원본 블록을 새 메서드로 복사
@@ -74,19 +68,16 @@ tags = ["studynote-design-supervision"]
 4. **원본 교체** — 원본 블록을 새 메서드 호출로 대체
 5. **컴파일·테스트** — 동작 불변 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지역 변수 처리 결정 트리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지역 변수 있음?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 읽기만 함 ──▶ 매개변수로 전달</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 값 변경 후 계속 사용 ──▶ 반환값으로 처리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 여러 변수 변경 ──▶ 임시 변수 객체화 고려</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────┐
+│          지역 변수 처리 결정 트리                    │
+│                                                     │
+│  지역 변수 있음?                                    │
+│     ├─ 읽기만 함 ──▶ 매개변수로 전달               │
+│     ├─ 값 변경 후 계속 사용 ──▶ 반환값으로 처리    │
+│     └─ 여러 변수 변경 ──▶ 임시 변수 객체화 고려    │
+└─────────────────────────────────────────────────────┘
+```
 
 | 항목 | 설명 | 포인트 |
 |:---|:---|:---|

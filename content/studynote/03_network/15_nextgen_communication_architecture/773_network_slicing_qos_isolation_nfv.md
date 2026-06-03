@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: <strong>물리적으로는 단 1개인 <a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a> 통합 네트워크망을, <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/">SDN</a>(소프트웨어 정의 네트워크)과 <a href="/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/">NFV</a>(<a href="/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/">네트워크 기능 가상화</a>) 기술을 이용해 마치 식빵 자르듯 완전히 격리된 여러 개의 '논리적이고 독립적인 가상 네트워크(<a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/">Slice</a>)'로 쪼개어 쓰는 차세대 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/">클라우드 네이티브</a> 기술</strong>입니다.
 - 오직 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 코어망이 독립적으로 존재하는 <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/">SA</a>(<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/150_5g_sa_standalone_architecture/">Standalone</a>) 모드</strong>에서만 구현 가능합니다. (NSA에서는 불가능)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">PCF</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 슬라이싱</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">E2E 슬라이싱 보장 모델 관리</div></div>
-</div>
-</div>
-
-
+```text
+[PCF]
+    │
+    ▼
+[네트워크 슬라이싱]
+    │
+    └──▶ [E2E 슬라이싱 보장 모델 관리]
+```
 
 - **📢 섹션 요약 비유**: [네트워크 슬라이싱](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -50,18 +46,14 @@ tags = ["studynote-network"]
 3. <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/762_mmtc_massive_machine_type_communications/">mMTC</a> <a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/">슬라이스</a> (스마트 계량기 꿀벌망)</strong>: 
    - 속도와 지연은 신경 안 씁니다. 대신 서버가 100만 대의 접속을 동시에 튕겨내지 않고 받아주도록([Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 처리 위주) 세팅합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">PCF</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 슬라이싱</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">E2E 슬라이싱 보장 모델 관리</div></div>
-</div>
-</div>
-
-
+```text
+[PCF]
+    │
+    ▼
+[네트워크 슬라이싱]
+    │
+    └──▶ [E2E 슬라이싱 보장 모델 관리]
+```
 
 - **📢 섹션 요약 비유**: [네트워크 슬라이싱](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -120,19 +112,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: PCF</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 네트워크 슬라이싱</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: E2E 슬라이싱 보장 모델 관리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 네트워크 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: PCF]
+    │
+    ▼
+[현재 개념: 네트워크 슬라이싱]
+    │
+    ├──▶ [확장 A: E2E 슬라이싱 보장 모델 관리]
+    └──▶ [확장 B: AI 기반 네트워크 최적화]
+```
 
 [네트워크 슬라이싱](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/)는 PCF에서 출발해 현재 메커니즘을 정교화하고, 이후 [E2E](/knowledge-base/studynote/15_devops_sre/05_devsecops/265_e2e_end_to_ui_selenium/) 슬라이싱 보장 모델 관리와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

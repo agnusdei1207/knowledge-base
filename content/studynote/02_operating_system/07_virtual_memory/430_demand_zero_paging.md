@@ -27,29 +27,30 @@ tags = ["studynote-operating-system"]
   2. <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">Zero</a>-Fill의 의무화</strong>: 해킹을 막기 위해 무조건 0으로 덮어쓰고(세탁하고) 줘야 한다는 헌법이 제정됨.
   3. <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">Zero</a>-Fill의 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>(<a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/">Lazy</a>)</strong>: 근데 0으로 덮어쓰는 짓이 CPU 클럭을 너무 많이 파먹자, 이 세탁 과정을 [요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)과 결합해 최대한 뒤로 미뤄버림.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Demand Zero Paging(ZFOD)의 아찔한 0초 할당 마술 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">[ 상황: C/C++ 개발자가 <code>int arr</div><div class="kb-diagram-node">1,000,000</div><div class="kb-diagram-note"></code> (약 4MB) 선언! ]</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1. OS의 뻥카 (Allocation 0초 컷)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 가상 메모리 장부에 4MB짜리 구역(VMA)만 쓱 그려 넣음.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 1000장의 페이지 테이블 엔트리(PTE)를 전부 💥 Invalid(I)로 세팅.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 물리 RAM 할당 0바이트, 0으로 채우는 헛수고 0회. 1클럭 만에 리턴!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2. 유저의 첫 번째 타격 (Demand)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">개발자: <code>arr</div><div class="kb-diagram-node">5</div><div class="kb-diagram-note">= 99;</code> (배열의 첫 페이지를 건드림!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 3. 하드웨어의 비명과 커널의 0.1초 세탁 (Minor Page Fault)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- MMU: "앗 I 비트다! 에러 펑!" (Trap)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- OS 커널: "휴 올게 왔군. 램에 굴러다니는 남는 빈방(Free) 하나 가져와.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">여기에 남의 비밀번호 잔뜩 묻어있네? 00000000 으로 싹 밀어!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(이게 바로 Zero-Fill !)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- OS 커널: 방금 0으로 닦은 그 4KB 방을 <code>arr</div><div class="kb-diagram-node">0~1023</div><div class="kb-diagram-note"></code> 주소에 매핑!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- V 비트로 고치고 다시 재실행! (<code>arr</div><div class="kb-diagram-node">5</div><div class="kb-diagram-note">= 99</code> 정상 입력됨)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────┐
+│        Demand Zero Paging(ZFOD)의 아찔한 0초 할당 마술 시각화            │
+├──────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│ [ 상황: C/C++ 개발자가 `int arr[1,000,000]` (약 4MB) 선언! ]             │
+│                                                                          │
+│ ▶ 1. OS의 뻥카 (Allocation 0초 컷)                                       │
+│   - 가상 메모리 장부에 4MB짜리 구역(VMA)만 쓱 그려 넣음.                 │
+│   - 1000장의 페이지 테이블 엔트리(PTE)를 전부 💥 Invalid(I)로 세팅.      │
+│   - 물리 RAM 할당 0바이트, 0으로 채우는 헛수고 0회. 1클럭 만에 리턴!     │
+│                                                                          │
+│ ▶ 2. 유저의 첫 번째 타격 (Demand)                                        │
+│   개발자: `arr[5] = 99;` (배열의 첫 페이지를 건드림!)                    │
+│                                                                          │
+│ ▶ 3. 하드웨어의 비명과 커널의 0.1초 세탁 (Minor Page Fault)              │
+│   - MMU: "앗 I 비트다! 에러 펑!" (Trap)                                  │
+│   - OS 커널: "휴 올게 왔군. 램에 굴러다니는 남는 빈방(Free) 하나 가져와. │
+│             여기에 남의 비밀번호 잔뜩 묻어있네? 00000000 으로 싹 밀어!"  │
+│             (이게 바로 Zero-Fill !)                                      │
+│   - OS 커널: 방금 0으로 닦은 그 4KB 방을 `arr[0~1023]` 주소에 매핑!      │
+│   - V 비트로 고치고 다시 재실행! (`arr[5] = 99` 정상 입력됨)             │
+└──────────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 이것이 C언어의 `calloc()` (0으로 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화해서 힙 할당)이나 전역 변수([BSS](/knowledge-base/studynote/02_operating_system/02_process_thread/083_bss_segment/))가 1초 만에 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화되는 엄청난 꼼수의 실체다. OS는 절대로 4MB 전체를 미리 0으로 닦지 않는다. 1000장의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 중 유저가 실제로 건드린 딱 그 1장(4KB)만 그 찰나의 순간에 0으로 세탁([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)-fill)해서 던져준다. 나머지 999장은 유저가 안 건드리면 평생 빈껍데기인 채로 프로그램이 종료되며 램을 소름 끼치게 아낀다.
 
 - **📢 섹션 요약 비유**: 중국집에서 손님이 100명 예약했다고 짜장면 100그릇을 1시간 전부터 미리 볶아두면(과거 방식), 손님이 안 오거나 짬뽕을 시킬 때 다 버리게 됩니다. 주문(Demand)이 들어오는 딱 그 순간에만 1그릇씩 미친 듯이 웍을 돌려([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)-fill) 내어가는 극강의 주문 생산 효율화 시스템입니다.
@@ -102,18 +103,15 @@ tags = ["studynote-operating-system"]
 - **만약 ZFOD(세탁)가 없다면?** 해커 앱이 자기 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 읽었을 뿐인데, 조금 전 은행 앱이 버리고 간 `1234`라는 비밀번호가 고스란히 텍스트로 남아있다. (이른바 Information Leakage 공격).
 - 그래서 리눅스와 윈도우는 아무리 CPU 사이클이 깎여나가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 떨어지더라도 하늘이 두 쪽 나도 <strong>"유저에게 빈 램을 넘기기 전 무조건 100% 0으로 밀어버린다"</strong>는 강박적 결벽증(ZFOD)을 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 최우선 헌법으로 박아넣었다. 
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최적화 옵션</div><div class="kb-diagram-cell">초기화 속도</div><div class="kb-diagram-cell">램 낭비(Overcommit)</div><div class="kb-diagram-cell">타 앱 정보 유출(해킹)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">무식한 할당</div><div class="kb-diagram-cell">☠️ 최악(느림)</div><div class="kb-diagram-cell">☠️ 다 줌 (낭비)</div><div class="kb-diagram-cell">🟢 안 터짐(미리 닦음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ZFOD 생략</div><div class="kb-diagram-cell">🚀 빛의 속도</div><div class="kb-diagram-cell">🟢 1장씩 줌</div><div class="kb-diagram-cell">☠️ 100% 털림 (재앙)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ZFOD</div><div class="kb-diagram-cell">🚀 빠름</div><div class="kb-diagram-cell">🟢 1장씩 줌</div><div class="kb-diagram-cell">🟢 원천 봉쇄</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬──────────────────────────────────┐
+│ 최적화 옵션│ 초기화 속도  │ 램 낭비(Overcommit)│ 타 앱 정보 유출(해킹)│
+├──────────┼────────────┼────────────┼──────────────────────────────────┤
+│ 무식한 할당│ ☠️ 최악(느림) │ ☠️ 다 줌 (낭비) │ 🟢 안 터짐(미리 닦음)  │
+│ ZFOD 생략 │ 🚀 빛의 속도 │ 🟢 1장씩 줌   │ ☠️ 100% 털림 (재앙)        │
+│ **ZFOD** │ **🚀 빠름** │ **🟢 1장씩 줌** │ **🟢 원천 봉쇄**           │
+└──────────┴────────────┴────────────┴──────────────────────────────────┘
+```
 **[매트릭스 해설]** Demand [Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) [Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)(ZFOD)은 속도, 램 절약, 보안이라는 절대로 동시에 잡을 수 없는 트릴레마(Trilemma)를 모두 완벽하게 잡아낸 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 공학의 마스터피스다. 
 
 - **📢 섹션 요약 비유**: 이전에 살던 세입자(은행 앱)가 놓고 간 비밀 금고 번호(쓰레기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 다음 세입자(해커 앱)가 못 보게 하려면, 집주인(OS)이 무조건 입주 직전에 도배와 장판([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)-fill)을 싹 새로 해서 과거의 흔적을 0%로 지워버려야만 원룸 건물(시스템)에 범죄가 끊이지 않는 치안을 유지할 수 있습니다.
@@ -171,19 +169,15 @@ OS가 피땀 흘려 0으로 닦아준 깨끗한 램을, JVM이 건네받자마�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">마이너 페이지 폴트 (Minor Page Fault) vs 메이저 페이지 폴트 (Major Page Fault / 디스크 I/O 동반)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">수요 페이지 제로화 (Demand Zero Paging)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">더티 페이지 쓰기 (Dirty Page Writeback) 메커니즘 (pdflush / flusher 스레드)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">캐시 컬러링 (Cache Coloring)에 의한 페이지 매핑 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[마이너 페이지 폴트 (Minor Page Fault) vs 메이저 페이지 폴트 (Major Page Fault / 디스크 I/O 동반)]
+    │
+    ▼
+[수요 페이지 제로화 (Demand Zero Paging)]
+    │
+    ├──▶ [더티 페이지 쓰기 (Dirty Page Writeback) 메커니즘 (pdflush / flusher 스레드)]
+    └──▶ [캐시 컬러링 (Cache Coloring)에 의한 페이지 매핑 최적화]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

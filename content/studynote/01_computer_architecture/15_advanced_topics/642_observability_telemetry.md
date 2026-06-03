@@ -42,19 +42,21 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 증상과 원인을 잇는 텔레메트리 경로를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hardware telemetry closes the symptom-cause gap</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PMU ECC SMART PCIe Fan/Power</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">in-band agent + out-of-band BMC collector</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">time-aligned metrics / traces / alerts</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">throttle analysis / fault isolation / prediction</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ Hardware telemetry closes the symptom-cause gap             │
+├──────────────────────────────────────────────────────────────┤
+│ PMU  ECC  SMART  PCIe  Fan/Power                            │
+│  │    │     │     │      │                                  │
+│  └────┴─────┴─────┴──────┘                                  │
+│              ▼                                               │
+│   in-band agent + out-of-band BMC collector                  │
+│              ▼                                               │
+│    time-aligned metrics / traces / alerts                    │
+│              ▼                                               │
+│    throttle analysis / fault isolation / prediction          │
+└──────────────────────────────────────────────────────────────┘
+```
 
 여기서 가장 자주 놓치는 요소는 시간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)와 라벨 설계다. CPU 온도 스파이크와 저장장치 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 같은 시각에 일어난 사건인지, 아니면 서로 무관한지 판단하려면 장비 간 시계가 맞아야 한다. 또한 랙, 노드, 장치 세대, 작업 종류 같은 문맥 정보가 빠지면 숫자는 많아도 설명력은 급격히 떨어진다.
 
@@ -125,23 +127,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단순 생존 감시 · 임계치 알람</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">시스템 메트릭 수집</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">하드웨어 텔레메트리 통합</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">소프트웨어 + 하드웨어 교차 상관 분석</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">예측 운영 · 자율 최적화</div>
-</div>
-</div>
-
-
+```text
+단순 생존 감시 · 임계치 알람
+    │
+    ▼
+시스템 메트릭 수집
+    │
+    ▼
+하드웨어 텔레메트리 통합
+    │
+    ▼
+소프트웨어 + 하드웨어 교차 상관 분석
+    │
+    ▼
+예측 운영 · 자율 최적화
+```
 
 이 흐름은 "살아 있나"를 묻는 단계에서 출발해, "왜 이런 상태인가"를 설명하고 "곧 무슨 일이 날까"까지 예측하는 방향으로 진화했음을 보여준다.
 

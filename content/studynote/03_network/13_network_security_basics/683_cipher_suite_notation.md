@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 핸드셰이크 과정에서, 클라이언트와 서버가 서로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 안전하게 주고받기 위해 <strong>어떤 종류의 <a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/504_cryptography_algorithms_aes_rsa_sha/">암호화 알고리즘</a>들을 묶어서 사용할지 규정해 놓은 세트 메뉴(문자열 규격)</strong>입니다.
 - **배경**: 컴퓨터마다 지원하는 최신 암호 기술이 다르기 때문에, 클라이언트가 자신이 할 수 있는 세트 메뉴 목록을 던지면, 서버가 그중 가장 안전한 세트 하나를 골라 통신을 시작합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">TLS Handshake 프로토콜</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Cipher Suite 모델 표기방식 예시…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TLS 전방향 안전성 보장 원리</div></div>
-</div>
-</div>
-
-
+```text
+[TLS Handshake 프로토콜]
+    │
+    ▼
+[Cipher Suite 모델 표기방식 예시…]
+    │
+    └──▶ [TLS 전방향 안전성 보장 원리]
+```
 
 - **📢 섹션 요약 비유**: Cipher Suite 모델 표기방식 예시…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -62,18 +58,14 @@ tags = ["studynote-network"]
 ### 4. `SHA256` ([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 해시 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))
 - "마지막으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 전송 중에 1비트라도 깨지거나 변조되지 않았는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 때는 SHA-256 해시 함수를 믹서기로 쓰자!" (단, [GCM](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/) 같은 [AEAD](/knowledge-base/studynote/09_security/02_crypto/092_aead/) 모드를 쓸 경우 이 해시는 일반 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)용이 아니라, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 핸드셰이크용 PRF 함수로만 쓰입니다.)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">TLS Handshake 프로토콜</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Cipher Suite 모델 표기방식 예시…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TLS 전방향 안전성 보장 원리</div></div>
-</div>
-</div>
-
-
+```text
+[TLS Handshake 프로토콜]
+    │
+    ▼
+[Cipher Suite 모델 표기방식 예시…]
+    │
+    └──▶ [TLS 전방향 안전성 보장 원리]
+```
 
 - **📢 섹션 요약 비유**: Cipher Suite 모델 표기방식 예시…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -134,19 +126,15 @@ Cipher Suite 모델 표기방식 예시…는 [네트워크 보안](/knowledge-b
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: TLS Handshake 프로토콜</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: Cipher Suite 모델 표기방식 예시…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: TLS 전방향 안전성 보장 원리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: TLS Handshake 프로토콜]
+    │
+    ▼
+[현재 개념: Cipher Suite 모델 표기방식 예시…]
+    │
+    ├──▶ [확장 A: TLS 전방향 안전성 보장 원리]
+    └──▶ [확장 B: 자동화된 신뢰 체계]
+```
 
 Cipher Suite 모델 표기방식 예시…는 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) Handshake [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 전방향 안전성 보장 원리와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

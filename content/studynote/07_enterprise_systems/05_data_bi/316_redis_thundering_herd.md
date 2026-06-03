@@ -29,28 +29,28 @@ Redis는 인메모리 키-값 캐시로 DB 앞단에 위치하여 반복적인 �
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Redis 선더링 허드 발생 메커니즘과 방지 전략</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">발생 과정:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T=0: 수만 클라이언트 → Redis 캐시 조회 (HIT)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T=TTL: Redis 캐시 만료</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T=TTL+1ms: 모든 클라이언트 → Redis MISS → DB 직접 조회 (폭발!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">방지 전략 1: TTL Jitter (만료 분산)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TTL = base_ttl + random(0, jitter)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">같은 시간에 모든 키가 만료되지 않도록 무작위 분산</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">방지 전략 2: Cache Lock (Mutex)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">캐시 MISS → SET NX (원자적 락 획득) → DB 조회 → 캐시 저장 → 락 해제</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다른 클라이언트: 락 대기 중 → 캐시 완성 후 → Redis 재조회</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">방지 전략 3: Probabilistic Early Expiration</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TTL 만료 전, 남은 시간이 임계값 이하이면 일부 요청이 미리 캐시 갱신</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 만료 전 백그라운드 갱신으로 만료 순간 폭발 방지</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────────────┐
+│            Redis 선더링 허드 발생 메커니즘과 방지 전략               │
+├──────────────────────────────────────────────────────────────────┤
+│  발생 과정:                                                        │
+│  T=0: 수만 클라이언트 → Redis 캐시 조회 (HIT)                       │
+│  T=TTL: Redis 캐시 만료                                            │
+│  T=TTL+1ms: 모든 클라이언트 → Redis MISS → DB 직접 조회 (폭발!)    │
+│                                                                  │
+│  방지 전략 1: TTL Jitter (만료 분산)                               │
+│  TTL = base_ttl + random(0, jitter)                              │
+│  같은 시간에 모든 키가 만료되지 않도록 무작위 분산                    │
+│                                                                  │
+│  방지 전략 2: Cache Lock (Mutex)                                   │
+│  캐시 MISS → SET NX (원자적 락 획득) → DB 조회 → 캐시 저장 → 락 해제│
+│  다른 클라이언트: 락 대기 중 → 캐시 완성 후 → Redis 재조회          │
+│                                                                  │
+│  방지 전략 3: Probabilistic Early Expiration                       │
+│  TTL 만료 전, 남은 시간이 임계값 이하이면 일부 요청이 미리 캐시 갱신   │
+│  → 만료 전 백그라운드 갱신으로 만료 순간 폭발 방지                    │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)                          | 원리                         | 장단점                          |
 |:-----------------------------|:----------------------------|:-------------------------------|
@@ -134,23 +134,21 @@ def get_data(key):
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">DB 직접 조회 병목 → Redis 캐시 도입</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">TTL 만료 동시 발생 → Cache Stampede 장애</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">TTL Jitter / Cache Lock / Early Expiration 도입</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Redis Cluster + Replica + 로컬 L1 캐시 계층화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">분산 캐시 관리 자동화 (Cache Warming, Proactive Refresh)</div>
-</div>
-</div>
-
-
+```
+DB 직접 조회 병목 → Redis 캐시 도입
+    │
+    ▼
+TTL 만료 동시 발생 → Cache Stampede 장애
+    │
+    ▼
+TTL Jitter / Cache Lock / Early Expiration 도입
+    │
+    ▼
+Redis Cluster + Replica + 로컬 L1 캐시 계층화
+    │
+    ▼
+분산 캐시 관리 자동화 (Cache Warming, Proactive Refresh)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

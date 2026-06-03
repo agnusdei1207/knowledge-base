@@ -26,24 +26,20 @@ tags = ["cloud_architecture"]
 **💡 비유**: 예전에는 여행을 갈 때마다 자동차를 직접 사서 주차장을 마련하고 엔진오일을 갈아야 했다면, 퍼블릭 클라우드는 스마트폰 앱으로 전 세계 어디서나 즉시 차를 빌려 타고 달린 거리만큼만 결제하는 글로벌 카셰어링 혁신과 같다.
 
 이 도식은 기존 CAPEX 기반 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)의 고정된 인프라 확장 방식과 퍼블릭 클라우드의 OPEX 기반 탄력적 확장을 비교한 문제 배경도이다.
+```text
+[인프라 조달 타이밍 및 비용 지출 구조의 한계]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">인프라 조달 타이밍 및 비용 지출 구조의 한계</div></div>
-<div class="kb-diagram-note">용량 (Capacity)</div>
-<div class="kb-diagram-connector">▲</div>
-<div class="kb-diagram-note">(유휴 자원 낭비 - 막대한 손실)</div>
-<div class="kb-diagram-note">(트래픽 스파이크 시 용량 부족 = 시스템 다운!)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">On-Prem</div><div class="kb-diagram-cell">/ \</div></div>
-<div class="kb-diagram-tree-item" style="--depth:0">/ \ 트래픽 (실 수요 곡선)</div>
-<div class="kb-diagram-note">Public Cloud / \</div>
-<div class="kb-diagram-note">(Auto Scaling) / \</div>
-<div class="kb-diagram-tree-item" style="--depth:0">시간 (Time)</div>
-</div>
-</div>
-
-
+용량 (Capacity)
+▲
+│        ┌──────(유휴 자원 낭비 - 막대한 손실)
+│   ┌────┴────┐     (트래픽 스파이크 시 용량 부족 = 시스템 다운!)
+│   │ On-Prem │      / \
+├───┴─────────┴─────/───\──────── 트래픽 (실 수요 곡선)
+│ Public Cloud     /     \
+│ (Auto Scaling)  /       \
+│                /         \
+└───────────────────────────────► 시간 (Time)
+```
 이 그림의 핵심은 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)(계단식 블록) 인프라 도입 방식이 가진 태생적 모순을 보여주는 데 있다. 장비 도입 속도가 트래픽 증가 속도를 따라가지 못하면 치명적인 장애를 겪고, 반대로 너무 미리 도입하면 빈 공간(유휴 자원)만큼 돈을 버리게 된다. 반면 퍼블릭 클라우드의 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) 곡선(점선과 밀착)은 실제 수요를 그림자처럼 추적하여 비즈니스 민첩성을 극대화한다. 따라서 트래픽 변동성이 크거나 신규 사업 실험을 해야 하는 기업에게 퍼블릭 클라우드는 필수불가결한 선택이다.
 
 **📢 섹션 요약 비유**: 두꺼운 겨울옷을 한여름에도 억지로 입고 다니던 방식에서 벗어나, 외부 온도 변화에 맞춰 스마트하게 실시간으로 옷의 두께가 조절되는 마법의 옷으로 갈아입은 격이다.
@@ -64,20 +60,21 @@ tags = ["cloud_architecture"]
 | <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/">Management</a></strong> | Control Plane | 사용자의 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 요청([프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/))을 수신해 하드웨어 자원을 할당 | 호텔 프런트 데스크 시스템 |
 
 이 도식은 퍼블릭 클라우드의 물리적 가용성을 보장하는 리전(Region)과 가용 영역(AZ, [Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) Zone), 그리고 그 위에서 동작하는 [VPC](/knowledge-base/studynote/03_network/16_data_center_cloud/836_vpc_virtual_private_cloud_subnet_isolation/) 네트워크의 논리적 격리 아키텍처를 보여준다.
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Public Cloud (Global)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Region A (e.g., ap-northeast-2)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AZ 1 (물리적 독립 DC) ─ AZ 2 (물리적 독립) ──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VPC (가상 사설망)</div><div class="kb-diagram-cell">VPC (확장 Subnet) ──</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ │</div><div class="kb-diagram-node">Web VM / 웹 VM</div><div class="kb-diagram-node">DB VM</div><div class="kb-diagram-note">│==│</div><div class="kb-diagram-node">Web VM / 웹 VM</div><div class="kb-diagram-node">DB VM</div><div class="kb-diagram-note">│ │</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(전원/네트워크/냉각 완전 분리)</div><div class="kb-diagram-cell">(초고속 전용 광케이블 연결)</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────── Public Cloud (Global) ─────────────────────────┐
+│                                                                          │
+│ ┌────────────────── Region A (e.g., ap-northeast-2) ───────────────────┐ │
+│ │                                                                      │ │
+│ │  ┌───────── AZ 1 (물리적 독립 DC) ─┐  ┌──────── AZ 2 (물리적 독립) ──┐ │ │
+│ │  │                                │  │                             │ │ │
+│ │  │ ┌───── VPC (가상 사설망) ────┐ │  │ ┌──── VPC (확장 Subnet) ──┐ │ │ │
+│ │  │ │  [Web VM / 웹 VM]      [DB VM]   │ │==│ │  [Web VM / 웹 VM]    [DB VM]    │ │ │ │
+│ │  │ └──────────────────────────┘ │  │ └─────────────────────────┘ │ │ │
+│ │  │  (전원/네트워크/냉각 완전 분리)│  │ (초고속 전용 광케이블 연결)   │ │ │
+│ │  └────────────────────────────────┘  └─────────────────────────────┘ │ │
+│ └──────────────────────────────────────────────────────────────────────┘ │
+└──────────────────────────────────────────────────────────────────────────┘
+```
 이 구조도의 핵심은 클라우드가 절대 죽지 않는 마법의 서버가 아니라, "하나의 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)(AZ)가 재난으로 완전히 파괴되어도 시스템이 생존하도록 물리적으로 설계된 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 네트워크"라는 점이다. AZ 1과 AZ 2는 지리적으로 수십 킬로미터 떨어져 1개 도시의 정전이나 홍수에도 동시 타격을 받지 않으며, 두 AZ 간은 밀리초 수준의 초고속망으로 연결되어 동기화된다. 따라서 실무 설계자는 반드시 이 다이어그램처럼 로드밸런서를 두고 웹과 DB를 두 개 이상의 AZ에 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 배치(Multi-AZ)하는 것을 클라우드 아키텍처의 제1원칙으로 삼아야 한다.
 
 **📢 섹션 요약 비유**: 퍼블릭 클라우드는 거대한 아파트 단지([멀티 테넌시](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/014_multi_tenancy/))와 같다. 비록 다른 사람들과 같은 건물을 쓰지만 철저한 방음벽과 도어락([가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)/[VPC](/knowledge-base/studynote/03_network/16_data_center_cloud/836_vpc_virtual_private_cloud_subnet_isolation/)) 덕분에 완벽한 사생활이 보장되며, A동에 불이 나면 즉시 B동의 똑같은 집으로 워프할 수 있는 첨단 시스템이다.
@@ -99,22 +96,19 @@ tags = ["cloud_architecture"]
 이 매트릭스에서 도출해야 할 핵심은 퍼블릭 클라우드가 모든 면에서 우월한 정답은 아니라는 것이다. 국방, 금융 등 민감한 개인정보를 물리적으로 분리해야 하는 법적 규제가 있는 경우나, 페타바이트급 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 24시간 365일 분석해야 하는 초거대 고정 워크로드의 경우, 퍼블릭 클라우드의 트래픽 아웃바운드 비용([Egress](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/) Fee)이 자가 구축 비용을 아득히 초과하는 현상이 발생한다.
 
 이 도식은 퍼블릭 클라우드 도입 시 보안 사고의 원인을 규명하는 절대적 기준인 <strong>책임 공유 모델 (Shared Responsibility Model)</strong>을 보여준다.
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">고객 (Customer) 의 책임 영역 - Security "IN" Cloud</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 고객 데이터 및 파일 암호화 정책</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 애플리케이션 취약점 패치 및 IAM (계정/권한 접근 제어)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 방화벽(Security Group) 규칙 및 OS 패치 관리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CSP (클라우드 벤더) 의 책임 영역 - Security "OF" Cloud</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 하이퍼바이저 / 가상화 엔진 보안 및 격리 패치</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 데이터센터 물리적 출입 통제 / 전원 / 랙 관리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 글로벌 네트워크 인프라 케이블링 및 기초 시설</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────┐
+│ [ 고객 (Customer) 의 책임 영역 - Security "IN" Cloud ] │
+│ - 고객 데이터 및 파일 암호화 정책                      │
+│ - 애플리케이션 취약점 패치 및 IAM (계정/권한 접근 제어)│
+│ - 방화벽(Security Group) 규칙 및 OS 패치 관리          │
+├────────────────────────────────────────────────────────┤
+│ [ CSP (클라우드 벤더) 의 책임 영역 - Security "OF" Cloud]│
+│ - 하이퍼바이저 / 가상화 엔진 보안 및 격리 패치         │
+│ - 데이터센터 물리적 출입 통제 / 전원 / 랙 관리         │
+│ - 글로벌 네트워크 인프라 케이블링 및 기초 시설         │
+└────────────────────────────────────────────────────────┘
+```
 이 구조의 핵심은 "클라우드가 기본적으로 안전하다"는 믿음이 반은 맞고 반은 틀리다는 것이다. 벤더([CSP](/knowledge-base/studynote/09_security/05_web_app_security/475_csp/))는 물리적 서버 도난이나 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 엔진 해킹은 막아주지만, 고객이 실수로 S3 스토리지의 접근 권한을 '전체 공개(Public)'로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하여 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 유출된 사고는 100% 고객의 책임이다. 실무에서는 클라우드 보안 사고의 99%가 하단([CSP](/knowledge-base/studynote/09_security/05_web_app_security/475_csp/))이 아닌 상단(고객의 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 오류)에서 발생함을 명심해야 한다.
 
 **📢 섹션 요약 비유**: 퍼블릭 클라우드는 첨단 보안을 자랑하는 은행 대여금고와 같다. 은행([CSP](/knowledge-base/studynote/09_security/05_web_app_security/475_csp/))은 튼튼한 금고와 경비원을 제공하지만, 당신(고객)이 금고 열쇠를 길거리에 떨어뜨리거나 문을 열어두고 간 것까지 책임져주지는 않는다.
@@ -164,25 +158,24 @@ tags = ["cloud_architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">온프레미스 (On-Premises)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IaaS 인프라 서비스 (Infrastructure as a Service)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">퍼블릭 클라우드 (Public Cloud)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">PaaS 플랫폼 서비스 (Platform as a Service)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SaaS 소프트웨어 서비스 (Software as a Service)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">멀티 클라우드 (Multi-Cloud)</div></div>
-</div>
-</div>
-
-
+```text
+[온프레미스 (On-Premises)]
+    │
+    ▼
+[IaaS 인프라 서비스 (Infrastructure as a Service)]
+    │
+    ▼
+[퍼블릭 클라우드 (Public Cloud)]
+    │
+    ▼
+[PaaS 플랫폼 서비스 (Platform as a Service)]
+    │
+    ▼
+[SaaS 소프트웨어 서비스 (Software as a Service)]
+    │
+    ▼
+[멀티 클라우드 (Multi-Cloud)]
+```
 
 물리 인프라에서 IaaS를 거쳐 퍼블릭 클라우드의 다양한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 계층과 [멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) 전략으로 진화하는 흐름이다.
 

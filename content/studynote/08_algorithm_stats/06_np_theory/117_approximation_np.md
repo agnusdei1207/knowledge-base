@@ -18,37 +18,38 @@ tags = ["studynote-algorithm-stats"]
 
 ## Ⅰ. [근사 알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/012_approximation_algorithm/) 기초
 
+```
+근사 알고리즘 (Approximation Algorithm):
 
+목적:
+  NP-하드 문제에서 다항 시간 + 품질 보장
+  완벽한 최적해 대신 "충분히 좋은 해"
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">근사 알고리즘 (Approximation Algorithm):</div>
-<div class="kb-diagram-note">목적:</div>
-<div class="kb-diagram-note">NP-하드 문제에서 다항 시간 + 품질 보장</div>
-<div class="kb-diagram-note">완벽한 최적해 대신 "충분히 좋은 해"</div>
-<div class="kb-diagram-note">근사 비율 (Approximation Ratio):</div>
-<div class="kb-diagram-note">최소화 문제: ρ = A(I) / OPT(I) ≤ ρ</div>
-<div class="kb-diagram-note">최대화 문제: ρ = OPT(I) / A(I) ≤ ρ</div>
-<div class="kb-diagram-note">A(I): 알고리즘 출력값</div>
-<div class="kb-diagram-note">OPT(I): 최적해 값</div>
-<div class="kb-diagram-note">ρ=1: 완벽 최적해 (=정확 알고리즘)</div>
-<div class="kb-diagram-note">ρ=2: 최적의 2배 이하 (최소화) → "2-근사"</div>
-<div class="kb-diagram-note">ρ=1.5: 최적의 1.5배 → TSP Christofides</div>
-<div class="kb-diagram-note">근사 스키마:</div>
-<div class="kb-diagram-note">PTAS (Polynomial-Time Approximation Scheme):</div>
-<div class="kb-diagram-note">임의 ε &gt; 0에 대해 (1+ε)-근사</div>
-<div class="kb-diagram-note">시간: poly(n)이지만 ε에 지수적</div>
-<div class="kb-diagram-note">FPTAS (Fully PTAS):</div>
-<div class="kb-diagram-note">시간: poly(n, 1/ε)</div>
-<div class="kb-diagram-note">배낭 문제 FPTAS가 대표적</div>
-<div class="kb-diagram-note">한계 (Inapproximability):</div>
-<div class="kb-diagram-note">모든 NP-하드 문제에 좋은 근사 존재 X</div>
-<div class="kb-diagram-note">Clique: n^(1-ε) 근사 불가 (ZPP≠NP)</div>
-<div class="kb-diagram-note">→ 근사 자체가 NP-하드인 경우</div>
-</div>
-</div>
+근사 비율 (Approximation Ratio):
+  최소화 문제: ρ = A(I) / OPT(I) ≤ ρ
+  최대화 문제: ρ = OPT(I) / A(I) ≤ ρ
+  
+  A(I): 알고리즘 출력값
+  OPT(I): 최적해 값
+  
+  ρ=1: 완벽 최적해 (=정확 알고리즘)
+  ρ=2: 최적의 2배 이하 (최소화) → "2-근사"
+  ρ=1.5: 최적의 1.5배 → TSP Christofides
 
+근사 스키마:
+  PTAS (Polynomial-Time Approximation Scheme):
+    임의 ε > 0에 대해 (1+ε)-근사
+    시간: poly(n)이지만 ε에 지수적
+    
+  FPTAS (Fully PTAS):
+    시간: poly(n, 1/ε)
+    배낭 문제 FPTAS가 대표적
 
+한계 (Inapproximability):
+  모든 NP-하드 문제에 좋은 근사 존재 X
+  Clique: n^(1-ε) 근사 불가 (ZPP≠NP)
+  → 근사 자체가 NP-하드인 경우
+```
 
 > 📢 **섹션 요약 비유**: [근사 알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/012_approximation_algorithm/)은 "충분히 좋은 답" — 완벽한 답(최적해)은 너무 오래 걸리므로, "최적의 1.5배 이내"를 빠르게! 1.5배 이내 보장이 [근사 알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/012_approximation_algorithm/)의 가치.
 
@@ -56,41 +57,41 @@ tags = ["studynote-algorithm-stats"]
 
 ## Ⅱ. 버텍스 커버 2-근사
 
+```
+버텍스 커버 (Vertex Cover):
+  그래프 G=(V,E)에서 모든 에지를 커버하는 최소 정점 집합
+  = NP-완전
 
+2-근사 알고리즘:
+  아이디어: 임의 에지 선택 → 양 끝점 추가 → 반복
+  
+  알고리즘:
+  C = {}
+  while E는 비어있지 않음:
+    임의 에지 (u,v) 선택
+    C = C ∪ {u, v}
+    u, v에 인접한 모든 에지 제거
+  return C
+  
+  예시:
+  그래프: 1-2, 2-3, 3-4, 4-5
+  에지 (1,2) 선택 → {1,2} 추가
+  에지 (3,4) 선택 → {3,4} 추가
+  에지 5에 연결된 것 → {5} or 에지 (4,5) 커버됨
+  → C = {1,2,3,4}
+  
+  최적해: {2,4} (크기 2)
+  알고리즘: 크기 4 ≤ 2 × 최적(2) ✓ 2-근사!
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">버텍스 커버 (Vertex Cover):</div>
-<div class="kb-diagram-note">그래프 G=(V,E)에서 모든 에지를 커버하는 최소 정점 집합</div>
-<div class="kb-diagram-note">= NP-완전</div>
-<div class="kb-diagram-note">2-근사 알고리즘:</div>
-<div class="kb-diagram-note">아이디어: 임의 에지 선택 → 양 끝점 추가 → 반복</div>
-<div class="kb-diagram-note">알고리즘:</div>
-<div class="kb-diagram-note">C = {}</div>
-<div class="kb-diagram-note">while E는 비어있지 않음:</div>
-<div class="kb-diagram-note">임의 에지 (u,v) 선택</div>
-<div class="kb-diagram-note">C = C ∪ {u, v}</div>
-<div class="kb-diagram-note">u, v에 인접한 모든 에지 제거</div>
-<div class="kb-diagram-note">return C</div>
-<div class="kb-diagram-note">예시:</div>
-<div class="kb-diagram-note">그래프: 1-2, 2-3, 3-4, 4-5</div>
-<div class="kb-diagram-note">에지 (1,2) 선택 → {1,2} 추가</div>
-<div class="kb-diagram-note">에지 (3,4) 선택 → {3,4} 추가</div>
-<div class="kb-diagram-note">에지 5에 연결된 것 → {5} or 에지 (4,5) 커버됨</div>
-<div class="kb-diagram-note">→ C = {1,2,3,4}</div>
-<div class="kb-diagram-note">최적해: {2,4} (크기 2)</div>
-<div class="kb-diagram-note">알고리즘: 크기 4 ≤ 2 × 최적(2) ✓ 2-근사!</div>
-<div class="kb-diagram-note">증명:</div>
-<div class="kb-diagram-note">선택한 에지들 = 매칭(공유 정점 없음)</div>
-<div class="kb-diagram-note">→ 매칭 크기 = k</div>
-<div class="kb-diagram-note">→ 알고리즘: 2k 정점</div>
-<div class="kb-diagram-note">→ 최적: ≥ k (각 에지 최소 1개 정점 필요)</div>
-<div class="kb-diagram-note">→ 2k / k = 2 → 2-근사 증명</div>
-<div class="kb-diagram-note">시간 복잡도: O(V+E)</div>
-</div>
-</div>
+증명:
+  선택한 에지들 = 매칭(공유 정점 없음)
+  → 매칭 크기 = k
+  → 알고리즘: 2k 정점
+  → 최적: ≥ k (각 에지 최소 1개 정점 필요)
+  → 2k / k = 2 → 2-근사 증명
 
-
+시간 복잡도: O(V+E)
+```
 
 > 📢 **섹션 요약 비유**: 버텍스 커버 2-근사는 에지 짝 잡기 — 도로(에지) 감시에 필요한 최소 초소(정점). 무작위 도로 선택 후 양 끝 초소 세우면 최적의 2배 이내!
 
@@ -98,41 +99,42 @@ tags = ["studynote-algorithm-stats"]
 
 ## Ⅲ. 집합 커버 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 근사
 
+```
+집합 커버 (Set Cover):
+  전체 집합 U, 부분집합들 S_1, ..., S_m
+  U를 커버하는 최소 부분집합 선택
+  = NP-완전
 
+그리디 알고리즘:
+  아이디어: 매 단계 가장 많은 원소를 커버하는 집합 선택
+  
+  알고리즘:
+  C = {} (선택된 집합)
+  R = U (남은 원소)
+  while R ≠ {}:
+    S_i = R와의 교집합이 최대인 집합
+    C = C ∪ {S_i}
+    R = R - S_i
+  return C
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">집합 커버 (Set Cover):</div>
-<div class="kb-diagram-note">전체 집합 U, 부분집합들 S_1, ..., S_m</div>
-<div class="kb-diagram-note">U를 커버하는 최소 부분집합 선택</div>
-<div class="kb-diagram-note">= NP-완전</div>
-<div class="kb-diagram-note">그리디 알고리즘:</div>
-<div class="kb-diagram-note">아이디어: 매 단계 가장 많은 원소를 커버하는 집합 선택</div>
-<div class="kb-diagram-note">알고리즘:</div>
-<div class="kb-diagram-note">C = {} (선택된 집합)</div>
-<div class="kb-diagram-note">R = U (남은 원소)</div>
-<div class="kb-diagram-note">while R ≠ {}:</div>
-<div class="kb-diagram-note">S_i = R와의 교집합이 최대인 집합</div>
-<div class="kb-diagram-note">C = C ∪ {S_i}</div>
-<div class="kb-diagram-note">R = R - S_i</div>
-<div class="kb-diagram-note">return C</div>
-<div class="kb-diagram-note">근사 비율:</div>
-<div class="kb-diagram-note">H_n = 1 + 1/2 + 1/3 + ... + 1/n ≈ ln(n)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ O(log</div><div class="kb-diagram-cell">U</div><div class="kb-diagram-cell">) 근사 보장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예:</div><div class="kb-diagram-cell">U</div><div class="kb-diagram-cell">=100 → 최적 k개, 그리디 ≤ k × ln(100) ≈ 4.6k</div></div>
-<div class="kb-diagram-note">불가능 결과:</div>
-<div class="kb-diagram-note">(1-ε) × ln(n) 보다 좋은 근사는</div>
-<div class="kb-diagram-note">P≠NP 가정 하에 불가능 (Feige 1998)</div>
-<div class="kb-diagram-note">→ ln(n) 근사가 사실상 최선</div>
-<div class="kb-diagram-note">적용:</div>
-<div class="kb-diagram-note">네트워크 감시 (모든 링크 커버)</div>
-<div class="kb-diagram-note">유전체 분석 (탐침 선택)</div>
-<div class="kb-diagram-note">광고 노출 최적화</div>
-<div class="kb-diagram-note">서비스 배치 최적화</div>
-</div>
-</div>
+근사 비율:
+  H_n = 1 + 1/2 + 1/3 + ... + 1/n ≈ ln(n)
+  
+  → O(log |U|) 근사 보장
+  
+  예: |U|=100 → 최적 k개, 그리디 ≤ k × ln(100) ≈ 4.6k
 
+불가능 결과:
+  (1-ε) × ln(n) 보다 좋은 근사는
+  P≠NP 가정 하에 불가능 (Feige 1998)
+  → ln(n) 근사가 사실상 최선
 
+적용:
+  네트워크 감시 (모든 링크 커버)
+  유전체 분석 (탐침 선택)
+  광고 노출 최적화
+  서비스 배치 최적화
+```
 
 > 📢 **섹션 요약 비유**: 집합 커버 그리디는 최대 할인 선택 — 매 번 가장 많은 물건(원소)을 커버하는 할인 쿠폰(집합) 선택. log(n)배 이내 최적. 이보다 좋은 전략은 이론상 불가!
 
@@ -183,46 +185,49 @@ Christofides 알고리즘 (1976, 삼각 부등식 가정):
 
 ## Ⅴ. 실무 시나리오 — 물류 최적화
 
+```
+택배 회사 배송 경로 최적화:
 
+문제:
+  배송 드라이버 1명, 도시 100개
+  하루 모든 배송지 방문 최소 이동 거리
+  = TSP 변형
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">택배 회사 배송 경로 최적화:</div>
-<div class="kb-diagram-note">문제:</div>
-<div class="kb-diagram-note">배송 드라이버 1명, 도시 100개</div>
-<div class="kb-diagram-note">하루 모든 배송지 방문 최소 이동 거리</div>
-<div class="kb-diagram-note">= TSP 변형</div>
-<div class="kb-diagram-note">현실적 접근:</div>
-<div class="kb-diagram-note">1. 거리 행렬 준비:</div>
-<div class="kb-diagram-note">100 × 100 = 10,000개 거리 (Google Maps API)</div>
-<div class="kb-diagram-note">2. Christofides 1.5-근사:</div>
-<div class="kb-diagram-note">정확한 최적 보장</div>
-<div class="kb-diagram-note">하지만 최소 완전 매칭 계산 복잡</div>
-<div class="kb-diagram-note">3. 실용 선택 — LKH (Lin-Kernighan):</div>
-<div class="kb-diagram-note">100개 도시: 밀리초~초</div>
-<div class="kb-diagram-note">품질: 최적과 0.1~0.5% 차이</div>
-<div class="kb-diagram-note">→ 이론 보장은 없지만 실용 최고</div>
-<div class="kb-diagram-note">4. 시뮬레이티드 어닐링 (SA):</div>
-<div class="kb-diagram-note">랜덤 탐색 + 확률적 수용</div>
-<div class="kb-diagram-note">글로벌 최적 탐색</div>
-<div class="kb-diagram-note">100개: 수초~수십초</div>
-<div class="kb-diagram-note">5. 유전 알고리즘 (GA):</div>
-<div class="kb-diagram-note">복수 경로 진화</div>
-<div class="kb-diagram-note">병렬화 가능</div>
-<div class="kb-diagram-note">결과 비교 (100개 도시):</div>
-<div class="kb-diagram-note">무작위 경로: 100% (기준)</div>
-<div class="kb-diagram-note">최근접이웃 그리디: ~25% 단축</div>
-<div class="kb-diagram-note">2-opt: ~15% 추가 단축</div>
-<div class="kb-diagram-note">Christofides: 이론 1.5× OPT 보장</div>
-<div class="kb-diagram-note">LKH: 실용 최고 (~0.3% OPT 차이)</div>
-<div class="kb-diagram-note">비용 효과:</div>
-<div class="kb-diagram-note">배송 경로 최적화 10% 단축</div>
-<div class="kb-diagram-note">드라이버 일 평균 이동: 200km → 180km</div>
-<div class="kb-diagram-note">연료 비용 10% 절감 = 수천만원/년</div>
-</div>
-</div>
+현실적 접근:
 
+1. 거리 행렬 준비:
+   100 × 100 = 10,000개 거리 (Google Maps API)
 
+2. Christofides 1.5-근사:
+   정확한 최적 보장
+   하지만 최소 완전 매칭 계산 복잡
+   
+3. 실용 선택 — LKH (Lin-Kernighan):
+   100개 도시: 밀리초~초
+   품질: 최적과 0.1~0.5% 차이
+   → 이론 보장은 없지만 실용 최고
+
+4. 시뮬레이티드 어닐링 (SA):
+   랜덤 탐색 + 확률적 수용
+   글로벌 최적 탐색
+   100개: 수초~수십초
+
+5. 유전 알고리즘 (GA):
+   복수 경로 진화
+   병렬화 가능
+
+결과 비교 (100개 도시):
+  무작위 경로: 100% (기준)
+  최근접이웃 그리디: ~25% 단축
+  2-opt: ~15% 추가 단축
+  Christofides: 이론 1.5× OPT 보장
+  LKH: 실용 최고 (~0.3% OPT 차이)
+  
+비용 효과:
+  배송 경로 최적화 10% 단축
+  드라이버 일 평균 이동: 200km → 180km
+  연료 비용 10% 절감 = 수천만원/년
+```
 
 > 📢 **섹션 요약 비유**: 물류 TSP는 우편배달부 퍼즐 — 100군데 집을 최단 거리로 돌기. Christofides는 이론 보장, LKH는 실용 최선. 1%만 줄여도 수천만원 절감!
 

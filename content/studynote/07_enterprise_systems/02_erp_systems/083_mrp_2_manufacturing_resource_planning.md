@@ -22,19 +22,19 @@ tags = ["enterprise_systems"]
 
 이 한계를 넘어선 것이 [MRP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/082_mrp_material_requirements_planning/) II (Manufacturing Resource Planning)이다. [MRP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/082_mrp_material_requirements_planning/) II는 자재 중심의 계산을 생산 자원 전체로 넓혀서, 계획이 실제 현장의 제약과 만나도 무너지지 않도록 만들었다. 1980년대 제조업은 자동화와 복잡한 다품종 소량생산이 늘어나면서, 자재만 보는 방식으로는 납기 준수와 원가 통제가 어려워졌다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자재는 있음</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">설비는 부족</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">계획은 지연</div></div>
-<div class="kb-diagram-connector">▲</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인력도 부족</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐
+│ 자재는 있음  │
+└──────┬───────┘
+       ▼
+┌──────────────┐     ┌──────────────┐
+│ 설비는 부족  │────▶│ 계획은 지연   │
+└──────────────┘     └──────────────┘
+       ▲
+┌──────┴───────┐
+│ 인력도 부족  │
+└──────────────┘
+```
 
 이처럼 [MRP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/082_mrp_material_requirements_planning/) I가 자재 수급의 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)을 높였더라도, 능력 제약을 무시하면 실행 단계에서 계획이 붕괴한다. 그래서 [MRP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/082_mrp_material_requirements_planning/) II는 "소요 계산"이 아니라 "실행 가능성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)"까지 포함해야 의미가 있다.
 
@@ -52,18 +52,15 @@ tags = ["enterprise_systems"]
 | CRP (Capacity Requirements Planning) | 세부 능력 검토 | 설비/인력이 충분한가 |
 | [SFC](/knowledge-base/studynote/03_network/17_sdn_nfv/872_service_chaining_sfc_vnf_traffic_steering/) (Shop Floor Control) | 현장 실행과 통제 | 실제 생산이 계획대로 가는가 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MPS</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">MRP</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">CRP</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">SFC</div></div>
-<div class="kb-diagram-tree-item" style="--depth:1">actual output / delay / inventory</div>
-<div class="kb-diagram-connector">▲</div>
-<div class="kb-diagram-tree-item" style="--depth:8">feedback to MPS/MRP</div>
-</div>
-</div>
-
-
+```text
+┌──────┐   ┌──────┐   ┌──────┐   ┌──────┐
+│ MPS  │──▶│ MRP  │──▶│ CRP  │──▶│ SFC  │
+└──┬───┘   └──┬───┘   └──┬───┘   └──┬───┘
+   │          │          │          │
+   └────────────── actual output / delay / inventory ──────────────┘
+                    ▲
+                    └────────── feedback to MPS/MRP ─────
+```
 
 [MRP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/082_mrp_material_requirements_planning/) II는 자재 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)뿐 아니라 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 공정 시간, 교대 계획, 원가 정보까지 이어 붙인다. 그래서 "무엇을 만들 것인가"와 "실제로 만들 수 있는가"를 같은 장표 안에서 검토할 수 있다.
 
@@ -135,21 +132,18 @@ tags = ["enterprise_systems"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">MRP I (Material Requirements Planning)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">MRP II (Manufacturing Resource Planning)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ERP (Enterprise Resource Planning)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">전사 통합 계획 · 실시간 피드백 · 데이터 중심 운영</div>
-</div>
-</div>
-
-
+```text
+MRP I (Material Requirements Planning)
+    │
+    ▼
+MRP II (Manufacturing Resource Planning)
+    │
+    ▼
+ERP (Enterprise Resource Planning)
+    │
+    ▼
+전사 통합 계획 · 실시간 피드백 · 데이터 중심 운영
+```
 
 이 흐름은 "자재 계산 → 능력 통합 → 전사 통합"으로 제조 계획의 범위가 넓어지는 과정을 보여준다.
 

@@ -30,34 +30,39 @@ tags = ["studynote-network"]
   2. **REST의 오버패칭(Over-fetching)**: 모바일 3G 환경에서 10KB면 충분한 화면에 1MB의 거대한 범용 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 객체를 던져주는 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비 사태.
   3. <strong>페이스북(Meta)의 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/">오픈소스</a>화</strong>: 2015년 페이스북이 내부적으로 쓰던 이 괴물 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 엔진을 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)화하며, 프론트엔드 생태계(React)의 폭발적 성장과 함께 모던 웹 아키텍처의 쌍두마차로 올라섰다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">REST API vs GraphQL 통신 구조 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">REST API 방식 - Under &amp; Over Fetching의 지옥</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라이언트 ──(1. GET /users/1) ▶ 서버 (응답: 거대한 유저 정보)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라이언트 ──(2. GET /users/1/posts) ▶ 서버 (응답: 수백개 글 목록)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라이언트 ──(3. GET /posts/5/comments)▶ 서버 (응답: 댓글 정보)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⚠️ 단점: 화면 하나 그리는데 RTT 3번 소요. 쓰지도 않을 주소/나이 정보 낭비.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">GraphQL 방식 - One Endpoint, Perfect Shape</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라이언트 ──( POST /graphql ) ▶ 서버 (단일 엔드포인트)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Query</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">query {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">user(id: 1) { ◀─ "유저 1번 찾아서"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">name ◀─ "이름만 가져오고"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">posts(last: 1) { ◀─ "가장 최근 게시글 1개에서"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">title ◀─ "제목 뽑고"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">comments { text } ◀─ "거기 달린 댓글 텍스트만 묶어줘"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버 (응답: 100% 클라이언트가 요구한 구조와 필드명과 똑같은 모양의 JSON 반환)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 장점: 1 RTT 만에 해결. 1바이트의 오버패칭 데이터 낭비도 없음.</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│              REST API vs GraphQL 통신 구조 비교              │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ [ REST API 방식 - Under & Over Fetching의 지옥 ]                │
+│                                                             │
+│ 클라이언트 ──(1. GET /users/1)─────────▶ 서버 (응답: 거대한 유저 정보)│
+│                                                             │
+│ 클라이언트 ──(2. GET /users/1/posts)───▶ 서버 (응답: 수백개 글 목록)│
+│                                                             │
+│ 클라이언트 ──(3. GET /posts/5/comments)▶ 서버 (응답: 댓글 정보)   │
+│                                                             │
+│ ⚠️ 단점: 화면 하나 그리는데 RTT 3번 소요. 쓰지도 않을 주소/나이 정보 낭비.│
+│                                                             │
+│ [ GraphQL 방식 - One Endpoint, Perfect Shape ]              │
+│                                                             │
+│ 클라이언트 ──( POST /graphql )─────────▶ 서버 (단일 엔드포인트)     │
+│   [Query]                                                   │
+│   query {                                                   │
+│     user(id: 1) {             ◀─ "유저 1번 찾아서"             │
+│       name                    ◀─ "이름만 가져오고"             │
+│       posts(last: 1) {        ◀─ "가장 최근 게시글 1개에서"        │
+│         title                 ◀─ "제목 뽑고"                  │
+│         comments { text }     ◀─ "거기 달린 댓글 텍스트만 묶어줘"    │
+│       }                                                     │
+│     }                                                       │
+│   }                                                         │
+│                                                             │
+│ 서버 (응답: 100% 클라이언트가 요구한 구조와 필드명과 똑같은 모양의 JSON 반환) │
+│ 🌟 장점: 1 RTT 만에 해결. 1바이트의 오버패칭 데이터 낭비도 없음.          │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 상단의 [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) 방식은 철저하게 서버가 정의한 리소스 계층(`/users`, `/posts`, `/comments`)에 종속되어 있다. 관계를 맺는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가져오기 위해 클라이언트가 발품을 팔아 여러 번 호출해야 한다. 하단의 [GraphQL](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/246_graphql_query_language_overfetching_solution/) 구조는 이 패러다임을 역전시킨다. 통로(Endpoint)는 `/graphql` 단 하나뿐이다. 클라이언트가 JSON과 비슷하게 생긴 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)문을 작성해 POST Body에 담아 쏘면, 서버의 [GraphQL](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/246_graphql_query_language_overfetching_solution/) 엔진(Resolver)이 백엔드의 DB나 여러 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)를 대신 돌아다니며 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 싹 긁어모아 클라이언트가 지시한 모양의 블록 트리([Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/))로 예쁘게 재조립하여 단 한방에 반환한다.
 
@@ -79,39 +84,42 @@ tags = ["studynote-network"]
 
 클라이언트가 거대한 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 날렸을 때, 백엔드에서는 하나의 무식한 SQL 조인 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)가 도는 것이 아니다. [GraphQL](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/246_graphql_query_language_overfetching_solution/) 서버는 각 노드(필드)마다 배정된 <strong>리졸버(Resolver) 함수들을 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/">재귀</a>적으로 호출</strong>하여 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 조립한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Resolver(리졸버) 실행 트리와 데이터 조립 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">클라이언트 요청 쿼리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">query {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">author(id: "A") {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">name</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">posts { title }</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">백엔드 Resolver 실행 트리 전개</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Query.author(id="A") 실행 ▶ DB: SELECT * FROM User</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: { id: "A", name: "Kim" } 객체 리턴</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 2. User.name 실행 ──▶ 객체에서 "Kim" 필드 쏙 빼냄</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 3. User.posts 실행 ──▶ 부모 객체 정보(id: "A")를 넘겨받음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DB: SELECT * FROM Post</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WHERE author_id = "A"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">결과:</div><div class="kb-diagram-node">{title: "Hello"}</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">최종 JSON 병합 결과 리턴</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">{</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"data": {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"author": {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"name": "Kim",</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">"posts":</div><div class="kb-diagram-node">{ "title": "Hello" }</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────┐
+│              Resolver(리졸버) 실행 트리와 데이터 조립 구조              │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│ [클라이언트 요청 쿼리]                                               │
+│ query {                                                         │
+│   author(id: "A") {                                             │
+│     name                                                        │
+│     posts { title }                                             │
+│   }                                                             │
+│ }                                                               │
+│                                                                 │
+│ [백엔드 Resolver 실행 트리 전개]                                       │
+│                                                                 │
+│ 1. Query.author(id="A") 실행 ───▶ DB: SELECT * FROM User        │
+│    결과: { id: "A", name: "Kim" } 객체 리턴                       │
+│               │                                                 │
+│               ├─ 2. User.name 실행 ──▶ 객체에서 "Kim" 필드 쏙 빼냄     │
+│               │                                                 │
+│               └─ 3. User.posts 실행 ──▶ 부모 객체 정보(id: "A")를 넘겨받음│
+│                                      DB: SELECT * FROM Post     │
+│                                          WHERE author_id = "A"  │
+│                                      결과: [{title: "Hello"}]   │
+│                                                                 │
+│ [최종 JSON 병합 결과 리턴]                                           │
+│ {                                                               │
+│   "data": {                                                     │
+│     "author": {                                                 │
+│       "name": "Kim",                                            │
+│       "posts": [ { "title": "Hello" } ]                         │
+│     }                                                           │
+│   }                                                             │
+│ }                                                               │
+└─────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 클라이언트가 중첩된 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 날리면 서버의 [GraphQL](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/246_graphql_query_language_overfetching_solution/) 엔진은 이를 트리 구조로 파싱한다. 가장 상위의 부모 리졸버(`Query.author`)가 먼저 실행되어 DB에서 유저 정보를 가져온다. 그리고 그 결과를 자식 리졸버(`User.name`, `User.posts`)들에게 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 파라미터로 넘겨준다. `User.posts` 리졸버는 부모의 PK(`author_id`)를 들고 다시 DB나 다른 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))를 찔러 게시글 목록을 가져온다. 이 구조 덕분에 프론트엔드 개발자가 아무리 깊고 복잡한 트리를 요구하더라도, 백엔드 개발자는 각 필드에 대응하는 작은 리졸버 함수 조각들만 개별적으로 엮어놓으면 엔진이 알아서 레고 블록처럼 완성품을 조립해내는 혁명적 분업화가 완성된다.
 
@@ -159,29 +167,31 @@ GraphQL를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름�
 2. <strong>시나리오 — 악의적인 깊이 제한(Depth Limit) 미설정으로 인한 서버 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">OOM</a> 장애</strong>: 퍼블릭 서비스로 [GraphQL](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/246_graphql_query_language_overfetching_solution/) API를 열어두었는데, 해커가 `user -> posts -> author -> posts -> author` 형태로 깊이가 100단계 중첩된 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)(Recursive) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 날렸다. 백엔드 리졸버가 이를 파싱하다가 DB 커넥션을 다 물어버리고 메모리 터짐([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))으로 전체 서버가 마비되었다.
    - **판단**: [GraphQL](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/246_graphql_query_language_overfetching_solution/) 환경에서는 서버를 보호하기 위한 방패가 핵심이다. [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)의 <strong>최대 중첩 깊이(Max Depth)</strong>를 5~7 정도로 엄격하게 제한하고, 각 필드별 연산 비용을 계산하여 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 1개가 차지할 수 있는 <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a> 복잡도(Query Complexity) 상한선</strong>을 설정해 악의적인 요격 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 서버 입구에서 쳐내야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실무 아키텍처: Apollo Client의 로컬 정규화 캐시 마법</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HTTP 캐시(CDN)의 한계를 극복하는 프론트엔드 전역 캐시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GraphQL 쿼리 요청 ➔ 응답 JSON 도착</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">{</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"author": { "__typename": "User", "id": 1, "name": "A" },</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"post": { "__typename": "Post", "id": 9, "title": "B" }</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Apollo Client의 In-Memory Cache (정규화 스토어) 저장 로직</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">캐시 저장소:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "User:1" ➔ { id: 1, name: "A" }</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "Post:9" ➔ { id: 9, title: "B" }</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 실무 효과:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이후 프론트엔드 앱 다른 화면에서 "User:1"의 이름을 달라는 쿼리가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">발생하면, Apollo 라이브러리가 서버로 네트워크를 안 쏘고, 자신의 메모리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">저장소에서 블록을 꺼내 0ms 만에 즉시 렌더링을 끝내버림! (UX 극대화)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │         실무 아키텍처: Apollo Client의 로컬 정규화 캐시 마법        │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │ [HTTP 캐시(CDN)의 한계를 극복하는 프론트엔드 전역 캐시]            │
+  │                                                             │
+  │ GraphQL 쿼리 요청 ➔ 응답 JSON 도착                           │
+  │ {                                                           │
+  │   "author": { "__typename": "User", "id": 1, "name": "A" }, │
+  │   "post": { "__typename": "Post", "id": 9, "title": "B" }   │
+  │ }                                                           │
+  │                                                             │
+  │ [Apollo Client의 In-Memory Cache (정규화 스토어) 저장 로직]       │
+  │                                                             │
+  │  캐시 저장소:                                                 │
+  │  - "User:1" ➔ { id: 1, name: "A" }                          │
+  │  - "Post:9" ➔ { id: 9, title: "B" }                         │
+  │                                                             │
+  │ 🌟 실무 효과:                                                │
+  │ 이후 프론트엔드 앱 다른 화면에서 "User:1"의 이름을 달라는 쿼리가    │
+  │ 발생하면, Apollo 라이브러리가 서버로 네트워크를 안 쏘고, 자신의 메모리│
+  │ 저장소에서 블록을 꺼내 0ms 만에 즉시 렌더링을 끝내버림! (UX 극대화) │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** GraphQL은 태생적으로 무식하게 POST로 한 개의 URL(`/graphql`)만 찌르기 때문에, Nginx나 브라우저 단의 네트워크 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 캐시(ETag, max-age 등)를 전혀 쓰지 못한다. 이를 극복하기 위해 실무에서는 `Apollo Client`나 `Relay` 같은 프론트엔드 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)의 강력한 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 아키텍처를 의존한다. 이들은 서버에서 날아온 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 객체들을 해체하여 `[__typename]:[id]`라는 고유 키로 분해해 프론트엔드의 램(RAM)에 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)([Normalization](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/))하여 깔아둔다. 마치 화면 단위의 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)이 아니라 레고 블록 단위의 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)이 일어나므로, 한 화면에서 갱신된 유저 이름이 페이지를 이동해도 즉각 반영되는 렌더링 최적화의 극치를 선사한다.
 
@@ -229,19 +239,15 @@ GraphQL를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: REST API</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: GraphQL</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: gRPC</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 애플리케이션 전달</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: REST API]
+    │
+    ▼
+[현재 개념: GraphQL]
+    │
+    ├──▶ [확장 A: gRPC]
+    └──▶ [확장 B: 지능형 애플리케이션 전달]
+```
 
 GraphQL는 [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) API에서 출발해 현재 메커니즘을 정교화하고, 이후 gRPC와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

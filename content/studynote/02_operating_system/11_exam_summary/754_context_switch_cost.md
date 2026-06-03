@@ -35,29 +35,31 @@ tags = ["studynote-operating-system"]
 - **등장 배경**: 
   - 과거 일괄 처리(Batch) 시스템에서는 하나의 작업이 끝날 때까지 CPU를 독점했으므로 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)이 없었다. 시분할(Time-sharing) 시스템의 등장과 함께 탄생한 숙명적 그림자다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로세스 A에서 B로의 문맥 교환 시퀀스 (Overhead)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">프로세스 A</div><div class="kb-diagram-node">운영체제 커널 (OS)</div><div class="kb-diagram-node">프로세스 B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실행 중 (Executing)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(타이머 인터럽트 탕!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">중단 (Interrupt) ▶</div><div class="kb-diagram-cell">&lt;- User Mode에서 Kernel Mode 전환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(대기 상태로) 1. 프로세스 A의 현재 상태를</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">PCB_A</div><div class="kb-diagram-note">메모리에 저장 (Save)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;- ⚠️ 순수 오버헤드 시간 구간 ⚠️</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 대기 큐에서 프로세스 B 선택 (스케줄링)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;- ⚠️ 순수 오버헤드 시간 구간 ⚠️</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3.</div><div class="kb-diagram-node">PCB_B</div><div class="kb-diagram-note">에서 프로세스 B의</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이전 상태를 CPU 레지스터에 복원 (Restore)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;- Kernel Mode에서 User Mode 전환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실행 재개</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Executing)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │                 프로세스 A에서 B로의 문맥 교환 시퀀스 (Overhead)        │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │   [프로세스 A]         [ 운영체제 커널 (OS) ]         [프로세스 B]   │
+  │  실행 중 (Executing)                                           │
+  │      │                 (타이머 인터럽트 탕!)                    │
+  │      ▼                       │                              │
+  │  중단 (Interrupt) ─────────▶ │  <- User Mode에서 Kernel Mode 전환│
+  │  (대기 상태로)               1. 프로세스 A의 현재 상태를             │
+  │                         [PCB_A] 메모리에 저장 (Save)          │
+  │                               │  <- ⚠️ 순수 오버헤드 시간 구간 ⚠️ │
+  │                         2. 대기 큐에서 프로세스 B 선택 (스케줄링)   │
+  │                               │  <- ⚠️ 순수 오버헤드 시간 구간 ⚠️ │
+  │                         3. [PCB_B]에서 프로세스 B의             │
+  │                            이전 상태를 CPU 레지스터에 복원 (Restore)│
+  │                               │                              │
+  │                               ▼                              │
+  │                      ─────────┘  <- Kernel Mode에서 User Mode 전환│
+  │                                                             │
+  │                                                         실행 재개 │
+  │                                                       (Executing)│
+  └─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 다이어그램 중앙의 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 작동하는 시간(박스 구간)은 사용자 애플리케이션 입장에서는 세상이 멈춘 '블랙아웃(Blackout)' 시간이다. 이 틈에 OS는 단순히 수십 개의 CPU [범용 레지스터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/162_gpr/) 값을 RAM에 복사하는(Save) 작업뿐만 아니라, [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/307_memory_protection/) 구역을 나누는 CR3 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)([페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 포인터)를 B의 것으로 갈아치우는 치명적으로 무거운 하드웨어 제어를 단행한다. 이 모든 준비가 끝나고 다시 유저 모드로 전환(iret [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))되어 프로세스 B가 깨어날 때까지 약 1~5 마이크로초(µs)의 클럭이 연기처럼 증발한다.
 
@@ -80,26 +82,25 @@ tags = ["studynote-operating-system"]
 
 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 시 가장 무서운 순간은 메모리 맵([페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 포인터)을 교체할 때다. 프로세스 A의 가상 주소 100번지와 프로세스 B의 100번지는 전혀 다른 물리 메모리다. 따라서 기존에 하드웨어가 외워두었던 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/">TLB</a> (주소 변환 캐시)</strong>를 전부 쓰레기통에 비워버려야(Flush) 한다. 이로 인해 교환 직후 엄청난 메모리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 발생했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ASID(주소 공간 식별자) 기반 TLB 플러시 방어 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">구형 아키텍처: 문맥 교환 시 TLB 전체 폭파</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">TLB 칩 내역:</div><div class="kb-diagram-node">가상 0x10 -&gt; 물리 0xF0</div><div class="kb-diagram-note">(Proc A꺼)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">가상 0x20 -&gt; 물리 0xE0</div><div class="kb-diagram-note">(Proc A꺼)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; Proc B로 교체 시, 혹시 꼬일까 봐 TLB 캐시를 0으로 싹 다 날림(Flush).</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; Proc B는 빈 깡통에서 수백 번의 페이지 폴트를 맞으며 다시 학습해야 함.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">최신 ARM/x86 아키텍처: ASID (Address-Space ID) 태그 융합</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">TLB 칩 내역:</div><div class="kb-diagram-node">태그:A</div><div class="kb-diagram-node">가상 0x10 -&gt; 물리 0xF0</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">태그:B</div><div class="kb-diagram-node">가상 0x20 -&gt; 물리 0xD0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; Proc A에서 B로 교체할 때, TLB 캐시를 날리지 않고 놔둠! (No Flush)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; CPU 제어기(CR3 등)에 "지금부터는 B 태그 달린 것만 읽어!"라고 스위치만 변경</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; Proc B가 깨어나도 이전 자신의 TLB 캐시가 살아있어 빛의 속도로 메모리 탐색!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 ASID(주소 공간 식별자) 기반 TLB 플러시 방어 구조          │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [ 구형 아키텍처: 문맥 교환 시 TLB 전체 폭파 ]                             │
+  │   TLB 칩 내역: [가상 0x10 -> 물리 0xF0] (Proc A꺼)                   │
+  │                [가상 0x20 -> 물리 0xE0] (Proc A꺼)                   │
+  │   -> Proc B로 교체 시, 혹시 꼬일까 봐 TLB 캐시를 0으로 싹 다 날림(Flush).     │
+  │   -> Proc B는 빈 깡통에서 수백 번의 페이지 폴트를 맞으며 다시 학습해야 함.     │
+  │                                                                   │
+  │   [ 최신 ARM/x86 아키텍처: ASID (Address-Space ID) 태그 융합 ]          │
+  │   TLB 칩 내역: [태그:A][가상 0x10 -> 물리 0xF0]                         │
+  │                [태그:B][가상 0x20 -> 물리 0xD0]                         │
+  │   -> Proc A에서 B로 교체할 때, TLB 캐시를 날리지 않고 놔둠! (No Flush)      │
+  │   -> CPU 제어기(CR3 등)에 "지금부터는 B 태그 달린 것만 읽어!"라고 스위치만 변경 │
+  │   -> Proc B가 깨어나도 이전 자신의 TLB 캐시가 살아있어 빛의 속도로 메모리 탐색! │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이것이 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 설계자와 CPU 설계자(인텔, ARM)가 손잡고 이뤄낸 마스터피스다. 캐시를 지우는 것은 너무 뼈아프기 때문에, [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 칩에 아예 프로세스의 고유 번호([ASID](/knowledge-base/studynote/02_operating_system/06_memory_management/360_asid/))를 같이 엮어서 저장하도록 하드웨어를 바꿨다. 프로세스를 교체해도 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 캐시를 살려둘 수 있으므로, [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)의 가장 무서운 적이었던 "간접 비용(캐시 폴트 폭풍)" 중 주소 변환 병목을 완벽히 제거해 냈다. 이 작은 태그 하나가 클라우드 서버 전체의 응답 속도를 20% 이상 끌어올렸다.
 
@@ -140,24 +141,26 @@ tags = ["studynote-operating-system"]
 2. <strong>시나리오 — 언어 레벨 초경량 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a> (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/096_user_level_thread/">User-Level Thread</a> / <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/141_coroutine/">Coroutine</a>) 도입</strong>: 최근 마이크로서비스에서 대용량 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 동시 호출을 처리하기 위해 C++나 Java로 Pthread를 수만 개 만들면 여전히 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 비용이 무거워 메모리가 고갈된다.
    - <strong>아키텍트 판단 (Go <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/140_goroutine/">Goroutine</a> / <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/141_coroutine/">코루틴</a> 융합)</strong>: [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))에게 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)을 맡기지 말고, 사용자 공간(User Space)에서 애플리케이션 프로그래머가 직접 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)을 통제하는 기법을 채택한다. Go 언어의 [고루틴](/knowledge-base/studynote/02_operating_system/02_process_thread/140_goroutine/)([Goroutine](/knowledge-base/studynote/02_operating_system/02_process_thread/140_goroutine/))이나 [코루틴](/knowledge-base/studynote/02_operating_system/02_process_thread/141_coroutine/)([Coroutine](/knowledge-base/studynote/02_operating_system/02_process_thread/141_coroutine/))은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 개입 없이 단 2KB의 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)과 몇 개의 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 포인터만 유저 메모리에서 휙휙 바꿔치기한다. OS는 그냥 1개의 큰 작업이 도는 줄 알기 때문에 권한 모드 스위칭(Ring 3 $\rightarrow$ Ring 0)의 치명적 병목이 제거되어 수백만 개의 동시 처리가 거뜬해진다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버 아키텍처별 문맥 교환 오버헤드 (TPS 성능 분기점)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">초당 1만 연결(10K C10K Problem) 처리 시 CPU의 생존 곡선</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 다중 프로세스 (Apache Prefork)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 낭비: 80% (문맥 교환에 질식사) -&gt; 처리량(TPS) 최하위</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 다중 스레드 (Java Thread per request)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 낭비: 30% (TLB 파괴는 없으나 여전히 커널 교환 무거움) -&gt; TPS 중간</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 유저 스레드 / 코루틴 (Go Goroutine / Python Asyncio)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 낭비: 1% 미만 (OS 개입 0, 유저 공간 펌핑) -&gt; TPS 최상위 폭발</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 이벤트 루프 (Nginx, Node.js)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 낭비: 0.1% (싱글 스레드라 문맥 교환 자체를 안 함) -&gt; 극한의 스루풋</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 서버 아키텍처별 문맥 교환 오버헤드 (TPS 성능 분기점)         │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [ 초당 1만 연결(10K C10K Problem) 처리 시 CPU의 생존 곡선 ]            │
+  │                                                                   │
+  │  1. 다중 프로세스 (Apache Prefork)                                     │
+  │     | CPU 낭비: 80% (문맥 교환에 질식사)  -> 처리량(TPS) 최하위               │
+  │                                                                   │
+  │  2. 다중 스레드 (Java Thread per request)                            │
+  │     | CPU 낭비: 30% (TLB 파괴는 없으나 여전히 커널 교환 무거움) -> TPS 중간     │
+  │                                                                   │
+  │  3. 유저 스레드 / 코루틴 (Go Goroutine / Python Asyncio)               │
+  │     | CPU 낭비: 1% 미만 (OS 개입 0, 유저 공간 펌핑) -> TPS 최상위 폭발        │
+  │                                                                   │
+  │  4. 이벤트 루프 (Nginx, Node.js)                                      │
+  │     | CPU 낭비: 0.1% (싱글 스레드라 문맥 교환 자체를 안 함) -> 극한의 스루풋      │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 표는 지난 20년간 백엔드 서버 아키텍처가 "[문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 비용을 어떻게든 피해 보려는 눈물겨운 발버둥"의 역사임을 증명한다. [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)은 공짜가 아니다. 동시접속자가 적을 땐 OS가 해주는 자동 교환([스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))이 프로그래머에게 편안함을 주지만, 임계점을 넘으면 OS의 친절한 스케줄링이 곧 서버를 암살하는 독약이 된다. 현대 고성능 백엔드 프레임워크는 모조리 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 손을 뿌리치고([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Bypass), 애플리케이션 스스로 유저 공간에서 아주 얇고 가벼운 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)([Coroutine](/knowledge-base/studynote/02_operating_system/02_process_thread/141_coroutine/))을 통제하는 방향으로 진화했다.
 
@@ -203,19 +206,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">우선순위 역전 (Priority Inversion) 방지</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">문맥 교환 비용 (레지스터 저장 복원) (Context Switch Cost)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">고아 좀비 프로세스 init 처리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">시스템 콜 오버헤드 이유</div></div>
-</div>
-</div>
-
-
+```text
+[우선순위 역전 (Priority Inversion) 방지]
+    │
+    ▼
+[문맥 교환 비용 (레지스터 저장 복원) (Context Switch Cost)]
+    │
+    ├──▶ [고아 좀비 프로세스 init 처리]
+    └──▶ [시스템 콜 오버헤드 이유]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

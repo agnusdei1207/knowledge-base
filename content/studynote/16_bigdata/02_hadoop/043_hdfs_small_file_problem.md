@@ -23,22 +23,23 @@ tags = ["studynote-bigdata"]
   - **Memory Pressure**: [네임노드](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/)는 각 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)/[디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)/블록 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 당 약 150바이트를 메모리에 상주시킨다.
   - **I/O Inefficiency**: [MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) 작업 시 작은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 하나가 하나의 Map Task가 되어 과도한 오버헤드(JVM 구동 시간 등)가 발생한다.
 
+```text
+[HDFS Small File vs Large File Efficiency]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">HDFS Small File vs Large File Efficiency</div></div>
-<div class="kb-diagram-note">(Large File) 1GB File (Small Files) 1,000,000 x 1KB Files</div>
-<div class="kb-diagram-note">+-----------------------+ +---+ +---+ +---+ ... +---+</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Block 1</div><div class="kb-diagram-node">Block 2</div><div class="kb-diagram-note">|1KB| |1KB| |1KB| |1KB| (Metadata Flood!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Block 3</div><div class="kb-diagram-note">... | +---+ +---+ +---+ ... +---+</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NameNode Mem</div><div class="kb-diagram-cell">NameNode Memory</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">(Minimal Metadata) |</div><div class="kb-diagram-node">Metadata1</div><div class="kb-diagram-node">Metadata2</div><div class="kb-diagram-note">...</div><div class="kb-diagram-node">Metadata1M</div></div>
-<div class="kb-diagram-note">(High Performance) (Memory Crash &amp; Slow MapReduce)</div>
-</div>
-</div>
-
-
+(Large File) 1GB File           (Small Files) 1,000,000 x 1KB Files
++-----------------------+      +---+ +---+ +---+ ... +---+
+| [Block 1] [Block 2]   |      |1KB| |1KB| |1KB|     |1KB| (Metadata Flood!)
+| [Block 3] ...         |      +---+ +---+ +---+ ... +---+
++-----------------------+               ||
+           ||                           \/
++-----------------------+      +-----------------------------------------+
+|     NameNode Mem      |      |           NameNode Memory               |
+|  (Minimal Metadata)   |      | [Metadata1][Metadata2]...[Metadata1M]   |
++-----------------------+      +-----------------------------------------+
+           ||                           ||
+           \/                           \/
+   (High Performance)             (Memory Crash & Slow MapReduce)
+```
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 
@@ -64,23 +65,21 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">HDFS 아키텍처 (NameNode 메타데이터 + DataNode 블록)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">작은 파일 문제 (NameNode 메모리 폭증 → 성능 병목)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HAR / Sequence File / CombineFileInputFormat — 단기 완화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Ozone (차세대 객체 스토리지 — 수십억 파일 지원)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Delta Lake / Apache Iceberg Compaction — 현대적 자동 해결</div></div>
-</div>
-</div>
-
-
+```text
+[HDFS 아키텍처 (NameNode 메타데이터 + DataNode 블록)]
+    │
+    ▼
+[작은 파일 문제 (NameNode 메모리 폭증 → 성능 병목)]
+    │
+    ▼
+[HAR / Sequence File / CombineFileInputFormat — 단기 완화]
+    │
+    ▼
+[Apache Ozone (차세대 객체 스토리지 — 수십억 파일 지원)]
+    │
+    ▼
+[Delta Lake / Apache Iceberg Compaction — 현대적 자동 해결]
+```
 HDFS의 작은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 문제는 [NameNode](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/) 힙 메모리 한계에서 비롯되며, 단기 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 기법에서 Apache Ozone, [Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/)/Iceberg의 자동 Compaction까지 세대별 해결책이 존재한다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

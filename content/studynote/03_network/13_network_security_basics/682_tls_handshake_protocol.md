@@ -24,18 +24,14 @@ tags = ["studynote-network"]
 2. 서버가 진짜 맞는지 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서(X.509) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/).
 3. **가장 중요**: 앞으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주고받을 때 쓸 <strong>대칭키(<a href="/knowledge-base/studynote/09_security/03_network_security/140_session_key/">Session Key</a>)를 안전하게 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>하고 교환.</strong>
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SSL/TLS 통신 모델 개요</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">TLS Handshake 프로토콜</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Cipher Suite 모델 표기방식 예시…</div></div>
-</div>
-</div>
-
-
+```text
+[SSL/TLS 통신 모델 개요]
+    │
+    ▼
+[TLS Handshake 프로토콜]
+    │
+    └──▶ [Cipher Suite 모델 표기방식 예시…]
+```
 
 - **📢 섹션 요약 비유**: [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) Handshake 프로토콜은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -62,18 +58,14 @@ tags = ["studynote-network"]
 - 클라이언트와 서버가 서로에게 <strong>"이제부터 우리가 방금 만든 '대칭키(<a href="/knowledge-base/studynote/09_security/03_network_security/140_session_key/">Session Key</a>)'로 몽땅 암호화해서 말한다!"</strong>라고 선언(Change Cipher Spec)합니다.
 - 마지막으로 지금까지 주고받은 모든 대화 내역을 암호화해서 진짜 잘 풀리는지 테스트(Finished)해 본 뒤, 본격적인 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통신을 시작합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SSL/TLS 통신 모델 개요</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">TLS Handshake 프로토콜</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Cipher Suite 모델 표기방식 예시…</div></div>
-</div>
-</div>
-
-
+```text
+[SSL/TLS 통신 모델 개요]
+    │
+    ▼
+[TLS Handshake 프로토콜]
+    │
+    └──▶ [Cipher Suite 모델 표기방식 예시…]
+```
 
 - **📢 섹션 요약 비유**: [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) Handshake 프로토콜의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -133,19 +125,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: SSL/TLS 통신 모델 개요</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: TLS Handshake 프로토콜</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: Cipher Suite 모델 표기방식 예시…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: SSL/TLS 통신 모델 개요]
+    │
+    ▼
+[현재 개념: TLS Handshake 프로토콜]
+    │
+    ├──▶ [확장 A: Cipher Suite 모델 표기방식 예시…]
+    └──▶ [확장 B: 자동화된 신뢰 체계]
+```
 
 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) Handshake 프로토콜는 SSL/[TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 통신 모델 개요에서 출발해 현재 메커니즘을 정교화하고, 이후 Cipher Suite 모델 표기방식 예시…와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

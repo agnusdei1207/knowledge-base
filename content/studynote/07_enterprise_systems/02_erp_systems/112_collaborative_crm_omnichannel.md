@@ -12,7 +12,7 @@ tags = ["studynote-enterprise-systems"]
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 협업 [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/)(Collaborative [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/))은 전화·이메일·카카오톡·챗봇·매장 방문 등 <strong>모든 고객 접점 채널을 단일 플랫폼으로 통합(<a href="/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/073_omni_channel_o2o_evolution/">옴니채널</a>)</strong>하여, 어떤 채널로 문의해도 <strong>동일한 상담 이력과 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/">컨텍스트</a>가 이어지는</strong> 끊김 없는 고객 경험을 제공하는 시스템이다.
 > 2. **가치**: 운영 [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/)(실행)·분석 [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/)(통찰)이 아무리 좋아도, 고객이 <strong>전화→카톡→매장 3번 같은 말을 반복</strong>해야 한다면 CX(고객 경험)는 0점이다. 협업 CRM은 이 "채널 단절"을 제거하는 <strong>신경망 레이어</strong>다.
-> 3. **판단 포인트**: 채널 통합의 핵심은 <strong>통합 고객 프로파일(Unified <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/">Customer</a> Profile)</strong>과 <strong>대화 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/">컨텍스트</a> 연속성(Conversation <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/">Context</a>)</strong>이며, [CDP](/knowledge-base/studynote/09_security/04_endpoint_security/193_crl_distribution_point_cdp/)([Customer Data Platform](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/115_cdp_customer_data_platform_single_view/))와 연계하여 구현한다.
+> 3. **판단 포인트**: 채널 통합의 핵심은 <strong>통합 고객 프로파일(Unified <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/">C고객</a> Profile)</strong>과 <strong>대화 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/">컨텍스트</a> 연속성(Conversation <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/">Context</a>)</strong>이며, [CDP](/knowledge-base/studynote/09_security/04_endpoint_security/193_crl_distribution_point_cdp/)([C고객 Data Platform](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/115_cdp_customer_data_platform_single_view/))와 연계하여 구현한다.
 
 ---
 
@@ -20,23 +20,21 @@ tags = ["studynote-enterprise-systems"]
 
 고객이 카카오톡으로 "배송 어디예요?"라고 물었다가, 답변이 늦어서 전화로 다시 문의한다. 상담원은 "카톡 내역을 모른다"며 처음부터 다시 묻는다. 고객 분노 폭발.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">멀티채널 vs 옴니채널 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">멀티채널 — 채널 분리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전화 ──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">카톡 ── ── 각각 별도 상담 이력 → 고객 반복 설명 😤</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이메일 ─</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">옴니채널 — 협업 CRM 통합</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전화 ──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">카톡 ── ── 통합 고객 프로파일 → 이어서 상담 😊</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이메일 ─ "아까 카톡으로 물으신 배송 건이시죠?"</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    멀티채널 vs 옴니채널 비교                            │
+├───────────────────────────────────────────────────────┤
+│  [멀티채널 — 채널 분리]                               │
+│   전화 ──┐                                            │
+│   카톡 ──┤── 각각 별도 상담 이력 → 고객 반복 설명 😤  │
+│   이메일 ─┘                                           │
+│                                                       │
+│  [옴니채널 — 협업 CRM 통합]                           │
+│   전화 ──┐                                            │
+│   카톡 ──┤── 통합 고객 프로파일 → 이어서 상담 😊      │
+│   이메일 ─┘   "아까 카톡으로 물으신 배송 건이시죠?"   │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 멀티채널은 각 창구에서 번호표를 따로 뽑는 은행이고, [옴니채널](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/073_omni_channel_o2o_evolution/)은 어느 창구에 가도 "아까 말씀하신 건 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 중입니다"라고 이어주는 VIP 은행이다.
 
@@ -96,30 +94,28 @@ tags = ["studynote-enterprise-systems"]
 | 개념 | 연결 포인트 |
 |:---|:---|
 | <strong><a href="/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/073_omni_channel_o2o_evolution/">옴니채널</a> (Omnichannel)</strong> | 협업 CRM의 핵심 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
-| <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/193_crl_distribution_point_cdp/">CDP</a> (<a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/115_cdp_customer_data_platform_single_view/">Customer Data Platform</a>)</strong> | 통합 고객 프로파일 구축 플랫폼 |
+| <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/193_crl_distribution_point_cdp/">CDP</a> (<a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/115_cdp_customer_data_platform_single_view/">C고객 Data Platform</a>)</strong> | 통합 고객 프로파일 구축 플랫폼 |
 | <strong>운영 <a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/">CRM</a></strong> | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공급원 (SFA·MA·[CSS](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/110_unlicensed_lpwan_lorawan_sigfox/)) |
 | <strong>분석 <a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/">CRM</a></strong> | 고객 세그먼트·선호 채널 분석 |
 | **CTI (Computer Telephony Integration)** | 전화 채널 통합 기술 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">단일 채널 (전화 콜센터, 1990s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">멀티채널 (전화+이메일+웹, 2000s) — 채널 분리 운영</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">옴니채널 (2010s) — 채널 통합, 컨텍스트 연속</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CDP 연동 (2020s) — 통합 고객 프로파일 실현</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: AI 에이전트 옴니채널 — 채널 전환 자동 감지·요약</div></div>
-</div>
-</div>
-
-
+```text
+[단일 채널 (전화 콜센터, 1990s)]
+    │
+    ▼
+[멀티채널 (전화+이메일+웹, 2000s) — 채널 분리 운영]
+    │
+    ▼
+[옴니채널 (2010s) — 채널 통합, 컨텍스트 연속]
+    │
+    ▼
+[CDP 연동 (2020s) — 통합 고객 프로파일 실현]
+    │
+    ▼
+[현재: AI 에이전트 옴니채널 — 채널 전환 자동 감지·요약]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 옛날 병원에서는 안과·내과·외과마다 **처음부터 다시** 증상을 설명해야 했어요.

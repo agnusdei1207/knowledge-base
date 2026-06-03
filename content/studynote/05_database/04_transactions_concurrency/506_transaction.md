@@ -21,16 +21,13 @@ tags = ["studynote-database"]
 
 [데이터 디렉터리](/knowledge-base/studynote/05_database/01_db_architecture_relational/013_data_directory/) [시스템 카탈로그](/knowledge-base/studynote/05_database/01_db_architecture_relational/011_system_catalog/) 차이은 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 설계와 운영에서 중요한 판단 지점을 설명하는 개념이다. 여러 SQL을 하나의 성공·실패 단위로 묶어야 업무 정합성이 유지된다. 경계가 흐리면 일부만 반영된 중간 상태가 남는다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Request -&gt; Tx boundary -&gt; Current concept -&gt; Commit/RB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Work unit -&gt; control point -&gt; consistency</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ Request -> Tx boundary -> Current concept -> Commit/RB       │
+├──────────────────────────────────────────────────────────────┤
+│ Work unit -> control point -> consistency                    │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 그림은 [데이터 디렉터리](/knowledge-base/studynote/05_database/01_db_architecture_relational/013_data_directory/) [시스템 카탈로그](/knowledge-base/studynote/05_database/01_db_architecture_relational/011_system_catalog/) 차이를 독립 기능이 아니라 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름에서 특정 통제 지점을 맡는 구조로 이해해야 한다는 점을 압축해 보여 준다.
 
@@ -49,16 +46,13 @@ tags = ["studynote-database"]
 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 영향 | [데이터 디렉터리](/knowledge-base/studynote/05_database/01_db_architecture_relational/013_data_directory/) [시스템 카탈로그](/knowledge-base/studynote/05_database/01_db_architecture_relational/011_system_catalog/) 차이는 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/), 지연시간, 운영 복잡도 중 적어도 하나에 직접 영향을 준다. | 이득과 비용을 같이 보지 않으면 과설계가 된다. |
 | 운영 주의 | `트랜잭션 장애 미디어 장애 복구 범위`·`트리거`과 경계를 혼동하면 적용 위치가 어긋난다. | 장애 시 관찰할 지표와 우회 전략을 미리 준비해야 한다. |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Begin -&gt; current concept -&gt; Commit / Rollback</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">State change -&gt; control command -&gt; durable result</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ Begin -> current concept -> Commit / Rollback                │
+├──────────────────────────────────────────────────────────────┤
+│ State change -> control command -> durable result            │
+└──────────────────────────────────────────────────────────────┘
+```
 
 핵심은 [데이터 디렉터리](/knowledge-base/studynote/05_database/01_db_architecture_relational/013_data_directory/) [시스템 카탈로그](/knowledge-base/studynote/05_database/01_db_architecture_relational/011_system_catalog/) 차이를 단순 옵션이 아니라 입력 조건, 처리 순서, 결과 보장을 함께 묶는 설계 규칙으로 보는 것이다. 그래서 구현 전에 평가 시점·충돌 지점·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성을 먼저 정리해야 한다.
 
@@ -119,19 +113,15 @@ tags = ["studynote-database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">트랜잭션 장애 미디어 장애 복구 범위</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 디렉터리 시스템 카탈로그 차이</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">트리거</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">프로시저 vs 함수 컴파일 재사용 구조</div></div>
-</div>
-</div>
-
-
+```text
+[트랜잭션 장애 미디어 장애 복구 범위]
+    │
+    ▼
+[데이터 디렉터리 시스템 카탈로그 차이]
+    │
+    ├──▶ [트리거]
+    └──▶ [프로시저 vs 함수 컴파일 재사용 구조]
+```
 
 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 장애 미디어 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 범위에서 출발한 논점이 [데이터 디렉터리](/knowledge-base/studynote/05_database/01_db_architecture_relational/013_data_directory/) [시스템 카탈로그](/knowledge-base/studynote/05_database/01_db_architecture_relational/011_system_catalog/) 차이에서 핵심 판단으로 모이고, 이후 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)·프로시저 vs 함수 컴파일 재사용 구조 같은 확장 주제로 이어지는 흐름을 보여 준다.
 

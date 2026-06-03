@@ -35,18 +35,18 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 기본 동작 흐름을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tape library workflow</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Host/Backup app -&gt; Library catalog -&gt; Robot picker</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tape drive mounts media</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sequential read / write</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                   Tape library workflow                      │
+├──────────────────────────────────────────────────────────────┤
+│ Host/Backup app -> Library catalog -> Robot picker           │
+│                                          │                   │
+│                                          ▼                   │
+│                                  Tape drive mounts media     │
+│                                          │                   │
+│                                 Sequential read / write      │
+└──────────────────────────────────────────────────────────────┘
+```
 
 핵심은 두 단계 지연이다. 첫째는 [mount](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/) latency로, 원하는 테이프를 찾아 드라이브에 꽂는 데 걸리는 시간이다. 둘째는 seek latency로, 테이프를 감아 필요한 위치까지 이동하는 시간이다. 이 때문에 랜덤 접근에는 불리하지만, 한 번 흐르기 시작하면 세대에 따라 초당 수백 메가바이트 수준의 순차 처리량을 낼 수 있어 대용량 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)에는 오히려 효율적이다.
 
@@ -133,23 +133,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Manual tape handling</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Automated tape library</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Barcode catalog + robotic mount</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">LTFS / WORM enabled archive</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Hybrid cloud archive with deep tape tier</div>
-</div>
-</div>
-
-
+```text
+Manual tape handling
+        │
+        ▼
+Automated tape library
+        │
+        ▼
+Barcode catalog + robotic mount
+        │
+        ▼
+LTFS / WORM enabled archive
+        │
+        ▼
+Hybrid cloud archive with deep tape tier
+```
 
 이 흐름은 수작업 보관 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)였던 테이프가 자동화·[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)화·[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)화되며 현대 아카이브 플랫폼으로 진화한 과정을 보여 준다.
 

@@ -34,28 +34,36 @@ tags = ["studynote-bigdata"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라우드 관리형 빅데이터 서비스 아키텍처</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">객체 스토리지 (영구 저장)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AWS S3 / Azure ADLS Gen2 / GCS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Delta Lake / Iceberg / Parquet 파일)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">읽기/쓰기 (HDFS 커넥터)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클러스터 (임시, 작업 중만 실행)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Amazon EMR Azure HDInsight GCP Dataproc</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Master Node</div><div class="kb-diagram-cell">Head Node</div><div class="kb-diagram-cell">Master Node</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core Nodes</div><div class="kb-diagram-cell">Worker Nodes</div><div class="kb-diagram-cell">Worker Node</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Task Nodes</div><div class="kb-diagram-cell">(auto-scale)</div><div class="kb-diagram-cell">(Preemptible</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Spot 가능)</div><div class="kb-diagram-cell">VM 가능)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주변 서비스 연동</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EMR: Glue/Athena/SageMaker</div><div class="kb-diagram-cell">Dataproc: BigQuery/Vertex</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HDInsight: Synapse/ML Studio</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────────────┐
+│          클라우드 관리형 빅데이터 서비스 아키텍처                  │
+├──────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  ┌──────────────────────────────────────────────────────────┐   │
+│  │  객체 스토리지 (영구 저장)                                  │   │
+│  │  AWS S3  /  Azure ADLS Gen2  /  GCS                      │   │
+│  │  (Delta Lake / Iceberg / Parquet 파일)                    │   │
+│  └────────────────────────┬─────────────────────────────────┘   │
+│                           │ 읽기/쓰기 (HDFS 커넥터)              │
+│  ┌────────────────────────▼─────────────────────────────────┐   │
+│  │  클러스터 (임시, 작업 중만 실행)                             │   │
+│  │                                                          │   │
+│  │  Amazon EMR          Azure HDInsight    GCP Dataproc     │   │
+│  │  ┌─────────────┐    ┌───────────────┐  ┌─────────────┐  │   │
+│  │  │ Master Node │    │ Head Node     │  │ Master Node │  │   │
+│  │  │ Core Nodes  │    │ Worker Nodes  │  │ Worker Node │  │   │
+│  │  │ Task Nodes  │    │ (auto-scale)  │  │ (Preemptible│  │   │
+│  │  │ (Spot 가능) │    │               │  │  VM 가능)   │  │   │
+│  │  └─────────────┘    └───────────────┘  └─────────────┘  │   │
+│  └──────────────────────────────────────────────────────────┘   │
+│                           │                                     │
+│  ┌────────────────────────▼─────────────────────────────────┐   │
+│  │  주변 서비스 연동                                           │   │
+│  │  EMR: Glue/Athena/SageMaker  │  Dataproc: BigQuery/Vertex│   │
+│  │  HDInsight: Synapse/ML Studio│                            │   │
+│  └──────────────────────────────────────────────────────────┘   │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 <strong>3대 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 상세 비교</strong>
 
@@ -149,23 +157,21 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">온프레미스 하둡 클러스터 — 자체 서버 구축·운영, 높은 초기 비용과 확장성 한계</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">클라우드 매니지드 하둡 (EMR·HDInsight·Dataproc) — 클러스터 프로비저닝 자동화, 분 단위 과금</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">컴퓨팅-스토리지 분리 아키텍처 — S3·ADLS·GCS에 데이터, 클러스터 종료 후도 데이터 보존</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Spot/Preemptible VM 활용 — Task 노드 비용 60~80% 절감, 내결함성 설계 필수</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">서버리스 빅데이터 (EMR Serverless·Dataproc Serverless) — 클러스터 없이 Spark·Hive 실행</div></div>
-</div>
-</div>
-
-
+```text
+[온프레미스 하둡 클러스터 — 자체 서버 구축·운영, 높은 초기 비용과 확장성 한계]
+    │
+    ▼
+[클라우드 매니지드 하둡 (EMR·HDInsight·Dataproc) — 클러스터 프로비저닝 자동화, 분 단위 과금]
+    │
+    ▼
+[컴퓨팅-스토리지 분리 아키텍처 — S3·ADLS·GCS에 데이터, 클러스터 종료 후도 데이터 보존]
+    │
+    ▼
+[Spot/Preemptible VM 활용 — Task 노드 비용 60~80% 절감, 내결함성 설계 필수]
+    │
+    ▼
+[서버리스 빅데이터 (EMR Serverless·Dataproc Serverless) — 클러스터 없이 Spark·Hive 실행]
+```
 
 이 흐름은 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)의 운영 부담을 [클라우드 매니지드 서비스](/knowledge-base/studynote/12_it_management/01_governance_strategy/045_msp_managed_service_provider/)로 해소하고, 컴퓨팅-스토리지 분리로 비용 효율을 높이며, Spot [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 활용을 거쳐 클러스터 없이 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 실행하는 [서버리스 빅데이터](/knowledge-base/studynote/16_bigdata/09_platform/182_serverless_bigdata/) 분석으로 진화하는 클라우드 빅데이터 아키텍처의 핵심 계보를 보여준다.
 

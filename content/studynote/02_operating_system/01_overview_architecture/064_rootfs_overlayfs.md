@@ -29,21 +29,15 @@ OverlayFS는 이 루트 위에 읽기 전용 계층과 [쓰기](/knowledge-base/
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">lowerdir (read-only)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">overlayfs</div>
-<div class="kb-diagram-connector">↑</div>
-<div class="kb-diagram-note">upperdir (writable)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">merged view</div>
-</div>
-</div>
-
-
+```text
+lowerdir (read-only)
+  ↓
+overlayfs
+  ↑
+upperdir (writable)
+  ↓
+merged view
+```
 
 | 구성 요소 | 역할 |
 | :-- | :-- |
@@ -107,41 +101,29 @@ OverlayFS 덕분에 [컨테이너](/knowledge-base/studynote/04_software_enginee
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Boot Process</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">RootFS</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Mount / OverlayFS</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Container Image Layer</div>
-</div>
-</div>
-
-
+```text
+Boot Process
+  ↓
+RootFS
+  ↓
+Mount / OverlayFS
+  ↓
+Container Image Layer
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">rootfs</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">overlayfs</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">copy-on-write</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">container layers</div>
-</div>
-</div>
-
-
+```text
+rootfs
+  ↓
+overlayfs
+  ↓
+copy-on-write
+  ↓
+container layers
+```
 
 ---
 

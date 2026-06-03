@@ -26,18 +26,14 @@ tags = ["studynote-network"]
   - **네이글 끄기**: 승객이 1명 탈 때마다 무조건 45인승 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 1대씩 출발시킵니다. 도로에 텅 빈 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 미친 듯이 깔려 교통지옥이 됩니다. ([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비).
   - **네이글 켜기**: [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 기사님은 <strong>"좌석 45개가 꽉 차거나(MSS 도달), 아니면 앞서 출발한 1호 <a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">버스</a>가 종점에 무사히 도착했다는 무전(ACK)이 올 때까지"</strong> 무조건 문을 안 닫고 승객을 모아서 기다립니다. [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 꽉꽉 차서 효율적으로 운행되지만, 1번째 탄 승객은 출발할 때까지 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 안에서 5분을 멍때리며 기다려야(Delay) 합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">어리석은 윈도우 증후군 문제</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">네이글 알고리즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">클라크 해결책</div></div>
-</div>
-</div>
-
-
+```text
+[어리석은 윈도우 증후군 문제]
+    │
+    ▼
+[네이글 알고리즘]
+    │
+    └──▶ [클라크 해결책]
+```
 
 - **📢 섹션 요약 비유**: ** 네이글은 쌀알 1톨이 생길 때마다 배송 트럭을 보내던 멍청한 송신자에게, **"트럭이 꽉 차거나 앞 트럭이 무사 귀환할 때까지 쌀알들을 창고에 쓸어 담아([Batching](/knowledge-base/studynote/05_database/06_dw_olap_trends/389_bulk_insert_batching_optimization/)) 한 번에 보내라!"**는 효율성 지침을 내린 전설적인 최적화 법칙입니다.
 
@@ -52,28 +48,28 @@ tags = ["studynote-network"]
 1. **조건 1 (양 채우기)**: 앱이 들이부은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 패킷의 최대 수용량(MSS, 1460바이트)을 꽉 채웠는가? -> "오케이, 박스 꽉 찼네 냅다 쏴라!"
 2. **조건 2 (영수증 받기)**: 박스가 안 차서 1바이트밖에 없어도, 방금 전 쐈던 패킷에 대한 <strong>상대방의 영수증(ACK)이 도착</strong>했는가? -> "오케이 앞차 무사히 도착했네! 그럼 1바이트 찌꺼기라도 안 묶고 그냥 바로 쏴버려!"
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">네이글(Nagle) 켜짐 vs 꺼짐의 패킷 발송 시나리오</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 사용자가 키보드로 H, E, L, L, O 를 0.1초 간격으로 타닥타닥 친다.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 이전 패킷의 ACK가 미국에서 날아오는 데 0.5초가 걸린다 가정!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">네이글 알고리즘 OFF (게임 환경)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">H 누름 ──▶ 발사! (ACK 안 기다림)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">E 누름 ──▶ 발사! (ACK 안 기다림) ──▶ (해저 케이블 쓰레기로 꽉 참)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L 누름 ──▶ 발사!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">네이글 알고리즘 ON (기본 환경)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">H 누름 ──▶ (첫 패킷은 무조건 발사!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">E 누름 ──▶ (버퍼에 가둠)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L 누름 ──▶ (버퍼에 가둠)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L 누름 ──▶ (버퍼에 가둠)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0.5초 뒤, 미국에서 "H 잘 받았어(ACK)!" 도착!!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS: "오예! 가둬놨던 ELL 3글자 묶어서 하나의 40바이트 헤더에 싸서 발사!!"</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                네이글(Nagle) 켜짐 vs 꺼짐의 패킷 발송 시나리오     │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   * 사용자가 키보드로 H, E, L, L, O 를 0.1초 간격으로 타닥타닥 친다.    │
+ │   * 이전 패킷의 ACK가 미국에서 날아오는 데 0.5초가 걸린다 가정!         │
+ │                                                             │
+ │   [ 네이글 알고리즘 OFF (게임 환경) ]                              │
+ │   H 누름 ──▶ 발사! (ACK 안 기다림)                               │
+ │   E 누름 ──▶ 발사! (ACK 안 기다림) ──▶ (해저 케이블 쓰레기로 꽉 참)   │
+ │   L 누름 ──▶ 발사!                                             │
+ │                                                             │
+ │   [ 네이글 알고리즘 ON (기본 환경) ]                               │
+ │   H 누름 ──▶ (첫 패킷은 무조건 발사!)                             │
+ │   E 누름 ──▶ (버퍼에 가둠)                                       │
+ │   L 누름 ──▶ (버퍼에 가둠)                                       │
+ │   L 누름 ──▶ (버퍼에 가둠)                                       │
+ │   0.5초 뒤, 미국에서 "H 잘 받았어(ACK)!" 도착!!                    │
+ │   OS: "오예! 가둬놨던 ELL 3글자 묶어서 하나의 40바이트 헤더에 싸서 발사!!"│
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 2. 게임 개발자의 적 (TCP_NODELAY 옵션)
 FPS(총 쏘기) 게임이나 롤(LOL)을 하는데, 내 마우스 클릭 정보(1바이트)가 네이글 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에 걸려서 공유기 버퍼에 0.1초 동안 갇혀서 묶였다고 상상해보라. 그 0.1초 사이에 내 캐릭터는 이미 죽어있다 (극강의 반응 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)).
@@ -136,19 +132,15 @@ FPS(총 쏘기) 게임이나 롤(LOL)을 하는데, 내 마우스 클릭 정보(
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 어리석은 윈도우 증후군 문제</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 네이글 알고리즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 클라크 해결책</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 어리석은 윈도우 증후군 문제]
+    │
+    ▼
+[현재 개념: 네이글 알고리즘]
+    │
+    ├──▶ [확장 A: 클라크 해결책]
+    └──▶ [확장 B: 적응형 저지연 전송]
+```
 
 네이글 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)는 [어리석은 윈도우 증후군](/knowledge-base/studynote/03_network/08_transport_layer/424_silly_window_syndrome_problem/) 문제에서 출발해 현재 메커니즘을 정교화하고, 이후 클라크 해결책와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

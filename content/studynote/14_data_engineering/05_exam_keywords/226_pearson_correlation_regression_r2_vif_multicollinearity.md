@@ -22,23 +22,17 @@ tags = ["studynote-data-engineering"]
 
 ### 분석 흐름
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">① 상관 분석 → 두 변수가 관련 있는가? (피어슨 r)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">② 단순선형회귀 → X가 Y를 얼마나 설명하는가? (OLS)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">③ 다중회귀 → X₁, X₂, ..., Xₙ 복합 영향? (Multiple Regression)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">④ 모델 진단 → 다중공선성 VIF, 잔차 정규성, 이분산성 확인</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">⑤ 해석 및 예측 → 계수 해석, 신뢰구간, 예측 구간</div>
-</div>
-</div>
-
-
+```
+① 상관 분석       → 두 변수가 관련 있는가? (피어슨 r)
+        ↓
+② 단순선형회귀    → X가 Y를 얼마나 설명하는가? (OLS)
+        ↓
+③ 다중회귀        → X₁, X₂, ..., Xₙ 복합 영향? (Multiple Regression)
+        ↓
+④ 모델 진단       → 다중공선성 VIF, 잔차 정규성, 이분산성 확인
+        ↓
+⑤ 해석 및 예측   → 계수 해석, 신뢰구간, 예측 구간
+```
 
 📢 **섹션 요약 비유**: 피어슨 상관은 "두 댄서가 얼마나 같이 움직이는지 보는 것"이고, 회귀는 "한 댄서의 동작으로 다른 댄서의 동작을 예측하는 공식"을 만드는 것이다.
 
@@ -48,18 +42,13 @@ tags = ["studynote-data-engineering"]
 
 ### 2-1. 피어슨 상관계수 (Pearson Correlation Coefficient)
 
+```
+        Σ[(xᵢ - x̄)(yᵢ - ȳ)]
+r = ─────────────────────────────────────
+     √[Σ(xᵢ - x̄)²] × √[Σ(yᵢ - ȳ)²]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-note">Σ</div><div class="kb-diagram-node">(xᵢ - x̄)(yᵢ - ȳ)</div></div>
-<div class="kb-diagram-note">r =</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">√</div><div class="kb-diagram-node">Σ(xᵢ - x̄)²</div><div class="kb-diagram-note">× √</div><div class="kb-diagram-node">Σ(yᵢ - ȳ)²</div></div>
-<div class="kb-diagram-note">범위: -1 ≤ r ≤ +1</div>
-</div>
-</div>
-
-
+범위: -1 ≤ r ≤ +1
+```
 
 | r 값 범위 | 해석 |
 |:---|:---|
@@ -74,37 +63,31 @@ tags = ["studynote-data-engineering"]
 
 ### 2-2. 단순선형회귀 & OLS (Ordinary Least Squares, 최소제곱법)
 
+```
+모델: ŷ = β₀ + β₁x + ε
 
+OLS 목표: Σ(yᵢ - ŷᵢ)² 를 최소화
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">모델: ŷ = β₀ + β₁x + ε</div>
-<div class="kb-diagram-note">OLS 목표: Σ(yᵢ - ŷᵢ)² 를 최소화</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Σ</div><div class="kb-diagram-node">(xᵢ - x̄)(yᵢ - ȳ)</div></div>
-<div class="kb-diagram-note">β₁ = (기울기)</div>
-<div class="kb-diagram-note">Σ(xᵢ - x̄)²</div>
-<div class="kb-diagram-note">β₀ = ȳ - β₁x̄ (절편)</div>
-<div class="kb-diagram-note">ε: 잔차 (Residual, 실제값 - 예측값)</div>
-</div>
-</div>
+       Σ[(xᵢ - x̄)(yᵢ - ȳ)]
+β₁ = ──────────────────────  (기울기)
+           Σ(xᵢ - x̄)²
 
+β₀ = ȳ - β₁x̄               (절편)
 
+ε: 잔차 (Residual, 실제값 - 예측값)
+```
 
 ### 2-3. R² (R-Squared, 결정계수) 해석
 
+```
+       SSR (설명된 분산)         Σ(ŷᵢ - ȳ)²
+R² = ──────────────────── = ─────────────────────
+       SST (전체 분산)        Σ(yᵢ - ȳ)²
 
+R² = 1 - SSE/SST  (SSE: 잔차 제곱합)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">SSR (설명된 분산) Σ(ŷᵢ - ȳ)²</div>
-<div class="kb-diagram-note">R² = =</div>
-<div class="kb-diagram-note">SST (전체 분산) Σ(yᵢ - ȳ)²</div>
-<div class="kb-diagram-note">R² = 1 - SSE/SST (SSE: 잔차 제곱합)</div>
-<div class="kb-diagram-note">범위: 0 ≤ R² ≤ 1</div>
-</div>
-</div>
-
-
+범위: 0 ≤ R² ≤ 1
+```
 
 | R² 값 | 해석 | 주의사항 |
 |:---|:---|:---|
@@ -115,41 +98,33 @@ tags = ["studynote-data-engineering"]
 
 **Adjusted R² (조정 결정계수)**: 변수 추가로 인한 인위적 R² 상승을 방지. 변수 수 증가 페널티 적용.
 
+```
+           (1 - R²)(n - 1)
+Adj R² = 1 - ────────────────
+               (n - k - 1)
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">(1 - R²)(n - 1)</div>
-<div class="kb-diagram-note">Adj R² = 1 -</div>
-<div class="kb-diagram-note">(n - k - 1)</div>
-<div class="kb-diagram-note">n: 표본 크기, k: 독립변수 수</div>
-</div>
-</div>
-
-
+n: 표본 크기, k: 독립변수 수
+```
 
 ### 2-4. 다중공선성 ([Multicollinearity](/knowledge-base/studynote/14_data_engineering/02_math_mining/080_multicollinearity_vif_variance_inflation_factor_regression/)) & VIF
 
 다중회귀에서 독립변수들이 서로 강하게 상관될 때 발생. 계수 추정이 불안정해지고 해석이 왜곡된다.
 
+```
+VIF (Variance Inflation Factor, 분산팽창지수)
+──────────────────────────────────────────────
+          1
+VIFⱼ = ─────────
+         1 - Rⱼ²
 
+Rⱼ²: j번째 독립변수를 나머지 변수로 회귀했을 때의 R²
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">VIF (Variance Inflation Factor, 분산팽창지수)</div>
-<div class="kb-diagram-note">1</div>
-<div class="kb-diagram-note">VIFⱼ =</div>
-<div class="kb-diagram-note">1 - Rⱼ²</div>
-<div class="kb-diagram-note">Rⱼ²: j번째 독립변수를 나머지 변수로 회귀했을 때의 R²</div>
-<div class="kb-diagram-note">VIF 판단 기준:</div>
-<div class="kb-diagram-note">VIF = 1 → 공선성 없음</div>
-<div class="kb-diagram-note">1 &lt; VIF &lt; 5 → 경미한 공선성 (허용 가능)</div>
-<div class="kb-diagram-note">5 ≤ VIF &lt; 10 → 중간 공선성 (주의 필요)</div>
-<div class="kb-diagram-note">VIF ≥ 10 → 심각한 공선성 (변수 제거·변환 필요)</div>
-</div>
-</div>
-
-
+VIF 판단 기준:
+VIF = 1        → 공선성 없음
+1 < VIF < 5    → 경미한 공선성 (허용 가능)
+5 ≤ VIF < 10   → 중간 공선성 (주의 필요)
+VIF ≥ 10       → 심각한 공선성 (변수 제거·변환 필요)
+```
 
 | 다중공선성 진단 도구 | 설명 |
 |:---|:---|
@@ -166,19 +141,14 @@ tags = ["studynote-data-engineering"]
 
 ### 3-1. 회귀 진단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">회귀 모델 진단 4대 가정 (LINE)</div>
-<div class="kb-diagram-note">L: Linearity (선형성) → 산점도, 잔차 vs 적합값 플롯</div>
-<div class="kb-diagram-note">I: Independence (독립성) → 잔차 자기상관 없음, DW 검정</div>
-<div class="kb-diagram-note">N: Normality (정규성) → 잔차 QQ 플롯, Shapiro-Wilk 검정</div>
-<div class="kb-diagram-note">E: Equal Variance (등분산성) → Scale-Location 플롯, BP 검정</div>
-</div>
-</div>
-
-
+```
+회귀 모델 진단 4대 가정 (LINE)
+─────────────────────────────
+L: Linearity         (선형성) → 산점도, 잔차 vs 적합값 플롯
+I: Independence      (독립성) → 잔차 자기상관 없음, DW 검정
+N: Normality         (정규성) → 잔차 QQ 플롯, Shapiro-Wilk 검정
+E: Equal Variance    (등분산성) → Scale-Location 플롯, BP 검정
+```
 
 ### 3-2. 피어슨 vs 스피어만 상관
 
@@ -206,25 +176,23 @@ tags = ["studynote-data-engineering"]
 
 ### 4-1. 마케팅 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/)([Return on Investment](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/)) 분석 시나리오
 
+```
+[목표] TV 광고비·SNS 광고비·할인율 → 매출 예측
 
+[데이터]
+TV 광고비(X₁), SNS 광고비(X₂), 할인율(X₃) → 매출(Y)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">목표</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">매출 예측</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터</div></div>
-<div class="kb-diagram-note">TV 광고비(X₁), SNS 광고비(X₂), 할인율(X₃) → 매출(Y)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">VIF 진단 결과</div></div>
-<div class="kb-diagram-note">TV 광고비 VIF = 2.1 ← 문제없음</div>
-<div class="kb-diagram-note">SNS 광고비 VIF = 8.7 ← 주의 (TV 광고비와 r=0.81)</div>
-<div class="kb-diagram-note">할인율 VIF = 1.3 ← 문제없음</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">처리</div><div class="kb-diagram-note">SNS 광고비·TV 광고비 합계 변수 생성 또는 Ridge 회귀 적용</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">결과</div></div>
-<div class="kb-diagram-note">R² = 0.84, Adj R² = 0.82</div>
-<div class="kb-diagram-note">계수 해석: TV 광고비 1억 원 증가 → 매출 3.2억 원 증가 (p &lt; 0.001)</div>
-</div>
-</div>
+[VIF 진단 결과]
+TV 광고비 VIF = 2.1    ← 문제없음
+SNS 광고비 VIF = 8.7   ← 주의 (TV 광고비와 r=0.81)
+할인율 VIF = 1.3       ← 문제없음
 
+[처리] SNS 광고비·TV 광고비 합계 변수 생성 또는 Ridge 회귀 적용
 
+[결과]
+R² = 0.84, Adj R² = 0.82
+계수 해석: TV 광고비 1억 원 증가 → 매출 3.2억 원 증가 (p < 0.001)
+```
 
 ### 4-2. 기술사 답안 작성 핵심 포인트
 
@@ -283,21 +251,17 @@ tags = ["studynote-data-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">상관 분석: Pearson r (-1 ~ +1)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">회귀 분석: 독립변수 → 종속변수 예측</div>
-<div class="kb-diagram-tree-item" style="--depth:2">단순 선형 회귀: y = β₀ + β₁x</div>
-<div class="kb-diagram-tree-item" style="--depth:2">다중 회귀: y = β₀ + β₁x₁ + β₂x₂ + ...</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">모델 평가: R² · VIF (다중공선성) · 잔차 분석</div>
-</div>
-</div>
-
-
+```text
+상관 분석: Pearson r (-1 ~ +1)
+    │
+    ▼
+회귀 분석: 독립변수 → 종속변수 예측
+    ├─► 단순 선형 회귀: y = β₀ + β₁x
+    └─► 다중 회귀: y = β₀ + β₁x₁ + β₂x₂ + ...
+    │
+    ▼
+모델 평가: R² · VIF (다중공선성) · 잔차 분석
+```
 2. R²는 "내 예측이 정답의 몇 %를 맞혔는지" 알려주는 점수표이고, VIF는 "두 선생님이 똑같은 내용을 가르쳐서 어느 선생님이 진짜 도움이 됐는지 모르겠다"는 문제를 찾아내는 것이다.
 3. [회귀 분석](/knowledge-base/studynote/08_algorithm_stats/08_stats/149_regression_analysis/)은 과거 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 미래를 예측하는 공식이지만, "아이스크림 잘 팔리면 익사 사고가 늘어나니 아이스크림 금지!"처럼 엉뚱한 인과관계로 착각하지 않도록 조심해야 한다.
 

@@ -24,18 +24,14 @@ tags = ["studynote-network"]
 
 - **💡 비유**: Tail Drop이 영화관 입구에서 100명이 꽉 찼을 때 <strong>"101번부터는 입장 불가! 문 닫아!"</strong>라고 매몰차게 셔터를 내리는 것이라면, WRED는 영화관이 한 70명쯤 찼을 때부터 줄 서 있는 사람들 중 <strong>무작위로 몇 명의 어깨를 툭툭 치며 "오늘은 자리 없으니 다른 데 가보세요(사전 폐기)"</strong>라고 조금씩 빼내어 입구에 몰려드는 인파 자체를 부드럽게 줄여나가는 기술입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Leaky Bucket / Token Buc…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">WRED 혼잡 제어 꼬리 짜르기 제한</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">HSRP</div></div>
-</div>
-</div>
-
-
+```text
+[Leaky Bucket / Token Buc…]
+    │
+    ▼
+[WRED 혼잡 제어 꼬리 짜르기 제한]
+    │
+    └──▶ [HSRP]
+```
 
 - **📢 섹션 요약 비유**: ** WRED는 고속도로 톨게이트 전방 10km 지점에 세워둔 **"우회 권고 전광판(조기 경보)"**입니다. 톨게이트가 완전히 막혀서 차들이 다 같이 급브레이크를 밟고 연쇄 추돌([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/))을 일으키기 전에, 멀리서부터 차들을 한두 대씩 국도로 미리 빼내어 교통 흐름을 부드럽게 유지합니다.
 
@@ -66,22 +62,22 @@ WRED의 진정한 무서움은, 위에서 말한 1~3번의 [임계치](/knowledg
 - **EF (황족 패킷)**:
   - WRED 자체를 거의 적용하지 않거나, 최소 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)를 90%로 잡아서 세상이 멸망하기 직전까지 절대 버리지 않고 살려둔다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WRED 확률적 폐기(Drop Probability) 그래프</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Drop 확률(%)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">100</div><div class="kb-diagram-cell">/</div><div class="kb-diagram-cell">(최대 임계치 돌파 시 100% 즉사)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">10</div><div class="kb-diagram-cell">/</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">__________________________/_______</div><div class="kb-diagram-cell">______ 큐에 쌓인 패킷량</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Min) (Max)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 큐가 Min 수위를 넘는 순간부터 랜덤하게 패킷 모가지를 날리기 시작하며,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Max 수위에 도달하면 자비 없이 전부 Tail Drop 시켜버린다!</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                WRED 확률적 폐기(Drop Probability) 그래프         │
+ ├─────────────────────────────────────────────────────────────┤
+ │ Drop 확률(%)                                                  │
+ │  100 |                                 /| (최대 임계치 돌파 시 100% 즉사)│
+ │      |                                / |                   │
+ │   10 |                              /   |                   │
+ │      |                            /     |                   │
+ │    0 |__________________________/_______|______ 큐에 쌓인 패킷량│
+ │                               (Min)   (Max)                 │
+ │                                                             │
+ │   ▶ 큐가 Min 수위를 넘는 순간부터 랜덤하게 패킷 모가지를 날리기 시작하며, │
+ │      Max 수위에 도달하면 자비 없이 전부 Tail Drop 시켜버린다!          │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 3. TCP와 UDP에 미치는 영향
 - <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a></strong>: WRED가 패킷을 하나 툭 죽이면, 그걸 눈치챈 PC의 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 윈도우 사이즈가 절반으로 뚝 꺾인다. 즉, 라우터가 원하는 대로 "스스로 속도를 줄이는([혼잡 회피](/knowledge-base/studynote/03_network/08_transport_layer/432_congestion_avoidance_aimd_algorithm/))" 착한 반응을 보인다.
@@ -143,19 +139,15 @@ WRED 혼잡 제어 꼬리 짜르기 제한은 [라우팅](/knowledge-base/studyn
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: Leaky Bucket / Token Buc…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: WRED 혼잡 제어 꼬리 짜르기 제한</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: HSRP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: Leaky Bucket / Token Buc…]
+    │
+    ▼
+[현재 개념: WRED 혼잡 제어 꼬리 짜르기 제한]
+    │
+    ├──▶ [확장 A: HSRP]
+    └──▶ [확장 B: 의도 기반 라우팅]
+```
 
 WRED 혼잡 제어 꼬리 짜르기 제한는 Leaky Bucket / Token Buc…에서 출발해 현재 메커니즘을 정교화하고, 이후 HSRP와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

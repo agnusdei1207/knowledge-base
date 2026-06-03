@@ -25,27 +25,33 @@ Secure Boot는 [UEFI](/knowledge-base/studynote/01_computer_architecture/15_adva
 **필요성 및 등장 배경**
 기존 BIOS(Basic Input/Output System) 환경에서는 부팅 과정에 대한 보안 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 전혀 없었다. BIOS가 [부트로더](/knowledge-base/studynote/02_operating_system/01_overview_architecture/029_bootloader/)를 찾아 실행할 때, 그 [부트로더](/knowledge-base/studynote/02_operating_system/01_overview_architecture/029_bootloader/)가 정품인지 악성 코드인지 구분할 수단이 없었다. 이를 악용한 <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/362_bootkit/">부트킷</a>(<a href="/knowledge-base/studynote/09_security/04_endpoint_security/362_bootkit/">Bootkit</a>)</strong> 공격은 OS가 로딩되기도 전에 실행되어 OS의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 후킹(Hooking)하고, 백신 프로그램이나 보안 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 무력화한 채로 OS를 시작할 수 있었다. 대표적인 사례로 Stoned [Bootkit](/knowledge-base/studynote/09_security/04_endpoint_security/362_bootkit/), Mehannes [Bootkit](/knowledge-base/studynote/09_security/04_endpoint_security/362_bootkit/), 그리고 NSA의 Equation Group이 개발한 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 영구 감엩 악성코드(Equation Disk) 등이 있다. 이러한 "OS보다 먼저 실행되는 악성코드" 위협에 대응하기 위해, 부팅 최초 시점부터 암호학적 서명 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 수행하는 Secure Boot가 [UEFI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/706_uefi/) 2.2 규격(2012년)에 도입되었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">레거시 BIOS vs UEFI Secure Boot 부팅 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">레거시 BIOS 부팅 - 보안 검증 없음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전원 ON → BIOS → MBR 읽기 → 부트로더 실행 → OS 부팅</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">검증없음 검증없음 검증없음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"무엇이든 실행" → 부트킷이 MBR에 숨어들면 감지 불가!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">UEFI Secure Boot 부팅 - 서명 검증 수행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전원 ON → UEFI ──▶ 서명검증 ──▶ 서명검증 ──▶ OS 부팅</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(부트로더) (커널)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 신뢰 ✅ 신뢰 ✅ 신뢰</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"서명된 것만 실행" → 변조된 부트로더는 거부!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">서명 검증 실패 시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">UEFI → "Security Violation" → 부팅 중단</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">또는 → 신뢰 목록에 없는 키 → 관리자 승인 필요</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────┐
+│    레거시 BIOS vs UEFI Secure Boot 부팅 비교                   │
+├────────────────────────────────────────────────────────────────┤
+│                                                                │
+│  [레거시 BIOS 부팅 - 보안 검증 없음]                          │
+│  전원 ON → BIOS → MBR 읽기 → 부트로더 실행 → OS 부팅          │
+│             │         │              │                          │
+│           검증없음  검증없음     검증없음                       │
+│             │         │              │                          │
+│             ▼         ▼              ▼                          │
+│     "무엇이든 실행" → 부트킷이 MBR에 숨어들면 감지 불가!      │
+│                                                                │
+│  [UEFI Secure Boot 부팅 - 서명 검증 수행]                     │
+│  전원 ON → UEFI ──▶ 서명검증 ──▶ 서명검증 ──▶ OS 부팅       │
+│             │      (부트로더)   (커널)                         │
+│             │         │              │                          │
+│           ✅ 신뢰  ✅ 신뢰       ✅ 신뢰                       │
+│             │         │              │                          │
+│             ▼         ▼              ▼                          │
+│     "서명된 것만 실행" → 변조된 부트로더는 거부!               │
+│                                                                │
+│  [서명 검증 실패 시]                                           │
+│  UEFI → "Security Violation" → 부팅 중단                      │
+│  또는 → 신뢰 목록에 없는 키 → 관리자 승인 필요                │
+└────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 구조도는 레거시 BIOS와 [UEFI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/706_uefi/) Secure Boot의 근본적 차이를 보여준다. 레거시 BIOS는 [MBR](/knowledge-base/studynote/02_operating_system/09_file_system/515_mbr_vs_gpt/)([Master Boot Record](/knowledge-base/studynote/02_operating_system/09_file_system/515_mbr_vs_gpt/))의 코드를 무조건 실행하므로, 해커가 [MBR](/knowledge-base/studynote/02_operating_system/09_file_system/515_mbr_vs_gpt/) 영역에 악성 [부트로더](/knowledge-base/studynote/02_operating_system/01_overview_architecture/029_bootloader/)를 덮어쓰면 BIOS는 이를 정상 [부트로더](/knowledge-base/studynote/02_operating_system/01_overview_architecture/029_bootloader/)로 착각하고 실행해버린다. 반면 Secure Boot는 각 부팅 단계의 코드를 실행하기 전에 반드시 디지털 서명을 확인하므로, 서명이 없거나 변조된 코드는 실행 자체가 차단된다.
 
@@ -59,7 +65,7 @@ Secure Boot는 [UEFI](/knowledge-base/studynote/01_computer_architecture/15_adva
 
 | 구성 요소 | 역할 | 저장 위치 | 비유 |
 |:---|:---|:---|:---|
-| <strong>Platform <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a> (PK)</strong> | 최상위 루트 키, 전체 신뢰 체인의 정점 | [UEFI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/706_uefi/) NVRAM ([펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 내) | 국가의 어인() |
+| <strong>Platform <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a> (PK)</strong> | 최상위 루트 키, 전체 신뢰 체인의 정점 | [UEFI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/706_uefi/) NVRAM ([펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 내) | 국가의 어인(御印) |
 | <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a> Exchange <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a> (KEK)</strong> | PK의 위임을 받아 DB를 관리하는 중간 키 | [UEFI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/706_uefi/) NVRAM | 부처의 직인 |
 | <strong>Signature <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/">Database</a> (DB)</strong> | 신뢰할 수 있는 서명/공개키 목록(허용 목록) | [UEFI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/706_uefi/) NVRAM | 허가받은 출입자 명단 |
 | **Forbidden Signatures (DBX)** | 명시적으로 거부할 서명/해시 목록(차단 목록) | [UEFI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/706_uefi/) NVRAM | 블랙리스트 명단 |
@@ -69,35 +75,43 @@ Secure Boot는 [UEFI](/knowledge-base/studynote/01_computer_architecture/15_adva
 
 Secure Boot의 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 체인은 PK → KEK → DB의 3계층 구조를 가진다. PK(Platform [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))는 시스템 제조사(OEM) 또는 엔터프라이즈 관리자가 설치하는 최상위 루트 키로, KEK([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) Exchange [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))를 관리하는 권한을 가진다. KEK는 Microsoft, Linux 배포판 등 OS 벤더의 공개키를 DB(Signature [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/))에 등록할 수 있는 권한을 갖는다. 부팅 시 [UEFI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/706_uefi/) [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)는 DB에 등록된 공개키를 사용하여 [부트로더](/knowledge-base/studynote/02_operating_system/01_overview_architecture/029_bootloader/)의 서명을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Secure Boot 인증서 체인(Certificate Chain) 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">최상위: PK (Platform Key)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OEM/엔터프라이즈 루트 키</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ KEK 등록/관리 권한 보유</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 전체 신뢰 체인의 정점</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서명 위임</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">중간: KEK (Key Exchange Key)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Microsoft KEK (Windows 부팅 허용)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Red Hat KEK (RHEL/Fedora 허용)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Canonical KEK (Ubuntu 허용)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공개키 등록</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">하위: DB (Signature Database)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">shim.efi 공개키 (Linux 부트로더)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">bootmgfw.efi 공개키 (Windows BL)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">grubx64.efi 공개키 (GRUB)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">vmlinuz 공개키 (Linux 커널)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서명 검증</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">부팅 검증 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">UEFI → shim.efi 서명확인 → grubx64.efi 서명확인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ vmlinuz 서명확인 → initramfs 서명확인 → 부팅 완료</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ DBX (차단 목록): 취약해진 서명은 즉시 차단 목록에 추가</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────┐
+│     Secure Boot 인증서 체인(Certificate Chain) 구조             │
+├────────────────────────────────────────────────────────────────┤
+│                                                                │
+│  [최상위: PK (Platform Key)]                                   │
+│  ┌─────────────────────────────────────┐                      │
+│  │ OEM/엔터프라이즈 루트 키             │                      │
+│  │ → KEK 등록/관리 권한 보유           │                      │
+│  │ → 전체 신뢰 체인의 정점              │                      │
+│  └──────────────┬──────────────────────┘                      │
+│                 │ 서명 위임                                     │
+│                 ▼                                               │
+│  [중간: KEK (Key Exchange Key)]                                │
+│  ┌─────────────────────────────────────┐                      │
+│  │ Microsoft KEK (Windows 부팅 허용)    │                      │
+│  │ Red Hat KEK   (RHEL/Fedora 허용)    │                      │
+│  │ Canonical KEK (Ubuntu 허용)          │                      │
+│  └──────────────┬──────────────────────┘                      │
+│                 │ 공개키 등록                                   │
+│                 ▼                                               │
+│  [하위: DB (Signature Database)]                               │
+│  ┌─────────────────────────────────────┐                      │
+│  │ shim.efi 공개키 (Linux 부트로더)     │                      │
+│  │ bootmgfw.efi 공개키 (Windows BL)    │                      │
+│  │ grubx64.efi 공개키 (GRUB)           │                      │
+│  │ vmlinuz 공개키 (Linux 커널)          │                      │
+│  └──────────────┬──────────────────────┘                      │
+│                 │ 서명 검증                                     │
+│                 ▼                                               │
+│  [부팅 검증 흐름]                                              │
+│  UEFI → shim.efi 서명확인 → grubx64.efi 서명확인              │
+│       → vmlinuz 서명확인 → initramfs 서명확인 → 부팅 완료     │
+│                                                                │
+│  ※ DBX (차단 목록): 취약해진 서명은 즉시 차단 목록에 추가     │
+└────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 계층도는 Secure Boot의 신뢰 위임 구조를 보여준다. PK가 KEK에 서명 권한을 위임하고, KEK가 DB에 공개키를 등록하는 3계층 구조다. 핵심은 각 계층이 상위 계층의 서명에 의해서만 수정될 수 있다는 점이다. 예를 들어, DB에 새로운 공개키를 추가하려면 KEK 키로 서명된 업데이트여야 하며, KEK를 변경하려면 PK로 서명된 업데이트여야 한다. 이를 통해 악성코드가 자신의 공개키를 DB에 몰래 추가하는 것을 방지한다.
 
@@ -119,32 +133,32 @@ Secure Boot의 [인증](/knowledge-base/studynote/04_software_engineering/05_dev
 
 ### 주요 OS별 Secure Boot 구현 비교
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Windows vs Linux Secure Boot 구현 비교</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">구분</div><div class="kb-diagram-cell">Windows</div><div class="kb-diagram-cell">Linux (shim)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부트로더</div><div class="kb-diagram-cell">bootmgfw.efi</div><div class="kb-diagram-cell">shim.efi → grubx64</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서명 주체</div><div class="kb-diagram-cell">Microsoft</div><div class="kb-diagram-cell">Microsoft (shim) +</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Canonical/Red Hat</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인증서 관리</div><div class="kb-diagram-cell">OEM PK + MS KEK</div><div class="kb-diagram-cell">OEM PK + MS KEK +</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">shim 내장 인증서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MOK 메커니즘</div><div class="kb-diagram-cell">해당 없음</div><div class="kb-diagram-cell">Machine Owner Key</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(사용자 커스텀 키)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">드라이버 서명</div><div class="kb-diagram-cell">WHQL 인증 필수</div><div class="kb-diagram-cell">커널 모듈 서명</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(config/module.sig)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Linux의 shim + MOK 워크플로우</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">shim.efi (Microsoft 서명) → 내장 Canonical/Red Hat 키 검증</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ grubx64.efi 서명 검증 → vmlinuz 서명 검증</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 사용자 정의 커널/드라이버는 MOK(Machine Owner Key)로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자가 직접 등록 → shim이 MOK DB의 키로 서명 검증</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ mokutil --import 공개키.der → 재부팅 시 MOK 관리자</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">화면에서 등록 승인 → 이후 해당 키로 서명된 모듈 실행</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────┐
+│     Windows vs Linux Secure Boot 구현 비교                     │
+├────────────────────────────────────────────────────────────────┤
+│                                                                │
+│  구분            │ Windows              │ Linux (shim)         │
+│  ───────────────┼─────────────────────┼─────────────────────│
+│  부트로더       │ bootmgfw.efi         │ shim.efi → grubx64   │
+│  서명 주체      │ Microsoft            │ Microsoft (shim) +   │
+│                 │                      │ Canonical/Red Hat    │
+│  인증서 관리    │ OEM PK + MS KEK      │ OEM PK + MS KEK +   │
+│                 │                      │ shim 내장 인증서     │
+│  MOK 메커니즘   │ 해당 없음            │ Machine Owner Key    │
+│                 │                      │ (사용자 커스텀 키)   │
+│  드라이버 서명  │ WHQL 인증 필수       │ 커널 모듈 서명       │
+│                 │                      │ (config/module.sig)  │
+│                                                                │
+│  [Linux의 shim + MOK 워크플로우]                               │
+│  shim.efi (Microsoft 서명) → 내장 Canonical/Red Hat 키 검증   │
+│     → grubx64.efi 서명 검증 → vmlinuz 서명 검증              │
+│     → 사용자 정의 커널/드라이버는 MOK(Machine Owner Key)로     │
+│       사용자가 직접 등록 → shim이 MOK DB의 키로 서명 검증    │
+│       → mokutil --import 공개키.der → 재부팅 시 MOK 관리자    │
+│         화면에서 등록 승인 → 이후 해당 키로 서명된 모듈 실행  │
+└────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** Windows와 Linux는 Secure Boot를 구현하는 방식이 다르다. Windows는 Microsoft가 직접 [부트로더](/knowledge-base/studynote/02_operating_system/01_overview_architecture/029_bootloader/)와 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 서명하는 중앙 집중식 구조다. 반면 Linux는 Microsoft가 서명한 `shim.efi`를 1차 [부트로더](/knowledge-base/studynote/02_operating_system/01_overview_architecture/029_bootloader/)로 사용하고, shim 내부에 Linux 배포판 벤더(Red Hat, Canonical 등)의 공개키를 포함하여 2차 [부트로더](/knowledge-base/studynote/02_operating_system/01_overview_architecture/029_bootloader/)(grub)와 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 위임 구조를 사용한다. 사용자가 직접 컴파일한 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이나 [서드파티](/knowledge-base/studynote/05_database/06_dw_olap_trends/385_third_party_cookie_deprecation_cdw/) 드라이버를 사용할 때는 MOK(Machine Owner [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)) 메커니즘을 통해 사용자가 직접 공개키를 등록할 수 있다.
 
@@ -181,30 +195,29 @@ Secure Boot의 [인증](/knowledge-base/studynote/04_software_engineering/05_dev
 - 취약해진 서명 키가 발견되면 DBX(차단 목록)에 해당 키의 해시를 추가하여 즉시 폐기(Revocation).
 - 예: UEFI의 `dbxupdate.bin`을 통해 원격으로 DBX 업데이트 배포.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Secure Boot 배포 체크리스트 (엔터프라이즈)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 1. UEFI 펌웨어에서 Secure Boot 지원 여부 확인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 2. PK (Platform Key)를 기업 CA로 교체</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 3. KEK에 OS 벤더 키(Microsoft 등) 등록</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 4. DB에 승인된 부트로더/커널 공개키 등록</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 5. DBX에 알려진 취약 서명 해시 등록</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 6. 사내 커스텀 OS의 경우 MOK 등록 절차 표준화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 7. Secure Boot 상태 모니터링 (GPO/MDM 리포팅)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 8. 복구 키(Recovery Key) 및 롤백 절차 수립</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 9. TPM + Secure Boot 연동 구성 (BitLocker/LUKS)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 10. 정기적인 인증서 갱신 및 DBX 업데이트 스케줄 운영</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Secure Boot 상태 확인 명령어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Linux: mokutil --sb-state</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Windows: Confirm-SecureBootUEFI (PowerShell)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Linux: dmesg</div><div class="kb-diagram-cell">grep -i secure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(UEFI Shell): db, dbx, KEK, PK 변수 확인</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────┐
+│     Secure Boot 배포 체크리스트 (엔터프라이즈)                 │
+├────────────────────────────────────────────────────────────────┤
+│                                                                │
+│  □ 1. UEFI 펌웨어에서 Secure Boot 지원 여부 확인              │
+│  □ 2. PK (Platform Key)를 기업 CA로 교체                      │
+│  □ 3. KEK에 OS 벤더 키(Microsoft 등) 등록                    │
+│  □ 4. DB에 승인된 부트로더/커널 공개키 등록                   │
+│  □ 5. DBX에 알려진 취약 서명 해시 등록                        │
+│  □ 6. 사내 커스텀 OS의 경우 MOK 등록 절차 표준화             │
+│  □ 7. Secure Boot 상태 모니터링 (GPO/MDM 리포팅)              │
+│  □ 8. 복구 키(Recovery Key) 및 롤백 절차 수립                │
+│  □ 9. TPM + Secure Boot 연동 구성 (BitLocker/LUKS)            │
+│  □ 10. 정기적인 인증서 갱신 및 DBX 업데이트 스케줄 운영       │
+│                                                                │
+│  [Secure Boot 상태 확인 명령어]                                │
+│  Linux: mokutil --sb-state                                     │
+│  Windows: Confirm-SecureBootUEFI (PowerShell)                  │
+│  Linux: dmesg | grep -i secure                                │
+│  (UEFI Shell): db, dbx, KEK, PK 변수 확인                     │
+└────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 체크리스트는 엔터프라이즈 환경에서 Secure Boot를 배포할 때 반드시 수행해야 할 10단계 절차를 정리한다. 특히 PK를 기업 자체 CA로 교체(Step 2)하는 것이 핵심인데, 기본 OEM PK를 그대로 사용하면 제조사가 서명한 모든 코드가 실행 가능하므로, 기업이 승인한 OS만 실행되도록 통제하려면 자체 PK 관리가 필수적이다.
 
@@ -239,19 +252,15 @@ Linux 환경에서는 shim.efi + MOK(Machine Owner [Key](/knowledge-base/studyno
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">물리적 보안 및 하드웨어 보안 모듈 (TPM, Trusted Platform Module)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">보안 부팅 (Secure Boot) 인증서 체인 로딩 검증</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">성능 모니터링 (Performance Monitoring) 및 튜닝 방법론</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">리틀의 법칙 (Little's Law)</div></div>
-</div>
-</div>
-
-
+```text
+[물리적 보안 및 하드웨어 보안 모듈 (TPM, Trusted Platform Module)]
+    │
+    ▼
+[보안 부팅 (Secure Boot) 인증서 체인 로딩 검증]
+    │
+    ├──▶ [성능 모니터링 (Performance Monitoring) 및 튜닝 방법론]
+    └──▶ [리틀의 법칙 (Little's Law)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

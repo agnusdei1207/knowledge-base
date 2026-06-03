@@ -21,29 +21,25 @@ tags = ["studynote-bigdata"]
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 - **프로세스:** [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집 -> 전처리 -> 모델 선택 -> 학습(Fit) -> 평가(Score) -> 튜닝.
 - <strong>Bilingual <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> Diagram:</strong>
+```text
+[Classification Logic & Decision Boundary / 분류 로직 및 결정 경계]
 
+   Feature Y (x2)
+      ^
+      |   Class A (O)    |    Class B (X)
+      |         O   O    |    X     X
+      |      O     O     |      X     X
+      |   ---------------|----------------  <-- Optimal Boundary
+      |          O   O   |   X     X
+      |       O          |      X
+      +---------------------------------------> Feature X (x1)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Classification Logic &amp; Decision Boundary / 분류 로직 및 결정 경계</div></div>
-<div class="kb-diagram-note">Feature Y (x2)</div>
-<div class="kb-diagram-note">^</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Class A (O)</div><div class="kb-diagram-cell">Class B (X)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">O O</div><div class="kb-diagram-cell">X X</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">O O</div><div class="kb-diagram-cell">X X</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">---------------</div><div class="kb-diagram-cell">---------------- &lt;-- Optimal Boundary</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">O O</div><div class="kb-diagram-cell">X X</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">O</div><div class="kb-diagram-cell">X</div></div>
-<div class="kb-diagram-note">+---------------------------------------&gt; Feature X (x1)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Major Algorithms / 주요 알고리즘</div></div>
-<div class="kb-diagram-note">1. Logistic Regression: Probability-based (Sigmoid)</div>
-<div class="kb-diagram-note">2. Decision Tree: Rule-based branching (If-Then)</div>
-<div class="kb-diagram-note">3. SVM: Maximum Margin Hyperplane</div>
-<div class="kb-diagram-note">4. Random Forest/Boosting: Ensemble of weak learners</div>
-</div>
-</div>
-
-
+[Major Algorithms / 주요 알고리즘]
+1. Logistic Regression: Probability-based (Sigmoid)
+2. Decision Tree: Rule-based branching (If-Then)
+3. SVM: Maximum Margin Hyperplane
+4. Random Forest/Boosting: Ensemble of weak learners
+```
 - **평가 지표:** [혼동 행렬](/knowledge-base/studynote/14_data_engineering/02_math_mining/089_confusion_matrix_tp_fp_fn_tn/)([Confusion Matrix](/knowledge-base/studynote/14_data_engineering/02_math_mining/089_confusion_matrix_tp_fp_fn_tn/)) 기반의 [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/), [Recall](/knowledge-base/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/), AUC-ROC.
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
@@ -73,23 +69,21 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Supervised Learning (지도 학습)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Ensemble (앙상블)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Neural Networks (신경망)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Confusion Matrix (혼동 행렬)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SMOTE (불균형 처리)</div></div>
-</div>
-</div>
-
-
+```text
+[Supervised Learning (지도 학습)]
+    │
+    ▼
+[Ensemble (앙상블)]
+    │
+    ▼
+[Neural Networks (신경망)]
+    │
+    ▼
+[Confusion Matrix (혼동 행렬)]
+    │
+    ▼
+[SMOTE (불균형 처리)]
+```
 
 이 흐름도는 [Supervised Learning](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/) ([지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/))에서 출발해 [SMOTE](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/231_smote_oversampling_class_imbalance_augmentation/) (불균형 처리)까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

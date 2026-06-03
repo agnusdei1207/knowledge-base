@@ -18,21 +18,20 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SLI → SLO → SLA 계층</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SLI = 99.95% (측정 결과)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SLO = 99.9% (내부 목표) → SLI &gt; SLO ✅ OK</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SLA = 99.5% (고객 계약) → SLI &gt; SLA ✅ 계약 준수</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SLI가 SLA 미달(99.4%):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 계약 위반 → 월 요금 10% 크레딧 반환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심: SLO(엄격) &gt; SLA(느슨) → 내부 여유 확보</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    SLI → SLO → SLA 계층                              │
+├───────────────────────────────────────────────────────┤
+│  SLI = 99.95% (측정 결과)                             │
+│  SLO = 99.9% (내부 목표) → SLI > SLO ✅ OK          │
+│  SLA = 99.5% (고객 계약) → SLI > SLA ✅ 계약 준수    │
+│                                                       │
+│  SLI가 SLA 미달(99.4%):                              │
+│   → 계약 위반 → 월 요금 10% 크레딧 반환             │
+│                                                       │
+│  핵심: SLO(엄격) > SLA(느슨) → 내부 여유 확보        │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: SLA는 보험 계약이다. "화재(장애) 시 보험금(크레딧) 지급"처럼, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질 미달 시 보상을 약속한다.
 
@@ -96,23 +95,21 @@ SLA는 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">전통 SLA (통신·호스팅, 2000s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">클라우드 SLA (AWS·GCP·Azure, 2010~)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SRE — SLI/SLO/Error Budget 체계 (2016)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">OpenSLO — SLA/SLO를 코드로 정의 (2022~)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: AI SLA — AI 서비스 성능 보장 계약</div></div>
-</div>
-</div>
-
-
+```text
+[전통 SLA (통신·호스팅, 2000s)]
+    │
+    ▼
+[클라우드 SLA (AWS·GCP·Azure, 2010~)]
+    │
+    ▼
+[SRE — SLI/SLO/Error Budget 체계 (2016)]
+    │
+    ▼
+[OpenSLO — SLA/SLO를 코드로 정의 (2022~)]
+    │
+    ▼
+[현재: AI SLA — AI 서비스 성능 보장 계약]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. SLA는 식당의 **"30분 안에 안 나오면 무료!"** 같은 약속이에요.

@@ -25,18 +25,14 @@ tags = ["studynote-network"]
   - 서울 강남에 기지국 1만 개를 세우면, 1만 개의 에어컨과 1만 명의 건물주에게 월세(상면 비용)를 내야 했습니다. 
   - 옆 동네 기지국은 새벽에 노는데 우리 동네 기지국이 뻗어버릴 때, 두 기지국의 남는 컴퓨터 자원(CPU)을 서로 빌려주거나 합칠 방법이 없었습니다(비효율의 극치).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">CP-OFDM</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">C-RAN</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">O-RAN</div></div>
-</div>
-</div>
-
-
+```text
+[CP-OFDM]
+    │
+    ▼
+[C-RAN]
+    │
+    └──▶ [O-RAN]
+```
 
 - **📢 섹션 요약 비유**: C-RAN는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -58,18 +54,14 @@ tags = ["studynote-network"]
 - [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 시대에 접어들어, 전화국에 모아둔 쇳덩어리 [BBU](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/688_bbu/) 장비마저도 버려버립니다.
 - 대신 범용 x86 인텔 서버(클라우드)를 수백 대 깔아두고, 그 위에 소프트웨어(가상머신, [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)) 형태로 [BBU](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/688_bbu/) 앱을 띄워 돌립니다. 진정한 의미의 <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/156_c_ran_cloud_ran/">Cloud RAN</a> (vRAN, <a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a> RAN)</strong>이 완성됩니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">CP-OFDM</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">C-RAN</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">O-RAN</div></div>
-</div>
-</div>
-
-
+```text
+[CP-OFDM]
+    │
+    ▼
+[C-RAN]
+    │
+    └──▶ [O-RAN]
+```
 
 - **📢 섹션 요약 비유**: C-RAN의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -131,19 +123,15 @@ C-RAN는 차세대 통신 아키텍처를 이해할 때 핵심 축을 잡아 주
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: CP-OFDM</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: C-RAN</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: O-RAN</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 네트워크 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: CP-OFDM]
+    │
+    ▼
+[현재 개념: C-RAN]
+    │
+    ├──▶ [확장 A: O-RAN]
+    └──▶ [확장 B: AI 기반 네트워크 최적화]
+```
 
 C-RAN는 CP-OFDM에서 출발해 현재 메커니즘을 정교화하고, 이후 O-RAN와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

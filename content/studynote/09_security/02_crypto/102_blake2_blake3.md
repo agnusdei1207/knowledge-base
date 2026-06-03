@@ -33,23 +33,27 @@ BLAKE3가 압도적인 속도를 내는 핵심 메커니즘은 [알고리즘](/k
 
 전통적인 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)(SHA-2, [SHA-3](/knowledge-base/studynote/09_security/02_crypto/101_sha_3/))는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록을 처음부터 끝까지 순서대로([직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)로) 씹어 먹어야 한다. 반면 BLAKE3는 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 작은 청크(Chunk, 1KB)로 잘게 쪼갠다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BLAKE3의 머클 트리 병렬 처리 구조 (SIMD 극대화)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">대용량 입력 파일</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(청크 1) (청크 2) (청크 3) (청크 4)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">코어1 해시</div><div class="kb-diagram-node">코어2 해시</div><div class="kb-diagram-node">코어3 해시</div><div class="kb-diagram-node">코어4 해시</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">병렬</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해시 A 해시 B 해시 C 해시 D</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ (합성) ◀─ ─▶ (합성) ◀─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해시 AB 해시 CD</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ (최종 합성) ◀</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">최종 Root 해시 256bit</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│        BLAKE3의 머클 트리 병렬 처리 구조 (SIMD 극대화)        │
+├──────────────────────────────────────────────────────────────┤
+│ [ 대용량 입력 파일 ]                                         │
+│   (청크 1)      (청크 2)      (청크 3)      (청크 4)         │
+│      │             │             │             │             │
+│ [코어1 해시]  [코어2 해시]  [코어3 해시]  [코어4 해시] ◀ 병렬│
+│      │             │             │             │             │
+│      ▼             ▼             ▼             ▼             │
+│     해시 A        해시 B        해시 C        해시 D         │
+│      │             │             │             │             │
+│      └─▶ (합성) ◀─┘             └─▶ (합성) ◀─┘             │
+│            ▼                           ▼                     │
+│          해시 AB                     해시 CD                 │
+│            │                           │                     │
+│            └───────▶ (최종 합성) ◀──────┘                     │
+│                            ▼                                 │
+│                 [ 최종 Root 해시 256bit ]                    │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램처럼, 시스템의 CPU 코어가 많으면 많을수록 여러 청크를 동시에 해싱하여 하나로 모은다. 여기에 [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/)(단일 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 다중 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 셋까지 극한으로 활용하여, 기가비트 시대에 초당 수 GB의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 갈아버리는 물리적 한계 돌파를 이뤄냈다.
 
@@ -70,7 +74,7 @@ BLAKE 패밀리는 단순히 빠른 것만이 아니라 실무에서 요구하�
 
 특히 별도의 [HMAC](/knowledge-base/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 없이 해시 자체에 비밀키를 꽂아 넣어 즉시 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)(메시지 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 코드)로 동작하는 Keyed Hashing 기능은 백엔드 개발 시 코드 복잡도를 크게 낮춰준다.
 
-- **📢 섹션 요약 비유**: 기존에는 망치(해시)와 못 뽑이([HMAC](/knowledge-base/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/))를 따로 들고 다녀야 했다면, BLAKE3는 뒤에 못 뽑이가 달려 있고 모터까지 장착된 최신형 전동 해머다.
+- **📢 섹션 요약 비유**: 기존에는 망치(해시)와 못 뽑이([HMAC](/knowledge-base/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/))를 따로 들고 다녀야 했다면, BLAKE3는 뒤에 못 뽑이가 달려 있고 모터까지 장착된 최새로운 유형의 전동 해머다.
 
 ---
 
@@ -107,23 +111,21 @@ BLAKE3를 도입하면 서버의 CPU 부하는 극적으로 줄어들고 [데이
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">MD5 / SHA-1 (빠르지만 뚫려버린 구시대 해시)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SHA-2 (안전하지만 무겁고 직렬 처리의 한계)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SHA-3 공모전 (BLAKE 알고리즘 결승 진출)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">BLAKE2 (보안성 유지 및 소프트웨어 최적화 달성)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">BLAKE3 (머클 트리 내장 및 SIMD 극대화로 초고속 병렬 해시 완성)</div>
-</div>
-</div>
-
-
+```text
+MD5 / SHA-1 (빠르지만 뚫려버린 구시대 해시)
+    │
+    ▼
+SHA-2 (안전하지만 무겁고 직렬 처리의 한계)
+    │
+    ▼
+SHA-3 공모전 (BLAKE 알고리즘 결승 진출)
+    │
+    ▼
+BLAKE2 (보안성 유지 및 소프트웨어 최적화 달성)
+    │
+    ▼
+BLAKE3 (머클 트리 내장 및 SIMD 극대화로 초고속 병렬 해시 완성)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

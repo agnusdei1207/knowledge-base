@@ -26,18 +26,14 @@ tags = ["studynote-network"]
   - <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/">OSPF</a></strong>: 회사 출근길 1번 다리가 무너졌습니다. 나는 즉시 헬기를 띄워 도시 전체 지도를 다시 그리고([SPF](/knowledge-base/studynote/03_network/09_application_layer_web_email/495_spf_sender_policy_framework/) 연산), 2번 다리로 돌아가는 길을 찾아냅니다. 정확하지만 지도 그리는 데 3분이 걸립니다.
   - **EIGRP (DUAL)**: 평소 출근할 때 이미 <strong>"1번 다리가 무너지면 2번 다리로 간다"는 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">백업</a> 플랜(Feasible Successor)을 수첩에 미리 적어 놨습니다</strong>. 1번 다리가 무너지는 걸 본 순간, 뇌(CPU)를 거치지 않고 몸이 반사적으로 2번 다리 쪽으로 핸들을 확 꺾어버립니다 (0초 수렴).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">IGRP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">EIGRP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">EIGRP 특징: 부분/바운디드 업데이트,…</div></div>
-</div>
-</div>
-
-
+```text
+[IGRP]
+    │
+    ▼
+[EIGRP]
+    │
+    └──▶ [EIGRP 특징: 부분/바운디드 업데이트,…]
+```
 
 - **📢 섹션 요약 비유**: <strong> EIGRP는 전교 1등(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/">OSPF</a>)의 꼼꼼한 노트 필기법(<a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a> 있는 교환)과 전교 꼴찌(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/">RIP</a>)의 단순한 뇌 구조(남의 말 믿기)를 융합하여, </strong>가장 빠르고 가벼우면서도 틀리지 않는 시험 정답([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블)을 뽑아내는 하이브리드 잡종 천재**입니다.
 
@@ -60,26 +56,27 @@ EIGRP의 심장인 DUAL의 용어는 시험에 100% 단골 출제된다.
   - 조건: `2등 길의 AD < 1등 길의 FD`
   - 이 이상한 공식을 통과한 2등 길만 토폴로지 장부에 <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">백업</a>용으로 합격 마크를 찍어둔다</strong>. (루프를 방지하기 위한 절대 수학 공식이다).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DUAL 알고리즘의 무중단 수렴(Convergence) 도식</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">목적지로 가는 두 갈래 길:</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1번 윗길</div><div class="kb-diagram-note">나 ─(5)─ A ─(5)─ 목적지 (총 10점, 내 친구 A는 5점)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2번 아랫길</div><div class="kb-diagram-note">나 ─(10)─ B ─(5)─ 목적지 (총 15점, 내 친구 B는 5점)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 1등 뽑기 (Successor):</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">총점이 10점으로 더 싼</div><div class="kb-diagram-node">1번 윗길</div><div class="kb-diagram-note">당첨! (라우팅 테이블 등재)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 2등 백업 자격 심사 (Feasible Successor 조건):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B가 부르는 점수(AD=5) &lt; 1등 총점(FD=10)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">2번 아랫길</div><div class="kb-diagram-note">은 훌륭한 백업이다!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 기적의 수렴 (1번 선로 포크레인 컷!!):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1번 윗길 폭파됨 ──▶ 라우터 CPU: "오! 나 2번 백업 갖고 있지롱!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 연산 0초 만에 2번 아랫길을 라우팅 테이블로 격상시킴!</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                DUAL 알고리즘의 무중단 수렴(Convergence) 도식     │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   목적지로 가는 두 갈래 길:                                       │
+ │   [ 1번 윗길 ] 나 ─(5)─ A ─(5)─ 목적지  (총 10점, 내 친구 A는 5점) │
+ │   [ 2번 아랫길 ] 나 ─(10)─ B ─(5)─ 목적지  (총 15점, 내 친구 B는 5점) │
+ │                                                             │
+ │   1. 1등 뽑기 (Successor):                                    │
+ │      총점이 10점으로 더 싼 [1번 윗길] 당첨! (라우팅 테이블 등재)        │
+ │                                                             │
+ │   2. 2등 백업 자격 심사 (Feasible Successor 조건):               │
+ │      B가 부르는 점수(AD=5) < 1등 총점(FD=10)                      │
+ │      ▶ 5 < 10 이니까 합격! [2번 아랫길]은 훌륭한 백업이다!            │
+ │                                                             │
+ │   3. 기적의 수렴 (1번 선로 포크레인 컷!!):                           │
+ │      1번 윗길 폭파됨 ──▶ 라우터 CPU: "오! 나 2번 백업 갖고 있지롱!"    │
+ │      ──▶ **연산 0초 만에 2번 아랫길을 라우팅 테이블로 격상시킴!**       │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 3. [RTP](/knowledge-base/studynote/03_network/08_transport_layer/451_rtp_real_time_transport_protocol/) (Reliable Transport [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))의 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)
 - RIP나 OSPF가 그냥 브로드캐스트/[멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)로 엽서를 툭 던지고 마는 반면, EIGRP는 지도를 보낼 때 <strong>RTP라는 깐깐한 배달 증명서 시스템</strong>을 쓴다.
@@ -142,19 +139,15 @@ EIGRP는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routi
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: IGRP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: EIGRP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: EIGRP 특징: 부분/바운디드 업데이트,…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: IGRP]
+    │
+    ▼
+[현재 개념: EIGRP]
+    │
+    ├──▶ [확장 A: EIGRP 특징: 부분/바운디드 업데이트,…]
+    └──▶ [확장 B: 의도 기반 라우팅]
+```
 
 EIGRP는 IGRP에서 출발해 현재 메커니즘을 정교화하고, 이후 EIGRP 특징: 부분/바운디드 업데이트,…와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

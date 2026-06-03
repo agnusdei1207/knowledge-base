@@ -26,18 +26,14 @@ tags = ["studynote-network"]
 
 이처럼 새로운 연결([Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/))을 수락할지 말지 결정하는 지능적인 통제 시스템이 바로 <strong>호 수락 제어(CAC, <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/">Call</a> Admission Control)</strong>이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">소프트 핸드오버</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">호 수락 제어</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">로밍</div></div>
-</div>
-</div>
-
-
+```text
+[소프트 핸드오버]
+    │
+    ▼
+[호 수락 제어]
+    │
+    └──▶ [로밍]
+```
 
 - **📢 섹션 요약 비유**: 유명한 오마카세 식당에 손님이 예약을 요구할 때, 주방장(CAC)은 현재 식사 중인 손님들의 음식 퀄리티가 떨어지지 않게 하려고, 식재료와 남은 셰프의 손길(네트워크 자원)을 치밀하게 계산한 뒤 101번째 손님의 예약을 정중히 거절합니다. ([QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/))
 
@@ -55,24 +51,24 @@ CAC 알고리즘이 "수락(Admit)" 버튼을 누르기 위해서는 아주 복�
    - 기지국: "만약 이 새로운 녀석을 받아주면, 기존에 4K 넷플릭스를 보던 VIP 고객들의 속도가 떨어지지 않을까? 계산해 보니 안 떨어지네! 오케이 수락(Admit)!"
    - 만약 기존 고객의 품질이 1%라도 훼손될 것 같으면 무조건 <strong>거절(Block / Reject)</strong>한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CAC (호 수락 제어)의 QoS 보호 방어선 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">외부의 새로운 접속 요청 빗발침</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">📱 요청 A (음성 통화 100kbps)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CAC 게이트키퍼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🚗 요청 C (자율주행 1Mbps,초저지연) ─</div><div class="kb-diagram-cell">(현재 잔여: 5Mbps)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CAC의 판단</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"요청 A 수락! (100k &lt; 5M)" ◀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"요청 B 거절! (10M &gt; 5M) 기존 유저 피해 줌!" ◀─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"요청 C 수락! (1M &lt; 5M)" ◀</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 내부</div><div class="kb-diagram-note">: 쾌적하고 완벽한 품질 유지 보장 (QoS Guarantee)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│           CAC (호 수락 제어)의 QoS 보호 방어선 시각화                │
+├──────────────────────────────────────────────────────────────────────┤
+│                                                                      │
+│ [ 외부의 새로운 접속 요청 빗발침 ]                                   │
+│  📱 요청 A (음성 통화 100kbps) ────┐                                 │
+│  💻 요청 B (4K 영상 10Mbps)   ───┼──▶ 👮‍♂️ [ CAC 게이트키퍼 ]       │
+│  🚗 요청 C (자율주행 1Mbps,초저지연) ─┘        │ (현재 잔여: 5Mbps)  │
+│                                            │                         │
+│                        [ CAC의 판단 ]       │                        │
+│   "요청 A 수락! (100k < 5M)" ◀──────────────┤                        │
+│   "요청 B 거절! (10M > 5M) 기존 유저 피해 줌!" ◀─┤                   │
+│   "요청 C 수락! (1M < 5M)" ◀────────────────┘                        │
+│                                                                      │
+│ [ 네트워크 내부 ] : 쾌적하고 완벽한 품질 유지 보장 (QoS Guarantee)   │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 호 수락 제어의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -136,19 +132,15 @@ CAC 알고리즘이 "수락(Admit)" 버튼을 누르기 위해서는 아주 복�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 소프트 핸드오버</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 호 수락 제어</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 로밍</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 무선 자원 제어</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 소프트 핸드오버]
+    │
+    ▼
+[현재 개념: 호 수락 제어]
+    │
+    ├──▶ [확장 A: 로밍]
+    └──▶ [확장 B: 지능형 무선 자원 제어]
+```
 
 호 수락 제어는 [소프트 핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/558_soft_handoff/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [로밍](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/560_roaming/)와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

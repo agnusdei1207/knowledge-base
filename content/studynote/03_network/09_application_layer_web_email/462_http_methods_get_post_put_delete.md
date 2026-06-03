@@ -21,18 +21,14 @@ tags = ["studynote-network"]
 
 > ⚠️ 이 문서는 클라이언트가 서버에게 요청의 목적과 종류를 알리는 수단인 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 메서드의 개념, 특징(안전성, [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/), 캐시 가능성), 그리고 각 메서드(GET, POST, PUT, PATCH, DELETE 등)의 명확한 실무적 활용 기준을 심층 분석합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">HTTP 상태 비저장, 연결형/비연결형 특징</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HTTP 메서드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">HTTP 1.0</div></div>
-</div>
-</div>
-
-
+```text
+[HTTP 상태 비저장, 연결형/비연결형 특징]
+    │
+    ▼
+[HTTP 메서드]
+    │
+    └──▶ [HTTP 1.0]
+```
 
 - **📢 섹션 요약 비유**: [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 메서드는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -60,23 +56,23 @@ tags = ["studynote-network"]
    - *통신 장애 시 클라이언트가 자동 재전송(Retry) 로직을 안전하게 수행할 수 있는 판단 근거가 됩니다.*
 3. **캐시 가능 (Cacheable)**: 응답 결과를 브라우저나 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 캐시([CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/)) 서버에 저장해 두고 재사용할 수 있는 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">주요 HTTP 메서드 속성 매트릭스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메서드</div><div class="kb-diagram-cell">Safe</div><div class="kb-diagram-cell">Idempotent Cacheable</div><div class="kb-diagram-cell">Payload (Body)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GET</div><div class="kb-diagram-cell">O</div><div class="kb-diagram-cell">O</div><div class="kb-diagram-cell">O</div><div class="kb-diagram-cell">X (권장)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HEAD</div><div class="kb-diagram-cell">O</div><div class="kb-diagram-cell">O</div><div class="kb-diagram-cell">O</div><div class="kb-diagram-cell">X</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OPTIONS</div><div class="kb-diagram-cell">O</div><div class="kb-diagram-cell">O</div><div class="kb-diagram-cell">X</div><div class="kb-diagram-cell">X</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PUT</div><div class="kb-diagram-cell">X</div><div class="kb-diagram-cell">O</div><div class="kb-diagram-cell">X</div><div class="kb-diagram-cell">O</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DELETE</div><div class="kb-diagram-cell">X</div><div class="kb-diagram-cell">O</div><div class="kb-diagram-cell">X</div><div class="kb-diagram-cell">X (권장)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">POST</div><div class="kb-diagram-cell">X</div><div class="kb-diagram-cell">X</div><div class="kb-diagram-cell">△ (제한적)</div><div class="kb-diagram-cell">O</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PATCH</div><div class="kb-diagram-cell">X</div><div class="kb-diagram-cell">X</div><div class="kb-diagram-cell">X</div><div class="kb-diagram-cell">O</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│             [ 주요 HTTP 메서드 속성 매트릭스 ]              │
+├────────┬─────────┬─────────┬──────────────┬─────────────────┤
+│ 메서드 │ Safe    │Idempotent Cacheable    │ Payload (Body)  │
+├────────┼─────────┼─────────┼──────────────┼─────────────────┤
+│ GET    │   O     │   O     │      O       │      X (권장)   │
+│ HEAD   │   O     │   O     │      O       │      X          │
+│ OPTIONS│   O     │   O     │      X       │      X          │
+├────────┼─────────┼─────────┼──────────────┼─────────────────┤
+│ PUT    │   X     │   O     │      X       │      O          │
+│ DELETE │   X     │   O     │      X       │      X (권장)   │
+├────────┼─────────┼─────────┼──────────────┼─────────────────┤
+│ POST   │   X     │   X     │  △ (제한적)  │      O          │
+│ PATCH  │   X     │   X     │      X       │      O          │
+└────────┴─────────┴─────────┴──────────────┴─────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 메서드는 도서관 사서에게 건네는 "작업 지시서"와 같습니다. "책(URI)"만 건네면 사서는 읽고 싶은 건지(`GET`), 기증하는 건지(`POST`), 낡은 페이지를 수선해 달라는 건지(`PATCH`) 알 수 없습니다. 명확한 메서드(동사)가 있어야만 도서관(서버)이 안전하고 정확하게 일을 처리할 수 있습니다.
 
@@ -174,19 +170,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: HTTP 상태 비저장, 연결형/비연결형 특징</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: HTTP 메서드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: HTTP 1.0</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 애플리케이션 전달</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: HTTP 상태 비저장, 연결형/비연결형 특징]
+    │
+    ▼
+[현재 개념: HTTP 메서드]
+    │
+    ├──▶ [확장 A: HTTP 1.0]
+    └──▶ [확장 B: 지능형 애플리케이션 전달]
+```
 
 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 메서드는 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 상태 비저장, 연결형/비연결형 특징에서 출발해 현재 메커니즘을 정교화하고, 이후 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 1.0와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

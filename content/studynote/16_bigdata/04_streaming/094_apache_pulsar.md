@@ -23,38 +23,28 @@ tags = ["studynote-bigdata"]
 
 Kafka는 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)이 특정 브로커에 고정(Coupled)되어 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Kafka 문제:</div>
-<div class="kb-diagram-note">Broker 1: Partition 0, 1 (Leader)</div>
-<div class="kb-diagram-note">Broker 2: Partition 2 (Leader) ← 이 브로커 장애 발생!</div>
-<div class="kb-diagram-note">→ Partition 2의 팔로워가 리더가 될 때까지 일시 불가용</div>
-<div class="kb-diagram-note">→ 새 브로커 추가 시 파티션 재배치 필요 (시간 소요)</div>
-<div class="kb-diagram-note">→ 클러스터 규모 커질수록 리밸런싱 비용 증가</div>
-</div>
-</div>
-
-
+```
+Kafka 문제:
+  Broker 1: Partition 0, 1 (Leader)
+  Broker 2: Partition 2 (Leader) ← 이 브로커 장애 발생!
+  
+  → Partition 2의 팔로워가 리더가 될 때까지 일시 불가용
+  → 새 브로커 추가 시 파티션 재배치 필요 (시간 소요)
+  → 클러스터 규모 커질수록 리밸런싱 비용 증가
+```
 
 ### 2. Pulsar의 분리 아키텍처
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Pulsar 해결책:</div>
-<div class="kb-diagram-note">Broker: 라우팅·서빙 담당 (상태 없음, Stateless)</div>
-<div class="kb-diagram-note">BookKeeper: 실제 데이터 저장 (상태 있음, Stateful)</div>
-<div class="kb-diagram-note">Broker 2 장애 시:</div>
-<div class="kb-diagram-note">→ 해당 토픽의 소유권(Ownership)만 다른 Broker로 즉시 이전</div>
-<div class="kb-diagram-note">→ 데이터는 BookKeeper에 그대로 있어 손실 없음</div>
-<div class="kb-diagram-note">→ 리밸런싱 수 초 내 완료</div>
-</div>
-</div>
-
-
+```
+Pulsar 해결책:
+  Broker: 라우팅·서빙 담당 (상태 없음, Stateless)
+  BookKeeper: 실제 데이터 저장 (상태 있음, Stateful)
+  
+  Broker 2 장애 시:
+  → 해당 토픽의 소유권(Ownership)만 다른 Broker로 즉시 이전
+  → 데이터는 BookKeeper에 그대로 있어 손실 없음
+  → 리밸런싱 수 초 내 완료
+```
 
 **📢 섹션 요약 비유**
 > Kafka는 "창고(스토리지)를 가진 배달부(브로커)"이고, Pulsar는 "창고(BookKeeper)는 창고업체에 맡기고 배달만 하는 배달부(브로커)"이다. 배달부가 교체되도 창고는 그대로라 물건을 다시 찾을 필요가 없다.
@@ -65,25 +55,30 @@ Kafka는 [파티션](/knowledge-base/studynote/02_operating_system/09_file_syste
 
 ### 1. Pulsar 아키텍처 다이어그램
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Apache Pulsar 클러스터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서빙 계층 (Brokers) — Stateless</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Broker 1 Broker 2 Broker 3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(토픽 소유권 관리, 프로토콜 처리)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">읽기/쓰기 (Ledger)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스토리지 계층 (Apache BookKeeper) — Stateful</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Bookie 1 Bookie 2 Bookie 3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(데이터 영구 저장, Ledger 기반)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">계층형 스토리지 (Tiered Storage) — 선택적</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">S3 / GCS / ADLS (콜드 데이터 자동 이전)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메타데이터: ZooKeeper (또는 Oxia, BookKeeper Metadata)</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────────┐
+│  Apache Pulsar 클러스터                                       │
+│                                                              │
+│  ┌─────────────────────────────────────────────────────┐    │
+│  │  서빙 계층 (Brokers) — Stateless                     │    │
+│  │  Broker 1   Broker 2   Broker 3                      │    │
+│  │  (토픽 소유권 관리, 프로토콜 처리)                     │    │
+│  └──────────────────────┬──────────────────────────────┘    │
+│                         │ 읽기/쓰기 (Ledger)                 │
+│  ┌──────────────────────▼──────────────────────────────┐    │
+│  │  스토리지 계층 (Apache BookKeeper) — Stateful         │    │
+│  │  Bookie 1   Bookie 2   Bookie 3                      │    │
+│  │  (데이터 영구 저장, Ledger 기반)                       │    │
+│  └──────────────────────┬──────────────────────────────┘    │
+│                         │                                    │
+│  ┌──────────────────────▼──────────────────────────────┐    │
+│  │  계층형 스토리지 (Tiered Storage) — 선택적            │    │
+│  │  S3 / GCS / ADLS (콜드 데이터 자동 이전)              │    │
+│  └─────────────────────────────────────────────────────┘    │
+│                                                              │
+│  메타데이터: ZooKeeper (또는 Oxia, BookKeeper Metadata)       │
+└──────────────────────────────────────────────────────────────┘
+```
 
 ### 2. Pulsar의 핵심 기능
 
@@ -198,23 +193,21 @@ Apache Pulsar는 <strong>대규모 <a href="/knowledge-base/studynote/03_network
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">전통 메시지 큐 (ActiveMQ·RabbitMQ) — 단일 브로커, 스케일 한계</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Kafka — 분산 로그, 높은 처리량의 스트리밍 표준</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Pulsar — 브로커·저장소 분리(BookKeeper), 지역 복제 내장</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Pulsar Functions — 경량 스트림 처리 컴퓨팅을 브로커 내 통합</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">클라우드 네이티브 스트리밍 — 서버리스 이벤트 허브로 진화</div></div>
-</div>
-</div>
-
-
+```text
+[전통 메시지 큐 (ActiveMQ·RabbitMQ) — 단일 브로커, 스케일 한계]
+    │
+    ▼
+[Apache Kafka — 분산 로그, 높은 처리량의 스트리밍 표준]
+    │
+    ▼
+[Apache Pulsar — 브로커·저장소 분리(BookKeeper), 지역 복제 내장]
+    │
+    ▼
+[Pulsar Functions — 경량 스트림 처리 컴퓨팅을 브로커 내 통합]
+    │
+    ▼
+[클라우드 네이티브 스트리밍 — 서버리스 이벤트 허브로 진화]
+```
 Apache Pulsar는 Kafka의 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)과 전통 MQ의 유연성을 결합하고, 저장소 계층 분리와 지역 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)를 기본 내장해 [멀티테넌트](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/310_multi_tenant_database_architecture/) 클라우드 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)징 플랫폼으로 자리잡았다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

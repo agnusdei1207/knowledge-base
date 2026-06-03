@@ -23,15 +23,11 @@ DDD의 바운디드 컨텍스트와 [애그리게이트](/knowledge-base/studyno
 
 아래 그림은 왜 이 주제가 “문제 인식 → 설계 규칙 → 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Request</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">DDD</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Stable</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────┐   ┌────────────┐   ┌────────────┐
+│  Request   │──▶│    DDD     │──▶│   Stable   │
+└────────────┘   └────────────┘   └────────────┘
+```
 
 이 흐름의 핵심은 기능 하나를 설명하는 것이 아니라, 어떤 압력이 들어와도 구조가 흔들리지 않게 만드는 기준을 세우는 데 있다.
 
@@ -51,15 +47,11 @@ DDD의 바운디드 컨텍스트와 [애그리게이트](/knowledge-base/studyno
 
 다음 그림은 입력, 경계, 핵심 규칙, 결과가 어디서 갈리는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Boundary</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Core</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Infra</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐
+│  Client  │──▶│ Boundary │──▶│   Core   │──▶│  Infra   │
+└──────────┘   └──────────┘   └──────────┘   └──────────┘
+```
 
 이때 중요한 것은 도구 이름보다 경계와 책임의 방향이다. 동일한 기술을 써도 이 방향이 다르면 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), 테스트성, 운영 난도가 크게 달라진다.
 

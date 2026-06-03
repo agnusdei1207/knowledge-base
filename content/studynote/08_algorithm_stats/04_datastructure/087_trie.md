@@ -18,22 +18,20 @@ tags = ["studynote-algorithm-stats"]
 
 ## Ⅰ. 개요 및 필요성
 
+```text
+트라이 구조 ("CAT", "CAR", "CAN", "DOG" 삽입):
 
+      루트
+      /       C    D
+     |    |
+     A    O
+   / | \  |
+  T  R  N  G
+(CAT)(CAR)(CAN)(DOG)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">트라이 구조 ("CAT", "CAR", "CAN", "DOG" 삽입):</div>
-<div class="kb-diagram-note">루트</div>
-<div class="kb-diagram-note">/ C D</div>
-<div class="kb-diagram-note">A O</div>
-<div class="kb-diagram-note">T R N G</div>
-<div class="kb-diagram-note">(CAT)(CAR)(CAN)(DOG)</div>
-<div class="kb-diagram-note">공통 접두사 "CA"를 두 노드가 공유!</div>
-<div class="kb-diagram-note">검색 "CAR": C→A→R 이동, O(3) = O(L)</div>
-</div>
-</div>
-
-
+공통 접두사 "CA"를 두 노드가 공유!
+검색 "CAR": C→A→R 이동, O(3) = O(L)
+```
 
 - **📢 섹션 요약 비유**: 트라이는 도서관 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 시스템이다. "컴퓨터과학" 서가 안에 "컴퓨터과학-알고리즘", "컴퓨터과학-네트워크"가 함께 있어서 "컴퓨터과학"이라는 공통 접두사를 공유한다.
 
@@ -126,22 +124,18 @@ def autocomplete(trie, prefix, max_results=5):
 
 ### [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 트라이 ([Radix](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/077_radix/) Tree)
 
+```text
+일반 트라이:
+  C → A → T (3 노드)
 
+압축 트라이:
+  CAT (1 노드에 "CAT" 저장)
+  CAR → R (공통 접두사 "CA" 이후 분기)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">일반 트라이:</div>
-<div class="kb-diagram-note">C → A → T (3 노드)</div>
-<div class="kb-diagram-note">압축 트라이:</div>
-<div class="kb-diagram-note">CAT (1 노드에 "CAT" 저장)</div>
-<div class="kb-diagram-note">CAR → R (공통 접두사 "CA" 이후 분기)</div>
-<div class="kb-diagram-note">"CA" "T" (CAT)</div>
-<div class="kb-diagram-tree-item" style="--depth:6">"R" (CAR)</div>
-<div class="kb-diagram-tree-item" style="--depth:6">"N" (CAN)</div>
-</div>
-</div>
-
-
+  "CA" ─── "T" (CAT)
+            └── "R" (CAR)
+            └── "N" (CAN)
+```
 
 - **📢 섹션 요약 비유**: [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 트라이는 주소 약어 시스템이다. "서울특별시 강남구"를 매번 쓰는 대신 공통 부분을 하나로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하여 "서울강남-역삼", "서울강남-삼성"으로 저장하는 것과 같다.
 
@@ -173,23 +167,21 @@ def autocomplete(trie, prefix, max_results=5):
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">해시맵·BST — 일반 문자열 저장·검색</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">트라이 (Trie) — 접두사 공유 O(L) 검색</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">압축 트라이 (Radix Tree) — 메모리 최적화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Aho-Corasick — 다중 패턴 매칭 (실패 링크 추가)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LLM 토큰화 — BPE 어휘 사전 트라이 매칭</div></div>
-</div>
-</div>
-
-
+```text
+[해시맵·BST — 일반 문자열 저장·검색]
+    │
+    ▼
+[트라이 (Trie) — 접두사 공유 O(L) 검색]
+    │
+    ▼
+[압축 트라이 (Radix Tree) — 메모리 최적화]
+    │
+    ▼
+[Aho-Corasick — 다중 패턴 매칭 (실패 링크 추가)]
+    │
+    ▼
+[LLM 토큰화 — BPE 어휘 사전 트라이 매칭]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

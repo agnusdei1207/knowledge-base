@@ -27,19 +27,17 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 [공간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/)과 순차적 지역성의 차이를 주소 흐름 관점에서 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Address access pattern</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Spatial locality</div><div class="kb-diagram-cell">100, 104, 112, 108</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"nearby addresses, but order may vary"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sequential locality</div><div class="kb-diagram-cell">100 → 104 → 108 → 112 → 116</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"nearby addresses with clear direction"</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Address access pattern                                               │
+├───────────────────────┬──────────────────────────────────────────────┤
+│ Spatial locality      │ 100, 104, 112, 108                          │
+│                       │ "nearby addresses, but order may vary"      │
+├───────────────────────┼──────────────────────────────────────────────┤
+│ Sequential locality   │ 100 → 104 → 108 → 112 → 116                │
+│                       │ "nearby addresses with clear direction"     │
+└───────────────────────┴──────────────────────────────────────────────┘
+```
 
 핵심은 <strong>인접성만으로는 부족하고, 방향성이 붙을 때 예측 가능성이 급격히 커진다</strong>는 점이다. 같은 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)이라도 앞에서 뒤로 차례대로 읽는 경우와, 인덱스를 불규칙하게 건너뛰며 읽는 경우는 하드웨어 입장에서 전혀 다른 난이도를 가진다.
 
@@ -62,20 +60,17 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 순차적 지역성이 하드웨어 안에서 어떻게 활용되는지를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">miss/hit next-line hint</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU load</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">L1 cache</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">line fill</div></div>
-<div class="kb-diagram-note">address history ▼ ▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Prefetcher</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Memory system</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">stride detect</div><div class="kb-diagram-cell">DRAM / LLC</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────┐    miss/hit    ┌──────────────┐    next-line hint
+│ CPU load   │ ─────────────▶ │ L1 cache     │ ────────────────┐
+└────────────┘                 └──────────────┘                 │
+       │                            │ line fill                 │
+       │ address history            ▼                           ▼
+       │                     ┌──────────────┐          ┌──────────────┐
+       └──────────────────▶  │ Prefetcher   │ ───────▶ │ Memory system│
+                             │ stride detect│          │ DRAM / LLC    │
+                             └──────────────┘          └──────────────┘
+```
 
 이 구조의 장점은 <strong>지연시간 자체를 없애는 것</strong>이 아니라, 지연이 드러나기 전에 다음 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 당겨와 <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a> 관점에서 숨기는 것</strong>이다. 따라서 순차적 지역성은 특히 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 순회, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 스트리밍, [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 연속 실행 같은 작업에서 큰 효과를 낸다. 반대로 분기가 많거나 포인터 체인이 길면 다음 주소가 끊기므로 프리페처가 확신을 잃고 효과가 급격히 떨어진다.
 
@@ -136,7 +131,7 @@ tags = ["studynote-computer-architecture"]
 
 앞으로는 컬럼 지향 저장, [벡터 데이터베이스](/knowledge-base/studynote/12_it_management/05_security_compliance/223_vector_database_embedding/), 스트리밍 처리, 고대역폭 메모리 ([High Bandwidth Memory](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/)) 같은 기술이 늘어날수록 순차적 지역성의 가치는 더 커질 가능성이 높다. 따라서 이 개념은 "연속 접근이 빠르다" 정도로 외우기보다, <strong>예측 가능한 흐름을 만들수록 하드웨어가 더 많이 도와준다</strong>는 관점으로 기억하는 것이 좋다.
 
-- **📢 섹션 요약 비유**: 순차적 지역성은 도로를 넓히는 것보다 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 흐름을 매끄럽게 만드는 일에 가깝다. 차가 제멋대로 튀지 않고 같은 방향으로 쭉 흐르면, 같은 도로에서도 훨씬 많은 차량을 막힘 없이 보낼 수 있다.
+- **📢 섹션 요약 비유**: 순차적 지역성은 도로를 넓히는 것보다 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 흐름을 매끄럽게 만드는 일에 가깝다. 차가 제멋대로 튀지 않고 같은 방향으로 쭉 흐르면, 같은 도로에서도 훨씬 많은 차량을 병목 없이 보낼 수 있다.
 
 ---
 
@@ -152,22 +147,19 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">지역성 원리</div>
-<div class="kb-diagram-tree-item" style="--depth:2">시간적 지역성 (Temporal Locality)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">공간적 지역성 (Spatial Locality)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">순차적 지역성 (Sequential Locality)</div>
-<div class="kb-diagram-tree-item" style="--depth:8">캐시 라인 적재</div>
-<div class="kb-diagram-tree-item" style="--depth:8">프리페처 (Prefetcher)</div>
-<div class="kb-diagram-tree-item" style="--depth:8">스트리밍 / 벡터화 / 순차 I/O</div>
-</div>
-</div>
-
-
+```text
+지역성 원리
+    │
+    ├─ 시간적 지역성 (Temporal Locality)
+    └─ 공간적 지역성 (Spatial Locality)
+                     │
+                     ▼
+          순차적 지역성 (Sequential Locality)
+                     │
+                     ├─ 캐시 라인 적재
+                     ├─ 프리페처 (Prefetcher)
+                     └─ 스트리밍 / 벡터화 / 순차 I/O
+```
 
 이 흐름은 "인접성 이해 → 방향성 강화 → 하드웨어 선행 최적화 → 고처리량 활용"으로 개념이 확장되는 과정을 보여준다.
 

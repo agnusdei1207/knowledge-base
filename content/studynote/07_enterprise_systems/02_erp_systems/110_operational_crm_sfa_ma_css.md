@@ -20,23 +20,23 @@ tags = ["studynote-enterprise-systems"]
 
 CRM은 3가지 유형으로 나뉜다. <strong>운영 <a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/">CRM</a>(손발)</strong>은 현장에서 고객과 직접 부딪히며 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 입력·실행하는 최전방 부대, <strong>분석 <a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/">CRM</a>(두뇌)</strong>은 100만 건 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 "30대 여성은 금요일에 화장품을 산다"는 통찰을 추출하는 백엔드 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/), <strong>협업 <a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/">CRM</a>(신경망)</strong>은 전화·카톡·이메일 등 [옴니채널](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/073_omni_channel_o2o_evolution/)을 통합하는 연결 레이어다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CRM 3대 유형과 운영 CRM의 위치</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 통찰</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">운영 CRM</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">분석 CRM</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">영업전략</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(손발)</div><div class="kb-diagram-cell">(두뇌)</div><div class="kb-diagram-cell">재입력</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SFA+MA</div><div class="kb-diagram-cell">◀</div><div class="kb-diagram-cell">AI/DW</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+CSS</div><div class="kb-diagram-cell">인사이트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↕ 옴니채널 연동</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">협업 CRM</div><div class="kb-diagram-cell">전화·카톡·이메일·방문 통합</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(신경망)</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│         CRM 3대 유형과 운영 CRM의 위치                 │
+├───────────────────────────────────────────────────────┤
+│  ┌──────────┐  데이터  ┌──────────┐  통찰  ┌────────┐ │
+│  │ 운영 CRM │ ──────▶  │ 분석 CRM │ ────▶ │영업전략│ │
+│  │ (손발)   │          │ (두뇌)   │        │재입력  │ │
+│  │ SFA+MA   │  ◀────── │ AI/DW   │        └────────┘ │
+│  │ +CSS     │  인사이트 └──────────┘                   │
+│  └──────────┘                                         │
+│       ↕  옴니채널 연동                                │
+│  ┌──────────┐                                         │
+│  │ 협업 CRM │  전화·카톡·이메일·방문 통합              │
+│  │ (신경망) │                                         │
+│  └──────────┘                                         │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 분석 CRM이 벙커 속 작전참모(제갈공명)라면, 운영 CRM은 총을 들고 최전방에서 싸우는 터미네이터(보병)다.
 
@@ -50,7 +50,7 @@ CRM은 3가지 유형으로 나뉜다. <strong>운영 <a href="/knowledge-base/s
 |:---|:---|:---|
 | **SFA (Sales Force Automation)** | 영업 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)·자동화 | 명함 OCR → DB 등록, 가망→접촉→제안→계약 단계 추적, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 계약 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 예측 |
 | **MA (Marketing Automation)** | 캠페인 워크플로 자동화 | "장바구니 3일 미결제 고객 → 15% 쿠폰 자동 발송 → 미개봉 시 카톡 리마인드" |
-| <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/110_unlicensed_lpwan_lorawan_sigfox/">CSS</a> (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/">Customer</a> <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a> &amp; <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/">Support</a>)</strong> | 콜센터 CTI·케이스 관리 | 전화 수신 시 고객 이력 1초 팝업, 불만 이력·블랙컨슈머 여부 표시 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/110_unlicensed_lpwan_lorawan_sigfox/">CSS</a> (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/">C고객</a> <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a> &amp; <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/">Support</a>)</strong> | 콜센터 CTI·케이스 관리 | 전화 수신 시 고객 이력 1초 팝업, 불만 이력·블랙컨슈머 여부 표시 |
 
 - **📢 섹션 요약 비유**: SFA는 영업사원의 수첩을 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 비서로 교체한 것이고, MA는 마케터의 야근을 로봇이 대신하는 것이며, CSS는 콜센터 상담원에게 독심술(고객 이력 팝업)을 부여하는 것이다.
 
@@ -96,29 +96,27 @@ CRM은 3가지 유형으로 나뉜다. <strong>운영 <a href="/knowledge-base/s
 |:---|:---|
 | **SFA (Sales Force Automation)** | 운영 CRM의 영업 자동화 엔진 |
 | **MA (Marketing Automation)** | 캠페인 워크플로 자동화 엔진 |
-| <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/110_unlicensed_lpwan_lorawan_sigfox/">CSS</a> (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/">Customer</a> <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a> &amp; <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/">Support</a>)</strong> | 콜센터 CTI·케이스 관리 엔진 |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/110_unlicensed_lpwan_lorawan_sigfox/">CSS</a> (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/">C고객</a> <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a> &amp; <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/">Support</a>)</strong> | 콜센터 CTI·케이스 관리 엔진 |
 | <strong>분석 <a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/">CRM</a></strong> | 운영 CRM이 모은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 학습하는 두뇌 |
 | <strong>CAC / <a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/108_ltv_life_time_value/">LTV</a></strong> | [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) 성과를 측정하는 핵심 재무 지표 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">수첩·명함첩 시대 — 영업 정보 개인 소유</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Siebel CRM (1990s) — 최초의 상용 운영 CRM</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Salesforce SaaS (2000s) — 클라우드 CRM 혁명</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HubSpot (2010s) — 인바운드 마케팅 + CRM 통합</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: AI CRM — 생성형 AI가 상담·캠페인 자동 실행</div></div>
-</div>
-</div>
-
-
+```text
+[수첩·명함첩 시대 — 영업 정보 개인 소유]
+    │
+    ▼
+[Siebel CRM (1990s) — 최초의 상용 운영 CRM]
+    │
+    ▼
+[Salesforce SaaS (2000s) — 클라우드 CRM 혁명]
+    │
+    ▼
+[HubSpot (2010s) — 인바운드 마케팅 + CRM 통합]
+    │
+    ▼
+[현재: AI CRM — 생성형 AI가 상담·캠페인 자동 실행]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 운영 CRM은 피자 가게 사장님의 <strong>슈퍼 전화기</strong>예요. 손님이 전화하면 "이 손님은 페퍼로니를 좋아해!"라고 자동으로 알려줘요.
@@ -131,7 +129,7 @@ CRM은 3가지 유형으로 나뉜다. <strong>운영 <a href="/knowledge-base/s
 
 **진행 상황**: 110 / 482
 
-← **이전**: [109. 고객 획득 비용 (CAC, Customer Acquisition Cost) - LTV > CAC 공식과 그로스 해킹](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/109_cac_customer_acquisition_cost/)
+← **이전**: [109. 고객 획득 비용 (CAC, C고객 Acquisition Cost) - LTV > CAC 공식과 그로스 해킹](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/109_cac_customer_acquisition_cost/)
 **다음**: [111. 분석 CRM (Analytical CRM) - 데이터 마이닝·고객 세분화·이탈 예측](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/111_analytical_crm_data_mining/) →
 
 ---

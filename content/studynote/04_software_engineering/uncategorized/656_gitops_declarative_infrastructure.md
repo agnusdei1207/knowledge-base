@@ -31,30 +31,37 @@ tags = ["studynote-software-engineering"]
 
   전통적인 푸시(Push) 기반 배포와 GitOps의 풀(Pull) 기반 배포 아키텍처의 근본적인 차이를 시각화하면 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기존 Push 기반(CIOps) vs Pull 기반(GitOps) 패러다임 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">기존 방식: CIOps (Push Model)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(무소불위 권한)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CI/CD Server</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">K8s Cluster</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(코드) (Jenkins/Action) (운영 서버)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⚠ 문제 1: CI 서버가 탈취되면 클러스터 전체가 파괴됨 (보안 취약)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⚠ 문제 2: 클러스터 내부에서 수동 변경 시 CI 서버는 이를 알지 못함 (Drift)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">GitOps 방식: Pull Model (Reconciliation)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">K8s Cluster</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Manifest)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GitOps Agent (ArgoCD)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Pull/Watch)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Apply)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">K8s API Server</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 장점 1: 클러스터가 외부에서 명령을 받지 않으므로 방화벽 보안성 극대화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 장점 2: Agent가 지속적으로 감시하여 수동 변경을 감지하고 덮어씀 (자기 치유)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────┐
+  │         기존 Push 기반(CIOps) vs Pull 기반(GitOps) 패러다임 비교 │
+  ├───────────────────────────────────────────────────────────────┤
+  │                                                               │
+  │   [기존 방식: CIOps (Push Model)]                              │
+  │                                   (무소불위 권한)                  │
+  │   Developer ──▶ Git Repo ──▶ [ CI/CD Server ] ──▶ K8s Cluster │
+  │                  (코드)        (Jenkins/Action)     (운영 서버)   │
+  │                                                               │
+  │   ⚠ 문제 1: CI 서버가 탈취되면 클러스터 전체가 파괴됨 (보안 취약)         │
+  │   ⚠ 문제 2: 클러스터 내부에서 수동 변경 시 CI 서버는 이를 알지 못함 (Drift)│
+  │                                                               │
+  │  =============================================================│
+  │                                                               │
+  │   [GitOps 방식: Pull Model (Reconciliation)]                  │
+  │                                                               │
+  │   Developer ──▶ Git Repo         [ K8s Cluster ]              │
+  │                (Manifest)        │                            │
+  │                   ▲              │ ┌───────────────────────┐  │
+  │                   │              │ │ GitOps Agent (ArgoCD) │  │
+  │                   │ (Pull/Watch) │ └───────────────────────┘  │
+  │                   └──────────────┼───────┘  │ (Apply)         │
+  │                                  │          ▼                 │
+  │                                  │     [ K8s API Server ]     │
+  │                                  └────────────────────────────┘
+  │                                                               │
+  │   ✅ 장점 1: 클러스터가 외부에서 명령을 받지 않으므로 방화벽 보안성 극대화    │
+  │   ✅ 장점 2: Agent가 지속적으로 감시하여 수동 변경을 감지하고 덮어씀 (자기 치유)│
+  └───────────────────────────────────────────────────────────────┘
+```
 
   **[다이어그램 해설]** 이 도식은 보안과 상태 관리의 주도권이 어떻게 이동했는지를 보여준다. 상단의 Push 모델에서는 외부의 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 서버가 클러스터의 API를 찔러야 하므로 방화벽을 열어주어야 하고 클러스터 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 정보를 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 서버에 저장해야 한다. 반면 하단의 [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) Pull 모델에서는 클러스터 내부에 설치된 에이전트(ArgoCD나 Flux)가 외부의 Git 저장소를 감시(Pull)하다가 변경이 발생하면 클러스터 내부에서 배포를 수행한다. 외부에서 안으로 들어오는 인바운드 연결이 불필요해지며, 배포 권한이 클러스터 내부에 격리되므로 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)([Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)) 보안 모델을 달성할 수 있다.
 
@@ -148,30 +155,28 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) 인프라 선언적 관리의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) 인프라 선언적 관리의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
 | [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) 인프라 선언적 관리은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) 인프라 선언적 관리 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
 | [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) 인프라 선언적 관리에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">GitOps 인프라 선언적 관리 개념 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 위기 (Software Crisis) 인식
+    │
+    ▼
+GitOps 인프라 선언적 관리 개념 정립
+    │
+    ▼
+표준화 및 방법론 체계화 (ISO, CMMI, Agile)
+    │
+    ▼
+클라우드 네이티브·AI 기반 확장 적용
+    │
+    ▼
+지속적 개선 및 DevOps·MLOps 통합
+```
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

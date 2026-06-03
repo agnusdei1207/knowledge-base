@@ -23,17 +23,14 @@ tags = ["studynote-ai"]
 
 DP는 "이 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 개인의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 포함하든 포함하지 않든 출력이 거의 같다"를 수학적으로 보장한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 차분 프라이버시는 "설문조사 결과를 발표할 때 특정 한 명의 답변을 알아낼 수 없도록" 수학적으로 보장하는 기법이다.
 
@@ -56,21 +53,17 @@ P[M(D) ∈ S] ≤ e^ε · P[M(D') ∈ S] + δ
 
 ### 라플라스 메커니즘 (ε-DP 달성)
 
+```
+쿼리 함수 f: D → ℝ의 전역 민감도:
+Δf = max_{D~D'} ||f(D) - f(D')||₁
 
+라플라스 메커니즘:
+M(D) = f(D) + Lap(Δf/ε)
+       ↑ 실제 답  ↑ 노이즈
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">쿼리 함수 f: D → ℝ의 전역 민감도:</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Δf = max_{D~D'}</div><div class="kb-diagram-cell">f(D) - f(D')</div><div class="kb-diagram-cell">₁</div></div>
-<div class="kb-diagram-note">라플라스 메커니즘:</div>
-<div class="kb-diagram-note">M(D) = f(D) + Lap(Δf/ε)</div>
-<div class="kb-diagram-note">↑ 실제 답 ↑ 노이즈</div>
-<div class="kb-diagram-note">Lap(b): 평균=0, 스케일 b의 라플라스 분포</div>
-<div class="kb-diagram-note">→ ε이 클수록 노이즈 작음 (프라이버시 약함)</div>
-</div>
-</div>
-
-
+Lap(b): 평균=0, 스케일 b의 라플라스 분포
+→ ε이 클수록 노이즈 작음 (프라이버시 약함)
+```
 
 ### 가우시안 메커니즘 ((ε,δ)-DP 달성)
 
@@ -81,22 +74,20 @@ M(D) = f(D) + N(0, σ²I)
 L₂ 민감도: Δ₂f = max ||f(D) - f(D')||₂
 ```
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프라이버시 예산 관리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전체 예산 ε_total</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">쿼리 1: ε₁ 소비 → 남은 예산 ε_total - ε₁</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">쿼리 2: ε₂ 소비 → 남은 예산 ε_total - ε₁ - ε₂</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예산 소진 → 더 이상 쿼리 불가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기본 합성 (Basic Composition): ε_total = Σεᵢ</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고급 합성: ε_total &lt; Σεᵢ (모멘트 어카운턴트)</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────┐
+│  프라이버시 예산 관리                                 │
+│                                                      │
+│  전체 예산 ε_total                                   │
+│  쿼리 1: ε₁ 소비 → 남은 예산 ε_total - ε₁           │
+│  쿼리 2: ε₂ 소비 → 남은 예산 ε_total - ε₁ - ε₂      │
+│  ...                                                 │
+│  예산 소진 → 더 이상 쿼리 불가                        │
+│                                                      │
+│  기본 합성 (Basic Composition): ε_total = Σεᵢ        │
+│  고급 합성: ε_total < Σεᵢ (모멘트 어카운턴트)         │
+└──────────────────────────────────────────────────────┘
+```
 
 | 파라미터 | 범위 | 프라이버시 강도 | 노이즈 크기 |
 |:---|:---|:---|:---|

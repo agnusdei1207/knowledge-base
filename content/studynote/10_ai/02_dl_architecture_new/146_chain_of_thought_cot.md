@@ -18,19 +18,13 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">일반: "15+27×3=?" → "96" (오답)</div>
-<div class="kb-diagram-note">CoT: "15+27×3=? 단계별로:"</div>
-<div class="kb-diagram-note">→ "27×3=81, 15+81=96" (정답, 과정 명시)</div>
-<div class="kb-diagram-note">Self-Consistency: 5번 CoT → 다수결 → 정답률↑</div>
-<div class="kb-diagram-note">Tree-of-Thought: 여러 분기 탐색 → 최적 경로</div>
-</div>
-</div>
-
-
+```text
+일반: "15+27×3=?" → "96" (오답)
+CoT: "15+27×3=? 단계별로:"
+  → "27×3=81, 15+81=96" (정답, 과정 명시)
+Self-Consistency: 5번 CoT → 다수결 → 정답률↑
+Tree-of-Thought: 여러 분기 탐색 → 최적 경로
+```
 
 - **📢 섹션 요약 비유**: CoT는 <strong>시험에서 풀이 과정 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a></strong>이다. 답만 쓰면 실수하지만, 풀이를 쓰면 정확해진다.
 
@@ -54,18 +48,12 @@ CoT는 <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/2
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">직접 답변 (2020)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">CoT (Wei et al., 2022)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Zero-shot CoT (Kojima, 2022)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Self-Consistency (Wang, 2023)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: o1/o3 — 내부 CoT 자동 생성</div></div>
-</div>
-</div>
-
-
+```text
+[직접 답변 (2020)] → [CoT (Wei et al., 2022)]
+    → [Zero-shot CoT (Kojima, 2022)]
+    → [Self-Consistency (Wang, 2023)]
+    → [현재: o1/o3 — 내부 CoT 자동 생성]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. CoT는 <strong>시험에서 풀이 과정 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a></strong>예요. 답만 쓰면 실수해요.

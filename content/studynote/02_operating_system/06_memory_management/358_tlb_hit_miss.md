@@ -27,27 +27,33 @@ tags = ["studynote-operating-system"]
   2. <strong>교체 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>의 필요</strong>: [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 방이 64개 꽉 찬 상태에서 Miss가 발생해 새로운 주소를 램에서 가져오면, 기존 64개 중 하나를 버리고(Eviction) 새것을 넣어야 한다. (보통 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 사용)
   3. **Miss 처리 주체의 분기**: 미스가 났을 때 이걸 하드웨어([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))가 혼자서 조용히 램을 뒤져서 가져올지, 아니면 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 인터럽트를 걸어 소프트웨어적으로 처리할지 아키텍처 전쟁([CISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/196_cisc/) vs [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/))이 벌어졌다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TLB Hit와 TLB Miss의 운명을 가르는 런타임 흐름도</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CPU: "가상 주소 Page 10번 데이터 줘!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">TLB 하드웨어 검색 (병렬 비교)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"내 캐시 방 64개 중에 키값이 10번인 애 있어?"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (Yes) ▼ (No)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">TLB Hit</div><div class="kb-diagram-node">TLB Miss</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">징벌(Penalty): Page Table Walk 발생</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. MMU가 무거운 걸음으로 RAM으로 걸어감</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. RAM 안의 100만 줄짜리 페이지 테이블 뒤짐</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 10번 페이지 줄 발견! (프레임 5번이네)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ 4. TLB로 돌아와 빈칸에</div><div class="kb-diagram-node">10 -&gt; 5</div><div class="kb-diagram-note">업데이트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(방 꽉 찼으면 LRU로 하나 쫓아내고 씀)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">물리 프레임 주소 완성! RAM의 데이터 캐시(L1)로 쏜다</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────┐
+│        TLB Hit와 TLB Miss의 운명을 가르는 런타임 흐름도         │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│ [ CPU: "가상 주소 Page 10번 데이터 줘!" ]                       │
+│         │                                                       │
+│         ▼                                                       │
+│ [ TLB 하드웨어 검색 (병렬 비교) ]                               │
+│ "내 캐시 방 64개 중에 키값이 10번인 애 있어?"                   │
+│         │                                                       │
+│   ┌─────┴─────┐                                                 │
+│   ▼ (Yes)       ▼ (No)                                          │
+│ [ TLB Hit ]   [ TLB Miss ]                                      │
+│   │             │                                               │
+│   │             ▼                                               │
+│   │           [ 징벌(Penalty): Page Table Walk 발생 ]           │
+│   │             1. MMU가 무거운 걸음으로 RAM으로 걸어감         │
+│   │             2. RAM 안의 100만 줄짜리 페이지 테이블 뒤짐     │
+│   │             3. 10번 페이지 줄 발견! (프레임 5번이네)        │
+│   │             4. TLB로 돌아와 빈칸에 [10 -> 5] 업데이트       │
+│   │                (방 꽉 찼으면 LRU로 하나 쫓아내고 씀)        │
+│   │             │                                               │
+│   ▼             ▼                                               │
+│ [ 물리 프레임 주소 완성! RAM의 데이터 캐시(L1)로 쏜다 ]         │
+└─────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) Hit의 경로는 아무런 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/) 없이 수직 하강하는 고속도로(1 클럭)다. 반면 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) Miss의 경로는 옆으로 빠져나가 험난한 램(RAM)의 바다를 뒤지고 와야 하는 가시밭길(수백 클럭 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))이다. 이 Miss 경로를 한 번 탈 때마다 CPU는 뒤에 예약된 수많은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 파이프라인을 멈추고(Stall) 하염없이 장부를 기다려야 하는 엄청난 형벌을 받는다.
 
 - **📢 섹션 요약 비유**: 게임에서 스킬 쿨타임이 도는 것과 같습니다. [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) Hit는 쿨타임 없이 1초 만에 콤보를 날리는 짜릿함이고, [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) Miss는 마나가 모자라서 우물(RAM)까지 걸어갔다 오느라 한타 한 번을 통째로 날려 먹는 치명적인 딜로스(Penalty)입니다.
@@ -83,17 +89,14 @@ tags = ["studynote-operating-system"]
    - **장점**: 칩셋 설계가 극도로 단순해지며, OS가 장부의 모양(자료구조)을 트리로 하든 해시로 하든 마음대로 튜닝할 수 있다.
    - **단점**: 미스 날 때마다 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드가 실행([Trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/))되어야 하므로 오버헤드가 크다. 
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">처리 방식</div><div class="kb-diagram-cell">주체</div><div class="kb-diagram-cell">장부(Table) 규격</div><div class="kb-diagram-cell">장점/단점</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HW Walk</div><div class="kb-diagram-cell">MMU 회로</div><div class="kb-diagram-cell">하드웨어에 종속</div><div class="kb-diagram-cell">빠름 / 경직성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SW Walk</div><div class="kb-diagram-cell">OS 커널 코드</div><div class="kb-diagram-cell">OS 마음대로 튜닝</div><div class="kb-diagram-cell">느림 / 유연성</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬────────────────────────┐
+│ 처리 방식  │ 주체         │ 장부(Table) 규격│ 장점/단점     │
+├──────────┼────────────┼────────────┼────────────────────────┤
+│ HW Walk  │ MMU 회로    │ 하드웨어에 종속 │ 빠름 / 경직성    │
+│ SW Walk  │ OS 커널 코드 │ OS 마음대로 튜닝│ 느림 / 유연성   │
+└──────────┴────────────┴────────────┴────────────────────────┘
+```
 **[매트릭스 해설]** 오늘날 PC와 서버 시장을 장악한 인텔/AMD(x86)와 모바일을 장악한 ARM 모두 결국 <strong>하드웨어 기반의 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/">Page Table</a> Walk(HW Walk)</strong> 쪽으로 수렴했다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)(속도)이 워낙 중요한 지점이다 보니, SW 예외 처리 비용을 감당하는 것보다 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 공정을 더 정밀하게 갈아 넣어 칩셋(HW) 안에서 조용히 해결하는 방식이 최종 승리한 것이다.
 
 - **📢 섹션 요약 비유**: 미스가 나서 책을 찾아야 할 때, 'HW 제어'는 도서관 로봇 청소기가 조용히 가서 책을 찾아오는 자동화 시스템이고, 'SW 제어'는 로봇이 비상벨을 울려서 사서(OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))를 직접 불러와 수동으로 책을 찾아오게 하는 아날로그 방식입니다.
@@ -175,19 +178,15 @@ C++이나 Java에서 거대한 `Linked List` 나 무분별한 `new Object()` 할
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">TLB (Translation Look-aside Buffer)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">TLB 적중 (TLB Hit) / TLB 미스 (TLB Miss)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TLB 적중률 (Hit Ratio) / 실질 메모리 접근 시간 (EAT, Effective Access Time)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ASID (Address-Space Identifier)</div></div>
-</div>
-</div>
-
-
+```text
+[TLB (Translation Look-aside Buffer)]
+    │
+    ▼
+[TLB 적중 (TLB Hit) / TLB 미스 (TLB Miss)]
+    │
+    ├──▶ [TLB 적중률 (Hit Ratio) / 실질 메모리 접근 시간 (EAT, Effective Access Time)]
+    └──▶ [ASID (Address-Space Identifier)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

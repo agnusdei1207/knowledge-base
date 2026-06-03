@@ -33,23 +33,23 @@ Level 0은 리처드슨 성숙도 모델 ([Richardson Maturity Model](/knowledge
 
 Level 0의 구조는 단순하다. 하나의 URI가 모든 요청의 진입점이 되고, 대부분 `POST`만 사용한다. 요청의 의미는 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 메서드나 URI가 아니라 본문 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 결정한다. 서버는 본문 안의 작업 이름을 해석해 내부 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 메서드로 분기한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 0 request pattern</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">POST /api</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">{ action: cancel, id: 123 }</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Server router</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">if action == "cancelOrder" -&gt; service.cancel()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">if action == "createOrder" -&gt; service.create()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">if action == "getOrder" -&gt; service.find()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">URI and HTTP method do not reveal resource semantics</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Level 0 request pattern                                           │
+├────────────────────────────────────────────────────────────────────┤
+│ Client                                                            │
+│   POST /api                                                       │
+│   { action: cancel, id: 123 }                                     │
+│        │                                                           │
+│        ▼                                                           │
+│ Server router                                                     │
+│   if action == "cancelOrder" -> service.cancel()                 │
+│   if action == "createOrder" -> service.create()                 │
+│   if action == "getOrder"    -> service.find()                   │
+│                                                                    │
+│ URI and HTTP method do not reveal resource semantics              │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 핵심은 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 의미가 외부 표준이 아니라 내부 분기 규칙에 숨어 있다는 점이다. 클라이언트와 서버는 문서나 사전 합의 없이는 서로의 요청 의미를 알기 어렵고, [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)·캐시·관측 도구도 요청 의도를 해석하기 힘들다. 즉 HTTP는 운반 수단일 뿐, 아키텍처적 의미는 거의 쓰지 않는다.
 
@@ -132,24 +132,21 @@ Level 0의 장점은 단순성이다. 빠르게 만들 수 있고, 기존 [RPC](
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">SOAP / XML-RPC style</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Level 0</div>
-<div class="kb-diagram-note">(single URI + POST + action in body)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Level 1</div>
-<div class="kb-diagram-note">(resource-specific URI)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Level 2</div>
-<div class="kb-diagram-note">(HTTP verbs + status codes)</div>
-</div>
-</div>
-
-
+```text
+SOAP / XML-RPC style
+    │
+    ▼
+Level 0
+  (single URI + POST + action in body)
+    │
+    ▼
+Level 1
+  (resource-specific URI)
+    │
+    ▼
+Level 2
+  (HTTP verbs + status codes)
+```
 
 이 흐름도는 성숙도 상승이 단순 미관 개선이 아니라, 요청 의미를 점점 더 웹 표준 바깥에서 안쪽으로 끌어오는 과정임을 보여준다.
 

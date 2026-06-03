@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 대칭키([AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/))가 데이터를 '섞고 비틀어서' 해독을 못 하게 막는 물리적인 미로라면, 비대칭키([RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/), [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/))는 처음부터 해커가 풀 수 없도록 증명된 <strong>'수학적 난제(Hard Problem)'</strong>를 자물쇠의 구조로 사용합니다.
 - 핵심은 <strong>일방향 함수 (Trapdoor One-way Function)</strong>입니다. 자물쇠를 잠그는 연산(정방향 연산)은 매우 쉽고 빠르지만, 열쇠 없이 자물쇠를 부수고 여는 연산(역방향 연산)은 물리적으로 불가능한 수학 공식들입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">비대칭키/공개키 암호화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">수학적 문제 기반</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RSA 알고리즘</div></div>
-</div>
-</div>
-
-
+```text
+[비대칭키/공개키 암호화]
+    │
+    ▼
+[수학적 문제 기반]
+    │
+    └──▶ [RSA 알고리즘]
+```
 
 - **📢 섹션 요약 비유**: 수학적 문제 기반은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -54,18 +50,14 @@ tags = ["studynote-network"]
 - **효과**: 기존의 소인수분해나 이산대수보다 수학적으로 훨씬 더 꼬여있어서, <strong>키 길이가 훨씬 짧아도 동일한 방어력</strong>을 냅니다.
 - <strong>적용 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>: 현대 모바일 통신의 절대 강자인 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/">ECC</a> (타원 곡선 암호)</strong>가 이 수학을 씁니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">비대칭키/공개키 암호화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">수학적 문제 기반</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RSA 알고리즘</div></div>
-</div>
-</div>
-
-
+```text
+[비대칭키/공개키 암호화]
+    │
+    ▼
+[수학적 문제 기반]
+    │
+    └──▶ [RSA 알고리즘]
+```
 
 - **📢 섹션 요약 비유**: 수학적 문제 기반의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -127,19 +119,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 비대칭키/공개키 암호화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 수학적 문제 기반</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: RSA 알고리즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 비대칭키/공개키 암호화]
+    │
+    ▼
+[현재 개념: 수학적 문제 기반]
+    │
+    ├──▶ [확장 A: RSA 알고리즘]
+    └──▶ [확장 B: 자동화된 신뢰 체계]
+```
 
 수학적 문제 기반는 비대칭키/공개키 암호화에서 출발해 현재 메커니즘을 정교화하고, 이후 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

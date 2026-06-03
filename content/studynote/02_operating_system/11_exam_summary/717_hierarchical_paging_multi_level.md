@@ -54,27 +54,27 @@ tags = ["studynote-operating-system"]
   - `p2 (10 bits)`: [Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) [Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) (소목차 번호)
   - `d (12 bits)`: Offset (4KB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 내의 정확한 번지)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2단계 페이징을 통한 "메모리 다이어트" 동작 원리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CR3 레지스터</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">1단계: Page Directory (항상 RAM에 있음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(1024칸 * 4Byte = 딱 4KB 크기!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">0번 칸 (Code 영역)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">2단계 Page Table 0</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1번 칸 (텅 빔)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(NULL! 메모리 할당 안 함)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2번 칸 (텅 빔)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(NULL! 메모리 할당 안 함)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">...</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1023번 칸 (Stack)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">2단계 Page Table X</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">★ 기적의 결과:</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- 1단계 페이징이었다면 무조건</div><div class="kb-diagram-node">4MB</div><div class="kb-diagram-note">의 지도가 램에 있어야 했다.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 2단계 페이징에서는 Code용 테이블(4KB) + Stack용 테이블(4KB) +</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Root 디렉터리(4KB) = 고작</div><div class="kb-diagram-node">12KB</div><div class="kb-diagram-note">면 지도를 완벽하게 그릴 수 있다!!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 약 99.7%의 메모리 공간 절약 (Memory Saving) 성공!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 2단계 페이징을 통한 "메모리 다이어트" 동작 원리          │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │  [ CR3 레지스터 ] ──▶ [ 1단계: Page Directory (항상 RAM에 있음) ]       │
+  │                       (1024칸 * 4Byte = 딱 4KB 크기!)                 │
+  │                                                                   │
+  │                       [ 0번 칸 (Code 영역) ] ───▶ [ 2단계 Page Table 0 ]│
+  │                       [ 1번 칸 (텅 빔) ]      ───▶ (NULL! 메모리 할당 안 함)│
+  │                       [ 2번 칸 (텅 빔) ]      ───▶ (NULL! 메모리 할당 안 함)│
+  │                       ...                                         │
+  │                       [ 1023번 칸 (Stack) ]  ───▶ [ 2단계 Page Table X ]│
+  │                                                                   │
+  │  ★ 기적의 결과:                                                       │
+  │   - 1단계 페이징이었다면 무조건 [ 4MB ]의 지도가 램에 있어야 했다.              │
+  │   - 2단계 페이징에서는 Code용 테이블(4KB) + Stack용 테이블(4KB) +             │
+  │     Root 디렉터리(4KB) = 고작 [ 12KB ]면 지도를 완벽하게 그릴 수 있다!!        │
+  │   - 약 99.7%의 메모리 공간 절약 (Memory Saving) 성공!                 │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** "어? 쪼개면 4MB 덩어리가 1024개 생기니까 총 용량은 오히려 $4KB + 4MB$로 더 커지는 거 아니야?" 라고 묻는다면 반만 맞다. 만약 프로세스가 4GB [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)를 1바이트도 안 남기고 100% 꽉 채워 쓴다면, 2단계 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)이 1단계보다 오히려 용량을 더 먹는다. 하지만 <strong>현실의 프로그램은 <a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">가상 메모리</a>의 1%도 쓰지 않는 듬성듬성한(Sparse) 구조</strong>다. 중간에 텅 비어있는 99%의 가상 공간에 대해서는 아예 2단계 테이블(4KB)을 `malloc` 해주지 않기 때문에, 현실 세계에서는 기적적인 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 효과가 나타나는 것이다.
 
@@ -125,23 +125,25 @@ tags = ["studynote-operating-system"]
 
 ### 의사결정 및 튜닝 플로우
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 테이블 오버헤드 최적화 아키텍처 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">서버 튜닝 중, 페이지 테이블 용량과 TLB 미스로 인한 병목 발견</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가상 메모리를 너무 넓게 휘저어 쓰는(Sparse) 프로세스들이 수만 개 떠 있는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">멀티프로세스 -&gt; 멀티스레드 아키텍처 전환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(스레드 간 페이지 테이블 공유로 테이블 용량 오버헤드 박살냄)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 (거대한 프로세스 1개가 수백 GB를 통째로 쓰고 있다)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Huge Page(2MB / 1GB) 튜닝 강력 권고</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 효과 1: 다단계 트리의 높이(Depth)가 1~2계층 줄어 탐색 속도 증가.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 효과 2: 페이지 테이블 자체가 점유하는 커널 메모리 용량이 1/500로 극감.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 메모리 테이블 오버헤드 최적화 아키텍처 플로우              │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [서버 튜닝 중, 페이지 테이블 용량과 TLB 미스로 인한 병목 발견]              │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      가상 메모리를 너무 넓게 휘저어 쓰는(Sparse) 프로세스들이 수만 개 떠 있는가? │
+  │          ├─ 예 ─────▶ [멀티프로세스 -> 멀티스레드 아키텍처 전환]       │
+  │          │            (스레드 간 페이지 테이블 공유로 테이블 용량 오버헤드 박살냄)│
+  │          └─ 아니오 (거대한 프로세스 1개가 수백 GB를 통째로 쓰고 있다)       │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      [Huge Page(2MB / 1GB) 튜닝 강력 권고]                           │
+  │      - 효과 1: 다단계 트리의 높이(Depth)가 1~2계층 줄어 탐색 속도 증가.  │
+  │      - 효과 2: 페이지 테이블 자체가 점유하는 커널 메모리 용량이 1/500로 극감.│
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** "메모리 32GB 꽂았는데 왜 부족하지?"라고 할 때, 개발자들은 자기 앱의 `User Space` 메모리릭만 의심한다. 시스템 아키텍트는 `Kernel Space`에 숨어있는 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/">Page Table</a></strong>이라는 거대한 괴물을 볼 줄 알아야 한다. 이 괴물은 프로세스가 늘어날수록 조용히, 그러나 기하급수적으로 서버의 피(RAM)를 빨아먹는다.
 
@@ -183,19 +185,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">TLB 적중률 캐시 속도</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">다단계 페이지 테이블 사이즈 줄이기 (Hierarchical Paging Multi Level)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">세그멘테이션 외부 단편화 재발</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">요구 페이징 (Demand Paging)</div></div>
-</div>
-</div>
-
-
+```text
+[TLB 적중률 캐시 속도]
+    │
+    ▼
+[다단계 페이지 테이블 사이즈 줄이기 (Hierarchical Paging Multi Level)]
+    │
+    ├──▶ [세그멘테이션 외부 단편화 재발]
+    └──▶ [요구 페이징 (Demand Paging)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

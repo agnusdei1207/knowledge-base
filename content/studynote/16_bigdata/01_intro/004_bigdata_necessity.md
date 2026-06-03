@@ -25,23 +25,20 @@ tags = ["bigdata"]
 
 이러한 양적 팽창보다 더 심각한 문제는 질적 변화다. 폭증하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 절대 다수가 기존 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 테이블에 담을 수 없는 <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/">비정형 데이터</a>(<a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/">Unstructured Data</a>)</strong>로 채워지고 있다는 점이다.
 
+```text
+이 그래프는 제타바이트 시대로 진입함에 따라 전통적 정형 데이터와 비정형 데이터 간의 성장 곡선 격차를 명확히 보여준다.
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 그래프는 제타바이트 시대로 진입함에 따라 전통적 정형 데이터와 비정형 데이터 간의 성장 곡선 격차를 명확히 보여준다.</div>
-<div class="kb-diagram-note">데이터 규모 (Zettabytes)</div>
-<div class="kb-diagram-note">175 ─| / (비정형 데이터 폭증: 80%+)</div>
-<div class="kb-diagram-note">100 ─| / (이미지, 영상, SNS, IoT 로그)</div>
-<div class="kb-diagram-note">50 ─| /</div>
-<div class="kb-diagram-note">/‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾ (정형 데이터 한계: 20% 미만)</div>
-<div class="kb-diagram-note">________/‾‾‾‾‾‾‾‾‾‾‾‾‾</div>
-<div class="kb-diagram-tree-item" style="--depth:4">시간 (년도)</div>
-<div class="kb-diagram-note">2010 2015 2020 2025</div>
-</div>
-</div>
-
-
+  데이터 규모 (Zettabytes)
+   175 ─|                                                  / (비정형 데이터 폭증: 80%+)
+        |                                                /
+   100 ─|                                              /   (이미지, 영상, SNS, IoT 로그)
+        |                                            /
+    50 ─|                                          / 
+        |                      /‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾ (정형 데이터 한계: 20% 미만)
+        |________/‾‾‾‾‾‾‾‾‾‾‾‾‾
+        └─────────────────────────────────────────────────── 시간 (년도)
+               2010          2015         2020          2025
+```
 
 이 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)의 핵심은 기업이 여전히 RDBMS 기반의 [정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/002_structured_data/)만 분석하고 있다면, 실제 비즈니스 세계에서 발생하는 정보의 80% 이상을 버리고 있다는 뜻이다. 고객이 남긴 리뷰(텍스트), 행동 패턴([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)), 매장 내 동선(영상) 등의 [비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/) 속에 진정한 비즈니스 인사이트가 숨어 있다. 따라서 이를 수용하고 저장, 분석할 수 있는 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)리스(Schemaless) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 아키텍처의 도입은 기업 경쟁력 유지를 위한 절대적 필요성으로 작용한다.
 
@@ -62,23 +59,20 @@ tags = ["bigdata"]
 
 이러한 문제 해결 원리가 실제 시스템 흐름에서 어떻게 작용하는지 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 적재 흐름도를 통해 비교해 보자.
 
+```text
+이 도식은 엄격한 스키마를 요구하는 RDBMS 기반 적재 흐름과, 비정형 데이터를 즉시 수용하는 데이터 레이크 아키텍처를 대조한다.
 
+[전통적 RDBMS 적재 플로우: 데이터 손실 발생]
+  IoT 로그(비정형) ──(ETL 변환 실패: 스키마 불일치)──> [ Error / 폐기 ]  (병목 및 데이터 유실)
+  정형 데이터      ──(테이블 매핑)─────────────> [ RDBMS 저장 ]
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 도식은 엄격한 스키마를 요구하는 RDBMS 기반 적재 흐름과, 비정형 데이터를 즉시 수용하는 데이터 레이크 아키텍처를 대조한다.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전통적 RDBMS 적재 플로우: 데이터 손실 발생</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">IoT 로그(비정형) ──(ETL 변환 실패: 스키마 불일치)──&gt;</div><div class="kb-diagram-node">Error / 폐기</div><div class="kb-diagram-note">(병목 및 데이터 유실)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">정형 데이터 ──(테이블 매핑) &gt;</div><div class="kb-diagram-node">RDBMS 저장</div></div>
-<div class="kb-diagram-note">VS</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">빅데이터 데이터 레이크 적재 플로우: 데이터 무손실 수용</div></div>
-<div class="kb-diagram-note">IoT 로그(비정형) ── (형태 무관)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">비디오/음성 ── &gt;</div><div class="kb-diagram-node">Data Lake (오브젝트 스토리지)</div><div class="kb-diagram-note">──(필요 시 Spark 파싱)──&gt;</div><div class="kb-diagram-node">분석 마트</div></div>
-<div class="kb-diagram-note">정형 데이터 ──</div>
-</div>
-</div>
+                             VS
 
-
+[빅데이터 데이터 레이크 적재 플로우: 데이터 무손실 수용]
+  IoT 로그(비정형) ──┐ (형태 무관)
+  비디오/음성      ──┼──────────> [ Data Lake (오브젝트 스토리지) ] ──(필요 시 Spark 파싱)──> [ 분석 마트 ]
+  정형 데이터      ──┘
+```
 
 이 구조의 결정적 병목 회피 지점은 <strong>'<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/">ETL</a> 변환의 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>(Deferred)'</strong>이다. 제타바이트 시대에는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유입 속도(Velocity)가 너무 빨라 사전에 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)([Normalization](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/))를 거칠 시간적 여유가 없다. 따라서 빅데이터 시스템은 AWS S3나 [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) 같은 거대한 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)에 원본 그대로 무조건 적재(Ingestion)부터 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)한다. 이후 분석가나 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델이 해당 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽어 들일 때 비로소 구조를 맵핑([Schema-on-Read](/knowledge-base/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/))하므로, 시스템의 수집 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 중단되거나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 폐기되는 현상을 원천 차단할 수 있다.
 
@@ -107,22 +101,22 @@ LOCATION 's3://data-lake/events/2024/';
 
 시스템 용량이 임계점을 넘을 때 발생하는 비용과 확장성 한계를 매트릭스 도식으로 분석해보자.
 
+```text
+이 그래프는 데이터 용량이 증가함에 따라 레거시 시스템과 분산 빅데이터 시스템 간의 인프라 확장 비용이 어떻게 교차하는지 보여준다.
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 그래프는 데이터 용량이 증가함에 따라 레거시 시스템과 분산 빅데이터 시스템 간의 인프라 확장 비용이 어떻게 교차하는지 보여준다.</div>
-<div class="kb-diagram-note">비용 / 난이도</div>
-<div class="kb-diagram-connector">▲</div>
-<div class="kb-diagram-note">/ (RDBMS Scale-up: 하이엔드 장비 도입 비용 폭발)</div>
-<div class="kb-diagram-note">/ /‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾ (빅데이터 Scale-out: 클라우드 기반 선형 증가)</div>
-<div class="kb-diagram-note">/ / &lt;-- 교차점 (빅데이터 도입의 경제적 타당성 확보 시점)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">►</div>
-<div class="kb-diagram-note">데이터 저장 규모 (TB -&gt; PB -&gt; ZB)</div>
-</div>
-</div>
-
-
+비용 / 난이도
+  ▲
+  │        / (RDBMS Scale-up: 하이엔드 장비 도입 비용 폭발)
+  │       /
+  │      /       
+  │     /        /‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾ (빅데이터 Scale-out: 클라우드 기반 선형 증가)
+  │    /        /  
+  │   /        /
+  │  /        /
+  │ /        /  <-- 교차점 (빅데이터 도입의 경제적 타당성 확보 시점)
+  └──────────────────────────────────────────────►
+                    데이터 저장 규모 (TB -> PB -> ZB)
+```
 
 이 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)의 해설에서 가장 중요한 부분은 '교차점'이다. 수십 기가바이트(GB) 수준의 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서는 오히려 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)이나 스파크 클러스터를 세팅하는 비용과 관리 오버헤드가 더 크다. 하지만 페타바이트(PB) 영역으로 진입하면 기존 고가의 오라클 엑사데이터 같은 엔터프라이즈 장비를 증설하는 것은 천문학적 비용을 요구한다. 이 시점부터는 저렴한 범용 x86 서버 여러 대를 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 묶거나 클라우드 [오브젝트 스토리지](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/494_object_storage/)를 사용하는 빅데이터 아키텍처가 압도적인 경제적 우위를 선점하게 된다.
 
@@ -134,24 +128,19 @@ LOCATION 's3://data-lake/events/2024/';
 
 실무에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 많아 보인다고 해서 무턱대고 빅데이터 시스템을 도입하는 것은 위험한 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다. 도입 타당성을 결정하는 명확한 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)가 필요하다.
 
+```text
+이 의사결정 트리는 기업이 현재 인프라 상태를 진단하고 빅데이터 아키텍처 도입을 최종 확정하기 위한 실무 판단 플로우를 보여준다.
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 의사결정 트리는 기업이 현재 인프라 상태를 진단하고 빅데이터 아키텍처 도입을 최종 확정하기 위한 실무 판단 플로우를 보여준다.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 환경 진단</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">정형 데이터 비율</div><div class="kb-diagram-note">──(90% 이상 정형인가?)──&gt;</div><div class="kb-diagram-node">Yes</div><div class="kb-diagram-note">─&gt; 기존 RDBMS 파티셔닝 / 읽기 지연(Read Replica) 대응</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">↓</div><div class="kb-diagram-node">No, 비정형 다수</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 증가 속도</div><div class="kb-diagram-note">──(월별 증가량이 선형적인가?)──&gt;</div><div class="kb-diagram-node">Yes</div><div class="kb-diagram-note">─&gt; RDBMS 아카이빙 전략으로 연명 가능</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">↓</div><div class="kb-diagram-node">No, 기하급수적 폭증</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">처리 레이턴시 요건</div><div class="kb-diagram-note">──(단순 야간 배치로 충분한가?)──&gt;</div><div class="kb-diagram-node">Yes</div><div class="kb-diagram-note">─&gt; 클라우드 DW (Snowflake 등) 고려</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">↓</div><div class="kb-diagram-node">No, 실시간 및 머신러닝 분석 필수</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전면적 빅데이터 레이크하우스 및 스트리밍 파이프라인 도입 확정</div></div>
-</div>
-</div>
-
-
+[데이터 환경 진단]
+        ↓
+[정형 데이터 비율] ──(90% 이상 정형인가?)──> [Yes] ─> 기존 RDBMS 파티셔닝 / 읽기 지연(Read Replica) 대응
+        ↓ [No, 비정형 다수]
+[데이터 증가 속도] ──(월별 증가량이 선형적인가?)──> [Yes] ─> RDBMS 아카이빙 전략으로 연명 가능
+        ↓ [No, 기하급수적 폭증]
+[처리 레이턴시 요건] ──(단순 야간 배치로 충분한가?)──> [Yes] ─> 클라우드 DW (Snowflake 등) 고려
+        ↓ [No, 실시간 및 머신러닝 분석 필수]
+[전면적 빅데이터 레이크하우스 및 스트리밍 파이프라인 도입 확정]
+```
 
 <strong>실무 도입 시 주의해야 할 실패 사례 (<a href="/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/161_anti_pattern/">Anti-pattern</a>)</strong>
 - **유행에 휩쓸린 도입 (Hype-Driven Development)**: 기존 RDBMS(MySQL 등) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 총 500GB에 불과하고 [비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/) 수집 계획이 전무한데도, 단순히 트렌드를 좇아 Kafka와 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 클러스터를 구축하는 경우. 운영자들의 러닝 커브만 높이고 유지보수 불능 상태에 빠진다.
@@ -180,23 +169,21 @@ LOCATION 's3://data-lake/events/2024/';
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Zettabyte Era</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Unstructured Data</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Scale-out (수평 확장)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Schema-on-Read</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Data Lakehouse</div></div>
-</div>
-</div>
-
-
+```text
+[Zettabyte Era]
+    │
+    ▼
+[Unstructured Data]
+    │
+    ▼
+[Scale-out (수평 확장)]
+    │
+    ▼
+[Schema-on-Read]
+    │
+    ▼
+[Data Lakehouse]
+```
 
 이 흐름도는 Zettabyte Era에서 출발해 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Lakehouse까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

@@ -33,20 +33,18 @@ tags = ["studynote-enterprise"]
 
 아래 그림은 기본적인 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 할당 구조를 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kafka consumer group assignment</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Topic: orders</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P0 -----------------------------&gt; Consumer A</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P1 -----------------------------&gt; Consumer B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P2 -----------------------------&gt; Consumer C</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">If Consumer B fails -&gt; rebalance -&gt; P1 moves to A or C</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Kafka consumer group assignment                                      │
+├──────────────────────────────────────────────────────────────────────┤
+│ Topic: orders                                                        │
+│   P0 -----------------------------> Consumer A                       │
+│   P1 -----------------------------> Consumer B                       │
+│   P2 -----------------------------> Consumer C                       │
+│                                                                      │
+│ If Consumer B fails -> rebalance -> P1 moves to A or C              │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 | 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -126,23 +124,21 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단일 컨슈머 병목과 Lag 증가</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">토픽 파티션 분할</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Consumer Group 기반 병렬 소비</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Offset 관리 · Rebalancing · Lag 모니터링</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">멱등성 · Exactly-Once Semantics 최적화</div>
-</div>
-</div>
-
-
+```text
+단일 컨슈머 병목과 Lag 증가
+        │
+        ▼
+토픽 파티션 분할
+        │
+        ▼
+Consumer Group 기반 병렬 소비
+        │
+        ▼
+Offset 관리 · Rebalancing · Lag 모니터링
+        │
+        ▼
+멱등성 · Exactly-Once Semantics 최적화
+```
 
 이 흐름은 단순 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 소비에서 시작해, 점차 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리와 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 정교해지는 [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 운영 성숙도를 보여 준다.
 

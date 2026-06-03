@@ -27,20 +27,21 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 왜 다단계가 필요한지를 보여준다. 코드·힙·스택처럼 일부 구간만 쓰는 프로세스라면, 빈 가상 주소 구간의 하위 테이블은 아예 만들지 않아도 된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">희소한 가상 주소 공간과 다단계 페이지 테이블의 생성 범위</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가상 주소 공간</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코드 미사용 ── 힙 ── 스택</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">하위 테이블 생성</div><div class="kb-diagram-node">미생성</div><div class="kb-diagram-node">하위 테이블 생성</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상위 테이블은 "어느 구간이 사용 중인가"만 가리키고, 비어 있는 구간은 NULL</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│        희소한 가상 주소 공간과 다단계 페이지 테이블의 생성 범위          │
+├────────────────────────────────────────────────────────────────────────────┤
+│ 가상 주소 공간                                                            │
+│ ┌──── 코드 ────┬──────────── 미사용 ────────────┬── 힙 ──┬──── 스택 ────┐ │
+│ └─────┬────────┴────────────────────────────────┴───┬────┴──────┬───────┘ │
+│       │                                             │           │         │
+│       ▼                                             ▼           ▼         │
+│   [하위 테이블 생성]                            [미생성]   [하위 테이블 생성] │
+│                                                                    [생성] │
+│                                                                            │
+│ 상위 테이블은 "어느 구간이 사용 중인가"만 가리키고, 비어 있는 구간은 NULL  │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 즉 다단계 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 아끼는 기법이 아니라, <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/">페이지 테이블</a> 메타데이터를 희소하게 유지하는 기법</strong>이라는 점이 중요하다. 그래서 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 시스템이 커질수록 그 가치가 더 커진다.
 
@@ -64,19 +65,19 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 MMU가 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 워크 ([Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) Walk)를 수행하는 순서를 압축한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4단계 페이지 테이블 워크 (Page Table Walk) 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가상 주소</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L4 L3 L2 L1 Offset</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">L4 테이블</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">L3 테이블</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">L2 테이블</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">L1 PTE</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Frame+Off</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 없으면 페이지 폴트 또는 미매핑 영역 판단</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│            4단계 페이지 테이블 워크 (Page Table Walk) 흐름               │
+├────────────────────────────────────────────────────────────────────────────┤
+│ 가상 주소                                                                 │
+│ ┌──── L4 ────┬──── L3 ────┬──── L2 ────┬──── L1 ────┬──── Offset ─────┐ │
+│ └────┬───────┴────┬───────┴────┬───────┴────┬───────┴────────┬────────┘ │
+│      ▼            ▼            ▼            ▼                ▼          │
+│   [L4 테이블] -> [L3 테이블] -> [L2 테이블] -> [L1 PTE] -> [Frame+Off] │
+│      │            │            │            │                           │
+│      └─ 없으면 페이지 폴트 또는 미매핑 영역 판단                        │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조의 병목은 명확하다. [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 미스가 발생하면 CPU는 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 접근하기 전에 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)을 여러 번 읽어야 한다. 하지만 반대로 보면, 사용하지 않는 주소 범위는 하위 테이블을 아예 만들지 않으므로 프로세스별 메모리 오버헤드를 크게 낮출 수 있다. 결국 다단계 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)은 <strong>메모리 절약과 추가 메모리 <a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a> 비용을 맞바꾸는 구조적 타협</strong>이다.
 
@@ -154,22 +155,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단일 페이지 테이블</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">페이지 테이블 크기 폭증 문제</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">다단계 페이지 테이블</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ TLB (Translation Lookaside Buffer) 최적화</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ Huge Page 기반 워크 깊이 축소</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ 역 페이지 테이블 · Nested Paging 확장</div>
-</div>
-</div>
-
-
+```text
+단일 페이지 테이블
+        │
+        ▼
+페이지 테이블 크기 폭증 문제
+        │
+        ▼
+다단계 페이지 테이블
+        │
+        ├──────────────▶ TLB (Translation Lookaside Buffer) 최적화
+        │
+        ├──────────────▶ Huge Page 기반 워크 깊이 축소
+        │
+        └──────────────▶ 역 페이지 테이블 · Nested Paging 확장
+```
 
 이 흐름은 "단순 번역 장부"에서 출발해, 주소 공간 확장 문제를 해결하고, 이후 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화와 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 대응으로 확장되는 진화를 보여준다.
 

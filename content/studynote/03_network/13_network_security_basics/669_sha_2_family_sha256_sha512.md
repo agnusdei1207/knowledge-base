@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 미국 국가안보국([NSA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/766_nsa_non_standalone_5g_lte_core/))이 설계하고, 미국 국립표준기술연구소(NIST)가 2001년에 발표한 현존 <strong>글로벌 표준 암호학적 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/">해시 함수</a> 제품군(Family)</strong>입니다.
 - 과거 SHA-1(160비트)이 충돌 공격에 뚫린 후, 현재 인터넷([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/), [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)), 공인인증서 [전자서명](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/), [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 등 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)이 필요한 <strong>모든 디지털 IT 산업의 99%를 사실상 독점 지배하고 있는 기본 인프라 기술</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">MD5 회피 조치, SHA-1 차단</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SHA-2 패밀리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SHA-3 패밀리</div></div>
-</div>
-</div>
-
-
+```text
+[MD5 회피 조치, SHA-1 차단]
+    │
+    ▼
+[SHA-2 패밀리]
+    │
+    └──▶ [SHA-3 패밀리]
+```
 
 - **📢 섹션 요약 비유**: SHA-2 패밀리는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -51,18 +47,14 @@ tags = ["studynote-network"]
 4. **SHA-512 🌟**: 최고 보안 등급.
    - 512비트라는 무지막지한 해시를 만들어냅니다. 서버 비밀번호 DB 저장이나 국방, 금융 등 초극비 1급 보안 데이터의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 검증에 주로 쓰입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">MD5 회피 조치, SHA-1 차단</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SHA-2 패밀리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SHA-3 패밀리</div></div>
-</div>
-</div>
-
-
+```text
+[MD5 회피 조치, SHA-1 차단]
+    │
+    ▼
+[SHA-2 패밀리]
+    │
+    └──▶ [SHA-3 패밀리]
+```
 
 - **📢 섹션 요약 비유**: SHA-2 패밀리의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -118,19 +110,15 @@ SHA-2 패밀리는 [네트워크 보안](/knowledge-base/studynote/03_network/20
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: MD5 회피 조치, SHA-1 차단</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: SHA-2 패밀리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: SHA-3 패밀리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: MD5 회피 조치, SHA-1 차단]
+    │
+    ▼
+[현재 개념: SHA-2 패밀리]
+    │
+    ├──▶ [확장 A: SHA-3 패밀리]
+    └──▶ [확장 B: 자동화된 신뢰 체계]
+```
 
 SHA-2 패밀리는 [MD5](/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/) 회피 조치, SHA-1 차단에서 출발해 현재 메커니즘을 정교화하고, 이후 [SHA-3](/knowledge-base/studynote/09_security/02_crypto/101_sha_3/) 패밀리와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

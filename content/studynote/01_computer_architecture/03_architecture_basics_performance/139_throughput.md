@@ -35,29 +35,29 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 왜 파이프라이닝이 처리량을 높이는지 보여준다. 각 작업은 여전히 세 단계를 거치지만, 서로 다른 단계가 동시에 진행되면서 출력 간격이 짧아진다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">처리량 향상 원리: "작업을 겹쳐 완료 간격을 줄인다"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">단계 표기:</div><div class="kb-diagram-node">가</div><div class="kb-diagram-note">=가져오기</div><div class="kb-diagram-node">해</div><div class="kb-diagram-note">=해석</div><div class="kb-diagram-node">실</div><div class="kb-diagram-note">=실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비파이프라인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간 → 1 2 3 4 5 6 7 8 9</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">작업 A</div><div class="kb-diagram-node">가</div><div class="kb-diagram-node">해</div><div class="kb-diagram-node">실</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">작업 B</div><div class="kb-diagram-node">가</div><div class="kb-diagram-node">해</div><div class="kb-diagram-node">실</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">작업 C</div><div class="kb-diagram-node">가</div><div class="kb-diagram-node">해</div><div class="kb-diagram-node">실</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">완료 시점: 3, 6, 9</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파이프라인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간 → 1 2 3 4 5</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">작업 A</div><div class="kb-diagram-node">가</div><div class="kb-diagram-node">해</div><div class="kb-diagram-node">실</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">작업 B</div><div class="kb-diagram-node">가</div><div class="kb-diagram-node">해</div><div class="kb-diagram-node">실</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">작업 C</div><div class="kb-diagram-node">가</div><div class="kb-diagram-node">해</div><div class="kb-diagram-node">실</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">완료 시점: 3, 4, 5</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 첫 완료 시점은 비슷해도 완료 결과 배출 간격은 더 짧아진다</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│        처리량 향상 원리: "작업을 겹쳐 완료 간격을 줄인다"       │
+├──────────────────────────────────────────────────────────────────┤
+│ 단계 표기: [가]=가져오기  [해]=해석  [실]=실행                  │
+│                                                                  │
+│ 비파이프라인                                                      │
+│ 시간 →   1     2     3     4     5     6     7     8     9       │
+│ 작업 A  [가]  [해]  [실]                                         │
+│ 작업 B                    [가]  [해]  [실]                       │
+│ 작업 C                                       [가]  [해]  [실]    │
+│ 완료 시점: 3, 6, 9                                                │
+│                                                                  │
+│ 파이프라인                                                        │
+│ 시간 →   1     2     3     4     5                               │
+│ 작업 A  [가]  [해]  [실]                                         │
+│ 작업 B        [가]  [해]  [실]                                   │
+│ 작업 C              [가]  [해]  [실]                             │
+│ 완료 시점: 3, 4, 5                                                │
+│                                                                  │
+│ 결과: 첫 완료 시점은 비슷해도 완료 결과 배출 간격은 더 짧아진다  │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 핵심은 <strong>개별 작업의 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>은 크게 줄지 않아도, 완료 결과가 나오는 간격이 줄어든다</strong>는 점이다. CPU 파이프라인에서는 한 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 실행 단계에 있을 때 다음 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 해석 단계, 그다음 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 인출 단계에 들어갈 수 있다. 이렇게 되면 파이프라인이 가득 찬 뒤에는 매 클럭마다 결과가 하나씩 나오므로 처리량이 증가한다.
 
@@ -155,24 +155,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단일 작업 실행</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">응답 시간 (Response Time) 중심 최적화</div>
-<div class="kb-diagram-tree-item" style="--depth:2">파이프라이닝 (Pipelining)</div>
-<div class="kb-diagram-note">CPU 내부 처리량 향상</div>
-<div class="kb-diagram-tree-item" style="--depth:2">멀티코어 (Multi-Core) · 병렬 처리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">서버·분산 시스템 전체 처리량 확장</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">병목 분석 · 큐 관리 · 대역폭 (Bandwidth) 균형 설계</div>
-</div>
-</div>
-
-
+```text
+단일 작업 실행
+    │
+    ▼
+응답 시간 (Response Time) 중심 최적화
+    │
+    ├─► 파이프라이닝 (Pipelining)
+    │        │
+    │        ▼
+    │   CPU 내부 처리량 향상
+    │
+    └─► 멀티코어 (Multi-Core) · 병렬 처리
+             │
+             ▼
+        서버·분산 시스템 전체 처리량 확장
+             │
+             ▼
+   병목 분석 · 큐 관리 · 대역폭 (Bandwidth) 균형 설계
+```
 
 이 흐름은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 관심사가 "한 건의 속도"에서 "전체 완료량"으로 확장되고, 다시 시스템 전반의 병목 관리로 이어지는 과정을 보여준다.
 

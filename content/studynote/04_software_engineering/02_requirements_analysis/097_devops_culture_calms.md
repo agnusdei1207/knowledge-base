@@ -40,24 +40,24 @@ tags = ["studynote-software-engineering"]
 
 전통적인 단절 구조와 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)의 [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/) 아키텍처를 비교 시각화한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전통적 Silo 장벽 vs DevOps 무한 루프 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">과거: 혼란의 벽 (Wall of Confusion)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발팀 (속도!) (코드 투척) X──▶ 운영팀 (안정!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(알아서 배포해) 단절/장애 (우리 서버 터트리지 마)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: DevOps 피드백 루프</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀ 지속적 피드백 (모니터링/공유)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Dev (개발/테스트)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Ops (배포/운영)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 코드 작성 무중단 컨베이어 벨트 - 인프라 배포</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 단위 테스트 - 로깅/모니터링</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 하나의 툴체인 위에서 작은 변화를 자주, 안전하게 굴린다.</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           전통적 Silo 장벽 vs DevOps 무한 루프 아키텍처          │
+├──────────────────────────────────────────────────────────────┤
+│ [ 과거: 혼란의 벽 (Wall of Confusion) ]                       │
+│    개발팀 (속도!) ─────(코드 투척)───X──▶ 운영팀 (안정!)     │
+│    (알아서 배포해)       단절/장애       (우리 서버 터트리지 마)│
+│                                                              │
+│ [ 현재: DevOps 피드백 루프 ]                                  │
+│         ◀──── 지속적 피드백 (모니터링/공유) ─────┐             │
+│         │                                      │             │
+│   [ Dev (개발/테스트) ] ──(CI/CD 자동화)──▶ [ Ops (배포/운영) ]│
+│    - 코드 작성           무중단 컨베이어 벨트    - 인프라 배포       │
+│    - 단위 테스트                               - 로깅/모니터링     │
+│                                                              │
+│ * 핵심: 하나의 툴체인 위에서 작은 변화를 자주, 안전하게 굴린다.    │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램은 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)가 단절된 부서 간 벽을 어떻게 파이프라인으로 연결하는지를 보여준다. [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서는 코드가 작성되는 순간부터 빌드, 테스트, 인프라 셋업, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 배포까지의 모든 과정이 인간의 마우스 클릭 없이 로봇(스크립트)에 의해 끊임없이 안전하게 흘러간다.
 
@@ -118,23 +118,21 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">폭포수 (단절된 개발과 인프라)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">애자일 (개발 속도의 혁신)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">데브옵스 (개발부터 운영까지의 자동화 융합, CALMS)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DevSecOps (파이프라인 내 보안 자동 검증 통합)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">AIOps / NoOps (AI를 활용한 이상 탐지 및 완전 무인 운영)</div>
-</div>
-</div>
-
-
+```text
+폭포수 (단절된 개발과 인프라)
+    │
+    ▼
+애자일 (개발 속도의 혁신)
+    │
+    ▼
+데브옵스 (개발부터 운영까지의 자동화 융합, CALMS)
+    │
+    ▼
+DevSecOps (파이프라인 내 보안 자동 검증 통합)
+    │
+    ▼
+AIOps / NoOps (AI를 활용한 이상 탐지 및 완전 무인 운영)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

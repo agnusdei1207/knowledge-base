@@ -80,23 +80,19 @@ LightGBM (2017, Microsoft)
 
 ## III. LightGBM 핵심 기법
 
+```
+Leaf-wise 성장 vs Level-wise:
 
+Level-wise (XGBoost):
+  레벨 1: [A] [B]
+  레벨 2: [A1][A2] [B1][B2]
+  모든 리프를 균등 확장
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Leaf-wise 성장 vs Level-wise:</div>
-<div class="kb-diagram-note">Level-wise (XGBoost):</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">레벨 1:</div><div class="kb-diagram-node">A</div><div class="kb-diagram-node">B</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">레벨 2:</div><div class="kb-diagram-node">A1</div><div class="kb-diagram-node">A2</div><div class="kb-diagram-node">B1</div><div class="kb-diagram-node">B2</div></div>
-<div class="kb-diagram-note">모든 리프를 균등 확장</div>
-<div class="kb-diagram-note">Leaf-wise (LightGBM):</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Root</div></div>
-<div class="kb-diagram-note">가장 Loss 감소가 큰 리프만 확장</div>
-<div class="kb-diagram-tree-item" style="--depth:1">비대칭 트리 생성 -&gt; 더 빠른 수렴</div>
-</div>
-</div>
-
-
+Leaf-wise (LightGBM):
+  [Root]
+  가장 Loss 감소가 큰 리프만 확장
+  -> 비대칭 트리 생성 -> 더 빠른 수렴
+```
 
 ### LightGBM 최적화 기법
 

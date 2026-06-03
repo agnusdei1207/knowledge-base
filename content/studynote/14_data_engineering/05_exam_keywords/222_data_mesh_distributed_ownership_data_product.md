@@ -37,28 +37,31 @@ Zhamak Dehghani가 2019년 제안한 [데이터 메시](/knowledge-base/studynot
 
 ### 2-1. [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/) 4원칙
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data Mesh 4 Principles</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① Domain</div><div class="kb-diagram-cell">② Data as a Product</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ownership</div><div class="kb-diagram-cell">(데이터를 제품으로 취급)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(도메인 소유권)</div><div class="kb-diagram-cell">- 검색 가능 (Discoverable)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 주소 지정 가능 (Addressable)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">도메인 팀이</div><div class="kb-diagram-cell">- 이해 가능 (Understandable)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 생산·</div><div class="kb-diagram-cell">- 신뢰 가능 (Trustworthy)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">관리·제공 책임</div><div class="kb-diagram-cell">- 자체 완비 (Self-contained)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ Self-Serve Data</div><div class="kb-diagram-cell">④ Federated Computational</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Infrastructure Platform</div><div class="kb-diagram-cell">Governance</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(셀프 서빙 플랫폼)</div><div class="kb-diagram-cell">(연합 거버넌스)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">도메인 팀이 인프라</div><div class="kb-diagram-cell">중앙·도메인 공동 거버넌스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">없이도 데이터 제품을</div><div class="kb-diagram-cell">정책, 표준, 계약 협의</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자율 생산할 수 있도록</div><div class="kb-diagram-cell">자율성 + 글로벌 일관성</div></div>
-</div>
-</div>
-
-
+```
+┌────────────────────────────────────────────────────────────────────┐
+│                    Data Mesh 4 Principles                          │
+│                                                                    │
+│  ┌─────────────────┐    ┌──────────────────────────────────────┐  │
+│  │  ① Domain       │    │  ② Data as a Product                 │  │
+│  │  Ownership      │    │  (데이터를 제품으로 취급)              │  │
+│  │  (도메인 소유권) │    │  - 검색 가능 (Discoverable)          │  │
+│  │                 │    │  - 주소 지정 가능 (Addressable)      │  │
+│  │  도메인 팀이     │    │  - 이해 가능 (Understandable)        │  │
+│  │  데이터 생산·    │    │  - 신뢰 가능 (Trustworthy)           │  │
+│  │  관리·제공 책임 │    │  - 자체 완비 (Self-contained)        │  │
+│  └─────────────────┘    └──────────────────────────────────────┘  │
+│                                                                    │
+│  ┌─────────────────────────┐    ┌───────────────────────────────┐ │
+│  │  ③ Self-Serve Data      │    │  ④ Federated Computational    │ │
+│  │  Infrastructure Platform│    │  Governance                   │ │
+│  │  (셀프 서빙 플랫폼)      │    │  (연합 거버넌스)               │ │
+│  │                         │    │                               │ │
+│  │  도메인 팀이 인프라      │    │  중앙·도메인 공동 거버넌스     │ │
+│  │  없이도 데이터 제품을   │    │  정책, 표준, 계약 협의         │ │
+│  │  자율 생산할 수 있도록  │    │  자율성 + 글로벌 일관성        │ │
+│  └─────────────────────────┘    └───────────────────────────────┘ │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 ### 2-2. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 프로덕트([Data Product](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/)) 구조
 
@@ -91,27 +94,33 @@ Zhamak Dehghani가 2019년 제안한 [데이터 메시](/knowledge-base/studynot
 
 ### 3-2. [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 소유권의 실제 구조
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Federated Governance Layer</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(글로벌 정책: 보안, 개인정보,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 계약 표준)</div></div>
-<div class="kb-diagram-note">정책 제공</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주문 도메인</div><div class="kb-diagram-cell">고객 도메인</div><div class="kb-diagram-cell">물류 도메인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Order Domain</div><div class="kb-diagram-cell">Customer Domain</div><div class="kb-diagram-cell">Logistics Domain</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주문 이력</div><div class="kb-diagram-cell">고객 프로파일</div><div class="kb-diagram-cell">배송 현황</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주문 분석</div><div class="kb-diagram-cell">CLV 분석</div><div class="kb-diagram-cell">창고 재고</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Data Product A)</div><div class="kb-diagram-cell">(Data Product B)</div><div class="kb-diagram-cell">(Data Product C)</div></div>
-<div class="kb-diagram-note">소비</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Self-Serve Platform</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(공통 인프라: 카탈로그,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스토리지, 컴퓨팅 API)</div></div>
-</div>
-</div>
-
-
+```
+                  ┌─────────────────────────────────┐
+                  │    Federated Governance Layer    │
+                  │  (글로벌 정책: 보안, 개인정보,   │
+                  │   데이터 계약 표준)               │
+                  └──────────────┬──────────────────┘
+                                 │ 정책 제공
+          ┌──────────────────────┼───────────────────────┐
+          │                      │                       │
+          ▼                      ▼                       ▼
+┌──────────────────┐   ┌──────────────────┐   ┌──────────────────┐
+│   주문 도메인     │   │   고객 도메인     │   │   물류 도메인     │
+│  Order Domain    │   │  Customer Domain │   │ Logistics Domain │
+│                  │   │                  │   │                  │
+│ 주문 이력        │   │ 고객 프로파일     │   │ 배송 현황        │
+│ 주문 분석        │   │ CLV 분석         │   │ 창고 재고        │
+│ (Data Product A) │   │ (Data Product B) │   │ (Data Product C) │
+└──────────────────┘   └──────────────────┘   └──────────────────┘
+          │                      │                       │
+          └──────────────────────┴───────────────────────┘
+                                 │ 소비
+                    ┌────────────▼────────────┐
+                    │  Self-Serve Platform     │
+                    │  (공통 인프라: 카탈로그,  │
+                    │   스토리지, 컴퓨팅 API)  │
+                    └─────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)는 "프랜차이즈 식당" 모델이다. 각 가맹점([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 팀)은 자체 운영 권한이 있지만, 본사(연합 거버넌스)의 레시피 표준과 식품 안전 규정을 따른다.
 
@@ -179,22 +188,18 @@ Zhamak Dehghani가 2019년 제안한 [데이터 메시](/knowledge-base/studynot
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">중앙 집중 데이터 팀 (병목 · 확장 한계)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Data Mesh: 도메인별 데이터 소유권 분산</div>
-<div class="kb-diagram-tree-item" style="--depth:2">도메인 데이터 프로덕트: 자율 운영</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Self-Serve 인프라 플랫폼</div>
-<div class="kb-diagram-tree-item" style="--depth:2">연방 거버넌스: 전사 표준 + 도메인 자율</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Data Product Thinking → API · SLA 기반 데이터 계약</div>
-</div>
-</div>
-
-
+```text
+중앙 집중 데이터 팀 (병목 · 확장 한계)
+    │
+    ▼
+Data Mesh: 도메인별 데이터 소유권 분산
+    ├─► 도메인 데이터 프로덕트: 자율 운영
+    ├─► Self-Serve 인프라 플랫폼
+    └─► 연방 거버넌스: 전사 표준 + 도메인 자율
+    │
+    ▼
+Data Product Thinking → API · SLA 기반 데이터 계약
+```
 2. [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)는 각 반 선생님([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 팀)이 직접 자기 반 숙제를 검사하고 관리하도록 바꾸는 것이다.
 3. 교장 선생님(연합 거버넌스)은 전체 채점 기준만 정해주고, 각 반은 그 기준 안에서 자유롭게 운영한다.
 

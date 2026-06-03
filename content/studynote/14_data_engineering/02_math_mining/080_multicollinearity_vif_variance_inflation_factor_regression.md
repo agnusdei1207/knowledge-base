@@ -29,28 +29,26 @@ $$ VIF_i = \frac{1}{1 - R^2_i} $$
 
 $R^2_i$가 1에 가까울수록(즉, 다른 X 변수들로 완벽히 설명될수록) 분모가 0에 가까워져 VIF는 무한대로 폭발하게 됩니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Multicollinearity &amp; VIF Diagnostic Mechanism</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Independent Variables X</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">X1: House Area (평수) ------\ Strong Correlation (r &gt; 0.9)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">x-----------------------\</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">X2: Num of Rooms (방수) -----/ \</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">VIF Calculation for X1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Regress X1 on X2, X3... v</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2. Calculate R-squared for X1 (e.g., R^2 = 0.95)</div><div class="kb-diagram-node">Model</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. VIF_1 = 1 / (1 - 0.95) = 20 (Danger!) Regression</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Weights</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Resolution Strategies</div><div class="kb-diagram-note">(B1, B2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A. Feature Selection: Drop X1 or X2 (변수 제거)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B. Dimensionality Reduction: PCA (주성분 분석)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C. Regularization: Ridge/Lasso Penalty (정규화)</div></div>
-</div>
-</div>
-
-
+```text
++---------------------------------------------------------------+
+|         Multicollinearity & VIF Diagnostic Mechanism          |
++---------------------------------------------------------------+
+| [Independent Variables X]                                     |
+|   X1: House Area (평수)  ------\  Strong Correlation (r > 0.9)|
+|                                 x-----------------------\     |
+|   X2: Num of Rooms (방수) -----/                         \    |
+|                                                           \   |
+| [VIF Calculation for X1]                                   |  |
+|   1. Regress X1 on X2, X3...                               v  |
+|   2. Calculate R-squared for X1 (e.g., R^2 = 0.95)   [Model]  |
+|   3. VIF_1 = 1 / (1 - 0.95) = 20 (Danger!)          Regression|
+|                                                      Weights  |
+| [Resolution Strategies]                                (B1, B2|
+|   A. Feature Selection: Drop X1 or X2 (변수 제거)             |
+|   B. Dimensionality Reduction: PCA (주성분 분석)              |
+|   C. Regularization: Ridge/Lasso Penalty (정규화)             |
++---------------------------------------------------------------+
+```
 
 ---
 
@@ -94,29 +92,27 @@ $R^2_i$가 1에 가까울수록(즉, 다른 X 변수들로 완벽히 설명될�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">다중 회귀 분석 (Multiple Regression)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">독립변수 간 상관관계 발견 (Pearson r &gt; 0.8)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">다중 공선성 진단</div>
-<div class="kb-diagram-tree-item" style="--depth:2">상관계수 행렬 (Correlation Matrix) — 1차 필터링</div>
-<div class="kb-diagram-tree-item" style="--depth:2">VIF (Variance Inflation Factor) — 정밀 진단</div>
-<div class="kb-diagram-note">VIF &gt; 10 → 위험 / VIF &gt; 5 → 주의</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">해결 전략</div>
-<div class="kb-diagram-tree-item" style="--depth:2">변수 제거 (Feature Selection) — 도메인 판단 기반</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Ridge (L2) / Lasso (L1) 정규화 — 계수 억제</div>
-<div class="kb-diagram-tree-item" style="--depth:2">PCA (주성분 분석) — 직교 변환으로 상관성 제거</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">XAI (설명 가능한 AI) — 투명한 변수 영향력 리포팅</div>
-</div>
-</div>
-
-
+```text
+다중 회귀 분석 (Multiple Regression)
+    │
+    ▼
+독립변수 간 상관관계 발견 (Pearson r > 0.8)
+    │
+    ▼
+다중 공선성 진단
+    ├─► 상관계수 행렬 (Correlation Matrix) — 1차 필터링
+    └─► VIF (Variance Inflation Factor) — 정밀 진단
+         VIF > 10 → 위험 / VIF > 5 → 주의
+    │
+    ▼
+해결 전략
+    ├─► 변수 제거 (Feature Selection) — 도메인 판단 기반
+    ├─► Ridge (L2) / Lasso (L1) 정규화 — 계수 억제
+    └─► PCA (주성분 분석) — 직교 변환으로 상관성 제거
+    │
+    ▼
+XAI (설명 가능한 AI) — 투명한 변수 영향력 리포팅
+```
 
 ---
 

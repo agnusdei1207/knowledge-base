@@ -18,34 +18,35 @@ tags = ["studynote-data-engineering"]
 
 ## Ⅰ. [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/) 배경
 
+```
+중앙화 데이터 아키텍처의 한계:
 
+중앙 데이터 레이크/웨어하우스:
+  모든 팀 → 중앙 데이터 플랫폼 팀 → 분석 결과
+  
+  문제 성장에 따른 한계:
+  1. 병목 (Bottleneck):
+     중앙 팀이 모든 요청 처리
+     데이터 파이프라인 추가: 2주 대기
+     도메인 팀 불만 증가
+  
+  2. 데이터 품질:
+     중앙 팀이 모든 도메인 비즈니스 이해 불가
+     잘못된 변환, 유효성 검증 부재
+  
+  3. 사일로 (Silo):
+     중앙 팀이 다루지 않는 데이터는 각 팀에 고립
+     팀 간 데이터 공유 어려움
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">중앙화 데이터 아키텍처의 한계:</div>
-<div class="kb-diagram-note">중앙 데이터 레이크/웨어하우스:</div>
-<div class="kb-diagram-note">모든 팀 → 중앙 데이터 플랫폼 팀 → 분석 결과</div>
-<div class="kb-diagram-note">문제 성장에 따른 한계:</div>
-<div class="kb-diagram-note">1. 병목 (Bottleneck):</div>
-<div class="kb-diagram-note">중앙 팀이 모든 요청 처리</div>
-<div class="kb-diagram-note">데이터 파이프라인 추가: 2주 대기</div>
-<div class="kb-diagram-note">도메인 팀 불만 증가</div>
-<div class="kb-diagram-note">2. 데이터 품질:</div>
-<div class="kb-diagram-note">중앙 팀이 모든 도메인 비즈니스 이해 불가</div>
-<div class="kb-diagram-note">잘못된 변환, 유효성 검증 부재</div>
-<div class="kb-diagram-note">3. 사일로 (Silo):</div>
-<div class="kb-diagram-note">중앙 팀이 다루지 않는 데이터는 각 팀에 고립</div>
-<div class="kb-diagram-note">팀 간 데이터 공유 어려움</div>
-<div class="kb-diagram-note">데이터 메시 제안 (2019, Zhamak Dehghani):</div>
-<div class="kb-diagram-note">마이크로서비스 원칙을 데이터에 적용</div>
-<div class="kb-diagram-note">"도메인 팀이 자신의 데이터를 소유하고 제공"</div>
-<div class="kb-diagram-note">비유:</div>
-<div class="kb-diagram-note">중앙 DB → 마이크로서비스 = 소프트웨어 메시</div>
-<div class="kb-diagram-note">중앙 데이터 레이크 → 데이터 메시 = 데이터 메시</div>
-</div>
-</div>
-
-
+데이터 메시 제안 (2019, Zhamak Dehghani):
+  마이크로서비스 원칙을 데이터에 적용
+  
+  "도메인 팀이 자신의 데이터를 소유하고 제공"
+  
+  비유:
+  중앙 DB → 마이크로서비스 = 소프트웨어 메시
+  중앙 데이터 레이크 → 데이터 메시 = 데이터 메시
+```
 
 > 📢 **섹션 요약 비유**: 중앙 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/) 한계 = 중앙 주방 식당 — 모든 재료를 중앙 주방([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 팀)에서만 처리. 손님([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 팀) 요청 밀림, 주방이 모든 재료 특성 파악 불가. [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)는 각 코너([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))가 직접 요리!
 
@@ -198,45 +199,47 @@ Trade-off:
 
 ## Ⅴ. 실무 시나리오 — 핀테크 [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)
 
+```
+핀테크 기업 데이터 메시 전환:
 
+배경:
+  직원 3,000명, 도메인 15개
+  중앙 데이터 팀 20명이 전체 담당
+  
+  문제:
+  파이프라인 추가 요청 평균 대기: 3주
+  중앙 팀 번아웃
+  도메인 팀: "원하는 분석을 못 함"
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">핀테크 기업 데이터 메시 전환:</div>
-<div class="kb-diagram-note">배경:</div>
-<div class="kb-diagram-note">직원 3,000명, 도메인 15개</div>
-<div class="kb-diagram-note">중앙 데이터 팀 20명이 전체 담당</div>
-<div class="kb-diagram-note">문제:</div>
-<div class="kb-diagram-note">파이프라인 추가 요청 평균 대기: 3주</div>
-<div class="kb-diagram-note">중앙 팀 번아웃</div>
-<div class="kb-diagram-note">도메인 팀: "원하는 분석을 못 함"</div>
-<div class="kb-diagram-note">데이터 메시 전환 (18개월):</div>
-<div class="kb-diagram-note">Phase 1 (0~6개월) - 인프라:</div>
-<div class="kb-diagram-note">Databricks Unity Catalog 도입</div>
-<div class="kb-diagram-note">데이터 제품 템플릿 표준화</div>
-<div class="kb-diagram-note">셀프서비스 파이프라인 도구 교육</div>
-<div class="kb-diagram-note">Phase 2 (6~12개월) - 파일럿:</div>
-<div class="kb-diagram-note">3개 도메인 (결제, 대출, 고객) 파일럿</div>
-<div class="kb-diagram-note">각 도메인에 데이터 엔지니어 임베드</div>
-<div class="kb-diagram-note">DataHub 카탈로그 구축</div>
-<div class="kb-diagram-note">Phase 3 (12~18개월) - 전사 확대:</div>
-<div class="kb-diagram-note">15개 도메인 전면 전환</div>
-<div class="kb-diagram-note">도메인 간 데이터 제품 공유 활성화</div>
-<div class="kb-diagram-note">거버넌스 자동화 (OPA 정책)</div>
-<div class="kb-diagram-note">결과:</div>
-<div class="kb-diagram-note">파이프라인 추가 대기: 3주 → 2일 (자체 처리)</div>
-<div class="kb-diagram-note">데이터 제품 수: 0 → 87개</div>
-<div class="kb-diagram-note">도메인 팀 데이터 자급율: 12% → 78%</div>
-<div class="kb-diagram-note">데이터 품질 이슈: 40% 감소 (소유팀 직접 관리)</div>
-<div class="kb-diagram-note">중앙 데이터 팀: 운영→ 플랫폼 팀으로 전환</div>
-<div class="kb-diagram-note">교훈:</div>
-<div class="kb-diagram-note">기술보다 조직 변화가 어려움</div>
-<div class="kb-diagram-note">도메인 팀에 데이터 엔지니어링 역량 필요</div>
-<div class="kb-diagram-note">작은 조직: 데이터 메시 과도 → Data Fabric이 적합</div>
-</div>
-</div>
+데이터 메시 전환 (18개월):
 
+Phase 1 (0~6개월) - 인프라:
+  Databricks Unity Catalog 도입
+  데이터 제품 템플릿 표준화
+  셀프서비스 파이프라인 도구 교육
 
+Phase 2 (6~12개월) - 파일럿:
+  3개 도메인 (결제, 대출, 고객) 파일럿
+  각 도메인에 데이터 엔지니어 임베드
+  DataHub 카탈로그 구축
+
+Phase 3 (12~18개월) - 전사 확대:
+  15개 도메인 전면 전환
+  도메인 간 데이터 제품 공유 활성화
+  거버넌스 자동화 (OPA 정책)
+
+결과:
+  파이프라인 추가 대기: 3주 → 2일 (자체 처리)
+  데이터 제품 수: 0 → 87개
+  도메인 팀 데이터 자급율: 12% → 78%
+  데이터 품질 이슈: 40% 감소 (소유팀 직접 관리)
+  중앙 데이터 팀: 운영→ 플랫폼 팀으로 전환
+
+교훈:
+  기술보다 조직 변화가 어려움
+  도메인 팀에 데이터 엔지니어링 역량 필요
+  작은 조직: 데이터 메시 과도 → Data Fabric이 적합
+```
 
 > 📢 **섹션 요약 비유**: 핀테크 [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/) = 중앙 주방→코너 요리 전환 — 중앙 주방([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 팀) 3주 대기에서 각 코너([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)) 직접 요리로. 파이프라인 대기 3주→2일. [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 자급율 12→78%!
 

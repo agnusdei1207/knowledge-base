@@ -20,16 +20,10 @@ tags = ["ict_convergence"]
 
 중앙형 SNS는 추천 알고리즘과 계정 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 한 곳에 묶여 있어 이동성과 통제가 약하다. 그래서 Web3 계열 소셜은 "[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)"보다 "[프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)"을 먼저 보게 만든다.
 사용자는 계정을 옮기고 싶고, 커뮤니티는 자신만의 규칙을 두고 싶다. 이 요구가 federation과 relay 기반 구조를 낳았다.
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">사용자 ─▶ 키/인스턴스 ─▶ 릴레이/연합 ─▶ 공개 피드</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 다른 서버와도 연결</div>
-</div>
-</div>
-
-
+```text
+사용자 ─▶ 키/인스턴스 ─▶ 릴레이/연합 ─▶ 공개 피드
+     └────────────▶ 다른 서버와도 연결
+```
 
 - **📢 섹션 요약 비유**: 플랫폼보다 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 먼저 봐야 탈중앙의 의미가 보인다.
 
@@ -105,23 +99,21 @@ Mastodon은 커뮤니티 운영과 지역 규칙이 중요할 때, Nostr는 검�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">신원 생성</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">게시/팔로우</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">federation 또는 relay 전달</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라이언트 표시</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">모더레이션·필터링</div>
-</div>
-</div>
-
-
+```text
+신원 생성
+  │
+  ▼
+게시/팔로우
+  │
+  ▼
+federation 또는 relay 전달
+  │
+  ▼
+클라이언트 표시
+  │
+  ▼
+모더레이션·필터링
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

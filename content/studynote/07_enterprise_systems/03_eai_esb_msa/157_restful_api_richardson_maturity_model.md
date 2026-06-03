@@ -13,7 +13,7 @@ tags = ["studynote-enterprise-systems"]
 
 > 1. **본질**: [RESTful API](/knowledge-base/studynote/03_network/19_frequent_topics_terms/974_restful_api_stateless_http_methods_uri/) 성숙도 모델 (Richardson [Maturity Model](/knowledge-base/studynote/12_it_management/01_governance_strategy/011_maturity_model/))은 웹 애플리케이션 프로그래밍 인터페이스 ([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), [Application Programming Interface](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))가 얼마나 [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) ([Representational State Transfer](/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/))의 설계 철학을 따르고 있는지 단계별로 평가하는 틀이다.
 > 2. **가치**: 단일 엔드포인트 기반 [RPC](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/) ([Remote Procedure Call](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/)) 스타일에서 벗어나, 자원 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)·[HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) ([HyperText Transfer Protocol](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)) 메서드 활용·하이퍼미디어까지 설계를 점진적으로 고도화할 수 있다.
-> 3. **판단 포인트**: 실무에서는 보통 Level 2가 균형점이지만, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 소비자가 동적으로 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)를 따라가야 하는 환경이라면 Level 3의 HATEOAS ([Hypermedia As The Engine Of Application State](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/161_rest_level_3_hateoas/))까지 검토할 가치가 있다.
+> 3. **판단 포인트**: 실무에서는 보통 Level 2가 균형점이지만, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 소비자가 동적으로 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)를 따라가야 하는 환경이라면 Level 3의 HATEOAS ([Hypermedia As The 엔진 Of Application State](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/161_rest_level_3_hateoas/))까지 검토할 가치가 있다.
 
 ---
 
@@ -31,23 +31,20 @@ tags = ["studynote-enterprise-systems"]
 
 리처드슨 성숙도 모델의 핵심은 네 단계가 서로 단절된 기술 목록이 아니라, <strong>점진적 진화 경로</strong>라는 점이다. Level이 올라갈수록 URI 설계, [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 메서드 의미, 상태 코드, 링크 기반 전이가 점차 강화된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Richardson Maturity Model의 단계별 상승 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 3 ─ HATEOAS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">응답 안의 링크로 다음 상태 전이를 안내</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 2 ─ HTTP 메서드와 상태 코드 활용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GET/POST/PUT/PATCH/DELETE 의미 분리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 1 ─ 자원(Resource) 중심 URI 분리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/orders/1, /customers/7</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 0 ─ 단일 엔드포인트 + 원격 호출 스타일</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">POST /api</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│      Richardson Maturity Model의 단계별 상승 구조           │
+├──────────────────────────────────────────────────────────────┤
+│ Level 3 ─ HATEOAS                                           │
+│          응답 안의 링크로 다음 상태 전이를 안내             │
+│ Level 2 ─ HTTP 메서드와 상태 코드 활용                      │
+│          GET/POST/PUT/PATCH/DELETE 의미 분리                │
+│ Level 1 ─ 자원(Resource) 중심 URI 분리                      │
+│          /orders/1, /customers/7                            │
+│ Level 0 ─ 단일 엔드포인트 + 원격 호출 스타일                │
+│          POST /api                                           │
+└──────────────────────────────────────────────────────────────┘
+```
 
 | 수준 | 핵심 특징 | 예시 | 얻는 효과 |
 | :--- | :--- | :--- | :--- |
@@ -121,25 +118,24 @@ Level 1의 의미는 "무엇을 다루는가"를 URI로 분리하는 데 있다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">RPC 스타일 API</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Level 0 ─ 단일 엔드포인트</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Level 1 ─ 자원(Resource) 분리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Level 2 ─ HTTP 메서드 · 상태 코드 정착</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Level 3 ─ HATEOAS 기반 동적 탐색</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">운영 성숙도 향상(문서화 · 캐시 · 확장성)</div>
-</div>
-</div>
-
-
+```text
+RPC 스타일 API
+    │
+    ▼
+Level 0 ─ 단일 엔드포인트
+    │
+    ▼
+Level 1 ─ 자원(Resource) 분리
+    │
+    ▼
+Level 2 ─ HTTP 메서드 · 상태 코드 정착
+    │
+    ▼
+Level 3 ─ HATEOAS 기반 동적 탐색
+    │
+    ▼
+운영 성숙도 향상(문서화 · 캐시 · 확장성)
+```
 
 이 흐름도는 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 설계가 "[함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/)" 중심에서 "자원 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)" 중심으로 이동하는 과정을 단계적으로 보여준다.
 

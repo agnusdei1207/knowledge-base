@@ -23,20 +23,25 @@ tags = ["enterprise_systems"]
 
 이 그림은 전사적 보안 거버넌스의 수직적/수평적 통합 구조를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Enterprise Security Governance Model</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Board / CEO</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(전략 승인, 자원 배분, 책임)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CISO / Security Council</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(정책 수립, 리스크 평가)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IT Ops</div><div class="kb-diagram-node">Legal</div><div class="kb-diagram-node">HR / Biz</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(기술적 방어) (법적 규제 준수) (인적/문화적 보안)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 보안은 IT만의 일이 아닌 전 부서의 공동 책임</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Enterprise Security Governance Model        │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Board / CEO ] ──▶ (전략 승인, 자원 배분, 책임)          │
+│          │                                                  │
+│          ▼                                                  │
+│   [ CISO / Security Council ] ──▶ (정책 수립, 리스크 평가)  │
+│          │                                                  │
+│   ┌──────┴───────────────┬───────────────────┐              │
+│   ▼                      ▼                   ▼              │
+│ [ IT Ops ]            [ Legal ]           [ HR / Biz ]      │
+│ (기술적 방어)         (법적 규제 준수)    (인적/문화적 보안)│
+│                                                             │
+│   * 핵심: 보안은 IT만의 일이 아닌 전 부서의 공동 책임       │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '전사적 협업'이다. 보안 장비가 아무리 좋아도 직원의 보안 의식이 낮거나 법무팀의 계약 검토가 부실하면 보안은 뚫린다. 실무에서는 CISO가 비즈니스 부서와 소통하며 보안 정책이 업무 효율을 저해하지 않도록 조율하는 능력이 거버넌스 성패의 열쇠가 된다.
 
@@ -73,20 +78,22 @@ tags = ["enterprise_systems"]
 
 이 구조도는 **제로 트러스트 (Zero Trust)** 기반의 현대적 접근 제어 거버넌스를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Modern Trust Governance Flow</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">User / Device</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Identity Engine</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Verify</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Context 분석)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Policy Engine</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Dynamic Permission</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Asset</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 철학: "안과 밖의 경계는 없다. 모든 접속을 의심하라"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 가치: 고정된 권한이 아닌 상황에 따른 가변적 보안 구현</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Modern Trust Governance Flow                │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ User / Device ] ──▶ [ Identity Engine ] ──▶ [ Verify ]  │
+│                                │ (Context 분석)      │      │
+│          ┌─────────────────────┴─────────────────────┘      │
+│          ▼                                                  │
+│   [ Policy Engine ] ──▶ [ Dynamic Permission ] ──▶ [ Asset ]│
+│                                                             │
+│   * 철학: "안과 밖의 경계는 없다. 모든 접속을 의심하라"     │
+│   * 가치: 고정된 권한이 아닌 상황에 따른 가변적 보안 구현   │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '지속적 검증 (Continuous Verification)'이다. 한 번 로그인했다고 끝이 아니라, 사용자의 행동이나 기기 상태가 변하면 즉시 권한을 회수한다. 실무에서는 이러한 동적 통제가 클라우드와 원격 근무 환경에서의 정보 유출을 막는 결정적 수단이 된다.
 
@@ -127,20 +134,22 @@ tags = ["enterprise_systems"]
 
 이 도식은 보안 사고 발생 시 기술사가 지휘해야 할 '거버넌스 기반 대응 프로세스'를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Incident Response &amp; Crisis Mgmt Flow</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Trigger</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Technical Containment</div><div class="kb-diagram-note">(기술적 격리)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Legal / PR Response</div><div class="kb-diagram-note">(법적/대외 대응)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Exec Reporting</div><div class="kb-diagram-note">(경영진 신속 보고)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 기술적 복구와 동시에 '법적 신고 의무'를 준수하는</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">통합적 지휘가 기술사의 핵심 역량임 (골든타임 사수)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│               Incident Response & Crisis Mgmt Flow          │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Trigger ] ──▶ [ Technical Containment ] (기술적 격리)   │
+│          │                                                  │
+│          ├──▶ [ Legal / PR Response ] (법적/대외 대응)      │
+│          │                                                  │
+│          └──▶ [ Exec Reporting ] (경영진 신속 보고)         │
+│                                                             │
+│   * 핵심: 기술적 복구와 동시에 '법적 신고 의무'를 준수하는  │
+│     통합적 지휘가 기술사의 핵심 역량임 (골든타임 사수)      │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 기술사의 거버넌스 판단은 '도시의 방역 본부장'과 같습니다. 감염병(보안 사고)이 터졌을 때 단순히 환자를 치료하는 것을 넘어, 도시를 폐쇄할지(격리), 시민들에게 어떻게 알릴지(공시), 그리고 법적으로 문제는 없는지를 종합하여 피해를 최소화하는 최종 책임자입니다.
 

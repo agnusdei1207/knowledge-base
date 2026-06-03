@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/">MIMO</a> (<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/">Multiple-Input Multiple-Output</a>)</strong>: 송신 측(기지국)과 수신 측(스마트폰)이 1개의 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주고받지 않고, <strong>여러 개(2x2, 4x4)의 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">안테나</a>를 동시에 사용하여 서로 다른 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 쏘아 보내어 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 전송 속도를 곱절로 늘리는 '<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/100_공간_다중화_Spatial_Multiplexing/">공간 다중화</a>(<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/100_공간_다중화_Spatial_Multiplexing/">Spatial Multiplexing</a>)' 기술</strong>입니다. (97번 문서 참고)
 - <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/">Massive MIMO</a> (<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/">대규모 다중 안테나</a>)</strong>: [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 시대에 접어들어, 기지국에 달리는 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 개수를 4~8개를 넘어 <strong>64개, 128개, 최대 256개 이상으로 거대하게 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a>(<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">Array</a>) 탑재하여 기지국의 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 수용 용량(Capacity)과 효율을 극한으로 끌어올린 혁신적인 무선 전파 전송 기술</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">MEC 기반 가속 통신망 라우팅 최적</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Massive MIMO 대거 다중 배열 안테…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">빔포밍 트래킹 기술 체계</div></div>
-</div>
-</div>
-
-
+```text
+[MEC 기반 가속 통신망 라우팅 최적]
+    │
+    ▼
+[Massive MIMO 대거 다중 배열 안테…]
+    │
+    └──▶ [빔포밍 트래킹 기술 체계]
+```
 
 - **📢 섹션 요약 비유**: [Massive MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/) 대거 다중 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 안테…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -46,18 +42,14 @@ tags = ["studynote-network"]
 - <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/">LTE</a> (낮은 주파수)</strong>: 2.6GHz 주파수는 파장이 길어, [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 소자 1개의 길이가 10cm가 넘습니다. 이걸 128개를 박으면 기지국 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 크기가 건물 외벽만 해져서 철탑이 무너집니다.
 - <strong><a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a> (고주파, <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/">mmWave</a>)</strong>: 5G가 쓰는 28GHz나 3.5GHz는 파장이 아주 짧은 쌩쌩한 고주파입니다. [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 소자 길이가 0.5cm로 새끼손톱보다 작아집니다. <strong>덕분에 모니터만 한 네모난 판때기(Panel) 하나에 128개의 초소형 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">안테나</a>를 촘촘히 욱여넣을 수 있게 된 것</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">MEC 기반 가속 통신망 라우팅 최적</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Massive MIMO 대거 다중 배열 안테…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">빔포밍 트래킹 기술 체계</div></div>
-</div>
-</div>
-
-
+```text
+[MEC 기반 가속 통신망 라우팅 최적]
+    │
+    ▼
+[Massive MIMO 대거 다중 배열 안테…]
+    │
+    └──▶ [빔포밍 트래킹 기술 체계]
+```
 
 - **📢 섹션 요약 비유**: [Massive MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/) 대거 다중 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 안테…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -123,19 +115,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: MEC 기반 가속 통신망 라우팅 최적</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: Massive MIMO 대거 다중 배열 안테…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 빔포밍 트래킹 기술 체계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 네트워크 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: MEC 기반 가속 통신망 라우팅 최적]
+    │
+    ▼
+[현재 개념: Massive MIMO 대거 다중 배열 안테…]
+    │
+    ├──▶ [확장 A: 빔포밍 트래킹 기술 체계]
+    └──▶ [확장 B: AI 기반 네트워크 최적화]
+```
 
 [Massive MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/) 대거 다중 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 안테…는 [MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/) 기반 가속 통신망 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 최적에서 출발해 현재 메커니즘을 정교화하고, 이후 [빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/) 트래킹 기술 체계와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

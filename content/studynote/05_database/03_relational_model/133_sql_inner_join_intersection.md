@@ -56,17 +56,11 @@ INNER JOIN은 <strong>SQL의 가장 기본 연산</strong>이며, [인덱스](/k
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Cartesian Product</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Theta Join (조건)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Equi-Join (=)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">INNER JOIN (SQL-92)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Hash/Merge Join 최적화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: Adaptive Join — 런타임 최적 알고리즘 선택</div></div>
-</div>
-</div>
-
-
+```text
+[Cartesian Product] → [Theta Join (조건)] → [Equi-Join (=)]
+    → [INNER JOIN (SQL-92)] → [Hash/Merge Join 최적화]
+    → [현재: Adaptive Join — 런타임 최적 알고리즘 선택]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. INNER JOIN은 **양쪽 명단에 모두 있는 사람만** 뽑아요.

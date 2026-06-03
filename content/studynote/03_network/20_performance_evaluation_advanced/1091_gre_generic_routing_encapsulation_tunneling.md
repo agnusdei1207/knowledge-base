@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **IPsec의 철벽**: 오직 1:1 유니캐스트 IP 패킷만 암호화해서 보낼 수 있습니다.
 - **재앙**: 서울 본사와 부산 지사의 라우터가 서로 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/)([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/), 994번)로 길 정보를 주고받으려면 <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/">멀티캐스트</a> 패킷</strong>을 쏴야 합니다. 근데 IPsec은 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)를 버려버리므로, [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) 터널은 뚫렸는데 길 찾기([동적 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/341_dynamic_routing_protocol_operation/))가 안 돼서 수동으로 길을 다 적어줘야(Static Route) 하는 최악의 노가다가 발생했습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">RSVP 자원 예약 플로우</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">GRE 일반 캡슐화 포맷 오버헤드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DMVPN 동적 라우팅 결합형 지점</div></div>
-</div>
-</div>
-
-
+```text
+[RSVP 자원 예약 플로우]
+    │
+    ▼
+[GRE 일반 캡슐화 포맷 오버헤드]
+    │
+    └──▶ [DMVPN 동적 라우팅 결합형 지점]
+```
 
 - **📢 섹션 요약 비유**: [GRE](/knowledge-base/studynote/03_network/07_network_layer_routing/378_gre_generic_routing_encapsulation/) 일반 캡슐화 포맷 오버헤드는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -43,18 +39,14 @@ tags = ["studynote-network"]
 
 - **개념**: 시스코([Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/))가 개발하고 [IETF](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/) 표준이 된 기술로, 어떤 네트워크 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)([IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/), [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 심지어 애플톡, [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)까지) 패킷이든 상관없이 <strong>'<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/378_gre_generic_routing_encapsulation/">GRE</a> 헤더'라는 비닐봉지로 한 번 씌우고, 그 겉면에 새로운 '외부 IP 헤더'를 덧붙여서(캡슐화) 라우터 사이의 허공을 뚫고 지나가는 범용 가상 터널 기술</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">RSVP 자원 예약 플로우</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">GRE 일반 캡슐화 포맷 오버헤드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DMVPN 동적 라우팅 결합형 지점</div></div>
-</div>
-</div>
-
-
+```text
+[RSVP 자원 예약 플로우]
+    │
+    ▼
+[GRE 일반 캡슐화 포맷 오버헤드]
+    │
+    └──▶ [DMVPN 동적 라우팅 결합형 지점]
+```
 
 - **📢 섹션 요약 비유**: [GRE](/knowledge-base/studynote/03_network/07_network_layer_routing/378_gre_generic_routing_encapsulation/) 일반 캡슐화 포맷 오버헤드의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -118,19 +110,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: RSVP 자원 예약 플로우</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: GRE 일반 캡슐화 포맷 오버헤드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: DMVPN 동적 라우팅 결합형 지점</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: RSVP 자원 예약 플로우]
+    │
+    ▼
+[현재 개념: GRE 일반 캡슐화 포맷 오버헤드]
+    │
+    ├──▶ [확장 A: DMVPN 동적 라우팅 결합형 지점]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 [GRE](/knowledge-base/studynote/03_network/07_network_layer_routing/378_gre_generic_routing_encapsulation/) 일반 캡슐화 포맷 오버헤드는 RSVP 자원 예약 플로우에서 출발해 현재 메커니즘을 정교화하고, 이후 [DMVPN](/knowledge-base/studynote/03_network/07_network_layer_routing/386_dmvpn_dynamic_multipoint_vpn_gre_ipsec_nhrp/) [동적 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/341_dynamic_routing_protocol_operation/) 결합형 지점와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

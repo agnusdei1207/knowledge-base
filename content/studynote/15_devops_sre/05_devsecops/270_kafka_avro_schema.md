@@ -23,16 +23,13 @@ tags = ["studynote-devops-sre"]
 
 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 경계와 품질 기준이 없으면 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 드리프트, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 불일치가 누적된다. 따라서 [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 통제망 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)를 이해할 때는 "무엇을 자동화하는가"보다 "어떤 실패와 편차를 줄이려는가"를 먼저 붙잡아야 한다.
 
+```text
+Deployment / Control / Feedback Flow
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Deployment / Control / Feedback Flow</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ingestion</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Processing</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Serving</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Governance</div></div>
-</div>
-</div>
-
-
+┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐
+│ Ingestion            │──▶│ Processing           │──▶│ Serving              │──▶│ Governance           │
+└──────────────────────┘   └──────────────────────┘   └──────────────────────┘   └──────────────────────┘
+```
 
 이 그림은 [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 통제망 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)가 입력, 실행, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 환류를 한 흐름으로 묶는다는 점을 보여준다. 즉 기술 자체보다도 제어 루프와 피드백 구조가 본질이다.
 
@@ -51,16 +48,13 @@ tags = ["studynote-devops-sre"]
 | Serving | [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), 대시보드, 모델 엔드포인트로 제공 | [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 캐시, 비용을 함께 고려 |
 | Governance | [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/), 라인리지, 드리프트, [접근 통제](/knowledge-base/studynote/04_software_engineering/06_software_architecture/387_access_control_pattern/)를 관리 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)와 규제 대응의 핵심 |
 
+```text
+Reference Architecture
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Reference Architecture</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ingestion</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Processing</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Serving</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Governance</div></div>
-</div>
-</div>
-
-
+┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐
+│ Ingestion            │──▶│ Processing           │──▶│ Serving              │──▶│ Governance           │
+└──────────────────────┘   └──────────────────────┘   └──────────────────────┘   └──────────────────────┘
+```
 
 위 구조에서 중요한 것은 각 계층의 책임을 분리하면서도, 마지막에 반드시 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 다시 제어 계층으로 돌아오게 만드는 것이다. 그래야 변경 실패가 누적되지 않고, 재현성과 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 가능성을 함께 확보할 수 있다.
 
@@ -127,20 +121,16 @@ tags = ["studynote-devops-sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Topic</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">카프카 파이프라인 메시지 무결성 통제망 스키마 레지스트리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Partition</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Offset</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">배치 중심의 단절된 데이터 처리</div></div>
-</div>
-</div>
-
-
+```text
+[Topic]
+    │
+    ▼
+[카프카 파이프라인 메시지 무결성 통제망 스키마 레지스트리]
+    │
+    ├──▶ [Partition]
+    ├──▶ [Offset]
+    └──▶ [배치 중심의 단절된 데이터 처리]
+```
 
 이 흐름도는 [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 통제망 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)가 선행 개념 위에 서서 운영 자동화, 보안, 확장, 가시성 중 어떤 축으로 확장되는지를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해서 보여준다.
 

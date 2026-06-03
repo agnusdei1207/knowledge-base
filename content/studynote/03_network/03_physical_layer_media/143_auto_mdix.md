@@ -23,18 +23,14 @@ tags = ["studynote-network"]
 
 이런 물리적인 번거로움을 해결하기 위해 HP(Hewlett-Packard)가 개발하고 표준화된 기술이 <strong>Auto-MDIX (Automatic Medium-Dependent Interface Crossover)</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">MDI/MDI-X</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Auto-MDIX</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">케이블 배선: 다이렉트 케이블 vs 크로스오…</div></div>
-</div>
-</div>
-
-
+```text
+[MDI/MDI-X]
+    │
+    ▼
+[Auto-MDIX]
+    │
+    └──▶ [케이블 배선: 다이렉트 케이블 vs 크로스오…]
+```
 
 - **📢 섹션 요약 비유**: Auto-MDIX는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -48,18 +44,12 @@ Auto-MDIX 기능이 켜진 장비(최신 스위치나 [PC](/knowledge-base/study
 2. <strong>반사 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a> 분석</strong>: 상대방 장비에서 어떤 핀을 통해 송신(Tx) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 날아오는지 귀를 기울여 감지합니다.
 3. **내부 핀 역할 스위칭**: 만약 1,2번 핀으로 상대방의 송신 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 들어오는 것을 감지하면, 내 포트의 1,2번 핀을 즉시 <strong>수신(Rx)</strong>으로 설정하고, 나머지 3,6번을 <strong>송신(Tx)</strong>으로 내부 릴레이를 통해 자동 변경합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">스위치 (Auto-MDIX 켬)</div><div class="kb-diagram-node">스위치 (MDI-X)</div></div>
-<div class="kb-diagram-note">(앗, 상대가 3,6번으로 쏘네?)</div>
-<div class="kb-diagram-note">1,2번 핀 (송신 Tx 로 자동변환) ──(다이렉트)──▶ 1,2번 핀 (수신 Rx)</div>
-<div class="kb-diagram-note">3,6번 핀 (수신 Rx 로 자동변환) ◀──(다이렉트)── 3,6번 핀 (송신 Tx)</div>
-</div>
-</div>
-
-
+```text
+[ 스위치 (Auto-MDIX 켬) ]                  [ 스위치 (MDI-X) ]
+  (앗, 상대가 3,6번으로 쏘네?)
+  1,2번 핀 (송신 Tx 로 자동변환) ──(다이렉트)──▶ 1,2번 핀 (수신 Rx)
+  3,6번 핀 (수신 Rx 로 자동변환) ◀──(다이렉트)── 3,6번 핀 (송신 Tx)
+```
 
 이처럼 물리적인 케이블의 결선을 바꾸는 대신, <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/">반도체</a> 칩 내부에서 논리적으로 회로를 교차</strong>시켜버립니다. 
 단, 이 기능이 작동하려면 일반적으로 포트의 속도와 이중 방식(Duplex) 설정이 <strong>'자동 협상(Auto-Negotiation)' 모드</strong>로 켜져 있어야 합니다.
@@ -124,19 +114,15 @@ Auto-MDIX는 물리 계층과 전송 [매체](/knowledge-base/studynote/03_netwo
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: MDI/MDI-X</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: Auto-MDIX</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 케이블 배선: 다이렉트 케이블 vs 크로스오…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고속 광전송 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: MDI/MDI-X]
+    │
+    ▼
+[현재 개념: Auto-MDIX]
+    │
+    ├──▶ [확장 A: 케이블 배선: 다이렉트 케이블 vs 크로스오…]
+    └──▶ [확장 B: 고속 광전송 최적화]
+```
 
 Auto-MDIX는 MDI/MDI-X에서 출발해 현재 메커니즘을 정교화하고, 이후 케이블 배선: 다이렉트 케이블 vs 크로스오…와 고속 광전송 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

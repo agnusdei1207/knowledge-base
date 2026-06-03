@@ -18,22 +18,19 @@ tags = ["studynote-enterprise-systems"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ISA-95 계층 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 4: ERP (경영 계획·수요 예측·재무)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↕ 생산 계획·실적 피드백</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 3: MES (실행·추적·품질·일정)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↕ 제어 명령·센서 데이터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 2: SCADA (감시·제어)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 1: PLC (자동화 컨트롤러)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 0: 센서·액추에이터 (현장 설비)</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    ISA-95 계층 구조                                   │
+├───────────────────────────────────────────────────────┤
+│  Level 4: ERP (경영 계획·수요 예측·재무)              │
+│      ↕ 생산 계획·실적 피드백                          │
+│  Level 3: MES (실행·추적·품질·일정)                   │
+│      ↕ 제어 명령·센서 데이터                          │
+│  Level 2: SCADA (감시·제어)                           │
+│  Level 1: PLC (자동화 컨트롤러)                       │
+│  Level 0: 센서·액추에이터 (현장 설비)                 │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: ERP는 회사 본사([전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)), MES는 공장 현장 관리자(실행), [PLC](/knowledge-base/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/)/SCADA는 기계 운전사(제어)다.
 
@@ -98,23 +95,21 @@ MES는 [스마트 팩토리](/knowledge-base/studynote/06_ict_convergence/02_iot
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">수동 생산 관리 (종이 작업지시, 1980s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MES 도입 (1990s) — MESA 11대 기능 정의</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ISA-95 표준화 (2000s) — ERP-MES 통합 인터페이스</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스마트 팩토리 (Industry 4.0, 2015~) — IoT+MES+AI</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: 클라우드 MES + 디지털 트윈 + AI 품질 예측</div></div>
-</div>
-</div>
-
-
+```text
+[수동 생산 관리 (종이 작업지시, 1980s)]
+    │
+    ▼
+[MES 도입 (1990s) — MESA 11대 기능 정의]
+    │
+    ▼
+[ISA-95 표준화 (2000s) — ERP-MES 통합 인터페이스]
+    │
+    ▼
+[스마트 팩토리 (Industry 4.0, 2015~) — IoT+MES+AI]
+    │
+    ▼
+[현재: 클라우드 MES + 디지털 트윈 + AI 품질 예측]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. ERP는 "케이크 1000개 만들어!"라고 계획하는 <strong>사장님</strong>이에요.

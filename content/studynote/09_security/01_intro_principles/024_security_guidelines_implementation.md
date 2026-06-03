@@ -20,21 +20,23 @@ tags = ["studynote-security"]
 
 보안 지침 구현은 [보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/)(상위 방향)을 현장에서 실행 가능한 절차로 변환하는 과정이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보안 문서 계층 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">정책 (Policy) — "무엇을 해야 하는가"</div><div class="kb-diagram-node">경영진 승인</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">지침 (Guideline) — "권장 실행 방법"</div><div class="kb-diagram-node">유연성 있음</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">표준 (Standard) — "필수 준수 사항"</div><div class="kb-diagram-node">강제</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">절차 (Procedure) — "단계별 실행 방법"</div><div class="kb-diagram-node">현장 직원용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예) 암호화 정책 → 암호화 지침 → AES-256 표준 →</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"DB 연결 시 TLS 1.3 설정 절차"</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────┐
+│          보안 문서 계층 구조                              │
+├────────────────────────────────────────────────────────┤
+│                                                        │
+│  정책 (Policy) — "무엇을 해야 하는가" [경영진 승인]       │
+│       ↓                                                │
+│  지침 (Guideline) — "권장 실행 방법" [유연성 있음]        │
+│       ↓                                                │
+│  표준 (Standard) — "필수 준수 사항" [강제]               │
+│       ↓                                                │
+│  절차 (Procedure) — "단계별 실행 방법" [현장 직원용]      │
+│                                                        │
+│  예) 암호화 정책 → 암호화 지침 → AES-256 표준 →          │
+│      "DB 연결 시 TLS 1.3 설정 절차"                     │
+└────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/)은 헌법(원칙), 지침은 법률(방향), 표준은 시행령(의무), 절차는 업무 매뉴얼(실행)이다. 헌법만 있고 매뉴얼이 없으면 현장에서 아무도 어떻게 해야 할지 모른다.
 
@@ -52,20 +54,17 @@ tags = ["studynote-security"]
 
 ### NIST [CSF](/knowledge-base/studynote/12_it_management/01_governance_strategy/017_csf/) 5대 기능과 구현 매핑
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NIST CSF 구현 사이클</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Identify → 자산 목록, 위험 평가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Protect → MFA, 암호화, 접근 제어, 교육</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Detect → SIEM, IDS, 이상 탐지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Respond → 인시던트 대응 계획, 격리 절차</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Recover → BCP/DR, 백업 복원 절차</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────┐
+│           NIST CSF 구현 사이클                            │
+├─────────────────────────────────────────────────────────┤
+│  Identify → 자산 목록, 위험 평가                          │
+│  Protect  → MFA, 암호화, 접근 제어, 교육                  │
+│  Detect   → SIEM, IDS, 이상 탐지                         │
+│  Respond  → 인시던트 대응 계획, 격리 절차                  │
+│  Recover  → BCP/DR, 백업 복원 절차                        │
+└─────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: NIST [CSF](/knowledge-base/studynote/12_it_management/01_governance_strategy/017_csf/) 5단계는 건강 관리와 같다. 내 몸 상태 파악(Identify) → 예방 접종·운동(Protect) → 정기 검진(Detect) → 치료(Respond) → 재활(Recover). 예방과 탐지가 없으면 사고 후 대응만 반복된다.
 
@@ -128,23 +127,21 @@ ISO 27001의 Annex A 93개 통제 항목이 실제 구현의 [체크리스트](/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">보안 정책 수립 — 경영진 방향성, ISMS 기반</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">위험 평가 — 자산·위협·취약점 분석, 위험도 산정</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">통제 선택 및 구현 — 기술/관리/물리 통제 배포</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">감사 및 인증 — ISO 27001, ISMS-P 심사</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Zero Trust / 클라우드 보안 — 경계 없는 보안 패러다임</div></div>
-</div>
-</div>
-
-
+```text
+[보안 정책 수립 — 경영진 방향성, ISMS 기반]
+    │
+    ▼
+[위험 평가 — 자산·위협·취약점 분석, 위험도 산정]
+    │
+    ▼
+[통제 선택 및 구현 — 기술/관리/물리 통제 배포]
+    │
+    ▼
+[감사 및 인증 — ISO 27001, ISMS-P 심사]
+    │
+    ▼
+[Zero Trust / 클라우드 보안 — 경계 없는 보안 패러다임]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

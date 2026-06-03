@@ -48,18 +48,12 @@ ESB는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_ad
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Hub-and-Spoke (2000s)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">ESB (TIBCO·MuleSoft, 2005~)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">SOA + ESB (전성기, 2008~)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">MSA + Kafka (ESB 대체, 2015~)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: iPaaS — 클라우드 통합 플랫폼</div></div>
-</div>
-</div>
-
-
+```text
+[Hub-and-Spoke (2000s)] → [ESB (TIBCO·MuleSoft, 2005~)]
+    → [SOA + ESB (전성기, 2008~)]
+    → [MSA + Kafka (ESB 대체, 2015~)]
+    → [현재: iPaaS — 클라우드 통합 플랫폼]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. ESB는 <strong>고속도로 인터체인지</strong>예요. 여러 방향의 차를 <strong>자동 안내</strong>해요.

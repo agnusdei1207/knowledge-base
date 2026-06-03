@@ -18,22 +18,22 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L1/L2 규제화 수식 비교</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일반 손실 함수: L = Loss(y, ŷ)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L1 Lasso: L = Loss + λ × Σ</div><div class="kb-diagram-cell">wᵢ</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L2 Ridge: L = Loss + λ × Σwᵢ²</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ElasticNet: L = Loss + λ₁×Σ</div><div class="kb-diagram-cell">wᵢ</div><div class="kb-diagram-cell">+ λ₂×Σwᵢ²</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">λ (람다) = 규제 강도 (하이퍼파라미터)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">λ ↑ → 규제 강함 → 언더피팅 위험</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">λ ↓ → 규제 약함 → 오버피팅 위험</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────┐
+│         L1/L2 규제화 수식 비교                        │
+├──────────────────────────────────────────────────────┤
+│                                                       │
+│  일반 손실 함수:  L = Loss(y, ŷ)                      │
+│                                                       │
+│  L1 Lasso:  L = Loss + λ × Σ|wᵢ|                    │
+│  L2 Ridge:  L = Loss + λ × Σwᵢ²                     │
+│  ElasticNet: L = Loss + λ₁×Σ|wᵢ| + λ₂×Σwᵢ²          │
+│                                                       │
+│  λ (람다) = 규제 강도 (하이퍼파라미터)                │
+│  λ ↑ → 규제 강함 → 언더피팅 위험                     │
+│  λ ↓ → 규제 약함 → 오버피팅 위험                     │
+└──────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 규제화는 모델에게 "너무 복잡하게 외우지 마라"는 제약이다. L1은 "쓸모없는 공식은 아예 지워라([가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 0화)", L2는 "모든 공식을 조금씩 단순하게 만들어라"라고 제약을 준다.
 
@@ -43,34 +43,25 @@ tags = ["studynote-ai"]
 
 ### 기하학적 해석
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">L1 제약 (다이아몬드): L2 제약 (원):</div>
-<div class="kb-diagram-note">w₂ w₂</div>
-<div class="kb-diagram-note">◇ 다이아몬드 ○ 원형</div>
-<div class="kb-diagram-tree-item" style="--depth:1">w₁ w₁</div>
-<div class="kb-diagram-note">모서리에서 교점 → w₁=0 가능 원에서 교점 → 모두 작은 값</div>
-<div class="kb-diagram-note">(Feature Selection) (Weight Decay)</div>
-</div>
-</div>
-
-
+```text
+L1 제약 (다이아몬드):          L2 제약 (원):
+       w₂                           w₂
+        |                             |
+    ◇ 다이아몬드                  ○ 원형
+        |                             |
+   ─────┼─────  w₁              ─────┼─────  w₁
+        |                             |
+  모서리에서 교점 → w₁=0 가능   원에서 교점 → 모두 작은 값
+  (Feature Selection)           (Weight Decay)
+```
 
 ### 그래디언트 관점
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">L2: 가중치 업데이트 시 wᵢ × (1-2λη) → 비율적 감소 (Weight Decay)</div>
-<div class="kb-diagram-note">L1: 가중치 업데이트 시 wᵢ - λη×sign(wᵢ) → 절댓값에서 일정량 차감</div>
-<div class="kb-diagram-note">→ 작은 가중치는 0으로 수렴 (Sparse)</div>
-</div>
-</div>
-
-
+```text
+L2: 가중치 업데이트 시 wᵢ × (1-2λη) → 비율적 감소 (Weight Decay)
+L1: 가중치 업데이트 시 wᵢ - λη×sign(wᵢ) → 절댓값에서 일정량 차감
+    → 작은 가중치는 0으로 수렴 (Sparse)
+```
 
 - **📢 섹션 요약 비유**: L1 vs L2 그래디언트 차이는 세금 방식과 같다. L1은 고정 세금(일정액 차감) — 수입이 적으면 세금이 수입을 초과해서 0이 된다. L2는 누진세(비율 감소) — 수입이 적어도 0이 되지 않고 비율적으로 줄어든다.
 
@@ -139,23 +130,21 @@ ElasticNet 적합:
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">과적합 문제 — 훈련 데이터 암기, 일반화 실패</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">L1/L2 규제화 — 손실 함수에 패널티 추가</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ElasticNet — L1+L2 혼합으로 장점 결합</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AdamW — 딥러닝 옵티마이저에 L2 통합</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">모델 가지치기 — L1 희소성 + 경량화 연계</div></div>
-</div>
-</div>
-
-
+```text
+[과적합 문제 — 훈련 데이터 암기, 일반화 실패]
+    │
+    ▼
+[L1/L2 규제화 — 손실 함수에 패널티 추가]
+    │
+    ▼
+[ElasticNet — L1+L2 혼합으로 장점 결합]
+    │
+    ▼
+[AdamW — 딥러닝 옵티마이저에 L2 통합]
+    │
+    ▼
+[모델 가지치기 — L1 희소성 + 경량화 연계]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

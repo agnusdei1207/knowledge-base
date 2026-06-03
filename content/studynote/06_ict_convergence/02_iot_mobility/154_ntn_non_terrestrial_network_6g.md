@@ -41,32 +41,33 @@ NTN(Non-Terrestrial 비지상)은 땅 흙바닥이 아닌 곳, 즉 상공 수십
 "야 우주에 걍 인공위성 하나 띄우면 퉁 아님 ㅋ?" 
 아키텍트가 우주 하늘 고도(Height) 높이에 따라 3단계 레이어 층계로 도끼로 찢어발긴 NTN 3대 비지상 플랫폼 십자 융합 아키텍처 도해다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NTN (비지상 네트워크) 3단 우주 고도 레이어 십자 분할 록온 맵 도해 🚀</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🌕</div><div class="kb-diagram-node">3. GEO (약 36,000km 우주 끝단 정지궤도) - 낡은 구시대 쇳덩이 💀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 작전: 지구 자전 속도랑 똑같이 돌아 하늘에 고정된 것처럼 짱박혀 보임.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 특성: 커버리지는 우주 짱짱맨 넓으나!! 지구랑 존나 멀어서 핑 쏘면 왕복 딜레이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지연 시간(Latency) 최악 600ms 처형 랙 걸림 ➔ 실시간 줌 화상 통화 불가!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오직 단방향 위성 방송(TV)이나 하루 1번 해상 선박 날씨 수신용 짬처리 컷 💥.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">✨ 아키텍트의 메스: 초저지연 스피드 스나이퍼 텐트 발동 🚀</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🛰️</div><div class="kb-diagram-node">2. LEO (약 500~1,500km 저궤도 🚀) ◀ 현대 6G NTN의 메인 0순위 심장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 작전: 일론 머스크 스타링크가 미친 듯이 1만 개 쏘아 올린 우주 통치 봇 군단 ✨.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 특성: 지구랑 존나 가까워서 전파 빔 왕복 핑 지연 시간(20~40ms)이 5G 지상망</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수준으로 쾌속 압축 됨 ➔ 실시간 롤 랭겜 통신, 넷플 실시간 4K 가능 록온!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 타점: 선박, 극지방 자율주행 트럭, 산간 오지 마을의 초고속 인터넷 백홀 대통일.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🛩️</div><div class="kb-diagram-node">1. HAPS (약 20km 성층권) - 플라잉 엣지 드론 기지국 텐트 🛡️</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 작전: 태양광 패널 달고 대기권 구름 위에서 몇 달씩 둥둥 체공하는 비행선 드론.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 특성: 우주 위성보다 더 유저 코앞 엣지라 지연 시간 0ms 수렴 광속 무결점 통과!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">구름 위라 비/날씨 랙 타격 제로(0).</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 타점: 산불 나거나 지진 터져 땅바닥 기지국 다 불탔을 때(재난 멸망 💥) ➔ 즉각</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">드론 1대 상공 띄워 동네 전체</div><div class="kb-diagram-node">긴급 임시 우회 통신망 방폭문</div><div class="kb-diagram-note">1초 컷 복구 텐트!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          NTN (비지상 네트워크) 3단 우주 고도 레이어 십자 분할 록온 맵 도해 🚀 │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ 🌕 [ 3. GEO (약 36,000km 우주 끝단 정지궤도) - 낡은 구시대 쇳덩이 💀 ]   │
+│   - 작전: 지구 자전 속도랑 똑같이 돌아 하늘에 고정된 것처럼 짱박혀 보임.       │
+│   - 특성: 커버리지는 우주 짱짱맨 넓으나!! 지구랑 존나 멀어서 핑 쏘면 왕복 딜레이│
+│     지연 시간(Latency) 최악 600ms 처형 랙 걸림 ➔ 실시간 줌 화상 통화 불가! │
+│     오직 단방향 위성 방송(TV)이나 하루 1번 해상 선박 날씨 수신용 짬처리 컷 💥. │
+│                                                             │
+│        ======= [ ✨ 아키텍트의 메스: 초저지연 스피드 스나이퍼 텐트 발동 🚀 ] ========│
+│                                                             │
+│ 🛰️ [ 2. LEO (약 500~1,500km 저궤도 🚀) ◀ 현대 6G NTN의 메인 0순위 심장 ]│
+│   - 작전: 일론 머스크 스타링크가 미친 듯이 1만 개 쏘아 올린 우주 통치 봇 군단 ✨.│
+│   - 특성: 지구랑 존나 가까워서 전파 빔 왕복 핑 지연 시간(20~40ms)이 5G 지상망│
+│     수준으로 쾌속 압축 됨 ➔ **실시간 롤 랭겜 통신, 넷플 실시간 4K 가능 록온!**│
+│   - 타점: 선박, 극지방 자율주행 트럭, 산간 오지 마을의 초고속 인터넷 백홀 대통일. │
+│                                                             │
+│ 🛩️ [ 1. HAPS (약 20km 성층권) - 플라잉 엣지 드론 기지국 텐트 🛡️ ]       │
+│   - 작전: 태양광 패널 달고 대기권 구름 위에서 몇 달씩 둥둥 체공하는 비행선 드론.│
+│   - 특성: 우주 위성보다 더 유저 코앞 엣지라 지연 시간 0ms 수렴 광속 무결점 통과!│
+│     구름 위라 비/날씨 랙 타격 제로(0).                                 │
+│   - 타점: 산불 나거나 지진 터져 땅바닥 기지국 다 불탔을 때(재난 멸망 💥) ➔ 즉각│
+│     드론 1대 상공 띄워 동네 전체 [긴급 임시 우회 통신망 방폭문] 1초 컷 복구 텐트!│
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[아키텍트의 피 터지는 한계 튜닝: NTN 위성 아키텍처 2대 연동 모드 핑퐁의 역전 ✨]**
 우주에 떠 있는 위성 쇳덩이가 "얼마나 지능형 뇌(컴퓨팅 파워)를 가졌고 스스로 패킷을 짬처리 하느냐"에 따라 아키텍처가 2개로 갈라 찢어진다.
@@ -159,23 +160,21 @@ NTN(Non-Terrestrial 비지상)은 땅 흙바닥이 아닌 곳, 즉 상공 수십
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">지상 기지국(Terrestrial) 쇳덩이 2D 시대 💀 / 땅에 전봇대 촘촘히 쳐 박음 ➔ 5G 고주파수(mmWave 직진성 파국) 도입되면서 장애물 부딪혀 타죽고 사각지대 음영 지옥 터짐. "사막, 바다, UAM 비행기 통신은 어케 하냐 100% 끊겨 미아 뻗음 셧다운 멸망 💥"</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">GEO (정지궤도 전통 위성망) 과도기 / "우주 36,000km에 위성 띄워! (근데 거리가 존나 멀어 왕복 핑 랙 600ms 타임아웃 뻗음 💀)" ➔ 방송(TV) 송출용으로는 꿀 빰 ㅋ. 근데 폰으로 화상 통화나 자율주행 1ms 제어는 절대 속도 불가능 찢어져 폐기 사형 선고 컷!</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">LEO (저궤도 위성) &amp; 스타링크(Starlink) 혁명 야생 폭발 🚀 / "야 우주 500km 밑바닥까지 위성 수만 개 촘촘히 싹 다 끌어 내려 록온 쳐 쾅!!" ➔ 핑 지연 속도 20ms 지상망 5G급으로 수직 쾌속 압살 단축 성공 ✨. (근데 특정 회사 전용 비싼 접시 안테나 기계 쇳덩이 따로 사야 되는 독점 사일로 종속 한계 💀).</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3GPP 6G NTN (비지상 네트워크) 글로벌 표준 대통일 강림 ✨ / 아키텍트 대장 팩폭 🪓 "독재 종속 찢어버려 쾅! 일반 스마트폰(D2D) 그대로 쓰면서 ➔ 지상망 5G 끊기는 0.1초 순간 지 혼자 오토 심리스(Seamless) 위성망 로밍 스위칭 핑퐁 갈아타게</div><div class="kb-diagram-node">글로벌 무결점 호환 텐트 헌법</div><div class="kb-diagram-note">으로 강제 제정 록온 박아 쾅 🚀!!"</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Space-Native (우주 내재화 엣지 클라우드 미래) 🚀 / 위성 껍데기를 단순 전파 거울 반사판(투명 벤트파이프 💀)에서 ➔ K8s AI 딥러닝 서버 뇌 자체를 위성에 이식 용접 탑재(재생 모드 Regenerative ✨) 시켜 ➔ 우주 위성들끼리 레이저(ISL) 쏴 핑퐁 연산 다 쳐버리고 지구 대기권 위에서 지 스스로 1경 달러 빅데이터 통제 자율 군림 제국을 100% 무정단 달성해 내는 궁극 우주 백본 인프라 통일 완료 쾅!!</div>
-</div>
-</div>
-
-
+```text
+지상 기지국(Terrestrial) 쇳덩이 2D 시대 💀 / 땅에 전봇대 촘촘히 쳐 박음 ➔ 5G 고주파수(mmWave 직진성 파국) 도입되면서 장애물 부딪혀 타죽고 사각지대 음영 지옥 터짐. "사막, 바다, UAM 비행기 통신은 어케 하냐 100% 끊겨 미아 뻗음 셧다운 멸망 💥"
+    │
+    ▼
+GEO (정지궤도 전통 위성망) 과도기 / "우주 36,000km에 위성 띄워! (근데 거리가 존나 멀어 왕복 핑 랙 600ms 타임아웃 뻗음 💀)" ➔ 방송(TV) 송출용으로는 꿀 빰 ㅋ. 근데 폰으로 화상 통화나 자율주행 1ms 제어는 절대 속도 불가능 찢어져 폐기 사형 선고 컷!
+    │
+    ▼
+LEO (저궤도 위성) & 스타링크(Starlink) 혁명 야생 폭발 🚀 / "야 우주 500km 밑바닥까지 위성 수만 개 촘촘히 싹 다 끌어 내려 록온 쳐 쾅!!" ➔ 핑 지연 속도 20ms 지상망 5G급으로 수직 쾌속 압살 단축 성공 ✨. (근데 특정 회사 전용 비싼 접시 안테나 기계 쇳덩이 따로 사야 되는 독점 사일로 종속 한계 💀).
+    │
+    ▼
+3GPP 6G NTN (비지상 네트워크) 글로벌 표준 대통일 강림 ✨ / 아키텍트 대장 팩폭 🪓 "독재 종속 찢어버려 쾅! 일반 스마트폰(D2D) 그대로 쓰면서 ➔ 지상망 5G 끊기는 0.1초 순간 지 혼자 오토 심리스(Seamless) 위성망 로밍 스위칭 핑퐁 갈아타게 [글로벌 무결점 호환 텐트 헌법] 으로 강제 제정 록온 박아 쾅 🚀!!"
+    │
+    ▼
+Space-Native (우주 내재화 엣지 클라우드 미래) 🚀 / 위성 껍데기를 단순 전파 거울 반사판(투명 벤트파이프 💀)에서 ➔ K8s AI 딥러닝 서버 뇌 자체를 위성에 이식 용접 탑재(재생 모드 Regenerative ✨) 시켜 ➔ 우주 위성들끼리 레이저(ISL) 쏴 핑퐁 연산 다 쳐버리고 지구 대기권 위에서 지 스스로 1경 달러 빅데이터 통제 자율 군림 제국을 100% 무정단 달성해 내는 궁극 우주 백본 인프라 통일 완료 쾅!!
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

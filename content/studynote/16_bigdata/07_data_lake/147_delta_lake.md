@@ -35,22 +35,23 @@ Databricks는 2019년 Delta Lake를 공개하여 이 문제를 해결했다. [JS
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Delta Lake 내부 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">객체 스토리지 버킷 (S3 / ADLS / GCS)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">_delta_log/</div><div class="kb-diagram-cell">데이터 파일 (Parquet)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 00000.json (커밋 0)</div><div class="kb-diagram-cell">── part-0001.parquet</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 00001.json (커밋 1)</div><div class="kb-diagram-cell">── part-0002.parquet</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 00002.json (커밋 2)</div><div class="kb-diagram-cell">── ...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 00010.checkpoint.parquet</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">커밋 로그 내용: {add/remove 파일 목록, 스키마, 통계, 타임스탬프}</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────────┐
+│               Delta Lake 내부 구조                            │
+├──────────────────────────────────────────────────────────────┤
+│  객체 스토리지 버킷 (S3 / ADLS / GCS)                         │
+│                                                              │
+│  ┌─────────────────────────────┐  ┌──────────────────────┐  │
+│  │  _delta_log/                │  │  데이터 파일 (Parquet) │  │
+│  │  ├── 00000.json  (커밋 0)   │  │  ├── part-0001.parquet│  │
+│  │  ├── 00001.json  (커밋 1)   │  │  ├── part-0002.parquet│  │
+│  │  ├── 00002.json  (커밋 2)   │  │  └── ...             │  │
+│  │  └── 00010.checkpoint.parquet│  └──────────────────────┘  │
+│  └─────────────────────────────┘                            │
+│                                                              │
+│  커밋 로그 내용: {add/remove 파일 목록, 스키마, 통계, 타임스탬프} │
+└──────────────────────────────────────────────────────────────┘
+```
 
 **주요 기능 상세**
 
@@ -144,23 +145,21 @@ Delta Lake는 [오픈소스](/knowledge-base/studynote/12_it_management/05_secur
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">_delta_log (트랜잭션 로그)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MERGE INTO (Upsert)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">OPTIMIZE + Z-ORDER</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">VACUUM (파일 정리)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AutoLoader</div></div>
-</div>
-</div>
-
-
+```text
+[_delta_log (트랜잭션 로그)]
+    │
+    ▼
+[MERGE INTO (Upsert)]
+    │
+    ▼
+[OPTIMIZE + Z-ORDER]
+    │
+    ▼
+[VACUUM (파일 정리)]
+    │
+    ▼
+[AutoLoader]
+```
 
 이 흐름도는 _delta_log ([트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))에서 출발해 AutoLoader까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

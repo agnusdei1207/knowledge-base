@@ -23,17 +23,14 @@ tags = ["studynote-ai"]
 
 이것이 드리프트 문제다. ML 모델은 훈련 시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포를 학습하는데, 세상이 변하면(코로나·경제 위기·계절 변화·사용자 행동 변화 등) 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 분포 간 격차가 벌어진다. 이 격차를 탐지하지 않으면 모델은 "오래된 지식으로 새 세상을 예측하는" 최악의 상황이 된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 드리프트는 수면 밑에서 서서히 이동하는 빙하다. 표면(모델 예측)은 멀쩡해 보이지만 수면 아래([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포)가 천천히 이동해, 언젠가 배(모델)가 빙하에 부딪힌다. 빙하 감지 시스템(드리프트 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링) 없이는 타이타닉 사고를 예방할 수 없다.
 
@@ -41,34 +38,37 @@ tags = ["studynote-ai"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">드리프트 유형 분류 및 탐지 방법</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 데이터 드리프트 (Data Drift / Feature Drift):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P_train(X) ≠ P_serve(X) — 입력 분포 변화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예: 원래 25~35세 고객 → 현재 45~55세 고객으로 이동</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">탐지: 통계 검정 (레이블 불필요)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 컨셉 드리프트 (Concept Drift):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P_train(Y</div><div class="kb-diagram-cell">X) ≠ P_serve(Y</div><div class="kb-diagram-cell">X) — 입력-출력 관계 변화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예: 같은 나이 고객이 코로나 전후로 다른 구매 행동</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">탐지: 실제 레이블 수집 필요 (지연 탐지)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 라벨 드리프트 (Label Drift):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P_train(Y) ≠ P_serve(Y) — 출력 클래스 분포 변화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예: 사기 탐지에서 사기 비율이 갑자기 증가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">탐지 방법:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">방법</div><div class="kb-diagram-cell">적용 대상</div><div class="kb-diagram-cell">핵심 원리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">KS Test</div><div class="kb-diagram-cell">단변량 연속</div><div class="kb-diagram-cell">분포 누적함수 최대 차이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PSI (Population</div><div class="kb-diagram-cell">범주형/연속</div><div class="kb-diagram-cell">분포 변화율 측정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Stability Index)</div><div class="kb-diagram-cell">PSI&gt;0.25: 심각한 드리프트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">KL Divergence</div><div class="kb-diagram-cell">확률 분포</div><div class="kb-diagram-cell">두 분포의 정보 차이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MMD (Maximum</div><div class="kb-diagram-cell">고차원</div><div class="kb-diagram-cell">커널 거리 측정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mean Discrepancy)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│         드리프트 유형 분류 및 탐지 방법                               │
+├──────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  1. 데이터 드리프트 (Data Drift / Feature Drift):                   │
+│     P_train(X) ≠ P_serve(X) — 입력 분포 변화                      │
+│     예: 원래 25~35세 고객 → 현재 45~55세 고객으로 이동                │
+│     탐지: 통계 검정 (레이블 불필요)                                  │
+│                                                                  │
+│  2. 컨셉 드리프트 (Concept Drift):                                 │
+│     P_train(Y|X) ≠ P_serve(Y|X) — 입력-출력 관계 변화              │
+│     예: 같은 나이 고객이 코로나 전후로 다른 구매 행동                  │
+│     탐지: 실제 레이블 수집 필요 (지연 탐지)                          │
+│                                                                  │
+│  3. 라벨 드리프트 (Label Drift):                                   │
+│     P_train(Y) ≠ P_serve(Y) — 출력 클래스 분포 변화                │
+│     예: 사기 탐지에서 사기 비율이 갑자기 증가                         │
+│                                                                  │
+│  탐지 방법:                                                        │
+│  ┌─────────────────────────────────────────────────────────┐    │
+│  │  방법            │ 적용 대상  │ 핵심 원리                  │    │
+│  │  KS Test         │ 단변량 연속 │ 분포 누적함수 최대 차이   │    │
+│  │  PSI (Population  │ 범주형/연속 │ 분포 변화율 측정         │    │
+│  │  Stability Index) │           │ PSI>0.25: 심각한 드리프트  │    │
+│  │  KL Divergence   │ 확률 분포  │ 두 분포의 정보 차이       │    │
+│  │  MMD (Maximum    │ 고차원     │ 커널 거리 측정            │    │
+│  │  Mean Discrepancy)│           │                          │    │
+│  └─────────────────────────────────────────────────────────┘    │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 | 드리프트 유형 | P 변화 | 탐지 난이도 | 대응 방법 |
 |:---|:---|:---|:---|

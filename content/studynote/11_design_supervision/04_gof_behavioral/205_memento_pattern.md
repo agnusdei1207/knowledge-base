@@ -38,86 +38,79 @@ tags = ["studynote-design-supervision"]
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/274_memento_pattern/">Memento</a></strong> | 특정 시점의 상태 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) (불투명 객체) | 인화된 사진 |
 | **Caretaker** | Memento를 보관하지만 내용을 읽지 않음 | 사진 앨범 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Core Idea</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Expected Gain</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐    ┌──────────────┐    ┌──────────────┐
+│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
+└──────────────┘    └──────────────┘    └──────────────┘
+```
 
 - **📢 섹션 요약 비유**: 게임 세이브 기능 — 캐릭터(Originator)가 자기 상태를 세이브 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)([Memento](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/274_memento_pattern/))로 저장하고, 세이브 슬롯(Caretaker)이 보관하고, 로드(restore)하면 그 시점으로 복원된다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
+```
+  Originator                     Caretaker
+  ──────────────                 ──────────────────
+  - state                        - history: Stack<Memento>
+  + save(): Memento              + push(m: Memento)
+  + restore(m: Memento)          + pop(): Memento
+        │                               │
+        └───── creates ────────►  Memento
+                                  ──────────────────
+                                  - state (private)
+                                  + getState() [Originator only]
+```
 
+```
+  [ 작업 흐름 ]
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Originator Caretaker</div>
-<div class="kb-diagram-tree-item" style="--depth:1">state - history: Stack&lt;Memento&gt;</div>
-<div class="kb-diagram-note">+ save(): Memento + push(m: Memento)</div>
-<div class="kb-diagram-note">+ restore(m: Memento) + pop(): Memento</div>
-<div class="kb-diagram-tree-item" style="--depth:4">creates ► Memento</div>
-<div class="kb-diagram-tree-item" style="--depth:8">state (private)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">+ getState()</div><div class="kb-diagram-node">Originator only</div></div>
-</div>
-</div>
+  (1) 초기 상태: "Hello"
+       │ save() → Memento("Hello")
+       │ history: [M1("Hello")]
 
+  (2) 입력: "Hello World"
+       │ save() → Memento("Hello World")
+       │ history: [M1("Hello"), M2("Hello World")]
 
+  (3) 입력: "Hello World!!!"
+       │ save() → Memento("Hello World!!!")
+       │ history: [M1, M2, M3("Hello World!!!")]
 
+  (4) Ctrl+Z (Undo)
+       │ history.pop() → M3
+       │ restore(M2) → 텍스트 = "Hello World"
 
+  (5) Ctrl+Z (Undo)
+       │ restore(M1) → 텍스트 = "Hello"
+```
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">작업 흐름</div></div>
-<div class="kb-diagram-note">(1) 초기 상태: "Hello"</div>
-<div class="kb-diagram-note">save() → Memento("Hello")</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">history:</div><div class="kb-diagram-node">M1("Hello")</div></div>
-<div class="kb-diagram-note">(2) 입력: "Hello World"</div>
-<div class="kb-diagram-note">save() → Memento("Hello World")</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">history:</div><div class="kb-diagram-node">M1("Hello"), M2("Hello World")</div></div>
-<div class="kb-diagram-note">(3) 입력: "Hello World!!!"</div>
-<div class="kb-diagram-note">save() → Memento("Hello World!!!")</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">history:</div><div class="kb-diagram-node">M1, M2, M3("Hello World!!!")</div></div>
-<div class="kb-diagram-note">(4) Ctrl+Z (Undo)</div>
-<div class="kb-diagram-note">history.pop() → M3</div>
-<div class="kb-diagram-note">restore(M2) → 텍스트 = "Hello World"</div>
-<div class="kb-diagram-note">(5) Ctrl+Z (Undo)</div>
-<div class="kb-diagram-note">restore(M1) → 텍스트 = "Hello"</div>
-</div>
-</div>
+```
+  Command + Memento = 완전한 Undo/Redo 시스템
 
-
-
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Command + Memento = 완전한 Undo/Redo 시스템</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">UndoManager (Caretaker)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">undoStack: Stack&lt;Command&gt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">redoStack: Stack&lt;Command&gt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">execute(cmd):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">memento = originator.save()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">cmd.setMemento(memento)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">cmd.execute()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">undoStack.push(cmd)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">undo():</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">cmd = undoStack.pop()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">originator.restore(cmd.getMemento())</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">redoStack.push(cmd)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">redo():</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">cmd = redoStack.pop()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">cmd.execute()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">undoStack.push(cmd)</div></div>
-</div>
-</div>
-
-
+  ┌─────────────────────────────────────────────────────┐
+  │  UndoManager (Caretaker)                            │
+  │                                                     │
+  │  undoStack: Stack<Command>                          │
+  │  redoStack: Stack<Command>                          │
+  │                                                     │
+  │  execute(cmd):                                      │
+  │    memento = originator.save()                      │
+  │    cmd.setMemento(memento)                          │
+  │    cmd.execute()                                    │
+  │    undoStack.push(cmd)                              │
+  │                                                     │
+  │  undo():                                            │
+  │    cmd = undoStack.pop()                            │
+  │    originator.restore(cmd.getMemento())             │
+  │    redoStack.push(cmd)                              │
+  │                                                     │
+  │  redo():                                            │
+  │    cmd = redoStack.pop()                            │
+  │    cmd.execute()                                    │
+  │    undoStack.push(cmd)                              │
+  └─────────────────────────────────────────────────────┘
+```
 
 | 항목 | 설명 | 포인트 |
 |:---|:---|:---|
@@ -152,35 +145,26 @@ tags = ["studynote-design-supervision"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 대용량 객체의 경우 매번 전체 상태를 저장하면 메모리 폭발:
 
+```
+  일반 Memento:
+  State1(100MB) → State2(100MB) → State3(100MB)
+  → Undo 3단계 = 300MB 필요
 
+  Incremental Memento (증분 저장):
+  State1(100MB) → Delta1(변경분만, ~1KB) → Delta2(~1KB)
+  → Undo 3단계 = 100MB + 2KB 필요
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">일반 Memento:</div>
-<div class="kb-diagram-note">State1(100MB) → State2(100MB) → State3(100MB)</div>
-<div class="kb-diagram-note">→ Undo 3단계 = 300MB 필요</div>
-<div class="kb-diagram-note">Incremental Memento (증분 저장):</div>
-<div class="kb-diagram-note">State1(100MB) → Delta1(변경분만, ~1KB) → Delta2(~1KB)</div>
-<div class="kb-diagram-note">→ Undo 3단계 = 100MB + 2KB 필요</div>
-<div class="kb-diagram-note">구현: 변경된 필드만 저장, 역순으로 적용</div>
-</div>
-</div>
+  구현: 변경된 필드만 저장, 역순으로 적용
+```
 
-
-
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">DB Transaction ↔ Memento Pattern</div>
-<div class="kb-diagram-note">BEGIN originator.save()</div>
-<div class="kb-diagram-note">UPDATE/INSERT 실행</div>
-<div class="kb-diagram-note">ROLLBACK originator.restore(memento)</div>
-<div class="kb-diagram-note">COMMIT history.clear() (더 이상 롤백 불필요)</div>
-</div>
-</div>
-
-
+```
+  DB Transaction    ↔    Memento Pattern
+  ────────────────────────────────────────
+  BEGIN                  originator.save()
+  UPDATE/INSERT          실행
+  ROLLBACK               originator.restore(memento)
+  COMMIT                 history.clear() (더 이상 롤백 불필요)
+```
 
 - <strong>캡슐화 보존</strong>이 [Memento](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/274_memento_pattern/) 패턴의 핵심 가치임을 반드시 언급
 - [Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) + [Memento](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/274_memento_pattern/) = [Undo](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/)/[Redo](/knowledge-base/studynote/05_database/04_transactions_concurrency/234_redo_roll_forward_durability_recovery/) 시스템 조합 설계 제시

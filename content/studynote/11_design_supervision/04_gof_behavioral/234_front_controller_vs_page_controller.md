@@ -27,57 +27,56 @@ tags = ["studynote-design-supervision"]
 | [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Controller | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) Servlet (1997~) | 개별 Servlet, ASP [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) |
 | Front Controller | 마틴 파울러 PEAA (2002) | Struts, Spring MVC, Django |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Core Idea</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Expected Gain</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐    ┌──────────────┐    ┌──────────────┐
+│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
+└──────────────┘    └──────────────┘    └──────────────┘
+```
 
 - **📢 섹션 요약 비유**: [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 컨트롤러는 건물 각 방에 별도 입구가 있는 구조이고, 프론트 컨트롤러는 정문 하나에서 모든 방문자를 안내 데스크가 체크하고 안내하는 구조다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
+```
+┌─────────────────────────────────────────────────────────────┐
+│                 Page Controller 구조                         │
+│                                                             │
+│  /login   ──▶  ┌──────────────────┐                        │
+│                │  LoginServlet    │──▶ login.jsp            │
+│                │ (인증 + 뷰 처리)  │                        │
+│                └──────────────────┘                        │
+│  /order   ──▶  ┌──────────────────┐                        │
+│                │  OrderServlet    │──▶ order.jsp            │
+│                │ (인증 + 뷰 처리)  │  ← 중복!               │
+│                └──────────────────┘                        │
+│  /profile ──▶  ┌──────────────────┐                        │
+│                │  ProfileServlet  │──▶ profile.jsp          │
+│                │ (인증 + 뷰 처리)  │  ← 중복!               │
+│                └──────────────────┘                        │
+└─────────────────────────────────────────────────────────────┘
+```
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Page Controller 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/login ──▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LoginServlet</div><div class="kb-diagram-cell">──▶ login.jsp</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(인증 + 뷰 처리)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/order ──▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OrderServlet</div><div class="kb-diagram-cell">──▶ order.jsp</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(인증 + 뷰 처리)</div><div class="kb-diagram-cell">← 중복!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/profile ──▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ProfileServlet</div><div class="kb-diagram-cell">──▶ profile.jsp</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(인증 + 뷰 처리)</div><div class="kb-diagram-cell">← 중복!</div></div>
-</div>
-</div>
-
-
-
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Front Controller 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모든 요청 ──▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Front Controller (DispatcherServlet)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 인증 검사 (공통)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 로깅 (공통)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Handler Mapping</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위임 (Dispatch)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LoginHandler</div><div class="kb-diagram-cell">OrderHandler</div><div class="kb-diagram-cell">ProfileHandler</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">login.jsp order.jsp profile.jsp</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────────┐
+│               Front Controller 구조                          │
+│                                                             │
+│  모든 요청  ──▶  ┌────────────────────────────────────┐     │
+│                 │  Front Controller (DispatcherServlet)│     │
+│                 │  1. 인증 검사 (공통)                  │     │
+│                 │  2. 로깅 (공통)                       │     │
+│                 │  3. Handler Mapping                  │     │
+│                 └──────────────┬─────────────────────┘     │
+│                                │ 위임 (Dispatch)            │
+│              ┌─────────────────┼──────────────────┐        │
+│              ▼                 ▼                  ▼         │
+│  ┌─────────────────┐ ┌──────────────┐ ┌──────────────────┐ │
+│  │  LoginHandler   │ │ OrderHandler │ │  ProfileHandler  │ │
+│  └────────┬────────┘ └──────┬───────┘ └───────┬──────────┘ │
+│           ▼                 ▼                  ▼            │
+│        login.jsp         order.jsp          profile.jsp     │
+└─────────────────────────────────────────────────────────────┘
+```
 
 | 단계 | [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Controller | Front Controller |
 |:---:|:---|:---|
@@ -101,20 +100,14 @@ tags = ["studynote-design-supervision"]
 | 테스트 용이성 | 낮음 (서블릿 의존) | 높음 (MockMvc 등) |
 | 적합 규모 | 소규모 사이트 | 중대형 웹 애플리케이션 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">요청 → DispatcherServlet</div>
-<div class="kb-diagram-note">→ HandlerMapping (URL → Controller 결정)</div>
-<div class="kb-diagram-note">→ HandlerAdapter (Controller 실행)</div>
-<div class="kb-diagram-note">→ ViewResolver (논리 뷰명 → 물리 경로 변환)</div>
-<div class="kb-diagram-note">→ View (렌더링)</div>
-<div class="kb-diagram-note">→ 응답</div>
-</div>
-</div>
-
-
+```
+요청 → DispatcherServlet
+          → HandlerMapping (URL → Controller 결정)
+          → HandlerAdapter (Controller 실행)
+          → ViewResolver (논리 뷰명 → 물리 경로 변환)
+          → View (렌더링)
+          → 응답
+```
 
 Spring의 `DispatcherServlet`은 [프론트 컨트롤러 패턴](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/177_front_controller_pattern/)의 교과서적 구현이다. `@Controller`, `@RequestMapping`이 바로 이 구조 위에서 동작한다.
 

@@ -27,18 +27,14 @@ tags = ["studynote-network"]
   - **메시지 교환**: <strong>"우편 배달"</strong>입니다. 거대한 이삿짐을 한 상자에 싸서 우체국([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))에 통째로 맡기면 알아서 배달해 주지만, 상자가 커서 처리하는 데 오래 걸립니다.
   - **패킷 교환**: <strong>"택배 분할 배송"</strong>입니다. 이삿짐을 100개의 작은 우체국 1호 박스(패킷)로 나누고, 도로(선로)의 빈 차선에 요리조리 끼어들어 다 같이 동시에 배송되는 시스템입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">AAL</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">패킷 교환 vs 회선 교환 vs 메시지 교환</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">데이터그램 전송 방식</div></div>
-</div>
-</div>
-
-
+```text
+[AAL]
+    │
+    ▼
+[패킷 교환 vs 회선 교환 vs 메시지 교환]
+    │
+    └──▶ [데이터그램 전송 방식]
+```
 
 - **📢 섹션 요약 비유**: ** 회선 교환이 VIP만 들어갈 수 있게 아예 통째로 비워둔 **"식당의 프라이빗 룸"**이라면, 패킷 교환은 빈자리가 나는 대로 누구나 먼저 앉아서 밥을 먹고 일어나는 **"푸드코트 공용 테이블"**입니다.
 
@@ -60,24 +56,24 @@ tags = ["studynote-network"]
 - <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/">다중화</a>(<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/">Multiplexing</a>)의 기적</strong>: 내 패킷 조각과 다른 사람의 패킷 조각들이 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 버퍼에서 섞여서(Interleaving) 번갈아 가며 나간다. 앞사람이 10GB를 보내도, 내 패킷은 앞사람 패킷들 사이에 낑겨서 전송되므로 딜레이 없이 실시간으로 목적지에 도착한다.
 - **결과**: 현대의 IP 라우터와 인터넷 망은 100% 패킷 교환 방식을 기반으로 작동한다. 
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">회선 교환 vs 패킷 교환 자원 점유 방식</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">회선 교환 (전화망)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 A (경로를 파란색으로 100% 칠해서 독점) ▶ 수신자 A</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 B (자리가 날 때까지 대기하거나 통화 중(Busy) 걸림)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">패킷 교환 (인터넷)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">사용자 A (파란 패킷) ──</div><div class="kb-diagram-node">라우터</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">파│빨│파│빨│파│파</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">목적지로!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 B (빨간 패킷) ── (하나의 도로에 패킷이 섞여서 달림)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 효율성: 회선 교환은 A가 말 안 할 때 도로가 빈다.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">패킷 교환은 A가 말 안 하면 B가 꽉꽉 채워 달리므로 이득!</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                회선 교환 vs 패킷 교환 자원 점유 방식            │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 회선 교환 (전화망) ]                                      │
+ │   사용자 A ━━━━━━(경로를 파란색으로 100% 칠해서 독점)━━━━▶ 수신자 A │
+ │   사용자 B (자리가 날 때까지 대기하거나 통화 중(Busy) 걸림)         │
+ │                                                             │
+ │   [ 패킷 교환 (인터넷) ]                                      │
+ │   사용자 A (파란 패킷) ──┐        [ 라우터 ]                  │
+ │                      ├──▶ [ 파│빨│파│빨│파│파 ] ──▶ 목적지로! │
+ │   사용자 B (빨간 패킷) ──┘   (하나의 도로에 패킷이 섞여서 달림)     │
+ │                                                             │
+ │   * 효율성: 회선 교환은 A가 말 안 할 때 도로가 빈다.                │
+ │            패킷 교환은 A가 말 안 하면 B가 꽉꽉 채워 달리므로 이득!   │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: ** 회선 교환이 코레일이 기차 한 칸을 아예 통째로 빌려주는 **"전세 열차"**라면, 패킷 교환은 남는 빈자리가 있을 때마다 아무나 티켓을 끊고 앉아갈 수 있는 **"자유석 KTX"**입니다.
 
@@ -135,19 +131,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: AAL</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 패킷 교환 vs 회선 교환 vs 메시지 교환</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 데이터그램 전송 방식</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 캠퍼스 패브릭</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: AAL]
+    │
+    ▼
+[현재 개념: 패킷 교환 vs 회선 교환 vs 메시지 교환]
+    │
+    ├──▶ [확장 A: 데이터그램 전송 방식]
+    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
+```
 
 패킷 교환 vs 회선 교환 vs 메시지 교환는 AAL에서 출발해 현재 메커니즘을 정교화하고, 이후 [데이터그램 전송 방식](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/277_datagram_transmission_connectionless_packet_switching/)와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -27,18 +27,14 @@ tags = ["studynote-network"]
   - 합의가 다 끝나서 <strong>최종 싸인된 합의문</strong>이 바로 <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/">SA</a>(보안 연관)</strong>입니다.
   - 합의문([SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/))이 찢어지거나 유효기간(Lifetime)이 다 지나면 통신은 즉각 끊어집니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">ESP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IKE, ISAKMP, SA</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NAT-T</div></div>
-</div>
-</div>
-
-
+```text
+[ESP]
+    │
+    ▼
+[IKE, ISAKMP, SA]
+    │
+    └──▶ [NAT-T]
+```
 
 - **📢 섹션 요약 비유**: ** ESP가 적진을 돌파하는 "방탄 트럭"이라면, IKE와 SA는 그 트럭이 출발하기 전에 정비공과 군인들이 모여 **"차문 비밀번호는 뭐로 하고, 타이어는 방탄으로 끼울지 합의하고 서류에 싸인하는 엄격한 출정 준비 과정"**입니다.
 
@@ -62,23 +58,24 @@ tags = ["studynote-network"]
   - "보호해야 할 사내망 대역은 192.168.[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/).x 대역이다. ([Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) ID)"
 - **결과물**: 실제로 패킷이 날아다닐 2개의 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 터널(가는 터널 1개, 오는 터널 1개)이 완성된다. 드디어 핑(Ping)이 나간다!
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IPsec IKE 협상 (Phase 1 &amp; 2) 2중 터널 도식</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">서울 방화벽</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">부산 방화벽</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">==================</div><div class="kb-diagram-node">Phase 1 보안 텐트 (ISAKMP SA)</div><div class="kb-diagram-note">===========</div></div>
-<div class="kb-diagram-note">║ ┃</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">║</div><div class="kb-diagram-node">Phase 2 (서울-&gt;부산 IPsec SA 터널)</div><div class="kb-diagram-connector">▶</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Phase 2 (부산-&gt;서울 IPsec SA 터널)</div><div class="kb-diagram-note">┃</div></div>
-<div class="kb-diagram-note">║ ┃</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 만약 Phase 1 텐트가 안 쳐지면? -&gt; Phase 2는 시작조차 못 하고 터짐.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* T/S: "IKE 1단계 실패? 비번(PSK) 틀렸네! 2단계 실패? 서브넷 틀렸네!"</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                IPsec IKE 협상 (Phase 1 & 2) 2중 터널 도식       │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 서울 방화벽 ] ══════════════════════════════▶ [ 부산 방화벽 ] │
+ │                                                             │
+ │   ================== [ Phase 1 보안 텐트 (ISAKMP SA) ] =========== │
+ │   ║                                                         ┃ │
+ │   ║  ───────── [ Phase 2 (서울->부산 IPsec SA 터널) ] ──────▶  ┃ │
+ │   ║  ◀───────── [ Phase 2 (부산->서울 IPsec SA 터널) ] ──────  ┃ │
+ │   ║                                                         ┃ │
+ │   =========================================================== │
+ │                                                             │
+ │   * 만약 Phase 1 텐트가 안 쳐지면? -> Phase 2는 시작조차 못 하고 터짐. │
+ │   * T/S: "IKE 1단계 실패? 비번(PSK) 틀렸네! 2단계 실패? 서브넷 틀렸네!"│
+ └─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: IKE, ISAKMP, SA의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -134,19 +131,15 @@ IKE, ISAKMP, SA는 [라우팅](/knowledge-base/studynote/03_network/07_network_l
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: ESP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: IKE, ISAKMP, SA</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: NAT-T</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: ESP]
+    │
+    ▼
+[현재 개념: IKE, ISAKMP, SA]
+    │
+    ├──▶ [확장 A: NAT-T]
+    └──▶ [확장 B: 의도 기반 라우팅]
+```
 
 IKE, ISAKMP, SA는 ESP에서 출발해 현재 메커니즘을 정교화하고, 이후 NAT-T와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

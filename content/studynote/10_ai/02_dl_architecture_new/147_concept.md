@@ -35,22 +35,24 @@ LLM의 추론 능력 향상은 [프롬프트 엔지니어링](/knowledge-base/st
 
 ### 1. ToT 구조도
 
+```text
+ToT (Tree-of-Thought) 추론 구조
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">ToT (Tree-of-Thought) 추론 구조</div>
-<div class="kb-diagram-note">문제 (Root)</div>
-<div class="kb-diagram-note">사고1-A 사고1-B 사고1-C</div>
-<div class="kb-diagram-note">(좋음↑) (보통) (나쁨↓ 폐기)</div>
-<div class="kb-diagram-note">2-AA 2-AB 2-BA 2-BB</div>
-<div class="kb-diagram-note">(좋음↑) (폐기) (폐기) (좋음↑)</div>
-<div class="kb-diagram-note">최종 답 A 최종 답 B</div>
-<div class="kb-diagram-tree-item" style="--depth:5">평가 → 더 좋은 답 선택</div>
-</div>
-</div>
-
-
+                문제 (Root)
+                    │
+        ┌───────────┼───────────┐
+        │           │           │
+    사고1-A      사고1-B      사고1-C
+    (좋음↑)      (보통)       (나쁨↓ 폐기)
+        │           │
+    ┌───┴───┐   ┌───┴───┐
+    │       │   │       │
+  2-AA   2-AB  2-BA   2-BB
+  (좋음↑) (폐기) (폐기) (좋음↑)
+    │                   │
+  최종 답 A            최종 답 B
+          └──── 평가 → 더 좋은 답 선택 ────┘
+```
 
 ### 2. ToT 4단계 작동 메커니즘
 
@@ -63,25 +65,23 @@ LLM의 추론 능력 향상은 [프롬프트 엔지니어링](/knowledge-base/st
 
 ### 3. [CoT](/knowledge-base/studynote/10_ai/02_dl_architecture_new/146_chain_of_thought_cot/) vs. ToT vs. GoT 비교
 
+```text
+사고 구조 진화
 
+  Standard Prompt:  입력 → 출력
+                    (단선, 추론 없음)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">사고 구조 진화</div>
-<div class="kb-diagram-note">Standard Prompt: 입력 → 출력</div>
-<div class="kb-diagram-note">(단선, 추론 없음)</div>
-<div class="kb-diagram-note">CoT (Chain): 입력 → 생각1 → 생각2 → 생각3 → 출력</div>
-<div class="kb-diagram-note">(순차 단선)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">생각1-A, 생각1-B, 생각1-C</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">평가</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">유망한 경로만 확장</div></div>
-<div class="kb-diagram-note">→ 최적 출력</div>
-<div class="kb-diagram-note">(분기·탐색·백트래킹)</div>
-<div class="kb-diagram-note">GoT (Graph): 임의 방향 그래프로 사고 연결</div>
-<div class="kb-diagram-note">(순환 참조, 아이디어 병합 등 가능)</div>
-</div>
-</div>
+  CoT (Chain):      입력 → 생각1 → 생각2 → 생각3 → 출력
+                    (순차 단선)
 
+  ToT (Tree):       입력 → [생각1-A, 생각1-B, 생각1-C]
+                              → [평가] → 유망한 경로만 확장
+                              → 최적 출력
+                    (분기·탐색·백트래킹)
 
+  GoT (Graph):      임의 방향 그래프로 사고 연결
+                    (순환 참조, 아이디어 병합 등 가능)
+```
 
 - **📢 섹션 요약 비유**: CoT와 ToT의 차이는 <strong>'나침반만 들고 직진하는 <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/">탐험</a>(<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/146_chain_of_thought_cot/">CoT</a>)'</strong> 과 <strong>'드론을 여러 대 띄워 동시에 여러 경로를 스캔한 후 최적 경로만 걷는 <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/">탐험</a>(ToT)'</strong> 의 차이입니다. ToT는 비용이 더 들지만, 복잡한 지형에서 목적지를 확실히 찾아냅니다.
 
@@ -160,28 +160,29 @@ ToT는 "LLM을 더 똑똑하게 만드는 것"이 아니라, <strong>"LLM이 문
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Standard Prompting (단순 QA)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Few-Shot Prompting (예시 제공)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CoT (Chain-of-Thought) — 단선 추론</div>
-<div class="kb-diagram-tree-item" style="--depth:2">SC (Self-Consistency) — 다중 CoT 다수결</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ToT (Tree-of-Thought) — 분기·탐색·백트래킹</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">GoT (Graph-of-Thought) — 그래프 구조 사고</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Agentic Reasoning (도구 사용 + 자율 탐색)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">LLM 내재화 추론 (o1, o3 계열 모델)</div>
-</div>
-</div>
-
-
+```text
+Standard Prompting (단순 QA)
+    │
+    ▼
+Few-Shot Prompting (예시 제공)
+    │
+    ▼
+CoT (Chain-of-Thought) — 단선 추론
+    │
+    ├─► SC (Self-Consistency) — 다중 CoT 다수결
+    │
+    ▼
+ToT (Tree-of-Thought) — 분기·탐색·백트래킹
+    │
+    ▼
+GoT (Graph-of-Thought) — 그래프 구조 사고
+    │
+    ▼
+Agentic Reasoning (도구 사용 + 자율 탐색)
+    │
+    ▼
+LLM 내재화 추론 (o1, o3 계열 모델)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -20,25 +20,27 @@ tags = ["studynote-bigdata"]
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 YARN은 크게 4가지 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)로 구성되며, 각 노드와 애플리케이션의 상태를 계층적으로 관리한다.
 
+```text
+[ YARN Cluster Architecture ]
 
+         +-----------------------------+
+         |      Resource Manager       | (Global Master)
+         | [Scheduler] [App Manager]   |
+         +--------------+--------------+
+                        | (1. Request Container)
+      +-----------------+-----------------+
+      |                 |                 |
++-----+-------+   +-----+-------+   +-----+-------+
+| Node Manager |   | Node Manager |   | Node Manager | (Slave)
+| [Container]  |   | [App Master] |   | [Container]  |
++--------------+   +--------------+   +--------------+
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">YARN Cluster Architecture</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Resource Manager</div><div class="kb-diagram-cell">(Global Master)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Scheduler</div><div class="kb-diagram-node">App Manager</div></div>
-<div class="kb-diagram-note">(1. Request Container)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Node Manager</div><div class="kb-diagram-cell">Node Manager</div><div class="kb-diagram-cell">Node Manager</div><div class="kb-diagram-cell">(Slave)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Container</div><div class="kb-diagram-node">App Master</div><div class="kb-diagram-node">Container</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Bilingual Core Components</div></div>
-<div class="kb-diagram-tree-item" style="--depth:0">Resource Manager (RM): 클러스터 전체 자원(Total CPU/RAM) 관리 및 스케줄링.</div>
-<div class="kb-diagram-tree-item" style="--depth:0">Node Manager (NM): 개별 워커 노드의 자원 사용 현황 모니터링 및 보고.</div>
-<div class="kb-diagram-tree-item" style="--depth:0">Application Master (AM): 특정 작업(Job) 전담. RM과 자원 협상 후 NM에서 작업 실행.</div>
-<div class="kb-diagram-tree-item" style="--depth:0">Container (컨테이너): CPU, Memory 등 자원 할당의 최소 논리 단위.</div>
-</div>
-</div>
-
-
+[ Bilingual Core Components ]
+- Resource Manager (RM): 클러스터 전체 자원(Total CPU/RAM) 관리 및 스케줄링.
+- Node Manager (NM): 개별 워커 노드의 자원 사용 현황 모니터링 및 보고.
+- Application Master (AM): 특정 작업(Job) 전담. RM과 자원 협상 후 NM에서 작업 실행.
+- Container (컨테이너): CPU, Memory 등 자원 할당의 최소 논리 단위.
+```
 
 애플리케이션이 실행될 때 RM은 먼저 AM을 띄울 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 하나를 할당하고, 그 AM이 자신의 작업을 위해 추가 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 RM에게 요청하여 실제 연산을 수행하는 '[이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)된 협상' 구조를 가진다.
 
@@ -68,23 +70,21 @@ YARN은 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_h
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">하둡 v1 JobTracker — 리소스 관리와 작업 스케줄링을 단일 노드에서 담당, 병목</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">YARN (Yet Another Resource Negotiator) — ResourceManager·NodeManager 분리 아키텍처</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ApplicationMaster — 각 앱이 자체 스케줄링 담당, 프레임워크 독립성 확보</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">컨테이너 (Container) — CPU·메모리 단위 자원 할당, 다중 프레임워크 공존</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Kubernetes on YARN / 클라우드 네이티브 — YARN을 대체하는 컨테이너 오케스트레이션</div></div>
-</div>
-</div>
-
-
+```text
+[하둡 v1 JobTracker — 리소스 관리와 작업 스케줄링을 단일 노드에서 담당, 병목]
+    │
+    ▼
+[YARN (Yet Another Resource Negotiator) — ResourceManager·NodeManager 분리 아키텍처]
+    │
+    ▼
+[ApplicationMaster — 각 앱이 자체 스케줄링 담당, 프레임워크 독립성 확보]
+    │
+    ▼
+[컨테이너 (Container) — CPU·메모리 단위 자원 할당, 다중 프레임워크 공존]
+    │
+    ▼
+[Kubernetes on YARN / 클라우드 네이티브 — YARN을 대체하는 컨테이너 오케스트레이션]
+```
 
 이 흐름은 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) v1의 JobTracker 병목을 해결하기 위해 YARN이 ResourceManager·ApplicationMaster로 분리 진화하고, 이후 [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 기반 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)로 대체되는 과정을 보여준다.
 

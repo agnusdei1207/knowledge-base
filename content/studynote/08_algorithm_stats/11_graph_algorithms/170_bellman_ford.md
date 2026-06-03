@@ -27,20 +27,17 @@ tags = ["studynote-algorithm"]
 
 아래 그림은 왜 반복이 필요한지를 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">One more pass means shortest paths with one more edge</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pass 0 : only source is known</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pass 1 : shortest paths using &lt;= 1 edge become correct</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pass 2 : shortest paths using &lt;= 2 edges become correct</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pass V-1 : all simple shortest paths are covered</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│         One more pass means shortest paths with one more edge        │
+├──────────────────────────────────────────────────────────────────────┤
+│ Pass 0 : only source is known                                        │
+│ Pass 1 : shortest paths using <= 1 edge become correct               │
+│ Pass 2 : shortest paths using <= 2 edges become correct               │
+│ ...                                                                  │
+│ Pass V-1 : all simple shortest paths are covered                     │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 즉 벨만-포드는 "지금 가장 짧아 보이는 길"을 믿기보다, <strong>경로 길이가 늘어날수록 더 좋은 해가 뒤늦게 나타날 수 있다</strong>는 가능성을 끝까지 열어 둔다. 느리지만 음수 세계에서 안전한 이유가 여기에 있다.
 
@@ -61,22 +58,24 @@ tags = ["studynote-algorithm"]
 
 아래 상태도는 벨만-포드의 계산 흐름을 요약한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Bellman-Ford relaxation workflow</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Init dist</div><div class="kb-diagram-node">source</div><div class="kb-diagram-note">=0, others=INF</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Repeat V-1 times: for every edge (u,v,w)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ if dist</div><div class="kb-diagram-node">u</div><div class="kb-diagram-note">+ w &lt; dist</div><div class="kb-diagram-node">v</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">v</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ if no update in a full pass -&gt; early stop</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">One extra pass</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ update exists -&gt; negative cycle reachable</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no update -&gt; distances finalized</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                  Bellman-Ford relaxation workflow                    │
+├──────────────────────────────────────────────────────────────────────┤
+│ Init dist[source]=0, others=INF                                     │
+│        │                                                             │
+│        ▼                                                             │
+│ Repeat V-1 times: for every edge (u,v,w)                            │
+│        │                                                             │
+│        ├─ if dist[u] + w < dist[v] -> update dist[v]                │
+│        └─ if no update in a full pass -> early stop                 │
+│        │                                                             │
+│        ▼                                                             │
+│ One extra pass                                                       │
+│        ├─ update exists -> negative cycle reachable                  │
+│        └─ no update     -> distances finalized                       │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 음수 사이클 판정이 중요한 이유는, 그런 사이클이 시작점에서 도달 가능하면 최단 거리 개념 자체가 무너진다는 데 있다. 예를 들어 한 바퀴 돌 때마다 비용이 -3씩 줄어드는 사이클이 있으면, 그 경로를 더 많이 돌수록 비용이 계속 낮아져 최적해가 정해지지 않는다. 벨만-포드는 V번째 검사에서 이 현상을 포착한다.
 
@@ -163,23 +162,21 @@ SPFA는 "갱신 가능성이 있는 정점 주변만 다시 보자"는 아이디
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Weighted graph shortest path</div>
-<div class="kb-diagram-tree-item" style="--depth:2">non-negative weights -&gt; Dijkstra</div>
-<div class="kb-diagram-tree-item" style="--depth:2">possible negative weights</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Bellman-Ford relaxation</div>
-<div class="kb-diagram-tree-item" style="--depth:7">stable after V-1 passes -&gt; shortest paths</div>
-<div class="kb-diagram-tree-item" style="--depth:7">still improves at Vth pass -&gt; negative cycle</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Distance-vector routing · arbitrage detection · Johnson reweighting</div>
-</div>
-</div>
-
-
+```text
+Weighted graph shortest path
+    │
+    ├─ non-negative weights -> Dijkstra
+    └─ possible negative weights
+              │
+              ▼
+      Bellman-Ford relaxation
+              │
+              ├─ stable after V-1 passes -> shortest paths
+              └─ still improves at Vth pass -> negative cycle
+              │
+              ▼
+Distance-vector routing · arbitrage detection · Johnson reweighting
+```
 
 이 흐름은 최단 경로 문제에서 음수 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)가 등장할 때 왜 벨만-포드가 별도의 해법으로 필요해지는지를 보여 준다.
 

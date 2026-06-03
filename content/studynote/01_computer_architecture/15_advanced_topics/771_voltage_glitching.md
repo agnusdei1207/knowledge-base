@@ -42,19 +42,20 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 [voltage](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) glitch가 "전원 부족 → 게이트 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 증가 → 잘못된 래치"로 이어지는 과정을 요약한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Voltage glitch timing</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VDD :</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CLK : ── ── ── ── ──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">target instruction active during VDD dip</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ longer gate delay -&gt; setup violation -&gt; fault</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Voltage glitch timing                                              │
+├────────────────────────────────────────────────────────────────────┤
+│ VDD : ──────────────────┐    ┌──────────────────────────────────   │
+│                         └────┘                                     │
+│ CLK : ──┐  ┌──┐  ┌──┐  ┌──┐  ┌──┐                                  │
+│         └──┘  └──┘  └──┘  └──┘  └──                               │
+│                 ▲                                                  │
+│         target instruction active during VDD dip                   │
+│                 │                                                  │
+│                 └─ longer gate delay -> setup violation -> fault   │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 실전에서는 [MOSFET](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/017_mosfet/) (Metal-Oxide-Semiconductor Field-Effect [Transistor](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/)) 기반 glitcher, [FPGA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/) ([Field-Programmable Gate Array](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/)) [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/), 로직 애널라이저를 함께 써서 수천~수만 번 파라미터를 스윕한다. 목표는 "장비가 멈추지 않으면서도 보안 로직만 어긋나는 창"을 찾는 것이다. 예를 들어 [secure boot](/knowledge-base/studynote/02_operating_system/10_security/608_secure_boot/) 서명 비교 시점에 맞춘 short dip은 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 분기를 건너뛰게 할 수 있고, 암호 연산 라운드 중 fault는 DFA (Differential Fault Analysis)로 이어질 수 있다.
 
@@ -123,25 +124,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">외부 전원 접근 + trigger 수집</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">볼티지 글리칭 파라미터 탐색</div>
-<div class="kb-diagram-note">: offset / width / depth</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">fault 발생</div>
-<div class="kb-diagram-note">: instruction skip / faulty crypto / state desync</div>
-<div class="kb-diagram-tree-item" style="--depth:7">▶ secure boot bypass</div>
-<div class="kb-diagram-tree-item" style="--depth:7">▶ DFA 기반 키 복원</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">BOD + regulator + redundancy + tamper response</div>
-</div>
-</div>
-
-
+```text
+외부 전원 접근 + trigger 수집
+              │
+              ▼
+볼티지 글리칭 파라미터 탐색
+: offset / width / depth
+              │
+              ▼
+fault 발생
+: instruction skip / faulty crypto / state desync
+              │
+              ├──▶ secure boot bypass
+              └──▶ DFA 기반 키 복원
+              │
+              ▼
+BOD + regulator + redundancy + tamper response
+```
 
 이 흐름은 "전원 교란"이 어떻게 "보안 우회"로 이어지고, 다시 "감지·완충·중복 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)"으로 대응되는지 보여 준다.
 

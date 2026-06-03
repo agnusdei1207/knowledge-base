@@ -31,16 +31,11 @@ GitHub Flow는 복잡한 릴리스 브랜치보다 단순한 개발 흐름을 �
 
 GitHub Flow는 main과 feature branch 중심이다. feature branch에서 작업하고, PR로 리뷰한 뒤, CI가 통과하면 main에 합친다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">main ● ● ●</div>
-<div class="kb-diagram-note">feature ● ●</div>
-</div>
-</div>
-
-
+```text
+main ────────●────────●────────●
+              \      /        /
+feature ───────●────●─────────
+```
 
 | 단계 | 역할 | 포인트 |
 | :--- | :--- | :--- |
@@ -116,21 +111,18 @@ GitHub Flow는 협업을 단순하게 만들고, 배포를 빠르게 한다. 작
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">feature branch</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">PR / CI</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">main merge</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">즉시 배포</div>
-</div>
-</div>
-
-
+```text
+feature branch
+    │
+    ▼
+PR / CI
+    │
+    ▼
+main merge
+    │
+    ▼
+즉시 배포
+```
 
 이 흐름은 짧은 개발 단위와 빠른 통합을 중심으로 한 운영 방식을 보여준다.
 

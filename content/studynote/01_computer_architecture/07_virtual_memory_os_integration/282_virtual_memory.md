@@ -47,23 +47,29 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 CPU가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽기까지 거치는 계층과, 어느 지점에서 고속 처리와 저속 처리가 갈리는지를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가상 주소가 실제 데이터가 되기까지의 경로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU가 가상 주소 생성</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">VPN | Offset</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TLB 조회 TLB Hit ▶ 물리 주소 생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TLB Miss</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페이지 테이블 조회</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Present = 1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Present = 0 ─▶ Page Fault ─▶ OS 처리 ─▶ 디스크에서 Page-In</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── PTE 갱신 후 명령 재시도</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                가상 주소가 실제 데이터가 되기까지의 경로                  │
+├────────────────────────────────────────────────────────────────────────────┤
+│ CPU가 가상 주소 생성                                                      │
+│      │                                                                    │
+│      ▼                                                                    │
+│  [ VPN | Offset ]                                                         │
+│      │                                                                    │
+│      ▼                                                                    │
+│  TLB 조회 ────────────────┬─────────────── TLB Hit ─────▶ 물리 주소 생성   │
+│      │                    │                                                 │
+│      │ TLB Miss           │                                                 │
+│      ▼                    │                                                 │
+│ 페이지 테이블 조회        │                                                 │
+│      │                    │                                                 │
+│      ├── Present = 1 ─────┘                                                 │
+│      │                                                                      │
+│      └── Present = 0 ─▶ Page Fault ─▶ OS 처리 ─▶ 디스크에서 Page-In         │
+│                                             │                              │
+│                                             └── PTE 갱신 후 명령 재시도     │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 핵심 원리는 [요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/) ([Demand Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/))이다. 프로그램 전체를 한꺼번에 RAM에 올리지 않고, 실제 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)된 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)만 가져온다. 이 방식은 물리 메모리를 절약하지만, [페이지 부재](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)가 발생하면 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) ([Solid State Drive](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))나 [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) (Hard Disk Drive) 접근이 필요해 수 마이크로초에서 수 밀리초까지 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 커질 수 있다. [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) (Dynamic Random Access Memory) 접근이 대략 수십~수백 ns인 점을 생각하면, [페이지 부재](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/) 한 번은 수만 배 이상의 비용 차이를 만든다.
 
@@ -150,27 +156,27 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">오버레이 (Overlay) · 고정 분할 메모리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">가상 주소 / 물리 주소 분리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">페이징 (Paging) · 페이지 테이블 (Page Table)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">TLB (Translation Lookaside Buffer) · 다단계 페이지 테이블</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">요구 페이징 (Demand Paging) · 페이지 부재 (Page Fault)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">워킹 셋 (Working Set) · 스래싱 (Thrashing) 제어</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">메모리 맵 파일 · Huge Page · 가상화 이중 페이징</div>
-</div>
-</div>
-
-
+```text
+오버레이 (Overlay) · 고정 분할 메모리
+        │
+        ▼
+가상 주소 / 물리 주소 분리
+        │
+        ▼
+페이징 (Paging) · 페이지 테이블 (Page Table)
+        │
+        ▼
+TLB (Translation Lookaside Buffer) · 다단계 페이지 테이블
+        │
+        ▼
+요구 페이징 (Demand Paging) · 페이지 부재 (Page Fault)
+        │
+        ▼
+워킹 셋 (Working Set) · 스래싱 (Thrashing) 제어
+        │
+        ▼
+메모리 맵 파일 · Huge Page · 가상화 이중 페이징
+```
 
 이 흐름은 단순 적재 기법에서 출발해, 주소 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) → 변환 최적화 → [동적 적재](/knowledge-base/studynote/02_operating_system/06_memory_management/331_dynamic_loading/) → [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 제어 → 현대 확장 기술로 이어지는 발전 맥락을 보여준다.
 

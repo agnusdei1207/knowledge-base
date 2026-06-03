@@ -32,25 +32,29 @@ tags = ["studynote-network"]
 
 다음은 중앙 집중형 C&C 아키텍처의 한계([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))와 이로 인해 봇넷이 무력화되는 과정을 보여주는 다이어그램이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">초기 중앙 집중형(Centralized) C&amp;C 서버의 취약점 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Botmaster (해커)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 공격 명령 (예: Target IP로 DDoS 수행)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">방어자 (보안 기관)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(IP: 192.168.X.X / Domain: X)</div><div class="kb-diagram-cell">3. C&amp;C 도메인/IP 차단</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Takedown 발생)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 명령 하달</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Bot</div><div class="kb-diagram-node">Bot</div><div class="kb-diagram-node">Bot</div><div class="kb-diagram-node">Bot</div><div class="kb-diagram-note">... (좀비 기기들)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⚠ 문제점: 모든 좀비 기기가 단일 C&amp;C 서버를 바라보고 있음. 방어자가 해당</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C&amp;C 서버의 IP나 도메인(DNS)을 차단/압수하면 봇마스터는 전체 봇넷에 대한</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">통제권을 영구적으로 상실하는 SPOF (Single Point of Failure)가 존재.</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────┐
+│        초기 중앙 집중형(Centralized) C&C 서버의 취약점 구조         │
+├───────────────────────────────────────────────────────────────┤
+│                                                               │
+│ [Botmaster (해커)]                                             │
+│       │                                                       │
+│       │ 1. 공격 명령 (예: Target IP로 DDoS 수행)                  │
+│       ▼                                                       │
+│  ┌──────────────────────────────────┐                         │
+│  │      C&C Server (명령 제어 서버)    │ ◀── [방어자 (보안 기관)] │
+│  │   (IP: 192.168.X.X / Domain: X)  │    3. C&C 도메인/IP 차단 │
+│  └──────────────────────────────────┘    (Takedown 발생)     │
+│       │        │        │        │                            │
+│       │        │        │        │ 2. 명령 하달                │
+│       ▼        ▼        ▼        ▼                            │
+│    [Bot]    [Bot]    [Bot]    [Bot]  ... (좀비 기기들)          │
+│                                                               │
+│ ⚠ 문제점: 모든 좀비 기기가 단일 C&C 서버를 바라보고 있음. 방어자가 해당 │
+│ C&C 서버의 IP나 도메인(DNS)을 차단/압수하면 봇마스터는 전체 봇넷에 대한 │
+│ 통제권을 영구적으로 상실하는 SPOF (Single Point of Failure)가 존재.  │
+└───────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 구조도에서는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 봇넷의 직관적인 통제 흐름을 보여준다. 해커(Botmaster)는 봇넷 클라이언트가 설치된 개별 좀비 기기(Bot)들에게 직접 명령을 내리지 않고 중간의 C&C 서버를 거쳐 명령을 하달한다. 이 계층 분리는 해커의 실제 IP를 숨기는 데는 유용하지만, C&C 서버 자체가 방어의 단일 병목점([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))이 되는 치명적인 약점을 갖는다. 보안 기관이나 통신사([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/))가 악성 C&C [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)을 Sinkhole(블랙홀 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)) 처리하거나 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버에서 삭제해 버리면, 감염된 봇들은 C&C에 접속하지 못해 미아 상태가 되고 해커의 공격 인프라는 순식간에 붕괴된다. 공격자들은 이 근본적인 약점을 극복하기 위해 분산형 [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 아키텍처와 DGA 기술을 개발하게 되었다.
 
@@ -77,31 +81,36 @@ tags = ["studynote-network"]
 
 다음은 DGA([Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Generation [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))가 방어자의 차단을 우회하고 C&C 통신을 확립하는 동적 메커니즘을 보여주는 시퀀스 흐름도이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DGA (Domain Generation Algorithm) 기반 C&amp;C 통신 흐름</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">방어자 (ISP/보안 장비)</div><div class="kb-diagram-node">Bot (감염 기기)</div><div class="kb-diagram-node">Botmaster</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(알고리즘: 날짜+시드)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 매일 10,000개의</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">랜덤 도메인 생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DNS 질의: qwe.com?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">차단불가</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">── (등록 안 됨 - NXDOMAIN) │</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DNS 질의: asd.net?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">차단불가</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">── (등록 안 됨 - NXDOMAIN) │</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1개 도메인만 등록 ◀─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(예: zxc.org)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DNS 질의: zxc.org?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">정상통과</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">▶ IP 반환 (C&amp;C 연결) │</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">명령 폴링 (HTTP)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⚠ 핵심: 방어자는 매일 바뀌는 10,000개의 도메인을 미리 알아내 모두 차단하기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">매우 어렵다. 봇은 수많은 실패(NXDOMAIN) 끝에 결국 해커가 준비해 둔 단</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하나의 진짜 도메인을 찾아내 C&amp;C 서버와 연결(Beaconing)을 맺는다.</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│              DGA (Domain Generation Algorithm) 기반 C&C 통신 흐름        │
+├──────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  [방어자 (ISP/보안 장비)]         [Bot (감염 기기)]        [Botmaster]     │
+│             │                       │                      │     │
+│             │ (알고리즘: 날짜+시드)   │                      │     │
+│             │                       ├─▶ 매일 10,000개의     │     │
+│             │                       │   랜덤 도메인 생성     │     │
+│             │                       │                      │     │
+│             │  DNS 질의: qwe.com?   │                      │     │
+│  [차단불가] ◀── (등록 안 됨 - NXDOMAIN)                      │     │
+│             │                       │                      │     │
+│             │  DNS 질의: asd.net?   │                      │     │
+│  [차단불가] ◀── (등록 안 됨 - NXDOMAIN)                      │     │
+│             │                       │                      │     │
+│             │                       │   1개 도메인만 등록 ◀─┤     │
+│             │                       │   (예: zxc.org)      │     │
+│             │  DNS 질의: zxc.org?   │                      │     │
+│  [정상통과] ◀───────────────────────┤▶ IP 반환 (C&C 연결)   │     │
+│             │                       │                      │     │
+│             │                       ├──────────────────────▶ │     │
+│             │                       │  명령 폴링 (HTTP)      │     │
+│                                                                  │
+│ ⚠ 핵심: 방어자는 매일 바뀌는 10,000개의 도메인을 미리 알아내 모두 차단하기 │
+│ 매우 어렵다. 봇은 수많은 실패(NXDOMAIN) 끝에 결국 해커가 준비해 둔 단  │
+│ 하나의 진짜 도메인을 찾아내 C&C 서버와 연결(Beaconing)을 맺는다.      │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 타이밍/흐름도는 방패(블랙리스트)를 뚫는 현대의 창(DGA)의 핵심 원리를 명확히 보여준다. DGA에 감염된 봇은 봇마스터와 직접 통신을 시도하는 대신, 자신이 내장한 해시 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 돌려 무작위 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)을 만들어내고 끊임없이 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/)([Domain Name System](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/)) 질의를 던진다. 대부분은 존재하지 않는 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)이므로 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버는 NXDOMAIN(Non-Existent [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)) 에러를 반환한다. 봇마스터 역시 동일한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 알고 있으므로 오늘 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)될 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 목록 중 딱 한 개만 미리 돈을 주고 구매해 C&C 서버의 IP와 연결해 둔다. 봇이 수백 번의 헛스윙 끝에 우연히 그 등록된 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)을 질의하는 순간, 마침내 C&C의 IP를 얻어 연결을 맺는다. 방어자가 이 봇넷을 차단하려면 악성코드 리버싱을 통해 DGA [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 자체를 추출해내고 해커보다 먼저 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)들을 선점(Sinkhole)해야만 하는 고도의 기술적 카방 놀이가 발생한다.
 
@@ -123,19 +132,17 @@ tags = ["studynote-network"]
 
 C&C 서버와 봇의 통신(Beaconing) 주기는 방어자의 [NIDS](/knowledge-base/studynote/03_network/13_network_security_basics/693_nids_network_intrusion_detection_system/) (Network [Intrusion Detection System](/knowledge-base/studynote/09_security/uncategorized/994_ids_ips_intrusion_detection_prevention_false_positive/)) 탐지를 회피하기 위한 중요한 요소다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Beaconing</div><div class="kb-diagram-cell">주기(Interval)</div><div class="kb-diagram-cell">Jitter(무작위성)</div><div class="kb-diagram-cell">장/단점 및 실무 판단</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Fast</div><div class="kb-diagram-cell">수 초 ~ 수 분</div><div class="kb-diagram-cell">없음</div><div class="kb-diagram-cell">명령 전달은 빠르나, 방화벽의</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(동기형)</div><div class="kb-diagram-cell">주기적인 연결 로그에 쉽게 탐지됨</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Slow</div><div class="kb-diagram-cell">수 시간 ~ 수 일</div><div class="kb-diagram-cell">높음 (± 20% 등)</div><div class="kb-diagram-cell">APT 공격 등 장기 잠복에 유리.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(비동기형)</div><div class="kb-diagram-cell">통계적 주기 분석 탐지를 회피함</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────┬──────────────┬─────────────────┬──────────────────────────────┐
+│ Beaconing │ 주기(Interval)│ Jitter(무작위성)│ 장/단점 및 실무 판단           │
+├───────────┼──────────────┼─────────────────┼──────────────────────────────┤
+│ Fast      │ 수 초 ~ 수 분 │ 없음            │ 명령 전달은 빠르나, 방화벽의   │
+│ (동기형)  │              │                 │ 주기적인 연결 로그에 쉽게 탐지됨│
+├───────────┼──────────────┼─────────────────┼──────────────────────────────┤
+│ Slow      │ 수 시간 ~ 수 일│ 높음 (± 20% 등) │ APT 공격 등 장기 잠복에 유리.  │
+│ (비동기형)│              │                 │ 통계적 주기 분석 탐지를 회피함 │
+└───────────┴──────────────┴─────────────────┴──────────────────────────────┘
+```
 
 **[매트릭스 해설]** 봇이 C&C 서버에 "살아있습니다, 명령을 주십시오"라고 보내는 신호를 [비컨](/knowledge-base/studynote/03_network/12_iot_wpan_edge/608_beacon_technology_ibeacon_eddystone/)([Beacon](/knowledge-base/studynote/03_network/12_iot_wpan_edge/608_beacon_technology_ibeacon_eddystone/))이라고 한다. 봇마스터는 즉각적인 DDoS 공격이 필요할 때는 Fast Beaconing을 쓰지만, 기업 내부에 침투해 장기간 은밀히 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 빼내는 [APT](/knowledge-base/studynote/09_security/15_malware_attack_vectors/748_apt/) ([Advanced Persistent Threat](/knowledge-base/studynote/09_security/04_endpoint_security/374_apt/)) 공격 시에는 Slow Beaconing에 Jitter(시간의 무작위 변동 값)를 섞어 사용한다. 예를 들어 60분 간격에 20% Jitter를 주면 48분~72분 사이 무작위로 통신하므로, 보안팀이 [SIEM](/knowledge-base/studynote/09_security/13_secops_ir_forensics/624_siem/) ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Information and [Event Management](/knowledge-base/studynote/12_it_management/02_itsm_itil/074_event_management/))에서 "정확히 일정한 주기로 반복되는 트래픽"을 찾는 정적 룰셋을 완벽히 회피할 수 있다. 이는 공격자가 네트워크 통계학을 융합하여 탐지를 무력화하는 전형적인 사례다.
 
@@ -153,29 +160,35 @@ C&C 서버와 봇의 통신(Beaconing) 주기는 방어자의 [NIDS](/knowledge-
 
 의사결정 과정에서, 내부 PC가 봇넷에 감염되었을 때 이를 탐지하고 C&C 통신을 끊어내는 실무 플로우는 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실무 기업 망의 봇넷 C&amp;C 탐지 및 무력화 (IR) 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크/엔드포인트 이상 징후 포착 (SIEM/EDR)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">분석</div><div class="kb-diagram-note">이상 트래픽의 형태는 무엇인가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">A</div><div class="kb-diagram-note">반복적이고 규칙적인 외부 HTTP/TCP 연결 (Beaconing)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 주기 분석 (Jitter 포함 여부 확인)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">B</div><div class="kb-diagram-note">비정상 도메인 질의 폭증 (NXDOMAIN 비율 상승)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ DGA 의심, DNS 로그 분석 및 도메인 엔트로피 검사</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">C</div><div class="kb-diagram-note">평판이 낮거나 신생 도메인으로의 평문 통신</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 위협 인텔리전스(CTI)와 교차 검증</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">대응 의사결정</div><div class="kb-diagram-note">방어 전략 수립</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ 1.</div><div class="kb-diagram-node">네트워크 차단</div><div class="kb-diagram-note">확인된 C&amp;C IP/도메인 Firewall 블랙리스트</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ 2.</div><div class="kb-diagram-node">DNS Sinkhole</div><div class="kb-diagram-note">DGA 도메인을 사내 분석 서버로 리다이렉트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하여 감염된 내부 PC(Bot) 목록 전수 파악 (가장 중요)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ 3.</div><div class="kb-diagram-node">엔드포인트 치료</div><div class="kb-diagram-note">확인된 봇 PC 네트워크 강제 분리 및</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">악성 프로세스 킬, 레지스트리 영구 지속성(Persistence) 제거</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────────┐
+│           실무 기업 망의 봇넷 C&C 탐지 및 무력화 (IR) 플로우           │
+├───────────────────────────────────────────────────────────────────┤
+│                                                                   │
+│   [네트워크/엔드포인트 이상 징후 포착 (SIEM/EDR)]                      │
+│                │                                                  │
+│                ▼                                                  │
+│      [분석] 이상 트래픽의 형태는 무엇인가?                               │
+│          ├─ [A] 반복적이고 규칙적인 외부 HTTP/TCP 연결 (Beaconing)    │
+│          │       └─▶ 주기 분석 (Jitter 포함 여부 확인)               │
+│          │                                                        │
+│          ├─ [B] 비정상 도메인 질의 폭증 (NXDOMAIN 비율 상승)          │
+│          │       └─▶ DGA 의심, DNS 로그 분석 및 도메인 엔트로피 검사 │
+│          │                                                        │
+│          └─ [C] 평판이 낮거나 신생 도메인으로의 평문 통신             │
+│                  └─▶ 위협 인텔리전스(CTI)와 교차 검증                 │
+│                │                                                  │
+│                ▼                                                  │
+│      [대응 의사결정] 방어 전략 수립                                     │
+│          ├─ 1. [네트워크 차단] 확인된 C&C IP/도메인 Firewall 블랙리스트 │
+│          │                                                        │
+│          ├─ 2. [DNS Sinkhole] DGA 도메인을 사내 분석 서버로 리다이렉트 │
+│          │     하여 감염된 내부 PC(Bot) 목록 전수 파악 (가장 중요)     │
+│          │                                                        │
+│          └─ 3. [엔드포인트 치료] 확인된 봇 PC 네트워크 강제 분리 및     │
+│                악성 프로세스 킬, 레지스트리 영구 지속성(Persistence) 제거│
+└───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 의사결정 트리는 봇넷 감염 시 단순히 "백신으로 치료한다"를 넘어선 엔터프라이즈급 대응([Incident Response](/knowledge-base/studynote/09_security/16_data_privacy/806_incident_response/))을 보여준다. 가장 중요한 핵심은 2번의 <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/">DNS</a> Sinkholing</strong>이다. C&C [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)을 단순히 Drop(차단)해 버리면, 내부에 어떤 PC들이 감염되어 통신을 시도했는지 추적할 단서가 사라진다. 따라서 방어자는 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 조작해, 악성 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에 대한 질의를 127.0.0.1이나 사내 보안팀의 분석 서버 IP(Sinkhole)로 응답하게 만든다. 그러면 감염된 모든 봇 PC들이 앞다투어 보안팀의 가짜 C&C 서버로 접속을 시도하게 되고, 보안팀은 이 IP 목록을 추출해 사내망에 은닉된 모든 좀비 PC를 일망타진할 수 있다.
 
@@ -223,19 +236,15 @@ C&C 서버와 봇의 통신(Beaconing) 주기는 방어자의 [NIDS](/knowledge-
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 서비스 거부 공격</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 봇넷 C&amp;C</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: ARP 스푸핑</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 서비스 거부 공격]
+    │
+    ▼
+[현재 개념: 봇넷 C&C]
+    │
+    ├──▶ [확장 A: ARP 스푸핑]
+    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
+```
 
 봇넷 C&C는 [서비스 거부 공격](/knowledge-base/studynote/03_network/19_frequent_topics_terms/989_dos_denial_of_service/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

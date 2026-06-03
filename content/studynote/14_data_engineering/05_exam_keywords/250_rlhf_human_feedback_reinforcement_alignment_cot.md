@@ -44,26 +44,31 @@ Anthropic이 제시한 [AI](/knowledge-base/studynote/04_software_engineering/03
 
 ### RLHF 3단계 파이프라인
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RLHF 파이프라인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1단계: SFT (Supervised Fine-Tuning)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사전훈련 LLM + 인간 작성 고품질 프롬프트-응답 쌍</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 지시사항 따르기 기초 능력 획득</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2단계: RM (Reward Model 학습)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동일 프롬프트에 대해 여러 응답 생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인간 평가자가 응답 쌍을 비교하여 선호도 레이블링</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 보상 모델(Reward Model) 학습</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3단계: PPO (강화 학습으로 LLM 최적화)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SFT 모델이 응답 생성 → RM이 보상 점수 부여</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PPO 알고리즘으로 보상 최대화하는 방향으로 정책 업데이트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">KL Divergence 페널티로 원래 LLM과 너무 달라지지 않게</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    RLHF 파이프라인                           │
+│                                                             │
+│  1단계: SFT (Supervised Fine-Tuning)                       │
+│  ┌─────────────────────────────────────────────────────┐   │
+│  │  사전훈련 LLM + 인간 작성 고품질 프롬프트-응답 쌍     │   │
+│  │  → 지시사항 따르기 기초 능력 획득                     │   │
+│  └────────────────────────┬────────────────────────────┘   │
+│                            │                               │
+│  2단계: RM (Reward Model 학습)                             │
+│  ┌─────────────────────────────────────────────────────┐   │
+│  │  동일 프롬프트에 대해 여러 응답 생성                   │   │
+│  │  인간 평가자가 응답 쌍을 비교하여 선호도 레이블링       │   │
+│  │  → 보상 모델(Reward Model) 학습                      │   │
+│  └────────────────────────┬────────────────────────────┘   │
+│                            │                               │
+│  3단계: PPO (강화 학습으로 LLM 최적화)                     │
+│  ┌─────────────────────────────────────────────────────┐   │
+│  │  SFT 모델이 응답 생성 → RM이 보상 점수 부여            │   │
+│  │  PPO 알고리즘으로 보상 최대화하는 방향으로 정책 업데이트│   │
+│  │  KL Divergence 페널티로 원래 LLM과 너무 달라지지 않게  │   │
+│  └─────────────────────────────────────────────────────┘   │
+└─────────────────────────────────────────────────────────────┘
+```
 
 ### 주요 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)
 
@@ -118,21 +123,16 @@ yw: 선호 응답, yl: 비선호 응답
 
 RLHF와 함께 추론 능력 향상에 쓰이는 핵심 기법:
 
+```
+일반 프롬프팅:
+"24 × 17 = ?"
+→ LLM: "408"
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">일반 프롬프팅:</div>
-<div class="kb-diagram-note">"24 × 17 = ?"</div>
-<div class="kb-diagram-note">→ LLM: "408"</div>
-<div class="kb-diagram-note">CoT 프롬프팅:</div>
-<div class="kb-diagram-note">"24 × 17 = ? 단계별로 생각해보자."</div>
-<div class="kb-diagram-note">→ LLM: "24 × 17 = 24 × 10 + 24 × 7</div>
-<div class="kb-diagram-note">= 240 + 168 = 408"</div>
-</div>
-</div>
-
-
+CoT 프롬프팅:
+"24 × 17 = ? 단계별로 생각해보자."
+→ LLM: "24 × 17 = 24 × 10 + 24 × 7 
+              = 240 + 168 = 408"
+```
 
 <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/146_chain_of_thought_cot/">CoT</a> 변형:</strong>
 - <strong>Zero-shot <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/146_chain_of_thought_cot/">CoT</a></strong>: "Let's think step by step" 추가
@@ -206,21 +206,18 @@ RLHF는 <strong>AI를 도구에서 파트너로 전환</strong>시키는 기술�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">SFT (Supervised Fine-Tuning): 인간 시연 데이터 학습</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">RLHF: Reward Model 학습 → PPO 정책 최적화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DPO (Direct Preference Optimization): RM 없이 직접 정렬</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Constitutional AI · RLAIF: AI 자가 피드백</div>
-</div>
-</div>
-
-
+```text
+SFT (Supervised Fine-Tuning): 인간 시연 데이터 학습
+    │
+    ▼
+RLHF: Reward Model 학습 → PPO 정책 최적화
+    │
+    ▼
+DPO (Direct Preference Optimization): RM 없이 직접 정렬
+    │
+    ▼
+Constitutional AI · RLAIF: AI 자가 피드백
+```
 2. CoT는 <strong>수학 시험에서 풀이 과정을 쓰는 것</strong>과 같아. 답만 쓰면 틀리기 쉽지만, 과정을 적으면 훨씬 정확해져.
 3. [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 정렬은 <strong>AI에게 인성 교육을 시키는 것</strong>이야. 공부를 잘하는 것도 중요하지만, 착하고 솔직하게 행동하는 것도 배워야 해.
 

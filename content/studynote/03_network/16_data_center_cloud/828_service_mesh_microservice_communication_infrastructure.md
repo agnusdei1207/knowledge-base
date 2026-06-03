@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 과거 통짜(Monolithic) 프로그램은 함수끼리 메모리 안에서 호출하니까 0.0001초면 통신이 끝났고 에러도 없었습니다.
 - **네트워크의 오류 (Fallacies of distributed computing)**: 프로그램이 100개로 쪼개져서 랜선을 타고 통신하는 순간, 네트워크는 끊길 수도 있고, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))될 수도 있으며, 해킹당할 수도 있는 <strong>'극도로 불안정한 지뢰밭'</strong>으로 변합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Ingress / Egress 트래픽</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">서비스 메시</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Istio</div></div>
-</div>
-</div>
-
-
+```text
+[Ingress / Egress 트래픽]
+    │
+    ▼
+[서비스 메시]
+    │
+    └──▶ [Istio]
+```
 
 - **📢 섹션 요약 비유**: [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -44,18 +40,14 @@ tags = ["studynote-network"]
 - **개념**: 수많은 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)들이 서로 통신([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)-to-[Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))할 때 필요한 <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a>, 로드밸런싱, 트래픽 제어, 암호화(<a href="/knowledge-base/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/">mTLS</a>), 모니터링 등의 복잡한 네트워크 통제 기능을, 애플리케이션 코드에서 완전히 분리(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a>)하여 인프라(네트워크 계층) 단에서 투명하게 100% 대신 처리해 주는 전용 인프라 소프트웨어 덮개망</strong>입니다.
 - **목표**: "개발자는 코딩만 해라. 통신망 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 재전송(Retry), [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/)(차단기)는 인프라가 다 알아서 할게."
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Ingress / Egress 트래픽</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">서비스 메시</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Istio</div></div>
-</div>
-</div>
-
-
+```text
+[Ingress / Egress 트래픽]
+    │
+    ▼
+[서비스 메시]
+    │
+    └──▶ [Istio]
+```
 
 - **📢 섹션 요약 비유**: [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -121,19 +113,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: Ingress / Egress 트래픽</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 서비스 메시</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: Istio</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: Ingress / Egress 트래픽]
+    │
+    ▼
+[현재 개념: 서비스 메시]
+    │
+    ├──▶ [확장 A: Istio]
+    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
+```
 
 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)는 [Ingress](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/) / [Egress](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/) 트래픽에서 출발해 현재 메커니즘을 정교화하고, 이후 Istio와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

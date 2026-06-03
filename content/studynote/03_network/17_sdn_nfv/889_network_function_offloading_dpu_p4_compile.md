@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 1세대: 846번의 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/">DPDK</a></strong> (소프트웨어 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)만 우회, 여전히 메인 CPU가 일함)
 - 2세대: 848번의 <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/">DPU</a>/SmartNIC 기본 모델</strong> (랜카드 안의 ARM 미니 CPU로 일을 떠넘김). 하지만 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 룰이 10만 줄이 넘어가면 ARM CPU도 소프트웨어 연산을 하느라 패킷 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))이 발생했습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">멀티 테넌트</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 펑션 오프로딩</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">광통신 네트워크 이더넷</div></div>
-</div>
-</div>
-
-
+```text
+[멀티 테넌트]
+    │
+    ▼
+[네트워크 펑션 오프로딩]
+    │
+    └──▶ [광통신 네트워크 이더넷]
+```
 
 - **📢 섹션 요약 비유**: 네트워크 펑션 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -52,18 +48,14 @@ tags = ["studynote-network"]
 - 서버 뱃속에서 CPU를 퍼먹으며 헐떡거리던 [가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/)([OVS](/knowledge-base/studynote/03_network/17_sdn_nfv/860_ovs_open_vswitch_sdn_openflow/), 860번) 전체 코드 수만 줄을 통째로 이 [DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) 쇳덩어리 칩셋에 하드 코딩(Offload)해 버립니다.
 - 가상머신([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))에서 나온 패킷은 메인 OS를 아예 거치지 않고, [DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) 칩셋을 다이렉트로 통과하며 터널 포장(Encap)과 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 검사를 완벽히 받고 랜선으로 날아갑니다([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 파급 최소화).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">멀티 테넌트</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 펑션 오프로딩</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">광통신 네트워크 이더넷</div></div>
-</div>
-</div>
-
-
+```text
+[멀티 테넌트]
+    │
+    ▼
+[네트워크 펑션 오프로딩]
+    │
+    └──▶ [광통신 네트워크 이더넷]
+```
 
 - **📢 섹션 요약 비유**: 네트워크 펑션 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -125,19 +117,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 멀티 테넌트</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 네트워크 펑션 오프로딩</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 광통신 네트워크 이더넷</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 프로그래머블 네트워크</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 멀티 테넌트]
+    │
+    ▼
+[현재 개념: 네트워크 펑션 오프로딩]
+    │
+    ├──▶ [확장 A: 광통신 네트워크 이더넷]
+    └──▶ [확장 B: 프로그래머블 네트워크]
+```
 
 네트워크 펑션 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)는 [멀티 테넌트](/knowledge-base/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [광통신 네트워크 이더넷](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/890_optical_ethernet_carrier_ethernet_single_platform/)와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -21,17 +21,14 @@ tags = ["studynote-ai"]
 
 선형 회귀로 이진 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)를 하면 예측값이 0~1 범위를 벗어나 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)로 해석 불가하다. [로지스틱 회귀](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/)는 선형 조합 z = w·x + b를 [시그모이드](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/) σ(z) = 1/(1+e⁻ᶻ)에 통과시켜 P(y=1|x) ∈ (0,1)로 변환한다. 이름은 "회귀"지만 실제로는 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 모델이며, 의료 진단(암 여부), 신용 평가(부도 여부), 스팸 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 등에서 해석가능성 덕분에 여전히 광범위하게 사용된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [로지스틱 회귀](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/)는 "저울 → [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 변환기"다. 여러 증거를 저울에 올려 무게(선형 합)를 재고, [시그모이드](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)라는 마법 변환기로 "암일 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 73%"처럼 0~100% [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)로 변환해준다.
 
@@ -39,26 +36,28 @@ tags = ["studynote-ai"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">로지스틱 회귀 수식 전개</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오즈 (Odds):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">odds = p / (1-p) (성공 확률 / 실패 확률)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">로짓 (Logit) 변환:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">logit(p) = log(p/(1-p)) = w·x + b</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 선형 모델 = 로그 오즈 = 로짓</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시그모이드 역변환:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">p = σ(w·x+b) = 1 / (1 + e^(-(w·x+b)))</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">손실 함수 (Binary Cross Entropy):</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">L = -</div><div class="kb-diagram-node">y·log(p) + (1-y)·log(1-p)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">계수 해석: eʷ = Odds Ratio (오즈비)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">w=0.5 → eʷ=1.65 → 해당 특성 1 증가 시 오즈 1.65배↑</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────┐
+│         로지스틱 회귀 수식 전개                           │
+├──────────────────────────────────────────────────────────┤
+│                                                          │
+│  오즈 (Odds):                                           │
+│  odds = p / (1-p)    (성공 확률 / 실패 확률)            │
+│                                                          │
+│  로짓 (Logit) 변환:                                     │
+│  logit(p) = log(p/(1-p)) = w·x + b                     │
+│  → 선형 모델 = 로그 오즈 = 로짓                         │
+│                                                          │
+│  시그모이드 역변환:                                      │
+│  p = σ(w·x+b) = 1 / (1 + e^(-(w·x+b)))               │
+│                                                          │
+│  손실 함수 (Binary Cross Entropy):                      │
+│  L = -[y·log(p) + (1-y)·log(1-p)]                     │
+│                                                          │
+│  계수 해석: eʷ = Odds Ratio (오즈비)                   │
+│  w=0.5 → eʷ=1.65 → 해당 특성 1 증가 시 오즈 1.65배↑  │
+└──────────────────────────────────────────────────────────┘
+```
 
 | 변환 | 수식 | 범위 | 의미 |
 |:---|:---|:---|:---|

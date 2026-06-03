@@ -42,20 +42,19 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 피연산자 종류에 따라 CPU 내부의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 경로가 달라지는 모습을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">operand path: data location changes latency</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Instruction =</div><div class="kb-diagram-node">opcode | operand specifier</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── immediate field ▶ ALU input</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── register index ─▶ Register File ─▶ ALU input</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── memory address ─▶ Cache / Memory ─▶ Register / ALU</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Result ─▶ Register write-back / memory store</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                operand path: data location changes latency                 │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Instruction = [ opcode | operand specifier ]                              │
+│                    │                                                       │
+│                    ├── immediate field ───────────────▶ ALU input          │
+│                    ├── register index ─▶ Register File ─▶ ALU input        │
+│                    └── memory address ─▶ Cache / Memory ─▶ Register / ALU  │
+│                                                                            │
+│ Result ─▶ Register write-back / memory store                               │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 핵심은 같은 `ADD` 명령이라도 피연산자 위치가 달라지면 실제로 열리는 하드웨어 경로가 완전히 달라진다는 점이다. 즉시값은 디코드 후 바로 쓰이지만, 메모리 피연산자는 주소 계산과 캐시 접근이 추가되고, 그만큼 지연과 전력 소모가 커진다. 그래서 현대 프로세서는 연산기 자체보다 피연산자 공급 경로를 더 엄격하게 설계한다.
 
@@ -121,24 +120,22 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">상수 / 레지스터 / 메모리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">피연산자 해석</div>
-<div class="kb-diagram-note">(Addressing Mode)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">0·1·2·3-주소 명령어 구조</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">로드-스토어 아키텍처</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">컴파일러의 레지스터 할당 최적화</div>
-</div>
-</div>
-
-
+```text
+상수 / 레지스터 / 메모리
+        │
+        ▼
+피연산자 해석
+(Addressing Mode)
+        │
+        ▼
+0·1·2·3-주소 명령어 구조
+        │
+        ▼
+로드-스토어 아키텍처
+        │
+        ▼
+컴파일러의 레지스터 할당 최적화
+```
 
 이 흐름은 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 어디서 읽는가"라는 문제에서 시작해, 현대 ISA와 컴파일러 최적화 전략으로 이어지는 연결을 보여 준다.
 

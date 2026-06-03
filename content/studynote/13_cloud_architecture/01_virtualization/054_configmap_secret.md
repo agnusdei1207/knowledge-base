@@ -111,21 +111,18 @@ ConfigMap과 Secret을 잘 쓰면 배포가 깔끔해지고, 보안과 운영 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">하드코딩 설정</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ConfigMap / Secret</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Pod 주입</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">환경 분리 / 회전 / 감사</div>
-</div>
-</div>
-
-
+```text
+하드코딩 설정
+    │
+    ▼
+ConfigMap / Secret
+    │
+    ▼
+Pod 주입
+    │
+    ▼
+환경 분리 / 회전 / 감사
+```
 
 이 흐름은 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)과 비밀정보를 코드에서 분리해 운영하는 방법을 보여준다.
 

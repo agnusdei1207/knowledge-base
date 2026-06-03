@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/">거리 벡터</a> (<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/">Distance Vector</a>)</strong>: 앞서 배운 멍청한 라우터입니다. 옆집 라우터가 주는 엑셀 장부만 믿고 길을 결정하여, 거짓 정보(루핑)에 엄청나게 취약합니다.
 - <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/348_link_state_routing_dijkstra_spf/">링크 상태</a> (<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/348_link_state_routing_dijkstra_spf/">Link State</a>, <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/">OSPF</a>) 🌟</strong>: 남의 장부를 믿지 않고, 전국의 모든 라우터가 자기가 가진 <strong>'<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/348_link_state_routing_dijkstra_spf/">링크 상태</a>(내가 누구랑 연결되어 있고 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>이 얼마인지)'</strong>만 쪽지(LSA)에 적어 온 세상에 뿌립니다. 라우터는 이 수만 장의 쪽지를 모아 전국 지형도(LSDB)를 자기 뱃속에 직접 그립니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">루프 어보이던스</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">OSPF 링크 상태 데이터베이스</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">BGP AS-Path</div></div>
-</div>
-</div>
-
-
+```text
+[루프 어보이던스]
+    │
+    ▼
+[OSPF 링크 상태 데이터베이스]
+    │
+    └──▶ [BGP AS-Path]
+```
 
 - **📢 섹션 요약 비유**: [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) [링크 상태](/knowledge-base/studynote/03_network/07_network_layer_routing/348_link_state_routing_dijkstra_spf/) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -46,18 +42,14 @@ tags = ["studynote-network"]
 - **개념**: [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 영역(Area) 안에 있는 모든 라우터들끼리 쏘아 보낸 수만 장의 <strong>LSA (<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/348_link_state_routing_dijkstra_spf/">Link State</a> Advertisement, <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/348_link_state_routing_dijkstra_spf/">링크 상태</a> 쪽지)</strong> 패킷들을 모조리 모아 엮어놓은 <strong>'완벽한 전국 네트워크 토폴로지(연결 지도) <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a>'</strong>입니다.
 - **핵심 특징**: 똑같은 구역(Area 0 등) 안에 있는 A 라우터와 B 라우터의 뱃속에 있는 이 <strong>LSDB 지도는 글자 하나 틀리지 않고 100% 완벽하게 똑같이 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a>(복사)</strong>되어 있습니다. 모두가 똑같은 지형도를 뇌 속에 띄우고 있습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">루프 어보이던스</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">OSPF 링크 상태 데이터베이스</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">BGP AS-Path</div></div>
-</div>
-</div>
-
-
+```text
+[루프 어보이던스]
+    │
+    ▼
+[OSPF 링크 상태 데이터베이스]
+    │
+    └──▶ [BGP AS-Path]
+```
 
 - **📢 섹션 요약 비유**: [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) [링크 상태](/knowledge-base/studynote/03_network/07_network_layer_routing/348_link_state_routing_dijkstra_spf/) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -117,19 +109,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 루프 어보이던스</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: OSPF 링크 상태 데이터베이스</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: BGP AS-Path</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 루프 어보이던스]
+    │
+    ▼
+[현재 개념: OSPF 링크 상태 데이터베이스]
+    │
+    ├──▶ [확장 A: BGP AS-Path]
+    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
+```
 
 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) [링크 상태](/knowledge-base/studynote/03_network/07_network_layer_routing/348_link_state_routing_dijkstra_spf/) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)는 [루프 어보이던스](/knowledge-base/studynote/03_network/19_frequent_topics_terms/960_loop_avoidance_stp_ttl_routing_prevention/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) AS-Path와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

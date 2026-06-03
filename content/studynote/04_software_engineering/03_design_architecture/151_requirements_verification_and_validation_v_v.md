@@ -33,32 +33,34 @@ tags = ["studynote-software-engineering"]
 
 이 2개의 잣대 중 단 1개라도 빵꾸 나면 그 시스템 코드는 살아남을 수 없는 멸망 버그 찌꺼기가 된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">검증(Verification) vs 확인(Validation) 딜레마 폭파 예시 💥</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🧔</div><div class="kb-diagram-node">1. 고객의 진짜 숨은 본심 (Business Needs)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "나 아침 출근길 강남대로 존나 막히는데 안 막히고 10분 만에 쾌속 직빵</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이동할 수 있는 좁고 날렵한 탈것 1개만 만들어줘 견적 콜?"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">📝</div><div class="kb-diagram-node">2. 기획자의 뇌피셜 명세서 (SRS) 문서 떡칠 작성 똥볼 💥</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 문서 왈: "바퀴가 4개 달리고 최고속도 300km/h로 달리는 V8 엔진</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">빨간색 스포츠카를 개발 납품할 것 도장 쾅."</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🛠️</div><div class="kb-diagram-node">3. 개발자 &amp; QA의 행동 (Verification 검증 검열 쉴드 🛡️)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 엔진 RPM 스펙 측정, 바퀴 4개 얼라인먼트 확인, 300km 주행 테스트 100% 합격!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➔ ✅ 검증 (Verification) 완벽하게 100점 성공 컷! (명세서 문장 충족 끝)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">💀</div><div class="kb-diagram-node">4. 오픈 당일 고객의 반응 (Validation 대재앙 멸망 터짐 💥)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고객 극대노: "야 이 씨발 강남대로 출근 꽉 막혀 아수라장인데 최고속도 300km</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스포츠카가 무슨 똥 쓸모야 덩치만 커서 차선도 못 바꾸네 1시간 지각 뻗음 💀!!!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">내가 진짜 원했던 건 좁은 차 사이로 쇽쇽 빠져나가는 킥보드나 오토바이였다고 쾅!!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➔ ❌ 확인 (Validation) 처참하게 우주 폭사 실패! (수백억 차 폐차장 쓰레기통 직행)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 아키텍트 팩폭 결론: 검증(V)은 명세서(문서)와 제품 쇳덩이를 대조하는 기계적</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">노가다 행위고, 확인(V)은 쇳덩이와 고객의 진짜 살아 숨 쉬는 '비즈니스 목적'을</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대조하여 멱살 잡고 의심하는 가장 파괴적이고 잔혹한 인문학적 검열 심사다 쾅!!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          검증(Verification) vs 확인(Validation) 딜레마 폭파 예시 💥 │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ 🧔 [ 1. 고객의 진짜 숨은 본심 (Business Needs) ]                 │
+│   - "나 아침 출근길 강남대로 존나 막히는데 안 막히고 10분 만에 쾌속 직빵  │
+│      이동할 수 있는 좁고 날렵한 탈것 1개만 만들어줘 견적 콜?"             │
+│                                                             │
+│ 📝 [ 2. 기획자의 뇌피셜 명세서 (SRS) 문서 떡칠 작성 똥볼 💥 ]       │
+│   - 문서 왈: "바퀴가 4개 달리고 최고속도 300km/h로 달리는 V8 엔진      │
+│      빨간색 스포츠카를 개발 납품할 것 도장 쾅."                        │
+│                                                             │
+│ 🛠️ [ 3. 개발자 & QA의 행동 (Verification 검증 검열 쉴드 🛡️) ]     │
+│   - 엔진 RPM 스펙 측정, 바퀴 4개 얼라인먼트 확인, 300km 주행 테스트 100% 합격!│
+│   ➔ ✅ 검증 (Verification) 완벽하게 100점 성공 컷! (명세서 문장 충족 끝) │
+│                                                             │
+│ 💀 [ 4. 오픈 당일 고객의 반응 (Validation 대재앙 멸망 터짐 💥) ]     │
+│   고객 극대노: "야 이 씨발 강남대로 출근 꽉 막혀 아수라장인데 최고속도 300km  │
+│   스포츠카가 무슨 똥 쓸모야 덩치만 커서 차선도 못 바꾸네 1시간 지각 뻗음 💀!!! │
+│   내가 진짜 원했던 건 좁은 차 사이로 쇽쇽 빠져나가는 킥보드나 오토바이였다고 쾅!!"│
+│   ➔ ❌ 확인 (Validation) 처참하게 우주 폭사 실패! (수백억 차 폐차장 쓰레기통 직행)│
+│                                                             │
+│ 🌟 아키텍트 팩폭 결론: 검증(V)은 명세서(문서)와 제품 쇳덩이를 대조하는 기계적 │
+│    노가다 행위고, 확인(V)은 쇳덩이와 고객의 진짜 살아 숨 쉬는 '비즈니스 목적'을 │
+│    대조하여 멱살 잡고 의심하는 가장 파괴적이고 잔혹한 인문학적 검열 심사다 쾅!! │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** IT 프로젝트에서 70% 확률로 터지는 '요구사항 왜곡 전파 도미노' 파국이다. 개발자와 QA는 '명세서'가 진리이자 신인 줄 알고 문장 1줄 1줄 O/X 채점 치는 <strong><a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>(<a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">Verification</a>)</strong>에만 목숨을 걸고 자위한다. 하지만 기획 첫 단추에서 고객의 진짜 속마음(니즈)이 왜곡 번역되어 명세서에 잘못 박혀 굳어버렸다면? 그 이후 이어지는 1년짜리 완벽한 에러 제로 무결점 코딩(개발)은 ➔ 가장 완벽하게 존나 잘못된 지옥 낭떠러지 목적지를 향해 풀악셀 로켓 질주하는 100억짜리 자살 폭주 기관차일 뿐이다.
 V&V의 핵심 사상은 코더들에게 "문서만 보고 코딩하는 앵무새 짓 집어치워 쾅!! 이 기능 코드 1줄이 진짜로 고객의 돈(비즈니스 가치)을 벌어다 주는가([Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))를 끊임없이 의심하고, 껍데기 화면 [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/)(Demo) 만들어서 1주일에 한 번씩 고객 눈깔 앞에 집어 던져서 '이거 원한 거 맞아 씹새야?' 컨펌 팩트 록온([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 실시간으로 쳐라 🚀!" 라고 경고하는 0순위 생명줄 통제 헌법이다.
@@ -135,30 +137,28 @@ V&V ([Verification](/knowledge-base/studynote/04_software_engineering/07_object_
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/132_v_model_sdlc_verification_validation_testing/">V-Model</a> (V-모델 대관식)</strong> | V&V 헌법 철학을 왼쪽 개발 단계 계단(설계)과 오른쪽 테스트 상승 계단([검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))으로 1:1 수평 매핑 연결 락킹 쳐서, 생명주기([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/)) 전체를 품질 검문소 요새 텐트로 만들어버린 클래식 공학의 상징 뼈대. |
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/406_acceptance_test_uat/">인수 테스트</a> (<a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/406_acceptance_test_uat/">Acceptance Test</a>, UAT)</strong> | V&V의 오른쪽 맨 꼭대기 마지막 최종 보스 문지기 🚪. 코더가 아니라 돈 내는 진짜 고객([Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) 절대 갑)이 직접 마우스 쥐고 앱 돌려본 뒤 "오케이 내가 원한 비즈니스 맞음 ㅋ" 사인(Sign-off / [Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 쾅!) 때리는 최종 생존 관문. |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/406_acceptance_test_uat/">인수 테스트</a> (<a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/406_acceptance_test_uat/">Acceptance Test</a>, UAT)</strong> | V&V의 오른쪽 맨 꼭대기 마지막 최종 보스 문지기 🚪. 코더가 아니라 돈 내는 진짜 고객([C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) 절대 갑)이 직접 마우스 쥐고 앱 돌려본 뒤 "오케이 내가 원한 비즈니스 맞음 ㅋ" 사인(Sign-off / [Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 쾅!) 때리는 최종 생존 관문. |
 | <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/">인스펙션</a> (Inspection 감리 칼춤 🪓)</strong> | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)([Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 정적 테스트) 툴 중 가장 피 터지고 빡센 무기. 코드 짠 놈은 아가리 묵비권 락 걸고 ➔ 외부 스나이퍼 전문가들이 보안 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 돋보기 잣대 들고 1줄 1줄 사형 선고 도륙 내는 공식 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 척살 린치 재판. |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/">정적 분석</a> (<a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/">Static Analysis</a> 자동화 봇 ✨)</strong> | 코드를 런타임 실행(Run) 안 시키고! 걍 [SonarQube](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/) 같은 봇 기계가 소스코드 텍스트 껍데기 자체만 스캔 긁어서 ➔ 널포인터, [XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/) 보안 빵꾸, [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/) 똥 냄새([Code Smell](/knowledge-base/studynote/12_it_management/05_security_compliance/365_5_solid_code_smell/))를 배포 전에 압살 척살해버리는 극강 가성비 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)([Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)) 필터망. |
 | <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/">BDD</a> (행동 주도 개발 융합 🚀)</strong> | 고객의 비즈니스 썰([Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))과 개발자의 자동화 테스트 코드([Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))가 원래 남남으로 찢겨 싸우다 파국 나던 걸 ➔ `Given-When-Then` 텍스트 영어 1줄 문법 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 속으로 완벽히 십자 융합 일체화 이식시켜 딜레마를 박살 낸 모던 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 최강 무기. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">무지성 주먹구구 스파게티 코딩 / 걍 요구사항 대충 듣고 1년 내내 골방에서 코딩만 치다 런칭 날 고객한테 "이거 아님 ㅂㅅ아 ㅋ" 반품 맞고 재작업 야근 타임아웃 파산 멸망 폭사 💥 💀</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">보엠(Boehm) 아키텍트 분노의 도끼 척살 🪓 / "야 씨발! 명세서대로 잘 짰냐(Verification 검증)랑, 진짜 고객이 원한 게 맞냐(Validation 확인) 이 2개 잣대는 하늘과 땅 차이야 완벽히 분할 찢어서 양방향 십자 통제 검열 락킹 쳐라 쾅!!"</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">V-모델(V-Model) 생명주기 방폭문 요새 대관식 🚀 / 기획-설계-코딩 (내려가는 선) 1스텝 밟을 때마다 ➔ 단위-통합-시스템-인수 테스트 (올라가는 선)를 1:1 수평 거미줄 매핑 연결 쳐서 100% 무결점 결함 조기 척살 그물망 쉴드 완성 ✨</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Agile 애자일 단기 스프린트 스위칭 융합 / 1년짜리 거대 V-모델 폭포수 빅뱅 런칭 미루기(파국 💀) 다 버리고! 2주 단위 미니 V-모델로 쪼개서 ➔ 매주 고객 모가지 끌고 와서 "이거 맞지 콜? 도장 찍어!" 실시간 조기 Validation 무한 핑퐁 회피 기동 생존망 구축 🚀</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DevOps CI/CD 파이프라인 자가 호흡 오토 렌더링 (현재) / 깃허브 코드 푸시(Push) 때리는 0.01초 찰나에 ➔ SonarQube 봇이 정적 검증(V) 1초 컷 스캔 치고 ➔ Selenium 브라우저 봇이 UI 오토 클릭 동적 확인(V) 1초 컷 때려버려 인간의 손을 100% 떠난 무결점 0.1초 자동화 품질 게이트 대통일 완료 쾅!!</div>
-</div>
-</div>
-
-
+```text
+무지성 주먹구구 스파게티 코딩 / 걍 요구사항 대충 듣고 1년 내내 골방에서 코딩만 치다 런칭 날 고객한테 "이거 아님 ㅂㅅ아 ㅋ" 반품 맞고 재작업 야근 타임아웃 파산 멸망 폭사 💥 💀
+    │
+    ▼
+보엠(Boehm) 아키텍트 분노의 도끼 척살 🪓 / "야 씨발! 명세서대로 잘 짰냐(Verification 검증)랑, 진짜 고객이 원한 게 맞냐(Validation 확인) 이 2개 잣대는 하늘과 땅 차이야 완벽히 분할 찢어서 양방향 십자 통제 검열 락킹 쳐라 쾅!!"
+    │
+    ▼
+V-모델(V-Model) 생명주기 방폭문 요새 대관식 🚀 / 기획-설계-코딩 (내려가는 선) 1스텝 밟을 때마다 ➔ 단위-통합-시스템-인수 테스트 (올라가는 선)를 1:1 수평 거미줄 매핑 연결 쳐서 100% 무결점 결함 조기 척살 그물망 쉴드 완성 ✨
+    │
+    ▼
+Agile 애자일 단기 스프린트 스위칭 융합 / 1년짜리 거대 V-모델 폭포수 빅뱅 런칭 미루기(파국 💀) 다 버리고! 2주 단위 미니 V-모델로 쪼개서 ➔ 매주 고객 모가지 끌고 와서 "이거 맞지 콜? 도장 찍어!" 실시간 조기 Validation 무한 핑퐁 회피 기동 생존망 구축 🚀
+    │
+    ▼
+DevOps CI/CD 파이프라인 자가 호흡 오토 렌더링 (현재) / 깃허브 코드 푸시(Push) 때리는 0.01초 찰나에 ➔ SonarQube 봇이 정적 검증(V) 1초 컷 스캔 치고 ➔ Selenium 브라우저 봇이 UI 오토 클릭 동적 확인(V) 1초 컷 때려버려 인간의 손을 100% 떠난 무결점 0.1초 자동화 품질 게이트 대통일 완료 쾅!!
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

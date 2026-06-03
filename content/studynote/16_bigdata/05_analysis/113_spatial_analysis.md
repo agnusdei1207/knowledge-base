@@ -30,20 +30,19 @@ GPS 장착 스마트폰의 보급으로 지리공간 [데이터](/knowledge-base
 
 ### GIS [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GIS 데이터 유형</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">벡터 (Vector) 데이터</div><div class="kb-diagram-cell">래스터 (Raster) 데이터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">점 (Point): 병원, ATM 위치</div><div class="kb-diagram-cell">위성 영상, DEM (수치고도모델)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">선 (Line): 도로, 강, 철도</div><div class="kb-diagram-cell">격자 셀 (Cell) 단위 값 저장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">면 (Polygon):행정구역, 건물</div><div class="kb-diagram-cell">해상도: 픽셀 크기 = 정밀도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">속성 테이블과 공간 좌표 연결</div><div class="kb-diagram-cell">밴드 (Band): 위성의 채널별 분석</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│                  GIS 데이터 유형                                  │
+├─────────────────────────────┬────────────────────────────────────┤
+│  벡터 (Vector) 데이터        │  래스터 (Raster) 데이터             │
+├─────────────────────────────┼────────────────────────────────────┤
+│  점 (Point):  병원, ATM 위치 │  위성 영상, DEM (수치고도모델)      │
+│  선 (Line):   도로, 강, 철도 │  격자 셀 (Cell) 단위 값 저장        │
+│  면 (Polygon):행정구역, 건물 │  해상도: 픽셀 크기 = 정밀도          │
+│                             │                                    │
+│  속성 테이블과 공간 좌표 연결 │  밴드 (Band): 위성의 채널별 분석    │
+└─────────────────────────────┴────────────────────────────────────┘
+```
 
 ### 핵심 공간 연산
 
@@ -141,23 +140,21 @@ GPS 장착 스마트폰의 보급으로 지리공간 [데이터](/knowledge-base
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">GIS (Geographic Information System) — 지리 데이터 수집·저장·분석·시각화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">공간 데이터 모델 — 벡터(점·선·면) vs 래스터(픽셀 격자) 표현 방식</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">공간 인덱스 — R-Tree / Quad-Tree로 영역 쿼리·인근 탐색 O(logN) 가속</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">공간 분석 연산 — 버퍼·오버레이·인터섹션·보로노이 다이어그램</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">위치 기반 서비스 (LBS) / 자율주행 — 실시간 공간 분석·HD맵 활용</div></div>
-</div>
-</div>
-
-
+```text
+[GIS (Geographic Information System) — 지리 데이터 수집·저장·분석·시각화]
+    │
+    ▼
+[공간 데이터 모델 — 벡터(점·선·면) vs 래스터(픽셀 격자) 표현 방식]
+    │
+    ▼
+[공간 인덱스 — R-Tree / Quad-Tree로 영역 쿼리·인근 탐색 O(logN) 가속]
+    │
+    ▼
+[공간 분석 연산 — 버퍼·오버레이·인터섹션·보로노이 다이어그램]
+    │
+    ▼
+[위치 기반 서비스 (LBS) / 자율주행 — 실시간 공간 분석·HD맵 활용]
+```
 
 이 흐름은 GIS 기반 지리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집에서 벡터·래스터 모델로 구조화되고, 공간 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)로 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 향상되며 버퍼·오버레이 분석을 거쳐 LBS·자율주행의 실시간 공간 지능으로 진화하는 공간 분석 기술의 발전 과정을 보여준다.
 

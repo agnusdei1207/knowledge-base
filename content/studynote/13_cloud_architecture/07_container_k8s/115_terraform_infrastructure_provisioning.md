@@ -18,24 +18,21 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Terraform 워크플로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Write: main.tf에 인프라 선언</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">resource "aws_instance" "web" {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ami = "ami-xxx"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">instance_type = "t3.micro"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Plan: terraform plan → 변경 사항 미리 확인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ aws_instance.web will be created</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Apply: terraform apply → 실제 생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. State: terraform.tfstate에 현재 상태 기록</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    Terraform 워크플로                                  │
+├───────────────────────────────────────────────────────┤
+│  1. Write: main.tf에 인프라 선언                      │
+│     resource "aws_instance" "web" {                   │
+│       ami           = "ami-xxx"                       │
+│       instance_type = "t3.micro"                      │
+│     }                                                 │
+│  2. Plan: terraform plan → 변경 사항 미리 확인        │
+│     + aws_instance.web will be created                │
+│  3. Apply: terraform apply → 실제 생성                │
+│  4. State: terraform.tfstate에 현재 상태 기록         │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: Terraform은 건축 설계도(HCL)를 주면 로봇([Provider](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/150_soa_triangle_architecture/))이 자동으로 건물(인프라)을 짓는 시스템이다. Plan은 시뮬레이션, Apply는 실제 시공.
 
@@ -79,23 +76,17 @@ tags = ["studynote-cloud-architecture"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 구조 예시
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">infra/</div>
-<div class="kb-diagram-tree-item" style="--depth:0">modules/</div>
-<div class="kb-diagram-note">── vpc/</div>
-<div class="kb-diagram-note">── eks/</div>
-<div class="kb-diagram-note">── rds/</div>
-<div class="kb-diagram-tree-item" style="--depth:0">environments/</div>
-<div class="kb-diagram-note">── dev/</div>
-<div class="kb-diagram-note">── staging/</div>
-<div class="kb-diagram-note">── prod/</div>
-</div>
-</div>
-
-
+```
+infra/
+├── modules/
+│   ├── vpc/
+│   ├── eks/
+│   └── rds/
+├── environments/
+│   ├── dev/
+│   ├── staging/
+│   └── prod/
+```
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a> 로컬 보관 + 팀 작업</strong>: 동시 수정 시 [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) 충돌 → S3 원격 백엔드 필수.
@@ -126,23 +117,21 @@ Terraform은 OpenTofu([OSS](/knowledge-base/studynote/12_it_management/05_securi
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">수동 콘솔 인프라 관리 (2010s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Terraform 0.x (2014, HashiCorp) — 멀티클라우드 IaC</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Terraform Module Registry (2017~) — 재사용 모듈 생태계</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">BSL 라이선스 전환 (2023) → OpenTofu Fork</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: Terraform CDK + AI 인프라 자동 생성</div></div>
-</div>
-</div>
-
-
+```text
+[수동 콘솔 인프라 관리 (2010s)]
+    │
+    ▼
+[Terraform 0.x (2014, HashiCorp) — 멀티클라우드 IaC]
+    │
+    ▼
+[Terraform Module Registry (2017~) — 재사용 모듈 생태계]
+    │
+    ▼
+[BSL 라이선스 전환 (2023) → OpenTofu Fork]
+    │
+    ▼
+[현재: Terraform CDK + AI 인프라 자동 생성]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 옛날에는 레고(인프라)를 **설명서 없이 손으로** 만들어서, 같은 걸 다시 만들 수 없었어요.

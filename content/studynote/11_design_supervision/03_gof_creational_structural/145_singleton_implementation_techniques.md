@@ -23,20 +23,18 @@ tags = ["studynote-design-supervision"]
 
 또한 Java의 직렬화(Serialization)는 역직렬화(Deserialization) 시 새 인스턴스를 생성하고, 리플렉션(Reflection)은 private 생성자를 강제 호출하여 추가 인스턴스를 생성할 수 있다. 이러한 위협을 각 구현 기법이 어떻게 방어하는지가 핵심이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">싱글턴 위협 요인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 멀티스레드 경쟁 조건: 두 스레드가 동시에 instance 생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 직렬화/역직렬화: 역직렬화 시 새 인스턴스 생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 리플렉션 공격: private 생성자 강제 호출</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 클론: clone() 메서드로 복사본 생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Enum Singleton → 위 4가지 위협 모두 JVM 수준에서 방어</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│         싱글턴 위협 요인                                     │
+├─────────────────────────────────────────────────────────────┤
+│  1. 멀티스레드 경쟁 조건: 두 스레드가 동시에 instance 생성  │
+│  2. 직렬화/역직렬화: 역직렬화 시 새 인스턴스 생성           │
+│  3. 리플렉션 공격: private 생성자 강제 호출                 │
+│  4. 클론: clone() 메서드로 복사본 생성                      │
+│                                                             │
+│  Enum Singleton → 위 4가지 위협 모두 JVM 수준에서 방어      │
+└─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 국가 인감 도장(싱글턴)을 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하는 방법이 여러 가지 있는데(금고, [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/), 경비원), Enum 방식은 법적으로 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 자체를 금지하여 가장 강력하다.
 
@@ -54,30 +52,28 @@ tags = ["studynote-design-supervision"]
 | Bill Pugh (Static Holder) | O / O / X | X |
 | Enum [Singleton](/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/) | X (즉시) / O / O | O |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">각 구현 방식 코드 요약</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// DCL (Double-Checked Locking) - volatile 필수</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">private static volatile Singleton instance;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">public static Singleton getInstance() {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">if (instance == null) {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">synchronized(Singleton.class) {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">if (instance == null) instance = new Singleton();</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">return instance;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// Enum Singleton - 가장 안전하고 간결</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">public enum Singleton {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">INSTANCE;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">public void doSomething() { ... }</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│       각 구현 방식 코드 요약                                 │
+├─────────────────────────────────────────────────────────────┤
+│  // DCL (Double-Checked Locking) - volatile 필수            │
+│  private static volatile Singleton instance;               │
+│  public static Singleton getInstance() {                    │
+│    if (instance == null) {                                  │
+│      synchronized(Singleton.class) {                        │
+│        if (instance == null) instance = new Singleton();   │
+│      }                                                      │
+│    }                                                        │
+│    return instance;                                         │
+│  }                                                          │
+│                                                             │
+│  // Enum Singleton - 가장 안전하고 간결                     │
+│  public enum Singleton {                                    │
+│    INSTANCE;                                               │
+│    public void doSomething() { ... }                       │
+│  }                                                          │
+└─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 자물쇠(synchronized)는 누군가 잠그면 다른 사람이 기다려야 하므로 느리다. Enum은 법(JVM 명세)이 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)를 금지하므로 자물쇠 없이도 안전하다.
 

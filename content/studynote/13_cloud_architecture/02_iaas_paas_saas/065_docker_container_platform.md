@@ -29,28 +29,22 @@ Docker는 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cl
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">CLI</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Docker Engine</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">containerd</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">runc</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Linux Kernel</div>
-</div>
-</div>
-
-
+```text
+CLI
+  ↓
+Docker Engine
+  ↓
+containerd
+  ↓
+runc
+  ↓
+Linux Kernel
+```
 
 | 구성 요소 | 역할 |
 | :-- | :-- |
 | [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) CLI | 사용자 명령 입력 |
-| [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) Engine | 전체 제어 |
+| [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 엔진 | 전체 제어 |
 | containerd | [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 생명주기 관리 |
 | [runc](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/667_container_runtime_hw_isolation/) | 실제 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 실행 |
 | [Registry](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) | 이미지 저장/배포 |
@@ -115,41 +109,29 @@ Docker를 활용하면 개발과 운영의 차이를 줄이고, 배포 표준을
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Docker</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Image / Registry</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">containerd / runc</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Container Platform</div>
-</div>
-</div>
-
-
+```text
+Docker
+  ↓
+Image / Registry
+  ↓
+containerd / runc
+  ↓
+Container Platform
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">컨테이너 기술</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Docker</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">OCI</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Container Platform</div>
-</div>
-</div>
-
-
+```text
+컨테이너 기술
+  ↓
+Docker
+  ↓
+OCI
+  ↓
+Container Platform
+```
 
 ---
 

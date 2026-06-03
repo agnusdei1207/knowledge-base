@@ -31,26 +31,28 @@ tags = ["studynote-enterprise-systems"]
 ### 프레젠테이션 계층(UI) 침투와 3대 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 구조
 RPA는 백엔드 DB나 소스 코드에 손대지 않고(비침습적), 철저하게 화면 껍데기(UI/Presentation Layer) 위에서만 움직인다. 
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">엔터프라이즈 RPA (Robotic Process Automation) 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 스튜디오 (Studio)</div><div class="kb-diagram-note">: 개발 환경</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발자(또는 현업)가 순서도(Flowchart)를 그리거나, 마우스 움직임을</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">녹화(Record)하여 봇의 행동 대본(Script)을 작성한다.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(배포)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 오케스트레이터 (Orchestrator)</div><div class="kb-diagram-note">: 중앙 관제탑 (Control Room)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대본을 수십 대의 PC(봇)에게 스케줄링하여 뿌리고, 봇이 뻗지 않았는지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">24시간 모니터링하며 로그(Log)를 수집하는 거버넌스 엔진.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(명령 하달)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3. 봇 (Bot / Runner)</div><div class="kb-diagram-note">: 행동 대원</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Attended Bot (반자동)</div><div class="kb-diagram-note">직원이 PC에서 클릭하면 도와줌 │</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Unattended Bot (완전 자동)</div><div class="kb-diagram-note">빈 서버실에서 혼자 24시간 일함 │</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────┐
+│           엔터프라이즈 RPA (Robotic Process Automation) 아키텍처 │
+├────────────────────────────────────────────────────────┤
+│                                                        │
+│  [ 1. 스튜디오 (Studio) ] : 개발 환경                       │
+│    개발자(또는 현업)가 순서도(Flowchart)를 그리거나, 마우스 움직임을 │
+│    녹화(Record)하여 봇의 행동 대본(Script)을 작성한다.          │
+│            │ (배포)                                    │
+│            ▼                                           │
+│  [ 2. 오케스트레이터 (Orchestrator) ] : 중앙 관제탑 (Control Room)│
+│    대본을 수십 대의 PC(봇)에게 스케줄링하여 뿌리고, 봇이 뻗지 않았는지│
+│    24시간 모니터링하며 로그(Log)를 수집하는 거버넌스 엔진.        │
+│            │ (명령 하달)                                │
+│            ▼                                           │
+│  [ 3. 봇 (Bot / Runner) ] : 행동 대원                       │
+│   ┌──────────────────────────────────────────────────┐ │
+│   │ [Attended Bot (반자동)] 직원이 PC에서 클릭하면 도와줌       │ │
+│   │ [Unattended Bot (완전 자동)] 빈 서버실에서 혼자 24시간 일함 │ │
+│   └──────────────────────────────────────────────────┘ │
+└────────────────────────────────────────────────────────┘
+```
 
 [RPA](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/) 봇은 화면에 떠 있는 버튼의 좌표(X, Y)나 웹페이지의 HTML DOM 요소(XPath)를 집요하게 추적하여 마우스 클릭 이벤트를 쇳덩어리(OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)) 레벨에서 발생시킨다. 컴퓨터 입장에서는 진짜 사람이 마우스를 딸깍이는 것과 100% 동일한 전기 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 들어오는 셈이다.
 
@@ -109,23 +111,21 @@ RPA는 첨단 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_t
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">기업 내 레거시(Legacy) 시스템의 파편화 및 수작업(복사/붙여넣기) 노가다 만연</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">백엔드 API 통합의 천문학적 비용 장벽 직면</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">프론트엔드 UI 조작 기반의 데스크톱 매크로 등장 (Screen Scraping)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">중앙 통제(Orchestrator) 및 로깅/보안 거버넌스 융합 ──▶ 엔터프라이즈 RPA 시장 폭발 (UiPath 등)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">AI(문자인식, 머신러닝, LLM) 기술 융합 ──▶ 사람의 뇌까지 대체하는 하이퍼오토메이션(Hyperautomation)으로 진화</div>
-</div>
-</div>
-
-
+```text
+기업 내 레거시(Legacy) 시스템의 파편화 및 수작업(복사/붙여넣기) 노가다 만연
+    │
+    ▼
+백엔드 API 통합의 천문학적 비용 장벽 직면
+    │
+    ▼
+프론트엔드 UI 조작 기반의 데스크톱 매크로 등장 (Screen Scraping)
+    │
+    ▼
+중앙 통제(Orchestrator) 및 로깅/보안 거버넌스 융합 ──▶ 엔터프라이즈 RPA 시장 폭발 (UiPath 등)
+    │
+    ▼
+AI(문자인식, 머신러닝, LLM) 기술 융합 ──▶ 사람의 뇌까지 대체하는 하이퍼오토메이션(Hyperautomation)으로 진화
+```
 
 이 흐름도는 "비용 장벽 → 우회로(UI 껍데기 조작) 발명 → 기업형 거버넌스 탑재 → [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 융합을 통한 지능형 노동력으로 승격"이라는 비즈니스 프로세스 자동화의 역사를 보여준다.
 

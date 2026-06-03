@@ -10,7 +10,7 @@ tags = ["studynote-devops-sre"]
 +++
 
 > **핵심 인사이트**
-> 1. [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/)([Test-Driven Development](/knowledge-base/studynote/11_design_supervision/06_exam_summary/411_process/))는 "테스트 먼저 작성 → 최소 코드로 통과 → [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)"의 Red-Green-[Refactor](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) 사이클로 — 테스트가 설계 도구가 되어 과도한 설계(Over-Engineering)를 방지하고, 변경에 안전한 [코드베이스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/007_codebase/)를 만드는 개발 방법론이다.
+> 1. [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/)([Test-Driven Development](/knowledge-base/studynote/11_design_supervision/06_exam_summary/411_process/))는 "테스트 먼저 작성 → 최소 코드로 통과 → [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)"의 Red-Green-[Refactor](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) 사이클로 — 테스트가 설계 도구가 되어 과도한 설계(Over-엔진ering)를 방지하고, 변경에 안전한 [코드베이스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/007_codebase/)를 만드는 개발 방법론이다.
 > 2. [BDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/165_bdd_behavior_driven_development/)([Behavior-Driven Development](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/126_bdd_behavior_driven_development_given_when_then/))는 TDD의 "무엇을 테스트할지 불명확함" 문제를 해결하기 위해 Dan North가 제안한 확장으로 — Gherkin 언어(Given-When-Then)로 비즈니스 시나리오를 자연어로 작성하여 비개발자와의 공통 언어를 확보한다.
 > 3. [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/)/BDD의 실질적 가치는 "버그를 코드 작성 시점에 잡는다"는 것으로 — 프로덕션 버그 1건을 수정하는 비용이 TDD로 테스트 작성하는 비용의 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~100배임을 감안할 때, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인과 결합된 TDD는 장기적으로 개발 속도를 오히려 향상시킨다.
 
@@ -18,42 +18,47 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅰ. [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) 개념
 
+```
+TDD (Test-Driven Development):
+  Kent Beck 창안, XP(eXtreme Programming) 핵심 실천법
 
+Red-Green-Refactor 사이클:
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">TDD (Test-Driven Development):</div>
-<div class="kb-diagram-note">Kent Beck 창안, XP(eXtreme Programming) 핵심 실천법</div>
-<div class="kb-diagram-note">Red-Green-Refactor 사이클:</div>
-<div class="kb-diagram-note">1. RED: 실패하는 테스트 작성</div>
-<div class="kb-diagram-note">아직 구현이 없으니 당연히 실패</div>
-<div class="kb-diagram-note">→ 테스트가 요구사항을 정의</div>
-<div class="kb-diagram-note">2. GREEN: 최소 코드로 테스트 통과</div>
-<div class="kb-diagram-note">통과만 하면 됨, 완벽하지 않아도 OK</div>
-<div class="kb-diagram-note">3. REFACTOR: 코드 개선</div>
-<div class="kb-diagram-note">테스트는 그린 상태 유지하며 코드 정리</div>
-<div class="kb-diagram-note">중복 제거, 가독성 향상</div>
-<div class="kb-diagram-note">TDD 사이클 예시 (Python):</div>
-<div class="kb-diagram-note"># RED: 테스트 먼저</div>
-<div class="kb-diagram-note">def test_add():</div>
-<div class="kb-diagram-note">assert add(2, 3) == 5 # add 함수 없음 → 실패</div>
-<div class="kb-diagram-note"># GREEN: 최소 구현</div>
-<div class="kb-diagram-note">def add(a, b):</div>
-<div class="kb-diagram-note">return a + b # 테스트 통과</div>
-<div class="kb-diagram-note"># REFACTOR: 개선 (이 예시는 이미 단순)</div>
-<div class="kb-diagram-note">TDD의 3 규칙 (Uncle Bob):</div>
-<div class="kb-diagram-note">1. 실패하는 유닛 테스트 없이 프로덕션 코드 작성 금지</div>
-<div class="kb-diagram-note">2. 실패를 확인하기에 충분한 테스트만 작성</div>
-<div class="kb-diagram-note">3. 현재 실패 테스트를 통과하기에 충분한 코드만 작성</div>
-<div class="kb-diagram-note">테스트 유형:</div>
-<div class="kb-diagram-note">단위 테스트 (Unit): 함수/클래스 개별</div>
-<div class="kb-diagram-note">통합 테스트 (Integration): 모듈 간 연동</div>
-<div class="kb-diagram-note">E2E 테스트 (End-to-End): 사용자 시나리오 전체</div>
-<div class="kb-diagram-note">TDD: 주로 단위 테스트 중심</div>
-</div>
-</div>
+  1. RED: 실패하는 테스트 작성
+     아직 구현이 없으니 당연히 실패
+     → 테스트가 요구사항을 정의
+     
+  2. GREEN: 최소 코드로 테스트 통과
+     통과만 하면 됨, 완벽하지 않아도 OK
+     
+  3. REFACTOR: 코드 개선
+     테스트는 그린 상태 유지하며 코드 정리
+     중복 제거, 가독성 향상
 
+TDD 사이클 예시 (Python):
 
+  # RED: 테스트 먼저
+  def test_add():
+      assert add(2, 3) == 5  # add 함수 없음 → 실패
+      
+  # GREEN: 최소 구현
+  def add(a, b):
+      return a + b  # 테스트 통과
+      
+  # REFACTOR: 개선 (이 예시는 이미 단순)
+
+TDD의 3 규칙 (Uncle Bob):
+  1. 실패하는 유닛 테스트 없이 프로덕션 코드 작성 금지
+  2. 실패를 확인하기에 충분한 테스트만 작성
+  3. 현재 실패 테스트를 통과하기에 충분한 코드만 작성
+
+테스트 유형:
+  단위 테스트 (Unit): 함수/클래스 개별
+  통합 테스트 (Integration): 모듈 간 연동
+  E2E 테스트 (End-to-End): 사용자 시나리오 전체
+  
+  TDD: 주로 단위 테스트 중심
+```
 
 > 📢 **섹션 요약 비유**: TDD는 미래의 나에게 편지 먼저 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) — "이 기능은 이렇게 동작해야 해"를 테스트로 먼저 정의하고, 그 편지 내용에 맞는 코드를 만들어가요.
 
@@ -168,48 +173,54 @@ AAA 패턴 (Arrange-Act-Assert):
 
 ## Ⅳ. [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/)/BDD와 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 통합
 
+```
+TDD/BDD + CI/CD 파이프라인:
 
+완전 자동화 흐름:
+  1. 개발자: 로컬에서 TDD 사이클
+     Red → Green → Refactor
+     
+  2. git push → PR 생성
+  
+  3. CI 파이프라인 자동 실행:
+     단위 테스트 → 통합 테스트 → E2E 테스트
+     
+  4. BDD 시나리오 자동 검증:
+     Cucumber: .feature 파일 실행
+     
+  5. 테스트 커버리지 리포트 생성
+  
+  6. 품질 게이트: 커버리지 < 80% → 머지 차단
+  
+  7. 모든 테스트 통과 → 프로덕션 자동 배포
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">TDD/BDD + CI/CD 파이프라인:</div>
-<div class="kb-diagram-note">완전 자동화 흐름:</div>
-<div class="kb-diagram-note">1. 개발자: 로컬에서 TDD 사이클</div>
-<div class="kb-diagram-note">Red → Green → Refactor</div>
-<div class="kb-diagram-note">2. git push → PR 생성</div>
-<div class="kb-diagram-note">3. CI 파이프라인 자동 실행:</div>
-<div class="kb-diagram-note">단위 테스트 → 통합 테스트 → E2E 테스트</div>
-<div class="kb-diagram-note">4. BDD 시나리오 자동 검증:</div>
-<div class="kb-diagram-note">Cucumber: .feature 파일 실행</div>
-<div class="kb-diagram-note">5. 테스트 커버리지 리포트 생성</div>
-<div class="kb-diagram-note">6. 품질 게이트: 커버리지 &lt; 80% → 머지 차단</div>
-<div class="kb-diagram-note">7. 모든 테스트 통과 → 프로덕션 자동 배포</div>
-<div class="kb-diagram-note">GitHub Actions 예시:</div>
-<div class="kb-diagram-note">name: Test</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">on:</div><div class="kb-diagram-node">push, pull_request</div></div>
-<div class="kb-diagram-note">jobs:</div>
-<div class="kb-diagram-note">test:</div>
-<div class="kb-diagram-note">runs-on: ubuntu-latest</div>
-<div class="kb-diagram-note">steps:</div>
-<div class="kb-diagram-tree-item" style="--depth:4">uses: actions/checkout@v3</div>
-<div class="kb-diagram-tree-item" style="--depth:4">name: Run tests</div>
-<div class="kb-diagram-note">run: pytest --cov=. --cov-fail-under=80</div>
-<div class="kb-diagram-tree-item" style="--depth:4">name: BDD</div>
-<div class="kb-diagram-note">run: behave features/</div>
-<div class="kb-diagram-note">테스트 피라미드:</div>
-<div class="kb-diagram-note">/E2E\ ← 적게 (느림, 비용)</div>
-<div class="kb-diagram-note">/통합테스트\ ← 중간</div>
-<div class="kb-diagram-note">/단위테스트/ ← 많이 (빠름, 저렴)</div>
-<div class="kb-diagram-note">단위 70% + 통합 20% + E2E 10% 권장</div>
-<div class="kb-diagram-note">TDD 도입 장벽과 극복:</div>
-<div class="kb-diagram-note">"시간이 없어요": 테스트 작성 시간 = 디버깅 시간 감소</div>
-<div class="kb-diagram-note">"테스트 작성 어려워요": 레거시는 테스트 가능 설계 먼저</div>
-<div class="kb-diagram-note">"100% 커버리지 요구": 80%로 시작, 점진적 개선</div>
-<div class="kb-diagram-note">XP의 실천: "테스트 없는 코드는 레거시 코드"</div>
-</div>
-</div>
+GitHub Actions 예시:
+  name: Test
+  on: [push, pull_request]
+  jobs:
+    test:
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v3
+        - name: Run tests
+          run: pytest --cov=. --cov-fail-under=80
+        - name: BDD
+          run: behave features/
 
+테스트 피라미드:
+       /E2E\          ← 적게 (느림, 비용)
+      /통합테스트\     ← 중간
+     /단위테스트/      ← 많이 (빠름, 저렴)
+     
+  단위 70% + 통합 20% + E2E 10% 권장
 
+TDD 도입 장벽과 극복:
+  "시간이 없어요": 테스트 작성 시간 = 디버깅 시간 감소
+  "테스트 작성 어려워요": 레거시는 테스트 가능 설계 먼저
+  "100% 커버리지 요구": 80%로 시작, 점진적 개선
+  
+  XP의 실천: "테스트 없는 코드는 레거시 코드"
+```
 
 > 📢 **섹션 요약 비유**: [TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) + [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD는 자동 품질 검사 컨베이어 — 코드(제품)가 컨베이어에 오르면 자동으로 테스트(품질 검사)를 통과해야 출하(배포). 불량품은 자동 반려.
 
@@ -301,33 +312,31 @@ TDD & BDD
 
 ## 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">TDD 탄생 (1999)</div></div>
-<div class="kb-diagram-note">Kent Beck: XP 실천법으로 체계화</div>
-<div class="kb-diagram-note">Red-Green-Refactor 사이클</div>
-<div class="kb-diagram-note">v</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">BDD 제안 (2003)</div></div>
-<div class="kb-diagram-note">Dan North: TDD + 비즈니스 언어</div>
-<div class="kb-diagram-note">Gherkin/Cucumber 도구 탄생</div>
-<div class="kb-diagram-note">v</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CI/CD 통합 (2010s)</div></div>
-<div class="kb-diagram-note">Jenkins → Travis → GitHub Actions</div>
-<div class="kb-diagram-note">테스트 자동화 파이프라인 표준화</div>
-<div class="kb-diagram-note">v</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">테스트 문화 확산 (2015~)</div></div>
-<div class="kb-diagram-note">DevOps 운동과 결합</div>
-<div class="kb-diagram-note">팀 전체 품질 책임 문화</div>
-<div class="kb-diagram-note">v</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: AI 테스트 생성</div></div>
-<div class="kb-diagram-note">GitHub Copilot 테스트 코드 생성</div>
-<div class="kb-diagram-note">AI 기반 엣지 케이스 자동 탐지</div>
-</div>
-</div>
-
-
+```
+[TDD 탄생 (1999)]
+Kent Beck: XP 실천법으로 체계화
+Red-Green-Refactor 사이클
+      |
+      v
+[BDD 제안 (2003)]
+Dan North: TDD + 비즈니스 언어
+Gherkin/Cucumber 도구 탄생
+      |
+      v
+[CI/CD 통합 (2010s)]
+Jenkins → Travis → GitHub Actions
+테스트 자동화 파이프라인 표준화
+      |
+      v
+[테스트 문화 확산 (2015~)]
+DevOps 운동과 결합
+팀 전체 품질 책임 문화
+      |
+      v
+[현재: AI 테스트 생성]
+GitHub Copilot 테스트 코드 생성
+AI 기반 엣지 케이스 자동 탐지
+```
 
 ---
 

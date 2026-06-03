@@ -25,22 +25,20 @@ Retpoline이라는 이름도 여기서 나온다. return과 trampoline을 합쳐
 
 이 그림은 평범한 간접 분기와 Retpoline 경로가 어떻게 다르게 보이는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ordinary indirect branch vs Retpoline</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">indirect call / jmp</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; BTB predicts target</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; poisoned predictor may pick attacker gadget</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Retpoline</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; call thunk</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; speculative path falls into safe loop</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; architectural path returns to real target</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│ Ordinary indirect branch vs Retpoline                                     │
+├────────────────────────────────────────────────────────────────────────────┤
+│ indirect call / jmp                                                        │
+│   -> BTB predicts target                                                   │
+│   -> poisoned predictor may pick attacker gadget                           │
+│                                                                            │
+│ Retpoline                                                                  │
+│   -> call thunk                                                            │
+│   -> speculative path falls into safe loop                                 │
+│   -> architectural path returns to real target                             │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 Retpoline의 가치는 단순히 "우회한다"는 데 있지 않다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/), [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/), 런타임을 다시 컴파일하는 것만으로도 대규모 배포가 가능했기 때문에, 하드웨어 대응이 준비되기 전 공백을 메워 주는 실전 해법이 되었다. 그래서 이 기술은 소프트웨어가 하드웨어 취약점의 체감 위험을 얼마나 크게 낮출 수 있는지를 보여 준 상징적인 사례다.
 
@@ -64,22 +62,22 @@ Retpoline thunk의 핵심은 `ret`가 투기될 때 [BTB](/knowledge-base/studyn
 
 이 그림은 Retpoline thunk 안에서 두 경로가 어떻게 갈라지는지 구조적으로 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Retpoline thunk</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">call thunk</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ pushes trap label to stack / RSB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ enter thunk</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">thunk overwrites top-of-stack with real target</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ret</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ speculative path -&gt; trap label -&gt; pause loop</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ architectural path -&gt; real target</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│ Retpoline thunk                                                            │
+├────────────────────────────────────────────────────────────────────────────┤
+│ call thunk                                                                  │
+│   │                                                                          │
+│   ├─ pushes trap label to stack / RSB                                        │
+│   └─ enter thunk                                                             │
+│                                                                              │
+│ thunk overwrites top-of-stack with real target                               │
+│                                                                              │
+│ ret                                                                          │
+│   ├─ speculative path -> trap label -> pause loop                            │
+│   └─ architectural path -> real target                                       │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 다만 이 방식은 "모든 CPU에서 똑같이 만능"은 아니다. 일부 환경에서는 RSB underflow나 특수한 예외 경로 때문에 보조 대책이 필요할 수 있고, hand-written assembly나 [JIT](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/) ([Just-In-Time](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/)) 코드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)기가 thunk 규칙을 따르지 않으면 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 구멍이 남는다. 그래서 Retpoline은 발상은 단순하지만, 실제 효과는 <strong>툴체인과 런타임 전반이 얼마나 일관되게 적용하느냐</strong>에 달려 있다.
 
@@ -157,23 +155,21 @@ Retpoline의 가장 큰 공헌은 하드웨어 문제를 소프트웨어 배포 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">간접 분기 예측 기반 고성능 실행</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Spectre variant 2 / Branch Target Injection</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Retpoline compiler thunks</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">IBPB · IBRS · STIBP 조합 완화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">eIBRS · hardware predictor isolation</div>
-</div>
-</div>
-
-
+```text
+간접 분기 예측 기반 고성능 실행
+                │
+                ▼
+Spectre variant 2 / Branch Target Injection
+                │
+                ▼
+Retpoline compiler thunks
+                │
+                ▼
+IBPB · IBRS · STIBP 조합 완화
+                │
+                ▼
+eIBRS · hardware predictor isolation
+```
 
 이 흐름은 "분기 예측을 안전하게 우회하는 소프트웨어 트릭"에서 시작해, 점차 하드웨어 자체가 predictor 오염을 더 강하게 통제하는 방향으로 진화하고 있음을 보여 준다.
 

@@ -27,29 +27,29 @@ tags = ["studynote-operating-system"]
   2. <strong>벤치마크 중 터진 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/090_anomaly_insertion_deletion_update/">이상 현상</a></strong>: 실험 중 램을 늘렸는데 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 곡선이 위로 튀어 오르는(폴트 증가) 버그 같은 현상을 목격했다.
   3. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">Stack</a> Algorithm의 확립</strong>: "왜 튀어 오를까?"를 연구한 끝에, 포함 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)(Inclusion Property)가 성립하지 않는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 맹점이 밝혀지며 학계가 발칵 뒤집혔다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">벨라디의 모순을 터뜨리는 죽음의 참조열(Reference String) 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">페이지 참조 요청 순서</div><div class="kb-diagram-note">: 1, 2, 3, 4, 1, 2, 5, 1, 2, 3, 4, 5</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">사용하는 교체 룰</div><div class="kb-diagram-note">: 무조건 제일 늙은 놈(먼저 들어온 놈) 쫓아냄 (FIFO)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1. 램 프레임 3개일 때 (가난할 때)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 1,2,3 넣음 (폴트 3) -&gt; 4 넣을 때 1 버림 (폴트 1)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 1 넣을 때 2 버림 (폴트 1) -&gt; 2 넣을 때 3 버림 (폴트 1)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- ... (중략) ...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 최종 채점: 총 9번의 Page Fault 발생.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2. 램 프레임 4개일 때 (부자가 됐는데?!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 1,2,3,4 넣음 (폴트 4)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 1, 2 불렀을 땐 방에 있어서 럭키! (히트)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 5 넣을 때 1을 버림 (폴트 1)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 앗! 바로 다음 요청이 '1'이네? 1 넣을 때 2 버림 (폴트 1)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 앗! 또 다음 요청이 '2'네? 2 넣을 때 3 버림 (폴트 1)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💥 최종 채점: 램을 늘려줬는데 총 10번의 Page Fault 폭발!</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────┐
+│        벨라디의 모순을 터뜨리는 죽음의 참조열(Reference String) 시각화   │
+├──────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│ [ 페이지 참조 요청 순서 ]:  1, 2, 3, 4, 1, 2, 5, 1, 2, 3, 4, 5           │
+│ [ 사용하는 교체 룰 ]: 무조건 제일 늙은 놈(먼저 들어온 놈) 쫓아냄 (FIFO)  │
+│                                                                          │
+│ ▶ 1. 램 프레임 3개일 때 (가난할 때)                                      │
+│  - 1,2,3 넣음 (폴트 3) -> 4 넣을 때 1 버림 (폴트 1)                      │
+│  - 1 넣을 때 2 버림 (폴트 1) -> 2 넣을 때 3 버림 (폴트 1)                │
+│  - ... (중략) ...                                                        │
+│  ✅ 최종 채점: 총 **9번**의 Page Fault 발생.                             │
+│                                                                          │
+│ ▶ 2. 램 프레임 4개일 때 (부자가 됐는데?!)                                │
+│  - 1,2,3,4 넣음 (폴트 4)                                                 │
+│  - 1, 2 불렀을 땐 방에 있어서 럭키! (히트)                               │
+│  - 5 넣을 때 1을 버림 (폴트 1)                                           │
+│  - 앗! 바로 다음 요청이 '1'이네? 1 넣을 때 2 버림 (폴트 1)               │
+│  - 앗! 또 다음 요청이 '2'네? 2 넣을 때 3 버림 (폴트 1)                   │
+│  💥 최종 채점: 램을 늘려줬는데 총 **10번**의 Page Fault 폭발!            │
+└──────────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 이 마법 같은 상황이 발생하는 이유는 <strong>"방이 넓어짐으로 인해 <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a>가 램에 머무는 시간이 길어졌고, 그 길어진 시간이 하필이면 FIFO의 '죽음의 룰렛' 타이밍과 절묘하게 엇갈려버렸기 때문"</strong>이다. 방이 3개일 땐 운 좋게 빨리 쫓겨나서 나중에 다시 들어오는 타이밍이 맞았는데, 방이 4개라 늦게 쫓겨나는 바람에 정작 필요할 때 버려지는 엇박자가 터진 것이다. 
 
 - **📢 섹션 요약 비유**: 4인승 택시(방 3개)를 탈 땐 자리가 좁아 내 절친이 일찍 쫓겨나는 바람에 다음 목적지에 운 좋게 서 있었는데, 5인승 밴(방 4개)으로 바꿨더니 내 절친이 끝까지 타고 있다가 하필 목적지 직전에 엉뚱한 곳에 내려져서 미아가 되어버린(폴트 횟수 증가) 재수 없는 타이밍의 장난입니다.
@@ -99,18 +99,15 @@ CPU 캐시를 교체할 때 회로를 아끼려고 무식한 [FIFO](/knowledge-b
 - 그런데 램이 모자라자, FIFO는 "어? 너 제일 늙었네? 1번으로 들어왔네? 나가!"라며 이 핵심 뼈대를 스왑으로 걷어차버린다. 
 - 0.01초 뒤 프로그램이 `config`를 찾다 폴트가 터지고 디스크를 긁어오면 또 다른 뼈대를 쫓아내는 자해 공갈 쇼가 펼쳐진다. 벨라디 모순은 이 바보 같은 짓의 수학적 결과물일 뿐이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">알고리즘</div><div class="kb-diagram-cell">타겟 선택 눈썰미</div><div class="kb-diagram-cell">돈(램) 들이부은 효과</div><div class="kb-diagram-cell">실무 OS 채택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FIFO</div><div class="kb-diagram-cell">장님 수준</div><div class="kb-diagram-cell">돈 버리고 렉 걸림</div><div class="kb-diagram-cell">❌ 절대 안 씀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LRU</div><div class="kb-diagram-cell">매의 눈 (과거)</div><div class="kb-diagram-cell">돈 들인 만큼 빨라짐</div><div class="kb-diagram-cell">🟢 100% 채택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OPT</div><div class="kb-diagram-cell">신의 눈 (미래)</div><div class="kb-diagram-cell">극한의 가성비 뽑음</div><div class="kb-diagram-cell">❌ 구현 불가</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬───────────────────────────────┐
+│ 알고리즘   │ 타겟 선택 눈썰미│ 돈(램) 들이부은 효과│ 실무 OS 채택  │
+├──────────┼────────────┼────────────┼───────────────────────────────┤
+│ FIFO     │ 장님 수준    │ 돈 버리고 렉 걸림 │ ❌ 절대 안 씀        │
+│ LRU      │ 매의 눈 (과거)│ 돈 들인 만큼 빨라짐│ 🟢 100% 채택       │
+│ OPT      │ 신의 눈 (미래)│ 극한의 가성비 뽑음│ ❌ 구현 불가        │
+└──────────┴────────────┴────────────┴───────────────────────────────┘
+```
 **[매트릭스 해설]** 벨라디의 모순은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 아키텍처에 "양(Quantity)보다 질(Quality)이 중요하다"는 명언을 남겼다. 램을 아무리 기가바이트 단위로 쑤셔 넣어줘도(양), 그걸 관리하는 뇌(교체 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 질)가 멍청하면 하드웨어의 발전이 오히려 시스템의 목을 조를 수 있다는 공학의 패러독스다.
 
 - **📢 섹션 요약 비유**: 늙었다는 이유 하나만으로 회사 설립 때부터 모든 비밀을 아는 창립멤버(핵심 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))를 해고해버리는 멍청한 사장([FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/))입니다. 회사가 돈을 벌어 책상(램)을 늘렸는데, 신입사원만 잔뜩 뽑아놓고 창립멤버를 다 잘라버리니 회사가 제대로 굴러갈(벨라디 모순) 리가 없습니다.
@@ -165,19 +162,15 @@ CPU 캐시를 교체할 때 회로를 아끼려고 무식한 [FIFO](/knowledge-b
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">최적 교체 알고리즘 (OPT, Optimal)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">벨라디의 모순 (Belady's Anomaly)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">FIFO (First-In, First-Out) 교체</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">LRU (Least Recently Used) 교체</div></div>
-</div>
-</div>
-
-
+```text
+[최적 교체 알고리즘 (OPT, Optimal)]
+    │
+    ▼
+[벨라디의 모순 (Belady's Anomaly)]
+    │
+    ├──▶ [FIFO (First-In, First-Out) 교체]
+    └──▶ [LRU (Least Recently Used) 교체]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

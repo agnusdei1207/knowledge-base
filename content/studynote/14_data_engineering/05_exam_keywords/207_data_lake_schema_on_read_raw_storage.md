@@ -39,27 +39,40 @@ tags = ["studynote-data-engineering"]
 
 ### [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/) 계층 구조
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 레이크 아키텍처</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정형</div><div class="kb-diagram-cell">반구조화</div><div class="kb-diagram-cell">비구조화</div><div class="kb-diagram-cell">스트리밍</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CSV/DB</div><div class="kb-diagram-cell">JSON/XML</div><div class="kb-diagram-cell">이미지/</div><div class="kb-diagram-cell">이벤트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동영상</div><div class="kb-diagram-cell">로그</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수집 계층</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Ingest Layer)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">저장 계층 (Storage Layer)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Raw Zone</div><div class="kb-diagram-cell">Curated Zone</div><div class="kb-diagram-cell">Consumption Zone</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(원본 보존)</div><div class="kb-diagram-cell">(클렌징·변환)</div><div class="kb-diagram-cell">(분석 서빙)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">처리 계층 (Processing Layer)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Spark</div><div class="kb-diagram-cell">Hive</div><div class="kb-diagram-cell">Presto</div><div class="kb-diagram-cell">Flink</div><div class="kb-diagram-cell">Athena</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분석/소비 계층 (Analytics Layer)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BI 도구</div><div class="kb-diagram-cell">ML 파이프라인</div><div class="kb-diagram-cell">Ad-hoc 쿼리</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────┐
+│                   데이터 레이크 아키텍처                  │
+├─────────────────────────────────────────────────────────┤
+│  ┌─────────┐  ┌─────────┐  ┌─────────┐  ┌──────────┐  │
+│  │ 정형    │  │ 반구조화 │  │비구조화 │  │스트리밍  │  │
+│  │ CSV/DB  │  │JSON/XML │  │이미지/  │  │ 이벤트   │  │
+│  │         │  │         │  │동영상   │  │ 로그     │  │
+│  └────┬────┘  └────┬────┘  └────┬────┘  └────┬─────┘  │
+│       │            │             │              │        │
+│       └────────────┴─────────────┴──────────────┘        │
+│                            │                             │
+│                   ┌────────▼────────┐                   │
+│                   │   수집 계층      │                   │
+│                   │ (Ingest Layer)  │                   │
+│                   └────────┬────────┘                   │
+│                            │                             │
+│  ┌─────────────────────────▼─────────────────────────┐  │
+│  │              저장 계층 (Storage Layer)             │  │
+│  │   Raw Zone  │  Curated Zone  │  Consumption Zone  │  │
+│  │ (원본 보존)  │ (클렌징·변환)   │  (분석 서빙)       │  │
+│  └─────────────────────────┬─────────────────────────┘  │
+│                            │                             │
+│  ┌─────────────────────────▼─────────────────────────┐  │
+│  │              처리 계층 (Processing Layer)          │  │
+│  │   Spark  │  Hive  │  Presto  │  Flink  │  Athena  │  │
+│  └─────────────────────────┬─────────────────────────┘  │
+│                            │                             │
+│  ┌─────────────────────────▼─────────────────────────┐  │
+│  │           분석/소비 계층 (Analytics Layer)         │  │
+│  │  BI 도구  │  ML 파이프라인  │  Ad-hoc 쿼리         │  │
+│  └───────────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────────────┘
+```
 
 ### [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/) 핵심 특성 비교
 
@@ -120,17 +133,11 @@ tags = ["studynote-data-engineering"]
 
 ### [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/) 존(Zone) 설계
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Raw Zone → Curated Zone → Consumption Zone</div>
-<div class="kb-diagram-note">(원본 보존) (표준화·클렌징) (목적별 뷰)</div>
-<div class="kb-diagram-note">변경 불가 품질 검증 완료 BI·ML 최적화</div>
-</div>
-</div>
-
-
+```
+Raw Zone        → Curated Zone   → Consumption Zone
+(원본 보존)       (표준화·클렌징)   (목적별 뷰)
+변경 불가         품질 검증 완료    BI·ML 최적화
+```
 
 ### 기술사 판단 포인트
 
@@ -179,22 +186,18 @@ tags = ["studynote-data-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">파일 서버 · RDBMS (구조화 데이터만)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Data Lake: Schema-on-Read · 원시 데이터 저장 (S3 · HDFS)</div>
-<div class="kb-diagram-note">데이터 늪 (Data Swamp) 위험</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Data Lakehouse: Lake + Warehouse 통합 (Delta · Iceberg)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Data Mesh: 도메인별 분산 소유권 + 자기 서빙 인프라</div>
-</div>
-</div>
-
-
+```text
+파일 서버 · RDBMS (구조화 데이터만)
+    │
+    ▼
+Data Lake: Schema-on-Read · 원시 데이터 저장 (S3 · HDFS)
+    │ 데이터 늪 (Data Swamp) 위험
+    ▼
+Data Lakehouse: Lake + Warehouse 통합 (Delta · Iceberg)
+    │
+    ▼
+Data Mesh: 도메인별 분산 소유권 + 자기 서빙 인프라
+```
 2. 놀고 싶을 때 방에 들어가서 "오늘은 레고만 꺼낼래"하고 그때 골라 쓰는 거야. 미리 정리 안 해도 돼.
 3. 방이 너무 커지면 어디 있는지 모르게 되니까 <strong>지도(<a href="/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/">카탈로그</a>)</strong>를 만들어야 찾을 수 있어.
 

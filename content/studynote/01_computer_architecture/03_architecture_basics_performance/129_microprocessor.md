@@ -35,22 +35,22 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 마이크로프로세서가 "외부 배선 중심 구조"를 "칩 내부 배선 중심 구조"로 바꿨다는 점을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">From board-level CPU to single-chip microprocessor</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Old board system</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CU board</div><div class="kb-diagram-note">external bus</div><div class="kb-diagram-node">ALU board</div><div class="kb-diagram-node">Reg board</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">long path / more noise</div></div>
-<div class="kb-diagram-note">slower clock, bigger size, more faults</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Single chip</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CU</div><div class="kb-diagram-cell">Decode</div><div class="kb-diagram-cell">ALU</div><div class="kb-diagram-cell">Registers</div><div class="kb-diagram-cell">L1 Cache</div><div class="kb-diagram-cell">Internal bus</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">short path / lower latency / higher integration</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│        From board-level CPU to single-chip microprocessor           │
+├──────────────────────────────────────────────────────────────────────┤
+│  Old board system                                                   │
+│  [CU board] ───── external bus ───── [ALU board] ───── [Reg board] │
+│       │                         long path / more noise              │
+│       └────────────── slower clock, bigger size, more faults ──────┘
+│                                                                      │
+│  Single chip                                                         │
+│  ┌────────────────────────────────────────────────────────────────┐  │
+│  │ CU │ Decode │ ALU │ Registers │ L1 Cache │ Internal bus       │  │
+│  └────────────────────────────────────────────────────────────────┘  │
+│            short path / lower latency / higher integration          │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조의 설계 포인트는 단순 집적이 아니라 <strong>병목을 안으로 옮기고 내부 계층으로 관리하는 것</strong>이다. 외부 배선 병목이 줄어든 대신, 이제는 파이프라인, 캐시 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/), [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/), 발열, 전력 밀도가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 좌우한다. 그래서 현대 마이크로프로세서는 단일 연산기보다 "명령 처리 공장"에 가깝다.
 
@@ -134,22 +134,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">보드 단위 CPU 구현</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">마이크로프로세서 (Microprocessor)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 캐시 메모리 (Cache Memory)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 파이프라이닝 (Pipelining)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 멀티코어 (Multi-core)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SoC (System on Chip) · 칩렛 (Chiplet)</div>
-</div>
-</div>
-
-
+```text
+보드 단위 CPU 구현
+    │
+    ▼
+마이크로프로세서 (Microprocessor)
+    │
+    ├─▶ 캐시 메모리 (Cache Memory)
+    │
+    ├─▶ 파이프라이닝 (Pipelining)
+    │
+    ├─▶ 멀티코어 (Multi-core)
+    │
+    ▼
+SoC (System on Chip) · 칩렛 (Chiplet)
+```
 
 이 흐름은 "집적의 시작"에서 "[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화"를 거쳐 "시스템 통합"으로 확장되는 방향을 보여준다.
 

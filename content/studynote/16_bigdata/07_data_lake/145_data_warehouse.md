@@ -24,22 +24,21 @@ tags = ["studynote-bigdata"]
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)는 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 과정을 통해 원천 시스템에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가져와 전용 저장소에 적재한다.
 
+```text
+[ Data Warehouse Architecture / 데이터 웨어하우스 아키텍처 ]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Data Warehouse Architecture / 데이터 웨어하우스 아키텍처</div></div>
-<div class="kb-diagram-note">Source Systems (ERP, CRM) Data Warehouse (DW) BI &amp; Analytics</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Operational DB</div><div class="kb-diagram-node">Staging Area</div><div class="kb-diagram-note">| Reporting Tools</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Flat Files</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Data Vault</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">(SQL, Dashboards)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">External API</div><div class="kb-diagram-note">+-----------+-----------+ +---------+---------+</div></div>
-<div class="kb-diagram-note">v v</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data Marts</div><div class="kb-diagram-cell">----&gt;</div><div class="kb-diagram-cell">Ad-hoc Analysis</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Sales, Finance, etc)</div><div class="kb-diagram-cell">(Excel, BI)</div></div>
-</div>
-</div>
-
-
+    Source Systems (ERP, CRM)          Data Warehouse (DW)             BI & Analytics
+    +-------------------+       +-----------------------+       +-------------------+
+    | [Operational DB]  |       |     [Staging Area]    |       |  Reporting Tools  |
+    | [Flat Files]      | ----> |     [Data Vault]      | ----> |  (SQL, Dashboards)|
+    | [External API]    |       +-----------+-----------+       +---------+---------+
+    +---------+---------+                   |                             |
+                                            v                             v
+                                +-----------+-----------+       +---------+---------+
+                                |      Data Marts       | ----> |  Ad-hoc Analysis  |
+                                | (Sales, Finance, etc) |       |  (Excel, BI)      |
+                                +-----------------------+       +-------------------+
+```
 
 1. <strong>4대 특징 (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/311_inmon/">Inmon</a>)</strong>:
    - **주제 중심적 (Subject Oriented)**: 고객, 상품 등 특정 주제별 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구성.
@@ -82,19 +81,15 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">상위 개념: Data Infrastructure, Business Intelligence</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">하위 개념: Data Mart, ETL/ELT, Star Schema, OLAP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">연관 개념: OLTP vs OLAP, MPP, Data Lakehouse</div></div>
-</div>
-</div>
-
-
+```text
+[상위 개념: Data Infrastructure, Business Intelligence]
+    │
+    ▼
+[하위 개념: Data Mart, ETL/ELT, Star Schema, OLAP]
+    │
+    ▼
+[연관 개념: OLTP vs OLAP, MPP, Data Lakehouse]
+```
 
 이 흐름도는 상위 개념: [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Infrastructure, Business Intelligence에서 출발해 연관 개념: [OLTP vs OLAP](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/294_oltp_vs_olap/), MPP, [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Lakehouse까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

@@ -18,26 +18,27 @@ tags = ["studynote-database"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">역정규화 5대 기법 한눈에 보기</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1</div><div class="kb-diagram-note">테이블 병합: 1:1 관계 테이블 합치기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사원 + 사원상세 → 사원통합</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2</div><div class="kb-diagram-note">중복 컬럼 추가: FK 참조값을 복사</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주문(고객ID) + 고객(이름) → 주문(고객명 복사)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3</div><div class="kb-diagram-note">파생 컬럼 추가: 계산값 미리 저장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주문상세(수량×단가) → 주문(총액)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">4</div><div class="kb-diagram-note">수평 분할: 행 기준 분리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주문(10년치) → 주문_2024, 주문_2025</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">5</div><div class="kb-diagram-note">수직 분할: 열 기준 분리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상품(이름,가격,설명,이미지) →</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상품_핫(이름,가격) + 상품_콜드(설명,이미지)</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    역정규화 5대 기법 한눈에 보기                       │
+├───────────────────────────────────────────────────────┤
+│  [1] 테이블 병합: 1:1 관계 테이블 합치기              │
+│      사원 + 사원상세 → 사원통합                       │
+│                                                       │
+│  [2] 중복 컬럼 추가: FK 참조값을 복사                 │
+│      주문(고객ID) + 고객(이름) → 주문(고객명 복사)    │
+│                                                       │
+│  [3] 파생 컬럼 추가: 계산값 미리 저장                 │
+│      주문상세(수량×단가) → 주문(총액)                 │
+│                                                       │
+│  [4] 수평 분할: 행 기준 분리                          │
+│      주문(10년치) → 주문_2024, 주문_2025              │
+│                                                       │
+│  [5] 수직 분할: 열 기준 분리                          │
+│      상품(이름,가격,설명,이미지) →                    │
+│      상품_핫(이름,가격) + 상품_콜드(설명,이미지)      │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [역정규화](/knowledge-base/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/) 기법은 대형 마트 물류 최적화다. 병합은 인접 매대 통합, [수평 분할](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/268_horizontal_fragmentation/)은 층별 분리, [수직 분할](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/269_vertical_fragmentation/)은 냉장·상온 구역 분리, 중복은 자주 찾는 상품을 여러 매대에 복사 배치.
 
@@ -106,23 +107,21 @@ tags = ["studynote-database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">역정규화 수동 설계 (1990s) — DBA의 경험 기반 판단</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">파티셔닝 내장 (2000s) — Oracle/MySQL 수평 분할 표준화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Materialized View 자동 갱신 — 파생 컬럼 자동화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CQRS + Event Sourcing (2010s) — 읽기 뷰 이벤트 기반 생성</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: NewSQL Auto-sharding — 분산 DB가 분할을 자동 관리</div></div>
-</div>
-</div>
-
-
+```text
+[역정규화 수동 설계 (1990s) — DBA의 경험 기반 판단]
+    │
+    ▼
+[파티셔닝 내장 (2000s) — Oracle/MySQL 수평 분할 표준화]
+    │
+    ▼
+[Materialized View 자동 갱신 — 파생 컬럼 자동화]
+    │
+    ▼
+[CQRS + Event Sourcing (2010s) — 읽기 뷰 이벤트 기반 생성]
+    │
+    ▼
+[현재: NewSQL Auto-sharding — 분산 DB가 분할을 자동 관리]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. <strong>병합</strong>은 방 2개를 벽을 허물어 1개로 만드는 거예요 (찾으러 안 다녀도 됨).

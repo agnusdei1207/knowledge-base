@@ -28,26 +28,29 @@ tags = ["studynote-operating-system"]
 - <strong>기존 디스크 흩뿌림 구조를 메모리 캐시 <a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a>로 뽑아 올린 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a> 통치 뷰 다이어그램</strong>:
 사용자가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 중간 3번째 조각으로 건너뛰고 싶을 때, FAT 통치 맵이 2단계 계층적 뷰(RAM -> Disk)로 어떻게 빔 타격을 연결 짓는지 까보면 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MS-DOS FAT (File Allocation Table) 장부 램 렌더 마스킹</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">디렉터리 이름 장부</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">217번지!</div><div class="kb-diagram-note">]</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1️⃣</div><div class="kb-diagram-node">메모리(RAM) 위에 떠 있는 FAT 장부 배열표 우주 캐시 스왑</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(각 배열 인덱스는 디스크 물리 블록 번호를 뜻함!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">217번 칸</div><div class="kb-diagram-note">값 : <code>618</code> ──(217의 다음 꼬리표 데이터는 618번지 블록)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">618번 칸</div><div class="kb-diagram-note">값 : <code>339</code> ──(그다음 3번째 조각은 339번지 블록 포팅)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">339번 칸</div><div class="kb-diagram-note">값 : <code>EOF</code> ──(방 끝남! 여기가 음악 끝자리 파일 종료!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2️⃣</div><div class="kb-diagram-node">실제 물리 하드디스크 체제 철판 모터 (Direct Jump 레이저 타격)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(디스크 모터 바늘(Arm)은 불필요한 탐색 삽질 안 함! 램이 시킨 곳만 찌름)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">217번 철판조각 블록</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">339번 철판조각 블록</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">618번 철판조각 블록</div><div class="kb-diagram-note">(음악 후반부 직접 꺼내 줌 컷!)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌──────────────────────────────────────────────────────────────────────────────┐
+  │                 MS-DOS FAT (File Allocation Table) 장부 램 렌더 마스킹       │
+  ├──────────────────────────────────────────────────────────────────────────────┤
+  │                                                                              │
+  │  [ 디렉터리 이름 장부 ]                                                      │
+  │   - 파일 `music.mp3` 시작 주소 ◀─── [[ 217번지! ]]                           │
+  │           |                                                                  │
+  │  =========▼====================================================              │
+  │  1️⃣ [ 메모리(RAM) 위에 떠 있는 FAT 장부 배열표 우주 캐시 스왑 ]             │
+  │   (각 배열 인덱스는 디스크 물리 블록 번호를 뜻함!)                           │
+  │   [ 217번 칸 ] │ 값 : `618` ──(217의 다음 꼬리표 데이터는 618번지 블록)      │
+  │   [ 618번 칸 ] │ 값 : `339` ──(그다음 3번째 조각은 339번지 블록 포팅)        │
+  │   [ 339번 칸 ] │ 값 : `EOF` ──(방 끝남! 여기가 음악 끝자리 파일 종료!)       │
+  │           |                                                                  │
+  │  =========▼====================================================              │
+  │  2️⃣ [ 실제 물리 하드디스크 체제 철판 모터 (Direct Jump 레이저 타격) ]       │
+  │       (디스크 모터 바늘(Arm)은 불필요한 탐색 삽질 안 함! 램이 시킨 곳만 찌름)│
+  │                                                                              │
+  │     [ 217번 철판조각 블록 ]  ─(점프)─▶  [ 339번 철판조각 블록 ]              │
+  │     [ 618번 철판조각 블록 ]             (음악 후반부 직접 꺼내 줌 컷!)       │
+  └──────────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 스펙 구조의 소름 돋는 점은, 기존 `연결 할당` 에서는 내가 3번째 조각(339번 블록)으로 랜덤 액세스 점프를 하려면, 디스크 철판을 3번 긁어야 했다. 하지만 FAT은? **"컴퓨터 켜질 때 저 FAT 표를 메모리(RAM)에 전부 싹 다 올려버린다!"** 즉, 217 -> 618 -> 339 라는 포인터 추적(Pointer Chasing) 과정이 철판을 긁는 더러운 모터 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 아니라, 램 안에서 전기 속도로 일어나는 $O(1)$ 초 나노 세컨드 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 검색으로 [돌연변이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/638_mutation_testing_test_case_verification/) 치환된 것이다! 램에서 339번이란 목표를 알아낸 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 비로소 "자 모터 바늘아! 딴 데 들르지 말고 339번지로 그대로 직행해 다이브 빔 타격!" 하고 디스크를 단 1번만 읽는 퍼펙트한 **논리적 랜덤 접근 (Logical Random Access 스로틀 우회)** 을 달성해 냈다 백본!
 
@@ -139,19 +142,15 @@ FAT ([File](/knowledge-base/studynote/02_operating_system/09_file_system/501_fil
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">연결 할당 (Linked Allocation)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">FAT (File Allocation Table)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">색인 할당 (Indexed Allocation)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">색인 블록 크기 한계 해결</div></div>
-</div>
-</div>
-
-
+```text
+[연결 할당 (Linked Allocation)]
+    │
+    ▼
+[FAT (File Allocation Table)]
+    │
+    ├──▶ [색인 할당 (Indexed Allocation)]
+    └──▶ [색인 블록 크기 한계 해결]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

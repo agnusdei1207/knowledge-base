@@ -22,22 +22,19 @@ tags = ["studynote-data-engineering"]
 
 <strong>CT (Continuous <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/">Training</a>)</strong>는 ML 파이프라인을 자동으로 주기적 또는 이벤트 기반으로 실행하여, 최신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 모델을 재학습하고 배포하는 자동화 체계다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">기존 방식 (수동 재학습) CT 방식 (자동 재학습)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 과학자가 수동으로</div><div class="kb-diagram-cell">트리거 감지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">성능 저하 인지</div><div class="kb-diagram-cell">(일정/데이터/성능)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">재학습 스크립트 실행</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">파이프라인 자동 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↓</div><div class="kb-diagram-cell">데이터 검증 → 학습 → 평가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수동 모델 평가 및 배포</div><div class="kb-diagram-cell">↓</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수주 소요</div><div class="kb-diagram-cell">자동 배포 또는 알람</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수시간 소요</div></div>
-</div>
-</div>
-
-
+```
+기존 방식 (수동 재학습)              CT 방식 (자동 재학습)
+┌──────────────────────────┐       ┌──────────────────────────────┐
+│ 데이터 과학자가 수동으로  │       │  트리거 감지                  │
+│ 성능 저하 인지            │       │  (일정/데이터/성능)            │
+│         ↓                │       │          ↓                    │
+│ 재학습 스크립트 실행      │  →    │  파이프라인 자동 실행          │
+│         ↓                │       │  데이터 검증 → 학습 → 평가    │
+│ 수동 모델 평가 및 배포    │       │          ↓                    │
+│ 수주 소요                 │       │  자동 배포 또는 알람           │
+└──────────────────────────┘       │  수시간 소요                  │
+                                   └──────────────────────────────┘
+```
 
 ### 1.2 CT가 필요한 이유
 
@@ -65,24 +62,22 @@ tags = ["studynote-data-engineering"]
 
 ### 2.2 CT 파이프라인 상세 구성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CT 파이프라인 전체 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">트리거</div><div class="kb-diagram-cell">데이터</div><div class="kb-diagram-cell">피처</div><div class="kb-diagram-cell">모델</div><div class="kb-diagram-cell">모델</div><div class="kb-diagram-cell">자동</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">감지</div><div class="kb-diagram-cell">검증</div><div class="kb-diagram-cell">엔지니</div><div class="kb-diagram-cell">학습</div><div class="kb-diagram-cell">평가</div><div class="kb-diagram-cell">배포</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">어링</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Schedule</div><div class="kb-diagram-cell">스키마</div><div class="kb-diagram-cell">피처</div><div class="kb-diagram-cell">분산</div><div class="kb-diagram-cell">정확도</div><div class="kb-diagram-cell">통과 →</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data</div><div class="kb-diagram-cell">검증</div><div class="kb-diagram-cell">계산</div><div class="kb-diagram-cell">학습</div><div class="kb-diagram-cell">F1-Score</div><div class="kb-diagram-cell">모델 레지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Perf</div><div class="kb-diagram-cell">이상값</div><div class="kb-diagram-cell">정규화</div><div class="kb-diagram-cell">HPO</div><div class="kb-diagram-cell">드리프트</div><div class="kb-diagram-cell">스트리 등록</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Trigger</div><div class="kb-diagram-cell">체크</div><div class="kb-diagram-cell">인코딩</div><div class="kb-diagram-cell">교차검증</div><div class="kb-diagram-cell">비교</div><div class="kb-diagram-cell">→ 카나리</div></div>
-<div class="kb-diagram-note">실패 →</div>
-<div class="kb-diagram-note">알람 발송</div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                      CT 파이프라인 전체 흐름                         │
+├──────────┬──────────┬──────────┬──────────┬──────────┬─────────────┤
+│  트리거  │  데이터  │  피처    │  모델    │  모델    │   자동      │
+│  감지    │  검증    │  엔지니  │  학습    │  평가    │   배포      │
+│          │          │  어링    │          │          │             │
+├──────────┼──────────┼──────────┼──────────┼──────────┼─────────────┤
+│ Schedule │ 스키마   │ 피처     │ 분산     │ 정확도   │ 통과 →     │
+│ Data     │ 검증     │ 계산     │ 학습     │ F1-Score │ 모델 레지   │
+│ Perf     │ 이상값   │ 정규화   │ HPO      │ 드리프트 │ 스트리 등록 │
+│ Trigger  │ 체크     │ 인코딩   │ 교차검증 │ 비교     │ → 카나리   │
+└──────────┴──────────┴──────────┴──────────┴──────────┴─────────────┘
+                                                           실패 →
+                                                           알람 발송
+```
 
 ### 2.3 CT 파이프라인 상세 단계
 
@@ -103,7 +98,7 @@ new_stats = tfdv.generate_statistics_from_csv('new_data.csv')
 anomalies = tfdv.validate_statistics(new_stats, schema)
 ```
 
-#### 단계 2: [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 엔지니어링 ([Feature Engineering](/knowledge-base/studynote/12_it_management/02_itsm_itil/081_feature_engineering/))
+#### 단계 2: [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 엔지니어링 ([Feature 엔진ering](/knowledge-base/studynote/12_it_management/02_itsm_itil/081_feature_engineering/))
 
 | 작업 | 설명 | 도구 |
 |:---|:---|:---|
@@ -114,44 +109,42 @@ anomalies = tfdv.validate_statistics(new_stats, schema)
 
 #### 단계 3: 모델 학습 (Model [Training](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/))
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모델 학습 전략 비교</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전체 재학습</div><div class="kb-diagram-cell">전체 데이터로 처음부터 학습</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Full Retraining)</div><div class="kb-diagram-cell">고비용, 높은 정확도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">증분 학습</div><div class="kb-diagram-cell">새 데이터만으로 기존 모델 업데이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Incremental)</div><div class="kb-diagram-cell">저비용, 점진적 성능 개선</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">앙상블 업데이트</div><div class="kb-diagram-cell">새 모델 추가, 가중치 재조정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Ensemble Update)</div><div class="kb-diagram-cell">안정성 높음, 복잡성 증가</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────┐
+│                모델 학습 전략 비교                   │
+├───────────────────┬─────────────────────────────────┤
+│  전체 재학습      │  전체 데이터로 처음부터 학습     │
+│  (Full Retraining)│  고비용, 높은 정확도             │
+├───────────────────┼─────────────────────────────────┤
+│  증분 학습        │  새 데이터만으로 기존 모델 업데이 │
+│  (Incremental)    │  저비용, 점진적 성능 개선        │
+├───────────────────┼─────────────────────────────────┤
+│  앙상블 업데이트  │  새 모델 추가, 가중치 재조정     │
+│  (Ensemble Update)│  안정성 높음, 복잡성 증가        │
+└───────────────────┴─────────────────────────────────┘
+```
 
 #### 단계 4: 모델 평가 및 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 게이트 (Evaluation Gate)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">신규 모델 학습 완료</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자동 평가 게이트 (Gate)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① 정확도 &gt; 기준 (예: 90%)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② F1-Score 개선 여부</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ 현재 프로덕션 모델 대비</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">성능 향상 확인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">④ 지연시간 SLA 충족</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⑤ 공정성 메트릭 체크</div></div>
-<div class="kb-diagram-note">통과 ▼ 실패 ▼</div>
-<div class="kb-diagram-note">레지스트리 등록 알람 + 원인 분석</div>
-<div class="kb-diagram-note">→ 카나리 배포 → 데이터팀 통보</div>
-</div>
-</div>
-
-
+```
+신규 모델 학습 완료
+        │
+        ▼
+  ┌─────────────────────────────┐
+  │  자동 평가 게이트 (Gate)     │
+  │                             │
+  │  ① 정확도 > 기준 (예: 90%) │
+  │  ② F1-Score 개선 여부       │
+  │  ③ 현재 프로덕션 모델 대비  │
+  │     성능 향상 확인           │
+  │  ④ 지연시간 SLA 충족        │
+  │  ⑤ 공정성 메트릭 체크       │
+  └─────────────────────────────┘
+        │              │
+    통과 ▼          실패 ▼
+  레지스트리 등록   알람 + 원인 분석
+  → 카나리 배포     → 데이터팀 통보
+```
 
 ### 2.4 재학습 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 상세 비교
 
@@ -180,27 +173,25 @@ anomalies = tfdv.validate_statistics(new_stats, schema)
 
 ### 3.2 Catastrophic Forgetting 문제와 해결
 
+```
+증분 학습의 문제 - Catastrophic Forgetting
 
+이전 학습 데이터: [고양이, 개, 자동차]
+새 학습 데이터:   [비행기, 배]
+                        ↓
+증분 학습 후: 비행기·배는 잘 분류,
+              고양이·개·자동차 성능 급락 (Forgetting!)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">증분 학습의 문제 - Catastrophic Forgetting</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">이전 학습 데이터:</div><div class="kb-diagram-node">고양이, 개, 자동차</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">새 학습 데이터:</div><div class="kb-diagram-node">비행기, 배</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">증분 학습 후: 비행기·배는 잘 분류,</div>
-<div class="kb-diagram-note">고양이·개·자동차 성능 급락 (Forgetting!)</div>
-<div class="kb-diagram-note">해결 방법:</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① Replay Buffer: 이전 데이터 샘플 보존</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② EWC (Elastic Weight Consolidation):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">중요 가중치에 페널티 부여</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ Progressive Neural Networks:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">새 태스크에 별도 컬럼 추가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">④ 전체 재학습 주기 병행</div></div>
-</div>
-</div>
-
-
+해결 방법:
+┌────────────────────────────────────────────────┐
+│  ① Replay Buffer: 이전 데이터 샘플 보존         │
+│  ② EWC (Elastic Weight Consolidation):         │
+│     중요 가중치에 페널티 부여                    │
+│  ③ Progressive Neural Networks:               │
+│     새 태스크에 별도 컬럼 추가                   │
+│  ④ 전체 재학습 주기 병행                        │
+└────────────────────────────────────────────────┘
+```
 
 ### 3.3 CT vs 기존 배치 모델 업데이트 비교
 
@@ -220,25 +211,20 @@ anomalies = tfdv.validate_statistics(new_stats, schema)
 
 ### 4.1 CT 비용 vs [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 트레이드오프
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">모델 성능</div>
-<div class="kb-diagram-connector">↑</div>
-<div class="kb-diagram-note">····················· 이상적 성능 유지선</div>
-<div class="kb-diagram-note">╲ ╱╲ ╱╲</div>
-<div class="kb-diagram-note">╲ ╱ ╲ ╱ ╲</div>
-<div class="kb-diagram-note">╲ ╱ ╲ ╱ ╲···(성능 저하 시작)</div>
-<div class="kb-diagram-note">╳ ╳</div>
-<div class="kb-diagram-note">재학습 재학습</div>
-<div class="kb-diagram-tree-item" style="--depth:1">→ 시간</div>
-<div class="kb-diagram-note">너무 자주 재학습 너무 늦은 재학습</div>
-<div class="kb-diagram-note">(비용 낭비) (성능 저하 노출)</div>
-</div>
-</div>
-
-
+```
+모델 성능
+  ↑
+  │     ····················· 이상적 성능 유지선
+  │  ╲     ╱╲     ╱╲
+  │   ╲   ╱  ╲   ╱  ╲
+  │    ╲ ╱    ╲ ╱    ╲···(성능 저하 시작)
+  │     ╳      ╳
+  │    재학습  재학습
+  └─────────────────────────────→ 시간
+    ↑                  ↑
+  너무 자주 재학습      너무 늦은 재학습
+  (비용 낭비)           (성능 저하 노출)
+```
 
 | 재학습 빈도 | 컴퓨팅 비용 | 모델 신선도 | 권장 상황 |
 |:---|:---:|:---:|:---|
@@ -316,22 +302,19 @@ def ct_pipeline(data_path: str, threshold: float = 0.90):
 
 ### 5.2 CT 설계 시 고려사항
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CT 설계 체크리스트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 트리거 조건 명확화 (스케줄/데이터/성능 중 선택)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 학습 데이터 윈도우 크기 결정 (전체 vs 슬라이딩)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 평가 게이트 기준 설정 (절대값 + 상대값 조합)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 실패 시 롤백 전략 (이전 버전 유지)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 재학습 비용 예산 설정 (GPU 사용량 알람)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 데이터 레이블링 파이프라인 연결 (지도학습의 경우)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 피처 스토어 연동 (훈련/서빙 일관성 보장)</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────┐
+│                  CT 설계 체크리스트                       │
+├─────────────────────────────────────────────────────────┤
+│  □ 트리거 조건 명확화 (스케줄/데이터/성능 중 선택)        │
+│  □ 학습 데이터 윈도우 크기 결정 (전체 vs 슬라이딩)       │
+│  □ 평가 게이트 기준 설정 (절대값 + 상대값 조합)          │
+│  □ 실패 시 롤백 전략 (이전 버전 유지)                    │
+│  □ 재학습 비용 예산 설정 (GPU 사용량 알람)               │
+│  □ 데이터 레이블링 파이프라인 연결 (지도학습의 경우)     │
+│  □ 피처 스토어 연동 (훈련/서빙 일관성 보장)              │
+└─────────────────────────────────────────────────────────┘
+```
 
 ### 5.3 결론
 
@@ -365,28 +348,26 @@ CT (Continuous [Training](/knowledge-base/studynote/04_software_engineering/09_c
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">수동 모델 재학습 (분기별 배치)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CT 트리거 도입</div>
-<div class="kb-diagram-tree-item" style="--depth:2">일정 기반 (cron) — 주기적 재학습</div>
-<div class="kb-diagram-tree-item" style="--depth:2">데이터 기반 — 드리프트 감지 시 발동</div>
-<div class="kb-diagram-tree-item" style="--depth:2">성능 기반 — 정확도 임계값 하락 시 발동</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">자동 재학습 파이프라인 (Kubeflow · Airflow)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">데이터 검증 → 피처 추출 → 학습</div>
-<div class="kb-diagram-tree-item" style="--depth:2">평가 게이트 (성능 · SLA · 공정성)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">자동 배포 (카나리 → A/B → 전체)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속 모니터링 → 드리프트 재감지 → CT 재발동 (순환)</div>
-</div>
-</div>
-
-
+```text
+수동 모델 재학습 (분기별 배치)
+    │
+    ▼
+CT 트리거 도입
+    ├─► 일정 기반 (cron) — 주기적 재학습
+    ├─► 데이터 기반 — 드리프트 감지 시 발동
+    └─► 성능 기반 — 정확도 임계값 하락 시 발동
+    │
+    ▼
+자동 재학습 파이프라인 (Kubeflow · Airflow)
+    ├─► 데이터 검증 → 피처 추출 → 학습
+    └─► 평가 게이트 (성능 · SLA · 공정성)
+    │
+    ▼
+자동 배포 (카나리 → A/B → 전체)
+    │
+    ▼
+지속 모니터링 → 드리프트 재감지 → CT 재발동 (순환)
+```
 
 ---
 

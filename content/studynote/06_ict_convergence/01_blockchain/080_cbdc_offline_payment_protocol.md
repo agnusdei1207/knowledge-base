@@ -31,25 +31,26 @@ tags = ["studynote-ict-convergence"]
 ### [TEE](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/478_tee/)/SE 기반 [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 이중 지불 방지 메커니즘
 중앙은행(원장)이 없는 깜깜이 오프라인 상태에서 사기를 막기 위해, 기기 자체의 쇳덩어리 보안 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/)를 신뢰의 앵커(Anchor)로 삼는다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CBDC 오프라인 P2P 결제 트랜잭션 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">송금자 폰 (Alice)</div><div class="kb-diagram-node">수신자 폰 (Bob)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보안 영역 (SE)</div><div class="kb-diagram-cell">NFC</div><div class="kb-diagram-cell">보안 영역 (SE)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(잔액: 5만 원)</div><div class="kb-diagram-cell">◀ ▶</div><div class="kb-diagram-cell">(잔액: 0원)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(블루투스 등)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 상호 인증</div><div class="kb-diagram-cell">1. 상호 인증</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 1만 원 차감!</div><div class="kb-diagram-cell">── (토큰) ──▶</div><div class="kb-diagram-cell">3. 1만 원 증가!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 전자 서명 생성</div><div class="kb-diagram-cell">◀─ (영수증) ─</div><div class="kb-diagram-cell">4. 서명 검증</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">( 통신망 단절 (오프라인 상태) )</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(3일 뒤 통신망 복구 시) (3일 뒤 통신망 복구 시)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">중앙은행 블록체인/DB ──▶ 잔액 및 영수증 사후 동기화 완료!</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────┐
+│           CBDC 오프라인 P2P 결제 트랜잭션 아키텍처               │
+├────────────────────────────────────────────────────────┤
+│   [ 송금자 폰 (Alice) ]             [ 수신자 폰 (Bob) ]     │
+│  ┌─────────────────┐             ┌─────────────────┐   │
+│  │ 보안 영역 (SE)   │     NFC     │ 보안 영역 (SE)   │   │
+│  │ (잔액: 5만 원)    │◀───────────▶│ (잔액: 0원)      │   │
+│  │                 │ (블루투스 등)  │                 │   │
+│  │ 1. 상호 인증    │             │ 1. 상호 인증    │   │
+│  │ 2. 1만 원 차감!  │── (토큰) ──▶│ 3. 1만 원 증가!  │   │
+│  │ 4. 전자 서명 생성│◀─ (영수증) ─│ 4. 서명 검증    │   │
+│  └─────────────────┘             └─────────────────┘   │
+│            │                                │          │
+│ ══════════( 통신망 단절 (오프라인 상태) )══════════════════│
+│            ▼                                ▼          │
+│         (3일 뒤 통신망 복구 시)          (3일 뒤 통신망 복구 시)│
+│    [ 중앙은행 블록체인/DB ──▶ 잔액 및 영수증 사후 동기화 완료! ] │
+└────────────────────────────────────────────────────────┘
+```
 
 <strong>이중 지불 방지(Double Spending Prevention)</strong>의 원리: Alice의 스마트폰 안에는 해커가 아무리 루팅(Rooting)해도 뚫을 수 없는 독립된 하드웨어 보안 칩(SE, Secure Element)이 있다. 오프라인 결제가 일어날 때 돈은 무조건 이 SE 내부에서 [암호학](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/)적 연산을 거쳐 차감되며, 한 번 발급된 토큰은 스마트 컨트랙트처럼 시간 기반 난수([Nonce](/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/))를 포함해 상대방 SE에 한 번만 꽂히도록 설계되어 복사 후 재사용([Replay Attack](/knowledge-base/studynote/09_security/03_network_security/274_replay_attack/))을 원천 차단한다.
 
@@ -109,23 +110,21 @@ tags = ["studynote-ict-convergence"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">현금 없는 사회(Cashless Society)의 도래 및 통신망 마비 시 국가 경제 셧다운 리스크 대두</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">중앙은행 디지털 화폐(CBDC) 연구 시작 (편의성을 위한 온라인/계좌 기반 설계)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">재난 상황 및 오지(통신 불가 지역)에서의 현금 기능 대체 필수 요건 제기</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">토큰 기반(Token-based) P2P 암호학 전송 기술 및 SE(하드웨어) 융합 프로토콜 개발</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">인터넷 단절 상태에서도 이중 지불을 방지하며 결제 후 사후 동기화(Sync)하는 오프라인 CBDC 완성</div>
-</div>
-</div>
-
-
+```text
+현금 없는 사회(Cashless Society)의 도래 및 통신망 마비 시 국가 경제 셧다운 리스크 대두
+    │
+    ▼
+중앙은행 디지털 화폐(CBDC) 연구 시작 (편의성을 위한 온라인/계좌 기반 설계)
+    │
+    ▼
+재난 상황 및 오지(통신 불가 지역)에서의 현금 기능 대체 필수 요건 제기
+    │
+    ▼
+토큰 기반(Token-based) P2P 암호학 전송 기술 및 SE(하드웨어) 융합 프로토콜 개발
+    │
+    ▼
+인터넷 단절 상태에서도 이중 지불을 방지하며 결제 후 사후 동기화(Sync)하는 오프라인 CBDC 완성
+```
 
 이 흐름도는 "디지털 혁신의 취약점(통신 의존성) → 물리적 현금의 생존력 요구 → 하드웨어와 [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) [암호학](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/)을 융합한 최후의 구명조끼(오프라인 결제) 개발"이라는 재난 대비 화폐 공학의 진화를 보여준다.
 

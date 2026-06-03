@@ -42,22 +42,26 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 토마술로에서 "[레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 기다리는 것"이 아니라 "생산자 태그를 기다리는 것"이 왜 중요한지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tomasulo 데이터 흐름: 값이 아닌 생산자를 기다렸다가 수신</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Issue</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RS_ADD1</div><div class="kb-diagram-note">Vj=F2값 Vk=F4값 Qj=- Qk=-</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RS_MUL1</div><div class="kb-diagram-note">Vj=빈칸 Vk=F10값 Qj=ADD1 Qk=-</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ADD 기능 유닛 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: Tag=ADD1, Value=42</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RS_MUL1이 Qj=ADD1 확인 후 Vj=42 저장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MUL 기능 유닛 실행 시작</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│           Tomasulo 데이터 흐름: 값이 아닌 생산자를 기다렸다가 수신          │
+├────────────────────────────────────────────────────────────────────────────┤
+│  Issue                                                                    │
+│  ADD.D F6, F2, F4 ──▶ [RS_ADD1]  Vj=F2값  Vk=F4값  Qj=-   Qk=-            │
+│  MUL.D F8, F6, F10 ─▶ [RS_MUL1] Vj=빈칸  Vk=F10값 Qj=ADD1 Qk=-            │
+│                                   │                                        │
+│                                   ▼                                        │
+│                           ADD 기능 유닛 실행                               │
+│                                   │                                        │
+│                           결과: Tag=ADD1, Value=42                         │
+│                                   │                                        │
+│                                   ▼                                        │
+│  CDB 방송  ─────────────────────▶ [RS_MUL1이 Qj=ADD1 확인 후 Vj=42 저장]   │
+│                                   │                                        │
+│                                   ▼                                        │
+│                           MUL 기능 유닛 실행 시작                          │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조는 단순 포워딩보다 한 단계 더 나아간다. 일반 [데이터 포워딩](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/228_data_forwarding/) ([Data Forwarding](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/228_data_forwarding/))이 고정된 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 경로에서 바로 다음 단계로 값을 넘기는 방식이라면, 토마술로는 여러 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 각자 대기하다가 자기에게 필요한 태그가 방송될 때 동시에 반응한다. 즉, 중앙 스케줄러가 "너 실행해"라고 하나씩 지시하는 구조가 아니라, 각 RS가 CDB를 감시하며 스스로 실행 가능 상태를 판정하는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 스케줄링이다.
 
@@ -134,26 +138,27 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">스코어보딩 (Scoreboarding)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">토마술로 알고리즘 (Tomasulo's Algorithm)</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ 예약역 (Reservation Station, RS)</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ 레지스터 리네이밍 (Register Renaming)</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ 공통 데이터 버스 (Common Data Bus, CDB)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">비순차 실행 (Out-of-Order Execution, OoO)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">리오더 버퍼 (Reorder Buffer, ROB) 결합</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">현대 슈퍼스칼라 프로세서</div>
-</div>
-</div>
-
-
+```text
+스코어보딩 (Scoreboarding)
+        │
+        ▼
+토마술로 알고리즘 (Tomasulo's Algorithm)
+        │
+        ├─▶ 예약역 (Reservation Station, RS)
+        │
+        ├─▶ 레지스터 리네이밍 (Register Renaming)
+        │
+        └─▶ 공통 데이터 버스 (Common Data Bus, CDB)
+                │
+                ▼
+비순차 실행 (Out-of-Order Execution, OoO)
+                │
+                ▼
+리오더 버퍼 (Reorder Buffer, ROB) 결합
+                │
+                ▼
+현대 슈퍼스칼라 프로세서
+```
 
 이 흐름은 중앙 통제형 동적 스케줄링에서 출발해, 태그 기반 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 실행과 정밀 커밋 구조를 갖춘 현대 OoO 코어로 발전하는 과정을 보여준다.
 

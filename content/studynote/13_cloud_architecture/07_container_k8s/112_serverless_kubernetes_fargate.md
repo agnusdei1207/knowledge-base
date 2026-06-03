@@ -20,22 +20,21 @@ tags = ["studynote-cloud-architecture"]
 
 K8s를 운영하려면 노드(워커) 관리가 필수다: OS 패치, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 업데이트, 노드 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/), [AMI](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/) 교체. 이 운영 부담이 소규모 팀에게는 K8s 도입 자체의 장벽이 된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기존 K8s vs 서버리스 K8s 관리 범위</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">기존 K8s (EKS + EC2)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발자 관리: Pod YAML + 노드 AMI + OS 패치</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ Cluster Autoscaler + Spot 관리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">서버리스 K8s (EKS + Fargate)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발자 관리: Pod YAML만!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AWS 관리: 노드 생성·패치·스케일링·보안 전부</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">트레이드오프: 파드당 비용 ↑, DaemonSet 불가</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    기존 K8s vs 서버리스 K8s 관리 범위                   │
+├───────────────────────────────────────────────────────┤
+│  [기존 K8s (EKS + EC2)]                               │
+│   개발자 관리: Pod YAML + 노드 AMI + OS 패치          │
+│                + Cluster Autoscaler + Spot 관리       │
+│                                                       │
+│  [서버리스 K8s (EKS + Fargate)]                       │
+│   개발자 관리: Pod YAML만!                            │
+│   AWS 관리: 노드 생성·패치·스케일링·보안 전부         │
+│                                                       │
+│   트레이드오프: 파드당 비용 ↑, DaemonSet 불가          │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 기존 K8s는 자가용(직접 관리·저렴), [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) K8s는 택시(관리 불필요·비쌈)이다.
 
@@ -105,23 +104,21 @@ EKS에 Fargate Profile을 [설정](/knowledge-base/studynote/15_devops_sre/01_cu
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">K8s + 자체 노드 관리 (2015~) — 운영 오버헤드 높음</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AWS Fargate for EKS (2019) — 노드 관리 제거</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">GKE Autopilot (2021) — 완전 관리형 K8s</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Karpenter (2021~) — 지능형 노드 오토스케일링</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: 하이브리드 — 상시(자체 노드) + 버스트(서버리스)</div></div>
-</div>
-</div>
-
-
+```text
+[K8s + 자체 노드 관리 (2015~) — 운영 오버헤드 높음]
+    │
+    ▼
+[AWS Fargate for EKS (2019) — 노드 관리 제거]
+    │
+    ▼
+[GKE Autopilot (2021) — 완전 관리형 K8s]
+    │
+    ▼
+[Karpenter (2021~) — 지능형 노드 오토스케일링]
+    │
+    ▼
+[현재: 하이브리드 — 상시(자체 노드) + 버스트(서버리스)]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 기존 K8s는 <strong>자기 집(서버)을 직접 관리</strong>해야 해서, 청소·수리를 다 해야 돼요.

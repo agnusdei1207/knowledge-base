@@ -45,21 +45,24 @@ HLE는 x86 계열에서 `XACQUIRE`, `XRELEASE` [힌트](/knowledge-base/studynot
 
 다음 그림은 HLE가 락 변수보다 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 충돌을 기준으로 직렬화를 결정한다는 점을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HLE 경로: 락 변수 대신 데이터 충돌이 직렬화 기준이 된다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">XACQUIRE lock op</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">락 변수 메모리 쓰기 생략</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Read/Write Set 추적</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">conflict / interrupt / capacity abort?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Rollback + 일반 락 경로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">no abort ─▶ XRELEASE에서 commit</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ HLE 경로: 락 변수 대신 데이터 충돌이 직렬화 기준이 된다                    │
+├──────────────────────────────────────────────────────────────────────────────┤
+│ XACQUIRE lock op                                                            │
+│        │                                                                     │
+│        ├─ 성공 가능 ─▶ [락 변수 메모리 쓰기 생략]                           │
+│        │                 │                                                   │
+│        │                 ▼                                                   │
+│        │           [Read/Write Set 추적]                                     │
+│        │                 │                                                   │
+│        │     conflict / interrupt / capacity abort?                          │
+│        │                 │                                                   │
+│        └──── abort ──────┴────────▶ [Rollback + 일반 락 경로]                │
+│                          │                                                   │
+│                          └──────── no abort ─▶ XRELEASE에서 commit           │
+└──────────────────────────────────────────────────────────────────────────────┘
+```
 
 또 하나 중요한 특성은 하위 호환성이다. HLE [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)를 이해하지 못하는 CPU에서는 해당 프리픽스가 사실상 무시되어 기존 락 코드처럼 동작한다. 덕분에 동일 바이너리로 폭넓은 호환을 기대할 수 있었지만, 반대로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 보장은 어디까지나 "지원되는 CPU + 맞는 워크로드"에서만 얻을 수 있는 부가 최적화라는 뜻이기도 하다.
 
@@ -137,23 +140,21 @@ HLE가 잘 맞는 코드에서는 락 변수 하나를 둘러싼 불필요한 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">전통적 스핀락 · 뮤텍스</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">낙관적 동기화 아이디어</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">TSX 기반 HLE · RTM</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">abort 분석 · 보안 완화 · 선택적 비활성화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">보다 정교한 HTM · 런타임 기반 충돌 회피 최적화</div>
-</div>
-</div>
-
-
+```text
+전통적 스핀락 · 뮤텍스
+        │
+        ▼
+낙관적 동기화 아이디어
+        │
+        ▼
+TSX 기반 HLE · RTM
+        │
+        ▼
+abort 분석 · 보안 완화 · 선택적 비활성화
+        │
+        ▼
+보다 정교한 HTM · 런타임 기반 충돌 회피 최적화
+```
 
 이 흐름은 락 중심 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)가 "무조건 직렬화"에서 "가능하면 추측 병렬화"로 확장되었지만, 결국 보안과 운영 안정성 조건까지 함께 판단해야 하는 단계로 발전했음을 보여 준다.
 

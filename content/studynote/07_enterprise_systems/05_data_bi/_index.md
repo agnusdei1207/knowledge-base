@@ -23,20 +23,24 @@ BI 시스템이 필요한 이유는 세 가지이다. 첫째, <strong>정보의 
 
 이 그림은 원천 데이터가 정제되어 최종적인 비즈니스 지혜로 변모하는 단계를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data to Wisdom Pyramid (DIKW)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">/</div><div class="kb-diagram-node">Wisdom</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">"어떻게 대응할까?"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">/</div><div class="kb-diagram-node">Insight</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">"왜 일어났나?"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">/</div><div class="kb-diagram-node">Knowledge</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">"어떤 패턴인가?"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">/</div><div class="kb-diagram-node">Information</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">"무슨 일인가?"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">/</div><div class="kb-diagram-node">Data</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">"그냥 숫자"</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Data to Wisdom Pyramid (DIKW)               │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│           /      [ Wisdom ]      \  ──▶ "어떻게 대응할까?"  │
+│          /────────────────────────\                         │
+│         /      [ Insight ]         \ ──▶ "왜 일어났나?"     │
+│        /────────────────────────────\                       │
+│       /      [ Knowledge ]           \──▶ "어떤 패턴인가?"  │
+│      /────────────────────────────────\                     │
+│     /        [ Information ]           \──▶ "무슨 일인가?"  │
+│    /────────────────────────────────────\                   │
+│   /            [ Data ]                  \──▶ "그냥 숫자"   │
+│  /────────────────────────────────────────\                 │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '가공의 수준'이다. 단순히 정보를 나열하는 것은 BI의 초기 단계일 뿐이다. 진정한 BI는 데이터 사이의 인과 관계를 밝혀내고 (Insight), 그에 따른 전략적 대안을 제시하는 (Wisdom) 수준까지 도달해야 한다. 실무에서는 이를 위해 <strong>OLAP</strong>과 **시각화 분석** 기술이 핵심적으로 쓰인다.
 
@@ -69,19 +73,22 @@ BI 시스템이 필요한 이유는 세 가지이다. 첫째, <strong>정보의 
 
 이 구조도는 현대적인 <strong>Cloud BI 아키텍처</strong>의 흐름을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Modern Cloud BI Pipeline</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Data Lake / DW</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Semantic Layer</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">UI / UX</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(BigQuery/Snowflake) (Metrics Store) (Tableau)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Augmented Analytics</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">AI가 통계적 특이점 자동 발견</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 전처리된 데이터를 누구나 SQL 없이 분석 가능하게 함</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Modern Cloud BI Pipeline                    │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Data Lake / DW ] ──▶ [ Semantic Layer ] ──▶ [ UI / UX ] │
+│   (BigQuery/Snowflake)   (Metrics Store)        (Tableau)   │
+│                                 │                   │       │
+│          ┌──────────────────────┴───────────────────┘       │
+│          ▼                                                  │
+│   [ Augmented Analytics ] ──▶ AI가 통계적 특이점 자동 발견  │
+│                                                             │
+│   * 핵심: 전처리된 데이터를 누구나 SQL 없이 분석 가능하게 함│
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '시맨틱 레이어 (Semantic Layer)'이다. 복잡한 DB 컬럼명을 현업이 이해하기 쉬운 비즈니스 용어 (예: '순매출액')로 미리 정의해두어, 누구나 클릭만으로 보고서를 만들게 한다. 실무에서는 이 레이어의 표준화가 '셀프 서비스 BI' 성공의 관건이다.
 
@@ -122,20 +129,19 @@ BI 시스템이 필요한 이유는 세 가지이다. 첫째, <strong>정보의 
 
 이 도식은 기술사가 주도하는 '성공적인 BI 대시보드 설계 원칙'을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">The 5 Golden Rules of BI Design</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Know your Audience: 누구를 위한 보고서인가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Single Version of Truth: 검증된 데이터만 사용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Less is More: 3초 안에 핵심 지표가 보여야 함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. Provide Context: 과거/목표 대비 수치 비교 필수</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. Actionable: 보고 나서 무엇을 할지 결정할 수 있어야 함</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│               The 5 Golden Rules of BI Design               │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   1. Know your Audience: 누구를 위한 보고서인가?            │
+│   2. Single Version of Truth: 검증된 데이터만 사용          │
+│   3. Less is More: 3초 안에 핵심 지표가 보여야 함           │
+│   4. Provide Context: 과거/목표 대비 수치 비교 필수         │
+│   5. Actionable: 보고 나서 무엇을 할지 결정할 수 있어야 함  │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 기술사의 BI 판단은 '큐레이터'의 역할과 같습니다. 수만 점의 작품(데이터) 중에서 지금 손님(경영진)이 가장 보고 싶어 할 작품을 골라, 가장 보기 좋은 위치(시각화)에 설명(인사이트)과 함께 전시하는 전문가입니다.
 

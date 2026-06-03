@@ -25,17 +25,15 @@ IP 코어에서 IP는 지식 재산 (Intellectual Property)을 뜻한다. 즉 IP
 
 이 그림은 오픈 소스 IP 코어가 왜 "무료 설계도"를 넘어 생태계 자산이 되는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Open repository -&gt; verification -&gt; integration -&gt; silicon</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RTL / Docs / License -&gt; Testbench / Review -&gt; SoC Integration -&gt; Tapeout</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공개의 핵심은 단순 배포가 아니라, 읽고 검증하고 다시 조합할 수 있음이다.</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│          Open repository -> verification -> integration -> silicon        │
+├────────────────────────────────────────────────────────────────────────────┤
+│ RTL / Docs / License -> Testbench / Review -> SoC Integration -> Tapeout  │
+│                                                                            │
+│ 공개의 핵심은 단순 배포가 아니라, 읽고 검증하고 다시 조합할 수 있음이다.   │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 따라서 오픈 소스 IP 코어의 가치는 단순 비용 절감에만 있지 않다. 더 본질적으로는 <strong>칩 설계의 출발점을 더 많은 사람에게 열고, 설계 과정 자체를 투명하게 만들어 혁신 속도와 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 가능성을 높인다는 점</strong>에 있다.
 
@@ -57,17 +55,15 @@ IP 코어에서 IP는 지식 재산 (Intellectual Property)을 뜻한다. 즉 IP
 
 이 그림은 오픈 소스 코어가 실제 칩에 들어가기까지 필요한 연결 고리를 요약한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">From open RTL to product-ready SoC</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Open RTL</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Verification</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Bus / Memory Integration</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Tapeout</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">---- docs ----- ----- license ----------- ---- physical checks -----</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                   From open RTL to product-ready SoC                      │
+├────────────────────────────────────────────────────────────────────────────┤
+│ [Open RTL] -> [Verification] -> [Bus / Memory Integration] -> [Tapeout]   │
+│      │               │                         │                           │
+│      └---- docs -----┴----- license -----------┴---- physical checks -----│
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 여기서 자주 혼동되는 개념이 개방형 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 집합 구조 ([Instruction Set Architecture](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/), [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/))와 오픈 소스 코어의 차이다. 예를 들어 [RISC-V](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/200_riscv/) (Reduced [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Set Computer Five)는 ISA가 열려 있다는 뜻이지, 그 ISA를 구현한 모든 마이크로아키텍처가 자동으로 공개된다는 뜻은 아니다. 즉 오픈 ISA와 오픈 IP 코어는 겹칠 수는 있어도 같은 말은 아니다.
 
@@ -91,7 +87,7 @@ IP 코어에서 IP는 지식 재산 (Intellectual Property)을 뜻한다. 즉 IP
 
 결국 중요한 것은 오픈 소스 IP 코어가 폐쇄형 IP의 완전 대체재인지보다, <strong>어느 부분에서 비용과 투명성 이득을 얻고, 어느 부분은 여전히 자체 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>과 벤더 협력이 필요한지</strong>를 구분하는 것이다.
 
-- **📢 섹션 요약 비유**: 독점형 IP가 완제품 가구라면, 오픈 소스 IP 코어는 설계도와 조립법이 함께 공개된 가구 키트에 가깝다. 원하는 대로 바꿀 수 있지만, 최종 조립 품질은 결국 내 손에 달려 있다.
+- **📢 섹션 요약 비유**: 독점형 IP가 완제품 가구라면, 오픈 소스 IP 코어는 설계도와 조입법이 함께 공개된 가구 키트에 가깝다. 원하는 대로 바꿀 수 있지만, 최종 조립 품질은 결국 내 손에 달려 있다.
 
 ---
 
@@ -145,25 +141,24 @@ IP 코어에서 IP는 지식 재산 (Intellectual Property)을 뜻한다. 즉 IP
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">독점형 하드웨어 IP 라이선스</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Open ISA movement</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Open RTL / Verification assets</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">RISC-V ecosystem · OpenTitan</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">맞춤형 SoC · 스타트업 chip design democratization</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Open chiplet / open hardware platform</div>
-</div>
-</div>
-
-
+```text
+독점형 하드웨어 IP 라이선스
+    │
+    ▼
+Open ISA movement
+    │
+    ▼
+Open RTL / Verification assets
+    │
+    ▼
+RISC-V ecosystem · OpenTitan
+    │
+    ▼
+맞춤형 SoC · 스타트업 chip design democratization
+    │
+    ▼
+Open chiplet / open hardware platform
+```
 
 이 흐름은 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 설계가 일부 대형 벤더 중심 재사용 구조에서 출발해, 이제는 [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/)·RTL·[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 자산까지 공개하며 더 넓은 참여자를 끌어들이는 방향으로 확장되고 있음을 보여 준다.
 

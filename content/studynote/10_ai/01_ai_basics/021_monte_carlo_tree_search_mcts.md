@@ -40,29 +40,27 @@ tags = ["studynote-ai"]
 ### 1. MCTS의 4단계 라이프사이클 (Four Stages)
 MCTS는 시간(컴퓨팅 파워)이 허락하는 한 아래의 4단계 과정을 무한히 반복하여 트리를 키우고(통계를 업데이트하고), 시간이 다 되면 가장 성공률이 높은(방문 횟수가 많은) 루트 노드의 자식을 선택합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">MCTS 4단계 순환 아키텍처 (AlphaGo 모델)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. Selection</div><div class="kb-diagram-node">2. Expansion</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">선택 확장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(O) UCB1 ◀ (O)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">／ ＼</div><div class="kb-diagram-cell">／ ＼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">승률높은 (O) ( )</div><div class="kb-diagram-cell">(O) (N) &lt;-- 신규 노드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">／ ＼</div><div class="kb-diagram-cell">／ ＼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(O) ( )</div><div class="kb-diagram-cell">(O) ( )</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">4. Backpropagation</div><div class="kb-diagram-node">3. Simulation</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">역전파 (업데이트)</div><div class="kb-diagram-cell">무작위 시뮬레이션</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(+1 Win)</div><div class="kb-diagram-cell">(N)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">／ ＼</div><div class="kb-diagram-cell">&lt;-- Random</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(+1) ( )</div><div class="kb-diagram-cell">Playout</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">／ ＼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(+1) ( ) Win! (승리)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│             [ MCTS 4단계 순환 아키텍처 (AlphaGo 모델) ]          │
+│                                                             │
+│       [1. Selection]                [2. Expansion]          │
+│          선택                          확장                 │
+│           (O) UCB1 ◀─────┐               (O)              │
+│          ／ ＼           │              ／ ＼             │
+│   승률높은 (O)  ( )       │             (O)  (N) <-- 신규 노드 │
+│        ／ ＼             │            ／ ＼               │
+│       (O)  ( )           │           (O)  ( )             │
+│                          │                                │
+│       [4. Backpropagation]          [3. Simulation]         │
+│          역전파 (업데이트)  │               무작위 시뮬레이션      │
+│         (+1 Win)         │                (N)             │
+│          ／ ＼           │                 |  <-- Random  │
+│        (+1)  ( )         │                 |      Playout │
+│        ／ ＼             │                 |              │
+│      (+1)  ( ) ──────────┘                Win! (승리)     │
+└─────────────────────────────────────────────────────────────┘
+```
 
 1. <strong>선택 (<a href="/knowledge-base/studynote/10_ai/01_ai_basics/022_mcts_four_stages/">Selection</a>)</strong>: 루트 노드에서 출발하여 승률 통계가 유망한(UCT 공식 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)) 자식 노드를 골라 끝단(Leaf)까지 내려갑니다.
 2. **확장 (Expansion)**: 도달한 끝단 노드에서 게임이 아직 끝나지 않았다면, 가능한 다음 수 중 하나(혹은 여러 개)를 트리에 새로운 자식 노드로 추가합니다.
@@ -145,23 +143,21 @@ UCT 공식은 이 두 가지의 [가중치](/knowledge-base/studynote/10_ai/03_l
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">완전 탐색 (BFS/DFS — 지수적 폭발)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Minimax / Alpha-Beta Pruning (적대적 탐색 — 결정론적)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MCTS (선택→확장→시뮬레이션→역전파 — UCT 균형)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AlphaGo (MCTS + Policy/Value Network 융합)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AlphaZero / AlphaFold (자기 대국 학습 → 단백질 구조 예측)</div></div>
-</div>
-</div>
-
-
+```text
+[완전 탐색 (BFS/DFS — 지수적 폭발)]
+    │
+    ▼
+[Minimax / Alpha-Beta Pruning (적대적 탐색 — 결정론적)]
+    │
+    ▼
+[MCTS (선택→확장→시뮬레이션→역전파 — UCT 균형)]
+    │
+    ▼
+[AlphaGo (MCTS + Policy/Value Network 융합)]
+    │
+    ▼
+[AlphaZero / AlphaFold (자기 대국 학습 → 단백질 구조 예측)]
+```
 완전 탐색의 지수적 폭발을 Minimax가 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)로, MCTS가 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적 탐색으로 극복했고, AlphaGo는 MCTS에 딥러닝을 융합해 바둑을 정복한 뒤 AlphaFold로 단백질 구조 예측까지 확장했다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

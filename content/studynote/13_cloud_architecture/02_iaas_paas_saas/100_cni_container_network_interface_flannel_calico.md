@@ -37,19 +37,19 @@ K8s의 Kubelet은 [파드](/knowledge-base/studynote/13_cloud_architecture/02_ia
 | <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/822_cni_container_network_interface_kubernetes/">CNI</a> 플러그인</strong> | 실질적 네트워크 구성 | IPAM(IP 할당), veth [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블 갱신 |
 | <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/815_overlay_network_virtualization_l2_extension/">Overlay Network</a></strong> | 노드 간 논리적 통신망 | [VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/), IPIP 등을 사용해 기존 물리망 위를 [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오버레이 네트워크 캡슐화 통신 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Node 1 (IP: 192.168.1.10) Node 2 (IP: 10.0.0.5)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">VXLAN 캡슐화</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Pod B (10.2.x)│</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(가짜 겉봉투 씌움)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">물리 라우터</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">10.0.0.5)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                  오버레이 네트워크 캡슐화 통신 흐름                 │
+├──────────────────────────────────────────────────────────────┤
+│ Node 1 (IP: 192.168.1.10)              Node 2 (IP: 10.0.0.5) │
+│ ┌───────────────┐                      ┌───────────────┐     │
+│ │ Pod A (10.1.x)│──▶ [VXLAN 캡슐화] ──▶│ Pod B (10.2.x)│     │
+│ └───────────────┘    (가짜 겉봉투 씌움)  └───────────────┘     │
+│       │                                        ▲             │
+│       ▼                                        │             │
+│ [물리 라우터] ───── (192.168.1.10 ─▶ 10.0.0.5) ─────┘             │
+└──────────────────────────────────────────────────────────────┘
+```
 
 물리 라우터는 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)의 가상 IP 대역을 모르기 때문에 패킷을 버린다. 따라서 CNI는 출발지와 목적지 물리 노드 IP를 적은 새 헤더로 원본 패킷을 감싸는 캡슐화 작업을 수행해 물리망을 통과시킨다. 
 
@@ -111,23 +111,21 @@ Flannel은 단순 통신만 뚫어주기 때문에 소규모 개발망에 적합
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Underlay Network 한계 (물리 라우터 파드 IP 인식 불가)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">오버레이 네트워크 캡슐화 (VXLAN, IPIP) · Flannel</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CNI (Container Network Interface) 표준화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">다이렉트 라우팅 및 보안 규칙 (BGP, Network Policy) · Calico</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">커널 네이티브 네트워크 가속 및 가시성 확보 (eBPF) · Cilium</div>
-</div>
-</div>
-
-
+```text
+Underlay Network 한계 (물리 라우터 파드 IP 인식 불가)
+    │
+    ▼
+오버레이 네트워크 캡슐화 (VXLAN, IPIP) · Flannel
+    │
+    ▼
+CNI (Container Network Interface) 표준화
+    │
+    ▼
+다이렉트 라우팅 및 보안 규칙 (BGP, Network Policy) · Calico
+    │
+    ▼
+커널 네이티브 네트워크 가속 및 가시성 확보 (eBPF) · Cilium
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

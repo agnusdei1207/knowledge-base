@@ -53,43 +53,40 @@ logger.log("message");        // NullLogger.log() → 아무것도 안 함, NPE 
 | NullLogger | [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 버리는 로거 | 실제 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 로거 |
 | Anonymous User | 미로그인 사용자 | [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인 사용자 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Core Idea</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Expected Gain</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐    ┌──────────────┐    ┌──────────────┐
+│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
+└──────────────┘    └──────────────┘    └──────────────┘
+```
 
 - **📢 섹션 요약 비유**: 음소거 버튼(Null Object) — 음악이 없을 때 리모컨의 "다음 곡" 버튼을 눌러도 그냥 아무 일도 일어나지 않는다. 에러가 나지 않는다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
+```
+  «interface» / «abstract class»
+  AbstractLogger
+  ──────────────────
+  + log(message)
+        ▲
+        │
+  ┌─────┴──────────┐
+  ▼                ▼
+FileLogger      NullLogger
+──────────      ──────────────────────────
+log(msg) {      log(msg) {
+  file.write      // 아무것도 하지 않음
+  (msg)           // NoOp (No-Operation)
+}               }
 
+// 사용처
+Logger logger = config.isDebug()
+    ? new FileLogger("app.log")
+    : new NullLogger();   // null 아님!
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">«interface» / «abstract class»</div>
-<div class="kb-diagram-note">AbstractLogger</div>
-<div class="kb-diagram-note">+ log(message)</div>
-<div class="kb-diagram-connector">▲</div>
-<div class="kb-diagram-note">FileLogger NullLogger</div>
-<div class="kb-diagram-note">log(msg) { log(msg) {</div>
-<div class="kb-diagram-note">file.write // 아무것도 하지 않음</div>
-<div class="kb-diagram-note">(msg) // NoOp (No-Operation)</div>
-<div class="kb-diagram-note">} }</div>
-<div class="kb-diagram-note">// 사용처</div>
-<div class="kb-diagram-note">Logger logger = config.isDebug()</div>
-<div class="kb-diagram-note">? new FileLogger("app.log")</div>
-<div class="kb-diagram-note">: new NullLogger(); // null 아님!</div>
-<div class="kb-diagram-note">logger.log("start"); // 항상 안전</div>
-</div>
-</div>
-
-
+logger.log("start");  // 항상 안전
+```
 
 ```
   전략 패턴에서의 Null Object:
@@ -114,32 +111,28 @@ logger.log("message");        // NullLogger.log() → 아무것도 안 함, NPE 
   // null 체크 없이 항상 안전
 ```
 
+```
+  계층: User → Address → City
 
+  ❌ null 체크 방식:
+  String city = "알 수 없음";
+  if (user != null) {
+      Address addr = user.getAddress();
+      if (addr != null) {
+          City c = addr.getCity();
+          if (c != null) {
+              city = c.getName();
+          }
+      }
+  }
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">계층: User → Address → City</div>
-<div class="kb-diagram-note">❌ null 체크 방식:</div>
-<div class="kb-diagram-note">String city = "알 수 없음";</div>
-<div class="kb-diagram-note">if (user != null) {</div>
-<div class="kb-diagram-note">Address addr = user.getAddress();</div>
-<div class="kb-diagram-note">if (addr != null) {</div>
-<div class="kb-diagram-note">City c = addr.getCity();</div>
-<div class="kb-diagram-note">if (c != null) {</div>
-<div class="kb-diagram-note">city = c.getName();</div>
-<div class="kb-diagram-note">}</div>
-<div class="kb-diagram-note">}</div>
-<div class="kb-diagram-note">}</div>
-<div class="kb-diagram-note">✅ Null Object 방식:</div>
-<div class="kb-diagram-note">String city = user.getAddress().getCity().getName();</div>
-<div class="kb-diagram-note">// 각 레이어에 Null Object → 체인 전체가 안전</div>
-<div class="kb-diagram-note">// NullUser.getAddress() → NullAddress 반환</div>
-<div class="kb-diagram-note">// NullAddress.getCity() → NullCity 반환</div>
-<div class="kb-diagram-note">// NullCity.getName() → "알 수 없음" 반환</div>
-</div>
-</div>
-
-
+  ✅ Null Object 방식:
+  String city = user.getAddress().getCity().getName();
+  // 각 레이어에 Null Object → 체인 전체가 안전
+  // NullUser.getAddress() → NullAddress 반환
+  // NullAddress.getCity() → NullCity 반환
+  // NullCity.getName() → "알 수 없음" 반환
+```
 
 | 항목 | 설명 | 포인트 |
 |:---|:---|:---|
@@ -147,15 +140,11 @@ logger.log("message");        // NullLogger.log() → 아무것도 안 함, NPE 
 | 제어 지점 | 조건, 이벤트, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 만나는 곳 | 병목과 결합이 생기는 곳이다. |
 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 포인트 | 테스트·[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·모니터링으로 확인할 지점 | 운영 가능성이 설계 품질을 결정한다. |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Input/State</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Control Point</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Output/Action</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐    ┌──────────────┐    ┌──────────────┐
+│ Input/State  │──▶│ Control Point │──▶│ Output/Action │
+└──────────────┘    └──────────────┘    └──────────────┘
+```
 
 - **📢 섹션 요약 비유**: 비어있는 통장(Null Object) — 잔액 조회를 해도 에러가 나지 않고 "0원"이라고 알려준다. null [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)라면 ATM기가 오작동할 것이다.
 

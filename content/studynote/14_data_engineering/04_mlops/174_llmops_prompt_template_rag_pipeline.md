@@ -25,19 +25,17 @@ LLMOps는 거대언어모델([Large Language Model](/knowledge-base/studynote/06
 
 아래 그림은 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 응답 품질을 좌우하는 세 개의 가변 계층을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Three mutable layers in LLMOps</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Prompt layer : instruction, format, role, guardrail</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Knowledge layer: retrieved context from vector DB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Model layer : base model + PEFT adapter</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Quality issue = first identify which layer changed</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│                 Three mutable layers in LLMOps                    │
+├────────────────────────────────────────────────────────────────────┤
+│ Prompt layer   : instruction, format, role, guardrail             │
+│ Knowledge layer: retrieved context from vector DB                 │
+│ Model layer    : base model + PEFT adapter                        │
+│                                                                    │
+│ Quality issue = first identify which layer changed                 │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조가 중요한 이유는 변경 속도가 서로 다르기 때문이다. 프롬프트는 분 단위로 바꿀 수 있고, [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 문서 변경 이벤트에 따라 재구성할 수 있으며, PEFT는 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 자원을 잡아 학습·평가·배포까지 가야 하므로 훨씬 무겁다. 따라서 LLMOps는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 이전에 <strong>변경 비용이 다른 계층을 분리해 운영하는 설계</strong>에서 출발한다.
 
@@ -49,21 +47,22 @@ LLMOps는 거대언어모델([Large Language Model](/knowledge-base/studynote/06
 
 [LLMOps](/knowledge-base/studynote/12_it_management/05_security_compliance/221_llmops_large_language_model_ops/) 아키텍처는 보통 세 갈래의 제어면(Control Plane)으로 나뉜다. 첫째는 프롬프트 템플릿 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/), 둘째는 문서 인입과 벡터 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인, 셋째는 [PEFT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/306_peft_lora/) 학습 잡 스케줄러다. 온라인 요청은 이 세 결과물을 조합해 응답을 만들고, 오프라인 평가는 다시 각 계층으로 피드백된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LLMOps operating mesh</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Source docs / DB / wiki</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ chunk + embed + version ---&gt; Vector DB ----------------</div></div>
-<div class="kb-diagram-note">Prompt repo ---&gt; template registry ---&gt; prompt gateway ----------</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Training set ---&gt; PEFT scheduler ---&gt; adapter registry ----------</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Online request: user query -&gt; retrieve context -&gt; assemble prompt</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; base model + adapter -&gt; answer + trace</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                         LLMOps operating mesh                        │
+├──────────────────────────────────────────────────────────────────────┤
+│ Source docs / DB / wiki                                              │
+│        │                                                             │
+│        ├─ chunk + embed + version ---> Vector DB ----------------┐   │
+│        │                                                         │   │
+│ Prompt repo ---> template registry ---> prompt gateway ----------┼───┤
+│                                                                  │   │
+│ Training set ---> PEFT scheduler ---> adapter registry ----------┘   │
+│                                                                      │
+│ Online request: user query -> retrieve context -> assemble prompt    │
+│                -> base model + adapter -> answer + trace             │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 ### 1) 프롬프트 템플릿 관리
 
@@ -85,18 +84,15 @@ LLMOps는 거대언어모델([Large Language Model](/knowledge-base/studynote/06
 
 PEFT는 전체 파인튜닝보다 가볍지만, 그래도 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ([Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)) 자원과 평가 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 필요하다. 그래서 스케줄러는 모델 크기, 예상 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 메모리, 우선순위, 야간/주간 슬롯, 실험 예산을 고려해 잡을 배치해야 한다. 특히 [LoRA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/), [QLoRA](/knowledge-base/studynote/10_ai/05_data_science_ml/404_qlora/) ([Quantized LoRA](/knowledge-base/studynote/10_ai/05_data_science_ml/404_qlora/)), [Adapter](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) 방식은 "같은 베이스 모델에 여러 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)를 꽂는" 운영이 가능하므로, 학습 성공률뿐 아니라 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/">어댑터</a> 등록·승격·폐기 수명주기</strong>가 중요하다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PEFT job scheduling checkpoints</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">request -&gt; estimate GPU / VRAM -&gt; queue by priority</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; train adapter -&gt; offline eval -&gt; canary deploy</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; promote or rollback</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│                   PEFT job scheduling checkpoints                  │
+├────────────────────────────────────────────────────────────────────┤
+│ request -> estimate GPU / VRAM -> queue by priority               │
+│         -> train adapter -> offline eval -> canary deploy         │
+│         -> promote or rollback                                    │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 핵심 원리는 간단하다. 프롬프트는 가장 싸게 바꾸고, 지식 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 자주 갱신하며, PEFT는 정말 모델 행동을 바꿔야 할 때만 신중하게 학습한다. 이 분리가 잘 되어야 비용, 품질, 변경 속도를 동시에 잡을 수 있다.
 
@@ -135,20 +131,17 @@ LLMOps에서 가장 흔한 오판은 Prompt, [RAG](/knowledge-base/studynote/06_
 
 실무에서는 먼저 "무엇이 변했는가"를 묻는 의사결정 체계가 필요하다. 사내 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 문서가 갱신됐으면 벡터 DB [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)가 우선이고, 응답이 장황하거나 형식이 어긋나면 프롬프트 실험이 먼저다. 특정 산업 용어를 꾸준히 틀리거나 의도한 화법을 지속적으로 유지하지 못하면 그때 PEFT를 검토한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Change-driven operating decision</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">issue type?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ format / role / instruction drift -&gt; prompt version update</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ stale enterprise knowledge -&gt; RAG sync / re-embed</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ stable domain behavior needed -&gt; PEFT experiment</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ mixed issue -&gt; combine and re-evaluate</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│                  Change-driven operating decision                  │
+├────────────────────────────────────────────────────────────────────┤
+│ issue type?                                                        │
+│   ├─ format / role / instruction drift -> prompt version update    │
+│   ├─ stale enterprise knowledge        -> RAG sync / re-embed      │
+│   ├─ stable domain behavior needed     -> PEFT experiment          │
+│   └─ mixed issue                       -> combine and re-evaluate   │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 운영 체크포인트는 다음과 같다.
 
@@ -192,23 +185,21 @@ LLMOps에서 가장 흔한 오판은 Prompt, [RAG](/knowledge-base/studynote/06_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Model-only operation</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Prompt versioning and evaluation</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">RAG pipeline with vector DB synchronization</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">PEFT adapter scheduling and controlled promotion</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Unified LLMOps: prompt + knowledge + adapter + observability</div>
-</div>
-</div>
-
-
+```text
+Model-only operation
+    │
+    ▼
+Prompt versioning and evaluation
+    │
+    ▼
+RAG pipeline with vector DB synchronization
+    │
+    ▼
+PEFT adapter scheduling and controlled promotion
+    │
+    ▼
+Unified LLMOps: prompt + knowledge + adapter + observability
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

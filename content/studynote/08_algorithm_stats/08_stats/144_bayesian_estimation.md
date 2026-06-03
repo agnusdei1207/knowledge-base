@@ -34,19 +34,16 @@ P(θ|X) = P(X|θ) · P(θ) / P(X)
 
 <strong>Prior × Likelihood → Posterior <a href="/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/">시각화</a></strong>:
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">확률 사전 분포 우도 함수 사후 분포</div>
-<div class="kb-diagram-note">밀도 ▲ ___ ___ ___</div>
-<div class="kb-diagram-note">/ \ × / \ = / \</div>
-<div class="kb-diagram-tree-item" style="--depth:3">▶ θ</div>
-<div class="kb-diagram-note">(넓고 평탄) (좁고 뾰족) (중간 절충)</div>
-</div>
-</div>
-
-
+```
+확률                사전 분포       우도 함수       사후 분포
+밀도  ▲             ___              ___            ___
+      │           /   \           /   \          /   \
+      │          /     \     ×   /     \   =    /     \
+      │         /       \       /       \       /       \
+      │─────────          ─────           ─────
+      └────────────────────────────────────────────▶  θ
+                 (넓고 평탄)     (좁고 뾰족)    (중간 절충)
+```
 
 베이즈 추정의 핵심: 사전 분포가 넓을수록(불확실) 사후는 우도에 가깝고, 사전 분포가 좁을수록(확신) 사후는 사전에 가깝다.
 
@@ -116,16 +113,11 @@ n번 시도에서 k번 성공 후:
 
 <strong>MAP = <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/143_mle/">MLE</a> + 사전 분포 (<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">정규화</a>)</strong>:
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-note">θ_MAP = argmax</div><div class="kb-diagram-node">Σ log P(xᵢ|θ) + log P(θ)</div></div>
-<div class="kb-diagram-note">MLE 항 정규화 항</div>
-</div>
-</div>
-
-
+```
+θ_MAP = argmax [ Σ log P(xᵢ|θ) + log P(θ) ]
+                  ─────────────   ──────────
+                    MLE 항          정규화 항
+```
 
 <strong>L2 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">정규화</a> (Ridge Regression) = 가우시안 사전</strong>:
 
@@ -141,20 +133,18 @@ P(θ) ∝ exp(-λ||θ||₁)   →   log P(θ) = -λ||θ||₁
 MAP 목적함수: ℓ(θ) - λ||θ||₁ = MLE - Lasso 페널티
 ```
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정규화와 사전 분포의 대응</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정규화 방법</div><div class="kb-diagram-cell">베이즈 해석</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ridge (L2)</div><div class="kb-diagram-cell">가우시안 사전 N(0, 1/λ)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Lasso (L1)</div><div class="kb-diagram-cell">라플라스 사전 Laplace(0,1/λ)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Elastic Net</div><div class="kb-diagram-cell">가우시안+라플라스 혼합 사전</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Dropout</div><div class="kb-diagram-cell">베르누이 사전 (근사)</div></div>
-</div>
-</div>
-
-
+```
+┌────────────────────────────────────────────────┐
+│          정규화와 사전 분포의 대응               │
+├──────────────────┬─────────────────────────────┤
+│  정규화 방법      │     베이즈 해석             │
+├──────────────────┼─────────────────────────────┤
+│ Ridge (L2)       │ 가우시안 사전 N(0, 1/λ)    │
+│ Lasso (L1)       │ 라플라스 사전 Laplace(0,1/λ)│
+│ Elastic Net      │ 가우시안+라플라스 혼합 사전  │
+│ Dropout          │ 베르누이 사전 (근사)         │
+└──────────────────┴─────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 딥러닝의 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)는 "베이즈 추정의 공학적 구현"이다. Ridge [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 항을 추가하는 것은 "[가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)가 작을 것이라는 가우시안 사전 믿음"을 코드로 표현하는 것과 완전히 동일하다.
 
@@ -174,17 +164,12 @@ P(스팸|단어들) ∝ P(단어들|스팸) · P(스팸)
 
 **베이즈 추정 갱신 예시 (스팸 필터)**:
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">초기 사전 첫 번째 이메일 두 번째 이메일 수렴</div>
-<div class="kb-diagram-note">P(스팸)=0.5 → 0.7 → 0.85 → 0.95</div>
-<div class="kb-diagram-note">중립 "돈 벌기" "클릭 지금!" 강한 스팸 신호</div>
-</div>
-</div>
-
-
+```
+초기 사전    첫 번째 이메일   두 번째 이메일    수렴
+P(스팸)=0.5  →  0.7         →    0.85       → 0.95
+ ↑                                              ↑
+ 중립          "돈 벌기"         "클릭 지금!"    강한 스팸 신호
+```
 
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 볼수록 사후 분포가 <strong>순차적 갱신(Sequential Updating)</strong>으로 점점 정확해진다.
 
@@ -208,23 +193,21 @@ P(스팸|단어들) ∝ P(단어들|스팸) · P(스팸)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">빈도주의 추정 (MLE, Frequentist) — 관측 데이터만으로 모수를 점 추정, 사전 지식 미반영</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MAP (Maximum A Posteriori) — MLE + 사전 분포, 과적합 방지 정규화 효과</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">완전 베이즈 추정 (Full Bayesian) — 사후 분포 전체를 추론, 불확실성 정량화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">켤레 사전 분포 (Conjugate Prior) — 사후 분포가 사전과 같은 족, 닫힌 형식 계산 가능</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MCMC (Markov Chain Monte Carlo) — 고차원 사후 분포 샘플링, 베이즈 딥러닝·확률적 프로그래밍 기반</div></div>
-</div>
-</div>
-
-
+```text
+[빈도주의 추정 (MLE, Frequentist) — 관측 데이터만으로 모수를 점 추정, 사전 지식 미반영]
+    │
+    ▼
+[MAP (Maximum A Posteriori) — MLE + 사전 분포, 과적합 방지 정규화 효과]
+    │
+    ▼
+[완전 베이즈 추정 (Full Bayesian) — 사후 분포 전체를 추론, 불확실성 정량화]
+    │
+    ▼
+[켤레 사전 분포 (Conjugate Prior) — 사후 분포가 사전과 같은 족, 닫힌 형식 계산 가능]
+    │
+    ▼
+[MCMC (Markov Chain Monte Carlo) — 고차원 사후 분포 샘플링, 베이즈 딥러닝·확률적 프로그래밍 기반]
+```
 
 이 흐름은 점 추정에서 사전 지식을 결합한 MAP로, 분포 전체를 추론하는 완전 베이즈 추정으로 확장되고, 고차원 적분을 가능하게 하는 MCMC로 귀결되는 베이즈 통계 추론 체계의 발전 계보를 보여준다.
 

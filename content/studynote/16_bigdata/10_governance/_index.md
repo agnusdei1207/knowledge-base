@@ -21,22 +21,21 @@ tags = ["bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">데이터 레이크 → 데이터 늪(Data Swamp) 위기</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">데이터 거버넌스: 품질·보안·규정 준수·메타데이터</div>
-<div class="kb-diagram-tree-item" style="--depth:2">데이터 카탈로그 (Apache Atlas, DataHub)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">데이터 리니지 (계보 추적)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">데이터 메시 (Data Mesh) — 도메인 분산 소유권</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">데이터 패브릭 (Data Fabric) — AI 기반 메타데이터 통합</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DataOps — 데이터 파이프라인에 DevOps 적용</div>
-</div>
-</div>
-
-
+```text
+데이터 레이크 → 데이터 늪(Data Swamp) 위기
+    │
+    ▼
+데이터 거버넌스: 품질·보안·규정 준수·메타데이터
+    │
+    ├─► 데이터 카탈로그 (Apache Atlas, DataHub)
+    ├─► 데이터 리니지 (계보 추적)
+    │
+    ▼
+데이터 메시 (Data Mesh) — 도메인 분산 소유권
+    │
+    ▼
+데이터 패브릭 (Data Fabric) — AI 기반 메타데이터 통합
+    │
+    ▼
+DataOps — 데이터 파이프라인에 DevOps 적용
+```

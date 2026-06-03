@@ -27,18 +27,14 @@ tags = ["studynote-network"]
   - **네트워크 브로드캐스트**: 타 지역 경찰이 02-112를 누르고 <strong>"지금 서울(192.168.1)에 있는 모든 경찰관(255)은 비상 대기하라!"</strong>고 방송하는 것.
   - **리미티드 브로드캐스트**: 기억을 잃은 사람이 길거리 한가운데 서서 <strong>"여기 계신 모든 분(255.255.255.255), 저 좀 도와주세요!"</strong>라고 소리치는 것 (내 목소리가 닿는 반경 안의 사람들만 들음).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">APIPA / 링크 로컬 주소</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">브로드캐스트 주소</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">클래스리스 라우팅</div></div>
-</div>
-</div>
-
-
+```text
+[APIPA / 링크 로컬 주소]
+    │
+    ▼
+[브로드캐스트 주소]
+    │
+    └──▶ [클래스리스 라우팅]
+```
 
 - **📢 섹션 요약 비유**: ** 브로드캐스트는 학교 전체 스피커 망입니다. 유용하지만 너무 자주 쓰면 학생들이 시끄러워서(CPU [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 폭발) 공부(본래 업무)를 전혀 못 하게 만드는 '양날의 검'입니다.
 
@@ -64,21 +60,21 @@ tags = ["studynote-network"]
 4. 5천 대의 PC는 핑을 받았으니 응답(Echo Reply)을 해야 한다. 출발지 주소가 위조되었으므로, <strong>5천 대의 PC가 일제히 애꿎은 희생자 서버를 향해 응답 패킷을 융단폭격</strong>한다. 희생자 서버는 트래픽 폭발로 뻗어버린다.
 - **해결책**: 최신 라우터들은 이 공격을 막기 위해 밖에서 자기 동네로 들어오는 [Direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/) Broadcast 패킷을 기본적으로 차단(Disable)하도록 세팅되어 있다 (`no ip directed-broadcast`).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Smurf Attack (스머프 공격)의 원리 도식</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">해커</div><div class="kb-diagram-note">"출발지는 희생자 IP, 목적지는 대학 브로드캐스트(255)!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (위조된 핑 1개 발송)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">C대학교 라우터</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">5000대의 좀비 PC 수신</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"어? 희생자 님이 인사했네? 받아라 5000개의 융단 폭격!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">5000대 좀비 PC들</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">희생자 서버</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(사망)</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                Smurf Attack (스머프 공격)의 원리 도식          │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 해커 ] "출발지는 희생자 IP, 목적지는 대학 브로드캐스트(255)!" │
+ │      │                                                      │
+ │      ▼ (위조된 핑 1개 발송)                                   │
+ │   [ C대학교 라우터 ] ────(증폭 폭발!)──▶ 5000대의 좀비 PC 수신    │
+ │                                                             │
+ │         "어? 희생자 님이 인사했네? 받아라 5000개의 융단 폭격!"      │
+ │   [ 5000대 좀비 PC들 ] ═════════════════════════════════▶ [ 희생자 서버 ] │
+ │                                                       (사망)│
+ └─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: <strong> 리미티드 브로드캐스트(<code>255...</code>)가 방음벽 밖으로 절대 나가지 않는 </strong>"동네 확성기"<strong>라면, 네트워크 브로드캐스트(<code>192...255</code>)는 밖에서 타겟 동네 한가운데로 쏘아 올려 그 동네 전체를 뒤덮어버리는 </strong>"확산탄(미사일)"**입니다. 위험해서 요새는 금지된 무기입니다.
 
@@ -136,19 +132,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: APIPA / 링크 로컬 주소</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 브로드캐스트 주소</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 클래스리스 라우팅</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 대규모 주소 자동화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: APIPA / 링크 로컬 주소]
+    │
+    ▼
+[현재 개념: 브로드캐스트 주소]
+    │
+    ├──▶ [확장 A: 클래스리스 라우팅]
+    └──▶ [확장 B: 대규모 주소 자동화]
+```
 
 브로드캐스트 주소는 APIPA / [링크 로컬 주소](/knowledge-base/studynote/03_network/06_network_layer_ip/329_ipv6_link_local_fe80_site_local/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [클래스리스](/knowledge-base/studynote/03_network/06_network_layer_ip/303_cidr_classless_inter_domain_routing/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

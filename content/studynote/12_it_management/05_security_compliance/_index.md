@@ -23,19 +23,23 @@ tags = ["it_management"]
 
 이 그림은 전사적 보안 거버넌스의 수직적 위계 구조를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Security Governance Hierarchy</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Board / CEO</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(전략 수립, 자원 승인, 감사)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CISO / Security Committee</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(정책 수립, 위험 평가)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IT / Security Operations</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(솔루션 구축, 관제)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 상향식 보고(Reporting)와 하향식 지휘(Directing)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Security Governance Hierarchy               │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Board / CEO ] ──▶ (전략 수립, 자원 승인, 감사)          │
+│          │                                                  │
+│          ▼                                                  │
+│   [ CISO / Security Committee ] ──▶ (정책 수립, 위험 평가)  │
+│          │                                                  │
+│          ▼                                                  │
+│   [ IT / Security Operations ] ──▶ (솔루션 구축, 관제)      │
+│                                                             │
+│   * 핵심: 상향식 보고(Reporting)와 하향식 지휘(Directing)   │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 'CISO (최고정보보호책임자)'의 독립성이다. IT 부서장 (CIO) 아래에 보안 책임자가 있으면 성능을 위해 보안을 희생하게 될 위험이 크다. 실무에서는 CISO가 경영진에게 직접 보고할 수 있는 체계를 갖추었는지가 거버넌스 성숙도의 핵심 지표다.
 
@@ -72,20 +76,20 @@ tags = ["it_management"]
 
 이 구조도는 <strong>GDPR</strong>의 핵심 원칙 중 하나인 <strong>Privacy by Design (PbD)</strong>을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Privacy by Design (7 Principles)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">기획 단계</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">사후가 아닌 사전 예방적 보안</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">개발 단계</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">기본 설정으로 프라이버시 보장 (Default)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">운영 단계</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">전 생애주기 보호 (End-to-End)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">소통 단계</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">투명성 및 가시성 확보</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 보안은 시스템의 부가 기능이 아니라 본질이어야 함</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Privacy by Design (7 Principles)            │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ 기획 단계 ] ──▶ 사후가 아닌 사전 예방적 보안            │
+│   [ 개발 단계 ] ──▶ 기본 설정으로 프라이버시 보장 (Default) │
+│   [ 운영 단계 ] ──▶ 전 생애주기 보호 (End-to-End)            │
+│   [ 소통 단계 ] ──▶ 투명성 및 가시성 확보                  │
+│                                                             │
+│   * 핵심: 보안은 시스템의 부가 기능이 아니라 본질이어야 함  │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '사전 예방'이다. 서비스가 완성된 후 보안 점검을 하는 게 아니라, 기획서의 첫 줄부터 개인정보를 어떻게 보호할지 고민하는 문화가 거버넌스의 정수이다.
 
@@ -125,20 +129,21 @@ tags = ["it_management"]
 
 이 도식은 기술사가 주도하는 '사이버 침해 사고 대응 거버넌스' 흐름을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Incident Response Governance Flow</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Detection</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Triage</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Decision: Report?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(심각도 분류)</div><div class="kb-diagram-cell">(법적 의무)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Analysis</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Containment</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Notification</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Forensics) (확산 차단) (KISA, 주주, 고객)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 72시간 이내 신고 등 법적 '골든 타임' 준수가 필수</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│               Incident Response Governance Flow             │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Detection ] ──▶ [ Triage ] ──▶ [ Decision: Report? ]    │
+│          │             │ (심각도 분류)      │ (법적 의무)   │
+│          ▼             ▼                    ▼               │
+│   [ Analysis ] ◀── [ Containment ] ──▶ [ Notification ]     │
+│   (Forensics)       (확산 차단)         (KISA, 주주, 고객)  │
+│                                                             │
+│   * 핵심: 72시간 이내 신고 등 법적 '골든 타임' 준수가 필수  │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 기술사의 거버넌스 판단은 '재난 대책 본부장'의 역할과 같습니다. 평시에는 훈련(모의 해킹)을 지휘하고, 실제 상황이 터지면 피해를 최소화하기 위해 어디를 차단할지, 누구에게 알릴지를 법과 원칙에 따라 신속하게 결정하는 전문가입니다.
 

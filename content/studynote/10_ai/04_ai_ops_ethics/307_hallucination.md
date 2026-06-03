@@ -23,17 +23,14 @@ ChatGPT에게 "세종대왕이 맥북으로 한글을 창제했나요?"라고 �
 
 LLM은 텍스트의 통계적 패턴을 학습한 예측기다. 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 없는 정보나 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로 모순된 상황에서도 "가장 그럴듯한 다음 토큰"을 계속 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 특성이 있다. 즉, 모델 구조상 "모른다"는 응답보다 "아는 척"이 손실(Loss)이 더 낮게 나오는 경향이 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: LLM의 [할루시네이션](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/)은 자신감 넘치는 학생이 시험 답을 모르면서도 "그럴싸한 답"을 당당히 써내는 것이다. 채점자(사용자)는 정답처럼 보여서 바로 믿어버린다. 진짜 문제는 학생이 거짓말하는 게 아니라, 본인도 모른다는 것을 모른다는 것이다.
 
@@ -41,29 +38,33 @@ LLM은 텍스트의 통계적 패턴을 학습한 예측기다. 학습 [데이�
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">할루시네이션 발생 원인 및 유형 분류</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">할루시네이션 유형</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 사실 오류 (Factual Hallucination)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"아인슈타인은 1921년 노벨 문학상을 받았다" (→ 물리학상)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 소스 없는 인용 (Citation Fabrication)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">없는 논문·책·URL을 실제처럼 인용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 지식 커트오프 오류 (Knowledge Cutoff)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">학습 이후 발생한 사건을 모르면서도 아는 척 생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 논리 불일치 (Logical Inconsistency)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동일 대화 내에서 이전 답과 모순된 답 생성</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">근본 원인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LLM 학습 목표: P(next token</div><div class="kb-diagram-cell">context) 최대화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 진실 여부와 무관하게 "언어적으로 자연스러운" 출력 생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 학습 데이터의 오류·편향·누락이 그대로 학습됨</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 드문 사실은 학습 데이터 부족으로 잘못 기억</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│         할루시네이션 발생 원인 및 유형 분류                            │
+├──────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  [할루시네이션 유형]                                                 │
+│  ┌─────────────────────────────────────────────────────────┐    │
+│  │ 1. 사실 오류 (Factual Hallucination)                     │    │
+│  │    "아인슈타인은 1921년 노벨 문학상을 받았다" (→ 물리학상)    │    │
+│  │                                                         │    │
+│  │ 2. 소스 없는 인용 (Citation Fabrication)                  │    │
+│  │    없는 논문·책·URL을 실제처럼 인용                          │    │
+│  │                                                         │    │
+│  │ 3. 지식 커트오프 오류 (Knowledge Cutoff)                   │    │
+│  │    학습 이후 발생한 사건을 모르면서도 아는 척 생성             │    │
+│  │                                                         │    │
+│  │ 4. 논리 불일치 (Logical Inconsistency)                    │    │
+│  │    동일 대화 내에서 이전 답과 모순된 답 생성                   │    │
+│  └─────────────────────────────────────────────────────────┘    │
+│                                                                  │
+│  [근본 원인]                                                       │
+│  LLM 학습 목표: P(next token | context) 최대화                    │
+│  → 진실 여부와 무관하게 "언어적으로 자연스러운" 출력 생성               │
+│  → 학습 데이터의 오류·편향·누락이 그대로 학습됨                       │
+│  → 드문 사실은 학습 데이터 부족으로 잘못 기억                         │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 | 완화 기법 | 방법 | 효과 |
 |:---|:---|:---|
@@ -107,7 +108,7 @@ LLM은 텍스트의 통계적 패턴을 학습한 예측기다. 학습 [데이�
 
 ## Ⅴ. 기대효과 및 결론
 
-[할루시네이션](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/)은 LLM의 구조적 한계이자 현재 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)의 가장 큰 도전이다. 완전한 제거는 불가능하지만, [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/)·[RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/)·사실 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인·불확실성 정량화 등을 조합하여 실용 가능한 수준으로 완화할 수 있다. EU [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Act와 같은 규정에서 고위험 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시스템은 [할루시네이션](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/) 발생률 공개와 완화 조치를 요구하며, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 엔지니어링([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Safety Engineering)이 독립적 전문 분야로 급부상하고 있다.
+[할루시네이션](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/)은 LLM의 구조적 한계이자 현재 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)의 가장 큰 도전이다. 완전한 제거는 불가능하지만, [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/)·[RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/)·사실 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인·불확실성 정량화 등을 조합하여 실용 가능한 수준으로 완화할 수 있다. EU [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Act와 같은 규정에서 고위험 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시스템은 [할루시네이션](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/) 발생률 공개와 완화 조치를 요구하며, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 엔지니어링([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Safety 엔진ering)이 독립적 전문 분야로 급부상하고 있다.
 
 - **📢 섹션 요약 비유**: [할루시네이션](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/) 완화 기술 발전은 자동차 안전벨트 의무화 역사와 같다. 자동차([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))가 아무리 빠르고 편리해도 사고([할루시네이션](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/))가 날 수 있으니, 안전벨트([RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/), 사실 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))를 의무적으로 장착해야 운행 허가(규제 승인)를 준다. AI도 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 안전성이 함께 발전해야만 사회에 배포될 수 있다.
 

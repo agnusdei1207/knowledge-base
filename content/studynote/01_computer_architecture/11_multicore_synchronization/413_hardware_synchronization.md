@@ -35,21 +35,27 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 두 코어가 같은 락 변수를 두고 경쟁할 때, 현대 하드웨어가 어떻게 [원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/)을 보장하는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원자적 동기화의 실제 흐름: "메모리 전체"가 아니라 "해당 줄" 보호</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공유 주소 L(lock) 가 같은 캐시 라인에 존재</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core A Coherence Fabric Core B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">atomic op(L)</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">L line 독점 요청</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">line 무효화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L line = M/E 상태 다른 코어 사본 폐기 읽기만 가능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Read → Modify → Write 를 하나의 원자적 단위로 완료</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과 공개 후 다른 코어가 최신 값 재획득</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│        원자적 동기화의 실제 흐름: "메모리 전체"가 아니라 "해당 줄" 보호      │
+├────────────────────────────────────────────────────────────────────────────┤
+│ 공유 주소 L(lock) 가 같은 캐시 라인에 존재                                 │
+│                                                                            │
+│ Core A                    Coherence Fabric                 Core B          │
+│ ┌──────────────┐         ┌──────────────────┐         ┌──────────────┐    │
+│ │ atomic op(L) │ ──────▶ │ L line 독점 요청 │ ──────▶ │ line 무효화   │    │
+│ └──────┬───────┘         └────────┬─────────┘         └──────┬───────┘    │
+│        │                           │                          │            │
+│        ▼                           ▼                          ▼            │
+│  L line = M/E 상태           다른 코어 사본 폐기          읽기만 가능     │
+│        │                                                                │
+│        ▼                                                                │
+│  Read → Modify → Write 를 하나의 원자적 단위로 완료                      │
+│        │                                                                │
+│        ▼                                                                │
+│  결과 공개 후 다른 코어가 최신 값 재획득                                  │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조 덕분에 전체 시스템을 멈추지 않고도 필요한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 한 조각만 안전하게 갱신할 수 있다. 다만 [원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/)만으로 모든 문제가 끝나는 것은 아니다. 값 하나를 바꾸는 행위는 원자적이어도, 그 앞뒤 메모리 접근 순서까지 자동으로 정리되지는 않으므로 [메모리 배리어](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/) ([Memory Barrier](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/)) 또는 아키텍처의 [메모리 일관성 모델](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/410_memory_consistency_model/) ([Memory Consistency Model](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/410_memory_consistency_model/))이 함께 중요해진다.
 
@@ -141,26 +147,26 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">공유 메모리 경쟁</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">원자성 (Atomicity) 필요</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ Test-and-Set · Fetch-and-Add</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Compare-and-Swap (CAS) · Load-Linked / Store-Conditional (LL/SC)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">캐시 일관성 (Cache Coherence) · 메모리 배리어 (Memory Barrier)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">스핀락 · 뮤텍스 · 락프리 자료구조</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">하드웨어 트랜잭셔널 메모리 (HTM)</div>
-</div>
-</div>
-
-
+```text
+공유 메모리 경쟁
+    │
+    ▼
+원자성 (Atomicity) 필요
+    │
+    ├─▶ Test-and-Set · Fetch-and-Add
+    │
+    ▼
+Compare-and-Swap (CAS) · Load-Linked / Store-Conditional (LL/SC)
+    │
+    ▼
+캐시 일관성 (Cache Coherence) · 메모리 배리어 (Memory Barrier)
+    │
+    ▼
+스핀락 · 뮤텍스 · 락프리 자료구조
+    │
+    ▼
+하드웨어 트랜잭셔널 메모리 (HTM)
+```
 
 이 흐름은 "충돌 인식 → 원자 명령 → 가시성 보강 → 상위 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 구조 → 더 큰 범위의 하드웨어 지원"으로 발전하는 방향을 보여준다.
 

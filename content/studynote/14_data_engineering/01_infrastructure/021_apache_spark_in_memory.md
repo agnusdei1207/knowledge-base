@@ -39,28 +39,33 @@ tags = ["studynote-data-engineering"]
 ### 1. 스파크 클러스터 아키텍처 (Master-Worker 구조)
 스파크는 독립적으로 자원을 관리할 수도 있지만, 주로 YARN이나 [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 같은 클러스터 매니저 위에서 동작합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Spark 런타임 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Driver Program</div><div class="kb-diagram-note">(마스터 역할, 사용자 코드 실행)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. SparkContext (클러스터 연결 진입점)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. DAG Scheduler (논리적 실행 계획)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Task Scheduler (물리적 작업 분배)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Task 할당)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Cluster Manager</div><div class="kb-diagram-note">(YARN, K8s, Mesos)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(CPU/Memory 물리적 자원 협상 및 할당)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Worker Node 1</div><div class="kb-diagram-node">Worker Node 2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Executor</div><div class="kb-diagram-cell">Executor</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Task (스레드)</div><div class="kb-diagram-cell">&lt;==&gt; 통신 &lt;==&gt;</div><div class="kb-diagram-cell">─ Task (스레드)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Task (스레드)</div><div class="kb-diagram-cell">(Shuffle)</div><div class="kb-diagram-cell">─ Task (스레드)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Cache (RAM)</div><div class="kb-diagram-cell">─ Cache (RAM)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(데이터 부분 처리) (데이터 부분 처리)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│             [ Apache Spark 런타임 아키텍처 ]                │
+│                                                             │
+│       [ Driver Program ] (마스터 역할, 사용자 코드 실행)      │
+│       ┌─────────────────────────────────────┐               │
+│       │ 1. SparkContext (클러스터 연결 진입점)│               │
+│       │ 2. DAG Scheduler (논리적 실행 계획)   │               │
+│       │ 3. Task Scheduler (물리적 작업 분배)  │               │
+│       └──────────────────┬──────────────────┘               │
+│                          │ (Task 할당)                      │
+│ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─│─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ │
+│          [ Cluster Manager ] (YARN, K8s, Mesos)             │
+│            (CPU/Memory 물리적 자원 협상 및 할당)              │
+│ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─│─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ │
+│         ┌────────────────▼────────────────┐                 │
+│         │                                 │                 │
+│ [ Worker Node 1 ]                 [ Worker Node 2 ]         │
+│ ┌───────────────┐                 ┌───────────────┐         │
+│ │ Executor      │                 │ Executor      │         │
+│ │ ├─ Task (스레드)│  <==> 통신 <==> │ ├─ Task (스레드)│         │
+│ │ ├─ Task (스레드)│    (Shuffle)    │ ├─ Task (스레드)│         │
+│ │ └─ Cache (RAM)│                 │ └─ Cache (RAM)│         │
+│ └───────────────┘                 └───────────────┘         │
+│    (데이터 부분 처리)                   (데이터 부분 처리)           │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]**
 - **Driver Program**: 컨트롤 타워. 개발자가 작성한 코드를 읽고, 이를 실행 가능한 가장 효율적인 파이프라인([DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/): 방향성 비순환 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/))으로 최적화하여 쪼갭니다.
@@ -108,7 +113,7 @@ tags = ["studynote-data-engineering"]
 | **보안/위험** | 컴플라이언스 준수 및 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성 보장](/knowledge-base/studynote/05_database/07_exam_summary/442_consistency_integrity/) | [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 기반 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)/[인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) 체계 연계 |
 
 *(추가 실무 적용 가이드 - [Data Lakehouse](/knowledge-base/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/) 아키텍처에서의 스파크 역할)*
-- 최신 엔터프라이즈 아키텍처에서는 AWS S3 같은 저렴한 오브젝트 스토리지에 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Data Lake](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/))를 쏟아붓고, 그 위에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가공, 정제([ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/)/[ELT](/knowledge-base/studynote/14_data_engineering/01_infrastructure/034_elt/)), 분석하는 <strong>강력한 컴퓨팅 연산 엔진(Compute Engine)</strong>으로만 스파크를 활용합니다. ([스토리지와 컴퓨팅의 분리](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/293_storage_compute_separation/) 아키텍처)
+- 최신 엔터프라이즈 아키텍처에서는 AWS S3 같은 저렴한 오브젝트 스토리지에 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Data Lake](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/))를 쏟아붓고, 그 위에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가공, 정제([ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/)/[ELT](/knowledge-base/studynote/14_data_engineering/01_infrastructure/034_elt/)), 분석하는 <strong>강력한 컴퓨팅 연산 엔진(Compute 엔진)</strong>으로만 스파크를 활용합니다. ([스토리지와 컴퓨팅의 분리](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/293_storage_compute_separation/) 아키텍처)
 - 코딩 시 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 사용은 지양해야 합니다. 현재 스파크 실무에서는 내부적으로 카탈리스트 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)([Catalyst Optimizer](/knowledge-base/studynote/16_bigdata/03_spark/057_catalyst_optimizer/))가 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 속도를 자동으로 극대화해 주는 <strong>DataFrame / <a href="/knowledge-base/studynote/16_bigdata/03_spark/056_spark_sql/">Spark SQL</a> <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a></strong> 사용이 엔터프라이즈 1원칙입니다.
 
 - **📢 섹션 요약 비유**: 실무 적용은 "집을 지을 때 터를 다지고 자재를 고르는 과정"과 같이, 환경과 예산에 맞춘 최적의 선택이 필요합니다. "빅데이터 처리 = 스파크 도입"은 정답이지만, 개발자가 엑셀 다루듯 무거운 코드를 짜면 아무리 좋은 클러스터도 OOM으로 터져버립니다. 스파크를 쓸 때는 항상 "메모리가 버틸 수 있게끔 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)을 쪼개는 설계"가 최우선입니다.
@@ -123,7 +128,7 @@ tags = ["studynote-data-engineering"]
 2. <strong>통합 분석 플랫폼(<a href="/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/">Databricks</a>)으로의 종속화 현상</strong>
    [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 스파크를 창시한 멤버들이 설립한 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)브릭스([Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/))' 플랫폼이 스파크의 상용화 버전을 클라우드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/))로 제공하며 엔터프라이즈 시장을 장악하고 있습니다. 인프라 세팅 없이 즉시 스파크를 돌릴 수 있는 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)([Serverless](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)) 스파크 환경이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어링의 표준 업무 환경이 되었습니다.
 
-3. <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/">GPU</a> 가속(<a href="/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/">Photon Engine</a>) 및 벡터화(Vectorization)</strong>
+3. <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/">GPU</a> 가속(<a href="/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/">Photon 엔진</a>) 및 벡터화(Vectorization)</strong>
    단순한 JVM(Java [Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) 위에서의 인메모리 처리를 넘어, 최신 스파크 아키텍처([Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) Tungsten을 이은 Photon 엔진 등)는 하드웨어 레벨의 C++ 기반 벡터화 처리와 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 연산을 직접 타겟팅하여 CPU 연산 병목마저 제거하는 초격차 튜닝을 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 중입니다.
 
 - **📢 섹션 요약 비유**: 스파크는 과거 "메모리에 올려서 빨라진 혁명아"에서, 이제는 "메모리, 디스크 포맷, 하드웨어 칩셋([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))까지 빅데이터 대륙 전체의 생태계 법률을 제정하는 절대 군주"로 진화하며 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어링의 모든 것을 흡수하고 있습니다.
@@ -149,23 +154,21 @@ tags = ["studynote-data-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Hadoop MapReduce (디스크 기반 2단계 배치 — 느림)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Spark (인메모리 DAG — 100배 고속)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">RDD → DataFrame → Dataset (API 진화 — 타입 안전성)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Structured Streaming (실시간 스트림 통합 처리)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Flink (순수 스트림 중심 — 이벤트 시간 정확성)</div></div>
-</div>
-</div>
-
-
+```text
+[Hadoop MapReduce (디스크 기반 2단계 배치 — 느림)]
+    │
+    ▼
+[Apache Spark (인메모리 DAG — 100배 고속)]
+    │
+    ▼
+[RDD → DataFrame → Dataset (API 진화 — 타입 안전성)]
+    │
+    ▼
+[Structured Streaming (실시간 스트림 통합 처리)]
+    │
+    ▼
+[Apache Flink (순수 스트림 중심 — 이벤트 시간 정확성)]
+```
 [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) MapReduce의 디스크 기반 병목을 인메모리 [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) 실행으로 극복한 Spark는 배치에서 실시간 스트리밍까지 통합하며, 순수 스트림 처리의 극한은 Apache Flink로 진화했다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

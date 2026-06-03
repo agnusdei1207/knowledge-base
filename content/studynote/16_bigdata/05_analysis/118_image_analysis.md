@@ -30,21 +30,26 @@ tags = ["studynote-bigdata"]
 
 ### [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 처리 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CNN 기반 이미지 분석 파이프라인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력 이미지 (224×224×3 RGB)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">합성곱 레이어 (Conv Layer)</div><div class="kb-diagram-note">× N</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">커널이 이미지를 슬라이딩하며 엣지·패턴 특성 자동 추출</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">풀링 레이어 (Pooling)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">특성 맵 크기 축소, 위치 불변성</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">완전연결층 (FC Layer)</div><div class="kb-diagram-note">+ Softmax</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분류 (고양이 0.95 / 개 0.04 / 기타 0.01)</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│             CNN 기반 이미지 분석 파이프라인                         │
+├────────────────────────────────────────────────────────────────────┤
+│  입력 이미지 (224×224×3 RGB)                                       │
+│       │                                                            │
+│       ▼                                                            │
+│  [합성곱 레이어 (Conv Layer)] × N                                  │
+│   커널이 이미지를 슬라이딩하며 엣지·패턴 특성 자동 추출            │
+│       │                                                            │
+│       ▼                                                            │
+│  [풀링 레이어 (Pooling)] → 특성 맵 크기 축소, 위치 불변성          │
+│       │                                                            │
+│       ▼                                                            │
+│  [완전연결층 (FC Layer)] + Softmax                                 │
+│       │                                                            │
+│       ▼                                                            │
+│  분류 (고양이 0.95 / 개 0.04 / 기타 0.01)                          │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 ### [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)별 핵심 아키텍처
 
@@ -134,23 +139,21 @@ ViT (Vision [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">전통 컴퓨터 비전 — 수동 피처 추출(SIFT·HOG)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CNN (합성곱 신경망) — 자동 피처 학습, ImageNet 정복</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">객체 탐지 (YOLO·SSD·Faster R-CNN) — 실시간 경계박스 예측</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">세그멘테이션 (U-Net·Mask R-CNN) — 픽셀 단위 의미 분할</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Vision Transformer (ViT) — 어텐션 기반 이미지 이해의 새 패러다임</div></div>
-</div>
-</div>
-
-
+```text
+[전통 컴퓨터 비전 — 수동 피처 추출(SIFT·HOG)]
+    │
+    ▼
+[CNN (합성곱 신경망) — 자동 피처 학습, ImageNet 정복]
+    │
+    ▼
+[객체 탐지 (YOLO·SSD·Faster R-CNN) — 실시간 경계박스 예측]
+    │
+    ▼
+[세그멘테이션 (U-Net·Mask R-CNN) — 픽셀 단위 의미 분할]
+    │
+    ▼
+[Vision Transformer (ViT) — 어텐션 기반 이미지 이해의 새 패러다임]
+```
 이미지 분석은 수동 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 추출에서 [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 기반 자동 학습으로 전환되고, [객체 탐지](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/)·[세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)·Vision Transformer로 발전해 의료·자율주행 등 핵심 산업에 응용된다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

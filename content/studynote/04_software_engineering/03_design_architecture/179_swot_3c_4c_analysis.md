@@ -10,7 +10,7 @@ tags = ["software_engineering"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: SWOT (Strength, Weakness, Opportunity, Threat) 분석은 조직의 내부 역량과 외부 환경을 교차해 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 방향을 잡고, 3C (Company, [Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/), Competitor) / 4C (Company, [Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/), Competitor, Channel/Circumstance) 분석은 그 방향이 시장과 실행 현실에 맞는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.
+> 1. **본질**: SWOT (Strength, Weakness, Opportunity, Threat) 분석은 조직의 내부 역량과 외부 환경을 교차해 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 방향을 잡고, 3C (Company, [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/), Competitor) / 4C (Company, [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/), Competitor, Channel/Circumstance) 분석은 그 방향이 시장과 실행 현실에 맞는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.
 > 2. **가치**: 이 두 분석을 요구공학에 연결하면 "무엇을 만들 것인가"가 아니라 "왜 이 기능이 지금 비즈니스적으로 필요한가"를 설명할 수 있어, 요구사항의 우선순위와 투자 논리가 선명해진다.
 > 3. **판단 포인트**: 분석 결과가 슬로건으로 끝나지 않으려면 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 과제를 역량(Capability), 기능 요구, 비기능 요구, [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) ([Key Performance Indicator](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/020_kpi/))로 차례차례 변환해야 하며, 그렇지 않으면 발표용 프레임만 남는다.
 
@@ -32,21 +32,20 @@ SWOT 분석과 3C/4C 분석을 연계한 요구 도출은 <strong>현업이 말�
 
 핵심은 분석 프레임을 단순 진단표가 아니라 <strong>요구사항 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> 파이프라인</strong>으로 쓰는 것이다. SWOT이 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 과제의 방향을 뽑아내면, 3C/4C가 그 방향을 시장·고객·경쟁·채널 관점에서 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하고, 그 결과를 시스템 역량과 세부 요구로 내려야 한다. 즉 분석의 산출물은 보고서가 아니라 <strong>우선순위가 있는 요구 후보군</strong>이어야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Strategy-to-requirement pipeline</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SWOT -&gt; strategic issue -&gt; 3C/4C validation -&gt; capability</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ customer value ─ process</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ competitor gap ─ data</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ company fit ─ application</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ channel/context ─ KPI</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">outcome : prioritized functional / non-functional requirements</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Strategy-to-requirement pipeline                                   │
+├────────────────────────────────────────────────────────────────────┤
+│ SWOT -> strategic issue -> 3C/4C validation -> capability          │
+│        │                      │                   │                 │
+│        │                      ├─ customer value   ├─ process        │
+│        │                      ├─ competitor gap   ├─ data           │
+│        │                      ├─ company fit      ├─ application    │
+│        │                      └─ channel/context  └─ KPI            │
+│                                                                    │
+│ outcome : prioritized functional / non-functional requirements      │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 SWOT에서 많이 쓰는 교차 관점은 다음과 같다.
 
@@ -62,7 +61,7 @@ SWOT에서 많이 쓰는 교차 관점은 다음과 같다.
 | 관점 | 던져야 할 질문 | 요구사항에 미치는 영향 |
 | :--- | :--- | :--- |
 | Company | 우리가 잘하는 것과 부족한 것은 무엇인가? | 내재화 범위, 재사용 자산, 현실적 구현 범위 |
-| [Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) | 고객의 불편, 기대, 구매 맥락은 무엇인가? | 핵심 기능, [사용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/286_usability_tactics/), [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 |
+| [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) | 고객의 불편, 기대, 구매 맥락은 무엇인가? | 핵심 기능, [사용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/286_usability_tactics/), [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 |
 | Competitor | 경쟁사는 무엇으로 차별화하고 있는가? | 차별 포인트, 필수 대응 기능 |
 | Channel/Circumstance | 어떤 채널과 제약 속에서 제공되는가? | 모바일 우선, 법규, 운영 절차, 연계 시스템 |
 
@@ -106,20 +105,18 @@ SWOT에서 많이 쓰는 교차 관점은 다음과 같다.
 
 아래 흐름은 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 분석이 실제 요구사항으로 변환되는 과정을 요약한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">From analysis to backlog</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">strategic theme</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; required capability</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; functional / non-functional requirement</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; owner / priority / KPI</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">if KPI or owner is missing, analysis is still incomplete</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ From analysis to backlog                                           │
+├────────────────────────────────────────────────────────────────────┤
+│ strategic theme                                                    │
+│   -> required capability                                           │
+│      -> functional / non-functional requirement                    │
+│         -> owner / priority / KPI                                  │
+│                                                                    │
+│ if KPI or owner is missing, analysis is still incomplete           │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 ### 실무 판단 기준
 
@@ -156,8 +153,8 @@ SWOT과 3C/4C를 연계한 요구 도출의 가장 큰 효과는 **시스템 요
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | SWOT (Strength, Weakness, Opportunity, Threat) | 내부·외부 환경을 교차해 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 과제를 도출한다 |
-| 3C (Company, [Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/), Competitor) | 시장 참여자 관점에서 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 타당성을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다 |
-| 4C (Company, [Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/), Competitor, Channel/Circumstance) | 채널과 환경 조건까지 포함해 요구의 현실성을 높인다 |
+| 3C (Company, [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/), Competitor) | 시장 참여자 관점에서 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 타당성을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다 |
+| 4C (Company, [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/), Competitor, Channel/Circumstance) | 채널과 환경 조건까지 포함해 요구의 현실성을 높인다 |
 | Capability | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 문장을 시스템이 제공해야 할 능력으로 변환한 중간 산출물이다 |
 | [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) ([Key Performance Indicator](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/020_kpi/)) | 요구사항이 실제 사업 효과로 이어졌는지 측정하는 기준이다 |
 | [AS-IS](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) / TO-BE | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 분석 결과를 운영 구조 변화와 연결하는 다음 단계다 |
@@ -165,23 +162,21 @@ SWOT과 3C/4C를 연계한 요구 도출의 가장 큰 효과는 **시스템 요
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">내부/외부 환경 진단</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SWOT 전략 방향 도출</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">3C/4C 시장·채널 검증</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">필요 역량 정의</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">기능/비기능 요구사항 + KPI + 우선순위</div>
-</div>
-</div>
-
-
+```text
+내부/외부 환경 진단
+        │
+        ▼
+SWOT 전략 방향 도출
+        │
+        ▼
+3C/4C 시장·채널 검증
+        │
+        ▼
+필요 역량 정의
+        │
+        ▼
+기능/비기능 요구사항 + KPI + 우선순위
+```
 
 이 흐름도는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 프레임이 단순 보고서가 아니라, 실제 요구사항과 성과 지표로 이어져야 한다는 연결 구조를 보여 준다.
 

@@ -50,24 +50,26 @@ dbt는 단순 변환 실행 도구가 아니라, [데이터](/knowledge-base/stu
 
 ### [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램: [DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/324_dataops/) [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">개발자 Git Push</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CI Pipeline (GitHub Actions)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">dbt compile</div><div class="kb-diagram-cell">─▶</div><div class="kb-diagram-cell">dbt test</div><div class="kb-diagram-cell">─▶</div><div class="kb-diagram-cell">dbt run (slim CI)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(SQL 검증)</div><div class="kb-diagram-cell">(스키마 검사)</div><div class="kb-diagram-cell">(변경 모델만)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실패 시 PR 블록</div><div class="kb-diagram-cell">성공 시</div></div>
-<div class="kb-diagram-note">Slack 알림 CD Pipeline</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">dbt run (전체)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ dbt test</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ Production DW</div></div>
-</div>
-</div>
-
-
+```
+  개발자 Git Push
+        │
+        ▼
+  ┌─────────────────────────────────────────────────────────────┐
+  │                CI Pipeline (GitHub Actions)                 │
+  │  ┌─────────────┐  ┌─────────────┐  ┌──────────────────┐   │
+  │  │ dbt compile │─▶│  dbt test   │─▶│ dbt run (slim CI)│   │
+  │  │ (SQL 검증)  │  │ (스키마 검사)│  │ (변경 모델만)    │   │
+  │  └─────────────┘  └──────┬──────┘  └────────┬─────────┘   │
+  │                          │ 실패 시 PR 블록    │ 성공 시     │
+  └──────────────────────────┼───────────────────┼─────────────┘
+                             ▼                   ▼
+                        Slack 알림           CD Pipeline
+                                         ┌──────────────────┐
+                                         │ dbt run (전체)   │
+                                         │ + dbt test       │
+                                         │ → Production DW  │
+                                         └──────────────────┘
+```
 
 ### dbt [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계보 (Lineage) 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
 
@@ -150,23 +152,21 @@ raw_orders → stg_orders → int_order_items → fct_orders → dim_customer_lt
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">수작업 SQL 쿼리 관리 - 버전관리 부재</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ETL 도구 GUI 기반 파이프라인 (Informatica 등)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">dbt - SQL 변환 코드화 + Git 버전관리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DataOps - CI/CD + 테스트 + 모니터링 통합</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DataOps 플랫폼 (데이터 파이프라인 자동화 표준화)</div>
-</div>
-</div>
-
-
+```
+수작업 SQL 쿼리 관리 - 버전관리 부재
+    │
+    ▼
+ETL 도구 GUI 기반 파이프라인 (Informatica 등)
+    │
+    ▼
+dbt - SQL 변환 코드화 + Git 버전관리
+    │
+    ▼
+DataOps - CI/CD + 테스트 + 모니터링 통합
+    │
+    ▼
+DataOps 플랫폼 (데이터 파이프라인 자동화 표준화)
+```
 
 > **키워드**: [DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/324_dataops/), dbt, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD, [Data Pipeline](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/), [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Testing, Git-based Workflow, [Data Quality](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/270_data_quality_great_expectations/)
 

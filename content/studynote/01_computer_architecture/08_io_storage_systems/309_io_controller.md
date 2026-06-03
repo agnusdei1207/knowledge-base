@@ -44,26 +44,36 @@ I/O [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_qualit
 
 아래 그림은 I/O [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 "명령 경로"와 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로"를 어떻게 분리해 병목을 줄이는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I/O 모듈의 중개 구조와 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU / Memory Side</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">명령/상태</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU</div><div class="kb-diagram-cell">◀ ▶</div><div class="kb-diagram-cell">Bus Interface + Registers</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Control Register</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Status Register</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Data Register</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제어 해석</div><div class="kb-diagram-cell">데이터 완충</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Control Logic + Local Buffer</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장치별 프로토콜 변환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Device Interface</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Peripheral Device</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                   I/O 모듈의 중개 구조와 흐름                        │
+├──────────────────────────────────────────────────────────────────────┤
+│  CPU / Memory Side                                                  │
+│  ┌─────────┐      명령/상태       ┌──────────────────────────────┐   │
+│  │   CPU   │ ◀──────────────────▶ │ Bus Interface + Registers    │   │
+│  └────┬────┘                      │ - Control Register           │   │
+│       │                           │ - Status Register            │   │
+│       │                           │ - Data Register              │   │
+│       │                           └──────────────┬───────────────┘   │
+│       │                                          │                   │
+│       │                             제어 해석    │ 데이터 완충       │
+│       │                                          ▼                   │
+│       │                           ┌──────────────────────────────┐   │
+│       └──────────────────────────▶│ Control Logic + Local Buffer │   │
+│                                   └──────────────┬───────────────┘   │
+│                                                  │                   │
+│                                        장치별 프로토콜 변환          │
+│                                                  ▼                   │
+│                                   ┌──────────────────────────────┐   │
+│                                   │ Device Interface             │   │
+│                                   └──────────────┬───────────────┘   │
+│                                                  │                   │
+│                                                  ▼                   │
+│                                   ┌──────────────────────────────┐   │
+│                                   │ Peripheral Device            │   │
+│                                   └──────────────────────────────┘   │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 동작 순서는 대체로 ① CPU가 제어 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 명령 기록, ② I/O [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 장치 준비 상태 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/), ③ 로컬 버퍼를 이용해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집 또는 송신, ④ 완료/오류 상태 갱신, ⑤ 필요하면 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 또는 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 완료 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 통보의 흐름을 따른다. 핵심은 CPU가 매 바이트의 전송 타이밍을 직접 맞추지 않아도 된다는 점이다. 특히 장치가 순간적으로 burst 형태로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보내거나 받는 경우 로컬 버퍼가 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 속도와 장치 속도 사이의 충격을 흡수해 준다.
 
@@ -142,25 +152,24 @@ I/O [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_qualit
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">주변장치 직접 제어의 한계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">입출력 모듈 (I/O Module)</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ 메모리 맵 I/O (Memory-Mapped I/O)</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ 고립형 I/O (Isolated I/O)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">인터럽트 기반 통보</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DMA (Direct Memory Access) 기반 대량 전송</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">I/O 프로세서 · SmartNIC · DPU</div>
-</div>
-</div>
-
-
+```text
+주변장치 직접 제어의 한계
+        │
+        ▼
+입출력 모듈 (I/O Module)
+        │
+        ├─▶ 메모리 맵 I/O (Memory-Mapped I/O)
+        ├─▶ 고립형 I/O (Isolated I/O)
+        │
+        ▼
+인터럽트 기반 통보
+        │
+        ▼
+DMA (Direct Memory Access) 기반 대량 전송
+        │
+        ▼
+I/O 프로세서 · SmartNIC · DPU
+```
 
 이 흐름은 "단순 연결 → 표준화된 제어 → 비동기 통보 → 전송 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) → 지능형 I/O"로 발전하는 축을 보여준다.
 

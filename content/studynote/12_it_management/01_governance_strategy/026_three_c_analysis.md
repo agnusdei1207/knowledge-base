@@ -1,5 +1,5 @@
 +++
-title = "26. 3C 분석 (Customer)"
+title = "26. 3C 분석 (C고객)"
 date = 2026-05-08
 
 [taxonomies]
@@ -11,7 +11,7 @@ tags = ["studynote-it-management"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 3C 분석의 핵심은 고객(Customer), 자사(Company), 경쟁사(Competitor)라는 점에 있다. 이를 현장 의사결정에 연결하는 분석 프레임 구조로 이해하면 된다.
+> 1. **본질**: 3C 분석의 핵심은 고객(C고객), 자사(Company), 경쟁사(Competitor)라는 점에 있다. 이를 현장 의사결정에 연결하는 분석 프레임 구조로 이해하면 된다.
 > 2. **가치**: 이 개념을 쓰면 질문 구조와 분석 축에 대한 설명과 우선순위 결정이 한층 쉬워진다.
 > 3. **판단 포인트**: 실제 효과는 개념 도입 자체보다 범위, 책임, 측정 지표, 예외 처리 기준을 함께 설계할 때 커진다.
 
@@ -19,23 +19,23 @@ tags = ["studynote-it-management"]
 
 ## Ⅰ. 개요 및 필요성
 
-3C 분석 (Customer)는 고객(Customer), 자사(Company), 경쟁사(Competitor)에 초점을 맞춘다. 이 개념이 필요한 이유는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 투자 우선순위를 같은 언어로 맞추지 못하면 각 부서가 서로 다른 성공 기준으로 움직이기 쉽기 때문이다. 특히 IT 거버넌스 및 IT 경영 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) (80개) 영역에서는 용어를 아는 것보다도 어떤 상황에서 이 개념을 꺼내야 하는지 아는 편이 더 중요하다.
+3C 분석 (C고객)는 고객(C고객), 자사(Company), 경쟁사(Competitor)에 초점을 맞춘다. 이 개념이 필요한 이유는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 투자 우선순위를 같은 언어로 맞추지 못하면 각 부서가 서로 다른 성공 기준으로 움직이기 쉽기 때문이다. 특히 IT 거버넌스 및 IT 경영 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) (80개) 영역에서는 용어를 아는 것보다도 어떤 상황에서 이 개념을 꺼내야 하는지 아는 편이 더 중요하다.
 
 실무에서는 이 개념을 단순 정의로 외우기보다 조직이 무엇을 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)·개선·정렬하려는지에 맞춰 읽어야 한다. 그래서 기술사 답안에서도 배경, 필요성, 실패 시 위험을 먼저 말하고 나서 구조와 지표를 붙여 주는 편이 설득력이 높다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Business Need</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3C 분석</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Value / Control</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────┐
+│ Business Need      │
+└─────────┬──────────┘
+          ▼
+┌────────────────────┐
+│ 3C 분석              │
+└─────────┬──────────┘
+          ▼
+┌────────────────────┐
+│ Value / Control    │
+└────────────────────┘
+```
 
 이 흐름은 '3C 분석'이라는 이름의 개념이 기술 하나를 설명하는 용어가 아니라, 경영 요구와 운영 통제를 잇는 중간 다리라는 점을 보여 준다.
 
@@ -45,7 +45,7 @@ tags = ["studynote-it-management"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-3C 분석의 핵심 원리는 입력 기준, 실행 규칙, 측정 지표, 개선 루프를 끊기지 않게 연결하는 데 있다. 겉으로는 고객(Customer), 자사(Company), 경쟁사(Competitor)처럼 보이더라도 실제 효과는 사람·프로세스·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·도구가 한 세트로 맞물릴 때 나온다. 핵심은 정의와 실행을 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 연결하는 것이다.
+3C 분석의 핵심 원리는 입력 기준, 실행 규칙, 측정 지표, 개선 루프를 끊기지 않게 연결하는 데 있다. 겉으로는 고객(C고객), 자사(Company), 경쟁사(Competitor)처럼 보이더라도 실제 효과는 사람·프로세스·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·도구가 한 세트로 맞물릴 때 나온다. 핵심은 정의와 실행을 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 연결하는 것이다.
 
 | 구성 요소 | 역할 | 기술사 포인트 |
 |:---|:---|:---|
@@ -53,17 +53,13 @@ tags = ["studynote-it-management"]
 | 자사 | 핵심 흐름을 설계한다. | 이 단계가 흔들리면 뒤 단계가 모두 흔들린다. |
 | 경쟁사 | 통제와 측정을 연결한다. | 측정 기준과 연결될 때 실무성이 생긴다. |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">input output</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Trigger ▶</div><div class="kb-diagram-cell">Core Rule ▶</div><div class="kb-diagram-cell">Decision</div></div>
-<div class="kb-diagram-tree-item" style="--depth:2">constraints ▶│◀ metrics / review ──</div>
-</div>
-</div>
-
-
+```text
+┌──────────┐   input    ┌────────────┐   output   ┌────────────┐
+│ Trigger  ├──────────▶│ Core Rule  ├──────────▶│ Decision   │
+└────┬─────┘           └────┬───────┘           └────┬───────┘
+     │                      │                          │
+     └──── constraints ────▶│◀──── metrics / review ──┘
+```
 
 이 구조에서 중요한 것은 한 요소만 강화한다고 전체 품질이 좋아지지 않는다는 점이다. 예를 들어 통제만 강하면 속도가 떨어지고, 속도만 올리면 품질과 책임성이 약해진다. 그래서 이 개념은 항상 균형 설계의 문제로 접근해야 한다.
 
@@ -128,19 +124,15 @@ tags = ["studynote-it-management"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">PEST 분석</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3C 분석</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SWOT 분석</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">전략 맵 연계</div></div>
-</div>
-</div>
-
-
+```text
+[PEST 분석]
+    │
+    ▼
+[3C 분석]
+    │
+    ├──▶ [SWOT 분석]
+    └──▶ [전략 맵 연계]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 초점이 좁혀지고, 이후에는 운영 확장과 거버넌스 고도화 방향으로 퍼져 나가는 구조를 보여 준다.
 

@@ -18,21 +18,20 @@ tags = ["studynote-database"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DB 설계 3단계 프로세스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 개념적 설계 : E-R 다이어그램</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(업무 요구사항 → 엔티티·관계 모델)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 논리적 설계 : 관계형 스키마</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(E-R → 테이블, 정규화 3NF/BCNF)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 물리적 설계 : DBMS 구현</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(인덱스, 파티션, 클러스터, 스토리지 매개변수)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────┐
+│            DB 설계 3단계 프로세스                     │
+├──────────────────────────────────────────────────────┤
+│ 1. 개념적 설계       : E-R 다이어그램                 │
+│    (업무 요구사항 → 엔티티·관계 모델)                  │
+│       ↓                                              │
+│ 2. 논리적 설계       : 관계형 스키마                  │
+│    (E-R → 테이블, 정규화 3NF/BCNF)                   │
+│       ↓                                              │
+│ 3. 물리적 설계       : DBMS 구현                     │
+│    (인덱스, 파티션, 클러스터, 스토리지 매개변수)        │
+└──────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: DB 설계는 건물 설계와 같다. 개념 설계는 건물 용도·공간 배치(E-R), [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 설계는 건축 도면(테이블 구조), 물리 설계는 실제 재료·시공 방법([인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/), 스토리지)이다.
 
@@ -52,18 +51,13 @@ tags = ["studynote-database"]
 
 ### [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) vs. [역정규화](/knowledge-base/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/) 판단
 
+```text
+정규화 (3NF):      데이터 중복 최소화, 이상 현상 방지
+                   → OLTP (거래 처리) 환경 적합
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">정규화 (3NF): 데이터 중복 최소화, 이상 현상 방지</div>
-<div class="kb-diagram-note">→ OLTP (거래 처리) 환경 적합</div>
-<div class="kb-diagram-note">역정규화 (De-Norm): 조인 감소로 쿼리 성능 향상</div>
-<div class="kb-diagram-note">→ OLAP, 대용량 읽기 환경 적합</div>
-</div>
-</div>
-
-
+역정규화 (De-Norm): 조인 감소로 쿼리 성능 향상
+                   → OLAP, 대용량 읽기 환경 적합
+```
 
 - **📢 섹션 요약 비유**: [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)는 도서관 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 시스템이다. 책([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 주제별로 완벽히 정리하면 찾기는 쉽지만 여러 책장(테이블)을 돌아다녀야 한다. [역정규화](/knowledge-base/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/)는 자주 보는 책들을 한 책장에 모아두는 것이다.
 
@@ -121,23 +115,21 @@ tags = ["studynote-database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">요구사항 분석 — 업무 데이터 요구사항 도출</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">개념적 설계 — E-R 다이어그램, 엔티티 정의</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">논리적 설계 — 정규화, 관계형 스키마</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">물리적 설계 — 인덱스, 파티션, 스토리지</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AI 자동 설계 — 워크로드 기반 자동 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[요구사항 분석 — 업무 데이터 요구사항 도출]
+    │
+    ▼
+[개념적 설계 — E-R 다이어그램, 엔티티 정의]
+    │
+    ▼
+[논리적 설계 — 정규화, 관계형 스키마]
+    │
+    ▼
+[물리적 설계 — 인덱스, 파티션, 스토리지]
+    │
+    ▼
+[AI 자동 설계 — 워크로드 기반 자동 최적화]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

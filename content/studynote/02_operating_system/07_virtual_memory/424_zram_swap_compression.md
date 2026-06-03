@@ -27,26 +27,29 @@ tags = ["studynote-operating-system"]
   2. <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">OOM</a> 킬러의 잦은 등장</strong>: 램이 차면 무조건 백그라운드 앱을 쏴 죽이는 바람에, 폰에서 앱 리프레시(다시 로딩)가 너무 잦아 유저 불만 폭주.
   3. <strong>CPU <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>의 비약적 발전</strong>: ARM 코어가 너무 좋아져서 램 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)/해제 연산을 하는 데 걸리는 0.001초의 딜레이가 플래시 I/O [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(10초)보다 1만 배 유리하다는 손익분기점을 돌파함.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일반 스와핑(HDD) vs ZRAM(압축 스와핑)의 아키텍처 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황: 램(RAM) 100% 포화. 크롬 탭(4GB)을 쫓아내야 함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1. 과거 데스크탑의 일반 스와핑 (I/O 병목 지옥)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">램에서 4GB 데이터를 꺼냄 ──▶ 하드디스크/SSD 파티션에 물리적으로 씀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💥 결과: 디스크 I/O 발생으로 수백 밀리초 렉 유발. 스토리지 수명 감소.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2. 최신 모바일의 ZRAM (인메모리 압축 흑마술)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">램 안에 1GB짜리 가짜 스왑 파티션(ZRAM)을 만들어둠.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">⚡ CPU가 초고속으로 압축 (LZ4)</div><div class="kb-diagram-note">──</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">물리 램 내부의 ZRAM 구역 (1GB)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">── 압축되어 1GB로 쪼그라든 ──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터가 쏙 들어감!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 결과: 디스크 건드린 적 없음 0회! 버려질 뻔한 크롬 4GB가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">램의 1GB 공간만 차지하며 좀비처럼 램 안에 살아남음!</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────┐
+│        일반 스와핑(HDD) vs ZRAM(압축 스와핑)의 아키텍처 시각화         │
+├────────────────────────────────────────────────────────────────────────┤
+│                                                                        │
+│ [ 상황: 램(RAM) 100% 포화. 크롬 탭(4GB)을 쫓아내야 함 ]                │
+│                                                                        │
+│ ▶ 1. 과거 데스크탑의 일반 스와핑 (I/O 병목 지옥)                       │
+│  램에서 4GB 데이터를 꺼냄 ──▶ 하드디스크/SSD 파티션에 물리적으로 씀    │
+│  💥 결과: 디스크 I/O 발생으로 수백 밀리초 렉 유발. 스토리지 수명 감소. │
+│                                                                        │
+│ ▶ 2. 최신 모바일의 ZRAM (인메모리 압축 흑마술)                         │
+│  램 안에 1GB짜리 가짜 스왑 파티션(ZRAM)을 만들어둠.                    │
+│                                                                        │
+│  크롬 4GB 데이터를 꺼냄 ──▶ [ ⚡ CPU가 초고속으로 압축 (LZ4) ] ──┐     │
+│                                                         │              │
+│  [ 물리 램 내부의 ZRAM 구역 (1GB) ] ◀── 압축되어 1GB로 쪼그라든 ──┘    │
+│                                      데이터가 쏙 들어감!               │
+│                                                                        │
+│  ✅ 결과: 디스크 건드린 적 없음 0회! 버려질 뻔한 크롬 4GB가            │
+│          램의 1GB 공간만 차지하며 좀비처럼 램 안에 살아남음!           │
+└────────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 이 아키텍처의 본질은 전형적인 <strong>"공간(Space)을 얻기 위해 CPU 연산력(Compute)을 지불한다"</strong>는 공학적 트레이드오프(Trade-off)다. CPU는 놀고 있고 램만 쪼들리는 현대 모바일 생태계의 불균형을, CPU의 멱살을 잡고 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 노가다를 시킴으로써 램 용량 확장으로 치환해 버리는 완벽한 밸런싱 기술이다.
 
 - **📢 섹션 요약 비유**: 이삿짐 차(RAM)가 꽉 찼을 때, 짐을 버리고 왕복(디스크 스왑)하는 게 아닙니다. 이삿짐센터 아저씨(CPU)가 땀을 뻘뻘 흘리며 침대와 소파를 다 뜯어 분해하고([압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)) 테트리스를 해서 트럭 한 대에 억지로 우겨넣고 출발하는 겁니다. 땀(연산)은 나지만 기름값(디스크 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))은 완벽히 아꼈습니다.
@@ -99,17 +102,14 @@ ZRAM은 별도의 복잡한 메모리 장부를 만들지 않고, 기존 [가상
 - **ZSWAP**: 진짜 하드디스크 스왑 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 넘어가기 '직전'에, 램에 마련된 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 캐시에 일단 찌그러뜨려 놓고 버티는 방파제. (ZRAM처럼 가짜 디스크를 만들지 않고 스왑 과정 중간에 끼어드는 구조). 캐시가 꽉 차면 찌그러진 상태로 진짜 디스크로 밀어냄. (현대 서버 리눅스 대세)
 - **ZCACHE**: 스왑 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)뿐만 아니라 일반 [파일 지원 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/392_file_backed_memory/)([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache)까지 모조리 다 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 버리는 극단적 캐시 기술. (너무 불안정해서 사장됨).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기술 종류</div><div class="kb-diagram-cell">진짜 디스크 유무</div><div class="kb-diagram-cell">역할 위치</div><div class="kb-diagram-cell">안드로이드 탑재 여부</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ZRAM</div><div class="kb-diagram-cell">없음 (램 안에서 끝)</div><div class="kb-diagram-cell">독립된 블록 장치</div><div class="kb-diagram-cell">🟢 100% 필수 탑재</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ZSWAP</div><div class="kb-diagram-cell">있음 (방파제 역할)</div><div class="kb-diagram-cell">스왑 파이프라인</div><div class="kb-diagram-cell">🟡 일부 서버 사용</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬───────────────────────────────┐
+│ 기술 종류  │ 진짜 디스크 유무│ 역할 위치    │ 안드로이드 탑재 여부 │
+├──────────┼────────────┼────────────┼───────────────────────────────┤
+│ ZRAM     │ 없음 (램 안에서 끝)│ 독립된 블록 장치│ 🟢 100% 필수 탑재│
+│ ZSWAP    │ 있음 (방파제 역할)│ 스왑 파이프라인 │ 🟡 일부 서버 사용 │
+└──────────┴────────────┴────────────┴───────────────────────────────┘
+```
 **[매트릭스 해설]** "디스크가 아예 없는 모바일 환경"에서는 ZRAM이 신이다. 램을 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해서 용량을 2배로 뻥튀기하는 것 외엔 살길이 없다. 반면 "스왑 디스크가 빵빵하게 꽂힌 엔터프라이즈 서버"에서는 ZSWAP을 써서, 일단 램 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)으로 버티다가 한계가 오면 스왑 디스크로 안전하게 이관하는 2중 안전장치를 택한다.
 
 - **📢 섹션 요약 비유**: ZRAM은 집(램)에 창고(디스크)가 없어서, 안 쓰는 옷을 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)팩으로 빨아들여 침대 밑(램 내부 가짜 창고)에 억지로 숨기는 눈물겨운 원룸살이입니다. 반면 ZSWAP은 마당에 거대한 창고(진짜 스왑)가 있지만, 거기까지 걸어가기 귀찮으니 일단 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)팩에 넣어서 현관에 쌓아두다가(방파제) 현관이 꽉 차면 창고로 갖다 버리는 저택의 정리법입니다.
@@ -166,19 +166,15 @@ ZRAM 및 [커널](/knowledge-base/studynote/02_operating_system/01_overview_arch
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">대형 페이지 (Large Page / Transparent Hugepage)의 가상 메모리 성능 이점</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ZRAM / 커널 스왑 압축 기술 (Zram Swap Compression)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OOM Killer (Out-of-Memory) 작동 우선순위 점수 (oom_score) 매커니즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NUMA 환경의 가상 메모리 스케줄링 (NUMA 노드 별 페이지 할당 / numactl)</div></div>
-</div>
-</div>
-
-
+```text
+[대형 페이지 (Large Page / Transparent Hugepage)의 가상 메모리 성능 이점]
+    │
+    ▼
+[ZRAM / 커널 스왑 압축 기술 (Zram Swap Compression)]
+    │
+    ├──▶ [OOM Killer (Out-of-Memory) 작동 우선순위 점수 (oom_score) 매커니즘]
+    └──▶ [NUMA 환경의 가상 메모리 스케줄링 (NUMA 노드 별 페이지 할당 / numactl)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

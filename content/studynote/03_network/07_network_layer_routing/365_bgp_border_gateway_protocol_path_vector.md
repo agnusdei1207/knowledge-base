@@ -26,18 +26,14 @@ tags = ["studynote-network"]
   - <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/">OSPF</a> (사내망)</strong>: 목적지까지 골목길, 샛길 다 따져서 1분이라도 빨리 도착하게 해주는 <strong>"카카오내비(빠른 길 우선)"</strong>입니다.
   - **BGP (인터넷)**: 국가 간 물류를 통제하는 <strong>"세관(세관장)"</strong>입니다. 미국에서 온 택배(패킷)가 아무리 빨리 오고 싶어도, "어? 너네 중국([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-Path) 거쳐서 왔네? 우리나라는 중국 거쳐 온 물건 취급 안 해! 딴 나라로 돌아가!(필터링)"라며 속도와 무관하게 정치와 돈의 잣대로 통로를 막고 엽니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">L1/L2 라우터, L1/L2 Area 체계…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">BGP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">iBGP, eBGP, BGP Split Ho…</div></div>
-</div>
-</div>
-
-
+```text
+[L1/L2 라우터, L1/L2 Area 체계…]
+    │
+    ▼
+[BGP]
+    │
+    └──▶ [iBGP, eBGP, BGP Split Ho…]
+```
 
 - **📢 섹션 요약 비유**: ** BGP는 전 세계 통신사 대표들이 검은 양복을 입고 모인 **"유엔(UN) 무역 협정 회의장"**입니다. 이 회의장에서는 어느 나라를 거쳐서 물건을 팔지, 어느 나라에는 관세를 왕창 매겨서 우회하게 만들지([정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)) 치열한 수 싸움만이 벌어집니다.
 
@@ -67,21 +63,21 @@ BGP 라우터가 친구(Neighbor)를 맺는 방식은 상대방이 어느 국가
   - 둘 다 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 1759이므로 eBGP로 외부에서 받아온 90만 개의 인터넷 지도를 "우리 식구들끼리 공유"하기 위해 맺는다.
   - 특징: 같은 나라 안이니까 굳이 랜선이 직접 안 꽂혀 있고 중간에 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) 라우터 10대가 끼어 있어도 <strong>논리적으로(<a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> 179번 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>) 멀리서 친구를 맺을 수 있다</strong>.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인터넷 망에서의 iBGP와 eBGP의 역할 분담</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SKT 망 (AS 200)</div><div class="kb-diagram-node">KT 망 (AS 100)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">미국 구글 ◀── eBGP ──▶ 서울 관문 ◀── iBGP ──▶ 부산 관문 ◀── eBGP ──▶ 일본 야후</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(AS 300) 라우터 라우터 (AS 400)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* eBGP의 역할: 외국(미국)에서 90만 개의 글로벌 인터넷 지도를 밀수해 옴.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* iBGP의 역할: 밀수해 온 지도를 우리나라(KT) 내부 끝단인 부산까지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">떨어뜨리지 않고 고이 모셔다 나름!</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                인터넷 망에서의 iBGP와 eBGP의 역할 분담             │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │            [ SKT 망 (AS 200) ]         [ KT 망 (AS 100) ]    │
+ │                                                             │
+ │   미국 구글 ◀── eBGP ──▶ 서울 관문 ◀── iBGP ──▶ 부산 관문 ◀── eBGP ──▶ 일본 야후  │
+ │   (AS 300)             라우터                  라우터       (AS 400) │
+ │                                                             │
+ │   * eBGP의 역할: 외국(미국)에서 90만 개의 글로벌 인터넷 지도를 밀수해 옴.│
+ │   * iBGP의 역할: 밀수해 온 지도를 우리나라(KT) 내부 끝단인 부산까지      │
+ │                 떨어뜨리지 않고 고이 모셔다 나름!                  │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: BGP의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -142,19 +138,15 @@ BGP는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: L1/L2 라우터, L1/L2 Area 체계…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: BGP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: iBGP, eBGP, BGP Split Ho…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: L1/L2 라우터, L1/L2 Area 체계…]
+    │
+    ▼
+[현재 개념: BGP]
+    │
+    ├──▶ [확장 A: iBGP, eBGP, BGP Split Ho…]
+    └──▶ [확장 B: 의도 기반 라우팅]
+```
 
 BGP는 L1/L2 라우터, L1/L2 Area 체계…에서 출발해 현재 메커니즘을 정교화하고, 이후 [iBGP](/knowledge-base/studynote/03_network/07_network_layer_routing/366_ibgp_ebgp_split_horizon_rule/), eBGP, BGP Split Ho…와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

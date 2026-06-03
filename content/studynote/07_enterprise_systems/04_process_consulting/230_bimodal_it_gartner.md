@@ -43,25 +43,25 @@ tags = ["studynote-enterprise"]
 
 아래 그림은 바이모달 IT를 시스템 구조에 연결한 페이스 레이어드 아키텍처 (Pace-[Layered Architecture](/knowledge-base/studynote/04_software_engineering/04_testing_quality/205_layered_architecture_separation_of_concerns/))의 개념을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pace-layered architecture for Bimodal IT</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Fast change</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Systems of Innovation -&gt; Mode 2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">mobile / AI / campaign apps</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ API</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Systems of Differentiation -&gt; mixed zone</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">customer journey / channel features</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ controlled interface</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Systems of Record -&gt; Mode 1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ERP / ledger / core master data</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Rule: upper layers must not bypass governed interfaces</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Pace-layered architecture for Bimodal IT                             │
+├──────────────────────────────────────────────────────────────────────┤
+│ Fast change                                                          │
+│   Systems of Innovation    -> Mode 2                                 │
+│   mobile / AI / campaign apps                                        │
+│              │                                                       │
+│              ▼ API                                                   │
+│   Systems of Differentiation -> mixed zone                           │
+│   customer journey / channel features                                │
+│              │                                                       │
+│              ▼ controlled interface                                  │
+│   Systems of Record         -> Mode 1                                │
+│   ERP / ledger / core master data                                    │
+│                                                                      │
+│ Rule: upper layers must not bypass governed interfaces               │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조에서 핵심은 상위 레이어가 하위 레이어를 직접 건드리지 않는 것이다. Mode 2 팀은 빠르게 배포할 수 있지만, Mode 1 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)를 직접 수정하면 코어 안정성이 무너진다. 그래서 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이, 읽기 전용 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/), 이벤트 스트림 같은 완충 경계가 필요하다.
 
@@ -140,23 +140,21 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Single-speed legacy IT</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Mode 1 / Mode 2 separation</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">API-governed coexistence</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Multi-speed enterprise architecture</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Enterprise-wide agile modernization</div>
-</div>
-</div>
-
-
+```text
+Single-speed legacy IT
+        │
+        ▼
+Mode 1 / Mode 2 separation
+        │
+        ▼
+API-governed coexistence
+        │
+        ▼
+Multi-speed enterprise architecture
+        │
+        ▼
+Enterprise-wide agile modernization
+```
 
 이 흐름은 획일적 운영에서, 속도 차이를 인정하고 장기적으로 더 통합된 민첩 조직으로 가는 발전 방향을 보여준다.
 

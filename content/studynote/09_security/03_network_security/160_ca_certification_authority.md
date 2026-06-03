@@ -35,21 +35,21 @@ CA는 [공개키 기반 구조](/knowledge-base/studynote/03_network/13_network_
 
 아래 그림은 발급과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 흐름을 함께 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CA 기반 인증서 발급·검증 흐름</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Issuance</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Subject -&gt; CSR 제출 -&gt; RA 신원 확인 -&gt; Intermediate CA 서명</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Validation</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Browser trust store -&gt; Root CA -&gt; Intermediate CA -&gt; Server Cert</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; CRL/OCSP 확인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Result: "공개키를 받음"이 아니라 "공개키 주인을 검증함"</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│               CA 기반 인증서 발급·검증 흐름                        │
+├────────────────────────────────────────────────────────────────────┤
+│ [Issuance]                                                         │
+│ Subject -> CSR 제출 -> RA 신원 확인 -> Intermediate CA 서명       │
+│                                                                    │
+│ [Validation]                                                       │
+│ Browser trust store -> Root CA -> Intermediate CA -> Server Cert   │
+│                                                │                   │
+│                                                └-> CRL/OCSP 확인   │
+│                                                                    │
+│ Result: "공개키를 받음"이 아니라 "공개키 주인을 검증함"         │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 핵심은 신뢰가 단일 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 한 장에서 나오지 않는다는 점이다. 클라이언트는 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 유효기간, 서명 체인, [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 이름 일치 여부, 폐기 상태를 함께 본다. 루트 CA는 보통 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)나 브라우저의 신뢰 저장소에 탑재되어 있고, 중간 CA가 실제 대량 발급을 수행한다. 루트 키를 오프라인에 가깝게 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하고 중간 CA를 분리하는 이유도 여기에 있다.
 
@@ -130,23 +130,20 @@ CA가 잘 운영되면, 서로 처음 만나는 주체 사이에도 빠른 신�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">자체 서명 인증서</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">공용/사설 CA 체계 확립</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Root CA</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Intermediate CA</div>
-<div class="kb-diagram-tree-item" style="--depth:2">X.509 인증서</div>
-<div class="kb-diagram-tree-item" style="--depth:2">CRL / OCSP</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ACME 자동화 · 짧은 수명 인증서 · 지속적 신뢰 운영</div>
-</div>
-</div>
-
-
+```text
+자체 서명 인증서
+    │
+    ▼
+공용/사설 CA 체계 확립
+    │
+    ├─ Root CA
+    ├─ Intermediate CA
+    ├─ X.509 인증서
+    └─ CRL / OCSP
+    │
+    ▼
+ACME 자동화 · 짧은 수명 인증서 · 지속적 신뢰 운영
+```
 
 이 흐름도는 단순 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 발급에서 출발해, 자동화와 운영 통제까지 포함하는 현대 [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 생태계로 발전한 과정을 보여준다.
 

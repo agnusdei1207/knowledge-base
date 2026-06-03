@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - <strong>CLI (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/">Command</a> Line Interface)</strong>: 사람이 키보드로 쳐야 합니다. 스크립트(Expect)를 짜서 자동화하려 해도, 벤더마다 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)(시스코어, 주니퍼어)가 다르고 결과 화면(텍스트)이 달라서 100% 에러가 터졌습니다.
 - <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/">SNMP</a> (Simple Network <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/">Management</a> <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">Protocol</a>)</strong>: 원래 장비가 살아있는지 감시(모니터링)하려고 만든 툴입니다. 이걸 억지로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 바꾸는 데 쓰려다 보니, [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)(실패 시 되돌리기) 개념이 없어서 중간에 끊기면 라우터가 반쯤 고장 난 상태로 멈춰버렸습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">P4 (Programming Protocol…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NETCONF 프로토콜</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">YANG (Yet Another Next G…</div></div>
-</div>
-</div>
-
-
+```text
+[P4 (Programming Protocol…]
+    │
+    ▼
+[NETCONF 프로토콜]
+    │
+    └──▶ [YANG (Yet Another Next G…]
+```
 
 - **📢 섹션 요약 비유**: NETCONF [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -54,18 +50,14 @@ NETCONF는 패킷을 보낼 때 4겹의 옷을 입습니다.
 4. **콘텐츠 계층 (Content - XML)**:
    - 멍청한 텍스트(CLI) 대신, 기계가 완벽하게 파싱해서 읽어 들일 수 있는 체계적인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조인 **XML (eXtensible Markup Language)** 형식으로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)값을 적어 보냅니다. (이 XML의 뼈대를 잡아주는 문법이 바로 876번의 <strong>YANG</strong>입니다.)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">P4 (Programming Protocol…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NETCONF 프로토콜</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">YANG (Yet Another Next G…</div></div>
-</div>
-</div>
-
-
+```text
+[P4 (Programming Protocol…]
+    │
+    ▼
+[NETCONF 프로토콜]
+    │
+    └──▶ [YANG (Yet Another Next G…]
+```
 
 - **📢 섹션 요약 비유**: NETCONF [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -124,19 +116,15 @@ NETCONF [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: P4 (Programming Protocol…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: NETCONF 프로토콜</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: YANG (Yet Another Next G…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 프로그래머블 네트워크</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: P4 (Programming Protocol…]
+    │
+    ▼
+[현재 개념: NETCONF 프로토콜]
+    │
+    ├──▶ [확장 A: YANG (Yet Another Next G…]
+    └──▶ [확장 B: 프로그래머블 네트워크]
+```
 
 NETCONF [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)는 [P4](/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/) (Programming [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)…에서 출발해 현재 메커니즘을 정교화하고, 이후 YANG (Yet Another Next G…와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

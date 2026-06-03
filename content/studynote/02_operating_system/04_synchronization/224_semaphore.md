@@ -24,23 +24,22 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경**: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)들은 각자 중구난방으로 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 기법을 짜서 버그가 난무했다. 데이크스트라는 이 난장판을 끝내기 위해 "모든 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 문제는 `wait`와 `signal`이라는 두 가지 함수만으로 증명 가능해야 한다"는 엄격한 표준(Semaphore)을 제시했고, 이것이 유닉스(Unix) System V의 [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) 표준으로 채택되었다.
 
+```text
+  [세마포어(Counting Semaphore)의 동작 시각화 (초기값 S = 2)]
 
+  [ 자원: 공용 프린터 2대 ]
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">세마포어(Counting Semaphore)의 동작 시각화 (초기값 S = 2)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">자원: 공용 프린터 2대</div></div>
-<div class="kb-diagram-note">▶ 스레드 A 진입: wait(S) 호출 ─▶ S=1로 감소. 프린터 1번 사용 시작.</div>
-<div class="kb-diagram-note">▶ 스레드 B 진입: wait(S) 호출 ─▶ S=0으로 감소. 프린터 2번 사용 시작.</div>
-<div class="kb-diagram-note">▶ 스레드 C 진입: wait(S) 호출 ─▶ S가 0이므로 진입 불가!</div>
-<div class="kb-diagram-note">C는 OS에 의해 대기 큐(Wait Queue)로 쫓겨나 Sleep(수면).</div>
-<div class="kb-diagram-note">▶ 스레드 A 퇴장: signal(S) 호출 ─▶ S=1로 증가시킴과 동시에,</div>
-<div class="kb-diagram-note">대기 큐에서 자고 있던 C를 Wakeup(기상) 시킴!</div>
-<div class="kb-diagram-note">▶ 스레드 C 진입: 깨어난 C가 남은 프린터 1번을 사용 시작.</div>
-</div>
-</div>
-
-
+  ▶ 스레드 A 진입: wait(S) 호출 ─▶ S=1로 감소. 프린터 1번 사용 시작.
+  ▶ 스레드 B 진입: wait(S) 호출 ─▶ S=0으로 감소. 프린터 2번 사용 시작.
+  
+  ▶ 스레드 C 진입: wait(S) 호출 ─▶ S가 0이므로 진입 불가! 
+                 C는 OS에 의해 대기 큐(Wait Queue)로 쫓겨나 Sleep(수면).
+                 
+  ▶ 스레드 A 퇴장: signal(S) 호출 ─▶ S=1로 증가시킴과 동시에,
+                 대기 큐에서 자고 있던 C를 Wakeup(기상) 시킴!
+                 
+  ▶ 스레드 C 진입: 깨어난 C가 남은 프린터 1번을 사용 시작.
+```
 **[다이어그램 해설]** 세마포어의 정수 `S`는 "현재 쓸 수 있는 자원의 남은 개수"를 뜻한다. 만약 `S`가 음수(-1)가 되었다면, "현재 1명이 대기실에서 자면서 기다리고 있다"는 뜻이다. 이 숫자 하나만으로 시스템의 혼잡도를 완벽하게 추적(Tracking)하고 제어하는 천재적인 발상이다.
 
 - **📢 섹션 요약 비유**: 수영장 탈의실 열쇠가 50개(S=50) 있습니다. 손님이 올 때마다 열쇠를 하나씩 주다가 열쇠가 동나면(S=0), 다음 손님은 입구에서 대기합니다. 안에서 씻고 나온 사람이 열쇠를 카운터에 반납하면([signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)), 그 열쇠를 대기하던 사람에게 넘겨주어 입장시키는 완벽한 인원 통제 시스템입니다.
@@ -123,25 +122,26 @@ tags = ["studynote-operating-system"]
    - **오류 2: 해제 누락**: `wait()`만 치고 함수를 종료(`return`)해 버리면 락이 안 풀려 뒤에 줄 선 놈들이 전부 데드락([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))으로 죽는다.
    - **오류 3: 이중 대기**: `wait()`를 치고 방에 들어갔는데 실수로 `wait()`를 한 번 더 치면 자기 스스로 자기 발등을 찍고 방 안에서 영원히 잠든다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발자의 동기화 객체 남용 방지 및 대체 아키텍처 결정 트리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">요구사항: 1개의 공유 파일에 여러 스레드가 순서대로 로그를 써야 함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 동기화 도구 선택</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">❌ 레벨 1: C/C++ 세마포어 직접 구현 (Manual)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 판정: 하수. 에러 처리(Exception) 시 signal() 누락 확률 높음.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">🟡 레벨 2: 객체지향 언어의 Mutex / Monitor (Synchronized)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 판정: 중수. Exception이 터져도 언어가 알아서 락을 풀어주어 안전.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">✅ 레벨 3: 동시성 큐 (Concurrent Queue) 위임</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 판정: 아키텍트의 정답. 로그를 쓰는 스레드는 딱 1개(소비자)만</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">띄워놓고, 나머지 수백 개 스레드는 락 없이 스레드 세이프한</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Queue에 메시지만 던지고 도망가게(Non-blocking) 설계!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────────┐
+  │     개발자의 동기화 객체 남용 방지 및 대체 아키텍처 결정 트리         │
+  ├───────────────────────────────────────────────────────────────────────┤
+  │                                                                       │
+  │   [요구사항: 1개의 공유 파일에 여러 스레드가 순서대로 로그를 써야 함] │
+  │                │                                                      │
+  │                ▼ 동기화 도구 선택                                     │
+  │   [ ❌ 레벨 1: C/C++ 세마포어 직접 구현 (Manual) ]                    │
+  │     - 판정: 하수. 에러 처리(Exception) 시 signal() 누락 확률 높음.    │
+  │                                                                       │
+  │   [ 🟡 레벨 2: 객체지향 언어의 Mutex / Monitor (Synchronized) ]       │
+  │     - 판정: 중수. Exception이 터져도 언어가 알아서 락을 풀어주어 안전.│
+  │                                                                       │
+  │   [ ✅ 레벨 3: 동시성 큐 (Concurrent Queue) 위임 ]                    │
+  │     - 판정: 아키텍트의 정답. 로그를 쓰는 스레드는 딱 1개(소비자)만    │
+  │             띄워놓고, 나머지 수백 개 스레드는 락 없이 스레드 세이프한 │
+  │             Queue에 메시지만 던지고 도망가게(Non-blocking) 설계!      │
+  └───────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 세마포어는 1960년대의 위대한 발명품이지만, 2026년 실무 비즈니스 로직(애플리케이션 단)에서 개발자가 직접 세마포어를 `new` 해서 쓰는 것은 코드 악취([Code Smell](/knowledge-base/studynote/12_it_management/05_security_compliance/365_5_solid_code_smell/))로 간주된다. 인간은 무조건 실수를 하기 때문이다. 세마포어는 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이나 자바의 `java.util.concurrent` 패키지 등 하부 라이브러리를 만들 때만 깊숙이 숨겨서 쓰고, 실무는 검증된 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 세이프([Thread-Safe](/knowledge-base/studynote/02_operating_system/02_process_thread/147_thread_safe/)) 자료구조를 쓰는 것이 백엔드 엔지니어링의 기본이다.
 
 - **📢 섹션 요약 비유**: 수동 변속기(세마포어)는 차의 원리를 완벽히 통제할 수 있지만, 운전자가 클러치 타이밍을 한 번만 실수해도 시동이 꺼지고(데드락) 기어가 박살 납니다. 일상생활(실무 코딩)에서는 무조건 자동 변속기(고수준 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 컬렉션)를 타는 것이 사고를 막는 지름길입니다.
@@ -172,19 +172,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">임계 구역 문제 해결의 3조건</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">세마포어 (Semaphore)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">피터슨의 해결책 (Peterson's Algorithm)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">메모리 장벽 (Memory Barrier / Memory Fence)</div></div>
-</div>
-</div>
-
-
+```text
+[임계 구역 문제 해결의 3조건]
+    │
+    ▼
+[세마포어 (Semaphore)]
+    │
+    ├──▶ [피터슨의 해결책 (Peterson's Algorithm)]
+    └──▶ [메모리 장벽 (Memory Barrier / Memory Fence)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

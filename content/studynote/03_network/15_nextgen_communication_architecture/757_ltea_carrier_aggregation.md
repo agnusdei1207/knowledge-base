@@ -23,18 +23,14 @@ tags = ["studynote-network"]
 - 하지만 전 세계 주파수는 군대, TV 방송 등이 다 차지하고 있어 통신사가 연속된 40MHz짜리 넓은 땅(연속된 주파수 대역)을 통째로 살 수 있는 나라가 지구상에 없었습니다.
 - **해결책**: 3GPP는 Release [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) 규격을 통해, "이산가족처럼 멀리 떨어져 있는 좁은 주파수 대역들을 소프트웨어 기술로 하나로 묶어버리자!"라는 기적의 <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/">LTE</a>-A (진정한 4G)</strong> 기술을 발표합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">기지국: eNodeB 분산 데이터 평면 라우…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LTE-A</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">VoLTE</div></div>
-</div>
-</div>
-
-
+```text
+[기지국: eNodeB 분산 데이터 평면 라우…]
+    │
+    ▼
+[LTE-A]
+    │
+    └──▶ [VoLTE]
+```
 
 - **📢 섹션 요약 비유**: [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)-A는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -52,18 +48,14 @@ tags = ["studynote-network"]
 - [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 기능이 들어간 최신 폰 칩셋(스냅드래곤 등)은 기지국이 이 3개의 서로 다른 주파수 차선으로 영화 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 3등분 해서 동시에 쏘면, <strong>폰 내부에서 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">안테나</a> 3개를 동시에 가동해 3개의 신호를 싹 다 빨아들인 뒤 하나로 찰칵 조립</strong>해 냅니다(3 Band [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/)).
 - [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)+20+[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) = 40MHz의 거대한 고속도로가 뚫린 셈이 되어, 체감 속도가 3배~4배 뻥튀기됩니다 (최대 300~500Mbps 돌파).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">기지국: eNodeB 분산 데이터 평면 라우…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LTE-A</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">VoLTE</div></div>
-</div>
-</div>
-
-
+```text
+[기지국: eNodeB 분산 데이터 평면 라우…]
+    │
+    ▼
+[LTE-A]
+    │
+    └──▶ [VoLTE]
+```
 
 - **📢 섹션 요약 비유**: [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)-A의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -120,19 +112,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 기지국: eNodeB 분산 데이터 평면 라우…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: LTE-A</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: VoLTE</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 네트워크 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 기지국: eNodeB 분산 데이터 평면 라우…]
+    │
+    ▼
+[현재 개념: LTE-A]
+    │
+    ├──▶ [확장 A: VoLTE]
+    └──▶ [확장 B: AI 기반 네트워크 최적화]
+```
 
 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)-A는 기지국: eNodeB [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면 라우…에서 출발해 현재 메커니즘을 정교화하고, 이후 VoLTE와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -29,58 +29,51 @@ tags = ["studynote-design-supervision"]
 
 마이클 나이가드 (Michael Nygard) 가 2011년 제안한 ADR은 아키텍처 결정의 <strong>맥락 (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/">Context</a>), 결정 내용 (Decision), 결과 (Consequences)</strong> 를 간결한 문서로 기록하는 체계다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Core Idea</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Expected Gain</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐    ┌──────────────┐    ┌──────────────┐
+│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
+└──────────────┘    └──────────────┘    └──────────────┘
+```
 
 - **📢 섹션 요약 비유**: 오래된 건물의 도면 없이 벽을 허물다가 내력벽을 건드리는 것 — ADR은 그 도면이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
+```
+┌──────────────────────────────────────────────────────┐
+│  ADR-0012: 사용자 세션 관리에 JWT 채택               │
+├──────────────────────────────────────────────────────┤
+│  상태 (Status): Accepted                             │
+│  날짜 (Date):   2023-03-15                           │
+├──────────────────────────────────────────────────────┤
+│  맥락 (Context)                                      │
+│  - 기존 서버 세션 방식이 수평 확장(Scale-Out)에 장애  │
+│  - 마이크로서비스 전환 예정                          │
+├──────────────────────────────────────────────────────┤
+│  결정 (Decision)                                     │
+│  - JWT (JSON Web Token) 기반 무상태 인증 채택         │
+│  - 토큰 만료 15분, 리프레시 토큰 7일                 │
+├──────────────────────────────────────────────────────┤
+│  결과 (Consequences)                                 │
+│  + 서버 무상태화 → 수평 확장 용이                    │
+│  + 마이크로서비스 간 인증 전파 단순화                │
+│  - 토큰 무효화(Revocation) 복잡도 증가               │
+│  - 토큰 크기 증가로 요청 헤더 용량 증가             │
+└──────────────────────────────────────────────────────┘
+```
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ADR-0012: 사용자 세션 관리에 JWT 채택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상태 (Status): Accepted</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">날짜 (Date): 2023-03-15</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">맥락 (Context)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 기존 서버 세션 방식이 수평 확장(Scale-Out)에 장애</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 마이크로서비스 전환 예정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결정 (Decision)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- JWT (JSON Web Token) 기반 무상태 인증 채택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 토큰 만료 15분, 리프레시 토큰 7일</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과 (Consequences)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ 서버 무상태화 → 수평 확장 용이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ 마이크로서비스 간 인증 전파 단순화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 토큰 무효화(Revocation) 복잡도 증가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 토큰 크기 증가로 요청 헤더 용량 증가</div></div>
-</div>
-</div>
-
-
-
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">설계 부채 우선순위 결정 매트릭스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">높은</div><div class="kb-diagram-cell">즉시 청산</div><div class="kb-diagram-cell">계획적 청산</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">영향</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모니터링</div><div class="kb-diagram-cell">수용/문서화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">낮은</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">낮은 비용 높은 비용</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────┐
+│          설계 부채 우선순위 결정 매트릭스            │
+│                                                     │
+│  높은  │  즉시 청산  │  계획적 청산  │              │
+│  영향  ├─────────────┼───────────────┤              │
+│        │  모니터링   │  수용/문서화  │              │
+│  낮은  └─────────────┴───────────────┘              │
+│                낮은 비용    높은 비용                │
+└─────────────────────────────────────────────────────┘
+```
 
 | 상태 | 의미 |
 |:---|:---|
@@ -101,24 +94,23 @@ tags = ["studynote-design-supervision"]
 | [SonarQube](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/) [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 지표 | 코드 수준 부채 정량화 | 자동화 측정 | 설계 수준 미반영 |
 | 이벤트 스토밍 (Event Storming) | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 재설계 | 팀 공유 지식 | 시간·비용 소요 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">레거시 시스템 분석</div>
-<div class="kb-diagram-tree-item" style="--depth:2">코드 스멜 탐지 (SonarQube)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">ADR 검토 (기존 결정 파악)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">설계 부채 목록 작성</div>
-<div class="kb-diagram-tree-item" style="--depth:2">우선순위 결정 (영향 × 비용)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">신규 ADR 작성 (변경 결정 기록)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">리팩토링 실행 (TDD 안전망 하에)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">ADR 상태 업데이트 (Superseded)</div>
-</div>
-</div>
-
-
+```
+레거시 시스템 분석
+    │
+    ├─ 코드 스멜 탐지 (SonarQube)
+    ├─ ADR 검토 (기존 결정 파악)
+    │
+    ▼
+설계 부채 목록 작성
+    │
+    ├─ 우선순위 결정 (영향 × 비용)
+    ├─ 신규 ADR 작성 (변경 결정 기록)
+    │
+    ▼
+리팩토링 실행 (TDD 안전망 하에)
+    │
+    └─ ADR 상태 업데이트 (Superseded)
+```
 
 - **📢 섹션 요약 비유**: 국가대표팀 감독 교체 시 전임 감독의 전술 노트가 있으면 선수들의 역할과 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 빠르게 파악할 수 있다 — ADR이 그 전술 노트다.
 

@@ -27,18 +27,14 @@ tags = ["studynote-network"]
   - 하지만 밀랍 씰(해시값)이 찍혀 있어서, 누군가 편지 내용을 단 한 글자라도 고치려고 봉투를 뜯으면 씰이 깨집니다.
   - 수취인은 씰이 깨진 편지를 받으면 즉시 <strong>"조작된 가짜 편지!"라고 인식하고 찢어버립니다 (<a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a> ⭕)</strong>.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">IPSec 메커니즘</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AH</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ESP</div></div>
-</div>
-</div>
-
-
+```text
+[IPSec 메커니즘]
+    │
+    ▼
+[AH]
+    │
+    └──▶ [ESP]
+```
 
 - **📢 섹션 요약 비유**: ** AH는 내용물이 훤히 보이는 **"투명 강화 유리 금고"**입니다. 도둑이 금고 안의 금괴([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 가져갈 수는 없지만, 금괴에 적힌 일련번호(비밀번호)는 밖에서 빤히 다 들여다볼 수 있어 진정한 의미의 보안([기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/))이라고 부를 수 없습니다.
 
@@ -58,23 +54,27 @@ AH는 패킷을 보낼 때 SHA-256이나 [MD5](/knowledge-base/studynote/03_netw
 - <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/">NAT</a>(공유기)의 개입</strong>: 내 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)(`192.168.0.5`)에서 AH 도장을 찍고 패킷을 던졌다. 이 패킷이 우리 집 공유기를 통과할 때, 공유기([NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/))는 출발지 주소를 공인 IP(`211.200.x.x`)로 <strong>바꿔치기(변조)</strong>한다.
 - **목적지의 판정**: 목적지 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이 패킷을 받아 믹서기를 돌려본다. "어? 내가 받은 패킷의 출발지 IP(`211.x.x.x`)로 계산해 보니, 아까 네가 찍은 도장(`192.x.x.x`로 만든 값)이랑 안 맞네? **너 중간에 해커한테 조작당했지! (사실 공유기가 바꾼 건데)**"라며 무조건 패킷을 다 버려버린다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AH와 NAT(공유기)의 처절한 충돌 시나리오</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">내 PC (사설 IP 10.x)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. "출발지가 10.x 라는 걸 포함해서 무결성 도장 쾅!" (AH 생성)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">집 공유기 (NAT)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. "오 밖으로 나가네? 출발지를 내 공인 IP(211.x)로 바꿔야지!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">목적지 방화벽 (VPN 서버)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 검사 결과: "출발지 IP가 211.x로 바뀌었네? 근데 AH 도장은 10.x를</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기준으로 찍혀있잖아? 중간에 누가 IP를 뜯어고쳤네! 버려!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: 세상 모든 집/회사는 공유기(NAT)를 쓰므로 AH는 100% 연결 실패함!</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                AH와 NAT(공유기)의 처절한 충돌 시나리오           │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 내 PC (사설 IP 10.x) ]                                     │
+ │       │                                                     │
+ │       │ 1. "출발지가 10.x 라는 걸 포함해서 무결성 도장 쾅!" (AH 생성) │
+ │       ▼                                                     │
+ │   [ 집 공유기 (NAT) ]                                         │
+ │       │                                                     │
+ │       │ 2. "오 밖으로 나가네? 출발지를 내 공인 IP(211.x)로 바꿔야지!" │
+ │       ▼                                                     │
+ │   [ 목적지 방화벽 (VPN 서버) ]                                   │
+ │                                                             │
+ │   * 검사 결과: "출발지 IP가 211.x로 바뀌었네? 근데 AH 도장은 10.x를  │
+ │               기준으로 찍혀있잖아? 중간에 누가 IP를 뜯어고쳤네! 버려!" │
+ │                                                             │
+ │   ▶ 결과: 세상 모든 집/회사는 공유기(NAT)를 쓰므로 AH는 100% 연결 실패함!│
+ └─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: AH의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -127,19 +127,15 @@ AH는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: IPSec 메커니즘</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: AH</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: ESP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: IPSec 메커니즘]
+    │
+    ▼
+[현재 개념: AH]
+    │
+    ├──▶ [확장 A: ESP]
+    └──▶ [확장 B: 의도 기반 라우팅]
+```
 
 AH는 [IPSec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 메커니즘에서 출발해 현재 메커니즘을 정교화하고, 이후 ESP와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

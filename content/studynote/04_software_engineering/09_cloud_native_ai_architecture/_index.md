@@ -23,20 +23,21 @@ tags = ["software_engineering"]
 
 이 그림은 클라우드 네이티브를 지탱하는 4대 핵심 축을 보여준다. MSA, 컨테이너, CI/CD, 그리고 DevOps가 어떻게 유기적으로 결합되는지 시각화한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cloud Native 4 Pillars Architecture</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Microservices</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Containers</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(비즈니스 기능 분해) (환경 일관성 확보)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Synergy</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Continuous Delivery</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">DevOps</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(자동화된 가치 전달) (개발-운영 문화 통합)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│              Cloud Native 4 Pillars Architecture             │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│       [ Microservices ]  ◀─────▶  [ Containers ]            │
+│       (비즈니스 기능 분해)         (환경 일관성 확보)         │
+│               ▲                        ▲                    │
+│               │          [ Synergy ]   │                    │
+│               ▼                        ▼                    │
+│       [ Continuous Delivery ] ◀───▶  [ DevOps ]             │
+│       (자동화된 가치 전달)         (개발-운영 문화 통합)      │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '상호 연결성'이다. MSA로 서비스를 쪼개야 컨테이너로 가볍게 배포할 수 있고, 컨테이너화가 되어야 CI/CD 자동화가 수월하며, 이 모든 것을 DevOps 문화가 지탱한다. 실무에서 이 중 하나라도 빠지면 클라우드 네이티브의 진정한 이점(Agility, Scalability)을 누릴 수 없다.
 
@@ -65,18 +66,21 @@ AI 모델 개발을 공학적으로 규격화한 체계가 MLOps이다. 이는 �
 
 이 구조도는 기존 CI/CD에 데이터와 모델의 흐름이 추가된 **CI/CD/CT** 파이프라인을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Modern AI/ML Pipeline (CI/CD/CT)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Data Source</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Data Prep</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Model Train</div><div class="kb-diagram-note">──</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Feedback</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Serving</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Model Validation</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">CI</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Continuous Training)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Modern AI/ML Pipeline (CI/CD/CT)            │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [Data Source] ──▶ [Data Prep] ──▶ [Model Train] ──┐       │
+│          ▲                                          │       │
+│          │          ┌───────────────────────────────┘       │
+│          │          ▼                                       │
+│   [Feedback] ◀── [Serving] ◀── [Model Validation] ◀── [CI]  │
+│          │          │                                       │
+│          └──── (Continuous Training) ───────────────────┘    │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '피드백 루프'와 '지속적 학습 (CT)'이다. 운영 중인 모델에서 수집된 실제 데이터가 다시 데이터 준비 단계로 흘러들어가 모델을 자동으로 재학습시킨다. 실무에서는 이 과정에서 데이터 드리프트 (Data Drift)를 감지하여 재학습 시점을 결정하는 'Trigger' 설계가 아키텍처의 품질을 좌우한다.
 
@@ -124,19 +128,21 @@ AI 모델 개발을 공학적으로 규격화한 체계가 MLOps이다. 이는 �
 
 이 도식은 AI 서비스 도입 시의 의사결정 트리를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AI/ML Service Decision Tree</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">YES</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Private/On-prem AI</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NO</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Cloud AI API (Public)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">YES</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Edge AI / On-device</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NO</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Cloud Serving (GPU Farm)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│               AI/ML Service Decision Tree                    │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   데이터 주권이 중요한가? ──▶ [YES] ──▶ Private/On-prem AI   │
+│          │                                                  │
+│        [NO] ──▶ Cloud AI API (Public)                       │
+│                                                             │
+│   실시간 응답이 필수인가? ──▶ [YES] ──▶ Edge AI / On-device  │
+│          │                                                  │
+│        [NO] ──▶ Cloud Serving (GPU Farm)                    │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 기술사의 전략은 항로를 결정하는 조타수와 같습니다. 최신 기술이라는 '바람'도 중요하지만, 우리 배(조직)의 엔진 성능과 식량(예산) 상황을 보고 가장 안전한 항구를 선택해야 합니다.
 

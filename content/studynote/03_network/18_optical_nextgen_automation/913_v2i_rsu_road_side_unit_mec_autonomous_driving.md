@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 카메라, 레이더, 라이다 센서는 오직 '내 눈에 보이는 것(가시거리)'만 인식합니다.
 - 앞차가 거대한 트럭이면 그 너머에서 무단 횡단하는 어린아이를 절대 볼 수 없습니다(센서의 사각지대). 눈(센서)만 믿다가는 교차로에서 100% 사고가 납니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">IPFS</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">V2I 노변 기지국</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">철도 통신망 LTE-R</div></div>
-</div>
-</div>
-
-
+```text
+[IPFS]
+    │
+    ▼
+[V2I 노변 기지국]
+    │
+    └──▶ [철도 통신망 LTE-R]
+```
 
 - **📢 섹션 요약 비유**: V2I 노변 기지국은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -44,18 +40,14 @@ tags = ["studynote-network"]
 - **V2I**: 자동차(Vehicle)와 도로의 인프라(Infrastructure: 신호등, 가로등, [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/))가 서로 무선 통신으로 대화하며 정보를 주고받는 기술입니다.
 - **RSU (Road Side Unit, 노변 기지국)**: 이 V2I 통신을 위해 <strong>교차로나 가로등 기둥마다 설치된 작은 무선 송수신기(<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">안테나</a> 및 중계 장비)</strong>입니다. 차량(OBU, 차량 단말기)이 반경 1km 내에 들어오면 즉시 연결되어 도로의 상태(결빙, 사고, 신호등 잔여 시간)를 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/)으로 차량에 꽂아 넣어 줍니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">IPFS</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">V2I 노변 기지국</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">철도 통신망 LTE-R</div></div>
-</div>
-</div>
-
-
+```text
+[IPFS]
+    │
+    ▼
+[V2I 노변 기지국]
+    │
+    └──▶ [철도 통신망 LTE-R]
+```
 
 - **📢 섹션 요약 비유**: V2I 노변 기지국의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -123,19 +115,15 @@ V2I 노변 기지국은 광통신·차세대·자동화를 이해할 때 핵심 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: IPFS</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: V2I 노변 기지국</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 철도 통신망 LTE-R</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: IPFS]
+    │
+    ▼
+[현재 개념: V2I 노변 기지국]
+    │
+    ├──▶ [확장 A: 철도 통신망 LTE-R]
+    └──▶ [확장 B: 의미 기반 통신 최적화]
+```
 
 V2I 노변 기지국는 IPFS에서 출발해 현재 메커니즘을 정교화하고, 이후 [철도 통신망](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/914_lte_r_railway_communication_qpp_ps_lte/) LTE-R와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

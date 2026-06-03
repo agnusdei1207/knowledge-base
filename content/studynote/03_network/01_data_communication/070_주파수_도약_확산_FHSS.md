@@ -30,19 +30,13 @@ tags = ["network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Carrier Frequency</div>
-<div class="kb-diagram-note">↓ hop pattern</div>
-<div class="kb-diagram-note">Frequency Hop</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Spread Transmission</div>
-</div>
-</div>
-
-
+```text
+Carrier Frequency
+  ↓ hop pattern
+Frequency Hop
+  ↓
+Spread Transmission
+```
 
 | 요소 | 의미 |
 | :-- | :-- |
@@ -109,41 +103,29 @@ FHSS는 재밍과 간섭을 줄이는 데 유리하다. 그래서 무선 신뢰�
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Hop Pattern</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">FHSS</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Synchronization</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Anti-jamming</div>
-</div>
-</div>
-
-
+```text
+Hop Pattern
+  ↓
+FHSS
+  ↓
+Synchronization
+  ↓
+Anti-jamming
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Spread Spectrum</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">FHSS</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Bluetooth</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Wireless Robustness</div>
-</div>
-</div>
-
-
+```text
+Spread Spectrum
+  ↓
+FHSS
+  ↓
+Bluetooth
+  ↓
+Wireless Robustness
+```
 
 ---
 

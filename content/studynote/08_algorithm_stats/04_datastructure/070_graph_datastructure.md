@@ -44,24 +44,22 @@ tags = ["studynote-algorithm"]
 
 #### 인접 행렬 ([Adjacency](/knowledge-base/studynote/03_network/07_network_layer_routing/358_ospf_adjacency_hello_lsa_lsdb/) Matrix)
 
+```
+정점: {0, 1, 2, 3}
+간선: 0→1, 0→2, 1→3, 2→3
 
+     0  1  2  3
+  ┌──────────────┐
+0 │  0  1  1  0  │
+1 │  0  0  0  1  │
+2 │  0  0  0  1  │
+3 │  0  0  0  0  │
+  └──────────────┘
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">정점: {0, 1, 2, 3}</div>
-<div class="kb-diagram-note">간선: 0→1, 0→2, 1→3, 2→3</div>
-<div class="kb-diagram-note">0 1 2 3</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">0 1 1 0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">0 0 0 1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2</div><div class="kb-diagram-cell">0 0 0 1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3</div><div class="kb-diagram-cell">0 0 0 0</div></div>
-<div class="kb-diagram-note">공간: O(V²)</div>
-<div class="kb-diagram-note">간선 존재 여부: O(1)</div>
-<div class="kb-diagram-note">인접 정점 나열: O(V)</div>
-</div>
-</div>
-
-
+공간: O(V²)
+간선 존재 여부: O(1)
+인접 정점 나열: O(V)
+```
 
 #### 인접 리스트 ([Adjacency](/knowledge-base/studynote/03_network/07_network_layer_routing/358_ospf_adjacency_hello_lsa_lsdb/) List)
 
@@ -111,26 +109,20 @@ tags = ["studynote-algorithm"]
 
 ### 주요 그래프 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 지도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">그래프</div>
-<div class="kb-diagram-tree-item" style="--depth:0">탐색</div>
-<div class="kb-diagram-note">── BFS (Breadth-First Search) → 최단 경로(비가중)</div>
-<div class="kb-diagram-note">── DFS (Depth-First Search) → 사이클 감지, 위상 정렬</div>
-<div class="kb-diagram-tree-item" style="--depth:0">최단 경로</div>
-<div class="kb-diagram-note">── Dijkstra → 단일 출발, 비음수 가중치</div>
-<div class="kb-diagram-note">── Bellman-Ford → 단일 출발, 음수 가중치 허용</div>
-<div class="kb-diagram-note">── Floyd-Warshall → 전체 쌍 최단 경로</div>
-<div class="kb-diagram-tree-item" style="--depth:0">MST (최소 신장 트리)</div>
-<div class="kb-diagram-note">── Kruskal → 간선 정렬 + 유니온-파인드</div>
-<div class="kb-diagram-note">── Prim → 정점 기반 탐욕</div>
-<div class="kb-diagram-tree-item" style="--depth:0">위상 정렬 (DAG) → 의존성 처리, 빌드 시스템</div>
-</div>
-</div>
-
-
+```
+그래프
+├── 탐색
+│   ├── BFS (Breadth-First Search)  → 최단 경로(비가중)
+│   └── DFS (Depth-First Search)    → 사이클 감지, 위상 정렬
+├── 최단 경로
+│   ├── Dijkstra            → 단일 출발, 비음수 가중치
+│   ├── Bellman-Ford        → 단일 출발, 음수 가중치 허용
+│   └── Floyd-Warshall      → 전체 쌍 최단 경로
+├── MST (최소 신장 트리)
+│   ├── Kruskal             → 간선 정렬 + 유니온-파인드
+│   └── Prim                → 정점 기반 탐욕
+└── 위상 정렬 (DAG)         → 의존성 처리, 빌드 시스템
+```
 
 📢 **섹션 요약 비유**: 그래프 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 지도 앱의 기능 목록이다—최단 거리 안내([Dijkstra](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)), 전체 도로 연결([MST](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/041_mst/)), 공사 구간 우회(음수 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)/[Bellman-Ford](/knowledge-base/studynote/08_algorithm_stats/11_graph_algorithms/170_bellman_ford/)).
 
@@ -148,19 +140,13 @@ tags = ["studynote-algorithm"]
 
 ### 기술사 판단 기준
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">간선 확인이 빈번 + 작은 밀집 그래프 → 인접 행렬</div>
-<div class="kb-diagram-note">대규모 희소 그래프 (소셜/웹) → 인접 리스트</div>
-<div class="kb-diagram-note">최단 경로 (비음수) → Dijkstra O((V+E)logV)</div>
-<div class="kb-diagram-note">사이클 없음 + 순서 처리 → 위상 정렬 (DAG)</div>
-<div class="kb-diagram-note">무방향 연결 요소 파악 → 유니온-파인드 O(α)</div>
-</div>
-</div>
-
-
+```
+간선 확인이 빈번 + 작은 밀집 그래프   →  인접 행렬
+대규모 희소 그래프 (소셜/웹)           →  인접 리스트
+최단 경로 (비음수)                     →  Dijkstra O((V+E)logV)
+사이클 없음 + 순서 처리                →  위상 정렬 (DAG)
+무방향 연결 요소 파악                  →  유니온-파인드 O(α)
+```
 
 📢 **섹션 요약 비유**: [그래프 표현](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/033_graph_representation/) 선택은 도시 지도 종류 선택이다—격자 도시(밀집)면 2차원 지도(행렬), 듬성듬성 도로(희소)면 도로 목록(리스트)이 효율적이다.
 
@@ -190,23 +176,21 @@ tags = ["studynote-algorithm"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선형 자료구조 (Array / Linked List) — 1차원 순서 관계</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">트리 (Tree) — 계층 관계, 사이클 없는 연결 그래프</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">그래프 (Graph) — 정점(V) + 간선(E), 방향/무방향·가중/비가중</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">BFS (Breadth-First Search) / DFS (Depth-First Search) — 그래프 탐색</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">최단 경로 (Dijkstra·Bellman-Ford·Floyd-Warshall) → 네트워크 플로우</div></div>
-</div>
-</div>
-
-
+```text
+[선형 자료구조 (Array / Linked List) — 1차원 순서 관계]
+    │
+    ▼
+[트리 (Tree) — 계층 관계, 사이클 없는 연결 그래프]
+    │
+    ▼
+[그래프 (Graph) — 정점(V) + 간선(E), 방향/무방향·가중/비가중]
+    │
+    ▼
+[BFS (Breadth-First Search) / DFS (Depth-First Search) — 그래프 탐색]
+    │
+    ▼
+[최단 경로 (Dijkstra·Bellman-Ford·Floyd-Warshall) → 네트워크 플로우]
+```
 그래프는 트리보다 일반적인 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 표현하며, [BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/)/[DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) 탐색을 기반으로 최단 경로·[위상 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/039_topological_sort/)·네트워크 플로우 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 확장된다.
 ### 👶 어린이를 위한 3줄 비유 설명
 

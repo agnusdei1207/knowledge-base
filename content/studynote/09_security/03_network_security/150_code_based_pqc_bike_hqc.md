@@ -12,7 +12,7 @@ tags = ["studynote-security"]
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 코드 기반 암호([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)-Based [Cryptography](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/))는 우주 통신망에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 깨졌을 때 복구하는 <strong>'<a href="/knowledge-base/studynote/08_algorithm_stats/09_info_theory/158_error_correcting_codes/">오류 정정 부호</a>(Error-Correction <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a>)'</strong> 이론을 흑마법으로 역이용하여, 평문에 일부러 엉망진창 노이즈(Error)를 섞고 숨겨 해커의 머리를 부숴버리는 키 교환([KEM](/knowledge-base/studynote/09_security/03_network_security/134_kem_key_encapsulation/)) 메커니즘이다.
 > 2. **가치**: 1등 표준인 격자 기반(Kyber)이 미래의 수학 천재에게 논리적으로 털렸을 때(단일 실패 점 [SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) 붕괴)를 대비한 가장 유력한 <strong>인류 최후의 플랜 B (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">백업</a> <a href="/knowledge-base/studynote/09_security/03_network_security/134_kem_key_encapsulation/">KEM</a> <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> 방어막)</strong> 0순위 후보다. 특히 Classic McEliece는 무려 40년 넘게 전 세계 해커들의 공격을 무상처로 버텨낸 [암호학](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/)계의 절대 부서지지 않는 '초고대 콘크리트 벙커'다.
-> 3. **판단 포인트**: 방어력은 1등을 씹어먹지만, 공개키 크기가 자그마치 <strong>1메가바이트(MB)</strong>에 달하는 경악스러운 뚱땡이 비만([Fat](/knowledge-base/studynote/02_operating_system/09_file_system/525_fat_file_allocation_table/) [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)) 족쇄를 차고 있다. 인터넷 패킷망([TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/))엔 절대 못 올리므로, 이 거대한 열쇠 덩치를 1KB 수준으로 기적의 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 다이어트 시킨 신형 로봇 2형제 <strong>BIKE</strong>와 <strong>HQC</strong>가 4라운드 결승전 벤치 멤버 티켓을 다투고 있다.
+> 3. **판단 포인트**: 방어력은 1등을 씹어먹지만, 공개키 크기가 자그마치 <strong>1메가바이트(MB)</strong>에 달하는 경악스러운 뚱땡이 비만([Fat](/knowledge-base/studynote/02_operating_system/09_file_system/525_fat_file_allocation_table/) [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)) 족쇄를 차고 있다. 인터넷 패킷망([TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/))엔 절대 못 올리므로, 이 거대한 열쇠 덩치를 1KB 수준으로 기적의 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 다이어트 시킨 새로운 유형의 로봇 2형제 <strong>BIKE</strong>와 <strong>HQC</strong>가 4라운드 결승전 벤치 멤버 티켓을 다투고 있다.
 
 ---
 
@@ -32,36 +32,40 @@ NIST는 2024년에 [양자 컴퓨터](/knowledge-base/studynote/01_computer_arch
 
 코드 기반 암호의 수학 뼈대는 '[오류 정정 부호](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/158_error_correcting_codes/)([Error-Correcting Code](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/463_ecc_memory/))'의 숭고한 역발상 기만술에 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코드 기반 암호화 (McEliece) 십자 융합 기만술 락킹 도해 ✨</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">📡</div><div class="kb-diagram-node">통신 공학의 팩트: 오류 정정 부호 (Error-Correction)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- CD를 긁히거나 우주에서 0과 1이 깨져(노이즈 Noise) 날아와도, 수학적</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">힌트(패리티 비트 매트릭스)를 통해 원래 글자 100% 깔끔 복원(Decoding) 복구.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">😈 해커의 뇌를 부수는 아키텍트의 흑마법 십자 역이용</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">👑</div><div class="kb-diagram-node">1. 주인 (개인키 은닉)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 완벽하고 깔끔한 오리지널 '오류 정정 마법 규칙표(Goppa Code)'를 나 혼자</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">금고(개인키)에 숨겨 락킹 쳐 둠.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">📢</div><div class="kb-diagram-node">2. 주인 (공개키 유포 기만술 💥)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 저 깔끔한 오리지널 규칙표를 수만 번 꼬고 행렬 곱해서 엉망진창 개판 5분 전</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스파게티 가짜 규칙표(공개키)로 마개조 친 뒤 전 세계에 뿌림 ㅋ.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">📩</div><div class="kb-diagram-node">3. 송신자 친구 (암호화 던지기)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 주인의 엉망진창 표를 주워 옴 ➔ 평문 편지에다가 일부러 쓰레기 노이즈(Error e)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터를 미친 듯이 섞고 오염시켜서(인코딩) 자물쇠 쾅! 잠가서 우체통 던짐.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">💀</div><div class="kb-diagram-node">4. 불쌍한 해커 (신드롬 디코딩 NP-Hard 파국 지옥 💥)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 해커가 암호문 탈취 ➔ 쓰레기 노이즈를 발라내 지우려 함 ➔ 근데 주인이 뿌린</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">엉망진창 가짜 표를 보고 역산해서 에러를 걷어내는 수학 공식은 우주가 멸망할</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">때까지 못 푸는 NP-Hard 쌉불가능 수학 문제(Syndrome Decoding)로 증명됨 컷!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🚀</div><div class="kb-diagram-node">5. 주인 (복호화 1초 컷 쾌속 쉴드 해제 ✨)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 쓰레기 떡칠 된 암호문 받음 ➔ 엉망진창 표 좆까 ㅋ 내 금고에 숨겨둔 100%</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">완벽한 오리지널 찐 마법 규칙표(개인키) 쓱 꺼내서 대조 ➔ 쓰레기 노이즈 0.1초 만에</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물 씻듯 싹 다 발라내 지워버리고(디코딩) 순수 평문만 쏙 1타 컷 쾌속 복원 쾅!!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          코드 기반 암호화 (McEliece) 십자 융합 기만술 락킹 도해 ✨ │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ 📡 [ 통신 공학의 팩트: 오류 정정 부호 (Error-Correction) ]       │
+│   - CD를 긁히거나 우주에서 0과 1이 깨져(노이즈 Noise) 날아와도, 수학적  │
+│     힌트(패리티 비트 매트릭스)를 통해 원래 글자 100% 깔끔 복원(Decoding) 복구.│
+│                                                             │
+│        ======= [ 😈 해커의 뇌를 부수는 아키텍트의 흑마법 십자 역이용 ] ========│
+│                                                             │
+│ 👑 [ 1. 주인 (개인키 은닉) ]                                 │
+│   - 완벽하고 깔끔한 오리지널 '오류 정정 마법 규칙표(Goppa Code)'를 나 혼자 │
+│     금고(개인키)에 숨겨 락킹 쳐 둠.                               │
+│                                                             │
+│ 📢 [ 2. 주인 (공개키 유포 기만술 💥) ]                         │
+│   - 저 깔끔한 오리지널 규칙표를 수만 번 꼬고 행렬 곱해서 **엉망진창 개판 5분 전  │
+│     스파게티 가짜 규칙표(공개키)**로 마개조 친 뒤 전 세계에 뿌림 ㅋ.        │
+│                                                             │
+│ 📩 [ 3. 송신자 친구 (암호화 던지기) ]                          │
+│   - 주인의 엉망진창 표를 주워 옴 ➔ 평문 편지에다가 **일부러 쓰레기 노이즈(Error e)│
+│     데이터를 미친 듯이 섞고 오염시켜서(인코딩)** 자물쇠 쾅! 잠가서 우체통 던짐. │
+│                                                             │
+│ 💀 [ 4. 불쌍한 해커 (신드롬 디코딩 NP-Hard 파국 지옥 💥) ]        │
+│   - 해커가 암호문 탈취 ➔ 쓰레기 노이즈를 발라내 지우려 함 ➔ 근데 주인이 뿌린  │
+│     엉망진창 가짜 표를 보고 역산해서 에러를 걷어내는 수학 공식은 우주가 멸망할  │
+│     때까지 못 푸는 NP-Hard 쌉불가능 수학 문제(Syndrome Decoding)로 증명됨 컷!│
+│                                                             │
+│ 🚀 [ 5. 주인 (복호화 1초 컷 쾌속 쉴드 해제 ✨) ]                │
+│   - 쓰레기 떡칠 된 암호문 받음 ➔ 엉망진창 표 좆까 ㅋ 내 금고에 숨겨둔 100% │
+│     완벽한 오리지널 찐 마법 규칙표(개인키) 쓱 꺼내서 대조 ➔ 쓰레기 노이즈 0.1초 만에 │
+│     물 씻듯 싹 다 발라내 지워버리고(디코딩) 순수 평문만 쏙 1타 컷 쾌속 복원 쾅!! │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)(쇼어 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))는 '주기가 있는 빙글빙글 도는 패턴(소인수분해, [타원곡선](/knowledge-base/studynote/09_security/03_network_security/120_elliptic_curve_equation/))'을 찾는 데는 0.1초 컷 초천재 신급이지만, **"더럽게 꼬여있는 쓰레기 매트릭스 표에서 묻지 마 노이즈(Error)를 발라내는 노가다 수학(신드롬 디코딩)"** 앞에서는 [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)조차 일반 펜티엄 컴퓨터랑 다를 바 없이 계산하다 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) CPU 터져 뻗어 죽는다. 애초에 뚫어 낼 지름길 패턴 자체가 1바이트도 없기 때문이다. 이 [NP-Hard](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/109_np_hard/) 난제가 40년간 우주 최강의 맷집 쉴드를 자랑하는 본질이다.
 
@@ -136,23 +140,21 @@ BIKE / HQC / Classic McEliece 로 이어지는 '코드 기반 [양자 내성 암
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">RSA / ECC 키 교환 제국 / 수학 공식 작고 빠르고 쾌적함. 근데 쇼어(Shor) 양자 1초 컷 분쇄 해킹 알고리즘 등판에 100% 우주 사형 선고 💀</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">PQC 공모전 결승전 1등 대관식 🚀 / ML-KEM (Kyber 카이버 - 격자 Lattice 수학 기반 천하 통일 마스터피스 확정)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">아키텍트 보안 학자들의 파국 강박 공포 💥 / "야 저거 격자 1개 수학 공식 뚫리면 전 세계 TLS 방화벽 동반 셧다운 멸망 타죽잖아 쾅!! 플랜 B 당장 다른 종족 찾아와!!"</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">단일 실패 점(SPOF) 방어 다양성(Diversity) 예비 4라운드 패자부활전 대기 ✨ / 뼈대가 완전 다른 "코드 기반 암호(Code-Based)" 3형제를 대체 예비 후보(Alternate) 방패로 강제 징발 육성 훈련 록온!</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Classic McEliece (40년 무적 1MB 뚱땡이 쇳덩이 펌웨어 전용 칩 락킹) &amp; BIKE / HQC (1.5KB 다이어트 기적 스나이퍼 압축 TLS 통신 인터넷 벤치 대기 멤버 🚀) 하이브리드 우주 방어 생태계 쌍끌이 대통일 완료</div>
-</div>
-</div>
-
-
+```text
+RSA / ECC 키 교환 제국 / 수학 공식 작고 빠르고 쾌적함. 근데 쇼어(Shor) 양자 1초 컷 분쇄 해킹 알고리즘 등판에 100% 우주 사형 선고 💀
+    │
+    ▼
+PQC 공모전 결승전 1등 대관식 🚀 / ML-KEM (Kyber 카이버 - 격자 Lattice 수학 기반 천하 통일 마스터피스 확정)
+    │
+    ▼
+아키텍트 보안 학자들의 파국 강박 공포 💥 / "야 저거 격자 1개 수학 공식 뚫리면 전 세계 TLS 방화벽 동반 셧다운 멸망 타죽잖아 쾅!! 플랜 B 당장 다른 종족 찾아와!!"
+    │
+    ▼
+단일 실패 점(SPOF) 방어 다양성(Diversity) 예비 4라운드 패자부활전 대기 ✨ / 뼈대가 완전 다른 "코드 기반 암호(Code-Based)" 3형제를 대체 예비 후보(Alternate) 방패로 강제 징발 육성 훈련 록온!
+    │
+    ▼
+Classic McEliece (40년 무적 1MB 뚱땡이 쇳덩이 펌웨어 전용 칩 락킹) & BIKE / HQC (1.5KB 다이어트 기적 스나이퍼 압축 TLS 통신 인터넷 벤치 대기 멤버 🚀) 하이브리드 우주 방어 생태계 쌍끌이 대통일 완료
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -38,37 +38,40 @@ tags = ["software_engineering"]
 "아니 씨발 걍 회의 모여서 발표 빔 쏘고 아가리 수다 떠는 거랑 뭐가 다름 ㅋ?" 
 워크쓰루가 단순 좆목질 [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)가 아니라 모던 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 파이프라인 뼈대 록온으로 돌아가는 3대 역학 심장 도해다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">워크쓰루(Walkthrough)의 회의실 풍경과 역할 핑퐁 스위칭 역학 텐트 🚀</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">👨‍🏫</div><div class="kb-diagram-node">작성자 (Author) ➔ 마이크를 쥔 1인 다역의 독재 무적 엠씨 보스!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "자, 화면의 25번 라인 아키텍처 도면을 스캔 엑스레이 까보세요 ㅋ.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제가 여기서 Redis 해시맵 로직을 굳이 비틀어 쓴 이유 철학은요..."</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- (자기가 짠 도면 코드를 자기가 눈알 굴려 낭독하며, 지가 의도한 대로 열심히</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">세뇌 방어(Defense) 변호 스피치 약을 팔며 핑퐁 내려감 쓩 🚀).</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (열심히 스티어링 꺾으며 설명 패스 내려감) ▼</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🧐</div><div class="kb-diagram-node">검토자 1 (시니어 아키텍트 스나이퍼)</div><div class="kb-diagram-note">🤓</div><div class="kb-diagram-node">검토자 2 (백지 신입 개발자)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"음 ㅋ 해시맵 속도 성능은 쩌는데, 트래픽 폭주 "선배님 ㅠ 근데 저 30번 줄에서 Null</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동시성 터질 때 스레드 세이프(Thread- 데이터 빈칸 들어오면 if문 락킹이 어케</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">safe)한 Concurrent 쇳덩이 Map을 쓰는 게 넘어가는 건가요? 제 뇌가 정지 이해</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OOM 뻗음 타죽음 방어에 안전하지 않음 팩폭?" 안 가 뻗어 멈춤요 질문 핑퐁 툭 ㅋ."</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (즉각적인 쌍방향 크로스 체크 핑퐁 토론 발동 쾅 ✨!) ▼</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">👨‍🏫</div><div class="kb-diagram-node">작성자 (Author) 뇌 엑스레이 스위칭 수용 록온 🚀</div><div class="kb-diagram-note">:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"아 씨발 팩폭 쾅! 신입 질문 듣고 보니 널(Null) 체크 예외 방어 쿠션 방폭문</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코드를 제가 아예 빼먹었네요 파국 뻗을 뻔 💀! 즉시 메모 박제 수정 락킹 칠게요!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시니어님, Concurrent Map 적용도 100% 동의 오케이 꿀팁 개꿀 십자 융합</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">아이디어네요. 오늘 밤 당장 아키텍처 리팩토링 스위치 갈아 엎어 반영할게요 쾅🚀!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 아키텍트 극딜 결과 (1타 3피 압살 마법 ✨):</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1.</div><div class="kb-diagram-node">치명적 에러 결함(Null 버그 빵꾸)</div><div class="kb-diagram-note">도 사전에 발견 도륙 척살 컷 잡았고!!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2.</div><div class="kb-diagram-node">아키텍처 뼈대 성능 개선(Map 구조 우회 텐트)</div><div class="kb-diagram-note">토론으로 대안 융합 뚫어냈고!!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3.</div><div class="kb-diagram-node">신입 사원 꼬마 봇</div><div class="kb-diagram-note">은 공짜로 회사 100억짜리 코어 로직의 흐름(OJT 교육)을</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">완벽 100% 오토 다운로드 흡수 세뇌 세팅(Training) 완료 때려버렸다 쾅 🚀!!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          워크쓰루(Walkthrough)의 회의실 풍경과 역할 핑퐁 스위칭 역학 텐트 🚀 │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ 👨‍🏫 [ 작성자 (Author) ➔ 마이크를 쥔 1인 다역의 독재 무적 엠씨 보스! ]   │
+│   - "자, 화면의 25번 라인 아키텍처 도면을 스캔 엑스레이 까보세요 ㅋ.        │
+│      제가 여기서 Redis 해시맵 로직을 굳이 비틀어 쓴 이유 철학은요..."       │
+│   - (자기가 짠 도면 코드를 자기가 눈알 굴려 낭독하며, 지가 의도한 대로 열심히   │
+│      세뇌 방어(Defense) 변호 스피치 약을 팔며 핑퐁 내려감 쓩 🚀).         │
+│                                                             │
+│                  ▼ (열심히 스티어링 꺾으며 설명 패스 내려감) ▼             │
+│                                                             │
+│ 🧐 [ 검토자 1 (시니어 아키텍트 스나이퍼) ]  🤓 [ 검토자 2 (백지 신입 개발자) ]│
+│  "음 ㅋ 해시맵 속도 성능은 쩌는데, 트래픽 폭주   "선배님 ㅠ 근데 저 30번 줄에서 Null│
+│   동시성 터질 때 스레드 세이프(Thread-     데이터 빈칸 들어오면 if문 락킹이 어케│
+│   safe)한 Concurrent 쇳덩이 Map을 쓰는 게   넘어가는 건가요? 제 뇌가 정지 이해  │
+│   OOM 뻗음 타죽음 방어에 안전하지 않음 팩폭?"  안 가 뻗어 멈춤요 질문 핑퐁 툭 ㅋ." │
+│                                                             │
+│                  ▼ (즉각적인 쌍방향 크로스 체크 핑퐁 토론 발동 쾅 ✨!) ▼    │
+│                                                             │
+│ 👨‍🏫 [ 작성자 (Author) 뇌 엑스레이 스위칭 수용 록온 🚀 ]:              │
+│   "아 씨발 팩폭 쾅! 신입 질문 듣고 보니 널(Null) 체크 예외 방어 쿠션 방폭문   │
+│   코드를 제가 아예 빼먹었네요 파국 뻗을 뻔 💀! 즉시 메모 박제 수정 락킹 칠게요!│
+│   시니어님, Concurrent Map 적용도 100% 동의 오케이 꿀팁 개꿀 십자 융합    │
+│   아이디어네요. 오늘 밤 당장 아키텍처 리팩토링 스위치 갈아 엎어 반영할게요 쾅🚀!"│
+│                                                             │
+│ 🌟 아키텍트 극딜 결과 (1타 3피 압살 마법 ✨):                           │
+│   1. [치명적 에러 결함(Null 버그 빵꾸)] 도 사전에 발견 도륙 척살 컷 잡았고!! │
+│   2. [아키텍처 뼈대 성능 개선(Map 구조 우회 텐트)] 토론으로 대안 융합 뚫어냈고!!│
+│   3. [신입 사원 꼬마 봇] 은 공짜로 회사 100억짜리 코어 로직의 흐름(OJT 교육)을 │
+│      완벽 100% 오토 다운로드 흡수 세뇌 세팅(Training) 완료 때려버렸다 쾅 🚀!!│
+└─────────────────────────────────────────────────────────────┘
+```
 
 <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/">아키텍트의 피 터지는 핵심 원리: [인스펙션</a>(Inspection)과의 가장 치명적 단층선 차별점 🪓]</strong>
 워크쓰루가 깐깐한 [인스펙션](/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/) 린치 재판과 극단적으로 180도 찢어져 대비되는 0순위 성배 뼈대 지점이 바로 <strong>'주도권(Driven) 독재'</strong>와 <strong>'우회 해결책 브레인스토밍 토론의 합법적 100% 프리패스 허용'</strong>이다. 
@@ -159,23 +162,21 @@ tags = ["software_engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">야만의 독고다이 골방 사일로(Silo) 코딩 시대 💀 / 기획서 던져주면 코더 혼자 골방 쳐박혀 1년 내내 입 닫고 타자 쳐 쇳덩이 굳혀버림 ➔ 오픈 런칭 전날 까보니 고객 니즈랑 100% 엇나가 딴판 쓰레기 앱 나와 반품 뚝배기 맞고 100억 적자 소송 재작업(Rework) 타임아웃 야근 뻗어 회사 부도 파산 멸망 폭사 💥 💀</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">정적 검증(Static Verification) 리뷰 방폭문 텐트 강림 ✨ / 보엠 아키텍트 분노 도끼 🪓 "야 씨발 서버 올리고 삽질 랙 타임 치지 마 쾅!! 당장 코딩 1줄 치기 1초 직전에! 한글 기획서 도면 종이 1장 책상에 까발려 올려놓고 ➔ 팀원 10명 집단 지성 눈깔 엑스레이 스캐너로 논리 모순 예외 빈틈 빵꾸 뇌관부터 조기 사전 스나이퍼 사살 척살 록온 쳐 메워 쾅!!"</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">워크쓰루(Walkthrough) &amp; 인스펙션(Inspection) 스펙트럼 분할 찢기 🚀 / 작성자가 빔 띄워 주도 발표하며 입 터는 가벼운 좆목질 대안 모색 친목 교육(Training)용 워크쓰루(결함 은폐 맹점 폭사 💥 위험 내포 ㅋ) ➔ 찢어 밸런스 맞춰 쾅! ➔ 작성자 아가리 테이프 묵비권 락 박고 훈련된 제3자 전문가 외부 스나이퍼들이</div><div class="kb-diagram-node">체크리스트 📝</div><div class="kb-diagram-note">칼날 들고 1줄 1줄 도륙 무자비 팩폭 린치 재판 때려 고치는 군대식 '인스펙션' 십자 하이브리드 방폭문 록온 체제 대통일 쾅!</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Agile 클라우드 비동기 Pull Request (PR) 융합 특이점 진화 ✨ / 무거운 회의실 10명 철야 합숙 꼰대 인스펙션/워크쓰루 싹 다 불태워 찢어 폐기 소각 랙 오버헤드 척살 치고! ➔ 걍 코더가 티켓 1개(100줄 나노 조각) 짧게 쳐서 깃허브 웹 허공 날리면 ➔ 동료 시니어 에이스들이 집구석 변기통 똥 싸면서 스마트폰으로 비동기(Async) 코멘트 폭격 스캔 적발 팩폭 날려 핑퐁 쾌속 승인 컷(Approve) 치는 초경량 마이크로 스피드 우주 생존 쉴드망 구축 완료 🚀</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Pair Programming (페어 프로그래밍) 100% 런타임 실시간 워크쓰루 제국 대통일 (현재) 🚀 / "야 PR 리뷰 기다리는 시간 랙조차 1초도 버리기 낭비 아까워 타죽어 쾅 🪓!!" ➔ 걍 두 명 코더(드라이버/네비게이터) 인간 뇌를 컴퓨터 키보드 1대 앞에 나란히 딱 풀 본드 용접 록온 박아 앉히고 ➔ 8시간 런타임 찰나 내내 0.1초 컷 단위로 미친 듯이 떠들며 핑퐁 워크쓰루 엑스레이 스캔 검열을 오토 무한 루프 쳐버리는 극강 스텔스 쾌속 지식 동기화(Sync) 생산성 우주 펌핑 무결점 텐트 쉴드 엔진으로 영원 무궁 절대 빙의 장악 통치 쾅!! ✨</div>
-</div>
-</div>
-
-
+```text
+야만의 독고다이 골방 사일로(Silo) 코딩 시대 💀 / 기획서 던져주면 코더 혼자 골방 쳐박혀 1년 내내 입 닫고 타자 쳐 쇳덩이 굳혀버림 ➔ 오픈 런칭 전날 까보니 고객 니즈랑 100% 엇나가 딴판 쓰레기 앱 나와 반품 뚝배기 맞고 100억 적자 소송 재작업(Rework) 타임아웃 야근 뻗어 회사 부도 파산 멸망 폭사 💥 💀
+    │
+    ▼
+정적 검증(Static Verification) 리뷰 방폭문 텐트 강림 ✨ / 보엠 아키텍트 분노 도끼 🪓 "야 씨발 서버 올리고 삽질 랙 타임 치지 마 쾅!! 당장 코딩 1줄 치기 1초 직전에! 한글 기획서 도면 종이 1장 책상에 까발려 올려놓고 ➔ 팀원 10명 집단 지성 눈깔 엑스레이 스캐너로 논리 모순 예외 빈틈 빵꾸 뇌관부터 조기 사전 스나이퍼 사살 척살 록온 쳐 메워 쾅!!"
+    │
+    ▼
+워크쓰루(Walkthrough) & 인스펙션(Inspection) 스펙트럼 분할 찢기 🚀 / 작성자가 빔 띄워 주도 발표하며 입 터는 가벼운 좆목질 대안 모색 친목 교육(Training)용 워크쓰루(결함 은폐 맹점 폭사 💥 위험 내포 ㅋ) ➔ 찢어 밸런스 맞춰 쾅! ➔ 작성자 아가리 테이프 묵비권 락 박고 훈련된 제3자 전문가 외부 스나이퍼들이 [체크리스트 📝] 칼날 들고 1줄 1줄 도륙 무자비 팩폭 린치 재판 때려 고치는 군대식 '인스펙션' 십자 하이브리드 방폭문 록온 체제 대통일 쾅!
+    │
+    ▼
+Agile 클라우드 비동기 Pull Request (PR) 융합 특이점 진화 ✨ / 무거운 회의실 10명 철야 합숙 꼰대 인스펙션/워크쓰루 싹 다 불태워 찢어 폐기 소각 랙 오버헤드 척살 치고! ➔ 걍 코더가 티켓 1개(100줄 나노 조각) 짧게 쳐서 깃허브 웹 허공 날리면 ➔ 동료 시니어 에이스들이 집구석 변기통 똥 싸면서 스마트폰으로 비동기(Async) 코멘트 폭격 스캔 적발 팩폭 날려 핑퐁 쾌속 승인 컷(Approve) 치는 초경량 마이크로 스피드 우주 생존 쉴드망 구축 완료 🚀
+    │
+    ▼
+Pair Programming (페어 프로그래밍) 100% 런타임 실시간 워크쓰루 제국 대통일 (현재) 🚀 / "야 PR 리뷰 기다리는 시간 랙조차 1초도 버리기 낭비 아까워 타죽어 쾅 🪓!!" ➔ 걍 두 명 코더(드라이버/네비게이터) 인간 뇌를 컴퓨터 키보드 1대 앞에 나란히 딱 풀 본드 용접 록온 박아 앉히고 ➔ 8시간 런타임 찰나 내내 0.1초 컷 단위로 미친 듯이 떠들며 핑퐁 워크쓰루 엑스레이 스캔 검열을 오토 무한 루프 쳐버리는 극강 스텔스 쾌속 지식 동기화(Sync) 생산성 우주 펌핑 무결점 텐트 쉴드 엔진으로 영원 무궁 절대 빙의 장악 통치 쾅!! ✨
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

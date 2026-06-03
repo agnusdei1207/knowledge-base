@@ -31,21 +31,20 @@ tags = ["studynote-it-management"]
 
 ISP 수행은 철저하게 논리적인 인과관계를 가진 4단계 폭포수 방법론을 따른다. 환경, 현재, 미래, 실행이라는 4개의 축이 톱니바퀴처럼 맞물려 진행된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">ISP 수행 4단계 핵심 프로세스</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 환경 분석</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">2. AS-IS 분석</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">경영 비전 파악 (Business) 현황 진단 (BA, DA, AA, TA)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IT 트렌드 분석 (IT Trend) 문제점(Pain Point) 도출</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">4. 이행 계획 수립</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">3. TO-BE 모델 수립</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로젝트 우선순위 평가 목표 모델 설계 (목표 아키텍처)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">연도별 로드맵 및 예산 산정 도입 과제 및 솔루션 도출</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                  [ISP 수행 4단계 핵심 프로세스]                  │
+├──────────────────────────────────────────────────────────────┤
+│ [1. 환경 분석] ───────────▶ [2. AS-IS 분석]                    │
+│ 경영 비전 파악 (Business)      현황 진단 (BA, DA, AA, TA)     │
+│ IT 트렌드 분석 (IT Trend)      문제점(Pain Point) 도출         │
+│          │                           │                       │
+│          ▼                           ▼                       │
+│ [4. 이행 계획 수립] ◀───────── [3. TO-BE 모델 수립]            │
+│ 프로젝트 우선순위 평가         목표 모델 설계 (목표 아키텍처)       │
+│ 연도별 로드맵 및 예산 산정      도입 과제 및 솔루션 도출         │
+└──────────────────────────────────────────────────────────────┘
+```
 
 1단계([환경 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/102_environmental_analysis_pest_5forces_value_chain/))에서 "우리는 어디로 가야 하는가"를 묻고, 2단계([AS-IS](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) 분석)에서 "우리의 현재 꼬라지는 어떠한가"를 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) ([Enterprise Architecture](/knowledge-base/studynote/12_it_management/01_governance_strategy/010_ea_enterprise_architecture/)) 프레임워크에 맞춰 비즈니스, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 애플리케이션, 기술 관점으로 진단한다. 3단계(TO-BE 수립)는 갭(Gap)을 메우기 위한 이상적인 목표 시스템을 그리고 추진 과제를 도출하며, 마지막 4단계(이행 계획)에서 가성비([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/))를 따져 "무엇부터 예산을 투입해 개발할지" 투자 우선순위와 로드맵을 완성한다.
 
@@ -107,21 +106,18 @@ ISP는 문서 작업으로 끝날 위험이 크다. 실무와 시험에서 성�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단순 전산화 (Legacy IT) · 부서별 개별 시스템 구축 (사일로)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">정보화 전략 계획 (ISP) · 경영 목표와 IT 전략의 4단계 정렬(Align)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">EA 기반 ISP / BPR 통합 · 아키텍처 관점의 자산 관리 및 업무 절차 동시 혁신</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">디지털 전략 수립 (DSP) · DX 시대의 애자일 기반 신속한 마스터플랜 수립</div>
-</div>
-</div>
-
-
+```text
+단순 전산화 (Legacy IT) · 부서별 개별 시스템 구축 (사일로)
+    │
+    ▼
+정보화 전략 계획 (ISP) · 경영 목표와 IT 전략의 4단계 정렬(Align)
+    │
+    ▼
+EA 기반 ISP / BPR 통합 · 아키텍처 관점의 자산 관리 및 업무 절차 동시 혁신
+    │
+    ▼
+디지털 전략 수립 (DSP) · DX 시대의 애자일 기반 신속한 마스터플랜 수립
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

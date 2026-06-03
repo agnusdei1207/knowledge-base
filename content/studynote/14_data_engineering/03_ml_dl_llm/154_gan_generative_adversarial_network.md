@@ -39,37 +39,40 @@ tags = ["studynote-data-engineering"]
 "아니 시발 두 놈이 싸우는데 수식이 어케 굴러감 뇌 터짐 ㅠ" 
 수학적 [Minimax](/knowledge-base/studynote/10_ai/03_llm_nlp/239_minimax_alpha_beta_pruning/)([미니맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/239_minimax_alpha_beta_pruning/)) 제로섬 도박 게임 뼈대의 십자 엑스레이 록온 도해다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GAN (Generative Adversarial Network) 쌍끌이 배틀 십자 융합 매핑 록온 🚀</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🎲</div><div class="kb-diagram-node">0단계: 허공 우주 노이즈 쓰레기 생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 무작위 랜덤 노이즈 쇳덩이 벡터 $z$ 가 허공에서 투입 툭 ㅋ.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🎨</div><div class="kb-diagram-node">1단계: 생성자 (Generator G 봇) 의 사기 기만술 렌더링 윙~ ✨</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 노이즈 $z$ 를 쳐 먹고 ➔ 딥러닝 붓질로 '가짜 개 사진 $G(z)$' 를 0.1초 컷 창작해냄.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- G봇 목표 희망 회로(Hope): "제발 D 경찰 새끼가 내 그림 진짜(1.0)라고 속아 넘어가길 ㅠ"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🕵️</div><div class="kb-diagram-node">2단계: 판별자 (Discriminator D 스나이퍼 봇) 의 팩폭 감식 심판대 🪓</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 팩트 원본 '진짜 개 사진 $x$' 와 ➔ 방금 튀어나온 '가짜 개 사진 $G(z)$' 를 동시 입력받음.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- D봇 목표 록온: 진짜 $x$ 에는 점수 <code>1.0(Real)</code> 을 쏴 주고, 짭 $G(z)$ 에는 점수</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell"><code>0.0(Fake 쓰레기 컷 💥)</code> 을 사정없이 스캔 적발 도륙 내는 것!!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">🌟 아키텍트의 피 터지는 Minimax 절대 헌법 공식 텐트</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">⚔️</div><div class="kb-diagram-node">3단계: 상호 가중치 뜯어고치기 무한 핑퐁 채찍질 업데이트 🚀</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- 수학 헌법: $\min_G \max_D V(D, G) = \mathbb{E}_{x}</div><div class="kb-diagram-node">\log D(x)</div><div class="kb-diagram-note">+ \mathbb{E}_{z}</div><div class="kb-diagram-node">\log(1-D(G(z)))</div><div class="kb-diagram-note">$</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- D(경찰)의 턴: 진짜는 1로, 가짜는 0으로 칼같이 맞출 때까지 지 뇌(가중치) 고침 수술!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- G(도둑)의 턴: 경찰 놈이 0점 줬어? "씨발 더 완벽하게 속여서 경찰 새끼 판별 점수를</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1.0 (진짜) 으로 착각 뻥튀기 스위칭 록온 칠 때까지 내 붓질 뇌파(가중치) 뜯어고침 쾅!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🏆</div><div class="kb-diagram-node">최종 특이점 도달 (Nash Equilibrium 내시 균형 평화 텐트 ✨)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 10만 번 핑퐁 배틀 끝에 ➔ G봇이 우주 완벽 100% 찐 실사 그림 창조 달성 쾅!!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➔ D경찰 봇은 스캔 눈알이 빠지도록 봐도 이게 찐인지 짭인지 1도 몰라서 ➔ 결국 동전 던지기</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">찍기 확률인 </div><div class="kb-diagram-node">D(x) = 0.5 (반반 확률 뇌 정지 항복 선언 🏳️)</div><div class="kb-diagram-note"> 로 수렴 뻗어 멈춤.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➔ 🌟 아키텍트 대장 왈: "야 경찰 봇 수고 컷 ㅋ 넌 이제 찢어 폐기 소각 쳐버리고!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">우주 최강 금손으로 100점 진화 각성한</div><div class="kb-diagram-node">생성자 G 봇</div><div class="kb-diagram-note">1마리 쇳덩이 코어만 핀셋으로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">쏙 뽑아내서 프로덕션망 B2C 출시 런칭 배포 스위칭 돌파 쳐버려 쓩 🚀!!!"</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│          GAN (Generative Adversarial Network) 쌍끌이 배틀 십자 융합 매핑 록온 🚀 │
+├──────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│ 🎲 [ 0단계: 허공 우주 노이즈 쓰레기 생성 ]                                │
+│   - 무작위 랜덤 노이즈 쇳덩이 벡터 $z$ 가 허공에서 투입 툭 ㅋ.                   │
+│                                                                  │
+│ 🎨 [ 1단계: 생성자 (Generator G 봇) 의 사기 기만술 렌더링 윙~ ✨ ]          │
+│   - 노이즈 $z$ 를 쳐 먹고 ➔ 딥러닝 붓질로 '가짜 개 사진 $G(z)$' 를 0.1초 컷 창작해냄. │
+│   - G봇 목표 희망 회로(Hope): "제발 D 경찰 새끼가 내 그림 진짜(1.0)라고 속아 넘어가길 ㅠ"│
+│                                                                  │
+│ 🕵️ [ 2단계: 판별자 (Discriminator D 스나이퍼 봇) 의 팩폭 감식 심판대 🪓 ]      │
+│   - 팩트 원본 '진짜 개 사진 $x$' 와 ➔ 방금 튀어나온 '가짜 개 사진 $G(z)$' 를 동시 입력받음.│
+│   - D봇 목표 록온: 진짜 $x$ 에는 점수 `1.0(Real)` 을 쏴 주고, 짭 $G(z)$ 에는 점수 │
+│     `0.0(Fake 쓰레기 컷 💥)` 을 사정없이 스캔 적발 도륙 내는 것!!               │
+│                                                                  │
+│        ======= [ 🌟 아키텍트의 피 터지는 Minimax 절대 헌법 공식 텐트 ] ======== │
+│                                                                  │
+│ ⚔️ [ 3단계: 상호 가중치 뜯어고치기 무한 핑퐁 채찍질 업데이트 🚀 ]                 │
+│   - 수학 헌법: $\min_G \max_D V(D, G) = \mathbb{E}_{x}[\log D(x)] + \mathbb{E}_{z}[\log(1-D(G(z)))]$ │
+│   - **D(경찰)의 턴**: 진짜는 1로, 가짜는 0으로 칼같이 맞출 때까지 지 뇌(가중치) 고침 수술!  │
+│   - **G(도둑)의 턴**: 경찰 놈이 0점 줬어? "씨발 더 완벽하게 속여서 경찰 새끼 판별 점수를 │
+│     1.0 (진짜) 으로 착각 뻥튀기 스위칭 록온 칠 때까지 내 붓질 뇌파(가중치) 뜯어고침 쾅!" │
+│                                                                  │
+│ 🏆 [ 최종 특이점 도달 (Nash Equilibrium 내시 균형 평화 텐트 ✨) ]             │
+│   - 10만 번 핑퐁 배틀 끝에 ➔ **G봇이 우주 완벽 100% 찐 실사 그림 창조 달성 쾅!!**     │
+│   ➔ D경찰 봇은 스캔 눈알이 빠지도록 봐도 이게 찐인지 짭인지 1도 몰라서 ➔ 결국 동전 던지기│
+│     찍기 확률인 **[D(x) = 0.5 (반반 확률 뇌 정지 항복 선언 🏳️)]** 로 수렴 뻗어 멈춤. │
+│   ➔ 🌟 아키텍트 대장 왈: "야 경찰 봇 수고 컷 ㅋ 넌 이제 찢어 폐기 소각 쳐버리고!   │
+│     우주 최강 금손으로 100점 진화 각성한 [생성자 G 봇] 1마리 쇳덩이 코어만 핀셋으로   │
+│     쏙 뽑아내서 프로덕션망 B2C 출시 런칭 배포 스위칭 돌파 쳐버려 쓩 🚀!!!"         │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 **[아키텍트의 팩폭 튜닝: 모드 붕괴 (Mode Collapse 치명적 맹점 파국 💀)]**
 이론상 존나 완벽한 이 싸움판에 딥러닝 역사상 최악의 지능 저하 암 덩어리가 터진다. 
@@ -156,23 +159,21 @@ GAN(Generative Adversarial Network [생성적 적대 신경망](/knowledge-base/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">기존 판별 모델 (Discriminative Model) 깡통 시대 💀 / AI한테 "이게 개냐 고양이냐 분류만 해 O/X 컷 ㅋ" 정답지 엑셀 라벨링 알바생 수천 명 피눈물 수작업 데이터 떡칠 주입 노가다 치다 인건비 적자 파산 뻗음 💥</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">GAN (Generative Adversarial Network) 굿펠로우 대관식 강림 🚀 / 아키텍트 분노 🪓 "야 라벨 정답 엑셀 다 찢어 폐기 소각 쳐 쾅!! 걍 경찰(D)과 도둑(G) 봇 2마리 뇌 띄워 락킹 박고 ➔ 쌩 사진 1억 장 던져서 지들끼리 속이고 잡는 무지성 미니맥스(Minimax) 무한 핑퐁 스파링 배틀 텐트 열어 쳐 쾅 ✨!!" ➔ 기계 스스로 100점 실사 그림 오토 창조 렌더링 쾌속 특이점 돌파 달성!</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">학습 불안정성 널뛰기 및 Mode Collapse (모드 붕괴) 파국 💀 / 경찰이 너무 쎄서 도둑이 멘탈 터져 뻗음 ➔ "아 씨발 걍 경찰 속는 까만 고양이 사진 딱 1장만 평생 1억 장 무한 뇌절 사골 복사 쳐 뱉을게 뻗음 수고 ㅋ" 상상력 다양성 0% 멸균 증발 타죽음 💥 터짐</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">WGAN &amp; StyleGAN 아키텍처 대수술 록온 텐트 🛡️ / "야 수학 공식 Wasserstein 거리 쇳덩이로 교체 이식 융합 치고! 얼굴 피부 솜털 모공까지 스타일(Style) 벡터 따로 찢어 튜닝 오프로드 때려 쾅 🚀!!" ➔ 고해상도 8K 딥페이크 우주 실사급 퀄리티 무결점 생존 방어 달성 ✨</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">디퓨전(Diffusion Model) 제국 앞 옥좌 모가지 절단 은퇴 (현재) 🚀 / "야 1,000번 깎는 디퓨전 놈이 퀄리티랑 상상력 다양성 100배 압살 우주 최강 씹어먹네 ㅋ 왕관 넘겨 빠이 💀" ➔ 메인스트림 왕좌 박탈 은퇴! 하지만!! ➔ 0.1초 컷 찰나 즉답 렌더링을 요구하는 모바일 엣지(Edge) 실시간 영상 필터, 오디오 합성 스나이퍼 특수 도메인 벙커 밀실에서는 여전히 영생 쾌속 질주 스키 타고 꿀 빠는 영원한 레전드 코어 뼈대 엔진으로 100% 무정단 군림 유지 중 쾅 🚀✨!!</div>
-</div>
-</div>
-
-
+```text
+기존 판별 모델 (Discriminative Model) 깡통 시대 💀 / AI한테 "이게 개냐 고양이냐 분류만 해 O/X 컷 ㅋ" 정답지 엑셀 라벨링 알바생 수천 명 피눈물 수작업 데이터 떡칠 주입 노가다 치다 인건비 적자 파산 뻗음 💥
+    │
+    ▼
+GAN (Generative Adversarial Network) 굿펠로우 대관식 강림 🚀 / 아키텍트 분노 🪓 "야 라벨 정답 엑셀 다 찢어 폐기 소각 쳐 쾅!! 걍 경찰(D)과 도둑(G) 봇 2마리 뇌 띄워 락킹 박고 ➔ 쌩 사진 1억 장 던져서 지들끼리 속이고 잡는 무지성 미니맥스(Minimax) 무한 핑퐁 스파링 배틀 텐트 열어 쳐 쾅 ✨!!" ➔ 기계 스스로 100점 실사 그림 오토 창조 렌더링 쾌속 특이점 돌파 달성!
+    │
+    ▼
+학습 불안정성 널뛰기 및 Mode Collapse (모드 붕괴) 파국 💀 / 경찰이 너무 쎄서 도둑이 멘탈 터져 뻗음 ➔ "아 씨발 걍 경찰 속는 까만 고양이 사진 딱 1장만 평생 1억 장 무한 뇌절 사골 복사 쳐 뱉을게 뻗음 수고 ㅋ" 상상력 다양성 0% 멸균 증발 타죽음 💥 터짐
+    │
+    ▼
+WGAN & StyleGAN 아키텍처 대수술 록온 텐트 🛡️ / "야 수학 공식 Wasserstein 거리 쇳덩이로 교체 이식 융합 치고! 얼굴 피부 솜털 모공까지 스타일(Style) 벡터 따로 찢어 튜닝 오프로드 때려 쾅 🚀!!" ➔ 고해상도 8K 딥페이크 우주 실사급 퀄리티 무결점 생존 방어 달성 ✨
+    │
+    ▼
+디퓨전(Diffusion Model) 제국 앞 옥좌 모가지 절단 은퇴 (현재) 🚀 / "야 1,000번 깎는 디퓨전 놈이 퀄리티랑 상상력 다양성 100배 압살 우주 최강 씹어먹네 ㅋ 왕관 넘겨 빠이 💀" ➔ 메인스트림 왕좌 박탈 은퇴! 하지만!! ➔ 0.1초 컷 찰나 즉답 렌더링을 요구하는 모바일 엣지(Edge) 실시간 영상 필터, 오디오 합성 스나이퍼 특수 도메인 벙커 밀실에서는 여전히 영생 쾌속 질주 스키 타고 꿀 빠는 영원한 레전드 코어 뼈대 엔진으로 100% 무정단 군림 유지 중 쾅 🚀✨!!
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

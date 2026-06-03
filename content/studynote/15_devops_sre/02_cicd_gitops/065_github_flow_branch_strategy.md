@@ -29,21 +29,15 @@ tags = ["studynote-devops"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">main</div>
-<div class="kb-diagram-connector">↑</div>
-<div class="kb-diagram-note">feature branch</div>
-<div class="kb-diagram-note">↓ PR / CI</div>
-<div class="kb-diagram-note">merge</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">deploy</div>
-</div>
-</div>
-
-
+```text
+main
+  ↑
+feature branch
+  ↓ PR / CI
+merge
+  ↓
+deploy
+```
 
 | 브랜치 | 역할 |
 | :-- | :-- |
@@ -105,41 +99,29 @@ GitHub Flow는 팀이 빠르게 변경하고 빨리 배포하는 데 적합하�
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">feature branch</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Pull Request</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">main</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Continuous Deployment</div>
-</div>
-</div>
-
-
+```text
+feature branch
+  ↓
+Pull Request
+  ↓
+main
+  ↓
+Continuous Deployment
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Git Flow</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">GitHub Flow</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Trunk-based Development</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">CI/CD</div>
-</div>
-</div>
-
-
+```text
+Git Flow
+  ↓
+GitHub Flow
+  ↓
+Trunk-based Development
+  ↓
+CI/CD
+```
 
 ---
 

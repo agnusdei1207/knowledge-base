@@ -35,22 +35,23 @@ tags = ["studynote-cloud-architecture"]
 
 이 그림은 하나의 요청이 3대 기둥으로 어떻게 투영되는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">One request, three observability pillars</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 요청</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Gateway -&gt; Auth -&gt; Order -&gt; Payment -&gt; Database</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Metrics : 요청 수, 오류율, 95백분위수 지연시간</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Logs : 예외 메시지, 설정 변경, 비즈니스 이벤트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Traces : span 연결, 서비스 간 호출 순서, 병목 구간</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Collector -&gt; Metrics Store / Log Store / Trace Backend</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 공통 상관키(trace_id, service.name)</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ One request, three observability pillars                          │
+├────────────────────────────────────────────────────────────────────┤
+│ 사용자 요청                                                        │
+│    │                                                               │
+│    ▼                                                               │
+│ Gateway -> Auth -> Order -> Payment -> Database                    │
+│    │          │       │         │                                  │
+│    ├─ Metrics : 요청 수, 오류율, 95백분위수 지연시간               │
+│    ├─ Logs    : 예외 메시지, 설정 변경, 비즈니스 이벤트            │
+│    └─ Traces  : span 연결, 서비스 간 호출 순서, 병목 구간          │
+│                                                                    │
+│ Collector -> Metrics Store / Log Store / Trace Backend             │
+│                    └─ 공통 상관키(trace_id, service.name)          │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조에서 중요한 것은 세 기둥이 서로를 대체하지 않는다는 점이다. [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)은 집계값이라 값이 높아졌다는 사실은 알려 주지만 왜 높아졌는지는 말하지 못한다. [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 상세하지만 건수가 많아지면 검색 비용이 급증한다. 트레이스는 경로를 보여 주지만, 장기 추세나 정확한 오류 문장은 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·[메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)이 보완해야 한다.
 
@@ -136,25 +137,24 @@ tags = ["studynote-cloud-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">인프라 모니터링</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">애플리케이션 메트릭 수집</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">중앙 로그 관리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">분산 추적 도입</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">OpenTelemetry 기반 상관분석</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">프로파일링 · 이벤트 · 자동화 분석을 포함한 확장 관측성</div>
-</div>
-</div>
-
-
+```text
+인프라 모니터링
+    │
+    ▼
+애플리케이션 메트릭 수집
+    │
+    ▼
+중앙 로그 관리
+    │
+    ▼
+분산 추적 도입
+    │
+    ▼
+OpenTelemetry 기반 상관분석
+    │
+    ▼
+프로파일링 · 이벤트 · 자동화 분석을 포함한 확장 관측성
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

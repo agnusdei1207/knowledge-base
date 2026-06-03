@@ -18,34 +18,35 @@ tags = ["studynote-security"]
 
 ## Ⅰ. NIST [CSF](/knowledge-base/studynote/12_it_management/01_governance_strategy/017_csf/) 개요
 
+```
+NIST CSF 발전:
 
+CSF 1.0 (2014):
+  배경: 2013년 미국 오바마 행정명령 13636
+  (핵심 인프라 사이버보안 강화)
+  
+  대상: 에너지, 금융, 의료 등 핵심 인프라
+  구조: 5대 기능 (식별-보호-탐지-대응-복구)
+  
+CSF 1.1 (2018):
+  공급망 리스크 관리 추가
+  자기 평가 지침 강화
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">NIST CSF 발전:</div>
-<div class="kb-diagram-note">CSF 1.0 (2014):</div>
-<div class="kb-diagram-note">배경: 2013년 미국 오바마 행정명령 13636</div>
-<div class="kb-diagram-note">(핵심 인프라 사이버보안 강화)</div>
-<div class="kb-diagram-note">대상: 에너지, 금융, 의료 등 핵심 인프라</div>
-<div class="kb-diagram-note">구조: 5대 기능 (식별-보호-탐지-대응-복구)</div>
-<div class="kb-diagram-note">CSF 1.1 (2018):</div>
-<div class="kb-diagram-note">공급망 리스크 관리 추가</div>
-<div class="kb-diagram-note">자기 평가 지침 강화</div>
-<div class="kb-diagram-note">CSF 2.0 (2024.02):</div>
-<div class="kb-diagram-note">6대 기능: 거버넌스 추가</div>
-<div class="kb-diagram-note">적용 범위: 모든 조직 (규모·유형 무관)</div>
-<div class="kb-diagram-note">공급망 보안 강화</div>
-<div class="kb-diagram-note">CSF 프로파일 업데이트</div>
-<div class="kb-diagram-note">CSF 2.0 구조:</div>
-<div class="kb-diagram-note">핵심 (Core):</div>
-<div class="kb-diagram-note">6개 기능 → 카테고리 → 세부 카테고리</div>
-<div class="kb-diagram-note">계층 (Tiers): 1~4단계 성숙도</div>
-<div class="kb-diagram-note">프로파일 (Profile):</div>
-<div class="kb-diagram-note">현재 상태 vs 목표 상태 갭 분석</div>
-</div>
-</div>
+CSF 2.0 (2024.02):
+  6대 기능: 거버넌스 추가
+  적용 범위: 모든 조직 (규모·유형 무관)
+  공급망 보안 강화
+  CSF 프로파일 업데이트
 
-
+CSF 2.0 구조:
+  핵심 (Core):
+  6개 기능 → 카테고리 → 세부 카테고리
+  
+  계층 (Tiers): 1~4단계 성숙도
+  
+  프로파일 (Profile):
+  현재 상태 vs 목표 상태 갭 분석
+```
 
 > 📢 **섹션 요약 비유**: CSF는 보안 체력 측정 키트 — 우리 회사 보안 상태(현재 프로파일)를 측정하고, 목표(목표 프로파일)와 비교해 부족한 부분을 개선해요. 법이 아닌 가이드!
 
@@ -53,45 +54,55 @@ tags = ["studynote-security"]
 
 ## Ⅱ. 6대 기능 ([CSF](/knowledge-base/studynote/12_it_management/01_governance_strategy/017_csf/) Core Functions)
 
+```
+NIST CSF 2.0 6대 기능:
 
+1. 거버넌스 (GOVERN) — NEW in 2.0:
+   목적: 사이버보안 전략·정책·책임 수립
+   
+   카테고리:
+   - GV.OC: 조직 컨텍스트
+   - GV.RM: 리스크 관리 전략
+   - GV.RR: 역할·책임·권한
+   - GV.PO: 정책
+   - GV.OV: 감독
+   - GV.SC: 공급망 리스크 관리
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">NIST CSF 2.0 6대 기능:</div>
-<div class="kb-diagram-note">1. 거버넌스 (GOVERN) — NEW in 2.0:</div>
-<div class="kb-diagram-note">목적: 사이버보안 전략·정책·책임 수립</div>
-<div class="kb-diagram-note">카테고리:</div>
-<div class="kb-diagram-tree-item" style="--depth:1">GV.OC: 조직 컨텍스트</div>
-<div class="kb-diagram-tree-item" style="--depth:1">GV.RM: 리스크 관리 전략</div>
-<div class="kb-diagram-tree-item" style="--depth:1">GV.RR: 역할·책임·권한</div>
-<div class="kb-diagram-tree-item" style="--depth:1">GV.PO: 정책</div>
-<div class="kb-diagram-tree-item" style="--depth:1">GV.OV: 감독</div>
-<div class="kb-diagram-tree-item" style="--depth:1">GV.SC: 공급망 리스크 관리</div>
-<div class="kb-diagram-note">2. 식별 (IDENTIFY):</div>
-<div class="kb-diagram-note">목적: IT/OT 자산, 리스크, 취약점 파악</div>
-<div class="kb-diagram-note">자산 관리, 위험 평가, 개선 활동</div>
-<div class="kb-diagram-note">3. 보호 (PROTECT):</div>
-<div class="kb-diagram-note">목적: 사이버보안 결과 보장 서비스</div>
-<div class="kb-diagram-note">접근 제어, 인식·훈련, 데이터 보안,</div>
-<div class="kb-diagram-note">플랫폼 보안, 기술 인프라 강화</div>
-<div class="kb-diagram-note">4. 탐지 (DETECT):</div>
-<div class="kb-diagram-note">목적: 사이버보안 사건 발견</div>
-<div class="kb-diagram-note">지속적 모니터링, 이상 탐지</div>
-<div class="kb-diagram-note">5. 대응 (RESPOND):</div>
-<div class="kb-diagram-note">목적: 탐지된 사건 처리</div>
-<div class="kb-diagram-note">인시던트 관리, 분석, 완화, 보고</div>
-<div class="kb-diagram-note">6. 복구 (RECOVER):</div>
-<div class="kb-diagram-note">목적: 영향 받은 역량/서비스 복원</div>
-<div class="kb-diagram-note">인시던트 복구, 커뮤니케이션</div>
-<div class="kb-diagram-note">시각화:</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">GV</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IDENTIFY → PROTECT</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DETECT → RESPOND → RECOVER</div></div>
-<div class="kb-diagram-note">거버넌스가 모든 기능을 포괄</div>
-</div>
-</div>
+2. 식별 (IDENTIFY):
+   목적: IT/OT 자산, 리스크, 취약점 파악
+   
+   자산 관리, 위험 평가, 개선 활동
 
+3. 보호 (PROTECT):
+   목적: 사이버보안 결과 보장 서비스
+   
+   접근 제어, 인식·훈련, 데이터 보안,
+   플랫폼 보안, 기술 인프라 강화
 
+4. 탐지 (DETECT):
+   목적: 사이버보안 사건 발견
+   
+   지속적 모니터링, 이상 탐지
+
+5. 대응 (RESPOND):
+   목적: 탐지된 사건 처리
+   
+   인시던트 관리, 분석, 완화, 보고
+
+6. 복구 (RECOVER):
+   목적: 영향 받은 역량/서비스 복원
+   
+   인시던트 복구, 커뮤니케이션
+
+시각화:
+  [GV]
+  ┌──────────────────────────────┐
+  │   IDENTIFY → PROTECT        │
+  │        ↓         ↓          │
+  │   DETECT → RESPOND → RECOVER│
+  └──────────────────────────────┘
+  거버넌스가 모든 기능을 포괄
+```
 
 > 📢 **섹션 요약 비유**: 6대 기능은 보안 요리 레시피 — 거버넌스(주방장 역할 지정), [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)(재료 파악), [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)(냉장 보관), 탐지(상한 음식 발견), 대응(처리), [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)(다시 요리)!
 
@@ -99,39 +110,40 @@ tags = ["studynote-security"]
 
 ## Ⅲ. [CSF](/knowledge-base/studynote/12_it_management/01_governance_strategy/017_csf/) 계층 (Tiers)
 
+```
+CSF 성숙도 계층:
 
+Tier 1 — 부분적 (Partial):
+  사이버보안 관행이 비공식적·임기응변
+  리스크 인식 낮음
+  공급망 리스크 관리 없음
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">CSF 성숙도 계층:</div>
-<div class="kb-diagram-note">Tier 1 — 부분적 (Partial):</div>
-<div class="kb-diagram-note">사이버보안 관행이 비공식적·임기응변</div>
-<div class="kb-diagram-note">리스크 인식 낮음</div>
-<div class="kb-diagram-note">공급망 리스크 관리 없음</div>
-<div class="kb-diagram-note">Tier 2 — 리스크 인식 (Risk Informed):</div>
-<div class="kb-diagram-note">리스크 인식 있지만 조직 전체 정책 없음</div>
-<div class="kb-diagram-note">부서별 독립 수행</div>
-<div class="kb-diagram-note">일부 공급망 리스크 관리</div>
-<div class="kb-diagram-note">Tier 3 — 반복 가능 (Repeatable):</div>
-<div class="kb-diagram-note">공식 정책, 조직 전체 적용</div>
-<div class="kb-diagram-note">리스크 기반 접근</div>
-<div class="kb-diagram-note">공급망 파트너와 정보 공유</div>
-<div class="kb-diagram-note">Tier 4 — 적응적 (Adaptive):</div>
-<div class="kb-diagram-note">지속적 개선 프로세스</div>
-<div class="kb-diagram-note">위협 정보 실시간 반영</div>
-<div class="kb-diagram-note">공급망 전체와 협력</div>
-<div class="kb-diagram-note">계층 선택:</div>
-<div class="kb-diagram-note">모든 조직이 Tier 4 될 필요 없음</div>
-<div class="kb-diagram-note">비용-편익 분석으로 적절한 계층 선택</div>
-<div class="kb-diagram-note">예: 소규모 의료기관 → Tier 2 목표</div>
-<div class="kb-diagram-note">대형 금융기관 → Tier 3~4 목표</div>
-<div class="kb-diagram-note">계층 vs 성숙도:</div>
-<div class="kb-diagram-note">계층은 단계적 목표 아닌 현 상태 설명</div>
-<div class="kb-diagram-note">"우리는 Tier 2이고, Tier 3 목표"</div>
-</div>
-</div>
+Tier 2 — 리스크 인식 (Risk Informed):
+  리스크 인식 있지만 조직 전체 정책 없음
+  부서별 독립 수행
+  일부 공급망 리스크 관리
 
+Tier 3 — 반복 가능 (Repeatable):
+  공식 정책, 조직 전체 적용
+  리스크 기반 접근
+  공급망 파트너와 정보 공유
 
+Tier 4 — 적응적 (Adaptive):
+  지속적 개선 프로세스
+  위협 정보 실시간 반영
+  공급망 전체와 협력
+
+계층 선택:
+  모든 조직이 Tier 4 될 필요 없음
+  비용-편익 분석으로 적절한 계층 선택
+  
+  예: 소규모 의료기관 → Tier 2 목표
+  대형 금융기관 → Tier 3~4 목표
+  
+계층 vs 성숙도:
+  계층은 단계적 목표 아닌 현 상태 설명
+  "우리는 Tier 2이고, Tier 3 목표"
+```
 
 > 📢 **섹션 요약 비유**: [CSF](/knowledge-base/studynote/12_it_management/01_governance_strategy/017_csf/) 계층은 운전 실력 — Tier 1: 처음 운전(임기응변), Tier 2: 기초 교통 법규 알기, Tier 3: 방어 운전, Tier 4: 레이서(실시간 대응). 목적지에 맞는 실력이면 OK!
 
@@ -139,38 +151,39 @@ tags = ["studynote-security"]
 
 ## Ⅳ. 국내 보안 표준 매핑
 
+```
+CSF 2.0과 국내 표준 매핑:
 
+ISMS-P (개인정보보호 관리체계):
+  2.2.1 현황 및 위험 분석 ↔ CSF IDENTIFY
+  2.5.1 사용자 인증 ↔ CSF PROTECT
+  2.11.1 사고 예방 및 대응 ↔ CSF RESPOND
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">CSF 2.0과 국내 표준 매핑:</div>
-<div class="kb-diagram-note">ISMS-P (개인정보보호 관리체계):</div>
-<div class="kb-diagram-note">2.2.1 현황 및 위험 분석 ↔ CSF IDENTIFY</div>
-<div class="kb-diagram-note">2.5.1 사용자 인증 ↔ CSF PROTECT</div>
-<div class="kb-diagram-note">2.11.1 사고 예방 및 대응 ↔ CSF RESPOND</div>
-<div class="kb-diagram-note">ISO/IEC 27001:</div>
-<div class="kb-diagram-note">A.5 정보보안 정책 ↔ CSF GOVERN</div>
-<div class="kb-diagram-note">A.8 자산 관리 ↔ CSF IDENTIFY</div>
-<div class="kb-diagram-note">A.16 보안 사고 ↔ CSF RESPOND/RECOVER</div>
-<div class="kb-diagram-note">활용 이점:</div>
-<div class="kb-diagram-note">중복 평가 최소화</div>
-<div class="kb-diagram-note">기존 ISO 27001 인증 활용 → CSF 갭 최소화</div>
-<div class="kb-diagram-note">K-ISMS → ISMS-P → CSF 2.0 연계:</div>
-<div class="kb-diagram-note">금융 CISO: CSF 2.0 기반 보안 전략 수립</div>
-<div class="kb-diagram-note">기존 ISMS-P 관리 항목 CSF 카테고리 매핑</div>
-<div class="kb-diagram-note">중복 작업 제거, 글로벌 커뮤니케이션 향상</div>
-<div class="kb-diagram-note">공급망 보안 (GV.SC):</div>
-<div class="kb-diagram-note">CSF 2.0 강화 사항</div>
-<div class="kb-diagram-note">주요 활동:</div>
-<div class="kb-diagram-tree-item" style="--depth:1">공급업체 보안 평가</div>
-<div class="kb-diagram-tree-item" style="--depth:1">소프트웨어 BOM (SBOM)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">공급망 리스크 모니터링</div>
-<div class="kb-diagram-note">배경: SolarWinds 공급망 공격 (2020)</div>
-<div class="kb-diagram-note">→ 미 정부 기관 18,000개 영향</div>
-</div>
-</div>
+ISO/IEC 27001:
+  A.5 정보보안 정책 ↔ CSF GOVERN
+  A.8 자산 관리 ↔ CSF IDENTIFY
+  A.16 보안 사고 ↔ CSF RESPOND/RECOVER
 
+활용 이점:
+  중복 평가 최소화
+  기존 ISO 27001 인증 활용 → CSF 갭 최소화
 
+K-ISMS → ISMS-P → CSF 2.0 연계:
+  금융 CISO: CSF 2.0 기반 보안 전략 수립
+  기존 ISMS-P 관리 항목 CSF 카테고리 매핑
+  중복 작업 제거, 글로벌 커뮤니케이션 향상
+
+공급망 보안 (GV.SC):
+  CSF 2.0 강화 사항
+  
+  주요 활동:
+  - 공급업체 보안 평가
+  - 소프트웨어 BOM (SBOM)
+  - 공급망 리스크 모니터링
+  
+  배경: SolarWinds 공급망 공격 (2020)
+  → 미 정부 기관 18,000개 영향
+```
 
 > 📢 **섹션 요약 비유**: CSF와 국내 표준 매핑은 공통 교과서 — ISO 27001도 배우고, ISMS-P도 배우지만, [CSF](/knowledge-base/studynote/12_it_management/01_governance_strategy/017_csf/) 지도로 보면 "이건 PROTECT, 저건 IDENTIFY" 한눈에 정리!
 

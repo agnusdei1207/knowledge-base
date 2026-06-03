@@ -39,21 +39,17 @@ H(X) ≤ L̄ < H(X) + ε   (임의로 작은 ε > 0에 대해 달성 가능)
 
 ### 주요 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 비교
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">평균 코드 길이 L̄</div>
-<div class="kb-diagram-note">H(X)+1 허프만 코딩</div>
-<div class="kb-diagram-note">H(X)+0.1 산술 부호화</div>
-<div class="kb-diagram-note">H(X)+ε LZ 계열 (점근적)</div>
-<div class="kb-diagram-note">H(X) 이론 하한</div>
-<div class="kb-diagram-tree-item" style="--depth:4">►</div>
-<div class="kb-diagram-note">블록 길이 n → ∞</div>
-</div>
-</div>
-
-
+```
+평균 코드 길이 L̄
+         │
+H(X)+1   ├──────────── 허프만 코딩 ────────────────
+H(X)+0.1 ├──────────── 산술 부호화 ───────────────
+H(X)+ε   ├──────────── LZ 계열 (점근적) ─────────
+H(X)     ├──────────── 이론 하한 ─────────────────
+         │
+         └──────────────────────────────────────►
+                        블록 길이 n → ∞
+```
 
 ### [허프만 코딩](/knowledge-base/studynote/08_algorithm_stats/05_string/100_huffman_coding/) ([Huffman Coding](/knowledge-base/studynote/08_algorithm_stats/05_string/100_huffman_coding/)) 예시
 
@@ -64,21 +60,18 @@ H(X) ≤ L̄ < H(X) + ε   (임의로 작은 ε > 0에 대해 달성 가능)
 
 허프만 트리 구성:
 
+```
+심볼:  A(0.5)  B(0.25)  C(0.125)  D(0.125)
 
+단계1:        C+D → 0.25
+단계2:     B + 0.25 → 0.5
+단계3:  A + 0.5 → 1.0 (루트)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">심볼: A(0.5) B(0.25) C(0.125) D(0.125)</div>
-<div class="kb-diagram-note">단계1: C+D → 0.25</div>
-<div class="kb-diagram-note">단계2: B + 0.25 → 0.5</div>
-<div class="kb-diagram-note">단계3: A + 0.5 → 1.0 (루트)</div>
-<div class="kb-diagram-note">코드: A→0, B→10, C→110, D→111</div>
-<div class="kb-diagram-note">평균 코드 길이: 0.5×1 + 0.25×2 + 0.125×3 + 0.125×3 = 1.75 bits</div>
-<div class="kb-diagram-note">→ 엔트로피와 완전히 동일!</div>
-</div>
-</div>
+코드: A→0, B→10, C→110, D→111
 
-
+평균 코드 길이: 0.5×1 + 0.25×2 + 0.125×3 + 0.125×3 = 1.75 bits
+→ 엔트로피와 완전히 동일!
+```
 
 | 심볼 | [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) | 코드 | 길이 |
 |:---:|:---:|:---:|:---:|
@@ -119,23 +112,19 @@ R(D) = min_{P(X̂|X): E[d(X,X̂)]≤D} I(X;X̂)
 
 D: 최대 허용 왜곡, R(D): 그에 대응하는 최소 필요 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)율
 
+```
+R(D)
+   ▲
+   │╲
+   │  ╲
+   │    ╲
+   │      ─────
+   └───────────► D
+  D=0   D 증가시 R 감소
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">R(D)</div>
-<div class="kb-diagram-connector">▲</div>
-<div class="kb-diagram-note">╲</div>
-<div class="kb-diagram-note">╲</div>
-<div class="kb-diagram-note">╲</div>
-<div class="kb-diagram-tree-item" style="--depth:1">D</div>
-<div class="kb-diagram-note">D=0 D 증가시 R 감소</div>
-<div class="kb-diagram-note">D=0: R = H(X) (무손실)</div>
-<div class="kb-diagram-note">D→∞: R → 0 (극단 손실)</div>
-</div>
-</div>
-
-
+D=0: R = H(X) (무손실)
+D→∞: R → 0 (극단 손실)
+```
 
 📢 **섹션 요약 비유**: 레이트-왜곡 트레이드오프는 "사진 화질 vs [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 크기"다 — 화질(D 낮음)을 높이면 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(R)이 커지고, 허용 화질 저하(D 높음)를 늘리면 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 작아진다.
 
@@ -145,21 +134,18 @@ D: 최대 허용 왜곡, R(D): 그에 대응하는 최소 필요 [비트](/knowl
 
 ### 실제 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 파이프라인 (DEFLATE = ZIP, PNG, gzip)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">원본 데이터</div>
-<div class="kb-diagram-note">▼ LZ77 (중복 제거)</div>
-<div class="kb-diagram-note">길이-오프셋 쌍</div>
-<div class="kb-diagram-note">▼ 허프만 코딩 (심볼 인코딩)</div>
-<div class="kb-diagram-note">압축 비트스트림</div>
-<div class="kb-diagram-note">▼ 컨테이너 포맷 (.zip, .png, .gz)</div>
-<div class="kb-diagram-note">최종 파일</div>
-</div>
-</div>
-
-
+```
+원본 데이터
+     │
+     ▼ LZ77 (중복 제거)
+길이-오프셋 쌍
+     │
+     ▼ 허프만 코딩 (심볼 인코딩)
+압축 비트스트림
+     │
+     ▼ 컨테이너 포맷 (.zip, .png, .gz)
+최종 파일
+```
 
 ### 영역별 채택 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 기술
 
@@ -205,25 +191,24 @@ D: 최대 허용 왜곡, R(D): 그에 대응하는 최소 필요 [비트](/knowl
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">정보 이론 (Information Theory)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">엔트로피 (Entropy)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">소스 코딩 (Source Coding)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">무손실 압축 (Lossless Compression)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">손실 압축 (Lossy Compression)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">채널 코딩 (Channel Coding)</div></div>
-</div>
-</div>
-
-
+```text
+[정보 이론 (Information Theory)]
+    │
+    ▼
+[엔트로피 (Entropy)]
+    │
+    ▼
+[소스 코딩 (Source Coding)]
+    │
+    ▼
+[무손실 압축 (Lossless Compression)]
+    │
+    ▼
+[손실 압축 (Lossy Compression)]
+    │
+    ▼
+[채널 코딩 (Channel Coding)]
+```
 
 정보 이론의 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 개념이 소스 코딩 원리로 구체화되어 무손실·손실 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 기술로 발전하는 흐름이다.
 

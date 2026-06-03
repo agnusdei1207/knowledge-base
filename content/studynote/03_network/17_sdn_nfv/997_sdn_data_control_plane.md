@@ -23,18 +23,14 @@ tags = ["studynote-network"]
 
 이러한 방식은 수천 대의 서버가 시시각각 생성되고 삭제되는 클라우드 환경의 변화 속도를 따라갈 수 없었다. 네트워크를 소프트웨어처럼 빠르고 유연하게 다루기 위해(Programmability), 장비에서 두뇌(Control Plane)를 빼내어 중앙의 컨트롤러 서버로 모으고, 장비는 그저 지시받은 대로 패킷만 전달([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane)하도록 역할을 분리한 것이 SDN의 시작이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">NFV 기반 가상화 VNF</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SDN 데이터/컨트롤 플레인</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OpenFlow 프로토콜</div></div>
-</div>
-</div>
-
-
+```text
+[NFV 기반 가상화 VNF]
+    │
+    ▼
+[SDN 데이터/컨트롤 플레인]
+    │
+    └──▶ [OpenFlow 프로토콜]
+```
 
 - **📢 섹션 요약 비유**: 옛날엔 교차로마다 신호등이 스스로 교통량을 판단해서(각자 똑똑함) 신호를 바꿨다면, SDN은 중앙 통제실(Control Plane)에서 도시 전체의 CCTV를 보고 모든 교차로 신호등([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane)을 한 번에 조종하는 것과 같다.
 
@@ -44,25 +40,25 @@ tags = ["studynote-network"]
 
 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 아키텍처는 3개의 계층(Layer)과 그 사이를 잇는 2개의 인터페이스([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))로 구성된다. 이 중 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플레인과 컨트롤 플레인의 역할 분담이 핵심이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Application Plane</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(방화벽 앱, 로드밸런서 앱, 트래픽 엔지니어링 앱 등)</div></div>
-<div class="kb-diagram-note">Northbound API (REST API 등)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Control Plane</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SDN Controller (ONOS, OpenDaylight 등)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Global Network View 유지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Flow Table 계산 및 정책 하달</div></div>
-<div class="kb-diagram-note">Southbound API (OpenFlow 등)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Data Plane</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SDN Switches (Open vSwitch, Whitebox Switch)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Match &amp; Action 기반의 단순 고속 포워딩</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────┐
+│                 [ Application Plane ]                   │
+│   (방화벽 앱, 로드밸런서 앱, 트래픽 엔지니어링 앱 등)   │
+└───────────────────────┬─────────────────────────────────┘
+                        │ Northbound API (REST API 등)
+┌───────────────────────┴─────────────────────────────────┐
+│                 [ Control Plane ]                       │
+│    SDN Controller (ONOS, OpenDaylight 등)               │
+│    - Global Network View 유지                           │
+│    - Flow Table 계산 및 정책 하달                       │
+└───────────────────────┬─────────────────────────────────┘
+                        │ Southbound API (OpenFlow 등)
+┌───────────────────────┴─────────────────────────────────┐
+│                 [ Data Plane ]                          │
+│    SDN Switches (Open vSwitch, Whitebox Switch)         │
+│    - Match & Action 기반의 단순 고속 포워딩             │
+└─────────────────────────────────────────────────────────┘
+```
 
 1. **Control Plane (컨트롤 플레인)**: 네트워크의 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(Network OS) 역할을 한다. 전체 네트워크의 토폴로지를 수집하고(Global [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/)), 최적의 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 경로를 계산하여 그 결과를 플로우 테이블(Flow Table) 형태로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플레인 장비들에게 내려보낸다.
 2. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Plane (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 플레인)</strong>: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)나 라우터 하드웨어(또는 [vSwitch](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/)) 계층이다. 패킷이 들어오면 컨트롤러가 내려준 플로우 테이블의 규칙(Rule)에 따라 패킷을 매칭(Match)하고, 지시된 포트로 전달(Action)하는 멍텅구리(Dumb) 고속 처리기 역할을 한다.
@@ -91,7 +87,7 @@ tags = ["studynote-network"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **실무 적용 시나리오:**
-구글, 페이스북 같은 빅테크 기업은 전 세계 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 간을 잇는 WAN(B4)을 구축할 때 이 분리 구조를 채택했다. 트래픽의 우선순위에 따라(예: 화상회의는 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) 최우선, [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 최우선) 중앙 컨트롤러가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플레인 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들의 경로를 실시간으로 재프로그래밍(Traffic Engineering)하여 회선 사용률을 100% 가깝게 끌어올렸다.
+구글, 페이스북 같은 빅테크 기업은 전 세계 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 간을 잇는 WAN(B4)을 구축할 때 이 분리 구조를 채택했다. 트래픽의 우선순위에 따라(예: 화상회의는 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) 최우선, [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 최우선) 중앙 컨트롤러가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플레인 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들의 경로를 실시간으로 재프로그래밍(Traffic 엔진ering)하여 회선 사용률을 100% 가깝게 끌어올렸다.
 
 **기술사 판단 포인트 (Trade-off):**
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)/컨트롤 플레인의 분리는 완벽하지 않다. <strong>'중앙 집중화의 이점'과 '<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/">단일 장애점</a>(<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/">SPOF</a>) 위험'</strong>을 항상 고려해야 한다.
@@ -129,19 +125,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: NFV 기반 가상화 VNF</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: SDN 데이터/컨트롤 플레인</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: OpenFlow 프로토콜</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 프로그래머블 네트워크</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: NFV 기반 가상화 VNF]
+    │
+    ▼
+[현재 개념: SDN 데이터/컨트롤 플레인]
+    │
+    ├──▶ [확장 A: OpenFlow 프로토콜]
+    └──▶ [확장 B: 프로그래머블 네트워크]
+```
 
 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)/컨트롤 플레인는 [NFV](/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/) 기반 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) VNF에서 출발해 현재 메커니즘을 정교화하고, 이후 [OpenFlow](/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

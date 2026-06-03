@@ -35,17 +35,16 @@ SHA-3의 내부 상태는 1600비트이며, `rate + capacity = 1600` 관계를 �
 
 아래 그림은 스펀지 구조와 순열 코어가 어떻게 연결되는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">1600</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">theta -&gt; rho -&gt; pi -&gt; chi -&gt; iota (24 rounds)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──&gt; squeeze r bits -&gt; digest</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│ msg block -> pad10*1 -> XOR into rate bits -> state[1600]                 │
+│                                              │                             │
+│                                              ▼                             │
+│                    theta -> rho -> pi -> chi -> iota   (24 rounds)        │
+│                                              │                             │
+│                                              └──> squeeze r bits -> digest │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 | 단계 | 역할 | 하드웨어 관점의 포인트 |
 | :--- | :--- | :--- |
@@ -134,25 +133,24 @@ SHA-3는 해시 하나로 끝나지 않는다. 같은 [Keccak](/knowledge-base/s
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Merkle-Damgård 해시 시대</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Keccak 스펀지 구조 제안</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SHA-3 표준화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SHA3-256/512 · SHAKE · KMAC 공용 코어</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">언롤드 · 파이프라인 보안 가속기</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">PQC 대응형 보안 SoC</div>
-</div>
-</div>
-
-
+```text
+Merkle-Damgård 해시 시대
+        │
+        ▼
+Keccak 스펀지 구조 제안
+        │
+        ▼
+SHA-3 표준화
+        │
+        ▼
+SHA3-256/512 · SHAKE · KMAC 공용 코어
+        │
+        ▼
+언롤드 · 파이프라인 보안 가속기
+        │
+        ▼
+PQC 대응형 보안 SoC
+```
 
 이 흐름은 해시 회로가 단순 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 블록에서, 다양한 보안 모드를 품는 공용 순열 엔진으로 발전해 온 과정을 보여 준다.
 

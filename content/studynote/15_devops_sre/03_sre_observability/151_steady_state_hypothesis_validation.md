@@ -10,7 +10,7 @@ tags = ["studynote-devops-sre"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 정상 상태 가설(Steady [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Hypothesis)은 라이브 망에 무지성 폭탄을 던지는 카오스 실험([Chaos Engineering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/))에서, <strong>"폭탄을 맞았을 때 우리 시스템이 뻗었나 안 뻗었나?"를 채점하기 위해 사전에 반드시 록온(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>-on) 박아두는 '비즈니스 <a href="/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/">임계치</a> 팩트 생존 <a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/">기준선</a>'</strong>이다.
+> 1. **본질**: 정상 상태 가설(Steady [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Hypothesis)은 라이브 망에 무지성 폭탄을 던지는 카오스 실험([Chaos 엔진ering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/))에서, <strong>"폭탄을 맞았을 때 우리 시스템이 뻗었나 안 뻗었나?"를 채점하기 위해 사전에 반드시 록온(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>-on) 박아두는 '비즈니스 <a href="/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/">임계치</a> 팩트 생존 <a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/">기준선</a>'</strong>이다.
 > 2. **가치**: "[파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 3개가 떴다"는 낡은 내부 인프라 쇳덩이 지표를 찢어 버리고, <strong>"어떤 에러 테러가 터져도 유저의 [결제 성공률 99.9% 보장] 1가지만 방어 쉴드 쳐서 살아남으면 승리(Success)한다 🚀"</strong>는 철저한 고객 지향적([SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) 기반) 맷집([Resiliency](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/)) 복원력 측정의 투시 엑스레이를 쟁취했다.
 > 3. **판단 포인트**: 폭탄을 던졌는데 이 정상 상태(결제율 99.9%) 텐트가 95%로 뚫려 시뻘건 피가 터진다? ➔ 인간 아키텍트한테 허락 물어볼 1초의 시간도 없이!! <strong>K8s 컨트롤러가 즉각 킬 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>(Kill <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">Switch</a>) 오토 찰칵 눌러 폭탄 실험 강제 폭파 중단 중지(Abort) <a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/">롤백</a> 회피 기동을 쳐버리는 100% 무결점 방폭문 융합 통치</strong>가 0순위 팩폭 룰이다.
 
@@ -18,7 +18,7 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅰ. 개요 및 왜 '정상 상태 가설' [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)? ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
-[카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/) 원칙(Principles of [Chaos Engineering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/))의 위대한 1계명은 "정상 상태 동작의 측정 가능한 팩트 결과를 나타내는 가설을 세워라" 이다. 이 가설 뼈대가 없으면 카오스 실험은 그저 고객의 돈을 태우는 범죄 묻지 마 폭파 파국 테러 행위일 뿐이다.
+[카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/) 원칙(Principles of [Chaos 엔진ering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/))의 위대한 1계명은 "정상 상태 동작의 측정 가능한 팩트 결과를 나타내는 가설을 세워라" 이다. 이 가설 뼈대가 없으면 카오스 실험은 그저 고객의 돈을 태우는 범죄 묻지 마 폭파 파국 테러 행위일 뿐이다.
 
 **대재앙 발동 💥**: 좆소 주니어 SRE가 넷플릭스 뽕 맞고 대낮에 프로덕션 K8s 망에 네트워크 5초 랙 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 폭탄을 툭 던졌다. 
 "우왕 ㅋ 에러 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 존나 쏟아짐 재밌네 ㅋ 근데 야 이거 우리 시스템이 방어 성공(Pass) 한 거임? 아님 털려서 타 죽어 실패(Fail) 한 거임?" 
@@ -37,30 +37,32 @@ tags = ["studynote-devops-sre"]
 
 정상 상태 가설은 "서버 쇳덩이 부품"이 아니라 철저히 <strong>"돈 줄 유저(고객)가 체감하는 비즈니스 액션"</strong>으로 정의되어야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Chaos Engineering 실험 가설 텐트 및 킬 스위치 방어막 융합 도해 🚀</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🎯</div><div class="kb-diagram-node">0순위: 정상 상태 가설 (Steady State Hypothesis) 수립 록온</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 타겟 서비스: 결제 코어 백엔드 봇 (Payment Service)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- ✅ 가설 팩트 조건 (AND 십자 록온):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 결제 성공률 ≥ 99.9% (5분 이동 평균)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. P99 응답 시간(Latency 랙) ≤ 500ms (0.5초 안에 반응 컷!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">💣 1단계: 파괴 실험 변수 (Independent Variable) 주입</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 폭탄 세팅: "결제 파드(Pod) 3대 중 1대를 무지성 SIGKILL 쳐 죽여 쾅!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 아키텍트 가설(Hope): "파드 1개 대가리 터져도 ➔ 오토힐링 1초 복구랑 딴 놈한테</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">스위칭 로드밸런싱 우회 쳐서 ➔ 위 정상 상태</div><div class="kb-diagram-node">결제 99.9%</div><div class="kb-diagram-note">100% 유지 생존함 ㅋ"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">📊 2단계: 그라파나 엑스레이 측정 &amp; 심판의 핑퐁 ✨</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- 🚀</div><div class="kb-diagram-node">결과 A (승리 방어막 쉴드 O)</div><div class="kb-diagram-note">: 99.9% 완벽 방어! 오토힐링 쾌속 복원력 맷집 입증.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- 💀</div><div class="kb-diagram-node">결과 B (가설 붕괴 파국 X)</div><div class="kb-diagram-note">: 어? 랙 타임 3초 터지면서 성공률 90% 수직 떡락!!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">➔ 🚨</div><div class="kb-diagram-node">아키텍트 킬 스위치 (Kill Switch) 오토 강제 발동 쾅!!!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"야 씨발 유저 다 뒤진다 당장 폭탄 중지(Abort) 치고 원래대로 롤백 복구 해!!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➔ 🪓 소스 코드 열어서 타임아웃/서킷 브레이커 설정 오타 병목 찾아서 도끼 수술 시작.</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          Chaos Engineering 실험 가설 텐트 및 킬 스위치 방어막 융합 도해 🚀 │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ 🎯 [ 0순위: 정상 상태 가설 (Steady State Hypothesis) 수립 록온 ]       │
+│   - 타겟 서비스: 결제 코어 백엔드 봇 (Payment Service)                  │
+│   - ✅ 가설 팩트 조건 (AND 십자 록온):                                │
+│     1. 결제 성공률 ≥ 99.9% (5분 이동 평균)                          │
+│     2. P99 응답 시간(Latency 랙) ≤ 500ms (0.5초 안에 반응 컷!)          │
+│                                                             │
+│        ======= [ 💣 1단계: 파괴 실험 변수 (Independent Variable) 주입 ] ========│
+│                                                             │
+│   - 폭탄 세팅: "결제 파드(Pod) 3대 중 1대를 무지성 SIGKILL 쳐 죽여 쾅!"       │
+│   - 아키텍트 가설(Hope): "파드 1개 대가리 터져도 ➔ 오토힐링 1초 복구랑 딴 놈한테 │
+│     스위칭 로드밸런싱 우회 쳐서 ➔ 위 정상 상태 [결제 99.9%] 100% 유지 생존함 ㅋ"│
+│                                                             │
+│        ======= [ 📊 2단계: 그라파나 엑스레이 측정 & 심판의 핑퐁 ✨ ] ========│
+│                                                             │
+│   - 🚀 [결과 A (승리 방어막 쉴드 O)]: 99.9% 완벽 방어! 오토힐링 쾌속 복원력 맷집 입증.│
+│   - 💀 [결과 B (가설 붕괴 파국 X)]: 어? 랙 타임 3초 터지면서 성공률 90% 수직 떡락!! │
+│     ➔ 🚨 [아키텍트 킬 스위치 (Kill Switch) 오토 강제 발동 쾅!!!]              │
+│     "야 씨발 유저 다 뒤진다 당장 폭탄 중지(Abort) 치고 원래대로 롤백 복구 해!!" │
+│     ➔ 🪓 소스 코드 열어서 타임아웃/서킷 브레이커 설정 오타 병목 찾아서 도끼 수술 시작.│
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[아키텍트의 피 터지는 메스: 구현 의존적(Infra) vs 비즈니스 지향(Business) 지표 딜레마]**
 - **나쁜 가설 (구현 쇳덩이 집착 파국 💥)**: "정상 상태는 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 3개 `Running` 상태로 떠 있는 것이다 ㅋ" 
@@ -149,7 +151,7 @@ tags = ["studynote-devops-sre"]
 
 | 개념 명칭 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 및 시너지 설명 |
 | :--- | :--- |
-| <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/">Chaos Engineering</a> (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/">카오스 엔지니어링</a> 💣)</strong> | 넷플릭스가 열어젖힌 1타 흑마법 텐트. 시스템 멀쩡할 때 고의로 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 쳐 죽이고 5초 네트워크 랙 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 쑤셔 박아 ➔ 숨어있던 병목 약점 뇌관([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)) 발가벗겨 도륙 내고 오토힐링 맷집 근육 우주 펌핑 시키는 예방 의학의 0순위 베이스캠프. |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/">Chaos 엔진ering</a> (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/">카오스 엔지니어링</a> 💣)</strong> | 넷플릭스가 열어젖힌 1타 흑마법 텐트. 시스템 멀쩡할 때 고의로 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 쳐 죽이고 5초 네트워크 랙 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 쑤셔 박아 ➔ 숨어있던 병목 약점 뇌관([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)) 발가벗겨 도륙 내고 오토힐링 맷집 근육 우주 펌핑 시키는 예방 의학의 0순위 베이스캠프. |
 | <strong><a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/">SLO</a> (<a href="/knowledge-base/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/">Service Level Objective</a> 🎯)</strong> | "결제 응답 0.5초 이내 99.9% 무조건 사수 록온 쾅!" 카오스 실험에서 이 새끼를 1바이트 텍스트도 고치지 않고 그대로 <strong>'정상 상태 가설(Steady <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a>)'</strong> 잣대로 복붙 융합 쳐 박아서 심판대 통과 채점 기준표로 써먹는 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 절대 헌법 영혼의 짝꿍. |
 | <strong>Blast <a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/541_radius_remote_authentication_aaa/">Radius</a> (블라스트 폭발 피해 반경 최소화 🛡️)</strong> | 카오스 폭탄 던졌을 때 유저 100만 명 다 타죽게 두지 마 쾅!! `mode: one` ([파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 1개만 죽임) + `1% 카나리 유저` 한테만 폭발 살포 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 쳐서 피해 여파를 나노 1mm 찰과상 단위로 쥐어짜 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 봉쇄 록온시키는 생존 가위질 튜닝. |
 | <strong>Kill <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">Switch</a> (비상 강제 종료 폭파 중단 버튼 🚨)</strong> | 가설 텐트(99.9%)가 95%로 뚫려 시뻘건 에러 피가 터지는 0.001초 찰나 [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/) 순간! ➔ 인간 허락 묻지도 않고 K8s 봇 뇌가 0.1초 컷 오토 강제 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 찰칵 눌러 카오스 데몬 모가지 썰고 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 원상 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 생존 회피 치는 무결점 방폭문. |
@@ -157,23 +159,21 @@ tags = ["studynote-devops-sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">QA 스테이징 격리 얌전한 부하 테스트 (Load Test) 시대 / 걍 가짜 테스트망에 트래픽만 쏘고 "우왕 1만 명 버팀 ㅋ 합격!" 자위 침 ➔ 실전 런칭 밤 12시 라이브 망에 AWS 랙 걸리자 1방에 서킷 뚫려 연쇄 셧다운 타죽음 동반 폭파 💥 💀</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Netflix 카오스 몽키(Chaos Monkey) 야생 탄생 / "실전 라이브 망 AWS 서버 모가지를 대낮에 무작위 냅다 전원 쳐 뽑아 쾅!! 오토힐링 복원 되나 봐!" 무식 화끈 폭탄 1세대 테러 발동 🐒</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">정상 상태 가설 (Steady State Hypothesis) 십자 록온 헌법 대관식 ✨ / "야 씨발 무지성 테러 치지 마 목표가 뭐야 쾅!!</div><div class="kb-diagram-node">결제 성공률 99.9% 방어</div><div class="kb-diagram-note">팩트 비즈니스 지표 텐트부터 세워놓고 폭탄 쏴 채점 돌려 가설 검증 쳐라 쾅!!"</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">오토 킬 스위치 (Kill Switch) &amp; 블라스트 반경 최소화 결합 🚀 / 가설이 1%라도 뚫려 유저 돈 못 빼는 파국(Error Budget 탕진) 스파이크 적발 찰나 ➔ 0.1초 만에 K8s 봇이 오토 비상정지 롤백 방폭문 쉴드 전개 무정단 생존 달성 🛡️</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CI/CD Continuous Chaos 자동화 떡칠 융합 (현재) / 코더가 깃허브 코드 푸시(Push) 치는 순간 ➔ 파이프라인에서 지 혼자 1초 컷 카오스 폭탄 투하 ➔ 정상 가설 99.9% 방어 성공 팩트 인증 엑스레이 찍힌 놈들만 ➔ 프로덕션 런칭 프리패스 승인 컷 시켜버리는 대통일 무결점 텐트 제국 완성 쾅!!</div>
-</div>
-</div>
-
-
+```text
+QA 스테이징 격리 얌전한 부하 테스트 (Load Test) 시대 / 걍 가짜 테스트망에 트래픽만 쏘고 "우왕 1만 명 버팀 ㅋ 합격!" 자위 침 ➔ 실전 런칭 밤 12시 라이브 망에 AWS 랙 걸리자 1방에 서킷 뚫려 연쇄 셧다운 타죽음 동반 폭파 💥 💀
+    │
+    ▼
+Netflix 카오스 몽키(Chaos Monkey) 야생 탄생 / "실전 라이브 망 AWS 서버 모가지를 대낮에 무작위 냅다 전원 쳐 뽑아 쾅!! 오토힐링 복원 되나 봐!" 무식 화끈 폭탄 1세대 테러 발동 🐒
+    │
+    ▼
+정상 상태 가설 (Steady State Hypothesis) 십자 록온 헌법 대관식 ✨ / "야 씨발 무지성 테러 치지 마 목표가 뭐야 쾅!! [결제 성공률 99.9% 방어] 팩트 비즈니스 지표 텐트부터 세워놓고 폭탄 쏴 채점 돌려 가설 검증 쳐라 쾅!!"
+    │
+    ▼
+오토 킬 스위치 (Kill Switch) & 블라스트 반경 최소화 결합 🚀 / 가설이 1%라도 뚫려 유저 돈 못 빼는 파국(Error Budget 탕진) 스파이크 적발 찰나 ➔ 0.1초 만에 K8s 봇이 오토 비상정지 롤백 방폭문 쉴드 전개 무정단 생존 달성 🛡️
+    │
+    ▼
+CI/CD Continuous Chaos 자동화 떡칠 융합 (현재) / 코더가 깃허브 코드 푸시(Push) 치는 순간 ➔ 파이프라인에서 지 혼자 1초 컷 카오스 폭탄 투하 ➔ 정상 가설 99.9% 방어 성공 팩트 인증 엑스레이 찍힌 놈들만 ➔ 프로덕션 런칭 프리패스 승인 컷 시켜버리는 대통일 무결점 텐트 제국 완성 쾅!!
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -21,18 +21,14 @@ tags = ["studynote-network"]
 
 - 일반 소비자용 IoT가 편의성과 엔터테인먼트에 초점을 맞춘다면, <strong>IIoT는 제조 공장, 정유/화학 플랜트, 발전소, 철도 등 거대 산업 현장에서 설비와 센서를 연결해 생산성을 극대화하고 고장을 예측하는 '미션 크리티컬(Mission-Critical)' 산업용 네트워크 시스템</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">W3C WoT</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IIoT 트래픽 관리 한계/QoS 이슈</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스마트 시티 센싱 시스템</div></div>
-</div>
-</div>
-
-
+```text
+[W3C WoT]
+    │
+    ▼
+[IIoT 트래픽 관리 한계/QoS 이슈]
+    │
+    └──▶ [스마트 시티 센싱 시스템]
+```
 
 - **📢 섹션 요약 비유**: IIoT 트래픽 관리 한계/[QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 이슈는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -50,18 +46,14 @@ tags = ["studynote-network"]
 ### 3. 기존 레거시 프로토콜의 파편화 ([Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/) 현상)
 - 공장 기계들은 지난 수십 년간 지멘스, 미쓰비시 등 각자 제조사의 폐쇄적인 시리얼 통신(RS-232, Modbus 등)을 써왔습니다. 수만 대의 낡은 기계들을 한 번에 인터넷([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP) 기반으로 통합하여 거대한 클라우드 트래픽을 관리하기가 불가능에 가깝습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">W3C WoT</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IIoT 트래픽 관리 한계/QoS 이슈</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스마트 시티 센싱 시스템</div></div>
-</div>
-</div>
-
-
+```text
+[W3C WoT]
+    │
+    ▼
+[IIoT 트래픽 관리 한계/QoS 이슈]
+    │
+    └──▶ [스마트 시티 센싱 시스템]
+```
 
 - **📢 섹션 요약 비유**: IIoT 트래픽 관리 한계/[QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 이슈의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -128,19 +120,15 @@ IIoT 트래픽 관리 한계/[QoS](/knowledge-base/studynote/03_network/07_netwo
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: W3C WoT</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: IIoT 트래픽 관리 한계/QoS 이슈</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 스마트 시티 센싱 시스템</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율형 엣지 협업</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: W3C WoT]
+    │
+    ▼
+[현재 개념: IIoT 트래픽 관리 한계/QoS 이슈]
+    │
+    ├──▶ [확장 A: 스마트 시티 센싱 시스템]
+    └──▶ [확장 B: 자율형 엣지 협업]
+```
 
 IIoT 트래픽 관리 한계/[QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 이슈는 W3C WoT에서 출발해 현재 메커니즘을 정교화하고, 이후 [스마트 시티](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/171_smart_city_platform_architecture/) 센싱 시스템와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

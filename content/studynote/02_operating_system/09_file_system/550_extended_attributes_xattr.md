@@ -30,28 +30,33 @@ tags = ["studynote-operating-system"]
 - <strong>xattr 저장 물리 형상(In-node vs Out-of-node) <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> 메커니즘 뷰</strong>:
 xattr 주머니가 작을 때와 엄청 클 때, 디스크 블록 공간에서 어떻게 i-node 와 줄다리기를 하는지 그 렌더 체계를 까보면 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"작은 메모는 내 주머니에! 하지만 거대 ACL 장부는 창고에 처박아!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">파일 100번 : "비밀문서.txt" 의 i-node (전체 256 Bytes)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">생성일: 2026-01-01</div><div class="kb-diagram-cell">Size: 4KB</div><div class="kb-diagram-cell">소유자: Root UID 0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터주소: 99번 블록</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">✅</div><div class="kb-diagram-node">CASE 1: In-node Fast (주머니가 아주 작음 록백!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 유저가 "user.author=John" (16 Bytes) 속성 1줄 추가 발포 빔!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; (커널봇): "오! i-node 끝에 16바이트 빈칸 여유 있네? 거기 쑤셔 넣어 부스트!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">i-node 256B 끝부분</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">user.author=John</div><div class="kb-diagram-note">함께 결속 저장 완료 (초광속 $O(1)$)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🔥</div><div class="kb-diagram-node">CASE 2: Out-of-node (엄청나게 긴 ACL 1천 명 주머니 파단 렌더!!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; "system.posix_acl_access=1천명..." (4000 Bytes) 속성 발사!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; (커널봇): "헉! 256B i-node가 터진다! 야 별도 디스크 동굴 블록 1개 파와 컷!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">i-node 256B</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">별도 4KB 물리 블록</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(이 속엔 Data 본문 아님!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(디스크 헤드 모터 1번 추가 탐색의 오버헤드 모순 랙 지옥) ( 오직 xattr 장부만 들음)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────────────────────────────────┐
+  │                 "작은 메모는 내 주머니에! 하지만 거대 ACL 장부는 창고에 처박아!"        │
+  ├─────────────────────────────────────────────────────────────────────────────────────────┤
+  │                                                                                         │
+  │  [ 파일 100번 : "비밀문서.txt" 의 i-node (전체 256 Bytes) ]                             │
+  │     | 생성일: 2026-01-01 | Size: 4KB | 소유자: Root UID 0 |                             │
+  │     | 데이터주소: 99번 블록 |                                                           │
+  │                                                                                         │
+  │  =========================▼===================================                          │
+  │                                                                                         │
+  │  ✅ [ CASE 1: In-node Fast (주머니가 아주 작음 록백!) ]                                 │
+  │     => 유저가 "user.author=John" (16 Bytes) 속성 1줄 추가 발포 빔!                      │
+  │     => (커널봇): "오! i-node 끝에 16바이트 빈칸 여유 있네? 거기 쑤셔 넣어 부스트!"      │
+  │     [i-node 256B 끝부분] -> [ user.author=John ] 함께 결속 저장 완료 (초광속 $O(1)$)    │
+  │                                                                                         │
+  │  =========================▼===================================                          │
+  │                                                                                         │
+  │  🔥 [ CASE 2: Out-of-node (엄청나게 긴 ACL 1천 명 주머니 파단 렌더!!) ]                 │
+  │     => "system.posix_acl_access=1천명..." (4000 Bytes) 속성 발사!                       │
+  │     => (커널봇): "헉! 256B i-node가 터진다! 야 별도 디스크 동굴 블록 1개 파와 컷!"      │
+  │                                                                                         │
+  │     [i-node 256B] ──( 💥 포인터 점프 화살표 발동! )──▶ [ 별도 4KB 물리 블록 ]           │
+  │                                                     (이 속엔 Data 본문 아님!)           │
+  │     (디스크 헤드 모터 1번 추가 탐색의 오버헤드 모순 랙 지옥)   ( 오직 xattr 장부만 들음)│
+  └─────────────────────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 확장 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)은 무한대가 아니다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템(ext4, XFS 등)에 따라 다르지만 보통 xattr [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 1개는 64KB 포화 제한을 둔다. 중요한 건 <strong>레이턴시 랙(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>)</strong> 이다. [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이 작으면 ext4는 i-node 뒷부분 남는 [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) 여백(빈칸)에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 인라인(In-node)으로 조립해버려서 퍼포먼스 드롭이 없다($O(1)$). 하지만 [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) 통치 룰(549장)처럼 비대칭 장부 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)(수백 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 초과)이 오면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 불가피하게 `EA Block (Extended Attribute 물리 블록)` 을 디스크 어딘가 빈 곳을 파서 던져버리고 포인터 화살표만 연결한다. 즉, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 열 때마다 본문 1번, [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 블록 1번 모터를 2번 왔다 갔다 긁어야 하는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 스로틀 아크 늪이 필연적으로 담보된다 증명.
 
@@ -132,19 +137,15 @@ xattr 주머니가 작을 때와 엄청 클 때, 디스크 블록 공간에서 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">ACL (Access Control List) 확장을 통한 세밀한 사용자별 파일 권한 통제</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">리눅스 확장 속성 (Extended Attributes, xattr)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">할당량 (Quota) 시스템</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">B-Tree / B+Tree 기반 디렉터리 색인 (대규모 디렉터리 검색 최적화)</div></div>
-</div>
-</div>
-
-
+```text
+[ACL (Access Control List) 확장을 통한 세밀한 사용자별 파일 권한 통제]
+    │
+    ▼
+[리눅스 확장 속성 (Extended Attributes, xattr)]
+    │
+    ├──▶ [할당량 (Quota) 시스템]
+    └──▶ [B-Tree / B+Tree 기반 디렉터리 색인 (대규모 디렉터리 검색 최적화)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

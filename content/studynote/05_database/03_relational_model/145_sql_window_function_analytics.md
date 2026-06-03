@@ -46,17 +46,11 @@ Window Frame은 <strong>이동 평균·누적합·연속 집계의 핵심</stron
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">기본 Window Function (SQL:2003)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">ROWS/RANGE Frame</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">GROUPS Frame (SQL:2011)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: Window Function 최적화 — Segment Tree 기반</div></div>
-</div>
-</div>
-
-
+```text
+[기본 Window Function (SQL:2003)] → [ROWS/RANGE Frame]
+    → [GROUPS Frame (SQL:2011)]
+    → [현재: Window Function 최적화 — Segment Tree 기반]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. Window Frame은 <strong>망원경 줌</strong>이에요. 넓게 or 좁게 볼 범위를 정해요.

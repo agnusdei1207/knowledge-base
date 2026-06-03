@@ -46,33 +46,33 @@ tags = ["studynote-operating-system"]
 
 현대 OS가 멀티태스킹을 구현하는 가장 핵심적인 하드웨어 기반은 <strong>타이머 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a>(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/072_timer_interrupt/">Timer Interrupt</a>)</strong>와 <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/">문맥 교환</a>(<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/">Context Switch</a>)</strong>이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">선점형 멀티태스킹의 CPU 시분할 동작 원리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">하드웨어 타이머 설정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- OS 커널 부팅 시, 메인보드 타이머 칩(PIT/APIC)을 설정하여</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예: 10ms(밀리초) 마다 인터럽트(IRQ 0)를 발생시키게 한다.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시간 흐름에 따른 실행 교대</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간(ms)</div><div class="kb-diagram-cell">CPU 실행 상태</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0ms</div><div class="kb-diagram-cell">Task A (웹 브라우저) 실행 시작</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">... (Task A가 CPU를 100% 점유하며 연산)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">10ms │ ⚡</div><div class="kb-diagram-node">타이머 인터럽트 발생!</div><div class="kb-diagram-note">⚡</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. CPU가 강제로 하던 일을 멈추고 커널 모드로 진입.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 커널 스케줄러: "Task A 시간 다 됐다! 내려와!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Task A의 레지스터 상태를 PCB에 저장 (Context Save).</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 다음 차례인 Task B의 레지스터 복원 (Context Restore).</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">11ms</div><div class="kb-diagram-cell">Task B (음악 플레이어) 실행 시작</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">... (음악 디코딩)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">21ms │ ⚡</div><div class="kb-diagram-node">타이머 인터럽트 발생!</div><div class="kb-diagram-note">⚡</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 커널 스케줄러 개입, Task B 쫓아냄.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Task C (메신저)로 문맥 교환.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">22ms</div><div class="kb-diagram-cell">Task C 실행 시작</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 선점형 멀티태스킹의 CPU 시분할 동작 원리              │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │  [하드웨어 타이머 설정]                                              │
+  │   - OS 커널 부팅 시, 메인보드 타이머 칩(PIT/APIC)을 설정하여            │
+  │     예: 10ms(밀리초) 마다 인터럽트(IRQ 0)를 발생시키게 한다.            │
+  │                                                                   │
+  │  [시간 흐름에 따른 실행 교대]                                         │
+  │   시간(ms) │ CPU 실행 상태                                          │
+  │  ─────────┼─────────────────────────────────────────────        │
+  │     0ms   │ Task A (웹 브라우저) 실행 시작                           │
+  │           │ ... (Task A가 CPU를 100% 점유하며 연산)                   │
+  │    10ms   │ ⚡ [타이머 인터럽트 발생!] ⚡                              │
+  │           │  1. CPU가 강제로 하던 일을 멈추고 커널 모드로 진입.         │
+  │           │  2. 커널 스케줄러: "Task A 시간 다 됐다! 내려와!"         │
+  │           │  3. Task A의 레지스터 상태를 PCB에 저장 (Context Save).   │
+  │           │  4. 다음 차례인 Task B의 레지스터 복원 (Context Restore). │
+  │    11ms   │ Task B (음악 플레이어) 실행 시작                         │
+  │           │ ... (음악 디코딩)                                       │
+  │    21ms   │ ⚡ [타이머 인터럽트 발생!] ⚡                              │
+  │           │  1. 커널 스케줄러 개입, Task B 쫓아냄.                    │
+  │           │  2. Task C (메신저)로 문맥 교환.                        │
+  │    22ms   │ Task C 실행 시작                                        │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 선점형 멀티태스킹의 위대함은 <strong>'강제성'</strong>에 있다. [Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) A가 악의적인 무한 루프 `while(true)`를 돌고 있어도 상관없다. 10ms가 지나는 순간 하드웨어 타이머가 전기 신호를 쏴서 CPU를 강제로 가로챈다(Preempt). OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 절대 권력을 유지하며, 무한 루프를 도는 악성 앱을 멈춰 세우고 마우스를 움직이거나 다른 앱으로 전환할 수 있는 통제권을 사용자에게 돌려준다. [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)에 걸리는 시간(약 1ms 내외)이 멀티태스킹이 지불해야 하는 유일한 세금(Overhead)이다.
 
@@ -131,26 +131,28 @@ OS 역사에서 이 세 단어는 비슷해 보이지만 시대적 맥락이 다
 
 ### 의사결정 및 튜닝 플로우
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동시성 처리(Concurrency) 아키텍처 모델 결정 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">새로운 애플리케이션 프레임워크 설계 (초대용량 트래픽 처리 목표)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요청을 처리하는 방식이 복잡한 CPU 연산(이미지 처리, 압축 등) 위주인가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OS 수준의 선점형 멀티태스킹/멀티프로세싱 채택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Apache MPM Prefork, Java Thread Pool)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 긴 연산 중에도 OS가 알아서 다른 스레드를 실행해 줌</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 (순수 I/O 대기 위주의 웹/API 통신이다)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스레드 생성(Context Switch) 오버헤드를 극단적으로 줄이고 싶은가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">유저 스페이스 기반 협력적 멀티태스킹(Event Loop) 채택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Node.js, Nginx, Python Asyncio, Go Coroutine)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 주의: 개발자가 절대 긴 CPU 연산으로 루프를 막지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">않도록 코딩 규약(Non-blocking) 엄수 필수!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 동시성 처리(Concurrency) 아키텍처 모델 결정 플로우          │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [새로운 애플리케이션 프레임워크 설계 (초대용량 트래픽 처리 목표)]              │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      요청을 처리하는 방식이 복잡한 CPU 연산(이미지 처리, 압축 등) 위주인가?       │
+  │          ├─ 예 ─────▶ [OS 수준의 선점형 멀티태스킹/멀티프로세싱 채택]   │
+  │          │            (Apache MPM Prefork, Java Thread Pool)      │
+  │          │            - 긴 연산 중에도 OS가 알아서 다른 스레드를 실행해 줌 │
+  │          └─ 아니오 (순수 I/O 대기 위주의 웹/API 통신이다)                  │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      스레드 생성(Context Switch) 오버헤드를 극단적으로 줄이고 싶은가?        │
+  │          ├─ 예 ─────▶ [유저 스페이스 기반 협력적 멀티태스킹(Event Loop) 채택]│
+  │          │            (Node.js, Nginx, Python Asyncio, Go Coroutine)│
+  │          │            - 주의: 개발자가 절대 긴 CPU 연산으로 루프를 막지  │
+  │          │              않도록 코딩 규약(Non-blocking) 엄수 필수!       │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 현대 소프트웨어 설계는 역설적이게도 OS가 제공하는 무거운 '선점형 멀티태스킹([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))'을 피하고, 언어 런타임이 제공하는 가벼운 '협력적 멀티태스킹([Coroutine](/knowledge-base/studynote/02_operating_system/02_process_thread/141_coroutine/))'으로 회귀하고 있다. OS [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 1개당 1MB를 먹고 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)이 무겁지만, 코루틴은 수 KB에 불과해 수백만 개를 동시에 띄울 수 있기 때문이다. 기술사는 OS의 멀티태스킹 한계를 이해하고 언어 차원의 비동기 I/O를 적절히 융합해야 한다.
 
@@ -194,19 +196,15 @@ OS 역사에서 이 세 단어는 비슷해 보이지만 시대적 맥락이 다
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">시분할 시스템 응답 시간 최적화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">멀티태스킹 (Multitasking) 용어</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">인터럽트 벡터 테이블 구조화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">트랩 (Trap) 기반 시스템 콜 구현</div></div>
-</div>
-</div>
-
-
+```text
+[시분할 시스템 응답 시간 최적화]
+    │
+    ▼
+[멀티태스킹 (Multitasking) 용어]
+    │
+    ├──▶ [인터럽트 벡터 테이블 구조화]
+    └──▶ [트랩 (Trap) 기반 시스템 콜 구현]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

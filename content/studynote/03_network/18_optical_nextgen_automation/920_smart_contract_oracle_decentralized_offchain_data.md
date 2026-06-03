@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **온체인(On-Chain)의 한계**: [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)은 네트워크 안에서 일어나는 비트코인 송금(A가 B에게 1코인 줌)은 수학적으로 완벽히 검증합니다. 
 - 하지만 보안을 위해 일반 인터넷(Off-Chain)의 웹서버([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 등)와는 완벽히 단절된 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 속에 갇혀 있습니다. [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)은 어제 환율, 주식 가격, 축구 경기 결과를 절대 자가 검색(Fetch)할 수 없는 눈먼 바보입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DLT</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스마트 컨트랙트 오라클</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">양자 중계기</div></div>
-</div>
-</div>
-
-
+```text
+[DLT]
+    │
+    ▼
+[스마트 컨트랙트 오라클]
+    │
+    └──▶ [양자 중계기]
+```
 
 - **📢 섹션 요약 비유**: [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 오라클은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -43,18 +39,14 @@ tags = ["studynote-network"]
 
 - **개념**: 외부 현실 세계(Off-Chain, 일반 인터넷망)의 날씨, 금융 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 스포츠 결과 등을 수집하여, 폐쇄된 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 내부(On-Chain)의 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)가 읽을 수 있도록 <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a> 있게 다리를 놓아 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 밀어 넣어주는(Feed) 미들웨어 통신 체계이자 중개자(Agent)</strong>입니다. (대표 솔루션: 체인링크 Chainlink)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DLT</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스마트 컨트랙트 오라클</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">양자 중계기</div></div>
-</div>
-</div>
-
-
+```text
+[DLT]
+    │
+    ▼
+[스마트 컨트랙트 오라클]
+    │
+    └──▶ [양자 중계기]
+```
 
 - **📢 섹션 요약 비유**: [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 오라클의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -122,19 +114,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: DLT</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 스마트 컨트랙트 오라클</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 양자 중계기</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: DLT]
+    │
+    ▼
+[현재 개념: 스마트 컨트랙트 오라클]
+    │
+    ├──▶ [확장 A: 양자 중계기]
+    └──▶ [확장 B: 의미 기반 통신 최적화]
+```
 
 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 오라클는 DLT에서 출발해 현재 메커니즘을 정교화하고, 이후 [양자 중계기](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/921_quantum_repeater_entanglement_swapping_no_cloning/)와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

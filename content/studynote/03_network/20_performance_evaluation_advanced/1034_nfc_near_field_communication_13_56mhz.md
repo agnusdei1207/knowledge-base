@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **기존 RFID (1035번 연계)**: 물류 창고에서 박스에 붙은 스티커(태그)를 멀리서 수십 개씩 총(리더기)으로 한방에 쏘아 읽어내는 기술입니다. 리더기는 똑똑하지만, 스티커는 멍청한 '[단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 읽기' 전용입니다.
 - **NFC (Near Field Communication)의 반란**: 소니와 NXP가 13.56MHz 대역 RFID 기술을 뜯어고쳐 <strong>양방향 통신(<a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/">P2P</a>)</strong>이 가능하게 만들고, 스마트폰 안에 리더기와 태그 기능을 동시에 쑤셔 넣어 모바일 결제 시장을 폭발시킨 글로벌 무선 표준 기술입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">지그비 메쉬</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NFC 표준</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RFID 충돌 방지 알고리즘</div></div>
-</div>
-</div>
-
-
+```text
+[지그비 메쉬]
+    │
+    ▼
+[NFC 표준]
+    │
+    └──▶ [RFID 충돌 방지 알고리즘]
+```
 
 - **📢 섹션 요약 비유**: NFC 표준은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -56,18 +52,14 @@ tags = ["studynote-network"]
 - 내 폰과 친구 폰을 서로 등 맞대고 비빌 때의 모드입니다. (안드로이드 빔)
 - 두 스마트폰이 서로 10cm 안으로 들어오면 귀찮은 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 페어링(비번 교환) 없이 1초 만에 악수(Handshake)를 끝냅니다. 그리고 명함이나 사진, 혹은 진짜 파일을 넘길 거면 빠르고 안정적인 Wi-Fi [Direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/) 채널로 스르륵 넘겨줘 버리는(OOB, Out-of-Band 연결) 기적의 브로커 역할을 합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">지그비 메쉬</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NFC 표준</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RFID 충돌 방지 알고리즘</div></div>
-</div>
-</div>
-
-
+```text
+[지그비 메쉬]
+    │
+    ▼
+[NFC 표준]
+    │
+    └──▶ [RFID 충돌 방지 알고리즘]
+```
 
 - **📢 섹션 요약 비유**: NFC 표준의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -129,19 +121,15 @@ NFC 표준은 [성능](/knowledge-base/studynote/04_software_engineering/05_devo
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 지그비 메쉬</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: NFC 표준</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: RFID 충돌 방지 알고리즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 지그비 메쉬]
+    │
+    ▼
+[현재 개념: NFC 표준]
+    │
+    ├──▶ [확장 A: RFID 충돌 방지 알고리즘]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 NFC 표준는 [지그비](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/) 메쉬에서 출발해 현재 메커니즘을 정교화하고, 이후 RFID 충돌 방지 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

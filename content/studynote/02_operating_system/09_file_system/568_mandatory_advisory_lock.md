@@ -30,28 +30,32 @@ tags = ["studynote-operating-system"]
 - <strong>Advisory vs Mandatory I/O Bypass 차단 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> 폭쇄 뷰</strong>:
 동일하게 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) 을 걸었는데, 악성 코드가 들이받을 때 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 어떻게 두 가지 태도를 취하는지 렌더 체계를 까보면 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"노크를 안 하는 미친놈에게 입장을 허락할 것인가, 모가지를 날릴 것인가!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">공통 베이스</div><div class="kb-diagram-note">: 앱 A가 <code>movie.mp4</code> 에 독점 자물쇠(Exclusive Lock)를 걸었다.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🚨</div><div class="kb-diagram-node">상황 1: 리눅스 기본 Advisory Lock (권고적 잠금의 솜방망이 늪!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 미친 앱 B가 "Lock 확인 과정 스킵!" 하고 곧바로 <code>write()</code> 냅다 발사</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">OS 커널 VFS 판결</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 커널 봇: "음, 앱 B 너 자물쇠 검사(flock) 안 했네?"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 커널 봇: "뭐 법(Mandatory) 으로 금지한 건 아니니까 네 I/O 통과시켜 줄게!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과 빔: 앱 A의 파일 안에 앱 B의 쓰레기 글씨가 중첩 오염(Data Corruption 파단 쾅!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🔥</div><div class="kb-diagram-node">상황 2: 윈도우 OS 의 Mandatory Lock (강제 잠금 철퇴 스왑 록백!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 똑같이 미친 앱 B가 Lock 무시하고 <code>write()</code> 미사일 폭주 타격!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">OS 커널 VFS (I/O Filter 레벨 방어 록백 ❗)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 커널 봇: "이 파일은 배타적 권한 상태다. 네놈 뻘짓 차단이다 버러지야."</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 커널 봇: OS 시스템 콜 레벨에서 I/O 스트림 강제 <code>Kill</code> 및 EACCES 에러 투척!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과 빔: 앱 B는 파일 근처도 못 가보고 에러 뱉으며 패배. 파일은 무결하게 100% 보존 컷!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────────────────────────────────────┐
+  │                 "노크를 안 하는 미친놈에게 입장을 허락할 것인가, 모가지를 날릴 것인가!"     │
+  ├─────────────────────────────────────────────────────────────────────────────────────────────┤
+  │                                                                                             │
+  │  [ 공통 베이스 ]: 앱 A가 `movie.mp4` 에 독점 자물쇠(Exclusive Lock)를 걸었다.               │
+  │                                                                                             │
+  │  🚨 [ 상황 1: 리눅스 기본 Advisory Lock (권고적 잠금의 솜방망이 늪!) ]                      │
+  │     => 미친 앱 B가 "Lock 확인 과정 스킵!" 하고 곧바로 `write()` 냅다 발사                   │
+  │                                                                                             │
+  │     [ OS 커널 VFS 판결 ]                                                                    │
+  │     => 커널 봇: "음, 앱 B 너 자물쇠 검사(flock) 안 했네?"                                   │
+  │     => 커널 봇: "뭐 법(Mandatory) 으로 금지한 건 아니니까 네 I/O 통과시켜 줄게!"            │
+  │     => 결과 빔: 앱 A의 파일 안에 앱 B의 쓰레기 글씨가 중첩 오염(Data Corruption 파단 쾅!)   │
+  │                                                                                             │
+  │  =========================▼===================================                              │
+  │                                                                                             │
+  │  🔥 [ 상황 2: 윈도우 OS 의 Mandatory Lock (강제 잠금 철퇴 스왑 록백!) ]                     │
+  │     => 똑같이 미친 앱 B가 Lock 무시하고 `write()` 미사일 폭주 타격!                         │
+  │                                                                                             │
+  │     [ OS 커널 VFS (I/O Filter 레벨 방어 록백 ❗) ]                                          │
+  │     => 커널 봇: "이 파일은 배타적 권한 상태다. 네놈 뻘짓 차단이다 버러지야."                │
+  │     => 커널 봇: OS 시스템 콜 레벨에서 I/O 스트림 강제 `Kill` 및 EACCES 에러 투척!           │
+  │     => 결과 빔: 앱 B는 파일 근처도 못 가보고 에러 뱉으며 패배. 파일은 무결하게 100% 보존 컷!│
+  └─────────────────────────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)(Write [Protection](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/))의 세계관 종결이다. Advisory [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) 은 "[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 껍데기에 붙은 열쇠 뭉치" 일 뿐, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 안의 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) I/O 연산 자체를 막는 방어막이 아니다! 반면 Mandatory [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) 은 517장 [VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) 레이어 깊숙한 `vfs_read()` / `vfs_write()` 함수 최상단에 `if (is_locked) return ERROR;` 를 박아넣어 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 입출력의 근원적 숨통을 조이는 무시무시한 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 거시 아키텍처 조율임을 도출.
 
@@ -131,19 +135,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">파일 잠금 (File Locking)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">강제적 잠금 (Mandatory Lock) vs 권고적 잠금 (Advisory Lock)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스파스 파일 (Sparse File) 저장 공간 절약 기술</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">리눅스 inotify 시스템</div></div>
-</div>
-</div>
-
-
+```text
+[파일 잠금 (File Locking)]
+    │
+    ▼
+[강제적 잠금 (Mandatory Lock) vs 권고적 잠금 (Advisory Lock)]
+    │
+    ├──▶ [스파스 파일 (Sparse File) 저장 공간 절약 기술]
+    └──▶ [리눅스 inotify 시스템]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

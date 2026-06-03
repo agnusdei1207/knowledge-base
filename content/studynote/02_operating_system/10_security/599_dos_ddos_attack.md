@@ -25,29 +25,31 @@ tags = ["studynote-operating-system"]
 **필요성 및 등장 배경**
 정보보안의 3요소([기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/), [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/), [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)) 중 데이터가 유출되지 않았더라도 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 자체가 멈춘다면 기업은 즉각적인 금전적/신뢰적 타격을 입는다. 과거 Ping of Death나 SYN Flooding 같은 1:1 기반의 DoS 공격은 방어측 인터넷 회선망([Pipe](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/))의 발전과 OS [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 패치로 점차 막히기 시작했다. 그러자 해커들은 [사물인터넷](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)([IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)) 기기 취약점을 뚫어 거대한 [봇넷](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/) 군단을 만들거나, [NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/)/[DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버의 응답 크기 차이를 이용해 트래픽을 수백 배로 불리는(Amplification) DDoS 기법을 개발하여 클라우드 센터조차 무너뜨리는 괴물 트래픽을 뿜어내기 시작했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DoS와 DDoS 공격 아키텍처의 근본적 진화 차이 비교도</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">고전적 DoS (1:1 공격)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해커 (Attacker) (악성 트래픽 폭탄) ▶ 타겟 서버</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 한계: 해커의 회선 속도가 타겟 서버의 회선 속도보다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">느리면 공격 실패. 방어자가 해커 IP 차단하면 끝.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현대적 DDoS (N:1 분산 공격 아키텍처)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 좀비 PC (Bot) ──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해커 (Attacker) ─ IP 카메라 (Bot) ─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 홈 공유기 (Bot) ─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(명령 하달) ─ 좀비 PC (Bot) ──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ ─ 봇넷 군단 수만 대</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C&amp;C 서버</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Command &amp; Control) ▼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(( 수십 Tbps 트래픽 폭풍 ))</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">타겟 서버 및 전체 네트워크 다운</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────┐
+│      DoS와 DDoS 공격 아키텍처의 근본적 진화 차이 비교도         │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  [고전적 DoS (1:1 공격)]                                        │
+│                                                                 │
+│  해커 (Attacker) ━━━━(악성 트래픽 폭탄)━━━━▶ 타겟 서버          │
+│  => 한계: 해커의 회선 속도가 타겟 서버의 회선 속도보다          │
+│           느리면 공격 실패. 방어자가 해커 IP 차단하면 끝.       │
+│                                                                 │
+│  [현대적 DDoS (N:1 분산 공격 아키텍처)]                         │
+│                                                                 │
+│                    ┌─ 좀비 PC (Bot) ──┐                         │
+│  해커 (Attacker)   ├─ IP 카메라 (Bot) ─┤                        │
+│        │           ├─ 홈 공유기 (Bot) ─┤                        │
+│     (명령 하달)     ├─ 좀비 PC (Bot) ──┤                        │
+│        ▼           └─ 봇넷 군단 수만 대 ┘                       │
+│  C&C 서버 ───────────────┘       │                              │
+│  (Command & Control)                 ▼                          │
+│                           (( 수십 Tbps 트래픽 폭풍 ))           │
+│                                      ▼                          │
+│                                  타겟 서버 및 전체 네트워크 다운│
+└─────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 아키텍처 다이어그램은 DoS에서 DDoS로의 패러다임 전환이 갖는 파괴력의 차이를 직관적으로 보여준다. 1:1 DoS는 복싱 시합처럼 체급([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)) 차이에 의해 승패가 결정되지만, DDoS는 해커가 C&C(명령 제어) 서버를 통해 전 세계에 퍼져 있는 취약한 단말(좀비 [봇넷](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/))에 공격 명령을 하달하는 구조다. 따라서 해커 자신의 위치나 IP는 완벽히 숨겨지며, 좀비 단말들이 제각각 정상적인 IP로 위장하여 동시다발적으로 트래픽을 쏘아대므로 단순한 IP 차단 방식([ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/)) [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)은 수만 개의 룰을 처리하다 CPU 자원이 고갈되어 스스로 뻗어버리는 치명적인 결과를 낳는다.
 
@@ -71,31 +73,32 @@ DDoS 공격은 공격이 타겟으로 삼는 OSI 7계층 지점에 따라 크게
 
 L4 계층의 가장 대표적이고 고질적인 공격인 <strong>SYN Flooding</strong>은 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 프로토콜의 '3-Way Handshake' 설계 취약점을 집요하게 파고든다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TCP 3-Way Handshake와 SYN Flooding 공격 커널 상태 변화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">정상적인 TCP 연결 프로세스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client ──(1. SYN)──▶ Server (SYN_RECV 상태 전이)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ 커널 Backlog Queue에 연결 정보 저장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client ◀──(2. SYN-ACK)─ Server</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client ──(3. ACK)──▶ Server (ESTABLISHED 상태 전이)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ Queue에서 제거하고 통신 시작</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">TCP SYN Flooding 공격 흐름</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Queue 1 할당</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Queue 2 할당</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Queue 3 할당</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">... (1초에 수만 개 발생)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버 응답 ◀──(2. SYN-ACK)─ 가짜 IP (존재하지 않거나 응답안함)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 타겟 서버의 OS 커널 Backlog Queue(보류 중인 연결 대기열)가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가득 차서 가용 한계에 도달 (Queue Full).</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이후 도달하는 정상 사용자의 진짜 SYN 요청은 커널 레벨에서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가차 없이 폐기(Drop)되어 접속이 거부됨 (가용성 파괴)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│      TCP 3-Way Handshake와 SYN Flooding 공격 커널 상태 변화      │
+├──────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  [정상적인 TCP 연결 프로세스]                                    │
+│  Client ──(1. SYN)──▶ Server (SYN_RECV 상태 전이)                │
+│                        ※ 커널 Backlog Queue에 연결 정보 저장     │
+│  Client ◀──(2. SYN-ACK)─ Server                                  │
+│  Client ──(3. ACK)──▶ Server (ESTABLISHED 상태 전이)             │
+│                        ※ Queue에서 제거하고 통신 시작            │
+│                                                                  │
+│  [TCP SYN Flooding 공격 흐름]                                    │
+│  해커 ──(1. 가짜 IP SYN 1)──▶ Server [Queue 1 할당]              │
+│  해커 ──(1. 가짜 IP SYN 2)──▶ Server [Queue 2 할당]              │
+│  해커 ──(1. 가짜 IP SYN 3)──▶ Server [Queue 3 할당]              │
+│       ... (1초에 수만 개 발생)                                   │
+│                                                                  │
+│  서버 응답 ◀──(2. SYN-ACK)─ 가짜 IP (존재하지 않거나 응답안함)   │
+│                                                                  │
+│  결과: 타겟 서버의 OS 커널 Backlog Queue(보류 중인 연결 대기열)가│
+│        가득 차서 가용 한계에 도달 (Queue Full).                  │
+│        이후 도달하는 정상 사용자의 진짜 SYN 요청은 커널 레벨에서 │
+│        가차 없이 폐기(Drop)되어 접속이 거부됨 (가용성 파괴)      │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 구조도는 DDoS가 단순히 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 막는 것이 아니라, OS 내부의 논리적 자원을 어떻게 고갈시키는지를 정밀하게 보여준다. 서버 OS(리눅스/윈도우)는 `SYN` 요청을 받으면 클라이언트가 `ACK`로 응답할 때까지 해당 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 정보를 메모리의 '백로그 큐(Backlog [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))'에 유지한다. 해커는 출발지 IP를 조작([Spoofing](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/))한 대량의 SYN 패킷만 던지고 사라진다. 서버는 가짜 주소로 SYN-ACK를 보내고 하염없이 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)([Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/))이 날 때까지 큐 공간을 비우지 못한다. 순식간에 큐 용량(예: 1024~4096개)이 꽉 차버리면, OS는 큐를 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하기 위해 새롭게 들어오는 모든 통신 요청(진짜 고객의 접근)을 버려버린다. 네트워크 회선(10Gbps)은 텅텅 비어있음에도 불구하고, 서버는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 불가(DoS) 상태에 빠지는 것이다.
 
@@ -118,27 +121,28 @@ L4 계층의 가장 대표적이고 고질적인 공격인 <strong>SYN Flooding<
 
 DRDoS의 가공할 파괴력을 수치적 증폭 계수로 시각화하면 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DRDoS (NTP 증폭 반사 공격) 트래픽 폭증 메커니즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1단계: 질의 변조 및 스푸핑</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해커 ──(64 Bytes 작은 요청)──▶ 정상적인 NTP 서버</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">출발지 IP: 타겟의 IP (스푸핑)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">명령어: <code>monlist</code> (서버의 최근 접속자 600명 목록 요청)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2단계: 반사 및 증폭 (Reflection &amp; Amplification)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NTP 서버는 받은 요청이 진짜 '타겟'이 보낸 줄 앎</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NTP 서버 내부에 저장된 거대한 결과값(수십 개의 패킷) 생성</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3단계: 거대 트래픽 직격</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정상 NTP 서버 (3,000 Bytes 응답) ▶ 타겟 서버 피해자</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(약 500배 증폭되어 쏟아짐!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 해커가 10Mbps 대역폭만으로 공격해도,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">타겟 서버에는 5Gbps(500배)의 괴물 트래픽이 꽂히게 됨.</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────┐
+│      DRDoS (NTP 증폭 반사 공격) 트래픽 폭증 메커니즘          │
+├───────────────────────────────────────────────────────────────┤
+│                                                               │
+│  [1단계: 질의 변조 및 스푸핑]                                 │
+│  해커 ──(64 Bytes 작은 요청)──▶ 정상적인 NTP 서버             │
+│         출발지 IP: 타겟의 IP (스푸핑)                         │
+│         명령어: `monlist` (서버의 최근 접속자 600명 목록 요청)│
+│                                                               │
+│  [2단계: 반사 및 증폭 (Reflection & Amplification)]           │
+│  NTP 서버는 받은 요청이 진짜 '타겟'이 보낸 줄 앎              │
+│  NTP 서버 내부에 저장된 거대한 결과값(수십 개의 패킷) 생성    │
+│                                                               │
+│  [3단계: 거대 트래픽 직격]                                    │
+│  정상 NTP 서버 ━━━━(3,000 Bytes 응답)━━━━▶ 타겟 서버 피해자   │
+│                 (약 500배 증폭되어 쏟아짐!)                   │
+│                                                               │
+│  결과: 해커가 10Mbps 대역폭만으로 공격해도,                   │
+│        타겟 서버에는 5Gbps(500배)의 괴물 트래픽이 꽂히게 됨.  │
+└───────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 다이어그램은 DRDoS가 왜 "핵무기급" 공격인지 설명한다. [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 프로토콜은 핸드쉐이크가 없어 IP [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)이 자유롭다. 해커는 인터넷에 열려있는 무고한 [NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/)(시간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)) 서버나 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버들에게 64바이트짜리 깃털같이 가벼운 질의를 던지되, 응답받을 주소를 공격 목표(Target)의 IP로 속인다. 특히 `monlist` 같은 특수 명령어는 결과값이 원본 요청보다 수백 배 거대하다(증폭). 결과적으로 해커의 작은 움직임이 거대한 쓰나미로 증폭되어(Amplification) 타겟에게 반사(Reflection)된다. 이 공격 트래픽은 글로벌 대기업의 정상 서버 IP를 달고 오기 때문에, 방어자는 섣불리 해당 IP를 차단(Blacklist)할 수도 없는 진퇴양난에 빠진다.
 
@@ -189,7 +193,7 @@ DRDoS의 가공할 파괴력을 수치적 증폭 계수로 시각화하면 다�
 - **RFC 5635**: [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) Blackholing ([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 기반 공격 트래픽 흡수 표준)
 - **KISA DDoS 대응 가이드**: [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/), [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/), 애플리케이션 계층별 모범 완화 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)
 
-- **📢 섹션 요약 비유**: 해커가 아무리 많은 좀비 군단을 이끌고 물량 공세(DDoS)를 펼치더라도, 우리는 거대한 클라우드 방어막(거름망)과 똑똑한 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)([XDP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/670_xdp/) 자동문)을 통해 더러운 흙탕물은 바다로 흘려보내고 깨끗한 식수만 집 안으로 들여보낼 수 있게 진화하고 있습니다.
+- **📢 섹션 요약 비유**: 해커가 아무리 많은 좀비 군단을 이끌고 수량 공세(DDoS)를 펼치더라도, 우리는 거대한 클라우드 방어막(거름망)과 똑똑한 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)([XDP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/670_xdp/) 자동문)을 통해 더러운 흙탕물은 바다로 흘려보내고 깨끗한 식수만 집 안으로 들여보낼 수 있게 진화하고 있습니다.
 
 ---
 
@@ -204,19 +208,15 @@ DRDoS의 가공할 파괴력을 수치적 증폭 계수로 시각화하면 다�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">스푸핑 (Spoofing)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">서비스 거부 (DoS) 및 분산 서비스 거부 (DDoS) 네트워크 자원 고갈 공격</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">포트 스캐닝 (Port Scanning) 도구 원리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">침입 탐지 시스템 (IDS) / 침입 방지 시스템 (IPS) 시스템 콜 트레이싱 기반 이상 탐지</div></div>
-</div>
-</div>
-
-
+```text
+[스푸핑 (Spoofing)]
+    │
+    ▼
+[서비스 거부 (DoS) 및 분산 서비스 거부 (DDoS) 네트워크 자원 고갈 공격]
+    │
+    ├──▶ [포트 스캐닝 (Port Scanning) 도구 원리]
+    └──▶ [침입 탐지 시스템 (IDS) / 침입 방지 시스템 (IPS) 시스템 콜 트레이싱 기반 이상 탐지]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

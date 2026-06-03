@@ -23,17 +23,14 @@ OpenAI는 2018년 GPT-1을 발표하며 "단순히 다음 단어를 예측하는
 
 GPT는 Transformer의 [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/) 부분만 사용하며, 학습 시 입력 시퀀스의 각 위치에서 이전 토큰들만 보고 다음 토큰을 예측한다. 이 인과적(Causal) 학습은 자기회귀 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)에 자연스럽게 이어진다 — 추론 시에도 앞 토큰을 입력으로 다음 토큰을 한 번에 하나씩 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: GPT는 소설 작가다. 앞 내용(이전 토큰들)만 보고 다음 문장(다음 토큰)을 이어 쓴다. 미래 내용은 절대 미리 보지 않는다([마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)크드 어텐션). BERT는 완성된 소설을 전체 읽고 분석하는 문학 평론가이고, GPT는 빈 원고지를 채워가는 작가다.
 
@@ -41,25 +38,32 @@ GPT는 Transformer의 [디코더](/knowledge-base/studynote/01_computer_architec
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GPT 자기회귀 생성 구조 (Autoregressive Generation)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력: "한국의 수도는"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Transformer Decoder Block (N회 반복)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Masked Multi-Head Self-Attention</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(현재 위치에서 미래 토큰 어텐션 마스킹)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예: "한국의" 위치에서 "수도는"을 볼 수 없음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Add &amp; Norm → Feed-Forward Network → Add &amp; Norm</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">선형 레이어 + Softmax → 다음 토큰 확률 분포</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">출력 1: "서울" (확률 최고 → 그리디 또는 샘플링으로 선택)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다시 입력: "한국의 수도는 서울" → 출력 2: "이다" → ...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(이전 출력을 입력에 추가하며 시퀀스 완성: 자기회귀)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│         GPT 자기회귀 생성 구조 (Autoregressive Generation)          │
+├──────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  입력: "한국의 수도는"                                              │
+│   │                                                              │
+│  ┌▼──────────────────────────────────────────────────────────┐   │
+│  │  Transformer Decoder Block (N회 반복)                      │   │
+│  │  ┌─────────────────────────────────────────────────────┐  │   │
+│  │  │  Masked Multi-Head Self-Attention                   │  │   │
+│  │  │  (현재 위치에서 미래 토큰 어텐션 마스킹)                 │  │   │
+│  │  │  예: "한국의" 위치에서 "수도는"을 볼 수 없음            │  │   │
+│  │  ├─────────────────────────────────────────────────────┤  │   │
+│  │  │  Add & Norm → Feed-Forward Network → Add & Norm     │  │   │
+│  │  └─────────────────────────────────────────────────────┘  │   │
+│  └────────────────────────────────────────────────────────────┘   │
+│   │                                                              │
+│  선형 레이어 + Softmax → 다음 토큰 확률 분포                        │
+│   │                                                              │
+│  출력 1: "서울" (확률 최고 → 그리디 또는 샘플링으로 선택)             │
+│   │                                                              │
+│  다시 입력: "한국의 수도는 서울" → 출력 2: "이다" → ...              │
+│  (이전 출력을 입력에 추가하며 시퀀스 완성: 자기회귀)                  │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 | GPT [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) | 파라미터 | 주요 혁신 | 출시 |
 |:---|:---|:---|:---|

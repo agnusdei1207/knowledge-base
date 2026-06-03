@@ -43,22 +43,26 @@ FCoE의 핵심은 "FC를 [TCP](/knowledge-base/studynote/03_network/08_transport
 
 아래 그림은 FCoE가 FC의 의미 체계는 유지하고, 케이블과 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 경로만 Ethernet으로 바꾸는 구조를 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FCoE data path: keep FC semantics, change the wire</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Server</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ LAN packets</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ FC storage frames</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CNA (Converged Network Adapter)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Lossless Ethernet fabric with DCB / PFC / ETS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FCF (Fibre Channel Forwarder) or FCoE-capable switch</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FC SAN services Regular Ethernet LAN</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                FCoE data path: keep FC semantics, change the wire    │
+├──────────────────────────────────────────────────────────────────────┤
+│ Server                                                               │
+│   ├─ LAN packets ───────────────┐                                    │
+│   └─ FC storage frames ──────┐  │                                    │
+│                              ▼  ▼                                    │
+│                    CNA (Converged Network Adapter)                   │
+│                              │                                       │
+│                              ▼                                       │
+│          Lossless Ethernet fabric with DCB / PFC / ETS              │
+│                              │                                       │
+│                              ▼                                       │
+│          FCF (Fibre Channel Forwarder) or FCoE-capable switch       │
+│                    ├──────────────────────────────┐                  │
+│                    ▼                              ▼                  │
+│             FC SAN services                 Regular Ethernet LAN      │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 즉 FCoE는 "스토리지 명령을 Ethernet에 태웠다"기보다, <strong>FC가 요구하는 질서를 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">Ethernet</a> 쪽으로 끌어와 수렴시켰다</strong>고 보는 편이 더 정확하다. 이 때문에 구축이 잘되면 배선은 단순해지지만, 네트워크는 오히려 더 정교하게 관리해야 한다.
 
@@ -130,26 +134,25 @@ FCoE의 가장 큰 효과는 <strong>인프라 수렴</strong>이다. 서버당 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">네이티브 Fibre Channel (FC) SAN</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">서버별 NIC + HBA 이중 구성</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">FCoE (Fibre Channel over Ethernet)</div>
-<div class="kb-diagram-note">: CNA + DCB 기반 데이터센터 수렴</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 기존 FC 운영 모델 유지</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">iSCSI (Internet Small Computer System Interface)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">NVMe/TCP (Non-Volatile Memory Express over Transmission Control Protocol)</div>
-<div class="kb-diagram-note">: 라우팅 가능한 IP 스토리지로 확장</div>
-</div>
-</div>
-
-
+```text
+네이티브 Fibre Channel (FC) SAN
+    │
+    ▼
+서버별 NIC + HBA 이중 구성
+    │
+    ▼
+FCoE (Fibre Channel over Ethernet)
+    : CNA + DCB 기반 데이터센터 수렴
+    │
+    ├──▶ 기존 FC 운영 모델 유지
+    │
+    ▼
+iSCSI (Internet Small Computer System Interface)
+    │
+    ▼
+NVMe/TCP (Non-Volatile Memory Express over Transmission Control Protocol)
+    : 라우팅 가능한 IP 스토리지로 확장
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

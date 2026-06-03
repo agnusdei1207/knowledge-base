@@ -24,18 +24,14 @@ tags = ["studynote-network"]
 3. <strong><a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/009_hybrid_cloud/">하이브리드 클라우드</a> (Hybrid) 🌟</strong>: `퍼블릭 + 프라이빗`의 결합. 기밀 데이터는 사내망(프라이빗)에 두고, 웹 서버 등은 확장성이 무한한 AWS(퍼블릭)에 올려 두 망을 직통으로 뚫어 하나처럼 쓰는 실무 최강 아키텍처.
 4. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/">멀티 클라우드</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/">Multi-Cloud</a>) 🌟</strong>: `AWS + 구글 클라우드 + Azure` 등 특정 클라우드 회사에 종속되는 것을 막기 위해 여러 [퍼블릭 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/)를 동시에 섞어 쓰는 방식.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Direct Connect / Express…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">하이브리드 / 멀티 클라우드 망 연동</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">BDI</div></div>
-</div>
-</div>
-
-
+```text
+[Direct Connect / Express…]
+    │
+    ▼
+[하이브리드 / 멀티 클라우드 망 연동]
+    │
+    └──▶ [BDI]
+```
 
 - **📢 섹션 요약 비유**: 하이브리드 / [멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) 망 연동은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -59,18 +55,14 @@ tags = ["studynote-network"]
 - 본사 관리자가 마우스로 [SD-WAN](/knowledge-base/studynote/03_network/16_data_center_cloud/849_sd_wan_software_defined_wide_area_network/) 중앙 컨트롤러를 조작합니다. "유튜브 보려는 트래픽은 싸구려 일반 인터넷망([VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/))으로 보내고, AWS 서버와 통신하는 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) 트래픽은 비싼 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/)([Direct Connect](/knowledge-base/studynote/03_network/16_data_center_cloud/838_direct_connect_expressroute_cloud_leased_line/))으로만 꺾어서 보내라!"
 - 전 세계 수백 대의 장비가 중앙의 룰(소프트웨어 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))에 맞춰 트래픽을 지능적으로 분산시키는(Application-Aware [Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)) 극강의 융합 통제망입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Direct Connect / Express…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">하이브리드 / 멀티 클라우드 망 연동</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">BDI</div></div>
-</div>
-</div>
-
-
+```text
+[Direct Connect / Express…]
+    │
+    ▼
+[하이브리드 / 멀티 클라우드 망 연동]
+    │
+    └──▶ [BDI]
+```
 
 - **📢 섹션 요약 비유**: [하이브리드 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/009_hybrid_cloud/)망 설계는 거대한 '글로벌 해저 터널 뚫기'입니다. 옛날엔 한국 본사(프라이빗)와 미국 공장(AWS 퍼블릭), 유럽 공장(구글 퍼블릭)이 서로 서류를 주고받으려면 느려터지고 불확실한 여객선(인터넷 [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/))을 써야 했습니다. <strong>하이브리드/<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/">멀티 클라우드</a> 인터커넥트</strong>는 태평양과 대서양 바다 밑으로 무식하게 '전용 고속 해저 철도([Direct Connect](/knowledge-base/studynote/03_network/16_data_center_cloud/838_direct_connect_expressroute_cloud_leased_line/) 연동망)'를 통째로 깔아버린 것입니다. 여기에 <strong>트랜짓 게이트웨이(환승 센터)</strong>라는 거대한 중앙역을 하나 지어두어, 전 세계 어디서 출발하든 중앙역에서 갈아타면 모든 공장이 하나로 직통 연결되도록 수천 개의 복잡한 선을 하나로 깔끔하게 정리해 낸 궁극의 글로벌 물류 아키텍처입니다.
 
@@ -128,19 +120,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: Direct Connect / Express…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 하이브리드 / 멀티 클라우드 망 연동</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: BDI</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: Direct Connect / Express…]
+    │
+    ▼
+[현재 개념: 하이브리드 / 멀티 클라우드 망 연동]
+    │
+    ├──▶ [확장 A: BDI]
+    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
+```
 
 하이브리드 / [멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) 망 연동는 [Direct Connect](/knowledge-base/studynote/03_network/16_data_center_cloud/838_direct_connect_expressroute_cloud_leased_line/) / Express…에서 출발해 현재 메커니즘을 정교화하고, 이후 BDI와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

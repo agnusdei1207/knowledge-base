@@ -36,24 +36,25 @@ tags = ["studynote-devops-sre"]
 | **Substitution (치환)** | `홍길동` -> `가짜이름사전` -> `김철수` | 완벽히 다른 진짜 같은 가짜 값으로 교체하여 UI 테스트 시 이질감이 없음. |
 | **Deterministic Hashing** | `회원번호: A123` -> `Hash(A123)` -> `X999` | 일관된 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)를 써서, 회원 테이블의 X999와 주문 테이블의 X999가 조인([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/))되도록 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 유지. |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Test Data Masking Pipeline 아키텍처 흐름도</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">망분리 내부 (보안 구역)</div><div class="kb-diagram-node">개발/테스트 망</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">운영 DB (Prod) 테스트 DB (Dev/QA)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이름: 홍길동</div><div class="kb-diagram-cell">마스킹 파이프라인</div><div class="kb-diagram-cell">이름: 김철수</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주민: 900101</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">(Jenkins /</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">주민: 111111</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">카드: 1234...</div><div class="kb-diagram-cell">Delphix 등)</div><div class="kb-diagram-cell">카드: 9999...</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">마스킹 룰 엔진 (Policy)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 이름: 난수 사전 치환(Substitution)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 주민번호: 형태 보존 암호화(FPE) 적용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 회원번호: 참조 무결성 유지를 위한 일관 해시</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           Test Data Masking Pipeline 아키텍처 흐름도            │
+├──────────────────────────────────────────────────────────────┤
+│ [ 망분리 내부 (보안 구역) ]            [ 개발/테스트 망 ]            │
+│                                                              │
+│  운영 DB (Prod)                       테스트 DB (Dev/QA)        │
+│  ┌────────────┐     ┌──────────────┐     ┌────────────┐      │
+│  │이름: 홍길동   │     │ 마스킹 파이프라인 │     │이름: 김철수   │      │
+│  │주민: 900101 │ ──▶ │ (Jenkins /   │ ──▶ │주민: 111111 │      │
+│  │카드: 1234...│     │  Delphix 등) │     │카드: 9999...│      │
+│  └────────────┘     └──────┬───────┘     └────────────┘      │
+│                            │                                 │
+│                   [ 마스킹 룰 엔진 (Policy) ]                   │
+│                   - 이름: 난수 사전 치환(Substitution)          │
+│                   - 주민번호: 형태 보존 암호화(FPE) 적용          │
+│                   - 회원번호: 참조 무결성 유지를 위한 일관 해시     │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램에서 가장 중요한 것은 <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/">마스</a>킹 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>라인 시스템의 위치</strong>다. [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)킹 작업 자체는 반드시 안전한 '운영 망 내부'에서 수행되어, 오염이 완료된 찌꺼기(안전 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 결과물만 개발 망으로 넘어가는 일방향(One-Way) 아키텍처가 강제되어야 한다.
 
@@ -116,23 +117,21 @@ tags = ["studynote-devops-sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">수작업 더미 데이터 생성 (개발자가 엑셀이나 스크립트로 Mock Data 생성)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">운영 DB 무단 복제 (개발 편의를 위해 운영 DB를 통째로 개발망 덤프 -&gt; 대형 보안 사고 발생)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">정적/동적 마스킹 솔루션 도입 (DBA가 수동으로 민감 정보 가린 후 넘겨주는 과도기)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CI/CD 연동 자동화 마스킹 파이프라인 (DevSecOps. 스냅샷 -&gt; 마스킹 -&gt; 주입의 무인 자동화 달성)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">AI 기반 합성 데이터(Synthetic Data) 생성 및 차분 프라이버시(통계적 무결성 보장) 융합</div>
-</div>
-</div>
-
-
+```text
+수작업 더미 데이터 생성 (개발자가 엑셀이나 스크립트로 Mock Data 생성)
+    │
+    ▼
+운영 DB 무단 복제 (개발 편의를 위해 운영 DB를 통째로 개발망 덤프 -> 대형 보안 사고 발생)
+    │
+    ▼
+정적/동적 마스킹 솔루션 도입 (DBA가 수동으로 민감 정보 가린 후 넘겨주는 과도기)
+    │
+    ▼
+CI/CD 연동 자동화 마스킹 파이프라인 (DevSecOps. 스냅샷 -> 마스킹 -> 주입의 무인 자동화 달성)
+    │
+    ▼
+AI 기반 합성 데이터(Synthetic Data) 생성 및 차분 프라이버시(통계적 무결성 보장) 융합
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

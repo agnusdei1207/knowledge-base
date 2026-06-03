@@ -24,18 +24,14 @@ tags = ["studynote-network"]
 
 - **💡 비유**: CIDR은 기성복 정장만 팔던 옷가게에 <strong>"줄자(<a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/963_subnet_mask_cidr_classless_inter_domain_routing/">서브넷 마스크</a>)를 들고 치수를 재서 옷을 잘라주는 맞춤복(Tailor-made) 장인"</strong>이 등장한 것입니다. 더 이상 팔이나 바짓단이 남아돌아서 버려지는 천(IP 낭비)이 사라졌습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">브로드캐스트 주소</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">클래스리스 라우팅</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">서브네팅</div></div>
-</div>
-</div>
-
-
+```text
+[브로드캐스트 주소]
+    │
+    ▼
+[클래스리스 라우팅]
+    │
+    └──▶ [서브네팅]
+```
 
 - **📢 섹션 요약 비유**: ** CIDR은 케이크를 조각낼 때 "무조건 4등분이나 8등분으로만 잘라라!"라는 규칙을 박살 내고, **"먹을 사람이 원하는 그램(g) 수에 맞춰서 칼을 아무 데나 들이대어 잘라도 합법"**으로 만들어준 극강의 유연성입니다.
 
@@ -61,22 +57,23 @@ CIDR의 개념을 사내 네트워크 디자인에 적용한 것이 VLSM이다. 
 - 달랑 2대의 라우터만 마주 보고 있는 시리얼 점대점([P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/)) 링크는 `/30` (가용 IP 딱 2개)
 이렇게 <strong>각 부서의 인원수에 딱 들어맞게 가변적(Variable)으로 서브넷을 칼질</strong>할 수 있어 사설망 안에서도 IP의 낭비를 제로(0)에 가깝게 만들었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CIDR 기반 서브넷 쪼개기 (VLSM) 예시</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">통신사에서 받은 원본 땅</div><div class="kb-diagram-note">192.168.10.0 /24 (256개 공간)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"영업부가 100명이라고? 절반 뚝 잘라서 너네 가져라!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 192.168.10.0 /25 (128개) ── 영업부 할당</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"남은 절반(128개)을 또 반으로 잘라서(64개) 인사부 줘라!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 192.168.10.128 /26 (64개) ── 인사부 할당</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 슬래시 뒤의 숫자가 1씩 커질수록, 동네 크기(호스트 수)는</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정확히 "반의반 토막"으로 쪼개진다!</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                CIDR 기반 서브넷 쪼개기 (VLSM) 예시              │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 통신사에서 받은 원본 땅 ] 192.168.10.0 /24 (256개 공간)         │
+ │                                                             │
+ │   "영업부가 100명이라고? 절반 뚝 잘라서 너네 가져라!"               │
+ │   ▶ 192.168.10.0 /25 (128개) ── 영업부 할당                  │
+ │                                                             │
+ │   "남은 절반(128개)을 또 반으로 잘라서(64개) 인사부 줘라!"           │
+ │   ▶ 192.168.10.128 /26 (64개) ── 인사부 할당                 │
+ │                                                             │
+ │   * 핵심: 슬래시 뒤의 숫자가 1씩 커질수록, 동네 크기(호스트 수)는     │
+ │          정확히 "반의반 토막"으로 쪼개진다!                        │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: <strong> CIDR 표기법(<code>/24, /26</code>)은 </strong>"피자 커팅 지시서"**와 같습니다. 숫자가 커진다는 것은 칼질을 그만큼 많이 했다는 뜻이므로, 내가 먹을 수 있는 한 조각(네트워크 크기)의 양은 정확히 반씩 작아집니다.
 
@@ -134,19 +131,15 @@ CIDR의 개념을 사내 네트워크 디자인에 적용한 것이 VLSM이다. 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 브로드캐스트 주소</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 클래스리스 라우팅</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 서브네팅</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 대규모 주소 자동화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 브로드캐스트 주소]
+    │
+    ▼
+[현재 개념: 클래스리스 라우팅]
+    │
+    ├──▶ [확장 A: 서브네팅]
+    └──▶ [확장 B: 대규모 주소 자동화]
+```
 
 클래스리스 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)는 [브로드캐스트 주소](/knowledge-base/studynote/03_network/06_network_layer_ip/302_broadcast_address_network_limited_255_255_255_255/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [서브네팅](/knowledge-base/studynote/03_network/06_network_layer_ip/304_subnetting_network_division_and_operation/)와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

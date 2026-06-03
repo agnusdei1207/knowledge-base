@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 아키텍처에서 중간의 <strong>제어 계층(컨트롤러)</strong>과 그 위에서 돌아가는 <strong>응용 계층(네트워크 애플리케이션: <a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a>, 로드밸런서, 트래픽 감시 앱 등)</strong> 사이를 연결하여 소통하게 해 주는 소프트웨어 통신 규약([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))입니다.
 - 아키텍처 다이어그램에서 컨트롤러를 기준으로 <strong>북쪽(위쪽, North)</strong>으로 향하는 선이라 하여 노스바운드라 부릅니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">사우스바운드 인터페이스</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">노스바운드 인터페이스</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OpenFlow SDN 1세대 표준 규격</div></div>
-</div>
-</div>
-
-
+```text
+[사우스바운드 인터페이스]
+    │
+    ▼
+[노스바운드 인터페이스]
+    │
+    └──▶ [OpenFlow SDN 1세대 표준 규격]
+```
 
 - **📢 섹션 요약 비유**: 노스바운드 인터페이스는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -52,18 +48,14 @@ tags = ["studynote-network"]
 - 로드밸런서 앱이 노스바운드 API로 <strong>"이번 트래픽은 보안 1등급(의도)으로 쏴줘!"</strong>라고 대충 툭 던집니다. 
 - 이 말을 찰떡같이 알아들은 컨트롤러(뇌)가, 알아서 밑바닥 지도를 보고 해킹 위험이 없는 안전한 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들로만 쏙쏙 피해서 길(경로)을 다 뚫어줍니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">사우스바운드 인터페이스</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">노스바운드 인터페이스</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OpenFlow SDN 1세대 표준 규격</div></div>
-</div>
-</div>
-
-
+```text
+[사우스바운드 인터페이스]
+    │
+    ▼
+[노스바운드 인터페이스]
+    │
+    └──▶ [OpenFlow SDN 1세대 표준 규격]
+```
 
 - **📢 섹션 요약 비유**: 노스바운드 인터페이스의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -121,19 +113,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 사우스바운드 인터페이스</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 노스바운드 인터페이스</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: OpenFlow SDN 1세대 표준 규격</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 프로그래머블 네트워크</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 사우스바운드 인터페이스]
+    │
+    ▼
+[현재 개념: 노스바운드 인터페이스]
+    │
+    ├──▶ [확장 A: OpenFlow SDN 1세대 표준 규격]
+    └──▶ [확장 B: 프로그래머블 네트워크]
+```
 
 노스바운드 인터페이스는 [사우스바운드 인터페이스](/knowledge-base/studynote/03_network/17_sdn_nfv/853_southbound_interface_api_controller_switch/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [OpenFlow](/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/) [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 1세대 표준 규격와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

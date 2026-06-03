@@ -23,16 +23,13 @@ tags = ["studynote-devops-sre"]
 
 팀 간 책임 경계가 불명확하면 리드타임과 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 모두 느려진다. 따라서 컨웨이의 법칙을 이해할 때는 "무엇을 자동화하는가"보다 "어떤 실패와 편차를 줄이려는가"를 먼저 붙잡아야 한다.
 
+```text
+Deployment / Control / Feedback Flow
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Deployment / Control / Feedback Flow</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Principle</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Metric</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Feedback</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Platform Support</div></div>
-</div>
-</div>
-
-
+┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐
+│ Principle            │──▶│ Metric               │──▶│ Feedback             │──▶│ Platform Support     │
+└──────────────────────┘   └──────────────────────┘   └──────────────────────┘   └──────────────────────┘
+```
 
 이 그림은 컨웨이의 법칙이 입력, 실행, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 환류를 한 흐름으로 묶는다는 점을 보여준다. 즉 기술 자체보다도 제어 루프와 피드백 구조가 본질이다.
 
@@ -51,16 +48,13 @@ tags = ["studynote-devops-sre"]
 | Feedback | 포스트모템, 회고, 대시보드로 개선점을 가시화 | 문제의 구조적 원인을 남기는 습관 중요 |
 | Platform [Support](/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/) | 반복 작업을 공통 기반으로 흡수 | [개발자 경험](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/058_dx_developer_experience/)과 운영 품질을 함께 높임 |
 
+```text
+Reference Architecture
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Reference Architecture</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Principle</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Metric</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Feedback</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Platform Support</div></div>
-</div>
-</div>
-
-
+┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐
+│ Principle            │──▶│ Metric               │──▶│ Feedback             │──▶│ Platform Support     │
+└──────────────────────┘   └──────────────────────┘   └──────────────────────┘   └──────────────────────┘
+```
 
 위 구조에서 중요한 것은 각 계층의 책임을 분리하면서도, 마지막에 반드시 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 다시 제어 계층으로 돌아오게 만드는 것이다. 그래야 변경 실패가 누적되지 않고, 재현성과 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 가능성을 함께 확보할 수 있다.
 
@@ -79,7 +73,7 @@ tags = ["studynote-devops-sre"]
 | 위험 | [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)와 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 약하면 기대효과가 줄어듦 | 확장성·가시성·자동화 한계가 빨리 드러남 |
 | 적합한 상황 | 여러 팀이 제품, 플랫폼, 운영을 나눠 맡는 조직에서 공통 언어를 맞출 때 특히 필요하다. | 변화가 적거나 단순한 환경 |
 
-또한 이 주제는 Team Topology, [Bounded Context](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/), Platform Engineering처럼 주변 개념과 강하게 연결된다. 기술사 관점에서는 개별 정의보다도 이런 연결 구조를 설명해야 답안의 깊이가 생긴다.
+또한 이 주제는 Team Topology, [Bounded Context](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/), Platform 엔진ering처럼 주변 개념과 강하게 연결된다. 기술사 관점에서는 개별 정의보다도 이런 연결 구조를 설명해야 답안의 깊이가 생긴다.
 
 - **📢 섹션 요약 비유**: 교실 규칙처럼 기준이 같아야 평가와 피드백이 공정해진다.
 
@@ -110,7 +104,7 @@ tags = ["studynote-devops-sre"]
 
 컨웨이의 법칙을 잘 적용하면 공통 목표와 측정 체계를 맞춰 기술 선택과 조직 구조를 같은 방향으로 정렬한다. 반면 슬로건만 강조하고 측정·행동 변화가 없으면 선언적 구호로 끝날 수 있다. 결국 핵심은 도구 이름을 외우는 것이 아니라, 제어 기준·상태 정합성·[피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)를 하나의 설계 문제로 보는 것이다.
 
-앞으로는 [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/), Value [Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/), Platform Engineering처럼 측정 기반 개선 체계가 핵심이 된다. 따라서 컨웨이의 법칙은 "한 번 도입하는 기술"이 아니라, 변화가 잦은 시스템을 어떻게 안정적으로 운영할 것인지에 대한 사고 틀로 기억하는 것이 맞다.
+앞으로는 [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/), Value [Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/), Platform 엔진ering처럼 측정 기반 개선 체계가 핵심이 된다. 따라서 컨웨이의 법칙은 "한 번 도입하는 기술"이 아니라, 변화가 잦은 시스템을 어떻게 안정적으로 운영할 것인지에 대한 사고 틀로 기억하는 것이 맞다.
 
 - **📢 섹션 요약 비유**: 팀 스포츠 전술판처럼 역할과 간격이 맞아야 개인 역량이 팀 성과로 이어진다.
 
@@ -122,25 +116,21 @@ tags = ["studynote-devops-sre"]
 |:---|:---|
 | Team Topology | 컨웨이의 법칙을 이해할 때 직접 연결되는 기반 개념 |
 | [Bounded Context](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/) | 컨웨이의 법칙의 설계·운영 판단 기준을 보완하는 개념 |
-| [Platform Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/) | 컨웨이의 법칙을 자동화·확장 측면에서 연결하는 개념 |
+| [Platform 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/) | 컨웨이의 법칙을 자동화·확장 측면에서 연결하는 개념 |
 | 기능 [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/) 중심 운영 | 컨웨이의 법칙 적용 후 후속 발전 방향을 설명하는 개념 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Team Topology</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">컨웨이의 법칙</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Bounded Context</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Platform Engineering</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">기능 사일로 중심 운영</div></div>
-</div>
-</div>
-
-
+```text
+[Team Topology]
+    │
+    ▼
+[컨웨이의 법칙]
+    │
+    ├──▶ [Bounded Context]
+    ├──▶ [Platform Engineering]
+    └──▶ [기능 사일로 중심 운영]
+```
 
 이 흐름도는 컨웨이의 법칙이 선행 개념 위에 서서 운영 자동화, 보안, 확장, 가시성 중 어떤 축으로 확장되는지를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해서 보여준다.
 

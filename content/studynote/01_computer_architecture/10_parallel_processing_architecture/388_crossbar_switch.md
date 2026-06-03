@@ -25,22 +25,21 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 크로스바가 왜 "[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 사서 얻는 구조"인지 보여준다.
 
+```text
+┌──────────────────────────────────────────────────────────────────────────┐
+│ 4x4 crossbar example                                                    │
+├──────────┬────────┬────────┬────────┬────────┤
+│          │ Out0   │ Out1   │ Out2   │ Out3   │
+├──────────┼────────┼────────┼────────┼────────┤
+│ In0      │ ON     │ OFF    │ OFF    │ OFF    │
+│ In1      │ OFF    │ OFF    │ ON     │ OFF    │
+│ In2      │ OFF    │ ON     │ OFF    │ OFF    │
+│ In3      │ OFF    │ OFF    │ OFF    │ ON     │
+└──────────┴────────┴────────┴────────┴────────┘
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4x4 crossbar example</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Out0</div><div class="kb-diagram-cell">Out1</div><div class="kb-diagram-cell">Out2</div><div class="kb-diagram-cell">Out3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">In0</div><div class="kb-diagram-cell">ON</div><div class="kb-diagram-cell">OFF</div><div class="kb-diagram-cell">OFF</div><div class="kb-diagram-cell">OFF</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">In1</div><div class="kb-diagram-cell">OFF</div><div class="kb-diagram-cell">OFF</div><div class="kb-diagram-cell">ON</div><div class="kb-diagram-cell">OFF</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">In2</div><div class="kb-diagram-cell">OFF</div><div class="kb-diagram-cell">ON</div><div class="kb-diagram-cell">OFF</div><div class="kb-diagram-cell">OFF</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">In3</div><div class="kb-diagram-cell">OFF</div><div class="kb-diagram-cell">OFF</div><div class="kb-diagram-cell">OFF</div><div class="kb-diagram-cell">ON</div></div>
-<div class="kb-diagram-note">Different outputs =&gt; parallel transfers possible</div>
-<div class="kb-diagram-note">Same output target =&gt; arbitration required</div>
-</div>
-</div>
-
-
+Different outputs  => parallel transfers possible
+Same output target => arbitration required
+```
 
 이 그림에서 중요한 점은 모든 입력이 항상 동시에 전송하는 것이 아니라, <strong>출력이 겹치지 않을 때 <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>성이 최대화된다</strong>는 사실이다. 따라서 크로스바는 "무조건 충돌이 없다"기보다 "내부 경로 때문에 막히지 않는다"는 의미의 비차단 (Non-blocking) 특성을 가진다. 남는 충돌은 경로가 아니라 동일 자원 경쟁, 즉 같은 메모리 뱅크나 같은 출력 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 동시에 원할 때 발생한다.
 
@@ -61,19 +60,16 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 크로스바의 내부 판단 흐름을 압축한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Input ports</div><div class="kb-diagram-cell">─▶</div><div class="kb-diagram-cell">Crosspoint matrix</div><div class="kb-diagram-cell">─▶</div><div class="kb-diagram-cell">Output ports</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">In0 In1 In2</div><div class="kb-diagram-cell">+ arbitration / scheduling</div><div class="kb-diagram-cell">O0 O1 O2 O3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">In3</div></div>
-<div class="kb-diagram-tree-item" style="--depth:8">Different outputs -&gt; connect in parallel</div>
-<div class="kb-diagram-tree-item" style="--depth:8">Same output target -&gt; choose one, defer others</div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐     ┌──────────────────────────────┐     ┌──────────────┐
+│ Input ports  │ ─▶  │ Crosspoint matrix            │ ─▶  │ Output ports │
+│ In0 In1 In2  │     │ + arbitration / scheduling   │     │ O0 O1 O2 O3  │
+│ In3          │     │                              │     │              │
+└──────────────┘     └──────────────────────────────┘     └──────────────┘
+                            │
+                            ├─ Different outputs  -> connect in parallel
+                            └─ Same output target -> choose one, defer others
+```
 
 정량적으로 보면 장점과 한계가 아주 분명하다. `N x N` 크로스바는 최대 `N`개의 독립 전송을 동시에 처리할 수 있어 총 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 매우 크다. 반면 필요한 교차점 수와 배선 자원도 `O(N^2)`로 커지므로, 노드가 두 배가 되면 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)와 배선 부담은 네 배 수준으로 증가한다. 그래서 소규모에서는 이상적이지만, 대규모에서는 배선 길이, [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 소비전력, 칩 면적이 빠르게 부담이 된다.
 
@@ -154,24 +150,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">공유 버스 병목</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">크로스바 스위치 (Crossbar Switch)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">짧은 지연 · 높은 동시성</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">다단 연결망 (Multistage Interconnection Network)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클로스 망 (Clos Network) · 스위치 패브릭 (Switch Fabric)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">네트워크 온 칩 (NoC, Network on Chip) · 계층형 인터커넥트</div>
-</div>
-</div>
-
-
+```text
+공유 버스 병목
+    │
+    ▼
+크로스바 스위치 (Crossbar Switch)
+    │
+    ├─ 짧은 지연 · 높은 동시성
+    │
+    ▼
+다단 연결망 (Multistage Interconnection Network)
+    │
+    ▼
+클로스 망 (Clos Network) · 스위치 패브릭 (Switch Fabric)
+    │
+    ▼
+네트워크 온 칩 (NoC, Network on Chip) · 계층형 인터커넥트
+```
 
 이 흐름은 "단일 경로 병목 제거 → 직접 연결 극대화 → 비용 절충 → 대규모 계층화"로 인터커넥트 설계가 발전하는 방향을 보여준다.
 

@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 기존 방화벽은 IP와 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)만 보는 멍청이였고, [NIDS](/knowledge-base/studynote/03_network/13_network_security_basics/693_nids_network_intrusion_detection_system/)(침입 탐지)는 해커의 악성 코드를 기가 막히게 찾아냈지만 <strong>경고(Alert)만 울릴 뿐, 악성 패킷이 서버로 쏟아져 들어가는 것을 '물리적'으로 막아내지 못하는 사후 약방문 장비</strong>였습니다.
 - "탐지하는 순간, 관리자를 기다릴 필요 없이 기계가 알아서 스스로(능동적으로) 악성 패킷의 숨통을 끊어버리고 연결을 폐기(Drop)해 버릴 수는 없을까?" 이 완벽한 방패의 꿈이 IPS를 탄생시켰습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">스노트, Suricata 와 오용 탐지 vs…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IPS 차단 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">WAF</div></div>
-</div>
-</div>
-
-
+```text
+[스노트, Suricata 와 오용 탐지 vs…]
+    │
+    ▼
+[IPS 차단 아키텍처]
+    │
+    └──▶ [WAF]
+```
 
 - **📢 섹션 요약 비유**: IPS 차단 아키텍처는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -46,18 +42,14 @@ NIDS가 탐지만 하고 막지 못했던 이유는 네트워크 밖에서 남�
 - **인라인 (In-line) 배치**: 인터넷 선이 들어와서 서버로 가는 **메인 골목 한가운데(In-line)를 싹둑 자르고 IPS 장비를 그 사이에 직렬로 꽂아버립니다.**
 - 즉, 외부에서 들어오는 모든 택배(패킷)는 무조건 IPS 장비의 배때기 속을 관통해서 지나가야만 합니다. IPS가 엑스레이를 찍어보고 악성코드가 있으면 문을 꽝 닫고 패킷을 그 자리에서 쓰레기통에 버려(Drop) 서버로 1바이트도 넘어가지 못하게 원천 차단합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">스노트, Suricata 와 오용 탐지 vs…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IPS 차단 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">WAF</div></div>
-</div>
-</div>
-
-
+```text
+[스노트, Suricata 와 오용 탐지 vs…]
+    │
+    ▼
+[IPS 차단 아키텍처]
+    │
+    └──▶ [WAF]
+```
 
 - **📢 섹션 요약 비유**: IPS 차단 아키텍처의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -126,19 +118,15 @@ IPS 차단 아키텍처는 [네트워크 보안](/knowledge-base/studynote/03_ne
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 스노트, Suricata 와 오용 탐지 vs…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: IPS 차단 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: WAF</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 스노트, Suricata 와 오용 탐지 vs…]
+    │
+    ▼
+[현재 개념: IPS 차단 아키텍처]
+    │
+    ├──▶ [확장 A: WAF]
+    └──▶ [확장 B: 자동화된 신뢰 체계]
+```
 
 IPS 차단 아키텍처는 [스노트](/knowledge-base/studynote/03_network/13_network_security_basics/694_snort_suricata_misuse_anomaly_detection/), [Suricata](/knowledge-base/studynote/09_security/05_web_app_security/240_suricata_multithreaded_nids_ids_ips_engine/) 와 오용 탐지 vs…에서 출발해 현재 메커니즘을 정교화하고, 이후 WAF와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

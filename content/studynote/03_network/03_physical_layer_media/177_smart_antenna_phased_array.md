@@ -24,19 +24,18 @@ tags = ["network"]
 
 아래 그림은 기계식 조향과 전자식 조향의 차이를 한눈에 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mechanical steering vs electronic steering</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">dish antenna phased-array panel</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">\__ beam</div><div class="kb-diagram-node">e</div><div class="kb-diagram-node">e</div><div class="kb-diagram-node">e</div><div class="kb-diagram-node">e</div><div class="kb-diagram-note">fixed hardware</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">\ phase control -&gt; beam turns instantly</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">motor must rotate structure no motor rotation for beam steering</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Mechanical steering vs electronic steering                         │
+├────────────────────────────────────────────────────────────────────┤
+│ dish antenna                  phased-array panel                   │
+│     \                                                             │
+│      \__ beam                [e][e][e][e]  fixed hardware         │
+│          \                  phase control -> beam turns instantly  │
+│           \                                                        │
+│ motor must rotate structure   no motor rotation for beam steering  │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 이 차이는 단순한 편의성 문제가 아니다. 조향 속도, 다중 표적 처리, 고장점 감소, 다중 사용자 수용 능력이 모두 전자식 조향 여부에 달려 있다. 그래서 스마트 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)는 물리 계층 (Physical Layer)의 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 기술이면서도, 동시에 자원 할당과 간섭 관리의 핵심 도구가 된다.
 
@@ -58,20 +57,20 @@ tags = ["network"]
 
 다음 그림은 소자별 위상 차가 누적되며 메인 빔이 한쪽으로 기울어지는 원리를 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Phase progression steers the beam</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">element : E1 E2 E3 E4</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">phase : 0° +30° +60° +90°</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">wavefront tilt -&gt; /</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">main beam toward theta /</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">keep element spacing at or below lambda/2 to suppress replicas</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Phase progression steers the beam                                  │
+├────────────────────────────────────────────────────────────────────┤
+│ element :   E1        E2        E3        E4                       │
+│ phase   :   0°       +30°      +60°      +90°                     │
+│                                                                    │
+│ wavefront tilt ->                                                / │
+│                                                                  /  │
+│ main beam toward theta                                          /   │
+│                                                                /    │
+│ keep element spacing at or below lambda/2 to suppress replicas │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 실제 시스템은 위상만이 아니라 진폭도 함께 조절한다. 진폭 가중치를 다르게 주면 부엽 (Side Lobe)을 낮출 수 있고, 특정 방향에는 널을 만들어 간섭원을 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)할 수 있다. 송신뿐 아니라 수신에서도 같은 원리가 적용되므로, 여러 소자에서 들어온 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 위상 맞춤 후 합성하면 원하는 방향 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)는 키우고 다른 방향 잡음은 줄일 수 있다.
 
@@ -109,20 +108,17 @@ tags = ["network"]
 
 아래 흐름은 어떤 [빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/) 구조를 고를지 판단할 때 자주 쓰는 질문을 정리한 것이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Choosing a smart-antenna architecture</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">need many simultaneous beams or deep interference nulling?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes -&gt; digital or hybrid beamforming</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ cost/power budget tight? -&gt; analog beamforming</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ fast tracking still required? -&gt; hybrid phased array</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Choosing a smart-antenna architecture                              │
+├────────────────────────────────────────────────────────────────────┤
+│ need many simultaneous beams or deep interference nulling?        │
+│   ├─ yes -> digital or hybrid beamforming                         │
+│   └─ no                                                           │
+│        ├─ cost/power budget tight? -> analog beamforming          │
+│        └─ fast tracking still required? -> hybrid phased array    │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 ### 실무 판단 기준
 
@@ -166,23 +162,22 @@ tags = ["network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">single directional antenna</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">array of radiating elements</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">phase / amplitude control</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">beam steering and beamforming</div>
-<div class="kb-diagram-tree-item" style="--depth:5">▶ interference nulling</div>
-<div class="kb-diagram-tree-item" style="--depth:5">▶ 5G / AESA radar / satellite tracking</div>
-</div>
-</div>
-
-
+```text
+single directional antenna
+          │
+          ▼
+array of radiating elements
+          │
+          ▼
+phase / amplitude control
+          │
+          ▼
+beam steering and beamforming
+          │
+          ├──────────────▶ interference nulling
+          │
+          └──────────────▶ 5G / AESA radar / satellite tracking
+```
 
 이 흐름도는 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 기술이 단일 지향성 구조에서 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 기반 제어로 발전하면서, 단순 송수신을 넘어 간섭 제어와 공간 자원 최적화까지 담당하게 되었음을 보여 준다.
 

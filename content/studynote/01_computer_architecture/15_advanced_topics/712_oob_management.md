@@ -45,20 +45,21 @@ OOB 관리망은 보통 전용 관리 [스위치](/knowledge-base/studynote/03_n
 
 다음 그림은 생산망과 관리망이 서로 다른 실패 도메인을 갖도록 만든 전형적인 구조다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">생산 평면과 관리 평면의 분리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">생산 평면</div><div class="kb-diagram-cell">관리 평면</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 · 애플리케이션</div><div class="kb-diagram-cell">관리자 · 보안 게이트웨이</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Prod Switch</div><div class="kb-diagram-node">VPN / Bastion</div><div class="kb-diagram-note">──</div><div class="kb-diagram-node">OOB Switch</div><div class="kb-diagram-note">──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버 랙</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Host NIC</div><div class="kb-diagram-node">BMC</div><div class="kb-diagram-node">Serial</div><div class="kb-diagram-node">PDU</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">──</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                    생산 평면과 관리 평면의 분리                      │
+├──────────────────────────────┬───────────────────────────────────────┤
+│ 생산 평면                     │ 관리 평면                             │
+│ 사용자 · 애플리케이션         │ 관리자 · 보안 게이트웨이              │
+│                               │                                       │
+│ [Prod Switch] ─────────────┐  │ [VPN / Bastion] ── [OOB Switch] ──┐   │
+│                            │  │                                     │   │
+│                        ┌───▼──▼─────────────────────────────────┐   │   │
+│                        │               서버 랙                   │   │   │
+│                        │ [Host NIC]  [BMC]  [Serial]  [PDU]    │◀──┘   │
+│                        └────────────────────────────────────────┘       │
+└──────────────────────────────┴───────────────────────────────────────┘
+```
 
 이 구조 덕분에 생산 NIC가 죽어도 BMC와 시리얼 콘솔은 살아남을 수 있다. 더 나아가 원격 지사나 무인 설비실처럼 유선 관리망마저 불안정한 환경에서는 셀룰러 기반 보조 OOB 링크를 두기도 한다. 즉 OOB는 기술 하나가 아니라 "마지막까지 남길 제어 경로를 여러 겹으로 만드는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)"이다.
 
@@ -120,23 +121,21 @@ OOB 관리의 직접적 효과는 평균 [복구](/knowledge-base/studynote/09_s
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">현장 직접 복구 중심 운영</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">시리얼 콘솔 기반 원격 복구</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">BMC + IPMI 기반 OOB 관리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Redfish · KVM · Virtual Media 통합</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Zero Trust 관리망 · 자동화된 복구 체계</div>
-</div>
-</div>
-
-
+```text
+현장 직접 복구 중심 운영
+    │
+    ▼
+시리얼 콘솔 기반 원격 복구
+    │
+    ▼
+BMC + IPMI 기반 OOB 관리
+    │
+    ▼
+Redfish · KVM · Virtual Media 통합
+    │
+    ▼
+Zero Trust 관리망 · 자동화된 복구 체계
+```
 
 이 흐름은 OOB가 단순 콘솔 접근에서 시작해, 오늘날에는 별도 제어 평면 전체를 의미하는 운영 아키텍처로 확장되었음을 보여준다.
 

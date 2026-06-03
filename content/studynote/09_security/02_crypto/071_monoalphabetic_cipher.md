@@ -101,39 +101,27 @@ Ciphertext
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Plaintext</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Monoalphabetic Cipher</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Substitution</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Ciphertext</div>
-</div>
-</div>
-
-
+```text
+Plaintext
+  ↓
+Monoalphabetic Cipher
+  ↓
+Substitution
+  ↓
+Ciphertext
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Substitution Cipher</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Monoalphabetic Cipher</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Frequency Analysis</div>
-</div>
-</div>
-
-
+```text
+Substitution Cipher
+  ↓
+Monoalphabetic Cipher
+  ↓
+Frequency Analysis
+```
 
 ---
 

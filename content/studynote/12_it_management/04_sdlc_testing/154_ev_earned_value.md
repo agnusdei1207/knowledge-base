@@ -39,35 +39,38 @@ tags = ["studynote-it-management"]
 "아 공식 씨발 어떻게 퍼센트 계산 치는데 뇌 터짐 ㅠ" 
 주니어의 뇌 정지를 박살 내는 EV 수학 믹서기 융합 매핑 도해다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EV (Earned Value 획득 가치) 창조 계산기 십자 융합 록온 도해 🚀</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🎯</div><div class="kb-diagram-node">0순위 베이스캠프 전제 조건: BAC &amp; WBS 텐트 찢기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 로그인 모듈 개발의 전체 배정된 초기 예산 목표 (BAC): 1,000만 원.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">🌟 현재 시점 (D+10일 차) 엑스레이 팩폭 스캔 ✨</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">👨‍💻</div><div class="kb-diagram-node">1단계: 팀장의 구두 보고 (뇌피셜 뻥튀기 펌핑 💥)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 코더 왈: "팀장님, 코딩 대충 다 짰고 에러 쪼끔 남았음여 ㅋ. 진척률 80% 쌉가능 데헷 ㅋ"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🪓 [ 2단계: 아키텍트 PM의 무자비한</div><div class="kb-diagram-node">0-100 룰 헌법</div><div class="kb-diagram-note">객관적 척살 발동 🚀 ]</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 아키텍트: "야 이 씨발아 데모 띄워봐! 어 404 에러 타임아웃 뻗네? 💀"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "하늘이 두 쪽 나도 고객 인수 검사(UAT) 통과 사인 도장 안 찍힌 쇳덩이는</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">진도율 80% 나발이고 무.조.건.</div><div class="kb-diagram-node">0% 폐기물 깡통 쓰레기</div><div class="kb-diagram-note">컷이다 쾅!!!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- ➔</div><div class="kb-diagram-node">찐 팩트 수술 완료</div><div class="kb-diagram-note">: 로그인 모듈 중 '프론트 UI'만 100% 찐 완료됨.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전체 1,000만 원짜리 일 중에서, 프론트 비중이 30%라고 애초 WBS에 박아놨음.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➔ 따라서 객관적 물리적 찐 완료율(% Complete) = ★ 30% 팩트 록온 ★</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🏆</div><div class="kb-diagram-node">3단계: EV (Earned Value) 쇳덩이 심판 금액 산출 쾅!!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- 🌟</div><div class="kb-diagram-node">공식</div><div class="kb-diagram-note">: EV = BAC(총예산 1,000만 원) × 물리적 찐 완료율(30%)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- ➔ EV = 1,000만 원 × 30% = ★ 300만 원어치 가치 획득 팩트 도출 🚀! ★</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">💀</div><div class="kb-diagram-node">4단계: 비참한 잔혹 현실 파국(AC) 과의 십자 크로스 비교 심판</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 근데 통장 영수증 까보니, 저 300만 원짜리 UI 화면 껍데기 1개 만든다고 코더 놈들이</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">회식 쳐 먹고 AWS 서버비 태워서</div><div class="kb-diagram-node">실제 쓴 돈 AC</div><div class="kb-diagram-note">가 600만 원 타죽어 증발함 💥!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">-</div><div class="kb-diagram-node">아키텍트 팩폭 🪓</div><div class="kb-diagram-note">: "씨발 300만 원어치 일(EV) 뽑는데 600만 원(AC) 불태웠네 ㅋ</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">너희 팀 가성비(CPI) 0.5 타임아웃 뻗음 멸망 50% 반 토막 적자 부도 확정이다 대가리 박아 쾅!"</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          EV (Earned Value 획득 가치) 창조 계산기 십자 융합 록온 도해 🚀 │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ 🎯 [ 0순위 베이스캠프 전제 조건: BAC & WBS 텐트 찢기 ]               │
+│   - 로그인 모듈 개발의 전체 배정된 초기 예산 목표 (BAC): 1,000만 원.     │
+│                                                             │
+│        ======= [ 🌟 현재 시점 (D+10일 차) 엑스레이 팩폭 스캔 ✨ ] ========│
+│                                                             │
+│ 👨‍💻 [ 1단계: 팀장의 구두 보고 (뇌피셜 뻥튀기 펌핑 💥) ]                 │
+│   - 코더 왈: "팀장님, 코딩 대충 다 짰고 에러 쪼끔 남았음여 ㅋ. 진척률 80% 쌉가능 데헷 ㅋ"│
+│                                                             │
+│ 🪓 [ 2단계: 아키텍트 PM의 무자비한 [0-100 룰 헌법] 객관적 척살 발동 🚀 ]│
+│   - 아키텍트: "야 이 씨발아 데모 띄워봐! 어 404 에러 타임아웃 뻗네? 💀" │
+│   - "하늘이 두 쪽 나도 고객 인수 검사(UAT) 통과 사인 도장 안 찍힌 쇳덩이는 │
+│      진도율 80% 나발이고 무.조.건. [ 0% 폐기물 깡통 쓰레기 ] 컷이다 쾅!!!" │
+│   - ➔ [찐 팩트 수술 완료]: 로그인 모듈 중 '프론트 UI'만 100% 찐 완료됨.   │
+│      전체 1,000만 원짜리 일 중에서, 프론트 비중이 30%라고 애초 WBS에 박아놨음. │
+│      ➔ **따라서 객관적 물리적 찐 완료율(% Complete) = ★ 30% 팩트 록온 ★**│
+│                                                             │
+│ 🏆 [ 3단계: EV (Earned Value) 쇳덩이 심판 금액 산출 쾅!! ]         │
+│   - 🌟 [ 공식 ]: EV = BAC(총예산 1,000만 원) × 물리적 찐 완료율(30%) │
+│   - ➔ EV = 1,000만 원 × 30% = **★ 300만 원어치 가치 획득 팩트 도출 🚀! ★** │
+│                                                             │
+│ 💀 [ 4단계: 비참한 잔혹 현실 파국(AC) 과의 십자 크로스 비교 심판 ]         │
+│   - 근데 통장 영수증 까보니, 저 300만 원짜리 UI 화면 껍데기 1개 만든다고 코더 놈들이│
+│     회식 쳐 먹고 AWS 서버비 태워서 [실제 쓴 돈 AC] 가 600만 원 타죽어 증발함 💥! │
+│   - [아키텍트 팩폭 🪓]: "씨발 300만 원어치 일(EV) 뽑는데 600만 원(AC) 불태웠네 ㅋ │
+│     너희 팀 가성비(CPI) 0.5 타임아웃 뻗음 멸망 50% 반 토막 적자 부도 확정이다 대가리 박아 쾅!"│
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[아키텍트의 피 터지는 메스: 찐 완료율 (% Complete) 산정의 4대 룰 텐트 ✨]**
 [EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) 제국 전체의 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)(Trust)은 오직 하나!! **"저 % 퍼센트 진도를 코더 인간 새끼가 뇌피셜로 지 맘대로 구라 뻥튀기 사기 치는 걸 어떻게 도끼로 물리적으로 100% 원천 차단 막아 찢어발길 것인가 🪓?"** 에 100억 생사가 걸려 있다.
@@ -167,23 +170,21 @@ EV(Earned Value 획득 가치)는 단순히 엑셀 칸에 숫자 채워 넣는 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">무지성 주먹구구 예산 통장 뇌피셜 뻗음 야만 시대 💀 / 걍 100억 통장에서 야근비 돈 50억 빼 썼으니 ➔ "오 내 돈 50% 썼으니 진도 코드도 절반 50% 끝났겠네 개꿀 ㅋ" 근자감 망상 자위 치다 ➔ 런칭 오픈 날 까보니 코딩 10% 찌끄레기 치고 돈만 다 날려 유흥 탕진한 사기 횡령 팩트 적발 ➔ 1조 원 국방 미사일 우주 프로젝트 동반 셧다운 타죽음 올스탑 폭파 💥 멸망 파국 💀</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">EVM (미 국방부 C/SCSC) 3차원 엑스레이 십자 록온 텐트 대관식 강림 🚀 / 펜타곤 아키텍트 분노 철퇴 🪓 "야 씨발 돈 불태워 쓴 거(AC) 랑, 진짜 내 두 눈앞에 만들어 온 쇳덩이 결과물 팩트 가치(EV ✨)를 하늘이 찢어져도 도끼로 100% 찢어 분리 이혼 절단 쳐 쾅!! ➔ EV(가치) 1개 코어 축을 정중앙 심장에 박아놓고 비용 편차(CV), 일정 지연(SV) 조기 경보 쉴드 텐트 인바디 수치 올려라!!"</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">0-100 진척도 채점 룰 절대 헌법 록온 🛡️ / "코더 새끼들 30% 50% 대충 주관적 뇌피셜 뻥튀기 펌핑 퍼센트 인정해 주니까 90% 신드롬 구라 핑퐁 터져 멸망 뻗네 ㅋ ➔ 야!! QA 기계 테스트 무결점 통과 서명(Sign-off) 도장 쾅 안 떨어지면 진척도 무조건 0점 0% 폐기 쓰레기 컷 쳐버려 쾅 🪓!!" 100% 엄격 팩트 물리 증명 보장 쉴드 달성 완료 ✨</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">EAC / TCPI 미래 예측 타임어택 통계 스캐너 진화 🚀 / 단순히 "오늘 우리 빵꾸 적자 났다 ㅠ" 과거 일기장 끝이 아니라 ➔ 통계 수학 믹서기 곱셈 갈아서 "사장님 최종 영수증 150억 폭발 멸망 확정 팩트 도출 쾅! 남은 기간 150% 가성비 초인 펌핑 쳐야 간신히 수장 면합니다 록온!" 오토 스캔 미래 투시 레이더 방어막 구축 🚀</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Agile 애자일 번다운 차트(Burndown Chart) 스토리 포인트(SP) 대통일 융합 (현재) ✨ / 무거운 EVM PV/EV 달러($) 돈 계산 재무 엑셀 쇳덩이 다 불태워 찢어 폐기 소각 치고! ➔</div><div class="kb-diagram-node">돈 $ 덩어리</div><div class="kb-diagram-note">를</div><div class="kb-diagram-node">스토리 포인트 SP 텐션 업무량</div><div class="kb-diagram-note">으로 껍데기만 100% 빙의 스위칭 변태 환생 쳐서 ➔ 2주 스프린트 K8s 클라우드 속도전 핑퐁 생태계 ➔ "매일 아침 10분 지워나가는 완료 티켓 스코어 잔량 막대기 팩트(찐 EV 획득 가치 실시간 펌핑 🚀)" 로 완벽 융합 안착 우주 무결점 쾌속 생존 지배 통치 달성 쾅 🚀!!</div></div>
-</div>
-</div>
-
-
+```text
+무지성 주먹구구 예산 통장 뇌피셜 뻗음 야만 시대 💀 / 걍 100억 통장에서 야근비 돈 50억 빼 썼으니 ➔ "오 내 돈 50% 썼으니 진도 코드도 절반 50% 끝났겠네 개꿀 ㅋ" 근자감 망상 자위 치다 ➔ 런칭 오픈 날 까보니 코딩 10% 찌끄레기 치고 돈만 다 날려 유흥 탕진한 사기 횡령 팩트 적발 ➔ 1조 원 국방 미사일 우주 프로젝트 동반 셧다운 타죽음 올스탑 폭파 💥 멸망 파국 💀
+    │
+    ▼
+EVM (미 국방부 C/SCSC) 3차원 엑스레이 십자 록온 텐트 대관식 강림 🚀 / 펜타곤 아키텍트 분노 철퇴 🪓 "야 씨발 돈 불태워 쓴 거(AC) 랑, 진짜 내 두 눈앞에 만들어 온 쇳덩이 결과물 팩트 가치(EV ✨)를 하늘이 찢어져도 도끼로 100% 찢어 분리 이혼 절단 쳐 쾅!! ➔ EV(가치) 1개 코어 축을 정중앙 심장에 박아놓고 비용 편차(CV), 일정 지연(SV) 조기 경보 쉴드 텐트 인바디 수치 올려라!!"
+    │
+    ▼
+0-100 진척도 채점 룰 절대 헌법 록온 🛡️ / "코더 새끼들 30% 50% 대충 주관적 뇌피셜 뻥튀기 펌핑 퍼센트 인정해 주니까 90% 신드롬 구라 핑퐁 터져 멸망 뻗네 ㅋ ➔ 야!! QA 기계 테스트 무결점 통과 서명(Sign-off) 도장 쾅 안 떨어지면 진척도 무조건 0점 0% 폐기 쓰레기 컷 쳐버려 쾅 🪓!!" 100% 엄격 팩트 물리 증명 보장 쉴드 달성 완료 ✨
+    │
+    ▼
+EAC / TCPI 미래 예측 타임어택 통계 스캐너 진화 🚀 / 단순히 "오늘 우리 빵꾸 적자 났다 ㅠ" 과거 일기장 끝이 아니라 ➔ 통계 수학 믹서기 곱셈 갈아서 "사장님 최종 영수증 150억 폭발 멸망 확정 팩트 도출 쾅! 남은 기간 150% 가성비 초인 펌핑 쳐야 간신히 수장 면합니다 록온!" 오토 스캔 미래 투시 레이더 방어막 구축 🚀
+    │
+    ▼
+Agile 애자일 번다운 차트(Burndown Chart) 스토리 포인트(SP) 대통일 융합 (현재) ✨ / 무거운 EVM PV/EV 달러($) 돈 계산 재무 엑셀 쇳덩이 다 불태워 찢어 폐기 소각 치고! ➔ [돈 $ 덩어리] 를 [스토리 포인트 SP 텐션 업무량] 으로 껍데기만 100% 빙의 스위칭 변태 환생 쳐서 ➔ 2주 스프린트 K8s 클라우드 속도전 핑퐁 생태계 ➔ "매일 아침 10분 지워나가는 완료 티켓 스코어 잔량 막대기 팩트(찐 EV 획득 가치 실시간 펌핑 🚀)" 로 완벽 융합 안착 우주 무결점 쾌속 생존 지배 통치 달성 쾅 🚀!!
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

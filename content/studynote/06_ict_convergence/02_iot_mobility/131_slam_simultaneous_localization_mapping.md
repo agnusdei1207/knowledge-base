@@ -54,17 +54,11 @@ SLAM은 <strong>GPS 없는 환경에서 위치·공간을 인식하는 유일한
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">EKF-SLAM (1990s)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">PTAM (2007)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">ORB-SLAM (2015)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Deep SLAM (2018~, DL 기반)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: Neural Radiance Fields (NeRF) + SLAM — 3D 재구성</div></div>
-</div>
-</div>
-
-
+```text
+[EKF-SLAM (1990s)] → [PTAM (2007)] → [ORB-SLAM (2015)]
+    → [Deep SLAM (2018~, DL 기반)]
+    → [현재: Neural Radiance Fields (NeRF) + SLAM — 3D 재구성]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. SLAM은 **눈을 가리고 손으로 더듬어서 방 지도를 그리는** 거예요.

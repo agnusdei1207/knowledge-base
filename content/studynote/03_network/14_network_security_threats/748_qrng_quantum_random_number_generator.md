@@ -23,18 +23,14 @@ tags = ["studynote-network"]
 - <strong>기존 PRNG (의사 <a href="/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/486_trng/">난수 생성기</a>, Pseudo-RNG)</strong>: 현재 소프트웨어가 만드는 난수(C언어의 `rand()` 등)는 컴퓨터의 시계(Time)나 마우스 커서의 움직임을 씨앗(Seed) 삼아 복잡한 수학 공식을 돌려 만든 '가짜 난수'입니다. 
 - **해커의 공격**: 패턴과 씨앗 값을 알아내면 해커의 슈퍼컴퓨터가 "아, 얘가 1분 뒤에 뽑아낼 암호키는 `A7X9`겠네!"라고 100% 예측하여 암호를 무혈입성으로 뚫어버리는 치명적 결함이 있었습니다. (양자 컴퓨터의 쇼어 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 위협과 별개의 본질적 위협)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">웹쉘</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">양자 난수 생성기</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">다크 데이터 / Data Loss Preve…</div></div>
-</div>
-</div>
-
-
+```text
+[웹쉘]
+    │
+    ▼
+[양자 난수 생성기]
+    │
+    └──▶ [다크 데이터 / Data Loss Preve…]
+```
 
 - **📢 섹션 요약 비유**: 양자 [난수 생성기](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/486_trng/)는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -51,18 +47,14 @@ tags = ["studynote-network"]
 3. **난수 변환**: 광자가 센서의 수많은 격자 중 왼쪽 칸에 부딪히면 `0`, 오른쪽 칸에 부딪히면 `1`로 기록합니다.
 4. **결과**: 이렇게 수만 개의 광자가 벽에 부딪힌 랜덤한 발자국 자국들을 쫙 모아서 비밀번호로 쓰면, 해커가 아무리 용을 써도 다음 비밀번호를 절대로 예측할 수 없는 <strong>최강의 무결점 암호키(순수 난수)</strong>가 완성됩니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">웹쉘</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">양자 난수 생성기</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">다크 데이터 / Data Loss Preve…</div></div>
-</div>
-</div>
-
-
+```text
+[웹쉘]
+    │
+    ▼
+[양자 난수 생성기]
+    │
+    └──▶ [다크 데이터 / Data Loss Preve…]
+```
 
 - **📢 섹션 요약 비유**: 양자 [난수 생성기](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/486_trng/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -124,19 +116,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 웹쉘</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 양자 난수 생성기</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 다크 데이터 / Data Loss Preve…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 웹쉘]
+    │
+    ▼
+[현재 개념: 양자 난수 생성기]
+    │
+    ├──▶ [확장 A: 다크 데이터 / Data Loss Preve…]
+    └──▶ [확장 B: 예측형 위협 대응]
+```
 
 양자 [난수 생성기](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/486_trng/)는 [웹쉘](/knowledge-base/studynote/03_network/14_network_security_threats/747_web_shell_file_upload_vulnerability/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [다크 데이터](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_darkdata/) / [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Loss Preve…와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

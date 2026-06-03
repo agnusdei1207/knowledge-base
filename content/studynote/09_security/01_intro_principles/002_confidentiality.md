@@ -25,24 +25,24 @@ tags = ["security"]
 
 다음 도식은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 상태([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))에 따라 기밀성을 위협하는 요인과 방어 메커니즘이 어떻게 달라지는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Data States</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">저장 중 (Data at Rest)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위협: 디스크 도난, DB 해킹, 백업 유출</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">방어: 디스크 암호화(TDE), 접근 통제(ACL)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전송 중 (Data in Transit)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위협: 패킷 스니핑, 중간자 공격(MITM)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">방어: TLS/SSL 암호화, IPsec VPN</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">사용 중 (Data in Use)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위협: 메모리 덤프, 화면 캡처, 무단 복제</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">방어: 동형 암호화, TEE(Secure Enclave), DRM</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────── Data States ─────────────────┐
+│                                               │
+│  [저장 중 (Data at Rest)]                     │
+│  위협: 디스크 도난, DB 해킹, 백업 유출        │
+│  방어: 디스크 암호화(TDE), 접근 통제(ACL)     │
+│           │                                   │
+│           ▼                                   │
+│  [전송 중 (Data in Transit)]                  │
+│  위협: 패킷 스니핑, 중간자 공격(MITM)         │
+│  방어: TLS/SSL 암호화, IPsec VPN              │
+│           │                                   │
+│           ▼                                   │
+│  [사용 중 (Data in Use)]                      │
+│  위협: 메모리 덤프, 화면 캡처, 무단 복제      │
+│  방어: 동형 암호화, TEE(Secure Enclave), DRM  │
+└───────────────────────────────────────────────┘
+```
 
 이 그림의 핵심은 기밀성이 단일한 솔루션으로 달성되는 것이 아니라, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 머무르고 이동하는 모든 생명주기 상태에 맞춰 각기 다른 기술이 톱니바퀴처럼 맞물려야 한다는 점이다. 전송 구간을 완벽히 암호화하더라도 메모리에 평문으로 올라온 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 탈취당하면 기밀성은 즉시 파괴된다. 따라서 실무에서는 모든 상태의 취약점을 분석하고 [End-to-End](/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 체계를 설계해야 한다.
 
@@ -64,23 +64,24 @@ tags = ["security"]
 
 다음은 클라이언트가 기밀 문서에 접근할 때, 접근 제어와 암호화가 결합되어 동작하는 순차 흐름도이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Client</div><div class="kb-diagram-node">IAM Server</div><div class="kb-diagram-node">File Server</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 1. 인증 요청 (ID/PW) &gt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;─ 2. 세션 토큰 &amp; 공개키 발급 ─</div></div>
-<div class="kb-diagram-tree-item" style="--depth:1">3. 데이터 요청 (토큰 첨부) ── &gt;</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;─ 4. 토큰 권한 검증 (RBAC)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">권한 확인 완료</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 대칭키로 파일 암호화</div></div>
-<div class="kb-diagram-note">&lt;─ 6. 암호화된 파일 전송</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">7. 클라이언트 개인키로 복호화</div></div>
-</div>
-</div>
-
-
+```text
+[Client]                      [IAM Server]                 [File Server]
+   │                               │                            │
+   ├─ 1. 인증 요청 (ID/PW) ───────>│                            │
+   │                               │                            │
+   │<─ 2. 세션 토큰 & 공개키 발급 ─┤                            │
+   │                               │                            │
+   ├─ 3. 데이터 요청 (토큰 첨부) ──┼───────────────────────────>│
+   │                               │                            │
+   │                               │ <─ 4. 토큰 권한 검증 (RBAC)┤
+   │                               │                            │
+   │                               │    [권한 확인 완료]        │
+   │                               │                            │
+   │                               │    5. 대칭키로 파일 암호화 │
+   │<─ 6. 암호화된 파일 전송 ──────┼────────────────────────────┤
+   │                               │                            │
+   │ 7. 클라이언트 개인키로 복호화 │                            │
+```
 
 이 흐름도의 핵심은 암호화가 단순히 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 숨기는 데 그치지 않고 [IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/)([신원 관리](/knowledge-base/studynote/09_security/11_iam_access_control/527_identity_management/)) 체계와 강하게 결합되어 있다는 점이다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 서버는 무조건 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보내는 것이 아니라, IAM을 통해 주체의 '알 권리'를 먼저 검증한다(논리적 격리). 검증이 완료된 후에도 전송 중 탈취를 막기 위해 암호화(수학적 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/))를 수행한다. 실무에서는 이러한 이중 통제 구조가 레이턴시를 발생시키므로, 대칭키와 비대칭키를 결합한 하이브리드 암호 방식을 사용하여 성능과 보안을 모두 잡는다.
 
@@ -105,22 +106,21 @@ tags = ["security"]
 
 <strong>2. 접근 제어 모델(<a href="/knowledge-base/studynote/02_operating_system/09_file_system/547_access_control_rwx/">Access Control</a>) 비교 매트릭스</strong>
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">통제 모델</div><div class="kb-diagram-cell">권한 부여 기준 및 특징</div><div class="kb-diagram-cell">운영 복잡도 및 적용 환경</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DAC (임의)</div><div class="kb-diagram-cell">객체의 '소유자'가 권한 결정</div><div class="kb-diagram-cell">복잡도 낮음. 유닉스 파일</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Read/Write/Execute) 부여</div><div class="kb-diagram-cell">시스템, 소규모 조직에 적합</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MAC (강제)</div><div class="kb-diagram-cell">시스템의 보안 레이블(등급)과</div><div class="kb-diagram-cell">복잡도 매우 높음. 군사,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주체의 신원 등급을 강제 비교</div><div class="kb-diagram-cell">정부 등 극도의 기밀성 요구</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RBAC (역할)</div><div class="kb-diagram-cell">주체가 속한 '역할(Role)'에</div><div class="kb-diagram-cell">복잡도 중간. 일반적인 기업</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">따라 권한을 일괄 부여/회수</div><div class="kb-diagram-cell">전산망, 대규모 권한 관리에</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가장 널리 쓰이는 표준</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────┬─────────────────────────────┬───────────────────────────┐
+│ 통제 모델  │ 권한 부여 기준 및 특징      │ 운영 복잡도 및 적용 환경  │
+├────────────┼─────────────────────────────┼───────────────────────────┤
+│ DAC (임의) │ 객체의 '소유자'가 권한 결정 │ 복잡도 낮음. 유닉스 파일  │
+│            │ (Read/Write/Execute) 부여   │ 시스템, 소규모 조직에 적합│
+├────────────┼─────────────────────────────┼───────────────────────────┤
+│ MAC (강제) │ 시스템의 보안 레이블(등급)과│ 복잡도 매우 높음. 군사,   │
+│            │ 주체의 신원 등급을 강제 비교│ 정부 등 극도의 기밀성 요구│
+├────────────┼─────────────────────────────┼───────────────────────────┤
+│ RBAC (역할)│ 주체가 속한 '역할(Role)'에  │ 복잡도 중간. 일반적인 기업│
+│            │ 따라 권한을 일괄 부여/회수  │ 전산망, 대규모 권한 관리에│
+│            │                             │ 가장 널리 쓰이는 표준     │
+└────────────┴─────────────────────────────┴───────────────────────────┘
+```
 
 이 매트릭스의 핵심은 접근 제어 모델이 '유연성'과 '중앙 통제력' 사이의 트레이드오프를 가진다는 점이다. DAC는 사용자에게 자율성을 주지만 정보 유출 통제가 어렵고, MAC는 완벽한 기밀성을 제공하지만 업무 효율이 극도로 저하된다. 따라서 실무에서는 부서 이동이나 퇴사가 잦은 기업 환경의 특성을 반영하여 유지보수가 용이한 [RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/)(역할 기반 접근 제어)를 기본으로 채택하고, 극비 문서에 대해서만 제한적으로 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 모델을 혼용하는 전략을 취한다.
 
@@ -142,21 +142,20 @@ tags = ["security"]
 
 다음은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유출 사고 발생 시, 암호화와 키 관리 실패가 어떻게 연쇄적인 재앙으로 이어지는지 보여주는 장애 전파도다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터베이스 탈취 (DB Dump)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ (데이터 평문 저장 시) &gt;</div><div class="kb-diagram-node">즉각적인 대규모 기밀성 파괴</div></div>
-<div class="kb-diagram-tree-item" style="--depth:5">(데이터 암호화 저장 시)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">해커의 암호화 키 탐색</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ (키가 하드코딩/동일 서버 존재) ─&gt;</div><div class="kb-diagram-node">키 탈취 및 복호화 성공</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">기밀성 파괴</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ (KMS/HSM으로 망 분리 보관) &gt;</div><div class="kb-diagram-node">복호화 실패</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">기밀성 방어 성공!</div></div>
-</div>
-</div>
-
-
+```text
+[데이터베이스 탈취 (DB Dump)]
+          │
+          ├─ (데이터 평문 저장 시) ───────> [즉각적인 대규모 기밀성 파괴]
+          │
+          └─ (데이터 암호화 저장 시)
+                   │
+                   ▼
+          [해커의 암호화 키 탐색]
+                   │
+                   ├─ (키가 하드코딩/동일 서버 존재) ─> [키 탈취 및 복호화 성공] -> 기밀성 파괴
+                   │
+                   └─ (KMS/HSM으로 망 분리 보관) ────> [복호화 실패] -> 기밀성 방어 성공!
+```
 
 이 전파도의 핵심은 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 암호화했다"는 사실 자체보다 "암호화 키를 어떻게 물리적/논리적으로 분리하여 보관했는가"가 기밀성의 최종 승패를 가른다는 점이다. 소스코드나 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 암호화 키를 평문으로 하드코딩하는 안티패턴은 실무에서 가장 흔하게 발생하는 치명적 결함이다. 따라서 실무 아키텍처는 반드시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장소와 키 관리 시스템([KMS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/127_kms_knowledge_management_system/))의 권한 및 네트워크를 분리하여 설계해야 한다.
 
@@ -191,23 +190,21 @@ tags = ["security"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">접근 제어 (Access Control)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">암호학 (Cryptography)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">KMS (Key Management System)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DRM (Digital Rights Management)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">개인정보보호법 (Privacy Law)</div></div>
-</div>
-</div>
-
-
+```text
+[접근 제어 (Access Control)]
+    │
+    ▼
+[암호학 (Cryptography)]
+    │
+    ▼
+[KMS (Key Management System)]
+    │
+    ▼
+[DRM (Digital Rights Management)]
+    │
+    ▼
+[개인정보보호법 (Privacy Law)]
+```
 
 이 흐름도는 접근 제어 ([Access Control](/knowledge-base/studynote/02_operating_system/09_file_system/547_access_control_rwx/))에서 출발해 [개인정보보호법](/knowledge-base/studynote/09_security/16_data_privacy/783_pipa_korea/) (Privacy Law)까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

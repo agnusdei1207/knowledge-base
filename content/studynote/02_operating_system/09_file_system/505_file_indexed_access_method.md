@@ -25,30 +25,31 @@ tags = ["studynote-operating-system"]
 - <strong>순차 스캔의 재앙 vs <a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a> 스텝의 초광속 포인터 다이어그램</strong>:
 거대 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 다루는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 엔진이 메모리 위에서 어떻게 찾고자 하는 키워드 좌표를 장악하는지 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 구조 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)으로 해체하면 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파일 스캔의 진화 : 일반 검색 vs 2단계 오프셋 맵(색인) 융합</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">일반 스토리지 (Full Scan 무식 탐색의 늪)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 목표: 키워드 "아담스" 데이터를 찾아라!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 과정: 1천만 명 고객 텍스트 본문(디스크 I/O)을 하나씩 퍼올려 문자열 대조 폭파.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(CPU 스로틀, 디스크 100% 모터 Read 병목 타임아웃 멸망)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">인덱스 맵 (Indexed Sequential / B-Tree 복합 전술 타격)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 1단계: 메모리에 가벼운 알맹이 "색인 파일(Index)"만 로드하여 검색 뿅!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─(색인 오름차순 목차장부)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고길동 --------▶ 블록 99</div><div class="kb-diagram-cell">◀ (어 인덱스를 이진 탐색으로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">나길동 --------▶ 블록 02</div><div class="kb-diagram-cell">뒤지니까 "아담스"는 4번 줄이군!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(🎯아담스 --------▶ 블록 04</div><div class="kb-diagram-cell">) ============================▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제임스 --------▶ 블록 10</div><div class="kb-diagram-cell">▼</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2단계 결론 본체 점프!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">블록 04</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"아담스 미국인 나이 30세"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 이점: 디스크(기계 장비) 헤더 이동(I/O) 횟수가 수십만 번에서 2번으로 박살 축소됨.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌──────────────────────────────────────────────────────────────────────────────────────┐
+  │                 파일 스캔의 진화 : 일반 검색 vs 2단계 오프셋 맵(색인) 융합           │
+  ├──────────────────────────────────────────────────────────────────────────────────────┤
+  │                                                                                      │
+  │  [ 일반 스토리지 (Full Scan 무식 탐색의 늪) ]                                        │
+  │   - 목표: 키워드 "아담스" 데이터를 찾아라!                                           │
+  │   - 과정: 1천만 명 고객 텍스트 본문(디스크 I/O)을 하나씩 퍼올려 문자열 대조 폭파.    │
+  │          (CPU 스로틀, 디스크 100% 모터 Read 병목 타임아웃 멸망)                      │
+  │                                                                                      │
+  │  =============================================================                       │
+  │                                                                                      │
+  │  [ 인덱스 맵 (Indexed Sequential / B-Tree 복합 전술 타격) ]                          │
+  │   * 1단계: 메모리에 가벼운 알맹이 "색인 파일(Index)"만 로드하여 검색 뿅!             │
+  │     ┌─(색인 오름차순 목차장부)───┐                                                   │
+  │     │ 고길동 --------▶ 블록 99 │    ◀ (어 인덱스를 이진 탐색으로                     │
+  │     │ 나길동 --------▶ 블록 02 │        뒤지니까 "아담스"는 4번 줄이군!)             │
+  │    (🎯아담스 --------▶ 블록 04 │)   ============================▶                    │
+  │     │ 제임스 --------▶ 블록 10 │                                  ▼                  │
+  │     └────────────────────────┘                  [ 2단계 결론 본체 점프! ]            │
+  │                                                          [ 블록 04 ]                 │
+  │                                                  "아담스 미국인 나이 30세"           │
+  │   * 이점: 디스크(기계 장비) 헤더 이동(I/O) 횟수가 수십만 번에서 2번으로 박살 축소됨. │
+  └──────────────────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)든 대용량 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이든, 검색의 1원칙은 "디스크 IO(입출력)를 한 번이라도 더 치면 그 앱은 죽은 거다" 락백이다. 위 그림처럼 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(본문)는 이름 가나다순으로 꼭 예쁘게 정리(정렬)되어 있지 않고, 유저가 가입한 날짜 시간 순서대로 뒤죽박죽 쓰레기장([Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/))처럼 난장판으로 삽입 적재 파편이 되어 있다. 그래서 똑똑한 OS나 DB 엔진은 본문은 그냥 쓰레기장으로 내버려 두고, 아주 작고 예쁜 2단짜리 공간 표([Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))를 따로 빼서 "이름 가나다순" 열로 각 잡고 예쁘게 오름차순 정렬 배열로 공구리를 쳐놓아 관리해 버린다(탐색 속도의 O(log N) 우주 가속).
 
@@ -131,19 +132,15 @@ IBM 이 1960년대 발명한 전설의 고전 [파일](/knowledge-base/studynote
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">파일 접근 방법</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">색인 접근 (Indexed Access)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">디렉터리 (Directory) 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">1단계 디렉터리 / 2단계 디렉터리 (사용자별 UFD)</div></div>
-</div>
-</div>
-
-
+```text
+[파일 접근 방법]
+    │
+    ▼
+[색인 접근 (Indexed Access)]
+    │
+    ├──▶ [디렉터리 (Directory) 구조]
+    └──▶ [1단계 디렉터리 / 2단계 디렉터리 (사용자별 UFD)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

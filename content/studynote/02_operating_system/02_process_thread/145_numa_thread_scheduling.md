@@ -25,23 +25,27 @@ NUMA는 [다중 프로세서](/knowledge-base/studynote/01_computer_architecture
 
 > **비유:** 각 방에 자기 책상(로컬 메모리)이 있지만, 옆방 책상(원격 메모리)에서 물건을 가져올 때는 더 오래 걸리는 기숙사와 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">NUMA 아키텍처 개요</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NUMA Node 0 NUMA Node 1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Local Mem 0</div><div class="kb-diagram-cell">Local Mem 1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(16GB)</div><div class="kb-diagram-cell">(16GB)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P0 P1 P2 P3</div><div class="kb-diagram-cell">P4 P5 P6 P7</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──Interconnect──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(QPI/UPI/HyperTransport)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">로컬 접근: ~80ns</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원격 접근: ~150~200ns (2~3배 느림)</div></div>
-</div>
-</div>
-
-
+```
+┌──────────── NUMA 아키텍처 개요 ────────────┐
+│                                               │
+│  NUMA Node 0           NUMA Node 1            │
+│  ┌──────────────┐     ┌──────────────┐       │
+│  │  Local Mem 0  │     │  Local Mem 1  │       │
+│  │  (16GB)       │     │  (16GB)       │       │
+│  └──────┬───────┘     └──────┬───────┘       │
+│         │                     │                 │
+│  ┌──────┴───────┐     ┌──────┴───────┐       │
+│  │ P0  P1  P2  P3│     │ P4  P5  P6  P7│       │
+│  └──────────────┘     └──────────────┘       │
+│         │                     │                 │
+│         └──Interconnect──┘                   │
+│          (QPI/UPI/HyperTransport)             │
+│                                               │
+│  로컬 접근: ~80ns                             │
+│  원격 접근: ~150~200ns (2~3배 느림)          │
+│                                               │
+└───────────────────────────────────────────────┘
+```
 
 ### 2. 로컬 메모리 vs 원격 메모리
 
@@ -50,23 +54,22 @@ NUMA는 [다중 프로세서](/knowledge-base/studynote/01_computer_architecture
 | **로컬 메모리** | 동일 [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 노드의 메모리 | 낮음 (~80ns) | 높음 |
 | **원격 메모리** | 다른 [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 노드의 메모리 | 높음 (~150ns+) | 낮음 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">로컬 vs 원격 메모리 접근</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU(P0)의 메모리 요청:</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">로컬 접근</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P0 ──&gt; Local Mem 0: 80ns ──&gt; 데이터 획득</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">★ 빠름, 대역폭 충분</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">원격 접근</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P0 ──&gt; Interconnect ──&gt; Remote Mem 1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">150~200ns + 대역폭 경합 ──&gt; 데이터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ 느림, 인터커넥트 병목 가능</div></div>
-</div>
-</div>
-
-
+```
+┌────────── 로컬 vs 원격 메모리 접근 ──────────┐
+│                                                │
+│  CPU(P0)의 메모리 요청:                         │
+│                                                │
+│  [로컬 접근]                                   │
+│  P0 ──> Local Mem 0: 80ns ──> 데이터 획득     │
+│         ★ 빠름, 대역폭 충분                    │
+│                                                │
+│  [원격 접근]                                   │
+│  P0 ──> Interconnect ──> Remote Mem 1          │
+│         150~200ns + 대역폭 경합 ──> 데이터     │
+│         ▲ 느림, 인터커넥트 병목 가능           │
+│                                                │
+└────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 복잡한 창고에서 필요한 물건을 찾기 위해 먼저 구역과 표지판을 세우는 것과 같다.
 
@@ -78,24 +81,25 @@ NUMA는 [다중 프로세서](/knowledge-base/studynote/01_computer_architecture
 
 [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 인식 스케줄링의 핵심은 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 해당 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 사용하는 메모리와 동일한 [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 노드에서 실행하도록 배치하는 것이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">NUMA 인식 스케줄링 최적화</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최적 배치 (NUMA-aware):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Node 0: Thread-A + Mem-A (동일 노드)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Node 1: Thread-B + Mem-B (동일 노드)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Th-A+Mem</div><div class="kb-diagram-cell">Th-B+Mem</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Node 0)</div><div class="kb-diagram-cell">(Node 1)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비최적 배치 (NUMA-unaware):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Node 0: Thread-A 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Node 0의 Thread-A가 Node 1의 Mem-B 접근</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; 인터커넥트를 통한 원격 접근 발생</div></div>
-</div>
-</div>
-
-
+```
+┌────────── NUMA 인식 스케줄링 최적화 ─────────┐
+│                                               │
+│  최적 배치 (NUMA-aware):                      │
+│  Node 0: Thread-A + Mem-A (동일 노드)         │
+│  Node 1: Thread-B + Mem-B (동일 노드)         │
+│                                               │
+│  ┌──────────┐    ┌──────────┐                 │
+│  │ Th-A+Mem │    │ Th-B+Mem │                 │
+│  │ (Node 0) │    │ (Node 1) │                 │
+│  └──────────┘    └──────────┘                 │
+│                                               │
+│  비최적 배치 (NUMA-unaware):                   │
+│  Node 0: Thread-A 실행                        │
+│  Node 0의 Thread-A가 Node 1의 Mem-B 접근       │
+│  -> 인터커넥트를 통한 원격 접근 발생           │
+│                                               │
+└───────────────────────────────────────────────┘
+```
 
 ### 2. 메모리 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)
 
@@ -128,49 +132,50 @@ mbind(ptr, size, MPOL_INTERLEAVE, &nodemask2, MAXNODES, 0);
 
 ### 1. numactl [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">numactl 사용법</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell"># 하드웨어 NUMA 정보 확인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">numactl --hardware</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell"># 특정 노드에서 프로세스 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">numactl --cpunodebind=0 --membind=0 ./app</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell"># 선호 노드 지정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">numactl --preferred=0 ./app</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell"># 인터리브 정책</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">numactl --interleave=0,1 ./app</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell"># 현재 프로세스의 NUMA 정보 확인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">numastat -p &lt;PID&gt;</div></div>
-</div>
-</div>
-
-
+```
+┌────────────── numactl 사용법 ──────────────┐
+│                                               │
+│  # 하드웨어 NUMA 정보 확인                    │
+│  numactl --hardware                           │
+│                                               │
+│  # 특정 노드에서 프로세스 실행                 │
+│  numactl --cpunodebind=0 --membind=0 ./app    │
+│                                               │
+│  # 선호 노드 지정                              │
+│  numactl --preferred=0 ./app                  │
+│                                               │
+│  # 인터리브 정책                               │
+│  numactl --interleave=0,1 ./app               │
+│                                               │
+│  # 현재 프로세스의 NUMA 정보 확인              │
+│  numastat -p <PID>                            │
+│                                               │
+└───────────────────────────────────────────────┘
+```
 
 ### 2. AutoNUMA 자동 균형
 
 리눅스 커널의 AutoNUMA 기능은 자동으로 메모리 페이지를 자주 접근하는 노드로 마이그레이션한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">AutoNUMA 동작 원리</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 초기 상태:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Thread-X (Node 0) ──&gt; Mem-P (Node 1) 원격</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 커널이 원격 접근 빈도 모니터링</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PFN (Page Frame Number) 당 접근 통계 수집</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 임계치 초과 시 자동 마이그레이션:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mem-P를 Node 1에서 Node 0으로 이동</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Thread-X (Node 0) ──&gt; Mem-P (Node 0) 로컬</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 설정:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/proc/sys/kernel/numa_balancing = 1 (활성화)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/proc/sys/kernel/numa_balancing_scan_period</div></div>
-</div>
-</div>
-
-
+```
+┌────────────── AutoNUMA 동작 원리 ──────────────┐
+│                                                   │
+│  1. 초기 상태:                                    │
+│     Thread-X (Node 0) ──> Mem-P (Node 1) 원격   │
+│                                                   │
+│  2. 커널이 원격 접근 빈도 모니터링               │
+│     PFN (Page Frame Number) 당 접근 통계 수집    │
+│                                                   │
+│  3. 임계치 초과 시 자동 마이그레이션:             │
+│     Mem-P를 Node 1에서 Node 0으로 이동            │
+│     Thread-X (Node 0) ──> Mem-P (Node 0) 로컬   │
+│                                                   │
+│  4. 설정:                                         │
+│     /proc/sys/kernel/numa_balancing = 1 (활성화)  │
+│     /proc/sys/kernel/numa_balancing_scan_period   │
+│                                                   │
+└───────────────────────────────────────────────────┘
+```
 
 > **비유:** AutoNUMA는 도서관에서 자주 쓰는 책을 멀리 있는 서가에서 내 자리 옆으로 자동으로 옮겨주는 도서관 사서와 같다.
 
@@ -182,23 +187,26 @@ mbind(ptr, size, MPOL_INTERLEAVE, &nodemask2, MAXNODES, 0);
 
 ### 1. 메모리 집약적 워크로드의 영향
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">성능 비교: NUMA-aware vs Unaware</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">워크로드: 대규모 인메모리 데이터베이스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(256GB 메모리, 4 NUMA 노드, 64코어)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">throughput (ops/sec)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NUMA-aware ████████████████████ 100%</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NUMA-blind ████████ 55%</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AutoNUMA ████████████████ 85%</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원격 메모리 접근: 2~3배 지연</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대규모 시스템에서는 1.5~3배 성능 차이</div></div>
-</div>
-</div>
-
-
+```
+┌───────── 성능 비교: NUMA-aware vs Unaware ──────┐
+│                                                    │
+│  워크로드: 대규모 인메모리 데이터베이스            │
+│  (256GB 메모리, 4 NUMA 노드, 64코어)              │
+│                                                    │
+│  ┌─────────────────────────────────────────┐      │
+│  │ throughput (ops/sec)                     │      │
+│  │                                          │      │
+│  │  NUMA-aware  ████████████████████  100%  │      │
+│  │  NUMA-blind  ████████             55%   │      │
+│  │  AutoNUMA    ████████████████     85%   │      │
+│  │                                          │      │
+│  └─────────────────────────────────────────┘      │
+│                                                    │
+│  원격 메모리 접근: 2~3배 지연                       │
+│  대규모 시스템에서는 1.5~3배 성능 차이              │
+│                                                    │
+└────────────────────────────────────────────────────┘
+```
 
 ### 2. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 영향 요인
 
@@ -215,41 +223,35 @@ mbind(ptr, size, MPOL_INTERLEAVE, &nodemask2, MAXNODES, 0);
 
 ## Ⅴ. 기대효과 및 결론
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">NUMA-인식 스레드 스케줄링</div>
-<div class="kb-diagram-tree-item" style="--depth:0">NUMA 아키텍처</div>
-<div class="kb-diagram-note">── Non-Uniform Memory Access</div>
-<div class="kb-diagram-note">── 다중 노드, 각 노드에 로컬 메모리</div>
-<div class="kb-diagram-note">── 로컬 접근 (~80ns) vs 원격 접근 (~150ns+)</div>
-<div class="kb-diagram-note">── 인터커넥트 (QPI/UPI)로 노드 간 통신</div>
-<div class="kb-diagram-tree-item" style="--depth:0">NUMA 인식 스케줄링 기법</div>
-<div class="kb-diagram-note">── 스레드와 메모리를 동일 노드에 배치</div>
-<div class="kb-diagram-note">── first-touch 정책 (초기 접근 노드에 할당)</div>
-<div class="kb-diagram-note">── 페이지 마이그레이션 (동적 재배치)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">메모리 정책</div>
-<div class="kb-diagram-note">── set_mempolicy() (프로세스 전체)</div>
-<div class="kb-diagram-note">── mbind() (특정 메모리 영역)</div>
-<div class="kb-diagram-note">── MPOL_BIND, MPOL_PREFERRED, MPOL_INTERLEAVE</div>
-<div class="kb-diagram-note">── numactl 명령행 도구</div>
-<div class="kb-diagram-tree-item" style="--depth:0">AutoNUMA 자동 균형</div>
-<div class="kb-diagram-note">── 커널이 원격 접근 통계 자동 수집</div>
-<div class="kb-diagram-note">── 빈번한 원격 페이지를 로컬로 마이그레이션</div>
-<div class="kb-diagram-note">── numa_balancing 커널 파라미터</div>
-<div class="kb-diagram-tree-item" style="--depth:0">성능 영향</div>
-<div class="kb-diagram-note">── 메모리 집약적 워크로드: 2~3배 차이</div>
-<div class="kb-diagram-note">── 대규모 데이터베이스, HPC에 중요</div>
-<div class="kb-diagram-note">── 인터커넥트 대역폭이 병목</div>
-<div class="kb-diagram-tree-item" style="--depth:0">최적화 전략</div>
-<div class="kb-diagram-tree-item" style="--depth:2">numactl로 수동 노드 바인딩</div>
-<div class="kb-diagram-tree-item" style="--depth:2">first-touch 초기화 패턴 사용</div>
-<div class="kb-diagram-tree-item" style="--depth:2">AutoNUMA 활성화 + 모니터링</div>
-</div>
-</div>
-
-
+```
+NUMA-인식 스레드 스케줄링
+├── NUMA 아키텍처
+│   ├── Non-Uniform Memory Access
+│   ├── 다중 노드, 각 노드에 로컬 메모리
+│   ├── 로컬 접근 (~80ns) vs 원격 접근 (~150ns+)
+│   └── 인터커넥트 (QPI/UPI)로 노드 간 통신
+├── NUMA 인식 스케줄링 기법
+│   ├── 스레드와 메모리를 동일 노드에 배치
+│   ├── first-touch 정책 (초기 접근 노드에 할당)
+│   └── 페이지 마이그레이션 (동적 재배치)
+├── 메모리 정책
+│   ├── set_mempolicy() (프로세스 전체)
+│   ├── mbind() (특정 메모리 영역)
+│   ├── MPOL_BIND, MPOL_PREFERRED, MPOL_INTERLEAVE
+│   └── numactl 명령행 도구
+├── AutoNUMA 자동 균형
+│   ├── 커널이 원격 접근 통계 자동 수집
+│   ├── 빈번한 원격 페이지를 로컬로 마이그레이션
+│   └── numa_balancing 커널 파라미터
+├── 성능 영향
+│   ├── 메모리 집약적 워크로드: 2~3배 차이
+│   ├── 대규모 데이터베이스, HPC에 중요
+│   └── 인터커넥트 대역폭이 병목
+└── 최적화 전략
+    ├── numactl로 수동 노드 바인딩
+    ├── first-touch 초기화 패턴 사용
+    └── AutoNUMA 활성화 + 모니터링
+```
 
 ---
 
@@ -283,19 +285,15 @@ mbind(ptr, size, MPOL_INTERLEAVE, &nodemask2, MAXNODES, 0);
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">CPU 친화성 (CPU Affinity)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NUMA-인식 스레드 스케줄링 (NUMA Thread Scheduling)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">실시간 프로세스 (Real-time Process)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스레드 안전 (Thread-safe) 함수 및 라이브러리</div></div>
-</div>
-</div>
-
-
+```text
+[CPU 친화성 (CPU Affinity)]
+    │
+    ▼
+[NUMA-인식 스레드 스케줄링 (NUMA Thread Scheduling)]
+    │
+    ├──▶ [실시간 프로세스 (Real-time Process)]
+    └──▶ [스레드 안전 (Thread-safe) 함수 및 라이브러리]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

@@ -49,22 +49,18 @@ tags = ["studynote-bigdata"]
 
 ### 1. repartition() vs coalesce() 동작 비교
 
+```
+    [repartition(N)]                    [coalesce(N)]
+    ─────────────────                   ────────────────
+    파티션 A ─── 셔플 ──→ 신규 파티션 1  파티션 A ────────→ 합쳐진 파티션 1
+    파티션 B ─── 셔플 ──→ 신규 파티션 2  파티션 B ─────┐
+    파티션 C ─── 셔플 ──→ 신규 파티션 3  파티션 C ─────┘→ 합쳐진 파티션 2
+    파티션 D ─── 셔플 ──→ 신규 파티션 N  파티션 D ─────────→ 합쳐진 파티션 3
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">repartition(N)</div><div class="kb-diagram-node">coalesce(N)</div></div>
-<div class="kb-diagram-note">파티션 A 셔플 ──→ 신규 파티션 1 파티션 A → 합쳐진 파티션 1</div>
-<div class="kb-diagram-note">파티션 B 셔플 ──→ 신규 파티션 2 파티션 B</div>
-<div class="kb-diagram-note">파티션 C 셔플 ──→ 신규 파티션 3 파티션 C → 합쳐진 파티션 2</div>
-<div class="kb-diagram-note">파티션 D 셔플 ──→ 신규 파티션 N 파티션 D → 합쳐진 파티션 3</div>
-<div class="kb-diagram-note">· 전체 셔플 발생 (네트워크 I/O↑) · 셔플 없음 (로컬 병합)</div>
-<div class="kb-diagram-note">· 파티션 수 증가/감소 모두 가능 · 파티션 수 감소만 가능</div>
-<div class="kb-diagram-note">· 균등한 데이터 분포 보장 · 파티션 크기 불균형 가능</div>
-</div>
-</div>
-
-
+    · 전체 셔플 발생 (네트워크 I/O↑)   · 셔플 없음 (로컬 병합)
+    · 파티션 수 증가/감소 모두 가능     · 파티션 수 감소만 가능
+    · 균등한 데이터 분포 보장           · 파티션 크기 불균형 가능
+```
 
 ### 2. [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 최적화 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
@@ -109,18 +105,13 @@ spark.conf.set("spark.sql.adaptive.coalescePartitions.minPartitionNum", "50")
 
 AQE (Adaptive Query Execution)는 셔플 후 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)을 자동으로 병합한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">셔플 후 200개 파티션 → AQE 분석</div>
-<div class="kb-diagram-note">파티션 150개: 1 KB 이하 (대부분 비어 있음)</div>
-<div class="kb-diagram-note">파티션 50개: 128~256 MB</div>
-<div class="kb-diagram-note">→ AQE 결정: 빈 파티션 자동 병합 → 실제 50개 파티션으로 줄임</div>
-</div>
-</div>
-
-
+```
+셔플 후 200개 파티션 → AQE 분석
+  파티션 150개: 1 KB 이하 (대부분 비어 있음)
+  파티션 50개: 128~256 MB
+  
+→ AQE 결정: 빈 파티션 자동 병합 → 실제 50개 파티션으로 줄임
+```
 
 `spark.sql.adaptive.coalescePartitions.enabled=true` (기본값: true in Spark 3.0+)
 
@@ -208,21 +199,18 @@ df.repartition(100).write.parquet("/output/path")  # 균등 크기 필요
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">RDD (탄력적 분산 데이터셋) — 기본 파티션으로 클러스터 분산 처리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">파티션 최적화 — coalesce·repartition·partitionBy로 편향 해소</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Adaptive Query Execution (AQE) — 런타임 통계 기반 동적 파티션 재조정</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Delta Lake Z-Order — 데이터 레이아웃 최적화로 스킵 I/O 극대화</div></div>
-</div>
-</div>
-
-
+```text
+[RDD (탄력적 분산 데이터셋) — 기본 파티션으로 클러스터 분산 처리]
+    │
+    ▼
+[파티션 최적화 — coalesce·repartition·partitionBy로 편향 해소]
+    │
+    ▼
+[Adaptive Query Execution (AQE) — 런타임 통계 기반 동적 파티션 재조정]
+    │
+    ▼
+[Delta Lake Z-Order — 데이터 레이아웃 최적화로 스킵 I/O 극대화]
+```
 Spark [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 최적화는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 편향을 제거하고 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성을 극대화하며, AQE와 Delta Lake의 Z-Order 클러스터링으로 더욱 지능적으로 발전하고 있다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

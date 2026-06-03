@@ -35,21 +35,18 @@ S-State의 핵심 원리는 <strong>깊게 잘수록 더 적은 전기를 쓰지
 
 아래 그림은 S0에서 S5까지의 깊이를 단순화한 것이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ACPI global power ladder</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">S0 Working : user code runs, devices active</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">S1 Light sleep : CPU stopped, context mostly retained</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">S2 Deeper sleep : more CPU context lost, rarely implemented</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">S3 STR : only DRAM kept in self-refresh</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">S4 Hibernate : memory image stored on nonvolatile storage</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">S5 Soft Off : no session context, wake logic only</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                    ACPI global power ladder                         │
+├──────────────────────────────────────────────────────────────────────┤
+│ S0  Working      : user code runs, devices active                   │
+│ S1  Light sleep  : CPU stopped, context mostly retained             │
+│ S2  Deeper sleep : more CPU context lost, rarely implemented        │
+│ S3  STR          : only DRAM kept in self-refresh                   │
+│ S4  Hibernate    : memory image stored on nonvolatile storage       │
+│ S5  Soft Off     : no session context, wake logic only              │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 계단형 구조를 실제 의미와 함께 보면 다음과 같다.
 
@@ -139,24 +136,24 @@ S-State 체계의 가장 큰 효과는 [운영체제](/knowledge-base/studynote/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Always-on PC operation</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ACPI global sleep model (S0 ~ S5)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ S3 Suspend-to-RAM</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ S4 Hibernation</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ S5 Soft Off</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Fine-grained C-State / D-State coordination</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">S0 low power idle and Modern Standby</div>
-</div>
-</div>
-
-
+```text
+Always-on PC operation
+    │
+    ▼
+ACPI global sleep model (S0 ~ S5)
+    │
+    ├──▶ S3 Suspend-to-RAM
+    │
+    ├──▶ S4 Hibernation
+    │
+    ├──▶ S5 Soft Off
+    │
+    ▼
+Fine-grained C-State / D-State coordination
+    │
+    ▼
+S0 low power idle and Modern Standby
+```
 
 이 흐름은 시스템 전원 관리가 단순한 on/off에서 출발해, 전통적 절전·최대절전·종료를 거쳐, 다시 S0 내부의 세밀한 저전력 유휴로 발전해 온 과정을 보여준다.
 

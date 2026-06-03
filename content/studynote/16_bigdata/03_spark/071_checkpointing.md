@@ -41,24 +41,21 @@ tags = ["studynote-bigdata"]
 
 ### 1. 체크포인팅 동작 원리
 
+```
+체크포인팅 전:
+  Input ─→ T1 ─→ T2 ─→ T3 ─→ T4 ─→ T5 ─→ T6 ─→ T7 ─→ Output
+  (Lineage: 7단계 변환 기억)
 
+  장애 발생 (T6 파티션 유실) → T1~T6 전체 재연산 필요!
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">체크포인팅 전:</div>
-<div class="kb-diagram-note">Input ─→ T1 ─→ T2 ─→ T3 ─→ T4 ─→ T5 ─→ T6 ─→ T7 ─→ Output</div>
-<div class="kb-diagram-note">(Lineage: 7단계 변환 기억)</div>
-<div class="kb-diagram-note">장애 발생 (T6 파티션 유실) → T1~T6 전체 재연산 필요!</div>
-<div class="kb-diagram-note">체크포인팅 후:</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">체크포인트: HDFS 저장</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">T4 ─→ T5 ─→ T6 ─→ T7 ─→ Output</div>
-<div class="kb-diagram-note">(T4 이후 Lineage만 기억)</div>
-<div class="kb-diagram-note">장애 발생 (T6 파티션 유실) → HDFS에서 T3 체크포인트 로드 → T4~T6만 재연산!</div>
-</div>
-</div>
+체크포인팅 후:
+  Input ─→ T1 ─→ T2 ─→ T3 ─→ [체크포인트: HDFS 저장]
+                                   ↓
+                              T4 ─→ T5 ─→ T6 ─→ T7 ─→ Output
+  (T4 이후 Lineage만 기억)
 
-
+  장애 발생 (T6 파티션 유실) → HDFS에서 T3 체크포인트 로드 → T4~T6만 재연산!
+```
 
 ### 2. [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/) 체크포인팅 사용법
 
@@ -197,23 +194,21 @@ rdd.count()  # persist된 데이터를 HDFS에 쓰기 (재연산 불필요)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Spark RDD 리니지 (Lineage) — 변환 이력 그래프 축적</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">체크포인팅 (Checkpointing) — HDFS에 RDD 물리 저장, 리니지 절단</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스트리밍 체크포인트 — 오프셋·상태(State) 주기적 영속화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">WAL (Write-Ahead Log) — 장애 복구 전 로그 선기록</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">장애 복구 (Fault Recovery) — 체크포인트 지점에서 재연산 최소화</div></div>
-</div>
-</div>
-
-
+```text
+[Spark RDD 리니지 (Lineage) — 변환 이력 그래프 축적]
+    │
+    ▼
+[체크포인팅 (Checkpointing) — HDFS에 RDD 물리 저장, 리니지 절단]
+    │
+    ▼
+[스트리밍 체크포인트 — 오프셋·상태(State) 주기적 영속화]
+    │
+    ▼
+[WAL (Write-Ahead Log) — 장애 복구 전 로그 선기록]
+    │
+    ▼
+[장애 복구 (Fault Recovery) — 체크포인트 지점에서 재연산 최소화]
+```
 Spark의 리니지가 길어질수록 재연산 비용이 폭발하므로, 체크포인팅으로 중간 상태를 영속화해 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시 재연산 범위를 최소화한다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

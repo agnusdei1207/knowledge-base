@@ -18,20 +18,18 @@ tags = ["studynote-enterprise-systems"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SECI 모델 (노나카)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">암묵지 → 암묵지: 사회화 (도제, OJT)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">암묵지 → 형식지: 외부화 (매뉴얼 작성)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">형식지 → 형식지: 결합화 (DB·보고서 통합)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">형식지 → 암묵지: 내면화 (학습·체화)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">KMS: 외부화·결합화를 IT로 지원</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    SECI 모델 (노나카)                                 │
+├───────────────────────────────────────────────────────┤
+│   암묵지 → 암묵지: 사회화 (도제, OJT)               │
+│   암묵지 → 형식지: 외부화 (매뉴얼 작성)             │
+│   형식지 → 형식지: 결합화 (DB·보고서 통합)           │
+│   형식지 → 암묵지: 내면화 (학습·체화)               │
+│                                                       │
+│   KMS: 외부화·결합화를 IT로 지원                     │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 암묵지는 요리사의 <strong>손맛(경험)</strong>이고, [형식지](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/129_explicit_knowledge_formalization/)는 <strong>레시피(문서)</strong>이다. KMS는 손맛을 레시피로 바꿔서 누구나 참고할 수 있게 한다.
 
@@ -91,23 +89,21 @@ KMS는 <strong>조직 지식을 자산화</strong>하여 인력 유실 위험을
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">개인 파일 관리 (1990s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">KMS + CoP (노나카 SECI, 2000s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">위키 기반 KMS (Confluence, 2010s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AI 검색 + 추천 (2020~)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: RAG 기반 사내 지식 챗봇 — LLM + KMS</div></div>
-</div>
-</div>
-
-
+```text
+[개인 파일 관리 (1990s)]
+    │
+    ▼
+[KMS + CoP (노나카 SECI, 2000s)]
+    │
+    ▼
+[위키 기반 KMS (Confluence, 2010s)]
+    │
+    ▼
+[AI 검색 + 추천 (2020~)]
+    │
+    ▼
+[현재: RAG 기반 사내 지식 챗봇 — LLM + KMS]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. KMS는 회사의 <strong>위키피디아</strong>예요. 모든 사람의 지식을 **한 곳에 모아요**.

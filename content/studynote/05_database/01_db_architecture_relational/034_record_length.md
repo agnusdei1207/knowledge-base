@@ -60,23 +60,23 @@ tags = ["studynote-database"]
 
 ## Ⅲ. [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)/블록 구조
 
+```
+디스크 I/O 단위: 블록(Block) 또는 페이지(Page)
+  일반적 크기: 4KB ~ 16KB (DBMS 설정)
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">디스크 I/O 단위: 블록(Block) 또는 페이지(Page)</div>
-<div class="kb-diagram-note">일반적 크기: 4KB ~ 16KB (DBMS 설정)</div>
-<div class="kb-diagram-note">페이지 내부 구조:</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페이지 헤더 (LSN, 페이지 유형 등)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">슬롯 배열 (레코드 오프셋 테이블)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">슬롯1 → 오프셋 900</div><div class="kb-diagram-node">슬롯2 → 450</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">빈 공간 (Free Space)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">레코드 2 (450번지)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">레코드 1 (900번지)</div></div>
-</div>
-</div>
-
-
+페이지 내부 구조:
+  ┌──────────────────────────────────────┐
+  │ 페이지 헤더 (LSN, 페이지 유형 등)    │
+  ├──────────────────────────────────────┤
+  │ 슬롯 배열 (레코드 오프셋 테이블)     │
+  │ [슬롯1 → 오프셋 900] [슬롯2 → 450]   │
+  ├──────────────────────────────────────┤
+  │         빈 공간 (Free Space)          │
+  ├──────────────────────────────────────┤
+  │ 레코드 2 (450번지)                    │
+  │ 레코드 1 (900번지)                    │
+  └──────────────────────────────────────┘
+```
 
 <strong>슬롯 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a></strong>: 가변 길이 레코드의 위치를 추적해 O(1) 접근 가능
 
@@ -86,23 +86,18 @@ tags = ["studynote-database"]
 
 ## Ⅳ. 행 지향 vs 열 지향 저장
 
+```
+행 지향 (Row-oriented / NSM):
+  레코드1: [ID=1, Name=Alice, Age=30, Score=90]
+  레코드2: [ID=2, Name=Bob,   Age=25, Score=85]
+  → OLTP 최적: 특정 행 전체를 빠르게 읽기
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">행 지향 (Row-oriented / NSM):</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">레코드1:</div><div class="kb-diagram-node">ID=1, Name=Alice, Age=30, Score=90</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">레코드2:</div><div class="kb-diagram-node">ID=2, Name=Bob,   Age=25, Score=85</div></div>
-<div class="kb-diagram-note">→ OLTP 최적: 특정 행 전체를 빠르게 읽기</div>
-<div class="kb-diagram-note">열 지향 (Column-oriented / DSM):</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">ID 컬럼:</div><div class="kb-diagram-node">1, 2, 3, 4, ...</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Name 컬럼:</div><div class="kb-diagram-node">Alice, Bob, Carol, ...</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Age 컬럼:</div><div class="kb-diagram-node">30, 25, 28, ...</div></div>
-<div class="kb-diagram-note">→ OLAP 최적: 특정 컬럼 집계 (SELECT AVG(Age))</div>
-</div>
-</div>
-
-
+열 지향 (Column-oriented / DSM):
+  ID 컬럼:    [1, 2, 3, 4, ...]
+  Name 컬럼:  [Alice, Bob, Carol, ...]
+  Age 컬럼:   [30, 25, 28, ...]
+  → OLAP 최적: 특정 컬럼 집계 (SELECT AVG(Age))
+```
 
 | 기준         | 행 지향 ([OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/))        | 열 지향 ([OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/))        |
 |-----------|---------------------|---------------------|
@@ -130,53 +125,46 @@ tags = ["studynote-database"]
 
 ## 📌 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">레코드 길이 · 파일 조직</div>
-<div class="kb-diagram-tree-item" style="--depth:0">레코드 방식</div>
-<div class="kb-diagram-note">── 고정 길이 (O(1) 접근, 공간 낭비)</div>
-<div class="kb-diagram-note">── 가변 길이 (VARCHAR, 슬롯 배열)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">파일 조직</div>
-<div class="kb-diagram-note">── 순차 / 직접(해시) / ISAM / 군집</div>
-<div class="kb-diagram-note">── 페이지·블록 단위 I/O</div>
-<div class="kb-diagram-tree-item" style="--depth:0">저장 방향</div>
-<div class="kb-diagram-note">── 행 지향 (OLTP·트랜잭션)</div>
-<div class="kb-diagram-note">── 열 지향 (OLAP·분석)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">최적화</div>
-<div class="kb-diagram-tree-item" style="--depth:2">압축 (RLE·비트패킹)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">파티셔닝</div>
-<div class="kb-diagram-tree-item" style="--depth:2">존 맵 (Zone Map)</div>
-</div>
-</div>
-
-
+```
+레코드 길이 · 파일 조직
+├── 레코드 방식
+│   ├── 고정 길이 (O(1) 접근, 공간 낭비)
+│   └── 가변 길이 (VARCHAR, 슬롯 배열)
+├── 파일 조직
+│   ├── 순차 / 직접(해시) / ISAM / 군집
+│   └── 페이지·블록 단위 I/O
+├── 저장 방향
+│   ├── 행 지향 (OLTP·트랜잭션)
+│   └── 열 지향 (OLAP·분석)
+└── 최적화
+    ├── 압축 (RLE·비트패킹)
+    ├── 파티셔닝
+    └── 존 맵 (Zone Map)
+```
 
 ---
 
 ## 📈 관련 키워드 및 발전 흐름도
 
+```
+┌─────────────────────────────────────────────────────────────────┐
+│              레코드 저장 발전 흐름                               │
+├──────────────┬────────────────────┬─────────────────────────────┤
+│ 1960년대     │ 순차·직접 파일     │ 초기 데이터베이스 파일 방식  │
+│ 1970년대     │ ISAM·관계형 모델   │ 인덱스 + 관계형 DB 등장     │
+│ 1980~90년대  │ 행 지향 RDBMS     │ Oracle·SQL Server 표준화     │
+│ 2000년대     │ 열 지향 DWH       │ Vertica·Sybase IQ 분석 최적화│
+│ 2010년대     │ 클라우드 DWH      │ Redshift·BigQuery·Snowflake  │
+│ 2020년대     │ 벡터화·SIMD       │ DuckDB·ClickHouse 고성능 분석│
+└──────────────┴────────────────────┴─────────────────────────────┘
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">레코드 저장 발전 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1960년대</div><div class="kb-diagram-cell">순차·직접 파일</div><div class="kb-diagram-cell">초기 데이터베이스 파일 방식</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1970년대</div><div class="kb-diagram-cell">ISAM·관계형 모델</div><div class="kb-diagram-cell">인덱스 + 관계형 DB 등장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1980~90년대</div><div class="kb-diagram-cell">행 지향 RDBMS</div><div class="kb-diagram-cell">Oracle·SQL Server 표준화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2000년대</div><div class="kb-diagram-cell">열 지향 DWH</div><div class="kb-diagram-cell">Vertica·Sybase IQ 분석 최적화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2010년대</div><div class="kb-diagram-cell">클라우드 DWH</div><div class="kb-diagram-cell">Redshift·BigQuery·Snowflake</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2020년대</div><div class="kb-diagram-cell">벡터화·SIMD</div><div class="kb-diagram-cell">DuckDB·ClickHouse 고성능 분석</div></div>
-<div class="kb-diagram-note">핵심 키워드 연결:</div>
-<div class="kb-diagram-note">고정/가변 길이 → 페이지 구조 → ISAM/해시 → 행 지향 RDBMS</div>
-<div class="kb-diagram-note">O(1) 접근 슬롯 배열 인덱스 순차 OLTP 최적</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">열 지향 → OLAP → Snowflake/BigQuery → 분석 쿼리 최적화</div>
-</div>
-</div>
-
-
+핵심 키워드 연결:
+고정/가변 길이 → 페이지 구조 → ISAM/해시 → 행 지향 RDBMS
+    ↓                 ↓               ↓             ↓
+O(1) 접근       슬롯 배열        인덱스 순차     OLTP 최적
+    ↓
+열 지향 → OLAP → Snowflake/BigQuery → 분석 쿼리 최적화
+```
 
 ---
 

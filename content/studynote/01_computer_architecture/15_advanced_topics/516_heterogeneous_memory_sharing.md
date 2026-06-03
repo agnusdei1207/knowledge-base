@@ -33,25 +33,25 @@ tags = ["studynote-computer-architecture"]
 
 실제 구현은 크게 세 층으로 나뉜다. 첫째, 공유 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) (Shared [Virtual Memory](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/), [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/))나 통합 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) (Unified [Virtual Memory](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/), UVM)처럼 같은 포인터를 장치들이 이해할 수 있게 하는 주소 체계가 필요하다. 둘째, 입출력 메모리 관리 장치 (Input/Output [Memory Management Unit](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/284_mmu/), [IOMMU](/knowledge-base/studynote/02_operating_system/10_security/627_iommu_dma_isolation/))와 주소 변환 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) (Address Translation Services, ATS)가 장치 쪽 주소 변환을 가능하게 해야 한다. 셋째, [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 이동과 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/)을 다루는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 계층이 필요하다. 이때 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 동적 램 (Dynamic Random Access Memory, [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/)), 고대역폭 메모리 ([High Bandwidth Memory](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/), [HBM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/)), 컴퓨트 익스프레스 링크 ([Compute Express Link](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/), [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/)) 기반 외부 메모리 중 하나에 놓일 수 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Shared address, different physical homes</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App pointer 0x7f...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ CPU page walk -&gt; host page table</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ GPU ATS request -&gt; same mapping</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Shared virtual view</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0x7f... -&gt; DRAM page (CPU-local)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0x80... -&gt; HBM page (GPU-local)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0x90... -&gt; CXL pool page (shared capacity tier)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Policy</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">page fault -&gt; migrate / map remote / pin read-mostly</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">coherence -&gt; invalidate or update peer caches</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────┐
+│ Shared address, different physical homes                                │
+├──────────────────────────────────────────────────────────────────────────┤
+│ App pointer 0x7f...                                                     │
+│      │                                                                   │
+│      ├─ CPU page walk  -> host page table                               │
+│      └─ GPU ATS request -> same mapping                                 │
+│                                                                          │
+│ Shared virtual view                                                      │
+│   0x7f... -> DRAM page        (CPU-local)                                │
+│   0x80... -> HBM page         (GPU-local)                                │
+│   0x90... -> CXL pool page    (shared capacity tier)                     │
+│                                                                          │
+│ Policy                                                                   │
+│   page fault -> migrate / map remote / pin read-mostly                   │
+│   coherence  -> invalidate or update peer caches                         │
+└──────────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림은 "같은 주소"와 "같은 물리 위치"가 다르다는 점을 강조한다. 프로그래머는 같은 포인터를 보더라도, 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 CPU 가까운 동적 램, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 가까운 고대역폭 메모리, 혹은 컴퓨트 익스프레스 링크 ([Compute Express Link](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/), [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/)) 기반 [메모리 풀](/knowledge-base/studynote/02_operating_system/06_memory_management/369_memory_pool/) 가운데 하나에 놓일 수 있다.
 
@@ -136,25 +136,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">장치별 분리 메모리 + 명시적 복사</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">공유 주소 공간</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">관리형 페이지 마이그레이션</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">코히어런트 CPU-GPU 링크</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CXL 기반 메모리 풀링</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">정책 중심 이종 메모리 계층화</div>
-</div>
-</div>
-
-
+```text
+장치별 분리 메모리 + 명시적 복사
+    │
+    ▼
+공유 주소 공간
+    │
+    ▼
+관리형 페이지 마이그레이션
+    │
+    ▼
+코히어런트 CPU-GPU 링크
+    │
+    ▼
+CXL 기반 메모리 풀링
+    │
+    ▼
+정책 중심 이종 메모리 계층화
+```
 
 이 흐름은 "복사 중심 모델 → 주소 통합 → [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)·[풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/) 확장"으로 이종 시스템 메모리 구조가 진화하는 방향을 보여 준다.
 

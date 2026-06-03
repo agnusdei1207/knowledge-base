@@ -31,23 +31,17 @@ tags = ["studynote-software-engineering"]
 
 브레인스토밍의 4원칙은 단순하지만 강력하다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">아이디어 발산</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">비판 금지</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">자유분방</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">다다익선</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">결합 개선</div>
-</div>
-</div>
-
-
+```text
+아이디어 발산
+   ↓
+비판 금지
+   ↓
+자유분방
+   ↓
+다다익선
+   ↓
+결합 개선
+```
 
 | 원칙 | 의미 |
 | :-- | :-- |
@@ -111,41 +105,29 @@ tags = ["studynote-software-engineering"]
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">문제 정의</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">브레인스토밍</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">아이디어 발산</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">조합 / 평가</div>
-</div>
-</div>
-
-
+```text
+문제 정의
+   ↓
+브레인스토밍
+   ↓
+아이디어 발산
+   ↓
+조합 / 평가
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">아이디어 막힘</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">4원칙 적용</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">NGT / 브레인라이팅</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">창의적 해결안 도출</div>
-</div>
-</div>
-
-
+```text
+아이디어 막힘
+   ↓
+4원칙 적용
+   ↓
+NGT / 브레인라이팅
+   ↓
+창의적 해결안 도출
+```
 
 ---
 

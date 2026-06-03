@@ -102,22 +102,19 @@ Chainlink 오라클 노드 (다수, 독립)
 
 ## [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). TWAP 오라클 (시간 가중 평균)
 
+```
+Flash Loan 공격 대응:
+  순간 가격 오라클 -> 조작 가능
+  
+TWAP (Time-Weighted Average Price):
+  가격 = (P_t1 + P_t2 + ... + P_tn) / n
+  n = 30분 또는 1시간 평균
+  
+  순간 조작으로는 TWAP을 크게 바꿀 수 없음
+  -> Flash Loan 공격 방어
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Flash Loan 공격 대응:</div>
-<div class="kb-diagram-note">순간 가격 오라클 -&gt; 조작 가능</div>
-<div class="kb-diagram-note">TWAP (Time-Weighted Average Price):</div>
-<div class="kb-diagram-note">가격 = (P_t1 + P_t2 + ... + P_tn) / n</div>
-<div class="kb-diagram-note">n = 30분 또는 1시간 평균</div>
-<div class="kb-diagram-note">순간 조작으로는 TWAP을 크게 바꿀 수 없음</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Flash Loan 공격 방어</div>
-<div class="kb-diagram-note">사용처: Uniswap v3 TWAP 오라클</div>
-</div>
-</div>
-
-
+사용처: Uniswap v3 TWAP 오라클
+```
 
 > 📢 **섹션 요약 비유**: 주식 가격 조작 방지를 위해 당일 평균 가격을 기준으로 하는 것 — 순간 급등을 악용하기 어렵게 만든다.
 

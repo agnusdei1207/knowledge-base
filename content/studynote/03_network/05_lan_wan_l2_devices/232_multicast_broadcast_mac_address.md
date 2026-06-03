@@ -27,18 +27,14 @@ tags = ["studynote-network"]
   - **브로드캐스트**: "반장, 문 닫아라! 반 전체 학생 집중!" 하고 확성기로 방송하는 것 (모두가 듣고 행동해야 함).
   - <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/">멀티캐스트</a></strong>: "방송부원들만 잠깐 교무실로 와라!" 하는 것 (방송부원들만 반응하고, 나머지는 하던 공부를 계속함).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">MAC 주소</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">멀티캐스트 MAC 주소 / 브로드캐스트 MA…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">이더넷 프레임 포맷</div></div>
-</div>
-</div>
-
-
+```text
+[MAC 주소]
+    │
+    ▼
+[멀티캐스트 MAC 주소 / 브로드캐스트 MA…]
+    │
+    └──▶ [이더넷 프레임 포맷]
+```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/">멀티캐스트</a>와 브로드캐스트 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> 주소는 네트워크라는 동네 방송국에서 틀어주는 </strong>"전체 공지용 채널(브로드캐스트)"**과 **"유료 구독자 전용 암호화 채널([멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/))"**입니다.
 
@@ -58,21 +54,22 @@ tags = ["studynote-network"]
 - **동작**: 랜카드는 하드웨어 필터링을 통해, 현재 운영체제가 해당 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 그룹에 가입([IGMP](/knowledge-base/studynote/03_network/06_network_layer_ip/333_igmp_internet_group_management_protocol_multicast/))되어 있을 때만 프레임을 받아들이고, 아니면 버린다. CPU에 부하를 주지 않는다.
 - **용도**: IPTV, 주식 시세 전송(Ticker), 라우터 간의 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 정보 교환(OSPF는 `01:00:5E:00:00:05` 사용).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IPv4 멀티캐스트 IP -&gt; MAC 주소 매핑</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IP 멀티캐스트 (예: OSPF 라우터 224.0.0.5)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1110 0000</div><div class="kb-diagram-note">.</div><div class="kb-diagram-node">0000 0000 . 0000 0000 . 0000 0101</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(D 클래스 고정) 23비트만 가져옴</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MAC 멀티캐스트 주소 (01:00:5E + 하위 23비트)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">01:00:5E</div><div class="kb-diagram-note">:</div><div class="kb-diagram-node">00</div><div class="kb-diagram-note">:</div><div class="kb-diagram-node">00</div><div class="kb-diagram-note">:</div><div class="kb-diagram-node">05</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(OUI 고정부) (가져온 23비트를 채워 넣음)</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │               IPv4 멀티캐스트 IP -> MAC 주소 매핑              │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   IP 멀티캐스트 (예: OSPF 라우터 224.0.0.5)                   │
+ │   [ 1110 0000 ] . [ 0000 0000 . 0000 0000 . 0000 0101 ]     │
+ │       (D 클래스 고정)    └───────── 23비트만 가져옴 ────────┘     │
+ │                                    │                        │
+ │                                    ▼                        │
+ │   MAC 멀티캐스트 주소 (01:00:5E + 하위 23비트)                   │
+ │   [ 01:00:5E ]  :  [ 00 ]    : [ 00 ]    : [ 05 ]           │
+ │   (OUI 고정부)       (가져온 23비트를 채워 넣음)                  │
+ │                                                             │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: ** 브로드캐스트는 **"스팸 문자"<strong>처럼 모두의 휴대폰을 울리게 만들어 배터리(CPU)를 소모시키지만, <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/">멀티캐스트</a>는 </strong>"단톡방 알림"**처럼 그 방에 초대된 사람의 휴대폰만 울리게 하는 세련된 통신 방식입니다.
 
@@ -130,19 +127,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: MAC 주소</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 멀티캐스트 MAC 주소 / 브로드캐스트 MA…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 이더넷 프레임 포맷</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 캠퍼스 패브릭</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: MAC 주소]
+    │
+    ▼
+[현재 개념: 멀티캐스트 MAC 주소 / 브로드캐스트 MA…]
+    │
+    ├──▶ [확장 A: 이더넷 프레임 포맷]
+    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
+```
 
 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 / 브로드캐스트 MA…는 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소에서 출발해 현재 메커니즘을 정교화하고, 이후 [이더넷 프레임 포맷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/233_ethernet_frame_format_ethernet_ii_vs_ieee_802_3/)와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

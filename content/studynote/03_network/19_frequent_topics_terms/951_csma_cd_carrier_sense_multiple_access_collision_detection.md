@@ -21,18 +21,14 @@ tags = ["studynote-network"]
 
 하나의 구리선(공유 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/))을 여러 대의 PC가 공유할 때, 2대 이상이 동시에 전기를 쏘면 전압이 겹쳐서 데이터가 걸레짝이 됩니다. 이 피 터지는 도로([Collision Domain](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/237_collision_domain_vs_broadcast_domain/))의 교통정리 규칙이 필요했습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">HDLC 비트 스터핑</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">반송파 감지 다중 접속 및 충돌 검출</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">은닉 단말 문제</div></div>
-</div>
-</div>
-
-
+```text
+[HDLC 비트 스터핑]
+    │
+    ▼
+[반송파 감지 다중 접속 및 충돌 검출]
+    │
+    └──▶ [은닉 단말 문제]
+```
 
 - **📢 섹션 요약 비유**: [반송파](/knowledge-base/studynote/03_network/01_data_communication/054_반송파_Carrier_Wave/) 감지 [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) 및 충돌 검출은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -61,18 +57,14 @@ IEEE 802.3 유선 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2
 - 세 번째 겹침: 0~7초 중 랜덤 휴식.
 - 충돌이 반복될수록 쉴 수 있는 시간의 범위(K)가 지수 함수($2^n$)로 미친 듯이 벌어져서, 두 컴퓨터가 똑같은 숫자를 뽑을 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 수학적으로 0으로 수렴하게 만들어 결국 한 놈이 먼저 쏘게 만들어주는 눈치 게임의 극의입니다. (최대 16번 충돌하면 포기하고 패킷 버림).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">HDLC 비트 스터핑</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">반송파 감지 다중 접속 및 충돌 검출</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">은닉 단말 문제</div></div>
-</div>
-</div>
-
-
+```text
+[HDLC 비트 스터핑]
+    │
+    ▼
+[반송파 감지 다중 접속 및 충돌 검출]
+    │
+    └──▶ [은닉 단말 문제]
+```
 
 - **📢 섹션 요약 비유**: [반송파](/knowledge-base/studynote/03_network/01_data_communication/054_반송파_Carrier_Wave/) 감지 [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) 및 충돌 검출의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -133,19 +125,15 @@ IEEE 802.3 유선 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: HDLC 비트 스터핑</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 반송파 감지 다중 접속 및 충돌 검출</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 은닉 단말 문제</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: HDLC 비트 스터핑]
+    │
+    ▼
+[현재 개념: 반송파 감지 다중 접속 및 충돌 검출]
+    │
+    ├──▶ [확장 A: 은닉 단말 문제]
+    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
+```
 
 [반송파](/knowledge-base/studynote/03_network/01_data_communication/054_반송파_Carrier_Wave/) 감지 [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) 및 충돌 검출는 [HDLC](/knowledge-base/studynote/03_network/04_data_link_layer_error/216_hdlc_high_level_data_link_control/) [비트 스터핑](/knowledge-base/studynote/03_network/04_data_link_layer_error/187_bit_stuffing_flag_mechanism/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [은닉 단말](/knowledge-base/studynote/03_network/19_frequent_topics_terms/952_csma_ca_hidden_terminal_rts_cts_wireless/) 문제와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

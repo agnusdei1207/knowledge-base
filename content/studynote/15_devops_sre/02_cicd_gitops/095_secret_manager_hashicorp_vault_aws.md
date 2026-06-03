@@ -38,18 +38,17 @@ tags = ["cicd", "devsecops", "studynote-devops-sre"]
 | **자동 순환 (Auto Rotation)** | [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)된 주기(예: 30일)마다 백엔드 DB의 비밀번호를 스스로 변경 | 사람의 개입 및 실수 배제 |
 | <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/">감사</a> 로깅 (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/">Audit</a> <a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/526_security_logging_and_monitoring_failures/">Logging</a>)</strong> | "누가, 언제, 어떤 [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/)을 열람했는지" 상세 이력 기록 | 침해 사고 발생 시 완벽한 추적 가시성 제공 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시크릿 매니저의 작동 흐름: K8s 파드 요청 시</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1.</div><div class="kb-diagram-node">K8s Pod 구동</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Vault/ASM</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2.</div><div class="kb-diagram-node">Vault/ASM</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">신원(RBAC) 검증 후 KMS 마스터키로 복호화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3.</div><div class="kb-diagram-node">Vault/ASM</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">메모리(tmpfs)에 안전하게 시크릿 주입 ─▶ Pod</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           시크릿 매니저의 작동 흐름: K8s 파드 요청 시       │
+├──────────────────────────────────────────────────────────────┤
+│ 1. [K8s Pod 구동] ─▶ ServiceAccount 토큰 제시 ─▶ [Vault/ASM]│
+│                                                     │        │
+│ 2. [Vault/ASM] ─▶ 신원(RBAC) 검증 후 KMS 마스터키로 복호화   │
+│                                                     │        │
+│ 3. [Vault/ASM] ─▶ 메모리(tmpfs)에 안전하게 시크릿 주입 ─▶ Pod│
+└──────────────────────────────────────────────────────────────┘
+```
 
 특히 백엔드 저장소는 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터 키로 암호화되어 있어, 설령 [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) 매니저의 디스크 자체가 통째로 털려도 공격자는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽을 수 없다.
 
@@ -112,23 +111,21 @@ tags = ["cicd", "devsecops", "studynote-devops-sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">평문 하드코딩 (.env 및 소스코드 노출 위험)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">K8s Native Secrets (단순 Base64 인코딩, 파편화 한계)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">전용 시크릿 매니저 (Vault, KMS 연동 정적 시크릿 암호화)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">동적 시크릿 (Dynamic Secrets) 및 자동 순환 (Auto Rotation)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">제로 트러스트 (Zero Trust) 기반 OIDC 연합 및 통합 인증 보안</div>
-</div>
-</div>
-
-
+```text
+평문 하드코딩 (.env 및 소스코드 노출 위험)
+    │
+    ▼
+K8s Native Secrets (단순 Base64 인코딩, 파편화 한계)
+    │
+    ▼
+전용 시크릿 매니저 (Vault, KMS 연동 정적 시크릿 암호화)
+    │
+    ▼
+동적 시크릿 (Dynamic Secrets) 및 자동 순환 (Auto Rotation)
+    │
+    ▼
+제로 트러스트 (Zero Trust) 기반 OIDC 연합 및 통합 인증 보안
+```
 
 이 흐름도는 "평문 노출 → 단순 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/) → 중앙 집중 암호화 → 일회성/동적 발급 → 무신뢰 아키텍처"로 개념이 강화되는 과정을 보여준다.
 

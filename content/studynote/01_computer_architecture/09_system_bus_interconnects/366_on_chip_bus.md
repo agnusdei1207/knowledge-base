@@ -25,25 +25,30 @@ AMBA는 이 문제를 해결하기 위해 등장한 대표적인 칩 내부 [버
 
 이 그림은 [SoC](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/) 안에서 왜 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 계층이 필요한지를 보여준다. 같은 칩 안이라도 트래픽의 성격이 다르기 때문에, 하나의 공용 길로 모두를 처리하면 빠른 블록도 느린 블록 때문에 묶이게 된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SoC 내부의 계층형 온칩 버스 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU GPU DMA NPU (Neural Processing Unit)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AXI (Advanced eXtensible Interface)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고대역폭 · 다중 outstanding · burst 전송</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AXI-AHB Bridge</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AHB (Advanced High-performance Bus)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">중간 성능 · 단순 공유 버스 · 범용 주변장치</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AHB-APB Bridge</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">APB (Advanced Peripheral Bus)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">저속 제어 · 저전력 · 레지스터 접근 중심</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Timer GPIO UART Watchdog PMU (Power Management Unit)</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                   SoC 내부의 계층형 온칩 버스 구조                         │
+├────────────────────────────────────────────────────────────────────────────┤
+│  CPU        GPU        DMA        NPU (Neural Processing Unit)            │
+│   │          │          │          │                                      │
+│   ├──────────┴──────────┴──────────┤                                      │
+│   ▼                                 ▼                                      │
+│            AXI (Advanced eXtensible Interface)                            │
+│        고대역폭 · 다중 outstanding · burst 전송                           │
+│                         │                                                  │
+│                  AXI-AHB Bridge                                            │
+│                         │                                                  │
+│            AHB (Advanced High-performance Bus)                            │
+│          중간 성능 · 단순 공유 버스 · 범용 주변장치                        │
+│                         │                                                  │
+│                  AHB-APB Bridge                                            │
+│                         │                                                  │
+│            APB (Advanced Peripheral Bus)                                  │
+│         저속 제어 · 저전력 · 레지스터 접근 중심                           │
+│                         │                                                  │
+│      Timer   GPIO   UART   Watchdog   PMU (Power Management Unit)         │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 핵심은 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 단순 배선이 아니라, 칩 내부의 교통 정책이라는 점이다. 설계자는 어떤 블록이 얼마나 자주, 얼마나 큰 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를, 어느 지연시간 안에 보내야 하는지 기준으로 상위 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)와 하위 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 나눈다.
 
@@ -65,23 +70,23 @@ AMBA 계열의 온칩 [버스](/knowledge-base/studynote/01_computer_architectur
 
 이 그림은 하나의 읽기 요청이 어떤 식으로 흐르는지 보여준다. 단순한 배선 연결이 아니라, 주소 판별, 중재, [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) 변환, 응답 복귀가 차례로 일어난다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">온칩 버스 트랜잭션의 기본 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) Master가 주소 제시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU ──addr/control──▶ AXI Interconnect</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) Interconnect가 목적지 판별 및 중재</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AXI Interconnect ──select──▶ Bridge 또는 Memory Controller</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) 속도 차이가 크면 Bridge가 변환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AXI-AHB / AHB-APB Bridge ──protocol convert──▶ Peripheral</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4) Slave가 데이터 또는 완료 신호 반환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Peripheral / Memory ──response/data──▶ Master</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                    온칩 버스 트랜잭션의 기본 흐름                          │
+├────────────────────────────────────────────────────────────────────────────┤
+│  1) Master가 주소 제시                                                    │
+│     CPU ──addr/control──▶ AXI Interconnect                                │
+│                                                                            │
+│  2) Interconnect가 목적지 판별 및 중재                                    │
+│     AXI Interconnect ──select──▶ Bridge 또는 Memory Controller            │
+│                                                                            │
+│  3) 속도 차이가 크면 Bridge가 변환                                         │
+│     AXI-AHB / AHB-APB Bridge ──protocol convert──▶ Peripheral             │
+│                                                                            │
+│  4) Slave가 데이터 또는 완료 신호 반환                                     │
+│     Peripheral / Memory ──response/data──▶ Master                         │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 여기서 병목은 보통 세 군데에서 생긴다. 첫째, 여러 마스터가 동시에 같은 슬레이브를 향해 요청할 때의 중재 지연이다. 둘째, AXI에서 APB로 내려갈 때처럼 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 폭과 클럭이 급격히 낮아지는 [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) 구간이다. 셋째, [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 트래픽이 짧은 제어 트래픽과 같은 자원을 공유할 때 발생하는 품질 저하이다. 그래서 실제 SoC는 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 분리, 전용 경로, 버퍼, 우선순위 제어를 함께 사용한다.
 
@@ -156,23 +161,21 @@ AMBA 계열의 온칩 [버스](/knowledge-base/studynote/01_computer_architectur
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">전용 내부 배선</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">AMBA (Advanced Microcontroller Bus Architecture) 표준화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">AXI · AHB · APB 계층 분리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Bridge · CDC (Clock Domain Crossing) · QoS (Quality of Service)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">고성능 인터커넥트 확장 → NoC (Network on Chip)</div>
-</div>
-</div>
-
-
+```text
+전용 내부 배선
+    │
+    ▼
+AMBA (Advanced Microcontroller Bus Architecture) 표준화
+    │
+    ▼
+AXI · AHB · APB 계층 분리
+    │
+    ▼
+Bridge · CDC (Clock Domain Crossing) · QoS (Quality of Service)
+    │
+    ▼
+고성능 인터커넥트 확장 → NoC (Network on Chip)
+```
 
 이 흐름은 "단순 연결 → 표준화 → 계층화 → 이종 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 통합 → 대규모 네트워크화"로 온칩 인터커넥트가 발전하는 방향을 보여준다.
 

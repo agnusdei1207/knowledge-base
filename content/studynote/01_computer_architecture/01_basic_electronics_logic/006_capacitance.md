@@ -34,22 +34,22 @@ DRAM이나 [플래시 메모리](/knowledge-base/studynote/01_computer_architect
 
 반대로 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 회로 배선에서는 기생 정전용량을 박살 내야 한다. 
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마이크로 배선 간 기생 커패시턴스 발생 원리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">배선 단면도: 미세 공정화에 따른 거리(d) 축소</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">←</div><div class="kb-diagram-node">유전체: SiO2</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">폭--&gt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">금속선 1</div><div class="kb-diagram-cell">◀ 거리(d) 나노미터 축소 ▶</div><div class="kb-diagram-cell">금속선 2</div><div class="kb-diagram-cell">▲</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Signal)</div><div class="kb-diagram-cell">(Signal)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">【 공식: C = 유전율 × 면적 / d 】 ▼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 비극: 더 많은 선을 집어넣기 위해 거리 d를 줄임.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 결과: 분모 d가 작아지며 선 간 기생 커패시턴스 C가 폭증하여 지연 발생!</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           마이크로 배선 간 기생 커패시턴스 발생 원리         │
+├──────────────────────────────────────────────────────────────┤
+│  [ 배선 단면도: 미세 공정화에 따른 거리(d) 축소 ]                 │
+│                                                              │
+│     <--폭-->          [ 유전체: SiO2 ]         <--폭-->         │
+│    ┌────────┐                                 ┌────────┐       │
+│    │ 금속선 1 │◀────── 거리(d) 나노미터 축소 ──────▶│ 금속선 2 │ ▲   │
+│    │ (Signal)│                                 │ (Signal)│ │   │
+│    └────────┘    【 공식: C = 유전율 × 면적 / d 】  └────────┘ ▼   │
+│                                                              │
+│  * 비극: 더 많은 선을 집어넣기 위해 거리 d를 줄임.                  │
+│  * 결과: 분모 d가 작아지며 선 간 기생 커패시턴스 C가 폭증하여 지연 발생! │
+└──────────────────────────────────────────────────────────────┘
+```
 
 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)선 1번과 2번이 가까워지면 두 선이 마치 거대한 커패시터의 양극판처럼 동작한다. 한쪽 선의 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 바뀔 때 발생하는 전기장이 반대쪽 선의 전자를 끌어당겨 0을 1로 착각하게 만드는 크로스톡([Crosstalk](/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/)) 간섭 노이즈가 발생하게 된다.
 
@@ -110,21 +110,18 @@ DRAM이나 [플래시 메모리](/knowledge-base/studynote/01_computer_architect
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">정전용량 (Capacitance)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">기생 커패시턴스 (Parasitic Capacitance)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">RC 지연 (RC Delay)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">에어갭 (Air-Gap)</div></div>
-</div>
-</div>
-
-
+```text
+[정전용량 (Capacitance)]
+    │
+    ▼
+[기생 커패시턴스 (Parasitic Capacitance)]
+    │
+    ▼
+[RC 지연 (RC Delay)]
+    │
+    ▼
+[에어갭 (Air-Gap)]
+```
 
 이 흐름도는 정전용량이 회로 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 배선 최적화 문제로 확장되는 과정을 보여준다.
 ### 👶 어린이를 위한 3줄 비유 설명

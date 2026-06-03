@@ -19,23 +19,19 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/411_cpe_inventory_mapping/">CPE</a> (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/">Customer</a> Premises Equipment, 가입자 댁내 장치)</strong>: 기업이나 가정에 설치되는 물리적인 라우터, [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/), 셋톱박스, [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 기계들을 말합니다.
+- <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/411_cpe_inventory_mapping/">CPE</a> (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/">C고객</a> Premises Equipment, 가입자 댁내 장치)</strong>: 기업이나 가정에 설치되는 물리적인 라우터, [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/), 셋톱박스, [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 기계들을 말합니다.
 - **문제점**:
   - **CAPEX 폭발**: 장비(쇳덩어리) 자체가 비쌉니다.
   - **OPEX(유지보수) 지옥**: 고객이 "인터넷이 안 돼요!" 하면 통신사 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 기사가 빵판(트럭)을 몰고 고객 집에 직접 가서(Truck-roll) 기계를 껐다 켜거나 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) USB를 꽂아야 했습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">BGP-EVPN 라우팅 컨트롤러 스파인/리프…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">엣지 가상화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SD-LAN</div></div>
-</div>
-</div>
-
-
+```text
+[BGP-EVPN 라우팅 컨트롤러 스파인/리프…]
+    │
+    ▼
+[엣지 가상화]
+    │
+    └──▶ [SD-LAN]
+```
 
 - **📢 섹션 요약 비유**: 엣지 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -53,18 +49,14 @@ tags = ["studynote-network"]
 - 동네 전화국(Edge)에 꽂힌 범용 x86 클라우드 서버에, 101호 집 공유기의 뇌([VNF](/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/)), 102호 집 공유기의 뇌([VNF](/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/))가 소프트웨어([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))로 나란히 둥둥 떠서 돌아갑니다.
 - 101호 아저씨가 웹서핑을 하면, 통신사 서버에 떠 있는 101호용 가상 공유기가 그 패킷에 [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)(IP 변환)를 걸어주고 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)을 적용해 줍니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">BGP-EVPN 라우팅 컨트롤러 스파인/리프…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">엣지 가상화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SD-LAN</div></div>
-</div>
-</div>
-
-
+```text
+[BGP-EVPN 라우팅 컨트롤러 스파인/리프…]
+    │
+    ▼
+[엣지 가상화]
+    │
+    └──▶ [SD-LAN]
+```
 
 - **📢 섹션 요약 비유**: 엣지 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -121,19 +113,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: BGP-EVPN 라우팅 컨트롤러 스파인/리프…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 엣지 가상화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: SD-LAN</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 프로그래머블 네트워크</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: BGP-EVPN 라우팅 컨트롤러 스파인/리프…]
+    │
+    ▼
+[현재 개념: 엣지 가상화]
+    │
+    ├──▶ [확장 A: SD-LAN]
+    └──▶ [확장 B: 프로그래머블 네트워크]
+```
 
 엣지 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)는 BGP-EVPN [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 컨트롤러 스파인/리프…에서 출발해 현재 메커니즘을 정교화하고, 이후 SD-LAN와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

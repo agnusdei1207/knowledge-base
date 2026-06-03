@@ -24,25 +24,25 @@ tags = ["studynote-software-engineering"]
 
 이처럼 아무리 부품별 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)와 모듈이 뛰어나도, <strong>진짜 사람(Actor)이 처음 시스템에 진입해서 목적지에 탈출할 때까지의 '유스케이스(Use Case)'를 물 흐르듯 가로지르는 경험적 시험</strong>이 없다면 시스템은 허수아비가 됩니다. 이를 막기 위해 한 편의 연극 대본(Scenario)을 들고 리허설을 강행하는 것이 바로 <strong>유스케이스 테스팅(Use Case Testing)</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유스케이스 시나리오의 흐름도 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Actor: 쇼핑몰 고객</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">목적: "최신 드론 1개를 신용카드로 산다"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">기본 흐름 (Happy Path / Main Success Scenario)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 로그인 -&gt; 2. 드론 검색 -&gt; 3. 장바구니 담기 -&gt; 4. 카드 결제</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; 5. 결제 성공 문자 발송 (우와 성공!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">대안/예외 흐름 (Alternative / Exception Paths)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2a. 검색 결과 없음 -&gt; 추천 상품 띄우고 종료</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4a. 카드 한도 초과 -&gt; "다른 카드로 결제하시겠습니까?" 팝업</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4b. 결제 모듈 장애 -&gt; "죄송합니다, 잠시 후 다시..." 팝업</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ 유스케이스 테스팅은 위 흐름 하나하나의 잔가지를 '루트(Route)'로 묶어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">끝에서 끝까지(End-to-End) 화면을 클릭하며 횡단하는 무식한 쾌감!</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                  유스케이스 시나리오의 흐름도 구조                │
+├──────────────────────────────────────────────────────────────┤
+│ [Actor: 쇼핑몰 고객]        ▶  목적: "최신 드론 1개를 신용카드로 산다" │
+│                                                              │
+│ [기본 흐름 (Happy Path / Main Success Scenario)]               │
+│   1. 로그인 -> 2. 드론 검색 -> 3. 장바구니 담기 -> 4. 카드 결제    │
+│    -> 5. 결제 성공 문자 발송 (우와 성공!)                       │
+│                                                              │
+│ [대안/예외 흐름 (Alternative / Exception Paths)]              │
+│   2a. 검색 결과 없음 -> 추천 상품 띄우고 종료                       │
+│   4a. 카드 한도 초과 -> "다른 카드로 결제하시겠습니까?" 팝업         │
+│   4b. 결제 모듈 장애 -> "죄송합니다, 잠시 후 다시..." 팝업         │
+│                                                              │
+│  ※ 유스케이스 테스팅은 위 흐름 하나하나의 잔가지를 '루트(Route)'로 묶어 │
+│     끝에서 끝까지(End-to-End) 화면을 클릭하며 횡단하는 무식한 쾌감!   │
+└──────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 카센터 정비사가 바퀴 나사, 브레이크 오일, 엔진오일 레벨(단위 로직)을 각자 도구로 잘 점검했더라도, 결국 마지막에는 정비소 사장이 키를 꽂고 카센터 한 바퀴를 붕~ 운전해 보며 핸들링(실사용 시나리오)이 실제 부드럽게 돌아가는지 타보는 최종 시운전 절차입니다.
 
@@ -143,30 +143,28 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 유스케이스 테스팅 (Use Case Testing)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 유스케이스 테스팅 (Use Case Testing)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
 | [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 유스케이스 테스팅 (Use Case Testing)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | 유스케이스 테스팅 (Use Case Testing) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
 | [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 유스케이스 테스팅 (Use Case Testing)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">유스케이스 테스팅 (Use Case Testing) 개념 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 위기 (Software Crisis) 인식
+    │
+    ▼
+유스케이스 테스팅 (Use Case Testing) 개념 정립
+    │
+    ▼
+표준화 및 방법론 체계화 (ISO, CMMI, Agile)
+    │
+    ▼
+클라우드 네이티브·AI 기반 확장 적용
+    │
+    ▼
+지속적 개선 및 DevOps·MLOps 통합
+```
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

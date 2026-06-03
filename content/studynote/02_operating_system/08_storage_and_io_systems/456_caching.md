@@ -27,27 +27,27 @@ tags = ["studynote-operating-system"]
   2. **가성비의 딜레마**: 가장 빠른 메모리([SRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/))로 컴퓨터를 다 채우면 컴퓨터 1대에 10억 원이 넘음.
   3. **메모리 피라미드 완공**: "조금 비싼 메모리(캐시)를 조금만 사서 앞에 두고, 싼 메모리(디스크)를 뒤에 엄청나게 쌓자!"는 메모리 계층([Memory Hierarchy](/knowledge-base/studynote/02_operating_system/04_synchronization/252_memory_hierarchy/)) 구조가 현대 아키텍처의 정답으로 굳어짐.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">캐싱 유무에 따른 데이터 접근 레이턴시(지연 시간) 폭포수 차이</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황: CPU가 10MB짜리 엑셀 파일을 10번 연속으로 읽어 들임</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1. 캐시가 없을 때 (No Cache - 지옥의 반복)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1회차: HDD에서 퍼옴 -&gt; 8 ms 소요</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2회차: HDD에서 퍼옴 -&gt; 8 ms 소요 (어제랑 똑같이 덜그럭거림)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">... 10회차: HDD 퍼옴 -&gt; 8 ms 소요</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💥 총 소요 시간: 80 ms (미친 낭비)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2. 페이지 캐시가 있을 때 (OS Page Cache - 천국의 속도)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1회차: HDD에서 퍼옴 -&gt; 8 ms 소요 (어쩔 수 없는 첫 고통 - Miss)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ 🌟 OS가 램(RAM) 구석에 엑셀 데이터를 몰래 '복사'해 둠.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2회차: 어? 램에 있네! (Hit) 램에서 쓱 읽음 -&gt; 0.0001 ms 컷!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">... 10회차: 램에서 쓱 읽음 -&gt; 0.0001 ms 컷!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 총 소요 시간: 8.0009 ms (첫 1번 빼고는 렉이 완전히 사라짐!)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────────┐
+│        캐싱 유무에 따른 데이터 접근 레이턴시(지연 시간) 폭포수 차이 │
+├─────────────────────────────────────────────────────────────────────┤
+│                                                                     │
+│ [ 상황: CPU가 10MB짜리 엑셀 파일을 10번 연속으로 읽어 들임 ]        │
+│                                                                     │
+│ ▶ 1. 캐시가 없을 때 (No Cache - 지옥의 반복)                        │
+│  1회차: HDD에서 퍼옴 -> 8 ms 소요                                   │
+│  2회차: HDD에서 퍼옴 -> 8 ms 소요 (어제랑 똑같이 덜그럭거림)        │
+│  ... 10회차: HDD 퍼옴 -> 8 ms 소요                                  │
+│  💥 총 소요 시간: 80 ms (미친 낭비)                                 │
+│                                                                     │
+│ ▶ 2. 페이지 캐시가 있을 때 (OS Page Cache - 천국의 속도)            │
+│  1회차: HDD에서 퍼옴 -> 8 ms 소요 (어쩔 수 없는 첫 고통 - Miss)     │
+│       ※ 🌟 OS가 램(RAM) 구석에 엑셀 데이터를 몰래 '복사'해 둠.      │
+│  2회차: 어? 램에 있네! (Hit) 램에서 쓱 읽음 -> 0.0001 ms 컷!        │
+│  ... 10회차: 램에서 쓱 읽음 -> 0.0001 ms 컷!                        │
+│  ✅ 총 소요 시간: 8.0009 ms (첫 1번 빼고는 렉이 완전히 사라짐!)     │
+└─────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 캐시가 마법을 부릴 수 있는 유일한 근거는 <strong>'<a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a> 지역성(Locality)'</strong>이다. 엑셀 파일을 1번 읽은 유저는 십중팔구 1초 뒤에 그 파일을 또 수정하고 또 읽을 것이다. 이 뻔한 인간의 행동 패턴을 100% 믿고, 남는 램 공간을 아낌없이 캐시 창고로 던져버리는 OS의 혜안이 캐시 아키텍처의 본질이다.
 
 - **📢 섹션 요약 비유**: 마트(디스크)에 매일 가서 물 한 병씩 사 오는 건 바보입니다. 마트에 한 번 갔을 때 냉장고(캐시)에 생수 20병을 사다 채워놓고(캐싱), 목마를 때마다 냉장고 문만 열고 1초 만에 꺼내 먹는([Hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/)) 것이 인간의 가장 합리적인 생존 본능입니다.
@@ -165,19 +165,15 @@ DB에 사용자 닉네임을 "철수"에서 "영희"로 바꿨는데(Write), 앞
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">이중 버퍼링 (Double Buffering)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">캐싱 (Caching)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스풀링 (Spooling, Simultaneous Peripheral Operation On-Line)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">예약 및 단독 장치 접근 제어</div></div>
-</div>
-</div>
-
-
+```text
+[이중 버퍼링 (Double Buffering)]
+    │
+    ▼
+[캐싱 (Caching)]
+    │
+    ├──▶ [스풀링 (Spooling, Simultaneous Peripheral Operation On-Line)]
+    └──▶ [예약 및 단독 장치 접근 제어]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

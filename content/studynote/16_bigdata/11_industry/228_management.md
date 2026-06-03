@@ -21,15 +21,11 @@ tags = ["studynote-bigdata"]
 
 부동산 빅데이터 (시세 예측, 상권 분석, 인구 이동 분석)은 빅데이터 환경에서 부동산 응용을 실제 문서, 시스템, 운영 흐름에 연결하는 문제를 다룬다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규모가 커질수록 포맷, 비용, 이동 경로, 운영 기준이 조금만 흔들려도 전체 분석 품질이 급격히 무너진다. 그래서 이 주제는 단순 기술 나열이 아니라, 어떤 조건에서 어떤 구조를 선택해야 하는지를 설명하는 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">목표/전략</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">운영/통제</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">지표/개선</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐   ┌──────────────┐   ┌──────────────┐
+│ 목표/전략        │──▶│ 운영/통제        │──▶│ 지표/개선        │
+└──────────────┘   └──────────────┘   └──────────────┘
+```
 
 - **📢 섹션 요약 비유**: 조타실처럼, 출발점이 흔들리면 뒤 단계의 결과도 같이 흔들린다.
 
@@ -45,15 +41,11 @@ tags = ["studynote-bigdata"]
 | 운영/통제 | 처리/[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 절차와 자동화가 연결되어야 한다 |
 | 지표/개선 | 결과/증거 | 기록이 남아야 재현과 추적이 된다 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">목표/전략</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">운영/통제</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">지표/개선</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐   ┌──────────────┐   ┌──────────────┐
+│ 목표/전략        │──▶│ 운영/통제        │──▶│ 지표/개선        │
+└──────────────┘   └──────────────┘   └──────────────┘
+```
 
 시세 예측와 상권 분석은 이 흐름을 보강하는 대표 축이다. 하나는 저장과 처리의 방식이고, 다른 하나는 활용과 품질의 방식이다. 둘을 같이 봐야 과도한 단순화도, 과도한 복잡화도 피할 수 있다.
 
@@ -117,23 +109,21 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">전통 부동산 분석 — 공인중개사 경험·주관적 판단, 데이터 비표준화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">부동산 빅데이터 수집 — 실거래가 공개시스템·GIS 데이터·인구이동 통계 통합</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시세 예측 모델 (머신러닝) — 헤도닉 가격 모형 + 시계열 예측으로 객관적 시세 산정</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상권 분석·입지 전략 — 유동인구·경쟁 분포·접근성 데이터 기반 점포 최적 위치 선정</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">디지털 트윈 도시 — 빅데이터 기반 도시 시뮬레이션, 스마트시티 개발 계획 수립</div></div>
-</div>
-</div>
-
-
+```text
+[전통 부동산 분석 — 공인중개사 경험·주관적 판단, 데이터 비표준화]
+    │
+    ▼
+[부동산 빅데이터 수집 — 실거래가 공개시스템·GIS 데이터·인구이동 통계 통합]
+    │
+    ▼
+[시세 예측 모델 (머신러닝) — 헤도닉 가격 모형 + 시계열 예측으로 객관적 시세 산정]
+    │
+    ▼
+[상권 분석·입지 전략 — 유동인구·경쟁 분포·접근성 데이터 기반 점포 최적 위치 선정]
+    │
+    ▼
+[디지털 트윈 도시 — 빅데이터 기반 도시 시뮬레이션, 스마트시티 개발 계획 수립]
+```
 
 이 흐름은 주관적 판단에 의존하던 전통 부동산 분석이 빅데이터 수집·[머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 시세 예측으로 객관화되고, 상권·입지 분석을 거쳐 [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 도시로 진화하는 부동산 빅데이터 활용의 발전 계보를 보여준다.
 

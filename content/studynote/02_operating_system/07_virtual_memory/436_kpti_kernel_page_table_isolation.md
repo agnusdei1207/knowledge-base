@@ -27,27 +27,33 @@ tags = ["studynote-operating-system"]
   2. **하드웨어의 배신**: 인텔 CPU의 추측 실행이 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 권한 검사(U/S [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/))를 무시하고 램을 먼저 긁어오는 설계 결함이 폭로됨.
   3. <strong>격리(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/">Isolation</a>)의 결단</strong>: 속도를 포기하고 보안을 택했다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 30%를 감수하더라도 테이블을 찢어버리기로 전 세계 리눅스/윈도우 진영이 대통합을 이루었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">KPTI 패치 적용 전/후의 가상 메모리 테이블 맵핑 비교도</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 과거의 평화 (KPTI OFF - 단일 페이지 테이블)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상위 1GB</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">해커가 멜트다운으로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이 구역의 캐시 흔적을</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">하위 3GB</div><div class="kb-diagram-note">유저 맵핑 (U권한) │ 훔쳐봐서 비밀 털림!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 장점: 유저 -&gt; 커널로 넘어갈 때 테이블 교체 없이 권한만 바뀜 (초고속)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 멜트다운 방어 (KPTI ON - 듀얼 테이블 찢기)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 유저 모드일 때 쓰는 장부 ▶ 커널 모드일 때 쓰는 장부</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">텅~빔 (Invalid 처리됨)</div><div class="kb-diagram-cell">전체 커널 맵핑 완벽히 됨</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(※ 단, 트랩 처리용 최소 맵핑만)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">내 앱 코드 및 데이터 맵핑</div><div class="kb-diagram-cell">내 앱 코드 및 데이터 맵핑</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💥 단점: 유저가 <code>read()</code> 한 번 칠 때마다, 유저 장부에서 커널 장부로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">두꺼운 책(CR3 레지스터)을 통째로 뺐다 꼈다 해야 함 (지옥의 렉)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────┐
+│        KPTI 패치 적용 전/후의 가상 메모리 테이블 맵핑 비교도             │
+├──────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│ [ 1. 과거의 평화 (KPTI OFF - 단일 페이지 테이블) ]                       │
+│   ┌──────────────────────────────┐                                       │
+│   │ [ 상위 1GB ] 커널 맵핑 (S권한 락)  │ ◀ 해커가 멜트다운으로           │
+│   ├──────────────────────────────┤    이 구역의 캐시 흔적을              │
+│   │ [ 하위 3GB ] 유저 맵핑 (U권한)    │    훔쳐봐서 비밀 털림!           │
+│   └──────────────────────────────┘                                       │
+│   ✅ 장점: 유저 -> 커널로 넘어갈 때 테이블 교체 없이 권한만 바뀜 (초고속)│
+│                                                                          │
+│ [ 2. 멜트다운 방어 (KPTI ON - 듀얼 테이블 찢기) ]                        │
+│                                                                          │
+│  ▶ 유저 모드일 때 쓰는 장부          ▶ 커널 모드일 때 쓰는 장부          │
+│  ┌────────────────────┐      ┌────────────────────┐                      │
+│  │ 텅~빔 (Invalid 처리됨)   │      │ 전체 커널 맵핑 완벽히 됨 │          │
+│  │ (※ 단, 트랩 처리용 최소 맵핑만)│      │                        │      │
+│  ├────────────────────┤      ├────────────────────┤                      │
+│  │ 내 앱 코드 및 데이터 맵핑 │      │ 내 앱 코드 및 데이터 맵핑 │        │
+│  └────────────────────┘      └────────────────────┘                      │
+│                                                                          │
+│  💥 단점: 유저가 `read()` 한 번 칠 때마다, 유저 장부에서 커널 장부로     │
+│          두꺼운 책(CR3 레지스터)을 통째로 뺐다 꼈다 해야 함 (지옥의 렉)  │
+└──────────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 오른쪽([KPTI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/578_kpti/) ON)의 '유저 모드 장부'를 보면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 영역이 아예 백지로 지워져 있다. 해커가 [멜트다운](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/482_meltdown/) 꼼수로 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 찌르려고 해도, [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) 하드웨어 자체가 "여기 맵핑 안 되어있는 허공인데?" 하고 [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Fault를 뱉어버리므로 캐시 흔적조차 남기지 못하고 튕겨 나간다. 하드웨어의 멍청함을 소프트웨어 장부의 공백으로 틀어막은 처절한 땜질(Patch)의 역사다.
 
 - **📢 섹션 요약 비유**: 해커가 열쇠 구멍([멜트다운](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/482_meltdown/))으로 방 안([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))을 엿보니까, 방문에 더 튼튼한 잠금장치(소프트웨어 패치)를 다는 게 아니라, 아예 방 자체를 투명 망토(Unmap)로 덮어버려서 열쇠 구멍으로 봐도 아무것도 안 보이게 공간 자체를 분리해 버린 극한의 숨바꼭질입니다.
@@ -104,17 +110,14 @@ KPTI의 유일한, 하지만 치명적인 문제는 바로 <strong>'<a href="/kn
 - 즉, 네트워크 패킷 하나 보내는데 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)이 4~6번이나 엎어치기 되며 [컨텍스트 스위칭](/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/) 지옥도가 펼쳐진다.
 - 클라우드 업체들이 [KPTI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/578_kpti/) 패치 당일 "CPU 자원이 부족합니다"라며 뻗어버린 고객들의 항의 전화를 수만 통 받은 이유가 이 중첩된 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 오버헤드 때문이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">KPTI 세팅</div><div class="kb-diagram-cell">PCID 지원 O</div><div class="kb-diagram-cell">PCID 지원 X</div><div class="kb-diagram-cell">DB 서버의 성능 체감</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">KPTI OFF</div><div class="kb-diagram-cell">최상 🚀</div><div class="kb-diagram-cell">최상 🚀</div><div class="kb-diagram-cell">제일 빠름 (하지만 해킹당함)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">KPTI ON</div><div class="kb-diagram-cell">준수함 🟢</div><div class="kb-diagram-cell">☠️ 관짝 감</div><div class="kb-diagram-cell">간신히 버틸 만함</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬──────────────────────────────┐
+│ KPTI 세팅  │ PCID 지원 O │ PCID 지원 X │ DB 서버의 성능 체감      │
+├──────────┼────────────┼────────────┼──────────────────────────────┤
+│ KPTI OFF │ 최상 🚀     │ 최상 🚀     │ 제일 빠름 (하지만 해킹당함)│
+│ KPTI ON  │ 준수함 🟢   │ ☠️ 관짝 감   │ 간신히 버틸 만함          │
+└──────────┴────────────┴────────────┴──────────────────────────────┘
+```
 **[매트릭스 해설]** 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 개발자들은 구형(PCID가 없는) CPU에서 KPTI를 켜는 것을 극도로 혐오했다. 서버가 체감상 절반 속도로 기어갔기 때문이다. 다행히 세월이 흘러 인텔이 칩셋 구조 자체를 수정(Silicon Fix)한 9세대(Coffee Lake) 이후 CPU부터는 [멜트다운](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/482_meltdown/) 취약점이 하드웨어적으로 막혀, 리눅스가 부팅 시 이를 감지하고 자랑스럽게 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/578_kpti/">KPTI</a> 모드를 자동 OFF(비활성화)</strong>하며 옛날의 쾌속 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 되찾았다.
 
 - **📢 섹션 요약 비유**: 집에 도둑([멜트다운](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/482_meltdown/))이 들어와서 집을 철창([KPTI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/578_kpti/))으로 도배했습니다. 집에 들어갈 때마다 자물쇠를 5개씩 열어야 해서(오버헤드) 미칠 지경이었는데, 다행히 보안업체에서 현관문 자체를 절대 안 뚫리는 방탄문(인텔 하드웨어 픽스)으로 바꿔줘서, 지긋지긋한 철창([KPTI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/578_kpti/))을 떼어내고 다시 편안한 생활로 돌아가게 된 것입니다.
@@ -169,19 +172,15 @@ KPTI의 유일한, 하지만 치명적인 문제는 바로 <strong>'<a href="/kn
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">TLB 슛다운 (TLB Shootdown)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">커널 페이지 테이블 격리 (KPTI, Kernel Page-Table Isolation)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">메모리 암호화 가상화 (AMD SME/SEV, Intel SGX)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">파일시스템 버퍼 캐시(Buffer Cache)와 가상 메모리 페이지 캐시(Page Cache)의 통합 원리</div></div>
-</div>
-</div>
-
-
+```text
+[TLB 슛다운 (TLB Shootdown)]
+    │
+    ▼
+[커널 페이지 테이블 격리 (KPTI, Kernel Page-Table Isolation)]
+    │
+    ├──▶ [메모리 암호화 가상화 (AMD SME/SEV, Intel SGX)]
+    └──▶ [파일시스템 버퍼 캐시(Buffer Cache)와 가상 메모리 페이지 캐시(Page Cache)의 통합 원리]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

@@ -42,37 +42,34 @@ RDBMS                    NoSQL
 
 ## II. NoSQL 4대 모델
 
+```
+1. 키-값 (Key-Value)
+   key: "user:1001"
+   value: { name: "홍길동", age: 30 }
+   예시: Redis, DynamoDB, Memcached
+   장점: 단순, 초고속 읽기/쓰기
 
+2. 문서 (Document)
+   {
+     "_id": "order_001",
+     "items": [{"sku": "A1", "qty": 2}],
+     "total": 5000
+   }
+   예시: MongoDB, Firestore, CouchDB
+   장점: JSON 유사 구조, 계층적 데이터
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">1. 키-값 (Key-Value)</div>
-<div class="kb-diagram-note">key: "user:1001"</div>
-<div class="kb-diagram-note">value: { name: "홍길동", age: 30 }</div>
-<div class="kb-diagram-note">예시: Redis, DynamoDB, Memcached</div>
-<div class="kb-diagram-note">장점: 단순, 초고속 읽기/쓰기</div>
-<div class="kb-diagram-note">2. 문서 (Document)</div>
-<div class="kb-diagram-note">{</div>
-<div class="kb-diagram-note">"_id": "order_001",</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">"items":</div><div class="kb-diagram-node">{"sku": "A1", "qty": 2}</div><div class="kb-diagram-note">,</div></div>
-<div class="kb-diagram-note">"total": 5000</div>
-<div class="kb-diagram-note">}</div>
-<div class="kb-diagram-note">예시: MongoDB, Firestore, CouchDB</div>
-<div class="kb-diagram-note">장점: JSON 유사 구조, 계층적 데이터</div>
-<div class="kb-diagram-note">3. 열 (Column-Family)</div>
-<div class="kb-diagram-note">RowKey: "user#001"</div>
-<div class="kb-diagram-note">CF:info -&gt; { name, email, signup_date }</div>
-<div class="kb-diagram-note">CF:activity -&gt; { last_login, page_views }</div>
-<div class="kb-diagram-note">예시: Cassandra, HBase, BigTable</div>
-<div class="kb-diagram-note">장점: 시계열, 대용량 쓰기</div>
-<div class="kb-diagram-note">4. 그래프 (Graph)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">(홍길동)-</div><div class="kb-diagram-node">:FOLLOWS</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">(김철수)</div></div>
-<div class="kb-diagram-note">예시: Neo4j, Amazon Neptune</div>
-<div class="kb-diagram-note">장점: 관계 탐색 (SNS, 추천, 사기 탐지)</div>
-</div>
-</div>
+3. 열 (Column-Family)
+   RowKey: "user#001"
+   CF:info -> { name, email, signup_date }
+   CF:activity -> { last_login, page_views }
+   예시: Cassandra, HBase, BigTable
+   장점: 시계열, 대용량 쓰기
 
-
+4. 그래프 (Graph)
+   (홍길동)-[:FOLLOWS]->(김철수)
+   예시: Neo4j, Amazon Neptune
+   장점: 관계 탐색 (SNS, 추천, 사기 탐지)
+```
 
 > 📢 **섹션 요약 비유**: 4가지 선반 구조 — 키-값은 열쇠고리(빠른 접근), 문서는 서랍(계층적), 열은 스프레드시트(시계열), [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)는 지도([관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 탐색).
 

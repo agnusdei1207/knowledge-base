@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - AES의 가장 흔한 엮기 방식인 [CBC](/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/) 모드는 패킷 내용을 해커가 못 보게([기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)) 막아주지만, 해커가 암호화된 쓰레기 패킷 중간을 강제로 변조해 버리면 수신자는 쓰레기를 그대로 복호화해서 받아들이게 됩니다([무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 훼손).
 - 이를 막기 위해 과거에는 <strong>[데이터 암호화]를 한 바퀴 돌리고, 다시 그 위에 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">무결성 도장([MAC</a>, 해시)]을 쾅 찍기 위해 한 바퀴를 또 돌리는 무거운 방식(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a>-then-Encrypt 등)</strong>을 썼습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">블록 암호 운영 모드, CFB, OFB, C…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">GCM 모드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">비대칭키/공개키 암호화</div></div>
-</div>
-</div>
-
-
+```text
+[블록 암호 운영 모드, CFB, OFB, C…]
+    │
+    ▼
+[GCM 모드]
+    │
+    └──▶ [비대칭키/공개키 암호화]
+```
 
 - **📢 섹션 요약 비유**: GCM 모드는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -44,18 +40,14 @@ tags = ["studynote-network"]
 - **개념**: <strong>암호화(Encryption, <a href="/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/">기밀성</a>)</strong>와 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>(<a href="/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/">Authentication</a>, <a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a> 도장 찍기)</strong>을 두 번 따로 하지 않고, <strong>수학적인 최적화 공식을 통해 단 한 번의 연산으로 동시에 묶어서 끝내버리는 고도의 보안 기법</strong>입니다.
 - 현대 암호학에서 가장 권장하는 방식으로, 속도와 [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) 두 마리 토끼를 완벽하게 잡아냈습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">블록 암호 운영 모드, CFB, OFB, C…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">GCM 모드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">비대칭키/공개키 암호화</div></div>
-</div>
-</div>
-
-
+```text
+[블록 암호 운영 모드, CFB, OFB, C…]
+    │
+    ▼
+[GCM 모드]
+    │
+    └──▶ [비대칭키/공개키 암호화]
+```
 
 - **📢 섹션 요약 비유**: GCM 모드의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -117,19 +109,15 @@ GCM 모드는 [네트워크 보안](/knowledge-base/studynote/03_network/20_perf
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 블록 암호 운영 모드, CFB, OFB, C…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: GCM 모드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 비대칭키/공개키 암호화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 블록 암호 운영 모드, CFB, OFB, C…]
+    │
+    ▼
+[현재 개념: GCM 모드]
+    │
+    ├──▶ [확장 A: 비대칭키/공개키 암호화]
+    └──▶ [확장 B: 자동화된 신뢰 체계]
+```
 
 GCM 모드는 [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) 운영 모드, CFB, OFB, C…에서 출발해 현재 메커니즘을 정교화하고, 이후 비대칭키/공개키 암호화와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

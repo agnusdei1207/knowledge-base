@@ -47,45 +47,41 @@ Union(x, y): x의 집합과 y의 집합을 합집합
 
 ### [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 — 크루스칼 + [Union-Find](/knowledge-base/studynote/12_it_management/02_itsm_itil/070_union_find/) [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">그래프 간선 목록 (가중치 정렬):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(1,A,C), (2,B,D), (3,B,C), (4,A,B), (5,C,D), (6,C,E)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Union-Find 상태:</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">초기: parent=</div><div class="kb-diagram-node">A,B,C,D,E</div><div class="kb-diagram-note">(각자 독립)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Step1: (1) A-C → Find(A)≠Find(C) → Union(A,C)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">parent: A←C (C의 루트=A)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">MST:</div><div class="kb-diagram-node">A-C(1)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Step2: (2) B-D → Find(B)≠Find(D) → Union(B,D)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">MST:</div><div class="kb-diagram-node">A-C(1), B-D(2)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Step3: (3) B-C → Find(B)=B, Find(C)=A → 다른 집합</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">A-C(1), B-D(2), B-C(3)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 이제 {A,B,C,D} 연결됨</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Step4: (4) A-B → Find(A)=A, Find(B)=A → 같은 집합!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사이클 형성 → 스킵</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Step5: (6) C-E → Find(C)=A, Find(E)=E → Union</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">MST:</div><div class="kb-diagram-node">A-C(1), B-D(2), B-C(3), C-E(6)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ V-1=4개 간선 완성</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────┐
+│  그래프 간선 목록 (가중치 정렬):                           │
+│  (1,A,C), (2,B,D), (3,B,C), (4,A,B), (5,C,D), (6,C,E)   │
+│                                                          │
+│  Union-Find 상태:                                        │
+│  초기: parent=[A,B,C,D,E] (각자 독립)                    │
+│                                                          │
+│  Step1: (1) A-C → Find(A)≠Find(C) → Union(A,C)          │
+│         parent: A←C (C의 루트=A)                         │
+│         MST: [A-C(1)]                                    │
+│                                                          │
+│  Step2: (2) B-D → Find(B)≠Find(D) → Union(B,D)          │
+│         MST: [A-C(1), B-D(2)]                            │
+│                                                          │
+│  Step3: (3) B-C → Find(B)=B, Find(C)=A → 다른 집합      │
+│         Union(B,A) → MST: [A-C(1), B-D(2), B-C(3)]      │
+│         → 이제 {A,B,C,D} 연결됨                          │
+│                                                          │
+│  Step4: (4) A-B → Find(A)=A, Find(B)=A → 같은 집합!     │
+│         사이클 형성 → 스킵                               │
+│                                                          │
+│  Step5: (6) C-E → Find(C)=A, Find(E)=E → Union          │
+│         MST: [A-C(1), B-D(2), B-C(3), C-E(6)]           │
+│         → V-1=4개 간선 완성                              │
+└──────────────────────────────────────────────────────────┘
+```
 
 ### 경로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 예시
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">초기 Find(D) 경로: D → B → A (3단계)</div>
-<div class="kb-diagram-note">경로 압축 후: D → A (D가 직접 루트 A를 가리킴)</div>
-<div class="kb-diagram-note">다음 Find(D): D → A (1단계로 단축)</div>
-</div>
-</div>
-
-
+```
+초기 Find(D) 경로: D → B → A  (3단계)
+경로 압축 후:      D → A      (D가 직접 루트 A를 가리킴)
+다음 Find(D):      D → A      (1단계로 단축)
+```
 
 | 연산 | 경로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 없음 | 경로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 있음 |
 |:---|:---:|:---:|
@@ -167,23 +163,21 @@ Union(x, y): x의 집합과 y의 집합을 합집합
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">최소 신장 트리 (MST, Minimum Spanning Tree) — 모든 노드 연결 최소 비용</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">크루스칼 (Kruskal) — 간선 오름차순 정렬 + Union-Find 사이클 방지</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">프림 (Prim) — 시작 노드에서 최소 비용 간선 탐욕적 선택, 밀집 그래프 유리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Union-Find (Disjoint Set) — 경로 압축·랭크로 O(α(N)) 연결성 판단</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 토폴로지 최적화 — MST 기반 물리 네트워크·클러스터 배선 설계</div></div>
-</div>
-</div>
-
-
+```text
+[최소 신장 트리 (MST, Minimum Spanning Tree) — 모든 노드 연결 최소 비용]
+    │
+    ▼
+[크루스칼 (Kruskal) — 간선 오름차순 정렬 + Union-Find 사이클 방지]
+    │
+    ▼
+[프림 (Prim) — 시작 노드에서 최소 비용 간선 탐욕적 선택, 밀집 그래프 유리]
+    │
+    ▼
+[Union-Find (Disjoint Set) — 경로 압축·랭크로 O(α(N)) 연결성 판단]
+    │
+    ▼
+[네트워크 토폴로지 최적화 — MST 기반 물리 네트워크·클러스터 배선 설계]
+```
 
 이 흐름은 [MST](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/041_mst/) 문제 정의에서 크루스칼과 프림이라는 두 탐욕 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 분기하고, [Union-Find](/knowledge-base/studynote/12_it_management/02_itsm_itil/070_union_find/) 자료구조로 효율화된 뒤 네트워크 설계·클러스터 구성 등 실무 토폴로지 최적화로 응용되는 과정을 보여준다.
 

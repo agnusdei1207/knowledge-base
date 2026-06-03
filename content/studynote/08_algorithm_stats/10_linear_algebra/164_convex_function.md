@@ -34,21 +34,17 @@ f(λx + (1-λ)y) ≤ λf(x) + (1-λ)f(y)    [Jensen 부등식]
 
 ### 볼록 vs 비볼록 함수 비교
 
+```
+볼록 함수 f₁             비볼록 함수 f₂
 
+      │  ╭─╮              │   ╭─╮
+      │ ╱   ╲             │  ╱   ╲ ╱─╮
+      │╱     ╲            │╲╱     ╱   ╲
+──────┼────────────────   ─┼────╱─────╯──
+      │                   │   지역 최소  전역 최소
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">볼록 함수 f₁ 비볼록 함수 f₂</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─</div><div class="kb-diagram-cell">─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">╱ ╲</div><div class="kb-diagram-cell">╱ ╲ ╱─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">╱ ╲</div><div class="kb-diagram-cell">╲╱ ╱ ╲</div></div>
-<div class="kb-diagram-tree-item" style="--depth:0">─ ╱ ──</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지역 최소 전역 최소</div></div>
-<div class="kb-diagram-note">어떤 접선도 함수 위에 있음 여러 지역 최소 존재 가능</div>
-</div>
-</div>
-
-
+어떤 접선도 함수 위에 있음   여러 지역 최소 존재 가능
+```
 
 📢 **섹션 요약 비유**: 볼록 함수는 "오목한 그릇"이다 — 어디서 굴러도 바닥(전역 최솟값)으로 반드시 흘러간다. 비볼록 함수는 "울퉁불퉁한 지형"으로 구덩이([지역 최솟값](/knowledge-base/studynote/10_ai/01_ai_basics/083_local_minima_vs_global_minimum/))가 여러 곳에 있다.
 
@@ -97,18 +93,12 @@ f가 엄밀히 볼록 ⟺ ∇²f(x) ≻ 0  (헤시안이 양정치)
 
 볼록성을 보존하는 연산:
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">f, g 볼록 → αf + βg 볼록 (α,β ≥ 0)</div>
-<div class="kb-diagram-note">f 볼록, A 선형 → f(Ax+b) 볼록 (합성)</div>
-<div class="kb-diagram-note">f 볼록 → max(f, g) 볼록 (최댓값)</div>
-<div class="kb-diagram-note">f 볼록 → 부분집합 합 볼록</div>
-</div>
-</div>
-
-
+```
+f, g 볼록 → αf + βg 볼록 (α,β ≥ 0)
+f 볼록, A 선형 → f(Ax+b) 볼록 (합성)
+f 볼록 → max(f, g) 볼록 (최댓값)
+f 볼록 → 부분집합 합 볼록
+```
 
 자주 쓰이는 볼록 함수:
 - L2 노름: ‖x‖₂ (∇²f = I ≻ 0)
@@ -218,23 +208,21 @@ subject to wᵀΣw ≤ σ²  (위험 제약)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">볼록 함수 (Convex Function)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">헤시안 양반정치 (Hessian PSD)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SVM (Support Vector Machine)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LASSO (L1 Regularization)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">비볼록 신경망 (Non-convex Neural Network)</div></div>
-</div>
-</div>
-
-
+```text
+[볼록 함수 (Convex Function)]
+    │
+    ▼
+[헤시안 양반정치 (Hessian PSD)]
+    │
+    ▼
+[SVM (Support Vector Machine)]
+    │
+    ▼
+[LASSO (L1 Regularization)]
+    │
+    ▼
+[비볼록 신경망 (Non-convex Neural Network)]
+```
 
 이 흐름도는 볼록 함수 (Convex Function)에서 출발해 비볼록 신경망 (Non-convex Neural Network)까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

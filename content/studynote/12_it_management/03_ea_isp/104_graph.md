@@ -29,26 +29,27 @@ tags = ["it_management"]
 
 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)를 컴퓨터에서 표현하는 메커니즘은 크게 두 가지, 인접 행렬 ([Adjacency](/knowledge-base/studynote/03_network/07_network_layer_routing/358_ospf_adjacency_hello_lsa_lsdb/) Matrix)과 인접 리스트 ([Adjacency](/knowledge-base/studynote/03_network/07_network_layer_routing/358_ospf_adjacency_hello_lsa_lsdb/) List)로 나뉜다. 이들은 공간 복잡도와 [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/) 사이에서 명확한 트레이드오프를 가진다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">그래프의 2가지 주요 표현 방식</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">인접 행렬 (Adjacency Matrix)</div><div class="kb-diagram-node">인접 리스트 (Adjacency List)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">B</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">C</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">A</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">D</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">A</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">D</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A 0 1 1 0</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">B</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">C</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C 1 0 0 1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">D 0 1 1 0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">특징: V×V 2차원 배열 사용 특징: 연결 리스트 배열 사용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장점: 연결 확인이 O(1)로 빠름 장점: 메모리 O(V+E)로 매우 절약</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단점: 정점이 많으면 메모리 폭발 단점: 연결 확인 시 리스트 순회 O(V)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                  그래프의 2가지 주요 표현 방식               │
+├──────────────────────────────────────────────────────────────┤
+│ [인접 행렬 (Adjacency Matrix)]   [인접 리스트 (Adjacency List)]    │
+│                                                              │
+│       A ─── B                    A ──▶ [B] ──▶ [C]          │
+│       │     │                    │                           │
+│       C ─── D                    B ──▶ [A] ──▶ [D]          │
+│                                  │                           │
+│     A  B  C  D                   C ──▶ [A] ──▶ [D]          │
+│   A 0  1  1  0                   │                           │
+│   B 1  0  0  1                   D ──▶ [B] ──▶ [C]          │
+│   C 1  0  0  1                                               │
+│   D 0  1  1  0                                               │
+│                                                              │
+│  특징: V×V 2차원 배열 사용          특징: 연결 리스트 배열 사용       │
+│  장점: 연결 확인이 O(1)로 빠름      장점: 메모리 O(V+E)로 매우 절약   │
+│  단점: 정점이 많으면 메모리 폭발    단점: 연결 확인 시 리스트 순회 O(V)│
+└──────────────────────────────────────────────────────────────┘
+```
 
 또한 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)를 순회하며 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 찾는 핵심 탐색 원리로는 [깊이 우선 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) ([DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/), Depth-First Search)과 [너비 우선 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/) ([BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/), Breadth-First Search)이 있다. DFS는 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/))이나 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)를 이용해 한 우물을 끝까지 파고드는 방식이며 미로 찾기나 [위상 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/039_topological_sort/)에 쓰인다. BFS는 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))를 이용해 주변 정점부터 물결처럼 넓게 퍼지며 탐색하는 방식이며 최단 경로를 찾을 때 강력하다.
 
@@ -106,23 +107,21 @@ tags = ["it_management"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">관계 표현의 필요성 대두 (오일러 경로)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">그래프 자료구조 (Graph) · 정점과 간선으로 추상화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">탐색 알고리즘 발전 (DFS, BFS) · 모든 연결성 확인</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">최단 경로 및 최적화 (Dijkstra, MST) · 가중치 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">그래프 DB (Neo4j) 및 지식 그래프 (Knowledge Graph) · 대용량 실시간 처리</div>
-</div>
-</div>
-
-
+```text
+관계 표현의 필요성 대두 (오일러 경로)
+    │
+    ▼
+그래프 자료구조 (Graph) · 정점과 간선으로 추상화
+    │
+    ▼
+탐색 알고리즘 발전 (DFS, BFS) · 모든 연결성 확인
+    │
+    ▼
+최단 경로 및 최적화 (Dijkstra, MST) · 가중치 적용
+    │
+    ▼
+그래프 DB (Neo4j) 및 지식 그래프 (Knowledge Graph) · 대용량 실시간 처리
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

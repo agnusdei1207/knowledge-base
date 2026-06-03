@@ -21,18 +21,14 @@ tags = ["studynote-network"]
 
 > ⚠️ 이 문서는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 웹의 치명적인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목이었던 '매 요청마다 끊어지는 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 연결' 문제를 해결하기 위해 등장한 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 1.1의 양대 혁신 기술인 '지속 연결(Keep-Alive)'과 '파이프라이닝(Pipelining)'의 아키텍처적 한계([HOL Blocking](/knowledge-base/studynote/03_network/19_frequent_topics_terms/971_hol_blocking_head_of_line_tcp_http_delay/))와 실무적 트레이드오프를 심층 분석합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">HTTP 1.0</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HTTP 1.1</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">HTTP 1.1 HOL 블로킹</div></div>
-</div>
-</div>
-
-
+```text
+[HTTP 1.0]
+    │
+    ▼
+[HTTP 1.1]
+    │
+    └──▶ [HTTP 1.1 HOL 블로킹]
+```
 
 - **📢 섹션 요약 비유**: [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 1.1는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -42,18 +38,14 @@ tags = ["studynote-network"]
 
 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 1.1는 사용자 서비스가 네트워크 위에서 실제로 동작하는 방식을 다루는 축라는 관점에서 이해해야 한다. [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 1.0와 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 1.1 [HOL](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/) 블로킹 사이의 연결점으로 놓고 보면 개념의 역할이 더 분명해진다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">HTTP 1.0</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HTTP 1.1</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">HTTP 1.1 HOL 블로킹</div></div>
-</div>
-</div>
-
-
+```text
+[HTTP 1.0]
+    │
+    ▼
+[HTTP 1.1]
+    │
+    └──▶ [HTTP 1.1 HOL 블로킹]
+```
 
 - **📢 섹션 요약 비유**: [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 1.1의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -72,34 +64,34 @@ tags = ["studynote-network"]
 
 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 1.1부터는 요청 헤더에 특별히 명시하지 않아도 모든 연결이 지속 연결로 취급됩니다. 만약 명시적으로 끊고 싶을 때만 `Connection: close` 헤더를 전송합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">HTTP 1.0 (비지속) vs HTTP 1.1 (지속 연결) 구조 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HTTP 1.0 - Short-lived Connection</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client Server</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-- TCP 3-Way Handshake --------&gt;</div><div class="kb-diagram-cell">(시간/CPU 낭비)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-- HTTP GET /index.html -------&gt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;-- HTTP 200 OK (HTML 문서) ----</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-- TCP 4-Way Close ------------&gt;</div><div class="kb-diagram-cell">(연결 닫힘)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-- TCP 3-Way Handshake --------&gt;</div><div class="kb-diagram-cell">(또 반복!!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-- HTTP GET /image1.jpg -------&gt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;-- HTTP 200 OK (이미지) -------</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-- TCP 4-Way Close ------------&gt;</div><div class="kb-diagram-cell">(연결 닫힘)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HTTP 1.1 - Persistent Connection</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client Server</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-- TCP 3-Way Handshake --------&gt;</div><div class="kb-diagram-cell">(딱 한 번만 연결!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-- HTTP GET /index.html -------&gt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;-- HTTP 200 OK (HTML 문서) ----</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(연결 유지됨)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-- HTTP GET /image1.jpg -------&gt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;-- HTTP 200 OK (이미지) -------</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(대기... Timeout 후 종료)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          [ HTTP 1.0 (비지속) vs HTTP 1.1 (지속 연결) 구조 비교 ]        │
+│                                                             │
+│   [ HTTP 1.0 - Short-lived Connection ]                     │
+│   Client                           Server                   │
+│     |-- TCP 3-Way Handshake -------->|  (시간/CPU 낭비)       │
+│     |-- HTTP GET /index.html ------->|                      │
+│     |<-- HTTP 200 OK (HTML 문서) ----|                      │
+│     |-- TCP 4-Way Close ------------>|  (연결 닫힘)           │
+│     |                                |                      │
+│     |-- TCP 3-Way Handshake -------->|  (또 반복!!)           │
+│     |-- HTTP GET /image1.jpg ------->|                      │
+│     |<-- HTTP 200 OK (이미지) -------|                      │
+│     |-- TCP 4-Way Close ------------>|  (연결 닫힘)           │
+│                                                             │
+│ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ │
+│   [ HTTP 1.1 - Persistent Connection ]                      │
+│   Client                           Server                   │
+│     |-- TCP 3-Way Handshake -------->|  (딱 한 번만 연결!)      │
+│     |-- HTTP GET /index.html ------->|                      │
+│     |<-- HTTP 200 OK (HTML 문서) ----|                      │
+│     |                                |  (연결 유지됨)          │
+│     |-- HTTP GET /image1.jpg ------->|                      │
+│     |<-- HTTP 200 OK (이미지) -------|                      │
+│     |                                |  (대기... Timeout 후 종료)│
+└─────────────────────────────────────────────────────────────┘
+```
 
 ### 2. 파이프라이닝 ([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) Pipelining)
 지속 연결이 '재사용'의 혁신이라면, 파이프라이닝은 '동시 다발적 투척'의 혁신입니다.
@@ -179,19 +171,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: HTTP 1.0</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: HTTP 1.1</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: HTTP 1.1 HOL 블로킹</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 애플리케이션 전달</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: HTTP 1.0]
+    │
+    ▼
+[현재 개념: HTTP 1.1]
+    │
+    ├──▶ [확장 A: HTTP 1.1 HOL 블로킹]
+    └──▶ [확장 B: 지능형 애플리케이션 전달]
+```
 
 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 1.1는 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 1.0에서 출발해 현재 메커니즘을 정교화하고, 이후 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 1.1 [HOL](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/) 블로킹와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

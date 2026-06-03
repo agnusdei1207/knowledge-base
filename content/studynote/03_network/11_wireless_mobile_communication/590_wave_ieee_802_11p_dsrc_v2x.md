@@ -23,30 +23,32 @@ tags = ["studynote-network"]
 - **필요성**: 기존 집에 있는 와이파이(802.11a/g) 칩셋을 자동차에 그대로 달고 고속도로를 달렸더니, 반대 차선(시속 100km)에서 오는 차와 내 차(시속 100km)의 상대 속도가 무려 시속 200km에 달해버렸다. 전파 파동이 찌그러지는 치명적인 [도플러 효과](/knowledge-base/studynote/03_network/03_physical_layer_media/169_doppler_effect_fast_fading/)([Doppler Effect](/knowledge-base/studynote/03_network/03_physical_layer_media/169_doppler_effect_fast_fading/))가 발생했고, 설상가상으로 와이파이에 연결(IP 할당, 비밀번호 4-Way 핸드셰이크)하느라 1초를 허비하는 사이에 차는 이미 30m를 지나쳐버려 접속이 끊겼다. <strong>"시속 200km로 교차하는 찰나의 0.1초 동안, 복잡한 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a> 절차를 몽땅 패스하고 즉시 목숨이 달린 브레이크 정보를 교환하는 극단적 스피드 통신 규격"</strong>이 수술대에 올랐다.
 - **등장 배경**: ① 일반 Wi-Fi 규격의 끔찍한 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 접속(Association) [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) 극복 필요성 → ② 고속 이동체 간의 통신(V2V) 특성인 도플러 편이로 인한 심각한 패킷 깨짐 방어 → ③ 기지국 없는 완전한 Ad-hoc(애드혹) 상태에서 BSM(기본 안전 메시지)을 무자비하게 뿌리기 위한 IEEE 802.11p(PHY/[MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 계층)와 1609(상위 계층)의 WAVE [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 전격 결합.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기존 집 와이파이(Wi-Fi) vs 차량용 WAVE(802.11p) 속도전 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">과거: 일반 Wi-Fi의 답답한 연결(Association) 과정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(시속 100km로 반대 차선에서 앞차가 다가옴... 슝~~)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">내 차: "저기, 나 AP에 붙을래! (Probe Request)" ── 0.1초 허비</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">앞 차: "응, 여기 있어 (Probe Response)" 0.1초 허비</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">내 차: "비밀번호 이거지? (4-Way Handshake)" 0.5초 허비</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(쾅!!! 💥) =&gt; 결과: 인사하고 비번 맞추는 1초 동안 이미 정면충돌 폭발!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">혁신: WAVE(802.11p) OCB 모드의 '무지성 패킷 난사' 혁명</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(시속 100km로 앞차가 다가옴... 슝~~)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">앞 차: (인사? 비번 묻기? 그딴 거 다 생략!!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"나 브레이크 터졌어어어!!! 다 피해!!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">====(0.002초 만에 즉시 Broadcast 빔 무한 발사)====▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">내 차 컴퓨터: "어? 저 미친 차가 쏘는 경고 패킷이 내 안테나에 꽂혔네!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(0.01초 만에 자동 급제동 시스템 발동 🛑 멈춤! 생존!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: BSS(연결 상태)를 만들지 않고, 묻고 따지지도 않고 바로 데이터를</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">뿌려버리는 OCB 기술이 시속 200km 교차 환경에서 인류의 목숨을 구함.</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│             기존 집 와이파이(Wi-Fi) vs 차량용 WAVE(802.11p) 속도전 비교 │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [과거: 일반 Wi-Fi의 답답한 연결(Association) 과정]                  │
+│   (시속 100km로 반대 차선에서 앞차가 다가옴... 슝~~)                      │
+│                                                             │
+│   내 차: "저기, 나 AP에 붙을래! (Probe Request)" ── 0.1초 허비           │
+│   앞 차: "응, 여기 있어 (Probe Response)" ────── 0.1초 허비           │
+│   내 차: "비밀번호 이거지? (4-Way Handshake)" ─── 0.5초 허비           │
+│   (쾅!!! 💥) => 결과: 인사하고 비번 맞추는 1초 동안 이미 정면충돌 폭발!       │
+│                                                             │
+│   [혁신: WAVE(802.11p) OCB 모드의 '무지성 패킷 난사' 혁명]             │
+│   (시속 100km로 앞차가 다가옴... 슝~~)                                │
+│                                                             │
+│   앞 차: (인사? 비번 묻기? 그딴 거 다 생략!!)                           │
+│          "나 브레이크 터졌어어어!!! 다 피해!!"                          │
+│          ====(0.002초 만에 즉시 Broadcast 빔 무한 발사)====▶         │
+│                                                             │
+│   내 차 컴퓨터: "어? 저 미친 차가 쏘는 경고 패킷이 내 안테나에 꽂혔네!"          │
+│                 (0.01초 만에 자동 급제동 시스템 발동 🛑 멈춤! 생존!)        │
+│   => 결과: BSS(연결 상태)를 만들지 않고, 묻고 따지지도 않고 바로 데이터를 │
+│            뿌려버리는 OCB 기술이 시속 200km 교차 환경에서 인류의 목숨을 구함.│
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** WAVE 아키텍처에서 가장 위대한 공학적 수술은 바로 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 계층의 <strong>OCB (Outside the <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/">Context</a> of <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/083_bss_segment/">BSS</a>)</strong> 모드 도입이다. 일반적인 무선랜은 반드시 [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/)(공유기)와 '나 너랑 연결할게'라는 끈끈한 [BSS](/knowledge-base/studynote/02_operating_system/02_process_thread/083_bss_segment/) 세션을 맺어야만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보낼 수 있다. 하지만 고속도로에서는 1초 뒤면 차가 시야에서 사라지는데 세션을 맺을 여유가 없다. 그래서 802.11p 규격은 [BSS](/knowledge-base/studynote/02_operating_system/02_process_thread/083_bss_segment/) 세션을 맺지 않은 "완벽한 남남(Outside [BSS](/knowledge-base/studynote/02_operating_system/02_process_thread/083_bss_segment/))" 상태에서도 패킷을 날릴 수 있도록 와이파이 법을 뜯어고쳤다. 인사를 생략하고 무조건 브레이크 정보(BSM 패킷)부터 허공에 냅다 갈겨버리는(Broadcast) 이 거친 무전기 방식이 WAVE 시스템 생존율의 최고 비결이다.
 
@@ -71,18 +73,14 @@ WAVE의 뿌리는 옛날 5GHz 와이파이인 802.11a 규격을 자동차용(11p
 | **1609.3** (Network Serv.) | <strong>네트워크 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> 계층</strong>. 놀랍게도 자동차들은 급박할 때 [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/)/[IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 같은 IP 주소를 안 쓴다. (IP 찾느라 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 쏠 시간이 어딨나). 대신 짧고 무식한 <strong>WSMP (WAVE Short Message <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">Protocol</a>)</strong>라는 전용 포맷을 만들어 냅다 쏴버린다. | IP [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)의 그 무거운 오버헤드를 다 뜯어내고, 오직 최소 사이즈 헤더만 붙여서 <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 속도(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>)를 1~2ms로 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>.</strong> |
 | **1609.2** ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Serv.) | <strong>자동차 공인 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>(<a href="/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/">PKI</a>) <a href="/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/">암호학</a> 계층</strong>. 비밀번호 안 묻고(OCB) 마구 연결을 뚫어놨으니 해커가 가짜 브레이크 신호를 뿌릴 위험이 엄청 크다. 이 모듈이 모든 패킷 뒤에 <strong>타원 곡선(<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/097_ecdsa_schnorr_signature_bitcoin/">ECDSA</a>) 디지털 서명</strong>을 0.001초 만에 쾅쾅 찍고 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다. | 가짜 신호를 뿌리는 사이코패스 차량을 막기 위해, 패킷 암호화는 안 해도 <strong>서명 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>(<a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a>)만큼은 미친 속도로 강제하는 <a href="/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/">PKI</a> 엔진.</strong> |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">V2X</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">WAVE DSRC</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">C-V2X</div></div>
-</div>
-</div>
-
-
+```text
+[V2X]
+    │
+    ▼
+[WAVE DSRC]
+    │
+    └──▶ [C-V2X]
+```
 
 - **📢 섹션 요약 비유**: WAVE DSRC의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -100,26 +98,28 @@ WAVE 시스템이 20년 동안 표준으로 군림하다가, 결국 최근 이�
 | **고속도로 1,000대 정체 시 지옥도** | 수천 대의 차가 "나 속도 0! 브레이크 콱!" BSM 패킷을 초당 10번씩 뿜어냄. <strong>서로 눈치 보느라 아무도 전파를 못 쏘거나, 허공에서 패킷이 죄다 꽝꽝 충돌해 깨져서(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/">Collision</a>) 정보 증발.</strong> | [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 철탑이 "1번 차 쏘고, 2번 차 쏘고!" 통제해서 **천 대가 꽉 차도 1ms 오차 없이 쾌적하게 정보 쫙쫙 빠짐.** (혼잡 붕괴 방어) |
 | **은닉 노드 문제 (Hidden Node)**| 큰 트레일러 뒤에 숨은 차는 전파 룰상 앞차 소리를 못 들어서 같이 전파를 쏴버려 충돌 지옥 발생. | 중앙 철탑은 위에서 아래로 내려다보기 때문에 트레일러 등 뒤의 꼬마 자동차도 완벽히 통제 가능하여 은닉 노드 0%. |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WAVE의 CSMA/CA 혼잡 붕괴(Scalability Failure) 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황: 출퇴근길 올림픽대로, 자동차 1,000대가 꽉 막혀 있음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 1,000대의 WAVE 자동차들이 매 1초마다 10번씩(10Hz) 살았다고 무전기 난사 중</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(허공에 초당 10,000개의 무전 패킷이 쏟아짐!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WAVE 차 1: "나 지금 브레이크 밟을..." (말하는 도중)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WAVE 차 2: "야 나도 브레이크 밟는..." (동시에 말해버림)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💥 전파 충돌(Collision): 두 전파가 쾅 부딪혀 쓰레기 잡음(Noise)으로 변질됨.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WAVE 차 3: (귀를 대보니 허공이 쓰레기 잡음으로 꽉 차 있음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"어? 누가 쓰고 있네? 나 카운트다운(Backoff) 하고 기다려야지 ㅠㅠ"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 대재앙(Scalability 붕괴): 차가 10대일 땐 WAVE가 빛처럼 빨랐지만, 차가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1,000대 모이는 꽉 막힌 도로에서는 채널이 100% 터져버리고 패킷 드롭(Drop)이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">폭발하여, 앞차의 급브레이크 경고가 뒷차에 전달되지 않는 치명적 한계 봉착.</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────┐
+│               WAVE의 CSMA/CA 혼잡 붕괴(Scalability Failure) 시각화   │
+├───────────────────────────────────────────────────────────────┤
+│   [상황: 출퇴근길 올림픽대로, 자동차 1,000대가 꽉 막혀 있음]               │
+│                                                               │
+│   * 1,000대의 WAVE 자동차들이 매 1초마다 10번씩(10Hz) 살았다고 무전기 난사 중 │
+│   (허공에 초당 10,000개의 무전 패킷이 쏟아짐!)                          │
+│                                                               │
+│   WAVE 차 1: "나 지금 브레이크 밟을..." (말하는 도중)                   │
+│   WAVE 차 2: "야 나도 브레이크 밟는..." (동시에 말해버림)                │
+│                                                               │
+│   💥 전파 충돌(Collision): 두 전파가 쾅 부딪혀 쓰레기 잡음(Noise)으로 변질됨. │
+│                                                               │
+│   WAVE 차 3: (귀를 대보니 허공이 쓰레기 잡음으로 꽉 차 있음)               │
+│              "어? 누가 쓰고 있네? 나 카운트다운(Backoff) 하고 기다려야지 ㅠㅠ"│
+│                                                               │
+│   => 대재앙(Scalability 붕괴): 차가 10대일 땐 WAVE가 빛처럼 빨랐지만, 차가    │
+│      1,000대 모이는 꽉 막힌 도로에서는 채널이 100% 터져버리고 패킷 드롭(Drop)이│
+│      폭발하여, 앞차의 급브레이크 경고가 뒷차에 전달되지 않는 치명적 한계 봉착.  │
+└───────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** [DSRC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/1025_c_v2x_wave_dsrc/)/WAVE 아키텍처의 밑바닥은 결국 집에서 쓰던 Wi-Fi(802.[11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/))다. 와이파이는 근본적으로 무전기(Half-duplex) 눈치 게임([CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/))이다. 이 아키텍처는 고속도로에 차가 없을 때는 완벽하고 아름답게 작동한다. 하지만 연휴 고속도로처럼 수천 대의 차가 밀집된 고밀도(High-Density) 잼 상황에 처하면, 차들이 서로 허공의 무선 채널 1개를 차지하겠다고 경쟁하다가 전파가 다 엉켜서 100% 붕괴([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/) Storm)해버린다. 수천 대의 폰을 완벽히 통제하는 이동통신([LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)/[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)) 기반의 [C-V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/) 진영이 이 스케일러빌리티(Scalability) 약점을 미친 듯이 물고 늘어지면서 결국 웨이브 진영이 패권 전쟁에서 백기를 들게 만든 가장 뼈아픈 공학적 패착이다.
 
@@ -178,19 +178,15 @@ WAVE (802.11p)는 IT 공학 역사에서 가장 숭고한 뺄셈의 미학([Art]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: V2X</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: WAVE DSRC</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: C-V2X</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 무선 자원 제어</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: V2X]
+    │
+    ▼
+[현재 개념: WAVE DSRC]
+    │
+    ├──▶ [확장 A: C-V2X]
+    └──▶ [확장 B: 지능형 무선 자원 제어]
+```
 
 WAVE DSRC는 V2X에서 출발해 현재 메커니즘을 정교화하고, 이후 C-V2X와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

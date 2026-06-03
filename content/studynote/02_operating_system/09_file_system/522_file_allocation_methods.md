@@ -29,28 +29,33 @@ tags = ["studynote-operating-system"]
 - <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 시스템 3대 할당 기법의 <a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>-물리 맵핑 렌더 다이어그램</strong>:
 사용자의 1개의 문서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 디스크 물리 섹터 위에서 어떻게 포인터 그물망이 찢어지는지 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 블록 체제로 뜯어보면 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파일 할당 패러다임 3종 I/O 트레이드오프 철학 렌더</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">디스크의 물리적 트랙 0번부터 99번 섹터 배열 상태 깡통</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1️⃣</div><div class="kb-diagram-node">연속 (Contiguous)</div><div class="kb-diagram-note">: "시작 14번, 길이 3블록 컷!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">14</div><div class="kb-diagram-node">15</div><div class="kb-diagram-node">16</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">── 무식하게 쭉 이어져 기록됨. 모터 암 속도 최강!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2️⃣</div><div class="kb-diagram-node">연결 (Linked)</div><div class="kb-diagram-note">: "시작 9번" (꼬리표 포인터 체인 결속)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">9번블록 ─▶ 16번블록 ─▶ 1번블록 ─▶ 25번블록(끝)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(아무 데나 쑤셔 박지만 중간에 3번째 블록(1번) 찾으려면 1, 2번째 다 밟아야 함)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3️⃣</div><div class="kb-diagram-node">색인 (Indexed)</div><div class="kb-diagram-note">: "장부는 19번 블록이다!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">19번 장부(색인 Inode) 철판 블록</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 9번 (첫 주소 데이터)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 16번 (두 번째 데이터)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 1번 (세 번째 데이터)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 25번 (끝)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(가운데 3번째 블록(1번) 을 찾고 싶어? 장부 3번째 줄 읽고 바로 다이렉트 I/O 타격!)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────────────────────────┐
+  │                 파일 할당 패러다임 3종 I/O 트레이드오프 철학 렌더                     │
+  ├───────────────────────────────────────────────────────────────────────────────────────┤
+  │                                                                                       │
+  │  [ 디스크의 물리적 트랙 0번부터 99번 섹터 배열 상태 깡통 ]                            │
+  │                                                                                       │
+  │  1️⃣ [ 연속 (Contiguous) ]  : "시작 14번, 길이 3블록 컷!"                             │
+  │     [14] [15] [16] ◀── 무식하게 쭉 이어져 기록됨. 모터 암 속도 최강!                  │
+  │                                                                                       │
+  │  =============================================================                        │
+  │                                                                                       │
+  │  2️⃣ [ 연결 (Linked) ]  : "시작 9번" (꼬리표 포인터 체인 결속)                        │
+  │     [ 9번블록 ─▶ 16번블록 ─▶ 1번블록 ─▶ 25번블록(끝) ]                                │
+  │      (아무 데나 쑤셔 박지만 중간에 3번째 블록(1번) 찾으려면 1, 2번째 다 밟아야 함)    │
+  │                                                                                       │
+  │  =============================================================                        │
+  │                                                                                       │
+  │  3️⃣ [ 색인 (Indexed) ]  : "장부는 19번 블록이다!"                                    │
+  │                 [ 19번 장부(색인 Inode) 철판 블록 ]                                   │
+  │                  ├──▶ 9번 (첫 주소 데이터)                                            │
+  │                  ├──▶ 16번 (두 번째 데이터)                                           │
+  │                  ├──▶ 1번 (세 번째 데이터)                                            │
+  │                  └──▶ 25번 (끝)                                                       │
+  │      (가운데 3번째 블록(1번) 을 찾고 싶어? 장부 3번째 줄 읽고 바로 다이렉트 I/O 타격!)│
+  └───────────────────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 디스크 모터 헤드 암(Arm)의 움직임은 물리적 모터 철판을 긁는 행위이므로 CPU 사이클 기준으로 수백만 배 느린(10ms) 최악의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 연산이다. ① [연속 할당](/knowledge-base/studynote/02_operating_system/09_file_system/523_contiguous_allocation/)은 모터 암이 그저 한 자리에 멈춰 서 원판만 휘리릭 도는 걸 연속으로 읽어버리면 끝나니 $O(1)$ 도 아닌 순수 하드코어 최고 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 자랑한다. 그러나 현실에 3GB 영화 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 통짜 빈칸을 찾는 건 불가능하다. 그래서 ② [연결 할당](/knowledge-base/studynote/02_operating_system/09_file_system/524_linked_allocation/)이 등장했으나([FAT](/knowledge-base/studynote/02_operating_system/09_file_system/525_fat_file_allocation_table/) 방식 뼈대), 특정 프레임으로 점프해 넘기는 "직접 접근(Random Access)" 이 불가능하다는 치명타를 입었다. 이를 종결 타결시킨 S/W 묘수가 별도의 빈칸(블록)에다가 주소만 싹 모아놓은 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 장부판인 ③ 색인([Index Node](/knowledge-base/studynote/02_operating_system/09_file_system/528_unix_inode_mechanism/)) 아키텍처이며 이것이 리눅스의 100년 천하를 책임지는 i-node 매커니즘의 우주 본체가 된다.
 
@@ -145,19 +150,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">열린 파일 테이블 (Open File Table)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">파일 할당 방법 (File Allocation Methods)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">연속 할당 (Contiguous Allocation)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">연결 할당 (Linked Allocation)</div></div>
-</div>
-</div>
-
-
+```text
+[열린 파일 테이블 (Open File Table)]
+    │
+    ▼
+[파일 할당 방법 (File Allocation Methods)]
+    │
+    ├──▶ [연속 할당 (Contiguous Allocation)]
+    └──▶ [연결 할당 (Linked Allocation)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

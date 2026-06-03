@@ -23,16 +23,13 @@ tags = ["studynote-devops-sre"]
 
 격리와 완충 장치가 없으면 하나의 느린 의존성이 재시도 폭풍과 연쇄 장애로 확대된다. 따라서 [폴백](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/) 메커니즘을 이해할 때는 "무엇을 자동화하는가"보다 "어떤 실패와 편차를 줄이려는가"를 먼저 붙잡아야 한다.
 
+```text
+Deployment / Control / Feedback Flow
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Deployment / Control / Feedback Flow</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Failure Signal</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Protection Policy</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Isolation Layer</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Recovery Path</div></div>
-</div>
-</div>
-
-
+┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐
+│ Failure Signal       │──▶│ Protection Policy    │──▶│ Isolation Layer      │──▶│ Recovery Path        │
+└──────────────────────┘   └──────────────────────┘   └──────────────────────┘   └──────────────────────┘
+```
 
 이 그림은 [폴백](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/) 메커니즘이 입력, 실행, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 환류를 한 흐름으로 묶는다는 점을 보여준다. 즉 기술 자체보다도 제어 루프와 피드백 구조가 본질이다.
 
@@ -51,16 +48,13 @@ tags = ["studynote-devops-sre"]
 | [Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/) Layer | 큐, 캐시, 버퍼, 서킷으로 장애를 분리 | 공유 자원 병목이 가장 먼저 점검 대상 |
 | [Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) Path | [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 후 트래픽 재개와 상태 정합성 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) | 되돌아오는 절차까지 설계해야 완결 |
 
+```text
+Reference Architecture
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Reference Architecture</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Failure Signal</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Protection Policy</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Isolation Layer</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Recovery Path</div></div>
-</div>
-</div>
-
-
+┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐
+│ Failure Signal       │──▶│ Protection Policy    │──▶│ Isolation Layer      │──▶│ Recovery Path        │
+└──────────────────────┘   └──────────────────────┘   └──────────────────────┘   └──────────────────────┘
+```
 
 위 구조에서 중요한 것은 각 계층의 책임을 분리하면서도, 마지막에 반드시 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 다시 제어 계층으로 돌아오게 만드는 것이다. 그래야 변경 실패가 누적되지 않고, 재현성과 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 가능성을 함께 확보할 수 있다.
 
@@ -127,20 +121,16 @@ tags = ["studynote-devops-sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Graceful Degradation</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">폴백 메커니즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Cache</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Circuit Breaker</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">직접 재시도 중심의 단순 장애 대응</div></div>
-</div>
-</div>
-
-
+```text
+[Graceful Degradation]
+    │
+    ▼
+[폴백 메커니즘]
+    │
+    ├──▶ [Cache]
+    ├──▶ [Circuit Breaker]
+    └──▶ [직접 재시도 중심의 단순 장애 대응]
+```
 
 이 흐름도는 [폴백](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/) 메커니즘이 선행 개념 위에 서서 운영 자동화, 보안, 확장, 가시성 중 어떤 축으로 확장되는지를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해서 보여준다.
 

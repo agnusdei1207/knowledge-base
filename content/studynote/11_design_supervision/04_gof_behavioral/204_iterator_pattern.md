@@ -57,89 +57,81 @@ Collection이 배열이든, 링크드리스트든, 트리든 <strong>순회 코�
 | JavaScript | `Symbol.iterator`, `{value, done}` | `for...of` |
 | C# | `IEnumerator<T>`: `MoveNext()`, `Current` | `foreach` |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Core Idea</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Expected Gain</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐    ┌──────────────┐    ┌──────────────┐
+│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
+└──────────────┘    └──────────────┘    └──────────────┘
+```
 
 - **📢 섹션 요약 비유**: TV 리모컨 채널 버튼([Iterator](/knowledge-base/studynote/04_software_engineering/04_testing_quality/270_iterator_pattern/)) — 아날로그인지 디지털인지, 케이블인지 IPTV인지 몰라도 "다음 채널" 버튼은 항상 같은 방식으로 동작한다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
+```
+  «interface»                   «interface»
+  Iterable<T>                   Iterator<T>
+  ──────────────                ──────────────────
+  + iterator(): Iterator<T>     + hasNext(): boolean
+        ▲                       + next(): T
+        │                       + remove()  [optional]
+  ConcreteCollection                  ▲
+  ──────────────────                  │
+  + iterator()                 ConcreteIterator
+    → new ConcreteIterator(this)  - collection
+                                  - currentIndex
+                                  + hasNext()
+                                  + next()
+```
 
+```
+  외부 이터레이터 (External Iterator)
+  ─────────────────────────────────────
+  Client가 Iterator를 직접 제어
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">«interface» «interface»</div>
-<div class="kb-diagram-note">Iterable&lt;T&gt; Iterator&lt;T&gt;</div>
-<div class="kb-diagram-note">+ iterator(): Iterator&lt;T&gt; + hasNext(): boolean</div>
-<div class="kb-diagram-note">▲ + next(): T</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">+ remove()</div><div class="kb-diagram-node">optional</div></div>
-<div class="kb-diagram-note">ConcreteCollection ▲</div>
-<div class="kb-diagram-note">+ iterator() ConcreteIterator</div>
-<div class="kb-diagram-note">→ new ConcreteIterator(this) - collection</div>
-<div class="kb-diagram-tree-item" style="--depth:8">currentIndex</div>
-<div class="kb-diagram-note">+ hasNext()</div>
-<div class="kb-diagram-note">+ next()</div>
-</div>
-</div>
+  Iterator<T> it = list.iterator();
+  while (it.hasNext()) {
+      T item = it.next();  // Client가 next() 호출
+      if (needStop(item)) break;  // 중간 탈출 가능
+  }
 
+  장점: 세밀한 제어 가능, 중간 탈출 가능
+  단점: 클라이언트 코드가 복잡
 
+  ─────────────────────────────────────
+  내부 이터레이터 (Internal Iterator)
+  ─────────────────────────────────────
+  Collection이 순회를 제어하고 콜백 호출
 
+  list.forEach(item -> process(item));
+  list.stream().filter(x -> x > 0).map(x -> x * 2).collect(...);
 
+  장점: 코드 간결, 함수형 스타일
+  단점: 중간 탈출 어려움 (anyMatch, findFirst로 보완)
+```
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">외부 이터레이터 (External Iterator)</div>
-<div class="kb-diagram-note">Client가 Iterator를 직접 제어</div>
-<div class="kb-diagram-note">Iterator&lt;T&gt; it = list.iterator();</div>
-<div class="kb-diagram-note">while (it.hasNext()) {</div>
-<div class="kb-diagram-note">T item = it.next(); // Client가 next() 호출</div>
-<div class="kb-diagram-note">if (needStop(item)) break; // 중간 탈출 가능</div>
-<div class="kb-diagram-note">}</div>
-<div class="kb-diagram-note">장점: 세밀한 제어 가능, 중간 탈출 가능</div>
-<div class="kb-diagram-note">단점: 클라이언트 코드가 복잡</div>
-<div class="kb-diagram-note">내부 이터레이터 (Internal Iterator)</div>
-<div class="kb-diagram-note">Collection이 순회를 제어하고 콜백 호출</div>
-<div class="kb-diagram-note">list.forEach(item -&gt; process(item));</div>
-<div class="kb-diagram-note">list.stream().filter(x -&gt; x &gt; 0).map(x -&gt; x * 2).collect(...);</div>
-<div class="kb-diagram-note">장점: 코드 간결, 함수형 스타일</div>
-<div class="kb-diagram-note">단점: 중간 탈출 어려움 (anyMatch, findFirst로 보완)</div>
-</div>
-</div>
+```
+  파일 시스템 트리 (Composite)
 
+  root/
+  ├── docs/
+  │   ├── readme.txt
+  │   └── design.pdf
+  └── src/
+      ├── main.java
+      └── util/
+          └── helper.java
 
+  DFSIterator (깊이 우선 탐색):
+  root → docs → readme.txt → design.pdf → src → main.java → util → helper.java
 
+  BFSIterator (너비 우선 탐색):
+  root → docs → src → readme.txt → design.pdf → main.java → util → helper.java
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">파일 시스템 트리 (Composite)</div>
-<div class="kb-diagram-note">root/</div>
-<div class="kb-diagram-tree-item" style="--depth:1">docs/</div>
-<div class="kb-diagram-note">── readme.txt</div>
-<div class="kb-diagram-note">── design.pdf</div>
-<div class="kb-diagram-tree-item" style="--depth:1">src/</div>
-<div class="kb-diagram-tree-item" style="--depth:3">main.java</div>
-<div class="kb-diagram-tree-item" style="--depth:3">util/</div>
-<div class="kb-diagram-tree-item" style="--depth:5">helper.java</div>
-<div class="kb-diagram-note">DFSIterator (깊이 우선 탐색):</div>
-<div class="kb-diagram-note">root → docs → readme.txt → design.pdf → src → main.java → util → helper.java</div>
-<div class="kb-diagram-note">BFSIterator (너비 우선 탐색):</div>
-<div class="kb-diagram-note">root → docs → src → readme.txt → design.pdf → main.java → util → helper.java</div>
-<div class="kb-diagram-note">// 동일한 Collection에 다른 Iterator 적용</div>
-<div class="kb-diagram-note">Iterator&lt;File&gt; dfs = fileSystem.dfsIterator();</div>
-<div class="kb-diagram-note">Iterator&lt;File&gt; bfs = fileSystem.bfsIterator();</div>
-</div>
-</div>
-
-
+  // 동일한 Collection에 다른 Iterator 적용
+  Iterator<File> dfs = fileSystem.dfsIterator();
+  Iterator<File> bfs = fileSystem.bfsIterator();
+```
 
 | 항목 | 설명 | 포인트 |
 |:---|:---|:---|
@@ -147,15 +139,11 @@ Collection이 배열이든, 링크드리스트든, 트리든 <strong>순회 코�
 | 제어 지점 | 조건, 이벤트, 정책이 만나는 곳 | 병목과 결합이 생기는 곳이다. |
 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 포인트 | 테스트·[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·모니터링으로 확인할 지점 | 운영 가능성이 설계 품질을 결정한다. |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Input/State</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Control Point</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Output/Action</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐    ┌──────────────┐    ┌──────────────┐
+│ Input/State  │──▶│ Control Point │──▶│ Output/Action │
+└──────────────┘    └──────────────┘    └──────────────┘
+```
 
 - **📢 섹션 요약 비유**: 도서관 책 목록(Collection)을 검색할 때, 사서가 책장 어떻게 정리했는지 몰라도 "다음 책 주세요"라고 하면 된다 — 그것이 [Iterator](/knowledge-base/studynote/04_software_engineering/04_testing_quality/270_iterator_pattern/).
 

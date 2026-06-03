@@ -37,20 +37,18 @@ tags = ["database"]
 
 위의 비정규 [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)을 1NF로 변환하면 다음과 같이 행이 늘어난다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1NF 변환: 원자값 분할 메커니즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">비정규 속성</div><div class="kb-diagram-note">"독서, 영화, 등산"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (Split)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Row 1</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">기본키: {학번, 취미}로 변경</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Row 2</div><div class="kb-diagram-note">101, 김철수, 영화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Row 3</div><div class="kb-diagram-note">101, 김철수, 등산</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                  1NF 변환: 원자값 분할 메커니즘              │
+├──────────────────────────────────────────────────────────────┤
+│ [비정규 속성] "독서, 영화, 등산"                             │
+│       │                                                      │
+│       ▼ (Split)                                              │
+│ [Row 1] 101, 김철수, 독서  <-- 기본키: {학번, 취미}로 변경   │
+│ [Row 2] 101, 김철수, 영화                                    │
+│ [Row 3] 101, 김철수, 등산                                    │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 과정에서 원래의 기본키 (Primary [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))였던 '학번'만으로는 튜플을 유일하게 식별할 수 없게 된다. 따라서 기본키를 `{학번, 취미}`로 묶은 복합키 ([Composite](/knowledge-base/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)) 형태로 변경해야 하며, 이로 인해 이름 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이 기본키의 일부인 학번에만 종속되는 부분 함수 종속 ([Partial Functional Dependency](/knowledge-base/studynote/05_database/02_modeling_normalization/097_partial_functional_dependency/))이 필연적으로 발생하게 된다.
 
@@ -109,21 +107,18 @@ tags = ["database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">비정규 릴레이션 (Unnormalized Form)</div>
-<div class="kb-diagram-note">▼ (다중값 속성 및 반복 그룹 제거)</div>
-<div class="kb-diagram-note">제1정규형 (1NF) · 원자값 (Atomic Value) 구성</div>
-<div class="kb-diagram-note">▼ (부분 함수 종속성 제거)</div>
-<div class="kb-diagram-note">제2정규형 (2NF) · 완전 함수 종속 달성</div>
-<div class="kb-diagram-note">▼ (이행적 함수 종속성 제거)</div>
-<div class="kb-diagram-note">제3정규형 (3NF) · 일반 속성 간 독립성 확보</div>
-</div>
-</div>
-
-
+```text
+비정규 릴레이션 (Unnormalized Form)
+    │
+    ▼ (다중값 속성 및 반복 그룹 제거)
+제1정규형 (1NF) · 원자값 (Atomic Value) 구성
+    │
+    ▼ (부분 함수 종속성 제거)
+제2정규형 (2NF) · 완전 함수 종속 달성
+    │
+    ▼ (이행적 함수 종속성 제거)
+제3정규형 (3NF) · 일반 속성 간 독립성 확보
+```
 
 이 흐름도는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조가 어떻게 수학적 제약을 거치며 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 강화해 나가는지의 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 진화 과정을 보여준다.
 

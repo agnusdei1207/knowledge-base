@@ -28,7 +28,7 @@ tags = ["studynote-software-engineering"]
 - **등장 배경 및 발전 과정**:
   1. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 수동 테스트</strong>: QA 테스터가 직감과 경험(탐색적 테스트)으로 앱을 괴롭히던 시절에는 매번 시나리오가 달라져 패러독스가 적었다.
   2. **테스트 자동화의 함정**: Selenium 등 스크립트 자동화가 득세하면서 매일 똑같은 스텝만 반복 검증하게 되었고, 이로 인해 자동화가 잡지 못하는 기괴한 버그가 폭증했다.
-  3. **지능형 테스트의 부상**: [살충제 패러독스](/knowledge-base/studynote/04_software_engineering/07_object_oriented/392_pesticide_paradox_test_renewal/)를 뚫어내기 위해 현재는 [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)([Chaos Engineering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)), [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/) 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 기반 테스트(Property-based Testing) 등 예측을 파괴하는 툴들이 주류로 부상 중이다.
+  3. **지능형 테스트의 부상**: [살충제 패러독스](/knowledge-base/studynote/04_software_engineering/07_object_oriented/392_pesticide_paradox_test_renewal/)를 뚫어내기 위해 현재는 [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)([Chaos 엔진ering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)), [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/) 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 기반 테스트(Property-based Testing) 등 예측을 파괴하는 툴들이 주류로 부상 중이다.
 
 - **📢 섹션 요약 비유**: 같은 문제를 내는 기출문제집(기존 테스트)만 100번 풀어서 100점을 맞은 학생이 "나는 천재다"라고 생각하고 수능(운영 배포)을 보러 갔다가 전혀 새로운 응용문제(새로운 버그)에 속수무책으로 무너지는 것과 같습니다.
 
@@ -36,17 +36,18 @@ tags = ["studynote-software-engineering"]
 
 다음은 [살충제 패러독스](/knowledge-base/studynote/04_software_engineering/07_object_oriented/392_pesticide_paradox_test_renewal/) 테스트 갱신의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">살충제 패러독스 테스트 갱신</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                  살충제 패러독스 테스트 갱신                             │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
+│       │                    │                    │          │
+│       ▼                    ▼                    ▼          │
+│   요구 분석           설계·적용           품질 검증        │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램은 [살충제 패러독스](/knowledge-base/studynote/04_software_engineering/07_object_oriented/392_pesticide_paradox_test_renewal/) 테스트 갱신가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -136,30 +137,28 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | [살충제 패러독스](/knowledge-base/studynote/04_software_engineering/07_object_oriented/392_pesticide_paradox_test_renewal/) 테스트 갱신의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | [살충제 패러독스](/knowledge-base/studynote/04_software_engineering/07_object_oriented/392_pesticide_paradox_test_renewal/) 테스트 갱신의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
 | [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | [살충제 패러독스](/knowledge-base/studynote/04_software_engineering/07_object_oriented/392_pesticide_paradox_test_renewal/) 테스트 갱신은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | [살충제 패러독스](/knowledge-base/studynote/04_software_engineering/07_object_oriented/392_pesticide_paradox_test_renewal/) 테스트 갱신 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
 | [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | [살충제 패러독스](/knowledge-base/studynote/04_software_engineering/07_object_oriented/392_pesticide_paradox_test_renewal/) 테스트 갱신에서 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">살충제 패러독스 테스트 갱신 개념 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 위기 (Software Crisis) 인식
+    │
+    ▼
+살충제 패러독스 테스트 갱신 개념 정립
+    │
+    ▼
+표준화 및 방법론 체계화 (ISO, CMMI, Agile)
+    │
+    ▼
+클라우드 네이티브·AI 기반 확장 적용
+    │
+    ▼
+지속적 개선 및 DevOps·MLOps 통합
+```
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

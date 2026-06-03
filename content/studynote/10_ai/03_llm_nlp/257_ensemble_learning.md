@@ -37,17 +37,14 @@ tags = ["studynote-ai"]
 | [부스팅](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/) ([Boosting](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)) | 동종 모델 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/), 오차 집중 | 편향 감소 |
 | 스태킹 (Stacking) | 메타 학습기가 결합 학습 | 복잡한 패턴 포착 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 앙상블은 "혼자 결정하지 말고 팀원들에게 물어보라"는 원칙이다. 팀원들의 의견이 서로 다를수록(다양성) 집단 지성의 힘이 강해진다.
 
@@ -57,41 +54,41 @@ tags = ["studynote-ai"]
 
 ### [앙상블 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/125_ensemble_learning/)의 전체 구조
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">훈련 데이터 (Training Data)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">앙상블 전략</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Bagging</div><div class="kb-diagram-cell">Boosting</div><div class="kb-diagram-cell">Stacking</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(병렬)</div><div class="kb-diagram-cell">(직렬)</div><div class="kb-diagram-cell">(2단계)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Bootstrap</div><div class="kb-diagram-cell">오차 가중치</div><div class="kb-diagram-cell">Level-0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">샘플링 →</div><div class="kb-diagram-cell">→ 다음 모델</div><div class="kb-diagram-cell">모델들 →</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">병렬 학습</div><div class="kb-diagram-cell">순차 학습</div><div class="kb-diagram-cell">Meta Model</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예측 집계 (Aggregation)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분류: 다수결 투표 / 확률 평균</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">회귀: 평균 / 가중 평균</div></div>
-<div class="kb-diagram-note">최종 예측 (Final Prediction)</div>
-</div>
-</div>
-
-
+```
+  훈련 데이터 (Training Data)
+         │
+  ┌──────┴───────────────────────────────────┐
+  │              앙상블 전략                  │
+  ├──────────────┬──────────────┬────────────┤
+  │   Bagging    │   Boosting   │  Stacking  │
+  │  (병렬)      │  (직렬)      │  (2단계)   │
+  │              │              │            │
+  │ Bootstrap    │ 오차 가중치  │ Level-0    │
+  │ 샘플링 →     │ → 다음 모델  │ 모델들 →   │
+  │ 병렬 학습    │ 순차 학습    │ Meta Model │
+  └──────┬───────┴──────┬───────┴─────┬──────┘
+         │              │             │
+  ┌──────▼──────────────▼─────────────▼──────┐
+  │              예측 집계 (Aggregation)       │
+  │  분류: 다수결 투표 / 확률 평균             │
+  │  회귀: 평균 / 가중 평균                   │
+  └───────────────────────────────────────────┘
+                     │
+              최종 예측 (Final Prediction)
+```
 
 ### [편향-분산 트레이드오프](/knowledge-base/studynote/14_data_engineering/02_math_mining/110_bias_variance_tradeoff/)와 앙상블
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">총 오류(MSE) = 편향² + 분산 + 노이즈</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고분산 모델(예: 깊은 결정트리)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ Bagging → 분산 ↓ (편향은 유지)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고편향 모델(예: 얕은 결정트리)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ Boosting → 편향 ↓ (분산은 증가 가능)</div></div>
-</div>
-</div>
-
-
+```
+  총 오류(MSE) = 편향² + 분산 + 노이즈
+  ┌─────────────────────────────────────────────┐
+  │  고분산 모델(예: 깊은 결정트리)             │
+  │  → Bagging → 분산 ↓ (편향은 유지)          │
+  │                                             │
+  │  고편향 모델(예: 얕은 결정트리)             │
+  │  → Boosting → 편향 ↓ (분산은 증가 가능)    │
+  └─────────────────────────────────────────────┘
+```
 
 ### 다양성(Diversity) 확보 방법
 
@@ -123,20 +120,20 @@ tags = ["studynote-ai"]
 
 스태킹(Stacking)은 1레벨 모델들의 예측값을 특성으로 사용하여 2레벨 메타 학습기(Meta Learner)가 최종 예측을 내리는 방식이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">훈련 데이터</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level-0 모델들</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RF SVM LR KNN</div></div>
-<div class="kb-diagram-note">각 모델의 예측값</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Meta Learner (LR 등)</div></div>
-<div class="kb-diagram-note">최종 예측</div>
-</div>
-</div>
-
-
+```
+  훈련 데이터
+       │
+  ┌────┴──────────────────────┐
+  │     Level-0 모델들        │
+  │  RF    SVM    LR    KNN   │
+  └────┬───────────────────────┘
+       │ 각 모델의 예측값
+  ┌────▼─────────────────────┐
+  │   Meta Learner (LR 등)  │
+  └────┬─────────────────────┘
+       │
+  최종 예측
+```
 
 - **📢 섹션 요약 비유**: Bagging은 "같은 회사 직원들이 각자 다른 프로젝트 경험으로 의견을 내는 것"이고, Boosting은 "이전 사람 실수를 다음 사람이 집중 보완"하는 것이다. Stacking은 "모든 팀장의 의견을 CEO가 종합"하는 것이다.
 

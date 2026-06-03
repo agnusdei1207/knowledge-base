@@ -44,24 +44,23 @@ tags = ["studynote-operating-system"]
 
 아래 그림은 장기 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 개입하는 위치를 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">long-term scheduling admission flow</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Disk Job Pool</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">J1</div><div class="kb-diagram-node">J2</div><div class="kb-diagram-node">J3</div><div class="kb-diagram-node">J4</div><div class="kb-diagram-node">J5</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── check memory capacity</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── check CPU-bound / I/O-bound mix</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── check policy / priority</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Long-term Scheduler</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ admit</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ready Queue in Main Memory</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">P1</div><div class="kb-diagram-node">P3</div><div class="kb-diagram-node">P4</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Short-term Scheduler ──▶ CPU</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                   long-term scheduling admission flow                      │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Disk Job Pool                                                              │
+│ [J1][J2][J3][J4][J5]                                                       │
+│        │                                                                   │
+│        ├── check memory capacity                                           │
+│        ├── check CPU-bound / I/O-bound mix                                 │
+│        └── check policy / priority                                         │
+│                ▼                                                           │
+│         Long-term Scheduler                                                │
+│                ▼ admit                                                     │
+│       Ready Queue in Main Memory                                           │
+│      [P1][P3][P4] ──▶ Short-term Scheduler ──▶ CPU                         │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 핵심은 단순히 빈자리가 생길 때 하나 채우는 것이 아니다. 시스템 안에 이미 CPU 바운드 작업이 많다면 다음에는 I/O 바운드 작업을 선택해 CPU와 장치가 번갈아 바쁘게 돌아가도록 만드는 것이 더 유리할 수 있다. 그래서 장기 스케줄링은 공정성보다도 <strong>적절한 작업 조합을 설계하는 문제</strong>에 가깝다.
 
@@ -134,23 +133,21 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">배치 시스템의 Job Pool</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">장기 스케줄러의 입장 통제</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">다중 프로그래밍 정도 · CPU/I/O mix 최적화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">가상 메모리 · 시분할 시스템으로 역할 축소</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">HPC / 클러스터 workload admission으로 철학 계승</div>
-</div>
-</div>
-
-
+```text
+배치 시스템의 Job Pool
+        │
+        ▼
+장기 스케줄러의 입장 통제
+        │
+        ▼
+다중 프로그래밍 정도 · CPU/I/O mix 최적화
+        │
+        ▼
+가상 메모리 · 시분할 시스템으로 역할 축소
+        │
+        ▼
+HPC / 클러스터 workload admission으로 철학 계승
+```
 
 이 흐름은 장기 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 메인프레임 배치 환경에서 출발해, 현대에는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부보다 클러스터와 플랫폼의 입장 통제 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 재해석되고 있음을 보여 준다.
 

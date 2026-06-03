@@ -49,28 +49,29 @@ tags = ["studynote-operating-system"]
 1. <strong>최악의 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/">응답 시간</a></strong>: 내 차례가 오기까지 기다려야 하는 최대 시간은 $(N-1) \times (Q + S)$ 이다.
 2. **효율성 (Useful CPU Time)**: CPU가 순수하게 앱 실행에 쓴 시간의 비율은 $\frac{Q}{Q+S}$ 이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">타임 퀀텀(Q) 설정에 따른 극단적 트레이드오프</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황: 컨텍스트 스위치 시간 S = 1ms, 프로세스 10개(N=10) 구동 중</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Q를 매우 길게 설정했을 때 (Q = 100ms)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 응답 시간 = 9 * (100 + 1) = 909ms (약 1초)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- CPU 효율 = 100 / 101 = 약 99%</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">★ 문제: 효율은 좋으나, 키보드를 치고 1초 뒤에 글자가 찍힌다. (속 터짐)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Q를 매우 짧게 설정했을 때 (Q = 1ms)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 응답 시간 = 9 * (1 + 1) = 18ms</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- CPU 효율 = 1 / (1 + 1) = 50%</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">★ 문제: 반응은 즉각적인데, CPU가 일은 안 하고 스위칭(S)만 하느라</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전력의 반을 버리는 스래싱(Thrashing) 늪에 빠짐.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">아키텍트의 결론</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Q는 S(스위칭 시간)보다는 무조건 압도적으로 커야 한다. (일반적으로 10~100ms)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 하지만 사용자 인계 시간(보통 100~200ms)을 넘기면 안 된다.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 타임 퀀텀(Q) 설정에 따른 극단적 트레이드오프            │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │  [상황: 컨텍스트 스위치 시간 S = 1ms, 프로세스 10개(N=10) 구동 중]          │
+  │                                                                   │
+  │  1. Q를 매우 길게 설정했을 때 (Q = 100ms)                            │
+  │     - 응답 시간 = 9 * (100 + 1) = 909ms (약 1초)                   │
+  │     - CPU 효율 = 100 / 101 = 약 99%                               │
+  │     ★ 문제: 효율은 좋으나, 키보드를 치고 1초 뒤에 글자가 찍힌다. (속 터짐)  │
+  │                                                                   │
+  │  2. Q를 매우 짧게 설정했을 때 (Q = 1ms)                              │
+  │     - 응답 시간 = 9 * (1 + 1) = 18ms                               │
+  │     - CPU 효율 = 1 / (1 + 1) = 50%                                │
+  │     ★ 문제: 반응은 즉각적인데, CPU가 일은 안 하고 스위칭(S)만 하느라       │
+  │              전력의 반을 버리는 스래싱(Thrashing) 늪에 빠짐.              │
+  │                                                                   │
+  │  [아키텍트의 결론]                                                   │
+  │   - Q는 S(스위칭 시간)보다는 무조건 압도적으로 커야 한다. (일반적으로 10~100ms)│
+  │   - 하지만 사용자 인계 시간(보통 100~200ms)을 넘기면 안 된다.            │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 타임 퀀텀 조절은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 튜닝의 핵심 딜레마(Trade-off)다. 길면 [FCFS](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/)(일괄 처리)에 가까워져 응답이 느려지고, 짧으면 오버헤드로 시스템이 터진다. 따라서 과거 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 100Hz(10ms)에서 1000Hz(1ms) 사이에서 `HZ` 값을 컴파일 타임에 결정해야 하는 고통을 겪었다.
 
@@ -130,25 +131,28 @@ tags = ["studynote-operating-system"]
 
 ### 의사결정 및 튜닝 플로우
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버/데스크탑 응답 시간(Response Time) 튜닝 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시스템 구축 목표: 처리량(Throughput) vs 응답 시간(Response) 판단</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시스템이 사용자의 즉각적인 UI 조작이나 초저지연 API 응답이 필수인가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">응답 시간 최적화 지향</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- HZ (타이머 인터럽트 주기)를 1000Hz (1ms)로 상향 조정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- CFS 스케줄러의 타임 슬라이스를 짧게 가져감</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 (빅데이터 분석, DB 배치 작업, 과학 연산)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">처리량(Throughput) 최적화 지향 (Batch 철학 흡수)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- HZ를 100Hz 또는 250Hz로 낮춰 스위칭 오버헤드 극소화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Tickless Kernel (CONFIG_NO_HZ_FULL) 적용하여</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">특정 코어에서는 타이머 인터럽트조차 아예 꺼버림 (성능 100%)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 서버/데스크탑 응답 시간(Response Time) 튜닝 플로우         │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [시스템 구축 목표: 처리량(Throughput) vs 응답 시간(Response) 판단]          │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      시스템이 사용자의 즉각적인 UI 조작이나 초저지연 API 응답이 필수인가?       │
+  │          ├─ 예 (데스크탑, HFT, 게임 서버) ──▶ [응답 시간 최적화 지향]    │
+  │          │      - HZ (타이머 인터럽트 주기)를 1000Hz (1ms)로 상향 조정 │
+  │          │      - CFS 스케줄러의 타임 슬라이스를 짧게 가져감               │
+  │          │                                                        │
+  │          └─ 아니오 (빅데이터 분석, DB 배치 작업, 과학 연산)                 │
+  │                │                                                  │
+  │                ▼                                                  │
+  │             [처리량(Throughput) 최적화 지향 (Batch 철학 흡수)]           │
+  │             - HZ를 100Hz 또는 250Hz로 낮춰 스위칭 오버헤드 극소화          │
+  │             - Tickless Kernel (CONFIG_NO_HZ_FULL) 적용하여          │
+  │               특정 코어에서는 타이머 인터럽트조차 아예 꺼버림 (성능 100%)    │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** "무조건 빠르게 응답하라"는 것은 공짜가 아니다. [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)을 줄이기 위해 타임 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/)를 잘게 쪼개면, CPU는 앱을 실행하는 시간보다 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 멈추고 문맥을 교환하는 데 시간을 더 쓰게 된다. 엔터프라이즈 리눅스(RHEL)는 기본적으로 서버([처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))에 맞춰져 있으므로, 이를 미디어 서버나 게임 서버로 쓸 때는 반드시 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 퀀텀 파라미터(`sched_min_granularity_ns` 등)를 튜닝해야 한다.
 
@@ -192,19 +196,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">다중 프로그래밍 (Multiprogramming) 한계 자원</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시분할 시스템 응답 시간 최적화 (Time Sharing Response Time Optimization)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">멀티태스킹 (Multitasking) 용어</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">인터럽트 벡터 테이블 구조화</div></div>
-</div>
-</div>
-
-
+```text
+[다중 프로그래밍 (Multiprogramming) 한계 자원]
+    │
+    ▼
+[시분할 시스템 응답 시간 최적화 (Time Sharing Response Time Optimization)]
+    │
+    ├──▶ [멀티태스킹 (Multitasking) 용어]
+    └──▶ [인터럽트 벡터 테이블 구조화]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

@@ -29,31 +29,33 @@ tags = ["studynote-network"]
   1. **정적 콘텐츠(이미지, 영상) 트래픽의 폭주**: 텍스트만 보던 시절을 지나 1MB짜리 고화질 사진과 1GB짜리 유튜브 4K 영상이 인터넷 트래픽의 80%를 집어삼키며, 이 무거운 쇳덩이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 한 곳(오리진)에서 뿜어내는 것이 물리적으로 불가능해졌다.
   2. **글로벌 비즈니스의 대중화**: AWS 등 [퍼블릭 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/)의 등장으로 동네 구멍가게 앱도 첫날부터 글로벌 유저를 상대로 장사하게 되며, [GSLB](/knowledge-base/studynote/03_network/09_application_layer_web_email/507_gslb_global_server_load_balancing_dns/)(글로벌 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))를 탑재한 초국경적 딜리버리 인프라가 필수재가 되었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CDN (Content Delivery Network)의 캐싱 마법: Hit vs Miss의 핑퐁 도해</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">👨‍💻</div><div class="kb-diagram-node">프랑스 파리 유저</div><div class="kb-diagram-note">: "www.쇼핑몰.com/사과.jpg" 접속 시도!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- (GSLB DNS 발동 ➔ "오 너 파리에 있네? 파리 엣지 서버로 가!")</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">1차 관문: 파리 Edge Node (CDN 서버)</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1️⃣ 첫 번째 놈이 접속할 때 (Cache MISS! 💀)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 파리 엣지 왈: "어? 나 방금 새로 생긴 서버라 내 하드디스크에 사과 사진 없네?"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 파리 엣지 ➔ (대서양 해저 케이블 헥헥) ➔ 서울 오리진 서버: "사과 사진 좀 줘!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 서울 오리진 ➔ (3초 지연 💦) ➔ 파리 엣지: "여기! (그리고 엣지 하드에 저장 꾹)"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 유저: "아씨 사진 뜨는데 3초나 걸리네" (첫 유저의 피눈물 희생)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2️⃣ 두 번째 놈이 1초 뒤 똑같이 접속할 때 (Cache HIT! 🚀)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 파리 엣지 왈: "어! 사과 사진 아까 1번 놈이 찾아서 내 램(RAM)에 복사해 뒀지롱!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 🌟 파리 엣지 ➔ (서울 서버 쌩까고 0.01초 만에 바로 파리 유저한테 사진 쏨!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 유저: "와! 0.01초 컷! 역시 글로벌 쇼핑몰 짱이네!" (무결점 쾌속의 승리)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 아키텍트 분석: 이것이 '오프 로딩(Off-loading)'의 궁극적 마법이다. 100만 명이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사과 사진을 요구해도, 서울(오리진) 서버는 딱 1명(첫 빠따)한테만 사진을 1번 주고</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다시 잠을 잘 수 있다! 나머지 99만 9,999명은 파리, 뉴욕 엣지 서버들이 알아서 복사본을</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">뿌려주니까, 오리진 서버의 CPU와 네트워크 요금(Bandwidth)은 99% 0원으로 수렴한다.</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          CDN (Content Delivery Network)의 캐싱 마법: Hit vs Miss의 핑퐁 도해 │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ 👨‍💻 [ 프랑스 파리 유저 ] : "www.쇼핑몰.com/사과.jpg" 접속 시도!       │
+│   - (GSLB DNS 발동 ➔ "오 너 파리에 있네? 파리 엣지 서버로 가!")            │
+│                                                             │
+│        ======= [ 1차 관문: 파리 Edge Node (CDN 서버) ] ========  │
+│                                                             │
+│ 1️⃣ 첫 번째 놈이 접속할 때 (Cache MISS! 💀)                         │
+│   - 파리 엣지 왈: "어? 나 방금 새로 생긴 서버라 내 하드디스크에 사과 사진 없네?"  │
+│   - 파리 엣지 ➔ (대서양 해저 케이블 헥헥) ➔ 서울 오리진 서버: "사과 사진 좀 줘!"│
+│   - 서울 오리진 ➔ (3초 지연 💦) ➔ 파리 엣지: "여기! (그리고 엣지 하드에 저장 꾹)"│
+│   - 유저: "아씨 사진 뜨는데 3초나 걸리네" (첫 유저의 피눈물 희생)              │
+│                                                             │
+│ 2️⃣ 두 번째 놈이 1초 뒤 똑같이 접속할 때 (Cache HIT! 🚀)             │
+│   - 파리 엣지 왈: "어! 사과 사진 아까 1번 놈이 찾아서 내 램(RAM)에 복사해 뒀지롱!"│
+│   - 🌟 파리 엣지 ➔ (서울 서버 쌩까고 0.01초 만에 바로 파리 유저한테 사진 쏨!) │
+│   - 유저: "와! 0.01초 컷! 역시 글로벌 쇼핑몰 짱이네!" (무결점 쾌속의 승리)    │
+│                                                             │
+│ 🌟 아키텍트 분석: 이것이 '오프 로딩(Off-loading)'의 궁극적 마법이다. 100만 명이 │
+│   사과 사진을 요구해도, 서울(오리진) 서버는 딱 1명(첫 빠따)한테만 사진을 1번 주고 │
+│   다시 잠을 잘 수 있다! 나머지 99만 9,999명은 파리, 뉴욕 엣지 서버들이 알아서 복사본을│
+│   뿌려주니까, 오리진 서버의 CPU와 네트워크 요금(Bandwidth)은 99% 0원으로 수렴한다.│
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** "서버 AWS 쓰는데 CDN 굳이 또 써야 해요?"라는 재무팀의 원가 절감 태클을 박살 내는 트래픽 아웃바운드 비용([FinOps](/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops/)) 방어 논리다. AWS EC2(오리진 서버)에서 인터넷 밖으로 나가는 트래픽(Outbound) 요금은 1GB당 약 150원이다. 근데 넷플릭스나 쇼핑몰에서 1TB 트래픽을 쌩으로 오리진에서 쏘면 통신비만 1.5억이 날아간다. 이걸 1GB당 20원짜리 초저가 CloudFront(CDN) 엣지로 물려두면, 100만 명의 트래픽이 오리진(EC2)을 치기 전에 엣지 캐시 단에서 99% 방어([Hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/))되어 튕겨 나간다. CDN은 단순히 속도를 빠르게 해주는 마법이 아니라, <strong>클라우드 트래픽 요금 폭탄을 1/10로 압살 시키는 거대한 회계적 댐(Dam)</strong>이다.
 
@@ -78,18 +80,14 @@ CDN은 '변하지 않는 쇳덩이(Static)'에 특화된 바보다. 여기서 �
 - **해결책 1 (Cache Invalidation 척살)**: 아키텍트가 아마존 콘솔에 들어가서 "야 전 세계 100개 엣지야! 니들 하드에 있는 `logo.png` 1초 만에 싹 다 쓰레기통에 폐기(Invalidate)해!!"라고 폭파 버튼을 누른다. (근데 이 폭파 지시가 전 세계에 퍼지는데 재수 없으면 10분이 걸리고 유료 요금 과금 터짐).
 - **해결책 2 (Cache Busting 🌟 신의 한 수)**: 일류 프론트엔드 [빌드 도구](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/070_build_tools_maven_gradle_npm/)(Webpack/Vite)는 로고가 바뀌는 순간 컴파일 시 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 이름을 `logo_v1.png` 에서 `logo_v2_f8a9d.png` (해시 꼬리표 덧붙임)로 강제로 바꿔버린다. 그럼 CDN 엣지 입장에서는 "어? 내 하드디스크에 `logo_v2`는 한 번도 본 적 없는 완전 신규 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이네? 오리진한테 쌩으로 다시 받아와야지!(Cache Miss 유도)"라며 0.1초 만에 최신 로고를 빨아들여 버리는 궁극의 '정적 에셋 [버저닝](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/317_versioning_data_model_design/)([Versioning](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/317_versioning_data_model_design/))' 전략이 현대 웹 배포의 진리다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">WebRTC</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CDN</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">GSLB</div></div>
-</div>
-</div>
-
-
+```text
+[WebRTC]
+    │
+    ▼
+[CDN]
+    │
+    └──▶ [GSLB]
+```
 
 - **📢 섹션 요약 비유**: [TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/)(유효기간)을 1년으로 잡는 건, 빵집(CDN) 진열대에 <strong>'유통기한 1년짜리 방부제 과자'</strong>를 올려두는 겁니다. 손님이 오면 뒤도 안 돌아보고 0.1초 만에 과자를 던져주니 엄청 빠르죠(Cache [Hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/)). 근데 사장님이 과자 레시피(로고)를 꿀맛으로 바꿨습니다(오리진 수정). 하지만 진열대에는 예전 낡은 과자가 1년 치 쌓여있어서 손님들은 계속 옛날 과자를 먹습니다(캐시 불일치 에러). 이걸 막으려면 빵집 알바생을 시켜서 **"야 옛날 과자 당장 쓰레기통에 다 버려!(Invalidation)"** 라고 엎어버리거나, 새 과자 포장지에 아예 <strong>'2026년 한정판 꿀맛 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">버전</a>!(Cache Busting 꼬리표)'</strong>이라고 다른 이름을 적어놔야 손님들이 새 과자를 집어 가게 됩니다.
 
@@ -127,31 +125,34 @@ CDN은 '변하지 않는 쇳덩이(Static)'에 특화된 바보다. 여기서 �
    - **판단**: 트래픽의 파도를 백엔드(오리진) 맨몸으로 다 맞으려 한 바보 설계([Anti-pattern](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/161_anti_pattern/))다. 100만 명을 일렬로 줄 세우는 '대기열 시스템'을 백엔드에 짜는 건 무식하다. 
    초일류 아키텍트는 100만 명의 트래픽을 아예 우리 회사 서버로 1바이트도 못 들어오게 **가장 밖의 대문인 'CDN 엣지 단(Edge Node)'에서 멱살을 잡고 줄을 세워버린다 (Edge-based Waiting Room 융합).** 유저가 접속하면 Cloudflare 엣지 워커(Edge Worker)가 0.1초 만에 "너 지금 10만 번째 대기자야. 이 티켓 들고 기다려!"라는 브라우저 자바스크립트 껍데기(Waiting Room)를 엣지 단에서 퉤 뱉어버린다. 우리 회사 메인 서버 CPU는 단 1%도 오르지 않는다. 빈자리가 날 때마다 엣지 단에서 찔끔찔끔 티켓을 열어주며 초당 1만 명의 트래픽만 예쁘게 오리진으로 흘려보내 주는([Traffic Shaping](/knowledge-base/studynote/03_network/07_network_layer_routing/392_traffic_shaping_and_policing/)), 절대 뚫리지 않는 최전방 이지스함 방어막(Shield)이 완성된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실무 아키텍처: SPA(React/Vue) 시대, CDN 엣지 라우팅의 Fallback 우회 도면</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">👨‍💻</div><div class="kb-diagram-node">유저</div><div class="kb-diagram-note">: "www.쇼핑몰.com/mypage/detail" (React 앱) 주소창에 엔터 쾅!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">🚨 1차 관문: S3 오리진과 CDN의 바보 같은 착각</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">☁️</div><div class="kb-diagram-node">AWS CloudFront (CDN)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "어? <code>/mypage/detail</code> 이라는 파일을 달라고? 내 하드(캐시)에 없네!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- ➔ 오리진(AWS S3 정적 호스팅 창고)으로 직행: "야 S3! <code>/mypage/detail</code> 파일 내놔!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">📦</div><div class="kb-diagram-node">AWS S3 오리진</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 💥 대파국: "미쳤냐? 여긴 React(SPA) 구조라 내 창고엔 <code>index.html</code> 딸랑</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하나밖에 없어!! <code>/mypage/detail</code> 이딴 폴더나 파일은 우주에 존재하지 않아!!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- ➔ (CDN에게 <code>HTTP 404 Not Found</code> 죽음의 에러 코드를 퉤 뱉어버림 💀)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">🛡️ 아키텍트의 수술: 404 Fallback 라우팅 융합</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🛠️</div><div class="kb-diagram-node">CDN 엣지 커널 단 (에러 페이지 가로채기 튜닝)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "야 S3가 파일 없다고 404 에러 뱉었지? 유저한테 에러 띄우지 마 스톱!!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 🌟 "에러 나면 무조건 뒤도 안 돌아보고 멱살 잡고 <code>index.html</code> 원본 껍데기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파일을 정상 코드(HTTP 200 OK)로 바꿔서 유저 브라우저한테 강제로 던져버려!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 유저 브라우저: <code>index.html</code> 껍데기 받고 ➔ React JS가 브라우저 뱃속에서 실행되며</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지 스스로 자바스크립트로 <code>/mypage/detail</code> 화면을 예쁘게 그려버림!! (SPA 마법)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │         실무 아키텍처: SPA(React/Vue) 시대, CDN 엣지 라우팅의 Fallback 우회 도면 │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │ 👨‍💻 [ 유저 ] : "www.쇼핑몰.com/mypage/detail" (React 앱) 주소창에 엔터 쾅!   │
+  │                                                             │
+  │        ======= [ 🚨 1차 관문: S3 오리진과 CDN의 바보 같은 착각 ] ========│
+  │                                                             │
+  │ ☁️ [ AWS CloudFront (CDN) ]                                    │
+  │   - "어? `/mypage/detail` 이라는 파일을 달라고? 내 하드(캐시)에 없네!"     │
+  │   - ➔ 오리진(AWS S3 정적 호스팅 창고)으로 직행: "야 S3! `/mypage/detail` 파일 내놔!"│
+  │                                                             │
+  │ 📦 [ AWS S3 오리진 ]                                             │
+  │   - 💥 대파국: "미쳤냐? 여긴 React(SPA) 구조라 내 창고엔 `index.html` 딸랑   │
+  │     하나밖에 없어!! `/mypage/detail` 이딴 폴더나 파일은 우주에 존재하지 않아!!" │
+  │   - ➔ (CDN에게 `HTTP 404 Not Found` 죽음의 에러 코드를 퉤 뱉어버림 💀)      │
+  │                                                             │
+  │        ======= [ 🛡️ 아키텍트의 수술: 404 Fallback 라우팅 융합 ] ========│
+  │                                                             │
+  │ 🛠️ [ CDN 엣지 커널 단 (에러 페이지 가로채기 튜닝) ]                   │
+  │   - "야 S3가 파일 없다고 404 에러 뱉었지? 유저한테 에러 띄우지 마 스톱!!"          │
+  │   - 🌟 "에러 나면 무조건 뒤도 안 돌아보고 멱살 잡고 `index.html` 원본 껍데기  │
+  │        파일을 정상 코드(HTTP 200 OK)로 바꿔서 유저 브라우저한테 강제로 던져버려!"│
+  │   - 유저 브라우저: `index.html` 껍데기 받고 ➔ React JS가 브라우저 뱃속에서 실행되며│
+  │     지 스스로 자바스크립트로 `/mypage/detail` 화면을 예쁘게 그려버림!! (SPA 마법)│
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** "리액트(React)로 짠 웹사이트를 아마존 S3와 CloudFront(CDN)에 올렸는데, 새로고침(F5)만 누르면 404 엑스박스 에러 뜨면서 다 터져요 ㅠㅠ" 프론트엔드 주니어 개발자들이 첫 배포 시 100% 겪는 통곡의 벽(SPA [Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 붕괴)을 박살 내는 핵심 아키텍처다. 예전 PHP/JSP 시절엔 URL 경로 1개당 진짜 서버에 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 1개가 물리적으로 존재했다(MPA). 모던 리액트(SPA)는 깡통 `index.html` 하나로 1,000개의 페이지를 JS 가상으로 그려버린다. 그래서 CDN 엣지는 물리적 폴더가 없어서 404를 뿜는 바보가 된다. 아키텍트는 반드시 CDN 세팅(Error Pages 옵션)에서 <strong>"404나 403 에러가 나면, 무조건 에러를 씹고 <code>index.html</code> 껍데기 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>을 <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a> 200 정상 상태로 위장해서 뱉어라(<a href="/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/">Fallback</a> to <a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">index</a>.html)"</strong>라는 클라이언트 사이드 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)([CSR](/knowledge-base/studynote/09_security/04_endpoint_security/169_pkcs10_csr/)) 전용 우회 융합 세팅을 걸어주어야만 SPA 웹앱이 무결점으로 살아 숨 쉬게 된다.
 
@@ -203,19 +204,15 @@ CDN은 '변하지 않는 쇳덩이(Static)'에 특화된 바보다. 여기서 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: WebRTC</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: CDN</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: GSLB</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 애플리케이션 전달</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: WebRTC]
+    │
+    ▼
+[현재 개념: CDN]
+    │
+    ├──▶ [확장 A: GSLB]
+    └──▶ [확장 B: 지능형 애플리케이션 전달]
+```
 
 CDN는 WebRTC에서 출발해 현재 메커니즘을 정교화하고, 이후 GSLB와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -30,29 +30,36 @@ tags = ["studynote-operating-system"]
 - <strong>dm-verity <a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/">Merkle Tree</a> (해시 트리) 실시간 어택 차단 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> 폭쇄 뷰</strong>:
 해커가 시스템 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 블록 하나를 수정했을 때, 그 밑바닥 단 1바이트의 꼬투리가 어떻게 하늘 꼭대기의 서명을 박살 내는지 그 렌더 체계를 까보면 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"바닥의 1바이트 먼지가 변하면 꼭대기의 우주가 뒤틀린다!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🚨</div><div class="kb-diagram-node">해커의 침투 (Offline 칩섹 떼기 공격 스왑!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; "안드로이드 OS 파티션 3번 데이터 블록에 해킹 코드 몰래 덮어씀 얍!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🔥</div><div class="kb-diagram-node">디바이스 매퍼 (dm-verity : Merkle Tree 해시 도밍고 렌더!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Level 0 : Root Hash (구글이 ROM에 절대 변조 불가로 박아둠)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Hash 0: 0xABCD...) == (기대값 다름 파단 쾅!!!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Level 1 : 중간 해시들</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Hash 1</div><div class="kb-diagram-node">Hash 2</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">✅</div><div class="kb-diagram-node">Level 2 : 실제 Data Blocks (안드로이드 시스템 찌꺼기들)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">블록 1</div><div class="kb-diagram-node">블록 2</div><div class="kb-diagram-node">블록 3</div><div class="kb-diagram-note">❗(해커가 변조한 블록!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(정상) (정상) (해시값 0x99 다르게 튀어나옴!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">✅</div><div class="kb-diagram-node">부팅 단계 VFS 호출 결과 록백</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 커널: "야 3번 블록 읽어와!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- dm-verity: "잠깐! 3번 해시 돌려보니 Hash 2 바뀌고, Root Hash가 틀림!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이 파티션 오염됐어. 접근 차단 (I/O Error 던지고 부팅 정지)!"</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────────────────────┐
+  │                 "바닥의 1바이트 먼지가 변하면 꼭대기의 우주가 뒤틀린다!"          │
+  ├───────────────────────────────────────────────────────────────────────────────────┤
+  │                                                                                   │
+  │  🚨 [ 해커의 침투 (Offline 칩섹 떼기 공격 스왑!) ]                                │
+  │     => "안드로이드 OS 파티션 3번 데이터 블록에 해킹 코드 몰래 덮어씀 얍!"         │
+  │                                                                                   │
+  │  =========================▼===================================                    │
+  │                                                                                   │
+  │  🔥 [ 디바이스 매퍼 (dm-verity : Merkle Tree 해시 도밍고 렌더!) ]                 │
+  │                                                                                   │
+  │     [ Level 0 : Root Hash (구글이 ROM에 절대 변조 불가로 박아둠) ]                │
+  │            (Hash 0: 0xABCD...) == (기대값 다름 파단 쾅!!!)                        │
+  │                     ▲                                                             │
+  │     [ Level 1 : 중간 해시들 ]                                                     │
+  │          [Hash 1]                      [Hash 2]                                   │
+  │             ▲                              ▲                                      │
+  │  ===========▼=============================▼===================                    │
+  │                                                                                   │
+  │  ✅ [ Level 2 : 실제 Data Blocks (안드로이드 시스템 찌꺼기들) ]                   │
+  │     [블록 1]      [블록 2]            [블록 3] ❗(해커가 변조한 블록!)            │
+  │     (정상)        (정상)              (해시값 0x99 다르게 튀어나옴!)              │
+  │                                                                                   │
+  │  ✅ [ 부팅 단계 VFS 호출 결과 록백 ]                                              │
+  │     - 커널: "야 3번 블록 읽어와!"                                                 │
+  │     - dm-verity: "잠깐! 3번 해시 돌려보니 Hash 2 바뀌고, Root Hash가 틀림!        │
+  │                  이 파티션 오염됐어. 접근 차단 (I/O Error 던지고 부팅 정지)!"     │
+  └───────────────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 디바이스 매퍼 레이어(Device Mapper Layer: VFS와 물리 디스크 사이의 샌드위치 계층)에 기생하는 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 치트키 아키텍처다. 만약 블록 1개마다 개별 해시를 디스크에 저장하면 "해커가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 바꾸고 해시까지 같이 조작해버리면(Hash [Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/) 조작 늪)" 말짱 도루묵이다. 하지만 해시를 엮고 엮어 피라미드 맨 꼭대기(Root Hash) 하나로 모은 다음 그 1줄짜리 문자를 <strong>하드웨어 칩 <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a> 구역(예: 안드로이드 TrustZone 또는 <a href="/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/">TPM</a>)</strong> 안전 구역에 넣어버리면 해커는 절대 저 뿌리 해시를 수정할 수 없다. 오프라인 공격 시도 전체를 $O(1)$ 비율의 수학적 단절로 분쇄해 내는 도출점.
 
@@ -132,19 +139,15 @@ dm-verity 가 철갑을 두르자, 해커들은 벽을 안 깨고 시야를 가�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">암호화 파일 시스템 (eCryptfs / Windows EFS)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">무결성 검증 파일 시스템 (dm-verity / Android 적용 보안 파일 구조)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">플래시 전용 파일 시스템 (F2FS, JFFS2, YAFFS) 특성 분석</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">데이터 파손 (Data Corruption / Bit Rot) 대응 Btrfs 자가 치유(Self-healing) 기능</div></div>
-</div>
-</div>
-
-
+```text
+[암호화 파일 시스템 (eCryptfs / Windows EFS)]
+    │
+    ▼
+[무결성 검증 파일 시스템 (dm-verity / Android 적용 보안 파일 구조)]
+    │
+    ├──▶ [플래시 전용 파일 시스템 (F2FS, JFFS2, YAFFS) 특성 분석]
+    └──▶ [데이터 파손 (Data Corruption / Bit Rot) 대응 Btrfs 자가 치유(Self-healing) 기능]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

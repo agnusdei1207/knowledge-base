@@ -30,19 +30,13 @@ tags = ["network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Signals</div>
-<div class="kb-diagram-note">↓ MUX</div>
-<div class="kb-diagram-note">Single Medium</div>
-<div class="kb-diagram-note">↓ DeMUX</div>
-<div class="kb-diagram-note">Signals</div>
-</div>
-</div>
-
-
+```text
+Signals
+  ↓ MUX
+Single Medium
+  ↓ DeMUX
+Signals
+```
 
 | 방식 | 의미 |
 | :-- | :-- |
@@ -110,41 +104,29 @@ MUX는 여러 입력을 합치고, DeMUX는 다시 분리한다. 전송 대역�
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">MUX</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Multiplexing</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">DeMUX</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Shared Medium</div>
-</div>
-</div>
-
-
+```text
+MUX
+  ↓
+Multiplexing
+  ↓
+DeMUX
+  ↓
+Shared Medium
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">TDM / FDM / WDM</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Multiplexing</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Efficiency</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Network Resource Sharing</div>
-</div>
-</div>
-
-
+```text
+TDM / FDM / WDM
+  ↓
+Multiplexing
+  ↓
+Efficiency
+  ↓
+Network Resource Sharing
+```
 
 ---
 

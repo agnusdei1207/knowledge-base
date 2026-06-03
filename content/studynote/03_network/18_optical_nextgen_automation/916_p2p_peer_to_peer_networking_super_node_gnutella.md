@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 인터넷의 99%는 중앙의 Server(제공자)가 있고, 우리 스마트폰 [Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/)(소비자)가 접속해 데이터를 구걸하는 방식입니다.
 - **문제점**: 중앙 서버 1대가 터지면([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)) 전 국민이 카카오톡을 못 합니다. 또한 트래픽 100%를 서버가 부담해야 하니 인프라 유지 비용이 천문학적입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">해상 통신망 LTE-M / e-Navigat…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">P2P</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">비트토렌트 초크/언초크 리치 통신 대역폭 인…</div></div>
-</div>
-</div>
-
-
+```text
+[해상 통신망 LTE-M / e-Navigat…]
+    │
+    ▼
+[P2P]
+    │
+    └──▶ [비트토렌트 초크/언초크 리치 통신 대역폭 인…]
+```
 
 - **📢 섹션 요약 비유**: P2P는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -58,18 +54,14 @@ P2P는 중앙 서버를 없애는 과정 속에서 3단계로 진화했습니다
 - 이 슈퍼 노드는 동네 피어(일반 컴퓨터) 1,000명의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 목차 장부를 대신 모아서 들고 있습니다.
 - **탐색**: 내가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 찾고 싶으면 멍청하게 온 동네에 소리치지 않고(플러딩 X), 우리 동네 반장(슈퍼 노드)에게 귓속말로 물어봅니다. 속도가 미친 듯이 빠르며 망 트래픽 낭비도 0%가 되는 혁명입니다. 스카이프(Skype)가 이 기술로 전 세계 무료 음성통화 망을 구축했습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">해상 통신망 LTE-M / e-Navigat…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">P2P</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">비트토렌트 초크/언초크 리치 통신 대역폭 인…</div></div>
-</div>
-</div>
-
-
+```text
+[해상 통신망 LTE-M / e-Navigat…]
+    │
+    ▼
+[P2P]
+    │
+    └──▶ [비트토렌트 초크/언초크 리치 통신 대역폭 인…]
+```
 
 - **📢 섹션 요약 비유**: P2P의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -130,19 +122,15 @@ P2P는 광통신·차세대·자동화를 이해할 때 핵심 축을 잡아 주
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 해상 통신망 LTE-M / e-Navigat…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: P2P</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 비트토렌트 초크/언초크 리치 통신 대역폭 인…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 해상 통신망 LTE-M / e-Navigat…]
+    │
+    ▼
+[현재 개념: P2P]
+    │
+    ├──▶ [확장 A: 비트토렌트 초크/언초크 리치 통신 대역폭 인…]
+    └──▶ [확장 B: 의미 기반 통신 최적화]
+```
 
 P2P는 [해상 통신망](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/915_lte_m_maritime_communication_e_navigation/) [LTE-M](/knowledge-base/studynote/03_network/12_iot_wpan_edge/621_ltem_emtc_iot_mobility_voice/) / e-Navigat…에서 출발해 현재 메커니즘을 정교화하고, 이후 [비트토렌트](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/917_bittorrent_choke_unchoke_p2p_incentive_algorithm/) 초크/언초크 리치 통신 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 인…와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

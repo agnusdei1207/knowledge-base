@@ -27,28 +27,31 @@ tags = ["studynote-operating-system"]
   2. <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/">Shortest Job First</a> 철학의 이식</strong>: CPU가 하던 "짧은 거 먼저" 방식을, 물리적 '거리(Distance)'로 치환하여 디스크에 때려 박음.
   3. **Greedy(탐욕)의 한계 봉착**: 당장 눈앞의 이익만 쫓다가 전체 생태계(구석진 곳의 기아)가 박살 나는 부작용이 터짐.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SSTF 알고리즘의 얌체 같은 동선(바늘 이동) 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">큐에 쌓인 요청 순서 (트랙 번호)</div><div class="kb-diagram-note">: 98, 183, 37, 122, 14, 124</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">디스크 바늘(Head)의 현재 위치</div><div class="kb-diagram-note">: 53번 트랙</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ SSTF 발동: "무조건 지금 내 위치에서 가장 가까운 놈으로 꺾어라!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">14 37 53 98 122 124 183</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│</div><div class="kb-diagram-node">시작</div><div class="kb-diagram-note">│ │ │</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶①</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶②</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶③</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶④</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 총 헤드 이동 거리 연산:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">53에서 37(16) -&gt; 14(23) -&gt; 98(84) -&gt; 122(24) -&gt; 124(2) -&gt; 183(59)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">= 16 + 23 + 84 + 24 + 2 + 59 = 🌟 총 208 트랙 이동!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(앞선 FCFS의 579 트랙 이동에 비해 동선이 60%나 날아가는 미친 다이어트!)</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────┐
+│        SSTF 알고리즘의 얌체 같은 동선(바늘 이동) 시각화                │
+├────────────────────────────────────────────────────────────────────────┤
+│                                                                        │
+│ [ 큐에 쌓인 요청 순서 (트랙 번호) ]:  98, 183, 37, 122, 14, 124        │
+│ [ 디스크 바늘(Head)의 현재 위치 ]: 53번 트랙                           │
+│                                                                        │
+│ ▶ SSTF 발동: "무조건 지금 내 위치에서 가장 가까운 놈으로 꺾어라!"      │
+│                                                                        │
+│   14   37     53     98    122 124        183                          │
+│   │    │      [시작]  │      │  │          │                           │
+│   │    │◀──────┘      │      │  │          │                           │
+│   │◀───┘              │      │  │          │                           │
+│   └───────────────────▶①    │  │          │                            │
+│                          └──────▶②  │          │                       │
+│                                 └──▶③          │                       │
+│                                        └──────────▶④                   │
+│                                                                        │
+│ ✅ 총 헤드 이동 거리 연산:                                             │
+│ 53에서 37(16) -> 14(23) -> 98(84) -> 122(24) -> 124(2) -> 183(59)      │
+│ = 16 + 23 + 84 + 24 + 2 + 59 = 🌟 총 208 트랙 이동!                    │
+│ (앞선 FCFS의 579 트랙 이동에 비해 동선이 60%나 날아가는 미친 다이어트!)│
+└────────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 이 Z자 없는 스무스한 동선을 보라. 53에서 출발한 바늘은 왼쪽으로 살짝 꺾어 가까운 37과 14를 쓱쓱 주워 담은 뒤, 방향을 틀어 오른쪽의 98, 122, 124, 183을 도미노처럼 차례대로 부수며 나아간다. 이동 거리 579가 208로 줄었다는 것은, 디스크의 모터가 헛도는 시간을 3분의 1로 압축하여 남는 시간에 유저의 파일을 3배 더 많이 퍼 나를 수 있게 되었다는 위대한 공학적 승리다.
 
 - **📢 섹션 요약 비유**: 택시 기사가 콜 들어온 순서를 다 씹고, "내 차 바로 옆 1km 반경에 있는 콜만 무조건 먼저 잡아서 태우겠다(SSTF)"고 선언한 겁니다. 택시는 길에서 빈 차로 헤매는 시간([Seek Time](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/)) 없이 1초도 안 쉬고 손님을 태울 수 있어 기사의 하루 매출([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))은 그날 우주 최고를 찍습니다.
@@ -99,17 +102,14 @@ FCFS는 큐에 넣고 빼기만 하면 되서 오버헤드가 $O(1)$ 이었다. 
 - 하지만 유저 입장에서 어떤 폴더는 클릭하자마자 열리는데, 어떤 폴더는 누르면 10분 동안 마우스 모래시계가 뺑글뺑글 돈다면? 당장 컴퓨터를 발로 차서 부숴버릴 것이다.
 - 즉, <strong>SSTF처럼 특정 요청이 로또에 당첨된 듯 빠르거나, 재수 없게 평생 갇히는 복불복(High <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">Variance</a>) 시스템은 범용 윈도우/리눅스 OS에서 절대로 채택할 수 없는 최악의 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>이다. OS의 미덕은 "모두가 적당히 1초 안에 켜지는 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)(Low [Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/))"이기 때문이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스케줄러</div><div class="kb-diagram-cell">I/O 평균 속도</div><div class="kb-diagram-cell">I/O 속도 편차</div><div class="kb-diagram-cell">유저의 체감 반응</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FCFS</div><div class="kb-diagram-cell">🔴 겁나 느림</div><div class="kb-diagram-cell">🟢 아주 일정함</div><div class="kb-diagram-cell">🐢 느린데 적응은 됨</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SSTF</div><div class="kb-diagram-cell">🚀 우주 최강</div><div class="kb-diagram-cell">☠️ 극악의 널뛰기</div><div class="kb-diagram-cell">💥 화면 멈춰서 컴터 부숨</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬────────────────────────────────┐
+│ 스케줄러   │ I/O 평균 속도│ I/O 속도 편차│ 유저의 체감 반응         │
+├──────────┼────────────┼────────────┼────────────────────────────────┤
+│ FCFS     │ 🔴 겁나 느림 │ 🟢 아주 일정함│ 🐢 느린데 적응은 됨       │
+│ SSTF     │ 🚀 우주 최강 │ ☠️ 극악의 널뛰기│ 💥 화면 멈춰서 컴터 부숨│
+└──────────┴────────────┴────────────┴────────────────────────────────┘
+```
 **[매트릭스 해설]** 극단적인 효율 추구(SSTF)는 결국 시스템의 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)([Reliability](/knowledge-base/studynote/04_software_engineering/06_software_architecture/345_reliability_security/))를 무너뜨린다. 구석에 박힌 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 핵심 코어 파일이 SSTF 늪에 빠져 램에 안 올라오면, OS 전체가 뻗어버리는 데드락 스크류가 터질 수 있다. 공학자들은 이 둘의 장점만 섞은 궁극의 합의점을 갈망하게 되었다.
 
 - **📢 섹션 요약 비유**: 엘리베이터가 SSTF 방식으로 움직인다고 칩시다. 1층과 2층 사람들이 버튼을 계속 누르면 엘리베이터가 1, 2층만 무한대로 오르락내리락합니다(극강 효율). 10층에서 퇴근하려고 버튼을 누른 아저씨는 엘리베이터가 10층까지 절대 안 올라와서 3일 밤낮을 회사에 갇혀 굶어 죽게 되는([Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 붕괴) 호러 영화의 주인공이 됩니다.
@@ -169,19 +169,15 @@ SSTF (Shortest [Seek Time](/knowledge-base/studynote/02_operating_system/08_stor
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">FCFS (First-Come, First-Served) 스케줄링</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SSTF (Shortest Seek Time First)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SCAN 스케줄링 (엘리베이터 알고리즘)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">C-SCAN (Circular SCAN)</div></div>
-</div>
-</div>
-
-
+```text
+[FCFS (First-Come, First-Served) 스케줄링]
+    │
+    ▼
+[SSTF (Shortest Seek Time First)]
+    │
+    ├──▶ [SCAN 스케줄링 (엘리베이터 알고리즘)]
+    └──▶ [C-SCAN (Circular SCAN)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

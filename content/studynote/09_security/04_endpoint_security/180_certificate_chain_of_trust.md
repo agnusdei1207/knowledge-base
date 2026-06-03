@@ -43,29 +43,30 @@ tags = ["studynote-security"]
 
 아래 그림은 브라우저가 체인을 어떻게 조립하고 어디서 실패하는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Certificate chain verification</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client Trust Store</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Root CA certificate</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ verify signature on Intermediate CA</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Server sends</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Intermediate CA certificate</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ verify signature on End Entity</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">End Entity certificate for requested host</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Additional checks</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- SAN / hostname match</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- validity time window</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- key usage / Extended Key Usage</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- revocation status</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Failure cases</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">missing intermediate / expired cert / untrusted root / revoked</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Certificate chain verification                                       │
+├──────────────────────────────────────────────────────────────────────┤
+│ Client Trust Store                                                   │
+│   Root CA certificate                                                │
+│        ▲ verify signature on Intermediate CA                         │
+│        │                                                             │
+│ Server sends                                                         │
+│   Intermediate CA certificate                                        │
+│        ▲ verify signature on End Entity                              │
+│        │                                                             │
+│   End Entity certificate for requested host                          │
+│        │                                                             │
+│ Additional checks                                                    │
+│   - SAN / hostname match                                             │
+│   - validity time window                                             │
+│   - key usage / Extended Key Usage                                   │
+│   - revocation status                                                │
+│                                                                      │
+│ Failure cases                                                        │
+│   missing intermediate / expired cert / untrusted root / revoked     │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 중요한 점은 서버가 보통 Root Certificate Authority까지 보내지 않는다는 것이다. 루트는 이미 클라이언트 쪽 Trust Store에 있다고 가정하고, 서버는 보통 End Entity와 필요한 Intermediate 묶음만 전달한다. 따라서 서버 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)에서 `fullchain.pem`을 올바르게 구성하지 않으면 서명 자체는 멀쩡해도 체인 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 깨질 수 있다.
 
@@ -102,7 +103,7 @@ Root Certificate Authority와 Intermediate Certificate Authority의 역할도 �
 | :--- | :--- | :--- |
 | 서버가 필요한 Intermediate를 모두 전송하는가 | 체인이 중간에서 끊기지 않아야 함 | Leaf만 배포하고 브라우저가 알아서 찾을 것이라 가정 |
 | SAN과 실제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 도메인이 일치하는가 | 신뢰 경로가 맞아도 호스트명이 틀리면 실패 | `www`/비`www`, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 서브도메인 누락 |
-| Root 신뢰 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)이 확보되는가 | 모바일·구형 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)마다 Trust Store가 다름 | 신형 루트만 믿고 구형 단말 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 생략 |
+| Root 신뢰 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)이 확보되는가 | 모바일·구형 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)마다 Trust Store가 다름 | 새로운 유형의 루트만 믿고 구형 단말 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 생략 |
 | 폐기 정보 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)이 가능한가 | 탈취·오발급 인증서 차단 필요 | [CRL](/knowledge-base/studynote/03_network/13_network_security_basics/678_crl_certificate_revocation_list/)/[OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/) 장애 시 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 미정 |
 | 자동 갱신 후 체인도 함께 배포되는가 | 인증서만 갱신하고 체인은 예전 상태로 남을 수 있음 | `cert.pem`과 `fullchain.pem` 혼동 |
 
@@ -152,24 +153,22 @@ Root Certificate Authority와 Intermediate Certificate Authority의 역할도 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Self-signed local trust</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">PKI trust anchor establishment</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Root CA -&gt; Intermediate CA -&gt; End Entity chain</div>
-<div class="kb-diagram-tree-item" style="--depth:4">hostname / validity / EKU checks</div>
-<div class="kb-diagram-tree-item" style="--depth:4">CRL / OCSP revocation checks</div>
-<div class="kb-diagram-tree-item" style="--depth:4">Cross-Signing for root migration</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Automated issuance and large-scale certificate operations</div>
-</div>
-</div>
-
-
+```text
+Self-signed local trust
+        │
+        ▼
+PKI trust anchor establishment
+        │
+        ▼
+Root CA -> Intermediate CA -> End Entity chain
+        │
+        ├─ hostname / validity / EKU checks
+        ├─ CRL / OCSP revocation checks
+        └─ Cross-Signing for root migration
+        │
+        ▼
+Automated issuance and large-scale certificate operations
+```
 
 이 흐름은 인증서 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 단순 서명 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)에서 출발해, 폐기·[호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)·자동화까지 포함하는 운영 체계로 발전했음을 보여 준다.
 

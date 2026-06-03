@@ -43,18 +43,15 @@ tags = ["studynote-bigdata"]
 
 ### [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 구조 (2022년 1월 정식 출범)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">개인 ──→ 마이데이터 앱 (토스, 뱅크샐러드, 카카오페이)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">동의 → 마이데이터 사업자 API 요청</div>
-<div class="kb-diagram-note">금융 API (은행·카드·증권·보험)</div>
-<div class="kb-diagram-note">통합 금융 정보 조회·분석·서비스</div>
-</div>
-</div>
-
-
+```
+개인 ──→ 마이데이터 앱 (토스, 뱅크샐러드, 카카오페이)
+   │
+   └─ 동의 → 마이데이터 사업자 API 요청
+                   │
+            금융 API (은행·카드·증권·보험)
+                   │
+         통합 금융 정보 조회·분석·서비스
+```
 
 ### [마이데이터](/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/) 정보 범위
 
@@ -74,21 +71,20 @@ tags = ["studynote-bigdata"]
 
 ## Ⅲ. [마이데이터](/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 아키텍처
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마이데이터 플랫폼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개인 ──→ 마이데이터 사업자 ──→ 정보 제공 기관</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(본인 인증) (앱/플랫폼) (은행·카드사 등)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OAuth 2.0 Open API</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/동의 관리 REST/JSON</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마이데이터 종합 포털</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(금융결제원 중계)</div></div>
-</div>
-</div>
-
-
+```
+┌───────────────────────────────────────────────────────┐
+│                 마이데이터 플랫폼                      │
+│                                                       │
+│  개인      ──→  마이데이터 사업자  ──→  정보 제공 기관│
+│ (본인 인증)    (앱/플랫폼)          (은행·카드사 등) │
+│                   │                       │          │
+│                OAuth 2.0                 Open API     │
+│                /동의 관리                REST/JSON    │
+│                   │                                   │
+│           마이데이터 종합 포털                        │
+│           (금융결제원 중계)                           │
+└───────────────────────────────────────────────────────┘
+```
 
 ### 기술 표준
 
@@ -149,56 +145,49 @@ tags = ["studynote-bigdata"]
 
 ## 📌 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">마이데이터 (MyData)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">법적 기반</div>
-<div class="kb-diagram-note">── 데이터 이동권 (Right to Data Portability)</div>
-<div class="kb-diagram-note">── GDPR 제20조</div>
-<div class="kb-diagram-note">── 한국 신용정보법·개인정보보호법</div>
-<div class="kb-diagram-tree-item" style="--depth:0">기술</div>
-<div class="kb-diagram-note">── OAuth 2.0 / PKCE</div>
-<div class="kb-diagram-note">── Open API (REST/JSON)</div>
-<div class="kb-diagram-note">── 마이데이터 중계 서버</div>
-<div class="kb-diagram-tree-item" style="--depth:0">서비스</div>
-<div class="kb-diagram-note">── 금융 마이데이터 (PFM)</div>
-<div class="kb-diagram-note">── 의료 마이데이터 (마이헬스웨이)</div>
-<div class="kb-diagram-note">── 공공 마이데이터</div>
-<div class="kb-diagram-tree-item" style="--depth:0">비즈니스 모델</div>
-<div class="kb-diagram-tree-item" style="--depth:2">자산 통합 관리</div>
-<div class="kb-diagram-tree-item" style="--depth:2">개인화 금융 추천</div>
-<div class="kb-diagram-tree-item" style="--depth:2">대안 신용 평가</div>
-</div>
-</div>
-
-
+```
+마이데이터 (MyData)
+├── 법적 기반
+│   ├── 데이터 이동권 (Right to Data Portability)
+│   ├── GDPR 제20조
+│   └── 한국 신용정보법·개인정보보호법
+├── 기술
+│   ├── OAuth 2.0 / PKCE
+│   ├── Open API (REST/JSON)
+│   └── 마이데이터 중계 서버
+├── 서비스
+│   ├── 금융 마이데이터 (PFM)
+│   ├── 의료 마이데이터 (마이헬스웨이)
+│   └── 공공 마이데이터
+└── 비즈니스 모델
+    ├── 자산 통합 관리
+    ├── 개인화 금융 추천
+    └── 대안 신용 평가
+```
 
 ---
 
 ## 📈 관련 키워드 및 발전 흐름도
 
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                마이데이터 발전 흐름                              │
+├──────────────┬────────────────────┬─────────────────────────────┤
+│ 2016년       │ EU GDPR 입법       │ 데이터 이동권 법제화 시작    │
+│ 2018년       │ GDPR 시행          │ 글로벌 개인정보 패러다임 전환│
+│ 2020년       │ 한국 데이터 3법 개정│ 신용정보법·개인정보보호법   │
+│ 2022년       │ 금융 마이데이터 출범│ 토스·뱅크샐러드·카카오페이  │
+│ 2023년       │ 마이헬스웨이 시범  │ 의료 마이데이터 본격 추진   │
+│ 2024~현재    │ 전 분야 확대       │ 통신·공공·유통 데이터 이동권│
+└──────────────┴────────────────────┴─────────────────────────────┘
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마이데이터 발전 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2016년</div><div class="kb-diagram-cell">EU GDPR 입법</div><div class="kb-diagram-cell">데이터 이동권 법제화 시작</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2018년</div><div class="kb-diagram-cell">GDPR 시행</div><div class="kb-diagram-cell">글로벌 개인정보 패러다임 전환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2020년</div><div class="kb-diagram-cell">한국 데이터 3법 개정</div><div class="kb-diagram-cell">신용정보법·개인정보보호법</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2022년</div><div class="kb-diagram-cell">금융 마이데이터 출범</div><div class="kb-diagram-cell">토스·뱅크샐러드·카카오페이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2023년</div><div class="kb-diagram-cell">마이헬스웨이 시범</div><div class="kb-diagram-cell">의료 마이데이터 본격 추진</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2024~현재</div><div class="kb-diagram-cell">전 분야 확대</div><div class="kb-diagram-cell">통신·공공·유통 데이터 이동권</div></div>
-<div class="kb-diagram-note">핵심 키워드 연결:</div>
-<div class="kb-diagram-note">개인정보 자기결정권 → 마이데이터 → 데이터 이동권</div>
-<div class="kb-diagram-note">GDPR/개인정보법 금융·의료·공공 Open API 표준</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">PFM 서비스 → AI 개인화 → 데이터 주권 실현</div>
-</div>
-</div>
-
-
+핵심 키워드 연결:
+개인정보 자기결정권 → 마이데이터 → 데이터 이동권
+       ↓                   ↓              ↓
+GDPR/개인정보법    금융·의료·공공    Open API 표준
+       ↓
+PFM 서비스 → AI 개인화 → 데이터 주권 실현
+```
 
 ---
 

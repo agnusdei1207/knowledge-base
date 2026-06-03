@@ -20,19 +20,15 @@ tags = ["studynote-cloud"]
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 Continuous Deployment는 신뢰할 수 있는 자동화 테스트를 기반으로 수동 승인 없이 운영으로 배포한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">CI: Continuous Integration</div><div class="kb-diagram-node">CD: Continuous Deployment</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Commit</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Build</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Test</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Staging</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Production</div></div>
-<div class="kb-diagram-note">^</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Automated)</div></div>
-<div class="kb-diagram-note">Fully Automated</div>
-</div>
-</div>
-
-
+```text
+[ CI: Continuous Integration ]   [ CD: Continuous Deployment ]
+          |                               |
+[ Commit ] -> [ Build ] -> [ Test ] -> [ Staging ] -> [ Production ]
+                                          |             ^
+                                          | (Automated) |
+                                          +-------------+
+                                         Fully Automated
+```
 
 1. <strong>Fully Automated <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/">Pipeline</a></strong>: 모든 테스트(Unit, Integration, [E2E](/knowledge-base/studynote/15_devops_sre/05_devsecops/265_e2e_end_to_ui_selenium/), UI, [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))가 파이프라인 내에서 자동화되어야 한다.
 2. <strong>Post-<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/">Deployment</a> Testing</strong>: 운영 환경에 배포된 직후에도 상태를 자동 모니터링하여 이상 여부를 감지한다.
@@ -64,21 +60,17 @@ Continuous Deployment는 신뢰할 수 있는 자동화 테스트를 기반으�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Continuous Delivery (수동 승인 배포)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Continuous Deployment: 테스트 통과 → 자동 운영 배포</div>
-<div class="kb-diagram-tree-item" style="--depth:2">전제: 높은 테스트 커버리지 + 자동 롤백</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Feature Flag: 기능 단위 노출 제어</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Progressive Delivery + Observability 기반 자동 판단</div>
-</div>
-</div>
-
-
+```text
+Continuous Delivery (수동 승인 배포)
+    │
+    ▼
+Continuous Deployment: 테스트 통과 → 자동 운영 배포
+    ├─► 전제: 높은 테스트 커버리지 + 자동 롤백
+    └─► Feature Flag: 기능 단위 노출 제어
+    │
+    ▼
+Progressive Delivery + Observability 기반 자동 판단
+```
 - 사람이 사인을 해줄 필요도 없이, 기계가 "이 장난감은 안전해요!"라고 확인하면 바로 가게로 가는 거죠.
 - 세상에서 가장 빠른 속도로 장난감을 배달하는 마법 같은 시스템이랍니다.
 

@@ -23,18 +23,14 @@ tags = ["studynote-network"]
 - 너무 느려서 브라우저는 꼼수로 **동시 커넥션을 6개** 뚫어서 사진 6개를 동시에 받았지만, 컴퓨터 자원이 엄청 깨졌습니다.
 - **파이프라이닝 실패**: 1개의 선에서 사진 10개를 릴레이로 요청했지만, 서버는 무조건 순서대로 응답해야 했습니다. 1번 사진이 용량이 커서 10초가 걸리면, 2~10번 사진은 멀쩡히 준비됐는데도 출발을 못 하고 갇히는 <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a> <a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/971_hol_blocking_head_of_line_tcp_http_delay/">HOL Blocking</a> (971번 문서)</strong> 지옥이 터졌습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">QUIC</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HTTP/2 멀티플렉싱</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RESTful API</div></div>
-</div>
-</div>
-
-
+```text
+[QUIC]
+    │
+    ▼
+[HTTP/2 멀티플렉싱]
+    │
+    └──▶ [RESTful API]
+```
 
 - **📢 섹션 요약 비유**: [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 멀티플렉싱은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -55,18 +51,14 @@ tags = ["studynote-network"]
   - 1번 사진을 렌더링하다 딜레이가 걸려도, 2번 3번 사진 조각은 1번을 기다리지 않고 옆으로 추월해서 쌩쌩 날아가 폰 화면에 먼저 뜹니다([HOL](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/) 블로킹 완벽 타파).
   - 브라우저는 섞여 들어온 블록에 적힌 '스트림 번호표(ID)'를 보고 자기들끼리 퍼즐처럼 100% 깔끔하게 재조립합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">QUIC</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HTTP/2 멀티플렉싱</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RESTful API</div></div>
-</div>
-</div>
-
-
+```text
+[QUIC]
+    │
+    ▼
+[HTTP/2 멀티플렉싱]
+    │
+    └──▶ [RESTful API]
+```
 
 - **📢 섹션 요약 비유**: [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 멀티플렉싱의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -104,7 +96,7 @@ tags = ["studynote-network"]
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 구형 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/1.1은 '꽉 막힌 은행 창구 1개'입니다. 내 앞사람이 대출 심사(용량 큰 사진)를 받느라 30분을 허비하면, 뒤에서 동전 하나 바꾸려는 사람(용량 작은 텍스트)도 꼼짝없이 30분을 기다려야 합니다([HOL](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/) 블로킹). 그래서 창구를 6개(멀티 커넥션) 열었지만 알바생 인건비가 터졌습니다. <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a>/2 멀티플렉싱</strong>은 '천재적인 회전초밥 컨베이어 벨트'입니다. 주방장(서버)은 손님이 주문한 음식 10개를 1개씩 순서대로 내보내지 않습니다. 조리된 순서도 무시하고, 계란초밥 접시, 연어초밥 접시를 컨베이어 벨트 1개(단일 커넥션) 위에 마구잡이로 섞어서 한 번에 미친 듯이 쏟아냅니다. 장어초밥을 굽느라 늦어져도([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)), 이미 만들어진 계란초밥은 막힘없이 손님 입(브라우저)으로 쌩쌩 굴러갑니다. 손님은 접시에 적힌 자기 이름표(스트림 ID)만 보고 쏙쏙 뽑아 먹어 웹페이지가 1초 만에 풀 로딩되는 혁명적 동시 처리 시스템입니다.
+- **📢 섹션 요약 비유**: 구형 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/1.1은 '꽉 막힌 은행 창구 1개'입니다. 내 앞사람이 대출 심사(용량 큰 사진)를 받느라 30분을 허비하면, 뒤에서 동전 하나 바꾸려는 사람(용량 작은 텍스트)도 꼼짝없이 30분을 기다려야 합니다([HOL](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/) 블로킹). 그래서 창구를 6개(멀티 커넥션) 열었지만 알바생 인건비가 터졌습니다. <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a>/2 멀티플렉싱</strong>은 '천재적인 회전초밥 컨베이어 벨트'입니다. 주방장(서버)은 손님이 주문한 음식 10개를 1개씩 순서대로 내보내지 않습니다. 조리된 순서도 무시하고, 계란초밥 접시, 연어초밥 접시를 컨베이어 벨트 1개(단일 커넥션) 위에 마구잡이로 섞어서 한 번에 미친 듯이 쏟아냅니다. 장어초밥을 굽느라 늦어져도([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)), 이미 만들어진 계란초밥은 병목없이 손님 입(브라우저)으로 쌩쌩 굴러갑니다. 손님은 접시에 적힌 자기 이름표(스트림 ID)만 보고 쏙쏙 뽑아 먹어 웹페이지가 1초 만에 풀 로딩되는 혁명적 동시 처리 시스템입니다.
 
 ---
 
@@ -127,19 +119,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: QUIC</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: HTTP/2 멀티플렉싱</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: RESTful API</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: QUIC]
+    │
+    ▼
+[현재 개념: HTTP/2 멀티플렉싱]
+    │
+    ├──▶ [확장 A: RESTful API]
+    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
+```
 
 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 멀티플렉싱는 QUIC에서 출발해 현재 메커니즘을 정교화하고, 이후 RESTful API와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

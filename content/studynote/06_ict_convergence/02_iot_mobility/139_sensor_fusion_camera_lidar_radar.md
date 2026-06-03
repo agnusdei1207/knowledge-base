@@ -46,17 +46,11 @@ tags = ["studynote-ict-convergence"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">단일 센서 (카메라, 2010s)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">LiDAR + 카메라 퓨전 (2015)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Tesla Camera Only (2021)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">BEV Fusion (2022)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: Transformer 기반 통합 퓨전</div></div>
-</div>
-</div>
-
-
+```text
+[단일 센서 (카메라, 2010s)] → [LiDAR + 카메라 퓨전 (2015)]
+    → [Tesla Camera Only (2021)] → [BEV Fusion (2022)]
+    → [현재: Transformer 기반 통합 퓨전]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 센서 퓨전은 <strong>눈(카메라)+귀(레이더)+손(<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/140_lidar_light_detection_and_ranging_tof/">LiDAR</a>)</strong>을 합치는 거예요.

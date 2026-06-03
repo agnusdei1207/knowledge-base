@@ -18,26 +18,24 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">명령형 vs 선언적</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">명령형 (Imperative)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">kubectl run nginx --image=nginx</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">kubectl scale --replicas=3 deploy/nginx</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ "어떻게(How)"를 지시, 상태 보장 없음</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">선언적 (Declarative)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">apiVersion: apps/v1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">kind: Deployment</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">spec:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">replicas: 3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ "무엇(What)"을 선언, K8s가 자동 유지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pod 1개 죽으면 → 자동으로 1개 재생성</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    명령형 vs 선언적                                   │
+├───────────────────────────────────────────────────────┤
+│  [명령형 (Imperative)]                                │
+│   kubectl run nginx --image=nginx                     │
+│   kubectl scale --replicas=3 deploy/nginx             │
+│   → "어떻게(How)"를 지시, 상태 보장 없음             │
+│                                                       │
+│  [선언적 (Declarative)]                               │
+│   apiVersion: apps/v1                                 │
+│   kind: Deployment                                    │
+│   spec:                                               │
+│     replicas: 3                                       │
+│   → "무엇(What)"을 선언, K8s가 자동 유지             │
+│   Pod 1개 죽으면 → 자동으로 1개 재생성               │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 명령형은 "에어컨을 켜라, 온도를 25도로 맞춰라"(수동)이고, 선언적은 "실내 온도 25도 유지"(자동 항온기)이다.
 
@@ -101,23 +99,21 @@ tags = ["studynote-cloud-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">명령형 인프라 관리 (스크립트, 2000s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">K8s 선언적 API (2014~) — Desired State + Reconciliation</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Custom Resource + Operator (2016~) — 선언적 확장</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">GitOps (2017~) — Git + 선언적 API 결합</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: Crossplane — 클라우드 리소스까지 선언적 관리</div></div>
-</div>
-</div>
-
-
+```text
+[명령형 인프라 관리 (스크립트, 2000s)]
+    │
+    ▼
+[K8s 선언적 API (2014~) — Desired State + Reconciliation]
+    │
+    ▼
+[Custom Resource + Operator (2016~) — 선언적 확장]
+    │
+    ▼
+[GitOps (2017~) — Git + 선언적 API 결합]
+    │
+    ▼
+[현재: Crossplane — 클라우드 리소스까지 선언적 관리]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 명령형은 "에어컨 켜, 온도 25도로 맞춰"라고 <strong>하나하나 지시</strong>하는 거예요.

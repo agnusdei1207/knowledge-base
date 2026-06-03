@@ -19,7 +19,7 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅰ. 개요 및 필요성
 
-[SAAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/228_saam_software_architecture_analysis_method/) ([Software Architecture](/knowledge-base/studynote/04_software_engineering/04_testing_quality/201_software_architecture_definition/) Analysis Method)은 1994년 카네기멜론 대학교 부설 SEI ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) Institute)에서 제안한 최초의 [소프트웨어 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/201_software_architecture_definition/) 평가 기법이다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 소프트웨어 공학에서는 구축된 아키텍처가 "미래에 얼마나 수정하기 쉬울 것인가"를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 객관적인 기준이나 절차가 부재했다.
+[SAAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/228_saam_software_architecture_analysis_method/) ([Software Architecture](/knowledge-base/studynote/04_software_engineering/04_testing_quality/201_software_architecture_definition/) Analysis Method)은 1994년 카네기멜론 대학교 부설 SEI ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) Institute)에서 제안한 최초의 [소프트웨어 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/201_software_architecture_definition/) 평가 기법이다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 소프트웨어 공학에서는 구축된 아키텍처가 "미래에 얼마나 수정하기 쉬울 것인가"를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 객관적인 기준이나 절차가 부재했다.
 
 아키텍처 설계가 잘못되면 기능 구현은 당장 가능하더라도, 작은 요구사항 변경 시 시스템 전체를 뜯어고쳐야 하는 재앙이 발생한다. SAAM은 이러한 리스크를 방지하기 위해, 다양한 이해관계자들이 모여 미래의 변경 상황을 가정하고, 그 변경이 현재 구조에 미치는 파급 효과를 미리 가늠해 보기 위해 도입되었다.
 
@@ -33,20 +33,20 @@ SAAM의 핵심 원리는 **'시나리오 (Scenario)'** 기반 평가다. 시스�
 
 평가 과정은 시나리오를 아키텍처 수정 없이 수용 가능한 '직접([Direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/))' 시나리오와, 수정을 수반해야 하는 '간접([Indirect](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/))' 시나리오로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하는 것부터 시작된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SAAM의 시나리오 상호작용 (Interaction) 분석</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시나리오 1</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">컴포넌트 A</div><div class="kb-diagram-note">(수정 1)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시나리오 2</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">컴포넌트 B</div><div class="kb-diagram-note">(수정 2)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시나리오 3</div><div class="kb-diagram-note">"보안 암호화 강화" (수정 3)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 컴포넌트 A에 서로 다른 성격의 간접 시나리오(1,3)가 집중됨</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 진단: 컴포넌트 A의 응집도가 낮고 역할이 혼재됨 (SRP 위배 의심)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│             SAAM의 시나리오 상호작용 (Interaction) 분석          │
+├─────────────────────────────────────────────────────────────┤
+│   [시나리오 1] "결제 수단 추가" ──────▶  [컴포넌트 A] (수정 1)  │
+│                                            ▲                │
+│   [시나리오 2] "UI 테마 변경" ──(독립)─▶  [컴포넌트 B] (수정 2)  │
+│                                            │                │
+│   [시나리오 3] "보안 암호화 강화" ─────┘ (수정 3)            │
+│                                                             │
+│ * 컴포넌트 A에 서로 다른 성격의 간접 시나리오(1,3)가 집중됨      │
+│ * 진단: 컴포넌트 A의 응집도가 낮고 역할이 혼재됨 (SRP 위배 의심)  │
+└─────────────────────────────────────────────────────────────┘
+```
 
 가장 중요한 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 단계는 **시나리오 상호작용 (Scenario Interaction)** 분석이다. 만약 기능 추가(시나리오 1)와 보안 패치(시나리오 3)라는 전혀 다른 목적의 변경이 동일한 컴포넌트를 뜯어고치게 만든다면, 그 컴포넌트는 [단일 책임 원칙](/knowledge-base/studynote/11_design_supervision/06_exam_summary/355_process/) ([SRP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/), [Single Responsibility Principle](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/))을 위배하여 과도하게 얽혀 있는 설계(스파게티 코드)일 확률이 높다. 
 
@@ -105,24 +105,21 @@ SAAM은 주관적이었던 아키텍처 설계를 '시나리오'라는 정량적
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 설계의 주관성 · 평가 기준 부재</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SAAM (Software Architecture Analysis Method)</div>
-<div class="kb-diagram-note">(수정 용이성 중심, 최초의 시나리오 기반 평가)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ATAM (Architecture Trade-off Analysis Method)</div>
-<div class="kb-diagram-note">(다중 품질 속성 간의 상충 관계 및 민감도 분석)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CBAM (Cost Benefit Analysis Method)</div>
-<div class="kb-diagram-note">(비즈니스 가치와 경제성 평가 통합)</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 설계의 주관성 · 평가 기준 부재
+    │
+    ▼
+SAAM (Software Architecture Analysis Method)
+(수정 용이성 중심, 최초의 시나리오 기반 평가)
+    │
+    ▼
+ATAM (Architecture Trade-off Analysis Method)
+(다중 품질 속성 간의 상충 관계 및 민감도 분석)
+    │
+    ▼
+CBAM (Cost Benefit Analysis Method)
+(비즈니스 가치와 경제성 평가 통합)
+```
 
 이 흐름도는 단일 품질([유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)) 진단에서 출발해, 종합 기술 평가를 거쳐, 경제적 비즈니스 가치 평가로 확장되는 아키텍처 평가 방법론의 진화를 보여준다.
 

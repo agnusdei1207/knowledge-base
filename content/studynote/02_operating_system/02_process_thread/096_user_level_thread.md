@@ -30,22 +30,29 @@ tags = ["studynote-operating-system"]
 
 사용자 수준 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 생명은 '단절'과 '유저 공간 내 자체 해결'에 있다. [다대일](/knowledge-base/studynote/02_operating_system/02_process_thread/098_many_to_one_model/) (N:1) 매핑 모델을 근간으로 작동한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 수준 스레드 (ULT) 아키텍처 도해</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">사용자 영역 (User Space)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ULT1</div><div class="kb-diagram-cell">ULT2</div><div class="kb-diagram-cell">ULT3</div><div class="kb-diagram-cell">◀ 유저 TCB에 상태 백업</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">사용자 수준 스레드 라이브러리 (스케줄러)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mode Boundary</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">커널 영역 (Kernel Space)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">커널 스레드 1개 (KLT)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">단 1개의 흐름만 인식 │</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CPU 코어</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           사용자 수준 스레드 (ULT) 아키텍처 도해             │
+├──────────────────────────────────────────────────────────────┤
+│ [사용자 영역 (User Space)]                                   │
+│  ┌────────────────────────────────────────────────────────┐  │
+│  │ ┌─────┐  ┌─────┐  ┌─────┐                              │  │
+│  │ │ ULT1│  │ ULT2│  │ ULT3│ ◀ 유저 TCB에 상태 백업     │  │
+│  │ └──┬──┘  └──┬──┘  └──┬──┘                              │  │
+│  │    └────────┼────────┘                                 │  │
+│  │             ▼                                          │  │
+│  │ [사용자 수준 스레드 라이브러리 (스케줄러)]             │  │
+│  └─────────────┬──────────────────────────────────────────┘  │
+│ ───────────────┼──────── Mode Boundary ───────────────────   │
+│                ▼                                             │
+│ [커널 영역 (Kernel Space)]                                   │
+│  ┌─────────────┴──────────────────────────────────────────┐  │
+│  │     [ 커널 스레드 1개 (KLT) ] ◀ 단 1개의 흐름만 인식  │  │
+│  │             │                                          │  │
+│  │        [ CPU 코어 ]                                    │  │
+│  └────────────────────────────────────────────────────────┘  │
+└──────────────────────────────────────────────────────────────┘
+```
 
 위 다이어그램처럼, 사용자 영역의 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)가 유저 TCB ([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) Control Block)를 관리하며 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 교체한다. [컨텍스트 스위칭](/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/) 시, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 인터럽트가 아니라 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)의 `yield()` [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/)을 통해 현재 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 값을 메모리에 `push`하고 다음 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 값을 `pop`하여 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 주소만 점프한다. 이 과정은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드 전환(Mode [Switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)) 없이 순수한 [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 조작 수준으로 이루어지므로, 마이크로초 단위의 극단적인 속도를 자랑한다.
 
@@ -81,7 +88,7 @@ tags = ["studynote-operating-system"]
 ### 2. [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - <strong>CPU 바운드 작업에 무조건 가상 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a> 투입</strong>: 이미지 인코딩처럼 CPU를 100% 혹사하는 연산에 사용자 수준 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 수만 개 띄우는 행위. 멀티코어를 활용하지 못하고 [컨텍스트 스위칭](/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/) 오버헤드만 쌓여 전체 성능을 깎아 먹게 된다.
 
-- **📢 섹션 요약 비유**: 꽉 막힌 길(블로킹 I/O) 앞에서 멍하니 기다리는 대신, 똑똑한 내비게이션(비동기 래퍼 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/))이 재빨리 우회 도로를 찾아주어, 다른 차들(나머지 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))이 막힘 없이 계속 달리게 해주는 마법의 교통 시스템이다.
+- **📢 섹션 요약 비유**: 꽉 막힌 길(블로킹 I/O) 앞에서 멍하니 기다리는 대신, 똑똑한 내비게이션(비동기 래퍼 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/))이 재빨리 우회 도로를 찾아주어, 다른 차들(나머지 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))이 병목 없이 계속 달리게 해주는 마법의 교통 시스템이다.
 
 ---
 
@@ -105,23 +112,21 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">프로세스 기반 다중 작업 (단일 흐름)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">사용자 수준 스레드 (ULT, N:1 모델) · POSIX 초기</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">블로킹 한계 직면 및 KLT(1:1 모델) 발전</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Non-blocking I/O · Jacketing 기법 도입</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">현대 M:N 하이브리드 스레딩 (Goroutine, Virtual Thread)</div>
-</div>
-</div>
-
-
+```text
+프로세스 기반 다중 작업 (단일 흐름)
+    │
+    ▼
+사용자 수준 스레드 (ULT, N:1 모델) · POSIX 초기
+    │
+    ▼
+블로킹 한계 직면 및 KLT(1:1 모델) 발전
+    │
+    ▼
+Non-blocking I/O · Jacketing 기법 도입
+    │
+    ▼
+현대 M:N 하이브리드 스레딩 (Goroutine, Virtual Thread)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

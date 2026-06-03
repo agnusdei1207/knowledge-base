@@ -62,31 +62,34 @@ Linux 기반의 HA 클러스터(Pacemaker + Corosync) 구조를 기준으로 본
 
 A ([Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/)) 노드와 B (Standby) 노드로 구성된 2-Node 클러스터에서의 장애 시나리오다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Split-Brain 및 STONITH (Fencing) 동작 원리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황 1: 정상 동작</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Node A (Active) ◀ (Heartbeat 통신 정상) ▶ Node B (Standby)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Lock 보유)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">공유 스토리지 (SAN)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황 2: 네트워크 파티션 (Split-Brain 발생)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Node A ◀─X─X─X─ (Heartbeat 회선만 끊어짐!) ─X─X─X─▶ Node B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Node A는 여전히 살아있고, 자기가 Active라 생각하며 스토리지에 I/O 중)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황 3: Node B의 반란 및 STONITH 발동</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Node B: "A가 죽었다! 내가 Active로 승격(Failover)해야겠다!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">STONITH 명령 발사</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Node B (IPMI / iLO 원격 관리망 통신) ▶ Node A의 메인보드 전원부</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황 4: Node A의 죽음과 안전한 서비스 인계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Node A의 전원이 물리적으로 강제 차단됨 (Power OFF 됨)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. Node B는 IPMI로부터 "A의 전원 차단 성공" 응답을 수신함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. Node B는 이제 스토리지에 자신 혼자 남았음을 확신(Data Safety).</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6. Node B가 VIP(가상 IP)를 띄우고 공유 스토리지에 마운트하여 서비스 재개!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 Split-Brain 및 STONITH (Fencing) 동작 원리          │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │  [상황 1: 정상 동작]                                                 │
+  │   Node A (Active) ◀───── (Heartbeat 통신 정상) ─────▶ Node B (Standby)│
+  │     │ (Lock 보유)                                                 │
+  │     ▼                                                             │
+  │  [공유 스토리지 (SAN)]                                               │
+  │                                                                   │
+  │  [상황 2: 네트워크 파티션 (Split-Brain 발생)]                         │
+  │   Node A ◀─X─X─X─ (Heartbeat 회선만 끊어짐!) ─X─X─X─▶ Node B        │
+  │   (Node A는 여전히 살아있고, 자기가 Active라 생각하며 스토리지에 I/O 중)  │
+  │                                                                   │
+  │  [상황 3: Node B의 반란 및 STONITH 발동]                             │
+  │   1. Node B: "A가 죽었다! 내가 Active로 승격(Failover)해야겠다!"        │
+  │   2. 승격 전 필수 조건 ──▶ [STONITH 명령 발사]                       │
+  │                                                                   │
+  │   Node B ────(IPMI / iLO 원격 관리망 통신)────▶ Node A의 메인보드 전원부 │
+  │                                                                   │
+  │  [상황 4: Node A의 죽음과 안전한 서비스 인계]                           │
+  │   3. Node A의 전원이 물리적으로 강제 차단됨 (Power OFF 됨)              │
+  │   4. Node B는 IPMI로부터 "A의 전원 차단 성공" 응답을 수신함.              │
+  │   5. Node B는 이제 스토리지에 자신 혼자 남았음을 확신(Data Safety).        │
+  │   6. Node B가 VIP(가상 IP)를 띄우고 공유 스토리지에 마운트하여 서비스 재개!  │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 초보 엔지니어들은 "어? A가 죽은 줄 알고 B가 승격할 때 그냥 스토리지 마운트만 하면 되는 거 아니야?"라고 생각한다. 하지만 A는 안 죽었다. [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)만 고장 났을 뿐 A는 살아 숨 쉬고 있다. 이 상태에서 B가 스토리지를 마운트하는 순간 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템(예: ext4)은 즉시 박살 난다. 그래서 HA 클러스터 소프트웨어는 <strong>"경쟁자(A)가 확실히 시체가 되었다는 증명(전원 차단 성공)을 받기 전까지는 절대 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>(B)를 띄우지 않는다"</strong>는 엄격한 규칙(Fencing)을 적용한다.
 
@@ -136,24 +139,27 @@ A ([Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/
 
 ### 의사결정 및 튜닝 플로우
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스플릿 브레인 방어를 위한 HA 클러스터 설계 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">고가용성(Active-Standby) 클러스터 아키텍처 설계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터베이스 등 '동시 쓰기(Concurrent Write) 시 100% 파일 파괴' 위험이 있는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">STONITH / Fencing 필수 활성화 강제</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(펜싱이 설정되지 않은 HA는 폭탄을 안고 도는 것과 같음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ──▶ 단순 웹서버(Stateless)면 로드밸런서 수준으로 타협 가능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물리 서버 노드 개수가 짝수(Even, 예: 2대)인가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">QDevice (Tie-breaker)를 반드시 추가 구성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(스플릿 브레인 시 다수결 판단을 위한 홀수 표 확보)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ──▶ 홀수 노드(3, 5) 구성으로 Quorum 자동 방어 작동</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 스플릿 브레인 방어를 위한 HA 클러스터 설계 플로우            │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [고가용성(Active-Standby) 클러스터 아키텍처 설계]                        │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      데이터베이스 등 '동시 쓰기(Concurrent Write) 시 100% 파일 파괴' 위험이 있는가?│
+  │          ├─ 예 ─────▶ [STONITH / Fencing 필수 활성화 강제]            │
+  │          │            (펜싱이 설정되지 않은 HA는 폭탄을 안고 도는 것과 같음) │
+  │          └─ 아니오 ──▶ 단순 웹서버(Stateless)면 로드밸런서 수준으로 타협 가능 │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      물리 서버 노드 개수가 짝수(Even, 예: 2대)인가?                       │
+  │          ├─ 예 ─────▶ [QDevice (Tie-breaker)를 반드시 추가 구성]      │
+  │          │            (스플릿 브레인 시 다수결 판단을 위한 홀수 표 확보)   │
+  │          │                                                        │
+  │          └─ 아니오 ──▶ 홀수 노드(3, 5) 구성으로 Quorum 자동 방어 작동     │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** "테스트 환경에서는 STONITH를 끄고(disable) 연습하세요"라는 블로그 글이 많은데, 실무에서 이를 그대로 껐다가는 대재앙을 맞는다. HA 클러스터 구축의 90%는 "[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 어떻게 띄울까"가 아니라 <strong>"상대방이 죽은 척할 때 어떻게 확실하게 묻어버릴까(Fencing)"</strong>를 정교하게 튜닝하는 작업이다.
 
@@ -197,19 +203,15 @@ A ([Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">커널 메모리 컴팩션 (Compaction) 외부 단편화 런타임 제거 백그라운드 스레드 구조</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">고가용성 클러스터 운영체제 하트비트/펜싱 (Fencing / STONITH) 뇌 분할(Split-Brain) 방어 메커니즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">전력 인식(Power-aware) 스케줄러 동적 전압/주파수 스케일링(DVFS) 통합형 CPU 제어</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">모바일 OS Out-Of-Memory (Low Memory Killer) 스코어 계산 알고리즘 및 앱 수명 주기 관리</div></div>
-</div>
-</div>
-
-
+```text
+[커널 메모리 컴팩션 (Compaction) 외부 단편화 런타임 제거 백그라운드 스레드 구조]
+    │
+    ▼
+[고가용성 클러스터 운영체제 하트비트/펜싱 (Fencing / STONITH) 뇌 분할(Split-Brain) 방어 메커니즘]
+    │
+    ├──▶ [전력 인식(Power-aware) 스케줄러 동적 전압/주파수 스케일링(DVFS) 통합형 CPU 제어]
+    └──▶ [모바일 OS Out-Of-Memory (Low Memory Killer) 스코어 계산 알고리즘 및 앱 수명 주기 관리]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

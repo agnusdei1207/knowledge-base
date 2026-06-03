@@ -31,20 +31,20 @@ tags = ["studynote-operating-system"]
 
 대기 큐는 중앙 집중식이 아니라 기다리는 대상별(디스크, 네트워크, [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/) 등)로 수많은 큐가 분산되어 존재한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 자원 절약을 위한 대기 큐 상태 전이</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Ready Queue</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">Wakeup</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Dispatch Event Occurs</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(I/O, Lock)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Running</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Wait Queue</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(CPU 할당) (CPU 반납 및 블로킹) (대기 상태)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           CPU 자원 절약을 위한 대기 큐 상태 전이             │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│      [Ready Queue] ◀────────── Wakeup ──────────┐          │
+│            │                                    │          │
+│         Dispatch                          Event Occurs     │
+│            │                               (I/O, Lock)     │
+│            ▼                                    │          │
+│       [Running] ─── I/O Request / Wait ───▶ [Wait Queue]   │
+│      (CPU 할당)    (CPU 반납 및 블로킹)        (대기 상태)   │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 전이도는 프로세스가 시스템 콜을 통해 자발적으로 CPU를 반납하고 대기 큐로 진입하는 과정을 보여준다. 디스크 읽기를 요청한 프로세스는 `Disk Wait Queue`의 끝에 연결된다. 하드웨어 컨트롤러가 작업을 마치고 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 발생시키면, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 핸들러가 해당 대기 큐의 맨 앞(또는 특정 [스케줄링 기준](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/170_scheduling_criteria/))에 있는 프로세스를 떼어내어 [준비 큐](/knowledge-base/studynote/02_operating_system/02_process_thread/088_ready_queue/)([Ready Queue](/knowledge-base/studynote/02_operating_system/02_process_thread/088_ready_queue/))로 옮기고, 다시 CPU를 획득할 기회를 부여한다. 
 
@@ -103,23 +103,21 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">바쁜 대기 (Busy Waiting)에 의한 CPU 낭비</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">인터럽트 (Interrupt) 기반의 블로킹 모델 도입</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">대기 큐 (Wait Queue) 및 디바이스 큐의 분산 아키텍처</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">다중 프로세스 경합 해결 (Exclusive Wakeup)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">제로 오버헤드를 위한 비동기 I/O (AIO, io_uring) 진화</div>
-</div>
-</div>
-
-
+```text
+바쁜 대기 (Busy Waiting)에 의한 CPU 낭비
+    │
+    ▼
+인터럽트 (Interrupt) 기반의 블로킹 모델 도입
+    │
+    ▼
+대기 큐 (Wait Queue) 및 디바이스 큐의 분산 아키텍처
+    │
+    ▼
+다중 프로세스 경합 해결 (Exclusive Wakeup)
+    │
+    ▼
+제로 오버헤드를 위한 비동기 I/O (AIO, io_uring) 진화
+```
 
 이 흐름도는 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)의 비효율성을 극복하기 위해 등장한 대기 큐가 멀티코어 환경의 경합을 해결하고, 궁극적으로 큐를 우회하는 비동기 모델로 진화하는 과정을 보여준다.
 

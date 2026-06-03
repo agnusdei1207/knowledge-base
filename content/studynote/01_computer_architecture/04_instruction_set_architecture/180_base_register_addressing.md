@@ -25,19 +25,18 @@ tags = ["studynote-computer-architecture"]
 
 특히 프로세스별 메모리 구역, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 세그먼트, 재배치 가능한 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)에서는 이 방식의 효과가 크다. 결국 베이스 [레지스터 주소 지정](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/)은 <strong>큰 주소 공간과 짧은 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 사이를 연결하는 실용적 절충안</strong>이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">같은 명령어를 다른 적재 위치에서 재사용하는 방식</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">명령어: LOAD R1, 12(BR)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Case A: BR = 4000 -&gt; EA = 4012 -&gt; 프로세스 A의 데이터 접근</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Case B: BR = 9000 -&gt; EA = 9012 -&gt; 프로세스 B의 데이터 접근</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">바뀌는 것은 BR 값뿐이고, 명령어 자체는 그대로 유지된다.</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ 같은 명령어를 다른 적재 위치에서 재사용하는 방식                   │
+├────────────────────────────────────────────────────────────────────┤
+│ 명령어: LOAD R1, 12(BR)                                            │
+│                                                                    │
+│ Case A: BR = 4000  -> EA = 4012 -> 프로세스 A의 데이터 접근        │
+│ Case B: BR = 9000  -> EA = 9012 -> 프로세스 B의 데이터 접근        │
+│                                                                    │
+│ 바뀌는 것은 BR 값뿐이고, 명령어 자체는 그대로 유지된다.            │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 베이스 [레지스터 주소 지정](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/)은 아파트 동은 관리실이 기억하고, 택배 기사에게는 몇 호실인지 만 알려 주는 방식과 같다. 건물이 옆 단지로 옮겨져도 관리실의 기준 주소만 바꾸면 배달 규칙은 그대로 유지된다.
 
@@ -57,23 +56,26 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 베이스 [레지스터 주소 지정](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/)이 주소 생성과 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)를 함께 처리하는 전형적 흐름을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Base register addressing data path</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">instruction field register file</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">disp = +24 BR = 0x4000</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">displacement base read</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AGU: EA = 0x4018</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">range check with Limit Register</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0 &lt;= disp &lt; limit ?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">yes ▶ cache / memory</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">no ▶ protection fault</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Base register addressing data path                                 │
+├────────────────────────────────────────────────────────────────────┤
+│ instruction field        register file                              │
+│   disp = +24  ─────┐     BR = 0x4000                                │
+│                    │            │                                   │
+│                    ▼            ▼                                   │
+│              displacement       base read                           │
+│                    └──────┬──────┘                                  │
+│                           ▼                                         │
+│                  AGU: EA = 0x4018                                   │
+│                           │                                         │
+│               range check with Limit Register                       │
+│                  0 <= disp < limit ?                                │
+│                           │                                         │
+│                 yes ─────────────▶ cache / memory                   │
+│                 no  ─────────────▶ protection fault                 │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 중요한 점은 [베이스 레지스터](/knowledge-base/studynote/02_operating_system/06_memory_management/329_base_register/)가 보통 자주 바뀌는 루프 변수용 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)가 아니라는 것이다. 이 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)는 "현재 프로세스의 주소 기준점"처럼 비교적 안정적인 영역을 가리키고, [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)마다 작은 변위만 달라진다. 그래서 구조체 필드 접근, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 세그먼트 내부 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/), [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 프레임 근처 접근처럼 <strong>한 기준점 주변의 값들을 반복해서 읽는 상황</strong>에 강하다.
 
@@ -114,22 +116,19 @@ tags = ["studynote-computer-architecture"]
 3. **변위 폭이 충분한가?** 너무 좁으면 기준 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 자주 다시 잡아야 해서 코드가 늘고 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 압박도 커진다.
 4. <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a> 경계가 필요한가?</strong> 리미트 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)나 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)와 함께 설계해야 메모리 안전성이 살아난다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Addressing choice in practice</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">target stays near one stable region?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ need relocation/protection? -&gt; Base Register Addressing</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ fixed nearby branch target? -&gt; Relative Addressing</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ index changes every iteration? -&gt; Indexed Addressing</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ exact pointer already known? -&gt; Register Indirect</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Addressing choice in practice                                       │
+├────────────────────────────────────────────────────────────────────┤
+│ target stays near one stable region?                                │
+│   ├─ yes                                                            │
+│   │   ├─ need relocation/protection? -> Base Register Addressing    │
+│   │   └─ fixed nearby branch target? -> Relative Addressing         │
+│   └─ no                                                             │
+│       ├─ index changes every iteration? -> Indexed Addressing       │
+│       └─ exact pointer already known? -> Register Indirect          │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -169,22 +168,19 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">긴 절대 주소의 비효율</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">기준점 + 변위라는 분리 표현</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">베이스 레지스터 주소 지정</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ 재배치 (Relocation)와 메모리 보호</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ 인덱스 주소 지정으로 반복 접근 확장</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ PC-relative와 위치 독립 코드로 분화</div>
-</div>
-</div>
-
-
+```text
+긴 절대 주소의 비효율
+        │
+        ▼
+기준점 + 변위라는 분리 표현
+        │
+        ▼
+베이스 레지스터 주소 지정
+        │
+        ├──────────────▶ 재배치 (Relocation)와 메모리 보호
+        ├──────────────▶ 인덱스 주소 지정으로 반복 접근 확장
+        └──────────────▶ PC-relative와 위치 독립 코드로 분화
+```
 
 이 흐름도는 주소 전체를 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)에 넣기 어려운 문제에서 출발해, 베이스 [레지스터 주소 지정](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/)이 재배치와 파생 주소 지정 방식의 중심축이 되었음을 보여 준다.
 

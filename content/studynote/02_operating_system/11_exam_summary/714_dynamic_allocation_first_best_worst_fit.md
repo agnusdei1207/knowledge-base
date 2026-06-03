@@ -113,28 +113,31 @@ tags = ["studynote-operating-system"]
 
 ### 의사결정 및 튜닝 플로우
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동적 자원(메모리, 서버) 할당 전략 설계 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">요청 크기가 각기 다른 자원을 한정된 공간에 배치해야 하는 로직 작성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자원을 할당하고 해제(Free)하는 빈도가 초당 수만 번으로 극도로 높은가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(예: 애플리케이션 내부의 힙 메모리 관리기)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">속도가 생명! First-Fit 계열 채택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(단, 순수 First-Fit은 탐색 시간이 길어질 수 있으므로,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">크기별로 리스트를 분리한 Segregated Fit 구조 필수)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 (시간 단위로 천천히 일어나는 거시적 자원 배치다)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자원을 아껴서 비용을 줄이는 것(Cost Optimization)이 최우선 목표인가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Best-Fit (Bin Packing) 채택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(클라우드 인스턴스를 꽉꽉 채워 남는 서버를 꺼버림)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Worst-Fit (Spread / Anti-Affinity) 채택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(장애 발생 시 피해를 분산시키기 위해 파드들을</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">여러 노드에 최대한 듬성듬성 넓게 퍼뜨림)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 동적 자원(메모리, 서버) 할당 전략 설계 플로우               │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [요청 크기가 각기 다른 자원을 한정된 공간에 배치해야 하는 로직 작성]           │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      자원을 할당하고 해제(Free)하는 빈도가 초당 수만 번으로 극도로 높은가?     │
+  │      (예: 애플리케이션 내부의 힙 메모리 관리기)                            │
+  │          ├─ 예 ─────▶ [속도가 생명! First-Fit 계열 채택]              │
+  │          │            (단, 순수 First-Fit은 탐색 시간이 길어질 수 있으므로, │
+  │          │             크기별로 리스트를 분리한 Segregated Fit 구조 필수) │
+  │          └─ 아니오 (시간 단위로 천천히 일어나는 거시적 자원 배치다)           │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      자원을 아껴서 비용을 줄이는 것(Cost Optimization)이 최우선 목표인가?    │
+  │          ├─ 예 ─────▶ [Best-Fit (Bin Packing) 채택]               │
+  │          │            (클라우드 인스턴스를 꽉꽉 채워 남는 서버를 꺼버림)     │
+  │          │                                                        │
+  │          └─ 아니오 ──▶ [Worst-Fit (Spread / Anti-Affinity) 채택]   │
+  │                         (장애 발생 시 피해를 분산시키기 위해 파드들을       │
+  │                          여러 노드에 최대한 듬성듬성 넓게 퍼뜨림)          │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 하나의 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 영원한 승자일 수는 없다. 단일 메모리(마이크로 세계)에서는 쪼개진 자원을 다시 모으기 힘들기 때문에 Best-Fit이 실패했지만, 클라우드 클러스터(매크로 세계)에서는 쪼개진 가상 자원을 꽉 채우고 물리 서버 전원을 내려버릴 수 있기 때문에 Best-Fit이 정답이 된다. 아키텍트는 스케일(Scale)에 따라 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 유불리가 뒤집힘을 통찰해야 한다.
 
@@ -176,19 +179,15 @@ First, Best, Worst Fit은 컴퓨터 공학도들이 메모리 관리를 배울 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">내부 단편화 고정/페이징</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">동적 할당 First/Best/Worst Fit (Dynamic Allocation First Best Worst Fit)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">페이징 시스템 프레임 테이블</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TLB 적중률 캐시 속도</div></div>
-</div>
-</div>
-
-
+```text
+[내부 단편화 고정/페이징]
+    │
+    ▼
+[동적 할당 First/Best/Worst Fit (Dynamic Allocation First Best Worst Fit)]
+    │
+    ├──▶ [페이징 시스템 프레임 테이블]
+    └──▶ [TLB 적중률 캐시 속도]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

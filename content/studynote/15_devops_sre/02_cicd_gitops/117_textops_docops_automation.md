@@ -18,23 +18,20 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Docs-as-Code 파이프라인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 개발자: docs/ 디렉터리에 .md 파일 수정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. PR 생성 → CI 실행:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- markdownlint (마크다운 문법 검증)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Vale (영어 문체·용어 일관성)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- linkchecker (깨진 링크 탐지)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 리뷰어 Approve → 머지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. CD: MkDocs build → GitHub Pages 자동 배포</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 결과: docs.example.com 자동 업데이트</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    Docs-as-Code 파이프라인                             │
+├───────────────────────────────────────────────────────┤
+│  1. 개발자: docs/ 디렉터리에 .md 파일 수정            │
+│  2. PR 생성 → CI 실행:                                │
+│     - markdownlint (마크다운 문법 검증)                │
+│     - Vale (영어 문체·용어 일관성)                     │
+│     - linkchecker (깨진 링크 탐지)                     │
+│  3. 리뷰어 Approve → 머지                             │
+│  4. CD: MkDocs build → GitHub Pages 자동 배포         │
+│  5. 결과: docs.example.com 자동 업데이트              │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: Docs-[as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-Code는 코드와 문서를 같은 공장(Git)에서 만들어, 코드가 바뀌면 설명서(문서)도 함께 바뀌는 시스템이다.
 
@@ -109,23 +106,21 @@ Docs-[as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_a
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Wiki/Confluence (2000s) — 코드와 문서 분리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Docs-as-Code 개념 (2015~) — Git으로 문서 관리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MkDocs Material / Docusaurus (2018~) — 아름다운 문서 사이트</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Vale + CI 통합 (2020~) — 문서 품질 자동 검증</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: GenAI 문서 자동 생성 — 코드 변경 → 문서 자동 업데이트</div></div>
-</div>
-</div>
-
-
+```text
+[Wiki/Confluence (2000s) — 코드와 문서 분리]
+    │
+    ▼
+[Docs-as-Code 개념 (2015~) — Git으로 문서 관리]
+    │
+    ▼
+[MkDocs Material / Docusaurus (2018~) — 아름다운 문서 사이트]
+    │
+    ▼
+[Vale + CI 통합 (2020~) — 문서 품질 자동 검증]
+    │
+    ▼
+[현재: GenAI 문서 자동 생성 — 코드 변경 → 문서 자동 업데이트]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 옛날에는 제품(코드)과 설명서(문서)를 **따로따로** 만들어서, 설명서가 맨날 옛날 것이었어요.

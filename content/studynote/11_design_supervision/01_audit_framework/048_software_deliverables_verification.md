@@ -18,39 +18,48 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅰ. V&V 개념
 
+```
+V&V (Verification and Validation):
 
+Verification (검증, 확인):
+  "제품을 올바르게 만들고 있는가?"
+  → 명세서, 설계서, 계획서 준수 여부
+  → 개발 과정의 정확성
+  
+  예:
+  설계서대로 코드 작성했는가?
+  코딩 표준 준수했는가?
+  테스트 계획대로 테스트 수행했는가?
+  
+  기법: 리뷰, 인스펙션, 감사, 정적 분석
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">V&amp;V (Verification and Validation):</div>
-<div class="kb-diagram-note">Verification (검증, 확인):</div>
-<div class="kb-diagram-note">"제품을 올바르게 만들고 있는가?"</div>
-<div class="kb-diagram-note">→ 명세서, 설계서, 계획서 준수 여부</div>
-<div class="kb-diagram-note">→ 개발 과정의 정확성</div>
-<div class="kb-diagram-note">예:</div>
-<div class="kb-diagram-note">설계서대로 코드 작성했는가?</div>
-<div class="kb-diagram-note">코딩 표준 준수했는가?</div>
-<div class="kb-diagram-note">테스트 계획대로 테스트 수행했는가?</div>
-<div class="kb-diagram-note">기법: 리뷰, 인스펙션, 감사, 정적 분석</div>
-<div class="kb-diagram-note">Validation (검증, 타당성 확인):</div>
-<div class="kb-diagram-note">"올바른 제품을 만들었는가?"</div>
-<div class="kb-diagram-note">→ 고객 요구사항, 실제 사용 요건 충족</div>
-<div class="kb-diagram-note">→ 최종 제품의 적합성</div>
-<div class="kb-diagram-note">예:</div>
-<div class="kb-diagram-note">사용자가 실제 업무에 활용 가능한가?</div>
-<div class="kb-diagram-note">고객이 원하는 기능을 구현했는가?</div>
-<div class="kb-diagram-note">비즈니스 목표 달성 가능한가?</div>
-<div class="kb-diagram-note">기법: 사용자 수용 테스트(UAT), 베타 테스트</div>
-<div class="kb-diagram-note">V 모델:</div>
-<div class="kb-diagram-note">요구분석 ► 인수 테스트</div>
-<div class="kb-diagram-note">시스템 설계 시스템 테스트</div>
-<div class="kb-diagram-note">상세 설계 통합 테스트</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">구현 단위 테스트</div></div>
-<div class="kb-diagram-note">좌측: 개발(Verification) 우측: 테스트(Validation)</div>
-</div>
-</div>
+Validation (검증, 타당성 확인):
+  "올바른 제품을 만들었는가?"
+  → 고객 요구사항, 실제 사용 요건 충족
+  → 최종 제품의 적합성
+  
+  예:
+  사용자가 실제 업무에 활용 가능한가?
+  고객이 원하는 기능을 구현했는가?
+  비즈니스 목표 달성 가능한가?
+  
+  기법: 사용자 수용 테스트(UAT), 베타 테스트
 
+V 모델:
 
+요구분석    ──────────────────────► 인수 테스트
+  │                                      │
+  ▼                                      │
+시스템 설계 ─────────────────── 시스템 테스트
+  │                                      │
+  ▼                                      │
+상세 설계 ─────────────── 통합 테스트    │
+  │                             │        │
+  ▼                             │        │
+구현 ──────────── 단위 테스트   │        │
+                                │        │
+좌측: 개발(Verification)  우측: 테스트(Validation)
+```
 
 > 📢 **섹션 요약 비유**: V&V = 설계도 vs 고객 만족 — [Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)(설계도대로 집 지었나?), [Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(고객이 실제 살기 편한가?). 설계도대로 지어도 고객이 싫어할 수 있음. 둘 다 필요!
 
@@ -115,44 +124,49 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅲ. 공식 기술 검토
 
+```
+공식 기술 검토 (FTR: Formal Technical Review):
+  소프트웨어 산출물의 체계적인 공식 검토
 
+유형:
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">공식 기술 검토 (FTR: Formal Technical Review):</div>
-<div class="kb-diagram-note">소프트웨어 산출물의 체계적인 공식 검토</div>
-<div class="kb-diagram-note">유형:</div>
-<div class="kb-diagram-note">1. 워크스루 (Walkthrough):</div>
-<div class="kb-diagram-note">비공식적, 발표자(작성자) 주도</div>
-<div class="kb-diagram-note">목적: 교육 + 이해 공유 + 피드백</div>
-<div class="kb-diagram-note">참가자: 3~5명</div>
-<div class="kb-diagram-note">사전 준비: 자료 배포 (24시간 전)</div>
-<div class="kb-diagram-note">결과: 개선 제안 (강제성 없음)</div>
-<div class="kb-diagram-note">소요: 1~2시간</div>
-<div class="kb-diagram-note">2. 인스펙션 (Inspection, Fagan Inspection):</div>
-<div class="kb-diagram-note">가장 엄격한 공식 검토</div>
-<div class="kb-diagram-note">6단계 프로세스:</div>
-<div class="kb-diagram-note">계획 → 개요(Overview) → 사전 준비 → 인스펙션 미팅 → 재작업 → 사후 검토</div>
-<div class="kb-diagram-note">역할:</div>
-<div class="kb-diagram-note">검토자 (Inspector): 결함 탐지</div>
-<div class="kb-diagram-note">진행자 (Moderator): 회의 진행</div>
-<div class="kb-diagram-note">기록자 (Recorder): 결함 기록</div>
-<div class="kb-diagram-note">발표자 (Reader): 산출물 제시</div>
-<div class="kb-diagram-note">결과: 결함 목록, 재작업 필요 여부 결정</div>
-<div class="kb-diagram-note">결함 분류: Major(수정 필수) / Minor(선택)</div>
-<div class="kb-diagram-note">3. 동료 리뷰 (Peer Review):</div>
-<div class="kb-diagram-note">현대 개발의 PR(Pull Request) 리뷰</div>
-<div class="kb-diagram-note">자동화 도구와 결합:</div>
-<div class="kb-diagram-note">GitHub PR + LGTM + SonarQube</div>
-<div class="kb-diagram-note">→ 정적 분석 먼저 → 인간 리뷰</div>
-<div class="kb-diagram-note">효과 연구 (IBM):</div>
-<div class="kb-diagram-note">인스펙션: 결함의 60~70% 탐지</div>
-<div class="kb-diagram-note">테스팅: 35~40% 탐지</div>
-<div class="kb-diagram-note">→ 조합하면 90%+ 탐지 가능</div>
-</div>
-</div>
+1. 워크스루 (Walkthrough):
+  비공식적, 발표자(작성자) 주도
+  목적: 교육 + 이해 공유 + 피드백
+  
+  참가자: 3~5명
+  사전 준비: 자료 배포 (24시간 전)
+  
+  결과: 개선 제안 (강제성 없음)
+  소요: 1~2시간
 
+2. 인스펙션 (Inspection, Fagan Inspection):
+  가장 엄격한 공식 검토
+  
+  6단계 프로세스:
+  계획 → 개요(Overview) → 사전 준비 → 인스펙션 미팅 → 재작업 → 사후 검토
+  
+  역할:
+  검토자 (Inspector): 결함 탐지
+  진행자 (Moderator): 회의 진행
+  기록자 (Recorder): 결함 기록
+  발표자 (Reader): 산출물 제시
+  
+  결과: 결함 목록, 재작업 필요 여부 결정
+  결함 분류: Major(수정 필수) / Minor(선택)
 
+3. 동료 리뷰 (Peer Review):
+  현대 개발의 PR(Pull Request) 리뷰
+  
+  자동화 도구와 결합:
+  GitHub PR + LGTM + SonarQube
+  → 정적 분석 먼저 → 인간 리뷰
+
+효과 연구 (IBM):
+  인스펙션: 결함의 60~70% 탐지
+  테스팅: 35~40% 탐지
+  → 조합하면 90%+ 탐지 가능
+```
 
 > 📢 **섹션 요약 비유**: 공식 검토 강도 — [워크스루](/knowledge-base/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/)(친구에게 설명), 리뷰(팀원 의견 수렴), [인스펙션](/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/)(교수님 논문 심사). 강도 높을수록 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 탐지율 상승. 미션 크리티컬은 [인스펙션](/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/)!
 
@@ -160,46 +174,49 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅳ. 자동화 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)
 
+```
+CI 파이프라인 기반 자동 검증:
 
+단계 1: 코드 품질 자동 검증
+  SonarQube:
+  버그, 보안 취약점, 코드 냄새 자동 탐지
+  커버리지 임계값: 80% 미만 → 빌드 실패
+  기술 부채 점수 계산
+  
+  ESLint / Checkstyle:
+  코딩 표준 자동 검사
+  PR 시 자동 실행
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">CI 파이프라인 기반 자동 검증:</div>
-<div class="kb-diagram-note">단계 1: 코드 품질 자동 검증</div>
-<div class="kb-diagram-note">SonarQube:</div>
-<div class="kb-diagram-note">버그, 보안 취약점, 코드 냄새 자동 탐지</div>
-<div class="kb-diagram-note">커버리지 임계값: 80% 미만 → 빌드 실패</div>
-<div class="kb-diagram-note">기술 부채 점수 계산</div>
-<div class="kb-diagram-note">ESLint / Checkstyle:</div>
-<div class="kb-diagram-note">코딩 표준 자동 검사</div>
-<div class="kb-diagram-note">PR 시 자동 실행</div>
-<div class="kb-diagram-note">단계 2: 자동화 테스트</div>
-<div class="kb-diagram-note">단위 테스트: JUnit, pytest (매 커밋)</div>
-<div class="kb-diagram-note">통합 테스트: Postman/Newman (매 PR)</div>
-<div class="kb-diagram-note">E2E 테스트: Selenium, Playwright (매 배포)</div>
-<div class="kb-diagram-note">커버리지 리포트:</div>
-<div class="kb-diagram-note">Jacoco (Java), coverage.py (Python)</div>
-<div class="kb-diagram-note">단계 3: 보안 검증 (SAST/DAST)</div>
-<div class="kb-diagram-note">SAST (Static Application Security Testing):</div>
-<div class="kb-diagram-note">Checkmarx, Fortify</div>
-<div class="kb-diagram-note">소스코드 취약점 분석</div>
-<div class="kb-diagram-note">DAST (Dynamic Application Security Testing):</div>
-<div class="kb-diagram-note">OWASP ZAP, Burp Suite</div>
-<div class="kb-diagram-note">실행 중인 앱 취약점 스캔</div>
-<div class="kb-diagram-note">단계 4: 성능 검증</div>
-<div class="kb-diagram-note">부하 테스트: k6, Gatling</div>
-<div class="kb-diagram-note">프리 프로덕션 환경에서 SLO 검증</div>
-<div class="kb-diagram-note">P99 응답시간, 에러율 임계값 확인</div>
-<div class="kb-diagram-note">품질 게이트 (Quality Gate):</div>
-<div class="kb-diagram-note">SonarQube Quality Gate:</div>
-<div class="kb-diagram-note">버그 0, 취약점 0, 커버리지 ≥ 80%</div>
-<div class="kb-diagram-note">→ 충족 못 하면 배포 차단</div>
-<div class="kb-diagram-note">스테이지 게이트:</div>
-<div class="kb-diagram-note">각 단계 산출물 → 자동/수동 검토 통과 → 다음 단계 진입</div>
-</div>
-</div>
+단계 2: 자동화 테스트
+  단위 테스트: JUnit, pytest (매 커밋)
+  통합 테스트: Postman/Newman (매 PR)
+  E2E 테스트: Selenium, Playwright (매 배포)
+  
+  커버리지 리포트:
+  Jacoco (Java), coverage.py (Python)
 
+단계 3: 보안 검증 (SAST/DAST)
+  SAST (Static Application Security Testing):
+  Checkmarx, Fortify
+  소스코드 취약점 분석
+  
+  DAST (Dynamic Application Security Testing):
+  OWASP ZAP, Burp Suite
+  실행 중인 앱 취약점 스캔
 
+단계 4: 성능 검증
+  부하 테스트: k6, Gatling
+  프리 프로덕션 환경에서 SLO 검증
+  P99 응답시간, 에러율 임계값 확인
+
+품질 게이트 (Quality Gate):
+  SonarQube Quality Gate:
+  버그 0, 취약점 0, 커버리지 ≥ 80%
+  → 충족 못 하면 배포 차단
+
+  스테이지 게이트:
+  각 단계 산출물 → 자동/수동 검토 통과 → 다음 단계 진입
+```
 
 > 📢 **섹션 요약 비유**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 자동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) = 공장 자동 품질 검사 — 컨베이어 벨트([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/))에서 무게 측정([SonarQube](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/)), X선 검사([SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/)), 충격 테스트([부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/)) 자동화. 불량품 자동 걸러내기!
 
@@ -207,52 +224,58 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅴ. 실무 시나리오 — 금융 시스템 산출물 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)
 
+```
+금융 코어 뱅킹 시스템 감리:
 
+프로젝트: 은행 차세대 코어 뱅킹 시스템 (18개월, 200억)
+감리 역할: 독립 감리법인
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">금융 코어 뱅킹 시스템 감리:</div>
-<div class="kb-diagram-note">프로젝트: 은행 차세대 코어 뱅킹 시스템 (18개월, 200억)</div>
-<div class="kb-diagram-note">감리 역할: 독립 감리법인</div>
-<div class="kb-diagram-note">단계별 산출물 검증:</div>
-<div class="kb-diagram-note">1. 요구사항 감리:</div>
-<div class="kb-diagram-note">SRS 200페이지 검토</div>
-<div class="kb-diagram-note">발견 결함:</div>
-<div class="kb-diagram-tree-item" style="--depth:1">비기능 요구사항 38% 측정 불가 ("빠른 응답" 등)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">규제 준수 항목 5개 누락 (BASEL III, AML)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">기능 요구사항 간 충돌 3건</div>
-<div class="kb-diagram-note">조치:</div>
-<div class="kb-diagram-note">측정 가능한 SLO로 재작성</div>
-<div class="kb-diagram-note">규제 준수 항목 추가</div>
-<div class="kb-diagram-note">충돌 해결 회의 소집</div>
-<div class="kb-diagram-note">2. 설계 감리:</div>
-<div class="kb-diagram-note">아키텍처 설계서 ATAM 평가</div>
-<div class="kb-diagram-note">발견 리스크:</div>
-<div class="kb-diagram-tree-item" style="--depth:1">단일 DB 서버 (SPOF): 고가용성 미흡</div>
-<div class="kb-diagram-tree-item" style="--depth:1">캐시 계층 없음: 피크 부하 시 성능 우려</div>
-<div class="kb-diagram-note">권고:</div>
-<div class="kb-diagram-note">Active-Active DB 이중화</div>
-<div class="kb-diagram-note">Redis 캐시 계층 추가</div>
-<div class="kb-diagram-note">3. 구현 감리:</div>
-<div class="kb-diagram-note">SonarQube 자동 분석:</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Critical 버그: 12개 (수정 필수)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">보안 취약점: 5개 (SQL Injection 패턴 포함!)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">테스트 커버리지: 62% (기준 80% 미달)</div>
-<div class="kb-diagram-note">코드 인스펙션 샘플링:</div>
-<div class="kb-diagram-note">500개 함수 중 50개 인스펙션</div>
-<div class="kb-diagram-note">→ 핵심 트랜잭션 처리 로직 결함 2건</div>
-<div class="kb-diagram-note">4. 최종 UAT 지원:</div>
-<div class="kb-diagram-note">시나리오 100개 → 94개 통과, 6개 실패</div>
-<div class="kb-diagram-note">실패 시나리오 수정 후 재검증</div>
-<div class="kb-diagram-note">감리 효과:</div>
-<div class="kb-diagram-note">초기 발견 주요 결함: 127건</div>
-<div class="kb-diagram-note">운영 투입 후 예상 장애: 감소</div>
-<div class="kb-diagram-note">감리 비용 3억 vs 장애 예상 손실 50억+</div>
-<div class="kb-diagram-note">→ ROI 16배</div>
-</div>
-</div>
+단계별 산출물 검증:
 
+1. 요구사항 감리:
+  SRS 200페이지 검토
+  
+  발견 결함:
+  - 비기능 요구사항 38% 측정 불가 ("빠른 응답" 등)
+  - 규제 준수 항목 5개 누락 (BASEL III, AML)
+  - 기능 요구사항 간 충돌 3건
+  
+  조치:
+  측정 가능한 SLO로 재작성
+  규제 준수 항목 추가
+  충돌 해결 회의 소집
 
+2. 설계 감리:
+  아키텍처 설계서 ATAM 평가
+  
+  발견 리스크:
+  - 단일 DB 서버 (SPOF): 고가용성 미흡
+  - 캐시 계층 없음: 피크 부하 시 성능 우려
+  
+  권고:
+  Active-Active DB 이중화
+  Redis 캐시 계층 추가
+
+3. 구현 감리:
+  SonarQube 자동 분석:
+  - Critical 버그: 12개 (수정 필수)
+  - 보안 취약점: 5개 (SQL Injection 패턴 포함!)
+  - 테스트 커버리지: 62% (기준 80% 미달)
+  
+  코드 인스펙션 샘플링:
+  500개 함수 중 50개 인스펙션
+  → 핵심 트랜잭션 처리 로직 결함 2건
+
+4. 최종 UAT 지원:
+  시나리오 100개 → 94개 통과, 6개 실패
+  실패 시나리오 수정 후 재검증
+
+감리 효과:
+  초기 발견 주요 결함: 127건
+  운영 투입 후 예상 장애: 감소
+  감리 비용 3억 vs 장애 예상 손실 50억+
+  → ROI 16배
+```
 
 > 📢 **섹션 요약 비유**: 금융 시스템 감리 = 비행기 출발 전 점검 — 요구사항(비행 계획), 설계(정비), 구현(각 부품 점검). [SQL Injection](/knowledge-base/studynote/09_security/uncategorized/604_sql_injection/) 발견은 이륙 전 엔진 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 발견. 감리 비용 3억, 장애 예방 50억!
 
@@ -260,28 +283,22 @@ tags = ["studynote-design-supervision"]
 
 ## 📌 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 산출물 검증</div>
-<div class="kb-diagram-note">+-- V&amp;V</div>
-<div class="kb-diagram-note">+-- Verification (과정 준수)</div>
-<div class="kb-diagram-note">+-- Validation (목적 달성)</div>
-<div class="kb-diagram-note">+-- 검토 기법</div>
-<div class="kb-diagram-note">+-- 워크스루</div>
-<div class="kb-diagram-note">+-- 코드 리뷰 (PR)</div>
-<div class="kb-diagram-note">+-- 인스펙션 (Fagan)</div>
-<div class="kb-diagram-note">+-- 자동화 도구</div>
-<div class="kb-diagram-note">+-- SonarQube (정적 분석)</div>
-<div class="kb-diagram-note">+-- SAST/DAST (보안)</div>
-<div class="kb-diagram-note">+-- CI 파이프라인</div>
-<div class="kb-diagram-note">+-- 단계별 산출물</div>
-<div class="kb-diagram-note">+-- SRS → 설계서 → 코드 → 테스트 결과</div>
-</div>
-</div>
-
-
+```
+소프트웨어 산출물 검증
++-- V&V
+|   +-- Verification (과정 준수)
+|   +-- Validation (목적 달성)
++-- 검토 기법
+|   +-- 워크스루
+|   +-- 코드 리뷰 (PR)
+|   +-- 인스펙션 (Fagan)
++-- 자동화 도구
+|   +-- SonarQube (정적 분석)
+|   +-- SAST/DAST (보안)
+|   +-- CI 파이프라인
++-- 단계별 산출물
+    +-- SRS → 설계서 → 코드 → 테스트 결과
+```
 
 ---
 

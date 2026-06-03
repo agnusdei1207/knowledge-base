@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 인터넷은 구름에 있는 게 아닙니다. 한국에서 접속한 아마존 미국 서버 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 모두 태평양 바닥에 깔린 이 해저 광케이블(Backbone)의 코어 망을 통해 들어옵니다. (한국은 부산 송정, 거제도, 충남에 세계망과 연결되는 육양국 케이블 랜딩 스테이션이 있습니다.)
 - **용량의 마법**: 구리선([동축 케이블](/knowledge-base/studynote/03_network/03_physical_layer_media/127_coaxial_cable/))이 아니라 81번 문서에서 배운 <strong>DWDM(고밀도 파장 분할 <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/">다중화</a>)</strong> 기술을 적용한 무지개 빛깔의 광섬유입니다. 케이블 한 가닥이 <strong>100~200 Tbps(테라비트)</strong>의 트래픽을 처리하여 국가 전체의 인터넷을 책임집니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">광통신 네트워크 이더넷</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">해저 광케이블 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ASON (Automatically Swit…</div></div>
-</div>
-</div>
-
-
+```text
+[광통신 네트워크 이더넷]
+    │
+    ▼
+[해저 광케이블 아키텍처]
+    │
+    └──▶ [ASON (Automatically Swit…]
+```
 
 - **📢 섹션 요약 비유**: 해저 광케이블 아키텍처는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -53,18 +49,14 @@ tags = ["studynote-network"]
 - 바닷속에 줄줄이 달린 수백 개의 저 증폭기(EDFA) 기계 덩어리들도 결국 전기를 먹어야 레이저 불빛을 증폭시킵니다. 바다 밑에는 콘센트가 없죠.
 - 그래서 한국 육지 끝(육양국)에서 <strong>1만 <a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/236_vault_dynamic_secrets_ttl/">볼트</a>(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a>,000V)</strong>가 넘는 엄청난 직류 고압 전기를, 빛이 통과하는 광섬유 겉면을 싼 구리 튜브관(케이블 외피)을 통해 태평양 건너 미국까지 통째로 쏴줍니다. 이 전기로 중간에 있는 증폭기들이 살아 숨 쉽니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">광통신 네트워크 이더넷</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">해저 광케이블 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ASON (Automatically Swit…</div></div>
-</div>
-</div>
-
-
+```text
+[광통신 네트워크 이더넷]
+    │
+    ▼
+[해저 광케이블 아키텍처]
+    │
+    └──▶ [ASON (Automatically Swit…]
+```
 
 - **📢 섹션 요약 비유**: 해저 광케이블 아키텍처의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -127,19 +119,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 광통신 네트워크 이더넷</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 해저 광케이블 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: ASON (Automatically Swit…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 광통신 네트워크 이더넷]
+    │
+    ▼
+[현재 개념: 해저 광케이블 아키텍처]
+    │
+    ├──▶ [확장 A: ASON (Automatically Swit…]
+    └──▶ [확장 B: 의미 기반 통신 최적화]
+```
 
 해저 광케이블 아키텍처는 [광통신 네트워크 이더넷](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/890_optical_ethernet_carrier_ethernet_single_platform/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [ASON](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/892_ason_automatically_switched_optical_network_gmpls/) (Automatically Swit…와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

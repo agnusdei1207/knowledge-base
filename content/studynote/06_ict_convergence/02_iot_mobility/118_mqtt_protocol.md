@@ -18,21 +18,19 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MQTT Pub/Sub 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Publisher</div><div class="kb-diagram-node">Subscriber</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">센서 ──publish──▶ Broker ──subscribe──▶ 서버</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Topic: home/sensor/temp Topic: home/sensor/#</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Payload: {"temp": 25.3}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Broker (Mosquitto, EMQX): 메시지 중개·QoS 보장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Publisher는 Subscriber를 몰라도 됨 (느슨한 결합)</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    MQTT Pub/Sub 아키텍처                               │
+├───────────────────────────────────────────────────────┤
+│  [Publisher]                [Subscriber]               │
+│   센서 ──publish──▶ Broker ──subscribe──▶ 서버       │
+│   Topic: home/sensor/temp   Topic: home/sensor/#     │
+│   Payload: {"temp": 25.3}                             │
+│                                                       │
+│  Broker (Mosquitto, EMQX): 메시지 중개·QoS 보장      │
+│  Publisher는 Subscriber를 몰라도 됨 (느슨한 결합)    │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: MQTT는 우체국(Broker) 시스템이다. 보내는 사람(Publisher)은 우편함(Topic)에 넣고, 받는 사람(Subscriber)은 원하는 우편함을 구독한다.
 
@@ -105,23 +103,21 @@ MQTT는 AWS [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/1
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">MQTT v3.1 (1999, IBM) — IoT 경량 메시징 시작</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">OASIS 표준화 (2014) — MQTT 3.1.1</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AWS IoT Core (2015~) — MQTT 클라우드 네이티브</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MQTT 5.0 (2019) — Shared Sub, Properties</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: MQTT over QUIC — 고속 전송·멀티플렉싱</div></div>
-</div>
-</div>
-
-
+```text
+[MQTT v3.1 (1999, IBM) — IoT 경량 메시징 시작]
+    │
+    ▼
+[OASIS 표준화 (2014) — MQTT 3.1.1]
+    │
+    ▼
+[AWS IoT Core (2015~) — MQTT 클라우드 네이티브]
+    │
+    ▼
+[MQTT 5.0 (2019) — Shared Sub, Properties]
+    │
+    ▼
+[현재: MQTT over QUIC — 고속 전송·멀티플렉싱]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. MQTT는 **우체국(Broker)** 시스템이에요. 센서가 편지([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 우편함(Topic)에 넣어요.

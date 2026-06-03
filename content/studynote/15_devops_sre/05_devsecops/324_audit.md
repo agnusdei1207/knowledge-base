@@ -1,5 +1,5 @@
 +++
-title = "Chaos Engineering"
+title = "Chaos 엔진ering"
 date = 2026-05-09
 
 [taxonomies]
@@ -10,29 +10,23 @@ tags = ["studynote-devops-sre"]
 +++
 
 > **핵심 인사이트**
-> - [Chaos Engineering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/) ([카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/))은 프로덕션 시스템에 의도적 장애를 주입해 시스템의 약점을 사전에 발견하는 규율이다.
+> - [Chaos 엔진ering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/) ([카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/))은 프로덕션 시스템에 의도적 장애를 주입해 시스템의 약점을 사전에 발견하는 규율이다.
 > - [Steady State Hypothesis](/knowledge-base/studynote/15_devops_sre/03_sre_observability/151_steady_state_hypothesis_validation/) (정상 상태 가설)을 정의하고, 실험 후 시스템이 가설을 유지하는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 과학적 방법론이다.
 > - Netflix가 2011년 Chaos Monkey를 공개하며 시작됐고, 현재 [CNCF](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/) [에코](/knowledge-base/studynote/03_network/01_data_communication/031_에코_반향/)시스템에서 광범위하게 적용된다.
 
 ---
 
-## Ⅰ. [Chaos Engineering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/) 원칙
+## Ⅰ. [Chaos 엔진ering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/) 원칙
 
 카오스 실험 5단계:
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">1. Steady State 정의 → SLI 기준 정상 상태 지표 선정</div>
-<div class="kb-diagram-note">2. 가설 설정 → "노드 하나 장애나도 응답률 99% 유지"</div>
-<div class="kb-diagram-note">3. 실험 설계 → 실패 유형 선택</div>
-<div class="kb-diagram-note">4. 실험 실행 → 최소 폭발 반경으로 시작 → 점진적 확대</div>
-<div class="kb-diagram-note">5. 결과 분석 → Steady State 벗어난 경우 취약점 발견</div>
-</div>
-</div>
-
-
+```
+1. Steady State 정의 → SLI 기준 정상 상태 지표 선정
+2. 가설 설정 → "노드 하나 장애나도 응답률 99% 유지"
+3. 실험 설계 → 실패 유형 선택
+4. 실험 실행 → 최소 폭발 반경으로 시작 → 점진적 확대
+5. 결과 분석 → Steady State 벗어난 경우 취약점 발견
+```
 
 > 📢 **Ⅰ 섹션 요약 비유**
 > [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)은 소방 훈련 — 실제 화재 전에 연기를 피워 대피 경로와 소화 시스템을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.
@@ -79,17 +73,11 @@ GameDay (게임데이): 전체 팀이 참가해 대규모 장애 시나리오를
 3. **비즈니스 영향 최소화**: 저트래픽 시간대 실행
 4. **팀 공지**: 실험 전 On-[call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) 팀에 사전 통보
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">카오스 실험 안전 게이트</div>
-<div class="kb-diagram-note">Staging → Canary(5%) → 25% → 50% → 100%</div>
-<div class="kb-diagram-note">자동 중단 조건 항상 활성화</div>
-</div>
-</div>
-
-
+```
+카오스 실험 안전 게이트
+Staging → Canary(5%) → 25% → 50% → 100%
+          자동 중단 조건 항상 활성화
+```
 
 > 📢 **Ⅳ 섹션 요약 비유**
 > 카오스 실험은 다이너마이트 폭파 훈련 — 항상 안전거리를 확보하고, 비상 정지 버튼을 손에 쥔 채 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)한다.
@@ -102,7 +90,7 @@ GameDay (게임데이): 전체 팀이 참가해 대규모 장애 시나리오를
 
 | 구성 요소              | 역할                                      |
 |------------------------|-------------------------------------------|
-| [Chaos Engineering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)      | 의도적 장애 주입으로 내성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)           |
+| [Chaos 엔진ering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)      | 의도적 장애 주입으로 내성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)           |
 | [Steady State Hypothesis](/knowledge-base/studynote/15_devops_sre/03_sre_observability/151_steady_state_hypothesis_validation/)| 정상 상태 기준 지표 정의                  |
 | Blast [Radius](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/541_radius_remote_authentication_aaa/)           | 실험으로 영향받는 범위                    |
 | [Chaos Monkey](/knowledge-base/studynote/15_devops_sre/03_sre_observability/149_chaos_monkey_chaos_mesh/)           | Netflix의 최초 카오스 도구                |
@@ -111,20 +99,14 @@ GameDay (게임데이): 전체 팀이 참가해 대규모 장애 시나리오를
 
 ### 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Chaos Engineering</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Steady State Hypothesis → 실험 기준 정의</div>
-<div class="kb-diagram-tree-item" style="--depth:2">장애 주입 → 네트워크/파드/노드/리소스</div>
-<div class="kb-diagram-tree-item" style="--depth:2">LitmusChaos / Chaos Mesh → K8s 네이티브 도구</div>
-<div class="kb-diagram-tree-item" style="--depth:2">GameDay → 팀 규모 장애 훈련</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Resilience Engineering → 장애 내성 시스템 설계</div>
-</div>
-</div>
-
-
+```
+Chaos Engineering
+    ├── Steady State Hypothesis → 실험 기준 정의
+    ├── 장애 주입 → 네트워크/파드/노드/리소스
+    ├── LitmusChaos / Chaos Mesh → K8s 네이티브 도구
+    ├── GameDay → 팀 규모 장애 훈련
+    └── Resilience Engineering → 장애 내성 시스템 설계
+```
 
 > 🧒 **어린이 비유**
 > [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)은 레고 성이 얼마나 튼튼한지 보려고 일부러 블록 하나를 빼보는 것이에요. 그래도 성이 무너지지 않으면 합격!

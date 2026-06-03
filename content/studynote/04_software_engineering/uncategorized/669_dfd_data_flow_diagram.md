@@ -31,23 +31,25 @@ tags = ["studynote-software-engineering"]
 
 DFD가 제어 흐름(순서)을 배제하고 오직 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름만을 보여준다는 핵심 철학을 시각화하면 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">순서도(Flowchart) vs 자료 흐름도(DFD)의 철학 차이</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">순서도 (Flowchart) - 제어 흐름 중심</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시작 ──▶ 조건판단 ──(Yes)──▶ A 실행 ──▶ B 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(No)──▶ C 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(언제, 어떤 순서로 실행되는지에 집중함. 데이터는 안 보임)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DFD (Data Flow Diagram) - 데이터 중심</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">고객</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DB</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">고객</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(if문, for문, 시간적 순서는 알 수 없음. 데이터 변환만 보임)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────┐
+  │         순서도(Flowchart) vs 자료 흐름도(DFD)의 철학 차이         │
+  ├───────────────────────────────────────────────────────────┤
+  │                                                           │
+  │  [순서도 (Flowchart) - 제어 흐름 중심]                       │
+  │     시작 ──▶ 조건판단 ──(Yes)──▶ A 실행 ──▶ B 실행           │
+  │                 │                                         │
+  │               (No)──▶ C 실행 ─────────────────────────┘   │
+  │    (언제, 어떤 순서로 실행되는지에 집중함. 데이터는 안 보임)         │
+  │                                                           │
+  │  [DFD (Data Flow Diagram) - 데이터 중심]                    │
+  │                                                           │
+  │  [고객] ──(주문 정보)──▶ (주문 처리) ──(유효한 주문)──▶ [DB]  │
+  │                               │                           │
+  │                               └──(영수증)──▶ [고객]        │
+  │    (if문, for문, 시간적 순서는 알 수 없음. 데이터 변환만 보임)      │
+  └───────────────────────────────────────────────────────────┘
+```
 
   **[다이어그램 해설]** 순서도는 "A가 끝나면 B를 하라"는 실행 흐름을 보여주지만, 그 과정에서 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 생성되고 저장되는지 추적하기 어렵다. 반면 DFD는 '주문 처리'라는 프로세스가 작동하기 위한 조건(If-Else)은 과감히 생략하고, 오직 '주문 정보'라는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 들어가서 '유효한 주문'과 '영수증'이라는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 쪼개져 나간다는 인과관계만을 보여준다. 이러한 극단적인 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 덕분에 비기술자인 비즈니스 관계자도 시스템의 기능을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중심으로 쉽게 리뷰할 수 있다.
 
@@ -141,30 +143,28 @@ DFD가 제어 흐름(순서)을 배제하고 오직 [데이터](/knowledge-base/
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | [DFD](/knowledge-base/studynote/04_software_engineering/03_design_architecture/144_dfd_data_flow_diagram/) 자료 흐름도 4요소의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | [DFD](/knowledge-base/studynote/04_software_engineering/03_design_architecture/144_dfd_data_flow_diagram/) 자료 흐름도 4요소의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
 | [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | [DFD](/knowledge-base/studynote/04_software_engineering/03_design_architecture/144_dfd_data_flow_diagram/) 자료 흐름도 4요소은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | [DFD](/knowledge-base/studynote/04_software_engineering/03_design_architecture/144_dfd_data_flow_diagram/) 자료 흐름도 4요소 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
 | [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | [DFD](/knowledge-base/studynote/04_software_engineering/03_design_architecture/144_dfd_data_flow_diagram/) 자료 흐름도 4요소에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DFD 자료 흐름도 4요소 개념 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 위기 (Software Crisis) 인식
+    │
+    ▼
+DFD 자료 흐름도 4요소 개념 정립
+    │
+    ▼
+표준화 및 방법론 체계화 (ISO, CMMI, Agile)
+    │
+    ▼
+클라우드 네이티브·AI 기반 확장 적용
+    │
+    ▼
+지속적 개선 및 DevOps·MLOps 통합
+```
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

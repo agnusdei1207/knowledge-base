@@ -47,17 +47,11 @@ L4는 <strong>로보택시·무인 배달의 현실</strong>이며, ODD 확장�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">L2 ADAS (2015)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">L3 Mercedes (2023)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">L4 Waymo 로보택시 (2020~)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">L4 Cruise (2022)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: L4 ODD 확장 + 규제 정비</div></div>
-</div>
-</div>
-
-
+```text
+[L2 ADAS (2015)] → [L3 Mercedes (2023)]
+    → [L4 Waymo 로보택시 (2020~)] → [L4 Cruise (2022)]
+    → [현재: L4 ODD 확장 + 규제 정비]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. L4는 <strong>정해진 구간의 무인택시</strong>예요. 운전자가 **전혀 필요 없어요**!

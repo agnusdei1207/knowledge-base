@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - <strong><a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/">흐름 제어</a> (<a href="/knowledge-base/studynote/03_network/08_transport_layer/421_tcp_flow_control_sliding_window_algorithm/">Flow Control</a>, 967번)</strong>: 딱 <strong>수신자(친구)</strong>의 버퍼(그릇)가 터지지 않게 맞춰주는 1:1 개인적 조율입니다. (수신 윈도우, `rwnd`)
 - <strong>혼잡 제어 (<a href="/knowledge-base/studynote/03_network/08_transport_layer/428_tcp_congestion_control_network_perspective/">Congestion Control</a>) 🌟</strong>: 수신자가 아니라, 패킷이 거쳐 가는 <strong>인터넷망 전체 라우터들의 버퍼(큐)</strong>가 터져 통신 대란이 일어나는 걸 방지하는 '글로벌 네트워크 눈치 게임'입니다. 이때 쓰이는 창문 크기가 <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/429_cwnd_congestion_window_concept/">혼잡 윈도우</a> (cwnd, Congestion Window)</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">TCP 쓰리웨이 핸드셰이크</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">혼잡 윈도우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">슬로우 스타트</div></div>
-</div>
-</div>
-
-
+```text
+[TCP 쓰리웨이 핸드셰이크]
+    │
+    ▼
+[혼잡 윈도우]
+    │
+    └──▶ [슬로우 스타트]
+```
 
 - **📢 섹션 요약 비유**: [혼잡 윈도우](/knowledge-base/studynote/03_network/08_transport_layer/429_cwnd_congestion_window_concept/)는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -47,18 +43,14 @@ tags = ["studynote-network"]
   $$ \text{실제 송신 창문} = \min (\text{수신 윈도우 rwnd}, \text{[혼잡 윈도우](/knowledge-base/studynote/03_network/08_transport_layer/429_cwnd_congestion_window_concept/) cwnd}) $$
   - 즉, 친구가 "나 1,000개 받을 수 있어!(rwnd)"라고 자랑해도, 내가 고속도로 상태를 보고 "도로가 막혀서 10개밖에 못 지나가겠어(cwnd)"라고 판단하면, **무조건 더 작은 숫자인 10개만 찔끔 쏘게 목줄이 강제로 채워집니다.**
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">TCP 쓰리웨이 핸드셰이크</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">혼잡 윈도우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">슬로우 스타트</div></div>
-</div>
-</div>
-
-
+```text
+[TCP 쓰리웨이 핸드셰이크]
+    │
+    ▼
+[혼잡 윈도우]
+    │
+    └──▶ [슬로우 스타트]
+```
 
 - **📢 섹션 요약 비유**: [혼잡 윈도우](/knowledge-base/studynote/03_network/08_transport_layer/429_cwnd_congestion_window_concept/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -120,19 +112,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: TCP 쓰리웨이 핸드셰이크</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 혼잡 윈도우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 슬로우 스타트</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: TCP 쓰리웨이 핸드셰이크]
+    │
+    ▼
+[현재 개념: 혼잡 윈도우]
+    │
+    ├──▶ [확장 A: 슬로우 스타트]
+    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
+```
 
 [혼잡 윈도우](/knowledge-base/studynote/03_network/08_transport_layer/429_cwnd_congestion_window_concept/)는 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 쓰리웨이 핸드셰이크에서 출발해 현재 메커니즘을 정교화하고, 이후 [슬로우 스타트](/knowledge-base/studynote/03_network/08_transport_layer/430_slow_start_exponential_growth_cwnd/)와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

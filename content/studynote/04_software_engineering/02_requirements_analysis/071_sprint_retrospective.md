@@ -28,19 +28,13 @@ tags = ["software_engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Sprint End</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Retrospective</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Process Improvement</div>
-</div>
-</div>
-
-
+```text
+Sprint End
+  ↓
+Retrospective
+  ↓
+Process Improvement
+```
 
 | 질문 | 의미 |
 | :-- | :-- |
@@ -108,41 +102,29 @@ tags = ["software_engineering"]
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Sprint End</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Retrospective</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Action Items</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Process Improvement</div>
-</div>
-</div>
-
-
+```text
+Sprint End
+  ↓
+Retrospective
+  ↓
+Action Items
+  ↓
+Process Improvement
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Review</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Retrospective</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Continuous Improvement</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Learning Team</div>
-</div>
-</div>
-
-
+```text
+Review
+  ↓
+Retrospective
+  ↓
+Continuous Improvement
+  ↓
+Learning Team
+```
 
 ---
 

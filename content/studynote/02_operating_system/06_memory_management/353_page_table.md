@@ -27,27 +27,34 @@ tags = ["studynote-operating-system"]
   2. **장부의 거대화**: 메모리가 4KB 단위로 조각나면서, 수만 개의 조각 위치를 다 기억해야 하므로 CPU 안의 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 몇 개로는 감당할 수 없게 되었다.
   3. **메모리 상주 장부**: 결국 장부([페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블) 자체가 수십 MB 크기로 비대해지자, OS는 이 장부를 CPU 칩셋 밖으로 빼서 <strong>'물리 램(RAM)의 OS <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 영역'에 은밀하게 숨겨두고</strong> CPU([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))가 필요할 때마다 램을 뒤져보게 하는 아키텍처로 진화했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로세스별 페이지 테이블을 통한 메모리 격리 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">프로세스 A (카카오톡)</div><div class="kb-diagram-node">프로세스 B (엑셀)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"나는 0번지부터 쓴다!" "나도 0번지부터 쓴다!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(가상 메모리의 착각) (가상 메모리의 착각)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">A의 페이지 테이블</div><div class="kb-diagram-node">B의 페이지 테이블</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P</div><div class="kb-diagram-cell">Frame</div><div class="kb-diagram-cell">P</div><div class="kb-diagram-cell">Frame</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">4</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">9</div><div class="kb-diagram-cell">──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">2</div><div class="kb-diagram-cell">──</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">7</div><div class="kb-diagram-cell">─</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">실제 물리 메모리 (RAM)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Fr 1</div><div class="kb-diagram-cell">Fr 2</div><div class="kb-diagram-cell">Fr 3</div><div class="kb-diagram-cell">Fr 4</div><div class="kb-diagram-cell">Fr 5</div><div class="kb-diagram-cell">Fr 6</div><div class="kb-diagram-cell">Fr 7</div><div class="kb-diagram-cell">Fr 8</div><div class="kb-diagram-cell">Fr 9</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(빈)</div><div class="kb-diagram-cell">A_Pg1</div><div class="kb-diagram-cell">(빈)</div><div class="kb-diagram-cell">A_Pg0</div><div class="kb-diagram-cell">(빈)</div><div class="kb-diagram-cell">(빈)</div><div class="kb-diagram-cell">B_Pg1</div><div class="kb-diagram-cell">(빈)</div><div class="kb-diagram-cell">B_Pg0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 결론: 두 프로그램은 똑같이 "0페이지"를 불렀지만, 페이지 테이블이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가리키는 화살표가 달라서 물리적으로 완벽히 충돌 없이 격리됨!</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────────────┐
+│        프로세스별 페이지 테이블을 통한 메모리 격리 시각화             │
+├───────────────────────────────────────────────────────────────────────┤
+│                                                                       │
+│ [ 프로세스 A (카카오톡) ]        [ 프로세스 B (엑셀) ]                │
+│ "나는 0번지부터 쓴다!"           "나도 0번지부터 쓴다!"               │
+│ (가상 메모리의 착각)              (가상 메모리의 착각)                │
+│        │                               │                              │
+│        ▼                               ▼                              │
+│ [ A의 페이지 테이블 ]           [ B의 페이지 테이블 ]                 │
+│ ┌───┬───────┐              ┌───┬───────┐                              │
+│ │ P │ Frame │              │ P │ Frame │                              │
+│ ├───┼───────┤              ├───┼───────┤                              │
+│ │ 0 │   4   │────┐         │ 0 │   9   │──┐                           │
+│ │ 1 │   2   │──┐ │         │ 1 │   7   │─┐│                           │
+│ └───┴───────┘  │ │         └───┴───────┘ ││                           │
+│                 │ └──────────────┐      ││                            │
+│                 ▼                ▼      ▼▼                            │
+│ [ 실제 물리 메모리 (RAM) ]                                            │
+│ ┌─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┐               │
+│ │ Fr 1│ Fr 2│ Fr 3│ Fr 4│ Fr 5│ Fr 6│ Fr 7│ Fr 8│ Fr 9│               │
+│ │ (빈) │A_Pg1│ (빈) │A_Pg0│ (빈) │ (빈) │B_Pg1│ (빈) │B_Pg0│          │
+│ └─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┘               │
+│ ✅ 결론: 두 프로그램은 똑같이 "0페이지"를 불렀지만, 페이지 테이블이   │
+│    가리키는 화살표가 달라서 물리적으로 완벽히 충돌 없이 격리됨!       │
+└───────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 이 그림이 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 메모리 관리의 최고봉이다. A와 B는 똑같이 `가상 주소 0`을 외치지만, A의 테이블은 4번 방으로, B의 테이블은 9번 방으로 꺾어버린다. 해커가 엑셀 프로그램에서 포인터를 아무리 조작해 카카오톡의 4번 프레임을 훔쳐보려 해도, 엑셀의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블에는 '4'라는 숫자가 애초에 존재하지 않으므로 물리적으로 접근이 원천 차단된다(메모리 [샌드박싱](/knowledge-base/studynote/02_operating_system/10_security/602_sandboxing_kernel_wrapper/)).
 
 - **📢 섹션 요약 비유**: 수백 명의 배우들이 다 같이 무대 위에서 대본 리딩을 하는데, 각자 귀에 꽂힌 이어폰(전용 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블)에서 "당신은 저쪽 구석으로 가세요", "당신은 무대 중앙으로 가세요"라고 개별 지시를 내려주어, 눈을 감고 걸어도 서로 절대 부딪히지 않게 통제하는 완벽한 동선 안무입니다.
@@ -100,17 +107,14 @@ tags = ["studynote-operating-system"]
 - 별거 아닌 것 같지만, 크롬 탭을 100개 띄우면(프로세스 100개), <strong>"장부 크기만 400MB"</strong>를 처먹는다.
 - 게다가 <strong>64비트 시스템</strong>으로 넘어오면, 가상 주소 공간이 상상을 초월하게 넓어져 1차원 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)로 테이블을 만들면 장부 크기만 테라바이트(TB) 급으로 커져서 지구상의 어떤 컴퓨터로도 켤 수가 없다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">아키텍처</div><div class="kb-diagram-cell">페이지 크기</div><div class="kb-diagram-cell">1차원 장부 크기</div><div class="kb-diagram-cell">해결 아키텍처 도입</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">32 Bit</div><div class="kb-diagram-cell">4 KB</div><div class="kb-diagram-cell">4 MB</div><div class="kb-diagram-cell">견딜만 함 (1단 구조)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">64 Bit</div><div class="kb-diagram-cell">4 KB</div><div class="kb-diagram-cell">수백 TB 급</div><div class="kb-diagram-cell">다단계 페이징 필수</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬───────────────────────────┐
+│ 아키텍처   │ 페이지 크기 │ 1차원 장부 크기│ 해결 아키텍처 도입 │
+├──────────┼────────────┼────────────┼───────────────────────────┤
+│ 32 Bit   │ 4 KB       │ 4 MB       │ 견딜만 함 (1단 구조)      │
+│ 64 Bit   │ 4 KB       │ 수백 TB 급  │ **다단계 페이징** 필수   │
+└──────────┴────────────┴────────────┴───────────────────────────┘
+```
 **[매트릭스 해설]** 가상 주소 공간이 거대해지자 "단일 1차원 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블"은 용량의 한계에 부딪혔다. 쓰지도 않는 허허벌판 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 주소까지 몽땅 테이블의 빈칸으로 만들어둬야 했기 때문이다. 이 엄청난 메모리 낭비를 잡기 위해, 목차의 목차를 만드는 '[다단계 페이징](/knowledge-base/studynote/02_operating_system/06_memory_management/361_hierarchical_paging/)([Hierarchical Paging](/knowledge-base/studynote/02_operating_system/06_memory_management/361_hierarchical_paging/))'이나 주소를 해시로 압축하는 '[역 페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/363_inverted_page_table/)([Inverted Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/363_inverted_page_table/))' 기법이 파생되었다. (후속 키워드에서 다룸)
 
 - **📢 섹션 요약 비유**: 전 국민의 전화번호부를 한 권의 거대한 책(1차원 테이블)으로 만들려다 책이 집채만 해져서 넘길 수조차 없게 되자, 지역별-동네별로 전화번호부를 잘게 쪼개어(다단계 테이블) 필요한 동네 책자만 꺼내보는 방식으로 진화할 수밖에 없었던 상황입니다.
@@ -164,19 +168,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">페이지 크기 (Page Size)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">페이지 테이블 (Page Table)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">PTBR (Page-Table Base Register) / PTLR (Page-Table Length Register)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">페이징의 메모리 보호</div></div>
-</div>
-</div>
-
-
+```text
+[페이지 크기 (Page Size)]
+    │
+    ▼
+[페이지 테이블 (Page Table)]
+    │
+    ├──▶ [PTBR (Page-Table Base Register) / PTLR (Page-Table Length Register)]
+    └──▶ [페이징의 메모리 보호]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

@@ -18,32 +18,30 @@ tags = ["studynote-database"]
 
 ## I. 기본 연산 5가지
 
+```
+1. 선택 (Selection, σ): 행 필터링
+   σ_(조건)(R)
+   SQL: WHERE 절
+   예: σ_(age > 20)(Student) -> 20세 초과 학생 행
 
+2. 사영 (Projection, π): 열 선택
+   π_(열목록)(R)
+   SQL: SELECT 열 목록
+   예: π_(name, age)(Student) -> 이름, 나이 열만
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">1. 선택 (Selection, σ): 행 필터링</div>
-<div class="kb-diagram-note">σ_(조건)(R)</div>
-<div class="kb-diagram-note">SQL: WHERE 절</div>
-<div class="kb-diagram-note">예: σ_(age &gt; 20)(Student) -&gt; 20세 초과 학생 행</div>
-<div class="kb-diagram-note">2. 사영 (Projection, π): 열 선택</div>
-<div class="kb-diagram-note">π_(열목록)(R)</div>
-<div class="kb-diagram-note">SQL: SELECT 열 목록</div>
-<div class="kb-diagram-note">예: π_(name, age)(Student) -&gt; 이름, 나이 열만</div>
-<div class="kb-diagram-note">3. 카티션 곱 (Cartesian Product, ×):</div>
-<div class="kb-diagram-note">R × S -&gt; 모든 행 조합</div>
-<div class="kb-diagram-note">SQL: FROM R, S (조인 조건 없음)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">R</div><div class="kb-diagram-cell">=n,</div><div class="kb-diagram-cell">S</div><div class="kb-diagram-cell">=m -&gt; n×m 행</div></div>
-<div class="kb-diagram-note">4. 합집합 (Union, ∪):</div>
-<div class="kb-diagram-note">R ∪ S -&gt; 두 릴레이션의 모든 행 (중복 제거)</div>
-<div class="kb-diagram-note">SQL: UNION (호환 스키마 필요)</div>
-<div class="kb-diagram-note">5. 차집합 (Difference, -):</div>
-<div class="kb-diagram-note">R - S -&gt; R에 있지만 S에 없는 행</div>
-<div class="kb-diagram-note">SQL: EXCEPT (표준) / MINUS (Oracle)</div>
-</div>
-</div>
+3. 카티션 곱 (Cartesian Product, ×):
+   R × S -> 모든 행 조합
+   SQL: FROM R, S (조인 조건 없음)
+   |R|=n, |S|=m -> n×m 행
 
+4. 합집합 (Union, ∪):
+   R ∪ S -> 두 릴레이션의 모든 행 (중복 제거)
+   SQL: UNION (호환 스키마 필요)
 
+5. 차집합 (Difference, -):
+   R - S -> R에 있지만 S에 없는 행
+   SQL: EXCEPT (표준) / MINUS (Oracle)
+```
 
 > 📢 **섹션 요약 비유**: 선택=행 찢기, 사영=열 자르기, 카티션 곱=두 표의 모든 조합, 합집합=두 표 합치기, 차집합=한 표에서 다른 표 빼기.
 
@@ -86,28 +84,26 @@ tags = ["studynote-database"]
 
 ## III. [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 최적화와 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 대수
 
+```
+SQL -> 관계 대수 표현식 -> 최적화 -> 실행 계획
 
+예시 SQL:
+  SELECT s.name
+  FROM Student s JOIN Enrollment e ON s.id = e.student_id
+  WHERE s.gpa > 3.5 AND e.grade = 'A'
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">SQL -&gt; 관계 대수 표현식 -&gt; 최적화 -&gt; 실행 계획</div>
-<div class="kb-diagram-note">예시 SQL:</div>
-<div class="kb-diagram-note">SELECT s.name</div>
-<div class="kb-diagram-note">FROM Student s JOIN Enrollment e ON s.id = e.student_id</div>
-<div class="kb-diagram-note">WHERE s.gpa &gt; 3.5 AND e.grade = 'A'</div>
-<div class="kb-diagram-note">관계 대수 표현:</div>
-<div class="kb-diagram-note">π_(name)(σ_(gpa&gt;3.5 AND grade='A')(Student ⋈ Enrollment))</div>
-<div class="kb-diagram-note">최적화기 변환:</div>
-<div class="kb-diagram-note">먼저 σ 적용 (선택 먼저 = 조기 필터링):</div>
-<div class="kb-diagram-note">π_(name)(</div>
-<div class="kb-diagram-note">σ_(gpa&gt;3.5)(Student) ⋈ σ_(grade='A')(Enrollment)</div>
-<div class="kb-diagram-note">)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">조인 전에 각 테이블 크기 줄이기</div>
-<div class="kb-diagram-tree-item" style="--depth:1">인덱스 활용 가능성 증가</div>
-</div>
-</div>
+관계 대수 표현:
+  π_(name)(σ_(gpa>3.5 AND grade='A')(Student ⋈ Enrollment))
 
-
+최적화기 변환:
+  먼저 σ 적용 (선택 먼저 = 조기 필터링):
+  π_(name)(
+    σ_(gpa>3.5)(Student) ⋈ σ_(grade='A')(Enrollment)
+  )
+  
+  -> 조인 전에 각 테이블 크기 줄이기
+  -> 인덱스 활용 가능성 증가
+```
 
 > 📢 **섹션 요약 비유**: 조인 전에 각 테이블을 먼저 필터링하는 것 — 10만 명을 조인하기 전에 "gpa>3.5"인 1천 명만 뽑아서 조인하면 100배 빠르다.
 
@@ -115,25 +111,21 @@ tags = ["studynote-database"]
 
 ## [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 대수와 SQL 실행 순서
 
+```
+SQL 논리적 실행 순서 (관계 대수 관점):
 
+1. FROM     -> 카티션 곱 / 조인 (릴레이션 선택)
+2. WHERE    -> 선택 (σ) - 행 필터
+3. GROUP BY -> 그룹화 (집계 준비)
+4. HAVING   -> 그룹 선택 (σ_그룹)
+5. SELECT   -> 사영 (π) - 열 선택
+6. ORDER BY -> 정렬 (관계 대수 외, 순서 연산)
+7. LIMIT    -> 잘라내기
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">SQL 논리적 실행 순서 (관계 대수 관점):</div>
-<div class="kb-diagram-note">1. FROM -&gt; 카티션 곱 / 조인 (릴레이션 선택)</div>
-<div class="kb-diagram-note">2. WHERE -&gt; 선택 (σ) - 행 필터</div>
-<div class="kb-diagram-note">3. GROUP BY -&gt; 그룹화 (집계 준비)</div>
-<div class="kb-diagram-note">4. HAVING -&gt; 그룹 선택 (σ_그룹)</div>
-<div class="kb-diagram-note">5. SELECT -&gt; 사영 (π) - 열 선택</div>
-<div class="kb-diagram-note">6. ORDER BY -&gt; 정렬 (관계 대수 외, 순서 연산)</div>
-<div class="kb-diagram-note">7. LIMIT -&gt; 잘라내기</div>
-<div class="kb-diagram-note">별칭(Alias)을 WHERE에 못 쓰는 이유:</div>
-<div class="kb-diagram-note">SELECT name AS nm FROM t WHERE nm='x' -&gt; 오류!</div>
-<div class="kb-diagram-note">SELECT는 WHERE보다 나중에 실행 -&gt; nm이 아직 없음!</div>
-</div>
-</div>
-
-
+별칭(Alias)을 WHERE에 못 쓰는 이유:
+  SELECT name AS nm FROM t WHERE nm='x'  -> 오류!
+  SELECT는 WHERE보다 나중에 실행 -> nm이 아직 없음!
+```
 
 > 📢 **섹션 요약 비유**: SQL은 작성 순서와 실행 순서가 다르다 — 이를 모르면 "왜 [SELECT](/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/) 별칭을 WHERE에서 못 쓰는지" 이해가 안 된다.
 
@@ -141,59 +133,50 @@ tags = ["studynote-database"]
 
 ## V. 실무 시나리오 — [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 최적화 사고
 
+```
+문제 쿼리 (느림):
+  SELECT o.id, c.name, p.name
+  FROM Orders o, Customers c, Products p
+  WHERE o.customer_id = c.id
+    AND o.product_id = p.id
+    AND c.country = 'Korea'
+    AND p.category = 'Electronics'
 
+관계 대수 분석:
+  카티션 곱: Orders × Customers × Products
+  -> n1 × n2 × n3 행 생성 후 필터 -> 매우 느림!
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">문제 쿼리 (느림):</div>
-<div class="kb-diagram-note">SELECT o.id, c.name, p.name</div>
-<div class="kb-diagram-note">FROM Orders o, Customers c, Products p</div>
-<div class="kb-diagram-note">WHERE o.customer_id = c.id</div>
-<div class="kb-diagram-note">AND o.product_id = p.id</div>
-<div class="kb-diagram-note">AND c.country = 'Korea'</div>
-<div class="kb-diagram-note">AND p.category = 'Electronics'</div>
-<div class="kb-diagram-note">관계 대수 분석:</div>
-<div class="kb-diagram-note">카티션 곱: Orders × Customers × Products</div>
-<div class="kb-diagram-tree-item" style="--depth:1">n1 × n2 × n3 행 생성 후 필터 -&gt; 매우 느림!</div>
-<div class="kb-diagram-note">최적화:</div>
-<div class="kb-diagram-note">1. 먼저 Customers 필터: σ_(country='Korea')(Customers)</div>
-<div class="kb-diagram-note">2. Orders와 조인 (줄어든 Customers와)</div>
-<div class="kb-diagram-note">3. Products 필터: σ_(category='Electronics')(Products)</div>
-<div class="kb-diagram-note">4. 위 결과와 조인</div>
-<div class="kb-diagram-note">인덱스:</div>
-<div class="kb-diagram-note">idx_customers_country (country)</div>
-<div class="kb-diagram-note">idx_products_category (category)</div>
-</div>
-</div>
+최적화:
+  1. 먼저 Customers 필터: σ_(country='Korea')(Customers)
+  2. Orders와 조인 (줄어든 Customers와)
+  3. Products 필터: σ_(category='Electronics')(Products)
+  4. 위 결과와 조인
+  
+  인덱스:
+  idx_customers_country (country)
+  idx_products_category (category)
+```
 
-
-
-> 📢 **섹션 요약 비유**: 전국 배달 경로(Orders × Customers × Products)를 계산하기 전에 "서울 고객"과 "전자제품"만 먼저 추려서 경우의 수를 줄이는 것.
+> 📢 **섹션 요약 비유**: 전국 배달 경로(Orders × C고객s × Products)를 계산하기 전에 "서울 고객"과 "전자제품"만 먼저 추려서 경우의 수를 줄이는 것.
 
 ---
 
 ## 📌 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">관계 대수</div>
-<div class="kb-diagram-note">+-- 기본 5연산</div>
-<div class="kb-diagram-note">+-- 선택(σ), 사영(π)</div>
-<div class="kb-diagram-note">+-- 카티션 곱(×), 합집합(∪), 차집합(-)</div>
-<div class="kb-diagram-note">+-- 유도 연산</div>
-<div class="kb-diagram-note">+-- 조인(⋈), 교차(∩), 나누기(÷)</div>
-<div class="kb-diagram-note">+-- SQL 매핑</div>
-<div class="kb-diagram-note">+-- 실행 순서: FROM→WHERE→GROUP→SELECT</div>
-<div class="kb-diagram-note">+-- 쿼리 최적화</div>
-<div class="kb-diagram-note">+-- 선택 먼저 (Selection Pushdown)</div>
-<div class="kb-diagram-note">+-- 사영 먼저 (Projection Pushdown)</div>
-<div class="kb-diagram-note">+-- 조인 순서 최적화</div>
-</div>
-</div>
-
-
+```
+관계 대수
++-- 기본 5연산
+|   +-- 선택(σ), 사영(π)
+|   +-- 카티션 곱(×), 합집합(∪), 차집합(-)
++-- 유도 연산
+|   +-- 조인(⋈), 교차(∩), 나누기(÷)
++-- SQL 매핑
+|   +-- 실행 순서: FROM→WHERE→GROUP→SELECT
++-- 쿼리 최적화
+    +-- 선택 먼저 (Selection Pushdown)
+    +-- 사영 먼저 (Projection Pushdown)
+    +-- 조인 순서 최적화
+```
 
 ---
 

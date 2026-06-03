@@ -24,23 +24,23 @@ tags = ["studynote-software-engineering"]
 
 이를 수십 년간 고통스럽게 지켜본 선배 엔지니어들은 결론을 내렸습니다. "버그는 평지에 숨어있지 않다. 무조건 계단 모서리, 담벼락, 끄트머리에 우글우글 몰려있다!" 이 깨달음이 바로 가장자리 끝값을 괴롭히는 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 탐지 철학, <strong>경계값 분석(Boundary Value Analysis, BVA)</strong>을 세상에 낳았습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">경계값 분석의 족집게 추출 예시</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">요구사항</div><div class="kb-diagram-note">"텍스트 박스에 1자 이상 10자 이하의 아이디만 허용!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">step 1) 동등 분할 형님이 무리(클래스)를 켬!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A구역(무효): 0자 / B구역(유효): 1~10자 / C구역(무효): 11자 이상</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">step 2) BVA 아우가 모서리 끄트머리를 얄밉게 자름 (2-value 기준)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 최소 경계선 바깥(0)과 안(1) : "빈칸" vs "A"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 최대 경계선 안(10)과 바깥(11) : "ABCDEFGHIJ" vs "ABCDEFGHIJK"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">※ 결론: 수만 개의 문자열을 다 쳐볼 필요 없이 딱 길이</div><div class="kb-diagram-node">0, 1, 10, 11</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4대천왕만 입력해 보면 부등호 버그를 99% 확정 타격한다.</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                  경계값 분석의 족집게 추출 예시                  │
+├──────────────────────────────────────────────────────────────┤
+│ [요구사항] "텍스트 박스에 1자 이상 10자 이하의 아이디만 허용!"        │
+│                                                              │
+│  step 1) 동등 분할 형님이 무리(클래스)를 켬!                       │
+│    A구역(무효): 0자  /  B구역(유효): 1~10자  /  C구역(무효): 11자 이상│
+│                                                              │
+│  step 2) BVA 아우가 모서리 끄트머리를 얄밉게 자름 (2-value 기준)    │
+│    - 최소 경계선 바깥(0)과 안(1) : "빈칸" vs "A"                │
+│    - 최대 경계선 안(10)과 바깥(11) : "ABCDEFGHIJ" vs "ABCDEFGHIJK" │
+│                                                              │
+│  ※ 결론: 수만 개의 문자열을 다 쳐볼 필요 없이 딱 길이 [0, 1, 10, 11]  │
+│          4대천왕만 입력해 보면 부등호 버그를 99% 확정 타격한다.        │
+└──────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 지진이 일어나면 건물 한가운데 방바닥이 무너지는 게 아니라 무조건 문지방 모서리와 담벼락 끝 기둥이 먼저 갈라져 부서집니다. 그래서 안전진단 검사관(테스터)은 방 중앙은 대충 보고 모서리와 창틀 끄트머리만 망치로 후려쳐보는 겁니다.
 
@@ -145,30 +145,28 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 경계값 분석 (Boundary Value Analysis)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 경계값 분석 (Boundary Value Analysis)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
 | [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 경계값 분석 (Boundary Value Analysis)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | 경계값 분석 (Boundary Value Analysis) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
 | [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 경계값 분석 (Boundary Value Analysis)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">경계값 분석 (Boundary Value Analysis) 개념 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 위기 (Software Crisis) 인식
+    │
+    ▼
+경계값 분석 (Boundary Value Analysis) 개념 정립
+    │
+    ▼
+표준화 및 방법론 체계화 (ISO, CMMI, Agile)
+    │
+    ▼
+클라우드 네이티브·AI 기반 확장 적용
+    │
+    ▼
+지속적 개선 및 DevOps·MLOps 통합
+```
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

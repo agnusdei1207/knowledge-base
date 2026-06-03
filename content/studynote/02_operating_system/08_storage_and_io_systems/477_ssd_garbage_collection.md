@@ -27,30 +27,33 @@ tags = ["studynote-operating-system"]
   2. **Erase 사이즈의 거대함**: 1장만 지우면 되는데 무조건 512장(1블록)을 같이 묶어서 지워야 하는 병맛 같은 물리적 한계.
   3. **GC의 등장**: 결국 쓰레기장에 남은 쓸만한 물건만 밖으로 건져내고 쓰레기장 전체를 불태우는 방식으로 공간 낭비를 돌파.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SSD 가비지 컬렉션(GC)의 피눈물 나는 3단계 런타임 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황: 낡은 블록 1번 안에 쓰레기 3개와 쓸만한 놈 1개가 섞여 있음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블록 1 (낡음) 블록 2 (새 텅 빈 방)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">💀 쓰레기 (A)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">💀 쓰레기 (B)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">🟢 유효함 (C)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">💀 쓰레기 (D)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1단계: 유효 데이터 이주 (Read &amp; Copy)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 컨트롤러: "어휴, 저 🟢 C 하나 때문에 블록 1번을 통째로 못 지우네!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 블록 1의 🟢 C 를 복사해서 ──▶ 새 블록 2의 첫째 칸에 옮겨 씀!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- 이제 블록 1의 C도</div><div class="kb-diagram-node">💀 쓰레기</div><div class="kb-diagram-note">로 마킹됨 (원본 역할 끝남).</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2단계: 다이너마이트 폭파 (Erase!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 컨트롤러: "좋아! 블록 1에 이제 쓰레기 4개뿐이지? 20V 전기 쏴!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- 💥 블록 1 전체가 하얗게 불타며 완벽한</div><div class="kb-diagram-node">텅 빈 프리 블록</div><div class="kb-diagram-note">으로 부활!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 3단계: 장부(매핑 테이블) 갱신 (Update FTL)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- OS야, 앞으론 데이터 C 부를 땐 블록 2번으로 와라. 화살표 쓱 수정~</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────────────┐
+│        SSD 가비지 컬렉션(GC)의 피눈물 나는 3단계 런타임 시각화        │
+├───────────────────────────────────────────────────────────────────────┤
+│                                                                       │
+│ [ 상황: 낡은 블록 1번 안에 쓰레기 3개와 쓸만한 놈 1개가 섞여 있음 ]   │
+│                                                                       │
+│ ┌─── 블록 1 (낡음) ───┐     ┌─── 블록 2 (새 텅 빈 방) ───┐            │
+│ │ [ 💀 쓰레기 (A) ] │     │ [           ]         │                   │
+│ │ [ 💀 쓰레기 (B) ] │     │ [           ]         │                   │
+│ │ [ 🟢 유효함 (C) ] │     │ [           ]         │                   │
+│ │ [ 💀 쓰레기 (D) ] │     │ [           ]         │                   │
+│ └───────────────────┘     └─────────────────────────┘                 │
+│                                                                       │
+│ ▶ 1단계: 유효 데이터 이주 (Read & Copy)                               │
+│  - 컨트롤러: "어휴, 저 🟢 C 하나 때문에 블록 1번을 통째로 못 지우네!" │
+│  - 블록 1의 🟢 C 를 복사해서 ──▶ 새 블록 2의 첫째 칸에 옮겨 씀!       │
+│  - 이제 블록 1의 C도 [ 💀 쓰레기 ]로 마킹됨 (원본 역할 끝남).         │
+│                                                                       │
+│ ▶ 2단계: 다이너마이트 폭파 (Erase!)                                   │
+│  - 컨트롤러: "좋아! 블록 1에 이제 쓰레기 4개뿐이지? 20V 전기 쏴!"     │
+│  - 💥 블록 1 전체가 하얗게 불타며 완벽한 [ 텅 빈 프리 블록 ]으로 부활!│
+│                                                                       │
+│ ▶ 3단계: 장부(매핑 테이블) 갱신 (Update FTL)                          │
+│  - OS야, 앞으론 데이터 C 부를 땐 블록 2번으로 와라. 화살표 쓱 수정~   │
+└───────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 이 아름다운 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 과정을 위해 하드웨어는 엄청난 '시간([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))'을 피눈물로 지불해야 한다. C를 복사하는 시간(Read+Write)에 블록을 폭파하는 시간(Erase 5ms)까지, 한낱 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 1개 살리자고 디스크가 몇 밀리초 동안 멈춰버리는 것이다. 유저가 게임을 다운받는 와중에 이 짓거리가 터지면 다운로드 속도가 1GB/s에서 50MB/s로 수직 낙하하는 '프리징(Freeze)'의 주범이 된다.
 
 - **📢 섹션 요약 비유**: 냉장고([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))가 김치통(블록)들로 꽉 차서 새 반찬을 넣을 곳이 없습니다. 통 안에는 쉰 김치(쓰레기)가 잔뜩 있고 멀쩡한 김치(유효 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))는 한 쪼가리뿐입니다. 쉰 김치만 쏙 빼서 버리면 좋겠지만 이 김치통은 무조건 통째로 비워야(Erase) 하는 마법의 통입니다. 그래서 새 김치통(프리 블록)을 하나 가져와서 멀쩡한 김치 한 쪼가리를 옮겨 담고, 기존 김치통은 통째로 쓰레기통에 쏟아버려 빈 통으로 부활시키는 설거지 노가다입니다.
@@ -98,7 +101,7 @@ GC의 속도와 [쓰기 증폭](/knowledge-base/studynote/02_operating_system/08
 
 | 사용 상황 | [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 내 빈 공간 상태 | GC의 이사(Copy) 난이도 | [쓰기 증폭](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/)(WA) | 체감 수명과 속도 |
 |:---|:---|:---|:---|:---|
-| <strong><a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/">SSD</a> 용량 99% 사용 중</strong> | 꽉 차서 숨 막힘 | 낡은 블록에 유효 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(살릴 놈)가 99% 차 있음. 이놈들 다 옮기느라 토 나옴 | ☠️ 10배~100배 폭발 | 3달 안에 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 뻗고 속도 기어다님 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/">SSD</a> 용량 99% 사용 중</strong> | 꽉 차서 숨 병목 | 낡은 블록에 유효 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(살릴 놈)가 99% 차 있음. 이놈들 다 옮기느라 토 나옴 | ☠️ 10배~100배 폭발 | 3달 안에 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 뻗고 속도 기어다님 |
 | <strong><a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/">SSD</a> 용량 50% 사용 중</strong> | 빈 공간 널널함 | 낡은 블록 까보면 50%가 이미 쓰레기임. 살릴 놈 절반만 쓱 옮기면 됨 | 🟢 2배 수준으로 양호 | 5년 쾌적하게 쌩쌩 돌아감 |
 | <strong>제조사 강제 OP <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a>%</strong>| 유저 몰래 숨겨둔 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% | 100% 꽉 채워도 숨겨진 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%의 도망갈 빈집이 무조건 보장됨 | 최소한 서버가 즉사하는 건 막음 | 벤치마크 속도를 보장하는 방파제 |
 
@@ -160,19 +163,15 @@ TRIM 덕분에 SSD는 무거운 이삿짐(삭제된 [데이터](/knowledge-base/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">플래시 메모리 한계</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">가비지 컬렉션 (Garbage Collection in SSD)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">FTL (Flash Translation Layer)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">마모 평준화 (Wear Leveling)</div></div>
-</div>
-</div>
-
-
+```text
+[플래시 메모리 한계]
+    │
+    ▼
+[가비지 컬렉션 (Garbage Collection in SSD)]
+    │
+    ├──▶ [FTL (Flash Translation Layer)]
+    └──▶ [마모 평준화 (Wear Leveling)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

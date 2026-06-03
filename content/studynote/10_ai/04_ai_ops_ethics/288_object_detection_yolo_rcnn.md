@@ -38,17 +38,14 @@ tags = ["studynote-ai"]
 | 객체 탐지 (Object [Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/)) | 이미지 | N개의 클래스+바운딩 박스 | "고양이, 개, 자동차 각 위치" |
 | 인스턴스 분할 (Instance [Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)) | 이미지 | 클래스+박스+픽셀 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)크 | Mask R-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)가 "사진에 고양이 있어?"라면, 객체 탐지는 "어디에 몇 마리나 있어?"다. 넓은 사진에서 수십 개 객체를 동시에 찾고 박스를 쳐야 하니 훨씬 어렵다.
 
@@ -61,20 +58,20 @@ tags = ["studynote-ai"]
 **IoU (Intersection over Union)**:
 두 바운딩 박스의 겹침 정도를 0~1로 표현한다. 일반적으로 IoU > 0.5이면 정탐(True Positive)으로 판정.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예측 박스 (Predicted Box)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">교집합</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Inter-</div><div class="kb-diagram-cell">GT</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">section)</div><div class="kb-diagram-cell">Box</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IoU = 교집합 넓이 / 합집합 넓이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">= Intersection / Union</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────┐
+│  예측 박스 (Predicted Box)               │
+│  ┌──────────────────┐                   │
+│  │         ┌────────┼───────┐            │
+│  │         │ 교집합 │       │            │
+│  │         │(Inter- │  GT   │            │
+│  └─────────┼section)│  Box  │            │
+│            └────────┴───────┘            │
+│                                          │
+│  IoU = 교집합 넓이 / 합집합 넓이         │
+│      = Intersection / Union              │
+└──────────────────────────────────────────┘
+```
 
 **NMS (Non-Maximum Suppression)**:
 동일 객체에 대해 여러 겹치는 박스가 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)될 때, <strong>가장 높은 <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/">신뢰도</a>(<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/">Confidence</a>)의 박스만 남기고</strong> IoU > 임계값인 나머지를 제거한다.
@@ -92,62 +89,60 @@ NMS 동작 순서:
 
 ### 2단계 탐지기: R-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 계열
 
+```
+R-CNN 계열 발전 과정:
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">R-CNN 계열 발전 과정:</div>
-<div class="kb-diagram-note">R-CNN (2014)</div>
-<div class="kb-diagram-note">입력 이미지</div>
-<div class="kb-diagram-note">→ Selective Search (영역 제안 ~2000개)</div>
-<div class="kb-diagram-note">→ 각 영역 CNN 특징 추출 (개별 처리)</div>
-<div class="kb-diagram-note">→ SVM 분류 + 박스 회귀</div>
-<div class="kb-diagram-note">속도: 47초/이미지 (느림)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Fast R-CNN (2015)</div>
-<div class="kb-diagram-note">입력 이미지 → CNN 전체 특징 맵</div>
-<div class="kb-diagram-note">→ RoI Pooling (영역별 특징 추출)</div>
-<div class="kb-diagram-note">→ FC + 분류 + 회귀</div>
-<div class="kb-diagram-note">속도: 2초/이미지</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Faster R-CNN (2015)</div>
-<div class="kb-diagram-note">입력 이미지 → CNN 특징 맵</div>
-<div class="kb-diagram-note">→ RPN (Region Proposal Network, 학습 가능)</div>
-<div class="kb-diagram-note">→ RoI Pooling → 분류 + 회귀</div>
-<div class="kb-diagram-note">속도: 0.2초/이미지 (5 FPS)</div>
-<div class="kb-diagram-note">정확도: mAP ~70% (PASCAL VOC)</div>
-</div>
-</div>
-
-
+R-CNN (2014)
+    │  입력 이미지
+    │  → Selective Search (영역 제안 ~2000개)
+    │  → 각 영역 CNN 특징 추출 (개별 처리)
+    │  → SVM 분류 + 박스 회귀
+    │  속도: 47초/이미지 (느림)
+    ▼
+Fast R-CNN (2015)
+    │  입력 이미지 → CNN 전체 특징 맵
+    │  → RoI Pooling (영역별 특징 추출)
+    │  → FC + 분류 + 회귀
+    │  속도: 2초/이미지
+    ▼
+Faster R-CNN (2015)
+    │  입력 이미지 → CNN 특징 맵
+    │  → RPN (Region Proposal Network, 학습 가능)
+    │  → RoI Pooling → 분류 + 회귀
+    │  속도: 0.2초/이미지 (5 FPS)
+    │  정확도: mAP ~70% (PASCAL VOC)
+```
 
 ### 1단계 탐지기: YOLO
 
 YOLO (You Only Look Once)는 이미지를 S×S 그리드로 나누고, <strong>한 번의 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/271_forward_propagation/">순전파</a></strong>로 모든 셀에서 바운딩 박스와 클래스 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 동시에 예측한다.
 
+```
+YOLO 아키텍처 (YOLOv1 기준):
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">YOLO 아키텍처 (YOLOv1 기준):</div>
-<div class="kb-diagram-note">입력 이미지 (448×448)</div>
-<div class="kb-diagram-note">CNN 백본</div>
-<div class="kb-diagram-note">(24개 합성곱층)</div>
-<div class="kb-diagram-note">출력 텐서: S×S×(B×5 + C)</div>
-<div class="kb-diagram-note">S=7 (그리드 크기)</div>
-<div class="kb-diagram-note">B=2 (셀당 박스 수)</div>
-<div class="kb-diagram-note">C=20 (클래스 수, PASCAL VOC)</div>
-<div class="kb-diagram-note">7×7×30 텐서</div>
-<div class="kb-diagram-note">각 셀의 예측:</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">박스1: x, y, w, h, confidence</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">박스2: x, y, w, h, confidence</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클래스 확률: P(C1)...P(C20)</div></div>
-<div class="kb-diagram-note">NMS 적용</div>
-<div class="kb-diagram-note">최종 탐지 결과</div>
-</div>
-</div>
-
-
+입력 이미지 (448×448)
+        │
+   CNN 백본
+  (24개 합성곱층)
+        │
+   출력 텐서: S×S×(B×5 + C)
+   S=7 (그리드 크기)
+   B=2 (셀당 박스 수)
+   C=20 (클래스 수, PASCAL VOC)
+        │
+  7×7×30 텐서
+        │
+   각 셀의 예측:
+   ┌────────────────────────────────┐
+   │ 박스1: x, y, w, h, confidence │
+   │ 박스2: x, y, w, h, confidence │
+   │ 클래스 확률: P(C1)...P(C20)   │
+   └────────────────────────────────┘
+        │
+      NMS 적용
+        │
+   최종 탐지 결과
+```
 
 ### 1단계 vs 2단계 탐지기 비교
 
@@ -220,18 +215,12 @@ COCO 평가에서는 `mAP@[0.5:0.05:0.95]`(IoU 0.5~0.95 평균)를 사용한다.
 
 DETR ([DEtection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/) [TRansformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/), Facebook [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/), 2020)은 NMS와 앵커 박스 없이 <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/">트랜스포머</a>(<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/">Transformer</a>)의 <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/296_attention_mechanism/">어텐션 메커니즘</a>(<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/296_attention_mechanism/">Attention Mechanism</a>)</strong>으로 객체를 [End-to-End](/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/) 탐지한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">DETR 파이프라인:</div>
-<div class="kb-diagram-note">이미지 → CNN 백본 → 플래튼 → 트랜스포머 인코더</div>
-<div class="kb-diagram-note">→ N개 쿼리 + 트랜스포머 디코더 → N개 예측 (클래스+박스)</div>
-<div class="kb-diagram-note">(N = 100, 빈 예측은 "No Object"로 처리)</div>
-</div>
-</div>
-
-
+```
+DETR 파이프라인:
+이미지 → CNN 백본 → 플래튼 → 트랜스포머 인코더
+→ N개 쿼리 + 트랜스포머 디코더 → N개 예측 (클래스+박스)
+(N = 100, 빈 예측은 "No Object"로 처리)
+```
 
 ### 기술사 서술 포인트
 
@@ -251,24 +240,23 @@ DETR ([DEtection](/knowledge-base/studynote/09_security/19_ai_advanced_security/
 
 ### 탐지기 선택 프레임워크
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">탐지기 선택 기준</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실시간 처리 필요?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Yes → 1단계 탐지기 (YOLO, SSD)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── No → 2단계 탐지기 (Faster R-CNN)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소형 객체 많음?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Yes → FPN 결합 탐지기 / SSD 다중 스케일</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── No → 표준 YOLO 또는 R-CNN</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Annotation 비용?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 박스만 → 일반 탐지기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 픽셀 마스크 → Mask R-CNN</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────┐
+│              탐지기 선택 기준                            │
+│                                                          │
+│  실시간 처리 필요?                                       │
+│      ├── Yes → 1단계 탐지기 (YOLO, SSD)                 │
+│      └── No  → 2단계 탐지기 (Faster R-CNN)             │
+│                                                          │
+│  소형 객체 많음?                                         │
+│      ├── Yes → FPN 결합 탐지기 / SSD 다중 스케일        │
+│      └── No  → 표준 YOLO 또는 R-CNN                     │
+│                                                          │
+│  Annotation 비용?                                        │
+│      ├── 박스만 → 일반 탐지기                           │
+│      └── 픽셀 마스크 → Mask R-CNN                       │
+└──────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 객체 탐지는 '[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 감시 요원 배치'다. 화면을 빠르게 훑는 YOLO 요원은 위급 상황에 즉각 대응하고, 꼼꼼히 조사하는 R-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 요원은 증거를 철저히 수집한다. 임무 성격에 맞는 요원을 선택해야 한다.
 

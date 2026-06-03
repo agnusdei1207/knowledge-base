@@ -35,21 +35,20 @@ EC는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relat
 
 아래 그림은 EC의 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 경로와 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 경로를 함께 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EC write / rebuild pipeline</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Write path</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Stripe Buffer</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">RS Encoder</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">D0 D1 D2 D3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">\-&gt; P0 P1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; 6 devices</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Rebuild path (if D2 is lost)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">GF Decoder</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">rebuilt D2</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│ EC write / rebuild pipeline                                     │
+├──────────────────────────────────────────────────────────────────┤
+│ Write path                                                      │
+│   User data -> [Stripe Buffer] -> [RS Encoder] -> D0 D1 D2 D3  │
+│                                               \-> P0 P1        │
+│                                                  │             │
+│                                                  └-> 6 devices │
+│                                                                  │
+│ Rebuild path (if D2 is lost)                                     │
+│   D0 D1 D3 P0 P1 -> [GF Decoder] -> rebuilt D2                   │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 이 구조에서 핵심은 스트라이프 단위다. 컨트롤러는 먼저 같은 스트라이프에 들어갈 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조각을 모은 뒤 패리티를 계산하고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 서로 다른 디스크나 노드에 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 기록한다. 장애가 나면 남은 조각들을 다시 읽어 디코더에 넣고, 사라진 조각만 재생성한다.
 
@@ -120,27 +119,21 @@ EC의 가장 큰 효과는 저장 효율 향상이다. 같은 내구성을 더 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">3중 복제</div>
-<div class="kb-diagram-note">용량 낭비 문제</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">RAID 패리티</div>
-<div class="kb-diagram-note">로컬 디스크 보호 확장</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">EC (Erasure Coding)</div>
-<div class="kb-diagram-note">복구 트래픽 최적화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">LRC (Local Reconstruction Code)</div>
-<div class="kb-diagram-note">계산 오프로딩</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DPU 기반 가속 저장 경로</div>
-</div>
-</div>
-
-
+```text
+3중 복제
+    │  용량 낭비 문제
+    ▼
+RAID 패리티
+    │  로컬 디스크 보호 확장
+    ▼
+EC (Erasure Coding)
+    │  복구 트래픽 최적화
+    ▼
+LRC (Local Reconstruction Code)
+    │  계산 오프로딩
+    ▼
+DPU 기반 가속 저장 경로
+```
 
 이 흐름은 “단순 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) → 패리티 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) → [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 코드화 → [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 최적화 → 하드웨어 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)”으로 발전하는 저장 기술의 방향을 보여준다.
 

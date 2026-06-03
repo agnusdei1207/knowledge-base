@@ -25,20 +25,19 @@ tags = ["studynote-enterprise"]
 
 아래 그림은 DORA가 깨뜨린 전통적 오해를 요약한다. 큰 배포를 드물게 하는 것이 안정의 본질이 아니라, 작은 변경을 빠르게 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하고 되돌릴 수 있는 구조가 안정의 본질이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DORA changes the speed vs stability assumption</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Old view:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">more releases ▶ more incidents</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DORA view:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">smaller batches ─▶ faster feedback ─▶ safer releases</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ fast restore</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ DORA changes the speed vs stability assumption              │
+├──────────────────────────────────────────────────────────────┤
+│ Old view:                                                   │
+│   more releases  ─────────▶  more incidents                 │
+│                                                              │
+│ DORA view:                                                   │
+│   smaller batches ─▶ faster feedback ─▶ safer releases       │
+│                               │               │              │
+│                               └────▶ fast restore            │
+└──────────────────────────────────────────────────────────────┘
+```
 
 결국 DORA는 단순 보고서 지표가 아니라 전달 시스템의 물리학을 보여 주는 계기판이다. 어느 구간이 느리고, 어느 구간이 실패를 키우는지 객관적으로 말하게 해 준다.
 
@@ -52,27 +51,26 @@ tags = ["studynote-enterprise"]
 
 | 지표 | 의미 | 대표 산식 또는 측정점 | 해석 포인트 |
 | :--- | :--- | :--- | :--- |
-| 배포 빈도 (DF) | 운영 환경에 변경을 내보내는 빈도 | 기간 내 production 배포 횟수 | 배포를 작고 자주 할 수 있는가 |
+| 배포 빈도 (DF) | 운영 환경에 변경을 내보내는 빈도 | 기간 내 프로덕션 배포 횟수 | 배포를 작고 자주 할 수 있는가 |
 | 변경 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) (LTFC) | 커밋부터 운영 반영까지 걸린 시간 | deploy time - commit time | 승인·테스트·대기 병목이 있는가 |
 | 평균 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간 ([MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/)) | 장애 인지부터 정상화까지 시간 | restore time - incident start | 감지·[롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)·우회가 빠른가 |
 | 변경 실패율 ([CFR](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/025_change_failure_rate_cfr/)) | 문제를 일으킨 배포의 비율 | failed deployments / total deployments | 품질 내재화 수준이 어떤가 |
 
 아래 그림은 DORA가 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 어디를 측정하는지 보여 준다. 중요한 점은 이 지표가 개발팀만이 아니라 배포 자동화, [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링, incident 대응 체계까지 포함한다는 것이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DORA measurement points on the delivery pipeline</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Commit ─▶ Build/Test ─▶ Deploy ─▶ Production ─▶ Incident</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LTFC</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── DF counts</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">failed? ▶ CFR</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ MTTR ──▶</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ DORA measurement points on the delivery pipeline            │
+├──────────────────────────────────────────────────────────────┤
+│ Commit ─▶ Build/Test ─▶ Deploy ─▶ Production ─▶ Incident    │
+│   │                     │             │          │           │
+│   └────── LTFC ─────────┘             │          │           │
+│                         └── DF counts ┘          │           │
+│                                      failed? ───▶ CFR        │
+│                                                   │          │
+│                                                   └─ MTTR ──▶│
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 구조에서 배포 단위를 작게 만들수록 LTFC와 CFR이 함께 낮아질 가능성이 커진다. 변경량이 작으면 리뷰와 테스트가 짧아지고, 장애가 나도 원인 범위를 좁히기 쉬워 MTTR도 줄어든다. 그래서 DORA는 결국 자동화, [trunk-based development](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/040_trunk_based_development/), [observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) 같은 설계 선택과 연결된다.
 
@@ -91,7 +89,7 @@ tags = ["studynote-enterprise"]
 | 개인 생산성 지표 | 커밋 수, LoC, 티켓 수 | 기록은 쉬움 | 잘못 쓰면 경쟁과 왜곡 유발 |
 | [VSM](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/030_value_stream_mapping/) ([Value Stream Mapping](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/088_value_stream_mapping_vsm/)) | 전체 가치 흐름의 대기와 작업 시간 | 대기 구간까지 포함한 병목 발견 | 운영 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 품질은 별도 보완 필요 |
 
-따라서 DORA는 VSM과 함께 쓰면 더 강하다. VSM이 "어디서 기다리는가"를 보여 준다면, DORA는 "배포와 장애 대응이 실제로 빨라졌는가"를 보여 준다. 또한 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/))의 [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)/SLO는 사용자 체감 품질을, DORA는 delivery 시스템의 실행 품질을 보여 주므로 서로 보완적이다.
+따라서 DORA는 VSM과 함께 쓰면 더 강하다. VSM이 "어디서 기다리는가"를 보여 준다면, DORA는 "배포와 장애 대응이 실제로 빨라졌는가"를 보여 준다. 또한 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/))의 [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)/SLO는 사용자 체감 품질을, DORA는 delivery 시스템의 실행 품질을 보여 주므로 서로 보완적이다.
 
 - **📢 섹션 요약 비유**: 운동선수 평가에서 팔굽혀펴기 횟수만 재는 것과 경기 기록을 재는 것은 다르다. DORA는 연습량보다 실제 경기에서 얼마나 빠르고 안정적으로 뛰는지를 보는 기록표다.
 
@@ -99,7 +97,7 @@ tags = ["studynote-enterprise"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 DORA를 적용할 때 가장 먼저 정해야 할 것은 측정 경계다. 무엇을 production deploy로 볼지, hotfix와 planned maintenance를 어떻게 구분할지, monolith와 microservice를 같은 기준으로 볼지 정의하지 않으면 숫자 비교가 무의미해진다. 또한 DORA를 개인 평가 도구로 전환하면 팀은 숫자를 방어하려고 배포를 쪼개거나 장애 기록을 숨기게 된다.
+실무에서 DORA를 적용할 때 가장 먼저 정해야 할 것은 측정 경계다. 무엇을 프로덕션 deploy로 볼지, hotfix와 planned maintenance를 어떻게 구분할지, monolith와 microservice를 같은 기준으로 볼지 정의하지 않으면 숫자 비교가 무의미해진다. 또한 DORA를 개인 평가 도구로 전환하면 팀은 숫자를 방어하려고 배포를 쪼개거나 장애 기록을 숨기게 된다.
 
 ### 적용 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -142,23 +140,21 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Local productivity metrics</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Team delivery metrics</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DORA four metrics</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Automation + observability</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Fast and safe software delivery</div>
-</div>
-</div>
-
-
+```text
+Local productivity metrics
+         │
+         ▼
+Team delivery metrics
+         │
+         ▼
+DORA four metrics
+         │
+         ▼
+Automation + observability
+         │
+         ▼
+Fast and safe software delivery
+```
 
 이 흐름은 개인 생산성 중심 측정이 자동화된 delivery 시스템 측정으로 진화한 과정을 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)한다.
 

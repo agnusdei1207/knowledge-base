@@ -23,22 +23,20 @@ tags = ["studynote-cloud"]
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 - **핵심 원리**: 코드 변경 감지 -> 자동 빌드 -> 자동 테스트 -> 결과 통보의 반복 루프.
 
+```text
+[ Continuous Integration (CI) Pipeline ]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Continuous Integration (CI) Pipeline</div></div>
-<div class="kb-diagram-note">Developer Source Control (Git) CI Server (Jenkins/Actions)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Code</div><div class="kb-diagram-cell">Commit &amp;</div><div class="kb-diagram-cell">Trigger</div><div class="kb-diagram-cell">(1) Build (Compile)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Changes</div><div class="kb-diagram-cell">----&gt;</div><div class="kb-diagram-cell">Push</div><div class="kb-diagram-cell">-------&gt;</div><div class="kb-diagram-cell">(2) Unit Test</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+-------+ +-------+--------+</div><div class="kb-diagram-cell">(3) Static Analysis</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">^</div><div class="kb-diagram-cell">(4) Artifact Packaging</div></div>
-<div class="kb-diagram-note">Notify Result +------------+------------+</div>
-<div class="kb-diagram-note">(Fail) Red Alert! (Success) Build Artifact</div>
-</div>
-</div>
-
-
+    Developer      Source Control (Git)       CI Server (Jenkins/Actions)
+    +-------+      +----------------+       +-------------------------+
+    | Code  |      |   Commit &     | Trigger|  (1) Build (Compile)    |
+    | Changes|---->|    Push        |------->|  (2) Unit Test          |
+    +-------+      +-------+--------+       |  (3) Static Analysis    |
+                           ^                |  (4) Artifact Packaging |
+                           | Notify Result  +------------+------------+
+                           +-----------------------------+
+                                       |
+                           (Fail) Red Alert!  (Success) Build Artifact
+```
 
 - **CI의 4단계 자동화**:
     1. **Build**: 소스코드를 실행 가능한 바이너리나 패키지로 컴파일.
@@ -73,19 +71,15 @@ tags = ["studynote-cloud"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">수동 빌드 + 수동 테스트 (통합 지옥)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CI: 코드 커밋 → 자동 빌드 → 자동 테스트</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CD: Continuous Delivery → Continuous Deployment</div>
-</div>
-</div>
-
-
+```text
+수동 빌드 + 수동 테스트 (통합 지옥)
+    │
+    ▼
+CI: 코드 커밋 → 자동 빌드 → 자동 테스트
+    │
+    ▼
+CD: Continuous Delivery → Continuous Deployment
+```
 2. 다 만들고 나서 틀린 조각을 찾으려면 다 부숴야 하지만, 그때그때 확인하면 금방 고칠 수 있어요.
 3. 기계 선생님([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 서버)이 우리가 실수한 조각을 즉시 찾아주니 안심하고 조립할 수 있어요!
 

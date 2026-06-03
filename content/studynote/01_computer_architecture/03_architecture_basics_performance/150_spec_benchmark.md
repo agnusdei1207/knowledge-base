@@ -31,31 +31,32 @@ SPEC 벤치마크는 CPU가 [명령어](/knowledge-base/studynote/01_computer_ar
 
 꼼수를 부리는 칩을 잡아내기 위해 도입된 극단적인 편식 방지 룰, '기하 평균'의 수학적 마법이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SPEC 벤치마크 점수 산출 아키텍처: 기하 평균(Geometric Mean)의 철퇴</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">기준 기계(Reference Machine) 설정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">과거 Sun Microsystems의 특정 낡은 컴퓨터 성능을 "1.0 점" 으로 고정.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(우리가 테스트할 칩이 저 낡은 기계보다 몇 배 빠른가를 비율로 구함)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3가지 실무 과목 테스트 진행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">과목 1 (정수 연산) : 기준 기계 대비 100 배 빠름 ──▶ Ratio = 100</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">과목 2 (소수점 연산) : 기준 기계 대비 100 배 빠름 ──▶ Ratio = 100</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">과목 3 (메모리 탐색) : 기준 기계 대비 0.1 배 느림 ──▶ Ratio = 0.1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(이 칩은 메모리를 포기하고 연산기에만 몰빵 투자한 꼼수 칩이다!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">❌ 멍청한 산술 평균 (Arithmetic Mean) ──▶ 하드웨어 꼼수에 완벽히 뚫림!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 공식: (100 + 100 + 0.1) / 3 = 약 66 점</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 결과: 메모리 쓰레기 칩인데도 66점이라는 엄청난 고득점으로 1등을 훔쳐감!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 철통 방어 기하 평균 (Geometric Mean) ──▶ 아키텍처 밸런스 측정의 제왕</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 공식: 3루트 (100 × 100 × 0.1)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 결과: 3루트 (1000) = 딱 10 점 !!!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 위대한 결론: 한 과목이라도 바닥(0에 수렴)을 치면 곱셈의 특성상 전체 점수가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">같이 나락으로 쳐박힘. 밸런스가 무너진 편식 칩의 점수를 지옥으로 보내버림!</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────┐
+│         SPEC 벤치마크 점수 산출 아키텍처: 기하 평균(Geometric Mean)의 철퇴      │
+├────────────────────────────────────────────────────────────────────────┤
+│                                                                        │
+│  [ 기준 기계(Reference Machine) 설정 ]                                    │
+│   과거 Sun Microsystems의 특정 낡은 컴퓨터 성능을 "1.0 점" 으로 고정.        │
+│   (우리가 테스트할 칩이 저 낡은 기계보다 몇 배 빠른가를 비율로 구함)               │
+│                                                                        │
+│  [ 3가지 실무 과목 테스트 진행 ]                                            │
+│   과목 1 (정수 연산)   : 기준 기계 대비 100 배 빠름 ──▶ Ratio = 100         │
+│   과목 2 (소수점 연산) : 기준 기계 대비 100 배 빠름 ──▶ Ratio = 100         │
+│   과목 3 (메모리 탐색) : 기준 기계 대비 0.1 배 느림 ──▶ Ratio = 0.1         │
+│   (이 칩은 메모리를 포기하고 연산기에만 몰빵 투자한 꼼수 칩이다!)                  │
+│                                                                        │
+│  ❌ 멍청한 산술 평균 (Arithmetic Mean) ──▶ 하드웨어 꼼수에 완벽히 뚫림!       │
+│     * 공식: (100 + 100 + 0.1) / 3 = 약 66 점                            │
+│     ──▶ 결과: 메모리 쓰레기 칩인데도 66점이라는 엄청난 고득점으로 1등을 훔쳐감!    │
+│                                                                        │
+│  ✅ 철통 방어 기하 평균 (Geometric Mean) ──▶ 아키텍처 밸런스 측정의 제왕      │
+│     * 공식: 3루트 (100 × 100 × 0.1)                                    │
+│     * 결과: 3루트 (1000) = 딱 10 점 !!!                                 │
+│     ──▶ 위대한 결론: 한 과목이라도 바닥(0에 수렴)을 치면 곱셈의 특성상 전체 점수가 │
+│         같이 나락으로 쳐박힘. 밸런스가 무너진 편식 칩의 점수를 지옥으로 보내버림!     │
+└────────────────────────────────────────────────────────────────────────┘
+```
 
 SPEC 설계의 최고 천재성은 **기하 평균(Geometric Mean)** 채택이다. 제조사가 벤치마크 1등을 먹기 위해 "메모리 컨트롤러 개발비는 아끼고, 덧셈기만 미친 듯이 많이 박아 넣자!"라고 칩을 기형적으로 설계해 봤자 소용이 없다. 모든 테스트 과목의 향상 비율($Ratio_i$)을 싹 다 곱한 뒤 거듭제곱근을 씌우기 때문에, 과목 중 단 한 개라도 레이턴시 병목이 터져 점수가 바닥을 기면 전체 SPEC 점수가 기하급수적으로 파멸한다. 아키텍트들은 SPEC 점수를 올리기 위해 어쩔 수 없이 CPU 파이프라인, [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/), L3 캐시 용량, 메모리 컨트롤러 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 등 **칩의 모든 구석구석을 약점 없이 둥글고 골고루 튼튼하게(Balance)** 빚어내야만 했다.
 
@@ -91,7 +92,7 @@ SPEC의 무서움은 하드웨어뿐만 아니라, 코드를 번역하는 '소�
 2. **C/C++ 컴파일러(GCC/Clang) 타겟 아키텍처 최적화 (PGO 도입)**: 칩 제조사가 SPEC 점수를 1점이라도 더 짜내기 위해 발악하는 곳이 바로 컴파일러다. 같은 하드웨어라도 코드를 어떻게 깎아 기계어로 던져주냐에 따라 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 20% 널뛴다. 컴파일러 엔지니어는 SPEC 코드를 돌리며 **PGO(프로필 기반 최적화, Profile-Guided Optimization)** 기법을 쓴다. 코드를 한 번 대충 돌려보고 "아, if문에서 이쪽 길로 갈 확률이 90%구나!"라는 통계를 수집한 뒤, 그 지도를 바탕으로 기계어를 완벽히 재배치하여 CPU [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)기가 100% 백발백중으로 맞추게끔 코드를 융합 개조해 SPEC 점수를 극한으로 펌핑시킨다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- <strong>스마트폰/<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/">PC</a> 제조사의 벤치마크 앱 감지 후 '치팅(Cheating) 및 영혼 끌어올리기' 꼼수 방치</strong>: 벤치마크의 가장 더러운 흑역사이자 현재 진행형 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다. 유명 모바일 [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) 제조사들이 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 단에 조작 코드를 심었다. OS가 벤치마크 앱이 켜진 것을 이름(PID)으로 감지하면, 평소 유저가 쓸 땐 배터리 때문에 묶어두었던 CPU 온도 제한 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 완전히 찢어버리고 전압을 원자로 급으로 쏟아부어 <strong>점수 뻥튀기 렌더링</strong>을 돌린다. 소비자는 그 점수만 믿고 샀다가 진짜 게임을 켜면 폰이 핫팩이 되며 프레임이 반 토막 나는 대형 사기를 당한다. SPEC 위원회는 이런 하드웨어적 편법(치팅)을 막기 위해 소스코드를 제공하여 유저가 직접 컴파일해서 돌리도록 강제하고, 치팅이 발각되면 점수판에서 영구 제명시켜 버리는 엄격한 거버넌스 철퇴를 휘두르고 있다.
+- <strong>스마트폰/<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/">PC</a> 제조사의 벤치마크 앱 감지 후 '치팅(Cheating) 및 영혼 끌어올리기' 꼼수 방치</strong>: 벤치마크의 가장 더러운 흑역사이자 현재 진행형 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다. 유명 모바일 [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) 제조사들이 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 단에 조작 코드를 심었다. OS가 벤치마크 앱이 켜진 것을 이름(PID)으로 감지하면, 평소 유저가 쓸 땐 배터리 때문에 묶어두었던 CPU 온도 제한 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 완전히 찢어버리고 전압을 원자로 급으로 쏟아부어 <strong>점수 뻥튀기 렌더링</strong>을 돌린다. 소비자는 그 점수만 믿고 샀다가 진짜 게임을 켜면 폰이 핫팩이 되며 프레임이 반 토막 나는 대형 사기를 당한다. SPEC 위원회는 이런 하드웨어적 편법(치팅)을 막기 위해 소스코드를 제공하여 유저가 직접 컴파일해서 돌리도록 강제하고, 치팅이 감지되면 점수판에서 영구 제명시켜 버리는 엄격한 거버넌스 철퇴를 휘두르고 있다.
 
 - **📢 섹션 요약 비유**: 이 벤치마크 꼼수 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)은, 평소엔 기름값 아낀다고 시속 60km 속도 제한 락을 걸어놓은 자동차를, <strong>'자동차 검사소(벤치마크) 레일 위에 올라갔을 때만 몰래 락을 풀고 300km/h로 바퀴를 미친 듯이 굴려 합격 성적표를 훔쳐 오는 불법 개조 사기극'</strong>과 완벽히 똑같습니다. 실제 도로(유저 사용 환경)에 나오면 다시 60km 굼벵이로 돌아가니 그 벤치마크 성적표는 순진한 소비자를 기만하는 종이 쪼가리일 뿐입니다.
 
@@ -119,23 +120,21 @@ SPEC은 단순히 기계를 테스트하는 도구가 아니다. 아키텍트들
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">과거의 뻥튀기 마케팅 (클럭 주파수 / 메가헤르츠 신화)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">MIPS / FLOPS (깡성능 지표) 도입 / 하지만 실무 체감 속도를 대변하지 못함</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SPEC 벤치마크의 탄생 (응용 벤치마크) / 현실의 헤비급 컴파일러 코드를 통째로 돌려 실전 측정</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">기하 평균 (Geometric Mean) 채점 도입 / 꼼수 칩셋의 과목 편식 어뷰징 차단 및 밸런스 강제</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">모바일 / 클라우드 시대의 매크로 벤치마크 (TPS, IOPS 기반 극한 스트레스 지속 성능 테스트로 진화)</div>
-</div>
-</div>
-
-
+```text
+과거의 뻥튀기 마케팅 (클럭 주파수 / 메가헤르츠 신화)
+    │
+    ▼
+MIPS / FLOPS (깡성능 지표) 도입 / 하지만 실무 체감 속도를 대변하지 못함
+    │
+    ▼
+SPEC 벤치마크의 탄생 (응용 벤치마크) / 현실의 헤비급 컴파일러 코드를 통째로 돌려 실전 측정
+    │
+    ▼
+기하 평균 (Geometric Mean) 채점 도입 / 꼼수 칩셋의 과목 편식 어뷰징 차단 및 밸런스 강제
+    │
+    ▼
+모바일 / 클라우드 시대의 매크로 벤치마크 (TPS, IOPS 기반 극한 스트레스 지속 성능 테스트로 진화)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

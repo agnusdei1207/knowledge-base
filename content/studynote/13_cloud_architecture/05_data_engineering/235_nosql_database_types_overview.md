@@ -22,26 +22,29 @@ RDBMS는 1970년대 이후 [데이터](/knowledge-base/studynote/05_database/01_
 
 NoSQL은 이 문제를 해결하기 위해 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/">CAP</a> 정리에서 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a>을 일부 포기하고 <a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a>·<a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a> 허용성을 선택</strong>하거나, 특정 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모델에 완전히 특화하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 채택했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">NoSQL 4가지 유형 분류</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NoSQL 데이터베이스 분류</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Key-Value</div><div class="kb-diagram-cell">Document</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Redis</div><div class="kb-diagram-cell">MongoDB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DynamoDB</div><div class="kb-diagram-cell">Elasticsearch</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">밀리초 캐시</div><div class="kb-diagram-cell">유연한 JSON</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">세션 관리</div><div class="kb-diagram-cell">스키마리스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Wide-Column</div><div class="kb-diagram-cell">Graph</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cassandra</div><div class="kb-diagram-cell">Neo4j</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HBase</div><div class="kb-diagram-cell">Amazon Neptune</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시계열 쓰기</div><div class="kb-diagram-cell">관계 탐색</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페타바이트</div><div class="kb-diagram-cell">추천 엔진</div></div>
-</div>
-</div>
-
-
+```
+[NoSQL 4가지 유형 분류]
+┌────────────────────────────────────────────────────────────┐
+│              NoSQL 데이터베이스 분류                         │
+│                                                            │
+│  ┌──────────────┐    ┌──────────────┐                      │
+│  │ Key-Value    │    │  Document    │                      │
+│  │ Redis        │    │  MongoDB     │                      │
+│  │ DynamoDB     │    │  Elasticsearch│                     │
+│  │             │    │              │                      │
+│  │ 밀리초 캐시  │    │  유연한 JSON  │                      │
+│  │ 세션 관리    │    │  스키마리스   │                      │
+│  └──────────────┘    └──────────────┘                      │
+│  ┌──────────────┐    ┌──────────────┐                      │
+│  │ Wide-Column  │    │    Graph     │                      │
+│  │ Cassandra    │    │  Neo4j       │                      │
+│  │ HBase        │    │  Amazon Neptune│                    │
+│  │             │    │              │                      │
+│  │ 시계열 쓰기  │    │ 관계 탐색    │                      │
+│  │ 페타바이트   │    │ 추천 엔진    │                      │
+│  └──────────────┘    └──────────────┘                      │
+└────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) 4가지 유형은 4가지 전문 음식점이다. 키-값(패스트푸드, 빠름), 도큐먼트(뷔페, 다양함), 와이드컬럼(대형 식당, 대용량), [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)(코스요리, [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 복잡도)다. 모든 음식을 파는 곳(RDBMS)보다 전문점이 특정 음식에선 훨씬 낫다.
 
@@ -81,22 +84,17 @@ NoSQL은 이 문제를 해결하기 위해 <strong><a href="/knowledge-base/stud
 ```
 
 #### 3. [Wide-Column Store](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/238_wide_column_cassandra_hbase_lsm/)
+```
+구조: {행키: {열패밀리: {열: 값}}}
+Row Key: "sensor:IoT-001:2024-01-15:00:00"
+ └── cf_data: {temp: 23.5, humidity: 60.2}
+ └── cf_meta: {firmware: "v2.1", location: "서울"}
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">구조: {행키: {열패밀리: {열: 값}}}</div>
-<div class="kb-diagram-note">Row Key: "sensor:IoT-001:2024-01-15:00:00"</div>
-<div class="kb-diagram-tree-item" style="--depth:0">cf_data: {temp: 23.5, humidity: 60.2}</div>
-<div class="kb-diagram-tree-item" style="--depth:0">cf_meta: {firmware: "v2.1", location: "서울"}</div>
-<div class="kb-diagram-note">장점: 시계열 대용량 쓰기, 열 동적 추가</div>
-<div class="kb-diagram-note">단점: 설계 복잡, 집계 쿼리 어려움</div>
-<div class="kb-diagram-note">적합: IoT 시계열, 이벤트 로그, 클릭스트림</div>
-<div class="kb-diagram-note">대표: Cassandra (분산), HBase (Hadoop 기반)</div>
-</div>
-</div>
-
-
+장점: 시계열 대용량 쓰기, 열 동적 추가
+단점: 설계 복잡, 집계 쿼리 어려움
+적합: IoT 시계열, 이벤트 로그, 클릭스트림
+대표: Cassandra (분산), HBase (Hadoop 기반)
+```
 
 #### 4. [Graph Database](/knowledge-base/studynote/14_data_engineering/01_infrastructure/039_graph_db/)
 ```
@@ -146,43 +144,35 @@ NoSQL은 이 문제를 해결하기 위해 <strong><a href="/knowledge-base/stud
 
 ### 액세스 패턴 기반 선택 가이드
 
+```
+[NoSQL 선택 결정 트리]
+Q1: 밀리초 단위 조회 + 단순 key 기반 액세스?
+  → YES: Key-Value (Redis/DynamoDB)
 
+Q2: 유연한 JSON 구조, 복잡한 문서 쿼리?
+  → YES: Document (MongoDB/Elasticsearch)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">NoSQL 선택 결정 트리</div></div>
-<div class="kb-diagram-note">Q1: 밀리초 단위 조회 + 단순 key 기반 액세스?</div>
-<div class="kb-diagram-note">→ YES: Key-Value (Redis/DynamoDB)</div>
-<div class="kb-diagram-note">Q2: 유연한 JSON 구조, 복잡한 문서 쿼리?</div>
-<div class="kb-diagram-note">→ YES: Document (MongoDB/Elasticsearch)</div>
-<div class="kb-diagram-note">Q3: 초당 수십만 건 시계열 쓰기 + 행 키 기반?</div>
-<div class="kb-diagram-note">→ YES: Wide-Column (Cassandra/HBase)</div>
-<div class="kb-diagram-note">Q4: 다중 홉 관계 탐색 (친구의 친구, 추천)?</div>
-<div class="kb-diagram-note">→ YES: Graph (Neo4j/Neptune)</div>
-<div class="kb-diagram-note">Q5: 강력한 JOIN + ACID 필수?</div>
-<div class="kb-diagram-note">→ RDBMS (PostgreSQL/MySQL)</div>
-</div>
-</div>
+Q3: 초당 수십만 건 시계열 쓰기 + 행 키 기반?
+  → YES: Wide-Column (Cassandra/HBase)
 
+Q4: 다중 홉 관계 탐색 (친구의 친구, 추천)?
+  → YES: Graph (Neo4j/Neptune)
 
+Q5: 강력한 JOIN + ACID 필수?
+  → RDBMS (PostgreSQL/MySQL)
+```
 
 ### [폴리글랏 퍼시스턴스](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/308_pgvector/)([Polyglot Persistence](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/132_polyglot_persistence/))
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">현대 전자상거래 플랫폼 예시</div></div>
-<div class="kb-diagram-note">사용자 세션·장바구니 ──▶ Redis (Key-Value, 밀리초 응답)</div>
-<div class="kb-diagram-note">상품 카탈로그·리뷰 ──▶ MongoDB (Document, 유연한 구조)</div>
-<div class="kb-diagram-note">주문·결제 내역 ──▶ PostgreSQL (RDBMS, ACID 필수)</div>
-<div class="kb-diagram-note">검색 인덱스 ──▶ Elasticsearch (Document, 전문 검색)</div>
-<div class="kb-diagram-note">추천 엔진 ──▶ Neo4j (Graph, 관계 탐색)</div>
-<div class="kb-diagram-note">클릭스트림 로그 ──▶ Cassandra (Wide-Column, 대용량 쓰기)</div>
-</div>
-</div>
-
-
+```
+[현대 전자상거래 플랫폼 예시]
+사용자 세션·장바구니  ──▶  Redis (Key-Value, 밀리초 응답)
+상품 카탈로그·리뷰    ──▶  MongoDB (Document, 유연한 구조)
+주문·결제 내역        ──▶  PostgreSQL (RDBMS, ACID 필수)
+검색 인덱스           ──▶  Elasticsearch (Document, 전문 검색)
+추천 엔진            ──▶  Neo4j (Graph, 관계 탐색)
+클릭스트림 로그       ──▶  Cassandra (Wide-Column, 대용량 쓰기)
+```
 
 **기술사 핵심 판단**: 단일 DB 만능주의를 탈피하고, "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 액세스 패턴을 먼저 분석한 뒤, 각 패턴에 최적화된 DB를 선택"하는 [폴리글랏 퍼시스턴스](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/308_pgvector/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 제안한다.
 
@@ -230,21 +220,16 @@ NoSQL은 이 문제를 해결하기 위해 <strong><a href="/knowledge-base/stud
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">RDBMS: SQL · ACID · 정규화 (수직 확장 한계)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">NoSQL: 수평 확장 · 유연한 스키마 · 최종 일관성</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Key-Value: Redis · DynamoDB</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Document: MongoDB · Elasticsearch</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Wide-Column: Cassandra · HBase</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Graph: Neo4j · Neptune</div>
-</div>
-</div>
-
-
+```text
+RDBMS: SQL · ACID · 정규화 (수직 확장 한계)
+    │
+    ▼
+NoSQL: 수평 확장 · 유연한 스키마 · 최종 일관성
+    ├─► Key-Value: Redis · DynamoDB
+    ├─► Document: MongoDB · Elasticsearch
+    ├─► Wide-Column: Cassandra · HBase
+    └─► Graph: Neo4j · Neptune
+```
 2. RDBMS가 만능 도구라면, NoSQL은 각자 한 가지를 잘하는 전문 도구다. 볼트를 조이는 데는 스패너(Key-Value)가, 나무를 자르는 데는 톱(Wide-Column)이 더 낫다.
 3. 현대 앱들은 여러 종류의 NoSQL을 함께 쓴다. 로그인([Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/)), 상품 정보([MongoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/540_mongodb/)), 친구 추천(Neo4j)처럼 각 기능에 맞는 DB를 고르는 것이 스마트한 방법이다.
 

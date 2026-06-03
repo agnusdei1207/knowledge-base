@@ -35,24 +35,25 @@ tags = ["studynote-ai"]
 | **YOLO v1** | $S \times S$ 바둑판으로 나누고, 물체의 중심이 떨어진 칸(Grid)의 담당자가 박스(X, Y, W, H)와 클래스(개/고양이) 예측을 1타 2피로 전담한다. | 속도 최강. 단, 하나의 칸에 여러 작은 물체(새 떼 등)가 뭉쳐 있으면 1개밖에 잡지 못하는 시각장애 발생. |
 | <strong><a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/">SSD</a></strong> | YOLO의 단일 출력층 한계를 극복하기 위해, [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 중간층(큰 사진)부터 마지막 층(작은 요약본)까지 총 6개의 [특성 맵](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/)에서 동시에 박스를 예측한다. | 속도는 유지하면서, 얕은 층에선 작은 물체를 깊은 층에선 큰 물체를 완벽히 잡아내어 정확도 급상승. |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">YOLO의 바둑판 책임 예측 및 NMS 필터링 원리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1.</div><div class="kb-diagram-node">Grid 분할</div><div class="kb-diagram-note">입력 이미지(448x448)를 7x7 바둑판(총 49칸)으로 분할</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2.</div><div class="kb-diagram-node">책임 할당</div><div class="kb-diagram-note">"고양이 중심점이 3행 4열에 떨어졌다!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 3행 4열 세포가 박스 그리기 및 고양이 분류 담당</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3.</div><div class="kb-diagram-node">난사</div><div class="kb-diagram-note">49칸이 각자 2개씩 일단 박스를 던짐 (총 98개 난립)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(박스 점수 = "얼마나 물체일 확률이 높은가?")</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">4.</div><div class="kb-diagram-node">NMS 지우개</div><div class="kb-diagram-note">Non-Maximum Suppression</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 가장 점수 높은 박스 1개 선택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 걔랑 엄청 겹친(IoU가 큰) 나머지 잡다한 박스는 다 지워버림!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">5.</div><div class="kb-diagram-node">최종 결과</div><div class="kb-diagram-note">깔끔하게 고양이만 감싸는 네모 박스 1개 완성!</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           YOLO의 바둑판 책임 예측 및 NMS 필터링 원리             │
+├──────────────────────────────────────────────────────────────┤
+│ 1. [Grid 분할] 입력 이미지(448x448)를 7x7 바둑판(총 49칸)으로 분할 │
+│        │                                                     │
+│ 2. [책임 할당] "고양이 중심점이 3행 4열에 떨어졌다!"              │
+│               => 3행 4열 세포가 박스 그리기 및 고양이 분류 담당     │
+│        │                                                     │
+│ 3. [난사] 49칸이 각자 2개씩 일단 박스를 던짐 (총 98개 난립)        │
+│        │   (박스 점수 = "얼마나 물체일 확률이 높은가?")           │
+│        ▼                                                     │
+│ 4. [NMS 지우개] Non-Maximum Suppression                      │
+│    - 가장 점수 높은 박스 1개 선택                                │
+│    - 걔랑 엄청 겹친(IoU가 큰) 나머지 잡다한 박스는 다 지워버림!      │
+│        ▼                                                     │
+│ 5. [최종 결과] 깔끔하게 고양이만 감싸는 네모 박스 1개 완성!         │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램에서 마지막 <strong>NMS(비최대 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/">억제</a>)</strong> [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 1-Stage 방식이 필연적으로 만들어내는 '마구잡이로 겹친 박스 쓰레기'들을 청소하여 화면을 예쁘게 정리해 주는 필수적인 후처리 가위질이다.
 
@@ -115,25 +116,24 @@ YOLO와 SSD가 이끄는 1-Stage 탐지기의 탄생은 단순한 [알고리즘]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이미지 분류 (Image Classification - 강아지인지 고양이인지만 맞춤)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">객체 탐지 도입 (Object Detection - 어디에 있는지 네모 박스까지 쳐줌)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">2-Stage 탐지기 (R-CNN, Fast R-CNN - 정확하지만 사진 1장에 수 초~수십 초 소요)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">1-Stage 탐지기 등장 (YOLO v1 - 한 번만 보고 위치/분류 동시 해결, 실시간 돌파)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">작은 물체 탐지 약점 극복 (SSD의 다중 특성 맵 기반 사격 개념 도입)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">1-Stage 천하통일 (YOLO v3 ~ v11 - SSD의 장점을 모두 흡수하여 자율주행, 비전 AI 지배)</div>
-</div>
-</div>
-
-
+```text
+이미지 분류 (Image Classification - 강아지인지 고양이인지만 맞춤)
+    │
+    ▼
+객체 탐지 도입 (Object Detection - 어디에 있는지 네모 박스까지 쳐줌)
+    │
+    ▼
+2-Stage 탐지기 (R-CNN, Fast R-CNN - 정확하지만 사진 1장에 수 초~수십 초 소요)
+    │
+    ▼
+1-Stage 탐지기 등장 (YOLO v1 - 한 번만 보고 위치/분류 동시 해결, 실시간 돌파)
+    │
+    ▼
+작은 물체 탐지 약점 극복 (SSD의 다중 특성 맵 기반 사격 개념 도입)
+    │
+    ▼
+1-Stage 천하통일 (YOLO v3 ~ v11 - SSD의 장점을 모두 흡수하여 자율주행, 비전 AI 지배)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

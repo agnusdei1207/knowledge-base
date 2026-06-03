@@ -39,24 +39,27 @@ tags = ["studynote-algorithm"]
 
 ### 해시 테이블 구조
 
+```
+key = "Alice"
+hash("Alice") % 7 = 3
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">key = "Alice"</div>
-<div class="kb-diagram-note">hash("Alice") % 7 = 3</div>
-<div class="kb-diagram-note">배열(버킷) 크기 m = 7:</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">null</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">"Bob"→42</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2</div><div class="kb-diagram-cell">null</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3</div><div class="kb-diagram-cell">"Alice"→35</div><div class="kb-diagram-cell">← hash("Alice")%7</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4</div><div class="kb-diagram-cell">null</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5</div><div class="kb-diagram-cell">"Carol"→28</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6</div><div class="kb-diagram-cell">null</div></div>
-</div>
-</div>
-
-
+배열(버킷) 크기 m = 7:
+┌───┬─────────┐
+│ 0 │  null   │
+├───┼─────────┤
+│ 1 │ "Bob"→42│
+├───┼─────────┤
+│ 2 │  null   │
+├───┼─────────┤
+│ 3 │"Alice"→35│  ← hash("Alice")%7
+├───┼─────────┤
+│ 4 │  null   │
+├───┼─────────┤
+│ 5 │"Carol"→28│
+├───┼─────────┤
+│ 6 │  null   │
+└───┴─────────┘
+```
 
 ### [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/) 설계 원칙
 
@@ -77,33 +80,23 @@ tags = ["studynote-algorithm"]
 
 ### 부하 계수와 리해싱 (Rehashing)
 
+```
+α (부하 계수) = n (원소 수) / m (버킷 수)
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">α (부하 계수) = n (원소 수) / m (버킷 수)</div>
-<div class="kb-diagram-note">α &lt; 0.75 → 성능 양호 (Java HashMap 기본 임계값)</div>
-<div class="kb-diagram-note">α ≥ 0.75 → 리해싱: 새 배열 2배 크기로 생성 후 전체 재삽입</div>
-<div class="kb-diagram-note">→ O(n) 비용, 분할상환 O(1) 삽입 유지</div>
-</div>
-</div>
-
-
+α < 0.75  →  성능 양호 (Java HashMap 기본 임계값)
+α ≥ 0.75  →  리해싱: 새 배열 2배 크기로 생성 후 전체 재삽입
+           →  O(n) 비용, 분할상환 O(1) 삽입 유지
+```
 
 ### Java HashMap 내부 구조
 
+```
+초기: 배열 + 연결 리스트(체이닝)
+체인 길이 ≥ 8 이고 버킷 수 ≥ 64  →  레드-블랙 트리로 자동 변환
+레드-블랙 트리 노드 수 ≤ 6        →  다시 연결 리스트로 복원
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">초기: 배열 + 연결 리스트(체이닝)</div>
-<div class="kb-diagram-note">체인 길이 ≥ 8 이고 버킷 수 ≥ 64 → 레드-블랙 트리로 자동 변환</div>
-<div class="kb-diagram-note">레드-블랙 트리 노드 수 ≤ 6 → 다시 연결 리스트로 복원</div>
-<div class="kb-diagram-note">장점: O(n) 체인 충돌 시 O(log n)으로 격하 방지</div>
-</div>
-</div>
-
-
+장점: O(n) 체인 충돌 시 O(log n)으로 격하 방지
+```
 
 📢 **섹션 요약 비유**: 부하 계수는 주차장 점유율이다—80% 이상 차면 새 차가 빈 자리를 찾느라 헤매므로, 2배 큰 주차장으로 이사하는 것이 리해싱이다.
 
@@ -141,19 +134,13 @@ tags = ["studynote-algorithm"]
 
 ### 기술사 판단 기준
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">빠른 등가 검색 (=) + 순서 불필요 → 해시 테이블</div>
-<div class="kb-diagram-note">범위 쿼리 + 정렬 순회 필요 → B+ 트리 (DB 인덱스) / 트리맵</div>
-<div class="kb-diagram-note">삽입 빈도 높음 + 충돌 제어 중요 → 체이닝 (부하율 1 이상도 허용)</div>
-<div class="kb-diagram-note">메모리 제한 + 캐시 효율 중요 → 오픈 어드레싱 (선형 탐사)</div>
-<div class="kb-diagram-note">확률적 멤버십 검사 + 공간 절약 → 블룸 필터</div>
-</div>
-</div>
-
-
+```
+빠른 등가 검색 (=) + 순서 불필요   →  해시 테이블
+범위 쿼리 + 정렬 순회 필요          →  B+ 트리 (DB 인덱스) / 트리맵
+삽입 빈도 높음 + 충돌 제어 중요     →  체이닝 (부하율 1 이상도 허용)
+메모리 제한 + 캐시 효율 중요        →  오픈 어드레싱 (선형 탐사)
+확률적 멤버십 검사 + 공간 절약      →  블룸 필터
+```
 
 📢 **섹션 요약 비유**: 해시 테이블의 충돌은 번호표가 겹치는 상황—발권기가 같은 번호를 두 번 주면 해결책은 번호 옆에 대기 줄을 세우는 것(체이닝)이거나, 빈 번호를 자동 배정하는 것(오픈 어드레싱)이다.
 
@@ -183,23 +170,21 @@ tags = ["studynote-algorithm"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">직접 주소 테이블 (Direct Address Table) — 키 값을 인덱스로 직접 사용, 메모리 낭비 심함</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">해시 테이블 (Hash Table) — 해시 함수로 키를 압축해 O(1) 평균 탐색·삽입</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">체이닝 / 오픈 어드레싱 — 충돌 해결 전략, 부하 계수(Load Factor) 관리가 핵심</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">블룸 필터 (Bloom Filter) — 확률적 해시 기반 집합 멤버십 판단, 메모리 극소화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">분산 해시 테이블 (DHT) / 일관된 해싱 — 노드 추가·삭제 시 리밸런싱 최소화, 분산 캐시 기반</div></div>
-</div>
-</div>
-
-
+```text
+[직접 주소 테이블 (Direct Address Table) — 키 값을 인덱스로 직접 사용, 메모리 낭비 심함]
+    │
+    ▼
+[해시 테이블 (Hash Table) — 해시 함수로 키를 압축해 O(1) 평균 탐색·삽입]
+    │
+    ▼
+[체이닝 / 오픈 어드레싱 — 충돌 해결 전략, 부하 계수(Load Factor) 관리가 핵심]
+    │
+    ▼
+[블룸 필터 (Bloom Filter) — 확률적 해시 기반 집합 멤버십 판단, 메모리 극소화]
+    │
+    ▼
+[분산 해시 테이블 (DHT) / 일관된 해싱 — 노드 추가·삭제 시 리밸런싱 최소화, 분산 캐시 기반]
+```
 
 이 흐름은 O(1) 탐색을 목표로 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)가 등장하고, 충돌 해결 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로 실용성을 확보한 뒤, 확률적 멤버십 판단([블룸 필터](/knowledge-base/studynote/12_it_management/02_itsm_itil/061_bloomfilter/))과 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템의 일관된 해싱으로 진화하는 해시 자료구조 발전의 핵심 계보를 보여준다.
 

@@ -29,25 +29,33 @@ tags = ["studynote-network"]
 
 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 기반의 일반적인 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 접근과 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 카빙의 근본적인 접근 방식 차이를 시각화하면, 카빙이 왜 최후의 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 수단인지 명확해진다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일반 파일 시스템 읽기 vs 파일 카빙 (File Carving) 메커니즘 차이</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">방식 1: 정상적인 파일 읽기 (메타데이터 의존)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MFT / FAT (색인)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">"사진.jpg는 100번~105번 블록에 있음"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(삭제/파괴됨) ─X</div><div class="kb-diagram-cell">물리적 디스크 섹터/클러스터</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">(색인 파괴 시 파일 접근 불가)</div><div class="kb-diagram-node">100 | 101 | 102 | 103 | ...</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">방식 2: 파일 카빙 (시그니처 기반 원시 데이터 스캔)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Carving Tool ── (MFT 무시) ──▶ 전체 물리적 바이트 선형 스캔 시작</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원시 데이터 스트림:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">... 00 1A</div><div class="kb-diagram-cell">FF D8 FF E0 (JPEG Header!)</div><div class="kb-diagram-cell">A4 B2 ... 3F</div><div class="kb-diagram-cell">FF D9 (Footer)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">추출(Carving): 사진.jpg 복구</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 시스템 색인이 날아갔더라도, 파일 고유의 시작/끝 지문을 찾아 데이터를 오려냄.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌──────────────────────────────────────────────────────────────────────┐
+  │         일반 파일 시스템 읽기 vs 파일 카빙 (File Carving) 메커니즘 차이    │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │                                                                      │
+  │  [방식 1: 정상적인 파일 읽기 (메타데이터 의존)]                               │
+  │                                                                      │
+  │  OS 요청 ──▶ [ MFT / FAT (색인) ] ──▶ "사진.jpg는 100번~105번 블록에 있음"│
+  │                  │ (삭제/파괴됨) ─X        │ 물리적 디스크 섹터/클러스터      │
+  │                  ▼                         ▼                         │
+  │        (색인 파괴 시 파일 접근 불가)      [ 100 | 101 | 102 | 103 | ... ]  │
+  │                                                                      │
+  │ ──────────────────────────────────────────────────────────────────── │
+  │                                                                      │
+  │  [방식 2: 파일 카빙 (시그니처 기반 원시 데이터 스캔)]                           │
+  │                                                                      │
+  │  Carving Tool ── (MFT 무시) ──▶ 전체 물리적 바이트 선형 스캔 시작          │
+  │                                                                      │
+  │  원시 데이터 스트림:                                                      │
+  │  ... 00 1A | FF D8 FF E0 (JPEG Header!) | A4 B2 ... 3F | FF D9 (Footer)│
+  │              ▲                                           ▲           │
+  │              │                                           │           │
+  │              └─────── [ 추출(Carving): 사진.jpg 복구 ] ───────┘           │
+  │                                                                      │
+  │  결과: 시스템 색인이 날아갔더라도, 파일 고유의 시작/끝 지문을 찾아 데이터를 오려냄.│
+  └──────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 일반적인 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템(NTFS, ext4 등)은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 시작 위치와 크기 정보를 별도의 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 영역(MFT)에 저장하여 매우 빠르게 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 찾아간다. 공격자가 이 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 지워버리면, 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록이 디스크나 메모리에 고스란히 남아 있어도 OS는 이를 "비어있는 공간"으로 인식하여 읽을 수 없게 된다. 반면 카빙 (Carving) 툴은 이 색인을 완전히 무시한다. 대신 디스크의 첫 섹터부터 끝까지, 혹은 거대한 네트워크 패킷 덤프(PCAP)의 처음부터 끝까지 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 단위로 훑어 내려간다. 그러다가 사전에 정의된 특정 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 지문, 예를 들어 JPEG 이미지의 시작을 알리는 16진수 [매직 넘버](/knowledge-base/studynote/02_operating_system/09_file_system/503_magic_number_file_signature/) `FF D8 FF E0`를 발견하면 카빙을 시작하고, 푸터인 `FF D9`를 만날 때까지의 모든 중간 페이로드를 캡슐화하여 하나의 온전한 이미지 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 강제 추출([복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))해 낸다.
 
@@ -67,18 +75,14 @@ tags = ["studynote-network"]
 | <strong>유효성 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>기 (Validator)</strong> | 추출된 조각이 실제 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)인지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 내부 구조 체크, [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/)([Checksum](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/))/[엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 계산 | Format Parsing | 깎아낸 조각이 진짜인지 감정 |
 | **재조립 및 추출기 (Extractor)** | [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)된 블록을 합쳐 정상 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 저장 | 헤더~푸터(또는 최대 크기) 구간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 새 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 기록 | Hex-to-Binary Export | 조각들을 풀로 붙여 완전한 형태 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">하이브리드 암호 시스템</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">파일 카빙</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">포니팟</div></div>
-</div>
-</div>
-
-
+```text
+[하이브리드 암호 시스템]
+    │
+    ▼
+[파일 카빙]
+    │
+    └──▶ [포니팟]
+```
 
 - **📢 섹션 요약 비유**: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 카빙의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -88,28 +92,35 @@ tags = ["studynote-network"]
 
 [네트워크 보안](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) 관제에서 대량의 PCAP 덤프 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 내부에 은닉되어 다운로드된 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(EXE/PE 멀웨어)을 카빙하여 재구성하는 딥 다이브 흐름도를 살펴보자.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">네트워크 PCAP 덤프 기반 파일 카빙 흐름도 (EXE 악성코드 복구)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">PCAP 파일 (수백만 개의 TCP/UDP 패킷 집합)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 1. 세션 재구성 및 페이로드 추출 (TCP Stream Reassembly)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스트림 1: HTTP GET /malware.bin HTTP/1.1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스트림 2: HTTP/1.1 200 OK (TCP 단편화되어 여러 패킷에 분산됨)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 2. 바이트 스트림 카빙 스캔 (Carving Scanner 동작)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">...</div><div class="kb-diagram-node">HTTP Header</div><div class="kb-diagram-note">0D 0A 0D 0A | 4D 5A (MZ: Windows EXE 헤더!) ...</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">헤더 시그니처 매칭</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 3. 데이터 블록 버퍼링 및 푸터/크기 감지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">... (PE Header) ... (.text section) ... (.data section) ...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(EXE는 푸터가 없으므로 PE 구조 분석으로 파일 크기 계산 후 카빙)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">추출 완료: Recovered_Malware.exe 생성 (유효성 검증)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 4. 위협 인텔리전스 (CTI) 연동 및 악성코드 분석</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">추출된 파일 SHA-256 해시 계산</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">VirusTotal/샌드박스 동적 분석 투입</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────────┐
+  │           네트워크 PCAP 덤프 기반 파일 카빙 흐름도 (EXE 악성코드 복구)          │
+  ├───────────────────────────────────────────────────────────────────────┤
+  │                                                                       │
+  │  [PCAP 파일 (수백만 개의 TCP/UDP 패킷 집합)]                                  │
+  │     │                                                                 │
+  │     ▼ 1. 세션 재구성 및 페이로드 추출 (TCP Stream Reassembly)                 │
+  │  ┌─────────────────────────────────────────────────────────┐          │
+  │  │ 스트림 1: HTTP GET /malware.bin HTTP/1.1                │          │
+  │  │ 스트림 2: HTTP/1.1 200 OK (TCP 단편화되어 여러 패킷에 분산됨) │          │
+  │  └─────────────────────────────────────────────────────────┘          │
+  │     │                                                                 │
+  │     ▼ 2. 바이트 스트림 카빙 스캔 (Carving Scanner 동작)                       │
+  │  ... [HTTP Header] 0D 0A 0D 0A | 4D 5A (MZ: Windows EXE 헤더!) ...    │
+  │                                  ▲                                    │
+  │                           [헤더 시그니처 매칭]                             │
+  │     │                                                                 │
+  │     ▼ 3. 데이터 블록 버퍼링 및 푸터/크기 감지                                 │
+  │  ... (PE Header) ... (.text section) ... (.data section) ...          │
+  │                                                                       │
+  │     │ (EXE는 푸터가 없으므로 PE 구조 분석으로 파일 크기 계산 후 카빙)               │
+  │     ▼                                                                 │
+  │  [추출 완료: Recovered_Malware.exe 생성 (유효성 검증)]                     │
+  │     │                                                                 │
+  │     ▼ 4. 위협 인텔리전스 (CTI) 연동 및 악성코드 분석                           │
+  │  [추출된 파일 SHA-256 해시 계산] ──▶ VirusTotal/샌드박스 동적 분석 투입       │
+  └───────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** [네트워크 포렌식](/knowledge-base/studynote/09_security/13_secops_ir_forensics/668_network_forensics/)에서 카빙은 매우 복잡하다. 왜냐하면 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 한 번에 덩어리로 오지 않고, 수많은 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 패킷(MTU 1500바이트 이하)으로 잘게 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)([Fragmentation](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/))되어 순서가 뒤섞여 전송되기 때문이다. 먼저 패킷 캡처 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(PCAP)에서 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 시퀀스 넘버를 추적해 스트림을 하나의 연속된 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 흐름으로 재조립(Reassembly)한다. 그 후 카빙 엔진이 이 바이너리 스트림을 훑어가다가 Windows 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 고유의 [매직 넘버](/knowledge-base/studynote/02_operating_system/09_file_system/503_magic_number_file_signature/)인 `4D 5A` (ASCII로 'MZ')를 포착한다. 이미지(JPG)는 보통 `FF D9`라는 명확한 끝점(푸터)이 있지만, EXE [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 명확한 푸터가 없는 경우가 많다. 이럴 때는 시그니처 기반 단순 카빙을 넘어 구조 기반 카빙(Structure-based Carving)이 개입하여 PE (Portable Executable) 헤더 내부의 '[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 크기' 정보를 읽어내어 그 크기만큼 정확하게 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)를 잘라낸다. 이렇게 네트워크 선로 위에서 탈취된 조각들이 하나로 조립되어 완전한 멀웨어 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(`Recovered_Malware.exe`)로 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)되면, 보안 분석가는 이를 샌드박스에서 터뜨려 침해 사고의 전모를 파악할 수 있다.
 
@@ -128,28 +139,32 @@ tags = ["studynote-network"]
 
 보안 관제([SOC](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/))에서 카빙은 단순한 '사후 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)'가 아니라 실시간 '유출 탐지' 시너지로 융합된다. 해커가 기밀문서를 이미지 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 위장하여 스테가노그래피(Steganography)로 유출하거나 확장자를 `.tmp`로 속여 빼낼 때, 카빙 기반의 DPI (Deep Packet Inspection) 장비는 이를 무력화한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DPI 및 카빙 엔진 융합 기반의 데이터 유출 적발 모델</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">내부망 감염 PC</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 유출: 기밀소스코드.zip을 logo.png 파일로 확장자 위장 전송</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (TCP/80 포트 HTTP 트래픽)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 관문 방화벽 / IPS 장비</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 단순 포트/URL 검사: "png 파일이네. 정상 트래픽 통과" (⚠ 한계)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▼</div><div class="kb-diagram-node">인라인 PCAP 미러링 포트</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">실시간 파일 카빙 &amp; 관제 분석기 (NetworkMiner/Zeek)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 이진 페이로드 카빙 스캔 중...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"트래픽 확장자는 png인데, 바이트 스트림 시작 매직 넘버가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">'50 4B 03 04'(ZIP 파일 시그니처)로 식별됨!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 4. 카빙 추출 (ZIP 파일 조립 완료)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DLP (Data Loss Prevention) / SIEM 연동</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">자동 차단 및 알람</div></div>
-</div>
-</div>
-
-
+```text
+  ┌────────────────────────────────────────────────────────────────────┐
+  │             DPI 및 카빙 엔진 융합 기반의 데이터 유출 적발 모델               │
+  ├────────────────────────────────────────────────────────────────────┤
+  │                                                                    │
+  │ [내부망 감염 PC]                                                   │
+  │    │ 1. 유출: 기밀소스코드.zip을 logo.png 파일로 확장자 위장 전송        │
+  │    │                                                               │
+  │    ▼ (TCP/80 포트 HTTP 트래픽)                                     │
+  │ [네트워크 관문 방화벽 / IPS 장비]                                       │
+  │    │ 2. 단순 포트/URL 검사: "png 파일이네. 정상 트래픽 통과" (⚠ 한계)     │
+  │    │                                                               │
+  │    ▼ [인라인 PCAP 미러링 포트]                                        │
+  │ [실시간 파일 카빙 & 관제 분석기 (NetworkMiner/Zeek)]                     │
+  │    │                                                               │
+  │    │ 3. 이진 페이로드 카빙 스캔 중...                                  │
+  │    │  "트래픽 확장자는 png인데, 바이트 스트림 시작 매직 넘버가           │
+  │    │   '50 4B 03 04'(ZIP 파일 시그니처)로 식별됨!"                   │
+  │    │                                                               │
+  │    ├─▶ 4. 카빙 추출 (ZIP 파일 조립 완료)                               │
+  │    │                                                               │
+  │    ▼                                                               │
+  │ [DLP (Data Loss Prevention) / SIEM 연동]                           │
+  │    5. 압축 해제 및 기밀 키워드("CONFIDENTIAL") 탐지 ──▶ [자동 차단 및 알람] │
+  └────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 모델은 단순 룰 매칭 방화벽의 취약점을 카빙 기술로 어떻게 극복하는지 보여준다. 해커는 보안 탐지를 피하기 위해 내부 기밀 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 담긴 ZIP [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 그림 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(logo.png)로 속여서 웹 포트를 통해 유출(Exfiltration)한다. 기존 방화벽은 패킷 헤더의 `Content-Type: image/png`만 보고 이를 무사과시켜 버린다. 하지만 네트워크 패킷 덤프를 실시간으로 분석하는 카빙 엔진은 껍데기 확장자나 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 일절 믿지 않는다. 순수 페이로드 이진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 분석하여, 해당 스트림의 첫 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)가 PNG의 `89 50 4E 47`이 아니라 ZIP [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 고유의 `50 4B 03 04`임을 적발한다. 엔진은 즉시 이 스트림을 ZIP [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 형태로 카빙해 내고, 내부 구조를 파싱하여 [DLP](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/386_dlp/) 시스템으로 넘겨 유출을 실시간으로 차단하는 결정적 역할을 한다.
 
@@ -165,27 +180,34 @@ tags = ["studynote-network"]
 
 [안티 포렌식](/knowledge-base/studynote/09_security/13_secops_ir_forensics/674_anti_forensics/) 환경과 파편화라는 두 가지 거대한 장애물을 실무에서 어떻게 돌파하는지 의사결정 플로우로 살펴보자.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파일 카빙 수행 시 실무 분석가 의사결정 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">증거물 획득: 물리 디스크 덤프 이미지 (dd/E01 포맷)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">운영체제 파일 시스템(MFT/FAT)이 정상적으로 파싱되는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">기존 휴지통/저널링 복구 기법 우선 적용 (속도 빠름)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 (랜섬웨어 파괴 / 포맷 발생 상태)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">복구하려는 파일 크기가 파일 시스템 클러스터 크기(일반 4KB)보다 큰가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">단순 헤더/푸터 카빙(Foremost) 적용 (단편화 없음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예 (파일이 여러 조각으로 찢어져 있을 확률 90% 이상)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스마트 카빙 (Smart/Semantic Carving) 엔진 적용 결정</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ 1.</div><div class="kb-diagram-node">엔트로피 분석</div><div class="kb-diagram-note">: 암호화/압축 조각과 평문 조각의 수학적 분리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ 2.</div><div class="kb-diagram-node">파일 내부 포맷 파싱</div><div class="kb-diagram-note">: 조각 간의 구조적 연속성 검사</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">파편화된 원본 파일 100% 복구 완료</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심 판단: 파편화가 심한 현대 OS에서는 단순 스캔 방식은 가비지만 생성함!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │             파일 카빙 수행 시 실무 분석가 의사결정 플로우             │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │  [증거물 획득: 물리 디스크 덤프 이미지 (dd/E01 포맷)]                 │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      운영체제 파일 시스템(MFT/FAT)이 정상적으로 파싱되는가?           │
+  │          ├─ 예 ─────▶ [기존 휴지통/저널링 복구 기법 우선 적용 (속도 빠름)]│
+  │          │                                                        │
+  │          └─ 아니오 (랜섬웨어 파괴 / 포맷 발생 상태)                   │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      복구하려는 파일 크기가 파일 시스템 클러스터 크기(일반 4KB)보다 큰가?│
+  │          ├─ 아니오 ──▶ [단순 헤더/푸터 카빙(Foremost) 적용 (단편화 없음)]│
+  │          │                                                        │
+  │          └─ 예 (파일이 여러 조각으로 찢어져 있을 확률 90% 이상)        │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      스마트 카빙 (Smart/Semantic Carving) 엔진 적용 결정            │
+  │          ├─ 1. [엔트로피 분석]: 암호화/압축 조각과 평문 조각의 수학적 분리 │
+  │          ├─ 2. [파일 내부 포맷 파싱]: 조각 간의 구조적 연속성 검사       │
+  │          └─▶ 조각 매칭 기반 결합 ──▶ [파편화된 원본 파일 100% 복구 완료] │
+  │                                                                   │
+  │  핵심 판단: 파편화가 심한 현대 OS에서는 단순 스캔 방식은 가비지만 생성함!    │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 카빙 실무에서 가장 큰 기술적 장벽은 '[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) ([File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [Fragmentation](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/))'다. 현대의 디스크는 용량 효율을 위해 큰 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 하나의 연속된 공간에 쓰지 않고 디스크 여기저기 빈 공간에 쪼개서 저장 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)([Fragmentation](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/))된다. 만약 10MB짜리 동영상이 1,000개의 조각으로 찢겨 저장된 상태에서 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)가 삭제되었다면, 단순 헤더/푸터 카빙 방식은 첫 번째 조각의 헤더를 찾은 뒤부터 엉뚱한 가비지 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)까지 무작정 한 덩어리로 묶어버려 '재생 불가능한 쓰레기 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)'을 카빙해 낸다. 따라서 전문가들은 복원 대상 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 클러스터 크기(보통 4KB)보다 클 경우 단순 카빙 툴을 버리고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록의 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)(무작위성 정도)를 수학적으로 계산하고 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 포맷의 척추(구조적 시맨틱)를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하여, 이산가족처럼 흩어진 조각들을 문맥상 맞는 것끼리 이어 붙이는 지능형 스마트 카빙 (Smart Carving) 프로세스를 도입해야 한다.
 
@@ -219,21 +241,23 @@ tags = ["studynote-network"]
 
 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 카빙은 시스템이 제공하는 친절한 인터페이스([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)명)를 모두 걷어내고, 기계어와 이진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 민낯과 직접 대면하는 '바닥 레벨(Low-level)' 기술의 정수다. 보안 관제와 침해사고 조사에 있어 카빙 역량이 내재화되어 있지 않다면, 해커가 약간의 위장술(확장자 변경, 포맷 등)만 써도 대응 체계 전체가 맹인이 되어버린다. 기술사적 통찰에서는 단순히 '어떤 카빙 툴을 쓸 것인가'를 넘어서, 엄청난 부하를 유발하는 이 딥 스캔 엔진을 네트워크의 어느 구간에 위치시키고, [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 문제를 시맨틱 엔진으로 어떻게 효율적으로 오프로드(Offload) 할 것인지 설계하는 전체 파이프라인 구축 능력을 제시해야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디지털 포렌식 데이터 추출 기술의 패러다임 진화 로드맵</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Level 1: 논리적 포렌식</div><div class="kb-diagram-node">Level 2: 원시 카빙</div><div class="kb-diagram-node">Level 3: 시맨틱/AI 카빙</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(과거~현재) (현재 주력) (미래 표준)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MFT / FAT 의존 ▶ 헤더/푸터 기반 스캔 ▶ 구조 인지 및 AI 형상 인식</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제약: 삭제 시 복원 불가 제약: 단편화 시 훼손 돌파: 조각난 파일 완벽 재결합</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">한계: 확장자 위장에 취약 한계: 오탐지율 증가 돌파: 변조된 포맷 자율 복원</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결론: 단순 바이트 매칭 도구에서, 파일의 '의미 체계'를 인지하는 AI 엔진으로 진화 중</div></div>
-</div>
-</div>
-
-
+```text
+  ┌──────────────────────────────────────────────────────────────────┐
+  │         디지털 포렌식 데이터 추출 기술의 패러다임 진화 로드맵           │
+  ├──────────────────────────────────────────────────────────────────┤
+  │                                                                  │
+  │  [Level 1: 논리적 포렌식]   [Level 2: 원시 카빙]    [Level 3: 시맨틱/AI 카빙] │
+  │    (과거~현재)              (현재 주력)              (미래 표준)             │
+  │  MFT / FAT 의존 ────▶ 헤더/푸터 기반 스캔 ────▶ 구조 인지 및 AI 형상 인식 │
+  │                                                                  │
+  │         │                    │                       │           │
+  │         ▼                    ▼                       ▼           │
+  │  제약: 삭제 시 복원 불가    제약: 단편화 시 훼손       돌파: 조각난 파일 완벽 재결합│
+  │  한계: 확장자 위장에 취약    한계: 오탐지율 증가        돌파: 변조된 포맷 자율 복원 │
+  │                                                                  │
+  │  결론: 단순 바이트 매칭 도구에서, 파일의 '의미 체계'를 인지하는 AI 엔진으로 진화 중 │
+  └──────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 디지털 포렌식 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 기술의 발전 단계는 공격자의 은닉 기술 발전에 대한 물리적 방어의 역사다. 논리적 포렌식 (Level 1)은 공격자가 삭제 버튼을 누르는 순간 효력을 상실했다. 이를 극복하기 위해 물리적 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)를 직접 훑어내는 원시 카빙 (Level 2)이 주력이 되었으나, 이는 운영체제가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쪼개어 저장하는 '[단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)' 현상 앞에서는 무력했다. 현대와 미래를 주도하는 시맨틱 및 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 카빙 (Level 3)은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 단순한 껍데기(헤더)가 아니라 뼈대(내부 구조)와 살([엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/))을 종합적으로 분석하고 학습하여, 수만 조각으로 찢겨 흩어진 악성코드나 기밀문서를 한 치의 오차도 없이 원상 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)해 내는 지능형 퍼즐 맞추기 엔진으로 도약하고 있다.
 
@@ -252,19 +276,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 하이브리드 암호 시스템</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 파일 카빙</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 포니팟</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 하이브리드 암호 시스템]
+    │
+    ▼
+[현재 개념: 파일 카빙]
+    │
+    ├──▶ [확장 A: 포니팟]
+    └──▶ [확장 B: 의미 기반 통신 최적화]
+```
 
 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 카빙는 [하이브리드 암호 시스템](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/937_hybrid_encryption/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [포니팟](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/939_honeypot_deception/)와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

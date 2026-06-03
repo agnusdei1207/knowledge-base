@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 구형 <strong><a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/896_sonet_synchronous_optical_networking_oc_ring/">SONET</a>/<a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/895_sdh_synchronous_digital_hierarchy_stm1/">SDH</a> (895, 896번 문서)</strong> 장비는 음성 전화(TDM)를 나르는 데 최적화되어 있어서, 덩치 큰 인터넷 패킷([이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/), IP)을 싣고 달리기엔 너무 낡고 무거워 속도의 한계(10Gbps)에 부딪혔습니다.
 - 반면 순수 <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">이더넷</a>(<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">Ethernet</a>)</strong>은 속도는 100Gbps로 무한히 빨랐지만, 망에 장애가 났을 때 감시하고 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하는 생존 기능(OAM)과 에러 정정 기능이 허접했습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">ASON (Automatically Swit…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">OTN</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OAM</div></div>
-</div>
-</div>
-
-
+```text
+[ASON (Automatically Swit…]
+    │
+    ▼
+[OTN]
+    │
+    └──▶ [OAM]
+```
 
 - **📢 섹션 요약 비유**: OTN는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -44,18 +40,14 @@ tags = ["studynote-network"]
 - **개념**: ITU-T (G.709 규격)에서 제정한 차세대 광통신 백본망 표준으로, <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">이더넷</a> 패킷, 구형 <a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/896_sonet_synchronous_optical_networking_oc_ring/">SONET</a> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a>, 동영상 스트리밍 등 크기와 모양이 제각각인 이질적인 모든 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 화물들을 일정한 크기의 강력한 '디지털 광 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a>(OTU 프레임)' 안에 캡슐화(포장)하여, 100G~400G 파장(DWDM) 위에 실어 안전하고 투명하게 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a>으로 전송하는 광 전송망 아키텍처</strong>입니다.
 - 현대 통신사(KT, SKT 등) 코어 광망의 99%를 장악한 차세대 표준입니다. (보통 ROADM [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)와 찰떡으로 엮여서 돕니다.)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">ASON (Automatically Swit…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">OTN</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OAM</div></div>
-</div>
-</div>
-
-
+```text
+[ASON (Automatically Swit…]
+    │
+    ▼
+[OTN]
+    │
+    └──▶ [OAM]
+```
 
 - **📢 섹션 요약 비유**: OTN의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -125,19 +117,15 @@ OTN는 광통신·차세대·자동화를 이해할 때 핵심 축을 잡아 주
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: ASON (Automatically Swit…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: OTN</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: OAM</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: ASON (Automatically Swit…]
+    │
+    ▼
+[현재 개념: OTN]
+    │
+    ├──▶ [확장 A: OAM]
+    └──▶ [확장 B: 의미 기반 통신 최적화]
+```
 
 OTN는 [ASON](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/892_ason_automatically_switched_optical_network_gmpls/) (Automatically Swit…에서 출발해 현재 메커니즘을 정교화하고, 이후 OAM와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

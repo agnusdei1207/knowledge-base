@@ -23,18 +23,14 @@ tags = ["studynote-network"]
 - **오버서브스크립션 비율 (Ratio) 🌟**: `[하위 포트들의 전체 대역폭 합] : [상위(업링크) 포트의 대역폭 합]`
   - 예: 서버 쪽 포트가 1Gbps짜리 40개(총 40Gbps)이고, 위층(Spine)으로 올라가는 업링크 포트가 10Gbps짜리 1개라면 비율은 <strong>40:<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a> ➜ 4:1</strong>이 됩니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터센터 Spine-Leaf 아키텍처</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">오버서브스크립션 비율 설계 개념 분산망 대역</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ECMP 스파인-리프 병렬 라우팅 경로 활성…</div></div>
-</div>
-</div>
-
-
+```text
+[데이터센터 Spine-Leaf 아키텍처]
+    │
+    ▼
+[오버서브스크립션 비율 설계 개념 분산망 대역]
+    │
+    └──▶ [ECMP 스파인-리프 병렬 라우팅 경로 활성…]
+```
 
 - **📢 섹션 요약 비유**: 오버서브스크립션 비율 설계 개념 분산망 대역은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -42,21 +38,17 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **1:1 비율 (논블로킹, Non-blocking)**: 들어온 만큼 똑같이 위로 나갈 수 있는 구멍을 뚫어놓는 완벽한 설계입니다. 병목(막힘)이 0%지만, 광케이블과 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 칩셋([ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/))을 미친 듯이 비싼 걸 써야 하므로 인프라 구축 비용이 감당이 안 됩니다.
+- **1:1 비율 (논블로킹, Non-blocking)**: 들어온 만큼 똑같이 위로 나갈 수 있는 구멍을 뚫어놓는 완벽한 설계입니다. 병목(병목)이 0%지만, 광케이블과 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 칩셋([ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/))을 미친 듯이 비싼 걸 써야 하므로 인프라 구축 비용이 감당이 안 됩니다.
 - <strong>통계적 <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/">다중화</a> (Statistical <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/">Multiplexing</a>)</strong>: 인간의 인터넷 사용 패턴은 '버스트(Burst, 순간 폭주)' 성향을 가집니다. 서버 40대가 24시간 내내 100% 풀파워로 트래픽을 쏟아내는 일은 1년에 한 번 있을까 말까 합니다. 따라서 통계적으로 안전한 타협점(보통 3:1 또는 4:1)을 찾아 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 설계하는 것이 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 설계의 핵심 기본기입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터센터 Spine-Leaf 아키텍처</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">오버서브스크립션 비율 설계 개념 분산망 대역</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ECMP 스파인-리프 병렬 라우팅 경로 활성…</div></div>
-</div>
-</div>
-
-
+```text
+[데이터센터 Spine-Leaf 아키텍처]
+    │
+    ▼
+[오버서브스크립션 비율 설계 개념 분산망 대역]
+    │
+    └──▶ [ECMP 스파인-리프 병렬 라우팅 경로 활성…]
+```
 
 - **📢 섹션 요약 비유**: 오버서브스크립션 비율 설계 개념 분산망 대역의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -87,7 +79,7 @@ tags = ["studynote-network"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 - 과거 3-Tier 구조(801번)에서는 Access 계층은 20:1, 상위 Core 계층은 4:1 식으로 위로 갈수록 돈을 쳐발라 병목을 뚫는 꼼수를 썼습니다.
-- 현대 <strong>Spine-Leaf 구조(802번)</strong>는 동-서(East-West) 통신이 워낙 많기 때문에, <strong>대부분의 Leaf-Spine 구간을 무식하게 1:1 (논블로킹)에 가깝게 설계하거나 3:1 이하의 극히 낮은 비율</strong>로 설계하여 클라우드 서버끼리의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 완벽하게 없애버리는 무자비한 인프라 물량전을 벌이고 있습니다. (오버서브스크립션을 최소화하는 추세)
+- 현대 <strong>Spine-Leaf 구조(802번)</strong>는 동-서(East-West) 통신이 워낙 많기 때문에, <strong>대부분의 Leaf-Spine 구간을 무식하게 1:1 (논블로킹)에 가깝게 설계하거나 3:1 이하의 극히 낮은 비율</strong>로 설계하여 클라우드 서버끼리의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 완벽하게 없애버리는 무자비한 인프라 수량전을 벌이고 있습니다. (오버서브스크립션을 최소화하는 추세)
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -118,19 +110,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 데이터센터 Spine-Leaf 아키텍처</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 오버서브스크립션 비율 설계 개념 분산망 대역</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: ECMP 스파인-리프 병렬 라우팅 경로 활성…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 데이터센터 Spine-Leaf 아키텍처]
+    │
+    ▼
+[현재 개념: 오버서브스크립션 비율 설계 개념 분산망 대역]
+    │
+    ├──▶ [확장 A: ECMP 스파인-리프 병렬 라우팅 경로 활성…]
+    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
+```
 
 오버서브스크립션 비율 설계 개념 분산망 대역는 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) Spine-Leaf 아키텍처에서 출발해 현재 메커니즘을 정교화하고, 이후 [ECMP](/knowledge-base/studynote/03_network/16_data_center_cloud/804_ecmp_equal_cost_multi_path_routing_load_balancing/) 스파인-리프 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 경로 활성…와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

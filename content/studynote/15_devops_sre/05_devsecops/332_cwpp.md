@@ -29,24 +29,29 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CWPP 탐지 구조 (Falco)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">컨테이너 내 프로세스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(App, Shell, Network 등)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시스템 콜 (syscall)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">v</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">eBPF / Kernel Module 훅</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- execve, open, connect, ptrace 등 감시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">v</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Falco 룰 엔진</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 규칙 매칭 -&gt; 경보/차단/대응</div></div>
-</div>
-</div>
-
-
+```text
++--------------------------------------------------------------+
+|                    CWPP 탐지 구조 (Falco)                     |
++--------------------------------------------------------------+
+|                                                              |
+|  +----------------------------------------------------------+ |
+|  |  컨테이너 내 프로세스                                    | |
+|  |  (App, Shell, Network 등)                               | |
+|  +---------------------------+------------------------------+ |
+|                               | 시스템 콜 (syscall)           |
+|                               v                              |
+|  +----------------------------------------------------------+ |
+|  |  eBPF / Kernel Module 훅                                 | |
+|  |  - execve, open, connect, ptrace 등 감시                 | |
+|  +---------------------------+------------------------------+ |
+|                               |                              |
+|                               v                              |
+|  +----------------------------------------------------------+ |
+|  |  Falco 룰 엔진                                           | |
+|  |  - 규칙 매칭 -> 경보/차단/대응                           | |
+|  +----------------------------------------------------------+ |
++--------------------------------------------------------------+
+```
 
 Falco 룰 예시 (YAML):
 ```yaml
@@ -120,19 +125,14 @@ CWPP의 핵심은 <strong>"알려지지 않은 위협(Unknown Threat)도 시스�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">VM 기반 보안 컨테이너 보안 등장 eBPF 기반 현대 CWPP</div>
-<div class="kb-diagram-note">호스트 기반 IDS -&gt; Docker/K8s 런타임 위협 -&gt; eBPF 커널 레벨 탐지</div>
-<div class="kb-diagram-note">AV/에이전트 중심 Falco 오픈소스 등장 Cilium + Falco 통합</div>
-<div class="kb-diagram-note">정적 시그니처 seccomp/AppArmor 강화 CNAPP으로 통합</div>
-<div class="kb-diagram-note">Tesla 크립토마이닝 사례 AI 기반 이상 탐지</div>
-</div>
-</div>
-
-
+```text
+VM 기반 보안              컨테이너 보안 등장              eBPF 기반 현대 CWPP
+------------------   --------------------------   ------------------------
+호스트 기반 IDS     ->  Docker/K8s 런타임 위협     ->  eBPF 커널 레벨 탐지
+AV/에이전트 중심        Falco 오픈소스 등장             Cilium + Falco 통합
+정적 시그니처         seccomp/AppArmor 강화            CNAPP으로 통합
+                         Tesla 크립토마이닝 사례          AI 기반 이상 탐지
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

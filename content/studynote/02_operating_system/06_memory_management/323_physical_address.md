@@ -29,24 +29,24 @@ tags = ["studynote-operating-system"]
 
 **💡 비유**: 당신이 인터넷 쇼핑몰에 "우리집 로켓 배송이요!([논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/))"라고 입력한다. 쇼핑몰 시스템은 당신이 세상의 주인공인 것처럼 대한다. 하지만 물류센터의 컨베이어 벨트와 지게차 로봇(메모리 장치)은 "우리집"이 뭔지 모른다. 그들은 오로지 "위도 37.5 경도 126.9 지점의 3번째 골목 건물(물리 주소)"이라는 콜드하고 정확한 기계 좌표계가 있어야만 물건을 내려놓을 수 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">환상(Logical)에서 실체(Physical)로의 충돌의 벽</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CPU 연산부</div><div class="kb-diagram-note">(환상 주의자)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"야! 10번지에 있는 총알 데이터 꺼내와!" (명령어 LDR 내뿜음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (논리 주소 = 10)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MMU (Memory Management Unit)</div><div class="kb-diagram-note">(냉혹한 통역사)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"허탈하군. 또 환상 속의 주소를 뱉었어. 현실을 알려주지."</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">계산: 베이스 레지스터 10000 + 10 = 10010번지! 변환 발사!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (물리 주소 = 10010) (시스템 주소 버스에 전압 빵 쏴짐)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">RAM 메모리 모듈</div><div class="kb-diagram-note">(기계 부품)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"삑! 10010번째 전자 소자 오픈! 총알 데이터 뱉어냅니다."</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────┐
+│         환상(Logical)에서 실체(Physical)로의 충돌의 벽          │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  [ CPU 연산부 ] (환상 주의자)                                   │
+│    "야! 10번지에 있는 총알 데이터 꺼내와!" (명령어 LDR 내뿜음)  │
+│       │                                                         │
+│       ▼ (논리 주소 = 10)                                        │
+│  [ MMU (Memory Management Unit) ] (냉혹한 통역사)               │
+│    "허탈하군. 또 환상 속의 주소를 뱉었어. 현실을 알려주지."     │
+│    계산: 베이스 레지스터 10000 + 10 = 10010번지! 변환 발사!     │
+│       │                                                         │
+│       ▼ (물리 주소 = 10010) (시스템 주소 버스에 전압 빵 쏴짐)   │
+│  [ RAM 메모리 모듈 ] (기계 부품)                                │
+│    "삑! 10010번째 전자 소자 오픈! 총알 데이터 뱉어냅니다."      │
+└─────────────────────────────────────────────────────────────────┘
+```
 
 **📢 섹션 요약 비유**: 물리 주소는 낭만 따윈 1%도 없는 군대 관물대 고유 번호표입니다. 신병(프로그램)은 자기가 "1번 훈련병"인 줄 알지만, 조교(메모리 장치) 입장에서는 그저 연병장 "3열 5종 대대의 1420번째 인간 위치 좌표"로 전기 쏘듯 관리할 뿐입니다.
 
@@ -113,19 +113,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">논리 주소 (Logical/Virtual Address)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">물리 주소 (Physical Address)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">주소 바인딩 (Address Binding) 3단계 시점</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">컴파일 시간 바인딩 (Compile Time)</div></div>
-</div>
-</div>
-
-
+```text
+[논리 주소 (Logical/Virtual Address)]
+    │
+    ▼
+[물리 주소 (Physical Address)]
+    │
+    ├──▶ [주소 바인딩 (Address Binding) 3단계 시점]
+    └──▶ [컴파일 시간 바인딩 (Compile Time)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

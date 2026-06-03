@@ -18,18 +18,12 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-note">입력: "나는</div><div class="kb-diagram-node">MASK</div><div class="kb-diagram-note">에서</div><div class="kb-diagram-node">MASK</div><div class="kb-diagram-note">를 먹었다"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">예측:</div><div class="kb-diagram-node">MASK1</div><div class="kb-diagram-note">= "식당",</div><div class="kb-diagram-node">MASK2</div><div class="kb-diagram-note">= "밥"</div></div>
-<div class="kb-diagram-note">→ 양방향 문맥(나는, 를, 먹었다)을 모두 참조</div>
-<div class="kb-diagram-note">→ 양방향 이해 능력 학습</div>
-</div>
-</div>
-
-
+```text
+입력: "나는 [MASK]에서 [MASK]를 먹었다"
+예측: [MASK1] = "식당", [MASK2] = "밥"
+  → 양방향 문맥(나는, 를, 먹었다)을 모두 참조
+  → 양방향 이해 능력 학습
+```
 
 - **📢 섹션 요약 비유**: MLM은 <strong>빈칸 채우기 시험</strong>이다. 양쪽 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)를 보고 빈칸에 들어갈 단어를 맞춘다.
 
@@ -53,18 +47,12 @@ MLM은 <strong>양방향 언어 이해의 핵심 학습 방식</strong>이며, [
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Word2Vec CBOW (2013)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">ELMo (2018)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">BERT MLM (2018)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">RoBERTa (NSP 제거, 2019)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">SpanBERT (Span Masking)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: Replaced Token Detection (ELECTRA)</div></div>
-</div>
-</div>
-
-
+```text
+[Word2Vec CBOW (2013)] → [ELMo (2018)]
+    → [BERT MLM (2018)] → [RoBERTa (NSP 제거, 2019)]
+    → [SpanBERT (Span Masking)]
+    → [현재: Replaced Token Detection (ELECTRA)]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. MLM은 <strong>빈칸 채우기 시험</strong>이에요. "나는 ___에서 ___를 먹었다"

@@ -18,27 +18,25 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NAND/NOR 진리표 및 논리식</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NAND: F = NOT(A AND B) = A·B 위에 오버바</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A B</div><div class="kb-diagram-cell">A·B</div><div class="kb-diagram-cell">NAND</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0 0</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0 1</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1 0</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1 1</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">0 ← 모두 1일 때만 0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NOR: F = NOT(A OR B) = A+B 위에 오버바</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A B</div><div class="kb-diagram-cell">A+B</div><div class="kb-diagram-cell">NOR</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0 0</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">1 ← 모두 0일 때만 1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0 1</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1 0</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1 1</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">0</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│   NAND/NOR 진리표 및 논리식                            │
+├───────────────────────────────────────────────────────┤
+│  NAND: F = NOT(A AND B) = A·B 위에 오버바              │
+│  A B │ A·B │ NAND                                     │
+│  0 0 │  0  │  1                                        │
+│  0 1 │  0  │  1                                        │
+│  1 0 │  0  │  1                                        │
+│  1 1 │  1  │  0  ← 모두 1일 때만 0                    │
+│                                                        │
+│  NOR: F = NOT(A OR B) = A+B 위에 오버바                │
+│  A B │ A+B │ NOR                                       │
+│  0 0 │  0  │  1  ← 모두 0일 때만 1                    │
+│  0 1 │  1  │  0                                        │
+│  1 0 │  1  │  0                                        │
+│  1 1 │  1  │  0                                        │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: NAND/NOR는 요리의 만능 소스다. 간장 한 가지(NAND)로 갖가지 요리(모든 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 함수)를 만들 수 있듯, NAND 하나만으로 모든 디지털 회로를 구성할 수 있다.
 
@@ -48,41 +46,38 @@ tags = ["studynote-computer-architecture"]
 
 ### 범용 게이트로서의 NAND
 
+```text
+NOT 구현:   A ──┬── NAND ── NOT(A)
+                └──┘
 
+AND 구현:   A ─┐           ┌── NAND1
+            B ─┘ NAND1 ──  │
+                            └── NAND2 ── AND(A,B)
+                (같은 입력)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">NOT 구현: A ── ── NAND ── NOT(A)</div>
-<div class="kb-diagram-note">AND 구현: A ─ ── NAND1</div>
-<div class="kb-diagram-note">B ─ NAND1 ──</div>
-<div class="kb-diagram-tree-item" style="--depth:8">NAND2 ── AND(A,B)</div>
-<div class="kb-diagram-note">(같은 입력)</div>
-<div class="kb-diagram-note">OR 구현 (드 모르간):</div>
-<div class="kb-diagram-note">NAND(NOT A, NOT B) = OR(A, B)</div>
-</div>
-</div>
-
-
+OR 구현 (드 모르간):
+  NAND(NOT A, NOT B) = OR(A, B)
+```
 
 ### [CMOS](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/018_cmos/) [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 구조
 
+```text
+NAND (CMOS):            NOR (CMOS):
+  VDD                     VDD
+  │                       │
+ [PMOS A]  [PMOS B]    [PMOS A──PMOS B] 직렬
+  │          │             │
+  └────┬─────┘          ──┘
+       │              NMOS A  NMOS B
+   [NMOS A]           (병렬)
+       │
+   [NMOS B]
+       │
+      GND
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">NAND (CMOS): NOR (CMOS):</div>
-<div class="kb-diagram-note">VDD VDD</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">PMOS A</div><div class="kb-diagram-node">PMOS B</div><div class="kb-diagram-node">PMOS A──PMOS B</div><div class="kb-diagram-note">직렬</div></div>
-<div class="kb-diagram-note">NMOS A NMOS B</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NMOS A</div><div class="kb-diagram-note">(병렬)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NMOS B</div></div>
-<div class="kb-diagram-note">GND</div>
-<div class="kb-diagram-note">NAND: PMOS 병렬 (구동력 강) → 더 효율적</div>
-<div class="kb-diagram-note">NOR: PMOS 직렬 (구동력 약) → 느림</div>
-</div>
-</div>
-
-
+NAND: PMOS 병렬 (구동력 강) → 더 효율적
+NOR:  PMOS 직렬 (구동력 약) → 느림
+```
 
 - **📢 섹션 요약 비유**: NAND가 NOR보다 빠른 이유는 두 사람이 함께 일하는 방식의 차이다. PMOS를 두 명이 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 일하면(NAND) 빠르지만, [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)로 순서대로 일하면(NOR) 느려진다.
 
@@ -105,19 +100,14 @@ tags = ["studynote-computer-architecture"]
 
 ### 실제 NAND 기반 합성
 
+```text
+RTL (Verilog/VHDL) → 논리 합성(Synthesis) → NAND/NOR 넷리스트
+                      ↓
+                 Place & Route → ASIC/FPGA 구현
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">RTL (Verilog/VHDL) → 논리 합성(Synthesis) → NAND/NOR 넷리스트</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Place &amp; Route → ASIC/FPGA 구현</div>
-<div class="kb-diagram-note">대부분의 표준 셀 라이브러리는 2-입력 NAND, 3-입력 NAND,</div>
-<div class="kb-diagram-note">NOR, XOR 등을 제공하며 NAND가 기본 빌딩 블록</div>
-</div>
-</div>
-
-
+대부분의 표준 셀 라이브러리는 2-입력 NAND, 3-입력 NAND,
+NOR, XOR 등을 제공하며 NAND가 기본 빌딩 블록
+```
 
 ### NAND [플래시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/)
 - 저장 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) NAND 플래시는 NAND 게이트 셀 구조에서 이름 유래.
@@ -154,23 +144,21 @@ NAND/NOR 범용성은 디지털 설계의 근본 원리다. 현대 [EDA](/knowle
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">AND/OR/NOT 기본 게이트 — 조합 논리 기초</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NAND/NOR 범용 게이트 — 단독으로 모든 함수 구현</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CMOS NAND 표준화 — 반도체 공정 최적화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">RTL 합성 → NAND 넷리스트 — EDA 자동화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NAND 플래시 메모리 — 고밀도 저장 기술로 확장</div></div>
-</div>
-</div>
-
-
+```text
+[AND/OR/NOT 기본 게이트 — 조합 논리 기초]
+    │
+    ▼
+[NAND/NOR 범용 게이트 — 단독으로 모든 함수 구현]
+    │
+    ▼
+[CMOS NAND 표준화 — 반도체 공정 최적화]
+    │
+    ▼
+[RTL 합성 → NAND 넷리스트 — EDA 자동화]
+    │
+    ▼
+[NAND 플래시 메모리 — 고밀도 저장 기술로 확장]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

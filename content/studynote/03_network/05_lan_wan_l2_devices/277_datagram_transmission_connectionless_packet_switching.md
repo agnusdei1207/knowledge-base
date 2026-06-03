@@ -24,18 +24,14 @@ tags = ["studynote-network"]
 
 - **💡 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)그램 방식은 100장의 편지를 한 묶음으로 묶지 않고 <strong>"100장의 편지봉투에 일일이 받는 사람 주소를 적어서 우체통에 던져넣는 것"</strong>과 같습니다. 우체국은 1번 편지는 KTX로, 2번 편지는 고속버스로 보낼 수도 있습니다. 2번 편지가 1번보다 먼저 도착할 수도 있지만(순서 역전), KTX가 고장 나도 고속버스를 탄 편지들은 무사히 배달된다는 장점이 있습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">패킷 교환 vs 회선 교환 vs 메시지 교환</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터그램 전송 방식</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">가상 회선 전송 방식 (연결형 패킷 교환</div></div>
-</div>
-</div>
-
-
+```text
+[패킷 교환 vs 회선 교환 vs 메시지 교환]
+    │
+    ▼
+[데이터그램 전송 방식]
+    │
+    └──▶ [가상 회선 전송 방식 (연결형 패킷 교환]
+```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>그램 전송은 목적지만 알려주고 100명의 병사에게 각자 알아서 목적지로 집결하라고 명령하는 </strong>"각개전투(게릴라) 전술"**입니다. 지휘관(라우터)이 죽어도 병사들은 멈추지 않고 스스로 살길을 찾습니다.
 
@@ -45,18 +41,14 @@ tags = ["studynote-network"]
 
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)그램 전송 방식는 프레임 전달과 근거리 네트워크 장비의 동작을 설명하는 축라는 관점에서 이해해야 한다. [패킷 교환](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/276_packet_switching_vs_circuit_switching_message_switching/) vs 회선 교환 vs 메시지 교환와 가상 회선 전송 방식 (연결형 [패킷 교환](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/276_packet_switching_vs_circuit_switching_message_switching/) 사이의 연결점으로 놓고 보면 개념의 역할이 더 분명해진다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">패킷 교환 vs 회선 교환 vs 메시지 교환</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터그램 전송 방식</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">가상 회선 전송 방식 (연결형 패킷 교환</div></div>
-</div>
-</div>
-
-
+```text
+[패킷 교환 vs 회선 교환 vs 메시지 교환]
+    │
+    ▼
+[데이터그램 전송 방식]
+    │
+    └──▶ [가상 회선 전송 방식 (연결형 패킷 교환]
+```
 
 - **📢 섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)그램 전송 방식의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -72,25 +64,25 @@ tags = ["studynote-network"]
 - 패킷이 라우터에 도착할 때마다, 라우터는 그 순간 가장 덜 막히는 최적의 경로를 실시간으로 계산해서 던져준다.
 - 1번 패킷이 통과한 직후 A 도로에 교통사고(링크 장애)가 났다면, 2번 패킷이 도착했을 때 라우터는 즉시 B 도로로 우회시켜 버린다. (동적 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)의 핵심)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터그램 (Datagram) 전송의 순서 역전</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">라우터 2</div><div class="kb-diagram-note">(빠른 고속도로)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↗ ↘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">(패킷 1, 2, 3) ──</div><div class="kb-diagram-node">라우터 1</div><div class="kb-diagram-node">라우터 4</div><div class="kb-diagram-note">── (수신)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↘ ↗</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">라우터 3</div><div class="kb-diagram-note">(막히는 국도)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) 패킷 1 발송 ──▶ 라우터 1이 라우터 3(국도)으로 보냄.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) 패킷 2 발송 ──▶ 1초 뒤, 라우터 1이 라우터 2(고속도로)로 보냄.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) 패킷 3 발송 ──▶ 라우터 2(고속도로)로 보냄.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">패킷 2</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">패킷 3</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">패킷 1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결론: 출발 순서와 도착 순서가 뒤죽박죽 됨! (수신자가 재조립해야 함)</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                데이터그램 (Datagram) 전송의 순서 역전           │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │                          [ 라우터 2 ] (빠른 고속도로)         │
+ │                        ↗           ↘                       │
+ │  (패킷 1, 2, 3) ── [ 라우터 1 ]          [ 라우터 4 ] ── (수신)  │
+ │                        ↘           ↗                       │
+ │                          [ 라우터 3 ] (막히는 국도)           │
+ │                                                             │
+ │   1) 패킷 1 발송 ──▶ 라우터 1이 라우터 3(국도)으로 보냄.          │
+ │   2) 패킷 2 발송 ──▶ 1초 뒤, 라우터 1이 라우터 2(고속도로)로 보냄.  │
+ │   3) 패킷 3 발송 ──▶ 라우터 2(고속도로)로 보냄.                  │
+ │                                                             │
+ │   ▶ 수신 측 도착 결과: [ 패킷 2 ] -> [ 패킷 3 ] -> [ 패킷 1 ]   │
+ │   ▶ 결론: 출발 순서와 도착 순서가 뒤죽박죽 됨! (수신자가 재조립해야 함)│
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 3. 신뢰성의 결여와 상위 계층([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/))의 역할
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)그램 자체(IP 패킷)는 순서가 뒤바뀌거나(Out-of-order) 중간에 큐가 꽉 차서 버려져도(Drop) 절대 복구해주지 않는 무책임한 방식(Best-Effort)이다. 
@@ -138,19 +130,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 패킷 교환 vs 회선 교환 vs 메시지 교환</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 데이터그램 전송 방식</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 가상 회선 전송 방식 (연결형 패킷 교환</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 캠퍼스 패브릭</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 패킷 교환 vs 회선 교환 vs 메시지 교환]
+    │
+    ▼
+[현재 개념: 데이터그램 전송 방식]
+    │
+    ├──▶ [확장 A: 가상 회선 전송 방식 (연결형 패킷 교환]
+    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
+```
 
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)그램 전송 방식는 [패킷 교환](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/276_packet_switching_vs_circuit_switching_message_switching/) vs 회선 교환 vs 메시지 교환에서 출발해 현재 메커니즘을 정교화하고, 이후 가상 회선 전송 방식 (연결형 [패킷 교환](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/276_packet_switching_vs_circuit_switching_message_switching/)와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

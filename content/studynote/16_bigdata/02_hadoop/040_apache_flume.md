@@ -21,23 +21,25 @@ tags = ["hadoop", "studynote-bigdata"]
 
 플룸의 핵심은 독립적으로 동작하는 '에이전트(Agent)' 단위의 홉(Hop) 연결이다.
 
+```text
+[ Apache Flume Agent Architecture ]
 
++-----------------------------------------------------------+
+|  Flume Agent                                              |
+|                                                           |
+|  +----------+       +-------------+       +----------+    |
+|  |  Source  | ----> |   Channel   | ----> |   Sink   |    | ----> Target
+|  | (Ingest) |       |  (Buffer)   |       | (Deliver)|    |  (HDFS/Kafka)
+|  +----------+       +-------------+       +----------+    |
+|                                                           |
++-----------------------------------------------------------+
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Flume Agent Architecture</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Flume Agent</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Source</div><div class="kb-diagram-cell">----&gt;</div><div class="kb-diagram-cell">Channel</div><div class="kb-diagram-cell">----&gt;</div><div class="kb-diagram-cell">Sink</div><div class="kb-diagram-cell">----&gt; Target</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Ingest)</div><div class="kb-diagram-cell">(Buffer)</div><div class="kb-diagram-cell">(Deliver)</div><div class="kb-diagram-cell">(HDFS/Kafka)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Bilingual Comparison</div></div>
-<div class="kb-diagram-tree-item" style="--depth:0">Source (소스): 외부 데이터(로그 파일, Avro, Syslog)를 받아들이는 입구.</div>
-<div class="kb-diagram-tree-item" style="--depth:0">Channel (채널): 소스와 싱크 사이의 완충 지대 (Memory 또는 File 기반).</div>
-<div class="kb-diagram-tree-item" style="--depth:0">Sink (싱크): 채널의 데이터를 최종 목적지(HDFS, HBase)로 내보내는 출구.</div>
-<div class="kb-diagram-tree-item" style="--depth:0">Event (이벤트): 플룸 내부에서 이동하는 데이터의 최소 단위 (Header + Body).</div>
-</div>
-</div>
-
-
+[ Bilingual Comparison ]
+- Source (소스): 외부 데이터(로그 파일, Avro, Syslog)를 받아들이는 입구.
+- Channel (채널): 소스와 싱크 사이의 완충 지대 (Memory 또는 File 기반).
+- Sink (싱크): 채널의 데이터를 최종 목적지(HDFS, HBase)로 내보내는 출구.
+- Event (이벤트): 플룸 내부에서 이동하는 데이터의 최소 단위 (Header + Body).
+```
 
 특히 <strong>Channel</strong>은 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 방식을 사용하여, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 다음 에이전트나 최종 목적지에 안전하게 도착했다는 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(Ack)을 받기 전까지는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 지우지 않아 '[신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 있는 전송'을 보장한다.
 
@@ -68,23 +70,21 @@ tags = ["hadoop", "studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">로그 파일 (Log Files) — 서버·애플리케이션 이벤트 기록, 분산 생성</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">아파치 플룸 (Apache Flume) — Source→Channel→Sink 파이프라인 수집</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HDFS / HBase — 플룸 싱크(Sink) 대상, 대용량 저장</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">아파치 카프카 (Apache Kafka) — 고처리량 스트리밍, 플룸의 현대적 대안</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스트림 처리 (Stream Processing: Flink·Spark Streaming) — 실시간 분석</div></div>
-</div>
-</div>
-
-
+```text
+[로그 파일 (Log Files) — 서버·애플리케이션 이벤트 기록, 분산 생성]
+    │
+    ▼
+[아파치 플룸 (Apache Flume) — Source→Channel→Sink 파이프라인 수집]
+    │
+    ▼
+[HDFS / HBase — 플룸 싱크(Sink) 대상, 대용량 저장]
+    │
+    ▼
+[아파치 카프카 (Apache Kafka) — 고처리량 스트리밍, 플룸의 현대적 대안]
+    │
+    ▼
+[스트림 처리 (Stream Processing: Flink·Spark Streaming) — 실시간 분석]
+```
 Apache Flume은 Source-Channel-Sink 아키텍처로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)된 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 HDFS로 안정적으로 전송하며, 현재는 Kafka와 혼용되거나 대체되고 있다.
 ### 👶 어린이를 위한 3줄 비유 설명
 - 수많은 집에서 나오는 쓰레기를 청소차가 수거해서 커다란 쓰레기 처리장([하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/))으로 옮기는 것과 같아.

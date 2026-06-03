@@ -57,25 +57,25 @@ f(n) = g(n) + h(n)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">브루트 포스 경로 탐색 — 모든 경로 전수</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">다익스트라 (Dijkstra) — g(n) 기반 최단경로</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">휴리스틱 탐색 (Best-First) — h(n)으로 목표 유도</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">A* 알고리즘 — g(n)+h(n) 균형 탐색</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Weighted A* — 속도 우선 근사</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IDA* / JPS — 메모리·격자 최적화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">게임 AI / 로보틱스 / 내비게이션</div></div>
-</div>
-</div>
-
-
+```text
+[브루트 포스 경로 탐색 — 모든 경로 전수]
+    │
+    ▼
+[다익스트라 (Dijkstra) — g(n) 기반 최단경로]
+    │
+    ▼
+[휴리스틱 탐색 (Best-First) — h(n)으로 목표 유도]
+    │
+    ▼
+[A* 알고리즘 — g(n)+h(n) 균형 탐색]
+    │
+    ├─▶ [Weighted A* — 속도 우선 근사]
+    │
+    └─▶ [IDA* / JPS — 메모리·격자 최적화]
+                │
+                ▼
+            [게임 AI / 로보틱스 / 내비게이션]
+```
 A*는 [다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)의 정확성과 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/)의 방향성을 결합해, 최단 경로 보장을 유지하면서 탐색 공간을 효율적으로 줄인다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

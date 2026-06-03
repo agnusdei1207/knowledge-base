@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 5G나 [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 시대에 쓰는 초고주파(28GHz, 39GHz 등)는 장애물에 부딪히면 뚝 떨어져서 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)([스몰셀](/knowledge-base/studynote/03_network/03_physical_layer_media/178_small_cell_macro_femto/))를 엄청나게 많이 촘촘히 달아야 합니다.
 - **아킬레스건**: 수만 개의 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)에 복잡한 디지털 변조/복조 장비(DAC/ADC)를 일일이 다 박아 넣으면 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 너무 크고 무거워지며, 여름에 가로등 위에서 열받아 타버립니다(전력/비용 폭발).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SONET</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">RoF</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NG-PON2 표준 광통신 파장 동적 분할…</div></div>
-</div>
-</div>
-
-
+```text
+[SONET]
+    │
+    ▼
+[RoF]
+    │
+    └──▶ [NG-PON2 표준 광통신 파장 동적 분할…]
+```
 
 - **📢 섹션 요약 비유**: RoF는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -48,18 +44,14 @@ tags = ["studynote-network"]
 - <strong><a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">안테나</a> 깡통화</strong>: 가로등에 매달린 단말(RRH) 장비 안에서 무겁고 비싼 디지털 처리 부품(ADC/DAC, [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/) 등)을 전기톱으로 싹 도려냅니다. 오직 '전파를 빛으로 바꿔주는 전광 변환기(E/O)' 하나만 남깁니다. [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 담뱃갑 크기로 극도로 작아지고 가벼워집니다.
 - **전산실의 중앙 집중**: 도려낸 비싼 뇌(베이스밴드 처리부, [BBU](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/688_bbu/)) 수백 개를 에어컨이 빵빵한 지역 전화국 지하 전산실(중앙국) 한 곳으로 몽땅 몰아넣고 하나로 묶습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SONET</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">RoF</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NG-PON2 표준 광통신 파장 동적 분할…</div></div>
-</div>
-</div>
-
-
+```text
+[SONET]
+    │
+    ▼
+[RoF]
+    │
+    └──▶ [NG-PON2 표준 광통신 파장 동적 분할…]
+```
 
 - **📢 섹션 요약 비유**: RoF의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -118,19 +110,15 @@ RoF는 광통신·차세대·자동화를 이해할 때 핵심 축을 잡아 주
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: SONET</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: RoF</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: NG-PON2 표준 광통신 파장 동적 분할…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: SONET]
+    │
+    ▼
+[현재 개념: RoF]
+    │
+    ├──▶ [확장 A: NG-PON2 표준 광통신 파장 동적 분할…]
+    └──▶ [확장 B: 의미 기반 통신 최적화]
+```
 
 RoF는 SONET에서 출발해 현재 메커니즘을 정교화하고, 이후 NG-PON2 표준 광통신 파장 동적 분할…와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -37,32 +37,36 @@ tags = ["studynote-cloud-architecture"]
 
 "아니 씨발 돈 낼 거면 그냥 24시간 켜두는 EC2 쇳덩이([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) 서버랑 뭐가 다름 ㅋ?" 하수들의 뇌 정지를 찢어버리는 오토 하이브리드 아키텍처 도해다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Provisioned Concurrency (PC) 하이브리드 무한 팽창 록온 도해 🚀</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🎯</div><div class="kb-diagram-node">세팅 환경: 프로비저닝된 동시성 = 3대 록온 박음 쾅!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">📦</div><div class="kb-diagram-node">1번 봇 (Warm)</div><div class="kb-diagram-note">📦</div><div class="kb-diagram-node">2번 봇 (Warm)</div><div class="kb-diagram-note">📦</div><div class="kb-diagram-node">3번 봇 (Warm)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(항상 램 켜짐 대기 중 - 유저 안 와도 요금 미터기 윙윙 돌아감 💸)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">🌊 트래픽 쓰나미 실전 타격 시나리오 ✨</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1️⃣</div><div class="kb-diagram-node">유저 1, 2, 3명 동시 접속 핑퐁 찌르기!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 대기 타던 1~3번 봇이 콜드 스타트 부팅 0초 스킵 까고!! 0.01초 컷 쾌속</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">광속 즉답 (Warm Start) 리턴 쏴버려 무결점 생존 방어 달성 🚀!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2️⃣</div><div class="kb-diagram-node">🚨 대재앙: 유저 4명째가 0.1초 뒤에 또 찌름 (트래픽 한도 초과 폭주 💥)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "야 시발 프로비저닝 해둔 3대 봇 다 일하느라 꽉 찼어 뻗음 좆망 💀!!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3️⃣</div><div class="kb-diagram-node">🛡️ 아키텍트의 하이브리드 구원 (On-Demand Spill-over 텐트)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- AWS 대장 뇌 왈: "야 쫄지 마 병신아 쾅!! 우리 서버리스 본능 안 잊었어!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- 4번째 유저 핑이 튕기지 않고 ➔ 즉시 AWS 허공에서 </div><div class="kb-diagram-node">4번째 신규 봇 (On-Demand)</div><div class="kb-diagram-note"></div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">을 무지성 오토 창조 생성 팝업(Scale-out) 시켜 띄움 쾅!!!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- (단, 이 4번째 봇은 부팅하느라 3초 콜드 스타트 랙 페널티를 이빨 꽉 깨물고 쳐맞음 💥)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 아키텍트 팩폭: "봐라 쾅!! 프로비저닝 3대를 넘치는 트래픽이 와도 시스템이 뻗지 않고</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기존 람다 본성(오토 스케일 아웃)을 스위칭 타서 유연하게 펌핑 흡수한다!! EC2 쇳덩이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">였다면 3대 넘치면 바로 404 타임아웃 서버 다운 멸망 뻗음이다 미친아 🚀!!"</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│         Provisioned Concurrency (PC) 하이브리드 무한 팽창 록온 도해 🚀│
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ 🎯 [ 세팅 환경: 프로비저닝된 동시성 = 3대 록온 박음 쾅! ]              │
+│                                                             │
+│ 📦 [ 1번 봇 (Warm) ]  📦 [ 2번 봇 (Warm) ]  📦 [ 3번 봇 (Warm) ]│
+│   (항상 램 켜짐 대기 중 - 유저 안 와도 요금 미터기 윙윙 돌아감 💸)       │
+│                                                             │
+│        ======= [ 🌊 트래픽 쓰나미 실전 타격 시나리오 ✨ ] ========│
+│                                                             │
+│ 1️⃣ [ 유저 1, 2, 3명 동시 접속 핑퐁 찌르기! ]                      │
+│   - 대기 타던 1~3번 봇이 콜드 스타트 부팅 0초 스킵 까고!! 0.01초 컷 쾌속 │
+│     광속 즉답 (Warm Start) 리턴 쏴버려 무결점 생존 방어 달성 🚀!        │
+│                                                             │
+│ 2️⃣ [ 🚨 대재앙: 유저 4명째가 0.1초 뒤에 또 찌름 (트래픽 한도 초과 폭주 💥) ]│
+│   - "야 시발 프로비저닝 해둔 3대 봇 다 일하느라 꽉 찼어 뻗음 좆망 💀!!"  │
+│                                                             │
+│ 3️⃣ [ 🛡️ 아키텍트의 하이브리드 구원 (On-Demand Spill-over 텐트) ] │
+│   - AWS 대장 뇌 왈: "야 쫄지 마 병신아 쾅!! 우리 서버리스 본능 안 잊었어!" │
+│   - 4번째 유저 핑이 튕기지 않고 ➔ 즉시 AWS 허공에서 **[4번째 신규 봇 (On-Demand)]** │
+│     을 무지성 오토 창조 생성 팝업(Scale-out) 시켜 띄움 쾅!!!             │
+│   - (단, 이 4번째 봇은 부팅하느라 3초 콜드 스타트 랙 페널티를 이빨 꽉 깨물고 쳐맞음 💥)│
+│                                                             │
+│ 🌟 아키텍트 팩폭: "봐라 쾅!! 프로비저닝 3대를 넘치는 트래픽이 와도 시스템이 뻗지 않고 │
+│   기존 람다 본성(오토 스케일 아웃)을 스위칭 타서 유연하게 펌핑 흡수한다!! EC2 쇳덩이 │
+│   였다면 3대 넘치면 바로 404 타임아웃 서버 다운 멸망 뻗음이다 미친아 🚀!!" │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[아키텍트의 피 터지는 메스: 과금 룰(Billing) 십자 해부 ✨]**
 - <strong>기존 <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/">람다</a></strong>: (실행 횟수) + (코드 돌린 시간 0.1초) 딱 2개만 돈 냄.
@@ -136,23 +140,21 @@ tags = ["studynote-cloud-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">On-Demand 서버리스 실행 시대 / "와 트래픽 없으면 요금 0원 쾌속 종량제(Scale-to-Zero) 개꿀 ㅋ 람다 찬양해 ✨!"</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Cold Start (콜드 스타트) 재앙 멸망 발동 💀 / 새벽에 결제 버튼 눌렀더니 봇 부팅하느라 5초 동안 랙 뻗음 ➔ 유저 앱 삭제 폭동, 모바일 클라이언트 504 타임아웃 연쇄 폭파 사일로 지옥 터짐 💥</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Ping 꼼수 야만 시대 / 코더들이 5분마다 가짜 트래픽(Ping) 날려서 봇 안 죽게 강제 인공호흡 멱살 쥐어 연명 시키는 쓰레기 꼼수 떡칠 (트래픽 스파이크 1만 명 몰리면 9,999명 다 타죽는 맹점 한계 노출 💀)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Provisioned Concurrency (프로비저닝 동시성) 대관식 강림 🚀 / AWS 분노 도끼 🪓 "야 씨발 꼼수 치지 말고 걍 정당하게 대기료 돈 내고!</div><div class="kb-diagram-node">내가 지정한 N대 봇 무조건 24시간 웜업(Warm) 락킹 쳐 박아놔 쾅!!</div><div class="kb-diagram-note">" ➔ 돈(Cost)으로 콜드 랙 0.01초 컷 무결점 방벽 세팅 완료 ✨</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Auto Scaling &amp; SnapStart 하이브리드 융합 (현재) / 24시간 켜두면 돈 탕진 파산 뻗음 ➔ 시간표(Schedule) 엮어서 출퇴근 시간에만 오토 스위칭 켜고 끄는 마법 전개 🚀 + 자바 무거운 쇳덩이 부팅 랙 쳐 죽이는 스냅샷 텔레포트 융합 텐트로 제로 다운타임(Zero-Lag) 서버리스 대통일 제국 성립 쾅!!</div>
-</div>
-</div>
-
-
+```text
+On-Demand 서버리스 실행 시대 / "와 트래픽 없으면 요금 0원 쾌속 종량제(Scale-to-Zero) 개꿀 ㅋ 람다 찬양해 ✨!"
+    │
+    ▼
+Cold Start (콜드 스타트) 재앙 멸망 발동 💀 / 새벽에 결제 버튼 눌렀더니 봇 부팅하느라 5초 동안 랙 뻗음 ➔ 유저 앱 삭제 폭동, 모바일 클라이언트 504 타임아웃 연쇄 폭파 사일로 지옥 터짐 💥
+    │
+    ▼
+Ping 꼼수 야만 시대 / 코더들이 5분마다 가짜 트래픽(Ping) 날려서 봇 안 죽게 강제 인공호흡 멱살 쥐어 연명 시키는 쓰레기 꼼수 떡칠 (트래픽 스파이크 1만 명 몰리면 9,999명 다 타죽는 맹점 한계 노출 💀)
+    │
+    ▼
+Provisioned Concurrency (프로비저닝 동시성) 대관식 강림 🚀 / AWS 분노 도끼 🪓 "야 씨발 꼼수 치지 말고 걍 정당하게 대기료 돈 내고! [내가 지정한 N대 봇 무조건 24시간 웜업(Warm) 락킹 쳐 박아놔 쾅!!]" ➔ 돈(Cost)으로 콜드 랙 0.01초 컷 무결점 방벽 세팅 완료 ✨
+    │
+    ▼
+Auto Scaling & SnapStart 하이브리드 융합 (현재) / 24시간 켜두면 돈 탕진 파산 뻗음 ➔ 시간표(Schedule) 엮어서 출퇴근 시간에만 오토 스위칭 켜고 끄는 마법 전개 🚀 + 자바 무거운 쇳덩이 부팅 랙 쳐 죽이는 스냅샷 텔레포트 융합 텐트로 제로 다운타임(Zero-Lag) 서버리스 대통일 제국 성립 쾅!!
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

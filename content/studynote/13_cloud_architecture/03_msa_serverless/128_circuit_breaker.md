@@ -18,24 +18,23 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Circuit Breaker 상태 전이</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Closed — 정상</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모든 요청 통과, 실패 카운트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실패 &gt; 임계치 → Open</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Open — 차단</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모든 요청 즉시 거부, Fallback 반환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">타이머 만료 → Half-Open</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Half-Open — 복구 시도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일부 요청 통과하여 테스트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">성공 → Closed / 실패 → Open</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    Circuit Breaker 상태 전이                          │
+├───────────────────────────────────────────────────────┤
+│  [Closed — 정상]                                      │
+│   모든 요청 통과, 실패 카운트                        │
+│   실패 > 임계치 → Open                               │
+│                                                       │
+│  [Open — 차단]                                        │
+│   모든 요청 즉시 거부, Fallback 반환                 │
+│   타이머 만료 → Half-Open                            │
+│                                                       │
+│  [Half-Open — 복구 시도]                              │
+│   일부 요청 통과하여 테스트                           │
+│   성공 → Closed / 실패 → Open                       │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: Circuit Breaker는 전기의 <strong>차단기(브레이커)</strong>이다. 과전류(장애)가 흐르면 자동으로 차단하여 화재(Cascading Failure)를 방지한다.
 
@@ -96,23 +95,21 @@ Circuit Breaker는 <strong><a href="/knowledge-base/studynote/01_computer_archit
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">직접 호출 (장애 전파, ~2010s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Hystrix (Netflix, 2012~) — 최초 CB 라이브러리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Resilience4j (2018~) — Hystrix 대체, Java 표준</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">서비스 메시 CB (Istio/Envoy, 2018~) — 코드 무관</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: 자동 CB 튜닝 — AI가 임계치 자동 조정</div></div>
-</div>
-</div>
-
-
+```text
+[직접 호출 (장애 전파, ~2010s)]
+    │
+    ▼
+[Hystrix (Netflix, 2012~) — 최초 CB 라이브러리]
+    │
+    ▼
+[Resilience4j (2018~) — Hystrix 대체, Java 표준]
+    │
+    ▼
+[서비스 메시 CB (Istio/Envoy, 2018~) — 코드 무관]
+    │
+    ▼
+[현재: 자동 CB 튜닝 — AI가 임계치 자동 조정]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. Circuit Breaker는 전기의 <strong>차단기(브레이커)</strong>예요.

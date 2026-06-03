@@ -192,19 +192,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">버퍼링 (Buffering)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">이중 버퍼링 (Double Buffering)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">캐싱 (Caching)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스풀링 (Spooling, Simultaneous Peripheral Operation On-Line)</div></div>
-</div>
-</div>
-
-
+```text
+[버퍼링 (Buffering)]
+    │
+    ▼
+[이중 버퍼링 (Double Buffering)]
+    │
+    ├──▶ [캐싱 (Caching)]
+    └──▶ [스풀링 (Spooling, Simultaneous Peripheral Operation On-Line)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

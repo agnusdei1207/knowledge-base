@@ -22,20 +22,19 @@ tags = ["hadoop", "studynote-bigdata"]
 
 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 2.0 고가용성(High [Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/), HA) 아키텍처에서는 Active와 Standby 두 대의 [네임노드](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/)가 상호 보완합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Active NameNode</div><div class="kb-diagram-cell">Standby NameNode</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Manages HDFS Namespace</div><div class="kb-diagram-cell">- Synchronizes via Journal</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Receives Client Requests</div><div class="kb-diagram-cell">- Ready for Failover</div></div>
-<div class="kb-diagram-note">v v</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">JournalNodes (Quorum)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Edits Log Synchronization)</div></div>
-</div>
-</div>
-
-
+```text
++---------------------------------+      +---------------------------------+
+|        Active NameNode          |      |       Standby NameNode          |
+|  - Manages HDFS Namespace       |      |  - Synchronizes via Journal     |
+|  - Receives Client Requests     |      |  - Ready for Failover           |
++---------------+-----------------+      +---------------+-----------------+
+                |                                        |
+                v                                        v
++--------------------------------------------------------------------------+
+|                        JournalNodes (Quorum)                             |
+|                        (Edits Log Synchronization)                       |
++--------------------------------------------------------------------------+
+```
 
 1. **FsImage & Edits Log**: 메모리 상태를 날리지 않기 위해, [네임노드](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/)는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 변경 내역(Edits)을 디스크에 계속 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)로 쓰고 정기적으로 메모리 덤프 이미지(FsImage)를 구워냅니다.
 2. **저널 노드 (JournalNodes)**: [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) 서버가 죽는 순간을 대비하여, Active가 변경 사항(Edits)을 처리할 때마다 독립된 저널 노드 3대에 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 기록을 날립니다. Standby 서버는 이 저널 노드에서 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 계속 빨아들여 Active와 똑같은 메모리 지도를 유지합니다.
@@ -64,19 +63,15 @@ tags = ["hadoop", "studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: HDFS, 마스터-워커 분산 아키텍처</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">핵심 기술: FsImage, Edits Log, HA (High Availability), 주키퍼(Zookeeper)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">확장 및 응용: HDFS Federation, Split Brain, Fencing, 작은 파일 병목</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: HDFS, 마스터-워커 분산 아키텍처]
+    │
+    ▼
+[핵심 기술: FsImage, Edits Log, HA (High Availability), 주키퍼(Zookeeper)]
+    │
+    ▼
+[확장 및 응용: HDFS Federation, Split Brain, Fencing, 작은 파일 병목]
+```
 
 이 흐름도는 선행 개념: [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/), [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터-워커 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 아키텍처에서 출발해 확장 및 응용: [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) [Federation](/knowledge-base/studynote/09_security/11_iam_access_control/543_federation/), [Split Brain](/knowledge-base/studynote/14_data_engineering/04_mlops/190_split_brain_zookeeper_fencing_quorum/), Fencing, 작은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 병목까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

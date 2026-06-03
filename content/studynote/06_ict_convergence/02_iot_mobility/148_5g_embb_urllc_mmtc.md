@@ -30,26 +30,27 @@ tags = ["studynote-ict-convergence"]
 
 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 3대 특성의 성능은 단순히 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 전파만 쏴서 달성되는 것이 아니라 정교한 클라우드 및 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 백엔드 기술이 융합되어 완성된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5G 트라이앵글: 3대 초격차 요구사항의 융합 구조도</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">🚀 1. eMBB (초고속/대용량)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Enhanced Mobile Broadband / 20Gbps 타겟)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/\ "VR, 홀로그램 4K 스트리밍, 3D 맵 다운"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ \ (핵심 기술: 28GHz 초고주파, 빔포밍 Massive MIMO)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🤖 2. uRLLC (초저지연/고신뢰)</div><div class="kb-diagram-cell">📡 3. mMTC (초연결/대량접속)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Ultra-Reliable Low Latency)</div><div class="kb-diagram-cell">(Massive Machine Type)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 타겟: 1ms 응답 (1/1000초 컷)</div><div class="kb-diagram-cell">- 타겟: 1km²당 100만 대 연결</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 용도: 자율주행 제어, 원격 수술</div><div class="kb-diagram-cell">- 용도: 스마트팜, 수도 검침 센서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 기술: MEC (모바일 엣지 컴퓨팅)</div><div class="kb-diagram-cell">- 기술: 배터리 초절전, 무허가 접속</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ 🌟</div><div class="kb-diagram-node">코어 융합 뼈대: Network Slicing (네트워크 슬라이싱) 🔪</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 1개의 물리적 통신망을 3개의 독립된 가상망으로 찢어서 맞춤형 임대 서비스</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          5G 트라이앵글: 3대 초격차 요구사항의 융합 구조도                 │
+├─────────────────────────────────────────────────────────────┤
+│                      [ 🚀 1. eMBB (초고속/대용량) ]                │
+│         (Enhanced Mobile Broadband / 20Gbps 타겟)                  │
+│                  /\    "VR, 홀로그램 4K 스트리밍, 3D 맵 다운"             │
+│                 /  \   (핵심 기술: 28GHz 초고주파, 빔포밍 Massive MIMO)   │
+│                /    \                                               │
+│ ┌────────────┴──────┴────────────┬───────────────────┐│
+│ │ 🤖 2. uRLLC (초저지연/고신뢰)      │ 📡 3. mMTC (초연결/대량접속)││
+│ │  (Ultra-Reliable Low Latency)  │  (Massive Machine Type)  ││
+│ │  - 타겟: 1ms 응답 (1/1000초 컷)   │  - 타겟: 1km²당 100만 대 연결 ││
+│ │  - 용도: 자율주행 제어, 원격 수술    │  - 용도: 스마트팜, 수도 검침 센서││
+│ │  - 기술: MEC (모바일 엣지 컴퓨팅)   │  - 기술: 배터리 초절전, 무허가 접속││
+│ ├────────────────────────────────┼───────────────────┤│
+│ │  🌟 [ 코어 융합 뼈대: Network Slicing (네트워크 슬라이싱) 🔪 ] ││
+│ │  - 1개의 물리적 통신망을 3개의 독립된 가상망으로 찢어서 맞춤형 임대 서비스 ││
+│ └────────────────────────────────┴───────────────────┘│
+└─────────────────────────────────────────────────────────────┘
+```
 
 1. <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/760_embb_enhanced_mobile_broadband_vr_ar/">eMBB</a> (Enhanced Mobile Broadband)</strong>: 속도를 20Gbps로 폭발시키기 위해 텅텅 빈 28GHz 초고주파 대역([mmWave](/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/))을 도입했다. 전파가 직진성이 강해 잘 끊기는 단점은 수십 개의 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 구멍에서 전파를 한 유저에게 레이저처럼 쏘는 [빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/)([Beamforming](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/)) 기술로 극복했다.
 2. <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/">uRLLC</a> (Ultra-Reliable Low <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>)</strong>: 통신 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 1ms를 맞추기 위해 클라우드 서버 뇌를 물리적으로 극단적 전진 배치하는 [MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/)([모바일 엣지 컴퓨팅](/knowledge-base/studynote/03_network/12_iot_wpan_edge/999_mec_mobile_edge_computing/))를 사용했다. 서울 중앙 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터까지 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보내지 않고 기지국 바로 밑에 달린 초미니 서버에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 즉시 0.001초 만에 반사해 낸다.
@@ -112,26 +113,24 @@ tags = ["studynote-ict-convergence"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">4G (LTE) 모바일 브로드밴드 / 스마트폰 속도 및 모바일 B2C 중심 진화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">5G 트라이앵글 3대 특성 융합</div></div>
-<div class="kb-diagram-note">eMBB (초고속 대용량 20Gbps) ─▶ 28GHz 초고주파, Massive MIMO 빔포밍</div>
-<div class="kb-diagram-note">uRLLC (초저지연 고신뢰 1ms) ─▶ MEC (모바일 엣지 컴퓨팅) 시공간 지연 소각</div>
-<div class="kb-diagram-note">mMTC (초연결 IoT 대량 접속) ─▶ 저전력 Grant-free 접속 및 무허가 슬립 모드</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">네트워크 슬라이싱 (Network Slicing) / 3대 특성을 한 망에서 가상 분리 독립 임대</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SBA (Service Based Architecture) / 5G 코어망의 웹 기반 마이크로서비스(MSA) 전환</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">6G (초감각 하이퍼 커넥티비티) / 1Tbps 쾌속 및 원격 촉각/후각 데이터 무선 전송 시대 도래</div>
-</div>
-</div>
-
-
+```text
+4G (LTE) 모바일 브로드밴드 / 스마트폰 속도 및 모바일 B2C 중심 진화
+    │
+    ▼
+[5G 트라이앵글 3대 특성 융합]
+ eMBB (초고속 대용량 20Gbps) ─▶ 28GHz 초고주파, Massive MIMO 빔포밍
+ uRLLC (초저지연 고신뢰 1ms) ─▶ MEC (모바일 엣지 컴퓨팅) 시공간 지연 소각
+ mMTC (초연결 IoT 대량 접속) ─▶ 저전력 Grant-free 접속 및 무허가 슬립 모드
+    │
+    ▼
+네트워크 슬라이싱 (Network Slicing) / 3대 특성을 한 망에서 가상 분리 독립 임대
+    │
+    ▼
+SBA (Service Based Architecture) / 5G 코어망의 웹 기반 마이크로서비스(MSA) 전환
+    │
+    ▼
+6G (초감각 하이퍼 커넥티비티) / 1Tbps 쾌속 및 원격 촉각/후각 데이터 무선 전송 시대 도래
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

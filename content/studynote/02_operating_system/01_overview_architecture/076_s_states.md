@@ -11,240 +11,144 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: S-States(System Power States)는 [ACPI](/knowledge-base/studynote/02_operating_system/01_overview_architecture/075_acpi/)가 정의한 시스템 전체 전원 상태로, S0(완전 동작)에서 S5(완전 종료)까지 전력 소비와 복귀 지연의 트레이드오프를 표현한다.
-> 2. **가치**: S3(Suspend to RAM), S4(Hibernate), S5(Soft Off)는 각각 다른 전력/복구 특성을 제공하여 배터리 효율과 사용자 경험을 함께 최적화한다.
-> 3. **판단 포인트**: Modern Standby(S0 Low Power Idle)는 S3의 완전한 대체가 아니라 S0 내부에서의 저전력 운영 모드이므로, 펌웨어와 드라이버 호환성을 함께 확인해야 한다.
+> 1. **본질**: S-States는 [ACPI](/knowledge-base/studynote/02_operating_system/01_overview_architecture/075_acpi/)(Advanced Configuration and [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Interface)가 정의한 시스템 전체 전원 상태로, 전력 소비와 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 지연의 균형을 표현한다.
+> 2. **가치**: S3, S4, S5는 각각 RAM 유지, 디스크 저장, 완전 종료라는 다른 선택지를 주어 배터리와 사용자 경험을 동시에 조정한다.
+> 3. **판단 포인트**: Modern Standby(S0 Low [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) [Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/))는 S3의 대체가 아니라 S0 내부의 저전력 운영이므로, [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)와 드라이버 지원을 같이 봐야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-컴퓨터를 오래 쓰지 않을 때 어떻게 해야 할까? 계속 켜두면 전력이 낭비되고, 완전히 끄면 다시 켤 때 오래 걸린다. 이 딜레마를 해결하기 위해 ACPI는 S-States라는 시스템 전원 상태 체계를 정의했다.
+시스템 전원 상태(S-States)는 컴퓨터가 "꺼진 것처럼 보일 때" 실제로 어느 정도의 전력을 쓰는지와, 다시 일상 작업 상태로 돌아오는 데 얼마나 걸리는지를 정의한 상태 머신([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Machine)이다. 노트북, 태블릿, 서버 모두에서 에너지 절감과 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 속도는 늘 트레이드오프다.
 
-S-States는 컴퓨터의 "잠자는 방식"을 단계별로 정의한다. 노트북 덮개를 닫을 때 S3(RAM에 저장하고 빠르게 복귀)를 사용할지, S4(디스크에 저장하고 완전 절전)를 사용할지, 아니면 S5(전원 끄기)를 선택할지는 상황에 따라 다르다. 배터리가 충분하다면 S3로 빠른 복귀를, 장시간 미사용이라면 S4나 S5를 선택한다.
+항상 켜 두면 전력과 수명이 낭비되고, 완전히 끄면 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 느려진다. 그래서 운영체제는 사용하지 않는 동안만 전력을 줄이고, 필요할 때 빠르게 돌아올 수 있는 여러 단계를 제공한다.
 
-현대 모바일 기기에서는 Modern Standby(Connected Standby, S0ix)가 점점 S3를 대체하고 있다. 스마트폰처럼 절전 중에도 알림을 받아야 하는 장치는 S3 대신 S0 내부의 저전력 상태를 유지하면서 선택적으로 네트워크를 사용한다. 이 모드는 "항상 연결(Always Connected)" 특성을 제공한다.
+```text
+S0(작동) ─▶ S3(대기) ─▶ S4(최대 절전) ─▶ S5(종료)
+   │            │             │               │
+   └────────────┴─────────────┴───────────────┘
+                복귀 시간은 뒤로 갈수록 길어짐
+```
 
-- **📢 섹션 요약 비유**: 사람도 낮잠, 깊은 잠, 완전 수면이 다르다. 눈을 감는 정도에 따라 깨는 속도와 필요한 에너지가 달라진다.
+이 구조는 "얼마나 아끼고, 얼마나 빨리 깰 것인가"를 숫자로 설계하는 일이다.
+
+- **📢 섹션 요약 비유**: 사람도 낮잠, 깊은 잠, 완전 수면이 다르다. 눈을 감는 정도가 달라지면 깨는 속도도 달라진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### S-States 전체 개요
+주요 상태는 S0, S1/S2(legacy), S3, S4, S5이며, 최신 기기에서는 S0ix 기반 Modern Standby가 중요하다. 핵심은 RAM을 유지하느냐, 디스크에 저장하느냐, 아니면 완전히 끄느냐에 있다.
 
+| 상태 | 이름 | 전력 공급 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보존 | [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) |
+| :-- | :-- | :-- | :-- | :-- |
+| S0 | Working | 전체 | RAM 유지 | 즉시 |
+| S3 | Suspend to RAM | RAM 위주 | RAM | 매우 빠름 |
+| S4 | Hibernate | 없음에 가까움 | Disk(hiberfil.sys) | 중간 |
+| S5 | Soft Off | 최소 대기 전력 | 없음 | 느림 |
+| G3 | Mechanical Off | 완전 차단 | 없음 | 가장 느림 |
 
+```text
+[사용 중]
+    │
+    ▼
+S0 ──▶ S3 ──▶ S4 ──▶ S5
+ │       │       │
+ │       │       └─ 배터리/정책에 따라 자동 전환
+ │       └─ RAM 내용 유지
+ └─ Modern Standby(S0ix): 깨어 있을 수 있는 저전력 모드
+```
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시스템 전원 상태 (S-States) 전환 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">S0 (Working)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── S0ix (Modern Standby): S0 내부 저전력 대기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 네트워크 연결 유지, 알림 수신 가능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── S1 (Power on Suspend): 레거시, CPU/RAM 전원 유지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── S2 (Suspend): 레거시, CPU 꺼짐, RAM 유지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── S3 (Suspend to RAM, STR):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── RAM만 전원 유지 (내용 보존)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── CPU, 장치 대부분 전원 OFF</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 복귀: 수 초 이내 (RAM에서 로드)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── S4 (Suspend to Disk, Hibernate):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── RAM 내용을 디스크에 저장 (hiberfil.sys/swap)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 전원 거의 완전 차단</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 복귀: 수십 초 (디스크에서 로드)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── S5 (Soft Off):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 완전 종료, 데이터 미보존</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 최소 대기 전력 (WoL 등 일부 유지)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 복귀: 전체 부팅 (30초~수 분)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">G3 (Mechanical Off): 물리적 전원 차단, 완전 리셋</div></div>
-</div>
-</div>
+S3는 RAM을 살려 두기 때문에 복귀가 빠르지만, 전원이 끊기면 내용이 날아간다. S4는 RAM 내용을 디스크에 저장해 전원을 거의 끊을 수 있지만, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간이 더 길다.
 
-
-
-### S-States 상세 비교표
-
-| 상태 | 이름 | RAM 상태 | CPU 상태 | 전력 소비 | 복귀 시간 | Wake Source |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| S0 | Working | 활성 | 실행 중 | 최고 | 즉시 | - |
-| S0ix | Modern Standby | 일부 유지 | 저전력 | 낮음 | ~1초 | 네트워크, 타이머 |
-| S1 | CPU Stop Grant | 유지 | 클럭 중지 | 조금 낮음 | 수 ms | 모든 소스 |
-| S2 | (레거시) | 유지 | 전원 OFF | 낮음 | 수 초 | 제한적 |
-| S3 | Suspend to RAM | 유지(전원) | OFF | 매우 낮음 | ~2초 | 전원 버튼, WoL |
-| S4 | Hibernate | 디스크에 저장 | OFF | 거의 없음 | 30~60초 | 전원 버튼 |
-| S5 | Soft Off | 없음 | OFF | 최소 대기 | 전체 부팅 | 전원 버튼, WoL |
-| G3 | Mech. Off | 없음 | OFF | 없음 | 전체 부팅+ | 전원 버튼만 |
-
-### S3 (Suspend to RAM) 동작 메커니즘
-
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">S0 → S3 전환 시:</div>
-<div class="kb-diagram-note">1. OS가 모든 프로세스 상태를 RAM에 유지</div>
-<div class="kb-diagram-note">2. 각 장치의 D-state를 D3(OFF)로 전환</div>
-<div class="kb-diagram-note">3. CPU 주변 장치 전원 차단</div>
-<div class="kb-diagram-note">4. RAM만 Self-Refresh 전원 유지</div>
-<div class="kb-diagram-note">5. Platform EC(Embedded Controller)가 Wake 이벤트 감시</div>
-<div class="kb-diagram-note">S3 → S0 복귀 시:</div>
-<div class="kb-diagram-note">1. Wake 이벤트 감지 (전원 버튼, WoL, 타이머 등)</div>
-<div class="kb-diagram-note">2. CPU 전원 복귀, 부팅 과정 일부 생략</div>
-<div class="kb-diagram-note">3. RAM 내용 그대로 복원</div>
-<div class="kb-diagram-note">4. 각 장치 D-state 복귀</div>
-<div class="kb-diagram-note">5. 사용자에게 즉시 화면 표시</div>
-</div>
-</div>
-
-
-
-### S4 (Hibernate) 동작 메커니즘
-
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">S0 → S4 전환 시:</div>
-<div class="kb-diagram-note">1. OS가 RAM 전체 내용을 파일에 기록</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Windows: hiberfil.sys (RAM 크기만큼)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Linux: swap 파티션 (CONFIG_HIBERNATION)</div>
-<div class="kb-diagram-note">2. 모든 장치 전원 차단</div>
-<div class="kb-diagram-note">3. 시스템 완전 종료</div>
-<div class="kb-diagram-note">S4 → S0 복귀 시:</div>
-<div class="kb-diagram-note">1. 전원 버튼으로 부팅</div>
-<div class="kb-diagram-note">2. BIOS/UEFI 초기화</div>
-<div class="kb-diagram-note">3. OS 부트로더가 hibernate 이미지 감지</div>
-<div class="kb-diagram-note">4. 이미지를 RAM으로 복원</div>
-<div class="kb-diagram-note">5. 종료 전 상태 그대로 복귀</div>
-</div>
-</div>
-
-
-
-- **📢 섹션 요약 비유**: S3는 얕은 낮잠(눈 감고 있지만 소리에 바로 깸), S4는 깊은 수면(노트에 꿈 내용 적어두고 완전히 잠), S5는 완전히 잠들어 아무것도 없는 상태다.
+- **📢 섹션 요약 비유**: 얕은 잠은 금방 깨지만 오래 못 버틴다. 깊은 잠은 오래 자지만 일어나는 데 시간이 더 걸린다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### S3, S4, S5, Modern Standby 비교
+S3, S4, S5는 전력 절감 수준과 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 속도가 다르다. 여기에 Modern Standby(S0 Low [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) [Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/))를 넣으면, "완전 절전"이 아니라 "S0 안에서 아주 낮은 전력으로 대기"한다는 차이가 보인다. 또한 S-states는 전체 시스템 상태이고, D-states는 장치 전원 상태라는 점도 함께 기억해야 한다.
 
-| 비교 항목 | S3 (STR) | S4 (Hibernate) | S5 (Soft Off) | Modern Standby (S0ix) |
-| :--- | :--- | :--- | :--- | :--- |
-| 메모리 보존 | RAM 전원 유지 | 디스크에 저장 | 없음 | RAM 일부 유지 |
-| 복귀 속도 | 매우 빠름 (~2초) | 보통 (30~60초) | 느림 (전체 부팅) | 즉시 (~1초) |
-| 전력 절감 | 높음 | 매우 높음 | 최고 | 높음 |
-| 네트워크 연결 | 없음 | 없음 | 없음 | 가능 (선택적) |
-| 배터리 지속 | 수 일 | 무한 (전원 없음) | 무한 | 수 일~주 |
-| 주요 사용 | 노트북 덮개 닫기 | 장시간 미사용 | 완전 종료 | 스마트폰/태블릿 |
+| 비교 | S3 | S4 | S5 | Modern Standby(S0ix) |
+| :-- | :-- | :-- | :-- | :-- |
+| 메모리 | RAM 유지 | 디스크 저장 | 없음 | RAM을 부분적으로 유지 |
+| 복귀 속도 | 빠름 | 중간 | 느림 | 빠름 |
+| 전력 절감 | 중간 | 높음 | 매우 높음 | 높음 |
+| [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) | [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 의존 | 비교적 안정 | 가장 안정 | 최신 하드웨어 의존 |
 
-### D-States (장치 전원 상태)와의 관계
+S-state는 "사용자 경험"과 "에너지 절감"을 동시에 조정하는 계층이고, D-state는 디바이스별 세밀 제어다. 둘을 구분해야 전원 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 정확히 설명할 수 있다.
 
-| 시스템 S-State | 장치 D-State | 의미 |
-| :--- | :--- | :--- |
-| S0 | D0 | 장치 완전 동작 |
-| S0 | D1/D2 | 장치 저전력 (일부 기능 유지) |
-| S3 | D3hot | 장치 전원 최소, 버스 전원 유지 |
-| S4/S5 | D3cold | 장치 완전 전원 차단 |
-
-### Wake Source 관리
-
-| Wake Source | 지원 S-State | 설명 |
-| :--- | :--- | :--- |
-| 전원 버튼 | S3, S4, S5 | 가장 기본적인 Wake Source |
-| Wake-on-LAN (WoL) | S3, S5 | 네트워크 패킷으로 원격 기동 |
-| USB 장치 (키보드/마우스) | S3 | 입력 시 복귀 |
-| RTC 타이머 | S3, S4 | 예약 시간에 자동 복귀 |
-| Bluetooth/WiFi | S0ix | Modern Standby에서 알림 수신 |
-
-- **📢 섹션 요약 비유**: 집 전체를 끄는 것(S5)과 방 하나만 끄는 것(D-state)은 다르다. 시스템 전원과 장치 전원을 따로 이해해야 한다.
+- **📢 섹션 요약 비유**: 집 전체를 끄는 것과 방 하나만 끄는 것은 다르다. 집 상태와 가전제품 상태를 따로 봐야 한다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 설계 판단 체크리스트
+실무에서는 상태 선택이 단순 선호가 아니라 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/), 드라이버, 배터리, 저장장치, 보안 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 연결된다.
 
-1. 대상 플랫폼에서 S3와 S4가 실제로 지원되는가? (Modern 시스템은 S3를 S0ix로 대체)
-2. S4(Hibernate)를 위한 저장 공간이 충분한가? (최소 RAM 크기만큼 필요)
-3. Wake-on-LAN, 전원 버튼, RTC 타이머 등 Wake source가 올바르게 설정됐는가?
-4. S3 → S0 복귀 시 모든 장치(GPU, NIC, USB)가 정상 복귀하는가?
-5. BIOS/UEFI 설정의 전원 정책이 OS 정책과 충돌하지 않는가?
-6. Modern Standby(S0ix) 전환 시 모든 드라이버가 ACPI D-state를 지원하는가?
-7. 서버 환경에서 ACPI S-state와 IPMI/BMC 원격 관리가 충돌하지 않는가?
-8. 장시간 S3 상태 유지 시 배터리 소진으로 인한 데이터 손실 방지책이 있는가?
+### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+1. S3와 S4가 장치에서 실제로 지원되는가?
+2. hiberfil.sys 같은 저장 공간이 충분한가?
+3. Wake-on-LAN, 키보드, 타이머 등 wake source가 설정되어 있는가?
+4. BIOS/UEFI와 OS 전원 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 충돌하지 않는가?
+5. Modern Standby 전환 시 드라이버 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)이 검증됐는가?
 
-### 안티패턴
+### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+- 모든 장치에서 S3가 가능하다고 가정
+- 하이버네이트 공간 없이 S4를 켬
+- 드라이버 업데이트 후 resume 테스트를 생략
+- 배터리 임계값 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 없이 장시간 S3 유지
 
-- **모든 장치에서 S3가 가능하다고 가정**: 일부 최신 울트라북은 BIOS 설계상 S3 대신 Modern Standby(S0ix)만 지원한다. 플랫폼 스펙을 반드시 확인해야 한다.
-- **Hibernate 공간 없이 S4 설정**: Linux에서 swap이 부족하거나, Windows에서 hiberfil.sys 생성 공간이 없으면 S4가 동작하지 않는다. `powercfg /h on`(Windows) 또는 swap 크기 확인(Linux)이 필수다.
-- **드라이버 업데이트 후 Resume 테스트 생략**: 새 드라이버는 D-state 전환 지원이 달라질 수 있다. S3/S4 진입 및 복귀 테스트를 반드시 수행해야 한다.
-- **배터리 임계값 정책 없이 S3 장기 유지**: S3 상태에서도 RAM 전원 유지를 위해 배터리가 소모된다. 배터리가 방전되면 RAM 내용이 사라진다. S3 상태에서 배터리 임계값 도달 시 자동으로 S4로 전환하는 "Hybrid Sleep" 정책을 설정해야 한다.
+기술사 관점에서는 "절전 상태를 고르는 문제"가 아니라 "상태 전이의 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 신뢰성을 설계하는 문제"로 설명해야 한다.
 
-기술사 관점에서는 S-States를 "전력 소비와 복귀 지연의 트레이드오프 상태 모델"로 설명하되, 각 상태의 RAM 보존 여부, 복귀 시간, Wake Source, D-State와의 관계를 함께 언급해야 한다.
-
-- **📢 섹션 요약 비유**: 여행 전에 집 불을 끄는 방법을 미리 정해야 한다. 어디까지 끄고 어디는 남길지, 돌아왔을 때 불을 어떻게 켤지를 미리 계획하는 것이 S-State 설계다.
+- **📢 섹션 요약 비유**: 여행 전에 집 불을 끄는 방법을 정하듯, 어디까지 끄고 어디는 남길지 미리 정해야 돌아왔을 때 당황하지 않는다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-S-States의 올바른 활용은 사용자 경험과 에너지 효율을 동시에 개선한다. 노트북에서 S3를 사용하면 덮개를 닫고 열었을 때 2초 이내에 이전 작업 화면으로 돌아오는 경험이 가능하다. S4는 장기 이동 시 배터리 걱정 없이 작업 내용을 보존한다.
+S-states는 전력 절감, 배터리 수명, 발열 감소, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 속도의 균형을 제공한다. 제대로 설정되면 사용자 경험이 좋아지고, 대규모 장비 운영 비용도 줄어든다.
 
-서버 환경에서는 S5 상태에서 Wake-on-LAN(WoL)을 활용하여 원격으로 서버를 부팅하는 관리 효율이 높아진다. 데이터센터에서는 유휴 서버를 S5 상태로 두어 전력 소비를 최소화하고 필요 시 자동 기동하는 전력 관리 전략이 가능하다.
+결론적으로 S-states는 "얼마나 오래 끄는가"보다 "얼마나 안전하게 다시 켜지는가"를 함께 봐야 한다. 그래서 전원 상태는 단순 절전 기능이 아니라 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성을 포함한 운영 설계로 기억해야 한다.
 
-Modern Standby(S0ix)는 스마트폰과 태블릿 경험을 PC에 가져온다. 화면을 끈 상태에서도 네트워크가 연결되어 메일, 캘린더 알림을 실시간으로 받고, 화면을 켜면 즉시 사용 가능한 경험이다. 이는 향후 클라우드 연결 PC의 표준 전원 모델이 될 전망이다.
-
-결론적으로 S-States는 "절전의 깊이"를 설계하는 것으로, "얼마나 오래 끄는가"보다 "어떻게 안전하고 빠르게 다시 켜지는가"를 함께 고려해야 하는 운영 설계다.
-
-- **📢 섹션 요약 비유**: 잘 자는 것만큼 알람이 울리면 바로 일어나는 것이 중요하다. S-States는 절전과 복귀 능력을 함께 설계한다.
-
----
+- **📢 섹션 요약 비유**: 잠을 잘 자는 것만큼, 알람이 울리면 바로 일어나는 것이 중요하다. 절전은 결국 깨어나는 힘까지 포함한다.
 
 ### 📌 관련 개념 맵
 
 | 개념 | 연결 포인트 |
-| :--- | :--- |
-| ACPI | S-States를 정의하는 표준 |
-| D-States | 개별 장치 전원 상태, S-State와 연계 |
-| C-States | CPU 유휴 절전, S-State와 계층 구분 |
-| Modern Standby (S0ix) | S0 내부 저전력 대기 (S3 대체 방향) |
-| hiberfil.sys / swap | S4 Hibernate 이미지 저장소 |
-| Wake-on-LAN | S3/S5에서 원격 복귀 메커니즘 |
-| Hybrid Sleep | S3 + S4 결합 (배터리 방전 대비) |
-| 배터리 관리 | S3 장기 유지 시 자동 S4 전환 |
+| :-- | :-- |
+| [ACPI](/knowledge-base/studynote/02_operating_system/01_overview_architecture/075_acpi/)(Advanced Configuration and [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Interface) | 전원 상태 표준 |
+| S0~S5 | 시스템 전체 전원 단계 |
+| S0ix / Modern Standby | S0 내부 저전력 대기 |
+| D-states | 개별 장치 전원 상태 |
+| hiberfil.sys | S4 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)용 디스크 이미지 |
+| Wake source | 복귀를 유도하는 이벤트 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
+```text
+상시 전원
+    │
+    ▼
+S3(빠른 복귀)
+    │
+    ▼
+S4(디스크 저장)
+    │
+    ▼
+S5(완전 종료)
+    │
+    ▼
+S0ix / Modern Standby(상시 연결 + 저전력)
+```
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">항상 전원 ON (초기 PC)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">ACPI S-State 표준 정의 (1996)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">S3 (Suspend to RAM) 주류화 → 빠른 복귀 경험</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">S4 (Hibernate) 정착 → 장기 절전</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Hybrid Sleep 도입 (S3 + S4 자동 전환)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Connected Standby / Modern Standby (S0ix) 등장</div>
-<div class="kb-diagram-note">→ 스마트폰 경험을 PC로</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Windows 11 / ARM PC: S3 제거, S0ix 단일화</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Always Connected PC 표준화 전망</div>
-</div>
-</div>
-
-
+이 흐름은 "깊이 자는 방식"이 아니라 "깨어날 수 있게 유지하는 방식"으로 발전해 왔음을 보여준다. 앞으로는 모바일과 항상 연결된 기기에서 Modern Standby의 비중이 더 커진다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. S0는 깨어서 놀고 있는 상태예요.
-2. S3는 금방 깨는 낮잠, S4는 꿈 내용을 노트에 적고 자는 깊은 잠, S5는 완전히 잠든 상태예요.
-3. 컴퓨터는 상황에 따라 가장 알맞은 잠자기 방법을 고른답니다.
+2. S3는 금방 깨는 낮잠, S4는 깊은 잠, S5는 완전히 잠든 상태예요.
+3. 컴퓨터는 상황에 따라 가장 알맞은 잠을 고른답니다.
 
 ---
 

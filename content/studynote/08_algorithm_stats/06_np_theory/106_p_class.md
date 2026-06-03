@@ -18,27 +18,25 @@ tags = ["studynote-algorithm"]
 
 ## Ⅰ. P 클래스 정의
 
+```
+P (Polynomial Time) 클래스:
 
+형식 정의:
+  P = { L | 다항 시간 결정론적 알고리즘이 존재하는 언어 L }
+  
+결정론적 튜링 머신 (DTM):
+  각 상태에서 다음 행동이 유일하게 결정
+  일반 컴퓨터의 수학적 모델
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">P (Polynomial Time) 클래스:</div>
-<div class="kb-diagram-note">형식 정의:</div>
-<div class="kb-diagram-note">P = { L | 다항 시간 결정론적 알고리즘이 존재하는 언어 L }</div>
-<div class="kb-diagram-note">결정론적 튜링 머신 (DTM):</div>
-<div class="kb-diagram-note">각 상태에서 다음 행동이 유일하게 결정</div>
-<div class="kb-diagram-note">일반 컴퓨터의 수학적 모델</div>
-<div class="kb-diagram-note">다항 시간:</div>
-<div class="kb-diagram-note">T(n) = O(n^k) (k는 상수)</div>
-<div class="kb-diagram-note">예: O(n), O(n²), O(n⁵) -&gt; P</div>
-<div class="kb-diagram-note">예: O(2ⁿ), O(n!) -&gt; P 아님</div>
-<div class="kb-diagram-note">P 클래스 직관:</div>
-<div class="kb-diagram-note">"실용적으로 빠른" 문제들</div>
-<div class="kb-diagram-note">(단, n=1백만에서 O(n⁵)는 느릴 수 있음)</div>
-</div>
-</div>
+다항 시간:
+  T(n) = O(n^k) (k는 상수)
+  예: O(n), O(n²), O(n⁵) -> P
+  예: O(2ⁿ), O(n!) -> P 아님
 
-
+P 클래스 직관:
+  "실용적으로 빠른" 문제들
+  (단, n=1백만에서 O(n⁵)는 느릴 수 있음)
+```
 
 > 📢 **섹션 요약 비유**: P 클래스는 "정해진 절차대로 시간 안에 해결 가능한 퍼즐" — 어렵더라도 단계별 방법이 존재한다.
 
@@ -46,33 +44,33 @@ tags = ["studynote-algorithm"]
 
 ## Ⅱ. P 클래스 예시
 
+```
+P에 속하는 대표 문제들:
 
+1. 정렬 (Sorting):
+   입력: 배열 A[1..n]
+   출력: 정렬된 배열
+   알고리즘: Merge Sort O(n log n) -> P
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">P에 속하는 대표 문제들:</div>
-<div class="kb-diagram-note">1. 정렬 (Sorting):</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">입력: 배열 A</div><div class="kb-diagram-node">1..n</div></div>
-<div class="kb-diagram-note">출력: 정렬된 배열</div>
-<div class="kb-diagram-note">알고리즘: Merge Sort O(n log n) -&gt; P</div>
-<div class="kb-diagram-note">2. 최단 경로 (Shortest Path):</div>
-<div class="kb-diagram-note">다익스트라 알고리즘 O((V+E) log V) -&gt; P</div>
-<div class="kb-diagram-note">벨만-포드 O(VE) -&gt; P</div>
-<div class="kb-diagram-note">3. 최대 공약수 (GCD):</div>
-<div class="kb-diagram-note">유클리드 알고리즘 O(log min(a,b)) -&gt; P</div>
-<div class="kb-diagram-note">4. 소수 판별 (Primality Test):</div>
-<div class="kb-diagram-note">AKS 알고리즘 O((log n)^6) (2002년 증명) -&gt; P</div>
-<div class="kb-diagram-note">이전에는 NP-easy로 추정, 2002년 P 편입</div>
-<div class="kb-diagram-note">5. 선형 계획법 (Linear Programming):</div>
-<div class="kb-diagram-note">Simplex: 최악 지수 시간, 실용적으로 빠름</div>
-<div class="kb-diagram-note">내부점 방법: O(n^3.5 L) -&gt; P</div>
-<div class="kb-diagram-note">6. 2-SAT:</div>
-<div class="kb-diagram-note">변수가 양/음만 포함하는 논리식 만족 가능성</div>
-<div class="kb-diagram-note">O(V+E) -&gt; P (3-SAT는 NP-완전)</div>
-</div>
-</div>
+2. 최단 경로 (Shortest Path):
+   다익스트라 알고리즘 O((V+E) log V) -> P
+   벨만-포드 O(VE) -> P
 
+3. 최대 공약수 (GCD):
+   유클리드 알고리즘 O(log min(a,b)) -> P
 
+4. 소수 판별 (Primality Test):
+   AKS 알고리즘 O((log n)^6) (2002년 증명) -> P
+   이전에는 NP-easy로 추정, 2002년 P 편입
+
+5. 선형 계획법 (Linear Programming):
+   Simplex: 최악 지수 시간, 실용적으로 빠름
+   내부점 방법: O(n^3.5 L) -> P
+
+6. 2-SAT:
+   변수가 양/음만 포함하는 논리식 만족 가능성
+   O(V+E) -> P (3-SAT는 NP-완전)
+```
 
 > 📢 **섹션 요약 비유**: P 클래스 문제는 요리 레시피가 있는 음식 — 재료와 단계만 따라가면 시간 안에 만들 수 있다.
 
@@ -80,31 +78,31 @@ tags = ["studynote-algorithm"]
 
 ## Ⅲ. P와 다른 복잡도 클래스 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
 
+```
+복잡도 클래스 포함 관계:
 
+P ⊆ NP ⊆ PSPACE ⊆ EXPTIME
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">복잡도 클래스 포함 관계:</div>
-<div class="kb-diagram-note">P ⊆ NP ⊆ PSPACE ⊆ EXPTIME</div>
-<div class="kb-diagram-note">알려진 사실:</div>
-<div class="kb-diagram-note">P ⊆ NP: 확실 (P 문제는 NP로 검증 가능)</div>
-<div class="kb-diagram-note">P ≠ EXPTIME: 시간 위계 정리로 증명</div>
-<div class="kb-diagram-note">미해결:</div>
-<div class="kb-diagram-note">P =? NP: 컴퓨터 과학 최대 난제</div>
-<div class="kb-diagram-note">직관적 의미:</div>
-<div class="kb-diagram-note">P: 쉽게 풀기</div>
-<div class="kb-diagram-note">NP: 주어진 해답을 쉽게 검증하기</div>
-<div class="kb-diagram-note">P = NP라면:</div>
-<div class="kb-diagram-note">검증하기 쉬운 모든 문제 = 풀기도 쉬운 문제</div>
-<div class="kb-diagram-tree-item" style="--depth:2">암호화 무력화 (RSA, 타원곡선 암호)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">단백질 접힘, 최적 경로 등 모두 고속 해결</div>
-<div class="kb-diagram-note">실용적 관점:</div>
-<div class="kb-diagram-note">P: "효율적 알고리즘 존재"</div>
-<div class="kb-diagram-note">P 밖 문제: 근사 알고리즘, 휴리스틱 사용</div>
-</div>
-</div>
+알려진 사실:
+  P ⊆ NP: 확실 (P 문제는 NP로 검증 가능)
+  P ≠ EXPTIME: 시간 위계 정리로 증명
+  
+미해결:
+  P =? NP: 컴퓨터 과학 최대 난제
+  
+직관적 의미:
+  P: 쉽게 풀기
+  NP: 주어진 해답을 쉽게 검증하기
+  
+  P = NP라면:
+    검증하기 쉬운 모든 문제 = 풀기도 쉬운 문제
+    -> 암호화 무력화 (RSA, 타원곡선 암호)
+    -> 단백질 접힘, 최적 경로 등 모두 고속 해결
 
-
+실용적 관점:
+  P: "효율적 알고리즘 존재"
+  P 밖 문제: 근사 알고리즘, 휴리스틱 사용
+```
 
 > 📢 **섹션 요약 비유**: P = NP 문제는 "정답 확인이 쉬우면 문제 풀기도 쉽다"는 주장 — 스도쿠 확인이 쉬우니 스도쿠 생성도 쉽나? 아직 모른다.
 
@@ -112,31 +110,30 @@ tags = ["studynote-algorithm"]
 
 ## Ⅳ. 소수 판별의 P 편입 역사
 
+```
+소수 판별 (Primality Testing) P 편입 과정:
 
+1975년 이전:
+  효율적 알고리즘 없음
+  
+Miller-Rabin (1976):
+  확률적 알고리즘 O(k log² n)
+  k번 반복 -> 오류 확률 4^(-k)
+  P에 속하는지 불명확 (확률적)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소수 판별 (Primality Testing) P 편입 과정:</div>
-<div class="kb-diagram-note">1975년 이전:</div>
-<div class="kb-diagram-note">효율적 알고리즘 없음</div>
-<div class="kb-diagram-note">Miller-Rabin (1976):</div>
-<div class="kb-diagram-note">확률적 알고리즘 O(k log² n)</div>
-<div class="kb-diagram-note">k번 반복 -&gt; 오류 확률 4^(-k)</div>
-<div class="kb-diagram-note">P에 속하는지 불명확 (확률적)</div>
-<div class="kb-diagram-note">AKS 알고리즘 (2002):</div>
-<div class="kb-diagram-note">Agrawal-Kayal-Saxena 발표</div>
-<div class="kb-diagram-note">결정론적 O((log n)^6) 다항 시간</div>
-<div class="kb-diagram-note">소수 판별 = P 공식 편입</div>
-<div class="kb-diagram-note">의의:</div>
-<div class="kb-diagram-note">"소수 판별은 NP에 있다 -&gt; P에 편입" 케이스</div>
-<div class="kb-diagram-tree-item" style="--depth:1">"어떤 문제들이 사실 P에 속하는지 모를 수 있음"</div>
-<div class="kb-diagram-tree-item" style="--depth:1">지속적 P = NP 연구 동기</div>
-<div class="kb-diagram-note">실용:</div>
-<div class="kb-diagram-note">RSA 키 생성: 여전히 Miller-Rabin 사용 (AKS보다 빠름)</div>
-</div>
-</div>
+AKS 알고리즘 (2002):
+  Agrawal-Kayal-Saxena 발표
+  결정론적 O((log n)^6) 다항 시간
+  소수 판별 = P 공식 편입
 
-
+의의:
+  "소수 판별은 NP에 있다 -> P에 편입" 케이스
+  -> "어떤 문제들이 사실 P에 속하는지 모를 수 있음"
+  -> 지속적 P = NP 연구 동기
+  
+실용:
+  RSA 키 생성: 여전히 Miller-Rabin 사용 (AKS보다 빠름)
+```
 
 > 📢 **섹션 요약 비유**: 소수 판별의 P 편입은 수십 년 "이건 어려울 것 같아"가 "사실 쉬웠어!"로 바뀐 전환점 — P와 NP 경계는 고정되지 않았다.
 
@@ -144,33 +141,33 @@ tags = ["studynote-algorithm"]
 
 ## Ⅴ. 실무 시나리오 — [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 선택 기준
 
+```
+알고리즘 설계 시 P 클래스 확인:
 
+문제 제기:
+  새로운 문제를 만났을 때
+  "이 문제가 P에 속하나?" 확인이 첫 단계
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">알고리즘 설계 시 P 클래스 확인:</div>
-<div class="kb-diagram-note">문제 제기:</div>
-<div class="kb-diagram-note">새로운 문제를 만났을 때</div>
-<div class="kb-diagram-note">"이 문제가 P에 속하나?" 확인이 첫 단계</div>
-<div class="kb-diagram-note">전략:</div>
-<div class="kb-diagram-note">1. 기존 P 문제로 환산 가능한가?</div>
-<div class="kb-diagram-tree-item" style="--depth:2">그래프, 정렬, 동적 프로그래밍 문제로 변환</div>
-<div class="kb-diagram-note">2. 다항 시간 알고리즘 설계 가능한가?</div>
-<div class="kb-diagram-tree-item" style="--depth:2">그리디, DP, 분할 정복 시도</div>
-<div class="kb-diagram-note">3. NP-완전으로 판명됐는가?</div>
-<div class="kb-diagram-tree-item" style="--depth:2">근사 알고리즘, 휴리스틱 사용</div>
-<div class="kb-diagram-tree-item" style="--depth:2">제한된 케이스(Parameterized)에서 P 알고리즘 찾기</div>
-<div class="kb-diagram-note">사례:</div>
-<div class="kb-diagram-note">경로 찾기: 다익스트라 O((V+E)log V) -&gt; P 활용</div>
-<div class="kb-diagram-note">일정 배정 (2개 기계): DP -&gt; P</div>
-<div class="kb-diagram-note">일정 배정 (3개 이상 기계): NP-완전 -&gt; 근사 알고리즘</div>
-<div class="kb-diagram-note">결론:</div>
-<div class="kb-diagram-note">P 클래스 확인 = 효율적 완전 해법 가능 여부 판단</div>
-<div class="kb-diagram-note">P 밖 문제 = 실용적 타협(근사/휴리스틱)으로 전환</div>
-</div>
-</div>
+전략:
+  1. 기존 P 문제로 환산 가능한가?
+     -> 그래프, 정렬, 동적 프로그래밍 문제로 변환
+     
+  2. 다항 시간 알고리즘 설계 가능한가?
+     -> 그리디, DP, 분할 정복 시도
+     
+  3. NP-완전으로 판명됐는가?
+     -> 근사 알고리즘, 휴리스틱 사용
+     -> 제한된 케이스(Parameterized)에서 P 알고리즘 찾기
 
-
+사례:
+  경로 찾기: 다익스트라 O((V+E)log V) -> P 활용
+  일정 배정 (2개 기계): DP -> P
+  일정 배정 (3개 이상 기계): NP-완전 -> 근사 알고리즘
+  
+결론:
+  P 클래스 확인 = 효율적 완전 해법 가능 여부 판단
+  P 밖 문제 = 실용적 타협(근사/휴리스틱)으로 전환
+```
 
 > 📢 **섹션 요약 비유**: P 클래스 확인은 요리 전 "이 음식이 30분 안에 만들 수 있나?" 체크 — 불가능하면 간소화 레시피([근사 알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/012_approximation_algorithm/))로 전환.
 

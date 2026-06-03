@@ -46,17 +46,11 @@ NOT IN 함정: NULL 포함 시 전체 제외 → NOT EXISTS 권장
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">IN 서브쿼리 (기본)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">EXISTS (상관 서브쿼리)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">옵티마이저 자동 변환 (IN↔EXISTS)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: Anti-Join 최적화 — NOT EXISTS 자동 변환</div></div>
-</div>
-</div>
-
-
+```text
+[IN 서브쿼리 (기본)] → [EXISTS (상관 서브쿼리)]
+    → [옵티마이저 자동 변환 (IN↔EXISTS)]
+    → [현재: Anti-Join 최적화 — NOT EXISTS 자동 변환]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. EXISTS는 **"이 명단에 이름이 있어? 있으면 OK!"** [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 거예요.

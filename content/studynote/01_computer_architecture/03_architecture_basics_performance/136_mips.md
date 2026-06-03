@@ -40,22 +40,24 @@ MIPS는 단순한 카운터가 아니라, 클럭과 평균 실행 효율을 묶�
 
 아래 그림은 MIPS가 어떤 흐름에서 계산되는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MIPS 계산 흐름: 클럭과 CPI의 결합</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로그램 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 총 명령어 수 (Instruction Count)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 실행 시간 (Execution Time)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 클럭 주파수 (Clock Rate)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ CPI (Cycles Per Instruction)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: MIPS = Clock Rate / (CPI × 10^6)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해석: 높은 클럭만으로는 부족하고, 낮은 CPI가 함께 나와야 유리하다.</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                  MIPS 계산 흐름: 클럭과 CPI의 결합                  │
+├──────────────────────────────────────────────────────────────────────┤
+│ 프로그램 실행                                                       │
+│     │                                                               │
+│     ├─▶ 총 명령어 수 (Instruction Count)                            │
+│     │                                                               │
+│     └─▶ 실행 시간 (Execution Time)                                  │
+│             │                                                       │
+│             ├─▶ 클럭 주파수 (Clock Rate)                            │
+│             └─▶ CPI (Cycles Per Instruction)                        │
+│                                                                     │
+│ 결과: MIPS = Clock Rate / (CPI × 10^6)                              │
+│                                                                     │
+│ 해석: 높은 클럭만으로는 부족하고, 낮은 CPI가 함께 나와야 유리하다. │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 예를 들어 2 GHz (gigahertz) 프로세서가 평균 [CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/) 2로 동작하면 약 1,000 MIPS가 된다. 반대로 1 GHz 프로세서라도 평균 [CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/) 0.5 수준으로 매우 효율적으로 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 처리하면 이론상 2,000 MIPS까지도 계산될 수 있다. 이처럼 MIPS는 단순 주파수 경쟁보다 한 단계 나아간 지표였지만, 여전히 "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 개수"를 기준으로 삼는다는 점에서 구조적 전제를 갖는다.
 
@@ -137,23 +139,22 @@ MIPS는 컴퓨터 [성능](/knowledge-base/studynote/04_software_engineering/05_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">클럭 주파수 중심 비교</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">MIPS (Million Instructions Per Second)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ CPI (Cycles Per Instruction) 인식 확대</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ ISA (Instruction Set Architecture) 차이에 따른 왜곡 문제 제기</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DMIPS (Dhrystone MIPS) 같은 보정 시도</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SPEC 벤치마크 · FLOPS 중심의 실제 워크로드 평가</div>
-</div>
-</div>
-
-
+```text
+클럭 주파수 중심 비교
+    │
+    ▼
+MIPS (Million Instructions Per Second)
+    │
+    ├─▶ CPI (Cycles Per Instruction) 인식 확대
+    │
+    ├─▶ ISA (Instruction Set Architecture) 차이에 따른 왜곡 문제 제기
+    │
+    ▼
+DMIPS (Dhrystone MIPS) 같은 보정 시도
+    │
+    ▼
+SPEC 벤치마크 · FLOPS 중심의 실제 워크로드 평가
+```
 
 이 흐름은 단순 처리율 숫자에서 출발해, [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 질과 실제 작업 완료 시간을 함께 보는 방향으로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가가 발전했음을 보여 준다.
 

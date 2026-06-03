@@ -25,29 +25,33 @@ tags = ["studynote-operating-system"]
 **필요성 및 등장 배경**
 전통적인 유닉스 환경의 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)(예: `/var/log/messages`, `syslog`)는 애플리케이션 개발자가 "출력하라고 코딩해 둔" 내용만 찍히는 수동적 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)다. 해커가 침입해 특정 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(`/etc/shadow` 등)을 몰래 읽고 수정하거나, 루트(Root) 권한을 가진 내부자가 권한을 남용해 회사 기밀을 USB로 복사하는 행위는 애플리케이션 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)에 전혀 남지 않는다. 이러한 문제를 해결하기 위해, 유저 공간의 프로그램이 OS의 심장부([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))에 어떤 시스템 콜을 던지는지를 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 단에서 강제로 낚아채어 꼼꼼히 기록하는 강력한 경찰력([Audit Framework](/knowledge-base/studynote/11_design_supervision/01_audit_framework/006_audit_framework_3dimensional/))이 필요하게 되었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일반 로그(Syslog)와 시스템 감사 로그(Audit)의 구조적 차이</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">일반 로그 시스템 (Syslog 계열)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 주체: 어플리케이션이 자발적으로 생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 한계: 악성코드나 내부자는 로그를 남기지 않고 몰래 작업함</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">사용자/해커의 은밀한 파일 삭제 시도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">명령: rm -rf /var/www/html/index.html</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(User/Kernel)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Linux Audit Framework (커널 기반 강제 로깅)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① 시스템 콜 (sys_unlinkat) 진입</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② 커널 내장 Audit 엔진이 개입 (Intercept)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"누가(UID:500) 지우려 하는가?"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"어느 파일인가?"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"성공했는가 실패했는가?"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ 커널이 로그 기록을 강제로 생성 후 Netlink 통신으로 전송</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">④ 유저 공간의 'auditd' 데몬이 수신하여 안전하게 디스크에 저장</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────┐
+│      일반 로그(Syslog)와 시스템 감사 로그(Audit)의 구조적 차이 │
+├────────────────────────────────────────────────────────────┤
+│                                                            │
+│  [일반 로그 시스템 (Syslog 계열)]                          │
+│  - 주체: 어플리케이션이 자발적으로 생성                    │
+│  - 한계: 악성코드나 내부자는 로그를 남기지 않고 몰래 작업함│
+│                                                            │
+│  [사용자/해커의 은밀한 파일 삭제 시도]                     │
+│    명령: rm -rf /var/www/html/index.html                   │
+│         │                                                  │
+│  ───────┼──────────────────────────────────────────────────│ (User/Kernel)
+│         ▼                                                  │
+│  [Linux Audit Framework (커널 기반 강제 로깅)]             │
+│  ① 시스템 콜 (sys_unlinkat) 진입                           │
+│         │                                                  │
+│  ② 커널 내장 Audit 엔진이 개입 (Intercept)                  │
+│    "누가(UID:500) 지우려 하는가?"                          │
+│    "어느 파일인가?"                                        │
+│    "성공했는가 실패했는가?"                                │
+│         │                                                  │
+│  ③ 커널이 로그 기록을 강제로 생성 후 Netlink 통신으로 전송│
+│         │                                                  │
+│  ④ 유저 공간의 'auditd' 데몬이 수신하여 안전하게 디스크에 저장│
+└────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 구조도는 [Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/) 프레임워크가 왜 [보안 감사](/knowledge-base/studynote/04_software_engineering/11_testing_validation/527_security_audit_trail/)의 '절대 반지'라 불리는지를 직관적으로 보여준다. 해커가 아무리 자신의 흔적(history, bash_profile)을 지우려 해도, 결국 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 지우거나 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하려면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 시스템 콜(`sys_unlinkat`, `sys_open`)을 지나야만 한다. 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 내장된 [Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/) 엔진은 마치 고속도로 톨게이트와 같아서, 지나가는 모든 차량(시스템 콜)의 번호판(UID), 도착지(경로), 통과 시간 등을 강제로 사진 찍어(로깅) 보관한다. 이 기록은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 영역에서 수행되므로 유저 권한의 해커가 우회하기가 극도로 어렵다.
 
@@ -74,32 +78,36 @@ Auditd의 가장 강력한 점은 시스템의 모든 이벤트를 무식하게 
 2. <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">File</a> System Rules (Watches)</strong>: 특정 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이나 디렉터리의 읽기, [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/), 실행, [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 변경(rwa-x)을 감시.
 3. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/">System Call</a> Rules</strong>: 특정 프로세스 아키텍처, 권한(UID/GID) 조건에 맞는 시스템 콜 호출을 추적.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Auditd의 Rule 파싱 및 커널(Kernel) 이벤트 캡처 흐름</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 보안 관리자의 Rule 설정 (auditctl 명령어)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"누구든 /etc/shadow(패스워드 파일)를 수정(w) 하거나</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">속성을 바꾸면(a) 무조건 캡처해라!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">명령어: auditctl -w /etc/shadow -p wa -k shadow_audit</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (Netlink 소켓을 통해 커널로 전달)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 커널 모드 (Kernel Space)의 이벤트 필터링</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일반 사용자(UID:1001)가 'vi /etc/shadow' 편집 시도</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▼</div><div class="kb-diagram-node">시스템 콜: sys_openat 발생</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">커널 Audit Filter 엔진</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IF (대상 == /etc/shadow &amp;&amp; 접근 == w) {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; Rule 매칭 성공! (Hit)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; 커널 메모리에 Audit Record 생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3. 유저 모드 (User Space) 로그 기록</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (고속 비동기 전송)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">auditd 데몬이 로그를 수신하여 /var/log/audit/audit.log 에</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">key="shadow_audit" 태그를 달아 영구 기록!</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────┐
+│      Auditd의 Rule 파싱 및 커널(Kernel) 이벤트 캡처 흐름   │
+├────────────────────────────────────────────────────────────┤
+│                                                            │
+│  [1. 보안 관리자의 Rule 설정 (auditctl 명령어)]            │
+│   "누구든 /etc/shadow(패스워드 파일)를 수정(w) 하거나      │
+│    속성을 바꾸면(a) 무조건 캡처해라!"                      │
+│   명령어: auditctl -w /etc/shadow -p wa -k shadow_audit    │
+│            │                                               │
+│            ▼ (Netlink 소켓을 통해 커널로 전달)             │
+│                                                            │
+│  [2. 커널 모드 (Kernel Space)의 이벤트 필터링]             │
+│   일반 사용자(UID:1001)가 'vi /etc/shadow' 편집 시도       │
+│            │                                               │
+│            ▼ [시스템 콜: sys_openat 발생]                  │
+│       ┌───────────────────────────────────────┐            │
+│       │ 커널 Audit Filter 엔진                  │            │
+│       │ IF (대상 == /etc/shadow && 접근 == w) { │            │
+│       │     -> Rule 매칭 성공! (Hit)            │            │
+│       │     -> 커널 메모리에 Audit Record 생성  │            │
+│       │ }                                       │            │
+│       └──────────────────────┬────────────────┘            │
+│                              │                             │
+│  [3. 유저 모드 (User Space) 로그 기록]                     │
+│            ▼ (고속 비동기 전송)                            │
+│   auditd 데몬이 로그를 수신하여 /var/log/audit/audit.log 에│
+│   key="shadow_audit" 태그를 달아 영구 기록!                │
+└────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 메커니즘은 OS 레벨의 감사 프레임워크가 얼마나 정밀하게 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 보안의 균형을 맞추는지 보여준다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 시스템 콜 후킹은 필연적으로 전체 시스템 속도를 떨어뜨리는 오버헤드(Overhead)를 동반한다. 하지만 [Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 엔진은 관리자가 주입한 조건(Filter)에 맞는 시스템 콜이 발생했을 때만 메모리에 레코드를 조립하여 User 스페이스로 밀어올린다. 또한 `-k` 옵션을 통해 부여된 키 태그(`shadow_audit`)는 훗날 수백만 줄의 난해한 기계식 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 텍스트 속에서 해당 이벤트를 `ausearch` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)로 1초 만에 끄집어낼 수 있게 해주는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스의 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)([Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)) 같은 기막힌 역할을 한다.
 
@@ -122,25 +130,27 @@ Auditd의 가장 강력한 점은 시스템의 모든 이벤트를 무식하게 
 
 Auditd는 시스템 [보안 감사](/knowledge-base/studynote/04_software_engineering/11_testing_validation/527_security_audit_trail/)([Compliance](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/058_it_compliance_sox_basel_gdpr_isms/)) 분야에서 20년 이상 표준으로 자리 잡아온 철옹성이다. 하지만 수백 개의 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 1초에 수만 개의 시스템 콜을 발생시키는 현대 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 환경(K8s)에서는 Auditd의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)/유저스페이스 간 Netlink 통신 방식이 병목([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/))을 유발하기 시작했다. 이를 해결하기 위해 차세대 관제는 <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/">eBPF</a> 기반의 관측성(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/">Observability</a>)</strong> 프레임워크로 빠르게 진화하고 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Auditd와 차세대 eBPF 기반 트레이싱의 병목 위치 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">기존 Auditd 아키텍처 (Context Switch 병목)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">커널 스페이스</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">원시 로그 데이터 생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Netlink 전송 - 막대한 Context Switch 오버헤드 발생)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">유저 스페이스</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">필터링 및 파싱 ──▶ 저장</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">차세대 eBPF 아키텍처 (커널 내 인메모리 최적화)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">커널 스페이스</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">BPF 프로그램이 캡처</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">커널 내부에서 즉시 필터링 및 집계 완료!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(유의미한 결과 요약본만 맵에 저장)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (가벼운 비동기 BPF Map 공유)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">유저 스페이스</div><div class="kb-diagram-note">EDR 에이전트는 이미 요약된 결과만 꺼내감</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────┐
+│      Auditd와 차세대 eBPF 기반 트레이싱의 병목 위치 비교   │
+├────────────────────────────────────────────────────────────┤
+│                                                            │
+│  [기존 Auditd 아키텍처 (Context Switch 병목)]              │
+│  [커널 스페이스]  시스템 콜 발생! ──▶ 원시 로그 데이터 생성│
+│                       │                                    │
+│       (Netlink 전송 - 막대한 Context Switch 오버헤드 발생) │
+│                       ▼                                    │
+│  [유저 스페이스]  auditd 수신 ──▶ 필터링 및 파싱 ──▶ 저장 │
+│                                                            │
+│                                                            │
+│  [차세대 eBPF 아키텍처 (커널 내 인메모리 최적화)]          │
+│  [커널 스페이스]  시스템 콜 발생! ──▶ BPF 프로그램이 캡처  │
+│                   커널 내부에서 즉시 필터링 및 집계 완료!  │
+│                       │ (유의미한 결과 요약본만 맵에 저장) │
+│                       ▼ (가벼운 비동기 BPF Map 공유)       │
+│  [유저 스페이스]  EDR 에이전트는 이미 요약된 결과만 꺼내감 │
+└────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 비교도는 고성능 트래픽 환경에서 로깅 프레임워크가 부딪히는 물리적 한계를 설명한다. Auditd는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서 유저 공간의 데몬으로 원시 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 넘길 때 '[Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)'가 무수히 발생하여 CPU를 갉아먹는다. 반면 eBPF는 C언어와 유사한 작은 보안 감시 프로그램을 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공간 안으로 아예 밀어 넣어(Inject) 실행시킨다. 쓸데없는 정보는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 안에서 바로 버리고, 진짜 해킹으로 의심되는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 고속 메모리 맵([BPF](/knowledge-base/studynote/02_operating_system/01_overview_architecture/069_ebpf/) Map)에 예쁘게 정리해두면, 유저 공간의 관제 툴은 그 결과만 쏙 빼가면 된다. 이 패러다임 전환이 현대 클라우드 [EDR](/knowledge-base/studynote/09_security/04_endpoint_security/325_edr/) 솔루션의 퍼포먼스를 극대화시킨 원동력이다.
 
@@ -207,19 +217,15 @@ Auditd는 시스템 [보안 감사](/knowledge-base/studynote/04_software_engine
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">비밀번호 솔팅 (Salting) 기반 해시 처리 방어 구조</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">감사 (Auditing) 로깅 프레임워크 (Linux Auditd)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">물리적 보안 및 하드웨어 보안 모듈 (TPM, Trusted Platform Module)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">보안 부팅 (Secure Boot) 인증서 체인 로딩 검증</div></div>
-</div>
-</div>
-
-
+```text
+[비밀번호 솔팅 (Salting) 기반 해시 처리 방어 구조]
+    │
+    ▼
+[감사 (Auditing) 로깅 프레임워크 (Linux Auditd)]
+    │
+    ├──▶ [물리적 보안 및 하드웨어 보안 모듈 (TPM, Trusted Platform Module)]
+    └──▶ [보안 부팅 (Secure Boot) 인증서 체인 로딩 검증]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

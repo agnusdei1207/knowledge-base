@@ -18,22 +18,19 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pre-commit Hook 워크플로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. git commit -m "feat: add login"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Pre-commit Hook 자동 실행:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ trailing-whitespace (공백 제거)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ end-of-file-fixer (파일 끝 개행)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ ruff (Python 린트)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">❌ gitleaks (API Key 탐지!) → 커밋 차단!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 개발자: 시크릿 제거 → 재커밋</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    Pre-commit Hook 워크플로                            │
+├───────────────────────────────────────────────────────┤
+│  1. git commit -m "feat: add login"                   │
+│  2. Pre-commit Hook 자동 실행:                        │
+│     ✅ trailing-whitespace (공백 제거)                │
+│     ✅ end-of-file-fixer (파일 끝 개행)               │
+│     ✅ ruff (Python 린트)                             │
+│     ❌ gitleaks (API Key 탐지!) → 커밋 차단!         │
+│  3. 개발자: 시크릿 제거 → 재커밋                     │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: Pre-commit Hook은 공항 보안 검색대이다. 위험물([시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/)·린트 에러)이 발견되면 비행기(커밋)에 탑승할 수 없다.
 
@@ -114,23 +111,21 @@ Pre-commit Hook은 <strong>Shift Left의 가장 극단적 구현</strong>이며,
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">수동 코드 리뷰 (린트 없음)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CI 린트 (Jenkins/GitHub Actions, 2015~)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">pre-commit 프레임워크 (2018~) — 커밋 전 자동 검증</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">gitleaks + commitlint 통합 (2020~)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: AI Lint — GenAI가 코드 품질 자동 개선 제안</div></div>
-</div>
-</div>
-
-
+```text
+[수동 코드 리뷰 (린트 없음)]
+    │
+    ▼
+[CI 린트 (Jenkins/GitHub Actions, 2015~)]
+    │
+    ▼
+[pre-commit 프레임워크 (2018~) — 커밋 전 자동 검증]
+    │
+    ▼
+[gitleaks + commitlint 통합 (2020~)]
+    │
+    ▼
+[현재: AI Lint — GenAI가 코드 품질 자동 개선 제안]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. Pre-commit Hook은 <strong>공항 보안 검색대</strong>예요. 짐(코드)에 위험물(에러)이 있으면 비행기(커밋)에 못 타요.

@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 통신사 기지국과 코어망 사이의 굵은 광케이블([백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/))에는 수백만 명의 금융 정보가 평문이나 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 암호로 굴러다닙니다.
 - **광 스플리터 해킹**: 해커가 광케이블의 껍질을 살짝 벗겨 스플리터(분배기)를 꽂으면, 빛 신호가 두 갈래로 나뉘어 원본은 목적지로 잘 가고, 복사본은 해커 노트북으로 쑥 들어옵니다. 관리자는 빛이 조금 약해졌을 뿐 털리는지 절대 알 수 없습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">AI 내재화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">양자 인터넷 모듈 기반 네트워크 키 분배 안…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">프라이빗 5G망</div></div>
-</div>
-</div>
-
-
+```text
+[AI 내재화]
+    │
+    ▼
+[양자 인터넷 모듈 기반 네트워크 키 분배 안…]
+    │
+    └──▶ [프라이빗 5G망]
+```
 
 - **📢 섹션 요약 비유**: 양자 인터넷 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 기반 네트워크 키 분배 안…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -43,18 +39,14 @@ tags = ["studynote-network"]
 
 - **개념**: 통신망에서 주고받는 데이터의 '비밀번호 자물쇠(암호 키)'를, 0과 1의 소프트웨어 코드가 아니라 <strong>물리학의 미시 세계 입자인 '단일 광자(빛의 알갱이 하나하나)'에 실어 보내어, <a href="/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/">도청</a> 시도가 발생하는 순간 물리적으로 원천 차단해 버리는 궁극의 하드웨어 보안 기술</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">AI 내재화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">양자 인터넷 모듈 기반 네트워크 키 분배 안…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">프라이빗 5G망</div></div>
-</div>
-</div>
-
-
+```text
+[AI 내재화]
+    │
+    ▼
+[양자 인터넷 모듈 기반 네트워크 키 분배 안…]
+    │
+    └──▶ [프라이빗 5G망]
+```
 
 - **📢 섹션 요약 비유**: 양자 인터넷 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 기반 네트워크 키 분배 안…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -118,19 +110,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: AI 내재화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 양자 인터넷 모듈 기반 네트워크 키 분배 안…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 프라이빗 5G망</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 네트워크 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: AI 내재화]
+    │
+    ▼
+[현재 개념: 양자 인터넷 모듈 기반 네트워크 키 분배 안…]
+    │
+    ├──▶ [확장 A: 프라이빗 5G망]
+    └──▶ [확장 B: AI 기반 네트워크 최적화]
+```
 
 양자 인터넷 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 기반 네트워크 키 분배 안…는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 내재화에서 출발해 현재 메커니즘을 정교화하고, 이후 프라이빗 5G망와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

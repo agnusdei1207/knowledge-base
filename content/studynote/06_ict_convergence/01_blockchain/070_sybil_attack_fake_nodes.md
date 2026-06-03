@@ -28,19 +28,13 @@ tags = ["ict_convergence"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Attacker</div>
-<div class="kb-diagram-note">↓ create many identities</div>
-<div class="kb-diagram-note">Fake Nodes</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Manipulated Consensus</div>
-</div>
-</div>
-
-
+```text
+Attacker
+  ↓ create many identities
+Fake Nodes
+  ↓
+Manipulated Consensus
+```
 
 | 요소 | 의미 |
 | :-- | :-- |
@@ -108,41 +102,29 @@ tags = ["ict_convergence"]
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Identity</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Sybil Attack</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Consensus Manipulation</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Defense</div>
-</div>
-</div>
-
-
+```text
+Identity
+  ↓
+Sybil Attack
+  ↓
+Consensus Manipulation
+  ↓
+Defense
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">P2P Network</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Sybil Attack</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Identity Verification</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Trust Model</div>
-</div>
-</div>
-
-
+```text
+P2P Network
+  ↓
+Sybil Attack
+  ↓
+Identity Verification
+  ↓
+Trust Model
+```
 
 ---
 

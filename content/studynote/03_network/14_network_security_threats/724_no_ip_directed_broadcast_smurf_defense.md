@@ -24,18 +24,14 @@ tags = ["studynote-network"]
 - 원래 우리 집 안(LAN)에서 "255.255.255.255"로 뿌리는 방송(Local Broadcast)은 라우터가 밖으로 안 내보내고 집안에서만 돕니다.
 - 하지만 외부 인터넷에 있는 해커가 아예 `192.168.10.255` 처럼 <strong>특정 네트워크 대역의 끝자리(255, <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/302_broadcast_address_network_limited_255_255_255_255/">브로드캐스트 주소</a>)</strong>를 딱 찍어서 패킷을 던지면? 구형 라우터는 이걸 받아서 자기 밑에 딸려 있는 `192.168.10.1`부터 `192.168.10.254`까지의 모든 PC에 무지성으로 전단지를 쫙 복사해서 뿌려주었습니다. (증폭의 폭발점)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">랜섬웨어</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스머프 공격 방어를 위한 no ip dire…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스키밍 공격</div></div>
-</div>
-</div>
-
-
+```text
+[랜섬웨어]
+    │
+    ▼
+[스머프 공격 방어를 위한 no ip dire…]
+    │
+    └──▶ [스키밍 공격]
+```
 
 - **📢 섹션 요약 비유**: 스머프 공격 방어를 위한 no ip dire…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -54,18 +50,14 @@ tags = ["studynote-network"]
 - 과거(1990년대)에는 이 기능이 활성화(On)되어 있었지만, 스머프 공격으로 전 세계 인터넷이 초토화된 이후, 2000년대 초반([Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/) IOS 12.0 이후)부터 출고되는 <strong>지구상의 모든 라우터는 아예 공장에서부터 <code>no ip directed-broadcast</code>가 기본값(Default)으로 강제 적용</strong>되어 나옵니다.
 - 그래서 오늘날에는 스머프 공격이 현실 세계의 인터넷에서 완전히 멸종한 전설 속의 고전 해킹 기법이 된 것입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">랜섬웨어</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스머프 공격 방어를 위한 no ip dire…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스키밍 공격</div></div>
-</div>
-</div>
-
-
+```text
+[랜섬웨어]
+    │
+    ▼
+[스머프 공격 방어를 위한 no ip dire…]
+    │
+    └──▶ [스키밍 공격]
+```
 
 - **📢 섹션 요약 비유**: 스머프 공격 방어를 위한 no ip dire…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -126,19 +118,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 랜섬웨어</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 스머프 공격 방어를 위한 no ip dire…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 스키밍 공격</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 랜섬웨어]
+    │
+    ▼
+[현재 개념: 스머프 공격 방어를 위한 no ip dire…]
+    │
+    ├──▶ [확장 A: 스키밍 공격]
+    └──▶ [확장 B: 예측형 위협 대응]
+```
 
 스머프 공격 방어를 위한 no ip dire…는 [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [스키밍](/knowledge-base/studynote/03_network/14_network_security_threats/725_port_scanning_full_open_vs_stealth_half_open/) 공격와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

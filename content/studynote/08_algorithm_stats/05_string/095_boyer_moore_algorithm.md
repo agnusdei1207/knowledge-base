@@ -63,19 +63,15 @@ Result:  X X X X X A B C D X X X
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">상위 개념: 문자열 탐색 (String Searching)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">하위/변형: Horspool Algorithm, Sunday Algorithm (스킵 성능 극대화)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">관련 자료구조: 전처리 테이블 (Pre-processing Tables)</div></div>
-</div>
-</div>
-
-
+```text
+[상위 개념: 문자열 탐색 (String Searching)]
+    │
+    ▼
+[하위/변형: Horspool Algorithm, Sunday Algorithm (스킵 성능 극대화)]
+    │
+    ▼
+[관련 자료구조: 전처리 테이블 (Pre-processing Tables)]
+```
 
 이 흐름도는 상위 개념: 문자열 탐색 (String Searching)에서 출발해 관련 자료구조: 전처리 테이블 (Pre-processing Tables)까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

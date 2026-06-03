@@ -25,19 +25,21 @@ DRAM은 [커패시터](/knowledge-base/studynote/01_computer_architecture/01_bas
 
 아래 그림은 DRAM 셀이 왜 싸지만 귀찮은 메모리인지를 보여준다. 저장 구조는 단순하지만, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보존을 위해 보조 동작이 계속 필요하다는 점이 핵심이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DRAM 셀의 본질: 저장은 간단, 유지관리는 필수</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Word Line ON</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Access Transistor</div><div class="kb-diagram-node">Bit Line</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Capacitor</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">전하 있음 = 1 / 전하 부족 = 0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간이 지나면 누설 발생 ▶ Refresh 필요</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────┐
+│                  DRAM 셀의 본질: 저장은 간단, 유지관리는 필수           │
+├──────────────────────────────────────────────────────────────────────────┤
+│ Word Line ON                                                            │
+│     │                                                                    │
+│     ▼                                                                    │
+│  [Access Transistor] ──────────────── [Bit Line]                         │
+│     │                                                                    │
+│     ▼                                                                    │
+│  [Capacitor]  ← 전하 있음 = 1 / 전하 부족 = 0                            │
+│     │                                                                    │
+│     └──── 시간이 지나면 누설 발생 ────▶ Refresh 필요                      │
+└──────────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림에서 중요한 점은 저장 소자가 매우 작아 대량 집적에 유리하다는 사실과, 바로 그 소자가 불안정해서 유지 비용을 낳는다는 사실이 동시에 성립한다는 점이다. 즉 DRAM은 "간단해서 싸다"와 "간단해서 계속 돌봐야 한다"가 한 몸으로 붙어 있는 기술이다.
 
@@ -61,19 +63,17 @@ DRAM 내부 동작의 핵심은 **행 활성화(Activate) → 열 선택(Read/Wr
 
 아래 흐름도는 DRAM 접근에서 왜 로우 버퍼 적중과 미적중의 차이가 큰지를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DRAM 접근 비용: 같은 행이면 빠르고, 행이 바뀌면 느림</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요청 A ─▶ Row X Activate ─▶ Col 3 Read ─▶ Col 9 Read ─▶ Col 15 Read</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ 같은 Row Buffer 활용 = Row Hit</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요청 B ─▶ Precharge ─▶ Row Y Activate ─▶ Col 1 Read</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">행 교체 비용 발생 = Row Miss / Row Conflict</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────┐
+│                 DRAM 접근 비용: 같은 행이면 빠르고, 행이 바뀌면 느림     │
+├──────────────────────────────────────────────────────────────────────────┤
+│ 요청 A ─▶ Row X Activate ─▶ Col 3 Read ─▶ Col 9 Read ─▶ Col 15 Read     │
+│            ▲                         같은 Row Buffer 활용 = Row Hit       │
+│            │                                                               │
+│ 요청 B ─▶ Precharge ─▶ Row Y Activate ─▶ Col 1 Read                       │
+│            └──────────── 행 교체 비용 발생 = Row Miss / Row Conflict      │
+└──────────────────────────────────────────────────────────────────────────┘
+```
 
 결국 DRAM은 셀 자체가 느리다기보다, **행 단위로 크게 열고 열 단위로 작게 쓰는 구조적 절차** 때문에 지연시간 편차가 생긴다. 그래서 메모리 컨트롤러는 뱅크 (Bank) 병렬화, 버스트 전송, 스케줄링 재배치로 이 비용을 숨기려 하고, 소프트웨어는 연속 접근 패턴으로 로우 버퍼 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)을 높이려 한다.
 
@@ -153,25 +153,24 @@ DRAM은 완벽한 메모리가 아니지만, 현대 컴퓨터가 "큰 메모리 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">1T-1C 셀 구조</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">리프레시 (Refresh) · 센스 앰프 (Sense Amplifier)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">로우/컬럼 분리 주소화 · 로우 버퍼 기반 접근</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SDRAM (Synchronous DRAM) · DDR (Double Data Rate)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">멀티채널 · 인터리빙 · ECC (Error Correcting Code)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">HBM (High Bandwidth Memory) · CXL (Compute Express Link) 메모리 확장</div>
-</div>
-</div>
-
-
+```text
+1T-1C 셀 구조
+    │
+    ▼
+리프레시 (Refresh) · 센스 앰프 (Sense Amplifier)
+    │
+    ▼
+로우/컬럼 분리 주소화 · 로우 버퍼 기반 접근
+    │
+    ▼
+SDRAM (Synchronous DRAM) · DDR (Double Data Rate)
+    │
+    ▼
+멀티채널 · 인터리빙 · ECC (Error Correcting Code)
+    │
+    ▼
+HBM (High Bandwidth Memory) · CXL (Compute Express Link) 메모리 확장
+```
 
 이 흐름은 DRAM이 "셀 발명 → 유지·복원 기술 → 접근 구조 최적화 → 인터페이스 고속화 → 시스템 확장"으로 발전해 왔음을 보여준다.
 

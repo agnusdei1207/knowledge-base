@@ -25,24 +25,25 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) 접근 과정에서 탐색 시간이 어디에 끼어드는지 보여준다. 핵심은 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽기 전, 먼저 위치를 맞추는 물리 이동이 선행된다"는 점이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HDD 접근의 첫 단계: 헤드가 먼저 트랙을 찾아간다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요청 발생</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 현재 Head 위치 확인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Seek Time</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Track 12</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Track 87</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">헤드 이동 + 가속/감속 + 안착</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Rotational Latency</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">목표 섹터가 Head 아래로 올 때까지 대기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Transfer Time</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실제 데이터 읽기/쓰기</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                 HDD 접근의 첫 단계: 헤드가 먼저 트랙을 찾아간다              │
+├──────────────────────────────────────────────────────────────────────────────┤
+│ 요청 발생                                                                     │
+│    │                                                                          │
+│    ├─ 현재 Head 위치 확인                                                     │
+│    │                                                                          │
+│    ├─ Seek Time                                                               │
+│    │   [Track 12] ───────────────▶ [Track 87]                                 │
+│    │        헤드 이동 + 가속/감속 + 안착                                      │
+│    │                                                                          │
+│    ├─ Rotational Latency                                                      │
+│    │   목표 섹터가 Head 아래로 올 때까지 대기                                 │
+│    │                                                                          │
+│    └─ Transfer Time                                                           │
+│        실제 데이터 읽기/쓰기                                                  │
+└──────────────────────────────────────────────────────────────────────────────┘
+```
 
 탐색 시간이 먼저 길어지면 뒤의 [회전 지연](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/325_rotational_latency/)과 [전송 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/326_transfer_time/)을 최적화해도 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 크게 좋아지지 않는다. 그래서 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/), [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)는 "얼마나 빨리 읽느냐" 이전에 "얼마나 적게 움직이게 하느냐"를 먼저 고민한다.
 
@@ -64,19 +65,21 @@ tags = ["studynote-computer-architecture"]
 
 다음 그림은 탐색 시간이 내부적으로 어떤 단계로 나뉘는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Seek Time의 내부 4단계와 병목 위치</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1</div><div class="kb-diagram-note">가속</div><div class="kb-diagram-node">2</div><div class="kb-diagram-note">이동</div><div class="kb-diagram-node">3</div><div class="kb-diagram-note">감속</div><div class="kb-diagram-node">4</div><div class="kb-diagram-note">안착</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Head</div><div class="kb-diagram-cell">출발 ▶</div><div class="kb-diagram-cell">목표 근처 접근</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">속도↓</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">진동↓</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모터 구동 거리 영향 큼 오버슈트 방지 트랙 정밀도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Seek Time = 가속 + 이동 + 감속 + Settling Time</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                    Seek Time의 내부 4단계와 병목 위치                         │
+├──────────────────────────────────────────────────────────────────────────────┤
+│ [1] 가속                [2] 이동                [3] 감속       [4] 안착       │
+│     ┌───────┐              ┌──────────────┐         ┌──────┐      ┌──────┐    │
+│ Head│  출발  ├────────────▶│ 목표 근처 접근 │────────▶│ 속도↓ │─────▶│ 진동↓ │    │
+│     └───────┘              └──────────────┘         └──────┘      └──────┘    │
+│         ▲                        ▲                       ▲             ▲        │
+│         │                        │                       │             │        │
+│     모터 구동                거리 영향 큼            오버슈트 방지   트랙 정밀도 │
+│                                                                              │
+│ Seek Time = 가속 + 이동 + 감속 + Settling Time                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림이 말하는 핵심은, 탐색 시간의 병목이 단순 이동 거리보다 "정확히 멈추는 과정"에도 있다는 점이다. 따라서 [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 논할 때는 RPM (Revolutions Per Minute)만 볼 것이 아니라, 평균 탐색 시간, 캐시 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 요청 패턴을 함께 봐야 한다.
 
@@ -158,25 +161,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">자기 디스크 기반 위치 접근</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">트랙 (Track) · 헤드 (Head) · 실린더 (Cylinder)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">탐색 시간 (Seek Time) + 회전 지연 (Rotational Latency)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">디스크 스케줄링 · 파편화 관리 · 버퍼 캐시</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">숏 스트로킹 · RAID · 계층형 스토리지</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SSD (Solid State Drive) · NVMe (Non-Volatile Memory Express)</div>
-</div>
-</div>
-
-
+```text
+자기 디스크 기반 위치 접근
+        │
+        ▼
+트랙 (Track) · 헤드 (Head) · 실린더 (Cylinder)
+        │
+        ▼
+탐색 시간 (Seek Time) + 회전 지연 (Rotational Latency)
+        │
+        ▼
+디스크 스케줄링 · 파편화 관리 · 버퍼 캐시
+        │
+        ▼
+숏 스트로킹 · RAID · 계층형 스토리지
+        │
+        ▼
+SSD (Solid State Drive) · NVMe (Non-Volatile Memory Express)
+```
 
 이 흐름은 저장장치 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 논의가 단순한 위치 이동의 이해에서 시작해, 소프트웨어적 완화와 아키텍처 분화, 그리고 결국 기계 이동 제거로 발전해 온 과정을 보여준다.
 

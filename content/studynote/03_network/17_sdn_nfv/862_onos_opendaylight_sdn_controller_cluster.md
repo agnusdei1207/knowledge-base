@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 1세대 컨트롤러(NOX, POX)는 단일 서버 구조(싱글 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))였습니다. 전국망 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 수천 대가 동시에 `Packet-In`(이 패킷 어디로 보내요?) 질문을 올리면 뇌 정지가 와서 뻗어버렸습니다(단일 고장점, [SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)).
 - 2세대(엔터프라이즈급) 컨트롤러의 핵심은 <strong>"수십 대의 컨트롤러 서버들을 마치 1대의 전지전능한 뇌처럼 엮어서(<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 클러스터, Distributed Cluster), 성능을 무한 확장(<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/">Scale-out</a>)하고 1대가 폭발해도 절대 안 죽게 만드는 고가용성(HA)"</strong>에 집중되었습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">미니넷 SDN 토폴로지 에뮬레이터 연구 평가…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ONOS / OpenDaylight</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SDN 컨트롤러 스플릿 브레인 방어 및 분산…</div></div>
-</div>
-</div>
-
-
+```text
+[미니넷 SDN 토폴로지 에뮬레이터 연구 평가…]
+    │
+    ▼
+[ONOS / OpenDaylight]
+    │
+    └──▶ [SDN 컨트롤러 스플릿 브레인 방어 및 분산…]
+```
 
 - **📢 섹션 요약 비유**: ONOS / OpenDaylight는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -54,18 +50,14 @@ tags = ["studynote-network"]
 ### 2. 인텐트([Intent](/knowledge-base/studynote/06_ict_convergence/05_data_science/416_prompt_injection_semantic_routing/)) 프레임워크 선구자
 - ONOS는 앞선 857번 문서에서 배운 <strong><a href="/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/">IBN</a>(<a href="/knowledge-base/studynote/14_data_engineering/04_mlops/199_intent_based_networking_ibn_ai_traffic_routing/">인텐트 기반 네트워킹</a>)</strong>을 가장 훌륭하게 구현한 뇌 중 하나입니다. 앱 개발자가 "[MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) A에서 B로 최단 거리로 뚫어"라고 의도([Intent](/knowledge-base/studynote/06_ict_convergence/05_data_science/416_prompt_injection_semantic_routing/))만 툭 던지면, ONOS의 코어 엔진이 복잡한 토폴로지를 스캔해 길을 찾고 스스로 룰(Rule)로 번역해 뿌려줍니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">미니넷 SDN 토폴로지 에뮬레이터 연구 평가…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ONOS / OpenDaylight</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SDN 컨트롤러 스플릿 브레인 방어 및 분산…</div></div>
-</div>
-</div>
-
-
+```text
+[미니넷 SDN 토폴로지 에뮬레이터 연구 평가…]
+    │
+    ▼
+[ONOS / OpenDaylight]
+    │
+    └──▶ [SDN 컨트롤러 스플릿 브레인 방어 및 분산…]
+```
 
 - **📢 섹션 요약 비유**: ONOS / OpenDaylight의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -89,7 +81,7 @@ ONOS / OpenDaylight를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 �
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- **ODL (OpenDaylight)**: [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 내부나 기업 사내망 등 구형 장비와 신형 장비가 복잡하게 섞여서 통합 관리가 필요한 곳에 주로 쓰입니다.
+- **ODL (OpenDaylight)**: [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 내부나 기업 사내망 등 구형 장비와 새로운 유형의 장비가 복잡하게 섞여서 통합 관리가 필요한 곳에 주로 쓰입니다.
 - **ONOS**: 국가 단위의 광대역 통신망(WAN), [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 코어망, 수십만 대의 기지국 트래픽을 처리하는 극한의 통신사(Carrier-grade) 백본망을 통제하는 절대 뇌로 쓰입니다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -121,19 +113,15 @@ ONOS / OpenDaylight는 [SDN](/knowledge-base/studynote/01_computer_architecture/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 미니넷 SDN 토폴로지 에뮬레이터 연구 평가…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: ONOS / OpenDaylight</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: SDN 컨트롤러 스플릿 브레인 방어 및 분산…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 프로그래머블 네트워크</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 미니넷 SDN 토폴로지 에뮬레이터 연구 평가…]
+    │
+    ▼
+[현재 개념: ONOS / OpenDaylight]
+    │
+    ├──▶ [확장 A: SDN 컨트롤러 스플릿 브레인 방어 및 분산…]
+    └──▶ [확장 B: 프로그래머블 네트워크]
+```
 
 ONOS / OpenDaylight는 [미니넷](/knowledge-base/studynote/03_network/17_sdn_nfv/861_mininet_sdn_topology_network_emulator/) [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 토폴로지 에뮬레이터 연구 평가…에서 출발해 현재 메커니즘을 정교화하고, 이후 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 컨트롤러 [스플릿 브레인](/knowledge-base/studynote/14_data_engineering/04_mlops/190_split_brain_zookeeper_fencing_quorum/) 방어 및 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)…와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

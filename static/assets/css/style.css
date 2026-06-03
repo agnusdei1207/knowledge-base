@@ -492,7 +492,7 @@ footer {
   border: 1px solid var(--lightgray);
   border-radius: 5px;
   background: var(--highlight);
-  height: 220px;
+  height: 340px;
   position: relative;
   overflow: hidden;
 }

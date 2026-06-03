@@ -42,21 +42,22 @@ tags = ["studynote-cloud-architecture"]
 
 ### 4개 지표의 두 축
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DORA 지표 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">처리량 (Throughput)</div><div class="kb-diagram-cell">안정성 (Stability)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① 배포 빈도</div><div class="kb-diagram-cell">③ MTTR</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Deployment Frequency)</div><div class="kb-diagram-cell">(Mean Time to Restore)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② 변경 리드타임</div><div class="kb-diagram-cell">④ 변경 실패율</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Lead Time for Changes)</div><div class="kb-diagram-cell">(Change Failure Rate)</div></div>
-<div class="kb-diagram-note">빠른가? (속도) 안전한가? (품질)</div>
-</div>
-</div>
-
-
+```
+  ┌─────────────────────────────────────────────────────┐
+  │                    DORA 지표 구조                     │
+  ├──────────────────────────┬──────────────────────────┤
+  │    처리량 (Throughput)    │    안정성 (Stability)     │
+  │                          │                          │
+  │  ① 배포 빈도              │  ③ MTTR                  │
+  │  (Deployment Frequency)  │  (Mean Time to Restore)  │
+  │                          │                          │
+  │  ② 변경 리드타임          │  ④ 변경 실패율            │
+  │  (Lead Time for Changes) │  (Change Failure Rate)   │
+  └──────────────────────────┴──────────────────────────┘
+              │                           │
+              ▼                           ▼
+        빠른가? (속도)             안전한가? (품질)
+```
 
 ### 팀 등급별 성과
 
@@ -99,38 +100,29 @@ tags = ["studynote-cloud-architecture"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/">DORA</a> 지표 측정 방법 (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>/CD 도구 활용)</strong>:
+```
+배포 빈도 측정:
+  CI/CD 시스템(Jenkins, ArgoCD)의 프로덕션 배포 이벤트 카운트
+  → 일/주/월 단위 집계
 
+리드타임 측정:
+  Git 커밋 타임스탬프 → 프로덕션 배포 완료 타임스탬프
+  → 두 시간의 차이를 중앙값 또는 p75로 측정
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">배포 빈도 측정:</div>
-<div class="kb-diagram-note">CI/CD 시스템(Jenkins, ArgoCD)의 프로덕션 배포 이벤트 카운트</div>
-<div class="kb-diagram-note">→ 일/주/월 단위 집계</div>
-<div class="kb-diagram-note">리드타임 측정:</div>
-<div class="kb-diagram-note">Git 커밋 타임스탬프 → 프로덕션 배포 완료 타임스탬프</div>
-<div class="kb-diagram-note">→ 두 시간의 차이를 중앙값 또는 p75로 측정</div>
-<div class="kb-diagram-note">MTTR 측정:</div>
-<div class="kb-diagram-note">인시던트 발생 시각 → 서비스 완전 복구 시각</div>
-<div class="kb-diagram-note">→ PagerDuty, OpsGenie 등 인시던트 관리 도구에서 자동 측정</div>
-<div class="kb-diagram-note">변경 실패율 측정:</div>
-<div class="kb-diagram-note">(장애 유발 배포 수 / 전체 배포 수) × 100</div>
-</div>
-</div>
+MTTR 측정:
+  인시던트 발생 시각 → 서비스 완전 복구 시각
+  → PagerDuty, OpsGenie 등 인시던트 관리 도구에서 자동 측정
 
-
+변경 실패율 측정:
+  (장애 유발 배포 수 / 전체 배포 수) × 100
+```
 
 <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/">DORA</a> 성숙도 향상 로드맵</strong>:
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Low → Medium: CI 도입, 테스트 자동화 시작</div>
-<div class="kb-diagram-note">Medium → High: CD 자동화, 카나리 배포 적용</div>
-<div class="kb-diagram-note">High → Elite: 완전 자동화 파이프라인, 카오스 엔지니어링</div>
-</div>
-</div>
-
-
+```
+Low → Medium:   CI 도입, 테스트 자동화 시작
+Medium → High:  CD 자동화, 카나리 배포 적용
+High → Elite:   완전 자동화 파이프라인, 카오스 엔지니어링
+```
 
 **기술사 판단 포인트**:
 - [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 지표는 "경쟁"이 아닌 "개선 추적" 도구다. 다른 팀과 비교보다 자신의 팀 트렌드 추적이 중요하다.
@@ -173,21 +165,16 @@ tags = ["studynote-cloud-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">DORA 4대 메트릭</div>
-<div class="kb-diagram-tree-item" style="--depth:2">배포 빈도 (Deployment Frequency)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">변경 리드 타임 (Lead Time for Changes)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">변경 실패율 (Change Failure Rate)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">MTTR (Mean Time to Recovery)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Elite · High · Medium · Low 성숙도 등급</div>
-</div>
-</div>
-
-
+```text
+DORA 4대 메트릭
+    ├─► 배포 빈도 (Deployment Frequency)
+    ├─► 변경 리드 타임 (Lead Time for Changes)
+    ├─► 변경 실패율 (Change Failure Rate)
+    └─► MTTR (Mean Time to Recovery)
+    │
+    ▼
+Elite · High · Medium · Low 성숙도 등급
+```
 2. 엘리트 팀은 하루에 여러 번 배포해도 실수가 5%도 안 돼. 빠르면서 정확한 거야.
 3. 점수가 낮다고 절망하지 말고, 어떤 과목(지표)이 낮은지 찾아서 그것만 집중 개선하면 돼.
 

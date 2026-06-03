@@ -32,32 +32,33 @@ tags = ["studynote-network"]
 
 "걍 싸구려 소리 증폭 앰프(Amplifier) 스피커 달면 되는 거 아님 ㅋ?" 이 멍청한 착각을 도끼로 찢어발기는 아키텍처 팩트 타점이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">아날로그 증폭(Amplifier) 멸망 💥 vs 디지털 리피터(Regeneration) 무적 쉴드 🚀</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">💀</div><div class="kb-diagram-node">1. 아날로그 앰프 (Amplifier) - 노이즈 쓰레기 동반 뻥튀기 타살 파국</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 100m 굴러오며 너덜너덜해진 파도 (원본 5V ➔ 2V로 찌그러짐 + 노이즈 1V 섞임)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 멍청한 앰프: "오 볼륨(전압) 작네? 통째로 2배 스피커 뻥튀기 증폭 쳐 쾅!!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- ➔</div><div class="kb-diagram-node">파국</div><div class="kb-diagram-note">: 원본 신호는 4V로 커졌지만, 쓰레기 노이즈(잡음)도 같이 2V로 커짐 💀.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이 짓을 3번만 거치면 걍 지지직거리는 노이즈 폭탄 에러 덩어리로 변이 파산 끝!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">🛡️ 아키텍트의 1계층 메스: 리피터(Repeater) 부활 융합 ✨</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🚀</div><div class="kb-diagram-node">2. 베이스밴드 리피터 (Repeater) - 디지털 부활 오토 힐링 렌더링 펌핑</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 100m 굴러와 너덜너덜해진 파도 (2V + 노이즈 1V 섞임) 도착.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 🌟 천재 리피터의 락킹 룰: "야 볼륨 무식하게 키우지 마 멈춰 쾅!!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">일단 저 쓰레기 파형을 </div><div class="kb-diagram-node">디지털 0과 1 텍스트 바이너리</div><div class="kb-diagram-note"> 로 눈알 빡 힘주고</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">완벽 해독(Decoding) 판독부터 때려 쳐 쾅!!" (아~ '1 0 1 1' 이란 뜻이구나 ㅋ)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 해독 성공 순간! 원래 묻어있던 쓰레기 노이즈 찌꺼기는 싹 다 버리고 리셋 포맷 컷!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- ➔ 해독한 '1 0 1 1' 텍스트를 바탕으로, 공장에서 갓 튀어나온 100% 완벽히</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">네모 반듯한 각진 5V 새삥 디지털 펄스 파형을 아예 백지에서 처음부터 100%</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">완전 새로 그려서(Regeneration 재형성) 오른쪽 구멍으로 쾌속 발사 쓩 🚀!!!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 아키텍트 팩폭 결론: 리피터는 단순 스피커 증폭기가 아니라, 신호를 분해 조립하여</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">노이즈를 0% 무결점으로 척살 세척해 내는 1계층 물리 디지털 복원 세탁기다 쾅!!!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          아날로그 증폭(Amplifier) 멸망 💥 vs 디지털 리피터(Regeneration) 무적 쉴드 🚀 │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ 💀 [ 1. 아날로그 앰프 (Amplifier) - 노이즈 쓰레기 동반 뻥튀기 타살 파국 ] │
+│   - 100m 굴러오며 너덜너덜해진 파도 (원본 5V ➔ 2V로 찌그러짐 + 노이즈 1V 섞임)│
+│   - 멍청한 앰프: "오 볼륨(전압) 작네? 통째로 2배 스피커 뻥튀기 증폭 쳐 쾅!!"     │
+│   - ➔ [파국]: 원본 신호는 4V로 커졌지만, 쓰레기 노이즈(잡음)도 같이 2V로 커짐 💀.│
+│     이 짓을 3번만 거치면 걍 지지직거리는 노이즈 폭탄 에러 덩어리로 변이 파산 끝!  │
+│                                                             │
+│        ======= [ 🛡️ 아키텍트의 1계층 메스: 리피터(Repeater) 부활 융합 ✨ ] ========│
+│                                                             │
+│ 🚀 [ 2. 베이스밴드 리피터 (Repeater) - 디지털 부활 오토 힐링 렌더링 펌핑 ]  │
+│   - 100m 굴러와 너덜너덜해진 파도 (2V + 노이즈 1V 섞임) 도착.                  │
+│   - 🌟 천재 리피터의 락킹 룰: "야 볼륨 무식하게 키우지 마 멈춰 쾅!!             │
+│     일단 저 쓰레기 파형을 **[디지털 0과 1 텍스트 바이너리]** 로 눈알 빡 힘주고 │
+│     완벽 해독(Decoding) 판독부터 때려 쳐 쾅!!" (아~ '1 0 1 1' 이란 뜻이구나 ㅋ)│
+│   - 해독 성공 순간! 원래 묻어있던 쓰레기 노이즈 찌꺼기는 싹 다 버리고 리셋 포맷 컷! │
+│   - ➔ 해독한 '1 0 1 1' 텍스트를 바탕으로, 공장에서 갓 튀어나온 100% 완벽히   │
+│     네모 반듯한 각진 5V 새삥 디지털 펄스 파형을 **아예 백지에서 처음부터 100%  │
+│     완전 새로 그려서(Regeneration 재형성)** 오른쪽 구멍으로 쾌속 발사 쓩 🚀!!! │
+│                                                             │
+│ 🌟 아키텍트 팩폭 결론: 리피터는 단순 스피커 증폭기가 아니라, 신호를 분해 조립하여 │
+│   노이즈를 0% 무결점으로 척살 세척해 내는 1계층 물리 디지털 복원 세탁기다 쾅!!!   │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 리피터의 가장 숭고한 존재 가치는 **'Regeneration (재생성)'** 흑마법에 있다. 
 아날로그 증폭기(Amplifier)는 소리([신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))와 잡음(노이즈)을 구분할 뇌세포 자체가 없다. 그냥 통째로 마이크 대고 확성기 볼륨을 2배로 펌핑 치기 때문에, 거리가 멀어 앰프를 여러 대 엮을수록 결국 매미 우는 노이즈 지지직 소리만 고막을 찢어버려 통신 에러 100% 멸망([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) 붕괴)이 터진다.
@@ -75,7 +76,7 @@ tags = ["studynote-network"]
 |:---|:---|:---|:---|
 | **생김새 폼팩터** | 구멍 딱 2개. 왼쪽 랜선 100m 받아서 오른쪽 랜선 100m로 1:1 연장 펌핑 치는 배관 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 튜브. | 구멍 10개 뚫어놓은 <strong>'다중 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> 리피터'</strong>. 1번으로 들어온 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 펌핑해서 2~10번 싹 다 복사 살포 빔 쏨. | 구멍 수십 개 뚫린 대관식 보스 장비. ([허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)를 무덤으로 찢어 보내버린 현대 네트워크 대통합 통치자 🚀). |
 | **통신 해독 뇌 수준** | **[1계층 깡통 무지성]**. 안에 무슨 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/), IP) 들었는지 1바이트도 못 까봄. 눈먼 장님 봇. | **[1계층 깡통 무지성]**. 리피터랑 똑같이 대가리 텅 비었음. 걍 0/1 전기 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)만 무식 펌핑 복붙 브로드캐스팅. | **[2계층 L2 헤더 까보기 스캔 ✨]**. 프레임 껍데기 까서 "아 이 편지 목적지 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 B네?" 주소 해독 판독 록온 가능. |
-| <strong>블라스트 반경 (<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/237_collision_domain_vs_broadcast_domain/">충돌 도메인</a> <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/237_collision_domain_vs_broadcast_domain/">Collision Domain</a> 💥)</strong> | **[파국 1통 강결합 💀]** 왼쪽 PC랑 오른쪽 PC가 동시에 패킷 쏘면 리피터 뱃속에서 쾅! 터짐. 1통짜리 충돌 지옥. | **[파국 1통 강결합 💀]** 1번 PC가 2번에 쏘는데, 3번 4번 5번 10번 구멍으로도 쓰레기 패킷 다 복사 살포 테러 쳐서 회선 개막힘 뻗음. | **[도끼 찢기 격리 분할 고립 쉴드 🛡️]** 1번 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) ➔ 2번 PC로만 다이렉트 1:1 비밀 전용 터널 뚫어줌! [충돌 도메인](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/237_collision_domain_vs_broadcast_domain/)을 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 찢기 조각 내 무결점 쾌속 핑퐁 통치. |
+| <strong>블라스트 반경 (<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/237_collision_domain_vs_broadcast_domain/">충돌 도메인</a> <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/237_collision_domain_vs_broadcast_domain/">Collision Domain</a> 💥)</strong> | **[파국 1통 강결합 💀]** 왼쪽 PC랑 오른쪽 PC가 동시에 패킷 쏘면 리피터 뱃속에서 쾅! 터짐. 1통짜리 충돌 지옥. | **[파국 1통 강결합 💀]** 1번 PC가 2번에 쏘는데, 3번 4번 5번 10번 구멍으로도 쓰레기 패킷 다 복사 살포 테러 쳐서 회선 개병목 뻗음. | **[도끼 찢기 격리 분할 고립 쉴드 🛡️]** 1번 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) ➔ 2번 PC로만 다이렉트 1:1 비밀 전용 터널 뚫어줌! [충돌 도메인](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/237_collision_domain_vs_broadcast_domain/)을 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 찢기 조각 내 무결점 쾌속 핑퐁 통치. |
 
 아키텍트 팩폭 결단: "야 좆소 네트워크 관리자야!! 창고에 굴러다니는 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)([더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) 1계층 리피터) 쇳덩이 사무실에 갖다 꽂아서 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 10대 인터넷 물리지 마!! 하늘이 두 쪽 나도 당장 그 쓰레기 전원 뽑고 발로 밟아 다 찢어 폐기 쳐버려 쾅!!! 
 **그 1계층 깡통([허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)/리피터) 새끼는 1번 자리가 유튜브 다운받을 때 쓰는 10기가 트래픽 패킷을 ➔ 지 혼자 2번, 3번, 10번 상관없는 옆자리 애들 랜선 구멍에까지 싹 다 무지성 10배 복사 펌핑 테러(Broadcasting Flooding) 폭격 날려 꽂아버리는 미친 광견병 유포자라고 파국 💀!!! 
@@ -134,23 +135,21 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">전기 신호 랜선 100m 물리적 감쇠 사망 타임아웃 한계 도달 💥 / A동에서 B동으로 데이터 못 보내고 핑 뻗음 서버 통신 고립 섬락 파국 💀</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">베이스밴드 리피터(Repeater) 부활 강림 🚀 / 아날로그 앰프 뻥튀기 찢어발기고 ➔ 디지털 0,1 판독(Decoding) 후 100% 깨끗한 파형 아예 통째로 재생성(Regeneration) 펌핑 풀악셀 빔 연장 쉴드 타격!</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">멀티포트 허브(Hub) 짬뽕 확장 / 구멍 여러 개 뚫어 사무실 PC 다 묶음. 근데 대가리가 1계층 깡통이라 주소 못 읽고 100명한테 싹 다 무지성 복사 테러(Broadcasting) 살포 폭격 쳐서 충돌(Collision) 랙 파국 💥 터짐</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">L2 스위치(Switch) 대관식 모가지 도끼 썰기 절단 ✨ / "주소(MAC) 못 읽는 무식한 리피터 허브 다 버려 소각 쳐 쾅!!" 대가리에 해독 뇌 달고 다이렉트 1:1 충돌 없는 전용 터널 뚫어주는 스위치가 사무실 이더넷(Ethernet) 제국 100% 무혈 장악 통일</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">해저 광증폭기(EDFA) &amp; 무선 Wi-Fi 엣지 익스텐더(확장기) 융합 진화 (현재) / 낡은 사무실에선 쫓겨났지만, 심해 태평양 바다 밑 1만 km 레이저 펌프 릴레이 부활 기적과 우주 하늘 무선 음영 사각지대 척살 텐트 쉴드 보조 무기로 완벽 환생 진화 안착 🚀</div>
-</div>
-</div>
-
-
+```text
+전기 신호 랜선 100m 물리적 감쇠 사망 타임아웃 한계 도달 💥 / A동에서 B동으로 데이터 못 보내고 핑 뻗음 서버 통신 고립 섬락 파국 💀
+    │
+    ▼
+베이스밴드 리피터(Repeater) 부활 강림 🚀 / 아날로그 앰프 뻥튀기 찢어발기고 ➔ 디지털 0,1 판독(Decoding) 후 100% 깨끗한 파형 아예 통째로 재생성(Regeneration) 펌핑 풀악셀 빔 연장 쉴드 타격!
+    │
+    ▼
+멀티포트 허브(Hub) 짬뽕 확장 / 구멍 여러 개 뚫어 사무실 PC 다 묶음. 근데 대가리가 1계층 깡통이라 주소 못 읽고 100명한테 싹 다 무지성 복사 테러(Broadcasting) 살포 폭격 쳐서 충돌(Collision) 랙 파국 💥 터짐
+    │
+    ▼
+L2 스위치(Switch) 대관식 모가지 도끼 썰기 절단 ✨ / "주소(MAC) 못 읽는 무식한 리피터 허브 다 버려 소각 쳐 쾅!!" 대가리에 해독 뇌 달고 다이렉트 1:1 충돌 없는 전용 터널 뚫어주는 스위치가 사무실 이더넷(Ethernet) 제국 100% 무혈 장악 통일
+    │
+    ▼
+해저 광증폭기(EDFA) & 무선 Wi-Fi 엣지 익스텐더(확장기) 융합 진화 (현재) / 낡은 사무실에선 쫓겨났지만, 심해 태평양 바다 밑 1만 km 레이저 펌프 릴레이 부활 기적과 우주 하늘 무선 음영 사각지대 척살 텐트 쉴드 보조 무기로 완벽 환생 진화 안착 🚀
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

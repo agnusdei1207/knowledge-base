@@ -35,21 +35,15 @@ tags = ["ict_convergence"]
 - **Orderer**: 거래 순서를 정한다.
 - **Channel**: 참여자끼리만 보는 논리적 공간이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Client</div>
-<div class="kb-diagram-note">↓ Proposal</div>
-<div class="kb-diagram-note">Peer / Endorsement</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Orderer</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Channel Ledger</div>
-</div>
-</div>
-
-
+```text
+Client
+  ↓ Proposal
+Peer / Endorsement
+  ↓
+Orderer
+  ↓
+Channel Ledger
+```
 
 - **📢 섹션 요약 비유**: 회사 회의, 인사팀, 결재팀, 회계팀이 각자 역할을 나눠 가진 구조다.
 
@@ -89,21 +83,15 @@ Fabric은 거래를 먼저 제안 받고, 승인 서명을 모은 뒤, 순서를
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">허가형 참여자</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">MSP / Channel / Peer / Orderer</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">체인코드</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">기업용 장부</div>
-</div>
-</div>
-
-
+```text
+허가형 참여자
+   ↓
+MSP / Channel / Peer / Orderer
+   ↓
+체인코드
+   ↓
+기업용 장부
+```
 
 ---
 

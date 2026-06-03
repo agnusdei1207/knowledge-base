@@ -18,21 +18,19 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SOA vs MSA</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SOA</div><div class="kb-diagram-node">MSA</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Service A ── Service A ←→ Service B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Service B ── ── ESB ── Service C ←→ Service D</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Service C ── (중앙) (직접 통신, ESB 없음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SOA: 중앙 ESB가 라우팅·변환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MSA: 서비스가 직접 REST/gRPC/Kafka</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    SOA vs MSA                                         │
+├───────────────────────────────────────────────────────┤
+│  [SOA]                         [MSA]                  │
+│  Service A ──┐                Service A ←→ Service B  │
+│  Service B ──┼── ESB ──       Service C ←→ Service D  │
+│  Service C ──┘   (중앙)       (직접 통신, ESB 없음)   │
+│                                                       │
+│  SOA: 중앙 ESB가 라우팅·변환                         │
+│  MSA: 서비스가 직접 REST/gRPC/Kafka                  │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: SOA는 중앙 교환원([ESB](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/146_esb_enterprise_service_bus_architecture/))이 모든 전화를 연결하는 시스템이고, MSA는 참가자가 직접 전화하는 시스템이다.
 
@@ -91,23 +89,21 @@ tags = ["studynote-cloud-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">모놀리식 (전통)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SOA + ESB (2005~) — 서비스 지향, SOAP/XML</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MSA (2014~) — ESB 제거, REST/gRPC, 컨테이너</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Service Mesh (Istio, 2018~) — MSA 통신 인프라</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: Modular Monolith — 상황별 최적 선택</div></div>
-</div>
-</div>
-
-
+```text
+[모놀리식 (전통)]
+    │
+    ▼
+[SOA + ESB (2005~) — 서비스 지향, SOAP/XML]
+    │
+    ▼
+[MSA (2014~) — ESB 제거, REST/gRPC, 컨테이너]
+    │
+    ▼
+[Service Mesh (Istio, 2018~) — MSA 통신 인프라]
+    │
+    ▼
+[현재: Modular Monolith — 상황별 최적 선택]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. SOA는 <strong>교환원(<a href="/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/146_esb_enterprise_service_bus_architecture/">ESB</a>)</strong>이 모든 전화를 연결해주는 거예요. 교환원이 바쁘면 전화가 안 돼요.

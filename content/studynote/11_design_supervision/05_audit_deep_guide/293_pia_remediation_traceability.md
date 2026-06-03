@@ -20,21 +20,26 @@ tags = ["studynote-design-supervision"]
 ## Ⅰ. 개요 및 필요성
 [PIA](/knowledge-base/studynote/12_it_management/05_security_compliance/335_privacy_impact_assessment_pia_audit_linkage/) 조치 추적성 감리는 [개인정보 영향평가](/knowledge-base/studynote/12_it_management/05_security_compliance/174_privacy_impact_assessment/)([Privacy Impact Assessment](/knowledge-base/studynote/12_it_management/05_security_compliance/174_privacy_impact_assessment/), [PIA](/knowledge-base/studynote/12_it_management/05_security_compliance/335_privacy_impact_assessment_pia_audit_linkage/)) 지적사항 조치 추적 체계를 대상으로 설계 기준과 운영 결과가 같은 방향으로 움직이는지 판단하는 감리 항목이다. [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 활용이 확대되면서 수집보다 최소화, 추적성, 파기까지 포함한 프라이버시 관리가 핵심이 되었다. 특히 지적사항 관리가 기준선으로 정리되지 않으면 통제 매핑은 사람 의존 절차로 흩어지고, 최종적으로 주체 위험 저감이 남지 않아 의사결정이 감각에 의존하게 된다. 통제가 약하면 과도한 이용, 비인가 노출, 법규 위반이 빠르게 발생한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구사항·위험 인식</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지적사항 관리 기준 수립</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">통제 매핑 설계 반영</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주체 위험 저감 증적 확보</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────┐
+│ 요구사항·위험 인식 │
+└────────┬─────────┘
+         │
+         ▼
+┌──────────────────┐
+│ 지적사항 관리 기준 수립 │
+└────────┬─────────┘
+         │
+         ▼
+┌──────────────────┐
+│ 통제 매핑 설계 반영 │
+└────────┬─────────┘
+         │
+         ▼
+┌──────────────────┐
+│ 주체 위험 저감 증적 확보 │
+└──────────────────┘
+```
 - **📢 섹션 요약 비유**: [PIA](/knowledge-base/studynote/12_it_management/05_security_compliance/335_privacy_impact_assessment_pia_audit_linkage/) 조치 추적성 감리는 설계도만 보는 검토가 아니라, 건물의 구조도와 실제 비상구 작동 여부를 함께 확인하는 점검과 같다.
 
 ---
@@ -48,16 +53,16 @@ tags = ["studynote-design-supervision"]
 | 실행 메커니즘 | 통제 매핑을 설계, 구현, 운영 절차에 반영한다. | 사람 의존이 아닌 반복 가능한 구조가 중요하다. |
 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 증적 | 주체 위험 저감을 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 보고서, 테스트, 승인 이력으로 남긴다. | 재현 가능한 증적이 있어야 시정조치가 닫힌다. |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정책·표준 계층</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">구현·운영 계층</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모니터링·증적 계층</div><div class="kb-diagram-cell">시정조치·개선 계층</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────┐      ┌──────────────────┐
+│ 정책·표준 계층    │ ───▶ │ 구현·운영 계층    │
+└────────┬─────────┘      └────────┬─────────┘
+         │                           │
+         ▼                           ▼
+┌──────────────────┐ ◀──── ┌──────────────────┐
+│ 모니터링·증적 계층 │      │ 시정조치·개선 계층 │
+└──────────────────┘      └──────────────────┘
+```
 - **📢 섹션 요약 비유**: 지적사항 관리, 통제 매핑, 주체 위험 저감은 따로 도는 바퀴가 아니라 서로 맞물린 톱니바퀴라서 하나라도 헛돌면 전체 통제가 무너진다.
 
 ---

@@ -27,26 +27,26 @@ tags = ["studynote-operating-system"]
   2. <strong><a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">Page</a> Walk 페널티의 지옥</strong>: 64비트의 4단계 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 트리는 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 미스 시 램을 4번 읽는 끔찍한 벌칙을 내렸다.
   3. **소프트웨어 덩치 키우기**: 칩을 못 키우면 짐덩어리를 키우자. 1칸이 4KB가 아니라 2MB, 1GB를 커버하게 하여 캐시 커버리지(Reach)를 수만 배 넓혀버렸다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4KB(기본) vs 2MB(HugePage)의 TLB 및 페이지 테이블 소모량 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">목표: Redis DB가 연속된 2GB의 메모리 캐시를 읽어야 함!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1. 기본 4KB 페이징 시대 (지옥불 병목)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 필요 페이지 수: 2GB / 4KB = 💥 무려 524,288장!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 페이지 테이블 장부 크기: 8바이트 * 52만 개 = 약 4MB 램 파먹음.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- TLB 캐시 미스: TLB가 1024칸뿐이라, 데이터 훑는 동안 52만 번의</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TLB Miss가 연쇄 폭발하며 CPU 파이프라인 붕괴!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2. 2MB Huge Page 시대 (평온한 고속도로)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 필요 페이지 수: 2GB / 2MB = 🟢 딱 1024장!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 페이지 테이블 장부 크기: 8바이트 * 1024개 = 8KB로 극한 다이어트.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- TLB 캐시 미스: 1024칸짜리 TLB에 쏙! 100% 다 들어가서 Hit Rate</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">99.9% 달성. 주소 번역 지연 0초로 램 스피드 풀가동!</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│        4KB(기본) vs 2MB(HugePage)의 TLB 및 페이지 테이블 소모량 비교 │
+├──────────────────────────────────────────────────────────────────────┤
+│                                                                      │
+│ [ 목표: Redis DB가 연속된 2GB의 메모리 캐시를 읽어야 함! ]           │
+│                                                                      │
+│ ▶ 1. 기본 4KB 페이징 시대 (지옥불 병목)                              │
+│  - 필요 페이지 수: 2GB / 4KB = 💥 무려 524,288장!                    │
+│  - 페이지 테이블 장부 크기: 8바이트 * 52만 개 = 약 4MB 램 파먹음.    │
+│  - TLB 캐시 미스: TLB가 1024칸뿐이라, 데이터 훑는 동안 52만 번의     │
+│                 TLB Miss가 연쇄 폭발하며 CPU 파이프라인 붕괴!        │
+│                                                                      │
+│ ▶ 2. 2MB Huge Page 시대 (평온한 고속도로)                            │
+│  - 필요 페이지 수: 2GB / 2MB = 🟢 딱 1024장!                         │
+│  - 페이지 테이블 장부 크기: 8바이트 * 1024개 = 8KB로 극한 다이어트.  │
+│  - TLB 캐시 미스: 1024칸짜리 TLB에 쏙! 100% 다 들어가서 Hit Rate     │
+│                 99.9% 달성. 주소 번역 지연 0초로 램 스피드 풀가동!   │
+└──────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 단순히 덩치가 커진 게 아니라 4단계(PGD->PUD->PMD->PTE)로 내려가던 나무 기둥을 3단계(PMD)에서 톱으로 싹둑 잘라버린 하드웨어 흑마술이다. PTE라는 가장 무거운 나뭇잎 장부 수십만 장을 아예 만들지도 않고 램에 할당도 안 하니, [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/) 폭발은 물론이고 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 램 오버헤드까지 기가 막히게 절약하는 1석 2조의 마법이다.
 
 - **📢 섹션 요약 비유**: 짜장면 500그릇을 배달할 때 오토바이로 500번 왔다 갔다 하는 것(4KB)과, 11톤 트럭 하나를 대절해서 500그릇을 한 방에 싣고 가는 것(2MB [Huge Page](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/))의 차이입니다. 톨게이트비([TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/)) 한 번만 내고 500그릇을 꽂아버리는 무자비한 물류 혁명입니다.
@@ -92,19 +92,16 @@ tags = ["studynote-operating-system"]
 
 대형 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 앱의 특성에 따라 '신이 내린 꿀물'이 될 수도, '사약'이 될 수도 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">애플리케이션</div><div class="kb-diagram-cell">접근 패턴</div><div class="kb-diagram-cell">데이터 크기</div><div class="kb-diagram-cell">대형 페이지 궁합</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">JVM (Java)</div><div class="kb-diagram-cell">거대한 힙(Heap)</div><div class="kb-diagram-cell">수십 GB 고정</div><div class="kb-diagram-cell">🚀 최고 (수동 권장)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hadoop/DB</div><div class="kb-diagram-cell">통짜 스캔 긁기</div><div class="kb-diagram-cell">100GB 단위</div><div class="kb-diagram-cell">🚀 최고 (TLB 풀히트)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Redis</div><div class="kb-diagram-cell">자잘한 KV 접근</div><div class="kb-diagram-cell">1KB 미만 흩어짐</div><div class="kb-diagram-cell">☠️ 최악 (THP 끄기)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Nginx 웹</div><div class="kb-diagram-cell">4KB 단위 서빙</div><div class="kb-diagram-cell">잘게 쪼개진 파일</div><div class="kb-diagram-cell">☠️ 최악 (메모리 낭비)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬─────────────────────────────┐
+│ 애플리케이션 │ 접근 패턴    │ 데이터 크기  │ 대형 페이지 궁합    │
+├──────────┼────────────┼────────────┼─────────────────────────────┤
+│ JVM (Java)│ 거대한 힙(Heap)│ 수십 GB 고정 │ 🚀 최고 (수동 권장)  │
+│ Hadoop/DB │ 통짜 스캔 긁기 │ 100GB 단위  │ 🚀 최고 (TLB 풀히트)  │
+│ Redis    │ 자잘한 KV 접근│ 1KB 미만 흩어짐│ ☠️ 최악 (THP 끄기)   │
+│ Nginx 웹 │ 4KB 단위 서빙│ 잘게 쪼개진 파일│ ☠️ 최악 (메모리 낭비)│
+└──────────┴────────────┴────────────┴─────────────────────────────┘
+```
 **[매트릭스 해설]** 자바(Java)는 켜질 때 `java -Xms16g -Xmx16g`처럼 힙 메모리 16GB를 통짜로 물고 시작한다. 어차피 16GB를 통으로 쓸 거니까 2MB 덩어리 수천 개로 미리 박아넣어 두면, [가비지 컬렉터](/knowledge-base/studynote/05_database/uncategorized/591_mvcc_garbage_collection_vacuum/)(GC)가 메모리 훑을 때 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 미스가 안 나서 GC 속도가 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 이상 빨라지는 미친 효율을 보인다. 반면 Redis는 수 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)짜리 키-벨류(KV)를 다루고 `fork`로 잦은 [COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/)(복사)를 치기 때문에, 2MB 덩어리를 켜두면 복사 오버헤드가 512배 폭증하여 시스템이 기절한다. 
 
 - **📢 섹션 요약 비유**: 대형 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)(2MB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))는 출근 시간([Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 통짜 스캔)에 50명을 한 번에 실어 나를 땐 최고의 가성비입니다. 하지만 심부름센터([Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/))가 서류 봉투 1장 배달하는데 대형 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)에 시동을 걸고 다니면 기름값(메모리 낭비)과 주차([단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)) 때문에 바로 파산합니다. [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 대량 수송에만 써야 합니다.
@@ -161,19 +158,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">페이지 고정 (Page Pinning / Locking)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">대형 페이지 (Large Page / Transparent Hugepage)의 가상 메모리 성능 이점</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ZRAM / 커널 스왑 압축 기술</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OOM Killer (Out-of-Memory) 작동 우선순위 점수 (oom_score) 매커니즘</div></div>
-</div>
-</div>
-
-
+```text
+[페이지 고정 (Page Pinning / Locking)]
+    │
+    ▼
+[대형 페이지 (Large Page / Transparent Hugepage)의 가상 메모리 성능 이점]
+    │
+    ├──▶ [ZRAM / 커널 스왑 압축 기술]
+    └──▶ [OOM Killer (Out-of-Memory) 작동 우선순위 점수 (oom_score) 매커니즘]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

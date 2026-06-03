@@ -24,18 +24,14 @@ tags = ["studynote-network"]
   - 브라우저가 1초에 한 번씩 "새 카톡 왔어요?" 계속 새로고침을 해서 서버에 물어봅니다([폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)). 
   - 매번 무거운 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 헤더(껍데기)를 1KB씩 싣고 물어보느라, 실제 대화(1바이트)보다 쓰레기 통신(오버헤드)이 100배 커서 서버 대역폭이 찢어집니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">RESTful API</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">웹소켓</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DNS 스푸핑</div></div>
-</div>
-</div>
-
-
+```text
+[RESTful API]
+    │
+    ▼
+[웹소켓]
+    │
+    └──▶ [DNS 스푸핑]
+```
 
 - **📢 섹션 요약 비유**: 웹소켓은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -45,18 +41,14 @@ tags = ["studynote-network"]
 
 - **개념**: HTML5 표준의 일부로, 브라우저와 웹 서버 사이에 <strong>한 번 연결을 맺으면 끊지 않고(지속 연결), <a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> 기반의 완벽한 양방향 전이중(Full-Duplex) 통신 채널을 형성하여 서버가 원할 때 언제든 데이터를 클라이언트로 쏠 수 있게(Push) 해주는 실시간 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a></strong>입니다. (`ws://` 또는 보안 적용된 `wss://` 접두사를 씁니다.)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">RESTful API</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">웹소켓</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DNS 스푸핑</div></div>
-</div>
-</div>
-
-
+```text
+[RESTful API]
+    │
+    ▼
+[웹소켓]
+    │
+    └──▶ [DNS 스푸핑]
+```
 
 - **📢 섹션 요약 비유**: 웹소켓의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -127,19 +119,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: RESTful API</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 웹소켓</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: DNS 스푸핑</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: RESTful API]
+    │
+    ▼
+[현재 개념: 웹소켓]
+    │
+    ├──▶ [확장 A: DNS 스푸핑]
+    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
+```
 
 웹소켓는 RESTful API에서 출발해 현재 메커니즘을 정교화하고, 이후 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

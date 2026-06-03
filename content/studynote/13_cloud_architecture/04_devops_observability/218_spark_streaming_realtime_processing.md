@@ -33,26 +33,29 @@ Spark 2.0에서 등장한 <strong><a href="/knowledge-base/studynote/16_bigdata/
 
 ### [Structured Streaming](/knowledge-base/studynote/16_bigdata/03_spark/061_structured_streaming/) 실행 모델
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Structured Streaming 처리 모델</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소스 (Kafka/File/Socket)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">새 데이터 계속 유입</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Input Table (무한히 쌓이는 테이블 추상화)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T=0</div><div class="kb-diagram-cell">event_1, event_2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T=1</div><div class="kb-diagram-cell">event_3, event_4, event_5</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T=2</div><div class="kb-diagram-cell">event_6</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">...</div><div class="kb-diagram-cell">(계속 쌓임)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동일한 DataFrame 쿼리 적용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Result Table (쿼리 결과 테이블)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 마이크로 배치마다 업데이트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Output (Console/File/Kafka/DB 등)</div></div>
-</div>
-</div>
-
-
+```
+  ┌────────────────────────────────────────────────────────────┐
+  │               Structured Streaming 처리 모델                │
+  ├────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │  소스 (Kafka/File/Socket)                                   │
+  │       │ 새 데이터 계속 유입                                  │
+  │       ▼                                                     │
+  │  Input Table (무한히 쌓이는 테이블 추상화)                   │
+  │  ┌──────────────────────────────────────────────────────┐  │
+  │  │ T=0 │ event_1, event_2                               │  │
+  │  │ T=1 │ event_3, event_4, event_5                      │  │
+  │  │ T=2 │ event_6                                        │  │
+  │  │ ... │ (계속 쌓임)                                     │  │
+  │  └──────────────────────────────────────────────────────┘  │
+  │       │ 동일한 DataFrame 쿼리 적용                           │
+  │       ▼                                                     │
+  │  Result Table (쿼리 결과 테이블)                             │
+  │       │                                                     │
+  │       ▼ 마이크로 배치마다 업데이트                            │
+  │  Output (Console/File/Kafka/DB 등)                          │
+  └────────────────────────────────────────────────────────────┘
+```
 
 ### [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 소스 연동 코드
 
@@ -223,21 +226,18 @@ Spark Structured Streaming은 "빅데이터 [배치 처리](/knowledge-base/stud
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">배치 처리 (지연 ↑, 실시간성 ↓)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Spark Streaming: 마이크로배치 (준실시간)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Structured Streaming: DataFrame API + Event-Time + Watermark</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Flink: True Streaming (이벤트별 처리) · 정확히 한 번 보장</div>
-</div>
-</div>
-
-
+```text
+배치 처리 (지연 ↑, 실시간성 ↓)
+    │
+    ▼
+Spark Streaming: 마이크로배치 (준실시간)
+    │
+    ▼
+Structured Streaming: DataFrame API + Event-Time + Watermark
+    │
+    ▼
+Flink: True Streaming (이벤트별 처리) · 정확히 한 번 보장
+```
 2. 마이크로 배치는 10초마다 영상을 묶어서 분석하는 것, 연속 처리는 프레임마다 즉시 분석하는 거야.
 3. [워터마크](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/)는 "이미 10분 지난 영상은 그냥 넘어가자"라는 규칙이야. 너무 늦게 온 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 기다리지 않고 무시해서 메모리가 꽉 차지 않게 해.
 

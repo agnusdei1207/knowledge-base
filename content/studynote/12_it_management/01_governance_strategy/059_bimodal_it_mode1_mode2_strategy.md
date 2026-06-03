@@ -31,19 +31,13 @@ tags = ["studynote-it-management"]
 
 바이모달 IT는 업무 성격에 맞춰 조직, 프로세스, 기술 스택을 다르게 가져가는 운영 모델이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">공통 경영 목표</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Integrated Governance</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Mode 1: 안정성 / 규정 / 예측 가능성</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Mode 2: 속도 / 실험 / 학습</div>
-</div>
-</div>
-
-
+```text
+공통 경영 목표
+   ↓
+Integrated Governance
+   ├─ Mode 1: 안정성 / 규정 / 예측 가능성
+   └─ Mode 2: 속도 / 실험 / 학습
+```
 
 | 항목 | Mode 1 | Mode 2 |
 | :-- | :-- | :-- |
@@ -107,43 +101,31 @@ Mode 2에서 성공한 [서비스](/knowledge-base/studynote/13_cloud_architectu
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">안정성 요구</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Mode 1</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">민첩성 요구</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Mode 2</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">양손잡이 조직</div>
-</div>
-</div>
-
-
+```text
+안정성 요구
+   ↓
+Mode 1
+   ↓
+민첩성 요구
+   ↓
+Mode 2
+   ↓
+양손잡이 조직
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">레거시 IT</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">바이모달 IT</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">디지털 양손잡이</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">운영 표준화 + 혁신 실험 병행</div>
-</div>
-</div>
-
-
+```text
+레거시 IT
+   ↓
+바이모달 IT
+   ↓
+디지털 양손잡이
+   ↓
+운영 표준화 + 혁신 실험 병행
+```
 
 ---
 

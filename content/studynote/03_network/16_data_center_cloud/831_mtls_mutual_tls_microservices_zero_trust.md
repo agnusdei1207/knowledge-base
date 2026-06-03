@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/">TLS</a> (<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/">HTTPS</a>)</strong>: 인터넷의 절대 표준입니다. 클라이언트(내 폰)가 서버(네이버)에 접속할 때, 서버가 나에게 전송한 <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>서를 내 폰이 검사(<a href="/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/">단방향</a> <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>)</strong>하여 가짜 사이트인지 판별합니다.
 - <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a> 환경의 문제점</strong>: [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 안에서 [결제 컨테이너]가 [DB 컨테이너]에 접속할 때 일반 TLS를 쓰면, DB는 결제 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 보낸 비밀번호만 믿지 그 놈이 진짜 사내 결제 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)인지, 아니면 외부에서 몰래 잠입한 해커 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)인지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 방법이 없습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">사이드카 아키텍처</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">mTLS</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">트래픽 섀도잉 및 카나리 배포 네트워킹 라우…</div></div>
-</div>
-</div>
-
-
+```text
+[사이드카 아키텍처]
+    │
+    ▼
+[mTLS]
+    │
+    └──▶ [트래픽 섀도잉 및 카나리 배포 네트워킹 라우…]
+```
 
 - **📢 섹션 요약 비유**: mTLS는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -47,18 +43,14 @@ tags = ["studynote-network"]
 - [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 노드 10대가 하나의 [가상 사설망](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/)([VPC](/knowledge-base/studynote/03_network/16_data_center_cloud/836_vpc_virtual_private_cloud_subnet_isolation/))으로 묶여있다고 안심하지 않습니다(네트워크 경계 무시).
 - IP 주소를 조작([Spoofing](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/))한 해커가 통신을 찔러도, 해커는 우리 회사 중앙 보안실([CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/))에서 발급받은 '합법적 클라이언트 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서'가 없기 때문에 첫 악수(Handshake) 단계에서 즉각 연결이 끊기고 쫓겨납니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">사이드카 아키텍처</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">mTLS</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">트래픽 섀도잉 및 카나리 배포 네트워킹 라우…</div></div>
-</div>
-</div>
-
-
+```text
+[사이드카 아키텍처]
+    │
+    ▼
+[mTLS]
+    │
+    └──▶ [트래픽 섀도잉 및 카나리 배포 네트워킹 라우…]
+```
 
 - **📢 섹션 요약 비유**: mTLS의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -120,19 +112,15 @@ mTLS는 데이터센터와 클라우드 네트워크를 이해할 때 핵심 축
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 사이드카 아키텍처</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: mTLS</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 트래픽 섀도잉 및 카나리 배포 네트워킹 라우…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 사이드카 아키텍처]
+    │
+    ▼
+[현재 개념: mTLS]
+    │
+    ├──▶ [확장 A: 트래픽 섀도잉 및 카나리 배포 네트워킹 라우…]
+    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
+```
 
 mTLS는 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) 아키텍처에서 출발해 현재 메커니즘을 정교화하고, 이후 [트래픽 섀도잉](/knowledge-base/studynote/15_devops_sre/03_sre_observability/167_traffic_shadowing_sre_testing/) 및 [카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/) 네트워킹 라우…와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -37,23 +37,25 @@ Web 2.0의 문제: 플랫폼이 [데이터](/knowledge-base/studynote/05_databas
 
 ### Web 3.0 플랫폼 경제 구조
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Web 3.0 탈중앙화 플랫폼 경제</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자(User) ◄ 토큰 보상</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용·기여</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로토콜(Protocol)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스마트 컨트랙트 자동 집행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로토콜 수수료</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DAO 트레저리 거버넌스 투표 ─► 토큰 홀더</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(수익 분배 결정)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발자 보조금</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────┐
+│              Web 3.0 탈중앙화 플랫폼 경제                │
+│                                                         │
+│  사용자(User) ◄──── 토큰 보상 ────┐                     │
+│       │                           │                     │
+│       │ 사용·기여                 │                     │
+│       ▼                           │                     │
+│  프로토콜(Protocol)                │                     │
+│  스마트 컨트랙트 자동 집행         │                     │
+│       │                           │                     │
+│       │ 프로토콜 수수료           │                     │
+│       ▼                           │                     │
+│  DAO 트레저리 ────── 거버넌스 투표 ─►  토큰 홀더         │
+│       │              (수익 분배 결정)                     │
+│       │                                                  │
+│       └──────────────────── 개발자 보조금                │
+└─────────────────────────────────────────────────────────┘
+```
 
 ### 토크노믹스(Tokenomics) 핵심 설계 요소
 

@@ -27,27 +27,29 @@ tags = ["studynote-operating-system"]
   2. **장부의 거대화**: 프로그램 크기가 수백 MB로 커지면서 100만 줄이 넘는 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)을 CPU 안에 우겨넣는 것이 하드웨어적으로([반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 면적상) 불가능해졌다.
   3. **PTBR의 탄생**: 결국 거대한 테이블은 속도가 좀 느리더라도 넓은 메인 메모리(RAM)로 방출하고, CPU 안에는 오직 그 테이블의 "시작 위치"를 가리키는 포인터인 PTBR 단 하나만 남겨두는 타협 아키텍처가 현대의 표준이 되었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PTBR을 통한 컨텍스트 스위칭(Context Switch)의 위력</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 카카오톡 실행 중</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">물리 램 (RAM)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">카톡 페이지 테이블</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0x1000 번지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(MMU는 0x1000으로 가서 매핑 시작) 카톡의 실제 데이터 접근</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↓↓ CPU 스케줄러: 엑셀로 화면 전환! ↓↓</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 엑셀 실행 (0.001초 만에 전환 완료)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">물리 램 (RAM)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ PTBR 레지스터 │ ── 0x1000 번지:</div><div class="kb-diagram-node">카톡 페이지 테이블</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">엑셀 페이지 테이블</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(* OS가 이 값 1개만 바꿈!) ▼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(MMU는 즉시 엑셀 장부로 눈을 돌림) 엑셀의 실제 데이터 접근</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────┐
+│        PTBR을 통한 컨텍스트 스위칭(Context Switch)의 위력                │
+├──────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│ [ 1. 카카오톡 실행 중 ]                                                  │
+│   ┌────────────┐               [ 물리 램 (RAM) ]                         │
+│   │ PTBR 레지스터 │ ────포인터──▶ 0x1000 번지: [카톡 페이지 테이블]      │
+│   │ 0x1000 번지  │                 │                                     │
+│   └────────────┘                 ▼                                       │
+│   (MMU는 0x1000으로 가서 매핑 시작)     카톡의 실제 데이터 접근          │
+│                                                                          │
+│              ↓↓ CPU 스케줄러: 엑셀로 화면 전환! ↓↓                       │
+│                                                                          │
+│ [ 2. 엑셀 실행 (0.001초 만에 전환 완료) ]                                │
+│   ┌────────────┐               [ 물리 램 (RAM) ]                         │
+│   │ PTBR 레지스터 │ ──┐          0x1000 번지: [카톡 페이지 테이블]       │
+│   │ 0x8000 번지  │ ─┼─포인터──▶ 0x8000 번지: [엑셀 페이지 테이블]        │
+│   └────────────┘ │                 │                                     │
+│   (* OS가 이 값 1개만 바꿈!)             ▼                               │
+│   (MMU는 즉시 엑셀 장부로 눈을 돌림)     엑셀의 실제 데이터 접근         │
+└──────────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 이 구조는 현대 다중 프로그래밍의 척추와 같다. [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 전체(수 MB)를 갱신하지 않고, 오직 CPU 코어 내부의 PTBR [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)(보통 64비트, 8Byte) 단 하나만 덮어쓰면 '우주'가 바뀐다. 하드웨어적 관점에서 보면, 가상 주소 공간의 전환은 본질적으로 PTBR [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 값의 교체 연산에 다름아니다. (여기에 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 플러시가 동반된다.)
 
 - **📢 섹션 요약 비유**: 수백 개의 방(가상 공간)으로 통하는 미로에서, 문을 일일이 부수고 다시 짓는 것이 아니라, 기관사(OS)가 철로의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 레버(PTBR) 하나만 찰칵! 하고 돌리면 기차(CPU)가 완전히 다른 방을 향해 질주하게 되는 마법의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)입니다.
@@ -60,24 +62,29 @@ tags = ["studynote-operating-system"]
 
 CPU가 `논리 페이지 3번`을 달라고 요청했을 때 하드웨어가 밟는 정밀한 순서도다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PTBR과 PTLR이 방어하고 번역하는 2단계 게이트</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CPU 요청</div><div class="kb-diagram-note">논리 주소 (페이지 P, 오프셋 D)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 1차 방어선 (PTLR)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">운영체제 함정(Trap) 발생</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Segmentation Fault 즉시 사살)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(네! 정상 범위입니다)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 2차 번역 (PTBR)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PTBR 시작 주소 + (P * PTE크기)</div><div class="kb-diagram-cell">──▶ (램에 있는 페이지 테이블 접근)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">물리 메모리 (RAM)</div><div class="kb-diagram-note">에서 해당 엔트리(프레임 번호 f)를 읽어옴.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최종 물리 주소: 프레임 f + 오프셋 D 조합하여 실제 데이터 로드!</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────┐
+│              PTBR과 PTLR이 방어하고 번역하는 2단계 게이트              │
+├────────────────────────────────────────────────────────────────────────┤
+│                                                                        │
+│ [ CPU 요청 ] 논리 주소 (페이지 P, 오프셋 D)                            │
+│      │                                                                 │
+│      ▼ 1차 방어선 (PTLR)                                               │
+│ ┌─────────────────┐                                                    │
+│ │ P가 PTLR보다 작은가?│ ──(아니오!)──▶ [ 운영체제 함정(Trap) 발생 ]    │
+│ └────────┬────────┘             (Segmentation Fault 즉시 사살)         │
+│          │ (네! 정상 범위입니다)                                       │
+│          ▼                                                             │
+│      ▼ 2차 번역 (PTBR)                                                 │
+│ ┌──────────────────────────┐                                           │
+│ │ PTBR 시작 주소 + (P * PTE크기) │ ──▶ (램에 있는 페이지 테이블 접근)  │
+│ └──────────────────────────┘                                           │
+│          │                                                             │
+│          ▼                                                             │
+│ [ 물리 메모리 (RAM) ] 에서 해당 엔트리(프레임 번호 f)를 읽어옴.        │
+│ 최종 물리 주소: 프레임 f + 오프셋 D 조합하여 실제 데이터 로드!         │
+└────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 
 1. <strong>PTLR (길이 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/">레지스터</a>)의 <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a></strong>: 프로그램이 자기에게 할당된 크기(예: 100페이지)를 넘어 해킹 목적이나 버그로 500번째 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 요청하면, 램으로 가기도 전에 하드웨어 PTLR이 "선 넘었네!" 하고 비교 회로를 통해 즉각 쳐낸다. 소프트웨어 개입이 1도 없는 0초 방어선이다.
@@ -114,17 +121,14 @@ CPU가 `논리 페이지 3번`을 달라고 요청했을 때 하드웨어가 밟
 - <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/330_limit_register/">Limit Register</a> (과거)</strong>: "물리 주소나 [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/) 전체가 100MB를 넘는가?"라는 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)([Byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)) 단위의 절대 크기를 비교했다.
 - **PTLR (현재)**: "이 프로세스가 가진 장부([페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/))의 줄 수(엔트리 수)가 총 100줄인데, 네가 101번째 줄([페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))을 달라고 하네?"라며 <strong><a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> 개수(<a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">Index</a>)</strong>를 비교하여 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) 폴트를 낸다. 추상화의 레벨이 한 단계 올라간 것이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">레지스터 종류</div><div class="kb-diagram-cell">번역의 주체</div><div class="kb-diagram-cell">가리키는 대상</div><div class="kb-diagram-cell">런타임 지연</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Base Reg</div><div class="kb-diagram-cell">하드웨어 가산기</div><div class="kb-diagram-cell">실제 데이터</div><div class="kb-diagram-cell">없음 (1 Clock)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PTBR</div><div class="kb-diagram-cell">램 안의 장부</div><div class="kb-diagram-cell">페이지 장부</div><div class="kb-diagram-cell">심각 (RAM 접근)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬────────────────────────┐
+│ 레지스터 종류│ 번역의 주체   │ 가리키는 대상 │ 런타임 지연  │
+├──────────┼────────────┼────────────┼────────────────────────┤
+│ Base Reg │ 하드웨어 가산기│ 실제 데이터   │ 없음 (1 Clock)  │
+│ PTBR     │ 램 안의 장부  │ 페이지 장부   │ 심각 (RAM 접근)  │
+└──────────┴────────────┴────────────┴────────────────────────┘
+```
 **[매트릭스 해설]** 비연속 할당([페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/))의 유연성을 얻은 대신 PTBR은 램 의존성이라는 무거운 족쇄를 찼다. 만약 램의 속도가 느려지면 시스템 전체의 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 처리 속도가 연쇄적으로 반토막 나는 아키텍처다. 그래서 현대 인텔/AMD CPU는 이 PTBR(x86에서는 CR3 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)라 부름) 기반의 접근을 보조하기 위해 칩셋 내부에 수천억 원짜리 연구비를 부어 만든 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 캐시 계층을 반드시 덧대어 설계한다.
 
 - **📢 섹션 요약 비유**: 옛날 내비게이션(Base Reg)은 길 하나만 무식하게 외워서 직진시켰다면, 최신 내비게이션(PTBR)은 클라우드 서버(RAM)에 1번 접속해서 최적의 경로 장부를 다운로드받은 뒤에야 목적지를 알려주는 고도화된(하지만 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 있는) 시스템입니다.
@@ -181,19 +185,15 @@ PTBR과 PTLR은 [운영체제](/knowledge-base/studynote/02_operating_system/01_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">페이지 테이블 (Page Table)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">PTBR (Page-Table Base Register) / PTLR (Page-Table Length Register)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">페이징의 메모리 보호</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">페이징에서의 공유 페이지 (Shared Pages)</div></div>
-</div>
-</div>
-
-
+```text
+[페이지 테이블 (Page Table)]
+    │
+    ▼
+[PTBR (Page-Table Base Register) / PTLR (Page-Table Length Register)]
+    │
+    ├──▶ [페이징의 메모리 보호]
+    └──▶ [페이징에서의 공유 페이지 (Shared Pages)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

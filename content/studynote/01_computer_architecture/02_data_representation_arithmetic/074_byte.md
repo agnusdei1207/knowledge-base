@@ -101,37 +101,25 @@ tags = ["studynote-computer-architecture"]
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Bit</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Byte</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">KB / MB / GB</div>
-</div>
-</div>
-
-
+```text
+Bit
+  ↓
+Byte
+  ↓
+KB / MB / GB
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Bit</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Byte</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Data Size</div>
-</div>
-</div>
-
-
+```text
+Bit
+  ↓
+Byte
+  ↓
+Data Size
+```
 
 ---
 

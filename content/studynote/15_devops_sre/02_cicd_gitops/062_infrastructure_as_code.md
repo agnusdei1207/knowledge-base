@@ -29,25 +29,19 @@ IaC는 이 문제를 코드와 [버전](/knowledge-base/studynote/03_network/06_
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Git / HCL / YAML</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Plan</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Apply</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Provider</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Cloud API</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Resources</div>
-</div>
-</div>
-
-
+```text
+Git / HCL / YAML
+  ↓
+Plan
+  ↓
+Apply
+  ↓
+Provider
+  ↓
+Cloud API
+  ↓
+Resources
+```
 
 | 핵심 개념 | 역할 | 없으면 생기는 문제 |
 | :-- | :-- | :-- |
@@ -113,7 +107,7 @@ IaC는 도구 이름보다 운영 원리가 중요하다. 어떤 도구를 쓰�
 
 IaC가 자리 잡으면 환경 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)이 빨라지고, 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 쉬워지고, 규정 준수도 증명하기 쉬워진다. 결국 인프라가 사람의 기억이 아니라 코드의 질서 위에 놓인다.
 
-앞으로는 [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/), [Platform Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/), [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) Code가 붙으면서 인프라 운영은 더 소프트웨어 개발처럼 바뀔 것이다.
+앞으로는 [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/), [Platform 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/), [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) Code가 붙으면서 인프라 운영은 더 소프트웨어 개발처럼 바뀔 것이다.
 
 - **📢 섹션 요약 비유**: 설계도, 공정표, 검수표가 있으면 건물을 다시 지어도 결과가 비슷하게 나온다.
 
@@ -121,43 +115,31 @@ IaC가 자리 잡으면 환경 [생성](/knowledge-base/studynote/02_operating_s
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Git</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">IaC Code</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Plan / Apply</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">State / Provider</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Cloud Resources</div>
-</div>
-</div>
-
-
+```text
+Git
+  ↓
+IaC Code
+  ↓
+Plan / Apply
+  ↓
+State / Provider
+  ↓
+Cloud Resources
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">수동 운영</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">스크립트 자동화</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">IaC</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">GitOps / Policy as Code</div>
-</div>
-</div>
-
-
+```text
+수동 운영
+  ↓
+스크립트 자동화
+  ↓
+IaC
+  ↓
+GitOps / Policy as Code
+```
 
 ---
 

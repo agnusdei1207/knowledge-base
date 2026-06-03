@@ -31,28 +31,30 @@ tags = ["studynote-cloud-architecture"]
 ### Append-only Write와 무자비한 [데이터 압축](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/159_compression/)(Downsampling)
 TSDB는 디스크 헤드를 이리저리 움직이지 않고(Random Access 제거), 무조건 끝에 가져다 붙이는 순차 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Sequential Write)로 I/O 병목을 박살 낸다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TSDB (Time Series Database) 핵심 데이터 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 데이터 모델 (Data Model)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Timestamp (절대 시간 축): 2026-05-05 10:00:01</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Tags (메타데이터/인덱싱 축): host=server01, region=us</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Field (실제 숫자값 축) : cpu_usage = 85.4</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 쇳덩어리 스토리지 엔진 (Append-only &amp; Retention)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(현재 ~ 7일 전 데이터) ──▶ 초 단위 저장 (원시 데이터, 용량 폭발)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(시간이 지나면 자동 Downsampling 발동!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(7일 전 ~ 30일 전) ──▶ 1시간 단위 평균값으로 뭉뚱그려 압축</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Retention Policy 발동!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(30일 경과 데이터) ──▶ 하드디스크에서 자동 폭파 (Drop)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심 논리: 과거 데이터 수정(UPDATE) 기능 자체를 아키텍처에서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">삭제해 버렸기 때문에, 락(Lock) 경합 없이 수백만 개의 데이터를</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동시에 파일 끝에 써버리는 극한의 Write 속도를 달성한다.</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────┐
+│           TSDB (Time Series Database) 핵심 데이터 아키텍처      │
+├────────────────────────────────────────────────────────┤
+│   [ 1. 데이터 모델 (Data Model) ]                         │
+│    - Timestamp (절대 시간 축): 2026-05-05 10:00:01         │
+│    - Tags (메타데이터/인덱싱 축): host=server01, region=us  │
+│    - Field (실제 숫자값 축) : cpu_usage = 85.4            │
+│                                                        │
+│   [ 2. 쇳덩어리 스토리지 엔진 (Append-only & Retention) ]   │
+│                                                        │
+│   (현재 ~ 7일 전 데이터)  ──▶ 초 단위 저장 (원시 데이터, 용량 폭발)│
+│            │ (시간이 지나면 자동 Downsampling 발동!)          │
+│            ▼                                           │
+│   (7일 전 ~ 30일 전)     ──▶ 1시간 단위 평균값으로 뭉뚱그려 압축  │
+│            │ (Retention Policy 발동!)                   │
+│            ▼                                           │
+│   (30일 경과 데이터)       ──▶ 하드디스크에서 자동 폭파 (Drop)     │
+│                                                        │
+│ * 핵심 논리: 과거 데이터 수정(UPDATE) 기능 자체를 아키텍처에서   │
+│   삭제해 버렸기 때문에, 락(Lock) 경합 없이 수백만 개의 데이터를 │
+│   동시에 파일 끝에 써버리는 극한의 Write 속도를 달성한다.       │
+└────────────────────────────────────────────────────────┘
+```
 
 TSDB는 시간이 돈(디스크 공간)이다. 아키텍트는 <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/515_mvcc/">Retention</a> <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">Policy</a>(보존 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>)</strong>와 <strong>Downsampling(다운샘플링)</strong>을 세팅한다. "최근 1주일 치는 초 단위로 보여주되, 1주일이 지나면 1시간 평균값으로 찌그러뜨려 용량을 1/3600로 줄이고, 한 달 지나면 아예 지워버려라!" RDBMS라면 테이블 풀스캔이 돌며 서버가 터질 작업을 TSDB는 백그라운드에서 숨 쉬듯 가볍게 처리한다.
 
@@ -113,23 +115,21 @@ TSDB는 시간이 돈(디스크 공간)이다. 아키텍트는 <strong><a href="
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">클라우드 팽창 및 서버/컨테이너(마이크로서비스) 수의 폭발적 증가</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">기존 RDBMS 및 로깅 시스템으로 초당 수십만 건의 메트릭(Metric) 쓰기 감당 불가</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">업데이트(Update)와 락(Lock)을 제거한 Append-only 기반의 시계열 전용 저장소(TSDB) 개발</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">시간 축 기반의 압축(Downsampling) 및 폐기(Retention) 자동화 메커니즘 확립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">K8s 환경의 Prometheus (Pull), IoT 환경의 InfluxDB (Push)로 클라우드/AI 인프라 모니터링 천하통일</div>
-</div>
-</div>
-
-
+```text
+클라우드 팽창 및 서버/컨테이너(마이크로서비스) 수의 폭발적 증가
+    │
+    ▼
+기존 RDBMS 및 로깅 시스템으로 초당 수십만 건의 메트릭(Metric) 쓰기 감당 불가
+    │
+    ▼
+업데이트(Update)와 락(Lock)을 제거한 Append-only 기반의 시계열 전용 저장소(TSDB) 개발
+    │
+    ▼
+시간 축 기반의 압축(Downsampling) 및 폐기(Retention) 자동화 메커니즘 확립
+    │
+    ▼
+K8s 환경의 Prometheus (Pull), IoT 환경의 InfluxDB (Push)로 클라우드/AI 인프라 모니터링 천하통일
+```
 
 이 흐름도는 "인프라 규모 폭발 → 범용 DB(RDBMS)의 한계 노출 → 시간(Time)이라는 단일 축으로 최적화된 극단적 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 엔진(TSDB)의 아키텍처적 승리"를 보여준다.
 

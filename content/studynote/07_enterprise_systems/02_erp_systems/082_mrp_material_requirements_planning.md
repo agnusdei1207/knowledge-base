@@ -39,20 +39,25 @@ MRP는 세 가지 입력을 바탕으로 동작한다. 첫째 MPS (Master Produc
 
 아래 흐름은 MRP의 핵심인 [BOM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/) 전개와 리드타임 역산을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MRP calculation flow</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MPS : Product X due in Week 10</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BOM explosion -&gt; Part A x2, Part B x1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Gross requirement -&gt; A 200, B 100</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Netting with inventory -&gt; A 200 - on hand 50 = 150</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Lead time offset -&gt; order A in Week 8</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ MRP calculation flow                                         │
+├──────────────────────────────────────────────────────────────┤
+│ MPS : Product X due in Week 10                               │
+│      │                                                       │
+│      ▼                                                       │
+│ BOM explosion -> Part A x2, Part B x1                        │
+│      │                                                       │
+│      ▼                                                       │
+│ Gross requirement -> A 200, B 100                            │
+│      │                                                       │
+│      ▼                                                       │
+│ Netting with inventory -> A 200 - on hand 50 = 150           │
+│      │                                                       │
+│      ▼                                                       │
+│ Lead time offset -> order A in Week 8                        │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 구조 때문에 MRP는 "많이 쌓아 두는 방식"이 아니라 "계획 기준으로 필요한 양만 준비하는 방식"에 가깝다. 다만 능력 제약까지는 충분히 보지 못하므로, 실제 실행 단계에서는 CRP (Capacity Requirements Planning)나 MRP II와 결합해야 한다.
 
@@ -83,7 +88,7 @@ MRP를 이해하려면 [ROP](/knowledge-base/studynote/02_operating_system/10_se
 
 ### 설계 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. [BOM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/) 정확도와 설계 변경 절차(ECO, Engineering Change Order)가 관리되는가?
+1. [BOM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/) 정확도와 설계 변경 절차(ECO, 엔진ering Change Order)가 관리되는가?
 2. 실재고와 시스템 재고를 맞추기 위한 바코드·실사·입출고 통제가 있는가?
 3. 리드타임과 최소발주량, 로트사이징 규칙이 주기적으로 보정되는가?
 4. 병목 공정이 있다면 CRP나 MRP II로 능력 검토를 연결하는가?
@@ -120,23 +125,21 @@ MRP를 제대로 운용하면 재고 회전율 향상, 결품 감소, 구매 시
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">ROP</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">MRP</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">MRP II</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ERP</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">APS / Demand-driven planning / Intelligent planning</div>
-</div>
-</div>
-
-
+```text
+ROP
+  │
+  ▼
+MRP
+  │
+  ▼
+MRP II
+  │
+  ▼
+ERP
+  │
+  ▼
+APS / Demand-driven planning / Intelligent planning
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

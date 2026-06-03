@@ -37,19 +37,17 @@ tags = ["studynote-data-engineering"]
 | [kNN](/knowledge-base/studynote/10_ai/03_llm_nlp/262_knn/) 대치 | 국소 유사성 반영 | 계산 비용, 거리 민감 | 비슷한 행이 의미 있을 때 |
 | MICE | 변수 간 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 반영 | 반복 계산, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 복잡 | 상관 구조가 있는 다변량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">결측 패턴 진단</div>
-<div class="kb-diagram-tree-item" style="--depth:2">MCAR / MAR / MNAR 확인</div>
-<div class="kb-diagram-tree-item" style="--depth:2">dropna / 단순대치 / kNN / MICE 선택</div>
-<div class="kb-diagram-tree-item" style="--depth:2">train set에만 fit</div>
-<div class="kb-diagram-tree-item" style="--depth:2">valid/test에는 transform만 적용</div>
-</div>
-</div>
-
-
+```text
+결측 패턴 진단
+    │
+    ├─ MCAR / MAR / MNAR 확인
+    │
+    ├─ dropna / 단순대치 / kNN / MICE 선택
+    │
+    ├─ train set에만 fit
+    │
+    └─ valid/test에는 transform만 적용
+```
 
 kNN은 특성이 비슷한 샘플들의 값을 참고해 빈칸을 메우고, MICE는 각 변수를 하나씩 종속변수로 두고 다른 변수들로 반복 예측한다. MICE는 하나의 추정치만 고정하지 않아서 불확실성을 덜 왜곡할 수 있다.
 
@@ -100,23 +98,21 @@ MICE는 여러 번 대치한 뒤 결과를 합치면 추정 불확실성을 반�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">결측 탐지</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">결측 원인 분류(MCAR/MAR/MNAR)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">dropna / 단순대치 / kNN / MICE 선택</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">train-only 대치와 검증</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">편향 점검과 분포 확인</div>
-</div>
-</div>
-
-
+```text
+결측 탐지
+    │
+    ▼
+결측 원인 분류(MCAR/MAR/MNAR)
+    │
+    ▼
+dropna / 단순대치 / kNN / MICE 선택
+    │
+    ▼
+train-only 대치와 검증
+    │
+    ▼
+편향 점검과 분포 확인
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -23,22 +23,21 @@ tags = ["studynote-ai"]
 
 즉 문제의 핵심은 "지금까지 배운 것을 얼마나 믿고, 아직 모르는 행동을 얼마나 더 시험할 것인가"이다. 다중 슬롯머신 (Multi-Armed Bandit) 문제부터 [DQN](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/465_dqn_deep_q_network/) ([Deep Q-Network](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/465_dqn_deep_q_network/)) 같은 딥 [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)까지, 이 균형이 무너지면 학습 안정성과 최종 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 동시에 흔들린다. 엡실론-그리디는 매우 단순하지만, 이 딜레마를 가장 낮은 구현 복잡도로 다루는 출발점이 된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">왜 탐험이 필요한가: 현재 최고처럼 보이는 행동은 착시일 수 있다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">초기 관측값</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A 행동 = 10점 경험</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B 행동 = 미시도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Greedy만 사용하면</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A 반복 선택 ▶ B는 영원히 미탐색</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ε-Greedy를 사용하면</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대부분 A 선택 + 가끔 B 시도 ─▶ 숨은 100점 행동 발견 가능</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│      왜 탐험이 필요한가: 현재 최고처럼 보이는 행동은 착시일 수 있다 │
+├────────────────────────────────────────────────────────────────────┤
+│ 초기 관측값                                                       │
+│   A 행동 = 10점 경험                                              │
+│   B 행동 = 미시도                                                 │
+│                                                                    │
+│ Greedy만 사용하면                                                  │
+│   A 반복 선택 ───────────────▶ B는 영원히 미탐색                  │
+│                                                                    │
+│ ε-Greedy를 사용하면                                                │
+│   대부분 A 선택 + 가끔 B 시도 ─▶ 숨은 100점 행동 발견 가능        │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 요점은 엡실론-그리디가 "무작위성을 넣는 기법"이 아니라, 정보 부족 상태에서 잘못된 확신을 깨는 안전장치라는 점이다. 학습 초반일수록 Q값 자체가 불완전한 추정치이므로, 소량의 계획된 일탈이 오히려 더 합리적인 선택이 된다.
 
@@ -59,23 +58,25 @@ tags = ["studynote-ai"]
 
 다음 그림은 행동 결정 흐름과 병목 지점을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ε-Greedy action selection pipeline</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">State s</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ draw random number r in</div><div class="kb-diagram-node">0,1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ r &lt; ε ? ── Yes ──▶ Random action from A(s)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">No ──▶ a* = argmax_a Q(s,a)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Action a ─▶ Reward r_t, next state s' ─▶ update Q or network</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Bottleneck:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ε too high -&gt; noisy policy, slow convergence</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ε too low -&gt; premature exploitation, local optimum</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│                 ε-Greedy action selection pipeline                 │
+├────────────────────────────────────────────────────────────────────┤
+│ State s                                                           │
+│   │                                                                │
+│   ├─ draw random number r in [0,1]                                │
+│   │                                                                │
+│   ├─ r < ε ? ── Yes ──▶ Random action from A(s)                   │
+│   │                                                                │
+│   └────────── No ──▶ a* = argmax_a Q(s,a)                         │
+│                                                                    │
+│ Action a ─▶ Reward r_t, next state s' ─▶ update Q or network       │
+│                                                                    │
+│ Bottleneck:                                                        │
+│   ε too high  -> noisy policy, slow convergence                    │
+│   ε too low   -> premature exploitation, local optimum             │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 실무에서는 고정된 $\epsilon$보다 감쇠 (Decay) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 더 중요하다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에는 $\epsilon=1.0$ 또는 0.5처럼 크게 두어 상태 공간을 넓게 탐색하고, 학습이 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)될수록 0.1, 0.05, 0.01 수준으로 줄여 수집한 지식을 활용한다. [DQN](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/465_dqn_deep_q_network/) 계열에서는 보통 수십만~수백만 스텝 동안 선형 또는 지수 방식으로 $\epsilon$을 줄이며, 평가 단계에서는 $\epsilon=0$ 또는 매우 작은 값으로 고정해 순수 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 측정한다.
 
@@ -145,23 +146,21 @@ tags = ["studynote-ai"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Greedy action selection</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">탐험 vs 활용 딜레마</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ε-Greedy policy + ε decay</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DQN (Deep Q-Network) 실전 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">UCB · Thompson Sampling · Intrinsic Motivation</div>
-</div>
-</div>
-
-
+```text
+Greedy action selection
+        │
+        ▼
+탐험 vs 활용 딜레마
+        │
+        ▼
+ε-Greedy policy + ε decay
+        │
+        ▼
+DQN (Deep Q-Network) 실전 적용
+        │
+        ▼
+UCB · Thompson Sampling · Intrinsic Motivation
+```
 
 이 흐름은 "단순 탐욕"에서 출발해 "기본 [탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)"을 거쳐 "더 정교한 불확실성 기반 [탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)"으로 확장되는 경로를 보여준다.
 

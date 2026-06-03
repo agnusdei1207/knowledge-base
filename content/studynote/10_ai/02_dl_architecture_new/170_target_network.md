@@ -25,19 +25,17 @@ tags = ["studynote-ai"]
 
 아래 그림은 타겟 네트워크가 없을 때 생기는 자기참조 문제를 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Moving target problem in naive DQN</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Q(s, a; θ) ---------------------------</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ loss = [r + γ max Q(s',a';θ)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Q(s', a'; θ) for target -------------- - Q(s,a;θ)]^2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ one gradient step changes both prediction and target</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Moving target problem in naive DQN                                   │
+├──────────────────────────────────────────────────────────────────────┤
+│ Q(s, a; θ) ---------------------------┐                              │
+│                                       ├─ loss = [r + γ max Q(s',a';θ)│
+│ Q(s', a'; θ) for target --------------┘            - Q(s,a;θ)]^2    │
+│   ▲                                                                  │
+│   └─ one gradient step changes both prediction and target           │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 즉 학습자는 자신의 답안을 고치는 동시에 채점 기준표까지 함께 바꾸고 있는 셈이다. 타겟 네트워크는 이 채점 기준표를 일정 기간 고정해, 온라인 네트워크가 하나의 비교적 안정된 목표를 향해 수렴하도록 만든다.
 
@@ -61,22 +59,20 @@ tags = ["studynote-ai"]
 | [경험 재생](/knowledge-base/studynote/10_ai/02_dl_architecture_new/169_experience_replay/) 버퍼 (Replay Buffer) | 샘플 무작위화 | 환경 상호작용마다 저장 | 상관관계 감소, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 재사용 |
 | [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 규칙 | `θ- ← θ` 또는 `θ- ← τθ + (1-τ)θ-` | 하드/소프트 | 안정성과 추종 속도 균형 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DQN with target network</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">replay batch (s, a, r, s', done)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ online network θ ------&gt; Q_online(s, a)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ target network θ- ------&gt; max_a' Q_target(s', a')</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">y = r + γ(1-done) * max_a' Q_target(s', a')</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">loss = (y - Q_online(s, a))^2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">update θ only</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">sync θ- periodically or softly</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ DQN with target network                                               │
+├──────────────────────────────────────────────────────────────────────┤
+│ replay batch (s, a, r, s', done)                                     │
+│   ├─ online network θ  ------> Q_online(s, a)                        │
+│   └─ target network θ- ------> max_a' Q_target(s', a')              │
+│                                                                      │
+│ y = r + γ(1-done) * max_a' Q_target(s', a')                          │
+│ loss = (y - Q_online(s, a))^2                                        │
+│ update θ only                                                        │
+│ sync θ- periodically or softly                                       │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 하드 업데이트 (Hard Update)는 일정 주기 `C`마다 `θ- ← θ`로 통째로 복사하는 방식이고, 소프트 업데이트 (Soft Update)는 `θ- ← τθ + (1-τ)θ-`처럼 지수이동평균 (Exponential Moving Average) 형태로 조금씩 따라가게 만드는 방식이다. 전자는 구현이 단순하고 [DQN](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/465_dqn_deep_q_network/) 원형에 가깝고, 후자는 연속 제어에서 흔히 쓰이는 부드러운 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
 
@@ -151,23 +147,22 @@ tags = ["studynote-ai"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Tabular Q-learning</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Deep Q-Network instability</div>
-<div class="kb-diagram-tree-item" style="--depth:4">Experience Replay</div>
-<div class="kb-diagram-tree-item" style="--depth:4">Target Network</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Double DQN / soft targets</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DDPG · TD3 · SAC stabilisation</div>
-</div>
-</div>
-
-
+```text
+Tabular Q-learning
+        │
+        ▼
+Deep Q-Network instability
+        │
+        ├─ Experience Replay
+        │
+        └─ Target Network
+               │
+               ▼
+        Double DQN / soft targets
+               │
+               ▼
+DDPG · TD3 · SAC stabilisation
+```
 
 이 흐름은 가치 기반 강화학습이 표 기반 학습에서 [심층 신경망](/knowledge-base/studynote/10_ai/01_ai_basics/065_dnn_deep_neural_network/)으로 넘어오며 생긴 불안정성을, 재생 버퍼와 타겟 네트워크 같은 구조적 장치로 해결해 온 과정을 보여 준다.
 

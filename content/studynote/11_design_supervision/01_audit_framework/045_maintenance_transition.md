@@ -18,34 +18,34 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅰ. 인수인계 개요
 
+```
+유지보수 인수인계 컨텍스트:
 
+소프트웨어 생명주기:
+  요구분석 → 설계 → 구현 → 테스트
+  → 인수인계 → 운영·유지보수
+  
+  인수인계 = 개발 완료 후 운영 이관
+  
+이해관계자:
+  발주자 (Owner): 시스템 소유, 요구사항 정의
+  개발팀 (SI 업체): 구현, 인수인계 주체
+  운영팀 (유지보수 업체): 인수인계 수신, 운영 책임
+  사용자: 최종 서비스 이용자
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">유지보수 인수인계 컨텍스트:</div>
-<div class="kb-diagram-note">소프트웨어 생명주기:</div>
-<div class="kb-diagram-note">요구분석 → 설계 → 구현 → 테스트</div>
-<div class="kb-diagram-note">→ 인수인계 → 운영·유지보수</div>
-<div class="kb-diagram-note">인수인계 = 개발 완료 후 운영 이관</div>
-<div class="kb-diagram-note">이해관계자:</div>
-<div class="kb-diagram-note">발주자 (Owner): 시스템 소유, 요구사항 정의</div>
-<div class="kb-diagram-note">개발팀 (SI 업체): 구현, 인수인계 주체</div>
-<div class="kb-diagram-note">운영팀 (유지보수 업체): 인수인계 수신, 운영 책임</div>
-<div class="kb-diagram-note">사용자: 최종 서비스 이용자</div>
-<div class="kb-diagram-note">인수인계 유형:</div>
-<div class="kb-diagram-note">완전 이관: 개발팀 → 운영팀 완전 교체</div>
-<div class="kb-diagram-note">점진적 이관: 운영팀과 병행 운영 후 단계적 이관</div>
-<div class="kb-diagram-note">자체 운영: 개발팀이 운영팀 역할 병행</div>
-<div class="kb-diagram-note">인수인계 실패 사례:</div>
-<div class="kb-diagram-note">"코드와 문서는 넘겼는데..."</div>
-<div class="kb-diagram-tree-item" style="--depth:1">운영팀: "설계 의도를 모름"</div>
-<div class="kb-diagram-tree-item" style="--depth:1">개발팀: "문서 다 줬는데 왜?"</div>
-<div class="kb-diagram-note">핵심 문제: 묵시적 지식 미이전</div>
-<div class="kb-diagram-note">(왜 이 구조를 선택했는지, 주의사항, 잠재 위험)</div>
-</div>
-</div>
+인수인계 유형:
+  완전 이관: 개발팀 → 운영팀 완전 교체
+  점진적 이관: 운영팀과 병행 운영 후 단계적 이관
+  자체 운영: 개발팀이 운영팀 역할 병행
 
-
+인수인계 실패 사례:
+  "코드와 문서는 넘겼는데..."
+  - 운영팀: "설계 의도를 모름"
+  - 개발팀: "문서 다 줬는데 왜?"
+  
+  핵심 문제: 묵시적 지식 미이전
+  (왜 이 구조를 선택했는지, 주의사항, 잠재 위험)
+```
 
 > 📢 **섹션 요약 비유**: 인수인계는 요리 가게 인계 — 레시피(문서)만 주면 안 되고, 불 조절 비법, 단골 취향, 재료 주의사항(묵시적 지식)도 직접 알려줘야 제대로 인계!
 
@@ -190,44 +190,46 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅴ. 실무 시나리오 — 공공기관 시스템 이관
 
+```
+공공기관 민원 처리 시스템 인수인계:
 
+배경:
+  3년 SI 개발 완료
+  개발팀 → 운영팀(내부 전산실) 이관
+  시스템 복잡도: 마이크로서비스 15개, DB 5종
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">공공기관 민원 처리 시스템 인수인계:</div>
-<div class="kb-diagram-note">배경:</div>
-<div class="kb-diagram-note">3년 SI 개발 완료</div>
-<div class="kb-diagram-note">개발팀 → 운영팀(내부 전산실) 이관</div>
-<div class="kb-diagram-note">시스템 복잡도: 마이크로서비스 15개, DB 5종</div>
-<div class="kb-diagram-note">인수인계 계획 (12주):</div>
-<div class="kb-diagram-note">Week 1-2: 준비</div>
-<div class="kb-diagram-note">문서 현황 점검: 60% 작성 → 100% 보완 필요</div>
-<div class="kb-diagram-note">운영팀 4명 교육 계획 수립</div>
-<div class="kb-diagram-note">인수인계 항목 127개 체크리스트 작성</div>
-<div class="kb-diagram-note">Week 3-6: 교육</div>
-<div class="kb-diagram-note">아키텍처·인프라 교육 (2주)</div>
-<div class="kb-diagram-note">각 마이크로서비스 기능 교육 (2주)</div>
-<div class="kb-diagram-note">모의 장애 훈련 (DB 장애, 서비스 다운 시나리오)</div>
-<div class="kb-diagram-note">지식 평가: 운영팀 평균 72점 → 80점 목표 미달</div>
-<div class="kb-diagram-note">→ 1주 추가 교육 실시</div>
-<div class="kb-diagram-note">Week 7-10: 병행 운영</div>
-<div class="kb-diagram-note">운영팀 주도 운영</div>
-<div class="kb-diagram-note">실제 민원 피크타임(평일 오전) 경험</div>
-<div class="kb-diagram-note">장애 1건 발생 → 공동 대응 (1.5시간 해결)</div>
-<div class="kb-diagram-note">Week 11-12: 독립 운영</div>
-<div class="kb-diagram-note">개발팀 대기 (연락 가능 상태)</div>
-<div class="kb-diagram-note">2주 무장애 달성</div>
-<div class="kb-diagram-note">완료:</div>
-<div class="kb-diagram-note">인수인계 완료 서명</div>
-<div class="kb-diagram-note">발주처 만족도: 4.3/5.0</div>
-<div class="kb-diagram-note">3개월 후 추적:</div>
-<div class="kb-diagram-note">MTBF: 45일 (기준 30일 초과 달성)</div>
-<div class="kb-diagram-note">MTTR: 평균 1.8시간 (목표 2시간 달성)</div>
-<div class="kb-diagram-note">개발팀 의존도: 거의 0 (월 1~2회 문의)</div>
-</div>
-</div>
+인수인계 계획 (12주):
 
+Week 1-2: 준비
+  문서 현황 점검: 60% 작성 → 100% 보완 필요
+  운영팀 4명 교육 계획 수립
+  인수인계 항목 127개 체크리스트 작성
 
+Week 3-6: 교육
+  아키텍처·인프라 교육 (2주)
+  각 마이크로서비스 기능 교육 (2주)
+  모의 장애 훈련 (DB 장애, 서비스 다운 시나리오)
+  지식 평가: 운영팀 평균 72점 → 80점 목표 미달
+  → 1주 추가 교육 실시
+
+Week 7-10: 병행 운영
+  운영팀 주도 운영
+  실제 민원 피크타임(평일 오전) 경험
+  장애 1건 발생 → 공동 대응 (1.5시간 해결)
+
+Week 11-12: 독립 운영
+  개발팀 대기 (연락 가능 상태)
+  2주 무장애 달성
+
+완료:
+  인수인계 완료 서명
+  발주처 만족도: 4.3/5.0
+  
+  3개월 후 추적:
+  MTBF: 45일 (기준 30일 초과 달성)
+  MTTR: 평균 1.8시간 (목표 2시간 달성)
+  개발팀 의존도: 거의 0 (월 1~2회 문의)
+```
 
 > 📢 **섹션 요약 비유**: 공공기관 이관은 병원 인계 — 3교대 인계처럼, 환자(시스템) 상태·처방(운영 방법)·주의사항 꼼꼼히 인계. 72점짜리 인계자에게 환자 맡기면 위험!
 
@@ -235,29 +237,23 @@ tags = ["studynote-design-supervision"]
 
 ## 📌 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">유지보수 인수인계</div>
-<div class="kb-diagram-note">+-- 핵심 문서</div>
-<div class="kb-diagram-note">+-- 아키텍처 문서</div>
-<div class="kb-diagram-note">+-- 운영/장애 매뉴얼</div>
-<div class="kb-diagram-note">+-- 유지보수 가이드</div>
-<div class="kb-diagram-note">+-- 데이터 사전</div>
-<div class="kb-diagram-note">+-- 프로세스</div>
-<div class="kb-diagram-note">+-- 준비 → 교육 → 병행 → 독립 → 완료</div>
-<div class="kb-diagram-note">+-- 품질 지표</div>
-<div class="kb-diagram-note">+-- MTBF/MTTR</div>
-<div class="kb-diagram-note">+-- 문서 완결성</div>
-<div class="kb-diagram-note">+-- 지식 이전 평가</div>
-<div class="kb-diagram-note">+-- 관련 표준</div>
-<div class="kb-diagram-note">+-- ITIL 서비스 전환</div>
-<div class="kb-diagram-note">+-- SW 개발 표준 (CMMI)</div>
-</div>
-</div>
-
-
+```
+유지보수 인수인계
++-- 핵심 문서
+|   +-- 아키텍처 문서
+|   +-- 운영/장애 매뉴얼
+|   +-- 유지보수 가이드
+|   +-- 데이터 사전
++-- 프로세스
+|   +-- 준비 → 교육 → 병행 → 독립 → 완료
++-- 품질 지표
+|   +-- MTBF/MTTR
+|   +-- 문서 완결성
+|   +-- 지식 이전 평가
++-- 관련 표준
+    +-- ITIL 서비스 전환
+    +-- SW 개발 표준 (CMMI)
+```
 
 ---
 

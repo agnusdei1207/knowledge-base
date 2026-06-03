@@ -34,27 +34,30 @@ tags = ["studynote-operating-system"]
 - **등장 배경**: 
   - 캐시가 거대해진 [MIPS](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/201_mips/), SPARC 등의 [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/) 서버 프로세서 시절, VIPT (가상 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)-물리 태그) 캐시 구조에서 발생하는 치명적인 동의어([Aliasing](/knowledge-base/studynote/03_network/01_data_communication/057_에일리어싱_Aliasing/)) 문제를 덮기 위해 소프트웨어(OS) 진영이 만들어낸 우아한 수학적 회피술이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페이지 컬러링이 없는 상황의 캐시 스래싱 (충돌 파국)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">앱의 가상 주소 (Virtual Address) 공간</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Page A: 연속된 데이터를 담은 배열 1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Page B: 연속된 데이터를 담은 배열 2</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">OS의 무지성 물리 프레임 할당 (RAM)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Page A ──▶ 램 주소: 0x01000 번지 할당 (빨간색 방 타겟)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Page B ──▶ 램 주소: 0x11000 번지 할당 (어? 얘도 빨간색 방 타겟!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CPU 하드웨어 L1 캐시 (Set Associative)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">방0</div><div class="kb-diagram-cell">(빨간색 방)</div><div class="kb-diagram-cell">◀── Page A와 Page B가 동시에 진입 시도!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서로를 쫓아내는 핑퐁 발생! 💥</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">방1</div><div class="kb-diagram-cell">(노란색 방 - 텅빔)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">방2</div><div class="kb-diagram-cell">(파란색 방 - 텅빔)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: 캐시에 빈 방이 엄청나게 많은데도 한 방에서만 치고받고 싸워 속도 1/10 토막!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │                 페이지 컬러링이 없는 상황의 캐시 스래싱 (충돌 파국)        │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │  [ 앱의 가상 주소 (Virtual Address) 공간 ]                      │
+  │   Page A: 연속된 데이터를 담은 배열 1                             │
+  │   Page B: 연속된 데이터를 담은 배열 2                             │
+  │                                                             │
+  │  [ OS의 무지성 물리 프레임 할당 (RAM) ]                        │
+  │   - Page A ──▶ 램 주소: 0x01000 번지 할당 (빨간색 방 타겟)         │
+  │   - Page B ──▶ 램 주소: 0x11000 번지 할당 (어? 얘도 빨간색 방 타겟!) │
+  │                                                             │
+  │  [ CPU 하드웨어 L1 캐시 (Set Associative) ]                    │
+  │   ┌───┬──────────────────┐                                  │
+  │   │ 방0 │ (빨간색 방)        │ ◀── Page A와 Page B가 동시에 진입 시도!│
+  │   ├───┼──────────────────┤      서로를 쫓아내는 핑퐁 발생! 💥      │
+  │   │ 방1 │ (노란색 방 - 텅빔) │                                  │
+  │   ├───┼──────────────────┤                                  │
+  │   │ 방2 │ (파란색 방 - 텅빔) │                                  │
+  │   └───┴──────────────────┘                                  │
+  │   ▶ 결과: 캐시에 빈 방이 엄청나게 많은데도 한 방에서만 치고받고 싸워 속도 1/10 토막!│
+  └─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 체계의 가장 무서운 허점이다. 프로그램(앱)은 자기가 쓰는 `배열1(A)`과 `배열2(B)`가 메모리에 연속적으로 예쁘게 놓여있다고 착각한다. 하지만 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 물리 램(RAM) 밑바닥에서는 A와 B가 완전히 무작위로 아무 빈 공간에나 던져진다. 하필 그 던져진 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/) 2개의 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 끝자락([Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)) 구조가 똑같은 곳을 가리킨다면? 최악의 로또에 당첨된 것이다. 두 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 더하는 단순한 `C[i] = A[i] + B[i]` 연산 루프를 돌릴 때마다, A를 퍼오면 캐시의 B가 지워지고, 다시 B를 퍼오면 A가 지워지는 지옥의 마찰(Cache Bouncing)이 일어나 CPU가 멈춰버린다. 알고리즘은 잘못한 게 1도 없다. 오직 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/) 매핑의 우연한 불운이 낳은 참사다.
 
@@ -74,26 +77,30 @@ tags = ["studynote-operating-system"]
    - 프레임 0, 16, 32... $\rightarrow$ 빨강색 그룹 (Color 0, 캐시의 0번 구역 할당 예정)
    - 프레임 1, 17, 33... $\rightarrow$ 노랑색 그룹 (Color 1, 캐시의 1번 구역 할당 예정)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS의 지능적 페이지 컬러링 (스마트 할당) 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">앱의 가상 주소 요구</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 가상 페이지 0번 할당 요청</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 가상 페이지 1번 할당 요청</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">커널 메모리 할당자 (Buddy Allocator) 의 정밀 타격</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 가상 페이지 0번 ──▶ 무조건 "Color 0 (빨강)" 물리 프레임을 꺼내서 매핑!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 가상 페이지 1번 ──▶ 무조건 "Color 1 (노랑)" 물리 프레임을 꺼내서 매핑!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 가상 페이지 2번 ──▶ 무조건 "Color 2 (파랑)" 물리 프레임을 꺼내서 매핑!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">======== (하드웨어 L1/L2 캐시 진입 시) ==========================</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">방0</div><div class="kb-diagram-cell">Page 0 (빨강)</div><div class="kb-diagram-cell">방1</div><div class="kb-diagram-cell">Page 1 (노랑)</div><div class="kb-diagram-cell">방2</div><div class="kb-diagram-cell">Page 2 (파랑)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: 가상 주소 상 인접한 데이터들이 물리 캐시에서도 절대로 부딪히지 않고</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모든 방(Set)을 완벽하게 100% 쫙 펴 발라서 점유(Hit)하게 됨! 🚀</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 OS의 지능적 페이지 컬러링 (스마트 할당) 아키텍처         │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [ 앱의 가상 주소 요구 ]                                              │
+  │   - 가상 페이지 0번 할당 요청                                           │
+  │   - 가상 페이지 1번 할당 요청                                           │
+  │                                                                   │
+  │   [ 커널 메모리 할당자 (Buddy Allocator) 의 정밀 타격 ]                │
+  │   1. 가상 페이지 0번 ──▶ 무조건 "Color 0 (빨강)" 물리 프레임을 꺼내서 매핑! │
+  │   2. 가상 페이지 1번 ──▶ 무조건 "Color 1 (노랑)" 물리 프레임을 꺼내서 매핑! │
+  │   3. 가상 페이지 2번 ──▶ 무조건 "Color 2 (파랑)" 물리 프레임을 꺼내서 매핑! │
+  │                                                                   │
+  │  ======== (하드웨어 L1/L2 캐시 진입 시) ==========================      │
+  │                                                                   │
+  │   ┌───┬─────────────┐  ┌───┬─────────────┐  ┌───┬─────────────┐ │
+  │   │방0│ Page 0 (빨강)│  │방1│ Page 1 (노랑)│  │방2│ Page 2 (파랑)│ │
+  │   └───┴─────────────┘  └───┴─────────────┘  └───┴─────────────┘ │
+  │                                                                   │
+  │   ▶ 결과: 가상 주소 상 인접한 데이터들이 물리 캐시에서도 절대로 부딪히지 않고   │
+  │           모든 방(Set)을 완벽하게 100% 쫙 펴 발라서 점유(Hit)하게 됨! 🚀    │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이것이 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 하드웨어의 약점을 메우는 위대한 '소프트웨어 엔지니어링'이다. OS는 가상 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 번호와 물리 프레임 번호의 색상(모듈로 연산 결과)을 1:1로 일치시켜 버린다([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Coloring 일치). 이렇게 하면 프로그램이 선형적으로 거대한 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 긁어 나갈 때, 물리 램이 아무리 파편화되어 있어도 CPU 캐시 안에서는 기가 막히게 테트리스 블록이 빈틈없이 딱딱 맞아떨어지며 수십 메가바이트의 캐시 용량을 1바이트의 낭비나 충돌 없이 풀(Full)로 써먹을 수 있게 된다. VMM([가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 관리자)의 은밀한 캐리다.
 
@@ -133,26 +140,29 @@ tags = ["studynote-operating-system"]
 2. <strong>시나리오 — <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/548_automotive_hpc/">HPC</a>/<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/">머신러닝</a> 서버의 미세 튜닝 (<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/">Huge Pages</a> 우회)</strong>: 256코어 1TB 램 서버에서 행렬 연산을 하는데 캐시 충돌이 계속 뜬다. OS 레벨의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 컬러링을 믿었지만, 너무 많은 스레드가 메모리를 요구하자 OS의 빈 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)(Free list) 컬러 밸런스가 무너지면서 컬러 매칭에 실패하고 아무 프레임이나 막 던져주며 튜닝이 박살 났다.
    - <strong>아키텍트 판단 (Transparent <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/">Huge Pages</a> 도입)</strong>: OS의 4KB 단위 컬러링 꼼수가 덩치가 큰 빅데이터 시대에는 한계를 드러낸 것이다. 아키텍트는 [페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/) 자체를 2MB나 1GB의 [거대 페이지](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/)([Huge Pages](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/))로 통째로 묶어버린다. 2MB 덩어리는 그 자체로 L2/L3 캐시 크기를 넘어서거나 완벽히 덮어버리므로, 캐시 컬러를 맞출 필요조차 없이 캐시 미스와 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 병목을 하드웨어적으로 완전히 철거(Demolition)해 버리는 무식하지만 가장 강력한 돌파구다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 파편화와 캐시 충돌 방어를 위한 아키텍트 결정 트리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">딥러닝이나 거대 DB 엔진의 메모리 최적화를 설계한다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">아키텍처가 VIPT 캐시를 사용하는 ARM / MIPS 등 특수 칩 환경인가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">치명적 캐시 앨리어싱(Aliasing) 주의!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell"><code>mmap</code>이나 공유 메모리(SHM) 할당 시 무조건 주소 끝자리가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SHMLBA 배수로 떨어지게 메모리 정렬(Alignment) 강제!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 (일반적인 Intel / AMD x86_64 서버다)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">배열 연산이 많아 캐시 핑퐁(스래싱)이 자주 터지는 인메모리(In-Memory) 앱인가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Huge Pages (거대 페이지) 아키텍처 전격 도입</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS 컬러링 한계를 무시하고, TLB와 L2를 100% 덮어씌움.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ──▶ 일반 리눅스 커널의 기본 할당자(Buddy System)의</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자율적 페이지 컬러링 휴리스틱을 믿고 냅둠.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 메모리 파편화와 캐시 충돌 방어를 위한 아키텍트 결정 트리     │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [ 딥러닝이나 거대 DB 엔진의 메모리 최적화를 설계한다 ]                    │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      아키텍처가 VIPT 캐시를 사용하는 ARM / MIPS 등 특수 칩 환경인가?         │
+  │          ├─ 예 ─────▶ 🚨 [ 치명적 캐시 앨리어싱(Aliasing) 주의! ]     │
+  │          │             `mmap`이나 공유 메모리(SHM) 할당 시 무조건 주소 끝자리가│
+  │          │             SHMLBA 배수로 떨어지게 메모리 정렬(Alignment) 강제! │
+  │          └─ 아니오 (일반적인 Intel / AMD x86_64 서버다)               │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      배열 연산이 많아 캐시 핑퐁(스래싱)이 자주 터지는 인메모리(In-Memory) 앱인가?│
+  │          ├─ 예 ─────▶ [ Huge Pages (거대 페이지) 아키텍처 전격 도입 ] │
+  │          │             OS 컬러링 한계를 무시하고, TLB와 L2를 100% 덮어씌움. │
+  │          │                                                        │
+  │          └─ 아니오 ──▶ 일반 리눅스 커널의 기본 할당자(Buddy System)의   │
+  │                        자율적 페이지 컬러링 휴리스틱을 믿고 냅둠.            │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 다행스럽게도 현대 x86-64(인텔) CPU 아키텍처는 PIPT(물리 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/), 물리 태그) 구조를 채택하여 이 끔찍한 앨리어싱(동의어) 버그에서 어느 정도 자유롭다. 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)도 버디 할당자가 여유가 있을 때는 알아서 색깔을 예쁘게 맞춰서 프레임을 꺼내준다. 따라서 웹 서버 개발자는 컬러링을 몰라도 먹고산다. 하지만 하드웨어를 직접 때리는 드라이버 엔지니어나, L3 캐시 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)([Hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/) rate) 1% 차이에 수십억의 연산비용이 갈리는 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)/HFT 아키텍트에게 메모리 주소 정렬(Alignment)과 색상 배치(Coloring)는 승패를 가르는 최후의 마이크로 오버헤드 사냥터다.
 
@@ -198,19 +208,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">워킹 셋 윈도우 사이즈 동적 조절</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">페이지 컬러링 캐시 경합 회피 물리 할당 (Page Coloring Cache Conflict Avoidance)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">틱리스 커널(Tickless) 모바일 배터리 보존</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NUMA 로컬 메모리 원격 메모리 지연차</div></div>
-</div>
-</div>
-
-
+```text
+[워킹 셋 윈도우 사이즈 동적 조절]
+    │
+    ▼
+[페이지 컬러링 캐시 경합 회피 물리 할당 (Page Coloring Cache Conflict Avoidance)]
+    │
+    ├──▶ [틱리스 커널(Tickless) 모바일 배터리 보존]
+    └──▶ [NUMA 로컬 메모리 원격 메모리 지연차]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

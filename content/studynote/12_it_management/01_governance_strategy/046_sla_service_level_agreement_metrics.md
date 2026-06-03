@@ -18,43 +18,45 @@ tags = ["studynote-it-management"]
 
 ## Ⅰ. [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)·[SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)·[SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 계층
 
+```
+SLI → SLO → SLA 계층:
 
+SLI (Service Level Indicator):
+  실제 측정 가능한 서비스 특성 수치
+  
+  예: 
+  - 요청 성공률 = 성공 요청 / 전체 요청
+  - 응답 시간 P99 = 99th 백분위 응답시간
+  - 가용성 = 서비스 가동 시간 / 전체 시간
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">SLI → SLO → SLA 계층:</div>
-<div class="kb-diagram-note">SLI (Service Level Indicator):</div>
-<div class="kb-diagram-note">실제 측정 가능한 서비스 특성 수치</div>
-<div class="kb-diagram-note">예:</div>
-<div class="kb-diagram-tree-item" style="--depth:1">요청 성공률 = 성공 요청 / 전체 요청</div>
-<div class="kb-diagram-tree-item" style="--depth:1">응답 시간 P99 = 99th 백분위 응답시간</div>
-<div class="kb-diagram-tree-item" style="--depth:1">가용성 = 서비스 가동 시간 / 전체 시간</div>
-<div class="kb-diagram-note">SLO (Service Level Objective):</div>
-<div class="kb-diagram-note">내부 목표 (계약 아님)</div>
-<div class="kb-diagram-note">SLI 기반으로 설정</div>
-<div class="kb-diagram-note">예:</div>
-<div class="kb-diagram-tree-item" style="--depth:1">요청 성공률 SLO: 99.95%</div>
-<div class="kb-diagram-tree-item" style="--depth:1">P99 응답시간 SLO: 200ms 이내</div>
-<div class="kb-diagram-tree-item" style="--depth:1">가용성 SLO: 99.95%</div>
-<div class="kb-diagram-note">SLA (Service Level Agreement):</div>
-<div class="kb-diagram-note">고객과의 외부 계약</div>
-<div class="kb-diagram-note">SLO보다 약간 낮게 설정 (완충)</div>
-<div class="kb-diagram-note">예 (AWS EC2):</div>
-<div class="kb-diagram-tree-item" style="--depth:1">월간 가용성 SLA: 99.99%</div>
-<div class="kb-diagram-tree-item" style="--depth:1">미달 시 크레딧:</div>
-<div class="kb-diagram-note">99.0~99.99%: 10% 크레딧</div>
-<div class="kb-diagram-note">95.0~99.0%: 25% 크레딧</div>
-<div class="kb-diagram-note">95.0% 미만: 100% 크레딧</div>
-<div class="kb-diagram-note">왜 SLO &gt; SLA인가:</div>
-<div class="kb-diagram-note">SLO = 99.95%</div>
-<div class="kb-diagram-note">SLA = 99.9%</div>
-<div class="kb-diagram-note">완충 0.05% = 0.05%×30일×24시간 = 2.16시간/월</div>
-<div class="kb-diagram-note">→ 인시던트 탐지 + 대응 시간 확보</div>
-<div class="kb-diagram-note">→ 고객 계약 위반 없이 문제 해결 가능</div>
-</div>
-</div>
+SLO (Service Level Objective):
+  내부 목표 (계약 아님)
+  SLI 기반으로 설정
+  
+  예:
+  - 요청 성공률 SLO: 99.95%
+  - P99 응답시간 SLO: 200ms 이내
+  - 가용성 SLO: 99.95%
 
+SLA (Service Level Agreement):
+  고객과의 외부 계약
+  SLO보다 약간 낮게 설정 (완충)
+  
+  예 (AWS EC2):
+  - 월간 가용성 SLA: 99.99%
+  - 미달 시 크레딧:
+    99.0~99.99%: 10% 크레딧
+    95.0~99.0%: 25% 크레딧
+    95.0% 미만: 100% 크레딧
 
+왜 SLO > SLA인가:
+  SLO = 99.95%
+  SLA = 99.9%
+  
+  완충 0.05% = 0.05%×30일×24시간 = 2.16시간/월
+  → 인시던트 탐지 + 대응 시간 확보
+  → 고객 계약 위반 없이 문제 해결 가능
+```
 
 > 📢 **섹션 요약 비유**: [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)→[SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)→SLA는 시험 기준 — [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)(실제 점수), [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)(스스로 목표 90점), [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)(부모님과 약속 80점). 목표는 높게, 계약은 여유롭게!
 
@@ -62,44 +64,45 @@ tags = ["studynote-it-management"]
 
 ## Ⅱ. [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 수치 해석
 
+```
+가용성 퍼센트 vs 다운타임:
 
+가용성      월 다운타임    연간 다운타임
+99.0%   = 7.2시간     = 87.6시간
+99.5%   = 3.6시간     = 43.8시간
+99.9%   = 43.2분      = 8.7시간    ← 3 Nines
+99.95%  = 21.6분      = 4.4시간
+99.99%  = 4.32분      = 52.6분     ← 4 Nines
+99.999% = 25.9초      = 5.3분      ← 5 Nines
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">가용성 퍼센트 vs 다운타임:</div>
-<div class="kb-diagram-note">가용성 월 다운타임 연간 다운타임</div>
-<div class="kb-diagram-note">99.0% = 7.2시간 = 87.6시간</div>
-<div class="kb-diagram-note">99.5% = 3.6시간 = 43.8시간</div>
-<div class="kb-diagram-note">99.9% = 43.2분 = 8.7시간 ← 3 Nines</div>
-<div class="kb-diagram-note">99.95% = 21.6분 = 4.4시간</div>
-<div class="kb-diagram-note">99.99% = 4.32분 = 52.6분 ← 4 Nines</div>
-<div class="kb-diagram-note">99.999% = 25.9초 = 5.3분 ← 5 Nines</div>
-<div class="kb-diagram-note">계산 공식:</div>
-<div class="kb-diagram-note">다운타임 = (1 - 가용성) × 측정 기간</div>
-<div class="kb-diagram-note">예: 99.9% × 30일</div>
-<div class="kb-diagram-note">= 0.1% × 30 × 24 × 60 = 43.2분</div>
-<div class="kb-diagram-note">계층별 요구:</div>
-<div class="kb-diagram-note">소셜 미디어: 99.9% 충분</div>
-<div class="kb-diagram-note">일반 SaaS: 99.95~99.99%</div>
-<div class="kb-diagram-note">금융/결제: 99.99% 이상</div>
-<div class="kb-diagram-note">항공 예약: 99.999%</div>
-<div class="kb-diagram-note">SLA 구성 요소:</div>
-<div class="kb-diagram-note">1. 정의: 서비스 범위 (무엇이 포함/불포함)</div>
-<div class="kb-diagram-note">2. 가용성 목표 (%)</div>
-<div class="kb-diagram-note">3. 측정 방법 (어떻게 계산, 어떤 기간)</div>
-<div class="kb-diagram-note">4. 페널티 (미달 시 보상)</div>
-<div class="kb-diagram-note">5. 예외 사항 (scheduled maintenance, force majeure)</div>
-<div class="kb-diagram-note">6. 보고 주기 (월간 리포트 등)</div>
-<div class="kb-diagram-note">7. 분쟁 해결 절차</div>
-<div class="kb-diagram-note">정기 유지보수 처리:</div>
-<div class="kb-diagram-note">예약된 다운타임(Scheduled Maintenance)</div>
-<div class="kb-diagram-note">= 사전 공지 → SLA 계산에서 제외</div>
-<div class="kb-diagram-note">예: AWS SLA는 "scheduled maintenance"</div>
-<div class="kb-diagram-note">사전 공지 후 다운타임 = SLA 적용 제외</div>
-</div>
-</div>
+계산 공식:
+  다운타임 = (1 - 가용성) × 측정 기간
+  
+  예: 99.9% × 30일
+  = 0.1% × 30 × 24 × 60 = 43.2분
 
+계층별 요구:
+  소셜 미디어: 99.9% 충분
+  일반 SaaS: 99.95~99.99%
+  금융/결제: 99.99% 이상
+  항공 예약: 99.999%
 
+SLA 구성 요소:
+  1. 정의: 서비스 범위 (무엇이 포함/불포함)
+  2. 가용성 목표 (%)
+  3. 측정 방법 (어떻게 계산, 어떤 기간)
+  4. 페널티 (미달 시 보상)
+  5. 예외 사항 (scheduled maintenance, force majeure)
+  6. 보고 주기 (월간 리포트 등)
+  7. 분쟁 해결 절차
+
+정기 유지보수 처리:
+  예약된 다운타임(Scheduled Maintenance)
+  = 사전 공지 → SLA 계산에서 제외
+  
+  예: AWS SLA는 "scheduled maintenance"
+  사전 공지 후 다운타임 = SLA 적용 제외
+```
 
 > 📢 **섹션 요약 비유**: [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 퍼센트는 수업 출석률 — 99.9%(3 Nines) = 일년에 8.7시간 결석. 99.99%(4 Nines) = 52분만 결석. 0.09% 차이가 16× 다운타임 차이!
 
@@ -157,44 +160,48 @@ MTBF (Mean Time Between Failures):
 
 ## Ⅳ. [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 위반 관리
 
+```
+SLA 위반과 대응:
 
+Error Budget (오류 예산):
+  SLO에서 파생된 허용 오류량
+  
+  SLO = 99.9% → 오류 예산 = 0.1%
+  월 기준: 43.2분 허용 다운타임
+  
+  Error Budget 소진 추적:
+  현재까지 사용: 30분 (70% 소진)
+  남은 기간: 2주
+  → 새 배포 일시 중단? OR 계속?
+  
+  SRE 원칙: 오류 예산 소진 시 기능 개발 중단
+  → 안정성 우선으로 전환
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">SLA 위반과 대응:</div>
-<div class="kb-diagram-note">Error Budget (오류 예산):</div>
-<div class="kb-diagram-note">SLO에서 파생된 허용 오류량</div>
-<div class="kb-diagram-note">SLO = 99.9% → 오류 예산 = 0.1%</div>
-<div class="kb-diagram-note">월 기준: 43.2분 허용 다운타임</div>
-<div class="kb-diagram-note">Error Budget 소진 추적:</div>
-<div class="kb-diagram-note">현재까지 사용: 30분 (70% 소진)</div>
-<div class="kb-diagram-note">남은 기간: 2주</div>
-<div class="kb-diagram-note">→ 새 배포 일시 중단? OR 계속?</div>
-<div class="kb-diagram-note">SRE 원칙: 오류 예산 소진 시 기능 개발 중단</div>
-<div class="kb-diagram-note">→ 안정성 우선으로 전환</div>
-<div class="kb-diagram-note">SLA 위반 절차:</div>
-<div class="kb-diagram-note">탐지:</div>
-<div class="kb-diagram-note">모니터링 경보 → 인시던트 선언</div>
-<div class="kb-diagram-note">SLA 영향 평가 (현재 다운타임 누적)</div>
-<div class="kb-diagram-note">커뮤니케이션:</div>
-<div class="kb-diagram-note">고객 알림 (SLA에 명시된 시간 내)</div>
-<div class="kb-diagram-note">상태 페이지 업데이트 (Statuspage.io)</div>
-<div class="kb-diagram-note">예상 복구 시간 제공</div>
-<div class="kb-diagram-note">복구 후:</div>
-<div class="kb-diagram-note">RCA (Root Cause Analysis) 작성</div>
-<div class="kb-diagram-note">SLA 크레딧 자동/수동 적용</div>
-<div class="kb-diagram-note">재발 방지 계획</div>
-<div class="kb-diagram-note">페널티 구조 (일반 예):</div>
-<div class="kb-diagram-note">가용성 &lt; 99.9% → 10% 요금 크레딧</div>
-<div class="kb-diagram-note">가용성 &lt; 99.0% → 30% 크레딧</div>
-<div class="kb-diagram-note">가용성 &lt; 95.0% → 100% 크레딧</div>
-<div class="kb-diagram-note">계약 종료 조항:</div>
-<div class="kb-diagram-note">연속 3회 SLA 위반 → 계약 해지 가능</div>
-<div class="kb-diagram-note">→ SLA 협상 시 이 조항 주의!</div>
-</div>
-</div>
+SLA 위반 절차:
 
+탐지:
+  모니터링 경보 → 인시던트 선언
+  SLA 영향 평가 (현재 다운타임 누적)
 
+커뮤니케이션:
+  고객 알림 (SLA에 명시된 시간 내)
+  상태 페이지 업데이트 (Statuspage.io)
+  예상 복구 시간 제공
+
+복구 후:
+  RCA (Root Cause Analysis) 작성
+  SLA 크레딧 자동/수동 적용
+  재발 방지 계획
+
+페널티 구조 (일반 예):
+  가용성 < 99.9% → 10% 요금 크레딧
+  가용성 < 99.0% → 30% 크레딧
+  가용성 < 95.0% → 100% 크레딧
+
+계약 종료 조항:
+  연속 3회 SLA 위반 → 계약 해지 가능
+  → SLA 협상 시 이 조항 주의!
+```
 
 > 📢 **섹션 요약 비유**: [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 위반은 배달 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 보상 — "1시간 내 배달 보장([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/))" 못 지키면 쿠폰(크레딧). 계속 못 지키면 재계약 해지. 오류 예산은 남은 쿠폰 수!
 

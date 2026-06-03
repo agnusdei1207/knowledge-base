@@ -25,20 +25,23 @@ tags = ["studynote-bigdata"]
 
 아래 그림은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)가 필요한 이유를 보여 준다. 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)가 단순 보관소가 아니라 <strong>흩어진 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>와 설명, 책임, 흐름을 한 곳에 연결하는 계층</strong>이라는 점이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 허브가 풀어 주는 단절 문제</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Source Systems</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DB · SaaS · Stream · File</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">각기 다른 파이프라인 · 용어 · 권한 체계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"어디 있지?" "누가 책임지지?" "믿어도 되나?"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data Hub: Catalog + Lineage + Policy + Ownership</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ 데이터 허브가 풀어 주는 단절 문제                             │
+├──────────────────────────────────────────────────────────────┤
+│ Source Systems                                                │
+│  DB · SaaS · Stream · File                                   │
+│        │                                                     │
+│        ▼                                                     │
+│  각기 다른 파이프라인 · 용어 · 권한 체계                     │
+│        │                                                     │
+│        ▼                                                     │
+│  "어디 있지?" "누가 책임지지?" "믿어도 되나?"                │
+│        │                                                     │
+│        ▼                                                     │
+│  Data Hub: Catalog + Lineage + Policy + Ownership            │
+└──────────────────────────────────────────────────────────────┘
+```
 
 따라서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)는 중앙 집중 저장소라기보다 중앙 집중 <strong>이해 계층</strong>에 가깝다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/), 웨어하우스, 스트림 플랫폼에 흩어져 있어도, [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)가 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)와 거버넌스를 묶어 주면 조직은 하나의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 지도를 갖게 된다.
 
@@ -55,31 +58,34 @@ tags = ["studynote-bigdata"]
 | Ingestion Connector | DB, Spark, dbt, Airflow, BI 도구에서 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 수집 | 수동 등록 의존도를 줄임 |
 | Entity Model | Dataset, Dashboard, [Pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/), User, [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 표현 | 자산 간 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)로 연결 |
 | Search / [Catalog](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) | 검색, 필터, 문서화 | 분석가의 [탐색 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/)을 단축 |
-| Lineage Engine | 상하류 영향 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 추적 | 장애 영향 분석과 변경 검토에 필수 |
+| Lineage 엔진 | 상하류 영향 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 추적 | 장애 영향 분석과 변경 검토에 필수 |
 | [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) / Access Layer | 권한, 태그, PII (Personally Identifiable Information) 제어 | 규정 준수와 셀프서비스 균형 |
 | Quality [Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) | 신선도, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 결과, [Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) ([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)) 상태 노출 | "찾을 수 있음"을 넘어 "믿고 쓸 수 있음"으로 확장 |
 
 아래 구조는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)가 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장소를 대체하는 것이 아니라, 그 위에 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)와 통제 레이어를 얹는 방식을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data Hub 아키텍처</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Producers</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Operational DB · Change Stream · Batch · dbt · BI</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ingestion Connectors</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Data Plane ▶ Lakehouse / Warehouse / Topic</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Metadata Plane ─▶ Entity Graph</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Catalog / Search</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Lineage</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Ownership / Policy</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Quality / Freshness</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BI · Model · App · Audit Consumer</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ Data Hub 아키텍처                                             │
+├──────────────────────────────────────────────────────────────┤
+│ Producers                                                     │
+│  Operational DB · Change Stream · Batch · dbt · BI          │
+│        │                                                     │
+│        ▼                                                     │
+│  Ingestion Connectors                                         │
+│        │                                                     │
+│        ├─ Data Plane ─────▶ Lakehouse / Warehouse / Topic    │
+│        │                                                     │
+│        └─ Metadata Plane ─▶ Entity Graph                     │
+│                              ├─ Catalog / Search             │
+│                              ├─ Lineage                      │
+│                              ├─ Ownership / Policy           │
+│                              └─ Quality / Freshness          │
+│                                        │                     │
+│                                        ▼                     │
+│                           BI · Model · App · Audit Consumer  │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 구조의 핵심 원리는 엔티티(Entity) 중심 모델이다. 예를 들어 `sales.orders`라는 Dataset이 있고, 이를 읽는 dbt 모델, 이를 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)하는 Dashboard, 이를 소유한 Team, 이를 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)하는 Machine [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) (ML) Feature가 모두 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)로 묶인다. 그러면 단순 검색을 넘어 "이 컬럼을 바꾸면 어떤 리포트와 배치가 깨지는가?"를 즉시 추적할 수 있다.
 
@@ -161,23 +167,21 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">다양한 데이터 소스 증가</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">메타데이터 자동 수집</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Catalog + Lineage + Ownership 통합</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Policy · Quality · PII 제어 연동</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">셀프서비스 분석 · 영향 분석 · 규정 준수 강화</div>
-</div>
-</div>
-
-
+```text
+다양한 데이터 소스 증가
+    │
+    ▼
+메타데이터 자동 수집
+    │
+    ▼
+Catalog + Lineage + Ownership 통합
+    │
+    ▼
+Policy · Quality · PII 제어 연동
+    │
+    ▼
+셀프서비스 분석 · 영향 분석 · 규정 준수 강화
+```
 
 이 흐름은 단순 저장 중심 플랫폼이, 탐색성과 거버넌스를 갖춘 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 운영 플랫폼으로 진화하는 방향을 보여 준다.
 

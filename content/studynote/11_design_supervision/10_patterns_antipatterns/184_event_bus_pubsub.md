@@ -35,22 +35,22 @@ tags = ["studynote-design-supervision"]
 
 아래 그림은 대표적인 이벤트 흐름을 요약한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Event Bus reference flow</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OrderService publishes OrderPlaced(v1)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Event Bus / Broker / Topic: order.events</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">schema + routing key</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ InventorySubscriber -&gt; reserve stock</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ NotificationSubscriber -&gt; send message</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ AnalyticsSubscriber -&gt; update dashboard</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">failure path: retry -&gt; DLQ (Dead Letter Queue) -&gt; alert / replay</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Event Bus reference flow                                            │
+├──────────────────────────────────────────────────────────────────────┤
+│ OrderService publishes OrderPlaced(v1)                              │
+│        │                                                            │
+│        ▼                                                            │
+│ [Event Bus / Broker / Topic: order.events]                          │
+│        │ schema + routing key                                       │
+│        ├─ InventorySubscriber   -> reserve stock                    │
+│        ├─ NotificationSubscriber -> send message                    │
+│        └─ AnalyticsSubscriber   -> update dashboard                 │
+│                                                                      │
+│ failure path: retry -> DLQ (Dead Letter Queue) -> alert / replay    │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 핵심 구성 요소는 이벤트 계약(Event Contract), 채널(Topic/Channel), 전달 메커니즘, 구독자 처리기, 실패 처리다. 특히 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서는 "이벤트 이름"보다 이벤트 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)와 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)이 더 중요하다. 이벤트는 보통 과거형 사실(`OrderPlaced`, `PaymentFailed`)로 정의하고, 구독자는 이를 읽어 자기 책임 범위의 상태를 갱신한다. 이때 재시도와 중복 소비가 흔하므로, 구독 로직은 [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/)([Idempotency](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/194_idempotency/))을 확보해야 한다.
 
@@ -149,24 +149,22 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">직접 호출 기반 결합</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Observer / local event notification</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Event Bus / Publish-Subscribe</div>
-<div class="kb-diagram-tree-item" style="--depth:2">schema versioning</div>
-<div class="kb-diagram-tree-item" style="--depth:2">retry / DLQ</div>
-<div class="kb-diagram-tree-item" style="--depth:2">observability / correlation ID</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Event-Driven Architecture · CQRS 확장</div>
-</div>
-</div>
-
-
+```text
+직접 호출 기반 결합
+    │
+    ▼
+Observer / local event notification
+    │
+    ▼
+Event Bus / Publish-Subscribe
+    │
+    ├─ schema versioning
+    ├─ retry / DLQ
+    └─ observability / correlation ID
+    │
+    ▼
+Event-Driven Architecture · CQRS 확장
+```
 
 이 흐름은 알림 구조가 단순 객체 간 통지에서 시작해, 계약과 운영 체계를 갖춘 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 이벤트 아키텍처로 발전하는 과정을 보여 준다.
 

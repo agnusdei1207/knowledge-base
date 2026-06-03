@@ -25,21 +25,19 @@ CDC는 "원본 DB에 생긴 변화를 다른 시스템으로 언제, 얼마나 �
 
 아래 그림은 전통 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)와 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 기반 CDC의 차이를 보여 준다. 핵심은 CDC가 테이블을 반복 조회하는 것이 아니라, <strong>이미 DB가 쓰고 있는 커밋 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a>를 읽는다</strong>는 점이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전통 동기화 vs 로그 기반 CDC</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Polling / Batch</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Source DB ─▶ SELECT updated_at &gt; t ─▶ ETL ─▶ Target</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ full scan · delete 누락 · T+1 지연</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Log-based CDC</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">COMMIT ─▶ Binlog / WAL ─▶ Debezium ─▶ Kafka ─▶ Targets</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 순서 보존 · delete 캡처 · source 부하 최소화</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ 전통 동기화 vs 로그 기반 CDC                                  │
+├──────────────────────────────────────────────────────────────┤
+│ Polling / Batch                                               │
+│ Source DB ─▶ SELECT updated_at > t ─▶ ETL ─▶ Target          │
+│   └─ full scan · delete 누락 · T+1 지연                      │
+│                                                              │
+│ Log-based CDC                                                 │
+│ COMMIT ─▶ Binlog / WAL ─▶ Debezium ─▶ Kafka ─▶ Targets       │
+│   └─ 순서 보존 · delete 캡처 · source 부하 최소화            │
+└──────────────────────────────────────────────────────────────┘
+```
 
 그래서 CDC는 단순 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 기술이 아니라, 운영계 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 분석계·검색계·이벤트계로 안전하게 확장하는 연결 계층이다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어링 관점에서는 배치 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 줄이는 수단이고, [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) ([Machine Learning Operations](/knowledge-base/studynote/12_it_management/05_security_compliance/220_mlops_machine_learning_operations/)) 관점에서는 온라인·오프라인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 시간 차를 줄이는 기반이 된다.
 
@@ -61,21 +59,21 @@ Debezium 기반 [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keyw
 
 Debezium의 동작은 <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> <a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/">스냅샷</a></strong>과 <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a> 스트리밍</strong> 두 단계로 나뉜다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/)은 현재 테이블 상태를 한 번 읽어 기준선을 만들고, 이후부터는 Binlog/WAL에서 들어오는 변경만 계속 전송한다. 이때 Debezium은 마지막으로 읽은 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 위치를 저장해 재시작 뒤에도 이어서 읽을 수 있게 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Debezium 동작 단계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) Initial Snapshot</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Table Scan ─▶ op = r 이벤트 생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 현재 로그 위치 기록</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) Streaming Phase</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Binlog / WAL ─▶ op = c / u / d 이벤트 ─▶ Kafka Topic</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Offset 저장 후 재시작 복구</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ Debezium 동작 단계                                            │
+├──────────────────────────────────────────────────────────────┤
+│ 1) Initial Snapshot                                           │
+│    Table Scan ─▶ op = r 이벤트 생성                           │
+│                     │                                         │
+│                     └─ 현재 로그 위치 기록                    │
+│                                                              │
+│ 2) Streaming Phase                                            │
+│    Binlog / WAL ─▶ op = c / u / d 이벤트 ─▶ Kafka Topic      │
+│                     │                                         │
+│                     └─ Offset 저장 후 재시작 복구             │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이벤트 구조도 중요하다. Debezium 이벤트는 보통 `before`, `after`, `op`, `source`, `ts_ms` 정보를 가진다. `before/after`는 변경 전후 값을, `op`는 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)(Create)·수정(Update)·삭제(Delete)를, `source`는 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 위치와 테이블 정보를 나타낸다. 그래서 Sink는 "지금 상태가 무엇인가"뿐 아니라 "무슨 이유로 바뀌었는가"를 기준으로 반영 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 세울 수 있다.
 
@@ -168,24 +166,22 @@ CDC를 잘 도입하면 OLTP와 [Online Analytical Processing](/knowledge-base/s
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">OLTP 트랜잭션 커밋</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Binlog / WAL 기록</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Debezium CDC 이벤트 변환</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Kafka Topic 축적 · 재전송</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ DW / Lakehouse 적재</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ Search / Cache 동기화</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ Feature Store / Microservice 소비</div>
-</div>
-</div>
-
-
+```text
+OLTP 트랜잭션 커밋
+    │
+    ▼
+Binlog / WAL 기록
+    │
+    ▼
+Debezium CDC 이벤트 변환
+    │
+    ▼
+Kafka Topic 축적 · 재전송
+    │
+    ├─▶ DW / Lakehouse 적재
+    ├─▶ Search / Cache 동기화
+    └─▶ Feature Store / Microservice 소비
+```
 
 이 흐름은 테이블 복사 중심 사고에서, 변경 이벤트를 여러 소비자가 재사용하는 실시간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 파이프라인으로의 전환을 보여 준다.
 

@@ -18,20 +18,21 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">변경 관리 프로세스 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 변경 요청(RFC)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 영향 분석 (Impact Assessment)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 변경 승인 (CAB: Change Advisory Board)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 변경 구현 (Implementation)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 검토 및 종료 (PIR: Post-Implementation Review)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────┐
+│          변경 관리 프로세스 흐름                       │
+├──────────────────────────────────────────────────────┤
+│ 1. 변경 요청(RFC)                                    │
+│    ↓                                                 │
+│ 2. 영향 분석 (Impact Assessment)                     │
+│    ↓                                                 │
+│ 3. 변경 승인 (CAB: Change Advisory Board)            │
+│    ↓                                                 │
+│ 4. 변경 구현 (Implementation)                        │
+│    ↓                                                 │
+│ 5. 검토 및 종료 (PIR: Post-Implementation Review)    │
+└──────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/)는 건물 리모델링 허가 프로세스다. 임의로 벽을 허물면 건물이 무너질 수 있으니(장애), 설계 검토→허가→시공→검수 단계를 반드시 거친다.
 
@@ -114,23 +115,21 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">수동 변경 — 비공식 변경, 추적 불가</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ITSM 변경 관리 — CAB 중심 공식 프로세스</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Agile 변경 관리 — 스프린트 내 변경 통합</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DevOps/GitOps — CI/CD 기반 자동화 변경 관리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AI 위험 예측 — 변경 실패율 자동 예측·경보</div></div>
-</div>
-</div>
-
-
+```text
+[수동 변경 — 비공식 변경, 추적 불가]
+    │
+    ▼
+[ITSM 변경 관리 — CAB 중심 공식 프로세스]
+    │
+    ▼
+[Agile 변경 관리 — 스프린트 내 변경 통합]
+    │
+    ▼
+[DevOps/GitOps — CI/CD 기반 자동화 변경 관리]
+    │
+    ▼
+[AI 위험 예측 — 변경 실패율 자동 예측·경보]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

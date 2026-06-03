@@ -38,19 +38,20 @@ CXL은 메모리 병목을, [칩렛](/knowledge-base/studynote/01_computer_archi
 
 <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/">CXL</a> 계층 구조</strong>:
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">호스트 CPU</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CXL 패브릭 (PCIe 물리 계층)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CXL.io</div><div class="kb-diagram-cell">CXL.cache</div><div class="kb-diagram-cell">CXL.mem</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PCIe</div><div class="kb-diagram-cell">가속기(GPU)</div><div class="kb-diagram-cell">CXL 메모리 확장 카드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장치</div><div class="kb-diagram-cell">/FPGA/DPU</div><div class="kb-diagram-cell">(수백 GB DRAM 풀링)</div></div>
-</div>
-</div>
-
-
+```
+┌───────────────────────────────────────────────────────────┐
+│                    호스트 CPU                              │
+│  ┌──────────────────────────────────────────────────┐    │
+│  │          CXL 패브릭 (PCIe 물리 계층)               │    │
+│  │  CXL.io │ CXL.cache │ CXL.mem                    │    │
+│  └──┬─────────────┬────────────────────┬─────────────┘   │
+│     ↓             ↓                    ↓                  │
+│  ┌──────┐  ┌────────────┐    ┌─────────────────────┐     │
+│  │ PCIe │  │ 가속기(GPU) │    │ CXL 메모리 확장 카드 │     │
+│  │ 장치 │  │ /FPGA/DPU  │    │ (수백 GB DRAM 풀링)  │     │
+│  └──────┘  └────────────┘    └─────────────────────┘     │
+└───────────────────────────────────────────────────────────┘
+```
 
 | 기술 | 역할 | 핵심 특징 |
 |:---|:---|:---|

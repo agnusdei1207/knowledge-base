@@ -42,20 +42,23 @@ tags = ["studynote-ai"]
 
 아래 그림은 정책이 환경과 상호작용하며 업데이트되는 흐름을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정책 학습의 폐루프 (Closed Loop)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">정책 πθ</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">환경</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">보상 r_t</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다음 상태 s_t+1 ◀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">궤적 (Trajectory) 축적 ▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정책 경사 (Policy Gradient) 계산</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">θ 업데이트</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                정책 학습의 폐루프 (Closed Loop)             │
+├──────────────────────────────────────────────────────────────┤
+│ 상태 s_t ─▶ [정책 πθ] ─▶ 행동 a_t ─▶ [환경] ─▶ 보상 r_t     │
+│    ▲                        │                    │           │
+│    │                        └──── 다음 상태 s_t+1 ◀──────────┘
+│    │                                                        │
+│    └─────────────── 궤적 (Trajectory) 축적 ────────────────▶ │
+│                              │                               │
+│                              ▼                               │
+│                 정책 경사 (Policy Gradient) 계산             │
+│                              │                               │
+│                              ▼                               │
+│                        θ 업데이트                            │
+└──────────────────────────────────────────────────────────────┘
+```
 
 정책은 크게 두 형태로 나뉜다. 결정론적 정책 (Deterministic Policy)은 `a = π(s)`처럼 상태마다 하나의 행동을 바로 낸다. [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적 정책 (Stochastic Policy)은 `π(a|s)`처럼 행동 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포를 출력하므로, 불확실한 환경이나 [탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)이 중요한 문제에 유리하다. 예를 들어 로봇 팔의 미세 제어는 결정론적 정책이 유리할 수 있지만, 상대가 대응하는 게임 환경이나 인간 피드백 [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/) ([Reinforcement Learning from Human Feedback](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/), [RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/))처럼 다양한 반응을 다뤄야 하는 경우에는 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적 정책이 더 자연스럽다.
 
@@ -134,23 +137,23 @@ tags = ["studynote-ai"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">마르코프 결정 과정 (MDP)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">무작위 정책 · 정책 평가</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">정책 경사 (Policy Gradient)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 액터-크리틱 (Actor-Critic)</div>
-<div class="kb-diagram-note">PPO · 안정적 액터-크리틱 계열 기법</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">대규모 정책 최적화 · RLHF</div>
-</div>
-</div>
-
-
+```text
+마르코프 결정 과정 (MDP)
+    │
+    ▼
+무작위 정책 · 정책 평가
+    │
+    ▼
+정책 경사 (Policy Gradient)
+    │
+    ├─▶ 액터-크리틱 (Actor-Critic)
+    │        │
+    │        ▼
+    │   PPO · 안정적 액터-크리틱 계열 기법
+    │
+    ▼
+대규모 정책 최적화 · RLHF
+```
 
 이 흐름은 "행동 규칙 정의 → 직접 최적화 → 평가 결합 → 안정화 → 대규모 응용"으로 정책 개념이 확장되는 과정을 보여준다.
 

@@ -25,20 +25,19 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 포그가 세 계층 구조에서 맡는 역할을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Three-tier flow with fog</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Edge devices (1~10 ms) ──fan-in──▶ Fog node / micro DC (10~50 ms)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ local filtering / inference</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ local coordination / cache</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ uplink outage fallback</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Cloud region (50 ms+)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────┐
+│ Three-tier flow with fog                                                 │
+├──────────────────────────────────────────────────────────────────────────┤
+│ Edge devices (1~10 ms) ──fan-in──▶ Fog node / micro DC (10~50 ms)       │
+│                                     │                                    │
+│                                     ├─ local filtering / inference       │
+│                                     ├─ local coordination / cache        │
+│                                     └─ uplink outage fallback            │
+│                                     │                                    │
+│                                     └────────▶ Cloud region (50 ms+)     │
+└──────────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 핵심은 포그가 단순 중계 장치가 아니라는 점이다. 포그는 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/197_fan_in_fan_out/">팬인</a>(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/197_fan_in_fan_out/">Fan-in</a>)된 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 의미 있는 정보로 줄이고</strong>, 여러 엣지 장치를 함께 조율하며, 클라우드와의 연결이 흔들려도 현장을 계속 운영하게 만드는 완충지대다.
 
@@ -61,22 +60,24 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 포그 노드 내부에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어떤 흐름으로 처리되는지 요약한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Fog node hardware stack</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Southbound ports : PLC / sensor / camera / 5G / fieldbus</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Protocol adapters + message bus</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ CPU cluster : rules, containers, orchestration</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ GPU / NPU : video analytics, local inference</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ NVMe cache : buffering, local history</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Secure boot + TPM</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Northbound uplink : WAN / cloud API / object storage</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────┐
+│ Fog node hardware stack                                                  │
+├──────────────────────────────────────────────────────────────────────────┤
+│ Southbound ports : PLC / sensor / camera / 5G / fieldbus                │
+│        │                                                                  │
+│        ▼                                                                  │
+│ Protocol adapters + message bus                                           │
+│        │                                                                  │
+│        ├─ CPU cluster : rules, containers, orchestration                  │
+│        ├─ GPU / NPU   : video analytics, local inference                  │
+│        ├─ NVMe cache  : buffering, local history                          │
+│        └─ Secure boot + TPM                                               │
+│        │                                                                  │
+│        ▼                                                                  │
+│ Northbound uplink : WAN / cloud API / object storage                      │
+└──────────────────────────────────────────────────────────────────────────┘
+```
 
 여기서 중요한 것은 포그가 단순히 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 "모아두는" 장소가 아니라, [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 적응과 로컬 분석, 캐시, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 배포를 한 번에 수행한다는 사실이다. 그래서 포그 설계에서는 CPU 코어 수만 볼 것이 아니라, 남향 장치 수, 로컬 저장 지속 시간, 광역 네트워크 (WAN, Wide Area Network) 장애 시 자율 운전 시간을 함께 계산해야 한다.
 
@@ -148,23 +149,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">엣지 센서 · PLC</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">프로토콜 게이트웨이</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">포그 노드 / 마이크로 데이터센터</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">MEC · 현장 오케스트레이션</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 분석 · 중앙 제어 평면</div>
-</div>
-</div>
-
-
+```text
+엣지 센서 · PLC
+        │
+        ▼
+프로토콜 게이트웨이
+        │
+        ▼
+포그 노드 / 마이크로 데이터센터
+        │
+        ▼
+MEC · 현장 오케스트레이션
+        │
+        ▼
+클라우드 분석 · 중앙 제어 평면
+```
 
 이 흐름은 "연결만 하던 게이트웨이"가 "현장 계산과 조정을 맡는 지역 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)"로 커지는 진화를 보여 준다.
 

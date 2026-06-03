@@ -29,22 +29,16 @@ Helm은 이런 문제를 패키지화로 푼다. 템플릿은 재사용하고, �
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Chart</div>
-<div class="kb-diagram-tree-item" style="--depth:1">templates/</div>
-<div class="kb-diagram-tree-item" style="--depth:1">values.yaml</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Chart.yaml</div>
-<div class="kb-diagram-note">↓ render</div>
-<div class="kb-diagram-note">Rendered Kubernetes YAML</div>
-<div class="kb-diagram-note">↓ install / upgrade</div>
-<div class="kb-diagram-note">Kubernetes Cluster</div>
-</div>
-</div>
-
-
+```text
+Chart
+  ├─ templates/
+  ├─ values.yaml
+  └─ Chart.yaml
+        ↓ render
+Rendered Kubernetes YAML
+        ↓ install / upgrade
+Kubernetes Cluster
+```
 
 | 구성 요소 | 역할 |
 | :-- | :-- |
@@ -109,45 +103,33 @@ Helm은 "[쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Chart</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Templates / values.yaml</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Rendered Manifest</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Kubernetes Release</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Rollback / Versioning</div>
-</div>
-</div>
-
-
+```text
+Chart
+   ↓
+Templates / values.yaml
+   ↓
+Rendered Manifest
+   ↓
+Kubernetes Release
+   ↓
+Rollback / Versioning
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Raw YAML</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Helm Chart</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Release Management</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">OCI Registry</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">GitOps</div>
-</div>
-</div>
-
-
+```text
+Raw YAML
+   ↓
+Helm Chart
+   ↓
+Release Management
+   ↓
+OCI Registry
+   ↓
+GitOps
+```
 
 ---
 

@@ -18,22 +18,21 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LSTM 셀 구조 (Simplified)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">C_{t-1}</div><div class="kb-diagram-node">×f_t</div><div class="kb-diagram-node">+i_t·C̃</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">C_t</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Forget Gate Input Gate</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">f_t = σ(W_f·</div><div class="kb-diagram-node">h_{t-1}, x_t</div><div class="kb-diagram-note">)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">i_t = σ(W_i·</div><div class="kb-diagram-node">h_{t-1}, x_t</div><div class="kb-diagram-note">)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">C̃_t = tanh(W_c·</div><div class="kb-diagram-node">h_{t-1}, x_t</div><div class="kb-diagram-note">)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Output Gate ──▶ h_t = o_t · tanh(C_t)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">o_t = σ(W_o·</div><div class="kb-diagram-node">h_{t-1}, x_t</div><div class="kb-diagram-note">)</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    LSTM 셀 구조 (Simplified)                          │
+├───────────────────────────────────────────────────────┤
+│         C_{t-1} ───[×f_t]───[+i_t·C̃]───▶ C_t       │
+│                     ↑         ↑                       │
+│  Forget Gate ───────┘   Input Gate                    │
+│     f_t = σ(W_f·[h_{t-1}, x_t])                     │
+│     i_t = σ(W_i·[h_{t-1}, x_t])                     │
+│     C̃_t = tanh(W_c·[h_{t-1}, x_t])                 │
+│                                                       │
+│  Output Gate ──▶ h_t = o_t · tanh(C_t)               │
+│     o_t = σ(W_o·[h_{t-1}, x_t])                     │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: LSTM은 3개의 수문(게이트)이 있는 댐이다. Forget Gate는 오래된 물을 빼고, Input Gate는 새 물을 넣으며, Output Gate는 필요한 만큼만 방류한다.
 
@@ -101,23 +100,21 @@ LSTM은 1997년 발표 이후 20년간 시퀀스 모델의 왕좌를 지켰으�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">바닐라 RNN (1986) — 기울기 소실 문제</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LSTM (1997, Hochreiter &amp; Schmidhuber) — 게이트로 해결</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">GRU (2014, Cho) — LSTM 간소화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Transformer (2017) — 순환 제거, Attention</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">xLSTM (2024) — LSTM 현대화, Transformer 대안</div></div>
-</div>
-</div>
-
-
+```text
+[바닐라 RNN (1986) — 기울기 소실 문제]
+    │
+    ▼
+[LSTM (1997, Hochreiter & Schmidhuber) — 게이트로 해결]
+    │
+    ▼
+[GRU (2014, Cho) — LSTM 간소화]
+    │
+    ▼
+[Transformer (2017) — 순환 제거, Attention]
+    │
+    ▼
+[xLSTM (2024) — LSTM 현대화, Transformer 대안]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. LSTM은 3개의 <strong>수문(게이트)</strong>이 있는 댐이에요.

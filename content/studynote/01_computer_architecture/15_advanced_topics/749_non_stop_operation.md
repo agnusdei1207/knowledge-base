@@ -35,21 +35,21 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 Non-Stop 아키텍처가 "예비 장비를 세워 둔다" 수준을 넘어, <strong>실행 상태를 동시에 유지하고 문제 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a>만 떼어내는 방식</strong>임을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Non-Stop path: duplicate, compare, isolate, resync</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Input stream</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ CPU-A + Mem-A + I/O-A ──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ compare / vote ──▶ output</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ CPU-B + Mem-B + I/O-B ──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── fault detected ──▶ isolate bad module</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── spare or hot-swap module ─▶ state resync</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│        Non-Stop path: duplicate, compare, isolate, resync           │
+├──────────────────────────────────────────────────────────────────────┤
+│ Input stream                                                        │
+│    │                                                                 │
+│    ├──▶ CPU-A + Mem-A + I/O-A ──┐                                    │
+│    │                            ├──▶ compare / vote ──▶ output       │
+│    └──▶ CPU-B + Mem-B + I/O-B ──┘                                    │
+│                     │                                                 │
+│                     ├── fault detected ──▶ isolate bad module         │
+│                     │                                                 │
+│                     └── spare or hot-swap module ─▶ state resync      │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이때 중요한 것은 <strong>공유 자원의 최소화</strong>다. CPU만 두 개이고 메모리 컨트롤러나 전원 백플레인이 하나라면 숨은 [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) (Single Point of Failure, [SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))이 남는다. 그래서 고신뢰성 장비는 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 단위를 크게 잡아 프로세서, 메모리, I/O 경로, 전원 공급을 묶어서 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)하거나, 최소한 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 전파를 막는 격리 경계를 분명히 둔다.
 
@@ -79,7 +79,7 @@ tags = ["studynote-computer-architecture"]
 | 자원 효율 | 상대적으로 높음 | 중복 실행 비용 큼 |
 | 대표 대상 | 웹, 앱, 일반 업무 시스템 | 거래·제어·안전 임계 시스템 |
 
-또한 Non-Stop은 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/">카오스 엔지니어링</a> (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/">Chaos Engineering</a>)</strong> 이나 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/750_fault_injection_test/">결함 주입 테스트</a> (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/750_fault_injection_test/">Fault Injection Test</a>)</strong> 와 경쟁 개념이 아니라 상호보완 관계다. Non-Stop은 구조 자체를 만들고, Fault Injection은 그 구조가 정말로 무정전으로 버티는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하며, Chaos Engineering은 더 큰 운영 경계에서 다중 장애와 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 문화를 시험한다. 여기에 <strong>고장 모드 및 영향 분석 (Failure Mode and Effects Analysis, <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/752_fmea/">FMEA</a>)</strong> 를 결합하면 어떤 부품을 먼저 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)해야 하는지 우선순위를 잡을 수 있다.
+또한 Non-Stop은 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/">카오스 엔지니어링</a> (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/">Chaos 엔진ering</a>)</strong> 이나 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/750_fault_injection_test/">결함 주입 테스트</a> (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/750_fault_injection_test/">Fault Injection Test</a>)</strong> 와 경쟁 개념이 아니라 상호보완 관계다. Non-Stop은 구조 자체를 만들고, Fault Injection은 그 구조가 정말로 무정전으로 버티는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하며, Chaos 엔진ering은 더 큰 운영 경계에서 다중 장애와 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 문화를 시험한다. 여기에 <strong>고장 모드 및 영향 분석 (Failure Mode and Effects Analysis, <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/752_fmea/">FMEA</a>)</strong> 를 결합하면 어떤 부품을 먼저 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)해야 하는지 우선순위를 잡을 수 있다.
 
 특히 착각하기 쉬운 지점은 "액티브-액티브면 다 Non-Stop"이라는 오해다. 액티브-액티브는 처리 분산을 의미할 수 있지만, [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)이나 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 중 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 보존을 못 하면 장애 순간 사용자는 재시도나 롤백을 겪는다. Non-Stop은 <strong>동시 가동</strong>보다 <strong>연속 상태 보존</strong>이 더 중요한 기준이다.
 
@@ -136,28 +136,27 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단일 서버 + 수동 복구</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">고가용성 (High Availability, HA)</div>
-<div class="kb-diagram-note">: 장애 감지 후 전환</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">결함 허용 (Fault Tolerance, FT)</div>
-<div class="kb-diagram-note">: 중복 실행 · 상태 보존</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">무정전 운영 (Non-Stop Operation) 아키텍처</div>
-<div class="kb-diagram-note">: lockstep · mirrored I/O · hot swap</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 결함 주입 테스트 (Fault Injection Test)</div>
-<div class="kb-diagram-note">: 실제 무중단 동작 검증</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ FMEA / FTA 기반 신뢰성 설계</div>
-<div class="kb-diagram-note">: SPOF 제거 · 공통 원인 장애 분석</div>
-</div>
-</div>
-
-
+```text
+단일 서버 + 수동 복구
+    │
+    ▼
+고가용성 (High Availability, HA)
+: 장애 감지 후 전환
+    │
+    ▼
+결함 허용 (Fault Tolerance, FT)
+: 중복 실행 · 상태 보존
+    │
+    ▼
+무정전 운영 (Non-Stop Operation) 아키텍처
+: lockstep · mirrored I/O · hot swap
+    │
+    ├──▶ 결함 주입 테스트 (Fault Injection Test)
+    │     : 실제 무중단 동작 검증
+    │
+    └──▶ FMEA / FTA 기반 신뢰성 설계
+          : SPOF 제거 · 공통 원인 장애 분석
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

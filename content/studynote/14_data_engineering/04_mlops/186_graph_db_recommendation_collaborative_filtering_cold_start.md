@@ -23,10 +23,10 @@ tags = ["studynote-data-engineering"]
 
 ```
 추천 시스템의 비즈니스 임팩트:
-Netflix: 전체 시청의 80% 이상 추천 기반
-Amazon: 매출의 35% 추천 엔진 기여
-YouTube: 시청 시간의 70% 추천 콘텐츠
-Spotify: Discover Weekly - 주간 4,000만 명 활성 사용자
+  Netflix: 전체 시청의 80% 이상 추천 기반
+  Amazon: 매출의 35% 추천 엔진 기여
+  YouTube: 시청 시간의 70% 추천 콘텐츠
+  Spotify: Discover Weekly - 주간 4,000만 명 활성 사용자
 ```
 
 ### 1.2 추천 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)
@@ -39,7 +39,7 @@ Spotify: Discover Weekly - 주간 4,000만 명 활성 사용자
 | [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/) 기반 | 외부 지식 활용 | 설명 가능성 높음 |
 | 딥러닝 기반 | [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) + 신경망 | 복잡한 패턴 학습 |
 
-📢 **섹션 요약 비유**: [협업 필터링](/knowledge-base/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/)은 마치 영화 추천에서 "당신과 같은 영화를 좋아한 사람들이 이 영화도 좋아했어요"라는 구전() 방식이다. 처음 온 손님(신규 사용자)에게는 구전 정보가 없으니 추천이 어렵다.
+📢 **섹션 요약 비유**: [협업 필터링](/knowledge-base/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/)은 마치 영화 추천에서 "당신과 같은 영화를 좋아한 사람들이 이 영화도 좋아했어요"라는 구전(口傳) 방식이다. 처음 온 손님(신규 사용자)에게는 구전 정보가 없으니 추천이 어렵다.
 
 ---
 
@@ -47,70 +47,71 @@ Spotify: Discover Weekly - 주간 4,000만 명 활성 사용자
 
 ### 2.1 [협업 필터링](/knowledge-base/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/) (CF) 매트릭스 분해
 
+```
+사용자-아이템 평점 행렬 (User-Item Matrix):
 
+       영화A  영화B  영화C  영화D
+사용자1  5     4     ?     2
+사용자2  4     ?     3     ?
+사용자3  ?     5     4     1
+사용자4  2     3     ?     5
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">사용자-아이템 평점 행렬 (User-Item Matrix):</div>
-<div class="kb-diagram-note">영화A 영화B 영화C 영화D</div>
-<div class="kb-diagram-note">사용자1 5 4 ? 2</div>
-<div class="kb-diagram-note">사용자2 4 ? 3 ?</div>
-<div class="kb-diagram-note">사용자3 ? 5 4 1</div>
-<div class="kb-diagram-note">사용자4 2 3 ? 5</div>
-<div class="kb-diagram-note">매트릭스 분해 (Matrix Factorization):</div>
-<div class="kb-diagram-note">R ≈ P × Q^T</div>
-<div class="kb-diagram-note">R: 평점 행렬 (N×M)</div>
-<div class="kb-diagram-note">P: 사용자 잠재 벡터 (N×K) ← 사용자 선호 임베딩</div>
-<div class="kb-diagram-note">Q: 아이템 잠재 벡터 (M×K) ← 아이템 속성 임베딩</div>
-<div class="kb-diagram-note">K: 잠재 요인 수 (보통 50~300)</div>
-<div class="kb-diagram-note">최소화 목적 함수:</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">min Σ_{u,i} (r_ui - p_u · q_i)² + λ(</div><div class="kb-diagram-cell">p_u</div><div class="kb-diagram-cell">² +</div><div class="kb-diagram-cell">q_i</div><div class="kb-diagram-cell">²)</div></div>
-<div class="kb-diagram-note">→ SGD 또는 ALS (교대 최소 제곱)로 최적화</div>
-</div>
-</div>
+매트릭스 분해 (Matrix Factorization):
+  R ≈ P × Q^T
+  
+  R: 평점 행렬 (N×M)
+  P: 사용자 잠재 벡터 (N×K)  ← 사용자 선호 임베딩
+  Q: 아이템 잠재 벡터 (M×K)  ← 아이템 속성 임베딩
+  K: 잠재 요인 수 (보통 50~300)
 
-
+최소화 목적 함수:
+  min Σ_{u,i} (r_ui - p_u · q_i)² + λ(||p_u||² + ||q_i||²)
+  
+  → SGD 또는 ALS (교대 최소 제곱)로 최적화
+```
 
 ### 2.2 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) DB 기반 추천 아키텍처 (Neo4j)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Neo4j 기반 추천 그래프 스키마</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">(User:사용자1) ──</div><div class="kb-diagram-node">RATED:5</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">(Movie:영화A)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SIMILAR_TO</div><div class="kb-diagram-node">GENRE:액션</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">(User:사용자2) ──</div><div class="kb-diagram-node">RATED:4</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">(Movie:영화A)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">RATED:3</div><div class="kb-diagram-node">DIRECTED_BY</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Movie:영화C) (Director:감독명)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cypher 쿼리 (2-hop 추천):</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">MATCH (u:User {id:'사용자1'})-</div><div class="kb-diagram-node">:RATED</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">(m:Movie)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">←</div><div class="kb-diagram-node">:RATED</div><div class="kb-diagram-note">-(other:User)-</div><div class="kb-diagram-node">:RATED</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">(rec:Movie)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">WHERE NOT (u)-</div><div class="kb-diagram-node">:RATED</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">(rec)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RETURN rec, COUNT(*) AS score ORDER BY score DESC</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────┐
+│          Neo4j 기반 추천 그래프 스키마                      │
+│                                                           │
+│  (User:사용자1) ──[RATED:5]──→ (Movie:영화A)             │
+│       │                              │                   │
+│  [SIMILAR_TO]                   [GENRE:액션]              │
+│       │                              │                   │
+│  (User:사용자2) ──[RATED:4]──→ (Movie:영화A)             │
+│       │                              │                   │
+│  [RATED:3]                      [DIRECTED_BY]            │
+│       │                              │                   │
+│  (Movie:영화C)              (Director:감독명)             │
+│                                                           │
+│  Cypher 쿼리 (2-hop 추천):                                │
+│  MATCH (u:User {id:'사용자1'})-[:RATED]→(m:Movie)         │
+│       ←[:RATED]-(other:User)-[:RATED]→(rec:Movie)        │
+│  WHERE NOT (u)-[:RATED]→(rec)                            │
+│  RETURN rec, COUNT(*) AS score ORDER BY score DESC        │
+└──────────────────────────────────────────────────────────┘
+```
 
 ### 2.3 [GNN](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/) ([그래프 신경망](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/306_graph_neural_network_gnn/), [Graph Neural Network](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/)) 기반 추천
 
 ```
 GraphSAGE (Graph SAmple and aggreGatE) 추천:
 
-각 노드의 임베딩을 이웃 노드 정보로 업데이트:
-h_v^k = σ(W^k · CONCAT(h_v^{k-1}, MEAN(h_u^{k-1} for u in N(v))))
-
-여기서:
-- h_v^k: 레이어 k에서 노드 v의 임베딩
-- N(v): v의 이웃 노드 집합
-- σ: 활성화 함수 (ReLU)
-- W^k: 학습 가중치
+  각 노드의 임베딩을 이웃 노드 정보로 업데이트:
+  h_v^k = σ(W^k · CONCAT(h_v^{k-1}, MEAN(h_u^{k-1} for u in N(v))))
+  
+  여기서:
+  - h_v^k: 레이어 k에서 노드 v의 임베딩
+  - N(v): v의 이웃 노드 집합
+  - σ: 활성화 함수 (ReLU)
+  - W^k: 학습 가중치
 
 LightGCN 아키텍처:
-- 변환·비선형성 제거 → 순수 그래프 컨볼루션
-- 추천 시스템 특화 설계
-- 경량화로 대규모 e-커머스 적용 용이
+  - 변환·비선형성 제거 → 순수 그래프 컨볼루션
+  - 추천 시스템 특화 설계
+  - 경량화로 대규모 e-커머스 적용 용이
 ```
 
 | [GNN](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/) 모델 | 특징 | 적용 사례 |
@@ -128,29 +129,28 @@ LightGCN 아키텍처:
 
 ### 3.1 [콜드 스타트 문제](/knowledge-base/studynote/06_ict_convergence/05_data_science/347_cold_start_problem/)와 해결책
 
+```
+콜드 스타트 유형:
+┌────────────────────────────────────────────────────────┐
+│  유형 1: 신규 사용자 콜드 스타트                          │
+│    문제: 상호작용 기록 없음 → 협업 필터링 불가            │
+│    해결책:                                              │
+│    a) 온보딩 설문: 초기 선호도 수집 (5개 이상 선택)       │
+│    b) 인구통계 기반: 나이/성별/지역 유사 사용자 추천      │
+│    c) 인기도 기반: 글로벌 인기 아이템 우선 추천           │
+│    d) 지식 그래프: 외부 속성 기반 추천                   │
+└────────────────────────────────────────────────────────┘
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">콜드 스타트 유형:</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유형 1: 신규 사용자 콜드 스타트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문제: 상호작용 기록 없음 → 협업 필터링 불가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해결책:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">a) 온보딩 설문: 초기 선호도 수집 (5개 이상 선택)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">b) 인구통계 기반: 나이/성별/지역 유사 사용자 추천</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">c) 인기도 기반: 글로벌 인기 아이템 우선 추천</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">d) 지식 그래프: 외부 속성 기반 추천</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유형 2: 신규 아이템 콜드 스타트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문제: 평점 없는 신규 아이템 → 노출 기회 없음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해결책:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">a) 콘텐츠 기반 (CBF): 유사 아이템과 속성 매칭</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">b) 메타데이터 임베딩: 텍스트/이미지 속성 임베딩</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">c) 랜덤 탐색(Exploration): ε-greedy로 일부 노출</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">d) 그래프 연결: 카테고리/태그로 기존 그래프에 연결</div></div>
-</div>
-</div>
-
-
+┌────────────────────────────────────────────────────────┐
+│  유형 2: 신규 아이템 콜드 스타트                          │
+│    문제: 평점 없는 신규 아이템 → 노출 기회 없음           │
+│    해결책:                                              │
+│    a) 콘텐츠 기반 (CBF): 유사 아이템과 속성 매칭          │
+│    b) 메타데이터 임베딩: 텍스트/이미지 속성 임베딩         │
+│    c) 랜덤 탐색(Exploration): ε-greedy로 일부 노출       │
+│    d) 그래프 연결: 카테고리/태그로 기존 그래프에 연결     │
+└────────────────────────────────────────────────────────┘
+```
 
 ### 3.2 [협업 필터링](/knowledge-base/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/) vs 콘텐츠 기반 비교
 
@@ -167,22 +167,22 @@ LightGCN 아키텍처:
 ```
 멀티암드 밴딧 (Multi-Armed Bandit) 전략:
 
-ε-greedy:
-- 확률 ε: 무작위 탐색 (새 아이템 노출)
-- 확률 1-ε: 현재 최선 추천 (활용)
-- ε를 시간에 따라 감소시키는 ε-decay 전략
+  ε-greedy:
+    - 확률 ε: 무작위 탐색 (새 아이템 노출)
+    - 확률 1-ε: 현재 최선 추천 (활용)
+    - ε를 시간에 따라 감소시키는 ε-decay 전략
 
-UCB (Upper Confidence Bound):
-선택 기준: Q(a) + c × √(ln(t)/N(a))
-- Q(a): 현재 추정 가치
-- N(a): a 선택 횟수
-- t: 총 시도 횟수
-- 덜 탐색된 아이템에 높은 불확실성 보너스
+  UCB (Upper Confidence Bound):
+    선택 기준: Q(a) + c × √(ln(t)/N(a))
+    - Q(a): 현재 추정 가치
+    - N(a): a 선택 횟수
+    - t: 총 시도 횟수
+    - 덜 탐색된 아이템에 높은 불확실성 보너스
 
-톰슨 샘플링 (Thompson Sampling):
-- 베이지안 업데이트로 각 아이템 가치의 사후 분포 유지
-- 분포에서 샘플링해 추천 선택
-- 실시간 온라인 학습에 적합
+  톰슨 샘플링 (Thompson Sampling):
+    - 베이지안 업데이트로 각 아이템 가치의 사후 분포 유지
+    - 분포에서 샘플링해 추천 선택
+    - 실시간 온라인 학습에 적합
 ```
 
 📢 **섹션 요약 비유**: 탐색-활용 트레이드오프는 식당 선택과 같다. 항상 단골 식당(활용)만 가면 새로운 맛집(탐색)을 못 찾고, 항상 새 곳만 가면 맛없는 곳을 들를 위험이 있다. ε-greedy는 10번 중 1번은 무조건 새 식당을 시도하는 전략이다.
@@ -193,28 +193,28 @@ UCB (Upper Confidence Bound):
 
 ### 4.1 실시간 [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/) 아키텍처
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실시간 추천 시스템 통합 아키텍처</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이벤트 수집 레이어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 클릭/구매 → Kafka → Feature Store 업데이트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">배치 학습 레이어 (Batch)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Spark + ALS 행렬 분해 → 임베딩 생성 (하루 1회)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ GNN 학습 (LightGCN) → 모델 저장소</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">온라인 서빙 레이어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 요청 → 후보 생성 (ANN 검색, Faiss/HNSW)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 특성 추출 (Feature Store, Redis)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 랭킹 모델 (실시간 추론, ~10ms)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 비즈니스 필터 (재고, 광고 정책)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 최종 K개 추천 반환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">온라인 업데이트 (Online)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최근 상호작용 → 실시간 사용자 임베딩 업데이트 (EMA)</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────┐
+│            실시간 추천 시스템 통합 아키텍처                  │
+│                                                           │
+│  이벤트 수집 레이어                                        │
+│  사용자 클릭/구매 → Kafka → Feature Store 업데이트         │
+│                                                           │
+│  배치 학습 레이어 (Batch)                                  │
+│  Spark + ALS 행렬 분해 → 임베딩 생성 (하루 1회)            │
+│  → GNN 학습 (LightGCN) → 모델 저장소                     │
+│                                                           │
+│  온라인 서빙 레이어                                        │
+│  사용자 요청 → 후보 생성 (ANN 검색, Faiss/HNSW)           │
+│           → 특성 추출 (Feature Store, Redis)              │
+│           → 랭킹 모델 (실시간 추론, ~10ms)                 │
+│           → 비즈니스 필터 (재고, 광고 정책)                 │
+│           → 최종 K개 추천 반환                             │
+│                                                           │
+│  온라인 업데이트 (Online)                                  │
+│  최근 상호작용 → 실시간 사용자 임베딩 업데이트 (EMA)         │
+└──────────────────────────────────────────────────────────┘
+```
 
 ### 4.2 근사 최근접 이웃 ([ANN](/knowledge-base/studynote/05_database/06_dw_olap_trends/350_ann/)) 검색
 
@@ -229,16 +229,16 @@ UCB (Upper Confidence Bound):
 
 ```
 추천 시스템 설계 시 필수 언급:
-✓ 콜드 스타트 3가지 유형과 해결책 각각 명시
-✓ 배치 vs 온라인 업데이트 전략 선택 기준
-- 배치: 안정적 품질, 인프라 단순, 데이터 신선도 낮음
-- 온라인: 빠른 반응, 인프라 복잡, 실시간 개인화
-✓ 그래프 DB (Neo4j) + GNN (LightGCN/GraphSAGE)
-조합의 강점: 복잡한 관계 패턴 + 귀납적 추론
-✓ 탐색-활용 균형: ε-greedy 또는 UCB
-✓ ANN 검색으로 후보 생성 (수백만 아이템 중 수백 개 선별)
-✓ 추천 품질 지표: Precision@K, Recall@K, NDCG, MRR
-✓ A/B 테스트로 추천 효과 검증 (CTR, CVR)
+  ✓ 콜드 스타트 3가지 유형과 해결책 각각 명시
+  ✓ 배치 vs 온라인 업데이트 전략 선택 기준
+    - 배치: 안정적 품질, 인프라 단순, 데이터 신선도 낮음
+    - 온라인: 빠른 반응, 인프라 복잡, 실시간 개인화
+  ✓ 그래프 DB (Neo4j) + GNN (LightGCN/GraphSAGE)
+    조합의 강점: 복잡한 관계 패턴 + 귀납적 추론
+  ✓ 탐색-활용 균형: ε-greedy 또는 UCB
+  ✓ ANN 검색으로 후보 생성 (수백만 아이템 중 수백 개 선별)
+  ✓ 추천 품질 지표: Precision@K, Recall@K, NDCG, MRR
+  ✓ A/B 테스트로 추천 효과 검증 (CTR, CVR)
 ```
 
 📢 **섹션 요약 비유**: 실시간 추천 아키텍처는 마치 대형 서점의 두 가지 추천 방식을 결합한 것이다. 한 달에 한 번 편집장이 "이달의 추천도서 목록"을 만드는 것(배치 학습)과, 손님이 책을 집어들 때 점원이 실시간으로 "이 책과 함께 많이 사는 책"을 알려주는 것(온라인 업데이트)을 함께 운영한다.
@@ -260,15 +260,15 @@ UCB (Upper Confidence Bound):
 
 ```
 오프라인 평가:
-Precision@K = 추천 K개 중 실제 좋아한 것 / K
-Recall@K = 실제 좋아한 것 중 추천된 비율
-NDCG@K = 순위 가중 누적 이득 (관련성 + 순위)
-MRR = 첫 번째 관련 추천의 역순위 평균
+  Precision@K = 추천 K개 중 실제 좋아한 것 / K
+  Recall@K    = 실제 좋아한 것 중 추천된 비율
+  NDCG@K     = 순위 가중 누적 이득 (관련성 + 순위)
+  MRR        = 첫 번째 관련 추천의 역순위 평균
 
 온라인 평가:
-CTR = 추천 클릭 수 / 추천 노출 수
-CVR = 추천 클릭 후 구매 / 추천 클릭
-GMV = Gross Merchandise Volume (추천 기인 거래액)
+  CTR  = 추천 클릭 수 / 추천 노출 수
+  CVR  = 추천 클릭 후 구매 / 추천 클릭
+  GMV  = Gross Merchandise Volume (추천 기인 거래액)
 ```
 
 📢 **섹션 요약 비유**: [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)의 NDCG는 마치 보물찾기 게임에서 단순히 보물을 찾았냐 못 찾았냐가 아니라, 몇 번 시도만에 찾았냐를 점수로 매기는 것이다. 첫 번째 시도에 찾으면 최고 점수, 열 번째 시도에 찾으면 낮은 점수를 준다.
@@ -296,26 +296,23 @@ GMV = Gross Merchandise Volume (추천 기인 거래액)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">콘텐츠 기반 필터링 (아이템 특성 매칭)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">협업 필터링 (Collaborative Filtering)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">사용자 기반 CF: 유사 사용자 추천</div>
-<div class="kb-diagram-tree-item" style="--depth:0">아이템 기반 CF: 유사 아이템 추천</div>
-<div class="kb-diagram-tree-item" style="--depth:0">Matrix Factorization (SVD)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">그래프 기반 추천</div>
-<div class="kb-diagram-tree-item" style="--depth:0">그래프 DB (Neo4j): 관계 탐색 · 경로 분석</div>
-<div class="kb-diagram-tree-item" style="--depth:0">GNN (Graph Neural Network): 임베딩 학습</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">하이브리드 · Cold Start 해결: 메타 러닝 · Side Information</div>
-</div>
-</div>
-
-
+```text
+콘텐츠 기반 필터링 (아이템 특성 매칭)
+    │
+    ▼
+협업 필터링 (Collaborative Filtering)
+    ├─► 사용자 기반 CF: 유사 사용자 추천
+    ├─► 아이템 기반 CF: 유사 아이템 추천
+    └─► Matrix Factorization (SVD)
+    │
+    ▼
+그래프 기반 추천
+    ├─► 그래프 DB (Neo4j): 관계 탐색 · 경로 분석
+    └─► GNN (Graph Neural Network): 임베딩 학습
+    │
+    ▼
+하이브리드 · Cold Start 해결: 메타 러닝 · Side Information
+```
 2. <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/347_cold_start_problem/">콜드 스타트 문제</a></strong>는 처음 도서관에 온 학생에게는 이전 대출 기록이 없어서 "비슷한 취향의 친구"를 찾을 수 없어 추천이 어렵다는 문제예요—이때는 학생이 좋아하는 과목이나 작가(콘텐츠 기반)를 물어보는 것이 해결책이에요.
 3. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a> DB 추천</strong>은 마치 친구의 친구의 친구까지 연결된 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)망을 통해 "너와 3단계 연결된 사람도 이걸 좋아했어"라고 알려주는, 더 넓은 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)망을 활용하는 똑똑한 추천 방법이에요.
 

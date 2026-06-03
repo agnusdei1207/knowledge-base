@@ -26,18 +26,14 @@ tags = ["studynote-network"]
   - 멍청한 우체부(일반 [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)): "어? 우체통에 편지가 들어왔네? 무조건 동네 우체국(통신사)으로 보내야지!" (우체국에 갔더니 우체국 직원이 "야 이거 네가 담당하는 구역 집이잖아 미친놈아!" 하고 편지를 버림).
   - 똑똑한 우체부(헤어핀 [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)): "우체통을 열었더니 목적지가 내가 매일 배달하는 우리 집(내 공인 IP)이네? 굳이 우체국까지 갈 필요 없이 내가 그냥 문 밑으로 바로 쓱 밀어 넣어야지(U턴)!"
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Static NAT / Dynamic NAT…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">헤어핀 NAT</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ALG</div></div>
-</div>
-</div>
-
-
+```text
+[Static NAT / Dynamic NAT…]
+    │
+    ▼
+[헤어핀 NAT]
+    │
+    └──▶ [ALG]
+```
 
 - **📢 섹션 요약 비유**: ** 헤어핀 NAT는 여자의 머리에 꽂는 **"U자형 머리핀(Hairpin)"**과 완벽히 똑같은 모양입니다. 패킷이 공유기를 뚫고 인터넷(바깥)으로 나가지 못하고, 공유기 뱃속에서 180도 홱 꺾여서 다시 내부 방으로 되돌아오는 모습에서 유래했습니다.
 
@@ -57,24 +53,26 @@ tags = ["studynote-network"]
 3. 공유기는 즉시 내부 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)포워딩 테이블을 뒤져본다. "아, 내 IP의 80번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 들어오는 건 안방에 있는 [NAS](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/492_nas_network_attached_storage/)(`192.168.0.50`)로 주기로 규칙이 짜여 있지!"
 4. 공유기는 외부로 내보내려던 패킷의 핸들을 확 꺾어서, 목적지 IP를 `192.168.0.50`으로 지우개로 덮어쓰고(DNAT) 즉시 안방 랜선으로 던져준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">헤어핀 NAT의 내부 U턴 (Loopback) 도식</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">내 노트북</div><div class="kb-diagram-note">(1) 목적지: 211.x.x.x</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(192.168.0.10)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">공유기 (NAT/포트포워드)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 공인IP: 211.x.x.x</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(3) U턴! 꺾어라!! ◀─ (2)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">안방 NAS</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">(4) 목적지: 192.168.0.50</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(192.168.0.50)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 밖(인터넷)으로는 단 1바이트의 패킷도 나가지 않고 공유기 뱃속에서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모든 처리가 180도 꺾여(Hairpin) 이루어진다!</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                헤어핀 NAT의 내부 U턴 (Loopback) 도식            │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 내 노트북 ] ─────── (1) 목적지: 211.x.x.x ────────┐       │
+ │   (192.168.0.10)                                 │       │
+ │                                                  ▼       │
+ │                                    [ 공유기 (NAT/포트포워드) ] │
+ │                                     - 공인IP: 211.x.x.x    │
+ │                                                  │       │
+ │                                 (3) U턴! 꺾어라!! ◀─┘ (2)    │
+ │                                                  ▼       │
+ │   [ 안방 NAS ] ◀─────── (4) 목적지: 192.168.0.50 ───┘       │
+ │   (192.168.0.50)                                          │
+ │                                                             │
+ │   ▶ 밖(인터넷)으로는 단 1바이트의 패킷도 나가지 않고 공유기 뱃속에서    │
+ │     모든 처리가 180도 꺾여(Hairpin) 이루어진다!                 │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 헤어핀 NAT의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -128,19 +126,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: Static NAT / Dynamic NAT…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 헤어핀 NAT</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: ALG</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 대규모 주소 자동화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: Static NAT / Dynamic NAT…]
+    │
+    ▼
+[현재 개념: 헤어핀 NAT]
+    │
+    ├──▶ [확장 A: ALG]
+    └──▶ [확장 B: 대규모 주소 자동화]
+```
 
 헤어핀 NAT는 [Static NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/) / Dynamic [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)…에서 출발해 현재 메커니즘을 정교화하고, 이후 ALG와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

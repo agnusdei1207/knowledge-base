@@ -18,25 +18,20 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅰ. 개요 및 필요성
 
+```text
+지갑 키 계층:
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">지갑 키 계층:</div>
-<div class="kb-diagram-note">니모닉 (12~24 단어)</div>
-<div class="kb-diagram-note">BIP-39: PBKDF2(니모닉 + 패스프레이즈, 2048회 반복)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">마스터 시드 (512비트)</div>
-<div class="kb-diagram-note">BIP-32: HMAC-SHA512</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">마스터 키 쌍 (개인키 + 체인코드)</div>
-<div class="kb-diagram-note">BIP-44 파생 경로: m/44'/60'/0'/0/0</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">계정별 하위키 (이더리움 주소 수백만 개 생성 가능)</div>
-</div>
-</div>
-
-
+  니모닉 (12~24 단어)
+      │ BIP-39: PBKDF2(니모닉 + 패스프레이즈, 2048회 반복)
+      ▼
+  마스터 시드 (512비트)
+      │ BIP-32: HMAC-SHA512
+      ▼
+  마스터 키 쌍 (개인키 + 체인코드)
+      │ BIP-44 파생 경로: m/44'/60'/0'/0/0
+      ▼
+  계정별 하위키 (이더리움 주소 수백만 개 생성 가능)
+```
 
 - **📢 섹션 요약 비유**: 니모닉은 만능 마스터 열쇠 제조법이다. 12~24단어(제조법)만 있으면 같은 지갑의 모든 열쇠(계정)를 언제든 다시 만들 수 있다.
 
@@ -55,21 +50,16 @@ tags = ["studynote-ict-convergence"]
 
 ### BIP-39 니모닉 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 과정
 
+```text
+1. 128비트 난수 엔트로피 생성
+2. SHA256 해시의 앞 4비트를 체크섬으로 추가 → 132비트
+3. 11비트씩 분할 → 12개 인덱스
+4. BIP-39 단어 목록 (2048개) 매핑 → 12단어
+   예: "abandon abandon abandon ... about"
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">1. 128비트 난수 엔트로피 생성</div>
-<div class="kb-diagram-note">2. SHA256 해시의 앞 4비트를 체크섬으로 추가 → 132비트</div>
-<div class="kb-diagram-note">3. 11비트씩 분할 → 12개 인덱스</div>
-<div class="kb-diagram-note">4. BIP-39 단어 목록 (2048개) 매핑 → 12단어</div>
-<div class="kb-diagram-note">예: "abandon abandon abandon ... about"</div>
-<div class="kb-diagram-note">최종 니모닉:</div>
-<div class="kb-diagram-note">"witch collapse practice feed shame open despair creek road again ice least"</div>
-</div>
-</div>
-
-
+최종 니모닉:
+  "witch collapse practice feed shame open despair creek road again ice least"
+```
 
 - **📢 섹션 요약 비유**: BIP-39 니모닉은 매우 긴 숫자(개인키)를 외우기 쉬운 12단어로 바꾸는 것이다. 256자리 난수를 "사과 바나나 체리..."처럼 외우기 쉽게 변환한다.
 
@@ -105,19 +95,13 @@ tags = ["studynote-ict-convergence"]
 
 ### 니모닉 보안 실천
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">❌ 온라인 저장 (이메일, 클라우드) — 절대 금지</div>
-<div class="kb-diagram-note">❌ 사진 촬영 — 갤러리 해킹 위험</div>
-<div class="kb-diagram-note">✅ 종이에 수기 기록 → 내화·방수 금고 보관</div>
-<div class="kb-diagram-note">✅ 금속 각인 (Cryptosteel) → 물리적 복제본</div>
-<div class="kb-diagram-note">✅ 지리적 분산 보관 (2~3곳)</div>
-</div>
-</div>
-
-
+```text
+❌ 온라인 저장 (이메일, 클라우드) — 절대 금지
+❌ 사진 촬영 — 갤러리 해킹 위험
+✅ 종이에 수기 기록 → 내화·방수 금고 보관
+✅ 금속 각인 (Cryptosteel) → 물리적 복제본
+✅ 지리적 분산 보관 (2~3곳)
+```
 
 - **📢 섹션 요약 비유**: 멀티시그는 핵 발사 코드 2인 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 시스템이다. 한 사람(한 키)만으로는 발사([트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/))가 불가능하고, 2명 이상이 동시에 동의해야 한다.
 
@@ -149,25 +133,24 @@ MPC(Multi-Party Computation, 다자 계산) 지갑이 차세대 기술로 부상
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">페이퍼 월렛 — 개인키 프린트, 단순 보관</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HD 지갑 (BIP-32/39) — 니모닉 → 계층적 키 파생</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">하드웨어 지갑 — 오프라인 보안 서명 장치</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">멀티시그 — 다자 서명 기업 자산 관리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MPC 지갑 — 분산 키 계산, 기관 커스터디 표준</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AA (Account Abstraction) — 스마트 컨트랙트 기반 지갑</div></div>
-</div>
-</div>
-
-
+```text
+[페이퍼 월렛 — 개인키 프린트, 단순 보관]
+    │
+    ▼
+[HD 지갑 (BIP-32/39) — 니모닉 → 계층적 키 파생]
+    │
+    ▼
+[하드웨어 지갑 — 오프라인 보안 서명 장치]
+    │
+    ▼
+[멀티시그 — 다자 서명 기업 자산 관리]
+    │
+    ▼
+[MPC 지갑 — 분산 키 계산, 기관 커스터디 표준]
+    │
+    ▼
+[AA (Account Abstraction) — 스마트 컨트랙트 기반 지갑]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

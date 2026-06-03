@@ -23,22 +23,22 @@ tags = ["studynote-cloud"]
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 - **핵심 원리**: 무한 루프(Infinity Loop) 형태의 [지속적 피드백](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/022_continuous_feedback_telemetry/) 시스템 구축.
 
+```text
+[ DevOps Infinity Loop & Lifecycle ]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DevOps Infinity Loop &amp; Lifecycle</div></div>
-<div class="kb-diagram-note">(Plan) (Code) (Build) (Test)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Strategy</div><div class="kb-diagram-cell">Dev</div><div class="kb-diagram-cell">CI Tool</div><div class="kb-diagram-cell">QA/Test</div></div>
-<div class="kb-diagram-note">^</div>
-<div class="kb-diagram-note">&lt;&lt;&lt; Feedback Loop &gt;&gt;&gt; v</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Monitor</div><div class="kb-diagram-cell">Operate</div><div class="kb-diagram-cell">Deploy</div><div class="kb-diagram-cell">Release</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Metrics</div><div class="kb-diagram-cell">SRE</div><div class="kb-diagram-cell">CD Tool</div><div class="kb-diagram-cell">Artifact</div></div>
-<div class="kb-diagram-note">(Monitor) (Operate) (Deploy) (Release)</div>
-</div>
-</div>
-
-
+       (Plan)      (Code)      (Build)     (Test)
+    +---------+ +---------+ +---------+ +---------+
+    |         | |         | |         | |         |
+    | Strategy| | Dev     | | CI Tool | | QA/Test |
+    +---------+ +---------+ +---------+ +---------+
+          ^                                     |
+          |       <<< Feedback Loop >>>         v
+    +---------+ +---------+ +---------+ +---------+
+    | Monitor | | Operate | | Deploy  | | Release |
+    | Metrics | | SRE     | | CD Tool | | Artifact|
+    +---------+ +---------+ +---------+ +---------+
+      (Monitor)   (Operate)   (Deploy)    (Release)
+```
 
 - **주요 원칙**:
     1. <strong><a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/062_infrastructure_as_code/">Infrastructure as Code</a> (<a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/">IaC</a>)</strong>: 인프라 설정을 코드로 관리하여 재현성 확보.
@@ -56,7 +56,7 @@ tags = ["studynote-cloud"]
 
 ### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
 - **실무 적용**: 단순 [젠킨스](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/)([Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/)) 도입이 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)가 아님. '자동화' 이전에 팀 간의 '신뢰'와 '공통 지표([SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)/[SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/))' 수립이 선행되어야 함.
-- **기술사적 판단**: [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)는 현재 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)([Site Reliability Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/))와 플랫폼 엔지니어링으로 진화하고 있으며, [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 환경에서 기업의 경쟁력을 결정하는 핵심 역량(Core Competency)으로 정착됨.
+- **기술사적 판단**: [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)는 현재 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)([Site Reliability 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/))와 플랫폼 엔지니어링으로 진화하고 있으며, [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 환경에서 기업의 경쟁력을 결정하는 핵심 역량(Core Competency)으로 정착됨.
 
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
 - **기대효과**: 배포 빈도([Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/) Frequency) 증가, 변경 실패율([Change Failure Rate](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/025_change_failure_rate_cfr/)) 감소, 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간([MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/)) 단축.
@@ -65,28 +65,25 @@ tags = ["studynote-cloud"]
 ### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
 - **상위 개념**: [애자일 방법론](/knowledge-base/studynote/04_software_engineering/01_overview_principles/012_agile_methodology/), [클라우드 컴퓨팅](/knowledge-base/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/).
 - **하위 개념**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD, [IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/), [CALMS](/knowledge-base/studynote/15_devops_sre/05_devsecops/281_calms/), [Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/).
-- **연관 개념**: [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/), [DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/), [Platform Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/).
+- **연관 개념**: [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/), [DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/), [Platform 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/).
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 요리사(개발)와 배달원(운영)이 서로 화내지 않고 매일매일 맛있는 음식을 빨리 전해주는 법을 연구하는 거예요.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">사일로 조직 (Dev ↔ Ops 분리, 배포 지연)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DevOps: 문화 + 자동화 + 협업 (CI/CD · IaC)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SRE: 신뢰성 엔지니어링 (SLI/SLO · Error Budget)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Platform Engineering · DevSecOps · FinOps</div>
-</div>
-</div>
-
-
+```text
+사일로 조직 (Dev ↔ Ops 분리, 배포 지연)
+    │
+    ▼
+DevOps: 문화 + 자동화 + 협업 (CI/CD · IaC)
+    │
+    ▼
+SRE: 신뢰성 엔지니어링 (SLI/SLO · Error Budget)
+    │
+    ▼
+Platform Engineering · DevSecOps · FinOps
+```
 2. 예전에는 일주일에 한 번 배달했다면, 이제는 주문 즉시 요리하고 바로 배달(자동화)해요.
 3. 음식이 식었거나 맛이 없으면(장애) 같이 고민해서 더 맛있는 조리법을 찾아내요!
 

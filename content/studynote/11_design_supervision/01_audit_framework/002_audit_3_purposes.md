@@ -23,25 +23,25 @@ tags = ["design_supervision"]
 
 정보시스템 감리가 수행하는 수많은 점검 항목과 절차는 결국 단 세 가지의 근본적인 목적을 달성하기 위해 존재한다. 바로 **효과성(Effectiveness)**, **효율성(Efficiency)**, 그리고 <strong>안전성(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a>/Safeguard)</strong>이다.
 
-과거의 IT 프로젝트는 단순히 코드가 오류 없이 돌아가는 것([무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/))에만 집착했다. 그러나 IT가 기업 비즈니스의 보조 수단을 넘어 핵심 엔진(Core Engine)이 되면서, 시스템이 아무리 에러 없이 작동하더라도 당초 기대했던 매출 증대나 대국민 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 향상이라는 목적을 달성하지 못하면 철저히 실패한 사업으로 간주된다. 즉, "올바른 시스템을 구축했는가(효과성)"와 "시스템을 올바르게 구축했는가(효율성)", 그리고 "이 시스템은 외부 공격과 재난으로부터 끄떡없는가(안전성)"라는 다차원적인 질문에 동시에 답해야만 하는 시대가 도래한 것이다.
+과거의 IT 프로젝트는 단순히 코드가 오류 없이 돌아가는 것([무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/))에만 집착했다. 그러나 IT가 기업 비즈니스의 보조 수단을 넘어 핵심 엔진(Core 엔진)이 되면서, 시스템이 아무리 에러 없이 작동하더라도 당초 기대했던 매출 증대나 대국민 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 향상이라는 목적을 달성하지 못하면 철저히 실패한 사업으로 간주된다. 즉, "올바른 시스템을 구축했는가(효과성)"와 "시스템을 올바르게 구축했는가(효율성)", 그리고 "이 시스템은 외부 공격과 재난으로부터 끄떡없는가(안전성)"라는 다차원적인 질문에 동시에 답해야만 하는 시대가 도래한 것이다.
 
 다음 다이어그램은 감리의 3대 목적이 어떻게 IT 가치 창출을 떠받치는 기둥 역할을 하는지 보여주는 아키텍처 기반 도식이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">IT 투자 가치 실현 (Business Value)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">효과성</div><div class="kb-diagram-cell">효율성</div><div class="kb-diagram-cell">안전성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Effectiveness)</div><div class="kb-diagram-cell">(Efficiency)</div><div class="kb-diagram-cell">(Security)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 요구사항 충족</div><div class="kb-diagram-cell">- 자원 최적화</div><div class="kb-diagram-cell">- 기밀성/무결성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 비즈니스 목표 달성</div><div class="kb-diagram-cell">- 응답 성능</div><div class="kb-diagram-cell">- 재해 복구(DR)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"Do Right Things"</div><div class="kb-diagram-cell">"Do Things Right"</div><div class="kb-diagram-cell">"Protect Things"</div></div>
-<div class="kb-diagram-tree-item" style="--depth:3">정보시스템 감리 프레임워크</div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────┐
+│             [IT 투자 가치 실현 (Business Value)]       │
+└──────┬───────────────────────┬───────────────────────┬─┘
+       │                       │                       │
+┌──────┴──────┐         ┌──────┴──────┐         ┌──────┴──────┐
+│  효과성     │         │  효율성     │         │  안전성     │
+│(Effectiveness)        │(Efficiency) │         │ (Security)  │
+│ - 요구사항 충족       │ - 자원 최적화│         │ - 기밀성/무결성
+│ - 비즈니스 목표 달성  │ - 응답 성능 │         │ - 재해 복구(DR)
+│ "Do Right Things"     │ "Do Things Right"     │ "Protect Things"
+└─────────────┘         └─────────────┘         └─────────────┘
+       ▲                       ▲                       ▲
+       └────────────── 정보시스템 감리 프레임워크 ─────────┘
+```
 
 이 도식의 핵심은 세 가지 목적이 서로 직교(Orthogonal)하는 독립된 가치이면서도 동시에 상단에 있는 '비즈니스 가치 창출'이라는 하나의 거대한 지붕을 지탱한다는 점이다. 효과성은 나침반(방향)이고, 효율성은 엔진(속도)이며, 안전성은 브레이크([보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/))다. 어느 한 기둥이라도 부실하면 시스템 전체의 가치는 무너진다. 실무에서 감리인은 이 세 기둥의 하중 분포를 객관적 지표로 측정하여 발주자에게 보고해야 한다.
 
@@ -61,17 +61,13 @@ tags = ["design_supervision"]
 
 이 세 가지 목적을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하기 위한 감리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 수집과 처리 과정을 순차 흐름도로 살펴보면 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">요구사항 명세서</div><div class="kb-diagram-note">──(비교 대조)──&gt;</div><div class="kb-diagram-node">구현된 기능</div><div class="kb-diagram-connector">=====&gt;</div><div class="kb-diagram-node">효과성 평가: 100% 충족 여부</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">인프라/코드 아키텍처</div><div class="kb-diagram-note">──(부하 테스트/APM)──&gt;</div><div class="kb-diagram-node">성능 지표</div><div class="kb-diagram-connector">=====&gt;</div><div class="kb-diagram-node">효율성 평가: 자원 최적화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">자산 및 위협 모델</div><div class="kb-diagram-note">──(모의 해킹/취약점 스캔)──&gt;</div><div class="kb-diagram-node">보안 홀</div><div class="kb-diagram-connector">=====&gt;</div><div class="kb-diagram-node">안전성 평가: 리스크 대응력</div></div>
-</div>
-</div>
-
-
+```text
+[요구사항 명세서] ──(비교 대조)──> [구현된 기능] =====> [효과성 평가: 100% 충족 여부]
+                                                       │
+[인프라/코드 아키텍처] ──(부하 테스트/APM)──> [성능 지표] =====> [효율성 평가: 자원 최적화]
+                                                       │
+[자산 및 위협 모델] ──(모의 해킹/취약점 스캔)──> [보안 홀] =====> [안전성 평가: 리스크 대응력]
+```
 
 이 흐름도의 핵심은 각 목적을 달성하기 위해 전혀 다른 도구와 기법이 동원된다는 점이다. 효과성을 평가할 때는 눈으로 문서를 읽고 인터뷰하는 정성적/대조적 방식이 주를 이룬다. 반면 효율성을 평가할 때는 JMeter나 LoadRunner 같은 동적 [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/) 도구가 런타임 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 수치화한다. 마지막으로 안전성을 평가할 때는 [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/)/[DAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/) 정적/동적 스캐너와 해커의 시각을 빌린 모의 침투(Pen-test)가 가동된다. 따라서 감리 법인은 다양한 분야의 전문 인력(소프트웨어 전문가, DB 전문가, 보안 전문가)을 투입할 수밖에 없다.
 
@@ -93,21 +89,16 @@ tags = ["design_supervision"]
 
 이러한 상충 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 아키텍처 평가 방법론인 [ATAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/)([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Trade-off Analysis Method)의 관점에서 시각화하면 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">효율성 (성능/TPS)</div></div>
-<div class="kb-diagram-connector">▲</div>
-<div class="kb-diagram-note">╱ ╲</div>
-<div class="kb-diagram-note">╱ ╲ &lt;-- 상충점(Trade-off Point): 암호화 레벨을 올리면 성능이 하락</div>
-<div class="kb-diagram-note">╱ ╲</div>
-<div class="kb-diagram-note">╱ ╲</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">효과성 (기능)</div><div class="kb-diagram-node">안전성 (보안/기밀)</div></div>
-</div>
-</div>
-
-
+```text
+       [효율성 (성능/TPS)]
+             ▲
+            ╱ ╲
+           ╱   ╲  <-- 상충점(Trade-off Point): 암호화 레벨을 올리면 성능이 하락
+          ╱     ╲
+         ╱       ╲
+        ▼─────────▼
+[효과성 (기능)]     [안전성 (보안/기밀)]
+```
 
 이 삼각형(Trade-off Triangle)의 핵심은 시스템 설계가 제로섬([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)-sum) 게임의 성격을 지닌다는 점을 증명하는 것이다. 꼭짓점 중 하나로 설계를 강하게 당기면, 반대쪽 꼭짓점과의 거리는 멀어진다. 아키텍처 설계자는 [상충점](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/095_tradeoff_point_architecture_evaluation_atam_conflict/)([Trade-off Point](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/095_tradeoff_point_architecture_evaluation_atam_conflict/))을 찾아내고, 감리인은 이 타협이 비즈니스 요구에 부합하는 적정선인지([민감도점](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/094_sensitivity_point_architecture_tradeoff_control_knob/), [Sensitivity Point](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/094_sensitivity_point_architecture_tradeoff_control_knob/)) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 한다. 무조건적인 보안 강화나 무조건적인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 우선주의는 둘 다 감리 지적 대상이다.
 
@@ -131,22 +122,16 @@ tags = ["design_supervision"]
 *   **상황**: 내부망([망분리](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/)) 환경이라는 이유로 DB에 저장되는 주민등록번호와 비밀번호를 평문으로 저장한 채 종료 감리를 요청.
 *   **기술사적 판단**: 즉각적인 '부적합' 사유다. [개인정보보호법](/knowledge-base/studynote/09_security/16_data_privacy/783_pipa_korea/) 컴플라이언스는 [망분리](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/) 여부와 무관하게 안전성의 절대적 허들이다. 일방향(SHA-256) 해시 및 양방향(AES-256) 암호화와 솔팅([Salting](/knowledge-base/studynote/02_operating_system/10_security/605_password_salting_hash/)) 적용이 완료될 때까지 시스템 오픈을 차단해야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">감리 목적 진단 매트릭스 플로우</div></div>
-<div class="kb-diagram-note">1. 효과성 검증: RTM 매핑 확인 -&gt; (Fail) -&gt; 재구현 지시</div>
-<div class="kb-diagram-note">(Pass)</div>
-<div class="kb-diagram-note">2. 효율성 검증: 성능 목표(N초 이내) 달성? -&gt; (Fail) -&gt; 튜닝/스케일아웃 권고</div>
-<div class="kb-diagram-note">(Pass)</div>
-<div class="kb-diagram-note">3. 안전성 검증: 취약점 제로/암호화 확인? -&gt; (Fail) -&gt; 보안 패치 강제</div>
-<div class="kb-diagram-note">(Pass)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">최종 적합 판정 및 시스템 오픈 승인</div></div>
-</div>
-</div>
-
-
+```text
+[감리 목적 진단 매트릭스 플로우]
+ 1. 효과성 검증: RTM 매핑 확인 -> (Fail) -> 재구현 지시
+       │ (Pass)
+ 2. 효율성 검증: 성능 목표(N초 이내) 달성? -> (Fail) -> 튜닝/스케일아웃 권고
+       │ (Pass)
+ 3. 안전성 검증: 취약점 제로/암호화 확인? -> (Fail) -> 보안 패치 강제
+       │ (Pass)
+ [최종 적합 판정 및 시스템 오픈 승인]
+```
 
 이 의사결정 플로우의 핵심은 3대 목적이 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)(AND 조건)로 연결된 관문(Gateway)이라는 점이다. 하나라도 Fail이 발생하면 다음 단계로 넘어갈 수 없으며, 감리인은 철저한 게이트키퍼(Gatekeeper) 역할을 수행해야 한다.
 
@@ -180,23 +165,21 @@ tags = ["design_supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">ATAM (Architecture Trade-off Analysis Method)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">RTM (Requirements Traceability Matrix)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">성능 테스트 (Load Testing)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시큐어 코딩 (Secure Coding)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">TCO (Total Cost of Ownership)</div></div>
-</div>
-</div>
-
-
+```text
+[ATAM (Architecture Trade-off Analysis Method)]
+    │
+    ▼
+[RTM (Requirements Traceability Matrix)]
+    │
+    ▼
+[성능 테스트 (Load Testing)]
+    │
+    ▼
+[시큐어 코딩 (Secure Coding)]
+    │
+    ▼
+[TCO (Total Cost of Ownership)]
+```
 
 이 흐름도는 [ATAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/) ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Trade-off Analysis Method)에서 출발해 [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/) (Total Cost of Ownership)까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

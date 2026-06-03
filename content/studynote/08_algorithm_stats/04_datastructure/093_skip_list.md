@@ -20,19 +20,13 @@ tags = ["studynote-algorithm"]
 
 [스킵 리스트](/knowledge-base/studynote/12_it_management/02_itsm_itil/067_skip_list/)([Skip List](/knowledge-base/studynote/12_it_management/03_ea_isp/110_skip_list/))는 <strong>William Pugh(1990)</strong>가 제안한 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적 자료구조다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">레벨 3: HEAD 25 NULL</div>
-<div class="kb-diagram-note">레벨 2: HEAD 10 25 40 NULL</div>
-<div class="kb-diagram-note">레벨 1: HEAD ── 5 ── 10 ── 15 25 ── 35 ── 40 ── NULL</div>
-<div class="kb-diagram-note">레벨 0: HEAD ── 5 ── 10 ── 15 ── 20 ── 25 ── 30 ── 35 ── 40 ── NULL</div>
-<div class="kb-diagram-note">(기본 연결 리스트)</div>
-</div>
-</div>
-
-
+```
+레벨 3: HEAD ──────────────────────── 25 ──────────── NULL
+레벨 2: HEAD ──────── 10 ──────────── 25 ──── 40 ───── NULL
+레벨 1: HEAD ── 5 ── 10 ── 15 ────── 25 ── 35 ── 40 ── NULL
+레벨 0: HEAD ── 5 ── 10 ── 15 ── 20 ── 25 ── 30 ── 35 ── 40 ── NULL
+            (기본 연결 리스트)
+```
 
 ### 핵심 특성
 
@@ -65,19 +59,13 @@ def search(skip_list, target):
 
 ### 탐색 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">15를 검색:</div>
-<div class="kb-diagram-note">레벨 3: HEAD → (25 초과 → 하강)</div>
-<div class="kb-diagram-note">레벨 2: HEAD → 10 → (25 초과 → 하강)</div>
-<div class="kb-diagram-note">레벨 1: HEAD → 10 → 15 발견 → 레벨 0 확인 → ✓</div>
-<div class="kb-diagram-note">비교 횟수: 4회 (전체 9개 노드 중 44%)</div>
-</div>
-</div>
-
-
+```
+15를 검색:
+레벨 3: HEAD → (25 초과 → 하강)
+레벨 2: HEAD → 10 → (25 초과 → 하강)
+레벨 1: HEAD → 10 → 15 발견 → 레벨 0 확인 → ✓
+비교 횟수: 4회 (전체 9개 노드 중 44%)
+```
 
 📢 **섹션 요약 비유**: [스킵 리스트](/knowledge-base/studynote/12_it_management/02_itsm_itil/067_skip_list/) 탐색은 대도시 여행 계획이다 — 고속버스(레벨 3)로 큰 도시까지 가고, 시내버스(레벨 1)로 동네까지, 걷기(레벨 0)로 목적지 찾기.
 
@@ -139,21 +127,17 @@ def search(skip_list, target):
 
 ### [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) ZADD/ZRANGE 구현
 
+```
+ZADD scores 90 "Alice"    → 스킵 리스트에 (key=Alice, score=90) 삽입
+ZADD scores 85 "Bob"
+ZADD scores 95 "Carol"
 
+ZRANGE scores 0 -1 WITHSCORES
+  → ["Bob" 85, "Alice" 90, "Carol" 95]  // O(k+log n)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">ZADD scores 90 "Alice" → 스킵 리스트에 (key=Alice, score=90) 삽입</div>
-<div class="kb-diagram-note">ZADD scores 85 "Bob"</div>
-<div class="kb-diagram-note">ZADD scores 95 "Carol"</div>
-<div class="kb-diagram-note">ZRANGE scores 0 -1 WITHSCORES</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">"Bob" 85, "Alice" 90, "Carol" 95</div><div class="kb-diagram-note">// O(k+log n)</div></div>
-<div class="kb-diagram-note">ZRANGEBYSCORE scores 85 95</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">"Bob", "Alice", "Carol"</div><div class="kb-diagram-note">// 범위 검색</div></div>
-</div>
-</div>
-
-
+ZRANGEBYSCORE scores 85 95
+  → ["Bob", "Alice", "Carol"]           // 범위 검색
+```
 
 <strong>Redis가 <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/067_skip_list/">스킵 리스트</a>를 선택한 이유</strong>:
 1. 범위 검색이 O(k+log n)으로 효율적
@@ -166,53 +150,46 @@ def search(skip_list, target):
 
 ## 📌 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">스킵 리스트 (Skip List)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">구조</div>
-<div class="kb-diagram-note">── 다중 레벨 연결 리스트</div>
-<div class="kb-diagram-note">── 확률적 높이 결정 (동전 던지기)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">연산</div>
-<div class="kb-diagram-note">── 탐색 O(log n) 평균</div>
-<div class="kb-diagram-note">── 삽입 O(log n) 평균</div>
-<div class="kb-diagram-note">── 삭제 O(log n) 평균</div>
-<div class="kb-diagram-tree-item" style="--depth:0">비교 대상</div>
-<div class="kb-diagram-note">── AVL 트리 (결정적 균형)</div>
-<div class="kb-diagram-note">── 레드-블랙 트리 (결정적)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">실제 사용</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Redis Sorted Set (zset)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">LevelDB MemTable</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Lock-free 동시성 자료구조</div>
-</div>
-</div>
-
-
+```
+스킵 리스트 (Skip List)
+├── 구조
+│   ├── 다중 레벨 연결 리스트
+│   └── 확률적 높이 결정 (동전 던지기)
+├── 연산
+│   ├── 탐색 O(log n) 평균
+│   ├── 삽입 O(log n) 평균
+│   └── 삭제 O(log n) 평균
+├── 비교 대상
+│   ├── AVL 트리 (결정적 균형)
+│   └── 레드-블랙 트리 (결정적)
+└── 실제 사용
+    ├── Redis Sorted Set (zset)
+    ├── LevelDB MemTable
+    └── Lock-free 동시성 자료구조
+```
 
 ---
 
 ## 📈 관련 키워드 및 발전 흐름도
 
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                스킵 리스트 발전 흐름                             │
+├──────────────┬────────────────────┬─────────────────────────────┤
+│ 1990년       │ Pugh 논문 발표     │ "Skip Lists: A Probabilistic"│
+│ 2006년       │ Redis Sorted Set   │ 실제 프로덕션 적용 표준화   │
+│ 2010년대     │ LevelDB / RocksDB  │ MemTable 구현에 사용         │
+│ 2013년       │ Lock-free 스킵 리스트 │ 동시성 데이터 구조 연구  │
+│ 2020년대     │ 분산 인덱스        │ Cassandra 파티션 인덱스       │
+└──────────────┴────────────────────┴─────────────────────────────┘
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스킵 리스트 발전 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1990년</div><div class="kb-diagram-cell">Pugh 논문 발표</div><div class="kb-diagram-cell">"Skip Lists: A Probabilistic"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2006년</div><div class="kb-diagram-cell">Redis Sorted Set</div><div class="kb-diagram-cell">실제 프로덕션 적용 표준화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2010년대</div><div class="kb-diagram-cell">LevelDB / RocksDB</div><div class="kb-diagram-cell">MemTable 구현에 사용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2013년</div><div class="kb-diagram-cell">Lock-free 스킵 리스트</div><div class="kb-diagram-cell">동시성 데이터 구조 연구</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2020년대</div><div class="kb-diagram-cell">분산 인덱스</div><div class="kb-diagram-cell">Cassandra 파티션 인덱스</div></div>
-<div class="kb-diagram-note">핵심 키워드 연결:</div>
-<div class="kb-diagram-note">연결 리스트 → 다중 레벨 → 스킵 리스트 → Redis Sorted Set</div>
-<div class="kb-diagram-note">O(n) 탐색 O(log n) 평균 ZADD/ZRANGE</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">AVL/RB 트리와 성능 동등 → 병렬 처리 우위</div>
-</div>
-</div>
-
-
+핵심 키워드 연결:
+연결 리스트 → 다중 레벨 → 스킵 리스트 → Redis Sorted Set
+    ↓               ↓             ↓
+O(n) 탐색      O(log n) 평균  ZADD/ZRANGE
+    ↓
+AVL/RB 트리와 성능 동등 → 병렬 처리 우위
+```
 
 ---
 

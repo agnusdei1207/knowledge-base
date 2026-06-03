@@ -45,19 +45,21 @@ LinuxBoot는 보통 Coreboot나 일부 [UEFI](/knowledge-base/studynote/01_compu
 
 아래 그림은 Coreboot와 LinuxBoot가 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)를 어떻게 잘게 나누는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Open firmware boot path</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Flash ROM</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">bootblock</div><div class="kb-diagram-cell">romstage</div><div class="kb-diagram-cell">ramstage</div><div class="kb-diagram-cell">payload</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU entry Cache-as-RAM DRAM init LinuxBoot / UEFI</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">kexec or OS bootloader</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│                 Open firmware boot path                           │
+├────────────────────────────────────────────────────────────────────┤
+│ Flash ROM                                                         │
+│  ┌──────────┬──────────┬──────────┬─────────────────────────────┐  │
+│  │bootblock │romstage  │ramstage  │payload                      │  │
+│  └────┬─────┴────┬─────┴────┬─────┴──────────────┬─────────────┘  │
+│       ▼          ▼          ▼                    ▼                │
+│   CPU entry   Cache-as-RAM DRAM init        LinuxBoot / UEFI      │
+│                                                  │                │
+│                                                  ▼                │
+│                                         kexec or OS bootloader    │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 중요한 점은 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)가 "모든 코드를 처음부터 새로 쓰자"가 아니라, 가장 위험하고 불투명한 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 부팅 경로를 작고 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능한 단위로 줄이자는 데 있다는 점이다. 그래서 실제 제품에서는 칩 제조사가 제공하는 메모리 트레이닝 바이너리를 일부 포함하더라도, 전체 흐름과 payload 선택권을 운영자가 더 많이 가져가는 쪽으로 설계가 이동한다.
 
@@ -137,25 +139,24 @@ LinuxBoot는 보통 Coreboot나 일부 [UEFI](/knowledge-base/studynote/01_compu
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">폐쇄형 BIOS · 벤더 UEFI 중심 초기 부팅</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">필수 초기화 코드 최소화 요구</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Coreboot staged boot</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">payload 선택 구조 확장</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">LinuxBoot + 리눅스 도구 기반 자동화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">measured boot · 대규모 서버 fleet 제어</div>
-</div>
-</div>
-
-
+```text
+폐쇄형 BIOS · 벤더 UEFI 중심 초기 부팅
+    │
+    ▼
+필수 초기화 코드 최소화 요구
+    │
+    ▼
+Coreboot staged boot
+    │
+    ▼
+payload 선택 구조 확장
+    │
+    ▼
+LinuxBoot + 리눅스 도구 기반 자동화
+    │
+    ▼
+measured boot · 대규모 서버 fleet 제어
+```
 
 이 흐름은 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)가 "숨겨진 블랙박스"에서 "운영 가능한 소프트웨어 계층"으로 이동하는 방향을 보여준다.
 

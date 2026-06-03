@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 앞선 726번 문서에서, 해커가 성공적으로 웹사이트에 악성 자바스크립트 코드(`<script> ... </script>`)를 심어두면, 접속한 사용자의 브라우저에서 이 코드가 실행됩니다.
 - 이때 해커의 코드는 자바스크립트의 기본 기능인 <strong><code>document.cookie</code></strong>라는 내장 명령어를 딱 한 줄만 실행합니다. 이 명령어가 실행되면 현재 브라우저에 저장된 내 네이버 아이디 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/), 은행 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)가 텍스트 형태로 툭 튀어나옵니다. 해커는 이걸 자기 서버로 쓱 날려버리면 끝입니다([세션 하이재킹](/knowledge-base/studynote/03_network/14_network_security_threats/707_session_hijacking_tcp_seq_cookie/)).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">무차별 대입 공격 통신 로그인/SSH 타격</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">XSS 방어 HttpOnly 쿠키 속성 설정…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">크로스 사이트 스크립팅 (XSS</div></div>
-</div>
-</div>
-
-
+```text
+[무차별 대입 공격 통신 로그인/SSH 타격]
+    │
+    ▼
+[XSS 방어 HttpOnly 쿠키 속성 설정…]
+    │
+    └──▶ [크로스 사이트 스크립팅 (XSS]
+```
 
 - **📢 섹션 요약 비유**: [XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/) 방어 HttpOnly [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/) [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -45,18 +41,14 @@ tags = ["studynote-network"]
 - <strong>입력값 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>(<a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">Validation</a>)</strong>: 사용자가 게시판에 글을 쓸 때 꺾쇠 괄호 `<`나 `>` 같은 특수문자를 아예 못 쓰게 막아버립니다.
 - **HTML 인코딩 (치환)**: 사용자가 억지로 `<script>`라고 치면, 서버는 이를 `&lt;script&gt;` 같은 무의미한 텍스트 기호로 싹 다 강제 변환해서 DB에 저장합니다. 나중에 다른 사람이 그 글을 봐도 브라우저는 이를 실행 코드가 아닌 단순한 "글자"로 인식해 악성 행위가 차단됩니다. (보안 코딩의 기초)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">무차별 대입 공격 통신 로그인/SSH 타격</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">XSS 방어 HttpOnly 쿠키 속성 설정…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">크로스 사이트 스크립팅 (XSS</div></div>
-</div>
-</div>
-
-
+```text
+[무차별 대입 공격 통신 로그인/SSH 타격]
+    │
+    ▼
+[XSS 방어 HttpOnly 쿠키 속성 설정…]
+    │
+    └──▶ [크로스 사이트 스크립팅 (XSS]
+```
 
 - **📢 섹션 요약 비유**: [XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/) 방어 HttpOnly [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/) [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -121,19 +113,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 무차별 대입 공격 통신 로그인/SSH 타격</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: XSS 방어 HttpOnly 쿠키 속성 설정…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 크로스 사이트 스크립팅 (XSS</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 무차별 대입 공격 통신 로그인/SSH 타격]
+    │
+    ▼
+[현재 개념: XSS 방어 HttpOnly 쿠키 속성 설정…]
+    │
+    ├──▶ [확장 A: 크로스 사이트 스크립팅 (XSS]
+    └──▶ [확장 B: 예측형 위협 대응]
+```
 
 [XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/) 방어 HttpOnly [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/) [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)…는 무차별 대입 공격 통신 로그인/[SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 타격에서 출발해 현재 메커니즘을 정교화하고, 이후 [크로스 사이트 스크립팅](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/500_xss_defense_escaping_csp/) (XSS와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

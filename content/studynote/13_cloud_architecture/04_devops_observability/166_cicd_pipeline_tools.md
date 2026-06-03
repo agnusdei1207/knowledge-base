@@ -20,23 +20,22 @@ tags = ["studynote-cloud"]
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 도구는 중앙 제어(Controller/Master)와 실제 작업을 수행하는 실행기(Agent/Runner) 구조로 이루어진다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Developer</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Source Repo (Git)</div></div>
-<div class="kb-diagram-note">v (Webhook)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CI/CD Tool Controller</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Workflow Orchestrator / Pipeline definitions (.yml)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Dispatch Job)</div><div class="kb-diagram-cell">(Dispatch Job)</div></div>
-<div class="kb-diagram-note">v v</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Build Agent 1</div><div class="kb-diagram-node">Deploy Runner 2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Compile &amp; Test</div><div class="kb-diagram-cell">- K8s Deployment</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Containerize (Build)</div><div class="kb-diagram-cell">- Security Scanning</div></div>
-</div>
-</div>
-
-
+```text
+[ Developer ] --(Push)--> [ Source Repo (Git) ]
+                                |
+                                v (Webhook)
++-----------------------------------------------------------+
+|               [ CI/CD Tool Controller ]                   |
+|  - Workflow Orchestrator / Pipeline definitions (.yml)    |
++-----------------------------------------------------------+
+          | (Dispatch Job)         | (Dispatch Job)
+          v                        v
++----------------------+   +----------------------+
+| [ Build Agent 1 ]    |   | [ Deploy Runner 2 ]  |
+| - Compile & Test     |   | - K8s Deployment     |
+| - Containerize (Build)   | - Security Scanning  |
++----------------------+   +----------------------+
+```
 
 1. **Trigger**: Git Push, [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 일정 예약(Schedule) 등 특정 이벤트가 발생하면 파이프라인이 시작된다.
 2. <strong><a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/072_declarative_pipeline_jenkinsfile_as_code/">Pipeline as Code</a></strong>: 배포 절차를 `Jenkinsfile`, `.gitlab-ci.yml`, `action.yml` 등 코드로 작성하여 형상 관리한다.
@@ -68,21 +67,17 @@ tags = ["studynote-cloud"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">수동 빌드 · 수동 배포 (느림 · 오류)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CI/CD 도구: Jenkins · GitHub Actions · GitLab CI · ArgoCD</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Pipeline as Code: YAML 선언적 정의</div>
-<div class="kb-diagram-tree-item" style="--depth:2">아티팩트 관리: Nexus · Harbor · ECR</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">GitOps: Git 단일 진실 소스 → 자동 동기화</div>
-</div>
-</div>
-
-
+```text
+수동 빌드 · 수동 배포 (느림 · 오류)
+    │
+    ▼
+CI/CD 도구: Jenkins · GitHub Actions · GitLab CI · ArgoCD
+    ├─► Pipeline as Code: YAML 선언적 정의
+    └─► 아티팩트 관리: Nexus · Harbor · ECR
+    │
+    ▼
+GitOps: Git 단일 진실 소스 → 자동 동기화
+```
 - "먼저 나사를 조이고, 그다음에 색칠을 하고, 마지막으로 상자에 넣어!"라고 순서를 정해주죠.
 - 공장장님이 시키는 대로 기계들이 알아서 척척 만들어주니까 실수가 없는 멋진 공장이 된답니다.
 

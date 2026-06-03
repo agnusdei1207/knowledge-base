@@ -36,24 +36,28 @@ tags = ["studynote-operating-system"]
   - 1990년대 후반 VMware가 x86 환경 아키텍처의 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 난제를 소프트웨어적 이진 변환(Binary Translation)으로 풀어내며 x86 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 시장이 폭발.
   - 이후 Intel/AMD가 하드웨어 차원의 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 추가하며 클라우드 시대로 폭발적 성장.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물리 서버 환경 vs 하이퍼바이저 가상화 환경</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전통적 물리 서버 (1:1 매핑)</div><div class="kb-diagram-node">가상화된 서버 환경 (1:N 매핑)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App</div><div class="kb-diagram-cell">App</div><div class="kb-diagram-cell">App</div><div class="kb-diagram-cell">App</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Windows OS</div><div class="kb-diagram-cell">Win</div><div class="kb-diagram-cell">Linux</div><div class="kb-diagram-cell">UNIX</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하드웨어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(CPU 15%사용)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하이퍼바이저 (VMM)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버 1대당 OS 1개, 낭비 심함</div><div class="kb-diagram-cell">물리 하드웨어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(CPU 90% 활용)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하이퍼바이저가 하드웨어 자원을 쪼개 배분</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │                 물리 서버 환경 vs 하이퍼바이저 가상화 환경            │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │  [ 전통적 물리 서버 (1:1 매핑) ]      [ 가상화된 서버 환경 (1:N 매핑) ]│
+  │  ┌─────────────┐               ┌──────┐  ┌──────┐  ┌──────┐ │
+  │  │ App         │               │ App  │  │ App  │  │ App  │ │
+  │  ├─────────────┤               ├──────┤  ├──────┤  ├──────┤ │
+  │  │ Windows OS  │               │ Win  │  │ Linux│  │ UNIX │ │
+  │  ├─────────────┤               └──────┘  └──────┘  └──────┘ │
+  │  │             │                   ▲         ▲         ▲      │
+  │  │ 하드웨어     │                   │         │         │      │
+  │  │ (CPU 15%사용)│               ┌───────────────────────────┐ │
+  │  └─────────────┘               │       하이퍼바이저 (VMM)     │ │
+  │                                ├───────────────────────────┤ │
+  │  서버 1대당 OS 1개, 낭비 심함         │         물리 하드웨어        │ │
+  │                                │         (CPU 90% 활용)   │ │
+  │                                └───────────────────────────┘ │
+  │                                하이퍼바이저가 하드웨어 자원을 쪼개 배분 │
+  └─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 환경에서는 하드웨어 바로 위(또는 Host OS 위)에 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 계층이 삽입된다. [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)는 각 가상 머신(Guest OS)에게 "너 혼자 물리 CPU와 물리 메모리를 다 쓰고 있어"라는 환상(Illusion)을 심어준다. 여러 Guest OS가 동시에 특정 하드웨어(예: 네트워크 카드)를 쓰려고 할 때 발생하는 충돌을 트래픽 패킷 큐잉과 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 스위칭을 통해 투명하게 중재하는 것이 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)의 핵심 역할이다. 자원 낭비가 획기적으로 줄고, VM을 하나의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(이미지) 형태로 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)/이동할 수 있어 인프라 관리가 소프트웨어 영역으로 편입되었다.
 
@@ -75,23 +79,32 @@ tags = ["studynote-operating-system"]
 | **주 사용처** | 기업용 엔터프라이즈 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/), 클라우드 (AWS, Azure) | 개인용 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) (개발/테스트 환경) |
 | **대표 솔루션** | VMware ESXi, Microsoft Hyper-V, Xen, [KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/) | VMware Workstation, [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/) VirtualBox |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Type 1 vs Type 2 하이퍼바이저 아키텍처 비교도</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Type 1 (Bare-metal 방식)</div><div class="kb-diagram-node">Type 2 (Hosted 방식)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App</div><div class="kb-diagram-cell">App</div><div class="kb-diagram-cell">App</div><div class="kb-diagram-cell">App</div><div class="kb-diagram-cell">App</div><div class="kb-diagram-cell">App</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">G.OS</div><div class="kb-diagram-cell">G.OS</div><div class="kb-diagram-cell">G.OS</div><div class="kb-diagram-cell">G.OS</div><div class="kb-diagram-cell">G.OS</div><div class="kb-diagram-cell">G.OS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하이퍼바이저 (ESXi)</div><div class="kb-diagram-cell">하이퍼바이저 S/W</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(VirtualBox)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Host OS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hardware</div><div class="kb-diagram-cell">Hardware</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">엔터프라이즈 서버 성능 최적화 개발자 데스크탑 테스트용</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 Type 1 vs Type 2 하이퍼바이저 아키텍처 비교도         │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │      [Type 1 (Bare-metal 방식)]          [Type 2 (Hosted 방식)]     │
+  │                                                                   │
+  │    ┌─────┐  ┌─────┐  ┌─────┐         ┌─────┐  ┌─────┐  ┌─────┐    │
+  │    │ App │  │ App │  │ App │         │ App │  │ App │  │ App │    │
+  │    ├─────┤  ├─────┤  ├─────┤         ├─────┤  ├─────┤  ├─────┤    │
+  │    │ G.OS│  │ G.OS│  │ G.OS│         │ G.OS│  │ G.OS│  │ G.OS│    │
+  │    └──┬──┘  └──┬──┘  └──┬──┘         └──┬──┘  └──┬──┘  └──┬──┘    │
+  │       │        │        │               │        │        │       │
+  │ ┌─────────────────────────────┐  ┌─────────────────────────────┐  │
+  │ │      하이퍼바이저 (ESXi)       │  │        하이퍼바이저 S/W      │  │
+  │ └──────────────┬──────────────┘  │        (VirtualBox)         │  │
+  │                │                 └──────────────┬──────────────┘  │
+  │                │                 ┌──────────────┴──────────────┐  │
+  │                │                 │          Host OS            │  │
+  │                ▼                 └──────────────┬──────────────┘  │
+  │ ┌─────────────────────────────┐  ┌──────────────┴──────────────┐  │
+  │ │          Hardware           │  │          Hardware           │  │
+  │ └─────────────────────────────┘  └─────────────────────────────┘  │
+  │   엔터프라이즈 서버 성능 최적화                개발자 데스크탑 테스트용          │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** Type 1은 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 자체가 얇은 특수 목적 OS처럼 동작하여 하드웨어 제어권을 100% 장악한다. 하드웨어 스케줄링이 직접 일어나므로 AWS EC2 같은 클라우드 인프라의 뼈대가 된다. 반면 Type 2는 윈도우나 맥 맥([Mac](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)) 같은 평범한 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(Host OS) 위에서 응용 프로그램 형태로 돈다. Guest OS가 메모리를 요구하면 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 Host OS에 다시 요청해야 하므로 병목(Overhead) 층이 하나 더 생긴다. (※ KVM의 경우 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 자체가 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 모듈로 승격되므로 Type 1의 특성과 Type 2의 유연성을 겸비한 1.5 타입으로 불리기도 한다.)
 
@@ -135,26 +148,28 @@ CPU는 치명적인 특권 [명령어](/knowledge-base/studynote/01_computer_arc
 | <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/">격리성</a>/보안</strong> | 하드웨어 기반으로 완벽에 가까운 격리 (높음) | [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/) 기반의 논리적 격리 ([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 뚫리면 다 뚫림) |
 | **적합한 워크로드**| 완벽히 분리된 이기종 환경, 전통적 Monolithic DB | [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/), [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)), [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VM 아키텍처 vs 컨테이너 아키텍처의 격리성 차이</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">VM (하이퍼바이저 가상화)</div><div class="kb-diagram-node">Container (OS 레벨 가상화)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App</div><div class="kb-diagram-cell">App</div><div class="kb-diagram-cell">App</div><div class="kb-diagram-cell">App</div><div class="kb-diagram-cell">App</div><div class="kb-diagram-cell">App</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Bins</div><div class="kb-diagram-cell">Bins</div><div class="kb-diagram-cell">Bins</div><div class="kb-diagram-cell">Bins</div><div class="kb-diagram-cell">Bins</div><div class="kb-diagram-cell">Bins</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">G.OS</div><div class="kb-diagram-cell">G.OS</div><div class="kb-diagram-cell">G.OS</div><div class="kb-diagram-cell">(독립 OS 없음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Container Engine</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Docker)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hypervisor</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Host OS Kernel</div><div class="kb-diagram-cell">◀ 공유</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hardware (서버)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hardware (서버)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VM은 벽돌로 지은 완전히 분리된 3개의 집 컨테이너는 큰 집안에 친 3개의 커튼 방</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 VM 아키텍처 vs 컨테이너 아키텍처의 격리성 차이           │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │     [VM (하이퍼바이저 가상화)]             [Container (OS 레벨 가상화)] │
+  │    ┌─────┐┌─────┐┌─────┐            ┌─────┐┌─────┐┌─────┐       │
+  │    │ App ││ App ││ App │            │ App ││ App ││ App │       │
+  │    │ Bins││ Bins││ Bins│            │ Bins││ Bins││ Bins│       │
+  │    ├─────┤├─────┤├─────┤            └─────┘└─────┘└─────┘       │
+  │    │G.OS ││G.OS ││G.OS │                (독립 OS 없음)            │
+  │    └──┬──┘└──┬──┘└──┬──┘            ┌────────────────────┐       │
+  │       │      │      │               │   Container Engine │       │
+  │  ┌────────────────────────┐         │     (Docker)       │       │
+  │  │      Hypervisor        │         ├────────────────────┤       │
+  │  ├────────────────────────┤         │    Host OS Kernel  │ ◀ 공유 │
+  │  │   Hardware (서버)      │         ├────────────────────┤       │
+  │  └────────────────────────┘         │   Hardware (서버)  │       │
+  │                                     └────────────────────┘       │
+  │  VM은 벽돌로 지은 완전히 분리된 3개의 집    컨테이너는 큰 집안에 친 3개의 커튼 방 │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 아키텍처는 격리를 위해 각 앱마다 수 기가바이트짜리 게스트 OS를 통째로 올려야 한다. 보안은 뛰어나지만 메모리 낭비가 심하다. [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 아키텍처는 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)와 게스트 OS를 완전히 도려내고, Host OS의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)(리눅스) 하나를 여럿이 공유한다. 앱 실행에 필요한 빈 공간(Bins/Libs)만 패키징하므로 초경량, [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 배포가 가능하다. 최근에는 VM의 강력한 [격리성](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/)과 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)의 가벼움을 합친 **마이크로VM (AWS Firecracker, Kata Containers)** 기술이 대세로 떠오르고 있다.
 
@@ -177,28 +192,29 @@ CPU는 치명적인 특권 [명령어](/knowledge-base/studynote/01_computer_arc
 2. <strong>시나리오 — <a href="/knowledge-base/studynote/11_design_supervision/01_audit_framework/079_developer_cleanroom_vdi_security/">VDI</a> (데스크톱 <a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a>) 환경의 메모리 병목</strong>: 사내망 보안을 위해 1,000명의 직원에게 물리 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 대신 서버의 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 화면만 전송해주는 [VDI](/knowledge-base/studynote/11_design_supervision/01_audit_framework/079_developer_cleanroom_vdi_security/) 환경 구축 중, 서버 메모리(RAM) 용량 한계에 부딪힘. (1000명 $\times$ 4GB OS = 4TB 메모리 필요).
    - **아키텍트 판단 (KSM 메모리 오버커밋)**: 1,000개의 윈도우 VM은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드나 시스템 DLL [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 등 70% 이상의 메모리 내용이 완전히 똑같다. [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)의 <strong>메모리 중복 제거 기술 (KSM, <a href="/knowledge-base/studynote/02_operating_system/10_security/631_ksm_kernel_samepage_merging/">Kernel Samepage Merging</a>)</strong>을 활성화하여, 똑같은 내용의 메모리 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 물리 메모리에 1개만 남기고 나머지는 포인터(Link)로 연결([COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) 상태)시킨다. 이를 통해 실제 물리 메모리보다 훨씬 많은 수의 VM을 구동하는 오버커밋(Overcommit) 효율을 달성한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하이퍼바이저의 고급 메모리 관리 : KSM 원리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">가상 머신들의 논리 메모리</div><div class="kb-diagram-node">서버의 물리 메모리 (RAM)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VM 1 (Windows)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">──</div><div class="kb-diagram-node">kernel32.dll (블록 A)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">──</div><div class="kb-diagram-node">엑셀 데이터 (블록 B)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">물리 블록 A (공유)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VM 2 (Windows)</div><div class="kb-diagram-cell">(70% 중복 데이터 통합)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">──</div><div class="kb-diagram-node">kernel32.dll (블록 A)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">──</div><div class="kb-diagram-node">웹 브라우저 (블록 C)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VM 3 (Windows)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">──</div><div class="kb-diagram-node">kernel32.dll (블록 A)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">──</div><div class="kb-diagram-node">워드 데이터 (블록 D)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ 만약 VM 1이 블록 A를 수정하려고 하면?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; Copy-on-Write(COW) 발동: 수정 순간 새로운 물리 블록으로 복제하여 할당</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 하이퍼바이저의 고급 메모리 관리 : KSM 원리               │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [가상 머신들의 논리 메모리]             [서버의 물리 메모리 (RAM)]       │
+  │                                                                   │
+  │   VM 1 (Windows)                                                  │
+  │   ├── [kernel32.dll (블록 A)] ────┐                               │
+  │   └── [엑셀 데이터 (블록 B)]     │                               │
+  │                                  ├──────▶ [물리 블록 A (공유)]   │
+  │   VM 2 (Windows)                 │         (70% 중복 데이터 통합) │
+  │   ├── [kernel32.dll (블록 A)] ────┤                               │
+  │   └── [웹 브라우저 (블록 C)]     │                               │
+  │                                  │                                │
+  │   VM 3 (Windows)                 │                                │
+  │   ├── [kernel32.dll (블록 A)] ────┘                               │
+  │   └── [워드 데이터 (블록 D)]                                        │
+  │                                                                   │
+  │  ※ 만약 VM 1이 블록 A를 수정하려고 하면?                                │
+  │     -> Copy-on-Write(COW) 발동: 수정 순간 새로운 물리 블록으로 복제하여 할당│
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 메커니즘은 클라우드 사업자의 이윤 창출 비밀 무기다. KSM 스레드는 백그라운드에서 VM들의 메모리 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 해시값을 비교하여 동일한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록을 찾아낸다. 그리고 물리 메모리에 단 하나만 남기고 병합해버린다. 결과적으로 사용자는 4GB 램을 할당받았다고 생각하지만, 클라우드 업체는 1GB의 물리 램만으로도 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 가능해져 서버 집적도(Density)가 극적으로 올라간다. 단, CPU가 메모리를 스캔하는 비용(오버헤드)이 발생하므로 적절한 튜닝이 필수다.
 
@@ -244,19 +260,15 @@ CPU는 치명적인 특권 [명령어](/knowledge-base/studynote/01_computer_arc
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">스푸핑, 백도어 악성코드</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">가상화 하이퍼바이저 (Virtualization Hypervisor)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">컨테이너 네임스페이스 격리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">시스템 클럭 타이머 틱</div></div>
-</div>
-</div>
-
-
+```text
+[스푸핑, 백도어 악성코드]
+    │
+    ▼
+[가상화 하이퍼바이저 (Virtualization Hypervisor)]
+    │
+    ├──▶ [컨테이너 네임스페이스 격리]
+    └──▶ [시스템 클럭 타이머 틱]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

@@ -27,19 +27,16 @@ tags = ["studynote-ai"]
 "파이토치 코드를 그냥 쓰지 마! 실전용 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 칩셋에 딱 맞게 <strong>수학 공식을 싹 다 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>하고 묶어서 기계어(C++) 수준으로 컴파일</strong>해 버리자!" 
 이 절박함에서 탄생한 것이 서로 다른 프레임워크 간의 번역기인 <strong>ONNX (Open Neural Network Exchange)</strong>와, 그 번역된 모델을 NVIDIA GPU의 영혼까지 끌어내어 미친 듯이 가속시키는 **TensorRT** [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이다.
 
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
-
-- **📢 섹션 요약 비유**: PyTorch 모델은 '이케아 조립식 가구'다. 부품을 떼었다 붙였다(학습) 하기엔 너무 편하지만, 매번 나사를 조이고 흔들거려서 실전에서 타고 다니기엔 위험하다. ONNX는 이 가구의 '전 세계 공통 설계도'다. TensorRT는 이 설계도를 받아서, 쓸데없는 나사들을 다 용접해 버리고 가장 가벼운 카본 소재([양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/))로 깎아내어 <strong>실전 레이싱용 스포츠카(Inference Engine)</strong>로 완벽하게 개조해 버리는 궁극의 튜닝 공장이다.
+- **📢 섹션 요약 비유**: PyTorch 모델은 '이케아 조립식 가구'다. 부품을 떼었다 붙였다(학습) 하기엔 너무 편하지만, 매번 나사를 조이고 흔들거려서 실전에서 타고 다니기엔 위험하다. ONNX는 이 가구의 '전 세계 공통 설계도'다. TensorRT는 이 설계도를 받아서, 쓸데없는 나사들을 다 용접해 버리고 가장 가벼운 카본 소재([양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/))로 깎아내어 <strong>실전 레이싱용 스포츠카(Inference 엔진)</strong>로 완벽하게 개조해 버리는 궁극의 튜닝 공장이다.
 
 ---
 
@@ -47,30 +44,30 @@ tags = ["studynote-ai"]
 
 개발자의 PyTorch 코드가 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 실전 엔진(TensorRT)으로 변환되는 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 서빙 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 2단계 컴파일 과정을 거친다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PyTorch ─▶ ONNX ─▶ TensorRT 가속 변환 아키텍처 도해</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1단계: 표준 포맷 변환 (Export to ONNX)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 입력: 무겁고 복잡한 PyTorch (또는 TensorFlow) 모델 (<code>.pt</code> 파일)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 변환: PyTorch의 뇌 구조(연산 그래프)를 전 세계 표준어인 ONNX로 번역!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 출력: <code>model.onnx</code> (프레임워크에 종속되지 않는 깔끔한 설계도 완성)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2단계: 하드웨어 극한 튜닝 (TensorRT Compilation)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 입력: <code>model.onnx</code> 파일을 NVIDIA TensorRT 컴파일러에 쑤셔 넣음.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▼</div><div class="kb-diagram-node">TensorRT의 3대 흑마술 발동</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Layer Fusion (층 융합): Conv층 + BatchNorm층 + ReLU층을</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">각각 계산 안 하고 1개의 거대한 수학 공식으로 합체! (메모리 I/O 박살)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Precision Calibration (양자화): FP32(32비트)를 INT8(8비트)로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">압축! 정확도는 1% 떨어지는데 속도는 4배 폭발!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Kernel Auto-Tuning: "지금 이 모델 돌릴 GPU가 T4야? A100이야?"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하드웨어 칩셋에 제일 잘 맞는 알고리즘을 지가 알아서 테스트하고 고름!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">최종 배포: Inference Engine</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 출력: <code>model.trt</code> (오직 추론 속도만을 위해 태어난 괴물 엔진 파일 완성)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           PyTorch ─▶ ONNX ─▶ TensorRT 가속 변환 아키텍처 도해           │
+├──────────────────────────────────────────────────────────────┤
+│  [1단계: 표준 포맷 변환 (Export to ONNX)]                        │
+│   * 입력: 무겁고 복잡한 PyTorch (또는 TensorFlow) 모델 (`.pt` 파일)  │
+│   * 변환: PyTorch의 뇌 구조(연산 그래프)를 전 세계 표준어인 ONNX로 번역! │
+│   ─▶ 출력: `model.onnx` (프레임워크에 종속되지 않는 깔끔한 설계도 완성)  │
+│                                                              │
+│  [2단계: 하드웨어 극한 튜닝 (TensorRT Compilation)]               │
+│   * 입력: `model.onnx` 파일을 NVIDIA TensorRT 컴파일러에 쑤셔 넣음.      │
+│                                                              │
+│   ▼ [TensorRT의 3대 흑마술 발동]                                 │
+│     1. Layer Fusion (층 융합): Conv층 + BatchNorm층 + ReLU층을      │
+│        각각 계산 안 하고 1개의 거대한 수학 공식으로 합체! (메모리 I/O 박살)│
+│     2. Precision Calibration (양자화): FP32(32비트)를 INT8(8비트)로 │
+│        압축! 정확도는 1% 떨어지는데 속도는 4배 폭발!                   │
+│     3. Kernel Auto-Tuning: "지금 이 모델 돌릴 GPU가 T4야? A100이야?" │
+│        하드웨어 칩셋에 제일 잘 맞는 알고리즘을 지가 알아서 테스트하고 고름!   │
+│                                                              │
+│  [최종 배포: Inference Engine]                                  │
+│   ─▶ 출력: `model.trt` (오직 추론 속도만을 위해 태어난 괴물 엔진 파일 완성)│
+└──────────────────────────────────────────────────────────────┘
+```
 
 <strong>핵심 원리 (Layer Fusion과 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">Kernel</a> Auto-Tuning)</strong>:
 TensorRT 가속의 50%는 <strong>메모리 병목(Memory I/O) 제거</strong>에서 나온다. 딥러닝은 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 코어 연산보다 "메모리에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가져오는 시간"이 더 오래 걸린다. TensorRT는 서로 연달아 있는 3개의 레이어(Conv $\rightarrow$ BN $\rightarrow$ [ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/))를 발견하면, 이걸 3번 메모리에 왔다 갔다 하지 않고 아예 **수학적으로 1개의 레이어(CBR Fusion)로 묶어버린다**.

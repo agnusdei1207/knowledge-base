@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: 표준 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)(IEEE 802.3)을 기반으로 하되, <strong>마이크로초(µs) 혹은 나노초(ns) 단위의 엄격한 시간 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a>와 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 도달 시간(Determinism, 결정성)을 100% 보장하도록 IEEE 802.1 워킹그룹에서 만든 차세대 통신 표준 세트</strong>입니다.
 - **배경**: 기존 공장들은 [PROFINET](/knowledge-base/studynote/09_security/18_iot_ot_physical/900_profinet/), EtherCAT 등 각자 다른 전용 케이블을 깔아 썼습니다. 유지보수가 너무 힘들자, "표준 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 랜선 하나만 깔고, 그 안에 유튜브 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)랑 로봇 제어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 섞어 쓰되, 로봇 제어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만큼은 KTX처럼 절대 안 밀리게 길을 터주자!"는 아이디어로 탄생했습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">OPC UA</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">TSN</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">자율주행 차량 통신</div></div>
-</div>
-</div>
-
-
+```text
+[OPC UA]
+    │
+    ▼
+[TSN]
+    │
+    └──▶ [자율주행 차량 통신]
+```
 
 - **📢 섹션 요약 비유**: TSN는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -53,18 +49,14 @@ tags = ["studynote-network"]
 - 만약 셔터가 닫히기 직전에 거대한 덩치의 일반 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 트럭(1500바이트 패킷)이 톨게이트를 진입해 버리면 VIP [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 밀리게 됩니다.
 - 프레임 선점 기술은 거대한 일반 패킷이 지나가고 있더라도, <strong>VIP 패킷이 도착하면 가차 없이 일반 패킷을 반으로 토막 내어 전송을 일시 중단시키고 VIP 패킷을 먼저 통과시키는 무자비한 새치기 기술</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">OPC UA</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">TSN</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">자율주행 차량 통신</div></div>
-</div>
-</div>
-
-
+```text
+[OPC UA]
+    │
+    ▼
+[TSN]
+    │
+    └──▶ [자율주행 차량 통신]
+```
 
 - **📢 섹션 요약 비유**: TSN의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -124,19 +116,15 @@ TSN는 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_io
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: OPC UA</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: TSN</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 자율주행 차량 통신</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율형 엣지 협업</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: OPC UA]
+    │
+    ▼
+[현재 개념: TSN]
+    │
+    ├──▶ [확장 A: 자율주행 차량 통신]
+    └──▶ [확장 B: 자율형 엣지 협업]
+```
 
 TSN는 OPC UA에서 출발해 현재 메커니즘을 정교화하고, 이후 [자율주행 차량 통신](/knowledge-base/studynote/03_network/12_iot_wpan_edge/633_v2v_v2i_autonomous_vehicle_communication/)와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

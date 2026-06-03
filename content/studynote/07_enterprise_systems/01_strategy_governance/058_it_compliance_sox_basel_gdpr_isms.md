@@ -81,21 +81,15 @@ tags = ["studynote-enterprise"]
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">법/규제</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">기술적 통제</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">증거 / 감사</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">컴플라이언스 운영</div>
-</div>
-</div>
-
-
+```text
+법/규제
+   ↓
+기술적 통제
+   ↓
+증거 / 감사
+   ↓
+컴플라이언스 운영
+```
 
 ---
 

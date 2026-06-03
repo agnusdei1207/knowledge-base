@@ -35,21 +35,20 @@ HoQ는 보통 네 개의 핵심 블록과 두 개의 보조 블록으로 읽는�
 
 아래 그림은 HoQ의 구조와 정보 흐름을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">House of Quality (HoQ)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Roof: HOW ↔ HOW correlation</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(+ synergy / - trade-off / 0 none)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WHAT</div><div class="kb-diagram-cell">Relationship Matrix</div><div class="kb-diagram-cell">Benchmark</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">customer need</div><div class="kb-diagram-cell">9 strong / 3 medium / 1 weak</div><div class="kb-diagram-cell">our vs rival</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ importance</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Priority result = importance × relationship → target values</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                    House of Quality (HoQ)                   │
+├──────────────────────────────────────────────────────────────┤
+│                 Roof: HOW ↔ HOW correlation                 │
+│              (+ synergy / - trade-off / 0 none)             │
+├───────────────┬──────────────────────────────┬───────────────┤
+│ WHAT          │ Relationship Matrix          │ Benchmark     │
+│ customer need │ 9 strong / 3 medium / 1 weak │ our vs rival  │
+│ + importance  │                              │               │
+├───────────────┴──────────────────────────────┴───────────────┤
+│ Priority result = importance × relationship → target values │
+└──────────────────────────────────────────────────────────────┘
+```
 
 핵심 계산은 단순하지만 강력하다. 고객 중요도가 높은 WHAT에 강하게 연결된 HOW는 우선순위가 올라간다. 예를 들어 "로그인 속도" 중요도 5와 "[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 응답시간" [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 9가 만나면, 이 HOW는 높은 개선 가치가 있다고 판단할 수 있다. 반대로 화려하지만 고객 요구와 약하게 연결된 기술은 점수가 낮아져 과잉 설계를 막는 근거가 된다.
 
@@ -131,31 +130,28 @@ HoQ를 제대로 활용하면 고객 요구가 기술 목표와 [검증](/knowle
 | 개념 | 연결 포인트 |
 | :--- | :---------- |
 | [품질 기능 전개](/knowledge-base/studynote/04_software_engineering/03_design_architecture/168_qfd_quality_function_deployment/) (QFD) | HoQ를 포함하는 상위 요구 전개 방법론 |
-| VOC (Voice of [Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/)) | WHAT의 원천이 되는 고객 요구 입력 |
-| 기술 특성 (Engineering Characteristics) | HOW 영역을 이루는 설계 가능 변수 |
+| VOC (Voice of [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/)) | WHAT의 원천이 되는 고객 요구 입력 |
+| 기술 특성 (엔진ering Characteristics) | HOW 영역을 이루는 설계 가능 변수 |
 | [카노 모델](/knowledge-base/studynote/04_software_engineering/03_design_architecture/167_kano_model_quality_attributes/) ([Kano Model](/knowledge-base/studynote/04_software_engineering/03_design_architecture/167_kano_model_quality_attributes/)) | WHAT의 만족 성격을 분류해 HoQ 입력 품질 향상 |
 | 추적성 ([Traceability](/knowledge-base/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/)) | HoQ 결과를 설계·테스트·운영 지표로 연결 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">VOC 수집</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">WHAT 정리 · 중요도 부여</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">HoQ 관계 행렬 작성</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ HOW 도출 · 목표치 설정</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ Roof 상충 관계 분석</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 경쟁사 벤치마크 비교</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">설계 · 구현 · 테스트 · 운영 지표 전개</div>
-</div>
-</div>
-
-
+```text
+VOC 수집
+    │
+    ▼
+WHAT 정리 · 중요도 부여
+    │
+    ▼
+HoQ 관계 행렬 작성
+    │
+    ├──────────────▶ HOW 도출 · 목표치 설정
+    ├──────────────▶ Roof 상충 관계 분석
+    ├──────────────▶ 경쟁사 벤치마크 비교
+    ▼
+설계 · 구현 · 테스트 · 운영 지표 전개
+```
 
 이 흐름도는 고객의 목소리가 HoQ를 거쳐 실제 기술 목표와 실행 기준으로 연결되는 전개 흐름을 보여준다.
 

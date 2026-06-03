@@ -21,15 +21,11 @@ tags = ["studynote-bigdata"]
 
 하이브리드 분석 ([온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) + 클라우드 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)팅)은 빅데이터 환경에서 하이브리드 분석을 실제 문서, 시스템, 운영 흐름에 연결하는 문제를 다룬다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규모가 커질수록 포맷, 비용, 이동 경로, 운영 기준이 조금만 흔들려도 전체 분석 품질이 급격히 무너진다. 그래서 이 주제는 단순 기술 나열이 아니라, 어떤 조건에서 어떤 구조를 선택해야 하는지를 설명하는 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">목표/전략</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">운영/통제</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">지표/개선</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐   ┌──────────────┐   ┌──────────────┐
+│ 목표/전략        │──▶│ 운영/통제        │──▶│ 지표/개선        │
+└──────────────┘   └──────────────┘   └──────────────┘
+```
 
 - **📢 섹션 요약 비유**: 조타실처럼, 출발점이 흔들리면 뒤 단계의 결과도 같이 흔들린다.
 
@@ -45,15 +41,11 @@ tags = ["studynote-bigdata"]
 | 운영/통제 | 처리/[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 절차와 자동화가 연결되어야 한다 |
 | 지표/개선 | 결과/증거 | 기록이 남아야 재현과 추적이 된다 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">목표/전략</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">운영/통제</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">지표/개선</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐   ┌──────────────┐   ┌──────────────┐
+│ 목표/전략        │──▶│ 운영/통제        │──▶│ 지표/개선        │
+└──────────────┘   └──────────────┘   └──────────────┘
+```
 
 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)와 클라우드 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)팅은 이 흐름을 보강하는 대표 축이다. 하나는 저장과 처리의 방식이고, 다른 하나는 활용과 품질의 방식이다. 둘을 같이 봐야 과도한 단순화도, 과도한 복잡화도 피할 수 있다.
 
@@ -117,23 +109,21 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">온프레미스 단독 운영 — 고정 자원, 피크 트래픽 대응 불가</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">클라우드 단독 이전 — 유연한 확장, 데이터 주권·규제 한계</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">하이브리드 클라우드 (Hybrid Cloud) — 온프레미스+클라우드 연계, 규제 데이터 내부 유지</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">클라우드 버스팅 (Cloud Bursting) — 피크 시 온프레미스 초과 부하를 클라우드로 자동 확장</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">멀티클라우드 통합 분석 — 여러 클라우드·온프레미스 데이터를 단일 분석 플랫폼에서 통합 처리</div></div>
-</div>
-</div>
-
-
+```text
+[온프레미스 단독 운영 — 고정 자원, 피크 트래픽 대응 불가]
+    │
+    ▼
+[클라우드 단독 이전 — 유연한 확장, 데이터 주권·규제 한계]
+    │
+    ▼
+[하이브리드 클라우드 (Hybrid Cloud) — 온프레미스+클라우드 연계, 규제 데이터 내부 유지]
+    │
+    ▼
+[클라우드 버스팅 (Cloud Bursting) — 피크 시 온프레미스 초과 부하를 클라우드로 자동 확장]
+    │
+    ▼
+[멀티클라우드 통합 분석 — 여러 클라우드·온프레미스 데이터를 단일 분석 플랫폼에서 통합 처리]
+```
 이 흐름은 고정 자원의 한계를 가진 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) 시스템이 클라우드의 [탄력성](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/)과 결합하여 하이브리드 분석 아키텍처로 발전하고, 피크 부하를 클라우드로 자동 확장하는 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)팅 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 통해 비용과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 동시에 최적화하는 진화 경로를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

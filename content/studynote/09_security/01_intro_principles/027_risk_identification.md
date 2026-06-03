@@ -18,19 +18,19 @@ tags = ["studynote-security"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위험 3요소 관계도</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">위협</div><div class="kb-diagram-note">►</div><div class="kb-diagram-node">취약점</div><div class="kb-diagram-note">►</div><div class="kb-diagram-node">자산 피해</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Threat) (Vulnerability) (Asset Impact)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위험 = 위협 발생 가능성 × 취약점 × 자산 가치</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예: 랜섬웨어(위협) + 패치 미적용(취약점) → 데이터 암호화</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────┐
+│         위험 3요소 관계도                                 │
+├─────────────────────────────────────────────────────────┤
+│                                                         │
+│  [위협] ───────► [취약점] ───────► [자산 피해]            │
+│  (Threat)       (Vulnerability)   (Asset Impact)        │
+│                                                         │
+│  위험 = 위협 발생 가능성 × 취약점 × 자산 가치             │
+│                                                         │
+│  예: 랜섬웨어(위협) + 패치 미적용(취약점) → 데이터 암호화  │
+└─────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 위험 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)은 집 안전 점검이다. 도둑(위협)이 침입할 수 있는 열린 창문(취약점)을 찾아내고, 그 창문 근처에 귀중품(자산)이 있는지 확인하는 것이다.
 
@@ -116,23 +116,21 @@ E - Elevation of Privilege (권한 상승)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">자산·위협·취약점 목록화 — 위험 식별 기본 활동</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">STRIDE / OWASP — 체계적 위협 분류 모델</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">자동화 스캔 (Nessus, OpenVAS) — 기술적 취약점 자동 탐지</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ISMS-P / ISO 27001 — 위험 관리 체계 인증</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AI 위협 인텔리전스 — 실시간 신규 위협 자동 식별</div></div>
-</div>
-</div>
-
-
+```text
+[자산·위협·취약점 목록화 — 위험 식별 기본 활동]
+    │
+    ▼
+[STRIDE / OWASP — 체계적 위협 분류 모델]
+    │
+    ▼
+[자동화 스캔 (Nessus, OpenVAS) — 기술적 취약점 자동 탐지]
+    │
+    ▼
+[ISMS-P / ISO 27001 — 위험 관리 체계 인증]
+    │
+    ▼
+[AI 위협 인텔리전스 — 실시간 신규 위협 자동 식별]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

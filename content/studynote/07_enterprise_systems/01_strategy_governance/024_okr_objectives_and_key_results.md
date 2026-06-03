@@ -20,20 +20,19 @@ tags = ["studynote-enterprise-systems"]
 
 OKR은 조직의 목표를 계층화(Cascading)하여 회사 → 팀 → 개인 수준까지 정렬하고, 분기 단위로 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 상황을 추적하는 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) 성과 관리 체계다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OKR 구조 예시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">O (Objective): 글로벌 시장에서 사랑받는 제품이 되자</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">KR1: NPS(고객 추천 지수) 40 → 70 달성 (Q2까지)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">KR2: 월간 활성 사용자(MAU) 50만 → 100만 (Q2까지)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">KR3: 앱스토어 평점 3.8 → 4.5 이상 (Q2까지)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ 달성률 70% = 성공 / 100% = 목표가 너무 낮았다는 신호</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────┐
+│               OKR 구조 예시                                │
+├───────────────────────────────────────────────────────────┤
+│  O (Objective): 글로벌 시장에서 사랑받는 제품이 되자        │
+│                                                           │
+│  KR1: NPS(고객 추천 지수) 40 → 70 달성 (Q2까지)           │
+│  KR2: 월간 활성 사용자(MAU) 50만 → 100만 (Q2까지)         │
+│  KR3: 앱스토어 평점 3.8 → 4.5 이상 (Q2까지)              │
+│                                                           │
+│  ※ 달성률 70% = 성공 / 100% = 목표가 너무 낮았다는 신호   │
+└───────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: OKR은 등산 계획이다. O는 "에베레스트 등정"이라는 꿈(정성적 방향)이고, KR은 "D+30일까지 베이스캠프 도달, D+60일까지 4캠프 설치"라는 측정 가능한 중간 체크포인트다.
 
@@ -117,23 +116,21 @@ OKR은 원격 근무(Remote Work)와 [분산](/knowledge-base/studynote/08_algor
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">MBO (1954, 드러커) — 연간 목표 관리의 원형</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">OKR (1970s, 인텔 앤디 그로브) — MBO의 분기형 혁신</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">구글 OKR 전사 도입 (1999) — 도전적 목표 + 투명 공개</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">디지털 OKR — Asana/Notion 연동, 실시간 추적</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AI 기반 OKR — 진행 예측, 병목 자동 탐지</div></div>
-</div>
-</div>
-
-
+```text
+[MBO (1954, 드러커) — 연간 목표 관리의 원형]
+    │
+    ▼
+[OKR (1970s, 인텔 앤디 그로브) — MBO의 분기형 혁신]
+    │
+    ▼
+[구글 OKR 전사 도입 (1999) — 도전적 목표 + 투명 공개]
+    │
+    ▼
+[디지털 OKR — Asana/Notion 연동, 실시간 추적]
+    │
+    ▼
+[AI 기반 OKR — 진행 예측, 병목 자동 탐지]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

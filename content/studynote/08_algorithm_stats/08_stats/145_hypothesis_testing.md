@@ -35,20 +35,20 @@ tags = ["studynote-algorithm"]
 
 **p-값과 기각 영역**:
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">H₀ 하의 분포</div>
-<div class="kb-diagram-note">확률</div>
-<div class="kb-diagram-note">밀도 ▲</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">α/2 기각영역</div><div class="kb-diagram-cell">α/2 기각영역</div></div>
-<div class="kb-diagram-tree-item" style="--depth:3">▶ 검정 통계량</div>
-<div class="kb-diagram-note">임계값(Critical Value)</div>
-</div>
-</div>
-
-
+```
+     H₀ 하의 분포
+ 확률
+ 밀도 ▲
+      │         ___
+      │       /     \
+      │      /       \
+      │     /         \
+      │────/─────────┬─\────────
+      │  α/2 기각영역│  α/2 기각영역
+      │             ↑
+      └────────────────────────▶  검정 통계량
+                              임계값(Critical Value)
+```
 
 **단측 vs 양측 검정**:
 - **단측 (One-Tailed)**: α가 한쪽에만 (H₁: μ > μ₀ 또는 μ < μ₀)
@@ -177,23 +177,21 @@ BH 절차:
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">기술통계 (Descriptive Statistics) — 데이터 요약, 평균·분산·분포 파악</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">추론통계 (Inferential Statistics) — 표본으로 모집단 추정, 오차 포함</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">가설 검정 (Hypothesis Testing) — H₀ 기각 여부 판단, p-값·유의수준 α</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">효과 크기 + 신뢰구간 — 통계적 유의성과 실용적 중요성 구분</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">베이즈 통계 (Bayesian Statistics) — 사전 확률 갱신, p-값 한계 극복</div></div>
-</div>
-</div>
-
-
+```text
+[기술통계 (Descriptive Statistics) — 데이터 요약, 평균·분산·분포 파악]
+    │
+    ▼
+[추론통계 (Inferential Statistics) — 표본으로 모집단 추정, 오차 포함]
+    │
+    ▼
+[가설 검정 (Hypothesis Testing) — H₀ 기각 여부 판단, p-값·유의수준 α]
+    │
+    ▼
+[효과 크기 + 신뢰구간 — 통계적 유의성과 실용적 중요성 구분]
+    │
+    ▼
+[베이즈 통계 (Bayesian Statistics) — 사전 확률 갱신, p-값 한계 극복]
+```
 이 흐름은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 요약하는 기술통계에서 모집단을 추론하는 통계적 가설 검정으로 발전한 후, p-값 남용 문제를 인식하고 효과 크기와 베이즈 관점으로 보완하는 통계적 추론 방법론의 성숙 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

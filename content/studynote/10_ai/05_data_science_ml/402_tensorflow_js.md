@@ -26,17 +26,14 @@ tags = ["studynote-ai"]
 - **인터랙티브 경험**: 실시간 이미지 인식, 모션 캡처 등을 [네트워크 지연](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/) 없이 브라우저에서 즉각 구현
 - **인프라 비용 절감**: 중앙 서버의 CPU/[GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 자원 대신 사용자의 디바이스 자원을 활용하여 서빙 비용 최소화
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: TensorFlow.js는 거대한 공장(서버)에 주문서를 보내 결과를 기다리는 대신, 집 거실(브라우저)에 미니 조리 도구를 갖다 놓고 직접 요리하는 것과 같다.
 
@@ -52,20 +49,26 @@ TensorFlow.js는 상위 레벨의 Layers API와 하위 레벨의 Core API로 구
 | <strong>Core <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a></strong> | 저수준 연산 (Ops) 및 Tensor 제어 | 미세한 메모리 관리 및 연산 최적화 가능 |
 | **Backends** | 실제 연산이 수행되는 환경 | WebGL, WebGPU, [WASM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/701_webassembly_wasm_frontend_performance/), CPU 지원 |
 
+```text
+[ TensorFlow.js 실행 아키텍처 ]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">TensorFlow.js 실행 아키텍처</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User Application (JS)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Layers API</div><div class="kb-diagram-cell">Core API</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TensorFlow.js Engine</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WebGL</div><div class="kb-diagram-cell">WASM</div><div class="kb-diagram-cell">WebGPU</div><div class="kb-diagram-cell">◀── Hardware Acceleration</div></div>
-</div>
-</div>
-
-
+   ┌──────────────────────────────────────────┐
+   │             User Application (JS)        │
+   └──────────────────────────────────────────┘
+           │                        │
+   ┌───────────────────┐    ┌──────────────────┐
+   │    Layers API     │    │     Core API     │
+   └───────────────────┘    └──────────────────┘
+           └───────────┬────────────┘
+                       ▼
+   ┌──────────────────────────────────────────┐
+   │             TensorFlow.js Engine         │
+   └──────────────────────────────────────────┘
+           │            │           │
+   ┌───────────┐  ┌───────────┐  ┌────────────┐
+   │   WebGL   │  │   WASM    │  │   WebGPU   │  ◀── Hardware Acceleration
+   └───────────┘  └───────────┘  └────────────┘
+```
 
 **최적화 기술**:
 - **Model Conversion**: Python에서 학습된 모델(`.h5`, `SavedModel`)을 웹용 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/)/Binary 형식으로 변환 및 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)

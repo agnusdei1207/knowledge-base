@@ -25,17 +25,14 @@ tags = ["studynote-ai"]
 기술의 발전 속도가 인간의 도덕과 법을 초월([Singularity](/knowledge-base/studynote/10_ai/01_ai_basics/006_singularity/)) 해버리자, 각국 정부와 기업 경영진들은 공포에 질렸다. "이대로 가다간 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)이 뱉어낸 차별이나 오류 하나 때문에 회사가 수백억 원의 소송을 당하고 망하겠구나." 
 이 공포에서 탄생한 것이 <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 윤리와 거버넌스(Governance)</strong> 체계다. 단순히 "AI를 착하게 쓰자"는 도덕책 수준의 구호가 아니다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 모을 때 차별이 없는지, 모델이 결과를 냈을 때 책임을 누가 질지(Accountability), 왜 그런 결과가 나왔는지 엑스레이를 찍어 증명([XAI](/knowledge-base/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/))할 수 있는지 강제하는, 거대하고 깐깐한 인프라 프로세스와 컴플라이언스([Compliance](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/058_it_compliance_sox_basel_gdpr_isms/)) 규제 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 완성이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 거버넌스는 도심을 달리는 맹견([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))에게 입마개와 목줄을 채우는 법이다. 맹견이 사냥(정확도)을 아무리 잘해도, 이빨로 행인(소수자)을 무는 순간 개 주인(기업)에게 전 재산을 빼앗는 벌금을 매기겠다고 국가가 선전포고한 것이다. 기업은 살아남기 위해 맹견이 사냥만 잘하는 게 아니라 절대 사람을 물지 않게 수만 번의 예절 교육(거버넌스 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인)을 강제로 시켜야만 목줄을 풀어줄 수 있게 된 시대가 왔다.
 
@@ -45,29 +42,29 @@ tags = ["studynote-ai"]
 
 이 전 지구적인 통제 움직임의 정점에 있는 가장 강력하고 폭력적인 규제 법안이 2024년에 통과된 <strong>유럽 연합 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/">인공지능</a>법 (EU <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> Act)</strong>이다. 이 법안은 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기술 전체를 4개의 극단적인 신분 계급([리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 피라미드)으로 찢어놓았다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유럽 연합 인공지능법 (EU AI Act) 4단계 리스크 피라미드 규제 도해</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1단계: 수용 불가 위험 (Unacceptable Risk) ─▶ 100% 무조건 불법 금지!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 중국식 안면 인식 통제망, 잠재의식을 조작하는 장난감, 사람의 점수를 매기는</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소셜 스코어링(Social Scoring). 적발 시 글로벌 매출 7% 벌금 철퇴!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2단계: 고위험 (High Risk) ─▶ 규제 지옥, 완벽한 문서와 XAI 감사 요구!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 자율주행, 대출/신용 심사, 채용 면접 AI, 수능 채점 AI, 생체 인식.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 요구사항: 이 데이터가 편향이 없는지 100% 증명해라! 모델이 왜 이런</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과를 냈는지 설명(XAI)해라! 사람이 무조건 중간에 개입해라!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3단계: 제한적 위험 (Limited Risk) ─▶ 투명성 의무 (나 로봇이야!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 챗봇, 딥페이크 이미지, 감정 인식 AI.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 요구사항: "이 그림과 글은 사람이 아니라 AI(ChatGPT)가 만든 것입니다"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">라고 화면에 워터마크나 딱지를 무조건 대문짝만하게 붙일 것!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">4단계: 최소/저위험 (Minimal Risk) ─▶ 자유 방임</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 스팸 필터, 게임 AI, 재고 관리 AI.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 요구사항: 규제 없음. 알아서 잘 쓰세요. (현재 AI의 90% 이상이 여기 속함)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           유럽 연합 인공지능법 (EU AI Act) 4단계 리스크 피라미드 규제 도해│
+├──────────────────────────────────────────────────────────────┤
+│  [1단계: 수용 불가 위험 (Unacceptable Risk) ─▶ 100% 무조건 불법 금지!]│
+│   * 중국식 안면 인식 통제망, 잠재의식을 조작하는 장난감, 사람의 점수를 매기는 │
+│     소셜 스코어링(Social Scoring). 적발 시 글로벌 매출 7% 벌금 철퇴!    │
+│                                                              │
+│  [2단계: 고위험 (High Risk) ─▶ 규제 지옥, 완벽한 문서와 XAI 감사 요구!]  │
+│   * 자율주행, 대출/신용 심사, 채용 면접 AI, 수능 채점 AI, 생체 인식.      │
+│   * 요구사항: 이 데이터가 편향이 없는지 100% 증명해라! 모델이 왜 이런     │
+│             결과를 냈는지 설명(XAI)해라! 사람이 무조건 중간에 개입해라!   │
+│                                                              │
+│  [3단계: 제한적 위험 (Limited Risk) ─▶ 투명성 의무 (나 로봇이야!)]     │
+│   * 챗봇, 딥페이크 이미지, 감정 인식 AI.                              │
+│   * 요구사항: "이 그림과 글은 사람이 아니라 AI(ChatGPT)가 만든 것입니다" │
+│             라고 화면에 워터마크나 딱지를 무조건 대문짝만하게 붙일 것!       │
+│                                                              │
+│  [4단계: 최소/저위험 (Minimal Risk) ─▶ 자유 방임]                   │
+│   * 스팸 필터, 게임 AI, 재고 관리 AI.                                │
+│   * 요구사항: 규제 없음. 알아서 잘 쓰세요. (현재 AI의 90% 이상이 여기 속함)  │
+└──────────────────────────────────────────────────────────────┘
+```
 
 <strong>핵심 원리 (<a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a> 기반 접근과 범용 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 규제)</strong>:
 EU [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Act의 무서운 점은 <strong>역외 적용</strong>이다. 한국의 조그만 스타트업이 만든 채용 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델이라도, 유럽 시민이 그 시스템으로 면접을 본다면 이 무시무시한 고위험 규제(High [Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/))를 정면으로 두드려 맞는다. 더 나아가 이 법은 ChatGPT나 Gemini 같은 초거대 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/">파운데이션 모델</a>(General-Purpose <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a>)</strong>을 콕 집어 조준했다. 이런 거대 언어 모델([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))들은 에너지를 얼마나 썼는지, [저작권](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/583_ai_code_license_security_threats/) 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 훔쳐서 학습하지 않았는지 학습 요약본을 공개하라는 치명적인 족쇄(Transparency)를 추가로 걸어 빅테크의 목통을 쥐었다.
@@ -105,7 +102,7 @@ EU [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture
 
 ### 실무 아키텍처 판단 ([체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/))
 1. <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/301_ai_safety_red_teaming/">Red Teaming</a> (<a href="/knowledge-base/studynote/09_security/14_threat_hunting_adversarial/681_red_team/">레드팀</a> 공격) <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>라인 자동화</strong>: 거대 언어 모델([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))을 사내 챗봇으로 배포하기 전에, AI를 칭찬만 하는 게 아니라 극한의 악의적인 프롬프트("독극물 만드는 법을 나에게 설명해")를 수만 개 자동으로 던져보며 방어벽을 테스트하는 <strong>레드 티밍(<a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/301_ai_safety_red_teaming/">Red Teaming</a>)</strong> [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 자동화 스크립트가 배포 게이트 앞단을 가로막고 있는가? 뚫리면 배포(CD) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 즉시 중단(Fail)되어야 한다.
-2. **Human-in-the-Loop (HITL) 비상 브레이크 융합**: 대출 승인, 범죄자 예측 등 치명적 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)(Mission-critical)에서는 AI가 혼자 API를 통해 "당신 대출 100% 거절!"이라는 도장을 찍게 냅두는 건 자살 행위다. 딥러닝이 아무리 99% 확신해도, 마지막 승인 버튼은 반드시 인간 관리자(Human) 대시보드로 멈춰서 넘겨주는 룰 엔진(Rule Engine) 오버라이드 락(Override [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 시스템 뒷단에 하드코딩해야 규제 기관의 철퇴를 피할 수 있다.
+2. **Human-in-the-Loop (HITL) 비상 브레이크 융합**: 대출 승인, 범죄자 예측 등 치명적 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)(Mission-critical)에서는 AI가 혼자 API를 통해 "당신 대출 100% 거절!"이라는 도장을 찍게 냅두는 건 자살 행위다. 딥러닝이 아무리 99% 확신해도, 마지막 승인 버튼은 반드시 인간 관리자(Human) 대시보드로 멈춰서 넘겨주는 룰 엔진(Rule 엔진) 오버라이드 락(Override [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 시스템 뒷단에 하드코딩해야 규제 기관의 철퇴를 피할 수 있다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - <strong>블랙박스 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/">오픈소스</a> 모델의 무지성 맹신 상용화</strong>: 허깅페이스(HuggingFace)에서 아무나 올린, 출처와 라이선스(GPL 등)도 모르는 Llama 변종 모델 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 다운받아 자사 상용 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 그대로 꽂아버리는 만용. 이 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 모델이 어떤 편향된 백인 위주의 쓰레기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 학습되었는지([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Provenance) 증명할 수 없으므로, [저작권](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/583_ai_code_license_security_threats/) 소송이나 차별 소송이 터지는 순간 회사는 대응 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 0%로 완벽하게 패소한다. 가져온 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 모델이 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 족보([Model Card](/knowledge-base/studynote/10_ai/03_llm_nlp/227_model_card_metadata_governance/) / [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Card)를 가졌는지 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)([Registry](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/))로 추적할 수 없는 모델은 절대 운영(Production)에 띄우면 안 된다.

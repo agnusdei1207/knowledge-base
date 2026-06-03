@@ -25,22 +25,29 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 왜 SSD가 '지우기 전 복사'를 해야 하는지를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SSD의 공간 회수 문제: 페이지는 작고 블록은 크다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">쓰기 요청 발생</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기존 LBA (Logical Block Address)의 예전 페이지는 무효화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">새 빈 페이지에 최신 데이터 기록</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">블록 내부 상태:</div><div class="kb-diagram-node">Valid</div><div class="kb-diagram-node">Invalid</div><div class="kb-diagram-node">Invalid</div><div class="kb-diagram-node">Valid</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 유효 페이지가 남아 있음 ──▶ 블록 전체 Erase 불가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ GC 수행 필요</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유효 페이지만 새 블록으로 복사 후 기존 블록 Erase</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                SSD의 공간 회수 문제: 페이지는 작고 블록은 크다      │
+├──────────────────────────────────────────────────────────────────────┤
+│ 쓰기 요청 발생                                                       │
+│     │                                                                │
+│     ▼                                                                │
+│ 기존 LBA (Logical Block Address)의 예전 페이지는 무효화              │
+│     │                                                                │
+│     ▼                                                                │
+│ 새 빈 페이지에 최신 데이터 기록                                      │
+│     │                                                                │
+│     ▼                                                                │
+│ 블록 내부 상태: [Valid][Invalid][Invalid][Valid]                    │
+│     │                                                                │
+│     ├─ 유효 페이지가 남아 있음 ──▶ 블록 전체 Erase 불가              │
+│     │                                                                │
+│     └─ GC 수행 필요                                                  │
+│             │                                                        │
+│             ▼                                                        │
+│     유효 페이지만 새 블록으로 복사 후 기존 블록 Erase                │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 핵심은 SSD가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 지우기 위해 먼저 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 옮겨야 한다는 역설이다. 운영체제는 단순히 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 수정했다고 생각하지만, 내부에서는 새 주소 기록·예전 주소 무효화·유효 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이주·블록 소거가 연쇄적으로 일어난다. 그래서 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 칩 자체의 속도뿐 아니라, GC가 얼마나 질서 있게 공간을 정리하느냐에 크게 좌우된다.
 
@@ -62,24 +69,30 @@ GC의 핵심 흐름은 <strong>희생 블록 선정 → 유효 <a href="/knowled
 
 다음 그림은 GC가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)에 영향을 주는 병목 위치를 한눈에 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Garbage Collection 내부 데이터 경로</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Victim Block</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">V</div><div class="kb-diagram-node">I</div><div class="kb-diagram-node">I</div><div class="kb-diagram-node">V</div><div class="kb-diagram-node">I</div><div class="kb-diagram-node">V</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유효 페이지만 선별 복사 ─</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Destination Block</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">V</div><div class="kb-diagram-node">V</div><div class="kb-diagram-node">V</div><div class="kb-diagram-node">F</div><div class="kb-diagram-node">F</div><div class="kb-diagram-node">F</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mapping Table Update (LBA → new PBA)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Erase old block at block granularity</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Free Block Pool</div><div class="kb-diagram-note">로 복귀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">병목 포인트: 유효 페이지 복사량이 많을수록 내부 쓰기와 지연이 커짐</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                   Garbage Collection 내부 데이터 경로               │
+├──────────────────────────────────────────────────────────────────────┤
+│ [Victim Block]                                                      │
+│ [ V ][ I ][ I ][ V ][ I ][ V ]                                      │
+│   │               │               │                                 │
+│   └───── 유효 페이지만 선별 복사 ─┴─────┐                           │
+│                                          ▼                           │
+│                                [Destination Block]                  │
+│                                [ V ][ V ][ V ][ F ][ F ][ F ]       │
+│                                          │                           │
+│                                          ▼                           │
+│                          Mapping Table Update (LBA → new PBA)       │
+│                                          │                           │
+│                                          ▼                           │
+│                              Erase old block at block granularity   │
+│                                          │                           │
+│                                          ▼                           │
+│                           [Free Block Pool] 로 복귀                 │
+├──────────────────────────────────────────────────────────────────────┤
+│ 병목 포인트: 유효 페이지 복사량이 많을수록 내부 쓰기와 지연이 커짐     │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 여기서 가장 중요한 지표가 [WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/) ([Write Amplification](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/) Factor)다. 사용자가 4KB만 수정했는데 GC 때문에 기존 유효 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수 MB가 함께 이동하면, 실제 낸드에 기록되는 총 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)량은 사용자 요청보다 훨씬 커진다. 일반적으로 빈 공간이 넉넉하고 TRIM이 잘 동작할수록 WAF는 낮아지고, SSD가 가득 찰수록 WAF는 높아진다. 즉 GC의 품질은 단순 청소 효율이 아니라, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·전력·발열·수명까지 연결되는 아키텍처 문제다.
 
@@ -152,24 +165,26 @@ TRIM은 운영체제가 더 이상 필요 없는 [논리](/knowledge-base/studyn
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">낸드 플래시의 Erase-before-Write 제약</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">FTL (Flash Translation Layer)의 out-of-place update</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Garbage Collection을 통한 Free Block 재확보</div>
-<div class="kb-diagram-note">TRIM 기반 복사량 축소 Wear Leveling 기반 수명 균형</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">낮은 WAF와 안정적 지속 쓰기 성능</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ZNS SSD · 호스트 협력형 공간 관리</div>
-</div>
-</div>
-
-
+```text
+낸드 플래시의 Erase-before-Write 제약
+    │
+    ▼
+FTL (Flash Translation Layer)의 out-of-place update
+    │
+    ▼
+Garbage Collection을 통한 Free Block 재확보
+    │
+    ├──────────────┐
+    ▼              ▼
+TRIM 기반 복사량 축소   Wear Leveling 기반 수명 균형
+    │              │
+    └──────┬───────┘
+           ▼
+낮은 WAF와 안정적 지속 쓰기 성능
+           │
+           ▼
+ZNS SSD · 호스트 협력형 공간 관리
+```
 
 이 흐름은 낸드의 물리 제약에서 출발해, 주소 변환·공간 회수·수명 관리·호스트 협력형 최적화로 이어지는 발전 방향을 보여준다.
 

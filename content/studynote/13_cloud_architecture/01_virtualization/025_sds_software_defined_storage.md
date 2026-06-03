@@ -20,20 +20,20 @@ tags = ["studynote-cloud-architecture"]
 
 전통적 스토리지는 하드웨어+소프트웨어가 단일 어플라이언스로 통합되어, [벤더 종속](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/), 고비용, 수직적 확장([Scale-up](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)) 한계를 가졌다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SDS 핵심 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">앱 계층</div><div class="kb-diagram-note">K8s PVC / NFS / S3 API / Block API</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SDS 계층</div><div class="kb-diagram-note">Ceph / GlusterFS / vSAN / Longhorn</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(데이터 배치, 복제, 복구, 티어링)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">물리 계층</div><div class="kb-diagram-note">x86 서버 + HDD / SSD / NVMe</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(이기종 하드웨어 추상화)</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────┐
+│         SDS 핵심 아키텍처                                   │
+├───────────────────────────────────────────────────────────┤
+│                                                           │
+│  [앱 계층]    K8s PVC / NFS / S3 API / Block API          │
+│       │                                                   │
+│  [SDS 계층]   Ceph / GlusterFS / vSAN / Longhorn          │
+│       │       (데이터 배치, 복제, 복구, 티어링)             │
+│       │                                                   │
+│  [물리 계층]   x86 서버 + HDD / SSD / NVMe                 │
+│               (이기종 하드웨어 추상화)                      │
+└───────────────────────────────────────────────────────────┘
+```
 
 SDS의 3가지 스토리지 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/):
 - **블록 스토리지(Block)**: [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/), [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 디스크
@@ -48,23 +48,23 @@ SDS의 3가지 스토리지 [서비스](/knowledge-base/studynote/13_cloud_archi
 
 ### Ceph — [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [SDS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/632_sds/) 레퍼런스 아키텍처
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ceph 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">클라이언트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">librados / S3 API / RBD / CephFS</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">RADOS (Reliable Autonomic Distributed Object Store)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MON (모니터) - 클러스터 상태 관리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OSD (Object Storage Daemon) - 실제 데이터 저장·복제</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MGR (Manager) - 메트릭, 대시보드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MDS (Metadata Server) - CephFS 파일 메타데이터</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CRUSH 알고리즘</div><div class="kb-diagram-note">- 데이터 배치 결정 (중앙 조회 없이)</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────┐
+│                  Ceph 아키텍처                               │
+├────────────────────────────────────────────────────────────┤
+│                                                            │
+│  [클라이언트]                                               │
+│  librados / S3 API / RBD / CephFS                         │
+│       │                                                    │
+│  [RADOS (Reliable Autonomic Distributed Object Store)]    │
+│  MON (모니터) - 클러스터 상태 관리                          │
+│  OSD (Object Storage Daemon) - 실제 데이터 저장·복제        │
+│  MGR (Manager) - 메트릭, 대시보드                           │
+│  MDS (Metadata Server) - CephFS 파일 메타데이터             │
+│       │                                                    │
+│  [CRUSH 알고리즘] - 데이터 배치 결정 (중앙 조회 없이)        │
+└────────────────────────────────────────────────────────────┘
+```
 
 ### K8s [CSI](/knowledge-base/studynote/12_it_management/02_itsm_itil/068_csi/) 기반 동적 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/)
 
@@ -150,23 +150,21 @@ SDS는 [Hyperconverged Infrastructure](/knowledge-base/studynote/13_cloud_archit
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">전통 SAN/NAS — 전용 어플라이언스, 벤더 종속</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SDS (Ceph/GlusterFS) — 상용 HW + 소프트웨어 분리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">K8s CSI 통합 — 컨테이너 네이티브 동적 프로비저닝</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HCI (Nutanix/vSAN) — 컴퓨팅+스토리지+네트워크 통합</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AI 기반 스토리지 자동화 — 데이터 티어링, 이상 탐지</div></div>
-</div>
-</div>
-
-
+```text
+[전통 SAN/NAS — 전용 어플라이언스, 벤더 종속]
+    │
+    ▼
+[SDS (Ceph/GlusterFS) — 상용 HW + 소프트웨어 분리]
+    │
+    ▼
+[K8s CSI 통합 — 컨테이너 네이티브 동적 프로비저닝]
+    │
+    ▼
+[HCI (Nutanix/vSAN) — 컴퓨팅+스토리지+네트워크 통합]
+    │
+    ▼
+[AI 기반 스토리지 자동화 — 데이터 티어링, 이상 탐지]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

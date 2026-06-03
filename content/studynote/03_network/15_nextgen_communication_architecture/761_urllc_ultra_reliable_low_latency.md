@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: 5G의 3대 사용 시나리오(매직 트라이앵글) 중 하나로, <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 전송 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">지연 시간</a>(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>)을 1ms(1,000분의 1초) 이하로 줄이고, <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 전송 성공률(<a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a>)을 99.999% 이상으로 보장하는 초고신뢰 초저지연 통신 기술</strong>입니다.
 - **적용 대상**: 사람이 아니라 생명이나 거대 자본이 걸린 기계(자율주행 [V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/) 제어, 원격 로봇 수술, [스마트 팩토리](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/)의 정밀 로봇 팔 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/))에 적용됩니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">eMBB AR/VR 기술 지원 파급 체계 지…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">uRLLC</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">mMTC</div></div>
-</div>
-</div>
-
-
+```text
+[eMBB AR/VR 기술 지원 파급 체계 지…]
+    │
+    ▼
+[uRLLC]
+    │
+    └──▶ [mMTC]
+```
 
 - **📢 섹션 요약 비유**: uRLLC는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -51,18 +47,14 @@ tags = ["studynote-network"]
 - 앞서 배운 유선망의 [TSN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/546_tsn_hardware/) 기술(632번)을 무선으로 가져온 것입니다.
 - [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기지국이 일반 사용자의 유튜브 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([eMBB](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/760_embb_enhanced_mobile_broadband_vr_ar/) 트럭)를 전송하고 있는 찰나에, 자율주행 브레이크 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(uRLLC 구급차)가 들어오면? 기지국은 가차 없이 전송 중이던 유튜브 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쪼개서 옆으로 치워버리고 브레이크 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)부터 먼저 무선으로 쏴줍니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">eMBB AR/VR 기술 지원 파급 체계 지…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">uRLLC</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">mMTC</div></div>
-</div>
-</div>
-
-
+```text
+[eMBB AR/VR 기술 지원 파급 체계 지…]
+    │
+    ▼
+[uRLLC]
+    │
+    └──▶ [mMTC]
+```
 
 - **📢 섹션 요약 비유**: uRLLC의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -119,19 +111,15 @@ uRLLC는 차세대 통신 아키텍처를 이해할 때 핵심 축을 잡아 주
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: eMBB AR/VR 기술 지원 파급 체계 지…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: uRLLC</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: mMTC</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 네트워크 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: eMBB AR/VR 기술 지원 파급 체계 지…]
+    │
+    ▼
+[현재 개념: uRLLC]
+    │
+    ├──▶ [확장 A: mMTC]
+    └──▶ [확장 B: AI 기반 네트워크 최적화]
+```
 
 uRLLC는 [eMBB](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/760_embb_enhanced_mobile_broadband_vr_ar/) AR/VR 기술 지원 파급 체계 지…에서 출발해 현재 메커니즘을 정교화하고, 이후 mMTC와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

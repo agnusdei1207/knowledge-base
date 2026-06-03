@@ -26,25 +26,26 @@ tags = ["studynote-operating-system"]
 - <strong>세그먼트별 관리 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>:
   운영체제는 각 세그먼트의 특성에 맞는 권한을 부여한다. Text는 `Read-Execute`, [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)/[BSS](/knowledge-base/studynote/02_operating_system/02_process_thread/083_bss_segment/)/Heap은 `Read-Write`, Stack은 `Read-Write`와 더불어 하드웨어 레벨의 [스택 포인터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/) ([SP](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/), [Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) Pointer) 제어를 받는다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 세그먼트 분할의 필요성 (보호와 효율)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">무질서한 메모리</div><div class="kb-diagram-node">구조화된 메모리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Code 1</div><div class="kb-diagram-cell">Text</div><div class="kb-diagram-cell">(R-X)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Global V</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Local V</div><div class="kb-diagram-cell">====&gt;</div><div class="kb-diagram-cell">Data / BSS</div><div class="kb-diagram-cell">(R-W)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Malloc()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Code 2</div><div class="kb-diagram-cell">Heap</div><div class="kb-diagram-cell">(R-W)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Stack</div><div class="kb-diagram-cell">(R-W)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 권한 관리 불가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 메모리 파편화 심화 - 영역별 권한 격리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 코드 수정 위험성 - 자원 공유 및 효율성</div></div>
-</div>
-</div>
-
-
+```text
+  ┌──────────────────────────────────────────────────────────────────┐
+  │              메모리 세그먼트 분할의 필요성 (보호와 효율)         │
+  ├──────────────────────────────────────────────────────────────────┤
+  │                                                                  │
+  │  [무질서한 메모리]                 [구조화된 메모리]             │
+  │  ┌──────────────┐                 ┌──────────────┐               │
+  │  │   Code 1     │                 │    Text      │ (R-X)         │
+  │  │   Global V   │                 ├──────────────┤               │
+  │  │   Local V    │      ====>      │  Data / BSS  │ (R-W)         │
+  │  │   Malloc()   │                 ├──────────────┤               │
+  │  │   Code 2     │                 │    Heap      │ (R-W)         │
+  │  └──────────────┘                 ├──────────────┤               │
+  │                                   │    Stack     │ (R-W)         │
+  │   - 권한 관리 불가                 └──────────────┘              │
+  │   - 메모리 파편화 심화              - 영역별 권한 격리           │
+  │   - 코드 수정 위험성                - 자원 공유 및 효율성        │
+  │                                                                  │
+  └──────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 그림은 평면적인 메모리 적재 방식과 세그먼트 기반 구조화 방식의 차이를 극명하게 보여준다. 구조화되지 않은 메모리에서는 실행 코드(Code)와 수정 가능한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Global V)가 섞여 있어, 해커가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 입력 시 코드를 덮어쓰는 [버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/) ([Buffer Overflow](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/)) 공격에 매우 취약하다. 반면, 오른쪽의 구조화된 모델에서는 각 영역에 엄격한 권한 (Read, Write, Execute)을 부여함으로써 코드가 수정되는 것을 하드웨어 레벨에서 차단한다. 또한, 동일한 프로그램이 여러 번 실행될 때 'Text' 영역만 물리 메모리에서 공유하고 나머지는 프로세스별로 독립시키는 기법을 통해 전체 시스템의 메모리 효율을 극대화할 수 있다.
 
@@ -70,23 +71,28 @@ tags = ["studynote-operating-system"]
 
 Heap과 Stack은 프로세스 실행 중에 크기가 변하므로 서로 충돌하지 않도록 [가상 주소 공간](/knowledge-base/studynote/02_operating_system/07_virtual_memory/382_virtual_address_space/)의 양 끝단에 배치된다. Stack은 주소값이 감소하는 방향으로, Heap은 주소값이 증가하는 방향으로 자라나며 그 사이의 빈 공간 (Free Space)을 공유한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Heap vs Stack 성장 방향 및 충돌 방지</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Stack</div><div class="kb-diagram-note">(High Address)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">v (성장 방향: Downward)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">~~~~~~~~~~~</div><div class="kb-diagram-node">공유 공간 (Free Memory)</div><div class="kb-diagram-note">~~~~~~~~~~~</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">^ (성장 방향: Upward)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Heap</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">BSS / Data / Text</div><div class="kb-diagram-note">(Low Address)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* Stack Overflow: Stack이 Heap 영역을 침범할 때 발생</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* Heap Overflow: Heap이 Stack 영역을 침범할 때 발생</div></div>
-</div>
-</div>
-
-
+```text
+  ┌──────────────────────────────────────────────────────────────────┐
+  │                 Heap vs Stack 성장 방향 및 충돌 방지             │
+  ├──────────────────────────────────────────────────────────────────┤
+  │                                                                  │
+  │  [Stack] (High Address)                                          │
+  │     |                                                            │
+  │     v  (성장 방향: Downward)                                     │
+  │                                                                  │
+  │  ~~~~~~~~~~~ [ 공유 공간 (Free Memory) ] ~~~~~~~~~~~             │
+  │                                                                  │
+  │     ^  (성장 방향: Upward)                                       │
+  │     |                                                            │
+  │  [Heap]                                                          │
+  │                                                                  │
+  │  [BSS / Data / Text] (Low Address)                               │
+  │                                                                  │
+  │  * Stack Overflow: Stack이 Heap 영역을 침범할 때 발생            │
+  │  * Heap Overflow: Heap이 Stack 영역을 침범할 때 발생             │
+  │                                                                  │
+  └──────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 구조는 메모리 활용의 유연성을 극대화하기 위한 설계이다. Stack은 함수가 호출될 때마다 프레임 (Frame)이 쌓이므로 예측 가능한 관리 (LIFO: Last-In First-Out)가 가능하지만, Heap은 `malloc()` 등에 의해 비정기적으로 할당되므로 파편화 ([Fragmentation](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)) 문제가 발생하기 쉽다. 두 영역이 서로를 향해 자라나게 함으로써, 어느 한쪽이 많이 필요할 때 남은 공간을 유동적으로 쓸 수 있게 한다. 현대 OS에서는 이들 사이에 [공유 라이브러리](/knowledge-base/studynote/02_operating_system/06_memory_management/333_shared_library/) 매핑 영역 (Memory [Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/) [Segment](/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/))을 두어 동적 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) (.so, .dll)를 효율적으로 로드한다. 실무적으로 Stack의 크기는 보통 제한 (예: 8MB)되어 있으며, 이를 초과하면 프로세스는 세그먼테이션 폴트 ([Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) Fault)와 함께 즉시 종료된다.
 
@@ -100,17 +106,12 @@ Heap과 Stack은 프로세스 실행 중에 크기가 변하므로 서로 충돌
 2. **로딩 단계**: 운영체제가 프로그램을 메모리에 로드할 때, 기록된 크기만큼 메모리를 할당하고 모든 비트를 0으로 채운다.
 3. **이점**: 만약 `int arr[1000000];`과 같이 큰 배열을 선언했을 때, [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 영역에 두면 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 크기가 수 MB 늘어나지만, BSS에 두면 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 크기는 거의 변하지 않는다.
 
+```text
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Source Code / 소스 코드</div><div class="kb-diagram-node">Executable File / 실행 파일</div><div class="kb-diagram-node">Memory Space / 메모리 공간</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">a: 10</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">a: 10</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">size: 4</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">b:  0</div></div>
-</div>
-</div>
-
-
+  [Source Code / 소스 코드]              [Executable File / 실행 파일]            [Memory Space / 메모리 공간]
+  int a = 10;   ----(Data / 데이터)----> [ a: 10 ]  ----(Load)----> [ a: 10 ]
+  int b;        ----(BSS) ----> [ size: 4]  ----(Zero / 0)----> [ b:  0 ]
+```
 
 **[다이어그램 해설]** 이 흐름도는 초기화 여부에 따른 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 저장 및 로딩 방식의 차이를 보여준다. `int a = 10;`은 초기값이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 저장되어야 하므로 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 세그먼트에 속하며 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 용량을 차지한다. 반면 `int b;`는 초기값이 없으므로 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에는 "변수 b를 위해 4바이트가 필요함"이라는 정보만 남기고 실제 공간은 메모리에 올라갈 때 0으로 초기화되며 생성된다. 이 메커니즘은 저장 매체의 공간을 절약하고 네트워크를 통한 프로그램 전송 속도를 높이는 중요한 최적화 기법이다. 따라서 대규모 버퍼를 전역으로 선언할 때는 명시적으로 0을 대입하기보다 초기화 없이 선언하여 BSS의 이점을 누리는 것이 권장된다.
 
@@ -183,19 +184,15 @@ Heap과 Stack은 프로세스 실행 중에 크기가 변하므로 서로 충돌
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">프로그램 (Program) vs 프로세스 (Process)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">프로세스 메모리 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">BSS (Block Started by Symbol) 영역</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">힙 (Heap) 영역</div></div>
-</div>
-</div>
-
-
+```text
+[프로그램 (Program) vs 프로세스 (Process)]
+    │
+    ▼
+[프로세스 메모리 구조]
+    │
+    ├──▶ [BSS (Block Started by Symbol) 영역]
+    └──▶ [힙 (Heap) 영역]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

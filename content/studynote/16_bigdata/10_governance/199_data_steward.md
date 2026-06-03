@@ -13,7 +13,7 @@ tags = ["studynote-bigdata"]
 
 - **본질**: [데이터 스튜어드](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/067_data_steward_data_quality/)([Data Steward](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/067_data_steward_data_quality/))는 특정 비즈니스 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질·정의·사용 기준을 일상적으로 관리하는 역할로, 비즈니스와 IT를 연결하는 <strong>현장 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 관리자</strong>다.
 - **가치**: [Data Owner](/knowledge-base/studynote/16_bigdata/10_governance/200_data_owner/)([전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 책임)와 [DBA](/knowledge-base/studynote/05_database/01_db_architecture_relational/025_dba_database_administrator/)(기술적 구현) 사이의 간극을 메워, [데이터 사전](/knowledge-base/studynote/05_database/07_exam_summary/393_data_dictionary/)([Data Dictionary](/knowledge-base/studynote/05_database/04_transactions_concurrency/509_data_dictionary/)) 작성부터 품질 이슈 해결까지 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 지식 기반의 실질적 거버넌스를 수행한다.
-- **판단 포인트**: 스튜어드는 "비즈니스 규칙을 가장 잘 아는 사람"이어야 하며, IT 역할이 아닌 업무 역할(business role)임을 명심해야 기술사 답안이 정확해진다.
+- **판단 포인트**: 스튜어드는 "비즈니스 규칙을 가장 잘 아는 사람"이어야 하며, IT 역할이 아닌 업무 역할(비즈니스 role)임을 명심해야 기술사 답안이 정확해진다.
 
 ---
 
@@ -43,27 +43,30 @@ tags = ["studynote-bigdata"]
 
 ### 2.1 [데이터 스튜어드 역할](/knowledge-base/studynote/12_it_management/01_governance_strategy/053_data_stewardship_role/) 구조
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">거버넌스 역할 계층</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data Owner (비즈니스 임원)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· 전략적 책임, 접근 정책 최종 승인, 규제 준수 책임</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위임</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data Steward (업무 담당자) ◀── 핵심 역할</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· 데이터 정의/사전 관리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· 품질 기준 수립 및 이슈 해결</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· 메타데이터 관리 및 승인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· 접근 요청 검토 및 Data Owner 추천</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· 비즈니스 규칙 문서화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기술 요청</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data Custodian (IT/DBA)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· 저장, 백업, 암호화, 인프라 구현</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                     거버넌스 역할 계층                           │
+│                                                                 │
+│  ┌───────────────────────────────────────────────────────────┐  │
+│  │  Data Owner (비즈니스 임원)                                │  │
+│  │  · 전략적 책임, 접근 정책 최종 승인, 규제 준수 책임          │  │
+│  └───────────────────────────┬───────────────────────────────┘  │
+│                              │ 위임                             │
+│  ┌───────────────────────────▼───────────────────────────────┐  │
+│  │  Data Steward (업무 담당자)   ◀── 핵심 역할                │  │
+│  │  · 데이터 정의/사전 관리                                    │  │
+│  │  · 품질 기준 수립 및 이슈 해결                              │  │
+│  │  · 메타데이터 관리 및 승인                                  │  │
+│  │  · 접근 요청 검토 및 Data Owner 추천                        │  │
+│  │  · 비즈니스 규칙 문서화                                     │  │
+│  └───────────────────────────┬───────────────────────────────┘  │
+│                              │ 기술 요청                         │
+│  ┌───────────────────────────▼───────────────────────────────┐  │
+│  │  Data Custodian (IT/DBA)                                  │  │
+│  │  · 저장, 백업, 암호화, 인프라 구현                          │  │
+│  └───────────────────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────────────────────┘
+```
 
 ### 2.2 스튜어드 유형
 
@@ -112,26 +115,26 @@ tags = ["studynote-bigdata"]
 
 ### 4.1 스튜어드 일상 업무 흐름
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 품질 이슈 발생</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">스튜어드가 이슈 분류</div>
-<div class="kb-diagram-note">(비즈니스 규칙 문제 vs 기술 문제)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">규칙 문제</div><div class="kb-diagram-cell">──▶ 스튜어드가 직접 정의 수정 + 문서화</div></div>
-<div class="kb-diagram-note">기술 문제</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Custodian(DBA)에 수정 요청</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">수정 완료 후 스튜어드 검증 승인</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Data Owner에 주요 변경사항 보고</div>
-</div>
-</div>
-
-
+```
+[데이터 품질 이슈 발생]
+         │
+         ▼
+스튜어드가 이슈 분류
+(비즈니스 규칙 문제 vs 기술 문제)
+         │
+    ┌────▼────┐
+    │규칙 문제 │──▶ 스튜어드가 직접 정의 수정 + 문서화
+    └────┬────┘
+         │기술 문제
+         ▼
+Custodian(DBA)에 수정 요청
+         │
+         ▼
+수정 완료 후 스튜어드 검증 승인
+         │
+         ▼
+Data Owner에 주요 변경사항 보고
+```
 
 ### 4.2 스튜어드 성과 지표
 
@@ -182,23 +185,21 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 거버넌스 필요</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 소유자 지정</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 스튜어드(Data Steward) 역할</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 카탈로그 관리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MDM(마스터 데이터 관리)</div></div>
-</div>
-</div>
-
-
+```text
+[데이터 거버넌스 필요]
+    │
+    ▼
+[데이터 소유자 지정]
+    │
+    ▼
+[데이터 스튜어드(Data Steward) 역할]
+    │
+    ▼
+[데이터 카탈로그 관리]
+    │
+    ▼
+[MDM(마스터 데이터 관리)]
+```
 
 [데이터 스튜어드](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/067_data_steward_data_quality/)는 거버넌스와 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/), MDM을 연결하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 책임자 역할이다.
 

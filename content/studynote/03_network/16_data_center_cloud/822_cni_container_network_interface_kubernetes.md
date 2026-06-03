@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)나 클라우드 파운드리 같은 [컨테이너 오케스트레이션](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 플랫폼 환경에서, <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a>(<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/">Pod</a>)들의 네트워크 환경(IP 할당, 삭제, 가상 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> 연결)을 구성하고 제어하기 위한 <a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/385_third_party_cookie_deprecation_cdw/">서드파티</a>(Third-party) '네트워크 플러그인 표준 명세서(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> 규격)'</strong>입니다. ([CNCF](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/) 재단 관리)
 - **존재 이유**: [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)는 오직 "[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 띄우고 죽이는 일"만 잘합니다. 네트워크 연결이라는 복잡한 일은 CNI 규격을 지켜서 만든 외부 소프트웨어([Flannel](/knowledge-base/studynote/03_network/16_data_center_cloud/823_flannel_overlay_cni_vxlan/), [Calico](/knowledge-base/studynote/03_network/16_data_center_cloud/824_calico_bgp_routing_cni_network_policy/), [Cilium](/knowledge-base/studynote/03_network/16_data_center_cloud/825_cilium_ebpf_kubernetes_networking_security/) 등)에게 100% 외주(아웃소싱)를 줍니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">클라우드 네이티브 네트워킹 스케일아웃 분산…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">컨테이너 네트워킹 인터페이스</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Flannel</div></div>
-</div>
-</div>
-
-
+```text
+[클라우드 네이티브 네트워킹 스케일아웃 분산…]
+    │
+    ▼
+[컨테이너 네트워킹 인터페이스]
+    │
+    └──▶ [Flannel]
+```
 
 - **📢 섹션 요약 비유**: [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 네트워킹 인터페이스는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -50,18 +46,14 @@ tags = ["studynote-network"]
 3. **자아 인식 IP 일치 (Self-awareness)**:
    - [포드](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) 안에서 자기가 자기 IP를 조회해 본 결과(`ip addr`)와, 다른 [포드](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/)가 나를 부를 때 쓰는 내 IP가 <strong>100% 똑같은 하나의 진짜 IP</strong>여야 합니다. ([포트 포워딩](/knowledge-base/studynote/03_network/14_network_security_threats/736_port_forwarding_jump_station_bastion_host/) 떡칠 금지)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">클라우드 네이티브 네트워킹 스케일아웃 분산…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">컨테이너 네트워킹 인터페이스</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Flannel</div></div>
-</div>
-</div>
-
-
+```text
+[클라우드 네이티브 네트워킹 스케일아웃 분산…]
+    │
+    ▼
+[컨테이너 네트워킹 인터페이스]
+    │
+    └──▶ [Flannel]
+```
 
 - **📢 섹션 요약 비유**: [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 네트워킹 인터페이스의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -122,19 +114,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 클라우드 네이티브 네트워킹 스케일아웃 분산…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 컨테이너 네트워킹 인터페이스</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: Flannel</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 클라우드 네이티브 네트워킹 스케일아웃 분산…]
+    │
+    ▼
+[현재 개념: 컨테이너 네트워킹 인터페이스]
+    │
+    ├──▶ [확장 A: Flannel]
+    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
+```
 
 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 네트워킹 인터페이스는 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 스케일아웃 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)…에서 출발해 현재 메커니즘을 정교화하고, 이후 Flannel와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

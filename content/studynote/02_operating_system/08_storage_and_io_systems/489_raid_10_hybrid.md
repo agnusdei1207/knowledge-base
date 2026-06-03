@@ -25,32 +25,41 @@ tags = ["studynote-operating-system"]
 - <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/">RAID</a> 10(1+0) 과 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/">RAID</a> 01(0+1)의 결합 엮임 물리 매핑 트리 차이점</strong>:
 이 앞뒤 순서 레고 조립을 어떻게 역기초 하느냐에 따라 왜 하나는 천국이고 하나는 지옥(01)인지를 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 트리 다이어그램으로 체계화 시각 묘사하면 아래 뼈대와 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RAID 10 vs RAID 01 아키텍처 계층의 하늘과 땅 차이</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">승리자: RAID 10 (Striping over Mirroring / 거울들을 묶기)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">거대 가상 볼륨 /dev/md0 (스트라이핑 끈 묶음 RAID 0 계층)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(A/B/C 데이터 분배 팍!) (D/E/F 데이터 분배 팍!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">서브 미러 그룹 1</div><div class="kb-diagram-node">서브 미러 그룹 2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(디스크1 == 디스크2) (디스크3 == 디스크4)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(A) (A) (D) (D)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">💥 디스크 1 파괴!</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">디스크 2만 살아있어도 서브 그룹 1 전체 100% 생존!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">💥 1파괴, 3파괴!</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">다른 방에 불났으니 쌍 파괴도 운 좋게 방어 생존!!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">패배자: RAID 01 (Mirroring over Striping / 배 묶음을 통째복사)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">거대 가상 볼륨 /dev/md0 (미러링 거울 껍데기 RAID 1 계층)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(왼쪽 군락지로 똑같이 복제) == (오른쪽 똑같이 복제)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">서브 스트라이프 묶음 그룹 1</div><div class="kb-diagram-node">서브 스트라이프 묶음 그룹 2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(디스크1 분산 디스크2) (디스크3 분산 디스크4)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(A) (B) (A) (B)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">💥 디스크 1 파괴!</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">묶음 그룹 1 전체 즉사 붕괴! (그룹 2로만 연명)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">💥 1파괴 중 기적적 확률로 디스크 4마저 파괴!</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">그룹 2마저 즉사!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">= 두 개의 거울 뒷면 스트라이프가 다 부서져 데이터 100% 완전 삭제 사망폭발!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌────────────────────────────────────────────────────────────────────────────────┐
+  │                 RAID 10 vs RAID 01 아키텍처 계층의 하늘과 땅 차이              │
+  ├────────────────────────────────────────────────────────────────────────────────┤
+  │                                                                                │
+  │   [ 승리자: RAID 10 (Striping over Mirroring / 거울들을 묶기) ]                │
+  │                                                                                │
+  │         [ 거대 가상 볼륨 /dev/md0 (스트라이핑 끈 묶음 RAID 0 계층) ]           │
+  │                          /                    \                                │
+  │             (A/B/C 데이터 분배 팍!)        (D/E/F 데이터 분배 팍!)             │
+  │             /                                    \                             │
+  │     [ 서브 미러 그룹 1 ]                     [ 서브 미러 그룹 2 ]              │
+  │     (디스크1 == 디스크2)                     (디스크3 == 디스크4)              │
+  │       (A)      (A)                           (D)      (D)                      │
+  │                                                                                │
+  │   [ 💥 디스크 1 파괴! ] ─▶ 디스크 2만 살아있어도 서브 그룹 1 전체 100% 생존!   │
+  │   [ 💥 1파괴, 3파괴! ] ─▶ 다른 방에 불났으니 쌍 파괴도 운 좋게 방어 생존!!     │
+  │                                                                                │
+  │ ────────────────────────────────────────────────────────────────               │
+  │                                                                                │
+  │   [ 패배자: RAID 01 (Mirroring over Striping / 배 묶음을 통째복사) ]           │
+  │                                                                                │
+  │            [ 거대 가상 볼륨 /dev/md0 (미러링 거울 껍데기 RAID 1 계층)]         │
+  │                          /                    \                                │
+  │             (왼쪽 군락지로 똑같이 복제)     ==    (오른쪽 똑같이 복제)         │
+  │             /                                    \                             │
+  │     [ 서브 스트라이프 묶음 그룹 1 ]         [ 서브 스트라이프 묶음 그룹 2 ]    │
+  │     (디스크1 분산 디스크2)                   (디스크3 분산 디스크4)            │
+  │      (A)         (B)                     (A)        (B)                        │
+  │                                                                                │
+  │   [ 💥 디스크 1 파괴! ] ─▶ 묶음 그룹 1 전체 즉사 붕괴! (그룹 2로만 연명)       │
+  │   [ 💥 1파괴 중 기적적 확률로 디스크 4마저 파괴! ] ─▶ 그룹 2마저 즉사!         │
+  │     = 두 개의 거울 뒷면 스트라이프가 다 부서져 데이터 100% 완전 삭제 사망폭발! │
+  └────────────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 두 조립 체계는 단순히 0과 1의 순서만 바꾼 게 아니라 **'장애 허용 관문(단일 지점 폭파)이 어디서 박살 나느냐 설계결함'** 이다. 
 `RAID 10(1+0)`은 제일 밑바닥 하드웨어 단위에 [RAID 1](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/485_raid_1_mirroring/)(각자 거울 미러 방패 복재) 쌍을 튼튼하게 박아 놓고, 그 무적의 호위 무사 "그룹들 끼리를" 위에서 [RAID 0](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/484_raid_0_striping/) 끈으로 엮어 속도를 달린 것이다. 한쪽이 죽어도 그 쌍둥이만 무사하면 전체 팀 배의 속도 구멍은 없다. 반면 `RAID 01(0+1)`은 젤 밑바닥 기초 부실 공사로 [스트라이핑](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/332_raid_0/) 끈으로 엮어놓고, 이 불안한 배 묶음(디스크 하나 터지면 전체 스트라이프 렉이 증발하는 시한폭탄)을 전체 왼쪽 성벽과 오른쪽 성벽 덩어리로 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)([미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/))해놓은 것이다. 이는 디스크 하나만 고장 나도 왼쪽 전체 블레이드 절반 스토리지 랙이 죄다 다운 처리되어 날아가는 최악의 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 폭망(Rebuilding 랙 오버헤드의 아수라장)을 맞이하게 된다.
@@ -144,19 +153,15 @@ R10의 아킬레스건은 기절할 듯한 구매 가성비 낭비 파탄에 있
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">RAID 6 (분산 이중 패리티)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">RAID 10 (1+0) / RAID 01 (0+1) 혼합형 구조 (RAID 10 Hybrid)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">소프트웨어 RAID vs 하드웨어 RAID (컨트롤러 캐시/BBU 장착)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핫 스페어 (Hot Spare) 디스크 자동 재구성</div></div>
-</div>
-</div>
-
-
+```text
+[RAID 6 (분산 이중 패리티)]
+    │
+    ▼
+[RAID 10 (1+0) / RAID 01 (0+1) 혼합형 구조 (RAID 10 Hybrid)]
+    │
+    ├──▶ [소프트웨어 RAID vs 하드웨어 RAID (컨트롤러 캐시/BBU 장착)]
+    └──▶ [핫 스페어 (Hot Spare) 디스크 자동 재구성]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

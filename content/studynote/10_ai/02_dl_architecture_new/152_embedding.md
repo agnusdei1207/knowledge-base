@@ -35,30 +35,32 @@ tags = ["studynote-ai"]
 
 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)의 마법은 "비슷한 문맥에서 등장하는 단어들은 비슷한 의미를 가진다([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 표현 가설)"는 언어학적 통찰을 기하학 연산으로 박살 내버린 데 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">임베딩 공간(Embedding Space)에서의 의미적 텐서 연산 흑마법 🚀</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">🌌 3차원 우주 공간에 점(Vector)으로 투영된 단어들</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">* 왕 (King) =</div><div class="kb-diagram-node">0.9,   0.5,  -0.2</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">* 남자 (Man) =</div><div class="kb-diagram-node">0.8,   0.1,  -0.1</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">* 여자 (Woman) =</div><div class="kb-diagram-node">-0.4,   0.1,   0.2</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">* 여왕 (Queen) =</div><div class="kb-diagram-node">?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">🪓 경이로운 의미론적 수학 연산 (Semantic Math)</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">왕(King)</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">남자(Man)</div><div class="kb-diagram-note">+</div><div class="kb-diagram-node">여자(Woman)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(0.9 - 0.8 - 0.4) = -0.3</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">-0.3, 0.5, 0.1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(-0.2 - (-0.1) + 0.2) = 0.1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 아키텍트 극딜 팩폭: "야 이 씨발 소름 돋지 않냐 쾅!!!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">저 덧셈 뺄셈 해서 나온 정체불명의 쓰레기 결괏값 좌표 <code></div><div class="kb-diagram-node">-0.3, 0.5, 0.1</div><div class="kb-diagram-note"></code> 을</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">우주 공간 지도에 딱 찍고!! 그 주변에 제일 가까운 별(단어)이 누군지 검색 스캔</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">레이더를 빙빙 돌려 쐈더니 ➔ 기적처럼 </div><div class="kb-diagram-node">여왕(Queen)</div><div class="kb-diagram-note"> 이라는 별이 0.001초</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오차도 없이 딱 튀어나와 발가벗겨 까발려진다고 미친아 🚀!!!"</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│           임베딩 공간(Embedding Space)에서의 의미적 텐서 연산 흑마법 🚀 │
+├──────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  [ 🌌 3차원 우주 공간에 점(Vector)으로 투영된 단어들 ]               │
+│     * 왕 (King)      = [  0.9,   0.5,  -0.2 ]                    │
+│     * 남자 (Man)     = [  0.8,   0.1,  -0.1 ]                    │
+│     * 여자 (Woman)   = [ -0.4,   0.1,   0.2 ]                    │
+│     * 여왕 (Queen)   = [ ? ]                                     │
+│                                                                  │
+│        ======= [ 🪓 경이로운 의미론적 수학 연산 (Semantic Math) ] ========│
+│                                                                  │
+│   [ 왕(King) ]  ─  [ 남자(Man) ]  +  [ 여자(Woman) ]               │
+│                                                                  │
+│   (0.9 - 0.8 - 0.4)    = -0.3                                    │
+│   (0.5 - 0.1 + 0.1)    =  0.5     ====▶  결과 벡터: [ -0.3, 0.5, 0.1 ] │
+│   (-0.2 - (-0.1) + 0.2) = 0.1                                    │
+│                                                                  │
+│   🌟 아키텍트 극딜 팩폭: "야 이 씨발 소름 돋지 않냐 쾅!!!                │
+│   저 덧셈 뺄셈 해서 나온 정체불명의 쓰레기 결괏값 좌표 `[-0.3, 0.5, 0.1]` 을  │
+│   우주 공간 지도에 딱 찍고!! 그 주변에 제일 가까운 별(단어)이 누군지 검색 스캔 │
+│   레이더를 빙빙 돌려 쐈더니 ➔ 기적처럼 **[여왕(Queen)]** 이라는 별이 0.001초 │
+│   오차도 없이 딱 튀어나와 발가벗겨 까발려진다고 미친아 🚀!!!"                 │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/">아키텍트 진화 트리: 정적(Static) [임베딩</a> ➔ 동적(Dynamic) 어텐션 <a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/">임베딩</a> ✨]</strong>
 - <strong>1세대 낡은 정적 <a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/">임베딩</a> (<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/339_word2vec/">Word2Vec</a>, <a href="/knowledge-base/studynote/10_ai/05_data_science_ml/365_glove_word_embedding/">GloVe</a> 💀)</strong>: 단어당 고정된 1개의 벡터만 갖는 멍청한 사전이다. "배(Ship)"를 타든, 과일 "배(Pear)"를 먹든, 내 "배(Stomach)"가 아프든 이 3가지 텍스트는 모.조.리. 100% 똑같은 벡터 숫자 좌표 `[0.5, 0.2...]` 1개로만 변환 번역되어 뭉개졌다 (다의어 판독 붕괴 파국 💥).
@@ -140,23 +142,21 @@ tags = ["studynote-ai"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">원-핫 인코딩 (One-Hot) 깡통 쓰레기 시대 💀 / 단어 사전이 10만 개면 배열 10만 칸 뚫어서 1과 0만 채움. 메모리 램 오버헤드 타죽고 ➔ 단어끼리 뜻 비슷한지 1도 계산 못 하는 맹인 뻗음 파국 💥</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">분산 표현 (Distributed Representation) 사상 대관식 🚀 / "비슷한 위치에 나오는 단어는 의미도 비슷함 ㅋ" ➔ Word2Vec 등판! 10만 칸 낭비 찢어버리고 300칸 실수 배열(Dense Vector)로 꽉꽉 뭉개 압축 다이어트 성공 ✨! (의미 수학 덧셈 가능해짐)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">문맥 기반 동적 임베딩 (BERT, GPT 텐트) 융합 / 다의어 멍청이 맹점을 어텐션(Attention) 빔 쏴서 극복 ➔ 문장 통째로 맥락 파악해 좌표 찍어주는 진짜 지능형 차원 텔레포트 매핑 록온 쾅!</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">멀티모달 (Multi-modal) 임베딩 대통일 🚀 / CLIP 모델 강림! 텍스트 글자랑 이미지 사진 픽셀을 똑.같.은 1개의 임베딩 우주 공간에 포개서 강제 십자 융합 록온 쳐 ➔ 글로 사진 찾고 사진으로 글 찾는 차원 붕괴 제국 통일 ✨</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">벡터 DB + RAG 하이브리드 파이프라인 (현재) / 이 뭉개진 숫자 쇳덩이들을 1억 개씩 Pinecone 벡터 DB에 쑤셔 박아 ➔ LLM 환각 할루시네이션을 0.1초 컷 척살해 버리는 B2B 엔터프라이즈 AI의 0순위 심장 대동맥으로 영구 진화 완수 쾅!!</div>
-</div>
-</div>
-
-
+```text
+원-핫 인코딩 (One-Hot) 깡통 쓰레기 시대 💀 / 단어 사전이 10만 개면 배열 10만 칸 뚫어서 1과 0만 채움. 메모리 램 오버헤드 타죽고 ➔ 단어끼리 뜻 비슷한지 1도 계산 못 하는 맹인 뻗음 파국 💥
+    │
+    ▼
+분산 표현 (Distributed Representation) 사상 대관식 🚀 / "비슷한 위치에 나오는 단어는 의미도 비슷함 ㅋ" ➔ Word2Vec 등판! 10만 칸 낭비 찢어버리고 300칸 실수 배열(Dense Vector)로 꽉꽉 뭉개 압축 다이어트 성공 ✨! (의미 수학 덧셈 가능해짐)
+    │
+    ▼
+문맥 기반 동적 임베딩 (BERT, GPT 텐트) 융합 / 다의어 멍청이 맹점을 어텐션(Attention) 빔 쏴서 극복 ➔ 문장 통째로 맥락 파악해 좌표 찍어주는 진짜 지능형 차원 텔레포트 매핑 록온 쾅!
+    │
+    ▼
+멀티모달 (Multi-modal) 임베딩 대통일 🚀 / CLIP 모델 강림! 텍스트 글자랑 이미지 사진 픽셀을 똑.같.은 1개의 임베딩 우주 공간에 포개서 강제 십자 융합 록온 쳐 ➔ 글로 사진 찾고 사진으로 글 찾는 차원 붕괴 제국 통일 ✨
+    │
+    ▼
+벡터 DB + RAG 하이브리드 파이프라인 (현재) / 이 뭉개진 숫자 쇳덩이들을 1억 개씩 Pinecone 벡터 DB에 쑤셔 박아 ➔ LLM 환각 할루시네이션을 0.1초 컷 척살해 버리는 B2B 엔터프라이즈 AI의 0순위 심장 대동맥으로 영구 진화 완수 쾅!!
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

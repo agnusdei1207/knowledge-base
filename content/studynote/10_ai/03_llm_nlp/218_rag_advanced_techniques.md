@@ -26,17 +26,14 @@ tags = ["studynote-ai"]
 
 결국 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 엔지니어들은 "어떻게 하면 100만 장의 문서 늪에서, 사용자의 질문에 완벽하게 들어맞는 그 '100% 팩트 한 줄'만 귀신같이 건져 올릴 수 있을까?"라는 정보 검색([IR](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/), Information Retrieval)의 심연을 마주하게 되었다. 이 절망에서 탄생한 것이 문서를 자르는 법부터, 찾는 법, 줄 세우는 법까지 3단계 수술을 싹 다 갈아엎은 <strong>Advanced <a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/">RAG</a> (<a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/">RAG</a> 고도화 기법)</strong> [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 완성이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 베이직 RAG는 넓은 바다에 대충 뜰채 하나 들고 가서 "은색 물고기 다 담아!"라고 쑤셔 담아 요리사([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))에게 던지는 초보 어부다. 쓰레기도 딸려오고 고등어도 섞여 온다. 고도화 [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/)(Advanced [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/))는 바다를 GPS 구역으로 칼같이 쪼개고(청킹), 레이더와 맨눈 두 가지를 섞어 물고기를 찾은 다음(하이브리드 서치), 갑판 위에 올려놓고 현미경으로 깐깐하게 검사해서 진짜 최고급 은갈치 3마리만 줄을 세워(재랭킹) 요리사에게 올리는 완벽한 참치잡이 원양어선 시스템이다.
 
@@ -46,30 +43,29 @@ tags = ["studynote-ai"]
 
 고도화된 [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 입력할 때부터 유저에게 대답을 뱉어낼 때까지 거대한 3단계 **[ 쪼개기 ─▶ 쌍끌이 검색 ─▶ 깐깐한 줄 세우기 ]** 그물망을 친다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RAG 고도화 파이프라인의 핵심 3대 방어막 아키텍처 도해</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 전략적 청킹 (Advanced Chunking) - 스마트하게 문서 썰기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 하급: 무지성으로 500글자마다 가위로 싹둑 자름 (단어가 두 동강 남).</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 고급: 문맥이 안 끊기게 앞뒤 50글자를 겹쳐서 자름(Overlap). 아예 PDF의</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;h1&gt; 제목과 본문 종속성(Parent-Child) 구조를 살려서 묶어 자름!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 하이브리드 검색 (Hybrid Search) - 두 맹수의 눈 합치기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 맹수 1 (벡터 DB): "애플(Apple)"을 '사과'나 '과일'의 의미(유사도)로 찾음.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 맹수 2 (BM25 통계): 'Apple'이라는 텍스트 글자(키워드) 빈도수로 무식하게 찾음.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 융합 (RRF 공식): 둘 다 돌려서, 랭킹 점수를 더해(1/Rank_A + 1/Rank_B)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">맥락(의미)과 정확한 제품명(키워드)을 모두 잡는 쌍끌이 어선 완성!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3. 재랭킹 (Re-ranking) - 최고급 심사위원의 압박 면접</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 위에서 긁어온 문서 100장은 가벼운 모델로 빨리 뽑은 거라 가짜가 많이 섞임.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 크로스 인코더(Cross-Encoder)라는 엄청 무겁고 깐깐한 딥러닝 뇌를 깨움.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* "유저 질문"과 "문서 100장"을 하나하나 1:1로 현미경으로 쪼아보며, 진짜</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">도움 되는 정예 문서 딱 5장(Top-5)만 골라내 1등부터 줄을 다시 세움!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 이 무결점 5장만 GPT-4(LLM)에게 던져서 대답하게 만듦! 오답 확률 0%!!</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           RAG 고도화 파이프라인의 핵심 3대 방어막 아키텍처 도해          │
+├──────────────────────────────────────────────────────────────┤
+│  [1. 전략적 청킹 (Advanced Chunking) - 스마트하게 문서 썰기]         │
+│   * 하급: 무지성으로 500글자마다 가위로 싹둑 자름 (단어가 두 동강 남).        │
+│   * 고급: 문맥이 안 끊기게 앞뒤 50글자를 겹쳐서 자름(Overlap). 아예 PDF의  │
+│          <h1> 제목과 본문 종속성(Parent-Child) 구조를 살려서 묶어 자름!  │
+│                                                              │
+│  [2. 하이브리드 검색 (Hybrid Search) - 두 맹수의 눈 합치기]         │
+│   * 맹수 1 (벡터 DB): "애플(Apple)"을 '사과'나 '과일'의 의미(유사도)로 찾음.│
+│   * 맹수 2 (BM25 통계): 'Apple'이라는 텍스트 글자(키워드) 빈도수로 무식하게 찾음.│
+│   * 융합 (RRF 공식): 둘 다 돌려서, 랭킹 점수를 더해(1/Rank_A + 1/Rank_B)  │
+│                   맥락(의미)과 정확한 제품명(키워드)을 모두 잡는 쌍끌이 어선 완성!│
+│                                                              │
+│  [3. 재랭킹 (Re-ranking) - 최고급 심사위원의 압박 면접]              │
+│   * 위에서 긁어온 문서 100장은 가벼운 모델로 빨리 뽑은 거라 가짜가 많이 섞임.   │
+│   * 크로스 인코더(Cross-Encoder)라는 엄청 무겁고 깐깐한 딥러닝 뇌를 깨움.    │
+│   * "유저 질문"과 "문서 100장"을 하나하나 1:1로 현미경으로 쪼아보며, 진짜       │
+│     도움 되는 정예 문서 딱 5장(Top-5)만 골라내 1등부터 줄을 다시 세움!        │
+│   ─▶ 이 무결점 5장만 GPT-4(LLM)에게 던져서 대답하게 만듦! 오답 확률 0%!!     │
+└──────────────────────────────────────────────────────────────┘
+```
 
 <strong>핵심 원리 (RRF와 Cross-<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/">Encoder</a> 융합)</strong>:
 [하이브리드 검색](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/279_rlhf_reinforcement_learning_human_feedback/)의 심장은 서로 다른 점수판(벡터 거리 스코어 vs BM25 텍스트 스코어)을 어떻게 합칠 것인가에 있다. 점수 척도가 달라서 단순 덧셈이 안 되므로, "네가 벡터 검색에선 2등, 키워드 검색에선 4등 했네? 그럼 네 점수는 1/2 + 1/4 이야!"라고 순위(Rank) 역수를 더해버리는 아주 우아한 수학 꼼수인 <strong>RRF (Reciprocal Rank Fusion)</strong>를 쓴다.

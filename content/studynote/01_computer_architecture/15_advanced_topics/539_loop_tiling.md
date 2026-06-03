@@ -42,19 +42,19 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 행렬 곱셈에서 타일링이 어떻게 재사용을 만드는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">행렬 곱셈에서 타일링이 재사용을 만드는 방식</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Outer loops: ii, jj, kk</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">A</div><div class="kb-diagram-node">ii:ii+B, kk:kk+B</div><div class="kb-diagram-note">× B</div><div class="kb-diagram-node">kk:kk+B, jj:jj+B</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ii:ii+B, jj:jj+B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">kk 블록 동안 L1/L2에 유지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">효과: 같은 A/B 타일을 B×B개의 C 갱신에 반복 사용</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│ 행렬 곱셈에서 타일링이 재사용을 만드는 방식                                │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Outer loops: ii, jj, kk                                                    │
+│                                                                            │
+│   A[ii:ii+B, kk:kk+B]  ×  B[kk:kk+B, jj:jj+B]  ──▶  C[ii:ii+B, jj:jj+B]   │
+│          │                         │                         │               │
+│          └────────────── kk 블록 동안 L1/L2에 유지 ─────────┘               │
+│                                                                            │
+│ 효과: 같은 A/B 타일을 B×B개의 C 갱신에 반복 사용                           │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 중요한 점은 타일링이 단순히 "작게 쪼갠다"가 아니라는 것이다. 쪼개는 방식이 메모리 레이아웃과 맞지 않으면 오히려 stride가 커지고 prefetch가 깨질 수 있다. 그래서 루프 순서 교환, 벡터화, 언롤링, pack buffer 사용이 함께 따라오는 경우가 많다.
 
@@ -125,25 +125,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">순차적 대용량 배열 순회</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Memory Wall · cache miss 문제 부각</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Loop Interchange · stride 개선</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">루프 타일링 (Loop Tiling) · blocking</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">다층 타일링 (L3/L2/L1/Register)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">GEMM micro-kernel · polyhedral optimization · cache-oblivious 접근</div>
-</div>
-</div>
-
-
+```text
+순차적 대용량 배열 순회
+        │
+        ▼
+Memory Wall · cache miss 문제 부각
+        │
+        ▼
+Loop Interchange · stride 개선
+        │
+        ▼
+루프 타일링 (Loop Tiling) · blocking
+        │
+        ▼
+다층 타일링 (L3/L2/L1/Register)
+        │
+        ▼
+GEMM micro-kernel · polyhedral optimization · cache-oblivious 접근
+```
 
 이 흐름은 단순한 순회 순서 조정에서 출발해, 메모리 계층 전체를 대상으로 작업 집합을 설계하는 방향으로 최적화가 깊어지는 과정을 보여 준다.
 

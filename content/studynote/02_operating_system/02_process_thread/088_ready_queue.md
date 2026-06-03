@@ -37,20 +37,19 @@ Ready Queue는 내부에 실제 프로그램 코드가 아니라, 프로세스�
 | Dequeue (선택) | 실행 대상 추출 | CPU Scheduler가 정책에 따라 맨 앞, 또는 가장 적합한 PCB를 선택 |
 | [Dispatcher](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/168_dispatcher/) ([디스패처](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/168_dispatcher/)) | [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 실행 | [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 고른 프로세스로 [Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Switch를 수행하여 Running 상태로 변경 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로세스 상태 전이와 Ready Queue의 위치</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CPU Scheduler</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (선택)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">New</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Running</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PCB_1 ─▶ PCB_4 ─▶ PCB_2</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Waiting (I/O)</div><div class="kb-diagram-connector">◀</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          프로세스 상태 전이와 Ready Queue의 위치          │
+├─────────────────────────────────────────────────────────────┤
+│                 [CPU Scheduler]                             │
+│                       ▼ (선택)                              │
+│ [New] ──▶ ┌─(Head) Ready Queue (Tail)─┐ ──▶ [Running]     │
+│           │ PCB_1 ─▶ PCB_4 ─▶ PCB_2   │       │           │
+│           └───────────────────────────┘       │           │
+│                 ▲                             ▼           │
+│                 └─────── [Waiting (I/O)] ◀────┘           │
+└─────────────────────────────────────────────────────────────┘
+```
 
 CPU를 쓰던 프로세스가 타임 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/)를 소진([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 발생)하면 다시 Ready Queue의 꼬리(또는 적합한 [우선순위 큐](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/))로 되돌아가 대기하는 사이클이 반복된다.
 
@@ -107,23 +106,21 @@ Ready Queue를 효율적으로 관리하면 CPU의 유휴 시간([Idle](/knowled
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단일 큐 (FIFO 순서 대기)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">우선순위 기반 다중 Ready Queue (우선순위 역전 문제 대두)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">MLFQ (Multi-Level Feedback Queue - 상태에 따른 큐 간 이동)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">멀티코어 환경 Per-CPU Ready Queue 및 Work Stealing</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CFS (Completely Fair Scheduler - Red-Black Tree 기반 대기열)</div>
-</div>
-</div>
-
-
+```text
+단일 큐 (FIFO 순서 대기)
+    │
+    ▼
+우선순위 기반 다중 Ready Queue (우선순위 역전 문제 대두)
+    │
+    ▼
+MLFQ (Multi-Level Feedback Queue - 상태에 따른 큐 간 이동)
+    │
+    ▼
+멀티코어 환경 Per-CPU Ready Queue 및 Work Stealing
+    │
+    ▼
+CFS (Completely Fair Scheduler - Red-Black Tree 기반 대기열)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

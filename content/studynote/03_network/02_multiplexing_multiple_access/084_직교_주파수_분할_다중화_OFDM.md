@@ -24,19 +24,15 @@ OFDM (Orthogonal Frequency [Division](/knowledge-base/studynote/05_database/07_e
 
 이 방식이 널리 쓰이는 이유는, 넓은 대역을 한 번에 통과시키는 것보다 좁은 대역 여러 개를 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 다루는 편이 등화가 쉽기 때문이다. Wi-Fi와 4G/[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 계열이 OFDM 계열을 적극적으로 사용하는 것도 같은 이유다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">고속 직렬 데이터</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">부반송파 여러 개로 분할</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">각 부반송파는 직교 상태로 전송</div>
-</div>
-</div>
-
-
+```text
+고속 직렬 데이터
+      │
+      ▼
+부반송파 여러 개로 분할
+      │
+      ▼
+각 부반송파는 직교 상태로 전송
+```
 
 - **📢 섹션 요약 비유**: 한 줄로 달리던 사람들이 서로 부딪히지 않도록, 여러 줄의 좁은 통로로 나눠 달리게 하는 것이다.
 
@@ -126,21 +122,18 @@ OFDM의 기대효과는 다중경로 환경에서 높은 데이터율과 비교�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">직렬 비트 스트림</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">병렬 서브캐리어 분할</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">IFFT → CP → 전송</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">채널 → FFT → 등화 → 복원</div>
-</div>
-</div>
-
-
+```text
+직렬 비트 스트림
+  │
+  ▼
+병렬 서브캐리어 분할
+  │
+  ▼
+IFFT → CP → 전송
+  │
+  ▼
+채널 → FFT → 등화 → 복원
+```
 
 흐름의 핵심은 '하나의 어려운 채널'을 '많은 쉬운 채널'로 바꾸는 데 있다.
 

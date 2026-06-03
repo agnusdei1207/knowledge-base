@@ -41,20 +41,22 @@ tags = ["studynote-enterprise"]
 
 아래 흐름은 형식지가 조직 지식으로 작동하는 최소 구조를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Explicit knowledge lifecycle</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Expert know-how</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Externalize -&gt; template / rule / checklist</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">KMS / Wiki repository</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─&gt; Search / RAG retrieval</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─&gt; Review / update / retire</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ Explicit knowledge lifecycle                                 │
+├──────────────────────────────────────────────────────────────┤
+│ Expert know-how                                              │
+│      │                                                       │
+│      ▼                                                       │
+│ Externalize -> template / rule / checklist                   │
+│      │                                                       │
+│      ▼                                                       │
+│ KMS / Wiki repository                                        │
+│      │                                                       │
+│      ├─> Search / RAG retrieval                              │
+│      └─> Review / update / retire                            │
+└──────────────────────────────────────────────────────────────┘
+```
 
 즉 형식지의 핵심 원리는 "표현 가능성"과 "반복 가능성"이다. 그러나 문서가 많아질수록 품질 편차와 중복이 커지므로, 검색 구조와 거버넌스가 없으면 저장소는 곧 문서 무덤이 된다.
 
@@ -122,22 +124,20 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Tacit know-how</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Externalization</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Explicit knowledge</div>
-<div class="kb-diagram-tree-item" style="--depth:1">KMS / Wiki / SOP</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">RAG-enabled enterprise knowledge use</div>
-</div>
-</div>
-
-
+```text
+Tacit know-how
+  │
+  ▼
+Externalization
+  │
+  ▼
+Explicit knowledge
+  │
+  ├─> KMS / Wiki / SOP
+  │
+  ▼
+RAG-enabled enterprise knowledge use
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

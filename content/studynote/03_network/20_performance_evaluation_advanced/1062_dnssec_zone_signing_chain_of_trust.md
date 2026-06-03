@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 511번 DNS는 속도에 미친 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 프로토콜을 씁니다. [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 절차(비밀번호, 서명)가 1도 없습니다.
 - <strong>캐시 포이즈닝(<a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/272_ci_cache_poisoning_runner_ephemeral/">Cache Poisoning</a>) 해킹</strong>: 내 컴퓨터가 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버에 주소를 물어보고 대답을 기다리는 그 0.1초의 틈을 타서, 해커가 진짜 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버보다 먼저 "야 네이버 IP 1.1.1.1(해커 서버)이야!"라고 가짜 패킷([스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/))을 찔러 넣습니다. 내 컴퓨터와 KT [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버는 그 가짜 주소를 진짜인 줄 알고 꿀꺽 삼켜서 저장(Cache)해 버립니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">BGP RPKI 라우팅 보안 망</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DNSSEC 존</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DoH / DoT</div></div>
-</div>
-</div>
-
-
+```text
+[BGP RPKI 라우팅 보안 망]
+    │
+    ▼
+[DNSSEC 존]
+    │
+    └──▶ [DoH / DoT]
+```
 
 - **📢 섹션 요약 비유**: [DNSSEC](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/518_dnssec_dns_security_extensions/) 존은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -43,18 +39,14 @@ tags = ["studynote-network"]
 
 - **개념**: [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 응답 패킷 자체를 암호화(숨김)하는 것이 아닙니다. DNS가 뱉어내는 주소(IP) 정보에 <strong>공개키 암호화 방식(<a href="/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/">PKI</a>)의 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/">전자서명</a>을 덧붙여서, "이 정보가 중간에 해커에게 조작되지 않았으며(<a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a>), 진짜 해당 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 관리자가 보낸 것이 맞음(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>)"을 100% <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>해 내는 인터넷 보안 표준</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">BGP RPKI 라우팅 보안 망</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DNSSEC 존</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DoH / DoT</div></div>
-</div>
-</div>
-
-
+```text
+[BGP RPKI 라우팅 보안 망]
+    │
+    ▼
+[DNSSEC 존]
+    │
+    └──▶ [DoH / DoT]
+```
 
 - **📢 섹션 요약 비유**: [DNSSEC](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/518_dnssec_dns_security_extensions/) 존의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -125,19 +117,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: BGP RPKI 라우팅 보안 망</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: DNSSEC 존</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: DoH / DoT</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: BGP RPKI 라우팅 보안 망]
+    │
+    ▼
+[현재 개념: DNSSEC 존]
+    │
+    ├──▶ [확장 A: DoH / DoT]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 [DNSSEC](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/518_dnssec_dns_security_extensions/) 존는 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [RPKI](/knowledge-base/studynote/09_security/uncategorized/935_rpki_resource_public_key_infrastructure_bgp_hijacking_prevention/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 보안 망에서 출발해 현재 메커니즘을 정교화하고, 이후 [DoH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/520_doh_dns_over_https/) / DoT와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

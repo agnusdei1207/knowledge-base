@@ -34,19 +34,17 @@ tags = ["studynote-ict-convergence"]
 
 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/">CQRS</a> + <a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/">이벤트 소싱</a> 구조</strong>:
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">명령(Command) 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라이언트 → Command Handler → 이벤트 발행 → Event Store</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이벤트 브로커(Kafka)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조회(Query) 흐름 Read Model 업데이트</div></div>
-<div class="kb-diagram-note">클라이언트 → Query Handler → Read DB(최적화 뷰) ←</div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────────┐
+│  명령(Command) 흐름                                          │
+│  클라이언트 → Command Handler → 이벤트 발행 → Event Store    │
+│                                             ↓               │
+│                                     이벤트 브로커(Kafka)     │
+│                                             ↓               │
+│  조회(Query) 흐름                   Read Model 업데이트       │
+│  클라이언트 → Query Handler → Read DB(최적화 뷰) ←───────────┘
+└─────────────────────────────────────────────────────────────┘
+```
 
 | 패턴 | 핵심 개념 | 주요 이점 | 트레이드오프 |
 |:---|:---|:---|:---|
@@ -143,6 +141,6 @@ tags = ["studynote-ict-convergence"]
 **진행 상황**: 506 / 552
 
 ← **이전**: [505. 마이크로서비스, API 게이트웨이, 서비스 메시 (MSA API Gateway Service Mesh)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/505_microservices_api_gateway_service_mesh/)
-**다음**: [507. 카오스 엔지니어링, 섀도 배포, 서킷 브레이커 (Chaos Engineering Shadow Deployment Circuit](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/507_chaos_engineering_shadow_circuit_breaker/) →
+**다음**: [507. 카오스 엔지니어링, 섀도 배포, 서킷 브레이커 (Chaos 엔진ering Shadow Deployment Circuit](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/507_chaos_engineering_shadow_circuit_breaker/) →
 
 ---

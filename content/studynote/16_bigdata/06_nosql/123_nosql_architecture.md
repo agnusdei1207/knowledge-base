@@ -21,25 +21,33 @@ tags = ["bigdata"]
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)([Sharding](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/243_sharding_horizontal_scaling_database/))과 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)([Replication](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/))를 통해 고가용성과 확장성을 달성합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NoSQL 분산 클러스터 아키텍처 (NoSQL Cluster Arch)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Client Applications</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Load Balancer / Router</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Node 1</div><div class="kb-diagram-cell">Node 2</div><div class="kb-diagram-cell">Node 3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Shard A)</div><div class="kb-diagram-cell">(Shard B)</div><div class="kb-diagram-cell">(Shard C)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Replica C'</div><div class="kb-diagram-cell">Replica A'</div><div class="kb-diagram-cell">Replica B'</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Gossip Protocol / Ring Topology)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심 메커니즘:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Sharding: Consistent Hashing을 통한 데이터 수평 분할</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Replication: 데이터 복제본 유지로 고가용성 보장 (Masterless)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Eventual Consistency: 결과적 일관성 동기화</div></div>
-</div>
-</div>
-
-
+```text
++-------------------------------------------------------------+
+|                NoSQL 분산 클러스터 아키텍처 (NoSQL Cluster Arch)   |
++-------------------------------------------------------------+
+|                                                             |
+|                    [Client Applications]                    |
+|                              |                              |
+|                 +-------------------------+                 |
+|                 | Load Balancer / Router  |                 |
+|                 +-------------------------+                 |
+|                       /      |      \                       |
+|          +-----------+  +-----------+  +-----------+        |
+|          | Node 1    |  | Node 2    |  | Node 3    |        |
+|          | (Shard A) |  | (Shard B) |  | (Shard C) |        |
+|          | --------- |  | --------- |  | --------- |        |
+|          | Replica C'|  | Replica A'|  | Replica B'|        |
+|          +-----------+  +-----------+  +-----------+        |
+|                |              |              |              |
+|                +--------------+--------------+              |
+|                 (Gossip Protocol / Ring Topology)           |
+|                                                             |
+| * 핵심 메커니즘:                                             |
+|  - Sharding: Consistent Hashing을 통한 데이터 수평 분할         |
+|  - Replication: 데이터 복제본 유지로 고가용성 보장 (Masterless)    |
+|  - Eventual Consistency: 결과적 일관성 동기화                  |
++-------------------------------------------------------------+
+```
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 
@@ -67,21 +75,18 @@ tags = ["bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Key-Value</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Document</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Column-Family</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Graph</div></div>
-</div>
-</div>
-
-
+```text
+[Key-Value]
+    │
+    ▼
+[Document]
+    │
+    ▼
+[Column-Family]
+    │
+    ▼
+[Graph]
+```
 
 이 흐름도는 선행 개념이 현재 개념으로 응축되고, 다시 확장 개념으로 이어지는 순서를 보여준다.
 

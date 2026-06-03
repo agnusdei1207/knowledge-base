@@ -42,22 +42,20 @@ tags = ["studynote-network"]
 
 아래 그림은 정상 동작 시 수신기가 어떻게 프레임을 자르는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Normal parsing with byte counting</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Stream :</div><div class="kb-diagram-node">05</div><div class="kb-diagram-node">A</div><div class="kb-diagram-node">B</div><div class="kb-diagram-node">C</div><div class="kb-diagram-node">D</div><div class="kb-diagram-node">04</div><div class="kb-diagram-node">X</div><div class="kb-diagram-node">Y</div><div class="kb-diagram-node">Z</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Frame 1 ── Frame 2 ──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Receiver steps</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) read count = 05</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) collect next 4 bytes -&gt; Frame 1 complete</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) next byte becomes new count = 04</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4) collect next 3 bytes -&gt; Frame 2 complete</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────────┐
+│ Normal parsing with byte counting                                 │
+├───────────────────────────────────────────────────────────────────┤
+│ Stream : [05][A][B][C][D][04][X][Y][Z]                            │
+│          └──── Frame 1 ────┘└── Frame 2 ──┘                      │
+│                                                                   │
+│ Receiver steps                                                    │
+│   1) read count = 05                                              │
+│   2) collect next 4 bytes -> Frame 1 complete                     │
+│   3) next byte becomes new count = 04                             │
+│   4) collect next 3 bytes -> Frame 2 complete                     │
+└───────────────────────────────────────────────────────────────────┘
+```
 
 이 방식은 parser [state](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) machine도 단순하게 만든다. `READ_LENGTH -> READ_BODY -> FRAME_DONE`처럼 상태가 명확하고, delimiter를 찾기 위해 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)를 계속 검색할 필요도 없다. 그래서 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 카운트는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 설계나 제어가 쉬운 환경에서 매력적으로 보인다.
 
@@ -80,21 +78,19 @@ tags = ["studynote-network"]
 
 아래 그림은 count field 하나가 깨졌을 때 왜 문제가 커지는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Desynchronization by one corrupted length field</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Original :</div><div class="kb-diagram-node">05</div><div class="kb-diagram-node">A</div><div class="kb-diagram-node">B</div><div class="kb-diagram-node">C</div><div class="kb-diagram-node">D</div><div class="kb-diagram-node">04</div><div class="kb-diagram-node">X</div><div class="kb-diagram-node">Y</div><div class="kb-diagram-node">Z</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Corrupt :</div><div class="kb-diagram-node">07</div><div class="kb-diagram-node">A</div><div class="kb-diagram-node">B</div><div class="kb-diagram-node">C</div><div class="kb-diagram-node">D</div><div class="kb-diagram-node">04</div><div class="kb-diagram-node">X</div><div class="kb-diagram-node">Y</div><div class="kb-diagram-node">Z</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Receiver thinks Frame 1 =</div><div class="kb-diagram-node">07</div><div class="kb-diagram-node">A</div><div class="kb-diagram-node">B</div><div class="kb-diagram-node">C</div><div class="kb-diagram-node">D</div><div class="kb-diagram-node">04</div><div class="kb-diagram-node">X</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Remaining stream starts at</div><div class="kb-diagram-node">Y</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; Y is now misread as the next length field</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; all later boundaries become unreliable</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────────┐
+│ Desynchronization by one corrupted length field                    │
+├───────────────────────────────────────────────────────────────────┤
+│ Original : [05][A][B][C][D][04][X][Y][Z]                          │
+│ Corrupt  : [07][A][B][C][D][04][X][Y][Z]                          │
+│                                                                   │
+│ Receiver thinks Frame 1 = [07][A][B][C][D][04][X]                 │
+│ Remaining stream starts at [Y]                                    │
+│   -> Y is now misread as the next length field                    │
+│   -> all later boundaries become unreliable                       │
+└───────────────────────────────────────────────────────────────────┘
+```
 
 이 취약점 때문에 순수한 [byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) counting은 현대 링크 계층에서 단독 [framing](/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/) 방식으로는 잘 쓰이지 않는다. 다만 길이 필드 자체는 여전히 중요해서, 이미 외부에서 경계가 잡혀 있거나 헤더가 강하게 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)되는 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)에서는 length 정보를 적극 사용한다. 즉 <strong>문제는 length field 자체가 아니라, 그것만 믿고 전체 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a>를 맡기는 설계</strong>다.
 
@@ -158,22 +154,19 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Continuous byte stream</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Length field based framing</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Fast normal parsing</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ Corrupted count -&gt; desynchronization cascade</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ Header protection and sanity checks</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ Byte stuffing / bit stuffing evolution</div>
-</div>
-</div>
-
-
+```text
+Continuous byte stream
+    │
+    ▼
+Length field based framing
+    │
+    ▼
+Fast normal parsing
+    │
+    ├──────────────▶ Corrupted count -> desynchronization cascade
+    ├──────────────▶ Header protection and sanity checks
+    └──────────────▶ Byte stuffing / bit stuffing evolution
+```
 
 이 흐름도는 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 카운트가 단순한 length framing에서 출발해, 오류 취약점 때문에 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 장치와 다른 [framing](/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/) 기법으로 확장되는 과정을 보여 준다.
 

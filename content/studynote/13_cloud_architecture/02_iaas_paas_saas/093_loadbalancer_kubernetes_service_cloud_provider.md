@@ -38,19 +38,19 @@ LoadBalancer [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas
 | **kube-proxy** | 노드에 도달한 트래픽을 목적지 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)로 포워딩하는 iptables/IPVS 룰 적용 |
 | <strong>External Traffic <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">Policy</a></strong> | `Local` [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 시, [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 없는 노드를 거치지 않고 직접 목적지 노드로 트래픽을 보내 SNAT 핑퐁 최소화 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LoadBalancer 트래픽 인입 및 계층적 라우팅 흐름</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">클라이언트</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(포트 80/443, 공인 IP)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ AWS NLB / GCP TCP LB (외부 클라우드 로드밸런서)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">노드 A</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">파드 없음 (핑퐁 발생)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">노드 B</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">파드</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│        LoadBalancer 트래픽 인입 및 계층적 라우팅 흐름        │
+├──────────────────────────────────────────────────────────────┤
+│ [클라이언트] ──▶ (포트 80/443, 공인 IP)                      │
+│                                                              │
+│       ▼ AWS NLB / GCP TCP LB (외부 클라우드 로드밸런서)      │
+│                                                              │
+│       ├──▶ [노드 A] (포트 31000) ──▶ 파드 없음 (핑퐁 발생)   │
+│       │                                                      │
+│       └──▶ [노드 B] (포트 31000) ──▶ (kube-proxy) ──▶ [파드] │
+└──────────────────────────────────────────────────────────────┘
+```
 
 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 시 K8s는 내부적으로 NodePort와 ClusterIP를 함께 할당한다. 이후 클라우드 LB는 노드의 IP와 해당 NodePort를 백엔드 타겟 그룹으로 묶어, 외부 트래픽을 클러스터 내부로 밀어 넣는다.
 
@@ -113,23 +113,21 @@ LoadBalancer는 복잡한 인프라 [생성](/knowledge-base/studynote/02_operat
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">서비스 노출의 기초</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">NodePort (노드포트) · 단일 노드 IP 의존</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">LoadBalancer (로드밸런서) · 외부 L4 장비 연동 및 공인 IP 자동화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">externalTrafficPolicy: Local · SNAT 방지 및 최적화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Ingress (인그레스) · L7 통합 라우팅으로 비용 및 효율성 극대화</div>
-</div>
-</div>
-
-
+```text
+서비스 노출의 기초 
+    │
+    ▼
+NodePort (노드포트) · 단일 노드 IP 의존
+    │
+    ▼
+LoadBalancer (로드밸런서) · 외부 L4 장비 연동 및 공인 IP 자동화
+    │
+    ▼
+externalTrafficPolicy: Local · SNAT 방지 및 최적화
+    │
+    ▼
+Ingress (인그레스) · L7 통합 라우팅으로 비용 및 효율성 극대화
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

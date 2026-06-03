@@ -29,24 +29,26 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OPA/Gatekeeper 정책 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발자 kubectl apply -&gt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kubernetes API Server</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">v</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Admission Controller (Gatekeeper)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ConstraintTemplate 정책 검사</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Rego 언어로 작성된 정책)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">v v</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">허용 (Admitted) 거부 (Denied)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; Pod 생성 -&gt; 에러 반환</div></div>
-</div>
-</div>
-
-
+```text
++-------------------------------------------------------------+
+|              OPA/Gatekeeper 정책 흐름                        |
++-------------------------------------------------------------+
+|                                                             |
+|  개발자 kubectl apply ->                                     |
+|                         Kubernetes API Server               |
+|                                  |                          |
+|                                  v                          |
+|                    Admission Controller (Gatekeeper)        |
+|                                  |                          |
+|                    ConstraintTemplate 정책 검사              |
+|                    (Rego 언어로 작성된 정책)                 |
+|                                  |                          |
+|              +-------------------+-------------------+       |
+|              v                                       v       |
+|           허용 (Admitted)                     거부 (Denied)  |
+|           -> Pod 생성                         -> 에러 반환   |
++-------------------------------------------------------------+
+```
 
 Rego [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 예시:
 
@@ -144,19 +146,14 @@ spec:
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">수동 정책 관리 Policy as Code 등장 현대 정책 자동화</div>
-<div class="kb-diagram-note">정책 문서 관리 -&gt; OPA CNCF 프로젝트 등장 -&gt; GitOps 정책 관리</div>
-<div class="kb-diagram-note">이메일 교육 Gatekeeper K8s 통합 AI 기반 정책 추천</div>
-<div class="kb-diagram-note">감사 수작업 Conftest CI 통합 멀티클라우드 정책</div>
-<div class="kb-diagram-note">위반 사후 처리 Defense in Depth 구현 Crossplane + OPA</div>
-</div>
-</div>
-
-
+```text
+수동 정책 관리            Policy as Code 등장             현대 정책 자동화
+------------------   --------------------------   ------------------------
+정책 문서 관리       ->  OPA CNCF 프로젝트 등장    ->  GitOps 정책 관리
+이메일 교육              Gatekeeper K8s 통합           AI 기반 정책 추천
+감사 수작업              Conftest CI 통합               멀티클라우드 정책
+위반 사후 처리           Defense in Depth 구현           Crossplane + OPA
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

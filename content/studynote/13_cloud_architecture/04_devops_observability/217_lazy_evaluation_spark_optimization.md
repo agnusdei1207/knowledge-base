@@ -33,29 +33,31 @@ tags = ["studynote-cloud-architecture"]
 
 ### [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) 최적화 과정
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">사용자 코드 (PySpark/Scala)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Catalyst Optimizer</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1단계: Logical Plan (논리적 계획)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">filter(age&gt;30) → groupBy(dept) → count()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2단계: Optimized Logical Plan (최적화 논리 계획)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Predicate Pushdown: filter를 데이터 소스로 내림</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Column Pruning: 필요한 컬럼만 읽음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3단계: Physical Plan 선택 (물리적 실행 계획)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Join 방식: BroadcastHashJoin vs SortMergeJoin</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실제 실행 방식 결정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4단계: Code Generation (Tungsten)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">JVM 바이트코드 직접 생성 → 최적 실행</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Spark Executor에서 최적화된 Job 실행</div>
-</div>
-</div>
-
-
+```
+  사용자 코드 (PySpark/Scala)
+       │
+       ▼
+  ┌─────────────────────────────────────────────────────────┐
+  │              Catalyst Optimizer                          │
+  │                                                          │
+  │  1단계: Logical Plan (논리적 계획)                        │
+  │     filter(age>30) → groupBy(dept) → count()            │
+  │                    │                                    │
+  │  2단계: Optimized Logical Plan (최적화 논리 계획)          │
+  │     Predicate Pushdown: filter를 데이터 소스로 내림       │
+  │     Column Pruning: 필요한 컬럼만 읽음                    │
+  │                    │                                    │
+  │  3단계: Physical Plan 선택 (물리적 실행 계획)              │
+  │     Join 방식: BroadcastHashJoin vs SortMergeJoin        │
+  │     실제 실행 방식 결정                                   │
+  │                    │                                    │
+  │  4단계: Code Generation (Tungsten)                       │
+  │     JVM 바이트코드 직접 생성 → 최적 실행                  │
+  └─────────────────────────────────────────────────────────┘
+       │
+       ▼
+  Spark Executor에서 최적화된 Job 실행
+```
 
 ### 주요 최적화 기법
 
@@ -197,21 +199,17 @@ df.filter(df.age > 30).groupBy("dept").count().explain()
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Eager Evaluation: 즉시 실행 (최적화 기회 없음)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Lazy Evaluation: DAG 구축 → Action 호출 시 실행</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Catalyst Optimizer: 실행 계획 최적화</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Predicate Pushdown · Partition Pruning</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Adaptive Query Execution (AQE): 런타임 동적 최적화</div>
-</div>
-</div>
-
-
+```text
+Eager Evaluation: 즉시 실행 (최적화 기회 없음)
+    │
+    ▼
+Lazy Evaluation: DAG 구축 → Action 호출 시 실행
+    ├─► Catalyst Optimizer: 실행 계획 최적화
+    └─► Predicate Pushdown · Partition Pruning
+    │
+    ▼
+Adaptive Query Execution (AQE): 런타임 동적 최적화
+```
 2. Spark도 filter, groupBy, count 같은 연산을 모두 모아두었다가, "결과를 줘!"(액션) 할 때 한 번에 최적화해서 실행해.
 3. 덕분에 "필요한 자료만 가져오기(Pushdown)", "중간 저장 없이 연속 처리([Pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/) Fusion)" 등의 자동 최적화가 가능해.
 

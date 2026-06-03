@@ -216,7 +216,7 @@
 
     const rect = container.getBoundingClientRect()
     const width = rect.width || 280
-    const height = rect.height || 220
+    const height = rect.height || 320
 
     // Resolve current page path
     const currentNorm = decodeURIComponent(window.location.pathname).replace(/\/$/, "")
@@ -228,7 +228,7 @@
         const linkNorm = decodeURIComponent(new URL(n.url, window.location.origin).pathname).replace(/\/$/, "")
         isCurrent = (currentNorm === linkNorm && linkNorm !== "")
       } catch {}
-      return { ...n, isCurrent }
+      return { ...n, degree: Number(n.degree || 1), group: n.group || "root", isCurrent }
     })
 
     const nodeById = new Map(graphNodes.map(n => [n.id, n]))
@@ -254,12 +254,30 @@
     const colActive = cs.getPropertyValue("--secondary").trim() || "#A65B32"
     const colLink = cs.getPropertyValue("--lightgray").trim() || "#E5DEC9"
     const colLabel = cs.getPropertyValue("--darkgray").trim() || "#383228"
+    const colMuted = cs.getPropertyValue("--gray").trim() || "#8E8575"
+
+    const degreeExtent = d3.extent(graphNodes, d => d.degree)
+    const radius = d3.scaleSqrt()
+      .domain([Math.max(1, degreeExtent[0] || 1), Math.max(2, degreeExtent[1] || 2)])
+      .range([3.2, 13])
+    const groups = Array.from(new Set(graphNodes.map(d => d.group))).sort()
+    const groupIndex = new Map(groups.map((group, index) => [group, index]))
+    const clusterRadius = Math.min(width, height) * 0.34
+    const clusterCenter = (group) => {
+      const index = groupIndex.get(group) || 0
+      const angle = groups.length <= 1 ? 0 : (index / groups.length) * Math.PI * 2
+      return {
+        x: width / 2 + Math.cos(angle) * clusterRadius,
+        y: height / 2 + Math.sin(angle) * clusterRadius * 0.72,
+      }
+    }
 
     // SVG setup
     const svg = d3.select(container)
       .append("svg")
       .attr("width", width)
       .attr("height", height)
+      .attr("viewBox", `0 0 ${width} ${height}`)
 
     // Zoom / pan behaviour
     const g = svg.append("g")
@@ -270,11 +288,13 @@
 
     // Force simulation
     const simulation = d3.forceSimulation(graphNodes)
-      .force("link", d3.forceLink(graphLinks).id(d => d.id).distance(50))
-      .force("charge", d3.forceManyBody().strength(-100).distanceMax(180))
+      .force("link", d3.forceLink(graphLinks).id(d => d.id).distance(d => 34 + Math.max(radius(d.source), radius(d.target)) * 3).strength(0.35))
+      .force("charge", d3.forceManyBody().strength(d => -70 - radius(d) * 18).distanceMax(260))
       .force("center", d3.forceCenter(width / 2, height / 2))
-      .force("collide", d3.forceCollide(12))
-      .alphaDecay(0.03)
+      .force("x", d3.forceX(d => clusterCenter(d.group).x).strength(0.08))
+      .force("y", d3.forceY(d => clusterCenter(d.group).y).strength(0.08))
+      .force("collide", d3.forceCollide(d => radius(d) + 2))
+      .alphaDecay(0.025)
 
     // Draw links
     const linkGroup = g.append("g")
@@ -282,19 +302,20 @@
       .data(graphLinks)
       .join("line")
       .attr("stroke", colLink)
-      .attr("stroke-width", 1.0)
-      .attr("stroke-opacity", 0.6)
+      .attr("stroke-width", 0.75)
+      .attr("stroke-opacity", 0.34)
 
     // Draw nodes
     const nodeGroup = g.append("g")
     const nodeEls = nodeGroup.selectAll("circle")
       .data(graphNodes)
       .join("circle")
-      .attr("r", d => d.isCurrent ? 7.0 : (d.section ? 4.5 : 3.5))
+      .attr("r", d => d.isCurrent ? Math.max(12, radius(d) + 3) : (d.section ? Math.max(7, radius(d)) : radius(d)))
       .attr("fill", d => d.isCurrent ? colActive : colNode)
-      .attr("stroke", d => d.isCurrent ? colActive : "none")
-      .attr("stroke-width", d => d.isCurrent ? 2.0 : 0)
-      .attr("stroke-opacity", 0.5)
+      .attr("stroke", d => d.isCurrent ? colActive : colMuted)
+      .attr("stroke-width", d => d.isCurrent ? 2.2 : 0.7)
+      .attr("stroke-opacity", 0.55)
+      .attr("fill-opacity", 0.9)
       .attr("cursor", "pointer")
       .call(d3.drag()
         .on("start", dragStart)
@@ -311,14 +332,14 @@
         const t = d.title || ""
         return t.length > 25 ? t.slice(0, 23) + "…" : t
       })
-      .attr("font-size", "7px")
-      .attr("font-weight", d => d.isCurrent ? "bold" : "normal")
+      .attr("font-size", d => d.isCurrent ? "10px" : "8px")
+      .attr("font-weight", d => d.isCurrent || d.degree >= (degreeExtent[1] || 0) * 0.55 ? "700" : "500")
       .attr("font-family", "var(--bodyFont), sans-serif")
       .attr("fill", colLabel)
       .attr("text-anchor", "middle")
-      .attr("dy", -9)
+      .attr("dy", d => -(radius(d) + 5))
       .attr("pointer-events", "none")
-      .attr("opacity", d => d.isCurrent ? 1 : 0)
+      .attr("opacity", d => d.isCurrent || d.section || d.degree >= (degreeExtent[1] || 0) * 0.42 ? 1 : 0)
 
     // Tooltip
     const tooltip = d3.select("body").append("div")
@@ -334,8 +355,8 @@
         nodeEls
           .attr("opacity", n => isConnected(d.id, n.id) ? 1 : 0.15)
         linkEls
-          .attr("stroke-opacity", l => (l.source.id === d.id || l.target.id === d.id) ? 0.9 : 0.05)
-          .attr("stroke-width", l => (l.source.id === d.id || l.target.id === d.id) ? 1.8 : 0.6)
+          .attr("stroke-opacity", l => (l.source.id === d.id || l.target.id === d.id) ? 0.85 : 0.04)
+          .attr("stroke-width", l => (l.source.id === d.id || l.target.id === d.id) ? 1.6 : 0.5)
         labelEls
           .attr("opacity", n => isConnected(d.id, n.id) ? 1 : 0)
       })
@@ -347,8 +368,8 @@
       .on("mouseout", function () {
         tooltip.style("display", "none")
         nodeEls.attr("opacity", 1)
-        linkEls.attr("stroke-opacity", 0.6).attr("stroke-width", 1.0)
-        labelEls.attr("opacity", d => d.isCurrent ? 1 : 0)
+        linkEls.attr("stroke-opacity", 0.34).attr("stroke-width", 0.75)
+        labelEls.attr("opacity", d => d.isCurrent || d.section || d.degree >= (degreeExtent[1] || 0) * 0.42 ? 1 : 0)
       })
       .on("click", function (event, d) {
         if (d.url) window.location.href = d.url

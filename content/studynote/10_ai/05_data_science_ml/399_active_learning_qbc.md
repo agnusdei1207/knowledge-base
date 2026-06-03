@@ -23,17 +23,14 @@ tags = ["studynote-ai"]
 
 동일 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 달성에 필요한 레이블 수를 70~90% 감소시키는 것이 가능하다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [액티브 러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/214_active_learning/)은 "시험공부할 때 내가 잘 모르는 문제만 선생님께 질문하는" 효율적 학습 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
 
@@ -43,18 +40,16 @@ tags = ["studynote-ai"]
 
 ### [액티브 러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/214_active_learning/) 사이클
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">초기 레이블 풀</div><div class="kb-diagram-note">─►</div><div class="kb-diagram-node">모델 학습</div><div class="kb-diagram-note">─►</div><div class="kb-diagram-node">쿼리 전략</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">미레이블 풀</div><div class="kb-diagram-note">◄ 정보 풍부 샘플 선택 │</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전문가 레이블링</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">반복 → 성능 수렴</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────┐
+│  [초기 레이블 풀] ─► [모델 학습] ─► [쿼리 전략]      │
+│                              ↑            ↓           │
+│  [미레이블 풀] ◄─── 정보 풍부 샘플 선택  │           │
+│       ↓                                  │           │
+│  [전문가 레이블링] ──────────────────────┘           │
+│  반복 → 성능 수렴                                     │
+└──────────────────────────────────────────────────────┘
+```
 
 ### 불확실성 샘플링 (Uncertainty [Sampling](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/))
 

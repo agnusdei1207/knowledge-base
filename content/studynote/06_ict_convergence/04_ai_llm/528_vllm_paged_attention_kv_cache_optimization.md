@@ -29,21 +29,22 @@ vLLM은 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpi
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PagedAttention 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">논리적 KV 캐시 물리적 GPU 메모리 블록</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요청 A</div><div class="kb-diagram-cell">Block 0</div><div class="kb-diagram-cell">Block 3</div><div class="kb-diagram-cell">Block 7</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Token 1~16</div><div class="kb-diagram-note">►│(A:1-4)│(A:5-8)│(A:9-12)│</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요청 B</div><div class="kb-diagram-cell">Block 1</div><div class="kb-diagram-cell">Block 4</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Token 1~8</div><div class="kb-diagram-note">►│(B:1-4)│(B:5-8)│</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블록 테이블(Block Table) 매핑</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────┐
+│                 PagedAttention 구조                   │
+│                                                      │
+│  논리적 KV 캐시           물리적 GPU 메모리 블록       │
+│  ┌───────────────┐       ┌───────┬───────┬───────┐  │
+│  │ 요청 A        │       │Block 0│Block 3│Block 7│  │
+│  │ [Token 1~16]  │──────►│(A:1-4)│(A:5-8)│(A:9-12)│  │
+│  └───────────────┘       └───────┴───────┴───────┘  │
+│  ┌───────────────┐       ┌───────┬───────┐           │
+│  │ 요청 B        │       │Block 1│Block 4│           │
+│  │ [Token 1~8]   │──────►│(B:1-4)│(B:5-8)│           │
+│  └───────────────┘       └───────┴───────┘           │
+│                          블록 테이블(Block Table) 매핑 │
+└──────────────────────────────────────────────────────┘
+```
 
 **PagedAttention 핵심 아이디어**
 1. KV 캐시를 고정 크기 블록(예: 16토큰)으로 분할

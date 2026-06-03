@@ -20,24 +20,24 @@ tags = ["studynote-software-engineering"]
 
 IDP가 없을 때 새 프로젝트 시작 시: GitHub 레포 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) → [Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/) 파이프라인 스크립트 작성 → Terraform으로 AWS 인프라 구축 → 보안팀 취약점 점검 메일 → **개발 시작도 못 하고 1주일 소모**. [IDP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/) 도입 후: 포털에서 "Spring Boot + [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 세트" 클릭 → <strong>1분 만에 레포·<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>/CD·인프라 자동 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong> → 즉시 코딩 시작.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IDP 없는 세계 vs IDP 있는 세계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Before</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발자 → GitHub → Jenkins → Terraform → 보안팀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(각각 수동 설정, 1주일 소요)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">After: IDP 포털</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발자 → Backstage 포털 클릭 → 1분 후 완료</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ GitHub Repo 자동 생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ CI/CD 파이프라인 자동 연결</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 보안 검증된 AWS 인프라 자동 배포</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 모니터링 대시보드 자동 연동</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│     IDP 없는 세계 vs IDP 있는 세계                     │
+├───────────────────────────────────────────────────────┤
+│  [Before]                                             │
+│   개발자 → GitHub → Jenkins → Terraform → 보안팀     │
+│        (각각 수동 설정, 1주일 소요)                    │
+│                                                       │
+│  [After: IDP 포털]                                    │
+│   개발자 → Backstage 포털 클릭 →  1분 후 완료         │
+│        ┌──────────────────────────────────────┐       │
+│        │ ✅ GitHub Repo 자동 생성              │       │
+│        │ ✅ CI/CD 파이프라인 자동 연결          │       │
+│        │ ✅ 보안 검증된 AWS 인프라 자동 배포    │       │
+│        │ ✅ 모니터링 대시보드 자동 연동         │       │
+│        └──────────────────────────────────────┘       │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: IDP는 전투기 파일럿을 위한 통합 디지털 콕핏이다. 계기판 10개를 따로 보는 대신, 터치스크린 하나에서 모든 시스템을 제어한다.
 
@@ -111,21 +111,18 @@ IDP는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architec
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">사내 위키 + 티켓 시스템 (2010s) — 수동 인프라 요청</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Backstage 오픈소스화 (2020, Spotify) — IDP 개념 대중화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CNCF Incubating (2022~) — 생태계 표준화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: IDP + AI Copilot 통합 — 프롬프트 기반 환경 프로비저닝</div></div>
-</div>
-</div>
-
-
+```text
+[사내 위키 + 티켓 시스템 (2010s) — 수동 인프라 요청]
+    │
+    ▼
+[Backstage 오픈소스화 (2020, Spotify) — IDP 개념 대중화]
+    │
+    ▼
+[CNCF Incubating (2022~) — 생태계 표준화]
+    │
+    ▼
+[현재: IDP + AI Copilot 통합 — 프롬프트 기반 환경 프로비저닝]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. IDP는 학교 앞 <strong>문구점 자판기</strong>예요. 공책·연필·지우개가 세트로 들어있어요.
@@ -138,7 +135,7 @@ IDP는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architec
 
 **진행 상황**: 110 / 973
 
-← **이전**: [109. 플랫폼 엔지니어링 (Platform Engineering) - 개발자 인지 부하 해소와 IDP 셀프서비스](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/)
+← **이전**: [109. 플랫폼 엔지니어링 (Platform 엔진ering) - 개발자 인지 부하 해소와 IDP 셀프서비스](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/)
 **다음**: [111. 관측 가능성 (Observability) - Metrics·Logs·Traces 3대 신호와 SRE 실천](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/) →
 
 ---

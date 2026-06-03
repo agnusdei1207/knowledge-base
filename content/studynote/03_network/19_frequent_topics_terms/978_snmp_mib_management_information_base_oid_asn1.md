@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: 중앙 관리 컴퓨터(NMS, 매니저)가 1,000대의 네트워크 장비(에이전트)에게 5분마다 핑퐁 퀴즈를 던져서 상태를 긁어오는(Pull/[Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/)) 가장 오래되고 유명한 통신 감시 프로토콜입니다.
 - **문제점**: 1,000대의 장비한테 "너 지금 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 1번 트래픽 얼마야?"라고 물어보려면, 그 장비 안에 <strong>"<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> 1번 트래픽 수치가 적혀있는 통일된 엑셀 장부"</strong>가 반드시 있어야 합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DHCP 릴레이 에이전트</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SNMP MIB 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IPSec 터널/수송 모드</div></div>
-</div>
-</div>
-
-
+```text
+[DHCP 릴레이 에이전트]
+    │
+    ▼
+[SNMP MIB 구조]
+    │
+    └──▶ [IPSec 터널/수송 모드]
+```
 
 - **📢 섹션 요약 비유**: [SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) [MIB](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/529_mib_oid_snmp_architecture/) 구조는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -44,18 +40,14 @@ tags = ["studynote-network"]
 - **개념**: 라우터, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/), 서버 등 네트워크 장비가 자기 자신의 상태 정보(CPU 점유율, 인터페이스 상태, IP 주소 등)를 중앙 NMS 서버가 읽어갈 수 있도록 <strong>체계적인 트리(Tree) 계층 구조로 분류하여 저장해 놓은 텍스트 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a>(정보 저장소)</strong>입니다.
 - ※ 876번 문서에서 설정값을 바꾸는 YANG 모델을 배웠다면, MIB는 오직 '상태 모니터링'을 위해 옛날부터 쓰던 뼈대 양식입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DHCP 릴레이 에이전트</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SNMP MIB 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IPSec 터널/수송 모드</div></div>
-</div>
-</div>
-
-
+```text
+[DHCP 릴레이 에이전트]
+    │
+    ▼
+[SNMP MIB 구조]
+    │
+    └──▶ [IPSec 터널/수송 모드]
+```
 
 - **📢 섹션 요약 비유**: [SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) [MIB](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/529_mib_oid_snmp_architecture/) 구조의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -127,19 +119,15 @@ MIB라는 트리 구조를 컴퓨터가 파싱할 수 있도록 글씨를 쓰는
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: DHCP 릴레이 에이전트</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: SNMP MIB 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: IPSec 터널/수송 모드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: DHCP 릴레이 에이전트]
+    │
+    ▼
+[현재 개념: SNMP MIB 구조]
+    │
+    ├──▶ [확장 A: IPSec 터널/수송 모드]
+    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
+```
 
 [SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) [MIB](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/529_mib_oid_snmp_architecture/) 구조는 [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 릴레이 에이전트에서 출발해 현재 메커니즘을 정교화하고, 이후 [IPSec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 터널/수송 모드와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

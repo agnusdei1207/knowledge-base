@@ -31,40 +31,51 @@ tags = ["studynote-bigdata"]
 
 ### 5대 분쟁 유형과 주요 판례
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">빅데이터 5대 법적 분쟁 유형</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 데이터 소유권 (Data Ownership)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">hiQ vs LinkedIn (미국, 2022):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LinkedIn 공개 프로필 스크래핑 허용 여부</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 미국 제9순회 항소법원: CFAA(컴퓨터 사기 남용법)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위반 아님 (공개 데이터 스크래핑 허용)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ryanair vs Expedia: 항공 요금 스크래핑 금지 판결</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 수집 동의 위반 (Consent Violation)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cambridge Analytica (2018):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Facebook 앱을 통해 8,700만 명 데이터 무동의 수집</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ Facebook $5B FTC 과징금, Cambridge Analytica 파산</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CNIL vs Google (2022):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">쿠키 동의 절차 불명확 → €150M 과징금</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 목적 외 사용 (Purpose Limitation)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마케팅 데이터 → 신용 평가 사용 (목적 외)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">의료 데이터 → 보험료 산정 사용 (목적 외)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GDPR Article 5(1)(b) 위반 유형 (목적 제한 원칙)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 국가 간 데이터 이전 (Cross-Border Transfer)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Schrems I (2015): EU-US Safe Harbor 무효 (ECJ 판결)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Schrems II (2020): EU-US Privacy Shield 무효 (ECJ 판결)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ SCC (표준 계약 조항) 사용 의무화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EU-US Data Privacy Framework (2023): 새 협정 발효</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 자동화 의사결정 (Automated Decision-Making)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GDPR Article 22:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인간 개입 없는 자동화 결정에 이의 제기권 부여</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대출 자동 거절, AI 채용 스크리닝 대상</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────────┐
+│              빅데이터 5대 법적 분쟁 유형                     │
+├──────────────────────────────────────────────────────────────┤
+│  1. 데이터 소유권 (Data Ownership)                           │
+│  ┌────────────────────────────────────────────────────────┐ │
+│  │ hiQ vs LinkedIn (미국, 2022):                           │ │
+│  │   LinkedIn 공개 프로필 스크래핑 허용 여부                │ │
+│  │   → 미국 제9순회 항소법원: CFAA(컴퓨터 사기 남용법)    │ │
+│  │     위반 아님 (공개 데이터 스크래핑 허용)               │ │
+│  │ Ryanair vs Expedia: 항공 요금 스크래핑 금지 판결        │ │
+│  └────────────────────────────────────────────────────────┘ │
+├──────────────────────────────────────────────────────────────┤
+│  2. 수집 동의 위반 (Consent Violation)                       │
+│  ┌────────────────────────────────────────────────────────┐ │
+│  │ Cambridge Analytica (2018):                             │ │
+│  │   Facebook 앱을 통해 8,700만 명 데이터 무동의 수집      │ │
+│  │   → Facebook $5B FTC 과징금, Cambridge Analytica 파산   │ │
+│  │ CNIL vs Google (2022):                                  │ │
+│  │   쿠키 동의 절차 불명확 → €150M 과징금                  │ │
+│  └────────────────────────────────────────────────────────┘ │
+├──────────────────────────────────────────────────────────────┤
+│  3. 목적 외 사용 (Purpose Limitation)                        │
+│  ┌────────────────────────────────────────────────────────┐ │
+│  │ 마케팅 데이터 → 신용 평가 사용 (목적 외)                │ │
+│  │ 의료 데이터 → 보험료 산정 사용 (목적 외)                │ │
+│  │ GDPR Article 5(1)(b) 위반 유형 (목적 제한 원칙)         │ │
+│  └────────────────────────────────────────────────────────┘ │
+├──────────────────────────────────────────────────────────────┤
+│  4. 국가 간 데이터 이전 (Cross-Border Transfer)              │
+│  ┌────────────────────────────────────────────────────────┐ │
+│  │ Schrems I (2015): EU-US Safe Harbor 무효 (ECJ 판결)     │ │
+│  │ Schrems II (2020): EU-US Privacy Shield 무효 (ECJ 판결) │ │
+│  │   → SCC (표준 계약 조항) 사용 의무화                    │ │
+│  │ EU-US Data Privacy Framework (2023): 새 협정 발효       │ │
+│  └────────────────────────────────────────────────────────┘ │
+├──────────────────────────────────────────────────────────────┤
+│  5. 자동화 의사결정 (Automated Decision-Making)              │
+│  ┌────────────────────────────────────────────────────────┐ │
+│  │ GDPR Article 22:                                        │ │
+│  │   인간 개입 없는 자동화 결정에 이의 제기권 부여         │ │
+│  │   대출 자동 거절, AI 채용 스크리닝 대상                 │ │
+│  └────────────────────────────────────────────────────────┘ │
+└─────────────────────────────────────────────────────────────┘
+```
 
 ### 국가 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이전 메커니즘
 
@@ -165,23 +176,21 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 수집 — 동의 없는 무분별한 개인정보 활용</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">법적 분쟁 (Cambridge Analytica · Schrems II 판결)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">GDPR / 개인정보보호법 — 규제 체계 확립</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SCC (표준 계약 조항) / DPO / DPIA — 준수 메커니즘</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Privacy by Design — 설계 단계 개인정보 보호 내재화</div></div>
-</div>
-</div>
-
-
+```text
+[데이터 수집 — 동의 없는 무분별한 개인정보 활용]
+    │
+    ▼
+[법적 분쟁 (Cambridge Analytica · Schrems II 판결)]
+    │
+    ▼
+[GDPR / 개인정보보호법 — 규제 체계 확립]
+    │
+    ▼
+[SCC (표준 계약 조항) / DPO / DPIA — 준수 메커니즘]
+    │
+    ▼
+[Privacy by Design — 설계 단계 개인정보 보호 내재화]
+```
 무동의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 남용이 법적 분쟁을 촉발하고, [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) 같은 규제가 [SCC](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/040_scc/)·[DPO](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/270_embedding_model/)·DPIA를 의무화하며, 궁극적으로 Privacy by Design으로 사전 예방 체계가 정착되는 흐름이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

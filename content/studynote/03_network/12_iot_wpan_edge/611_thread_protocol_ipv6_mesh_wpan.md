@@ -23,18 +23,14 @@ tags = ["studynote-network"]
 
 - **등장 배경**: 기존 [지그비](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/)([ZigBee](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/))나 Z-Wave는 각자의 고유한 통신 언어를 썼기 때문에, 와이파이나 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)(IP망)를 쓰는 스마트폰과 대화하려면 반드시 중간에 고가의 '스마트 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)(게이트웨이)' 장비가 통역을 해줘야만 했습니다. 만약 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)가 고장 나면 온 집안의 기기가 먹통이 되는 치명적 단점이 있었습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Z-Wave</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Thread 프로토콜</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Matter 보안 통일 표준</div></div>
-</div>
-</div>
-
-
+```text
+[Z-Wave]
+    │
+    ▼
+[Thread 프로토콜]
+    │
+    └──▶ [Matter 보안 통일 표준]
+```
 
 - **📢 섹션 요약 비유**: [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -54,18 +50,14 @@ tags = ["studynote-network"]
 - 완전히 새로운 안테나를 사야 하는 게 아닙니다. 물리적 계층(PHY/[MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))은 기존 <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/">지그비</a>(<a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/">ZigBee</a>)와 똑같은 2.4GHz 무선 칩셋(802.15.4)</strong>을 그대로 사용합니다.
 - 즉, 제조사는 기존 [지그비](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/)용 기기에 소프트웨어 업데이트([펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/))만 입히면 그 기기를 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 기기로 변신시킬 수 있습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Z-Wave</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Thread 프로토콜</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Matter 보안 통일 표준</div></div>
-</div>
-</div>
-
-
+```text
+[Z-Wave]
+    │
+    ▼
+[Thread 프로토콜]
+    │
+    └──▶ [Matter 보안 통일 표준]
+```
 
 - **📢 섹션 요약 비유**: [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -125,19 +117,15 @@ Thread는 단순히 '도로(네트워크 계층)'만 깔아주는 역할입니�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: Z-Wave</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: Thread 프로토콜</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: Matter 보안 통일 표준</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율형 엣지 협업</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: Z-Wave]
+    │
+    ▼
+[현재 개념: Thread 프로토콜]
+    │
+    ├──▶ [확장 A: Matter 보안 통일 표준]
+    └──▶ [확장 B: 자율형 엣지 협업]
+```
 
 [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)는 Z-Wave에서 출발해 현재 메커니즘을 정교화하고, 이후 [Matter](/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/) 보안 통일 표준와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

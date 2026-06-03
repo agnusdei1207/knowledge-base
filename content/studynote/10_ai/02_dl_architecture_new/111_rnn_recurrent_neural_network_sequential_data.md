@@ -20,19 +20,19 @@ tags = ["studynote-ai"]
 
 CNN과 [FC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/)(완전 연결) 네트워크는 입력 순서를 무시한다. "나는 학교에 간다"와 "간다 학교에 나는"을 같은 것으로 본다. 하지만 언어·음악·주가는 <strong>순서가 의미를 결정</strong>한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RNN의 시간 축 펼침 (Unfolding)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">h₁</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">h₂</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">h₃</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">y₁ y₂ y₃</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">h_t = f(W_h · h_{t-1} + W_x · x_t + b)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이전 기억(h_{t-1}) + 현재 입력(x_t) → 새 기억(h_t)</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│      RNN의 시간 축 펼침 (Unfolding)                    │
+├───────────────────────────────────────────────────────┤
+│  x₁ ──▶ [h₁] ──▶ x₂ ──▶ [h₂] ──▶ x₃ ──▶ [h₃]     │
+│          │               │               │            │
+│          ▼               ▼               ▼            │
+│          y₁              y₂              y₃           │
+│                                                       │
+│  h_t = f(W_h · h_{t-1} + W_x · x_t + b)             │
+│  이전 기억(h_{t-1}) + 현재 입력(x_t) → 새 기억(h_t)  │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: RNN은 소설을 읽는 독자다. 1장에서 읽은 내용(h₁)을 기억하고 2장을 읽어야(x₂) 줄거리를 이해한다.
 
@@ -104,23 +104,21 @@ RNN은 시퀀스 [데이터](/knowledge-base/studynote/05_database/01_db_archite
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">바닐라 RNN (1986, Elman) — 시퀀스 처리의 시작</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LSTM (1997, Hochreiter) — 기울기 소실 해결, 게이트 도입</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">GRU (2014, Cho) — LSTM 간소화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Seq2Seq + Attention (2015, Bahdanau) — 기계 번역 혁신</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Transformer (2017, Vaswani) — Self-Attention, RNN 대체</div></div>
-</div>
-</div>
-
-
+```text
+[바닐라 RNN (1986, Elman) — 시퀀스 처리의 시작]
+    │
+    ▼
+[LSTM (1997, Hochreiter) — 기울기 소실 해결, 게이트 도입]
+    │
+    ▼
+[GRU (2014, Cho) — LSTM 간소화]
+    │
+    ▼
+[Seq2Seq + Attention (2015, Bahdanau) — 기계 번역 혁신]
+    │
+    ▼
+[Transformer (2017, Vaswani) — Self-Attention, RNN 대체]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. RNN은 소설을 1장씩 읽으면서 <strong>앞 내용을 기억</strong>하고 다음 장을 이해하는 뇌예요.

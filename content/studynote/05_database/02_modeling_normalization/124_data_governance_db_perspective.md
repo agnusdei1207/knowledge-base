@@ -18,20 +18,17 @@ tags = ["studynote-database"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 거버넌스 프레임워크</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전략</div><div class="kb-diagram-note">데이터 전략·비전·원칙</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">조직</div><div class="kb-diagram-note">CDO · 데이터 스튜어드 · 거버넌스 위원회</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">정책</div><div class="kb-diagram-note">데이터 표준·품질 규칙·보안 정책·접근 제어</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">프로세스</div><div class="kb-diagram-note">메타데이터 관리·MDM·품질 모니터링</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">기술</div><div class="kb-diagram-note">데이터 카탈로그·리니지 추적·DQ 도구</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    데이터 거버넌스 프레임워크                          │
+├───────────────────────────────────────────────────────┤
+│  [전략] 데이터 전략·비전·원칙                        │
+│  [조직] CDO · 데이터 스튜어드 · 거버넌스 위원회      │
+│  [정책] 데이터 표준·품질 규칙·보안 정책·접근 제어    │
+│  [프로세스] 메타데이터 관리·MDM·품질 모니터링        │
+│  [기술] 데이터 카탈로그·리니지 추적·DQ 도구          │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)는 도시의 <strong>도로교통법</strong>이다. 차([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 많아지면 법([정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))·경찰(스튜어드)·신호등(기술)이 없으면 사고([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 오류)가 난다.
 
@@ -91,23 +88,21 @@ tags = ["studynote-database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">수동 데이터 관리 (엑셀, 2000s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DAMA-DMBOK 1판 (2009) — 데이터 관리 표준</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 거버넌스 솔루션 (Collibra, 2015~)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 메시 (2020~) — 분산 거버넌스</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: AI 거버넌스 — 모델·학습 데이터 품질 관리</div></div>
-</div>
-</div>
-
-
+```text
+[수동 데이터 관리 (엑셀, 2000s)]
+    │
+    ▼
+[DAMA-DMBOK 1판 (2009) — 데이터 관리 표준]
+    │
+    ▼
+[데이터 거버넌스 솔루션 (Collibra, 2015~)]
+    │
+    ▼
+[데이터 메시 (2020~) — 분산 거버넌스]
+    │
+    ▼
+[현재: AI 거버넌스 — 모델·학습 데이터 품질 관리]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)는 도시의 <strong>교통법규</strong>예요. 차([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 많으면 법이 필요해요.

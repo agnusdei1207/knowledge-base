@@ -35,19 +35,17 @@ tags = ["studynote-enterprise-systems"]
 
 아래 그림은 상태 유지 방식과 무상태 방식의 차이를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">무상태 API가 확장에 유리한 이유</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Client</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">LB</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Server A</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Client</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">LB</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Server B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심: 어느 서버가 받아도 요청 자체만으로 처리 가능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 대화 문맥은 서버 메모리가 아니라 토큰·자원 상태로 표현</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│                  무상태 API가 확장에 유리한 이유                   │
+├────────────────────────────────────────────────────────────────────┤
+│ [Client] -- Authorization, Resource ID --> [LB] --> [Server A]    │
+│ [Client] -- Authorization, Resource ID --> [LB] --> [Server B]    │
+│                                                                    │
+│ 핵심: 어느 서버가 받아도 요청 자체만으로 처리 가능                 │
+│       사용자 대화 문맥은 서버 메모리가 아니라 토큰·자원 상태로 표현 │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조에서 서버는 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 토큰을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하고, 필요한 자원 상태를 저장소에서 읽어 현재 요청을 처리한다. 그래서 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 어피니티 ([Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) [Affinity](/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/))나 인메모리 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)에 덜 의존하게 된다. 다만 토큰 자체에 너무 많은 정보를 넣으면 길이 증가, 보안 노출, 만료 관리 문제가 생길 수 있으므로 적절한 균형이 필요하다.
 
@@ -132,23 +130,21 @@ tags = ["studynote-enterprise-systems"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">세션 중심 웹 애플리케이션</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">리소스 중심 API</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">무상태성 (Statelessness)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">토큰 기반 인증 · 캐시 · 수평 확장</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 · MSA 운영 최적화</div>
-</div>
-</div>
-
-
+```text
+세션 중심 웹 애플리케이션
+    │
+    ▼
+리소스 중심 API
+    │
+    ▼
+무상태성 (Statelessness)
+    │
+    ▼
+토큰 기반 인증 · 캐시 · 수평 확장
+    │
+    ▼
+클라우드 · MSA 운영 최적화
+```
 
 이 흐름은 "서버 기억 의존 → 요청 독립성 강화 → [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 운영 최적화"로 웹 아키텍처가 발전하는 맥락을 보여준다.
 
@@ -164,7 +160,7 @@ tags = ["studynote-enterprise-systems"]
 
 **진행 상황**: 162 / 482
 
-← **이전**: [161. Level 3 - HATEOAS (Hypermedia As The Engine Of Application State), 응답에](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/161_rest_level_3_hateoas/)
+← **이전**: [161. Level 3 - HATEOAS (Hypermedia As The 엔진 Of Application State), 응답에](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/161_rest_level_3_hateoas/)
 **다음**: [163. 마이크로서비스 아키텍처 (MSA, Microservices Architecture) - 거대한 모놀리식(Monolithic)](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/163_microservices_architecture_msa/) →
 
 ---

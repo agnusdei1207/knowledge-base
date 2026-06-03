@@ -36,22 +36,19 @@ tags = ["studynote-devops"]
 | **Notification Controller** | 배포 성공/실패 이벤트를 Slack, Teams 등으로 전송 |
 | **Image Automation Controller** | [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 저장소의 새 이미지를 감지하고 Git 저장소의 YAML을 스스로 자동 커밋 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FluxCD의 GitOps Toolkit 동작 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Git Repository</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Source Controller</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲</div><div class="kb-diagram-cell">(Artifact 생성)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자동 커밋 ▼</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Kustomize/Helm Controller</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Image Automation</div><div class="kb-diagram-note">(Sync &amp; Apply)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">감시 ▼</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Docker Registry</div><div class="kb-diagram-node">Kubernetes Cluster</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│             FluxCD의 GitOps Toolkit 동작 아키텍처             │
+├──────────────────────────────────────────────────────────────┤
+│ [Git Repository] ◀──(감시)── [Source Controller]            │
+│       ▲                            │ (Artifact 생성)         │
+│       │ 자동 커밋                    ▼                       │
+│       │                 [Kustomize/Helm Controller]          │
+│ [Image Automation]                 │ (Sync & Apply)          │
+│       │ 감시                       ▼                       │
+│ [Docker Registry]         [Kubernetes Cluster]               │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 구조의 핵심은 봇들이 철저히 분업화되어 있다는 점이다. 이미지가 새로 등록되면 Image Automation 봇이 Git을 업데이트하고, Source 봇이 이를 퍼오면, [Kustomize](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/091_kustomize_kubernetes_declarative_overlay_manifest/) 봇이 배포를 실행하는 톱니바퀴 같은 자동화가 이루어진다.
 
@@ -106,23 +103,21 @@ FluxCD를 도입하면 보안 위험을 안고 있던 외부 연동 방식(Push)
 | <strong><a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/091_kustomize_kubernetes_declarative_overlay_manifest/">Kustomize</a> / <a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/207_helm_kubernetes_package_manager_chart/">Helm</a></strong> | Flux가 Git에서 가져온 템플릿을 실제 매니페스트로 렌더링할 때 쓰는 도구 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Push 기반 배포 (Jenkins 외부 스크립트)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">보안 취약점 및 상태 불일치(Drift) 문제 대두</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">GitOps 개념 탄생 (Weaveworks) 및 Flux v1 도입</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Flux v2 재설계 (GitOps Toolkit 마이크로서비스화)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Image Automation 및 멀티 테넌시 분산 배포 고도화</div>
-</div>
-</div>
-
-
+```text
+Push 기반 배포 (Jenkins 외부 스크립트)
+    │
+    ▼
+보안 취약점 및 상태 불일치(Drift) 문제 대두
+    │
+    ▼
+GitOps 개념 탄생 (Weaveworks) 및 Flux v1 도입
+    │
+    ▼
+Flux v2 재설계 (GitOps Toolkit 마이크로서비스화)
+    │
+    ▼
+Image Automation 및 멀티 테넌시 분산 배포 고도화
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 예전에는 택배 기사 아저씨가 우리 집 비밀번호를 직접 누르고 들어와서(Push) 물건을 놓고 갔어요.

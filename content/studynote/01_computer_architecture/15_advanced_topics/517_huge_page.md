@@ -25,21 +25,20 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 왜 [거대 페이지](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/)가 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 문제를 먼저 겨냥하는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페이지가 커질수록 같은 TLB가 덮는 범위가 넓어진다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TLB entries = 2,048 가정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4KB page : 2,048 × 4KB = 8MB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2MB page : 2,048 × 2MB = 4GB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1GB page : 2,048 × 1GB = 2TB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리는 TB급으로 커졌는데 TLB 엔트리 수는 크게 늘지 않는다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 페이지를 크게 묶지 않으면 주소 변환이 먼저 병목이 된다</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│              페이지가 커질수록 같은 TLB가 덮는 범위가 넓어진다       │
+├──────────────────────────────────────────────────────────────────────┤
+│ TLB entries = 2,048 가정                                             │
+│                                                                      │
+│ 4KB page   : 2,048 × 4KB   =      8MB                                │
+│ 2MB page   : 2,048 × 2MB   =      4GB                                │
+│ 1GB page   : 2,048 × 1GB   =      2TB                                │
+│                                                                      │
+│ 메모리는 TB급으로 커졌는데 TLB 엔트리 수는 크게 늘지 않는다         │
+│ → 페이지를 크게 묶지 않으면 주소 변환이 먼저 병목이 된다            │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 즉 [거대 페이지](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/)는 메모리를 더 많이 만드는 기술이 아니라, <strong>주소 변환의 관리 단위를 굵게 만들어 번역 비용을 줄이는 기술</strong>이다. 이 관점을 잡아야 이후의 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/), [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/), 메모리 파편화 이슈가 하나로 묶인다.
 
@@ -135,25 +134,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">기본 4KB 페이지 중심 가상 메모리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">메모리 용량 증가 · TLB reach 한계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">거대 페이지 (2MB / 1GB)</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ THP (Transparent Huge Pages)</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ 명시적 HugeTLBfs 예약</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">가상화 EPT / NPT 최적화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">혼합 페이지 크기 정책 · 티어드 메모리 · CXL 시대의 영역별 최적화</div>
-</div>
-</div>
-
-
+```text
+기본 4KB 페이지 중심 가상 메모리
+        │
+        ▼
+메모리 용량 증가 · TLB reach 한계
+        │
+        ▼
+거대 페이지 (2MB / 1GB)
+        │
+        ├─▶ THP (Transparent Huge Pages)
+        ├─▶ 명시적 HugeTLBfs 예약
+        │
+        ▼
+가상화 EPT / NPT 최적화
+        │
+        ▼
+혼합 페이지 크기 정책 · 티어드 메모리 · CXL 시대의 영역별 최적화
+```
 
 이 흐름은 "세밀한 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 관리"에서 출발해, "번역 비용 절감"을 거쳐, 결국 워크로드별로 [페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/)를 다르게 쓰는 방향으로 발전하는 과정을 보여준다.
 

@@ -42,24 +42,23 @@ CNN은 특징을 추출하는 '[합성곱](/knowledge-base/studynote/10_ai/03_ll
 | <strong><a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/">활성화 함수</a> (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/">ReLU</a>)</strong> | [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 결과에 비선형성을 부여한다. 음수 값을 0으로 차단하여 네트워크가 깊어져도 수렴할 수 있게 한다. |
 | <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/100_pooling_layer_max_pooling_downsampling_cnn/">풀링 층</a> (<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/">Pooling Layer</a>)</strong> | [최대 풀링](/knowledge-base/studynote/10_ai/02_dl_architecture_new/101_max_pooling_average_pooling_global_average_pooling/) ([Max Pooling](/knowledge-base/studynote/10_ai/02_dl_architecture_new/101_max_pooling_average_pooling_global_average_pooling/)) 등을 통해 [특성 맵](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/)의 크기(해상도)를 반으로 줄여, 계산량을 압축하고 미세한 위치 변화에 강건해지도록 만든다. |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">합성곱 (Convolution) 연산의 과정</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">입력 이미지 (5x5)</div><div class="kb-diagram-node">필터 (3x3)</div><div class="kb-diagram-node">특성 맵 (3x3)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">─ ─ ─ ─ ─ ─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ ─ ─ ─ ─</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">4</div><div class="kb-diagram-cell">3</div><div class="kb-diagram-cell">4</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">(X) ─ ─ ─ ▶ ─ ─ ─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ ─ ─ ─ ─</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">2</div><div class="kb-diagram-cell">4</div><div class="kb-diagram-cell">3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">─ ─ ─ ─ ─ ─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ ─ ─ ─ ─</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">2</div><div class="kb-diagram-cell">3</div><div class="kb-diagram-cell">4</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">─ ─ ─ ─ ─ ─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 겹치는 부분의 숫자를 곱하고 모두 더해 한 칸을 채움</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                  합성곱 (Convolution) 연산의 과정             │
+├──────────────────────────────────────────────────────────────┤
+│  [입력 이미지 (5x5)]         [필터 (3x3)]       [특성 맵 (3x3)] │
+│  ┌─┬─┬─┬─┬─┐                                                   │
+│  │1│1│1│0│0│          ┌─┬─┬─┐               ┌─┬─┬─┐          │
+│  ├─┼─┼─┼─┼─┤          │1│0│1│               │4│3│4│          │
+│  │0│1│1│1│0│   (X)    ├─┼─┼─┤     ───▶      ├─┼─┼─┤          │
+│  ├─┼─┼─┼─┼─┤          │0│1│0│               │2│4│3│          │
+│  │0│0│1│1│1│          ├─┼─┼─┤               ├─┼─┼─┤          │
+│  ├─┼─┼─┼─┼─┤          │1│0│1│               │2│3│4│          │
+│  │0│0│1│1│0│          └─┴─┴─┘               └─┴─┴─┘          │
+│  └─┴─┴─┴─┴─┘                                                   │
+│  * 겹치는 부분의 숫자를 곱하고 모두 더해 한 칸을 채움           │
+└──────────────────────────────────────────────────────────────┘
+```
 
 얕은 층에서는 선, 윤곽 등 단순한 특징을 잡고, 층이 깊어질수록 눈, 코, 귀처럼 복잡한 추상적 패턴을 조합해 나가는 계층적 학습 구조를 가진다.
 
@@ -124,23 +123,21 @@ CNN은 이미지 처리 기술의 패러다임을 사람이 일일이 특징 수
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이미지 플래트닝 (Flattening) 문제점 대두</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CNN (합성곱, 풀링) · 가중치 공유 (Weight Sharing)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">LeNet (초기 구조) · AlexNet (GPU 도입 딥러닝 부흥)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">VGG (깊이 심화) · ResNet (잔차 연결로 초심층 학습)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">YOLO (실시간 객체 탐지) · ViT (비전 트랜스포머 융합)</div>
-</div>
-</div>
-
-
+```text
+이미지 플래트닝 (Flattening) 문제점 대두
+    │
+    ▼
+CNN (합성곱, 풀링) · 가중치 공유 (Weight Sharing)
+    │
+    ▼
+LeNet (초기 구조) · AlexNet (GPU 도입 딥러닝 부흥)
+    │
+    ▼
+VGG (깊이 심화) · ResNet (잔차 연결로 초심층 학습)
+    │
+    ▼
+YOLO (실시간 객체 탐지) · ViT (비전 트랜스포머 융합)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

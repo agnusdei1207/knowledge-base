@@ -31,24 +31,26 @@ tags = ["studynote-operating-system"]
   2. **I/O 병목의 극대화**: 램은 수 기가헤르츠(GHz)인데 디스크는 수 밀리초(ms)로 격차가 만 배 이상 벌어짐. I/O 회피가 최고의 튜닝이 됨.
   3. **다중 스캔 체제의 확립**: 바늘을 여러 번 돌리더라도, 기어코 Clean [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 찾아내어 I/O를 아끼는 것이 시스템 전체 적으로 이득이라는 수학적 증명이 완료됨.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4단계 계급 사회: (R, M) 비트 조합에 따른 사살 우선순위</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">타겟 검색용 살생부 계급 (숫자가 작을수록 먼저 죽음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💀 1계급 (0, 0) : R=0 (안 씀) / M=0 (안 바뀜 - Clean)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; 최고의 희생양. 쫓아낼 때 램에서 그냥 삭제하면 끝남. 0.001초 컷.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🔴 2계급 (0, 1) : R=0 (안 씀) / M=1 (바뀜 - Dirty)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; 안 쓰긴 하지만 쫓아내려면 디스크에 써야 함. 8ms 렉 걸림.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🟡 3계급 (1, 0) : R=1 (최근 씀) / M=0 (안 바뀜 - Clean)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; 쫓아내기 편하지만, 최근에 썼으므로 금방 또 부를 확률 높음. 보류!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🟢 4계급 (1, 1) : R=1 (최근 씀) / M=1 (바뀜 - Dirty)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; 지금 미친 듯이 값을 바꾸고 있는 초핵심 변수. 절대 건드리면 안 됨!</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────────────┐
+│        4단계 계급 사회: (R, M) 비트 조합에 따른 사살 우선순위         │
+├───────────────────────────────────────────────────────────────────────┤
+│                                                                       │
+│ [ 타겟 검색용 살생부 계급 (숫자가 작을수록 먼저 죽음) ]               │
+│                                                                       │
+│ 💀 1계급 (0, 0) : R=0 (안 씀)  / M=0 (안 바뀜 - Clean)                │
+│   -> 최고의 희생양. 쫓아낼 때 램에서 그냥 삭제하면 끝남. 0.001초 컷.  │
+│                                                                       │
+│ 🔴 2계급 (0, 1) : R=0 (안 씀)  / M=1 (바뀜 - Dirty)                   │
+│   -> 안 쓰긴 하지만 쫓아내려면 디스크에 써야 함. 8ms 렉 걸림.         │
+│                                                                       │
+│ 🟡 3계급 (1, 0) : R=1 (최근 씀) / M=0 (안 바뀜 - Clean)               │
+│   -> 쫓아내기 편하지만, 최근에 썼으므로 금방 또 부를 확률 높음. 보류! │
+│                                                                       │
+│ 🟢 4계급 (1, 1) : R=1 (최근 씀) / M=1 (바뀜 - Dirty)                  │
+│   -> 지금 미친 듯이 값을 바꾸고 있는 초핵심 변수. 절대 건드리면 안 됨!│
+└───────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 이 표에서 재미있는 점은 2계급 `(0, 1)`이다. "최근에 안 썼는데(R=0) 값이 바뀌어(M=1) 있다?"는 게 모순처럼 보이지만, 하드웨어가 R [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 주기적으로 0으로 깎아내리기 때문에 '과거에 수정된 채 방치된 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)'가 이 계급으로 몰리게 된다. OS는 R=0을 최우선으로 죽이되, 그중에서도 무조건 M=0 인 놈을 발라내기 위해 피나는 노력을 한다.
 
 - **📢 섹션 요약 비유**: 도마 위에 올릴 희생양을 고를 때, '잡아먹기 쉬운 놈(최근 안 씀)' 중에서도 '털 뽑고 내장 가를 필요 없이 바로 끓이면 되는 손질된 고기(Clean)'를 무조건 1순위로 찾는 주방장(OS)의 지독한 효율성 추구입니다.
@@ -61,28 +63,29 @@ tags = ["studynote-operating-system"]
 
 개선된 [2차 기회 알고리즘](/knowledge-base/studynote/02_operating_system/07_virtual_memory/407_second_chance_algorithm/)의 가장 큰 문제는 <strong>"바늘이 램 400만 장을 여러 바퀴(최대 4바퀴) 돌아야 할 수도 있다"</strong>는 탐색 오버헤드다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시곗바늘의 4회전(4-Pass) 루프 스캔 알고리즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1회전</div><div class="kb-diagram-note">최고의 타겟 (0, 0)만 찾기!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 큐를 돌면서 R비트는 건드리지 않고 오직 (0, 0)인 놈만 수색함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 찾으면 즉시 쫓아내고 끝! 못 찾으면 2회전으로.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2회전</div><div class="kb-diagram-note">꿩 대신 닭 (0, 1) 찾기 + R비트 깎기!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- (0, 0)이 씨가 말랐으니 어쩔 수 없이 (0, 1) 타겟을 찾음.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- ⚠ 핵심: 지나가는 길에 있는 모든 R=1 비트를 0으로 깎아 내리면서 전진!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- (0, 1)을 찾으면 쫓아내고 끝! 못 찾으면 모든 페이지의 R이 0이 됨.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3회전</div><div class="kb-diagram-note">리셋된 상태에서 다시 (0, 0) 찾기!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 2회전에서 R을 다 0으로 깎았으니, 과거의 3계급(1, 0)이 모두 (0,0)으로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">강등된 상태임! 여기서 무조건 (0,0)이 발견되며 사살 확정!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">4회전</div><div class="kb-diagram-note">최후의 보루 (0, 1) 찾기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 만약 3회전에서도 못 찾았다면 (전부 더티 페이지라는 뜻),</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">과거 4계급(1, 1)이 강등된 (0, 1)을 4회전에서 사살.</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│              시곗바늘의 4회전(4-Pass) 루프 스캔 알고리즘                │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│ [ 1회전 ] 최고의 타겟 (0, 0)만 찾기!                                    │
+│ - 큐를 돌면서 R비트는 건드리지 않고 오직 (0, 0)인 놈만 수색함.          │
+│ - 찾으면 즉시 쫓아내고 끝! 못 찾으면 2회전으로.                         │
+│                                                                         │
+│ [ 2회전 ] 꿩 대신 닭 (0, 1) 찾기 + R비트 깎기!                          │
+│ - (0, 0)이 씨가 말랐으니 어쩔 수 없이 (0, 1) 타겟을 찾음.               │
+│ - ⚠ 핵심: 지나가는 길에 있는 모든 R=1 비트를 0으로 깎아 내리면서 전진!  │
+│ - (0, 1)을 찾으면 쫓아내고 끝! 못 찾으면 모든 페이지의 R이 0이 됨.      │
+│                                                                         │
+│ [ 3회전 ] 리셋된 상태에서 다시 (0, 0) 찾기!                             │
+│ - 2회전에서 R을 다 0으로 깎았으니, 과거의 3계급(1, 0)이 모두 (0,0)으로  │
+│   강등된 상태임! 여기서 무조건 (0,0)이 발견되며 사살 확정!              │
+│                                                                         │
+│ [ 4회전 ] 최후의 보루 (0, 1) 찾기                                       │
+│ - 만약 3회전에서도 못 찾았다면 (전부 더티 페이지라는 뜻),               │
+│   과거 4계급(1, 1)이 강등된 (0, 1)을 4회전에서 사살.                    │
+└─────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** "어떻게든 더티 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)(디스크 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/))를 쫓아내는 것을 미루겠다"는 집념이 빚어낸 4단 필터링 구조다. 디스크에 쓰는 시간 8ms(8,000,000 나노초)가 너무나 끔찍하기 때문에, 차라리 램 400만 장을 CPU가 4바퀴 돌면서 스캔하는 시간(수만 나노초)을 버리더라도 무조건 Clean [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 찾아내는 것이 수학적으로 압도적 이득이기 때문이다.
 
@@ -117,19 +120,16 @@ tags = ["studynote-operating-system"]
 - 이 과정에서 CPU 코어 하나가 100% 풀로드를 찍으며 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 타임(`sy`)을 미친 듯이 처먹는 <strong>'<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 데몬 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/">스래싱</a>'</strong>이 발생한다.
 - **해결책**: 현대 리눅스는 이렇게 무식하게 4바퀴를 돌지 않고, 아예 큐 자체를 [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/)(핫), Inactive(콜드) 리스트로 쪼개고 M비트에 따른 비동기 Flush를 미리 때려두는 방식으로 아키텍처를 완전히 갈아엎었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스캔 라운드</div><div class="kb-diagram-cell">찾고자 하는 타겟</div><div class="kb-diagram-cell">CPU 연산 낭비</div><div class="kb-diagram-cell">디스크 I/O 절감</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1-Pass</div><div class="kb-diagram-cell">(0, 0)</div><div class="kb-diagram-cell">낮음</div><div class="kb-diagram-cell">100% 성공</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2-Pass</div><div class="kb-diagram-cell">(0, 1)</div><div class="kb-diagram-cell">높음</div><div class="kb-diagram-cell">실패 (I/O 터짐)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3-Pass</div><div class="kb-diagram-cell">강등된 (0, 0)</div><div class="kb-diagram-cell">매우 높음</div><div class="kb-diagram-cell">100% 성공</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4-Pass</div><div class="kb-diagram-cell">강등된 (0, 1)</div><div class="kb-diagram-cell">☠️ 최악의 렉</div><div class="kb-diagram-cell">실패 (I/O 터짐)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬────────────────────────────┐
+│ 스캔 라운드 │ 찾고자 하는 타겟│ CPU 연산 낭비  │ 디스크 I/O 절감│
+├──────────┼────────────┼────────────┼────────────────────────────┤
+│ 1-Pass   │ (0, 0)     │ 낮음        │ 100% 성공                 │
+│ 2-Pass   │ (0, 1)     │ 높음        │ 실패 (I/O 터짐)           │
+│ 3-Pass   │ 강등된 (0, 0)│ 매우 높음    │ 100% 성공              │
+│ 4-Pass   │ 강등된 (0, 1)│ ☠️ 최악의 렉   │ 실패 (I/O 터짐)      │
+└──────────┴────────────┴────────────┴────────────────────────────┘
+```
 **[매트릭스 해설]** 디스크를 안 긁기 위해 CPU를 긁어버리는 전형적인 Trade-off 다. 옛날 [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) 시절엔 CPU를 아무리 긁어도 HDD가 1만 배 느렸으니 이 방식이 신의 한 수였지만, [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) SSD가 램 스피드를 맹추격하는 현대에는 4바퀴를 도는 CPU 연산 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 읽고 쓰는 시간보다 더 걸릴 수도 있는 딜레마에 봉착해 있다.
 
 - **📢 섹션 요약 비유**: 쓰레기봉투(디스크 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)) 값을 아끼려고 쓰레기장(램 6천만 장) 전체를 4바퀴나 돌면서 재활용품(Clean)을 찾는 인건비(CPU 낭비)가, 그냥 눈에 띄는 쓰레기를 종량제 봉투에 휙휙 담아버리고 봉투값([NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)) 내는 것보다 오히려 더 비싸지는 현대 자본주의의 역전 현상입니다.
@@ -186,19 +186,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">2차 기회 알고리즘 (Second-Chance / Clock Algorithm)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">개선된 2차 기회 알고리즘 (Enhanced Second Chance Algorithm)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">LFU (Least Frequently Used) 알고리즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MFU (Most Frequently Used) 알고리즘</div></div>
-</div>
-</div>
-
-
+```text
+[2차 기회 알고리즘 (Second-Chance / Clock Algorithm)]
+    │
+    ▼
+[개선된 2차 기회 알고리즘 (Enhanced Second Chance Algorithm)]
+    │
+    ├──▶ [LFU (Least Frequently Used) 알고리즘]
+    └──▶ [MFU (Most Frequently Used) 알고리즘]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

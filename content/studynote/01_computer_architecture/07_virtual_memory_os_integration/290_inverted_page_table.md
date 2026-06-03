@@ -27,22 +27,21 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 왜 [역 페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/363_inverted_page_table/)이 "가상 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 수" 대신 "물리 프레임 수"에 맞춰 사고하는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페이지 장부를 어디 기준으로 만들 것인가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기존 페이지 테이블</div><div class="kb-diagram-cell">역 페이지 테이블</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로세스 A: 페이지 0,1,2...</div><div class="kb-diagram-cell">Frame 0 -&gt; (PID, VPN)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로세스 B: 페이지 0,1,2...</div><div class="kb-diagram-cell">Frame 1 -&gt; (PID, VPN)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로세스 C: 페이지 0,1,2...</div><div class="kb-diagram-cell">Frame 2 -&gt; (PID, VPN)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">...</div><div class="kb-diagram-cell">...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기준: 가상 주소 공간 크기</div><div class="kb-diagram-cell">기준: 실제 장착된 물리 프레임 수</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 프로세스 많을수록 비대화</div><div class="kb-diagram-cell">결과: 테이블 크기가 RAM 크기에 연동</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│          페이지 장부를 어디 기준으로 만들 것인가?                         │
+├───────────────────────────────┬────────────────────────────────────────────┤
+│ 기존 페이지 테이블            │ 역 페이지 테이블                           │
+├───────────────────────────────┼────────────────────────────────────────────┤
+│ 프로세스 A: 페이지 0,1,2...   │ Frame 0  -> (PID, VPN)                    │
+│ 프로세스 B: 페이지 0,1,2...   │ Frame 1  -> (PID, VPN)                    │
+│ 프로세스 C: 페이지 0,1,2...   │ Frame 2  -> (PID, VPN)                    │
+│ ...                           │ ...                                        │
+├───────────────────────────────┼────────────────────────────────────────────┤
+│ 기준: 가상 주소 공간 크기      │ 기준: 실제 장착된 물리 프레임 수          │
+│ 결과: 프로세스 많을수록 비대화 │ 결과: 테이블 크기가 RAM 크기에 연동       │
+└───────────────────────────────┴────────────────────────────────────────────┘
+```
 
 핵심은 "주소 공간의 잠재적 크기"가 아니라 "실제 자원 수"를 기준으로 장부를 만든다는 발상 전환이다. 그래서 [역 페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/363_inverted_page_table/)은 메모리 절약형 구조이지, 주소 변환을 단순화하는 구조는 아니다.
 
@@ -65,21 +64,23 @@ tags = ["studynote-computer-architecture"]
 
 아래 흐름은 [역 페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/363_inverted_page_table/)이 해시와 TLB를 왜 함께 필요로 하는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">역 페이지 테이블 기반 주소 변환 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 가상주소</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">VPN | Offset</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ TLB 조회 ▶ 적중 시 PFN 획득</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 실패 시 (PID, VPN) 해시 ─▶ 버킷 탐색 ─▶ IPT 일치 항목 확인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ PFN+Offset</div></div>
-<div class="kb-diagram-note">─▶ 물리주소</div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                 역 페이지 테이블 기반 주소 변환 흐름                      │
+├────────────────────────────────────────────────────────────────────────────┤
+│ CPU 가상주소                                                               │
+│   │                                                                        │
+│   ├─▶ [VPN | Offset]                                                       │
+│   │        │                                                               │
+│   │        ├─▶ TLB 조회 ───────────────▶ 적중 시 PFN 획득                  │
+│   │        │                                                               │
+│   │        └─▶ 실패 시 (PID, VPN) 해시 ─▶ 버킷 탐색 ─▶ IPT 일치 항목 확인   │
+│   │                                                           │            │
+│   └───────────────────────────────────────────────────────────┴─▶ PFN+Offset│
+│                                                                        │   │
+│                                                                        └─▶ 물리주소
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 관점에서는 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 때 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 베이스를 통째로 바꾸는 대신, 현재 PID에 따라 같은 전역 테이블을 다른 관점으로 해석한다는 점도 중요하다. 즉 메모리 절약은 얻지만, 주소 변환은 하드웨어 지원과 캐시 적중률에 더 민감해진다.
 
@@ -155,24 +156,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단일 레벨 페이지 테이블</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">다단계 페이지 테이블</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ 대형 주소 공간 문제 심화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">역 페이지 테이블 (Inverted Page Table)</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ 해시드 페이지 테이블 (Hashed Page Table)</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ TLB 중심 가속</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">대규모 메모리·가상화 환경의 주소 변환 최적화</div>
-</div>
-</div>
-
-
+```text
+단일 레벨 페이지 테이블
+        │
+        ▼
+다단계 페이지 테이블
+        │
+        ├──────────────▶ 대형 주소 공간 문제 심화
+        │
+        ▼
+역 페이지 테이블 (Inverted Page Table)
+        │
+        ├──────────────▶ 해시드 페이지 테이블 (Hashed Page Table)
+        │
+        ├──────────────▶ TLB 중심 가속
+        │
+        ▼
+대규모 메모리·가상화 환경의 주소 변환 최적화
+```
 
 이 흐름은 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)이 단순 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 구조에서 시작해, 주소 공간 확대에 대응하기 위해 더 압축적이고 더 가속 장치 의존적인 구조로 발전해 온 과정을 보여준다.
 

@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - L4/L7 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(로드밸런서) 뒤에는 10대의 서버가 있습니다. 1초에 1,000명의 접속 요청이 쏟아질 때, 어떤 서버에 패킷을 꽂아줄지 결정하는 내부의 수학적 규칙(맵 할당 로직)이 필요합니다. 
 - 서버의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 현재 바쁜 정도(부하 상태)를 어떻게 추정하느냐에 따라 알고리즘이 갈립니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">로드 밸런싱</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">라운드 로빈 분배</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DSR</div></div>
-</div>
-</div>
-
-
+```text
+[로드 밸런싱]
+    │
+    ▼
+[라운드 로빈 분배]
+    │
+    └──▶ [DSR]
+```
 
 - **📢 섹션 요약 비유**: [라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/) 분배는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -50,18 +46,14 @@ tags = ["studynote-network"]
 - **원리**: 사용자의 출발지 IP(예: 211.x.x.x)를 뽑아서 수학 해시 함수에 집어넣어, 나온 결괏값(예: 3)에 해당하는 3번 서버로 꽂아줍니다.
 - **특징**: 홍길동(동일 IP)이 접속하면 해시 결괏값이 항상 같으므로, <strong>홍길동은 어제도 3번, 오늘도 3번, 내일도 3번 서버로만 고정적으로 들어갑니다(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">세션</a>/장바구니 유지 완벽 보장).</strong>
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">로드 밸런싱</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">라운드 로빈 분배</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DSR</div></div>
-</div>
-</div>
-
-
+```text
+[로드 밸런싱]
+    │
+    ▼
+[라운드 로빈 분배]
+    │
+    └──▶ [DSR]
+```
 
 - **📢 섹션 요약 비유**: [라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/) 분배의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -127,19 +119,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 로드 밸런싱</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 라운드 로빈 분배</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: DSR</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 로드 밸런싱]
+    │
+    ▼
+[현재 개념: 라운드 로빈 분배]
+    │
+    ├──▶ [확장 A: DSR]
+    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
+```
 
 [라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/) 분배는 [로드 밸런싱](/knowledge-base/studynote/03_network/16_data_center_cloud/833_load_balancing_l4_l7_switch_traffic_distribution/)에서 출발해 현재 메커니즘을 정교화하고, 이후 DSR와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

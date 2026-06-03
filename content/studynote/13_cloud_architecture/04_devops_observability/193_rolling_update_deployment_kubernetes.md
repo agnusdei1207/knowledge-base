@@ -42,23 +42,19 @@ tags = ["studynote-cloud-architecture"]
 
 ### 배포 단계 흐름
 
+```
+초기 상태 (v1 x4):
+  [v1] [v1] [v1] [v1]    총 4개 Pod
 
+maxSurge=1, maxUnavailable=1 설정 시:
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">초기 상태 (v1 x4):</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">v1</div><div class="kb-diagram-node">v1</div><div class="kb-diagram-node">v1</div><div class="kb-diagram-node">v1</div><div class="kb-diagram-note">총 4개 Pod</div></div>
-<div class="kb-diagram-note">maxSurge=1, maxUnavailable=1 설정 시:</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">v1</div><div class="kb-diagram-node">v1</div><div class="kb-diagram-node">v1</div><div class="kb-diagram-node">v1</div><div class="kb-diagram-node">v2</div><div class="kb-diagram-note">(5개)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">v1</div><div class="kb-diagram-node">v1</div><div class="kb-diagram-node">v1</div><div class="kb-diagram-node">v2</div><div class="kb-diagram-note">(4개)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">v1</div><div class="kb-diagram-node">v1</div><div class="kb-diagram-node">v1</div><div class="kb-diagram-node">v2</div><div class="kb-diagram-node">v2</div><div class="kb-diagram-note">(5개)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">v1</div><div class="kb-diagram-node">v1</div><div class="kb-diagram-node">v2</div><div class="kb-diagram-node">v2</div><div class="kb-diagram-note">(4개)</div></div>
-<div class="kb-diagram-note">... 반복 ...</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">완료:</div><div class="kb-diagram-node">v2</div><div class="kb-diagram-node">v2</div><div class="kb-diagram-node">v2</div><div class="kb-diagram-node">v2</div><div class="kb-diagram-note">총 4개 Pod</div></div>
-</div>
-</div>
-
-
+단계 1: v2 1개 생성 → [v1][v1][v1][v1][v2]  (5개)
+단계 2: v1 1개 종료 → [v1][v1][v1][v2]      (4개)
+단계 3: v2 1개 생성 → [v1][v1][v1][v2][v2]  (5개)
+단계 4: v1 1개 종료 → [v1][v1][v2][v2]      (4개)
+  ... 반복 ...
+완료: [v2] [v2] [v2] [v2]    총 4개 Pod
+```
 
 ### K8s [Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/) YAML
 
@@ -173,21 +169,17 @@ kubectl rollout history deployment/my-app
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">K8s Deployment: maxSurge · maxUnavailable 설정</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Rolling Update: 기존 Pod 종료 → 신규 Pod 생성 (순차)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Readiness Probe: 트래픽 수신 준비 확인</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Graceful Shutdown: 기존 연결 완료 대기</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">롤백: kubectl rollout undo → 이전 ReplicaSet 복원</div>
-</div>
-</div>
-
-
+```text
+K8s Deployment: maxSurge · maxUnavailable 설정
+    │
+    ▼
+Rolling Update: 기존 Pod 종료 → 신규 Pod 생성 (순차)
+    ├─► Readiness Probe: 트래픽 수신 준비 확인
+    └─► Graceful Shutdown: 기존 연결 완료 대기
+    │
+    ▼
+롤백: kubectl rollout undo → 이전 ReplicaSet 복원
+```
 2. 한 번에 다 바꾸면 손님이 앉을 의자가 없으니까, 하나 바꾸고→하나 돌아오고→또 하나 바꾸고 반복해.
 3. `maxSurge`는 "의자를 최대 몇 개까지 동시에 밖에 내보낼 수 있는지", `maxUnavailable`은 "동시에 몇 개 자리를 비울 수 있는지"야.
 

@@ -34,27 +34,35 @@ tags = ["studynote-security"]
 
 HNDL 공격의 구체적 타겟 분해 엑스레이 스캔이다. 해커가 훔쳐 가는 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 나중에 다 풀리는 것은 아니다. 해커의 스나이퍼 타겟 록온(Lock-on)은 너무나 명확하게 정해져 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HNDL (Harvest Now, Decrypt Later) 시한폭탄 해킹 시각화 십자 도해</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">⏳</div><div class="kb-diagram-node">현재 (2026년): 스파이 해커 부대의 밀수 수집 작전 (Harvest Now 🌾)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정부기관 ( 🔒 낡은 RSA 키 교환 캡슐 + AES 암호문 통신 핑퐁 ) ▶ 국방부</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (해커가 인터넷 랜선 허공에서 패킷 무지성 스니핑 복사 캡처)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">📦</div><div class="kb-diagram-node">해커의 무식한 100TB 짜리 지하 외장 하드 쇳덩이 창고</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"지금은 뭔 말인지 1도 모르겠지만, 일단 다 쓸어 담아 킵(Keep) 쳐 쾅!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">======================= 10년의 시간이 고요하게 흐름 =======================</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🚀</div><div class="kb-diagram-node">미래 (2036년 Q-Day): 양자 컴퓨터의 대관식 강림 (Decrypt Later 🔓)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">📦</div><div class="kb-diagram-node">10년 전 훔쳐 숨겨둔 100TB 하드 쇳덩이 창고 오픈 ㅋ</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">양자 컴퓨터 (피터 쇼어의 파동 알고리즘 🪓 무적 톱날 가동!) 윙윙~ ⚡</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 🌟 10년 전 봉인된 RSA 캡슐 껍데기가 0.1초 컷 썰려 찢어짐!!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">10년 전에 쟤네가 1회용으로 나누었던 'AES 비밀 열쇠(대칭키)'가 바닥에 툭 떨어져 나옴!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🔓 "2026년 첩보 작전 X파일: 스파이 실명 명단" 평문 텍스트로 100% 해독 멸망 💀!!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────────────────┐
+│           HNDL (Harvest Now, Decrypt Later) 시한폭탄 해킹 시각화 십자 도해 │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│ ⏳ [ 현재 (2026년): 스파이 해커 부대의 밀수 수집 작전 (Harvest Now 🌾) ]      │
+│                                                                             │
+│   정부기관 ────( 🔒 낡은 RSA 키 교환 캡슐 + AES 암호문 통신 핑퐁 )────▶ 국방부 │
+│                 │                                                           │
+│                 ▼ (해커가 인터넷 랜선 허공에서 패킷 무지성 스니핑 복사 캡처)     │
+│         📦 [ 해커의 무식한 100TB 짜리 지하 외장 하드 쇳덩이 창고 ]              │
+│         "지금은 뭔 말인지 1도 모르겠지만, 일단 다 쓸어 담아 킵(Keep) 쳐 쾅!"      │
+│                                                                             │
+│  ======================= 10년의 시간이 고요하게 흐름 =======================│
+│                                                                             │
+│ 🚀 [ 미래 (2036년 Q-Day): 양자 컴퓨터의 대관식 강림 (Decrypt Later 🔓) ]   │
+│                                                                             │
+│         📦 [ 10년 전 훔쳐 숨겨둔 100TB 하드 쇳덩이 창고 오픈 ㅋ ]               │
+│                 │                                                           │
+│                 ▼                                                           │
+│        [ 양자 컴퓨터 (피터 쇼어의 파동 알고리즘 🪓 무적 톱날 가동!) 윙윙~ ⚡ ]  │
+│                 │                                                           │
+│                 ▼ 🌟 10년 전 봉인된 RSA 캡슐 껍데기가 0.1초 컷 썰려 찢어짐!!  │
+│   10년 전에 쟤네가 1회용으로 나누었던 'AES 비밀 열쇠(대칭키)'가 바닥에 툭 떨어져 나옴!│
+│                 │                                                           │
+│                 ▼                                                           │
+│   🔓 "2026년 첩보 작전 X파일: 스파이 실명 명단" 평문 텍스트로 100% 해독 멸망 💀!!│
+└─────────────────────────────────────────────────────────────────────────────┘
+```
 
 **[아키텍트 팩폭 스캔: 털리는 놈(비대칭키) vs 안 털리는 놈(대칭키/해시)]**
 - <strong>🎯 털리는 타겟 1순위 (비대칭키 <a href="/knowledge-base/studynote/09_security/03_network_security/134_kem_key_encapsulation/">KEM</a> 교환망)</strong>: 브라우저와 서버가 처음 접속할 때 인사하며 비밀번호(대칭키)를 캡슐에 싸서 던져주는 <strong>'<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/">TLS</a> 키 교환 (<a href="/knowledge-base/studynote/09_security/03_network_security/110_rsa/">RSA</a>/<a href="/knowledge-base/studynote/09_security/03_network_security/130_ecdh/">ECDH</a>)' 구간 패킷</strong>이다. [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)의 쇼어 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(Shor)은 이 RSA나 [타원곡선](/knowledge-base/studynote/09_security/03_network_security/120_elliptic_curve_equation/)([ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/))의 뼈대를 1시간 만에 가루로 찢어발긴다. 해커는 10년 뒤 이 키 교환 패킷을 [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)에 넣고 돌려서, 그날 서로 주고받았던 <strong>'마스터 대칭키(AES용 <a href="/knowledge-base/studynote/09_security/03_network_security/140_session_key/">세션 키</a>)'</strong>를 툭! 하고 뽑아낸다. 열쇠(대칭키)가 뽑히면 ➔ 그날 1시간 동안 쇳덩이 자물쇠([AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/))로 주고받은 10GB짜리 기밀 회의 녹음 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 전체가 그대로 다 평문으로 100% 흘러나와 털리는(Decrypt) 도미노 파국이 터진다 💥.
@@ -140,23 +148,21 @@ HNDL이라는 악마의 시한폭탄 수확 테러 앞에서, "나중에 천천�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">RSA / ECC 비대칭키 쇳덩이 인터넷 제국 / "PFS(전방비밀성) 1회용 당구 교환 치니까 100% 무적 철옹성 생존 완벽함 데헷 ㅋ" 자위하며 낮잠 꿀 빨았음 ✨</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">HNDL (Harvest Now, Decrypt Later) 스텔스 첩보 스니핑 테러 발동 💀 / "양자 컴퓨터 아직 없지 ㅋ? 걍 인터넷 허공 핑퐁 캡슐 패킷 무지성 스니핑 복사 따서 지하 외장하드 100TB 창고에 차곡차곡 쓸어 담아 수확(Harvest) 저장 킵 쳐 쾅!!"</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Q-Day 양자 둠스데이 도래 스나이퍼 심판 💥 / 해커가 10년 묵힌 창고 오픈 ➔ 양자 쇼어(Shor) 톱날 믹서기 가동 ➔ 10년 전 훔친 RSA/ECDHE 캡슐 1초 컷 찢어 발김 ➔ 안에 든 AES 진짜 키 툭 떨어짐 ➔ 미국 펜타곤 1급 스파이 명단 100% 과거 소급 해독(Decrypt Later) 유출 폭사 멸망 파국 쾅!!!</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">아키텍트 모스카 정리(Mosca's) 피눈물 예방 백신 결단 🚀 / "야 시발 Z(양자 출현) 오기 전에 X+Y(수명+공사기간) 랙 타임오버 뻗어버림 좆망이다 당장 인프라 전원 다 뽑아 엎어 쾅!!"</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">하이브리드 KEM (Hybrid PQC) 전격 대관식 선제 록온 융합 (현재) ✨ / 10년 뒤 양자 해커가 창고 까볼 때 뇌 터져 좌절 멘붕 오게 만들려고 ➔ 오늘 당장! 지금롸잇나우 브라우저/VPN 터널 통신에</div><div class="kb-diagram-node">타원곡선 + PQC 격자 카이버(Kyber) 무기</div><div class="kb-diagram-note">2중 방폭문 캡슐 떡칠 덮어씌워 패킷 날려버리는 우주 최고 무결점 심층 방어 제로 트러스트 생태계 대통일 완료 🚀</div></div>
-</div>
-</div>
-
-
+```text
+RSA / ECC 비대칭키 쇳덩이 인터넷 제국 / "PFS(전방비밀성) 1회용 당구 교환 치니까 100% 무적 철옹성 생존 완벽함 데헷 ㅋ" 자위하며 낮잠 꿀 빨았음 ✨
+    │
+    ▼
+HNDL (Harvest Now, Decrypt Later) 스텔스 첩보 스니핑 테러 발동 💀 / "양자 컴퓨터 아직 없지 ㅋ? 걍 인터넷 허공 핑퐁 캡슐 패킷 무지성 스니핑 복사 따서 지하 외장하드 100TB 창고에 차곡차곡 쓸어 담아 수확(Harvest) 저장 킵 쳐 쾅!!"
+    │
+    ▼
+Q-Day 양자 둠스데이 도래 스나이퍼 심판 💥 / 해커가 10년 묵힌 창고 오픈 ➔ 양자 쇼어(Shor) 톱날 믹서기 가동 ➔ 10년 전 훔친 RSA/ECDHE 캡슐 1초 컷 찢어 발김 ➔ 안에 든 AES 진짜 키 툭 떨어짐 ➔ 미국 펜타곤 1급 스파이 명단 100% 과거 소급 해독(Decrypt Later) 유출 폭사 멸망 파국 쾅!!!
+    │
+    ▼
+아키텍트 모스카 정리(Mosca's) 피눈물 예방 백신 결단 🚀 / "야 시발 Z(양자 출현) 오기 전에 X+Y(수명+공사기간) 랙 타임오버 뻗어버림 좆망이다 당장 인프라 전원 다 뽑아 엎어 쾅!!"
+    │
+    ▼
+하이브리드 KEM (Hybrid PQC) 전격 대관식 선제 록온 융합 (현재) ✨ / 10년 뒤 양자 해커가 창고 까볼 때 뇌 터져 좌절 멘붕 오게 만들려고 ➔ 오늘 당장! 지금롸잇나우 브라우저/VPN 터널 통신에 [타원곡선 + PQC 격자 카이버(Kyber) 무기] 2중 방폭문 캡슐 떡칠 덮어씌워 패킷 날려버리는 우주 최고 무결점 심층 방어 제로 트러스트 생태계 대통일 완료 🚀
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

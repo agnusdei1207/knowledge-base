@@ -26,30 +26,33 @@ tags = ["studynote-operating-system"]
   - **(익스텐트 통달 스왑 방식)**: 똑똑한 알바생은 첫 번째 라면 바코드 딱 1번만 띡! 찍고, 계산대 키보드로 **[수량 곱하기 $\times$ 100]** 버튼을 쳐서 단 1줄의 영수증([인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 익스텐트 트리)으로 퉁쳐버립니다!! 100줄을 쓸 걸 1줄로 확 줄이니 종이도 아끼고, 계산하는 모터 I/O 속도도 100배 광속 돌발 타격하는 신의 축약 룰이랍니다!
 
 - <strong>i-node <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a>의 진화: 고전적 Block <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/">Mapping</a> vs 최신 Extent Tree <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> 결속 다이어그램</strong>:
-[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) ext4 시스템이 500개(2MB)의 연속된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조각을 장부에 적을 때, 구형 맵핑과 신형 묶음 맵핑이 메모리 공간을 얼마나 파쇄하는지 뷰를 까보면 다음과 같다.
+[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) ext4 시스템이 500개(2MB)의 연속된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조각을 장부에 적을 때, 구형 맵핑과 새로운 유형의 묶음 맵핑이 메모리 공간을 얼마나 파쇄하는지 뷰를 까보면 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"100만 줄을 1줄로 줄이는 마법!" Extent 압축 렌더 아크 뷰</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1️⃣</div><div class="kb-diagram-node">옛날 리눅스 ext2/ext3 의 고전 i-node (Block Map 포인터 노가다)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(파일 알맹이가 디스크 100번지부터 599번지까지 연속으로 있다고 칠 때)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">다이렉트 포인터 배열 장부</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">100번 디스크!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 101번 디스크!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 102번 디스크! ... (이 짓을 미친 듯이 반복)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 주소값 500개를 디스크에 진짜 다 적음. (장부 터녀서 간접 트리 타고 쌩쑈)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2️⃣</div><div class="kb-diagram-node">현대 리눅스 ext4, XFS 의 익스텐트 (Extent B-tree 노드 압축 결착)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(i-node 구조체 안에 포인터 배열 대신 "Extent 트리 노드 구조체" 장착!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">[</div><div class="kb-diagram-node">Extent 요약 객체 단 1개 (단 12바이트 사이즈로 끝냄)</div><div class="kb-diagram-note">]</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 논리적 파일 시작 Offset : 0 번부터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 실제 철판 물리적 시작 주소 : <code>100번 트랙</code> 부터 ◀── (시작점 타격)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 묶음 블록 길이 (Length) : <code>500 개</code> 연속! ◀── (곱하기 퉁치기 빔!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 장부 크기가 단 1줄로 축약 멸절! 장부가 가벼우니 모터 탐색 $O(1)$ 스왑!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────────────────────┐
+  │                 "100만 줄을 1줄로 줄이는 마법!" Extent 압축 렌더 아크 뷰          │
+  ├───────────────────────────────────────────────────────────────────────────────────┤
+  │                                                                                   │
+  │  1️⃣ [ 옛날 리눅스 ext2/ext3 의 고전 i-node (Block Map 포인터 노가다) ]           │
+  │        (파일 알맹이가 디스크 100번지부터 599번지까지 연속으로 있다고 칠 때)       │
+  │     [다이렉트 포인터 배열 장부] ──▶ 100번 디스크!                                 │
+  │                             ──▶ 101번 디스크!                                     │
+  │                             ──▶ 102번 디스크! ... (이 짓을 미친 듯이 반복)        │
+  │   => 결과: 주소값 500개를 디스크에 진짜 다 적음. (장부 터녀서 간접 트리 타고 쌩쑈)│
+  │                                                                                   │
+  │  =========================▼===================================                    │
+  │                                                                                   │
+  │  2️⃣ [ 현대 리눅스 ext4, XFS 의 익스텐트 (Extent B-tree 노드 압축 결착) ]         │
+  │        (i-node 구조체 안에 포인터 배열 대신 "Extent 트리 노드 구조체" 장착!)      │
+  │                                                                                   │
+  │     [[ Extent 요약 객체 단 1개 (단 12바이트 사이즈로 끝냄) ]]                     │
+  │      - 논리적 파일 시작 Offset  : 0 번부터                                        │
+  │      - 실제 철판 물리적 시작 주소 : `100번 트랙` 부터 ◀── (시작점 타격)           │
+  │      - 묶음 블록 길이 (Length) : `500 개` 연속! ◀── (곱하기 퉁치기 빔!)           │
+  │                                                                                   │
+  │   => 결과: 장부 크기가 단 1줄로 축약 멸절! 장부가 가벼우니 모터 탐색 $O(1)$ 스왑! │
+  └───────────────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 익스텐트는 물리적으로 "진짜 연속된 공간" 에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 떨어졌을 때만 그 파괴적 마법([Compression](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/159_compression/) 뷰)을 발휘할 수 있다. 하단 2️⃣번을 보면, [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 장부(i-node) 안에 주소록 수십 개가 들어찬 게 아니라, 시작점 번호(`100번`)와 그에 딸려온 꼬리 길이 번호(`500 블록 연속`) 두 개의 숫자 조합 Tuple 단 하나만 덜렁 저장되어 있다. 만약 CPU가 300번 블록을 읽고 싶다면? [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 트리(간접 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))를 뒤질 필요 없이, 그저 CPU에서 덧셈 산수($100 + 300 = 400$) 1방을 찰나의 전기로 계산하여 곧장 400번지 디스크 슬롯으로 $O(1)$ 레이저 다이브 빔을 때려 맞춘다! 익스텐트는 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 방식(동적 팽창)의 탈을 쓴 영혼의 [연속 할당](/knowledge-base/studynote/02_operating_system/09_file_system/523_contiguous_allocation/)(Contiguous 압도적 I/O 구동) 부활 철학이 명징하게 증명된 우주 뼈대의 본체다.
 
@@ -150,19 +153,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">i-node 단일/이중/삼중 간접 블록 (Indirect Blocks)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">익스텐트 (Extent)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">빈 공간 관리 (Free-Space Management) 알고리즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">비트 벡터 (Bit Vector / Bitmap)</div></div>
-</div>
-</div>
-
-
+```text
+[i-node 단일/이중/삼중 간접 블록 (Indirect Blocks)]
+    │
+    ▼
+[익스텐트 (Extent)]
+    │
+    ├──▶ [빈 공간 관리 (Free-Space Management) 알고리즘]
+    └──▶ [비트 벡터 (Bit Vector / Bitmap)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

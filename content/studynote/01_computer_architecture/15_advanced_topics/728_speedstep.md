@@ -35,20 +35,22 @@ SpeedStep의 핵심은 "클럭만 깎는 것"이 아니라 <strong>검증된 <a 
 
 아래 그림은 SpeedStep/EIST 계열의 제어 경로를 단순화한 것이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SpeedStep / EIST operating loop</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Workload + power policy</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Select P-state target</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Voltage ID change &lt;-&gt; PLL / multiplier change</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── low load -&gt; lower V / f</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── high load -&gt; higher V / f</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                 SpeedStep / EIST operating loop                     │
+├──────────────────────────────────────────────────────────────────────┤
+│ Workload + power policy                                             │
+│        │                                                            │
+│        ▼                                                            │
+│ Select P-state target                                               │
+│        │                                                            │
+│        ▼                                                            │
+│ Voltage ID change <-> PLL / multiplier change                       │
+│        │                                                            │
+│        ├── low load  -> lower V / f                                 │
+│        └── high load -> higher V / f                                │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 전환 순서도 중요하다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 올릴 때는 보통 <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/">전압</a>을 먼저 올리고 주파수를 올려야</strong> 타이밍 위반이 없고, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 내릴 때는 <strong>주파수를 먼저 낮추고 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/">전압</a>을 낮추는</strong> 편이 안전하다. 따라서 SpeedStep은 단순한 스위치가 아니라 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 레귤레이터, PLL (Phase-Locked Loop), 배수 제어, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 정책이 결합된 제어 루프다.
 
@@ -136,25 +138,24 @@ SpeedStep이 남긴 가장 큰 효과는 컴퓨터가 처음으로 "일하지 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Fixed-frequency mobile CPU</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Intel SpeedStep</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Enhanced Intel SpeedStep (EIST)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ACPI P-state based DVFS</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Speed Shift / HWP</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Faster per-core adaptive power control</div>
-</div>
-</div>
-
-
+```text
+Fixed-frequency mobile CPU
+    │
+    ▼
+Intel SpeedStep
+    │
+    ▼
+Enhanced Intel SpeedStep (EIST)
+    │
+    ▼
+ACPI P-state based DVFS
+    │
+    ▼
+Speed Shift / HWP
+    │
+    ▼
+Faster per-core adaptive power control
+```
 
 이 흐름은 SpeedStep이 단일 기능으로 끝난 것이 아니라, 현대 CPU의 적응형 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 제어 체계로 이어지는 출발점이었음을 보여 준다.
 

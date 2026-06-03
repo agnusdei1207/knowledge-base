@@ -27,27 +27,28 @@ tags = ["studynote-operating-system"]
   2. **지역성의 발견**: 프로세스의 램 요구량은 시간에 따라 팽창과 수축을 반복한다는 사실 증명.
   3. <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/">워킹 셋</a> 모델 도입</strong>: 각자의 밥그릇(WSS) 크기를 합친 값이 물리 램 총량보다 커지면, OS가 과감히 앱 하나를 쫓아내는 수학적 명분이 확립됨.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">워킹 셋(Working Set)의 윈도우($\Delta$) 이동 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">프로세스의 페이지 참조열 (시간 흐름 ──▶)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">... 2, 6, 1, 5, 7, 7, 7, 7, 5, 1, 6, 2, 3, 4, 1, 2 ...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Time 1: 윈도우 $\Delta$ = 최근 10번의 호출 (t=1 시점)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2, 6, 1, 5, 7, 7, 7, 7, 5, 1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 워킹 셋 집합: { 1, 2, 5, 6, 7 }</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 워킹 셋 크기(WSS): 5장 (OS야! 나 램 5장 무조건 보장해줘!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Time 2: 시간이 흘러 윈도우가 오른쪽으로 이동 (t=2 시점)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">7, 7, 5, 1, 6, 2, 3, 4, 1, 2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 워킹 셋 집합: { 1, 2, 3, 4, 5, 6, 7 }</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 워킹 셋 크기(WSS): 7장 (OS야! 나 램 7장으로 늘려줘!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 원리: 중복된 호출(7,7,7)은 1개로 친다. 워킹 셋은 프로그램의 국면</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Phase)에 따라 풍선처럼 부풀었다가 쪼그라들기를 무한 반복한다.</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────────┐
+│        워킹 셋(Working Set)의 윈도우($\Delta$) 이동 시각화          │
+├─────────────────────────────────────────────────────────────────────┤
+│                                                                     │
+│ [ 프로세스의 페이지 참조열 (시간 흐름 ──▶) ]                        │
+│ ... 2, 6, 1, 5, 7, 7, 7, 7, 5, 1, 6, 2, 3, 4, 1, 2 ...              │
+│                                                                     │
+│ ▶ Time 1: 윈도우 $\Delta$ = 최근 10번의 호출 (t=1 시점)             │
+│   [ 2, 6, 1, 5, 7, 7, 7, 7, 5, 1 ]                                  │
+│   - 워킹 셋 집합: { 1, 2, 5, 6, 7 }                                 │
+│   - 워킹 셋 크기(WSS): 5장 (OS야! 나 램 5장 무조건 보장해줘!)       │
+│                                                                     │
+│ ▶ Time 2: 시간이 흘러 윈도우가 오른쪽으로 이동 (t=2 시점)           │
+│   [ 7, 7, 5, 1, 6, 2, 3, 4, 1, 2 ]                                  │
+│   - 워킹 셋 집합: { 1, 2, 3, 4, 5, 6, 7 }                           │
+│   - 워킹 셋 크기(WSS): 7장 (OS야! 나 램 7장으로 늘려줘!)            │
+│                                                                     │
+│ ✅ 원리: 중복된 호출(7,7,7)은 1개로 친다. 워킹 셋은 프로그램의 국면 │
+│    (Phase)에 따라 풍선처럼 부풀었다가 쪼그라들기를 무한 반복한다.   │
+└─────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 이 모델의 위대함은 '자기 객관화'에 있다. 과거 비례 할당은 "나 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 10GB니까 램 10GB 줘"라며 억지를 부렸지만, [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/) 모델은 "내가 비록 10GB지만, 지난 1초 동안 5장(20KB)밖에 안 불렀으니 램 5장만 있으면 살아갈 수 있어"라고 아주 정직한 견적서를 OS에게 제출한다. 이 견적서 덕분에 OS는 수십 개의 앱을 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) 없이 테트리스 할 수 있게 되었다.
 
 - **📢 섹션 요약 비유**: 회사에서 부서별 예산을 짤 때, 작년 예산 규모(가상메모리 크기)로 무작정 주는 게 아니라, **최근 3달(윈도우 $\Delta$) 동안 실제로 법인카드를 긁은 영수증 내역([참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)열)**만 뽑아서 딱 그 금액([워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/))만큼만 다음 달 예산으로 칼같이 입금해 주는 가장 완벽하고 합리적인 예산 통제 시스템입니다.
@@ -104,17 +105,14 @@ tags = ["studynote-operating-system"]
 
 두 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 모두 "[스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)을 막기 위해 런타임에 램을 조절한다"는 철학은 같지만, 접근 방향이 다르다. (PFF는 다음 키워드에서 상세 서술)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모델</div><div class="kb-diagram-cell">측정 대상</div><div class="kb-diagram-cell">동작 원리</div><div class="kb-diagram-cell">시스템 오버헤드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Working Set</div><div class="kb-diagram-cell">과거 참조열</div><div class="kb-diagram-cell">윈도우 내의 집합을 계속 계산 유지</div><div class="kb-diagram-cell">무거움 (계속 스캔)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PFF (빈도)</div><div class="kb-diagram-cell">폴트가 나는 간격</div><div class="kb-diagram-cell">폴트 잦으면 램 주고, 적으면 뺏음</div><div class="kb-diagram-cell">🟢 매우 가벼움</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬──────────────────────────────────────────────┐
+│ 모델       │ 측정 대상    │ 동작 원리    │ 시스템 오버헤드                        │
+├──────────┼────────────┼────────────┼──────────────────────────────────────────────┤
+│ Working Set│ 과거 참조열   │ 윈도우 내의 집합을 계속 계산 유지│ 무거움 (계속 스캔)│
+│ PFF (빈도) │ 폴트가 나는 간격│ 폴트 잦으면 램 주고, 적으면 뺏음│ 🟢 매우 가벼움   │
+└──────────┴────────────┴────────────┴──────────────────────────────────────────────┘
+```
 **[매트릭스 해설]** [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)은 "네가 필요한 게 이거지? 다 줄게!"라는 꼼꼼한 비서 스타일이고, PFF는 "너 지금 폴트 나서 아파? 약(램) 줄게! 안 아파? 약 뺏는다!"라는 증상 치료식 의사 스타일이다. 실무 커널에서는 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)의 무거운 오버헤드를 견디지 못하고, 구현이 훨씬 가벼운 [PFF](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/306_pff/) 기반의 로직으로 대체하여 융합 사용하는 경우가 많다.
 
 - **📢 섹션 요약 비유**: $\Delta$([윈도우 크기](/knowledge-base/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/))를 1일로 잡으면 내가 어제 먹은 음식([워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/))만 기억해서 오늘 또 먹으려니 영양 불균형이 오고, $\Delta$를 10년으로 잡으면 10년 전에 먹던 이유식까지 오늘 밥상에 올라와 상다리가 부러집니다. 적당히 '최근 한 달 치 식단'을 유지하는 것이 완벽한 윈도우 튜닝의 예술입니다.
@@ -173,19 +171,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">지역성 모델 (Locality Model)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">워킹 셋 모델 (Working-Set Model)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">페이지 부재 빈도 (PFF, Page-Fault Frequency) 모델</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">메모리 매핑 파일 (Memory-Mapped Files, mmap)</div></div>
-</div>
-</div>
-
-
+```text
+[지역성 모델 (Locality Model)]
+    │
+    ▼
+[워킹 셋 모델 (Working-Set Model)]
+    │
+    ├──▶ [페이지 부재 빈도 (PFF, Page-Fault Frequency) 모델]
+    └──▶ [메모리 매핑 파일 (Memory-Mapped Files, mmap)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

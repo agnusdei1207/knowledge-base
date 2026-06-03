@@ -30,21 +30,20 @@ tags = ["studynote-computer-architecture"]
 
 동적 [전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/) 공식은 $P = C \times V^2 \times f$ (전력 = [정전용량](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/006_capacitance/) $\times$ [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 제곱 $\times$ [클럭 주파수](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/132_clock_frequency/))이다. 소자가 작아지면 [정전용량](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/006_capacitance/)($C$)과 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)($V$)을 낮출 수 있어, 주파수($f$)를 비약적으로 높여도 총 전력($P$)은 통제되었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데나드 스케일링의 황금기와 붕괴 (Power Wall 충돌)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">황금기 (~2005년): 스케일링 정상 작동</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">트랜지스터 축소 ─▶ 전압(V) 감소 ─▶ 주파수(f) 펌핑 ─▶ 발열(온도) 유지</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">붕괴기 (2005년~현재): 물리학의 악마 등장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">미세 공정(90nm 이하) ─▶ 산화막(문짝) 원자 두께 도달 ─▶ 양자 터널링 폭발</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스위치를 꺼도 전자가 뚫고 나감 (누설 전류, Leakage Current 급증)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 전압 감소 불가 ─▶ 주파수 상승 시 칩 용융 ─▶ 전력의 벽(Power Wall)</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────┐
+│           데나드 스케일링의 황금기와 붕괴 (Power Wall 충돌)           │
+├────────────────────────────────────────────────────────────────────────┤
+│ [ 황금기 (~2005년): 스케일링 정상 작동 ]                               │
+│ 트랜지스터 축소 ─▶ 전압(V) 감소 ─▶ 주파수(f) 펌핑 ─▶ 발열(온도) 유지  │
+│                                                                        │
+│ [ 붕괴기 (2005년~현재): 물리학의 악마 등장 ]                           │
+│ 미세 공정(90nm 이하) ─▶ 산화막(문짝) 원자 두께 도달 ─▶ 양자 터널링 폭발│
+│                                                                        │
+│ 스위치를 꺼도 전자가 뚫고 나감 (누설 전류, Leakage Current 급증)       │
+│ ─▶ 전압 감소 불가 ─▶ 주파수 상승 시 칩 용융 ─▶ 전력의 벽(Power Wall)  │
+└────────────────────────────────────────────────────────────────────────┘
+```
 
 하지만 90nm(나노미터) 공정 이하로 진입하면서 산화막 두께가 원자 몇 개 수준으로 얇아졌다. 결국 스위치를 차단해도 전자가 벽을 뚫고 지나가는 양자 [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) ([Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/) [Tunneling](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/)) 현상이 발생했다. 칩이 연산을 하지 않아도 전기가 줄줄 새는 정적 누설 전력 ([Static Power](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/468_static_power/))이 폭증하면서 데나드 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)은 완벽히 붕괴했다.
 
@@ -101,23 +100,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">무어의 법칙 (Moore's Law) / 집적도 양적 팽창</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">데나드 스케일링 (Dennard Scaling) / 전력 밀도 유지 및 클럭 상승</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">미세 공정 한계 도달 · 양자 터널링 (Quantum Tunneling)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">누설 전류 (Leakage Current) 폭증 · 전력의 벽 (Power Wall)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">멀티 코어 (Multi-Core) · FinFET 공정 · 다크 실리콘 (Dark Silicon) 제어</div>
-</div>
-</div>
-
-
+```text
+무어의 법칙 (Moore's Law) / 집적도 양적 팽창
+    │
+    ▼
+데나드 스케일링 (Dennard Scaling) / 전력 밀도 유지 및 클럭 상승
+    │
+    ▼
+미세 공정 한계 도달 · 양자 터널링 (Quantum Tunneling)
+    │
+    ▼
+누설 전류 (Leakage Current) 폭증 · 전력의 벽 (Power Wall)
+    │
+    ▼
+멀티 코어 (Multi-Core) · FinFET 공정 · 다크 실리콘 (Dark Silicon) 제어
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

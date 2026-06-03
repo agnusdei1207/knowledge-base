@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 RSA가 두 소수를 곱하는 '소인수분해'를 썼다면, 이번에 다룰 두 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 <strong>이산대수 문제(Discrete Logarithm Problem)</strong>를 씁니다.
 - $y = g^x \mod p$ 라는 공식에서 $g, x, p$를 알면 $y$는 구하기 쉽지만, 결과값 $y$와 밑 $g$, 모듈로 $p$를 알아도 지수(Exponent)인 $x$를 알아내는 것은 숫자가 커지면 물리적으로 불가능하다는 수학적 원리입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">RSA 알고리즘</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ElGamal 및 DSA 시스템</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ECC</div></div>
-</div>
-</div>
-
-
+```text
+[RSA 알고리즘]
+    │
+    ▼
+[ElGamal 및 DSA 시스템]
+    │
+    └──▶ [ECC]
+```
 
 - **📢 섹션 요약 비유**: ElGamal 및 DSA 시스템은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -51,18 +47,14 @@ RSA가 두 소수를 곱하는 '소인수분해'를 썼다면, 이번에 다룰 
 - 난수를 섞는 부작용으로 인해, 평문을 암호화하고 나면 **암호문의 크기가 원본 데이터의 딱 2배로 뚱뚱하게 부풀어 오릅니다(메시지 확장 현상).**
 - 통신 대역폭을 2배로 갉아먹기 때문에, 네트워크 트래픽 환경에서 메인으로 쓰기에는 RSA보다 불리하여 널리 대중화되지는 못했습니다. (대신 나중에 [전자 서명](/knowledge-base/studynote/03_network/19_frequent_topics_terms/988_digital_signature/) 기술의 뼈대가 됨)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">RSA 알고리즘</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ElGamal 및 DSA 시스템</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ECC</div></div>
-</div>
-</div>
-
-
+```text
+[RSA 알고리즘]
+    │
+    ▼
+[ElGamal 및 DSA 시스템]
+    │
+    └──▶ [ECC]
+```
 
 - **📢 섹션 요약 비유**: ElGamal 및 DSA 시스템의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -130,19 +122,15 @@ ElGamal 및 DSA 시스템은 [네트워크 보안](/knowledge-base/studynote/03_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: RSA 알고리즘</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: ElGamal 및 DSA 시스템</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: ECC</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: RSA 알고리즘]
+    │
+    ▼
+[현재 개념: ElGamal 및 DSA 시스템]
+    │
+    ├──▶ [확장 A: ECC]
+    └──▶ [확장 B: 자동화된 신뢰 체계]
+```
 
 ElGamal 및 DSA 시스템는 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에서 출발해 현재 메커니즘을 정교화하고, 이후 ECC와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

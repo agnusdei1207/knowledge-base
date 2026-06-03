@@ -45,26 +45,29 @@ HPO는 주로 숫자와 범주형 [설정](/knowledge-base/studynote/15_devops_s
 
 아래 그림은 현대 AutoML의 공통 실행 루프를 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AutoML search loop</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Search space</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- HPO: lr, batch, optimizer, dropout</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- NAS: depth, width, block, skip connection</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Searcher (random / Bayesian / evolutionary)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">propose candidate</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Scheduler (ASHA / Hyperband / queue)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">launch trials on workers</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Train + validate -&gt; metric + cost + latency</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ poor early signal -&gt; stop early</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ promising trial -&gt; continue / promote</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tracker / registry -&gt; best config or architecture</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ AutoML search loop                                                  │
+├──────────────────────────────────────────────────────────────────────┤
+│ Search space                                                        │
+│  - HPO: lr, batch, optimizer, dropout                               │
+│  - NAS: depth, width, block, skip connection                        │
+│         │                                                            │
+│         ▼                                                            │
+│ Searcher (random / Bayesian / evolutionary)                          │
+│         │ propose candidate                                           │
+│         ▼                                                            │
+│ Scheduler (ASHA / Hyperband / queue)                                 │
+│         │ launch trials on workers                                    │
+│         ▼                                                            │
+│ Train + validate -> metric + cost + latency                          │
+│         │                                                            │
+│         ├─ poor early signal -> stop early                           │
+│         └─ promising trial  -> continue / promote                    │
+│         ▼                                                            │
+│ Tracker / registry -> best config or architecture                    │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 여기서 중요한 점은 AutoML이 단일 목표만 다루지 않는다는 것이다. 실무에서는 정확도 1점보다 추론 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 20밀리초(ms), 메모리 200메가바이트(MB), [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ([Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)) 비용 상한 같은 제약이 더 중요할 때가 많다. 그래서 좋은 AutoML은 "가장 높은 점수"가 아니라 <strong>예산과 제약을 만족하는 최적점</strong>을 찾는 방향으로 설계된다.
 
@@ -150,26 +153,25 @@ AutoML의 가장 큰 효과는 실험을 체계화한다는 점이다. 사람마
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">수작업 튜닝</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Grid / Random Search</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Bayesian Optimization + Early Stopping</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">분산 HPO 자동화</div>
-<div class="kb-diagram-tree-item" style="--depth:2">정확도 최적화</div>
-<div class="kb-diagram-tree-item" style="--depth:2">latency / memory 제약 반영</div>
-<div class="kb-diagram-tree-item" style="--depth:2">실험 추적 자동화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">제한적 NAS + 다목적 AutoML</div>
-</div>
-</div>
-
-
+```text
+수작업 튜닝
+    │
+    ▼
+Grid / Random Search
+    │
+    ▼
+Bayesian Optimization + Early Stopping
+    │
+    ▼
+분산 HPO 자동화
+    │
+    ├─ 정확도 최적화
+    ├─ latency / memory 제약 반영
+    └─ 실험 추적 자동화
+    │
+    ▼
+제한적 NAS + 다목적 AutoML
+```
 
 이 흐름은 AutoML이 단순 반복 실행에서 출발해, 예산 제약과 운영 추적을 포함한 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 최적화 체계로 발전했음을 보여 준다.
 

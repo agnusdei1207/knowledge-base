@@ -37,19 +37,19 @@ StatefulSet은 고정된 [식별자](/knowledge-base/studynote/03_network/06_net
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/597_headless_cms_architecture/">Headless</a> <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a></strong> | 고유한 네트워크 신원 제공 | [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)마다 개별 `DNS (Domain Name System)` 레코드를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하여 [직접 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/120_direct_communication/) 지원 |
 | **VolumeClaimTemplates** | [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)별 영구 볼륨 할당 | [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 시 각각 독립적인 `PVC (PersistentVolumeClaim)`를 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">StatefulSet의 정체성 및 볼륨 바인딩 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">StatefulSet Controller</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ Pod: web-0 ──DNS: web-0.svc──▶ PVC: data-web-0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ Pod: web-1 ──DNS: web-1.svc──▶ PVC: data-web-1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ Pod: web-2 ──DNS: web-2.svc──▶ PVC: data-web-2</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           StatefulSet의 정체성 및 볼륨 바인딩 구조           │
+├──────────────────────────────────────────────────────────────┤
+│  [StatefulSet Controller]                                    │
+│       │                                                      │
+│       ├─▶ Pod: web-0 ──DNS: web-0.svc──▶ PVC: data-web-0     │
+│       │                                                      │
+│       ├─▶ Pod: web-1 ──DNS: web-1.svc──▶ PVC: data-web-1     │
+│       │                                                      │
+│       └─▶ Pod: web-2 ──DNS: web-2.svc──▶ PVC: data-web-2     │
+└──────────────────────────────────────────────────────────────┘
+```
 
 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)과 확장은 인덱스가 0인 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)부터 순차적으로 이루어지며(0 → 1 → 2), 이전 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 완전히 `Running` 및 `Ready` 상태가 되어야 다음 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 시작한다. 축소 및 삭제는 반대 순서(2 → 1 → 0)로 진행되어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 동기화의 충돌을 방지한다.
 
@@ -112,28 +112,26 @@ StatefulSet을 적절히 활용하면, 재난 [복구](/knowledge-base/studynote
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">무상태 워크로드 관리</div></div>
-<div class="kb-diagram-note">Deployment / ReplicaSet (일회성 파드)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상태 의존성 문제 발생</div></div>
-<div class="kb-diagram-note">네트워크 신원 변경 및 볼륨 공유 충돌</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상태 저장 제어기 도입</div></div>
-<div class="kb-diagram-note">StatefulSet (고정 Ordinal Index)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">정체성 및 데이터 영속성 결합</div></div>
-<div class="kb-diagram-note">Headless Service (고정 DNS) + VolumeClaimTemplates (고유 PVC)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">고도화된 상태 관리</div></div>
-<div class="kb-diagram-note">Kubernetes Operator (DB 특화 자동화)</div>
-</div>
-</div>
-
-
+```text
+[무상태 워크로드 관리]
+Deployment / ReplicaSet (일회성 파드)
+        │
+        ▼
+[상태 의존성 문제 발생]
+네트워크 신원 변경 및 볼륨 공유 충돌
+        │
+        ▼
+[상태 저장 제어기 도입]
+StatefulSet (고정 Ordinal Index)
+        │
+        ▼
+[정체성 및 데이터 영속성 결합]
+Headless Service (고정 DNS) + VolumeClaimTemplates (고유 PVC)
+        │
+        ▼
+[고도화된 상태 관리]
+Kubernetes Operator (DB 특화 자동화)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

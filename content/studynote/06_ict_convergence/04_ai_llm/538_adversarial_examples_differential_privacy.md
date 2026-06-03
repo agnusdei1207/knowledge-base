@@ -35,26 +35,26 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AI 보안 두 축</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">적대적 예제 차분 프라이버시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력 x + δ (노이즈)</div><div class="kb-diagram-cell">ε-DP 보장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">‖δ‖∞ ≤ ε_adv</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">훈련 데이터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ f(x+δ) ≠ f(x)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모델 오분류</div><div class="kb-diagram-cell">▼ 클리핑</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">그래디언트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">방어: 적대적 훈련</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력 정화</div><div class="kb-diagram-cell">▼ 노이즈 추가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">N(0, σ²C²I)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 모델 업데이트</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────┐
+│           AI 보안 두 축                                   │
+│                                                          │
+│  적대적 예제                     차분 프라이버시           │
+│  ┌────────────────────┐         ┌─────────────────────┐  │
+│  │입력 x + δ (노이즈) │         │ε-DP 보장            │  │
+│  │‖δ‖∞ ≤ ε_adv       │         │                     │  │
+│  │                    │         │ 훈련 데이터           │  │
+│  │ → f(x+δ) ≠ f(x)   │         │    │                │  │
+│  │  모델 오분류        │         │    ▼ 클리핑          │  │
+│  │                    │         │ 그래디언트           │  │
+│  │방어: 적대적 훈련   │         │    │                │  │
+│  │      입력 정화     │         │    ▼ 노이즈 추가     │  │
+│  └────────────────────┘         │ N(0, σ²C²I)        │  │
+│                                 │    │                │  │
+│                                 │    ▼ 모델 업데이트  │  │
+│                                 └─────────────────────┘  │
+└──────────────────────────────────────────────────────────┘
+```
 
 <strong><a href="/knowledge-base/studynote/10_ai/05_data_science_ml/396_differential_privacy/">차분 프라이버시</a>(<a href="/knowledge-base/studynote/09_security/16_data_privacy/817_differential_privacy/">Differential Privacy</a>) 정의</strong>
 

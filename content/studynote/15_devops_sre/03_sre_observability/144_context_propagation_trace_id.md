@@ -47,18 +47,12 @@ Kafka: message header에 traceparent 포함
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">수동 헤더 전달 (~2015)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">B3 (Zipkin)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">W3C Trace Context (2020)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">OTel Auto-instrumentation (2021)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: 자동 전파 + Baggage 표준화</div></div>
-</div>
-</div>
-
-
+```text
+[수동 헤더 전달 (~2015)] → [B3 (Zipkin)]
+    → [W3C Trace Context (2020)]
+    → [OTel Auto-instrumentation (2021)]
+    → [현재: 자동 전파 + Baggage 표준화]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Propagation은 <strong>여권</strong>이에요. 나라([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))마다 <strong>도장(Span)</strong>을 찍어요.

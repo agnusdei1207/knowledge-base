@@ -8,9 +8,7 @@ tags = ["studynote-bigdata"]
 > 🧸 **어린이를 위한 비유**
 > 모래사장에 있는 수십억 알의 모래 중에서 금가루만 쏙쏙 골라내는 아주 거대한 '슈퍼 채미망'이에요. 모래가 너무 많아도 수천 명의 친구들이 동시에 채미망을 흔들어서 1초 만에 금을 찾아낸답니다!
 
----
-
-# 도메인 16: 빅데이터 (Big Data)
+---# 도메인 16: 빅데이터 (Big Data)
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 단일 컴퓨터의 물리적 한계(메모리, 디스크)를 초월하는 막대한 규모(Volume), 생성 속도(Velocity), 다양성(Variety)을 지닌 비정형 데이터를 수천 대의 범용 서버 클러스터에서 분산 병렬 처리하는 아키텍처 기술.
@@ -40,22 +38,23 @@ tags = ["studynote-bigdata"]
 
 #### 2. 빅데이터 파이프라인: 람다(Lambda) vs 카파(Kappa) 아키텍처 (ASCII)
 배치(과거)와 스트리밍(현재)을 어떻게 아우를 것인가에 대한 아키텍처적 결단.
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Evolution of Big Data Architecture: Lambda to Kappa / 빅데이터 아키텍처 진화: 람다에서 카파로</div></div>
-<div class="kb-diagram-note">(1) Lambda Architecture / 람다 아키텍처 (배치와 스트리밍 분리)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Batch View</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Data Source (Kafka)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Serving DB</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">BI/AI</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">RT View</div></div>
-<div class="kb-diagram-note">(2) Kappa Architecture / 카파 아키텍처 (스트림 통합 모델)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Data Source (Kafka)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Serving DB</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">BI/AI</div></div>
-<div class="kb-diagram-note">(재처리가 필요하면 Kafka Offset을 되감아 다시 스트리밍 연산)</div>
-</div>
-</div>
-
-
+```text
+    [ Evolution of Big Data Architecture: Lambda to Kappa / 빅데이터 아키텍처 진화: 람다에서 카파로 ]
+    
+    (1) Lambda Architecture / 람다 아키텍처 (배치와 스트리밍 분리)
+                                    +----------------------------------+
+                                +-> | Batch Layer (Hadoop/Spark)       | -> [ Batch View ]
+                                |   +----------------------------------+          |
+    [ Data Source (Kafka) ] ----+                                                 +---> [ Serving DB ] -> BI/AI
+                                |   +----------------------------------+          |
+                                +-> | Speed Layer (Spark/Storm)        | -> [ RT View ]
+                                    +----------------------------------+
+    
+    (2) Kappa Architecture / 카파 아키텍처 (스트림 통합 모델)
+    [ Data Source (Kafka) ] ------> | Stream Processing Layer (Flink)  | -------------> [ Serving DB ] -> BI/AI
+                                    +----------------------------------+
+                                    (재처리가 필요하면 Kafka Offset을 되감아 다시 스트리밍 연산)
+```
 
 #### 3. 핵심 알고리즘 메커니즘 (MapReduce 패러다임)
 분산 컴퓨팅의 가장 위대한 발상. 천만 페이지의 문서에서 단어 개수를 셀 때의 흐름이다.

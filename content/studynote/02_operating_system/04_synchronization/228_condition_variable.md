@@ -25,23 +25,19 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경**: C.A.R. Hoare 와 Brinch Hansen 등의 학자들이 "[세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)가 너무 원시적이라 프로그래머들이 계속 데드락을 낸다"고 비판하며, 이를 더 고차원적이고 안전하게 제어하기 위한 <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/">Monitor</a>)</strong>라는 개념을 발표할 때 그 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)의 내부 핵심 부품으로 설계되었다.
 
+```text
+  [조건 변수가 없는 세상의 참사 vs 조건 변수(CV) 도입의 기적]
 
+  [ ❌ 조건 변수 없이 무식하게 짤 때 (Spinlock) ]
+  Consumer: "Mutex 잠금 ─▶ 데이터 있나? 없네. ─▶ Mutex 풀기" (이걸 1초에 100만 번 반복함)
+  ▶ 결과: CPU 코어 1개가 100% 혹사당하며 발열 폭발.
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">조건 변수가 없는 세상의 참사 vs 조건 변수(CV) 도입의 기적</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">❌ 조건 변수 없이 무식하게 짤 때 (Spinlock)</div></div>
-<div class="kb-diagram-note">Consumer: "Mutex 잠금 ─▶ 데이터 있나? 없네. ─▶ Mutex 풀기" (이걸 1초에 100만 번 반복함)</div>
-<div class="kb-diagram-note">▶ 결과: CPU 코어 1개가 100% 혹사당하며 발열 폭발.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">✅ 조건 변수(CV)를 썼을 때 (Sleep &amp; Wakeup)</div></div>
-<div class="kb-diagram-note">Consumer: "Mutex 잠금 ─▶ 데이터 있나? 없네. ─▶ CV.wait() 호출!"</div>
-<div class="kb-diagram-note">(💥 기적 발생: OS가 Consumer를 'Sleep' 시키면서 동시에 'Mutex 락'을 툭 풀어줌!)</div>
-<div class="kb-diagram-note">Producer: (락이 풀렸으므로 진입) ─▶ 데이터 넣음 ─▶ "CV.signal() ─▶ 얘들아 일어나!"</div>
-<div class="kb-diagram-note">Consumer: (Wakeup!) ─▶ 다시 Mutex를 쥐고 깨어남 ─▶ 데이터 빼서 처리함!</div>
-</div>
-</div>
-
-
+  [ ✅ 조건 변수(CV)를 썼을 때 (Sleep & Wakeup) ]
+  Consumer: "Mutex 잠금 ─▶ 데이터 있나? 없네. ─▶ CV.wait() 호출!"
+            (💥 기적 발생: OS가 Consumer를 'Sleep' 시키면서 동시에 'Mutex 락'을 툭 풀어줌!)
+  Producer: (락이 풀렸으므로 진입) ─▶ 데이터 넣음 ─▶ "CV.signal() ─▶ 얘들아 일어나!"
+  Consumer: (Wakeup!) ─▶ 다시 Mutex를 쥐고 깨어남 ─▶ 데이터 빼서 처리함!
+```
 **[다이어그램 해설]** 조건 변수의 진정한 마법은 `wait()` 함수가 호출되는 그 찰나의 순간에 있다. 내가 쥐고 있던 락([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/))을 반납함과 동시에 대기 큐로 들어가 잠드는 동작이 OS 레벨에서 완벽하게 원자적(Atomic)으로 이루어진다. 이 덕분에 CPU 낭비율 0%의 무결점 생산자-소비자 파이프라인이 완성된다.
 
 - **📢 섹션 요약 비유**: 미용실에서 의자([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/))에 앉았는데, 아직 파마약(Condition)이 도착하지 않았습니다. 의자에 계속 앉아있으면 다른 손님이 머리를 못 깎습니다. 조건 변수는 이럴 때 의자에서 일어나 대기실 소파로 가라고 안내하고, 파마약이 도착하면 매니저([Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))가 소파에 자는 손님을 불러 다시 의자에 앉히는 완벽한 동선 관리입니다.
@@ -130,28 +126,30 @@ tags = ["studynote-operating-system"]
    - **아키텍트의 실수**: 아무 생각 없이 `broadcast()`를 때렸다. 1,000개가 일제히 깨어나서 뮤텍스 1개를 잡으려고 좀비떼처럼 덤벼들며 999개의 문맥 교환이 발생하여 CPU가 폭파된다(이를 <strong>Thundering Herd, 천둥 치는 소떼 현상</strong>이라 부른다).
    - **실무 조치**: 들어온 데이터가 1개뿐이라면 절대 `broadcast()`를 치지 말고 <strong><code>signal()</code> (자바에선 <code>notify()</code>)</strong>을 쳐서 딱 1마리만 조용히 깨워야 한다. 반면, "[설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 파일이 업데이트됨!"처럼 모두가 알아야 하는 글로벌 이벤트일 때는 무조건 `broadcast()`를 쳐야 999명이 영원히 자는 버그를 막을 수 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고성능 생산자-소비자(Producer-Consumer) 아키텍처의 진화 트리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">요구사항: 초당 10만 건의 로그를 큐(Queue)를 통해 전달해야 함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 동기화 도구의 선택</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1단계: 세마포어(Semaphore) 사용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 단점: 변수 3개를 조작해야 해서 코드가 더럽고 휴먼 에러 폭발.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2단계: Mutex + 조건 변수 (Condition Variable) 사용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 장점: while 루프와 락의 조화로 가장 안정적인 교과서적 구현.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 단점: 락 획득/해제 오버헤드와 Thundering Herd 위험성 존재.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3단계: Language Level - BlockingQueue 사용 (Java)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 특징: 내부적으로 2개의 조건 변수(notEmpty, notFull)를</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">은닉하여 개발자가 락을 아예 안 보게 만듦. 극강의 생산성.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">4단계: Lock-free 링 버퍼 (Disruptor 등) 사용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 특징: 조건 변수의 Sleep조차 무거워서 아예 CAS로 뺑뺑이 돌림.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: OS 개입 0. 주식 거래소 수준의 Ultra-Low Latency 달성.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────────────┐
+  │     고성능 생산자-소비자(Producer-Consumer) 아키텍처의 진화 트리    │
+  ├─────────────────────────────────────────────────────────────────────┤
+  │                                                                     │
+  │   [요구사항: 초당 10만 건의 로그를 큐(Queue)를 통해 전달해야 함]    │
+  │                │                                                    │
+  │                ▼ 동기화 도구의 선택                                 │
+  │   [ 1단계: 세마포어(Semaphore) 사용 ]                               │
+  │     ▶ 단점: 변수 3개를 조작해야 해서 코드가 더럽고 휴먼 에러 폭발.  │
+  │                                                                     │
+  │   [ 2단계: Mutex + 조건 변수 (Condition Variable) 사용 ]            │
+  │     ▶ 장점: while 루프와 락의 조화로 가장 안정적인 교과서적 구현.   │
+  │     ▶ 단점: 락 획득/해제 오버헤드와 Thundering Herd 위험성 존재.    │
+  │                                                                     │
+  │   [ 3단계: Language Level - BlockingQueue 사용 (Java) ]             │
+  │     ▶ 특징: 내부적으로 2개의 조건 변수(notEmpty, notFull)를         │
+  │             은닉하여 개발자가 락을 아예 안 보게 만듦. 극강의 생산성.│
+  │                                                                     │
+  │   [ 4단계: Lock-free 링 버퍼 (Disruptor 등) 사용 ]                  │
+  │     ▶ 특징: 조건 변수의 Sleep조차 무거워서 아예 CAS로 뺑뺑이 돌림.  │
+  │     ▶ 결과: OS 개입 0. 주식 거래소 수준의 Ultra-Low Latency 달성.   │
+  └─────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** "조건 변수가 훌륭하다"고 해서 실무 백엔드(Java/Go)에서 개발자가 직접 `wait/notify`를 치는 것은 2010년 이전에 끝났다. 이 로직은 너무 취약해서 버그를 양산한다. 현대 엔지니어링의 정답은 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 개발자가 조건 변수를 활용해 한 땀 한 땀 깎아 만든 안전한 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 컬렉션(Concurrent Collection)을 가져다 조립만 하는 것이다.
 
 - **📢 섹션 요약 비유**: 조건 변수([CV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/156_cv_cost_variance/))를 직접 다루는 것은 식칼의 칼날을 맨손으로 쥐고 요리하는 것만큼 위험합니다. 현대의 프로그래머들은 칼날([CV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/156_cv_cost_variance/))이 안전한 손잡이(BlockingQueue, Channel)에 단단히 박혀있는 완성된 식칼을 사 와서 요리에만 집중해야 합니다.
@@ -182,19 +180,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">하드웨어 명령어 기반 동기화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">조건 변수 (Condition Variable)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Compare-and-Swap (CAS) 명령어</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">원자적 변수 (Atomic Variable)</div></div>
-</div>
-</div>
-
-
+```text
+[하드웨어 명령어 기반 동기화]
+    │
+    ▼
+[조건 변수 (Condition Variable)]
+    │
+    ├──▶ [Compare-and-Swap (CAS) 명령어]
+    └──▶ [원자적 변수 (Atomic Variable)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

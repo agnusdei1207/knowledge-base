@@ -26,18 +26,14 @@ tags = ["studynote-network"]
   - 택배기사가 박스 겉면(헤더)에 뽁뽁이나 옵션 스티커를 얼마나 많이 칭칭 감았는지 받는 사람은 알 수 없습니다.
   - 하지만 박스 모서리에 <strong>"테이프 끝에서부터 5cm 지점이 뚜껑입니다 (오프셋=5)"</strong>라고 적혀 있으면, 받는 사람은 그 화살표 지점에 커터칼을 찔러 넣어 한 번에 상자를 열고 내용물([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 쏙 빼낼 수 있습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">확인응답번호</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">헤더 길이/데이터 오프셋</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TCP 제어 플래그</div></div>
-</div>
-</div>
-
-
+```text
+[확인응답번호]
+    │
+    ▼
+[헤더 길이/데이터 오프셋]
+    │
+    └──▶ [TCP 제어 플래그]
+```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Offset 필드는 장문의 편지를 쓸 때 머리말(인사, 안부)이 얼마나 긴지 미리 알려주는 </strong>"본문 시작 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 번호"**입니다. 이 번호 덕분에 바쁜 사람은 머리말을 다 건너뛰고 정확히 본문이 시작되는 줄부터 곧바로 읽어 내려갈 수 있습니다.
 
@@ -60,23 +56,23 @@ tags = ["studynote-network"]
 2. **Window Scale (윈도우 스케일)**: 구형 TCP는 수신 윈도우 창고 크기가 64KB밖에 안 돼서 기가비트 다운로드가 불가능했다. "야, 내가 부르는 윈도우 사이즈에다가 $2^8$을 뻥튀기(곱하기)해서 엄청난 양의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 한 번에 쏴버려라!"라는 치트키 옵션.
 3. **SACK (Selective ACK)**: 방금 전 장에서 배운 "중간에 이빨 빠진 패킷 딱 그놈 하나만 콕 집어서 다시 쏴줘!"라는 핀셋 재전송 요구를 적어두는 특수 메모장 구역.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TCP 패킷 분해 시 16진수 Data Offset 판독</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">와이어샤크(Wireshark)에서 헥사(16진수) 값으로 찍힌 모습</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Offset 필드 주변의 바이트: <code>50 02 20 00</code></div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 맨 앞의 <code>5</code>가 바로 Data Offset 값이다! (<code>0101</code> = 5)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 5 * 4 = 20바이트.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 해독: "아! 이 패킷은 옵션이 하나도 안 붙은 아주 담백하고 날씬한</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가장 기본 20바이트짜리 순정 헤더를 달고 있구나!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ "방화벽 엔지니어는 저 첫 번째 숫자가 5부터 F(15)까지 변할 수</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">있다는 사실을 완벽히 꿰고 있어야 패킷 필터링 룰을 짤 수 있다."</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                TCP 패킷 분해 시 16진수 Data Offset 판독         │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 와이어샤크(Wireshark)에서 헥사(16진수) 값으로 찍힌 모습 ]        │
+ │                                                             │
+ │   Offset 필드 주변의 바이트: `50 02 20 00`                     │
+ │   - 맨 앞의 `5`가 바로 Data Offset 값이다! (`0101` = 5)      │
+ │   - 5 * 4 = 20바이트.                                       │
+ │   - 해독: "아! 이 패킷은 옵션이 하나도 안 붙은 아주 담백하고 날씬한       │
+ │           가장 기본 20바이트짜리 순정 헤더를 달고 있구나!"          │
+ │                                                             │
+ │   ▶ "방화벽 엔지니어는 저 첫 번째 숫자가 5부터 F(15)까지 변할 수       │
+ │      있다는 사실을 완벽히 꿰고 있어야 패킷 필터링 룰을 짤 수 있다."     │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Offset 값은 기차가 출발할 때 기관실 앞 유리에 적어놓은 </strong>"이번 기차는 총 몇 량짜리입니다"**라는 알림판입니다. 5량짜리(기본 20바이트) 기본 열차인지, 뒤에 특수 화물칸(옵션)을 15량(60바이트)까지 잔뜩 이어 붙인 대형 열차인지 역장(수신자)이 미리 알고 화물을 깔끔하게 떼어낼 수([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분리) 있게 돕습니다.
 
@@ -134,19 +130,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 확인응답번호</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 헤더 길이/데이터 오프셋</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: TCP 제어 플래그</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 확인응답번호]
+    │
+    ▼
+[현재 개념: 헤더 길이/데이터 오프셋]
+    │
+    ├──▶ [확장 A: TCP 제어 플래그]
+    └──▶ [확장 B: 적응형 저지연 전송]
+```
 
 헤더 길이/[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 오프셋는 [확인응답번호](/knowledge-base/studynote/03_network/08_transport_layer/409_tcp_acknowledgment_number_cumulative_ack/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 제어 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

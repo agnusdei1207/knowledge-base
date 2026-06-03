@@ -31,25 +31,26 @@ SOLID는 5가지 원칙([SRP](/knowledge-base/studynote/04_software_engineering/
 
 SOLID의 5가지 원칙은 각각 객체의 책임, 확장, [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/), 인터페이스, 의존성에 대한 명확한 규칙을 정의한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SOLID 5대 원칙의 메커니즘</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. SRP (단일 책임): 클래스가 변경되어야 할 이유는 단 하나뿐이어야 함.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">User</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">UserAuthenticator</div><div class="kb-diagram-note">,</div><div class="kb-diagram-node">UserRepository</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. OCP (개방-폐쇄): 확장에는 열려 있고, 수정에는 닫혀 있어야 함.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Payment</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">interface PayMethod</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Card</div><div class="kb-diagram-note">,</div><div class="kb-diagram-node">Cash</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. LSP (리스코프 치환): 자식은 부모의 역할을 온전히 대체할 수 있어야 함.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Bird</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Penguin</div><div class="kb-diagram-note">(날기 기능 오버라이딩 시 계약 위반 발생)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. ISP (인터페이스 분리): 클라이언트는 자신이 쓰지 않는 메서드에 의존 X.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IWorker</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IEater</div><div class="kb-diagram-note">,</div><div class="kb-diagram-node">IDuty</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. DIP (의존성 역전): 고수준 모듈은 저수준 모듈의 구현체에 의존하면 안 됨.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Service</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Database MySQL</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                  [SOLID 5대 원칙의 메커니즘]                   │
+├──────────────────────────────────────────────────────────────┤
+│ 1. SRP (단일 책임): 클래스가 변경되어야 할 이유는 단 하나뿐이어야 함.  │
+│    [User] ──(분리)──▶ [UserAuthenticator], [UserRepository]  │
+│                                                              │
+│ 2. OCP (개방-폐쇄): 확장에는 열려 있고, 수정에는 닫혀 있어야 함.    │
+│    [Payment] ──▶ [interface PayMethod] ◀── [Card], [Cash]    │
+│                                                              │
+│ 3. LSP (리스코프 치환): 자식은 부모의 역할을 온전히 대체할 수 있어야 함.│
+│    [Bird] ◀── [Penguin] (날기 기능 오버라이딩 시 계약 위반 발생)  │
+│                                                              │
+│ 4. ISP (인터페이스 분리): 클라이언트는 자신이 쓰지 않는 메서드에 의존 X.│
+│    [IWorker] ──(분리)──▶ [IEater], [IDuty]                   │
+│                                                              │
+│ 5. DIP (의존성 역전): 고수준 모듈은 저수준 모듈의 구현체에 의존하면 안 됨.│
+│    [Service] ──▶ (Interface) ◀── [Database MySQL]           │
+└──────────────────────────────────────────────────────────────┘
+```
 
 SRP가 클래스의 덩치를 통제한다면, OCP는 다형성을 이용해 변경 여파를 막는다. LSP는 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)의 신뢰성을 보장하고, ISP는 비대한 인터페이스를 잘게 쪼갠다. 마지막으로 DIP는 이 모든 객체가 구체적인 클래스가 아닌 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)(인터페이스)에 의존하도록 의존성의 화살표를 뒤집는다.
 
@@ -77,7 +78,7 @@ SRP가 클래스의 덩치를 통제한다면, OCP는 다형성을 이용해 변
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-현업에서는 [SOLID](/knowledge-base/studynote/04_software_engineering/04_testing_quality/242_solid_object_oriented_design_principles/) 원칙을 교조적으로 지키려다 오히려 구조가 과도하게 복잡해지는 과엔지니어링 (Over-Engineering)에 빠지기 쉽다.
+현업에서는 [SOLID](/knowledge-base/studynote/04_software_engineering/04_testing_quality/242_solid_object_oriented_design_principles/) 원칙을 교조적으로 지키려다 오히려 구조가 과도하게 복잡해지는 과엔지니어링 (Over-엔진ering)에 빠지기 쉽다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. **변경의 발생**: 코드가 실제로 변경될 확률이 높은가? 한 번 짜고 버릴 스크립트에 OCP를 위한 인터페이스를 도입하는 것은 낭비다. ([YAGNI](/knowledge-base/studynote/11_design_supervision/06_exam_summary/362_yagni/) 원칙 고려)
@@ -113,23 +114,21 @@ SRP가 클래스의 덩치를 통제한다면, OCP는 다형성을 이용해 변
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">절차적 프로그래밍 · 스파게티 코드 방치</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">객체 지향 프로그래밍 (OOP) · 캡슐화, 상속, 다형성 도입</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SOLID 설계 원칙 · 유지보수성과 확장성의 체계화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">디자인 패턴 (GoF) · 원칙에 기반한 정형화된 해결책</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클린 아키텍처 및 MSA · 분산 시스템과 모듈 경계로의 원칙 확장</div>
-</div>
-</div>
-
-
+```text
+절차적 프로그래밍 · 스파게티 코드 방치
+    │
+    ▼
+객체 지향 프로그래밍 (OOP) · 캡슐화, 상속, 다형성 도입
+    │
+    ▼
+SOLID 설계 원칙 · 유지보수성과 확장성의 체계화
+    │
+    ▼
+디자인 패턴 (GoF) · 원칙에 기반한 정형화된 해결책
+    │
+    ▼
+클린 아키텍처 및 MSA · 분산 시스템과 모듈 경계로의 원칙 확장
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

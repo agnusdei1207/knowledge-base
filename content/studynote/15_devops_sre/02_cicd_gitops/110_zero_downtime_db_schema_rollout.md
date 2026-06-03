@@ -20,27 +20,27 @@ tags = ["studynote-devops-sre"]
 
 앱은 블루/그린·[카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/)로 무중단이 가능하지만, <strong>DB <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/">스키마</a>(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/020_ddl/">DDL</a>)는 갑자기 바꾸면 구버전 앱이 에러</strong>를 뿜는다. "컬럼 이름을 `name` → `full_name`으로 바꿔야 하는데, 구버전 앱은 아직 `name`을 읽고 있다." 이때 점검 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 띄우는 것은 현대 DevOps의 목표가 아니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Expand and Contract 3단계 흐름도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Phase 1: Expand (확장)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DB: full_name 컬럼 추가 (name 그대로 유지)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App v1: name 읽기/쓰기 (변경 없음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Phase 2: Migrate (병행)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DB: name → full_name 데이터 복사 (트리거/배치)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App v2: full_name 쓰기 + name에도 동시 기록</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(구버전 앱 호환 유지)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Phase 3: Contract (수축)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App v2 전면 배포 확인 후</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DB: name 컬럼 삭제 (청소)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App v2: full_name만 사용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">롤백 안전: Phase 1~2에서 문제 시 name 그대로 활용</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│       Expand and Contract 3단계 흐름도                 │
+├───────────────────────────────────────────────────────┤
+│  Phase 1: Expand (확장)                               │
+│   DB: full_name 컬럼 추가 (name 그대로 유지)          │
+│   App v1: name 읽기/쓰기 (변경 없음)                  │
+│                                                       │
+│  Phase 2: Migrate (병행)                              │
+│   DB: name → full_name 데이터 복사 (트리거/배치)      │
+│   App v2: full_name 쓰기 + name에도 동시 기록         │
+│   (구버전 앱 호환 유지)                               │
+│                                                       │
+│  Phase 3: Contract (수축)                             │
+│   App v2 전면 배포 확인 후                            │
+│   DB: name 컬럼 삭제 (청소)                           │
+│   App v2: full_name만 사용                            │
+│                                                       │
+│  롤백 안전: Phase 1~2에서 문제 시 name 그대로 활용    │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 레고 성의 빨간 기둥을 파란색으로 바꾸고 싶을 때, 성을 무너뜨리지 않고 **파란 기둥을 옆에 세우고(Expand)**, 사람들을 파란 기둥으로 옮긴 뒤(Migrate), 빨간 기둥을 조용히 빼내는(Contract) 공사법이다.
 
@@ -117,21 +117,18 @@ tags = ["studynote-devops-sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">점검 페이지 시대 — DB 변경 시 서비스 전면 중단</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Expand and Contract 패턴 (2010s) — 단계적 스키마 진화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Flyway/Liquibase CI/CD 통합 (2015~) — 마이그레이션 자동화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: Online DDL + Ghost/pt-osc — 대용량 테이블 무중단 변경</div></div>
-</div>
-</div>
-
-
+```text
+[점검 페이지 시대 — DB 변경 시 서비스 전면 중단]
+    │
+    ▼
+[Expand and Contract 패턴 (2010s) — 단계적 스키마 진화]
+    │
+    ▼
+[Flyway/Liquibase CI/CD 통합 (2015~) — 마이그레이션 자동화]
+    │
+    ▼
+[현재: Online DDL + Ghost/pt-osc — 대용량 테이블 무중단 변경]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 레고 성의 빨간 기둥을 파란색으로 바꾸고 싶은데, 성을 무너뜨리기 싫어요.

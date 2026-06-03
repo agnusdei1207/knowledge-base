@@ -39,27 +39,30 @@ tags = ["studynote-data-engineering"]
 | **IVF** <br>(Inverted [File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 클러스터 찢기) | **[지역구 대표 반장 꼽기]** 1억 개 점들을 1만 개 군집(Cluster)으로 뭉쳐놓고 대표 반장(Centroid) 1마리씩 세움. ➔ 유저 질문 들어오면 반장 1만 마리랑만 거리 재고 ➔ 제일 가까운 반장네 반 소속 애들만 딱 핀셋 뒤짐 쾅!! | <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">대규모 [데이터</a> 짬처리 극강]</strong> 램 다이어트에 좋음. 단, 내가 찾는 찐 1등이 옆 반에 배정되어 있었으면 못 찾고 오답([Recall](/knowledge-base/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/) 저하) 터지는 블라인드 맹점 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 존재. |
 | <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/391_qos_queuing_pq_cq_wfq_cbwfq_llq/">PQ</a></strong> <br>(Product [Quantization](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)) | **[숫자 뭉개기 비만 다이어트 🔪]** $0.12345$ 같이 무거운 Float32 차원 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 ➔ 걍 대충 비슷한 1바이트짜리 블록 번호표로 뭉개 찌그러뜨려 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)([Compression](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/159_compression/)) 쳐버림 쾅! | **[메모리 구원 투수 💰]** 1억 개 벡터 띄우다 램 파산하는 걸 막기 위해 도입. HNSW나 IVF랑 `IVF+PQ` 처럼 십자 하이브리드 결합 쳐서 <strong>초거대 10억 단위 <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/">스케일 아웃</a> 록온</strong> 달성하는 1타 무기. |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HNSW (Hierarchical Navigable Small World) 계층망 쾌속 다이빙 도해</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🏙️</div><div class="kb-diagram-node">최상위 Layer 2 (고속도로 층 - 노드 듬성듬성)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(노드 A) (노드 K) (노드 Z)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 유저 질문(Target) 진입! ➔ "어? A보단 K가 타겟이랑 가깝네 점프 쓩!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🏢</div><div class="kb-diagram-node">중간 Layer 1 (국도 층 - 노드 좀 더 촘촘함)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(노드 J) ── (노드 K) ── (노드 M) ── (노드 P)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 위에서 K 타고 내려옴 ➔ "K 주변 뒤져보니 M이 더 타겟에 가깝네 점프!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🏡</div><div class="kb-diagram-node">밑바닥 Layer 0 (골목길 층 - 세상 모든 1억 개 노드 다 박혀있음)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">(L)─(M)─(N)─(O)─</div><div class="kb-diagram-node">🎯 타겟 정답!!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 위에서 M 타고 내려옴 ➔ M 코앞에 있는 진짜 찐 1등 타겟(O)을</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1억 개 풀스캔 안 치고 단 3번의 스킵 점프로 0.01초 컷 핀셋 록온 명중 쾅!!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 아키텍트 극딜: 이것이 1억 개 데이터를 다 계산하지 않고, 위에서부터 아래로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">줌-인(Zoom-in) 해 내려오면서 정답 확률망을 좁혀 치는 HNSW의 기적이다 🚀!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          HNSW (Hierarchical Navigable Small World) 계층망 쾌속 다이빙 도해 │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ 🏙️ [ 최상위 Layer 2 (고속도로 층 - 노드 듬성듬성) ]                 │
+│   (노드 A) ───────────── (노드 K) ──────────── (노드 Z)       │
+│      │ 🌟 유저 질문(Target) 진입! ➔ "어? A보단 K가 타겟이랑 가깝네 점프 쓩!"│
+│                                                             │
+│ 🏢 [ 중간 Layer 1 (국도 층 - 노드 좀 더 촘촘함) ]                  │
+│      │                                                      │
+│   (노드 J) ── (노드 K) ── (노드 M) ── (노드 P)                 │
+│      │ 🌟 위에서 K 타고 내려옴 ➔ "K 주변 뒤져보니 M이 더 타겟에 가깝네 점프!" │
+│                                                             │
+│ 🏡 [ 밑바닥 Layer 0 (골목길 층 - 세상 모든 1억 개 노드 다 박혀있음) ]│
+│      │                                                      │
+│   (L)─(M)─(N)─(O)─[🎯 타겟 정답!!]                            │
+│      │ 🌟 위에서 M 타고 내려옴 ➔ M 코앞에 있는 진짜 찐 1등 타겟(O)을        │
+│        1억 개 풀스캔 안 치고 단 3번의 스킵 점프로 0.01초 컷 핀셋 록온 명중 쾅!!│
+│                                                             │
+│ 🌟 아키텍트 극딜: 이것이 1억 개 데이터를 다 계산하지 않고, 위에서부터 아래로      │
+│   줌-인(Zoom-in) 해 내려오면서 정답 확률망을 좁혀 치는 HNSW의 기적이다 🚀!    │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** HNSW는 "어떻게 풀스캔을 피할까?"라는 인류 컴퓨터 공학의 피 터지는 난제를 3D 입체 계층망으로 격파했다. 바닥 층(Layer 0)에는 1억 개의 점이 빽빽하게 인접한 놈들끼리 선(Edge)으로 얽혀있다. 위로 올라갈수록 무작위로 뽑힌 극소수의 점들만 살아남아 듬성듬성한 장거리 링크를 유지한다. 
 탐색(Search)이 시작되면 최상층에서 스폰되어 가장 가까운 점을 향해 성큼성큼 다이빙(Navigable) 쳐 내려간다. 이 미친 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 덕분에 연산 복잡도는 $O(N)$ 풀스캔 폭파 지옥에서 ➔ $O(\log N)$ 의 우주 쾌속 광속 스피드로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 척살되며, 정확도([Recall](/knowledge-base/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/))마저 95% 이상을 가뿐히 방어해 내는 현재 [벡터 데이터베이스](/knowledge-base/studynote/12_it_management/05_security_compliance/223_vector_database_embedding/) 시장의 100% 0순위 기본 헌법 뼈대가 되었다.
@@ -140,23 +143,21 @@ tags = ["studynote-data-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">RDBMS / 키워드 검색 엔진 (Elasticsearch) 시대 / 텍스트 모양 100% 일치해야 찾아줌. "사과" 치면 "애플" 문서 절대 못 찾고 404 엑스박스 뻗는 맹인 한계 파국 💥</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Word2Vec / BERT 임베딩 기술 태동 / 단어를 공간상의 숫자로 변환 압축 성공! (하지만 데이터 양 많아지면 1억 개 다 비교 연산 치다 메모리 CPU 타죽음 풀스캔 검색 랙 지옥 💀)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">벡터 데이터베이스(Vector DB) 대관식 🚀 / Pinecone, Milvus, pgvector 등판! "단순 배열 나열이 아니라 ANN(HNSW) 그래프 인덱스 텐트를 태워 1억 개도 스킵 워프 0.1초 컷으로 색출 척살해라 쾅!!"</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">LLM 폭발 및 RAG 파이프라인 코어 이식 ✨ / 챗GPT 할루시네이션 소송 멸망 대재앙 막으려고 ➔ 벡터 DB를 기업 사내 지식 오픈북 커닝 창고 뼈대로 100% 강제 필수 융합 록온 완료!</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Multi-modal 및 GraphRAG 융합 (현재) / 텍스트를 넘어 이미지, 비디오 텐서까지 1통 벡터 공간에 쑤셔 박아 핑퐁 찾고 ➔ 사내 인물, 부서, 권한을 지식 그래프(Knowledge Graph)로 엮어 AI 에이전트(Agent)가 지 스스로 추론 척살해 내는 궁극 생태계 제국 대통일</div>
-</div>
-</div>
-
-
+```text
+RDBMS / 키워드 검색 엔진 (Elasticsearch) 시대 / 텍스트 모양 100% 일치해야 찾아줌. "사과" 치면 "애플" 문서 절대 못 찾고 404 엑스박스 뻗는 맹인 한계 파국 💥
+    │
+    ▼
+Word2Vec / BERT 임베딩 기술 태동 / 단어를 공간상의 숫자로 변환 압축 성공! (하지만 데이터 양 많아지면 1억 개 다 비교 연산 치다 메모리 CPU 타죽음 풀스캔 검색 랙 지옥 💀)
+    │
+    ▼
+벡터 데이터베이스(Vector DB) 대관식 🚀 / Pinecone, Milvus, pgvector 등판! "단순 배열 나열이 아니라 ANN(HNSW) 그래프 인덱스 텐트를 태워 1억 개도 스킵 워프 0.1초 컷으로 색출 척살해라 쾅!!"
+    │
+    ▼
+LLM 폭발 및 RAG 파이프라인 코어 이식 ✨ / 챗GPT 할루시네이션 소송 멸망 대재앙 막으려고 ➔ 벡터 DB를 기업 사내 지식 오픈북 커닝 창고 뼈대로 100% 강제 필수 융합 록온 완료!
+    │
+    ▼
+Multi-modal 및 GraphRAG 융합 (현재) / 텍스트를 넘어 이미지, 비디오 텐서까지 1통 벡터 공간에 쑤셔 박아 핑퐁 찾고 ➔ 사내 인물, 부서, 권한을 지식 그래프(Knowledge Graph)로 엮어 AI 에이전트(Agent)가 지 스스로 추론 척살해 내는 궁극 생태계 제국 대통일
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

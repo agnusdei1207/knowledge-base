@@ -23,21 +23,25 @@ PKI 및 보안 프로토콜이 필요한 이유는 세 가지이다. 첫째, <st
 
 이 그림은 PKI를 구성하는 핵심 주체들과 인증서 유통 흐름을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PKI (Public Key Infrastructure) Model</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Root CA</div><div class="kb-diagram-note">(최상위 인증기관)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Sub CA / RA</div><div class="kb-diagram-note">(등록 대행 기관)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (Issue Certificate) ▼ (Query Status)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">User / Server</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Relying Party</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Cert Holder) (검증자: 쇼핑몰 등)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* Repository: 인증서 및 폐기 목록(CRL) 저장소</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 PKI (Public Key Infrastructure) Model       │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Root CA ] (최상위 인증기관)                             │
+│          │                                                  │
+│          ▼                                                  │
+│   [ Sub CA / RA ] (등록 대행 기관)                          │
+│          │                                                  │
+│   ┌──────┴─────────────────────────────────┐                │
+│   ▼ (Issue Certificate)                    ▼ (Query Status) │
+│ [ User / Server ] ◀─── (Trust?) ────▶ [ Relying Party ]     │
+│ (Cert Holder)                         (검증자: 쇼핑몰 등)   │
+│                                            │                │
+│   * Repository: 인증서 및 폐기 목록(CRL) 저장소             │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '신뢰의 전이'이다. 내가 모르는 서버라도, 내가 믿는 CA가 발급한 인증서를 들고 있다면 그 서버를 믿을 수 있게 된다. 실무에서는 이 신뢰의 사슬 (Chain of Trust)이 끊기거나 인증서가 탈취되었을 때를 대비한 <strong>CRL</strong>이나 <strong>OCSP</strong>와 같은 실시간 폐기 여부 확인 기술이 매우 중요하다.
 
@@ -68,20 +72,22 @@ PKI 및 보안 프로토콜이 필요한 이유는 세 가지이다. 첫째, <st
 
 이 구조도는 TLS 핸드쉐이크를 통해 대칭키가 안전하게 생성되는 과정을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TLS 1.3 Handshake (1-RTT)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Client</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Server</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Client</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">── Server Hello + Encrypted Ext ◀──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ Certificate + Finished</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Symmetric Key Derived!</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(Secure Data Transfer)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 특징: 비대칭키로 '세션키'를 합의하고 이후 대칭키로 통신</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 TLS 1.3 Handshake (1-RTT)                   │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Client ] ──▶ Client Hello + Key Share ──▶ [ Server ]    │
+│                                                  │          │
+│   [ Client ] ◀── Server Hello + Encrypted Ext ◀──┘          │
+│          │       + Certificate + Finished                   │
+│          │                                                  │
+│   [ Symmetric Key Derived! ] ──▶ (Secure Data Transfer)     │
+│                                                             │
+│   * 특징: 비대칭키로 '세션키'를 합의하고 이후 대칭키로 통신 │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '성능과 보안의 조화'이다. 암호화 통신을 시작하기 위한 인사(Handshake) 횟수를 줄이면서도, 나중에 서버의 개인키가 털려도 과거의 통신 내용은 복호화할 수 없게 만드는 <strong>완전 순방향 비밀성 (PFS)</strong>을 하드웨어적으로 구현한다.
 
@@ -127,18 +133,21 @@ PKI 및 보안 프로토콜이 필요한 이유는 세 가지이다. 첫째, <st
 
 이 도식은 기술사가 체크해야 할 '인증서 라이프사이클 관리' 프로세스를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Certificate Lifecycle Management</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. Generation</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">2. Issuance</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">3. Install</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">5. Renewal</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">4. Expiry / Revocation Monitor</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 만료 전 자동 갱신 알림 및 폐기 목록 상시 동기화</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│               Certificate Lifecycle Management              │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ 1. Generation ] ──▶ [ 2. Issuance ] ──▶ [ 3. Install ]  │
+│          ▲                                        │         │
+│          │          ┌─────────────────────────────┘         │
+│          │          ▼                                       │
+│   [ 5. Renewal ] ◀── [ 4. Expiry / Revocation Monitor ]     │
+│                                                             │
+│   * 핵심: 만료 전 자동 갱신 알림 및 폐기 목록 상시 동기화   │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 기술사의 판단은 '국가 보안 문서 관리자'와 같습니다. 문서(인증서)를 누가 만들었는지, 도장이 진짜인지, 혹시 잃어버린 문서(폐기 목록)는 아닌지를 찰나의 순간에 판별하는 체계를 설계합니다.
 

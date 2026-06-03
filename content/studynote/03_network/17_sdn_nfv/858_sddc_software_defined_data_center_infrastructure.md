@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: 서버(컴퓨팅), 스토리지, 네트워크, 보안 등 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)를 구성하는 <strong>모든 물리적 하드웨어 인프라 자원을 <a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a> 기술로 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a>하여 거대한 자원 풀(Pool)로 만들고, 이를 사람의 손이 아닌 100% 소프트웨어의 프로그래밍(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a>)으로 통제, 할당, 관리하는 차세대 <a href="/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/">데이터센터</a> 아키텍처</strong>입니다.
 - 아마존 AWS나 구글 클라우드의 뼈대를 이루는 근본 철학이자, 기업 프라이빗 클라우드의 궁극적 최종 목표(VMWare Cloud Foundation 등)입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">인텐트 기반 네트워킹</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">소프트웨어 정의 데이터센터</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">화이트박스 스위치</div></div>
-</div>
-</div>
-
-
+```text
+[인텐트 기반 네트워킹]
+    │
+    ▼
+[소프트웨어 정의 데이터센터]
+    │
+    └──▶ [화이트박스 스위치]
+```
 
 - **📢 섹션 요약 비유**: 소프트웨어 정의 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -56,18 +52,14 @@ SDDC는 어느 날 뚝딱 만들어진 게 아니라, 각 분야의 소프트웨
 - 위 세 가지 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 기술을 하나로 묶어 지휘하는 <strong>통합 오케스트레이터(총사령부)</strong>입니다. (예: OpenStack, vRealize)
 - 사용자가 [CMP](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/394_cmp/) 웹 포털(대시보드)에 접속해 "웹서버 2대, DB 1대, [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 1개 세트로 만들어 줘"라고 요청하면, SDC, [SDS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/632_sds/), [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 컨트롤러들에게 동시에 명령을 내려 1분 만에 세팅을 끝내버립니다(자동화 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/)).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">인텐트 기반 네트워킹</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">소프트웨어 정의 데이터센터</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">화이트박스 스위치</div></div>
-</div>
-</div>
-
-
+```text
+[인텐트 기반 네트워킹]
+    │
+    ▼
+[소프트웨어 정의 데이터센터]
+    │
+    └──▶ [화이트박스 스위치]
+```
 
 - **📢 섹션 요약 비유**: 소프트웨어 정의 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -128,19 +120,15 @@ SDDC는 어느 날 뚝딱 만들어진 게 아니라, 각 분야의 소프트웨
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 인텐트 기반 네트워킹</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 소프트웨어 정의 데이터센터</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 화이트박스 스위치</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 프로그래머블 네트워크</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 인텐트 기반 네트워킹]
+    │
+    ▼
+[현재 개념: 소프트웨어 정의 데이터센터]
+    │
+    ├──▶ [확장 A: 화이트박스 스위치]
+    └──▶ [확장 B: 프로그래머블 네트워크]
+```
 
 소프트웨어 정의 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)는 [인텐트 기반 네트워킹](/knowledge-base/studynote/14_data_engineering/04_mlops/199_intent_based_networking_ibn_ai_traffic_routing/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [화이트박스 스위치](/knowledge-base/studynote/03_network/17_sdn_nfv/859_whitebox_switch_open_hardware_nos/)와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

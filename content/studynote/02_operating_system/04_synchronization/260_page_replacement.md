@@ -24,28 +24,27 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경**: [요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)([Demand Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)) 시스템이 활성화되면서 "디스크에서 가져오는 기술"은 완성되었으나, "어떻게 자리를 비워줄 것인가"에 대한 최적화가 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 99%를 좌우하게 되었다. 1970년대 벨 연구소 등에서 최적(Optimal) 교체부터 LRU까지 수많은 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 쏟아져 나오며 학문적 전성기를 맞이했다.
 
+```text
+  [페이지 교체(Page Replacement)의 4단계 라이프사이클]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">페이지 교체(Page Replacement)의 4단계 라이프사이클</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">🚨 물리 메모리(RAM) 100% Full 상태에서 Page Fault 발생!</div></div>
-<div class="kb-diagram-note">1. 희생자 선정 (Victim Selection)</div>
-<div class="kb-diagram-note">▶ OS 스케줄러: "LRU 알고리즘 돌려봐! 제일 안 쓴 놈 누구야?"</div>
-<div class="kb-diagram-note">▶ "Frame 3번에 있는 Page A가 1시간째 안 쓰였습니다!"</div>
-<div class="kb-diagram-note">2. Swap-Out (디스크 쓰기)</div>
-<div class="kb-diagram-note">▶ Page A가 램에 올라온 이후로 값이 수정(Dirty)되었다면, 디스크에 덮어쓴다.</div>
-<div class="kb-diagram-note">▶ (수정 안 됐으면 덮어쓸 필요 없이 그냥 버림. 속도 개이득!)</div>
-<div class="kb-diagram-note">▶ 페이지 테이블에서 Page A의 상태를 Invalid(i)로 바꾼다.</div>
-<div class="kb-diagram-note">3. Swap-In (새 페이지 적재)</div>
-<div class="kb-diagram-note">▶ 방금 비워진 Frame 3번 자리에, 지금 당장 필요한 Page B를 디스크에서 퍼 올린다.</div>
-<div class="kb-diagram-note">4. 테이블 갱신 및 재시작</div>
-<div class="kb-diagram-note">▶ 페이지 테이블에 "Page B는 Frame 3에 있음"을 적고 Valid(v)로 켠다.</div>
-<div class="kb-diagram-note">▶ 멈췄던 CPU 명령어를 다시 실행한다.</div>
-</div>
-</div>
-
-
+  [ 🚨 물리 메모리(RAM) 100% Full 상태에서 Page Fault 발생! ]
+  
+  1. 희생자 선정 (Victim Selection)
+     ▶ OS 스케줄러: "LRU 알고리즘 돌려봐! 제일 안 쓴 놈 누구야?"
+     ▶ "Frame 3번에 있는 Page A가 1시간째 안 쓰였습니다!"
+     
+  2. Swap-Out (디스크 쓰기)
+     ▶ Page A가 램에 올라온 이후로 값이 수정(Dirty)되었다면, 디스크에 덮어쓴다.
+     ▶ (수정 안 됐으면 덮어쓸 필요 없이 그냥 버림. 속도 개이득!)
+     ▶ 페이지 테이블에서 Page A의 상태를 Invalid(i)로 바꾼다.
+     
+  3. Swap-In (새 페이지 적재)
+     ▶ 방금 비워진 Frame 3번 자리에, 지금 당장 필요한 Page B를 디스크에서 퍼 올린다.
+     
+  4. 테이블 갱신 및 재시작
+     ▶ 페이지 테이블에 "Page B는 Frame 3에 있음"을 적고 Valid(v)로 켠다.
+     ▶ 멈췄던 CPU 명령어를 다시 실행한다.
+```
 **[다이어그램 해설]** [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 교체는 단순히 자리를 바꾸는 게 아니다. "디스크 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Swap-Out)"와 "디스크 읽기(Swap-In)"라는 최악의 오버헤드가 연속으로 터지는(최대 2,000만 ns 소요) 끔찍한 과정이다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 이 과정을 얼마나 덜 일어나게([Page Fault Rate](/knowledge-base/studynote/02_operating_system/07_virtual_memory/389_page_fault_rate_eat/) 감소) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 짜느냐가 아키텍트의 실력을 증명한다.
 
 - **📢 섹션 요약 비유**: 냉장고(RAM)가 꽉 찼는데 마트에서 수박(새 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))을 사 왔습니다. 수박을 넣으려면 유통기한이 지났거나 안 먹는 반찬(Victim)을 골라 쓰레기통(디스크)에 버려야 합니다. 이때, 내일 아침 당장 먹을 반찬을 버리면 낼 아침에 또 마트에 가야 하는 대참사가 일어납니다. 누구를 버릴지 고르는 센스가 교체의 핵심입니다.
@@ -120,25 +119,26 @@ OS가 소프트웨어로만 "누가 가장 오래됐나?"를 추적하면 CPU가
    - `allkeys-lru`: Redis에 들어있는 모든 키 중 가장 오래 안 쓴 놈을 지운다. (LRU의 완벽한 실무적 현현). 
    - 이 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 하나만 잘 맞춰도 DB로 쏟아지는 트래픽의 90%를 막아내고 "스스로 오래된 찌꺼기를 치우며 자가 생존하는" 무한 캐시 시스템이 완성된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">백엔드 In-Memory 시스템 캐시 교체 정책(Eviction Policy) 트리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">요구사항: 10GB 용량의 Redis 캐시 서버 운영. 꽉 찼을 때 어떡할까?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. No Eviction (버리지 않음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 작동: 10GB 꽉 차면 OOM 에러 뱉고 새 데이터 쓰기 거부!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 사용처: 절대로 데이터가 유실되면 안 되는 '세션 저장소' 등.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. AllKeys-LRU (가장 안 쓰는 놈 버림)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 작동: 최근에 찾지 않은 오래된 캐시부터 조용히 날려버림.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 사용처: 웹페이지 HTML 캐싱, 상품 정보 (90% 실무의 디폴트).</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3. AllKeys-LFU (가장 인기 없는 놈 버림)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 작동: 빈도수(Frequency)를 체크하여, 가장 조회수가 낮은 놈 처형.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 사용처: 최신순보다 "누적 인기순"이 중요한 랭킹 시스템 보드 등.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌──────────────────────────────────────────────────────────────────────┐
+  │     백엔드 In-Memory 시스템 캐시 교체 정책(Eviction Policy) 트리     │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │                                                                      │
+  │   [요구사항: 10GB 용량의 Redis 캐시 서버 운영. 꽉 찼을 때 어떡할까?] │
+  │                                                                      │
+  │   [ 1. No Eviction (버리지 않음) ]                                   │
+  │     ▶ 작동: 10GB 꽉 차면 OOM 에러 뱉고 새 데이터 쓰기 거부!          │
+  │     ▶ 사용처: 절대로 데이터가 유실되면 안 되는 '세션 저장소' 등.     │
+  │                                                                      │
+  │   [ 2. AllKeys-LRU (가장 안 쓰는 놈 버림) ]                          │
+  │     ▶ 작동: 최근에 찾지 않은 오래된 캐시부터 조용히 날려버림.        │
+  │     ▶ 사용처: 웹페이지 HTML 캐싱, 상품 정보 (90% 실무의 디폴트).     │
+  │                                                                      │
+  │   [ 3. AllKeys-LFU (가장 인기 없는 놈 버림) ]                        │
+  │     ▶ 작동: 빈도수(Frequency)를 체크하여, 가장 조회수가 낮은 놈 처형.│
+  │     ▶ 사용처: 최신순보다 "누적 인기순"이 중요한 랭킹 시스템 보드 등. │
+  └──────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** "메모리가 부족하면 지워라"라는 OS의 철학을 100% 이해한 개발자는, Redis나 애플리케이션 로컬 캐시(Caffeine Cache)를 짤 때도 반드시 이 Eviction [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)(교체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))를 설계에 박아 넣는다. 쫓아내는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)([LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/))이 없는 캐시는 캐시가 아니라 곧 서버를 찢어발길 '메모리 릭([Memory Leak](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/))' 시한폭탄에 불과하다.
 
 - **📢 섹션 요약 비유**: 구글 포토 용량(15GB)이 꽉 찼을 때, 1번 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 "더 이상 사진 못 찍음(에러)"입니다. 2번 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 "10년 전에 찍고 한 번도 안 열어본 옛날 사진부터 몰래 지우기"입니다. 3번 [LFU](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 "최근에 찍었더라도 내가 하트(빈도수)를 안 누른 인기 없는 사진부터 지우기"입니다. 목적에 맞게 버리는 기술이 캐싱의 전부입니다.
@@ -170,19 +170,15 @@ OS가 소프트웨어로만 "누가 가장 오래됐나?"를 추적하면 CPU가
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">ABA 문제</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">페이지 교체 (Page Replacement)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">장벽 (Barrier) 동기화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">양방향 랑데부 (Rendezvous)</div></div>
-</div>
-</div>
-
-
+```text
+[ABA 문제]
+    │
+    ▼
+[페이지 교체 (Page Replacement)]
+    │
+    ├──▶ [장벽 (Barrier) 동기화]
+    └──▶ [양방향 랑데부 (Rendezvous)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

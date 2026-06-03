@@ -37,20 +37,21 @@ VPA 아키텍처는 관찰, 추천, 그리고 실행을 담당하는 3개의 핵
 | **Updater** | [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 라이프사이클 관리 | 권장값과 현재값이 다를 경우, [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 축출(Evict)하여 재시작 유도 |
 | **Admission Controller** | Webhook을 통한 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 주입 | [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 새로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)될 때(재시작 시), Recommender의 권장값을 YAML에 덮어쓰기 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VPA 자원 갱신 메커니즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Metric Server</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">VPA Recommender</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">VPA Updater</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">── (3.축출 지시) ◀── (2.권장값 계산)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (4.파드 강제 종료) ▼ (5.YAML 덮어쓰기)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">기존 Pod (RAM 256M)</div><div class="kb-diagram-node">Admission Controller</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">새 Pod 생성 (RAM 512M)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                  VPA 자원 갱신 메커니즘                     │
+├──────────────────────────────────────────────────────────────┤
+│  [Metric Server] ─▶ (1.사용량 이력) ─▶ [VPA Recommender]   │
+│                                              │               │
+│  [VPA Updater] ◀── (3.축출 지시) ◀── (2.권장값 계산)       │
+│        │                                     │               │
+│        ▼ (4.파드 강제 종료)                  ▼ (5.YAML 덮어쓰기)│
+│  [기존 Pod (RAM 256M)]             [Admission Controller]    │
+│                                              │               │
+│                                              ▼               │
+│                                    [새 Pod 생성 (RAM 512M)]  │
+└──────────────────────────────────────────────────────────────┘
+```
 
 VPA의 가장 큰 제약은 리눅스 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 특성상 런타임 중에 리소스를 부드럽게 늘릴 수 없다는 점이다. 따라서 자원을 변경하려면 어쩔 수 없이 기존 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 죽이고 새로운 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)값을 가진 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 다시 띄워야 한다. 이를 '파괴적 재시작'이라 부르며, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 일시적 단절을 유발할 수 있다.
 
@@ -113,23 +114,21 @@ VPA를 적절히 활용하면 클러스터의 오버 프로비저닝을 제거�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">수동 자원 할당 (Manual Allocation)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">OOM 장애 및 오버 프로비저닝 (Over-provisioning) 발생</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">HPA (Horizontal Pod Autoscaler) 도입 (개수 확장)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">VPA (Vertical Pod Autoscaler) 도입 (크기 최적화 및 추천)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">In-place VPA (파드 재시작 없는 런타임 자원 갱신 연구)</div>
-</div>
-</div>
-
-
+```text
+수동 자원 할당 (Manual Allocation)
+    │
+    ▼
+OOM 장애 및 오버 프로비저닝 (Over-provisioning) 발생
+    │
+    ▼
+HPA (Horizontal Pod Autoscaler) 도입 (개수 확장)
+    │
+    ▼
+VPA (Vertical Pod Autoscaler) 도입 (크기 최적화 및 추천)
+    │
+    ▼
+In-place VPA (파드 재시작 없는 런타임 자원 갱신 연구)
+```
 
 이 흐름도는 자원 관리 방식이 "수동 추측 → 수평 확장 → 수직 맞춤화 → 무중단 갱신"으로 진화하는 과정을 보여준다.
 

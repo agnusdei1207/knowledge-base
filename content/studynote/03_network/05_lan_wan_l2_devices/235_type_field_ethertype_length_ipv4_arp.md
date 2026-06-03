@@ -24,18 +24,14 @@ tags = ["studynote-network"]
 
 - **💡 비유**: Ethertype은 택배 박스 겉면에 붙어있는 <strong>"취급 주의 / 내용물 표시 스티커"</strong>와 같습니다. 박스에 '신선 식품(`0x0800` [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/))' 스티커가 붙어 있으면 우편집중국([운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/))은 이를 냉장 창고(IP 처리 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))로 보내고, '가전제품(`0x0806` [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/))' 스티커가 붙어 있으면 일반 창고([ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 처리 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)해 줍니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Preamble &amp; SFD</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Type 필드 / Length 필드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">페이로드 크기, 패딩</div></div>
-</div>
-</div>
-
-
+```text
+[Preamble & SFD]
+    │
+    ▼
+[Type 필드 / Length 필드]
+    │
+    └──▶ [페이로드 크기, 패딩]
+```
 
 - **📢 섹션 요약 비유**: ** Ethertype은 병원의 **"접수창구 진료과목 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)표"**입니다. 환자([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 도착하면 안내 데스크([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 계층)가 내과([IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/))로 보낼지, 외과([ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/))로 보낼지 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)해 주는 완벽한 교통정리 시스템입니다.
 
@@ -46,19 +42,23 @@ tags = ["studynote-network"]
 ### 1. 상위 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) (Demultiplexing)
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크(L2) 계층에서 네트워크(L3) 계층으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 올려보낼 때, Ethertype은 <strong>역다중화(Demultiplexing)</strong>의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 역할을 한다. 하위 계층([이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 하나)이 상위 계층(IP, [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/), [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 등 여러 개)을 지원할 수 있게 해 주는 아키텍처의 핵심이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ethertype에 의한 상위 계층 역다중화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">OSI 3계층 (네트워크)</div><div class="kb-diagram-node">IPv4 모듈</div><div class="kb-diagram-node">ARP 모듈</div><div class="kb-diagram-node">IPv6 모듈</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0x0800</div><div class="kb-diagram-cell">0x0806</div><div class="kb-diagram-cell">0x86DD</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">OSI 2계층 (데이터 링크)</div><div class="kb-diagram-node">MAC 계층 (Ethertype 확인)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">OSI 1계층 (물리)</div><div class="kb-diagram-node">이더넷 케이블 (010101...)</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                 Ethertype에 의한 상위 계층 역다중화            │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   OSI 3계층 (네트워크)        [ IPv4 모듈 ]  [ ARP 모듈 ]  [ IPv6 모듈 ] │
+ │                                   ▲            ▲            ▲      │
+ │                                   │            │            │      │
+ │                            0x0800 │     0x0806 │     0x86DD │      │
+ │                                   │            │            │      │
+ │   OSI 2계층 (데이터 링크)      [    MAC 계층 (Ethertype 확인)    ] │
+ │                                   ▲                                │
+ │                                   │                                │
+ │   OSI 1계층 (물리)             [ 이더넷 케이블 (010101...) ]         │
+ │                                                             │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: Type 필드 / Length 필드의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -121,19 +121,15 @@ Type 필드 / Length 필드는 LAN/WAN과 2계층 장비를 이해할 때 핵심
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: Preamble &amp; SFD</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: Type 필드 / Length 필드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 페이로드 크기, 패딩</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 캠퍼스 패브릭</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: Preamble & SFD]
+    │
+    ▼
+[현재 개념: Type 필드 / Length 필드]
+    │
+    ├──▶ [확장 A: 페이로드 크기, 패딩]
+    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
+```
 
 Type 필드 / Length 필드는 Preamble & SFD에서 출발해 현재 메커니즘을 정교화하고, 이후 [페이로드 크기](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/236_payload_size_and_padding_46_1500_bytes/), [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

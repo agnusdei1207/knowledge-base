@@ -24,21 +24,24 @@ tags = ["studynote-network"]
 - **비유**: PPP는 단순한 배달 기사가 아니라 '종합 물류 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)'다. 물건([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 배달할 뿐만 아니라, 배달 전에 신분증 검사([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/))를 하고, 내용물의 종류(IP, IPX)를 명확히 분류하며, 필요하면 압축이나 암호화 포장까지 알아서 해주는 만능 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)다.
 - **발전 과정**: SLIP의 대체재로 등장한 PPP는 [HDLC](/knowledge-base/studynote/03_network/04_data_link_layer_error/216_hdlc_high_level_data_link_control/) 프레임 구조를 차용하되 제어 기능을 모듈화([LCP](/knowledge-base/studynote/03_network/04_data_link_layer_error/225_lcp_link_control_protocol/), [NCP](/knowledge-base/studynote/03_network/04_data_link_layer_error/226_ncp_network_control_protocol/))함으로써 인터넷 접속의 사실상 표준(De facto standard)이 되었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PPP의 3대 핵심 컴포넌트</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 계층</div><div class="kb-diagram-note">IP, IPX, AppleTalk 등 다양한 프로토콜</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(1) NCP (Network Control Protocol) : 망 설정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PPP</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(2) LCP (Link Control Protocol) : 링크 설정 및 인증</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(3) HDLC 기반 프레이밍 (Framing)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">물리 계층</div><div class="kb-diagram-note">모뎀(비동기), ISDN/전용선(동기), 이더넷</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────┐
+  │                 PPP의 3대 핵심 컴포넌트                 │
+  ├─────────────────────────────────────────────────────────┤
+  │                                                         │
+  │  [네트워크 계층]  IP, IPX, AppleTalk 등 다양한 프로토콜 │
+  │        ▲               ▲               ▲                │
+  │  ──────┼───────────────┼───────────────┼──────────────  │
+  │        │ (1) NCP (Network Control Protocol) : 망 설정   │
+  │        └───────────────────────────────────┐            │
+  │  PPP                                       │            │
+  │  (2) LCP (Link Control Protocol) : 링크 설정 및 인증    │
+  │  ──────────────────────────────────────────┘            │
+  │  (3) HDLC 기반 프레이밍 (Framing)                       │
+  │  ─────────────────────────────────────────────────────  │
+  │  [물리 계층] 모뎀(비동기), ISDN/전용선(동기), 이더넷    │
+  └─────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: PPP는 단순히 두 도시를 잇는 아스팔트 도로([프레이밍](/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/))가 아니라, 그 도로 위에 톨게이트([LCP](/knowledge-base/studynote/03_network/04_data_link_layer_error/225_lcp_link_control_protocol/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/))와 차선 분배기([NCP](/knowledge-base/studynote/03_network/04_data_link_layer_error/226_ncp_network_control_protocol/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/))까지 모두 갖춘 완벽한 턴키(Turn-key) 방식의 민자 고속도로 시스템입니다.
 
@@ -55,18 +58,14 @@ tags = ["studynote-network"]
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a> (<a href="/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/">Authentication</a>)</strong> | 접속하려는 사용자의 신원 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | [PAP](/knowledge-base/studynote/03_network/04_data_link_layer_error/227_pap_password_authentication_protocol/) (명문장 전송, 취약), [CHAP](/knowledge-base/studynote/03_network/04_data_link_layer_error/228_chap_challenge_handshake_authentication_protocol/) (Challenge-Response 3way 핸드쉐이크, 안전) |
 | <strong><a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/226_ncp_network_control_protocol/">NCP</a> (<a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/226_ncp_network_control_protocol/">Network Control Protocol</a>)</strong> | 상위 네트워크 계층의 세부 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) | IPCP (IP Control [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))를 통해 동적 IP 주소, [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버 등 할당 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">LAPD</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">PPP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">LCP</div></div>
-</div>
-</div>
-
-
+```text
+[LAPD]
+    │
+    ▼
+[PPP]
+    │
+    └──▶ [LCP]
+```
 
 - **📢 섹션 요약 비유**: PPP의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -76,24 +75,26 @@ tags = ["studynote-network"]
 
 PPP의 가장 강력한 특징은 단순히 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 흘려보내는 것이 아니라, 명확한 단계를 거쳐 링크를 수립한다는 점이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PPP 세션 수립 단계 (Phases)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Dead</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Establish</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LCP 옵션 협상 (MTU 등)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">──(성공)──</div><div class="kb-diagram-node">Authenticate</div><div class="kb-diagram-note">(선택적)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PAP 또는 CHAP을 통한 신원 확인</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Network</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">──(성공)── IPCP를 통한 동적 IP 및 DNS 할당</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (NCP 완료)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Open</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">실제 인터넷(IP 패킷) 데이터 송수신 시작</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (연결 종료 요청 또는 물리적 끊김)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Terminate</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Dead</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────┐
+  │                  PPP 세션 수립 단계 (Phases)                  │
+  ├───────────────────────────────────────────────────────────────┤
+  │                                                               │
+  │  [Dead] ──(물리적 연결 감지)──▶ [Establish]                 │
+  │                                    │  LCP 옵션 협상 (MTU 등)  │
+  │                                    ▼                          │
+  │         ┌──(성공)── [Authenticate] (선택적)                   │
+  │         │               PAP 또는 CHAP을 통한 신원 확인        │
+  │         ▼                                                     │
+  │    [Network] ◀──(성공)── IPCP를 통한 동적 IP 및 DNS 할당     │
+  │         │                                                     │
+  │         ▼ (NCP 완료)                                          │
+  │     [Open] ──▶ 실제 인터넷(IP 패킷) 데이터 송수신 시작        │
+  │         │                                                     │
+  │         ▼ (연결 종료 요청 또는 물리적 끊김)                   │
+  │    [Terminate] ──▶ [Dead]                                     │
+  └───────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 사용자가 [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/)으로 전화를 걸면 먼저 [LCP](/knowledge-base/studynote/03_network/04_data_link_layer_error/225_lcp_link_control_protocol/) 단계(Establish)에서 기본 통신 규칙을 정한다. 이후 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 단계(Authenticate)에서 ID/Password를 검증하고, 성공하면 [NCP](/knowledge-base/studynote/03_network/04_data_link_layer_error/226_ncp_network_control_protocol/)(Network) 단계로 넘어가 [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/)(통신사)로부터 IP 주소를 동적으로 받아온다. 이 모든 과정이 끝나야만 비로소 '인터넷 연결됨(Open)' 상태가 되어 웹 서핑이 가능해진다. 하나라도 실패하면 연결은 즉시 종료된다.
 
@@ -159,19 +160,15 @@ ADSL이나 [VDSL](/knowledge-base/studynote/03_network/03_physical_layer_media/1
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: LAPD</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: PPP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: LCP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고신뢰 저지연 링크 제어</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: LAPD]
+    │
+    ▼
+[현재 개념: PPP]
+    │
+    ├──▶ [확장 A: LCP]
+    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
+```
 
 PPP는 LAPD에서 출발해 현재 메커니즘을 정교화하고, 이후 LCP와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

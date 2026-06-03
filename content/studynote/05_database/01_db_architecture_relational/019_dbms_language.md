@@ -26,23 +26,22 @@ tags = ["database"]
 
 아래 다이어그램은 애플리케이션과 [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) 내부 코어 사이에서 [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) 언어가 어떻게 인터페이스 역할을 수행하며 처리되는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Application / User</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"SELECT * FROM EMP" (요청)</div></div>
-<div class="kb-diagram-note">(DBMS 언어: DML/DDL 스트림)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DBMS 엔진</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Parser (문법/의미 검증 및 Parse Tree 생성)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Optimizer (비용 기반 최적의 실행 계획 도출)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Execution Engine (물리적 스토리지 접근/Lock 획득)</div></div>
-<div class="kb-diagram-note">(Block/Page 단위 I/O)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Physical Storage (Disk)</div></div>
-</div>
-</div>
-
-
+```text
+┌─── [Application / User] ───┐
+│ "SELECT * FROM EMP" (요청) │
+└──────────────┬─────────────┘
+               │ (DBMS 언어: DML/DDL 스트림)
+┌──────────────▼────────────────────────────────────────┐
+│                      DBMS 엔진                        │
+│ 1. Parser (문법/의미 검증 및 Parse Tree 생성)         │
+│ 2. Optimizer (비용 기반 최적의 실행 계획 도출)        │
+│ 3. Execution Engine (물리적 스토리지 접근/Lock 획득)  │
+└──────────────┬────────────────────────────────────────┘
+               │ (Block/Page 단위 I/O)
+┌──────────────▼─────────────┐
+│ [Physical Storage (Disk)]  │
+└────────────────────────────┘
+```
 
 이 아키텍처 흐름도의 핵심은 [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) 언어가 단순한 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호출이 아니라, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 내부의 '컴파일 및 최적화 엔진'을 구동시키는 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)(Trigger)라는 점이다. 사용자가 입력한 SQL 구문([DDL](/knowledge-base/studynote/05_database/01_db_architecture_relational/020_ddl/), [DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_dml/))은 파서에 의해 구문 분석을 거친 뒤, [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)라는 고도의 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)로 전달된다. [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 딕셔너리의 통계 정보를 바탕으로 [해시 조인](/knowledge-base/studynote/05_database/03_relational_model/174_hash_join/)을 할지, [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 탈지 수백 개의 실행 경로를 평가한다. 즉, [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) 언어의 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 계층 덕분에 애플리케이션 코드는 변경 없이 그대로 유지되면서도, DB DBA가 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 추가하기만 하면 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)가 런타임에 스스로 경로를 최적화하여 응답 속도를 수백 배 끌어올리는 마법이 가능해진다.
 
@@ -64,22 +63,21 @@ tags = ["database"]
 
 다음 다이어그램은 각 언어 유형이 DBMS의 어떤 내부 구성 요소와 직접 상호작용하는지를 나타내는 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 및 매핑 구조이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">명령어 입력</div></div>
-<div class="kb-diagram-note">(명령어 타입 분류)</div>
-<div class="kb-diagram-note">↙ ↓ ↘ ↘</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DDL</div><div class="kb-diagram-node">DML</div><div class="kb-diagram-node">DCL</div><div class="kb-diagram-node">TCL</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메타</div><div class="kb-diagram-cell">데이터</div><div class="kb-diagram-cell">보안/</div><div class="kb-diagram-cell">Redo/Undo</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터</div><div class="kb-diagram-cell">버퍼 풀</div><div class="kb-diagram-cell">인증</div><div class="kb-diagram-cell">로그버퍼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">갱신</div><div class="kb-diagram-cell">(메모리)</div><div class="kb-diagram-cell">딕셔너리</div><div class="kb-diagram-cell">디스크 I/O</div></div>
-<div class="kb-diagram-note">(DB 구조) (실제 값) (접근통제) (상태 확정)</div>
-</div>
-</div>
-
-
+```text
+       [명령어 입력]
+             │
+      (명령어 타입 분류)
+      ↙      ↓       ↘       ↘
+ [ DDL ]   [ DML ]   [ DCL ]   [ TCL ]
+    │        │         │         │
+    ▼        ▼         ▼         ▼
+┌───────┐ ┌────────┐ ┌───────┐ ┌─────────┐
+│ 메타  │ │데이터  │ │보안/  │ │Redo/Undo│
+│ 데이터│ │버퍼 풀 │ │인증   │ │로그버퍼 │
+│ 갱신  │ │(메모리)│ │딕셔너리││디스크 I/O│
+└───────┘ └────────┘ └───────┘ └─────────┘
+ (DB 구조) (실제 값)  (접근통제) (상태 확정)
+```
 
 이 구조도의 핵심은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 성격에 따라 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))의 범위와 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)([Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)) 비용이 완전히 달라진다는 점이다. [DDL](/knowledge-base/studynote/05_database/01_db_architecture_relational/020_ddl/)(예: ALTER TABLE)이 실행되면, DBMS는 해당 객체의 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 수정하기 위해 매우 무거운 '딕셔너리 락(Dictionary [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))'이나 '테이블 [배타 락](/knowledge-base/studynote/05_database/04_transactions_concurrency/215_exclusive_lock_write_concurrency/)(Exclusive [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))'을 획득한다. 이는 동시 접속 중인 다른 모든 [DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_dml/) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 대기([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)) 상태로 만든다. 반면, [DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_dml/)(UPDATE)은 특정 행(Row)에 대해서만 락을 걸고 메모리(버퍼 풀) 상에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수정하므로 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)이 높다. [TCL](/knowledge-base/studynote/05_database/01_db_architecture_relational/023_tcl/) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)인 COMMIT이 호출되는 순간, 비로소 버퍼의 변동 사항이 WAL(Write-Ahead Log) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)에 의해 디스크로 영구히 플러시(Flush)된다. 실무에서 이 각 언어의 내부 물리적 동작 파급력을 모르면, 대낮에 컬럼을 추가([DDL](/knowledge-base/studynote/05_database/01_db_architecture_relational/020_ddl/))하다가 전체 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 마비되는 대형 장애를 일으키게 된다.
 
@@ -101,22 +99,20 @@ tags = ["database"]
 
 아래는 애플리케이션 서버에서 반복 루프를 도는 것과 [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) 내부에서 절차적 언어([Stored Procedure](/knowledge-base/studynote/05_database/03_relational_model/186_stored_procedure_trigger/))를 도는 아키텍처의 네트워크 비용을 비교한 다이어그램이다.
 
+```text
+[A. App Server 루프: 네트워크 병목]
+ App ──(10만 번 SELECT/UPDATE 요청)──▶ DB
+  ▲                                    ▼ 
+  └─────(10만 번 결과 반환)────────────┘ => 엄청난 Network I/O 및 App 메모리 낭비
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">A. App Server 루프: 네트워크 병목</div></div>
-<div class="kb-diagram-note">App ──(10만 번 SELECT/UPDATE 요청)──▶ DB</div>
-<div class="kb-diagram-tree-item" style="--depth:1">(10만 번 결과 반환) =&gt; 엄청난 Network I/O 및 App 메모리 낭비</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">B. DB Stored Procedure (절차적 DML): 성능 최적화</div></div>
-<div class="kb-diagram-note">App ──("Call 정산_프로시저()") ▶ DB</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FOR 1..10만:</div><div class="kb-diagram-cell">(DB 엔진 내부에서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">UPDATE...</div><div class="kb-diagram-cell">메모리/디스크 간 고속 연산)</div></div>
-<div class="kb-diagram-note">◀──(완료 상태 1번 반환) =&gt; Network I/O 소멸, 초고속 처리</div>
-</div>
-</div>
-
-
+[B. DB Stored Procedure (절차적 DML): 성능 최적화]
+ App ──("Call 정산_프로시저()")───────▶ DB 
+                                     │ ┌───────────────┐
+                                     │ │ FOR 1..10만:  │ (DB 엔진 내부에서
+                                     │ │   UPDATE...   │  메모리/디스크 간 고속 연산)
+                                     │ └───────────────┘
+  ◀──(완료 상태 1번 반환)────────────┘ => Network I/O 소멸, 초고속 처리
+```
 
 이 비교도의 핵심은 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 있는 곳으로 컴퓨팅을 이동시킬 것인가(B방식)', 아니면 '컴퓨팅이 있는 곳으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가져올 것인가(A방식)'의 철학적 트레이드오프다. [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) 절차적 언어(프로시저)를 사용하면 10만 건의 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 처리할 때 발생하는 왕복 [네트워크 지연](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/)(Network Round-trip)을 완전히 소멸시킬 수 있다. 따라서 금융권 정산 시스템이나 통신사 빌링 시스템에서는 여전히 [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) 언어(PL/SQL)에 비즈니스 로직을 강하게 결합한다. 그러나, 이는 [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)([Scale-out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/))이 어려운 DB 서버의 CPU 자원을 고갈시키며, 추후 다른 벤더(예: [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/) -> PostgreSQL)로 시스템을 이전할 때 언어 비호환성으로 인해 막대한 마이그레이션 비용([Vendor Lock-in](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/254_cloud_vendor_lock_in_avoidance_portability_multi_cloud/))을 초래한다는 치명적인 단점을 지닌다. [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 환경에서는 A방식을 취하되 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 큐와 인메모리 캐시로 병목을 푸는 것이 트렌드다.
 
@@ -138,23 +134,17 @@ tags = ["database"]
 
 아래 플로우는 실무에서 대량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 갱신 또는 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 변경 시의 의사결정 안전망 프로세스를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">대용량 테이블 작업 요청</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">(Q1. 테이블 스키마 구조 변경인가?) ── 예 ──&gt;</div><div class="kb-diagram-node">DDL: ALTER/DROP</div><div class="kb-diagram-note">──&gt; 운영 피크시간 회피(락 유발), 백업 필수</div></div>
-<div class="kb-diagram-note">↓ 아니오 (데이터 내용 변경)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">(Q2. 조건에 맞는 일부 데이터만 지우는가?) ── 예 ──&gt;</div><div class="kb-diagram-node">DML: DELETE</div><div class="kb-diagram-note">──&gt; 트랜잭션 분할 처리(Chunking) 유도</div></div>
-<div class="kb-diagram-note">↓ 아니오 (전체 데이터 초기화)</div>
-<div class="kb-diagram-note">(Q3. 이 삭제 작업이 롤백되어야 할 여지가 있는가?)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ 아니오 ──&gt;</div><div class="kb-diagram-node">DDL: TRUNCATE</div><div class="kb-diagram-note">(초고속, 로그 없음, 고효율)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ 예 &gt;</div><div class="kb-diagram-node">DML: DELETE</div><div class="kb-diagram-note">(느림, 자원 고갈 주의 모니터링)</div></div>
-</div>
-</div>
-
-
+```text
+[대용량 테이블 작업 요청]
+   ↓
+(Q1. 테이블 스키마 구조 변경인가?) ── 예 ──> [DDL: ALTER/DROP] ──> 운영 피크시간 회피(락 유발), 백업 필수
+   ↓ 아니오 (데이터 내용 변경)
+(Q2. 조건에 맞는 일부 데이터만 지우는가?) ── 예 ──> [DML: DELETE] ──> 트랜잭션 분할 처리(Chunking) 유도
+   ↓ 아니오 (전체 데이터 초기화)
+(Q3. 이 삭제 작업이 롤백되어야 할 여지가 있는가?)
+   ├─ 아니오 ──> [DDL: TRUNCATE] (초고속, 로그 없음, 고효율)
+   └─ 예 ─────> [DML: DELETE] (느림, 자원 고갈 주의 모니터링)
+```
 
 이 [의사결정 트리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/)의 핵심은 '작업의 속도'와 '안전성([복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성)' 사이의 아슬아슬한 줄타기다. DDL은 강력하고 빠르지만 돌이킬 수 없는 파괴적인 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 가지며, 시스템 딕셔너리에 락을 걸어 장애 전파 범위가 전사적이다. 반면 DML은 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)이라는 안전망을 제공하지만 대량 작업 시 시스템 I/O를 마비시키는 주범이 된다. 실무 DBA와 아키텍트는 단순 기능 구현을 넘어, [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) 엔진 내부의 [Redo](/knowledge-base/studynote/05_database/04_transactions_concurrency/234_redo_roll_forward_durability_recovery/)/[Undo](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/) 로깅 매커니즘을 이해하고 상황에 맞는 무기를 꺼내 들어야 한다.
 
@@ -186,23 +176,21 @@ tags = ["database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DDL (Data Definition Language) — 스키마·테이블 구조 정의</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DML (Data Manipulation Language) — 데이터 삽입·조회·수정·삭제</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">TCL (Transaction Control Language) — COMMIT/ROLLBACK으로 원자성 보장</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DCL (Data Control Language) — 권한 부여·회수로 보안 제어</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SQL 표준 진화 — SQL-92 → SQL:1999 → SQL:2016 (JSON·윈도우 함수)</div></div>
-</div>
-</div>
-
-
+```text
+[DDL (Data Definition Language) — 스키마·테이블 구조 정의]
+    │
+    ▼
+[DML (Data Manipulation Language) — 데이터 삽입·조회·수정·삭제]
+    │
+    ▼
+[TCL (Transaction Control Language) — COMMIT/ROLLBACK으로 원자성 보장]
+    │
+    ▼
+[DCL (Data Control Language) — 권한 부여·회수로 보안 제어]
+    │
+    ▼
+[SQL 표준 진화 — SQL-92 → SQL:1999 → SQL:2016 (JSON·윈도우 함수)]
+```
 [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) 언어는 [DDL](/knowledge-base/studynote/05_database/01_db_architecture_relational/020_ddl/) → [DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/083_dml/) → [TCL](/knowledge-base/studynote/05_database/01_db_architecture_relational/023_tcl/) → DCL의 계층으로 구성되며, [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)는 DML을 물리적 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)으로 변환하는 핵심 엔진이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

@@ -51,18 +51,12 @@ Span은 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_re
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Dapper Span (Google, 2010)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Zipkin Span (2012)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">OpenTracing Span (2016)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">OTel Span (2019, 표준 통합)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: Span Links — 비동기 Span 연결</div></div>
-</div>
-</div>
-
-
+```text
+[Dapper Span (Google, 2010)] → [Zipkin Span (2012)]
+    → [OpenTracing Span (2016)]
+    → [OTel Span (2019, 표준 통합)]
+    → [현재: Span Links — 비동기 Span 연결]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. Span은 택배 추적의 <strong>각 물류센터 기록</strong>이에요.

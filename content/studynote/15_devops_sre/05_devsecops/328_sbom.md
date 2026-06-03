@@ -29,23 +29,30 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SBOM 생성 및 활용 파이프라인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소스코드 + 의존성 파일</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SCA 도구</div><div class="kb-diagram-cell">(Syft, Trivy, CycloneDX)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SBOM 파일 (SPDX 또는 CycloneDX 형식)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 컴포넌트명, 버전, 공급자</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 라이선스 (MIT, Apache 2.0, GPL)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 체크섬 (SHA-256)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CVE 취약점 조회 라이선스 컴플라이언스 VEX</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(NVD, OSV) 분석 악용 가능성</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────┐
+│              SBOM 생성 및 활용 파이프라인          │
+├────────────────────────────────────────────────┤
+│  소스코드 + 의존성 파일                           │
+│          │                                     │
+│          ▼                                     │
+│  ┌────────────────┐                            │
+│  │  SCA 도구       │  (Syft, Trivy, CycloneDX) │
+│  └───────┬────────┘                            │
+│          │                                     │
+│          ▼                                     │
+│  ┌────────────────────────────────────────┐   │
+│  │  SBOM 파일 (SPDX 또는 CycloneDX 형식)  │   │
+│  │  - 컴포넌트명, 버전, 공급자              │   │
+│  │  - 라이선스 (MIT, Apache 2.0, GPL)      │   │
+│  │  - 체크섬 (SHA-256)                     │   │
+│  └──────┬───────────────┬─────────────────┘   │
+│         │               │                      │
+│         ▼               ▼                      │
+│  CVE 취약점 조회    라이선스 컴플라이언스  VEX  │
+│  (NVD, OSV)        분석                악용 가능성│
+└────────────────────────────────────────────────┘
+```
 
 | [SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) 형식 | 특징 | 주도 기관 |
 |:---|:---|:---|
@@ -120,18 +127,13 @@ SBOM의 본질은 <strong>알 권리의 자동화</strong>다. 내가 사용하�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">공급망 보안 인식 전 SBOM 표준화 시대 법제화/자동화 시대</div>
-<div class="kb-diagram-note">수동 의존성 추적 → SPDX, CycloneDX 표준 → EO 14028 의무화</div>
-<div class="kb-diagram-note">SolarWinds 사고 Syft, Trivy 도구 등장 VEX 도입</div>
-<div class="kb-diagram-note">Log4Shell 대응 지연 이미지 레지스트리 통합 SLSA 프레임워크</div>
-</div>
-</div>
-
-
+```text
+공급망 보안 인식 전          SBOM 표준화 시대            법제화/자동화 시대
+──────────────────    ──────────────────────────   ───────────────────────
+수동 의존성 추적      →  SPDX, CycloneDX 표준    →  EO 14028 의무화
+SolarWinds 사고           Syft, Trivy 도구 등장       VEX 도입
+Log4Shell 대응 지연        이미지 레지스트리 통합         SLSA 프레임워크
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -7,7 +7,7 @@ tags = ["devops_sre"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: SRE (Site Reliability Engineering)는 소프트웨어 엔지니어링 방법론을 운영 문제에 적용하여 시스템 신뢰성을 관리하는 실천론이며, 관측성 (Observability)은 로그, 메트릭, 트레이스를 통해 복잡한 분산 시스템의 내부 상태를 외부에서 파악하는 능력이다.
+> 1. **본질**: SRE (Site Reliability 엔진ering)는 소프트웨어 엔지니어링 방법론을 운영 문제에 적용하여 시스템 신뢰성을 관리하는 실천론이며, 관측성 (Observability)은 로그, 메트릭, 트레이스를 통해 복잡한 분산 시스템의 내부 상태를 외부에서 파악하는 능력이다.
 > 2. **가치**: SLI/SLO 설정을 통해 서비스 가용성을 정량적으로 관리하고, '에러 버짓 (Error Budget)'을 활용하여 개발 속도와 운영 안정성 사이의 전략적 타협점을 도출한다.
 > 3. **융합**: 분산 추적 (Tracing)과 지능형 알람 기술이 결합되어, 장애 발생 시 근본 원인 분석 (RCA) 시간을 단축하고 장애가 비즈니스에 미치는 영향을 최소화하는 회복 탄력성 (Resilience)을 확보한다.
 
@@ -23,22 +23,26 @@ SRE 및 관측성이 필요한 이유는 세 가지이다. 첫째, <strong>데�
 
 이 그림은 SRE의 핵심 구성 요소인 SLI, SLO, SLA의 관계를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SRE Reliability Metrics Hierarchy</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SLA</div><div class="kb-diagram-note">(Service Level Agreement) - 비즈니스/법적 약속</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SLO</div><div class="kb-diagram-note">(Service Level Objective) - 내부 관리 목표</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SLI</div><div class="kb-diagram-note">(Service Level Indicator) - 실제 측정 지표</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 예시:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- SLI: 응답 성공률</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- SLO: 한 달간 성공률 99.9% 유지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- SLA: 99.9% 미달 시 요금 환불</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 SRE Reliability Metrics Hierarchy           │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ SLA ] (Service Level Agreement) - 비즈니스/법적 약속    │
+│      │                                                      │
+│      ▼                                                      │
+│   [ SLO ] (Service Level Objective) - 내부 관리 목표        │
+│      │                                                      │
+│      ▼                                                      │
+│   [ SLI ] (Service Level Indicator) - 실제 측정 지표        │
+│                                                             │
+│   * 예시:                                                   │
+│     - SLI: 응답 성공률                                      │
+│     - SLO: 한 달간 성공률 99.9% 유지                        │
+│     - SLA: 99.9% 미달 시 요금 환불                          │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '보수적인 목표 설정'이다. 고객과의 약속 (SLA)보다는 내부 목표 (SLO)를 더 엄격하게 잡아, 문제가 커지기 전에 미리 대응할 여유를 갖는다. 실무에서는 이 차이가 바로 <strong>에러 버짓 (Error Budget)</strong>이 되어 팀의 혁신 속도를 조절한다.
 
@@ -69,21 +73,25 @@ SRE 및 관측성이 필요한 이유는 세 가지이다. 첫째, <strong>데�
 
 이 구조도는 <strong>Prometheus와 Grafana</strong>를 활용한 현대적 관측성 인프라를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Observability Stack Architecture</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Target App</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Exporter / Agent</div><div class="kb-diagram-note">──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Pull/Push)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Prometheus (TSDB)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Grafana (Dashboards)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Alertmanager</div><div class="kb-diagram-note">─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Slack / PagerDuty)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 단순 수치 수집을 넘어, 이상 징후 발생 시 즉시 알람</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Observability Stack Architecture            │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Target App ] ──▶ [ Exporter / Agent ] ──┐               │
+│                                             │ (Pull/Push)   │
+│   ┌─────────────────────────────────────────┘               │
+│   ▼                                                         │
+│   [ Prometheus (TSDB) ] ──▶ [ Grafana (Dashboards) ]        │
+│          │                          ▲                       │
+│          └──────▶ [ Alertmanager ] ─┘                       │
+│                        │                                    │
+│                 (Slack / PagerDuty)                         │
+│                                                             │
+│   * 핵심: 단순 수치 수집을 넘어, 이상 징후 발생 시 즉시 알람 │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '실시간성'이다. 시계열 데이터베이스 (TSDB)를 통해 초 단위의 변화를 감지하고, 이를 시각화하여 운영자의 상황 인지 능력을 극대화한다. 실무에서는 이러한 대시보드가 '워룸 (War Room)'의 중심이 되어 빠른 의사결정을 돕는다.
 
@@ -125,21 +133,21 @@ SRE 및 관측성이 필요한 이유는 세 가지이다. 첫째, <strong>데�
 
 이 도식은 기술사가 주도하는 '장애 사후 복기 (Post-mortem)'의 표준 템플릿을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Blameless Post-mortem Structure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 개요: 발생 시각, 영향도, 감지 경로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 타임라인: 최초 징후부터 복구 완료까지의 기록</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 근본 원인 (Root Cause): 5-Whys 분석</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 대응 과정: 무엇이 잘 되었고, 무엇이 어려웠나?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 재발 방지 대책: 자동화된 방어막 구축 계획</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 철학: "사람을 비난하지 말고, 시스템의 구멍을 찾아라"</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│               Blameless Post-mortem Structure               │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   1. 개요: 발생 시각, 영향도, 감지 경로                     │
+│   2. 타임라인: 최초 징후부터 복구 완료까지의 기록           │
+│   3. 근본 원인 (Root Cause): 5-Whys 분석                    │
+│   4. 대응 과정: 무엇이 잘 되었고, 무엇이 어려웠나?         │
+│   5. 재발 방지 대책: 자동화된 방어막 구축 계획              │
+│                                                             │
+│   * 철학: "사람을 비난하지 말고, 시스템의 구멍을 찾아라"    │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 기술사의 SRE 판단은 '사고 조사 위원회'의 역할과 같습니다. 비행기 사고가 났을 때 조종사를 탓하기보다, 기체의 결함이나 관제 시스템의 허점을 찾아내어 전 세계 비행기가 다시는 똑같은 사고를 내지 않게 만드는 전문가입니다.
 

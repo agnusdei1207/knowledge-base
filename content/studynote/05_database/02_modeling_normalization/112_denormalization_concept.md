@@ -20,23 +20,20 @@ tags = ["studynote-database"]
 
 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)된 스키마는 이론적으로 완벽하지만, 실제 [OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/) 시스템에서 수천만 건 테이블의 3~5중 조인은 DB CPU를 폭발시킨다. [역정규화](/knowledge-base/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/)는 이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목을 해소하되, <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a> 훼손을 최소화하는 균형점</strong>을 찾는 것이 핵심이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">논리 설계 → 물리 설계 흐름에서의 역정규화 위치</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">요구 분석</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">개념 설계(ERD)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">논리 설계(정규화: 3NF/BCNF)</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">무결성 확보</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">물리 설계(역정규화)</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">성능 최적화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 중복 컬럼 추가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 테이블 병합</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 파생 컬럼 추가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 테이블 분할 (수평/수직)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">구현·튜닝</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    논리 설계 → 물리 설계 흐름에서의 역정규화 위치       │
+├───────────────────────────────────────────────────────┤
+│  [요구 분석] → [개념 설계(ERD)]                       │
+│       → [논리 설계(정규화: 3NF/BCNF)] ← 무결성 확보   │
+│       → [물리 설계(역정규화)] ← 성능 최적화            │
+│            └── 중복 컬럼 추가                          │
+│            └── 테이블 병합                              │
+│            └── 파생 컬럼 추가                           │
+│            └── 테이블 분할 (수평/수직)                  │
+│       → [구현·튜닝]                                    │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)가 "모든 서류를 종류별 캐비닛에 정리"하는 것이라면, [역정규화](/knowledge-base/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/)는 "자주 찾는 서류 3장을 책상 위에도 복사해 두는" 실용적 타협이다.
 
@@ -107,23 +104,21 @@ tags = ["studynote-database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">정규화 이론 (Codd, 1970s) — 무결성 중심 논리 설계</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">역정규화 실무 패턴 (1990s) — 대용량 OLTP 성능 병목 해소</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DW Star/Snowflake Schema (2000s) — 분석 환경 전면 역정규화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CQRS 패턴 (2010s) — 쓰기(정규화)와 읽기(역정규화) 완전 분리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: NewSQL + Materialized View — 정규화 유지하면서 읽기 성능 확보</div></div>
-</div>
-</div>
-
-
+```text
+[정규화 이론 (Codd, 1970s) — 무결성 중심 논리 설계]
+    │
+    ▼
+[역정규화 실무 패턴 (1990s) — 대용량 OLTP 성능 병목 해소]
+    │
+    ▼
+[DW Star/Snowflake Schema (2000s) — 분석 환경 전면 역정규화]
+    │
+    ▼
+[CQRS 패턴 (2010s) — 쓰기(정규화)와 읽기(역정규화) 완전 분리]
+    │
+    ▼
+[현재: NewSQL + Materialized View — 정규화 유지하면서 읽기 성능 확보]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)는 <strong>모든 장난감을 종류별 상자에 깔끔하게 정리</strong>하는 거예요.

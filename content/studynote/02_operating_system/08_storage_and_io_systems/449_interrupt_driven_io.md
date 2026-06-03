@@ -27,25 +27,29 @@ tags = ["studynote-operating-system"]
   2. **하드웨어 칩셋(PIC/APIC)의 도입**: 수십 개의 디바이스가 동시에 쏘는 전기 충격을 줄 세우고 우선순위를 매기는 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 컨트롤러가 메인보드에 이식됨.
   3. **비동기 OS의 탄생**: [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)의 굴레를 벗은 운영체제는 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 기반으로 한 '이벤트 드리븐(Event-Driven)' 생태계로 폭발적인 진화를 이루었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인터럽트(Interrupt)가 구원한 CPU 가동률의 마법 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황: 카카오톡이 디스크에서 4KB 파일 A를 읽으려 함</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1.</div><div class="kb-diagram-node">카카오톡</div><div class="kb-diagram-note">"OS야, 파일 A 디스크에서 좀 퍼와!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2.</div><div class="kb-diagram-node">OS</div><div class="kb-diagram-note">디스크 컨트롤러(하드웨어)에게 "A 파일 읽기 시작해" 명령 던짐.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3. ♻️</div><div class="kb-diagram-node">OS의 신들린 스위칭</div><div class="kb-diagram-note">"디스크 바늘 돌아갈 때까지 카톡 너 자!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 즉시 '엑셀(Excel)' 앱을 깨워서 CPU에 태워 계산을 미친듯이 돌림!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(디스크가 8ms 동안 덜그럭거리는 사이 CPU는 엑셀 1만 줄 연산 완료)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">4.</div><div class="kb-diagram-node">하드디스크 완료</div><div class="kb-diagram-note">"다 읽었음! 찌릿 ⚡ (인터럽트 빵!)"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">5.</div><div class="kb-diagram-node">💥 CPU 멈칫</div><div class="kb-diagram-note">엑셀 하던 거 스탑(저장). "누가 전기 쐈냐?"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS: "오 디스크가 짐 다 가져왔네! 커널 버퍼에서 유저 버퍼로 복사!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">6.</div><div class="kb-diagram-node">카카오톡 부활</div><div class="kb-diagram-note">잠자던 카톡을 깨워서 파일 A를 주고 실행 재개!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│        인터럽트(Interrupt)가 구원한 CPU 가동률의 마법 시각화            │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│ [ 상황: 카카오톡이 디스크에서 4KB 파일 A를 읽으려 함 ]                  │
+│                                                                         │
+│ 1. [ 카카오톡 ] "OS야, 파일 A 디스크에서 좀 퍼와!"                      │
+│                                                                         │
+│ 2. [ OS ] 디스크 컨트롤러(하드웨어)에게 "A 파일 읽기 시작해" 명령 던짐. │
+│                                                                         │
+│ 3. ♻️ [ OS의 신들린 스위칭 ] "디스크 바늘 돌아갈 때까지 카톡 너 자!"    │
+│    ──▶ 즉시 '엑셀(Excel)' 앱을 깨워서 CPU에 태워 계산을 미친듯이 돌림!  │
+│    (디스크가 8ms 동안 덜그럭거리는 사이 CPU는 엑셀 1만 줄 연산 완료)    │
+│                                                                         │
+│ 4. [ 하드디스크 완료 ] "다 읽었음! 찌릿 ⚡ (인터럽트 빵!)"              │
+│                                                                         │
+│ 5. [ 💥 CPU 멈칫 ] 엑셀 하던 거 스탑(저장). "누가 전기 쐈냐?"           │
+│    OS: "오 디스크가 짐 다 가져왔네! 커널 버퍼에서 유저 버퍼로 복사!"    │
+│                                                                         │
+│ 6. [ 카카오톡 부활 ] 잠자던 카톡을 깨워서 파일 A를 주고 실행 재개!      │
+└─────────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 이것이 바로 스티브 잡스나 빌 게이츠가 자랑하던 "우리 OS는 수십 개의 앱이 동시에 돌아갑니다!"라는 뻥카의 물리적 실체다. 사실 CPU는 한 번에 1개밖에 못 하지만, 누군가 I/O를 하러 갈 때마다 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 믿고 냅다 다른 앱으로 갈아타는 짓(Time-sharing)을 1초에 수백 번씩 시전 하니, 유저 눈에는 카톡과 엑셀이 동시에 도는 기적이 연출되는 것이다.
 
 - **📢 섹션 요약 비유**: 요리사(CPU)가 스테이크를 오븐(디스크)에 넣었습니다. 오븐 앞에서 다 익을 때까지 가만히 서 있는 게([폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)) 아니라, 곧바로 도마로 돌아와 양파(엑셀)를 미친 듯이 썹니다. 오븐이 "땡!([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))" 하고 울리면 양파 썰기를 멈추고 고기를 꺼낸 뒤, 다시 양파를 마저 써는 100점짜리 주방(OS) 운영법입니다.
@@ -98,17 +102,14 @@ CPU가 전기를 맞고 깜짝 놀라면, 뇌를 포맷하고 어디론가 점�
 - CPU는 엑셀을 0.0001초 하다가 벼락([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))을 맞고 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 들어가 패킷을 줍고 엑셀로 돌아온다. 돌아오자마자 또 벼락을 맞고 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)로 끌려간다.
 - **결과**: CPU 코어 사용률이 100%(`si` Software [Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))를 찍는데, 정작 엑셀이나 유저 앱 처리는 0.1%도 못 하고, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 함수로 널뛰기([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))하다가 클럭을 다 날려버리는 <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/315_livelock_vs_deadlock/">라이브락</a>(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/315_livelock_vs_deadlock/">Livelock</a>)</strong> 상태에 빠진다. (서버 다운의 주원인).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">트래픽 양</div><div class="kb-diagram-cell">폴링의 성능</div><div class="kb-diagram-cell">인터럽트 성능</div><div class="kb-diagram-cell">시스템 최후 결단</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가끔 옴</div><div class="kb-diagram-cell">☠️ CPU 낭비</div><div class="kb-diagram-cell">🚀 극강의 효율</div><div class="kb-diagram-cell">인터럽트가 지배함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">미친듯 쏟아짐</div><div class="kb-diagram-cell">🚀 초고속 흡수</div><div class="kb-diagram-cell">☠️ 서버 멈춤 폭발</div><div class="kb-diagram-cell">폴링으로 다시 회귀 (NAPI)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬───────────────────────────────────────────┐
+│ 트래픽 양  │ 폴링의 성능  │ 인터럽트 성능 │ 시스템 최후 결단                   │
+├──────────┼────────────┼────────────┼───────────────────────────────────────────┤
+│ 가끔 옴   │ ☠️ CPU 낭비 │ 🚀 극강의 효율│ 인터럽트가 지배함                    │
+│ 미친듯 쏟아짐│ 🚀 초고속 흡수│ ☠️ 서버 멈춤 폭발│ **폴링으로 다시 회귀 (NAPI)**│
+└──────────┴────────────┴────────────┴───────────────────────────────────────────┘
+```
 **[매트릭스 해설]** 리눅스 해커들은 이 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 폭풍을 견디지 못하고 결국 무릎을 꿇었다. 패킷이 폭우처럼 쏟아질 때는, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 핀을 강제로 뽑아버리고(Disable) CPU가 무식하게 루프를 돌며 덩어리로 퍼오는 <strong>'<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/">폴링</a>' 방식으로 자동 전환하는 하이브리드 아키텍처(NAPI, <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">New</a> <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a>)</strong>를 도입하여 10G 네트워크 서버의 숨통을 틔웠다.
 
 - **📢 섹션 요약 비유**: 카톡이 1시간에 1번 올 땐 '소리 알림([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))'을 켜두고 폰 끄고 노는 게 최고입니다. 하지만 인기스타가 되어 카톡이 1초에 100개씩 쏟아지면, 폰이 "카톡!카톡!" 울리다 렉걸려 뻗어버립니다([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 스톰). 이때는 아예 무음([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 차단)으로 해놓고 내가 화면을 계속 켜둔 채로 직접 읽어대는([폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)) 게 눈과 귀가 편한 이치입니다.
@@ -166,19 +167,15 @@ C언어 디바이스 드라이버를 짤 때 절대 하면 안 되는 우주 최
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">폴링 (Polling / Programmed I/O)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">인터럽트 구동 I/O (Interrupt-driven I/O)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">직접 메모리 접근 (DMA, Direct Memory Access)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">사이클 스틸링 (Cycle Stealing)</div></div>
-</div>
-</div>
-
-
+```text
+[폴링 (Polling / Programmed I/O)]
+    │
+    ▼
+[인터럽트 구동 I/O (Interrupt-driven I/O)]
+    │
+    ├──▶ [직접 메모리 접근 (DMA, Direct Memory Access)]
+    └──▶ [사이클 스틸링 (Cycle Stealing)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

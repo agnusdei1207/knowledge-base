@@ -40,24 +40,24 @@ CDMA의 기적은 협대역 [신호](/knowledge-base/studynote/02_operating_syst
 
 송신측에서는 느린 속도의 음성 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 매우 빠른 속도의 암호 코드(Chip)를 곱(XOR)하여 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 전체로 넓게 확산시킨다. 이 확산된 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)는 대기 중의 다른 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)들과 섞여 노이즈처럼 보인다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CDMA 확산 및 역확산 (Spread / Despread) 원리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">송신부: 대역 확산</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">협대역 데이터 (Data)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (XOR 내적) 무선 공간 (섞임)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">퍼진 신호 + 타인 신호 + 잡음</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">수신부: 역확산 및 복원</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원본 복원 데이터 ◀ (XOR 내적) ◀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정확히 같은 직교 코드 (Code) 적용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 내 코드를 곱하면 내 신호는 뾰족하게 솟아오르고,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">남의 신호나 잡음은 여전히 바닥에 넓게 퍼진 소음으로 남는다.</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           CDMA 확산 및 역확산 (Spread / Despread) 원리       │
+├──────────────────────────────────────────────────────────────┤
+│ [송신부: 대역 확산]                                            │
+│ 협대역 데이터 (Data)                                           │
+│       │                                                      │
+│       ▼ (XOR 내적)       무선 공간 (섞임)                       │
+│ 직교 코드 (Code) ──────▶ [퍼진 신호 + 타인 신호 + 잡음] ──────┐│
+│                                                              ││
+│ [수신부: 역확산 및 복원]                                         ││
+│ 원본 복원 데이터 ◀────── (XOR 내적) ◀────────────────────────┘│
+│                         정확히 같은 직교 코드 (Code) 적용         │
+│                                                              │
+│ * 핵심: 내 코드를 곱하면 내 신호는 뾰족하게 솟아오르고,             │
+│         남의 신호나 잡음은 여전히 바닥에 넓게 퍼진 소음으로 남는다.    │
+└──────────────────────────────────────────────────────────────┘
+```
 
 수신부는 자신과 약속된 정확한 코드를 다시 곱해 역확산(Despread)을 수행한다. 이때 직교성의 수학적 마법에 의해 타인의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)는 적분 시 0에 수렴하여 배경 잡음(Noise Floor)으로 가라앉고, 나의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)만 원래 에너지로 증폭되어 깨끗하게 분리된다.
 
@@ -118,23 +118,21 @@ CDMA는 주파수라는 한정된 부동산을 물리적으로 쪼개야 한다�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">자원의 물리적 분할 (FDMA / TDMA)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DSSS (직접 대역 확산) 기반의 항재밍 군사 기술</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CDMA 상용화 · 자원 공유 및 왈시 코드 직교성 부여</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">W-CDMA / CDMA2000 (3G 초고속 동기/비동기 진화)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">OFDMA 전환 (4G/5G · 코드 자원 한계 돌파 및 부반송파 분할)</div>
-</div>
-</div>
-
-
+```text
+자원의 물리적 분할 (FDMA / TDMA)
+    │
+    ▼
+DSSS (직접 대역 확산) 기반의 항재밍 군사 기술
+    │
+    ▼
+CDMA 상용화 · 자원 공유 및 왈시 코드 직교성 부여
+    │
+    ▼
+W-CDMA / CDMA2000 (3G 초고속 동기/비동기 진화)
+    │
+    ▼
+OFDMA 전환 (4G/5G · 코드 자원 한계 돌파 및 부반송파 분할)
+```
 
 이 흐름도는 통신 패러다임이 공간 쪼개기에서 코드 공유로 갔다가, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 폭증으로 인해 다시 직교 주파수 분할로 회귀하되 직교성을 극대화하는 방향으로 발전했음을 나타낸다.
 

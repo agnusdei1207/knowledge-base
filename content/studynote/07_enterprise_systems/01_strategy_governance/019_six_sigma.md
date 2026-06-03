@@ -27,23 +27,24 @@ tags = ["enterprise_systems"]
 
 아래 도식은 왜 중심 이동뿐 아니라 산포([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 퍼짐)를 줄이는 것이 [식스 시그마](/knowledge-base/studynote/04_software_engineering/06_software_architecture/351_six_sigma/)의 핵심인지 보여주는 [정규 분포](/knowledge-base/studynote/08_algorithm_stats/08_stats/138_normal_distribution/) 개념도이다.
 
+```text
+[ 식스 시그마 통계적 개념 (정규 분포 곡선) ]
 
+     (나쁜 품질: 산포가 넓어 규격을 벗어나는 불량 발생)
+              규격 하한(LSL)         규격 상한(USL)
+                  │ ╭───────────┴───────────╮ │
+                  │/          평균           \│  <-- 꼬리 부분이 규격 밖(불량)
+                  /            │              \
+                ─/─────────────┼───────────────\─ 
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">식스 시그마 통계적 개념 (정규 분포 곡선)</div></div>
-<div class="kb-diagram-note">(나쁜 품질: 산포가 넓어 규격을 벗어나는 불량 발생)</div>
-<div class="kb-diagram-note">규격 하한(LSL) 규격 상한(USL)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ 평균 \</div><div class="kb-diagram-cell">&lt;-- 꼬리 부분이 규격 밖(불량)</div></div>
-<div class="kb-diagram-note">(식스 시그마 품질: 산포가 극도로 좁아 규격 내에 완벽히 들어옴)</div>
-<div class="kb-diagram-note">규격 하한(LSL) 규격 상한(USL)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── ──</div><div class="kb-diagram-cell">&lt;-- ±6σ 범위가 규격 한계 내에 존재</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/</div><div class="kb-diagram-cell">\</div><div class="kb-diagram-cell">(불량률 3.4 PPM)</div></div>
-<div class="kb-diagram-tree-item" style="--depth:8">6σ 0 +6σ</div>
-</div>
-</div>
-
-
+     (식스 시그마 품질: 산포가 극도로 좁아 규격 내에 완벽히 들어옴)
+              규격 하한(LSL)         규격 상한(USL)
+                  │            │            │
+                  │         ╭──┴──╮         │  <-- ±6σ 범위가 규격 한계 내에 존재
+                  │        /   │   \        │      (불량률 3.4 PPM)
+                ──┼───────/────┼────\───────┼──
+                    -6σ       0       +6σ
+```
 
 이 그림의 핵심은 과녁의 정중앙(평균)을 맞추는 것도 중요하지만, 화살들이 얼마나 중앙에 조밀하게 모여 있는가(산포, 변동성)를 통제하는 것이 [식스 시그마](/knowledge-base/studynote/04_software_engineering/06_software_architecture/351_six_sigma/)의 본질이라는 점이다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 시간, 제품의 크기 등 모든 비즈니스 활동에는 필연적으로 변동성이 존재한다. [식스 시그마](/knowledge-base/studynote/04_software_engineering/06_software_architecture/351_six_sigma/)는 이 변동폭을 극한으로 좁혀서 어떤 상황에서도 결과물이 규격 한계(USL/LSL)를 벗어나지 않도록 통제하는 과학적 접근이다.
 
@@ -69,25 +70,20 @@ tags = ["enterprise_systems"]
 
 아래의 흐름도는 DMAIC의 정보 처리 및 함수적($Y = f(X)$) 사고 흐름을 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)한 것이다.
 
+```text
+[ DMAIC의 함수적 문제 해결 흐름도: Y = f(X) ]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DMAIC의 함수적 문제 해결 흐름도: Y = f(X)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Define</div><div class="kb-diagram-note">고객이 원하는 결과물 'Y' (CTQ)를 정의한다. (예: 배송 시간)</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Measure</div><div class="kb-diagram-note">현재의 Y가 얼마나 나쁜지 통계 수치로 측정한다.</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Analyze</div><div class="kb-diagram-note">Y를 변하게 만드는 수많은 원인 변수(X1, X2... Xn) 중</div></div>
-<div class="kb-diagram-note">결정적 영향을 미치는 '핵심 X (Vital Few X's)'를 찾아낸다.</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Improve</div><div class="kb-diagram-note">핵심 X의 값을 어떻게 세팅해야 Y가 최적의 값을 갖는지 공식을 찾고 고친다.</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Control</div><div class="kb-diagram-note">X가 정해진 범위를 벗어나지 않도록 대시보드와 규정으로 통제한다.</div></div>
-</div>
-</div>
-
-
+[ Define ]    고객이 원하는 결과물 'Y' (CTQ)를 정의한다. (예: 배송 시간)
+    ↓
+[ Measure ]   현재의 Y가 얼마나 나쁜지 통계 수치로 측정한다.
+    ↓
+[ Analyze ]   Y를 변하게 만드는 수많은 원인 변수(X1, X2... Xn) 중 
+              결정적 영향을 미치는 '핵심 X (Vital Few X's)'를 찾아낸다.
+    ↓
+[ Improve ]   핵심 X의 값을 어떻게 세팅해야 Y가 최적의 값을 갖는지 공식을 찾고 고친다.
+    ↓
+[ Control ]   X가 정해진 범위를 벗어나지 않도록 대시보드와 규정으로 통제한다.
+```
 
 이 메커니즘의 핵심은 문제를 감정에 의존해 해결하지 않고 수학 함수 **$Y = f(x)$** 로 환원한다는 점이다. 결과($Y$)에 문제가 생겼을 때 결과를 직접 뜯어고치려 하는 것은 사후약방문이다. [식스 시그마](/knowledge-base/studynote/04_software_engineering/06_software_architecture/351_six_sigma/)는 결과를 만들어내는 원인 변수($X$)들을 계량화하고, 가장 영향력이 큰 핵심 인자(Vital Few X)를 찾아내어 원천적으로 제어(Control)함으로써, 결과($Y$)가 무조건 정상이 나오도록 보장하는 선제적 품질 관리 체계다.
 
@@ -112,25 +108,22 @@ tags = ["enterprise_systems"]
 
 아래의 비교도는 전통적 품질 관리(TQM)와 [식스 시그마](/knowledge-base/studynote/04_software_engineering/06_software_architecture/351_six_sigma/)의 구조적 차이를 보여준다.
 
+```text
+[ 전통적 TQM vs 식스 시그마 운영 체계 비교 ]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">전통적 TQM vs 식스 시그마 운영 체계 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">TQM: 분산/자율형</div><div class="kb-diagram-node">Six Sigma: 전문가 주도/계층형</div></div>
-<div class="kb-diagram-note">(스폰서) 챔피언 (Champion)</div>
-<div class="kb-diagram-note">품질관리부서 중심의 캠페인</div>
-<div class="kb-diagram-note">▼ 전담/지원</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마스터 블랙벨트 (MBB)</div></div>
-<div class="kb-diagram-note">현업부서 현업부서</div>
-<div class="kb-diagram-note">(품질은 부수적) (품질은 부수적) ▼ 프로젝트 리더 (풀타임)</div>
-<div class="kb-diagram-note">블랙벨트 (Black Belt)</div>
-<div class="kb-diagram-note">▼ 현업 전문가 (파트타임)</div>
-<div class="kb-diagram-note">그린벨트 (Green Belt)</div>
-</div>
-</div>
-
-
+[ TQM: 분산/자율형 ]                    [ Six Sigma: 전문가 주도/계층형 ]
+                                           
+                                           (스폰서) 챔피언 (Champion)
+      품질관리부서 중심의 캠페인                  │
+ ┌────────┴────────┐                              ▼ 전담/지원
+ │                 │                       마스터 블랙벨트 (MBB)
+현업부서        현업부서                           │
+(품질은 부수적) (품질은 부수적)                    ▼ 프로젝트 리더 (풀타임)
+                                           블랙벨트 (Black Belt)
+                                                  │
+                                                  ▼ 현업 전문가 (파트타임)
+                                           그린벨트 (Green Belt)
+```
 
 이 비교도의 핵심은 조직 운영 방식의 차이다. 과거의 품질 관리(TQM)가 직원들의 자발적인 참여나 캠페인성 표어에 의존했다면, [식스 시그마](/knowledge-base/studynote/04_software_engineering/06_software_architecture/351_six_sigma/)는 통계 분석 전문가로 육성된 <strong>'벨트(Belt) 체계'</strong>를 갖춘 엘리트 중심의 하향식([Top-down](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/402_top_down_integration/)) 실행 조직을 운영한다. 블랙벨트(Black Belt)는 기존 업무를 놓고 [식스 시그마](/knowledge-base/studynote/04_software_engineering/06_software_architecture/351_six_sigma/) 프로젝트만 전담하며 성과에 대한 확실한 인사 평가와 금전적 보상을 받는다. 이처럼 철저한 조직화와 재무적 성과 연계 시스템이 [식스 시그마](/knowledge-base/studynote/04_software_engineering/06_software_architecture/351_six_sigma/)를 강력하게 만든 근본 원동력이다.
 
@@ -186,21 +179,18 @@ tags = ["enterprise_systems"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">품질 비용 (COPQ) 문제 인식 — 결함으로 인한 손실 정량화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">식스 시그마 (Six Sigma) DMAIC — 정의·측정·분석·개선·통제</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">린 식스 시그마 (Lean Six Sigma) — 낭비 제거 + 변동 축소 융합</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">디지털 식스 시그마 — AI·RPA 활용 프로세스 자동화·최적화</div></div>
-</div>
-</div>
-
-
+```text
+[품질 비용 (COPQ) 문제 인식 — 결함으로 인한 손실 정량화]
+    │
+    ▼
+[식스 시그마 (Six Sigma) DMAIC — 정의·측정·분석·개선·통제]
+    │
+    ▼
+[린 식스 시그마 (Lean Six Sigma) — 낭비 제거 + 변동 축소 융합]
+    │
+    ▼
+[디지털 식스 시그마 — AI·RPA 활용 프로세스 자동화·최적화]
+```
 [식스 시그마](/knowledge-base/studynote/04_software_engineering/06_software_architecture/351_six_sigma/)는 DMAIC 방법론으로 프로세스 변동을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반으로 줄이며, 린과 결합한 린 [식스 시그마](/knowledge-base/studynote/04_software_engineering/06_software_architecture/351_six_sigma/)로 발전해 [디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/)까지 이어진다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

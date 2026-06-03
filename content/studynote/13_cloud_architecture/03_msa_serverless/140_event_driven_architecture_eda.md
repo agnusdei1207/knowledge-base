@@ -18,17 +18,11 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">동기 (REST): A→B→C (체이닝, 블로킹)</div>
-<div class="kb-diagram-note">비동기 (EDA): A→이벤트→Kafka→B, C (독립 소비, 비블로킹)</div>
-<div class="kb-diagram-note">→ 생산자·소비자 독립 → 느슨 결합 → 확장성↑</div>
-</div>
-</div>
-
-
+```text
+동기 (REST): A→B→C (체이닝, 블로킹)
+비동기 (EDA): A→이벤트→Kafka→B, C (독립 소비, 비블로킹)
+  → 생산자·소비자 독립 → 느슨 결합 → 확장성↑
+```
 
 - **📢 섹션 요약 비유**: REST는 전화(응답 대기), EDA는 <strong>게시판(올리면 관심있는 사람이 봄)</strong>이다.
 
@@ -52,18 +46,12 @@ EDA는 <strong>MSA의 느슨 결합·확장성을 실현하는 핵심 아키텍�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">동기 RPC (2000s)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">메시지 큐 (RabbitMQ, 2007)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Kafka (2011, 대용량 이벤트)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">EDA + MSA (2016~)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: EventBridge·Eventarc — 서버리스 EDA</div></div>
-</div>
-</div>
-
-
+```text
+[동기 RPC (2000s)] → [메시지 큐 (RabbitMQ, 2007)]
+    → [Kafka (2011, 대용량 이벤트)]
+    → [EDA + MSA (2016~)]
+    → [현재: EventBridge·Eventarc — 서버리스 EDA]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. EDA는 <strong>게시판</strong>이에요. 소식(이벤트)을 올리면 **관심있는 사람이 봐요**.

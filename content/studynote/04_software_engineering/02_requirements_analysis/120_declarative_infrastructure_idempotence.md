@@ -18,23 +18,21 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">명령형 vs 선언적 + 멱등성</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">명령형 (비멱등)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1번 실행: apt install nginx → 설치됨 ✅</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2번 실행: apt install nginx → 이미 설치, 에러? ⚠️</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">선언적 (멱등)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1번 실행: state=present → nginx 설치됨 ✅</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2번 실행: state=present → 이미 있음, 변경 없음 ✅</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3번 실행: state=present → 여전히 변경 없음 ✅</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 같은 코드 몇 번 실행해도 항상 같은 결과!</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    명령형 vs 선언적 + 멱등성                          │
+├───────────────────────────────────────────────────────┤
+│  [명령형 (비멱등)]                                    │
+│   1번 실행: apt install nginx → 설치됨 ✅            │
+│   2번 실행: apt install nginx → 이미 설치, 에러? ⚠️  │
+│                                                       │
+│  [선언적 (멱등)]                                      │
+│   1번 실행: state=present → nginx 설치됨 ✅           │
+│   2번 실행: state=present → 이미 있음, 변경 없음 ✅   │
+│   3번 실행: state=present → 여전히 변경 없음 ✅       │
+│   → 같은 코드 몇 번 실행해도 항상 같은 결과!        │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/)은 엘리베이터 버튼이다. 1번 누르나 10번 누르나 <strong>같은 층에 도착</strong>한다.
 
@@ -99,23 +97,21 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">쉘 스크립트 (명령형, 비멱등, 2000s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Puppet/Chef (2005~) — 선언적 구성 관리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Ansible (2012) — YAML 선언적, 에이전트리스</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Terraform (2014) — 멀티클라우드 선언적 IaC</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: K8s + GitOps — 선언적+멱등의 완전체</div></div>
-</div>
-</div>
-
-
+```text
+[쉘 스크립트 (명령형, 비멱등, 2000s)]
+    │
+    ▼
+[Puppet/Chef (2005~) — 선언적 구성 관리]
+    │
+    ▼
+[Ansible (2012) — YAML 선언적, 에이전트리스]
+    │
+    ▼
+[Terraform (2014) — 멀티클라우드 선언적 IaC]
+    │
+    ▼
+[현재: K8s + GitOps — 선언적+멱등의 완전체]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 명령형은 "에어컨 켜, 25도로 맞춰"라고 **하나하나** 말하는 거예요.

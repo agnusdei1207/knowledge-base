@@ -44,21 +44,23 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 `A + B`를 0-주소 방식으로 계산할 때, "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 짧아지는 대신 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 질서가 필수"라는 점을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0-주소 명령어의 실행 흐름: 주소 대신 스택 순서 사용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) PUSH A 2) PUSH B 3) ADD</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Stack Stack Stack</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A</div><div class="kb-diagram-cell">← TOS</div><div class="kb-diagram-cell">B</div><div class="kb-diagram-cell">← TOS</div><div class="kb-diagram-cell">A+B</div><div class="kb-diagram-cell">← TOS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ADD의 의미: pop(B) → pop(A) → ALU 연산 → push(A+B)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심: ADD 명령어 안에는 A, B의 주소가 전혀 없고 스택 규칙만 있다.</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│            0-주소 명령어의 실행 흐름: 주소 대신 스택 순서 사용      │
+├──────────────────────────────────────────────────────────────────────┤
+│  1) PUSH A                 2) PUSH B                 3) ADD         │
+│                                                                      │
+│  Stack                    Stack                    Stack             │
+│  ┌──────┐                 ┌──────┐                 ┌──────┐          │
+│  │  A   │ ← TOS           │  B   │ ← TOS           │ A+B  │ ← TOS    │
+│  └──────┘                 ├──────┤                 └──────┘          │
+│                           │  A   │                                   │
+│                           └──────┘                                   │
+│                                                                      │
+│  ADD의 의미: pop(B) → pop(A) → ALU 연산 → push(A+B)                 │
+│  핵심: ADD 명령어 안에는 A, B의 주소가 전혀 없고 스택 규칙만 있다.  │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조 덕분에 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 포맷은 간결해지지만, 표현력은 실행 순서에 의존한다. 같은 `ADD`라도 직전에 어떤 값들이 어떤 순서로 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)에 올라왔는지에 따라 의미가 달라진다. 그래서 0-주소 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 체계는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 자체보다 <strong>평가 순서와 중간 결과 관리</strong>가 더 중요하다.
 
@@ -132,26 +134,26 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">메모리 제약이 큰 초기 컴퓨터</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">주소 필드 축소 요구</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">스택 머신 (Stack Machine)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">0-주소 명령어 (Zero-Address Instruction)</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ 후위 표기법 (Postfix Notation) 최적화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">가상 머신 바이트코드</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">JVM (Java Virtual Machine) · WebAssembly</div>
-</div>
-</div>
-
-
+```text
+메모리 제약이 큰 초기 컴퓨터
+        │
+        ▼
+주소 필드 축소 요구
+        │
+        ▼
+스택 머신 (Stack Machine)
+        │
+        ▼
+0-주소 명령어 (Zero-Address Instruction)
+        │
+        ├──────────────▶ 후위 표기법 (Postfix Notation) 최적화
+        │
+        ▼
+가상 머신 바이트코드
+        │
+        ▼
+JVM (Java Virtual Machine) · WebAssembly
+```
 
 이 흐름은 "메모리 절약"에서 출발한 설계가 "플랫폼 중립적인 실행 코드"로 확장되는 과정을 보여준다.
 

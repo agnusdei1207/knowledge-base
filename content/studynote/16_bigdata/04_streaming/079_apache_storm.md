@@ -31,29 +31,36 @@ tags = ["bigdata"]
 
 스톰 개발자는 코드를 짤 때 `if-else` 만 짜는 게 아니라, 물이 흘러갈 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)의 배관(Topology) 도면을 그려야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Apache Storm의 파이프라인(Topology) 배관도</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Kafka 등 원본 소스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (데이터 튜플 1건씩 꿀꺽!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Spout (수도꼭지)</div><div class="kb-diagram-cell">──▶ Storm의 시작점. 외부에서 데이터를 퍼 올려서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파이프라인 안으로 뿜어내는 역할을 전담함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (단어 자르기)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Bolt 1 (필터/변환)</div><div class="kb-diagram-cell">──▶ "오늘 강남에 불 났네" 문장을 받아 단어로 쪼갬.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">('오늘', '강남', '불')</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (단어별로 길을 나눠서 던짐: Field Grouping)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Bolt 2-A (카운트)</div><div class="kb-diagram-cell">Bolt 2-B (카운트)</div><div class="kb-diagram-cell">──▶ 쪼개진 단어를 받아서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+1씩 더하는 집계기.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Redis / 대시보드 화면</div><div class="kb-diagram-note">(최종 뷰 출력)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 핵심 원리: 하둡의 맵리듀스(Job)는 한 번 끝나면 프로그램이 종료된다.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하지만 스톰의 Топология(Topology)는 끄지 않는 이상 1년이고</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">10년이고 메모리에 둥둥 떠서 영원히 데이터가 지나가길 기다린다.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 Apache Storm의 파이프라인(Topology) 배관도             │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [ Apache Kafka 등 원본 소스 ]                                       │
+  │          │                                                        │
+  │          ▼ (데이터 튜플 1건씩 꿀꺽!)                                  │
+  │  ┌─────────────────┐                                              │
+  │  │   Spout (수도꼭지)│ ──▶ Storm의 시작점. 외부에서 데이터를 퍼 올려서      │
+  │  └─────────────────┘      파이프라인 안으로 뿜어내는 역할을 전담함.           │
+  │          │                                                        │
+  │          ▼ (단어 자르기)                                             │
+  │  ┌─────────────────┐                                              │
+  │  │ Bolt 1 (필터/변환)│ ──▶ "오늘 강남에 불 났네" 문장을 받아 단어로 쪼갬.    │
+  │  └─────────────────┘      ('오늘', '강남', '불')                     │
+  │          │                                                        │
+  │          ▼ (단어별로 길을 나눠서 던짐: Field Grouping)                    │
+  │  ┌─────────────────┐    ┌─────────────────┐                       │
+  │  │ Bolt 2-A (카운트) │    │ Bolt 2-B (카운트) │ ──▶ 쪼개진 단어를 받아서  │
+  │  └─────────────────┘    └─────────────────┘      +1씩 더하는 집계기. │
+  │          │                      │                                 │
+  │          ▼                      ▼                                 │
+  │   [ Redis / 대시보드 화면 ] (최종 뷰 출력)                               │
+  │                                                                   │
+  │  ▶ 핵심 원리: 하둡의 맵리듀스(Job)는 한 번 끝나면 프로그램이 종료된다.          │
+  │             하지만 스톰의 Топология(Topology)는 끄지 않는 이상 1년이고       │
+  │             10년이고 메모리에 둥둥 떠서 영원히 데이터가 지나가길 기다린다.      │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 스톰 클러스터 안에는 [마스터 노드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/075_kubernetes_k8s_cluster_architecture/)인 **Nimbus(님버스)** 가 전체를 지휘하고, 워커 노드인 **Supervisor(수퍼바이저)** 들이 Spout와 Bolt라는 일꾼([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))들을 뱃속에 품고 24시간 미친 듯이 일한다. 이 구조의 묘미는 **유연한 튜닝(Parallelism)** 이다. 만약 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 너무 많이 들어와서 Bolt 1(자르기)이 버거워하면, 개발자는 코드 수정 없이 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 하나만 건드려 Bolt 1을 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)해 10명으로 늘려버릴 수 있다. 병목이 생기는 배관(Bolt)만 골라서 굵기를 수백 배로 늘려주는 클라우드 확장의 미학이다.
 
@@ -99,7 +106,7 @@ tags = ["bigdata"]
    - **기술사적 판단**: 스톰의 고질병인 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 중복 오염 사태</strong>다. 과거 스톰 진영은 이를 막기 위해 [트라이](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/087_trie/)던트(Trident)라는 확장판을 만들어 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 개념(Exactly-once)을 억지로 우겨넣었다. 하지만 [트라이](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/087_trie/)던트를 쓰면 스톰 특유의 "1밀리초 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/)" 장점이 박살 나고 스파크처럼 느린 배치형으로 퇴보해 버렸다. 아키텍트는 낡은 스톰+[트라이](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/087_trie/)던트 코드를 끌어안고 침몰하지 말고, <strong>상태(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a>) 체크포인트 <a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/">스냅샷</a> 기능을 코어 레벨에서 완벽하게 지원하는 <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/215_flink_native_stream_watermark_window_time/">Apache Flink</a> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>라인으로 전면 마이그레이션(<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/">Refactor</a>)</strong> 하는 결단을 내려야 금융 사고를 끊어낼 수 있다.
 
 2. <strong>시나리오 — 그럼에도 스톰(Storm)이 필요한 초극단 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">지연 시간</a>(Ultra-low <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>) <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a></strong>: 초고주파 트레이딩(HFT, High-Frequency Trading)을 하는 퀀트 헤지펀드. 호가 창 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 변하는 순간 0.001초 만에 "사라!" 또는 "팔아라!"라는 시그널을 던져야 한다. 0.5초의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))이 발생하는 Spark Streaming은 아예 명함도 못 내미는 판국이다.
-   - **기술사적 판단**: 이 극단의 마이크로초(Microsecond) [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에서는 무겁고 거대한 Flink조차 오버헤드가 될 수 있다. 가장 멍청하지만 구조가 가장 단순무식하게 가볍고 1건 단위의 이벤트 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인(Tuple-by-Tuple)을 직관적으로 제공하는 <strong>오리지널 <a href="/knowledge-base/studynote/16_bigdata/02_hadoop/044_apache_storm/">Apache Storm</a>(또는 Heron)</strong> 만이 정답이 될 수 있다. 스톰은 중간에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 뭉치거나(Windowing) 상태를 저장하느라 머리를 쓰지 않고 오직 `Input ➔ Output` 으로 뚫려있어, 복잡한 상태 관리가 필요 없는 순수 "[초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 룰 엔진(Rule Engine)" 아키텍처에서는 여전히 누구도 따라올 수 없는 면도날 같은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 자랑한다.
+   - **기술사적 판단**: 이 극단의 마이크로초(Microsecond) [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에서는 무겁고 거대한 Flink조차 오버헤드가 될 수 있다. 가장 멍청하지만 구조가 가장 단순무식하게 가볍고 1건 단위의 이벤트 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인(Tuple-by-Tuple)을 직관적으로 제공하는 <strong>오리지널 <a href="/knowledge-base/studynote/16_bigdata/02_hadoop/044_apache_storm/">Apache Storm</a>(또는 Heron)</strong> 만이 정답이 될 수 있다. 스톰은 중간에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 뭉치거나(Windowing) 상태를 저장하느라 머리를 쓰지 않고 오직 `Input ➔ Output` 으로 뚫려있어, 복잡한 상태 관리가 필요 없는 순수 "[초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 룰 엔진(Rule 엔진)" 아키텍처에서는 여전히 누구도 따라올 수 없는 면도날 같은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 자랑한다.
 
 ### 레거시 스트리밍 엔진 유지보수 아키텍트 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 - <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/">Kafka</a>-Spout 오프셋(Offset) 관리의 주도권</strong>: 스톰이 [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)에서 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 빨아들일 때, 자기가 어디까지 읽었는지 북마크(Offset)를 [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 안의 `__consumer_offsets` 쪽에 적고 있는가, 아니면 스톰의 님버스([Zookeeper](/knowledge-base/studynote/02_operating_system/11_exam_summary/798_distributed_lock_zookeeper_consensus/)) 쪽에 적고 있는가? 옛날 방식대로 주키퍼에 적어두면 장애 시 북마크가 꼬여 대량 유실이 일어날 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 높다. 최신 [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 스펙에 맞는 KafkaSpout [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 업그레이드가 필수적이다.
@@ -137,25 +144,24 @@ Apache Storm은 훌륭했지만 너무 늙었다. 현재 스트리밍 시장의 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">:---</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Kafka (아파치 카프카)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Flink (아파치 플링크)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">람다 아키텍처 (Lambda Architecture)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DAG (Directed Acyclic Graph)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Back-pressure (백프레셔 / 배압)</div></div>
-</div>
-</div>
-
-
+```text
+[:---]
+    │
+    ▼
+[Apache Kafka (아파치 카프카)]
+    │
+    ▼
+[Apache Flink (아파치 플링크)]
+    │
+    ▼
+[람다 아키텍처 (Lambda Architecture)]
+    │
+    ▼
+[DAG (Directed Acyclic Graph)]
+    │
+    ▼
+[Back-pressure (백프레셔 / 배압)]
+```
 
 이 흐름도는 :---에서 출발해 Back-pressure (백프레셔 / 배압)까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

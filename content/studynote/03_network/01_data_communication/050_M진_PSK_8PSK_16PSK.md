@@ -133,53 +133,41 @@ C = B × log₂(1 + [SNR](/knowledge-base/studynote/03_network/01_data_communica
 
 ## 📌 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">M진 PSK</div>
-<div class="kb-diagram-tree-item" style="--depth:0">파생 방식</div>
-<div class="kb-diagram-note">── BPSK, QPSK (저차)</div>
-<div class="kb-diagram-note">── 8PSK (3G, DVB)</div>
-<div class="kb-diagram-note">── 16PSK → 16QAM으로 대체</div>
-<div class="kb-diagram-tree-item" style="--depth:0">성상도 설계</div>
-<div class="kb-diagram-note">── Gray 코딩</div>
-<div class="kb-diagram-note">── 최소 거리 최대화</div>
-<div class="kb-diagram-note">── APSK (위성용)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">비교 대상</div>
-<div class="kb-diagram-tree-item" style="--depth:2">QAM (진폭+위상)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">OFDM (다중 반송파)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">AMC (적응형 변조)</div>
-</div>
-</div>
-
-
+```
+M진 PSK
+├── 파생 방식
+│   ├── BPSK, QPSK (저차)
+│   ├── 8PSK (3G, DVB)
+│   └── 16PSK → 16QAM으로 대체
+├── 성상도 설계
+│   ├── Gray 코딩
+│   ├── 최소 거리 최대화
+│   └── APSK (위성용)
+└── 비교 대상
+    ├── QAM (진폭+위상)
+    ├── OFDM (다중 반송파)
+    └── AMC (적응형 변조)
+```
 
 ---
 
 ## 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">BPSK/QPSK (1960s 위성 통신)</div>
-<div class="kb-diagram-note">대역폭 효율 요구</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">8PSK → EDGE(2.5G), DVB-S2</div>
-<div class="kb-diagram-note">단위 원 포인트 한계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">QAM (16QAM ~ 1024QAM) — LTE/5G</div>
-<div class="kb-diagram-note">채널 변화 대응</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">AMC (Adaptive Modulation and Coding)</div>
-<div class="kb-diagram-note">다중 반송파</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">OFDM + AMC (현대 이동통신 핵심)</div>
-</div>
-</div>
-
-
+```
+BPSK/QPSK (1960s 위성 통신)
+     │  대역폭 효율 요구
+     ▼
+8PSK → EDGE(2.5G), DVB-S2
+     │  단위 원 포인트 한계
+     ▼
+QAM (16QAM ~ 1024QAM) — LTE/5G
+     │  채널 변화 대응
+     ▼
+AMC (Adaptive Modulation and Coding)
+     │  다중 반송파
+     ▼
+OFDM + AMC (현대 이동통신 핵심)
+```
 
 **핵심 키워드**: [성상도](/knowledge-base/studynote/03_network/01_data_communication/053_성상도_Constellation_Diagram/), Gray 코딩, 스펙트럼 효율, BER, AMC, QAM, OFDM
 

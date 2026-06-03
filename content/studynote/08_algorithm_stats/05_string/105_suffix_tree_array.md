@@ -71,23 +71,21 @@ Suffix Tree (Visual):         Suffix Array (Ordered Indices):
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">접미사 (Suffix) — 문자열의 모든 꼬리 부분</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">접미사 트리 (Suffix Tree) — O(n) 구축 압축 트리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">접미사 배열 (Suffix Array) — 메모리 효율적인 정렬 배열</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LCP 배열 (Longest Common Prefix Array) — 인접 접미사 공통 접두사 길이</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">버로우스-휠러 변환 (BWT, Burrows-Wheeler Transform) — 압축과 DNA 검색 응용</div></div>
-</div>
-</div>
-
-
+```text
+[접미사 (Suffix) — 문자열의 모든 꼬리 부분]
+    │
+    ▼
+[접미사 트리 (Suffix Tree) — O(n) 구축 압축 트리]
+    │
+    ▼
+[접미사 배열 (Suffix Array) — 메모리 효율적인 정렬 배열]
+    │
+    ▼
+[LCP 배열 (Longest Common Prefix Array) — 인접 접미사 공통 접두사 길이]
+    │
+    ▼
+[버로우스-휠러 변환 (BWT, Burrows-Wheeler Transform) — 압축과 DNA 검색 응용]
+```
 
 이 흐름은 모든 접미사를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 트리로 담아낸 뒤, 더 가벼운 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)과 LCP로 정리하고 BWT까지 연결해 검색과 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 응용으로 확장되는 발전을 보여준다.
 

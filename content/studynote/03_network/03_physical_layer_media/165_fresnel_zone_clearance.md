@@ -24,18 +24,17 @@ tags = ["studynote-network"]
 
 이 그림은 LOS와 프레넬 영역의 차이를 직관적으로 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LOS만으로는 부족하다: 전파는 선이 아니라 공간이다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tx ● ● Rx ← center LOS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">\\__ 1st Fresnel __//</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">\ obstacle / ← 중심선 아래여도 간섭 가능</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│          LOS만으로는 부족하다: 전파는 선이 아니라 공간이다      │
+├──────────────────────────────────────────────────────────────┤
+│ Tx ●──────────────────────────────● Rx   ← center LOS        │
+│        \\                      //                              │
+│         \\__  1st Fresnel __//                               │
+│              \            /                                   │
+│               \ obstacle /   ← 중심선 아래여도 간섭 가능      │
+└──────────────────────────────────────────────────────────────┘
+```
 
 핵심은 "보인다"와 "안정적으로 전달된다"가 같은 말이 아니라는 점이다. 시야는 확보됐는데도 링크가 약한 경우, 실제 원인은 직선 경로가 아니라 프레넬 영역 침범인 경우가 많다.
 
@@ -58,21 +57,19 @@ tags = ["studynote-network"]
 
 이 그림은 제1 프레넬 영역과 60% 클리어런스 기준을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제1 프레넬 영역의 판단 기준: 중심선만 말고 반경을 본다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1st Fresnel radius = r1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">.---------------.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tx ● -' LOS <code>- ● Rx</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell"></code>-----. .------'</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">obstacle</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">clear target: at least 0.6 × r1</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│     제1 프레넬 영역의 판단 기준: 중심선만 말고 반경을 본다      │
+├──────────────────────────────────────────────────────────────┤
+│                  1st Fresnel radius = r1                     │
+│                     .---------------.                        │
+│ Tx ●──────────────-'      LOS        `-──────────────● Rx    │
+│                     `-----. .------'                        │
+│                           \_/                                │
+│                        obstacle                              │
+│                 clear target: at least 0.6 × r1              │
+└──────────────────────────────────────────────────────────────┘
+```
 
 실무에서 이 다이어그램이 중요한 이유는 장애물이 중심선을 침범했는지만 보면 판단이 늦기 때문이다. 실제 설계는 철탑 높이, 지형 기복, 수목 성장, 계절별 습도 변화까지 고려해 "가장 부푼 지점"의 여유를 계산해야 한다.
 
@@ -143,20 +140,16 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">LOS 확인</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">프레넬 영역 계산</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 제1 프레넬 영역 60% 클리어런스</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 링크 버짓 / FSPL 검토</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 철탑 높이 / 주파수 / 중계 지점 설계</div>
-</div>
-</div>
-
-
+```text
+LOS 확인
+    │
+    ▼
+프레넬 영역 계산
+    │
+    ├─▶ 제1 프레넬 영역 60% 클리어런스
+    ├─▶ 링크 버짓 / FSPL 검토
+    └─▶ 철탑 높이 / 주파수 / 중계 지점 설계
+```
 
 이 흐름도는 단순 시야 확인이 실제 무선 링크 품질 설계로 확장되는 과정을 정리한다.
 

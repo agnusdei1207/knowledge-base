@@ -27,30 +27,32 @@ tags = ["studynote-operating-system"]
   2. **국면 전환(Phase Transition) 가설**: 프로그램은 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 국면, 연산 국면, 종료 국면으로 바뀌는데, 이전 국면에서 1만 번 불린 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 새 국면에서 쓰레기가 된다는 통계적 착각.
   3. **MFU의 파멸**: 실제 프로그램은 특정 코드를 처음부터 끝까지 영원히 반복하는 성향(Locality)이 99%라는 진리가 밝혀지며 완벽한 흑역사로 전락함.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MFU 알고리즘의 치명적 헛발질 (자해 공갈) 런타임 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황: 램 프레임 3개 / 프로그램이 For 루프를 미친 듯이 도는 중</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1. 램의 현재 상태 (Count 누적치)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Page A (Count 5,000)</div><div class="kb-diagram-note">: for문의 조건 변수 (i &lt; 10000)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Page B (Count 4,999)</div><div class="kb-diagram-note">: for문 안의 핵심 덧셈 명령어</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Page C (Count 1)</div><div class="kb-diagram-note">: 방금 막 램에 올라온 에러 로깅 함수</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2. 램이 꽉 차서 쫓아낼 놈을 고를 때 (Page Fault 발생)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS의 MFU 판단: "어? Page A가 5천 번이나 불렸네? 이제 단물 다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">빠졌을 테니 Page A 너 스왑으로 나가!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 3. 0.001초 뒤 참사 터짐</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU: "자 for문 다음 바퀴 돌자. 변수 i (Page A) 어딨어?"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS: "헐 방금 내가 버렸는데... 다시 디스크에서 가져올게 (8ms 렉)"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가져온 Page A의 카운트는 다시 1로 리셋됨.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">그다음 바퀴엔 카운트 4999인 Page B가 가장 높으니 B가 쫓겨남!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💥 결론: 영원히 램에 박혀있어야 할 시스템의 척추(코어 변수)를</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가장 먼저 뽀개버리는 엽기적인 연쇄 스래싱(Thrashing) 자살극.</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────────────┐
+│        MFU 알고리즘의 치명적 헛발질 (자해 공갈) 런타임 시각화         │
+├───────────────────────────────────────────────────────────────────────┤
+│                                                                       │
+│ [ 상황: 램 프레임 3개 / 프로그램이 For 루프를 미친 듯이 도는 중 ]     │
+│                                                                       │
+│ ▶ 1. 램의 현재 상태 (Count 누적치)                                    │
+│   [ Page A (Count 5,000) ]: for문의 조건 변수 (i < 10000)             │
+│   [ Page B (Count 4,999) ]: for문 안의 핵심 덧셈 명령어               │
+│   [ Page C (Count 1)     ]: 방금 막 램에 올라온 에러 로깅 함수        │
+│                                                                       │
+│ ▶ 2. 램이 꽉 차서 쫓아낼 놈을 고를 때 (Page Fault 발생)               │
+│   OS의 MFU 판단: "어? Page A가 5천 번이나 불렸네? 이제 단물 다        │
+│                 빠졌을 테니 Page A 너 스왑으로 나가!"                 │
+│                                                                       │
+│ ▶ 3. 0.001초 뒤 참사 터짐                                             │
+│   CPU: "자 for문 다음 바퀴 돌자. 변수 i (Page A) 어딨어?"             │
+│   OS: "헐 방금 내가 버렸는데... 다시 디스크에서 가져올게 (8ms 렉)"    │
+│   가져온 Page A의 카운트는 다시 1로 리셋됨.                           │
+│   그다음 바퀴엔 카운트 4999인 Page B가 가장 높으니 B가 쫓겨남!        │
+│                                                                       │
+│ 💥 결론: 영원히 램에 박혀있어야 할 시스템의 척추(코어 변수)를         │
+│    가장 먼저 뽀개버리는 엽기적인 연쇄 스래싱(Thrashing) 자살극.       │
+└───────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** MFU의 논리적 전제는 "많이 쓰인 것은 과거의 유물이다"라는 것이다. 그러나 컴퓨터 과학의 제1법칙인 '[참조의 지역성](/knowledge-base/studynote/02_operating_system/04_synchronization/253_locality_of_reference/)([Locality of Reference](/knowledge-base/studynote/02_operating_system/04_synchronization/253_locality_of_reference/))'은 "많이 쓰인 것은 미래에도 미친 듯이 쓰인다"고 말하고 있다. MFU는 이 우주 법칙을 정면으로 역행했기에, 시뮬레이션을 돌려보면 [FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/)(무작위 쫓아내기)보다도 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 폴트가 수십 배 더 터지는 압도적인 꼴찌 성적표를 받게 된다.
 
 - **📢 섹션 요약 비유**: 야구 감독이 "우리 팀 4번 타자([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) A)가 오늘 안타를 10개(카운트 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000)나 쳤으니 체력이 다 빠졌을 거야! 1군에서 방출해! 그리고 어제 입단해서 벤치에만 앉아있던 신인(카운트 1)을 4번 타자로 써!"라는 미친 작전(MFU)을 펴다가 팀을 꼴찌로 말아먹는 꼴입니다.
@@ -96,17 +98,14 @@ MFU는 LFU와 완벽하게 똑같이 램을 1바이트 읽을 때마다 [페이�
 3. 그렇게 피땀 흘려 최댓값을 찾아내어 죽였더니, 정작 시스템 폴트([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/))가 FIFO보다 더 많이 터진다.
 **결과**: [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 개발자와 CPU 칩셋 설계자가 합심하여 이 MFU [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 논문을 찢어버리고 교과서의 '잘못된 예시' 코너에 영구 박제해버렸다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">알고리즘</div><div class="kb-diagram-cell">신규 페이지 보호</div><div class="kb-diagram-cell">코어 변수 보호</div><div class="kb-diagram-cell">최종 평가 (EAT)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LFU</div><div class="kb-diagram-cell">☠️ 보호 못 함</div><div class="kb-diagram-cell">🟢 철통 방어</div><div class="kb-diagram-cell">보통 (에이징 필요)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MFU</div><div class="kb-diagram-cell">🟢 철통 방어</div><div class="kb-diagram-cell">☠️ 즉각 사살</div><div class="kb-diagram-cell">최악 (서버 파괴)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬────────────────────────────┐
+│ 알고리즘   │ 신규 페이지 보호│ 코어 변수 보호 │ 최종 평가 (EAT) │
+├──────────┼────────────┼────────────┼────────────────────────────┤
+│ LFU      │ ☠️ 보호 못 함 │ 🟢 철통 방어  │ 보통 (에이징 필요)   │
+│ MFU      │ 🟢 철통 방어  │ ☠️ 즉각 사살  │ 최악 (서버 파괴)     │
+└──────────┴────────────┴────────────┴────────────────────────────┘
+```
 **[매트릭스 해설]** LFU의 단점을 극복하기 위해 역발상을 한 것까지는 칭찬할 만하지만, 그 반대급부로 날아간 '코어 변수 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)'의 가치가 너무나 우주적으로 거대했다. 컴퓨터는 신입사원(새 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))을 챙기기 위해 사장님(코어 변수)을 해고하는 시스템을 결코 용납하지 않는다.
 
 - **📢 섹션 요약 비유**: 유튜브 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 "BTS 뮤직비디오는 10억 번이나 재생됐으니 이제 사람들이 안 보겠지?(MFU)"라며 서버에서 삭제하고, "오늘 올라온 조회수 0짜리 동영상은 앞으로 떡상할 거야!"라며 메인 서버에 꽉꽉 채워두는 엽기적인 큐레이션입니다. 당연히 유튜브 서버는 망합니다.
@@ -160,19 +159,15 @@ MFU (Most Frequently Used) [알고리즘](/knowledge-base/studynote/08_algorithm
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">LFU (Least Frequently Used) 알고리즘</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MFU (Most Frequently Used) 알고리즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">에이징 (Aging) 기반 페이지 교체 로직</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스래싱 (Thrashing)</div></div>
-</div>
-</div>
-
-
+```text
+[LFU (Least Frequently Used) 알고리즘]
+    │
+    ▼
+[MFU (Most Frequently Used) 알고리즘]
+    │
+    ├──▶ [에이징 (Aging) 기반 페이지 교체 로직]
+    └──▶ [스래싱 (Thrashing)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

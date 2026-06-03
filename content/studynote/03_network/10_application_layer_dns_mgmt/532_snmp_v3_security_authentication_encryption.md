@@ -21,18 +21,14 @@ tags = ["studynote-network"]
 
 초창기 SNMPv1과 v2c는 오직 '커뮤니티 스트링(Community String)'이라는 공용 암호를 **평문(Cleartext)** 으로 주고받았습니다. 해커가 와이어샤크(Wireshark)로 패킷을 살짝만 들여다보면 암호가 털려서 라우터 전체가 장악되는 문제가 심각하여, 철저한 보안 통신을 위해 IETF에서 발표한 차세대 표준이 SNMPv3입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SNMPv1, v2c</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SNMPv3</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SNMP 명령</div></div>
-</div>
-</div>
-
-
+```text
+[SNMPv1, v2c]
+    │
+    ▼
+[SNMPv3]
+    │
+    └──▶ [SNMP 명령]
+```
 
 - **📢 섹션 요약 비유**: SNMPv3는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -48,18 +44,14 @@ SNMPv3는 USM(User-Based [Security](/knowledge-base/studynote/04_software_engine
 | <strong>2. <a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a> (<a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">Integrity</a> / <a href="/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/">Authentication</a>)</strong> | 패킷이 전송되는 도중에 해커가 값을 몰래 바꾸지 않았는지, 그리고 정말 인가된 관리자가 보낸 패킷이 맞는지 <strong>HMAC-<a href="/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/">MD5</a>, HMAC-SHA <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>을 통해 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)(서명)합니다. |
 | <strong>3. <a href="/knowledge-base/studynote/09_security/03_network_security/274_replay_attack/">재전송 공격</a> 방지 (Anti-Replay)</strong>| 해커가 가로챈 정상 패킷을 나중에 다시 똑같이 날려서(Replay) 장비를 오작동시키는 것을 막기 위해, 패킷에 시간 정보(Time Window)와 일련번호를 넣어 과거 패킷은 무조건 버려지게 만듭니다. |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SNMPv1, v2c</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SNMPv3</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SNMP 명령</div></div>
-</div>
-</div>
-
-
+```text
+[SNMPv1, v2c]
+    │
+    ▼
+[SNMPv3]
+    │
+    └──▶ [SNMP 명령]
+```
 
 - **📢 섹션 요약 비유**: SNMPv3의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -122,19 +114,15 @@ SNMPv3는 이름 해석과 네트워크 관리를 이해할 때 핵심 축을 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: SNMPv1, v2c</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: SNMPv3</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: SNMP 명령</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율 운영 네트워크</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: SNMPv1, v2c]
+    │
+    ▼
+[현재 개념: SNMPv3]
+    │
+    ├──▶ [확장 A: SNMP 명령]
+    └──▶ [확장 B: 자율 운영 네트워크]
+```
 
 SNMPv3는 SNMPv1, v2c에서 출발해 현재 메커니즘을 정교화하고, 이후 [SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) 명령와 자율 운영 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

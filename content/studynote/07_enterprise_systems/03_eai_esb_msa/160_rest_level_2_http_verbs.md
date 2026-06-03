@@ -35,22 +35,20 @@ Level 2의 핵심 원리는 같은 리소스 URI라도 메서드에 따라 의�
 
 아래 그림은 Level 2가 자원과 메서드를 어떻게 결합하는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 2: 같은 리소스, 다른 HTTP 메서드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/orders GET -&gt; 주문 목록 조회</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/orders POST -&gt; 새 주문 생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/orders/1001 GET -&gt; 주문 1건 조회</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/orders/1001 PUT -&gt; 주문 전체 교체</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/orders/1001 PATCH -&gt; 주문 일부 수정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/orders/1001 DELETE -&gt; 주문 삭제</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상태 코드: 200 OK / 201 Created / 204 No Content / 404 Not Found</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│              Level 2: 같은 리소스, 다른 HTTP 메서드               │
+├────────────────────────────────────────────────────────────────────┤
+│ /orders           GET    -> 주문 목록 조회                         │
+│ /orders           POST   -> 새 주문 생성                           │
+│ /orders/1001      GET    -> 주문 1건 조회                          │
+│ /orders/1001      PUT    -> 주문 전체 교체                         │
+│ /orders/1001      PATCH  -> 주문 일부 수정                         │
+│ /orders/1001      DELETE -> 주문 삭제                              │
+│                                                                    │
+│ 상태 코드: 200 OK / 201 Created / 204 No Content / 404 Not Found  │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 핵심은 URI가 아니라 <strong>메서드와 상태 코드 조합</strong>이 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 의미를 완성한다는 점이다. 예를 들어 `GET`은 안전성 ([Safe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/))과 [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/)을 기대할 수 있으므로 캐시와 재시도에 유리하다. `PUT`과 `DELETE`도 [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/)이 있어 네트워크 재전송 환경에서 관리가 쉽다. 반면 `POST`는 보통 멱등하지 않으므로 중복 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 방지 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 필요하다.
 
@@ -70,7 +68,7 @@ Level 2의 핵심 원리는 같은 리소스 URI라도 메서드에 따라 의�
 
 ## Ⅲ. 비교 및 연결
 
-Level 2를 이해하려면 Level 1, Level 3와의 경계를 함께 봐야 한다. Level 1은 리소스 URI까지는 도입했지만 메서드 의미가 약해 `POST` 편중 구조가 남을 수 있다. 반면 Level 3은 여기에 하이퍼미디어 (HATEOAS, [Hypermedia as the Engine of Application State](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/161_rest_level_3_hateoas/))까지 더해, 클라이언트가 링크를 따라 다음 행동을 발견하게 만든다. 따라서 Level 2는 "웹 의미를 본격적으로 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 시작한 단계"라고 정리할 수 있다.
+Level 2를 이해하려면 Level 1, Level 3와의 경계를 함께 봐야 한다. Level 1은 리소스 URI까지는 도입했지만 메서드 의미가 약해 `POST` 편중 구조가 남을 수 있다. 반면 Level 3은 여기에 하이퍼미디어 (HATEOAS, [Hypermedia as the 엔진 of Application State](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/161_rest_level_3_hateoas/))까지 더해, 클라이언트가 링크를 따라 다음 행동을 발견하게 만든다. 따라서 Level 2는 "웹 의미를 본격적으로 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 시작한 단계"라고 정리할 수 있다.
 
 | 항목 | Level 1 | Level 2 | Level 3 |
 | :--- | :--- | :--- | :--- |
@@ -135,25 +133,22 @@ Level 2의 가장 큰 효과는 API가 웹 표준과 같은 언어로 대화하�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Level 0</div>
-<div class="kb-diagram-note">(단일 endpoint + action 중심)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Level 1</div>
-<div class="kb-diagram-note">(리소스별 URI 분리)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Level 2</div>
-<div class="kb-diagram-note">(HTTP 메서드 · 상태 코드 정착)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Level 3</div>
-<div class="kb-diagram-note">(HATEOAS 기반 상태 전이 안내)</div>
-</div>
-</div>
-
-
+```text
+Level 0
+  (단일 endpoint + action 중심)
+    │
+    ▼
+Level 1
+  (리소스별 URI 분리)
+    │
+    ▼
+Level 2
+  (HTTP 메서드 · 상태 코드 정착)
+    │
+    ▼
+Level 3
+  (HATEOAS 기반 상태 전이 안내)
+```
 
 이 흐름도는 [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) 성숙도가 단순 주소 정리에서 끝나지 않고, 웹 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)의 의미와 탐색 가능성까지 확장되는 과정을 보여준다.
 
@@ -170,6 +165,6 @@ Level 2의 가장 큰 효과는 API가 웹 표준과 같은 언어로 대화하�
 **진행 상황**: 160 / 482
 
 ← **이전**: [159. Level 1 - 리소스별 고유 URI 할당](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/159_rest_level_1_resources/)
-**다음**: [161. Level 3 - HATEOAS (Hypermedia As The Engine Of Application State), 응답에](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/161_rest_level_3_hateoas/) →
+**다음**: [161. Level 3 - HATEOAS (Hypermedia As The 엔진 Of Application State), 응답에](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/161_rest_level_3_hateoas/) →
 
 ---

@@ -39,22 +39,23 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 [버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/) 이후에도 제어권 탈취를 막는 하드웨어 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 과정을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하드웨어 버퍼 오버플로우 방어의 이중 검증</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CALL foo</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 일반 스택 : return address 저장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 보호 영역 : shadow stack 저장 또는 PAC 서명 부착</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RET / indirect JMP</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 주소 불일치 · 서명 불일치 ▶ fault</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ ENDBR / BTI landing pad 확인 ▶ 정상 target만 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: overflow가 있어도 임의 gadget 체인으로 흐름 전환 어려움</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│ 하드웨어 버퍼 오버플로우 방어의 이중 검증                                 │
+├────────────────────────────────────────────────────────────────────────────┤
+│ CALL foo                                                                   │
+│   │                                                                        │
+│   ├─ 일반 스택          : return address 저장                              │
+│   └─ 보호 영역          : shadow stack 저장 또는 PAC 서명 부착            │
+│                                                                            │
+│ RET / indirect JMP                                                         │
+│   │                                                                        │
+│   ├─ 주소 불일치 · 서명 불일치 ───────────────▶ fault                      │
+│   └─ ENDBR / BTI landing pad 확인 ────────▶ 정상 target만 실행            │
+│                                                                            │
+│ 결과: overflow가 있어도 임의 gadget 체인으로 흐름 전환 어려움             │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 실제로는 프로세서만으로 끝나지 않는다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 전환 때 shadow [stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) pointer나 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 상태를 저장·복원해야 하고, 컴파일러는 함수 진입점과 간접 분기 대상에 필요한 표식을 삽입해야 한다. 즉 이 기술은 "하드웨어 기능 하나 추가"가 아니라 <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/">ISA</a> (<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/">Instruction Set Architecture</a>) + <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> + toolchain이 묶인 제어 흐름 <a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a> 체계</strong>다.
 
@@ -130,25 +131,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">스택 overwrite 기반 코드 실행 공격</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">스택 카나리 · DEP · ASLR</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ROP (Return-Oriented Programming) · JOP (Jump-Oriented Programming) 등장</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">소프트웨어 CFI (Control-Flow Integrity)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Intel CET · ARM PAC/BTI</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Memory Tagging · capability 기반 메모리 보호 확장</div>
-</div>
-</div>
-
-
+```text
+스택 overwrite 기반 코드 실행 공격
+        │
+        ▼
+스택 카나리 · DEP · ASLR
+        │
+        ▼
+ROP (Return-Oriented Programming) · JOP (Jump-Oriented Programming) 등장
+        │
+        ▼
+소프트웨어 CFI (Control-Flow Integrity)
+        │
+        ▼
+Intel CET · ARM PAC/BTI
+        │
+        ▼
+Memory Tagging · capability 기반 메모리 보호 확장
+```
 
 이 흐름은 단순 overwrite 탐지에서 출발해, 점차 제어 흐름과 메모리 접근 자체를 하드웨어 수준에서 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 방향으로 방어가 진화하는 모습을 보여 준다.
 

@@ -35,24 +35,23 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 한 번의 0→1→0 전환이 어떻게 동적 전력으로 연결되는지 보여 준다. 핵심은 전력이 회로 안에서 갑자기 사라지는 것이 아니라, 전원에서 커패시턴스로 에너지가 이동하고 그 일부가 열로 바뀐다는 점이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동적 전력의 발생 경로: "전환"이 곧 에너지 이동</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0 → 1 전환</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">상단/하단 트랜지스터 전환</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Load C 충전</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">상승</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1 → 0 전환</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Load C 저장 에너지</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">하단 경로 방전</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">접지로 소모</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">반복 스위칭 빈도 증가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 활동도 α 증가 : 더 많은 노드가 실제로 토글됨</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 커패시턴스 C 증가: 더 큰 배선·팬아웃을 충전해야 함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 전압 V 증가 : 한 번 충전당 에너지 비용이 제곱으로 증가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 주파수 f 증가 : 같은 일을 더 자주 반복</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│            동적 전력의 발생 경로: "전환"이 곧 에너지 이동          │
+├────────────────────────────────────────────────────────────────────┤
+│  0 → 1 전환                                                       │
+│  전원 ──▶ [상단/하단 트랜지스터 전환] ──▶ [Load C 충전] ──▶ 상승    │
+│                                                                    │
+│  1 → 0 전환                                                       │
+│  [Load C 저장 에너지] ──▶ [하단 경로 방전] ──▶ 접지로 소모          │
+│                                                                    │
+│  반복 스위칭 빈도 증가                                             │
+│      ├─ 활동도 α 증가  : 더 많은 노드가 실제로 토글됨              │
+│      ├─ 커패시턴스 C 증가: 더 큰 배선·팬아웃을 충전해야 함         │
+│      ├─ 전압 V 증가    : 한 번 충전당 에너지 비용이 제곱으로 증가   │
+│      └─ 주파수 f 증가  : 같은 일을 더 자주 반복                    │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 실무적으로는 이 식에 <strong>단락 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/">전류</a>(Short-Circuit <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/">Current</a>)</strong> 도 함께 고려한다. 입력이 천천히 바뀌는 동안 PMOS와 NMOS가 잠깐 동시에 켜지면, 전원과 접지 사이에 직접 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)가 흐르기 때문이다. 따라서 교과서적 `αCV²f`는 동적 전력의 주성분을 설명하는 식이고, 실제 칩 분석에서는 셀 특성·배선·파형 기울기까지 포함한 전력 모델이 사용된다.
 
@@ -139,21 +138,20 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">전력 소모 (Power Consumption)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">동적 전력 (Dynamic Power)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">활동도 제어 ──▶ 클럭 게이팅 (Clock Gating)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">전압·주파수 제어 ──▶ DVFS (Dynamic Voltage and Frequency Scaling)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">배선·부하 최적화 ──▶ 저커패시턴스 레이아웃</div>
-<div class="kb-diagram-tree-item" style="--depth:2">열·시스템 관점 확장 ──▶ TDP · 에너지 비례 컴퓨팅</div>
-</div>
-</div>
-
-
+```text
+전력 소모 (Power Consumption)
+    │
+    ▼
+동적 전력 (Dynamic Power)
+    │
+    ├─ 활동도 제어 ──▶ 클럭 게이팅 (Clock Gating)
+    │
+    ├─ 전압·주파수 제어 ──▶ DVFS (Dynamic Voltage and Frequency Scaling)
+    │
+    ├─ 배선·부하 최적화 ──▶ 저커패시턴스 레이아웃
+    │
+    └─ 열·시스템 관점 확장 ──▶ TDP · 에너지 비례 컴퓨팅
+```
 
 이 흐름은 동적 전력이 단일 공식에서 끝나지 않고, 활동도 제어·[전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 제어·물리 설계·시스템 전력 정책으로 확장되는 과정을 보여 준다.
 

@@ -233,19 +233,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">RAID (Redundant Array of Independent Disks)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">RAID 0 (스트라이핑, Striping) (RAID 0 Striping)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RAID 1 (미러링, Mirroring)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RAID 4 (블록 단위 스트라이핑 + 단일 패리티 디스크)</div></div>
-</div>
-</div>
-
-
+```text
+[RAID (Redundant Array of Independent Disks)]
+    │
+    ▼
+[RAID 0 (스트라이핑, Striping) (RAID 0 Striping)]
+    │
+    ├──▶ [RAID 1 (미러링, Mirroring)]
+    └──▶ [RAID 4 (블록 단위 스트라이핑 + 단일 패리티 디스크)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

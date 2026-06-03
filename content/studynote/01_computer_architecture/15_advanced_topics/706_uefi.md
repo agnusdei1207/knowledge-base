@@ -46,21 +46,25 @@ UEFI는 기능 면에서 두 층으로 나눠 보면 이해가 쉽다. Boot Serv
 
 아래 그림은 UEFI의 부팅 경로를 단순화한 것이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">UEFI boot sequence</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Power on</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SEC ──▶ PEI ──▶ DXE ──▶ BDS ──▶ ESP\EFI\*.efi</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS loader start</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Boot Services active ▼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ExitBootServices()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS takes hardware control</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│                     UEFI boot sequence                            │
+├────────────────────────────────────────────────────────────────────┤
+│ Power on                                                          │
+│   │                                                               │
+│   ▼                                                               │
+│ SEC ──▶ PEI ──▶ DXE ──▶ BDS ──▶ ESP\EFI\*.efi                    │
+│                             │                    │                │
+│                             │                    ▼                │
+│                             │             OS loader start         │
+│                             ▼                    │                │
+│                     Boot Services active          ▼                │
+│                                         ExitBootServices()         │
+│                                                   │                │
+│                                                   ▼                │
+│                                        OS takes hardware control   │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 중요한 점은 UEFI가 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 아니라는 사실이다. UEFI는 어디까지나 표준화된 pre-OS 환경이다. 하지만 그 환경이 충분히 풍부하기 때문에, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 접근, 네트워크 부팅, [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 업데이트 캡슐 처리, [Secure Boot](/knowledge-base/studynote/02_operating_system/10_security/608_secure_boot/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 같은 기능이 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 이전 단계에서 이미 가능해진다.
 
@@ -70,7 +74,7 @@ UEFI는 기능 면에서 두 층으로 나눠 보면 이해가 쉽다. Boot Serv
 
 ## Ⅲ. 비교 및 연결
 
-UEFI를 제대로 이해하려면 BIOS와 나란히 봐야 한다. BIOS는 단순하지만 기능이 적고 레거시 제약이 크다. UEFI는 더 복잡하지만, 그 복잡성 덕분에 현대 저장장치와 보안 기능을 수용할 수 있다. 즉 차이는 단순한 "구형 vs 신형"이 아니라 "제한된 부팅 도구 vs 확장 가능한 부팅 플랫폼"에 가깝다.
+UEFI를 제대로 이해하려면 BIOS와 나란히 봐야 한다. BIOS는 단순하지만 기능이 적고 레거시 제약이 크다. UEFI는 더 복잡하지만, 그 복잡성 덕분에 현대 저장장치와 보안 기능을 수용할 수 있다. 즉 차이는 단순한 "구형 vs 새로운 유형의"이 아니라 "제한된 부팅 도구 vs 확장 가능한 부팅 플랫폼"에 가깝다.
 
 | 항목 | 레거시 BIOS | UEFI |
 | :--- | :--- | :--- |
@@ -136,23 +140,21 @@ UEFI의 가장 큰 효과는 부팅 경로의 표준화다. 디스크 구조, �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">레거시 BIOS의 16비트 · MBR 제약</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">UEFI 표준 실행 환경 도입</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">GPT + ESP 기반 부팅 체계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Secure Boot · NVRAM 정책 관리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Capsule update · measured boot 확장</div>
-</div>
-</div>
-
-
+```text
+레거시 BIOS의 16비트 · MBR 제약
+    │
+    ▼
+UEFI 표준 실행 환경 도입
+    │
+    ▼
+GPT + ESP 기반 부팅 체계
+    │
+    ▼
+Secure Boot · NVRAM 정책 관리
+    │
+    ▼
+Capsule update · measured boot 확장
+```
 
 이 흐름은 부팅이 단순 점프 코드에서 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 기반 플랫폼으로 진화한 과정을 보여준다.
 

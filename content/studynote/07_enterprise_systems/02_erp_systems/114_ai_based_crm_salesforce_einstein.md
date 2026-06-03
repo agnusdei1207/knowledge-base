@@ -18,22 +18,19 @@ tags = ["studynote-enterprise-systems"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CRM 진화 단계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1세대</div><div class="kb-diagram-note">수첩·엑셀 — 수동 고객 관리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2세대</div><div class="kb-diagram-note">운영 CRM — SFA·MA·CSS 자동화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3세대</div><div class="kb-diagram-note">분석 CRM — DW + 데이터 마이닝</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">4세대</div><div class="kb-diagram-note">AI CRM — 예측·생성·자율 에이전트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Einstein: "이 리드 계약 확률 85%"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Copilot: "상담 요약 자동 생성"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Agent: "고객 질문에 AI 자동 응답"</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    CRM 진화 단계                                      │
+├───────────────────────────────────────────────────────┤
+│  [1세대] 수첩·엑셀 — 수동 고객 관리                   │
+│  [2세대] 운영 CRM — SFA·MA·CSS 자동화               │
+│  [3세대] 분석 CRM — DW + 데이터 마이닝               │
+│  [4세대] AI CRM — 예측·생성·자율 에이전트             │
+│      └── Einstein: "이 리드 계약 확률 85%"           │
+│      └── Copilot: "상담 요약 자동 생성"               │
+│      └── Agent: "고객 질문에 AI 자동 응답"            │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 기존 CRM이 영업사원의 수첩을 디지털화한 것이라면, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) CRM은 수첩이 스스로 "오늘 김 사장에게 전화하세요, 계약 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 85%"라고 말하는 <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 비서</strong>다.
 
@@ -91,23 +88,21 @@ tags = ["studynote-enterprise-systems"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">수첩·엑셀 CRM (1990s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SaaS CRM (Salesforce, 2000s) — 클라우드 CRM</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">분석 CRM + ML (2015~) — 이탈 예측, 리드 스코어링</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Einstein / AI CRM (2018~) — CRM 내장 AI</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: GenAI CRM Agent — 자율 고객 응대·행동 실행</div></div>
-</div>
-</div>
-
-
+```text
+[수첩·엑셀 CRM (1990s)]
+    │
+    ▼
+[SaaS CRM (Salesforce, 2000s) — 클라우드 CRM]
+    │
+    ▼
+[분석 CRM + ML (2015~) — 이탈 예측, 리드 스코어링]
+    │
+    ▼
+[Einstein / AI CRM (2018~) — CRM 내장 AI]
+    │
+    ▼
+[현재: GenAI CRM Agent — 자율 고객 응대·행동 실행]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 옛날 CRM은 손님 정보를 **적어두기만** 하는 수첩이었어요.
@@ -121,6 +116,6 @@ tags = ["studynote-enterprise-systems"]
 **진행 상황**: 114 / 482
 
 ← **이전**: [113. 소셜 CRM (Social CRM) - 소셜 리스닝·감성 분석·고객 참여 관리](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/113_social_crm_listening_sentiment_analysis/)
-**다음**: [115. CDP (Customer Data Platform) - 통합 고객 프로파일·Single Customer View](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/115_cdp_customer_data_platform_single_view/) →
+**다음**: [115. CDP (C고객 Data Platform) - 통합 고객 프로파일·Single C고객 View](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/115_cdp_customer_data_platform_single_view/) →
 
 ---

@@ -28,21 +28,15 @@ tags = ["it_management"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Item</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Multiple Hash Functions</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Bit Array</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Membership Test</div>
-</div>
-</div>
-
-
+```text
+Item
+  ↓
+Multiple Hash Functions
+  ↓
+Bit Array
+  ↓
+Membership Test
+```
 
 | 요소 | 역할 |
 | :-- | :-- |
@@ -111,41 +105,29 @@ tags = ["it_management"]
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Hash Functions</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Bloom Filter</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Membership Test</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Probabilistic DS</div>
-</div>
-</div>
-
-
+```text
+Hash Functions
+  ↓
+Bloom Filter
+  ↓
+Membership Test
+  ↓
+Probabilistic DS
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Set Membership</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Bloom Filter</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Count-Min Sketch</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Approximate Query</div>
-</div>
-</div>
-
-
+```text
+Set Membership
+  ↓
+Bloom Filter
+  ↓
+Count-Min Sketch
+  ↓
+Approximate Query
+```
 
 ---
 

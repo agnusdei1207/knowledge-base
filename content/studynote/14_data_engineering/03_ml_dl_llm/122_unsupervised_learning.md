@@ -18,22 +18,20 @@ tags = ["studynote-dataengineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비지도 학습 주요 유형</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">클러스터링</div><div class="kb-diagram-node">차원 축소</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">K-Means PCA</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DBSCAN t-SNE</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Gaussian Mixture UMAP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">이상 탐지</div><div class="kb-diagram-node">생성 모델</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Isolation Forest Autoencoder</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">One-Class SVM VAE, GAN</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    비지도 학습 주요 유형                              │
+├───────────────────────────────────────────────────────┤
+│  [클러스터링]        [차원 축소]                       │
+│   K-Means            PCA                              │
+│   DBSCAN             t-SNE                            │
+│   Gaussian Mixture   UMAP                             │
+│                                                       │
+│  [이상 탐지]         [생성 모델]                       │
+│   Isolation Forest   Autoencoder                      │
+│   One-Class SVM      VAE, GAN                         │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 지도 학습은 선생님이 정답을 알려주는 수업이고, 비지도 학습은 <strong>학생이 스스로 규칙을 발견</strong>하는 탐구 활동이다.
 
@@ -91,23 +89,21 @@ tags = ["studynote-dataengineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">K-Means / PCA (통계학, 1960s~)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DBSCAN (1996) — 밀도 기반 클러스터링</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Autoencoder / VAE (2013~) — 신경망 비지도</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">t-SNE / UMAP (시각화, 2018~)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: Self-supervised (BERT·GPT) — 비지도의 극한 진화</div></div>
-</div>
-</div>
-
-
+```text
+[K-Means / PCA (통계학, 1960s~)]
+    │
+    ▼
+[DBSCAN (1996) — 밀도 기반 클러스터링]
+    │
+    ▼
+[Autoencoder / VAE (2013~) — 신경망 비지도]
+    │
+    ▼
+[t-SNE / UMAP (시각화, 2018~)]
+    │
+    ▼
+[현재: Self-supervised (BERT·GPT) — 비지도의 극한 진화]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 비지도 학습은 **정답 없이 퍼즐을 맞추는** 거예요. 비슷한 조각끼리 모아봐요.

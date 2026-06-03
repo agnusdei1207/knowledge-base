@@ -18,22 +18,22 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버리스 실행 모델</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">이벤트 발생</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">API Gateway 요청 / S3 업로드 / SNS 메시지</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Lambda 함수 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 코드 실행 (최대 15분)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 결과 반환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 실행 종료 (유휴 시 과금 0)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자동 스케일링: 동시 1000건 → 자동 1000 인스턴스</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    서버리스 실행 모델                                  │
+├───────────────────────────────────────────────────────┤
+│  [이벤트 발생]                                        │
+│   API Gateway 요청 / S3 업로드 / SNS 메시지           │
+│      │                                                │
+│      ▼                                                │
+│  [Lambda 함수 실행]                                    │
+│   → 코드 실행 (최대 15분)                            │
+│   → 결과 반환                                         │
+│   → 실행 종료 (유휴 시 과금 0)                       │
+│                                                       │
+│  자동 스케일링: 동시 1000건 → 자동 1000 인스턴스     │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)는 택시(필요할 때만 호출, 탄 만큼 과금)이고, VM은 자가용(항상 유지비 발생)이다.
 
@@ -61,7 +61,7 @@ tags = ["studynote-software-engineering"]
 |:---|:---|:---|:---|
 | **관리** | OS+미들웨어 | 런타임 | **없음** |
 | **단위** | [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) | 앱 | **함수** |
-| **대표** | EC2 | App Engine | <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/">Lambda</a></strong> |
+| **대표** | EC2 | App 엔진 | <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/">Lambda</a></strong> |
 
 ---
 
@@ -91,23 +91,21 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">IaaS (EC2, 2006)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">PaaS (Heroku, 2009)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">FaaS (AWS Lambda, 2014) — 서버리스 시대</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Edge Function (Cloudflare Workers, 2018~)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: AI 서버리스 — 추론 API 서버리스화 (Bedrock)</div></div>
-</div>
-</div>
-
-
+```text
+[IaaS (EC2, 2006)]
+    │
+    ▼
+[PaaS (Heroku, 2009)]
+    │
+    ▼
+[FaaS (AWS Lambda, 2014) — 서버리스 시대]
+    │
+    ▼
+[Edge Function (Cloudflare Workers, 2018~)]
+    │
+    ▼
+[현재: AI 서버리스 — 추론 API 서버리스화 (Bedrock)]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)는 <strong>택시</strong>예요. 필요할 때만 부르고 **탄 만큼만 내면** 돼요.

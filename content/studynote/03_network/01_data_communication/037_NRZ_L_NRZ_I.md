@@ -44,29 +44,25 @@ NRZ-I (Non-Return to Zero Inverted):
 
 ## II. NRZ의 장단점
 
+```
+NRZ-L/NRZ-I 공통 장점:
+  + 단순한 회로
+  + 높은 대역폭 효율 (RZ 대비 2배)
+  + 구현 용이
 
+NRZ-L 문제:
+  연속 0 or 1이 길면:
+  1. 기저선 천이 (Baseline Wandering)
+     -> AC 결합 회로에서 기준 레벨 이동
+  2. DC 성분 발생 (평균 전압 ≠ 0)
+     -> 변압기/AC 결합 라인에 통과 불가
+  3. 클락 동기화 불가
+     -> 수신측이 언제 새 비트인지 알 수 없음
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">NRZ-L/NRZ-I 공통 장점:</div>
-<div class="kb-diagram-note">+ 단순한 회로</div>
-<div class="kb-diagram-note">+ 높은 대역폭 효율 (RZ 대비 2배)</div>
-<div class="kb-diagram-note">+ 구현 용이</div>
-<div class="kb-diagram-note">NRZ-L 문제:</div>
-<div class="kb-diagram-note">연속 0 or 1이 길면:</div>
-<div class="kb-diagram-note">1. 기저선 천이 (Baseline Wandering)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">AC 결합 회로에서 기준 레벨 이동</div>
-<div class="kb-diagram-note">2. DC 성분 발생 (평균 전압 ≠ 0)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">변압기/AC 결합 라인에 통과 불가</div>
-<div class="kb-diagram-note">3. 클락 동기화 불가</div>
-<div class="kb-diagram-tree-item" style="--depth:2">수신측이 언제 새 비트인지 알 수 없음</div>
-<div class="kb-diagram-note">NRZ-I 개선:</div>
-<div class="kb-diagram-note">연속 1 문제 해결 (반전이 클락 역할)</div>
-<div class="kb-diagram-note">But 연속 0 문제 여전히 존재</div>
-</div>
-</div>
-
-
+NRZ-I 개선:
+  연속 1 문제 해결 (반전이 클락 역할)
+  But 연속 0 문제 여전히 존재
+```
 
 > 📢 **섹션 요약 비유**: NRZ-L은 "빨강만 30초 계속" — 운전자가 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 고장인지 멈춘 건지 모른다. NRZ-I는 1마다 바뀌니 연속 1은 해결되지만 연속 0은 동일 문제.
 
@@ -74,26 +70,22 @@ NRZ-I (Non-Return to Zero Inverted):
 
 ## III. 클락 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 문제
 
+```
+문제 상황:
+  NRZ-L 송신: 1 1 1 1 1 1 1 1 (8개의 1)
+  신호: +V +V +V +V +V +V +V +V (변화 없음)
+  
+  수신측: "한 개의 긴 +V인가? 여러 개의 1인가?"
+  -> 비트 경계(Bit Boundary)를 알 수 없음
+  -> 클락 복원 불가
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">문제 상황:</div>
-<div class="kb-diagram-note">NRZ-L 송신: 1 1 1 1 1 1 1 1 (8개의 1)</div>
-<div class="kb-diagram-note">신호: +V +V +V +V +V +V +V +V (변화 없음)</div>
-<div class="kb-diagram-note">수신측: "한 개의 긴 +V인가? 여러 개의 1인가?"</div>
-<div class="kb-diagram-tree-item" style="--depth:1">비트 경계(Bit Boundary)를 알 수 없음</div>
-<div class="kb-diagram-tree-item" style="--depth:1">클락 복원 불가</div>
-<div class="kb-diagram-note">해결책들:</div>
-<div class="kb-diagram-note">1. 별도 클락 선 사용 (비효율)</div>
-<div class="kb-diagram-note">2. 자기 클락킹 코딩 사용:</div>
-<div class="kb-diagram-note">맨체스터: 각 비트 중앙에서 반드시 전환</div>
-<div class="kb-diagram-note">차분 맨체스터: 0이면 비트 시작에 전환</div>
-<div class="kb-diagram-note">3. 4B/5B: 4비트를 5비트로 변환 (연속 0 제거)</div>
-</div>
-</div>
-
-
+해결책들:
+  1. 별도 클락 선 사용 (비효율)
+  2. 자기 클락킹 코딩 사용:
+     맨체스터: 각 비트 중앙에서 반드시 전환
+     차분 맨체스터: 0이면 비트 시작에 전환
+  3. 4B/5B: 4비트를 5비트로 변환 (연속 0 제거)
+```
 
 > 📢 **섹션 요약 비유**: 수신기가 심장박동기처럼 규칙적인 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 기대하는데, NRZ에서 긴 1이 오면 "아직 살아있나?" [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 불가 — 자기 클락킹 코딩이 해결책.
 

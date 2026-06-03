@@ -31,27 +31,31 @@ tags = ["studynote-operating-system"]
 - <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 비동기 거짓말과 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a>(fsync) 철퇴 관통 통치 메커니즘 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> 뷰</strong>:
 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)(DB) 생명 주기가 어떻게 캐시 옥상의 파괴 증발 에러를 물리치는지 그 수직 하강 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 렌더를 까보면 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"임시 캐시에 두고 뻥치지 마라! 철판 끝까지 무조껀 파고 들어라!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">❌</div><div class="kb-diagram-node">비동기(Async) 지연 쓰기: 속도 극강 $O(1)$ 이나 멸망 위험도 99% 스왑</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">앱 결제</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">📌 RAM 페이지 캐시</div><div class="kb-diagram-note">]</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">( 거짓말 Return "성공!" )─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(이때 정전 쾅! 나면? RAM 공중 분해 💀 통장 잔돈 1억 증발 에러 파단!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">✅</div><div class="kb-diagram-node">동기화(Sync / fsync): 속도 달팽이 $O(N)$ 랙이나 방어력 100% 우주 결속</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">앱 결제</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">📌 RAM 페이지 캐시 통과!</div><div class="kb-diagram-note">]</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(앱 대기 중.. Blocked 프리징 늪) ↓ (직하강 파이프)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">(대기 중..) [</div><div class="kb-diagram-node">🖨️ 디스크 드라이버</div><div class="kb-diagram-note">]</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(대기 중..) ↓ (물리 모터 징~ 10ms 랙)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">(대기 중..) [</div><div class="kb-diagram-node">💿 HDD/SSD 철판 도착!!</div><div class="kb-diagram-note">]</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">앱 결제</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">( 진짜 철판 굽기 성공 Data Committed 리턴 록백!! )</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 정전이 나도 무조건 데이터가 철판에 생존해 있음 무결 결착 방어 보장!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────────────────────────┐
+  │                 "임시 캐시에 두고 뻥치지 마라! 철판 끝까지 무조껀 파고 들어라!" │
+  ├─────────────────────────────────────────────────────────────────────────────────┤
+  │                                                                                 │
+  │  ❌ [ 비동기(Async) 지연 쓰기: 속도 극강 $O(1)$ 이나 멸망 위험도 99% 스왑 ]     │
+  │     [ 앱 결제 ] ─────( write 콜 빔! )────▶ [[ 📌 RAM 페이지 캐시 ]]             │
+  │                                 ┌──────( 거짓말 Return "성공!" )─┘              │
+  │           (이때 정전 쾅! 나면? RAM 공중 분해 💀 통장 잔돈 1억 증발 에러 파단!)  │
+  │                                                                                 │
+  │  =========================▼===================================                  │
+  │                                                                                 │
+  │  ✅ [ 동기화(Sync / fsync): 속도 달팽이 $O(N)$ 랙이나 방어력 100% 우주 결속 ]   │
+  │                                                                                 │
+  │     [ 앱 결제 ] ─────( fsync 콜 빔! )────▶ [[ 📌 RAM 페이지 캐시 통과! ]]       │
+  │     (앱 대기 중.. Blocked 프리징 늪)                    ↓  (직하강 파이프)      │
+  │     (대기 중..)                                 [[ 🖨️ 디스크 드라이버 ]]        │
+  │     (대기 중..)                                  ↓  (물리 모터 징~ 10ms 랙)     │
+  │     (대기 중..)                                 [[ 💿 HDD/SSD 철판 도착!!]]     │
+  │                                                                                 │
+  │     [ 앱 결제 ] ◀────( 진짜 철판 굽기 성공 Data Committed 리턴 록백!! )───┘     │
+  │                                                                                 │
+  │   => 결과: 정전이 나도 무조건 데이터가 철판에 생존해 있음 무결 결착 방어 보장!  │
+  └─────────────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 상단의 비동기 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 렌더는 `write()` 콜 시, RAM 계층 까지만 배달하고 즉시 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 복귀를 선언하는 사기극 효율 부스트다. CPU가 안 놀기 때문에 초당 100만 번의 로깅도 $O(1)$ 로 버틴다. 반면 하단의 **fsync 빔** 구조는 유저 레벨부터 $\to$ [VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) 캐시 옥상 $\to$ [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 i-node 메타 렌더 $\to$ 디바이스 드라이버 로어 $\to$ [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 물리 낸드플래시 블록에 전기가 강제 도달할 때까지 모든 레이어를 수직 구멍 내버리는 관통 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)(Flush All Layers 록) 다이브다. 물리 디스크 구이가 끝날 때까지 유저 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 완전히 일시 정지(Blocked) 당하는 혹독한 디스크 I/O 레이턴시 랙 대기값을 지불하지만, ACID 제 4원칙인 [영속성](/knowledge-base/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/)([Durability](/knowledge-base/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/))의 성배를 안겨주는 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 최상위 도출 구조다.
 
@@ -131,19 +135,15 @@ DB 서버(PostgreSQL 등) 엔진의 심장 소스코드를 까보면 `fsync()` �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">미리 읽기 (Read-ahead) 및 지연 쓰기 (Delayed-write / Write-behind)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">동기화 I/O (O_SYNC / fsync)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">저널링 파일 시스템 (Journaling File System)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">메타데이터 저널링 vs 데이터 저널링 모드 (순서: 로그 기록 -&gt; 커밋 -&gt; 실제 파일시스템 반영)</div></div>
-</div>
-</div>
-
-
+```text
+[미리 읽기 (Read-ahead) 및 지연 쓰기 (Delayed-write / Write-behind)]
+    │
+    ▼
+[동기화 I/O (O_SYNC / fsync)]
+    │
+    ├──▶ [저널링 파일 시스템 (Journaling File System)]
+    └──▶ [메타데이터 저널링 vs 데이터 저널링 모드 (순서: 로그 기록 -> 커밋 -> 실제 파일시스템 반영)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

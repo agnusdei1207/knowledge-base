@@ -18,23 +18,21 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LwM2M 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LwM2M Server</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↕ CoAP (DTLS 보안)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LwM2M Client (디바이스)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Object 3 (Device) — 제조사·모델·배터리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Object 5 (Firmware) — FOTA 업데이트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Object 3303 (Temperature) — 온도 센서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Resource: /3303/0/5700 = 25.3°C</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기능: 등록·읽기·쓰기·관찰(Observe)·FOTA</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    LwM2M 아키텍처                                     │
+├───────────────────────────────────────────────────────┤
+│  [LwM2M Server]                                       │
+│    ↕ CoAP (DTLS 보안)                                │
+│  [LwM2M Client (디바이스)]                            │
+│    ├── Object 3 (Device) — 제조사·모델·배터리        │
+│    ├── Object 5 (Firmware) — FOTA 업데이트            │
+│    ├── Object 3303 (Temperature) — 온도 센서          │
+│    └── Resource: /3303/0/5700 = 25.3°C               │
+│                                                       │
+│  기능: 등록·읽기·쓰기·관찰(Observe)·FOTA             │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: LwM2M은 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 디바이스의 <strong>원격 리모컨 표준</strong>이다. 수만 대의 센서를 한 곳(서버)에서 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)·업데이트·모니터링할 수 있다.
 
@@ -93,23 +91,21 @@ LwM2M은 <strong>대규모 <a href="/knowledge-base/studynote/06_ict_convergence
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">OMA DM (2003) — 모바일 디바이스 관리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LwM2M v1.0 (2017) — IoT 경량 디바이스 관리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LwM2M v1.1 (2019) — MQTT/TCP 전송 추가</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LwM2M v1.2 (2022) — CBOR, SenML 데이터 포맷</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: 클라우드 IoT + LwM2M — 대규모 디바이스 관리</div></div>
-</div>
-</div>
-
-
+```text
+[OMA DM (2003) — 모바일 디바이스 관리]
+    │
+    ▼
+[LwM2M v1.0 (2017) — IoT 경량 디바이스 관리]
+    │
+    ▼
+[LwM2M v1.1 (2019) — MQTT/TCP 전송 추가]
+    │
+    ▼
+[LwM2M v1.2 (2022) — CBOR, SenML 데이터 포맷]
+    │
+    ▼
+[현재: 클라우드 IoT + LwM2M — 대규모 디바이스 관리]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. LwM2M은 <strong>수만 대의 로봇을 리모컨 하나로 관리</strong>하는 기술이에요.

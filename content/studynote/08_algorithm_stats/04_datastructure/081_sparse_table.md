@@ -18,20 +18,16 @@ tags = ["studynote-algorithm-stats"]
 
 ## Ⅰ. 개요 및 필요성
 
+```text
+배열: [2, 4, 3, 1, 6, 7, 8, 9]
+       0  1  2  3  4  5  6  7
 
+RMQ(l, r) = [l, r] 범위에서 최솟값 쿼리
+예: RMQ(1, 5) = min(4, 3, 1, 6, 7) = 1
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-note">배열:</div><div class="kb-diagram-node">2, 4, 3, 1, 6, 7, 8, 9</div></div>
-<div class="kb-diagram-note">0 1 2 3 4 5 6 7</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">RMQ(l, r) =</div><div class="kb-diagram-node">l, r</div><div class="kb-diagram-note">범위에서 최솟값 쿼리</div></div>
-<div class="kb-diagram-note">예: RMQ(1, 5) = min(4, 3, 1, 6, 7) = 1</div>
-<div class="kb-diagram-note">나이브 방법: O(n) 쿼리 → 쿼리 Q개면 O(nQ)</div>
-<div class="kb-diagram-note">스파스 테이블: O(n log n) 전처리 → O(1) 쿼리</div>
-</div>
-</div>
-
-
+나이브 방법: O(n) 쿼리 → 쿼리 Q개면 O(nQ)
+스파스 테이블: O(n log n) 전처리 → O(1) 쿼리
+```
 
 - **📢 섹션 요약 비유**: 스파스 테이블은 미리 만들어둔 구간 최솟값 치트시트다. 모든 구간의 답을 미리 계산해두면(치트시트 준비), 질문이 들어왔을 때 즉시 답할 수 있다(O(1) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)).
 
@@ -122,23 +118,21 @@ RMQ(l, r):
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">나이브 RMQ — O(n) 쿼리, 단순 순회</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스파스 테이블 — O(n log n) 전처리, O(1) 쿼리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LCA 결합 — 트리 공통 조상 O(1) 탐색</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">세그먼트 트리 — 동적 갱신 + 구간 쿼리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">퍼시스턴트 세그먼트 트리 — 버전별 히스토리 쿼리</div></div>
-</div>
-</div>
-
-
+```text
+[나이브 RMQ — O(n) 쿼리, 단순 순회]
+    │
+    ▼
+[스파스 테이블 — O(n log n) 전처리, O(1) 쿼리]
+    │
+    ▼
+[LCA 결합 — 트리 공통 조상 O(1) 탐색]
+    │
+    ▼
+[세그먼트 트리 — 동적 갱신 + 구간 쿼리]
+    │
+    ▼
+[퍼시스턴트 세그먼트 트리 — 버전별 히스토리 쿼리]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

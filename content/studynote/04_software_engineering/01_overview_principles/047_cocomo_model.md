@@ -117,47 +117,50 @@ EAF 계산 예:
 
 ## Ⅲ. [COCOMO](/knowledge-base/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/) II
 
+```
+COCOMO II (1995, USC-CSE):
 
+동기:
+  COCOMO I: 1970s-1980s 개발 환경 기반
+  1990s: 객체 지향, 재사용, COTS(상용 컴포넌트)
+  → 새 추정 기법 필요
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">COCOMO II (1995, USC-CSE):</div>
-<div class="kb-diagram-note">동기:</div>
-<div class="kb-diagram-note">COCOMO I: 1970s-1980s 개발 환경 기반</div>
-<div class="kb-diagram-note">1990s: 객체 지향, 재사용, COTS(상용 컴포넌트)</div>
-<div class="kb-diagram-note">→ 새 추정 기법 필요</div>
-<div class="kb-diagram-note">COCOMO II 모델 계층:</div>
-<div class="kb-diagram-note">1. 응용 합성 모델 (Application Composition):</div>
-<div class="kb-diagram-note">프로토타입 단계</div>
-<div class="kb-diagram-note">Object Point 기반</div>
-<div class="kb-diagram-note">COTS 재사용 고려</div>
-<div class="kb-diagram-note">2. 초기 설계 모델 (Early Design):</div>
-<div class="kb-diagram-note">기능 점수 또는 KLOC 기반</div>
-<div class="kb-diagram-note">7개 비용 드라이버 (간략화)</div>
-<div class="kb-diagram-note">3. 후기 아키텍처 모델 (Post-Architecture):</div>
-<div class="kb-diagram-note">상세 설계 후</div>
-<div class="kb-diagram-note">17개 비용 드라이버</div>
-<div class="kb-diagram-note">지수(b) = B + 0.01 × Σ(5개 척도 인자)</div>
-<div class="kb-diagram-note">COCOMO II 공수 공식:</div>
-<div class="kb-diagram-note">Effort = A × Size^E × Πi(EMi)</div>
-<div class="kb-diagram-note">A: 경험적 상수 (≈2.94)</div>
-<div class="kb-diagram-note">Size: KLOC 또는 FP 변환값</div>
-<div class="kb-diagram-note">E: 지수 (1.01 ~ 1.26)</div>
-<div class="kb-diagram-note">EMi: 비용 드라이버들의 곱</div>
-<div class="kb-diagram-note">지수(E) 결정 척도 인자:</div>
-<div class="kb-diagram-note">선례성 (PREC): 유사 프로젝트 경험</div>
-<div class="kb-diagram-note">개발 유연성 (FLEX): 요구사항 변경 가능성</div>
-<div class="kb-diagram-note">아키텍처/위험 해결 (RESL)</div>
-<div class="kb-diagram-note">팀 응집성 (TEAM)</div>
-<div class="kb-diagram-note">프로세스 성숙도 (PMAT): CMMI 레벨</div>
-<div class="kb-diagram-note">기능 점수 → KLOC 변환:</div>
-<div class="kb-diagram-note">Java: 1 FP ≈ 46 LOC</div>
-<div class="kb-diagram-note">C: 1 FP ≈ 128 LOC</div>
-<div class="kb-diagram-note">Python: 1 FP ≈ 21 LOC</div>
-</div>
-</div>
+COCOMO II 모델 계층:
 
+1. 응용 합성 모델 (Application Composition):
+  프로토타입 단계
+  Object Point 기반
+  COTS 재사용 고려
 
+2. 초기 설계 모델 (Early Design):
+  기능 점수 또는 KLOC 기반
+  7개 비용 드라이버 (간략화)
+
+3. 후기 아키텍처 모델 (Post-Architecture):
+  상세 설계 후
+  17개 비용 드라이버
+  지수(b) = B + 0.01 × Σ(5개 척도 인자)
+
+COCOMO II 공수 공식:
+  Effort = A × Size^E × Πi(EMi)
+  
+  A: 경험적 상수 (≈2.94)
+  Size: KLOC 또는 FP 변환값
+  E: 지수 (1.01 ~ 1.26)
+  EMi: 비용 드라이버들의 곱
+
+지수(E) 결정 척도 인자:
+  선례성 (PREC): 유사 프로젝트 경험
+  개발 유연성 (FLEX): 요구사항 변경 가능성
+  아키텍처/위험 해결 (RESL)
+  팀 응집성 (TEAM)
+  프로세스 성숙도 (PMAT): CMMI 레벨
+
+기능 점수 → KLOC 변환:
+  Java: 1 FP ≈ 46 LOC
+  C: 1 FP ≈ 128 LOC
+  Python: 1 FP ≈ 21 LOC
+```
 
 > 📢 **섹션 요약 비유**: [COCOMO](/knowledge-base/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/) II는 업그레이드된 설계 소프트웨어 — 2D 도면([COCOMO](/knowledge-base/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/) I) 대신 3D BIM 모델링. 재사용 자재, 현대 공법, 팀 성숙도까지 반영한 정교한 적산!
 
@@ -212,47 +215,52 @@ EAF 계산 예:
 
 ## Ⅴ. 실무 시나리오 — 공공 SI 프로젝트 견적
 
+```
+공공기관 ERP 구축 사업 비용 추정:
 
+발주: 지방자치단체
+사업: 행정정보시스템 재구축
+규모: 10만 라인 (100 KLOC)
+기간: 12개월 목표
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">공공기관 ERP 구축 사업 비용 추정:</div>
-<div class="kb-diagram-note">발주: 지방자치단체</div>
-<div class="kb-diagram-note">사업: 행정정보시스템 재구축</div>
-<div class="kb-diagram-note">규모: 10만 라인 (100 KLOC)</div>
-<div class="kb-diagram-note">기간: 12개월 목표</div>
-<div class="kb-diagram-note">COCOMO II (Post-Architecture) 적용:</div>
-<div class="kb-diagram-note">비용 드라이버 분석:</div>
-<div class="kb-diagram-note">RELY(신뢰성): 매우 높음 (1.26) - 공공 업무</div>
-<div class="kb-diagram-note">CPLX(복잡도): 높음 (1.17) - 복잡한 행정 로직</div>
-<div class="kb-diagram-note">ACAP(분석가): 높음 (0.85) - 경험 있는 분석가</div>
-<div class="kb-diagram-note">PCAP(프로그래머): 보통 (1.00)</div>
-<div class="kb-diagram-note">TOOL(도구): 높음 (0.90) - 현대 IDE/DevOps</div>
-<div class="kb-diagram-note">SCED(일정): 높음 압박 (1.14) - 예산 주기</div>
-<div class="kb-diagram-note">EAF ≈ 1.26 × 1.17 × 0.85 × 1.00 × 0.90 × 1.14 ≈ 1.28</div>
-<div class="kb-diagram-note">COCOMO II 계산:</div>
-<div class="kb-diagram-note">E = 1.01 + 0.01 × 15 = 1.16 (척도 인자 합=15)</div>
-<div class="kb-diagram-note">Effort = 2.94 × (100)^1.16 × 1.28</div>
-<div class="kb-diagram-note">= 2.94 × 184 × 1.28</div>
-<div class="kb-diagram-note">≈ 692 PM</div>
-<div class="kb-diagram-note">Duration = 3.67 × (692)^0.28 ≈ 30개월</div>
-<div class="kb-diagram-note">12개월 목표 달성 방안:</div>
-<div class="kb-diagram-note">팀 692/12 ≈ 58명 필요</div>
-<div class="kb-diagram-note">현실적 재검토:</div>
-<div class="kb-diagram-tree-item" style="--depth:1">일정 14개월로 조정 → 팀 50명</div>
-<div class="kb-diagram-tree-item" style="--depth:1">또는 범위 축소 (70 KLOC) → 공수 450 PM</div>
-<div class="kb-diagram-note">전문가 검증:</div>
-<div class="kb-diagram-note">COCOMO II 결과 ± 30% 범위 내</div>
-<div class="kb-diagram-note">유사 프로젝트 실적 비교</div>
-<div class="kb-diagram-note">최종 견적 (3-Point Estimate):</div>
-<div class="kb-diagram-note">낙관: 480 PM (팀 역량 우수, 요구사항 안정)</div>
-<div class="kb-diagram-note">현실: 692 PM (COCOMO II 결과)</div>
-<div class="kb-diagram-note">비관: 900 PM (요구사항 변경, 인력 이탈)</div>
-<div class="kb-diagram-note">PERT 공수: (480+4×692+900)/6 = 692 PM</div>
-</div>
-</div>
+COCOMO II (Post-Architecture) 적용:
 
+비용 드라이버 분석:
+  RELY(신뢰성): 매우 높음 (1.26) - 공공 업무
+  CPLX(복잡도): 높음 (1.17) - 복잡한 행정 로직
+  ACAP(분석가): 높음 (0.85) - 경험 있는 분석가
+  PCAP(프로그래머): 보통 (1.00)
+  TOOL(도구): 높음 (0.90) - 현대 IDE/DevOps
+  SCED(일정): 높음 압박 (1.14) - 예산 주기
+  
+  EAF ≈ 1.26 × 1.17 × 0.85 × 1.00 × 0.90 × 1.14 ≈ 1.28
 
+COCOMO II 계산:
+  E = 1.01 + 0.01 × 15 = 1.16 (척도 인자 합=15)
+  Effort = 2.94 × (100)^1.16 × 1.28
+         = 2.94 × 184 × 1.28
+         ≈ 692 PM
+
+  Duration = 3.67 × (692)^0.28 ≈ 30개월
+
+12개월 목표 달성 방안:
+  팀 692/12 ≈ 58명 필요
+  
+  현실적 재검토:
+  - 일정 14개월로 조정 → 팀 50명
+  - 또는 범위 축소 (70 KLOC) → 공수 450 PM
+  
+  전문가 검증:
+  COCOMO II 결과 ± 30% 범위 내
+  유사 프로젝트 실적 비교
+  
+최종 견적 (3-Point Estimate):
+  낙관: 480 PM (팀 역량 우수, 요구사항 안정)
+  현실: 692 PM (COCOMO II 결과)
+  비관: 900 PM (요구사항 변경, 인력 이탈)
+  
+  PERT 공수: (480+4×692+900)/6 = 692 PM
+```
 
 > 📢 **섹션 요약 비유**: 공공 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) 견적 계산은 건물 공사 적산 — [COCOMO](/knowledge-base/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/) II가 692 PM(약 58명×12개월) 산출. 발주처 요구(12개월)와 다르면? 범위 축소 또는 팀 증원으로 협상!
 

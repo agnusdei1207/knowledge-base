@@ -109,21 +109,18 @@ Storage Layer ←→ Compute Layer → Query / Transform
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">통합 DW</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">컴퓨트/스토리지 분리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">탄력 확장</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 DW / 레이크하우스</div>
-</div>
-</div>
-
-
+```text
+통합 DW
+    │
+    ▼
+컴퓨트/스토리지 분리
+    │
+    ▼
+탄력 확장
+    │
+    ▼
+클라우드 DW / 레이크하우스
+```
 
 이 흐름은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)웨어하우스가 클라우드에서 더 유연해지는 과정을 보여준다.
 

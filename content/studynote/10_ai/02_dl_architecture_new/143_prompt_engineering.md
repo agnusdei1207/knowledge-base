@@ -1,5 +1,5 @@
 +++
-title = "143. 프롬프트 엔지니어링 (Prompt Engineering) - LLM 활용의 핵심"
+title = "143. 프롬프트 엔지니어링 (Prompt 엔진ering) - LLM 활용의 핵심"
 date = 2026-04-19
 
 [taxonomies]
@@ -48,17 +48,11 @@ CoT: "단계별로 생각해 봐" → 추론 과정 명시
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Zero/Few-shot (GPT-3, 2020)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">CoT (2022)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Self-Consistency (2023)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Tree-of-Thought (2023)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: Agent Prompt — 도구 호출·반복 추론</div></div>
-</div>
-</div>
-
-
+```text
+[Zero/Few-shot (GPT-3, 2020)] → [CoT (2022)]
+    → [Self-Consistency (2023)] → [Tree-of-Thought (2023)]
+    → [현재: Agent Prompt — 도구 호출·반복 추론]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [프롬프트 엔지니어링](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/149_prompt_engineering_cot_few_shot/)은 <strong>AI에게 잘 질문</strong>하는 거예요.

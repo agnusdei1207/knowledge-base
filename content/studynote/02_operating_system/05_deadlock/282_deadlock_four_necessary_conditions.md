@@ -25,29 +25,31 @@ tags = ["studynote-operating-system"]
 
 **💡 비유**: 범죄가 성립하려면 범행 의도(1), 수단(2), 대상(3), 기회(4)가 다 있어야 하듯, [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)라는 '에러 범죄'도 4가지 나쁜 타이밍 조건이 하나의 단단한 매듭으로 묶여야 발생합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">교착 상태(Deadlock)의 네 가지 퍼즐 조각</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">조건 1</div><div class="kb-diagram-note">상호 배제 (Mutual Exclusion)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">한 번에 한 명만 쓰는 배타적 자원이어야 함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(모두가 같이 쓰는 벤치라면 싸움 안 남)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">조건 2</div><div class="kb-diagram-note">점유하며 대기 (Hold and Wait)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">내 것을 꽁꽁 쥔 채로 남의 것을 내놓으라고 버텨야 함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(손 풀고 처음부터 다시 요청하면 싸움 안 남)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">조건 3</div><div class="kb-diagram-note">비선점 (No Preemption)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">운영체제(경찰)나 다른 놈이 억지로 뺏을 수 없음.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(경찰이 강제로 뺏어서 분배 가능하면 싸움 안 남)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">조건 4</div><div class="kb-diagram-note">순환 대기 (Circular Wait)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물고 물리는 고리 형태(A→B→C→A)로 서로를 원해야 함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(직선 구조면 끝사람이 끝내면 차례가 오지만 순환은 영원함)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 이 4개가 우연히 한 프레임에 모두 공존(AND 조건) 시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시스템은 영구 정지(데드락)!</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│         교착 상태(Deadlock)의 네 가지 퍼즐 조각              │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│  [조건 1] 상호 배제 (Mutual Exclusion)                       │
+│  한 번에 한 명만 쓰는 배타적 자원이어야 함.                  │
+│  (모두가 같이 쓰는 벤치라면 싸움 안 남)                      │
+│                                                              │
+│  [조건 2] 점유하며 대기 (Hold and Wait)                      │
+│  내 것을 꽁꽁 쥔 채로 남의 것을 내놓으라고 버텨야 함.        │
+│  (손 풀고 처음부터 다시 요청하면 싸움 안 남)                 │
+│                                                              │
+│  [조건 3] 비선점 (No Preemption)                             │
+│  운영체제(경찰)나 다른 놈이 억지로 뺏을 수 없음.             │
+│  (경찰이 강제로 뺏어서 분배 가능하면 싸움 안 남)             │
+│                                                              │
+│  [조건 4] 순환 대기 (Circular Wait)                          │
+│  물고 물리는 고리 형태(A→B→C→A)로 서로를 원해야 함.          │
+│  (직선 구조면 끝사람이 끝내면 차례가 오지만 순환은 영원함)   │
+│                                                              │
+│   → 이 4개가 우연히 한 프레임에 모두 공존(AND 조건) 시       │
+│      시스템은 영구 정지(데드락)!                             │
+└──────────────────────────────────────────────────────────────┘
+```
 
 **📢 섹션 요약 비유**: 4조건은 무인도 뱀 꼬리 물기 — 각자 방(배타)에 숨어서([비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)), 앞 뱀의 꼬리를 잡은 채(점유) 절대 안 놓고(대기), 다 같이 원형(순환)으로 원수지간이 되는 완벽한 붕괴 공식입니다.
 
@@ -123,19 +125,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">교착 상태 (Deadlock) 정의</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">교착 상태 발생 4가지 필요조건 (모두 만족해야 발생) (Deadlock Four Necessary Conditions)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">상호 배제 (Mutual Exclusion)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">점유하며 대기 (Hold-and-Wait)</div></div>
-</div>
-</div>
-
-
+```text
+[교착 상태 (Deadlock) 정의]
+    │
+    ▼
+[교착 상태 발생 4가지 필요조건 (모두 만족해야 발생) (Deadlock Four Necessary Conditions)]
+    │
+    ├──▶ [상호 배제 (Mutual Exclusion)]
+    └──▶ [점유하며 대기 (Hold-and-Wait)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

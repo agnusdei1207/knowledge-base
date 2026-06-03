@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 컴퓨터 안에는 수은 건전지로 돌아가는 조그만 시계(RTC, Real Time [Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/)) 칩이 있습니다.
 - 이 싸구려 칩은 수정 발진자를 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 때문에 기온이 변하거나 건전지가 닳으면 하루에 몇 초씩 시간이 멋대로 빨라지거나 느려지는 끔찍한 오차([Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) Drift)를 냅니다. 서버 2대의 시계가 1분 차이 나면 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)가 박살이 납니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">IEEE 1588 PTP 시각 동기망</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NTP / GPS 동기화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RDMA / RoCE 스토리지 서버 네트워킹</div></div>
-</div>
-</div>
-
-
+```text
+[IEEE 1588 PTP 시각 동기망]
+    │
+    ▼
+[NTP / GPS 동기화]
+    │
+    └──▶ [RDMA / RoCE 스토리지 서버 네트워킹]
+```
 
 - **📢 섹션 요약 비유**: [NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/) / GPS [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -57,18 +53,14 @@ NTP망은 10억 대의 PC가 하나의 원자시계 서버로 몰려들어 서�
 - **Stratum 2 (중간 도매상)**: 수만 대의 일반 PC가 Stratum 1에 몰리면 뻗으니까, 방패막이로 세워둔 중간 타임 서버들입니다. 얘네들은 인터넷(LAN)을 통해 Stratum 1에게 시간을 물어보고([동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)), 자기가 다시 하위 서버들에게 뿌립니다.
 - <strong>Stratum 3 ~ 15 (하위 소매상 및 개인 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/">PC</a>)</strong>: 계속 다단계로 내려가며 우리 집 윈도우 PC는 대략 Stratum 3이나 4급 서버(`time.windows.com`)에 접속해 시간을 맞춰옵니다. (Stratum 번호가 16이면 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 불가를 뜻합니다.)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">IEEE 1588 PTP 시각 동기망</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NTP / GPS 동기화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RDMA / RoCE 스토리지 서버 네트워킹</div></div>
-</div>
-</div>
-
-
+```text
+[IEEE 1588 PTP 시각 동기망]
+    │
+    ▼
+[NTP / GPS 동기화]
+    │
+    └──▶ [RDMA / RoCE 스토리지 서버 네트워킹]
+```
 
 - **📢 섹션 요약 비유**: [NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/) / GPS [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -123,19 +115,15 @@ NTP망은 10억 대의 PC가 하나의 원자시계 서버로 몰려들어 서�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: IEEE 1588 PTP 시각 동기망</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: NTP / GPS 동기화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: RDMA / RoCE 스토리지 서버 네트워킹</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: IEEE 1588 PTP 시각 동기망]
+    │
+    ▼
+[현재 개념: NTP / GPS 동기화]
+    │
+    ├──▶ [확장 A: RDMA / RoCE 스토리지 서버 네트워킹]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 [NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/) / GPS [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)는 IEEE 1588 PTP 시각 동기망에서 출발해 현재 메커니즘을 정교화하고, 이후 [RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) / [RoCE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/523_roce/) 스토리지 서버 네트워킹와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

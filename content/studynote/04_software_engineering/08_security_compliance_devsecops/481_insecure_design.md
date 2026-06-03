@@ -19,17 +19,17 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [Insecure Design](/knowledge-base/studynote/09_security/05_web_app_security/440_insecure_design/)(안전하지 않은 설계)은 코드의 오타나 문법 에러(Bug)가 아니다. 설계 자체의 멍청함(Flaw)이다.
-- <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a>(Flaw)</strong>: "비밀번호 찾기 질문" 기능에서, 질문이 "어머니의 결혼 전 성()은?" 이다. 해커가 피해자의 페이스북이나 가족관계증명서를 털어 답을 알아낸 뒤 비밀번호를 100% 합법적(?)으로 바꿔버린다. 코드는 100% 정상 작동했다. 기획(설계)이 미친 짓이었을 뿐이다.
+- **개념**: [Insecure Design](/knowledge-base/studynote/09_security/05_web_app_security/440_insecure_design/)(안전하지 않은 설계)은 코드의 오타나 문법 에러(Bug)가 아니다. 설계 자체의 멍청함(Flaw)이다. 
+  - <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a>(Flaw)</strong>: "비밀번호 찾기 질문" 기능에서, 질문이 "어머니의 결혼 전 성(姓)은?" 이다. 해커가 피해자의 페이스북이나 가족관계증명서를 털어 답을 알아낸 뒤 비밀번호를 100% 합법적(?)으로 바꿔버린다. 코드는 100% 정상 작동했다. 기획(설계)이 미친 짓이었을 뿐이다.
 
 - **필요성**: 수백억 원의 보안 예산을 들여 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)([WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/))을 세우고, 정적 분석기([SonarQube](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/))를 달아 코드를 쥐어짰다. 해커가 들어올 기술적 구멍([버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/), [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/))은 0([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/))이 되었다. 그런데 영화 예매 사이트에서 "어린이표 2장, 어른표 -1장"을 결제하니까 총액이 0원이 되어 공짜로 예매가 되는 사고가 터졌다. [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)도 기계도 이 논리적 미친 짓(마이너스 수량 꼼수)을 에러라고 잡지 못했다. 왜? 문법적으론 완벽한 숫자 계산이었으니까. **코딩의 완벽함이 비즈니스 로직의 허술함을 지켜주지 못한다는 한계를 깨닫고, 아키텍처 설계도(Blueprint) 자체의 논리를 뜯어고쳐야 생존할 수 있다.**
 
 - **💡 비유**: 안전하지 않은 설계는 <strong>'잠금장치가 문 안쪽에 없는 감옥'</strong>과 같습니다. 감옥을 티타늄(완벽한 코드)으로 엄청 튼튼하게 지었습니다. 벽을 부수고(해킹) 탈출하는 건 불가능합니다. 그런데 설계자가 실수로 '문 여는 버튼'을 감옥 안쪽 벽(멍청한 기획)에 달아버렸습니다. 죄수는 그냥 버튼을 누르고 유유히 당당하게 걸어 나갑니다. 건물의 튼튼함(코딩)과 상관없이 도면(설계) 자체가 바보 같아서 벌어진 재앙입니다.
 
 - **등장 배경 및 발전 과정**:
-1. **코더(Coder)의 시대**: 2000년대 해커들은 주로 C언어 메모리나 SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 같은 기술적인 잔버그(Implementation Bug)를 뚫고 들어왔다.
-2. **프레임워크 방어망의 고도화**: Spring, Django 같은 현대 프레임워크들이 기술적 버그(SQLi, [XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/))를 기계적으로 거의 100% 방어해 내는 수준에 이르렀다.
-3. **비즈니스 로직 해킹의 부상 (현재)**: 기술적 구멍이 막히자, 해커들은 "개발자가 빼먹은 비즈니스 예외 로직"을 노리기 시작했다. 이에 OWASP 재단은 2021년, "이제 코드(구현) 고치는 건 그만하고, 기획(설계)부터 똑바로 해라!"라는 분노를 담아 `Insecure Design(A04)`을 거대한 새로운 카테고리로 신설해 버렸다.
+  1. **코더(Coder)의 시대**: 2000년대 해커들은 주로 C언어 메모리나 SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 같은 기술적인 잔버그(Implementation Bug)를 뚫고 들어왔다.
+  2. **프레임워크 방어망의 고도화**: Spring, Django 같은 현대 프레임워크들이 기술적 버그(SQLi, [XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/))를 기계적으로 거의 100% 방어해 내는 수준에 이르렀다.
+  3. **비즈니스 로직 해킹의 부상 (현재)**: 기술적 구멍이 막히자, 해커들은 "개발자가 빼먹은 비즈니스 예외 로직"을 노리기 시작했다. 이에 OWASP 재단은 2021년, "이제 코드(구현) 고치는 건 그만하고, 기획(설계)부터 똑바로 해라!"라는 분노를 담아 `Insecure Design(A04)`을 거대한 새로운 카테고리로 신설해 버렸다.
 
 - **📢 섹션 요약 비유**: 구현(코딩) 오류가 옷의 <strong>'실밥이 터져 구멍이 난 것'</strong>이라면, 안전하지 않은 설계는 실밥은 완벽하게 바느질되었는데 애초에 디자인을 <strong>'목 들어가는 구멍을 막아놓고 소매를 3개로 만든 옷'</strong>으로 재단해버린 것입니다. 옷감(코드)을 아무리 비싼 걸 써도, 애초에 설계도(패턴)가 망했기 때문에 옷을 찢지 않고는 절대 고쳐 입을 수 없습니다.
 
@@ -37,17 +37,18 @@ tags = ["studynote-software-engineering"]
 
 다음은 [Insecure Design](/knowledge-base/studynote/09_security/05_web_app_security/440_insecure_design/) (안전하의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Insecure Design (안전하</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                  Insecure Design (안전하                        │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
+│       │                    │                    │          │
+│       ▼                    ▼                    ▼          │
+│   요구 분석           설계·적용           품질 검증        │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램은 [Insecure Design](/knowledge-base/studynote/09_security/05_web_app_security/440_insecure_design/) (안전하가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -137,30 +138,28 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | [Insecure Design](/knowledge-base/studynote/09_security/05_web_app_security/440_insecure_design/) (안전하지 않은 설계)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | [Insecure Design](/knowledge-base/studynote/09_security/05_web_app_security/440_insecure_design/) (안전하지 않은 설계)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
 | [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | [Insecure Design](/knowledge-base/studynote/09_security/05_web_app_security/440_insecure_design/) (안전하지 않은 설계)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | [Insecure Design](/knowledge-base/studynote/09_security/05_web_app_security/440_insecure_design/) (안전하지 않은 설계) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
 | [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | [Insecure Design](/knowledge-base/studynote/09_security/05_web_app_security/440_insecure_design/) (안전하지 않은 설계)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Insecure Design (안전하지 않은 설계) 개념 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 위기 (Software Crisis) 인식
+    │
+    ▼
+Insecure Design (안전하지 않은 설계) 개념 정립
+    │
+    ▼
+표준화 및 방법론 체계화 (ISO, CMMI, Agile)
+    │
+    ▼
+클라우드 네이티브·AI 기반 확장 적용
+    │
+    ▼
+지속적 개선 및 DevOps·MLOps 통합
+```
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

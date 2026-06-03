@@ -23,18 +23,19 @@ tags = ["studynote-it-management"]
 
 국내외 규제도 같은 방향으로 움직여 왔다. 일정 규모 이상의 기업이나 [정보통신서비스](/knowledge-base/studynote/09_security/16_data_privacy/788_isp_obligations/) 제공자에게 CISO 지정, 신고, 겸직 제한, 책임 명확화를 요구하는 제도가 강화되면서, CISO는 단순 권고 직책이 아니라 <strong>법적·거버넌스적 필수 역할</strong>이 되었다. 지정 의무가 중요한 이유는 문서상 책임자를 두는 데서 끝나지 않고, 사고 발생 시 보고·통제·개선 체계를 실제로 굴릴 수 있게 해야 하기 때문이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Why organizations need a CISO</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cyber threats + regulations + cloud/supply-chain complexity</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Need one accountable executive for security risk</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CISO translates risk -&gt; policy, budget, architecture, incident plan</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Why organizations need a CISO                                        │
+├──────────────────────────────────────────────────────────────────────┤
+│ Cyber threats + regulations + cloud/supply-chain complexity          │
+│                                │                                     │
+│                                ▼                                     │
+│ Need one accountable executive for security risk                     │
+│                                │                                     │
+│                                ▼                                     │
+│ CISO translates risk -> policy, budget, architecture, incident plan  │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 즉 CISO는 "보안팀 팀장"보다 훨씬 넓은 역할이다. 현장의 탐지·차단 활동을 넘어서, 어떤 위험을 먼저 줄일지, 어떤 통제에 투자할지, 어느 수준의 [잔여 위험](/knowledge-base/studynote/09_security/01_intro_principles/038_residual_risk/)을 경영진이 수용할지까지 연결해야 한다.
 
@@ -46,21 +47,23 @@ tags = ["studynote-it-management"]
 
 CISO 역할의 핵심 원리는 세 가지다. 첫째, <strong>독립성</strong>이다. 보안 위험 보고가 시스템 가동률이나 개발 일정에 묻히지 않으려면, CISO는 CIO (Chief Information Officer)나 운영조직과 협업하되 이해상충에 끌려가지 않는 보고 구조를 가져야 한다. 둘째, <strong>책임성</strong>이다. [위험 식별](/knowledge-base/studynote/09_security/01_intro_principles/027_risk_identification/), 우선순위, 예산, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), [사고 대응](/knowledge-base/studynote/09_security/01_intro_principles/009_incident_response/)의 결과를 숫자와 증적으로 설명할 수 있어야 한다. 셋째, <strong>사업 정렬성</strong>이다. 보안은 사업을 멈추기 위한 부서가 아니라, 안전한 성장을 가능하게 하는 통제 체계여야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CISO governance loop</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Board / CEO (Chief Executive Officer)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">risk metrics, incident status</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CISO</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">policy &amp; strategy risk/compliance architecture incident response</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">awareness/vendor metrics/audit ops guidance resilience plan</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">improvement and investment cycle ▶</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ CISO governance loop                                                 │
+├──────────────────────────────────────────────────────────────────────┤
+│ Board / CEO (Chief Executive Officer)                                │
+│        ▲                                                             │
+│        │ risk metrics, incident status                               │
+│        │                                                             │
+│      CISO                                                            │
+│   ┌────┼───────────┬───────────────┬───────────────┐                 │
+│   │    │           │               │               │                 │
+│ policy & strategy  risk/compliance architecture    incident response │
+│ awareness/vendor   metrics/audit   ops guidance     resilience plan   │
+│        │                                                             │
+│        └──────────── improvement and investment cycle ───────────────▶│
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 | 책임 영역 | 주요 업무 | 경영 판단 포인트 |
 | :--- | :--- | :--- |
@@ -152,25 +155,23 @@ CISO는 ISO/IEC 27001, [ISMS](/knowledge-base/studynote/09_security/17_framework
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">기술 보안 담당자 중심 운영</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">보안 책임자 지정 요구</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CISO (전략 · 위험 · 규제 대응 통합)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">이사회/경영진 보고</div>
-<div class="kb-diagram-tree-item" style="--depth:2">정책·아키텍처 통제</div>
-<div class="kb-diagram-tree-item" style="--depth:2">사고 대응·복원력 강화</div>
-<div class="kb-diagram-tree-item" style="--depth:2">공급망·클라우드·개인정보 연계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">디지털 신뢰 · 사이버 복원력 · AI 거버넌스 확장</div>
-</div>
-</div>
-
-
+```text
+기술 보안 담당자 중심 운영
+    │
+    ▼
+보안 책임자 지정 요구
+    │
+    ▼
+CISO (전략 · 위험 · 규제 대응 통합)
+    │
+    ├─ 이사회/경영진 보고
+    ├─ 정책·아키텍처 통제
+    ├─ 사고 대응·복원력 강화
+    └─ 공급망·클라우드·개인정보 연계
+    │
+    ▼
+디지털 신뢰 · 사이버 복원력 · AI 거버넌스 확장
+```
 
 이 흐름은 보안 책임이 기술 운영 수준에서 출발해, 점차 경영·규제·신뢰 체계까지 확장되는 방향을 보여 준다.
 

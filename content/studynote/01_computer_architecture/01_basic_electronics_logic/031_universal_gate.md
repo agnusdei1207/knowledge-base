@@ -18,23 +18,22 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
+```text
+NAND로 기본 게이트 구현:
 
+NOT A:  A ──┬──[NAND]── Ā
+            └──┘
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">NAND로 기본 게이트 구현:</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">NOT A: A ── ──</div><div class="kb-diagram-node">NAND</div><div class="kb-diagram-note">── Ā</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">AND: A ──</div><div class="kb-diagram-node">NAND</div><div class="kb-diagram-note">──</div><div class="kb-diagram-node">NAND</div><div class="kb-diagram-note">── A·B</div></div>
-<div class="kb-diagram-note">B ── ──(입력 묶음)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">OR: A ──</div><div class="kb-diagram-node">NAND</div><div class="kb-diagram-note">──</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">A ──</div><div class="kb-diagram-node">NAND</div><div class="kb-diagram-note">── A+B</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">B ──</div><div class="kb-diagram-node">NAND</div><div class="kb-diagram-note">──</div></div>
-<div class="kb-diagram-note">B ──</div>
-<div class="kb-diagram-note">NAND만으로 NOT·AND·OR 모두 구현 완료!</div>
-</div>
-</div>
+AND:    A ──[NAND]──[NAND]── A·B
+        B ──┘         └──(입력 묶음)
 
+OR:     A ──[NAND]──┐
+        A ──┘        [NAND]── A+B
+        B ──[NAND]──┘
+        B ──┘
 
+NAND만으로 NOT·AND·OR 모두 구현 완료!
+```
 
 - **📢 섹션 요약 비유**: NAND 범용 게이트는 레고 기본 블록이다. 기본 블록 하나만으로 집·자동차·탑 모든 것을 만들 수 있듯이, NAND 하나만으로 모든 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 회로를 구성할 수 있다.
 
@@ -44,40 +43,36 @@ tags = ["studynote-computer-architecture"]
 
 ### [CMOS](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/018_cmos/) NAND 게이트 구조
 
+```text
+VDD
+ │
+ ├─[PMOS A]─┐
+ │           │
+ ├─[PMOS B]─┤─── 출력
+             │
+            [NMOS A]
+             │
+            [NMOS B]
+             │
+            GND
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">VDD</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">PMOS A</div><div class="kb-diagram-note">─</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">PMOS B</div><div class="kb-diagram-note">─ 출력</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NMOS A</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NMOS B</div></div>
-<div class="kb-diagram-note">GND</div>
-<div class="kb-diagram-note">PMOS: 입력 0일 때 도통 (병렬 연결 → 하나라도 0이면 출력 1)</div>
-<div class="kb-diagram-note">NMOS: 입력 1일 때 도통 (직렬 연결 → 둘 다 1이어야 출력 0)</div>
-<div class="kb-diagram-note">→ NAND 동작: A=1,B=1일 때만 출력 0</div>
-</div>
-</div>
-
-
+PMOS: 입력 0일 때 도통 (병렬 연결 → 하나라도 0이면 출력 1)
+NMOS: 입력 1일 때 도통 (직렬 연결 → 둘 다 1이어야 출력 0)
+→ NAND 동작: A=1,B=1일 때만 출력 0
+```
 
 ### 드모르간 법칙과 범용성 연결
 
+```text
+드모르간: NOT(A AND B) = NOT A OR NOT B
+         ∴ NAND(A,B) = Ā + B̄
 
+         NOT(A OR B) = NOT A AND NOT B
+         ∴ NOR(A,B) = Ā · B̄
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">드모르간: NOT(A AND B) = NOT A OR NOT B</div>
-<div class="kb-diagram-note">∴ NAND(A,B) = Ā + B̄</div>
-<div class="kb-diagram-note">NOT(A OR B) = NOT A AND NOT B</div>
-<div class="kb-diagram-note">∴ NOR(A,B) = Ā · B̄</div>
-<div class="kb-diagram-note">→ NAND = "모든 OR·AND·NOT" 구현 가능</div>
-<div class="kb-diagram-note">→ NOR = "모든 OR·AND·NOT" 구현 가능 (동일 범용성)</div>
-</div>
-</div>
-
-
+→ NAND = "모든 OR·AND·NOT" 구현 가능
+→ NOR  = "모든 OR·AND·NOT" 구현 가능 (동일 범용성)
+```
 
 - **📢 섹션 요약 비유**: [CMOS](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/018_cmos/) NAND는 전기 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 2개로 만든 마법이다. PMOS(평상시 연결)와 NMOS([신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 받을 때 연결) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 조합으로, 둘 다 켜져야만 출력이 꺼지는 NAND [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)를 만든다.
 
@@ -100,24 +95,23 @@ tags = ["studynote-computer-architecture"]
 
 ### [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 합성 (Logic Synthesis)
 
+```text
+HDL(VHDL/Verilog) 설계
+    │
+    ▼
+논리 합성 도구 (Synopsys Design Compiler)
+    │
+    ▼
+NAND/NOR/인버터 게이트 네트리스트
+    │
+    ▼
+물리 배치·배선 (Place & Route)
+    │
+    ▼
+GDSII 마스크 파일 → 팹(TSMC/삼성)
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">HDL(VHDL/Verilog) 설계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">논리 합성 도구 (Synopsys Design Compiler)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">NAND/NOR/인버터 게이트 네트리스트</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">물리 배치·배선 (Place &amp; Route)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">GDSII 마스크 파일 → 팹(TSMC/삼성)</div>
-<div class="kb-diagram-note">→ 모든 설계가 최종적으로 NAND/NOR/NOT으로 변환</div>
-</div>
-</div>
-
-
+→ 모든 설계가 최종적으로 NAND/NOR/NOT으로 변환
+```
 
 ### NAND [Flash Memory](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/)
 
@@ -159,23 +153,21 @@ NAND 게이트 이름의 플래시 메모리:
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">기본 게이트 — AND·OR·NOT·XOR</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">범용 게이트 — NAND/NOR 단독으로 모든 논리 구현</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CMOS NAND — 실리콘 효율 최적 구현</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">논리 합성 — HDL → NAND 네트리스트 자동 변환</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">양자 범용 게이트 — H+CNOT 모든 양자 회로 구현</div></div>
-</div>
-</div>
-
-
+```text
+[기본 게이트 — AND·OR·NOT·XOR]
+    │
+    ▼
+[범용 게이트 — NAND/NOR 단독으로 모든 논리 구현]
+    │
+    ▼
+[CMOS NAND — 실리콘 효율 최적 구현]
+    │
+    ▼
+[논리 합성 — HDL → NAND 네트리스트 자동 변환]
+    │
+    ▼
+[양자 범용 게이트 — H+CNOT 모든 양자 회로 구현]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

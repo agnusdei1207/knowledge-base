@@ -24,7 +24,7 @@ tags = ["studynote-operating-system"]
 기존 [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/)/Capability는 **사용자-권한 직접 매핑**:
 - 사용자 10만 명 × 권한 100만 개 = <strong>1조 개의 매핑 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a></strong>
 - 신규 직원 입사 시: 100만 개 권한 중 필요한 권한을 직접 할당
-- 직원 퇴사 시: 해당이 가진 모든 권한을 찾아 회수
+- 직원 퇴사 시: 해당원공이 가진 모든 권한을 찾아 회수
 
 ### 1.2 RBAC의 해결책: 역할(Role) 매개
 
@@ -62,8 +62,8 @@ tags = ["studynote-operating-system"]
 
 ```text
 [ 인사팀 역할의 권한 ]
-- 사원(파일): {Read}
-- 급여(파일): {Write}
+- 사원档案(파일): {Read}
+- 급여档案(파일): {Write}
 
 [ 회계팀 역할의 권한 ]
 - 재무제표(파일): {Read, Write}
@@ -81,7 +81,7 @@ tags = ["studynote-operating-system"]
 
 ```text
 [ 예시 ]
-{회계_요청_역할}과 {회계_승인_역할}은동일(동일) 사용자에게 동시에 할당 불가
+{회계_요청_역할}과 {회계_승인_역할}은同一(동일) 사용자에게 동시에 할당 불가
 ```
 
 ### 3.2 Dynamic Separation of Duty (DSD)
@@ -105,20 +105,20 @@ tags = ["studynote-operating-system"]
 # Role 정의
 kind: Role
 metadata:
-name: pod-reader
+  name: pod-reader
 rules:
 - apiGroups: [""]
-resources: ["pods"]
-verbs: ["get", "list"]
+  resources: ["pods"]
+  verbs: ["get", "list"]
 
 # RoleBinding 정의
 kind: RoleBinding
 subjects:
 - kind: User
-name: alice
+  name: alice
 roleRef:
-kind: Role
-name: pod-reader
+  kind: Role
+  name: pod-reader
 ```
 
 ### 4.2 Role vs ClusterRole
@@ -136,7 +136,7 @@ name: pod-reader
 
 - **관리 효율성**: 역할 단위의 권한 관리를 통해 관리 포인트대폭(대폭) 감소
 - **보안 강화**: 권한 분리(SoD) 원칙을 통해 민감 업무의 권한 집중 방지
-- **변경 대응**:(인사) 이동 시 역할만 재할당하면 되어 빠른 대응 가능
+- **변경 대응**:인사(인사) 이동 시 역할만 재할당하면 되어 빠른 대응 가능
 
 - **📢 섹션 요약 비유**: 도구의 장점만 외우는 것이 아니라 어디까지 믿고 어디서 보완해야 하는지 기억하는 정리 노트와 같다.
 
@@ -153,29 +153,25 @@ name: pod-reader
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">자격 증명 리스트 (Capability List / Ticket)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">롤 기반 접근 제어 (RBAC, Role-Based Access Control)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">임의적 접근 제어 (DAC, Discretionary Access Control)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">강제적 접근 제어 (MAC, Mandatory Access Control)</div></div>
-</div>
-</div>
-
-
+```text
+[자격 증명 리스트 (Capability List / Ticket)]
+    │
+    ▼
+[롤 기반 접근 제어 (RBAC, Role-Based Access Control)]
+    │
+    ├──▶ [임의적 접근 제어 (DAC, Discretionary Access Control)]
+    └──▶ [강제적 접근 제어 (MAC, Mandatory Access Control)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. <strong><a href="/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/">RBAC</a></strong>은 놀이공원에서 <strong>"직급증가표"</strong>를 통한 접근 제어와 같다. 직급표(역할)를 가지고 있으면, 해당 직급이 출입 가능한 모든 놀이기구를 자동으로활용(활용)할 수 있다.
+1. <strong><a href="/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/">RBAC</a></strong>은 놀이공원에서 <strong>"직급증가표"</strong>를 통한 접근 제어와 같다. 직급표(역할)를 가지고 있으면, 해당 직급이 출입 가능한 모든 놀이기구를 자동으로가이리용(可以利用)할 수 있다.
 
 2. <strong>역할 매개</strong>는 각 부서장의 역할(인사팀, 회계팀)을정의(정의)하고, 직원에게 부서 역할을 부여하는 것과 같다. 새로운 직원이 들어오면 역할만 부여하면 되고, 퇴사하면 역할을 회수하면 된다.
 
-3. <strong>권한 분리(SoD)</strong>는 <strong>"요청하는 사람"과 "승인하는 사람"을 분리</strong>하는 것과 같다. 돈을 보내라는 요청을 직접 승인하면 사기(yscams)가 발생할 수 있으므로, 별도의 역할을 통해[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)(상호 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))을 수행한다.
+3. <strong>권한 분리(SoD)</strong>는 <strong>"요청하는 사람"과 "승인하는 사람"을 분리</strong>하는 것과 같다. 돈을 보내라는 요청을 직접 승인하면 사기(yscams)가 발생할 수 있으므로, 별도의 역할을 통해상호[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)(상호 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))을 수행한다.
 
 ---
 

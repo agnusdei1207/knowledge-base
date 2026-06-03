@@ -29,26 +29,23 @@ tags = ["devops_sre"]
 
 아래 도식은 과거 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 기반 로깅과 현대의 스트림 기반 로깅의 구조적 한계와 극복을 보여준다.
 
+```text
+이 도식은 컨테이너 환경에서 로컬 파일 로깅이 왜 실패하는지, 그리고 표준 출력 기반의 스트림 로깅이 어떻게 데이터를 보존하는지 대조하여 보여준다.
 
+[과거: 파일 기반 로깅 안티패턴]
+┌─ Container ──────────────┐
+│ App ─(write)─> app.log   │  ← 컨테이너 종료(Crash) 시 
+└──────────────────────────┘    로그 파일도 함께 삭제(유실)됨!
+         (단절)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 도식은 컨테이너 환경에서 로컬 파일 로깅이 왜 실패하는지, 그리고 표준 출력 기반의 스트림 로깅이 어떻게 데이터를 보존하는지 대조하여 보여준다.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">과거: 파일 기반 로깅 안티패턴</div></div>
-<div class="kb-diagram-note">─ Container</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App ─(write)─&gt; app.log</div><div class="kb-diagram-cell">← 컨테이너 종료(Crash) 시</div></div>
-<div class="kb-diagram-tree-item" style="--depth:0">로그 파일도 함께 삭제(유실)됨!</div>
-<div class="kb-diagram-note">(단절)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현대: 스트림 기반 중앙집중식 로깅</div></div>
-<div class="kb-diagram-note">─ Container ─ Node / Infra</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">App ─(stdout)─&gt;</div><div class="kb-diagram-node">Stream</div><div class="kb-diagram-note">&gt; │ Log Router (Fluent Bit)</div></div>
-<div class="kb-diagram-note">(Forwarding)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Central Log Backend (ELK)</div></div>
-</div>
-</div>
-
-
+[현대: 스트림 기반 중앙집중식 로깅]
+┌─ Container ──────────────┐       ┌─ Node / Infra ────────────┐
+│ App ─(stdout)─> [Stream] │ ───>  │ Log Router (Fluent Bit)   │
+└──────────────────────────┘       └────────────┬──────────────┘
+                                                │ (Forwarding)
+                                                ↓
+                                   [Central Log Backend (ELK)]
+```
 
 이 구조의 핵심은 애플리케이션이 스스로 상태(Log [File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))를 가지지 않는다는 점이다. `stdout`으로 배출된 이벤트는 노드에 설치된 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 라우터가 [비동기적](/knowledge-base/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/)으로 수집하여 중앙 백엔드로 전송한다. 따라서 애플리케이션 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 갑작스런 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)([Out of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))으로 죽더라도 마지막 순간의 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 스트림은 인프라에 이미 전달되어 있어 장애 원인 분석(Root Cause Analysis)이 가능해진다.
 
@@ -70,26 +67,30 @@ tags = ["devops_sre"]
 
 아래의 계층 구조도는 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)([Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/)) 환경에서 애플리케이션 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 어떻게 최종 저장소까지 안전하게 이동하는지 보여준다.
 
+```text
+이 아키텍처는 데이터 평면(Data Plane)의 로그가 제어 평면의 개입 없이 로컬 노드의 데몬을 거쳐 외부 대용량 클러스터로 전달되는 전체 라이프사이클을 보여준다.
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 아키텍처는 데이터 평면(Data Plane)의 로그가 제어 평면의 개입 없이 로컬 노드의 데몬을 거쳐 외부 대용량 클러스터로 전달되는 전체 라이프사이클을 보여준다.</div>
-<div class="kb-diagram-note">Kubernetes Worker Node</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Pod A ─ Pod B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App (stdout)</div><div class="kb-diagram-cell">App (stdout)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">/var/log/containers/*.log</div><div class="kb-diagram-note">(Kubelet이 임시 파일화)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Tailing &amp; Parsing)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DaemonSet Log Router (Fluent Bit / Vector)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 파드 메타데이터(Namespace, Pod명) 태깅 주입</div></div>
-<div class="kb-diagram-note">(Batch / Forward)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">External</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Buffer: Kafka</div><div class="kb-diagram-connector">==&gt;</div><div class="kb-diagram-node">Storage: Elasticsearch</div></div>
-</div>
-</div>
-
-
+┌───────────────── Kubernetes Worker Node ──────────────────┐
+│  ┌─ Pod A ─────┐   ┌─ Pod B ─────┐                        │
+│  │ App (stdout)│   │ App (stdout)│                        │
+│  └──────┬──────┘   └──────┬──────┘                        │
+│         │                 │                               │
+│         ↓                 ↓                               │
+│ [ /var/log/containers/*.log ] (Kubelet이 임시 파일화)     │
+│         │                                                 │
+│         ├──────── (Tailing & Parsing) ────────┐           │
+│         ↓                                     ↓           │
+│  ┌─────────────────────────────────────────────────────┐  │
+│  │ DaemonSet Log Router (Fluent Bit / Vector)          │  │
+│  │  - 파드 메타데이터(Namespace, Pod명) 태깅 주입      │  │
+│  └────────────────────────┬────────────────────────────┘  │
+└───────────────────────────┼───────────────────────────────┘
+                            │ (Batch / Forward)
+                            ↓
+┌─────────────────────── External ──────────────────────────┐
+│  [ Buffer: Kafka ]  ==>  [ Storage: Elasticsearch ]     │
+└───────────────────────────────────────────────────────────┘
+```
 
 이 흐름의 핵심은 [데몬셋](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/089_daemonset_kubernetes_background_node_agent/)([DaemonSet](/knowledge-base/studynote/11_design_supervision/06_exam_summary/334_process/)) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 라우터의 역할이다. Kubelet은 `stdout` 스트림을 노드의 특정 경로에 임시 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 덤프한다. [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 라우터는 이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 실시간으로 추적(Tailing)하면서 단순히 텍스트만 보내는 것이 아니라, 어느 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)의 어떤 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)에서 나온 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인지 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/">컨텍스트</a> <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/">메타데이터</a>를 주입(Enrichment)</strong>한다. 이 과정이 없으면 중앙 서버에 쌓인 수백만 줄의 텍스트가 누구의 것인지 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)할 수 없다. 
 
@@ -133,20 +134,17 @@ tags = ["devops_sre"]
 
 아래 다이어그램은 수집 비용과 레이턴시 관점에서 [로그 수집](/knowledge-base/studynote/09_security/13_secops_ir_forensics/626_log_collection/) 방식의 트레이드오프를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수집 방식</div><div class="kb-diagram-cell">사이드카(Sidecar) 패턴</div><div class="kb-diagram-cell">데몬셋(DaemonSet) 패턴</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">구조</div><div class="kb-diagram-node">App + Log Router</div><div class="kb-diagram-note">/ Pod</div><div class="kb-diagram-node">App</div><div class="kb-diagram-note">...</div><div class="kb-diagram-node">App</div><div class="kb-diagram-note">/ Node</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ │ &gt;</div><div class="kb-diagram-node">Log Router</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장점</div><div class="kb-diagram-cell">격리성 최상, 개별 튜닝</div><div class="kb-diagram-cell">자원 소모 최소화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단점</div><div class="kb-diagram-cell">파드 100개면 라우터 100개</div><div class="kb-diagram-cell">특정 파드 폭주 시 병목</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">권장 환경</div><div class="kb-diagram-cell">멀티테넌트, 특수 보안망</div><div class="kb-diagram-cell">일반적인 K8s 표준 환경</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬─────────────────────────┬────────────────────────┐
+│ 수집 방식│ 사이드카(Sidecar) 패턴  │ 데몬셋(DaemonSet) 패턴 │
+├──────────┼─────────────────────────┼────────────────────────┤
+│ 구조     │ [App + Log Router] / Pod│ [App]...[App] / Node   │
+│          │                         │        └> [Log Router] │
+│ 장점     │ 격리성 최상, 개별 튜닝  │ 자원 소모 최소화       │
+│ 단점     │ 파드 100개면 라우터 100개│ 특정 파드 폭주 시 병목 │
+│ 권장 환경│ 멀티테넌트, 특수 보안망 │ 일반적인 K8s 표준 환경 │
+└──────────┴─────────────────────────┴────────────────────────┘
+```
 
 이 비교의 핵심은 자원 효율성이다. 기본적으로 [데몬셋](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/089_daemonset_kubernetes_background_node_agent/) 방식이 자원 소모를 압도적으로 줄여주므로 업계 표준으로 쓰인다. 그러나 멀티테넌시([Multi-Tenancy](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/014_multi_tenancy/)) 환경에서 A 고객의 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)와 B 고객의 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 완벽히 다른 클러스터로 보내야 할 때는, [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 내부에 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) 형태로 수집기를 붙여 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 경로를 물리적으로 격리하는 방식이 쓰인다.
 
@@ -172,25 +170,23 @@ tags = ["devops_sre"]
 
 다음은 장애 시나리오별 운영 [의사결정 트리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/)이다.
 
+```text
+이 도식은 중앙 로그 대시보드(Kibana)에서 로그가 보이지 않을 때 SRE가 추적하는 장애 격리 흐름을 보여준다.
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 도식은 중앙 로그 대시보드(Kibana)에서 로그가 보이지 않을 때 SRE가 추적하는 장애 격리 흐름을 보여준다.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">이슈: Kibana에서 방금 발생한 에러 로그 검색 불가</div></div>
-<div class="kb-diagram-tree-item" style="--depth:1">1. App 자체에서 출력을 안 했나? (kubectl logs 파드명)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ 안 보임 ──&gt;</div><div class="kb-diagram-node">결론</div><div class="kb-diagram-note">코드 버그. 로깅 레벨이나 stdout 출력 누락 확인.</div></div>
-<div class="kb-diagram-note">─ 잘 보임 ──&gt; ↓ (인프라 파이프라인 문제로 좁혀짐)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">2. Log Router(데몬셋)가 수집을 못하나? (Router 에러 로그 확인)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ 파일 권한 에러 ──&gt;</div><div class="kb-diagram-node">결론</div><div class="kb-diagram-note">Kubelet 경로 볼륨 마운트 권한 수정</div></div>
-<div class="kb-diagram-note">─ 전송(Flush) 타임아웃 ──&gt; ↓</div>
-<div class="kb-diagram-tree-item" style="--depth:1">3. Buffer(Kafka) 또는 Storage(Elastic)가 멈췄나?</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ Kafka Lag 증가 ──&gt;</div><div class="kb-diagram-node">결론</div><div class="kb-diagram-note">Elasticsearch 인덱싱 병목, 스케일 아웃 필요</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ 매핑 파싱 에러 ──&gt;</div><div class="kb-diagram-node">결론</div><div class="kb-diagram-note">앱이 보낸 JSON 포맷이 깨짐 (구조화 로깅 위반)</div></div>
-</div>
-</div>
-
-
+[이슈: Kibana에서 방금 발생한 에러 로그 검색 불가]
+   │
+   ├─ 1. App 자체에서 출력을 안 했나? (kubectl logs 파드명)
+   │  ├─ 안 보임 ──> [결론] 코드 버그. 로깅 레벨이나 stdout 출력 누락 확인.
+   │  └─ 잘 보임 ──> ↓ (인프라 파이프라인 문제로 좁혀짐)
+   │
+   ├─ 2. Log Router(데몬셋)가 수집을 못하나? (Router 에러 로그 확인)
+   │  ├─ 파일 권한 에러 ──> [결론] Kubelet 경로 볼륨 마운트 권한 수정
+   │  └─ 전송(Flush) 타임아웃 ──> ↓
+   │
+   └─ 3. Buffer(Kafka) 또는 Storage(Elastic)가 멈췄나?
+      ├─ Kafka Lag 증가 ──> [결론] Elasticsearch 인덱싱 병목, 스케일 아웃 필요
+      └─ 매핑 파싱 에러 ──> [결론] 앱이 보낸 JSON 포맷이 깨짐 (구조화 로깅 위반)
+```
 
 이 진단 흐름의 핵심은 시스템이 완전히 디커플링되어 있기 때문에, 어느 구간(App -> Node -> Buffer -> Storage)에서 물길이 막혔는지 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)(Lag)을 통해 신속히 단절 구간을 찾아낼 수 있다는 것이다. 실무에서는 이러한 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 구간별 헬스 체크 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 자체를 프로메테우스([Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/))로 감시해야 한다.
 
@@ -223,25 +219,24 @@ tags = ["devops_sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">파일 기반 로그 (File-based Logging) — 서버 내 로그 파일, 분산 수집 어려움</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">로그 이벤트 스트림 (Log as Event Stream) — stdout 출력, 12-Factor App 원칙</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">로그 집계 (Log Aggregation) — Fluentd / Logstash 수집·파싱, 중앙 저장</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">분산 추적 (Distributed Tracing) — OpenTelemetry Trace ID, 마이크로서비스 요청 흐름 추적</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">통합 관측성 (Observability) — 로그·메트릭·트레이스 3-pillar, Grafana / Datadog</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AIOps 로그 분석 — 머신러닝 이상 패턴 탐지, 자동 근본 원인 분석(RCA)</div></div>
-</div>
-</div>
-
-
+```text
+[파일 기반 로그 (File-based Logging) — 서버 내 로그 파일, 분산 수집 어려움]
+    │
+    ▼
+[로그 이벤트 스트림 (Log as Event Stream) — stdout 출력, 12-Factor App 원칙]
+    │
+    ▼
+[로그 집계 (Log Aggregation) — Fluentd / Logstash 수집·파싱, 중앙 저장]
+    │
+    ▼
+[분산 추적 (Distributed Tracing) — OpenTelemetry Trace ID, 마이크로서비스 요청 흐름 추적]
+    │
+    ▼
+[통합 관측성 (Observability) — 로그·메트릭·트레이스 3-pillar, Grafana / Datadog]
+    │
+    ▼
+[AIOps 로그 분석 — 머신러닝 이상 패턴 탐지, 자동 근본 원인 분석(RCA)]
+```
 이 흐름은 서버 내 정적 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)에서 이벤트 스트림 아키텍처로 전환된 뒤, [분산 추적](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/)·통합 관측성을 거쳐 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 자동 장애 분석으로 진화하는 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 로깅 기술의 발전을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

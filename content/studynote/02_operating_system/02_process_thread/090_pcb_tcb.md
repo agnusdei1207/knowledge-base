@@ -41,23 +41,26 @@ PCB는 유저가 임의로 조작하여 권한을 탈취하는 것을 막기 위
 
 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) ([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)) 시, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 실행 중이던 프로세스의 CPU [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 값을 자신의 PCB에 '저장(Save)'하고, 새롭게 선택된 프로세스의 PCB에서 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 값을 '복원(Restore)'한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문맥 교환 (Context Switch)과 PCB의 역할</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">프로세스 A</div><div class="kb-diagram-node">OS 커널</div><div class="kb-diagram-node">프로세스 B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(실행 중) ──▶ 인터럽트 발생 ─▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A의 레지스터를</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PCB_A에 저장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PCB_B에서 B의</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">레지스터 복원</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 복원 완료 ▶ (실행 재개)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 저장/복원 구간에서는 사용자 코드가 전혀 실행되지 않는 오버헤드 발생</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           문맥 교환 (Context Switch)과 PCB의 역할            │
+├──────────────────────────────────────────────────────────────┤
+│  [프로세스 A]                [OS 커널]                [프로세스 B] │
+│      │                          │                          │       │
+│  (실행 중) ──▶ 인터럽트 발생 ─▶│                          │       │
+│      │                   ┌──────▼──────┐                   │       │
+│      │                   │ A의 레지스터를 │                   │       │
+│      │                   │ PCB_A에 저장  │                   │       │
+│      │                   └──────┬──────┘                   │       │
+│      │                   ┌──────▼──────┐                   │       │
+│      │                   │ PCB_B에서 B의 │                   │       │
+│      │                   │ 레지스터 복원 │                   │       │
+│      │                   └──────┬──────┘                   │       │
+│      │                          │──▶ 복원 완료 ────────▶ (실행 재개)│
+│      │                          │                          ▼       │
+│ * 핵심: 저장/복원 구간에서는 사용자 코드가 전혀 실행되지 않는 오버헤드 발생 │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 과정에서 CPU는 실제 애플리케이션 연산이 아닌 운영체제의 상태 저장 작업만 수행하므로, 교환 횟수가 많아질수록 전체 시스템의 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))은 하락한다.
 
@@ -118,23 +121,21 @@ PCB와 TCB의 정교한 관리 구조는 단일 CPU에서도 수천 개의 작�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">일괄 처리 (Batch Processing)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">PCB (Process Control Block) 도입 · 멀티태스킹 (시분할) 구현</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">문맥 교환 (Context Switch) 오버헤드 최소화 요구</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">TCB (Task Control Block) 분리 · 가벼운 멀티스레딩</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">경량 사용자 스레드 (Goroutine, Virtual Thread)의 등장</div>
-</div>
-</div>
-
-
+```text
+일괄 처리 (Batch Processing)
+    │
+    ▼
+PCB (Process Control Block) 도입 · 멀티태스킹 (시분할) 구현
+    │
+    ▼
+문맥 교환 (Context Switch) 오버헤드 최소화 요구
+    │
+    ▼
+TCB (Task Control Block) 분리 · 가벼운 멀티스레딩
+    │
+    ▼
+경량 사용자 스레드 (Goroutine, Virtual Thread)의 등장
+```
 
 이 흐름도는 프로세스 관리 아키텍처가 무거운 통합 구조에서 가볍고 세분화된 계층 구조로 진화하여 응답 속도를 극대화하는 과정을 보여준다.
 

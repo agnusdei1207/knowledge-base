@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 우리가 컴퓨터 윈도우 우측 하단 시계를 맞출 때 쓰는 <strong>1049번 <a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/">NTP</a> (<a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/">Network Time Protocol</a>)</strong>는 서버에서 시간을 쏴줍니다.
 - 하지만 패킷이 인터넷 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)와 라우터를 통과할 때 차가 막혀 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))에 대기하는 <strong>가변 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>(Jitter)</strong> 때문에, 최종 도착한 시간이 진짜 맞는지 수 밀리초(ms, 0.001초)의 오차가 발생합니다. 공장 로봇이나 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기지국 타이밍 제어에는 쓸 수 없는 쓰레기 오차율입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">타임 센시티브 네트워킹</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IEEE 1588 PTP 시각 동기망</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NTP / GPS 동기화</div></div>
-</div>
-</div>
-
-
+```text
+[타임 센시티브 네트워킹]
+    │
+    ▼
+[IEEE 1588 PTP 시각 동기망]
+    │
+    └──▶ [NTP / GPS 동기화]
+```
 
 - **📢 섹션 요약 비유**: IEEE 1588 PTP 시각 동기망은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -43,18 +39,14 @@ tags = ["studynote-network"]
 
 - **개념**: 마이크로초($\mu s$)를 넘어 **나노초($ns$, 10억분의 1초)** 수준의 극한의 정밀도로 네트워크에 물린 수만 대 기기의 하드웨어 시계([Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/))를 완벽하게 동일하게 맞추는 산업용/통신용 초정밀 시각 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 프로토콜입니다. 1047번 TSN망과 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 프론트홀망을 굴리는 심장부입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">타임 센시티브 네트워킹</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IEEE 1588 PTP 시각 동기망</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NTP / GPS 동기화</div></div>
-</div>
-</div>
-
-
+```text
+[타임 센시티브 네트워킹]
+    │
+    ▼
+[IEEE 1588 PTP 시각 동기망]
+    │
+    └──▶ [NTP / GPS 동기화]
+```
 
 - **📢 섹션 요약 비유**: IEEE 1588 PTP 시각 동기망의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -124,19 +116,15 @@ IEEE 1588 PTP 시각 동기망은 [성능](/knowledge-base/studynote/04_software
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 타임 센시티브 네트워킹</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: IEEE 1588 PTP 시각 동기망</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: NTP / GPS 동기화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 타임 센시티브 네트워킹]
+    │
+    ▼
+[현재 개념: IEEE 1588 PTP 시각 동기망]
+    │
+    ├──▶ [확장 A: NTP / GPS 동기화]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 IEEE 1588 PTP 시각 동기망는 [타임 센시티브 네트워킹](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1047_tsn_time_sensitive_networking_deterministic/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/) / GPS [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

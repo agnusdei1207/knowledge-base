@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 전 세계 사무실을 장악한 일반 유선 랜(LAN) 기술인 [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CD([이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/))를 공장 자동화(FA) 현장에 그대로 쓰려니 큰 문제가 생겼습니다.
 - **충돌과 비결정성 (Non-Deterministic)**: 일반 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)은 여러 PC가 동시에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보내면 전선에서 '충돌([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/))'이 나고, 눈치를 보다가 무작위 시간(랜덤 딜레이)을 기다렸다가 다시 보냅니다. 이 대기 시간은 때로는 0.001초, 때로는 0.5초로 들쭉날쭉하여 <strong>"이 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 100% 1ms 안에 도착한다"는 보장(결정성)을 절대 할 수 없는 치명적 단점</strong>이 있었습니다. (공장 로봇 제어에 부적합)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">마이크로 그리드 / AMI 통신 탑재 방식</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">산업용 이더넷 표준</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OPC UA</div></div>
-</div>
-</div>
-
-
+```text
+[마이크로 그리드 / AMI 통신 탑재 방식]
+    │
+    ▼
+[산업용 이더넷 표준]
+    │
+    └──▶ [OPC UA]
+```
 
 - **📢 섹션 요약 비유**: 산업용 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 표준은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -43,18 +39,14 @@ tags = ["studynote-network"]
 
 - 기존 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)의 저렴한 하드웨어(랜선, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 칩)와 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP의 강력한 범용성을 그대로 쓰면서도, 소프트웨어([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 계층)와 프로토콜을 뜯어고쳐서 <strong>엄격한 실시간성(Real-time)과 마이크로초(µs) 단위의 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 도달 보장성(결정성, Determinism)</strong>을 달성한 극한의 특수 네트워크 표준입니다. 노이즈(전자기파)나 진동이 심한 극한 공장 환경을 버티는 내구성도 갖춥니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">마이크로 그리드 / AMI 통신 탑재 방식</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">산업용 이더넷 표준</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OPC UA</div></div>
-</div>
-</div>
-
-
+```text
+[마이크로 그리드 / AMI 통신 탑재 방식]
+    │
+    ▼
+[산업용 이더넷 표준]
+    │
+    └──▶ [OPC UA]
+```
 
 - **📢 섹션 요약 비유**: 산업용 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 표준의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -125,19 +117,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 마이크로 그리드 / AMI 통신 탑재 방식</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 산업용 이더넷 표준</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: OPC UA</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율형 엣지 협업</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 마이크로 그리드 / AMI 통신 탑재 방식]
+    │
+    ▼
+[현재 개념: 산업용 이더넷 표준]
+    │
+    ├──▶ [확장 A: OPC UA]
+    └──▶ [확장 B: 자율형 엣지 협업]
+```
 
 산업용 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 표준는 [마이크로 그리드](/knowledge-base/studynote/03_network/12_iot_wpan_edge/629_microgrid_ami_smart_meter_plc_rf/) / [AMI](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/) 통신 탑재 방식에서 출발해 현재 메커니즘을 정교화하고, 이후 OPC UA와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

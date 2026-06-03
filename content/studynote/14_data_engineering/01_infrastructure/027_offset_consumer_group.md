@@ -18,21 +18,22 @@ tags = ["studynote-data-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kafka 오프셋 &amp; 컨슈머 그룹 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">파티션 0:</div><div class="kb-diagram-node">msg0:off=0</div><div class="kb-diagram-node">msg1:off=1</div><div class="kb-diagram-node">msg2:off=2</div><div class="kb-diagram-note">...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Consumer A가 off=2까지 읽음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Committed Offset = 3)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Consumer Group-1: Consumer A(P0), Consumer B(P1)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Consumer Group-2: Consumer X(P0), Consumer Y(P1)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">두 그룹은 서로 독립 — 같은 메시지를 별도 오프셋으로 소비</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────┐
+│       Kafka 오프셋 & 컨슈머 그룹 구조                   │
+├────────────────────────────────────────────────────────┤
+│                                                         │
+│ 파티션 0: [msg0:off=0] [msg1:off=1] [msg2:off=2] ...   │
+│                                   ↑                    │
+│                        Consumer A가 off=2까지 읽음      │
+│                        (Committed Offset = 3)          │
+│                                                         │
+│ Consumer Group-1: Consumer A(P0), Consumer B(P1)       │
+│ Consumer Group-2: Consumer X(P0), Consumer Y(P1)       │
+│                                                         │
+│ 두 그룹은 서로 독립 — 같은 메시지를 별도 오프셋으로 소비 │
+└────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 오프셋은 책의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 북마크다. 독자(컨슈머)마다 자신의 북마크를 독립적으로 관리하여 같은 책(토픽)을 다른 속도로 읽을 수 있다.
 
@@ -42,22 +43,18 @@ tags = ["studynote-data-engineering"]
 
 ### [컨슈머 그룹](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/) [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 할당 규칙
 
+```text
+파티션 수 = 3, 컨슈머 수 = 2:
+  Consumer A → Partition 0, 1 (2개 담당)
+  Consumer B → Partition 2    (1개 담당)
 
+파티션 수 = 2, 컨슈머 수 = 3:
+  Consumer A → Partition 0
+  Consumer B → Partition 1
+  Consumer C → (유휴 — 담당 파티션 없음)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">파티션 수 = 3, 컨슈머 수 = 2:</div>
-<div class="kb-diagram-note">Consumer A → Partition 0, 1 (2개 담당)</div>
-<div class="kb-diagram-note">Consumer B → Partition 2 (1개 담당)</div>
-<div class="kb-diagram-note">파티션 수 = 2, 컨슈머 수 = 3:</div>
-<div class="kb-diagram-note">Consumer A → Partition 0</div>
-<div class="kb-diagram-note">Consumer B → Partition 1</div>
-<div class="kb-diagram-note">Consumer C → (유휴 — 담당 파티션 없음)</div>
-<div class="kb-diagram-note">규칙: 컨슈머 수 &gt; 파티션 수 → 일부 컨슈머 유휴</div>
-</div>
-</div>
-
-
+규칙: 컨슈머 수 > 파티션 수 → 일부 컨슈머 유휴
+```
 
 ### 오프셋 커밋 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
@@ -124,23 +121,21 @@ tags = ["studynote-data-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">전통 MQ — 소비 후 메시지 삭제, 재처리 불가</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Kafka 오프셋 — 컨슈머별 독립 소비 위치 관리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">컨슈머 그룹 — 파티션 병렬 소비 + 독립 재처리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Exactly-Once 의미론 — 트랜잭션 기반 중복 방지</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">KRaft — ZooKeeper 없는 Kafka 자체 완결 관리</div></div>
-</div>
-</div>
-
-
+```text
+[전통 MQ — 소비 후 메시지 삭제, 재처리 불가]
+    │
+    ▼
+[Kafka 오프셋 — 컨슈머별 독립 소비 위치 관리]
+    │
+    ▼
+[컨슈머 그룹 — 파티션 병렬 소비 + 독립 재처리]
+    │
+    ▼
+[Exactly-Once 의미론 — 트랜잭션 기반 중복 방지]
+    │
+    ▼
+[KRaft — ZooKeeper 없는 Kafka 자체 완결 관리]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -33,25 +33,24 @@ tags = ["studynote-ict-convergence"]
 
 [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보관하는 '오프라인 창고'와 실시간으로 쏴주는 '온라인 매대'의 듀얼 아키텍처로 구성된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">피처 스토어 (Feature Store)의 듀얼 아키텍처</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 피처 파이프라인 (Feature Pipeline)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 원본 데이터(Raw)를 끌어와서 가공함 (나이 -&gt; 연령대로 변경 등)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 이 가공된 데이터(피처)를 중앙 스토어에 밀어 넣음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 오프라인 스토어 (Offline Store) : '학습용' 대형 창고</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 수억 건의 과거 피처 데이터를 저장하는 하둡이나 S3 같은 대형 창고</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 모델을 처음부터 무겁게 학습(Training)할 때 씀. 속도는 느림.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 온라인 스토어 (Online Store) : '추론용' 번개 매대</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 지금 당장 접속한 유저의 최신 피처만 저장하는 Redis 같은 메모리 DB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 고객이 쇼핑몰에 들어온 0.1초 순간, 모델이 "이 고객 추천 좀!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">할 때 빛의 속도로 피처를 꺼내서 밀어줌 (실시간 서빙용)</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────┐
+│             [ 피처 스토어 (Feature Store)의 듀얼 아키텍처 ]     │
+├────────────────────────────────────────────────────────┤
+│ 1. 피처 파이프라인 (Feature Pipeline)                   │
+│    - 원본 데이터(Raw)를 끌어와서 가공함 (나이 -> 연령대로 변경 등)│
+│    - 이 가공된 데이터(피처)를 중앙 스토어에 밀어 넣음              │
+│                                                        │
+│ 2. 오프라인 스토어 (Offline Store) : '학습용' 대형 창고     │
+│    - 수억 건의 과거 피처 데이터를 저장하는 하둡이나 S3 같은 대형 창고│
+│    - 모델을 처음부터 무겁게 학습(Training)할 때 씀. 속도는 느림.  │
+│                                                        │
+│ 3. 온라인 스토어 (Online Store) : '추론용' 번개 매대      │
+│    - 지금 당장 접속한 유저의 최신 피처만 저장하는 Redis 같은 메모리 DB│
+│    - 고객이 쇼핑몰에 들어온 0.1초 순간, 모델이 "이 고객 추천 좀!"│
+│      할 때 빛의 속도로 피처를 꺼내서 밀어줌 (실시간 서빙용)         │
+└────────────────────────────────────────────────────────┘
+```
 
 1. **단일 진실 공급원 (SSOT, Single Source of Truth)**: A팀이 계산한 "우수 고객"의 정의와 B팀이 계산한 "우수 고객"의 정의가 다르면 회사 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 꼬인다. [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)는 전사적으로 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)의 정의와 계산 로직을 딱 한 곳으로 통일하여, 모든 부서가 똑같은 잣대(단일 진실)로 AI를 훈련하게 강제한다.
 2. **Training-Serving Skew(학습/서빙 편향) 방지**: 과거엔 학습할 땐 파이썬(Pandas)으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전처리하고, 실제 서비스할 땐 속도 때문에 자바(Java)나 C++로 전처리 코드를 다시 짰다. 언어가 다르니 오차가 발생해 모델 성능이 떡락했다. [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)는 이 두 개의 코드를 완벽하게 하나로 통일시켜 주는 번역기 역할을 한다.

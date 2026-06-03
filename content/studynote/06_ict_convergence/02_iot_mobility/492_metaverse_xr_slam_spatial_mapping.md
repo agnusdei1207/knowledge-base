@@ -34,24 +34,25 @@ XR(Extended Reality)은 현실-디지털 융합 기술의 총칭이다.
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SLAM 기반 공간 인식 처리 흐름</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">입력</div><div class="kb-diagram-note">카메라(RGB-D) / IMU(관성) / LiDAR 센서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 특징 추출(Feature Extraction)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Front-End</div><div class="kb-diagram-note">시각적 오도메트리(Visual Odometry)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">현재 위치 추정 (로컬 최적화)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Back-End</div><div class="kb-diagram-note">루프 클로저(Loop Closure) 검출</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">누적 오차 보정 (글로벌 최적화, Bundle Adjustment)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">출력</div><div class="kb-diagram-note">3D 점군 지도 + 자기 위치(6DoF Pose)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ AR/MR 엔진</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디지털 객체를 현실 공간 정확한 위치에 렌더링(Anchoring)</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────┐
+│               SLAM 기반 공간 인식 처리 흐름               │
+├──────────────────────────────────────────────────────────┤
+│  [입력]  카메라(RGB-D) / IMU(관성) / LiDAR 센서            │
+│     │                                                    │
+│     ▼  특징 추출(Feature Extraction)                      │
+│  [Front-End]  시각적 오도메트리(Visual Odometry)           │
+│     │  현재 위치 추정 (로컬 최적화)                          │
+│     ▼                                                    │
+│  [Back-End]   루프 클로저(Loop Closure) 검출               │
+│     │  누적 오차 보정 (글로벌 최적화, Bundle Adjustment)     │
+│     ▼                                                    │
+│  [출력]  3D 점군 지도 + 자기 위치(6DoF Pose)               │
+│     │                                                    │
+│     ▼  AR/MR 엔진                                         │
+│  디지털 객체를 현실 공간 정확한 위치에 렌더링(Anchoring)      │
+└──────────────────────────────────────────────────────────┘
+```
 
 ### XR 기술 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 비교
 

@@ -1,5 +1,5 @@
 +++
-title = "635. IETF (Internet Engineering Task Force) 산하 IoT CoRE 워킹그룹 동향"
+title = "635. IETF (Internet 엔진ering Task Force) 산하 IoT CoRE 워킹그룹 동향"
 date = 2026-05-08
 
 [taxonomies]
@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **IETF(인터넷 국제 표준화 기구)** 산하에 있는 [사물인터넷](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)([IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)) 전용 워킹그룹입니다.
 - **설립 목적**: 메모리가 10KB밖에 안 되고, 동전 배터리로 수년을 버텨야 하는 제약된(Constrained) 소형 스마트 기기 환경에서도, <strong>우리가 쓰는 인터넷 웹의 뼈대인 RESTful 아키텍처를 원활하게 돌릴 수 있도록 극한의 경량화 웹 표준을 제정</strong>하는 임무를 맡았습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">OCF IoT 통합 관리 계층 표준</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IETF 산하 IoT CoRE 워킹그룹 동향</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">W3C WoT</div></div>
-</div>
-</div>
-
-
+```text
+[OCF IoT 통합 관리 계층 표준]
+    │
+    ▼
+[IETF 산하 IoT CoRE 워킹그룹 동향]
+    │
+    └──▶ [W3C WoT]
+```
 
 - **📢 섹션 요약 비유**: IETF 산하 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) CoRE 워킹그룹 동향은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -52,18 +48,14 @@ tags = ["studynote-network"]
 - 일반 웹([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/))은 사용자가 "새로고침"을 눌러야만 바뀐 화면을 줍니다(클라이언트가 요청).
 - 하지만 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 환경에서 온도계한테 1초마다 "온도 바뀌었어?" 하고 물어보면 배터리가 녹아내립니다. CoRE가 만든 Observe 기능은, 스마트폰이 한 번만 "너 온도 30도 넘으면 나한테 알아서 톡 하나 줘"라고 <strong>관찰(구독) 신청을 해두면, 나중에 진짜 온도가 바뀌었을 때 온도계가 알아서 푸시(Push) 알림을 던져주는 기능</strong>입니다. (MQTT의 구독과 비슷함)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">OCF IoT 통합 관리 계층 표준</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IETF 산하 IoT CoRE 워킹그룹 동향</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">W3C WoT</div></div>
-</div>
-</div>
-
-
+```text
+[OCF IoT 통합 관리 계층 표준]
+    │
+    ▼
+[IETF 산하 IoT CoRE 워킹그룹 동향]
+    │
+    └──▶ [W3C WoT]
+```
 
 - **📢 섹션 요약 비유**: IETF 산하 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) CoRE 워킹그룹 동향의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -123,19 +115,15 @@ IETF 산하 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/1
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: OCF IoT 통합 관리 계층 표준</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: IETF 산하 IoT CoRE 워킹그룹 동향</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: W3C WoT</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율형 엣지 협업</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: OCF IoT 통합 관리 계층 표준]
+    │
+    ▼
+[현재 개념: IETF 산하 IoT CoRE 워킹그룹 동향]
+    │
+    ├──▶ [확장 A: W3C WoT]
+    └──▶ [확장 B: 자율형 엣지 협업]
+```
 
 IETF 산하 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) CoRE 워킹그룹 동향는 [OCF](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/123_ocf_open_connectivity_foundation/) [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 통합 관리 계층 표준에서 출발해 현재 메커니즘을 정교화하고, 이후 W3C WoT와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

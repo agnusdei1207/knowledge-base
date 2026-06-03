@@ -18,19 +18,22 @@ tags = ["studynote-enterprise-systems"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">POP 데이터 흐름</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현장</div><div class="kb-diagram-note">바코드 스캔 / RFID / 센서</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">POP 단말</div><div class="kb-diagram-note">실적 데이터 자동 수집</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MES</div><div class="kb-diagram-note">생산 실행 관리 (일정·품질·추적)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ERP</div><div class="kb-diagram-note">경영 계획 반영 (재고·원가·납기)</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    POP 데이터 흐름                                    │
+├───────────────────────────────────────────────────────┤
+│  [현장] 바코드 스캔 / RFID / 센서                     │
+│     │                                                 │
+│     ▼                                                 │
+│  [POP 단말] 실적 데이터 자동 수집                     │
+│     │                                                 │
+│     ▼                                                 │
+│  [MES] 생산 실행 관리 (일정·품질·추적)                │
+│     │                                                 │
+│     ▼                                                 │
+│  [ERP] 경영 계획 반영 (재고·원가·납기)                │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: POP은 공장 CCTV이다. 각 라인에서 무슨 일이 일어나는지 실시간으로 기록하여 관리자([MES](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/119_mes_manufacturing_execution_system/))에게 보고한다.
 
@@ -87,23 +90,21 @@ POP은 [MES](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/119_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">수기 생산 실적 관리 (종이, 1980s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">바코드 POP (1990s) — 스캔 기반 실적 수집</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">RFID POP (2000s) — 비접촉 자동 인식</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IoT POP (2015~) — 센서 자동 수집, 실시간</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: AI + POP — 실적 데이터 기반 예측·최적화</div></div>
-</div>
-</div>
-
-
+```text
+[수기 생산 실적 관리 (종이, 1980s)]
+    │
+    ▼
+[바코드 POP (1990s) — 스캔 기반 실적 수집]
+    │
+    ▼
+[RFID POP (2000s) — 비접촉 자동 인식]
+    │
+    ▼
+[IoT POP (2015~) — 센서 자동 수집, 실시간]
+    │
+    ▼
+[현재: AI + POP — 실적 데이터 기반 예측·최적화]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. POP은 마트의 <strong>바코드 스캐너(POS)</strong>의 공장 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)이에요.

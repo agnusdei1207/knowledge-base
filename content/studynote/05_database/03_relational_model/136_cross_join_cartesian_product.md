@@ -46,18 +46,12 @@ CROSS JOIN은 <strong>의도적 조합 <a href="/knowledge-base/studynote/02_ope
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">관계 대수 Cartesian Product (이론)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">SQL CROSS JOIN (SQL-92)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">실무: 조합 생성 용도</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: LATERAL + GENERATE_SERIES — 효율적 조합 대안</div></div>
-</div>
-</div>
-
-
+```text
+[관계 대수 Cartesian Product (이론)]
+    → [SQL CROSS JOIN (SQL-92)]
+    → [실무: 조합 생성 용도]
+    → [현재: LATERAL + GENERATE_SERIES — 효율적 조합 대안]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. CROSS JOIN은 <strong>모든 짝 만들기</strong>예요. 3명×4명 = <strong>12개 짝</strong>이 나와요.

@@ -20,22 +20,20 @@ tags = ["studynote-database"]
 
 DBA는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)부터 운영·유지보수까지 전 생명주기를 책임지는 역할이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DBA 핵심 책임 영역</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">설치·구성</div><div class="kb-diagram-cell">DB 엔진 설치, 파라미터 최적화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스키마 설계</div><div class="kb-diagram-cell">테이블·인덱스·파티셔닝 설계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">성능 튜닝</div><div class="kb-diagram-cell">쿼리 최적화, 인덱스 관리, 실행 계획 분석</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">백업·복구</div><div class="kb-diagram-cell">RTO/RPO 기반 백업 전략, DR 구성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보안 관리</div><div class="kb-diagram-cell">접근 제어, 감사 로그, 암호화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가용성</div><div class="kb-diagram-cell">HA 구성 (RAC, Always On, Replication)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">용량 계획</div><div class="kb-diagram-cell">성장 예측, 스토리지 확장 계획</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────┐
+│             DBA 핵심 책임 영역                           │
+├────────────────────────────────────────────────────────┤
+│                                                        │
+│  설치·구성   │ DB 엔진 설치, 파라미터 최적화               │
+│  스키마 설계 │ 테이블·인덱스·파티셔닝 설계                 │
+│  성능 튜닝   │ 쿼리 최적화, 인덱스 관리, 실행 계획 분석     │
+│  백업·복구   │ RTO/RPO 기반 백업 전략, DR 구성             │
+│  보안 관리   │ 접근 제어, 감사 로그, 암호화                 │
+│  가용성      │ HA 구성 (RAC, Always On, Replication)       │
+│  용량 계획   │ 성장 예측, 스토리지 확장 계획                │
+└────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: DBA는 병원 의사다. 환자(DB)가 아프면([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하) 진단하고([실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) 분석), 처방하고([인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 추가), 예방 접종(정기 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/))하고, 응급 처치(장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))하는 모든 역할을 담당한다.
 
@@ -45,23 +43,21 @@ DBA는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architec
 
 ### DBA [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝 프로세스
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">성능 문제 감지</div><div class="kb-diagram-note">— APM, 쿼리 실행 시간 모니터링</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">실행 계획 분석</div><div class="kb-diagram-note">— EXPLAIN PLAN, AWR (Oracle), DMV (SQL Server)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">병목 식별</div><div class="kb-diagram-note">— Full Table Scan? Index Missing? Locking?</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">튜닝 조치</div><div class="kb-diagram-note">— 인덱스 생성/재구성, 쿼리 리라이트, 파라미터 조정</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">효과 검증</div><div class="kb-diagram-note">— 실행 시간 재측정, 실행 계획 재확인</div></div>
-</div>
-</div>
-
-
+```text
+[성능 문제 감지] — APM, 쿼리 실행 시간 모니터링
+       │
+       ▼
+[실행 계획 분석] — EXPLAIN PLAN, AWR (Oracle), DMV (SQL Server)
+       │
+       ▼
+[병목 식별] — Full Table Scan? Index Missing? Locking?
+       │
+       ▼
+[튜닝 조치] — 인덱스 생성/재구성, 쿼리 리라이트, 파라미터 조정
+       │
+       ▼
+[효과 검증] — 실행 시간 재측정, 실행 계획 재확인
+```
 
 ### [RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/)/[RPO](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/) 기반 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
@@ -140,23 +136,21 @@ CREATE INDEX idx_orders_cust_date ON orders(customer_id, order_date DESC);
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">전통 DBA — 온프레미스 DB 설치·운영·튜닝</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">성능 최적화 전문화 — 실행 계획, 인덱스, 파티셔닝</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">클라우드 DBA — DBaaS 구성, 마이그레이션, 비용 최적화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 아키텍트 전환 — 거버넌스, 메타데이터, 설계</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AI 자율 DBA — 자동 인덱스 추천, 자동 쿼리 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[전통 DBA — 온프레미스 DB 설치·운영·튜닝]
+    │
+    ▼
+[성능 최적화 전문화 — 실행 계획, 인덱스, 파티셔닝]
+    │
+    ▼
+[클라우드 DBA — DBaaS 구성, 마이그레이션, 비용 최적화]
+    │
+    ▼
+[데이터 아키텍트 전환 — 거버넌스, 메타데이터, 설계]
+    │
+    ▼
+[AI 자율 DBA — 자동 인덱스 추천, 자동 쿼리 최적화]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -18,23 +18,22 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SLI 계산 예시</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">가용성 SLI</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">성공 요청: 99,950건 / 전체: 100,000건</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ SLI = 99.95%</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">레이턴시 SLI</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">p99 &lt; 200ms 요청: 99,700건 / 전체: 100,000건</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ SLI = 99.7%</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SLO: SLI ≥ 99.9% (목표)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Error Budget: 100% - 99.9% = 0.1%</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    SLI 계산 예시                                      │
+├───────────────────────────────────────────────────────┤
+│  [가용성 SLI]                                         │
+│   성공 요청: 99,950건 / 전체: 100,000건              │
+│   → SLI = 99.95%                                     │
+│                                                       │
+│  [레이턴시 SLI]                                       │
+│   p99 < 200ms 요청: 99,700건 / 전체: 100,000건      │
+│   → SLI = 99.7%                                      │
+│                                                       │
+│  SLO: SLI ≥ 99.9% (목표)                             │
+│  Error Budget: 100% - 99.9% = 0.1%                    │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: SLI는 학생의 <strong>시험 점수</strong>이고, SLO는 <strong>합격 기준(90점 이상)</strong>이며, Error Budget은 <strong>틀려도 되는 문제 수</strong>이다.
 
@@ -95,23 +94,21 @@ SLI는 <strong>SRE의 모든 판단의 출발점</strong>이며, 올바른 [SLI]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">가용성 99.999% 목표 (전통 운영)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SRE (Google, 2003~) — SLI/SLO/Error Budget 정의</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Prometheus + Grafana SLI 대시보드 (2016~)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">OpenSLO 표준 (2022~) — SLI/SLO YAML 정의</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: AI SLI — 이상 탐지 기반 자동 SLI 추천</div></div>
-</div>
-</div>
-
-
+```text
+[가용성 99.999% 목표 (전통 운영)]
+    │
+    ▼
+[SRE (Google, 2003~) — SLI/SLO/Error Budget 정의]
+    │
+    ▼
+[Prometheus + Grafana SLI 대시보드 (2016~)]
+    │
+    ▼
+[OpenSLO 표준 (2022~) — SLI/SLO YAML 정의]
+    │
+    ▼
+[현재: AI SLI — 이상 탐지 기반 자동 SLI 추천]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. SLI는 학교 <strong>시험 점수</strong>예요. "우리 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 몇 점인지" 알 수 있어요.
@@ -124,7 +121,7 @@ SLI는 <strong>SRE의 모든 판단의 출발점</strong>이며, 올바른 [SLI]
 
 **진행 상황**: 122 / 373
 
-← **이전**: [121. SRE 철학 (Site Reliability Engineering Philosophy) - 신뢰성 엔지니어링의 핵심 원칙](/knowledge-base/studynote/15_devops_sre/03_sre_observability/121_sre_philosophy/)
+← **이전**: [121. SRE 철학 (Site Reliability 엔진ering Philosophy) - 신뢰성 엔지니어링의 핵심 원칙](/knowledge-base/studynote/15_devops_sre/03_sre_observability/121_sre_philosophy/)
 **다음**: [123. SLO (Service Level Objective) - 서비스 수준 목표 설정과 Error Budget](/knowledge-base/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/) →
 
 ---

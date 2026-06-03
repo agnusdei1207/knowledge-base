@@ -33,23 +33,23 @@ PACELC의 핵심은 [복제](/knowledge-base/studynote/14_data_engineering/01_in
 
 아래 그림은 PACELC가 실제 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 경로를 어떻게 갈라놓는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PACELC decision path in a replicated storage system</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client Write</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Partition detected?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Yes ──▶ choose A or C</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ A: accept local write, sync later</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ C: reject or block until agreement</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── No ──▶ choose L or C</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ L: local ack first, async replication</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ C: quorum or leader commit before ack</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│              PACELC decision path in a replicated storage system          │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Client Write                                                              │
+│      │                                                                    │
+│      ▼                                                                    │
+│ Partition detected?                                                       │
+│      ├── Yes ──▶ choose A or C                                            │
+│      │            ├─ A: accept local write, sync later                    │
+│      │            └─ C: reject or block until agreement                   │
+│      │                                                                    │
+│      └── No  ──▶ choose L or C                                            │
+│                   ├─ L: local ack first, async replication                │
+│                   └─ C: quorum or leader commit before ack                │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 | [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 분단 시 선택 | 정상 시 선택 | 동작 특성 | 대표적 활용 |
 | :--- | :--- | :--- | :--- | :--- |
@@ -126,22 +126,20 @@ PACELC를 적용하면 [분산](/knowledge-base/studynote/08_algorithm_stats/08_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">CAP 정리 (Consistency / Availability / Partition tolerance)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">PACELC 정리</div>
-<div class="kb-diagram-note">: Partition 시 A/C, Else 시 L/C를 함께 고려</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 결과적 일관성 (Eventual Consistency) · 비동기 복제</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 정족수 (Quorum) · 리더 기반 합의</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지리 분산 데이터베이스 · 저지연 네트워크 · 시간 동기화 기반 일관성 최적화</div>
-</div>
-</div>
-
-
+```text
+CAP 정리 (Consistency / Availability / Partition tolerance)
+    │
+    ▼
+PACELC 정리
+: Partition 시 A/C, Else 시 L/C를 함께 고려
+    │
+    ├──▶ 결과적 일관성 (Eventual Consistency) · 비동기 복제
+    │
+    ├──▶ 정족수 (Quorum) · 리더 기반 합의
+    │
+    ▼
+지리 분산 데이터베이스 · 저지연 네트워크 · 시간 동기화 기반 일관성 최적화
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

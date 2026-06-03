@@ -23,19 +23,19 @@ tags = ["studynote-it-management"]
 
 실무에서는 이 개념을 단순 정의로 외우기보다 조직이 무엇을 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)·개선·정렬하려는지에 맞춰 읽어야 한다. 그래서 기술사 답안에서도 배경, 필요성, 실패 시 위험을 먼저 말하고 나서 구조와 지표를 붙여 주는 편이 설득력이 높다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Business Need</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SLA</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Value / Control</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────┐
+│ Business Need      │
+└─────────┬──────────┘
+          ▼
+┌────────────────────┐
+│ SLA                │
+└─────────┬──────────┘
+          ▼
+┌────────────────────┐
+│ Value / Control    │
+└────────────────────┘
+```
 
 이 흐름은 '[SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)'이라는 이름의 개념이 기술 하나를 설명하는 용어가 아니라, 경영 요구와 운영 통제를 잇는 중간 다리라는 점을 보여 준다.
 
@@ -54,17 +54,13 @@ SLA의 핵심 원리는 입력 기준, 실행 규칙, 측정 지표, 개선 루�
 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 티켓, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/), 지식, 계약 지표를 함께 본다. | 도구보다 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 연결성이 핵심이다. |
 | 개선 | 리뷰와 CSI로 다음 운영 기준을 조정한다. | 닫힌 루프가 없으면 반복 장애가 남는다. |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">input output</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Trigger ▶</div><div class="kb-diagram-cell">Core Rule ▶</div><div class="kb-diagram-cell">Decision</div></div>
-<div class="kb-diagram-tree-item" style="--depth:2">constraints ▶│◀ metrics / review ──</div>
-</div>
-</div>
-
-
+```text
+┌──────────┐   input    ┌────────────┐   output   ┌────────────┐
+│ Trigger  ├──────────▶│ Core Rule  ├──────────▶│ Decision   │
+└────┬─────┘           └────┬───────┘           └────┬───────┘
+     │                      │                          │
+     └──── constraints ────▶│◀──── metrics / review ──┘
+```
 
 이 구조에서 중요한 것은 한 요소만 강화한다고 전체 품질이 좋아지지 않는다는 점이다. 예를 들어 통제만 강하면 속도가 떨어지고, 속도만 올리면 품질과 책임성이 약해진다. 그래서 이 개념은 항상 균형 설계의 문제로 접근해야 한다.
 
@@ -129,19 +125,15 @@ SLA의 핵심 원리는 입력 기준, 실행 규칙, 측정 지표, 개선 루�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">MVP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SLA</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">7S 모델</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">자동화 운영</div></div>
-</div>
-</div>
-
-
+```text
+[MVP]
+    │
+    ▼
+[SLA]
+    │
+    ├──▶ [7S 모델]
+    └──▶ [자동화 운영]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 초점이 좁혀지고, 이후에는 운영 확장과 거버넌스 고도화 방향으로 퍼져 나가는 구조를 보여 준다.
 

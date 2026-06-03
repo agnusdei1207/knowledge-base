@@ -31,21 +31,21 @@ tags = ["studynote-it-management"]
 
 [정보 보안 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/095_information_security_management/)의 핵심은 보호해야 할 대상의 본질적 목표인 'CIA 트라이애드([CIA Triad](/knowledge-base/studynote/09_security/01_intro_principles/001_cia_triad/))'를 달성하고, 이를 지키기 위해 3중 통제 장치를 구성하는 것이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정보 보안 관리 통제 프레임워크 (ISMS)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">목표: CIA</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기밀성(Confidentiality) / 무결성(Integrity) / 가용성(Availability)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기술적 통제 (Technical)</div><div class="kb-diagram-cell">관리적 통제 (Admin)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- IPS/IDS 방화벽</div><div class="kb-diagram-cell">- 보안 지침, 서약서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 암호화, 접근제어</div><div class="kb-diagram-cell">- 직원 교육, 정기 감사</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물리적 통제 (Physical): 출입 통제, 무정전 전원 장치</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           정보 보안 관리 통제 프레임워크 (ISMS)            │
+├──────────────────────────────────────────────────────────────┤
+│                         [목표: CIA]                          │
+│     기밀성(Confidentiality) / 무결성(Integrity) / 가용성(Availability) │
+│                              ▲                               │
+│ ┌─────────────────────────┼─────────────────────────┐ │
+│ │  기술적 통제 (Technical)│  관리적 통제 (Admin)    │ │
+│ │  - IPS/IDS 방화벽       │  - 보안 지침, 서약서    │ │
+│ │  - 암호화, 접근제어     │  - 직원 교육, 정기 감사 │ │
+│ ├─────────────────────────┴─────────────────────────┤ │
+│ │  물리적 통제 (Physical): 출입 통제, 무정전 전원 장치      │ │
+└──────────────────────────────────────────────────────────────┘
+```
 
 1. <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/">기밀성</a>, <a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a>, <a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a> (CIA)</strong>: 정보가 인가된 자에게만 노출되며([기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)), 위변조 없이 정확히 유지되고([무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)), 필요할 때 언제든 접근 가능해야([가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)) 한다.
 2. <strong>위험 관리 체계 (<a href="/knowledge-base/studynote/09_security/17_framework_compliance/841_iso_27005_risk_management/">Risk Management</a>)</strong>: 조직의 자산을 식별하고, 가치를 산정한 뒤, 취약점(Vulnerability)과 위협(Threat)을 결합하여 위험도([Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/))를 수치화한다.
@@ -106,23 +106,21 @@ tags = ["studynote-it-management"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">개별적 보안 기술 도입 (방화벽, 백신)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">정보 자산 식별 및 위험 평가 (Risk Assessment)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">관리적 / 물리적 / 기술적 다층 통제 구축 (Defense in Depth)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ISMS (정보보호 관리체계) 인증 및 컴플라이언스 준수</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속적 보안 개선 (PDCA) 및 전사적 위험 관리 (ERM) 통합</div>
-</div>
-</div>
-
-
+```text
+개별적 보안 기술 도입 (방화벽, 백신)
+    │
+    ▼
+정보 자산 식별 및 위험 평가 (Risk Assessment)
+    │
+    ▼
+관리적 / 물리적 / 기술적 다층 통제 구축 (Defense in Depth)
+    │
+    ▼
+ISMS (정보보호 관리체계) 인증 및 컴플라이언스 준수
+    │
+    ▼
+지속적 보안 개선 (PDCA) 및 전사적 위험 관리 (ERM) 통합
+```
 
 이 흐름도는 단순한 안티바이러스 기술 도입에서 출발하여, 위험 기반의 조직적 통제로 발전하고, 궁극적으로 기업 전사적 위험 관리 체계로 융합되는 과정을 보여준다.
 

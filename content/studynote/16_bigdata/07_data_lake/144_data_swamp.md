@@ -24,21 +24,19 @@ tags = ["studynote-bigdata"]
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 [데이터 늪](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/288_data_swamp_metadata_management_absence/)은 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/) 아키텍처에서 관리 계층([Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) Layer)이 붕괴되었을 때 발생한다.
 
+```text
+[ Data Lake vs Data Swamp / 데이터 레이크와 늪의 차이 ]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Data Lake vs Data Swamp / 데이터 레이크와 늪의 차이</div></div>
-<div class="kb-diagram-note">Data Lake (Healthy) Data Swamp (Failed)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Metadata Catalog</div><div class="kb-diagram-node">Metadata Missing</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Access Control</div><div class="kb-diagram-node">Dirty Data Overflow</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Clear Data Lineage</div><div class="kb-diagram-node">Unknown Files (v1..)</div></div>
-<div class="kb-diagram-note">v v</div>
-<div class="kb-diagram-note">Analysis Possible (Clear) Analysis Impossible (Dark)</div>
-</div>
-</div>
-
-
+       Data Lake (Healthy)                 Data Swamp (Failed)
+    +-----------------------+           +-----------------------+
+    | [Metadata Catalog]    |           | [Metadata Missing]    |
+    | [Access Control]      |           | [Dirty Data Overflow] |
+    | [Clear Data Lineage]  |           | [Unknown Files (v1..)]|
+    +-----------+-----------+           +-----------+-----------+
+                |                                   |
+                v                                   v
+    Analysis Possible (Clear)           Analysis Impossible (Dark)
+```
 
 1. **원인 (Causes)**:
    - **거버넌스 부재**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 변경, 폐기 주기가 관리되지 않음.
@@ -80,19 +78,15 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">상위 개념: Data Governance, Data Lake</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">하위 개념: Data Catalog, Metadata, Data Lineage</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">연관 개념: Data Wrangling, Data Quality, Dark Data</div></div>
-</div>
-</div>
-
-
+```text
+[상위 개념: Data Governance, Data Lake]
+    │
+    ▼
+[하위 개념: Data Catalog, Metadata, Data Lineage]
+    │
+    ▼
+[연관 개념: Data Wrangling, Data Quality, Dark Data]
+```
 
 이 흐름도는 상위 개념: [Data Governance](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/), [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Lake에서 출발해 연관 개념: [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Wrangling, [Data Quality](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/270_data_quality_great_expectations/), Dark Data까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

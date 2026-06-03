@@ -25,21 +25,28 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 "클럭이 계속 가면 일이 없어도 전력이 든다"는 점과, 클럭을 차단하면 어디서 절감이 발생하는지를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클럭 게이팅의 출발점: 유휴 블록에도 클럭이 가면 전력이 샌다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기준 클럭 ▶ 클럭 트리 (Clock Tree)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정수 연산기</div><div class="kb-diagram-cell">◀── 현재 실제 사용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부동소수점 유닛</div><div class="kb-diagram-cell">◀── 지금은 유휴</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비디오 처리 블록</div><div class="kb-diagram-cell">◀── 지금은 유휴</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유휴 블록에도 클럭이 남아 있으면: FF 샘플링 + 버퍼 충방전 + 배선 토글 지속</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유휴 블록 앞에서 클럭을 차단하면: 해당 분기 활동률 α 감소 + 동적 전력 절감</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│          클럭 게이팅의 출발점: 유휴 블록에도 클럭이 가면 전력이 샌다       │
+├────────────────────────────────────────────────────────────────────────────┤
+│ 기준 클럭 ───────────────▶ 클럭 트리 (Clock Tree) ───────────────┐         │
+│                                                                  │         │
+│                     ┌──────────────────────┐                     │         │
+│                     │ 정수 연산기          │ ◀── 현재 실제 사용  │         │
+│                     └──────────────────────┘                     │         │
+│                                                                  │         │
+│                     ┌──────────────────────┐                     │         │
+│                     │ 부동소수점 유닛      │ ◀── 지금은 유휴     │         │
+│                     └──────────────────────┘                     │         │
+│                                                                  │         │
+│                     ┌──────────────────────┐                     │         │
+│                     │ 비디오 처리 블록     │ ◀── 지금은 유휴     │         │
+│                     └──────────────────────┘                     │         │
+│                                                                  │         │
+│ 유휴 블록에도 클럭이 남아 있으면: FF 샘플링 + 버퍼 충방전 + 배선 토글 지속    │
+│ 유휴 블록 앞에서 클럭을 차단하면: 해당 분기 활동률 α 감소 + 동적 전력 절감    │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 클럭 게이팅은 그래서 "[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 포기하는 절전"이 아니라 "쓸모없는 박자만 없애는 절전"으로 이해해야 한다. 물론 영구적인 전원 차단은 아니므로 누설 전류까지 없애지는 못한다. 하지만 복귀 지연이 매우 짧고 상태를 그대로 유지할 수 있어, 짧고 잦은 유휴 구간을 다루는 데는 가장 실용적이다.
 
@@ -55,28 +62,30 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 왜 ICG 셀이 필요한지, 그리고 어떤 순서로 클럭이 안전하게 차단되는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ICG 셀의 역할: 클럭을 막되, 잘못된 엣지는 만들지 않기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">잘못된 방식</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CLK</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ AND ▶ Gated Clock</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EN</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EN이 CLK 상승 직전 흔들리면 → 짧은 펄스 발생 가능 → 오동작 위험</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">올바른 방식: ICG (Integrated Clock Gate)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EN ▶ 래치</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ AND ▶ Gated Clock ▶ Register Bank</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CLK</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동작 순서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) CLK가 안전 구간일 때만 래치가 EN 값을 캡처</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) 캡처된 EN으로만 클럭 통과 여부 결정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) EN=0이면 엣지 자체가 뒤로 전달되지 않음</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                ICG 셀의 역할: 클럭을 막되, 잘못된 엣지는 만들지 않기        │
+├────────────────────────────────────────────────────────────────────────────┤
+│ 잘못된 방식                                                               │
+│                                                                            │
+│   CLK ───────┐                                                             │
+│              ├─ AND ─────────────▶ Gated Clock                             │
+│   EN  ───────┘                                                             │
+│                                                                            │
+│ EN이 CLK 상승 직전 흔들리면 → 짧은 펄스 발생 가능 → 오동작 위험            │
+│                                                                            │
+│ 올바른 방식: ICG (Integrated Clock Gate)                                  │
+│                                                                            │
+│   EN ─────────▶ 래치 ───────┐                                              │
+│                            ├─ AND ───▶ Gated Clock ───▶ Register Bank      │
+│   CLK ─────────────────────┘                                              │
+│                                                                            │
+│ 동작 순서                                                                  │
+│   1) CLK가 안전 구간일 때만 래치가 EN 값을 캡처                            │
+│   2) 캡처된 EN으로만 클럭 통과 여부 결정                                   │
+│   3) EN=0이면 엣지 자체가 뒤로 전달되지 않음                               │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 실무에서는 이 구조를 사람이 일일이 그리는 대신, RTL ([Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/) Transfer Level) 코드의 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) enable 패턴을 합성기가 찾아 자동으로 삽입하는 경우가 많다. 예를 들어 `if (load_en) reg <= data;` 같은 형태가 반복되면, 합성 도구는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로를 매번 평가하는 대신 클럭 자체를 멈추는 편이 더 낫다고 판단해 ICG 셀을 삽입한다. 이때 절감 대상은 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 내부 토글뿐 아니라 그 앞단 클럭 버퍼와 분기 배선까지 포함된다.
 
@@ -164,25 +173,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">불필요한 레지스터 토글 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">레지스터 enable 기반 제어</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ICG (Integrated Clock Gate) 셀 도입</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">합성기 자동 클럭 게이팅 삽입</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">블록 단위 전력 관리 + DVFS 연계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">전원 도메인 기반 저전력 통합 설계</div>
-</div>
-</div>
-
-
+```text
+불필요한 레지스터 토글 인식
+        │
+        ▼
+레지스터 enable 기반 제어
+        │
+        ▼
+ICG (Integrated Clock Gate) 셀 도입
+        │
+        ▼
+합성기 자동 클럭 게이팅 삽입
+        │
+        ▼
+블록 단위 전력 관리 + DVFS 연계
+        │
+        ▼
+전원 도메인 기반 저전력 통합 설계
+```
 
 이 흐름은 "개별 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/) → 안전한 게이트 셀 → 자동화 → 계층형 저전력 관리"로 사고가 확장되는 과정을 보여준다.
 

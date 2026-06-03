@@ -40,21 +40,20 @@ HDFS는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/50
 | 랙 인식 배치 | 같은 장애 도메인에만 몰리지 않게 배치 | [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)·랙 단위 장애 대응 |
 | HA (High [Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)) [NameNode](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/) | [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) 완화 | 액티브-스탠바이 운영 필요 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">metadata request</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NameNode ------------------------------------------------------</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">block locations</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DataNode 1 -&gt; DataNode 2 -&gt; DataNode 3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">block copy block copy block copy</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">write pipeline : client writes once, replicas flow in order</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────┐
+│ Client                                                                  │
+│   │ metadata request                                                    │
+│   ▼                                                                      │
+│ NameNode ------------------------------------------------------┐         │
+│   │ block locations                                            │         │
+│   ▼                                                            │         │
+│ DataNode 1  ->  DataNode 2  ->  DataNode 3                     │         │
+│   block copy      block copy      block copy                   │         │
+│                                                                 │         │
+│ write pipeline : client writes once, replicas flow in order     │         │
+└──────────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조 덕분에 HDFS는 대용량 순차 읽기와 쓰기에서 매우 강하다. 블록 크기를 128메가바이트 또는 256메가바이트처럼 크게 잡으면 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 수가 줄어들고, 분석 작업은 블록이 있는 노드에서 실행되어 네트워크 이동량도 줄어든다. 대신 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 중간을 자주 수정하거나, 아주 작은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 수백만 개를 관리하는 용도로는 비효율이 커진다.
 
@@ -138,23 +137,21 @@ HDFS는 값싼 하드웨어 위에서도 대용량 [데이터](/knowledge-base/s
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Google File System (GFS) 아이디어</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">HDFS 블록 복제 기반 분산 파일 저장</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">MapReduce / Spark와 결합한 데이터 지역성 분석</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">HA NameNode / Federation / 삭제 코딩 확장</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">오브젝트 스토리지와 공존하는 현대 데이터 레이크 구조</div>
-</div>
-</div>
-
-
+```text
+Google File System (GFS) 아이디어
+        │
+        ▼
+HDFS 블록 복제 기반 분산 파일 저장
+        │
+        ▼
+MapReduce / Spark와 결합한 데이터 지역성 분석
+        │
+        ▼
+HA NameNode / Federation / 삭제 코딩 확장
+        │
+        ▼
+오브젝트 스토리지와 공존하는 현대 데이터 레이크 구조
+```
 
 이 흐름은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 저장이 단순 보관을 넘어, 대규모 분석 파이프라인의 실행 토대와 결합해 발전해 왔음을 보여준다.
 

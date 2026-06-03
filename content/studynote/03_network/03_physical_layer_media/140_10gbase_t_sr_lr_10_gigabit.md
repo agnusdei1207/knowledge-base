@@ -23,18 +23,14 @@ tags = ["studynote-network"]
 
 특징적인 변화는 10GbE부터는 충돌 기반의 반이중(Half-Duplex)과 [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CD 방식이 표준에서 <strong>완전히 폐기</strong>되고, <strong>오직 전이중(Full-Duplex) 모드만 지원</strong>한다는 점입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">1000BASE-T</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">10GBASE-T / 10GBASE-SR /…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">40GbE / 100GbE / 400GbE…</div></div>
-</div>
-</div>
-
-
+```text
+[1000BASE-T]
+    │
+    ▼
+[10GBASE-T / 10GBASE-SR /…]
+    │
+    └──▶ [40GbE / 100GbE / 400GbE…]
+```
 
 - **📢 섹션 요약 비유**: 10GBASE-T / 10GBASE-SR /…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -55,18 +51,14 @@ tags = ["studynote-network"]
 ### 3. 높은 전력 소모와 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))
 엄청난 노이즈를 걸러내고 상쇄하기 위해 랜카드(PHY 칩) 내부에 고도의 DSP(디지털 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 처리) 회로가 쉴 새 없이 연산해야 합니다. 이로 인해 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 10GBASE-T 장비는 전력 소모가 컸고 열이 많이 발생했으며, 광통신에 비해 [처리 지연](/knowledge-base/studynote/03_network/01_data_communication/019_처리_지연/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))이 약간 발생한다는 단점이 있었습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">1000BASE-T</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">10GBASE-T / 10GBASE-SR /…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">40GbE / 100GbE / 400GbE…</div></div>
-</div>
-</div>
-
-
+```text
+[1000BASE-T]
+    │
+    ▼
+[10GBASE-T / 10GBASE-SR /…]
+    │
+    └──▶ [40GbE / 100GbE / 400GbE…]
+```
 
 - **📢 섹션 요약 비유**: 10GBASE-T / 10GBASE-SR /…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -126,19 +118,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 1000BASE-T</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 10GBASE-T / 10GBASE-SR /…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 40GbE / 100GbE / 400GbE…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고속 광전송 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 1000BASE-T]
+    │
+    ▼
+[현재 개념: 10GBASE-T / 10GBASE-SR /…]
+    │
+    ├──▶ [확장 A: 40GbE / 100GbE / 400GbE…]
+    └──▶ [확장 B: 고속 광전송 최적화]
+```
 
 10GBASE-T / 10GBASE-SR /…는 1000BASE-T에서 출발해 현재 메커니즘을 정교화하고, 이후 40GbE / 100GbE / 400GbE…와 고속 광전송 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

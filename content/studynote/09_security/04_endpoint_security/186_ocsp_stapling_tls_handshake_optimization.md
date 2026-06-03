@@ -35,26 +35,24 @@ tags = ["studynote-security"]
 
 아래 그림은 일반 [OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/) 질의와 Stapling 방식의 차이를 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OCSP vs OCSP Stapling</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A. Direct OCSP</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client -&gt; Server : ClientHello</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client &lt;- Server : Certificate</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client -&gt; CA : OCSP request</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client &lt;- CA : signed status response</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client -&gt; Server : continue handshake</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B. OCSP Stapling</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Server &lt;-&gt; CA : periodically fetch signed OCSP response</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client -&gt; Server : ClientHello + status_request</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client &lt;- Server : Certificate + stapled OCSP response</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client verifies CA signature and freshness locally</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ OCSP vs OCSP Stapling                                              │
+├────────────────────────────────────────────────────────────────────┤
+│ A. Direct OCSP                                                     │
+│ Client -> Server : ClientHello                                     │
+│ Client <- Server : Certificate                                     │
+│ Client -> CA     : OCSP request                                    │
+│ Client <- CA     : signed status response                          │
+│ Client -> Server : continue handshake                              │
+│                                                                    │
+│ B. OCSP Stapling                                                   │
+│ Server <-> CA    : periodically fetch signed OCSP response         │
+│ Client -> Server : ClientHello + status_request                    │
+│ Client <- Server : Certificate + stapled OCSP response             │
+│ Client            verifies CA signature and freshness locally      │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 | 요소 | 역할 | 운영 포인트 |
 | :--- | :--- | :--- |
@@ -140,23 +138,20 @@ tags = ["studynote-security"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">CRL 대용량 목록 배포</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">OCSP (Online Certificate Status Protocol)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">OCSP Stapling</div>
-<div class="kb-diagram-tree-item" style="--depth:4">핸드셰이크 지연 감소</div>
-<div class="kb-diagram-tree-item" style="--depth:4">프라이버시 개선</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Must-Staple · CT · 짧은 수명 인증서</div>
-</div>
-</div>
-
-
+```text
+CRL 대용량 목록 배포
+        │
+        ▼
+OCSP (Online Certificate Status Protocol)
+        │
+        ▼
+OCSP Stapling
+        │
+        ├──────────────► 핸드셰이크 지연 감소
+        ├──────────────► 프라이버시 개선
+        ▼
+Must-Staple · CT · 짧은 수명 인증서
+```
 
 이 흐름은 폐기 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 단순 목록 배포에서 시작해, 실시간 질의와 서버 측 최적화, 그리고 더 강한 보완 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 발전해 온 과정을 보여 준다.
 

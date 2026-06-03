@@ -33,26 +33,35 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 전통적 2칩 구조에서 데이터가 어떤 계층을 거치는지 보여준다. 특히 저장장치나 [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 요청은 사우스브리지를 거쳐 노스브리지 또는 CPU 쪽으로 올라가므로, "어디에 연결되었는가"가 곧 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 경로를 의미한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전통적 Northbridge / Southbridge 데이터 경로 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU (Central Processing Unit)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FSB (Front Side Bus)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">노스브리지 (Northbridge)</div><div class="kb-diagram-cell">= 고속 경로 제어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ㆍ메모리 컨트롤러</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ㆍ그래픽 인터페이스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ DRAM</div><div class="kb-diagram-cell">AGP (Accelerated Graphics</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Port) / PCI Express Graphics</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">칩셋 내부 링크</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사우스브리지</div><div class="kb-diagram-cell">= 저속 · 다종 장치 집선</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Southbridge / ICH)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SATA USB PCI BIOS ROM</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│         전통적 Northbridge / Southbridge 데이터 경로 구조           │
+├──────────────────────────────────────────────────────────────────────┤
+│  CPU (Central Processing Unit)                                      │
+│            │                                                        │
+│            │ FSB (Front Side Bus)                                   │
+│            ▼                                                        │
+│  ┌──────────────────────────┐                                       │
+│  │ 노스브리지 (Northbridge) │  = 고속 경로 제어                    │
+│  │ ㆍ메모리 컨트롤러        │                                       │
+│  │ ㆍ그래픽 인터페이스      │                                       │
+│  └───────────┬──────────────┘                                       │
+│              │                           ┌──────────────────────────────┐ │
+│              ├──────────────▶ DRAM       │ AGP (Accelerated Graphics    │ │
+│              │                           │ Port) / PCI Express Graphics │ │
+│              │                           └──────────────────────────────┘ │
+│              │                                                        │
+│              │ 칩셋 내부 링크                                         │
+│              ▼                                                        │
+│  ┌──────────────────────────┐                                       │
+│  │ 사우스브리지             │  = 저속 · 다종 장치 집선               │
+│  │ (Southbridge / ICH)      │                                       │
+│  └──────┬─────────┬─────────┴──────────────┬──────────────────────┐ │
+│         │         │                        │                      │ │
+│         ▼         ▼                        ▼                      ▼ │
+│      SATA       USB                     PCI                  BIOS ROM│
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 | 구성 요소 | 주된 역할 | 병목/설계 포인트 |
 | :-- | :-- | :-- |
@@ -131,25 +140,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단일 공유 버스 중심 설계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">노스브리지 / 사우스브리지 분리</div>
-<div class="kb-diagram-tree-item" style="--depth:4">고속 경로: CPU ↔ 메모리 ↔ 그래픽</div>
-<div class="kb-diagram-tree-item" style="--depth:4">저속 경로: USB · SATA · PCI · BIOS</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">메모리 컨트롤러의 CPU 통합 (IMC)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CPU 직결 PCIe + PCH 허브 구조</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SoC · 온칩 인터커넥트 · NoC 확장</div>
-</div>
-</div>
-
-
+```text
+단일 공유 버스 중심 설계
+        │
+        ▼
+노스브리지 / 사우스브리지 분리
+        │
+        ├─ 고속 경로: CPU ↔ 메모리 ↔ 그래픽
+        └─ 저속 경로: USB · SATA · PCI · BIOS
+        │
+        ▼
+메모리 컨트롤러의 CPU 통합 (IMC)
+        │
+        ▼
+CPU 직결 PCIe + PCH 허브 구조
+        │
+        ▼
+SoC · 온칩 인터커넥트 · NoC 확장
+```
 
 이 흐름은 "분리로 병목을 완화하고, 이후 핵심 경로는 더 가까이 통합한다"는 진화 방향을 보여준다.
 

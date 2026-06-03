@@ -11,7 +11,7 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: Docker는 클라이언트-서버 구조에서 Docker CLI, Docker Engine(dockerd), containerd, runc가 협업해 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 만들고 실행하는 플랫폼이다.
+> 1. **본질**: Docker는 클라이언트-서버 구조에서 Docker CLI, Docker 엔진(dockerd), containerd, runc가 협업해 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 만들고 실행하는 플랫폼이다.
 > 2. **가치**: 이미지(Image) 레이어, [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)([Registry](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)), [컨테이너 런타임](/knowledge-base/studynote/02_operating_system/10_security/628_container_runtime_oci/)(Runtime)을 분리해 개발·배포·재현성을 크게 높인다.
 > 3. **판단**: Docker를 이해하려면 "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)"보다 "이미지-런타임-[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)-격리"의 연결 구조를 먼저 봐야 한다.
 
@@ -29,30 +29,24 @@ Docker는 "내 PC에서는 되는데 서버에서는 안 된다"는 문제를 �
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Docker CLI</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">dockerd</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">containerd</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">runc</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Namespaces + cgroups</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Container</div>
-</div>
-</div>
-
-
+```text
+Docker CLI
+  ↓
+dockerd
+  ↓
+containerd
+  ↓
+runc
+  ↓
+Namespaces + cgroups
+  ↓
+Container
+```
 
 | 구성 요소 | 역할 |
 | :-- | :-- |
 | Docker CLI | 사용자가 입력하는 명령 인터페이스 |
-| dockerd | Docker Engine의 핵심 데몬 |
+| dockerd | Docker 엔진의 핵심 데몬 |
 | containerd | [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 생명주기 관리 |
 | [runc](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/667_container_runtime_hw_isolation/) | [OCI](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/333_process/)([Open Container Initiative](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/205_container_image_layer_oci_standard/)) 호환 실행기 |
 | Image | 실행 가능한 읽기 전용 템플릿 |
@@ -119,43 +113,31 @@ Docker는 개발 환경과 운영 환경의 차이를 줄이고, 배포를 반�
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Docker CLI</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">dockerd</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">containerd / runc</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Linux Kernel</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Container</div>
-</div>
-</div>
-
-
+```text
+Docker CLI
+  ↓
+dockerd
+  ↓
+containerd / runc
+  ↓
+Linux Kernel
+  ↓
+Container
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">수동 배포</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">스크립트 배포</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Docker</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Container Platform</div>
-</div>
-</div>
-
-
+```text
+수동 배포
+  ↓
+스크립트 배포
+  ↓
+Docker
+  ↓
+Container Platform
+```
 
 ---
 

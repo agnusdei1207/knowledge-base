@@ -23,20 +23,23 @@ I/O 및 저장장치 구조가 중요한 이유는 세 가지이다. 첫째, CPU
 
 이 그림은 CPU와 입출력 장치 사이의 데이터 전송 제어권 변화를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Evolution of I/O Control Architecture</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Level 1: Programmed I/O</div><div class="kb-diagram-note">(CPU가 일일이 확인 - Poll)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Level 2: Interrupt-driven I/O</div><div class="kb-diagram-note">(완료 시 CPU에 알림)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Level 3: DMA (Direct Memory Access)</div><div class="kb-diagram-note">(메모리 직접 전송)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Level 4: I/O Channel / Processor</div><div class="kb-diagram-note">(I/O 전담 보조 CPU)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 방향: CPU의 개입은 줄이고, 자율성은 높이는 방향</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│              Evolution of I/O Control Architecture          │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Level 1: Programmed I/O ] (CPU가 일일이 확인 - Poll)    │
+│          │                                                  │
+│   [ Level 2: Interrupt-driven I/O ] (완료 시 CPU에 알림)    │
+│          │                                                  │
+│   [ Level 3: DMA (Direct Memory Access) ] (메모리 직접 전송) │
+│          │                                                  │
+│   [ Level 4: I/O Channel / Processor ] (I/O 전담 보조 CPU)  │
+│                                                             │
+│   * 방향: CPU의 개입은 줄이고, 자율성은 높이는 방향         │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 'CPU 해방'이다. 최신 시스템일수록 I/O 작업을 전담하는 하드웨어를 별도로 두어, 주 CPU는 오직 복잡한 연산에만 집중하게 만든다. 실무에서는 이러한 DMA 제어기 설정과 버스 대역폭 설계가 서버 전체의 동시 처리 능력을 결정한다.
 
@@ -58,20 +61,23 @@ DMA는 CPU의 권한을 잠시 빌려 메모리 버스를 직접 제어한다. �
 
 이 구조도는 DMA 제어기가 시스템 버스를 점유하는 방식을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DMA Controller &amp; Cycle Stealing</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CPU</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DMA Request</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DMA Controller</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (Bus Grant) ▼ (Transfer)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">System Bus (Address/Data)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">I/O Device</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">Main Memory</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* Cycle Stealing: CPU가 버스를 안 쓰는 찰나에 데이터 전송</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 DMA Controller & Cycle Stealing             │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ CPU ] ──▶ [ DMA Request ] ──▶ [ DMA Controller ]        │
+│      │                                   │                  │
+│      │          ┌────────────────────────┴──────┐           │
+│      │          ▼ (Bus Grant)                   ▼ (Transfer)│
+│   [ System Bus (Address/Data) ] ◀───▶ [ I/O Device ]        │
+│          ▲                                                  │
+│          └─ [ Main Memory ]                                 │
+│                                                             │
+│   * Cycle Stealing: CPU가 버스를 안 쓰는 찰나에 데이터 전송 │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 'Cycle Stealing'이다. CPU와 DMA가 동시에 메모리를 쓰려 할 때, DMA에게 우선권을 주어 I/O 지연을 막는 것이 일반적이다. 실무에서는 이 과정에서 발생하는 캐시 불일치 (Cache Coherency) 문제를 하드웨어적으로 해결하는 것이 중요하다.
 
@@ -127,20 +133,21 @@ DMA는 CPU의 권한을 잠시 빌려 메모리 버스를 직접 제어한다. �
 
 이 도식은 데이터 요청 시 계층별 응답 경로를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I/O Request Decision Tree</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Read Request</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OS Page Cache</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Hit?</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Return</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(YES)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">File System</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Storage Controller Cache</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Hit?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(YES)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Physical Storage Access</div><div class="kb-diagram-note">(IO Latency 발생)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│               I/O Request Decision Tree                      │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Read Request ] ──▶ [ OS Page Cache ] ──▶ [ Hit? ] ──▶ [Return]│
+│                               │               │ (YES)       │
+│                               ▼               └─────────────┘│
+│   [ File System ] ──▶ [ Storage Controller Cache ] ──▶ [ Hit? ]│
+│                               │                         (YES)│
+│                               ▼                              │
+│   [ Physical Storage Access ] (IO Latency 발생)              │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 기술사의 스토리지 판단은 '도시 물류 허브 설계'와 같습니다. 물건(데이터)이 들어오는 양과 빈도를 분석하여, 창고(스토리지)를 어떻게 나누고 어떤 운송 수단(인터페이스)을 쓸지 결정하는 전략적 안목이 필요합니다.
 

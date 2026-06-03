@@ -18,17 +18,11 @@ tags = ["studynote-dataengineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">학습 루프: 예측 → 손실 계산 → 역전파 → 가중치 업데이트 → 반복</div>
-<div class="kb-diagram-note">Loss: Cross-Entropy (분류), MSE (회귀)</div>
-<div class="kb-diagram-note">Optimizer: SGD → Momentum → Adam (표준)</div>
-</div>
-</div>
-
-
+```text
+학습 루프: 예측 → 손실 계산 → 역전파 → 가중치 업데이트 → 반복
+  Loss: Cross-Entropy (분류), MSE (회귀)
+  Optimizer: SGD → Momentum → Adam (표준)
+```
 
 - **📢 섹션 요약 비유**: [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)는 **시험 채점**, [경사 하강법](/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/)은 **"어떻게 공부하면 점수가 오를까" 방향 계산**, [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)는 <strong>실제 공부 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>이다.
 
@@ -63,17 +57,11 @@ tags = ["studynote-dataengineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SGD (1951)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Momentum (1964)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">AdaGrad (2011)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">RMSProp (2012)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Adam (2014) — 표준</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">AdamW (2018)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: Lion·Sophia — 차세대 옵티마이저</div></div>
-</div>
-</div>
-
-
+```text
+[SGD (1951)] → [Momentum (1964)] → [AdaGrad (2011)]
+    → [RMSProp (2012)] → [Adam (2014) — 표준]
+    → [AdamW (2018)] → [현재: Lion·Sophia — 차세대 옵티마이저]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)는 <strong>시험 채점</strong>이에요. 틀린 게 많으면 점수(손실)가 높아요.

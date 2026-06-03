@@ -43,20 +43,19 @@ tags = ["studynote-computer-architecture"]
 
 다음 그림은 스크러빙이 단순 read loop가 아니라, "순회-판정-[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)-기록"으로 이어지는 관리 루프임을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Scrubbing loop: scan memory, repair correctable faults, record bad spots</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Timer/Credit</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Address Walker</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Read DRAM line</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">ECC Decode</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">no error -----------------------------&gt;</div><div class="kb-diagram-cell">advance</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Write Back</div><div class="kb-diagram-note">----</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Log/Alert</div><div class="kb-diagram-note">---</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Low priority rule: application traffic &gt; scrub traffic</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│ Scrubbing loop: scan memory, repair correctable faults, record bad spots  │
+├────────────────────────────────────────────────────────────────────────────┤
+│ [Timer/Credit] -> [Address Walker] -> [Read DRAM line] -> [ECC Decode]    │
+│                                                            │               │
+│                      no error ----------------------------->│ advance       │
+│                      correctable error -> [Write Back] ----┤               │
+│                      uncorrectable error -> [Log/Alert] ---┘               │
+│                                                                            │
+│ Low priority rule: application traffic > scrub traffic                     │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 운용 방식은 크게 두 가지다. 패트롤 스크러빙 (Patrol Scrubbing)은 유휴 시간에 메모리 전체를 일정 주기로 순회하고, 디맨드 스크러빙 (Demand Scrubbing)은 CPU가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽는 순간 발견된 correctable error를 즉시 write-back으로 치유한다. 전자는 <strong>보이지 않는 오류를 찾는 능력</strong>이 강하고, 후자는 <strong>자주 쓰이는 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 즉시성</strong>이 좋기 때문에 실무에서는 둘을 함께 쓰는 경우가 많다.
 
@@ -133,23 +132,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">ECC 기반 단발성 오류 정정</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Demand Scrubbing</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Patrol Scrubbing · 메모리 컨트롤러 순회</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Page Retirement · Spare Rank · RAS 운영</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">적응형 스크러빙 · CXL 메모리 풀 신뢰성 관리</div>
-</div>
-</div>
-
-
+```text
+ECC 기반 단발성 오류 정정
+        │
+        ▼
+Demand Scrubbing
+        │
+        ▼
+Patrol Scrubbing · 메모리 컨트롤러 순회
+        │
+        ▼
+Page Retirement · Spare Rank · RAS 운영
+        │
+        ▼
+적응형 스크러빙 · CXL 메모리 풀 신뢰성 관리
+```
 
 이 흐름은 "읽을 때만 고치는 방식"에서 출발해, 지금은 오류 이력과 시스템 토폴로지까지 반영하는 능동형 메모리 관리로 발전하고 있음을 보여 준다.
 

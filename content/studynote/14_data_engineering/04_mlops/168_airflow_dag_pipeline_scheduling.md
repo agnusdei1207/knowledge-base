@@ -22,49 +22,49 @@ tags = ["studynote-data-engineering"]
 
 <strong>Apache Airflow</strong>는 Airbnb가 2014년에 개발하고 2019년 Apache Top Level Project가 된 파이썬 기반 워크플로우 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) 플랫폼이다. [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)의 작업 의존성을 [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) ([Directed Acyclic Graph](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/255_apache_airflow_dag/), 방향성 비순환 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/))로 표현하고 스케줄에 따라 자동 실행한다.
 
+```
+Airflow 없는 세상 (문제 상황)
+┌────────────────────────────────────────────────────────┐
+│  스크립트 A (00:00 실행)                                │
+│  스크립트 B (01:00 실행)  ← A 완료 확인을 어떻게?      │
+│  스크립트 C (02:00 실행)  ← B 실패 시 C는?             │
+│  → 크론탭(crontab)으로 시간 기반 실행                  │
+│  → 의존성 관리 없음, 실패 재시도 없음                  │
+│  → 파이프라인 현황 가시성 없음                          │
+└────────────────────────────────────────────────────────┘
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Airflow 없는 세상 (문제 상황)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스크립트 A (00:00 실행)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스크립트 B (01:00 실행) ← A 완료 확인을 어떻게?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스크립트 C (02:00 실행) ← B 실패 시 C는?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 크론탭(crontab)으로 시간 기반 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 의존성 관리 없음, 실패 재시도 없음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 파이프라인 현황 가시성 없음</div></div>
-<div class="kb-diagram-note">Airflow 도입 후</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DAG: etl_pipeline</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">extract_task → transform_task → load_task</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↓ (실패 시)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자동 재시도 3회</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 알람 발송</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Web UI로 실시간 현황 모니터링</div></div>
-</div>
-</div>
-
-
+Airflow 도입 후
+┌────────────────────────────────────────────────────────┐
+│  DAG: etl_pipeline                                     │
+│  extract_task → transform_task → load_task             │
+│                    ↓ (실패 시)                          │
+│                 자동 재시도 3회                         │
+│                 → 알람 발송                            │
+│  Web UI로 실시간 현황 모니터링                          │
+└────────────────────────────────────────────────────────┘
+```
 
 ### 1.2 [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) ([Directed Acyclic Graph](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/255_apache_airflow_dag/)) 개념
 
+```
+DAG = 방향성(Directed) + 비순환(Acyclic) + 그래프(Graph)
 
+방향성: 작업 A → 작업 B (A가 끝나야 B 시작)
+비순환: A → B → C → A 같은 순환 불가 (무한 루프 방지)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">DAG = 방향성(Directed) + 비순환(Acyclic) + 그래프(Graph)</div>
-<div class="kb-diagram-note">방향성: 작업 A → 작업 B (A가 끝나야 B 시작)</div>
-<div class="kb-diagram-note">비순환: A → B → C → A 같은 순환 불가 (무한 루프 방지)</div>
-<div class="kb-diagram-note">예시 DAG:</div>
-<div class="kb-diagram-note">extract_data</div>
-<div class="kb-diagram-tree-item" style="--depth:2">→ validate_data ──→ load_to_staging</div>
-<div class="kb-diagram-tree-item" style="--depth:2">→ profile_data</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">run_dbt_models</div>
-<div class="kb-diagram-note">build_marts send_report</div>
-</div>
-</div>
-
-
+예시 DAG:
+extract_data
+     │
+     ├──→ validate_data ──→ load_to_staging
+     │                              │
+     └──→ profile_data             │
+                                   ▼
+                           run_dbt_models
+                                   │
+                           ┌───────┴────────┐
+                           ▼               ▼
+                    build_marts      send_report
+```
 
 📢 **섹션 요약 비유**: Airflow는 복잡한 요리 레시피를 자동으로 실행하는 주방 AI와 같다. "재료 손질(extract) → 조리(transform) → 담기(load)" 순서를 코드로 적어두면, AI가 알아서 순서대로 실행하고, 중간에 실패하면 다시 시도하며, 모든 과정을 화면으로 보여준다.
 
@@ -74,28 +74,30 @@ tags = ["studynote-data-engineering"]
 
 ### 2.1 Airflow 핵심 구성요소
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Apache Airflow 아키텍처</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Web Server</div><div class="kb-diagram-cell">Django 기반 Web UI</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Flask)</div><div class="kb-diagram-cell">DAG 시각화, 실행 현황, 로그 확인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Scheduler</div><div class="kb-diagram-cell">DAG 파일 파싱, 트리거 결정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스케줄 기반 또는 외부 트리거로 DagRun 생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Executor</div><div class="kb-diagram-cell">실제 작업 실행 담당</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sequential/Local/Celery/Kubernetes</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Workers</div><div class="kb-diagram-cell">Executor에서 할당받은 Task 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Celery: Celery Worker</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">K8s: Pod로 Task 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Metadata DB</div><div class="kb-diagram-cell">DAG 메타데이터, 실행 이력</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(PostgreSQL)</div><div class="kb-diagram-cell">변수(Variables), 연결(Connections)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DAG 파일</div><div class="kb-diagram-cell">Python 파일로 정의된 워크플로우</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(File System)</div><div class="kb-diagram-cell">Scheduler가 주기적으로 파싱</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────────────┐
+│                     Apache Airflow 아키텍처                      │
+├────────────────┬─────────────────────────────────────────────────┤
+│  Web Server    │  Django 기반 Web UI                              │
+│  (Flask)       │  DAG 시각화, 실행 현황, 로그 확인                │
+├────────────────┼─────────────────────────────────────────────────┤
+│  Scheduler     │  DAG 파일 파싱, 트리거 결정                      │
+│                │  스케줄 기반 또는 외부 트리거로 DagRun 생성      │
+├────────────────┼─────────────────────────────────────────────────┤
+│  Executor      │  실제 작업 실행 담당                              │
+│                │  Sequential/Local/Celery/Kubernetes              │
+├────────────────┼─────────────────────────────────────────────────┤
+│  Workers       │  Executor에서 할당받은 Task 실행                  │
+│                │  Celery: Celery Worker                          │
+│                │  K8s: Pod로 Task 실행                           │
+├────────────────┼─────────────────────────────────────────────────┤
+│  Metadata DB   │  DAG 메타데이터, 실행 이력                       │
+│  (PostgreSQL)  │  변수(Variables), 연결(Connections)              │
+├────────────────┼─────────────────────────────────────────────────┤
+│  DAG 파일      │  Python 파일로 정의된 워크플로우                  │
+│  (File System) │  Scheduler가 주기적으로 파싱                     │
+└────────────────┴─────────────────────────────────────────────────┘
+```
 
 ### 2.2 Airflow [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) 코드 예시
 
@@ -180,24 +182,24 @@ with DAG(
 
 ### 2.4 Executor 비교
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Executor 비교</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SequentialExecutor</div><div class="kb-diagram-cell">단일 프로세스</div><div class="kb-diagram-cell">개발/테스트용, 병렬 불가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LocalExecutor</div><div class="kb-diagram-cell">로컬 멀티프로</div><div class="kb-diagram-cell">소규모 운영, 단일 서버</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">세스 (fork)</div><div class="kb-diagram-cell">(수십 개 태스크 동시)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CeleryExecutor</div><div class="kb-diagram-cell">분산 워커</div><div class="kb-diagram-cell">중~대규모, 고가용성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(RabbitMQ/</div><div class="kb-diagram-cell">워커 수평 확장 가능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Redis)</div><div class="kb-diagram-cell">복잡한 설정 필요</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">KubernetesExecutor</div><div class="kb-diagram-cell">태스크별</div><div class="kb-diagram-cell">클라우드 네이티브</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">K8s Pod 생성</div><div class="kb-diagram-cell">자원 격리, 동적 스케일링</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">태스크 시작 오버헤드 있음</div></div>
-</div>
-</div>
-
-
+```
+┌───────────────────────────────────────────────────────────────┐
+│                     Executor 비교                              │
+├──────────────────┬──────────────┬────────────────────────────┤
+│ SequentialExecutor│ 단일 프로세스│ 개발/테스트용, 병렬 불가  │
+├──────────────────┼──────────────┼────────────────────────────┤
+│ LocalExecutor     │ 로컬 멀티프로│ 소규모 운영, 단일 서버    │
+│                   │ 세스 (fork) │ (수십 개 태스크 동시)     │
+├──────────────────┼──────────────┼────────────────────────────┤
+│ CeleryExecutor    │ 분산 워커    │ 중~대규모, 고가용성       │
+│                   │ (RabbitMQ/  │ 워커 수평 확장 가능       │
+│                   │  Redis)     │ 복잡한 설정 필요          │
+├──────────────────┼──────────────┼────────────────────────────┤
+│ KubernetesExecutor│ 태스크별    │ 클라우드 네이티브         │
+│                   │ K8s Pod 생성│ 자원 격리, 동적 스케일링  │
+│                   │             │ 태스크 시작 오버헤드 있음 │
+└──────────────────┴──────────────┴────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: Airflow Executor는 배달 시스템과 같다. SequentialExecutor는 혼자 한 명씩 배달(순차), LocalExecutor는 같은 빌딩의 여러 배달원(로컬 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)), CeleryExecutor는 여러 지점의 배달원들([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)), KubernetesExecutor는 주문마다 드론을 새로 보내는 방식([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/))이다.
 
@@ -244,28 +246,27 @@ with DAG(
 
 ### 4.1 Airflow 모범 사례
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Airflow 모범 사례 (Best Practices)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DAG 설계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 한 DAG당 하나의 논리적 워크플로우만</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 태스크를 원자적(Atomic)으로 설계 (재시도 안전)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 비즈니스 로직은 DAG 외부 (Python 모듈)에 위치</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ XCom은 소량 데이터만 (대용량은 S3/GCS 경유)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">성능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ schedule_interval 최소 5분 이상 (너무 잦은 실행 금지)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ max_active_runs로 동시 실행 제한</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 연결 풀링 (Connections Pool) 활용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">운영</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ Variables/Connections에 민감 정보 저장 (하드코딩 금지)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ SLA (Service Level Agreement) 설정으로 지연 알람</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">□ 로그 외부화 (S3/GCS)로 장기 보관</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────────┐
+│                  Airflow 모범 사례 (Best Practices)          │
+├──────────────────────────────────────────────────────────────┤
+│  DAG 설계                                                    │
+│  □ 한 DAG당 하나의 논리적 워크플로우만                       │
+│  □ 태스크를 원자적(Atomic)으로 설계 (재시도 안전)            │
+│  □ 비즈니스 로직은 DAG 외부 (Python 모듈)에 위치             │
+│  □ XCom은 소량 데이터만 (대용량은 S3/GCS 경유)              │
+├──────────────────────────────────────────────────────────────┤
+│  성능                                                        │
+│  □ schedule_interval 최소 5분 이상 (너무 잦은 실행 금지)     │
+│  □ max_active_runs로 동시 실행 제한                          │
+│  □ 연결 풀링 (Connections Pool) 활용                         │
+├──────────────────────────────────────────────────────────────┤
+│  운영                                                        │
+│  □ Variables/Connections에 민감 정보 저장 (하드코딩 금지)    │
+│  □ SLA (Service Level Agreement) 설정으로 지연 알람          │
+│  □ 로그 외부화 (S3/GCS)로 장기 보관                         │
+└──────────────────────────────────────────────────────────────┘
+```
 
 ### 4.2 기술사 시험 핵심 포인트
 
@@ -284,27 +285,33 @@ KubernetesExecutor는 각 Airflow Task를 독립된 [쿠버네티스](/knowledge
 
 ### 4.3 실무 배포 구조 (엔터프라이즈)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">엔터프라이즈 Airflow 배포 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Git (DAG 코드 관리)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CI/CD</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DAG 파일 서버 (NFS/S3)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마운트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Airflow Web Server ←── 운영자 모니터링</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Airflow Scheduler</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">태스크 할당</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Celery Workers (Auto Scaling Group)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Worker 1 Worker 2 ... Worker N</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">외부 시스템: BigQuery, Spark, S3, Redis, ML 서버</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메타데이터: Aurora PostgreSQL (Multi-AZ)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">브로커: Redis ElastiCache</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────────┐
+│              엔터프라이즈 Airflow 배포 구조                   │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│  Git (DAG 코드 관리)                                         │
+│       │ CI/CD                                                │
+│       ▼                                                      │
+│  DAG 파일 서버 (NFS/S3)                                      │
+│       │ 마운트                                               │
+│       ▼                                                      │
+│  Airflow Web Server ←── 운영자 모니터링                      │
+│  Airflow Scheduler                                           │
+│       │ 태스크 할당                                          │
+│       ▼                                                      │
+│  ┌─────────────────────────────────────────┐               │
+│  │  Celery Workers (Auto Scaling Group)    │               │
+│  │  Worker 1  Worker 2  ...  Worker N      │               │
+│  └─────────────────────────────────────────┘               │
+│       │                                                      │
+│       ▼                                                      │
+│  외부 시스템: BigQuery, Spark, S3, Redis, ML 서버            │
+│                                                              │
+│  메타데이터: Aurora PostgreSQL (Multi-AZ)                    │
+│  브로커: Redis ElastiCache                                   │
+└──────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 엔터프라이즈 Airflow는 항공사 운항 관리 시스템과 같다. [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 관제탑, 워커는 비행기 조종사, Web UI는 항공편 현황판이다. CeleryExecutor는 여러 활주로에서 동시에 비행기를 이륙시키고, KubernetesExecutor는 비행마다 새 조종석을 만들어 격리 운항하는 방식이다.
 
@@ -356,27 +363,24 @@ Apache Airflow는 [데이터](/knowledge-base/studynote/05_database/01_db_archit
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">cron + 쉘 스크립트 (원시적 스케줄링)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Apache Airflow: Python DAG 기반 워크플로우</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Scheduler: DAG 실행 스케줄링</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Executor: Sequential · Celery · Kubernetes</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Web UI: 실행 현황 · 로그 · 재시도 관리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Airflow + Kubernetes Executor → 동적 Pod 스케일링</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">차세대 오케스트레이터</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Dagster: 자산 기반 (Asset-centric)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Prefect: Pythonic, 클라우드 네이티브</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Mage AI: 통합 데이터 파이프라인</div>
-</div>
-</div>
-
-
+```text
+cron + 쉘 스크립트 (원시적 스케줄링)
+    │
+    ▼
+Apache Airflow: Python DAG 기반 워크플로우
+    ├─► Scheduler: DAG 실행 스케줄링
+    ├─► Executor: Sequential · Celery · Kubernetes
+    └─► Web UI: 실행 현황 · 로그 · 재시도 관리
+    │
+    ▼
+Airflow + Kubernetes Executor → 동적 Pod 스케일링
+    │
+    ▼
+차세대 오케스트레이터
+    ├─► Dagster: 자산 기반 (Asset-centric)
+    ├─► Prefect: Pythonic, 클라우드 네이티브
+    └─► Mage AI: 통합 데이터 파이프라인
+```
 
 ---
 
@@ -385,6 +389,6 @@ Apache Airflow는 [데이터](/knowledge-base/studynote/05_database/01_db_archit
 **진행 상황**: 168 / 258
 
 ← **이전**: [167. 쿠브플로우 (Kubeflow) - 쿠버네티스 기반 ML 파이프라인](/knowledge-base/studynote/14_data_engineering/04_mlops/167_kubeflow_kubernetes_ml_pipeline/)
-**다음**: [169. 모델 서빙 엔진 (Model Serving Engine) - TensorFlow Serving, NVIDIA Triton](/knowledge-base/studynote/14_data_engineering/04_mlops/169_model_serving_engine_triton_tensorflow_serving/) →
+**다음**: [169. 모델 서빙 엔진 (Model Serving 엔진) - TensorFlow Serving, NVIDIA Triton](/knowledge-base/studynote/14_data_engineering/04_mlops/169_model_serving_engine_triton_tensorflow_serving/) →
 
 ---

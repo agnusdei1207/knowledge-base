@@ -29,21 +29,15 @@ t-검정은 그 차이를 통계적으로 평가한다.
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Samples</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">t Statistic</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">p-value</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Decision</div>
-</div>
-</div>
-
-
+```text
+Samples
+  ↓
+t Statistic
+  ↓
+p-value
+  ↓
+Decision
+```
 
 | 종류 | 의미 |
 | :-- | :-- |
@@ -110,41 +104,29 @@ t-검정을 이해하면 두 집단 비교를 더 체계적으로 수행할 수 
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Samples</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">t-Test</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">p-value</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Decision</div>
-</div>
-</div>
-
-
+```text
+Samples
+  ↓
+t-Test
+  ↓
+p-value
+  ↓
+Decision
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Mean Difference</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">t-Test</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Hypothesis Test</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Statistical Inference</div>
-</div>
-</div>
-
-
+```text
+Mean Difference
+  ↓
+t-Test
+  ↓
+Hypothesis Test
+  ↓
+Statistical Inference
+```
 
 ---
 

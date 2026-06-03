@@ -24,27 +24,23 @@ tags = ["studynote-network"]
 
 - **💡 비유**: 일반 OSPF가 <strong>"무조건 최단 거리만 고집하는 멍청한 구형 내비게이션"</strong>이라면, [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/)-TE는 <strong>"각 도로의 차선 수(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>), 현재 막히는 정도(예약된 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>), 통행료(관리자 색상)를 몽땅 수집해서 가장 가성비 좋은 우회로로 안내하는 T맵 실시간 최적화 시스템"</strong>입니다.
 
+```text
+[DR, BDR]
+    │
+    ▼
+[OSPF 트래픽엔지니어링 연동]
+    │
+    └──▶ [OSPFv3]
+```
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DR, BDR</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">OSPF 트래픽엔지니어링 연동</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OSPFv3</div></div>
-</div>
-</div>
-
-
-
-- **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/">OSPF</a>-TE는 물의 흐름(트래픽)을 중력(최단 경로)에만 맡겨두지 않고, 댐과 수로(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/373_mpls_multiprotocol_label_switching_20bit/">MPLS</a> 터널)를 짓고 밸브를 조절하여 </strong>가뭄이 든 곳(노는 회선)으로 물을 억지로 끌어와 낭비되는 물방울이 없도록 하는 치수() 사업**입니다.
+- **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/">OSPF</a>-TE는 물의 흐름(트래픽)을 중력(최단 경로)에만 맡겨두지 않고, 댐과 수로(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/373_mpls_multiprotocol_label_switching_20bit/">MPLS</a> 터널)를 짓고 밸브를 조절하여 </strong>가뭄이 든 곳(노는 회선)으로 물을 억지로 끌어와 낭비되는 물방울이 없도록 하는 치수(治水) 사업**입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### 1. 트래픽 엔지니어링(TE)의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집기
-[OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/)-TE가 작동하려면 기존 OSPF의 `Hello`나 `LSA Type 1~5`로는 어림도 없다.
+[OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/)-TE가 작동하려면 기존 OSPF의 `Hello`나 `LSA Type 1~5`로는 어림도 없다. 
 이를 위해 <strong>Type <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a> (Opaque LSA)</strong>라는 특수 엽서를 쓴다.
 - 이 엽서 안에는 단순히 '선이 살았다/죽었다'가 아니라 아주 디테일한 정보가 들어간다.
 - <strong>Max <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">Bandwidth</a></strong>: 이 선로의 물리적 최대 굵기 (예: 10G)
@@ -58,28 +54,30 @@ tags = ["studynote-network"]
 - "목적지까지 가는 길 중에서 **빈 공간(Unreserved BW)이 1Gbps 이상 남아 있고, 빨간색(보안망)이 아닌 길** 중에서 제일 빠른 길을 찾아라!"
 - 이 공식 덕분에 고속도로가 꽉 차 있으면(제약 조건 탈락), 알아서 국도(우회로)를 1등 길로 깎아낸다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일반 OSPF vs OSPF-TE (CSPF) 동작 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">라우터 A</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Z망</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(국도: 1G, 현재 0G 사용 중, 텅텅 빔)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 일반 OSPF의 뇌구조 (SPF):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"고속도로가 10G니까 무조건 짱이야! 국도는 1G니까 버려!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(결과: 9.9G가 찬 고속도로에 트래픽을 또 쑤셔 넣어 병목 폭발)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* OSPF-TE의 뇌구조 (CSPF):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조건: "나는 500Mbps 빈 공간이 필요해!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"고속도로는 10G지만 빈 공간이 0.1G밖에 안 남았네? 탈락!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"국도는 1G인데 빈 공간이 1G 다 남아있네? 합격! 국도로 쏜다!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ "남는 자원을 싹싹 긁어 쓰는 로드 밸런싱의 기적!"</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                일반 OSPF vs OSPF-TE (CSPF) 동작 비교             │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 라우터 A ] ─── (고속도로: 10G, 현재 9.9G 사용 중) ───▶ [ Z망 ]  │
+ │        │                                              ▲      │
+ │        └─── (국도: 1G, 현재 0G 사용 중, 텅텅 빔) ────┘      │
+ │                                                             │
+ │   * 일반 OSPF의 뇌구조 (SPF):                                   │
+ │     "고속도로가 10G니까 무조건 짱이야! 국도는 1G니까 버려!"             │
+ │     (결과: 9.9G가 찬 고속도로에 트래픽을 또 쑤셔 넣어 병목 폭발)           │
+ │                                                             │
+ │   * OSPF-TE의 뇌구조 (CSPF):                                  │
+ │     조건: "나는 500Mbps 빈 공간이 필요해!"                       │
+ │     "고속도로는 10G지만 빈 공간이 0.1G밖에 안 남았네? 탈락!"           │
+ │     "국도는 1G인데 빈 공간이 1G 다 남아있네? 합격! 국도로 쏜다!"       │
+ │                                                             │
+ │   ▶ "남는 자원을 싹싹 긁어 쓰는 로드 밸런싱의 기적!"                    │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 3. MPLS와의 찰떡궁합 (RSVP-TE)
-[OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/)-TE가 지도를 그려도 자기가 직접 길을 바꾸진 못한다.
+[OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/)-TE가 지도를 그려도 자기가 직접 길을 바꾸진 못한다. 
 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/)-TE가 CSPF 공식을 돌려 "국도로 가는 게 낫다"라고 결론을 내면, 이 지도를 <strong>RSVP-TE</strong>라는 프로토콜에게 넘겨준다.
 RSVP-TE는 그 지도를 들고 출동해서 라우터 A부터 Z망까지의 국도 위에 <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/373_mpls_multiprotocol_label_switching_20bit/">MPLS</a> 터널(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/245_lsp_liskov_substitution_principle/">LSP</a>)</strong>을 뻥 뚫어버리고 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 500Mbps를 강제 예약해 버린다. (이 둘은 영혼의 단짝이다).
 
@@ -139,19 +137,15 @@ RSVP-TE는 그 지도를 들고 출동해서 라우터 A부터 Z망까지의 국
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: DR, BDR</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: OSPF 트래픽엔지니어링 연동</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: OSPFv3</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: DR, BDR]
+    │
+    ▼
+[현재 개념: OSPF 트래픽엔지니어링 연동]
+    │
+    ├──▶ [확장 A: OSPFv3]
+    └──▶ [확장 B: 의도 기반 라우팅]
+```
 
 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) 트래픽엔지니어링 연동는 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/), BDR에서 출발해 현재 메커니즘을 정교화하고, 이후 OSPFv3와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

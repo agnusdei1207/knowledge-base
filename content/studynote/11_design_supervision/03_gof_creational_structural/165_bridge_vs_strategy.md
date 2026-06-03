@@ -35,32 +35,31 @@ tags = ["studynote-design-supervision"]
 
 아래 그림은 왜 [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)가 2차원 확장이고 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 1차원 교체인지 보여준다.
 
+```text
+┌──────────────────────────── Bridge ────────────────────────────┐
+│ Abstraction                                                    │
+│   ├── RemoteControl                                            │
+│   └── AdvancedRemoteControl                                    │
+│            │ has-a                                              │
+│            ▼                                                    │
+│ Implementor                                                    │
+│   ├── TV                                                        │
+│   └── Radio                                                     │
+│ Result: Remote 종류와 Device 종류가 독립 확장                  │
+└────────────────────────────────────────────────────────────────┘
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Bridge</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Abstraction</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── RemoteControl</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── AdvancedRemoteControl</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">has-a</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Implementor</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── TV</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Radio</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Result: Remote 종류와 Device 종류가 독립 확장</div></div>
-<div class="kb-diagram-note">Strategy</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Context</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── PaymentService</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">uses</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Strategy</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── CardPaymentStrategy</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── AccountTransferStrategy</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── SimplePayStrategy</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Result: 동일 문맥에서 결제 알고리즘만 교체</div></div>
-</div>
-</div>
-
-
+┌─────────────────────────── Strategy ───────────────────────────┐
+│ Context                                                        │
+│   └── PaymentService                                           │
+│            │ uses                                               │
+│            ▼                                                    │
+│ Strategy                                                       │
+│   ├── CardPaymentStrategy                                      │
+│   ├── AccountTransferStrategy                                  │
+│   └── SimplePayStrategy                                        │
+│ Result: 동일 문맥에서 결제 알고리즘만 교체                     │
+└────────────────────────────────────────────────────────────────┘
+```
 
 [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)에서는 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 계층이 구현 세부사항을 직접 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)하지 않고 구현자 인터페이스에 위임한다. 그래서 `RemoteControl` 계열이 늘어나도 `TV`, `Radio` 계열과 곱셈으로 증가하지 않는다. [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)에서는 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)가 특정 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 품고 있다가 상황에 따라 다른 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로 교체한다. 핵심은 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)의 책임은 유지하고, 변하는 계산 방식만 외부 객체로 분리한다는 점이다.
 
@@ -144,21 +143,19 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">상속 중심 설계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">조합 폭발 · 조건 분기 증가</div>
-<div class="kb-diagram-tree-item" style="--depth:2">구조 분리 필요 ──▶ 브리지 패턴 (Bridge Pattern)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">알고리즘 교체 필요 ──▶ 전략 패턴 (Strategy Pattern)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">합성 우선 설계 · OCP · DIP 강화</div>
-</div>
-</div>
-
-
+```text
+상속 중심 설계
+    │
+    ▼
+조합 폭발 · 조건 분기 증가
+    │
+    ├── 구조 분리 필요 ──▶ 브리지 패턴 (Bridge Pattern)
+    │
+    └── 알고리즘 교체 필요 ──▶ 전략 패턴 (Strategy Pattern)
+                                  │
+                                  ▼
+합성 우선 설계 · OCP · DIP 강화
+```
 
 이 흐름은 같은 합성 기반 설계라도 문제의 초점이 구조 분리인지, 행위 교체인지에 따라 서로 다른 패턴으로 갈라짐을 보여준다.
 

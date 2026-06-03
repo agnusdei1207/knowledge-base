@@ -10,7 +10,7 @@ tags = ["devops_sre"]
 +++
 
 #### 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 폐기 가능성 원칙은 애플리케이션 프로세스가 언제든각적으로 시작되고 종료될 수 있어야 하며, 갑작스러운 종료(강제 종료, Kill)에도 시스템이을/를지 않다와/과설계요구이다.
+> 1. **본질**: 폐기 가능성 원칙은 애플리케이션 프로세스가 언제든즉각적으로 시작되고 종료될 수 있어야 하며, 갑작스러운 종료(강제 종료, Kill)에도 시스템이정합성을실わない와/과いう설계요구이다.
 > 2. **가치**: 폐기 가능성을 확보하면 [무중단 배포](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/082_zero_downtime_deployment_rolling_blue_green_canary/), 빠른 [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/), 그리고 장애 시즉시 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 가능해져 시스템의 Overall [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)과 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) [탄력성](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/)이 크게 향상된다.
 > 3. **융합**: 폐기 가능성 원칙은 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)(생명주기), [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) lifecycle), 그리고 Graceful Shutdown 메커니즘과 긴밀하게 연결되어 있다.
 
@@ -20,44 +20,57 @@ tags = ["devops_sre"]
 
 전통적인 긴-running 서버 프로세스를 보유한 웹 애플리케이션은 한번 시작되면 가능한 한 길게 실행되기를 바랐다. 이는 프로세스 시작에 considerable 시간이 소요되고, 또한 실행 중 축적된 메모리 내 상태(캐시, [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 등)를 유지하려는 의도에서였다. 그러나 이러한"영원히 실행되는 프로세스" 설계는 다음과 같은 문제를 야기했다:
 
-- **배포의 어려움**: 실행 중인 프로세스를 교체하려면 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단이했다.
+- **배포의 어려움**: 실행 중인 프로세스를 교체하려면 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단이불가피면했다.
 - <strong>확장의 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a></strong>: 새 인스턴스가 시작되는 데 시간이 오래 걸리므로 [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)이 신속하게 이루어지지 않았다.
-- **장애 영향 확대**: 갑작스러운 종료 시 메모리 내 상태가 손실되고,처리이던 요청이 실패로 끝났다.
-- **자원 낭비**: 종료된 프로세서를성하는 데리소스시간이 소요되었다.
+- **장애 영향 확대**: 갑작스러운 종료 시 메모리 내 상태가 손실되고,처리중이던 요청이 실패로 끝났다.
+- **자원 낭비**: 종료된 프로세서를재생성하는 데자원과시간이 소요되었다.
 
-12팩터 앱의 폐기 가능성 원칙은 이러한 문제를 해결하기 위해"프로세스는각적인 시작과 우아한 종료가 가능해야 한다"고 요구한다.
+12팩터 앱의 폐기 가능성 원칙은 이러한 문제를 해결하기 위해"프로세스는즉각적인 시작과 우아한 종료가 가능해야 한다"고 요구한다.
 
 아래 다이어그램은 전통적"영원히 실행되는 프로세스"와 폐기 가능성 원칙의 차이를 보여준다.
 
+```text
+[전통적 프로세스 vs 폐기 가능성 원칙]
 
+❌ 전통적"영원히 실행되는 프로세스"
+┌─────────────────────────────────────────────────────────────┐
+│                                                             │
+│  프로세스 시작 ──▶ [    장기 실행 중    ] ──▶ ??? (종료 시점 불명확)
+│       │                  │                                  │
+│       │             메모리 누수 누적                         │
+│       │             리소스 점진적 고갈                      │
+│       │                                                      │
+│  문제:                                                     │
+│  - 종료 시 처리 중인 요청 + 메모리 내 상태 손실              │
+│  - 재시작 시 장시간 소요 (불필요한 워밍업)                   │
+│  - 배포 시 서비스 중단 필수                                 │
+└─────────────────────────────────────────────────────────────┘
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">전통적 프로세스 vs 폐기 가능성 원칙</div></div>
-<div class="kb-diagram-note">❌ 전통적"영원히 실행되는 프로세스"</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">장기 실행 중</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">??? (종료 시점 불명확)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 누수 누적</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">리소스 점진적 고갈</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문제:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 종료 시 처리 중인 요청 + 메모리 내 상태 손실</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 재시작 시 장시간 소요 (불필요한 워밍업)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 배포 시 서비스 중단 필수</div></div>
-<div class="kb-diagram-note">✓ 폐기 가능성 원칙 (Disposability)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Process</div><div class="kb-diagram-cell">Process</div><div class="kb-diagram-cell">Process</div><div class="kb-diagram-cell">...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A</div><div class="kb-diagram-cell">B</div><div class="kb-diagram-cell">C</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">빠른 시작</div><div class="kb-diagram-cell">빠른 시작</div><div class="kb-diagram-cell">빠른 시작</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+graceful</div><div class="kb-diagram-cell">+graceful</div><div class="kb-diagram-cell">+graceful</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">shutdown</div><div class="kb-diagram-cell">shutdown</div><div class="kb-diagram-cell">shutdown</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">언제든 새 프로세스로 교체 가능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 배포 시: 기존 프로세스 우아하게 종료 → 새 프로세스 시작</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 스케일 아웃: 새 프로세스 → 트래픽</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 장애 시: 프로세스 종료 →Orchestrator가자동생성</div></div>
-</div>
-</div>
+✓ 폐기 가능성 원칙 (Disposability)
+┌─────────────────────────────────────────────────────────────┐
+│                                                             │
+│  ┌─────────┐   ┌─────────┐   ┌─────────┐                  │
+│  │ Process │   │ Process │   │ Process │   ...           │
+│  │    A    │   │    B    │   │    C    │                  │
+│  └────┬────┘   └────┬────┘   └────┬────┘                  │
+│       │              │              │                        │
+│  ┌────┴────┐   ┌────┴────┐   ┌────┴────┐                  │
+│  │ 빠른 시작 │   │ 빠른 시작 │   │ 빠른 시작 │                  │
+│  │ +graceful│   │ +graceful│   │ +graceful│                  │
+│  │ shutdown │   │ shutdown │   │ shutdown │                  │
+│  └─────────┘   └─────────┘   └─────────┘                  │
+│       │              │              │                        │
+│       ▼              ▼              ▼                        │
+│  ┌─────────────────────────────────────────────────────┐   │
+│  │           언제든 새 프로세스로 교체 가능                │   │
+│  │  - 배포 시: 기존 프로세스 우아하게 종료 → 새 프로세스 시작│   │
+│  │  - 스케일 아웃: 새 프로세스快速起動 → 트래픽受入        │   │
+│  │  - 장애 시: 프로세스 종료 →Orchestrator가自動再生成   │   │
+│  └─────────────────────────────────────────────────────┘   │
+└─────────────────────────────────────────────────────────────┘
+```
 
-
-
-> 📢 **섹션 요약 비유**: 폐기 가능성 원칙은"음식의 즉석 조리 시스템"과 같다. 과거에는 Gasul 어딘가에 설치하는 조리 시스템(전통적 서버)은하면 가능한 한 오래 가동하려 했으나, 문제가 생기면 전체 시스템을 중단해야 했다. 반면 즉석 조리 시스템(폐기 가능성)은 필요할 때에을/를이/가(빠른 시작), 불이/가 turn off하고(graceful shutdown),켜면한다.
+> 📢 **섹션 요약 비유**: 폐기 가능성 원칙은"음식의 즉석 조리 시스템"과 같다. 과거에는 Gasul 어딘가에 설치하는 조리 시스템(전통적 서버)은일단점화하면 가능한 한 오래 가동하려 했으나, 문제가 생기면 전체 시스템을 중단해야 했다. 반면 즉석 조리 시스템(폐기 가능성)은 필요할 때すぐ에화를기こ이/가し(빠른 시작), 불이급요시취 turn off하고(graceful shutdown),켜면すぐ료리인가이우개시공작한다.
 
 ---
 
@@ -67,58 +80,81 @@ tags = ["devops_sre"]
 
 | 요구사항 | 설명 | 구현 방법 | 중요성 |
 |:---|:---|:---|:---|
-| **즉시 시작** | 프로세스가 빠르게 시작되어 트래픽을받을 수 있는 상태가 되어야 함 | 사전 웜업 불필요,활용 | [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) 속도 향상 |
-| **Graceful Shutdown** | SIGTERM 수신 시 새 요청은 받지 않으면서 기존 요청는 완료 | SIGTERM 핸들러 등록, 서버 Listen 해제 |처리 요청 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) |
-| **상태 없음** | 메모리/디스크에 상태 저장 안 함 (무상태 원칙) | 외부 저장소([Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/), DB)에 상태 저장 | 갑작스러운 종료의데이터 손실방지 |
+| **즉시 시작** | 프로세스가 빠르게 시작되어 트래픽을받을 수 있는 상태가 되어야 함 | 사전 웜업 불필요,라산가재활용 | [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) 속도 향상 |
+| **Graceful Shutdown** | SIGTERM 수신 시 새 요청은 받지 않으면서 기존 요청는 완료 | SIGTERM 핸들러 등록, 서버 Listen 해제 |처리중 요청 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) |
+| **상태 없음** | 메모리/디스크에 상태 저장 안 함 (무상태 원칙) | 외부 저장소([Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/), DB)에 상태 저장 | 갑작스러운 종료시의データ 손실방지 |
 | **처리기 능력 해제** | [프로세스 종료](/knowledge-base/studynote/02_operating_system/02_process_thread/107_process_termination/) 시 모든 리소스를 정상적으로 해제 | Connection pool 닫기, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 디스크립터 정리 | 자원 leak방지 |
-| **읽기 전용 시작** | 시작 시 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화가 끝나기 전에는 요청을 받지 않음 | Readiness Probe 활용 | 초기 상태에서의 처리방지 |
+| **읽기 전용 시작** | 시작 시 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화가 끝나기 전에는 요청을 받지 않음 | Readiness Probe 활용 | 미초기화 상태에서의リクエスト 처리방지 |
 
 아래는 Graceful Shutdown의 내부 동작을 보여주는 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램이다.
 
+```text
+[Graceful Shutdown 동작 과정]
 
+1. 프로세스 정상 가동 중
+┌─────────────────────────────────────────────────────────────┐
+│  ┌─────────────────────────────────────────────────────┐   │
+│  │  HTTP Server (포트 :3000 Listen)                    │   │
+│  │                                                      │   │
+│  │  요청 1 ──▶ [████████████] 처리 중 ──▶ 응답 완료     │   │
+│  │  요청 2 ──▶ [████████] 처리 중                      │   │
+│  │  요청 3 ──▶ (대기열)                                 │   │
+│  │                                                      │   │
+│  └─────────────────────────────────────────────────────┘   │
+└─────────────────────────────────────────────────────────────┘
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Graceful Shutdown 동작 과정</div></div>
-<div class="kb-diagram-note">1. 프로세스 정상 가동 중</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HTTP Server (포트 :3000 Listen)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">████████████</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">응답 완료 │</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">████████</div><div class="kb-diagram-note">처리 중 │</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요청 3 ──▶ (대기열)</div></div>
-<div class="kb-diagram-note">2. SIGTERM 수신 (Graceful Shutdown 시작)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HTTP Server (포트 :3000 Listen 해제 중)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">████████████</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">응답 완료 ✓ │</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">████████</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">응답 완료 ✓ │</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요청 3 ──▶ (대기열) ──▶ 새 요청이므로 ✗</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">로드밸런서가 새 트래픽을 다른 인스턴스로 라우팅</div></div>
-<div class="kb-diagram-note">3. 모든 요청 처리 완료 후 프로세스 종료</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모든 요청 처리 완료 ✓</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">리소스 정리 (DB 연결 해제, 파일 디스크립터 닫기)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로세스 정상 종료 ✓</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">새 프로세스가 이미 실행 중이므로 서비스 중단 없음 ✓</div></div>
-</div>
-</div>
+2. SIGTERM 수신 (Graceful Shutdown 시작)
+┌─────────────────────────────────────────────────────────────┐
+│  ┌─────────────────────────────────────────────────────┐   │
+│  │  HTTP Server (포트 :3000 Listen 해제 중)            │   │
+│  │                                                      │   │
+│  │  요청 1 ──▶ [████████████] 처리 중 ──▶ 응답 완료 ✓   │   │
+│  │  요청 2 ──▶ [████████] 처리 중 ──▶ 응답 완료 ✓       │   │
+│  │  요청 3 ──▶ (대기열) ──▶ 새 요청이므로拒絶 ✗        │   │
+│  │                                                      │   │
+│  │  로드밸런서가 새 트래픽을 다른 인스턴스로 라우팅       │   │
+│  └─────────────────────────────────────────────────────┘   │
+└─────────────────────────────────────────────────────────────┘
 
+3. 모든 요청 처리 완료 후 프로세스 종료
+┌─────────────────────────────────────────────────────────────┐
+│  ┌─────────────────────────────────────────────────────┐   │
+│  │  모든 요청 처리 완료 ✓                               │   │
+│  │  리소스 정리 (DB 연결 해제, 파일 디스크립터 닫기)     │   │
+│  │  프로세스 정상 종료 ✓                                │   │
+│  └─────────────────────────────────────────────────────┘   │
+│                                                             │
+│  ┌─────────────────────────────────────────────────────┐   │
+│  │  새 프로세스가 이미 실행 중이므로 서비스 중단 없음 ✓    │   │
+│  └─────────────────────────────────────────────────────┘   │
+└─────────────────────────────────────────────────────────────┘
+```
 
+```text
+[쿠버네티스에서의 폐기 가능성: Pod 종료 과정]
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">쿠버네티스에서의 폐기 가능성: Pod 종료 과정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">kubectl delete pod myapp-pod</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. API Server가 Pod 종료를 지시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 컨테이너에 SIGTERM 전송</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 애플리케이션이 Graceful Shutdown 수행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 새 요청 수락 중단</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 처리 중인 요청 완료</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 리소스 정리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. (terminationGracePeriodSeconds 후) SIGKILL 전송</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 컨테이너 종료 및 Pod 제거</div></div>
-</div>
-</div>
-
-
+┌─────────────────────────────────────────────────────────────┐
+│  kubectl delete pod myapp-pod                                │
+│           │                                                 │
+│           ▼                                                 │
+│  1. API Server가 Pod 종료를 지시                            │
+│           │                                                 │
+│           ▼                                                 │
+│  2. 컨테이너에 SIGTERM 전송                                 │
+│           │                                                 │
+│           ▼                                                 │
+│  3. 애플리케이션이 Graceful Shutdown 수행                     │
+│     - 새 요청 수락 중단                                     │
+│     - 처리 중인 요청 완료                                    │
+│     - 리소스 정리                                           │
+│           │                                                 │
+│           ▼                                                 │
+│  4. (terminationGracePeriodSeconds 후) SIGKILL 전송         │
+│           │                                                 │
+│           ▼                                                 │
+│  5. 컨테이너 종료 및 Pod 제거                               │
+└─────────────────────────────────────────────────────────────┘
+```
 
 > 📢 **섹션 요약 비유**: Graceful Shutdown은"호텔 체크아웃 절차"와 같다. 손님에게"11시에 체크아웃 예정"이라는 정보를 미리 제공하고(graceful shutdown 경고), 11시가 되면 고객은숙박을 정리하고(처리 중인 요청 완료), 프런트에 키를 반납하고(리소스 정리), 방을 나온다([프로세스 종료](/knowledge-base/studynote/02_operating_system/02_process_thread/107_process_termination/)). 이렇게 하면 다음 손님(새 프로세스)이 바로 입실할 수 있다.
 
@@ -130,13 +166,13 @@ tags = ["devops_sre"]
 
 | 관련 기술 | 폐기 가능성 원칙과의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 시너지 효과 |
 |:---|:---|:---|
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a></strong> | [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)는적으로 일회용 (Ephemeral) | [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)의 빠른 시작/종료 특성 활용 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a></strong> | [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)는본질적으로 일회용 (Ephemeral) | [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)의 빠른 시작/종료 특성 활용 |
 | <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/">쿠버네티스</a></strong> | [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) lifecycle + terminationGracePeriodSeconds | [Rolling Update](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/083_rolling_update_deployment_zero_downtime_version_inconsistency/), [Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/) 관리 |
 | **오토스케일링** | HPA가 빠른 인스턴스 교체를 전제 | [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)/인 시 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단방지 |
 | **무상태 설계** | [프로세스 종료](/knowledge-base/studynote/02_operating_system/02_process_thread/107_process_termination/) 시 상태 손실방지 | 외부 저장소에 상태 위임으로즉시 교체 가능 |
 | <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/">CI</a>/CD</strong> | [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에서 자주 프로세스 시작/종료 | 빌드/테스트 시간 단축 |
 
-특히 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 환경에서 폐기 가능성 원칙은 Rolling Update와 Deployment의핵심을 이룬다. 새 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)의 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 점진적으로 늘려가면서 구 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)의 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 점진적으로 제거하므로, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단 없이 배포를할 수 있다.
+특히 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 환경에서 폐기 가능성 원칙은 Rolling Update와 Deployment의핵심을 이룬다. 새 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)의 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 점진적으로 늘려가면서 구 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)의 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 점진적으로 제거하므로, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단 없이 배포를완료할 수 있다.
 
 ```text
 [쿠버네티스 Rolling Update: 폐기 가능성 원칙의 활용]
@@ -144,19 +180,19 @@ tags = ["devops_sre"]
 기존 버전 (v1) ──▶ 새 버전 (v1.1) 전환 과정
 
 Step 1: v1 파드 3개 실행
-[Pod v1.0] [Pod v1.0] [Pod v1.0]
+  [Pod v1.0] [Pod v1.0] [Pod v1.0]
 
 Step 2: v1.1 파드 1개 추가
-[Pod v1.0] [Pod v1.0] [Pod v1.0] [Pod v1.1] 🆕
+  [Pod v1.0] [Pod v1.0] [Pod v1.0] [Pod v1.1] 🆕
 
 Step 3: v1.0 파드 1개 종료, v1.1 파드 1개 추가
-[Pod v1.0] [Pod v1.0] [Pod v1.1] [Pod v1.1] 🆕
+  [Pod v1.0] [Pod v1.0] [Pod v1.1] [Pod v1.1] 🆕
 
 Step 4: v1.0 파드 1개 종료, v1.1 파드 1개 추가
-[Pod v1.0] [Pod v1.1] [Pod v1.1] [Pod v1.1] 🆕
+  [Pod v1.0] [Pod v1.1] [Pod v1.1] [Pod v1.1] 🆕
 
 Step 5: v1.0 파드 1개 종료, v1.1 파드 1개 추가
-[Pod v1.1] [Pod v1.1] [Pod v1.1] [Pod v1.1] 🆕
+  [Pod v1.1] [Pod v1.1] [Pod v1.1] [Pod v1.1] 🆕
 
 모든 전환 과정에서:
 - 새 요청은 항상 건강한 파드로만 라우팅
@@ -173,39 +209,39 @@ Step 5: v1.0 파드 1개 종료, v1.1 파드 1개 추가
 폐기 가능성 원칙을 실무에 적용할 때 흔히 발생하는 문제와 해결 방안을 분석한다.
 
 **1. 실무 의사결정 시나리오**
-- **시나리오 A:Graceful Shutdown을 구현하지 않아，에서처리의 요청이 손실되는 상황**
-- **상황**: [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)에 긴 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 실행 중인 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 요청이 있는데, 서버가 갑자기 Kill되어 요청이/가로 끝남.
-- **판단**: SIGTERM 시그널을하여Graceful Shutdown을 구현해야 한다. 처리 중인 요청을 완료하고 새 요청은 받지 않도록 한 후, 모든 요청이 완료되면 프로세스를 종료해야 한다.
+- **시나리오 A:Graceful Shutdown을 구현하지 않아，정재처리중의 요청이 손실되는 상황**
+  - **상황**: [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)에 긴 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 실행 중인 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 요청이 있는데, 서버가 갑자기 Kill되어 요청이실패로 끝남.
+  - **판단**: SIGTERM 시그널을포착하여Graceful Shutdown을 구현해야 한다. 처리 중인 요청을 완료하고 새 요청은 받지 않도록 한 후, 모든 요청이 완료되면 프로세스를 종료해야 한다.
 
 - <strong>시나리오 B: 프로세스 시작 시 필요한 <a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a>화에 시간이 많이 소요되어 빠른 시작이 불가능한 상황</strong>
-- **판단**: 시간을 줄이기 위해 다음 방법을 적용할 수 있다:
-- [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)/[모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을
-- [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) connection pool을 사전 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하지 않고 필요할 때 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
-- [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이미지 크기 최소화
+  - **판단**:초시화 시간을 줄이기 위해 다음 방법을 적용할 수 있다:
+    - [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)/[모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을라산가재
+    - [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) connection pool을 사전 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하지 않고 필요할 때 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
+    - [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이미지 크기 최소화
 
 ```text
 [폐기 가능성 구현 체크리스트]
 
 □ Graceful Shutdown
-□ SIGTERM 시그널
-□ 새 요청 수락 중단 (Listen socket 닫기)
-□ 처리 중인 요청 완료 대기
-□ 리소스 정리 (DB 연결, 파일 디스크립터)
-□ 정상 종료
+  □ SIGTERM 시그널捕捉
+  □ 새 요청 수락 중단 (Listen socket 닫기)
+  □ 처리 중인 요청 완료 대기
+  □ 리소스 정리 (DB 연결, 파일 디스크립터)
+  □ 정상 종료
 
 □ 빠른 시작
-□ 컨테이너 이미지 크기 최소화
-□ 적용
-□ 읽기 준비probe 설정
-□ startup 시 필요한 초기화 최소화
+  □ 컨테이너 이미지 크기 최소화
+  □懒散加载 적용
+  □ 읽기 준비probe 설정
+  □ startup 시 필요한 초기화 최소화
 
 □ 상태 없음 (무상태 원칙 준수)
-□ 메모리/디스크에 상태 저장 안 함
-□ 외부 저장소에만 상태 저장
-□ 갑작스러운 종료 설계
+  □ 메모리/디스크에 상태 저장 안 함
+  □ 외부 저장소에만 상태 저장
+  □ 갑작스러운 종료耐 설계
 ```
 
-> 📢 **섹션 요약 비유**: 폐기 가능성 구현은"에어비앤비 체류 중 키 카드 작동 중지"와 같다. 호스트가"Se 체크아웃"을 전달하면(graceful shutdown), 손님은 현재하고 있는 작업을 마치고(처리 중인 요청 완료), 짐을 싸고(리소스 정리), 키 카드를 프런트에 반납하고(정상 종료) 방을 나온다. 그러면 호스트는 다음 손님을 맞을 준비를 할 수 있다.
+> 📢 **섹션 요약 비유**: 폐기 가능성 구현은"에어비앤비 체류 중 키 카드 작동 중지"와 같다. 호스트가"Se년대말 체크아웃"을 전달하면(graceful shutdown), 손님은 현재하고 있는 작업을 마치고(처리 중인 요청 완료), 짐을 싸고(리소스 정리), 키 카드를 프런트에 반납하고(정상 종료) 방을 나온다. 그러면 호스트는 다음 손님을 맞을 준비를 할 수 있다.
 
 ---
 
@@ -216,17 +252,17 @@ Step 5: v1.0 파드 1개 종료, v1.1 파드 1개 추가
 | 관점 | 폐기 가능성 미준수 ([AS-IS](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)) | 폐기 가능성 적용 (TO-BE) | [핵심 성과 지표](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) |
 |:---|:---|:---|:---|
 | **배포** | 배포 시 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단 필수 | [무중단 배포](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/082_zero_downtime_deployment_rolling_blue_green_canary/) ([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) Downtime) | 배포 시 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 100% |
-| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/">스케일링</a></strong> | 인스턴스 시작에 수분~수십 분 | 수초~수분 내 트래픽 가능 | [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) 시간 단축 |
+| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/">스케일링</a></strong> | 인스턴스 시작에 수분~수십 분 | 수초~수분 내 트래픽 수입 가능 | [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) 시간 단축 |
 | <strong>장애 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a></strong> | [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)에 오랜 시간 소요 | 새 인스턴스자동생성으로 즉시 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) | [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) 단축 |
 | <strong>요청 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a></strong> | 갑작스러운 종료로 요청 실패 증가 |Graceful 처리로 실패 요청 최소화 | 고객 영향 최소화 |
 | **자원 효율** | 긴-running 프로세서의 [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/) 누적 | 주기적 재시작으로 [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/)방지 | 평균 메모리 사용률 안정 |
 
 **미래 전망 및 결론**:
-폐기 가능성 원칙은 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)([serverless](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)) 컴퓨팅 환경에서 가장 극단적으로 적용되고 있다. AWS [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/), Azure Functions 등의 [FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/) 환경에서는 [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/)와/과에컨테이너이/가、이/가하다와/과 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 종료된다. 이것은 폐기 가능의궁극적 형태라 할 수 있다.
+폐기 가능성 원칙은 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)([serverless](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)) 컴퓨팅 환경에서 가장 극단적으로 적용되고 있다. AWS [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/), Azure Functions 등의 [FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/) 환경에서는 [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/)ご와/과에새로운しいコンテナ이/가기동され, 호び출し이/가완료하는과 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 종료된다. 이것은 폐기 가능성의궁극적 형태라 할 수 있다.
 
-결론적으로, 폐기 가능성 원칙은 12팩터 앱의 제15원칙으로, 시스템의 민첩성, [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/), 그리고 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) [탄력성](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/)을보장하는 데설계 원칙이다. 모든 애플리케이션은 빠른 시작과graceful shutdown을 지원해야 하며, 메모리 내 상태에 의존하지 않는 설계로 이루어져야 한다.
+결론적으로, 폐기 가능성 원칙은 12팩터 앱의 제15원칙으로, 시스템의 민첩성, [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/), 그리고 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) [탄력성](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/)을단보하는 데중요な설계 원칙이다. 모든 애플리케이션은 빠른 시작과graceful shutdown을 지원해야 하며, 메모리 내 상태에 의존하지 않는 설계로 이루어져야 한다.
 
-> 📢 **섹션 요약 비유**: 폐기 가능성 원칙은"일회용 컵 Versus 재사용 컵"과 같다. 재사용 컵(기존 서버)은 깨끗이 씻어서 다음 사용 준비를 해야 하는 데 시간과 물이 들지만, 일회용 컵([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)/수)은 사용하고 버리면 그만이다. 새 컵(새 프로세스/[파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/))을 꺼내 쓰는 것은수초면 충분하다.
+> 📢 **섹션 요약 비유**: 폐기 가능성 원칙은"일회용 컵 Versus 재사용 컵"과 같다. 재사용 컵(기존 서버)은 깨끗이 씻어서 다음 사용 준비를 해야 하는 데 시간과 물이 들지만, 일회용 컵([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)/함수)은 사용하고 버리면 그만이다. 새 컵(새 프로세스/[파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/))을 꺼내 쓰는 것은수초면 충분하다.
 ### 📌 관련 개념 맵
 
 | 개념 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
@@ -240,23 +276,21 @@ Step 5: v1.0 파드 1개 종료, v1.1 파드 1개 추가
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">모놀리식 배포 — 서비스 재시작 시 전체 중단 필수, 배포 불안전</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">12팩터 앱 IX. 폐기 가능성 — 빠른 시작 + Graceful Shutdown 원칙 정의</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">컨테이너 (Docker) — 이미지 기반 초고속 시작, SIGTERM 수신 처리 구현</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Kubernetes — Liveness/Readiness Probe로 파드 생명주기 자동 관리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">FaaS (AWS Lambda / Azure Functions) — 요청당 즉시 시작·즉시 폐기, 폐기 가능성의 극단적 구현</div></div>
-</div>
-</div>
-
-
+```text
+[모놀리식 배포 — 서비스 재시작 시 전체 중단 필수, 배포 불안전]
+    │
+    ▼
+[12팩터 앱 IX. 폐기 가능성 — 빠른 시작 + Graceful Shutdown 원칙 정의]
+    │
+    ▼
+[컨테이너 (Docker) — 이미지 기반 초고속 시작, SIGTERM 수신 처리 구현]
+    │
+    ▼
+[Kubernetes — Liveness/Readiness Probe로 파드 생명주기 자동 관리]
+    │
+    ▼
+[FaaS (AWS Lambda / Azure Functions) — 요청당 즉시 시작·즉시 폐기, 폐기 가능성의 극단적 구현]
+```
 
 이 흐름은 재시작 시 전체 중단이 불가피한 모놀리식 배포에서 폐기 가능성 원칙을 정의한 12팩터 앱을 거쳐, [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)→[Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/)→FaaS로 진화하며 빠른 시작과 우아한 종료가 인프라 수준에서 자동화되는 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 배포 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)의 발전 계보를 보여준다.
 

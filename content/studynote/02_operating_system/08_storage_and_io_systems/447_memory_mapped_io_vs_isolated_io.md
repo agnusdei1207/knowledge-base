@@ -29,27 +29,28 @@ tags = ["studynote-operating-system"]
   2. **RISC의 효율 (MMIO)**: ARM이나 MIPS는 "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 가짓수 늘리는 게 더 싫어! 그냥 Load/Store 두 개로 램이든 I/O든 다 패버려!"라며 MMIO를 썼다.
   3. <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">Bandwidth</a>)의 폭발</strong>: 3D 게임이 나오며 그래픽 카드([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))에 수 기가바이트를 쏟아부어야 하자, 인텔의 `OUT` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)로는 렉이 걸려 도저히 감당이 안 됐다. 결국 인텔도 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 MMIO로 도배하며 항복했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PMIO vs MMIO의 물리적 주소 공간 맵핑 및 명령어 시각화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1. Isolated I/O (분리된 I/O / PMIO) - 꼬장꼬장한 투트랙</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">메모리 주소 공간 (4GB)</div><div class="kb-diagram-node">I/O 포트 주소 공간 (64KB)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0x00000000 ~ 0xFFFFFFFF 0x0000 ~ 0xFFFF</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(오직 RAM만 100% 꽉 채워 씀) (키보드 0x60, 마우스 0x64)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💥 동작: CPU가 램을 건드릴 땐 <code>MOV</code> 명령어를 쓰고,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">키보드를 찌를 땐 무조건 <code>IN / OUT</code> 명령어만 써야 함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2. Memory-Mapped I/O (MMIO) - 영토를 강탈한 대통합</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">통합된 단일 물리 주소 공간 (예: 4GB)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0x00000000 ~ 0xDFFFFFFF : 진짜 꽂혀있는 RAM (약 3.5GB)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0xE0000000 ~ 0xFFFFFFFF : 🌟 그래픽카드 VRAM 웜홀 (0.5GB)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 동작: I/O 전용 공간이 삭제됨! 램 주소의 일부를 강제 수용함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU는 키보드든 램이든 전부 다 <code>MOV</code> 명령어로 퉁쳐서 조작함.</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────────────┐
+│        PMIO vs MMIO의 물리적 주소 공간 맵핑 및 명령어 시각화          │
+├───────────────────────────────────────────────────────────────────────┤
+│                                                                       │
+│ ▶ 1. Isolated I/O (분리된 I/O / PMIO) - 꼬장꼬장한 투트랙             │
+│   [ 메모리 주소 공간 (4GB) ]       [ I/O 포트 주소 공간 (64KB) ]      │
+│   0x00000000 ~ 0xFFFFFFFF      0x0000 ~ 0xFFFF                        │
+│   (오직 RAM만 100% 꽉 채워 씀)     (키보드 0x60, 마우스 0x64)         │
+│                                                                       │
+│   💥 동작: CPU가 램을 건드릴 땐 `MOV` 명령어를 쓰고,                  │
+│           키보드를 찌를 땐 무조건 `IN / OUT` 명령어만 써야 함.        │
+│                                                                       │
+│ ▶ 2. Memory-Mapped I/O (MMIO) - 영토를 강탈한 대통합                  │
+│   [ 통합된 단일 물리 주소 공간 (예: 4GB) ]                            │
+│   0x00000000 ~ 0xDFFFFFFF : 진짜 꽂혀있는 RAM (약 3.5GB)              │
+│   0xE0000000 ~ 0xFFFFFFFF : 🌟 그래픽카드 VRAM 웜홀 (0.5GB)           │
+│                                                                       │
+│   ✅ 동작: I/O 전용 공간이 삭제됨! 램 주소의 일부를 강제 수용함.      │
+│           CPU는 키보드든 램이든 전부 다 `MOV` 명령어로 퉁쳐서 조작함. │
+└───────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 그림 2번(MMIO)을 보면 치명적인 부작용이 보인다. 램을 4GB 돈 주고 사서 꽂았는데, 시스템이 그래픽카드랑 통신하려고 상위 500MB 주소를 MMIO 웜홀로 빼앗아 버렸다. 그 주소에 할당된 '진짜 램 500MB'는 주소가 없어져서 영영 못 쓰는 투명인간이 되어버린다. 이것이 과거 32비트 윈도우에서 램 4GB를 꽂아도 3.2GB밖에 인식 안 되던(Hardware Reserved) 뼈아픈 역사의 진실이다. (64비트가 되며 주소가 텅텅 남아돌아 이 문제는 완전히 해결되었다.)
 
 - **📢 섹션 요약 비유**: PMIO는 국어 숙제는 '국어 공책'에, 수학 숙제는 '수학 공책'에 엄격하게 따로 하는 방식입니다. MMIO는 두꺼운 종합장(단일 주소 공간) 하나를 사서, 앞쪽은 국어 쓰고 뒷부분 몇 장 뜯어서 수학 숙제를 하는 방식입니다. 종합장 공간(램 주소)은 조금 버려지겠지만, 공책 하나만 들고 다니며 똑같은 연필(`MOV` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))로 다 쓸 수 있으니 가방이 엄청 가벼워집니다.
@@ -97,17 +98,14 @@ CPU가 0x1000번지를 찔렀을 때, 이게 램 칩으로 갈지 그래픽카�
 1990년대 사운드카드나 랜카드를 샀을 때, 우리는 메인보드 딥스위치(Jumper)를 이빨 쑤시개로 똑딱거리며 `IRQ 5`, `I/O Port 220` 같은 값을 수동으로 맞춰야 했다. 두 하드웨어가 똑같은 PMIO 주소(0x220)를 쓰겠다고 싸우면(충돌), 컴퓨터에서 소리가 안 났다. 
 현대 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 기반의 MMIO 시대가 오면서, [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)(BIOS)가 부팅될 때 알아서 수십 기가바이트의 널널한 램 주소 공간을 자동으로 찢어서 장비들에 안 겹치게 나눠주게 되었다. 우리가 '플러그 앤 플레이(꽂으면 바로 켜짐)'를 누리게 된 배경에는 이 광활한 MMIO 주소 공간의 여유로움이 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">아키텍처</div><div class="kb-diagram-cell">주소 공간 낭비</div><div class="kb-diagram-cell">하드웨어 로직</div><div class="kb-diagram-cell">프로그래밍 난이도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PMIO</div><div class="kb-diagram-cell">0% (독립됨)</div><div class="kb-diagram-cell">복잡함 (핀 분리)</div><div class="kb-diagram-cell">☠️ 어셈블리 지옥</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MMIO</div><div class="kb-diagram-cell">🔴 램 뺏어먹음</div><div class="kb-diagram-cell">매우 단순함</div><div class="kb-diagram-cell">🟢 C 포인터 천국</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬───────────────────────────┐
+│ 아키텍처   │ 주소 공간 낭비│ 하드웨어 로직 │ 프로그래밍 난이도 │
+├──────────┼────────────┼────────────┼───────────────────────────┤
+│ PMIO     │ 0% (독립됨) │ 복잡함 (핀 분리)│ ☠️ 어셈블리 지옥    │
+│ MMIO     │ 🔴 램 뺏어먹음│ 매우 단순함   │ 🟢 C 포인터 천국    │
+└──────────┴────────────┴────────────┴───────────────────────────┘
+```
 **[매트릭스 해설]** "공간을 희생해서 개발자의 편의와 속도를 취한다"는 컴퓨터 공학의 절대 법칙이 다시 한번 발동했다. 주소 공간 수백 MB를 버리더라도 C언어 포인터로 하드웨어를 주무르는 달콤함은 포기할 수 없었다. 그리고 64비트 시대가 오며 '주소 공간의 낭비'라는 유일한 단점마저 수학적으로 소멸해버려 MMIO가 100% 천하 통일을 이뤘다.
 
 - **📢 섹션 요약 비유**: PMIO는 오직 십자드라이버(`IN/OUT` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)) 하나만 쓸 수 있게 만들어진 빡빡한 기계입니다. 나사를 조이려면 무조건 십자드라이버만 찾아야 하죠. MMIO는 기계 나사구멍을 아예 일상 규격(메모리 주소)으로 뚫어버려서, 내가 가진 전동드릴, 망치, 펜치(`ADD, MOV` 등 수백 개 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))를 아무거나 마음대로 써서 기계를 개조할 수 있는 오픈 플랫폼입니다.
@@ -160,19 +158,15 @@ CPU가 0x1000번지를 찔렀을 때, 이게 램 칩으로 갈지 그래픽카�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">포트 (Port) / 버스 (Bus)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">메모리 맵 I/O (Memory-mapped I/O) vs 분리된 I/O (Isolated I/O / Port I/O)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">폴링 (Polling / Programmed I/O)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">인터럽트 구동 I/O (Interrupt-driven I/O)</div></div>
-</div>
-</div>
-
-
+```text
+[포트 (Port) / 버스 (Bus)]
+    │
+    ▼
+[메모리 맵 I/O (Memory-mapped I/O) vs 분리된 I/O (Isolated I/O / Port I/O)]
+    │
+    ├──▶ [폴링 (Polling / Programmed I/O)]
+    └──▶ [인터럽트 구동 I/O (Interrupt-driven I/O)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

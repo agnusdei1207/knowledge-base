@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **Grid(그리드)**: 발전소에서 공장, 가정으로 이어지는 거대한 전력망(거미줄)입니다.
 - <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/">Smart Grid</a></strong>: 기존의 수동적이고 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/)적인 아날로그 전력망에 <strong>정보통신기술(ICT, <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">사물인터넷</a>, 빅데이터)</strong>을 접목하여, <strong>전력 공급자와 소비자가 실시간 양방향으로 전력 사용 정보를 교환함으로써 에너지 효율을 극대화하는 차세대 지능형 전력망</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">MEC</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스마트 그리드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">마이크로 그리드 / AMI 통신 탑재 방식</div></div>
-</div>
-</div>
-
-
+```text
+[MEC]
+    │
+    ▼
+[스마트 그리드]
+    │
+    └──▶ [마이크로 그리드 / AMI 통신 탑재 방식]
+```
 
 - **📢 섹션 요약 비유**: [스마트 그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/)는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -44,18 +40,14 @@ tags = ["studynote-network"]
 - <strong>기존 (<a href="/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/">단방향</a>, 아날로그)</strong>: 발전소는 가정이 전기를 얼마나 쓰는지 실시간으로 모릅니다. 무작정 최대치로 만들어 일방적으로 쏟아보내고(낭비), 전봇대가 끊겨 동네에 정전이 나도 주민이 전화를 걸기 전까지는 알 길이 없습니다.
 - <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/">스마트 그리드</a> (양방향, 디지털)</strong>: 수십만 가구의 계량기(스마트 미터기)가 지금 당장 전기를 몇 와트 쓰는지 1초 단위로 한국전력 클라우드에 데이터를 쏩니다. 발전소는 이 빅데이터를 AI로 분석해 내일 낮 2시의 전력 수요를 정확히 예측하고 딱 쓸 만큼만 전기를 만듭니다. (자가 진단으로 정전 부위를 1초 만에 파악해 우회 송전도 가능)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">MEC</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스마트 그리드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">마이크로 그리드 / AMI 통신 탑재 방식</div></div>
-</div>
-</div>
-
-
+```text
+[MEC]
+    │
+    ▼
+[스마트 그리드]
+    │
+    └──▶ [마이크로 그리드 / AMI 통신 탑재 방식]
+```
 
 - **📢 섹션 요약 비유**: [스마트 그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -119,19 +111,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: MEC</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 스마트 그리드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 마이크로 그리드 / AMI 통신 탑재 방식</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율형 엣지 협업</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: MEC]
+    │
+    ▼
+[현재 개념: 스마트 그리드]
+    │
+    ├──▶ [확장 A: 마이크로 그리드 / AMI 통신 탑재 방식]
+    └──▶ [확장 B: 자율형 엣지 협업]
+```
 
 [스마트 그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/)는 MEC에서 출발해 현재 메커니즘을 정교화하고, 이후 [마이크로 그리드](/knowledge-base/studynote/03_network/12_iot_wpan_edge/629_microgrid_ami_smart_meter_plc_rf/) / [AMI](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/) 통신 탑재 방식와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

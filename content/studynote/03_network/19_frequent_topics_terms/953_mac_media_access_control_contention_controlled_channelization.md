@@ -24,18 +24,14 @@ tags = ["studynote-network"]
   - 아래쪽의 <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> (<a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/183_mac_media_access_control/">매체 접근 제어</a>)</strong>: 1차선 도로(랜선, Wi-Fi 전파)에 누가 먼저 차를 올릴지 순서를 정하는 실질적인 교통경찰.
 - <strong>공유 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/">매체</a>(Shared <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/">Media</a>)</strong>의 숙명: [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)([Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/))에 꽂힌 유선 랜선이나, 허공에 흩뿌리는 무선 와이파이는 근본적으로 "누가 쏘면 남들도 다 들리는" 구조라 충돌 제어가 무조건 필요합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">은닉 단말 문제</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">매체 접근 제어</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확산 스펙트럼</div></div>
-</div>
-</div>
-
-
+```text
+[은닉 단말 문제]
+    │
+    ▼
+[매체 접근 제어]
+    │
+    └──▶ [확산 스펙트럼]
+```
 
 - **📢 섹션 요약 비유**: [매체 접근 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/183_mac_media_access_control/)는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -64,18 +60,14 @@ tags = ["studynote-network"]
 - **종류**: 
   - 944번, 945번 문서에서 배운 <strong>FDM(주파수 쪼개기), TDM(시간 쪼개기), <a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/">CDMA</a>(코드/암호 쪼개기)</strong>가 여기에 해당합니다. 아예 길이 달라서 충돌 자체가 안 납니다. (주로 4G, [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 같은 통신사 셀룰러 무선망에서 씁니다.)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">은닉 단말 문제</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">매체 접근 제어</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확산 스펙트럼</div></div>
-</div>
-</div>
-
-
+```text
+[은닉 단말 문제]
+    │
+    ▼
+[매체 접근 제어]
+    │
+    └──▶ [확산 스펙트럼]
+```
 
 - **📢 섹션 요약 비유**: [매체 접근 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/183_mac_media_access_control/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -137,19 +129,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 은닉 단말 문제</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 매체 접근 제어</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 확산 스펙트럼</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 은닉 단말 문제]
+    │
+    ▼
+[현재 개념: 매체 접근 제어]
+    │
+    ├──▶ [확장 A: 확산 스펙트럼]
+    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
+```
 
 [매체 접근 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/183_mac_media_access_control/)는 [은닉 단말](/knowledge-base/studynote/03_network/19_frequent_topics_terms/952_csma_ca_hidden_terminal_rts_cts_wireless/) 문제에서 출발해 현재 메커니즘을 정교화하고, 이후 [확산 스펙트럼](/knowledge-base/studynote/03_network/19_frequent_topics_terms/954_spread_spectrum_communication_anti_jamming_cdma/)와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

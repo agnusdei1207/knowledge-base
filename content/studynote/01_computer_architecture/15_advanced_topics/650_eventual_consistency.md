@@ -33,21 +33,22 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 결과적 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)의 일반적인 전파 경로를 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Eventual consistency replication and convergence</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Write ──▶ Replica A ──▶ ACK</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── async replicate ──▶ Replica B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── async replicate ──▶ Replica C</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Readers may see A=new, B=old, C=old for a while</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── repair / merge / anti-entropy ──▶ replicas converge</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                Eventual consistency replication and convergence           │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Client                                                                    │
+│   │                                                                        │
+│   ├── Write ──▶ Replica A ──▶ ACK                                          │
+│   │                    │                                                    │
+│   │                    ├── async replicate ──▶ Replica B                   │
+│   │                    └── async replicate ──▶ Replica C                   │
+│   │                                                                        │
+│ Readers may see A=new, B=old, C=old for a while                           │
+│   │                                                                        │
+│   └── repair / merge / anti-entropy ──▶ replicas converge                 │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 | 단계 | 핵심 질문 | 대표 메커니즘 |
 | :--- | :--- | :--- |
@@ -124,24 +125,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">복제 저장소 (Replication)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">로컬 승인 · 비동기 복제</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">결과적 일관성 (Eventual Consistency)</div>
-<div class="kb-diagram-note">: 일시적 불일치 허용 · 최종 수렴 보장</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ Gossip · Hinted Handoff · Anti-Entropy</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ Vector Clock · CRDT · 애플리케이션 병합</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">세션 일관성 · 정족수 조정 · 사용자 경험 보완 전략</div>
-</div>
-</div>
-
-
+```text
+복제 저장소 (Replication)
+    │
+    ▼
+로컬 승인 · 비동기 복제
+    │
+    ▼
+결과적 일관성 (Eventual Consistency)
+: 일시적 불일치 허용 · 최종 수렴 보장
+    │
+    ├──▶ Gossip · Hinted Handoff · Anti-Entropy
+    │
+    ├──▶ Vector Clock · CRDT · 애플리케이션 병합
+    │
+    ▼
+세션 일관성 · 정족수 조정 · 사용자 경험 보완 전략
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -24,23 +24,20 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경**: 리우와 레이랜드가 RM을 발표할 때 함께 제안한 알고리즘으로, RM이 "정적 우선순위에서의 최적(Optimal)"이라면, EDF는 "동적 우선순위에서의 최적"임을 수학적으로 증명해 냈다. CPU 자원이 극도로 희귀했던 시절, 자원을 버리지 않고 100% 쓸 수 있다는 점은 학계의 거대한 찬사를 받았다.
 
+```text
+  [EDF 알고리즘의 동적 우선순위 갱신 매커니즘]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">EDF 알고리즘의 동적 우선순위 갱신 매커니즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시간 T = 10ms 시점</div></div>
-<div class="kb-diagram-note">▶ 태스크 A (마감: 50ms) ─▶ 남은 시간 40ms</div>
-<div class="kb-diagram-note">▶ 태스크 B (마감: 30ms) ─▶ 남은 시간 20ms (🥇 제일 급함! B 실행!)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시간 T = 25ms 시점 (B 종료, C 새로 도착)</div></div>
-<div class="kb-diagram-note">▶ 태스크 A (마감: 50ms) ─▶ 남은 시간 25ms (🥇 어라? 이제 내가 제일 급하네! A 실행!)</div>
-<div class="kb-diagram-note">▶ 태스크 C (마감: 80ms) ─▶ 남은 시간 55ms</div>
-<div class="kb-diagram-tree-item" style="--depth:1">&gt; 고정된 신분(VIP)이 없다. 어제는 꼴찌였던 A가 시간이 흘러 마감이 다가오면</div>
-<div class="kb-diagram-note">자연스럽게 최우선순위(VIP)로 신분 상승하는 철저한 "마감 임박 순" 체제다.</div>
-</div>
-</div>
-
-
+  [ 시간 T = 10ms 시점 ]
+  ▶ 태스크 A (마감: 50ms) ─▶ 남은 시간 40ms 
+  ▶ 태스크 B (마감: 30ms) ─▶ 남은 시간 20ms (🥇 제일 급함! B 실행!)
+  
+  [ 시간 T = 25ms 시점 (B 종료, C 새로 도착) ]
+  ▶ 태스크 A (마감: 50ms) ─▶ 남은 시간 25ms (🥇 어라? 이제 내가 제일 급하네! A 실행!)
+  ▶ 태스크 C (마감: 80ms) ─▶ 남은 시간 55ms 
+  
+  >> 고정된 신분(VIP)이 없다. 어제는 꼴찌였던 A가 시간이 흘러 마감이 다가오면
+     자연스럽게 최우선순위(VIP)로 신분 상승하는 철저한 "마감 임박 순" 체제다.
+```
 **[다이어그램 해설]** RM은 한 번 정해진 우선순위가 요지부동이지만, EDF는 시간이 째깍째깍 흐를 때마다 모든 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)의 우선순위가 실시간으로 뒤바뀐다. 스케줄러가 이 융통성을 발휘하기 위해 끊임없이 남은 시간을 계산하고 큐를 재정렬(Sorting)해야 하는 것이 바로 동적(Dynamic) 스케줄링의 묘미이자 짐(오버헤드)이다.
 
 - **📢 섹션 요약 비유**: 병원 응급실에서 "어제 온 감기 환자(A)"와 "방금 실려 온 심정지 환자(B)"가 있을 때, 도착 순서([FCFS](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/))나 고정된 신분([RM](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/197_rm_rate_monotonic_scheduling/))이 아니라, "지금 당장 의사를 안 보면 죽을 시간이 가장 짧게 남은 사람(B)"을 무조건 먼저 살려내는 극한의 트리아지(응답성) 시스템입니다.
@@ -58,27 +55,30 @@ RM은 69%가 넘으면 터진다고 했다. 똑같이 CPU 이용률이 <strong>9
 - <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/">태스크</a> 2 (T2)</strong>: 주기=[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/), 실행 시간=5 ─▶ 이용률 50%
 - **총 이용률(U)** = 90% (RM의 한계선 69.3%를 한참 초과함 🚨)
 
+```text
+  ┌──────────────────────────────────────────────────────────────────────┐
+  │         [1] RM 적용 시 (실패!) - 고정 우선순위의 비극                │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │  0      2         7      9    10 (🚨 T2 데드라인)                    │
+  │  │██ T1 │░░░ T2 ░░│██ T1 │░░ T2 │ (펑크 발생!)                       │
+  │                                                                      │
+  │  분석: T1(주기5)이 무조건 VIP. 7ms 시점에 T1이 또 새치기해서 들어옴. │
+  │  T2는 10ms 안에 5ms를 채워야 하는데, T1이 4ms나 빼앗아가서           │
+  │  10ms가 될 때까지 4ms밖에 실행 못함. 💥 데드라인 미스 참사!          │
+  └──────────────────────────────────────────────────────────────────────┘
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">1</div><div class="kb-diagram-note">RM 적용 시 (실패!) - 고정 우선순위의 비극</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0 2 7 9 10 (🚨 T2 데드라인)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">██ T1</div><div class="kb-diagram-cell">░░░ T2 ░░</div><div class="kb-diagram-cell">██ T1</div><div class="kb-diagram-cell">░░ T2</div><div class="kb-diagram-cell">(펑크 발생!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분석: T1(주기5)이 무조건 VIP. 7ms 시점에 T1이 또 새치기해서 들어옴.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T2는 10ms 안에 5ms를 채워야 하는데, T1이 4ms나 빼앗아가서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">10ms가 될 때까지 4ms밖에 실행 못함. 💥 데드라인 미스 참사!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2</div><div class="kb-diagram-note">EDF 적용 시 (성공!) - 동적 우선순위의 기적</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0 2 7 10 (T2 종료)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">██ T1</div><div class="kb-diagram-cell">░░░ T2 ░░░░░░░░░</div><div class="kb-diagram-cell">(T1 2회차 실행 지연)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분석: 7ms 시점에 두 번째 T1(마감 10)이 도착했다.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하지만 이때 T2의 마감도 10으로 똑같다. EDF는 하던 T2를 멈추지 않고</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">그냥 쭉 실행시켜 10ms 안에 5ms를 꽉 채워 살려낸다. 그 직후 T1이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">나머지 시간에 돌아간다. 90% 부하에서도 완벽히 방어 성공! ✅</div></div>
-</div>
-</div>
-
-
+  ┌──────────────────────────────────────────────────────────────────────┐
+  │         [2] EDF 적용 시 (성공!) - 동적 우선순위의 기적               │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │  0      2         7      10 (T2 종료)                                │
+  │  │██ T1 │░░░ T2 ░░░░░░░░░│ (T1 2회차 실행 지연)                      │
+  │                                                                      │
+  │  분석: 7ms 시점에 두 번째 T1(마감 10)이 도착했다.                    │
+  │  하지만 이때 T2의 마감도 10으로 똑같다. EDF는 하던 T2를 멈추지 않고  │
+  │  그냥 쭉 실행시켜 10ms 안에 5ms를 꽉 채워 살려낸다. 그 직후 T1이     │
+  │  나머지 시간에 돌아간다. 90% 부하에서도 완벽히 방어 성공! ✅         │
+  └──────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** RM의 약점은 "융통성 없는 고집"이다. T2가 지금 당장 안 끝나면 죽는데도, 룰에 따라 주기가 짧은 T1이 무식하게 새치기를 해버려 둘 다 망친다. 반면 EDF는 "어? 너(T1) 마감 10초 남았고 얘(T2)도 10초 남았네? 굳이 교체(선점)하지 말고 하던 애 먼저 끝내자"라며 유연하게 방어막을 형성한다. 이 완벽한 융통성 덕에 수학적으로 <strong>CPU 이용률(U) = 1.0 (100%) 이하이기만 하면 절대 펑크가 나지 않음</strong>이 증명되었다.
 
 - **📢 섹션 요약 비유**: 원칙주의자 사장님([RM](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/197_rm_rate_monotonic_scheduling/))은 마감 1시간 남은 큰 프로젝트(T2)를 하던 직원에게 "무조건 아침 9시엔 커피 타는 일(T1)부터 해!"라고 강요해서 회사를 망하게 합니다. 센스 있는 사장님([EDF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/207_deadline_scheduling/))은 "커피는 11시에 마셔도 되니까, 당장 10시 마감인 프로젝트부터 끝내!"라며 상황에 맞춰 융통성을 발휘합니다.
@@ -113,26 +113,26 @@ CPU 100%까지 쓴다는 건 평상시엔 축복이지만, 이벤트가 폭주�
 1. **소프트 실시간 환경의 멀티미디어 코덱 (Video/Audio Decoding)**: EDF는 자동차 브레이크(하드)에서는 도미노 붕괴의 공포 때문에 잘 쓰이지 않는다. 하지만 넷플릭스 4K 영상을 디코딩하거나 오디오 믹싱을 할 때는 최고의 선택이다. 영상은 "60프레임(16ms)마다 무조건 다음 프레임 디코딩"이라는 데드라인이 명확하다. EDF를 쓰면 시스템 자원의 99%를 동영상 디코딩에 쥐어짜 내어 화질 저하를 막을 수 있으며, 가끔 과부하가 걸려 도미노로 프레임 몇 개가 뭉개져도(Soft Real-time) 사람이 죽지 않으므로 매우 훌륭한 타협이 된다.
 2. <strong>리눅스 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>의 SCHED_DEADLINE 도입 (2014년)</strong>: 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 3.14 버전에 이르러서야 실무 해커들이 이 학술적 알고리즘을 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메인스트림에 박아 넣었다. 단순히 EDF만 구현한 게 아니라, 도미노 현상을 막기 위해 <strong>CBS (Constant <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">Bandwidth</a> Server)</strong>라는 방어막 기술을 융합했다. [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)가 약속한 예산(Budget) 이상으로 CPU를 쓰려 하면(과부하 징후), 스케줄러가 강제로 이 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)의 데드라인을 미래로 뻥 차버려서(연기시켜서) 뒷사람들에게 피해가 가는 끔찍한 도미노 효과를 OS 레벨에서 원천 차단해 낸 위대한 공학적 성과다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하드 리얼타임 스케줄러 선택 (RM vs EDF) 아키텍트 가이드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">요구사항: 미사일 요격 제어 시스템 구축</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 1. 비용(하드웨어)과 안정성 중 무엇이 우선인가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">돈이 넘치고 절대 죽으면 안 됨 (안전 100%)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ CPU를 2배 비싼 걸 사서 전체 이용률을 60% 이하로 낮춤</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 스케줄러: RM (Rate Monotonic) 채택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 효과: 과부하 위험도 없고 오버헤드도 없는 완벽 방어</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">장비가 소형이라 CPU 성능을 100% 한계치까지 써야 함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 스케줄러: EDF (Earliest Deadline First) 채택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 보완책: 반드시 CBS 대역폭 통제기를 앞단에 달아</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">과부하(Overload) 도미노를 물리적으로 방어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 효과: 저사양 칩셋에서도 100% 자원을 뽑아내어 임무 완수</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────────┐
+  │     하드 리얼타임 스케줄러 선택 (RM vs EDF) 아키텍트 가이드     │
+  ├─────────────────────────────────────────────────────────────────┤
+  │                                                                 │
+  │   [요구사항: 미사일 요격 제어 시스템 구축]                      │
+  │                │                                                │
+  │                ▼ 1. 비용(하드웨어)과 안정성 중 무엇이 우선인가? │
+  │      [ 돈이 넘치고 절대 죽으면 안 됨 (안전 100%) ]              │
+  │       ├─▶ CPU를 2배 비싼 걸 사서 전체 이용률을 60% 이하로 낮춤  │
+  │       ├─▶ 스케줄러: RM (Rate Monotonic) 채택                    │
+  │       └─▶ 효과: 과부하 위험도 없고 오버헤드도 없는 완벽 방어    │
+  │                                                                 │
+  │      [ 장비가 소형이라 CPU 성능을 100% 한계치까지 써야 함 ]     │
+  │       ├─▶ 스케줄러: EDF (Earliest Deadline First) 채택          │
+  │       ├─▶ 보완책: 반드시 CBS 대역폭 통제기를 앞단에 달아        │
+  │                   과부하(Overload) 도미노를 물리적으로 방어     │
+  │       └─▶ 효과: 저사양 칩셋에서도 100% 자원을 뽑아내어 임무 완수│
+  └─────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 이론과 실무의 극명한 차이다. 이론가들은 "EDF가 100% 꽉 채워 쓰니 최고!"라고 하지만, 실무 아키텍트는 "미사일 만드는데 CPU 부하 100% 치게 설계하는 놈은 미친놈이다. 그냥 비싼 CPU 달아서 부하 50%로 낮추고, 마음 편하고 버그 안 나는 RM으로 깔끔하게 가자"라고 결정한다. 이것이 EDF가 논문의 여포임에도 산업계 파이를 RM에게 많이 뺏긴 본질적 이유다.
 
 - **📢 섹션 요약 비유**: 100L짜리 물통에 물을 99L 찰랑찰랑하게 채워 다니는 기술([EDF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/207_deadline_scheduling/))은 위대하지만 넘어지면 다 쏟아집니다(과부하 붕괴). 현장 작업 반장(실무자)은 그냥 돈을 더 써서 200L짜리 큰 통을 사고 그 안에 80L만 대충 담아서 맘 편하게 뛰어다니는([RM](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/197_rm_rate_monotonic_scheduling/)) 방식을 훨씬 선호합니다.
@@ -162,19 +162,15 @@ EDF는 스케줄링 이론이 도달할 수 있는 '동적 최적화의 정점'�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">프로세서 친화성 (Processor Affinity)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">멀티코어 스케줄링 (Multicore Scheduling)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">하이퍼스레딩 (Hyper-threading) / SMT (Simultaneous Multithreading) 스케줄링</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">이기종 다중 처리기 스케줄링 (HMP)</div></div>
-</div>
-</div>
-
-
+```text
+[프로세서 친화성 (Processor Affinity)]
+    │
+    ▼
+[멀티코어 스케줄링 (Multicore Scheduling)]
+    │
+    ├──▶ [하이퍼스레딩 (Hyper-threading) / SMT (Simultaneous Multithreading) 스케줄링]
+    └──▶ [이기종 다중 처리기 스케줄링 (HMP)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

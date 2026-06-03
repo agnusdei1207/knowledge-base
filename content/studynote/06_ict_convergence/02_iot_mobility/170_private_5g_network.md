@@ -27,20 +27,19 @@ tags = ["studynote-ict-convergence"]
 
 이 그림은 공중 5G와 프라이빗 5G의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로 차이를 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Public 5G versus on-site Private 5G traffic path</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Public 5G</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Device -&gt; operator RAN -&gt; operator core -&gt; enterprise app</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Private 5G</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Device -&gt; local gNB -&gt; local UPF -&gt; on-site MEC / MES / AI</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Key difference: user traffic can stay inside the enterprise site</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│            Public 5G versus on-site Private 5G traffic path         │
+├──────────────────────────────────────────────────────────────────────┤
+│ Public 5G                                                           │
+│ Device -> operator RAN -> operator core -> enterprise app           │
+│                                                                      │
+│ Private 5G                                                          │
+│ Device -> local gNB -> local UPF -> on-site MEC / MES / AI          │
+│                                                                      │
+│ Key difference: user traffic can stay inside the enterprise site    │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 핵심은 단순히 "빠른 무선망"이 아니라 <strong>누가 품질과 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 통제하느냐</strong>에 있다. 프라이빗 5G는 망 운영 책임도 함께 가져오지만, 그만큼 현장 요구에 맞춘 설계 자유도를 얻는다.
 
@@ -64,20 +63,19 @@ tags = ["studynote-ict-convergence"]
 
 아래 그림은 왜 로컬 UPF가 중요한지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Local UPF is the real industrial pivot</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Camera / AGV / Robot</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">radio</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">gNB ► Local UPF ► MEC / MES / AI server</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ user traffic stays inside the campus</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">► 5GC control plane (local or managed)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│               Local UPF is the real industrial pivot                │
+├──────────────────────────────────────────────────────────────────────┤
+│ Camera / AGV / Robot                                                │
+│        │ radio                                                       │
+│        ▼                                                             │
+│      gNB ───────► Local UPF ───────► MEC / MES / AI server          │
+│        │                │                                             │
+│        │                └─ user traffic stays inside the campus      │
+│        └────────► 5GC control plane (local or managed)              │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조 덕분에 로봇 제어, 비전 검사, 안전 감시처럼 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)에 민감한 처리를 클라우드까지 왕복하지 않고 현장에서 끝낼 수 있다. 다만 이것은 유선 [TSN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/546_tsn_hardware/) ([Time-Sensitive Networking](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/168_industrial_ethernet_tsn/)) 수준의 완전한 결정론을 뜻하지는 않는다. 실제 설계에서는 무선 구간 품질, 스케줄링, 간섭 관리, [MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/) 배치까지 함께 봐야 한다.
 
@@ -163,24 +161,22 @@ tags = ["studynote-ict-convergence"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Enterprise Wi-Fi limits</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Public 5G for mobility</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Private 5G / NPN</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Local UPF / data sovereignty</div>
-<div class="kb-diagram-tree-item" style="--depth:2">MEC integration</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Industrial mobility and campus control</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">TSN linkage · edge AI · smart factory orchestration</div>
-</div>
-</div>
-
-
+```text
+Enterprise Wi-Fi limits
+    │
+    ▼
+Public 5G for mobility
+    │
+    ▼
+Private 5G / NPN
+    │
+    ├─ Local UPF / data sovereignty
+    ├─ MEC integration
+    └─ Industrial mobility and campus control
+    │
+    ▼
+TSN linkage · edge AI · smart factory orchestration
+```
 
 이 흐름은 기업 무선망의 초점이 단순 접속 제공에서, 현장 통제와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 주권을 포함한 산업용 플랫폼으로 확장되는 과정을 보여 준다.
 

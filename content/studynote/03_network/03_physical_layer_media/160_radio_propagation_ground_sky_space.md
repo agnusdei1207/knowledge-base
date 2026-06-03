@@ -41,20 +41,20 @@ tags = ["studynote-network"]
 
 아래 그림은 세 경로가 어떻게 다른 공간을 이용하는지 한눈에 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">three major radio propagation paths</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ionosphere</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tx -----------/ \----------- Rx sky wave</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">\__________________ direct LOS path _____________________________/</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">earth surface ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;------------------ ground wave follows surface -----------------&gt;</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                   three major radio propagation paths                      │
+├────────────────────────────────────────────────────────────────────────────┤
+│                     ionosphere                                             │
+│                /-------------------\                                       │
+│ Tx -----------/                     \----------- Rx   sky wave             │
+│   \                                                                  /     │
+│    \__________________ direct LOS path _____________________________/      │
+│                                                                            │
+│ earth surface ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~        │
+│   <------------------ ground wave follows surface ----------------->       │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림에서 중요한 점은 세 경로가 단순히 "거리 차이"가 아니라 사용하는 매질과 병목이 다르다는 것이다. 지상파는 특히 해수면처럼 전도도가 좋은 환경에서 강하고, 천파는 전리층 상태에 따라 홉 (Hop) 거리와 수신 세기가 크게 바뀌며, 공간파는 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 높이와 프레넬 존 ([Fresnel Zone](/knowledge-base/studynote/03_network/03_physical_layer_media/165_fresnel_zone_clearance/)) 확보가 품질을 좌우한다. 그래서 전파 설계는 주파수 선택, [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 배치, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 목표 범위를 함께 고려해야 한다.
 
@@ -120,24 +120,21 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">저주파 장거리 전파</div>
-<div class="kb-diagram-note">(지상파 중심)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">전리층 활용 장거리 통신</div>
-<div class="kb-diagram-note">(천파 중심)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">VHF (Very High Frequency) / UHF (Ultra High Frequency) 직진 통신</div>
-<div class="kb-diagram-note">(공간파 중심)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">기지국 · 마이크로파 릴레이 · 위성망</div>
-</div>
-</div>
-
-
+```text
+저주파 장거리 전파
+(지상파 중심)
+        │
+        ▼
+전리층 활용 장거리 통신
+(천파 중심)
+        │
+        ▼
+VHF (Very High Frequency) / UHF (Ultra High Frequency) 직진 통신
+(공간파 중심)
+        │
+        ▼
+기지국 · 마이크로파 릴레이 · 위성망
+```
 
 이 흐름은 전파 경로가 단순 분류를 넘어 현대 무선 인프라의 설계 방식으로 확장되는 과정을 보여 준다.
 

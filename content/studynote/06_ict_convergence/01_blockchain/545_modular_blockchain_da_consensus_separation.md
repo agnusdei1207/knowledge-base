@@ -33,27 +33,35 @@ tags = ["studynote-ict-convergence"]
 
 ### [모듈러 블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/095_modular_blockchain_execution_da_consensus/) 4계층 구조
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모듈러 블록체인 계층 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실행 계층 (Execution Layer)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스마트 컨트랙트 실행, 상태 전이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예: Rollup (Arbitrum, zkSync), Sovereign Rollup</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정산 계층 (Settlement Layer)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실행 결과 최종 확정, Fraud/Validity Proof 검증</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예: Ethereum L1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">합의 계층 (Consensus Layer)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">트랜잭션 순서 합의, 체인 선택 규칙</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예: Ethereum Beacon Chain, Tendermint</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 가용성 계층 (DA Layer)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">트랜잭션 데이터 공개·가용성 보장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예: Celestia, EIP-4844 Blob, Avail</div></div>
-</div>
-</div>
-
-
+```
+┌────────────────────────────────────────────────────────┐
+│              모듈러 블록체인 계층 구조                   │
+│                                                        │
+│  ┌─────────────────────────────────────────────────┐  │
+│  │  실행 계층 (Execution Layer)                     │  │
+│  │  스마트 컨트랙트 실행, 상태 전이                  │  │
+│  │  예: Rollup (Arbitrum, zkSync), Sovereign Rollup│  │
+│  └─────────────────────────────────────────────────┘  │
+│                        │                               │
+│  ┌─────────────────────────────────────────────────┐  │
+│  │  정산 계층 (Settlement Layer)                    │  │
+│  │  실행 결과 최종 확정, Fraud/Validity Proof 검증  │  │
+│  │  예: Ethereum L1                                │  │
+│  └─────────────────────────────────────────────────┘  │
+│                        │                               │
+│  ┌─────────────────────────────────────────────────┐  │
+│  │  합의 계층 (Consensus Layer)                     │  │
+│  │  트랜잭션 순서 합의, 체인 선택 규칙               │  │
+│  │  예: Ethereum Beacon Chain, Tendermint           │  │
+│  └─────────────────────────────────────────────────┘  │
+│                        │                               │
+│  ┌─────────────────────────────────────────────────┐  │
+│  │  데이터 가용성 계층 (DA Layer)                   │  │
+│  │  트랜잭션 데이터 공개·가용성 보장                 │  │
+│  │  예: Celestia, EIP-4844 Blob, Avail             │  │
+│  └─────────────────────────────────────────────────┘  │
+└────────────────────────────────────────────────────────┘
+```
 
 ### 핵심 모듈러 프로젝트 비교
 
@@ -83,27 +91,21 @@ tags = ["studynote-ict-convergence"]
 
 ### EigenLayer 재스테이킹(Restaking) 메커니즘
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">ETH 스테이커 (32 ETH)</div>
-<div class="kb-diagram-note">이더리움 보안 확보</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">EigenLayer에 재스테이킹 등록</div>
-<div class="kb-diagram-note">동일 ETH로 추가 보안 서비스 제공</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">AVS (Actively Validated Service)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">오라클 네트워크 (Chainlink 대안)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">브릿지 보안</div>
-<div class="kb-diagram-tree-item" style="--depth:2">DA 레이어 보안 (EigenDA)</div>
-<div class="kb-diagram-note">추가 보상(수수료) 수령</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">슬래싱 위험: 두 프로토콜 동시 위반 시</div>
-</div>
-</div>
-
-
+```
+ETH 스테이커 (32 ETH)
+    │ 이더리움 보안 확보
+    ▼
+EigenLayer에 재스테이킹 등록
+    │ 동일 ETH로 추가 보안 서비스 제공
+    ▼
+AVS (Actively Validated Service)
+    ├ 오라클 네트워크 (Chainlink 대안)
+    ├ 브릿지 보안
+    └ DA 레이어 보안 (EigenDA)
+    │ 추가 보상(수수료) 수령
+    ▼
+슬래싱 위험: 두 프로토콜 동시 위반 시
+```
 
 - **📢 섹션 요약 비유**: — "재스테이킹은 은행 직원이 은행 업무(이더리움 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)) 외에 보험사 파트타임(다른 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 보안)도 하는 것 — 수익 두 배지만 책임도 두 배.
 

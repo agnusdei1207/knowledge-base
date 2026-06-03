@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: 기지국 아키텍처에서, 철탑이나 옥상에 달린 깡통 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 장비(**RU**)와 그 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 제어하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 장비(**DU** 또는 [BBU](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/688_bbu/)) 사이를 연결하는 <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a>/초저지연 유선 광케이블 통신망 구간</strong>입니다.
 - **참고(위치)**: 단말기 ~ 무선 ~ 기지국 ~ [**프론트홀**] ~ DU ~ [미드홀] ~ CU ~ [백홀] ~ 서울 코어망([5GC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/768_5gc_5g_core_network_evolution/))
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">기지국 DU</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">프론트홀</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">미드홀/백홀 전송계층망 코어 장거리 파장 라…</div></div>
-</div>
-</div>
-
-
+```text
+[기지국 DU]
+    │
+    ▼
+[프론트홀]
+    │
+    └──▶ [미드홀/백홀 전송계층망 코어 장거리 파장 라…]
+```
 
 - **📢 섹션 요약 비유**: 프론트홀은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -45,18 +41,14 @@ tags = ["studynote-network"]
 - **치명적 문제 (오버헤드)**: 옥상 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 폰에서 받은 100Mbps짜리 아날로그 파동(IQ [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 CPRI 규격으로 변환하면, 그 크기가 16배인 1.6Gbps짜리 괴물 덩어리로 무식하게 뻥튀기됩니다. 
 - [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 시대에 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 20Gbps([Massive MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/)) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수신하면? CPRI를 태우는 순간 320Gbps가 되어, 중간 광케이블이 불타버리고 망 구축 비용이 천문학적으로 치솟는 끔찍한 한계에 부딪혔습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">기지국 DU</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">프론트홀</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">미드홀/백홀 전송계층망 코어 장거리 파장 라…</div></div>
-</div>
-</div>
-
-
+```text
+[기지국 DU]
+    │
+    ▼
+[프론트홀]
+    │
+    └──▶ [미드홀/백홀 전송계층망 코어 장거리 파장 라…]
+```
 
 - **📢 섹션 요약 비유**: 프론트홀의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -119,19 +111,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 기지국 DU</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 프론트홀</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 미드홀/백홀 전송계층망 코어 장거리 파장 라…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 네트워크 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 기지국 DU]
+    │
+    ▼
+[현재 개념: 프론트홀]
+    │
+    ├──▶ [확장 A: 미드홀/백홀 전송계층망 코어 장거리 파장 라…]
+    └──▶ [확장 B: AI 기반 네트워크 최적화]
+```
 
 프론트홀는 기지국 DU에서 출발해 현재 메커니즘을 정교화하고, 이후 [미드홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1010_midhaul_network_c_ran_fronthaul_du_cu/)/[백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/) 전송계층망 코어 장거리 파장 라…와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

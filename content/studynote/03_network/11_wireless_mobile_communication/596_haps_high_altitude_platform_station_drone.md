@@ -23,26 +23,28 @@ tags = ["studynote-network"]
 - **필요성**: 산골짜기나 사막에 사는 사람들에게 인터넷을 주려면, 땅에 10km마다 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 철탑을 수백 개 박거나(미친 토목 비용), 일론 머스크처럼 4만 대의 위성을 쏴야 한다(천문학적 로켓 비용). <strong>"로켓을 쏘지 않고, просто 비행기처럼 띄워서 몇 달 동안 안 내려오고 하늘에서 거대한 Wi-Fi 빔을 쏴줄 수 있는 드론 기지국"</strong>이 통신 빈곤국과 재난 현장 인프라의 마스터키로 떠올랐다.
 - **등장 배경**: ① 지상망 설치 불가 지역(아프리카, 아마존, 도서 산간)의 Next 10억 명(The Next Billion) 인터넷 보급 프로젝트 촉발 → ② [LEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/) 위성 인터넷(스타링크)의 고비용 발사체 구조에 대한 저가형 대안 요구 → ③ 구글([Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) Loon), 페이스북(Aquila), 소프트뱅크(HAPSMobile), 에어버스(Zephyr) 등 IT 공룡들의 성층권 태양광 드론 기술 투자 폭발.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">왜 고도 '20km' 인가? 성층권(Stratosphere)의 절대적 마법 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">우주 궤도</div><div class="kb-diagram-note">(500km 이상) - 로켓이 필요함! 유지보수 불가능. 비용 1,000억 원.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">성층권 HAPS 궤도</div><div class="kb-diagram-note">(약 20km) - 태양광 드론 비행 가능 영역! ☀️</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">☁️ (구름 없음!) 🌪️ (바람 거의 안 붊!) 🦅 (새도 안 날아다님!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">✈️ HAPS 태양광 드론 (기지국 탑재, 3개월 체공)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">대류권</div><div class="kb-diagram-note">(0 ~ 10km) - 폭우 쏟아짐, 태풍 붊, 여객기 날아다님. 여기서 띄우면</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">드론이 바람에 다 부서지고 구름에 가려 태양광 충전 불가!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 아키텍처 결론: 20km는 기상 이변(비바람)이 아예 없고 여객기도 다니지 않는</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">완벽한 '바람 한 점 없는 온실' 같은 공간이다. 태양광으로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">낮에 충전하고 밤에 배터리로 버티며 수개월 무한 체공이 가능!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│             왜 고도 '20km' 인가? 성층권(Stratosphere)의 절대적 마법 시각화 │
+├─────────────────────────────────────────────────────────────┤
+│   [우주 궤도] (500km 이상) - 로켓이 필요함! 유지보수 불가능. 비용 1,000억 원. │
+│   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ │
+│   [성층권 HAPS 궤도] (약 20km) - 태양광 드론 비행 가능 영역! ☀️           │
+│         ☁️ (구름 없음!) 🌪️ (바람 거의 안 붊!) 🦅 (새도 안 날아다님!)         │
+│          [ ✈️ HAPS 태양광 드론 (기지국 탑재, 3개월 체공) ]               │
+│               /          |            \                       │
+│              /           |             \                      │
+│             /            |              \                     │
+│            ▼            ▼              ▼                     │
+│   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ │
+│   [대류권] (0 ~ 10km) - 폭우 쏟아짐, 태풍 붊, 여객기 날아다님. 여기서 띄우면 │
+│                        드론이 바람에 다 부서지고 구름에 가려 태양광 충전 불가!│
+│                                                             │
+│   => 아키텍처 결론: 20km는 기상 이변(비바람)이 아예 없고 여객기도 다니지 않는 │
+│                   완벽한 '바람 한 점 없는 온실' 같은 공간이다. 태양광으로 │
+│                   낮에 충전하고 밤에 배터리로 버티며 수개월 무한 체공이 가능! │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** HAPS 아키텍처의 설계 핵심은 20km라는 고도의 "물리적 안정성"이다. 지상 10km 이하 대류권에서 기지국 드론을 띄우면 태풍과 장마에 다 찢어지고 구름 때문에 태양광 패널이 먹통이 되어 하루 만에 추락한다. 반대로 500km 위성은 한 번 쏘면 고장 나도 고치러 갈 수가 없다. 성층권 20km는 바람이 거의 없는 진공 직전의 맑은 하늘이다. 이곳에 날개 길이 80미터짜리 거대한 태양광 글라이더(Zephyr 등)를 올려두면 1년 365일 비를 맞지 않고 태양빛을 받으며 무한 체공한다. 기계가 고장 나면 조종기로 땅으로 내려서 부품을 쓱 갈아 끼우고 내일 다시 띄우면 된다(로켓 발사 비용 0원). 이것이 HAPS의 미친 가성비의 원리다.
 
@@ -76,26 +78,26 @@ HAPS 드론의 뱃속에는 지상의 [5G](/knowledge-base/studynote/07_enterpri
 | **인프라 유지보수** | 트럭 타고 가서 부품 교체 | **조종기로 착륙시켜서 수리 후 재이륙** | 한 번 쏘면 끝. 고장 나면 대기권 태워 버림. | 15년 동안 궤도에서 방치 후 버림. |
 | <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 구축 비용</strong> | 철탑 수만 개 (토목 비용 헬) | 드론 수십 대 띄우면 한 국가 커버 (가성비 최강) | 수천 대의 위성과 재활용 팰컨 로켓 필요 (미친 자본력) | 수백억 원짜리 위성 3대 (비쌈) |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HAPS 기반의 스마트시티 재난 복구(DR) 시나리오 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황: M 8.0 대지진으로 도쿄 전체 5G 기지국 전원 셧다운, 케이블 단선</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">도쿄 시민들: "살려주세요! 119 전화가 안 터져요! (지상망 100% 블랙아웃)"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">일본 자위대 및 통신사(Softbank)의 HAPS 대응</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 군부대 활주로에서 80미터짜리 거대 태양광 드론(HAPSMobile) 긴급 이륙!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 30분 만에 도쿄 하늘 20km 성층권에 드론 파킹(Hovering) 완료.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 드론 뱃속의 5G 빔 스위치 ON 💥</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">도쿄 시민의 기적 같은 생존</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 반경 200km 도쿄 전역에 하늘에서 직사광선처럼 5G 전파가 쏟아져 내림.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 시민들의 주머니 속 일반 갤럭시/아이폰의 안테나 바(Bar)가 4칸으로 꽉 참.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 땅의 철탑 수만 개가 무너졌는데, 하늘의 철탑 단 1대가 도쿄 전체의</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스마트폰을 1초 만에 5G 백업망으로 연결시켜 수백만 명을 살려냄!</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────┐
+│               HAPS 기반의 스마트시티 재난 복구(DR) 시나리오 시각화      │
+├───────────────────────────────────────────────────────────────┤
+│   [상황: M 8.0 대지진으로 도쿄 전체 5G 기지국 전원 셧다운, 케이블 단선]      │
+│                                                               │
+│   도쿄 시민들: "살려주세요! 119 전화가 안 터져요! (지상망 100% 블랙아웃)"   │
+│                                                               │
+│   [일본 자위대 및 통신사(Softbank)의 HAPS 대응]                       │
+│   1. 군부대 활주로에서 80미터짜리 거대 태양광 드론(HAPSMobile) 긴급 이륙! │
+│   2. 30분 만에 도쿄 하늘 20km 성층권에 드론 파킹(Hovering) 완료.          │
+│   3. 드론 뱃속의 5G 빔 스위치 ON 💥                               │
+│                                                               │
+│   [도쿄 시민의 기적 같은 생존]                                       │
+│   - 반경 200km 도쿄 전역에 하늘에서 직사광선처럼 5G 전파가 쏟아져 내림.      │
+│   - 시민들의 주머니 속 일반 갤럭시/아이폰의 안테나 바(Bar)가 4칸으로 꽉 참.   │
+│   => 결과: 땅의 철탑 수만 개가 무너졌는데, 하늘의 철탑 단 1대가 도쿄 전체의   │
+│            스마트폰을 1초 만에 5G 백업망으로 연결시켜 수백만 명을 살려냄!     │
+└───────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** HAPS가 단순히 오지(정글)용 인터넷이 아니라, 선진국에서도 막대한 돈을 붓는 이유는 <strong>BDR (Business Disaster <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">Recovery</a>, 재난 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a>)</strong>의 최종 병기이기 때문이다. 지진과 쓰나미(일본 3.[11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/) 대지진 등)로 지상 광케이블과 철탑이 다 뽑혀나갔을 때, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)반이 들어가서 선을 다시 까는 데는 몇 달이 걸린다. 하지만 HAPS 드론은 비행장에서 띄워서 30분 만에 재난 상공에 띄워두면, 서울시나 도쿄만 한 면적의 통신을 단 1대의 드론으로 완벽하게 수개월 동안 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 릴레이(Relay) 해줄 수 있다. 지상 인프라의 완전한 파괴를 공중에서 비웃어버리는 3차원 클라우드 기지국이다.
 
@@ -167,19 +169,15 @@ HAPS (High Altitude Platform [Station](/knowledge-base/studynote/03_network/04_d
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 저궤도 위성</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: HAPS</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: GPS 삼각 측량 / 오차 개선 기법</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 무선 자원 제어</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 저궤도 위성]
+    │
+    ▼
+[현재 개념: HAPS]
+    │
+    ├──▶ [확장 A: GPS 삼각 측량 / 오차 개선 기법]
+    └──▶ [확장 B: 지능형 무선 자원 제어]
+```
 
 HAPS는 [저궤도 위성](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/)에서 출발해 현재 메커니즘을 정교화하고, 이후 GPS 삼각 측량 / 오차 개선 기법와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

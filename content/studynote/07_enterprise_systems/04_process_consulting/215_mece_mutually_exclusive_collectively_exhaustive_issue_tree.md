@@ -42,24 +42,24 @@ MECE를 적용하는 기본 절차는 상위 주제 정의, 분해 기준 선택
 
 아래 그림은 MECE한 이슈 트리가 어떻게 문제 공간을 정리하는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MECE issue tree example: profit decline</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Profit decline</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Revenue decline</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Customer count down</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Unit price down</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Cost increase</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Fixed cost up</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Variable cost up</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Check 1: sibling overlap = 0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Check 2: revenue + cost = whole profit logic</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ MECE issue tree example: profit decline                             │
+├──────────────────────────────────────────────────────────────────────┤
+│ Profit decline                                                      │
+│    │                                                                 │
+│    ├─ Revenue decline                                                │
+│    │    ├─ Customer count down                                       │
+│    │    └─ Unit price down                                           │
+│    │                                                                 │
+│    └─ Cost increase                                                  │
+│         ├─ Fixed cost up                                             │
+│         └─ Variable cost up                                          │
+│                                                                      │
+│ Check 1: sibling overlap = 0                                         │
+│ Check 2: revenue + cost = whole profit logic                         │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조의 핵심은 "한 번에 한 기준"이다. 위 예에서는 이익 공식을 기준으로 1차 분해를 했기 때문에, 하위 항목이 같은 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 수준을 유지한다. 반대로 1차에서 매출, 원가, 경쟁사, 환율을 한꺼번에 놓으면 경제 현상과 결과 요인이 뒤섞여 트리 전체의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)성이 무너진다.
 
@@ -118,23 +118,21 @@ MECE의 기대효과는 문제를 빠르게 푸는 데 있기보다, 잘못 푸�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Ambiguous problem</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Choose one dimension</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">MECE partition</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Issue tree / WBS / test partition</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Root cause and action planning</div>
-</div>
-</div>
-
-
+```text
+Ambiguous problem
+        │
+        ▼
+Choose one dimension
+        │
+        ▼
+MECE partition
+        │
+        ▼
+Issue tree / WBS / test partition
+        │
+        ▼
+Root cause and action planning
+```
 
 이 흐름은 "모호한 문제 인식 → 분해 기준 선택 → 중복·누락 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) → 구조화 도구 적용 → [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) 도출"의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)를 보여준다.
 

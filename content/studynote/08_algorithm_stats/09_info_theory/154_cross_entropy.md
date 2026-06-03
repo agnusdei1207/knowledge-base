@@ -64,21 +64,18 @@ L_CCE = -Σ_{c=1}^{C} y_c · log(ŷ_c)
 
 ### [소프트맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/) + 크로스 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 연결
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-note">입력 로짓 z =</div><div class="kb-diagram-node">z₁, z₂, ..., zC</div></div>
-<div class="kb-diagram-note">▼ Softmax</div>
-<div class="kb-diagram-note">ŷ_c = exp(z_c) / Σ exp(z_j)</div>
-<div class="kb-diagram-note">▼ Cross-Entropy</div>
-<div class="kb-diagram-note">L = -Σ y_c · log(ŷ_c)</div>
-<div class="kb-diagram-note">▼ 역전파 그래디언트</div>
-<div class="kb-diagram-note">∂L/∂z_c = ŷ_c - y_c ← 매우 깔끔한 수식!</div>
-</div>
-</div>
-
-
+```
+입력 로짓 z = [z₁, z₂, ..., zC]
+       │
+       ▼  Softmax
+ŷ_c = exp(z_c) / Σ exp(z_j)
+       │
+       ▼  Cross-Entropy
+L = -Σ y_c · log(ŷ_c)
+       │
+       ▼  역전파 그래디언트
+∂L/∂z_c = ŷ_c - y_c     ← 매우 깔끔한 수식!
+```
 
 [소프트맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/) + CCE 조합의 그래디언트가 **예측 - 실제** 형태로 나오는 것은 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 수치 안정성의 핵심이다.
 
@@ -140,23 +137,21 @@ T → 0: 최댓값에 집중 (argmax)
 
 ### [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기 학습 파이프라인
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">입력 x</div>
-<div class="kb-diagram-note">▼ 신경망 forward</div>
-<div class="kb-diagram-note">로짓 z (C차원)</div>
-<div class="kb-diagram-note">▼ Softmax</div>
-<div class="kb-diagram-note">예측 확률 ŷ (Σŷ_c = 1)</div>
-<div class="kb-diagram-note">▼ Cross-Entropy with 원-핫 레이블 y</div>
-<div class="kb-diagram-note">손실 L = -log(ŷ_y_true) ← 정답 클래스의 로그 확률만 남음!</div>
-<div class="kb-diagram-note">▼ 역전파</div>
-<div class="kb-diagram-note">∂L/∂z_c = ŷ_c - y_c</div>
-</div>
-</div>
-
-
+```
+입력 x
+  │
+  ▼ 신경망 forward
+로짓 z (C차원)
+  │
+  ▼ Softmax
+예측 확률 ŷ (Σŷ_c = 1)
+  │
+  ▼ Cross-Entropy with 원-핫 레이블 y
+손실 L = -log(ŷ_y_true)      ← 정답 클래스의 로그 확률만 남음!
+  │
+  ▼ 역전파
+∂L/∂z_c = ŷ_c - y_c
+```
 
 정답 클래스 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 높을수록 L → 0, 낮을수록 L → ∞.
 
@@ -215,23 +210,21 @@ LLM에서는 다음 토큰 예측이 전부 크로스 [엔트로피](/knowledge-
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">크로스 엔트로피 (Cross Entropy)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MLE (Maximum Likelihood Estimation)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">소프트맥스 (Softmax)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">레이블 스무딩 (Label Smoothing)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">포컬 손실 (Focal Loss)</div></div>
-</div>
-</div>
-
-
+```text
+[크로스 엔트로피 (Cross Entropy)]
+    │
+    ▼
+[MLE (Maximum Likelihood Estimation)]
+    │
+    ▼
+[소프트맥스 (Softmax)]
+    │
+    ▼
+[레이블 스무딩 (Label Smoothing)]
+    │
+    ▼
+[포컬 손실 (Focal Loss)]
+```
 
 이 흐름도는 크로스 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) (Cross [Entropy](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/))에서 출발해 포컬 손실 (Focal Loss)까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

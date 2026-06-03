@@ -77,23 +77,21 @@ E: [D]
 
 ### [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 — 두 표현 방식 비교
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">인접 행렬</div><div class="kb-diagram-node">인접 리스트</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">B</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">C</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">A</div><div class="kb-diagram-node">0 1 1 0 0</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">A</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">D</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">B</div><div class="kb-diagram-node">1 0 0 1 0</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">A</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">D</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">C</div><div class="kb-diagram-node">1 0 0 1 0</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">B</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">C</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">E</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">D</div><div class="kb-diagram-node">0 1 1 0 1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">D</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">E</div><div class="kb-diagram-node">0 0 0 1 0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공간: O(V²) 공간: O(V+E)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">간선 조회: O(1) 간선 조회: O(degree)</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────┐
+│  [인접 행렬]              [인접 리스트]                    │
+│                                                          │
+│    A B C D E             A ──→ [B] ──→ [C]              │
+│  A[0 1 1 0 0]            B ──→ [A] ──→ [D]              │
+│  B[1 0 0 1 0]            C ──→ [A] ──→ [D]              │
+│  C[1 0 0 1 0]            D ──→ [B] ──→ [C] ──→ [E]      │
+│  D[0 1 1 0 1]            E ──→ [D]                      │
+│  E[0 0 0 1 0]                                            │
+│                                                          │
+│  공간: O(V²)             공간: O(V+E)                     │
+│  간선 조회: O(1)          간선 조회: O(degree)             │
+└──────────────────────────────────────────────────────────┘
+```
 
 ### 간선 리스트 (Edge List)
 
@@ -122,20 +120,15 @@ E: [D]
 
 ### 밀집 vs 희소 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에서의 선택
 
+```
+V=1,000, E=200 (희소, E ≪ V²=1,000,000)
+  → 인접 행렬: 1,000,000 셀 메모리 낭비
+  → 인접 리스트: 1,200개 항목으로 충분
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">V=1,000, E=200 (희소, E ≪ V²=1,000,000)</div>
-<div class="kb-diagram-note">→ 인접 행렬: 1,000,000 셀 메모리 낭비</div>
-<div class="kb-diagram-note">→ 인접 리스트: 1,200개 항목으로 충분</div>
-<div class="kb-diagram-note">V=1,000, E=900,000 (밀집, E ≈ V²)</div>
-<div class="kb-diagram-note">→ 인접 리스트: 900,000개 포인터 오버헤드</div>
-<div class="kb-diagram-note">→ 인접 행렬: 1,000,000 셀로 O(1) 접근 효율적</div>
-</div>
-</div>
-
-
+V=1,000, E=900,000 (밀집, E ≈ V²)
+  → 인접 리스트: 900,000개 포인터 오버헤드
+  → 인접 행렬: 1,000,000 셀로 O(1) 접근 효율적
+```
 
 ### 방향/무방향 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 처리 차이
 
@@ -196,27 +189,27 @@ E: [D]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">:---</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DFS (Depth-First Search)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">BFS (Breadth-First Search)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">플로이드-워샬</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">크루스칼 (Kruskal)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">다익스트라 (Dijkstra)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">희소 행렬 (Sparse Matrix)</div></div>
-</div>
-</div>
-
-
+```text
+[:---]
+    │
+    ▼
+[DFS (Depth-First Search)]
+    │
+    ▼
+[BFS (Breadth-First Search)]
+    │
+    ▼
+[플로이드-워샬]
+    │
+    ▼
+[크루스칼 (Kruskal)]
+    │
+    ▼
+[다익스트라 (Dijkstra)]
+    │
+    ▼
+[희소 행렬 (Sparse Matrix)]
+```
 
 이 흐름도는 :---에서 출발해 [다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/) ([Dijkstra](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/))까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

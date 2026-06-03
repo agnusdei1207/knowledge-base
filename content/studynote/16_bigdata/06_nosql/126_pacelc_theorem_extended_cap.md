@@ -71,19 +71,15 @@ C : Consistency (일관성)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">상위 개념: 분산 데이터베이스 이론</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">하위 개념: 지연 시간(Latency), 정합성 수준 (Consistency Level)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">연관 개념: CAP 정리, BASE 원칙, 쿼럼(Quorum)</div></div>
-</div>
-</div>
-
-
+```text
+[상위 개념: 분산 데이터베이스 이론]
+    │
+    ▼
+[하위 개념: 지연 시간(Latency), 정합성 수준 (Consistency Level)]
+    │
+    ▼
+[연관 개념: CAP 정리, BASE 원칙, 쿼럼(Quorum)]
+```
 
 이 흐름도는 상위 개념: [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 이론에서 출발해 연관 개념: [CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) 정리, BASE 원칙, 쿼럼(Quorum)까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

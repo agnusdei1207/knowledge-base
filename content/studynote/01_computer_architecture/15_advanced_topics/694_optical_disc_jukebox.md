@@ -35,20 +35,22 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 주크박스가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 꺼내 오는 기본 구조를 단순화한 것이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Optical disc jukebox path</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Slot001</div><div class="kb-diagram-node">Slot002</div><div class="kb-diagram-node">Slot003</div><div class="kb-diagram-note">...</div><div class="kb-diagram-node">SlotNNN</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">pick</div><div class="kb-diagram-cell">return</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Robot arm</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Drive A</div><div class="kb-diagram-node">Drive B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Archive server / catalog</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│                    Optical disc jukebox path                      │
+├────────────────────────────────────────────────────────────────────┤
+│ [Slot001][Slot002][Slot003] ... [SlotNNN]                         │
+│      ▲                           │                                │
+│      │ pick                      │ return                         │
+│      └──────────── Robot arm ────┘                                │
+│                        │                                           │
+│                        ▼                                           │
+│                  [Drive A] [Drive B]                               │
+│                        │                                           │
+│                        ▼                                           │
+│                 Archive server / catalog                           │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 동작 원리는 단순하지만, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 특성이 분명하다. 광 디스크 한 장의 용량은 보통 수십 기가바이트에서 많아야 수백 기가바이트 수준이므로, 큰 아카이브를 만들려면 많은 장수를 관리해야 한다. 반면 디스크는 서가에 꽂혀 있을 때 전력을 거의 쓰지 않고, 기록이 끝난 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)는 비교적 안정적으로 장기 보존할 수 있다. 즉 주크박스는 "대용량을 빠르게 제공"하는 장비가 아니라, <strong>기계적 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>을 감수하고 보존 특성을 얻는 장비</strong>다.
 
@@ -120,23 +122,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Single optical disc archive</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">WORM optical media</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Robotic jukebox automation</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Cold archive management</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Hybrid long-term archive with migration planning</div>
-</div>
-</div>
-
-
+```text
+Single optical disc archive
+    │
+    ▼
+WORM optical media
+    │
+    ▼
+Robotic jukebox automation
+    │
+    ▼
+Cold archive management
+    │
+    ▼
+Hybrid long-term archive with migration planning
+```
 
 이 흐름은 "디스크 한 장 보관"에서 출발해 "자동화된 장기 보존 체계"로 발전하는 과정을 보여준다.
 

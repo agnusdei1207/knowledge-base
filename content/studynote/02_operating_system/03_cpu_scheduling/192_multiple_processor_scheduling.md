@@ -24,21 +24,19 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경**: 무어의 법칙(Moore's Law)에 한계가 오면서 CPU 클럭 속도를 높이는 대신 코어(Core)의 개수를 늘리는 멀티코어(Multi-core) 패러다임으로 하드웨어 시장이 전환되었다. 이에 발맞춰 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 역시 싱글 코어 시절의 낡은 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)(단일 큐 전역 락)를 뜯어고쳐, 코어 간의 충돌(Contention)을 최소화하는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 아키텍처로 진화해야만 했다.
 
+```text
+  [다중 처리기 스케줄링의 진화 흐름도]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">다중 처리기 스케줄링의 진화 흐름도</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1세대: 비대칭 (ASMP)</div><div class="kb-diagram-node">2세대: 대칭형 (SMP) - 현대 표준</div></div>
-<div class="kb-diagram-note">(Master 코어만 OS 통제권 가짐) (모든 코어가 동등한 권한으로 OS 구동)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">마스터 코어 0</div><div class="kb-diagram-note">(보스)</div><div class="kb-diagram-node">코어 0</div><div class="kb-diagram-node">코어 1</div><div class="kb-diagram-node">코어 2</div><div class="kb-diagram-node">코어 3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하달</div><div class="kb-diagram-cell">(각자 꺼내감)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">슬레이브1</div><div class="kb-diagram-node">슬레이브2</div><div class="kb-diagram-node">슬레이브3</div><div class="kb-diagram-node">공통 Ready Queue</div></div>
-<div class="kb-diagram-note">(얘네는 시키는 유저 코드만 실행) (문제점: 큐를 꺼낼 때마다 엄청난 락(Lock) 경합 발생!)</div>
-</div>
-</div>
-
-
+  [1세대: 비대칭 (ASMP)]                 [2세대: 대칭형 (SMP) - 현대 표준]
+  (Master 코어만 OS 통제권 가짐)           (모든 코어가 동등한 권한으로 OS 구동)
+  
+      [ 마스터 코어 0 ] (보스)              [코어 0] [코어 1] [코어 2] [코어 3]
+            │ 하달                           │      │      │      │ (각자 꺼내감)
+   ┌────────┼────────┐                     └──────┼──────┼──────┘
+   ▼        ▼        ▼                            ▼ 
+ [슬레이브1] [슬레이브2] [슬레이브3]                [ 공통 Ready Queue ]
+ (얘네는 시키는 유저 코드만 실행)            (문제점: 큐를 꺼낼 때마다 엄청난 락(Lock) 경합 발생!)
+```
 **[다이어그램 해설]** [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 비대칭(Asymmetric) 방식은 만들기 쉬웠다. 마스터 코어 1개가 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 역할을 독점하고 나머지 코어에 노가다만 시켰다. 하지만 마스터가 병목([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/))이 되면 시스템 전체가 뻗는 치명적 단점이 있었다. 그래서 모든 코어가 평등하게 Ready 큐에 접근하는 대칭형(Symmetric, [SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/))으로 진화했다. 그러나 [SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/) 환경에서는 여러 코어가 동시에 하나의 큐에 접근하려다 보니 거대한 병목([Lock Contention](/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/))이 새롭게 터져버렸다.
 
 - **📢 섹션 요약 비유**: 옛날엔 사장(마스터 코어) 혼자 결재 서류를 쥐고 직원(슬레이브 코어)들에게 일을 하나씩 던져주는 수직적 회사였다면, 현대는 직원 모두가 알아서 일감 보관함(Ready 큐)에서 일을 꺼내가는 수평적 자율 회사([SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/))로 바뀌었습니다. 하지만 보관함이 1개뿐이라 서로 꺼내가려다 몸싸움([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))이 나는 게 새로운 숙제입니다.
@@ -61,25 +59,26 @@ tags = ["studynote-operating-system"]
 - **장점**: 내 코어는 내 전용 큐에서만 프로세스를 꺼내므로 다른 코어와 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 경합이 거의 0에 수렴한다. CPU 캐시 친화성([Affinity](/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/))이 극대화된다.
 - **치명적 단점 (불균형)**: 코어 0번의 큐에는 100개의 프로세스가 쌓여 터지려 하는데, 코어 1번의 큐는 텅텅 비어 코어 1번이 백수로 노는 '로드 임밸런스(Load Imbalance)' 현상이 필연적으로 발생한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">현대 SMP 아키텍처의 다중 큐(MQA) 구조와 캐시 친화성 보호</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">코어 0</div><div class="kb-diagram-node">코어 1</div><div class="kb-diagram-node">코어 2</div><div class="kb-diagram-node">코어 3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L1캐시</div><div class="kb-diagram-cell">L1캐시</div><div class="kb-diagram-cell">L1캐시</div><div class="kb-diagram-cell">L1캐시</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">큐 0</div><div class="kb-diagram-node">큐 1</div><div class="kb-diagram-node">큐 2</div><div class="kb-diagram-node">큐 3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P1, P2 P3, P4 P5 (텅 빔)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 장점: P1은 영원히 코어 0번에서만 실행되므로, 코어 0의 L1/L2 캐시에</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">남아있는 자신의 데이터를 계속 재활용(Cache Hit)할 수 있어 초고속!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🚨 문제 발생: 코어 3번은 자기 큐가 비어서 빈둥빈둥 놀고 있음.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 해결책 (Push/Pull Migration): OS가 주기적으로 코어 0의 큐를</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">검사하여, 넘치는 프로세스 P2를 코어 3의 큐로 강제 이사(Migration)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시켜버림으로써 전체 균형을 다시 맞춘다. (Load Balancing)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌────────────────────────────────────────────────────────────────────────┐
+  │         현대 SMP 아키텍처의 다중 큐(MQA) 구조와 캐시 친화성 보호       │
+  ├────────────────────────────────────────────────────────────────────────┤
+  │                                                                        │
+  │   [ 코어 0 ]    [ 코어 1 ]    [ 코어 2 ]    [ 코어 3 ]                 │
+  │     │ └ L1캐시    │ └ L1캐시    │ └ L1캐시    │ └ L1캐시               │
+  │     ▼           ▼           ▼           ▼                              │
+  │  [ 큐 0 ]      [ 큐 1 ]      [ 큐 2 ]      [ 큐 3 ]                    │
+  │   P1, P2       P3, P4       P5          (텅 빔)                        │
+  │                                                                        │
+  │  ▶ 장점: P1은 영원히 코어 0번에서만 실행되므로, 코어 0의 L1/L2 캐시에  │
+  │    남아있는 자신의 데이터를 계속 재활용(Cache Hit)할 수 있어 초고속!   │
+  │                                                                        │
+  │  🚨 문제 발생: 코어 3번은 자기 큐가 비어서 빈둥빈둥 놀고 있음.         │
+  │  ✅ 해결책 (Push/Pull Migration): OS가 주기적으로 코어 0의 큐를        │
+  │     검사하여, 넘치는 프로세스 P2를 코어 3의 큐로 강제 이사(Migration)  │
+  │     시켜버림으로써 전체 균형을 다시 맞춘다. (Load Balancing)           │
+  └────────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 컴퓨터 과학은 항상 "일단 쪼개서(MQA) 락을 없애고 빠르게 만든 다음, 쪼개서 생긴 불균형의 부작용은 백그라운드 관리 데몬([Load Balancer](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/031_load_balancer/))이 몰래 고쳐준다"는 방식으로 발전해 왔다. 현대 OS는 철저하게 MQA 구조를 취하며, 프로세스가 처음 태어날 때 해시(Hash) 연산을 통해 특정 코어의 큐에 영구 배정해 버린다.
 
 - **📢 섹션 요약 비유**: 마트에서 "1줄 서기([SQA](/knowledge-base/studynote/04_software_engineering/06_software_architecture/365_sqa/))"를 하면 손님 분배는 완벽하지만 맨 앞줄에서 엉키고 싸움([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))이 납니다. 반대로 "계산대별로 각자 서기(MQA)"를 하면 쾌적하지만 어떤 계산대만 손님이 몰립니다. 결국 계산대별로 각자 서게 하되, 줄이 긴 곳의 손님을 눈치껏 빈 계산대로 끌고 가는 매니저([Load Balancer](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/031_load_balancer/))를 두는 것이 현대의 정답입니다.
@@ -114,28 +113,31 @@ tags = ["studynote-operating-system"]
 2. <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/">NUMA</a> (<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/">Non-Uniform Memory Access</a>) 아키텍처 스케줄링</strong>: 최신 듀얼 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 제온(Xeon) 서버는 메모리가 두 덩어리로 나뉘어 있다. CPU 0번은 0번 메모리와 가깝고(빠름), 1번 메모리와는 멀다(느림). 만약 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 CPU 0번에서 도는 프로세스를 CPU 1번으로 아무 생각 없이 이사([Load Balancing](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/196_hard_soft_real_time/))시켜버리면, 이 프로세스는 자기가 쓰던 0번 메모리에 접근하기 위해 멀고 먼 메인보드 횡단 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)(QPI)를 타야 하므로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 30% 이상 박살 난다.
    - **실무 조치**: 현대 리눅스 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)([NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/)-aware Scheduler)는 이사를 시킬 때 "이 코어와 저 메모리가 물리적으로 가까운가?"를 계산하여, 절대 남의 동네 메모리를 끌어다 쓰지 않도록 같은 [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 노드 안에서만 스케줄링을 강제하는 정밀 제어를 수행한다. (DB 서버 튜닝의 핵심)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">멀티코어 시스템 성능 최적화를 위한 스케줄링 아키텍처 트리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">64 코어 대형 시스템 부하 분산 및 튜닝 전략</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▼</div><div class="kb-diagram-node">분석 1</div><div class="kb-diagram-note">L1/L2 캐시 미스율이 비정상적인가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">예 (잦은 Migration 발생 의심)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 튜닝 조치</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 커널 파라미터(migration_cost_ns) 상승</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 웬만하면 프로세스를 딴 코어로 옮기지 못하게 방어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Cgroups를 통한 특정 코어군(cpuset) 완전 격리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">아니오</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▼</div><div class="kb-diagram-node">분석 2</div><div class="kb-diagram-note">코어별 사용률 불균형이 심한가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(예: 코어 0은 100%, 코어 63은 0%)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 튜닝 조치</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Work Stealing(작업 훔치기) 폴링 빈도 증가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 인터럽트(IRQ) 어피니티 분산 (irqbalance)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────────┐
+  │     멀티코어 시스템 성능 최적화를 위한 스케줄링 아키텍처 트리   │
+  ├─────────────────────────────────────────────────────────────────┤
+  │                                                                 │
+  │   [ 64 코어 대형 시스템 부하 분산 및 튜닝 전략 ]                │
+  │                │                                                │
+  │                ▼ [분석 1] L1/L2 캐시 미스율이 비정상적인가?     │
+  │          ├─ [예 (잦은 Migration 발생 의심)]                     │
+  │          │      │                                               │
+  │          │      ▼ 튜닝 조치                                     │
+  │          │   - 커널 파라미터(migration_cost_ns) 상승            │
+  │          │   - 웬만하면 프로세스를 딴 코어로 옮기지 못하게 방어 │
+  │          │   - Cgroups를 통한 특정 코어군(cpuset) 완전 격리     │
+  │          │                                                      │
+  │          └─ [아니오]                                            │
+  │                 │                                               │
+  │                 ▼ [분석 2] 코어별 사용률 불균형이 심한가?       │
+  │             (예: 코어 0은 100%, 코어 63은 0%)                   │
+  │                 │                                               │
+  │                 ▼ 튜닝 조치                                     │
+  │             - Work Stealing(작업 훔치기) 폴링 빈도 증가         │
+  │             - 인터럽트(IRQ) 어피니티 분산 (irqbalance)          │
+  └─────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 다중 코어 시대의 스케줄링은 알고리즘의 우수성보다 <strong>'물리적 아키텍처와의 궁합'</strong>이 100배 중요하다. 아무리 완벽한 O(1) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)라도 하드웨어의 [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 노드 경계를 무시하고 이사를 시키면 지옥이 펼쳐진다. 클라우드 엔지니어가 `cpuset`과 `numactl`을 이용해 OS [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 팔다리를 묶고 "너는 이 동네에서만 놀아!"라고 수동 격리([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/))를 쳐주는 것이 대규모 인프라 튜닝의 꽃이다.
 
 - **📢 섹션 요약 비유**: 전학생(프로세스)을 자꾸 이 반, 저 반으로 옮겨 다니게 하면 교실 인원수([Load Balancing](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/196_hard_soft_real_time/))는 칼같이 맞겠지만, 그 전학생은 친구를 사귈 시간(캐시 웜업)이 없어서 성적이 바닥을 칩니다. 웬만하면 1학년 3반(특정 코어)에 끝까지 뼈를 묻게 해주는 것이 최고의 성적을 내는 교육 스케줄링입니다.
@@ -165,19 +167,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">스레드 스케줄링</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">다중 처리기 스케줄링 (Multiple-Processor Scheduling)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">다중 처리기 스케줄링 (Multiprocessor Scheduling)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">비대칭 다중 처리 (ASMP) 스케줄링</div></div>
-</div>
-</div>
-
-
+```text
+[스레드 스케줄링]
+    │
+    ▼
+[다중 처리기 스케줄링 (Multiple-Processor Scheduling)]
+    │
+    ├──▶ [다중 처리기 스케줄링 (Multiprocessor Scheduling)]
+    └──▶ [비대칭 다중 처리 (ASMP) 스케줄링]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

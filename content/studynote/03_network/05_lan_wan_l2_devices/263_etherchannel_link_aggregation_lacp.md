@@ -24,18 +24,14 @@ tags = ["studynote-network"]
 
 - **💡 비유**: 1차선 좁은 다리(1Gbps)에 차가 막혀서, 옆에 똑같은 1차선 다리 3개를 더 지었습니다(총 4가닥). 그런데 교통경찰([STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/))이 "길이 여러 개면 차들이 빙빙 돈다!"며 3개를 바리케이드로 막아버렸습니다. 화가 난 시장님이 다리 4개를 하나의 거대한 아스팔트로 덮어 <strong>"웅장한 4차선 대교(EtherChannel)"</strong>로 포장해 버리자, 경찰도 1개의 다리로 착각하고 바리케이드를 치워버린 것입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">MSTP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">이더채널 / 링크 어그리게이션</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">PAgP</div></div>
-</div>
-</div>
-
-
+```text
+[MSTP]
+    │
+    ▼
+[이더채널 / 링크 어그리게이션]
+    │
+    └──▶ [PAgP]
+```
 
 - **📢 섹션 요약 비유**: ** 링크 어그리게이션은 가느다란 실 4가닥을 꼬아서 **"절대 끊어지지 않고 무거운 짐을 견디는 하나의 두꺼운 동아줄"**로 만드는 마법입니다.
 
@@ -51,25 +47,27 @@ tags = ["studynote-network"]
 - <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/833_load_balancing_l4_l7_switch_traffic_distribution/">로드 밸런싱</a> (<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/196_hard_soft_real_time/">Load Balancing</a>)</strong>: 트래픽이 1번 선으로만 몰리지 않게, 출발지/목적지 IP나 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 기반으로 해시(Hash) 연산을 하여 4가닥 선에 골고루 트래픽을 던져준다.
 - <strong>무중단 장애 극구 (<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/">Fault Tolerance</a>)</strong>: 포크레인이 4가닥 중 1가닥을 끊어 먹더라도, 1초의 끊김도 없이 남은 3가닥(3Gbps)으로 통신이 자연스럽게 우회된다. STP처럼 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 타이머(50초)를 기다릴 필요조차 없는 완벽한 하드웨어 백업이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">STP Block vs EtherChannel (LACP)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">일반 연결 (STP 동작)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스위치 A (선로 1: 포워딩) 스위치 B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스위치 A (선로 2: BLOCK 차단!) 스위치 B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: 돈 들여서 선 2개 꽂아도 1Gbps 속도밖에 못 씀.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">이더채널 묶음 (LACP 적용)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">묶음(Port-Channel)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스위치 A ──</div><div class="kb-diagram-cell">── (선로 1)</div><div class="kb-diagram-cell">── 스위치 B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스위치 A ──</div><div class="kb-diagram-cell">── (선로 2) (2Gbps 파이프)</div><div class="kb-diagram-cell">── 스위치 B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: STP는 이걸 선 1가닥으로 착각하므로 Block 안 함!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2Gbps 대역폭 풀가동 + 1개 끊어져도 즉각 백업.</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                STP Block vs EtherChannel (LACP)               │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 일반 연결 (STP 동작) ]                                    │
+ │   스위치 A ──── (선로 1: 포워딩) ──── 스위치 B                  │
+ │   스위치 A ──── (선로 2: BLOCK 차단!) ──── 스위치 B             │
+ │   ▶ 결과: 돈 들여서 선 2개 꽂아도 1Gbps 속도밖에 못 씀.          │
+ │                                                             │
+ │ ─────────────────────────────────────────────────────────── │
+ │                                                             │
+ │   [ 이더채널 묶음 (LACP 적용) ]                                │
+ │             ┌────── 묶음(Port-Channel) ─────┐                 │
+ │   스위치 A ──│── (선로 1) ─── ┐            │── 스위치 B       │
+ │   스위치 A ──│── (선로 2) ─── ┘(2Gbps 파이프)│── 스위치 B       │
+ │             └────────────────────────────┘                 │
+ │   ▶ 결과: STP는 이걸 선 1가닥으로 착각하므로 Block 안 함!        │
+ │          2Gbps 대역폭 풀가동 + 1개 끊어져도 즉각 백업.          │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 3. LACP (Link Aggregation Control [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))
 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)끼리 선을 묶을 때 "야, 우리 이 선들 하나로 묶자!"라고 대화하는 <strong>국제 표준(IEEE 802.3ad) 자동 협상 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a></strong>이다.
@@ -133,19 +131,15 @@ LACP는 다른 제조사 [스위치](/knowledge-base/studynote/03_network/05_lan
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: MSTP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 이더채널 / 링크 어그리게이션</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: PAgP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 캠퍼스 패브릭</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: MSTP]
+    │
+    ▼
+[현재 개념: 이더채널 / 링크 어그리게이션]
+    │
+    ├──▶ [확장 A: PAgP]
+    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
+```
 
 이더채널 / 링크 어그리게이션는 MSTP에서 출발해 현재 메커니즘을 정교화하고, 이후 PAgP와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

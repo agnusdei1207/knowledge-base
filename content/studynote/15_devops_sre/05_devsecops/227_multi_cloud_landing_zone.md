@@ -23,16 +23,13 @@ tags = ["studynote-devops-sre"]
 
 [정적 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/340_static_routing_default_route_0_0_0_0/)과 평면 네트워크는 [멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/)와 엣지 환경에서 장애 반경과 보안 위험을 키운다. 따라서 [멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) / [하이브리드 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/009_hybrid_cloud/) 랜딩 존 설계 네트워크 통제를 이해할 때는 "무엇을 자동화하는가"보다 "어떤 실패와 편차를 줄이려는가"를 먼저 붙잡아야 한다.
 
+```text
+Deployment / Control / Feedback Flow
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Deployment / Control / Feedback Flow</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Addressing / Naming</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Overlay / Routing</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Policy / Security</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Operations</div></div>
-</div>
-</div>
-
-
+┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐
+│ Addressing / Naming  │──▶│ Overlay / Routing    │──▶│ Policy / Security    │──▶│ Operations           │
+└──────────────────────┘   └──────────────────────┘   └──────────────────────┘   └──────────────────────┘
+```
 
 이 그림은 [멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) / [하이브리드 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/009_hybrid_cloud/) 랜딩 존 설계 네트워크 통제가 입력, 실행, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 환류를 한 흐름으로 묶는다는 점을 보여준다. 즉 기술 자체보다도 제어 루프와 피드백 구조가 본질이다.
 
@@ -51,16 +48,13 @@ tags = ["studynote-devops-sre"]
 | [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) / [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) | 허용 경로, [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/), [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)을 강제 | 네트워크는 보안과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 동시에 다룸 |
 | Operations | [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링, [failover](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/300_failover_architecture/), capacity planning으로 운영 | 패킷 손실과 지터는 즉시 사용자 품질로 연결 |
 
+```text
+Reference Architecture
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Reference Architecture</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Addressing / Naming</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Overlay / Routing</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Policy / Security</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Operations</div></div>
-</div>
-</div>
-
-
+┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐
+│ Addressing / Naming  │──▶│ Overlay / Routing    │──▶│ Policy / Security    │──▶│ Operations           │
+└──────────────────────┘   └──────────────────────┘   └──────────────────────┘   └──────────────────────┘
+```
 
 위 구조에서 중요한 것은 각 계층의 책임을 분리하면서도, 마지막에 반드시 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 다시 제어 계층으로 돌아오게 만드는 것이다. 그래야 변경 실패가 누적되지 않고, 재현성과 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 가능성을 함께 확보할 수 있다.
 
@@ -127,20 +121,16 @@ tags = ["studynote-devops-sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Account Baseline</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">멀티 클라우드 / 하이브리드 클라우드 랜딩 존 설계 네트워크 통제</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Governance</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Network Segmentation</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Landing Zone</div></div>
-</div>
-</div>
-
-
+```text
+[Account Baseline]
+    │
+    ▼
+[멀티 클라우드 / 하이브리드 클라우드 랜딩 존 설계 네트워크 통제]
+    │
+    ├──▶ [Governance]
+    ├──▶ [Network Segmentation]
+    └──▶ [Landing Zone]
+```
 
 이 흐름도는 [멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) / [하이브리드 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/009_hybrid_cloud/) 랜딩 존 설계 네트워크 통제가 선행 개념 위에 서서 운영 자동화, 보안, 확장, 가시성 중 어떤 축으로 확장되는지를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해서 보여준다.
 

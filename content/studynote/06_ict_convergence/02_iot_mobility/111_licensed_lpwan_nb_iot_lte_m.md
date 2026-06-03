@@ -20,23 +20,21 @@ tags = ["studynote-ict-convergence"]
 
 비면허 [LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/)([LoRa](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/))은 자체 GW를 깔아야 하고 [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 보장이 없다. 통신사 입장에서는 이미 전국에 깔아놓은 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 기지국의 빈 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)([Guard Band](/knowledge-base/studynote/03_network/19_frequent_topics_terms/946_guard_band_fdm_adjacent_channel_interference/))을 재활용하여 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 시장을 공략할 수 있으며, 기업 고객에게 SLA를 보장할 수 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NB-IoT vs LTE-M 포지셔닝 맵</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">속도 ▲</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1Mbps</div><div class="kb-diagram-cell">★ LTE-M</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">200kbps</div><div class="kb-diagram-cell">☆ NB-IoT</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">600bps</div><div class="kb-diagram-cell">◇ Sigfox</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">50kbps</div><div class="kb-diagram-cell">◆ LoRa</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 이동성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고정 Handover 지원</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">QoS: ◇◆ Best Effort ☆★ 통신사 SLA 보장</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│     NB-IoT vs LTE-M 포지셔닝 맵                       │
+├───────────────────────────────────────────────────────┤
+│  속도 ▲                                               │
+│  1Mbps │               ★ LTE-M                       │
+│ 200kbps│        ☆ NB-IoT                              │
+│  600bps│  ◇ Sigfox                                    │
+│  50kbps│     ◆ LoRa                                   │
+│        └────────────────────────────▶ 이동성           │
+│        고정               Handover 지원               │
+│                                                       │
+│  QoS: ◇◆ Best Effort   ☆★ 통신사 SLA 보장           │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: NB-IoT는 편의점 택배(고정 배달, 저렴), [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)-M은 퀵서비스(이동 배달, 빠름). 둘 다 택배회사(통신사) 인프라를 사용한다.
 
@@ -111,23 +109,21 @@ NB-IoT와 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_ar
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">2G/3G M2M (2000s) — 고전력·고비용 원격 IoT</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3GPP Rel-13 (2016) — NB-IoT·LTE-M 표준화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전국망 상용화 (2018~) — 통신 3사 NB-IoT 서비스 개시</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">5G RedCap (Rel-17, 2022~) — 경량 5G NR로 통합</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: 5G NTN (위성) + RedCap — 전지구 IoT</div></div>
-</div>
-</div>
-
-
+```text
+[2G/3G M2M (2000s) — 고전력·고비용 원격 IoT]
+    │
+    ▼
+[3GPP Rel-13 (2016) — NB-IoT·LTE-M 표준화]
+    │
+    ▼
+[전국망 상용화 (2018~) — 통신 3사 NB-IoT 서비스 개시]
+    │
+    ▼
+[5G RedCap (Rel-17, 2022~) — 경량 5G NR로 통합]
+    │
+    ▼
+[현재: 5G NTN (위성) + RedCap — 전지구 IoT]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. NB-IoT는 집에 고정된 <strong>수도 계량기</strong>가 매달 숫자를 보내는 통신이에요.

@@ -28,7 +28,7 @@ tags = ["studynote-operating-system"]
   - **해결책**: "개발자를 믿지 마라! 아예 언어(Compiler)가 함수 시작할 때 자동으로 자물쇠를 잠그고, 함수 끝날 때 자동으로 풀어주게 만들자!" 이것이 바로 C.A.R. Hoare와 Brinch Hansen이 제안한 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)다.
 
   - <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/">세마포어</a></strong>: 방(공유 자원)에 들어가기 전에 내가 직접 열쇠(P)로 문을 따고 들어가서, 나올 때 내가 직접 문을 잠그고(V) 열쇠를 반납해야 하는 수동 화장실. (까먹고 열어두고 가면 남이 들어와서 사고가 남)
-  - <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a></strong>: 최신식 슬라이딩 자동문이 달린 화장실. 내가 화장실 안에 들어가면 문이 '알아서' 잠기고, 내가 밖으로 나오면 문이 '알아서' 열린다. 내가 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 관리할 필요가 전혀 없다.
+  - <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a></strong>: 최정보 슬라이딩 자동문이 달린 화장실. 내가 화장실 안에 들어가면 문이 '알아서' 잠기고, 내가 밖으로 나오면 문이 '알아서' 열린다. 내가 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 관리할 필요가 전혀 없다.
 
 - **발전 과정**:
   1. <strong>뮤텍스 / <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/">세마포어</a> (OS 레벨)</strong>: 강력하지만 코딩하기 너무 까다로움.
@@ -44,26 +44,30 @@ tags = ["studynote-operating-system"]
 
 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)는 방(Room)이 하나뿐인 병원 진료실과 같다. 이 진료실을 굴리기 위해 두 가지 대기열([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))이 존재한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모니터(Monitor)의 내부 아키텍처 및 큐(Queue) 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 진입 큐 (Entry Queue)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">── "상호 배제(Mutex)를 위한 줄"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 스레드 A, B, C가 모니터 함수를 호출하면, 1명만 통과하고 나머지는 여기서 대기.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======================</div><div class="kb-diagram-node">모니터 내부 (진료실)</div><div class="kb-diagram-note">=====================</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">공유 데이터 (Shared Data)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">int count = 0;</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">모니터 함수 (Methods)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">function add() { ... }</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">function remove() { ... }</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 조건 변수 큐 (Condition Variable Queue)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">── "wait/notify 큐"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 조건 변수 <code>NotEmpty</code> 큐: 스레드 D, E가 자고 있음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 조건 변수 <code>NotFull</code> 큐: 텅 비어 있음</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 모니터(Monitor)의 내부 아키텍처 및 큐(Queue) 구조        │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │  [ 1. 진입 큐 (Entry Queue) ] ◀── "상호 배제(Mutex)를 위한 줄"       │
+  │   - 스레드 A, B, C가 모니터 함수를 호출하면, 1명만 통과하고 나머지는 여기서 대기.│
+  │                                                                   │
+  │  ======================= [ 모니터 내부 (진료실) ] =====================│
+  │                                                                   │
+  │   [ 공유 데이터 (Shared Data) ]                                      │
+  │     int count = 0;                                                │
+  │                                                                   │
+  │   [ 모니터 함수 (Methods) ]                                          │
+  │     function add() { ... }                                        │
+  │     function remove() { ... }                                     │
+  │                                                                   │
+  │   [ 2. 조건 변수 큐 (Condition Variable Queue) ] ◀── "wait/notify 큐"│
+  │     - 조건 변수 `NotEmpty` 큐: 스레드 D, E가 자고 있음                  │
+  │     - 조건 변수 `NotFull`  큐: 텅 비어 있음                           │
+  │                                                                   │
+  │  =================================================================│
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 진입 큐(Entry [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))는 화장실 밖에서 기다리는 줄이다. [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)를 보장한다. [조건 변수](/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/) 큐(Condition [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))는 이미 화장실 안으로 들어오긴 했는데, 휴지가 없어서(조건 불만족) 변기에 앉지 못하고 <strong>화장실 구석에 쪼그려 자면서(wait) 누군가 밖에서 휴지를 던져주기(notify)를 기다리는 줄</strong>이다.
 
@@ -126,24 +130,25 @@ tags = ["studynote-operating-system"]
 
 ### 의사결정 및 튜닝 플로우
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조건 변수(Condition Variable) 대기/알림 설계 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">생산자-소비자 큐, 커넥션 풀 등의 자료구조 내부에 동기화를 구현할 때</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자원을 반납하는 스레드가 누굴 깨울 때 <code>notify()</code>를 쓸까 <code>notifyAll()</code>을 쓸까?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ <code>notify()</code> (한 놈만 깨움)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 장점: Thundering Herd(수백 명이 동시에 깨어남) 방지로 CPU 아낌</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 단점: 소비자가 생산자를 깨워야 하는데, 엄한 다른 소비자를 깨울</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위험이 있음 (Signal Hijacking) -&gt; 데드락 위험!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">아키텍트 권장 기본값</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 장점: 무조건 올바른 놈이 깨어나서 일하므로 100% 안전함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 성능이 약간 떨어져도 데드락이 없는 것이 백만 배 중요함.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 조건 변수(Condition Variable) 대기/알림 설계 플로우       │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [생산자-소비자 큐, 커넥션 풀 등의 자료구조 내부에 동기화를 구현할 때]             │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      자원을 반납하는 스레드가 누굴 깨울 때 `notify()`를 쓸까 `notifyAll()`을 쓸까?│
+  │          ├─ `notify()` (한 놈만 깨움)                               │
+  │          │    - 장점: Thundering Herd(수백 명이 동시에 깨어남) 방지로 CPU 아낌│
+  │          │    - 단점: 소비자가 생산자를 깨워야 하는데, 엄한 다른 소비자를 깨울 │
+  │          │            위험이 있음 (Signal Hijacking) -> 데드락 위험!   │
+  │          │                                                        │
+  │          └─ `notifyAll()` (다 깨움) ◀── [아키텍트 권장 기본값]         │
+  │               - 장점: 무조건 올바른 놈이 깨어나서 일하므로 100% 안전함.      │
+  │               - 성능이 약간 떨어져도 데드락이 없는 것이 백만 배 중요함.      │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 초보 개발자는 CPU를 아끼겠다며 `notify()` 하나만 날린다. 하지만 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 10개 자고 있을 때 누가 깰지는 OS 맘이다. 빵이 없어서 자고 있던 소비자 A가, 빵이 생겨서 깼다가 빵이 꽉 차서 자고 있는 생산자 B를 깨워야 하는데, 엉뚱하게 소비자 C를 깨우면 둘 다 빵이 없어서 다시 잠들고 전 우주가 멈춘다. `notifyAll()`로 일단 다 깨우고(Broadcasting), 각자 `while` 문으로 상황을 파악해 다시 자게 만드는 것이 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 코딩의 바이블이다.
 
@@ -185,26 +190,22 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">세마포어 P, V 연산</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">모니터 (Monitor) 동기화 추상화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">생산자 소비자 유한 버퍼</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">식사하는 철학자 교착 문제</div></div>
-</div>
-</div>
-
-
+```text
+[세마포어 P, V 연산]
+    │
+    ▼
+[모니터 (Monitor) 동기화 추상화]
+    │
+    ├──▶ [생산자 소비자 유한 버퍼]
+    └──▶ [식사하는 철학자 교착 문제]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)는 내가 직접 열쇠로 문을 열고 들어가고, 나올 때 꼭 내가 문을 잠가야 하는 화장실이에요. 까먹으면 큰일 나죠!
-2. [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)([Monitor](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/))는 센서가 달린 최신식 슬라이딩 자동문 화장실이에요! 내가 들어가면 문이 '알아서' 잠기고, 일 다 보고 나오면 '알아서' 풀리니까 실수할 일이 없어요.
+2. [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)([Monitor](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/))는 센서가 달린 최정보 슬라이딩 자동문 화장실이에요! 내가 들어가면 문이 '알아서' 잠기고, 일 다 보고 나오면 '알아서' 풀리니까 실수할 일이 없어요.
 3. 화장실([모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/))에 들어갔는데 휴지가 없다면? 당황하지 않고 '휴지 기다리는 의자([조건 변수](/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/))'에 앉아서 잡니다! 누군가 밖에서 휴지를 넣어주며 깨워줄 때까지 화장실 문은 다른 사람을 위해 알아서 열려 있답니다!
 
 ---

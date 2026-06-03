@@ -43,50 +43,47 @@ RDD라는 이름은 세 가지 특성에서 왔다: **Resilient**(탄력적: 장
 
 ### [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/) 연산 유형
 
+```
+RDD 연산 두 가지:
 
+1. 트랜스포메이션 (Transformation) - 새 RDD 반환, 지연 실행
+   ┌─────────────────────────────────────────────────────┐
+   │ map(f)      : 각 원소에 함수 f 적용                  │
+   │ filter(f)   : 조건 f를 만족하는 원소만 선택           │
+   │ flatMap(f)  : map + 중첩 해제                        │
+   │ groupByKey(): 같은 키로 그룹화                       │
+   │ reduceByKey(): 같은 키의 값들을 집계                  │
+   │ join()      : 두 RDD를 키로 조인                     │
+   │ distinct()  : 중복 제거                              │
+   └─────────────────────────────────────────────────────┘
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">RDD 연산 두 가지:</div>
-<div class="kb-diagram-note">1. 트랜스포메이션 (Transformation) - 새 RDD 반환, 지연 실행</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">map(f) : 각 원소에 함수 f 적용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">filter(f) : 조건 f를 만족하는 원소만 선택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">flatMap(f) : map + 중첩 해제</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">groupByKey(): 같은 키로 그룹화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">reduceByKey(): 같은 키의 값들을 집계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">join() : 두 RDD를 키로 조인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">distinct() : 중복 제거</div></div>
-<div class="kb-diagram-note">2. 액션 (Action) - 즉시 실행, 결과 반환</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">count() : 원소 수 반환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">collect() : 모든 원소를 드라이버로 수집</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">first() : 첫 번째 원소 반환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">take(n) : 처음 n개 원소 반환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">reduce(f) : 모든 원소를 f로 집계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">saveAsTextFile(): 파일로 저장</div></div>
-</div>
-</div>
-
-
+2. 액션 (Action) - 즉시 실행, 결과 반환
+   ┌─────────────────────────────────────────────────────┐
+   │ count()     : 원소 수 반환                           │
+   │ collect()   : 모든 원소를 드라이버로 수집             │
+   │ first()     : 첫 번째 원소 반환                      │
+   │ take(n)     : 처음 n개 원소 반환                     │
+   │ reduce(f)   : 모든 원소를 f로 집계                   │
+   │ saveAsTextFile(): 파일로 저장                        │
+   └─────────────────────────────────────────────────────┘
+```
 
 ### Lineage [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) 예시
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-connector">←</div><div class="kb-diagram-node">String</div><div class="kb-diagram-note">(원본)</div></div>
-<div class="kb-diagram-note">map(split)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">←</div><div class="kb-diagram-node">String</div><div class="kb-diagram-note">(단어 리스트)</div></div>
-<div class="kb-diagram-note">▼ map(word → (word,1))</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">←</div><div class="kb-diagram-node">(String, Int)</div></div>
-<div class="kb-diagram-note">▼ reduceByKey(_+_)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">←</div><div class="kb-diagram-node">(String, Int)</div><div class="kb-diagram-note">(결과)</div></div>
-<div class="kb-diagram-note">▼ saveAsTextFile() ← 액션! 이 시점에 전체 DAG 실행</div>
-</div>
-</div>
-
-
+```
+  textFile("input.txt")     ← RDD[String] (원본)
+         │ map(split)
+         ▼
+  flatMap(words)             ← RDD[String] (단어 리스트)
+         │
+         ▼ map(word → (word,1))
+  pairRDD                   ← RDD[(String, Int)]
+         │
+         ▼ reduceByKey(_+_)
+  wordCount                 ← RDD[(String, Int)] (결과)
+         │
+         ▼ saveAsTextFile()  ← 액션! 이 시점에 전체 DAG 실행
+```
 
 ### [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/) Python 코드 예시
 
@@ -205,19 +202,15 @@ RDD는 Spark의 철학을 가장 순수하게 담은 추상화다. "불변 + 변
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">RDD: 불변 · 분산 · 지연 평가 · Lineage 기반 복구</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DataFrame / Dataset: 스키마 기반 · Catalyst 최적화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Spark SQL: SQL 인터페이스 + Predicate Pushdown</div>
-</div>
-</div>
-
-
+```text
+RDD: 불변 · 분산 · 지연 평가 · Lineage 기반 복구
+    │
+    ▼
+DataFrame / Dataset: 스키마 기반 · Catalyst 최적화
+    │
+    ▼
+Spark SQL: SQL 인터페이스 + Predicate Pushdown
+```
 2. 트랜스포메이션은 레시피 적기(아직 안 만들었어), 액션은 실제 요리 시작이야. 손님 주문이 와야(액션) 요리를 시작해.
 3. 자주 쓰는 결과는 cache()로 저장해두면, 매번 처음부터 만들 필요 없이 이미 만들어진 것을 바로 꺼내 쓸 수 있어.
 

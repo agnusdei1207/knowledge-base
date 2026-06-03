@@ -25,18 +25,15 @@ tags = ["studynote-operating-system"]
 
 즉 다단계 큐는 "누가 먼저 실행될까?"를 넘어서, **"애초에 누구와 누구를 같은 줄에 세워야 하는가?"** 에 답하는 기법이다. 공정성만이 아니라 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 계층화([service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) differentiation)를 위한 스케줄링 구조라고 볼 수 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단일 Ready Queue의 한계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">System Daemon</div><div class="kb-diagram-node">Terminal</div><div class="kb-diagram-node">Compiler Job</div><div class="kb-diagram-node">Backup Task</div><div class="kb-diagram-node">Editor</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모두 같은 큐에 섞이면</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">한 정책으로는 응답성·처리량을 동시에 만족시키기 어렵다</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────────┐
+│ 단일 Ready Queue의 한계                                           │
+├───────────────────────────────────────────────────────────────────┤
+│ [System Daemon] [Terminal] [Compiler Job] [Backup Task] [Editor] │
+│                 모두 같은 큐에 섞이면                              │
+│          한 정책으로는 응답성·처리량을 동시에 만족시키기 어렵다    │
+└───────────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 다단계 큐 스케줄링은 응급실, 일반 외래, 건강검진 접수 창구를 하나로 합치지 않고 따로 두는 병원 운영 방식과 같다. 환자 성격이 다른데 줄까지 같으면 전체가 비효율적이 된다.
 
@@ -54,22 +51,23 @@ tags = ["studynote-operating-system"]
 
 아래 그림은 다단계 큐의 전형적인 동작 흐름을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Multilevel Queue Scheduling Flow</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New Process</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Classifier</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ Q0 : System ─▶ RR 5 ms</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ Q1 : Interactive ─▶ RR 20 ms</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ Q2 : Batch ─▶ FCFS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Queue Scheduler chooses one queue</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(fixed priority or queue time slice)</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────────┐
+│ Multilevel Queue Scheduling Flow                                 │
+├───────────────────────────────────────────────────────────────────┤
+│ New Process                                                       │
+│     │                                                             │
+│     ▼                                                             │
+│ Classifier                                                        │
+│     ├─▶ Q0 : System        ─▶ RR 5 ms                             │
+│     ├─▶ Q1 : Interactive   ─▶ RR 20 ms                            │
+│     └─▶ Q2 : Batch         ─▶ FCFS                                │
+│                ▲                                                  │
+│                │                                                  │
+│      Queue Scheduler chooses one queue                            │
+│      (fixed priority or queue time slice)                         │
+└───────────────────────────────────────────────────────────────────┘
+```
 
 이 그림에서 핵심은 <strong>큐 내부 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>과 큐 간 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>이 분리되어 있다</strong>는 점이다. 예를 들어 대화형 큐는 RR로 짧게 돌리고, 배치 큐는 FCFS로 길게 돌릴 수 있다. 하지만 상위 큐에 절대 우선권을 주면 하위 큐는 오래 기다릴 수 있다. 그래서 다단계 큐는 구조적으로 강력하지만, 동시에 <strong>경직된 신분제</strong>가 되기 쉽다.
 
@@ -154,23 +152,20 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단일 Ready Queue 기반 스케줄링</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">작업 성격 차이에 따른 정책 충돌</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">다단계 큐 스케줄링</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ 큐 간 고정 우선순위</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ 큐별 개별 정책 적용</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ 하위 큐 기아 문제</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ MLFQ · Aging · 공정 스케줄링으로 발전</div>
-</div>
-</div>
-
-
+```text
+단일 Ready Queue 기반 스케줄링
+        │
+        ▼
+작업 성격 차이에 따른 정책 충돌
+        │
+        ▼
+다단계 큐 스케줄링
+        │
+        ├──────────────▶ 큐 간 고정 우선순위
+        ├──────────────▶ 큐별 개별 정책 적용
+        ├──────────────▶ 하위 큐 기아 문제
+        └──────────────▶ MLFQ · Aging · 공정 스케줄링으로 발전
+```
 
 이 흐름도는 다단계 큐가 단일 큐의 한계를 해결하기 위해 등장했지만, 다시 경직성과 기아 문제를 낳아 더 적응적인 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)로 발전해 가는 과정을 보여 준다.
 

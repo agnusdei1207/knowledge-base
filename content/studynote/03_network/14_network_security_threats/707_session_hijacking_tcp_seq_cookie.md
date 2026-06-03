@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 시스템(웹 서버)과 사용자 간에 합법적으로 맺어져 유지되고 있는 <strong>연결(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">Session</a>)을 중간에서 비정상적인 방법으로 가로채어(Hijacking), 해커가 마치 정상적인 사용자인 것처럼 행세하며 권한을 탈취하는 해킹 기법</strong>입니다.
 - 공격 방식에 따라 크게 시스템(L4) 단의 <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">세션</a> 하이재킹</strong>과, 웹(L7) 단의 <strong>웹 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">세션</a>(<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/">쿠키</a>) 하이재킹</strong>으로 나뉩니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">중간자 공격 도청 흐름과 통제 조치</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">세션 하이재킹</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">재생 공격</div></div>
-</div>
-</div>
-
-
+```text
+[중간자 공격 도청 흐름과 통제 조치]
+    │
+    ▼
+[세션 하이재킹]
+    │
+    └──▶ [재생 공격]
+```
 
 - **📢 섹션 요약 비유**: [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 하이재킹은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -54,18 +50,14 @@ tags = ["studynote-network"]
 4. 서버는 앨리스가 기절한 줄도 모르고, "오! IP도 맞고 번호표 순서도 정확하네!" 하며 해커의 패킷을 앨리스의 핏줄([세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/))로 그대로 받아들여 버립니다. 통제권이 완벽히 넘어갔습니다.
 - **방어법**: 데이터를 <strong>IPsec이나 <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/">TLS</a></strong>를 통해 통째로 암호화해버리면, 해커가 겉면의 시퀀스 번호를 예측해서 중간에 끼어들어도 내용물 변조 시 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)([무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)) 검사에 걸려 실패합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">중간자 공격 도청 흐름과 통제 조치</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">세션 하이재킹</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">재생 공격</div></div>
-</div>
-</div>
-
-
+```text
+[중간자 공격 도청 흐름과 통제 조치]
+    │
+    ▼
+[세션 하이재킹]
+    │
+    └──▶ [재생 공격]
+```
 
 - **📢 섹션 요약 비유**: [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 하이재킹의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -135,19 +127,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 중간자 공격 도청 흐름과 통제 조치</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 세션 하이재킹</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 재생 공격</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 중간자 공격 도청 흐름과 통제 조치]
+    │
+    ▼
+[현재 개념: 세션 하이재킹]
+    │
+    ├──▶ [확장 A: 재생 공격]
+    └──▶ [확장 B: 예측형 위협 대응]
+```
 
 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 하이재킹는 [중간자 공격](/knowledge-base/studynote/03_network/14_network_security_threats/706_mitm_man_in_the_middle_hsts/) [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 흐름과 통제 조치에서 출발해 현재 메커니즘을 정교화하고, 이후 [재생 공격](/knowledge-base/studynote/03_network/14_network_security_threats/708_replay_attack_timestamp_nonce/)와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

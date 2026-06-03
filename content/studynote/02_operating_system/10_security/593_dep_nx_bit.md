@@ -25,25 +25,30 @@ tags = ["studynote-operating-system"]
 **필요성 및 등장 배경**
 전통적인 폰 노이만 ([Von Neumann](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/124_von_neumann/)) 아키텍처에서는 메모리 상의 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)'와 '[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)(코드)'를 구조적으로 구분하지 않는다. 이러한 아키텍처적 특성 때문에, 공격자가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 입력 영역인 버퍼(Buffer)에 기계어 코드를 밀어 넣고 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 포인터(EIP/[RIP](/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/))를 그곳으로 돌리면 CPU는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 코드로 인식하고 실행해 버리는 치명적인 문제가 존재했다. 
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">폰 노이만 아키텍처의 한계와 NX Bit 도입 배경 구조도</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">기존 메모리 모델 (NX Bit 미적용)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코드 영역</div><div class="kb-diagram-cell">데이터</div><div class="kb-diagram-cell">스택 영역 (버퍼)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ (실행 허용) │ 영역</div><div class="kb-diagram-node">A, B, C, Shellcode ...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── CPU는 스택에 있는 데이터도 기계어 코드로 취급해</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">아무 의심 없이 실행함 (셸코드 실행 성공)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현대 메모리 모델 (NX Bit / DEP 적용)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코드 영역</div><div class="kb-diagram-cell">데이터</div><div class="kb-diagram-cell">스택 영역 (버퍼)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ (r-x) │ (rw-) │ (rw-)</div><div class="kb-diagram-node">Shellcode ...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU가 스택에서 명령어를 인출(Fetch)하려고 시도할 때</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NX Bit = 1 (실행 불가) 확인 → 💥 Segmentation Fault</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────┐
+│      폰 노이만 아키텍처의 한계와 NX Bit 도입 배경 구조도      │
+├───────────────────────────────────────────────────────────────┤
+│                                                               │
+│  [기존 메모리 모델 (NX Bit 미적용)]                           │
+│  ┌────────────┬───────┬──────────────────────────────┐        │
+│  │ 코드 영역   │ 데이터│ 스택 영역 (버퍼)               │     │
+│  │ (실행 허용) │ 영역  │ [ A, B, C, Shellcode ... ]   │       │
+│  └────────────┴───────┴─────────▲────────────────────┘        │
+│       │                             │                         │
+│       └── CPU는 스택에 있는 데이터도 기계어 코드로 취급해     │
+│           아무 의심 없이 실행함 (셸코드 실행 성공)            │
+│                                                               │
+│  [현대 메모리 모델 (NX Bit / DEP 적용)]                       │
+│  ┌────────────┬───────┬──────────────────────────────┐        │
+│  │ 코드 영역   │ 데이터│ 스택 영역 (버퍼)               │     │
+│  │ (r-x)      │ (rw-) │ (rw-)  [ Shellcode ... ]     │        │
+│  └────────────┴───────┴─────────▲────────────────────┘        │
+│                                     │                         │
+│      CPU가 스택에서 명령어를 인출(Fetch)하려고 시도할 때      │
+│      NX Bit = 1 (실행 불가) 확인 → 💥 Segmentation Fault      │
+└───────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 구조도는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 실행 방지 기술이 폰 노이만 아키텍처의 근본적인 맹점을 어떻게 보완하는지를 보여준다. 기존 시스템에서는 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/))이나 힙([Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)) 같은 메모리 영역에 읽기(r), [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(w)뿐만 아니라 실행(x) 권한이 암묵적으로 부여되어 있었다. 공격자는 이 점을 악용하여 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 위장한 [셸코드](/knowledge-base/studynote/02_operating_system/10_security/592_shellcode_injection/)를 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)에 주입했다. [DEP](/knowledge-base/studynote/09_security/04_endpoint_security/336_dep/)/NX Bit가 적용된 현대 OS는 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)의 각 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 속성에 '실행 방지' 플래그를 명시한다. 따라서 변조된 리턴 주소를 타고 실행 흐름이 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)으로 넘어오더라도, CPU 내의 메모리 관리 유닛([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))이 권한 위반을 탐지하고 하드웨어 예외를 발생시켜 프로세스를 안전하게 종료(Kill)해 버린다.
 
@@ -66,31 +71,36 @@ tags = ["studynote-operating-system"]
 
 DEP의 구현은 CPU의 하드웨어 지원([NX Bit](/knowledge-base/studynote/09_security/04_endpoint_security/335_nx_bit/))과 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 관리가 완벽히 맞물려 동작한다. x86 아키텍처에서는 PAE ([Physical Address](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/) Extension) 모드를 활성화하거나 64비트 환경을 사용해야만 64비트 크기의 PTE ([Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) Entry)를 사용할 수 있고, 이 PTE의 최상위 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)(63번째 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/))가 바로 NX [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)로 사용된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">64비트 페이지 테이블 엔트리(PTE) 구조와 NX Bit 검증</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">페이지 테이블 엔트리 (PTE: 64 Bits)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">63 0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NX</div><div class="kb-diagram-cell">Physical Frame</div><div class="kb-diagram-cell">R/</div><div class="kb-diagram-cell">P</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Address (Base)</div><div class="kb-diagram-cell">W</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Present (메모리 존재 여부)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Read/Write (읽기/쓰기 권한)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── NX Bit (1 = 실행 불가, 0 = 실행 가능)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CPU 명령어 인출(Fetch) 파이프라인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PC(EIP/RIP)가 가리키는 주소의 명령어 요청</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MMU가 해당 가상 주소의 PTE 검색</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IF (PTE.NX == 1) {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">발생: Page Fault Exception (Access Violation)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 커널이 프로세스를 SIGSEGV로 강제 종료</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">} ELSE {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">명령어 정상 인출 및 파이프라인 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│      64비트 페이지 테이블 엔트리(PTE) 구조와 NX Bit 검증    │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  [페이지 테이블 엔트리 (PTE: 64 Bits)]                      │
+│   63                                             0          │
+│  ┌──┬─────────────────────────────┬──┬──┬──┬──┬──┐          │
+│  │NX│        Physical Frame       │  │  │  │R/│P │          │
+│  │  │        Address (Base)       │  │  │  │W │  │          │
+│  └──┴─────────────────────────────┴──┴──┴──┴──┴──┘          │
+│   ▲                                         ▲  ▲            │
+│   │                                         │  │            │
+│   │                                         │  └── Present (메모리 존재 여부)
+│   │                                         └── Read/Write (읽기/쓰기 권한)
+│   └── NX Bit (1 = 실행 불가, 0 = 실행 가능)                 │
+│                                                             │
+│  [CPU 명령어 인출(Fetch) 파이프라인]                        │
+│   PC(EIP/RIP)가 가리키는 주소의 명령어 요청                 │
+│             ↓                                               │
+│   MMU가 해당 가상 주소의 PTE 검색                           │
+│             ↓                                               │
+│   IF (PTE.NX == 1) {                                        │
+│       발생: Page Fault Exception (Access Violation)         │
+│       결과: 커널이 프로세스를 SIGSEGV로 강제 종료           │
+│   } ELSE {                                                  │
+│       명령어 정상 인출 및 파이프라인 실행                   │
+│   }                                                         │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 타이밍 및 로직 구조도는 하드웨어 수준에서 [셸코드](/knowledge-base/studynote/02_operating_system/10_security/592_shellcode_injection/)가 어떻게 차단되는지를 보여준다. 프로세스가 메모리를 할당받을 때, OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/))과 힙([Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)) 영역에 대응하는 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 엔트리(PTE)의 63번째 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)([NX Bit](/knowledge-base/studynote/09_security/04_endpoint_security/335_nx_bit/))를 `1`로 세팅한다. 공격자가 [버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/)를 성공시켜 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 포인터(EIP/[RIP](/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/))를 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 영역으로 돌려놓더라도, CPU가 그 주소에서 다음 기계어를 가져오려고(Fetch) 시도하는 순간 MMU가 개입한다. MMU는 PTE를 읽고 NX Bit가 `1`인 것을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하여, 즉각적으로 접근 위반 예외(Access Violation Exception)를 발생시킨다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 이 예외를 가로채어 악의적인 행위로 간주하고 프로세스를 즉사(Kill)시킨다. 
 
@@ -114,28 +124,31 @@ DEP는 구현 방식에 따라 하드웨어 기반과 소프트웨어 기반으�
 
 소프트웨어 [DEP](/knowledge-base/studynote/09_security/04_endpoint_security/336_dep/)(주로 윈도우 환경)는 실제로 메모리 실행을 하드웨어 레벨에서 막는 것이 아니라, [버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/)가 예외 처리 핸들러(SEH, Structured Exception Handler)를 덮어쓰는 기법을 차단하기 위해 유효한 핸들러 목록을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 방식이다. 따라서 진정한 의미의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 실행 방지는 하드웨어 DEP를 지칭한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 영역별 권한 (Permissions) 및 취약성 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">권한 매트릭스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">영역 (Segment)</div><div class="kb-diagram-cell">Read</div><div class="kb-diagram-cell">Write</div><div class="kb-diagram-cell">Execute</div><div class="kb-diagram-cell">보안 취약점</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">.text (코드)</div><div class="kb-diagram-cell">O</div><div class="kb-diagram-cell">X</div><div class="kb-diagram-cell">O</div><div class="kb-diagram-cell">Read-Only로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">덮어쓰기 불가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">.data / .bss</div><div class="kb-diagram-cell">O</div><div class="kb-diagram-cell">O</div><div class="kb-diagram-cell">X(DEP)</div><div class="kb-diagram-cell">데이터 조작,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(전역 변수)</div><div class="kb-diagram-cell">코드 실행 불가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Stack (스택)</div><div class="kb-diagram-cell">O</div><div class="kb-diagram-cell">O</div><div class="kb-diagram-cell">X(DEP)</div><div class="kb-diagram-cell">코드 실행 불가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(셸코드 무력화)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Heap (힙)</div><div class="kb-diagram-cell">O</div><div class="kb-diagram-cell">O</div><div class="kb-diagram-cell">X(DEP)</div><div class="kb-diagram-cell">코드 실행 불가</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">W^X (Write XOR Execute) 보안 정책</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">어떤 메모리 페이지도 '쓰기(Write)'와 '실행(Execute)'</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">권한을 동시에 가질 수 없다는 현대 OS의 강력한 보안 원칙.</div></div>
-<div class="kb-diagram-note">→ Write가 가능하면 Execute 불가, Execute가 가능하면 Write 불가.</div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────┐
+│      메모리 영역별 권한 (Permissions) 및 취약성 비교       │
+├────────────────────────────────────────────────────────────┤
+│                                                            │
+│  [권한 매트릭스]                                           │
+│  영역 (Segment)  │ Read │ Write │ Execute │  보안 취약점   │
+│  ───────────────┼──────┼───────┼─────────┼─────────────────┤
+│  .text (코드)    │  O   │   X   │    O    │  Read-Only로   │
+│                  │      │       │         │  덮어쓰기 불가 │
+│  ───────────────┼──────┼───────┼─────────┼─────────────────┤
+│  .data / .bss    │  O   │   O   │  X(DEP) │  데이터 조작,  │
+│  (전역 변수)     │      │       │         │  코드 실행 불가│
+│  ───────────────┼──────┼───────┼─────────┼─────────────────┤
+│  Stack (스택)    │  O   │   O   │  X(DEP) │  코드 실행 불가│
+│                  │      │       │         │ (셸코드 무력화)│
+│  ───────────────┼──────┼───────┼─────────┼─────────────────┤
+│  Heap (힙)       │  O   │   O   │  X(DEP) │  코드 실행 불가│
+│                                                            │
+│  [W^X (Write XOR Execute) 보안 정책]                       │
+│  어떤 메모리 페이지도 '쓰기(Write)'와 '실행(Execute)'      │
+│  권한을 동시에 가질 수 없다는 현대 OS의 강력한 보안 원칙.  │
+│  → Write가 가능하면 Execute 불가, Execute가 가능하면 Write 불가.
+└────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 표는 DEP의 철학적 기반인 **W^X (Write XOR Execute)** [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 명확하게 보여준다. 공격자가 코드를 삽입하려면 대상 메모리에 반드시 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(W) 권한이 있어야 한다. 그리고 그 코드를 동작시키려면 실행(X) 권한이 필요하다. 과거 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)과 힙은 W와 X를 동시에 허용(RWX)하는 치명적 결함을 가지고 있었다. [DEP](/knowledge-base/studynote/09_security/04_endpoint_security/336_dep/) 적용 후, 코드 영역(.text)은 RX로 제한되어 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)가 불가능해졌고, [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)과 힙은 RW로 제한되어 실행이 불가능해졌다. 교집합(RWX)을 완전히 제거함으로써, [셸코드](/knowledge-base/studynote/02_operating_system/10_security/592_shellcode_injection/) 주입 자체를 무의미하게 만들어버린 가장 우아하고 강력한 아키텍처적 방어 체계다.
 
@@ -195,19 +208,15 @@ DEP는 구현 방식에 따라 하드웨어 기반과 소프트웨어 기반으�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">셸코드 (Shellcode) 인젝션</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">버퍼 오버플로우 방어 하드웨어 기술 (NX Bit / Data Execution Prevention, DEP)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">가상 주소 공간 구조 무작위화 (ASLR)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">카나리 (Canary) / 스택 스매싱 가드 (Stack Smashing Protector)</div></div>
-</div>
-</div>
-
-
+```text
+[셸코드 (Shellcode) 인젝션]
+    │
+    ▼
+[버퍼 오버플로우 방어 하드웨어 기술 (NX Bit / Data Execution Prevention, DEP)]
+    │
+    ├──▶ [가상 주소 공간 구조 무작위화 (ASLR)]
+    └──▶ [카나리 (Canary) / 스택 스매싱 가드 (Stack Smashing Protector)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

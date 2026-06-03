@@ -18,22 +18,20 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6LoWPAN 헤더 압축</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IPv6 헤더: 40바이트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ UDP 헤더: 8바이트 = 48바이트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">802.15.4 MTU: 127바이트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 페이로드: 127 - 48 - MAC헤더 ≈ 50바이트뿐!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">6LoWPAN 압축 후</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IPv6+UDP 헤더: 2~7바이트로 압축</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 페이로드: 100바이트 이상 확보!</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    6LoWPAN 헤더 압축                                  │
+├───────────────────────────────────────────────────────┤
+│  [IPv6 헤더: 40바이트]                                │
+│   + UDP 헤더: 8바이트 = 48바이트                      │
+│   802.15.4 MTU: 127바이트                             │
+│   → 페이로드: 127 - 48 - MAC헤더 ≈ 50바이트뿐!      │
+│                                                       │
+│  [6LoWPAN 압축 후]                                    │
+│   IPv6+UDP 헤더: 2~7바이트로 압축                     │
+│   → 페이로드: 100바이트 이상 확보!                    │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 편지(40바이트 봉투)를 작은 엽서(127바이트 MTU)에 넣으려면 봉투를 접어야 한다. 6LoWPAN이 그 "접기 기술"이다.
 
@@ -91,23 +89,21 @@ tags = ["studynote-ict-convergence"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">IEEE 802.15.4 (2003) — 저전력 WPAN PHY/MAC</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">6LoWPAN RFC 4944 (2007) — IPv6 over 802.15.4 표준</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IPHC RFC 6282 (2011) — 헤더 압축 개선</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Thread 1.0 (2015) — 6LoWPAN + IPv6 메시 네트워크</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: Matter + Thread — 6LoWPAN 기반 스마트 홈 인프라</div></div>
-</div>
-</div>
-
-
+```text
+[IEEE 802.15.4 (2003) — 저전력 WPAN PHY/MAC]
+    │
+    ▼
+[6LoWPAN RFC 4944 (2007) — IPv6 over 802.15.4 표준]
+    │
+    ▼
+[IPHC RFC 6282 (2011) — 헤더 압축 개선]
+    │
+    ▼
+[Thread 1.0 (2015) — 6LoWPAN + IPv6 메시 네트워크]
+    │
+    ▼
+[현재: Matter + Thread — 6LoWPAN 기반 스마트 홈 인프라]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 편지는 **봉투(40바이트)가 너무 커서** 작은 엽서(127바이트)에 안 들어가요.

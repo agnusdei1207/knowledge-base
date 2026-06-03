@@ -29,23 +29,23 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DID/VC/VP 생태계 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">발급기관 (Issuer)</div><div class="kb-diagram-note">— 대학, 병원, 정부</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VC (Verifiable Credential) 발급 + 디지털 서명</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">소유자 (Holder)</div><div class="kb-diagram-note">— 사용자 디바이스 지갑(Wallet)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VC 보관, VP (Verifiable Presentation) 구성</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">검증자 (Verifier)</div><div class="kb-diagram-note">— 서비스 제공자</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VP 서명 검증 + ZKP로 최소 정보 확인</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DID Registry</div><div class="kb-diagram-note">— 블록체인 or 분산 네트워크</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DID Document (공개키, 서비스 엔드포인트) 저장</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│              DID/VC/VP 생태계 구조                               │
+├──────────────────────────────────────────────────────────────────┤
+│  [발급기관 (Issuer)] — 대학, 병원, 정부                         │
+│  VC (Verifiable Credential) 발급 + 디지털 서명                  │
+│         │                                                        │
+│  [소유자 (Holder)] — 사용자 디바이스 지갑(Wallet)               │
+│  VC 보관, VP (Verifiable Presentation) 구성                     │
+│         │                                                        │
+│  [검증자 (Verifier)] — 서비스 제공자                            │
+│  VP 서명 검증 + ZKP로 최소 정보 확인                            │
+│         │                                                        │
+│  [DID Registry] — 블록체인 or 분산 네트워크                     │
+│  DID Document (공개키, 서비스 엔드포인트) 저장                  │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 | 구성 요소                          | 역할                                           | 표준            |
 | :--------------------------------- | :--------------------------------------------- | :-------------- |
@@ -115,25 +115,24 @@ tags = ["studynote-devops-sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">중앙화 신원 (구글, 정부 IdP)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">연합 신원 (SAML, OAuth2, OIDC)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DID (W3C 표준, 분산 식별자)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">VC/VP (검증 가능한 자격증명/발표)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ZKP (선택적 공개, BBS+/zk-SNARK)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">MyData + FIDO2 통합 자기주권 신원 생태계</div>
-</div>
-</div>
-
-
+```text
+중앙화 신원 (구글, 정부 IdP)
+    │
+    ▼
+연합 신원 (SAML, OAuth2, OIDC)
+    │
+    ▼
+DID (W3C 표준, 분산 식별자)
+    │
+    ▼
+VC/VP (검증 가능한 자격증명/발표)
+    │
+    ▼
+ZKP (선택적 공개, BBS+/zk-SNARK)
+    │
+    ▼
+MyData + FIDO2 통합 자기주권 신원 생태계
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

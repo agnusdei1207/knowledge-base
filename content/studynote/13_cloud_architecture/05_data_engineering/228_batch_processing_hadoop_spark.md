@@ -46,24 +46,24 @@ tags = ["studynote-cloud-architecture"]
 
 ### [Apache Spark](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/) 배치 처리 아키텍처
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Apache Spark 배치 아키텍처</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Input Spark Core Output</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">S3/HDFS ──▶ ──▶ S3/DW</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RDBMS ──▶</div><div class="kb-diagram-cell">Driver Program</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CSV/JSON ──▶</div><div class="kb-diagram-cell">(DAG 계획)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">작업 분배</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Worker 1 Worker 2 Worker 3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Executor) (Executor) (Executor)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파티션 1 파티션 2 파티션 3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">병렬 처리 병렬 처리 병렬 처리</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────┐
+│                Apache Spark 배치 아키텍처                  │
+│                                                          │
+│  Input          Spark Core           Output              │
+│  S3/HDFS  ──▶  ┌──────────────┐  ──▶  S3/DW             │
+│  RDBMS    ──▶  │ Driver Program│                        │
+│  CSV/JSON ──▶  │  (DAG 계획)   │                        │
+│                └──────┬───────┘                         │
+│                       │ 작업 분배                         │
+│           ┌───────────┼───────────┐                      │
+│           ▼           ▼           ▼                      │
+│      Worker 1    Worker 2    Worker 3                    │
+│      (Executor)  (Executor)  (Executor)                  │
+│      파티션 1     파티션 2    파티션 3                     │
+│      병렬 처리    병렬 처리   병렬 처리                     │
+└──────────────────────────────────────────────────────────┘
+```
 
 ### 배치 처리 최적화 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
@@ -78,22 +78,18 @@ tags = ["studynote-cloud-architecture"]
 
 ### [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) 아키텍처
 
+```
+[Lambda 아키텍처: 배치 + 실시간 혼합]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Lambda 아키텍처: 배치 + 실시간 혼합</div></div>
-<div class="kb-diagram-note">소스 데이터 ── ──▶ 배치 계층 (Spark/Hadoop) ──▶ 배치 뷰</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(T+1일 처리, 높은 정확도)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서빙 계층</div></div>
-<div class="kb-diagram-tree-item" style="--depth:7">▶ 스피드 계층 (Flink/Spark SS) ──▶ 실시간 뷰 ──▶ 최종 쿼리</div>
-<div class="kb-diagram-note">(즉시 처리, 임시 결과) │ (쿼리 결합)</div>
-<div class="kb-diagram-note">배치 뷰: 모든 과거 데이터 정확한 집계</div>
-<div class="kb-diagram-note">실시간 뷰: 최근 수분 내 근사 집계</div>
-</div>
-</div>
-
-
+소스 데이터 ──┬──▶ 배치 계층 (Spark/Hadoop) ──▶ 배치 뷰
+              │    (T+1일 처리, 높은 정확도)      │
+              │                                  │ 서빙 계층
+              └──▶ 스피드 계층 (Flink/Spark SS) ──▶ 실시간 뷰 ──▶ 최종 쿼리
+                   (즉시 처리, 임시 결과)          │ (쿼리 결합)
+                                                  │
+배치 뷰: 모든 과거 데이터 정확한 집계
+실시간 뷰: 최근 수분 내 근사 집계
+```
 
 📢 **섹션 요약 비유**: Spark의 [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/)(방향성 비순환 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/))는 공장 생산 공정도다. 어떤 작업이 어떤 순서로 실행되어야 하는지 설계도를 그린 뒤, 여러 공장(Worker)이 동시에 각자 담당 파트를 처리한다.
 
@@ -215,21 +211,17 @@ df_daily.write \
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Batch Processing: 대량 데이터 일괄 처리</div>
-<div class="kb-diagram-tree-item" style="--depth:2">MapReduce → Spark (In-Memory)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">스케줄링: Airflow · cron</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Stream Processing: 실시간 이벤트 처리 (Kafka · Flink)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Lambda / Kappa Architecture: 배치 + 스트림 통합</div>
-</div>
-</div>
-
-
+```text
+Batch Processing: 대량 데이터 일괄 처리
+    ├─► MapReduce → Spark (In-Memory)
+    └─► 스케줄링: Airflow · cron
+    │
+    ▼
+Stream Processing: 실시간 이벤트 처리 (Kafka · Flink)
+    │
+    ▼
+Lambda / Kappa Architecture: 배치 + 스트림 통합
+```
 2. 은행이 하루 이자를 계산할 때처럼, 모든 거래가 완전히 끝난 자정에 전체 계좌를 한꺼번에 계산하면 정확하고 빠르다.
 3. Apache Spark는 큰 퍼즐을 여러 명이 동시에 맞추는 것처럼, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 작게 나눠서 많은 컴퓨터가 동시에 처리하므로 혼자 할 때보다 훨씬 빠르다.
 

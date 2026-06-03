@@ -25,18 +25,14 @@ tags = ["studynote-network"]
   2. 회사 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 AWS, 구글 드라이브, 슬랙으로 이사 갔습니다 (성 밖 클라우드).
 - 사람도 성 밖에 있고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 성 밖에 있는데, 직원이 억지로 성(본사 [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/))으로 들어왔다가 다시 클라우드로 나가는 미친 병목(트롬본 효과) 현상으로 인터넷이 다 터져버렸습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SD-WAN 중앙 정책 관리형 브랜치</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SASE 네트워킹/보안 융합 클라우드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">제로 트러스트 구조</div></div>
-</div>
-</div>
-
-
+```text
+[SD-WAN 중앙 정책 관리형 브랜치]
+    │
+    ▼
+[SASE 네트워킹/보안 융합 클라우드]
+    │
+    └──▶ [제로 트러스트 구조]
+```
 
 - **📢 섹션 요약 비유**: [SASE](/knowledge-base/studynote/03_network/14_network_security_threats/740_sase_secure_access_service_edge_sdwan_cloud/) 네트워킹/보안 융합 클라우드는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -48,18 +44,14 @@ tags = ["studynote-network"]
 - **개념**: <strong>가장 빠른 길을 찾아주는 '네트워크 기능(<a href="/knowledge-base/studynote/03_network/16_data_center_cloud/849_sd_wan_software_defined_wide_area_network/">SD-WAN</a> 등)'과 해커를 막아주는 '클라우드 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/503_security_features_design/">보안 기능</a>(<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/481_sse_server_sent_events/">SSE</a>)'을 짬뽕하여, 전 세계 어디서든 사용자와 가장 가까운 클라우드 엣지(Edge)에서 하나의 통합된 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/">SaaS</a>)로 제공하는 보안 네트워킹 아키텍처</strong>입니다.
 - 철학: "보안 장비를 회사에 박아두지 말고, 통신망(클라우드) 자체를 거대한 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)으로 만들어라!"
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SD-WAN 중앙 정책 관리형 브랜치</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SASE 네트워킹/보안 융합 클라우드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">제로 트러스트 구조</div></div>
-</div>
-</div>
-
-
+```text
+[SD-WAN 중앙 정책 관리형 브랜치]
+    │
+    ▼
+[SASE 네트워킹/보안 융합 클라우드]
+    │
+    └──▶ [제로 트러스트 구조]
+```
 
 - **📢 섹션 요약 비유**: [SASE](/knowledge-base/studynote/03_network/14_network_security_threats/740_sase_secure_access_service_edge_sdwan_cloud/) 네트워킹/보안 융합 클라우드의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -129,19 +121,15 @@ SASE는 단일 제품이 아니라 아래 4가지 기술이 구름 위에서 하
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: SD-WAN 중앙 정책 관리형 브랜치</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: SASE 네트워킹/보안 융합 클라우드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 제로 트러스트 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: SD-WAN 중앙 정책 관리형 브랜치]
+    │
+    ▼
+[현재 개념: SASE 네트워킹/보안 융합 클라우드]
+    │
+    ├──▶ [확장 A: 제로 트러스트 구조]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 [SASE](/knowledge-base/studynote/03_network/14_network_security_threats/740_sase_secure_access_service_edge_sdwan_cloud/) 네트워킹/보안 융합 클라우드는 [SD-WAN](/knowledge-base/studynote/03_network/16_data_center_cloud/849_sd_wan_software_defined_wide_area_network/) 중앙 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 관리형 브랜치에서 출발해 현재 메커니즘을 정교화하고, 이후 [제로 트러스트 구조](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1043_ztna_zero_trust_network_access_architecture/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

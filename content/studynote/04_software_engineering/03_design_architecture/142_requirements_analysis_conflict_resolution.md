@@ -18,17 +18,11 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">MoSCoW: Must(필수) &gt; Should(중요) &gt; Could(선택) &gt; Won't(제외)</div>
-<div class="kb-diagram-note">AHP: 쌍대 비교 → 가중치 산출 → 정량적 우선순위</div>
-<div class="kb-diagram-note">Kano: 기본(당연)·성능(비례)·매력(감동) 요구 분류</div>
-</div>
-</div>
-
-
+```text
+MoSCoW: Must(필수) > Should(중요) > Could(선택) > Won't(제외)
+AHP: 쌍대 비교 → 가중치 산출 → 정량적 우선순위
+Kano: 기본(당연)·성능(비례)·매력(감동) 요구 분류
+```
 
 - **📢 섹션 요약 비유**: 갈등 해결은 <strong>예산 편성</strong>이다. 모든 부서가 원하는 것을 다 줄 수 없으므로 우선순위로 배분한다.
 
@@ -52,17 +46,11 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">비공식 협상 (~2000s)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">MoSCoW (DSDM, 1994)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">AHP (Saaty, 1980)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Kano 모델 (1984)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: AI 요구 충돌 탐지 — 자동 상충 분석</div></div>
-</div>
-</div>
-
-
+```text
+[비공식 협상 (~2000s)] → [MoSCoW (DSDM, 1994)]
+    → [AHP (Saaty, 1980)] → [Kano 모델 (1984)]
+    → [현재: AI 요구 충돌 탐지 — 자동 상충 분석]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 갈등 해결은 <strong>예산 나누기</strong>예요. 모든 걸 다 할 수는 없어요.

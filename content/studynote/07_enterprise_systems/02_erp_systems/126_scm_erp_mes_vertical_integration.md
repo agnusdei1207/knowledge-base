@@ -18,22 +18,19 @@ tags = ["studynote-enterprise-systems"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수직 통합 레이어</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SCM</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">공급계획 → 조달</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↕ (계획 연동)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ERP</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">자재소요(MRP) → 작업지시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↕ (ISA-95 인터페이스)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MES</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">품질검사 → 실적보고</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↕ (PLC/SCADA)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현장</div><div class="kb-diagram-note">설비·센서 (OT 레이어)</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    수직 통합 레이어                                    │
+├───────────────────────────────────────────────────────┤
+│  [SCM]   수요예측 → 공급계획 → 조달                  │
+│     ↕ (계획 연동)                                     │
+│  [ERP]   생산계획 → 자재소요(MRP) → 작업지시         │
+│     ↕ (ISA-95 인터페이스)                             │
+│  [MES]   작업실행 → 품질검사 → 실적보고              │
+│     ↕ (PLC/SCADA)                                     │
+│  [현장]  설비·센서 (OT 레이어)                        │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: SCM은 여행 계획, ERP는 여행 일정표, MES는 현지 가이드(실행), 현장은 실제 여행지이다. 모두 연결되어야 좋은 여행이 된다.
 
@@ -93,23 +90,21 @@ tags = ["studynote-enterprise-systems"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">독립 MRP / MES (1990s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ERP + MES 연동 (ISA-95, 2000s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SCM + ERP + MES 수직 통합 (2010s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스마트 팩토리 (IoT + 통합, 2015~)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: AI + 수직 통합 — 자율 공급망·자율 제조</div></div>
-</div>
-</div>
-
-
+```text
+[독립 MRP / MES (1990s)]
+    │
+    ▼
+[ERP + MES 연동 (ISA-95, 2000s)]
+    │
+    ▼
+[SCM + ERP + MES 수직 통합 (2010s)]
+    │
+    ▼
+[스마트 팩토리 (IoT + 통합, 2015~)]
+    │
+    ▼
+[현재: AI + 수직 통합 — 자율 공급망·자율 제조]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. SCM은 **여행 계획**, ERP는 **일정표**, MES는 <strong>현지 가이드</strong>예요.

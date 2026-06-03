@@ -19,21 +19,17 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- 길의 막힘 정도는 "1시간에 차 100대 통과"로 잰다면, 전화선이나 서버 접속의 혼잡도는 어떻게 잴까요? 
+- 길의 병목 정도는 "1시간에 차 100대 통과"로 잰다면, 전화선이나 서버 접속의 혼잡도는 어떻게 잴까요? 
 - 한 명이 전화를 1초만 쓰고 끊는지, 아니면 1시간 내내 잡고 있는지(점유 시간)를 알 길이 없으므로 단순한 '접속 횟수'로는 회선([파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/))이 얼마나 필요한지 계산할 수 없습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">처리량 수식화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Erlang</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">호손율 / 블로킹 확률</div></div>
-</div>
-</div>
-
-
+```text
+[처리량 수식화]
+    │
+    ▼
+[Erlang]
+    │
+    └──▶ [호손율 / 블로킹 확률]
+```
 
 - **📢 섹션 요약 비유**: Erlang는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -44,18 +40,14 @@ tags = ["studynote-network"]
 - **개념**: 덴마크의 통신 공학자 A. K. 에를랑이 창안한, <strong>특정 시간(주로 1시간) 동안 통신 회선(채널) 1개가 사용자들에 의해 100% 꽉 차게 계속 사용되었을 때의 트래픽 밀도(부하량)</strong>를 나타내는 무차원(단위 없는) 측정 단위입니다.
 - **절대 기준치 (1 Erlang)**: <strong>"1개의 전화선을 1시간(60분) 동안 1명(혹은 여러 명)이 단 1초도 쉬지 않고 꽉 채워서 통화한 상태"</strong>를 정확히 1 얼랑(Erlang)이라고 부릅니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">처리량 수식화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Erlang</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">호손율 / 블로킹 확률</div></div>
-</div>
-</div>
-
-
+```text
+[처리량 수식화]
+    │
+    ▼
+[Erlang]
+    │
+    └──▶ [호손율 / 블로킹 확률]
+```
 
 - **📢 섹션 요약 비유**: Erlang의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -123,19 +115,15 @@ Erlang는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_c
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 처리량 수식화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: Erlang</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 호손율 / 블로킹 확률</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 처리량 수식화]
+    │
+    ▼
+[현재 개념: Erlang]
+    │
+    ├──▶ [확장 A: 호손율 / 블로킹 확률]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 Erlang는 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 수식화에서 출발해 현재 메커니즘을 정교화하고, 이후 호손율 / 블로킹 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

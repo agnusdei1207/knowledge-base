@@ -49,29 +49,26 @@ subject to Ax ≤ b
 
 ### 2D LP 예시와 심플렉스 경로
 
+```
+maximize  5x₁ + 4x₂
+s.t.      6x₁ + 4x₂ ≤ 24
+          x₁ + 2x₂ ≤ 6
+          x₁, x₂ ≥ 0
 
+x₂
+ 6 ┤         C(0,3)
+   │        /
+ 3 ┤       /  D(3,1.5)
+   │      / ╱
+   │     /╱
+ 0 └────B(4,0)──────► x₁
+  O(0,0)    4
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">maximize 5x₁ + 4x₂</div>
-<div class="kb-diagram-note">s.t. 6x₁ + 4x₂ ≤ 24</div>
-<div class="kb-diagram-note">x₁ + 2x₂ ≤ 6</div>
-<div class="kb-diagram-note">x₁, x₂ ≥ 0</div>
-<div class="kb-diagram-note">x₂</div>
-<div class="kb-diagram-note">6 C(0,3)</div>
-<div class="kb-diagram-note">3 / D(3,1.5)</div>
-<div class="kb-diagram-note">/ ╱</div>
-<div class="kb-diagram-note">/╱</div>
-<div class="kb-diagram-note">0 B(4,0) ► x₁</div>
-<div class="kb-diagram-note">O(0,0) 4</div>
-<div class="kb-diagram-note">꼭짓점: O(0,0): 목적값=0</div>
-<div class="kb-diagram-note">B(4,0): 목적값=20</div>
-<div class="kb-diagram-note">D(3,1.5): 목적값=21 ← 최적!</div>
-<div class="kb-diagram-note">C(0,3): 목적값=12</div>
-</div>
-</div>
-
-
+꼭짓점:  O(0,0): 목적값=0
+         B(4,0): 목적값=20
+         D(3,1.5): 목적값=21 ← 최적!
+         C(0,3): 목적값=12
+```
 
 심플렉스법: O → B → D (꼭짓점을 따라 이동하며 목적값 증가).
 
@@ -93,17 +90,12 @@ subject to Ax ≤ b
 
 바리어 함수 (Barrier Function) 를 이용해 가능 영역 내부를 통과:
 
+```
+min f(x) s.t. hⱼ(x) ≤ 0
+→ min_{t} f(x) - (1/t)Σⱼ log(-hⱼ(x))   (Logarithmic Barrier)
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">min f(x) s.t. hⱼ(x) ≤ 0</div>
-<div class="kb-diagram-note">→ min_{t} f(x) - (1/t)Σⱼ log(-hⱼ(x)) (Logarithmic Barrier)</div>
-<div class="kb-diagram-note">t → ∞ 이면 원 문제에 수렴</div>
-</div>
-</div>
-
-
+t → ∞ 이면 원 문제에 수렴
+```
 
 카마르카 (Karmarkar) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (1984): 최초 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 시간 LP [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/).
 현대 내점법: O(n³·√n)이지만 실용적으로는 심플렉스와 비교하며 선택.
@@ -156,21 +148,16 @@ s.t. Σⱼ xᵢⱼ - Σⱼ xⱼᵢ = bᵢ  ∀i  (유량 보존)
 
 ### LP 완화와 정수 계획법
 
+```
+IP (정수 계획법):      LP 완화 (LP Relaxation):
+min cᵀx                min cᵀx
+s.t. Ax ≤ b            s.t. Ax ≤ b
+     x ∈ {0,1}ⁿ              0 ≤ x ≤ 1  (정수 제약 완화)
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">IP (정수 계획법): LP 완화 (LP Relaxation):</div>
-<div class="kb-diagram-note">min cᵀx min cᵀx</div>
-<div class="kb-diagram-note">s.t. Ax ≤ b s.t. Ax ≤ b</div>
-<div class="kb-diagram-note">x ∈ {0,1}ⁿ 0 ≤ x ≤ 1 (정수 제약 완화)</div>
-<div class="kb-diagram-note">LP 완화 목적값 ≤ IP 최적값 (하한 경계)</div>
-<div class="kb-diagram-note">LP 해가 정수 → IP 최적해 발견!</div>
-<div class="kb-diagram-note">LP 해가 비정수 → 분기 한정법 적용</div>
-</div>
-</div>
-
-
+LP 완화 목적값 ≤ IP 최적값 (하한 경계)
+LP 해가 정수 → IP 최적해 발견!
+LP 해가 비정수 → 분기 한정법 적용
+```
 
 📢 **섹션 요약 비유**: LP 완화는 "일단 분수도 허용"이다 — 정수만 허용하는 어려운 문제를 분수도 허용하는 쉬운 LP로 먼저 풀어 하한 경계를 얻는다.
 
@@ -182,20 +169,15 @@ s.t. Σⱼ xᵢⱼ - Σⱼ xⱼᵢ = bᵢ  ∀i  (유량 보존)
 
 공장에서 제품 A, B를 생산. 자원: 원자재 100kg, 노동력 80시간
 
+```
+max  5xA + 4xB   (이익 최대화)
+s.t. 2xA + xB  ≤ 100   (원자재)
+     xA  + 2xB ≤ 80    (노동력)
+     xA, xB ≥ 0
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">max 5xA + 4xB (이익 최대화)</div>
-<div class="kb-diagram-note">s.t. 2xA + xB ≤ 100 (원자재)</div>
-<div class="kb-diagram-note">xA + 2xB ≤ 80 (노동력)</div>
-<div class="kb-diagram-note">xA, xB ≥ 0</div>
-<div class="kb-diagram-note">꼭짓점 평가 → 최적 생산량 결정</div>
-<div class="kb-diagram-note">듀얼 변수 → 원자재/노동력 단위당 잠재 가치</div>
-</div>
-</div>
-
-
+꼭짓점 평가 → 최적 생산량 결정
+듀얼 변수 → 원자재/노동력 단위당 잠재 가치
+```
 
 ### LP 솔버 도구
 
@@ -247,23 +229,21 @@ LP는 **20세기 가장 영향력 있는 최적화 기법** 중 하나 — 항�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선형 계획법 (LP, Linear Programming) — 목적함수 + 제약조건</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">심플렉스 법 (Simplex Method) — 꼭짓점 탐색</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">내점법 (Interior Point Method) — 다항 시간 알고리즘</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">정수 계획법 (ILP) / 분기 한정법 (Branch &amp; Bound)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SVM / 포트폴리오 최적화 — 산업 응용</div></div>
-</div>
-</div>
-
-
+```text
+[선형 계획법 (LP, Linear Programming) — 목적함수 + 제약조건]
+    │
+    ▼
+[심플렉스 법 (Simplex Method) — 꼭짓점 탐색]
+    │
+    ▼
+[내점법 (Interior Point Method) — 다항 시간 알고리즘]
+    │
+    ▼
+[정수 계획법 (ILP) / 분기 한정법 (Branch & Bound)]
+    │
+    ▼
+[SVM / 포트폴리오 최적화 — 산업 응용]
+```
 
 LP 최적화 이론이 단순 선형 문제에서 정수 계획과 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 응용으로 확장된 흐름이다.
 

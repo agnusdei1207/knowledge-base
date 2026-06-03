@@ -38,32 +38,46 @@ TCN은 CNN의 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430
 | 수용 영역 (Receptive Field) | L개 레이어, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) k, 최대 dilation d → RF=(k-1)×d_max+1 |
 | 잔차 연결 (Residual Connection) | [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) 방지, 깊은 TCN 학습 |
 
+```
+[팽창 인과 합성곱 (Dilation=1,2,4)]
 
+입력 시계열: t₁ t₂ t₃ t₄ t₅ t₆ t₇ t₈
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">팽창 인과 합성곱 (Dilation=1,2,4)</div></div>
-<div class="kb-diagram-note">입력 시계열: t₁ t₂ t₃ t₄ t₅ t₆ t₇ t₈</div>
-<div class="kb-diagram-note">Layer 1 (dilation=1):</div>
-<div class="kb-diagram-note">o o o o o o o o ← 커널 크기 3, 매 1칸</div>
-<div class="kb-diagram-note">Layer 2 (dilation=2):</div>
-<div class="kb-diagram-note">o o o o ← 매 2칸 건너뜀</div>
-<div class="kb-diagram-note">Layer 3 (dilation=4):</div>
-<div class="kb-diagram-note">o o ← 매 4칸 건너뜀</div>
-<div class="kb-diagram-note">수용 영역: (3-1)×4 + 1 = 9 타임스텝</div>
-<div class="kb-diagram-note">3개 레이어만으로 9 타임스텝 역사 참조!</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">TCN 전체 구조</div></div>
-<div class="kb-diagram-note">입력 시퀀스</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Dilated Causal Conv (d=1)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ 배치 정규화 + ReLU</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Dilated Causal Conv (d=2)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Dilated Causal Conv (d=4)</div></div>
-<div class="kb-diagram-note">Residual Block 반복</div>
-<div class="kb-diagram-note">예측 출력</div>
-</div>
-</div>
+Layer 1 (dilation=1):
+  │ │ │ │ │ │ │ │
+  o o o o o o o o  ← 커널 크기 3, 매 1칸
 
+Layer 2 (dilation=2):
+  │   │   │   │
+  o   o   o   o  ← 매 2칸 건너뜀
 
+Layer 3 (dilation=4):
+  │       │
+  o       o  ← 매 4칸 건너뜀
+
+수용 영역: (3-1)×4 + 1 = 9 타임스텝
+3개 레이어만으로 9 타임스텝 역사 참조!
+
+[TCN 전체 구조]
+입력 시퀀스
+     │
+┌────▼────────────────────────────┐
+│  Dilated Causal Conv (d=1)       │
+│  + 배치 정규화 + ReLU            │
+└────────────────────────────────┘
+     │
+┌────▼────────────────────────────┐
+│  Dilated Causal Conv (d=2)       │
+└────────────────────────────────┘
+     │
+┌────▼────────────────────────────┐
+│  Dilated Causal Conv (d=4)       │
+└────────────────────────────────┘
+     │
+   Residual Block 반복
+     │
+   예측 출력
+```
 
 <strong>시계열 <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/">Transformer</a> 모델 비교</strong>
 
@@ -137,29 +151,27 @@ TCN과 [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywo
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">통계 모델: ARIMA · SARIMA · Prophet</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">RNN / LSTM / GRU — 순차적 시계열 처리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">TCN (Temporal Convolutional Network)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">인과적 합성곱 (미래 정보 차단)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">팽창 합성곱 (Dilated Convolution) — 수용 영역 확장</div>
-<div class="kb-diagram-tree-item" style="--depth:2">잔차 연결 (Residual Connection)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Transformer 기반 시계열</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Informer (희소 Attention)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Autoformer (자기상관 분해)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">PatchTST (패치 기반)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Foundation Model for Time Series (TimesFM, Chronos)</div>
-</div>
-</div>
-
-
+```text
+통계 모델: ARIMA · SARIMA · Prophet
+    │
+    ▼
+RNN / LSTM / GRU — 순차적 시계열 처리
+    │
+    ▼
+TCN (Temporal Convolutional Network)
+    ├─► 인과적 합성곱 (미래 정보 차단)
+    ├─► 팽창 합성곱 (Dilated Convolution) — 수용 영역 확장
+    └─► 잔차 연결 (Residual Connection)
+    │
+    ▼
+Transformer 기반 시계열
+    ├─► Informer (희소 Attention)
+    ├─► Autoformer (자기상관 분해)
+    └─► PatchTST (패치 기반)
+    │
+    ▼
+Foundation Model for Time Series (TimesFM, Chronos)
+```
 
 ---
 

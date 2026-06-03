@@ -37,24 +37,29 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 [세그먼트 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/365_segment_table/)이 단순 조회표가 아니라, <strong>번호 검사 → 엔트리 조회 → 경계/권한 검사 → <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/">물리 주소</a> 산출</strong>을 담당하는 흐름을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">세그먼트 테이블 기반 주소 변환 및 보호 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">논리 주소 = (Segment s, Offset d)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Trap</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">세그먼트 테이블 엔트리 읽기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Base</div><div class="kb-diagram-cell">Limit</div><div class="kb-diagram-cell">Prot</div><div class="kb-diagram-cell">Valid</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Segmentation Fault</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">4</div><div class="kb-diagram-note">Physical Address = Base + d</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                 세그먼트 테이블 기반 주소 변환 및 보호 흐름                 │
+├──────────────────────────────────────────────────────────────────────────────┤
+│ 논리 주소 = (Segment s, Offset d)                                           │
+│                                                                              │
+│   CPU                                                                        │
+│    │                                                                         │
+│    ▼                                                                         │
+│ [1] s < STLR ? ── 아니오 ───────────────▶ Trap                               │
+│    │ 예                                                                     │
+│    ▼                                                                         │
+│ [2] STBR + s × 엔트리크기 ─────────────▶ 세그먼트 테이블 엔트리 읽기         │
+│                                          ┌──────────────────────────────┐    │
+│                                          │ Base │ Limit │ Prot │ Valid │    │
+│                                          └──────────────────────────────┘    │
+│    ▼                                                                         │
+│ [3] d < Limit && 권한 허용 ? ─ 아니오 ─▶ Segmentation Fault                 │
+│    │ 예                                                                     │
+│    ▼                                                                         │
+│ [4] Physical Address = Base + d                                             │
+└──────────────────────────────────────────────────────────────────────────────┘
+```
 
 | 엔트리 필드 | 의미 | 설계상 중요 포인트 |
 | :-- | :-- | :-- |
@@ -139,26 +144,26 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단일 Base/Limit 보호</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">세그멘테이션 (Segmentation)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">세그먼트 테이블 (Segment Table)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 보호 비트 · 공유 세그먼트</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">TLB (Translation Lookaside Buffer) · 디스크립터 캐싱</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">페이징과 세그멘테이션 혼용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">현대 메모리 보호 모델의 권한 분리 사고</div>
-</div>
-</div>
-
-
+```text
+단일 Base/Limit 보호
+    │
+    ▼
+세그멘테이션 (Segmentation)
+    │
+    ▼
+세그먼트 테이블 (Segment Table)
+    │
+    ├──▶ 보호 비트 · 공유 세그먼트
+    │
+    ▼
+TLB (Translation Lookaside Buffer) · 디스크립터 캐싱
+    │
+    ▼
+페이징과 세그멘테이션 혼용
+    │
+    ▼
+현대 메모리 보호 모델의 권한 분리 사고
+```
 
 이 흐름은 "단일 경계 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) → 다중 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 구역 관리 → [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 보완 → 하이브리드 메모리 관리"로 발전하는 방향을 보여준다.
 

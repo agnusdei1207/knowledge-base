@@ -35,24 +35,28 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 수를 늘리는 동시에, 어디서 병목이 생길 수 있는지를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">switch fabric는 fan-out과 local routing을 주지만 uplink는 유한</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Host / Root Complex x16</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Upstream Port</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PCIe Switch Fabric</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">crossbar + buffers + arbitration</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Down x16</div><div class="kb-diagram-cell">Down x16</div><div class="kb-diagram-cell">Down x4</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GPU0 ◀── P2P ─▶ GPU1 NVMe SSD</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">multi-host</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">local switching</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">aggregate hot traffic &gt; x16 uplink → oversubscription bottleneck</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│      switch fabric는 fan-out과 local routing을 주지만 uplink는 유한 │
+├──────────────────────────────────────────────────────────────────────┤
+│ Host / Root Complex  x16                                             │
+│          │                                                           │
+│          ▼                                                           │
+│   [ Upstream Port ]                                                  │
+│          │                                                           │
+│   ┌──────┴───────────────────────────────────────────────────────┐    │
+│   │                    PCIe Switch Fabric                         │    │
+│   │  crossbar + buffers + arbitration                             │    │
+│   ├───────────────┬───────────────────┬───────────────────────────┤    │
+│   │ Down x16      │ Down x16          │ Down x4                   │    │
+│   ▼               ▼                   ▼                           │    │
+│ GPU0  ◀── P2P ─▶  GPU1             NVMe SSD                       │    │
+│   │                                                    multi-host │    │
+│   └───────────────────────── local switching ─────────────────────┘    │
+│                                                                      │
+│ aggregate hot traffic > x16 uplink  → oversubscription bottleneck    │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 | 구성 요소 | 역할 | 설계 시 보는 포인트 |
 | :--- | :--- | :--- |
@@ -135,24 +139,22 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">직접 연결 PCIe 장치</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">lane bifurcation 기반 정적 분기</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">PCIe 스위치 패브릭</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ P2P DMA</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ 멀티호스트 / NTB</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ JBOF · GPU expansion chassis</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CXL switch · composable infrastructure · 외부 패브릭 확장</div>
-</div>
-</div>
-
-
+```text
+직접 연결 PCIe 장치
+        │
+        ▼
+lane bifurcation 기반 정적 분기
+        │
+        ▼
+PCIe 스위치 패브릭
+        │
+        ├─▶ P2P DMA
+        ├─▶ 멀티호스트 / NTB
+        ├─▶ JBOF · GPU expansion chassis
+        │
+        ▼
+CXL switch · composable infrastructure · 외부 패브릭 확장
+```
 
 이 흐름은 "[포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 나누는 수준"에서 출발해, "장치 간 경로와 자원 풀을 설계하는 수준"으로 진화하는 과정을 보여준다.
 

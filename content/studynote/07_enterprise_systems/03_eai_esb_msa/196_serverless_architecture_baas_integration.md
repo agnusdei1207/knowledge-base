@@ -43,17 +43,15 @@ tags = ["studynote-enterprise"]
 
 아래 그림은 전형적인 엔터프라이즈 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 통합 경로를 요약한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Serverless integration: managed backend + event-driven functions</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Web/Mobile -&gt; API Gateway -&gt; Auth(BaaS) -&gt; FaaS -&gt; DB/Queue/SaaS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Object Storage/Event Bus Logs/Tracing ─</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Serverless integration: managed backend + event-driven functions    │
+├──────────────────────────────────────────────────────────────────────┤
+│ Web/Mobile -> API Gateway -> Auth(BaaS) -> FaaS -> DB/Queue/SaaS   │
+│      │                             │                    │           │
+│      └──── Object Storage/Event Bus┴──── Logs/Tracing ─┘           │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조의 핵심 원리는 "필요할 때만 실행하고, 나머지는 관리형 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 위임한다"는 것이다. 예를 들어 사용자가 이미지를 업로드하면 스토리지 이벤트가 발생하고, FaaS가 썸네일을 만든 뒤 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)를 갱신하며, 알림 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 후속 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지를 발송한다. 각 단계는 느슨하게 연결되며, 요청량이 증가하면 플랫폼이 동시 실행 수를 자동 확장한다.
 
@@ -125,23 +123,21 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">직접 서버 구축</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">관리형 인증 · 저장소 (BaaS)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">이벤트 기반 함수 실행 (FaaS)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">API Gateway · Event Bus 연계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">하이브리드 서버리스 아키텍처</div>
-</div>
-</div>
-
-
+```text
+직접 서버 구축
+    │
+    ▼
+관리형 인증 · 저장소 (BaaS)
+    │
+    ▼
+이벤트 기반 함수 실행 (FaaS)
+    │
+    ▼
+API Gateway · Event Bus 연계
+    │
+    ▼
+하이브리드 서버리스 아키텍처
+```
 
 이 흐름은 "서버 운영 축소 → 관리형 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 활용 → 이벤트 중심 조합 → 혼합형 최적화"로 발전하는 과정을 보여준다.
 

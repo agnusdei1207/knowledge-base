@@ -25,20 +25,20 @@ CPU 어피니티(CPU [Affinity](/knowledge-base/studynote/02_operating_system/11
 
 > **비유:** 아이가 항상 앉던 자리를 선호하는 것(Soft)과, 담임 선생님이 특정 자리를 지정하는 것(Hard)의 차이와 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">CPU Affinity Overview</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로세스 A CPU Mask: 0,1,2,3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로세스 B CPU Mask: 0,1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로세스 C CPU Mask: 2,3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core 0</div><div class="kb-diagram-cell">Core 1</div><div class="kb-diagram-cell">Core 2</div><div class="kb-diagram-cell">Core 3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A,B</div><div class="kb-diagram-cell">A,B</div><div class="kb-diagram-cell">A,C</div><div class="kb-diagram-cell">A,C</div></div>
-</div>
-</div>
-
-
+```
+┌─────────── CPU Affinity Overview ────────────┐
+│                                                │
+│  프로세스 A ──── CPU Mask: 0,1,2,3            │
+│  프로세스 B ──── CPU Mask: 0,1                │
+│  프로세스 C ──── CPU Mask: 2,3                │
+│                                                │
+│  ┌──────┐ ┌──────┐ ┌──────┐ ┌──────┐         │
+│  │Core 0│ │Core 1│ │Core 2│ │Core 3│         │
+│  │ A,B  │ │ A,B  │ │ A,C  │ │ A,C  │         │
+│  └──────┘ └──────┘ └──────┘ └──────┘         │
+│                                                │
+└────────────────────────────────────────────────┘
+```
 
 ### 2. 소프트 어피니티 (Soft [Affinity](/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/))
 
@@ -47,21 +47,19 @@ CPU 어피니티(CPU [Affinity](/knowledge-base/studynote/02_operating_system/11
 - **구현 방식**: 스케줄러의 마이그레이션 저항도(migration [resistance](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)
 - **목표**: 캐시 지역성 유지와 부하 분산의 균형
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Soft Affinity 동작</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간 T1: Thread X ──&gt; Core 0 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간 T2: Thread X ──&gt; Core 0 선호</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(OS가 Core 0에 머무르게 함)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간 T3: Core 0 과부하 시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Thread X ──&gt; Core 2 이동 (허용)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">특징: 선호하지만 강제하지 않음</div></div>
-</div>
-</div>
-
-
+```
+┌────────── Soft Affinity 동작 ──────────┐
+│                                          │
+│  시간 T1: Thread X ──> Core 0 실행      │
+│  시간 T2: Thread X ──> Core 0 선호      │
+│           (OS가 Core 0에 머무르게 함)     │
+│  시간 T3: Core 0 과부하 시               │
+│           Thread X ──> Core 2 이동 (허용)│
+│                                          │
+│  특징: 선호하지만 강제하지 않음           │
+│                                          │
+└──────────────────────────────────────────┘
+```
 
 ### 3. 하드 어피니티 (Hard [Affinity](/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/))
 
@@ -70,20 +68,21 @@ CPU 어피니티(CPU [Affinity](/knowledge-base/studynote/02_operating_system/11
 - **구현 방식**: `sched_setaffinity()` 시스템 콜
 - **목표**: 결정적 실행, 실시간 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 보장
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Hard Affinity 동작</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">설정: sched_setaffinity(pid, mask=0x03)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; Core 0, 1만 허용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core 0</div><div class="kb-diagram-cell">Core 1</div><div class="kb-diagram-cell">Core 2</div><div class="kb-diagram-cell">Core 3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OK</div><div class="kb-diagram-cell">OK</div><div class="kb-diagram-cell">X</div><div class="kb-diagram-cell">X</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스케줤러가 Core 2,3으로 이동 불가</div></div>
-</div>
-</div>
-
-
+```
+┌────────── Hard Affinity 동작 ───────────┐
+│                                           │
+│  설정: sched_setaffinity(pid, mask=0x03) │
+│        -> Core 0, 1만 허용                │
+│                                           │
+│  ┌──────┐ ┌──────┐ ┌──────┐ ┌──────┐    │
+│  │Core 0│ │Core 1│ │Core 2│ │Core 3│    │
+│  │  OK  │ │  OK  │ │  X   │ │  X   │    │
+│  └──────┘ └──────┘ └──────┘ └──────┘    │
+│                                           │
+│  스케줤러가 Core 2,3으로 이동 불가        │
+│                                           │
+└───────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 복잡한 창고에서 필요한 물건을 찾기 위해 먼저 구역과 표지판을 세우는 것과 같다.
 
@@ -95,28 +94,32 @@ CPU 어피니티(CPU [Affinity](/knowledge-base/studynote/02_operating_system/11
 
 CPU 어피니티 마스크는 각 비트가 코어를 나타내는 정수 값이다.
 
+```
+┌────────────── CPU Mask Bit Layout ──────────────┐
+│                                                   │
+│  Bit Position:  7   6   5   4   3   2   1   0   │
+│  Core Number:   7   6   5   4   3   2   1   0   │
+│                                                   │
+│  Mask = 0xFF (11111111): Core 0~7 모두 허용      │
+│  Mask = 0x03 (00000011): Core 0, 1만 허용        │
+│  Mask = 0x0A (00001010): Core 1, 3만 허용        │
+│  Mask = 0x55 (01010101): Core 0,2,4,6만 허용     │
+│                                                   │
+└───────────────────────────────────────────────────┘
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">CPU Mask Bit Layout</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Bit Position: 7 6 5 4 3 2 1 0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core Number: 7 6 5 4 3 2 1 0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mask = 0xFF (11111111): Core 0~7 모두 허용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mask = 0x03 (00000011): Core 0, 1만 허용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mask = 0x0A (00001010): Core 1, 3만 허용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mask = 0x55 (01010101): Core 0,2,4,6만 허용</div></div>
-<div class="kb-diagram-note">실제 적용 예</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">8코어 시스템, 4개 워커 스레드:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Worker-0: mask=0x01 -&gt; Core 0 전용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Worker-1: mask=0x02 -&gt; Core 1 전용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Worker-2: mask=0x04 -&gt; Core 2 전용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Worker-3: mask=0x08 -&gt; Core 3 전용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core 4~7: OS/시스템 예약</div></div>
-</div>
-</div>
-
-
+┌─────────── 실제 적용 예 ─────────────┐
+│                                       │
+│  8코어 시스템, 4개 워커 스레드:       │
+│                                       │
+│  Worker-0: mask=0x01 -> Core 0 전용   │
+│  Worker-1: mask=0x02 -> Core 1 전용   │
+│  Worker-2: mask=0x04 -> Core 2 전용   │
+│  Worker-3: mask=0x08 -> Core 3 전용   │
+│                                       │
+│  Core 4~7: OS/시스템 예약             │
+│                                       │
+└───────────────────────────────────────┘
+```
 
 ### 2. 리눅스에서의 확인과 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)
 
@@ -139,26 +142,25 @@ echo "0-1" > /sys/fs/cgroup/cpuset/mygroup/cpuset.cpus
 
 ### 1. 과도한 고정의 문제
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">하드 어피니티 로드 불균형</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BEFORE (정균분산):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core 0: ████░░░░░░ 40%</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core 1: ████░░░░░░ 40%</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core 2: ████░░░░░░ 40%</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core 3: ████░░░░░░ 40%</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AFTER (하드 어피니티 과도한 적용):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core 0: ██████████ 100% (과부하!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core 1: ██░░░░░░░░ 20%</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core 2: ░░░░░░░░░░ 0% (유휴)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core 3: ░░░░░░░░░░ 0% (유휴)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">총 처리량 저하 발생</div></div>
-</div>
-</div>
-
-
+```
+┌────── 하드 어피니티 로드 불균형 ──────┐
+│                                        │
+│  BEFORE (정균분산):                     │
+│  Core 0: ████░░░░░░  40%              │
+│  Core 1: ████░░░░░░  40%              │
+│  Core 2: ████░░░░░░  40%              │
+│  Core 3: ████░░░░░░  40%              │
+│                                        │
+│  AFTER (하드 어피니티 과도한 적용):     │
+│  Core 0: ██████████ 100% (과부하!)    │
+│  Core 1: ██░░░░░░░░  20%              │
+│  Core 2: ░░░░░░░░░░   0% (유휴)      │
+│  Core 3: ░░░░░░░░░░   0% (유휴)      │
+│                                        │
+│  총 처리량 저하 발생                    │
+│                                        │
+└────────────────────────────────────────┘
+```
 
 ### 2. 위험 요소
 
@@ -173,22 +175,26 @@ echo "0-1" > /sys/fs/cgroup/cpuset/mygroup/cpuset.cpus
 
 ### 1. [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 시스템에서의 어피니티
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">NUMA Node + CPU Affinity</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NUMA Node 0 NUMA Node 1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Local Mem 0</div><div class="kb-diagram-cell">Local Mem 1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(빠름)</div><div class="kb-diagram-cell">(빠름)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C0 C1 C2 C3</div><div class="kb-diagram-cell">C4 C5 C6 C7</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">QPI/Interconnect</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(원격 메모리 접근: 느림)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최적: 스레드와 메모리를 같은 노드에 고정</div></div>
-</div>
-</div>
-
-
+```
+┌──────────── NUMA Node + CPU Affinity ────────────┐
+│                                                     │
+│  NUMA Node 0              NUMA Node 1               │
+│  ┌─────────────┐        ┌─────────────┐           │
+│  │ Local Mem 0 │        │ Local Mem 1 │           │
+│  │  (빠름)     │        │  (빠름)     │           │
+│  └──────┬──────┘        └──────┬──────┘           │
+│         │                        │                   │
+│  ┌──────┴──────┐        ┌──────┴──────┐           │
+│  │C0  C1  C2  C3│        │C4  C5  C6  C7│           │
+│  └─────────────┘        └─────────────┘           │
+│         │                        │                   │
+│         └──── QPI/Interconnect ───┘                 │
+│              (원격 메모리 접근: 느림)                 │
+│                                                     │
+│  최적: 스레드와 메모리를 같은 노드에 고정            │
+│                                                     │
+└─────────────────────────────────────────────────────┘
+```
 
 ### 2. [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 인식 어피니티 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)
 
@@ -218,39 +224,33 @@ echo "0-1" > /sys/fs/cgroup/cpuset/mygroup/cpuset.cpus
 
 ## Ⅴ. 기대효과 및 결론
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">CPU 친화성 Soft/Hard Affinity</div>
-<div class="kb-diagram-tree-item" style="--depth:0">핵심 개념</div>
-<div class="kb-diagram-note">── CPU 어피니티 (코어 집합 지정)</div>
-<div class="kb-diagram-note">── 소프트 어피니티 (OS 선호 정책)</div>
-<div class="kb-diagram-note">── 하드 어피니티 (강제 바인딩)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">CPU 마스크 비트맵</div>
-<div class="kb-diagram-note">── 각 비트가 코어를 표현</div>
-<div class="kb-diagram-note">── sched_setaffinity()로 설정</div>
-<div class="kb-diagram-note">── taskset으로 명령행 제어</div>
-<div class="kb-diagram-tree-item" style="--depth:0">소프트 어피니티 특징</div>
-<div class="kb-diagram-note">── 이전 코어 선호 (캐시 지역성)</div>
-<div class="kb-diagram-note">── 마이그레이션 허용 (유연성)</div>
-<div class="kb-diagram-note">── 부하 분산 자동 조정</div>
-<div class="kb-diagram-tree-item" style="--depth:0">하드 어피니티 특징</div>
-<div class="kb-diagram-note">── 지정 코어 외 실행 불가</div>
-<div class="kb-diagram-note">── 결정적 실행 보장</div>
-<div class="kb-diagram-note">── 실시간 시스템에 적합</div>
-<div class="kb-diagram-tree-item" style="--depth:0">위험 및 주의사항</div>
-<div class="kb-diagram-note">── 로드 불균형 (특정 코어 과부하)</div>
-<div class="kb-diagram-note">── 오버커밋 (코어 수 초과 스레드)</div>
-<div class="kb-diagram-note">── 유연성 상실 (부하 변화 미대응)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">NUMA 관계</div>
-<div class="kb-diagram-tree-item" style="--depth:2">같은 노드에 스레드+메모리 배치</div>
-<div class="kb-diagram-tree-item" style="--depth:2">numactl로 노드 단위 제어</div>
-<div class="kb-diagram-tree-item" style="--depth:2">원격 메모리 접근 지연 최소화</div>
-</div>
-</div>
-
-
+```
+CPU 친화성 Soft/Hard Affinity
+├── 핵심 개념
+│   ├── CPU 어피니티 (코어 집합 지정)
+│   ├── 소프트 어피니티 (OS 선호 정책)
+│   └── 하드 어피니티 (강제 바인딩)
+├── CPU 마스크 비트맵
+│   ├── 각 비트가 코어를 표현
+│   ├── sched_setaffinity()로 설정
+│   └── taskset으로 명령행 제어
+├── 소프트 어피니티 특징
+│   ├── 이전 코어 선호 (캐시 지역성)
+│   ├── 마이그레이션 허용 (유연성)
+│   └── 부하 분산 자동 조정
+├── 하드 어피니티 특징
+│   ├── 지정 코어 외 실행 불가
+│   ├── 결정적 실행 보장
+│   └── 실시간 시스템에 적합
+├── 위험 및 주의사항
+│   ├── 로드 불균형 (특정 코어 과부하)
+│   ├── 오버커밋 (코어 수 초과 스레드)
+│   └── 유연성 상실 (부하 변화 미대응)
+└── NUMA 관계
+    ├── 같은 노드에 스레드+메모리 배치
+    ├── numactl로 노드 단위 제어
+    └── 원격 메모리 접근 지연 최소화
+```
 
 ---
 
@@ -273,19 +273,15 @@ echo "0-1" > /sys/fs/cgroup/cpuset/mygroup/cpuset.cpus
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">컨텍스트 스위칭 최소화를 위한 스레드 고정 (Thread Affinity/Pinning)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CPU 친화성 (CPU Affinity)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NUMA-인식 스레드 스케줄링</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">실시간 프로세스 (Real-time Process)</div></div>
-</div>
-</div>
-
-
+```text
+[컨텍스트 스위칭 최소화를 위한 스레드 고정 (Thread Affinity/Pinning)]
+    │
+    ▼
+[CPU 친화성 (CPU Affinity)]
+    │
+    ├──▶ [NUMA-인식 스레드 스케줄링]
+    └──▶ [실시간 프로세스 (Real-time Process)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

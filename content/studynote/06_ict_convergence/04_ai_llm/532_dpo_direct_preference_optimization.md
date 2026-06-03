@@ -38,23 +38,26 @@ RLHF 3단계:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RLHF vs DPO 비교</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RLHF DPO</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">선호 데이터</div><div class="kb-diagram-cell">선호 데이터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(chosen, rejected)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보상 모델</div><div class="kb-diagram-cell">▼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(별도훈련)</div><div class="kb-diagram-cell">DPO 손실 함수</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Bradley-Terry 내재화)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PPO 강화</div><div class="kb-diagram-cell">▼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">학습</div><div class="kb-diagram-cell">LLM 직접 업데이트</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────┐
+│              RLHF vs DPO 비교                            │
+│                                                         │
+│  RLHF                          DPO                      │
+│  ┌─────────┐                   ┌─────────────────────┐  │
+│  │선호 데이터│                   │선호 데이터            │  │
+│  └────┬────┘                   │(chosen, rejected)   │  │
+│       │                        └──────────┬──────────┘  │
+│  ┌────▼────┐                              │             │
+│  │보상 모델 │                   ┌──────────▼──────────┐  │
+│  │(별도훈련)│                   │DPO 손실 함수         │  │
+│  └────┬────┘                   │(Bradley-Terry 내재화)│  │
+│       │                        └──────────┬──────────┘  │
+│  ┌────▼────┐                              │             │
+│  │PPO 강화 │                   ┌──────────▼──────────┐  │
+│  │학습     │                   │LLM 직접 업데이트     │  │
+│  └─────────┘                   └─────────────────────┘  │
+└─────────────────────────────────────────────────────────┘
+```
 
 <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/270_embedding_model/">DPO</a> 핵심 수식</strong>
 
@@ -114,7 +117,7 @@ $$\mathcal{L}_{[DPO](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/270_
 
 <strong>학습 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 확보 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>
 
-1. **크라우드소싱**: Prolific/MTurk로 선호 쌍 수집 (비용 )
+1. **크라우드소싱**: Prolific/MTurk로 선호 쌍 수집 (비용 고)
 2. <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 피드백(<a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/269_vector_database/">RLAIF</a>)</strong>: GPT-4로 선호 레이블 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) — [Constitutional AI](/knowledge-base/studynote/09_security/19_ai_advanced_security/966_constitutional_ai/)
 3. <strong>Reject <a href="/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/">Sampling</a></strong>: SFT 모델로 다수 응답 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) → 자동 선별
 

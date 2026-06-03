@@ -21,19 +21,18 @@ tags = ["studynote-bigdata"]
 
 ### 1. Flink [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 계층 구조
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">사용자 편의성 ↑ ↑ 표현력</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SQL (문자열 SQL 쿼리)</div><div class="kb-diagram-cell">← 가장 선언적</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Table API (Java/Scala/Python DSL)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DataStream / DataSet API</div><div class="kb-diagram-cell">← 세밀한 제어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Stateful Functions (저수준)</div><div class="kb-diagram-cell">← 가장 강력한 제어</div></div>
-</div>
-</div>
-
-
+```
+사용자 편의성 ↑          ↑ 표현력
+┌────────────────────────────────────────┐
+│  SQL (문자열 SQL 쿼리)                  │  ← 가장 선언적
+├────────────────────────────────────────┤
+│  Table API (Java/Scala/Python DSL)     │
+├────────────────────────────────────────┤
+│  DataStream / DataSet API              │  ← 세밀한 제어
+├────────────────────────────────────────┤
+│  Stateful Functions (저수준)           │  ← 가장 강력한 제어
+└────────────────────────────────────────┘
+```
 
 ### 2. 각 API의 사용 상황
 
@@ -221,23 +220,21 @@ Flink의 DataStream API와 Table [API](/knowledge-base/studynote/02_operating_sy
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Flink RDD</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DataStream API</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Table API/SQL</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">통합 스트리밍</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Kappa 아키텍처</div></div>
-</div>
-</div>
-
-
+```text
+[Flink RDD]
+    │
+    ▼
+[DataStream API]
+    │
+    ▼
+[Table API/SQL]
+    │
+    ▼
+[통합 스트리밍]
+    │
+    ▼
+[Kappa 아키텍처]
+```
 
 Flink의 스트리밍 API가 저수준 RDD에서 고수준 SQL까지 통합되며 [카파 아키텍처](/knowledge-base/studynote/16_bigdata/04_streaming/096_kappa_architecture/)로 수렴하는 흐름이다.
 

@@ -62,28 +62,30 @@ tags = ["studynote-operating-system"]
 
 현대 리눅스 환경에서 `pthread_create()`를 호출할 때 벌어지는 일이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일대일(1:1) 커널 수준 스레드 동작 원리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">User Space</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 개발자가 <code>pthread_create()</code> 호출</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(시스템 콜: clone() 실행)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Kernel Space (Ring 0)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. TCB (task_struct) 할당:</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">커널이 완전히 새로운</div><div class="kb-diagram-node">스레드 제어 블록(TCB)</div><div class="kb-diagram-note">을 생성한다.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 메모리(CR3) 공유 매핑:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">새로 만든 TCB의 메모리 포인터(Page Table)를 부모 프로세스의 것과</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">100% 동일하게 덮어쓴다! (즉, 메모리 공간은 공유함)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 커널 스케줄러 큐 진입:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이 새 스레드는 부모와는 완전히 독립된 자격으로 Ready 큐에 등록된다.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이제 커널은 부모 스레드를 Core 1에, 자식 스레드를 Core 2에</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동시에(Parallel) 밀어 넣을 수 있다.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 일대일(1:1) 커널 수준 스레드 동작 원리                 │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │  [User Space]                                                     │
+  │   - 개발자가 `pthread_create()` 호출                               │
+  │        │ (시스템 콜: clone() 실행)                                 │
+  │  ======▼==========================================================│
+  │  [Kernel Space (Ring 0)]                                          │
+  │                                                                   │
+  │   1. TCB (task_struct) 할당:                                      │
+  │      커널이 완전히 새로운 [스레드 제어 블록(TCB)]을 생성한다.              │
+  │                                                                   │
+  │   2. 메모리(CR3) 공유 매핑:                                         │
+  │      새로 만든 TCB의 메모리 포인터(Page Table)를 부모 프로세스의 것과      │
+  │      100% 동일하게 덮어쓴다! (즉, 메모리 공간은 공유함)                  │
+  │                                                                   │
+  │   3. 커널 스케줄러 큐 진입:                                          │
+  │      이 새 스레드는 부모와는 완전히 독립된 자격으로 Ready 큐에 등록된다.     │
+  │      이제 커널은 부모 스레드를 Core 1에, 자식 스레드를 Core 2에           │
+  │      동시에(Parallel) 밀어 넣을 수 있다.                              │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 리눅스는 프로세스와 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 내부적으로 엄격히 구분하지 않는다. 그냥 똑같이 `task_struct`(TCB/PCB) 구조체를 만들되, 메모리를 공유하게 묶어버리면(CLONE_VM) 그게 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 되는 것이다. 1:1 모델에서는 유저가 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 1만 개 띄우면, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 안에도 1만 개의 `task_struct`가 생겨 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리가 터져나가고 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 과부하에 걸린다. 이것이 바로 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 폭발([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) Explosion)의 근본 원인이다.
 
@@ -129,27 +131,30 @@ tags = ["studynote-operating-system"]
 
 ### 의사결정 및 튜닝 플로우
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">애플리케이션 스레드 아키텍처 (런타임) 선택 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">새로운 초대용량 동시 접속(100K+) 서버 프레임워크 언어 선정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자의 요청당 1개의 OS 커널 스레드를 1:1로 할당하는 구조인가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(예: 전통적인 Java Thread, C++ std::thread)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">메모리 및 컨텍스트 스위치 오버헤드로 서버 붕괴 위험</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대책: 스레드 풀(Thread Pool) 크기를 엄격히 제한하고,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">초과 요청은 큐(Queue)에 대기시킴.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 (비동기 처리나 경량 스레드를 쓴다)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발자가 비동기(Callback, Promise) 코드를 짜기 어려워하는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Go(Goroutine) 또는 Java 21(Virtual Thread) 채택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발자는 동기식(1:1)처럼 쉽게 코드를 짜고, 런타임이 알아서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">M:N 유저 레벨 스케줄링으로 커널 스위칭 오버헤드를 없애줌.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ──▶ Node.js, Rust Tokio 등 완벽한 비동기 I/O 채택</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 애플리케이션 스레드 아키텍처 (런타임) 선택 플로우            │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [새로운 초대용량 동시 접속(100K+) 서버 프레임워크 언어 선정]               │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      사용자의 요청당 1개의 OS 커널 스레드를 1:1로 할당하는 구조인가?         │
+  │      (예: 전통적인 Java Thread, C++ std::thread)                  │
+  │          ├─ 예 ─────▶ [메모리 및 컨텍스트 스위치 오버헤드로 서버 붕괴 위험]  │
+  │          │            대책: 스레드 풀(Thread Pool) 크기를 엄격히 제한하고, │
+  │          │                  초과 요청은 큐(Queue)에 대기시킴.             │
+  │          └─ 아니오 (비동기 처리나 경량 스레드를 쓴다)                       │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      개발자가 비동기(Callback, Promise) 코드를 짜기 어려워하는가?           │
+  │          ├─ 예 ─────▶ [Go(Goroutine) 또는 Java 21(Virtual Thread) 채택]│
+  │          │            개발자는 동기식(1:1)처럼 쉽게 코드를 짜고, 런타임이 알아서│
+  │          │            M:N 유저 레벨 스케줄링으로 커널 스위칭 오버헤드를 없애줌.│
+  │          │                                                        │
+  │          └─ 아니오 ──▶ Node.js, Rust Tokio 등 완벽한 비동기 I/O 채택       │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** "[스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 공짜가 아니다." OS가 만들어주는 1:1 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 메모리 1MB와 무거운 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 스위칭 비용을 청구한다. 과거에는 하드웨어 스펙으로 이를 버텼지만, 현재의 클라우드 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 환경에서는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 덜어내고 런타임 언어(유저 스페이스)가 자체적으로 M:N 스케줄링을 해주는 언어(Go, [Erlang](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1004_erlang_traffic_load_unit_calculation/), 최신 Java)를 고르는 것이 곧 아키텍처의 승리다.
 
@@ -192,19 +197,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">HRN 대기 시간 공식</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">멀티스레드 유저모드 커널모드 (Multithread User Mode Kernel Mode)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스레드 로컬 스토리지 (TLS)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스레드 동기화 상호 배제</div></div>
-</div>
-</div>
-
-
+```text
+[HRN 대기 시간 공식]
+    │
+    ▼
+[멀티스레드 유저모드 커널모드 (Multithread User Mode Kernel Mode)]
+    │
+    ├──▶ [스레드 로컬 스토리지 (TLS)]
+    └──▶ [스레드 동기화 상호 배제]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

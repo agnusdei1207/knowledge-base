@@ -30,28 +30,33 @@ tags = ["studynote-operating-system"]
 - <strong>Quota 발동 이중 제한망 2 Track(블록 용량 vs i-node 갯수) <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> 멸망 스로틀 뷰</strong>:
 유저가 "나는 용량 작게 썼으니 무죄다!" 라고 우기는 꼼수를 Quota가 어떻게 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 개수(i-node 발목잡기)로 다시 박살 내는지 체계를 까보면 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"용량만 안 넘었다고 안심 마! 1KB 파일 10만 개 만들면 그것도 사형이야!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">유저 John (UID:1000) 에게 부여된 이중 Quota (배급 제약 족쇄 록백) 장부</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 1. Block Quota (크기 뚱보 제한) : 10GB 까지 (Hard Limit 컷)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 2. Inode Quota (개수 엄청 많음 제한) : 파일 50,000개 까지 (Hard Limit)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">✅</div><div class="kb-diagram-node">해커 꼼수 1: 무식하게 큰 영화 파일 다이브 빔!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; John이 12GB 짜리 영화 '블록버스터.mp4' 저장 (I/O 발포!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; (Quota 감시봇): "어라? 10GB(블록 용량) 임계점 돌파 목 넘음 스왑!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">결착 사살</div><div class="kb-diagram-note">: 10GB까지만 써지고 <code>Disk Quota Exceeded</code> 에러 폭사!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🔥</div><div class="kb-diagram-node">해커 꼼수 2: "그럼 0 바이트짜리 빈 껍데기 파일 100만 개 만들지 뭐 ㅋ"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">$ touch 빈파일_1.txt ~ 빈파일_1000000.txt (크기는 0 바이트 파단 렌더!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; (Quota 감시봇): "용량은 0바이트니까 블록 10GB 조건 통과! 하지만!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; (Quota 인덱스봇): "야 파일 개수 리미트 5만 개 넘었잖아! Inode 부족 킬!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">결착 사살</div><div class="kb-diagram-note">: 용량 한참 남아있어도 5만 1번째 터치(touch) 명령어는</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell"><code>No space left (Inode Quota 초과)</code> 뜨면서 허공에 참수 랙 지옥</div></div>
-</div>
-</div>
-
-
+```text
+  ┌────────────────────────────────────────────────────────────────────────────────────────┐
+  │                 "용량만 안 넘었다고 안심 마! 1KB 파일 10만 개 만들면 그것도 사형이야!" │
+  ├────────────────────────────────────────────────────────────────────────────────────────┤
+  │                                                                                        │
+  │  [ 유저 John (UID:1000) 에게 부여된 이중 Quota (배급 제약 족쇄 록백) 장부 ]            │
+  │     - 1. Block Quota (크기 뚱보 제한) : 10GB 까지 (Hard Limit 컷)                      │
+  │     - 2. Inode Quota (개수 엄청 많음 제한) : 파일 50,000개 까지 (Hard Limit)           │
+  │                                                                                        │
+  │  =========================▼===================================                         │
+  │                                                                                        │
+  │  ✅ [ 해커 꼼수 1: 무식하게 큰 영화 파일 다이브 빔! ]                                  │
+  │     => John이 12GB 짜리 영화 '블록버스터.mp4' 저장 (I/O 발포!)                         │
+  │     => (Quota 감시봇): "어라? 10GB(블록 용량) 임계점 돌파 목 넘음 스왑!"               │
+  │     [ 결착 사살 ]: 10GB까지만 써지고 `Disk Quota Exceeded` 에러 폭사!                  │
+  │                                                                                        │
+  │  =========================▼===================================                         │
+  │                                                                                        │
+  │  🔥 [ 해커 꼼수 2: "그럼 0 바이트짜리 빈 껍데기 파일 100만 개 만들지 뭐 ㅋ" ]          │
+  │     $ touch 빈파일_1.txt ~ 빈파일_1000000.txt (크기는 0 바이트 파단 렌더!)             │
+  │     => (Quota 감시봇): "용량은 0바이트니까 블록 10GB 조건 통과! 하지만!"               │
+  │     => (Quota 인덱스봇): "야 파일 개수 리미트 5만 개 넘었잖아! Inode 부족 킬!"         │
+  │                                                                                        │
+  │     [ 결착 사살 ]: 용량 한참 남아있어도 5만 1번째 터치(touch) 명령어는                 │
+  │                  `No space left (Inode Quota 초과)` 뜨면서 허공에 참수 랙 지옥         │
+  └────────────────────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** Quota 방어망은 철저하게 **2x2 매트릭스** 다. 1차 축: 공간 크기냐(Block) vs [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 개수냐(i-node 메타 공간 소진 [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/) 도출). 2차 축: Soft(경고 유예 기간 Grace Period 발동, 7일 뒤엔 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 봉쇄) vs Hard(물리적 절대 차단 불가 컷 방패). 해커들이 자주 쓰는 수법 중 압권이 로지 폭탄([Logic Bomb](/knowledge-base/studynote/02_operating_system/10_security/588_logic_bomb/))이다. 용량 제한만 걸어두면 해커는 1바이트짜리 깡통 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 1,000만 개를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)해 서버의 i-node 고유 번호표 테이블 공간을 소진(Inode Exhaustion 데들락)시켜 시스템을 암살시킨다. 이를 방어하는 I-node Quota 족쇄만이 완벽한 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 융합 생태계 보호선이 된다 증명.
 
@@ -132,19 +137,15 @@ OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architectu
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">리눅스 확장 속성 (Extended Attributes, xattr)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">할당량 (Quota) 시스템</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">B-Tree / B+Tree 기반 디렉터리 색인 (대규모 디렉터리 검색 최적화)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">분산 파일 시스템 (HDFS, Ceph, GlusterFS) 네임노드 및 데이터노드 구조</div></div>
-</div>
-</div>
-
-
+```text
+[리눅스 확장 속성 (Extended Attributes, xattr)]
+    │
+    ▼
+[할당량 (Quota) 시스템]
+    │
+    ├──▶ [B-Tree / B+Tree 기반 디렉터리 색인 (대규모 디렉터리 검색 최적화)]
+    └──▶ [분산 파일 시스템 (HDFS, Ceph, GlusterFS) 네임노드 및 데이터노드 구조]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

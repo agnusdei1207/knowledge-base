@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 과거 실시간 방송은 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 전용망과 [RTP](/knowledge-base/studynote/03_network/08_transport_layer/451_rtp_real_time_transport_protocol/)/UDP라는 특수 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 썼습니다.
 - **문제점**: 이 특수 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)들은 회사 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)(80번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 외 차단)을 통과하지 못해 튕겨 나가기 일쑤였고, 스마트폰의 변덕스러운 무선 인터넷([LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) ➜ 3G) 속도 변화에 대처하지 못해 영상이 수시로 [버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/) 뺑뺑이를 돌며 멈췄습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">퍼시스턴트 토폴로지 관리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">멀티캐스트 오디오/비디오 스트리밍 프로토콜</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CMAF</div></div>
-</div>
-</div>
-
-
+```text
+[퍼시스턴트 토폴로지 관리]
+    │
+    ▼
+[멀티캐스트 오디오/비디오 스트리밍 프로토콜]
+    │
+    └──▶ [CMAF]
+```
 
 - **📢 섹션 요약 비유**: [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 오디오/비디오 스트리밍 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -44,18 +40,14 @@ tags = ["studynote-network"]
 - **개념**: 애플(Apple)이 개발한 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)로, 거대한 비디오 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 잘게 쪼갠 뒤([Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)), 깐깐한 전용망 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 대신 <strong>웹서핑할 때 쓰는 가장 흔해 빠진 <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a>(80번 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>) <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a>에 태워서 클라이언트에게 끊김 없이 전달하는 적응형(Adaptive) 미디어 스트리밍 기술</strong>입니다.
 - 웹 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)(HTML) 열리듯 동영상 조각이 배달되므로, 전 세계 어떤 깐깐한 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이든, 어떤 구식 공유기든 100% 무사통과하는 무적의 호환성을 가집니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">퍼시스턴트 토폴로지 관리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">멀티캐스트 오디오/비디오 스트리밍 프로토콜</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CMAF</div></div>
-</div>
-</div>
-
-
+```text
+[퍼시스턴트 토폴로지 관리]
+    │
+    ▼
+[멀티캐스트 오디오/비디오 스트리밍 프로토콜]
+    │
+    └──▶ [CMAF]
+```
 
 - **📢 섹션 요약 비유**: [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 오디오/비디오 스트리밍 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -126,19 +118,15 @@ HLS가 세상을 지배한 이유입니다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 퍼시스턴트 토폴로지 관리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 멀티캐스트 오디오/비디오 스트리밍 프로토콜</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: CMAF</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 퍼시스턴트 토폴로지 관리]
+    │
+    ▼
+[현재 개념: 멀티캐스트 오디오/비디오 스트리밍 프로토콜]
+    │
+    ├──▶ [확장 A: CMAF]
+    └──▶ [확장 B: 의미 기반 통신 최적화]
+```
 
 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 오디오/비디오 스트리밍 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)는 [퍼시스턴트 토폴로지](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/904_persistent_topology_graph_db_cloud_mapping/) 관리에서 출발해 현재 메커니즘을 정교화하고, 이후 CMAF와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

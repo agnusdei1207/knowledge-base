@@ -25,23 +25,22 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 왜 Split Cache가 단순한 저장 공간 분할이 아니라 <strong>접근 경로 분리</strong>인지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단일 L1 캐시와 분리 L1 캐시의 접근 충돌 차이</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">단일 L1 캐시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IF: 명령어 읽기 ─</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">하나의 캐시 포트</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">충돌 가능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MEM: 데이터 접근 ─</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Split Cache</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">I-Cache</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">D-Cache</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심: 저장공간을 나눈 것이 아니라 동시 접근 경로를 나눔</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│        단일 L1 캐시와 분리 L1 캐시의 접근 충돌 차이         │
+├──────────────────────────────────────────────────────────────┤
+│ [단일 L1 캐시]                                               │
+│ IF: 명령어 읽기 ─┐                                           │
+│                  ├──▶ [하나의 캐시 포트] ───▶ 충돌 가능      │
+│ MEM: 데이터 접근 ─┘                                           │
+│                                                              │
+│ [Split Cache]                                                │
+│ IF: 명령어 읽기 ───────▶ [I-Cache]                           │
+│ MEM: 데이터 접근 ─────▶ [D-Cache]                            │
+│                                                              │
+│ 핵심: 저장공간을 나눈 것이 아니라 동시 접근 경로를 나눔      │
+└──────────────────────────────────────────────────────────────┘
+```
 
 즉 Split Cache는 폰 노이만 병목 ([Von Neumann Bottleneck](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/500_von_neumann_bottleneck/))을 완전히 없애는 기술이라기보다, 최소한 코어 바로 앞단에서는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 흐름과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름이 서로의 발목을 잡지 않게 하는 현실적 해법이다. 없으면 작은 캐시라도 입구 하나에 모든 트래픽이 몰리고, 있으면 각 흐름이 자기 전용 통로를 통해 더 예측 가능하게 움직인다.
 
@@ -65,21 +64,22 @@ Split Cache의 핵심은 단순히 캐시를 반으로 자르는 것이 아니�
 
 이 구조는 [하버드 아키텍처](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/126_harvard_architecture/) ([Harvard Architecture](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/126_harvard_architecture/))의 아이디어를 L1에 부분적으로 적용한 것으로 볼 수 있다. 즉 메모리 전체를 완전히 분리하지는 않더라도, 코어가 가장 빠른 응답을 요구하는 첫 계층에서는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 경로와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로를 따로 둔다. 하지만 두 경로가 영원히 분리되는 것은 아니며, 아래 계층으로 내려갈수록 하나의 백엔드 메모리 시스템으로 합류하는 경우가 일반적이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">현대 프로세서에서의 Split Cache 위치</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU Core</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">명령어 경로 ─▶ L1 I-Cache</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ L2 Unified Cache</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 경로 ─▶ L1 D-Cache ▼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L3 / Main Memory</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">앞단은 분리, 뒷단은 통합: 속도와 유연성의 절충</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│             현대 프로세서에서의 Split Cache 위치            │
+├──────────────────────────────────────────────────────────────┤
+│                    CPU Core                                  │
+│              ┌───────────────┐                               │
+│ 명령어 경로 ─▶   L1 I-Cache   ├────┐                          │
+│              └───────────────┘    │                          │
+│                                   ├──▶ L2 Unified Cache      │
+│              ┌───────────────┐    │          │               │
+│ 데이터 경로 ─▶   L1 D-Cache   ├────┘          ▼               │
+│              └───────────────┘         L3 / Main Memory      │
+│                                                              │
+│ 앞단은 분리, 뒷단은 통합: 속도와 유연성의 절충               │
+└──────────────────────────────────────────────────────────────┘
+```
 
 중요한 점은 Split Cache가 "항상 더 큰 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)"을 뜻하는 것이 아니라, <strong>L1 수준에서 독립 접근 가능성</strong>을 확보한다는 뜻이라는 점이다. 만약 코어가 매 사이클 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 인출과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근을 동시에 수행할 수 있다면, 단일 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 캐시보다 훨씬 자연스럽게 파이프라인을 유지할 수 있다. 반대로 이 분리 덕분에 캐시 용량이 고정 분할되므로, 접근 충돌 완화와 용량 유연성 사이에는 분명한 교환관계가 생긴다.
 
@@ -157,25 +157,24 @@ Split Cache의 가장 직접적인 효과는 파이프라인 전면부의 정체
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">폰 노이만 구조의 단일 메모리 접근</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">파이프라인 확장 · IF / MEM 동시 접근 문제</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">L1 Split Cache (I-Cache + D-Cache)</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ I-Cache 최적화</div>
-<div class="kb-diagram-note">(분기 예측 · 코드 배치 · 명령어 프리페치)</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ D-Cache 최적화</div>
-<div class="kb-diagram-note">(쓰기 정책 · 더티 비트 · 데이터 지역성)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">L2/L3 Unified Cache와 결합한 하이브리드 계층</div>
-</div>
-</div>
-
-
+```text
+폰 노이만 구조의 단일 메모리 접근
+        │
+        ▼
+파이프라인 확장 · IF / MEM 동시 접근 문제
+        │
+        ▼
+L1 Split Cache (I-Cache + D-Cache)
+        │
+        ├──────────────▶ I-Cache 최적화
+        │                 (분기 예측 · 코드 배치 · 명령어 프리페치)
+        │
+        └──────────────▶ D-Cache 최적화
+                          (쓰기 정책 · 더티 비트 · 데이터 지역성)
+        │
+        ▼
+L2/L3 Unified Cache와 결합한 하이브리드 계층
+```
 
 이 흐름도는 Split Cache가 단독 기술이 아니라, 파이프라인 병목 해결에서 출발해 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 최적화와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 최적화로 갈라지고, 다시 하위 계층 통합 구조와 결합하는 과정을 보여준다.
 

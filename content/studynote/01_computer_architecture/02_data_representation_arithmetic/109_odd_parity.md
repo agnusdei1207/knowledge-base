@@ -31,21 +31,22 @@ tags = ["studynote-computer-architecture"]
 ### 홀수 패리티 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 로직
 하드웨어 관점에서 패리티 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)은 여러 개의 [논리 게이트](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/027_logic_gates/) 중 <strong>XOR / XNOR 게이트</strong>의 캐스케이드(Cascade) 연결로 구현된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">홀수 패리티 생성 (8-bit Data + 1-bit Parity)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전송할 데이터</div><div class="kb-diagram-note">: 1 0 1 1 0 0 0 0 (1이 3개)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">목표</div><div class="kb-diagram-note">전체 1의 개수를 '홀수'로 유지하라.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">결과</div><div class="kb-diagram-note">이미 1이 3개(홀수)이므로 패리티 비트는 '0' 추가</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">0</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">* 만약 수신 측에서 1 0 0 1 0 0 0 0</div><div class="kb-diagram-node">0</div><div class="kb-diagram-note">을 받았다면?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(1의 개수가 2개 = 짝수) ──▶ "에러 발생!" 경고(NACK)</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────┐
+│           홀수 패리티 생성 (8-bit Data + 1-bit Parity)     │
+├────────────────────────────────────────────────────────┤
+│                                                        │
+│   [ 전송할 데이터 ] : 1 0 1 1 0 0 0 0  (1이 3개)           │
+│                                                        │
+│   [ 목표 ] 전체 1의 개수를 '홀수'로 유지하라.              │
+│   [ 결과 ] 이미 1이 3개(홀수)이므로 패리티 비트는 '0' 추가  │
+│                                                        │
+│   ──▶ 전송 데이터: 1 0 1 1 0 0 0 0 [ 0 ]                │
+│                                                        │
+│ * 만약 수신 측에서 1 0 0 1 0 0 0 0 [ 0 ] 을 받았다면?      │
+│   (1의 개수가 2개 = 짝수) ──▶ "에러 발생!" 경고(NACK)      │
+└────────────────────────────────────────────────────────┘
+```
 
 송신 측의 패리티 발생기(Parity Generator)는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)들을 XOR하여 짝/홀을 판별한 뒤 XNOR 게이트를 통해 최종 [패리티 비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/)를 붙인다. 수신 측 패리티 검사기(Parity Checker)는 수신된 9비트 전체를 다시 XOR하여 1이 나오는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 단일 사이클 하드웨어로 동작한다.
 
@@ -103,23 +104,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">노이즈에 의한 비트 플립 (Bit Flip) 발생</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">단일 패리티 비트 도입 (에러 존재 유무 1비트 검출)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">홀수 패리티 (Odd Parity) 설계 (단선 장애 페일세이프 기능 추가)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">2차원 패리티 (블록 패리티) 확장 (행과 열 검사를 통해 제한적 정정 시도)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">해밍 코드 (Hamming Code) 및 CRC (오류 정정 및 버스트 에러 검출)</div>
-</div>
-</div>
-
-
+```text
+노이즈에 의한 비트 플립 (Bit Flip) 발생
+    │
+    ▼
+단일 패리티 비트 도입 (에러 존재 유무 1비트 검출)
+    │
+    ▼
+홀수 패리티 (Odd Parity) 설계 (단선 장애 페일세이프 기능 추가)
+    │
+    ▼
+2차원 패리티 (블록 패리티) 확장 (행과 열 검사를 통해 제한적 정정 시도)
+    │
+    ▼
+해밍 코드 (Hamming Code) 및 CRC (오류 정정 및 버스트 에러 검출)
+```
 
 이 흐름도는 "단순 검출 → 시스템 장애 판별 지능화 → 정정 불가의 한계 직면 → 강력한 수학적 정정 코드로의 진화"라는 [오류 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/188_error_control_overview/)([Error Control](/knowledge-base/studynote/03_network/04_data_link_layer_error/188_error_control_overview/)) 아키텍처의 발전 단계를 보여준다.
 

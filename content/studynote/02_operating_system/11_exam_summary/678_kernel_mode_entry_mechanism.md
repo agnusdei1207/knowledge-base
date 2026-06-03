@@ -61,36 +61,40 @@ tags = ["studynote-operating-system"]
 
 CPU가 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)나 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)을 맞고 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드로 진입하는 순간, 단 1 나노초 만에 아래의 과정이 하드웨어(실리콘) 차원에서 강제로 실행된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 하드웨어의 커널 모드 진입(Entry) 파이프라인</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황: User Mode (Ring 3)에서 앱이 돌고 있음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 레지스터: CS(Code Segment)의 CPL(현재 권한) = 3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 스택: User Stack 사용 중</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">========== ⚡ 진입 트리거 발생 (예: Timer Interrupt) ⚡ ==========</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CPU 하드웨어 자동 실행 구간 (소프트웨어 개입 0%)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 권한 승격: CPU가 내부적으로 모드 비트(CPL)를 3에서 0으로 바꿈 (Ring 0 진입)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 스택 전환: 보안을 위해 User Stack을 버리고, 미리 지정된 현재 프로세스의</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Kernel Stack</div><div class="kb-diagram-note">으로 스택 포인터(RSP)를 강제 교체함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 상태 저장(Save): 옛날 상태로 돌아가기 위해 아래 5가지 필수 레지스터를</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">새로운 Kernel Stack에 꾹꾹 눌러 담음 (PUSH).</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(1) SS (옛날 코드 세그먼트)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(2) RSP (옛날 유저 스택 주소)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(3) RFLAGS (옛날 연산 상태 플래그)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(4) CS (옛날 코드 세그먼트)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(5) RIP (다음에 실행할 유저 코드 주소 = 복귀 주소)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 점프 (Jump): 인터럽트 벡터 테이블(IDT)을 뒤져서 찾은 커널의</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Entry Point 함수(예: entry_SYSCALL_64)</div><div class="kb-diagram-note">로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로그램 카운터(RIP)를 변경함.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Kernel Mode (Ring 0) 소프트웨어 실행 시작</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 커널 코드가 시작됨. (가장 먼저 범용 레지스터 RAX, RBX 등을 마저 백업함)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6. 인터럽트 처리 (예: 스케줄러가 다른 프로세스로 문맥 교환 실행)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 CPU 하드웨어의 커널 모드 진입(Entry) 파이프라인         │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │  [상황: User Mode (Ring 3)에서 앱이 돌고 있음]                        │
+  │   - 레지스터: CS(Code Segment)의 CPL(현재 권한) = 3                  │
+  │   - 스택: User Stack 사용 중                                        │
+  │                                                                   │
+  │  ========== ⚡ 진입 트리거 발생 (예: Timer Interrupt) ⚡ ==========│
+  │                                                                   │
+  │  [CPU 하드웨어 자동 실행 구간 (소프트웨어 개입 0%)]                       │
+  │   1. 권한 승격: CPU가 내부적으로 모드 비트(CPL)를 3에서 0으로 바꿈 (Ring 0 진입)│
+  │                                                                   │
+  │   2. 스택 전환: 보안을 위해 User Stack을 버리고, 미리 지정된 현재 프로세스의│
+  │                [Kernel Stack]으로 스택 포인터(RSP)를 강제 교체함.      │
+  │                                                                   │
+  │   3. 상태 저장(Save): 옛날 상태로 돌아가기 위해 아래 5가지 필수 레지스터를   │
+  │                    새로운 Kernel Stack에 꾹꾹 눌러 담음 (PUSH).      │
+  │                    (1) SS (옛날 코드 세그먼트)                       │
+  │                    (2) RSP (옛날 유저 스택 주소)                     │
+  │                    (3) RFLAGS (옛날 연산 상태 플래그)                  │
+  │                    (4) CS (옛날 코드 세그먼트)                       │
+  │                    (5) RIP (다음에 실행할 유저 코드 주소 = 복귀 주소)      │
+  │                                                                   │
+  │   4. 점프 (Jump): 인터럽트 벡터 테이블(IDT)을 뒤져서 찾은 커널의           │
+  │                  [Entry Point 함수(예: entry_SYSCALL_64)]로         │
+  │                  프로그램 카운터(RIP)를 변경함.                      │
+  │                                                                   │
+  │  [Kernel Mode (Ring 0) 소프트웨어 실행 시작]                         │
+  │   5. 커널 코드가 시작됨. (가장 먼저 범용 레지스터 RAX, RBX 등을 마저 백업함)│
+  │   6. 인터럽트 처리 (예: 스케줄러가 다른 프로세스로 문맥 교환 실행)             │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 초보자들은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 진입을 단순한 `C 언어 함수 호출`로 오해한다. 함수 호출은 그냥 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)에 주소를 넣고 점프하는 것이다. 하지만 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 진입은 <strong>"절대 믿을 수 없는 유저 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a>"</strong>에서 <strong>"절대 안전한 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a>"</strong>으로 무대를 완전히 옮기는 거대한 이사(Migration) 작업이다. 만약 유저 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)을 그대로 쓰며 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 함수를 돌린다면, 해커가 다른 스레드에서 유저 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)을 조작해 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 즉시 해킹해 버릴 것이다. CPU가 하드웨어적으로 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)을 강제 교체(TSS [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))하는 이유가 바로 이 완벽한 격리([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/)) 때문이다.
 
@@ -135,26 +139,29 @@ CPU가 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_
 
 ### 의사결정 및 튜닝 플로우
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">커널 모드 진입(Mode Switch) 오버헤드 최적화 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">고성능 애플리케이션(DB, HFT, 웹서버)의 I/O 병목 해소 전략 수립</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">애플리케이션이 파일이나 네트워크 데이터를 읽고(Read) 바로 쓰는가(Write)?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(예: 정적 이미지 서빙, 프록시 라우팅)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Zero-Copy (sendfile) 시스템 콜 적용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(유저-커널 진입을 2회에서 1회로 줄이고 램 복사 제거)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 (데이터를 유저 스페이스에서 복잡하게 연산해야 함)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">초당 시스템 콜 호출 횟수가 10만 번을 넘어가는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Kernel Bypass(DPDK) 또는 io_uring 도입</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(커널 모드 진입 자체를 포기하고 앱이 하드웨어를 직결 통제)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ──▶ 시스템 콜을 모아서 한 번에 보내는 Batching(버퍼링) 기법</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">을 애플리케이션 소스 코드 레벨(User space)에 적용</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 커널 모드 진입(Mode Switch) 오버헤드 최적화 플로우          │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [고성능 애플리케이션(DB, HFT, 웹서버)의 I/O 병목 해소 전략 수립]           │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      애플리케이션이 파일이나 네트워크 데이터를 읽고(Read) 바로 쓰는가(Write)?  │
+  │      (예: 정적 이미지 서빙, 프록시 라우팅)                                │
+  │          ├─ 예 ─────▶ [Zero-Copy (sendfile) 시스템 콜 적용]         │
+  │          │            (유저-커널 진입을 2회에서 1회로 줄이고 램 복사 제거)    │
+  │          └─ 아니오 (데이터를 유저 스페이스에서 복잡하게 연산해야 함)          │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      초당 시스템 콜 호출 횟수가 10만 번을 넘어가는가?                      │
+  │          ├─ 예 ─────▶ [Kernel Bypass(DPDK) 또는 io_uring 도입]      │
+  │          │            (커널 모드 진입 자체를 포기하고 앱이 하드웨어를 직결 통제)│
+  │          │                                                        │
+  │          └─ 아니오 ──▶ 시스템 콜을 모아서 한 번에 보내는 Batching(버퍼링) 기법│
+  │                         을 애플리케이션 소스 코드 레벨(User space)에 적용   │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** "최고의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드 진입은 진입하지 않는 것이다." 현대 시스템 프로그래밍의 정수는 톨게이트([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 진입)를 얼마나 빨리 통과하느냐가 아니라, 아예 톨게이트를 우회하는 전용 도로([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Bypass)를 뚫거나, 덤프트럭(Buffer)에 짐을 가득 싣고 한 번만 통과하는 것에 있다. 무지성 I/O 호출은 시스템을 죽이는 가장 흔하고 치명적인 버그다.
 
@@ -198,19 +205,15 @@ CPU가 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">트랩 (Trap) 기반 시스템 콜 구현</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">커널 모드 진입 메커니즘 (Kernel Mode Entry Mechanism)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">시스템 콜 API 래퍼</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">모놀리식 vs 마이크로 커널 성능 비교</div></div>
-</div>
-</div>
-
-
+```text
+[트랩 (Trap) 기반 시스템 콜 구현]
+    │
+    ▼
+[커널 모드 진입 메커니즘 (Kernel Mode Entry Mechanism)]
+    │
+    ├──▶ [시스템 콜 API 래퍼]
+    └──▶ [모놀리식 vs 마이크로 커널 성능 비교]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

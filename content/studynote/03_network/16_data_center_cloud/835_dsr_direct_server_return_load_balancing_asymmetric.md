@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 전통적인 L4 로드밸런싱(In-Path, SNAT 방식)은 패킷이 들어올 때도 L4 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 거치고, 나갈 때도 무조건 L4 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 거쳐야만 합니다(대칭형 트래픽).
 - **병목 폭발 시나리오**: 클라이언트의 접속 요청 패킷은 사이즈가 작습니다(수십 [Byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)). 하지만 서버가 뱉어내는 넷플릭스 영화 응답 패킷은 수 기가바이트(GB)의 뚱뚱한 쓰나미입니다. 이 쓰나미가 다시 L4 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(로드밸런서)의 랜선 구멍을 역주행해서 비집고 나가려면 <strong>L4 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> 장비의 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 한계(목구멍)에 걸려 전체 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 속도가 마비</strong>됩니다. 비싼 L4 장비가 터져 나갑니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">라운드 로빈</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DSR</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">VPC</div></div>
-</div>
-</div>
-
-
+```text
+[라운드 로빈]
+    │
+    ▼
+[DSR]
+    │
+    └──▶ [VPC]
+```
 
 - **📢 섹션 요약 비유**: DSR는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -53,18 +49,14 @@ tags = ["studynote-network"]
 3. **나갈 때 직배송 (Return)**: 
    - 1번 서버가 응답 패킷을 쏠 때, **보내는 사람(출발지 IP)에 자기 실제 IP를 적지 않고, 아까 그 가짜 간판 주소(VIP)를 떡하니 적어서 인터넷으로 바로 쏴버립니다.** 손님은 "아! 가짜 간판(VIP)이 보낸 답장이 무사히 왔네!"라고 100% 속아 넘어가 통신이 완성됩니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">라운드 로빈</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DSR</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">VPC</div></div>
-</div>
-</div>
-
-
+```text
+[라운드 로빈]
+    │
+    ▼
+[DSR]
+    │
+    └──▶ [VPC]
+```
 
 - **📢 섹션 요약 비유**: DSR의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -125,19 +117,15 @@ DSR는 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_clo
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 라운드 로빈</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: DSR</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: VPC</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 라운드 로빈]
+    │
+    ▼
+[현재 개념: DSR]
+    │
+    ├──▶ [확장 A: VPC]
+    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
+```
 
 DSR는 [라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/)에서 출발해 현재 메커니즘을 정교화하고, 이후 VPC와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

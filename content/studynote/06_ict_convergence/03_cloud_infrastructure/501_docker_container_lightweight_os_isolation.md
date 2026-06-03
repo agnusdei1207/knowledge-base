@@ -38,19 +38,18 @@ tags = ["studynote-ict-convergence"]
 
 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/068_docker_image_immutable_package/">도커 이미지</a> 레이어 구조(Union FS)</strong>:
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Container Layer (읽기/쓰기, 임시)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App Layer (COPY ./app /app)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Dependency Layer (RUN pip install)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Base Image (python:3.11-slim)</div></div>
-<div class="kb-diagram-note">※ 각 레이어는 읽기 전용, 공유 가능 → 디스크 절약</div>
-</div>
-</div>
-
-
+```
+┌────────────────────────────────────────┐
+│  Container Layer (읽기/쓰기, 임시)      │
+├────────────────────────────────────────┤
+│  App Layer (COPY ./app /app)           │
+├────────────────────────────────────────┤
+│  Dependency Layer (RUN pip install)    │
+├────────────────────────────────────────┤
+│  Base Image (python:3.11-slim)         │
+└────────────────────────────────────────┘
+  ※ 각 레이어는 읽기 전용, 공유 가능 → 디스크 절약
+```
 
 | 구분 | [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) | [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) |
 |:---|:---|:---|

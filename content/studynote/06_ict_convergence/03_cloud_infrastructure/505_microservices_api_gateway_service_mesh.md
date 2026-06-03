@@ -34,21 +34,22 @@ MSA에서 수십~수백 개의 [서비스](/knowledge-base/studynote/13_cloud_ar
 
 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a> 통신 계층 구조</strong>:
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">외부 클라이언트 (모바일/웹/IoT)</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">API Gateway (Kong / AWS API GW / Nginx)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인증/인가</div><div class="kb-diagram-cell">라우팅</div><div class="kb-diagram-cell">Rate Limiting</div><div class="kb-diagram-cell">LB</div><div class="kb-diagram-cell">로깅</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주문 서비스</div><div class="kb-diagram-cell">재고 서비스</div><div class="kb-diagram-cell">결제 서비스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+Sidecar</div><div class="kb-diagram-cell">+Sidecar</div><div class="kb-diagram-cell">+Sidecar</div></div>
-<div class="kb-diagram-note">↑ 서비스 메시 (Istio/Linkerd): 사이드카 간 mTLS + 트래픽 관리</div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────────┐
+│            외부 클라이언트 (모바일/웹/IoT)                    │
+└───────────────────────┬─────────────────────────────────────┘
+                        ↓
+┌───────────────────────────────────────────────────────────┐
+│          API Gateway (Kong / AWS API GW / Nginx)          │
+│  인증/인가 │ 라우팅 │ Rate Limiting │ LB │ 로깅            │
+└──────┬─────────────┬────────────────┬──────────────────────┘
+       ↓             ↓                ↓
+┌──────────┐  ┌──────────┐   ┌──────────────┐
+│ 주문 서비스│  │ 재고 서비스│   │ 결제 서비스   │
+│ +Sidecar │  │ +Sidecar │   │ +Sidecar     │
+└──────────┘  └──────────┘   └──────────────┘
+  ↑ 서비스 메시 (Istio/Linkerd): 사이드카 간 mTLS + 트래픽 관리
+```
 
 | 기술 | 역할 | 구현 위치 | 대표 도구 |
 |:---|:---|:---|:---|

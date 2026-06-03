@@ -31,27 +31,31 @@ tags = ["studynote-network"]
 ### 초정밀 레이저 냉각(Cooling)과 광증폭(EDFA)의 융합
 DWDM은 가격을 포기하고 성능의 극한을 끌어낸 하이엔드 쇳덩어리 아키텍처다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DWDM (고밀도 파장 분할) 백본 전송 아키텍처 다이어그램</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">송신단 (Transmitter)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">정밀 레이저 λ1(1550.12nm)</div><div class="kb-diagram-note">──</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">정밀 레이저 λ2(1550.92nm)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MUX</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">... (최대 80~160개 채널, 간격 0.8nm 촘촘함)</div><div class="kb-diagram-cell">(결합기)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">대륙 간 광케이블 (수천 km)</div><div class="kb-diagram-note">- EDFA 증폭기 투입 구간</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">EDFA 광증폭기</div><div class="kb-diagram-connector">▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(빛의 신호가 약해질 때 전기 변환 없이 돋보기처럼 빛 자체를 뻥튀기함)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">수신단 (Receiver)</div><div class="kb-diagram-note">(분배기)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">초정밀 필터(수신)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">De-MUX</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">초정밀 필터(수신)</div><div class="kb-diagram-connector">◀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심 논리: 0.8nm 간격을 유지하기 위해 온도 조절기(TEC)가 24시간</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">레이저를 얼음처럼 냉각(Cooled)시켜 빛의 흔들림을 원천 봉쇄한다.</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────┐
+│           DWDM (고밀도 파장 분할) 백본 전송 아키텍처 다이어그램    │
+├────────────────────────────────────────────────────────┤
+│  [ 송신단 (Transmitter) ]                             │
+│   데이터 1 ──▶ [정밀 레이저 λ1(1550.12nm)] ──┐          │
+│   데이터 2 ──▶ [정밀 레이저 λ2(1550.92nm)] ──┼─▶ [MUX] │
+│   ... (최대 80~160개 채널, 간격 0.8nm 촘촘함)    │  (결합기)│
+│                                            │         │
+│             ▼                             ▼         │
+│ ═══════════════════════════════════════════════════════│
+│  [ 대륙 간 광케이블 (수천 km) ] - EDFA 증폭기 투입 구간          │
+│         ~~~~~~▶ [ EDFA 광증폭기 ] ~~~~~~▶               │
+│   (빛의 신호가 약해질 때 전기 변환 없이 돋보기처럼 빛 자체를 뻥튀기함)│
+│ ═══════════════════════════════════════════════════════│
+│             ▼                             ▼         │
+│                                            │         │
+│  [ 수신단 (Receiver) ]                        │  (분배기)│
+│   데이터 1 ◀── [초정밀 필터(수신)] ◀───────────┼─ [De-MUX]│
+│   데이터 2 ◀── [초정밀 필터(수신)] ◀───────────┘         │
+│                                                        │
+│ * 핵심 논리: 0.8nm 간격을 유지하기 위해 온도 조절기(TEC)가 24시간 │
+│   레이저를 얼음처럼 냉각(Cooled)시켜 빛의 흔들림을 원천 봉쇄한다. │
+└────────────────────────────────────────────────────────┘
+```
 
 1550nm 대역(C-band, L-band)에 모든 빛을 구겨 넣는 이유는 단 하나다. 바로 장거리 통신의 구세주인 <strong>EDFA(에르븀 첨가 광섬유 증폭기)</strong>가 딱 이 대역의 빛들만 기가 막히게 증폭시켜 주기 때문이다. 수십 개의 파장이 한꺼번에 EDFA를 통과하며 증폭되므로 대륙 횡단이 가능해진다.
 
@@ -112,23 +116,21 @@ DWDM(고밀도 파장 분할 [다중화](/knowledge-base/studynote/03_network/02
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">인터넷 폭발로 인한 코어망 광케이블 용량 포화 및 케이블 매설(포설) 비용의 한계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">빛의 파장(색깔)을 분리하여 다중화하는 WDM 기술 등장</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">레이저 정밀 냉각 제어(TEC) 및 필터 기술의 극적 발전 ──▶ 파장 간격을 0.8nm로 압축!</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">EDFA(광증폭기)와의 완벽한 융합 ──▶ 장거리/대용량 전송의 완성 (DWDM 100+ 채널 상용화)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">광-전-광 변환 없이 빛을 제어하는 ROADM과 결합하여 전 세계 육상/해저 광통신 백본망 통일</div>
-</div>
-</div>
-
-
+```text
+인터넷 폭발로 인한 코어망 광케이블 용량 포화 및 케이블 매설(포설) 비용의 한계
+    │
+    ▼
+빛의 파장(색깔)을 분리하여 다중화하는 WDM 기술 등장
+    │
+    ▼
+레이저 정밀 냉각 제어(TEC) 및 필터 기술의 극적 발전 ──▶ 파장 간격을 0.8nm로 압축!
+    │
+    ▼
+EDFA(광증폭기)와의 완벽한 융합 ──▶ 장거리/대용량 전송의 완성 (DWDM 100+ 채널 상용화)
+    │
+    ▼
+광-전-광 변환 없이 빛을 제어하는 ROADM과 결합하여 전 세계 육상/해저 광통신 백본망 통일
+```
 
 이 흐름도는 "토목 공사(물리적 포설)의 경제적 한계 직면 → 빛의 물리적 스펙트럼 쪼개기 극대화(DWDM) → 무식한 증폭(EDFA)과 지능형 경로 제어(ROADM) 결합"이라는 하이엔드 광통신망의 진화를 보여준다.
 

@@ -26,17 +26,14 @@ tags = ["studynote-ai"]
 
 결국 법조계와 IT 인프라 아키텍트들은, "무지성으로 남의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다 긁어먹고 크는 딥러닝의 폭식을 어디까지 합법적인 연구(공정 이용)로 봐줄 것인가?" 그리고 "인간이 프롬프트만 쳐서 뽑아낸 이 엄청난 퀄리티의 그림을 과연 인간의 창작물로 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)해 줄 것인가?"라는, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시대의 생존을 결정짓는 두 가지 거대한 법적 룰(Governance)을 백지부터 다시 써 내려가야 하는 절박한 과제에 직면했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 이 전쟁은 '거대한 믹서기([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)) 공장'을 둘러싼 싸움이다. 1차전(학습 논쟁)은 공장 주인이 동네 농부들의 사과와 딸기를 밤에 몰래 다 훔쳐 와서 믹서기에 갈아버린 사건이다. 공장 주인은 "과일 모양이 다 사라지고 주스(통계 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 됐으니 도둑질이 아니다(공정 이용)"라고 우기고, 농부는 "내 딸기가 없었으면 네 주스 맛이 났겠냐"며 소송을 건 것이다. 2차전([생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)물 논쟁)은 동네 꼬마가 믹서기 버튼(프롬프트) 하나만 눌러서 기가 막힌 주스를 뽑아낸 뒤, "이거 내가 버튼 눌러서 만든 거니까 내 특허야!"라고 우기는 코미디 같은 상황을 판사님이 정리해야 하는 사건이다.
 
@@ -46,29 +43,27 @@ tags = ["studynote-ai"]
 
 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)형 AI의 법적 전장은 크게 <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/583_ai_code_license_security_threats/">입력(학습) 단계의 [저작권</a> 침해 여부]</strong>와 <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">출력([생성</a>) 단계의 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/583_ai_code_license_security_threats/">저작권</a> 인정 여부]</strong> 두 개의 거대한 축으로 분리된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">생성형 AI 저작권 법적 논쟁의 2대 전장(Battlefield) 구조 도해</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전장 1: Input (학습 데이터 스크래핑) - "도둑질인가, 공정 이용인가?"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 기업(OpenAI): "인터넷에 공개된 글을 AI가 읽고 '통계적 패턴'만 공부한 건데?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인간이 도서관 가서 남의 책 읽고 똑똑해지는 거랑 똑같아!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이건 혁신을 위한 합법적 &lt;공정 이용(Fair Use)&gt;이야!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 원작자(NYT): "웃기지 마! 유저가 기사 써달라니까 우리 뉴욕타임스 유료 기사</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">토씨 하나 안 틀리고 그대로 복붙(Memorization)해서 뱉던데?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이건 명백한 시장 침해고 저작권법 위반이야! 배상해!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전장 2: Output (AI 생성물) - "프롬프트 깎는 노인도 예술가인가?"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 인간 프롬프터: "내가 미드저니에 '슬프고 파란 달빛 아래 우는 고양이'라고</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">100줄짜리 프롬프트를 쳐서 예술을 창조했으니 이 그림은 내 거야!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 법원 판사님: "탈락. 프롬프트는 그림을 그리는 '도구(붓)'가 아니라, 화가에게</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이런 그림 그려달라고 말하는 '주문서(Idea)'에 불과함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">버튼 딸깍 충(AI 생성 단독)에게는 인간의 &lt;창조적 개입&gt;이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">없으므로 저작권을 단 1%도 인정할 수 없다. 기각!"</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           생성형 AI 저작권 법적 논쟁의 2대 전장(Battlefield) 구조 도해   │
+├──────────────────────────────────────────────────────────────┤
+│  [전장 1: Input (학습 데이터 스크래핑) - "도둑질인가, 공정 이용인가?"]   │
+│   * 기업(OpenAI): "인터넷에 공개된 글을 AI가 읽고 '통계적 패턴'만 공부한 건데?   │
+│                   인간이 도서관 가서 남의 책 읽고 똑똑해지는 거랑 똑같아!      │
+│                   이건 혁신을 위한 합법적 <공정 이용(Fair Use)>이야!"          │
+│   * 원작자(NYT): "웃기지 마! 유저가 기사 써달라니까 우리 뉴욕타임스 유료 기사     │
+│                 토씨 하나 안 틀리고 그대로 복붙(Memorization)해서 뱉던데?    │
+│                 이건 명백한 시장 침해고 저작권법 위반이야! 배상해!"            │
+│                                                              │
+│  [전장 2: Output (AI 생성물) - "프롬프트 깎는 노인도 예술가인가?"]        │
+│   * 인간 프롬프터: "내가 미드저니에 '슬프고 파란 달빛 아래 우는 고양이'라고     │
+│                 100줄짜리 프롬프트를 쳐서 예술을 창조했으니 이 그림은 내 거야!"│
+│   * 법원 판사님: "탈락. 프롬프트는 그림을 그리는 '도구(붓)'가 아니라, 화가에게    │
+│                 이런 그림 그려달라고 말하는 '주문서(Idea)'에 불과함.          │
+│                 버튼 딸깍 충(AI 생성 단독)에게는 인간의 <창조적 개입>이       │
+│                 없으므로 저작권을 단 1%도 인정할 수 없다. 기각!"              │
+└──────────────────────────────────────────────────────────────┘
+```
 
 **핵심 원리 (공정 이용 Fair Use 4요소와 인간의 창작성)**:
 학습(Input) 단계에서 쟁점이 되는 미국 [저작권](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/583_ai_code_license_security_threats/)법의 <strong>'공정 이용(Fair Use)'</strong>은 4가지 허들을 넘어야 한다. 목적이 상업적인가? 원본을 얼마나 갖다 썼나? 그리고 <strong>"원본 시장(매출)에 피해를 주는가?"</strong>가 핵심이다. LLM이 원본을 너무 완벽하게 외워버려서([Overfitting](/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/)/Memorization) 원작자의 유료 기사나 그림을 완벽히 대체해 버리면 공정 이용 방어막은 박살 난다.

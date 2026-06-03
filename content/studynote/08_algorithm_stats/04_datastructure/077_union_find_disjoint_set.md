@@ -18,21 +18,20 @@ tags = ["studynote-algorithm-stats"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Union-Find 핵심 연산</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Find(x) : x가 속한 집합의 루트(대표 원소) 반환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Union(x,y): x의 집합과 y의 집합을 하나로 합치기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">isConnected(x,y): Find(x)==Find(y) → 같은 집합 여부</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최적화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 경로 압축 (Path Compression): Find 시 루트 직결</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 랭크 합집합 (Union by Rank): 트리 높이 균형 유지</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────┐
+│           Union-Find 핵심 연산                             │
+├──────────────────────────────────────────────────────────┤
+│                                                          │
+│  Find(x)  : x가 속한 집합의 루트(대표 원소) 반환           │
+│  Union(x,y): x의 집합과 y의 집합을 하나로 합치기            │
+│  isConnected(x,y): Find(x)==Find(y) → 같은 집합 여부      │
+│                                                          │
+│  최적화                                                    │
+│  ├─ 경로 압축 (Path Compression): Find 시 루트 직결        │
+│  └─ 랭크 합집합 (Union by Rank): 트리 높이 균형 유지        │
+└──────────────────────────────────────────────────────────┘
+```
 
 경로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 없이 Union-Find를 구현하면 편향 트리(Skewed Tree)가 되어 Find가 O(n)으로 저하된다.
 
@@ -61,21 +60,17 @@ def union(parent, rank, x, y):
 
 ### [크루스칼](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/042_kruskal/) MST에서의 [Union-Find](/knowledge-base/studynote/12_it_management/02_itsm_itil/070_union_find/) 활용
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">간선을 가중치 오름차순 정렬</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">각 간선 (u, v) 순회</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Find(u) == Find(v)?</div></div>
-<div class="kb-diagram-note">YES → 사이클 형성 → 간선 제외 (Skip)</div>
-<div class="kb-diagram-note">NO → 사이클 없음 → 간선 MST에 포함, Union(u,v)</div>
-</div>
-</div>
-
-
+```text
+간선을 가중치 오름차순 정렬
+    │
+    ▼
+각 간선 (u, v) 순회
+    │
+    ▼
+[Find(u) == Find(v)?]
+  YES → 사이클 형성 → 간선 제외 (Skip)
+  NO  → 사이클 없음  → 간선 MST에 포함, Union(u,v)
+```
 
 - **📢 섹션 요약 비유**: 경로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)은 지하철 탑승 이력을 단순화하는 것이다. 원래 A→B→C→D(루트) 경로로 다녀왔다면, 다음에는 A→D 직접 경로를 기억하게 하여 매번 전체 경로를 따라가지 않아도 된다.
 
@@ -148,23 +143,21 @@ Union-Find는 CPU 코어 할당(같은 소켓의 코어 [그룹화](/knowledge-b
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">기본 Union-Find — 루트 탐색 O(n)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">경로 압축 (Path Compression) — O(log n)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">랭크 기반 합집합 (Union by Rank) — O(log n)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">경로 압축 + 랭크 — O(α(n)) ≈ O(1)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">응용: 크루스칼 MST, 동적 연결성, 클러스터링</div></div>
-</div>
-</div>
-
-
+```text
+[기본 Union-Find — 루트 탐색 O(n)]
+    │
+    ▼
+[경로 압축 (Path Compression) — O(log n)]
+    │
+    ▼
+[랭크 기반 합집합 (Union by Rank) — O(log n)]
+    │
+    ▼
+[경로 압축 + 랭크 — O(α(n)) ≈ O(1)]
+    │
+    ▼
+[응용: 크루스칼 MST, 동적 연결성, 클러스터링]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -56,37 +56,39 @@ Intel TSX는 개발자에게 두 가지 [API](/knowledge-base/studynote/02_opera
 
 HTM이 내부적으로 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 처리하고 충돌을 감지하는 과정이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Intel TSX (RTM) 트랜잭션 동작 흐름</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황 1: 트랜잭션 시작</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">if ( _xbegin() == _XBEGIN_STARTED ) {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// --- 하드웨어 트랜잭션 구역 진입 ---</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// CPU가 L1 캐시를 '임시 버퍼' 모드로 전환함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// 여기서 수정되는 변수들은 램에 바로 안 써지고 캐시에만 머묾(Write Set)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황 2: 낙관적 병렬 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">node-&gt;val = 10; (Write Set에 등록)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">next_node = node-&gt;next; (Read Set에 등록)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// 만약 이때 다른 코어가 node-&gt;val을 읽거나 쓰면?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">충돌 감지!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// 즉시 _xabort()가 강제 호출되며 모든 캐시 수정본을 날림(Rollback).</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황 3: 트랜잭션 성공적 종료 (Commit)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">_xend();</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// 충돌이 없었다면, 캐시의 변경 사항이 단 1클럭 만에 메모리로 확정됨!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">} else {</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황 4: Fallback (롤백된 경우의 안전망)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// 충돌이 났거나, 캐시 용량(L1)을 초과해서 트랜잭션이 터진 경우</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">pthread_mutex_lock(&amp;lock); // ◀ 전통적인 무식한 락(Lock)으로 우회</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">node-&gt;val = 10;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">next_node = node-&gt;next;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">pthread_mutex_unlock(&amp;lock);</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 Intel TSX (RTM) 트랜잭션 동작 흐름                   │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │  [상황 1: 트랜잭션 시작]                                             │
+  │   if ( _xbegin() == _XBEGIN_STARTED ) {                           │
+  │       // --- 하드웨어 트랜잭션 구역 진입 ---                              │
+  │       // CPU가 L1 캐시를 '임시 버퍼' 모드로 전환함.                     │
+  │       // 여기서 수정되는 변수들은 램에 바로 안 써지고 캐시에만 머묾(Write Set)│
+  │                                                                   │
+  │  [상황 2: 낙관적 병렬 실행]                                           │
+  │       node->val = 10;     (Write Set에 등록)                      │
+  │       next_node = node->next; (Read Set에 등록)                   │
+  │                                                                   │
+  │       // 만약 이때 다른 코어가 node->val을 읽거나 쓰면?                   │
+  │       // MESI 프로토콜의 Snoop 신호가 날아옴 -> CPU가 [충돌 감지!]      │
+  │       // 즉시 _xabort()가 강제 호출되며 모든 캐시 수정본을 날림(Rollback). │
+  │                                                                   │
+  │  [상황 3: 트랜잭션 성공적 종료 (Commit)]                              │
+  │       _xend();                                                    │
+  │       // 충돌이 없었다면, 캐시의 변경 사항이 단 1클럭 만에 메모리로 확정됨! │
+  │                                                                   │
+  │   } else {                                                        │
+  │  [상황 4: Fallback (롤백된 경우의 안전망)]                             │
+  │       // 충돌이 났거나, 캐시 용량(L1)을 초과해서 트랜잭션이 터진 경우        │
+  │       pthread_mutex_lock(&lock); // ◀ 전통적인 무식한 락(Lock)으로 우회 │
+  │       node->val = 10;                                             │
+  │       next_node = node->next;                                     │
+  │       pthread_mutex_unlock(&lock);                                │
+  │   }                                                               │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** HTM은 [캐시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/259_cache_memory/)(L1/L2)를 일종의 임시 작업장으로 쓴다. 코어가 메모리를 읽으면 'Read Set', 쓰면 'Write Set'이라는 숨겨진 하드웨어 비트가 켜진다. 멀티코어 환경에서는 항상 MESI [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)에 의해 "나 이거 수정할게"라는 브로드캐스트가 날아다닌다. 만약 내 Read Set이나 Write Set에 포함된 주소를 남이 건드리려고 한다는 MESI 신호를 내 캐시 컨트롤러가 엿듣게 되면, 하드웨어는 즉시 내 작업을 취소(Abort)하고 레지스터를 `_xbegin()` 직전 상태로 완벽히 되돌려 놓는다. 만약 아무도 안 건드렸다면 `_xend()`를 통해 임시 작업장의 내용을 진짜로 인정(Commit)한다.
 
@@ -138,26 +140,29 @@ HLE([Hardware Lock Elision](/knowledge-base/studynote/01_computer_architecture/1
 
 ### 의사결정 및 튜닝 플로우
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">멀티코어 동시성 제어 아키텍처 (HTM) 도입 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">멀티스레드 병목 구간(Mutex/Spinlock)의 성능 최적화 프로젝트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">임계 구역(Critical Section) 내부에서 I/O나 시스템 콜을 호출하는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">HTM 적용 절대 불가</div><div class="kb-diagram-note">(무조건 Abort 터짐)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대책: 락을 유지하거나 로직 분리(Hoisting) 수행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 (순수 메모리 데이터 구조 조작만 있음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스레드 간의 실제 데이터 충돌 확률(Contention Probability)이 높은가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(예: 모든 스레드가 글로벌 카운터 변수 1개만 미친 듯이 올림)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">HTM 비효율적</div><div class="kb-diagram-note">(계속 충돌하여 롤백만 반복됨)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대책: Thread-Local 변수로 찢거나 원자적(Atomic) 사용</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">HTM 최적의 타겟!</div><div class="kb-diagram-note">(예: 거대 해시맵/트리 탐색)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TSX 컴파일 활성화로 Lock-Free 성능 획득!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 멀티코어 동시성 제어 아키텍처 (HTM) 도입 플로우           │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [멀티스레드 병목 구간(Mutex/Spinlock)의 성능 최적화 프로젝트]             │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      임계 구역(Critical Section) 내부에서 I/O나 시스템 콜을 호출하는가?       │
+  │          ├─ 예 ─────▶ [HTM 적용 절대 불가] (무조건 Abort 터짐)        │
+  │          │            대책: 락을 유지하거나 로직 분리(Hoisting) 수행     │
+  │          └─ 아니오 (순수 메모리 데이터 구조 조작만 있음)                   │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      스레드 간의 실제 데이터 충돌 확률(Contention Probability)이 높은가?   │
+  │      (예: 모든 스레드가 글로벌 카운터 변수 1개만 미친 듯이 올림)               │
+  │          ├─ 예 ─────▶ [HTM 비효율적] (계속 충돌하여 롤백만 반복됨)      │
+  │          │            대책: Thread-Local 변수로 찢거나 원자적(Atomic) 사용│
+  │          │                                                        │
+  │          └─ 아니오 ──▶ [HTM 최적의 타겟!] (예: 거대 해시맵/트리 탐색)  │
+  │                         TSX 컴파일 활성화로 Lock-Free 성능 획득!      │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** HTM은 만병통치약이 아니다. "충돌이 거의 안 날 것 같은데, 혹시 몰라서 락을 크게 걸어둔 곳(Low Contention, [Coarse-grained](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/398_coarse_grained_multithreading/) [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))"에서 가장 빛을 발한다. 반대로 "모두가 하나의 변수를 놓고 싸우는 곳(High Contention)"에서는 HTM을 켜면 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 오버헤드 때문에 전통적 스핀락보다 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 3배 이상 느려지는 대참사가 발생한다. (이를 방지하기 위해 glibc는 Abort가 일정 횟수 이상 터지면 스스로 [HTM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/513_htm/) 시도를 포기하고 일반 락 모드로 다운그레이드하는 적응형 백오프 로직을 갖고 있다.)
 
@@ -201,19 +206,15 @@ HLE([Hardware Lock Elision](/knowledge-base/studynote/01_computer_architecture/1
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">CPU 캐시 일관성 정책 (MESI 프로토콜) 이 커널 락(Lock)에 미치는 캐시라인 핑퐁(Ping-pong) 문제</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">하드웨어 트랜잭셔널 메모리 활용 Lock-Free 자료구조 시스템 구현 사례 (Hardware Transactional Memory Htm)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">가상화 I/O 패스스루 (Passthrough) VFIO 프레임워크</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Virtio</div></div>
-</div>
-</div>
-
-
+```text
+[CPU 캐시 일관성 정책 (MESI 프로토콜) 이 커널 락(Lock)에 미치는 캐시라인 핑퐁(Ping-pong) 문제]
+    │
+    ▼
+[하드웨어 트랜잭셔널 메모리 활용 Lock-Free 자료구조 시스템 구현 사례 (Hardware Transactional Memory Htm)]
+    │
+    ├──▶ [가상화 I/O 패스스루 (Passthrough) VFIO 프레임워크]
+    └──▶ [Virtio]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

@@ -18,21 +18,21 @@ tags = ["studynote-database"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코드 테이블 예시</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">통합 코드 테이블</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코드유형</div><div class="kb-diagram-cell">코드</div><div class="kb-diagram-cell">코드명</div><div class="kb-diagram-cell">정렬순서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GENDER</div><div class="kb-diagram-cell">M</div><div class="kb-diagram-cell">남성</div><div class="kb-diagram-cell">1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GENDER</div><div class="kb-diagram-cell">F</div><div class="kb-diagram-cell">여성</div><div class="kb-diagram-cell">2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">STATUS</div><div class="kb-diagram-cell">ACT</div><div class="kb-diagram-cell">활성</div><div class="kb-diagram-cell">1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">STATUS</div><div class="kb-diagram-cell">INA</div><div class="kb-diagram-cell">비활성</div><div class="kb-diagram-cell">2</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    코드 테이블 예시                                    │
+├───────────────────────────────────────────────────────┤
+│  [통합 코드 테이블]                                   │
+│  ┌──────────┬──────┬──────┬────────┐                 │
+│  │ 코드유형  │ 코드  │ 코드명│ 정렬순서│                 │
+│  ├──────────┼──────┼──────┼────────┤                 │
+│  │ GENDER   │ M    │ 남성  │ 1      │                 │
+│  │ GENDER   │ F    │ 여성  │ 2      │                 │
+│  │ STATUS   │ ACT  │ 활성  │ 1      │                 │
+│  │ STATUS   │ INA  │ 비활성│ 2      │                 │
+│  └──────────┴──────┴──────┴────────┘                 │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 코드 테이블은 사전의 <strong>약어 색인</strong>이다. "M=남성, F=여성"처럼 약속된 코드의 의미를 한 곳에서 관리한다.
 
@@ -88,23 +88,21 @@ tags = ["studynote-database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">하드코딩 (1990s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">코드 테이블 (DB 관리, 2000s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 표준 관리 (메타데이터, 2010s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MDM + 참조 데이터 통합 관리 (2015~)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: 데이터 카탈로그 — 코드 메타데이터 자동 관리</div></div>
-</div>
-</div>
-
-
+```text
+[하드코딩 (1990s)]
+    │
+    ▼
+[코드 테이블 (DB 관리, 2000s)]
+    │
+    ▼
+[데이터 표준 관리 (메타데이터, 2010s)]
+    │
+    ▼
+[MDM + 참조 데이터 통합 관리 (2015~)]
+    │
+    ▼
+[현재: 데이터 카탈로그 — 코드 메타데이터 자동 관리]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 코드 테이블은 <strong>약어 사전</strong>이에요. "M=남자, F=여자"처럼 약속된 의미를 정해요.

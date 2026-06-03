@@ -45,22 +45,23 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)이 "이벤트 기반"이 아니라 "반복 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 기반"이라는 점을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Polling I/O Control Flow</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU System Bus I/O Controller</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 1) Write command ▶</div><div class="kb-diagram-cell">▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">start work</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 2) Read status ◀</div><div class="kb-diagram-cell">◀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 3) Not ready ── loop ▶</div><div class="kb-diagram-cell">processing</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 4) Read status ◀</div><div class="kb-diagram-cell">◀</div><div class="kb-diagram-cell">ready = 1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 5) Transfer data ▶</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">complete</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                    Polling I/O Control Flow                         │
+├──────────────────────────────────────────────────────────────────────┤
+│ CPU                          System Bus           I/O Controller    │
+│ │                                │                     │            │
+│ ├─ 1) Write command ────────────▶│───────────────▶     │            │
+│ │                                │                     │ start work │
+│ ├─ 2) Read status  ◀────────────│◀───────────────     │            │
+│ │                                │                     │            │
+│ ├─ 3) Not ready   ── loop ──────▶│                     │ processing │
+│ │                                │                     │            │
+│ ├─ 4) Read status  ◀────────────│◀───────────────     │ ready = 1  │
+│ │                                │                     │            │
+│ └─ 5) Transfer data ────────────▶│───────────────▶     │ complete   │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 포인트는 CPU가 장치 완료 신호를 "기다리는" 것이 아니라, 완료 여부를 "반복 조회"한다는 데 있다. 예를 들어 장치 준비 시간이 10μs이고 상태 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 루프가 50ns마다 한 번 돈다면, CPU는 약 200번 같은 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 읽은 뒤에야 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 옮긴다. 준비 직후 즉시 반응할 가능성은 높지만, 그 10μs 동안 다른 작업은 사실상 못 한다.
 
@@ -144,24 +145,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">프로그램 제어 I/O (Programmed I/O)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">상태 레지스터 확인 · 폴링 (Polling)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">바쁜 대기 (Busy Waiting) 한계</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ 인터럽트 구동 I/O (Interrupt-driven I/O)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DMA (Direct Memory Access)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">하이브리드 폴링 (NAPI, DPDK)</div>
-</div>
-</div>
-
-
+```text
+프로그램 제어 I/O (Programmed I/O)
+        │
+        ▼
+상태 레지스터 확인 · 폴링 (Polling)
+        │
+        ▼
+바쁜 대기 (Busy Waiting) 한계
+        │
+        ├──────────────▶ 인터럽트 구동 I/O (Interrupt-driven I/O)
+        │
+        ▼
+DMA (Direct Memory Access)
+        │
+        ▼
+하이브리드 폴링 (NAPI, DPDK)
+```
 
 이 흐름은 단순 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 방식에서 시작해, CPU 낭비를 줄이는 방향으로 발전하다가, 다시 초저지연 구간에서 전략적 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)이 재활용되는 과정을 보여준다.
 

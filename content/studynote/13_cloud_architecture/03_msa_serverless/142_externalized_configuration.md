@@ -18,20 +18,14 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">코드에 설정 → 환경별 빌드 필요 → 위험</div>
-<div class="kb-diagram-note">외부 설정:</div>
-<div class="kb-diagram-note">환경변수 (12-Factor)</div>
-<div class="kb-diagram-note">Config Server (Spring Cloud Config)</div>
-<div class="kb-diagram-note">K8s ConfigMap/Secret</div>
-<div class="kb-diagram-note">Vault (시크릿 암호화)</div>
-</div>
-</div>
-
-
+```text
+코드에 설정 → 환경별 빌드 필요 → 위험
+외부 설정:
+  환경변수 (12-Factor)
+  Config Server (Spring Cloud Config)
+  K8s ConfigMap/Secret
+  Vault (시크릿 암호화)
+```
 
 - **📢 섹션 요약 비유**: 외부 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)은 <strong>유니폼(코드)과 이름표(<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a>)를 분리</strong>하는 것이다. 같은 유니폼에 이름표만 바꾸면 된다.
 
@@ -55,18 +49,12 @@ Externalized Configuration은 <strong>12-Factor App의 핵심</strong>이며, [C
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">하드코딩 (~2010)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">환경변수 (12-Factor, 2011)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Spring Cloud Config (2015)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">K8s ConfigMap/Secret (2016)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: Vault + Dynamic Secrets — 자동 회전</div></div>
-</div>
-</div>
-
-
+```text
+[하드코딩 (~2010)] → [환경변수 (12-Factor, 2011)]
+    → [Spring Cloud Config (2015)]
+    → [K8s ConfigMap/Secret (2016)]
+    → [현재: Vault + Dynamic Secrets — 자동 회전]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 외부 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)은 <strong>유니폼과 이름표를 분리</strong>하는 거예요.

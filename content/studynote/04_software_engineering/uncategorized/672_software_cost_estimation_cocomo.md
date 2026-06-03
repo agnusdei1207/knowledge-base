@@ -31,28 +31,32 @@ tags = ["studynote-software-engineering"]
 
 기존 경험적 추정 방식과 [COCOMO](/knowledge-base/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/) 모델이 프로젝트 복잡도를 다루는 방식의 차이를 시각화하면 다음과 같다. 규모가 커질수록 직관적 추정은 실제 필요 노력을 과소평가하는 경향이 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">규모(LOC)에 따른 필요 노력(Effort) 증가 곡선</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">노력(PM)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ / Embedded</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ (복잡함, 지수 큼)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ Semi-detached</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ (중간)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ Organic</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ (단순, 지수 작음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">. . . . ./ . . . . . . 직관적/선형적 추정(실패 원인)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 규모</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(KLOC)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ 공식: Effort(PM) = a * (KLOC)^b</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">규모가 커질수록 의사소통 비용 등으로 인해</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">필요 노력이 기하급수적으로 증가함. (b &gt; 1.0)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────┐
+  │         규모(LOC)에 따른 필요 노력(Effort) 증가 곡선      │
+  ├─────────────────────────────────────────────────────────┤
+  │                                                         │
+  │  노력(PM)                                                │
+  │   ▲                                    / Embedded       │
+  │   │                                  /  (복잡함, 지수 큼) │
+  │   │                                /                    │
+  │   │                              /                      │
+  │   │                            /  Semi-detached         │
+  │   │                         /    (중간)                 │
+  │   │                      /                              │
+  │   │                    /     Organic                    │
+  │   │                 /       (단순, 지수 작음)            │
+  │   │              /                                      │
+  │   │   . . . . ./ . . . . . . 직관적/선형적 추정(실패 원인) │
+  │   │                                                     │
+  │   └───────────────────────────────────────────▶ 규모  │
+  │                                              (KLOC)     │
+  │                                                         │
+  │  ※ 공식: Effort(PM) = a * (KLOC)^b                       │
+  │     규모가 커질수록 의사소통 비용 등으로 인해              │
+  │     필요 노력이 기하급수적으로 증가함. (b > 1.0)          │
+  └─────────────────────────────────────────────────────────┘
+```
 
   **[다이어그램 해설]** 이 그래프의 핵심은 소프트웨어 개발 노력이 규모(KLOC)에 비례하여 선형적으로 증가하지 않는다는 점이다. 사람이 늘어나고 시스템 단위가 커질수록 인터페이스 복잡도와 커뮤니케이션 오버헤드가 기하급수적으로 증가하기 때문이다. COCOMO는 방정식의 지수(b) 값을 프로젝트 복잡도(Organic, Semi-detached, Embedded)에 따라 다르게 부여하여 이 비선형성을 수학적으로 모델링했다. 따라서 대규모의 [임베디드 시스템](/knowledge-base/studynote/02_operating_system/01_overview_architecture/010_embedded_system/)(Embedded)일수록 동일한 코드를 짜더라도 훨씬 더 가파른 비용 증가 곡선을 그리게 된다.
 
@@ -148,30 +152,28 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 소프트웨어 비용 산정 COCOMO의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 소프트웨어 비용 산정 COCOMO의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
 | [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 소프트웨어 비용 산정 COCOMO은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | 소프트웨어 비용 산정 [COCOMO](/knowledge-base/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
 | [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 소프트웨어 비용 산정 COCOMO에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">소프트웨어 비용 산정 COCOMO 개념 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 위기 (Software Crisis) 인식
+    │
+    ▼
+소프트웨어 비용 산정 COCOMO 개념 정립
+    │
+    ▼
+표준화 및 방법론 체계화 (ISO, CMMI, Agile)
+    │
+    ▼
+클라우드 네이티브·AI 기반 확장 적용
+    │
+    ▼
+지속적 개선 및 DevOps·MLOps 통합
+```
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

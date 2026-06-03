@@ -27,24 +27,23 @@ tags = ["studynote-operating-system"]
   2. **vfork의 눈부신 등장 (BSD 3.0)**: "복사를 안 하면 램 복사 렉이 없어지잖아!"라며 등장한 `vfork()`는 당시 굼벵이 같던 서버 속도를 로켓으로 만들어준 구원자였다.
   3. **COW의 등장과 계륵**: 나중에 OS에 갓술인 COW가 탑재되며 `fork()`가 충분히 가벼워지자, 부모를 멈춰 세우는 기형적인 `vfork()`는 버그 유발자로 찍혀 POSIX 표준에서 삭제 권고를 받는 등 천덕꾸러기 신세로 전락했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">fork() + COW vs vfork() 의 동작 파이프라인 비교</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1. fork() + exec() 구조 (현대 표준)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">부모</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">자식용 페이지 테이블 '복사 생성' (미세한 지연)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">부모</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">계속 지 할 일 함 (동시 실행 🟢)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">자식</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">부모 장부 복사본 들고 놀다가 ─(exec)─▶ 새 장부로 갈아탐</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2. vfork() 구조 (극한의 변태 최적화)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">부모</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">자식 생성! 장부 복사? 그런 거 없음. 원본 그대로 씀.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">부모</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">자식한테 뇌 뺏기고 '기절 (Blocked)' ☠️</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">자식</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">부모 뇌(원본 메모리) 들고 신나게 돎 ─(exec)─▶ 새 뇌로 갈아탐</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">부모</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">자식이 새 뇌로 갈아타고 나서야 기절에서 깨어나 할 일 함 🟢</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│        fork() + COW  vs  vfork() 의 동작 파이프라인 비교                │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│ ▶ 1. fork() + exec() 구조 (현대 표준)                                   │
+│  [부모] ─(fork)─▶ 자식용 페이지 테이블 '복사 생성' (미세한 지연)        │
+│  [부모] ──▶ 계속 지 할 일 함 (동시 실행 🟢)                             │
+│  [자식] ──▶ 부모 장부 복사본 들고 놀다가 ─(exec)─▶ 새 장부로 갈아탐     │
+│                                                                         │
+│ ▶ 2. vfork() 구조 (극한의 변태 최적화)                                  │
+│  [부모] ─(vfork)─▶ 자식 생성! 장부 복사? 그런 거 없음. 원본 그대로 씀.  │
+│  [부모] ──▶ 자식한테 뇌 뺏기고 '기절 (Blocked)' ☠️                      │
+│  [자식] ──▶ 부모 뇌(원본 메모리) 들고 신나게 돎 ─(exec)─▶ 새 뇌로 갈아탐│
+│  [부모] ──▶ 자식이 새 뇌로 갈아타고 나서야 기절에서 깨어나 할 일 함 🟢  │
+└─────────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** `vfork()`는 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)([Concurrency](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/266_other_transparency/))을 스스로 파괴하는 기형적인 구조다. 자식이 태어난 순간 부모는 무조건 멈춘다. 자식이 자기만의 새로운 메모리 공간(`exec`)을 얻어 부모의 공간에서 독립해 나가는 그 찰나의 순간(수 마이크로초)까지만 잠시 몸(메모리)을 하나로 합쳐 쓰는 심비오트(기생수) 같은 상태다. 장부 복사 비용(수 밀리초)조차 없애버린 극한의 속도를 얻었다.
 
 - **📢 섹션 요약 비유**: `fork`는 엄마가 아이에게 새 자전거를 사주고 각자 갈 길 가는 것이지만, `vfork`는 아이가 자전거 사달라고 떼쓰니까 엄마가 타고 있던 자전거를 던져주고 아이가 저 멀리 새 자전거(`exec`)를 훔쳐 탈 때까지 길거리에 멍하니 서서 기다리는 눈물겨운 양보입니다.
@@ -93,18 +92,15 @@ tags = ["studynote-operating-system"]
 - 프로그래머 입장에서 "자식이 뭘 건드릴지 몰라 부모가 터질까 전전긍긍하는 `vfork`"를 쓸 바에야, 0.001초 미세하게 느리더라도 마음 편하게 맘대로 코딩할 수 있는 `fork`를 쓰는 것이 백배 천배 정신 건강에 좋았다.
 - 결국 최신 POSIX 표준은 `vfork()`를 구시대의 유물로 선언했고, 요즘 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서 프로그래머가 `vfork()`를 호출하면 OS가 그냥 내부적으로 꼼수를 써서 가벼운 `fork()`처럼 비슷하게 돌려버리는 식으로 퉁치고 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로세스 생성</div><div class="kb-diagram-cell">램 데이터 복사</div><div class="kb-diagram-cell">페이지장부 복사</div><div class="kb-diagram-cell">부모 동시 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">구형 fork</div><div class="kb-diagram-cell">☠️ 100% 쌩복사</div><div class="kb-diagram-cell">100% 복사</div><div class="kb-diagram-cell">🟢 동시 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">현대 fork</div><div class="kb-diagram-cell">🟢 COW (안함)</div><div class="kb-diagram-cell">100% 복사</div><div class="kb-diagram-cell">🟢 동시 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">vfork()</div><div class="kb-diagram-cell">🟢 안 함</div><div class="kb-diagram-cell">🟢 안 함</div><div class="kb-diagram-cell">☠️ 부모 기절</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬─────────────────────────────┐
+│ 프로세스 생성│ 램 데이터 복사 │ 페이지장부 복사 │ 부모 동시 실행 │
+├──────────┼────────────┼────────────┼─────────────────────────────┤
+│ 구형 fork │ ☠️ 100% 쌩복사│ 100% 복사   │ 🟢 동시 실행           │
+│ 현대 fork │ 🟢 COW (안함)│ 100% 복사   │ 🟢 동시 실행            │
+│ vfork()  │ 🟢 안 함    │ 🟢 안 함    │ ☠️ 부모 기절              │
+└──────────┴────────────┴────────────┴─────────────────────────────┘
+```
 **[매트릭스 해설]** `vfork`는 오직 '[페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 장부 복사'라는 쥐꼬리만 한 오버헤드 하나를 줄이기 위해 부모 프로세스의 심장([동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/))을 정지시켜버린 극약 처방이다. 최신 서버 환경에서는 이 쥐꼬리만 한 이득이 부모가 기절해서 버려지는 CPU 사이클(코어 놀림)보다 훨씬 작기 때문에 철저히 버림받았다.
 
 - **📢 섹션 요약 비유**: F1 레이싱에서 차체 무게(장부 복사) 1kg을 줄이겠다고 드라이버에게 물([동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/))을 한 모금도 안 마시게 한 `vfork` 전략은, 훗날 엔진 출력(CPU [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))이 수천 마력으로 늘어나자 1kg 가벼운 것보다 드라이버가 탈수증으로 기절(부모 Block)하는 손해가 훨씬 커져서 폐기된 전술과 같습니다.
@@ -142,7 +138,7 @@ tags = ["studynote-operating-system"]
 
 `vfork()`는 "가장 위험한 것이 가장 빠르다"는 시스템 프로그래밍의 뒷골목 철학을 여과 없이 보여주는 야생의 시스템 콜이다. [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)와 COW라는 우아한 갑옷이 발명되기 전, 척박한 물리 램 환경에서 프로세스를 낳기 위해 부모가 뇌를 멈추고 몸을 빌려줘야 했던 원시적인 투쟁의 흔적이다. 현대의 x86 리눅스 데스크톱 환경에서는 사실상 박물관에 박제된 화석이 되었고, `posix_spawn()` 같은 더 안전하고 최적화된 최신 융합 함수들에 밀려 사라지고 있다. 하지만 화성 탐사선이나 초소형 드론의 심장에 박힌 [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/)-less 임베디드 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 안에서는, 단 1바이트의 램과 1클럭의 전력도 허투루 쓰지 않으려는 이 거칠고 위험한 함수의 톱니바퀴가 지금 이 순간에도 수천만 번씩 격렬하게 돌아가고 있다.
 
-- **📢 섹션 요약 비유**: 최신식 에어백과 자율주행이 달린 최고급 세단(현대 fork) 시대에, 문짝 떼어내고 안전벨트도 없이 오직 제로백(가속) 하나에만 몰빵한 구형 레이싱카(vfork)입니다. 일반 도로에선 목숨 걸고 타야 하는 불법 개조 차량이지만, 아직도 오프로드(임베디드) 진흙탕 경주에서는 이만한 가성비 괴물이 존재하지 않습니다.
+- **📢 섹션 요약 비유**: 최정보 에어백과 자율주행이 달린 최고급 세단(현대 fork) 시대에, 문짝 떼어내고 안전벨트도 없이 오직 제로백(가속) 하나에만 몰빵한 구형 레이싱카(vfork)입니다. 일반 도로에선 목숨 걸고 타야 하는 불법 개조 차량이지만, 아직도 오프로드(임베디드) 진흙탕 경주에서는 이만한 가성비 괴물이 존재하지 않습니다.
 
 ---
 
@@ -157,19 +153,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">쓰기 시 복사 (COW, Copy-on-Write)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">vfork()</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">페이지 교체 (Page Replacement)의 필요성</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">변경 비트 (Modify Bit / Dirty Bit)</div></div>
-</div>
-</div>
-
-
+```text
+[쓰기 시 복사 (COW, Copy-on-Write)]
+    │
+    ▼
+[vfork()]
+    │
+    ├──▶ [페이지 교체 (Page Replacement)의 필요성]
+    └──▶ [변경 비트 (Modify Bit / Dirty Bit)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

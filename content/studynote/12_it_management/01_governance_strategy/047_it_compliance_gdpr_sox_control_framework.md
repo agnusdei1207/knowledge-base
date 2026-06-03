@@ -224,51 +224,57 @@ ROI:
 
 ## Ⅴ. 실무 시나리오 — [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 스타트업 컴플라이언스
 
+```
+B2B SaaS 스타트업 컴플라이언스 로드맵:
 
+배경:
+  HR SaaS 스타트업 (직원 50명)
+  EU + 미국 고객
+  
+  의무 규정:
+  - GDPR: EU 고객 HR 데이터
+  - SOC 2: Enterprise 계약 요건
+  - ISO 27001: 일부 고객 요구
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">B2B SaaS 스타트업 컴플라이언스 로드맵:</div>
-<div class="kb-diagram-note">배경:</div>
-<div class="kb-diagram-note">HR SaaS 스타트업 (직원 50명)</div>
-<div class="kb-diagram-note">EU + 미국 고객</div>
-<div class="kb-diagram-note">의무 규정:</div>
-<div class="kb-diagram-tree-item" style="--depth:1">GDPR: EU 고객 HR 데이터</div>
-<div class="kb-diagram-tree-item" style="--depth:1">SOC 2: Enterprise 계약 요건</div>
-<div class="kb-diagram-tree-item" style="--depth:1">ISO 27001: 일부 고객 요구</div>
-<div class="kb-diagram-note">우선순위 결정:</div>
-<div class="kb-diagram-note">Phase 1 (즉시): GDPR 기본 준수</div>
-<div class="kb-diagram-note">1. 개인정보 처리 방침 업데이트</div>
-<div class="kb-diagram-note">2. 동의 관리 구현 (CMP)</div>
-<div class="kb-diagram-note">3. 데이터 처리 활동 기록 (ROPA)</div>
-<div class="kb-diagram-note">4. DPA (Data Processing Agreement) 표준화</div>
-<div class="kb-diagram-note">5. 암호화 전면 적용 (저장+전송)</div>
-<div class="kb-diagram-note">6. 보안 사고 통지 절차 (72시간 내)</div>
-<div class="kb-diagram-note">비용: 법무 $20,000 + 기술 구현 $15,000</div>
-<div class="kb-diagram-note">Phase 2 (6개월): SOC 2 Type II 준비</div>
-<div class="kb-diagram-note">접근 통제 강화:</div>
-<div class="kb-diagram-tree-item" style="--depth:1">모든 시스템 MFA</div>
-<div class="kb-diagram-tree-item" style="--depth:1">분기별 접근 권한 검토</div>
-<div class="kb-diagram-note">변경 관리:</div>
-<div class="kb-diagram-tree-item" style="--depth:1">GitHub PR 승인 프로세스</div>
-<div class="kb-diagram-tree-item" style="--depth:1">배포 로그 자동화</div>
-<div class="kb-diagram-note">모니터링:</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Datadog 로그 보안 이벤트</div>
-<div class="kb-diagram-tree-item" style="--depth:1">이상 접근 알림</div>
-<div class="kb-diagram-note">비용: 감사 법인 $60,000 + 구현 $25,000</div>
-<div class="kb-diagram-note">Phase 3 (12개월): 인증 획득 + 영업 활용</div>
-<div class="kb-diagram-note">SOC 2 Type II 인증서 획득</div>
-<div class="kb-diagram-note">GDPR 준수 선언 + DPA 표준화</div>
-<div class="kb-diagram-note">보안 신뢰 센터 웹페이지 공개</div>
-<div class="kb-diagram-note">결과:</div>
-<div class="kb-diagram-note">Enterprise 계약 수: 5개 → 23개 (6개월 내)</div>
-<div class="kb-diagram-note">평균 계약 금액: 1.5×</div>
-<div class="kb-diagram-note">고객 보안 질문서(SIG) 시간:</div>
-<div class="kb-diagram-note">2주 → 2일 (신뢰 센터로)</div>
-</div>
-</div>
+우선순위 결정:
 
+Phase 1 (즉시): GDPR 기본 준수
+  1. 개인정보 처리 방침 업데이트
+  2. 동의 관리 구현 (CMP)
+  3. 데이터 처리 활동 기록 (ROPA)
+  4. DPA (Data Processing Agreement) 표준화
+  5. 암호화 전면 적용 (저장+전송)
+  6. 보안 사고 통지 절차 (72시간 내)
+  
+  비용: 법무 $20,000 + 기술 구현 $15,000
 
+Phase 2 (6개월): SOC 2 Type II 준비
+  접근 통제 강화:
+  - 모든 시스템 MFA
+  - 분기별 접근 권한 검토
+  
+  변경 관리:
+  - GitHub PR 승인 프로세스
+  - 배포 로그 자동화
+  
+  모니터링:
+  - Datadog 로그 보안 이벤트
+  - 이상 접근 알림
+  
+  비용: 감사 법인 $60,000 + 구현 $25,000
+
+Phase 3 (12개월): 인증 획득 + 영업 활용
+  SOC 2 Type II 인증서 획득
+  GDPR 준수 선언 + DPA 표준화
+  보안 신뢰 센터 웹페이지 공개
+  
+결과:
+  Enterprise 계약 수: 5개 → 23개 (6개월 내)
+  평균 계약 금액: 1.5×
+  
+  고객 보안 질문서(SIG) 시간:
+  2주 → 2일 (신뢰 센터로)
+```
 
 > 📢 **섹션 요약 비유**: [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 컴플라이언스 로드맵 — [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/)(집 청소: 기본 위생), [SOC 2](/knowledge-base/studynote/09_security/17_framework_compliance/855_soc_2/)(위생 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서: Enterprise 신뢰). [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 후 대기업 계약 5배 증가. 컴플라이언스 = 영업 도구!
 

@@ -23,17 +23,14 @@ tags = ["studynote-ai"]
 
 기본 RNN은 시퀀스를 처리하며 과거 은닉 상태 h_t를 체인처럼 연결하지만, [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 시 각 시점마다 같은 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 행렬의 미분이 곱해진다. tanh의 미분값은 최대 1이므로, 100 시점 이전 기울기는 최대 1^100 = 극소값이 된다. 이것이 <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/">기울기 소실</a>(<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/240_relu_vanishing_gradient_softmax_backprop_chain/">Vanishing Gradient</a>)</strong>이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 100명이 줄지어 서서 귓속말 게임을 한다. 1번이 "오늘 고양이가 다쳤다"고 속삭이면, 100번에게 도착할 때쯤 "오늘 어쩌고 저쩌고..."로 변해 핵심 내용이 사라진다. 이게 바로 [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/)이다. 귓속말이 전달될수록 작아지고 끝에는 들리지 않는다.
 
@@ -41,27 +38,28 @@ tags = ["studynote-ai"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기울기 소실 (Vanishing Gradient) 수학적 메커니즘</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">순전파 (Forward Pass):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">h_1 ──▶ h_2 ──▶ h_3 ──▶ ... ──▶ h_T (시간 흐름 →)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">역전파 (Backward Pass / BPTT: Backpropagation Through Time):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">∂L/∂h_1 = ∂L/∂h_T × (W_h × σ'(h_T)) × ... × (W_h × σ'(h_2))</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T번 반복 곱셈 →</div><div class="kb-diagram-cell">W_h × σ'</div><div class="kb-diagram-cell">&lt; 1이면 → 0에 수렴 (소실)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">W_h × σ'</div><div class="kb-diagram-cell">&gt; 1이면 → ∞로 폭발 (폭발)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예시: tanh 미분 최대값 = 1.0, 보통 0.1~0.3 수준</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0.3 × 0.3 × 0.3 × ... × 0.3 (100번) ≈ 10^(-52) ≈ 0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ h_1의 기울기가 사실상 0 → h_1 가중치는 전혀 업데이트 안 됨!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해결책 계보:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RNN ──(소실 문제 발견)──▶ LSTM(1997) ──▶ GRU(2014)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──(구조 혁신) ▶ Transformer(2017) : 소실 문제 근본 해소</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│         기울기 소실 (Vanishing Gradient) 수학적 메커니즘            │
+├──────────────────────────────────────────────────────────────┤
+│  순전파 (Forward Pass):                                        │
+│  h_1 ──▶ h_2 ──▶ h_3 ──▶ ... ──▶ h_T  (시간 흐름 →)          │
+│                                                              │
+│  역전파 (Backward Pass / BPTT: Backpropagation Through Time): │
+│  ∂L/∂h_1 = ∂L/∂h_T × (W_h × σ'(h_T)) × ... × (W_h × σ'(h_2)) │
+│           ────────────────────────────────────────────────   │
+│           T번 반복 곱셈 → |W_h × σ'| < 1이면 → 0에 수렴 (소실)  │
+│                         |W_h × σ'| > 1이면 → ∞로 폭발 (폭발)   │
+│                                                              │
+│  예시: tanh 미분 최대값 = 1.0, 보통 0.1~0.3 수준               │
+│       0.3 × 0.3 × 0.3 × ... × 0.3  (100번) ≈ 10^(-52) ≈ 0   │
+│       → h_1의 기울기가 사실상 0 → h_1 가중치는 전혀 업데이트 안 됨!│
+│                                                              │
+│  해결책 계보:                                                   │
+│  RNN ──(소실 문제 발견)──▶ LSTM(1997) ──▶ GRU(2014)            │
+│       ──(구조 혁신)────▶ Transformer(2017) : 소실 문제 근본 해소  │
+└──────────────────────────────────────────────────────────────┘
+```
 
 | 문제 | 원인 | 증상 | 해결책 |
 |:---|:---|:---|:---|

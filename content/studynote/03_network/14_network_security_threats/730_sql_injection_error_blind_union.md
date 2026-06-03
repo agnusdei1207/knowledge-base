@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: 해커가 웹사이트의 검색창, 로그인 창, 주소창 등에 악의적인 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a> 쿼리문(SQL)</strong>을 몰래 삽입([Injection](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/))하여, 백엔드 서버의 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)(DB)를 속이고 권한을 탈취하거나 기밀 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 빼내는 공격입니다.
 - **원인**: 개발자가 짠 서버 코드가, 사용자가 친 글자를 무비판적으로 믿고 그대로 DB에 찔러 넣기(조립하기) 때문에 발생합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">크로스 사이트 요청 위조</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">APT (Advanced Persistent…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">버퍼 오버플로우 공격</div></div>
-</div>
-</div>
-
-
+```text
+[크로스 사이트 요청 위조]
+    │
+    ▼
+[APT (Advanced Persistent…]
+    │
+    └──▶ [버퍼 오버플로우 공격]
+```
 
 - **📢 섹션 요약 비유**: [APT](/knowledge-base/studynote/09_security/15_malware_attack_vectors/748_apt/) (Advanced Persistent…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -46,18 +42,14 @@ tags = ["studynote-network"]
 - 조작된 로직: `SELECT * FROM members WHERE ID = 'admin' -- AND PW = '아무거나'`
 - 뒤쪽 패스워드 묻는 코드가 `--`(주석 기호) 때문에 삭제(투명화)되어버리고, DB는 무조건 "오 관리자(admin) 맞네!" 하고 서버 문을 활짝 열어버리는 마법이 일어납니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">크로스 사이트 요청 위조</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">APT (Advanced Persistent…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">버퍼 오버플로우 공격</div></div>
-</div>
-</div>
-
-
+```text
+[크로스 사이트 요청 위조]
+    │
+    ▼
+[APT (Advanced Persistent…]
+    │
+    └──▶ [버퍼 오버플로우 공격]
+```
 
 - **📢 섹션 요약 비유**: [APT](/knowledge-base/studynote/09_security/15_malware_attack_vectors/748_apt/) (Advanced Persistent…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -124,19 +116,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 크로스 사이트 요청 위조</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: APT (Advanced Persistent…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 버퍼 오버플로우 공격</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 크로스 사이트 요청 위조]
+    │
+    ▼
+[현재 개념: APT (Advanced Persistent…]
+    │
+    ├──▶ [확장 A: 버퍼 오버플로우 공격]
+    └──▶ [확장 B: 예측형 위협 대응]
+```
 
 [APT](/knowledge-base/studynote/09_security/15_malware_attack_vectors/748_apt/) (Advanced Persistent…는 크로스 사이트 요청 위조에서 출발해 현재 메커니즘을 정교화하고, 이후 [버퍼 오버플로우 공격](/knowledge-base/studynote/03_network/14_network_security_threats/731_buffer_overflow_stack_heap_aslr/)와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

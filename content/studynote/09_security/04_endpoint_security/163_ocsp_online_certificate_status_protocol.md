@@ -43,20 +43,21 @@ OCSP의 기본 흐름은 단순하다. 클라이언트는 서버가 제시한 �
 
 아래 그림은 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 접속 중 [OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/) 질의가 개입되는 흐름을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OCSP의 기본 검증 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Browser ── TLS Handshake ──▶ Web Server</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Certificate + AIA</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OCSP Request ▶ Responder</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Signed Response: good / revoked / unknown</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Validation Decision ◀</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                    OCSP의 기본 검증 흐름                            │
+├──────────────────────────────────────────────────────────────────────┤
+│ Browser ── TLS Handshake ──▶ Web Server                             │
+│    │                           │                                    │
+│    │  Certificate + AIA        │                                    │
+│    ▼                           │                                    │
+│ OCSP Request ────────────────▶ Responder                            │
+│    │                           │                                    │
+│    │  Signed Response: good / revoked / unknown                     │
+│    ▼                           │                                    │
+│ Validation Decision ◀──────────┘                                    │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 기술적으로 중요한 점은 응답이 <strong>서명되어야 한다</strong>는 것이다. 그렇지 않으면 공격자가 중간에서 "정상"이라고 위조 응답을 보낼 수 있다. 또한 응답에는 `thisUpdate`, `nextUpdate` 같은 시점 정보가 포함되어 캐시 허용 범위를 정한다. 결국 OCSP는 단순 조회가 아니라, <strong>짧은 수명의 서명된 상태 증명서</strong>를 교환하는 구조라고 볼 수 있다.
 
@@ -132,23 +133,21 @@ OCSP는 폐기 상태를 더 빠르고 가볍게 [확인](/knowledge-base/studyn
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">인증서 만료일 확인만으로는 부족</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CRL (목록 기반 폐기 확인)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">OCSP (실시간 개별 질의)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">OCSP Stapling</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">프라이버시 · 가용성 · CT 연계 검증</div>
-</div>
-</div>
-
-
+```text
+인증서 만료일 확인만으로는 부족
+    │
+    ▼
+CRL (목록 기반 폐기 확인)
+    │
+    ▼
+OCSP (실시간 개별 질의)
+    │
+    ▼
+OCSP Stapling
+    │
+    ▼
+프라이버시 · 가용성 · CT 연계 검증
+```
 
 이 흐름은 "목록 기반 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) → 실시간 상태 질의 → [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 프라이버시 개선"으로 이어지는 폐기 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 기술의 발전 방향을 보여준다.
 

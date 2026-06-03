@@ -18,22 +18,20 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">카나리 배포 트래픽 점진 확대</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Phase 1: v2 → 1% 트래픽 (카나리)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">v1 → 99% 트래픽 (베이스라인)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 메트릭 관찰 (에러율, 레이턴시)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Phase 2: v2 → 10% 트래픽</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Phase 3: v2 → 50% 트래픽</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Phase 4: v2 → 100% 트래픽 (완전 전환)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문제 발생 시: 즉시 v2 → 0%, v1 → 100% (롤백)</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    카나리 배포 트래픽 점진 확대                         │
+├───────────────────────────────────────────────────────┤
+│  Phase 1: v2 → 1% 트래픽 (카나리)                    │
+│           v1 → 99% 트래픽 (베이스라인)                │
+│           → 메트릭 관찰 (에러율, 레이턴시)             │
+│  Phase 2: v2 → 10% 트래픽                            │
+│  Phase 3: v2 → 50% 트래픽                            │
+│  Phase 4: v2 → 100% 트래픽 (완전 전환)               │
+│                                                       │
+│  문제 발생 시: 즉시 v2 → 0%, v1 → 100% (롤백)       │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)는 탄광의 [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)아 새에서 유래했다. 새가 먼저 들어가서 유독 [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)(버그)를 감지하면 광부(사용자 전체)가 들어가지 않는다.
 
@@ -117,23 +115,21 @@ strategy:
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">롤링 업데이트 (2000s) — Pod 순차 교체</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">블루/그린 배포 (2010s) — 100% 전환</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">카나리 배포 (2015~) — 1%→100% 점진 확대</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ACA + Argo Rollouts (2020~) — 자동 판정·자동 확대</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: Progressive Delivery — 카나리+피처플래그+ACA 통합</div></div>
-</div>
-</div>
-
-
+```text
+[롤링 업데이트 (2000s) — Pod 순차 교체]
+    │
+    ▼
+[블루/그린 배포 (2010s) — 100% 전환]
+    │
+    ▼
+[카나리 배포 (2015~) — 1%→100% 점진 확대]
+    │
+    ▼
+[ACA + Argo Rollouts (2020~) — 자동 판정·자동 확대]
+    │
+    ▼
+[현재: Progressive Delivery — 카나리+피처플래그+ACA 통합]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 새 요리를 만들면 처음에 **10명 중 1명에게만** 맛보게 해요 ([카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)).

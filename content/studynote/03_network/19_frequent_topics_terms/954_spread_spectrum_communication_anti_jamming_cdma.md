@@ -20,20 +20,16 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - 좁은 주파수 대역(예: 1차선 도로)에 에너지를 꽉꽉 뭉쳐서(출력 집중) 보내는 방식입니다.
-- **문제점**: 길(주파수)이 딱 정해져 있으니, 해커나 적군이 그 주파수 대역에 똑같은 방해 전파(Jamming)를 쏘면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 100% 씹혀서 파괴됩니다(통신 두절). 또한 주변에 에너지가 너무 튀어서 적의 레이더에 위치가 100% 발각됩니다.
+- **문제점**: 길(주파수)이 딱 정해져 있으니, 해커나 적군이 그 주파수 대역에 똑같은 방해 전파(Jamming)를 쏘면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 100% 씹혀서 파괴됩니다(통신 두절). 또한 주변에 에너지가 너무 튀어서 적의 레이더에 위치가 100% 감지됩니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">매체 접근 제어</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">확산 스펙트럼</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">FHSS</div></div>
-</div>
-</div>
-
-
+```text
+[매체 접근 제어]
+    │
+    ▼
+[확산 스펙트럼]
+    │
+    └──▶ [FHSS]
+```
 
 - **📢 섹션 요약 비유**: 확산 스펙트럼은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -44,18 +40,14 @@ tags = ["studynote-network"]
 - **개념**: 전송할 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 필요로 하는 최소한의 주파수 대역폭보다 <strong>훨씬 더 넓은(수십 배) 주파수 대역(광대역)으로 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a>의 에러지를 넓고 얇게 쫙 펴 발라서(확산) 전송하는 무선 통신 기술</strong>입니다.
 - 2차 대전 어뢰 유도용으로 발명되었다가, 현대 3G 이동통신([CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/)), [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/), GPS, 군사 통신의 절대적인 뼈대가 되었습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">매체 접근 제어</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">확산 스펙트럼</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">FHSS</div></div>
-</div>
-</div>
-
-
+```text
+[매체 접근 제어]
+    │
+    ▼
+[확산 스펙트럼]
+    │
+    └──▶ [FHSS]
+```
 
 - **📢 섹션 요약 비유**: 확산 스펙트럼의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -121,19 +113,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 매체 접근 제어</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 확산 스펙트럼</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: FHSS</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 매체 접근 제어]
+    │
+    ▼
+[현재 개념: 확산 스펙트럼]
+    │
+    ├──▶ [확장 A: FHSS]
+    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
+```
 
 확산 스펙트럼는 [매체 접근 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/183_mac_media_access_control/)에서 출발해 현재 메커니즘을 정교화하고, 이후 FHSS와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

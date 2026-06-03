@@ -23,20 +23,18 @@ tags = ["studynote-computer-architecture"]
 
 즉 칩렛은 단순 분할이 아니라 <strong>공정 미스매치와 대형 다이 수율 문제를 동시에 푸는 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>이다. 같은 면적이라도 거대한 단일 다이는 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 하나로 전체가 폐기되지만, 여러 작은 다이는 불량 난 다이만 걸러 조립할 수 있다. 여기에 제품 파생도 쉬워져 같은 I/O 다이에 연산 칩렛 수만 바꿔 데스크톱, 서버, 가속기 계열을 빠르게 만들 수 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">왜 단일 대형 다이에서 칩렛으로 이동하는가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Monolithic Die</div><div class="kb-diagram-cell">Chiplet Package</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Core + Cache + I/O + PHY</div><div class="kb-diagram-node">Compute</div><div class="kb-diagram-node">Compute</div><div class="kb-diagram-node">I/O</div><div class="kb-diagram-node">Cache</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결함 1개 =&gt; 전체 폐기</div><div class="kb-diagram-cell">결함 1개 =&gt; 해당 다이만 교체</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전부 동일 공정 사용</div><div class="kb-diagram-cell">연산/입출력/아날로그를 공정별 분리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제품 파생 시 재설계 범위 큼</div><div class="kb-diagram-cell">조합 변경으로 제품군 확장 용이</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│ 왜 단일 대형 다이에서 칩렛으로 이동하는가                                   │
+├───────────────────────────────┬────────────────────────────────────────────┤
+│ Monolithic Die                │ Chiplet Package                            │
+│ [Core + Cache + I/O + PHY]    │ [Compute][Compute][I/O][Cache]            │
+│                               │                                            │
+│ 결함 1개 => 전체 폐기         │ 결함 1개 => 해당 다이만 교체               │
+│ 전부 동일 공정 사용           │ 연산/입출력/아날로그를 공정별 분리          │
+│ 제품 파생 시 재설계 범위 큼   │ 조합 변경으로 제품군 확장 용이             │
+└───────────────────────────────┴────────────────────────────────────────────┘
+```
 
 이 그림의 핵심은 칩렛이 "더 작은 칩"이 아니라 <strong>패키지 수준에서 재조립 가능한 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/">반도체</a> 구조</strong>라는 점이다. 설계 단위가 다이에서 패키지로 올라가면서, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)뿐 아니라 제조와 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)까지 함께 바뀐다.
 
@@ -58,20 +56,18 @@ tags = ["studynote-computer-architecture"]
 
 칩렛 설계는 보통 세 단계로 판단한다. 첫째, 어떤 블록을 다이 경계 밖으로 뺄지 정한다. 둘째, 칩렛 간 트래픽이 얼마나 많은지 계산해 패키지 배선과 프로토콜을 고른다. 셋째, 조립 전 각 다이를 KGD (Known Good Die) 수준으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해 패키지 수율 손실을 줄인다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">칩렛 패키지의 전형적 데이터 경로</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Compute Chiplet A</div><div class="kb-diagram-note">──</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Compute Chiplet B</div><div class="kb-diagram-note">── ── Coherent D2D Fabric ──</div><div class="kb-diagram-node">I/O Die</div><div class="kb-diagram-note">── DDR / CXL</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Cache / Accel Tile</div><div class="kb-diagram-note">─ │</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PCIe / Network</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심 과제: 대역폭 확보 · 지연 최소화 · KGD 확보 · 전력 전달 · 열 분산</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│ 칩렛 패키지의 전형적 데이터 경로                                            │
+├────────────────────────────────────────────────────────────────────────────┤
+│ [Compute Chiplet A] ──┐                                                     │
+│ [Compute Chiplet B] ──┼── Coherent D2D Fabric ── [I/O Die] ── DDR / CXL    │
+│ [Cache / Accel Tile] ─┘                               │                     │
+│                                                       └──── PCIe / Network  │
+├────────────────────────────────────────────────────────────────────────────┤
+│ 핵심 과제: 대역폭 확보 · 지연 최소화 · KGD 확보 · 전력 전달 · 열 분산       │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 최근에는 [UCIe](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/443_ucie/) (Universal Chiplet Interconnect Express) 같은 표준이 등장해, 서로 다른 회사의 칩렛을 공통 규격으로 묶으려는 흐름도 강해지고 있다. 다만 표준이 있다고 해서 바로 호환되는 것은 아니다. 물리층, 패키지, 전력, 보안, 관리 모델이 같이 맞아야 진짜 생태계가 된다.
 
@@ -147,24 +143,22 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단일 대형 다이 중심 설계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">수율 악화 · 공정 비용 상승 · 레티클 한계 압박</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">MCM (Multi-Chip Module) 재조명</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">칩렛 아키텍처 + 고속 D2D 인터커넥트</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ UCIe 표준화</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ 2.5D / 3D 패키징</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ HBM 결합형 AI / HPC 패키지</div>
-</div>
-</div>
-
-
+```text
+단일 대형 다이 중심 설계
+        │
+        ▼
+수율 악화 · 공정 비용 상승 · 레티클 한계 압박
+        │
+        ▼
+MCM (Multi-Chip Module) 재조명
+        │
+        ▼
+칩렛 아키텍처 + 고속 D2D 인터커넥트
+        │
+        ├────────▶ UCIe 표준화
+        ├────────▶ 2.5D / 3D 패키징
+        └────────▶ HBM 결합형 AI / HPC 패키지
+```
 
 이 흐름은 대형 단일 다이의 한계를 해결하려는 시도가 패키지 수준 통합, 표준화, 이기종 집적으로 확장되는 과정을 보여 준다.
 

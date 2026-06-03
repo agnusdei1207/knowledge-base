@@ -32,22 +32,23 @@ tags = ["studynote-bigdata"]
 
 ### 주요 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유형
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">의료 데이터 레이어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">구조화 데이터 반구조화 비구조화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EMR 수치</div><div class="kb-diagram-cell">HL7 FHIR</div><div class="kb-diagram-cell">의료 영상</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(검사결과</div><div class="kb-diagram-cell">메시지</div><div class="kb-diagram-cell">(CT/MRI/X-ray)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">처방 등)</div><div class="kb-diagram-cell">JSON/XML</div><div class="kb-diagram-cell">DICOM 포맷</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유전체</div><div class="kb-diagram-cell">임상 노트</div><div class="kb-diagram-cell">웨어러블</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VCF 포맷</div><div class="kb-diagram-cell">(자유 텍스트</div><div class="kb-diagram-cell">(심박/혈당/</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3B BP/인</div><div class="kb-diagram-cell">NLP 필요)</div><div class="kb-diagram-cell">수면 패턴)</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────┐
+│                 의료 데이터 레이어                         │
+├──────────────────────────────────────────────────────────┤
+│  구조화 데이터       반구조화           비구조화           │
+│  ┌────────────┐   ┌─────────────┐   ┌────────────────┐  │
+│  │ EMR 수치   │   │ HL7 FHIR    │   │ 의료 영상      │  │
+│  │ (검사결과  │   │ 메시지      │   │ (CT/MRI/X-ray) │  │
+│  │  처방 등)  │   │ JSON/XML    │   │ DICOM 포맷     │  │
+│  └────────────┘   └─────────────┘   └────────────────┘  │
+│  ┌────────────┐   ┌─────────────┐   ┌────────────────┐  │
+│  │ 유전체     │   │ 임상 노트   │   │ 웨어러블       │  │
+│  │ VCF 포맷   │   │ (자유 텍스트│   │ (심박/혈당/    │  │
+│  │ 3B BP/인   │   │  NLP 필요)  │   │  수면 패턴)    │  │
+│  └────────────┘   └─────────────┘   └────────────────┘  │
+└──────────────────────────────────────────────────────────┘
+```
 
 > 📢 **섹션 요약 비유**: 의료 빅데이터는 "의사가 진찰실에서 보는 것들 외에, 환자의 DNA·수면 기록·과거 입원 내역까지 동시에 읽는 초능력 차트"다.
 
@@ -57,25 +58,39 @@ tags = ["studynote-bigdata"]
 
 ### 유전체 분석 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 (GATK, Genome Analysis Toolkit)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유전체 분석 파이프라인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전혈 샘플</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NGS 시퀀싱</div><div class="kb-diagram-cell">(Illumina, PacBio 등)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원본 FASTQ</div><div class="kb-diagram-cell">~100GB/인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BWA 정렬</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">GATK HaplotypeCaller</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">참조 게놈 대비</div><div class="kb-diagram-cell">SNP (단일염기다형성) 변이 발굴</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">INDEL (삽입/결실) 탐지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">변이 주석 (Annotation)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ClinVar · dbSNP 대조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">임상 해석 보고서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(유전성 질환 위험도 등)</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                   유전체 분석 파이프라인                           │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  전혈 샘플                                                        │
+│      │                                                           │
+│      ▼                                                           │
+│  ┌──────────────┐                                                │
+│  │ NGS 시퀀싱   │  (Illumina, PacBio 등)                         │
+│  │ 원본 FASTQ   │  ~100GB/인                                     │
+│  └──────┬───────┘                                                │
+│         │                                                        │
+│         ▼                                                        │
+│  ┌──────────────┐     ┌─────────────────────────────────────┐   │
+│  │ BWA 정렬     │────▶│  GATK HaplotypeCaller               │   │
+│  │ 참조 게놈 대비│     │  SNP (단일염기다형성) 변이 발굴      │   │
+│  └──────────────┘     │  INDEL (삽입/결실) 탐지              │   │
+│                        └──────────────┬──────────────────────┘   │
+│                                       │                          │
+│                                       ▼                          │
+│                        ┌─────────────────────────┐              │
+│                        │ 변이 주석 (Annotation)   │              │
+│                        │ ClinVar · dbSNP 대조     │              │
+│                        └────────────┬────────────┘              │
+│                                     │                            │
+│                                     ▼                            │
+│                        ┌─────────────────────────┐              │
+│                        │  임상 해석 보고서         │              │
+│                        │  (유전성 질환 위험도 등)  │              │
+│                        └─────────────────────────┘              │
+└─────────────────────────────────────────────────────────────────┘
+```
 
 ### 임상 예측 모델: 패혈증 조기 경보
 
@@ -105,7 +120,7 @@ tags = ["studynote-bigdata"]
 | 모델 유형 | 적용 분야 | 대표 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) | 승인 사례 |
 |:---|:---|:---|:---|
 | [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) (이미지 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)) | 방사선 영상 판독 | 병리과 전문의 수준 | FDA 승인 다수 |
-| [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/) / [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) | 임상 시계열 예측 | ICU 악화 예측 AUC 0.85+ | 연구 단계 |
+| [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/) / [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) | 임상 시계열 예측 | ICU 악화 예측 AUC 0.85+ | 연구 단계 다 |
 | [GNN](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/) ([그래프 신경망](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/306_graph_neural_network_gnn/)) | 약물-단백질 상호작용 | 신약 후보 발굴 가속 | 임상 도입 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) |
 | NLP ([BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) 계열) | 임상 노트 정보 추출 | ICD 코드 자동화 | 일부 병원 적용 |
 
@@ -130,28 +145,25 @@ tags = ["studynote-bigdata"]
 
 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/">데이터 파이프라인</a></strong>:
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">EMR 데이터베이스</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ETL (Apache NiFi)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">개인정보 비식별화</div>
-<div class="kb-diagram-tree-item" style="--depth:0">결측값 처리</div>
-<div class="kb-diagram-tree-item" style="--depth:0">피처 엔지니어링</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ML 모델 (XGBoost)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">재입원 확률 예측</div>
-<div class="kb-diagram-tree-item" style="--depth:0">SHAP 기반 설명</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">임상 의사결정 지원 시스템 (CDSS)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">고위험 환자 목록 제공</div>
-<div class="kb-diagram-tree-item" style="--depth:0">퇴원 계획 수정 권고</div>
-</div>
-</div>
-
-
+```
+EMR 데이터베이스
+      │
+      ▼
+ETL (Apache NiFi)
+  - 개인정보 비식별화
+  - 결측값 처리
+  - 피처 엔지니어링
+      │
+      ▼
+ML 모델 (XGBoost)
+  - 재입원 확률 예측
+  - SHAP 기반 설명
+      │
+      ▼
+임상 의사결정 지원 시스템 (CDSS)
+  - 고위험 환자 목록 제공
+  - 퇴원 계획 수정 권고
+```
 
 **기술사 핵심 판단**:
 
@@ -194,23 +206,21 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">EMR (전자의무기록)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">GATK (유전체 분석 도구)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HIPAA</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CDSS (임상의사결정지원)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SaMD (의료기기 소프트웨어)</div></div>
-</div>
-</div>
-
-
+```text
+[EMR (전자의무기록)]
+    │
+    ▼
+[GATK (유전체 분석 도구)]
+    │
+    ▼
+[HIPAA]
+    │
+    ▼
+[CDSS (임상의사결정지원)]
+    │
+    ▼
+[SaMD (의료기기 소프트웨어)]
+```
 
 이 흐름도는 EMR (전자의무기록)에서 출발해 SaMD (의료기기 소프트웨어)까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

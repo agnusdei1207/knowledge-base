@@ -36,25 +36,24 @@ tags = ["studynote-design-supervision"]
 | **작은 단위 분해 (Decomposition)** | 큰 문제를 작은 함수/클래스로 쪼개어, 각 조각이 단 하나의 단순한 일([SRP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/))만 하도록 격리 | 2천 줄짜리 God Class 방치 |
 | **표준 기술 준수 (Standard)** | 독창적인 자체 프레임워크나 묘수(Trick)보다, 이미 널리 검증된 표준 라이브러리와 [디자인 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/) 사용 | "내가 직접 만든" ORM 프레임워크 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단순함(KISS)과 과잉 설계(Over-engineering)의 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">요구사항: 입력받은 a와 b가 같은지 비교하라</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">❌ 과잉 설계 (Over-Engineering)</div><div class="kb-diagram-note">- 똑똑해 보이려는 병</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Interface EqualityComparer { bool compare(T a, T b); }</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Class StringComparer implements EqualityComparer { ... }</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Class ComparerFactory { getComparer() ... }</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">result = ComparerFactory.get(a.type).compare(a, b);</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// -&gt; "추적하다가 개발자 퇴사함"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">🟢 KISS 원칙 적용</div><div class="kb-diagram-note">- 단순하고 직관적인 해답</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">result = (a == b);</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// -&gt; "유치원생도 이해함, 버그 발생 확률 0%"</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           단순함(KISS)과 과잉 설계(Over-engineering)의 비교          │
+├──────────────────────────────────────────────────────────────┤
+│ [ 요구사항: 입력받은 a와 b가 같은지 비교하라 ]                     │
+│                                                              │
+│ [ ❌ 과잉 설계 (Over-Engineering) ] - 똑똑해 보이려는 병            │
+│  Interface EqualityComparer { bool compare(T a, T b); }      │
+│  Class StringComparer implements EqualityComparer { ... }    │
+│  Class ComparerFactory { getComparer() ... }                 │
+│  result = ComparerFactory.get(a.type).compare(a, b);         │
+│  // -> "추적하다가 개발자 퇴사함"                                  │
+│                                                              │
+│ [ 🟢 KISS 원칙 적용 ] - 단순하고 직관적인 해답                     │
+│  result = (a == b);                                          │
+│  // -> "유치원생도 이해함, 버그 발생 확률 0%"                        │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램은 확장을 핑계로 불필요한 계층(Layer)을 만들었을 때, 로직을 추적하는 데 들어가는 인지적 부하([Cognitive Load](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/))가 얼마나 커지는지 극명하게 보여준다. 단순한 로직은 숨겨진 부작용(Side Effect)이 끼어들 틈이 없다.
 
@@ -113,27 +112,25 @@ KISS는 독립적인 원칙이 아니라 현대 소프트웨어 철학을 떠받
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/334_clean_code_principles/">클린 코드</a> (<a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/334_clean_code_principles/">Clean Code</a>)</strong> | [KISS](/knowledge-base/studynote/04_software_engineering/04_testing_quality/249_kiss_keep_it_simple_stupid/) 원칙을 소스 코드 라인 레벨로 끌어내려, "읽기 좋은 코드가 수정하기도 좋다"를 실천하는 방법론. |
 | <strong><a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/362_yagni/">YAGNI</a></strong> | "나중에 필요할지도 모른다"는 추측성 설계를 금지하여, 아키텍처가 뚱뚱해지는 것을 막고 단순함을 강제하는 원칙. |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/">SRP</a> (<a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/355_process/">단일 책임 원칙</a>)</strong> | 거대한 클래스를 하나의 책임만 갖는 작은 클래스로 쪼개어, 각 조각의 로직을 직관적이고 단순하게 만드는 객체지향 원칙. |
-| **Over-Engineering** | KISS의 안티테제로, 당장 필요 없는 미래 확장성이나 기술적 허영심 때문에 시스템에 인위적 복잡성을 주입하는 행위. |
+| **Over-엔진ering** | KISS의 안티테제로, 당장 필요 없는 미래 확장성이나 기술적 허영심 때문에 시스템에 인위적 복잡성을 주입하는 행위. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 위기 (코드 덩치가 커지면서 스파게티 코드 양산 및 유지보수 불능)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">구조적 프로그래밍 및 객체지향 철학의 등장 (복잡성을 관리하기 위한 추상화 도입)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">추상화의 남용과 과잉 설계(Over-Engineering)의 역효과 발생 (코드 해독 불가)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">KISS, YAGNI, DRY 원칙의 대두 (실용주의 소프트웨어 공학: 최소한의 명확한 코드가 최고다)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클린 코드(Clean Code), 리팩토링(Refactoring), 애자일(Agile) 문화로 정착</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 위기 (코드 덩치가 커지면서 스파게티 코드 양산 및 유지보수 불능)
+    │
+    ▼
+구조적 프로그래밍 및 객체지향 철학의 등장 (복잡성을 관리하기 위한 추상화 도입)
+    │
+    ▼
+추상화의 남용과 과잉 설계(Over-Engineering)의 역효과 발생 (코드 해독 불가)
+    │
+    ▼
+KISS, YAGNI, DRY 원칙의 대두 (실용주의 소프트웨어 공학: 최소한의 명확한 코드가 최고다)
+    │
+    ▼
+클린 코드(Clean Code), 리팩토링(Refactoring), 애자일(Agile) 문화로 정착
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

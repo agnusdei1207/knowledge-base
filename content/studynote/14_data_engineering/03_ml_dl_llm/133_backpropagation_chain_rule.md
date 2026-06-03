@@ -18,17 +18,11 @@ tags = ["studynote-dataengineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">순전파: x → 은닉층 → 출력 → 손실(L)</div>
-<div class="kb-diagram-note">역전파: ∂L/∂W = ∂L/∂y · ∂y/∂h · ∂h/∂W (연쇄 법칙)</div>
-<div class="kb-diagram-note">→ 각 가중치가 손실에 기여하는 정도 → 가중치 업데이트</div>
-</div>
-</div>
-
-
+```text
+순전파: x → 은닉층 → 출력 → 손실(L)
+역전파: ∂L/∂W = ∂L/∂y · ∂y/∂h · ∂h/∂W  (연쇄 법칙)
+  → 각 가중치가 손실에 기여하는 정도 → 가중치 업데이트
+```
 
 - **📢 섹션 요약 비유**: [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)는 <strong>"왜 시험 점수가 낮은지" 거꾸로 추적</strong>하는 것이다. 출력(점수)→공부법→교재 순으로 원인을 찾는다.
 
@@ -61,18 +55,12 @@ tags = ["studynote-dataengineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">역전파 이론 (Werbos, 1974)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">실용화 (Rumelhart, 1986)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Vanishing 문제 인식 (1990s)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">ReLU+BatchNorm+ResNet (2010s) — 해결</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: AutoGrad (PyTorch) — 자동 역전파</div></div>
-</div>
-</div>
-
-
+```text
+[역전파 이론 (Werbos, 1974)] → [실용화 (Rumelhart, 1986)]
+    → [Vanishing 문제 인식 (1990s)]
+    → [ReLU+BatchNorm+ResNet (2010s) — 해결]
+    → [현재: AutoGrad (PyTorch) — 자동 역전파]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)는 시험에서 <strong>"왜 틀렸지?" 거꾸로 추적</strong>하는 거예요.

@@ -18,19 +18,13 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">RLHF 3단계:</div>
-<div class="kb-diagram-note">1. SFT: 지시-응답 쌍으로 기본 능력 학습</div>
-<div class="kb-diagram-note">2. Reward Model: 인간 선호(A&gt;B) 비교 데이터 → RM 학습</div>
-<div class="kb-diagram-note">3. PPO: RM 점수를 보상으로 LLM 강화학습 → 정렬</div>
-<div class="kb-diagram-note">DPO: RM 없이 선호 데이터로 직접 정렬 (간소화)</div>
-</div>
-</div>
-
-
+```text
+RLHF 3단계:
+  1. SFT: 지시-응답 쌍으로 기본 능력 학습
+  2. Reward Model: 인간 선호(A>B) 비교 데이터 → RM 학습
+  3. PPO: RM 점수를 보상으로 LLM 강화학습 → 정렬
+DPO: RM 없이 선호 데이터로 직접 정렬 (간소화)
+```
 
 - **📢 섹션 요약 비유**: RLHF는 <strong>반려견 교육</strong>이다. 좋은 행동(선호 답변)에 간식(보상)을 주고, 나쁜 행동(유해 답변)을 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)한다.
 
@@ -54,18 +48,12 @@ RLHF는 <strong>ChatGPT의 핵심 기술</strong>이며, DPO가 간소화 대안
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">InstructGPT (RLHF, 2022)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">ChatGPT (2022)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">DPO (2023, RM 불필요)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">KTO (2024, 비교 불필요)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: Constitutional AI (Anthropic)</div></div>
-</div>
-</div>
-
-
+```text
+[InstructGPT (RLHF, 2022)] → [ChatGPT (2022)]
+    → [DPO (2023, RM 불필요)]
+    → [KTO (2024, 비교 불필요)]
+    → [현재: Constitutional AI (Anthropic)]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. RLHF는 <strong>반려견 교육</strong>이에요. 좋은 행동에 <strong>간식(보상)</strong>을 줘요.

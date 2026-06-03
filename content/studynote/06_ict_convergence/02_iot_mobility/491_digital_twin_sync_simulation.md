@@ -35,25 +35,26 @@ NASA가 우주선 건강 모니터링을 위해 물리 시스템의 디지털 [�
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디지털 트윈 동기화 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">물리 세계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공장 설비 / 교량 / 도시 인프라</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① IoT 센서 데이터 수집 (온도·진동·전류)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 연결 계층</div><div class="kb-diagram-note">스트리밍(Kafka) / MQTT / OPC UA</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 실시간 동기화</div><div class="kb-diagram-cell">④ 제어 명령(피드백)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">가상 모델 계층</div><div class="kb-diagram-note">Digital Twin Engine</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">형상 모델 + 물리 시뮬레이션 + AI 예측</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② 현재 상태 반영</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ ③ 시나리오 시뮬레이션</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">분석·최적화 계층</div><div class="kb-diagram-note">예측 유지보수 / 이상 탐지 / 운영 최적화</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────┐
+│                디지털 트윈 동기화 아키텍처                   │
+├──────────────────────────────────────────────────────────┤
+│  [물리 세계]                                               │
+│  공장 설비 / 교량 / 도시 인프라                              │
+│     │  ① IoT 센서 데이터 수집 (온도·진동·전류)               │
+│     ▼                                                    │
+│  [데이터 연결 계층]  스트리밍(Kafka) / MQTT / OPC UA         │
+│     │                          ▲                         │
+│     ▼  실시간 동기화             │ ④ 제어 명령(피드백)        │
+│  [가상 모델 계층]   Digital Twin Engine                    │
+│  ┌────────────────────────────────────┐                  │
+│  │ 형상 모델 + 물리 시뮬레이션 + AI 예측 │                  │
+│  └────────────────────────────────────┘                  │
+│     │  ② 현재 상태 반영              │                     │
+│     ▼  ③ 시나리오 시뮬레이션         │                     │
+│  [분석·최적화 계층]  예측 유지보수 / 이상 탐지 / 운영 최적화   │
+└──────────────────────────────────────────────────────────┘
+```
 
 ### [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 유형 비교
 

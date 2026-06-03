@@ -30,17 +30,14 @@ tags = ["studynote-ai"]
 | 노이즈 제거 (Denoising) | 노이즈 입력 → 깨끗한 출력 | 이미지 복원, [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 처리 |
 | [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 모델 (Generative Model) | [VAE](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/) 로 새 샘플 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 얼굴 합성, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 증강 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 오토인코더는 "여행 가방 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)팩"이다. 두꺼운 옷을 꾹꾹 눌러서 최소 부피로 만든 다음, 도착지에서 다시 원래 모양으로 꺼낸다. 잘 복원되면 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)팩이 제대로 동작한 것이고, 형태가 달라지면 이상이 생긴 것이다.
 
@@ -50,20 +47,15 @@ tags = ["studynote-ai"]
 
 ### 기본 구조 다이어그램
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">입력층 병목층(Bottleneck) 출력층</div>
-<div class="kb-diagram-note">인코더 디코더(Decoder)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">x</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">z</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">x̂</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">32→128→256→784</div><div class="kb-diagram-note">(784)</div></div>
-<div class="kb-diagram-tree-item" style="--depth:1">128]</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">재구성 손실 L =</div><div class="kb-diagram-cell">x - x̂</div><div class="kb-diagram-cell">²</div></div>
-</div>
-</div>
-
-
+```
+  입력층               병목층(Bottleneck)          출력층
+  ┌───────┐  인코더   ┌─────┐  디코더(Decoder)  ┌───────┐
+  │  x    │──────────▶│  z  │──────────────────▶│  x̂   │
+  │(784)  │[784→256→  │(32) │ [32→128→256→784]  │(784)  │
+  └───────┘  128]     └─────┘                   └───────┘
+       ▲                                              │
+       └─────── 재구성 손실 L = ||x - x̂||²  ─────────┘
+```
 
 ### [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/) ([Loss Function](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_loss_function/))
 
@@ -76,18 +68,13 @@ tags = ["studynote-ai"]
 2. **추론 단계**: 새 입력의 재구성 오차 계산
 3. **판정**: 오차 > 임계값 θ → [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/) ([Anomaly](/knowledge-base/studynote/05_database/04_transactions_concurrency/530_anomaly/))
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">정상 입력 → 오토인코더 → 복원 잘 됨 → 오차 ↓ → 정상 판정</div>
-<div class="kb-diagram-note">이상 입력 → 오토인코더 → 복원 못함 → 오차 ↑ → 이상 판정</div>
-<div class="kb-diagram-note">θ (임계값)</div>
-<div class="kb-diagram-note">정상 영역 ◀ ▶ 이상 영역</div>
-</div>
-</div>
-
-
+```
+  정상 입력 → 오토인코더 → 복원 잘 됨 → 오차 ↓ → 정상 판정
+  이상 입력 → 오토인코더 → 복원 못함 → 오차 ↑ → 이상 판정
+  ────────────────────────────────────────────────────────
+                          θ (임계값)
+         정상 영역 ◀──────┤├──────▶ 이상 영역
+```
 
 ### [VAE](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/) ([Variational Autoencoder](/knowledge-base/studynote/10_ai/03_llm_nlp/213_variational_autoencoder/)) 비교
 

@@ -27,16 +27,13 @@ WAL [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_a
 
 이 그림은 현재 주제가 입력 조건, 통제 규칙, 결과 보장 사이에서 어떤 위치를 차지하는지 압축해 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Input -&gt; Rule -&gt; Current Concept -&gt; Outcome</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">wal-lsn-checkpoin… -&gt; current scope -&gt; data-literacy</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ Input -> Rule -> Current Concept -> Outcome                 │
+├──────────────────────────────────────────────────────────────┤
+│ wal-lsn-checkpoin… -> current scope -> data-literacy      │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 구조에서 핵심은 `WAL 로그 플러시 LSN 기반 체크포인트 미디어 장애 데이터 롤 포워드 무결성 체재`가 독립 기능이 아니라, 앞단의 조건과 뒷단의 운영 결과를 이어 주는 제어 지점이라는 점이다. 따라서 정의만 외우기보다 적용 시점과 실패 시 영향을 같이 기억해야 한다.
 
@@ -57,16 +54,13 @@ WAL [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_a
 
 이 그림은 현재 개념이 선행 조건을 받아 실제 동작 규칙으로 바꾸고, 운영 결과로 밀어 넣는 흐름을 단순화해 나타낸 것이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pre-condition -&gt; Current Rule -&gt; Validation -&gt; Result</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ARIES 복구 알고리즘 생… -&gt; WAL 로그 플러시 LSN … -&gt; 데이터 리터러시 (Data …</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ Pre-condition -> Current Rule -> Validation -> Result       │
+├──────────────────────────────────────────────────────────────┤
+│ ARIES 복구 알고리즘 생… -> WAL 로그 플러시 LSN … -> 데이터 리터러시 (Data … │
+└──────────────────────────────────────────────────────────────┘
+```
 
 결국 `WAL 로그 플러시 LSN 기반 체크포인트 미디어 장애 데이터 롤 포워드 무결성 체재`는 한 문장 정의보다 입력 조건, 처리 순서, 결과 보장을 묶어 보는 것이 중요하다. 그래서 설계 문서에는 적용 대상, 실패 시 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 경로, 측정 지표를 같이 적어 두는 편이 좋다.
 
@@ -127,19 +121,15 @@ WAL [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_a
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">ARIES 복구 알고리즘 생존자 Analysis …</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">WAL 로그 플러시 LSN 기반 체크포인트 미디어…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">데이터 리터러시 (Data Literacy…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">데이터 디스커버리 카탈로그 플랫폼 검색 큐…</div></div>
-</div>
-</div>
-
-
+```text
+[ARIES 복구 알고리즘 생존자 Analysis …]
+    │
+    ▼
+[WAL 로그 플러시 LSN 기반 체크포인트 미디어…]
+    │
+    ├──▶ [데이터 리터러시 (Data Literacy…]
+    └──▶ [데이터 디스커버리 카탈로그 플랫폼 검색 큐…]
+```
 
 이 흐름도는 선행 문제에서 현재 개념으로 초점이 모이고, 이후 `데이터 리터러시 (Data Literacy) 기업 내 데이터 분석 역량 도구 지식 기반 문화 확산`와 `데이터 디스커버리 카탈로그 플랫폼 검색 큐레이션 거버넌스 워크플로우 지식 저장` 같은 확장 주제로 이어지는 학습 경로를 보여 준다.
 

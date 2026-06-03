@@ -23,18 +23,14 @@ tags = ["studynote-network"]
 - 장비 안에는 [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/), [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) 등 예전부터 만들어진 수십 개의 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 해독하는 회로가 공장에서 아예 못 박혀서(Hard-wired) 굳은 채로 출하됩니다.
 - 새로운 [사물인터넷](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)([IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)) 전용 통신 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이 발명되어도, 이 구형 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 장비는 그 패킷을 읽을 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 회로가 없으니 그냥 쓰레기통에 버려버립니다(Drop). [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 장비를 버리고 새 장비를 사야 하는 극악의 벤더 종속성이 발생했습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">디지털 트윈 네트워크 망</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 프로그래밍 모델 P4 지원 고정 하…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">자율 주행 넷망</div></div>
-</div>
-</div>
-
-
+```text
+[디지털 트윈 네트워크 망]
+    │
+    ▼
+[네트워크 프로그래밍 모델 P4 지원 고정 하…]
+    │
+    └──▶ [자율 주행 넷망]
+```
 
 - **📢 섹션 요약 비유**: 네트워크 프로그래밍 모델 [P4](/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/) 지원 고정 하…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -45,18 +41,14 @@ tags = ["studynote-network"]
 - **개념**: 장비 껍데기(하드웨어)는 그대로 둔 채, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 칩셋([ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/)) 내부에서 패킷을 뜯어보고 길을 찾아주는 <strong>심장부 회로(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 평면, <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Plane)의 작동 방식을 네트워크 관리자가 마음대로 소프트웨어 코딩하듯 자유자재로 뜯어고칠 수 있게 해주는 혁명적인 '네트워크 프로그래밍 언어'</strong>입니다. (SDN의 끝판왕 진화형)
 - 스탠퍼드 대학의 닉 맥키언(Nick McKeown) 교수와 베어풋 네트웍스가 창안했습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">디지털 트윈 네트워크 망</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 프로그래밍 모델 P4 지원 고정 하…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">자율 주행 넷망</div></div>
-</div>
-</div>
-
-
+```text
+[디지털 트윈 네트워크 망]
+    │
+    ▼
+[네트워크 프로그래밍 모델 P4 지원 고정 하…]
+    │
+    └──▶ [자율 주행 넷망]
+```
 
 - **📢 섹션 요약 비유**: 네트워크 프로그래밍 모델 [P4](/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/) 지원 고정 하…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -64,7 +56,7 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-[P4](/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/) 언어로 프로그래밍이 가능한 신형 [화이트박스 스위치](/knowledge-base/studynote/03_network/17_sdn_nfv/859_whitebox_switch_open_hardware_nos/) 칩(Tofino 칩 등)을 사 오면 마법이 시작됩니다.
+[P4](/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/) 언어로 프로그래밍이 가능한 새로운 유형의 [화이트박스 스위치](/knowledge-base/studynote/03_network/17_sdn_nfv/859_whitebox_switch_open_hardware_nos/) 칩(Tofino 칩 등)을 사 오면 마법이 시작됩니다.
 
 ### 1. 칩셋 룰셋의 커스텀 프로세싱 (자유자재 해부)
 - 기존 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 "IP 주소가 목적지 A면 1번 포트로 보내"라는 규칙만 알았습니다.
@@ -121,19 +113,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 디지털 트윈 네트워크 망</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 네트워크 프로그래밍 모델 P4 지원 고정 하…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 자율 주행 넷망</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 네트워크 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 디지털 트윈 네트워크 망]
+    │
+    ▼
+[현재 개념: 네트워크 프로그래밍 모델 P4 지원 고정 하…]
+    │
+    ├──▶ [확장 A: 자율 주행 넷망]
+    └──▶ [확장 B: AI 기반 네트워크 최적화]
+```
 
 네트워크 프로그래밍 모델 [P4](/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/) 지원 고정 하…는 [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 네트워크 망에서 출발해 현재 메커니즘을 정교화하고, 이후 [자율 주행 넷망](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/791_autonomous_network_aiops_ibn_zero_touch/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

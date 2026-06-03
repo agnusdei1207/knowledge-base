@@ -39,30 +39,33 @@ tags = ["studynote-devops-sre"]
 
 아키텍트는 K8s [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 증식되는 타임라인 현미경 엑스레이 스캔을 통해 어디서 병목 랙 피가 줄줄 새는지 도륙 내야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">K8s HPA 스케일 아웃 병목 지연(Cold Start Latency) 타임라인 해부 🪓</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">💥</div><div class="kb-diagram-node">T+0초</div><div class="kb-diagram-note">: 이벤트 발생! 1만 명 유저가 무지성 F5 결제 버튼 폭주 디도스 타격!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🐌</div><div class="kb-diagram-node">T+15초</div><div class="kb-diagram-note">: Metrics Server 측정 폴링(Polling) 지연 랙 💥</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- HPA 뇌가 CPU 80% 찍은 걸 지금 15초나 늦게 알아챔 ㅋ (백미러 쳐다보기 파국).</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🐢</div><div class="kb-diagram-node">T+30초</div><div class="kb-diagram-note">: HPA 쿨다운(Stabilization Window) 방벽 눈치 보기 랙 💥</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- HPA 대장 왈: "어 CPU 잠깐 튄 척 페이크 훼이크 아님? 나 15초만 더 눈치 보고</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">의심 십자 검열 팩트 판별 칠게 기달 ㅋ" ➔ 진짜 스케일 결정 때리기까지 보수적 대기.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">📦</div><div class="kb-diagram-node">T+55초</div><div class="kb-diagram-note">: 스케줄링 및 이미지 풀링(Pulling) 쇳덩이 랙 💥</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 노드 스케줄러가 파드 심을 빈 땅(Node) 찾음 ➔ 1GB짜리 자바 Spring 도커</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이미지 허공에서 다운로드 쫙 긁어 땡김 (용량 크면 여기서 30초 처형 타임아웃 뻗음 💀).</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">☕</div><div class="kb-diagram-node">T+80초</div><div class="kb-diagram-note">: 애플리케이션 JVM 부팅 및 콜드 스타트 지옥 (Init) 랙 💥</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 무거운 톰캣 켜고, 스프링 빈(Bean) 팩토리 무한 뺑뺑이 생성하고, 오라클 DB 커넥션</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">10개 미리 맺어둠 ➔ 여기서 또 25초 허공에 불타 소각 증발 멸망.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🚀</div><div class="kb-diagram-node">T+90초</div><div class="kb-diagram-note">: Readiness Probe 최종 엑스레이 생존 합격 도장 쾅!! ✨</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "너 찐 100% 진짜 통신 일할 쇳덩이 준비 완벽 끝났냐?" ➔ "네 200 OK ㅋ!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">➔ 🌟</div><div class="kb-diagram-node">이 90초의 피 터지는 사각지대 데드 존 통과 후 비로소 새 파드로 트래픽 라우팅 분산 살포 시작 🚀!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          K8s HPA 스케일 아웃 병목 지연(Cold Start Latency) 타임라인 해부 🪓 │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ 💥 [ T+0초 ]: 이벤트 발생! 1만 명 유저가 무지성 F5 결제 버튼 폭주 디도스 타격!│
+│                                                             │
+│ 🐌 [ T+15초 ]: Metrics Server 측정 폴링(Polling) 지연 랙 💥        │
+│   - HPA 뇌가 CPU 80% 찍은 걸 지금 15초나 늦게 알아챔 ㅋ (백미러 쳐다보기 파국).│
+│                                                             │
+│ 🐢 [ T+30초 ]: HPA 쿨다운(Stabilization Window) 방벽 눈치 보기 랙 💥 │
+│   - HPA 대장 왈: "어 CPU 잠깐 튄 척 페이크 훼이크 아님? 나 15초만 더 눈치 보고 │
+│     의심 십자 검열 팩트 판별 칠게 기달 ㅋ" ➔ 진짜 스케일 결정 때리기까지 보수적 대기.│
+│                                                             │
+│ 📦 [ T+55초 ]: 스케줄링 및 이미지 풀링(Pulling) 쇳덩이 랙 💥            │
+│   - 노드 스케줄러가 파드 심을 빈 땅(Node) 찾음 ➔ 1GB짜리 자바 Spring 도커  │
+│     이미지 허공에서 다운로드 쫙 긁어 땡김 (용량 크면 여기서 30초 처형 타임아웃 뻗음 💀).│
+│                                                             │
+│ ☕ [ T+80초 ]: 애플리케이션 JVM 부팅 및 콜드 스타트 지옥 (Init) 랙 💥     │
+│   - 무거운 톰캣 켜고, 스프링 빈(Bean) 팩토리 무한 뺑뺑이 생성하고, 오라클 DB 커넥션 │
+│     10개 미리 맺어둠 ➔ 여기서 또 25초 허공에 불타 소각 증발 멸망.            │
+│                                                             │
+│ 🚀 [ T+90초 ]: Readiness Probe 최종 엑스레이 생존 합격 도장 쾅!! ✨    │
+│   - "너 찐 100% 진짜 통신 일할 쇳덩이 준비 완벽 끝났냐?" ➔ "네 200 OK ㅋ!"│
+│     ➔ 🌟 [이 90초의 피 터지는 사각지대 데드 존 통과 후 비로소 새 파드로 트래픽 라우팅 분산 살포 시작 🚀!]│
+└─────────────────────────────────────────────────────────────┘
+```
 
 <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/">아키텍트의 메스 🪓: 병목 척살 튜닝 [오프로딩</a> 타점]</strong>
 - <strong>이미지 <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/">풀링</a> 랙 사살 쉴드</strong>: 1GB 자바 똥 덩어리 이미지를 트래픽 터진 순간 다운받으려니 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 다 터진다 💀. "야 당장 워커 노드마다 미리 DaemonSet] 데몬 띄워놓고 ➔ 새벽에 유휴 시간에 우리 회사 [도커 이미지](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/068_docker_image_immutable_package/) <strong>미리 싹 다 100% 사전 다운로드 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/">캐싱</a>(Image Pre-pulling 오토 록온 텐트 ✨)</strong> 쳐서 짱박아 놔 쾅!! 그럼 T+55초 스텝에서 허공 다운로드 다운타임 랙 0초 광속 스킵 텔레포트 돌파 치잖아 미친아 🚀!"
@@ -138,23 +141,21 @@ KEDA 융합 아키텍트는 <strong>개찰구 밖 1층 로비 큐(<a href="/know
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">On-Premise 수동 오버프로비저닝 시대 💀 / 서버 쇳덩이 고정 박아놓고 피크 트래픽 올까 봐 평소 100대씩 24시간 켜둬 서버 전기세 100억 허공에 적자 타죽음 파산 멸망 폭사 💥 💀</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">K8s HPA (수평 파드 오토스케일러) 대관식 🚀 / "야 CPU 80% 찍을 때만 옆으로 무지성 컨테이너 복사 찢어 무한 펌핑 증식(Scale-out) 시켜 쾅!!" 클라우드 1차 종량제 결제 쾌속 혁명 달성 ✨</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">HPA Cold Start 랙 (병목 데드 존) 연쇄 타죽음 붕괴 💀 / HPA가 뒤늦게 명령 쳐도 ➔ 도커 이미지 다운받고 자바 켜는데 1분 30초 랙 오버헤드 발생 ➔ 그 1분 동안 앞단 기존 파드들 디도스 독박 쳐맞고 OOM 램 터져 연쇄 도미노 셧다운 뻗음 지옥 스파게티 터짐 💥</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">아키텍트 십자 융합 튜닝 방폭문 메스 전개 🪓 / "이미지 1GB 똥 덩어리 미리 워커 노드에 싹 다 다운(Pre-pull) 받아 숨겨둬 락킹 쳐 쾅!! 앱 부팅 랙 쳐 죽일 GraalVM 네이티브 AOT 쇳덩이 컴파일 떡칠 이식 때려 🚀!!!"</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">KEDA 이벤트 기반 선제 타격 + 서킷 브레이커 융합 (현재) ✨ / CPU 백미러 쳐다보는 HPA 병신 짓 찢어버리고 ➔ 앞단 큐(Queue) 찌끄레기 징후 먼저 엑스레이 스캔 쳐서 예측(Predictive) 선제 펌핑 예열 록온 갈겨버리고! ➔ 부팅 사각지대 랙 동안 터지는 유저 타임아웃은 서킷 브레이커 스위치 쾅 내려 100% 무결점 에러 우회(Fallback) 투명 쉴드 방어 기만 생존망 대통일 달성 쾅!!</div>
-</div>
-</div>
-
-
+```text
+On-Premise 수동 오버프로비저닝 시대 💀 / 서버 쇳덩이 고정 박아놓고 피크 트래픽 올까 봐 평소 100대씩 24시간 켜둬 서버 전기세 100억 허공에 적자 타죽음 파산 멸망 폭사 💥 💀
+    │
+    ▼
+K8s HPA (수평 파드 오토스케일러) 대관식 🚀 / "야 CPU 80% 찍을 때만 옆으로 무지성 컨테이너 복사 찢어 무한 펌핑 증식(Scale-out) 시켜 쾅!!" 클라우드 1차 종량제 결제 쾌속 혁명 달성 ✨
+    │
+    ▼
+HPA Cold Start 랙 (병목 데드 존) 연쇄 타죽음 붕괴 💀 / HPA가 뒤늦게 명령 쳐도 ➔ 도커 이미지 다운받고 자바 켜는데 1분 30초 랙 오버헤드 발생 ➔ 그 1분 동안 앞단 기존 파드들 디도스 독박 쳐맞고 OOM 램 터져 연쇄 도미노 셧다운 뻗음 지옥 스파게티 터짐 💥
+    │
+    ▼
+아키텍트 십자 융합 튜닝 방폭문 메스 전개 🪓 / "이미지 1GB 똥 덩어리 미리 워커 노드에 싹 다 다운(Pre-pull) 받아 숨겨둬 락킹 쳐 쾅!! 앱 부팅 랙 쳐 죽일 GraalVM 네이티브 AOT 쇳덩이 컴파일 떡칠 이식 때려 🚀!!!"
+    │
+    ▼
+KEDA 이벤트 기반 선제 타격 + 서킷 브레이커 융합 (현재) ✨ / CPU 백미러 쳐다보는 HPA 병신 짓 찢어버리고 ➔ 앞단 큐(Queue) 찌끄레기 징후 먼저 엑스레이 스캔 쳐서 예측(Predictive) 선제 펌핑 예열 록온 갈겨버리고! ➔ 부팅 사각지대 랙 동안 터지는 유저 타임아웃은 서킷 브레이커 스위치 쾅 내려 100% 무결점 에러 우회(Fallback) 투명 쉴드 방어 기만 생존망 대통일 달성 쾅!!
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

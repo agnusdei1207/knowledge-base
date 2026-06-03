@@ -24,23 +24,27 @@ tags = ["studynote-bigdata"]
   - <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/193_crl_distribution_point_cdp/">CDP</a> <a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/">Public Cloud</a></strong>: 클라우드 상에서 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)형([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/)) 분석 환경을 제공한다.
   - <strong>SDX (Shared <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Experience)</strong>: [보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/)(Ranger), [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)(Atlas), [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)([Auditing](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/))를 통합 관리한다.
 
+```text
+[Cloudera Data Platform (CDP) Architecture]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Cloudera Data Platform (CDP) Architecture</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Experience Apps (ML, DW, Data Flow)</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SDX (Shared Data Experience) - Governance &amp; Security</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Ranger: Policy / Atlas: Catalog / Encryption / Auth)</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CDP Public Cloud</div><div class="kb-diagram-cell">CDP Private Cloud</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(AWS / Azure / Google)</div><div class="kb-diagram-cell">(On-Premise / K8s)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">S3 / ADLS / GCS Storage</div><div class="kb-diagram-cell">HDFS / Ozone / Local Storage</div></div>
-</div>
-</div>
-
-
++-------------------------------------------------------------+
+|               Experience Apps (ML, DW, Data Flow)           |
++-------------------------------------------------------------+
+                                ||
+                                \/
++-------------------------------------------------------------+
+|       SDX (Shared Data Experience) - Governance & Security  |
+|     (Ranger: Policy / Atlas: Catalog / Encryption / Auth)   |
++-------------------------------------------------------------+
+                                ||
+                                \/
++------------------------------+------------------------------+
+|      CDP Public Cloud        |      CDP Private Cloud       |
+|  (AWS / Azure / Google)      |     (On-Premise / K8s)       |
++------------------------------+------------------------------+
+| S3 / ADLS / GCS Storage      | HDFS / Ozone / Local Storage |
++------------------------------+------------------------------+
+```
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 
@@ -66,23 +70,21 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Cloudera CDH / Hortonworks HDP — 온프레미스 하둡 배포판 시대</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Cloudera + Hortonworks 합병 — 단일 엔터프라이즈 데이터 플랫폼 통합</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CDP (Cloudera Data Platform) — 하이브리드/멀티클라우드 데이터 플랫폼</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SDX (Shared Data Experience) — 거버넌스·보안·메타데이터 일관성 엔진</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Ozone — HDFS 대체 오브젝트 스토리지, 페타바이트급 확장</div></div>
-</div>
-</div>
-
-
+```text
+[Cloudera CDH / Hortonworks HDP — 온프레미스 하둡 배포판 시대]
+    │
+    ▼
+[Cloudera + Hortonworks 합병 — 단일 엔터프라이즈 데이터 플랫폼 통합]
+    │
+    ▼
+[CDP (Cloudera Data Platform) — 하이브리드/멀티클라우드 데이터 플랫폼]
+    │
+    ▼
+[SDX (Shared Data Experience) — 거버넌스·보안·메타데이터 일관성 엔진]
+    │
+    ▼
+[Apache Ozone — HDFS 대체 오브젝트 스토리지, 페타바이트급 확장]
+```
 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 배포판(CDH/HDP)을 CDP로 통합하고, SDX로 거버넌스를 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 있게 제공하며 Apache Ozone으로 스토리지 확장성을 확보했다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

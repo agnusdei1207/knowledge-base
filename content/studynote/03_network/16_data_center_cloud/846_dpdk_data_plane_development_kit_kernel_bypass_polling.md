@@ -24,18 +24,14 @@ tags = ["studynote-network"]
 1. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a>(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">Interrupt</a>)의 폭풍</strong>: 랜카드([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/))에 패킷이 들어올 때마다 CPU에 전기 자극([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))을 줘서 하던 일을 멈추게 합니다. 100기가망에서는 초당 수천만 번의 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 터져 CPU가 덜덜 떨며 기절합니다([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Switching 과부하).
 2. <strong>OS <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a>의 무거움</strong>: 패킷이 들어오면 무조건 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 스페이스(밑바닥)로 들어간 뒤, [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 보안 검사를 다 받고 나서야 사용자 프로그램 스페이스(유저 공간)로 힘겹게 메모리가 복사(Copy)되어 올라옵니다. 이 복사 과정에서 서버 성능의 50%가 증발합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">무손실 이더넷</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DPDK</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SR-IOV</div></div>
-</div>
-</div>
-
-
+```text
+[무손실 이더넷]
+    │
+    ▼
+[DPDK]
+    │
+    └──▶ [SR-IOV]
+```
 
 - **📢 섹션 요약 비유**: DPDK는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -56,18 +52,14 @@ tags = ["studynote-network"]
    - 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 아예 쓰레기통에 넣습니다. 랜카드의 메모리 저장소와, 유저 프로그램의 메모리 저장소를 거대한 파이프로 딱 붙여버립니다(Hugepages 기술 등).
    - 패킷이 랜카드에 들어오자마자 리눅스 결재 없이 유저 프로그램([vSwitch](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/) 등) 입구로 다이렉트로 복사 없이([Zero-Copy](/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/)) 바로 꽂힙니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">무손실 이더넷</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DPDK</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SR-IOV</div></div>
-</div>
-</div>
-
-
+```text
+[무손실 이더넷]
+    │
+    ▼
+[DPDK]
+    │
+    └──▶ [SR-IOV]
+```
 
 - **📢 섹션 요약 비유**: DPDK의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -128,19 +120,15 @@ DPDK는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rel
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 무손실 이더넷</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: DPDK</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: SR-IOV</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 무손실 이더넷]
+    │
+    ▼
+[현재 개념: DPDK]
+    │
+    ├──▶ [확장 A: SR-IOV]
+    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
+```
 
 DPDK는 [무손실 이더넷](/knowledge-base/studynote/03_network/16_data_center_cloud/845_lossless_ethernet_dcb_pfc_roce_fcoe/)에서 출발해 현재 메커니즘을 정교화하고, 이후 SR-IOV와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

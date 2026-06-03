@@ -27,23 +27,23 @@ tags = ["bigdata"]
 
 다음은 기존 중앙집중형 플랫폼의 한계와 유럽 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 추구하는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)형 생태계의 차이를 보여주는 비교 도식이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">기존 중앙집중형 구조의 한계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Global Tech Giant Cloud</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EU Data</div><div class="kb-diagram-cell">US Data</div><div class="kb-diagram-cell">AI</div><div class="kb-diagram-cell">&lt;- 벤더 락인 (Vendor Lock-in),</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Locked)</div><div class="kb-diagram-cell">(Locked)</div><div class="kb-diagram-cell">Model</div><div class="kb-diagram-cell">통제권 상실, 데이터 유출 우려</div></div>
-<div class="kb-diagram-connector">▲</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">EU 유럽 데이터 전략: 연합형 구조 (Gaia-X &amp; Data Spaces)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Provider</div><div class="kb-diagram-cell">&lt;===&gt;</div><div class="kb-diagram-cell">Gaia-X</div><div class="kb-diagram-cell">&lt;===&gt;</div><div class="kb-diagram-cell">Consumer</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Node A)</div><div class="kb-diagram-cell">Trust</div><div class="kb-diagram-cell">(Node B)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Own Data</div><div class="kb-diagram-cell">Framework</div><div class="kb-diagram-cell">Analytics</div></div>
-</div>
-</div>
-
-
+```text
+[기존 중앙집중형 구조의 한계]
+┌──────────────────────────────────────┐
+│        Global Tech Giant Cloud       │
+│  ┌──────────┐ ┌──────────┐ ┌───────┐ │
+│  │ EU Data  │ │ US Data  │ │ AI    │ │ <- 벤더 락인 (Vendor Lock-in),
+│  │ (Locked) │ │ (Locked) │ │ Model │ │    통제권 상실, 데이터 유출 우려
+│  └──────────┘ └──────────┘ └───────┘ │
+└──────────────────────────────────────┘
+                   ▲
+[EU 유럽 데이터 전략: 연합형 구조 (Gaia-X & Data Spaces)]
+┌──────────┐       ┌──────────┐       ┌──────────┐
+│ Provider │ <===> │ Gaia-X   │ <===> │ Consumer │
+│ (Node A) │       │ Trust    │       │ (Node B) │
+│ Own Data │       │ Framework│       │ Analytics│
+└──────────┘       └──────────┘       └──────────┘
+```
 
 이 도식의 핵심은 중앙의 거대 저장소를 없애고, 참여 노드 간의 'Trust Framework (신뢰 프레임워크)'를 중간 매개체로 두어 [Peer](/knowledge-base/studynote/06_ict_convergence/01_blockchain/060_hyperledger_architecture_peer_orderer_msp/)-to-Peer로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 교환한다는 점이다. 따라서 [데이터 소유자](/knowledge-base/studynote/16_bigdata/10_governance/200_data_owner/)는 자신의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어디로 가서 어떻게 쓰이는지 정확히 통제할 수 있으며, 클라우드 제공자에 종속되지 않고 자유롭게 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 이동할 수 있다.
 
@@ -69,25 +69,24 @@ tags = ["bigdata"]
 
 아래 도식은 Gaia-X 생태계 내에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 제공자와 소비자가 어떻게 신뢰를 구축하고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 안전하게 교환하는지 그 절차를 보여준다.
 
+```text
+[Gaia-X Sovereign Data Exchange Architecture]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Gaia-X Sovereign Data Exchange Architecture</div></div>
-<div class="kb-diagram-note">1. Self-Description 등록</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Data Provider</div><div class="kb-diagram-note">(Meta Data &amp; Policies) &gt;</div><div class="kb-diagram-node">Federated Catalogue</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. DID 기반 신원 인증</div><div class="kb-diagram-cell">3. 서비스 검색 및 조회</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Identity &amp; Trust Anchor (Clearing House)</div><div class="kb-diagram-note">&lt;</div><div class="kb-diagram-node">Data Consumer</div></div>
-<div class="kb-diagram-note">4. 규제 준수 및 자격 증명 (Verifiable Credentials)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Compliance &amp; Certification Node</div></div>
-<div class="kb-diagram-note">5. P2P 데이터 전송 (Data Usage Control 강제)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Data Provider</div><div class="kb-diagram-connector">===================================&gt;</div><div class="kb-diagram-node">Data Consumer</div></div>
-<div class="kb-diagram-note">(데이터 물리적 보관) Contract / Token 기반 접근 (데이터 임시 활용/분석)</div>
-</div>
-</div>
-
-
+1. Self-Description 등록
+   [Data Provider] ───────(Meta Data & Policies)──────> [Federated Catalogue]
+          │                                                    │
+          │ 2. DID 기반 신원 인증                                │ 3. 서비스 검색 및 조회
+          ▼                                                    ▼
+   [Identity & Trust Anchor (Clearing House)] <──────── [Data Consumer]
+          │
+          │ 4. 규제 준수 및 자격 증명 (Verifiable Credentials)
+          ▼
+   [Compliance & Certification Node]
+          
+          5. P2P 데이터 전송 (Data Usage Control 강제)
+   [Data Provider] ===================================> [Data Consumer]
+   (데이터 물리적 보관)      Contract / Token 기반 접근      (데이터 임시 활용/분석)
+```
 
 이 흐름의 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자체가 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)나 중앙 서버로 복사되지 않는다는 점이다. 제공자는 오직 자신의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 대한 'Self-Description (자기 기술서)'만을 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)에 등록한다. 소비자는 이 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)를 검색해 원하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 찾은 뒤, Identity Anchor를 통해 양측의 신원을 증명하고, 합의된 스마트 계약 체결 후 <strong>직접(<a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/">P2P</a>)</strong> [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전송받는다. 이때 전송된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 제공자가 지정한 사용 목적 및 기간(Usage Control)에 종속되어, 무단 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)나 재판매가 원천 차단된다. 실무에서는 이 구조를 통해 [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) 컴플라이언스를 자동으로 만족시키는 효과를 얻을 수 있다.
 
@@ -127,31 +126,28 @@ Gaia-X의 신원 증명과 [감사](/knowledge-base/studynote/02_operating_syste
 - **의사결정**: 중앙의 하나의 AWS S3 버킷에 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 모으는 방식은 경쟁사 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유출 우려로 성립될 수 없다.
 - **솔루션**: [IDS](/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/) (International [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Spaces) 커넥터를 각 회사의 [On-Premise](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)에 설치한다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 각자의 서버에 두고, 요청이 있을 때만 [IDS](/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/) 커넥터 간의 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 암호화 통신 및 사용 통제 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)(Usage Control) 하에 집계된 결과만 안전하게 교환한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Data Usage Control 의사결정 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 접근 요청</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DID 검증 및 토큰 발급</div><div class="kb-diagram-note">──(실패)──&gt;</div><div class="kb-diagram-node">접근 거부</div></div>
-<div class="kb-diagram-note">▼ (성공)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Usage Policy 엔진 평가</div><div class="kb-diagram-note">──(목적 외 사용)──&gt;</div><div class="kb-diagram-node">접근 거부</div></div>
-<div class="kb-diagram-note">(예: 30일 후 폐기, 암호화 상태로만 연산)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 암호화 채널 P2P 전송</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Consumer 환경에서 실행 후 자동 파기 강제 (TEE 활용)</div></div>
-</div>
-</div>
-
-
+```text
+[Data Usage Control 의사결정 플로우]
+[데이터 접근 요청]
+   │
+   ▼
+[DID 검증 및 토큰 발급] ──(실패)──> [접근 거부]
+   │
+   ▼ (성공)
+[Usage Policy 엔진 평가] ──(목적 외 사용)──> [접근 거부]
+   │ (예: 30일 후 폐기, 암호화 상태로만 연산)
+   ▼
+[데이터 암호화 채널 P2P 전송]
+   │
+   ▼
+[Consumer 환경에서 실행 후 자동 파기 강제 (TEE 활용)]
+```
 
 #### 2. 도입 시 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 및 주의사항
 - <strong>중앙화된 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/">메타데이터</a> 의존</strong>: [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)를 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)형으로 구성하지 않고 특정 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터 서버에 의존하면, 결국 [SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)([단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))와 새로운 락인이 발생한다. 연합형 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 아키텍처를 철저히 구현해야 한다.
 - **레거시 연동 간과**: 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Space로 즉시 마이그레이션하려는 시도는 실패한다. 기존 레거시 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)/DB 앞단에 가벼운 '[Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Connector' [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 계층을 두어 점진적으로 생태계에 참여시키는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 필요하다.
 
-> 📢 **섹션 요약 비유**: 각기 다른 자물쇠를 쓰는 여러 회사 사무실을 무리하게 하나로 합치는 대신, 공용 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터키와 출입 기록부([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Connector & [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) Engine)를 표준화하여 각자 사무실의 보안을 유지한 채 꼭 필요한 사람만 방문하게 하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)입니다.
+> 📢 **섹션 요약 비유**: 각기 다른 자물쇠를 쓰는 여러 회사 사무실을 무리하게 하나로 합치는 대신, 공용 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터키와 출입 기록부([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Connector & [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 엔진)를 표준화하여 각자 사무실의 보안을 유지한 채 꼭 필요한 사람만 방문하게 하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)입니다.
 
 ---
 
@@ -181,23 +177,21 @@ Gaia-X의 신원 증명과 [감사](/knowledge-base/studynote/02_operating_syste
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">개인정보 보호 규정 (GDPR) — EU 역내 데이터 처리 권리 및 역외 이전 통제 기준</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">유럽 데이터 전략 (European Data Strategy, 2020) — 데이터 단일 시장, 인간 중심 데이터 경제</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Gaia-X — EU 연합 클라우드 인프라, 데이터 주권 기반 연동 생태계</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 스페이스 (Data Spaces) — 분야별(산업·의료·농업 등) 신뢰 데이터 공유 공간</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 거버넌스법 / 데이터법 (DGA / Data Act) — 공공·민간 데이터 접근 제도화, 데이터 중개자 규율</div></div>
-</div>
-</div>
-
-
+```text
+[개인정보 보호 규정 (GDPR) — EU 역내 데이터 처리 권리 및 역외 이전 통제 기준]
+    │
+    ▼
+[유럽 데이터 전략 (European Data Strategy, 2020) — 데이터 단일 시장, 인간 중심 데이터 경제]
+    │
+    ▼
+[Gaia-X — EU 연합 클라우드 인프라, 데이터 주권 기반 연동 생태계]
+    │
+    ▼
+[데이터 스페이스 (Data Spaces) — 분야별(산업·의료·농업 등) 신뢰 데이터 공유 공간]
+    │
+    ▼
+[데이터 거버넌스법 / 데이터법 (DGA / Data Act) — 공공·민간 데이터 접근 제도화, 데이터 중개자 규율]
+```
 이 흐름은 GDPR의 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 원칙을 기반으로 유럽이 [데이터 주권](/knowledge-base/studynote/09_security/16_data_privacy/809_data_sovereignty/)과 산업 활용을 동시에 추구하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 단일 시장을 설계하고, Gaia-X·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스페이스로 구체화하는 EU [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 발전 경로를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

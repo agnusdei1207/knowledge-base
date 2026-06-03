@@ -51,44 +51,38 @@ GPT-3(175B 파라미터) 전체 파인튜닝에 필요한 [GPU](/knowledge-base/
 
 ### [PEFT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/306_peft_lora/) 방법론 비교
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">PEFT 방법론 분류</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PEFT (Parameter-Efficient Fine-Tuning)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Adapter 기반</div><div class="kb-diagram-cell">Prompt 기반</div><div class="kb-diagram-cell">LoRA 기반</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Adapter</div><div class="kb-diagram-cell">- Prefix Tuning</div><div class="kb-diagram-cell">- LoRA</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(작은 MLP 삽입)</div><div class="kb-diagram-cell">- Prompt Tuning</div><div class="kb-diagram-cell">- QLoRA (양자화)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- P-Tuning</div><div class="kb-diagram-cell">- AdaLoRA</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">추가 파라미터 삽입</div><div class="kb-diagram-cell">입력 프롬프트 학습</div><div class="kb-diagram-cell">행렬 분해 근사</div></div>
-</div>
-</div>
-
-
+```
+PEFT 방법론 분류
+┌─────────────────────────────────────────────────────────┐
+│  PEFT (Parameter-Efficient Fine-Tuning)                  │
+├──────────────────┬──────────────────┬───────────────────┤
+│  Adapter 기반    │  Prompt 기반     │  LoRA 기반        │
+├──────────────────┼──────────────────┼───────────────────┤
+│ - Adapter        │ - Prefix Tuning  │ - LoRA            │
+│  (작은 MLP 삽입) │ - Prompt Tuning  │ - QLoRA (양자화)  │
+│                  │ - P-Tuning       │ - AdaLoRA         │
+│ 추가 파라미터 삽입│ 입력 프롬프트 학습│ 행렬 분해 근사    │
+└──────────────────┴──────────────────┴───────────────────┘
+```
 
 ### [LoRA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/) ([Low-Rank Adaptation](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/145_peft_lora_low_rank_adaptation/)) 원리
 
 LoRA의 핵심: <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a> 업데이트를 저차원으로 근사</strong>
 
+```
+원래 파인튜닝:
+W' = W + ΔW  (ΔW: d×d 행렬 → 수십억 파라미터)
 
+LoRA:
+W' = W + ΔW = W + A·B
+  A: d×r 행렬 (r << d)
+  B: r×d 행렬
+  ΔW 파라미터 수: d² → 2·d·r (r=8이면 d/4로 감소)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">원래 파인튜닝:</div>
-<div class="kb-diagram-note">W' = W + ΔW (ΔW: d×d 행렬 → 수십억 파라미터)</div>
-<div class="kb-diagram-note">LoRA:</div>
-<div class="kb-diagram-note">W' = W + ΔW = W + A·B</div>
-<div class="kb-diagram-note">A: d×r 행렬 (r &lt;&lt; d)</div>
-<div class="kb-diagram-note">B: r×d 행렬</div>
-<div class="kb-diagram-note">ΔW 파라미터 수: d² → 2·d·r (r=8이면 d/4로 감소)</div>
-<div class="kb-diagram-note">예: d=4096, r=8이면</div>
-<div class="kb-diagram-note">원래: 4096² = 16,777,216 파라미터</div>
-<div class="kb-diagram-note">LoRA: 2 × 4096 × 8 = 65,536 파라미터 (99.6% 감소!)</div>
-</div>
-</div>
-
-
+예: d=4096, r=8이면
+  원래: 4096² = 16,777,216 파라미터
+  LoRA: 2 × 4096 × 8 = 65,536 파라미터 (99.6% 감소!)
+```
 
 | 방법 | 훈련 파라미터 | [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 메모리 | 추론 추가 비용 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) |
 |:---|:---|:---|:---|:---|
@@ -135,28 +129,22 @@ Transformer의 어떤 레이어에 LoRA를 적용할 것인가:
 
 ### [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 특화 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 구축 파이프라인
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">베이스 모델 선택 (Llama 3, Mistral, Gemma 등)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">도메인 데이터 준비</div>
-<div class="kb-diagram-note">(지시-응답 쌍 수천~수만 건)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">LoRA 설정 결정</div>
-<div class="kb-diagram-note">(r=8, alpha=16, target=q_proj,v_proj)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">QLoRA 학습 (단일 GPU 가능)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">LoRA 가중치 병합 (Merge)</div>
-<div class="kb-diagram-note">또는 분리 서빙 (VLLM, TGI)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">평가 (MMLU, 도메인 벤치마크)</div>
-</div>
-</div>
-
-
+```
+베이스 모델 선택 (Llama 3, Mistral, Gemma 등)
+         ↓
+도메인 데이터 준비
+(지시-응답 쌍 수천~수만 건)
+         ↓
+LoRA 설정 결정
+(r=8, alpha=16, target=q_proj,v_proj)
+         ↓
+QLoRA 학습 (단일 GPU 가능)
+         ↓
+LoRA 가중치 병합 (Merge)
+또는 분리 서빙 (VLLM, TGI)
+         ↓
+평가 (MMLU, 도메인 벤치마크)
+```
 
 ### 기술사 판단 포인트
 
@@ -207,22 +195,18 @@ PEFT와 LoRA는 LLM의 <strong>민주화</strong>를 실현하는 핵심 기술�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">풀 파인튜닝 (전체 파라미터 학습, 비용 ↑↑)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">PEFT: 소수 파라미터만 학습 (0.1~1%)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">LoRA: 저랭크 행렬 분해 어댑터</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Prefix Tuning · Prompt Tuning</div>
-<div class="kb-diagram-tree-item" style="--depth:2">QLoRA: 4-bit 양자화 + LoRA</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Instruction Fine-Tuning → 인간 선호 정렬</div>
-</div>
-</div>
-
-
+```text
+풀 파인튜닝 (전체 파라미터 학습, 비용 ↑↑)
+    │
+    ▼
+PEFT: 소수 파라미터만 학습 (0.1~1%)
+    ├─► LoRA: 저랭크 행렬 분해 어댑터
+    ├─► Prefix Tuning · Prompt Tuning
+    └─► QLoRA: 4-bit 양자화 + LoRA
+    │
+    ▼
+Instruction Fine-Tuning → 인간 선호 정렬
+```
 2. LoRA는 그 대신 <strong>교과서에 포스트잇만 붙이는 것</strong>이야. 교과서는 그대로 두고, 새로운 것은 포스트잇에만 써. 훨씬 빠르고 싸!
 3. QLoRA는 그 교과서를 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>해서 더 얇게 만든 다음 포스트잇 붙이기</strong>야. 책장 공간([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 메모리)을 엄청 아낄 수 있어.
 

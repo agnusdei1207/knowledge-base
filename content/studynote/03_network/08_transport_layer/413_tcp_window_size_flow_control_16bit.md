@@ -27,18 +27,14 @@ tags = ["studynote-network"]
   - 주방장은 3개의 요리를 연달아 내놓고 멈춥니다.
   - 손님이 1명 밥을 다 먹고 나갔습니다([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 완료, ACK 발송). 직원이 <strong>"빈자리 하나 났어! 창문(Window) 한 칸 옆으로 밀어서 요리 1개 더 줘!"</strong>라고 하면 주방장이 다시 요리를 만듭니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">ECN 징후 플래그</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">윈도우 크기</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">체크섬</div></div>
-</div>
-</div>
-
-
+```text
+[ECN 징후 플래그]
+    │
+    ▼
+[윈도우 크기]
+    │
+    └──▶ [체크섬]
+```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/">흐름 제어</a>용 윈도우 크기는 정수기 호스의 </strong>"수압 조절 다이얼"**입니다. 내 컵(수신자 버퍼)이 찰랑찰랑 넘칠 것 같으면 다이얼([Window Size](/knowledge-base/studynote/03_network/04_data_link_layer_error/215_window_size_sender_receiver/))을 줄여 물을 쫄쫄 나오게 하고, 컵을 비워서 여유가 생기면 다이얼을 최대로 틀어 콸콸 쏟아지게 만드는 완벽한 수위 조절 장치입니다.
 
@@ -67,22 +63,21 @@ tags = ["studynote-network"]
 - 이 뜻은 "앞으로 내가 기본 헤더에 Window Size를 `100`이라고 적어서 보내면, 너는 그걸 그대로 믿지 말고 내 치트키($2^8 = 256$)를 곱해서 **`100 * 256 = 25,600`** [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)라고 해석해라!"라는 뜻이다.
 - 이 꼼수 덕분에 윈도우 사이즈는 최대 64KB에서 무려 <strong>1GB(기가바이트)</strong>까지 우주 팽창을 이루어냈고, 오늘날 우리가 스팀에서 100GB짜리 게임을 10분 만에 다운받을 수 있게 되었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">와이어샤크의 Window Size와 Scale 곱셈의 기적</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">TCP 분석 화면</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Window size value: 258 ◀─ (16비트 헤더에 실제 찍힌 값)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Calculated window size: 66048</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─ (실제 한 번에 쏘는 크기!!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Window size scaling factor: 256 ◀─ (아까 SYN 때 합의한 치트키 값)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 258 * 256 = 66,048 바이트!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 이 마법의 곱셈(Scale)이 없었다면 현대의 기가비트 인터넷은</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">존재하지 못하고 구석기 시대 모뎀 속도에 머물렀을 것이다.</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                와이어샤크의 Window Size와 Scale 곱셈의 기적        │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ TCP 분석 화면 ]                                            │
+ │   Window size value: 258          ◀─ (16비트 헤더에 실제 찍힌 값)  │
+ │   [Calculated window size: 66048] ◀─ (실제 한 번에 쏘는 크기!!)   │
+ │   Window size scaling factor: 256 ◀─ (아까 SYN 때 합의한 치트키 값)│
+ │                                                             │
+ │   ▶ 258 * 256 = 66,048 바이트!                                │
+ │   ▶ 이 마법의 곱셈(Scale)이 없었다면 현대의 기가비트 인터넷은          │
+ │     존재하지 못하고 구석기 시대 모뎀 속도에 머물렀을 것이다.           │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: ** Window Size가 64KB밖에 안 되던 시절은 삽으로 흙을 퍼서 트럭을 채우는 **"가내 수공업"**이었습니다. Window Scale 옵션의 도입은 이 삽의 크기를 $2^8$(256배), $2^{14}$(16,384배)로 뻥튀기하는 마법의 가루를 뿌려, 한 번의 삽질(1번의 ACK)로 포크레인 급의 흙을 퍼담는 **"중장비 산업 혁명"**을 이루어 낸 것입니다.
 
@@ -140,19 +135,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: ECN 징후 플래그</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 윈도우 크기</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 체크섬</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: ECN 징후 플래그]
+    │
+    ▼
+[현재 개념: 윈도우 크기]
+    │
+    ├──▶ [확장 A: 체크섬]
+    └──▶ [확장 B: 적응형 저지연 전송]
+```
 
 윈도우 크기는 ECN 징후 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/)와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

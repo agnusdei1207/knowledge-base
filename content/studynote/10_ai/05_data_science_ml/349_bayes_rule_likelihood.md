@@ -21,17 +21,14 @@ tags = ["studynote-ai"]
 
 스팸 메일 필터를 만들 때 "이 메일에 '무료'라는 단어가 있다면 스팸일 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 얼마인가?"를 계산하려면 베이즈 룰이 필요하다. 사전 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)(Prior) P(스팸)=0.3, 우도 P('무료'|스팸)=0.8, 증거 P('무료')=0.4를 알면 사후 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) P(스팸|'무료')=0.8×0.3/0.4=0.6을 정확히 계산할 수 있다. 베이즈 추론(Bayesian Inference)은 새 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 올 때마다 Prior를 업데이트하여 점점 정교해지는 적응형 학습의 토대다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 베이즈 룰은 "의사의 진단 업데이트"다. 처음엔 증상 없이 "암 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 1%(Prior)"로 시작하지만, 혈액 검사 결과(Likelihood)가 양성이 나오면 "지금은 암 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 15%(Posterior)"로 즉각 업데이트한다. 새 증거가 쌓일수록 진단이 정교해지는 원리다.
 
@@ -39,22 +36,26 @@ tags = ["studynote-ai"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">베이즈 룰 (Bayes Rule) 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P(θ</div><div class="kb-diagram-cell">X) = P(X</div><div class="kb-diagram-cell">θ) · P(θ)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P(X)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Prior</div><div class="kb-diagram-cell">Likelihood</div><div class="kb-diagram-cell">Posterior</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P(θ)</div><div class="kb-diagram-cell">P(X</div><div class="kb-diagram-cell">θ)</div><div class="kb-diagram-cell">P(θ</div><div class="kb-diagram-cell">X)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사전 믿음</div><div class="kb-diagram-cell">데이터 적합</div><div class="kb-diagram-cell">갱신된 믿음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">도메인 지식 관측 데이터 최종 추정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P(X) = Σ P(X</div><div class="kb-diagram-cell">θ)·P(θ) dθ (주변 우도, 정규화 상수)</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────┐
+│           베이즈 룰 (Bayes Rule) 구조                 │
+├──────────────────────────────────────────────────────┤
+│                                                      │
+│  P(θ|X) =  P(X|θ) · P(θ)                           │
+│            ─────────────                             │
+│                P(X)                                  │
+│                                                      │
+│  ┌──────────┐  ┌──────────┐  ┌──────────┐           │
+│  │  Prior   │  │Likelihood│  │Posterior │           │
+│  │  P(θ)    │  │ P(X|θ)   │  │ P(θ|X)   │           │
+│  │사전 믿음 │  │데이터 적합│  │갱신된 믿음│          │
+│  └──────────┘  └──────────┘  └──────────┘           │
+│       ↑              ↑             ↑                 │
+│   도메인 지식    관측 데이터    최종 추정              │
+│                                                      │
+│  P(X) = Σ P(X|θ)·P(θ) dθ  (주변 우도, 정규화 상수) │
+└──────────────────────────────────────────────────────┘
+```
 
 | 항목 | 기호 | 의미 |
 |:---|:---|:---|

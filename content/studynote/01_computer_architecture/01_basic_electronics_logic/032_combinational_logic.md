@@ -27,18 +27,12 @@ tags = ["studynote-computer-architecture"]
 | 클럭        | 불필요              | 필요                  |
 | 예시        | 가산기, [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)       | [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/), [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)       |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">입력 A ──</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">AND</div><div class="kb-diagram-note">─</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">입력 B ── ─</div><div class="kb-diagram-node">OR</div><div class="kb-diagram-note">출력 Y</div></div>
-<div class="kb-diagram-note">입력 C</div>
-</div>
-</div>
-
-
+```
+입력 A ──┐
+         ├─[AND]─┐
+입력 B ──┘       ├─[OR]─── 출력 Y
+입력 C ──────────┘
+```
 
 📢 **섹션 요약 비유**: 조합 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 회로는 자판기 같다. 동전(입력)을 넣으면 곧바로 음료(출력)가 나오고, 과거에 뭘 눌렀는지는 기억하지 않는다.
 
@@ -91,19 +85,13 @@ A=1 |  1  |  1  |
 
 ### 4:1 [멀티플렉서](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/041_multiplexer/) ([MUX](/knowledge-base/studynote/03_network/19_frequent_topics_terms/944_mux_demux_multiplexer_demultiplexer_circuit_sharing/))
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">D0 ──</div>
-<div class="kb-diagram-note">D1 ── 4:1 MUX Y</div>
-<div class="kb-diagram-note">D2 ──</div>
-<div class="kb-diagram-note">D3 ──</div>
-<div class="kb-diagram-note">S1 S0 (선택 신호)</div>
-</div>
-</div>
-
-
+```
+D0 ──┐
+D1 ──┤  4:1 MUX ──── Y
+D2 ──┤
+D3 ──┘
+S1 S0 (선택 신호)
+```
 
 Y = ¬S1·¬S0·D0 + ¬S1·S0·D1 + S1·¬S0·D2 + S1·S0·D3
 
@@ -141,19 +129,17 @@ Y = ¬S1·¬S0·D0 + ¬S1·S0·D1 + S1·¬S0·D2 + S1·S0·D3
 
 ### [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) ([Arithmetic Logic Unit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/)) 내부 구조
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-note">입력 A</div><div class="kb-diagram-node">8bit</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">입력 B</div><div class="kb-diagram-node">8bit</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">OP 코드</div><div class="kb-diagram-node">3bit</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조합 논리</div><div class="kb-diagram-cell">결과</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">게이트 망</div><div class="kb-diagram-cell">플래그</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────┐
+│  입력 A [8bit]               │
+│  입력 B [8bit]               │
+│  OP 코드 [3bit]              │
+│  ┌──────────────┐            │
+│  │  조합 논리   │──── 결과   │
+│  │  게이트 망   │──── 플래그 │
+│  └──────────────┘            │
+└──────────────────────────────┘
+```
 
 ### 타이밍 해저드 (Timing Hazard)
 
@@ -172,56 +158,50 @@ Y = ¬S1·¬S0·D0 + ¬S1·S0·D1 + S1·¬S0·D2 + S1·S0·D3
 
 ## 📌 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">조합 논리 회로</div>
-<div class="kb-diagram-tree-item" style="--depth:0">설계 도구</div>
-<div class="kb-diagram-note">── 진리표 (Truth Table)</div>
-<div class="kb-diagram-note">── 부울 대수 (Boolean Algebra)</div>
-<div class="kb-diagram-note">── 카르노 맵 (Karnaugh Map, K-Map)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">기본 회로</div>
-<div class="kb-diagram-note">── 반가산기 (Half Adder, HA)</div>
-<div class="kb-diagram-note">── 전가산기 (Full Adder, FA)</div>
-<div class="kb-diagram-note">── 4비트 리플 캐리 가산기 (Ripple Carry Adder, RCA)</div>
-<div class="kb-diagram-note">── 선행 올림 가산기 (Carry Look-ahead Adder, CLA)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">데이터 선택/변환</div>
-<div class="kb-diagram-note">── 멀티플렉서 (Multiplexer, MUX)</div>
-<div class="kb-diagram-note">── 디멀티플렉서 (Demultiplexer, DEMUX)</div>
-<div class="kb-diagram-note">── 인코더 (Encoder)</div>
-<div class="kb-diagram-note">── 디코더 (Decoder)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">오류 검출</div>
-<div class="kb-diagram-tree-item" style="--depth:2">패리티 비트 (Parity Bit)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">해밍 코드 (Hamming Code)</div>
-</div>
-</div>
-
-
+```
+조합 논리 회로
+├── 설계 도구
+│   ├── 진리표 (Truth Table)
+│   ├── 부울 대수 (Boolean Algebra)
+│   └── 카르노 맵 (Karnaugh Map, K-Map)
+├── 기본 회로
+│   ├── 반가산기 (Half Adder, HA)
+│   ├── 전가산기 (Full Adder, FA)
+│   ├── 4비트 리플 캐리 가산기 (Ripple Carry Adder, RCA)
+│   └── 선행 올림 가산기 (Carry Look-ahead Adder, CLA)
+├── 데이터 선택/변환
+│   ├── 멀티플렉서 (Multiplexer, MUX)
+│   ├── 디멀티플렉서 (Demultiplexer, DEMUX)
+│   ├── 인코더 (Encoder)
+│   └── 디코더 (Decoder)
+└── 오류 검출
+    ├── 패리티 비트 (Parity Bit)
+    └── 해밍 코드 (Hamming Code)
+```
 
 ---
 
 ## 📈 관련 키워드 및 발전 흐름도
 
+```
+┌─────────────────────────────────────────────────────────────────┐
+│        조합 논리 회로 기술 발전 흐름                              │
+├──────────────┬──────────────────┬───────────────────────────────┤
+│ 1940~60년대  │ 진공관/트랜지스터 │ 개별 게이트 회로 구성          │
+│ 1970년대     │ SSI/MSI IC       │ 74시리즈 표준 로직 IC 등장     │
+│ 1980년대     │ CPLD 등장        │ 프로그래머블 논리 소자         │
+│ 1990년대     │ FPGA 일반화      │ LUT 기반 조합 논리 매핑        │
+│ 2000년대     │ EDA 자동화       │ HDL(VHDL/Verilog) 합성 툴     │
+│ 2010~현재    │ HLS·AI 가속기    │ 조합 논리 → DNN 레이어 매핑   │
+└──────────────┴──────────────────┴───────────────────────────────┘
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조합 논리 회로 기술 발전 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1940~60년대</div><div class="kb-diagram-cell">진공관/트랜지스터</div><div class="kb-diagram-cell">개별 게이트 회로 구성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1970년대</div><div class="kb-diagram-cell">SSI/MSI IC</div><div class="kb-diagram-cell">74시리즈 표준 로직 IC 등장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1980년대</div><div class="kb-diagram-cell">CPLD 등장</div><div class="kb-diagram-cell">프로그래머블 논리 소자</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1990년대</div><div class="kb-diagram-cell">FPGA 일반화</div><div class="kb-diagram-cell">LUT 기반 조합 논리 매핑</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2000년대</div><div class="kb-diagram-cell">EDA 자동화</div><div class="kb-diagram-cell">HDL(VHDL/Verilog) 합성 툴</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2010~현재</div><div class="kb-diagram-cell">HLS·AI 가속기</div><div class="kb-diagram-cell">조합 논리 → DNN 레이어 매핑</div></div>
-<div class="kb-diagram-note">핵심 키워드 연결:</div>
-<div class="kb-diagram-note">논리 게이트 → 부울 대수 → 카르노 맵 → 가산기 → ALU</div>
-<div class="kb-diagram-note">NAND/NOR 드모르간 SOP/POS 올림 전파 플래그 레지스터</div>
-<div class="kb-diagram-note">범용 게이트 CLA(선행 올림)</div>
-</div>
-</div>
-
-
+핵심 키워드 연결:
+논리 게이트 → 부울 대수 → 카르노 맵 → 가산기 → ALU
+     ↓               ↓            ↓          ↓       ↓
+   NAND/NOR       드모르간      SOP/POS    올림 전파  플래그 레지스터
+     ↓                                      ↓
+   범용 게이트                           CLA(선행 올림)
+```
 
 ---
 

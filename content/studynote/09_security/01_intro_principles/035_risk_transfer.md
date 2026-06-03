@@ -18,20 +18,15 @@ tags = ["studynote-security"]
 
 ## I. 위험 처리 4대 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">위험 식별 완료</div>
-<div class="kb-diagram-note">v</div>
-<div class="kb-diagram-note">+---&gt; 위험 수용 (Accept) &lt;- 낮은 위험, 비용&gt;이익</div>
-<div class="kb-diagram-note">위험 회피 (Avoid) &lt;- 매우 높은 위험, 활동 중단</div>
-<div class="kb-diagram-note">위험 경감 (Mitigate) &lt;- 통제로 확률/영향 감소</div>
-<div class="kb-diagram-note">+---&gt; 위험 전가 (Transfer) &lt;- 제3자에게 재정 책임 이전</div>
-</div>
-</div>
-
-
+```
+위험 식별 완료
+      |
+      v
++---> 위험 수용 (Accept)   <- 낮은 위험, 비용>이익
+|     위험 회피 (Avoid)    <- 매우 높은 위험, 활동 중단
+|     위험 경감 (Mitigate) <- 통제로 확률/영향 감소
++---> 위험 전가 (Transfer) <- 제3자에게 재정 책임 이전
+```
 
 | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)     | 위험 제거 | 비용    | 적합 상황              |
 |---------|---------|---------|----------------------|
@@ -97,21 +92,16 @@ tags = ["studynote-security"]
 
 ## [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). 아웃소싱을 통한 [위험 전가](/knowledge-base/studynote/09_security/01_intro_principles/051_risk_transfer/)
 
+```
+On-Premise          Cloud (IaaS/PaaS/SaaS)
+보안 책임 전부     [공유 책임 모델]
+사용자 부담     -> 물리 보안, 네트워크: CSP
+                   OS, 앱, 데이터: 사용자
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">On-Premise Cloud (IaaS/PaaS/SaaS)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">보안 책임 전부</div><div class="kb-diagram-node">공유 책임 모델</div></div>
-<div class="kb-diagram-note">사용자 부담 -&gt; 물리 보안, 네트워크: CSP</div>
-<div class="kb-diagram-note">OS, 앱, 데이터: 사용자</div>
-<div class="kb-diagram-note">MSSP (Managed Security Service Provider)</div>
-<div class="kb-diagram-note">SOC 운영, 위협 탐지, 인시던트 대응 위탁</div>
-<div class="kb-diagram-tree-item" style="--depth:0">보안 전문 인력 부담 전가</div>
-</div>
-</div>
-
-
+MSSP (Managed Security Service Provider)
+SOC 운영, 위협 탐지, 인시던트 대응 위탁
+-> 보안 전문 인력 부담 전가
+```
 
 | 아웃소싱 유형 | 전가 대상 위험          | 주의점               |
 |-------------|------------------------|---------------------|

@@ -35,23 +35,25 @@ tags = ["studynote-ai"]
 
 아래 그림은 추론 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에서 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)가 어디에 개입하는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">양자화 추론 파이프라인: 저장 비용과 메모리 이동량을 줄임</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FP32 학습 완료 모델</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 보정(Calibration) 데이터로 값의 범위 측정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ Scale / Zero-point 결정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 가중치·활성화 양자화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ INT8 / INT4 저장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 정수 커널로 행렬 연산</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 필요 시 역양자화(Dequantization) 후 출력</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">병목 변화:</div><div class="kb-diagram-node">메모리 읽기</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">저정밀 정수 연산</div><div class="kb-diagram-note">중심</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│        양자화 추론 파이프라인: 저장 비용과 메모리 이동량을 줄임     │
+├────────────────────────────────────────────────────────────────────┤
+│ FP32 학습 완료 모델                                                │
+│      │                                                             │
+│      ├─▶ 보정(Calibration) 데이터로 값의 범위 측정                 │
+│      │        │                                                    │
+│      │        └─▶ Scale / Zero-point 결정                          │
+│      │                                                             │
+│      └─▶ 가중치·활성화 양자화                                      │
+│                 │                                                   │
+│                 ├─▶ INT8 / INT4 저장                               │
+│                 ├─▶ 정수 커널로 행렬 연산                          │
+│                 └─▶ 필요 시 역양자화(Dequantization) 후 출력        │
+│                                                                    │
+│ 병목 변화: [메모리 읽기] 중심  ─────▶  [저정밀 정수 연산] 중심       │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조에서 가장 흔한 수식은 다음과 같다.
 
@@ -144,23 +146,21 @@ tags = ["studynote-ai"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">대형 모델 확산</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">메모리·대역폭 병목</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 지식 증류 (Knowledge Distillation)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 양자화 (Quantization)</div>
-<div class="kb-diagram-tree-item" style="--depth:6">▶ PTQ (Post-Training Quantization)</div>
-<div class="kb-diagram-tree-item" style="--depth:6">▶ QAT (Quantization-Aware Training)</div>
-<div class="kb-diagram-tree-item" style="--depth:6">▶ INT8 / INT4 / FP8 최적화</div>
-<div class="kb-diagram-tree-item" style="--depth:6">▶ KV Cache 양자화 · 온디바이스 LLM</div>
-</div>
-</div>
-
-
+```text
+대형 모델 확산
+    │
+    ▼
+메모리·대역폭 병목
+    │
+    ├─▶ 지식 증류 (Knowledge Distillation)
+    │
+    └─▶ 양자화 (Quantization)
+            │
+            ├─▶ PTQ (Post-Training Quantization)
+            ├─▶ QAT (Quantization-Aware Training)
+            ├─▶ INT8 / INT4 / FP8 최적화
+            └─▶ KV Cache 양자화 · 온디바이스 LLM
+```
 
 이 흐름은 "모델 대형화 → 경량화 필요 → 정밀한 저비트 최적화"로 이어지는 현재 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 인프라의 방향을 보여준다.
 

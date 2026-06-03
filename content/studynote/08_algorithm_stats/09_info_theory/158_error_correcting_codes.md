@@ -66,23 +66,19 @@ d_H(u, v) = 해밍 무게(u XOR v)
 
 ### 선형 블록 코드 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)
 
+```
+선형 블록 코드 (Linear Block Code)
+    ├── 체계적 코드 (Systematic Code)
+    │    ├── 해밍 코드 (Hamming Code)
+    │    ├── BCH 코드 (Bose-Chaudhuri-Hocquenghem)
+    │    └── Reed-Solomon (RS) 코드
+    │
+    └── 비체계적 코드
+         └── 저밀도 패리티 검사 (LDPC)
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">선형 블록 코드 (Linear Block Code)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">체계적 코드 (Systematic Code)</div>
-<div class="kb-diagram-note">── 해밍 코드 (Hamming Code)</div>
-<div class="kb-diagram-note">── BCH 코드 (Bose-Chaudhuri-Hocquenghem)</div>
-<div class="kb-diagram-note">── Reed-Solomon (RS) 코드</div>
-<div class="kb-diagram-tree-item" style="--depth:2">비체계적 코드</div>
-<div class="kb-diagram-tree-item" style="--depth:4">저밀도 패리티 검사 (LDPC)</div>
-<div class="kb-diagram-note">합성곱 코드 (Convolutional Code)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">비터비 (Viterbi) 디코딩 → 터보 코드의 구성 요소</div>
-</div>
-</div>
-
-
+합성곱 코드 (Convolutional Code)
+    └── 비터비 (Viterbi) 디코딩 → 터보 코드의 구성 요소
+```
 
 ### Reed-Solomon (RS) 코드 — 버스트 오류 강함
 
@@ -128,18 +124,12 @@ d_H(u, v) = 해밍 무게(u XOR v)
 
 서버 메모리에서 거의 표준:
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">64비트 데이터 + 8비트 ECC 비트 = 72비트 DIMM</div>
-<div class="kb-diagram-note">→ 1비트 정정 + 2비트 검출</div>
-<div class="kb-diagram-note">→ 단일 비트 오류: 자동 정정 (시스템 계속 동작)</div>
-<div class="kb-diagram-note">→ 2비트 오류: 검출 후 패닉 (데이터 변조 방지)</div>
-</div>
-</div>
-
-
+```
+64비트 데이터 + 8비트 ECC 비트 = 72비트 DIMM
+→ 1비트 정정 + 2비트 검출
+→ 단일 비트 오류: 자동 정정 (시스템 계속 동작)
+→ 2비트 오류: 검출 후 패닉 (데이터 변조 방지)
+```
 
 ### [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) [NAND Flash](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/257_nand_flash/) [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) 요구사항
 
@@ -189,23 +179,21 @@ ECC는 <strong><a href="/knowledge-base/studynote/04_software_engineering/10_tre
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">신호 전송 오류 발생</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">오류 감지(패리티 비트)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">오류 정정 코드(Hamming Code)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">BCH/Reed-Solomon</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현대 통신/RAID 응용</div></div>
-</div>
-</div>
-
-
+```text
+[신호 전송 오류 발생]
+    │
+    ▼
+[오류 감지(패리티 비트)]
+    │
+    ▼
+[오류 정정 코드(Hamming Code)]
+    │
+    ▼
+[BCH/Reed-Solomon]
+    │
+    ▼
+[현대 통신/RAID 응용]
+```
 
 오류 정정 코드는 패리티에서 [해밍 코드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/)와 BCH, Reed-Solomon으로 발전해 통신과 RAID를 지탱한다.
 

@@ -29,28 +29,28 @@ tags = ["studynote-operating-system"]
   2. <strong>쿼터제(<a href="/knowledge-base/studynote/02_operating_system/09_file_system/551_quota_disk_limit/">Quota</a>)의 도입</strong>: "앱마다 [할당량](/knowledge-base/studynote/02_operating_system/09_file_system/551_quota_disk_limit/)의 한도를 정해주자." 그 한도를 정하는 기준으로 균등, 비례 방식이 고안됨.
   3. **런타임의 배신**: 하지만 프로그램은 살아 움직이는 유기체다. 덩치가 크다고 램을 항상 많이 쓰는 게 아니라는 '[참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 지역성(Locality)'의 진리가 밝혀지며 두 방식 모두 치명상을 입었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">균등(Equal) vs 비례(Proportional) 할당의 수학적 배분 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황 조건</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 가용 물리 램 프레임 총 개수: 62장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 1번 프로세스 (메모장): 크기 10장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 2번 프로세스 (포토샵): 크기 127장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(총 요구 크기 $S$ = 137장)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1. 균등 할당 (공산주의 배분)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 메모장 = 31장 할당 / 포토샵 = 31장 할당</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💥 문제: 메모장은 10장만 있으면 되는데 21장이 썩어 들어감(낭비).</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">포토샵은 127장 필요한데 31장뿐이라 1초마다 폴트 지옥 발생.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2. 비례 할당 (덩치 비례 배분)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 메모장 몫 = (10 / 137) * 62 = 4.5장 ──&gt; 약 4장 할당</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 포토샵 몫 = (127 / 137) * 62 = 57.4장 ─&gt; 약 57장 할당</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 장점: 덩치에 맞게 램을 줘서 균등 할당의 멍청함을 완벽히 해결함.</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────────────┐
+│        균등(Equal) vs 비례(Proportional) 할당의 수학적 배분 시각화    │
+├───────────────────────────────────────────────────────────────────────┤
+│                                                                       │
+│ [ 상황 조건 ]                                                         │
+│ - 가용 물리 램 프레임 총 개수: 62장                                   │
+│ - 1번 프로세스 (메모장): 크기 10장                                    │
+│ - 2번 프로세스 (포토샵): 크기 127장                                   │
+│   (총 요구 크기 $S$ = 137장)                                          │
+│                                                                       │
+│ ▶ 1. 균등 할당 (공산주의 배분)                                        │
+│   - 메모장 = 31장 할당 / 포토샵 = 31장 할당                           │
+│   💥 문제: 메모장은 10장만 있으면 되는데 21장이 썩어 들어감(낭비).    │
+│          포토샵은 127장 필요한데 31장뿐이라 1초마다 폴트 지옥 발생.   │
+│                                                                       │
+│ ▶ 2. 비례 할당 (덩치 비례 배분)                                       │
+│   - 메모장 몫 = (10 / 137) * 62 = 4.5장 ──> 약 4장 할당               │
+│   - 포토샵 몫 = (127 / 137) * 62 = 57.4장 ─> 약 57장 할당             │
+│   ✅ 장점: 덩치에 맞게 램을 줘서 균등 할당의 멍청함을 완벽히 해결함.  │
+└───────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 수식으로만 보면 비례 할당(Proportional)이 압도적으로 합리적이다. 메모장 같은 가벼운 앱의 쓸데없는 독점을 막고, 램이 고픈 포토샵에 자원을 밀어준다. 하지만 비례 할당의 이 수식($a_i = s_i / S \times m$)은 오직 [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)의 정도(프로세스 개수)가 변하지 않을 때만 성립한다. 누군가 새 앱을 켜면 분모($S$)가 바뀌어 전체 배분율을 다시 처음부터 다 뜯어고쳐야 하는 재앙이 도사리고 있다.
 
 - **📢 섹션 요약 비유**: 4인 가족 피자 1판(프레임) 나누기입니다. 아빠, 엄마, 아기 둘이 무조건 2조각씩 평등하게 먹는 게 균등 할당(아기는 다 못 먹고 버림), 아빠 4조각, 아기들 1조각씩 몸집에 맞게 잘라주는 게 비례 할당입니다. 훨씬 이성적이어 보입니다.
@@ -104,18 +104,15 @@ tags = ["studynote-operating-system"]
 4. 새로 들어온 앱이 기존 앱의 프레임을 뺏어 먹어 폴트가 더 극단적으로 터지며 서버가 사망한다([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)).
 이 악순환의 굴레를 끊으려면, 정적인 '비례/균등' 할당을 버리고 런타임에 폴트율을 모니터링하며 램을 유동적으로 조절하는 <strong>동적 할당(Dynamic Allocation)</strong>으로 진화해야만 했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">할당 정책</div><div class="kb-diagram-cell">파이(프레임) 파악</div><div class="kb-diagram-cell">런타임 변화 반영</div><div class="kb-diagram-cell">단편화 / 독점 방어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정적 할당</div><div class="kb-diagram-cell">부팅 시 픽스</div><div class="kb-diagram-cell">반영 못함 ☠️</div><div class="kb-diagram-cell">램 낭비 심함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">우선순위</div><div class="kb-diagram-cell">권력자 위주</div><div class="kb-diagram-cell">반영함</div><div class="kb-diagram-cell">하위 앱 굶어죽음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동적 할당</div><div class="kb-diagram-cell">폴트율에 따라</div><div class="kb-diagram-cell">완벽히 추적 🟢</div><div class="kb-diagram-cell">워킹셋으로 최적화</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬────────────────────────────────┐
+│ 할당 정책  │ 파이(프레임) 파악│ 런타임 변화 반영│ 단편화 / 독점 방어│
+├──────────┼────────────┼────────────┼────────────────────────────────┤
+│ 정적 할당  │ 부팅 시 픽스 │ 반영 못함 ☠️ │ 램 낭비 심함             │
+│ 우선순위  │ 권력자 위주  │ 반영함      │ 하위 앱 굶어죽음           │
+│ 동적 할당  │ 폴트율에 따라 │ 완벽히 추적 🟢│ 워킹셋으로 최적화      │
+└──────────┴────────────┴────────────┴────────────────────────────────┘
+```
 **[매트릭스 해설]** 균등/비례 할당은 너무 융통성이 없어서 현대 범용 리눅스/윈도우 커널에서는 메인 로직으로 쓰이지 않는다. 현재는 "네가 지금 얼마나 바쁜지([Page Fault Frequency](/knowledge-base/studynote/02_operating_system/04_synchronization/266_page_fault_frequency/))"를 실시간으로 측정해서, 바쁘면 램을 들이붓고 한가하면 램을 뺏어버리는 [PFF](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/306_pff/) 동적 튜닝 모델이 완전히 왕좌를 차지했다.
 
 - **📢 섹션 요약 비유**: 아이들 용돈을 줄 때 "너네 3명이니까 무조건 1만 원씩 줘(균등)"라거나 "고등학생은 3만 원, 초등생은 1만 원 줘(비례)"라는 정해진 룰을 버리고, "오늘 학원비가 급하게 필요한 애한테 지갑에 있는 돈 다 몰아줘!(동적/우선순위)"로 바뀌어야 가정이 평화롭게 돌아가는 이치입니다.
@@ -171,19 +168,15 @@ OS가 알아서 비례 할당을 해주지 않기 때문에, 클라우드 환경
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">프레임 할당 (Frame Allocation) 알고리즘</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">균등 할당 (Equal Allocation) vs 비례 할당 (Proportional Allocation)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">전역 교체 (Global Replacement)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">지역 교체 (Local Replacement)</div></div>
-</div>
-</div>
-
-
+```text
+[프레임 할당 (Frame Allocation) 알고리즘]
+    │
+    ▼
+[균등 할당 (Equal Allocation) vs 비례 할당 (Proportional Allocation)]
+    │
+    ├──▶ [전역 교체 (Global Replacement)]
+    └──▶ [지역 교체 (Local Replacement)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

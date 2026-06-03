@@ -40,22 +40,22 @@ tags = ["studynote-design"]
 | **응답 (Response)** | 자극에 대한 시스템의 대처 행동 | 요청을 버리지 않고 순차적으로 처리 승인함 |
 | **응답 척도 (Measure)** | 응답이 달성해야 할 정량적 기준 | 99%의 결제 처리가 <strong>1.5초 이내</strong>에 완료될 것 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">품질 속성 시나리오 6요소 흐름</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">자극원</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">자극</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">대상 시스템</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(누가) (무엇을) (어디에)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">응답</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">환경</div><div class="kb-diagram-note">(어떻게 대처하는가)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(어떤 상황에서)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">응답 척도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(정확히 몇 초/몇 %인가)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                  품질 속성 시나리오 6요소 흐름               │
+├──────────────────────────────────────────────────────────────┤
+│ [자극원] ────────▶ [자극] ────────▶ [대상 시스템]          │
+│ (누가)            (무엇을)          (어디에)                 │
+│                                      │                       │
+│  ▲                                   ▼                       │
+│  │                                [응답]                     │
+│ [환경]                            (어떻게 대처하는가)        │
+│ (어떤 상황에서)                      │                       │
+│                                      ▼                       │
+│                                   [응답 척도]                │
+│                                   (정확히 몇 초/몇 %인가)    │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 뼈대에서 가장 중요한 것은 <strong>응답 척도(Response Measure)</strong>다. 시스템이 살아남았다는 것만으로는 부족하며, 그 생존의 성적표가 숫자로 증명되어야 한다.
 
@@ -100,7 +100,7 @@ tags = ["studynote-design"]
 
 [품질 속성 시나리오](/knowledge-base/studynote/12_it_management/05_security_compliance/352_process/)를 도입하면 요구사항의 모호성이 완벽히 제거되어, 아키텍처 설계의 방향성이 뚜렷해지고 테스트 자동화의 기준점이 마련된다. 또한, 시스템의 한계점을 명확히 인지하게 되어 향후 확장이나 장애 발생 시 책임 소재를 명확히 가릴 수 있다.
 
-미래의 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 환경에서는 이러한 시나리오들이 단순한 문서로 남는 것이 아니라, [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)([Chaos Engineering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/))이나 자동화된 [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/) 스크립트([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))로 직접 변환되어 실시간으로 시스템을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 도구로 진화하고 있다. 결론적으로 [품질 속성 시나리오](/knowledge-base/studynote/12_it_management/05_security_compliance/352_process/)는 "개발자와 사장님이 동일한 숫자를 보며 합의하게 만드는 유일한 통역기"로 기억해야 한다.
+미래의 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 환경에서는 이러한 시나리오들이 단순한 문서로 남는 것이 아니라, [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)([Chaos 엔진ering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/))이나 자동화된 [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/) 스크립트([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))로 직접 변환되어 실시간으로 시스템을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 도구로 진화하고 있다. 결론적으로 [품질 속성 시나리오](/knowledge-base/studynote/12_it_management/05_security_compliance/352_process/)는 "개발자와 사장님이 동일한 숫자를 보며 합의하게 만드는 유일한 통역기"로 기억해야 한다.
 
 - **📢 섹션 요약 비유**: 눈대중으로 대충 지은 집은 태풍이 오면 무너지지만, "풍속 50m/s에서 진동 3cm 이하"라는 정확한 시나리오 수치에 맞춰 지은 집은 절대 무너지지 않는 것과 같다.
 
@@ -113,26 +113,27 @@ tags = ["studynote-design"]
 | <strong>비기능적 요구사항 (<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/133_non_functional_requirements/">NFR</a>)</strong> | [품질 속성 시나리오](/knowledge-base/studynote/12_it_management/05_security_compliance/352_process/)가 구체화하고자 하는 대상의 원형 ([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/), [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) 등) |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/">ATAM</a> (아키텍처 평가)</strong> | 작성된 시나리오들을 기반으로 아키텍처의 트레이드오프와 위험 요소를 평가하는 감리 기법 |
 | <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/">SLA</a> (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/">Service Level Agreement</a>)</strong> | 시나리오의 응답 척도가 실제 비즈니스 계약으로 발전한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 협약 |
-| <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/">카오스 엔지니어링</a> (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/">Chaos Engineering</a>)</strong> | [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 시나리오(장애 유발)를 실제 운영 환경에 주입하여 응답 척도를 실증하는 테스트 기법 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/">카오스 엔지니어링</a> (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/">Chaos 엔진ering</a>)</strong> | [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 시나리오(장애 유발)를 실제 운영 환경에 주입하여 응답 척도를 실증하는 테스트 기법 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">비기능적 요구사항 (모호한 형용사)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">품질 속성 시나리오 (6요소 구체화 및 정량화)</div>
-<div class="kb-diagram-note">가용성 시나리오 성능 시나리오 보안성 시나리오</div>
-<div class="kb-diagram-note">(MTTR/장애복구) (TPS/응답시간) (침입차단율)</div>
-<div class="kb-diagram-note">ATAM 아키텍처 평가 (트레이드오프 분석)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">카오스 엔지니어링 및 자동화된 인프라 테스트 (Code화)</div>
-</div>
-</div>
-
-
+```text
+비기능적 요구사항 (모호한 형용사)
+    │
+    ▼
+품질 속성 시나리오 (6요소 구체화 및 정량화)
+    │
+    ├─────────┬─────────┐
+    ▼         ▼         ▼
+ 가용성 시나리오 성능 시나리오 보안성 시나리오
+(MTTR/장애복구) (TPS/응답시간) (침입차단율)
+    │         │         │
+    ▼         ▼         ▼
+ATAM 아키텍처 평가 (트레이드오프 분석)
+    │
+    ▼
+카오스 엔지니어링 및 자동화된 인프라 테스트 (Code화)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

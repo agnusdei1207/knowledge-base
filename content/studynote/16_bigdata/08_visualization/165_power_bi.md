@@ -37,32 +37,38 @@ tags = ["studynote-bigdata"]
 
 ### [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) BI 3레이어 아키텍처
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Power BI 3레이어 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Layer 1: Power Query (데이터 수집·변환)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">M 언어 기반 ETL 엔진</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 300+ 데이터 커넥터 (DB, API, 파일, 클라우드)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 변환: 피벗/언피벗, 조인, 텍스트 처리, 형변환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 단계별 변환 이력 관리 (Applied Steps)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Layer 2: 데이터 모델 (관계·계산)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스타 스키마: 팩트 테이블 + 차원 테이블</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">관계 정의: 1:N, N:M, 양방향</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DAX 계산:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① 계산 컬럼(Calculated Column): 행 단위 계산</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② 측정값(Measure): 동적 집계 (권장)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ 계산 테이블(Calculated Table): 새 테이블 생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Layer 3: 시각화 (보고서·대시보드)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Power BI Desktop: 보고서 제작</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Power BI Service: 게시·공유·협업</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Power BI Mobile: 모바일 보고서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Power BI Report Server: 온프렘 배포</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────────┐
+│                Power BI 3레이어 구조                         │
+├──────────────────────────────────────────────────────────────┤
+│  Layer 1: Power Query (데이터 수집·변환)                     │
+│  ┌────────────────────────────────────────────────────────┐ │
+│  │  M 언어 기반 ETL 엔진                                   │ │
+│  │  - 300+ 데이터 커넥터 (DB, API, 파일, 클라우드)         │ │
+│  │  - 변환: 피벗/언피벗, 조인, 텍스트 처리, 형변환         │ │
+│  │  - 단계별 변환 이력 관리 (Applied Steps)                │ │
+│  └────────────────────────────────────────────────────────┘ │
+│                          │                                   │
+│  Layer 2: 데이터 모델 (관계·계산)                            │
+│  ┌────────────────────────────────────────────────────────┐ │
+│  │  스타 스키마: 팩트 테이블 + 차원 테이블                  │ │
+│  │  관계 정의: 1:N, N:M, 양방향                            │ │
+│  │                                                        │ │
+│  │  DAX 계산:                                             │ │
+│  │  ① 계산 컬럼(Calculated Column): 행 단위 계산           │ │
+│  │  ② 측정값(Measure): 동적 집계 (권장)                   │ │
+│  │  ③ 계산 테이블(Calculated Table): 새 테이블 생성        │ │
+│  └────────────────────────────────────────────────────────┘ │
+│                          │                                   │
+│  Layer 3: 시각화 (보고서·대시보드)                           │
+│  ┌────────────────────────────────────────────────────────┐ │
+│  │  Power BI Desktop: 보고서 제작                          │ │
+│  │  Power BI Service: 게시·공유·협업                       │ │
+│  │  Power BI Mobile: 모바일 보고서                         │ │
+│  │  Power BI Report Server: 온프렘 배포                    │ │
+│  └────────────────────────────────────────────────────────┘ │
+└─────────────────────────────────────────────────────────────┘
+```
 
 ### DAX 핵심 패턴
 
@@ -109,23 +115,22 @@ YTD 매출 = TOTALYTD([총 매출], '날짜'[Date])
 
 ### [Microsoft Fabric](/knowledge-base/studynote/16_bigdata/07_data_lake/160_microsoft_fabric/): [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) BI의 미래
 
+```
+Microsoft Fabric (2023) = 통합 분석 플랫폼
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Microsoft Fabric (2023) = 통합 분석 플랫폼</div>
-<div class="kb-diagram-note">One Lake (단일 데이터 저장소)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data Factory</div><div class="kb-diagram-cell">Synapse</div><div class="kb-diagram-cell">Power BI</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(데이터 통합)</div><div class="kb-diagram-cell">(분석)</div><div class="kb-diagram-cell">(시각화)</div></div>
-<div class="kb-diagram-note">특징:</div>
-<div class="kb-diagram-tree-item" style="--depth:1">모든 데이터가 One Lake의 Delta Parquet 형식 저장</div>
-<div class="kb-diagram-tree-item" style="--depth:1">복사 없이 각 서비스에서 직접 접근</div>
-<div class="kb-diagram-tree-item" style="--depth:1">단일 과금 체계 (F-SKU)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">직물처럼 모든 서비스가 연결(Fabric 명칭 유래)</div>
-</div>
-</div>
-
-
+  One Lake (단일 데이터 저장소)
+       │
+  ┌────┴────────────────────────────────────┐
+  │  Data Factory  │  Synapse   │  Power BI │
+  │  (데이터 통합) │  (분석)    │  (시각화)  │
+  └─────────────────────────────────────────┘
+  
+  특징:
+  - 모든 데이터가 One Lake의 Delta Parquet 형식 저장
+  - 복사 없이 각 서비스에서 직접 접근
+  - 단일 과금 체계 (F-SKU)
+  - 직물처럼 모든 서비스가 연결(Fabric 명칭 유래)
+```
 
 **📢 섹션 요약 비유**: Microsoft Fabric은 <strong>올인원 주방 시스템</strong>과 같다. 냉장고([Data Lake](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/))·[가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)레인지([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Factory)·오븐(Synapse)·식탁([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) BI)이 각각 따로 있던 것을 하나의 통합 주방으로 만들어, 요리의 모든 단계를 하나의 공간에서 처리한다.
 
@@ -191,23 +196,21 @@ RLS는 사용자 역할에 따라 볼 수 있는 [데이터](/knowledge-base/stu
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DAX (Data Analysis Expressions)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CALCULATE (필터 조작)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Power Query (M 언어)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Import 모드 vs DirectQuery</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Microsoft Fabric (통합 플랫폼)</div></div>
-</div>
-</div>
-
-
+```text
+[DAX (Data Analysis Expressions)]
+    │
+    ▼
+[CALCULATE (필터 조작)]
+    │
+    ▼
+[Power Query (M 언어)]
+    │
+    ▼
+[Import 모드 vs DirectQuery]
+    │
+    ▼
+[Microsoft Fabric (통합 플랫폼)]
+```
 
 이 흐름도는 DAX ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Analysis Expressions)에서 출발해 [Microsoft Fabric](/knowledge-base/studynote/16_bigdata/07_data_lake/160_microsoft_fabric/) (통합 플랫폼)까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

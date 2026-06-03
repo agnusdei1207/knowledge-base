@@ -18,21 +18,19 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공간 컴퓨팅 구성</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">입력</div><div class="kb-diagram-note">눈 추적 · 손 제스처 · 음성</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">환경</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">3D 공간 인식</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">디스플레이</div><div class="kb-diagram-note">Micro-OLED · 패스스루 MR</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">콘텐츠</div><div class="kb-diagram-note">가상 윈도우 · 3D 객체 · 몰입 환경</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">앵커</div><div class="kb-diagram-note">가상 객체를 물리 공간에 고정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">플랫폼: visionOS (SwiftUI + RealityKit)</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    공간 컴퓨팅 구성                                   │
+├───────────────────────────────────────────────────────┤
+│  [입력] 눈 추적 · 손 제스처 · 음성                   │
+│  [환경] LiDAR · 카메라 → 3D 공간 인식               │
+│  [디스플레이] Micro-OLED · 패스스루 MR               │
+│  [콘텐츠] 가상 윈도우 · 3D 객체 · 몰입 환경         │
+│  [앵커] 가상 객체를 물리 공간에 고정                  │
+│                                                       │
+│  플랫폼: visionOS (SwiftUI + RealityKit)              │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [공간 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/232_spatial_computing_digital_twin/)은 <strong>"공기 중에 화면이 떠 있는" 컴퓨터</strong>이다. 눈으로 보고, 손으로 만지고, 말로 명령한다.
 
@@ -91,23 +89,21 @@ tags = ["studynote-ict-convergence"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">VR 헤드셋 (Oculus Rift, 2012~)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AR 글래스 (Google Glass, 2013)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MR (HoloLens, 2016~)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">공간 컴퓨팅 (Apple Vision Pro, 2024~)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: AR 안경 경량화 — 일상 착용 공간 컴퓨팅</div></div>
-</div>
-</div>
-
-
+```text
+[VR 헤드셋 (Oculus Rift, 2012~)]
+    │
+    ▼
+[AR 글래스 (Google Glass, 2013)]
+    │
+    ▼
+[MR (HoloLens, 2016~)]
+    │
+    ▼
+[공간 컴퓨팅 (Apple Vision Pro, 2024~)]
+    │
+    ▼
+[현재: AR 안경 경량화 — 일상 착용 공간 컴퓨팅]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [공간 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/232_spatial_computing_digital_twin/)은 **공기 중에 화면이 떠 있는** 컴퓨터예요.

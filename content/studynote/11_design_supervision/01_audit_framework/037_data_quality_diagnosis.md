@@ -148,29 +148,26 @@ SQL 예시:
 
 ## V. 실무 시나리오 — 금융 대출 심사 [데이터 품질 진단](/knowledge-base/studynote/11_design_supervision/01_audit_framework/041_contractor_late_penalty/)
 
+```
+문제:
+  은행 대출 심사 AI 모델 성능 저하
+  원인 불명확 -> 데이터 품질 진단 실시
 
+진단 결과:
+  정확성: 고객 소득 데이터 8% 오류 (자동화 수집 오류)
+  완전성: 직업 코드 12% NULL (신규 직군 미분류)
+  일관성: CRM과 심사 시스템 주소 불일치 15%
+  최신성: 신용점수 갱신 주기 90일 → 90일 전 데이터 사용
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">문제:</div>
-<div class="kb-diagram-note">은행 대출 심사 AI 모델 성능 저하</div>
-<div class="kb-diagram-note">원인 불명확 -&gt; 데이터 품질 진단 실시</div>
-<div class="kb-diagram-note">진단 결과:</div>
-<div class="kb-diagram-note">정확성: 고객 소득 데이터 8% 오류 (자동화 수집 오류)</div>
-<div class="kb-diagram-note">완전성: 직업 코드 12% NULL (신규 직군 미분류)</div>
-<div class="kb-diagram-note">일관성: CRM과 심사 시스템 주소 불일치 15%</div>
-<div class="kb-diagram-note">최신성: 신용점수 갱신 주기 90일 → 90일 전 데이터 사용</div>
-<div class="kb-diagram-note">개선:</div>
-<div class="kb-diagram-note">소득 수집 API 검증 로직 강화</div>
-<div class="kb-diagram-note">직업 코드 신규 추가 및 매핑 테이블 업데이트</div>
-<div class="kb-diagram-note">CRM-심사 시스템 일일 동기화 배치 추가</div>
-<div class="kb-diagram-note">신용점수 갱신 주기 30일로 단축</div>
-<div class="kb-diagram-note">결과:</div>
-<div class="kb-diagram-note">AI 모델 F1-Score: 0.72 -&gt; 0.89 (+23.6%)</div>
-</div>
-</div>
+개선:
+  소득 수집 API 검증 로직 강화
+  직업 코드 신규 추가 및 매핑 테이블 업데이트
+  CRM-심사 시스템 일일 동기화 배치 추가
+  신용점수 갱신 주기 30일로 단축
 
-
+결과:
+  AI 모델 F1-Score: 0.72 -> 0.89 (+23.6%)
+```
 
 > 📢 **섹션 요약 비유**: AI가 틀린 게 아니라 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 틀렸다 — 품질 진단 후 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 고쳤더니 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 성능이 극적으로 개선.
 
@@ -178,29 +175,23 @@ SQL 예시:
 
 ## 📌 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">데이터 품질 진단</div>
-<div class="kb-diagram-note">+-- 6대 차원</div>
-<div class="kb-diagram-note">+-- 정확성, 완전성, 일관성</div>
-<div class="kb-diagram-note">+-- 유효성, 최신성, 유일성</div>
-<div class="kb-diagram-note">+-- 진단 프로세스</div>
-<div class="kb-diagram-note">+-- 대상 정의 -&gt; 규칙 정의 -&gt; 측정</div>
-<div class="kb-diagram-note">+-- 결함 분석 -&gt; 개선 -&gt; 모니터링</div>
-<div class="kb-diagram-note">+-- 표준</div>
-<div class="kb-diagram-note">+-- ISO 8000 (데이터 품질)</div>
-<div class="kb-diagram-note">+-- 행안부 품질관리 지침</div>
-<div class="kb-diagram-note">+-- DAMA DMBOK</div>
-<div class="kb-diagram-note">+-- 도구</div>
-<div class="kb-diagram-note">+-- 데이터 프로파일링 SQL</div>
-<div class="kb-diagram-note">+-- Talend DQ, Informatica MDM</div>
-<div class="kb-diagram-note">+-- AWS Glue DataBrew</div>
-</div>
-</div>
-
-
+```
+데이터 품질 진단
++-- 6대 차원
+|   +-- 정확성, 완전성, 일관성
+|   +-- 유효성, 최신성, 유일성
++-- 진단 프로세스
+|   +-- 대상 정의 -> 규칙 정의 -> 측정
+|   +-- 결함 분석 -> 개선 -> 모니터링
++-- 표준
+|   +-- ISO 8000 (데이터 품질)
+|   +-- 행안부 품질관리 지침
+|   +-- DAMA DMBOK
++-- 도구
+    +-- 데이터 프로파일링 SQL
+    +-- Talend DQ, Informatica MDM
+    +-- AWS Glue DataBrew
+```
 
 ---
 

@@ -58,21 +58,16 @@ tags = ["studynote-software-engineering"]
 
 ### 레거시 포트폴리오 매트릭스
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">사업 가치</div>
-<div class="kb-diagram-note">낮음 높음</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">높음</div><div class="kb-diagram-cell">교체/은퇴</div><div class="kb-diagram-cell">현대화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(재구축)</div></div>
-<div class="kb-diagram-note">기술</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부채</div><div class="kb-diagram-cell">방치/운영</div><div class="kb-diagram-cell">리팩토링</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">낮음</div></div>
-</div>
-</div>
-
-
+```
+         사업 가치
+    낮음 ────────── 높음
+높음 │ 교체/은퇴  │ 현대화  │
+     │            │(재구축) │
+기술 ├────────────┼─────────┤
+부채 │  방치/운영  │리팩토링 │
+낮음 │            │         │
+     └────────────┴─────────┘
+```
 
 ### 레거시 마이그레이션 5R [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) (Gartner)
 
@@ -106,23 +101,17 @@ tags = ["studynote-software-engineering"]
 
 ### 점진적 현대화 패턴
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">모놀리식 레거시</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Strangler Fig 패턴: 신규 기능은 마이크로서비스로</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">API Gateway로 레거시·신규 트래픽 라우팅</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">점진적 레거시 기능 대체</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">완전 현대화 완료</div>
-</div>
-</div>
-
-
+```
+모놀리식 레거시
+     ↓
+Strangler Fig 패턴: 신규 기능은 마이크로서비스로
+     ↓
+API Gateway로 레거시·신규 트래픽 라우팅
+     ↓
+점진적 레거시 기능 대체
+     ↓
+완전 현대화 완료
+```
 
 ### 성공/실패 사례
 
@@ -138,52 +127,45 @@ tags = ["studynote-software-engineering"]
 
 ## 📌 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 노후화 (Software Obsolescence)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">원인</div>
-<div class="kb-diagram-note">── 기술적 부채 (Technical Debt)</div>
-<div class="kb-diagram-note">── 소프트웨어 엔트로피 (Software Entropy)</div>
-<div class="kb-diagram-note">── 환경 변화 (End-of-Life 선언)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">측정</div>
-<div class="kb-diagram-note">── 순환 복잡도 (Cyclomatic Complexity, CC)</div>
-<div class="kb-diagram-note">── 결함 밀도 (Defect Density, DD)</div>
-<div class="kb-diagram-note">── 기술 부채 비율</div>
-<div class="kb-diagram-tree-item" style="--depth:0">대응 전략 (5R)</div>
-<div class="kb-diagram-note">── Rehost / Replatform / Refactor</div>
-<div class="kb-diagram-note">── Rearchitect</div>
-<div class="kb-diagram-note">── Replace</div>
-<div class="kb-diagram-tree-item" style="--depth:0">현대화 패턴</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Strangler Fig 패턴</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Branch by Abstraction</div>
-<div class="kb-diagram-tree-item" style="--depth:2">점진적 마이크로서비스 전환</div>
-</div>
-</div>
-
-
+```
+소프트웨어 노후화 (Software Obsolescence)
+├── 원인
+│   ├── 기술적 부채 (Technical Debt)
+│   ├── 소프트웨어 엔트로피 (Software Entropy)
+│   └── 환경 변화 (End-of-Life 선언)
+├── 측정
+│   ├── 순환 복잡도 (Cyclomatic Complexity, CC)
+│   ├── 결함 밀도 (Defect Density, DD)
+│   └── 기술 부채 비율
+├── 대응 전략 (5R)
+│   ├── Rehost / Replatform / Refactor
+│   ├── Rearchitect
+│   └── Replace
+└── 현대화 패턴
+    ├── Strangler Fig 패턴
+    ├── Branch by Abstraction
+    └── 점진적 마이크로서비스 전환
+```
 
 ---
 
 ## 📈 관련 키워드 및 발전 흐름도
 
+```
+┌─────────────────────────────────────────────────────────────────┐
+│              소프트웨어 노후화 관리 발전 흐름                    │
+├──────────────┬────────────────────┬─────────────────────────────┤
+│ 1990년대     │ 레거시 문제 인식    │ Y2K, COBOL 마이그레이션 붐   │
+│ 2000년대     │ 기술 부채 개념화    │ W.Cunningham, 부채 측정 도구  │
+│ 2010년대     │ 마이크로서비스 등장 │ Strangler Fig, 점진적 현대화  │
+│ 2020년대     │ 클라우드 5R 전략    │ Gartner 5R, 자동화 분석 도구  │
+└──────────────┴────────────────────┴─────────────────────────────┘
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소프트웨어 노후화 관리 발전 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1990년대</div><div class="kb-diagram-cell">레거시 문제 인식</div><div class="kb-diagram-cell">Y2K, COBOL 마이그레이션 붐</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2000년대</div><div class="kb-diagram-cell">기술 부채 개념화</div><div class="kb-diagram-cell">W.Cunningham, 부채 측정 도구</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2010년대</div><div class="kb-diagram-cell">마이크로서비스 등장</div><div class="kb-diagram-cell">Strangler Fig, 점진적 현대화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2020년대</div><div class="kb-diagram-cell">클라우드 5R 전략</div><div class="kb-diagram-cell">Gartner 5R, 자동화 분석 도구</div></div>
-<div class="kb-diagram-note">핵심 키워드 연결:</div>
-<div class="kb-diagram-note">노후화 → 기술 부채 → 부채 측정 → 5R 전략 → 현대화</div>
-<div class="kb-diagram-note">엔트로피 의도적/비의도 McCabe CC Strangler Fig</div>
-</div>
-</div>
-
-
+핵심 키워드 연결:
+노후화 → 기술 부채 → 부채 측정 → 5R 전략 → 현대화
+   ↓          ↓           ↓          ↓
+엔트로피   의도적/비의도  McCabe CC  Strangler Fig
+```
 
 ---
 

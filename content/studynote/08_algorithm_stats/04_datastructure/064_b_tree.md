@@ -20,18 +20,18 @@ tags = ["studynote-algorithm"]
 - **특징:** 모든 리프 노드는 동일한 레벨에 위치하며, 각 노드는 최소 $\lceil M/2 \rceil - 1$개에서 최대 $M-1$개의 키를 가짐 ($M$은 트리의 차수).
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">B-Tree Structure (Degree M=3)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">20</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">Root Node (Key: 20)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">10</div><div class="kb-diagram-node">15</div><div class="kb-diagram-node">30</div><div class="kb-diagram-node">40</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">Internal Nodes</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">5,7</div><div class="kb-diagram-node">12</div><div class="kb-diagram-node">18</div><div class="kb-diagram-node">25</div><div class="kb-diagram-node">35</div><div class="kb-diagram-node">45,50</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">Leaf Nodes (Same Level)</div></div>
-</div>
-</div>
-
-
+```text
+[ B-Tree Structure (Degree M=3) ]
+          +-----------+
+          |   [20]    |  <-- Root Node (Key: 20)
+          +--/-----\--+
+            /       \
+   +-------/---+     +---\-------+
+   | [10] [15] |     | [30] [40] |  <-- Internal Nodes
+   +--/---|--\-+     +--/---|--\-+
+     /    |   \        /    |    \
+ [5,7] [12] [18]    [25] [35]  [45,50]  <-- Leaf Nodes (Same Level)
+```
 - **탐색(Search):** 루트에서 시작하여 노드 내 키와 비교하며 적절한 포인터를 따라 리프까지 내려감 ($O(\log n)$).
 - **삽입(Insertion):** 리프 노드에 삽입 후, 노드가 가득 차면([Overflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)) 중앙값을 부모로 올리고 노드를 분할(Split)함.
 - **삭제(Deletion):** 리프 노드에서 삭제 후, 최소 키 개수 미달 시([Underflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/)) 형제 노드에서 빌려오거나(Redistribution) 병합(Merge)을 수행함.
@@ -58,23 +58,21 @@ tags = ["studynote-algorithm"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">이진 탐색 트리 (BST, Binary Search Tree) — 기본 탐색 구조</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">B-트리 (B-Tree) — 다중 키 균형 트리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">B+ 트리 (B+ Tree) — 리프 연결 리스트 중심</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">B* 트리 (B* Tree) — 노드 점유율 최적화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터베이스 인덱스 (Database Index) — 대용량 스토리지 탐색</div></div>
-</div>
-</div>
-
-
+```text
+[이진 탐색 트리 (BST, Binary Search Tree) — 기본 탐색 구조]
+    │
+    ▼
+[B-트리 (B-Tree) — 다중 키 균형 트리]
+    │
+    ▼
+[B+ 트리 (B+ Tree) — 리프 연결 리스트 중심]
+    │
+    ▼
+[B* 트리 (B* Tree) — 노드 점유율 최적화]
+    │
+    ▼
+[데이터베이스 인덱스 (Database Index) — 대용량 스토리지 탐색]
+```
 
 이 흐름은 [이진 탐색 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/061_binary_search_tree_bst/)의 한계를 보완하기 위해 다중 키 균형과 리프 연결을 도입하고, 결국 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)의 표준 구조로 발전하는 과정을 보여준다.
 

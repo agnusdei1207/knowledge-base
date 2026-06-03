@@ -26,17 +26,14 @@ tags = ["studynote-ai"]
 
 이 세 가지 지옥을 단번에 부수기 위해 애플(Apple)과 삼성, 퀄컴이 하드웨어 반란을 일으켰다. <strong>"통신 선을 다 뽑아버려! 딥러닝 뇌를 아예 스마트폰 칩셋(<a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/">AP</a>) 안에 구겨 넣어버려서 폰 자체가 하나의 작은 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/">인공지능</a>이 되게 만들자!"</strong> 이것이 삼성이 갤럭시 S24에 '가우스(Gauss)'를 때려 박고, 애플이 아이폰에 '애플 인텔리전스'를 박아 넣은 <strong>온디바이스 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/635_on_device_ai/">On-Device AI</a>)</strong> 시대의 거대한 서막이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 옛날 AI는 학교에서 모르는 문제가 나오면, 시험 도중에 비행기를 타고 미국에 있는 아인슈타인(클라우드)에게 물어보고 와서 답을 적는 멍청한 방식이었다. 온디바이스 AI는 아인슈타인의 뇌를 복사해서 내 주머니 속 커닝 페이퍼([NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/))에 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 넣어둔 것이다. 비행기를 탈 필요도 없고([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 0초), 내가 무슨 문제를 틀렸는지 미국이 알 길도 없으며(프라이버시), 지하실에 갇혀 인터넷이 끊겨도 완벽한 정답을 0.1초 만에 척척 풀어내는 절대 반지다.
 
@@ -46,30 +43,28 @@ tags = ["studynote-ai"]
 
 온디바이스 AI의 본질은 무거운 딥러닝 모델의 수학 공식을 스마트폰 배터리로 굴릴 수 있도록 밑바닥 하드웨어와 소프트웨어를 양쪽에서 갈아엎는 처절한 수술이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">온디바이스 AI (On-Device AI) 경량화 및 엣지 구동 아키텍처 도해</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 클라우드의 거인 (Training &amp; Compression)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 수천억 개 파라미터 GPT-4 뇌 (크기: 300GB) ─▶ 폰에 절대 안 들어감!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 영혼의 다이어트 발동 (소프트웨어):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 가지치기(Pruning): 바보 같은 뉴런 시냅스 선을 가위로 싹둑 잘라냄.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 지식 증류(KD): GPT-4의 지식을 80억 개짜리 꼬마 Llama 3 뇌로 복사함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 양자화(INT4): 3.141592(32비트)를 '대충 3(4비트)'으로 찌그러뜨림.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* ─▶ 짠! 모델 크기가 300GB에서 스마트폰에 쏙 들어가는 4GB로 폭풍 압축 완료!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 스마트폰 런타임 (On-Device NPU 추론)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 4GB로 찌그러진 모델 뇌가 스마트폰의 메인보드 램(RAM)에 상주함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 사용자가 "비행기 모드(통신 차단)" 상태에서 "영어를 한국어로 통역해 줘" 요청!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* CPU나 GPU 대신, 전기를 1W만 먹는 'NPU(신경망 전용칩)'가 깨어나서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0.01초 만에 100% 로컬 오프라인 통역 연산을 끝내고 답변을 뱉어냄!</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           온디바이스 AI (On-Device AI) 경량화 및 엣지 구동 아키텍처 도해 │
+├──────────────────────────────────────────────────────────────┤
+│  [1. 클라우드의 거인 (Training & Compression)]                     │
+│   * 수천억 개 파라미터 GPT-4 뇌 (크기: 300GB) ─▶ 폰에 절대 안 들어감!  │
+│   * 영혼의 다이어트 발동 (소프트웨어):                                │
+│     ▶ 가지치기(Pruning): 바보 같은 뉴런 시냅스 선을 가위로 싹둑 잘라냄.     │
+│     ▶ 지식 증류(KD): GPT-4의 지식을 80억 개짜리 꼬마 Llama 3 뇌로 복사함. │
+│     ▶ 양자화(INT4): 3.141592(32비트)를 '대충 3(4비트)'으로 찌그러뜨림.   │
+│   * ─▶ 짠! 모델 크기가 300GB에서 스마트폰에 쏙 들어가는 4GB로 폭풍 압축 완료! │
+│                                                              │
+│  [2. 스마트폰 런타임 (On-Device NPU 추론)]                        │
+│   * 4GB로 찌그러진 모델 뇌가 스마트폰의 메인보드 램(RAM)에 상주함.         │
+│   * 사용자가 "비행기 모드(통신 차단)" 상태에서 "영어를 한국어로 통역해 줘" 요청!│
+│   * CPU나 GPU 대신, 전기를 1W만 먹는 'NPU(신경망 전용칩)'가 깨어나서      │
+│     0.01초 만에 100% 로컬 오프라인 통역 연산을 끝내고 답변을 뱉어냄!        │
+└──────────────────────────────────────────────────────────────┘
+```
 
 <strong>핵심 원리 (<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/">NPU</a> 하드웨어 가속과 <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/">NPU</a> 런타임)</strong>:
-아무리 모델을 4GB로 줄여도 폰에 있는 CPU로 계산하면 핸드폰이 불덩이처럼 뜨거워지며 1시간 만에 배터리가 0%가 된다. 그래서 스마트폰 두뇌([AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/)) 안에 <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/">NPU</a> (<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/">Neural Processing Unit</a>, 신경망 전용 칩)</strong>라는 독방을 하나 만들어 두었다. 퀄컴의 헥사곤(Hexagon)이나 애플의 뉴럴 엔진(Neural Engine)이 그것이다. NPU는 복잡한 인터넷이나 게임 기능은 전혀 못 하지만, 오직 딥러닝 행렬 곱셈 하나만은 전기를 거의 안 먹고 빛의 속도로 씹어 먹는다. 텐서플로우 라이트(TFLite)나 코어ML(CoreML) 같은 모바일 전용 변환기(Runtime)가 딥러닝 코드를 이 [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/) 기계어로 완벽히 번역해 꽂아 넣어주는 것이 기술의 심장이다.
+아무리 모델을 4GB로 줄여도 폰에 있는 CPU로 계산하면 핸드폰이 불덩이처럼 뜨거워지며 1시간 만에 배터리가 0%가 된다. 그래서 스마트폰 두뇌([AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/)) 안에 <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/">NPU</a> (<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/">Neural Processing Unit</a>, 신경망 전용 칩)</strong>라는 독방을 하나 만들어 두었다. 퀄컴의 헥사곤(Hexagon)이나 애플의 뉴럴 엔진(Neural 엔진)이 그것이다. NPU는 복잡한 인터넷이나 게임 기능은 전혀 못 하지만, 오직 딥러닝 행렬 곱셈 하나만은 전기를 거의 안 먹고 빛의 속도로 씹어 먹는다. 텐서플로우 라이트(TFLite)나 코어ML(CoreML) 같은 모바일 전용 변환기(Runtime)가 딥러닝 코드를 이 [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/) 기계어로 완벽히 번역해 꽂아 넣어주는 것이 기술의 심장이다.
 
 | 요소 | 역할 |
 |:---|:---|

@@ -35,21 +35,25 @@ tags = ["ict_convergence"]
 | **RIOT** | [마이크로커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/024_microkernel/)([Microkernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/024_microkernel/)) 아키텍처 | IoT를 위한 친화적 OS. 표준 C/C++ 사용 및 POSIX [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 지원으로 <strong><a href="/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/">멀티스레딩</a>(Multi-Threading)</strong>을 완벽히 제공하면서도 1.5KB RAM 수준으로 구동 가능함. |
 | **FreeRTOS** | [실시간 커널](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/200_real_time_kernel_preempt_rt/)([Real-Time Kernel](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/200_real_time_kernel_preempt_rt/)) | 우선순위 기반 [선점형 스케줄링](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/166_preemptive_scheduling/). 밀리초(ms) 단위의 <strong>엄격한 시간 제약(Hard Real-Time)</strong>이 필요한 상업용 임베디드 장비 제어에 특화됨. |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">초소형 OS의 핵심 동작 구조: 이벤트 주도형 스케줄링</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Active State (활성 상태)</div><div class="kb-diagram-node">Deep Sleep (대기 상태)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인터럽트 발생 (센서 감지) ──▶ 깨어남 (Wake-up)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">작업(Task) 큐에 등록 ──▶ CPU 실행 (데이터 전송)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">작업 완료 ─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다시 수면 모드로 진입</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">배터리 소모: (High) 10mA 배터리 소모: (Low) 1μA 미만</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           초소형 OS의 핵심 동작 구조: 이벤트 주도형 스케줄링           │
+├──────────────────────────────────────────────────────────────┤
+│ [ Active State (활성 상태) ]        [ Deep Sleep (대기 상태) ] │
+│                                                              │
+│      인터럽트 발생 (센서 감지) ──▶ 깨어남 (Wake-up)            │
+│                 │                      │                     │
+│                 ▼                      ▼                     │
+│      작업(Task) 큐에 등록 ──▶ CPU 실행 (데이터 전송)          │
+│                 │                      │                     │
+│                 └─────────── 작업 완료 ─┘                     │
+│                                        │                     │
+│                                        ▼                     │
+│                                 다시 수면 모드로 진입           │
+│ ──────────────────────────────────────────────────────────── │
+│ 배터리 소모: (High) 10mA       배터리 소모: (Low) 1μA 미만    │
+└──────────────────────────────────────────────────────────────┘
+```
 이 그림은 TinyOS 등에서 주로 사용하는 전력 관리 메커니즘을 보여준다. 시스템은 대부분의 시간을 초저전력 상태(Deep Sleep)로 보내며, 외부 환경의 변화(이벤트)가 감지되는 찰나의 순간에만 CPU를 가동해 작업을 처리하고 즉시 다시 잠든다.
 
 - **📢 섹션 요약 비유**: 초소형 OS의 코어 원리는 '불침번 교대'와 같다. 평소에는 내무반 전체가 불을 끄고 자면서 에너지를 아끼다가, 적의 침투(이벤트)가 발생했을 때만 즉각 기상하여 총(CPU)을 쏘고 다시 취침하는 극단적인 에너지 절약 전술이다.
@@ -109,25 +113,22 @@ TinyOS가 [센서 네트워크](/knowledge-base/studynote/06_ict_convergence/02_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">범용 OS (Linux, Windows) · 무거운 자원 요구</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">임베디드 OS (Embedded Linux) · 커스텀 가능, 여전히 무거움</div>
-<div class="kb-diagram-note">▼ (본 문서)</div>
-<div class="kb-diagram-note">초소형 운영체제 (Micro OS) · 수 KB 램, 초저전력 구동</div>
-<div class="kb-diagram-note">(분화)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ TinyOS (이벤트 기반 전력 최적화)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ RIOT (IoT 친화적 POSIX 지원)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ FreeRTOS (엄격한 실시간성 보장)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">엣지 AI OS (TinyML 지원) · 초소형 기기 내 직접 AI 추론</div>
-</div>
-</div>
-
-
+```text
+범용 OS (Linux, Windows) · 무거운 자원 요구
+    │
+    ▼
+임베디드 OS (Embedded Linux) · 커스텀 가능, 여전히 무거움
+    │
+    ▼ (본 문서)
+초소형 운영체제 (Micro OS) · 수 KB 램, 초저전력 구동
+    │ (분화)
+    ├─▶ TinyOS (이벤트 기반 전력 최적화)
+    ├─▶ RIOT (IoT 친화적 POSIX 지원)
+    └─▶ FreeRTOS (엄격한 실시간성 보장)
+    │
+    ▼
+엣지 AI OS (TinyML 지원) · 초소형 기기 내 직접 AI 추론
+```
 이 흐름도는 무거운 시스템 소프트웨어가 기기의 소형화에 맞춰 극도로 경량화되고, 다시 특수 목적에 맞게 분화 및 지능화되는 진화 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

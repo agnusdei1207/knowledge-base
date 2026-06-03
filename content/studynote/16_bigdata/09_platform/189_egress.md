@@ -21,15 +21,11 @@ tags = ["studynote-bigdata"]
 
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 비용 (Egress 비용, 리전 내 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 로컬화)은 빅데이터 환경에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 비용을 실제 문서, 시스템, 운영 흐름에 연결하는 문제를 다룬다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규모가 커질수록 포맷, 비용, 이동 경로, 운영 기준이 조금만 흔들려도 전체 분석 품질이 급격히 무너진다. 그래서 이 주제는 단순 기술 나열이 아니라, 어떤 조건에서 어떤 구조를 선택해야 하는지를 설명하는 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력 데이터</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">산식/기준</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">해석/조치</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐   ┌──────────────┐   ┌──────────────┐
+│ 입력 데이터       │──▶│ 산식/기준        │──▶│ 해석/조치        │
+└──────────────┘   └──────────────┘   └──────────────┘
+```
 
 - **📢 섹션 요약 비유**: 계기판처럼, 출발점이 흔들리면 뒤 단계의 결과도 같이 흔들린다.
 
@@ -45,15 +41,11 @@ tags = ["studynote-bigdata"]
 | 산식/기준 | 처리/[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 절차와 자동화가 연결되어야 한다 |
 | 해석/조치 | 결과/증거 | 기록이 남아야 재현과 추적이 된다 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력 데이터</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">산식/기준</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">해석/조치</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐   ┌──────────────┐   ┌──────────────┐
+│ 입력 데이터       │──▶│ 산식/기준        │──▶│ 해석/조치        │
+└──────────────┘   └──────────────┘   └──────────────┘
+```
 
 Egress와 리전 내 로컬화은 이 흐름을 보강하는 대표 축이다. 하나는 저장과 처리의 방식이고, 다른 하나는 활용과 품질의 방식이다. 둘을 같이 봐야 과도한 단순화도, 과도한 복잡화도 피할 수 있다.
 
@@ -117,23 +109,21 @@ Egress와 리전 내 로컬화은 이 흐름을 보강하는 대표 축이다. �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">클라우드 데이터 입수 (Ingress) — 데이터 업로드, 대부분 무료 또는 저렴</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 이그레스 (Egress) — 클라우드 외부로 데이터 전송 시 발생하는 비용</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">리전 내 데이터 로컬화 — 처리와 저장을 같은 리전에 배치, 리전 간 이그레스 최소화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">VPC 피어링 / Private Link — 퍼블릭 인터넷 우회, 이그레스 비용 절감·보안 강화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">멀티클라우드 이그레스 최적화 — 데이터 중력(Data Gravity) 고려, 벤더 종속 회피 전략</div></div>
-</div>
-</div>
-
-
+```text
+[클라우드 데이터 입수 (Ingress) — 데이터 업로드, 대부분 무료 또는 저렴]
+    │
+    ▼
+[데이터 이그레스 (Egress) — 클라우드 외부로 데이터 전송 시 발생하는 비용]
+    │
+    ▼
+[리전 내 데이터 로컬화 — 처리와 저장을 같은 리전에 배치, 리전 간 이그레스 최소화]
+    │
+    ▼
+[VPC 피어링 / Private Link — 퍼블릭 인터넷 우회, 이그레스 비용 절감·보안 강화]
+    │
+    ▼
+[멀티클라우드 이그레스 최적화 — 데이터 중력(Data Gravity) 고려, 벤더 종속 회피 전략]
+```
 
 이 흐름은 클라우드 무료 입수([Ingress](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/))와 달리 외부 전송(Egress)에 비용이 집중되는 구조를 이해하고, 리전 내 로컬화·Private Link로 이그레스를 최소화하며, 멀티클라우드 환경에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중력을 고려한 아키텍처 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로 발전하는 클라우드 네트워크 비용 최적화의 핵심 계보를 보여준다.
 

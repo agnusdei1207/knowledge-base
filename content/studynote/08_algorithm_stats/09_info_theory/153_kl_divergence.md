@@ -48,52 +48,40 @@ D_KL(P‖Q) = ∫ p(x) · log(p(x)/q(x)) dx
 
 ### 정보량 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 전체 구조
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">H(P) D_KL(P‖Q)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">엔트로피</div><div class="kb-diagram-cell">+</div><div class="kb-diagram-cell">KL 다이버전스</div><div class="kb-diagram-cell">= H(P,Q) 크로스 엔트로피</div></div>
-<div class="kb-diagram-note">(고정) (최소화 대상)</div>
-</div>
-</div>
-
-
+```
+       H(P)          D_KL(P‖Q)
+    ┌─────────┐    ┌─────────────┐
+    │ 엔트로피 │ +  │ KL 다이버전스│ = H(P,Q) 크로스 엔트로피
+    └─────────┘    └─────────────┘
+       (고정)          (최소화 대상)
+```
 
 - <strong><a href="/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/">크로스 엔트로피</a> H(P,Q) = H(P) + D_KL(P‖Q)</strong>
 - P가 실제 분포, Q가 모델 분포 → 학습은 D_KL 최소화 = [크로스 엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/) 최소화 (H(P) 고정)
 
 ### 순방향 vs 역방향 KL
 
+```
+순방향 KL (Forward KL): D_KL(P‖Q)
+"P가 있는 곳에 Q도 있어야 한다"
+→ Q가 P의 모든 모드를 커버 (zero-avoiding)
+→ 평균 탐색 (mean-seeking)
 
+역방향 KL (Reverse KL): D_KL(Q‖P)
+"Q가 있는 곳에 P도 있어야 한다"
+→ Q가 P의 한 모드에 집중 (zero-forcing)
+→ 모드 탐색 (mode-seeking)
+```
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">순방향 KL (Forward KL): D_KL(P‖Q)</div>
-<div class="kb-diagram-note">"P가 있는 곳에 Q도 있어야 한다"</div>
-<div class="kb-diagram-note">→ Q가 P의 모든 모드를 커버 (zero-avoiding)</div>
-<div class="kb-diagram-note">→ 평균 탐색 (mean-seeking)</div>
-<div class="kb-diagram-note">역방향 KL (Reverse KL): D_KL(Q‖P)</div>
-<div class="kb-diagram-note">"Q가 있는 곳에 P도 있어야 한다"</div>
-<div class="kb-diagram-note">→ Q가 P의 한 모드에 집중 (zero-forcing)</div>
-<div class="kb-diagram-note">→ 모드 탐색 (mode-seeking)</div>
-</div>
-</div>
-
-
-
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">분포 P (다봉) 분포 Q (단봉 가우시안)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Q₁ (순방향 KL) Q₂ (역방향 KL)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">넓게 커버</div><div class="kb-diagram-cell">한모</div></div>
-<div class="kb-diagram-note">모드1 모드2 평균 탐색 모드 탐색</div>
-</div>
-</div>
-
-
+```
+분포 P (다봉)   분포 Q (단봉 가우시안)
+   ┌──┐  ┌──┐
+   │  │  │  │           Q₁ (순방향 KL)   Q₂ (역방향 KL)
+   │  │  │  │        ┌──────────────┐   ┌────┐
+   │  │  │  │        │  넓게 커버   │   │한모│
+   └──┘  └──┘        └──────────────┘   └────┘
+    모드1  모드2          평균 탐색         모드 탐색
+```
 
 ### 깁스 부등식 증명 요약
 
@@ -208,25 +196,24 @@ KL 다이버전스는 <strong><a href="/knowledge-base/studynote/08_algorithm_st
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">:---</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">KL 다이버전스 D_KL(P‖Q)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">JS 다이버전스</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">VAE 손실</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">변분 추론</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">지식 증류</div></div>
-</div>
-</div>
-
-
+```text
+[:---]
+    │
+    ▼
+[KL 다이버전스 D_KL(P‖Q)]
+    │
+    ▼
+[JS 다이버전스]
+    │
+    ▼
+[VAE 손실]
+    │
+    ▼
+[변분 추론]
+    │
+    ▼
+[지식 증류]
+```
 
 이 흐름도는 :---에서 출발해 [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

@@ -18,26 +18,25 @@ tags = ["studynote-database"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">논리 설계 흐름</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ERD</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">엔터티(고객, 주문, 상품) + 관계(구매, 포함)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 변환 규칙 적용</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">릴레이션 스키마</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고객(고객ID PK, 이름, 주소)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주문(주문ID PK, 고객ID FK, 날짜)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주문상세(주문ID PK, 상품ID PK FK, 수량)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ FD 분석 + 정규화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">정규화된 스키마</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부분FD 제거(2NF), 이행FD 제거(3NF),</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결정자 조건(BCNF) → 갱신 이상 없음</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    논리 설계 흐름                                      │
+├───────────────────────────────────────────────────────┤
+│  [ERD]                                                │
+│   엔터티(고객, 주문, 상품) + 관계(구매, 포함)         │
+│      │                                                │
+│      ▼ 변환 규칙 적용                                 │
+│  [릴레이션 스키마]                                    │
+│   고객(고객ID PK, 이름, 주소)                         │
+│   주문(주문ID PK, 고객ID FK, 날짜)                    │
+│   주문상세(주문ID PK, 상품ID PK FK, 수량)             │
+│      │                                                │
+│      ▼ FD 분석 + 정규화                               │
+│  [정규화된 스키마]                                    │
+│   부분FD 제거(2NF), 이행FD 제거(3NF),                │
+│   결정자 조건(BCNF) → 갱신 이상 없음                 │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: ERD→[릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/) 변환은 한국어→영어 번역이고, [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)는 번역된 영어 문장의 문법 검사([갱신 이상](/knowledge-base/studynote/05_database/02_modeling_normalization/093_update_anomaly/) 제거)이다.
 
@@ -106,23 +105,21 @@ tags = ["studynote-database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">ER 모델 (Chen, 1976) — 개념 설계→논리 설계 변환 기초</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">정규화 이론 (Codd, 1970s) — 1NF~3NF 체계 확립</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">BCNF (1974) — 결정자 조건 강화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">자동 정규화 도구 (2000s) — CASE 도구 내장</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: AI FD 자동 탐지 — 데이터에서 종속성 자동 추출</div></div>
-</div>
-</div>
-
-
+```text
+[ER 모델 (Chen, 1976) — 개념 설계→논리 설계 변환 기초]
+    │
+    ▼
+[정규화 이론 (Codd, 1970s) — 1NF~3NF 체계 확립]
+    │
+    ▼
+[BCNF (1974) — 결정자 조건 강화]
+    │
+    ▼
+[자동 정규화 도구 (2000s) — CASE 도구 내장]
+    │
+    ▼
+[현재: AI FD 자동 탐지 — 데이터에서 종속성 자동 추출]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. ERD는 "이 방에는 침대, 저 방에는 책상"이라고 <strong>집 구조를 정하는 것</strong>이에요.

@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 해커가 공격 대상(희생자)의 IP 주소로 위장한 후, <strong>특정 네트워크 대역 전체를 향해 "너희들 다 살아있니?"라는 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/">ICMP</a> Echo Request(핑, Ping) 패킷을 브로드캐스트(방송)로 쏘아, 수백 대의 컴퓨터가 희생자에게 일제히 응답(Echo Reply)하게 만들어 서버를 기절시키는 고전적인 DDoS 공격</strong>입니다.
 - 작은 캐릭터들이 떼거지로 몰려다니는 만화 '개구쟁이 스머프'의 모습과 비슷하다고 하여 붙여진 이름입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SYN Flood 대응</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ICMP Smurf 공격 / 스머핑 라우터…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Ping of Death 대형 패킷 단편화…</div></div>
-</div>
-</div>
-
-
+```text
+[SYN Flood 대응]
+    │
+    ▼
+[ICMP Smurf 공격 / 스머핑 라우터…]
+    │
+    └──▶ [Ping of Death 대형 패킷 단편화…]
+```
 
 - **📢 섹션 요약 비유**: [ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) Smurf 공격 / 스머핑 라우터…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -50,18 +46,14 @@ tags = ["studynote-network"]
 - 원래 브로드캐스트(255.255.255.255)는 라우터를 통과하지 못하고 우리 동네 안에서만 퍼집니다.
 - 하지만 옛날 라우터들은 외부에 있는 해커가 특정 네트워크(예: 부산대학교 네트워크 192.168.[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/).255)를 딱 짚어서 쏘는 **'Directed Broadcast' 패킷을 받으면, 친절하게 부산대 네트워크 내부에 있는 250대의 PC에게 핑 패킷을 쫘악 복사해서 돌려주었습니다.**
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SYN Flood 대응</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ICMP Smurf 공격 / 스머핑 라우터…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Ping of Death 대형 패킷 단편화…</div></div>
-</div>
-</div>
-
-
+```text
+[SYN Flood 대응]
+    │
+    ▼
+[ICMP Smurf 공격 / 스머핑 라우터…]
+    │
+    └──▶ [Ping of Death 대형 패킷 단편화…]
+```
 
 - **📢 섹션 요약 비유**: [ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) Smurf 공격 / 스머핑 라우터…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -122,19 +114,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: SYN Flood 대응</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: ICMP Smurf 공격 / 스머핑 라우터…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: Ping of Death 대형 패킷 단편화…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: SYN Flood 대응]
+    │
+    ▼
+[현재 개념: ICMP Smurf 공격 / 스머핑 라우터…]
+    │
+    ├──▶ [확장 A: Ping of Death 대형 패킷 단편화…]
+    └──▶ [확장 B: 예측형 위협 대응]
+```
 
 [ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) Smurf 공격 / 스머핑 라우터…는 [SYN Flood](/knowledge-base/studynote/09_security/03_network_security/255_syn_flood/) 대응에서 출발해 현재 메커니즘을 정교화하고, 이후 Ping of Death 대형 패킷 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)…와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

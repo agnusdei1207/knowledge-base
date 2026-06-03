@@ -43,20 +43,21 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 실행 단계가 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)에 따라 서로 다른 세 갈래의 결과를 만든다는 점을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실행 사이클의 대표 데이터 경로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Decode 결과</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ ALU 연산 명령 ▶ ALU 계산 ▶ 결과/플래그 생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ Load/Store 명령 ─▶ Base + Offset 계산 ▶ 유효 주소 전달</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ Branch 명령 ▶ 비교 + 목표 주소 계산 ─▶ PC 갱신 여부 결정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공통 출력: 결과 버스, 포워딩 경로, 다음 단계(EX/MEM/WB)로 전달</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                    실행 사이클의 대표 데이터 경로                          │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Decode 결과                                                                │
+│  │                                                                         │
+│  ├──▶ ALU 연산 명령 ─────▶ ALU 계산 ───────────────▶ 결과/플래그 생성       │
+│  │                                                                         │
+│  ├──▶ Load/Store 명령 ─▶ Base + Offset 계산 ─────▶ 유효 주소 전달           │
+│  │                                                                         │
+│  └──▶ Branch 명령 ─────▶ 비교 + 목표 주소 계산 ─▶ PC 갱신 여부 결정         │
+│                                                                            │
+│ 공통 출력: 결과 버스, 포워딩 경로, 다음 단계(EX/MEM/WB)로 전달              │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 핵심은 실행이 "하나의 연산기"가 아니라, [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 종류에 따라 서로 다른 결정을 내리는 분기점이라는 점이다. 예를 들어 `ADD R1, R2, R3`는 계산 결과를 바로 다음 단계로 넘기지만, `LOAD R1, 8(R2)`는 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽는 것이 아니라 먼저 `R2 + 8`이라는 주소를 계산한다. `BEQ R1, R2, target`은 결과값 대신 비교 결과와 목표 주소를 만들어, 파이프라인의 다음 `PC`가 바뀌어야 하는지를 판단한다.
 
@@ -81,17 +82,14 @@ tags = ["studynote-computer-architecture"]
 
 또한 실행 단계는 [데이터 포워딩](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/228_data_forwarding/), [구조적 해저드](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/222_structural_hazard/), 비순차적 실행과 직접 연결된다. 예를 들어 이전 명령의 [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) 결과가 아직 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 기록되지 않았더라도, 다음 명령의 실행 입력으로 바로 우회 전달하면 파이프라인 정지를 줄일 수 있다. 반대로 곱셈기처럼 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 긴 유닛이 하나뿐이라면, 여러 명령이 동시에 실행 대기를 하며 [구조적 해저드](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/222_structural_hazard/)가 생긴다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단순 순차 실행</div><div class="kb-diagram-cell">파이프라인/포워딩 기반 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과를 쓴 뒤 다음 명령 진행</div><div class="kb-diagram-cell">EX 결과를 바로 다음 EX 입력으로 우회 전달</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">의존성 만나면 쉽게 정지</div><div class="kb-diagram-cell">해저드가 있어도 스톨 없이 이어질 수 있음</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────┬───────────────────────────────────────────────┐
+│ 단순 순차 실행             │ 파이프라인/포워딩 기반 실행                  │
+├────────────────────────────┼───────────────────────────────────────────────┤
+│ 결과를 쓴 뒤 다음 명령 진행 │ EX 결과를 바로 다음 EX 입력으로 우회 전달    │
+│ 의존성 만나면 쉽게 정지     │ 해저드가 있어도 스톨 없이 이어질 수 있음      │
+└────────────────────────────┴───────────────────────────────────────────────┘
+```
 
 이 차이가 중요한 이유는 현대 CPU [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 상당 부분이 "더 빨리 계산하는 능력"보다 "실행 단계를 덜 멈추게 하는 능력"에서 나오기 때문이다. 따라서 실행 사이클은 [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) 개념 하나로 끝나는 주제가 아니라, 파이프라인 설계와 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화의 교차점으로 봐야 한다.
 
@@ -149,25 +147,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">명령어 해독 완료</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ALU 중심 실행 단계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">유효 주소 계산 · 분기 판정 분리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">포워딩 · 해저드 제어를 포함한 파이프라인 EX</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">비순차적 실행 (OoO) · 다중 실행 유닛 스케줄링</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">벡터/텐서 실행 유닛을 포함한 이종 백엔드</div>
-</div>
-</div>
-
-
+```text
+명령어 해독 완료
+    │
+    ▼
+ALU 중심 실행 단계
+    │
+    ▼
+유효 주소 계산 · 분기 판정 분리
+    │
+    ▼
+포워딩 · 해저드 제어를 포함한 파이프라인 EX
+    │
+    ▼
+비순차적 실행 (OoO) · 다중 실행 유닛 스케줄링
+    │
+    ▼
+벡터/텐서 실행 유닛을 포함한 이종 백엔드
+```
 
 이 흐름은 실행 사이클이 단순 계산 단계에서 출발해, 파이프라인 제어와 다중 실행 자원 스케줄링의 중심으로 확장된 과정을 보여준다.
 

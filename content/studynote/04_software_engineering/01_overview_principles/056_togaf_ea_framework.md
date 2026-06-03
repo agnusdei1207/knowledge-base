@@ -109,21 +109,18 @@ TOGAF는 전사 아키텍처를 체계적으로 정렬하고, 변화에 대한 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">비전</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ADM</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">아키텍처 산출물</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">로드맵 / 거버넌스</div>
-</div>
-</div>
-
-
+```text
+비전
+    │
+    ▼
+ADM
+    │
+    ▼
+아키텍처 산출물
+    │
+    ▼
+로드맵 / 거버넌스
+```
 
 이 흐름은 기업 아키텍처가 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)에서 실행으로 이어지는 과정을 보여준다.
 

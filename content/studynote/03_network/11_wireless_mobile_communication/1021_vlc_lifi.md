@@ -23,18 +23,14 @@ tags = ["studynote-network"]
 
 해럴드 하스(Harald Haas) 교수가 창안한 이 개념은 실내에 설치된 수많은 [LED](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/013_led/) 전구를 통신 기지국처럼 활용(VLC: Visible Light Communication)하여, 빛을 통해 무선 랜(LAN)을 구축하려는 혁신적인 시도다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">자유 공간 광통신</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">가시광 통신 라이파이</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">저궤도 위성망 스타링크</div></div>
-</div>
-</div>
-
-
+```text
+[자유 공간 광통신]
+    │
+    ▼
+[가시광 통신 라이파이]
+    │
+    └──▶ [저궤도 위성망 스타링크]
+```
 
 - **📢 섹션 요약 비유**: 꽉 막힌 좁은 고속도로(Wi-Fi 주파수) 대신, 아무도 다니지 않는 엄청나게 넓은 하늘길(빛의 주파수)을 열어 방 안의 전등을 와이파이 공유기처럼 쓰는 마법이다.
 
@@ -44,22 +40,21 @@ tags = ["studynote-network"]
 
 Li-Fi 시스템은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 빛의 강도(Intensity)로 변환하는 송신부([LED](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/013_led/) 전구)와 이를 받아 다시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 복원하는 수신부(포토 [다이오드](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/))로 구성된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">천장 LED 전구 (Li-Fi 송신기)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 네트워크 연결 (PoE, 전력선 통신 등)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 변조기 (Modulator): 데이터를 빛의 깜빡임으로 변환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">빛의 파장 (VLC)</div></div>
-<div class="kb-diagram-note">(0과 1) (1과 0) (0과 1)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Li-Fi 동글 / 스마트폰</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 수신기 (Photo Diode): 빛의 깜빡임 감지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 복조기 (Demodulator): 빛을 전기 신호(데이터)로 복원</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────┐
+│            [ 천장 LED 전구 (Li-Fi 송신기) ]            │
+│ 1. 네트워크 연결 (PoE, 전력선 통신 등)               │
+│ 2. 변조기 (Modulator): 데이터를 빛의 깜빡임으로 변환 │
+└─────────┬──────────────┬───────────────┬───────────┘
+          │              │               │ 빛의 파장 (VLC)
+        (0과 1)        (1과 0)         (0과 1)
+          ▼              ▼               ▼
+┌─────────┴──────────────┴───────────────┴───────────┐
+│              [ Li-Fi 동글 / 스마트폰 ]               │
+│ 1. 수신기 (Photo Diode): 빛의 깜빡임 감지            │
+│ 2. 복조기 (Demodulator): 빛을 전기 신호(데이터)로 복원│
+└────────────────────────────────────────────────────────┘
+```
 
 1. <strong>송신 (<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/013_led/">LED</a>)</strong>: 사람의 눈에는 보이지 않을 만큼 매우 빠른 속도(수백 MHz)로 LED의 밝기를 켰다 껐다(OOK: On-Off Keying) 하거나, 미세하게 조절(OFDM 변조)하여 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 인코딩한다.
 2. <strong>수신 (포토 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/">다이오드</a>)</strong>: 단말에 장착된 수광 소자가 미세한 빛의 변화를 감지하여 원래의 이진수 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 해독한다. 상향 링크(단말 -> 천장)는 주로 눈에 안 띄는 적외선([IR](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/))을 사용하여 사용자의 시야를 방해하지 않게 한다.
@@ -128,19 +123,15 @@ Li-Fi는 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_archi
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 자유 공간 광통신</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 가시광 통신 라이파이</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 저궤도 위성망 스타링크</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 무선 자원 제어</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 자유 공간 광통신]
+    │
+    ▼
+[현재 개념: 가시광 통신 라이파이]
+    │
+    ├──▶ [확장 A: 저궤도 위성망 스타링크]
+    └──▶ [확장 B: 지능형 무선 자원 제어]
+```
 
 [가시광 통신](/knowledge-base/studynote/03_network/03_physical_layer_media/158_vlc_lifi_visible_light/) 라이파이는 [자유 공간 광통신](/knowledge-base/studynote/03_network/03_physical_layer_media/136_fso_free_space_optics_laser/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [저궤도 위성망](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/1022_leo_satellite_network/) 스타링크와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

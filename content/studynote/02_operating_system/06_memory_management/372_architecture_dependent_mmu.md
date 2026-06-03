@@ -27,25 +27,28 @@ tags = ["studynote-operating-system"]
   2. **RISC의 자유방임**: MIPS나 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) ARM은 "우린 복잡한 회로 안 만들 테니, [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 뚫리면 OS 네가 알아서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드로 장부 뒤져!(SW Managed [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/))"라며 OS에 책임을 떠넘겼다.
   3. **리눅스의 대통합 (Common Memory Model)**: 이 두 양극단의 하드웨어 위에서 모두 똑같이 동작하는 리눅스를 만들기 위해, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 개발자들은 하드웨어를 직접 만지는 코드를 `arch/x86`, `arch/arm` 같은 특정 폴더에 가둬버리고, 윗단의 공통 로직만으로 시스템이 굴러가게 만드는 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 계층을 발명했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">리눅스 커널의 MMU 하드웨어 추상화(Abstraction) 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상위: 공통 메모리 관리부 (모든 CPU 공통) - 아키텍처 독립적</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "나 프로세스 A인데, 페이지 테이블에 R/W 락 좀 걸어줘!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 리눅스의 4단계 가상 페이징 모델 (PGD-&gt;PUD-&gt;PMD-&gt;PTE)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↓↓↓ (어댑터 인터페이스 함수 호출: pte_mkdirty() 등) ↓↓↓</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">하위: 아키텍처 종속부 (Architecture Dependent Code)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">arch/x86 (인텔)</div><div class="kb-diagram-cell">arch/arm (애플)</div><div class="kb-diagram-cell">arch/mips</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- CR3 레지스터 씀</div><div class="kb-diagram-cell">- TTBR0 레지스터 씀</div><div class="kb-diagram-cell">- SW TLB 제어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- HW 페이지 워커</div><div class="kb-diagram-cell">- HW 페이지 워커</div><div class="kb-diagram-cell">- 2단계 트리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- GDT 무력화 꼼수</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">실제 하드웨어 (CPU 칩셋 내부 MMU 트랜지스터 로직)</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────┐
+│        리눅스 커널의 MMU 하드웨어 추상화(Abstraction) 아키텍처         │
+├────────────────────────────────────────────────────────────────────────┤
+│                                                                        │
+│ [ 상위: 공통 메모리 관리부 (모든 CPU 공통) - 아키텍처 독립적 ]         │
+│  - "나 프로세스 A인데, 페이지 테이블에 R/W 락 좀 걸어줘!"              │
+│  - 리눅스의 4단계 가상 페이징 모델 (PGD->PUD->PMD->PTE)                │
+│                                                                        │
+│           ↓↓↓ (어댑터 인터페이스 함수 호출: pte_mkdirty() 등) ↓↓↓      │
+│                                                                        │
+│ [ 하위: 아키텍처 종속부 (Architecture Dependent Code) ]                │
+│  ┌─────────────────┐ ┌─────────────────┐ ┌──────────────┐              │
+│  │ arch/x86 (인텔)  │ │ arch/arm (애플) │ │ arch/mips    │             │
+│  │ - CR3 레지스터 씀 │ │ - TTBR0 레지스터 씀│ │ - SW TLB 제어 │        │
+│  │ - HW 페이지 워커  │ │ - HW 페이지 워커  │ │ - 2단계 트리  │         │
+│  │ - GDT 무력화 꼼수 │ │                 │ │              │            │
+│  └─────────────────┘ └─────────────────┘ └──────────────┘              │
+│                                                                        │
+│ [ 실제 하드웨어 (CPU 칩셋 내부 MMU 트랜지스터 로직) ]                  │
+└────────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 이것이 바로 전 세계 수만 개의 이기종 컴퓨터에서 리눅스가 동일하게 돌아갈 수 있는 마법의 뼈대다. 상위 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 개발자는 밑바닥에 인텔이 꽂혀있는지 ARM이 꽂혀있는지 전혀 신경 쓰지 않고 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적인 가상 4단계 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 함수만 쓴다. 번역 명령이 떨어지면, 하단부의 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) 코드(Arch [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))가 각 CPU 벤더가 요구하는 더러운 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 조작(CR3, TTBR 등)을 대신 묵묵히 수행해 준다.
 
 - **📢 섹션 요약 비유**: 사장님(공통 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))이 "거래처에 인사 메일 보내라!"라고 지시하면, 밑에 있는 한국어 비서, 영어 비서, 아랍어 비서(아키텍처 종속 코드)가 각자 거래처 언어(CPU 종류)에 맞게 알아서 번역해서 편지를 보내는 다국적 기업의 업무 분담입니다.
@@ -91,18 +94,15 @@ tags = ["studynote-operating-system"]
 - 리눅스는 이 이기종 간의 불일치를 해결하기 위해, 인텔 칩 부팅 코드(`arch/x86/boot/`) 안에만 "모든 세그먼트를 0번지부터 4GB까지 통짜로 덮어씌워서 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)을 무력화시켜라(Flat Model)"라는 흑마술 코드를 몰래 박아넣었다.
 - 그 뒤로는 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)만 쓰게 되므로, 상위 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 로직은 인텔이든 ARM이든 완벽히 동일한 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 코드만 돌리게 되는 예술적 통합을 이뤄냈다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">아키텍처</div><div class="kb-diagram-cell">시작 레지스터</div><div class="kb-diagram-cell">세그멘테이션 강제</div><div class="kb-diagram-cell">TLB Miss 주체</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Intel x86</div><div class="kb-diagram-cell">CR3 레지스터</div><div class="kb-diagram-cell">💀 강제 (우회함)</div><div class="kb-diagram-cell">HW 워커 (기계)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ARM</div><div class="kb-diagram-cell">TTBR0 / 1</div><div class="kb-diagram-cell">없음 (순수 페이징)</div><div class="kb-diagram-cell">HW 워커 (기계)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MIPS</div><div class="kb-diagram-cell">Context Reg</div><div class="kb-diagram-cell">없음</div><div class="kb-diagram-cell">SW 트랩 (OS 코드)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬───────────────────────────┐
+│ 아키텍처   │ 시작 레지스터 │ 세그멘테이션 강제│ TLB Miss 주체  │
+├──────────┼────────────┼────────────┼───────────────────────────┤
+│ Intel x86│ CR3 레지스터 │ 💀 강제 (우회함)│ HW 워커 (기계)     │
+│ ARM      │ TTBR0 / 1 │ 없음 (순수 페이징)│ HW 워커 (기계)      │
+│ MIPS     │ Context Reg│ 없음        │ SW 트랩 (OS 코드)        │
+└──────────┴────────────┴────────────┴───────────────────────────┘
+```
 **[매트릭스 해설]** [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 개발자가 가장 욕을 많이 하는 파트가 하드웨어 아키텍처 의존부다. 인텔의 CR3 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 하나 바꾸는 어셈블리어를 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 위해 C 소스코드 안에 `#ifdef CONFIG_X86` 지시어를 무수히 달아놓고 각기 다른 어셈블리 덩어리를 끼워 넣어야 하기 때문이다. 이 진흙탕 싸움을 뚫어낸 것이 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)(Linux)의 위대함이다.
 
 - **📢 섹션 요약 비유**: 자동차(OS)를 한국(ARM)에 수출할 때는 운전석을 왼쪽에, 영국(x86)에 수출할 때는 운전석을 오른쪽에 두도록 섀시 구조를 뜯어고쳐야 하지만, 중앙 엔진과 에어컨 같은 핵심 부품(상위 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))은 전 세계 공통 모델을 그대로 쓰는 최적화된 글로벌 생산 기법입니다.
@@ -158,19 +158,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">거대 페이지 (Huge Pages / Transparent Huge Pages)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">아키텍처 종속적인 MMU 인터페이스 (Architecture Dependent MMU)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ARM / x86의 메모리 매핑 아키텍처 차이</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">주소 공간 무작위 배치 (ASLR, Address Space Layout Randomization)</div></div>
-</div>
-</div>
-
-
+```text
+[거대 페이지 (Huge Pages / Transparent Huge Pages)]
+    │
+    ▼
+[아키텍처 종속적인 MMU 인터페이스 (Architecture Dependent MMU)]
+    │
+    ├──▶ [ARM / x86의 메모리 매핑 아키텍처 차이]
+    └──▶ [주소 공간 무작위 배치 (ASLR, Address Space Layout Randomization)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

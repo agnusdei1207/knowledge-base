@@ -36,26 +36,33 @@ tags = ["studynote-ai"]
 3. **GoogLeNet (2014)**: 파라미터 경량화. <strong>인셉션(Inception) <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a></strong>을 통해 여러 크기의 필터(1x1, 3x3, 5x5)를 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 적용하고, [1x1 합성곱](/knowledge-base/studynote/10_ai/02_dl_architecture_new/105_one_by_one_convolution_bottleneck_dimension_reduction/)을 통해 차원을 축소하여 연산량을 획기적으로 줄였다.
 4. <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/">ResNet</a> (2015)</strong>: 깊이의 한계 돌파. 네트워크가 깊어질수록 오히려 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 저하되는 열화 현상을 해결하기 위해 <strong>잔차 연결(Skip Connection)</strong>을 도입했다. 입력값을 출력값에 직접 더해주는(F(x) + x) 우회로를 만들어, 오차 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 소실되지 않고 깊은 층까지 전달되게 했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ResNet의 핵심: 잔차 연결 (Skip Connection)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">입력 x</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(그대로 복사하여 우회)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Weight Layer</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ReLU</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Weight Layer</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">( + ) ◀ 더하기 (F(x) + x)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ReLU</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">다음 층으로 전달</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                  ResNet의 핵심: 잔차 연결 (Skip Connection)      │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│        [입력 x] ───────┐                                     │
+│           │            │ (그대로 복사하여 우회)                 │
+│           ▼            │                                     │
+│      [Weight Layer]    │                                     │
+│           │            │                                     │
+│           ▼            │                                     │
+│        [ReLU]          │                                     │
+│           │            │                                     │
+│           ▼            │                                     │
+│      [Weight Layer]    │                                     │
+│           │            │                                     │
+│           ▼            ▼                                     │
+│          ( + ) ◀───────┘ 더하기 (F(x) + x)                    │
+│           │                                                  │
+│           ▼                                                  │
+│        [ReLU]  ──▶ 다음 층으로 전달                           │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 구조 덕분에 ResNet은 152층이라는 엄청난 깊이에서도 안정적인 학습이 가능해졌다.
 
-- **📢 섹션 요약 비유**: 일반 도로에서는 차가 막히면 끝까지 갈 수 없지만([기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/)), ResNet은 중간중간 톨게이트를 거치지 않는 다이렉트 고속도로(잔차 연결)를 뚫어 차(오차 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))가 막힘없이 출발지까지 도달하게 만든 것입니다.
+- **📢 섹션 요약 비유**: 일반 도로에서는 차가 막히면 끝까지 갈 수 없지만([기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/)), ResNet은 중간중간 톨게이트를 거치지 않는 다이렉트 고속도로(잔차 연결)를 뚫어 차(오차 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))가 병목없이 출발지까지 도달하게 만든 것입니다.
 
 ---
 
@@ -109,25 +116,27 @@ AlexNet부터 ResNet에 이르는 [CNN](/knowledge-base/studynote/14_data_engine
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">전통적 머신러닝 (수동 특징 추출)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">LeNet-5 (CNN 뼈대 확립, CPU 한계)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">AlexNet (ReLU 활성화 함수, GPU 연산 도입)</div>
-<div class="kb-diagram-note">VGGNet GoogLeNet</div>
-<div class="kb-diagram-note">(3x3 필터) (Inception 모듈, 경량화)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ResNet (잔차 연결, 기울기 소실 극복, 초심층화)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ViT (Vision Transformer) 및 NAS (자동 탐색)</div>
-</div>
-</div>
-
-
+```text
+전통적 머신러닝 (수동 특징 추출)
+    │
+    ▼
+LeNet-5 (CNN 뼈대 확립, CPU 한계)
+    │
+    ▼
+AlexNet (ReLU 활성화 함수, GPU 연산 도입)
+    │
+    ├───────────┐
+    ▼           ▼
+VGGNet          GoogLeNet 
+(3x3 필터)      (Inception 모듈, 경량화)
+    │           │
+    └─────┬─────┘
+          ▼
+ResNet (잔차 연결, 기울기 소실 극복, 초심층화)
+          │
+          ▼
+ViT (Vision Transformer) 및 NAS (자동 탐색)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

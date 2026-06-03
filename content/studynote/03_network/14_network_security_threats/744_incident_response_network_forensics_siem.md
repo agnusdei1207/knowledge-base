@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 사이버 공격이 발생했을 때 피해를 최소화하고 원인을 찾아내며, 시스템을 정상으로 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하는 일련의 과정입니다.
 - **PICERL 모델 6단계 (SANS 기반)**: 준비([Preparation](/knowledge-base/studynote/09_security/13_secops_ir_forensics/654_ir_preparation/)) ➜ [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)([Identification](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)) ➜ [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)([Containment](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)) ➜ [근절](/knowledge-base/studynote/09_security/13_secops_ir_forensics/657_ir_eradication/)([Eradication](/knowledge-base/studynote/09_security/13_secops_ir_forensics/657_ir_eradication/)) ➜ [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)([Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)) ➜ [교훈](/knowledge-base/studynote/09_security/13_secops_ir_forensics/659_ir_lessons_learned/)/사후조치([Lessons Learned](/knowledge-base/studynote/09_security/13_secops_ir_forensics/659_ir_lessons_learned/)).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">CSPM / CWPP 보안 설정 모니터링 관…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">침해 사고 대응 체계 분석, 실시간 로그 수…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SOAR</div></div>
-</div>
-</div>
-
-
+```text
+[CSPM / CWPP 보안 설정 모니터링 관…]
+    │
+    ▼
+[침해 사고 대응 체계 분석, 실시간 로그 수…]
+    │
+    └──▶ [SOAR]
+```
 
 - **📢 섹션 요약 비유**: 침해 [사고 대응](/knowledge-base/studynote/09_security/01_intro_principles/009_incident_response/) 체계 분석, 실시간 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 수…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -46,18 +42,14 @@ tags = ["studynote-network"]
   - 회사 망의 핵심 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(L2/L3 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))에 <strong>'미러 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>(Mirror <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">Port</a>) 또는 광 TAP 장비'</strong>를 달아놓습니다. 정상 트래픽이 1번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 흘러갈 때, 몰래 그 패킷의 쌍둥이 복사본을 만들어 2번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(포렌식 서버)로 던져주는 기능입니다. 
   - 포렌식 서버는 수 기가바이트의 이 복사본 패킷들을 하드디스크에 고스란히 무식하게 다 저장(Full Packet Capture)해 둡니다. 나중에 사고가 터지면 형사(보안 관리자)가 이 패킷들을 Wireshark로 열어보고, 해커가 정확히 몇 시 몇 분에 무슨 SQL 명령어를 쳤고, 무슨 파일을 다운받아 갔는지 비디오 되감기 하듯 똑똑히 볼 수 있습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">CSPM / CWPP 보안 설정 모니터링 관…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">침해 사고 대응 체계 분석, 실시간 로그 수…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SOAR</div></div>
-</div>
-</div>
-
-
+```text
+[CSPM / CWPP 보안 설정 모니터링 관…]
+    │
+    ▼
+[침해 사고 대응 체계 분석, 실시간 로그 수…]
+    │
+    └──▶ [SOAR]
+```
 
 - **📢 섹션 요약 비유**: 침해 [사고 대응](/knowledge-base/studynote/09_security/01_intro_principles/009_incident_response/) 체계 분석, 실시간 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 수…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -125,19 +117,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: CSPM / CWPP 보안 설정 모니터링 관…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 침해 사고 대응 체계 분석, 실시간 로그 수…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: SOAR</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: CSPM / CWPP 보안 설정 모니터링 관…]
+    │
+    ▼
+[현재 개념: 침해 사고 대응 체계 분석, 실시간 로그 수…]
+    │
+    ├──▶ [확장 A: SOAR]
+    └──▶ [확장 B: 예측형 위협 대응]
+```
 
 침해 [사고 대응](/knowledge-base/studynote/09_security/01_intro_principles/009_incident_response/) 체계 분석, 실시간 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 수…는 [CSPM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/780_cspm_cloud_security_posture_management/) / [CWPP](/knowledge-base/studynote/15_devops_sre/05_devsecops/332_cwpp/) 보안 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 모니터링 관…에서 출발해 현재 메커니즘을 정교화하고, 이후 SOAR와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -19,35 +19,36 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 소프트웨어 유지보수는 "소프트웨어가 운영 환경에 배포된 후, 이를하고 지원하며 개선하는 모든 활동"을 의미한다. 이는 단순히 버그를수정하는 것을 넘어, 새로운 요구사항 대응, 환경 변화 적용, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 개선, 미래 위험 예방 등을포함하는 적 활동이다.
+- **개념**: 소프트웨어 유지보수는 "소프트웨어가 운영 환경에 배포된 후, 이를변경하고 지원하며 개선하는 모든 활동"을 의미한다. 이는 단순히 버그를수정하는 것을 넘어, 새로운 요구사항 대응, 환경 변화 적용, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 개선, 미래 위험 예방 등을포함하는 전반적 활동이다.
 
-- **필요성**: [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) 비용에서 유지보수가 차지하는 비중은 50~80%에 달하며, 이는 개발 단계 비용의 2~4배에 해당한다. 유지보수를 효과적으로 수행하지 않으면 시스템은 노후화되고, 버그가 누적되며, 보안 취약점에 노출되어 결국 시스템로 이어질 수 있다.
+- **필요성**: [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) 비용에서 유지보수가 차지하는 비중은 50~80%에 달하며, 이는 개발 단계 비용의 2~4배에 해당한다. 유지보수를 효과적으로 수행하지 않으면 시스템은 노후화되고, 버그가 누적되며, 보안 취약점에 노출되어 결국 시스템폐기로 이어질 수 있다.
 
-- **💡 비유**: 소프트웨어 유지보수는 <strong>'자동차의'</strong>과 같다. 자동차를 사고나면 (개발 완료) 그후에도 gasoline 주입 ( 변화 대응), 엔진 오일 교환 ([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 개선), 타이어 변경 (보안 업데이트), 정기검사 (예방 점검) 등이 필요하다. 이러한 유지보수를 소홀히 하면 자동차는하고, 최악의 경우 사고를 당할 수 있다.
+- **💡 비유**: 소프트웨어 유지보수는 <strong>'자동차의정기검수'</strong>과 같다. 자동차를 사고나면 (개발 완료) 그후에도 gasoline 주입 (환경 변화 대응), 엔진 오일 교환 ([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 개선), 타이어 변경 (보안 업데이트), 정기검사 (예방 점검) 등이 필요하다. 이러한 유지보수를 소홀히 하면 자동차는흔쾌취고장하고, 최악의 경우 사고를 당할 수 있다.
 
 - **등장 배경 및 발전 과정**:
-1. **1970년대**: 유지보수 개념, 주로 버그수정
-2. **1980년대 IEEE 표준화**: 유지보수 유형 공식 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) (IEEE 1219)
-3. **1990년대:** 객체지향 방법론 도입, 유지보수 생산성 향상
-4. **현재**: [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/), [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/), 지속적 업데이트 ([Continuous Delivery](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/))로 유지보수 패러다임 변화
+  1. **1970년대**: 유지보수 개념맹아, 주로 버그수정중심
+  2. **1980년대 IEEE 표준화**: 유지보수 유형 공식 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) (IEEE 1219)
+  3. **1990년대:** 객체지향 방법론 도입, 유지보수 생산성 향상
+  4. **현재**: [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/), [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/), 지속적 업데이트 ([Continuous Delivery](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/))로 유지보수 패러다임 변화
 
-- **📢 섹션 요약 비유**: 소프트웨어 유지보수는 <strong>'건물의 시설 관리'</strong>와 같다. 건물을 지으면 (개발) 그후에도 엘리베이터 정검 (보안 업데이트), 외벽 도색 (UI 개선), 배관 교체 (아키텍처 개선), 에너지 효율 개선 ([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화) 등의 유지보수가 계속 필요하다. 유지보수가 부실하면 건물은 하고,에게 위험이 된다.
+- **📢 섹션 요약 비유**: 소프트웨어 유지보수는 <strong>'건물의 시설 관리'</strong>와 같다. 건물을 지으면 (개발) 그후에도 엘리베이터 정검 (보안 업데이트), 외벽 도색 (UI 개선), 배관 교체 (가구 개선), 에너지 효율 개선 ([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화) 등의 유지보수가 계속 필요하다. 유지보수가 부실하면 건물은 로후화하고,주호에게 위험이 된다.
 
 ---
 
 다음은 소프트웨어 유지보수의 종류의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소프트웨어 유지보수의 종류</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                  소프트웨어 유지보수의 종류                              │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
+│       │                    │                    │          │
+│       ▼                    ▼                    ▼          │
+│   요구 분석           설계·적용           품질 검증        │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램은 소프트웨어 유지보수의 종류가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -137,30 +138,28 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 소프트웨어 유지보수의 종류의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 소프트웨어 유지보수의 종류의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
 | [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 소프트웨어 유지보수의 종류은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | 소프트웨어 유지보수의 종류 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
 | [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 소프트웨어 유지보수의 종류에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">소프트웨어 유지보수의 종류 개념 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 위기 (Software Crisis) 인식
+    │
+    ▼
+소프트웨어 유지보수의 종류 개념 정립
+    │
+    ▼
+표준화 및 방법론 체계화 (ISO, CMMI, Agile)
+    │
+    ▼
+클라우드 네이티브·AI 기반 확장 적용
+    │
+    ▼
+지속적 개선 및 DevOps·MLOps 통합
+```
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

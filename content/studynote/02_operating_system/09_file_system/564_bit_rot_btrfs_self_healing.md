@@ -30,31 +30,36 @@ tags = ["studynote-operating-system"]
 - <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/">Bit</a> Rot 발생 시 Btrfs 의 실시간 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/">RAID</a> 치유 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> 폭주 뷰</strong>:
 디스크 1번이 썩었을 때 유저에게 에러를 던지지도 않고 어떻게 몰래 수술을 집도하여 살려내는지 그 렌더 체계를 까보면 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"유저는 모른다! OS 뱃속에선 매 1초마다 천국과 지옥이 교차한다!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🚨</div><div class="kb-diagram-node">사용자 앱 : 10년 묵은 가족동영상.mp4 재생 플레이(open) 타격!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🔥</div><div class="kb-diagram-node">Btrfs 커널 레이어 봇 출동 (Data Read &amp; Checksum 록백)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">RAID-1 (쌍둥이 미러 모드 거울 2장 세팅 상태 스왑)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 커널: "1번 블록 가져와서 해시(Hash) 좀 돌려봐 컷!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">디스크 1번</div><div class="kb-diagram-node">디스크 2번 (미러 쌍둥이)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블록 A 블록 A'</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(우주 방사선 맞고 (안전하게 보존됨)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">01 이 11 로 썩음 ❗)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">✅</div><div class="kb-diagram-node">자가 진단 및 꿰매기 수술 (Self-Healing On-the-fly 렌더!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) 커널이 1번 블록 A 를 읽고 계산 (기대값 CRC:0xAA / 실제값 CRC:0xBB 파단)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) "오쉣! 에러 발생이다! 1번 디스크 썩었다 짐승아! 버려!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3)</div><div class="kb-diagram-node">자동 구조 빔</div><div class="kb-diagram-note">: 커널 봇이 2번 디스크에 긴급 통신 "블록 A' 좀 줘봐 스왑!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4) 2번 블록 A' 를 읽고 검사하니 정상 통과 CRC:0xAA (원상 복구 합격!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">5)</div><div class="kb-diagram-node">수술 빔 투사</div><div class="kb-diagram-note">: 정상 A' 데이터로 유저 영화를 무사히 재생시켜버림.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">6)</div><div class="kb-diagram-node">후속 조치</div><div class="kb-diagram-note">: 아까 썩은 1번 디스크의 자리에 A' 를 덮어씌워서 복구 완료!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">✅</div><div class="kb-diagram-node">유저 결과</div><div class="kb-diagram-note">: 동영상 1초도 안 끊기고 맑은 화질로 100% 무결점 감상 완료.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌──────────────────────────────────────────────────────────────────────────────────┐
+  │                 "유저는 모른다! OS 뱃속에선 매 1초마다 천국과 지옥이 교차한다!"  │
+  ├──────────────────────────────────────────────────────────────────────────────────┤
+  │                                                                                  │
+  │  🚨 [ 사용자 앱 : 10년 묵은 가족동영상.mp4 재생 플레이(open) 타격! ]             │
+  │                                                                                  │
+  │  =========================▼===================================                   │
+  │                                                                                  │
+  │  🔥 [ Btrfs 커널 레이어 봇 출동 (Data Read & Checksum 록백) ]                    │
+  │                                                                                  │
+  │     [ RAID-1 (쌍둥이 미러 모드 거울 2장 세팅 상태 스왑) ]                        │
+  │     => 커널: "1번 블록 가져와서 해시(Hash) 좀 돌려봐 컷!"                        │
+  │                                                                                  │
+  │      [ 디스크 1번 ]                       [ 디스크 2번 (미러 쌍둥이) ]           │
+  │        블록 A                             블록 A'                                │
+  │     (우주 방사선 맞고                      (안전하게 보존됨)                     │
+  │      01 이 11 로 썩음 ❗)                                                        │
+  │                                                                                  │
+  │  ✅ [ 자가 진단 및 꿰매기 수술 (Self-Healing On-the-fly 렌더!) ]                 │
+  │     1) 커널이 1번 블록 A 를 읽고 계산 (기대값 CRC:0xAA / 실제값 CRC:0xBB 파단)   │
+  │     2) "오쉣! 에러 발생이다! 1번 디스크 썩었다 짐승아! 버려!"                    │
+  │     3) [자동 구조 빔]: 커널 봇이 2번 디스크에 긴급 통신 "블록 A' 좀 줘봐 스왑!"  │
+  │     4) 2번 블록 A' 를 읽고 검사하니 정상 통과 CRC:0xAA (원상 복구 합격!)         │
+  │     5) [수술 빔 투사]: 정상 A' 데이터로 유저 영화를 무사히 재생시켜버림.         │
+  │     6) [후속 조치]: 아까 썩은 1번 디스크의 자리에 A' 를 덮어씌워서 복구 완료!    │
+  │                                                                                  │
+  │  ✅ [ 유저 결과 ]: 동영상 1초도 안 끊기고 맑은 화질로 100% 무결점 감상 완료.     │
+  └──────────────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 차세대 [B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 (Btrfs)과 ZFS가 신이라 불리는 절대적 권능 아키텍처다. 기존 하드웨어 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 카드(칩) 따위는 디스크 1번에 쓰인 게 정상인지 우주 방사선 쓰레기인지 구별할 지능이 없다. 그저 "디스크 살아있음!" 이면 뻔뻔히 썩은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 넘긴다. 오라클과 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 진영이 이 무식한 하드웨어 레이드 컨트롤러 버그(Write Hole)를 쓰레기통에 처박아버리고, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 소프트웨어 단에서 직접 블록 4KB 단위 서명을 쥐고 컨트롤하는 <strong>'지능형 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 레벨 <a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/">미러링</a>(Intelligent Scrubbing 스루풋)'</strong> 을 구축하여 데들락을 도살해 버렸다 도출 증명.
 
@@ -134,19 +139,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">플래시 전용 파일 시스템 (F2FS, JFFS2, YAFFS) 특성 분석</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 파손 (Data Corruption / Bit Rot) 대응 Btrfs 자가 치유(Self-healing) 기능</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Direct I/O (O_DIRECT)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">mmap 기반 제로 카피 (Zero-copy) 전송 기술 (sendfile) 성능 이점</div></div>
-</div>
-</div>
-
-
+```text
+[플래시 전용 파일 시스템 (F2FS, JFFS2, YAFFS) 특성 분석]
+    │
+    ▼
+[데이터 파손 (Data Corruption / Bit Rot) 대응 Btrfs 자가 치유(Self-healing) 기능]
+    │
+    ├──▶ [Direct I/O (O_DIRECT)]
+    └──▶ [mmap 기반 제로 카피 (Zero-copy) 전송 기술 (sendfile) 성능 이점]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

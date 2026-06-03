@@ -24,18 +24,14 @@ tags = ["studynote-network"]
 
 - **💡 비유**: FLSM이 커다란 케이크를 무조건 <strong>"모양과 크기가 똑같은 8조각"</strong>으로만 썰어야 하는 답답한 원칙이라면, VLSM은 어른에겐 **"1/2 조각"**, 청소년에겐 **"1/4 조각"**, 아기들에겐 <strong>"1/8 조각"</strong>으로 사람 덩치에 맞춰 마음대로 잘라주는 <strong>"맞춤형 케이크 커팅 기술"</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">슈퍼네팅 / 경로 요약</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">VLSM</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NAT</div></div>
-</div>
-</div>
-
-
+```text
+[슈퍼네팅 / 경로 요약]
+    │
+    ▼
+[VLSM]
+    │
+    └──▶ [NAT]
+```
 
 - **📢 섹션 요약 비유**: <strong> VLSM은 한정된 천(IP 주소)으로 옷을 지을 때, 무조건 똑같은 L 사이즈로만 옷을 여러 벌 만드는 게 아니라, </strong>아빠용 XL, 엄마용 M, 아기용 S 사이즈의 패턴을 요리조리 배치해 버려지는 자투리 천을 0%로 만드는 명품 재단사의 가위질**입니다.
 
@@ -58,23 +54,23 @@ VLSM을 할 때 가장 중요한 절대 규칙은 <strong>"가장 IP가 많이 �
    - 남은 192번지부터 4개를 잘라낸다.
    - `192.168.1.192/30` 할당. (사용 범위: 192 ~ 195) ──▶ 여전히 196 ~ 255 (60개)가 예비로 넉넉하게 남음!
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VLSM 블록 자르기 시각화 도식</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전체 C클래스 256개 공간 (192.168.1.0/24)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0 ---------------------- 127 128 ------- 191 192 - 255</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A 부서 B 부서 ── 여분 ──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">( /25 )</div><div class="kb-diagram-cell">( /26 )</div><div class="kb-diagram-cell">( /26 )</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">192-195</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ P2P ─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(/30)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 낭비된 IP 거의 없이 깔끔하게 모든 부서의 요구사항 만족!</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                VLSM 블록 자르기 시각화 도식                    │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 전체 C클래스 256개 공간 (192.168.1.0/24) ]                 │
+ │   0 ---------------------- 127 128 ------- 191 192 - 255    │
+ │   ├───────── A 부서 ────────┤├──── B 부서 ───┤├── 여분 ──┤    │
+ │   │         ( /25 )          ││   ( /26 )    ││ ( /26 ) │    │
+ │   └────────────────────────┘└──────────────┘└─────────┘    │
+ │                                            192-195             │
+ │                                            ├─ P2P ─┤           │
+ │                                            │ (/30) │           │
+ │                                            └───────┘           │
+ │   * 낭비된 IP 거의 없이 깔끔하게 모든 부서의 요구사항 만족!            │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 2. VLSM의 필수 조건: [클래스리스](/knowledge-base/studynote/03_network/06_network_layer_ip/303_cidr_classless_inter_domain_routing/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)
 A 라우터가 B 라우터에게 "야, 나 192.168.1.0망이랑 연결됐어!"라고 경로 업데이트를 보낼 때, [서브넷 마스크](/knowledge-base/studynote/03_network/19_frequent_topics_terms/963_subnet_mask_cidr_classless_inter_domain_routing/)(`/25`인지 `/26`인지)를 안 보내면 어떻게 될까? B 라우터는 당연히 "아, C클래스니까 `/24`겠지!"라고 제멋대로 판단해 버려서 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)이 완전히 엉망진창 꼬여버린다.
@@ -137,19 +133,15 @@ VLSM는 네트워크 계층과 IP를 이해할 때 핵심 축을 잡아 주는 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 슈퍼네팅 / 경로 요약</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: VLSM</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: NAT</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 대규모 주소 자동화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 슈퍼네팅 / 경로 요약]
+    │
+    ▼
+[현재 개념: VLSM]
+    │
+    ├──▶ [확장 A: NAT]
+    └──▶ [확장 B: 대규모 주소 자동화]
+```
 
 VLSM는 [슈퍼네팅](/knowledge-base/studynote/03_network/06_network_layer_ip/305_supernetting_route_summarization/) / 경로 요약에서 출발해 현재 메커니즘을 정교화하고, 이후 NAT와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

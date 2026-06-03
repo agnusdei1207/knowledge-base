@@ -24,18 +24,14 @@ tags = ["studynote-network"]
 
 - **💡 비유**: 링크 로컬 주소는 갓 태어난 아기에게 부모가 임시로 지어준 <strong>"태명(예: 개똥이)"</strong>과 같습니다. 태명만으로도 집안 식구들끼리(링크 내부)는 "개똥아 밥 먹어~" 하고 완벽하게 소통할 수 있습니다. 하지만 이 아기가 나중에 동사무소(라우터)에 태명을 말하고 정식 출생신고를 마쳐야만, 사회(인터넷)에서 통용되는 진짜 <strong>"주민등록 이름(Global Unicast)"</strong>을 얻고 바깥세상과 소통할 수 있습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">유니캐스트, 멀티캐스트, 애니캐스트</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">링크 로컬 주소 / 사이트 로컬 주소</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">EUI-64</div></div>
-</div>
-</div>
-
-
+```text
+[유니캐스트, 멀티캐스트, 애니캐스트]
+    │
+    ▼
+[링크 로컬 주소 / 사이트 로컬 주소]
+    │
+    └──▶ [EUI-64]
+```
 
 - **📢 섹션 요약 비유**: <strong> 링크 로컬 주소(<code>fe80::</code>)는 무인도에 표류한 사람들끼리 서로 부르기 위해 임시로 등판에 써 붙인 </strong>"등번호"**입니다. 섬 안에서는 100% 통하지만, 구조대가 와서 육지로 나가면 아무 의미 없는 번호입니다.
 
@@ -49,25 +45,27 @@ tags = ["studynote-network"]
 - <strong>뒷머리 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong>: 남은 64비트(인터페이스 ID)는, 내 랜카드의 고유한 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소(48비트)를 뻥튀기 조작([EUI-64](/knowledge-base/studynote/03_network/06_network_layer_ip/330_eui_64_mac_to_ipv6_interface_id/) 방식)하여 64비트로 만들어 끼워 넣는다.
 - **합체 완료**: `fe80::[내 MAC을 조작한 64비트]`라는 전 세계 유일무이한 링크 로컬 주소가 1초 만에 공짜로 탄생한다. (공유기의 허락조차 필요 없다).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IPv6 통신의 시작점 (NDP와 라우터 찾기)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">내 PC</div><div class="kb-diagram-note">IP를 두 개 갖게 됨!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Link-local (fe80::abcd...) ◀─ 켜자마자 자급자족으로 만듦</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* PC의 속마음: "일단 내 방(링크) 사람들과 대화할 입(fe80)은 생겼어.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이제 진짜 인터넷으로 나갈 주소를 구해보자!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 라우터 요청: "이 동네 라우터님 계심? (RS 발송)"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(출발지 주소를 방금 만든 fe80::abcd 로 씀!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 라우터 응답: "오냐 내 주소는 fe80::111 이다! 인터넷 할 거면</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">네 주소 앞자리에 2001:db8:.. (RA 발송) 써라!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. Global Unicast (2001:db8:abcd...) ◀─ 드디어 밖으로 나갈</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">진짜 인터넷 IP 완성!</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                IPv6 통신의 시작점 (NDP와 라우터 찾기)            │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 내 PC ] IP를 두 개 갖게 됨!                                 │
+ │   1. Link-local (fe80::abcd...) ◀─ 켜자마자 자급자족으로 만듦    │
+ │                                                             │
+ │   * PC의 속마음: "일단 내 방(링크) 사람들과 대화할 입(fe80)은 생겼어. │
+ │                이제 진짜 인터넷으로 나갈 주소를 구해보자!"         │
+ │                                                             │
+ │   2. 라우터 요청: "이 동네 라우터님 계심? (RS 발송)"                │
+ │                  (출발지 주소를 방금 만든 fe80::abcd 로 씀!)     │
+ │                                                             │
+ │   3. 라우터 응답: "오냐 내 주소는 fe80::111 이다! 인터넷 할 거면    │
+ │                  네 주소 앞자리에 2001:db8:.. (RA 발송) 써라!"    │
+ │                                                             │
+ │   4. Global Unicast (2001:db8:abcd...) ◀─ 드디어 밖으로 나갈   │
+ │                                             진짜 인터넷 IP 완성! │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 2. [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블에서의 절대 법칙
 모든 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 지원 라우터는 출발지나 목적지가 `fe80::`으로 시작하는 패킷을 받으면, <strong>어떤 짓을 해도 다른 포트로 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a>(포워딩) 해주지 않고 가차 없이 차단(Drop)하거나 무시</strong>한다. "이건 너희 동네 안에서만 쓰는 번호야! 나보고 다른 동네로 배달하라고 하지 마!"라는 엄격한 격리 룰이다.
@@ -133,19 +131,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 유니캐스트, 멀티캐스트, 애니캐스트</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 링크 로컬 주소 / 사이트 로컬 주소</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: EUI-64</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 대규모 주소 자동화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 유니캐스트, 멀티캐스트, 애니캐스트]
+    │
+    ▼
+[현재 개념: 링크 로컬 주소 / 사이트 로컬 주소]
+    │
+    ├──▶ [확장 A: EUI-64]
+    └──▶ [확장 B: 대규모 주소 자동화]
+```
 
 링크 로컬 주소 / 사이트 로컬 주소는 유니캐스트, [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/), 애니캐스트에서 출발해 현재 메커니즘을 정교화하고, 이후 EUI-64와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

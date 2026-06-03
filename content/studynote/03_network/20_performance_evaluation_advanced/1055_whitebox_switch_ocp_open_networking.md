@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 시스코, 주니퍼 같은 거대 공룡(벤더)이 팔던 기존 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 <strong>하드웨어 기계와 소프트웨어(OS)가 본드로 찰싹 붙어있는 '블랙박스'</strong>였습니다.
 - 기계 안이 어떻게 도는지 볼 수 없고, 원하는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 기능을 마음대로 추가할 수 없으며, 기곗값이 부르는 게 값이었습니다([벤더 종속](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/), [Vendor Lock-in](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/254_cloud_vendor_lock_in_avoidance_portability_multi_cloud/)).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">IBN 선행 AI 설계</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">화이트박스 OCP 스위치</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ONOS / OpenDaylight 구조 모…</div></div>
-</div>
-</div>
-
-
+```text
+[IBN 선행 AI 설계]
+    │
+    ▼
+[화이트박스 OCP 스위치]
+    │
+    └──▶ [ONOS / OpenDaylight 구조 모…]
+```
 
 - **📢 섹션 요약 비유**: 화이트박스 [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -44,18 +40,14 @@ tags = ["studynote-network"]
 (859번 화이트박스 심화 및 [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) 연계)
 - **개념**: PC처럼 <strong>하드웨어 껍데기(Bare-metal <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">Switch</a>)와 소프트웨어(Network OS)를 완벽하게 분리(Decoupling)</strong>하여, 사용자가 싸구려 범용 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 하드웨어를 구매한 뒤 원하는 개방형 네트워크 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(NOS)를 입맛대로 골라 설치할 수 있는 오픈 생태계 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">IBN 선행 AI 설계</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">화이트박스 OCP 스위치</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ONOS / OpenDaylight 구조 모…</div></div>
-</div>
-</div>
-
-
+```text
+[IBN 선행 AI 설계]
+    │
+    ▼
+[화이트박스 OCP 스위치]
+    │
+    └──▶ [ONOS / OpenDaylight 구조 모…]
+```
 
 - **📢 섹션 요약 비유**: 화이트박스 [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -123,19 +115,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: IBN 선행 AI 설계</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 화이트박스 OCP 스위치</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: ONOS / OpenDaylight 구조 모…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: IBN 선행 AI 설계]
+    │
+    ▼
+[현재 개념: 화이트박스 OCP 스위치]
+    │
+    ├──▶ [확장 A: ONOS / OpenDaylight 구조 모…]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 화이트박스 [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 [IBN](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/) 선행 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 설계에서 출발해 현재 메커니즘을 정교화하고, 이후 ONOS / OpenDaylight 구조 모…와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

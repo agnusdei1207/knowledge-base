@@ -28,21 +28,15 @@ tags = ["software_engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Product Backlog</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Sprint Planning</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Sprint Goal</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Sprint Backlog</div>
-</div>
-</div>
-
-
+```text
+Product Backlog
+  ↓
+Sprint Planning
+  ↓
+Sprint Goal
+  ↓
+Sprint Backlog
+```
 
 | 항목 | 의미 |
 | :-- | :-- |
@@ -112,41 +106,29 @@ tags = ["software_engineering"]
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Product Backlog</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Sprint Planning</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Sprint Goal</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Sprint Backlog</div>
-</div>
-</div>
-
-
+```text
+Product Backlog
+  ↓
+Sprint Planning
+  ↓
+Sprint Goal
+  ↓
+Sprint Backlog
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Backlog Refinement</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Sprint Planning</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Sprint Backlog</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Execution</div>
-</div>
-</div>
-
-
+```text
+Backlog Refinement
+  ↓
+Sprint Planning
+  ↓
+Sprint Backlog
+  ↓
+Execution
+```
 
 ---
 

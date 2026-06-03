@@ -24,22 +24,18 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경**: 1965년 에츠허르 데이크스트라가 THE [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)를 설계할 때, 제한된 자원을 여러 프로세스에 나눠주기 위해 고안한 '은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(Banker's [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))'을 통해 학계에 처음 소개되었다. 이 개념은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 [자원 할당](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) 문제를 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 이론과 선형 대수학으로 풀어낸 컴퓨터 공학의 기념비적 성과다.
 
+```text
+  [교착 상태 예방(Prevention) vs 회피(Avoidance)의 철학적 차이]
 
+  [ 예방 (Prevention) ] ─▶ "아예 위험한 상황 자체를 못 만들게 족쇄를 채워!"
+  - 룰: "밥 먹을 때 무조건 숟가락, 젓가락 양손에 다 쥐고 시작해! (Hold & Wait 파괴)"
+  - 단점: 젓가락만 필요한 사람도 숟가락을 쥐고 있어서 숟가락 낭비가 극심함.
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">교착 상태 예방(Prevention) vs 회피(Avoidance)의 철학적 차이</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">예방 (Prevention)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">"아예 위험한 상황 자체를 못 만들게 족쇄를 채워!"</div></div>
-<div class="kb-diagram-tree-item" style="--depth:1">룰: "밥 먹을 때 무조건 숟가락, 젓가락 양손에 다 쥐고 시작해! (Hold &amp; Wait 파괴)"</div>
-<div class="kb-diagram-tree-item" style="--depth:1">단점: 젓가락만 필요한 사람도 숟가락을 쥐고 있어서 숟가락 낭비가 극심함.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">회피 (Avoidance)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">"위험한 상황 근처까지는 가자. 근데 선은 넘지 마!"</div></div>
-<div class="kb-diagram-tree-item" style="--depth:1">룰: "지금 젓가락 가져가. 근데 내가 계산해 보니까 너한테 숟가락까지 주면</div>
-<div class="kb-diagram-note">옆 사람이 밥을 못 먹어서 다 같이 죽겠네? 숟가락은 이따 줄 테니 일단 기다려."</div>
-<div class="kb-diagram-tree-item" style="--depth:1">장점: 자원 낭비를 최소화하면서도 100% 안전(Safe)을 보장함.</div>
-</div>
-</div>
-
-
+  [ 회피 (Avoidance) ] ─▶ "위험한 상황 근처까지는 가자. 근데 선은 넘지 마!"
+  - 룰: "지금 젓가락 가져가. 근데 내가 계산해 보니까 너한테 숟가락까지 주면 
+        옆 사람이 밥을 못 먹어서 다 같이 죽겠네? 숟가락은 이따 줄 테니 일단 기다려."
+  - 장점: 자원 낭비를 최소화하면서도 100% 안전(Safe)을 보장함.
+```
 **[다이어그램 해설]** 회피는 예방의 무식함을 '[알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(계산)'으로 덮어버린 기술이다. 예방은 아예 벼랑 근처로 못 가게 철조망을 쳤다면, 회피는 벼랑 끝 1cm 앞까지는 자유롭게 놀게 하되 떨어지기 직전에 뒷덜미를 낚아채는 고도의 두뇌 플레이를 요구한다.
 
 - **📢 섹션 요약 비유**: 낭비(예방)와 파산(데드락) 사이의 완벽한 줄타기입니다. 지갑에 10만 원이 있을 때, 예방은 "파산하기 싫으니 아예 돈을 쓰지 마!"라고 하는 것이고, 회피는 "가계부(은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))를 꼼꼼히 써서 파산하지 않을 선([안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/298_safe_state/))까지만 9만 9천 원을 꽉 채워 쓰자!"라는 똑똑한 경제 관념입니다.
@@ -62,27 +58,28 @@ OS 스케줄러는 프로세스 P가 자원을 요구할 때 다음과 같이 �
 3. <strong>Yes (<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/298_safe_state/">Safe State</a>)</strong>: "오, 이렇게 줘도 아무도 안 죽네? 가짜 장부를 진짜 장부로 확정 짓고 자원을 할당해 줘!"
 4. <strong>No (<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/">Unsafe State</a>)</strong>: "헉, 이렇게 주면 남은 돈이 없어서 다 같이 파산([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))하겠네! 가짜 장부 찢어버리고, P 너는 [안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/298_safe_state/)가 될 때까지 무기한 대기(Block)해!"
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">안전 상태(Safe State) 검증 시뮬레이션 (은행원 관점)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">초기 상태</div><div class="kb-diagram-note">은행의 총 남은 돈 (Available) = 3만 원</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고객 현재 빌린 돈(Allocation) 앞으로 더 필요한 돈(Need)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P1 1만 원 6만 원</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P2 2만 원 2만 원</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P3 2만 원 7만 원</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">은행원의 머릿속 시뮬레이션</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 남은 돈 3만 원을 누구한테 줘야 파산을 막을 수 있을까?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. P1과 P3는 3만 원을 다 줘도 요구액(6만, 7만)을 못 채우니 안 됨.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 아! P2한테 2만 원을 주면, P2는 무사히 일을 끝내고 기존에 빌린 돈</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2만 원까지 합쳐서 총 4만 원을 반납하겠구나! (남은 돈 = 5만 원 됨)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 이제 남은 5만 원으론 아직도 P1, P3를 못 살리네...? 🚨</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결론: 이 상태는 "불안전 상태(Unsafe)"다. 은행원은 대출을 거부한다!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────────────────┐
+  │         안전 상태(Safe State) 검증 시뮬레이션 (은행원 관점)             │
+  ├─────────────────────────────────────────────────────────────────────────┤
+  │                                                                         │
+  │  [초기 상태] 은행의 총 남은 돈 (Available) = 3만 원                     │
+  │                                                                         │
+  │  고객    현재 빌린 돈(Allocation)   앞으로 더 필요한 돈(Need)           │
+  │  P1         1만 원                   6만 원                             │
+  │  P2         2만 원                   2만 원                             │
+  │  P3         2만 원                   7만 원                             │
+  │                                                                         │
+  │  [은행원의 머릿속 시뮬레이션]                                           │
+  │  1. 남은 돈 3만 원을 누구한테 줘야 파산을 막을 수 있을까?               │
+  │  2. P1과 P3는 3만 원을 다 줘도 요구액(6만, 7만)을 못 채우니 안 됨.      │
+  │  3. 아! P2한테 2만 원을 주면, P2는 무사히 일을 끝내고 기존에 빌린 돈    │
+  │     2만 원까지 합쳐서 총 4만 원을 반납하겠구나! (남은 돈 = 5만 원 됨)   │
+  │  4. 이제 남은 5만 원으론 아직도 P1, P3를 못 살리네...? 🚨               │
+  │                                                                         │
+  │  ▶ 결론: 이 상태는 "불안전 상태(Unsafe)"다. 은행원은 대출을 거부한다!   │
+  └─────────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 이것이 회피 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 돌아가는 원리다. OS는 자원을 줄 때마다 이런 가상 시나리오를 끝까지 돌려본다. 만약 P2가 끝나고 반환한 돈으로 P1을 살리고, P1이 반환한 돈으로 P3를 살릴 수 있었다면 그것은 **안전 순서열($P_2 \to P_1 \to P_3$)**이 존재하는 [안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/298_safe_state/)이므로 대출이 승인되었을 것이다.
 
 - **📢 섹션 요약 비유**: 친구 3명이 저한테 돈을 빌려달라고 합니다. 제 수중에 있는 돈을 A에게 빌려주면, A가 대박이 나서 갚은 돈으로 B를 빌려주고, B가 갚은 돈으로 C를 빌려줄 수 있다는 완벽한 회수 시나리오([Safe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/) Sequence)가 그려질 때만 지갑을 엽니다. 시나리오가 꼬이면(Unsafe) 한 푼도 빌려주지 않습니다.
@@ -124,25 +121,25 @@ OS 스케줄러는 프로세스 P가 자원을 요구할 때 다음과 같이 �
    - **아키텍트 결단**: 그래서 OS 설계자들은 회피(Avoidance)를 포기하고, "데드락 나면 그냥 죽고 재부팅해라"라는 [타조 알고리즘](/knowledge-base/studynote/02_operating_system/05_deadlock/291_ostrich_algorithm/)(무시)으로 방향을 틀었다.
 2. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/">Kubernetes</a> (K8s) 스케줄러의 노드 할당 로직</strong>: OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서는 버려졌지만, 클라우드 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 아키텍처라는 거대한 판에서는 은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 철학이 부활했다. K8s의 `kube-scheduler`가 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))를 노드에 배치할 때, [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)의 `Requests(Max)`와 노드의 남은 자원 `Allocatable(Available)`을 계산한다. "이 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 이 노드에 넣었을 때 노드의 자원이 파산(Unsafe)하는가?"를 미리 시뮬레이션(Filter/Score)한 뒤에만 배치를 승인하는 것이 바로 현대화된 자원 회피 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실무에서 교착 상태를 다루는 아키텍트의 현실적 타협안 (Trade-off)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 예방 (Prevention) - Lock Ordering 등</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 활용도: ⭐⭐⭐⭐⭐ (애플리케이션 백엔드 개발의 표준)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 이유: 코딩 컨벤션만 지키면 런타임 오버헤드 0%로 완벽 방어.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 무시 (Ignorance - Ostrich Algorithm)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 활용도: ⭐⭐⭐⭐⭐ (OS 커널, 일반 웹 서버의 표준)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 이유: 데드락 날 확률 0.01%를 위해 99.99%를 느리게 할 수 없음.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">터지면 헬스체크(Liveness Probe)로 컨테이너 킬(Kill).</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3. 회피 (Avoidance - Banker's)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 활용도: ⭐ (사실상 폐기됨)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 이유: "내가 앞으로 자원 몇 개 쓸 거다"라는 미래 예측이 불가능함.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────────┐
+  │     실무에서 교착 상태를 다루는 아키텍트의 현실적 타협안 (Trade-off)  │
+  ├───────────────────────────────────────────────────────────────────────┤
+  │                                                                       │
+  │   [ 1. 예방 (Prevention) - Lock Ordering 등 ]                         │
+  │     ▶ 활용도: ⭐⭐⭐⭐⭐ (애플리케이션 백엔드 개발의 표준)            │
+  │     ▶ 이유: 코딩 컨벤션만 지키면 런타임 오버헤드 0%로 완벽 방어.      │
+  │                                                                       │
+  │   [ 2. 무시 (Ignorance - Ostrich Algorithm) ]                         │
+  │     ▶ 활용도: ⭐⭐⭐⭐⭐ (OS 커널, 일반 웹 서버의 표준)               │
+  │     ▶ 이유: 데드락 날 확률 0.01%를 위해 99.99%를 느리게 할 수 없음.   │
+  │            터지면 헬스체크(Liveness Probe)로 컨테이너 킬(Kill).       │
+  │                                                                       │
+  │   [ 3. 회피 (Avoidance - Banker's) ]                                  │
+  │     ▶ 활용도: ⭐ (사실상 폐기됨)                                      │
+  │     ▶ 이유: "내가 앞으로 자원 몇 개 쓸 거다"라는 미래 예측이 불가능함.│
+  └───────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 컴퓨터 과학 교과서와 실무 아키텍처의 가장 거대한 괴리를 보여주는 장표다. 교과서는 은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 찬양하지만, 실무 아키텍트는 "미래를 예측하는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 무조건 실패한다"는 뼈아픈 진리를 알고 있다. 따라서 회피는 버리고, 설계 단계에서 원천 차단([Lock Ordering](/knowledge-base/studynote/02_operating_system/05_deadlock/317_lockdep_lock_ordering/))하거나 아예 무시하고 장애 시 빠른 롤백을 택하는 것이 공학의 진리다.
 
 - **📢 섹션 요약 비유**: 기상청(은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))이 매일 슈퍼컴퓨터로 수십억 원어치 전기를 써서 "내일 비 올 확률이 50%니 우산을 들고 가라"고 시뮬레이션을 돌려도 가끔 틀립니다. 차라리 "비가 오면 편의점에서 3천 원 주고 우산을 사자(장애 시 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))"라고 마음먹거나, "항상 차에 우산을 박아두자(예방)"라고 결정하는 것이 실생활(실무)에서 비용이 가장 적게 먹힙니다.
@@ -173,19 +170,15 @@ OS 스케줄러는 프로세스 P가 자원을 요구할 때 다음과 같이 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">세마포어 (Semaphore)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">교착 상태 회피 (Deadlock Avoidance)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">카운팅 세마포어 (Counting Semaphore)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">블로킹 세마포어</div></div>
-</div>
-</div>
-
-
+```text
+[세마포어 (Semaphore)]
+    │
+    ▼
+[교착 상태 회피 (Deadlock Avoidance)]
+    │
+    ├──▶ [카운팅 세마포어 (Counting Semaphore)]
+    └──▶ [블로킹 세마포어]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

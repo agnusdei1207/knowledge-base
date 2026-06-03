@@ -20,27 +20,31 @@ tags = ["studynote-bigdata"]
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 기술 통계의 주요 측정 지표와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 요약 프로세스 아키텍처입니다.
 
+```text
+[ Descriptive Statistics Architecture Map ]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Descriptive Statistics Architecture Map</div></div>
-<div class="kb-diagram-note">Raw Data Pool (ZB Scale)</div>
-<div class="kb-diagram-note">v</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Data Summary Metrics</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Central Tendency (중심 경향성)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Mean, Median, Mode</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Dispersion / Variability (산포도)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Variance, Std Dev, IQR, Range</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Shape / Distribution (분포/모양)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Skewness (왜도), Kurtosis (첨도)</div></div>
-<div class="kb-diagram-note">v</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Visualization Methods</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Histogram, Box Plot, Scatter Plot)</div></div>
-</div>
-</div>
-
-
+         Raw Data Pool (ZB Scale)
+                |
+                v
++---------------------------------------+
+|      [ Data Summary Metrics ]         |
+|                                       |
+| 1. Central Tendency (중심 경향성)     |
+|    - Mean, Median, Mode               |
+|                                       |
+| 2. Dispersion / Variability (산포도)  |
+|    - Variance, Std Dev, IQR, Range    |
+|                                       |
+| 3. Shape / Distribution (분포/모양)   |
+|    - Skewness (왜도), Kurtosis (첨도) |
++---------------------------------------+
+                |
+                v
++---------------------------------------+
+|      [ Visualization Methods ]        |
+|  (Histogram, Box Plot, Scatter Plot)  |
++---------------------------------------+
+```
 
 **핵심 원리:**
 1. **중심 경향성**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어디에 모여 있는가? (평균은 [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)에 민감하므로 중앙값과 함께 고려).
@@ -74,21 +78,18 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">기초 통계</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">분포 분석</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상관 분석</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시각화 도구</div></div>
-</div>
-</div>
-
-
+```text
+[기초 통계]
+    │
+    ▼
+[분포 분석]
+    │
+    ▼
+[상관 분석]
+    │
+    ▼
+[시각화 도구]
+```
 
 이 흐름도는 선행 개념이 현재 개념으로 응축되고, 다시 확장 개념으로 이어지는 순서를 보여준다.
 

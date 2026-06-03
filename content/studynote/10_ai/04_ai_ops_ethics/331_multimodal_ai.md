@@ -23,17 +23,14 @@ tags = ["studynote-ai"]
 
 반면 [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-3는 텍스트만, ResNet은 이미지만 처리한다. 현실은 텍스트·이미지·소리·동영상이 뒤섞여 있다. <strong><a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/158_multimodal_clip_vision_audio_encoding/">멀티모달</a> <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a></strong>는 이 현실에 맞게 여러 감각(모달리티)을 동시에 처리하는 AI다. [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4V, Gemini, Claude 3가 이미지를 보고 질문에 답하는 것이 바로 [멀티모달](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/158_multimodal_clip_vision_audio_encoding/) AI의 대표 사례다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 단일 모달 AI는 눈을 감고 글만 읽는 학자다. [멀티모달](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/158_multimodal_clip_vision_audio_encoding/) AI는 눈·귀·피부·코를 모두 열어 세상을 느끼는 사람이다. "이 식물이 뭔지 알아봐줘(이미지)"라고 사진을 보여주면서 말하는(음성) 복합 요청을 처리할 수 있어야 진정한 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 어시스턴트가 된다.
 
@@ -41,28 +38,30 @@ tags = ["studynote-ai"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">멀티모달 AI 아키텍처 (CLIP + LLM 결합 방식)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① CLIP (Contrastive Language-Image Pre-training) 구조:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">텍스트 인코더 공통 임베딩 공간 이미지 인코더</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">←</div><div class="kb-diagram-node">고양이 사진</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(코사인 유사도 최대화: 쌍 일치, 최소화: 쌍 불일치)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② Vision-Language Model (LLaVA, GPT-4V 방식):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이미지 → 비전 인코더(ViT) → 이미지 토큰</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">텍스트 → 텍스트 토큰</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">이미지 토큰 + 텍스트 토큰</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">LLM (Projection Layer 거쳐) │</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 텍스트 응답 생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ Any-to-Any 멀티모달 (GPT-4o, Gemini Ultra):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">텍스트 ↔ 이미지 ↔ 오디오 ↔ 비디오 자유롭게 입출력</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단일 Transformer가 모든 모달리티 토큰을 통합 처리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ End-to-End 학습, 크로스모달 추론</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│         멀티모달 AI 아키텍처 (CLIP + LLM 결합 방식)                  │
+├──────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  ① CLIP (Contrastive Language-Image Pre-training) 구조:          │
+│  텍스트 인코더 ─────────── 공통 임베딩 공간 ─────── 이미지 인코더  │
+│  "고양이 사진"              ← 정렬 →              [고양이 사진]  │
+│  (코사인 유사도 최대화: 쌍 일치, 최소화: 쌍 불일치)                │
+│                                                                  │
+│  ② Vision-Language Model (LLaVA, GPT-4V 방식):                  │
+│  ┌──────────────────────────────────────────────────────────┐   │
+│  │  이미지 → 비전 인코더(ViT) → 이미지 토큰                   │   │
+│  │  텍스트 → 텍스트 토큰                                       │   │
+│  │  [이미지 토큰 + 텍스트 토큰] → LLM (Projection Layer 거쳐)  │   │
+│  │  → 텍스트 응답 생성                                         │   │
+│  └──────────────────────────────────────────────────────────┘   │
+│                                                                  │
+│  ③ Any-to-Any 멀티모달 (GPT-4o, Gemini Ultra):                  │
+│  텍스트 ↔ 이미지 ↔ 오디오 ↔ 비디오 자유롭게 입출력               │
+│  단일 Transformer가 모든 모달리티 토큰을 통합 처리                 │
+│  → End-to-End 학습, 크로스모달 추론                              │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 | 모델 | 입력 모달리티 | 출력 | 대표 기능 |
 |:---|:---|:---|:---|

@@ -25,32 +25,42 @@ tags = ["studynote-operating-system"]
 - <strong>AHCI vs NVMe 하드웨어 연결 및 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a> 구조 비교</strong>:
 소프트웨어(드라이버) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 계층의 단축과 I/O 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)) 구조의 변경 방식을 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램으로 시각화하면 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SATA/AHCI vs NVMe 인터페이스 아키텍처 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Legacy: SATA + AHCI 프로토콜 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CPU 0</div><div class="kb-diagram-node">CPU 1</div><div class="kb-diagram-node">CPU 2</div><div class="kb-diagram-node">CPU n</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(경합/Lock)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AHCI 드라이버 (단일 큐: 깊이 32)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">── 스핀락 병목!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(느슨한 커맨드 세트 / 다중 인터럽트 비용)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SATA Host Controller</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(SATA Cable - Half Duplex 6Gbps)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SATA SSD</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Modern: PCIe + NVMe 프로토콜 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CPU 0</div><div class="kb-diagram-node">CPU 1</div><div class="kb-diagram-node">CPU 2</div><div class="kb-diagram-node">CPU n</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(병렬화)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Queue 0</div><div class="kb-diagram-node">Queue 1</div><div class="kb-diagram-node">Queue 2</div><div class="kb-diagram-node">Queue n</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SQ:64K SQ:64K SQ:64K SQ:64K</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">o o</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(PCIe Bus 가속 DMA 전송)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NVMe SSD</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 락(Lock) 없음, 큐 당 깊이 64,000개, MMIO 다이렉트 컨트롤</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────────┐
+  │                 SATA/AHCI vs NVMe 인터페이스 아키텍처 비교            │
+  ├───────────────────────────────────────────────────────────────────────┤
+  │                                                                       │
+  │ [Legacy: SATA + AHCI 프로토콜 아키텍처]                               │
+  │                                                                       │
+  │     [ CPU 0 ]    [ CPU 1 ]    [ CPU 2 ]    [ CPU n ]                  │
+  │         │            │            │            │                      │
+  │         └────────────┼────────────┼────────────┘(경합/Lock)           │
+  │                      ▼                                                │
+  │             [ AHCI 드라이버 (단일 큐: 깊이 32) ] ◀── 스핀락 병목!     │
+  │                      │                                                │
+  │             (느슨한 커맨드 세트 / 다중 인터럽트 비용)                 │
+  │                      ▼                                                │
+  │                [ SATA Host Controller ]                               │
+  │                      │ (SATA Cable - Half Duplex 6Gbps)               │
+  │                      ▼                                                │
+  │                   [ SATA SSD ]                                        │
+  │                                                                       │
+  │                                                                       │
+  │ [Modern: PCIe + NVMe 프로토콜 아키텍처]                               │
+  │                                                                       │
+  │     [ CPU 0 ]    [ CPU 1 ]    [ CPU 2 ]    [ CPU n ]                  │
+  │         │            │            │            │ (병렬화)             │
+  │         ▼            ▼            ▼            ▼                      │
+  │    [Queue 0]    [Queue 1]    [Queue 2]    [Queue n]                   │
+  │    SQ:64K       SQ:64K       SQ:64K       SQ:64K                      │
+  │         │            │            │            │                      │
+  │         └────────────o────────────o────────────┘                      │
+  │                      │ (PCIe Bus 가속 DMA 전송)                       │
+  │                      ▼                                                │
+  │                 [ NVMe SSD ]                                          │
+  │    * 락(Lock) 없음, 큐 당 깊이 64,000개, MMIO 다이렉트 컨트롤         │
+  └───────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 레거시 AHCI 아키텍처에서는 다수의 CPU 코어가 I/O 요청을 보낼 때, 단 하나의 작업 대기열([커맨드](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) 큐 개수 1개)을 향해 모이면서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 경합([Lock Contention](/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/))이 발생한다. 게다가 I/O가 완료될 때마다 잦은 [하드웨어 인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/)로 [컨텍스트 스위칭](/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/) 오버헤드가 누적된다. 반면 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) NVMe 아키텍처는 각 멀티코어 CPU마다 전담하는 제출 큐(SQ)와 완료 큐(CQ)를 메모리 상에 개별 매핑(멀티 큐)하도록 강제한다. [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 간 [락 경합](/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/) 없이 분리된 차선을 주행하므로 확장성 병목을 사실상 제로 단위로 해소했으며, [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 횟수가 기존의 절반 수준(MMIO 통합)에 불과해 초저지연(Ultra-Low [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 전송과 100만 단위 이상의 IOPS를 달성할 수 있다.
 
@@ -77,30 +87,33 @@ NVMe [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/
 
 CPU(Host)와 디바이스(NVMe [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)) 사이에서 단 4개의 단계만으로 I/O의 한 사이클 (Round-trip)이 완료된다. 기존 AHCI [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이 7~10단계의 복잡한 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) I/O 교차 확인을 요구했던 것과 대비된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NVMe 큐(SQ/CQ) I/O 4단계 동작 사이클</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Host RAM 공간</div><div class="kb-diagram-node">NVMe 컨트롤러 공간</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 커맨드 삽입 (Tail 포인터 증가)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(OS가 Memory-mapped된 SQ 버퍼에 명령 추가)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 2. Doorbell Write(MMIO)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SQ</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Doorbell Register</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(초인종 울림)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. DMA Fetch</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(컨트롤러가 PCIe 버스를 통해 메인 메모리의 SQ 명령을</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DMA로 자신의 내부 메모리로 퍼감 &amp; 플래시 작업 수행)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(플래시 읽기/쓰기 완료 후)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. MSI-X 인터럽트 / Polling</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">발생 (Host 알림) 5. 완료 명령 쓰기 (CQ 엔트리 기록)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">CQ</div><div class="kb-diagram-connector">◀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6. CQ Head 포인터 갱신</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(호스트가 CQ 확인 후 처리)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌────────────────────────────────────────────────────────────────────────────┐
+  │                 NVMe 큐(SQ/CQ) I/O 4단계 동작 사이클                       │
+  ├────────────────────────────────────────────────────────────────────────────┤
+  │                                                                            │
+  │ [ Host RAM 공간 ]                          [ NVMe 컨트롤러 공간 ]          │
+  │                                                                            │
+  │  1. 커맨드 삽입 (Tail 포인터 증가)                                         │
+  │    (OS가 Memory-mapped된 SQ 버퍼에 명령 추가)                              │
+  │         │                                                                  │
+  │         ▼     2. Doorbell Write(MMIO)                                      │
+  │   ┌─── [ SQ ] ─────────────────────────▶ [ Doorbell Register ]             │
+  │   │        │     (초인종 울림)                  │                          │
+  │   │        │                                  │                            │
+  │   │        └──────────────────────────────────┘ 3. DMA Fetch               │
+  │   │            (컨트롤러가 PCIe 버스를 통해 메인 메모리의 SQ 명령을        │
+  │   │             DMA로 자신의 내부 메모리로 퍼감 & 플래시 작업 수행)        │
+  │   │                                                                        │
+  │   │                          (플래시 읽기/쓰기 완료 후)                    │
+  │   │  4. MSI-X 인터럽트 / Polling                                           │
+  │   │   발생 (Host 알림)          5. 완료 명령 쓰기 (CQ 엔트리 기록)         │
+  │ ◀─┼─────────────────────────── ┌─── [ CQ ] ◀───────────────                │
+  │   │                              │                                         │
+  │   │   6. CQ Head 포인터 갱신       │                                       │
+  │   └─── (호스트가 CQ 확인 후 처리) ───┘                                     │
+  └────────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 단 하나의 I/O를 위해 NVMe 환경은 극도로 축소된 경로를 지향한다. (1) OS가 메인 버퍼 풀인 메모리의 SQ에 단순히 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 블록을 밀어 넣은 다음 (2) SSD의 Doorbell [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/)(디바이스의 문 벨) 값을 단 "1회" 갱신한다. (3) 초인종 알람을 감지한 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 컨트롤러는 독자적인 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/)([Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/))를 통해 잠자고 있는 메인 메모리에 침투해 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)/[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 직접 퍼가 작업을 수행한다. (4,5) 완료 즉시 SSD는 역으로 호스트 메모리의 CQ(Completion [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))에 완료 상태를 기록하고 MSI-X 신호를 통해 전담 CPU 코어 한정에만 살짝 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 발생시켜 작업 종료를 알리게 된다. 이는 OS([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))의 불필요한 개입, 대기 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/), 락 병목을 원천봉쇄하는 혁명적 I/O 처리 단축 기법이다. (최근에는 CQ [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 통보마저 생략하고 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/))방식으로 대기 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 0에 가깝게 줄이는 [IO_URING](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/464_io_uring/) 모델과 극한의 시너지를 발휘한다.)
 
@@ -138,29 +151,37 @@ NVMe는 박스 형태(데스크톱/서버) 내부에만 머무르지 않는다. 
 
 위와 같은 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) NVMe 인프라 엔지니어링 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 장애 진단을 위한 실무 아키텍트의 의사결정 트리는 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NVMe 프로토콜 극한 병목 (Bottleneck) 진단 의사결정 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">I/O 성능 저하 및 병목 현상 증상 탐지 / 모니터링: iostat / perf</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하이퍼바이저/가상화 환경(QEMU/KVM 에뮬레이터 간섭)?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스택 우회화 SR-IOV 물리적 패스스루 시도</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">VFIO-PCI / SPDK 전환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 (베어메탈)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인터럽트 폭풍 발생 및 CPU의 System/IRQ 타임 점유가 비정상?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">S/W 오버헤드 초과: Polling 큐 스코어 설정</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IRQ Coalescing / io_uring 전환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">온도 조절(Thermal Throttling) 보호 모드 발생?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">방열판 히트싱크 추가 / PCIe 에어플로우 확보</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ──▶ [ZNS / Namespace 최적화 및 애플리케이션</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AIO 다중 스레드 큐 비동기 개발 포팅 진단]</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최종 전략: 스토리지 레이턴시가 메모리급이 되었으므로 O/S 지연 제거 필수!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌──────────────────────────────────────────────────────────────────────────────┐
+  │         NVMe 프로토콜 극한 병목 (Bottleneck) 진단 의사결정 플로우            │
+  ├──────────────────────────────────────────────────────────────────────────────┤
+  │                                                                              │
+  │   [I/O 성능 저하 및 병목 현상 증상 탐지 / 모니터링: iostat / perf]           │
+  │                │                                                             │
+  │                ▼                                                             │
+  │      하이퍼바이저/가상화 환경(QEMU/KVM 에뮬레이터 간섭)?                     │
+  │          ├─ 예 ─────▶ [스택 우회화 SR-IOV 물리적 패스스루 시도]              │
+  │          │                     │                                             │
+  │          │                     └─▶ [VFIO-PCI / SPDK 전환]                    │
+  │          └─ 아니오 (베어메탈)                                                │
+  │                │                                                             │
+  │                ▼                                                             │
+  │      인터럽트 폭풍 발생 및 CPU의 System/IRQ 타임 점유가 비정상?              │
+  │          ├─ 예 ─────▶ [S/W 오버헤드 초과: Polling 큐 스코어 설정]            │
+  │          │                     │                                             │
+  │          │                     └─▶ [IRQ Coalescing / io_uring 전환]          │
+  │          └─ 아니오                                                           │
+  │                │                                                             │
+  │                ▼                                                             │
+  │      온도 조절(Thermal Throttling) 보호 모드 발생?                           │
+  │          ├─ 예 ─────▶ [방열판 히트싱크 추가 / PCIe 에어플로우 확보]          │
+  │          │                                                                   │
+  │          └─ 아니오 ──▶ [ZNS / Namespace 최적화 및 애플리케이션               │
+  │                           AIO 다중 스레드 큐 비동기 개발 포팅 진단]          │
+  │                                                                              │
+  │   최종 전략: 스토리지 레이턴시가 메모리급이 되었으므로 O/S 지연 제거 필수!   │
+  └──────────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이전 시대의 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 문제점 대부분은 기계나 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)의 한계에 봉착한 것이었다면, NVMe 시대부터는 "스토리지가 너무나도 빠르기 때문에 역으로 CPU가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 처리의 짐(수많은 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)로 인한 병목 등)을 이기지 못하고 쓰러지는" 상황에 이르게 된다. 따라서 시스템 엔지니어는 NVMe를 탑재했음에도 하이엔드 IOPS에 닿지 않는 원인을 항상 소프트웨어 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)의 '자체적 오버헤드 늪'에서 찾아야 한다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 바이패스(우회)하는 SPDK와 [SR-IOV](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/497_sr_iov_pcie_mapping/) [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/), 그리고 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 폭풍을 지우는 선언적 Busy-wait 튜닝 등 고도화된 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 스키핑(Skip-ing) 전략만이 수백만 IOPS의 100% 잠재력을 해방시킨다.
 
@@ -208,19 +229,15 @@ NVMe는 박스 형태(데스크톱/서버) 내부에만 머무르지 않는다. 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">TRIM 명령어</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NVMe (Non-Volatile Memory Express)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RAID (Redundant Array of Independent Disks)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RAID 0 (스트라이핑, Striping)</div></div>
-</div>
-</div>
-
-
+```text
+[TRIM 명령어]
+    │
+    ▼
+[NVMe (Non-Volatile Memory Express)]
+    │
+    ├──▶ [RAID (Redundant Array of Independent Disks)]
+    └──▶ [RAID 0 (스트라이핑, Striping)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

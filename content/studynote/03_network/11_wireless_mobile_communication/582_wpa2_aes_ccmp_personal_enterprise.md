@@ -21,28 +21,27 @@ tags = ["studynote-network"]
 
 - **개념**: 2004년에 확정된 IEEE 802.11i 표준으로, <strong>WPA2</strong>라는 이름으로 대중에게 더 익숙하다. 무선랜 보안의 핵심인 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)과 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 보장하기 위해 낡은 [스트림 암호](/knowledge-base/studynote/03_network/13_network_security_basics/654_stream_cipher_rc4_chacha20/)([RC4](/knowledge-base/studynote/09_security/02_crypto/081_rc4_stream_cipher/)) 대신 128비트 <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/">AES</a> <a href="/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/">블록 암호</a> 엔진</strong>과 <strong>CCMP <a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a> <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a></strong>을 결합한 것이 가장 큰 특징이다.
 - **필요성**: 이전 세대인 WPA1(TKIP)은 [WEP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/580_wep_wired_equivalent_privacy_rc4/) 해킹 대란을 막아준 고마운 땜질이었지만, 어디까지나 소프트웨어적 임시방편([Workaround](/knowledge-base/studynote/12_it_management/02_itsm_itil/076_workaround_temporary_fix_incident/))이었다. 해커들의 크래킹 도구가 진화하면서 TKIP의 '마이클(MIC)' [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 도장마저 위조당하는 사태(Beck-Tews Attack)가 벌어졌다. 더 이상 모래성([RC4](/knowledge-base/studynote/09_security/02_crypto/081_rc4_stream_cipher/) 하드웨어) 위에 집을 지을 순 없었다. 칩셋 제조사들이 욕을 먹더라도 무선 통신의 뼈대를 아예 처음부터 콘크리트로 재건축(Hardware Upgrade)해야만 기업들이 무선랜을 믿고 도입할 수 있는 절박한 상황이었다.
-- **등장 배경**: ① 임시방편이었던 [WPA](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/581_wpa_tkip_802_1x_eap/)-TKIP의 부분적 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 붕괴 시작 → ② 미 연방 정보처리 표준(FIPS)으로 제정된 가장 강력하고 빠른 [대칭키 암호](/knowledge-base/studynote/09_security/02_crypto/076_symmetric_encryption/) <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/">AES</a></strong>의 무선랜 도입 요구 → ③ 칩셋 기술의 발달로 [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/)(공유기)와 스마트폰에 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 연산 전용 [하드웨어 가속기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/417_hardware_accelerator/)(Crypto-Engine)를 값싸게 넣을 수 있게 됨에 따라 전면 도입.
+- **등장 배경**: ① 임시방편이었던 [WPA](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/581_wpa_tkip_802_1x_eap/)-TKIP의 부분적 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 붕괴 시작 → ② 미 연방 정보처리 표준(FIPS)으로 제정된 가장 강력하고 빠른 [대칭키 암호](/knowledge-base/studynote/09_security/02_crypto/076_symmetric_encryption/) <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/">AES</a></strong>의 무선랜 도입 요구 → ③ 칩셋 기술의 발달로 [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/)(공유기)와 스마트폰에 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 연산 전용 [하드웨어 가속기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/417_hardware_accelerator/)(Crypto-엔진)를 값싸게 넣을 수 있게 됨에 따라 전면 도입.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RC4(구형) vs AES(WPA2) 암호화 믹서기의 체급 차이 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">과거: WEP / WPA1의 RC4 암호 (스트림 암호 방식)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터: "안녕" (1글자씩 들어옴)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">믹서기: (1글자씩 대충 물감을 뿌려서 색을 바꿈)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 문제점: 물감(Keystream) 패턴이 겹치는 순간, 해커가 지우개로 쓱싹</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지워버리면 속살(평문)이 그대로 훌렁 다 벗겨지는 한계!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">혁신: WPA2의 AES-CCMP 암호 (군사급 블록 암호 방식)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터: "안녕하세요나는오늘밥을먹었다" (128비트, 큰 덩어리로 잘라 넣음)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">믹서기:</div><div class="kb-diagram-node">AES 티타늄 분쇄기</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">이 거대한 덩어리를 통째로 넣고,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수학적 행렬(Matrix)로 10번이나 뒤집고, 쪼개고, 치환해 버림!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 해커가 슈퍼컴퓨터로 이 덩어리를 1만 년 동안 두들겨 패도, 입력된</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원본 글자가 무엇인지 절대 역추적할 수 없는 완벽한 철옹성 방어!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│             RC4(구형) vs AES(WPA2) 암호화 믹서기의 체급 차이 시각화 │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [과거: WEP / WPA1의 RC4 암호 (스트림 암호 방식)]                │
+│   데이터: "안녕" (1글자씩 들어옴)                                │
+│   믹서기: (1글자씩 대충 물감을 뿌려서 색을 바꿈)                     │
+│   => 문제점: 물감(Keystream) 패턴이 겹치는 순간, 해커가 지우개로 쓱싹    │
+│            지워버리면 속살(평문)이 그대로 훌렁 다 벗겨지는 한계!         │
+│                                                             │
+│   [혁신: WPA2의 AES-CCMP 암호 (군사급 블록 암호 방식)]             │
+│   데이터: "안녕하세요나는오늘밥을먹었다" (128비트, 큰 덩어리로 잘라 넣음) │
+│   믹서기: [ AES 티타늄 분쇄기 ] ─▶ 이 거대한 덩어리를 통째로 넣고,      │
+│          수학적 행렬(Matrix)로 10번이나 뒤집고, 쪼개고, 치환해 버림!    │
+│   => 결과: 해커가 슈퍼컴퓨터로 이 덩어리를 1만 년 동안 두들겨 패도, 입력된   │
+│            원본 글자가 무엇인지 절대 역추적할 수 없는 완벽한 철옹성 방어!   │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** WPA2의 가장 위대한 아키텍처적 결단은 '[호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)(Backward [Compatibility](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)) 포기'다. 10년간 쓰던 [RC4](/knowledge-base/studynote/09_security/02_crypto/081_rc4_stream_cipher/) 칩셋을 버리고 미 정부가 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)한 최고 수준의 <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/">AES</a> <a href="/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/">블록 암호</a></strong>를 탑재했다. RC4는 물이 흐르듯 한 글자씩 암호화하는 방식이라 중간에 패턴이 새면 망가졌다. AES는 데이터를 16바이트(128비트)짜리 커다란 블록 깍두기로 뭉텅 썰어서, 그 깍두기 자체를 수학적 행렬로 10바이트씩([10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) Rounds) 미친 듯이 섞어버리는 '분쇄 후 재조립' 방식이다. 해커는 출력된 깍두기만 봐서는 원본 깍두기의 모양을 수학적으로 절대 알 수 없다. [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 자체는 현재 우주 나이만큼의 시간이 지나도 무차별 대입(Brute-force)으로 풀리지 않는 절대 방패다.
 
@@ -62,27 +61,32 @@ WPA2가 완벽한 이유는 단순히 [AES](/knowledge-base/studynote/03_network
 
 WPA2(및 WPA1)의 또 다른 혁명은 "내가 입력한 비밀번호([PSK](/knowledge-base/studynote/09_security/03_network_security/142_psk_pre_shared_key/), 예: `wifi1234`)가 허공 전파를 타고 날아가지 않는다"는 것이다. 마스터 암호를 뺏기지 않으면서 "너랑 나랑 암호가 같다"는 걸 증명하기 위해 4번의 악수(Handshake)를 거친다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WPA2 4-Way Handshake (진짜 암호키 생성 과정)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 대전제: 폰과 공유기 안에는 이미 우리가 입력한 비번(1234)이 칩셋 안에만 있음!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스마트폰 (Supplicant)</div><div class="kb-diagram-node">공유기 (Authenticator)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ 1.</div><div class="kb-diagram-node">공유기의 난수(ANonce) 투척</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">폰 내부의 비밀 믹서기 가동 🌪️</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비밀번호 + 공유기난수 + 내폰난수(SNonce) + 공유기MAC + 내MAC 섞기!!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 허공에 날아가지 않고 내 폰 속에서만 '진짜 일회용 암호키(PTK)' 완성!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ 2.</div><div class="kb-diagram-node">폰의 난수(SNonce) 투척 + MIC 도장</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">공유기 내부 비밀 믹서기 가동 🌪️</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(폰이랑 똑같은 재료로 섞어서)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; "오! PTK 완성! 도장도 맞군!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ 3.</div><div class="kb-diagram-node">공유기: "PTK 만들었으니 장착해라!" + MIC 도장</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ 4.</div><div class="kb-diagram-node">폰: "장착 완료! 이제부터 암호 통신 시작!"</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────┐
+│               WPA2 4-Way Handshake (진짜 암호키 생성 과정)          │
+├───────────────────────────────────────────────────────────────┤
+│   * 대전제: 폰과 공유기 안에는 이미 우리가 입력한 비번(1234)이 칩셋 안에만 있음!│
+│                                                               │
+│   [스마트폰 (Supplicant)]                     [공유기 (Authenticator)]│
+│         │                                               │     │
+│         │ 1. [공유기의 난수(ANonce) 투척]                    │     │
+│         │◀─────────────────────────────────────────────┤     │
+│  [폰 내부의 비밀 믹서기 가동 🌪️]                                  │     │
+│  비밀번호 + 공유기난수 + 내폰난수(SNonce) + 공유기MAC + 내MAC 섞기!!   │     │
+│  => 결과: 허공에 날아가지 않고 내 폰 속에서만 '진짜 일회용 암호키(PTK)' 완성!│     │
+│         │                                               │     │
+│         │ 2. [폰의 난수(SNonce) 투척 + MIC 도장]             │     │
+│         ├─────────────────────────────────────────────▶│     │
+│         │                             [공유기 내부 비밀 믹서기 가동 🌪️] │
+│         │                             (폰이랑 똑같은 재료로 섞어서)     │
+│         │                             => "오! PTK 완성! 도장도 맞군!" │
+│         │ 3. [공유기: "PTK 만들었으니 장착해라!" + MIC 도장]   │     │
+│         │◀─────────────────────────────────────────────┤     │
+│         │                                               │     │
+│         │ 4. [폰: "장착 완료! 이제부터 암호 통신 시작!"]       │     │
+│         ├─────────────────────────────────────────────▶│     │
+└───────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 4번의 핑퐁(Handshake) 목적은 명확하다. 허공에 마스터 비밀번호([PSK](/knowledge-base/studynote/09_security/03_network_security/142_psk_pre_shared_key/))를 절대 노출하지 않으면서, 양쪽 다 랜덤한 1회용 숫자([Nonce](/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/))를 던져 서로 <strong>"통신할 때 쓸 진짜 암호화 키 (PTK, <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/">Pairwise</a> Transient <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a>)"</strong>를 동시에 도출해 내는 것이다. 해커가 이 4개의 패킷을 다 훔쳐봤자, 허공에 날아다닌 건 쓸모없는 랜덤 숫자([Nonce](/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/))뿐이므로 PTK를 풀 수 없다. (물론 13년 뒤 이 3번째 패킷의 허점을 찌른 KRACK 공격이 터지긴 하지만, 아키텍처 사상 측면에서는 완벽에 가까운 [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) 체계였다).
 
@@ -96,23 +100,23 @@ WPA2는 완벽한 [AES](/knowledge-base/studynote/03_network/13_network_security
 | <strong>마스터 키(PMK) <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong>| 사용자가 폰에 친 비밀번호 문자를 엄청나게 꼬아서 만든 해시값을 PMK로 사용함. (단점: 사전 공격에 취약) | [RADIUS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/541_radius_remote_authentication_aaa/) 서버가 사원증 검사 후 승인 도장을 찍으면서, 오직 그 직원만을 위한 무작위 랜덤 PMK를 쏴줌. (철벽 방어) |
 | **치명적 한계**| <strong>퇴사자 <a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a></strong>. 카페 알바가 그만둘 때 앙심을 품고 와이파이 비번을 올리면, 카페 와이파이 비번을 바꾸고 직원 기기 10대의 비번을 일일이 다 쳐서 세팅해야 함. | **인프라 구축 비용**. 비싼 [RADIUS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/541_radius_remote_authentication_aaa/) 서버(Windows AD, [Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/) ISE 등)와 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서([PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/)) 발급 체계가 필요해 중소기업은 감당 불가. |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WPA2 Enterprise의 대규모 RADIUS 연동 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">영업팀 폰</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">회사 1층 AP</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">본사 RADIUS 서버</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">개발팀 폰</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">회사 2층 AP</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">본사 RADIUS 서버</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">중앙 통제의 마법: 동적 VLAN 할당 (Dynamic VLAN Assignment)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RADIUS 서버: "어? 너 사번 조회해보니 개발팀 소속 직원이구나?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">그럼 넌 1층에서 AP에 붙었든, 2층에서 붙었든 무조건</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사내 '개발팀 전용 격리망(VLAN 20)'으로 쑤셔 넣어 줄게!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 보안 최고봉! 직원이 회사 어디서 와이파이를 잡든, 신분(사원증)에 따라</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">접속되는 네트워크 망이 자동으로 분리되는(Zero Trust) 권한 통제 완성!</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────┐
+│               WPA2 Enterprise의 대규모 RADIUS 연동 아키텍처         │
+├───────────────────────────────────────────────────────────────┤
+│                                                               │
+│   [영업팀 폰] --- (인증) ---> [회사 1층 AP] --- (패스) ---> [본사 RADIUS 서버] │
+│   [개발팀 폰] --- (인증) ---> [회사 2층 AP] --- (패스) ---> [본사 RADIUS 서버] │
+│                                                               │
+│   [중앙 통제의 마법: 동적 VLAN 할당 (Dynamic VLAN Assignment)]          │
+│   RADIUS 서버: "어? 너 사번 조회해보니 개발팀 소속 직원이구나?                │
+│                그럼 넌 1층에서 AP에 붙었든, 2층에서 붙었든 무조건            │
+│                사내 '개발팀 전용 격리망(VLAN 20)'으로 쑤셔 넣어 줄게!"         │
+│                                                               │
+│   => 결과: 보안 최고봉! 직원이 회사 어디서 와이파이를 잡든, 신분(사원증)에 따라 │
+│            접속되는 네트워크 망이 자동으로 분리되는(Zero Trust) 권한 통제 완성!│
+└───────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 엔터프라이즈 환경에서 802.[1X](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/584_802_1x_pnac_eap_radius/)/RADIUS의 진짜 파워는 단순한 '비밀번호 검사'가 아니다. 직원이 폰으로 로그인에 성공하면, 본사 [RADIUS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/541_radius_remote_authentication_aaa/) 서버는 공유기([AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/))에게 암호키(PMK)뿐만 아니라 <strong>"이 직원은 영업팀이니까 <a href="/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/">VLAN</a> 10번망에 꽂아!"</strong>라는 태그(Tag)를 덤으로 던져준다. 직원은 본관에서 로그인하든 별관에서 로그인하든, 자신이 속한 부서의 보안 격리망([VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/))으로 자동 연결된다. WPA2-Enterprise 아키텍처는 네트워크 접근(무선)과 인프라 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)(유선 [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/)/[ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/))을 하나의 거대한 파이프라인으로 완벽히 융합시킨 보안 공학의 마스터피스다.
 
@@ -185,19 +189,15 @@ WPA2는 IT 역사상 "돈(Hardware Upgrade)을 쓰면 세상이 얼마나 완벽
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: WPA</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: WPA2 강력 암호화, 개인용/기업용</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: WPA3</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 무선 자원 제어</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: WPA]
+    │
+    ▼
+[현재 개념: WPA2 강력 암호화, 개인용/기업용]
+    │
+    ├──▶ [확장 A: WPA3]
+    └──▶ [확장 B: 지능형 무선 자원 제어]
+```
 
 WPA2 강력 암호화, 개인용/기업용는 WPA에서 출발해 현재 메커니즘을 정교화하고, 이후 WPA3와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -27,23 +27,23 @@ tags = ["studynote-operating-system"]
   2. **장부(Free List) 탐색의 비용**: 빈 블록들이 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)([Linked List](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/))로 관리되는데, 메모리를 할당할 때마다 이 긴 리스트를 뒤적거리는 행위 자체가 운영체제의 막대한 CPU 자원을 소모(Overhead)시켰다.
   3. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>의 3파전</strong>: 시간(속도)을 아낄 것인가, 공간([단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/))을 아낄 것인가를 두고 세 가지 철학적 접근이 충돌하며 동적 할당 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 발전했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동적 메모리 배치 상황: 15MB 프로그램 P를 어디에 넣을까?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 메모리 내 빈 구멍(Hole)들의 상태 순서</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Hole A: 20MB</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Hole B: 10MB</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Hole C: 16MB</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Hole D: 30MB</div><div class="kb-diagram-note">(끝)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 속도주의자: "빨리 빈 곳 아무 데나 쑤셔 넣어!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 공간주의자: "남는 쓰레기 공간이 가장 적게 딱 맞는 곳에 넣어!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 이단아: "남는 공간이 오히려 제일 크게 남는 무식하게 큰 곳에 넣어!"</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│        동적 메모리 배치 상황: 15MB 프로그램 P를 어디에 넣을까?       │
+├──────────────────────────────────────────────────────────────────────┤
+│                                                                      │
+│ [ 현재 메모리 내 빈 구멍(Hole)들의 상태 순서 ]                       │
+│                                                                      │
+│ (시작) ──▶ [ Hole A: 20MB ]                                          │
+│              ──▶ [ Hole B: 10MB ]                                    │
+│                   ──▶ [ Hole C: 16MB ]                               │
+│                        ──▶ [ Hole D: 30MB ] (끝)                     │
+│                                                                      │
+│ 1. 속도주의자: "빨리 빈 곳 아무 데나 쑤셔 넣어!"                     │
+│ 2. 공간주의자: "남는 쓰레기 공간이 가장 적게 딱 맞는 곳에 넣어!"     │
+│ 3. 이단아: "남는 공간이 오히려 제일 크게 남는 무식하게 큰 곳에 넣어!"│
+└──────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 이 단순한 예시가 세 가지 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 본질을 시험한다. Hole B(10MB)는 15MB 프로세스를 담을 수 없으므로 무조건 탈락이다. 남은 후보는 A(20), C(16), D(30)이다. 인간의 직관으로는 16MB 구멍에 넣고 1MB만 남기는 게 가장 깔끔해 보이지만, 컴퓨터 시스템의 최적화는 인간의 직관과 전혀 다른 통계적 결과를 도출해낸다.
 
 - **📢 섹션 요약 비유**: 주차장에 차를 댈 때, 입구에서 가장 가까운 빈자리에 바로 박아버릴지([최초 적합](/knowledge-base/studynote/02_operating_system/06_memory_management/344_first_fit/)), 내 차 크기에 가장 딱 맞는 좁은 자리를 땀 흘리며 찾아 주차할지([최적 적합](/knowledge-base/studynote/02_operating_system/06_memory_management/345_best_fit/))를 결정하는 발렛파킹 직원의 딜레마입니다.
@@ -68,26 +68,26 @@ tags = ["studynote-operating-system"]
 
 각 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 자료구조(Free List)를 어떻게 정렬하고 순회(Traversal)하느냐에 따라 [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/)(Big-O)가 달라진다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">배치 알고리즘의 장부(Free List) 순회와 성능 오버헤드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ First-Fit (최초 적합)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">순회: 처음부터 O(N) 탐색이나, 평균적으로 중간쯤에서 발견 후 O(1) 정지.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">속도:</div><div class="kb-diagram-node">초고속</div><div class="kb-diagram-note">메모리 단편화보다 OS가 계산하는 시간을 아낌.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Best-Fit (최적 적합)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">순회: 크기순 정렬이 안 되어 있으면 O(N) 전체 스캔 강제.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">단점: 16MB 방에 15MB 넣고 남은</div><div class="kb-diagram-node">1MB</div><div class="kb-diagram-note">구멍은 너무 작아서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">영원히 어떤 프로그램도 못 쓰는 최악의 외부 단편화 쓰레기가 됨.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Worst-Fit (최악 적합)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">순회: 역시 O(N) 전체 스캔 강제 (가장 큰 걸 찾아야 하므로).</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">논리: 30MB 방에 15MB 넣고 남은</div><div class="kb-diagram-node">15MB</div><div class="kb-diagram-note">구멍은 크니까 나중에</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다른 10MB짜리 앱이 들어올 수 있지 않을까? 하는 역발상.</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│              배치 알고리즘의 장부(Free List) 순회와 성능 오버헤드       │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│ ▶ First-Fit (최초 적합)                                                 │
+│   순회: 처음부터 O(N) 탐색이나, 평균적으로 중간쯤에서 발견 후 O(1) 정지.│
+│   속도: [초고속] 메모리 단편화보다 OS가 계산하는 시간을 아낌.           │
+│                                                                         │
+│ ▶ Best-Fit (최적 적합)                                                  │
+│   순회: 크기순 정렬이 안 되어 있으면 O(N) 전체 스캔 강제.               │
+│   단점: 16MB 방에 15MB 넣고 남은 [1MB] 구멍은 너무 작아서               │
+│         영원히 어떤 프로그램도 못 쓰는 최악의 외부 단편화 쓰레기가 됨.  │
+│                                                                         │
+│ ▶ Worst-Fit (최악 적합)                                                 │
+│   순회: 역시 O(N) 전체 스캔 강제 (가장 큰 걸 찾아야 하므로).            │
+│   논리: 30MB 방에 15MB 넣고 남은 [15MB] 구멍은 크니까 나중에            │
+│         다른 10MB짜리 앱이 들어올 수 있지 않을까? 하는 역발상.          │
+└─────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 컴퓨터 공학에서 '완벽한 맞춤([Best-Fit](/knowledge-base/studynote/02_operating_system/06_memory_management/345_best_fit/))'은 종종 최악의 결과를 낳는다. 공간을 아끼려고 1MB 남짓한 부스러기들을 온 사방에 양산하는데, 이 부스러기들은 너무 작아서 OS의 장부(Free list)만 길어지게 만들고 정작 쓸모는 전혀 없다. 게다가 매번 100% 전체 리스트를 뒤져야 하므로 할당 속도마저 바닥을 친다. 수많은 통계적 시뮬레이션 결과, 속도와 공간 활용률 모두에서 '뇌를 비우고 처음 보이는 곳에 꽂아 넣는' First-Fit이 가장 우수하다는 결론이 도출되었다.
 
@@ -126,18 +126,15 @@ tags = ["studynote-operating-system"]
 | **병합 속도** | 인접 주소를 찾아 병합 (상대적으로 느림) | 쪼개진 쌍둥이(Buddy)끼리 합치면 끝 ([초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 병합) |
 | <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/">단편화</a> 발생</strong>| [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) 발생, [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/) 0 | 미세한 [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)(3KB) 허용, [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) 방어 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">할당기 종류</div><div class="kb-diagram-cell">할당 속도</div><div class="kb-diagram-cell">해제/병합 속도</div><div class="kb-diagram-cell">단편화 발생 양상</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">First-Fit</div><div class="kb-diagram-cell">매우 빠름</div><div class="kb-diagram-cell">보통</div><div class="kb-diagram-cell">외부 단편화 위주</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Best-Fit</div><div class="kb-diagram-cell">느림</div><div class="kb-diagram-cell">보통</div><div class="kb-diagram-cell">최악의 외부 단편화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Buddy Sys</div><div class="kb-diagram-cell">매우 빠름</div><div class="kb-diagram-cell">초고속</div><div class="kb-diagram-cell">내부 단편화 감수</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬────────────────────────┐
+│ 할당기 종류│ 할당 속도    │ 해제/병합 속도│ 단편화 발생 양상│
+├──────────┼────────────┼────────────┼────────────────────────┤
+│ First-Fit│ 매우 빠름   │ 보통       │ 외부 단편화 위주      │
+│ Best-Fit │ 느림       │ 보통       │ 최악의 외부 단편화     │
+│ Buddy Sys│ 매우 빠름   │ 초고속      │ 내부 단편화 감수     │
+└──────────┴────────────┴────────────┴────────────────────────┘
+```
 **[매트릭스 해설]** 가변 분할 동적 할당 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 결국 "[외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)"라는 한계를 넘지 못했다. 그래서 현대 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)들은 프로세스 내부의 동적 메모리(힙)를 할당할 때, 가변 분할의 융통성과 고정 분할의 정형성을 섞어놓은 [버디 시스템](/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/)이나 [슬랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/)([Slab](/knowledge-base/studynote/02_operating_system/11_exam_summary/760_slab_allocator_object_caching/)) 할당기 같은 진보된 아키텍처로 진화해 문제를 우회했다.
 
 - **📢 섹션 요약 비유**: 첫 번째 남자를 고르는 소개팅([First-fit](/knowledge-base/studynote/02_operating_system/06_memory_management/344_first_fit/))이 조건에 딱 맞는 완벽한 이상형을 평생 찾는 소개팅([Best-fit](/knowledge-base/studynote/02_operating_system/06_memory_management/345_best_fit/))보다 결국 결혼 성공률(메모리 활용률)과 속도 면에서 통계적으로 훨씬 우수하다는 매운맛 교훈입니다.
@@ -191,19 +188,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">외부 단편화 (External Fragmentation)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">동적 메모리 할당 문제 (가변 분할 배치 알고리즘) (Dynamic Storage Allocation Problem)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">최초 적합 (First-Fit)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">최적 적합 (Best-Fit)</div></div>
-</div>
-</div>
-
-
+```text
+[외부 단편화 (External Fragmentation)]
+    │
+    ▼
+[동적 메모리 할당 문제 (가변 분할 배치 알고리즘) (Dynamic Storage Allocation Problem)]
+    │
+    ├──▶ [최초 적합 (First-Fit)]
+    └──▶ [최적 적합 (Best-Fit)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

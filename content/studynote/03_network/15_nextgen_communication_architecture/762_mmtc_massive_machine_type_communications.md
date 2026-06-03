@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: 5G의 3대 핵심 시나리오 중 하나로, 아주 적은 양의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가끔씩만 보내는 <strong>소형 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a>(<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">사물인터넷</a>) 기기들을 좁은 면적 안에 극단적으로 빽빽하게, 수백만 대 단위로 동시에 연결할 수 있도록 지원하는 초고밀도 통신망 기술</strong>입니다.
 - **대체 대상**: 기존 4G 시대에 통신사들이 깔아두었던 저전력 광역망([LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/))인 <strong>NB-IoT와 <a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/621_ltem_emtc_iot_mobility_voice/">LTE-M</a>(619~621번 문서)</strong>을 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 생태계의 품 안으로 끌어안아 통합 진화시킨 영역입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">uRLLC</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">mMTC</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">5G NR 신무선 표준 대역</div></div>
-</div>
-</div>
-
-
+```text
+[uRLLC]
+    │
+    ▼
+[mMTC]
+    │
+    └──▶ [5G NR 신무선 표준 대역]
+```
 
 - **📢 섹션 요약 비유**: mMTC는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -43,18 +39,14 @@ tags = ["studynote-network"]
 
 mMTC는 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)/6G와 미래형 네트워크 구조를 설명하는 축라는 관점에서 이해해야 한다. uRLLC와 [5G NR](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/763_5g_nr_new_radio_scalable_numerology/) 신무선 표준 대역 사이의 연결점으로 놓고 보면 개념의 역할이 더 분명해진다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">uRLLC</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">mMTC</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">5G NR 신무선 표준 대역</div></div>
-</div>
-</div>
-
-
+```text
+[uRLLC]
+    │
+    ▼
+[mMTC]
+    │
+    └──▶ [5G NR 신무선 표준 대역]
+```
 
 - **📢 섹션 요약 비유**: mMTC의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -127,19 +119,15 @@ mMTC는 차세대 통신 아키텍처를 이해할 때 핵심 축을 잡아 주�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: uRLLC</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: mMTC</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 5G NR 신무선 표준 대역</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 네트워크 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: uRLLC]
+    │
+    ▼
+[현재 개념: mMTC]
+    │
+    ├──▶ [확장 A: 5G NR 신무선 표준 대역]
+    └──▶ [확장 B: AI 기반 네트워크 최적화]
+```
 
 mMTC는 uRLLC에서 출발해 현재 메커니즘을 정교화하고, 이후 [5G NR](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/763_5g_nr_new_radio_scalable_numerology/) 신무선 표준 대역와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

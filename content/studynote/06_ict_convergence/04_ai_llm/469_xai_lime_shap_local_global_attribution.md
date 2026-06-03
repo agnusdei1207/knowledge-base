@@ -37,19 +37,15 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">원본 예측</div>
-<div class="kb-diagram-tree-item" style="--depth:2">LIME ► 국소 선형 근사 ──► "이 예측에서 X₁가 +0.3 기여"</div>
-<div class="kb-diagram-note">(Perturbation 샘플링)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">SHAP ► 섀플리값 계산 ► "전체 평균 대비 X₂가 -0.15 기여"</div>
-<div class="kb-diagram-note">(연합 게임 이론)</div>
-</div>
-</div>
-
-
+```
+원본 예측
+    │
+    ├─── LIME ────► 국소 선형 근사 ──► "이 예측에서 X₁가 +0.3 기여"
+    │               (Perturbation 샘플링)
+    │
+    └─── SHAP ────► 섀플리값 계산 ───► "전체 평균 대비 X₂가 -0.15 기여"
+                    (연합 게임 이론)
+```
 
 <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/326_lime/">LIME</a> 작동 원리</strong>
 1. 예측하려는 샘플 x 주변에 약한 변형(Perturbation) 샘플 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)

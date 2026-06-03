@@ -21,18 +21,14 @@ tags = ["studynote-network"]
 
 2008년에 나온 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.2는 10년 동안 너무 낡았습니다. 불필요하고 낡은 암호화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 덕지덕지 붙어있어 해킹 공격(DOWNGRADE, [POODLE](/knowledge-base/studynote/09_security/03_network_security/294_poodle/) 공격 등)의 타겟이 되었고, 스마트폰 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 시대에 맞지 않게 연결 속도([지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))가 너무 느렸습니다. 이에 IETF는 2018년, 뼈대를 완전히 갈아엎은 <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/">TLS</a> 1.3 (RFC 8446)</strong>을 발표했습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">TLS 전방향 안전성 보장 원리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">TLS 1.3 업그레이드 변화와 0-RTT/…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MAC-then-Encrypt 패러다임 /…</div></div>
-</div>
-</div>
-
-
+```text
+[TLS 전방향 안전성 보장 원리]
+    │
+    ▼
+[TLS 1.3 업그레이드 변화와 0-RTT/…]
+    │
+    └──▶ [MAC-then-Encrypt 패러다임 /…]
+```
 
 - **📢 섹션 요약 비유**: [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3 업그레이드 변화와 0-RTT/…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -44,18 +40,14 @@ tags = ["studynote-network"]
 - **PFS(전방향 안전성) 강제**: 684번 문서에서 배운 대로, 마스터키가 털려도 안전한 임시 키 교환 방식([DHE](/knowledge-base/studynote/09_security/03_network_security/129_dhe_ephemeral_dh/), [ECDHE](/knowledge-base/studynote/09_security/03_network_security/131_ecdhe_ephemeral_ecdh/))만 남기고, 위험한 고정 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 키 교환 방식은 아예 퇴출했습니다.
 - <strong><a href="/knowledge-base/studynote/09_security/02_crypto/092_aead/">AEAD</a> 강제</strong>: [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)과 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 동시에 해치우는 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [GCM](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/), ChaCha20-Poly1305 모드만 남기고, 낡은 [CBC](/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/) 모드, [RC4](/knowledge-base/studynote/09_security/02_crypto/081_rc4_stream_cipher/) [스트림 암호](/knowledge-base/studynote/03_network/13_network_security_basics/654_stream_cipher_rc4_chacha20/), [MD5](/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/), SHA-1 해시 함수는 100% 삭제해 버렸습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">TLS 전방향 안전성 보장 원리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">TLS 1.3 업그레이드 변화와 0-RTT/…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MAC-then-Encrypt 패러다임 /…</div></div>
-</div>
-</div>
-
-
+```text
+[TLS 전방향 안전성 보장 원리]
+    │
+    ▼
+[TLS 1.3 업그레이드 변화와 0-RTT/…]
+    │
+    └──▶ [MAC-then-Encrypt 패러다임 /…]
+```
 
 - **📢 섹션 요약 비유**: [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3 업그레이드 변화와 0-RTT/…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -126,19 +118,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: TLS 전방향 안전성 보장 원리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: TLS 1.3 업그레이드 변화와 0-RTT/…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: MAC-then-Encrypt 패러다임 /…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: TLS 전방향 안전성 보장 원리]
+    │
+    ▼
+[현재 개념: TLS 1.3 업그레이드 변화와 0-RTT/…]
+    │
+    ├──▶ [확장 A: MAC-then-Encrypt 패러다임 /…]
+    └──▶ [확장 B: 자동화된 신뢰 체계]
+```
 
 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3 업그레이드 변화와 0-RTT/…는 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 전방향 안전성 보장 원리에서 출발해 현재 메커니즘을 정교화하고, 이후 MAC-then-Encrypt 패러다임 /…와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

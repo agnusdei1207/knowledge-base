@@ -25,23 +25,20 @@ tags = ["security"]
 
 💡 **비유하자면**, 자물쇠의 기어와 핀이 너무 복잡하게 얽혀 있으면 열쇠가 없어도 특정 부품의 고장을 유발해 문을 열어버릴 수 있지만, 아주 직관적이고 튼튼한 단순한 구조의 빗장은 부수지 않는 이상 우회할 논리적 틈이 없는 것과 같습니다.
 
+```text
+[시스템 복잡도와 보안 취약점의 상관관계 시각화]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">시스템 복잡도와 보안 취약점의 상관관계 시각화</div></div>
-<div class="kb-diagram-note">기능/복잡도 증가 ──▶</div>
-<div class="kb-diagram-note">취 │ / (기하급수적 폭발)</div>
-<div class="kb-diagram-note">약 │ /</div>
-<div class="kb-diagram-note">점 │ / &lt;-- 코드간 상호작용(Interaction)의 복잡성은 O(N^2)로 증가</div>
-<div class="kb-diagram-note">/ 복잡한 보안 솔루션은 그 자체가 취약점이 됨.</div>
-<div class="kb-diagram-note">증 │ /</div>
-<div class="kb-diagram-note">가 │ /</div>
-<div class="kb-diagram-note">(단순한 구조 유지 구간)</div>
-</div>
-</div>
-
-
+기능/복잡도 증가 ──▶
+      │
+   취 │      / (기하급수적 폭발)
+   약 │     /
+   점 │    /   <-- 코드간 상호작용(Interaction)의 복잡성은 O(N^2)로 증가
+      │   /        복잡한 보안 솔루션은 그 자체가 취약점이 됨.
+   증 │  /
+   가 │ /
+      │/____________________
+       (단순한 구조 유지 구간)
+```
 
 이 그래프는 시스템에 기능이나 보안 룰이 덧붙여질수록 취약점의 수가 선형(Linear)이 아니라 기하급수적으로 폭발함을 보여준다. 새로운 보안 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 하나를 추가할 때마다 기존 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)들과의 예기치 않은 상태 충돌이 발생하기 때문이며, 따라서 시스템 전체의 신뢰성을 수학적으로 증명하거나 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/))하는 것이 불가능해진다. 실무에서는 복잡한 모놀리식 방어벽 하나보다 단순하고 독립적인 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 방어 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 여러 개를 분리하는 것이 훨씬 안전하다.
 
@@ -60,25 +57,25 @@ tags = ["security"]
 | **복잡한 상태 유지** | Stateful 기반의 복잡한 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 및 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 메커니즘 | <strong><a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/">Stateless</a> 기반 토큰(<a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/">JWT</a>)</strong> 사용 | [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/) 및 [세션 하이재킹](/knowledge-base/studynote/03_network/14_network_security_threats/707_session_hijacking_tcp_seq_cookie/) 표면 제거 |
 | **스파게티 코드** | 보안 예외 처리가 수십 뎁스의 if/else 문으로 얽힘 | <strong><a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/">전략 패턴</a> / 조기 반환(Early Return)</strong> | [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/) [가독성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/) 극대화 ([감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 용이성) |
 
+```text
+[스파게티 아키텍처 vs 단순화된 보안 아키텍처 비교]
 
+(A) 복잡한 안티패턴: "Security by Complexity"
+[Client] ──> [App A (자체 인증)] ──> [DB A]
+   │          └─(예외처리)─> [App B] ──> [DB B]
+   │                           ▲
+   └────(레거시 우회)──────────┘ (누가 어디에 접근하는지 추적 불가, 취약점의 온상)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">스파게티 아키텍처 vs 단순화된 보안 아키텍처 비교</div></div>
-<div class="kb-diagram-note">(A) 복잡한 안티패턴: "Security by Complexity"</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Client</div><div class="kb-diagram-note">──&gt;</div><div class="kb-diagram-node">App A (자체 인증)</div><div class="kb-diagram-note">──&gt;</div><div class="kb-diagram-node">DB A</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─(예외처리)─&gt;</div><div class="kb-diagram-node">App B</div><div class="kb-diagram-note">──&gt;</div><div class="kb-diagram-node">DB B</div></div>
-<div class="kb-diagram-tree-item" style="--depth:0">(레거시 우회) (누가 어디에 접근하는지 추적 불가, 취약점의 온상)</div>
-<div class="kb-diagram-note">(B) 단순화 아키텍처: "Economy of Mechanism"</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Client</div><div class="kb-diagram-note">──&gt;</div><div class="kb-diagram-node">API Gateway / Identity Provider</div><div class="kb-diagram-note">(단일 통제점)</div></div>
-<div class="kb-diagram-note">(토큰 검증)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">App A</div><div class="kb-diagram-node">App B</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DB A</div><div class="kb-diagram-node">DB B</div></div>
-<div class="kb-diagram-note">(인증 로직이 각 앱에서 사라지고, 구조가 단순화되어 감사가 100% 가능해짐)</div>
-</div>
-</div>
-
-
+(B) 단순화 아키텍처: "Economy of Mechanism"
+[Client] ──> [ API Gateway / Identity Provider ] (단일 통제점)
+                         │ (토큰 검증)
+             ┌───────────┴───────────┐
+             ▼                       ▼
+          [App A]                 [App B]
+             │                       │
+          [DB A]                  [DB B]
+(인증 로직이 각 앱에서 사라지고, 구조가 단순화되어 감사가 100% 가능해짐)
+```
 
 이 구조도의 핵심은 복잡한 점대점([Point-to-Point](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/142_point_to_point_integration_spaghetti/)) 연결과 각 애플리케이션에 파편화되어 있던 보안 로직을 과감히 제거하고, 단일 진입점(Gateway)으로 보안 메커니즘을 중앙화(Centralization)했다는 점이다. 이러한 배치는 소스 코드의 양을 극적으로 줄이고 로직의 정합성을 한 곳에서만 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하면 되기 때문이며, 따라서 외부 [보안 감사](/knowledge-base/studynote/04_software_engineering/11_testing_validation/527_security_audit_trail/)([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/)) 시 증명해야 할 공격 표면적(Attack Surface)이 최소화된다. 실무에서는 새로운 기능을 추가할 때마다 "이것이 꼭 필요한가?"를 묻고 기존 구조를 단순화하는 리팩토링이 병행되어야 한다.
 
@@ -99,24 +96,21 @@ tags = ["security"]
 | **운영 비용** | 유지보수 및 [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/) 비용 낮음 | 라이선스 및 통합([SIEM](/knowledge-base/studynote/09_security/13_secops_ir_forensics/624_siem/)) 비용 높음 | 비용 대비 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 감소 곡선의 교차점을 찾아야 함 |
 | **해결책 (융합)** | **"단순한 구성 요소를 독립적으로 중첩하라"** | 방어 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 간의 의존성([Coupling](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/))을 차단하여 복잡도 폭발 방지 |
 
+```text
+[단순성과 심층 방어의 융합 곡선 (의사결정 모델)]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">단순성과 심층 방어의 융합 곡선 (의사결정 모델)</div></div>
-<div class="kb-diagram-note">보안 효과</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">최적 균형점 (Sweet Spot)</div></div>
-<div class="kb-diagram-note">/ * 단순한 통제 요소의 모듈화된 중첩</div>
-<div class="kb-diagram-note">/ * API G/W + EDR + 독립된 IAM 결합</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">/</div><div class="kb-diagram-node">위험 구간 (복잡성 폭발)</div></div>
-<div class="kb-diagram-note">(단일 방어) / * 기능 과부하, 룰셋 충돌, 방화벽 피로도</div>
-<div class="kb-diagram-note">(취약) / * 오히려 보안성 하락 (운영자 실수 증가)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">/ \ 복잡성 / 방어 계층 수</div>
-<div class="kb-diagram-note">(단순함) (복잡함)</div>
-</div>
-</div>
-
-
+보안 효과
+  │                         [ 최적 균형점 (Sweet Spot) ]
+  │                       /  * 단순한 통제 요소의 모듈화된 중첩
+  │                     /    * API G/W + EDR + 독립된 IAM 결합
+  │                   /
+  │                 /        [ 위험 구간 (복잡성 폭발) ]
+  │  (단일 방어)  /         * 기능 과부하, 룰셋 충돌, 방화벽 피로도
+  │    (취약)   /           * 오히려 보안성 하락 (운영자 실수 증가)
+  │           /               \
+  └─────────/───────────────────\───────────── 복잡성 / 방어 계층 수
+           (단순함)                      (복잡함)
+```
 
 이 모델은 보안 계층을 무작정 늘린다고 해서 보안성이 계속 증가하는 것이 아님을 시사한다. 임계점을 넘어서면(위험 구간), 보안 솔루션 간의 충돌과 오탐지(False Positive)로 인해 관리자가 알람을 끄거나 예외를 남발하게 되어 실제 보안성은 추락한다. 따라서 두 원칙을 융합하는 실무적 해법은, "방어 계층은 여러 개([DiD](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/))를 두되, 각 방어 계층 내부의 동작 논리와 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 극한으로 단순하게(Simplicity) 유지하는 것"이다.
 
@@ -137,22 +131,21 @@ tags = ["security"]
 - <strong>과도한 <a href="/knowledge-base/studynote/08_algorithm_stats/05_string/104_regex/">정규 표현식</a>(<a href="/knowledge-base/studynote/08_algorithm_stats/05_string/104_regex/">Regex</a>) 남용</strong>: [WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/)([웹 방화벽](/knowledge-base/studynote/03_network/19_frequent_topics_terms/993_waf_web_application_firewall/)) 룰이나 입력값 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 로직에 이해할 수 없는 수십 줄의 복잡한 정규식을 우겨넣어 해킹을 막으려는 시도. 이는 [ReDoS](/knowledge-base/studynote/09_security/05_web_app_security/865_redos/)(정규식 [DoS](/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/)) 공격의 타겟이 되며, 오탐지 시 다른 엔지니어가 유지보수할 수 없게 된다. [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 로직은 짧고 직관적인 화이트리스트(Allow-list) 기반으로 짜야 한다.
 - <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a> through Obscurity (숨김을 통한 보안)</strong>: 시스템 코드를 일부러 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)([Obfuscation](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/))하거나 복잡하게 꼬아서 해커가 분석하지 못하게 만들려는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/). 이는 단순성 원칙에 정면으로 위배되며, 해커의 자동화된 리버싱 도구 앞에서는 금방 뚫리는 반면 내부 개발자의 디버깅만 방해하는 최악의 수다.
 
+```text
+[시큐어 코딩에서의 복잡도 축소(Refactoring) 플로우]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">시큐어 코딩에서의 복잡도 축소(Refactoring) 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Legacy Code</div><div class="kb-diagram-note">: 중첩된 if문, 하드코딩된 암호 키, 산재된 권한 체크 (Cyclomatic Complexity &gt; 20)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">단계 1: 분리</div><div class="kb-diagram-note">: 비즈니스 로직과 보안 로직(인증/인가)의 철저한 디커플링 (Filter/Interceptor 적용)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">단계 2: 표준화</div><div class="kb-diagram-note">: 자체 개발한 암호화 함수 삭제 ──&gt; 표준 검증된 라이브러리(AES-GCM 등)로 교체</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">단계 3: 검증</div><div class="kb-diagram-note">: SonarQube 등 정적 분석(SAST) 도구를 돌려 코드 복잡도 지수(Complexity Score) 측정</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Clean Code</div><div class="kb-diagram-note">: 하나의 함수는 하나의 명확한 보안 검증만 수행. 가독성과 감사 가능성 극대화.</div></div>
-</div>
-</div>
-
-
+[Legacy Code] : 중첩된 if문, 하드코딩된 암호 키, 산재된 권한 체크 (Cyclomatic Complexity > 20)
+     │
+     ▼
+[단계 1: 분리] : 비즈니스 로직과 보안 로직(인증/인가)의 철저한 디커플링 (Filter/Interceptor 적용)
+     │
+[단계 2: 표준화] : 자체 개발한 암호화 함수 삭제 ──> 표준 검증된 라이브러리(AES-GCM 등)로 교체
+     │
+[단계 3: 검증] : SonarQube 등 정적 분석(SAST) 도구를 돌려 코드 복잡도 지수(Complexity Score) 측정
+     │
+     ▼
+[Clean Code] : 하나의 함수는 하나의 명확한 보안 검증만 수행. 가독성과 감사 가능성 극대화.
+```
 
 이 플로우의 핵심은 보안을 코드에 '더하는' 과정이 아니라 기능 간의 의존성을 '빼내는' 과정이라는 점이다. 이런 배치는 복잡도(Cyclomatic Complexity) 수치를 낮추어 모든 분기(Branch)에 대한 100% [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)([Unit Test](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)) 커버리지를 가능하게 만들기 때문이며, 따라서 배포 전 취약점 스캐닝의 신뢰도가 수직 상승한다. 실무에서는 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인에서 복잡도 임계치를 넘는 코드는 자동으로 병합(Merge)이 거부되도록 통제해야 한다.
 
@@ -187,23 +180,21 @@ tags = ["security"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">보안 원칙 (Security Principles) — 최소 권한·심층 방어·분리 원칙 체계화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">단순성 원칙 (Simplicity) — 불필요한 복잡성 제거로 공격 표면 최소화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">제로 트러스트 (Zero Trust) — 복잡한 경계 보안 대신 ID 기반 단순 신뢰 모델</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">보안 설계 검토 (Security Design Review) — 단순성 기반 공격 표면 분석</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DevSecOps — 코드 복잡도 측정 자동화, CI/CD 파이프라인 보안 내재화</div></div>
-</div>
-</div>
-
-
+```text
+[보안 원칙 (Security Principles) — 최소 권한·심층 방어·분리 원칙 체계화]
+    │
+    ▼
+[단순성 원칙 (Simplicity) — 불필요한 복잡성 제거로 공격 표면 최소화]
+    │
+    ▼
+[제로 트러스트 (Zero Trust) — 복잡한 경계 보안 대신 ID 기반 단순 신뢰 모델]
+    │
+    ▼
+[보안 설계 검토 (Security Design Review) — 단순성 기반 공격 표면 분석]
+    │
+    ▼
+[DevSecOps — 코드 복잡도 측정 자동화, CI/CD 파이프라인 보안 내재화]
+```
 
 이 흐름은 단순성이 보안 원칙의 핵심 전제로 작동하며, [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 아키텍처로 구체화되고 [DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/) 파이프라인에서 자동 측정·강제되는 현대 보안 설계의 발전 계보를 보여준다.
 
@@ -220,6 +211,6 @@ tags = ["security"]
 **진행 상황**: 14 / 1108
 
 ← **이전**: [13. 알 필요성 원칙 (Need-to-Know) — 정보 접근 제한](/knowledge-base/studynote/09_security/01_intro_principles/013_need_to_know/)
-**다음**: [15. 공개 설계 원칙 (Open Design) — 키 은닉，가 아니라 알고리즘 은닉](/knowledge-base/studynote/09_security/01_intro_principles/015_open_design/) →
+**다음**: [15. 공개 설계 원칙 (Open Design) — 키 은닉，이비 알고리즘 은닉](/knowledge-base/studynote/09_security/01_intro_principles/015_open_design/) →
 
 ---

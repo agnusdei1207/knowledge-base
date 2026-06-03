@@ -27,18 +27,16 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 단일 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)와 거친 [멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)이 긴 메모리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 어떻게 다르게 처리하는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Long stall response</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Single thread</div><div class="kb-diagram-cell">Coarse-grained MT</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A run -&gt; miss -&gt; stall</div><div class="kb-diagram-cell">A run -&gt; miss -&gt; flush -&gt; B run</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A waits for memory</div><div class="kb-diagram-cell">B uses core while A waits</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ Long stall response                                          │
+├────────────────────────────┬─────────────────────────────────┤
+│ Single thread             │ Coarse-grained MT              │
+├────────────────────────────┼─────────────────────────────────┤
+│ A run -> miss -> stall    │ A run -> miss -> flush -> B run│
+│ A waits for memory        │ B uses core while A waits      │
+└────────────────────────────┴─────────────────────────────────┘
+```
 
 핵심은 코어가 "항상 동시에 여러 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 실행"하는 것이 아니라, 긴 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 터졌을 때만 실행 대상을 바꾸는 점이다. 따라서 멀티코어의 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 실행과도 다르고, 매 클럭 교대 방식과도 다르다.
 
@@ -62,20 +60,22 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 거친 [멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)의 내부 결정 흐름을 요약한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Switch rule</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Thread A run</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Long stall? -- No --&gt; keep A</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Yes</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Flush pipeline -&gt; pick ready thread -&gt; run B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">--&gt; A returns when data ready</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ Switch rule                                                   │
+├──────────────────────────────────────────────────────────────┤
+│ Thread A run                                                 │
+│      │                                                       │
+│      ▼                                                       │
+│ Long stall? -- No --> keep A                                 │
+│      │                                                       │
+│     Yes                                                      │
+│      ▼                                                       │
+│ Flush pipeline -> pick ready thread -> run B                 │
+│                              │                               │
+│                              └--> A returns when data ready  │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 구조의 장점은 단일 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 정상적으로 잘 돌 때는 자원을 거의 독점하게 해 준다는 점이다. 반대로 약점은 짧은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 숨기지 못한다는 데 있다. 예를 들어 2사이클짜리 의존성 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 숨기려고 4사이클짜리 전환 비용을 지불하면 오히려 더 손해이므로, 이런 경우 코어는 그냥 잠깐 쉬는 쪽을 택한다.
 
@@ -155,21 +155,19 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">메모리 벽 (Memory Wall)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">긴 캐시 미스와 파이프라인 정지</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">거친 멀티스레딩 (긴 지연 시에만 전환)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 세밀한 멀티스레딩 (짧은 버블까지 전환)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 동시 멀티스레딩 (같은 사이클 동시 발급)</div>
-</div>
-</div>
-
-
+```text
+메모리 벽 (Memory Wall)
+    │
+    ▼
+긴 캐시 미스와 파이프라인 정지
+    │
+    ▼
+거친 멀티스레딩 (긴 지연 시에만 전환)
+    │
+    ├────────▶ 세밀한 멀티스레딩 (짧은 버블까지 전환)
+    │
+    └────────▶ 동시 멀티스레딩 (같은 사이클 동시 발급)
+```
 
 이 흐름은 "긴 정지 회피"에서 출발해 "짧은 공백 은닉"과 "실행 유닛 빈칸 활용"으로 [멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)이 확장되는 과정을 보여준다.
 

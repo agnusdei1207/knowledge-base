@@ -25,22 +25,21 @@ tags = ["studynote-enterprise-systems"]
 
 아래 그림은 "단일 공용 진입점만 있는 구조"와 "채널별 BFF를 둔 구조"의 차이를 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BFF의 필요성: 하나의 화면에는 하나의 조립창구</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Without BFF</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mobile/Web ─▶ API Gateway ─▶ Many Services</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 화면별 조합 요구가 모두 몰려 비대화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">With BFF</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mobile App ─▶ Mobile BFF ─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Web App ─▶ Web BFF ─▶ Domain Services</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Smart TV ─▶ TV BFF</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                BFF의 필요성: 하나의 화면에는 하나의 조립창구           │
+├──────────────────────────────────────────────────────────────────────┤
+│ Without BFF                                                          │
+│ Mobile/Web ─▶ API Gateway ─▶ Many Services                           │
+│                ▲                                                     │
+│                └─ 화면별 조합 요구가 모두 몰려 비대화                 │
+│                                                                      │
+│ With BFF                                                             │
+│ Mobile App ─▶ Mobile BFF ─┐                                          │
+│ Web App    ─▶ Web BFF    ├─▶ Domain Services                         │
+│ Smart TV   ─▶ TV BFF     ┘                                          │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 즉 BFF는 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이를 대체하는 개념이 아니라, 공통 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 계층 아래에서 채널별 최적화를 맡는 보조 계층으로 이해하는 것이 자연스럽다.
 
@@ -62,20 +61,20 @@ BFF의 핵심 원리는 `클라이언트 요구 수집 → 도메인 서비스 �
 
 아래 그림은 BFF가 단순 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)가 아니라, 화면 친화적 응답을 만드는 가공 계층임을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BFF 요청 처리 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client Screen Request</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">BFF</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Auth Context</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Service A</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Service B</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Service C</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Aggregate</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Transform for Screen</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Optimized Response</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                    BFF 요청 처리 흐름                                │
+├──────────────────────────────────────────────────────────────────────┤
+│ Client Screen Request                                                │
+│      │                                                               │
+│      ▼                                                               │
+│ [BFF] ──▶ [Auth Context] ──▶ [Service A]                             │
+│   │                           [Service B]                            │
+│   │                           [Service C]                            │
+│   ▼                                                               │
+│ [Aggregate] ─▶ [Transform for Screen] ─▶ [Optimized Response]        │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조에서 중요한 점은 BFF가 채널 최적화는 맡되, 주문 금액 계산이나 재고 차감 같은 핵심 비즈니스 규칙을 소유하지 않는다는 것이다. 그런 로직까지 BFF에 쌓이면 모바일용 규칙, 웹용 규칙이 따로 생겨 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)이 깨진다. 그래서 좋은 BFF는 얇고 빠르지만, [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)와의 경계를 분명히 지킨다.
 
@@ -158,24 +157,22 @@ BFF를 잘 설계하면 프론트엔드가 더 가볍고 빨라진다. 클라이
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">모놀리식 백엔드</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">API 게이트웨이 (API Gateway)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">BFF (Backend For Frontend)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">모바일 최적화</div>
-<div class="kb-diagram-tree-item" style="--depth:2">웹 대시보드 조합</div>
-<div class="kb-diagram-tree-item" style="--depth:2">채널별 캐시·응답 변환</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">서버 주도 UI · 그래프큐엘 결합 · 엣지 경험 최적화</div>
-</div>
-</div>
-
-
+```text
+모놀리식 백엔드
+    │
+    ▼
+API 게이트웨이 (API Gateway)
+    │
+    ▼
+BFF (Backend For Frontend)
+    │
+    ├─ 모바일 최적화
+    ├─ 웹 대시보드 조합
+    └─ 채널별 캐시·응답 변환
+    │
+    ▼
+서버 주도 UI · 그래프큐엘 결합 · 엣지 경험 최적화
+```
 
 이 흐름은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 아키텍처가 공통 진입 제어에서 한 걸음 더 나아가, 사용자 경험 자체를 백엔드 구조에서 분리해 다루는 방향으로 발전하고 있음을 보여 준다.
 

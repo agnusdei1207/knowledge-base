@@ -24,22 +24,18 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경**: 1960년대 비싼 메인프레임 컴퓨터의 본전을 뽑기 위해 "어떻게 하면 CPU를 놀리지 않을까?"를 연구하던 학자들은, 메모리를 조각내어 여러 프로그램을 동시에 올려두는 방식([Multiprogramming](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/))을 고안했다. 이때 "과연 몇 개를 올리는 것이 최적인가?"를 증명하기 위한 척도로 이 단어가 탄생했다.
 
+```text
+  [다중 프로그래밍 정도(DOM)에 따른 CPU의 시간 활용 변화]
 
+  [ 1. 단일 프로그래밍 (DOM = 1) ]
+  P1: [██ 연산 ██] [░░ I/O 대기 ░░] [██ 연산 ██] 
+  CPU: 일함       ( 🚨 CPU 놀고 있음 ) 일함      ─▶ CPU 이용률 50%
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">다중 프로그래밍 정도(DOM)에 따른 CPU의 시간 활용 변화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 단일 프로그래밍 (DOM = 1)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">P1:</div><div class="kb-diagram-node">██ 연산 ██</div><div class="kb-diagram-node">░░ I/O 대기 ░░</div><div class="kb-diagram-node">██ 연산 ██</div></div>
-<div class="kb-diagram-note">CPU: 일함 ( 🚨 CPU 놀고 있음 ) 일함 ─▶ CPU 이용률 50%</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 다중 프로그래밍 (DOM = 2)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">P1:</div><div class="kb-diagram-node">██ 연산 ██</div><div class="kb-diagram-node">░░ I/O 대기 ░░</div><div class="kb-diagram-node">██ 연산 ██</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">P2: (대기 중)</div><div class="kb-diagram-node">██ 연산 ██</div><div class="kb-diagram-note">(P1이 쉴 때 P2가 틈새를 치고 들어옴!)</div></div>
-<div class="kb-diagram-note">CPU: 일함 일함 일함 ─▶ CPU 이용률 100% 🚀</div>
-</div>
-</div>
-
-
+  [ 2. 다중 프로그래밍 (DOM = 2) ]
+  P1: [██ 연산 ██] [░░ I/O 대기 ░░] [██ 연산 ██]
+  P2: (대기 중)     [██ 연산 ██] (P1이 쉴 때 P2가 틈새를 치고 들어옴!)
+  CPU: 일함        일함            일함      ─▶ CPU 이용률 100% 🚀
+```
 **[다이어그램 해설]** 이것이 운영체제가 존재하는 가장 본질적인 이유다. I/O 대기 시간이라는 어쩔 수 없는 '공백'을, 다른 프로세스를 밀어 넣음으로써([문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)) 메꿔버리는 것이다. DOM이 2가 되는 순간 시스템의 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))은 마법처럼 2배로 뛴다.
 
 - **📢 섹션 요약 비유**: 세탁기 1대(CPU)를 쓸 때, 빨랫감이 다 모일 때까지 기다렸다 돌리면 세탁기는 계속 놉니다. 하지만 동네 사람 10명(DOM=[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/))이 각자 빨랫감을 들고 줄 서 있으면, 앞사람 빨래가 끝나자마자 바로 다음 사람 빨래를 돌릴 수 있어서 세탁기가 24시간 풀가동하며 돈을 쓸어 담게 됩니다.
@@ -108,27 +104,28 @@ DOM이 임계점을 넘어가면, 각 프로세스가 배정받는 메모리 조
    - **서버 폭파 사례**: 트래픽이 몰릴 때마다 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 무한 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) per request)하게 짜면 DOM이 수만 개로 치솟아 서버가 OOM으로 죽는다.
    - **아키텍트 조치**: `application.yml`에서 `server.tomcat.threads.max=200`을 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)한다. 이는 <strong>"내 웹 서버 애플리케이션의 유효 DOM을 절대 200 이상으로 올리지 않겠다"</strong>는 선언이다. 201번째 고객은 OS 큐에서 얌전히 대기하게 하여, 앞선 200명이 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) 없이 빛의 속도로 응답을 받아 나갈 수 있게 지켜주는 현대판 DOM 컨트롤 아키텍처다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부하(Load) 급증 시 아키텍트의 DOM(Degree of MP) 제어 트리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">장애 현상: 동시 접속자가 1만 명으로 폭주하여 서버 응답 지연</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 1. 서버 메모리(RAM) 용량 확인</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">메모리가 남아돈다 (가용량 충분)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 상태: CPU가 100%를 못 치고 있음. DOM이 너무 낮음.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 액션: <code>Max Threads</code> 설정치를 대폭 올려서(DOM 증가)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리를 깎아먹더라도 CPU 연산량을 극한으로 땡김!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">메모리가 90% 이상 꽉 차서 스왑(Swap)이 돌고 있다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 상태: 🚨 스래싱(Thrashing) 임계점을 돌파함!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 2. 아키텍트의 결단 (Down-sizing)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 액션: 역설적이지만 <code>Max Threads</code> 수치를 절반으로 낮춤.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 효과: 강제로 DOM을 낮춰 각 스레드가 쓸 메모리를 확보해줌.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스왑이 멈추고 캐시 히트율이 오르며 서버 부활!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌──────────────────────────────────────────────────────────────────┐
+  │     부하(Load) 급증 시 아키텍트의 DOM(Degree of MP) 제어 트리    │
+  ├──────────────────────────────────────────────────────────────────┤
+  │                                                                  │
+  │   [장애 현상: 동시 접속자가 1만 명으로 폭주하여 서버 응답 지연]  │
+  │                │                                                 │
+  │                ▼ 1. 서버 메모리(RAM) 용량 확인                   │
+  │      [ 메모리가 남아돈다 (가용량 충분) ]                         │
+  │       ├─▶ 상태: CPU가 100%를 못 치고 있음. DOM이 너무 낮음.      │
+  │       └─▶ 액션: `Max Threads` 설정치를 대폭 올려서(DOM 증가)     │
+  │                 메모리를 깎아먹더라도 CPU 연산량을 극한으로 땡김!│
+  │                                                                  │
+  │      [ 메모리가 90% 이상 꽉 차서 스왑(Swap)이 돌고 있다 ]        │
+  │       ├─▶ 상태: 🚨 스래싱(Thrashing) 임계점을 돌파함!            │
+  │       │                                                          │
+  │       ▼ 2. 아키텍트의 결단 (Down-sizing)                         │
+  │       ▶ 액션: 역설적이지만 `Max Threads` 수치를 절반으로 낮춤.   │
+  │       ▶ 효과: 강제로 DOM을 낮춰 각 스레드가 쓸 메모리를 확보해줌.│
+  │               스왑이 멈추고 캐시 히트율이 오르며 서버 부활!      │
+  └──────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** "접속자가 많으니 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 더 늘리자"는 하수의 발상이다. 메모리가 부족할 때 DOM을 올리는 것은 불난 집에 기름을 붓는 것이다. 시니어 엔지니어는 램(RAM)의 수용 한계를 정확히 계산하여, 시스템이 감당할 수 있는 <strong>'최적의 DOM 임계점(Sweet Spot)'</strong>을 찾아내고, 그 선을 넘는 트래픽은 가차 없이 [대기 큐](/knowledge-base/studynote/02_operating_system/02_process_thread/089_wait_queue/)([Rate Limiting](/knowledge-base/studynote/09_security/05_web_app_security/520_rate_limiting/))로 던져버린다.
 
 - **📢 섹션 요약 비유**: 물이 새는 배에 짐(DOM)을 계속 실으면 가라앉습니다. 이때 승객들이 춥다고 난방을 틀어달라([스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 증설)고 해도 선장은 단호히 무거운 짐을 바다로 던져버려야(DOM 감소 튜닝) 배가 목적지에 무사히 도착할 수 있습니다. 살기 위해선 때론 덜어내는 것이 정답입니다.
@@ -159,19 +156,15 @@ DOM이라는 개념은 1960년대 비싼 메인프레임을 놀리지 않기 위
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">웨이트-프리 (Wait-free) 알고리즘</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">다중 프로그래밍 정도 (Degree of Multiprogramming)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ABA 문제</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ABA 문제 해결책</div></div>
-</div>
-</div>
-
-
+```text
+[웨이트-프리 (Wait-free) 알고리즘]
+    │
+    ▼
+[다중 프로그래밍 정도 (Degree of Multiprogramming)]
+    │
+    ├──▶ [ABA 문제]
+    └──▶ [ABA 문제 해결책]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

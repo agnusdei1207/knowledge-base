@@ -18,51 +18,55 @@ tags = ["studynote-database"]
 
 ## Ⅰ. 나눗셈 연산 정의
 
+```
+나눗셈 연산 (Division Operation):
 
+표기: R ÷ S
+  R: 피제수 릴레이션 (분자)
+  S: 제수 릴레이션 (분모)
+  
+조건:
+  Attr(S) ⊆ Attr(R)  (S의 속성은 R의 속성 포함)
+  결과 속성 = Attr(R) - Attr(S)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">나눗셈 연산 (Division Operation):</div>
-<div class="kb-diagram-note">표기: R ÷ S</div>
-<div class="kb-diagram-note">R: 피제수 릴레이션 (분자)</div>
-<div class="kb-diagram-note">S: 제수 릴레이션 (분모)</div>
-<div class="kb-diagram-note">조건:</div>
-<div class="kb-diagram-note">Attr(S) ⊆ Attr(R) (S의 속성은 R의 속성 포함)</div>
-<div class="kb-diagram-note">결과 속성 = Attr(R) - Attr(S)</div>
-<div class="kb-diagram-note">정의:</div>
-<div class="kb-diagram-note">R ÷ S = {t | t ∈ πR-S(R) ∧ ∀s ∈ S, (t, s) ∈ R}</div>
-<div class="kb-diagram-note">즉, 결과 t는:</div>
-<div class="kb-diagram-note">1. R에서 S 속성을 제외한 투영값이며</div>
-<div class="kb-diagram-note">2. S의 모든 투플 s에 대해 (t, s)가 R에 존재해야 함</div>
-<div class="kb-diagram-note">직관적 의미:</div>
-<div class="kb-diagram-note">"S의 모든 항목과 연결된 R의 값들"</div>
-<div class="kb-diagram-note">= "모든 Y를 포함하는 X를 찾아라"</div>
-<div class="kb-diagram-note">예시:</div>
-<div class="kb-diagram-note">수강 릴레이션 R:</div>
-<div class="kb-diagram-note">학번 | 과목코드</div>
-<div class="kb-diagram-note">101 | C001</div>
-<div class="kb-diagram-note">101 | C002</div>
-<div class="kb-diagram-note">101 | C003</div>
-<div class="kb-diagram-note">102 | C001</div>
-<div class="kb-diagram-note">102 | C002</div>
-<div class="kb-diagram-note">103 | C001</div>
-<div class="kb-diagram-note">필수과목 릴레이션 S:</div>
-<div class="kb-diagram-note">과목코드</div>
-<div class="kb-diagram-note">C001</div>
-<div class="kb-diagram-note">C002</div>
-<div class="kb-diagram-note">R ÷ S = ?</div>
-<div class="kb-diagram-note">각 학번별로 S의 모든 과목코드를 포함하는가?</div>
-<div class="kb-diagram-note">101: C001, C002, C003 ⊇ {C001, C002} → 포함 ✓</div>
-<div class="kb-diagram-note">102: C001, C002 ⊇ {C001, C002} → 포함 ✓</div>
-<div class="kb-diagram-note">103: C001 ⊉ {C001, C002} → 미포함 ✗</div>
-<div class="kb-diagram-note">결과:</div>
-<div class="kb-diagram-note">학번</div>
-<div class="kb-diagram-note">101</div>
-<div class="kb-diagram-note">102</div>
-</div>
-</div>
+정의:
+  R ÷ S = {t | t ∈ πR-S(R) ∧ ∀s ∈ S, (t, s) ∈ R}
+  
+  즉, 결과 t는:
+  1. R에서 S 속성을 제외한 투영값이며
+  2. S의 모든 투플 s에 대해 (t, s)가 R에 존재해야 함
 
+직관적 의미:
+  "S의 모든 항목과 연결된 R의 값들"
+  = "모든 Y를 포함하는 X를 찾아라"
 
+예시:
+
+수강 릴레이션 R:
+  학번 | 과목코드
+  101  | C001
+  101  | C002
+  101  | C003
+  102  | C001
+  102  | C002
+  103  | C001
+
+필수과목 릴레이션 S:
+  과목코드
+  C001
+  C002
+
+R ÷ S = ?
+  각 학번별로 S의 모든 과목코드를 포함하는가?
+  101: C001, C002, C003 ⊇ {C001, C002} → 포함 ✓
+  102: C001, C002 ⊇ {C001, C002} → 포함 ✓
+  103: C001 ⊉ {C001, C002} → 미포함 ✗
+  
+  결과:
+  학번
+  101
+  102
+```
 
 > 📢 **섹션 요약 비유**: 나눗셈은 "모두 선택" 검사 — 학생 중에서 필수 과목 전부를 들은 학생만 선택. 하나라도 빠지면 탈락. "전부 아니면 탈락"이 나눗셈의 본질.
 
@@ -212,55 +216,57 @@ SQL에서 나눗셈 구현:
 
 ## Ⅴ. 실무 시나리오 — 자격 요건 검사
 
+```
+프로젝트 팀원 자격 요건 검사 시스템:
 
+테이블 구조:
+  EmployeeSkills(emp_id, skill_name, proficiency)
+  ProjectRequirements(project_id, skill_name, min_proficiency)
+  
+요구: 특정 프로젝트의 모든 기술 요건을 충족하는 직원 찾기
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">프로젝트 팀원 자격 요건 검사 시스템:</div>
-<div class="kb-diagram-note">테이블 구조:</div>
-<div class="kb-diagram-note">EmployeeSkills(emp_id, skill_name, proficiency)</div>
-<div class="kb-diagram-note">ProjectRequirements(project_id, skill_name, min_proficiency)</div>
-<div class="kb-diagram-note">요구: 특정 프로젝트의 모든 기술 요건을 충족하는 직원 찾기</div>
-<div class="kb-diagram-note">SQL:</div>
-<div class="kb-diagram-note">SELECT DISTINCT es.emp_id</div>
-<div class="kb-diagram-note">FROM EmployeeSkills es</div>
-<div class="kb-diagram-note">WHERE NOT EXISTS (</div>
-<div class="kb-diagram-note">SELECT 1 FROM ProjectRequirements pr</div>
-<div class="kb-diagram-note">WHERE pr.project_id = 'PRJ-001'</div>
-<div class="kb-diagram-note">AND NOT EXISTS (</div>
-<div class="kb-diagram-note">SELECT 1 FROM EmployeeSkills es2</div>
-<div class="kb-diagram-note">WHERE es2.emp_id = es.emp_id</div>
-<div class="kb-diagram-note">AND es2.skill_name = pr.skill_name</div>
-<div class="kb-diagram-note">AND es2.proficiency &gt;= pr.min_proficiency</div>
-<div class="kb-diagram-note">)</div>
-<div class="kb-diagram-note">);</div>
-<div class="kb-diagram-note">설명:</div>
-<div class="kb-diagram-note">"PRJ-001의 요건 중에서,</div>
-<div class="kb-diagram-note">이 직원이 충족하지 못하는 요건이 하나도 없는 직원"</div>
-<div class="kb-diagram-note">성능 최적화:</div>
-<div class="kb-diagram-note">인덱스: (emp_id, skill_name), (project_id, skill_name)</div>
-<div class="kb-diagram-note">COUNT 방법 (더 빠를 수 있음):</div>
-<div class="kb-diagram-note">SELECT es.emp_id</div>
-<div class="kb-diagram-note">FROM EmployeeSkills es</div>
-<div class="kb-diagram-note">JOIN ProjectRequirements pr ON es.skill_name = pr.skill_name</div>
-<div class="kb-diagram-note">AND es.proficiency &gt;= pr.min_proficiency</div>
-<div class="kb-diagram-note">AND pr.project_id = 'PRJ-001'</div>
-<div class="kb-diagram-note">GROUP BY es.emp_id</div>
-<div class="kb-diagram-note">HAVING COUNT(DISTINCT pr.skill_name) = (</div>
-<div class="kb-diagram-note">SELECT COUNT(*) FROM ProjectRequirements</div>
-<div class="kb-diagram-note">WHERE project_id = 'PRJ-001'</div>
-<div class="kb-diagram-note">);</div>
-<div class="kb-diagram-note">실행 계획:</div>
-<div class="kb-diagram-note">Hash Aggregate → Hash Join → Index Scan</div>
-<div class="kb-diagram-note">→ 수백만 레코드에서도 수초 내 응답 가능</div>
-<div class="kb-diagram-note">응용:</div>
-<div class="kb-diagram-note">채용 시스템: 자격증/스킬 전부 보유 지원자</div>
-<div class="kb-diagram-note">추천 시스템: 모든 선호 조건 충족 상품</div>
-<div class="kb-diagram-note">공급망: 모든 부품 보유 공급업체</div>
-</div>
-</div>
+SQL:
+  SELECT DISTINCT es.emp_id
+  FROM EmployeeSkills es
+  WHERE NOT EXISTS (
+      SELECT 1 FROM ProjectRequirements pr
+      WHERE pr.project_id = 'PRJ-001'
+        AND NOT EXISTS (
+            SELECT 1 FROM EmployeeSkills es2
+            WHERE es2.emp_id = es.emp_id
+              AND es2.skill_name = pr.skill_name
+              AND es2.proficiency >= pr.min_proficiency
+        )
+  );
 
+설명:
+  "PRJ-001의 요건 중에서,
+   이 직원이 충족하지 못하는 요건이 하나도 없는 직원"
 
+성능 최적화:
+  인덱스: (emp_id, skill_name), (project_id, skill_name)
+  
+  COUNT 방법 (더 빠를 수 있음):
+  SELECT es.emp_id
+  FROM EmployeeSkills es
+  JOIN ProjectRequirements pr ON es.skill_name = pr.skill_name
+    AND es.proficiency >= pr.min_proficiency
+    AND pr.project_id = 'PRJ-001'
+  GROUP BY es.emp_id
+  HAVING COUNT(DISTINCT pr.skill_name) = (
+      SELECT COUNT(*) FROM ProjectRequirements
+      WHERE project_id = 'PRJ-001'
+  );
+  
+실행 계획:
+  Hash Aggregate → Hash Join → Index Scan
+  → 수백만 레코드에서도 수초 내 응답 가능
+
+응용:
+  채용 시스템: 자격증/스킬 전부 보유 지원자
+  추천 시스템: 모든 선호 조건 충족 상품
+  공급망: 모든 부품 보유 공급업체
+```
 
 > 📢 **섹션 요약 비유**: 프로젝트 팀원 선발 나눗셈 — "이 프로젝트에 필요한 스킬 목록 전부를 갖춘 사람만". 스킬 하나라도 없으면 탈락. SQL로 이것을 이중 NOT EXISTS로 표현해요!
 

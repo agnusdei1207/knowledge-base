@@ -24,18 +24,14 @@ tags = ["studynote-network"]
 
 만약 회사에 서브넷이 100개라면 [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 서버도 100대가 필요할까요? 이 낭비를 막기 위해 <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/">DHCP</a> Relay Agent</strong>가 등장합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DHCP 과정 4단계</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DHCP Relay Agent</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DHCP Lease / DHCP 갱신</div></div>
-</div>
-</div>
-
-
+```text
+[DHCP 과정 4단계]
+    │
+    ▼
+[DHCP Relay Agent]
+    │
+    └──▶ [DHCP Lease / DHCP 갱신]
+```
 
 - **📢 섹션 요약 비유**: [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) Relay Agent는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -45,18 +41,14 @@ tags = ["studynote-network"]
 
 <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/">DHCP</a> Relay Agent</strong>는 클라이언트의 브로드캐스트 [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 요청을 가로채서, 라우터 너머에 있는 (다른 네트워크 대역의) 중앙 [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 서버에게 **유니캐스트(Unicast, 1:1 통신)** 로 변환하여 대신 전달해 주는 중계기입니다. 주로 라우터나 L3 스위치의 특정 인터페이스에 소프트웨어적으로 설정됩니다. ([Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/): `ip helper-address`)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DHCP 과정 4단계</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DHCP Relay Agent</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DHCP Lease / DHCP 갱신</div></div>
-</div>
-</div>
-
-
+```text
+[DHCP 과정 4단계]
+    │
+    ▼
+[DHCP Relay Agent]
+    │
+    └──▶ [DHCP Lease / DHCP 갱신]
+```
 
 - **📢 섹션 요약 비유**: [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) Relay Agent의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -64,18 +56,12 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Subnet A (192.168.1.0)</div><div class="kb-diagram-node">Router / L3 Switch</div><div class="kb-diagram-node">Subnet B (10.0.0.0)</div></div>
-<div class="kb-diagram-note">Client ▶ (DHCP Relay Agent 설정됨) ▶ DHCP Server</div>
-<div class="kb-diagram-note">(1) "IP 주세요!" (2) 브로드캐스트를 유니캐스트로 (3) "아~ Subnet A에서</div>
-<div class="kb-diagram-note">(Broadcast) 변환 (도착지: 10.0.0.100) 왔구나? 192.168.1.10 줄게"</div>
-</div>
-</div>
-
-
+```text
+[ Subnet A (192.168.1.0) ]       [ Router / L3 Switch ]         [ Subnet B (10.0.0.0) ]
+        Client ────────────▶ (DHCP Relay Agent 설정됨) ──────────▶ DHCP Server
+  (1) "IP 주세요!"           (2) 브로드캐스트를 유니캐스트로       (3) "아~ Subnet A에서
+      (Broadcast)                변환 (도착지: 10.0.0.100)              왔구나? 192.168.1.10 줄게"
+```
 
 1. **가로채기**: 클라이언트가 쏜 [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) Discover(Broadcast) 패킷을 라우터(Relay Agent)가 수신합니다.
 2. **유니캐스트 변환**: 패킷의 출발지 IP를 라우터 자신의 IP(게이트웨이 IP)로, 도착지 IP를 사전에 설정된 중앙 [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 서버의 IP로 덮어쓰고 유니캐스트 패킷으로 라우팅합니다.
@@ -119,19 +105,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: DHCP 과정 4단계</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: DHCP Relay Agent</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: DHCP Lease / DHCP 갱신</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율 운영 네트워크</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: DHCP 과정 4단계]
+    │
+    ▼
+[현재 개념: DHCP Relay Agent]
+    │
+    ├──▶ [확장 A: DHCP Lease / DHCP 갱신]
+    └──▶ [확장 B: 자율 운영 네트워크]
+```
 
 [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) Relay Agent는 [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 과정 4단계에서 출발해 현재 메커니즘을 정교화하고, 이후 [DHCP Lease](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/525_dhcp_lease_t1_t2_timers/) / [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 갱신와 자율 운영 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

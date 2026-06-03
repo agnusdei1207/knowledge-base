@@ -25,21 +25,21 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 윈도우가 단순한 저장 공간이 아니라, "앞으로 볼 수 있는 범위" 자체라는 점을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OoO window = visible in-flight range</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Fetch → Decode → Rename → [ ROB (Reorder Buffer) / Issue Queue /</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LSQ (Load-Store Queue) / Physical Register</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">File ] → Execute → Commit</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">current OoO window</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">oldest in-flight op youngest op</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">head of ROB visible future instructions ▶ tail</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                     OoO window = visible in-flight range                  │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Fetch → Decode → Rename → [ ROB (Reorder Buffer) / Issue Queue /          │
+│                               LSQ (Load-Store Queue) / Physical Register   │
+│                               File ] → Execute → Commit                    │
+│                           └──────── current OoO window ────────┘          │
+│                                                                            │
+│ oldest in-flight op                                            youngest op │
+│      │                                                                │    │
+│      ▼                                                                ▼    │
+│   head of ROB  ───────────────── visible future instructions ─────▶  tail   │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 따라서 윈도우는 "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 많이 저장한다"는 뜻보다 "가로막힌 지점을 우회할 선택지를 얼마나 확보하느냐"에 더 가깝다. 결국 넓은 윈도우는 고성능 코어가 긴 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 정면으로 기다리지 않고, 그 시간을 다른 일로 메우게 하는 기본 조건이 된다.
 
@@ -53,22 +53,21 @@ tags = ["studynote-computer-architecture"]
 
 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 관점에서는 작은 법칙 하나로 기억하면 좋다. <strong>필요한 <a href="/knowledge-base/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/">윈도우 크기</a> ≈ 숨기고 싶은 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> × 그동안 유지하고 싶은 유효 발급률</strong>이다. 예를 들어 200사이클 메모리 미스를 4개/사이클 수준으로 숨기려면, 이상적으로는 수백 개의 독립 마이크로연산 (micro-op)이 시야 안에 있어야 한다. 물론 실제 프로그램에는 의존성, 분기, [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 충돌이 있으므로 하드웨어는 그보다 더 큰 윈도우를 요구하게 된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">How a large window hides a long-latency load</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">ROB order :</div><div class="kb-diagram-node">LD miss</div><div class="kb-diagram-node">ADD</div><div class="kb-diagram-node">MUL</div><div class="kb-diagram-node">ADD</div><div class="kb-diagram-node">BR</div><div class="kb-diagram-node">LD</div><div class="kb-diagram-node">ADD</div><div class="kb-diagram-node">ST</div><div class="kb-diagram-node">XOR</div><div class="kb-diagram-node">CMP</div><div class="kb-diagram-note">...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">wait ready ready ready ? ready ready ready ready</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">issue now : ADD ─▶ arithmetic unit</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MUL ─▶ multiply unit</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LD ─▶ address unit</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">rule : older LD is still unresolved, but younger independent ops can run</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">as long as data / branch / memory-order constraints allow it</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                   How a large window hides a long-latency load            │
+├────────────────────────────────────────────────────────────────────────────┤
+│ ROB order : [LD miss][ADD][MUL][ADD][BR][LD][ADD][ST][XOR][CMP]...       │
+│               wait      ready ready ready ?   ready ready ready ready     │
+│                                                                            │
+│ issue now :                ADD ─▶ arithmetic unit                          │
+│                             MUL ─▶ multiply unit                            │
+│                              LD ─▶ address unit                             │
+│                                                                            │
+│ rule : older LD is still unresolved, but younger independent ops can run   │
+│        as long as data / branch / memory-order constraints allow it        │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 | 윈도우를 제한하는 요소 | 역할 | 포화 시 나타나는 현상 |
 | :-- | :-- | :-- |
@@ -146,25 +145,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">In-order execution</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Scoreboarding</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">OoO execution + reorder buffer</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Larger instruction windows</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ROB / IQ / LSQ co-scaling</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Latency-tolerant clustered OoO cores</div>
-</div>
-</div>
-
-
+```text
+In-order execution
+      │
+      ▼
+Scoreboarding
+      │
+      ▼
+OoO execution + reorder buffer
+      │
+      ▼
+Larger instruction windows
+      │
+      ▼
+ROB / IQ / LSQ co-scaling
+      │
+      ▼
+Latency-tolerant clustered OoO cores
+```
 
 이 흐름은 "순차 실행 → [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) 도입 → 윈도우 확대 → 관련 구조 동시 확장"으로 현대 코어가 시야를 넓혀 온 과정을 보여 준다.
 

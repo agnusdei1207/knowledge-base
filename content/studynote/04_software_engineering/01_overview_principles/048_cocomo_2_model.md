@@ -65,44 +65,47 @@ COCOMO II (1995, 2000 개정):
 
 ## Ⅱ. 스케일 팩터 (Scale Factor)
 
+```
+SF (Scaling Factor):
+  프로젝트 규모 증가에 따른 비용 증가율 결정
+  
+  SF = B + 0.01 × Σ SFj
+  B = 0.91 (COCOMO II 기본값)
 
+5가지 SF 요인:
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">SF (Scaling Factor):</div>
-<div class="kb-diagram-note">프로젝트 규모 증가에 따른 비용 증가율 결정</div>
-<div class="kb-diagram-note">SF = B + 0.01 × Σ SFj</div>
-<div class="kb-diagram-note">B = 0.91 (COCOMO II 기본값)</div>
-<div class="kb-diagram-note">5가지 SF 요인:</div>
-<div class="kb-diagram-note">1. PREC (선례성, Precedentedness):</div>
-<div class="kb-diagram-note">유사 프로젝트 경험 여부</div>
-<div class="kb-diagram-note">Very Low: 전혀 새로운 영역 → 6.20</div>
-<div class="kb-diagram-note">Very High: 유사 프로젝트 많음 → 1.24</div>
-<div class="kb-diagram-note">2. FLEX (개발 유연성, Development Flexibility):</div>
-<div class="kb-diagram-note">요구사항 유연성</div>
-<div class="kb-diagram-note">Very Low: 엄격한 요구사항 → 5.07</div>
-<div class="kb-diagram-note">Very High: 완전 자유 → 1.01</div>
-<div class="kb-diagram-note">3. RESL (아키텍처/위험 해결, Architecture/Risk Resolution):</div>
-<div class="kb-diagram-note">위험 분석 수준</div>
-<div class="kb-diagram-note">Very Low: 낮은 위험 해결 → 7.07</div>
-<div class="kb-diagram-note">Very High: 충분한 위험 대비 → 1.41</div>
-<div class="kb-diagram-note">4. TEAM (팀 응집력, Team Cohesion):</div>
-<div class="kb-diagram-note">팀 협력 수준</div>
-<div class="kb-diagram-note">Very Low: 분산된 팀 → 5.48</div>
-<div class="kb-diagram-note">Very High: 긴밀한 팀 → 1.10</div>
-<div class="kb-diagram-note">5. PMAT (프로세스 성숙도, Process Maturity):</div>
-<div class="kb-diagram-note">CMMI 수준 반영</div>
-<div class="kb-diagram-note">Level 1 (초기): 7.80</div>
-<div class="kb-diagram-note">Level 5 (최적화): 1.56</div>
-<div class="kb-diagram-note">SF 계산 예:</div>
-<div class="kb-diagram-note">5개 요인 각 평균(3점) = 5 × 3.0 = 15</div>
-<div class="kb-diagram-note">SF = 0.91 + 0.01 × 15 = 1.06</div>
-<div class="kb-diagram-note">SF &gt; 1: 규모 증가 시 비선형 비용 증가</div>
-<div class="kb-diagram-note">(예: 10KSLOC → 100KSLOC: 10배 증가 아닌 12~15배 비용)</div>
-</div>
-</div>
+1. PREC (선례성, Precedentedness):
+  유사 프로젝트 경험 여부
+  Very Low: 전혀 새로운 영역 → 6.20
+  Very High: 유사 프로젝트 많음 → 1.24
 
+2. FLEX (개발 유연성, Development Flexibility):
+  요구사항 유연성
+  Very Low: 엄격한 요구사항 → 5.07
+  Very High: 완전 자유 → 1.01
 
+3. RESL (아키텍처/위험 해결, Architecture/Risk Resolution):
+  위험 분석 수준
+  Very Low: 낮은 위험 해결 → 7.07
+  Very High: 충분한 위험 대비 → 1.41
+
+4. TEAM (팀 응집력, Team Cohesion):
+  팀 협력 수준
+  Very Low: 분산된 팀 → 5.48
+  Very High: 긴밀한 팀 → 1.10
+
+5. PMAT (프로세스 성숙도, Process Maturity):
+  CMMI 수준 반영
+  Level 1 (초기): 7.80
+  Level 5 (최적화): 1.56
+
+SF 계산 예:
+  5개 요인 각 평균(3점) = 5 × 3.0 = 15
+  SF = 0.91 + 0.01 × 15 = 1.06
+  
+  SF > 1: 규모 증가 시 비선형 비용 증가
+  (예: 10KSLOC → 100KSLOC: 10배 증가 아닌 12~15배 비용)
+```
 
 > 📢 **섹션 요약 비유**: SF = 공사 난이도 지수 — 처음 짓는 유형(PREC: 낮음), 설계 변경 잦음(FLEX: 낮음), 위험 분석 미흡(RESL: 낮음) → 같은 크기 건물인데 비용이 2배! 팀워크와 경험이 핵심!
 
@@ -110,43 +113,43 @@ COCOMO II (1995, 2000 개정):
 
 ## Ⅲ. 비용 드라이버 (Cost Driver)
 
+```
+EM (Effort Multiplier):
+  Post-Architecture 모델의 17개 요인
+  
+  0.5~1.26 범위 값
+  1.0: 표준(Nominal)
+  < 1.0: 비용 감소 (좋은 요인)
+  > 1.0: 비용 증가 (어려운 요인)
 
+제품 요인 (Product Factors):
+  RELY: 신뢰성 요구사항 (Critical = 1.26)
+  DATA: 데이터베이스 규모
+  CPLX: 소프트웨어 복잡도 (Very High = 1.30)
+  RUSE: 재사용 요구 수준
+  DOCU: 문서화 요구 수준
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">EM (Effort Multiplier):</div>
-<div class="kb-diagram-note">Post-Architecture 모델의 17개 요인</div>
-<div class="kb-diagram-note">0.5~1.26 범위 값</div>
-<div class="kb-diagram-note">1.0: 표준(Nominal)</div>
-<div class="kb-diagram-note">&lt; 1.0: 비용 감소 (좋은 요인)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">1.0: 비용 증가 (어려운 요인)</div>
-<div class="kb-diagram-note">제품 요인 (Product Factors):</div>
-<div class="kb-diagram-note">RELY: 신뢰성 요구사항 (Critical = 1.26)</div>
-<div class="kb-diagram-note">DATA: 데이터베이스 규모</div>
-<div class="kb-diagram-note">CPLX: 소프트웨어 복잡도 (Very High = 1.30)</div>
-<div class="kb-diagram-note">RUSE: 재사용 요구 수준</div>
-<div class="kb-diagram-note">DOCU: 문서화 요구 수준</div>
-<div class="kb-diagram-note">플랫폼 요인:</div>
-<div class="kb-diagram-note">TIME: 실행 시간 제약 (95% CPU = 1.29)</div>
-<div class="kb-diagram-note">STOR: 메인 스토리지 제약</div>
-<div class="kb-diagram-note">PVOL: 플랫폼 변동성</div>
-<div class="kb-diagram-note">인력 요인 (Personnel Factors):</div>
-<div class="kb-diagram-note">ACAP: 분석가 역량 (Very High = 0.71)</div>
-<div class="kb-diagram-note">PCAP: 프로그래머 역량 (Very High = 0.76)</div>
-<div class="kb-diagram-note">PEXP: 경험 (Very Low = 1.22, Very High = 0.81)</div>
-<div class="kb-diagram-note">AEXP: 애플리케이션 경험</div>
-<div class="kb-diagram-note">LTEX: 언어/도구 경험</div>
-<div class="kb-diagram-note">프로젝트 요인:</div>
-<div class="kb-diagram-note">TOOL: 소프트웨어 도구 (Very High = 0.72)</div>
-<div class="kb-diagram-note">SITE: 다지점 개발 (Very Low = 1.22)</div>
-<div class="kb-diagram-note">SCED: 일정 단축 (Very High = 1.29 ← 압축할수록 증가!)</div>
-<div class="kb-diagram-note">SCED 역설:</div>
-<div class="kb-diagram-note">일정 단축 25% → 비용 1.29배</div>
-<div class="kb-diagram-note">"빨리 하면 더 비싸다!" (잔업, 품질 비용 등)</div>
-</div>
-</div>
+플랫폼 요인:
+  TIME: 실행 시간 제약 (95% CPU = 1.29)
+  STOR: 메인 스토리지 제약
+  PVOL: 플랫폼 변동성
 
+인력 요인 (Personnel Factors):
+  ACAP: 분석가 역량 (Very High = 0.71)
+  PCAP: 프로그래머 역량 (Very High = 0.76)
+  PEXP: 경험 (Very Low = 1.22, Very High = 0.81)
+  AEXP: 애플리케이션 경험
+  LTEX: 언어/도구 경험
 
+프로젝트 요인:
+  TOOL: 소프트웨어 도구 (Very High = 0.72)
+  SITE: 다지점 개발 (Very Low = 1.22)
+  SCED: 일정 단축 (Very High = 1.29 ← 압축할수록 증가!)
+
+SCED 역설:
+  일정 단축 25% → 비용 1.29배
+  "빨리 하면 더 비싸다!" (잔업, 품질 비용 등)
+```
 
 > 📢 **섹션 요약 비유**: 비용 드라이버 = 건축 재료비 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) — 고급 재료(RELY=Critical: 1.26배), 최고 건축가(ACAP=Very High: 0.71배로 감소), 일정 단축(SCED: 1.29배!). 고수 팀이 실제로 비용 절감!
 
@@ -154,48 +157,55 @@ COCOMO II (1995, 2000 개정):
 
 ## Ⅳ. 추정 프로세스
 
+```
+COCOMO II 추정 절차:
 
+Step 1: 모델 선택
+  프로토타입/POC → Application Composition
+  초기 설계 단계 → Early Design
+  아키텍처 완료 후 → Post-Architecture
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">COCOMO II 추정 절차:</div>
-<div class="kb-diagram-note">Step 1: 모델 선택</div>
-<div class="kb-diagram-note">프로토타입/POC → Application Composition</div>
-<div class="kb-diagram-note">초기 설계 단계 → Early Design</div>
-<div class="kb-diagram-note">아키텍처 완료 후 → Post-Architecture</div>
-<div class="kb-diagram-note">Step 2: 규모 추정</div>
-<div class="kb-diagram-note">LOC 직접 산정 또는 기능 점수(FP) 사용</div>
-<div class="kb-diagram-note">FP → SLOC 변환 (언어별 SLOC/FP):</div>
-<div class="kb-diagram-note">Java: 53 SLOC/FP</div>
-<div class="kb-diagram-note">Python: 29 SLOC/FP</div>
-<div class="kb-diagram-note">C: 128 SLOC/FP</div>
-<div class="kb-diagram-note">예: 500 FP × 53 = 26,500 SLOC = 26.5 KSLOC</div>
-<div class="kb-diagram-note">Step 3: SF 및 EM 평가</div>
-<div class="kb-diagram-note">팀 전체 워크숍으로 합의</div>
-<div class="kb-diagram-note">(개인 추정 아닌 팀 합의 중요)</div>
-<div class="kb-diagram-note">Wideband Delphi:</div>
-<div class="kb-diagram-note">1. 각 요인 개별 평가</div>
-<div class="kb-diagram-note">2. 차이 큰 항목 토론</div>
-<div class="kb-diagram-note">3. 재평가 → 수렴</div>
-<div class="kb-diagram-note">Step 4: 공수 계산</div>
-<div class="kb-diagram-note">PM = 2.94 × (26.5)^1.06 × ∏EMi</div>
-<div class="kb-diagram-note">예: SF=1.06, EM 곱=1.15</div>
-<div class="kb-diagram-note">PM = 2.94 × 32.1 × 1.15 ≈ 108 PM</div>
-<div class="kb-diagram-note">Step 5: 일정 계산</div>
-<div class="kb-diagram-note">TDEV = C × (PM)^(D + 0.2 × (SF - B))</div>
-<div class="kb-diagram-note">C = 3.67, D = 0.28, B = 0.91</div>
-<div class="kb-diagram-note">예: PM=108</div>
-<div class="kb-diagram-note">TDEV ≈ 14.2개월</div>
-<div class="kb-diagram-note">Step 6: 팀 규모</div>
-<div class="kb-diagram-note">Average Staff = PM / TDEV = 108 / 14.2 ≈ 8명</div>
-<div class="kb-diagram-note">불확실성 범위:</div>
-<div class="kb-diagram-note">Application Composition: ×0.25 ~ ×4</div>
-<div class="kb-diagram-note">Early Design: ×0.5 ~ ×2</div>
-<div class="kb-diagram-note">Post-Architecture: ×0.75 ~ ×1.25</div>
-</div>
-</div>
+Step 2: 규모 추정
+  LOC 직접 산정 또는 기능 점수(FP) 사용
+  
+  FP → SLOC 변환 (언어별 SLOC/FP):
+  Java: 53 SLOC/FP
+  Python: 29 SLOC/FP
+  C: 128 SLOC/FP
+  
+  예: 500 FP × 53 = 26,500 SLOC = 26.5 KSLOC
 
+Step 3: SF 및 EM 평가
+  팀 전체 워크숍으로 합의
+  (개인 추정 아닌 팀 합의 중요)
+  
+  Wideband Delphi:
+  1. 각 요인 개별 평가
+  2. 차이 큰 항목 토론
+  3. 재평가 → 수렴
 
+Step 4: 공수 계산
+  PM = 2.94 × (26.5)^1.06 × ∏EMi
+  
+  예: SF=1.06, EM 곱=1.15
+  PM = 2.94 × 32.1 × 1.15 ≈ 108 PM
+
+Step 5: 일정 계산
+  TDEV = C × (PM)^(D + 0.2 × (SF - B))
+  
+  C = 3.67, D = 0.28, B = 0.91
+  
+  예: PM=108
+  TDEV ≈ 14.2개월
+
+Step 6: 팀 규모
+  Average Staff = PM / TDEV = 108 / 14.2 ≈ 8명
+
+불확실성 범위:
+  Application Composition: ×0.25 ~ ×4
+  Early Design: ×0.5 ~ ×2
+  Post-Architecture: ×0.75 ~ ×1.25
+```
 
 > 📢 **섹션 요약 비유**: [COCOMO](/knowledge-base/studynote/12_it_management/04_sdlc_testing/145_cocomo_model/) II 추정 절차 = 여행 비용 계산 — 목적지(LOC), 이동 수단 난이도(SF), 예상치 못한 비용(EM) 합산. 결과는 범위로(±25%)! 하나의 숫자만 믿으면 위험!
 

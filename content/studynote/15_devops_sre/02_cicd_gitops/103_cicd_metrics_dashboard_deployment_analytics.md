@@ -37,23 +37,21 @@ tags = ["studynote-devops-sre"]
 | **수집 및 저장 (Storage)** | [Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/), Datadog, ELK | 각 [파이프라인 단계](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/219_pipeline_stages/)의 소요 시간, 성공/실패 여부를 시계열 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 수집 후 저장 |
 | <strong><a href="/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/">시각화</a> (Visualization)</strong> | [Grafana](/knowledge-base/studynote/16_bigdata/08_visualization/168_grafana/), [Kibana](/knowledge-base/studynote/16_bigdata/08_visualization/169_kibana/) | 수집된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 차트, 게이지, 트렌드 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)로 렌더링하여 인사이트 도출 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CI/CD 옵저버빌리티(Observability) 데이터 파이프라인</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Pipeline Event</div><div class="kb-diagram-node">Collector / Exporter</div><div class="kb-diagram-node">Visualization</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Git Push</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Webhook / API 호출 DORA Metrics</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Build ▶ Prometheus TSDB ▶ Grafana 📊</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(성공/실패, 소요시간) - 배포 빈도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Test - 실패율</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 리드 타임</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Deploy</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           CI/CD 옵저버빌리티(Observability) 데이터 파이프라인       │
+├──────────────────────────────────────────────────────────────┤
+│ [Pipeline Event]     [Collector / Exporter]   [Visualization]│
+│                                                              │
+│  Git Push ────┐                                              │
+│               │        Webhook / API 호출        DORA Metrics │
+│  Build ───────┼───────▶ Prometheus TSDB ──────▶ Grafana 📊   │
+│               │        (성공/실패, 소요시간)       - 배포 빈도    │
+│  Test ────────┤                                - 실패율      │
+│               │                                - 리드 타임   │
+│  Deploy ──────┘                                              │
+└──────────────────────────────────────────────────────────────┘
+```
 
 가장 핵심이 되는 측정 기준은 <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/">DORA</a> (<a href="/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/">DevOps</a> Research and Assessment) <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/">메트릭</a>스</strong>다. 이는 배포 빈도 ([Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/) Frequency), 변경 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) ([Lead Time for Changes](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/024_lead_time_for_changes/)), 변경 실패율 ([Change Failure Rate](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/025_change_failure_rate_cfr/)), [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간 (Time to Restore [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))의 4가지 지표로 구성되어 민첩성과 안정성을 동시에 평가한다.
 
@@ -68,7 +66,7 @@ tags = ["studynote-devops-sre"]
 | 항목 | 인프라 운영 지표 (Infrastructure [Metrics](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/)) | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 배포 지표 ([Pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/) [Metrics](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/)) |
 | :--- | :--- | :--- |
 | **핵심 대상** | CPU, 메모리, 네트워크 트래픽, 디스크 IO | 빌드 소요 시간, 테스트 통과율, 배포 횟수 |
-| **주요 사용자** | [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) (Site [Reliability](/knowledge-base/studynote/04_software_engineering/06_software_architecture/345_reliability_security/) Engineer), 인프라 관리자 | 백엔드/프론트엔드 개발자, [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 엔지니어 |
+| **주요 사용자** | [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) (Site [Reliability](/knowledge-base/studynote/04_software_engineering/06_software_architecture/345_reliability_security/) 엔진er), 인프라 관리자 | 백엔드/프론트엔드 개발자, [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 엔지니어 |
 | **목표** | 시스템 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) ([Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)) 및 업타임 (Uptime) 방어 | 소프트웨어 딜리버리 속도 (Velocity) 및 품질 향상 |
 | **관련 개념** | [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) ([Service Level Indicator](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)), [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) | [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)스, [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) ([Lead Time](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)) |
 
@@ -115,23 +113,21 @@ tags = ["studynote-devops-sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">배포 자동화 구축 (CI/CD Pipeline)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">로깅 및 파이프라인 상태 수집 (Pipeline Logging)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">정량적 성과 측정 도입 (DORA Metrics)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">배포 성능 분석 및 시각화 (CI/CD Metrics Dashboard)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">예측형 자동화 및 지능형 배포 차단 (Predictive CI/CD)</div>
-</div>
-</div>
-
-
+```text
+배포 자동화 구축 (CI/CD Pipeline)
+    │
+    ▼
+로깅 및 파이프라인 상태 수집 (Pipeline Logging)
+    │
+    ▼
+정량적 성과 측정 도입 (DORA Metrics)
+    │
+    ▼
+배포 성능 분석 및 시각화 (CI/CD Metrics Dashboard)
+    │
+    ▼
+예측형 자동화 및 지능형 배포 차단 (Predictive CI/CD)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

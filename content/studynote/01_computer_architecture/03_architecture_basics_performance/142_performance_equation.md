@@ -44,24 +44,23 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 세 요소가 서로 다른 계층을 담당한다는 점을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 실행 시간 = 무엇을 얼마나 자주 얼마나 빨리?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로그램/컴파일러 층 마이크로아키텍처 층 회로/공정 층</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IC 감소</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CPI 감소</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Cycle 단축</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">알고리즘 개선 캐시·파이프라인 임계 경로 단축</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코드 생성 최적화 분기 예측·병렬 실행 공정·전압 조정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 세 축이 각각 좋아져야 최종 CPU 실행 시간이 의미 있게 줄어든다</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────┐
+│             CPU 실행 시간 = 무엇을 얼마나 자주 얼마나 빨리?             │
+├──────────────────────────────────────────────────────────────────────────┤
+│ 프로그램/컴파일러 층          마이크로아키텍처 층          회로/공정 층  │
+│                                                                          │
+│ [IC 감소] ───────────────▶ [CPI 감소] ───────────────▶ [Cycle 단축]      │
+│   알고리즘 개선                캐시·파이프라인               임계 경로 단축│
+│   코드 생성 최적화             분기 예측·병렬 실행           공정·전압 조정│
+│                                                                          │
+│ 결과: 세 축이 각각 좋아져야 최종 CPU 실행 시간이 의미 있게 줄어든다     │
+└──────────────────────────────────────────────────────────────────────────┘
+```
 
 예를 들어 어떤 프로그램이 `IC = 1,000,000`, `CPI = 2`, `Clock Cycle Time = 0.5ns`라면 CPU 실행 시간은 `1,000,000 × 2 × 0.5ns = 1ms`다. 여기서 클럭만 20% 올려 `0.4ns`로 만들어도, 동시에 분기 실패 증가로 CPI가 2.5가 되면 실행 시간은 다시 `1ms`가 된다. 즉 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 방정식은 “더 빠른 부품을 넣었는데 왜 안 빨라졌는가?”를 설명하는 최소 단위다.
 
-- **📢 섹션 요약 비유**: 공장을 빨리 돌리려면 주문서 길이, 작업대의 막힘, 벨트 속도를 같이 봐야 한다. 벨트만 빠르게 돌리면 작업자가 따라오지 못해 오히려 병목이 커질 수 있다.
+- **📢 섹션 요약 비유**: 공장을 빨리 돌리려면 주문서 길이, 작업대의 병목, 벨트 속도를 같이 봐야 한다. 벨트만 빠르게 돌리면 작업자가 따라오지 못해 오히려 병목이 커질 수 있다.
 
 ---
 
@@ -134,22 +133,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">명령어 실행 시간 측정</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">컴퓨터 성능 방정식 (IC × CPI × Clock Cycle Time)</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ IC 최적화: 알고리즘 · 컴파일러 · ISA</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ CPI 최적화: 파이프라인 · 캐시 · 분기 예측</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ Clock 최적화: 공정 · 타이밍 · 전력 관리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">암달의 법칙 · Speedup · 시스템 병목 분석</div>
-</div>
-</div>
-
-
+```text
+명령어 실행 시간 측정
+        │
+        ▼
+컴퓨터 성능 방정식 (IC × CPI × Clock Cycle Time)
+        │
+        ├─▶ IC 최적화: 알고리즘 · 컴파일러 · ISA
+        │
+        ├─▶ CPI 최적화: 파이프라인 · 캐시 · 분기 예측
+        │
+        └─▶ Clock 최적화: 공정 · 타이밍 · 전력 관리
+                         │
+                         ▼
+              암달의 법칙 · Speedup · 시스템 병목 분석
+```
 
 이 흐름은 단일 CPU 시간 분석에서 출발해, 세부 원인별 최적화와 상위 수준의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상 판단으로 확장되는 구조를 보여준다.
 

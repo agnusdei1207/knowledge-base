@@ -47,18 +47,12 @@ RED는 <strong><a href="/knowledge-base/studynote/04_software_engineering/09_clo
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">비체계적 서비스 모니터링</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">RED 메서드 (Weaveworks, 2017)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">서비스 메시 자동 수집 (Istio, 2018~)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">4 Golden Signals 통합</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: AI RED 분석 — 이상 패턴 자동 감지</div></div>
-</div>
-</div>
-
-
+```text
+[비체계적 서비스 모니터링] → [RED 메서드 (Weaveworks, 2017)]
+    → [서비스 메시 자동 수집 (Istio, 2018~)]
+    → [4 Golden Signals 통합]
+    → [현재: AI RED 분석 — 이상 패턴 자동 감지]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. RED는 식당의 <strong>3대 <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/">KPI</a></strong>예요. 손님 수(Rate), 실수율(Errors), 음식 속도(Duration)!

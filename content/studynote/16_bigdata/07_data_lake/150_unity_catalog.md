@@ -36,31 +36,35 @@ Databricks의 기존 거버넌스 체계는 각 워크스페이스마다 독립�
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Unity Catalog 3-수준 네임스페이스</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Account 메타스토어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── catalog_prod (Catalog 수준)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── sales (Schema 수준)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── orders (Table / View / Volume)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── customers</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── marketing</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── campaigns</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── catalog_dev (개발용 Catalog)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">접근 제어 레이어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GRANT SELECT ON TABLE catalog.schema.table TO group_a</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CREATE ROW FILTER ON TABLE orders (dept = current_user)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CREATE COLUMN MASK ON TABLE users (ssn → 'XXXX')</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Delta Sharing</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공유</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Unity Catalog</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">외부 소비자 (Snowflake / R /</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(공유자)</div><div class="kb-diagram-cell">Pandas / Power BI)</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────────────┐
+│                Unity Catalog 3-수준 네임스페이스                  │
+├──────────────────────────────────────────────────────────────────┤
+│  [Account 메타스토어]                                             │
+│       │                                                          │
+│       ├── catalog_prod          (Catalog 수준)                   │
+│       │       ├── sales         (Schema 수준)                    │
+│       │       │     ├── orders  (Table / View / Volume)          │
+│       │       │     └── customers                               │
+│       │       └── marketing                                      │
+│       │             └── campaigns                               │
+│       │                                                          │
+│       └── catalog_dev           (개발용 Catalog)                 │
+│                                                                  │
+│  [접근 제어 레이어]                                               │
+│  ┌──────────────────────────────────────────────────────────┐   │
+│  │  GRANT SELECT ON TABLE catalog.schema.table TO group_a   │   │
+│  │  CREATE ROW FILTER ON TABLE orders (dept = current_user) │   │
+│  │  CREATE COLUMN MASK ON TABLE users (ssn → 'XXXX')        │   │
+│  └──────────────────────────────────────────────────────────┘   │
+│                                                                  │
+│  [Delta Sharing]                                                 │
+│  ┌───────────────┐   공유   ┌──────────────────────────────┐   │
+│  │ Unity Catalog  │ ──────▶ │ 외부 소비자 (Snowflake / R / │   │
+│  │ (공유자)       │         │  Pandas / Power BI)          │   │
+│  └───────────────┘         └──────────────────────────────┘   │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 **핵심 기능 요약**
 
@@ -153,23 +157,21 @@ Unity Catalog는 [Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">분산 데이터 사일로 (Data Silo) — 거버넌스 부재</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 카탈로그 (Data Catalog) — 메타데이터 관리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Unity Catalog — 3-수준 네임스페이스 (catalog.schema.table)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">행/컬럼 수준 접근 제어 (Row Filter / Column Mask)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Delta Sharing — 오픈 프로토콜 안전 데이터 공유</div></div>
-</div>
-</div>
-
-
+```text
+[분산 데이터 사일로 (Data Silo) — 거버넌스 부재]
+    │
+    ▼
+[데이터 카탈로그 (Data Catalog) — 메타데이터 관리]
+    │
+    ▼
+[Unity Catalog — 3-수준 네임스페이스 (catalog.schema.table)]
+    │
+    ▼
+[행/컬럼 수준 접근 제어 (Row Filter / Column Mask)]
+    │
+    ▼
+[Delta Sharing — 오픈 프로토콜 안전 데이터 공유]
+```
 
 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)가 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)에서 중앙화된 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)와 세분화된 접근 제어를 거쳐 안전한 외부 공유로 발전한 흐름이다.
 

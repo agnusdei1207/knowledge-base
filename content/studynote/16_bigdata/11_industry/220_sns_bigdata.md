@@ -39,40 +39,48 @@ SNS 플랫폼은 하루 수억 건의 포스팅·댓글·좋아요를 [생성](/
 
 ### SNS 실시간 분석 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SNS 빅데이터 실시간 파이프라인</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">수집층</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Twitter Firehose / Instagram Graph API / Naver 검색어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Apache Kafka</div><div class="kb-diagram-cell">(초당 수십만 이벤트 버퍼링)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Apache Flink (스트림 처리)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 언어 감지 (langdetect)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 텍스트 정규화 (이모지·해시태그 처리)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 감성 분석 (BERT-based 모델)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 버스트 탐지 (급증하는 키워드)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실시간 대시보드</div><div class="kb-diagram-cell">그래프 DB (관계 분석)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Grafana/Kibana)</div><div class="kb-diagram-cell">인플루언서·커뮤니티 탐지</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                SNS 빅데이터 실시간 파이프라인                      │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  [수집층]                                                         │
+│  Twitter Firehose / Instagram Graph API / Naver 검색어           │
+│      │                                                           │
+│      ▼                                                           │
+│  ┌──────────────────┐                                            │
+│  │ Apache Kafka     │  (초당 수십만 이벤트 버퍼링)               │
+│  └──────┬───────────┘                                            │
+│         │                                                        │
+│         ▼                                                        │
+│  ┌──────────────────────────────────────────────────────────┐   │
+│  │ Apache Flink (스트림 처리)                                │   │
+│  │  - 언어 감지 (langdetect)                                │   │
+│  │  - 텍스트 정규화 (이모지·해시태그 처리)                  │   │
+│  │  - 감성 분석 (BERT-based 모델)                           │   │
+│  │  - 버스트 탐지 (급증하는 키워드)                         │   │
+│  └──────────────────────┬───────────────────────────────────┘   │
+│                         │                                        │
+│           ┌─────────────┴──────────────────┐                    │
+│           ▼                                ▼                    │
+│  ┌──────────────────┐           ┌─────────────────────────┐    │
+│  │ 실시간 대시보드   │           │ 그래프 DB (관계 분석)    │    │
+│  │ (Grafana/Kibana) │           │ 인플루언서·커뮤니티 탐지 │    │
+│  └──────────────────┘           └─────────────────────────┘    │
+└─────────────────────────────────────────────────────────────────┘
+```
 
 ### 트렌드 감지: [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 탐지 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">정상 언급량</div>
-<div class="kb-diagram-note">▲ 버스트 시작</div>
-<div class="kb-diagram-note">버스트 임계치 ─ ─ ─ ─ ─ ─ / ─│─ \ ─ ─ ─ ─ ─</div>
-<div class="kb-diagram-note">시간 ▶</div>
-</div>
-</div>
-
-
+```
+정상 언급량  ────────────────────────────────
+                              ▲ 버스트 시작
+                             /│\
+                            / │ \
+버스트 임계치 ─ ─ ─ ─ ─ ─ / ─│─ \ ─ ─ ─ ─ ─
+                           /   │   \
+시간        ───────────────────────────────▶
+```
 
 <strong>Kleinberg <a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">버스</a>트 탐지</strong>:
 - 상태 머신 기반: 낮은 빈도 상태 ↔ 높은 빈도([버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트) 상태 전환
@@ -105,8 +113,8 @@ SNS 플랫폼은 하루 수억 건의 포스팅·댓글·좋아요를 [생성](/
 ### 허위 정보 탐지 특징
 
 ```
-진짜 뉴스 전파: 느리게 시작 → 권위 있는 계정 중심 → 점진적 확산
-허위 정보 전파: 폭발적 시작 → 봇 증폭 → 감정적 내용 → 빠른 소멸
+진짜 뉴스 전파:  느리게 시작 → 권위 있는 계정 중심 → 점진적 확산
+허위 정보 전파:  폭발적 시작 → 봇 증폭 → 감정적 내용 → 빠른 소멸
 ```
 
 <strong>탐지 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a></strong>:
@@ -136,7 +144,7 @@ SNS 플랫폼은 하루 수억 건의 포스팅·댓글·좋아요를 [생성](/
 | 원인 분석 | 주요 불만 토픽 추출 | LDA [토픽 모델링](/knowledge-base/studynote/16_bigdata/05_analysis/116_topic_modeling/) |
 
 **기술사 핵심 판단**:
-- <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 특화</strong>: 일반 감성 사전은 브랜드/제품명 맥락에서 오류 → [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 파인튜닝 필수.
+- <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 특화</strong>: 일반 감성 사전은 브랜드/제품명 맥락에서 오류 다 → [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 파인튜닝 필수.
 - **다국어 처리**: 한국어 특성(어미 변화·합성어) 고려한 형태소 분석(KoNLPy) 전처리 필요.
 - <strong>편향 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a>링</strong>: 정치적 여론 분석 시 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 편향이 선거·사회 개입으로 이어질 수 있음.
 
@@ -171,23 +179,21 @@ SNS 플랫폼은 하루 수억 건의 포스팅·댓글·좋아요를 [생성](/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SNS 데이터</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스트리밍 수집</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">감성 분석</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">소셜 그래프</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">실시간 추천</div></div>
-</div>
-</div>
-
-
+```text
+[SNS 데이터]
+    │
+    ▼
+[스트리밍 수집]
+    │
+    ▼
+[감성 분석]
+    │
+    ▼
+[소셜 그래프]
+    │
+    ▼
+[실시간 추천]
+```
 
 SNS [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 실시간으로 수집해 감성을 분석하고 소셜 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)와 추천으로 활용하는 흐름이다.
 

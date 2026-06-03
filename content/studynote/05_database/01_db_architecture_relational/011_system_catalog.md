@@ -23,22 +23,20 @@ tags = ["database"]
 만약 시스템 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)가 없다면, 사용자가 `SELECT * FROM EMP`를 요청했을 때 DBMS는 `EMP`라는 테이블이 존재하는지, 사용자가 읽기 권한이 있는지 판단할 기준점이 없습니다. 나아가, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 건수나 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 상태 같은 통계 정보가 없으므로 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)가 풀 스캔을 할지 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 탈지 비용을 계산(Cost-Based Optimization)할 수도 없습니다. 즉, 시스템 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)는 DBMS가 단순한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 보관함을 넘어 스스로 생각하고 최적화하는 '지능형 시스템'이 되게 하는 핵심 중추입니다.
 
 이 그림은 일반 사용자 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 시스템 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 간의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 분리를 보여줍니다.
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">DBMS Engine</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">사용자 질의</div><div class="kb-diagram-note">SELECT * FROM Employee;</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">질의 파서 / 옵티마이저</div><div class="kb-diagram-note">──(메타데이터 참조)──</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">사용자 데이터베이스</div><div class="kb-diagram-node">시스템 카탈로그</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Employee Table - SYSTABLES</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Order Table - SYSCOLUMNS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Product Table - SYSINDEXES</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(실제 비즈니스 데이터) (메타 &amp; 통계 정보)</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────── DBMS Engine ──────────────────┐
+│                                                │
+│  [사용자 질의] SELECT * FROM Employee;         │
+│           ↓                                    │
+│  [ 질의 파서 / 옵티마이저 ] ──(메타데이터 참조)──┐ │
+│           ↓                                  ↓ │
+│  [ 사용자 데이터베이스 ]              [ 시스템 카탈로그 ]│
+│  - Employee Table                   - SYSTABLES  │
+│  - Order Table                      - SYSCOLUMNS │
+│  - Product Table                    - SYSINDEXES │
+│  (실제 비즈니스 데이터)               (메타 & 통계 정보)│
+└────────────────────────────────────────────────┘
+```
 이 도식의 핵심은 모든 사용자 질의 처리가 반드시 우측의 시스템 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 조회를 거쳐야만 좌측의 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 접근할 수 있다는 점입니다. 따라서 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 영역에 I/O 병목이 생기면 시스템 전체의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 마비됩니다. 실무에서는 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 접근 속도를 극대화하기 위해 이를 메모리에 상주시키는 '딕셔너리 캐시(Dictionary Cache)' 계층을 반드시 운영합니다.
 
 📢 **섹션 요약 비유**: 도서관에 있는 수만 권의 진짜 책(사용자 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 찾기 위해, 책의 위치와 대출 가능 여부를 꼼꼼하게 기록해 둔 '도서 검색용 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 카드함(시스템 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/))'과 같습니다.
@@ -54,26 +52,20 @@ tags = ["database"]
 | **Dictionary Cache** | [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 가속 | 디스크 기반의 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)를 메모리(SGA)에 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)하여 병목 해소 | 파싱 단계의 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) 캐시 | 안내 데스크 메모 |
 
 [DDL](/knowledge-base/studynote/05_database/01_db_architecture_relational/020_ddl/)([Data Definition Language](/knowledge-base/studynote/05_database/01_db_architecture_relational/020_ddl/))이 실행될 때 시스템 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)가 갱신되는 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 흐름은 다음과 같습니다.
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-note">1.</div><div class="kb-diagram-node">DBA의 명령</div><div class="kb-diagram-note">CREATE TABLE New_Emp (id INT, name VARCHAR);</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2.</div><div class="kb-diagram-node">DBMS 엔진 수신</div><div class="kb-diagram-note">문법 검증 및 물리적 스토리지 블록 할당 수행</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3.</div><div class="kb-diagram-node">카탈로그 업데이트 (자동)</div></div>
-<div class="kb-diagram-tree-item" style="--depth:1">SYSTABLES 에 'New_Emp' 레코드 1행 삽입</div>
-<div class="kb-diagram-tree-item" style="--depth:1">SYSCOLUMNS 에 'id', 'name' 레코드 2행 삽입</div>
-<div class="kb-diagram-tree-item" style="--depth:1">SYSAUTH 에 소유자 권한 부여 이력 삽입</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">4.</div><div class="kb-diagram-node">캐시 동기화</div><div class="kb-diagram-note">메모리의 Dictionary Cache 무효화(Invalidation) 및 최신화</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">5.</div><div class="kb-diagram-node">완료</div><div class="kb-diagram-note">이후부터 일반 사용자가 New_Emp 테이블 SELECT 가능</div></div>
-</div>
-</div>
-
-
+```text
+1. [DBA의 명령] CREATE TABLE New_Emp (id INT, name VARCHAR);
+        ↓
+2. [DBMS 엔진 수신] 문법 검증 및 물리적 스토리지 블록 할당 수행
+        ↓
+3. [카탈로그 업데이트 (자동)] 
+   - SYSTABLES 에 'New_Emp' 레코드 1행 삽입
+   - SYSCOLUMNS 에 'id', 'name' 레코드 2행 삽입
+   - SYSAUTH 에 소유자 권한 부여 이력 삽입
+        ↓
+4. [캐시 동기화] 메모리의 Dictionary Cache 무효화(Invalidation) 및 최신화
+        ↓
+5. [완료] 이후부터 일반 사용자가 New_Emp 테이블 SELECT 가능
+```
 이 흐름의 핵심은 사용자가 직접 시스템 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)를 갱신(INSERT/UPDATE)할 수 없다는 점입니다. 시스템 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)는 DBMS만이 [DDL](/knowledge-base/studynote/05_database/01_db_architecture_relational/020_ddl/) 명령문을 해석하여 스스로 갱신합니다. 만약 일반 사용자가 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 직접 수정할 수 있다면, 테이블의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 정의와 디스크의 물리적 형태가 어긋나 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 전체가 붕괴(Corruption)됩니다. 따라서 시스템 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)는 오직 `SELECT`만을 허용하는 [동적 성능 뷰](/knowledge-base/studynote/05_database/04_transactions_concurrency/582_dynamic_performance_views_v_dollar_dmv_monitoring/)(예: Oracle의 `USER_`, `ALL_`, `DBA_` 뷰) 형태로만 접근이 개방됩니다.
 
 📢 **섹션 요약 비유**: 뇌([DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/))가 자신의 몸([데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/))의 상태를 기억하는 '자아 인식 스토리지'입니다. 몸무게가 늘면 뇌의 인식이 자동으로 갱신될 뿐, 손으로 뇌세포를 직접 찔러 정보를 조작할 수는 없습니다.
@@ -100,26 +92,20 @@ tags = ["database"]
 3. <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> (의미 없는 동의어 반복)</strong>: [데이터 표준화](/knowledge-base/studynote/05_database/02_modeling_normalization/126_data_standardization_word_domain_term/) 없이 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)에 무의미한 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)(수천 개의 테스트 뷰, [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))를 방치하면, 딕셔너리 캐시를 소진시켜 시스템 파싱 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 심각하게 저하됩니다.
 
 아래 트리는 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)가 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 파싱할 때 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)를 어떻게 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)하는지 보여주는 의사결정 흐름입니다.
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">쿼리 요청</div><div class="kb-diagram-note">SELECT * FROM Users WHERE age &gt; 20;</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 카탈로그 검증</div><div class="kb-diagram-note">(Dictionary Cache 스캔)</div></div>
-<div class="kb-diagram-tree-item" style="--depth:1">Users 테이블 존재? (O) / 권한 있음? (O)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 카탈로그 통계 확보</div></div>
-<div class="kb-diagram-tree-item" style="--depth:1">age 인덱스 존재 여부 파악</div>
-<div class="kb-diagram-tree-item" style="--depth:1">테이블 총 레코드 수 및 age &gt; 20의 분포도(Selectivity) 추출</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3. 실행 계획 산출</div></div>
-<div class="kb-diagram-tree-item" style="--depth:1">분포도가 10% 미만 ──&gt; 인덱스 스캔 플랜 채택</div>
-<div class="kb-diagram-tree-item" style="--depth:1">분포도가 50% 이상 ──&gt; 테이블 풀 스캔 플랜 채택</div>
-</div>
-</div>
-
-
+```text
+[쿼리 요청] SELECT * FROM Users WHERE age > 20;
+   ↓
+[1. 카탈로그 검증] (Dictionary Cache 스캔)
+   ├─> Users 테이블 존재? (O) / 권한 있음? (O)
+   ↓
+[2. 카탈로그 통계 확보]
+   ├─> age 인덱스 존재 여부 파악
+   └─> 테이블 총 레코드 수 및 age > 20의 분포도(Selectivity) 추출
+   ↓
+[3. 실행 계획 산출]
+   ├─> 분포도가 10% 미만 ──> 인덱스 스캔 플랜 채택
+   └─> 분포도가 50% 이상 ──> 테이블 풀 스캔 플랜 채택
+```
 이 흐름의 핵심은 [비용 기반 옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/165_cbo_cost_based_optimizer/)(CBO)의 지능은 전적으로 시스템 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)의 통계 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정확도에 의존한다는 점입니다. [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 통계가 거짓말을 하면 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)는 최악의 결정을 내립니다. "Garbage In, Garbage Out"의 원칙이 여기에도 적용됩니다.
 
 📢 **섹션 요약 비유**: 내비게이션([옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/))이 아무리 똑똑해도 지도 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)(시스템 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/))에 새로 생긴 고속도로가 업데이트되어 있지 않으면, 구불구불한 국도로만 길을 안내하는 것과 같습니다.
@@ -146,23 +132,21 @@ tags = ["database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 정의 (DDL 실행) — 테이블·인덱스·뷰 생성</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시스템 카탈로그 갱신 (System Catalog Update) — 메타데이터 자동 등록</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">쿼리 파싱 (Hard Parsing) — 카탈로그 조회로 객체·권한 검증</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">옵티마이저 (Optimizer) — 통계 정보 기반 최적 실행 계획 수립</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 거버넌스 (Data Governance) — 카탈로그 메타데이터로 전사 자산 통제</div></div>
-</div>
-</div>
-
-
+```text
+[데이터 정의 (DDL 실행) — 테이블·인덱스·뷰 생성]
+    │
+    ▼
+[시스템 카탈로그 갱신 (System Catalog Update) — 메타데이터 자동 등록]
+    │
+    ▼
+[쿼리 파싱 (Hard Parsing) — 카탈로그 조회로 객체·권한 검증]
+    │
+    ▼
+[옵티마이저 (Optimizer) — 통계 정보 기반 최적 실행 계획 수립]
+    │
+    ▼
+[데이터 거버넌스 (Data Governance) — 카탈로그 메타데이터로 전사 자산 통제]
+```
 
 이 흐름은 [DDL](/knowledge-base/studynote/05_database/01_db_architecture_relational/020_ddl/) 실행 시점부터 시작해 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)와 거버넌스까지 이어지는 시스템 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)의 역할 연쇄를 나타낸다.
 

@@ -30,19 +30,18 @@ tags = ["studynote-enterprise"]
 
 [데이터 패브릭](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/)의 핵심은 <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/">액티브</a> <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/">메타데이터</a>(<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/">Active</a> <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/">Metadata</a>)</strong>다. 단순히 정보를 저장하는 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 넘어, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)/ML이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 활용 패턴을 학습하여 스스로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 맵핑하고 품질을 관리한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">사용자/애플리케이션</div><div class="kb-diagram-note">(통합 인터페이스 접근)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 패브릭 지능형 계층</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AI 기반 메타데이터 분석</div><div class="kb-diagram-node">데이터 가상화</div><div class="kb-diagram-node">자동 품질 관리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AWS S3 저장소</div><div class="kb-diagram-node">온프레미스 Oracle</div><div class="kb-diagram-node">Salesforce SaaS</div></div>
-</div>
-</div>
-
-
+```text
+[사용자/애플리케이션] (통합 인터페이스 접근)
+           │
+           ▼
+┌──────────────────────────────────────────────────────────────┐
+│                  데이터 패브릭 지능형 계층                    │
+│ [AI 기반 메타데이터 분석] [데이터 가상화] [자동 품질 관리]    │
+└──────────────────────────────────────────────────────────────┘
+           │                   │                    │
+           ▼                   ▼                    ▼
+   [AWS S3 저장소]     [온프레미스 Oracle]     [Salesforce SaaS]
+```
 
 | 주요 기능 | 설명 | 기대효과 |
 |:---|:---|:---|
@@ -108,23 +107,21 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">사일로화된 이기종 데이터 소스 난립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">데이터 통합 미들웨어 (ETL 허브) 한계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Active Metadata + AI 기반 데이터 패브릭 등장</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Knowledge Graph + 자동 발견·추천·거버넌스</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">하이브리드/멀티클라우드 통합 지능형 데이터 계층</div>
-</div>
-</div>
-
-
+```
+사일로화된 이기종 데이터 소스 난립
+    │
+    ▼
+데이터 통합 미들웨어 (ETL 허브) 한계
+    │
+    ▼
+Active Metadata + AI 기반 데이터 패브릭 등장
+    │
+    ▼
+Knowledge Graph + 자동 발견·추천·거버넌스
+    │
+    ▼
+하이브리드/멀티클라우드 통합 지능형 데이터 계층
+```
 
 > **키워드**: [Data Fabric](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/), [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) [Metadata](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/), [Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/), [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)-Driven Integration, [Hybrid Cloud](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/009_hybrid_cloud/), [Data Virtualization](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/247_data_virtualization_federated_query/)
 

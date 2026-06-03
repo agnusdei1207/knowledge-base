@@ -23,17 +23,14 @@ tags = ["studynote-ai"]
 
 Q(s,a)는 "상태 s에서 행동 a를 취할 때의 최적 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 하에서의 기대 누적 보상"이다. 이 표가 완성되면 에이전트는 매 상황에서 Q값이 가장 높은 행동만 선택하면 최적 행동을 보장받는다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: Q-테이블은 각 상황(행)에서 각 행동(열)을 했을 때의 예상 점수가 적힌 점수표다. 처음에는 모든 칸이 0이지만, 게임을 반복하면서 좋은 행동에는 높은 점수, 나쁜 행동에는 낮은 점수가 채워진다. 점수표가 완성되면 매 순간 그냥 가장 높은 점수 행동을 선택하면 된다.
 
@@ -41,36 +38,37 @@ Q(s,a)는 "상태 s에서 행동 a를 취할 때의 최적 [정책](/knowledge-b
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Q-러닝 (Q-Learning) 업데이트 수식 및 알고리즘</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Q-러닝 업데이트 규칙:</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">←</div><div class="kb-diagram-node">R + γ max_{a'} Q(s',a') - Q(s,a)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">구성 요소:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Q(s,a) : 현재 Q값 (업데이트 전)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">α (Learning Rate) : 학습률 (0~1, 얼마나 빨리 업데이트할지)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">R : 즉각 보상</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">γ (Discount Factor) : 할인 계수</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">max_{a'} Q(s',a') : 다음 상태 s'의 최대 Q값</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TD 오류 (TD Error) : R + γ max Q(s',a') - Q(s,a)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"예측값과 현실값의 차이 → 이만큼 보정"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">알고리즘 흐름:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Q 테이블 0으로 초기화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 상태 s 관찰</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. ε-탐욕으로 행동 a 선택 (탐험 or 활용)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 행동 수행 → 보상 r, 다음 상태 s' 관찰</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. Q(s,a) 업데이트 (위 수식 적용)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6. s ← s' 로 갱신 후 2번으로 반복</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">7. 에피소드 종료 시 새 에피소드 시작</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오프-폴리시(Off-Policy) 특성:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">탐험(랜덤) 행동으로 얻은 경험도 최적 Q값(max Q(s',a')) 학습에 사용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 실제 선택한 행동(ε-탐욕)과 무관하게 최적 정책 학습 가능</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│         Q-러닝 (Q-Learning) 업데이트 수식 및 알고리즘                │
+├──────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  Q-러닝 업데이트 규칙:                                              │
+│  Q(s,a) ← Q(s,a) + α [R + γ max_{a'} Q(s',a') - Q(s,a)]       │
+│                                                                  │
+│  구성 요소:                                                        │
+│  Q(s,a)              : 현재 Q값 (업데이트 전)                      │
+│  α (Learning Rate)   : 학습률 (0~1, 얼마나 빨리 업데이트할지)       │
+│  R                   : 즉각 보상                                   │
+│  γ (Discount Factor) : 할인 계수                                  │
+│  max_{a'} Q(s',a')   : 다음 상태 s'의 최대 Q값                    │
+│  TD 오류 (TD Error)  : R + γ max Q(s',a') - Q(s,a)              │
+│                       "예측값과 현실값의 차이 → 이만큼 보정"        │
+│                                                                  │
+│  알고리즘 흐름:                                                     │
+│  1. Q 테이블 0으로 초기화                                           │
+│  2. 상태 s 관찰                                                    │
+│  3. ε-탐욕으로 행동 a 선택 (탐험 or 활용)                           │
+│  4. 행동 수행 → 보상 r, 다음 상태 s' 관찰                           │
+│  5. Q(s,a) 업데이트 (위 수식 적용)                                 │
+│  6. s ← s' 로 갱신 후 2번으로 반복                                 │
+│  7. 에피소드 종료 시 새 에피소드 시작                                 │
+│                                                                  │
+│  오프-폴리시(Off-Policy) 특성:                                     │
+│  탐험(랜덤) 행동으로 얻은 경험도 최적 Q값(max Q(s',a')) 학습에 사용   │
+│  → 실제 선택한 행동(ε-탐욕)과 무관하게 최적 정책 학습 가능            │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 | 용어 | 의미 | Q-러닝 예시 |
 |:---|:---|:---|

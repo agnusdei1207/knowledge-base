@@ -18,17 +18,11 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Foundation Model = 대규모 데이터 + 대규모 파라미터 + 자기지도 학습</div>
-<div class="kb-diagram-note">→ 범용 표현 학습 → 다양한 하위 작업에 적응</div>
-<div class="kb-diagram-note">예: GPT-4(텍스트), CLIP(이미지+텍스트), Codex(코드)</div>
-</div>
-</div>
-
-
+```text
+Foundation Model = 대규모 데이터 + 대규모 파라미터 + 자기지도 학습
+  → 범용 표현 학습 → 다양한 하위 작업에 적응
+  예: GPT-4(텍스트), CLIP(이미지+텍스트), Codex(코드)
+```
 
 - **📢 섹션 요약 비유**: Foundation Model은 <strong>대학 교양 교육</strong>이다. 교양(사전 학습)을 받은 후 전공([Fine-tuning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/))을 선택하면 빠르게 전문가가 된다.
 
@@ -63,18 +57,12 @@ Foundation Model은 <strong>현대 AI의 패러다임</strong>이며, 규모의 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Word2Vec (2013)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">BERT (2018)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">GPT-3 (2020)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Foundation Model 명명 (Stanford HAI, 2021)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">GPT-4 / Gemini (2023~2024)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: 오픈소스 FM — Llama·Mistral·Qwen</div></div>
-</div>
-</div>
-
-
+```text
+[Word2Vec (2013)] → [BERT (2018)] → [GPT-3 (2020)]
+    → [Foundation Model 명명 (Stanford HAI, 2021)]
+    → [GPT-4 / Gemini (2023~2024)]
+    → [현재: 오픈소스 FM — Llama·Mistral·Qwen]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. Foundation Model은 <strong>대학 교양 교육</strong>이에요. 많이 배우면 <strong>뭐든 할 수 있는 기초</strong>가 돼요.

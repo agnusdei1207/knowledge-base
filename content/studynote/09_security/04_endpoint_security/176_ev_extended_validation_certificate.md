@@ -25,22 +25,20 @@ tags = ["studynote-security"]
 
 아래 그림은 일반 HTTPS가 답하는 질문과 EV가 추가로 보강하는 질문을 구분해 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">What HTTPS proves, and what EV adds</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Valid TLS certificate</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Is traffic encrypted in transit? -&gt; yes</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Does the server control the domain/key? -&gt; yes</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Which legal organization runs the site? -&gt; not always</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EV certificate</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Uses the same TLS handshake and ciphers -&gt; same crypto</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Adds stricter verified organization identity -&gt; more trust</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ What HTTPS proves, and what EV adds                                 │
+├──────────────────────────────────────────────────────────────────────┤
+│ Valid TLS certificate                                               │
+│   ├─ Is traffic encrypted in transit?             -> yes            │
+│   ├─ Does the server control the domain/key?      -> yes            │
+│   └─ Which legal organization runs the site?      -> not always     │
+│                                                                      │
+│ EV certificate                                                       │
+│   ├─ Uses the same TLS handshake and ciphers        -> same crypto  │
+│   └─ Adds stricter verified organization identity   -> more trust   │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 즉 EV의 필요성은 "더 센 암호"가 아니라 "더 분명한 운영 주체"에 있다. 기술적으로는 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 연결이지만, 운영·[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 관점에서는 디지털 신원 보증 문서에 더 가깝다.
 
@@ -62,23 +60,22 @@ EV의 핵심은 암호 [알고리즘](/knowledge-base/studynote/08_algorithm_sta
 
 아래 그림은 [EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/) 발급 파이프라인을 보여 준다. 중요한 점은 마지막에 나오는 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 핸드셰이크 자체는 DV나 [OV](/knowledge-base/studynote/09_security/04_endpoint_security/178_ov_organization_validation_certificate/) ([Organization Validation](/knowledge-base/studynote/09_security/04_endpoint_security/178_ov_organization_validation_certificate/))와 동일하다는 것이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EV issuance workflow</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Applicant -&gt; CSR (Certificate Signing Request)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Domain control validation</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Legal entity existence / good standing check</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Operational presence / address / phone verification</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Verified callback for authorized requester</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CA issues EV certificate</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ organization fields + policy OID</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ same TLS handshake / cipher negotiation as other cert types</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ EV issuance workflow                                                 │
+├──────────────────────────────────────────────────────────────────────┤
+│ Applicant -> CSR (Certificate Signing Request)                       │
+│      │                                                               │
+│      ├─ Domain control validation                                    │
+│      ├─ Legal entity existence / good standing check                 │
+│      ├─ Operational presence / address / phone verification          │
+│      ├─ Verified callback for authorized requester                   │
+│      ▼                                                               │
+│ CA issues EV certificate                                             │
+│      ├─ organization fields + policy OID                             │
+│      └─ same TLS handshake / cipher negotiation as other cert types  │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 따라서 EV는 "수학적으로 더 강한 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서"가 아니다. [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) ([Rivest-Shamir-Adleman](/knowledge-base/studynote/09_security/03_network_security/110_rsa/)) 키 길이, [ECDSA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/097_ecdsa_schnorr_signature_bitcoin/) (Elliptic Curve [Digital Signature](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/) [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)), [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/), [Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) Secrecy 같은 암호 강도 요소는 별도 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 문제다. EV는 발급 시점의 신원 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 레벨을 높인 것이다.
 
@@ -164,30 +161,31 @@ EV를 이해하려면 [DV](/knowledge-base/studynote/09_security/04_endpoint_sec
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">평문 HTTP 시대</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">HTTPS 보급 확대</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DV (Domain Validation) 중심 자동화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">조직 신원 확인 요구</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">OV / EV (Extended Validation)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">법적 실체 검증</div>
-<div class="kb-diagram-tree-item" style="--depth:2">정책 OID / 감사 추적</div>
-<div class="kb-diagram-tree-item" style="--depth:2">고신뢰 거래 용도</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">브라우저 EV UI 축소</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">인증서 + 브랜드 보호 + 피싱 대응의 다층 방어</div>
-</div>
-</div>
-
-
+```text
+평문 HTTP 시대
+    │
+    ▼
+HTTPS 보급 확대
+    │
+    ▼
+DV (Domain Validation) 중심 자동화
+    │
+    ▼
+조직 신원 확인 요구
+    │
+    ▼
+OV / EV (Extended Validation)
+    │
+    ├─ 법적 실체 검증
+    ├─ 정책 OID / 감사 추적
+    └─ 고신뢰 거래 용도
+    │
+    ▼
+브라우저 EV UI 축소
+    │
+    ▼
+인증서 + 브랜드 보호 + 피싱 대응의 다층 방어
+```
 
 이 흐름은 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 생태계가 "암호화 보급"에서 출발해, 조직 신원 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)과 그 한계를 반영한 다층 방어 체계로 발전하는 과정을 보여 준다.
 

@@ -37,23 +37,25 @@ EOA는 우리가 흔히 메타마스크(MetaMask) 같은 지갑을 통해 [생�
 | **Storage Root** | 비어 있음 (상태 저장 불가) | 컨트랙트 상태 변수가 저장된 [머클 트리](/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/) 루트 |
 | <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a> Hash</strong> | 비어 있음 (코드 없음) | 배포된 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)의 바이트코드 해시 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">트랜잭션(Transaction) 발생과 전파 흐름</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">인간/외부 시스템</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 트랜잭션 생성 및 개인키 서명 (가스비 지불 약속)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 트랜잭션 전송</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EOA</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">CA</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(코드 없음)</div><div class="kb-diagram-cell">(코드 있음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 내부 메시지(Internal Call) 발생</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(CA는 스스로 트랜잭션을 시작할 수 없음) ▼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다른 CA</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│            트랜잭션(Transaction) 발생과 전파 흐름          │
+├──────────────────────────────────────────────────────────────┤
+│ [인간/외부 시스템]                                           │
+│       │ 1. 트랜잭션 생성 및 개인키 서명 (가스비 지불 약속)     │
+│       ▼                                                      │
+│ ┌───────────┐         2. 트랜잭션 전송          ┌───────────┐│
+│ │    EOA    │─────────────────────────────────▶│    CA     ││
+│ │(코드 없음)│                                  │(코드 있음)││
+│ └───────────┘                                  └───────────┘│
+│                                                      │       │
+│               3. 내부 메시지(Internal Call) 발생       │       │
+│               (CA는 스스로 트랜잭션을 시작할 수 없음)   ▼       │
+│                                                ┌───────────┐│
+│                                                │ 다른 CA   ││
+│                                                └───────────┘│
+└──────────────────────────────────────────────────────────────┘
+```
 가장 중요한 원리는 <strong>"<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a>의 시작점은 항상 EOA여야 한다"</strong>는 것이다. CA는 EOA나 다른 CA로부터 메시지(호출)를 받았을 때만 깨어나서 코드를 실행하고, 다시 잠든다.
 
 - **📢 섹션 요약 비유**: 도미노 쓰러뜨리기와 같다. EOA는 첫 번째 도미노를 손가락으로 밀어 쓰러뜨리는 유일한 존재([트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 시작)이고, CA는 그 힘을 받아 다음 도미노를 차례로 쓰러뜨리는 중간 블록(내부 호출)이다.
@@ -117,23 +119,21 @@ EOA의 가장 큰 치명적 약점은 <strong>"개인키를 잃어버리면 모�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">UTXO (비트코인의 단순 잔고 증명)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Account Model 도입 (이더리움의 상태 저장)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ EOA (Externally Owned Account) : 키 관리, 트랜잭션 시작, 가스 지불</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ CA (Contract Account) : 코드 실행, 상태 저장, 내부 메시지 호출</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Smart Contract Wallet (다중 서명, 소셜 복구 기능 등 제한적 적용)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Account Abstraction (ERC-4337) : 프로토콜 수준에서 EOA와 CA의 통합 및 UX 혁신</div>
-</div>
-</div>
-
-
+```text
+UTXO (비트코인의 단순 잔고 증명)
+    │
+    ▼
+Account Model 도입 (이더리움의 상태 저장)
+    │
+    ├─▶ EOA (Externally Owned Account) : 키 관리, 트랜잭션 시작, 가스 지불
+    └─▶ CA (Contract Account) : 코드 실행, 상태 저장, 내부 메시지 호출
+             │
+             ▼
+Smart Contract Wallet (다중 서명, 소셜 복구 기능 등 제한적 적용)
+             │
+             ▼
+Account Abstraction (ERC-4337) : 프로토콜 수준에서 EOA와 CA의 통합 및 UX 혁신
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -30,26 +30,29 @@ tags = ["studynote-operating-system"]
 - **포인터 체인 꼬리표 기전과 O(N) 디스크 암 순차 탐색 렌더 다이어그램**:
 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 장부의 `시작=9번` 이란 정보 하나만 들고 어떻게 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 조각을 징검다리 밟듯 다 캐내어 조립하는지 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 맵으로 보면 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">외부 단편화 제로(0%)에 빛나는 기차놀이 꼬리 블록 포팅 렌더</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1️⃣</div><div class="kb-diagram-node">디렉터리 구조표 덩어리 (이름표 메모리 캐싱 캡슐)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 파일 이름 : <code>jeju.mp4</code></div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 시작 블록 : <code>9번</code> ◀ (모터 핀을 9번 트랙 타격 출발)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 끝 블록 : <code>25번</code> ──</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2️⃣</div><div class="kb-diagram-node">실제 하드디스크 철판 찢어진 물리 섹터 깡통 (0번 ~ 31번 방)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">9</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">16</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(jeju 조각 1) (jeju 조각 2) (jeju 조각 3)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(다음=16) (다음=1) (다음=25)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">25</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">포인터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(jeju 조각 4 끝)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(다음=-1 EOF 종결 부호!)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌────────────────────────────────────────────────────────────────────────────────┐
+  │                 외부 단편화 제로(0%)에 빛나는 기차놀이 꼬리 블록 포팅 렌더     │
+  ├────────────────────────────────────────────────────────────────────────────────┤
+  │                                                                                │
+  │  1️⃣ [ 디렉터리 구조표 덩어리 (이름표 메모리 캐싱 캡슐) ]                      │
+  │   - 파일 이름 : `jeju.mp4`                                                     │
+  │   - 시작 블록 : `9번` ◀──── (모터 핀을 9번 트랙 타격 출발)                     │
+  │   - 끝 블록   : `25번` ──┐                                                     │
+  │                                                                                │
+  │  =============================================================                 │
+  │                                                                                │
+  │  2️⃣ [ 실제 하드디스크 철판 찢어진 물리 섹터 깡통 (0번 ~ 31번 방) ]            │
+  │                                                                                │
+  │     [9] ──────포인터────▶ [16] ─────포인터────▶ [1]                            │
+  │    (jeju 조각 1)           (jeju 조각 2)         (jeju 조각 3)                 │
+  │    (다음=16)               (다음=1)              (다음=25)                     │
+  │                                                      │                         │
+  │     [25] ◀──────────포인터────────────────────────┘                            │
+  │    (jeju 조각 4 끝)                                                            │
+  │    (다음=-1 EOF 종결 부호!)                                                    │
+  └────────────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 디스크 모터 암(Arm)은 9번 블록으로 내려가 1번 조각을 읽는다. 읽은 블록 끝부분 4바이트에 적힌 `16` 이란 숫자를 보고 "아 다음은 16번지로 바늘(헤드) 점프 돌격([Seek Time](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 타격)!" 을 때린다. 그렇게 디스크 원판을 미친 듯이 이리저리 점핑하며 철판을 박박 긁어대다(랜덤 스로틀 파괴 물리 부하) 마지막 25번에 도달하여 `-1 (End of File)` 신호탄 표지를 맞고 읽기를 종료한다. 빈 공간을 기막히게 알뜰 재활용했지만, 모터가 여기저기 왔다 갔다 탐욕스럽게 춤을 춰야(Seek 물리 레이턴시 병목) 하므로 속도([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 페이로드) 측면에서는 [연속 할당](/knowledge-base/studynote/02_operating_system/09_file_system/523_contiguous_allocation/)보다 엄청나게 뒤처진 S/W 크래시 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 늪에 빠질 수 있는 비극적 결론이 도출된다.
 
@@ -138,19 +141,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">연속 할당 (Contiguous Allocation)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">연결 할당 (Linked Allocation)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">FAT (File Allocation Table)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">색인 할당 (Indexed Allocation)</div></div>
-</div>
-</div>
-
-
+```text
+[연속 할당 (Contiguous Allocation)]
+    │
+    ▼
+[연결 할당 (Linked Allocation)]
+    │
+    ├──▶ [FAT (File Allocation Table)]
+    └──▶ [색인 할당 (Indexed Allocation)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

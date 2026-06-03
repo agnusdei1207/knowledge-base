@@ -21,15 +21,11 @@ tags = ["studynote-bigdata"]
 
 [양자 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/) + 빅데이터 (최적화 문제, 양자 ML [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 연구)은 빅데이터 환경에서 [양자 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/)을 실제 문서, 시스템, 운영 흐름에 연결하는 문제를 다룬다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 환경이 빠르게 바뀌어도 기준이 없으면 선택 기준이 흔들리고, 결국 비용과 품질이 같이 흔들린다. 그래서 이 주제는 최신 흐름을 따라가는 이야기이면서 동시에, 무엇을 기준으로 선택할지 정리하는 구조다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구사항</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">구성 요소</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">운영 결과</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐   ┌──────────────┐   ┌──────────────┐
+│ 요구사항         │──▶│ 구성 요소        │──▶│ 운영 결과        │
+└──────────────┘   └──────────────┘   └──────────────┘
+```
 
 - **📢 섹션 요약 비유**: 도시의 구역 분할처럼, 시작점이 정해져야 다음 단계도 흔들리지 않는다.
 
@@ -45,15 +41,11 @@ tags = ["studynote-bigdata"]
 | 구성 요소 | 처리/[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 절차와 자동화가 연결되어야 한다 |
 | 운영 결과 | 결과/증거 | 기록이 남아야 재현과 추적이 된다 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구사항</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">구성 요소</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">운영 결과</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐   ┌──────────────┐   ┌──────────────┐
+│ 요구사항         │──▶│ 구성 요소        │──▶│ 운영 결과        │
+└──────────────┘   └──────────────┘   └──────────────┘
+```
 
 [양자 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/)와 양자 ML은 이 흐름을 보강하는 대표 축이다. 하나는 기술 발전 방향이고, 다른 하나는 실제 운영 방식이다. 둘을 같이 봐야 과도한 단순화도, 과도한 복잡화도 피할 수 있다.
 
@@ -116,23 +108,21 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">배치 처리 아키텍처(Lambda)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스트리밍 처리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">카파 아키텍처(Kappa)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">레이크하우스(Lakehouse)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 메시(Data Mesh)</div></div>
-</div>
-</div>
-
-
+```text
+[배치 처리 아키텍처(Lambda)]
+    │
+    ▼
+[스트리밍 처리]
+    │
+    ▼
+[카파 아키텍처(Kappa)]
+    │
+    ▼
+[레이크하우스(Lakehouse)]
+    │
+    ▼
+[데이터 메시(Data Mesh)]
+```
 
 빅데이터 아키텍처는 Lambda와 스트리밍에서 [Kappa](/knowledge-base/studynote/16_bigdata/12_trends/235_kappa/), [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/), [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)로 진화한다.
 

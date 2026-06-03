@@ -20,20 +20,18 @@ tags = ["studynote-ai"]
 
 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 문제를 정의할 때 가장 먼저 결정해야 할 것이 "어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 있고, 무엇을 학습시킬 것인가"이다. 이 결정이 학습 패러다임을 결정한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3대 학습 패러다임 비교</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지도 학습</div><div class="kb-diagram-cell">비지도 학습</div><div class="kb-diagram-cell">강화 학습</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">레이블 데이터</div><div class="kb-diagram-cell">레이블 없는 데이터</div><div class="kb-diagram-cell">환경·보상 신호</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">f(x) → y</div><div class="kb-diagram-cell">숨겨진 패턴 발견</div><div class="kb-diagram-cell">최적 정책 π 학습</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분류·회귀</div><div class="kb-diagram-cell">군집·차원 축소·생성</div><div class="kb-diagram-cell">게임·로봇·추천</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CNN, SVM</div><div class="kb-diagram-cell">K-means, VAE, GAN</div><div class="kb-diagram-cell">DQN, PPO, AlphaGo</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────┐
+│            3대 학습 패러다임 비교                             │
+├──────────────┬────────────────────────┬────────────────────┤
+│  지도 학습   │     비지도 학습          │    강화 학습        │
+├──────────────┼────────────────────────┼────────────────────┤
+│ 레이블 데이터 │ 레이블 없는 데이터       │ 환경·보상 신호      │
+│ f(x) → y    │ 숨겨진 패턴 발견         │ 최적 정책 π 학습    │
+│ 분류·회귀    │ 군집·차원 축소·생성      │ 게임·로봇·추천      │
+│ CNN, SVM    │ K-means, VAE, GAN       │ DQN, PPO, AlphaGo  │
+└──────────────┴────────────────────────┴────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/)은 정답이 있는 시험(레이블), [비지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/122_unsupervised_learning/)은 정답 없이 스스로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하는 탐구 활동, [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)은 게임을 하며 점수로 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 배우는 것이다.
 
@@ -43,16 +41,10 @@ tags = ["studynote-ai"]
 
 ### [지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/) ([Supervised Learning](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/))
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">입력 x → 모델 f → 예측 ŷ → 손실(Loss) = L(y, ŷ) → 역전파(Backprop) → 가중치 업데이트</div>
-<div class="kb-diagram-note">레이블 y ↗</div>
-</div>
-</div>
-
-
+```text
+입력 x → 모델 f → 예측 ŷ → 손실(Loss) = L(y, ŷ) → 역전파(Backprop) → 가중치 업데이트
+레이블 y ─────────────────────────────────────────────↗
+```
 
 - [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/): 스팸 메일 탐지, 이미지 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/), 의료 진단
 - 회귀: 집값 예측, 주가 예측, 수요 예측
@@ -68,22 +60,16 @@ tags = ["studynote-ai"]
 
 ### [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/) ([Reinforcement Learning](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/))
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">에이전트 (Agent)</div></div>
-<div class="kb-diagram-note">행동(Action) a</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">환경 (Environment)</div></div>
-<div class="kb-diagram-note">상태(State) s', 보상(Reward) r</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">에이전트</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">정책(Policy) π 업데이트</div></div>
-<div class="kb-diagram-note">목표: 누적 보상(Cumulative Reward) 최대화</div>
-</div>
-</div>
-
-
+```text
+[에이전트 (Agent)]
+       │ 행동(Action) a
+       ▼
+[환경 (Environment)]
+       │ 상태(State) s', 보상(Reward) r
+       ▼
+[에이전트] → 정책(Policy) π 업데이트
+목표: 누적 보상(Cumulative Reward) 최대화
+```
 
 - **📢 섹션 요약 비유**: [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)은 강아지 훈련이다. 올바른 행동(앉아!)에 간식(보상)을 주고, 잘못된 행동에는 보상을 주지 않으면서 개(에이전트)가 최적 행동 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 스스로 학습한다.
 
@@ -144,23 +130,21 @@ tags = ["studynote-ai"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">지도 학습 — 레이블 데이터, 예측 함수 학습</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">비지도 학습 — 패턴·구조 발견, 생성 모델</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">강화 학습 — 환경 상호작용, 보상 기반 정책 최적화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">자기 지도 학습 — 데이터 자체에서 레이블 생성 (GPT, BERT)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">RLHF — 인간 피드백 강화 학습 (ChatGPT, Claude)</div></div>
-</div>
-</div>
-
-
+```text
+[지도 학습 — 레이블 데이터, 예측 함수 학습]
+    │
+    ▼
+[비지도 학습 — 패턴·구조 발견, 생성 모델]
+    │
+    ▼
+[강화 학습 — 환경 상호작용, 보상 기반 정책 최적화]
+    │
+    ▼
+[자기 지도 학습 — 데이터 자체에서 레이블 생성 (GPT, BERT)]
+    │
+    ▼
+[RLHF — 인간 피드백 강화 학습 (ChatGPT, Claude)]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

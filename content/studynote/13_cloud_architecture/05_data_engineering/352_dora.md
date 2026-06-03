@@ -21,17 +21,15 @@ tags = ["studynote-cloud-architecture"]
 
 따라서 [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)스 조직 배포 속도 안정 측정 지표를 이해할 때는 단순 정의보다 "어떤 병목을 줄이기 위해 경계를 다시 그렸는가"를 보는 것이 중요하다. 이 관점이 잡혀야 이후의 도구·플랫폼 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 기능 비교가 아니라 구조 비교로 바뀐다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DORA 메트릭스 조직 배포 속도 안정 측정 지표가 필요한 이유: 변경 속도와 안정성을 동시에 관리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">계획/코드 ─▶ 자동화 파이프라인 ─▶ 배포/운영 ─▶ 피드백/개선</div></div>
-<div class="kb-diagram-note">반복 학습 루프를 짧게 유지</div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ DORA 메트릭스 조직 배포 속도 안정 측정 지표가 필요한 이유: 변경 속도와 안정성을 동시에 관리                   │
+├──────────────────────────────────────────────────────────────┤
+│ 계획/코드 ─▶ 자동화 파이프라인 ─▶ 배포/운영 ─▶ 피드백/개선         │
+│    │                  │                 │                 │         │
+│    └────────────── 반복 학습 루프를 짧게 유지 ───────────────────┘
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 그림은 [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)스 조직 배포 속도 안정 측정 지표가 단일 기능이 아니라 입력, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 실행, 피드백을 잇는 흐름 전체를 다루는 주제임을 보여준다. 즉 어디서 제어하고 어디서 자율화할지를 정하는 것이 본질이다.
 
@@ -48,17 +46,15 @@ tags = ["studynote-cloud-architecture"]
 | 자동화 계층 | 빌드·테스트·배포 수행 | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD, [policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), scan |
 | 피드백 계층 | 지표·[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·회고로 개선 | [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/), [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/), [observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DORA 메트릭스 조직 배포 속도 안정 측정 지표 핵심 원리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력/요구 ─▶ 정책 결정 ─▶ 실행/저장 ─▶ 검증/피드백</div></div>
-<div class="kb-diagram-note">병목이 생기면 제어 규칙과 데이터 경계를 재조정 ──</div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ DORA 메트릭스 조직 배포 속도 안정 측정 지표 핵심 원리                                          │
+├──────────────────────────────────────────────────────────────┤
+│ 입력/요구 ─▶ 정책 결정 ─▶ 실행/저장 ─▶ 검증/피드백            │
+│     │           │            │              │                │
+│     └────── 병목이 생기면 제어 규칙과 데이터 경계를 재조정 ──┘
+└──────────────────────────────────────────────────────────────┘
+```
 
 강한 통제는 안정성을 높이지만 지연과 복잡도를 늘리고, 느슨한 통제는 유연성을 높이지만 거버넌스와 관측성을 약화시킬 수 있다. 그래서 [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)스 조직 배포 속도 안정 측정 지표는 기술 선택보다도 경계와 기본값을 정하는 설계 문제로 봐야 한다.
 
@@ -67,9 +63,9 @@ tags = ["studynote-cloud-architecture"]
 ---
 ## Ⅲ. 비교 및 연결
 
-[DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)스 조직 배포 속도 안정 측정 지표를 제대로 이해하려면 감() 중심 평가와의 경계를 함께 봐야 한다. 둘은 같은 문제를 다루는 것처럼 보여도 최적화 지점이 다르므로, 잘못 선택하면 운영비와 장애 특성이 크게 달라진다.
+[DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)스 조직 배포 속도 안정 측정 지표를 제대로 이해하려면 감(感) 중심 평가와의 경계를 함께 봐야 한다. 둘은 같은 문제를 다루는 것처럼 보여도 최적화 지점이 다르므로, 잘못 선택하면 운영비와 장애 특성이 크게 달라진다.
 
-| 비교 항목 | [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)스 조직 배포 속도 안정 측정 지표 | 감() 중심 평가 |
+| 비교 항목 | [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)스 조직 배포 속도 안정 측정 지표 | 감(感) 중심 평가 |
 |:---|:---|:---|
 | 최적화 대상 | 안전한 배포와 운영 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)의 균형 | 특정 기능의 단순 구현 또는 기존 방식 유지 |
 | 장점 | 규모 증가 시 표준화와 자동화에 유리 | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 도입 비용과 이해 난도가 낮음 |
@@ -78,7 +74,7 @@ tags = ["studynote-cloud-architecture"]
 
 또한 [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)스 조직 배포 속도 안정 측정 지표는 관측성, 보안, 비용 관리와 항상 연결된다. 구조를 잘 만들어도 메타데이터와 지표가 없으면 운영 판단이 느려지고, 반대로 도구만 많고 경계가 모호하면 복잡성만 커진다.
 
-- **📢 섹션 요약 비유**: [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)스 조직 배포 속도 안정 측정 지표와 감() 중심 평가의 차이는 골목길과 고속도로의 차이와 같다. 가까운 거리에는 골목길이 편하지만, 차가 많아지고 구간이 길어지면 차선과 표지 체계가 있는 고속도로가 필요하다.
+- **📢 섹션 요약 비유**: [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)스 조직 배포 속도 안정 측정 지표와 감(感) 중심 평가의 차이는 골목길과 고속도로의 차이와 같다. 가까운 거리에는 골목길이 편하지만, 차가 많아지고 구간이 길어지면 차선과 표지 체계가 있는 고속도로가 필요하다.
 
 ---
 ## Ⅳ. 실무 적용 및 기술사 판단
@@ -128,7 +124,7 @@ tags = ["studynote-cloud-architecture"]
 
 **진행 상황**: 351 / 371
 
-← **이전**: [351. 카오스 엔지니어링 의도적 장애 주입 복원력 선제 확인망 (Chaos Engineering)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/351_audit/)
+← **이전**: [351. 카오스 엔지니어링 의도적 장애 주입 복원력 선제 확인망 (Chaos 엔진ering)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/351_audit/)
 **다음**: [353. 컨셉 드리프트 데이터 드리프트 모델 피처 MLOps 모니터링 (Concept Drift)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/353_mlops/) →
 
 ---

@@ -35,18 +35,18 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 볼륨과 물리 풀의 관계를 단순화한 것이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Thin provisioning map</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Logical volume:</div><div class="kb-diagram-node">L0</div><div class="kb-diagram-node">L1</div><div class="kb-diagram-node">L2</div><div class="kb-diagram-node">L3</div><div class="kb-diagram-node">L4</div><div class="kb-diagram-node">L5</div><div class="kb-diagram-note">...</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Physical pool :</div><div class="kb-diagram-node">P7</div><div class="kb-diagram-node">P9</div><div class="kb-diagram-node">P21</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Unwritten logical blocks do not consume physical extents</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│ Thin provisioning map                                           │
+├──────────────────────────────────────────────────────────────────┤
+│ Logical volume: [L0][L1][L2][L3][L4][L5]...                     │
+│                  │       │       │                              │
+│                  ▼       ▼       ▼                              │
+│ Physical pool : [P7]    [P9]    [P21]                           │
+│                                                                  │
+│ Unwritten logical blocks do not consume physical extents         │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 이 구조에서 중요한 것은 매핑 테이블과 자유 공간 관리자다. 매핑 테이블은 어떤 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 블록이 어느 물리 [익스텐트](/knowledge-base/studynote/02_operating_system/09_file_system/531_extent_allocation/)에 연결되어 있는지 기록하고, 자유 공간 관리자는 풀 안에서 아직 배정되지 않은 블록을 추적한다. 삭제 후 운영체제가 TRIM/UNMAP 회수 신호를 보내면, 스토리지는 해당 [익스텐트](/knowledge-base/studynote/02_operating_system/09_file_system/531_extent_allocation/)를 다시 풀로 돌려 다른 볼륨에 재사용할 수 있다.
 
@@ -115,27 +115,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Thick Provisioning</div>
-<div class="kb-diagram-note">유휴 공간 낭비 문제</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Thin Provisioning</div>
-<div class="kb-diagram-note">삭제 공간 회수 필요</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">TRIM / UNMAP 연동</div>
-<div class="kb-diagram-note">데이터 서비스 결합</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Thin + 압축 + 중복 제거</div>
-<div class="kb-diagram-note">자동 운영 고도화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">예측 기반 자율 용량 관리</div>
-</div>
-</div>
-
-
+```text
+Thick Provisioning
+    │  유휴 공간 낭비 문제
+    ▼
+Thin Provisioning
+    │  삭제 공간 회수 필요
+    ▼
+TRIM / UNMAP 연동
+    │  데이터 서비스 결합
+    ▼
+Thin + 압축 + 중복 제거
+    │  자동 운영 고도화
+    ▼
+예측 기반 자율 용량 관리
+```
 
 이 흐름은 “즉시 예약 → [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 할당 → 회수 자동화 → 복합 절감 → 예측 기반 운영”으로 이어지는 스토리지 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)의 진화를 보여준다.
 

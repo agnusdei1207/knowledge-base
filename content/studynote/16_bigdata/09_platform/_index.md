@@ -29,28 +29,37 @@ tags = ["studynote-bigdata"]
 
 ### 1. 현대 빅데이터 플랫폼 레이어
 
+```text
+빅데이터 플랫폼 레이어드 아키텍처
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">빅데이터 플랫폼 레이어드 아키텍처</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서빙 레이어 (Serving)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">API 서버 · BI 도구 · ML 추론 엔드포인트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분석 레이어 (Analytics)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 웨어하우스 (Redshift/BigQuery/Snowflake)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 마트 · OLAP 큐브</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">처리 레이어 (Processing)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">배치: Apache Spark / Hive</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스트리밍: Apache Flink / Kafka Streams</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">저장 레이어 (Storage)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 레이크 (S3/HDFS) + 레이크하우스 (Delta/Iceberg)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수집 레이어 (Ingestion)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">배치: Sqoop · dbt · Airbyte</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스트리밍: Kafka · Kinesis · Pub/Sub</div></div>
-</div>
-</div>
-
-
+  ┌─────────────────────────────────────────────────────────┐
+  │  서빙 레이어 (Serving)                                    │
+  │  API 서버 · BI 도구 · ML 추론 엔드포인트                   │
+  └──────────────────────┬──────────────────────────────────┘
+                         │
+  ┌──────────────────────▼──────────────────────────────────┐
+  │  분석 레이어 (Analytics)                                  │
+  │  데이터 웨어하우스 (Redshift/BigQuery/Snowflake)           │
+  │  데이터 마트 · OLAP 큐브                                  │
+  └──────────────────────┬──────────────────────────────────┘
+                         │
+  ┌──────────────────────▼──────────────────────────────────┐
+  │  처리 레이어 (Processing)                                 │
+  │  배치: Apache Spark / Hive                               │
+  │  스트리밍: Apache Flink / Kafka Streams                  │
+  └──────────────────────┬──────────────────────────────────┘
+                         │
+  ┌──────────────────────▼──────────────────────────────────┐
+  │  저장 레이어 (Storage)                                    │
+  │  데이터 레이크 (S3/HDFS) + 레이크하우스 (Delta/Iceberg)   │
+  └──────────────────────┬──────────────────────────────────┘
+                         │
+  ┌──────────────────────▼──────────────────────────────────┐
+  │  수집 레이어 (Ingestion)                                  │
+  │  배치: Sqoop · dbt · Airbyte                             │
+  │  스트리밍: Kafka · Kinesis · Pub/Sub                     │
+  └─────────────────────────────────────────────────────────┘
+```
 
 ### 2. 클라우드 빅데이터 플랫폼 비교
 
@@ -122,25 +131,24 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">RDBMS 단일 DB → 데이터 폭발</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">온프레미스 Hadoop (HDFS + MapReduce)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 관리형 (EMR, Dataproc, HDInsight)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">데이터 레이크 (S3/GCS) + 처리 분리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">레이크하우스 (Delta Lake, Iceberg, Hudi)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">데이터 메시 / Zero-ETL / AI 파이프라인 자동화</div>
-</div>
-</div>
-
-
+```text
+RDBMS 단일 DB → 데이터 폭발
+    │
+    ▼
+온프레미스 Hadoop (HDFS + MapReduce)
+    │
+    ▼
+클라우드 관리형 (EMR, Dataproc, HDInsight)
+    │
+    ▼
+데이터 레이크 (S3/GCS) + 처리 분리
+    │
+    ▼
+레이크하우스 (Delta Lake, Iceberg, Hudi)
+    │
+    ▼
+데이터 메시 / Zero-ETL / AI 파이프라인 자동화
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

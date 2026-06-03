@@ -18,23 +18,22 @@ tags = ["studynote-dataengineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">앙상블 3대 전략</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Bagging (병렬)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 부트스트랩 → 독립 학습기 → 다수결/평균</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대표: Random Forest</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Boosting (순차)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이전 모델의 오류 집중 학습 → 가중 합</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대표: XGBoost, LightGBM, AdaBoost</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Stacking (적층)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기본 모델 예측 → 메타 모델이 최종 예측</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    앙상블 3대 전략                                    │
+├───────────────────────────────────────────────────────┤
+│  [Bagging (병렬)]                                     │
+│   데이터 부트스트랩 → 독립 학습기 → 다수결/평균      │
+│   대표: Random Forest                                │
+│                                                       │
+│  [Boosting (순차)]                                    │
+│   이전 모델의 오류 집중 학습 → 가중 합               │
+│   대표: XGBoost, LightGBM, AdaBoost                  │
+│                                                       │
+│  [Stacking (적층)]                                    │
+│   기본 모델 예측 → 메타 모델이 최종 예측             │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: Bagging은 100명에게 물어서 다수결, Boosting은 틀린 문제만 반복 연습, Stacking은 전문가 의견을 종합하는 편집장이다.
 
@@ -96,23 +95,21 @@ tags = ["studynote-dataengineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">단일 의사결정 트리 (1986)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Bagging + Random Forest (Breiman, 2001)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AdaBoost (1997) → Gradient Boosting (2001)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">XGBoost (2014) / LightGBM (2017)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: AutoML — 최적 앙상블 자동 탐색</div></div>
-</div>
-</div>
-
-
+```text
+[단일 의사결정 트리 (1986)]
+    │
+    ▼
+[Bagging + Random Forest (Breiman, 2001)]
+    │
+    ▼
+[AdaBoost (1997) → Gradient Boosting (2001)]
+    │
+    ▼
+[XGBoost (2014) / LightGBM (2017)]
+    │
+    ▼
+[현재: AutoML — 최적 앙상블 자동 탐색]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/)은 <strong>100명에게 물어서 다수결(<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/">Bagging</a>)</strong>로 답을 정하는 거예요.

@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **과거 (필드버스)**: PROFIBUS, Modbus 같은 아날로그 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 통신선을 썼습니다. 느리고 데이터가 몇 바이트밖에 안 돼서 현대 스마트 팩토리의 수만 개 센서 빅데이터를 뽑아낼 수가 없었습니다.
 - <strong>사무실 랜선(<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">Ethernet</a>)의 유혹</strong>: 선도 싸고, 속도도 1Gbps로 빵빵합니다. 하지만 1047번에서 배웠듯 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)은 교통체증([버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/) 딜레이)이 터지는 **비확정성(Best Effort)** 때문에 목숨과 직결된 로봇 공장에선 절대 쓸 수 없는 금기의 구역이었습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">마이크로그리드 통신 규격</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">산업용 이더넷 PROFINET 망</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OT 망 분리 원단 통제</div></div>
-</div>
-</div>
-
-
+```text
+[마이크로그리드 통신 규격]
+    │
+    ▼
+[산업용 이더넷 PROFINET 망]
+    │
+    └──▶ [OT 망 분리 원단 통제]
+```
 
 - **📢 섹션 요약 비유**: 산업용 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) [PROFINET](/knowledge-base/studynote/09_security/18_iot_ot_physical/900_profinet/) 망은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -45,18 +41,14 @@ tags = ["studynote-network"]
 
 - 사무실 PC의 이메일 패킷([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP)과 로봇 팔의 실시간 제어 패킷이 1개의 랜선 안에서 동시에 흐르더라도, 기계가 완벽히 분리 처리하는 짬뽕 융합 기술입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">마이크로그리드 통신 규격</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">산업용 이더넷 PROFINET 망</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OT 망 분리 원단 통제</div></div>
-</div>
-</div>
-
-
+```text
+[마이크로그리드 통신 규격]
+    │
+    ▼
+[산업용 이더넷 PROFINET 망]
+    │
+    └──▶ [OT 망 분리 원단 통제]
+```
 
 - **📢 섹션 요약 비유**: 산업용 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) [PROFINET](/knowledge-base/studynote/09_security/18_iot_ot_physical/900_profinet/) 망의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -129,19 +121,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 마이크로그리드 통신 규격</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 산업용 이더넷 PROFINET 망</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: OT 망 분리 원단 통제</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 마이크로그리드 통신 규격]
+    │
+    ▼
+[현재 개념: 산업용 이더넷 PROFINET 망]
+    │
+    ├──▶ [확장 A: OT 망 분리 원단 통제]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 산업용 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) [PROFINET](/knowledge-base/studynote/09_security/18_iot_ot_physical/900_profinet/) 망는 [마이크로그리드 통신 규격](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1106_microgrid_communication_standards_iec61850/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/) 망 분리 원단 통제와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

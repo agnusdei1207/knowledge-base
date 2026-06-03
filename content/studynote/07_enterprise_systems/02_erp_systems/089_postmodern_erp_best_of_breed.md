@@ -37,21 +37,24 @@ IT 리서치 기관 가트너(Gartner)는 이러한 거대 통짜 시스템의 �
 
 이 분리 원리의 핵심은 두 계층이 <strong>느슨한 결합(Loosely Coupled)</strong>을 유지하는 것이다. 코어는 10년에 한 번 업그레이드하더라도, 주변의 마케팅 위성 앱은 매년 트렌드에 맞는 새로운 SaaS로 갈아 끼운다. 앱을 교체할 때는 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 연결 선만 코어에서 뽑았다가 새 앱에 꽂으면 되므로 회사 전체의 메인 시스템을 다운시킬 필요가 없다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">포스트 모던 ERP의 하이브리드 결합 구조 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전문 SaaS (Best of Breed)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Salesforce</div><div class="kb-diagram-node">Workday</div><div class="kb-diagram-node">HubSpot</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(영업/CRM) (인사/HR) (마케팅)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">통합 레이어 (API / iPaaS)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">메인 코어 ERP (안정성)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(재무 / 회계 / 생산)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│          포스트 모던 ERP의 하이브리드 결합 구조 시각화           │
+├──────────────────────────────────────────────────────────────┤
+│               [ 전문 SaaS (Best of Breed) ]                  │
+│       [Salesforce]       [Workday]        [HubSpot]          │
+│          (영업/CRM)        (인사/HR)        (마케팅)           │
+│              │                 │                │            │
+│  ============▼=================▼================▼=========== │
+│                [ 통합 레이어 (API / iPaaS) ]                  │
+│  ==============================┬============================= │
+│                                │                             │
+│                  ┌─────────────┴────────────┐              │
+│                  │   [ 메인 코어 ERP (안정성) ]   │              │
+│                  │      (재무 / 회계 / 생산)      │              │
+│                  └──────────────────────────┘              │
+└──────────────────────────────────────────────────────────────┘
+```
 이 그림은 중앙의 코어 ERP가 모든 것을 독점하지 않고, 통합 레이어를 통해 외부의 강력한 전문 무기([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/))들과 유연하게 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주고받는 아키텍처를 보여준다.
 
 - **📢 섹션 요약 비유**: 포스트 모던 ERP는 우주 정거장 설계와 같다. 묵직하고 거대한 메인 통제 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)(코어 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/))은 가만히 궤도를 돌고, 임무에 따라 다양한 모양의 소형 우주선(전문 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/))들이 도킹 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))를 통해 찰칵찰칵 붙었다 떨어지는 구조다.
@@ -110,23 +113,21 @@ IT 리서치 기관 가트너(Gartner)는 이러한 거대 통짜 시스템의 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">MRP / MRP Ⅱ (자재 및 생산 자원 관리)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">모놀리식 ERP (전사 통합, 단일 벤더 종속, 무거움)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">섀도우 IT 발생 및 클라우드(SaaS) 전문 도구의 부상</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">포스트 모던 ERP (Postmodern ERP) · 코어와 위성의 분리 및 조립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지능형/컴포저블 ERP (AI가 최적의 앱 연계와 프로세스를 자동 제안)</div>
-</div>
-</div>
-
-
+```text
+MRP / MRP Ⅱ (자재 및 생산 자원 관리)
+    │
+    ▼
+모놀리식 ERP (전사 통합, 단일 벤더 종속, 무거움)
+    │
+    ▼
+섀도우 IT 발생 및 클라우드(SaaS) 전문 도구의 부상
+    │
+    ▼
+포스트 모던 ERP (Postmodern ERP) · 코어와 위성의 분리 및 조립
+    │
+    ▼
+지능형/컴포저블 ERP (AI가 최적의 앱 연계와 프로세스를 자동 제안)
+```
 
 이 흐름도는 시스템이 뭉쳤다(통합)가 다시 목적에 맞게 쪼개어지고(해체 및 조립), 결국 클라우드 생태계 안에서 유연하게 공존하는 진화 과정을 보여준다.
 

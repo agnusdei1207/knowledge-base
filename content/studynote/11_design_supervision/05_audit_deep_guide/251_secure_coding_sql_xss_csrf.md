@@ -31,77 +31,86 @@ SW 개발보안([시큐어 코딩](/knowledge-base/studynote/12_it_management/05
 - 행정안전부 「소프트웨어 개발보안 가이드([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/477_owasp_top_10_2021/))」: 43개 진단 항목
 - KISA(한국인터넷진흥원, Korea Internet & [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Agency) 취약점 진단 기준
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Core Idea</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Expected Gain</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐    ┌──────────────┐    ┌──────────────┐
+│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
+└──────────────┘    └──────────────┘    └──────────────┘
+```
 
 - **📢 섹션 요약 비유**: SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/)은 "식당 주문서에 '모든 메뉴를 공짜로 주세요'라고 적어 요리사를 혼란에 빠트리는 것"이다. 입력 칸을 신뢰하지 않는 것이 [시큐어 코딩](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/)의 출발점이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요청 처리 파이프라인</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">사용자 입력</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 입력값 화이트리스트 검증</div><div class="kb-diagram-cell">← 허용 문자만 통과</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Whitelist Validation)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. PreparedStatement 사용</div><div class="kb-diagram-cell">← ? 플레이스홀더 바인딩</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Parameterized Query)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 최소 권한 DB 계정 사용</div><div class="kb-diagram-cell">← SELECT 전용 계정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Least Privilege)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DB 실행 완료</div></div>
-</div>
-</div>
-
-
+```
+┌────────────────────────────────────────────────────────────┐
+│                    요청 처리 파이프라인                      │
+│                                                            │
+│  [사용자 입력]                                              │
+│       │                                                    │
+│       ▼                                                    │
+│  ┌──────────────────────────────┐                          │
+│  │  1. 입력값 화이트리스트 검증   │  ← 허용 문자만 통과       │
+│  │     (Whitelist Validation)   │                          │
+│  └──────────────┬───────────────┘                          │
+│                 │                                          │
+│                 ▼                                          │
+│  ┌──────────────────────────────┐                          │
+│  │  2. PreparedStatement 사용   │  ← ? 플레이스홀더 바인딩  │
+│  │     (Parameterized Query)    │                          │
+│  └──────────────┬───────────────┘                          │
+│                 │                                          │
+│                 ▼                                          │
+│  ┌──────────────────────────────┐                          │
+│  │  3. 최소 권한 DB 계정 사용    │  ← SELECT 전용 계정       │
+│  │     (Least Privilege)        │                          │
+│  └──────────────┬───────────────┘                          │
+│                 │                                          │
+│                 ▼                                          │
+│            [DB 실행 완료]                                   │
+└────────────────────────────────────────────────────────────┘
+```
 
 XSS는 사용자가 입력한 `<script>` 태그가 다른 사용자의 브라우저에서 실행되는 공격이다. 방어의 핵심은 <strong>출력 시점의 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/">컨텍스트</a>별 인코딩</strong>이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">XSS 방어 필터 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력: &lt;script&gt;alert('XSS')&lt;/script&gt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HTML 컨텍스트 인코딩</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt; → &amp;lt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&gt; → &amp;gt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">" → &amp;quot;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">' → &amp;#x27;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">출력: &amp;lt;script&amp;gt;alert(&amp;#x27;XSS&amp;#x27;)&amp;lt;/script&amp;gt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 브라우저: 텍스트로 표시 (실행 불가)</div></div>
-</div>
-</div>
-
-
+```
+┌────────────────────────────────────────────────────────────┐
+│               XSS 방어 필터 흐름                            │
+│                                                            │
+│  입력: <script>alert('XSS')</script>                        │
+│       │                                                    │
+│       ▼                                                    │
+│  ┌──────────────────────────┐                              │
+│  │   HTML 컨텍스트 인코딩    │                              │
+│  │   < → &lt;               │                              │
+│  │   > → &gt;               │                              │
+│  │   " → &quot;             │                              │
+│  │   ' → &#x27;             │                              │
+│  └──────────────┬───────────┘                              │
+│                 │                                          │
+│  출력: &lt;script&gt;alert(&#x27;XSS&#x27;)&lt;/script&gt; │
+│       → 브라우저: 텍스트로 표시 (실행 불가)                  │
+└────────────────────────────────────────────────────────────┘
+```
 
 [CSRF](/knowledge-base/studynote/03_network/14_network_security_threats/728_csrf_cross_site_request_forgery_concept/) 토큰([CSRF Token](/knowledge-base/studynote/09_security/05_web_app_security/478_csrf_token/))은 서버가 생성한 난수값을 폼(Form) 히든 필드에 삽입하여 위조 요청을 차단한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CSRF 토큰 검증 흐름</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">서버</div><div class="kb-diagram-note">세션 생성 시 토큰 발급</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Token = "a3f9b2c1d8e7..."</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">클라이언트</div><div class="kb-diagram-note">폼에 히든 필드로 포함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;input type="hidden" name="_csrf" value="..."/&gt;</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">요청 수신</div><div class="kb-diagram-note">서버에서 토큰 일치 검증</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 토큰 일치 → 요청 처리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 토큰 불일치 → 403 Forbidden 반환</div></div>
-</div>
-</div>
-
-
+```
+┌────────────────────────────────────────────────────────────┐
+│              CSRF 토큰 검증 흐름                             │
+│                                                            │
+│  [서버] 세션 생성 시 토큰 발급                               │
+│       │  Token = "a3f9b2c1d8e7..."                         │
+│       ▼                                                    │
+│  [클라이언트] 폼에 히든 필드로 포함                          │
+│       │  <input type="hidden" name="_csrf" value="..."/>   │
+│       ▼                                                    │
+│  [요청 수신] 서버에서 토큰 일치 검증                         │
+│       │                                                    │
+│       ├── 토큰 일치 → 요청 처리                              │
+│       └── 토큰 불일치 → 403 Forbidden 반환                  │
+└────────────────────────────────────────────────────────────┘
+```
 
 | 항목 | 설명 | 포인트 |
 |:---|:---|:---|

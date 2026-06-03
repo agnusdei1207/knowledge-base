@@ -24,18 +24,18 @@ tags = ["studynote-software-engineering"]
 - **필요성**: 복잡한 비즈니스 규칙은 단순한 if-else 문으로 표현하기 어려우며, 중첩된 조건문이 많아지면 어떤 조건 조합이 어떤 결과를 유발하는지 파악하기 어려워진다. 원인-결과 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)를 사용하면 복잡한 조건-결과 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 시각적으로 명확히 표현하고, 각 노드를 통해 테스트할 경로를 체계적으로 도출할 수 있다.
 
 - <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a> 구성 요소</strong>:
-- **원인(Cause)**: 시스템에 대한 입력 조건이나 환경 조건 (예: 나이 ≥ 18, 결제 수단 = 신용카드)
-- **결과(Effect)**: 시스템의 출력이나 상태 변화 (예: 할인율, 오류 메시지)
-- <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/027_logic_gates/">논리 게이트</a></strong>: 원인과 결과를 연결하는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산자 (AND, OR, NOT, Exclusive OR 등)
+  - **원인(Cause)**: 시스템에 대한 입력 조건이나 환경 조건 (예: 나이 ≥ 18, 결제 수단 = 신용카드)
+  - **결과(Effect)**: 시스템의 출력이나 상태 변화 (예:적상품 할인율, 오류 메시지)
+  - <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/027_logic_gates/">논리 게이트</a></strong>: 원인과 결과를 연결하는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산자 (AND, OR, NOT, Exclusive OR 등)
 
-- **비유**: 원인-결과 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)는 <strong>'역학 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a>도'</strong>와 같다. 인과관계에서 "공부를 열심히 하면(Cause) 좋은 성과를 거둘 수 있다(Effect)"는 것처럼, 원인과 결과 사이의 인과관계를 화살표로 연결한 것이 원인-결과 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)이다. 다만 소프트웨어에서는 단순한 인과관계가 아니라 AND, OR, NOT 등의 를 통해 복잡하게 연결된다.
+- **비유**: 원인-결과 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)는 <strong>'역학 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a>도'</strong>와 같다. 인과관계에서 "공부를 열심히 하면(Cause) 좋은 성과를 거둘 수 있다(Effect)"는 것처럼, 원인과 결과 사이의 인과관계를 화살표로 연결한 것이 원인-결과 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)이다. 다만 소프트웨어에서는 단순한 인과관계가 아니라 AND, OR, NOT 등의 론리연산자를 통해 복잡하게 연결된다.
 
 - **등장 배경 및 발전 과정**:
-1. **1970년대**: IBM에서 소프트웨어 테스트를 위한 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 기반 기법으로 도입
-2. **1980년대**: Cause-Effect Graphing이라는 이름으로 체계화,IEEE 표준에 등재
-3. **현재**: 요구사항 분석 및 테스트 설계 문서화의 한 도구로 활용
+  1. **1970년대**: IBM에서 소프트웨어 테스트를 위한 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 기반 기법으로 도입
+  2. **1980년대**: Cause-Effect Graphing이라는 이름으로 체계화,IEEE 표준에 등재
+  3. **현재**: 요구사항 분석 및 테스트 설계 문서화의 한 도구로 활용
 
-- **섹션 요약 비유**: 원인-결과 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)는 <strong>'요리 레시피의 -조리-결과 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a>'</strong>와 같다. 요리에서 "재료 A + 재료 B를 180도로 30분 roasting하면(AND [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)) 찐 요리가 된다(결과)"와 같이, 원인과 결과 사이의 조리 과정([논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/))을 명확히 하면하는 결과에 도달하기 위한 조건들을할 수 있다.
+- **섹션 요약 비유**: 원인-결과 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)는 <strong>'요리 레시피의 재료-조리-결과 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a>'</strong>와 같다. 요리에서 "재료 A + 재료 B를 180도로 30분간 roasting하면(AND [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)) 찐 요리가 된다(결과)"와 같이, 원인과 결과 사이의 조리 과정([논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/))을 명확히 하면기대하는 결과에 도달하기 위한 조건들을루らさず파악할 수 있다.
 
 ---
 
@@ -43,17 +43,18 @@ tags = ["studynote-software-engineering"]
 
 다음은 원인-결과 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Cause-Eff의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원인-결과 그래프 (Cause-Eff</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                  원인-결과 그래프 (Cause-Eff                        │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
+│       │                    │                    │          │
+│       ▼                    ▼                    ▼          │
+│   요구 분석           설계·적용           품질 검증        │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램은 원인-결과 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Cause-Eff가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -143,30 +144,28 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 원인-결과 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Cause-Effect Graphing)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 원인-결과 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Cause-Effect Graphing)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
 | [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 원인-결과 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Cause-Effect Graphing)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | 원인-결과 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Cause-Effect Graphing) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
 | [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 원인-결과 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Cause-Effect Graphing)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">원인-결과 그래프 (Cause-Effect Graphing) 개념 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 위기 (Software Crisis) 인식
+    │
+    ▼
+원인-결과 그래프 (Cause-Effect Graphing) 개념 정립
+    │
+    ▼
+표준화 및 방법론 체계화 (ISO, CMMI, Agile)
+    │
+    ▼
+클라우드 네이티브·AI 기반 확장 적용
+    │
+    ▼
+지속적 개선 및 DevOps·MLOps 통합
+```
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

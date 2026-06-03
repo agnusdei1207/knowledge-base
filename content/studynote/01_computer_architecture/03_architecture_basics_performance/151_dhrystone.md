@@ -23,19 +23,17 @@ Dhrystone은 1980년대 초에 등장한 정수 중심 합성 벤치마크로, �
 
 특히 [CISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/196_cisc/) (Complex [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Set Computer)와 [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/) (Reduced [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Set Computer)는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 하나가 수행하는 일이 다르므로, “초당 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수”만으로는 실제 처리 능력을 말하기 어렵다. Dhrystone은 같은 코드 묶음을 모든 시스템에 실행하게 함으로써, 적어도 <strong>같은 종류의 정수성 작업을 얼마나 빨리 끝내는가</strong>라는 비교 기준을 제공했다. 즉, Dhrystone의 필요성은 “[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 개수”가 아니라 “작업 완료 속도”에 더 가까운 관점을 만들었다는 데 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">왜 Dhrystone이 필요했는가: 수치 홍보를 작업 기준으로 교정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클럭 주파수 ↑ ─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MIPS 수치 ↑ ─▶ 서로 다른 ISA 비교 시 왜곡 가능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">명령어 길이 차이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">같은 Dhrystone 코드 실행 ─▶ 완료 시간 비교 ─▶ 상대 성능 해석</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│      왜 Dhrystone이 필요했는가: 수치 홍보를 작업 기준으로 교정 │
+├──────────────────────────────────────────────────────────────┤
+│ 클럭 주파수 ↑  ─┐                                           │
+│ MIPS 수치 ↑    ├─▶ 서로 다른 ISA 비교 시 왜곡 가능          │
+│ 명령어 길이 차이 ┘                                           │
+│                                                              │
+│ 같은 Dhrystone 코드 실행 ─▶ 완료 시간 비교 ─▶ 상대 성능 해석 │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 핵심은 Dhrystone이 절대적인 “진실의 벤치마크”라서가 아니라, 서로 다른 구조의 CPU를 비교할 때 최소한의 공통 과제를 부여했다는 점이다. 없었다면 벤더마다 다른 기준으로 숫자를 제시해 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 해석이 더 혼란스러웠을 것이다.
 
@@ -57,22 +55,23 @@ Dhrystone의 핵심은 실무 프로그램을 그대로 복제하는 것이 아�
 
 아래 흐름은 Dhrystone 점수가 만들어지는 과정을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Dhrystone 점수 형성 구조: 코드 특성 + 실행 환경</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Dhrystone 루프</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 정수 연산</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 분기/반복</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 포인터/문자열</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 함수 호출</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 마이크로아키텍처 + 컴파일러 최적화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">초당 반복 횟수 측정 ─▶ DMIPS (Dhrystone MIPS) 환산</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│        Dhrystone 점수 형성 구조: 코드 특성 + 실행 환경        │
+├──────────────────────────────────────────────────────────────┤
+│ Dhrystone 루프                                               │
+│   ├─ 정수 연산                                               │
+│   ├─ 분기/반복                                               │
+│   ├─ 포인터/문자열                                           │
+│   └─ 함수 호출                                               │
+│            │                                                 │
+│            ▼                                                 │
+│ CPU 마이크로아키텍처 + 컴파일러 최적화                       │
+│            │                                                 │
+│            ▼                                                 │
+│ 초당 반복 횟수 측정 ─▶ DMIPS (Dhrystone MIPS) 환산           │
+└──────────────────────────────────────────────────────────────┘
+```
 
 실무에서 많이 쓰이는 값은 DMIPS (Dhrystone [MIPS](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/201_mips/))다. 전통적으로 VAX [11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/)/780에서의 기준값을 1 DMIPS로 두고, 다른 시스템이 그보다 몇 배 빠른지 환산한다. 이 방식은 절대 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 측정이라기보다 <strong>기준 시스템 대비 상대 속도</strong>를 표현하는 데 유용하다.
 
@@ -152,26 +151,24 @@ Dhrystone의 가장 큰 공헌은 벤치마크 문화에 “같은 일을 시켜
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">클럭/MIPS 중심 홍보</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Dhrystone 등장</div>
-<div class="kb-diagram-note">(정수·분기·포인터 중심 합성 벤치마크)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DMIPS 정착</div>
-<div class="kb-diagram-note">(기준 시스템 대비 상대 성능 표현)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">한계 노출</div>
-<div class="kb-diagram-note">(작은 코드, 캐시 영향, 컴파일러 민감도)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CoreMark · SPEC CPU · 실사용 워크로드 중심 평가로 확장</div>
-</div>
-</div>
-
-
+```text
+클럭/MIPS 중심 홍보
+    │
+    ▼
+Dhrystone 등장
+(정수·분기·포인터 중심 합성 벤치마크)
+    │
+    ▼
+DMIPS 정착
+(기준 시스템 대비 상대 성능 표현)
+    │
+    ▼
+한계 노출
+(작은 코드, 캐시 영향, 컴파일러 민감도)
+    │
+    ▼
+CoreMark · SPEC CPU · 실사용 워크로드 중심 평가로 확장
+```
 
 이 흐름은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가가 단순 수치 경쟁에서 시작해, 합성 벤치마크를 거쳐, 점점 더 현실적이고 목적 지향적인 벤치마크 체계로 발전해 온 과정을 보여준다.
 

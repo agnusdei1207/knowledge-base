@@ -23,18 +23,13 @@ tags = ["studynote-devops"]
 
 [무중단 배포](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/082_zero_downtime_deployment_rolling_blue_green_canary/)가 필요한 이유는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 계속 열려 있는 시대에는 잠깐의 점검도 장애로 보이기 때문이다. 특히 결제, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 실시간 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 배포 중단 시간이 곧 사용자 불만과 매출 손실로 이어진다.
 
+```text
+Users ──> LB (Load Balancer) ──> Blue (live)
+                              └──> Green (staged)
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Users ──&gt; LB (Load Balancer) ──&gt; Blue (live)</div>
-<div class="kb-diagram-tree-item" style="--depth:8">Green (staged)</div>
-<div class="kb-diagram-note">switch: Blue → Green</div>
-<div class="kb-diagram-note">rollback: Green → Blue</div>
-</div>
-</div>
-
-
+switch: Blue → Green
+rollback: Green → Blue
+```
 
 - **📢 섹션 요약 비유**: 같은 교실 두 개를 미리 준비해 두고, 수업 중에 학생만 조용히 옮기는 것과 같다.
 
@@ -125,21 +120,18 @@ tags = ["studynote-devops"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Green 환경 준비</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">배포 / 스모크 테스트</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">LB 트래픽 스위치</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">모니터링 → 필요 시 즉시 롤백</div>
-</div>
-</div>
-
-
+```text
+Green 환경 준비
+  │
+  ▼
+배포 / 스모크 테스트
+  │
+  ▼
+LB 트래픽 스위치
+  │
+  ▼
+모니터링 → 필요 시 즉시 롤백
+```
 
 흐름의 핵심은 '새 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)이 문제 없음을 먼저 증명한 뒤' 전환하는 것이다.
 

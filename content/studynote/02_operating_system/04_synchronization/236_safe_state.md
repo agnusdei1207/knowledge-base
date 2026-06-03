@@ -24,21 +24,22 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경**: 무식하게 자원을 아끼는 [교착 상태 예방](/knowledge-base/studynote/02_operating_system/05_deadlock/292_deadlock_prevention/)(Prevention) 기법이 시스템 효율을 너무 깎아 먹자, "남은 자원의 현황"과 "각 프로세스의 최대 요구량"이라는 두 가지 정보를 결합하여 데드락 가능성을 런타임(Runtime)에 동적으로 계산해 내는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)적 돌파구로 등장했다.
 
+```text
+  [안전 상태(Safe State)와 불안전 상태(Unsafe State)의 벤다이어그램]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">안전 상태(Safe State)와 불안전 상태(Unsafe State)의 벤다이어그램</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전체 시스템의 상태 (All States)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 안전 상태 (Safe State)</div><div class="kb-diagram-cell">🚨 불안전 상태</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 완벽한 안전 지대</div><div class="kb-diagram-cell">(Unsafe State)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 데드락 확률 0%</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Safe Sequence 존재함</div><div class="kb-diagram-cell">데드락</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Deadlock)</div></div>
-</div>
-</div>
-
-
+  ┌───────────────────────────────────────────────────────────┐
+  │  전체 시스템의 상태 (All States)                          │
+  │                                                           │
+  │  ┌───────────────────────────┐  ┌───────────────────┐     │
+  │  │ ✅ 안전 상태 (Safe State)  │  │ 🚨 불안전 상태      │  │
+  │  │ - 완벽한 안전 지대           │  │   (Unsafe State)  │  │
+  │  │ - 데드락 확률 0%           │  │     ┌─────────┐   │    │
+  │  │ - Safe Sequence 존재함     │  │     │ 데드락   │   │   │
+  │  │                           │  │     │(Deadlock)│   │    │
+  │  │                           │  │     └─────────┘   │     │
+  │  └───────────────────────────┘  └───────────────────┘     │
+  └───────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 초보자들이 가장 많이 헷갈리는 것이 "[불안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/) = 데드락"이라고 생각하는 것이다. 절대 아니다. [불안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/)는 "지뢰밭"이다. 지뢰밭에 들어갔다고 무조건 밟아서 터지는(데드락) 건 아니지만, 프로세스들이 재수 없게 최대 요구량을 동시에 달라고 징징대면 100% 터진다는 뜻이다. 따라서 OS의 임무는 시스템을 무조건 파란색 박스([Safe State](/knowledge-base/studynote/02_operating_system/05_deadlock/298_safe_state/)) 안에 가둬두는 것이다.
 
 - **📢 섹션 요약 비유**: 낭떠러지 길([불안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/))을 걷는다고 무조건 떨어져 죽는(데드락) 것은 아닙니다. 하지만 바람(최대 요구)이 조금만 세게 불면 무조건 떨어집니다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 애초에 바람이 불어도 절대 떨어지지 않는 넓은 평지([안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/298_safe_state/))로만 길을 걷도록 강제하는 것입니다.
@@ -71,21 +72,19 @@ tags = ["studynote-operating-system"]
 4. **🚨 시뮬레이션 붕괴**: 아무도 구출할 수 없다. 
 5. **결론**: 현재 상태는 <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/">불안전 상태</a>(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/">Unsafe State</a>)</strong>다! 만약 P2가 끝나고 뱉어낸 4개를 P1이나 P3가 "다 내놔!"라고 외치는 순간 시스템은 데드락으로 즉사한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">만약 P1의 현재 할당량이 4, 남은 자원이 3개라면? (Safe State)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Available = 3)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 남은 3개로 P2(Need=2) 구출 ─▶ P2가 4개 뱉음. (Avail = 5)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 남은 5개로 P1(Need=5) 구출 ─▶ P1이 9개 뱉음. (Avail = 10)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 남은 10개로 P3(Need=6) 구출 ─▶ P3 무사 완료!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 결론: &lt;P2, P1, P3&gt; 라는 완벽한 '안전 순서열'이 발견됨.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시스템은 100% 안전 상태(Safe State)다!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────────────┐
+  │         만약 P1의 현재 할당량이 4, 남은 자원이 3개라면? (Safe State)│
+  ├─────────────────────────────────────────────────────────────────────┤
+  │  (Available = 3)                                                    │
+  │  1. 남은 3개로 P2(Need=2) 구출 ─▶ P2가 4개 뱉음. (Avail = 5)        │
+  │  2. 남은 5개로 P1(Need=5) 구출 ─▶ P1이 9개 뱉음. (Avail = 10)       │
+  │  3. 남은 10개로 P3(Need=6) 구출 ─▶ P3 무사 완료!                    │
+  │                                                                     │
+  │  ✅ 결론: <P2, P1, P3> 라는 완벽한 '안전 순서열'이 발견됨.          │
+  │           시스템은 100% 안전 상태(Safe State)다!                    │
+  └─────────────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 빚 갚기 릴레이와 같습니다. 내 수중에 2만 원(Available)이 있을 때, 이걸 B한테 빌려줘서 B가 빚 4만 원을 갚으면, 그 4만 원을 다시 A한테 빌려줘서... 이런 식으로 꼬리에 꼬리를 무는 연쇄 상환 고리([Safe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/) Sequence)를 단 1개라도 찾아낼 수 있다면, 우리 회사는 절대 부도(데드락) 나지 않습니다.
 
@@ -123,25 +122,26 @@ tags = ["studynote-operating-system"]
 2. <strong>K8s(<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/">쿠버네티스</a>)의 노드 자원 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> (현대판 은행원 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>)</strong>: CPU 스케줄러에서는 버려졌지만, 클라우드 클러스터 매니징 단위에서는 '[안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/298_safe_state/)' 철학이 완벽히 부활했다.
    - **실무 작동**: K8s 스케줄러가 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))를 노드에 배치할 때, [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)의 `requests` (필요 자원)와 노드의 `allocatable` (가용 자원)을 비교한다. 만약 이 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 넣었을 때 노드의 자원이 파산([Unsafe State](/knowledge-base/studynote/02_operating_system/05_deadlock/299_unsafe_state/))할 것 같으면, 스케줄러는 배치를 거부하고 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 `Pending` 상태로 대기 큐에 묶어둔다. K8s의 Admission Control은 데이크스트라의 회피 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 거시적 인프라 레벨로 스케일업된 가장 완벽한 현대적 사례다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실무 데드락 대처 방안: 이상(Safe State)과 현실(Timeout)의 타협</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">요구사항: MSA 환경에서 재고 락(A)과 결제 락(B) 동시 획득 필요</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">❌ 대학교 교과서 방식 (회피 알고리즘)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "A와 B의 최대 요구량을 OS에 제출하고 안전 상태 검사를 받아라."</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 결과: 구현 불가. OS API조차 존재하지 않음.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">✅ 실무 백엔드 아키텍처 방식 (예방 및 롤백)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Lock Ordering: 무조건 재고 ─▶ 결제 순으로만 락 잡게 코드 리뷰.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Try-Lock (Timeout): if (!lock.tryLock(3s)) {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Rollback: 잡았던 락 다 풀고 1초 뒤에 큐에서 다시 시작(Retry)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 효과: 안전 상태(Safe State)를 미리 수학적으로 증명하려 들지 않고,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문제가 터지면 잽싸게 물러나서 꼬인 실타래를 자연스럽게 푼다.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────────────────┐
+  │     실무 데드락 대처 방안: 이상(Safe State)과 현실(Timeout)의 타협      │
+  ├─────────────────────────────────────────────────────────────────────────┤
+  │                                                                         │
+  │   [요구사항: MSA 환경에서 재고 락(A)과 결제 락(B) 동시 획득 필요]       │
+  │                                                                         │
+  │   [ ❌ 대학교 교과서 방식 (회피 알고리즘) ]                             │
+  │     - "A와 B의 최대 요구량을 OS에 제출하고 안전 상태 검사를 받아라."    │
+  │     - 결과: 구현 불가. OS API조차 존재하지 않음.                        │
+  │                                                                         │
+  │   [ ✅ 실무 백엔드 아키텍처 방식 (예방 및 롤백) ]                       │
+  │     1. Lock Ordering: 무조건 재고 ─▶ 결제 순으로만 락 잡게 코드 리뷰.   │
+  │     2. Try-Lock (Timeout): if (!lock.tryLock(3s)) {                     │
+  │     3. Rollback: 잡았던 락 다 풀고 1초 뒤에 큐에서 다시 시작(Retry)     │
+  │                                                                         │
+  │     ▶ 효과: 안전 상태(Safe State)를 미리 수학적으로 증명하려 들지 않고, │
+  │            문제가 터지면 잽싸게 물러나서 꼬인 실타래를 자연스럽게 푼다. │
+  └─────────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 실무 아키텍트는 "증명(Proof)"보다 "복원력(Resilience)"을 믿는다. 자물쇠를 완벽하게 배분하려는 헛된 시도(은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))를 버리고, 자물쇠가 꼬였을 때 에러를 뱉고 쿨하게 트랜잭션을 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/))하는 것이 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 시대의 최고 존엄 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 아키텍처([Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/) 패턴 등)다.
 
 - **📢 섹션 요약 비유**: 옛날 전쟁(회피 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))은 적의 수를 정확히 파악하고 완벽한 진형([안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/298_safe_state/))을 짜야만 출병했습니다. 현대전(실무 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/))은 일단 공격해 보고, 적이 너무 많아 함정(데드락)에 빠진 것 같으면 즉시 퇴각([롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/))해서 재정비한 뒤 다시 때리는 게릴라 전술을 씁니다. 이게 100배 효율적입니다.
@@ -172,19 +172,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">이진 세마포어 (Binary Semaphore) = 뮤텍스와 유사</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">안전 상태 (Safe State)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">블로킹 세마포어</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">모니터 (Monitor)</div></div>
-</div>
-</div>
-
-
+```text
+[이진 세마포어 (Binary Semaphore) = 뮤텍스와 유사]
+    │
+    ▼
+[안전 상태 (Safe State)]
+    │
+    ├──▶ [블로킹 세마포어]
+    └──▶ [모니터 (Monitor)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

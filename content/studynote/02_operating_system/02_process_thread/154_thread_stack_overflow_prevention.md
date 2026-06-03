@@ -38,33 +38,38 @@ tags = ["studynote-operating-system"]
 
 "아니 걍 메모리 할당 안 해주면 끝 아님 ㅋ?" 하수들의 뇌 정지를 찢어발기는 메모리 맵 아키텍처 엑스레이 스캔 도해다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스레드 스택 메모리 레이아웃: 가드 페이지 낭떠러지 지뢰밭 도해 🚀</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">높은 주소 (0xFF...)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스레드 1 스택 (8MB)</div><div class="kb-diagram-cell">◀─ 시작점 (스택은 밑으로 자람 ⬇️)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지역 변수 A</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">반환 주소 B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀─ 현재 스택 포인터 (SP) 주소</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(아직 안 쓴 빈 공간)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">🚨 8MB 스택 할당 뼈대 끝 경계선 쾅!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">4KB Unmapped 빈 깡통 쇳덩이 방폭문 ✨</div><div class="kb-diagram-note"></div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Guard Page)</div><div class="kb-diagram-cell"><code>PROT_NONE</code> 권한 떡칠. 1바이트라도 밟으면</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU MMU가 0.1초 컷 <code>SIGSEGV</code> 사살 빔 쏨!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스레드 2 스택</div><div class="kb-diagram-cell">◀─ 다른 스레드들의 깨끗한 메모리 영토 쉴드 🛡️</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">힙 (Heap) 등</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">낮은 주소 (0x00...)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 아키텍트 극딜 🪓: 가드 페이지는 진짜 램(RAM) 물리 메모리를 처먹는 게 아님!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">걍 페이지 테이블(가상 주소)에 "여기 빈 땅임 밟지 마 ㅋ" 라고 빨간 팻말만 세워둔</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">껍데기 기만술이라 ➔ 100만 개 스레드를 띄워도 가드 페이지 땜에 램 뻗어 타죽는</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오버헤드 용량 낭비가 0바이트 0% 수렴하는 우주 최강 극강 가성비 다이어트 텐트다 🚀!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          스레드 스택 메모리 레이아웃: 가드 페이지 낭떠러지 지뢰밭 도해 🚀 │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  [ 높은 주소 (0xFF...) ]                                       │
+│  ┌──────────────────┐                                    │
+│  │ 스레드 1 스택 (8MB) │ ◀─ 시작점 (스택은 밑으로 자람 ⬇️)        │
+│  │                  │                                    │
+│  │  지역 변수 A       │                                    │
+│  │  반환 주소 B       │                                    │
+│  │  ...             │                                    │
+│  ├──────────────────┤ ◀─ 현재 스택 포인터 (SP) 주소          │
+│  │                  │                                    │
+│  │ (아직 안 쓴 빈 공간) │                                    │
+│  │                  │                                    │
+│  ├──────────────────┤ ◀─ [ 🚨 8MB 스택 할당 뼈대 끝 경계선 쾅! ]│
+│  │ 💣 가드 페이지    │ ◀─ **[ 4KB Unmapped 빈 깡통 쇳덩이 방폭문 ✨ ]**│
+│  │ (Guard Page)     │    `PROT_NONE` 권한 떡칠. 1바이트라도 밟으면  │
+│  │                  │    CPU MMU가 0.1초 컷 `SIGSEGV` 사살 빔 쏨! │
+│  ├──────────────────┤                                    │
+│  │ 스레드 2 스택      │ ◀─ 다른 스레드들의 깨끗한 메모리 영토 쉴드 🛡️│
+│  │ 힙 (Heap) 등     │                                    │
+│  └──────────────────┘                                    │
+│  [ 낮은 주소 (0x00...) ]                                       │
+│                                                             │
+│ 🌟 아키텍트 극딜 🪓: 가드 페이지는 진짜 램(RAM) 물리 메모리를 처먹는 게 아님!│
+│ 걍 페이지 테이블(가상 주소)에 "여기 빈 땅임 밟지 마 ㅋ" 라고 빨간 팻말만 세워둔  │
+│ 껍데기 기만술이라 ➔ 100만 개 스레드를 띄워도 가드 페이지 땜에 램 뻗어 타죽는  │
+│ 오버헤드 용량 낭비가 0바이트 0% 수렴하는 우주 최강 극강 가성비 다이어트 텐트다 🚀!│
+└─────────────────────────────────────────────────────────────┘
+```
 
 <strong>[아키텍트의 피 터지는 메스: <code>PROT_NONE</code> 의 기적 ✨]</strong>
 가드 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 어떻게 깔까? [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 `mmap()` 함수로 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)를 찢어 할당할 때, [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 맨 밑바닥 1장(4KB)의 메모리 접근 권한을 <strong><code>PROT_NONE (읽기 금지, 쓰기 금지, 실행 금지 절대 락킹)</code></strong> 으로 시멘트 쳐 박아버린다. 
@@ -143,23 +148,21 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">무지성 스택 쇳덩이 강결합 뻗음 시대 💀 / 무한 재귀 버그(Infinite Recursion) 터지면 스택이 미친 듯이 아래로 자라다 ➔ 밑에 깔린 남의 스레드 메모리 힙(Heap) 존나 조용히 덮어써 오염시킴 ➔ 에러 창 1개도 안 뜨고 3일 뒤 서버 미쳐 발광 타임아웃 올스탑 셧다운 뻗음 멸망 💥</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">가드 페이지 (Guard Page) 하드웨어 지뢰밭 대관식 강림 🚀 / 아키텍트 분노 도끼 🪓 "야 씨발 조용히 썩지 마 찢어 쾅!! 스택 맨 바닥 낭떠러지 끝에 매핑 안 된</div><div class="kb-diagram-node">빈 깡통 4KB 페이지</div><div class="kb-diagram-note">팻말 1칸 딱 심어 록온 박아! 선 넘고 밟는 즉시 CPU MMU 가 적발 쳐서 <code>SIGSEGV</code> 사살 빔 쏴 대갈통 폭파 컷 쳐버려 쾅✨!!"</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Stack Clash (스택 충돌 스킵 해킹) 기만술 테러 발동 💀 / 해커 놈들 조롱 "우왕 지뢰 1칸이네 ㅋ 야 8KB 거대 배열 잡고 크게 점프 뛰면 지뢰 스킵 프리패스 무혈입성 우회 돌파 뚫림 개꿀 ㅋ 뻗어 타죽어 쾅 💥"</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Stack Probe (스택 프로브 찔러보기) 십자 융합 수술 록온 🛡️ / "야 컴파일러 봇(GCC)아!! 점프 못 뛰게 함수 시작할 때 무조건 4KB 1칸마다 바닥 터치 핀셋 찌르기 강제 코드 주입 인젝트 쳐 쾅!! 지뢰 무조건 밟고 터지게 방폭문 텐트 올려 🚀"</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">K8s 클라우드 컨테이너 엣지 생태계 대통일 (현재) ✨ / 가드 페이지(바닥) + 스택 카나리(천장) + ASLR(메모리 주소 오토 섞기 랜덤 텔레포트) 3단 마트료시카 십자 철통 방어 우주 쉴드가 ➔ 현대 리눅스 OS 커널 심장에 완전 시멘트 디폴트 융합 빙의 록온 장착되어 ➔ 전 세계 AWS 쇼핑몰 해킹 트래픽 쓰나미를 무결점 100% 무정단 평화 생존 쾌속 튕겨내 캐리 압살 척살해 버림 쾅!!!</div>
-</div>
-</div>
-
-
+```text
+무지성 스택 쇳덩이 강결합 뻗음 시대 💀 / 무한 재귀 버그(Infinite Recursion) 터지면 스택이 미친 듯이 아래로 자라다 ➔ 밑에 깔린 남의 스레드 메모리 힙(Heap) 존나 조용히 덮어써 오염시킴 ➔ 에러 창 1개도 안 뜨고 3일 뒤 서버 미쳐 발광 타임아웃 올스탑 셧다운 뻗음 멸망 💥
+    │
+    ▼
+가드 페이지 (Guard Page) 하드웨어 지뢰밭 대관식 강림 🚀 / 아키텍트 분노 도끼 🪓 "야 씨발 조용히 썩지 마 찢어 쾅!! 스택 맨 바닥 낭떠러지 끝에 매핑 안 된 [빈 깡통 4KB 페이지] 팻말 1칸 딱 심어 록온 박아! 선 넘고 밟는 즉시 CPU MMU 가 적발 쳐서 `SIGSEGV` 사살 빔 쏴 대갈통 폭파 컷 쳐버려 쾅✨!!"
+    │
+    ▼
+Stack Clash (스택 충돌 스킵 해킹) 기만술 테러 발동 💀 / 해커 놈들 조롱 "우왕 지뢰 1칸이네 ㅋ 야 8KB 거대 배열 잡고 크게 점프 뛰면 지뢰 스킵 프리패스 무혈입성 우회 돌파 뚫림 개꿀 ㅋ 뻗어 타죽어 쾅 💥"
+    │
+    ▼
+Stack Probe (스택 프로브 찔러보기) 십자 융합 수술 록온 🛡️ / "야 컴파일러 봇(GCC)아!! 점프 못 뛰게 함수 시작할 때 무조건 4KB 1칸마다 바닥 터치 핀셋 찌르기 강제 코드 주입 인젝트 쳐 쾅!! 지뢰 무조건 밟고 터지게 방폭문 텐트 올려 🚀"
+    │
+    ▼
+K8s 클라우드 컨테이너 엣지 생태계 대통일 (현재) ✨ / 가드 페이지(바닥) + 스택 카나리(천장) + ASLR(메모리 주소 오토 섞기 랜덤 텔레포트) 3단 마트료시카 십자 철통 방어 우주 쉴드가 ➔ 현대 리눅스 OS 커널 심장에 완전 시멘트 디폴트 융합 빙의 록온 장착되어 ➔ 전 세계 AWS 쇼핑몰 해킹 트래픽 쓰나미를 무결점 100% 무정단 평화 생존 쾌속 튕겨내 캐리 압살 척살해 버림 쾅!!!
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

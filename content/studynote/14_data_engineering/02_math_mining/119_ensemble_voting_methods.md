@@ -18,23 +18,21 @@ tags = ["studynote-dataengineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하드 보팅 vs 소프트 보팅</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">하드 보팅 (다수결)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모델 A: 고양이 모델 B: 개 모델 C: 고양이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 다수결: 고양이 (2:1)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">소프트 보팅 (확률 평균)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모델 A: 고양이 0.7 모델 B: 개 0.6 모델 C: 고양이 0.9</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고양이 평균: (0.7+0.4+0.9)/3 = 0.67</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개 평균: (0.3+0.6+0.1)/3 = 0.33</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 소프트 보팅: 고양이 (0.67 &gt; 0.33)</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    하드 보팅 vs 소프트 보팅                            │
+├───────────────────────────────────────────────────────┤
+│  [하드 보팅 (다수결)]                                 │
+│   모델 A: 고양이      모델 B: 개      모델 C: 고양이  │
+│   → 다수결: 고양이 (2:1)                              │
+│                                                       │
+│  [소프트 보팅 (확률 평균)]                            │
+│   모델 A: 고양이 0.7   모델 B: 개 0.6   모델 C: 고양이 0.9│
+│   고양이 평균: (0.7+0.4+0.9)/3 = 0.67                │
+│   개 평균: (0.3+0.6+0.1)/3 = 0.33                    │
+│   → 소프트 보팅: 고양이 (0.67 > 0.33)                │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 하드 [보팅](/knowledge-base/studynote/10_ai/03_llm_nlp/258_voting_ensemble/)은 선거(1인 1표, 다수결)이고, 소프트 [보팅](/knowledge-base/studynote/10_ai/03_llm_nlp/258_voting_ensemble/)은 전문가 점수(확신도 반영)의 평균이다.
 
@@ -98,23 +96,21 @@ vc = VotingClassifier(
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">단일 모델 (Decision Tree, SVM)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">보팅 (이종 모델 결합, 다수결/확률)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">배깅 (1996, Breiman) — 동종 모델 + 샘플링</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">부스팅 (1997, AdaBoost → XGBoost)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: 스태킹 + AutoML — 자동 앙상블 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[단일 모델 (Decision Tree, SVM)]
+    │
+    ▼
+[보팅 (이종 모델 결합, 다수결/확률)]
+    │
+    ▼
+[배깅 (1996, Breiman) — 동종 모델 + 샘플링]
+    │
+    ▼
+[부스팅 (1997, AdaBoost → XGBoost)]
+    │
+    ▼
+[현재: 스태킹 + AutoML — 자동 앙상블 최적화]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 하드 [보팅](/knowledge-base/studynote/10_ai/03_llm_nlp/258_voting_ensemble/)은 <strong>선거</strong>예요. 3명이 투표해서 <strong>많이 나온 답</strong>이 정답이에요.

@@ -25,21 +25,20 @@ tags = ["studynote-computer-architecture"]
 
 다음 그림은 SC가 보장하려는 두 층의 질서를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sequential Consistency: local order + single global order</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core 0 program order : W(X=1) ▶ W(Y=1)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core 1 program order : R(Y) ▶ R(X)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Global observation order example</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">W(X=1) ─▶ W(Y=1) ─▶ R(Y=1) ─▶ R(X=1)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Rule 1: each core keeps its own order</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Rule 2: every core agrees on the same merged order</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Sequential Consistency: local order + single global order         │
+├────────────────────────────────────────────────────────────────────┤
+│ Core 0 program order :   W(X=1) ───────────────▶ W(Y=1)           │
+│ Core 1 program order :   R(Y)   ───────────────▶ R(X)             │
+│                                                                    │
+│ Global observation order example                                   │
+│   W(X=1) ─▶ W(Y=1) ─▶ R(Y=1) ─▶ R(X=1)                             │
+│                                                                    │
+│ Rule 1: each core keeps its own order                              │
+│ Rule 2: every core agrees on the same merged order                 │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 핵심은 "각 코어 내부 순서"와 "시스템 전체가 합의한 순서"를 동시에 만족해야 한다는 점이다. SC가 있으면 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 설계자는 숨은 재배치나 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 노출을 먼저 의심하지 않아도 되므로, [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)의 논리적 정당성을 훨씬 단순하게 설명할 수 있다.
 
@@ -60,22 +59,22 @@ SC의 핵심 원리는 간단하지만 구현은 어렵다. 모든 메모리 연
 
 다음 그림은 왜 SC가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화와 충돌하는지를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Why SC is expensive</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Program order: Store A ▶ Store Flag ▶ Load B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Under SC: ▼ ▼ ▼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">globally visible before next step may proceed</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Optimized hardware wants:</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Store Buffer keep</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Load B ─▶ execute early</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SC says: do not expose a later-visible history that breaks order</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Why SC is expensive                                                │
+├────────────────────────────────────────────────────────────────────┤
+│ Program order:   Store A ─────▶ Store Flag ─────▶ Load B           │
+│                     │              │                │              │
+│ Under SC:           ▼              ▼                ▼              │
+│                 globally visible before next step may proceed       │
+│                                                                    │
+│ Optimized hardware wants:                                          │
+│   Store A ─▶ [Store Buffer keep]                                   │
+│   Load B  ─▶ execute early                                          │
+│                                                                    │
+│ SC says: do not expose a later-visible history that breaks order   │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 실제로 SC를 엄격히 기본값으로 두면, 오래 걸리는 저장 연산이 끝날 때까지 뒤의 독립적인 읽기나 계산을 충분히 겹쳐 실행하기 어렵다. 그래서 많은 프로세서는 아키텍처 수준에서 더 약한 메모리 모델을 채택하고, 특정 원자 연산이나 [메모리 배리어](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/) ([Memory Barrier](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/))에서만 SC에 가까운 질서를 복원한다. 다시 말해 SC는 단순한 실행 규칙이 아니라, 하드웨어 최적화가 어디까지 허용될지 가늠하는 상한선 역할도 한다.
 
@@ -156,23 +155,22 @@ SC의 가장 큰 효과는 [병렬](/knowledge-base/studynote/05_database/07_exa
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">순차 실행 직관</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">순차적 일관성 (Sequential Consistency)</div>
-<div class="kb-diagram-tree-item" style="--depth:3">▶ 캐시 일관성 (Cache Coherence)</div>
-<div class="kb-diagram-note">── 값의 최신성 보장과 순서 보장 구분</div>
-<div class="kb-diagram-tree-item" style="--depth:3">▶ 총 저장 순서 (Total Store Order)</div>
-<div class="kb-diagram-tree-item" style="--depth:3">▶ 완화된 일관성 (Relaxed Consistency)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">메모리 배리어 · 원자 연산 · 언어 메모리 모델</div>
-</div>
-</div>
-
-
+```text
+순차 실행 직관
+      │
+      ▼
+순차적 일관성 (Sequential Consistency)
+      │
+      ├──▶ 캐시 일관성 (Cache Coherence)
+      │        └── 값의 최신성 보장과 순서 보장 구분
+      │
+      ├──▶ 총 저장 순서 (Total Store Order)
+      │
+      └──▶ 완화된 일관성 (Relaxed Consistency)
+                 │
+                 ▼
+메모리 배리어 · 원자 연산 · 언어 메모리 모델
+```
 
 이 흐름은 "직관적 전역 질서"에서 출발해, 하드웨어 최적화를 위해 규칙을 완화하고, 다시 소프트웨어가 필요한 구간만 질서를 복원하는 방향으로 발전했음을 보여준다.
 

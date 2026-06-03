@@ -31,23 +31,17 @@ tags = ["studynote-data-engineering"]
 
 [연방 쿼리](/knowledge-base/studynote/14_data_engineering/04_mlops/195_federated_query_data_fabric_distributed_join/) 엔진은 질문을 해석하고, 필요한 일을 여러 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스에 나눠 보낸다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">클라이언트 SQL</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Coordinator</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Connectors ──&gt; MySQL / PostgreSQL / S3 / 로그 저장소</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Workers</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">결과 병합</div>
-</div>
-</div>
-
-
+```text
+클라이언트 SQL
+      ↓
+Coordinator
+      ↓
+Connectors ──> MySQL / PostgreSQL / S3 / 로그 저장소
+      ↓
+Workers
+      ↓
+결과 병합
+```
 
 - <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/250_coordinator_participant_2pc_roles/">Coordinator</a></strong>는 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 분석하고 작업을 쪼갠다.
 - <strong>Connector</strong>는 각 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스와 통신하는 어댑터다.
@@ -108,21 +102,15 @@ tags = ["studynote-data-engineering"]
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">원본 데이터 소스</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Connector / Coordinator / Worker</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">분산 실행 + Pushdown</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">통합 SQL 결과</div>
-</div>
-</div>
-
-
+```text
+원본 데이터 소스
+      ↓
+Connector / Coordinator / Worker
+      ↓
+분산 실행 + Pushdown
+      ↓
+통합 SQL 결과
+```
 
 ---
 

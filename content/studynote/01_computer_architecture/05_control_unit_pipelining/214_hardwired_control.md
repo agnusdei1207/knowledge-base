@@ -42,23 +42,21 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 하드와이어드 제어가 메모리 조회 없이 입력 조건을 곧바로 제어선으로 바꾸는 구조를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하드와이어드 제어의 신호 생성 흐름</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">입력</div><div class="kb-diagram-node">제어 로직</div><div class="kb-diagram-node">출력</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IR Opcode</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">현재 상태</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조건 플래그 ─</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">디코더 + FSM + 조합 논리</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">RegWrite</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ ▼ ▼</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">MemRead</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조건 조합 ──▶</div><div class="kb-diagram-cell">opcode, state, flag를</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">MemWrite</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">직접 게이트로 결합</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">ALUControl</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PCSelect</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                하드와이어드 제어의 신호 생성 흐름                           │
+├──────────────────────────────────────────────────────────────────────────────┤
+│ [입력]                    [제어 로직]                     [출력]             │
+│ IR Opcode ───────┐                                                        │
+│ 현재 상태 ─────┐ │   ┌──────────────────────────────┐      ┌─────────────┐ │
+│ 조건 플래그 ─┐ │ └──▶│ 디코더 + FSM + 조합 논리     │─────▶│ RegWrite    │ │
+│             ▼ ▼ ▼    │                              │─────▶│ MemRead     │ │
+│         조건 조합 ──▶│  opcode, state, flag를       │─────▶│ MemWrite    │ │
+│                    │  직접 게이트로 결합            │─────▶│ ALUControl  │ │
+│                    └──────────────────────────────┘      │ PCSelect    │ │
+│                                                          └─────────────┘ │
+└──────────────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조에서는 [제어 메모리](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/216_control_memory/) 접근 시간이 사라지는 대신, 게이트 수와 배선 길이가 곧 속도 한계가 된다. 예를 들어 `Load` 명령의 메모리 읽기 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)는 `Load 명령 검출 AND 실행 단계 AND 예외 없음` 같은 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)식으로 바로 구현할 수 있다. 하지만 명령 종류가 많고 분기 조건, 예외 조건, 파이프라인 제어가 복잡해질수록 식이 길어지고 게이트 단계도 깊어져 오히려 타이밍을 해치게 된다.
 
@@ -137,22 +135,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">초기 단순 명령 제어</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">하드와이어드 제어 (Hardwired Control)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 빠른 디코딩 · 짧은 제어 지연</div>
-<div class="kb-diagram-note">─▶ RISC (Reduced Instruction Set Computer) · 파이프라이닝</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 복잡도 증가 한계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">마이크로프로그래밍 · 하이브리드 제어 구조</div>
-</div>
-</div>
-
-
+```text
+초기 단순 명령 제어
+    │
+    ▼
+하드와이어드 제어 (Hardwired Control)
+    │
+    ├─▶ 빠른 디코딩 · 짧은 제어 지연
+    │        │
+    │        └─▶ RISC (Reduced Instruction Set Computer) · 파이프라이닝
+    │
+    └─▶ 복잡도 증가 한계
+             │
+             ▼
+마이크로프로그래밍 · 하이브리드 제어 구조
+```
 
 이 흐름은 하드와이어드 제어가 단순한 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 기술에 머문 것이 아니라, 복잡성 한계를 만난 뒤 다시 RISC와 파이프라인 시대에 핵심 고속 경로로 재해석된 과정을 보여준다.
 

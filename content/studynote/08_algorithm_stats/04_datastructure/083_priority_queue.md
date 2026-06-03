@@ -18,20 +18,20 @@ tags = ["studynote-algorithm-stats"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이진 최솟값 힙 (Min Binary Heap)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3 2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6 5 4 7</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최솟값(루트)은 항상 1 → 빠른 추출 O(log n)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">삽입(sift-up) + 삭제(sift-down): 모두 O(log n)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────┐
+│           이진 최솟값 힙 (Min Binary Heap)            │
+├──────────────────────────────────────────────────────┤
+│                       1                              │
+│                      / \                             │
+│                     3   2                            │
+│                    / \ / \                           │
+│                   6  5 4  7                          │
+│                                                       │
+│ 최솟값(루트)은 항상 1 → 빠른 추출 O(log n)           │
+│ 삽입(sift-up) + 삭제(sift-down): 모두 O(log n)       │
+└──────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 우선순위 큐는 응급실 접수 시스템이다. 일반 줄([FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/))과 달리, 가장 위급한 환자(최솟값)가 먼저 진료를 받고, 새 환자가 오면 위급도에 따라 적절한 자리에 배치된다.
 
@@ -50,20 +50,15 @@ tags = ["studynote-algorithm-stats"]
 
 ### [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 기반 힙 구현
 
+```text
+배열 인덱스: 1-based
+  부모(i) = i // 2
+  왼쪽 자식(i) = 2*i
+  오른쪽 자식(i) = 2*i + 1
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">배열 인덱스: 1-based</div>
-<div class="kb-diagram-note">부모(i) = i // 2</div>
-<div class="kb-diagram-note">왼쪽 자식(i) = 2*i</div>
-<div class="kb-diagram-note">오른쪽 자식(i) = 2*i + 1</div>
-<div class="kb-diagram-note">삽입: 배열 끝에 추가 → sift-up (부모와 비교·교환)</div>
-<div class="kb-diagram-note">추출: 루트 제거 → 끝 원소를 루트로 → sift-down</div>
-</div>
-</div>
-
-
+삽입: 배열 끝에 추가 → sift-up (부모와 비교·교환)
+추출: 루트 제거 → 끝 원소를 루트로 → sift-down
+```
 
 - **📢 섹션 요약 비유**: 이진 힙 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 표현은 완전 이진 트리를 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)에 눕혀놓은 것이다. 부모·자식 관계를 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 계산으로 표현해서 포인터 없이도 트리 구조를 구현할 수 있다.
 
@@ -85,19 +80,13 @@ tags = ["studynote-algorithm-stats"]
 
 ### 핵심 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 응용
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">다익스트라 최단 경로 → Min Priority Queue (최소 거리 노드 추출)</div>
-<div class="kb-diagram-note">허프만 코딩 → Min Priority Queue (최소 빈도 심볼 병합)</div>
-<div class="kb-diagram-note">A* 탐색 → f(n) = g(n)+h(n) 기반 Priority Queue</div>
-<div class="kb-diagram-note">OS 프로세스 스케줄링 → Priority Queue (우선순위 기반 CPU 할당)</div>
-<div class="kb-diagram-note">이벤트 시뮬레이션 → 타임스탬프 기반 Priority Queue</div>
-</div>
-</div>
-
-
+```text
+다익스트라 최단 경로    → Min Priority Queue (최소 거리 노드 추출)
+허프만 코딩            → Min Priority Queue (최소 빈도 심볼 병합)
+A* 탐색               → f(n) = g(n)+h(n) 기반 Priority Queue
+OS 프로세스 스케줄링   → Priority Queue (우선순위 기반 CPU 할당)
+이벤트 시뮬레이션      → 타임스탬프 기반 Priority Queue
+```
 
 ### 언어별 구현
 
@@ -139,23 +128,21 @@ print(heapq.heappop(pq))  # (1, 'task_a') — 최솟값 우선
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">이진 힙 — 배열 기반 Min/Max Heap</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">우선순위 큐 ADT — 추상 자료형으로 일반화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">다익스트라·허프만 — 우선순위 큐 응용 알고리즘</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">피보나치 힙 — 이론적 최적 복잡도</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">분산 우선순위 큐 — 분산 시스템의 작업 스케줄링</div></div>
-</div>
-</div>
-
-
+```text
+[이진 힙 — 배열 기반 Min/Max Heap]
+    │
+    ▼
+[우선순위 큐 ADT — 추상 자료형으로 일반화]
+    │
+    ▼
+[다익스트라·허프만 — 우선순위 큐 응용 알고리즘]
+    │
+    ▼
+[피보나치 힙 — 이론적 최적 복잡도]
+    │
+    ▼
+[분산 우선순위 큐 — 분산 시스템의 작업 스케줄링]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

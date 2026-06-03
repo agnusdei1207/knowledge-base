@@ -27,18 +27,13 @@ DAC([임의적 접근 제어](/knowledge-base/studynote/02_operating_system/10_s
 
 MAC에서는 **소유자나 사용자의 의사와 무관하게** 시스템 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 접근을 차단한다:
 
+```
+[ DAC 정책 ]
+소유자가 "모든 사람에게 열기"로 설정 -> 접근 허용
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DAC 정책</div></div>
-<div class="kb-diagram-note">소유자가 "모든 사람에게 열기"로 설정 -&gt; 접근 허용</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MAC 정책</div></div>
-<div class="kb-diagram-note">시스템이 "최고 비밀 등급 사용자가 아니면 접근 불가"로 설정 -&gt; 소유자여도 접근 차단</div>
-</div>
-</div>
-
-
+[ MAC 정책 ]
+시스템이 "최고 비밀 등급 사용자가 아니면 접근 불가"로 설정 -> 소유자여도 접근 차단
+```
 
 - **📢 섹션 요약 비유**: 복잡한 창고에서 필요한 물건을 찾기 위해 먼저 구역과 표지판을 세우는 것과 같다.
 
@@ -64,13 +59,13 @@ system_u:object_r:shadow_t:s0
 
 ```text
 [ 보안 등급 격자 ]
-TOP SECRET
-/ \
-SECRET CLASSIFIED
-\ /
-CONFIDENTIAL
-|
-UNCLASSIFIED
+        TOP SECRET
+       /        \
+   SECRET    CLASSIFIED
+       \        /
+     CONFIDENTIAL
+          |
+      UNCLASSIFIED
 ```
 
 ### 2.3 [Bell-LaPadula](/knowledge-base/studynote/02_operating_system/10_security/580_bell_lapadula_model/) 모델과의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
@@ -142,25 +137,21 @@ system_u:system_r:httpd_t:s0 httpd
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">임의적 접근 제어 (DAC, Discretionary Access Control)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">강제적 접근 제어 (MAC, Mandatory Access Control)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">벨-라파둘라 모델 (Bell-LaPadula)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">비바 모델 (Biba Model)</div></div>
-</div>
-</div>
-
-
+```text
+[임의적 접근 제어 (DAC, Discretionary Access Control)]
+    │
+    ▼
+[강제적 접근 제어 (MAC, Mandatory Access Control)]
+    │
+    ├──▶ [벨-라파둘라 모델 (Bell-LaPadula)]
+    └──▶ [비바 모델 (Biba Model)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a></strong>은 병원의 <strong>"접종 증명 시스템"</strong>과 같다. 어떤 환자가Drop(권한)이 있다고 주장해도, 시스템에 등록된 등급과 맞지 않으면 진찰을 받을 수 없다.
+1. <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a></strong>은 병원의 <strong>"접종 증명 시스템"</strong>과 같다. 어떤 환자가선Drop(권한)이 있다고 주장해도, 시스템에 등록된 등급과 맞지 않으면 진찰을 받을 수 없다.
 
 2. <strong>보안 라벨</strong>은 놀이공원의 <strong>"입장 등급표"</strong>와 같다. Silver 등급은 Silver 놀이기구만, Gold 등급은 Gold 놀이기구만 탈 수 있다. 등급표가 없으면 아무 놀이기구도 탈 수 없다.
 

@@ -43,19 +43,20 @@ VIC와 NVIC의 차이도 바로 여기서 나온다. VIC는 벡터화 자체에 
 
 이 그림은 NVIC가 왜 단순 컨트롤러가 아니라 "코어의 일부"처럼 동작하는지를 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NVIC 흐름: 인터럽트 선택과 문맥 저장을 하드웨어에 묶어 진입 지연을 줄인다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Peripherals ─▶ Pending Bits ─▶ Priority Encoder ─▶ Vector Fetch</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Auto Stack Save</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">higher priority arrival ▶ Preempt</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">next pending exists ─ ▶ Tail Chain</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ NVIC 흐름: 인터럽트 선택과 문맥 저장을 하드웨어에 묶어 진입 지연을 줄인다   │
+├──────────────────────────────────────────────────────────────────────────────┤
+│ Peripherals ─▶ Pending Bits ─▶ Priority Encoder ─▶ Vector Fetch             │
+│                                                         │                   │
+│                                                         ▼                   │
+│                                              Auto Stack Save                │
+│                                                         │                   │
+│                            higher priority arrival ─────┼────▶ Preempt       │
+│                                                         │                   │
+│                                    next pending exists ─┴────▶ Tail Chain   │
+└──────────────────────────────────────────────────────────────────────────────┘
+```
 
 대표적으로 Cortex-M 계열에서는 예외 진입이 약 12 cycle 수준, Tail Chaining은 약 6 cycle 수준으로 알려져 있다. 물론 실제 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 플래시 wait [state](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/), [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 혼잡, [ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/) 코드 길이에 따라 달라지지만, 핵심은 "문맥 저장과 다음 벡터 결정"을 하드웨어가 대신함으로써 소프트웨어 가변 비용을 크게 줄였다는 데 있다.
 
@@ -136,23 +137,21 @@ NVIC를 제대로 쓰려면 우선순위를 단순 숫자 크기가 아니라 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Polling 기반 장치 감시</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Vectored Interrupt Controller</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Nested Vectored Interrupt Controller</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">RTOS 연동 예외 분리(SysTick / PendSV)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">멀티코어 GIC · APIC · 가상 인터럽트 주입</div>
-</div>
-</div>
-
-
+```text
+Polling 기반 장치 감시
+        │
+        ▼
+Vectored Interrupt Controller
+        │
+        ▼
+Nested Vectored Interrupt Controller
+        │
+        ▼
+RTOS 연동 예외 분리(SysTick / PendSV)
+        │
+        ▼
+멀티코어 GIC · APIC · 가상 인터럽트 주입
+```
 
 이 흐름은 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 처리가 "누가 불렀는지 찾는 단계"에서 "선점·문맥 저장·시스템 정책을 함께 하드웨어화하는 단계"로 발전했음을 보여 준다.
 

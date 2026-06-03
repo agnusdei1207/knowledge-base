@@ -27,22 +27,20 @@ tags = ["studynote-computer-architecture"]
 
 이 개념은 단지 캐시 설명용 문장이 아니다. 운영체제의 [페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/), [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 버퍼 관리, 컴파일러의 루프 변환, 고성능 컴퓨팅의 타일링까지 모두 "접근이 몰리는 범위를 어떻게 작게 유지할 것인가"라는 같은 질문으로 연결된다. 지역성이 무너지면 캐시 미스, [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/), [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) ([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))이 연쇄적으로 늘어난다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지역성이 있을 때와 없을 때의 메모리 접근 집중도 비교</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">무작위 접근</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU ─▶ 14 ─▶ 8192 ─▶ 201 ─▶ 6550 ─▶ 37 ...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">캐시에 남겨도 다음 접근과 이어질 가능성이 낮음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지역성 있는 접근</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU ─▶ 100 ─▶ 104 ─▶ 108 ─▶ 112 ─▶ 100 ─▶ 104 ...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최근 값 재사용 + 인접 주소 연속 접근</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 작은 캐시로도 높은 적중률 확보 가능</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│      지역성이 있을 때와 없을 때의 메모리 접근 집중도 비교     │
+├──────────────────────────────────────────────────────────────┤
+│ 무작위 접근                                                   │
+│ CPU ─▶ 14 ─▶ 8192 ─▶ 201 ─▶ 6550 ─▶ 37 ...                  │
+│      캐시에 남겨도 다음 접근과 이어질 가능성이 낮음           │
+│                                                              │
+│ 지역성 있는 접근                                              │
+│ CPU ─▶ 100 ─▶ 104 ─▶ 108 ─▶ 112 ─▶ 100 ─▶ 104 ...           │
+│      최근 값 재사용 + 인접 주소 연속 접근                    │
+│      └─ 작은 캐시로도 높은 적중률 확보 가능                  │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 그림은 캐시의 성패가 "얼마나 큰 메모리를 가졌는가"보다 "얼마나 좁은 범위에 접근이 모이느냐"에 달려 있음을 보여준다. 즉 메모리 계층 구조의 효율은 용량 자체보다 접근 패턴의 집중도와 더 밀접하다.
 
@@ -62,24 +60,24 @@ tags = ["studynote-computer-architecture"]
 
 다음 그림은 프로그램의 한 줄짜리 루프가 어떻게 여러 형태의 지역성을 동시에 만들어 내는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">루프 한 번이 만드는 지역성: 재사용과 인접 접근</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">for (i = 0; i &lt; 4; i++) sum += a</div><div class="kb-diagram-node">i</div><div class="kb-diagram-note">;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간축</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">i : 0 ─▶ 1 ─▶ 2 ─▶ 3 같은 변수 반복 사용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">sum : 갱신 ─▶ 갱신 ─▶ 갱신 누적값 반복 사용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주소축</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">a</div><div class="kb-diagram-node">0</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">1</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">2</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">3</div><div class="kb-diagram-note">인접 원소 순차 접근</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">100 104 108 112</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">캐시 반응</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">100~163</div><div class="kb-diagram-note">캐시 라인 1회 적재 후 a</div><div class="kb-diagram-node">1</div><div class="kb-diagram-note">~a</div><div class="kb-diagram-node">3</div><div class="kb-diagram-note">는 히트 가능</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│        루프 한 번이 만드는 지역성: 재사용과 인접 접근        │
+├──────────────────────────────────────────────────────────────┤
+│ for (i = 0; i < 4; i++) sum += a[i];                        │
+│                                                              │
+│ 시간축                                                        │
+│ i   : 0 ─▶ 1 ─▶ 2 ─▶ 3        같은 변수 반복 사용            │
+│ sum : 갱신 ─▶ 갱신 ─▶ 갱신     누적값 반복 사용              │
+│                                                              │
+│ 주소축                                                        │
+│ a[0] ─▶ a[1] ─▶ a[2] ─▶ a[3]  인접 원소 순차 접근           │
+│ 100    104    108    112                                         │
+│                                                              │
+│ 캐시 반응                                                     │
+│ [100~163] 캐시 라인 1회 적재 후 a[1]~a[3]는 히트 가능        │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이때 캐시는 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 단위가 아니라 캐시 라인 (Cache Line) 단위로 움직인다. 예를 들어 64바이트 라인을 가져오면, 실제로 요청한 `a[0]` 하나뿐 아니라 뒤따를 가능성이 높은 `a[1]`, `a[2]`, `a[3]`도 함께 올라온다. 반대로 한 번만 읽고 버리는 대용량 스트리밍 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 [시간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/)이 약하므로, 큰 블록을 가져와도 재사용 이익이 작고 캐시 오염만 키울 수 있다.
 
@@ -158,23 +156,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">프로그램 접근 편중</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">시간적 지역성 (Temporal Locality) · 공간적 지역성 (Spatial Locality)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">캐시 라인 (Cache Line) · 교체 정책 · 프리페치 (Prefetch)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">워킹 셋 (Working Set) · 페이지 교체 · 버퍼 풀</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">루프 타일링 (Loop Tiling) · 데이터 지향 배치 · 캐시 최적화</div>
-</div>
-</div>
-
-
+```text
+프로그램 접근 편중
+    │
+    ▼
+시간적 지역성 (Temporal Locality) · 공간적 지역성 (Spatial Locality)
+    │
+    ▼
+캐시 라인 (Cache Line) · 교체 정책 · 프리페치 (Prefetch)
+    │
+    ▼
+워킹 셋 (Working Set) · 페이지 교체 · 버퍼 풀
+    │
+    ▼
+루프 타일링 (Loop Tiling) · 데이터 지향 배치 · 캐시 최적화
+```
 
 이 흐름은 "접근 패턴의 성질"이 하드웨어 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 반영되고, 다시 운영체제와 소프트웨어 최적화 기법으로 확장되는 구조를 보여준다.
 

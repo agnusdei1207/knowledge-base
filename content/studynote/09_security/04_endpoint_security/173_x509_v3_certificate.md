@@ -25,24 +25,27 @@ X.509의 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_qu
 
 아래 그림은 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서가 왜 필요한지를 "신원 주장 → [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) → 키 신뢰" 흐름으로 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Why X.509 v3 exists</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Server / user claims identity</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CA (Certificate Authority) checks evidence and issues certificate</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client validates</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Issuer chain</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Validity period</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Subject / SAN match</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Key usage / constraints</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Only then the public key becomes trusted for secure sessions, mail,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">and digital signing</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Why X.509 v3 exists                                                  │
+├──────────────────────────────────────────────────────────────────────┤
+│ Server / user claims identity                                        │
+│        │                                                             │
+│        ▼                                                             │
+│ CA (Certificate Authority) checks evidence and issues certificate    │
+│        │                                                             │
+│        ▼                                                             │
+│ Client validates                                                     │
+│   ├─ Issuer chain                                                    │
+│   ├─ Validity period                                                 │
+│   ├─ Subject / SAN match                                             │
+│   └─ Key usage / constraints                                         │
+│        │                                                             │
+│        ▼                                                             │
+│ Only then the public key becomes trusted for secure sessions, mail,   │
+│ and digital signing                                                   │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 핵심은 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서가 [암호화 알고리즘](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/504_cryptography_algorithms_aes_rsa_sha/) 자체가 아니라 <strong>공개키에 대한 신뢰 문맥</strong>을 제공한다는 점이다. 이 문맥이 없으면 같은 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) ([Rivest-Shamir-Adleman](/knowledge-base/studynote/09_security/03_network_security/110_rsa/)) 키라도 웹 서버용인지, [코드 서명](/knowledge-base/studynote/09_security/04_endpoint_security/188_code_signing_software_authentication/)용인지, 중간 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 기관용인지 구분할 수 없다.
 
@@ -54,29 +57,26 @@ X.509의 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_qu
 
 X.509 v3 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서는 크게 `tbsCertificate`, `signatureAlgorithm`, `signatureValue` 세 층으로 이해하면 쉽다. `tbsCertificate`는 실제로 읽고 판단해야 할 본문이며, `signatureValue`는 이 본문이 중간에 바뀌지 않았다는 보증이다. 따라서 Subject나 [SAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/) 한 글자만 바뀌어도 서명 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 실패한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">X.509 v3 certificate layout</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Certificate</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ tbsCertificate</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ version / serial number</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ issuer</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ validity</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ subject</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ subjectPublicKeyInfo</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ extensions</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ SAN: DNS, IP, email aliases</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Key Usage: allowed crypto operations</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Basic Constraints: CA 여부, path length</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ NSC: legacy Netscape purpose hint</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ signatureAlgorithm</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ signatureValue = Sign(issuer private key, tbsCertificate)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ X.509 v3 certificate layout                                          │
+├──────────────────────────────────────────────────────────────────────┤
+│ Certificate                                                          │
+│ ├─ tbsCertificate                                                    │
+│ │   ├─ version / serial number                                       │
+│ │   ├─ issuer                                                        │
+│ │   ├─ validity                                                      │
+│ │   ├─ subject                                                       │
+│ │   ├─ subjectPublicKeyInfo                                          │
+│ │   └─ extensions                                                    │
+│ │       ├─ SAN: DNS, IP, email aliases                               │
+│ │       ├─ Key Usage: allowed crypto operations                      │
+│ │       ├─ Basic Constraints: CA 여부, path length                   │
+│ │       └─ NSC: legacy Netscape purpose hint                         │
+│ ├─ signatureAlgorithm                                                │
+│ └─ signatureValue = Sign(issuer private key, tbsCertificate)         │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 | 필드 | 의미 | 실무 해석 포인트 |
 | :--- | :--- | :--- |
@@ -172,27 +172,25 @@ X.509 v3 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">신원 확인 요구</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">X.509 기본 필드 (Subject / Issuer / Validity / Public Key)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">v3 확장 필드 도입</div>
-<div class="kb-diagram-tree-item" style="--depth:2">SAN (다중 이름 표현)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Key Usage (용도 제한)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Basic Constraints (CA 권한 통제)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">NSC (레거시 호환 목적)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">체인 검증 · 호스트 검증 · 폐지 검증</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">현대 TLS / 메일 / 코드 서명 PKI 운영</div>
-</div>
-</div>
-
-
+```text
+신원 확인 요구
+    │
+    ▼
+X.509 기본 필드 (Subject / Issuer / Validity / Public Key)
+    │
+    ▼
+v3 확장 필드 도입
+    ├─ SAN (다중 이름 표현)
+    ├─ Key Usage (용도 제한)
+    ├─ Basic Constraints (CA 권한 통제)
+    └─ NSC (레거시 호환 목적)
+    │
+    ▼
+체인 검증 · 호스트 검증 · 폐지 검증
+    │
+    ▼
+현대 TLS / 메일 / 코드 서명 PKI 운영
+```
 
 이 흐름은 X.509가 단순한 신원 표기에서 출발해, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 자동화를 담는 신뢰 포맷으로 확장된 과정을 보여 준다.
 

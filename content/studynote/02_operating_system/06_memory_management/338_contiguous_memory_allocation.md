@@ -27,23 +27,26 @@ tags = ["studynote-operating-system"]
   2. <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/">다중 프로그래밍</a>의 등장</strong>: 프로그램 A, B, C가 메모리에 올라오고 빠져나가기를 반복하자, 메모리 중간중간에 이빨 빠진 듯한 빈 공간(Hole)들이 생기기 시작했다.
   3. <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">외부 단편화</a>(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">External Fragmentation</a>)의 공포</strong>: 남아있는 빈 공간을 다 합치면 100MB인데, 죄다 흩어져 있어서 50MB짜리 새 프로그램을 적재할 수 없는 비극적 상황이 연출되었다. 이것이 컴퓨터 공학 역사상 가장 유명한 메모리 낭비 문제다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">연속 메모리 할당의 한계: 외부 단편화 (External Frag)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">초기 상태</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS</div><div class="kb-diagram-cell">프로세스 A</div><div class="kb-diagram-cell">프로세스 B</div><div class="kb-diagram-cell">프로세스 C</div><div class="kb-diagram-cell">빈 공간</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">10M</div><div class="kb-diagram-cell">20MB</div><div class="kb-diagram-cell">30MB</div><div class="kb-diagram-cell">40MB</div><div class="kb-diagram-cell">20M</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">프로세스 B 종료 후 30MB 구멍 발생</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS</div><div class="kb-diagram-cell">프로세스 A</div><div class="kb-diagram-cell">▒ 빈구멍 ▒</div><div class="kb-diagram-cell">프로세스 C</div><div class="kb-diagram-cell">빈 공간</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">10M</div><div class="kb-diagram-cell">20MB</div><div class="kb-diagram-cell">▒ 30MB ▒</div><div class="kb-diagram-cell">40MB</div><div class="kb-diagram-cell">20M</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ 새로운 40MB짜리 프로세스 D가 실행을 요청한다면?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 전체 빈 공간은 50MB(30+20)지만, '연속'되지 않아서 D는 실행 거부됨!</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────────────┐
+│        연속 메모리 할당의 한계: 외부 단편화 (External Frag)           │
+├───────────────────────────────────────────────────────────────────────┤
+│                                                                       │
+│ [ 초기 상태 ]                                                         │
+│ ┌─────┬──────────┬──────────┬──────────┬─────┐                        │
+│ │ OS  │ 프로세스 A │ 프로세스 B │ 프로세스 C │ 빈 공간│               │
+│ │ 10M │   20MB   │   30MB   │   40MB   │ 20M │                        │
+│ └─────┴──────────┴──────────┴──────────┴─────┘                        │
+│                                                                       │
+│ [ 프로세스 B 종료 후 30MB 구멍 발생 ]                                 │
+│ ┌─────┬──────────┬──────────┬──────────┬─────┐                        │
+│ │ OS  │ 프로세스 A │ ▒ 빈구멍 ▒ │ 프로세스 C │ 빈 공간│               │
+│ │ 10M │   20MB   │ ▒ 30MB ▒ │   40MB   │ 20M │                        │
+│ └─────┴──────────┴──────────┴──────────┴─────┘                        │
+│  ※ 새로운 40MB짜리 프로세스 D가 실행을 요청한다면?                    │
+│  => 전체 빈 공간은 50MB(30+20)지만, '연속'되지 않아서 D는 실행 거부됨!│
+└───────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 이 그림은 [연속 할당](/knowledge-base/studynote/02_operating_system/09_file_system/523_contiguous_allocation/)의 맹점을 완벽히 보여준다. 프로세스 D 입장에서는 억울하다. 시스템 전체에 50MB의 램이 남아돌지만, 쪼개져 있다는 이유 하나만으로 램이 꽉 찬 것([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))과 동일한 오류를 뱉어낸다. OS는 이 구멍(Hole)들을 관리하기 위해 자유 공간 리스트(Free list)를 유지하며 낑낑대야 했다.
 
 - **📢 섹션 요약 비유**: 주차장에 차를 댈 때, 캠핑카(대형 프로세스) 한 대를 대기 위해 일반 차 3대가 나란히 빠진 연속된 3칸의 자리가 나올 때까지 밖에서 무한정 대기해야 하는 비효율적인 주차 시스템입니다.
@@ -68,21 +71,27 @@ tags = ["studynote-operating-system"]
 
 연속 메모리 할당의 유일한이자 가장 강력한 장점은 런타임 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이다. 메모리가 하나의 통나무처럼 이어져 있기 때문에, 복잡한 테이블([Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/))을 뒤져볼 필요 없이 덧셈 한 번으로 물리 주소가 튀어나온다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">연속 메모리 할당 환경에서의 하드웨어 주소 변환 로직</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CPU</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">논리 주소 (ex: 오프셋 500)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">논리 주소 &lt; 한계?</div><div class="kb-diagram-cell">◀── 한계 레지스터 (Limit=1000)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Yes) 통과</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">논리 주소 + 베이스</div><div class="kb-diagram-cell">◀── 베이스 레지스터 (Base=3000)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">물리 메모리 3500번지</div><div class="kb-diagram-note">(1클럭 사이클 내 초고속 접근)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│            연속 메모리 할당 환경에서의 하드웨어 주소 변환 로직          │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│                   [ CPU ]                                               │
+│                      │ 논리 주소 (ex: 오프셋 500)                       │
+│                      ▼                                                  │
+│             ┌─────────────────┐                                         │
+│             │ 논리 주소 < 한계? │◀── 한계 레지스터 (Limit=1000)         │
+│             └────────┬────────┘                                         │
+│                      │ (Yes) 통과                                       │
+│                      ▼                                                  │
+│             ┌─────────────────┐                                         │
+│             │ 논리 주소 + 베이스 │◀── 베이스 레지스터 (Base=3000)       │
+│             └────────┬────────┘                                         │
+│                      │                                                  │
+│                      ▼                                                  │
+│             [ 물리 메모리 3500번지 ] (1클럭 사이클 내 초고속 접근)      │
+└─────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 구조가 너무나 단순하여 전용 칩셋 구성비용이 극도로 싸고 처리가 빛의 속도다. CPU가 "500번지 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 줘"라고 하면, 하드웨어는 "크기(1000) 안 넘었네? 시작점이 3000이니까 더해서 3500번지!"라고 1나노초 만에 결정한다. [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 기법에서는 이 과정에서 메모리에 있는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블을 또 읽어와야 하는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 패널티(TLB로 극복하지만)가 발생하는데, [연속 할당](/knowledge-base/studynote/02_operating_system/09_file_system/523_contiguous_allocation/)은 그런 오버헤드가 제로다.
 
@@ -118,18 +127,15 @@ tags = ["studynote-operating-system"]
 1. <strong>고정 분할 (<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/339_fixed_partition/">Fixed Partition</a>)</strong>: 미리 메모리를 10MB, 20MB 단위로 쪼개놓고 덩치에 맞는 방에 밀어 넣는 방식. ([내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/) 발생)
 2. <strong>가변 분할 (<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/340_variable_partition/">Variable Partition</a>)</strong>: 프로그램 크기만큼 그때그때 잘라서 할당하는 방식. ([외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) 발생)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">방식</div><div class="kb-diagram-cell">단편화 종류</div><div class="kb-diagram-cell">낭비 정도</div><div class="kb-diagram-cell">관리 난이도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">연속 고정</div><div class="kb-diagram-cell">내부 단편화</div><div class="kb-diagram-cell">심함</div><div class="kb-diagram-cell">매우 쉬움</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">연속 가변</div><div class="kb-diagram-cell">외부 단편화</div><div class="kb-diagram-cell">심함 (압축필요)</div><div class="kb-diagram-cell">복잡함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비연속 페이징</div><div class="kb-diagram-cell">미세 내부단편</div><div class="kb-diagram-cell">거의 없음</div><div class="kb-diagram-cell">매우 복잡함</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬──────────────────────┐
+│ 방식       │ 단편화 종류   │ 낭비 정도    │ 관리 난이도   │
+├──────────┼────────────┼────────────┼──────────────────────┤
+│ 연속 고정  │ 내부 단편화  │ 심함       │ 매우 쉬움        │
+│ 연속 가변  │ 외부 단편화  │ 심함 (압축필요)│ 복잡함       │
+│ 비연속 페이징│ 미세 내부단편 │ 거의 없음   │ 매우 복잡함  │
+└──────────┴────────────┴────────────┴──────────────────────┘
+```
 **[매트릭스 해설]** 컴퓨터 과학에서 메모리 관리는 '[단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)([Fragmentation](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/))와의 전쟁'이었다. 고정 분할은 방이 커서 남는 [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)에 시달렸고, 가변 분할은 방들이 찢어져서 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)에 시달렸다. 결국 인류는 이 "연속성"이라는 고집 자체를 버리고, 프로세스를 모래알처럼 잘게 부숴버리는 비연속 할당([페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/))으로 도망침으로써 이 전쟁을 끝냈다.
 
 - **📢 섹션 요약 비유**: 퍼즐 맞추기를 할 때, 1번부터 100번 조각을 무조건 일렬로만 놔야 한다는 규칙([연속 할당](/knowledge-base/studynote/02_operating_system/09_file_system/523_contiguous_allocation/)) 때문에 책상에 자리가 남아도 퍼즐을 못 맞추다가, 그냥 뿔뿔이 흩어놔도 그림이 보이게 뇌파([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))를 개조한 것(비연속 할당)과 같습니다.
@@ -185,19 +191,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">표준 스와핑 (전체 프로세스) vs 페이징 시스템 스와핑 (페이지 단위)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">연속 메모리 할당 (Contiguous Memory Allocation)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">고정 분할 방식 (Fixed Partition)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">가변 분할 방식 (Variable Partition)</div></div>
-</div>
-</div>
-
-
+```text
+[표준 스와핑 (전체 프로세스) vs 페이징 시스템 스와핑 (페이지 단위)]
+    │
+    ▼
+[연속 메모리 할당 (Contiguous Memory Allocation)]
+    │
+    ├──▶ [고정 분할 방식 (Fixed Partition)]
+    └──▶ [가변 분할 방식 (Variable Partition)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

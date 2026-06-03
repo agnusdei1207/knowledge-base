@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 단순한 센서의 집합이던 <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">사물인터넷</a>(<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a>)</strong> 인프라가 수집한 어마어마한 빅데이터를 바탕으로, <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/">인공지능</a>(<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a>) 딥러닝 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>이 결합하여 기기 스스로 학습하고 예측하여 최적의 제어를 수행하는 지능형 진화 모델입니다.
 - **가치**: 연결(Connectivity)을 넘어, 사람의 개입 0%로 상황을 추론하고 자율적으로 행동하는 진정한 의미의 초지능 초연결 사회를 완성합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">드론 통신 지연시간 관리 및 보안 C2 링크</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AIoT 모델 및 클라우드 AI 연결 지연…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">홈 네트워크 게이트웨이 / 월패드 프로토콜…</div></div>
-</div>
-</div>
-
-
+```text
+[드론 통신 지연시간 관리 및 보안 C2 링크]
+    │
+    ▼
+[AIoT 모델 및 클라우드 AI 연결 지연…]
+    │
+    └──▶ [홈 네트워크 게이트웨이 / 월패드 프로토콜…]
+```
 
 - **📢 섹션 요약 비유**: AIoT 모델 및 클라우드 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 연결 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -52,18 +48,14 @@ tags = ["studynote-network"]
 - **구조**: 무거운 클라우드 대신, 스마트 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 카메라 내부에 콩알만 한 <strong>'<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 전용 신경망 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/">반도체</a>(<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/">NPU</a>)'</strong>를 아예 박아 넣습니다. 카메라가 사람의 얼굴을 인식하는 고도의 수학 연산을 미국 서버로 보내지 않고 카메라 기판 안에서 0.01초 만에 끝내버립니다.
 - <strong>장점 (<a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 완화의 핵심)</strong>: 외부 인터넷으로 고화질 영상을 보낼 필요가 없어 통신 트래픽 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 0%로 수렴합니다(초저지연). 보안 유출 우려가 없고 100% 실시간 처리가 가능하여 자율주행이나 침입자 탐지 등 생사가 걸린 현장에 무조건 쓰입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">드론 통신 지연시간 관리 및 보안 C2 링크</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AIoT 모델 및 클라우드 AI 연결 지연…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">홈 네트워크 게이트웨이 / 월패드 프로토콜…</div></div>
-</div>
-</div>
-
-
+```text
+[드론 통신 지연시간 관리 및 보안 C2 링크]
+    │
+    ▼
+[AIoT 모델 및 클라우드 AI 연결 지연…]
+    │
+    └──▶ [홈 네트워크 게이트웨이 / 월패드 프로토콜…]
+```
 
 - **📢 섹션 요약 비유**: AIoT 모델 및 클라우드 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 연결 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -125,19 +117,15 @@ AIoT 모델 및 클라우드 [AI](/knowledge-base/studynote/04_software_engineer
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 드론 통신 지연시간 관리 및 보안 C2 링크</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: AIoT 모델 및 클라우드 AI 연결 지연…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 홈 네트워크 게이트웨이 / 월패드 프로토콜…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율형 엣지 협업</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 드론 통신 지연시간 관리 및 보안 C2 링크]
+    │
+    ▼
+[현재 개념: AIoT 모델 및 클라우드 AI 연결 지연…]
+    │
+    ├──▶ [확장 A: 홈 네트워크 게이트웨이 / 월패드 프로토콜…]
+    └──▶ [확장 B: 자율형 엣지 협업]
+```
 
 AIoT 모델 및 클라우드 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 연결 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)…는 드론 통신 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 관리 및 보안 [C2](/knowledge-base/studynote/09_security/15_malware_attack_vectors/746_c2/) 링크에서 출발해 현재 메커니즘을 정교화하고, 이후 홈 네트워크 게이트웨이 / 월패드 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)…와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

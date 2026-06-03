@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: 오픈스택(OpenStack)이나 [KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/), [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 같은 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)/클라우드 환경에서, 서버([하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)) 내부에 존재하는 수십 개의 가상머신([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))이나 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 간의 네트워크 트래픽을 처리하기 위해 만들어진 <strong>리눅스 기반의 고성능 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/">오픈소스</a> '<a href="/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/">가상 스위치</a>(Virtual <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">Switch</a>)' 소프트웨어</strong>입니다.
 - **지위**: 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)로 편입되어, 현존하는 클라우드 네트워크 배관의 사실상 산업 표준(De facto standard)입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">화이트박스 스위치</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">OVS</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">미니넷 SDN 토폴로지 에뮬레이터 연구 평가…</div></div>
-</div>
-</div>
-
-
+```text
+[화이트박스 스위치]
+    │
+    ▼
+[OVS]
+    │
+    └──▶ [미니넷 SDN 토폴로지 에뮬레이터 연구 평가…]
+```
 
 - **📢 섹션 요약 비유**: OVS는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -55,18 +51,14 @@ OVS가 멍청한 리눅스 기본 브릿지(Linux [Bridge](/knowledge-base/study
 - **Slow Path (vswitchd 데몬, 유저 스페이스)**: 처음 보는 낯선 패킷이 들어오면 OVS의 뇌(유저 공간 프로그램)가 [OpenFlow](/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/) 장부를 천천히 뒤적거려 길을 찾아냅니다. (느림)
 - <strong>Fast Path (리눅스 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a> <a href="/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/205_datapath/">Datapath</a>)</strong>: 한 번 길을 찾은 패킷은 OVS가 그 길을 아예 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 깊숙한 바닥(캐시)에 하드코딩해 버립니다. 두 번째 들어오는 똑같은 패킷은 뇌로 올라오지 않고, <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 바닥에서 0.001초 만에 튕겨서 목적지 VM으로 직행(Fast Path)</strong>합니다. 이 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 마법 덕분에 소프트웨어 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)인데도 무지막지한 속도를 냅니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">화이트박스 스위치</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">OVS</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">미니넷 SDN 토폴로지 에뮬레이터 연구 평가…</div></div>
-</div>
-</div>
-
-
+```text
+[화이트박스 스위치]
+    │
+    ▼
+[OVS]
+    │
+    └──▶ [미니넷 SDN 토폴로지 에뮬레이터 연구 평가…]
+```
 
 - **📢 섹션 요약 비유**: OVS의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -128,19 +120,15 @@ OVS는 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topi
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 화이트박스 스위치</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: OVS</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 미니넷 SDN 토폴로지 에뮬레이터 연구 평가…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 프로그래머블 네트워크</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 화이트박스 스위치]
+    │
+    ▼
+[현재 개념: OVS]
+    │
+    ├──▶ [확장 A: 미니넷 SDN 토폴로지 에뮬레이터 연구 평가…]
+    └──▶ [확장 B: 프로그래머블 네트워크]
+```
 
 OVS는 [화이트박스 스위치](/knowledge-base/studynote/03_network/17_sdn_nfv/859_whitebox_switch_open_hardware_nos/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [미니넷](/knowledge-base/studynote/03_network/17_sdn_nfv/861_mininet_sdn_topology_network_emulator/) [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 토폴로지 에뮬레이터 연구 평가…와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

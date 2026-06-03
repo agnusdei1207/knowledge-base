@@ -21,17 +21,15 @@ tags = ["studynote-computer-architecture"]
 
 하드웨어 보안 칩은 보통 내부 설계가 닫혀 있어 사용자는 결과만 믿어야 했다. OpenTitan은 이 점을 뒤집어, 보안 로직의 설계와 코드 대부분을 공개하고 외부 검토를 가능하게 하려는 시도다. 중요한 것은 "공개" 그 자체보다, 공개 덕분에 더 많은 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)과 재사용이 가능해진다는 점이다. 그래서 OpenTitan은 단일 칩이면서 동시에, 투명한 RoT를 만드는 설계 템플릿으로도 의미가 크다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Open design aims at auditable trust</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Open RTL / firmware -&gt; reviewable root of trust</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ integrate into secure boot</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│             Open design aims at auditable trust             │
+├──────────────────────────────────────────────────────────────┤
+│ Open RTL / firmware -> reviewable root of trust             │
+│                              │                               │
+│                              └─ integrate into secure boot   │
+└──────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 금고를 검은 상자로 사는 대신, 설계도를 모두 보여 주고 여러 전문가가 자물쇠 구조를 검토하게 하는 방식과 같다.
 
@@ -48,18 +46,16 @@ OpenTitan의 대표 블록은 Ibex [RISC-V](/knowledge-base/studynote/01_compute
 | [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) Manager / DICE | 계층적 키 파생 | 소프트웨어 측정값과 결합 |
 | Alert / Lifecycle | 탬퍼 대응·상태 제어 | 생산/운영/폐기 단계 구분 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OpenTitan-centered secure boot and keys</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ROM verify -&gt; measure image -&gt; derive CDI / keys</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ allow host boot</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ alert / zeroize</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│            OpenTitan-centered secure boot and keys          │
+├──────────────────────────────────────────────────────────────┤
+│ ROM verify -> measure image -> derive CDI / keys            │
+│                                      │                       │
+│                                      ├─ allow host boot      │
+│                                      └─ alert / zeroize      │
+└──────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 문을 열기 전에 설계도에 맞는 문인지 검사하고, 맞으면 열쇠를 새로 파생해 주고, 이상하면 경보와 함께 열쇠를 없애는 경비실과 같다.
 
@@ -106,21 +102,18 @@ OpenTitan은 하드웨어 보안이 벤더 신뢰에만 기대지 않고, 공개
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Open RTL / Verified ROM</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Measured Boot + Key Derivation</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Platform Root of Trust Services</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Secure Boot / Identity</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Tamper Alert / Zeroization</div></div>
-</div>
-</div>
-
-
+```text
+[Open RTL / Verified ROM]
+    │
+    ▼
+[Measured Boot + Key Derivation]
+    │
+    ▼
+[Platform Root of Trust Services]
+    │
+    ├──▶ [Secure Boot / Identity]
+    └──▶ [Tamper Alert / Zeroization]
+```
 
 이 흐름은 공개 설계와 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 ROM에서 시작해 측정 부트와 키 파생을 거쳐, 최종적으로 secure boot와 기기 신원 서비스를 제공하는 과정을 보여준다. 즉 OpenTitan의 가치는 공개성만이 아니라 공개된 설계가 실제 RoT 서비스로 이어지는 데 있다.
 

@@ -26,22 +26,20 @@ tags = ["ict_convergence"]
 기업 생태계에서 이러한 폐쇄형 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)이 필요해진 이유는 명확하다. 비트코인이나 이더리움 같은 퍼블릭 체인은 누구에게나 투명하게 거래 내역이 공개되는데, 이는 영업 기밀과 고객 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)([GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/))를 생명처럼 지켜야 하는 기업 입장에서는 도입 자체가 불가능한 치명적 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이다. 또한 퍼블릭 체인의 느린 처리 속도(수십 TPS)와 변동성 큰 수수료([Gas](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/))는 예측 가능한 엔터프라이즈 비즈니스를 수행하는 데 엄청난 걸림돌이 된다. 따라서 기업들은 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 위변조 방지와 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 추적([Audit Trail](/knowledge-base/studynote/11_design_supervision/01_audit_framework/065_audit_trail_worm_storage_compliance/))"이라는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)의 장점은 취하면서, 퍼블릭 환경의 "투명성과 느린 속도"라는 단점은 제거한 통제 가능한 아키텍처를 요구하게 되었고, 이 요구에 부응하여 프라이빗 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)이 등장했다.
 
 이 그림은 완전 개방형 시스템(퍼블릭)과 권한 통제형 시스템(프라이빗)의 근본적인 접근 제어 구조 차이를 보여준다.
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Public Blockchain: 무허가 통신망</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Anonymous Node (자유로운 가입/탈퇴)──&gt; 네트워크 참여</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ 누구나 원장을 읽고 트랜잭션을 전송함 (투명성 100%)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Private Blockchain: 인가된 방화벽 내부망</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Membership Service Provider (MSP)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(인증 및 권한 부여 발급)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">인가된 노드 A</div><div class="kb-diagram-note">↔</div><div class="kb-diagram-node">인가된 노드 B</div><div class="kb-diagram-note">↔</div><div class="kb-diagram-node">인가된 노드 C</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ 허가받지 않은 외부자는 네트워크 접속 및 데이터 열람 불가</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────┐
+│ [Public Blockchain: 무허가 통신망]                     │
+│  Anonymous Node ───(자유로운 가입/탈퇴)──> 네트워크 참여 │
+│  ※ 누구나 원장을 읽고 트랜잭션을 전송함 (투명성 100%) │
+├────────────────────────────────────────────────────────┤
+│ [Private Blockchain: 인가된 방화벽 내부망]             │
+│                 [ Membership Service Provider (MSP) ]  │
+│                           │ (인증 및 권한 부여 발급)   │
+│                           ↓                            │
+│  [인가된 노드 A] ↔ [인가된 노드 B] ↔ [인가된 노드 C]   │
+│  ※ 허가받지 않은 외부자는 네트워크 접속 및 데이터 열람 불가 │
+└────────────────────────────────────────────────────────┘
+```
 이 도식의 핵심은 시스템에 진입하기 전에 강력한 문지기(MSP 등 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 기관)가 존재한다는 점이다. 이런 배치는 네트워크 내부에 악의적인 해커나 스패머가 없음을 전제로 신뢰 환경(Trusted [Environment](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/))을 구축하기 때문이며, 따라서 복잡한 [작업 증명](/knowledge-base/studynote/06_ict_convergence/01_blockchain/014_pow_proof_of_work/)(PoW)이나 암호화폐 수수료 보상 시스템을 완전히 제거할 수 있게 만든다. 실무에서는 이러한 설계 덕분에 프라이빗 체인이 기존 중앙 집중형 RDBMS와 견줄 만한 처리 속도를 내면서도, 참여 기업 간에 부인 방지(Non-repudiation)와 장부 일치를 달성하는 강력한 시너지를 발휘한다.
 
 📢 **섹션 요약 비유**: 아무나 들어와서 확성기로 떠들고 기록을 들여다볼 수 있는 열린 광장(퍼블릭 체인) 대신, 철저하게 사원증을 찍고 신원 검사를 마친 회장님들만이 밀실에 모여 회사의 일급 기밀 장부를 기록하고 서명하는 이사회 회의실과 같습니다.
@@ -62,44 +60,43 @@ tags = ["ict_convergence"]
 
 [퍼블릭 블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/019_public_blockchain/)은 거래들을 먼저 블록에 묶고(Order), 전체 노드가 각자 실행하여 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는(Execute) 'Order-Execute' 방식을 쓴다. 반면 프라이빗의 대명사인 [하이퍼레저 패브릭](/knowledge-base/studynote/06_ict_convergence/01_blockchain/058_hyperledger_fabric_private_blockchain/)은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 보안을 위해 이 순서를 완전히 뒤집은 'Execute-Order-Validate' 아키텍처를 채택했다.
 
+```text
+[프라이빗 블록체인(하이퍼레저) 트랜잭션 순차 흐름도]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">프라이빗 블록체인(하이퍼레저) 트랜잭션 순차 흐름도</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Client (앱)</div></div>
-<div class="kb-diagram-tree-item" style="--depth:1">1. 트랜잭션 제안 (Proposal) ──</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Endorsing Peer A</div><div class="kb-diagram-node">Endorsing Peer B</div></div>
-<div class="kb-diagram-tree-item" style="--depth:1">2. 체인코드(로직) 선행 실행 (Execute) 및 결과에 서명 (Endorsement)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Client (앱)</div><div class="kb-diagram-note">&lt;── (서명된 결과 수집)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ 3. 서명된 트랜잭션 묶음을</div><div class="kb-diagram-node">Orderer</div><div class="kb-diagram-note">노드로 전송</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Orderer (정렬 노드)</div><div class="kb-diagram-note">-- 4. 트랜잭션들을 시간순 정렬하여</div><div class="kb-diagram-node">새 블록</div><div class="kb-diagram-note">생성 (Order)</div></div>
-<div class="kb-diagram-tree-item" style="--depth:1">5. 생성된 블록을 모든 Peer에게 브로드캐스트</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">All Peers</div><div class="kb-diagram-note">-- 6. 최종 서명 및 권한 검증(Validate) 후 자신의 장부(Ledger)에 기록 완료 (Commit)</div></div>
-</div>
-</div>
-
-
+[Client (앱)]
+   │
+   ├─ 1. 트랜잭션 제안 (Proposal) ──┐
+   ↓                              ↓
+[Endorsing Peer A]             [Endorsing Peer B]
+   │                              │
+   └─ 2. 체인코드(로직) 선행 실행 (Execute) 및 결과에 서명 (Endorsement)
+                                  │
+[Client (앱)] <── (서명된 결과 수집) ┘
+   │
+   ├─ 3. 서명된 트랜잭션 묶음을 [Orderer] 노드로 전송
+   ↓
+[Orderer (정렬 노드)] -- 4. 트랜잭션들을 시간순 정렬하여 [새 블록] 생성 (Order)
+   │
+   └─ 5. 생성된 블록을 모든 Peer에게 브로드캐스트
+   ↓
+[All Peers] -- 6. 최종 서명 및 권한 검증(Validate) 후 자신의 장부(Ledger)에 기록 완료 (Commit)
+```
 이 흐름의 핵심은 복잡한 연산(Execute)과 단순한 블록 묶음(Order)을 서로 다른 노드가 분담하여 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리한다는 점이다. 이런 배치는 특정 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)가 무한 루프에 빠지거나 오류를 내더라도 블록 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 엔진(Orderer) 자체가 멈추는 것을 방지하기 때문이며, 따라서 수만 건의 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)이 폭주해도 엔터프라이즈급 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 없이 고속 처리가 가능하다. 실무에서는 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 실행하고 보증하는 Endorsing Peer의 수를 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)(Endorsement [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))으로 조정하여, 속도와 다자간 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 수준 사이의 균형을 비즈니스 요구에 맞게 세밀하게 설정한다.
 
 특히 프라이빗 체인은 특정 조직 간의 비밀 유지를 위해 채널(Channel) 구조를 활용한다.
 
+```text
+[프라이빗 블록체인의 Channel을 통한 데이터 격리 레이아웃]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">프라이빗 블록체인의 Channel을 통한 데이터 격리 레이아웃</div></div>
-<div class="kb-diagram-note">─ 전체 네트워크 (네트워크 관리자 통제) ─</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Channel 1: A기업 - B기업 단가 계약망</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; C기업은 이 원장의 존재조차 모름</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Channel 2: A기업 - C기업 부품 공급망</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; B기업은 이 원장의 존재조차 모름</div></div>
-</div>
-</div>
-
-
+  ┌─ 전체 네트워크 (네트워크 관리자 통제) ─┐
+  │                                        │
+  │ [Channel 1: A기업 - B기업 단가 계약망] │
+  │   => C기업은 이 원장의 존재조차 모름   │
+  │                                        │
+  │ [Channel 2: A기업 - C기업 부품 공급망] │
+  │   => B기업은 이 원장의 존재조차 모름   │
+  └────────────────────────────────────────┘
+```
 이 도식의 핵심은 단일 인프라 내에서도 논리적 분할을 통해 완벽한 정보 비대칭성을 제공한다는 점이다. 따라서 기업 A는 하나의 노드만 운영하면서도 파트너사별로 철저히 분리된 비밀 장부를 유지할 수 있다. 이는 퍼블릭 체인이 절대 할 수 없는 강력한 B2B 무기다.
 
 📢 **섹션 요약 비유**: 퍼블릭 체인이 회사의 모든 서류를 로비 유리창에 붙여두는 방식이라면, 프라이빗 체인은 먼저 담당자들의 결재(Execute) 서명을 받고 비서실(Orderer)에서 예쁘게 철하여 접근 권한이 있는 부서의 비밀 금고(Channel)에만 안전하게 보관하는 대기업의 기안 결재 시스템과 같습니다.
@@ -120,20 +117,16 @@ tags = ["ict_convergence"]
 
 기업들은 종종 "그냥 여러 회사가 한 중앙 DB를 공유하면 되지 않느냐"고 질문한다. 중앙 DB는 한 기업이 루트 권한을 쥐고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 몰래 조작할 수 있다는 의심([단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) 및 신뢰 문제)을 낳는다. 반면 프라이빗 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)은 물리적으로 노드를 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시켜 조작을 불가능하게 만들면서도 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 권한은 통제하므로 이 신뢰의 딜레마를 완벽히 깬다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">엔터프라이즈 데이터 아키텍처 결정 매트릭스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터를 공유해야 하는 주체들이 서로 100% 신뢰하는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ YES ──&gt;</div><div class="kb-diagram-node">일반 중앙 집중형 RDBMS 도입</div><div class="kb-diagram-note">(가장 빠르고 저렴)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ NO &gt; 데이터를 전 세계 모두에게 공개해도 되는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ YES ──&gt;</div><div class="kb-diagram-node">퍼블릭 블록체인 도입</div><div class="kb-diagram-note">(비트코인, 이더리움)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ NO &gt;</div><div class="kb-diagram-node">프라이빗 블록체인 도입</div><div class="kb-diagram-note">(Hyperledger Fabric)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────── [엔터프라이즈 데이터 아키텍처 결정 매트릭스] ───────────┐
+│                                                                  │
+│  데이터를 공유해야 하는 주체들이 서로 100% 신뢰하는가?           │
+│   ├─ YES ──> [일반 중앙 집중형 RDBMS 도입] (가장 빠르고 저렴)    │
+│   └─ NO ───> 데이터를 전 세계 모두에게 공개해도 되는가?          │
+│               ├─ YES ──> [퍼블릭 블록체인 도입] (비트코인, 이더리움) │
+│               └─ NO ───> [프라이빗 블록체인 도입] (Hyperledger Fabric) │
+└──────────────────────────────────────────────────────────────────┘
+```
 이 의사결정 트리의 핵심은 프라이빗 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)의 도입 기준이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 아니라 '[이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 간의 신뢰 부재'와 '프라이버시 요구'의 교집합에 있다는 점이다. 실무에서는 여러 기업이 얽혀 책임 소재를 가리기 힘들고 분쟁이 자주 일어나는 물류, 무역, 보험 청구 업무에서 중앙 권력 없이 공동의 신뢰 장부를 만들기 위해 이 아키텍처를 도입한다.
 
 📢 **섹션 요약 비유**: 서로 으르렁거리는 동업자들이 동업 자금을 관리할 때, 한 명에게 통장을 맡기지 않고(중앙 DB 배제), 그렇다고 길거리에 장부를 펼쳐두지도 않은 채(퍼블릭 배제), 모두가 똑같은 장부를 복사해서 가지되 누군가 몰래 고치려 하면 자물쇠가 걸리는 특수 금고를 쓰는 것과 같습니다.
@@ -157,24 +150,22 @@ tags = ["ict_convergence"]
 <strong>3. <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> (치명적 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a> 사례)</strong>
 - <strong>단일 주체의 100% 노드 호스팅 (무늬만 <a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/">블록체인</a>)</strong>: 한 기업이 프라이빗 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 네트워크를 주도하면서, 겉으로는 5개 파트너사가 참여하는 형태를 취하지만 실제로는 물리적인 서버 5대(모든 피어 노드)를 주도 기업 자신의 AWS 계정 내 한 리전([VPC](/knowledge-base/studynote/03_network/16_data_center_cloud/836_vpc_virtual_private_cloud_subnet_isolation/))에 통째로 구축해 버리는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/). 이 경우 인프라 관리자가 마음만 먹으면 모든 노드의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 일괄 포맷하거나 조작할 수 있으므로, [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)이 완전히 상실된다.
 
+```text
+[프라이빗 블록체인 인프라 구축의 치명적 안티패턴]
 
+[AWS VPC (A기업 소유)]
+ ┌──────────────────────────────────────────────┐
+ │ [Peer A (A사)]  [Peer B (B사)]  [Peer C (C사)]│
+ │       [Orderer Node]  [MSP Server]           │
+ └──────────────────────────────────────────────┘
+   🚨 위험: A기업 인프라 관리자가 DB를 통째로 롤백하거나 삭제 가능!
+   => 블록체인 도입 의미 0%. 그냥 비싼 중앙 DB를 쓰는 꼴.
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">프라이빗 블록체인 인프라 구축의 치명적 안티패턴</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AWS VPC (A기업 소유)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Peer A (A사)</div><div class="kb-diagram-node">Peer B (B사)</div><div class="kb-diagram-node">Peer C (C사)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Orderer Node</div><div class="kb-diagram-node">MSP Server</div></div>
-<div class="kb-diagram-note">🚨 위험: A기업 인프라 관리자가 DB를 통째로 롤백하거나 삭제 가능!</div>
-<div class="kb-diagram-note">=&gt; 블록체인 도입 의미 0%. 그냥 비싼 중앙 DB를 쓰는 꼴.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">올바른 탈중앙 물리 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AWS (A사)</div><div class="kb-diagram-connector">=====&gt;</div><div class="kb-diagram-node">Azure (B사)</div><div class="kb-diagram-connector">=====&gt;</div><div class="kb-diagram-node">On-Premise (C사)</div></div>
-<div class="kb-diagram-note">Peer A, Ord Peer B Peer C</div>
-<div class="kb-diagram-note">=&gt; 진정한 노드 물리적 격리를 통한 상호 조작 불가 보장</div>
-</div>
-</div>
-
-
+[올바른 탈중앙 물리 아키텍처]
+ [AWS (A사)] <=====> [Azure (B사)] <=====> [On-Premise (C사)]
+  Peer A, Ord         Peer B                Peer C
+   => 진정한 노드 물리적 격리를 통한 상호 조작 불가 보장
+```
 이 그림은 프라이빗 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)의 핵심 장애물인 인프라 중앙화의 모순을 보여준다. 이 도식에서 핵심은 소프트웨어적 [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/)([블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/))가 의미를 가지려면 반드시 하드웨어/운영 주체의 물리적 분리가 동반되어야 한다는 점이다. 따라서 실무에서는 노드를 반드시 서로 다른 클라우드 환경이나 각 회사의 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)([On-Premise](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터로 쪼개어 배치하는 진정한 의미의 하이브리드/[멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) 망 연동 아키텍처를 강제해야 한다.
 
 📢 **섹션 요약 비유**: 서로를 믿지 못해 공동 금고([블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/))를 만들고 비밀번호를 나눠 가졌는데, 정작 그 거대한 금고를 동업자 한 명의 집 안방(단일 클라우드)에 둔다면 다른 동업자들은 절대 안심할 수 없는 것과 같은 이치입니다.
@@ -206,23 +197,21 @@ tags = ["ict_convergence"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">퍼블릭 블록체인 (Bitcoin/Ethereum) — 개방·무허가 네트워크</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">컨소시엄 블록체인 — 복수 기관 공동 운영, 반허가형</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">프라이빗 블록체인 — 단일 기관 완전 통제, 허가형 네트워크</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Hyperledger Fabric — 채널/조직/MSP 모듈형 B2B 표준 프레임워크</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">체인코드 (Smart Contract) — BFT/Raft 합의 기반 비즈니스 로직 자동 실행</div></div>
-</div>
-</div>
-
-
+```text
+[퍼블릭 블록체인 (Bitcoin/Ethereum) — 개방·무허가 네트워크]
+    │
+    ▼
+[컨소시엄 블록체인 — 복수 기관 공동 운영, 반허가형]
+    │
+    ▼
+[프라이빗 블록체인 — 단일 기관 완전 통제, 허가형 네트워크]
+    │
+    ▼
+[Hyperledger Fabric — 채널/조직/MSP 모듈형 B2B 표준 프레임워크]
+    │
+    ▼
+[체인코드 (Smart Contract) — BFT/Raft 합의 기반 비즈니스 로직 자동 실행]
+```
 개방형 [퍼블릭 블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/019_public_blockchain/)의 한계를 극복하고자 허가형 프라이빗 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)이 등장했으며, Hyperledger Fabric이 B2B 표준으로 자리 잡았다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

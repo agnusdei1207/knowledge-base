@@ -18,22 +18,24 @@ tags = ["studynote-enterprise-systems"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">포터 가치 사슬 (Porter Value Chain)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지원 활동:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기업 인프라 (Finance, Legal, Planning)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인적 자원 관리 (HRM: Recruitment, Training)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기술 개발 (R&amp;D, IT, 공정 혁신)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조달 관리 (Procurement: 원자재·설비 구매)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↓ 지원 활동이 아래 본원 활동을 지원 ↓</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">입고물류 → 운영 → 출고물류 → 마케팅 → 서비스</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────┐
+│               포터 가치 사슬 (Porter Value Chain)        │
+├──────────────────────────────────────────────────────────┤
+│ 지원 활동:                                               │
+│ ┌─────────────────────────────────────────────────────┐ │
+│ │ 기업 인프라 (Finance, Legal, Planning)              │ │
+│ ├─────────────────────────────────────────────────────┤ │
+│ │ 인적 자원 관리 (HRM: Recruitment, Training)        │ │
+│ ├─────────────────────────────────────────────────────┤ │
+│ │ 기술 개발 (R&D, IT, 공정 혁신)                     │ │
+│ ├─────────────────────────────────────────────────────┤ │
+│ │ 조달 관리 (Procurement: 원자재·설비 구매)           │ │
+│ └─────────────────────────────────────────────────────┘ │
+│           ↓ 지원 활동이 아래 본원 활동을 지원 ↓          │
+│ [입고물류 → 운영 → 출고물류 → 마케팅 → 서비스]         │
+└──────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [가치 사슬](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/) 지원 활동은 무대 뒤의 스태프다. 배우(본원 활동)가 무대에서 빛나려면 조명팀(인프라), 의상팀(조달), 연출팀(기술 개발), 배우 코디(HRM)가 완벽히 지원해야 한다.
 
@@ -52,19 +54,14 @@ tags = ["studynote-enterprise-systems"]
 
 ### 디지털 지원 활동 혁신
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">전통 지원 활동 DX 혁신</div>
-<div class="kb-diagram-note">기업 인프라 → 클라우드 ERP (SAP S/4HANA)</div>
-<div class="kb-diagram-note">HRM → AI 채용 (HireVue) + 피플 어낼리틱스</div>
-<div class="kb-diagram-note">기술 개발 → DevOps + AI/ML 플랫폼</div>
-<div class="kb-diagram-note">조달 → e-Procurement + 공급망 AI (Coupa, Ariba)</div>
-</div>
-</div>
-
-
+```text
+전통 지원 활동          DX 혁신
+─────────────────────────────────────────
+기업 인프라 → 클라우드 ERP (SAP S/4HANA)
+HRM        → AI 채용 (HireVue) + 피플 어낼리틱스
+기술 개발  → DevOps + AI/ML 플랫폼
+조달       → e-Procurement + 공급망 AI (Coupa, Ariba)
+```
 
 - **📢 섹션 요약 비유**: [DX](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/726_platform_engineering_idp_dx/) 지원 활동 혁신은 공장 내부를 자동화하는 것이다. 공장 바닥(본원 활동)에서 제품을 만들지만, 자동화된 부품 조달(조달), [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 설비 관리(인프라), 스마트 교육 시스템(HRM)이 효율을 결정한다.
 
@@ -120,23 +117,21 @@ tags = ["studynote-enterprise-systems"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">포터 가치 사슬 — 지원 활동 4가지 정의</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ERP 도입 — 기업 인프라 통합 자동화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HR 어낼리틱스 — 데이터 기반 인적 자원 관리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">e-Procurement + AI — 조달 자동화·최적화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AI/데이터 인프라 — 21세기 핵심 지원 활동</div></div>
-</div>
-</div>
-
-
+```text
+[포터 가치 사슬 — 지원 활동 4가지 정의]
+    │
+    ▼
+[ERP 도입 — 기업 인프라 통합 자동화]
+    │
+    ▼
+[HR 어낼리틱스 — 데이터 기반 인적 자원 관리]
+    │
+    ▼
+[e-Procurement + AI — 조달 자동화·최적화]
+    │
+    ▼
+[AI/데이터 인프라 — 21세기 핵심 지원 활동]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

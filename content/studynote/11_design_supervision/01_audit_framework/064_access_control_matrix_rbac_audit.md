@@ -29,21 +29,15 @@ RBAC는 역할을 기준으로 권한을 묶어, 사람의 변동이 있어도 [
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">User</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Role</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Permission</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Object / Resource</div>
-</div>
-</div>
-
-
+```text
+User
+  ↓
+Role
+  ↓
+Permission
+  ↓
+Object / Resource
+```
 
 | 구성 요소 | 역할 |
 | :-- | :-- |
@@ -108,41 +102,29 @@ RBAC는 권한 관리를 단순화하고, [감사](/knowledge-base/studynote/02_
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Access Control Matrix</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Role</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">RBAC</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Audit Evidence</div>
-</div>
-</div>
-
-
+```text
+Access Control Matrix
+  ↓
+Role
+  ↓
+RBAC
+  ↓
+Audit Evidence
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">DAC / MAC</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">RBAC</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">ABAC</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Zero Trust</div>
-</div>
-</div>
-
-
+```text
+DAC / MAC
+  ↓
+RBAC
+  ↓
+ABAC
+  ↓
+Zero Trust
+```
 
 ---
 

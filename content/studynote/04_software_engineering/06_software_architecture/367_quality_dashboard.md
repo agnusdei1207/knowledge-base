@@ -19,16 +19,16 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 품질 대시보드는 자동차 계기판(Dashboard)과 동일한으로, 운전자가 차 안에서 속도, 연료, 엔진 온도 등을 한눈에 확인하여 안전하게 운전하는 것처럼, 프로젝트관리가 품질 지표를 한 화면에서 확인하여품질 문제를즉시에 발견하고 대응할 수 있도록 하는형 정보 표시 시스템이다.
+- **개념**: 품질 대시보드는 자동차 계기판(Dashboard)과 동일한리념으로, 운전자가 차 안에서 속도, 연료, 엔진 온도 등을 한눈에 확인하여 안전하게 운전하는 것처럼, 프로젝트관리자가 품질 지표를 한 화면에서 확인하여품질 문제를즉시에 발견하고 대응할 수 있도록 하는집중형 정보 표시 시스템이다.
 
-- **필요성**: 소프트웨어 프로젝트에서는 매일 수많은 품질 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(버그 리포트, 테스트 결과, 코드 분석 결과 등)가 생성된다. 그러나 이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가에서해 있으면 전체적인 품질 상태를 파악하기 어렵다. 품질 대시보드는 이러한데이터을/를에와/과、의를 한눈에 파악할 수 있게 한다.
+- **필요성**: 소프트웨어 프로젝트에서는 매일 수많은 품질 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(버그 리포트, 테스트 결과, 코드 분석 결과 등)가 생성된다. 그러나 이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가산재해 있으면 전체적인 품질 상태를 파악하기 어렵다. 품질 대시보드는 이러한データ을/를일개소에ま와/과め, プロジェクト의전체상를 한눈에 파악할 수 있게 한다.
 
-- **💡 비유**: 품질 대시보드는 <strong>'항공사 여객기 조종실 계기판'</strong>과 같다. 조종실에는 속도, 고도, 연료, 엔진 온도 등 수많은 계기가 있지만, 조종사는 이 정보를 한눈에 확인하여 비행 중 이상 징후를즉시에 포착하고 대응한다. 품질 대시보드도 마찬가지로 수많은 품질 지표를 한 곳에통합하여,관리자가적인품질 상태를즉시에 파악할 수 있게 한다.
+- **💡 비유**: 품질 대시보드는 <strong>'항공사 여객기 조종실 계기판'</strong>과 같다. 조종실에는 속도, 고도, 연료, 엔진 온도 등 수많은 계기가 있지만, 조종사는 이 정보를 한눈에 확인하여 비행 중 이상 징후를즉시에 포착하고 대응한다. 품질 대시보드도 마찬가지로 수많은 품질 지표를 한 곳에집성하여,관리자가전체적인품질 상태를즉시에 파악할 수 있게 한다.
 
 - **등장 배경 및 발전 과정**:
-1. **1990년대 전통적 리포트**: 주간/월간 품질 리포트 인쇄물 형식으로
-2. **2000년대 BI 도구**: Business Intelligence 도구로Dashboard 구현
-3. **현재**: 실시간 모니터링 대시보드 ([Grafana](/knowledge-base/studynote/16_bigdata/08_visualization/168_grafana/), Datadog 등) + [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 통합
+  1. **1990년대 전통적 리포트**: 주간/월간 품질 리포트 인쇄물 형식으로배포
+  2. **2000년대 BI 도구**: Business Intelligence 도구로Dashboard 구현
+  3. **현재**: 실시간 모니터링 대시보드 ([Grafana](/knowledge-base/studynote/16_bigdata/08_visualization/168_grafana/), Datadog 등) + [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 통합
 
 - **📢 섹션 요약 비유**: 품질 대시보드는 <strong>'군대 작전실 상황판'</strong>과 같다. 작전실에는 적군 위치, 아군 배치, 보급 상황 등이 상황판에 나타나며, 지휘관은 이를 보고 작전 의사결정을 내린다. 품질 대시보드도 품질 문제를 신속하게 파악하고 대응하기 위한 "소프트웨어 프로젝트의 상황판" 역할을 한다.
 
@@ -36,17 +36,18 @@ tags = ["studynote-software-engineering"]
 
 다음은 품질 대시보드 (Quality Das의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">품질 대시보드 (Quality Das</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                  품질 대시보드 (Quality Das                        │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
+│       │                    │                    │          │
+│       ▼                    ▼                    ▼          │
+│   요구 분석           설계·적용           품질 검증        │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램은 품질 대시보드 (Quality Das가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -136,30 +137,28 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 품질 대시보드 (Quality Dashboard) 구축의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 품질 대시보드 (Quality Dashboard) 구축의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
 | [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 품질 대시보드 (Quality Dashboard) 구축은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | 품질 대시보드 (Quality Dashboard) 구축 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
 | [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 품질 대시보드 (Quality Dashboard) 구축에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">품질 대시보드 (Quality Dashboard) 구축 개념 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 위기 (Software Crisis) 인식
+    │
+    ▼
+품질 대시보드 (Quality Dashboard) 구축 개념 정립
+    │
+    ▼
+표준화 및 방법론 체계화 (ISO, CMMI, Agile)
+    │
+    ▼
+클라우드 네이티브·AI 기반 확장 적용
+    │
+    ▼
+지속적 개선 및 DevOps·MLOps 통합
+```
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

@@ -31,24 +31,22 @@ tags = ["studynote-data-engineering"]
 
 ### [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 비교
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">K-Means 100 이터레이션 성능 비교</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MapReduce:</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">이터레이션 1:</div><div class="kb-diagram-node">HDFS 읽기</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">HDFS 쓰기</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">이터레이션 2:</div><div class="kb-diagram-node">HDFS 읽기</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">HDFS 쓰기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">...100회 반복: 총 200회 HDFS I/O → 시간: ~110분</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Spark:</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">이터레이션 1:</div><div class="kb-diagram-node">HDFS 읽기</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">RAM 캐시</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">이터레이션 2:</div><div class="kb-diagram-node">RAM 읽기</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">RAM 캐시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">...100회 반복: 1회 HDFS I/O, 나머지 메모리 → ~5분</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">성능 차이: 약 22배 빠름</div></div>
-</div>
-</div>
-
-
+```
+K-Means 100 이터레이션 성능 비교
+┌──────────────────────────────────────────────────────┐
+│  MapReduce:                                          │
+│  이터레이션 1: [HDFS 읽기] → 처리 → [HDFS 쓰기]      │
+│  이터레이션 2: [HDFS 읽기] → 처리 → [HDFS 쓰기]      │
+│  ...100회 반복: 총 200회 HDFS I/O → 시간: ~110분      │
+│                                                      │
+│  Spark:                                              │
+│  이터레이션 1: [HDFS 읽기] → RDD 처리 → [RAM 캐시]   │
+│  이터레이션 2: [RAM 읽기] → RDD 처리 → [RAM 캐시]    │
+│  ...100회 반복: 1회 HDFS I/O, 나머지 메모리 → ~5분   │
+│                                                      │
+│  성능 차이: 약 22배 빠름                               │
+└──────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: Spark는 "100번 시험 문제를 풀 때, MapReduce는 매번 교과서를 꺼냈다 넣었다 하고, Spark는 교과서를 책상 위에 펼쳐놓고 바로바로 참조하는 것"이다. 첫 번에는 시간이 비슷하지만, 반복할수록 격차가 벌어진다.
 
@@ -60,44 +58,46 @@ tags = ["studynote-data-engineering"]
 
 RDD는 Spark의 근본 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)로, 다음 세 가지 핵심 속성을 가진다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">RDD 3대 특성</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Resilient (내결함성)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 파티션 손실 시 Lineage로 재계산 가능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Distributed (분산)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 파티션 단위로 여러 Executor에 분산 저장·처리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Dataset (데이터셋)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 불변(Immutable) 레코드의 컬렉션</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 변환 시 새 RDD 생성 (원본 수정 안 됨)</div></div>
-</div>
-</div>
-
-
+```
+RDD 3대 특성
+┌─────────────────────────────────────────────────────────────┐
+│                                                             │
+│  ┌──────────────────────────────────────────────────────┐  │
+│  │  Resilient (내결함성)                                  │  │
+│  │  → 파티션 손실 시 Lineage로 재계산 가능               │  │
+│  └──────────────────────────────────────────────────────┘  │
+│                                                             │
+│  ┌──────────────────────────────────────────────────────┐  │
+│  │  Distributed (분산)                                   │  │
+│  │  → 파티션 단위로 여러 Executor에 분산 저장·처리       │  │
+│  └──────────────────────────────────────────────────────┘  │
+│                                                             │
+│  ┌──────────────────────────────────────────────────────┐  │
+│  │  Dataset (데이터셋)                                    │  │
+│  │  → 불변(Immutable) 레코드의 컬렉션                    │  │
+│  │  → 변환 시 새 RDD 생성 (원본 수정 안 됨)              │  │
+│  └──────────────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────────────────┘
+```
 
 ### [지연 평가](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/) ([Lazy Evaluation](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/))
 
 Spark는 Transformation을 즉시 실행하지 않고, Action이 호출될 때 전체 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)을 최적화하여 한꺼번에 실행한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">지연 평가 동작 방식</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코드:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">val rdd1 = sc.textFile("hdfs://data") ← RDD 생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">val rdd2 = rdd1.filter(_.contains("error")) ← Transformation</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">val rdd3 = rdd2.map(_.split(",")) ← Transformation</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">val result = rdd3.count() ← Action ✅</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실제 실행 시점: count() 호출 시에만 전체 DAG 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최적화: Spark가 filter + map 파이프라인을 한번에 처리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Pipeline Fusion으로 중간 RDD 물리화 없음)</div></div>
-</div>
-</div>
-
-
+```
+지연 평가 동작 방식
+┌─────────────────────────────────────────────────────────────┐
+│  코드:                                                      │
+│  val rdd1 = sc.textFile("hdfs://data")    ← RDD 생성        │
+│  val rdd2 = rdd1.filter(_.contains("error"))  ← Transformation│
+│  val rdd3 = rdd2.map(_.split(","))            ← Transformation│
+│  val result = rdd3.count()                    ← Action ✅   │
+│                                                             │
+│  실제 실행 시점: count() 호출 시에만 전체 DAG 실행          │
+│  최적화: Spark가 filter + map 파이프라인을 한번에 처리       │
+│          (Pipeline Fusion으로 중간 RDD 물리화 없음)          │
+└─────────────────────────────────────────────────────────────┘
+```
 
 | 구분 | 설명 | 즉시 실행? | 예시 |
 |:---|:---|:---|:---|
@@ -106,22 +106,24 @@ Spark는 Transformation을 즉시 실행하지 않고, Action이 호출될 때 �
 
 ### [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) ([Directed Acyclic Graph](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/255_apache_airflow_dag/)) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">DAG 스케줄러 처리 흐름</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">논리적 DAG (RDD 계보):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">textFile ──▶ filter ──▶ map ──▶ groupBy ──▶ reduce</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(셔플 발생)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물리적 실행 계획 (Stage 분리):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Stage 1: textFile → filter → map (파이프라인 가능)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">셔플 경계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Stage 2: groupBy → reduce (셔플 후 실행)</div></div>
-</div>
-</div>
-
-
+```
+DAG 스케줄러 처리 흐름
+┌─────────────────────────────────────────────────────────────┐
+│  논리적 DAG (RDD 계보):                                     │
+│                                                             │
+│  textFile ──▶ filter ──▶ map ──▶ groupBy ──▶ reduce        │
+│                                     │                       │
+│                              (셔플 발생)                    │
+│                                                             │
+│  물리적 실행 계획 (Stage 분리):                              │
+│                                                             │
+│  Stage 1: textFile → filter → map   (파이프라인 가능)       │
+│                                     │                       │
+│                              [셔플 경계]                    │
+│                                     │                       │
+│  Stage 2: groupBy → reduce          (셔플 후 실행)          │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **Stage 분리 기준**: 셔플이 필요한 Wide Transformation (groupBy, [join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/), sortBy 등)이 Stage 경계를 형성한다.
 
@@ -134,23 +136,23 @@ Spark는 Transformation을 즉시 실행하지 않고, Action이 호출될 때 �
 
 ### 계보 (Lineage) 기반 내결함성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Lineage 복구 메커니즘</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">초기 상태:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HDFS → rdd1 → rdd2 → rdd3 (파티션 0,1,2,3)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장애: rdd3의 파티션 2 손실</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">❌ 기존 복제 방식: 복제본 필요 (디스크/메모리 2~3배)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ Lineage 방식: 계보를 따라 파티션 2만 재계산</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HDFS 파티션 2 → rdd1_p2 → rdd2_p2 → rdd3_p2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장점: 메모리 복제 오버헤드 없음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단점: 긴 Lineage의 재계산 비용 → 주기적 체크포인팅 권장</div></div>
-</div>
-</div>
-
-
+```
+Lineage 복구 메커니즘
+┌─────────────────────────────────────────────────────────────┐
+│  초기 상태:                                                  │
+│  HDFS → rdd1 → rdd2 → rdd3 (파티션 0,1,2,3)                │
+│                                                             │
+│  장애: rdd3의 파티션 2 손실                                  │
+│  ┌──────────────────────────────────────────────────────┐  │
+│  │  ❌ 기존 복제 방식: 복제본 필요 (디스크/메모리 2~3배)   │  │
+│  │  ✅ Lineage 방식: 계보를 따라 파티션 2만 재계산        │  │
+│  │     HDFS 파티션 2 → rdd1_p2 → rdd2_p2 → rdd3_p2      │  │
+│  └──────────────────────────────────────────────────────┘  │
+│                                                             │
+│  장점: 메모리 복제 오버헤드 없음                             │
+│  단점: 긴 Lineage의 재계산 비용 → 주기적 체크포인팅 권장    │
+└─────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 "요리 레시피 최적화 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)"다. 재료 씻기→썰기→볶기를 각각 따로 실행하지 않고, "한 번에 씻으면서 썰고 바로 볶는" 파이프라인으로 최적화한다. 셔플이 필요한 단계에서만 재료를 교환(Stage 경계)한다.
 
@@ -172,23 +174,25 @@ Spark는 Transformation을 즉시 실행하지 않고, Action이 호출될 때 �
 
 Spark SQL의 Catalyst [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 계획(Logical Plan)을 최적화된 물리 계획(Physical Plan)으로 변환한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Catalyst 최적화 파이프라인</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SQL/DataFrame 코드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Unresolved Logical Plan (파싱)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Resolved Logical Plan (카탈로그 메타데이터 바인딩)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Optimized Logical Plan (Catalyst 룰 기반 최적화)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예: Predicate Pushdown, Column Pruning</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Physical Plan(s) (여러 물리 실행 계획 생성)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Selected Physical Plan (비용 기반 최적 계획 선택)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코드 생성 (Tungsten 엔진) → JVM 바이트코드 최적화</div></div>
-</div>
-</div>
-
-
+```
+Catalyst 최적화 파이프라인
+┌──────────────────────────────────────────────────────────────┐
+│  SQL/DataFrame 코드                                          │
+│          ↓                                                   │
+│  Unresolved Logical Plan  (파싱)                             │
+│          ↓                                                   │
+│  Resolved Logical Plan    (카탈로그 메타데이터 바인딩)         │
+│          ↓                                                   │
+│  Optimized Logical Plan   (Catalyst 룰 기반 최적화)           │
+│          │ 예: Predicate Pushdown, Column Pruning             │
+│          ↓                                                   │
+│  Physical Plan(s)         (여러 물리 실행 계획 생성)           │
+│          ↓                                                   │
+│  Selected Physical Plan   (비용 기반 최적 계획 선택)           │
+│          ↓                                                   │
+│  코드 생성 (Tungsten 엔진)  → JVM 바이트코드 최적화            │
+└──────────────────────────────────────────────────────────────┘
+```
 
 | 최적화 기법 | 설명 | 효과 |
 |:---|:---|:---|
@@ -205,20 +209,16 @@ Spark SQL의 Catalyst [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/
 
 ### Spark [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">캐싱 저장 수준 (Storage Level)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MEMORY_ONLY : RAM만 사용, 부족 시 파티션 버림</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MEMORY_AND_DISK : RAM 우선, 넘치면 디스크 (권장)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DISK_ONLY : 디스크만 (장기 캐시)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MEMORY_ONLY_SER : 직렬화해서 RAM에 저장 (메모리 절약)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OFF_HEAP : JVM 밖 메모리 (GC 영향 없음)</div></div>
-</div>
-</div>
-
-
+```
+캐싱 저장 수준 (Storage Level)
+┌────────────────────────────────────────────────────────────┐
+│  MEMORY_ONLY      : RAM만 사용, 부족 시 파티션 버림         │
+│  MEMORY_AND_DISK  : RAM 우선, 넘치면 디스크 (권장)          │
+│  DISK_ONLY        : 디스크만 (장기 캐시)                    │
+│  MEMORY_ONLY_SER  : 직렬화해서 RAM에 저장 (메모리 절약)     │
+│  OFF_HEAP         : JVM 밖 메모리 (GC 영향 없음)             │
+└────────────────────────────────────────────────────────────┘
+```
 
 ### 실무 시나리오: 이커머스 실시간 추천 엔진
 
@@ -285,23 +285,21 @@ Apache Spark는 인메모리 [RDD](/knowledge-base/studynote/13_cloud_architectu
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">MapReduce (디스크 기반, 느림)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Spark RDD: 인메모리 · Lazy Evaluation · Lineage 복구</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DataFrame / Dataset API: 스키마 기반 · Catalyst 최적화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Spark SQL · Structured Streaming · MLlib</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Photon (Databricks) · Spark Connect (원격 실행)</div>
-</div>
-</div>
-
-
+```text
+MapReduce (디스크 기반, 느림)
+    │
+    ▼
+Spark RDD: 인메모리 · Lazy Evaluation · Lineage 복구
+    │
+    ▼
+DataFrame / Dataset API: 스키마 기반 · Catalyst 최적화
+    │
+    ▼
+Spark SQL · Structured Streaming · MLlib
+    │
+    ▼
+Photon (Databricks) · Spark Connect (원격 실행)
+```
 2. [지연 평가](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/)는 "쇼핑 목록을 다 적은 다음 한 번에 효율적으로 쇼핑하는 것"이에요. 중간에 불필요한 물건을 AI가 목록에서 지워줘요.
 3. DAG는 "요리 레시피 흐름도"예요. 어떤 재료([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 어떤 순서로 섞여야 완성 요리(결과)가 나오는지 그림으로 보여줘요!
 

@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 과거 1G부터 4G([LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/))까지는 수백 MHz에서 2.5GHz 안팎의 꿀단지 주파수(Sub-6GHz)를 사용했습니다. 이 대역은 멀리 날아가고 건물도 잘 통과하지만, 전 세계 통신사들이 다 나눠 쓰고 있어 <strong>남은 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>(차선)이 없었습니다.</strong>
 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 시대가 요구하는 "기존 대비 20배 빠른 20Gbps 속도"를 내려면 8차선을 100차선으로 통째로 늘려야 했습니다. 아무도 쓰지 않던 텅 빈 거대한 고속도로를 찾다 보니, 초고주파인 <strong>밀리미터파(한국 기준 28GHz 대역)</strong>로 올라가게 되었습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">마이크로파</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">밀리미터파</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">테라헤르츠</div></div>
-</div>
-</div>
-
-
+```text
+[마이크로파]
+    │
+    ▼
+[밀리미터파]
+    │
+    └──▶ [테라헤르츠]
+```
 
 - **📢 섹션 요약 비유**: 밀리미터파는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -46,18 +42,14 @@ tags = ["studynote-network"]
 | **파장 길이** | 파장이 짧아 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 크기를 수 밀리미터로 줄일 수 있음. 스마트폰 하나에 수십 개의 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)([Massive MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/))를 우겨넣을 수 있음. | 파장이 너무 짧아 <strong>회절(휘어짐) 현상이 아예 제로(0)</strong>에 가까움. |
 | <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 폭</strong> | 수 GHz에 달하는 광활한 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 독점 사용 가능. <strong>광케이블에 필적하는 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a> <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 전송(<a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/760_embb_enhanced_mobile_broadband_vr_ar/">eMBB</a>)</strong> 가능. | <strong>직진성</strong>이 빛과 같아서 중간에 사람, 나무, 유리창만 있어도 전파가 막히거나 흡수됨 ([산란](/knowledge-base/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/)). |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">마이크로파</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">밀리미터파</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">테라헤르츠</div></div>
-</div>
-</div>
-
-
+```text
+[마이크로파]
+    │
+    ▼
+[밀리미터파]
+    │
+    └──▶ [테라헤르츠]
+```
 
 - **📢 섹션 요약 비유**: 밀리미터파의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -122,19 +114,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 마이크로파</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 밀리미터파</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 테라헤르츠</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고속 광전송 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 마이크로파]
+    │
+    ▼
+[현재 개념: 밀리미터파]
+    │
+    ├──▶ [확장 A: 테라헤르츠]
+    └──▶ [확장 B: 고속 광전송 최적화]
+```
 
 밀리미터파는 [마이크로파](/knowledge-base/studynote/03_network/03_physical_layer_media/154_radio_wave_classification/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [테라헤르츠](/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/)와 고속 광전송 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

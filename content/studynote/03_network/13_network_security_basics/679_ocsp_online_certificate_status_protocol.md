@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: 클라이언트(웹 브라우저)가 거대한 블랙리스트 명단([CRL](/knowledge-base/studynote/03_network/13_network_security_basics/678_crl_certificate_revocation_list/))을 통째로 다운받지 않고, <strong>인터넷을 통해 CA의 'OCSP 응답 서버(Responder)'에 실시간으로 접속하여 특정 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>서 딱 한 장의 폐기 여부(건강 상태)만 가볍게 물어보고 답을 받는 <a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/">IETF</a> 표준 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a></strong>입니다. ([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 기반)
 - **배경**: CRL의 치명적인 한계인 거대한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 다운로드 과부하와 12시간씩 걸리는 업데이트 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)(시차 위협)을 완벽하게 해결하기 위해 탄생했습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">CRL 스펙 및 폐기 문제 및 배포 지연 약…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">OCSP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OCSP Stapling</div></div>
-</div>
-</div>
-
-
+```text
+[CRL 스펙 및 폐기 문제 및 배포 지연 약…]
+    │
+    ▼
+[OCSP]
+    │
+    └──▶ [OCSP Stapling]
+```
 
 - **📢 섹션 요약 비유**: OCSP는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -52,18 +48,14 @@ tags = ["studynote-network"]
    - **Unknown (알 수 없음)**: 우리 서버에 9999번이라는 번호 자체가 없는데? 차단해!
 5. 브라우저가 'Good'을 받으면 비로소 자물쇠 마크를 띄우고 뱅킹 화면을 열어줍니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">CRL 스펙 및 폐기 문제 및 배포 지연 약…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">OCSP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OCSP Stapling</div></div>
-</div>
-</div>
-
-
+```text
+[CRL 스펙 및 폐기 문제 및 배포 지연 약…]
+    │
+    ▼
+[OCSP]
+    │
+    └──▶ [OCSP Stapling]
+```
 
 - **📢 섹션 요약 비유**: OCSP의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -120,19 +112,15 @@ OCSP는 [네트워크 보안](/knowledge-base/studynote/03_network/20_performanc
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: CRL 스펙 및 폐기 문제 및 배포 지연 약…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: OCSP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: OCSP Stapling</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: CRL 스펙 및 폐기 문제 및 배포 지연 약…]
+    │
+    ▼
+[현재 개념: OCSP]
+    │
+    ├──▶ [확장 A: OCSP Stapling]
+    └──▶ [확장 B: 자동화된 신뢰 체계]
+```
 
 OCSP는 [CRL](/knowledge-base/studynote/03_network/13_network_security_basics/678_crl_certificate_revocation_list/) 스펙 및 폐기 문제 및 배포 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 약…에서 출발해 현재 메커니즘을 정교화하고, 이후 OCSP Stapling와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

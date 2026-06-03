@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: ONF(Open Networking Foundation) 재단에서 제정한, [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 환경에서 <strong>중앙의 제어 컨트롤러(Controller)와 밑바닥의 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>(<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">Switch</a>) 장비 간에 패킷 전달 룰(Flow Table)을 주고받기 위한 통신 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a> 표준 규격(사우스바운드 인터페이스의 대명사)</strong>입니다.
 - **의의**: 특정 벤더(시스코 등)에 종속된 기계어(CLI)를 박살 내고, 하드웨어 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 깡통으로 만들어 소프트웨어로 마음대로 지배할 수 있게 길을 터준 1세대 혁명의 주인공입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">노스바운드 인터페이스</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">OpenFlow</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OpenFlow Flow Table</div></div>
-</div>
-</div>
-
-
+```text
+[노스바운드 인터페이스]
+    │
+    ▼
+[OpenFlow]
+    │
+    └──▶ [OpenFlow Flow Table]
+```
 
 - **📢 섹션 요약 비유**: OpenFlow는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -46,18 +42,14 @@ tags = ["studynote-network"]
 2. <strong>OpenFlow <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">Switch</a> (깡통 근육)</strong>: 플로우 테이블을 저장할 빈 장부를 들고 있다가, 컨트롤러가 적어준 룰대로 패킷이 오면 빛의 속도로 쳐내는 역할을 합니다.
 3. <strong><a href="/knowledge-base/studynote/03_network/17_sdn_nfv/998_openflow_protocol/">OpenFlow Protocol</a> (신경망)</strong>: 뇌와 근육 사이의 통신 규약입니다. 보안을 위해 <strong>보안 채널(Secure Channel, <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/">TLS</a> 암호화 적용)</strong> 위에서 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 6653번(구 6633번)을 타고 대화합니다. (해커가 중간에 명령을 훔쳐보지 못하게 막습니다.)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">노스바운드 인터페이스</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">OpenFlow</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OpenFlow Flow Table</div></div>
-</div>
-</div>
-
-
+```text
+[노스바운드 인터페이스]
+    │
+    ▼
+[OpenFlow]
+    │
+    └──▶ [OpenFlow Flow Table]
+```
 
 - **📢 섹션 요약 비유**: OpenFlow의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -123,19 +115,15 @@ OpenFlow는 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 노스바운드 인터페이스</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: OpenFlow</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: OpenFlow Flow Table</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 프로그래머블 네트워크</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 노스바운드 인터페이스]
+    │
+    ▼
+[현재 개념: OpenFlow]
+    │
+    ├──▶ [확장 A: OpenFlow Flow Table]
+    └──▶ [확장 B: 프로그래머블 네트워크]
+```
 
 OpenFlow는 [노스바운드 인터페이스](/knowledge-base/studynote/03_network/17_sdn_nfv/854_northbound_interface_api_controller_application/)에서 출발해 현재 메커니즘을 정교화하고, 이후 OpenFlow Flow Table와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -21,29 +21,30 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: 식스 시그마 (6 Sigma)는 1986년 미국 Motorola사에서 개발한 품질 관리 방법론으로, 그리스 문자 시그마 (σ)는 통계학에서 표준 편차를 나타내며, 시그마 레벨 (Sigma Level)은 프로세스 품질을 나타내는 지표이다. 시그마 레벨이 높을수록 결함률이 낮아지며, 6시그마는 결함률 100만 개당 3.4개 이하 (3.4 DPMO, Defects Per Million Opportunities)를 목표로 한다.
 
-- **필요성**: 소프트웨어 개발에서는 결함이 발견되고 수정되는 시점에 따라 비용이 크게 달라진다. 개발 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 단계에서 결함을 발견하면 수정 비용이 적지만, 운영 환경에서 결함이 발견되면 수정 비용이 수십 배수 될 수 있다. 식스 시그마는 이러한 결함을 사전에방지하고 프로세스를 안정화하여품질개선을/를하다。
+- **필요성**: 소프트웨어 개발에서는 결함이 발견되고 수정되는 시점에 따라 비용이 크게 달라진다. 개발 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 단계에서 결함을 발견하면 수정 비용이 적지만, 운영 환경에서 결함이 발견되면 수정 비용이 수십 배심지수백배 될 수 있다. 식스 시그마는 이러한 결함을 사전에방지하고 프로세스를 안정화하여품질개선을실현하는. 
 
-- **💡 비유**: 식스 시그마는 "정밀 공장 생산 라인"에 비유할 수 있다. 대량 생산되는 제품의 불량률을 100만 개당 3.4개 이하로 줄이려면,부터까지 모든 단계에서 품질을 관리해야 한다. 소프트웨어 개발에서도 동일하게, 기획 → 설계 → 구현 → 테스트 → 배포의 각 단계에서 품질을관리해야 결함률을 낮출 수 있다.
+- **💡 비유**: 식스 시그마는 "정밀 공장 생산 라인"에 비유할 수 있다. 대량 생산되는 제품의 불량률을 100만 개당 3.4개 이하로 줄이려면,원재료매입부터최종제품출엄까지 모든 단계에서 품질을 관리해야 한다. 소프트웨어 개발에서도 동일하게, 기획 → 설계 → 구현 → 테스트 → 배포의 각 단계에서 품질을관리해야 결함률을 낮출 수 있다.
 
-- **등장 배경**: 식스 시그마는 1986년 Motorola사의 마이클 해리 (Michael Harry)와 빌 스미스 (Bill Smith)가한방법에서、이후 GE (General Electric)의 잭 웰치 (Jack Welch)가적으로하여을。，에서는만에서지 않고、、에고 있다。
+- **등장 배경**: 식스 시그마는 1986년 Motorola사의 마이클 해리 (Michael Harry)와 빌 스미스 (Bill Smith)가개발한방법론에서, 이후 GE (General Electric)의 잭 웰치 (Jack Welch)가전사적으로도입하여성공을수めた. ，현재에서는제조업다け에서なく금융, 의료, ソフトウェア개발등폭광い분야에적용되고 있다.
 
-- **📢 섹션 요약 비유**: 식스 시그마는 ""에 비유할 수 있다. 6시그마는 오차 범위가 매우 좁아 거의 Perfect에 가까운을/를하다。에보다、을/를100의3.4에할 수 있다。
+- **📢 섹션 요약 비유**: 식스 시그마는 "정밀 저울"에 비유할 수 있다. 6시그마는 오차 범위가 매우 좁아 거의 Perfect에 가까운정밀도를달성하는. これ에より, 불량률을100만분의3.4이하에억제에서きる. 
 
 ---
 
 다음은 식스 시그마 (6 Sigma)의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">식스 시그마 (6 Sigma)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                  식스 시그마 (6 Sigma)                            │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
+│       │                    │                    │          │
+│       ▼                    ▼                    ▼          │
+│   요구 분석           설계·적용           품질 검증        │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램은 식스 시그마 (6 Sigma)가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -133,30 +134,28 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 식스 시그마 (6 Sigma)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 식스 시그마 (6 Sigma)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
 | [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 식스 시그마 (6 Sigma)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | 식스 시그마 (6 Sigma) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
 | [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 식스 시그마 (6 Sigma)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">식스 시그마 (6 Sigma) 개념 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 위기 (Software Crisis) 인식
+    │
+    ▼
+식스 시그마 (6 Sigma) 개념 정립
+    │
+    ▼
+표준화 및 방법론 체계화 (ISO, CMMI, Agile)
+    │
+    ▼
+클라우드 네이티브·AI 기반 확장 적용
+    │
+    ▼
+지속적 개선 및 DevOps·MLOps 통합
+```
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

@@ -29,18 +29,14 @@ tags = ["studynote-network"]
   - <strong>충돌 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a></strong>: 하나의 좁은 "1차선 다리"입니다. 양쪽에서 차가 동시에 진입하면 정면충돌이 납니다. (이를 해결한 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 다리에 중앙선을 그어 양방향 통행을 만든 것입니다.)
   - <strong>브로드캐스트 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a></strong>: 마을 회관의 "마을 이장님 확성기 소리"가 들리는 반경입니다. 우리 마을 소식이 옆 마을까지 시끄럽게 들리지 않도록, 산(라우터)을 세워 소리를 막아줘야 합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">페이로드 크기, 패딩</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">충돌 도메인 / 브로드캐스트 도메인</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스위치 의 동작 원리</div></div>
-</div>
-</div>
-
-
+```text
+[페이로드 크기, 패딩]
+    │
+    ▼
+[충돌 도메인 / 브로드캐스트 도메인]
+    │
+    └──▶ [스위치 의 동작 원리]
+```
 
 - **📢 섹션 요약 비유**: <strong> 충돌 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 분리는 찻길 사고를 막기 위한 </strong>"차선 긋기([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))"<strong>이고, 브로드캐스트 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 분리는 소음을 막기 위한 </strong>"방음벽 세우기(라우터)"**입니다.
 
@@ -62,28 +58,33 @@ tags = ["studynote-network"]
 - 브로드캐스트 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 가진 프레임이 라우터 인터페이스에 도착하면 "내 동네 밖으로 이 시끄러운 방송을 내보낼 수 없다"며 **단호하게 버려버린다(Drop)**.
 - 즉, 라우터의 <strong>각 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>(인터페이스)마다 독립적인 브로드캐스트 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a></strong>이 형성된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장비별 도메인 분할 효과 (예시)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">PC A</div><div class="kb-diagram-note">1번 포트</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">24포트 스위치</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">PC B</div><div class="kb-diagram-note">2번 포트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Q: 위 환경의 도메인 개수는?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 충돌 도메인: 24개 (스위치의 모든 포트가 개별 도메인)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 브로드캐스트 도메인: 1개 (스위치는 방송을 막지 못함)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">라우터</div><div class="kb-diagram-note">(외부 인터넷)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(G0/0)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">24포트 스위치</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">PC A</div><div class="kb-diagram-node">PC B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Q: 위 환경의 브로드캐스트 도메인 개수는?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 2개 (라우터 아래쪽 사내망 1개 + 라우터 바깥쪽 외부망 1개)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(PC A의 브로드캐스트는 라우터를 뚫고 인터넷으로 나가지 못함!)</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │               장비별 도메인 분할 효과 (예시)                  │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ PC A ] ──── 1번 포트                                     │
+ │                          [ 24포트 스위치 ]                   │
+ │   [ PC B ] ──── 2번 포트                                     │
+ │                                                             │
+ │   Q: 위 환경의 도메인 개수는?                                    │
+ │   - 충돌 도메인: 24개 (스위치의 모든 포트가 개별 도메인)             │
+ │   - 브로드캐스트 도메인: 1개 (스위치는 방송을 막지 못함)              │
+ │                                                             │
+ │ ─────────────────────────────────────────────────────────── │
+ │                                                             │
+ │                          [ 라우터 ] ──── (외부 인터넷)       │
+ │                            │ (G0/0)                         │
+ │                    [ 24포트 스위치 ]                          │
+ │                    /               \                        │
+ │               [ PC A ]          [ PC B ]                    │
+ │                                                             │
+ │   Q: 위 환경의 브로드캐스트 도메인 개수는?                        │
+ │   - 2개 (라우터 아래쪽 사내망 1개 + 라우터 바깥쪽 외부망 1개)        │
+ │     (PC A의 브로드캐스트는 라우터를 뚫고 인터넷으로 나가지 못함!)      │
+ │                                                             │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: <strong> 옛날 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/">허브</a> 시대가 10명이 한 테이블에서 밥을 먹으며 서로 말이 엉키는 시장통(거대 충돌/거대 브로드캐스트)이었다면, 현대의 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>와 라우터는 각자에게 </strong>"개인용 칸막이(충돌 차단)"**를 쳐주고, 시끄러운 소음이 넘어오지 않게 **"방음벽(브로드캐스트 차단)"**을 설치한 최첨단 독서실입니다.
 
@@ -141,19 +142,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 페이로드 크기, 패딩</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 충돌 도메인 / 브로드캐스트 도메인</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 스위치 의 동작 원리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 캠퍼스 패브릭</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 페이로드 크기, 패딩]
+    │
+    ▼
+[현재 개념: 충돌 도메인 / 브로드캐스트 도메인]
+    │
+    ├──▶ [확장 A: 스위치 의 동작 원리]
+    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
+```
 
 충돌 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) / 브로드캐스트 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)는 [페이로드 크기](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/236_payload_size_and_padding_46_1500_bytes/), [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 의 동작 원리와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

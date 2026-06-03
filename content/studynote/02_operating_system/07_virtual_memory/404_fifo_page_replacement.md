@@ -27,26 +27,33 @@ tags = ["studynote-operating-system"]
   2. **핵심 뼈대의 탈출**: 프로그램 켤 때 할당받은 메인 함수나 전역 변수(1번 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))가 가장 먼저 들어왔다는 이유로 쫓겨났다가, 0.1초 뒤 다시 불려와 남을 쫓아내는 코미디가 벌어짐.
   3. **퇴출 선고**: 벨라디(Belady)가 이 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 치명적 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)(모순)을 논문으로 증명하며 관짝에 못이 박힘.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FIFO 알고리즘의 치명적 맹점 (자해 공갈) 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황: 램 프레임 3개 / 들어오는 순서: 1 -&gt; 2 -&gt; 3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1번</div><div class="kb-diagram-cell">2번</div><div class="kb-diagram-cell">3번</div><div class="kb-diagram-cell">◀ 1번 페이지가 가장 늙음 (고참)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">4번 페이지가 램에 들어오려 함 (Page Fault)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS: "누가 제일 오래됐지? 1번 너 나가!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4번</div><div class="kb-diagram-cell">2번</div><div class="kb-diagram-cell">3번</div><div class="kb-diagram-cell">◀ 1번이 스왑으로 버려짐.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">0.001초 뒤, CPU가 다시 1번 페이지를 불렀음!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU: "야, 아까 쓰던 1번 내놔!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS: "헐, 방금 버렸는데... 이번엔 제일 오래된 2번 너 나가!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4번</div><div class="kb-diagram-cell">1번</div><div class="kb-diagram-cell">3번</div><div class="kb-diagram-cell">◀ 1번을 다시 가져오느라 지옥의 렉 발생!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💥 뼈아픈 결과: 1번 페이지가 사실 1초마다 불리는 초핵심 변수였는데,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단지 "일찍 들어왔다"는 이유로 버려져서 스래싱(Thrashing)이 터짐.</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│        FIFO 알고리즘의 치명적 맹점 (자해 공갈) 시각화                │
+├──────────────────────────────────────────────────────────────────────┤
+│                                                                      │
+│ [ 상황: 램 프레임 3개 / 들어오는 순서: 1 -> 2 -> 3 ]                 │
+│   ┌─────┬─────┬─────┐                                                │
+│   │ 1번 │ 2번 │ 3번 │ ◀ 1번 페이지가 가장 늙음 (고참)                │
+│   └─────┴─────┴─────┘                                                │
+│                                                                      │
+│ [ 4번 페이지가 램에 들어오려 함 (Page Fault) ]                       │
+│   OS: "누가 제일 오래됐지? 1번 너 나가!"                             │
+│   ┌─────┬─────┬─────┐                                                │
+│   │ 4번 │ 2번 │ 3번 │ ◀ 1번이 스왑으로 버려짐.                       │
+│   └─────┴─────┴─────┘                                                │
+│                                                                      │
+│ [ 0.001초 뒤, CPU가 다시 1번 페이지를 불렀음! ]                      │
+│   CPU: "야, 아까 쓰던 1번 내놔!"                                     │
+│   OS: "헐, 방금 버렸는데... 이번엔 제일 오래된 2번 너 나가!"         │
+│   ┌─────┬─────┬─────┐                                                │
+│   │ 4번 │ 1번 │ 3번 │ ◀ 1번을 다시 가져오느라 지옥의 렉 발생!        │
+│   └─────┴─────┴─────┘                                                │
+│                                                                      │
+│ 💥 뼈아픈 결과: 1번 페이지가 사실 1초마다 불리는 초핵심 변수였는데,  │
+│    단지 "일찍 들어왔다"는 이유로 버려져서 스래싱(Thrashing)이 터짐.  │
+└──────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 이 짧은 예시가 FIFO의 무덤이다. FIFO는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 '활용 가치(Locality)'를 깡그리 무시한다. 프로그램 구조상 처음 들어오는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들은 대부분 환경 설정이나 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 베이스 연결 객체 등 끝날 때까지 쥐고 있어야 하는 코어 모듈이다. 이 코어 모듈들을 늙었다고 주기적으로 걷어차버리니 OS가 온종일 디스크를 긁으며 식은땀을 흘리게 되는 것이다.
 
 - **📢 섹션 요약 비유**: 회사에서 구조조정을 할 때 "성과(사용 빈도)나 능력(지역성)은 안 보고, 그냥 입사 제일 먼저 한 부장님, 이사님부터 순서대로 다 잘라라!"라고 명령하는 무능한 대표입니다. 결국 회사의 뼈대를 아는 핵심 인력이 쫓겨나 회사가 한 달 만에 망해버립니다.
@@ -96,18 +103,15 @@ FIFO의 숨통을 끊어놓은 가장 무서운 수학적 버그다. (이전 키
 - 그래서 나온 타협안이 <strong>"기본 틀은 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/">FIFO</a>(원형 큐)처럼 싸게 뱅글뱅글 돌리되, 쫓아내기 전에 한 번 쓱 눈치를 보고(<a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a> <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> 검사), 한 번이라도 불린 놈은 봐주고 다음 놈을 쫓아내자!"</strong>라는 것이다.
 - 이것이 바로 <strong>Second-Chance (2차 기회) <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>, 일명 <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/">Clock</a> <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>이다. FIFO의 껍데기에 LRU의 영혼을 강제로 주입한 현대 아키텍처의 구세주다. (다음 키워드에서 배울 내용의 떡밥이다).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">발전 단계</div><div class="kb-diagram-cell">알고리즘 뼈대</div><div class="kb-diagram-cell">오버헤드 부하</div><div class="kb-diagram-cell">실무(OS) 채택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1세대</div><div class="kb-diagram-cell">순수 FIFO</div><div class="kb-diagram-cell">깃털처럼 가벼움</div><div class="kb-diagram-cell">❌ 폐기 처분</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2세대</div><div class="kb-diagram-cell">순수 LRU</div><div class="kb-diagram-cell">쇠구슬처럼 무거움</div><div class="kb-diagram-cell">❌ 이론적 제왕</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3세대</div><div class="kb-diagram-cell">Clock (2차)</div><div class="kb-diagram-cell">가벼운데 똑똑함</div><div class="kb-diagram-cell">🟢 최종 승리자</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬───────────────────────────────┐
+│ 발전 단계  │ 알고리즘 뼈대 │ 오버헤드 부하 │ 실무(OS) 채택         │
+├──────────┼────────────┼────────────┼───────────────────────────────┤
+│ 1세대    │ 순수 FIFO   │ 깃털처럼 가벼움│ ❌ 폐기 처분             │
+│ 2세대    │ 순수 LRU    │ 쇠구슬처럼 무거움│ ❌ 이론적 제왕         │
+│ 3세대    │ **Clock (2차)**│ **가벼운데 똑똑함**│ 🟢 **최종 승리자**│
+└──────────┴────────────┴────────────┴───────────────────────────────┘
+```
 **[매트릭스 해설]** FIFO는 스스로는 아무 쓸모 없는 실패작이었지만, 자기가 가진 둥그런 '원형 큐(Circular [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))'라는 극강의 가성비 구조를 남김으로써 후대 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)들이 하드웨어 제약(오버헤드)을 뚫고 실무에 안착할 수 있도록 뼈대를 제공해 준 위대한 밑거름이 되었다.
 
 - **📢 섹션 요약 비유**: 싸고 가벼운 자전거([FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/))로는 짐을 못 나르고, 100톤짜리 트럭([LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/))은 기름값(오버헤드)이 너무 많이 듭니다. 결국 자전거 뒤에 작은 모터(1비트 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/))를 단 '전기 자전거([Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))'가 배달 시장(현대 OS)을 싹쓸이한 것과 같습니다. 전 자전거의 뼈대는 FIFO에서 온 것이죠.
@@ -161,19 +165,15 @@ OS가 미쳐서 FIFO로 메모리를 교체한다면, [배열](/knowledge-base/s
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">벨라디의 모순 (Belady's Anomaly)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">FIFO (First-In, First-Out) 교체</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">LRU (Least Recently Used) 교체</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">LRU 근사 알고리즘 (LRU Approximation)</div></div>
-</div>
-</div>
-
-
+```text
+[벨라디의 모순 (Belady's Anomaly)]
+    │
+    ▼
+[FIFO (First-In, First-Out) 교체]
+    │
+    ├──▶ [LRU (Least Recently Used) 교체]
+    └──▶ [LRU 근사 알고리즘 (LRU Approximation)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

@@ -43,26 +43,25 @@ Business Impact Analysis를 해 보면 업무별로 허용 가능한 중단 시�
 
 아래 그림은 일반적인 웜 사이트 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 흐름이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Warm site recovery flow</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Primary Site (active)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App / DB / Storage</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ periodic backup / async replication ▶ Warm Site</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">infra pre-installed</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">apps mostly standby</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Disaster declared</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. power on / scale up servers</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. restore or catch up data</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. validate app and security settings</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. switch DNS / Load Balancer / routes</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. resume prioritized services</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Warm site recovery flow                                              │
+├──────────────────────────────────────────────────────────────────────┤
+│ Primary Site (active)                                                │
+│   App / DB / Storage                                                 │
+│      │                                                               │
+│      ├─ periodic backup / async replication ───▶ Warm Site           │
+│      │                                         infra pre-installed    │
+│      │                                         apps mostly standby    │
+│      │                                                               │
+│ Disaster declared                                                    │
+│   1. power on / scale up servers                                     │
+│   2. restore or catch up data                                        │
+│   3. validate app and security settings                              │
+│   4. switch DNS / Load Balancer / routes                             │
+│   5. resume prioritized services                                     │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림이 보여 주는 핵심은 웜 사이트의 병목이 하드웨어 설치가 아니라 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 적재와 기동 절차</strong>라는 점이다. 서버가 이미 있어도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 복원 시간이 길면 전체 [RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/) ([Recovery Time Objective](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/))가 늘어난다. 반대로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 주기를 촘촘히 잡으면 [RPO](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/) ([Recovery Point Objective](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/))는 줄어들지만, 비용과 운영 복잡도는 높아진다.
 
@@ -150,24 +149,22 @@ Business Impact Analysis를 해 보면 업무별로 허용 가능한 중단 시�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Business Impact Analysis</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">RTO / RPO target definition</div>
-<div class="kb-diagram-tree-item" style="--depth:4">very low target -&gt; Mirror / Hot Site</div>
-<div class="kb-diagram-tree-item" style="--depth:4">medium target -&gt; Warm Site</div>
-<div class="kb-diagram-tree-item" style="--depth:4">relaxed target -&gt; Cold Site</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Runbook, restore test, failover/failback drill</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Cloud Warm Standby / Pilot Light evolution</div>
-</div>
-</div>
-
-
+```text
+Business Impact Analysis
+        │
+        ▼
+RTO / RPO target definition
+        │
+        ├─ very low target  -> Mirror / Hot Site
+        ├─ medium target    -> Warm Site
+        └─ relaxed target   -> Cold Site
+        │
+        ▼
+Runbook, restore test, failover/failback drill
+        │
+        ▼
+Cloud Warm Standby / Pilot Light evolution
+```
 
 이 흐름은 웜 사이트가 독립 개념이 아니라, 업무 영향 분석과 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 목표 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 위에서 선택되는 [DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/) 스펙트럼의 한 지점임을 보여 준다.
 

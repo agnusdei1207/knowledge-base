@@ -23,17 +23,14 @@ tags = ["studynote-ai"]
 
 두 방법의 철학적 차이: SMT는 "번역을 통계 문제로 분해", NMT는 "번역을 표현 학습 문제로 통합"이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: SMT는 "단어 사전 + 문법책 + 용례집을 수작업으로 조합", NMT는 "번역 예시를 대량으로 보고 패턴을 스스로 학습"하는 것이다.
 
@@ -59,36 +56,29 @@ hᵢ(e, f): 특성 함수 (번역 모델, 언어 모델, 리오더링 모델 등
 
 ### NMT 구조 발전
 
+```
+2014 (Seq2Seq + Attention):
+  인코더: RNN/LSTM → 컨텍스트 벡터
+  디코더: RNN/LSTM → 번역 생성
+  어텐션: 소스 각 위치 가중합
 
+2017 (Transformer):
+  인코더: Multi-Head Self-Attention + FFN × N
+  디코더: Masked Attention + Cross-Attention + FFN × N
+  포지셔널 인코딩 + 잔차 연결 + 레이어 정규화
+```
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">2014 (Seq2Seq + Attention):</div>
-<div class="kb-diagram-note">인코더: RNN/LSTM → 컨텍스트 벡터</div>
-<div class="kb-diagram-note">디코더: RNN/LSTM → 번역 생성</div>
-<div class="kb-diagram-note">어텐션: 소스 각 위치 가중합</div>
-<div class="kb-diagram-note">2017 (Transformer):</div>
-<div class="kb-diagram-note">인코더: Multi-Head Self-Attention + FFN × N</div>
-<div class="kb-diagram-note">디코더: Masked Attention + Cross-Attention + FFN × N</div>
-<div class="kb-diagram-note">포지셔널 인코딩 + 잔차 연결 + 레이어 정규화</div>
-</div>
-</div>
-
-
-
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SMT vs NMT 파이프라인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SMT: 입력 → 형태소 분석 → 구절 테이블 조회 →</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">리오더링 → 언어 모델 스코어링 → 번역 선택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NMT: 입력 → 토크나이저 → 인코더 →</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디코더 (어텐션 + 자기 회귀) → 번역 출력</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────┐
+│  SMT vs NMT 파이프라인                                   │
+│                                                          │
+│  SMT:  입력 → 형태소 분석 → 구절 테이블 조회 →           │
+│        리오더링 → 언어 모델 스코어링 → 번역 선택          │
+│                                                          │
+│  NMT:  입력 → 토크나이저 → 인코더 →                      │
+│        디코더 (어텐션 + 자기 회귀) → 번역 출력            │
+└──────────────────────────────────────────────────────────┘
+```
 
 | 비교 항목 | [SMT](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/) | NMT |
 |:---|:---|:---|

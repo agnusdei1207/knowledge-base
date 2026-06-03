@@ -18,21 +18,18 @@ tags = ["studynote-dataengineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">히스토그램 vs KDE 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">히스토그램</div><div class="kb-diagram-node">KDE</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ ─ ──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─</div><div class="kb-diagram-cell">──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ ─ ─ ──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">불연속, bin 크기 의존 연속, 매끄러운 곡선</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    히스토그램 vs KDE 비교                              │
+├───────────────────────────────────────────────────────┤
+│  [히스토그램]          [KDE]                           │
+│   ┌─┐ ┌─┐             ╭──╮                            │
+│   │ │ │ │ ┌─┐         │  ╰──╮                         │
+│   │ │ │ │ │ │         ╰──╮  │                         │
+│   └─┘ └─┘ └─┘           ╰──╯                         │
+│   불연속, bin 크기 의존   연속, 매끄러운 곡선          │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 히스토그램은 막대 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)(계단)이고, KDE는 매끄러운 산등성이(곡선)이다.
 
@@ -100,23 +97,21 @@ KDE는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rela
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">히스토그램 (1891, Pearson) — 불연속 빈도 분포</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">KDE (1962, Parzen·Rosenblatt) — 연속 밀도 추정</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Silverman's Rule (1986) — 자동 대역폭 선택</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Fast KDE (2000s~) — FFT 기반 고속 계산</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: Seaborn/Matplotlib 기본 시각화 도구</div></div>
-</div>
-</div>
-
-
+```text
+[히스토그램 (1891, Pearson) — 불연속 빈도 분포]
+    │
+    ▼
+[KDE (1962, Parzen·Rosenblatt) — 연속 밀도 추정]
+    │
+    ▼
+[Silverman's Rule (1986) — 자동 대역폭 선택]
+    │
+    ▼
+[Fast KDE (2000s~) — FFT 기반 고속 계산]
+    │
+    ▼
+[현재: Seaborn/Matplotlib 기본 시각화 도구]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 히스토그램은 <strong>막대 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a></strong>로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보여주는데, 계단처럼 울퉁불퉁해요.

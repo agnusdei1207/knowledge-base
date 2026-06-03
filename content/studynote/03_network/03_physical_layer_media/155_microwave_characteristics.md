@@ -35,32 +35,34 @@ tags = ["studynote-network"]
 "아니 걍 직진만 하면 중간에 건물 막힐 때 전파 다 뻗어 통신 끊김 404 미아 뒤지잖아 어캄 ㅠ 뇌 터짐 💥?" 
 아키텍트가 이 직진 스나이퍼 빔의 약점을 도끼로 찢어발겨 생명 연장 텔레포트를 뚫어낸 **LOS 십자 융합 텐트** 도해다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마이크로파 (Microwave) 가시거리 (LOS) 스나이퍼 릴레이 록온 맵 도해 🚀</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🎯</div><div class="kb-diagram-node">0순위 절대 헌법: LOS (Line of Sight 가시거리 100% 뚫림 조건 텐트 ✨)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 마이크로파 빔은 빛이랑 100% 성질 똑같음! ➔ 송신 안테나 렌즈랑 수신 안테나 렌즈</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사이에 나뭇잎, 아파트 건물, 빌딩 1장이라도 가려 시야 방해 막히면 전파 튕겨 타죽음 💀!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- ➔ 무.조.건. 두 기지국 사이 허공 허리 높이 100m가 텅 비어 서로 다이렉트 육안</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1:1 마주 보고</div><div class="kb-diagram-node">시야 직통 관통 (LOS 확보)</div><div class="kb-diagram-note">록온 상태가 필수 강제 세팅 락킹 쾅!!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">🏔️ 아키텍트의 50km 중계기 징검다리 릴레이 핑퐁 수술 🪓</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">📡</div><div class="kb-diagram-node">서울 남산 타워 기지국 대장 뇌 (A 지점)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 작전: 대구까지 마이크로파 빔 쏘고 싶음! (근데 지구 둥근 곡률 땜에 직진 빔 쏘면 허공</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">우주 밖으로 빔 튀어 나가 이탈 미아 증발 소각 뻗음 파국 💥 터짐 ㅋ)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🔄</div><div class="kb-diagram-node">중간 징검다리 산꼭대기 릴레이: 수리산 마이크로파 중계소 텐트 🛡️ (B 지점)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 50km마다 존나 높은 산꼭대기(빌딩 안 가리는 곳) 철탑에 파라볼라(접시 📡) 안테나 달음!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 서울 빔 맞음 ➔ (약해진 파동 0.1초 컷 전기 뻥튀기 증폭 펌핑 오토 힐링 ✨) ➔</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">방향 각도 스티어링 꺾어서 대구 쪽으로 다시 1:1 풀 파워 다이렉트 미사일 재발사 쓩🚀!!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">📡</div><div class="kb-diagram-node">대구 팔공산 타워 수신 기지국 (C 지점) 완료 패스 록온 쾅!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 아키텍트 극딜: "야 땅바닥 파서 구리선 500km 묻어 매설 포크레인 치면 1조 원 타죽어!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">걍 산꼭대기에 허공 공짜 빔 안테나 10개만 징검다리 릴레이 핑퐁 세팅 쳐 박으면 ➔</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">돈 100억으로 수백 Gbps 백본 동맥 핏줄 고속도로 공짜로 뚫어버리는 기적 다이어트다 쾅 🚀!"</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          마이크로파 (Microwave) 가시거리 (LOS) 스나이퍼 릴레이 록온 맵 도해 🚀 │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ 🎯 [ 0순위 절대 헌법: LOS (Line of Sight 가시거리 100% 뚫림 조건 텐트 ✨) ]│
+│   - 마이크로파 빔은 빛이랑 100% 성질 똑같음! ➔ 송신 안테나 렌즈랑 수신 안테나 렌즈 │
+│     사이에 나뭇잎, 아파트 건물, 빌딩 1장이라도 가려 시야 방해 막히면 전파 튕겨 타죽음 💀!│
+│   - ➔ 무.조.건. 두 기지국 사이 허공 허리 높이 100m가 텅 비어 서로 다이렉트 육안 │
+│     1:1 마주 보고 [시야 직통 관통 (LOS 확보)] 록온 상태가 필수 강제 세팅 락킹 쾅!!│
+│                                                             │
+│        ======= [ 🏔️ 아키텍트의 50km 중계기 징검다리 릴레이 핑퐁 수술 🪓 ] ========│
+│                                                             │
+│ 📡 [ 서울 남산 타워 기지국 대장 뇌 (A 지점) ]                         │
+│   - 작전: 대구까지 마이크로파 빔 쏘고 싶음! (근데 지구 둥근 곡률 땜에 직진 빔 쏘면 허공 │
+│     우주 밖으로 빔 튀어 나가 이탈 미아 증발 소각 뻗음 파국 💥 터짐 ㅋ)        │
+│                                                             │
+│ 🔄 [ 중간 징검다리 산꼭대기 릴레이: 수리산 마이크로파 중계소 텐트 🛡️ (B 지점) ] │
+│   - 50km마다 존나 높은 산꼭대기(빌딩 안 가리는 곳) 철탑에 **파라볼라(접시 📡)** 안테나 달음!│
+│   - 서울 빔 맞음 ➔ (약해진 파동 0.1초 컷 전기 뻥튀기 증폭 펌핑 오토 힐링 ✨) ➔ │
+│     방향 각도 스티어링 꺾어서 대구 쪽으로 다시 1:1 풀 파워 다이렉트 미사일 재발사 쓩🚀!!│
+│                                                             │
+│ 📡 [ 대구 팔공산 타워 수신 기지국 (C 지점) 완료 패스 록온 쾅! ]            │
+│   🌟 아키텍트 극딜: "야 땅바닥 파서 구리선 500km 묻어 매설 포크레인 치면 1조 원 타죽어!│
+│   걍 산꼭대기에 허공 공짜 빔 안테나 10개만 징검다리 릴레이 핑퐁 세팅 쳐 박으면 ➔ │
+│   돈 100억으로 수백 Gbps 백본 동맥 핏줄 고속도로 공짜로 뚫어버리는 기적 다이어트다 쾅 🚀!"│
+└─────────────────────────────────────────────────────────────┘
+```
 
 <strong><a href="/knowledge-base/studynote/03_network/03_physical_layer_media/176_antenna_yagi_parabolic_patch/">아키텍트의 피 터지는 한계 튜닝: 우주 파라볼라 ([Parabolic</a>) 집중 폭격 빔 📡✨]</strong>
 "야 [마이크로파](/knowledge-base/studynote/03_network/03_physical_layer_media/154_radio_wave_classification/) 빔 허공에 쏘면 전파 사방팔방 퍼져 흩어져 에너지 100% 증발 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 뒤지잖아 쾅 💥!!" 
@@ -144,23 +146,21 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">장파/중파 (LF/MF) 낡은 라디오 굼벵이 쇳덩이 시대 💀 / 파장이 100m 존나 길어 뱀처럼 산맥 감고 회절(Diffraction) 우회 스무스 통과 생존율 우주 1타 ✨ ➔ 근데 속도 대역폭 쓰레기 한계 부딪혀 음성 무전 1마디 치다 랙 걸려 타임아웃 올스탑 뻗음 멸망 💥 (데이터 통신 절대 불가 폐기 컷).</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">마이크로파 (Microwave 극초고주파) 빔 대관식 강림 🚀 / 아키텍트 분노 도끼 🪓 "야 씨발아 장애물 돌파 포기 버려 스킵 찢어 쾅!! 하늘이 두 쪽 나도 속도 대역폭 기가(Gbps)급 수직 폭발 스케일 업 펌핑에 몰빵 록온 쳐 락 박아라 쾅!! ➔ 직진 레이저 스나이퍼 빔(LOS 가시거리 통신)으로 10,000톤급 화물 데이터 짐짝 1방에 쾌속 다이렉트 수송 텔레포트 우주 돌파 제국 완성 ✨!!"</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">마이크로파 중계소 (Relay 릴레이 징검다리 텐트 쉴드 🛡️) / "직진이라 산맥 건물 막혀서 빔 반사 튕겨 뻗어 파국 타죽네 💀 ➔ 야 땅바닥 흙 파지 말고 걍 산꼭대기 높은 봉우리에 파라볼라 접시 안테나 50km 간격으로 100개 세워 공구리 록온 박고 ➔ 지그재그 허공 허리 꺾기 반사 핑퐁 쿠션으로 대륙 전송 통과 무결점 배달 쳐 쾅 🚀!!"</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Rain Attenuation (강우 감쇠 대자연 물방울 블랙홀 테러 💥) ➔ ACM 적응 변조 스텔스 오토 힐링 텐트 융합 / "비 오니까 전파 빔 물에 다 흡수돼 뒤지네 시발 💀 ➔ AI 뇌 발동 스캔! 0.1초 컷 속도 다이어트 수직 낙하 깎아버리고 튼튼 안전빵 낡은 신호로 강제 스위칭 록온 쳐서 끊김 0% 에러 무혈 생존 방어 쳐내라 쾅 🪓!"</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">6G NTN 우주 저궤도 위성 (스타링크 LEO) 스나이퍼 제국 대통일 (현재) ✨ / 지상 2D 평면 안테나 사일로 족쇄 다 불태워 찢어 폐기 소각 치고! ➔ "마이크로파 빔 수직 전리층 관통 돌파 능력을 100% 흡수 스위칭 기만 뽑아내 ➔ 우주 허공 500km 위성 봇 함대한테 다이렉트 1:1 수직 발사 로켓 빔 꽂아 통제 라우팅 짬처리 핑퐁 쳐버려 🚀!!" ➔ 사하라 사막 무인 화물 트럭도 단 1밀리초(ms) 타임아웃 랙 끊김 뻗음 0% 없이 무결점 실시간 클라우드 엣지 K8s 오토 조종 통치 제어당하는 진정한 우주 초연결 공간 스텔스 매트릭스 뼈대 영구 완성 쾅 🚀!!!</div>
-</div>
-</div>
-
-
+```text
+장파/중파 (LF/MF) 낡은 라디오 굼벵이 쇳덩이 시대 💀 / 파장이 100m 존나 길어 뱀처럼 산맥 감고 회절(Diffraction) 우회 스무스 통과 생존율 우주 1타 ✨ ➔ 근데 속도 대역폭 쓰레기 한계 부딪혀 음성 무전 1마디 치다 랙 걸려 타임아웃 올스탑 뻗음 멸망 💥 (데이터 통신 절대 불가 폐기 컷).
+    │
+    ▼
+마이크로파 (Microwave 극초고주파) 빔 대관식 강림 🚀 / 아키텍트 분노 도끼 🪓 "야 씨발아 장애물 돌파 포기 버려 스킵 찢어 쾅!! 하늘이 두 쪽 나도 속도 대역폭 기가(Gbps)급 수직 폭발 스케일 업 펌핑에 몰빵 록온 쳐 락 박아라 쾅!! ➔ 직진 레이저 스나이퍼 빔(LOS 가시거리 통신)으로 10,000톤급 화물 데이터 짐짝 1방에 쾌속 다이렉트 수송 텔레포트 우주 돌파 제국 완성 ✨!!"
+    │
+    ▼
+마이크로파 중계소 (Relay 릴레이 징검다리 텐트 쉴드 🛡️) / "직진이라 산맥 건물 막혀서 빔 반사 튕겨 뻗어 파국 타죽네 💀 ➔ 야 땅바닥 흙 파지 말고 걍 산꼭대기 높은 봉우리에 파라볼라 접시 안테나 50km 간격으로 100개 세워 공구리 록온 박고 ➔ 지그재그 허공 허리 꺾기 반사 핑퐁 쿠션으로 대륙 전송 통과 무결점 배달 쳐 쾅 🚀!!"
+    │
+    ▼
+Rain Attenuation (강우 감쇠 대자연 물방울 블랙홀 테러 💥) ➔ ACM 적응 변조 스텔스 오토 힐링 텐트 융합 / "비 오니까 전파 빔 물에 다 흡수돼 뒤지네 시발 💀 ➔ AI 뇌 발동 스캔! 0.1초 컷 속도 다이어트 수직 낙하 깎아버리고 튼튼 안전빵 낡은 신호로 강제 스위칭 록온 쳐서 끊김 0% 에러 무혈 생존 방어 쳐내라 쾅 🪓!"
+    │
+    ▼
+6G NTN 우주 저궤도 위성 (스타링크 LEO) 스나이퍼 제국 대통일 (현재) ✨ / 지상 2D 평면 안테나 사일로 족쇄 다 불태워 찢어 폐기 소각 치고! ➔ "마이크로파 빔 수직 전리층 관통 돌파 능력을 100% 흡수 스위칭 기만 뽑아내 ➔ 우주 허공 500km 위성 봇 함대한테 다이렉트 1:1 수직 발사 로켓 빔 꽂아 통제 라우팅 짬처리 핑퐁 쳐버려 🚀!!" ➔ 사하라 사막 무인 화물 트럭도 단 1밀리초(ms) 타임아웃 랙 끊김 뻗음 0% 없이 무결점 실시간 클라우드 엣지 K8s 오토 조종 통치 제어당하는 진정한 우주 초연결 공간 스텔스 매트릭스 뼈대 영구 완성 쾅 🚀!!!
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

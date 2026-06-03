@@ -40,21 +40,20 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 factor 4 언롤링이 무엇을 줄이고 무엇을 늘리는지 직관적으로 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">factor = 4 언롤링의 효과</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원본 루프</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LD</div><div class="kb-diagram-node">ADD</div><div class="kb-diagram-node">ST</div><div class="kb-diagram-node">BR</div><div class="kb-diagram-note">× 4 iterations</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">언롤링 후</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LD</div><div class="kb-diagram-node">ADD</div><div class="kb-diagram-node">ST</div><div class="kb-diagram-node">LD</div><div class="kb-diagram-node">ADD</div><div class="kb-diagram-node">ST</div><div class="kb-diagram-node">LD</div><div class="kb-diagram-node">ADD</div><div class="kb-diagram-node">ST</div><div class="kb-diagram-node">LD</div><div class="kb-diagram-node">ADD</div><div class="kb-diagram-node">ST</div><div class="kb-diagram-node">BR</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이익: branch 4회 → 1회, independent ops 증가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비용: live value 증가 → register pressure, code size 증가</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│ factor = 4 언롤링의 효과                                                   │
+├────────────────────────────────────────────────────────────────────────────┤
+│ 원본 루프                                                                  │
+│   [LD][ADD][ST][BR]  × 4 iterations                                        │
+│                                                                            │
+│ 언롤링 후                                                                  │
+│   [LD][ADD][ST][LD][ADD][ST][LD][ADD][ST][LD][ADD][ST][BR]                │
+│                                                                            │
+│ 이익: branch 4회 → 1회, independent ops 증가                               │
+│ 비용: live value 증가 → register pressure, code size 증가                  │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 언롤링이 특히 강한 경우는 누산 루프다. 예를 들어 `sum += a[i]` 형태는 `sum` 하나에 모든 iteration이 매달려 있어 파이프라인이 기다리기 쉽다. 언롤링 후 `sum0, sum1, sum2, sum3`처럼 여러 부분 합으로 나누면, 하드웨어는 각각을 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 진행하고 마지막에만 합칠 수 있다. 즉 언롤링은 단순한 "코드 복사"가 아니라, 분기 감소와 의존성 완화를 함께 노리는 변환이다.
 
@@ -125,25 +124,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단순 반복문 최적화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">루프 제어 오버헤드 감소 요구</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">루프 언롤링 (Loop Unrolling)</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ 다중 누산기 · latency hiding</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ 분기 감소 · issue window 확대</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">오토 벡터라이제이션 · 소프트웨어 파이프라이닝</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">프로파일 유도 언롤링 · 타깃별 자동 팩터 선택</div>
-</div>
-</div>
-
-
+```text
+단순 반복문 최적화
+        │
+        ▼
+루프 제어 오버헤드 감소 요구
+        │
+        ▼
+루프 언롤링 (Loop Unrolling)
+        │
+        ├─▶ 다중 누산기 · latency hiding
+        ├─▶ 분기 감소 · issue window 확대
+        │
+        ▼
+오토 벡터라이제이션 · 소프트웨어 파이프라이닝
+        │
+        ▼
+프로파일 유도 언롤링 · 타깃별 자동 팩터 선택
+```
 
 이 흐름은 "분기를 줄이는 고전 기법"에서 출발해, 현대 컴파일러가 다른 최적화와 결합해 더 정교하게 적용하는 방향으로 발전하는 과정을 보여 준다.
 

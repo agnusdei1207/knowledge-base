@@ -24,18 +24,14 @@ tags = ["studynote-network"]
   1. 직원이 자기 자리에서 편하게 와이파이를 쓰려고 집에서 가져온 싸구려 아이피타임(iPTIME) 공유기를 회사 랜선에 몰래 꽂는 경우. (보안 구멍 뻥 뚫림)
   2. 해커가 악의적인 목적을 가지고 가짜 와이파이를 띄워 사람들을 낚시하는 경우.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">방화벽 우회기법</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">비인가 AP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">포트 포워딩</div></div>
-</div>
-</div>
-
-
+```text
+[방화벽 우회기법]
+    │
+    ▼
+[비인가 AP]
+    │
+    └──▶ [포트 포워딩]
+```
 
 - **📢 섹션 요약 비유**: 비인가 AP는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -48,18 +44,14 @@ tags = ["studynote-network"]
 - **스마트폰의 맹점**: 스마트폰의 와이파이 설정은 똑같은 이름이 두 개 보이면, 묻지도 따지지도 않고 <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a> 세기(<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">안테나</a> 칸)가 더 센 쪽을 '진짜'로 믿고 자동으로 확 붙어버리는 멍청한 성질</strong>이 있습니다.
 - **해킹 성공 (MitM)**: 사용자가 가짜 공유기(해커의 노트북)에 붙는 순간, 해커는 그 사용자의 모든 인터넷 트래픽을 중간에서 투명하게 들여다보고(스니핑), 가짜 은행 사이트로 튕겨버리는 [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/)([DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/))을 마음껏 저지를 수 있습니다. (완벽한 [중간자 공격](/knowledge-base/studynote/03_network/14_network_security_threats/706_mitm_man_in_the_middle_hsts/) 성립)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">방화벽 우회기법</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">비인가 AP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">포트 포워딩</div></div>
-</div>
-</div>
-
-
+```text
+[방화벽 우회기법]
+    │
+    ▼
+[비인가 AP]
+    │
+    └──▶ [포트 포워딩]
+```
 
 - **📢 섹션 요약 비유**: 비인가 AP의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -72,7 +64,7 @@ tags = ["studynote-network"]
 
 ### WIPS의 3단계 완벽 방어 매커니즘
 1. **스캔 (정찰)**: WIPS [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)는 허공에 떠다니는 전파를 24시간 감시하며, 우리 건물 안에 허락되지 않은 이상한 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 가진 공유기가 전파를 뿜어내는지 찾아냅니다.
-2. <strong>탐지 (Rogue <a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/">AP</a> 발각)</strong>: 사내 랜선에 꽂혀있는 듣도 보도 못한 사설 공유기나, 회사 공식 와이파이와 이름이 똑같은 수상한 해커의 공유기(이블트윈)를 귀신같이 잡아냅니다.
+2. <strong>탐지 (Rogue <a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/">AP</a> 감지)</strong>: 사내 랜선에 꽂혀있는 듣도 보도 못한 사설 공유기나, 회사 공식 와이파이와 이름이 똑같은 수상한 해커의 공유기(이블트윈)를 귀신같이 잡아냅니다.
 3. **차단 (Deauthentication 공격의 역이용) 🌟**:
    - WIPS의 가장 무서운 기능입니다. 가짜 공유기를 발견하면 WIPS가 사내 직원들의 스마트폰에게 공유기인 척 위장해서 <strong>"얘들아, 너네 지금 붙어있는 그 공유기 가짜니까 당장 와이파이 연결 끊어! (Deauth 패킷)"</strong>라고 초당 백 번씩 무차별 방송을 때려버립니다.
    - 직원 폰은 와이파이를 잡으려다 계속 튕겨 나가게 되어, 결국 해커의 이블트윈 공격이 물리적으로 100% 무력화됩니다.
@@ -127,19 +119,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 방화벽 우회기법</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 비인가 AP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 포트 포워딩</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 방화벽 우회기법]
+    │
+    ▼
+[현재 개념: 비인가 AP]
+    │
+    ├──▶ [확장 A: 포트 포워딩]
+    └──▶ [확장 B: 예측형 위협 대응]
+```
 
 비인가 AP는 [방화벽 우회기법](/knowledge-base/studynote/03_network/14_network_security_threats/734_firewall_bypass_tunneling_fragmentation/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [포트 포워딩](/knowledge-base/studynote/03_network/14_network_security_threats/736_port_forwarding_jump_station_bastion_host/)와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

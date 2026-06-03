@@ -37,18 +37,19 @@ tags = ["studynote-design"]
 | 산출물 ([Artifact](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/)) | 노드에 배포되어 실행되는 소프트웨어 덩어리 (`.jar`, `.war` 등) | 노드 내부에 포함 관계로 그리며 버전을 명시 |
 | 통신 경로 (Communication Path) | 노드 간의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 교환을 위한 네트워크 연결선 | [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) ([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/), [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP, JDBC 등)과 대역폭을 텍스트로 표기 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전형적인 3-Tier 배포 다이어그램 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Client Node</div><div class="kb-diagram-node">App Server Node</div><div class="kb-diagram-node">DB Node</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Web</div><div class="kb-diagram-cell">--HTTPS--&gt;</div><div class="kb-diagram-cell">Tomcat Engine</div><div class="kb-diagram-cell">-TCP-&gt;</div><div class="kb-diagram-cell">Oracle DB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Browser</div><div class="kb-diagram-cell">&lt;&lt;artifact&gt;&gt;</div><div class="kb-diagram-cell">&lt;&lt;Data&gt;&gt;</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                  전형적인 3-Tier 배포 다이어그램 구조                │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│  [Client Node]          [App Server Node]         [DB Node]  │
+│  ┌───────────┐          ┌───────────────┐      ┌───────────┐ │
+│  │ Web       │--HTTPS-->│ Tomcat Engine │-TCP->│ Oracle DB │ │
+│  │ Browser   │          │ <<artifact>>  │      │ <<Data>>  │ │
+│  └───────────┘          └───────────────┘      └───────────┘ │
+│                                                              │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 그림은 사용자의 브라우저에서 출발한 요청이 어떤 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 타고 애플리케이션 서버와 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 장비로 넘어가는지 직관적으로 보여준다. 이를 통해 어느 구간에 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)을 설정해야 하고, 장애 시 어디를 분리([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/))해야 하는지 명확한 운영 지침을 얻을 수 있다.
 
@@ -111,23 +112,21 @@ tags = ["studynote-design"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">물리 장비 매핑 (베어메탈 중심)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">가상화 토폴로지 (VM, Hypervisor 기반)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 인프라 뷰 (VPC, Subnet, Security Group)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">마이크로서비스 배포 뷰 (컨테이너 오케스트레이션 매핑)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">IaC (Infrastructure as Code) 연동 자동화</div>
-</div>
-</div>
-
-
+```text
+물리 장비 매핑 (베어메탈 중심)
+    │
+    ▼
+가상화 토폴로지 (VM, Hypervisor 기반)
+    │
+    ▼
+클라우드 인프라 뷰 (VPC, Subnet, Security Group)
+    │
+    ▼
+마이크로서비스 배포 뷰 (컨테이너 오케스트레이션 매핑)
+    │
+    ▼
+IaC (Infrastructure as Code) 연동 자동화
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

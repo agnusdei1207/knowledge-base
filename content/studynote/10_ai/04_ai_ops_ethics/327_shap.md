@@ -23,17 +23,14 @@ tags = ["studynote-ai"]
 
 SHAP은 이 원리를 ML에 적용한다: n개 특징이 협력하여 예측값 f(x)를 만들었을 때, 각 특징이 기준 예측값(평균)에서 f(x)까지의 차이를 얼마나 설명하는지 공정하게 분배한다. 모든 특징 부분집합에서의 평균 기여도를 계산하여 과도한 기여나 과소 기여 없이 공정한 값을 부여한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: SHAP은 올림픽 릴레이 팀 금메달 기여도 분석이다. 4명 선수가 금메달을 땄을 때 각자 얼마나 기여했는지를, "1번만 뛸 때", "1+2번이 뛸 때", "1+3번이 뛸 때" 등 모든 조합의 평균 기여를 계산해서 공정한 기여도를 산출한다. 특정 한 선수가 혼자 빛나거나 묻히는 불공정이 없다.
 
@@ -41,30 +38,35 @@ SHAP은 이 원리를 ML에 적용한다: n개 특징이 협력하여 예측값 
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SHAP 값 계산 원리 (섀플리 값 수식)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">섀플리 값 수식:</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">φᵢ(f) = Σ_{S⊆F\{i}}</div><div class="kb-diagram-node">|S|! × (|F|-|S|-1)! / |F|!</div><div class="kb-diagram-note">×</div><div class="kb-diagram-node">f(S∪{i}) - f(S)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해석:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- S: 특징 i를 제외한 부분집합</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- f(S∪{i}) - f(S): 특징 i를 추가했을 때 예측값의 변화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 모든 부분집합에서의 가중 평균 → 공정한 기여도 φᵢ</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SHAP 가산성 (핵심 성질):</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">f(x) = E</div><div class="kb-diagram-node">f(x)</div><div class="kb-diagram-note">+ Σᵢ φᵢ (예측값 = 기준값 + 모든 SHAP값의 합)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SHAP 시각화 종류:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Waterfall Plot: 개별 예측 단계별 SHAP 기여 시각화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기준값(2.3) ─▶ 나이(+0.8) ─▶ 소득(+1.2) ─▶ 예측(4.3)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Summary Plot: 모든 샘플의 각 특징별 SHAP 분포</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 어떤 특징이 전역적으로 가장 중요한가(Feature Importance)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Dependence Plot: 특징값 vs SHAP값 산점도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 특징이 예측에 어떤 방식으로 영향 주는지 비선형 관계 파악</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│         SHAP 값 계산 원리 (섀플리 값 수식)                           │
+├──────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  섀플리 값 수식:                                                    │
+│  φᵢ(f) = Σ_{S⊆F\{i}} [|S|! × (|F|-|S|-1)! / |F|!] × [f(S∪{i}) - f(S)]│
+│                                                                  │
+│  해석:                                                             │
+│  - S: 특징 i를 제외한 부분집합                                       │
+│  - f(S∪{i}) - f(S): 특징 i를 추가했을 때 예측값의 변화              │
+│  - 모든 부분집합에서의 가중 평균 → 공정한 기여도 φᵢ                 │
+│                                                                  │
+│  SHAP 가산성 (핵심 성질):                                           │
+│  f(x) = E[f(x)] + Σᵢ φᵢ  (예측값 = 기준값 + 모든 SHAP값의 합)     │
+│                                                                  │
+│  SHAP 시각화 종류:                                                  │
+│  ┌─────────────────────────────────────────────────────────┐    │
+│  │  1. Waterfall Plot: 개별 예측 단계별 SHAP 기여 시각화      │    │
+│  │     기준값(2.3) ─▶ 나이(+0.8) ─▶ 소득(+1.2) ─▶ 예측(4.3) │    │
+│  │                                                         │    │
+│  │  2. Summary Plot: 모든 샘플의 각 특징별 SHAP 분포         │    │
+│  │     → 어떤 특징이 전역적으로 가장 중요한가(Feature Importance)│    │
+│  │                                                         │    │
+│  │  3. Dependence Plot: 특징값 vs SHAP값 산점도              │    │
+│  │     → 특징이 예측에 어떤 방식으로 영향 주는지 비선형 관계 파악│    │
+│  └─────────────────────────────────────────────────────────┘    │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 | SHAP 공리 | 의미 | ML 설명 의미 |
 |:---|:---|:---|

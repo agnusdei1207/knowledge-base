@@ -33,26 +33,30 @@ PageRank 계산은 사실상 희소 행렬-벡터 곱셈 (Sparse Matrix-Vector M
 
 아래 그림은 PageRank를 스트리밍 하드웨어로 맵핑할 때의 대표 흐름을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PageRank hardware mapping: edge stream -&gt; accumulate -&gt; rank</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Rank Vector Buffer</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Edge Block Reader</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Contribution</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ &gt;</div><div class="kb-diagram-node">Accum Banks</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">&lt;</div><div class="kb-diagram-node">Convergence Checker</div><div class="kb-diagram-note">&lt;</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Damping / Normalize Unit</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Next Rank Vector Buffer</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│      PageRank hardware mapping: edge stream -> accumulate -> rank   │
+├──────────────────────────────────────────────────────────────────────┤
+│ [ Rank Vector Buffer ] -> [ Edge Block Reader ] -> [ Contribution ] │
+│          │                         │                     │           │
+│          │                         │                     ▼           │
+│          │                         └──────────────> [ Accum Banks ]  │
+│          │                                           │               │
+│          └<──────────── [ Convergence Checker ] <────┘               │
+│                                  │                                   │
+│                                  ▼                                   │
+│                     [ Damping / Normalize Unit ]                     │
+│                                  │                                   │
+│                                  ▼                                   │
+│                         [ Next Rank Vector Buffer ]                  │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
 | 랭크 벡터 버퍼 (Rank Vector Buffer) | 현재 반복의 정점 점수 저장 | 온칩 버퍼와 오프칩 메모리 간 교통량 최소화 |
 | 간선 블록 리더 (Edge Block Reader) | [CSR](/knowledge-base/studynote/09_security/04_endpoint_security/169_pkcs10_csr/)/CSC 블록을 순차 스트리밍 | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 크기와 메모리 정렬이 중요 |
-| 기여도 계산기 (Contribution Engine) | `rank/outdegree` 연산 수행 | [고정소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/086_fixed_point/)과 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 선택이 핵심 |
+| 기여도 계산기 (Contribution 엔진) | `rank/outdegree` 연산 수행 | [고정소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/086_fixed_point/)과 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 선택이 핵심 |
 | 누산 뱅크 (Accumulation Banks) | 목적지 정점별 부분합 저장 | 충돌이 심하면 원자적 갱신 비용이 커진다 |
 | 감쇠·[정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 유닛 (Damping / Normalize Unit) | 감쇠 계수 적용, 누락 질량 보정 | 매달린 정점 (Dangling Node) 처리 필요 |
 | 수렴 검사기 (Convergence Checker) | 반복 종료 여부 판단 | 오차 한계값과 검사 빈도의 균형이 필요 |
@@ -125,23 +129,21 @@ PageRank 하드웨어 맵핑의 직접 효과는 반복당 처리 시간 단축�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">웹 링크 분석</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">PageRank 수식 · 감쇠 계수</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">희소 행렬-벡터 곱셈 최적화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">스트리밍 FPGA/ASIC 하드웨어 맵핑</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">HBM 기반 그래프 분석기 · 추천/랭킹 가속기</div>
-</div>
-</div>
-
-
+```text
+웹 링크 분석
+    │
+    ▼
+PageRank 수식 · 감쇠 계수
+    │
+    ▼
+희소 행렬-벡터 곱셈 최적화
+    │
+    ▼
+스트리밍 FPGA/ASIC 하드웨어 맵핑
+    │
+    ▼
+HBM 기반 그래프 분석기 · 추천/랭킹 가속기
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -18,21 +18,18 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">온콜 프로세스</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1.</div><div class="kb-diagram-node">알림 발생</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">PagerDuty</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2.</div><div class="kb-diagram-node">온콜 엔지니어 호출</div><div class="kb-diagram-note">— 5분 내 응답</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3.</div><div class="kb-diagram-node">초기 대응</div><div class="kb-diagram-note">— 상황 파악·영향 범위 판단</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">4.</div><div class="kb-diagram-node">에스컬레이션</div><div class="kb-diagram-note">— 필요 시 2차 온콜·팀 호출</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">5.</div><div class="kb-diagram-node">해결</div><div class="kb-diagram-note">— 장애 복구·사용자 통보</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">6.</div><div class="kb-diagram-node">사후 분석</div><div class="kb-diagram-note">— Postmortem 작성</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    온콜 프로세스                                      │
+├───────────────────────────────────────────────────────┤
+│  1. [알림 발생] — Prometheus → PagerDuty              │
+│  2. [온콜 엔지니어 호출] — 5분 내 응답               │
+│  3. [초기 대응] — 상황 파악·영향 범위 판단           │
+│  4. [에스컬레이션] — 필요 시 2차 온콜·팀 호출        │
+│  5. [해결] — 장애 복구·사용자 통보                   │
+│  6. [사후 분석] — Postmortem 작성                     │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 온콜은 병원의 <strong>당직 의사</strong>이다. 24시간 환자(시스템)를 돌볼 의사가 항상 있어야 하고, 로테이션으로 번갈아 근무한다.
 
@@ -92,23 +89,21 @@ tags = ["studynote-devops-sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">수동 모니터링 + 전화 (2000s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">PagerDuty (2009~) — 자동 알림·에스컬레이션</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SRE 온콜 문화 (Google SRE Book, 2016)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AIOps 자동 대응 (2020~)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: AI Incident Response — 자동 진단·자가 치유</div></div>
-</div>
-</div>
-
-
+```text
+[수동 모니터링 + 전화 (2000s)]
+    │
+    ▼
+[PagerDuty (2009~) — 자동 알림·에스컬레이션]
+    │
+    ▼
+[SRE 온콜 문화 (Google SRE Book, 2016)]
+    │
+    ▼
+[AIOps 자동 대응 (2020~)]
+    │
+    ▼
+[현재: AI Incident Response — 자동 진단·자가 치유]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 온콜은 병원의 <strong>당직 의사</strong>예요. 밤에도 <strong>환자(시스템)</strong>를 돌볼 사람이 있어야 해요.

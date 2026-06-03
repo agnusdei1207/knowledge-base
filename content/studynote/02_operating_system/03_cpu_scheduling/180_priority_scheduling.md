@@ -25,20 +25,19 @@ tags = ["studynote-operating-system"]
 
 특히 [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) 환경에서는 "누가 더 급한가"를 강제로 반영할 장치가 필요하다. 우선순위 스케줄링은 바로 그 판단 축을 제공하며, 현대 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 실시간 클래스, 인터랙티브 보정, 사용자 `nice` [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)도 모두 이 철학에서 출발한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">우선순위 스케줄러의 기본 시선</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ready Queue</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Priority 1 :</div><div class="kb-diagram-node">P_rt</div><div class="kb-diagram-node">P_audio</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Priority 2 :</div><div class="kb-diagram-node">P_ui</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Priority 3 :</div><div class="kb-diagram-node">P_batch1</div><div class="kb-diagram-node">P_batch2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Dispatcher는 가장 위의 비어 있지 않은 우선순위부터 고른다.</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ 우선순위 스케줄러의 기본 시선                                      │
+├────────────────────────────────────────────────────────────────────┤
+│ Ready Queue                                                         │
+│                                                                    │
+│ Priority 1 : [ P_rt ] [ P_audio ]                                  │
+│ Priority 2 : [ P_ui ]                                               │
+│ Priority 3 : [ P_batch1 ] [ P_batch2 ]                              │
+│                                                                    │
+│ Dispatcher는 가장 위의 비어 있지 않은 우선순위부터 고른다.         │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 우선순위 스케줄링은 병원 응급실의 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계와 같다. 먼저 온 사람만 보는 줄서기가 아니라, 더 위급한 환자를 먼저 진료해 전체 시스템을 지키는 방식이다.
 
@@ -58,21 +57,22 @@ tags = ["studynote-operating-system"]
 
 보통 선점형 우선순위 스케줄링에서는 더 높은 우선순위 작업이 도착하면 현재 작업을 중단시키고 CPU를 넘긴다. 비선점형에서는 현재 작업이 종료되거나 I/O 대기에 들어갈 때까지 기다린다. 따라서 같은 우선순위 스케줄링이라도 **선점 여부에 따라 응답성은 크게 달라진다**.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Preemptive priority scheduling flow</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">time 0 2 4 7</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">running: P3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ higher priority P1 arrives at t=2</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">CPU:</div><div class="kb-diagram-node">P3</div><div class="kb-diagram-node">P1</div><div class="kb-diagram-node">P2</div><div class="kb-diagram-node">P3 resumes</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">priority3 p1 p2 remaining work</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">규칙: 더 높은 우선순위가 오면 현재 작업은 즉시 선점될 수 있다.</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Preemptive priority scheduling flow                                 │
+├────────────────────────────────────────────────────────────────────┤
+│ time 0      2        4        7                                     │
+│                                                                    │
+│ running:  P3 ────────┐                                              │
+│                      └─ higher priority P1 arrives at t=2           │
+│                                     │                               │
+│                                     ▼                               │
+│ CPU:     [   P3   ][ P1 ][   P2   ][   P3 resumes   ]              │
+│          priority3  p1     p2          remaining work               │
+│                                                                    │
+│ 규칙: 더 높은 우선순위가 오면 현재 작업은 즉시 선점될 수 있다.      │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 우선순위는 어디서 오느냐도 중요하다. 실시간 시스템은 데드라인과 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 중요도가 우선이고, 범용 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 사용자 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), I/O 성향, 대기 시간, 인터랙티브 반응성 등을 함께 고려한다. 그래서 실무에서의 Priority Scheduling은 "숫자 하나"가 아니라 <strong>시스템이 중요도를 표현하는 방식 전체</strong>에 가깝다.
 
@@ -106,20 +106,18 @@ tags = ["studynote-operating-system"]
 
 가장 대표적인 실패는 [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)다. 높은 우선순위 작업이 계속 들어오면 낮은 우선순위 작업은 CPU를 한 번도 받지 못할 수 있다. 이를 막기 위해 대기 시간이 길어질수록 우선순위를 점차 높이는 [에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/)을 적용한다. 또 공유 자원을 낮은 우선순위 작업이 쥐고 있을 때, 중간 우선순위 작업들이 계속 CPU를 빼앗아 최상위 작업을 막아 버리는 [우선순위 역전](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/205_priority_inversion/) 문제도 있다. 이 경우에는 락을 잡은 낮은 우선순위 작업을 일시적으로 끌어올리는 우선순위 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)이 필요하다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Priority inversion and inheritance</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">H (high) needs lock L</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">M (mid) keeps getting CPU</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L (low) currently holds the lock</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">without inheritance: H waits -&gt; M runs -&gt; L cannot release lock</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">with inheritance : L temporarily boosted -&gt; releases lock -&gt; H</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Priority inversion and inheritance                                  │
+├────────────────────────────────────────────────────────────────────┤
+│ H (high) needs lock L                                               │
+│ M (mid)  keeps getting CPU                                          │
+│ L (low)  currently holds the lock                                   │
+│                                                                    │
+│ without inheritance:  H waits -> M runs -> L cannot release lock    │
+│ with inheritance   :  L temporarily boosted -> releases lock -> H   │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 ### 실무 판단 기준
 
@@ -164,22 +162,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">모든 작업을 동일하게 다루는 한계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">우선순위 기반 CPU 배분</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">선점형 우선순위 스케줄링</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ 기아 상태와 에이징</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ 우선순위 역전과 상속</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ MLFQ 같은 동적 하이브리드 정책</div>
-</div>
-</div>
-
-
+```text
+모든 작업을 동일하게 다루는 한계
+        │
+        ▼
+우선순위 기반 CPU 배분
+        │
+        ▼
+선점형 우선순위 스케줄링
+        │
+        ├──────────────▶ 기아 상태와 에이징
+        ├──────────────▶ 우선순위 역전과 상속
+        └──────────────▶ MLFQ 같은 동적 하이브리드 정책
+```
 
 이 흐름도는 중요도 기반 자원 배분이라는 기본 아이디어가, 공정성과 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 문제를 해결하기 위해 보정 메커니즘과 결합해 발전해 왔음을 보여 준다.
 

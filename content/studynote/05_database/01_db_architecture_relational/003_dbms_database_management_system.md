@@ -27,23 +27,20 @@ tags = ["database"]
 
 이러한 문제를 극복하기 위해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 애플리케이션 로직에서 완전히 분리해내는 "[추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 레이어"가 절실히 요구되었고, 이를 실현한 것이 바로 DBMS입니다.
 
+```text
+[과거: 종속성과 중복성의 늪]
+App A (C언어) ───[종속]──> Employee.dat (고정길이 텍스트) ──┐
+App B (Java)  ───[종속]──> Employee.bin (바이너리 포맷)   ──┴── 데이터 중복 & 불일치!
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">과거: 종속성과 중복성의 늪</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">App A (C언어)</div><div class="kb-diagram-node">종속</div><div class="kb-diagram-note">──&gt; Employee.dat (고정길이 텍스트) ──</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">App B (Java)</div><div class="kb-diagram-node">종속</div><div class="kb-diagram-note">──&gt; Employee.bin (바이너리 포맷) ── ── 데이터 중복 &amp; 불일치!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: DBMS를 통한 추상화와 독립성</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">App A (C언어)</div><div class="kb-diagram-node">SQL</div><div class="kb-diagram-note">──</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">App B (Java) ─ ─&gt; DBMS Engine ─&gt; DB (통합된 Employee 테이블)</div>
-<div class="kb-diagram-connector">▲</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">App C (Python) ─</div><div class="kb-diagram-node">SQL</div></div>
-</div>
-</div>
-
-
+[현재: DBMS를 통한 추상화와 독립성]
+App A (C언어) ───[SQL]──┐
+                        ▼
+               ┌─────────────────┐
+App B (Java)  ─┼─> DBMS Engine   ├─> DB (통합된 Employee 테이블)
+               └─────────────────┘
+                        ▲
+App C (Python) ─[SQL]───┘
+```
 이 도식의 핵심은 DBMS가 도입되면서 애플리케이션이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 물리적 포맷이나 경로를 알 필요가 완전히 사라졌다는 점입니다. 오직 표준화된 질의어(SQL)를 DBMS에 던지기만 하면, DBMS가 내부적으로 최적의 경로를 찾아 I/O를 수행합니다. 이로 인해 개발 생산성은 극적으로 향상되고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조가 확장되거나 변경되어도 애플리케이션은 영향을 받지 않습니다. 실무에서는 이 구조 덕분에 무중단 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 마이그레이션이 가능해지며, DB 스토리지 계층을 클라우드로 변경해도 애플리케이션은 동일하게 작동합니다.
 
 📢 **섹션 요약 비유**: 각자 요리사가 식재료 산지에 가서 직접 재료를 캐고 손질하던 방식에서, 주방 중앙에 거대한 식자재 창고(DB)와 이를 전담하는 창고장([DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/))을 두어 요리사들은 "양파 2개"라고 주문만 하면 되도록 자동화한 것과 같습니다.
@@ -64,29 +61,29 @@ DBMS는 단일 프로그램이 아니라 수많은 [모듈](/knowledge-base/stud
 
 DBMS가 사용자의 질의를 받아 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 반환하기까지의 내부 흐름 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 아래와 같이 동작합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Client Request: SELECT * FROM Users WHERE id = 1</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Query Processor Layer</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Parser (구문 분석 및 파스 트리)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Optimizer (실행 계획 Cost계산)</div><div class="kb-diagram-cell">◁── 통계 정보 (Statistics) 참조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Execution Engine (플랜 실행)</div></div>
-<div class="kb-diagram-note">Page Request (id=1 데이터가 있는 블록 요청)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Storage Manager Layer</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. Transaction/Lock Manager</div><div class="kb-diagram-cell">◁── 락 충돌 검사 (S-Lock 획득)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. Buffer Manager (Memory Pool)</div><div class="kb-diagram-cell">◁── 캐시 히트 검사 (있으면 즉시 반환)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↓</div><div class="kb-diagram-cell">(Miss 시 디스크 I/O)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6. Disk I/O &amp; Recovery Manager</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Physical Data Files</div></div>
-</div>
-</div>
-
-
+```text
+[Client Request: SELECT * FROM Users WHERE id = 1]
+        │
+        ▼
+┌────── Query Processor Layer ──────┐
+│  1. Parser (구문 분석 및 파스 트리)│
+│               ↓                   │
+│  2. Optimizer (실행 계획 Cost계산) │ ◁── 통계 정보 (Statistics) 참조
+│               ↓                   │
+│  3. Execution Engine (플랜 실행)   │
+└───────────────┬───────────────────┘
+                │ Page Request (id=1 데이터가 있는 블록 요청)
+                ▼
+┌────── Storage Manager Layer ──────┐
+│  4. Transaction/Lock Manager      │ ◁── 락 충돌 검사 (S-Lock 획득)
+│               ↓                   │
+│  5. Buffer Manager (Memory Pool)  │ ◁── 캐시 히트 검사 (있으면 즉시 반환)
+│               ↓                   │ (Miss 시 디스크 I/O)
+│  6. Disk I/O & Recovery Manager   │
+└───────────────┬───────────────────┘
+                ▼
+      [ Physical Data Files ]
+```
 이 흐름도의 핵심은 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 처리가 '비용 계산([Optimizer](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_optimizer/))'과 '상태 제어([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)/Buffer)'라는 두 가지 주요 관문을 거친다는 것입니다. [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)가 아무리 단순해도, [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)가 통계 정보를 바탕으로 잘못된 플랜(예: Full Table Scan)을 짜면 시스템은 순식간에 병목에 빠집니다. 또한 버퍼 매니저에서 캐시 미스가 다수 발생하면 느린 물리적 디스크 I/O가 큐에 쌓이면서 전체 응답 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))이 기하급수적으로 증가합니다. 실무에서는 이 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 상의 어느 지점에서 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 발생하는지([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) 대기인지, Disk I/O 대기인지)를 정확히 추적하는 것이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝의 출발점입니다.
 
 이러한 복잡한 처리를 위해 DBMS는 백그라운드 프로세스(예: Oracle의 DBWn, LGWR, PMON 등)를 상시 구동하여 시스템 상태를 지속적으로 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링하고 조정합니다.
@@ -108,24 +105,21 @@ DBMS가 사용자의 질의를 받아 [데이터](/knowledge-base/studynote/05_d
 
 RDBMS와 NoSQL의 I/O 특성 및 트레이드오프를 결정하는 자료구조적 차이는 다음과 같습니다.
 
+```text
+[RDBMS: B+Tree 구조의 업데이트 병목]
+        [ Root ]
+       /        \
+   [ Node ]   [ Node ]   => (단점) 잦은 쓰기 작업(Insert/Update) 시 트리 스플릿(Split) 발생.
+     / \        / \           오버헤드가 커 쓰기(Write) 위주의 대용량 트래픽에 불리.
+ [Data] [Data] [Data] ...
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">RDBMS: B+Tree 구조의 업데이트 병목</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Root</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Node</div><div class="kb-diagram-node">Node</div><div class="kb-diagram-note">=&gt; (단점) 잦은 쓰기 작업(Insert/Update) 시 트리 스플릿(Split) 발생.</div></div>
-<div class="kb-diagram-note">/ \ / \ 오버헤드가 커 쓰기(Write) 위주의 대용량 트래픽에 불리.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Data</div><div class="kb-diagram-node">Data</div><div class="kb-diagram-node">Data</div><div class="kb-diagram-note">...</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NoSQL: LSM-Tree 구조의 쓰기 최적화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">(Memory)</div><div class="kb-diagram-node">MemTable</div><div class="kb-diagram-note">── 가득 차면 ──&gt; 디스크로 순차 기록 (Flush)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">(Disk)</div><div class="kb-diagram-node">SSTable 1</div><div class="kb-diagram-node">SSTable 2</div><div class="kb-diagram-note">&lt;</div></div>
-<div class="kb-diagram-note">=&gt; (장점) 쓰기 요청을 메모리에만 남기고 순차 파일 기록하므로 초고속 쓰기 가능.</div>
-<div class="kb-diagram-note">(단점) 읽기 시 여러 SSTable을 뒤져야 해서 읽기(Read) 성능 페널티 존재.</div>
-</div>
-</div>
-
-
+[NoSQL: LSM-Tree 구조의 쓰기 최적화]
+   (Memory) [ MemTable ] ── 가득 차면 ──> 디스크로 순차 기록 (Flush)
+                                             │
+   (Disk)   [ SSTable 1 ] [ SSTable 2 ] <────┘
+            => (장점) 쓰기 요청을 메모리에만 남기고 순차 파일 기록하므로 초고속 쓰기 가능.
+               (단점) 읽기 시 여러 SSTable을 뒤져야 해서 읽기(Read) 성능 페널티 존재.
+```
 이 구조도의 핵심은 저장소 엔진이 채택한 인덱싱 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 해당 DBMS의 성격을 근본적으로 결정한다는 점입니다. RDBMS는 B+Tree를 통해 '빠르고 안정적인 임의 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)'를 보장하지만 [락 경합](/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/)과 트리 재구성 비용이 높습니다. 반면 NoSQL의 상당수가 채택하는 [LSM-Tree](/knowledge-base/studynote/05_database/06_dw_olap_trends/377_lsm_tree_storage_engine/)([Log-Structured Merge-Tree](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/221_lsm_tree_memtable_sequential_flush_compaction/))는 '압도적인 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)'을 보장하지만 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)([Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)) 작업 시 CPU [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/)가 발생할 수 있습니다. 실무에서는 트래픽의 Read/Write 비율에 따라 엔진을 선택해야 합니다.
 
 📢 **섹션 요약 비유**: RDBMS가 모든 책이 십진분류법에 따라 빽빽하게 꽂힌 도서관(찾기 쉬우나 책 꽂기 힘듦)이라면, NoSQL은 새로 들어오는 책을 빈 바구니에 무조건 던져놓고 나중에 한 번에 정리하는 방식(꽂기 편하나 찾을 때 오래 걸림)입니다.
@@ -142,18 +136,13 @@ RDBMS와 NoSQL의 I/O 특성 및 트레이드오프를 결정하는 자료구조
 **실무 의사결정 시나리오 2: Connection Pool 고갈 (Thundering Herd)**
 갑작스러운 트래픽 폭주 시 애플리케이션이 DBMS로 동시에 너무 많은 커넥션을 요청하여 [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) 프로세스가 [컨텍스트 스위칭](/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/) 오버헤드로 다운되는 상황입니다. DBMS는 CPU 코어 수와 메모리에 비례하여 처리할 수 있는 동시 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 수가 정해져 있습니다. 따라서 애플리케이션 앞단에 커넥션 풀(HikariCP 등)을 반드시 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하여 DBMS로 향하는 부하를 유량 제어하고 대기시켜야 합니다.
 
+```text
+[DBMS 장애 전파와 방어 아키텍처]
+(위험) App A, B, C (각각 1000개 요청) ───> [ DBMS ] (Connection 3000개 폭주 -> 다운)
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DBMS 장애 전파와 방어 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">(위험) App A, B, C (각각 1000개 요청) &gt;</div><div class="kb-diagram-node">DBMS</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">다운)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">(안전) App A, B, C ──&gt;</div><div class="kb-diagram-node">Connection Pool (Max 100 제한)</div><div class="kb-diagram-note">──&gt;</div><div class="kb-diagram-node">DBMS</div><div class="kb-diagram-note">(안정적 처리)</div></div>
-<div class="kb-diagram-note">↳ 101번째 요청은 대기(Wait) -&gt; App 레벨에서 타임아웃 처리</div>
-</div>
-</div>
-
-
+(안전) App A, B, C ──> [ Connection Pool (Max 100 제한) ] ──> [ DBMS ] (안정적 처리)
+                             ↳ 101번째 요청은 대기(Wait) -> App 레벨에서 타임아웃 처리
+```
 이 도식은 부하가 발생했을 때 DBMS를 죽일 것인가, 애플리케이션에서 요청을 튕겨낼(Fail-fast) 것인가를 결정하는 장애 격리([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/))의 핵심을 보여줍니다. 실무에서는 DBMS가 인프라의 가장 깊은 곳에 있는 최종 보루이므로 절대 죽어서는 안 됩니다. 따라서 커넥션 풀을 통한 유량 제어와 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)(Query [Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/)) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)은 선택이 아닌 필수입니다.
 
 <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/">DBMS</a> 운영 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong>
@@ -189,23 +178,21 @@ RDBMS와 NoSQL의 I/O 특성 및 트레이드오프를 결정하는 자료구조
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 독립성 (Data Independence)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">쿼리 옵티마이저 (Query Optimizer)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">트랜잭션 (Transaction)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">버퍼 풀 (Buffer Pool)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스토어드 프로시저 (Stored Procedure)</div></div>
-</div>
-</div>
-
-
+```text
+[데이터 독립성 (Data Independence)]
+    │
+    ▼
+[쿼리 옵티마이저 (Query Optimizer)]
+    │
+    ▼
+[트랜잭션 (Transaction)]
+    │
+    ▼
+[버퍼 풀 (Buffer Pool)]
+    │
+    ▼
+[스토어드 프로시저 (Stored Procedure)]
+```
 
 이 흐름도는 [데이터 독립성](/knowledge-base/studynote/05_database/01_db_architecture_relational/004_data_independence/) ([Data Independence](/knowledge-base/studynote/05_database/04_transactions_concurrency/504_data_independence/))에서 출발해 [스토어드 프로시저](/knowledge-base/studynote/05_database/03_relational_model/186_stored_procedure_trigger/) ([Stored Procedure](/knowledge-base/studynote/05_database/03_relational_model/186_stored_procedure_trigger/))까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

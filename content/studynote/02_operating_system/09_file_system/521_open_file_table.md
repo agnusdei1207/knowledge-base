@@ -30,25 +30,31 @@ tags = ["studynote-operating-system"]
 - **System-wide 장부와 Per-process 장부의 십자포화 아크뷰 다이어그램**:
 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 관리할 때, 장부를 `공용 테이블` 과 `개인 테이블` 2가지로 찢어서(Decoupling) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 오류를 막는 구조를 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 렌더 록으로 펴보면 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파일을 지배하는 2중 테이블 동기화 구조 뷰 (RAM 캐시)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">철수 (프로세스 1)</div><div class="kb-diagram-node">영희 (프로세스 2)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "a.txt 열어줘!" - "나도 a.txt 열어줘!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">③</div><div class="kb-diagram-node">프로세스별 개인 장부 Array</div><div class="kb-diagram-note">③</div><div class="kb-diagram-node">프로세스별 개인 장부 Array</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 파일 포인터 (커서): 001번 줄 - 파일 포인터 (커서): 500번 줄</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 접근 권한: 읽기/쓰기 모드 허용 - 접근 권한: 오직 읽기(View) 전용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(각자의 책갈피와 권한은 철저히 찢어져 독립 보안 투영(Isolation) 발동!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">②</div><div class="kb-diagram-node">시스템 전체 통합 파일 테이블 (System-wide Open File Table)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">10번 배열 껍데기 : 대상 파일 "a.txt" 의 공통 속성 원장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 실제 디스크 Inode (파일 육체의 철판 물리 주소 매핑) 포인터 락백</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- 🌟</div><div class="kb-diagram-node">열림 횟수 (Open Count)</div><div class="kb-diagram-note">: 2 명 (철수, 영희가 동시 물고 있음!)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────────────────────┐
+  │                 파일을 지배하는 2중 테이블 동기화 구조 뷰 (RAM 캐시)        │
+  ├─────────────────────────────────────────────────────────────────────────────┤
+  │                                                                             │
+  │     [ 철수 (프로세스 1) ]             [ 영희 (프로세스 2) ]                 │
+  │     - "a.txt 열어줘!"                 - "나도 a.txt 열어줘!"                │
+  │             |                                 |                             │
+  │             ▼                                 ▼                             │
+  │  =============================================================              │
+  │  ③ [ 프로세스별 개인 장부 Array ]   ③ [ 프로세스별 개인 장부 Array ]        │
+  │  -------------------------------------------------------------              │
+  │   - 파일 포인터 (커서): 001번 줄      - 파일 포인터 (커서): 500번 줄        │
+  │   - 접근 권한: 읽기/쓰기 모드 허용       - 접근 권한: 오직 읽기(View) 전용  │
+  │    (각자의 책갈피와 권한은 철저히 찢어져 독립 보안 투영(Isolation) 발동!)   │
+  │             |                                 |                             │
+  │             └─────────────┐   ┌───────────────┘                             │
+  │  =========================▼===▼===============================              │
+  │  ② [ 시스템 전체 통합 파일 테이블 (System-wide Open File Table) ]           │
+  │  -------------------------------------------------------------              │
+  │   [ 10번 배열 껍데기 : 대상 파일 "a.txt" 의 공통 속성 원장 ]                │
+  │   - 실제 디스크 Inode (파일 육체의 철판 물리 주소 매핑) 포인터 락백         │
+  │   - 🌟 [열림 횟수 (Open Count)] : 2 명 (철수, 영희가 동시 물고 있음!)       │
+  └─────────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 테이블 구조를 보면 개인 장부와 전체 공용 장부로 나뉜다(520번의 복습 심화). 가장 중요한 메커니즘은 별표 친 **[열림 횟수 (Open Count)]** 다. 만약 멍청한 관리자가 `a.txt 지워라 (rm)` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 쏟아부어서 디스크 삭제 파이프가 가동되었다고 치자. 하드디스크의 `a.txt` 이름표가 사라져도, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 이 시스템 전체 테이블의 [Open Count] 숫자를 슬쩍 확인해 본다. "앗! 카운트가 `2` 네? 철수랑 영희 앱이 아직 붙잡고 있잖아!" [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) OS는 즉시 삭제 보류 빔을 쏘고 파괴를 록([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) 방어) 시킨다. 나중에 철수가 앱 끄고(`close`), 영희도 앱을 꺼서 [Open Count] 상태 변수가 `0` 이 되는 찰나의 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) 순간!! "카운트 0 증명! 지금 당장 알맹이 물리 블록 싹 다 부셔 폭사 갈기고 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 삭제를 완전 종결 확정 지어라!" 라는 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) [가비지 컬렉터](/knowledge-base/studynote/05_database/uncategorized/591_mvcc_garbage_collection_vacuum/)(GC) 도축 마스킹 시스템을 가능케 하는 미친 척후병 방패가 바로 이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 테이블의 통치력이다.
 
@@ -143,19 +149,15 @@ RAM은 무한정 늘어나는 요술 램프가 아니다. 이 테이블 C구조�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">메모리 내의 구조</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">열린 파일 테이블 (Open File Table)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">파일 할당 방법 (File Allocation Methods)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">연속 할당 (Contiguous Allocation)</div></div>
-</div>
-</div>
-
-
+```text
+[메모리 내의 구조]
+    │
+    ▼
+[열린 파일 테이블 (Open File Table)]
+    │
+    ├──▶ [파일 할당 방법 (File Allocation Methods)]
+    └──▶ [연속 할당 (Contiguous Allocation)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

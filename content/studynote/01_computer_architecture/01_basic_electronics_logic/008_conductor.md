@@ -39,21 +39,22 @@ tags = ["studynote-computer-architecture"]
 
 과거 알루미늄 배선 시절, 집적도가 높아져 선폭이 좁아지자 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 발열 파괴가 일어났다. 파운드리 업계는 구리 다마신 공법을 도입해 GHz 시대를 열었으나, 10nm 노드 이하로 떨어지자 더 큰 절망벽에 부딪혔다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">나노 배선 폭 축소 시 구리 도체 병목 (Scattering)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">과거: 충분히 넓은 도체 통로</div><div class="kb-diagram-node">10nm 이하: 좁아진 도체 통로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(e-) ─▶</div><div class="kb-diagram-cell">◀ (e-) ─▶</div><div class="kb-diagram-cell">(벽에 충돌)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(e-) ─▶</div><div class="kb-diagram-cell">▼ ─▶ (e-)</div><div class="kb-diagram-cell">(산란 발생)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 전자가 방해 없이 직진! * 전자가 양옆 도체 벽에 계속 부딪힘!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 원리: 배선 폭이 전자의 평균 자유 비행 거리(약 39nm)보다 좁아지면,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전자가 벽에 미친 듯이 충돌(Scattering)하며 운동 에너지를 잃고 저항이 폭증.</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           나노 배선 폭 축소 시 구리 도체 병목 (Scattering) │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│  [ 과거: 충분히 넓은 도체 통로 ]    [ 10nm 이하: 좁아진 도체 통로 ]     │
+│   ┌─────────────────────┐       ┌─────────────┐            │
+│   │         (e-) ─▶     │       │ ◀ (e-) ─▶ │ (벽에 충돌)  │
+│   │  (e-) ─▶            │       │ ▼ ─▶ (e-)│ (산란 발생)  │
+│   └─────────────────────┘       └─────────────┘            │
+│   * 전자가 방해 없이 직진!       * 전자가 양옆 도체 벽에 계속 부딪힘!  │
+│                                                              │
+│  * 원리: 배선 폭이 전자의 평균 자유 비행 거리(약 39nm)보다 좁아지면,    │
+│    전자가 벽에 미친 듯이 충돌(Scattering)하며 운동 에너지를 잃고 저항이 폭증. │
+└──────────────────────────────────────────────────────────────┘
+```
 
 단면적($A$)이 줄어들면 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)($R$)이 늘어난다는 옴의 법칙을 넘어, 양자역학적 전자 [산란](/knowledge-base/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/) ([Scattering](/knowledge-base/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/)) 현상이 부활한 것이다. 자유 전자들이 앞으로 나아가지 못하고 좁은 구리 벽에 튕기며 열을 내는 바람에 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 강하([IR](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/) Drop)가 폭증하고 배선이 타버리는 물리적 병목이 발생했다.
 
@@ -118,23 +119,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">도체 이론 (자유 전자, Free Electron)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">구리 배선 (Copper Interconnect) — 다층 메탈</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">나노 공정 스케일링 (전자 산란 / Scattering)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">신소재 적용 (코발트 Co / 루테늄 Ru)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">후면 전력망 BSPDN (Backside Power Delivery Network)</div></div>
-</div>
-</div>
-
-
+```text
+[도체 이론 (자유 전자, Free Electron)]
+    │
+    ▼
+[구리 배선 (Copper Interconnect) — 다층 메탈]
+    │
+    ▼
+[나노 공정 스케일링 (전자 산란 / Scattering)]
+    │
+    ▼
+[신소재 적용 (코발트 Co / 루테늄 Ru)]
+    │
+    ▼
+[후면 전력망 BSPDN (Backside Power Delivery Network)]
+```
 
 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 배선 기술이 도체 기초 이론에서 출발하여 나노 공정 한계를 극복하기 위한 신소재 및 3차원 구조 혁신으로 진화한 흐름이다.
 
@@ -142,7 +141,7 @@ tags = ["studynote-computer-architecture"]
 
 1. [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 마을의 도체(구리선)는 전기 꼬마 자동차들(전자)이 바위나 방해물 없이 빛의 속도로 쌩쌩 미끄러질 수 있는 반들반들한 '마법의 얼음판 초고속도로'예요!
 2. 칩 거인에게 에너지를 전해주려면 이 도로 수백만 개가 꼭 필요한데, 길이 너무 좁아지면 자동차가 벽에 부딪혀 느려지고 폰이 열받아 꺼져버려요.
-3. 그래서 마법사 과학자들은 좁은 길에는 벽에 부딪혀도 안 아픈 코발트라는 새 젤리 코팅 도로를 깔아주거나, 아예 건물 뒷마당 지하로 뻥 뚫린 거대 비밀 지하차도(BSPDN)를 만들어 차 막힘을 없애준답니다.
+3. 그래서 마법사 과학자들은 좁은 길에는 벽에 부딪혀도 안 아픈 코발트라는 새 젤리 코팅 도로를 깔아주거나, 아예 건물 뒷마당 지하로 뻥 뚫린 거대 비밀 지하차도(BSPDN)를 만들어 차 병목을 없애준답니다.
 
 ---
 

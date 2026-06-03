@@ -18,21 +18,17 @@ tags = ["studynote-algorithm-stats"]
 
 ## Ⅰ. 개요 및 필요성
 
+```text
+문제: 배열 [2, 1, 5, 6, 2, 3]에서 각 원소의 NGE(다음 더 큰 원소)
 
+O(n²) 순진한 접근:
+for i in range(n):
+    for j in range(i+1, n):  ← 이중 루프 O(n²)
+        if arr[j] > arr[i]: ...
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-note">문제: 배열</div><div class="kb-diagram-node">2, 1, 5, 6, 2, 3</div><div class="kb-diagram-note">에서 각 원소의 NGE(다음 더 큰 원소)</div></div>
-<div class="kb-diagram-note">O(n²) 순진한 접근:</div>
-<div class="kb-diagram-note">for i in range(n):</div>
-<div class="kb-diagram-note">for j in range(i+1, n): ← 이중 루프 O(n²)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">if arr</div><div class="kb-diagram-node">j</div><div class="kb-diagram-note">&gt; arr</div><div class="kb-diagram-node">i</div><div class="kb-diagram-note">: ...</div></div>
-<div class="kb-diagram-note">단조 스택 O(n):</div>
-<div class="kb-diagram-note">각 원소를 한 번씩만 처리 → 전체 O(n)</div>
-</div>
-</div>
-
-
+단조 스택 O(n):
+각 원소를 한 번씩만 처리 → 전체 O(n)
+```
 
 - **📢 섹션 요약 비유**: 단조 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)은 콘서트 입장 대기 줄에서 자신보다 키 큰 사람을 앞에 세우는 규칙이다. 키 작은 사람들을 밀어내면서([Pop](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/120_pop_point_of_production/)) 이미 기다리던 사람들의 "다음으로 키 큰 사람"이 누군지 O(1)에 결정된다.
 
@@ -63,23 +59,19 @@ def next_greater_element(arr):
 
 ### 시뮬레이션
 
+```text
+arr = [2, 1, 5, 6, 2, 3]
 
+i=0: 스택=[0(val=2)]
+i=1: 1<2, 스택=[0,1]
+i=2: 5>1→result[1]=5, 5>2→result[0]=5, 스택=[2]
+i=3: 6>5→result[2]=6, 스택=[3]
+i=4: 2<6, 스택=[3,4]
+i=5: 3>2→result[4]=3, 3<6, 스택=[3,5]
+끝: 스택에 남은 [3,5] → result = -1
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-note">arr =</div><div class="kb-diagram-node">2, 1, 5, 6, 2, 3</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">i=0: 스택=</div><div class="kb-diagram-node">0(val=2)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">i=1: 1&lt;2, 스택=</div><div class="kb-diagram-node">0,1</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">0</div><div class="kb-diagram-note">=5, 스택=</div><div class="kb-diagram-node">2</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">2</div><div class="kb-diagram-note">=6, 스택=</div><div class="kb-diagram-node">3</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">i=4: 2&lt;6, 스택=</div><div class="kb-diagram-node">3,4</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">4</div><div class="kb-diagram-note">=3, 3&lt;6, 스택=</div><div class="kb-diagram-node">3,5</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">끝: 스택에 남은</div><div class="kb-diagram-node">3,5</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">result = -1</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">결과:</div><div class="kb-diagram-node">5, 5, 6, -1, 3, -1</div></div>
-</div>
-</div>
-
-
+결과: [5, 5, 6, -1, 3, -1]
+```
 
 - **📢 섹션 요약 비유**: 단조 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)은 극장의 좌석 배치다. 뒤에서 더 키 큰 사람이 오면 앞의 키 작은 사람들이 차례로 "내 뒤에 더 큰 사람이 왔다"는 것을 알고(NGE 결정) 자리를 비운다.
 
@@ -153,23 +145,21 @@ def largest_rectangle(heights):
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">이중 루프 O(n²) — NGE 순진한 탐색</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">단조 스택 O(n) — 단조 순서 유지로 최적화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">히스토그램/빗물 응용 — 2D 문제 적용</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">단조 덱 — 슬라이딩 윈도우 범위 최솟값/최댓값</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DP 슬라이딩 윈도우 최적화 — O(n²) DP를 O(n)으로</div></div>
-</div>
-</div>
-
-
+```text
+[이중 루프 O(n²) — NGE 순진한 탐색]
+    │
+    ▼
+[단조 스택 O(n) — 단조 순서 유지로 최적화]
+    │
+    ▼
+[히스토그램/빗물 응용 — 2D 문제 적용]
+    │
+    ▼
+[단조 덱 — 슬라이딩 윈도우 범위 최솟값/최댓값]
+    │
+    ▼
+[DP 슬라이딩 윈도우 최적화 — O(n²) DP를 O(n)으로]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -24,18 +24,14 @@ tags = ["studynote-network"]
 
 - **💡 비유**: DLCI는 거대한 지하철 환승역의 <strong>"출구 번호"</strong>와 같습니다. 인터넷 패킷(승객)이 역(라우터)에 도착하면, "너는 1번 출구(DLCI 101)로 나가면 부산지사로 가고, 너는 2번 출구(DLCI 102)로 나가면 광주지사로 간다!"라고 길을 갈라주는 안내판 번호입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">PVC / SVC</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DLCI</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CIR / FECN, BECN 혼잡 알림</div></div>
-</div>
-</div>
-
-
+```text
+[PVC / SVC]
+    │
+    ▼
+[DLCI]
+    │
+    └──▶ [CIR / FECN, BECN 혼잡 알림]
+```
 
 - **📢 섹션 요약 비유**: ** DLCI는 은행 콜센터 ARS 번호와 같습니다. **"1번(DLCI 101)을 누르시면 예금 조회(부산), 2번(DLCI 102)을 누르시면 대출 상담(광주)으로 연결됩니다"**라며 하나의 전화선([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))에서 논리적으로 부서를 쪼개주는 마법의 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)자입니다.
 
@@ -53,22 +49,24 @@ IP 주소는 서울에서 부산까지 192.168.1.1이라는 값이 평생 변하
 - 구름 내부의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들은 지들끼리 테이블을 보고 막 스위칭을 하다가, 부산 지사 라우터와 직접 연결된 마지막 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 도달한다.
 - 이때 부산 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)와 부산 라우터 사이의 계약 번호는 DLCI 200번일 수 있다. 그럼 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 DLCI를 200으로 바꿔서 부산 라우터에 던져준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DLCI의 로컬 식별성 (Local Significance)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">서울 본사</div><div class="kb-diagram-node">부산 지사</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(여긴 DLCI 100번 길) (여긴 DLCI 200번 길)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">망 내부에서 번호 변환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ISP 스위치 A</div><div class="kb-diagram-cell">(DLCI 333) ▶</div><div class="kb-diagram-cell">ISP 스위치 B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 서울 입장: "난 100번 터널로 보냈어."</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 부산 입장: "난 200번 터널에서 튀어나온 걸 받았어."</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 즉, DLCI는 서로 연결된 놈들끼리만 통하는 '우리만의 별명'이다.</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                 DLCI의 로컬 식별성 (Local Significance)       │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 서울 본사 ]                                  [ 부산 지사 ]  │
+ │        │                                             ▲      │
+ │        │ (여긴 DLCI 100번 길)           (여긴 DLCI 200번 길) │
+ │        ▼                                             │      │
+ │   ┌───────────┐    망 내부에서 번호 변환    ┌───────────┐ │
+ │   │ ISP 스위치 A│ ──── (DLCI 333) ────▶ │ ISP 스위치 B│ │
+ │   └───────────┘                        └───────────┘ │
+ │                                                             │
+ │   * 서울 입장: "난 100번 터널로 보냈어."                          │
+ │   * 부산 입장: "난 200번 터널에서 튀어나온 걸 받았어."              │
+ │   ▶ 즉, DLCI는 서로 연결된 놈들끼리만 통하는 '우리만의 별명'이다.    │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 2. Inverse [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) (인버스 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/))
 [프레임 릴레이](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/268_frame_relay_x25_simplification/) 라우터는 자기가 100번, 101번이라는 DLCI(가상 터널 입구)를 가지고 있다는 것은 통신사 신호선(LMI)을 통해 자동으로 알게 된다. 그런데 "100번 입구로 들어가면 끝에 나오는 IP 주소가 뭐지?"는 모른다.
@@ -130,19 +128,15 @@ DLCI는 LAN/WAN과 2계층 장비를 이해할 때 핵심 축을 잡아 주는 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: PVC / SVC</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: DLCI</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: CIR / FECN, BECN 혼잡 알림</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 캠퍼스 패브릭</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: PVC / SVC]
+    │
+    ▼
+[현재 개념: DLCI]
+    │
+    ├──▶ [확장 A: CIR / FECN, BECN 혼잡 알림]
+    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
+```
 
 DLCI는 [PVC](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/269_pvc_vs_svc_virtual_circuits/) / SVC에서 출발해 현재 메커니즘을 정교화하고, 이후 [CIR](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/271_cir_fecn_becn_congestion_notification/) / FECN, BECN 혼잡 알림와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -36,24 +36,23 @@ tags = ["studynote-operating-system"]
 | **exec()** | 새로운 영혼 덮어씌우기 | 기존 메모리 공간 초기화, ELF(실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)) 바이너리 로드, 힙/[스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 초기화 | 지정된 완전히 새로운 프로그램으로 실행 전환 |
 | **wait()** | 자식 [프로세스 종료](/knowledge-base/studynote/02_operating_system/02_process_thread/107_process_termination/) 회수 | 부모가 자식의 종료 상태를 읽어 좀비(Zombie) 프로세스가 되는 것을 방지 | 자원 반환 및 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 완료 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">fork() + exec() 프로세스 분기 및 전환 흐름</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 부모 프로세스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PID: 1000 (fork 호출)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">2. 자식 프로세스 복제 탄생</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PID: 1001 (부모의 메모리 공유)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(COW: Copy-on-Write 대기)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(exec 호출)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">(wait 대기)</div><div class="kb-diagram-node">3. 자식 프로세스 덮어쓰기</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">4. 자식 종료 수거</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">PID: 1001 유지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 공간 초기화 후 새 바이너리 실행</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           fork() + exec() 프로세스 분기 및 전환 흐름          │
+├──────────────────────────────────────────────────────────────┤
+│  [1. 부모 프로세스]                                             │
+│      PID: 1000 ────────┐ (fork 호출)                         │
+│                        │                                     │
+│                        ├─▶ [2. 자식 프로세스 복제 탄생]        │
+│                        │       PID: 1001 (부모의 메모리 공유) │
+│                        │       (COW: Copy-on-Write 대기)     │
+│                        │                                     │
+│                        │   (exec 호출)                       │
+│  (wait 대기)            │   [3. 자식 프로세스 덮어쓰기]        │
+│  [4. 자식 종료 수거]◀───┘       PID: 1001 유지               │
+│                            메모리 공간 초기화 후 새 바이너리 실행│
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 흐름의 핵심은 <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/">Copy-on-Write</a> (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/">COW</a>)</strong> 메커니즘이다. 과거에는 `fork()` 시점에 묻지도 따지지도 않고 부모의 전체 메모리를 통째로 복사해 엄청난 오버헤드가 발생했다. 현대 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 물리 메모리 복사를 미루고, 부모와 자식이 같은 물리 메모리 주소를 읽기 전용으로 가리키게 한다. 어느 한쪽이 데이터에 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Write)를 시도하는 순간에만 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/))를 발생시켜 해당 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 하나만 복사한다. `fork()` 직후 `exec()`가 호출되면 어차피 기존 메모리는 버려지므로, COW는 메모리 할당 낭비를 극적으로 방지하는 구원 투수다.
 
@@ -116,23 +115,21 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">초기 유닉스 생성 철학 (fork() + exec() 분리)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">메모리 복제 오버헤드 발생 (통째로 메모리 복사)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">메모리 가상화 최적화 도입 (Copy-on-Write 지연 복사)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">멀티쓰레드 환경의 fork 부작용 회피 (posix_spawn 등장)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">컨테이너 격리 생태계를 위한 세밀한 자원 분리 제어 (clone(), Namespace)</div>
-</div>
-</div>
-
-
+```text
+초기 유닉스 생성 철학 (fork() + exec() 분리)
+    │
+    ▼
+메모리 복제 오버헤드 발생 (통째로 메모리 복사)
+    │
+    ▼
+메모리 가상화 최적화 도입 (Copy-on-Write 지연 복사)
+    │
+    ▼
+멀티쓰레드 환경의 fork 부작용 회피 (posix_spawn 등장)
+    │
+    ▼
+컨테이너 격리 생태계를 위한 세밀한 자원 분리 제어 (clone(), Namespace)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

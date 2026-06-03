@@ -23,18 +23,14 @@ tags = ["studynote-network"]
 - <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/156_c_ran_cloud_ran/">C-RAN</a> (Cloud/Centralized RAN) 혁명</strong>: 전국의 수만 개 [BBU](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/688_bbu/)(두뇌)를 몇 군데의 중앙 집중식 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)(통신사 전화국)에 서버 형태로 모아버린([가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)) 차세대 기지국 구조입니다.
 - <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/">프론트홀</a> (Fronthaul)</strong>: 이 [C-RAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/156_c_ran_cloud_ran/) 구조에서 <strong>말단의 빈 깡통 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">안테나</a>(RRH)와 중앙의 뇌(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/688_bbu/">BBU</a> 또는 DU)를 연결해 주는 '광케이블 전송 구간'</strong>을 부르는 이름입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">미드홀</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">프론트홀</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">셀 엣지 수율</div></div>
-</div>
-</div>
-
-
+```text
+[미드홀]
+    │
+    ▼
+[프론트홀]
+    │
+    └──▶ [셀 엣지 수율]
+```
 
 - **📢 섹션 요약 비유**: [프론트홀](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -48,18 +44,14 @@ tags = ["studynote-network"]
 - **CPRI (Common Public Radio Interface)**: 이 무식한 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏘기 위해 에릭슨, 노키아 등이 만든 [프론트홀](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/) 통신 규격입니다.
 - **비극 발생**: 스마트폰 사용자가 실제로 쓰는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(굿풋)는 1Gbps인데, 이걸 CPRI 원시 파동 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 변환하면 무려 <strong>10Gbps~20Gbps로 덩치가 10배~20배 뻥튀기(오버헤드 폭발)</strong>되어 [프론트홀](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/) 광케이블을 꽉 막아버립니다. [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 시대 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 늘어나자 통신사 광케이블망이 터져버렸습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">미드홀</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">프론트홀</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">셀 엣지 수율</div></div>
-</div>
-</div>
-
-
+```text
+[미드홀]
+    │
+    ▼
+[프론트홀]
+    │
+    └──▶ [셀 엣지 수율]
+```
 
 - **📢 섹션 요약 비유**: [프론트홀](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -124,19 +116,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 미드홀</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 프론트홀</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 셀 엣지 수율</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 미드홀]
+    │
+    ▼
+[현재 개념: 프론트홀]
+    │
+    ├──▶ [확장 A: 셀 엣지 수율]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 [프론트홀](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/)는 [미드홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1010_midhaul_network_c_ran_fronthaul_du_cu/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [셀 엣지 수율](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1012_cell_edge_throughput_interference_icic/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

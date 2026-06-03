@@ -34,21 +34,23 @@ tags = ["ict_convergence"]
 
 이 4가지 계층 중 일부만 특화하여 서비스하는 네트워크들이 등장하면서, 이들을 어떻게 조합하느냐에 따라 다양한 아키텍처가 파생된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모듈러 블록체인 아키텍처 및 계층 분리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">실행 계층 (L2 Rollup)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">연산만 10,000 TPS로 초고속 처리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(트랜잭션 결과 및 증명 전달)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">정산 계층 (L1)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">롤업 사기 증명 검증, 최종 확정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(원시 데이터 백업)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 가용성 계층 (DA)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">저비용 대용량 블록 데이터 저장</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">합의 계층 (L1)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">글로벌 노드 간 순서와 룰 합의</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│             모듈러 블록체인 아키텍처 및 계층 분리            │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│  [ 실행 계층 (L2 Rollup) ] ──▶ 연산만 10,000 TPS로 초고속 처리│
+│       │ (트랜잭션 결과 및 증명 전달)                         │
+│       ▼                                                      │
+│  [ 정산 계층 (L1) ] ─────────▶ 롤업 사기 증명 검증, 최종 확정 │
+│       │ (원시 데이터 백업)                                   │
+│       ▼                                                      │
+│  [ 데이터 가용성 계층 (DA) ] ──▶ 저비용 대용량 블록 데이터 저장 │
+│       │                                                      │
+│  [ 합의 계층 (L1) ] ─────────▶ 글로벌 노드 간 순서와 룰 합의 │
+│                                                              │
+└──────────────────────────────────────────────────────────────┘
+```
 이 그림은 연산의 부담(실행)과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 용량의 부담([DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/))을 메인넷(합의/정산) 밖으로 빼내어 전체 병목을 해소하는 구조를 보여준다.
 
 - **📢 섹션 요약 비유**: 실행 계층은 칠판에 미친 듯이 수식을 푸는 <strong>'천재 수학자'</strong>이고, [데이터 가용성](/knowledge-base/studynote/06_ict_convergence/01_blockchain/094_data_availability_da_layer_celestia/)([DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/)) 계층은 그 수학자가 쓴 모든 연습장 쪼가리를 버리지 않고 보관해 주는 <strong>'거대 문서 창고'</strong>다. 정산과 합의는 이 연습장을 검사하는 <strong>'대법관'</strong>이다.
@@ -98,23 +100,21 @@ tags = ["ict_convergence"]
 | **발리디움 (Validium)** | ZK [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)과 유사하나, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장을 오프체인(외부 [DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/))에 맡겨 비용을 대폭 낮춘 구조 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">비트코인 / 초기 이더리움 (Monolithic)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">확장성 한계 직면 및 블록체인 트릴레마 발생</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">실행 계층 분리 (L2 롤업: Arbitrum, Optimism)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">데이터 가용성(DA) 계층 독립 (Celestia, EigenDA)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">완전한 모듈러 블록체인 생태계 및 RaaS (Rollup-as-a-Service) 대중화</div>
-</div>
-</div>
-
-
+```text
+비트코인 / 초기 이더리움 (Monolithic)
+    │
+    ▼
+확장성 한계 직면 및 블록체인 트릴레마 발생
+    │
+    ▼
+실행 계층 분리 (L2 롤업: Arbitrum, Optimism)
+    │
+    ▼
+데이터 가용성(DA) 계층 독립 (Celestia, EigenDA)
+    │
+    ▼
+완전한 모듈러 블록체인 생태계 및 RaaS (Rollup-as-a-Service) 대중화
+```
 이 흐름도는 모든 것을 혼자 처리하던 시스템이 속도 한계에 부딪힌 후, 실행을 떼어내고, 그다음 저장소([DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/))까지 분리해내어 최종적으로 조립식 인프라로 진화하는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

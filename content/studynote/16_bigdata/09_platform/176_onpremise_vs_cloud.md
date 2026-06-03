@@ -25,18 +25,16 @@ tags = ["studynote-bigdata"]
 
 즉 이 비교의 핵심 질문은 "어디가 더 현대적인가"가 아니다. 오히려 <strong>우리 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>는 얼마나 고정적인가, 얼마나 빨리 늘어나는가, 얼마나 강하게 통제해야 하는가</strong>에 가깝다. 잘못 고르면 저장은 싸도 연산이 비싸지거나, 반대로 통제는 강하지만 민첩성이 급감하는 구조가 된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">플랫폼 선택은 서버 위치보다 운영 방식의 선택에 가깝다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">온프레미스: 장비 구매 ─▶ 설치 ─▶ 수년 단위 운영 계획</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라우드 : 서비스 선택 ─▶ 즉시 사용 ─▶ 사용량 기반 재조정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기술보다 비용 구조와 조직 속도가 함께 달라짐</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│      플랫폼 선택은 서버 위치보다 운영 방식의 선택에 가깝다     │
+├──────────────────────────────────────────────────────────────┤
+│ 온프레미스: 장비 구매 ─▶ 설치 ─▶ 수년 단위 운영 계획          │
+│ 클라우드  : 서비스 선택 ─▶ 즉시 사용 ─▶ 사용량 기반 재조정     │
+│                                                              │
+│ 기술보다 비용 구조와 조직 속도가 함께 달라짐                  │
+└──────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/)와 클라우드의 차이는 단순히 창고를 어디 두느냐가 아니라, 창고를 직접 지어 운영할지 아니면 필요한 만큼 빌려 쓰는 물류 체계를 쓸지 결정하는 것과 같다.
 
@@ -48,20 +46,22 @@ tags = ["studynote-bigdata"]
 
 클라우드 빅데이터는 반대로 저장과 계산을 분리한다. Amazon Simple Storage [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) (S3), Azure [Data Lake Storage](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/641_data_lake_storage/) (ADLS), Google Cloud Storage (GCS) 같은 객체 스토리지가 장기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 맡고, Spark·Presto·[BigQuery](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/)·[Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/) 같은 계산 엔진은 필요할 때만 확장된다. 이 구조는 유연하지만, 저장소와 계산 노드가 분리되어 있으므로 네트워크 입출력(Input/Output, I/O)과 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 최적화가 더 중요해진다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">온프레미스 Hadoop</div><div class="kb-diagram-cell">클라우드 빅데이터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client / Analytics Tool</div><div class="kb-diagram-cell">Client / Analytics Tool</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">YARN / Spark Cluster</div><div class="kb-diagram-cell">Managed / Elastic Compute</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DataNode + Compute</div><div class="kb-diagram-cell">Object Storage</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HDFS block + task locality</div><div class="kb-diagram-cell">S3 / ADLS / GCS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">저장과 계산이 같은 풀</div><div class="kb-diagram-cell">저장과 계산이 분리된 풀</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────┐      ┌──────────────────────────────┐
+│      온프레미스 Hadoop        │      │      클라우드 빅데이터        │
+├──────────────────────────────┤      ├──────────────────────────────┤
+│ Client / Analytics Tool      │      │ Client / Analytics Tool      │
+│        │                     │      │        │                     │
+│        ▼                     │      │        ▼                     │
+│   YARN / Spark Cluster       │      │ Managed / Elastic Compute    │
+│        │                     │      │        │                     │
+│        ▼                     │      │        ▼                     │
+│ DataNode + Compute           │      │ Object Storage               │
+│ HDFS block + task locality   │      │ S3 / ADLS / GCS              │
+│        │                     │      │        │                     │
+│  저장과 계산이 같은 풀        │      │  저장과 계산이 분리된 풀      │
+└──────────────────────────────┘      └──────────────────────────────┘
+```
 
 | 비교 축 | [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) | 클라우드 빅데이터 |
 | :--- | :--- | :--- |
@@ -152,23 +152,21 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">온프레미스 Hadoop</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">관리형 Hadoop 서비스</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">객체 스토리지 기반 저장·계산 분리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Lakehouse · Serverless Analytics</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Hybrid Data Platform · Federated Governance</div>
-</div>
-</div>
-
-
+```text
+온프레미스 Hadoop
+    │
+    ▼
+관리형 Hadoop 서비스
+    │
+    ▼
+객체 스토리지 기반 저장·계산 분리
+    │
+    ▼
+Lakehouse · Serverless Analytics
+    │
+    ▼
+Hybrid Data Platform · Federated Governance
+```
 
 이 흐름은 클러스터 중심 사고에서 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 조합형 플랫폼과 하이브리드 거버넌스로 이동하는 발전 방향을 보여준다.
 

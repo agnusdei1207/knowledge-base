@@ -109,23 +109,21 @@ IT [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditi
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">리스크 식별</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">통제 설계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">증거 수집</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">감사 판단</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">개선 조치</div>
-</div>
-</div>
-
-
+```text
+리스크 식별
+    │
+    ▼
+통제 설계
+    │
+    ▼
+증거 수집
+    │
+    ▼
+감사 판단
+    │
+    ▼
+개선 조치
+```
 
 이 흐름은 IT 통제가 설계에서 운영, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/), 개선으로 이어지는 과정을 보여준다.
 

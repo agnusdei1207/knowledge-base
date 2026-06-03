@@ -54,37 +54,36 @@ SVM:
 
 ## Ⅱ. 튜닝 방법론
 
+```
+하이퍼파라미터 튜닝 방법:
 
+1. 그리드 서치 (Grid Search):
+   모든 조합 완전 탐색
+   예: lr=[0.001,0.01], batch=[32,64] → 4가지
+   장점: 완전 탐색, 재현 가능
+   단점: 조합 수 지수적 증가 (차원의 저주)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">하이퍼파라미터 튜닝 방법:</div>
-<div class="kb-diagram-note">1. 그리드 서치 (Grid Search):</div>
-<div class="kb-diagram-note">모든 조합 완전 탐색</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">예: lr=</div><div class="kb-diagram-node">0.001,0.01</div><div class="kb-diagram-note">, batch=</div><div class="kb-diagram-node">32,64</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">4가지</div></div>
-<div class="kb-diagram-note">장점: 완전 탐색, 재현 가능</div>
-<div class="kb-diagram-note">단점: 조합 수 지수적 증가 (차원의 저주)</div>
-<div class="kb-diagram-note">2. 랜덤 서치 (Random Search):</div>
-<div class="kb-diagram-note">정해진 탐색 횟수 내 무작위 조합</div>
-<div class="kb-diagram-note">Bergstra &amp; Bengio (2012) 논문:</div>
-<div class="kb-diagram-note">"랜덤 서치가 그리드 서치보다 효율적"</div>
-<div class="kb-diagram-note">이유: 중요하지 않은 HP는 아무 값이나 OK</div>
-<div class="kb-diagram-note">장점: 같은 비용에 더 넓은 탐색</div>
-<div class="kb-diagram-note">3. 베이지안 최적화:</div>
-<div class="kb-diagram-note">이전 평가 결과로 다음 탐색 위치 예측</div>
-<div class="kb-diagram-note">Gaussian Process + Expected Improvement</div>
-<div class="kb-diagram-note">도구: Optuna, Hyperopt, Ax (Facebook)</div>
-<div class="kb-diagram-note">장점: 적은 평가로 최적값 근접</div>
-<div class="kb-diagram-note">4. HyperBand / ASHA:</div>
-<div class="kb-diagram-note">조기 종료 (Early Stopping) 활용</div>
-<div class="kb-diagram-note">나쁜 설정 빠르게 제거 → 유망한 것 집중</div>
-<div class="kb-diagram-note">5. AutoML:</div>
-<div class="kb-diagram-note">NAS (Neural Architecture Search)</div>
-<div class="kb-diagram-note">Google AutoML Tables, H2O, Auto-sklearn</div>
-</div>
-</div>
+2. 랜덤 서치 (Random Search):
+   정해진 탐색 횟수 내 무작위 조합
+   Bergstra & Bengio (2012) 논문:
+   "랜덤 서치가 그리드 서치보다 효율적"
+   이유: 중요하지 않은 HP는 아무 값이나 OK
+   장점: 같은 비용에 더 넓은 탐색
 
+3. 베이지안 최적화:
+   이전 평가 결과로 다음 탐색 위치 예측
+   Gaussian Process + Expected Improvement
+   도구: Optuna, Hyperopt, Ax (Facebook)
+   장점: 적은 평가로 최적값 근접
 
+4. HyperBand / ASHA:
+   조기 종료 (Early Stopping) 활용
+   나쁜 설정 빠르게 제거 → 유망한 것 집중
+   
+5. AutoML:
+   NAS (Neural Architecture Search)
+   Google AutoML Tables, H2O, Auto-sklearn
+```
 
 > 📢 **섹션 요약 비유**: [그리드 서치](/knowledge-base/studynote/10_ai/03_llm_nlp/251_grid_search_random_search/)는 모든 메뉴 다 먹어보기, 랜덤 서치는 무작위 샘플링, 베이지안은 이전 음식 반응 보고 다음 메뉴 선택.
 
@@ -92,31 +91,29 @@ SVM:
 
 ## Ⅲ. [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)과 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링
 
+```
+학습률 (Learning Rate):
+  가장 중요한 하이퍼파라미터
+  너무 크면: 발산 (Loss 폭발)
+  너무 작으면: 수렴 매우 느림
+  
+일반 권고:
+  Adam 옵티마이저: 0.001 (기본값)
+  SGD: 0.01~0.1
+  
+학습률 스케줄러:
+  Step Decay: 일정 에폭마다 감소
+  Cosine Annealing: 코사인 함수로 감소
+  Warm-up: 초반 작게 시작 → 증가 → 감소
+  
+학습률 탐색 (LR Finder):
+  매우 작게 시작해서 점차 증가
+  Loss가 최소인 지점의 1/10 사용
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">학습률 (Learning Rate):</div>
-<div class="kb-diagram-note">가장 중요한 하이퍼파라미터</div>
-<div class="kb-diagram-note">너무 크면: 발산 (Loss 폭발)</div>
-<div class="kb-diagram-note">너무 작으면: 수렴 매우 느림</div>
-<div class="kb-diagram-note">일반 권고:</div>
-<div class="kb-diagram-note">Adam 옵티마이저: 0.001 (기본값)</div>
-<div class="kb-diagram-note">SGD: 0.01~0.1</div>
-<div class="kb-diagram-note">학습률 스케줄러:</div>
-<div class="kb-diagram-note">Step Decay: 일정 에폭마다 감소</div>
-<div class="kb-diagram-note">Cosine Annealing: 코사인 함수로 감소</div>
-<div class="kb-diagram-note">Warm-up: 초반 작게 시작 → 증가 → 감소</div>
-<div class="kb-diagram-note">학습률 탐색 (LR Finder):</div>
-<div class="kb-diagram-note">매우 작게 시작해서 점차 증가</div>
-<div class="kb-diagram-note">Loss가 최소인 지점의 1/10 사용</div>
-<div class="kb-diagram-note">학습률 중요성:</div>
-<div class="kb-diagram-note">학습률만 잘 조정해도 성능 10~20% 향상</div>
-<div class="kb-diagram-note">배치 크기 2배 시 학습률도 2배 (선형 스케일링)</div>
-</div>
-</div>
-
-
+학습률 중요성:
+  학습률만 잘 조정해도 성능 10~20% 향상
+  배치 크기 2배 시 학습률도 2배 (선형 스케일링)
+```
 
 > 📢 **섹션 요약 비유**: [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)은 산을 내려가는 보폭 — 너무 크면 최저점을 지나쳐버리고, 너무 작으면 평생 걸려도 못 내려간다.
 

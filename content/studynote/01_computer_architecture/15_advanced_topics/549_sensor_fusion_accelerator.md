@@ -42,19 +42,21 @@ ADAS [센서 퓨전](/knowledge-base/studynote/06_ict_convergence/02_iot_mobilit
 | 퓨전 코어 / 신경망 처리장치 ([NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/), [Neural Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/)) | BEV [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 객체 결합, 점유 공간 추정 | 모델 크기와 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 균형 |
 | 추적·안전 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) | 시간 연속성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/), [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 점수 산출, 워치독 | 기능 안전과 감쇠 모드 보장 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ADAS sensor fusion accelerator data path</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Camera</div><div class="kb-diagram-cell">Radar</div><div class="kb-diagram-cell">LiDAR</div><div class="kb-diagram-cell">IMU/Odo</div><div class="kb-diagram-cell">Ultrasonic</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ISP</div><div class="kb-diagram-cell">Rectify</div><div class="kb-diagram-cell">Radar Prep</div><div class="kb-diagram-cell">LiDAR Flt.</div><div class="kb-diagram-cell">Time Sync / Pose</div><div class="kb-diagram-cell">Range</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Shared SRAM / NoC → Coordinate Align → BEV Feature Map → Fusion Core</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Object Track · Free-space Estimation · Confidence Check · Safety Monitor</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│ ADAS sensor fusion accelerator data path                                  │
+├────────────┬────────────┬────────────┬────────────┬────────────────────────┤
+│ Camera     │ Radar      │ LiDAR      │ IMU/Odo    │ Ultrasonic             │
+├─────┬──────┴─────┬──────┴─────┬──────┴─────┬──────┴──────────────┬────────┤
+│ ISP │ Rectify    │ Radar Prep │ LiDAR Flt. │ Time Sync / Pose    │ Range   │
+└──┬──┴──────┬─────┴──────┬─────┴──────┬─────┴──────────────┬──────┴────────┘
+   ▼         ▼            ▼            ▼                    ▼
+┌────────────────────────────────────────────────────────────────────────────┐
+│ Shared SRAM / NoC → Coordinate Align → BEV Feature Map → Fusion Core      │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Object Track · Free-space Estimation · Confidence Check · Safety Monitor   │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림이 보여 주는 핵심은 "센서별 전처리 → 공통 표현 → 퓨전 → 추적"이 단순 순서가 아니라, 중간 결과를 최대한 칩 내부에 머물게 하려는 메모리 전략이라는 점이다. 특히 BEV로 한 번 표현을 통일하면 카메라의 2차원 화소, 라이다의 3차원 점, 레이더의 속도 정보를 같은 격자나 특징 맵에서 다룰 수 있어 후단 인식 모델이 단순해진다.
 
@@ -131,23 +133,21 @@ ADAS [센서 퓨전](/knowledge-base/studynote/06_ict_convergence/02_iot_mobilit
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Single-sensor ADAS camera ECU</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Camera + Radar late fusion</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Dedicated multi-sensor fusion SoC</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">BEV feature fusion on centralized automotive HPC</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Occupancy network · fail-operational perception</div>
-</div>
-</div>
-
-
+```text
+Single-sensor ADAS camera ECU
+        │
+        ▼
+Camera + Radar late fusion
+        │
+        ▼
+Dedicated multi-sensor fusion SoC
+        │
+        ▼
+BEV feature fusion on centralized automotive HPC
+        │
+        ▼
+Occupancy network · fail-operational perception
+```
 
 이 흐름은 "센서별 독립 인지"에서 출발해 "공통 표현 기반의 중앙 통합 인지"로 발전하는 방향을 보여 준다.
 

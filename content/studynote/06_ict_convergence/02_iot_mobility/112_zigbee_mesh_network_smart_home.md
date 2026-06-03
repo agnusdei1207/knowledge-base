@@ -20,22 +20,23 @@ tags = ["studynote-ict-convergence"]
 
 스마트 홈에서 조명·에어컨·도어록·센서를 제어하려면 <strong>저전력으로 수백 개 디바이스가 안정적으로 통신</strong>해야 한다. Wi-Fi는 [전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/)가 크고, BLE는 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) 지원이 제한적이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Zigbee 메시 토폴로지 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Coordinator</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Router</div><div class="kb-diagram-node">Router</div><div class="kb-diagram-node">Router</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ED</div><div class="kb-diagram-node">ED</div><div class="kb-diagram-node">ED</div><div class="kb-diagram-node">ED</div><div class="kb-diagram-node">ED</div><div class="kb-diagram-note">(ED = End Device)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Coordinator: 네트워크 생성·관리 (1개)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Router: 중계·라우팅 (상시 전원, 메시 구성)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">End Device: 센서/스위치 (배터리, Sleep 모드)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Self-healing: Router 1개 고장 → 자동 우회 경로 탐색</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│      Zigbee 메시 토폴로지 구조                         │
+├───────────────────────────────────────────────────────┤
+│        [Coordinator]                                  │
+│         /    |    \                                    │
+│   [Router] [Router] [Router]                          │
+│    / \       |       / \                               │
+│  [ED] [ED] [ED]  [ED] [ED]   (ED = End Device)       │
+│                                                       │
+│  Coordinator: 네트워크 생성·관리 (1개)                │
+│  Router: 중계·라우팅 (상시 전원, 메시 구성)           │
+│  End Device: 센서/스위치 (배터리, Sleep 모드)          │
+│                                                       │
+│  Self-healing: Router 1개 고장 → 자동 우회 경로 탐색  │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [Zigbee](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/) [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)는 마을 소문 전파 시스템이다. 이장([Coordinator](/knowledge-base/studynote/05_database/04_transactions_concurrency/250_coordinator_participant_2pc_roles/))이 소식을 내리면, 반장(Router)들이 릴레이로 전달하고, 주민(End Device)이 수신한다. 반장 1명이 아파도 다른 반장이 대신 전달한다.
 
@@ -98,23 +99,21 @@ Zigbee는 스마트 홈 WPAN의 선구자이지만, <strong><a href="/knowledge-
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">IEEE 802.15.4 (2003) — 저전력 WPAN 표준</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Zigbee 1.0 (2004) — 스마트 홈 메시 네트워크</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Zigbee 3.0 (2016) — 프로파일 통합 (HA/LL/SE)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Thread (2015~) — IPv6 메시, Google Nest 채택</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Matter (2022~) — Apple·Google·Amazon 통합 표준</div></div>
-</div>
-</div>
-
-
+```text
+[IEEE 802.15.4 (2003) — 저전력 WPAN 표준]
+    │
+    ▼
+[Zigbee 1.0 (2004) — 스마트 홈 메시 네트워크]
+    │
+    ▼
+[Zigbee 3.0 (2016) — 프로파일 통합 (HA/LL/SE)]
+    │
+    ▼
+[Thread (2015~) — IPv6 메시, Google Nest 채택]
+    │
+    ▼
+[Matter (2022~) — Apple·Google·Amazon 통합 표준]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. Zigbee는 마을 전체에 <strong>무전기 네트워크</strong>를 깐 거예요. 반장들이 릴레이로 소식을 전달해요.

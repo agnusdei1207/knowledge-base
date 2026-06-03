@@ -27,17 +27,14 @@ tags = ["studynote-ai"]
 
 Adam(Adaptive Moment Estimation)은 <strong>Momentum의 관성 효과 + RMSProp의 적응형 <a href="/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/">학습률</a></strong>을 결합하여 두 장점을 모두 취한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: Adam은 슈퍼 내비게이션이다. 이전에 자주 다닌 방향(1차 [모멘텀](/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/))을 기억하고, 최근 도로 상황(2차 [모멘텀](/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/))에 맞게 속도를 자동 조절하며, 처음 출발할 때의 부정확한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(편향 보정)도 스스로 교정한다.
 
@@ -73,40 +70,36 @@ Adam(Adaptive Moment Estimation)은 <strong>Momentum의 관성 효과 + RMSProp�
 
 ### Adam 내부 동작 흐름
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Adam 알고리즘 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기울기 ∇L(w)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">1차 모멘텀</div><div class="kb-diagram-note">m_t = β1·m + (1-β1)·∇L</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 기울기 방향의 이동 평균 (관성)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">2차 모멘텀</div><div class="kb-diagram-note">v_t = β2·v + (1-β2)·(∇L)²</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 기울기 크기의 이동 평균 (RMSProp)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">편향 보정: m̂ = m/(1-β1^t), v̂ = v/(1-β2^t)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가중치 갱신: w = w - α · m̂ / (√v̂ + ε)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">효과: 자주 등장하는 파라미터 → 작은 학습률</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">드물게 등장하는 파라미터 → 큰 학습률</div></div>
-</div>
-</div>
-
-
+```
+┌───────────────────────────────────────────────────────┐
+│                  Adam 알고리즘 흐름                    │
+│                                                       │
+│  기울기 ∇L(w)                                         │
+│      │                                                │
+│      ├──→ [1차 모멘텀] m_t = β1·m + (1-β1)·∇L       │
+│      │         → 기울기 방향의 이동 평균 (관성)        │
+│      │                                                │
+│      └──→ [2차 모멘텀] v_t = β2·v + (1-β2)·(∇L)²    │
+│                → 기울기 크기의 이동 평균 (RMSProp)     │
+│                                                       │
+│  편향 보정: m̂ = m/(1-β1^t), v̂ = v/(1-β2^t)         │
+│       ↓                                               │
+│  가중치 갱신: w = w - α · m̂ / (√v̂ + ε)             │
+│                                                       │
+│  효과: 자주 등장하는 파라미터 → 작은 학습률          │
+│        드물게 등장하는 파라미터 → 큰 학습률           │
+└───────────────────────────────────────────────────────┘
+```
 
 ### 편향 보정([Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/) Correction)의 필요성
 
 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 시점(t가 작을 때) m_0 = 0, v_0 = 0으로 시작하므로, <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 추정값이 0 방향으로 편향</strong>된다. 편향 보정은 이를 실제 [모멘텀](/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/)에 가깝게 [스케일 업](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)하는 과정이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">t=1: β1=0.9 → (1-β1^1) = 0.1 → m̂ = m/0.1 = 10배 확대</div>
-<div class="kb-diagram-note">t=10: (1-β1^10) ≈ 0.65 → 점점 보정 감소</div>
-<div class="kb-diagram-note">t→∞: (1-β1^∞) → 1.0 → 보정 불필요</div>
-</div>
-</div>
-
-
+```
+t=1: β1=0.9 → (1-β1^1) = 0.1 → m̂ = m/0.1 = 10배 확대
+t=10: (1-β1^10) ≈ 0.65 → 점점 보정 감소
+t→∞: (1-β1^∞) → 1.0 → 보정 불필요
+```
 
 - **📢 섹션 요약 비유**: 편향 보정은 새벽에 체온계가 실온 온도에 맞춰져 있을 때 보정하는 것과 같다. 막 시작했을 때는 체온계([모멘텀](/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/))가 실제보다 낮게 표시되므로, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)엔 값을 올려서 읽고 시간이 지나면 자연스럽게 정확해진다.
 

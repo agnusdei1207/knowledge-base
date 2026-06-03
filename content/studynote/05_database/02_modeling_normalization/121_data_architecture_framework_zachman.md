@@ -18,21 +18,19 @@ tags = ["studynote-database"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Zachman Framework 매트릭스 (간략)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">What How Where Who When Why</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Planner 범위 기능목록 장소 조직 일정 동기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Owner 개념모델 프로세스 네트워크 역할 주기 전략</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Designer 논리모델 논리흐름 분산아키 UI 이벤트 규칙</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Builder 물리모델 물리설계 기술아키 보안 스케줄 제약</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 관점: What 열 = 개념→논리→물리 모델링</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    Zachman Framework 매트릭스 (간략)                   │
+├───────────────────────────────────────────────────────┤
+│           What    How     Where   Who    When   Why   │
+│  Planner  범위    기능목록  장소    조직    일정   동기 │
+│  Owner    개념모델 프로세스 네트워크 역할    주기   전략 │
+│  Designer 논리모델 논리흐름 분산아키 UI    이벤트  규칙 │
+│  Builder  물리모델 물리설계 기술아키 보안    스케줄  제약 │
+│                                                       │
+│  데이터 관점: What 열 = 개념→논리→물리 모델링         │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: Zachman은 건축에서 건축주(Owner)·설계사(Designer)·시공자([Builder](/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/)) 각각이 같은 건물을 다른 관점에서 보는 것이다.
 
@@ -89,23 +87,21 @@ tags = ["studynote-database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Zachman Framework (1987) — EA 분류 체계 제안</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">TOGAF (1995) — EA 방법론 (ADM)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">FEAF / DoDAF (정부·국방 EA)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 아키텍처 표준 (DA, 2010s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: 데이터 메시 + EA — 분산 데이터 아키텍처</div></div>
-</div>
-</div>
-
-
+```text
+[Zachman Framework (1987) — EA 분류 체계 제안]
+    │
+    ▼
+[TOGAF (1995) — EA 방법론 (ADM)]
+    │
+    ▼
+[FEAF / DoDAF (정부·국방 EA)]
+    │
+    ▼
+[데이터 아키텍처 표준 (DA, 2010s)]
+    │
+    ▼
+[현재: 데이터 메시 + EA — 분산 데이터 아키텍처]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. Zachman은 <strong>큰 서랍장</strong>이에요. 가로 칸에는 "무엇·어떻게·어디서·누가·언제·왜"가 있어요.
@@ -118,7 +114,7 @@ tags = ["studynote-database"]
 
 **진행 상황**: 121 / 600
 
-← **이전**: [120. 데이터 역공학 (Data Reverse Engineering) - 기존 DB에서 ERD·모델 복원](/knowledge-base/studynote/05_database/02_modeling_normalization/120_data_reverse_engineering/)
+← **이전**: [120. 데이터 역공학 (Data Reverse 엔진ering) - 기존 DB에서 ERD·모델 복원](/knowledge-base/studynote/05_database/02_modeling_normalization/120_data_reverse_engineering/)
 **다음**: [122. 마스터 데이터 관리 (MDM, Master Data Management) - 데이터 품질·일관성의 근간](/knowledge-base/studynote/05_database/02_modeling_normalization/122_master_data_management_db_perspective/) →
 
 ---

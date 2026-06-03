@@ -31,19 +31,17 @@ tags = ["studynote-design-supervision"]
 
 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)의 구조는 단순하다. 핵심은 `Client`가 `Subject` 인터페이스만 의존하고, `Proxy`와 `Real Subject`가 같은 계약을 구현한다는 점이다. 덕분에 클라이언트는 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)가 있는지조차 몰라도 되며, 교체 비용이 매우 낮다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프록시 패턴의 공통 구조와 유형별 개입 지점</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client ──▶ Subject 인터페이스 ──▶ Proxy ──▶ Real Subject</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 가상 프록시: 필요 시점에 생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 보호 프록시: 권한 통과 후 위임</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 원격 프록시: 직렬화·전송 후 위임</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│               프록시 패턴의 공통 구조와 유형별 개입 지점            │
+├──────────────────────────────────────────────────────────────────────┤
+│  Client ──▶ Subject 인터페이스 ──▶ Proxy ──▶ Real Subject           │
+│                                   │                                  │
+│                                   ├─ 가상 프록시: 필요 시점에 생성   │
+│                                   ├─ 보호 프록시: 권한 통과 후 위임   │
+│                                   └─ 원격 프록시: 직렬화·전송 후 위임 │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 핵심은 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)가 단순 중계자가 아니라 <strong>개입 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>의 실행 지점</strong>이라는 점이다. 같은 인터페이스를 유지하므로 설계는 투명하지만, 내부에서는 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 시점·접근 허용 여부·원격 통신 절차가 달라진다.
 
@@ -122,22 +120,19 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">구조 패턴 (Structural Pattern)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">프록시 (Proxy) 패턴</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 가상 프록시 (지연 로딩)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 보호 프록시 (권한 통제)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 원격 프록시 (분산 호출 캡슐화)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">AOP 기반 동적 프록시 · ORM 지연 로딩 · RPC 스텁</div>
-</div>
-</div>
-
-
+```text
+구조 패턴 (Structural Pattern)
+    │
+    ▼
+프록시 (Proxy) 패턴
+    │
+    ├─▶ 가상 프록시 (지연 로딩)
+    ├─▶ 보호 프록시 (권한 통제)
+    └─▶ 원격 프록시 (분산 호출 캡슐화)
+    │
+    ▼
+AOP 기반 동적 프록시 · ORM 지연 로딩 · RPC 스텁
+```
 
 이 흐름은 "[구조 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/258_structural_patterns_overview/)의 일반론 → [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)의 공통 구조 → 목적별 세부 유형 → 현대 프레임워크 적용"으로 이어지는 학습 경로를 보여 준다.
 

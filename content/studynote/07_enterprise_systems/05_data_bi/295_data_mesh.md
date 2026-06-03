@@ -37,20 +37,15 @@ tags = ["studynote-enterprise"]
 | 셀프 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 인프라 | 중앙 팀은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼 기능만 제공 | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 팀이 인프라 걱정 없이 [데이터 제품](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/) 개발 |
 | 연합 거버넌스 | 전사 표준은 지키되 실행은 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에 위임 | [상호운용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/287_interoperability_tactics/) 유지와 자율성 사이의 균형 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">도메인 A: 마케팅</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">데이터 제품 A</div><div class="kb-diagram-note">──</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">도메인 B: 물류</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">데이터 제품 B</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">전사 데이터 메시망</div></div>
-<div class="kb-diagram-note">(표준 API 연동)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">도메인 C: 재무</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">데이터 제품 C</div><div class="kb-diagram-note">──</div></div>
-<div class="kb-diagram-connector">▲</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">중앙 셀프 서비스 데이터 플랫폼 (가이드/도구)</div></div>
-</div>
-</div>
-
-
+```text
+[도메인 A: 마케팅] ──▶ [데이터 제품 A] ──┐
+                                          │
+[도메인 B: 물류]   ──▶ [데이터 제품 B] ──┼──▶ [전사 데이터 메시망]
+                                          │      (표준 API 연동)
+[도메인 C: 재무]   ──▶ [데이터 제품 C] ──┘
+          ▲
+          └────── [중앙 셀프 서비스 데이터 플랫폼 (가이드/도구)]
+```
 
 - **📢 섹션 요약 비유**: 중앙 도서관이 모든 책을 정리하는 대신, 각 전문 학과([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))에서 전공 서적을 관리하고 도서관은 책 대여 시스템(인프라)과 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 규칙(거버넌스)만 제공하는 원리다.
 
@@ -109,23 +104,21 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">중앙 집중형 데이터 레이크 - 병목·소유권 혼란</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">데이터 플랫폼 팀 단독 관리 → 확장성 한계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Data Mesh 패러다임 - 도메인 소유권 분산</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Data Product + 셀프서브 플랫폼 + 연합 거버넌스</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Federated Computational Governance 표준화</div>
-</div>
-</div>
-
-
+```
+중앙 집중형 데이터 레이크 - 병목·소유권 혼란
+    │
+    ▼
+데이터 플랫폼 팀 단독 관리 → 확장성 한계
+    │
+    ▼
+Data Mesh 패러다임 - 도메인 소유권 분산
+    │
+    ▼
+Data Product + 셀프서브 플랫폼 + 연합 거버넌스
+    │
+    ▼
+Federated Computational Governance 표준화
+```
 
 > **키워드**: [Data Mesh](/knowledge-base/studynote/12_it_management/05_security_compliance/320_data_mesh/), [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Ownership, [Data Product](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/), Self-Serve Platform, Federated Governance, Zhamak Dehghani
 

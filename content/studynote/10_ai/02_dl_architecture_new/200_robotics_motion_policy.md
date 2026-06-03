@@ -26,17 +26,14 @@ tags = ["studynote-ai"]
 
 이것이 [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)과 딥러닝이 결합 된 <strong>로보틱스 범용 모션 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> (General Motion <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">Policy</a>)</strong>의 탄생이다. 로봇의 카메라 눈(Vision)과 센서를 입력으로 넣으면, [인공 신경망](/knowledge-base/studynote/10_ai/01_ai_basics/061_artificial_neural_network_ann_neuron_model/)이 복잡한 역학 계산 없이 즉각적으로 "1번 모터 30% 토크, 2번 모터 80% 토크 출력!"이라는 액션(Action) [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 곧바로 뿜어내게([End-to-End](/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/)) 만들어, 보스턴 다이내믹스(Boston Dynamics)의 로봇 개가 얼음판에서 미끄러져도 탭댄스를 추며 밸런스를 잡는 기적을 낳았다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 기존 로봇 수학은 탁구공을 칠 때 "풍속 3m/s, 공의 궤적 포물선 방정식 $y = -x^2+3x$에 따라 내 팔 근육을 45도 올려서 친다"고 머리로 계산하고 치는 헛똑똑이다. 범용 모션 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 훈련은 그냥 국가대표 탁구 선수다. 수만 번 랠리를 하면서 몸(딥러닝)이 탁구공의 궤적을 본능적인 감각([가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))으로 외워버렸기 때문에, 계산 없이 0.1초 만에 반사적으로 완벽한 스매싱 근육 제어가 튀어나온다.
 
@@ -46,27 +43,26 @@ tags = ["studynote-ai"]
 
 범용 모션 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 [PPO](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/)([Proximal Policy Optimization](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/))나 SAC(Soft [Actor-Critic](/knowledge-base/studynote/10_ai/02_dl_architecture_new/172_actor_critic/)) 같은 연속 제어(Continuous Control) 최적화 [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/) 아키텍처의 뼈대 위에서 돌아간다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">로보틱스 범용 모션 정책 (Motion Policy)의 PPO 강화 학습 훈련 도해</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 물리 시뮬레이션 환경 (Isaac Gym, MuJoCo 등)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 실제와 100% 똑같은 중력, 마찰력, 관절 무게가 세팅된 디지털 트윈 우주.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 수천 대의 복제 로봇이 병렬로 띄워져 미친 듯이 걷고 넘어지기를 반복함.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 관찰(Observation) 및 액터-크리틱 뇌 (Actor-Critic Net)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 상태 입력(S): 카메라 이미지 픽셀, 각 관절의 각도(Proprioception) 센서값.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 배우 뇌(Actor): "음, 앞으로 넘어질 것 같으니 뒷다리 모터 파워 +30% 올려!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 평론가 뇌(Critic): "방금 그 모터 출력 각도 예술이었어, 생존 보상 +10점!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3. Sim-to-Real 전이 (Domain Randomization 마법)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 시뮬레이터 속 가상 세상과 진짜 지구는 중력/마찰력이 1% 미세하게 다름(Gap).</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 극복 마법: 훈련할 때 가상 환경의 마찰력, 로봇 팔 무게, 조명 밝기를 매 턴마다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">무작위로 흔들어버림(Randomization). 로봇의 뇌는 온갖 억까(노이즈)에</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대응하는 맷집이 강해져서, 현실로 꺼내와도 당황하지 않고 완벽히 적응함!</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           로보틱스 범용 모션 정책 (Motion Policy)의 PPO 강화 학습 훈련 도해│
+├──────────────────────────────────────────────────────────────┤
+│  [1. 물리 시뮬레이션 환경 (Isaac Gym, MuJoCo 등)]                  │
+│   * 실제와 100% 똑같은 중력, 마찰력, 관절 무게가 세팅된 디지털 트윈 우주.     │
+│   * 수천 대의 복제 로봇이 병렬로 띄워져 미친 듯이 걷고 넘어지기를 반복함.     │
+│                                                              │
+│  [2. 관찰(Observation) 및 액터-크리틱 뇌 (Actor-Critic Net)]       │
+│   * 상태 입력(S): 카메라 이미지 픽셀, 각 관절의 각도(Proprioception) 센서값.│
+│   * 배우 뇌(Actor): "음, 앞으로 넘어질 것 같으니 뒷다리 모터 파워 +30% 올려!" │
+│   * 평론가 뇌(Critic): "방금 그 모터 출력 각도 예술이었어, 생존 보상 +10점!" │
+│                                                              │
+│  [3. Sim-to-Real 전이 (Domain Randomization 마법)]             │
+│   * 시뮬레이터 속 가상 세상과 진짜 지구는 중력/마찰력이 1% 미세하게 다름(Gap). │
+│   * 극복 마법: 훈련할 때 가상 환경의 마찰력, 로봇 팔 무게, 조명 밝기를 매 턴마다│
+│     무작위로 흔들어버림(Randomization). 로봇의 뇌는 온갖 억까(노이즈)에   │
+│     대응하는 맷집이 강해져서, 현실로 꺼내와도 당황하지 않고 완벽히 적응함!  │
+└──────────────────────────────────────────────────────────────┘
+```
 
 <strong>핵심 원리 (엔드투엔드 제어와 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 무작위화)</strong>:
 카메라가 찍은 영상을 물체 인식 AI에 넣고 ─▶ 그 좌표를 수학 공식에 넣고 ─▶ 모터 각도를 구하는 과거의 3단 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 싹 다 부수고, 카메라 영상 픽셀을 딥러닝에 넣으면 즉시 모터의 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 토크 값으로 직행하는 것이 <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/">End-to-End</a></strong> [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이다. 

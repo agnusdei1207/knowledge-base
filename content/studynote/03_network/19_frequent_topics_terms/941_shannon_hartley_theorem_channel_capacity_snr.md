@@ -27,18 +27,14 @@ $$ C = B \cdot \log_2 (1 + \frac{S}{N}) $$
 - <strong>B (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">Bandwidth</a>, <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>)</strong>: 도로의 폭 (주파수 범위, Hz 단위).
 - <strong>S/N (<a href="/knowledge-base/studynote/03_network/01_data_communication/024_신호_대_잡음비/">Signal-to-Noise Ratio</a>, <a href="/knowledge-base/studynote/03_network/01_data_communication/024_신호_대_잡음비/">SNR</a>)</strong>: [신호 대 잡음비](/knowledge-base/studynote/03_network/01_data_communication/024_신호_대_잡음비/) ([신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)의 세기 $S$를 잡음의 세기 $N$으로 나눈 값).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">기저대역 선로 부호</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">샤논-하틀리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">에일리어싱</div></div>
-</div>
-</div>
-
-
+```text
+[기저대역 선로 부호]
+    │
+    ▼
+[샤논-하틀리]
+    │
+    └──▶ [에일리어싱]
+```
 
 - **📢 섹션 요약 비유**: 샤논-하틀리는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -60,18 +56,14 @@ $$ C = B \cdot \log_2 (1 + \frac{S}{N}) $$
 - 분모에 있는 잡음 $N$을 줄이면 전체 속도 $C$가 미친 듯이 올라갑니다.
 - **실무 적용**: 구리선은 옆 선의 전기가 침범([누화](/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/) 잡음)하고 열이 나서 노이즈(N)가 큽니다. 그래서 아예 빛을 쏘는 <strong>유리관(광케이블)</strong>을 만들어 전기적 잡음 $N$을 거의 0으로 만들어버렸더니, 속도(C)가 테라비트(Tbps) 단위로 폭발하게 된 것입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">기저대역 선로 부호</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">샤논-하틀리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">에일리어싱</div></div>
-</div>
-</div>
-
-
+```text
+[기저대역 선로 부호]
+    │
+    ▼
+[샤논-하틀리]
+    │
+    └──▶ [에일리어싱]
+```
 
 - **📢 섹션 요약 비유**: 샤논-하틀리의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -132,19 +124,15 @@ $$ C = B \cdot \log_2 (1 + \frac{S}{N}) $$
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 기저대역 선로 부호</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 샤논-하틀리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 에일리어싱</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 기저대역 선로 부호]
+    │
+    ▼
+[현재 개념: 샤논-하틀리]
+    │
+    ├──▶ [확장 A: 에일리어싱]
+    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
+```
 
 샤논-하틀리는 [기저대역](/knowledge-base/studynote/03_network/19_frequent_topics_terms/940_baseband_line_coding_nrz_rz_manchester/) 선로 부호에서 출발해 현재 메커니즘을 정교화하고, 이후 [에일리어싱](/knowledge-base/studynote/03_network/01_data_communication/057_에일리어싱_Aliasing/)와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

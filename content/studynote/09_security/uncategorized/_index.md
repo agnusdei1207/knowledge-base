@@ -23,21 +23,22 @@ tags = ["security"]
 
 이 그림은 AI 모델을 둘러싼 주요 공격 벡터를 시각화한다. 학습 단계에서의 데이터 오염과 추론 단계에서의 입력 조작이 각각 어떤 지점을 공격하는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AI 모델 보안 공격 벡터 (Attack Vectors)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">학습 단계</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">데이터 포이즈닝</div><div class="kb-diagram-note">──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Training) (Poisoning)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">추론 단계</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">적대적 공격</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">AI Model</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">결과 추출</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Inference) (Adversarial)</div><div class="kb-diagram-cell">(Extraction)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">명령 주입</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">프롬프트 인젝션</div><div class="kb-diagram-note">──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Generative) (Injection)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 AI 모델 보안 공격 벡터 (Attack Vectors)       │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [학습 단계] ──▶ [데이터 포이즈닝] ──┐                      │
+│   (Training)      (Poisoning)        │                      │
+│                                      ▼                      │
+│   [추론 단계] ──▶ [적대적 공격] ──▶ [AI Model] ──▶ [결과 추출] │
+│   (Inference)     (Adversarial)      │            (Extraction)│
+│                                      │                      │
+│   [명령 주입] ──▶ [프롬프트 인젝션] ──┘                      │
+│   (Generative)    (Injection)                               │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '공격 시점의 다양성'이다. 모델이 이미 배포된 후에도 적대적 샘플 (Adversarial Examples)을 통해 오분류를 유도하거나, 수만 번의 쿼리를 날려 모델 내부의 가중치나 학습 데이터를 역으로 추론하는 공격이 가능하다. 실무에서는 이러한 공격이 모델의 성능 지표에는 나타나지 않으면서도 실제 상황에서 치명적인 오작동을 유발할 수 있음을 인지해야 한다.
 
@@ -63,23 +64,25 @@ AI 보안의 핵심 위협은 크게 데이터 오염, 적대적 공격, 정보 
 
 이 구조도는 적대적 공격이 모델의 결정 경계 (Decision Boundary)를 어떻게 무너뜨리는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">적대적 공격과 결정 경계의 왜곡</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Class A ● ● Class B ▲</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">● (Perturbation) ▲</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">● + ε</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">▲</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">● (Adversarial) ▲</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Decision Boundary</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ &lt;-- 원래 경계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">● / ▲</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ &lt;-- 왜곡된 인식</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│               적대적 공격과 결정 경계의 왜곡                  │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│    Class A ●       ●                 Class B ▲              │
+│               ●      (Perturbation)      ▲                  │
+│          ●     ────▶  [ ● + ε ]  ──▶  ▲                     │
+│               ●       (Adversarial)      ▲                  │
+│                                                             │
+│   [Decision Boundary]                                       │
+│          /                                                  │
+│         /  <-- 원래 경계                                     │
+│   ●    /    ▲                                               │
+│       /                                                     │
+│      /  <-- 왜곡된 인식                                      │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '입력값의 아주 미세한 변화(ε)'가 결과적으로 클래스 분류를 완전히 뒤바꿀 수 있다는 점이다. 이는 딥러닝 모델의 고차원 선형성 때문에 발생하며, 이를 방어하기 위해서는 학습 과정에서 적대적 샘플을 미리 포함시키는 '적대적 훈련 (Adversarial Training)'이나 모델의 입력값을 부드럽게 만드는 '디펜시브 디스틸레이션 (Defensive Distillation)' 기법이 필요하다.
 
@@ -132,18 +135,19 @@ AI 보안의 핵심 위협은 크게 데이터 오염, 적대적 공격, 정보 
 
 이 도식은 AI 서비스의 보안 운영 센터 (AI-SOC) 구축 모델을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AI 보안 운영 센터 (AI-SOC) 모델</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">User Input</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Input Guardrail</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">LLM Engine</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Security Log</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Anomaly Detection</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Output Check</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Admin Dashboard</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Alerting</div><div class="kb-diagram-connector">◀</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 AI 보안 운영 센터 (AI-SOC) 모델               │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [User Input] ──▶ [Input Guardrail] ──▶ [LLM Engine]       │
+│                           │                  │              │
+│   [Security Log] ◀── [Anomaly Detection] ◀── [Output Check]  │
+│          │                                   │              │
+│   [Admin Dashboard] ◀── [Alerting] ◀─────────┘              │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 구조도의 핵심은 '지속적 감시'이다. AI 모델은 고정된 소프트웨어가 아니므로, 시간이 지나면서 변화하는 공격 기법에 맞춰 가드레일의 규칙을 업데이트하고, 모델의 응답 분포를 실시간으로 모니터링하여 이상 징후(예: 갑작스러운 기밀 코드 노출)를 즉시 포착해야 한다.
 

@@ -29,25 +29,24 @@ tags = ["studynote-operating-system"]
 
 **💡 비유**: 4개 차선 꼬리물기로 교차로가 마비(데드락). 불도저가 와서 4대를 한꺼번에 찌그러트려 폐차장으로 미는 것([Abort All](/knowledge-base/studynote/02_operating_system/05_deadlock/308_abort_all/))이 아니라, 교통경찰이 딱 가장 싸구려 티코 1대(피해 최소화)만 후진 방향으로 밀어서 빼본다. 어라? 티코(Victim 1명)가 빠진 공간으로 벤츠도 지나가고 버스도 지나가서 도로가 통쾌하게 뚫린다! 
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">순차 종료 (Abort One-by-One)의 외과 스캔 집도</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황</div><div class="kb-diagram-note">P1, P2, P3 3명이 쇠사슬(원)로 묶여 데드락.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Step 1: 계산기를 두드려 "빅팀(희생양)" 1명을 수배한다.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ "P3 지목! (실행 시간 고작 1초 된 막내 뉴비임)"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Step 2: 스나이퍼 발포! P3 강제 종료(KILL) 및 자원 환수.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Step 3: (★가장 뼈아픈 오버헤드 통곡의 벽 발생 지점)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ OS가 "WFG 탐지 알고리즘"을 처음부터 다시 가동함!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ "드론 스캔 삐빅... 원(Cycle)이 뚫렸습니까?"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Yes (해결됨): 만세! 복구 루틴 종료!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- No (아직 다른 데드락 존재): Step 1로 빽(Back)해서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">또 다른 불행한 뉴비 P2를 탐색해 사살 발포.</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────┐
+│         순차 종료 (Abort One-by-One)의 외과 스캔 집도          │
+├────────────────────────────────────────────────────────────────┤
+│                                                                │
+│  [상황] P1, P2, P3 3명이 쇠사슬(원)로 묶여 데드락.             │
+│                                                                │
+│  Step 1: 계산기를 두드려 "빅팀(희생양)" 1명을 수배한다.        │
+│          → "P3 지목! (실행 시간 고작 1초 된 막내 뉴비임)"      │
+│  Step 2: 스나이퍼 발포! P3 강제 종료(KILL) 및 자원 환수.       │
+│  Step 3: (★가장 뼈아픈 오버헤드 통곡의 벽 발생 지점)           │
+│          → OS가 "WFG 탐지 알고리즘"을 처음부터 다시 가동함!    │
+│          → "드론 스캔 삐빅... 원(Cycle)이 뚫렸습니까?"         │
+│             - Yes (해결됨): 만세! 복구 루틴 종료!              │
+│             - No (아직 다른 데드락 존재): Step 1로 빽(Back)해서│
+│               또 다른 불행한 뉴비 P2를 탐색해 사살 발포.       │
+└────────────────────────────────────────────────────────────────┘
+```
 
 **📢 섹션 요약 비유**: 순차 종료는 포도송이(얽힌 데드락)를 통째로 쓰레기통에 박는 게 아니라, 알맹이 하나씩 가위로 톡, 톡 잘라내 보면서 가지가 깔끔하게 풀리는지 관찰하는 예술입니다. 단점은 한번 자를 때마다 "다 풀렸나?" 눈을 비비고 계산을 처음부터 싹 다 해야 하는 귀찮음입니다.
 
@@ -120,19 +119,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">프로세스 종료 방식</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">프로세스 순차 종료 방식 (Abort One By One)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">종료 대상 선택 (희생자 선택) 기준</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">자원 선점 (Resource Preemption) 방식</div></div>
-</div>
-</div>
-
-
+```text
+[프로세스 종료 방식]
+    │
+    ▼
+[프로세스 순차 종료 방식 (Abort One By One)]
+    │
+    ├──▶ [종료 대상 선택 (희생자 선택) 기준]
+    └──▶ [자원 선점 (Resource Preemption) 방식]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

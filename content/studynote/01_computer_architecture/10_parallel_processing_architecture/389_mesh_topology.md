@@ -27,19 +27,17 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 메시가 왜 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)와 크로스바의 중간 해법인지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">연결 방식에 따른 확장성 차이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공유 버스</div><div class="kb-diagram-cell">크로스바 스위치</div><div class="kb-diagram-cell">메시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU ─ ─ Bus ─ ─ MEM</div><div class="kb-diagram-cell">모든 쌍을 직접 연결</div><div class="kb-diagram-cell">이웃끼리만 연결</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 대기</div><div class="kb-diagram-cell">빠르지만 선이 폭증</div><div class="kb-diagram-cell">홉은 늘지만 배선 규칙적</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">병목 집중</div><div class="kb-diagram-cell">비용 급증</div><div class="kb-diagram-cell">확장성과 비용의 균형</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ 연결 방식에 따른 확장성 차이                                        │
+├──────────────────────┬──────────────────────┬────────────────────────┤
+│ 공유 버스            │ 크로스바 스위치      │ 메시                    │
+│ CPU ─┬─ Bus ─┬─ MEM  │ 모든 쌍을 직접 연결  │ 이웃끼리만 연결         │
+│      └─ 대기 ┘       │ 빠르지만 선이 폭증   │ 홉은 늘지만 배선 규칙적 │
+├──────────────────────┼──────────────────────┼────────────────────────┤
+│ 병목 집중            │ 비용 급증            │ 확장성과 비용의 균형    │
+└──────────────────────┴──────────────────────┴────────────────────────┘
+```
 
 메시가 없으면 대규모 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 시스템은 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 병목이나 배선 폭발 중 하나를 감수해야 한다. 메시의 필요성은 그래서 단순한 토폴로지 선택이 아니라, "수십~수백 개 노드를 현실적으로 묶는 방법"이라는 설계 문제의 답에 가깝다.
 
@@ -62,22 +60,23 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 4x4 메시에서 패킷이 이동하는 방식을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4x4 메시에서의 XY 라우팅 예시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(0,0) ─ (1,0) ─ (2,0) ─ (3,0)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(0,1) ─ (1,1) ─ (2,1) ─ (3,1)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(0,2) ─ (1,2) ─ (2,2) ─ (3,2)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(0,3) ─ (1,3) ─ (2,3) ─ (3,3)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">출발: (0,0)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">경로: (0,0) → (1,0) → (2,0) → (2,1) → (2,2)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">규칙: X축 먼저 이동 후 Y축 이동</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ 4x4 메시에서의 XY 라우팅 예시                               │
+├──────────────────────────────────────────────────────────────┤
+│ (0,0) ─ (1,0) ─ (2,0) ─ (3,0)                               │
+│   │       │       │       │                                 │
+│ (0,1) ─ (1,1) ─ (2,1) ─ (3,1)                               │
+│   │       │       │       │                                 │
+│ (0,2) ─ (1,2) ─ (2,2) ─ (3,2)                               │
+│   │       │       │       │                                 │
+│ (0,3) ─ (1,3) ─ (2,3) ─ (3,3)                               │
+│                                                              │
+│ 출발: (0,0)                                                  │
+│ 경로: (0,0) → (1,0) → (2,0) → (2,1) → (2,2)                │
+│ 규칙: X축 먼저 이동 후 Y축 이동                             │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 구조의 장점은 노드가 늘어도 각 노드의 연결 차수 (Degree)가 크게 늘지 않는다는 점이다. 반면 약점은 멀리 떨어진 노드끼리 통신할수록 홉 수가 증가해 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 에너지 소모가 커진다는 점이다. 따라서 메시는 단순히 "많이 연결된 구조"가 아니라, "국소 통신이 많은 작업에 특히 강한 구조"로 이해해야 한다.
 
@@ -154,23 +153,22 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">공유 버스 (Shared Bus)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">상호 연결망 (Interconnection Network)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">크로스바 스위치 (Crossbar Switch)</div>
-<div class="kb-diagram-note">─► 고성능·고비용 직접 연결</div>
-<div class="kb-diagram-tree-item" style="--depth:2">메시 (Mesh) 토폴로지</div>
-<div class="kb-diagram-tree-item" style="--depth:6">네트워크 온 칩 (Network-on-Chip, NoC)</div>
-<div class="kb-diagram-tree-item" style="--depth:6">토러스 (Torus)</div>
-<div class="kb-diagram-tree-item" style="--depth:6">시스톨릭 어레이 (Systolic Array)</div>
-</div>
-</div>
-
-
+```text
+공유 버스 (Shared Bus)
+    │
+    ▼
+상호 연결망 (Interconnection Network)
+    │
+    ├─► 크로스바 스위치 (Crossbar Switch)
+    │        │
+    │        └─► 고성능·고비용 직접 연결
+    │
+    └─► 메시 (Mesh) 토폴로지
+             │
+             ├─► 네트워크 온 칩 (Network-on-Chip, NoC)
+             ├─► 토러스 (Torus)
+             └─► 시스톨릭 어레이 (Systolic Array)
+```
 
 이 흐름은 병목 해소를 위해 연결 구조가 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)에서 [상호 연결망](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/387_interconnection_network/)으로 발전하고, 그중 메시가 확장성과 지역성 중심 설계의 표준으로 자리 잡는 과정을 보여준다.
 

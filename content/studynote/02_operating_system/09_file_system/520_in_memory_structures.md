@@ -30,26 +30,27 @@ tags = ["studynote-operating-system"]
 - <strong>메모리 위의 환상 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 연동 구조 3중 캐시 테이블 다이어그램</strong>:
 프로그램 2개(Chrome 탭 2개)가 똑같은 `a.txt` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 동시에 열었을 때, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)) 메모리에서 어떤 포인터 배선 융합 빔 타격이 일어나는지 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 맵으로 보면 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파일 열기 (Open) 찰나의 VFS 메모리 3중 매핑 (인메모리 우주)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">프로세스 (Process A)</div><div class="kb-diagram-node">시스템 커널 메모리 (OS 램 영역)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">③</div><div class="kb-diagram-node">프로세스별 파일 테이블</div><div class="kb-diagram-note">②</div><div class="kb-diagram-node">시스템 통합 파일 테이블</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FD 0: 키보드 입력</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">통합 엔트리 1번 껍데기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FD 3: "a.txt 열었음" ──포인터── - 모드: Read</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(내부 커서: 15줄 읽는 중) - 참조 카운트: 2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- (실제 디스크 Inode 70번 연결)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">프로세스 (Process B)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">③</div><div class="kb-diagram-node">프로세스별 파일 테이블</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">마운트 테이블 장부</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(내부 커서: 50줄 읽는 중) 이 디스크의 루트 경로 매핑!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌──────────────────────────────────────────────────────────────────────────────────┐
+  │                 파일 열기 (Open) 찰나의 VFS 메모리 3중 매핑 (인메모리 우주)      │
+  ├──────────────────────────────────────────────────────────────────────────────────┤
+  │                                                                                  │
+  │  [ 프로세스 (Process A) ]            [ 시스템 커널 메모리 (OS 램 영역) ]         │
+  │     |                                 |                                          │
+  │  ③ [ 프로세스별 파일 테이블 ]          ② [ 시스템 통합 파일 테이블 ]             │
+  │        FD 0: 키보드 입력               |                                         │
+  │        FD 1: 모니터 출력               ┌▶ [ 통합 엔트리 1번 껍데기  ]            │
+  │        FD 3: "a.txt 열었음" ──포인터──┘  - 모드: Read                            │
+  │             (내부 커서: 15줄 읽는 중)        - 참조 카운트: 2                    │
+  │                                       |  - (실제 디스크 Inode 70번 연결)         │
+  │  =====================================|=======================                   │
+  │  [ 프로세스 (Process B) ]             |                                          │
+  │     |                                 |                                          │
+  │  ③ [ 프로세스별 파일 테이블 ]           |                                        │
+  │        FD 3: "a.txt 또 열었음" ──포인터─┘   ====▶ 1️⃣ [ 마운트 테이블 장부 ]     │
+  │             (내부 커서: 50줄 읽는 중)               이 디스크의 루트 경로 매핑!  │
+  └──────────────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 아름다운 메모리 록백 뷰의 핵심은, 프로세스 A와 B가 완전히 독립된 자기만의 읽기 위치 커서(Offset: 몇 번째 줄을 읽고 있냐)를 들고 있다는 점이다. 만약 이 위치 커서가 ②번 공용 시스템 장부에 통합되어버렸다면? 내가 영화를 10분 보다가 친구가 같은 영화를 처음부터 틀면 내 영상 커서도 0분으로 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 되어 튕기는 대참사가 발생한다. 하지만 ③(개인 커서)와 ②(전체 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 본체의 크기 등 공용 상태)로 찢어 분할(Decoupling 의존 분리)했기 때문에, 두 프로그램은 서로 간섭 없이 오직 단 한 번 1바이트의 디스크 Inode를 램으로 끌어올리면서도 다중 유저 동시 접근 렌더 기적을 폭발시킨다. 여기서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 디스크립터(FD `0,1,2,3`)라는 개념이 이 메모리 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)([Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/))의 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 번호라는 사실이 증명 전개된다.
 
@@ -149,19 +150,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">디스크 상의 구조</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">메모리 내의 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">열린 파일 테이블 (Open File Table)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">파일 할당 방법 (File Allocation Methods)</div></div>
-</div>
-</div>
-
-
+```text
+[디스크 상의 구조]
+    │
+    ▼
+[메모리 내의 구조]
+    │
+    ├──▶ [열린 파일 테이블 (Open File Table)]
+    └──▶ [파일 할당 방법 (File Allocation Methods)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

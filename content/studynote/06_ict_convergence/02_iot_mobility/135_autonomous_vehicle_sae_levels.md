@@ -47,18 +47,12 @@ SAE 레벨은 <strong>자율주행 기술·법규·보험의 기준 프레임</s
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">L1 크루즈컨트롤 (2000s)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">L2 ADAS (Tesla AP, 2015)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">L3 조건부 자율 (Mercedes, 2023)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">L4 로보택시 (Waymo, 2024)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: L5 연구 — 범용 자율주행 (미달성)</div></div>
-</div>
-</div>
-
-
+```text
+[L1 크루즈컨트롤 (2000s)] → [L2 ADAS (Tesla AP, 2015)]
+    → [L3 조건부 자율 (Mercedes, 2023)]
+    → [L4 로보택시 (Waymo, 2024)]
+    → [현재: L5 연구 — 범용 자율주행 (미달성)]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. L2는 <strong>조수석 도우미</strong>예요. 도와주지만 **운전자가 항상 봐야** 해요.

@@ -23,19 +23,17 @@ tags = ["studynote-bigdata"]
 
 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 아키텍처가 없으면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름은 쉽게 점대점([point-to-point](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/142_point_to_point_integration_spaghetti/)) 적재로 변한다. 각 팀이 소스별 스크립트를 따로 만들고, 보고서마다 별도 추출 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 두며, 규칙이 문서가 아니라 사람 머릿속에 남는다. 이런 구조는 처음에는 빠르지만 시간이 지나면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스왐프([Data Swamp](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/288_data_swamp_metadata_management_absence/)), 중복 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인, 출처 추적 불가로 이어진다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Reference Architecture가 없을 때</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Source A -&gt; Script 1 -&gt; DB -&gt; Dashboard</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Source B -&gt; Script 2 -&gt; CSV -&gt; Model</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Source C -&gt; Script 3 -&gt; API -&gt; Excel</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 중복 적재, 규칙 불일치, lineage 부재, 운영자 의존</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ Reference Architecture가 없을 때                             │
+├──────────────────────────────────────────────────────────────┤
+│ Source A -> Script 1 -> DB -> Dashboard                     │
+│ Source B -> Script 2 -> CSV -> Model                        │
+│ Source C -> Script 3 -> API -> Excel                        │
+│                                                              │
+│ 결과: 중복 적재, 규칙 불일치, lineage 부재, 운영자 의존       │
+└──────────────────────────────────────────────────────────────┘
+```
 
 빅데이터 환경에서는 소스도 다양하고 소비자도 다양하다. [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), [Change Data Capture](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) ([CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/)), [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/), 센서 이벤트를 받아야 하고, 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 일 배치면 충분하지만 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 수초 내 반영되어야 한다. [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 아키텍처는 이 복잡도를 제품 개수가 아니라 계층 책임으로 정리해 주기 때문에 규모가 커질수록 가치가 커진다.
 
@@ -57,20 +55,18 @@ tags = ["studynote-bigdata"]
 
 아래 그림은 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 아키텍처를 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면과 제어 평면으로 나눈 모습이다. 원시 영역을 불변([Immutable](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/298_immutable/))으로 두고, 정제·서빙 영역을 단계적으로 분리하는 이유가 한눈에 보인다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Control Plane</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Catalog</div><div class="kb-diagram-cell">Lineage</div><div class="kb-diagram-cell">Access Control</div><div class="kb-diagram-cell">Data Quality</div><div class="kb-diagram-cell">Workflow</div></div>
-<div class="kb-diagram-note">Sources -&gt; Ingestion -&gt; Raw/Bronze -&gt; Processing -&gt; Curated/Silver -&gt; Serving/Gold</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Stream Store ──▶ BI / API</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ ML / Feature</div></div>
-<div class="kb-diagram-tree-item" style="--depth:2">files / CDC / events object storage / lakehouse ─▶ apps</div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────── Control Plane ────────────────────────┐
+│ Catalog │ Lineage │ Access Control │ Data Quality │ Workflow │
+└───────────────────────────────────────────────────────────────┘
+           ▲                 ▲                    ▲
+           │                 │                    │
+Sources -> Ingestion -> Raw/Bronze -> Processing -> Curated/Silver -> Serving/Gold
+    │          │                 │             │                    │
+    │          │                 │             └────▶ Stream Store   ├──▶ BI / API
+    │          │                 │                                  └──▶ ML / Feature
+    └── files / CDC / events ───┴──────── object storage / lakehouse ─▶ apps
+```
 
 이 구조에서 중요한 원리는 세 가지다. 첫째, 원시 영역은 가능한 한 불변으로 보관해 재처리와 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)의 기준점으로 삼는다. 둘째, 처리 계층은 배치와 스트리밍을 모두 감당하되, 소비자는 가급적 가공된 서빙 계층을 통해 접근하게 한다. 셋째, [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)·계보·권한·품질 검사는 부가 기능이 아니라 전 계층을 가로지르는 기본 기능으로 본다.
 
@@ -156,23 +152,21 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Point-to-Point ETL</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Layered Data Platform</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Batch + Stream Coexistence</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Lakehouse / Medallion / Data Products</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Federated Governance + Self-Service Analytics</div>
-</div>
-</div>
-
-
+```text
+Point-to-Point ETL
+    │
+    ▼
+Layered Data Platform
+    │
+    ▼
+Batch + Stream Coexistence
+    │
+    ▼
+Lakehouse / Medallion / Data Products
+    │
+    ▼
+Federated Governance + Self-Service Analytics
+```
 
 이 흐름은 개별 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 중심 운영에서, 계층화된 플랫폼과 연합 거버넌스를 갖춘 [데이터 제품](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/) 운영으로 발전하는 방향을 보여준다.
 

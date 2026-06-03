@@ -23,21 +23,17 @@ tags = ["ict_convergence"]
 
 이 도식은 중앙화된 에스크로에 의존하는 기존 방식과 스마트 컨트랙트를 통한 [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 방식을 비교하여, 중개자가 제거되는 패러다임 변화를 시각화한다.
 
+```text
+[기존 중앙화 신뢰 모델]
+[구매자] --(입금)--> [중앙 중개자(에스크로/은행)] --(조건 확인 후 송금)--> [판매자]
+                          ▲ (수수료 발생, 해킹 표적, 단일 장애점)
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">기존 중앙화 신뢰 모델</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">구매자</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">중앙 중개자(에스크로/은행)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">판매자</div></div>
-<div class="kb-diagram-note">▲ (수수료 발생, 해킹 표적, 단일 장애점)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스마트 컨트랙트 기반 무신뢰(Trustless) 모델</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">구매자</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">블록체인 네트워크</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">판매자</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IF 조건 성립: 송금</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ELSE: 환불</div><div class="kb-diagram-cell">(수수료 절감, 위변조 불가)</div></div>
-</div>
-</div>
-
-
+[스마트 컨트랙트 기반 무신뢰(Trustless) 모델]
+[구매자] --(트랜잭션)--> [ 블록체인 네트워크 ] --(자동 집행)--> [판매자]
+                          │ IF 조건 성립: 송금│
+                          │ ELSE: 환불        │ (수수료 절감, 위변조 불가)
+                          └───────────────────┘
+```
 
 이 비교 그림의 핵심은 제어권의 이동이다. 기존 시스템에서는 계약의 집행 권한이 사람이나 단일 기업의 서버에 종속되어 있어 임의 조작이 가능했다. 반면, 스마트 컨트랙트는 계약 코드가 전 세계 수만 개의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 노드에 복제되어 독립적으로 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)되므로, 누구도 코드를 임의로 멈추거나 수정할 수 없는 '불가역성'을 갖는다. 따라서 거래의 신뢰성이 사람이나 기관이 아닌 '수학과 [암호학](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/) 체계'로 이전되며, 실무적으로 금융 파생상품 정산이나 복잡한 다자간 정산 시스템에서 시스템 운용 비용을 영(0)에 가깝게 수렴시킬 수 있는 잠재력을 제공한다.
 
@@ -59,26 +55,23 @@ tags = ["ict_convergence"]
 
 아래의 다이어그램은 스마트 컨트랙트가 개발되어 네트워크에 배포되고 실제 사용자에 의해 호출되어 상태가 확정되기까지의 생명주기와 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 흐름을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">배포 단계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Dev</div><div class="kb-diagram-note">=&gt; Solidity 코드 작성 =&gt; solc 컴파일 =&gt;</div><div class="kb-diagram-node">Bytecode</div><div class="kb-diagram-note">=&gt; 트랜잭션 전송 =&gt;</div><div class="kb-diagram-node">블록체인에 기록(CA 생성)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">실행 단계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">User EOA</div><div class="kb-diagram-note">── 트랜잭션(함수 호출+Gas)</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">EVM 런타임</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 가스 선결제 (모자라면 Out of Gas)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Opcode 순차 실행 (Stack 연산)</div><div class="kb-diagram-cell">=&gt; 무결성 및 조건 검증</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 메모리/스토리지 상태 변경</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">합의 및 커밋</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─&gt; 모든 노드가 동일 연산 결과 도출 =&gt; 블록에 반영 =&gt;</div><div class="kb-diagram-node">최종 상태(State) 업데이트</div></div>
-</div>
-</div>
-
-
+```text
+[배포 단계]
+[Dev] => Solidity 코드 작성 => solc 컴파일 => [Bytecode] => 트랜잭션 전송 => [블록체인에 기록(CA 생성)]
+                                                                               │
+[실행 단계]                                                                    │
+[User EOA] ── 트랜잭션(함수 호출+Gas) ─────────────────────────────────────────┘
+   ↓
+[EVM 런타임]
+ ┌──────────────────────────────────────────────┐
+ │ 1. 가스 선결제 (모자라면 Out of Gas)         │
+ │ 2. Opcode 순차 실행 (Stack 연산)             │ => 무결성 및 조건 검증
+ │ 3. 메모리/스토리지 상태 변경                 │
+ └──────────────────────────────────────────────┘
+   ↓
+[합의 및 커밋]
+ └─> 모든 노드가 동일 연산 결과 도출 => 블록에 반영 => [최종 상태(State) 업데이트]
+```
 
 이 흐름의 핵심은 '모든 노드가 동일한 연산을 반복([Replication](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/))'한다는 구조적 특징과 '[가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)([Gas](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/))'라는 물리적 억제기의 존재다. 중앙화 서버에서는 코드를 한 번만 실행하면 되지만, [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에서는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 원장의 정합성을 위해 네트워크에 참여한 모든 [풀 노드](/knowledge-base/studynote/06_ict_convergence/01_blockchain/083_full_node_complete_ledger/)([Full Node](/knowledge-base/studynote/06_ict_convergence/01_blockchain/083_full_node_complete_ledger/))가 [EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) 내에서 해당 컨트랙트 로직을 직접 재연산한다. 이런 배치는 극강의 보안성을 제공하지만, 필연적으로 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 저하와 연산 비용의 폭증이라는 트레이드오프를 낳는다. 실무에서는 이러한 비용을 최소화하기 위해 스토리지(Storage) 영역의 접근을 줄이고 메모리(Memory)나 이벤트(Event/Log)를 활용하는 코드 최적화 설계가 필수적이며, 작성된 코드는 배포 후 수정이 불가능하므로 런타임 전에 철저한 [보안 감사](/knowledge-base/studynote/04_software_engineering/11_testing_validation/527_security_audit_trail/)가 요구된다.
 
@@ -100,20 +93,20 @@ tags = ["ict_convergence"]
 
 아래의 비교 계층도는 클라이언트의 요청이 기존 구조와 스마트 컨트랙트 구조에서 어떤 아키텍처 레이어를 거치는지 시각화하여 구조적 병목을 짚어낸다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Web 2.0 3-Tier 아키텍처</div><div class="kb-diagram-node">Web 3.0 스마트 컨트랙트 아키텍처</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client (React)</div><div class="kb-diagram-cell">Client (React + Web3.js)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(HTTP REST)</div><div class="kb-diagram-cell">(RPC / JSON-RPC)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Server (Node)</div><div class="kb-diagram-cell">Blockchain Node (Provider)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(SQL)</div><div class="kb-diagram-cell">(EVM Execution)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Database (RDBMS)</div><div class="kb-diagram-cell">Smart Contract &amp; State DB</div></div>
-</div>
-</div>
-
-
+```text
+[Web 2.0 3-Tier 아키텍처]             [Web 3.0 스마트 컨트랙트 아키텍처]
+┌─────────────────┐                  ┌──────────────────────────────┐
+│  Client (React) │                  │  Client (React + Web3.js)    │
+└────────┬────────┘                  └─────────────┬────────────────┘
+         │ (HTTP REST)                             │ (RPC / JSON-RPC)
+┌────────▼────────┐                  ┌─────────────▼────────────────┐
+│  Server (Node)  │                  │  Blockchain Node (Provider)  │
+└────────┬────────┘                  └─────────────┬────────────────┘
+         │ (SQL)                                   │ (EVM Execution)
+┌────────▼────────┐                  ┌─────────────▼────────────────┐
+│ Database (RDBMS)│                  │ Smart Contract & State DB    │
+└─────────────────┘                  └──────────────────────────────┘
+```
 
 이 구조도의 핵심은 Web 3.0 아키텍처에서 중앙 서버([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)/비즈니스 로직) 영역이 사라지고 클라이언트가 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 노드와 직접 통신하여 [EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) 상의 코드를 실행한다는 점이다. 이는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 제공자의 서버가 다운되더라도 프론트엔드 코드만 있으면 사용자가 직접 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)과 소통하여 자산을 제어할 수 있는 궁극의 가용성을 제공한다. 그러나 수천 개의 노드가 동의해야만 DB([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))가 변경되므로 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 연산의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))이 매우 길다. 따라서 실무에서는 모든 로직을 스마트 컨트랙트에 넣는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)을 피하고, 자산 소유권이나 중요한 권리 증명 같은 핵심 로직만 스마트 컨트랙트에 올리며 나머지 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 IPFS나 기존 오프체인 DB에 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 저장하는 하이브리드 아키텍처를 도입해야 한다.
 
@@ -130,22 +123,22 @@ tags = ["ict_convergence"]
 2. **업그레이더블 패턴(Upgradable Pattern) 미적용**: 로직 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 시 대처가 불가한 상황에 대비하여, [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)([Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)) 컨트랙트를 앞에 두고 실제 로직 컨트랙트의 주소를 갈아끼우는 대리자 패턴을 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 설계에 누락하는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/).
 3. **블록 타임스탬프 의존성 (Block Timestamp Dependence)**: 난수 생성이나 조건 분기에 `block.timestamp`를 사용하는 경우. 채굴자가 수 초 내에서 타임스탬프를 조작하여 카지노나 복권 DApp의 결과를 조작할 수 있으므로, 오라클([Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/), 체인링크 등)을 통해 외부의 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 난수([VRF](/knowledge-base/studynote/03_network/07_network_layer_routing/371_vrf_virtual_routing_and_forwarding/))를 주입받아야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">스마트 컨트랙트 보안 및 배포 의사결정 트리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">설계 단계</div></div>
-<div class="kb-diagram-tree-item" style="--depth:1">프록시(Proxy) 패턴을 적용하여 추후 로직 업데이트가 가능하도록 설계했는가? (Yes/No)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">구현 단계</div></div>
-<div class="kb-diagram-tree-item" style="--depth:1">상태 변경(Effect)을 외부 송금(Interaction)보다 먼저 수행하는 CEI 패턴 준수? (Yes)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">검증 단계</div></div>
-<div class="kb-diagram-tree-item" style="--depth:1">정형 검증(Formal Verification) 및 외부 보안 오딧(Audit)을 2곳 이상 통과했는가? (Yes)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">배포 및 운영</div><div class="kb-diagram-note">──&gt;</div><div class="kb-diagram-node">Testnet 검증 1달 이상</div><div class="kb-diagram-note">──&gt;</div><div class="kb-diagram-node">Mainnet 최종 배포 (불변성 확정)</div></div>
-</div>
-</div>
-
-
+```text
+[스마트 컨트랙트 보안 및 배포 의사결정 트리]
+[설계 단계]
+  │
+  ├─> 프록시(Proxy) 패턴을 적용하여 추후 로직 업데이트가 가능하도록 설계했는가? (Yes/No)
+  │
+[구현 단계]
+  │
+  ├─> 상태 변경(Effect)을 외부 송금(Interaction)보다 먼저 수행하는 CEI 패턴 준수? (Yes)
+  │
+[검증 단계]
+  │
+  ├─> 정형 검증(Formal Verification) 및 외부 보안 오딧(Audit)을 2곳 이상 통과했는가? (Yes)
+  │
+[배포 및 운영] ──> [Testnet 검증 1달 이상] ──> [Mainnet 최종 배포 (불변성 확정)]
+```
 
 이 운영 플로우에서 나타나듯, 스마트 컨트랙트 프로젝트는 일반 소프트웨어공학(SE)의 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))한 배포 전략과는 정반대로, 우주선 발사에 준하는 폭포수(Waterfall) 형태의 극한의 사전 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 프로세스가 강제된다. 실무 아키텍트는 개발 공수보다 오딧([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/)) 일정과 비용을 프로젝트 계획의 핵심(Critical Path)으로 잡아야 하며, 오라클 문제([Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/) Problem, 외부 오프체인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 어떻게 안전하게 가져올 것인가)에 대한 미들웨어 설계 방안을 시스템 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)부터 확정해야 치명적 장애를 피할 수 있다.
 
@@ -178,23 +171,21 @@ tags = ["ict_convergence"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">비트코인 스크립트 — 제한적 조건부 거래</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">이더리움 EVM (Ethereum Virtual Machine) — 튜링 완전</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스마트 컨트랙트 (Smart Contract) — 코드로 작성된 계약</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DApp / DAO — 중개자 없는 탈중앙 앱·조직</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Layer 2 / 크로스체인 — 확장성·상호운용성 진화</div></div>
-</div>
-</div>
-
-
+```text
+[비트코인 스크립트 — 제한적 조건부 거래]
+    │
+    ▼
+[이더리움 EVM (Ethereum Virtual Machine) — 튜링 완전]
+    │
+    ▼
+[스마트 컨트랙트 (Smart Contract) — 코드로 작성된 계약]
+    │
+    ▼
+[DApp / DAO — 중개자 없는 탈중앙 앱·조직]
+    │
+    ▼
+[Layer 2 / 크로스체인 — 확장성·상호운용성 진화]
+```
 비트코인의 제한적 스크립트에서 이더리움 EVM의 튜링 완전 스마트 컨트랙트로 진화하고, [DApp](/knowledge-base/studynote/06_ict_convergence/01_blockchain/032_dapp_decentralized_application/)·DAO로 생태계가 확장되며 Layer 2로 확장성을 해결하는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 발전 흐름이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

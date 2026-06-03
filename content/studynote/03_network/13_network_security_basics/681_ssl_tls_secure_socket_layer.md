@@ -24,18 +24,14 @@ tags = ["studynote-network"]
   - 1995년 넷스케이프(Netscape) [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) <strong>SSL (Secure <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/">Socket</a> Layer)</strong>이라는 이름으로 처음 세상에 내놓았습니다.
   - 이후 [IETF](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/)(국제 표준화 기구)가 이 훌륭한 기술을 공식 표준으로 채택하면서, 이름을 <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/">TLS</a> (Transport Layer <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a>)</strong>로 바꾸었습니다. (현재는 SSL 3.0의 후속 버전인 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.2, [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3을 쓰지만, 관습적으로 SSL/TLS라고 혼용해서 부릅니다.)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">OCSP Stapling</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SSL/TLS 통신 모델 개요</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TLS Handshake 프로토콜</div></div>
-</div>
-</div>
-
-
+```text
+[OCSP Stapling]
+    │
+    ▼
+[SSL/TLS 통신 모델 개요]
+    │
+    └──▶ [TLS Handshake 프로토콜]
+```
 
 - **📢 섹션 요약 비유**: SSL/[TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 통신 모델 개요는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -49,18 +45,14 @@ tags = ["studynote-network"]
 2. <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a> (<a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">Integrity</a>)</strong>: 패킷 끝에 메시지 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 코드([HMAC](/knowledge-base/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/), [GCM](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/))를 달아서 전송 중 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 1비트라도 조작(변조)되지 않았음을 보증합니다.
 3. <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a> (<a href="/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/">Authentication</a>)</strong>: 통신하는 상대방이 해커가 만든 가짜 [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/) 사이트가 아니라 '진짜 네이버 서버'가 맞는지, 국가 공인 <strong>디지털 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>서(X.509, <a href="/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/">PKI</a>)</strong>를 통해 신원을 100% [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">OCSP Stapling</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SSL/TLS 통신 모델 개요</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TLS Handshake 프로토콜</div></div>
-</div>
-</div>
-
-
+```text
+[OCSP Stapling]
+    │
+    ▼
+[SSL/TLS 통신 모델 개요]
+    │
+    └──▶ [TLS Handshake 프로토콜]
+```
 
 - **📢 섹션 요약 비유**: SSL/[TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 통신 모델 개요의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -121,19 +113,15 @@ SSL/[TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thre
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: OCSP Stapling</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: SSL/TLS 통신 모델 개요</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: TLS Handshake 프로토콜</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: OCSP Stapling]
+    │
+    ▼
+[현재 개념: SSL/TLS 통신 모델 개요]
+    │
+    ├──▶ [확장 A: TLS Handshake 프로토콜]
+    └──▶ [확장 B: 자동화된 신뢰 체계]
+```
 
 SSL/[TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 통신 모델 개요는 [OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/) Stapling에서 출발해 현재 메커니즘을 정교화하고, 이후 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) Handshake [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

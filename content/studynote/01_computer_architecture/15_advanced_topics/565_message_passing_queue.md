@@ -45,19 +45,18 @@ tags = ["studynote-computer-architecture"]
 
 다음 그림은 메시지 패싱 하드웨어 큐가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 "공유"하지 않고 "도착 순서와 여유 공간"으로 제어한다는 점을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메시지 패싱 하드웨어 큐: 공유보다 전달, 락보다 크레딧이 핵심이다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core A NI / Send Port NoC Queue at Core B</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">payload 준비</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">enqueue + tag</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">route</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Ingress FIFO</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">credit 부족 시 발신 보류</div></div>
-<div class="kb-diagram-note">credit return / dequeue done</div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ 메시지 패싱 하드웨어 큐: 공유보다 전달, 락보다 크레딧이 핵심이다            │
+├──────────────────────────────────────────────────────────────────────────────┤
+│ Core A            NI / Send Port           NoC            Queue at Core B    │
+│ [payload 준비] ─▶ [enqueue + tag] ───────▶ [route] ─────▶ [Ingress FIFO]    │
+│      ▲                  │                                     │              │
+│      │                  └──── credit 부족 시 발신 보류 ───────┘              │
+│      │                                                                      │
+│      └──────────────────── credit return / dequeue done ────────────────────┘
+└──────────────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조에서 병목은 보통 세 곳에서 생긴다. 첫째, 메시지가 너무 커서 큐가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로를 대신하려 할 때 헤드 오브 라인 블로킹 ([Head-of-Line](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/) [Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/))이 발생한다. 둘째, 여러 발신자가 하나의 중앙 큐만 바라보면 다시 공유 병목으로 돌아간다. 셋째, 크레딧 회수 경로가 느리면 큐가 비어 있어도 발신자가 오래 기다리게 된다.
 
@@ -135,23 +134,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">공유 버스 기반 공유 메모리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">메일박스 · 소프트웨어 큐</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">NoC 기반 메시지 패싱 하드웨어 큐</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">크레딧 제어 · 가상 채널 · QoS</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">칩렛 · 가속기 패브릭 · 하이브리드 공유/메시지 아키텍처</div>
-</div>
-</div>
-
-
+```text
+공유 버스 기반 공유 메모리
+        │
+        ▼
+메일박스 · 소프트웨어 큐
+        │
+        ▼
+NoC 기반 메시지 패싱 하드웨어 큐
+        │
+        ▼
+크레딧 제어 · 가상 채널 · QoS
+        │
+        ▼
+칩렛 · 가속기 패브릭 · 하이브리드 공유/메시지 아키텍처
+```
 
 이 흐름은 "같이 본다"에서 출발한 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 모델이, 점차 "필요한 것만 정확히 넘긴다"는 방향으로 진화하는 과정을 보여 준다.
 

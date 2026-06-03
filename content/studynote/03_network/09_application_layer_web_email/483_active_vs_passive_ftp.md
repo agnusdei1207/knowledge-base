@@ -31,30 +31,42 @@ tags = ["studynote-network"]
   2. <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/">NAT</a> / Firewall의 역습</strong>: 클라이언트가 `192.168.x.x` 같은 사설 IP를 쓸 경우, 클라이언트가 서버에 "나 192.168.0.5 에 있으니 일로 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 쏴라"라고 [PORT](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 명령을 날리면, 서버는 공인 인터넷 망에서 사설 IP를 찾지 못해 미아가 되어버린다.
   3. **PASV 스펙의 등장**: 이 참사를 해결하기 위해 클라이언트가 `PASV` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 치면 서버가 "나의 공인 IP와 임시 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)번호를 알려줄 테니, 네가 날 찔러"라고 응답하는 수동(Passive) 모드가 스펙(RFC 1579)에 추가되었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Active(능동) 모드 vs Passive(수동) 모드의 방화벽 투쟁</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">❌ Active 모드: 방화벽에 충돌하여 폭사하는 서버</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Client PC (방화벽/NAT 굳게 닫힘)</div><div class="kb-diagram-node">FTP Server</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ 1.</div><div class="kb-diagram-node">TCP 1025 ➔ 21</div><div class="kb-diagram-note">나 로그인 완료했어. │</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ 2.</div><div class="kb-diagram-node">명령</div><div class="kb-diagram-note">PORT 192,168,0,5, 4, 3 (내 포트는 1027야)│</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 서버가 무식하게 클라이언트로 역방향(Inbound) 돌격!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">TCP 20 ➔ 1027</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(외부 연결 거부)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">✅ Passive 모드: 방화벽을 우회하는 우아한 클라이언트 아웃바운드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Client PC (방화벽 아웃바운드는 허용됨)</div><div class="kb-diagram-node">FTP Server</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ 1.</div><div class="kb-diagram-node">TCP 1025 ➔ 21</div><div class="kb-diagram-note">나 로그인 완료했어. │</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ 2.</div><div class="kb-diagram-node">명령</div><div class="kb-diagram-note">PASV (나 방화벽 있으니까 네가 포트 열어!) │</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ 3.</div><div class="kb-diagram-node">응답</div><div class="kb-diagram-note">227 Entering Passive Mode (서버IP, 195, 80)│</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 195 * 256 + 80 = 포트 50000 번이 열렸구나!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 클라이언트가 자발적으로 밖으로 나감 (Outbound 통과!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🚀 방화벽 통과</div><div class="kb-diagram-node">TCP 1028 ➔ 50000</div><div class="kb-diagram-connector">▶</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          Active(능동) 모드 vs Passive(수동) 모드의 방화벽 투쟁         │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ [ ❌ Active 모드: 방화벽에 충돌하여 폭사하는 서버 ]                   │
+│                                                             │
+│ [Client PC (방화벽/NAT 굳게 닫힘)]                [FTP Server]│
+│   │                                                 │       │
+│   │ 1. [TCP 1025 ➔ 21] 나 로그인 완료했어.            │       │
+│   │────────────────────────────────────────▶│       │
+│   │ 2. [명령] PORT 192,168,0,5, 4, 3 (내 포트는 1027야)│       │
+│   │────────────────────────────────────────▶│       │
+│   │                                                 │       │
+│   │ 3. 서버가 무식하게 클라이언트로 역방향(Inbound) 돌격!    │       │
+│ 💥방화벽 ◀────── 차단 (Drop) ───── [TCP 20 ➔ 1027] │       │
+│ (외부 연결 거부)                                              │
+│                                                             │
+│ ----------------------------------------------------------- │
+│                                                             │
+│ [ ✅ Passive 모드: 방화벽을 우회하는 우아한 클라이언트 아웃바운드 ]   │
+│                                                             │
+│ [Client PC (방화벽 아웃바운드는 허용됨)]           [FTP Server]│
+│   │                                                 │       │
+│   │ 1. [TCP 1025 ➔ 21] 나 로그인 완료했어.            │       │
+│   │────────────────────────────────────────▶│       │
+│   │ 2. [명령] PASV (나 방화벽 있으니까 네가 포트 열어!)   │       │
+│   │────────────────────────────────────────▶│       │
+│   │ 3. [응답] 227 Entering Passive Mode (서버IP, 195, 80)│       │
+│   │◀────────────────────────────────────────│       │
+│   │   * 195 * 256 + 80 = 포트 50000 번이 열렸구나!           │
+│   │                                                 │       │
+│   │ 4. 클라이언트가 자발적으로 밖으로 나감 (Outbound 통과!)  │       │
+│ 🚀 방화벽 통과 ───────── [TCP 1028 ➔ 50000] ─────▶│       │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** Active 모드에서 가장 치명적인 순간은 3번 단계다. 서버의 20번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에서 클라이언트의 1027번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 치고 들어오려 할 때, 클라이언트 앞단의 공유기나 Windows [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)은 "내가 요청하지도 않은 외부의 불법 연결"로 간주하고 무자비하게 패킷을 드롭(Drop)시킨다. 사용자 화면에는 `Connecting...` 만 무한히 돌다 타임아웃이 난다.
 반면 하단의 Passive 모드에서는 클라이언트가 먼저 `PASV` 명령을 치면 서버가 "내 공인 IP와 랜덤 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(50000번)를 열어뒀어"라고 대답한다. 그러면 클라이언트가 안에서 밖으로(Outbound) 50000번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 찌르고 나간다. [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)의 철칙은 "안에서 밖으로 나가는 트래픽은 기본 허용"이므로 아무런 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/) 없이 연결이 성사되고 짐마차([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 채널) 파이프가 뚫리게 된다.
@@ -76,7 +88,7 @@ FTP가 통신할 때 IP와 [포트](/knowledge-base/studynote/02_operating_syste
 
 | 모드 | [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) ([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/) ➔ Server) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 채널 방향 (SYN 패킷) | 주요 사용 주체 | 문제점 |
 |:---|:---|:---|:---|:---|
-| **Active (능동)** | `PORT 192,168...` | <strong>서버(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">Port</a> 20)</strong> ➔ 클라이언트(임의의 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) N) | 전통적인 유닉스 시스템 | <strong>클라이언트단 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a>/<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/">NAT</a></strong> 에 가로막힘 |
+| **Active (능동)** | `PORT 192,168...` | <strong>서버(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">Port</a> 20)</strong> ➔ 클라이언트(임의의 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) N) | 전통적인 유닉스 시스템 | <strong>클라이언트단 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a>/<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/">NAT</a></strong> 에 가로병목 |
 | **Passive (수동)**| `PASV` (서버에게 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 개방 요구)| 클라이언트(임의의 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) N) ➔ <strong>서버(임의의 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> M)</strong> | 브라우저 및 현대 [FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) 클라이언트 기본값 | <strong>서버단 클라우드 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a>(AWS 등)</strong> 을 엄청나게 열어둬야 함 |
 
 ### 공유기와 [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) ([Network Address Translation](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/))의 늪
@@ -85,24 +97,28 @@ Active 모드가 실패하는 원인을 네트워크 헤더 관점에서 뜯어�
 문제는 이 텍스트가 공유기([NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/))를 거쳐 인터넷으로 나갈 때, 공유기는 IP 헤더의 패킷 주소(공인 IP)는 바꿔주지만, <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/">FTP</a> <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 텍스트 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 덩어리(Payload) 안에 하드코딩된 사설 IP 문자열 <code>192,168,0,5</code>까지는 바꿔주지 않는다.</strong>
 서버는 이 텍스트를 보고 충실하게 `192.168.0.5`라는 전 세계에 수천만 개나 존재하는 가짜 주소로 역방향 연결을 시도하다가 허공에 패킷을 쏘고 장렬히 전사한다. 이 문제를 억지로 고치기 위해 나온 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 꼼수가 바로 <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/310_alg_application_layer_gateway_nat_traversal/">ALG</a>(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/310_alg_application_layer_gateway_nat_traversal/">Application Layer Gateway</a>)</strong> 칩이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공유기(NAT)의 ALG 마법이 Active 모드를 살리는 과정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라이언트 (192.168.0.5)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">평문 데이터: "PORT 192,168,0,5, 4,3"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">--------------------- 공유기 (NAT / ALG 가동!) -------------------</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공유기가 IP 헤더만 바꾸는 게 아니라, 똑똑하게 FTP 텍스트 속까지 뜯어본다!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💡 "어? FTP 명령어네? 사설 IP 적혀있네? 내 공인 IP로 글자 쓱 지우고 고쳐야지!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"PORT 192,168,0,5" ➔ "PORT 203,243,12,3" 로 위조(Spoofing)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버 (서버는 공유기 공인 IP를 정상적으로 보고 해당 포트로 역방향 연결 성공!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⚠️ 치명적 한계: 만약 FTP 통신이 암호화된 FTPS(TLS) 환경이라면?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공유기(ALG)가 암호화된 터널 속의 글자를 못 읽어 고칠 수가 없다 ➔ 100% 접속 실패!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────┐
+│              공유기(NAT)의 ALG 마법이 Active 모드를 살리는 과정               │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│ 클라이언트 (192.168.0.5)                                          │
+│   │                                                             │
+│   │  [평문 데이터: "PORT 192,168,0,5, 4,3"]                      │
+│   ▼                                                             │
+│ --------------------- 공유기 (NAT / ALG 가동!) -------------------│
+│   │ 공유기가 IP 헤더만 바꾸는 게 아니라, 똑똑하게 FTP 텍스트 속까지 뜯어본다! │
+│   │ 💡 "어? FTP 명령어네? 사설 IP 적혀있네? 내 공인 IP로 글자 쓱 지우고 고쳐야지!"│
+│   │ "PORT 192,168,0,5" ➔ "PORT 203,243,12,3" 로 위조(Spoofing)  │
+│ --------------------------------------------------------------- │
+│   │                                                             │
+│   ▼                                                             │
+│ 서버 (서버는 공유기 공인 IP를 정상적으로 보고 해당 포트로 역방향 연결 성공!)     │
+│                                                                 │
+│ ⚠️ 치명적 한계: 만약 FTP 통신이 암호화된 FTPS(TLS) 환경이라면?            │
+│ 공유기(ALG)가 암호화된 터널 속의 글자를 못 읽어 고칠 수가 없다 ➔ 100% 접속 실패!│
+└─────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 초창기 똑똑한 공유기 벤더들은 FTP의 이 바보 같은 문제를 구제해주기 위해, 공유기가 패킷의 OSI 7계층(Payload)까지 뜯어보고 문자열을 강제로 치환해 주는 [ALG](/knowledge-base/studynote/03_network/06_network_layer_ip/310_alg_application_layer_gateway_nat_traversal/) 기능을 넣었다. 하지만 이는 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 계층 위반이라는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다. 나아가 보안이 중시되어 [FTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/486_ftps_ftp_over_ssl_tls/)(SSL 얹기)를 쓰는 순간, 텍스트가 암호화되어 공유기가 텍스트를 고쳐줄 수 없게 되면서 Active 모드는 이중의 죽음을 맞이하게 된다.
 
@@ -139,28 +155,32 @@ Active 모드가 실패하는 원인을 네트워크 헤더 관점에서 뜯어�
 2. <strong>시나리오 — 구형 사내 망 시스템의 Active <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/">FTP</a> 연동 장애</strong>: 대기업의 구형 발주 시스템이 Active 모드로 강제 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)된 상태로 우리 회사망에 접속해 들어온다. 그런데 우리 회사가 공유기([NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)) 장비를 최신 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)으로 교체한 뒤부터 연결이 끊기기 시작했다. 
    - **판단**: 신규 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 장비에서 [FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) [ALG](/knowledge-base/studynote/03_network/06_network_layer_ip/310_alg_application_layer_gateway_nat_traversal/)([Application Layer Gateway](/knowledge-base/studynote/03_network/06_network_layer_ip/310_alg_application_layer_gateway_nat_traversal/)) 기능이 기본 비활성화되어 있거나 패킷 치환 로직을 차단했기 때문이다. [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 엔지니어에게 "Active [FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) 지원용 [ALG](/knowledge-base/studynote/03_network/06_network_layer_ip/310_alg_application_layer_gateway_nat_traversal/) 모듈을 활성화해주세요"라고 요청해야 간신히 사설 IP 치환이 동작하며 통신이 복구된다. 하지만 진짜 아키텍트라면 이딴 짓을 하지 않고 당장 파트너사에게 [SFTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/485_sftp_ssh_file_transfer/) 연동으로 인터페이스를 교체하라고 공문을 띄워야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실무 아키텍처: 클라우드 환경 Passive FTP 장애 극복기</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">문제 분석: 사설 IP 유출과 방화벽 차단의 이중고</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">AWS EC2 사설망 (172.31.0.5)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">❌ 실패 1: 서버가 "내 사설IP(172.31.0.5)로 들어와"라고 대답함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➔ 인터넷 클라이언트가 "172.31.0.5"를 찾아갈 방법이 없어 통신 폭망.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">❌ 실패 2: 서버 커널이 "59483번 포트로 들어와"라고 마음대로 던짐.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➔ AWS 보안 그룹은 21번만 열어뒀으니 클라이언트가 튕겨 나감.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">완벽한 해결책: vsftpd.conf 강제 제어 아키텍처</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) pasv_address = 3.3.3.3 (EC2의 고정 탄력적 EIP 강제 명시!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) pasv_min_port = 50000 (보안 그룹에 뚫어둔 범위만 쓰도록 강제!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) pasv_max_port = 50100</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">설정 완료된 AWS EC2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라이언트 ◀──(응답) "3.3.3.3의 50020 포트로 들어와!" 서버</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 결과: 완벽한 공인 라우팅과 방화벽 허용 대역 통과로 파일 업/다운로드 성공!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │         실무 아키텍처: 클라우드 환경 Passive FTP 장애 극복기         │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │ [문제 분석: 사설 IP 유출과 방화벽 차단의 이중고]                   │
+  │                                                             │
+  │ 클라이언트 ──(PASV 요청)──▶ [ AWS EC2 사설망 (172.31.0.5) ]      │
+  │                                                             │
+  │  ❌ 실패 1: 서버가 "내 사설IP(172.31.0.5)로 들어와"라고 대답함.       │
+  │  ➔ 인터넷 클라이언트가 "172.31.0.5"를 찾아갈 방법이 없어 통신 폭망.       │
+  │                                                             │
+  │  ❌ 실패 2: 서버 커널이 "59483번 포트로 들어와"라고 마음대로 던짐.     │
+  │  ➔ AWS 보안 그룹은 21번만 열어뒀으니 클라이언트가 튕겨 나감.              │
+  │                                                             │
+  │ [완벽한 해결책: vsftpd.conf 강제 제어 아키텍처]                     │
+  │                                                             │
+  │ 1) pasv_address = 3.3.3.3 (EC2의 고정 탄력적 EIP 강제 명시!)   │
+  │ 2) pasv_min_port = 50000  (보안 그룹에 뚫어둔 범위만 쓰도록 강제!)│
+  │ 3) pasv_max_port = 50100                                    │
+  │                                                             │
+  │ 클라이언트 ──(PASV 요청)──▶ [ 설정 완료된 AWS EC2 ]              │
+  │ 클라이언트 ◀──(응답) "3.3.3.3의 50020 포트로 들어와!" ───── 서버  │
+  │ ✅ 결과: 완벽한 공인 라우팅과 방화벽 허용 대역 통과로 파일 업/다운로드 성공!│
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 클라우드([퍼블릭 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/))에서 가장 흔히 터지는 [FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) 장애의 바이블이다. 클라우드 인스턴스는 태생이 [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 뒤에 숨어있는 사설망 자원이므로 자기가 자기 진짜 공인 IP를 모른다. Passive 응답을 날릴 때 자신의 로컬 사설 IP인 172.x.x.x 대역을 던져버리는 어처구니없는 응답이 발생한다. 따라서 관리자가 데몬(Daemon) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 "너의 밖에서 보이는 진짜 IP는 이거야"라고 하드코딩(`pasv_address`)을 해줘야만 이 거대한 미로 게임이 해결된다. 이것만 보더라도 FTP가 현대 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 생태계와 얼마나 지독하게 안 맞는 낡은 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)인지 체감할 수 있다.
 
@@ -208,19 +228,15 @@ Active 모드가 실패하는 원인을 네트워크 헤더 관점에서 뜯어�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: FTP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 액티브 FTP vs 패시브 FTP 동작 원리…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: TFTP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 애플리케이션 전달</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: FTP]
+    │
+    ▼
+[현재 개념: 액티브 FTP vs 패시브 FTP 동작 원리…]
+    │
+    ├──▶ [확장 A: TFTP]
+    └──▶ [확장 B: 지능형 애플리케이션 전달]
+```
 
 액티브 [FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) vs 패시브 [FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) 동작 원리…는 FTP에서 출발해 현재 메커니즘을 정교화하고, 이후 TFTP와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

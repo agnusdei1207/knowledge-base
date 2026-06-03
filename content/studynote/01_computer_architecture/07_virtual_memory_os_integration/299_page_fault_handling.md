@@ -25,20 +25,22 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)가 단순 실패가 아니라 <strong>"부재 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a> → <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 개입 → 적재 → 재시작"</strong>으로 이어지는 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 흐름임을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페이지 폴트 처리의 기본 의미</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU가 가상 주소 참조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MMU가 페이지 테이블 확인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Present/Valid = 1 ▶ 즉시 접근</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Present/Valid = 0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페이지 폴트 예외 발생 ─▶ OS 개입 ─▶ 페이지 적재 ─▶ 명령 재시작</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                   페이지 폴트 처리의 기본 의미                            │
+├────────────────────────────────────────────────────────────────────────────┤
+│ CPU가 가상 주소 참조                                                      │
+│        │                                                                  │
+│        ▼                                                                  │
+│ MMU가 페이지 테이블 확인                                                  │
+│        │                                                                  │
+│   Present/Valid = 1 ───────────────▶ 즉시 접근                            │
+│        │                                                                  │
+│   Present/Valid = 0                                                       │
+│        ▼                                                                  │
+│ 페이지 폴트 예외 발생 ─▶ OS 개입 ─▶ 페이지 적재 ─▶ 명령 재시작            │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 핵심은 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)가 "주소 변환 실패"에서 끝나는 것이 아니라, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 개입해 <strong>프로그램에게는 실패를 거의 보이지 않게 만든다</strong>는 점이다. 사용자 입장에서는 잠깐 느려질 뿐, 마치 원래 메모리에 있던 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)처럼 이어서 실행된다.
 
@@ -60,28 +62,25 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 처리의 실제 시퀀스를 시간 순서대로 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페이지 폴트 처리 시퀀스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. CPU가 가상 주소 접근</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. MMU가 PTE/TLB 확인 후 fault trap 발생</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 커널이 fault 원인 확인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 불법 접근이면 → 프로세스 종료 또는 시그널 전달</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 적재 가능 부재면 → 계속 진행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 자유 프레임 확인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 있음 → 그 프레임 사용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 없음 → 희생 페이지 선택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Dirty = 1 → 디스크에 먼저 기록</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Dirty = 0 → 즉시 회수</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 저장장치에서 누락 페이지 읽기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6. PTE 갱신 + TLB 정리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">7. 실패했던 명령 재실행</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                    페이지 폴트 처리 시퀀스                                │
+├────────────────────────────────────────────────────────────────────────────┤
+│ 1. CPU가 가상 주소 접근                                                   │
+│ 2. MMU가 PTE/TLB 확인 후 fault trap 발생                                  │
+│ 3. 커널이 fault 원인 확인                                                 │
+│    ├─ 불법 접근이면  → 프로세스 종료 또는 시그널 전달                     │
+│    └─ 적재 가능 부재면 → 계속 진행                                        │
+│ 4. 자유 프레임 확인                                                       │
+│    ├─ 있음        → 그 프레임 사용                                        │
+│    └─ 없음        → 희생 페이지 선택                                      │
+│                    ├─ Dirty = 1 → 디스크에 먼저 기록                      │
+│                    └─ Dirty = 0 → 즉시 회수                               │
+│ 5. 저장장치에서 누락 페이지 읽기                                          │
+│ 6. PTE 갱신 + TLB 정리                                                    │
+│ 7. 실패했던 명령 재실행                                                   │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 여기서 중요한 분기점은 <strong>정상적 부재</strong>와 <strong>진짜 오류</strong>를 구분하는 것이다. 같은 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 예외라도, [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 확장이나 [요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/) 때문에 아직 메모리에 없던 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)일 수 있고, 반대로 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 영역 침범이나 널 포인터 접근처럼 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하면 안 되는 오류일 수도 있다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 폴트 주소, 접근 유형, [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 메타데이터를 보고 이 둘을 갈라야 한다.
 
@@ -164,25 +163,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">연속 적재 중심 실행</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">가상 메모리 (Virtual Memory)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">요구 페이징 (Demand Paging)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">페이지 폴트 처리 (Page Fault Handling)</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ 페이지 교체 (Page Replacement)</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ 작업 집합 기반 제어 (Working Set Control)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">스래싱 감시 · 지연 최적화 · 메모리 보호 강화</div>
-</div>
-</div>
-
-
+```text
+연속 적재 중심 실행
+        │
+        ▼
+가상 메모리 (Virtual Memory)
+        │
+        ▼
+요구 페이징 (Demand Paging)
+        │
+        ▼
+페이지 폴트 처리 (Page Fault Handling)
+        │
+        ├──▶ 페이지 교체 (Page Replacement)
+        │
+        ├──▶ 작업 집합 기반 제어 (Working Set Control)
+        │
+        ▼
+스래싱 감시 · 지연 최적화 · 메모리 보호 강화
+```
 
 이 흐름은 "모두 올려 두는 방식"에서 출발해, 필요한 순간만 적재하고, 이후에는 폴트 처리와 교체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 작업 집합 제어까지 확장되는 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 운영의 진화를 보여 준다.
 

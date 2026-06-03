@@ -37,26 +37,28 @@ tags = ["studynote-bigdata"]
 
 ### Tufte의 5대 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 원칙
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Edward Tufte 시각화 5대 원칙</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원칙</div><div class="kb-diagram-cell">내용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 명확성</div><div class="kb-diagram-cell">독자가 즉각적으로 메시지를 파악할 수 있어야</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Clarity)</div><div class="kb-diagram-cell">함. 제목·레이블·범례가 자명해야 한다.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 정확성</div><div class="kb-diagram-cell">데이터를 왜곡하지 않는다. Y축은 0에서 시작,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Accuracy)</div><div class="kb-diagram-cell">원 면적은 데이터 값에 비례해야 한다.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 효율성</div><div class="kb-diagram-cell">Data-Ink Ratio 최대화. 필요 없는 요소는 모두</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Efficiency)</div><div class="kb-diagram-cell">제거. 격자선을 최소화, 3D 효과 금지.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 심미성</div><div class="kb-diagram-cell">기능적 아름다움. 불필요한 장식 없이도 보기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Aesthetics)</div><div class="kb-diagram-cell">좋은 차트가 가능하다.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 접근성</div><div class="kb-diagram-cell">색맹(Color Blindness) 고려. WCAG 명도 대비</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Accessibility</div><div class="kb-diagram-cell">4.5:1 이상. 색+패턴 이중 인코딩.</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────────┐
+│              Edward Tufte 시각화 5대 원칙                    │
+├──────────────┬──────────────────────────────────────────────┤
+│ 원칙         │  내용                                        │
+├──────────────┼──────────────────────────────────────────────┤
+│ 1. 명확성    │ 독자가 즉각적으로 메시지를 파악할 수 있어야 │
+│  (Clarity)   │ 함. 제목·레이블·범례가 자명해야 한다.        │
+├──────────────┼──────────────────────────────────────────────┤
+│ 2. 정확성    │ 데이터를 왜곡하지 않는다. Y축은 0에서 시작,  │
+│  (Accuracy)  │ 원 면적은 데이터 값에 비례해야 한다.         │
+├──────────────┼──────────────────────────────────────────────┤
+│ 3. 효율성    │ Data-Ink Ratio 최대화. 필요 없는 요소는 모두 │
+│  (Efficiency)│ 제거. 격자선을 최소화, 3D 효과 금지.         │
+├──────────────┼──────────────────────────────────────────────┤
+│ 4. 심미성    │ 기능적 아름다움. 불필요한 장식 없이도 보기   │
+│  (Aesthetics)│ 좋은 차트가 가능하다.                        │
+├──────────────┼──────────────────────────────────────────────┤
+│ 5. 접근성    │ 색맹(Color Blindness) 고려. WCAG 명도 대비   │
+│ (Accessibility│ 4.5:1 이상. 색+패턴 이중 인코딩.           │
+└──────────────┴──────────────────────────────────────────────┘
+```
 
 ### 전주의적 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) (Pre-attentive [Attributes](/knowledge-base/studynote/02_operating_system/09_file_system/502_file_attributes_metadata/))
 
@@ -101,21 +103,15 @@ tags = ["studynote-bigdata"]
 
 ### 차트 선택 시작점: What Story Am I Telling?
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">비교 → Bar Chart / Column Chart</div>
-<div class="kb-diagram-note">추세 → Line Chart / Area Chart</div>
-<div class="kb-diagram-note">비율 → Pie (≤5개) / Treemap (계층적)</div>
-<div class="kb-diagram-note">분포 → Histogram / Box Plot / Violin</div>
-<div class="kb-diagram-note">상관 → Scatter Plot / Bubble Chart</div>
-<div class="kb-diagram-note">흐름 → Sankey / Chord Diagram</div>
-<div class="kb-diagram-note">지리 → Choropleth / Bubble Map</div>
-</div>
-</div>
-
-
+```
+비교 → Bar Chart / Column Chart
+추세 → Line Chart / Area Chart
+비율 → Pie (≤5개) / Treemap (계층적)
+분포 → Histogram / Box Plot / Violin
+상관 → Scatter Plot / Bubble Chart
+흐름 → Sankey / Chord Diagram
+지리 → Choropleth / Bubble Map
+```
 
 **📢 섹션 요약 비유**: 차트 선택은 <strong>옷 선택</strong>과 같다. 결혼식(비율 이야기)에 정장(파이 차트), 운동(분포 이야기)에 운동복(히스토그램) — 상황에 맞는 옷(차트)을 입어야 한다.
 
@@ -184,21 +180,18 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Data-Ink Ratio</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Chartjunk</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전주의적 속성</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">게슈탈트 원칙</div></div>
-</div>
-</div>
-
-
+```text
+[Data-Ink Ratio]
+    │
+    ▼
+[Chartjunk]
+    │
+    ▼
+[전주의적 속성]
+    │
+    ▼
+[게슈탈트 원칙]
+```
 
 이 흐름도는 선행 개념이 현재 개념으로 응축되고, 다시 확장 개념으로 이어지는 순서를 보여준다.
 

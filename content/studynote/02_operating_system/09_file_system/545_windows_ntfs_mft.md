@@ -11,7 +11,7 @@ tags = ["studynote-operating-system"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 앞선 리눅스의 ext4가 i-node라는 작고 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)된 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 사용한다면, 마이크로소프트의 NTFS는 <strong>"모든 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>의 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/">메타데이터</a>를 거대한 하나의 전역 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a> 테이블(MFT: Master <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">File</a> Table)로 모조리 흡수해 B-Tree로 엮어버린 초거대 스토리지 레코드 엔진(Record Engine 렌더!)"</strong> 이다.
+> 1. **본질**: 앞선 리눅스의 ext4가 i-node라는 작고 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)된 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 사용한다면, 마이크로소프트의 NTFS는 <strong>"모든 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>의 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/">메타데이터</a>를 거대한 하나의 전역 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a> 테이블(MFT: Master <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">File</a> Table)로 모조리 흡수해 B-Tree로 엮어버린 초거대 스토리지 레코드 엔진(Record 엔진 렌더!)"</strong> 이다.
 > 2. **가치**: MFT라는 단일 거점 통치 구조 덕분에, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 1KB 미만으로 아주 작을 경우 <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 자체를 MFT 레코드 칸(1KB) 속에 아예 박아 넣어버리는(Resident <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> 결속)</strong> 극한의 스루풋 탐색 최적화([Seek Time](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/) 0 빔!)를 달성했다. 게다가 단순 rwx 권한을 넘어선 10단계 [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/)([접근 제어 목록](/knowledge-base/studynote/02_operating_system/11_exam_summary/739_access_control_list_acl/)), 투명한 암호화(EFS), 실시간 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 기능까지 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 레벨에서 우주 방어 생태계로 통합했다.
 > 3. **한계**: 모든 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 거대 MFT 테이블의 한 줄(Record)을 차지해야 하므로, 수백만 개의 자잘한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 생겼다 지워지면 MFT 테이블 자체가 미친 듯이 조각나고 팽창하는(MFT [Fragmentation](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 마비 파단) 오버헤드 랙을 겪게 된다. 결국 C드라이브 용량이 남아도 MFT 공간(Zone)이 터져버리면 서버가 질식하는 치명적 딜레마를 안고 있다 결착.
 
@@ -30,29 +30,36 @@ tags = ["studynote-operating-system"]
 - <strong>MFT 기반 Resident(상주형) vs Non-Resident <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 탈옥 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a> <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> 뷰</strong>:
 NTFS가 작은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)과 큰 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 MFT 장부에서 어떻게 극명하게 차별 대우(스왑 부스트)하는지 그 렌더를 까보면 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"1KB짜리 메모장? 디스크에 쓰지 마! 그냥 내 프론트 장부 칸에 쑤셔넣어!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NTFS 심장부: MFT (Master File Table 1층 로비 거대 장부)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* MFT의 한 칸(Record) 크기 = 보통 1024 Bytes (1KB) 지정</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">✅</div><div class="kb-diagram-node">CASE 1: 500 Byte 짜리 초소형 메모장 '인사.txt' 저장 빔!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MFT 테이블 12번 Record 칸 (1KB)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 헤더 메타정보: "파일이름: 인사.txt, 날짜, 권한(ACL)"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ 실제 데이터: "안녕하세요 반갑습니다!"</div><div class="kb-diagram-node">Resident 결속 스왑!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; (디스크 데이터 구역 안 감! MFT 장부 켤 때 이미 파일 본문 0.1초 로딩 끝!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🔥</div><div class="kb-diagram-node">CASE 2: 3GB 짜리 거대 영화 '매트릭스.mp4' 저장 폭쇄 렌더!!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MFT 테이블 13번 Record 칸 (1KB)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 헤더 메타정보: "명칭: 매트릭스.mp4, 권한, 크기 3GB"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ 클러스터 포인터:</div><div class="kb-diagram-node">Data Run 화살표!</div><div class="kb-diagram-note">(Non-Resident 탈출 랙)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (모터 탐색 이동 $O(1)$)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">[</div><div class="kb-diagram-node">디스크 저 멀리 진짜 바닥 (Data Area) 구역</div><div class="kb-diagram-note">]</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 3GB 데이터 블록 징~ 쾅쾅 연속 저장 파이프 발동</div></div>
-</div>
-</div>
-
-
+```text
+  ┌────────────────────────────────────────────────────────────────────────────────────────┐
+  │                 "1KB짜리 메모장? 디스크에 쓰지 마! 그냥 내 프론트 장부 칸에 쑤셔넣어!" │
+  ├────────────────────────────────────────────────────────────────────────────────────────┤
+  │                                                                                        │
+  │  [ NTFS 심장부: MFT (Master File Table 1층 로비 거대 장부) ]                           │
+  │    * MFT의 한 칸(Record) 크기 = 보통 1024 Bytes (1KB) 지정                             │
+  │                                                                                        │
+  │  =========================▼===================================                         │
+  │                                                                                        │
+  │  ✅ [ CASE 1: 500 Byte 짜리 초소형 메모장 '인사.txt' 저장 빔! ]                        │
+  │                                                                                        │
+  │      [ MFT 테이블 12번 Record 칸 (1KB) ]                                               │
+  │        ├─ 헤더 메타정보: "파일이름: 인사.txt, 날짜, 권한(ACL)"                         │
+  │        └─ 실제 데이터: "안녕하세요 반갑습니다!" [Resident 결속 스왑!]                  │
+  │       => (디스크 데이터 구역 안 감! MFT 장부 켤 때 이미 파일 본문 0.1초 로딩 끝!)      │
+  │                                                                                        │
+  │  =========================▼===================================                         │
+  │                                                                                        │
+  │  🔥 [ CASE 2: 3GB 짜리 거대 영화 '매트릭스.mp4' 저장 폭쇄 렌더!! ]                     │
+  │                                                                                        │
+  │      [ MFT 테이블 13번 Record 칸 (1KB) ]                                               │
+  │        ├─ 헤더 메타정보: "명칭: 매트릭스.mp4, 권한, 크기 3GB"                          │
+  │        └─ 클러스터 포인터: [Data Run 화살표!] (Non-Resident 탈출 랙)                   │
+  │                                    │                                                   │
+  │                                    ▼ (모터 탐색 이동 $O(1)$)                           │
+  │        [[ 디스크 저 멀리 진짜 바닥 (Data Area) 구역 ]]                                 │
+  │           => 3GB 데이터 블록 징~ 쾅쾅 연속 저장 파이프 발동                            │
+  └────────────────────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 상단의 <strong>NTFS MFT <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a></strong> 구조는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 크기에 따라 MFT 레코드 내 상주 여부를 결정한다. 1KB 미만의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 <strong>Resident <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a>(내장 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 뼈대)</strong> 로 불리며, 디스크의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 영역(Clusters)을 전혀 소모하지 않고 MFT 레코드 속에 이름표와 실제 내용이 완전히 결합 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)된다. 이는 디스크 헤드가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 찾아서 이동([Seek Time](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/))할 필요조차 없이, MFT 색인을 찾는 순간 이미 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)까지 1타 2피로 빨려오는 극단적 $O(1)$ 로딩 캐시 성능을 창출해 냈다 도출.
 
@@ -133,19 +140,15 @@ NTFS가 작은 [파일](/knowledge-base/studynote/02_operating_system/09_file_sy
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">AFS (Andrew File System) / SMB/CIFS (Windows 파일 공유)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">윈도우 NTFS</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">데이터 중복 제거 (Data Deduplication) 파일 시스템 기능</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">파일 시스템 접근 제어 (Access Control)</div></div>
-</div>
-</div>
-
-
+```text
+[AFS (Andrew File System) / SMB/CIFS (Windows 파일 공유)]
+    │
+    ▼
+[윈도우 NTFS]
+    │
+    ├──▶ [데이터 중복 제거 (Data Deduplication) 파일 시스템 기능]
+    └──▶ [파일 시스템 접근 제어 (Access Control)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 
@@ -153,7 +156,7 @@ NTFS가 작은 [파일](/knowledge-base/studynote/02_operating_system/09_file_sy
 
 1. 옛날 윈도우 98 시절 공책(FAT32!)은 보안 장치 자물쇠도 없고, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 용량이 조금만 커도 에러 퍽퍽 나는 싸구려 연습장이었어요! 정전 나면 찌그렁 쓰레기장이 되버렸죠 멸망 늪!
 2. 그래서 마이크로소프트의 대 제왕 천재 마법사들이 **"NTFS 무적 철통 방패 시스템"** 공책을 발명했어요 록백 스왑! 이 공책 맨 앞장엔 <strong>'MFT(마스터 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 장부 뼈대!)'</strong> 라는 위대한 목록이 있어서, 수만 개의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 어딨는지 0.1초 만에 가리켜요 부스트! 심지어 엄청 작은 1KB짜리 메모 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은? 굳이 공책 뒷장(디스크) 안 펼치고 앞장 목록 칸 장부 안에 내용을 그냥 본드를 발라 쏙 집어넣어(레지던트 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 내장 빔!) 미치게 빠른 광속 로딩 성능을 낸답니다 절대 무결!
-3. 치명적 슬픔 코끼리 괴물 뚱보 현상 발생! 근데 카카오톡처럼 수백만 개의 쪼그만 잡다구리 이미지 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 매일 만들어지고 지워지면? 이 앞장 목록 장부(MFT 영역) 한 줄 한 줄 썼다 지운 자국이 늘어나면서 장부 책 자체가 어마어마하게 뚱보 코끼리 괴물로 비대화 파편화(MFT [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 분열 마비 늪!) 되어버려요. 나중엔 하드디스크 일반 빈 곳 용량이 텅텅 남아 돌아도 '장부 빈 줄 쓸 칸'이 터져서 빈 렉스가 폴더도 못 만드는 답답한 셧다운 막힘 오버헤드 피로도 현상 모순을 동시에 짊어지고 있답니다 만렙 진화 랙!
+3. 치명적 슬픔 코끼리 괴물 뚱보 현상 발생! 근데 카카오톡처럼 수백만 개의 쪼그만 잡다구리 이미지 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 매일 만들어지고 지워지면? 이 앞장 목록 장부(MFT 영역) 한 줄 한 줄 썼다 지운 자국이 늘어나면서 장부 책 자체가 어마어마하게 뚱보 코끼리 괴물로 비대화 파편화(MFT [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 분열 마비 늪!) 되어버려요. 나중엔 하드디스크 일반 빈 곳 용량이 텅텅 남아 돌아도 '장부 빈 줄 쓸 칸'이 터져서 빈 렉스가 폴더도 못 만드는 답답한 셧다운 병목 오버헤드 피로도 현상 모순을 동시에 짊어지고 있답니다 만렙 진화 랙!
 
 ---
 

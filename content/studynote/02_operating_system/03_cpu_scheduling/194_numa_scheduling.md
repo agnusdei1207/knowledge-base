@@ -24,27 +24,26 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경**: 서버용 CPU(인텔 제온, AMD [에픽](/knowledge-base/studynote/04_software_engineering/03_design_architecture/182_epic_agile_requirements/)) 코어 수가 32개, 64개를 훌쩍 넘어가면서 기존 [UMA](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/379_uma/)([Uniform Memory Access](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/379_uma/)) 구조로는 [시스템 버스](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/127_system_bus/) 트래픽을 감당할 수 없었다. 2000년대 후반부터 하드웨어 단에서 NUMA가 표준으로 채택되었고, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(Linux [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))는 이에 발맞춰 'NUMA를 인지하는 똑똑한 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)([NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/)-aware Scheduler)'로 진화해야만 했다.
 
+```text
+  [기존 UMA (SMP) vs 현대 NUMA 아키텍처 비교]
 
+  (1) 과거 UMA (균일 접근): 거대한 병목 발생
+  [코어0][코어1][코어2][코어3]
+      │   │   │                                                      │
+      ▼   ▼   ▼   ▼ ──▶ 단일 버스(Bus) 교통 체증 💥
+   [ 거대 단일 공유 메모리 (RAM) ] 
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">기존 UMA (SMP) vs 현대 NUMA 아키텍처 비교</div></div>
-<div class="kb-diagram-note">(1) 과거 UMA (균일 접근): 거대한 병목 발생</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">코어0</div><div class="kb-diagram-node">코어1</div><div class="kb-diagram-node">코어2</div><div class="kb-diagram-node">코어3</div></div>
-<div class="kb-diagram-note">▼ ▼ ▼ ▼ ──▶ 단일 버스(Bus) 교통 체증 💥</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">거대 단일 공유 메모리 (RAM)</div></div>
-<div class="kb-diagram-note">(2) 현대 NUMA (불균일 접근): 지역성(Locality) 기반의 초고속망</div>
-<div class="kb-diagram-note">NUMA 노드 0 NUMA 노드 1</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">코어0</div><div class="kb-diagram-node">코어1</div><div class="kb-diagram-node">코어2</div><div class="kb-diagram-note">QPI 망</div><div class="kb-diagram-node">코어3</div><div class="kb-diagram-node">코어4</div><div class="kb-diagram-node">코어5</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">로컬 접근 (초고속!)</div><div class="kb-diagram-cell">◀ ▶</div><div class="kb-diagram-cell">로컬 접근 (초고속!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼</div><div class="kb-diagram-cell">(교각)</div><div class="kb-diagram-cell">▼</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">로컬 메모리 RAM 0</div><div class="kb-diagram-node">로컬 메모리 RAM 1</div></div>
-<div class="kb-diagram-note">* 🚨 문제: 코어0이 옆 동네 'RAM 1'에 접근(Remote Access)하려면</div>
-<div class="kb-diagram-note">느린 QPI 교각을 건너야 하므로 성능이 30% 폭락한다.</div>
-</div>
-</div>
-
-
+  (2) 현대 NUMA (불균일 접근): 지역성(Locality) 기반의 초고속망
+  ┌────── NUMA 노드 0 ──────┐          ┌────── NUMA 노드 1 ──────────┐
+  │ [코어0] [코어1] [코어2]   │  QPI 망  │ [코어3] [코어4] [코어5]   │
+  │   │ 로컬 접근 (초고속!)    │ ◀────▶ │   │ 로컬 접근 (초고속!)    │
+  │   ▼                     │ (교각) │   ▼                           │
+  │ [ 로컬 메모리 RAM 0 ]     │          │ [ 로컬 메모리 RAM 1 ]     │
+  └─────────────────────────┘          └─────────────────────────────┘
+  
+  * 🚨 문제: 코어0이 옆 동네 'RAM 1'에 접근(Remote Access)하려면 
+             느린 QPI 교각을 건너야 하므로 성능이 30% 폭락한다.
+```
 **[다이어그램 해설]** NUMA의 철학은 '로컬(내 구역)은 미친 듯이 빠르고, 리모트(남의 구역)는 더럽게 느리다'는 불평등의 인정이다. 따라서 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 목표는 명확해진다. **"제발 프로세스를 딴 동네(노드)로 이사시키지 마라!"** 과거엔 코어끼리 일감(프로세스)을 뺏어오는 로드 밸런싱이 미덕이었지만, [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 시대에서는 섣부른 이사가 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 코어의 생이별"을 낳아 서버 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 마비시키는 최악의 안티패턴이 되었다.
 
 - **📢 섹션 요약 비유**: 부산에서 일하는 직원(코어0)의 서류철([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 부산 지사(RAM 0)에 있으면 1초 만에 찾지만, 멍청한 사장(OS)이 직원을 서울 지사(코어3)로 발령 내면, 그 직원은 일할 때마다 KTX(QPI [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))를 타고 부산까지 와서 서류를 꺼내 가야 하므로 업무 속도(Remote Access)가 바닥을 칩니다.
@@ -68,23 +67,23 @@ tags = ["studynote-operating-system"]
 
 ### 최악의 [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 붕괴 시나리오: 핑퐁 (Ping-Pong)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">멍청한 로드 밸런서가 유발하는 NUMA 핑퐁 장애 시나리오</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황</div><div class="kb-diagram-note">프로세스 P의 데이터는 '노드 0 메모리'에 10GB 저장됨.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1초: 커널 밸런서 "노드 0이 바쁘네? P를 노드 1(코어 3)로 이사!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ P는 코어 3에서 실행되지만, 데이터는 노드 0에 있어 느리게 원격 조회</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3초: 커널 밸런서 "노드 1이 바쁘네? P를 다시 노드 0으로 원복!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ P는 다시 로컬로 붙어서 초고속 연산 시작</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5초: 또 노드 1로 이사! ─▶ 7초: 또 노드 0으로 이사!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🚨 재앙: 이 프로세스는 연산은 못 하고 남의 동네 교각(QPI 버스)만</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오가며 트래픽을 폭파시키는 '버스 핑퐁'을 쳐서 서버 전체 멈춤!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────────────┐
+  │         멍청한 로드 밸런서가 유발하는 NUMA 핑퐁 장애 시나리오             │
+  ├───────────────────────────────────────────────────────────────────────────┤
+  │                                                                           │
+  │  [상황] 프로세스 P의 데이터는 '노드 0 메모리'에 10GB 저장됨.              │
+  │                                                                           │
+  │  1초: 커널 밸런서 "노드 0이 바쁘네? P를 노드 1(코어 3)로 이사!"           │
+  │       ▶ P는 코어 3에서 실행되지만, 데이터는 노드 0에 있어 느리게 원격 조회│
+  │  3초: 커널 밸런서 "노드 1이 바쁘네? P를 다시 노드 0으로 원복!"            │
+  │       ▶ P는 다시 로컬로 붙어서 초고속 연산 시작                           │
+  │  5초: 또 노드 1로 이사! ─▶ 7초: 또 노드 0으로 이사!                       │
+  │                                                                           │
+  │  🚨 재앙: 이 프로세스는 연산은 못 하고 남의 동네 교각(QPI 버스)만         │
+  │          오가며 트래픽을 폭파시키는 '버스 핑퐁'을 쳐서 서버 전체 멈춤!    │
+  └───────────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 멀티코어 환경에서 멍청한 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 부하의 균형(Load Balance)만 맞추려다 벌어지는 대참사다. [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 환경에서는 <strong>"균형이 좀 안 맞더라도, <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 있는 곳에 코어를 뼈 묻게 놔두는 것"</strong>이 전체 스루풋([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)) 관점에서는 수백 배 더 이득이다. 
 
 - **📢 섹션 요약 비유**: 아이들 방(노드) 균형을 맞춘다고 매일 밤 장난감([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))은 큰방에 둔 채 잠자리(코어)만 작은방으로 강제 이사시키면, 아이들은 놀 때마다 거실([버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))을 횡단하며 집안 전체를 난장판으로 만듭니다.
@@ -120,28 +119,30 @@ tags = ["studynote-operating-system"]
    - **원인 분석**: `numastat`을 쳐보면, 프로세스가 노드 0에만 할당되어 노드 0 메모리 64GB를 다 써버렸다. 노드 1 메모리에는 64GB가 텅텅 비어 남아도는데도, 리눅스 디폴트 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)(Node Local) 때문에 "내 노드엔 메모리 없네? 스왑 써야지!"라며 멀쩡한 남의 노드 메모리를 놔두고 디스크를 긁어버린 것이다.
    - **실무 조치**: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 파라미터 `vm.zone_reclaim_mode=0`으로 세팅하여 "네 노드 메모리 다 썼으면, 느리더라도 디스크 쓰지 말고 옆 노드 1 메모리 빌려다 써라"라고 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 교정해 주어야 이 억울한 스래싱을 막을 수 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NUMA 아키텍처 환경의 성능 최적화(Tuning) 의사결정 트리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2-Socket (NUMA 노드 2개) 물리 서버에 서비스 배포</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 서비스의 성격 분석</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리를 대규모로 공유하는 단일 인메모리 시스템인가? (DB/Cache)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">예 (Redis, Memcached, Oracle)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 튜닝 조치</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- numactl --interleave=all 로 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 커널 투명적 거대 페이지(THP) 비활성화 고민</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">아니오 (독립적인 Nginx, NodeJS 다수 컨테이너)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 튜닝 조치</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- numactl --cpunodebind=0 --membind=0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(A 컨테이너는 완벽히 노드 0번에 철창 격리)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- numactl --cpunodebind=1 --membind=1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(B 컨테이너는 완벽히 노드 1번에 철창 격리)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌──────────────────────────────────────────────────────────────────┐
+  │     NUMA 아키텍처 환경의 성능 최적화(Tuning) 의사결정 트리       │
+  ├──────────────────────────────────────────────────────────────────┤
+  │                                                                  │
+  │   [ 2-Socket (NUMA 노드 2개) 물리 서버에 서비스 배포 ]           │
+  │                │                                                 │
+  │                ▼ 서비스의 성격 분석                              │
+  │   메모리를 대규모로 공유하는 단일 인메모리 시스템인가? (DB/Cache)│
+  │          ├─ [예 (Redis, Memcached, Oracle)]                      │
+  │          │      │                                                │
+  │          │      ▼ 튜닝 조치                                      │
+  │          │  - numactl --interleave=all 로 실행                   │
+  │          │  - 커널 투명적 거대 페이지(THP) 비활성화 고민         │
+  │          │                                                       │
+  │          └─ [아니오 (독립적인 Nginx, NodeJS 다수 컨테이너)]      │
+  │                 │                                                │
+  │                 ▼ 튜닝 조치                                      │
+  │             - numactl --cpunodebind=0 --membind=0                │
+  │               (A 컨테이너는 완벽히 노드 0번에 철창 격리)         │
+  │             - numactl --cpunodebind=1 --membind=1                │
+  │               (B 컨테이너는 완벽히 노드 1번에 철창 격리)         │
+  └──────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 서버 엔지니어의 핵심 역량이다. 독립적인 웹 서버 10개를 띄울 때는 절대 인터리브(Interleave)를 쓰면 안 된다. 5개는 0번 노드에, 5개는 1번 노드에 완벽하게 CPU와 메모리를 강제 고정(Pinning/Binding)시켜 서로가 옆 동네를 평생 바라보지도 않게 쪼개버리는 것([NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) [Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/))이 각자의 100% 로컬 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 이끌어내는 마법이다.
 
 - **📢 섹션 요약 비유**: 가족이 살 땐 1층(노드 0)과 2층(노드 1)을 자유롭게 오가게(Interleave) 두어야 화목하지만, 생판 남인 세입자 두 명([도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))을 받을 때는 1층과 2층 사이의 계단을 아예 막아버리고 각자 층에서만 살게(Node Bind) 해야 싸움 없이 완벽하게 독립적인 쾌적한 삶이 보장됩니다.
@@ -171,19 +172,15 @@ NUMA는 과거 슈퍼컴퓨터의 전유물이었으나, 현재는 AMD Threadrip
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">다중 처리기 스케줄링 (Multiprocessor Scheduling)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">비대칭 다중 처리 (ASMP) 스케줄링</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">대칭 다중 처리 (SMP) 스케줄링</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">부하 균등화 (Load Balancing)</div></div>
-</div>
-</div>
-
-
+```text
+[다중 처리기 스케줄링 (Multiprocessor Scheduling)]
+    │
+    ▼
+[비대칭 다중 처리 (ASMP) 스케줄링]
+    │
+    ├──▶ [대칭 다중 처리 (SMP) 스케줄링]
+    └──▶ [부하 균등화 (Load Balancing)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

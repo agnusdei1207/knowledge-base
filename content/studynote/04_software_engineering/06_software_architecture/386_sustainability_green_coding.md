@@ -21,33 +21,34 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: 지속 가능한 소프트웨어 엔지니어링은 "소프트웨어 시스템의 개발, 배포, 사용, 폐기 전 과정에서 환경적 영향을 최소화하는" 것을 목표로 한다. 그린 코딩은 이러한 목표를 달성하기 위한 구체적 코딩 실천으로, 동일한 기능을 수행하는 코드라더라도 더 적은 에너지를 사용하는 코드를 작성하는 것이다.
 
-- **필요성**: 전 세계적으로 기후변화 대응이 주요 과제로 부상하고 있으며, 모든 산업 분야에서 탄소 배출 감축이다. 소프트웨어는 "눈에 보이지 않는" 산업이지만, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 센터, 네트워크 장비, конечных устройств에서 소비되는 에너지는 결코 작지 않다. 특히 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)/ML 워크로드의 급증으로 컴퓨팅 자원 소비가 급격히 증가하고 있어, 소프트웨어 수준의 효율화노력가 필수적이다.
+- **필요성**: 전 세계적으로 기후변화 대응이 주요 과제로 부상하고 있으며, 모든 산업 분야에서 탄소 배출 감축이급절다. 소프트웨어는 "눈에 보이지 않는" 산업이지만, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 센터, 네트워크 장비, конечных устройств에서 소비되는 에너지는 결코 작지 않다. 특히 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)/ML 워크로드의 급증으로 컴퓨팅 자원 소비가 급격히 증가하고 있어, 소프트웨어 수준의 효율화노력가 필수적이다.
 
-- **💡 비유**: 지속 가능한 소프트웨어 개발은 <strong>'친환경 건축'</strong>과 같다. 친환경 건물은 건축 자재부터 에너지 효율까지 측면에서 환경을 고려한다. 마찬가지로 그린 코딩도 소프트웨어의 설계, 구현, 운영 단계에서 에너지 효율을 고려하여,에 미치는 영향을 최소화하는 것을 목표로 한다.
+- **💡 비유**: 지속 가능한 소프트웨어 개발은 <strong>'친환경 건축'</strong>과 같다. 친환경 건물은 건축 자재부터 에너지 효율까지 전 측면에서 환경을 고려한다. 마찬가지로 그린 코딩도 소프트웨어의 설계, 구현, 운영 전 단계에서 에너지 효율을 고려하여,환경에 미치는 영향을 최소화하는 것을 목표로 한다.
 
 - **등장 배경 및 발전 과정**:
-1. **2010년대 초**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 센터 에너지 소비 문제 사회적 관심 증가
-2. **2020년 이후**: AWS, Google, Microsoft 등 클라우드 공급업체들의 탄소 중립 목표 발표
-3. **2021년**: 그린 소프트웨어 재단 (Green Software Foundation) 창립, GSF 표준
-4. **현재**: 탄소 인식 컴퓨팅, AI의 에너지 문제 등 새로운 화제
+  1. **2010년대 초**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 센터 에너지 소비 문제 사회적 관심 증가
+  2. **2020년 이후**: AWS, Google, Microsoft 등 클라우드 공급업체들의 탄소 중립 목표 발표
+  3. **2021년**: 그린 소프트웨어 재단 (Green Software Foundation) 창립, GSF 표준개발
+  4. **현재**: 탄소 인식 컴퓨팅, AI의 에너지 문제 등 새로운 화제
 
-- **📢 섹션 요약 비유**: 그린 코딩은 <strong>'전기차와 내연기관차의 효율성 차이'</strong>와 같다. 동일한 거리를 이동하는 데에도 어떤 자동차는 가 더 적게 들고, 어떤 자동차는 더 많이 든다. 소프트웨어도 마찬가지로 동일한 기능을 수행하는 프로그램이라도, 어떤 코드는 에너지를 더 적게 소비하고, 어떤 코드는 더 많이 소비한다. 개발자의에 따라 software의 에너지 발자국이 달라진다.
+- **📢 섹션 요약 비유**: 그린 코딩은 <strong>'전기차와 내연기관차의 효율성 차이'</strong>와 같다. 동일한 거리를 이동하는 데에도 어떤 자동차는 전비가 더 적게 들고, 어떤 자동차는 더 많이 든다. 소프트웨어도 마찬가지로 동일한 기능을 수행하는 프로그램이라도, 어떤 코드는 에너지를 더 적게 소비하고, 어떤 코드는 더 많이 소비한다. 개발자의선택에 따라 software의 에너지 발자국이 달라진다.
 
 ---
 
 다음은 지속 가능성 (Sustainabili의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지속 가능성 (Sustainabili</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                  지속 가능성 (Sustainabili                        │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
+│       │                    │                    │          │
+│       ▼                    ▼                    ▼          │
+│   요구 분석           설계·적용           품질 검증        │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램은 지속 가능성 (Sustainabili가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -137,30 +138,28 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 지속 가능성 (Sustainability) 및 그린 코딩 (Green Coding)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 지속 가능성 (Sustainability) 및 그린 코딩 (Green Coding)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
 | [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 지속 가능성 (Sustainability) 및 그린 코딩 (Green Coding)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | 지속 가능성 (Sustainability) 및 그린 코딩 (Green Coding) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
 | [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 지속 가능성 (Sustainability) 및 그린 코딩 (Green Coding)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속 가능성 (Sustainability) 및 그린 코딩 (Green Coding) 개념 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 위기 (Software Crisis) 인식
+    │
+    ▼
+지속 가능성 (Sustainability) 및 그린 코딩 (Green Coding) 개념 정립
+    │
+    ▼
+표준화 및 방법론 체계화 (ISO, CMMI, Agile)
+    │
+    ▼
+클라우드 네이티브·AI 기반 확장 적용
+    │
+    ▼
+지속적 개선 및 DevOps·MLOps 통합
+```
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

@@ -25,23 +25,23 @@ tags = ["studynote-computer-architecture"]
 
 또한 설계 의도 측면에서도 장점이 있었다. 메모리 읽기·[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)와 장치 읽기·[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수준에서 분리하면, 하드웨어 제어 행위가 더 분명해진다. 예를 들어 `IN`, `OUT` 같은 명령은 "지금은 장치와 대화한다"는 뜻을 즉시 드러내므로, [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 제어 로직이 명시적인 형태를 갖는다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 맵 I/O (MMIO)</div><div class="kb-diagram-cell">분리형 I/O (Isolated I/O)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주소 공간 하나를 함께 사용</div><div class="kb-diagram-cell">주소 공간을 둘로 나눠 사용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0x0000</div><div class="kb-diagram-cell">메모리: 0x0000</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Main Memory</div><div class="kb-diagram-cell">Main Memory</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0xDFFF</div><div class="kb-diagram-cell">0xFFFF</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0xE000</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Device Reg</div><div class="kb-diagram-cell">포트: 0x0000</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0xFFFF</div><div class="kb-diagram-cell">I/O Port Space</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0xFFFF</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────┬─────────────────────────────────────┐
+│ 메모리 맵 I/O (MMIO)               │ 분리형 I/O (Isolated I/O)          │
+├─────────────────────────────────────┼─────────────────────────────────────┤
+│ 주소 공간 하나를 함께 사용         │ 주소 공간을 둘로 나눠 사용         │
+│                                     │                                     │
+│ 0x0000 ───────────────┐             │ 메모리: 0x0000 ───────────────┐    │
+│                       │             │                              │    │
+│      Main Memory      │             │         Main Memory          │    │
+│                       │             │                              │    │
+│ 0xDFFF ───────────────┘             │ 0xFFFF ──────────────────────┘    │
+│ 0xE000 ───────────────┐             │                                     │
+│      Device Reg       │             │ 포트:   0x0000 ──────────────┐    │
+│ 0xFFFF ───────────────┘             │         I/O Port Space       │    │
+│                                     │ 0xFFFF ──────────────────────┘    │
+└─────────────────────────────────────┴─────────────────────────────────────┘
+```
 
 이 그림의 핵심은 <strong>분리형 I/O가 메모리 공간 보존을 위해 주소 체계를 이원화</strong>한다는 점이다. 그래서 역사적으로는 메모리가 귀하던 시대에 특히 설득력이 컸고, 오늘날에는 하위 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 측면에서 그 흔적이 남아 있다.
 
@@ -65,29 +65,32 @@ tags = ["studynote-computer-architecture"]
 
 아래 흐름은 CPU가 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽을 때 어떤 경로로 동작하는지를 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU</div><div class="kb-diagram-cell">Address Bus</div><div class="kb-diagram-cell">Control Bus</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IN AL, port</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">port number</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">I/O read</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">signal</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I/O Address Decoder</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">포트 번호 일치</div><div class="kb-diagram-cell">포트 번호 불일치</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해당 장치 선택</div><div class="kb-diagram-cell">다른 장치는 무시</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I/O Device</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data Register</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Data Bus</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CPU</div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐      ┌────────────────┐      ┌────────────────┐
+│     CPU      │      │  Address Bus   │      │  Control Bus   │
+└──────┬───────┘      └────────┬───────┘      └────────┬───────┘
+       │  IN AL, port                   │                       │
+       ├───────────────────────────────▶│  port number          │
+       │                                ├──────────────────────▶│ I/O read
+       │                                │                       │ signal
+       ▼                                ▼                       ▼
+┌──────────────────────────────────────────────────────────────────────┐
+│                       I/O Address Decoder                           │
+├───────────────────────────────┬──────────────────────────────────────┤
+│ 포트 번호 일치                │ 포트 번호 불일치                     │
+├───────────────────────────────┼──────────────────────────────────────┤
+│ 해당 장치 선택                │ 다른 장치는 무시                     │
+└───────────────┬───────────────┴──────────────────────────────────────┘
+                ▼
+         ┌──────────────┐
+         │ I/O Device   │
+         │ Data Register│
+         └──────┬───────┘
+                ▼
+            Data Bus
+                ▼
+               CPU
+```
 
 중요한 점은 메모리 컨트롤러가 이 요청에 직접 반응하지 않는다는 것이다. 즉, 분리형 I/O에서는 **제어 경로의 의미가 먼저 갈리고**, 그다음에 주소 해석이 일어난다. 이 때문에 하드웨어는 명확하지만, 반대로 CPU [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 집합과 제어 로직은 다소 복잡해질 수 있다.
 
@@ -166,25 +169,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">좁은 주소 공간 시대</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">분리형 I/O (Isolated I/O)</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ 프로그램드 I/O (Programmed I/O) · 폴링 (Polling)</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ 인터럽트 (Interrupt) 기반 I/O</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">메모리 맵 I/O (Memory-Mapped I/O)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DMA (Direct Memory Access) · 고속 장치 제어</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">현대 버스/가속기 중심 통합 I/O</div>
-</div>
-</div>
-
-
+```text
+좁은 주소 공간 시대
+        │
+        ▼
+분리형 I/O (Isolated I/O)
+        │
+        ├─▶ 프로그램드 I/O (Programmed I/O) · 폴링 (Polling)
+        │
+        ├─▶ 인터럽트 (Interrupt) 기반 I/O
+        │
+        ▼
+메모리 맵 I/O (Memory-Mapped I/O)
+        │
+        ▼
+DMA (Direct Memory Access) · 고속 장치 제어
+        │
+        ▼
+현대 버스/가속기 중심 통합 I/O
+```
 
 이 흐름은 "주소 공간 절약" 중심 설계에서 "확장성과 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)" 중심 설계로 무게중심이 이동한 과정을 보여 준다.
 

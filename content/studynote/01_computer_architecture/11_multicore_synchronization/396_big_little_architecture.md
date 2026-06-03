@@ -42,26 +42,30 @@ big.LITTLE의 핵심 전제는 big 코어와 LITTLE 코어가 같은 [명령어]
 
 아래 그림은 big.LITTLE이 단순히 "빠른 코어 + 느린 코어" 조합이 아니라, 작업 분류와 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 이주를 포함한 시스템 전체 동작임을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">big.LITTLE 작업 배치와 이주 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">작업 큐</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ UI 이벤트 · 알림 · 음악 재생</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 웹 스크롤 · 사진 보기 · 센서 처리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 게임 렌더링 · 압축 · 인공지능 추론</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS 스케줄러</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ 전력/열 정책</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">저부하 우선 배치</div><div class="kb-diagram-cell">고부하 우선 배치</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LITTLE 코어</div><div class="kb-diagram-cell">big 코어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">저전력 처리</div><div class="kb-diagram-cell">고성능 처리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스레드 이주</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(캐시 상태 유지)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                 big.LITTLE 작업 배치와 이주 흐름                    │
+├──────────────────────────────────────────────────────────────────────┤
+│ 작업 큐                                                              │
+│  ├─ UI 이벤트 · 알림 · 음악 재생 ───────────────┐                    │
+│  ├─ 웹 스크롤 · 사진 보기 · 센서 처리 ───────┐ │                    │
+│  └─ 게임 렌더링 · 압축 · 인공지능 추론 ────┐   │ │                    │
+│                                          ▼   ▼ ▼                    │
+│                               ┌────────────────────┐                 │
+│                               │ OS 스케줄러        │                 │
+│                               │ + 전력/열 정책     │                 │
+│                               └──────┬───────┬─────┘                 │
+│                                      │       │                       │
+│                    저부하 우선 배치  │       │  고부하 우선 배치     │
+│                                      ▼       ▼                       │
+│                           ┌─────────────┐  ┌─────────────┐           │
+│                           │ LITTLE 코어 │  │  big 코어   │           │
+│                           │ 저전력 처리 │  │ 고성능 처리 │           │
+│                           └──────┬──────┘  └──────┬──────┘           │
+│                                  └───── 스레드 이주 ─────┘           │
+│                                         (캐시 상태 유지)             │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 실제 구현은 세대별로 발전했다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에는 big 클러스터와 LITTLE 클러스터를 통째로 바꾸는 방식이 많았지만, 이후에는 코어 단위 배치와 동시 활용이 가능해졌다. 그 결과 이기종 멀티프로세싱([Heterogeneous](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/273_heterogeneous_db/) Multi-Processing, HMP)처럼 big 코어와 LITTLE 코어가 동시에 활성화되어, 중요한 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 big에 두고 잔작업은 LITTLE에 두는 세밀한 분업이 가능해졌다.
 
@@ -151,24 +155,24 @@ big.LITTLE 아키텍처의 가장 큰 성과는 [성능](/knowledge-base/studyno
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">클럭 상승 중심 성능 경쟁</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">전력 벽 · 발열 한계 · 다크 실리콘</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">이기종 멀티코어 (Heterogeneous Multi-core)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">big.LITTLE 아키텍처</div>
-<div class="kb-diagram-tree-item" style="--depth:4">HMP (Heterogeneous Multi-Processing)</div>
-<div class="kb-diagram-tree-item" style="--depth:4">EAS (Energy Aware Scheduling)</div>
-<div class="kb-diagram-tree-item" style="--depth:4">P-Core/E-Core · SoC 통합 가속기 확장</div>
-</div>
-</div>
-
-
+```text
+클럭 상승 중심 성능 경쟁
+        │
+        ▼
+전력 벽 · 발열 한계 · 다크 실리콘
+        │
+        ▼
+이기종 멀티코어 (Heterogeneous Multi-core)
+        │
+        ▼
+big.LITTLE 아키텍처
+        │
+        ├────────► HMP (Heterogeneous Multi-Processing)
+        │
+        ├────────► EAS (Energy Aware Scheduling)
+        │
+        └────────► P-Core/E-Core · SoC 통합 가속기 확장
+```
 
 이 흐름은 단순히 코어 수를 늘리던 시대에서, 전력 예산 안에서 코어의 역할을 분화시키는 방향으로 진화했음을 보여준다.
 

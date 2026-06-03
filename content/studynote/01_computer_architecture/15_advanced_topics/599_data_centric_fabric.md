@@ -25,22 +25,21 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 서버 중심 구조와 [데이터 중심](/knowledge-base/studynote/04_software_engineering/06_software_architecture/383_data_centric_architecture/) 패브릭의 차이를 압축해서 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Fixed server boxes vs shared data fabric</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Server-centric</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Server A</div><div class="kb-diagram-node">Server B</div><div class="kb-diagram-node">Server C</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">fixed CPU + memory + storage inside each box</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data-centric fabric</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CPU/GPU Pool</div><div class="kb-diagram-note">--</div><div class="kb-diagram-node">Fabric Switch</div><div class="kb-diagram-note">--</div><div class="kb-diagram-node">Memory Pool</div><div class="kb-diagram-note">--</div><div class="kb-diagram-node">Storage Pool</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">\-----------</div><div class="kb-diagram-node">Fabric Manager / Policy</div><div class="kb-diagram-note">------------/</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Compose around data, not around fixed servers.</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                   Fixed server boxes vs shared data fabric                │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Server-centric                                                            │
+│   [Server A]       [Server B]       [Server C]                         │
+│      fixed CPU + memory + storage inside each box                        │
+│                                                                            │
+│ Data-centric fabric                                                       │
+│   [CPU/GPU Pool] -- [Fabric Switch] -- [Memory Pool] -- [Storage Pool]   │
+│            \----------- [Fabric Manager / Policy] ------------/           │
+│                                                                            │
+│ Compose around data, not around fixed servers.                            │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조가 중요한 이유는 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 추론, [그래프 분석](/knowledge-base/studynote/16_bigdata/05_analysis/114_graph_analytics/), 실시간 디지털 트윈처럼 working set이 단일 서버 메모리를 자주 넘어서기 때문이다. 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 여러 서버에 반복 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)하면 비용과 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 커지고, 반대로 한 곳에만 두면 연산 병렬성이 떨어진다. [데이터 중심](/knowledge-base/studynote/04_software_engineering/06_software_architecture/383_data_centric_architecture/) 패브릭은 이 둘 사이에서 공유 가능한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 풀과 조립 가능한 연산 자원을 만드는 해법이다.
 
@@ -62,21 +61,22 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어디에 놓이고, 어떤 계층에서 어떤 의미론으로 접근하는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hot data stays local, warm capacity expands over fabric</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Compute Node</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Local HBM / Memory &lt;- hottest working set</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ CXL Port</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Fabric Switch</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Shared Memory Pool</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Capacity / Storage</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Peer Accelerators / Specialized Devices</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Placement policy decides whether the fabric helps or hurts.</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                Hot data stays local, warm capacity expands over fabric    │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Compute Node                                                               │
+│   ├─ Local HBM / Memory <- hottest working set                             │
+│   └─ CXL Port                                                              │
+│         │                                                                  │
+│         ▼                                                                  │
+│     [Fabric Switch] ----> [Shared Memory Pool] ----> [Capacity / Storage] │
+│         │                                                                  │
+│         └----> [Peer Accelerators / Specialized Devices]                  │
+│                                                                            │
+│ Placement policy decides whether the fabric helps or hurts.               │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 여기서 memory semantics가 중요하다. 전통적인 저장장치처럼 파일이나 블록 단위로 주고받는 것이 아니라, 더 짧은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 load/store에 가까운 모델로 접근할수록 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 복사와 소프트웨어 계층이 줄어든다. 하지만 그만큼 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/), 보안, 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 문제도 더 민감해진다. 따라서 [데이터 중심](/knowledge-base/studynote/04_software_engineering/06_software_architecture/383_data_centric_architecture/) 패브릭은 단순한 I/O 확장이 아니라 메모리 아키텍처의 외연 확장으로 보는 것이 맞다.
 
@@ -154,25 +154,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">고정형 서버 내부 메모리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">NUMA 기반 다중 소켓 확장</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">RDMA / 스토리지 분리형 패브릭</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CXL Type-3 메모리 확장</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Memory Pooling + Fabric Switching</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Data-Centric Fabric / Composable Infrastructure</div>
-</div>
-</div>
-
-
+```text
+고정형 서버 내부 메모리
+   │
+   ▼
+NUMA 기반 다중 소켓 확장
+   │
+   ▼
+RDMA / 스토리지 분리형 패브릭
+   │
+   ▼
+CXL Type-3 메모리 확장
+   │
+   ▼
+Memory Pooling + Fabric Switching
+   │
+   ▼
+Data-Centric Fabric / Composable Infrastructure
+```
 
 이 흐름은 컴퓨팅 인프라가 서버를 통째로 늘리는 구조에서 출발해, 이제는 메모리와 가속기를 풀 단위로 조합하는 방향으로 이동하고 있음을 보여 준다.
 

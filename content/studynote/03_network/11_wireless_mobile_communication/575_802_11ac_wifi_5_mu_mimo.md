@@ -21,18 +21,14 @@ tags = ["studynote-network"]
 
 기가비트 와이파이(Giga-bit Wi-Fi) 시대를 연 주역입니다. 간섭이 너무 심한 2.4GHz 대역을 완전히 버리고, <strong>오직 5GHz 단일 대역</strong>에서만 동작하며 이론상 최대 <strong>6.9Gbps</strong>의 무시무시한 속도를 자랑합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">11n</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">11ac</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">11ax</div></div>
-</div>
-</div>
-
-
+```text
+[11n]
+    │
+    ▼
+[11ac]
+    │
+    └──▶ [11ax]
+```
 
 - **📢 섹션 요약 비유**: 11ac는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -50,18 +46,14 @@ tags = ["studynote-network"]
 - <strong>MU-<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/">MIMO</a> (다중 사용자 <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/">MIMO</a>)</strong>: 공유기가 4개의 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 이용해 <strong>서로 다른 4명의 스마트폰(사용자)에게 동시에, 같은 주파수로 각기 다른 데이터를 쏴줄 수 있는 혁명적 기술</strong>입니다. (공간 분할 [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/), SDMA 구현)
 - **한계점 (다운링크 전용)**: Wi-Fi 5의 MU-MIMO는 <strong>공유기에서 단말기로 데이터를 내려줄 때(Downlink)만 동작</strong>합니다. 단말기들이 공유기로 데이터를 올릴 때(Uplink)는 여전히 한 명씩 순서를 기다려야 하는 반쪽짜리 기술이었습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">11n</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">11ac</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">11ax</div></div>
-</div>
-</div>
-
-
+```text
+[11n]
+    │
+    ▼
+[11ac]
+    │
+    └──▶ [11ax]
+```
 
 - **📢 섹션 요약 비유**: 11ac의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -121,19 +113,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 11n</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 11ac</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 11ax</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 무선 자원 제어</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 11n]
+    │
+    ▼
+[현재 개념: 11ac]
+    │
+    ├──▶ [확장 A: 11ax]
+    └──▶ [확장 B: 지능형 무선 자원 제어]
+```
 
 11ac는 11n에서 출발해 현재 메커니즘을 정교화하고, 이후 11ax와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

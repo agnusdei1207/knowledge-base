@@ -25,18 +25,16 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 공랭의 우회 경로와 액체 냉각의 직통 경로 차이를 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Air path vs Liquid path: 열을 방에 풀지, 바로 운반할지의 차이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Air cooling : Chip -&gt; Heat Sink -&gt; Air -&gt; Room -&gt; Facility Cooler</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Liquid cooling : Chip -&gt; Cold Plate -&gt; Coolant -&gt; Heat Exchanger -&gt; Loop</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심 차이점은 냉매가 '칩 근처'까지 들어오느냐에 있다.</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│           Air path vs Liquid path: 열을 방에 풀지, 바로 운반할지의 차이    │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Air cooling    : Chip -> Heat Sink -> Air -> Room -> Facility Cooler      │
+│ Liquid cooling : Chip -> Cold Plate -> Coolant -> Heat Exchanger -> Loop  │
+│                                                                            │
+│ 핵심 차이점은 냉매가 '칩 근처'까지 들어오느냐에 있다.                       │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 따라서 액체 냉각은 단순히 "더 차가운 냉각"이 아니라, <strong>열이 실내 전체로 확산되기 전에 전용 경로로 회수하는 시스템 설계</strong>다. 이 관점이 있어야 왜 액체 냉각이 서버 부품 문제를 넘어 랙, 배관, 설비, 전력 정책까지 묶는 아키텍처 주제인지 이해할 수 있다.
 
@@ -58,19 +56,17 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 전형적인 D2C 랙 루프가 열을 어떻게 이동시키는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Rack-level D2C loop: chip hot spot -&gt; rack -&gt; facility</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CPU/GPU</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Cold Plate</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Rack Manifold</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">CDU</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Heat Exchanger</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">^</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">----------------------- cooled fluid return ----------------------</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 모듈, 저장장치, 전원부 등은 보조 공랭이 함께 남는 경우가 많다.</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                Rack-level D2C loop: chip hot spot -> rack -> facility     │
+├────────────────────────────────────────────────────────────────────────────┤
+│ [CPU/GPU] -> [Cold Plate] -> [Rack Manifold] -> [CDU] -> [Heat Exchanger] │
+│     ^                                                                  │  │
+│     └----------------------- cooled fluid return ----------------------┘  │
+│                                                                            │
+│ 메모리 모듈, 저장장치, 전원부 등은 보조 공랭이 함께 남는 경우가 많다.      │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 여기서 중요한 포인트는 액체 냉각이 항상 "완전한 무팬 시스템"을 뜻하지는 않는다는 점이다. D2C는 가장 뜨거운 칩을 직접 식히지만, 메모리나 전원부처럼 상대적으로 덜 뜨거운 부품은 저속 공기 흐름이 계속 필요할 수 있다. 반대로 RDHx는 서버 내부는 기존 공랭 구조를 유지하되, 랙 후면에서 뜨거운 배기 공기를 물로 식혀 실내 부하를 줄이는 절충형 접근이다.
 
@@ -148,25 +144,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">공랭 기반 서버 냉각</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Hot spot 증가 · AI/GPU 전력 밀도 상승</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Direct-to-Chip 콜드 플레이트</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">랙 매니폴드 · CDU · 시설 냉각수 연계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Warm-water cooling · 폐열 재사용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Immersion Cooling · 초고밀도 랙 냉각</div>
-</div>
-</div>
-
-
+```text
+공랭 기반 서버 냉각
+    │
+    ▼
+Hot spot 증가 · AI/GPU 전력 밀도 상승
+    │
+    ▼
+Direct-to-Chip 콜드 플레이트
+    │
+    ▼
+랙 매니폴드 · CDU · 시설 냉각수 연계
+    │
+    ▼
+Warm-water cooling · 폐열 재사용
+    │
+    ▼
+Immersion Cooling · 초고밀도 랙 냉각
+```
 
 이 흐름은 냉각 기술이 "방 전체를 식히는 단계"에서 출발해, 이제는 열원 근처에서 직접 회수하고 재활용까지 고려하는 방향으로 진화하고 있음을 보여 준다.
 

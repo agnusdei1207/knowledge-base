@@ -24,24 +24,27 @@ tags = ["studynote-operating-system"]
 
 **💡 비유**: 총알이 딱 2발 남은 지휘관. A분대는 4발 필요, B분대는 5발이 더 필요한 갇힌 상황. 100% 뚫고 나갈 수학적 `안전 순서(Safe Sequence)`는 영원히 도출되지 않는다 (이게 불안전 상태). 하지만 기적적으로 A 분대 병사들의 사격술이 100배 각성해서, 요구치 4발이 아니라 남은 2발만 받고도 목표를 클리어하고 5발을 전리품으로 가져와 B분대를 지원한다면? 데드락은 발생하지 않고 클리어된다!
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">불안전 상태(Unsafe State)와 데드락의 집합 관계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전체 시스템의 상태 우주</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">■ 안전 상태 (Safe State)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Safe Sequence가 100% 존재 (A→B→C 연쇄 졸업!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 교착(Deadlock) 가능성 절대 0%</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">■ 불안전 상태 (Unsafe State)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- OS의 통제력 붕괴. 자원 반납 연쇄 공식 박살.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">■ 교착 상태 (Deadlock)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 쾅! 운도 없이 최악의</div><div class="kb-diagram-cell">(모든 Unsafe가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사이클 원이 만들어짐!</div><div class="kb-diagram-cell">데드락은 아니다!)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────┐
+│         불안전 상태(Unsafe State)와 데드락의 집합 관계          │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  [전체 시스템의 상태 우주]                                      │
+│  ┌───────────────────────────────────────────────────────┐      │
+│  │ ■ 안전 상태 (Safe State)                              │      │
+│  │ - Safe Sequence가 100% 존재 (A→B→C 연쇄 졸업!)       │       │
+│  │ - 교착(Deadlock) 가능성 절대 0%                     │        │
+│  ├───────────────────────────────────────────────────────┤      │
+│  │ ■ 불안전 상태 (Unsafe State)                          │      │
+│  │ - OS의 통제력 붕괴. 자원 반납 연쇄 공식 박살.         │      │
+│  │  ┌─────────────────────────┐                            │    │
+│  │  │ ■ 교착 상태 (Deadlock)   │                            │   │
+│  │  │ - 쾅! 운도 없이 최악의  │ (모든 Unsafe가             │    │
+│  │  │   사이클 원이 만들어짐! │ 데드락은 아니다!)          │    │
+│  │  └─────────────────────────┘                            │    │
+│  └───────────────────────────────────────────────────────┘      │
+└─────────────────────────────────────────────────────────────────┘
+```
 
 **📢 섹션 요약 비유**: 불안전 상태는 브레이크가 파열된 내리막길의 자동차이고, [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)는 그 차가 벽에 실제로 박치기([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))한 그 순간입니다. 브레이크가 파열(Unsafe)되어도 운 좋게 평지가 나와 살 수도 있으니 100% 박는 건 아니죠.
 
@@ -111,19 +114,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">안전 상태 (Safe State)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">불안전 상태 (Unsafe State)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">단일 인스턴스 환경의 회피</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">다중 인스턴스 환경의 회피</div></div>
-</div>
-</div>
-
-
+```text
+[안전 상태 (Safe State)]
+    │
+    ▼
+[불안전 상태 (Unsafe State)]
+    │
+    ├──▶ [단일 인스턴스 환경의 회피]
+    └──▶ [다중 인스턴스 환경의 회피]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

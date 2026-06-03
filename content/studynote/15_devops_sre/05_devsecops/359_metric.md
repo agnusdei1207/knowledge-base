@@ -31,20 +31,22 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3계층 시맨틱 캐시 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">임베딩 모델</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">질의 벡터</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">L1 정확 일치</div><div class="kb-diagram-node">L2 시맨틱 캐시</div><div class="kb-diagram-node">L3 LLM</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Redis GET) (벡터 유사도 ≥ θ) (OpenAI/등)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">히트율: 5~15% 히트율: 40~70% 항상 응답</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">레이턴시: 1ms 레이턴시: 10~50ms 레이턴시: 1~5s</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│              3계층 시맨틱 캐시 아키텍처                          │
+├──────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  사용자 질의 → [임베딩 모델] → 질의 벡터                         │
+│                                    │                            │
+│             ┌──────────────────────┼──────────────────────┐    │
+│             ▼                      ▼                      ▼    │
+│        [L1 정확 일치]         [L2 시맨틱 캐시]       [L3 LLM]  │
+│        (Redis GET)          (벡터 유사도 ≥ θ)    (OpenAI/등)   │
+│        히트율: 5~15%         히트율: 40~70%       항상 응답     │
+│        레이턴시: 1ms          레이턴시: 10~50ms   레이턴시: 1~5s│
+│                                                                  │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 | 계층               | 방식                          | 히트 조건                       | 적합 시나리오              |
 | :----------------- | :---------------------------- | :------------------------------ | :------------------------- |
@@ -124,25 +126,24 @@ GPTCache, LangChain의 semantic_cache, [Redis](/knowledge-base/studynote/05_data
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">LLM 직접 호출 (고비용, 고레이턴시)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">정확 일치 캐시 (Exact-Match Redis) — 낮은 히트율</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">임베딩 모델 (text-embedding) — 질의 벡터화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">시맨틱 캐시 (Semantic Cache) — 코사인 유사도 기반 히트</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">3계층 캐시 (L1 정확/L2 시맨틱/L3 LLM) — 최적 히트율</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지식 그래프 + 자동 캐시 갱신 (미래)</div>
-</div>
-</div>
-
-
+```text
+LLM 직접 호출 (고비용, 고레이턴시)
+    │
+    ▼
+정확 일치 캐시 (Exact-Match Redis) — 낮은 히트율
+    │
+    ▼
+임베딩 모델 (text-embedding) — 질의 벡터화
+    │
+    ▼
+시맨틱 캐시 (Semantic Cache) — 코사인 유사도 기반 히트
+    │
+    ▼
+3계층 캐시 (L1 정확/L2 시맨틱/L3 LLM) — 최적 히트율
+    │
+    ▼
+지식 그래프 + 자동 캐시 갱신 (미래)
+```
 
 흐름은 "단순 호출 → 정확 일치 → 의미 기반 → 계층화 → 지식 연계"로 발전한다.
 

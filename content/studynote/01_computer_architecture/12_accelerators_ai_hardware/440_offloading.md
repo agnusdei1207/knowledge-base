@@ -25,21 +25,20 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 오프로딩이 필요한 이유를 보여준다. 핵심은 “CPU가 느려서”가 아니라 “CPU가 모든 종류의 일을 동시에 하도록 설계된 것이 아니기 때문”이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">범용 처리에서 분업 처리로 바뀌는 이유</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 단독 처리</div><div class="kb-diagram-cell">CPU + 가속기 오프로딩</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제어 로직</div><div class="kb-diagram-cell">CPU → 제어, 스케줄링, 예외 처리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">그래픽 계산</div><div class="kb-diagram-cell">GPU → 벡터/행렬/픽셀 병렬 연산</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">암호화/패킷 처리</div><div class="kb-diagram-cell">DPU → 네트워크·스토리지 데이터 경로 처리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AI 추론</div><div class="kb-diagram-cell">NPU → 저전력 추론·텐서 연산</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: CPU 병목 심화</div><div class="kb-diagram-cell">결과: 역할 분리로 처리량·전력 효율 개선</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                 범용 처리에서 분업 처리로 바뀌는 이유               │
+├───────────────────────┬──────────────────────────────────────────────┤
+│ CPU 단독 처리         │ CPU + 가속기 오프로딩                       │
+├───────────────────────┼──────────────────────────────────────────────┤
+│ 제어 로직             │ CPU  → 제어, 스케줄링, 예외 처리            │
+│ 그래픽 계산           │ GPU  → 벡터/행렬/픽셀 병렬 연산             │
+│ 암호화/패킷 처리      │ DPU  → 네트워크·스토리지 데이터 경로 처리   │
+│ AI 추론               │ NPU  → 저전력 추론·텐서 연산                │
+├───────────────────────┼──────────────────────────────────────────────┤
+│ 결과: CPU 병목 심화   │ 결과: 역할 분리로 처리량·전력 효율 개선     │
+└───────────────────────┴──────────────────────────────────────────────┘
+```
 
 즉 오프로딩은 “빨라 보이는 칩을 추가하는 행위”가 아니라, 시스템에서 어떤 자원을 어떤 계층에 배치해야 전체 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 최적화되는지를 다루는 설계 원칙이다.
 
@@ -62,18 +61,17 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 오프로딩에서 자주 놓치는 병목 위치를 보여준다. 계산 박스보다 앞뒤의 이동 경로가 더 길어지면 가속기 활용률은 낮아진다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오프로딩 성능은 전체 경로로 결정된다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 준비 PCIe/DMA 전송 가속기 실행 결과 동기화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Task 생성</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">H→D Copy</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Kernel</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">D→H Copy</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">호출 빈도 과다 전송 지연 병렬도 부족 대기·배리어</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                  오프로딩 성능은 전체 경로로 결정된다               │
+├──────────────────────────────────────────────────────────────────────┤
+│ CPU 준비      PCIe/DMA 전송        가속기 실행        결과 동기화   │
+│ [Task 생성] ───────▶ [H→D Copy] ───────▶ [Kernel] ───────▶ [D→H Copy] │
+│    ▲                  ▲                  │                  │         │
+│    │                  │                  ▼                  ▼         │
+│ 호출 빈도 과다        전송 지연          병렬도 부족         대기·배리어 │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 실무적으로는 다음 식을 기억하면 된다. <strong>총 소요시간 = 준비시간 + 전송시간 + 가속기 실행시간 + <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a>시간</strong>이다. 오프로딩이 유리하려면 CPU 단독 실행시간보다 이 합이 충분히 작아야 하며, 특히 전송시간을 계산시간보다 작게 유지할 수 있어야 한다.
 
@@ -96,18 +94,16 @@ tags = ["studynote-computer-architecture"]
 
 여기서 한 단계 더 나아가면 동기식 오프로딩과 비동기식 오프로딩의 차이도 중요하다. 동기식은 구현이 단순하지만 CPU가 결과를 기다리며 쉬기 쉽다. 반면 비동기식은 복사, 계산, 후속 준비를 겹쳐 실행해 파이프라인 효율을 높이므로 실제 시스템에서 더 자주 쓰인다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동기식 vs 비동기식 오프로딩의 활용률 차이</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">동기식 :</div><div class="kb-diagram-node">복사 A</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">실행 A</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">회수 A</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">복사 B</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">실행 B</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">비동기식 :</div><div class="kb-diagram-node">복사 A</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">실행 A + 복사 B</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">회수 A + 실행 B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심 차이 : 비동기식은 버스와 가속기를 동시에 활용해 공회전을 줄임</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                동기식 vs 비동기식 오프로딩의 활용률 차이            │
+├──────────────────────────────────────────────────────────────────────┤
+│ 동기식   : [복사 A] → [실행 A] → [회수 A] → [복사 B] → [실행 B]     │
+│ 비동기식 : [복사 A] → [실행 A + 복사 B] → [회수 A + 실행 B]         │
+├──────────────────────────────────────────────────────────────────────┤
+│ 핵심 차이 : 비동기식은 버스와 가속기를 동시에 활용해 공회전을 줄임  │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 연결 구조는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 비동기 입출력, 네트워크의 제로카피, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스의 [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/), [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 시스템의 텐서 런타임 최적화와도 맞닿아 있다. 즉 오프로딩은 하드웨어 개념이지만, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 완성하는 것은 결국 소프트웨어 스케줄링과 메모리 전략이다.
 
@@ -166,23 +162,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">범용 CPU 중심 처리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">GPU 기반 그래픽·과학계산 오프로딩</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DPU/SmartNIC 기반 네트워크·스토리지 오프로딩</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">NPU 기반 엣지 AI 추론 오프로딩</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">제로카피 · UMA · CXL 기반 저오버헤드 이기종 메모리 공유</div>
-</div>
-</div>
-
-
+```text
+범용 CPU 중심 처리
+        │
+        ▼
+GPU 기반 그래픽·과학계산 오프로딩
+        │
+        ▼
+DPU/SmartNIC 기반 네트워크·스토리지 오프로딩
+        │
+        ▼
+NPU 기반 엣지 AI 추론 오프로딩
+        │
+        ▼
+제로카피 · UMA · CXL 기반 저오버헤드 이기종 메모리 공유
+```
 
 이 흐름은 “단순 보조 가속”에서 시작해 “[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 자체를 줄이는 통합형 오프로딩”으로 발전하는 방향을 보여준다.
 

@@ -26,18 +26,14 @@ tags = ["studynote-network"]
   - **스누핑이 없을 때**: 기사님이 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 우편물을 경비실([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))에 던지면, 멍청한 경비 아저씨가 그걸 복사해서 101호부터 124호까지 전 세대 우편함에 전부 꽂아버려 우편함이 터져버립니다.
   - **스누핑을 켰을 때**: 경비 아저씨가 평소에 입주민들이 배달 기사님에게 내는 <strong>"구독 신청서(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/333_igmp_internet_group_management_protocol_multicast/">IGMP</a> <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/">Join</a>)"를 중간에서 몰래 훔쳐 읽고(Snooping)</strong>, "아, 103호만 우유를 신청했군"이라고 수첩에 적어둡니다. 내일 우유가 오면 103호에만 조용히 꽂아줍니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">IGMP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IGMP Snooping</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MLD</div></div>
-</div>
-</div>
-
-
+```text
+[IGMP]
+    │
+    ▼
+[IGMP Snooping]
+    │
+    └──▶ [MLD]
+```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/333_igmp_internet_group_management_protocol_multicast/">IGMP</a> 스누핑은 눈치 없는 동네 확성기(<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>)를, 주민들의 취향을 몰래 파악하여 필요한 집에만 조용히 전단지를 밀어 넣는 </strong>"눈치 빠른 타겟 마케터"**로 진화시키는 마법의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 설정입니다.
 
@@ -52,26 +48,26 @@ tags = ["studynote-network"]
 2. **테이블 갱신**: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 이 패킷을 라우터로 통과시켜 주는 동시에 속으로 <strong>"오케이, 2번 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>는 239.1.1.1 번 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/">멀티캐스트</a> 멤버!"</strong>라고 자기 내부의 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 테이블에 특별하게 매핑([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/): `01:00:5E:01:01:01` -> [Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 2)해 둔다.
 3. **영상 전달 (포워딩)**: 라우터에서 239.1.1.1 영상 패킷이 엄청난 기세로 쏟아져 내려온다. [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 아까 만든 테이블을 보고 "이건 2번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로만 던진다!" 하고 깔끔하게 유니캐스트처럼 처리해 버린다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IGMP 스누핑 유무에 따른 L2 망의 차이</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">라우터</div><div class="kb-diagram-connector">▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상황 A) 스위치가 멍청할 때 (Snooping OFF)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스위치</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Port 1 (영상 안봄: 강제 수신, PC 버벅댐)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ \ ──▶ Port 2 (영상 봄: 정상 수신)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ Port 3 (영상 안봄: 강제 수신, PC 버벅댐)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: 동네 대역폭 전체가 박살 나고 네트워크 마비(Broadcast Storm 유사)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상황 B) 스위치가 똑똑할 때 (Snooping ON)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스위치</div><div class="kb-diagram-note">── 차단 ── Port 1 (쾌적)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ ── 전달 ──▶ Port 2 (영상만 쏙 골라 받음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 차단 ── Port 3 (쾌적)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: 스위치가 중간에서 Join 편지를 훔쳐본 덕분에 평화가 찾아옴.</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                IGMP 스누핑 유무에 따른 L2 망의 차이               │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 라우터 ] ──── (영상 1Gbps 트래픽 내려옴) ──▶               │
+ │                                                             │
+ │   상황 A) 스위치가 멍청할 때 (Snooping OFF)                      │
+ │      [ 스위치 ] ──▶ Port 1 (영상 안봄: 강제 수신, PC 버벅댐)      │
+ │        /    \   ──▶ Port 2 (영상 봄: 정상 수신)               │
+ │                 ──▶ Port 3 (영상 안봄: 강제 수신, PC 버벅댐)      │
+ │   ▶ 결과: 동네 대역폭 전체가 박살 나고 네트워크 마비(Broadcast Storm 유사)│
+ │                                                             │
+ │   상황 B) 스위치가 똑똑할 때 (Snooping ON)                       │
+ │      [ 스위치 ] ── 차단 ── Port 1 (쾌적)                       │
+ │        /        ── 전달 ──▶ Port 2 (영상만 쏙 골라 받음)        │
+ │                 ── 차단 ── Port 3 (쾌적)                       │
+ │   ▶ 결과: 스위치가 중간에서 Join 편지를 훔쳐본 덕분에 평화가 찾아옴.     │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 2. Mrouter [Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) ([멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 라우터 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))의 자동 감지
 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 "어느 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 라우터(윗선)가 연결되어 있는지"도 알아야 한다. 그래야 PC가 쓴 [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 엽서를 라우터 쪽으로 던져줄 수 있다.
@@ -134,19 +130,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: IGMP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: IGMP Snooping</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: MLD</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 대규모 주소 자동화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: IGMP]
+    │
+    ▼
+[현재 개념: IGMP Snooping]
+    │
+    ├──▶ [확장 A: MLD]
+    └──▶ [확장 B: 대규모 주소 자동화]
+```
 
 [IGMP](/knowledge-base/studynote/03_network/06_network_layer_ip/333_igmp_internet_group_management_protocol_multicast/) Snooping는 IGMP에서 출발해 현재 메커니즘을 정교화하고, 이후 MLD와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

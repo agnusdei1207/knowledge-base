@@ -19,35 +19,36 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 빌드 및 배포 자동화는 "코드가 저장소에 commit되는 순간부터이/가고객에게 전달되는 순간까지"의과정을 자동화된 파이프라인으로 처리하는 것을 의미한다. 이는 전통적 수동 방식(개발자가 수동으로 빌드하고,가 수동으로 배포)이 가진 속도 느림, 오류 발생 가능성 높음, 반복 업무 부담 등의 문제을/를 해결한다.
+- **개념**: 빌드 및 배포 자동화는 "코드가 저장소에 commit되는 순간부터최종제품이고객에게 전달되는 순간까지"의전과정을 자동화된 파이프라인으로 처리하는 것을 의미한다. 이는 전통적 수동 방식(개발자가 수동으로 빌드하고,운유エンジニア가 수동으로 배포)이 가진 속도 느림, 오류 발생 가능성 높음, 반복 업무 부담 등의 문제점을 해결한다.
 
-- **필요성**:수동배포에서는、의에 의한이/가에서이/가하다와/과이/가。 또한 시장 경쟁이 심화됨에 따라 새로운 기능을 최대한 빨리 출시해야 하는 압박이 증가하고 있다. 수동 배포로는 이러한 요구에 대응할 수 없으며, 자동화된 배포 파이프라인이 필수적입니다.
+- **필요성**:수동부서과정에서는, 심야의オペレーター에よる조작ミス이/가원인에서장해가발생하는こ와/과가다い.  또한 시장 경쟁이 심화됨에 따라 새로운 기능을 최대한 빨리 출시해야 하는 압박이 증가하고 있다. 수동 배포로는 이러한 요구에 대응할 수 없으며, 자동화된 배포 파이프라인이 필수적입니다.
 
-- **💡 비유**: 빌드 및 배포 자동화는 <strong>'고속철도 물류 시스템'</strong>과 같다. 화물 열차가 각 역마다 화물을 내리고 다시 실는 작업을 수동으로 하면 엄청난 시간이 걸리지만,된 물류에서는 화물 열차가 들어오는 순간부터 자동 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/), 자동 적재, 자동 출하까지 تمام이되어 있다. Likewise, 소프트웨어도된 빌드/배포 파이프라인을 통해 코드가 들어오는 순간부터 고객에게 전달될 때까지없이으로 처리된다.
+- **💡 비유**: 빌드 및 배포 자동화는 <strong>'고속철도 물류 시스템'</strong>과 같다. 화물 열차가 각 역마다 화물을 내리고 다시 실는 작업을 수동으로 하면 엄청난 시간이 걸리지만,자동화된 물류기지에서는 화물 열차가 들어오는 순간부터 자동 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/), 자동 적재, 자동 출하까지 تمام이자동화되어 있다. Likewise, 소프트웨어도자동화된 빌드/배포 파이프라인을 통해 코드가 들어오는 순간부터 고객에게 전달될 때까지인류없이고속으로 처리된다.
 
 - **등장 배경 및 발전 과정**:
-1. **2000년대 초**: CruiseControl, Hudson 등 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 도구 등장
-2. **2010년대**: Jenkins가 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 도구로 자리잡음, Docker의 등장으로 배포 환경 표준화
-3. **2015년 이후**: [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 대중화, [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) 개념 확산
-4. **현재**: Cloud-Native, [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/), Progressive Delivery 등 첨단 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 등장
+  1. **2000년대 초**: CruiseControl, Hudson 등 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 도구 등장
+  2. **2010년대**: Jenkins가주류 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 도구로 자리잡음, Docker의 등장으로 배포 환경 표준화
+  3. **2015년 이후**: [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 대중화, [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) 개념 확산
+  4. **현재**: Cloud-Native, [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/), Progressive Delivery 등 첨단 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 등장
 
-- **📢 섹션 요약 비유**: 빌드 및 배포 자동화는 <strong>'피자 배달의 '</strong>와 같다. 손님이 주문을 넣으면(코드 commit), 주방에서 자동으로 반죽을 치고(빌드), 토핑을 올리고(패키지), 오븐에 넣고(테스트), 배달에 실어 보내며(배포), 손님에게 도착한다. 만약 이 수동이면, 피자가 식어가면서 delivering되고, 손님은 불쾌한 경험을 하게 된다.
+- **📢 섹션 요약 비유**: 빌드 및 배포 자동화는 <strong>'피자 배달의 전자동화'</strong>와 같다. 손님이 주문을 넣으면(코드 commit), 주방에서 자동으로 반죽을 치고(빌드), 토핑을 올리고(패키지), 오븐에 넣고(테스트), 배달마탁차에 실어 보내며(배포), 손님에게 도착한다. 만약 전과정이 수동이면, 피자가 식어가면서 delivering되고, 손님은 불쾌한 경험을 하게 된다.
 
 ---
 
 다음은 소프트웨어 빌드 및 배포 자동화의 품의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소프트웨어 빌드 및 배포 자동화의 품</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                  소프트웨어 빌드 및 배포 자동화의 품                        │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
+│       │                    │                    │          │
+│       ▼                    ▼                    ▼          │
+│   요구 분석           설계·적용           품질 검증        │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램은 소프트웨어 빌드 및 배포 자동화의 품가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 결과물을 산출하는 흐름을 보여준다.
 
@@ -137,30 +138,28 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 소프트웨어 빌드 및 배포 자동화의 품질 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 단계의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 소프트웨어 빌드 및 배포 자동화의 품질 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 단계의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
 | [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 소프트웨어 빌드 및 배포 자동화의 품질 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 단계은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | 소프트웨어 빌드 및 배포 자동화의 품질 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 단계 적용 결과는 QA 활동을 통해 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)되고 측정된다 |
 | [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 소프트웨어 빌드 및 배포 자동화의 품질 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 단계에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">소프트웨어 빌드 및 배포 자동화의 품질 검증 단계 개념 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 위기 (Software Crisis) 인식
+    │
+    ▼
+소프트웨어 빌드 및 배포 자동화의 품질 검증 단계 개념 정립
+    │
+    ▼
+표준화 및 방법론 체계화 (ISO, CMMI, Agile)
+    │
+    ▼
+클라우드 네이티브·AI 기반 확장 적용
+    │
+    ▼
+지속적 개선 및 DevOps·MLOps 통합
+```
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

@@ -27,31 +27,31 @@ tags = ["studynote-operating-system"]
   2. <strong><a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a>(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/">KVM</a>) 환경의 이중 렉</strong>: 클라우드 가상 머신(게스트)이 폴트를 냈을 때, 호스트 서버가 디스크를 읽는 동안 게스트 전체 VCPU가 프리즈(Freeze)되는 참사 발생.
   3. **userfaultfd / Async PF 도입**: 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 멱살을 잡힌 유저 앱을 구원하기 위해, 폴트 처리를 유저 스페이스 이벤트로 넘겨주는 혁명적 API들이 등판함.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동기식(Sync) 폴트 vs 비동기식(Async) 폴트의 블로킹 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황: 싱글 스레드 앱이 Task A(폴트남)와 Task B(정상)를 처리함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1. 고전적 동기식 페이지 폴트 (최악의 병목)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">앱: "Task A 처리 시작! 변수 x 내놔!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MMU ──💥 Page Fault 발생 ──▶ OS: "너 기절해!" (Thread Sleep)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">( --- 8ms 동안 멈춤. 아무것도 못 함. Task B는 영문도 모른 채 대기 --- )</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS: "디스크에서 가져왔어. 깨어나라!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">앱: "휴... 이제 Task A 마저 끝내고, 그다음 Task B 할게."</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">☠️ 결과: Task B는 죄도 없는데 Task A의 폴트 때문에 8ms 지각함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2. 비동기식 페이지 폴트 (Asynchronous PF)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">앱: "Task A 시작! 변수 x 내놔!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MMU ──💥 Page Fault 발생 ──▶ OS: "너 디스크 갈 거니까 일단 넘겨!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">앱: "오키, Task A는 잠깐 큐에 미뤄두고, Task B부터 바로 실행할게!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">( --- 0ms 딜레이로 Task B 초고속 처리 완료! --- )</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS: "야! 아까 Task A 데이터 디스크에서 다 퍼왔어!" (Signal)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">앱: "나이스! 이제 Task A 마저 처리할게."</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 결과: 스레드가 0.1초도 놀지 않고 100% 풀가동. 렉 완전 소거!</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────────────────┐
+│        동기식(Sync) 폴트 vs 비동기식(Async) 폴트의 블로킹 시각화          │
+├───────────────────────────────────────────────────────────────────────────┤
+│                                                                           │
+│ [ 상황: 싱글 스레드 앱이 Task A(폴트남)와 Task B(정상)를 처리함 ]         │
+│                                                                           │
+│ ▶ 1. 고전적 동기식 페이지 폴트 (최악의 병목)                              │
+│   앱: "Task A 처리 시작! 변수 x 내놔!"                                    │
+│   MMU ──💥 Page Fault 발생 ──▶ OS: "너 기절해!" (Thread Sleep)            │
+│   ( --- 8ms 동안 멈춤. 아무것도 못 함. Task B는 영문도 모른 채 대기 --- ) │
+│   OS: "디스크에서 가져왔어. 깨어나라!"                                    │
+│   앱: "휴... 이제 Task A 마저 끝내고, 그다음 Task B 할게."                │
+│   ☠️ 결과: Task B는 죄도 없는데 Task A의 폴트 때문에 8ms 지각함.          │
+│                                                                           │
+│ ▶ 2. 비동기식 페이지 폴트 (Asynchronous PF)                               │
+│   앱: "Task A 시작! 변수 x 내놔!"                                         │
+│   MMU ──💥 Page Fault 발생 ──▶ OS: "너 디스크 갈 거니까 일단 넘겨!"       │
+│   앱: "오키, Task A는 잠깐 큐에 미뤄두고, Task B부터 바로 실행할게!"      │
+│   ( --- 0ms 딜레이로 Task B 초고속 처리 완료! --- )                       │
+│   OS: "야! 아까 Task A 데이터 디스크에서 다 퍼왔어!" (Signal)             │
+│   앱: "나이스! 이제 Task A 마저 처리할게."                                │
+│   ✅ 결과: 스레드가 0.1초도 놀지 않고 100% 풀가동. 렉 완전 소거!          │
+└───────────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 가장 큰 거짓말은 "모든 메모리가 램에 있는 척"하는 것이다. C언어나 자바 개발자는 `a = b + c;` 라는 코드가 8밀리초 동안 멈출 수 있다고 상상조차 못 하고 코드를 짠다. 비동기 폴트 처리는 이 투명한 거짓말(블로킹)을 과감히 까발리고, "지금 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 없으니까 딴 거 해!"라고 앱에게 투명하게 알려주어(Event Notification) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 질식사를 막아내는 고난도 아키텍처다.
 
 - **📢 섹션 요약 비유**: 게임에서 캐릭터가 포션(메모리)을 먹을 때 모션 딜레이(폴트 8ms) 때문에 그 자리에 멈춰 서서 적한테 맞아 죽는 게 동기식(Sync)입니다. 비동기식(Async)은 포션을 먹는 딜레이 중에도 무빙이나 다른 스킬([Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) B)을 난사할 수 있게 해주는 사기적인 '모션 캔슬(비동기화)' 기술로 생존력을 극대화하는 컨트롤입니다.
@@ -100,18 +100,15 @@ tags = ["studynote-operating-system"]
 ### O_DIRECT와 비동기 콤보의 한계
 DB 엔지니어들이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) I/O 렉을 없애기 위해 `AIO (Async I/O)` [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 쓰더라도, 그 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 OS의 [버퍼 캐시](/knowledge-base/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/)([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache)를 타게 설정되어 있다면 백그라운드에서 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)가 터지며 결국 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 막혀버린다([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)). 진짜 완벽한 100% 넌블로킹(Non-[blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)) 서버를 만들려면 OS의 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 꼼수 자체를 우회하는 `O_DIRECT (다이렉트 I/O)` 옵션을 켜서 [버퍼 캐시](/knowledge-base/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/)를 끄고, 개발자가 손수 메모리와 디스크 핀(Pinning)을 맞추는 피나는 생고생을 해야 한다. ([가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 안락함을 스스로 포기하는 대가).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스레드 모델</div><div class="kb-diagram-cell">메모리 구조</div><div class="kb-diagram-cell">폴트 발생 시 결과</div><div class="kb-diagram-cell">해결책 (Tuning)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">100개 Multi</div><div class="kb-diagram-cell">스왑 켜짐</div><div class="kb-diagram-cell">1개 스레드만 렉</div><div class="kb-diagram-cell">나머지 99개가 버팀 (무난)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Single (JS)</div><div class="kb-diagram-cell">스왑 켜짐</div><div class="kb-diagram-cell">서버 100% 마비</div><div class="kb-diagram-cell">☠️ 재앙. 무조건 스왑 끔</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">KVM Cloud</div><div class="kb-diagram-cell">EPT 이중 매핑</div><div class="kb-diagram-cell">vCPU 전체 멈춤</div><div class="kb-diagram-cell">🟢 Async PF 패치 필수</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬───────────────────────────────────┐
+│ 스레드 모델 │ 메모리 구조   │ 폴트 발생 시 결과│ 해결책 (Tuning)       │
+├──────────┼────────────┼────────────┼───────────────────────────────────┤
+│ 100개 Multi│ 스왑 켜짐    │ 1개 스레드만 렉 │ 나머지 99개가 버팀 (무난)│
+│ Single (JS)│ 스왑 켜짐    │ 서버 100% 마비 │ ☠️ 재앙. 무조건 스왑 끔   │
+│ KVM Cloud  │ EPT 이중 매핑│ vCPU 전체 멈춤 │ 🟢 Async PF 패치 필수     │
+└──────────┴────────────┴────────────┴───────────────────────────────────┘
+```
 **[매트릭스 해설]** [다중 스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/095_multithreading_benefits/)(Tomcat, Apache)는 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 하나가 메이저 폴트(디스크 긁기 8ms) 맞고 뻗어도 다른 수십 개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 일하면 되니까 티가 덜 난다. 하지만 Nginx나 Node.js처럼 싱글 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/)로 초당 수만 건을 처리하는 괴물들은, 그 단 1개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)를 밟고 8ms 동안 멈추면 뒤에 줄 선 수천 개의 접속이 타임아웃으로 박살 나는 대형 사고가 터진다. 이들에게 비동기 폴트 처리는 선택이 아닌 목숨줄이다.
 
 - **📢 섹션 요약 비유**: 100차선 고속도로(멀티 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))에서는 차 1대가 퍼져서([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)) 서 있어도 나머지 99차선으로 차들이 씽씽 달립니다. 하지만 1차선 직통 고속도로(싱글 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) Node.js)에서 맨 앞 차가 멈춰버리면 뒤에 수만 대의 차가 클랙슨을 울리며 완전히 마비됩니다. 1차선 도로일수록 고장 난 차를 갓길로 번개처럼 빼내는 비동기 견인차(Async PF)가 절대적으로 필요합니다.
@@ -169,19 +166,15 @@ VM을 이사 시킨 뒤 일단 껍데기만 새 서버에 띄운다. 유저가 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">역 페이지 테이블 탐색 최적화 해시 함수</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">비동기식 페이지 폴트 (Asynchronous Page Faults) 핸들링</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TLB 슛다운 (TLB Shootdown)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">커널 페이지 테이블 격리 (KPTI, Kernel Page-Table Isolation)</div></div>
-</div>
-</div>
-
-
+```text
+[역 페이지 테이블 탐색 최적화 해시 함수]
+    │
+    ▼
+[비동기식 페이지 폴트 (Asynchronous Page Faults) 핸들링]
+    │
+    ├──▶ [TLB 슛다운 (TLB Shootdown)]
+    └──▶ [커널 페이지 테이블 격리 (KPTI, Kernel Page-Table Isolation)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

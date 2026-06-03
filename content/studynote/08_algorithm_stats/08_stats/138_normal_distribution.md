@@ -21,22 +21,18 @@ tags = ["studynote-algorithm"]
 
 ### 정의
 
+```
+X ~ N(μ, σ²)
 
+PDF (Probability Density Function):
+f(x) = ─────────────── · exp(- (x-μ)² )
+       σ√(2π)                   2σ²
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">X ~ N(μ, σ²)</div>
-<div class="kb-diagram-note">PDF (Probability Density Function):</div>
-<div class="kb-diagram-note">f(x) = · exp(- (x-μ)² )</div>
-<div class="kb-diagram-note">σ√(2π) 2σ²</div>
-<div class="kb-diagram-note">모수:</div>
-<div class="kb-diagram-note">μ (뮤): 평균 — 분포의 위치 (Location)</div>
-<div class="kb-diagram-note">σ (시그마): 표준편차 — 분포의 폭 (Scale)</div>
-<div class="kb-diagram-note">σ²: 분산</div>
-</div>
-</div>
-
-
+모수:
+  μ (뮤): 평균 — 분포의 위치 (Location)
+  σ (시그마): 표준편차 — 분포의 폭 (Scale)
+  σ²: 분산
+```
 
 **정규 분포의 핵심 성질**:
 - 평균 μ 에서 최댓값 (Peak)
@@ -62,29 +58,31 @@ Z ~ N(0, 1)   (μ=0, σ=1 의 특수 경우)
 
 ## Ⅱ. 68-95-99.7 경험 법칙
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정규 분포 — 68-95-99.7 경험 법칙 (Empirical Rule)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ ─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ ─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ ─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── ──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── ──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ ─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">μ-3σ μ-2σ μ-σ μ μ+σ μ+2σ μ+3σ</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">99.7%</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">95.0%</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">68.0%</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">μ ± 1σ → 전체의 68.27% 포함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">μ ± 2σ → 전체의 95.45% 포함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">μ ± 3σ → 전체의 99.73% 포함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">μ ± 4σ → 전체의 99.994% 포함</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────────┐
+│  정규 분포 — 68-95-99.7 경험 법칙 (Empirical Rule)           │
+│                                                              │
+│                      ╭────╮                                  │
+│                    ╭─╯    ╰─╮                                │
+│                  ╭─╯        ╰─╮                              │
+│                ╭─╯            ╰─╮                            │
+│             ╭──╯                ╰──╮                         │
+│          ╭──╯                      ╰──╮                      │
+│  ──────╭─╯                            ╰─╮──────────          │
+│        │                                │                    │
+│  ──────┼────────────────────────────────┼──────────          │
+│       μ-3σ  μ-2σ  μ-σ    μ    μ+σ  μ+2σ  μ+3σ               │
+│                                                              │
+│  ├──────────── 99.7% ──────────────┤                         │
+│        ├──────── 95.0% ────────┤                             │
+│              ├──── 68.0% ────┤                               │
+│                                                              │
+│  μ ± 1σ → 전체의 68.27% 포함                                 │
+│  μ ± 2σ → 전체의 95.45% 포함                                 │
+│  μ ± 3σ → 전체의 99.73% 포함                                 │
+│  μ ± 4σ → 전체의 99.994% 포함                               │
+└──────────────────────────────────────────────────────────────┘
+```
 
 ### 실용적 응용
 
@@ -186,39 +184,31 @@ Var[X] = (exp(σ²)-1) · exp(2μ+σ²)
 
 ### [SPC](/knowledge-base/studynote/09_security/04_endpoint_security/203_spc_signed_public_key_challenge/) (Statistical [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Control, [통계적 공정 관리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/368_spc/))
 
+```
+관리도 (Control Chart) 설계:
+  UCL (Upper Control Limit) = μ + 3σ
+  CL (Center Line) = μ
+  LCL (Lower Control Limit) = μ - 3σ
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">관리도 (Control Chart) 설계:</div>
-<div class="kb-diagram-note">UCL (Upper Control Limit) = μ + 3σ</div>
-<div class="kb-diagram-note">CL (Center Line) = μ</div>
-<div class="kb-diagram-note">LCL (Lower Control Limit) = μ - 3σ</div>
-<div class="kb-diagram-note">샘플 측정값이 UCL/LCL을 벗어나면 → 공정 이상 (Out of Control)</div>
-<div class="kb-diagram-note">정상 범위 내 랜덤 변동 → 우연 원인 (Common Cause)</div>
-<div class="kb-diagram-note">이탈 → 특수 원인 (Special Cause) → 즉시 조사</div>
-</div>
-</div>
-
-
+샘플 측정값이 UCL/LCL을 벗어나면 → 공정 이상 (Out of Control)
+정상 범위 내 랜덤 변동 → 우연 원인 (Common Cause)
+이탈 → 특수 원인 (Special Cause) → 즉시 조사
+```
 
 ### [가설 검정](/knowledge-base/studynote/08_algorithm_stats/08_stats/145_hypothesis_testing/) ([Hypothesis Testing](/knowledge-base/studynote/08_algorithm_stats/08_stats/145_hypothesis_testing/)) 기반
 
+```
+귀무 가설 H₀: μ = μ₀ (정규 분포 가정)
 
+검정 통계량: Z = (X̄ - μ₀) / (σ/√n) ~ N(0,1)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">귀무 가설 H₀: μ = μ₀ (정규 분포 가정)</div>
-<div class="kb-diagram-note">검정 통계량: Z = (X̄ - μ₀) / (σ/√n) ~ N(0,1)</div>
-<div class="kb-diagram-note">유의 수준 α=0.05:</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Z</div><div class="kb-diagram-cell">&gt; 1.96 → H₀ 기각 (p-value &lt; 0.05)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Z</div><div class="kb-diagram-cell">&lt; 1.96 → H₀ 채택 불가 기각</div></div>
-<div class="kb-diagram-note">신뢰 구간 (Confidence Interval) 95%:</div>
-<div class="kb-diagram-note">X̄ ± 1.96 · σ/√n</div>
-</div>
-</div>
+유의 수준 α=0.05:
+  |Z| > 1.96 → H₀ 기각 (p-value < 0.05)
+  |Z| < 1.96 → H₀ 채택 불가 기각
 
-
+신뢰 구간 (Confidence Interval) 95%:
+  X̄ ± 1.96 · σ/√n
+```
 
 ### 오차 모델
 
@@ -249,23 +239,21 @@ Var[X] = (exp(σ²)-1) · exp(2μ+σ²)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 분포 표현 필요</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">중심극한정리(CLT)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">정규분포(Normal Distribution)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">표준화(Z-점수)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">통계 검정/머신러닝 응용</div></div>
-</div>
-</div>
-
-
+```text
+[데이터 분포 표현 필요]
+    │
+    ▼
+[중심극한정리(CLT)]
+    │
+    ▼
+[정규분포(Normal Distribution)]
+    │
+    ▼
+[표준화(Z-점수)]
+    │
+    ▼
+[통계 검정/머신러닝 응용]
+```
 
 정규분포는 중심극한정리에서 나오며 표준화와 통계 검정의 기본 분포다.
 

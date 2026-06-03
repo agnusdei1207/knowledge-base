@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: 도시에 ICT(정보통신기술)와 [사물인터넷](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)([IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)), 빅데이터, [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))을 융합하여, <strong>도시 전역의 인프라(교통, 환경, 주거, 에너지) <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 실시간으로 센싱하고 최적화하여 시민 삶의 질을 높이고 에너지를 절약하는 지능화된 도시 플랫폼</strong>입니다.
 - **특징**: 단순한 개별 시스템의 집합이 아니라, 교통 카메라 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 구급차 내비게이션으로 전달되고 가로등이 범죄 예방을 하는 등 <strong>이기종 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 간의 완벽한 융합(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Mashup)</strong>이 핵심입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">IIoT 트래픽 관리 한계/QoS 이슈</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스마트 시티 센싱 시스템</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">드론 통신 지연시간 관리 및 보안 C2 링크</div></div>
-</div>
-</div>
-
-
+```text
+[IIoT 트래픽 관리 한계/QoS 이슈]
+    │
+    ▼
+[스마트 시티 센싱 시스템]
+    │
+    └──▶ [드론 통신 지연시간 관리 및 보안 C2 링크]
+```
 
 - **📢 섹션 요약 비유**: [스마트 시티](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/171_smart_city_platform_architecture/) 센싱 시스템은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -53,18 +49,14 @@ tags = ["studynote-network"]
    - **대상**: 스마트 홈 가전, [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 정류장의 무료 와이파이, 가로등 간의 연속 점등 제어. 
    - 가로등끼리 서로 징검다리([Mesh](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)) 통신을 하여 고장 난 가로등이 있어도 우회해서 본부로 신고하도록 만듭니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">IIoT 트래픽 관리 한계/QoS 이슈</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스마트 시티 센싱 시스템</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">드론 통신 지연시간 관리 및 보안 C2 링크</div></div>
-</div>
-</div>
-
-
+```text
+[IIoT 트래픽 관리 한계/QoS 이슈]
+    │
+    ▼
+[스마트 시티 센싱 시스템]
+    │
+    └──▶ [드론 통신 지연시간 관리 및 보안 C2 링크]
+```
 
 - **📢 섹션 요약 비유**: [스마트 시티](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/171_smart_city_platform_architecture/) 센싱 시스템의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -123,19 +115,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: IIoT 트래픽 관리 한계/QoS 이슈</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 스마트 시티 센싱 시스템</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 드론 통신 지연시간 관리 및 보안 C2 링크</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율형 엣지 협업</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: IIoT 트래픽 관리 한계/QoS 이슈]
+    │
+    ▼
+[현재 개념: 스마트 시티 센싱 시스템]
+    │
+    ├──▶ [확장 A: 드론 통신 지연시간 관리 및 보안 C2 링크]
+    └──▶ [확장 B: 자율형 엣지 협업]
+```
 
 [스마트 시티](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/171_smart_city_platform_architecture/) 센싱 시스템는 [IIoT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/637_iiot_industrial_iot_qos_latency/) 트래픽 관리 한계/[QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 이슈에서 출발해 현재 메커니즘을 정교화하고, 이후 드론 통신 지연시간 관리 및 보안 [C2](/knowledge-base/studynote/09_security/15_malware_attack_vectors/746_c2/) 링크와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

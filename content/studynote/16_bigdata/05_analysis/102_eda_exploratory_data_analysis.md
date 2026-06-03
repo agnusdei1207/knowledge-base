@@ -20,24 +20,20 @@ tags = ["studynote-bigdata"]
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 EDA의 4대 핵심 원칙과 분석 워크플로우 아키텍처입니다.
 
+```text
+[ EDA Iteration Loop & 4 Core Principles ]
 
+  [ Raw Data ] --> [ Data Cleaning ] --> [ Visualization & Summary ]
+                         ^                          |
+                         | (Discovery)              v
+                  [ Model Design ] <--- [ Insights / Hypothesis ]
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">EDA Iteration Loop &amp; 4 Core Principles</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Raw Data</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Data Cleaning</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Visualization &amp; Summary</div></div>
-<div class="kb-diagram-note">^</div>
-<div class="kb-diagram-note">(Discovery) v</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Model Design</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-node">Insights / Hypothesis</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">4 Principles of EDA</div></div>
-<div class="kb-diagram-note">1. Resistance (저항성): 이상치(Outlier)에 영향을 덜 받는 척도 사용.</div>
-<div class="kb-diagram-note">2. Residual (잔차): 관찰값과 예측값의 차이를 분석하여 숨은 패턴 탐색.</div>
-<div class="kb-diagram-note">3. Re-expression (재표현): 로그 변환 등으로 데이터 구조를 단순화/정규화.</div>
-<div class="kb-diagram-note">4. Revelation (현시성): 그래프를 통한 시각화로 데이터를 한눈에 보여줌.</div>
-</div>
-</div>
-
-
+[ 4 Principles of EDA ]
+1. Resistance (저항성): 이상치(Outlier)에 영향을 덜 받는 척도 사용.
+2. Residual (잔차): 관찰값과 예측값의 차이를 분석하여 숨은 패턴 탐색.
+3. Re-expression (재표현): 로그 변환 등으로 데이터 구조를 단순화/정규화.
+4. Revelation (현시성): 그래프를 통한 시각화로 데이터를 한눈에 보여줌.
+```
 
 **핵심 원리:**
 1. **일변량 분석 (Univariate)**: 변수 하나의 분포(히스토그램, 박스플롯)와 중심 경향성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/).
@@ -57,7 +53,7 @@ EDA의 4대 핵심 원칙과 분석 워크플로우 아키텍처입니다.
 ### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
 * <strong>적용 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> (Implementation <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">Strategy</a>)</strong>:
   * <strong><a href="/knowledge-base/studynote/07_enterprise_systems/05_data_bi/283_data_visualization_dashboard_report/">데이터 시각화</a> 도구 활용</strong>: Python의 Seaborn, Plotly 등을 활용하여 동적 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)를 수행하고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 층(Layer)별 특징 파악.
-  * **반복적 프로세스**: 한 번의 EDA로 끝나지 않고, [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 엔지니어링([Feature Engineering](/knowledge-base/studynote/12_it_management/02_itsm_itil/081_feature_engineering/)) 후에 다시 EDA를 수행하여 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 변화를 지속적으로 관찰.
+  * **반복적 프로세스**: 한 번의 EDA로 끝나지 않고, [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 엔지니어링([Feature 엔진ering](/knowledge-base/studynote/12_it_management/02_itsm_itil/081_feature_engineering/)) 후에 다시 EDA를 수행하여 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 변화를 지속적으로 관찰.
 * **기술사적 판단 (Architectural Judgment)**:
   * 빅데이터 환경에서 모든 행을 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)하는 것은 불가능함. 따라서 신뢰할 수 있는 무작위 샘플링([Sampling](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/))을 통해 EDA를 수행하거나, [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)의 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 활용한 '[프로파일링](/knowledge-base/studynote/02_operating_system/10_security/613_profiling_gprof/)([Profiling](/knowledge-base/studynote/02_operating_system/10_security/613_profiling_gprof/))' 자동화 시스템 구축이 필수적임.
 
@@ -71,19 +67,15 @@ EDA는 분석 모델의 품질(Garbage In, Garbage Out 방지)을 결정짓는 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">시각화 기술: Histogram, Box Plot, Scatter Matrix, Heatmap</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 정제: Outlier Detection, Imputation, Scaling</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">분석 기구: Correlation Analysis, Feature Importance, Anscombe's Quartet</div></div>
-</div>
-</div>
-
-
+```text
+[시각화 기술: Histogram, Box Plot, Scatter Matrix, Heatmap]
+    │
+    ▼
+[데이터 정제: Outlier Detection, Imputation, Scaling]
+    │
+    ▼
+[분석 기구: Correlation Analysis, Feature Importance, Anscombe's Quartet]
+```
 
 이 흐름도는 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 기술: Histogram, Box Plot, Scatter Matrix, Heatmap에서 출발해 분석 기구: [Correlation Analysis](/knowledge-base/studynote/06_ict_convergence/05_data_science/325_correlation_analysis_pearson_spearman/), [Feature Importance](/knowledge-base/studynote/10_ai/05_data_science_ml/355_random_forest_feature_importance/), Anscombe's Quartet까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

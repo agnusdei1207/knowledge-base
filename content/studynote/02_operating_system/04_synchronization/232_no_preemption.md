@@ -24,24 +24,21 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경**: [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)([Mutual Exclusion](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/))를 달성하기 위해 자물쇠를 만들었더니, 이 자물쇠가 너무 튼튼한 나머지 데드락([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))이 터졌다. 에드워드 코프만이 데드락을 분석해 보니, "아무리 꼬여도 결국 문을 부수고(선점) 들어가면 데드락이 풀리네? 그런데 못 부수니까([비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)) 데드락이 유지되는구나"라고 깨닫고 이를 4대 필요조건의 하나로 명시했다.
 
+```text
+  [비선점(No Preemption)이 교착 상태(Deadlock)를 유지하는 메커니즘]
 
+  [ 스레드 A ]                                      [ 스레드 B ]
+  1. Mutex_1 획득                                  1. Mutex_2 획득
+  2. Mutex_2 요청 ─▶ 대기                           2. Mutex_1 요청 ─▶ 대기
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">비선점(No Preemption)이 교착 상태(Deadlock)를 유지하는 메커니즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스레드 A</div><div class="kb-diagram-node">스레드 B</div></div>
-<div class="kb-diagram-note">1. Mutex_1 획득 1. Mutex_2 획득</div>
-<div class="kb-diagram-note">2. Mutex_2 요청 ─▶ 대기 2. Mutex_1 요청 ─▶ 대기</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">OS 커널의 딜레마 (비선점 원칙 앞에서의 무력함)</div></div>
-<div class="kb-diagram-tree-item" style="--depth:1">커널: "얘들아, 이러다 다 죽어! A야, 네가 쥐고 있는 Mutex_1 잠깐만 뺏을게!"</div>
-<div class="kb-diagram-tree-item" style="--depth:1">A: "안돼! 나 아직 계산 중이야. 중간에 뺏기면 데이터 박살나!" (비선점 권리 행사)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">B: "나도 Mutex_2 절대 안 놔줘!"</div>
-<div class="kb-diagram-note">🚨 결과: 누구도 강제로 뺏을 수 없고(No Preemption),</div>
-<div class="kb-diagram-note">누구도 스스로 놓지 않으므로(Hold) 시스템은 무한 정지(Deadlock) 상태로 굳어짐.</div>
-</div>
-</div>
-
-
+  [ OS 커널의 딜레마 (비선점 원칙 앞에서의 무력함) ]
+  - 커널: "얘들아, 이러다 다 죽어! A야, 네가 쥐고 있는 Mutex_1 잠깐만 뺏을게!"
+  - A: "안돼! 나 아직 계산 중이야. 중간에 뺏기면 데이터 박살나!" (비선점 권리 행사)
+  - B: "나도 Mutex_2 절대 안 놔줘!"
+  
+  🚨 결과: 누구도 강제로 뺏을 수 없고(No Preemption), 
+          누구도 스스로 놓지 않으므로(Hold) 시스템은 무한 정지(Deadlock) 상태로 굳어짐.
+```
 **[다이어그램 해설]** "[문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))의 선점"과 헷갈리면 안 된다. CPU는 선점당해서 다른 놈이 연산할 수 있다. 하지만 <strong>"자원(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>)"</strong>은 선점당하지 않는다. A가 CPU를 뺏겨 대기실로 쫓겨날 때도 Mutex_1이라는 자물쇠는 A의 주머니 속에 그대로 들어있다. 이것이 [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)의 핵심이다.
 
 - **📢 섹션 요약 비유**: 수술실에서 의사가 메스를 쥐고 수술 중입니다. 바깥에서 아무리 급한 환자가 와도 수술 중인 의사의 손에서 메스를 강제로 뺏으면(선점) 환자 배를 가른 채로 죽게 됩니다. 그래서 병원(OS)은 수술이 끝날 때까지 메스(자원)를 절대 뺏을 수 없는 [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/) 규칙을 지켜야만 합니다.
@@ -101,27 +98,28 @@ tags = ["studynote-operating-system"]
 2. <strong>Java / C#의 <code>tryLock()</code> 을 통한 <a href="/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/">비선점</a> 룰의 자발적 파기</strong>: 애플리케이션 레벨에서는 남의 락을 뺏을(Kill) 권한이 없다. 따라서 "내가 가진 걸 스스로 놓는" 기법을 쓴다.
    - **아키텍트 결단**: 개발자는 `lock.lock()` 대신 `lock.tryLock(3 seconds)`를 쓴다. 3초간 기다려보고 남의 락을 못 얻으면? `finally` 구문을 태워서 **"내가 쥐고 있던 락마저 스스로 언락(Unlock)"** 해버린다. (자발적 선점 허용). 이를 통해 시스템은 데드락의 늪에 빠지지 않고 자연스럽게 호흡(Retry)하게 된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">교착 상태 4대 조건 중 '비선점' 파괴를 통한 백엔드 아키텍처 설계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">요구사항: 스레드 A가 자원 1과 자원 2를 모두 얻어야 통과됨</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 스레드 A의 동기화 로직 전개</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 자원 1 획득 (성공! Hold 상태 진입)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 자원 2 획득 시도 (실패! 다른 놈이 쥐고 있음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ "비선점(No Preemption)"을 어떻게 깰 것인가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">❌ 무식한 대기 (Hold &amp; Wait 유지)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 동작: 자원 1을 쥔 채 자원 2가 풀릴 때까지 영원히 대기.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 결과: 상대방도 자원 1을 기다리고 있다면 데드락 폭발!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">✅ 스마트한 롤백 (자발적 비선점 포기)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 동작: 자원 2를 못 얻었으니, 즉시 자원 1을 Unlock!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 효과: 쥐고 있던 자원을 방출(선점 허용)하여 데드락 분쇄.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 후속: 1초 대기 후 (Backoff) 처음부터 다시 시도(Retry).</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────────────┐
+  │     교착 상태 4대 조건 중 '비선점' 파괴를 통한 백엔드 아키텍처 설계 │
+  ├─────────────────────────────────────────────────────────────────────┤
+  │                                                                     │
+  │   [요구사항: 스레드 A가 자원 1과 자원 2를 모두 얻어야 통과됨]       │
+  │                │                                                    │
+  │                ▼ 스레드 A의 동기화 로직 전개                        │
+  │   1. 자원 1 획득 (성공! Hold 상태 진입)                             │
+  │   2. 자원 2 획득 시도 (실패! 다른 놈이 쥐고 있음)                   │
+  │                │                                                    │
+  │                ▼ "비선점(No Preemption)"을 어떻게 깰 것인가?        │
+  │      [ ❌ 무식한 대기 (Hold & Wait 유지) ]                          │
+  │       ├─▶ 동작: 자원 1을 쥔 채 자원 2가 풀릴 때까지 영원히 대기.    │
+  │       └─▶ 결과: 상대방도 자원 1을 기다리고 있다면 데드락 폭발!      │
+  │                                                                     │
+  │      [ ✅ 스마트한 롤백 (자발적 비선점 포기) ]                      │
+  │       ├─▶ 동작: 자원 2를 못 얻었으니, 즉시 자원 1을 Unlock!         │
+  │       ├─▶ 효과: 쥐고 있던 자원을 방출(선점 허용)하여 데드락 분쇄.   │
+  │       └─▶ 후속: 1초 대기 후 (Backoff) 처음부터 다시 시도(Retry).    │
+  └─────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 클라우드 백엔드나 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 환경에서 데드락을 피하는 가장 세련된 방법이 바로 하단의 **'백오프 앤 리트라이(Backoff & Retry)'** 패턴이다. 이 패턴의 본질은 코프만의 3번 조건([비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/))과 2번 조건([점유 대기](/knowledge-base/studynote/02_operating_system/04_synchronization/231_hold_and_wait/))을 프로그래머가 스스로 파괴하여 시스템의 혈을 뚫어주는 데 있다.
 
 - **📢 섹션 요약 비유**: 뽑기 기계에서 인형 2개를 뽑아야 성공입니다. 1개를 뽑았는데 2번째 인형이 다른 집게랑 엉켰습니다. 이때 1번 인형을 꽉 쥐고([비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)) 1시간을 멈춰있는 게 아니라, 그냥 1번 인형을 툭 놔버리고(자발적 포기) 처음부터 다시 동전을 넣고 뽑는 것이 가장 빨리 게임을 끝내는 비법입니다.
@@ -152,19 +150,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">뮤텍스 락 (Mutex Lock / Mutual Exclusion Lock)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">비선점 (No Preemption)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스핀락 (Spinlock)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">세마포어 (Semaphore)</div></div>
-</div>
-</div>
-
-
+```text
+[뮤텍스 락 (Mutex Lock / Mutual Exclusion Lock)]
+    │
+    ▼
+[비선점 (No Preemption)]
+    │
+    ├──▶ [스핀락 (Spinlock)]
+    └──▶ [세마포어 (Semaphore)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

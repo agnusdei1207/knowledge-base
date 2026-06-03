@@ -23,17 +23,16 @@ tags = ["studynote-design-supervision"]
 
 감리와 설계 관점에서 중요한 이유는, 네트워크가 더 이상 단순 인프라가 아니라 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질·보안·규제 준수의 핵심 통제 지점이기 때문이다. 따라서 시험 답안에서는 IBN을 단순 유행어가 아니라 **의도 입력 -> [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 변환 -> 지속 보증** 구조로 설명해야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Business Intent</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Policy Translate</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Network Changes</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Assurance Loop</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────┐      ┌──────────────────┐      ┌──────────────────┐
+│ Business Intent  │ ───▶ │ Policy Translate │ ───▶ │ Network Changes  │
+└──────────────────┘      └──────────────────┘      └──────────────────┘
+                                                                 │
+                                                                 ▼
+                                                       ┌──────────────────┐
+                                                       │ Assurance Loop   │
+                                                       └──────────────────┘
+```
 
 이 그림은 IBN이 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 자동화만이 아니라, 적용 후에도 원래 의도가 유지되는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 구조라는 점을 보여 준다.
 
@@ -47,27 +46,34 @@ IBN의 핵심은 변환(Translation), 활성화(Activation), 보증(Assurance)�
 
 | 구성 축 | 역할 | 실무 포인트 |
 |:---|:---|:---|
-| [Intent](/knowledge-base/studynote/06_ict_convergence/05_data_science/416_prompt_injection_semantic_routing/) Engine | 자연어·[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 형태의 의도를 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 규칙으로 해석 | 용어 표준화와 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 필수 |
+| [Intent](/knowledge-base/studynote/06_ict_convergence/05_data_science/416_prompt_injection_semantic_routing/) 엔진 | 자연어·[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 형태의 의도를 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 규칙으로 해석 | 용어 표준화와 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 필수 |
 | Controller / Orchestrator | 멀티벤더 장비와 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 컨트롤러에 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 배포 | 장비 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/), 자동 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/), 변경 이력 관리 필요 |
 | Assurance / Telemetry | 실제 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/), 세그멘트 상태를 측정·교정 | 의도 이탈 시 경보·재구성·자가 치유 체계 필요 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Intent Statement</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Policy Model</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Controller</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Network Fabric</div></div>
-<div class="kb-diagram-note">telemetry</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Assurance Engine</div></div>
-<div class="kb-diagram-note">feedback loop</div>
-</div>
-</div>
-
-
+```text
+┌───────────────────┐
+│ Intent Statement  │
+└───────────────────┘
+          │
+          ▼
+┌───────────────────┐      ┌───────────────────┐
+│ Policy Model      │ ───▶ │ Controller        │
+└───────────────────┘      └───────────────────┘
+                                     │
+                                     ▼
+                             ┌───────────────────┐
+                             │ Network Fabric    │
+                             └───────────────────┘
+                                     │
+                                telemetry
+                                     ▼
+                             ┌───────────────────┐
+                             │ Assurance Engine  │
+                             └───────────────────┘
+                                     │
+                                feedback loop
+                                     └────────────▶
+```
 
 따라서 [IBN](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/) 아키텍처 평가는 "얼마나 멋지게 자동화했는가"보다, <strong>의도와 실제 상태의 차이를 얼마나 짧게 닫는가</strong>로 보는 것이 핵심이다.
 
@@ -99,7 +105,7 @@ IBN은 전통 네트워킹과 SDN을 대체한다기보다 그 위에 추상화�
 ### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 비즈니스 의도가 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 목표, [보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/), 세그멘트 규칙처럼 측정 가능한 형태로 정의되어 있는가?
-2. [Intent](/knowledge-base/studynote/06_ict_convergence/05_data_science/416_prompt_injection_semantic_routing/) Engine과 컨트롤러 사이에 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 시뮬레이션, [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 메커니즘이 존재하는가?
+2. [Intent](/knowledge-base/studynote/06_ict_convergence/05_data_science/416_prompt_injection_semantic_routing/) 엔진과 컨트롤러 사이에 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 시뮬레이션, [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 메커니즘이 존재하는가?
 3. 텔레메트리 수집과 보증 엔진이 실제 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)·[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)·보안 상태를 지속적으로 측정하는가?
 4. 멀티벤더 장비, 클라우드, [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)를 아우르는 운영 책임과 승인 절차가 문서화되어 있는가?
 

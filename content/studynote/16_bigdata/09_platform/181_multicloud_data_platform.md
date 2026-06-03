@@ -27,19 +27,23 @@ Snowflake와 Databricks가 주목받는 이유도 여기 있다. 둘 다 여러 
 
 아래 그림은 멀티클라우드가 필요한 배경을 요약한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">멀티클라우드 요구가 생기는 이유</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유럽 데이터 주권 M&amp;A 통합 특정 서비스 최적화 장애 분산</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">여러 클라우드에 데이터와 워크로드 분산</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메타데이터 분열 · 권한 분열 · 이그레스 비용 증가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공통 플랫폼 + 현지 처리 중심의 통합 필요</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ 멀티클라우드 요구가 생기는 이유                               │
+├──────────────────────────────────────────────────────────────┤
+│ 유럽 데이터 주권   M&A 통합   특정 서비스 최적화   장애 분산 │
+│      │             │              │               │          │
+│      └─────────────┴───────┬──────┴───────────────┘          │
+│                            ▼                                 │
+│            여러 클라우드에 데이터와 워크로드 분산            │
+│                            │                                 │
+│                            ▼                                 │
+│      메타데이터 분열 · 권한 분열 · 이그레스 비용 증가        │
+│                            │                                 │
+│                            ▼                                 │
+│          공통 플랫폼 + 현지 처리 중심의 통합 필요            │
+└──────────────────────────────────────────────────────────────┘
+```
 
 즉 멀티클라우드 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼은 "클라우드를 두 개 이상 쓰자"가 아니라, <strong>여러 클라우드의 필연적 파편화를 줄이기 위한 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 운영 해법</strong>으로 이해해야 한다.
 
@@ -49,7 +53,7 @@ Snowflake와 Databricks가 주목받는 이유도 여기 있다. 둘 다 여러 
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-멀티클라우드 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼의 핵심 원리는 단순하다. Control Plane은 통합하고, [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane은 지역화한다. Control Plane은 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/), 권한, 계보, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 비용 가시성, [데이터 제품](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/) 정의처럼 전사 공통 규칙을 담당한다. 반면 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane은 AWS S3 (Simple Storage [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)), Azure [Data Lake Storage](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/641_data_lake_storage/) (ADLS), Google Cloud Storage (GCS), 각 클라우드의 Compute Engine처럼 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장과 계산이 일어나는 현지 계층이다.
+멀티클라우드 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼의 핵심 원리는 단순하다. Control Plane은 통합하고, [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane은 지역화한다. Control Plane은 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/), 권한, 계보, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 비용 가시성, [데이터 제품](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/) 정의처럼 전사 공통 규칙을 담당한다. 반면 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane은 AWS S3 (Simple Storage [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)), Azure [Data Lake Storage](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/641_data_lake_storage/) (ADLS), Google Cloud Storage (GCS), 각 클라우드의 Compute 엔진처럼 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장과 계산이 일어나는 현지 계층이다.
 
 | 계층 | 구성 요소 | 설계 원리 |
 | :--- | :--- | :--- |
@@ -60,22 +64,23 @@ Snowflake와 Databricks가 주목받는 이유도 여기 있다. 둘 다 여러 
 
 아래 구조는 멀티클라우드 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼의 전형적인 형태를 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Unified Control Plane</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Catalog · Lineage · Policy · IAM Federation · FinOps</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AWS Data Plane</div><div class="kb-diagram-cell">Azure Data Plane</div><div class="kb-diagram-cell">GCP Data Plane</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">S3 / Iceberg</div><div class="kb-diagram-cell">ADLS / Warehouse</div><div class="kb-diagram-cell">GCS / BigQuery</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Databricks or</div><div class="kb-diagram-cell">Snowflake or</div><div class="kb-diagram-cell">Databricks or</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Snowflake Compute</div><div class="kb-diagram-cell">Databricks Compute</div><div class="kb-diagram-cell">Snowflake Compute</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">local processing</div><div class="kb-diagram-cell">local processing</div><div class="kb-diagram-cell">local processing</div></div>
-<div class="kb-diagram-tree-item" style="--depth:5">curated share / selective replication</div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ Unified Control Plane                                        │
+│ Catalog · Lineage · Policy · IAM Federation · FinOps         │
+└──────────────┬────────────────────┬────────────────────┬─────┘
+               │                    │                    │
+               ▼                    ▼                    ▼
+┌─────────────────────┐ ┌─────────────────────┐ ┌─────────────────────┐
+│ AWS Data Plane      │ │ Azure Data Plane    │ │ GCP Data Plane      │
+│ S3 / Iceberg        │ │ ADLS / Warehouse    │ │ GCS / BigQuery      │
+│ Databricks or       │ │ Snowflake or        │ │ Databricks or       │
+│ Snowflake Compute   │ │ Databricks Compute  │ │ Snowflake Compute   │
+│ local processing    │ │ local processing    │ │ local processing    │
+└──────────┬──────────┘ └──────────┬──────────┘ └──────────┬──────────┘
+           │                       │                       │
+           └──── curated share / selective replication ───┘
+```
 
 이 구조에서 가장 중요한 설계 선택은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 패턴이다. 첫째, 원칙적으로 계산을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 있는 클라우드에서 수행한다. 둘째, 전사 공통 소비가 필요한 결과 집합만 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)하거나 공유한다. 셋째, 원본 전체를 무차별 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)하지 않고 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)별 [Data Product](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/) 단위로 이동을 제한한다. 이 원칙이 있어야 [Egress](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/) 비용과 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 부하를 통제할 수 있다.
 
@@ -161,26 +166,25 @@ Snowflake와 Databricks도 멀티클라우드를 구현하는 방식이 다르�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단일 클라우드 데이터 플랫폼</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지역 규제 · M&amp;A · 벤더 종속 문제 확대</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">멀티클라우드 데이터 플랫폼</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Unified Control Plane</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Regional Data Plane</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Selective Sharing / Replication</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">오픈 테이블 포맷 · Data Product · FinOps 결합</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">정책 통합형 Data Fabric / 글로벌 거버넌스 확장</div>
-</div>
-</div>
-
-
+```text
+단일 클라우드 데이터 플랫폼
+    │
+    ▼
+지역 규제 · M&A · 벤더 종속 문제 확대
+    │
+    ▼
+멀티클라우드 데이터 플랫폼
+    │
+    ├─ Unified Control Plane
+    ├─ Regional Data Plane
+    └─ Selective Sharing / Replication
+    │
+    ▼
+오픈 테이블 포맷 · Data Product · FinOps 결합
+    │
+    ▼
+정책 통합형 Data Fabric / 글로벌 거버넌스 확장
+```
 
 이 흐름은 단일 클라우드 중심 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 운영이 규제와 비용 한계에 부딪힌 뒤, 통합 거버넌스와 현지 처리를 결합한 플랫폼 모델로 발전하는 방향을 보여 준다.
 

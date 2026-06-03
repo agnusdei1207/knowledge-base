@@ -18,39 +18,40 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅰ. [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 확장성 문제
 
+```
+블록체인 TPS 한계:
 
+비트코인: ~7 TPS (블록크기 1MB, 10분 블록)
+이더리움: ~15 TPS (가스 한도, 12초 블록)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">블록체인 TPS 한계:</div>
-<div class="kb-diagram-note">비트코인: ~7 TPS (블록크기 1MB, 10분 블록)</div>
-<div class="kb-diagram-note">이더리움: ~15 TPS (가스 한도, 12초 블록)</div>
-<div class="kb-diagram-note">VISA: 24,000 TPS (평균)</div>
-<div class="kb-diagram-note">65,000+ TPS (피크)</div>
-<div class="kb-diagram-note">확장성 제약 원인:</div>
-<div class="kb-diagram-note">전체 노드 검증:</div>
-<div class="kb-diagram-note">모든 풀노드 → 모든 트랜잭션 검증</div>
-<div class="kb-diagram-note">→ 전체 네트워크 용량 = 가장 느린 노드 속도</div>
-<div class="kb-diagram-note">트릴레마 (Trilemma):</div>
-<div class="kb-diagram-note">탈중앙화 (Decentralization)</div>
-<div class="kb-diagram-note">보안 (Security)</div>
-<div class="kb-diagram-note">확장성 (Scalability)</div>
-<div class="kb-diagram-note">→ 셋 중 둘만 달성 가능?</div>
-<div class="kb-diagram-note">비트코인: 탈중앙화 + 보안 (확장성 희생)</div>
-<div class="kb-diagram-note">EOS: 보안 + 확장성 (21개 BP로 탈중앙화 희생)</div>
-<div class="kb-diagram-note">확장 솔루션:</div>
-<div class="kb-diagram-note">L1 (온체인):</div>
-<div class="kb-diagram-tree-item" style="--depth:1">블록크기 증가 (BSV, BCH)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">샤딩 (Ethereum 계획)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">합의 알고리즘 변경 (PoS)</div>
-<div class="kb-diagram-note">L2 (오프체인):</div>
-<div class="kb-diagram-tree-item" style="--depth:1">롤업 (Arbitrum, Optimism)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">페이먼트 채널 (Lightning Network)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">사이드체인 (Polygon)</div>
-</div>
-</div>
+VISA: 24,000 TPS (평균)
+      65,000+ TPS (피크)
 
+확장성 제약 원인:
+  전체 노드 검증:
+  모든 풀노드 → 모든 트랜잭션 검증
+  → 전체 네트워크 용량 = 가장 느린 노드 속도
+  
+  트릴레마 (Trilemma):
+  탈중앙화 (Decentralization)
+  보안 (Security)
+  확장성 (Scalability)
+  → 셋 중 둘만 달성 가능?
+  
+  비트코인: 탈중앙화 + 보안 (확장성 희생)
+  EOS: 보안 + 확장성 (21개 BP로 탈중앙화 희생)
 
+확장 솔루션:
+  L1 (온체인):
+  - 블록크기 증가 (BSV, BCH)
+  - 샤딩 (Ethereum 계획)
+  - 합의 알고리즘 변경 (PoS)
+  
+  L2 (오프체인):
+  - 롤업 (Arbitrum, Optimism)
+  - 페이먼트 채널 (Lightning Network)
+  - 사이드체인 (Polygon)
+```
 
 > 📢 **섹션 요약 비유**: [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 확장성 문제는 단일 계산원 — 슈퍼마켓에 계산원 1명(모든 노드 동일 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)), 줄이 길어도 더 빠른 계산원을 쓸 수 없어요. [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)은 계산대 여러 개 열기!
 
@@ -58,45 +59,49 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅱ. [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/) 메커니즘
 
+```
+블록체인 샤딩 구조:
 
+네트워크 분할:
+  전체 네트워크 (N개 노드)
+  ↓ K개 샤드로 분할
+  샤드 1: 노드 1~N/K, 트랜잭션 A-F
+  샤드 2: 노드 N/K+1~2N/K, 트랜잭션 G-M
+  ...
+  샤드 K: 마지막 노드들, 트랜잭션 ...
+  
+  각 샤드: 독립 합의, 독립 블록 생성
+  → 병렬 처리 → TPS × K
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">블록체인 샤딩 구조:</div>
-<div class="kb-diagram-note">네트워크 분할:</div>
-<div class="kb-diagram-note">전체 네트워크 (N개 노드)</div>
-<div class="kb-diagram-note">↓ K개 샤드로 분할</div>
-<div class="kb-diagram-note">샤드 1: 노드 1~N/K, 트랜잭션 A-F</div>
-<div class="kb-diagram-note">샤드 2: 노드 N/K+1~2N/K, 트랜잭션 G-M</div>
-<div class="kb-diagram-note">...</div>
-<div class="kb-diagram-note">샤드 K: 마지막 노드들, 트랜잭션 ...</div>
-<div class="kb-diagram-note">각 샤드: 독립 합의, 독립 블록 생성</div>
-<div class="kb-diagram-note">→ 병렬 처리 → TPS × K</div>
-<div class="kb-diagram-note">샤딩 유형:</div>
-<div class="kb-diagram-note">1. 네트워크 샤딩 (Network Sharding):</div>
-<div class="kb-diagram-note">노드를 샤드로 분할</div>
-<div class="kb-diagram-note">→ 각 샤드만 통신</div>
-<div class="kb-diagram-note">2. 트랜잭션 샤딩 (Transaction Sharding):</div>
-<div class="kb-diagram-note">트랜잭션을 샤드로 배분</div>
-<div class="kb-diagram-note">동일 계정의 TX → 동일 샤드</div>
-<div class="kb-diagram-note">3. 상태 샤딩 (State Sharding):</div>
-<div class="kb-diagram-note">블록체인 상태(계정 잔액 등)를 분할</div>
-<div class="kb-diagram-note">각 샤드가 일부 상태만 보유</div>
-<div class="kb-diagram-note">→ 가장 어렵지만 가장 효과적</div>
-<div class="kb-diagram-note">크로스 샤드 통신 (Cross-Shard):</div>
-<div class="kb-diagram-note">샤드 A의 Alice → 샤드 B의 Bob 전송</div>
-<div class="kb-diagram-note">문제: 서로 다른 샤드 = 서로 다른 합의</div>
-<div class="kb-diagram-note">해결 방법:</div>
-<div class="kb-diagram-note">1. 2단계 커밋 (2-Phase Commit):</div>
-<div class="kb-diagram-note">잠금 → 커밋 (느림)</div>
-<div class="kb-diagram-note">2. 영수증 기반 (Receipt-Based):</div>
-<div class="kb-diagram-note">샤드 A: 소각 영수증 생성</div>
-<div class="kb-diagram-note">샤드 B: 영수증 확인 후 발행</div>
-<div class="kb-diagram-note">→ Ethereum 초기 샤딩 계획</div>
-</div>
-</div>
+샤딩 유형:
 
+1. 네트워크 샤딩 (Network Sharding):
+   노드를 샤드로 분할
+   → 각 샤드만 통신
 
+2. 트랜잭션 샤딩 (Transaction Sharding):
+   트랜잭션을 샤드로 배분
+   동일 계정의 TX → 동일 샤드
+
+3. 상태 샤딩 (State Sharding):
+   블록체인 상태(계정 잔액 등)를 분할
+   각 샤드가 일부 상태만 보유
+   → 가장 어렵지만 가장 효과적
+
+크로스 샤드 통신 (Cross-Shard):
+  샤드 A의 Alice → 샤드 B의 Bob 전송
+  
+  문제: 서로 다른 샤드 = 서로 다른 합의
+  
+  해결 방법:
+  1. 2단계 커밋 (2-Phase Commit):
+     잠금 → 커밋 (느림)
+  
+  2. 영수증 기반 (Receipt-Based):
+     샤드 A: 소각 영수증 생성
+     샤드 B: 영수증 확인 후 발행
+     → Ethereum 초기 샤딩 계획
+```
 
 > 📢 **섹션 요약 비유**: [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)은 은행 지점 분리 — 전국 거래를 본점(단일 체인) 하나에서 처리하다가, 지역별 지점(샤드)이 독립적으로 처리. 지점 간 송금(크로스샤드)만 복잡!
 
@@ -104,39 +109,44 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅲ. 1% 공격과 보안
 
+```
+샤딩의 보안 위험: 1% 공격
 
+단일 체인:
+  공격자 51% 해시파워 필요
+  전체 네트워크의 51%
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">샤딩의 보안 위험: 1% 공격</div>
-<div class="kb-diagram-note">단일 체인:</div>
-<div class="kb-diagram-note">공격자 51% 해시파워 필요</div>
-<div class="kb-diagram-note">전체 네트워크의 51%</div>
-<div class="kb-diagram-note">샤딩 (10개 샤드):</div>
-<div class="kb-diagram-note">단일 샤드 공격: 샤드 검증자의 51% 필요</div>
-<div class="kb-diagram-note">전체 네트워크의 51%/10 = 5.1%</div>
-<div class="kb-diagram-note">→ 공격 비용 10× 감소!</div>
-<div class="kb-diagram-note">완화 방법:</div>
-<div class="kb-diagram-note">1. 랜덤 샤드 배정 (Random Shuffling):</div>
-<div class="kb-diagram-note">검증자를 주기적으로 무작위로 샤드 재배정</div>
-<div class="kb-diagram-note">VDF (Verifiable Delay Function):</div>
-<div class="kb-diagram-note">조작 불가능한 랜덤성 생성 (Ethereum 사용)</div>
-<div class="kb-diagram-note">재배정 빈도 ↑ → 보안 ↑ but 오버헤드 ↑</div>
-<div class="kb-diagram-note">2. 충분한 샤드 크기:</div>
-<div class="kb-diagram-note">샤드당 최소 검증자 수 유지</div>
-<div class="kb-diagram-note">Ethereum 목표: 샤드당 128명 검증자</div>
-<div class="kb-diagram-note">→ 통계적으로 1% 공격 현실적 불가</div>
-<div class="kb-diagram-note">3. 크로스링크 (Crosslink):</div>
-<div class="kb-diagram-note">비콘 체인이 각 샤드 상태 주기적 확인</div>
-<div class="kb-diagram-note">→ 샤드 조작 탐지</div>
-<div class="kb-diagram-note">Ethereum 2.0 (PoS + 샤딩):</div>
-<div class="kb-diagram-note">PoS 검증자: 스테이킹 32 ETH</div>
-<div class="kb-diagram-note">랜덤 위원회(Committee)로 샤드 배정</div>
-<div class="kb-diagram-note">에포크(32 슬롯)마다 재배정</div>
-</div>
-</div>
+샤딩 (10개 샤드):
+  단일 샤드 공격: 샤드 검증자의 51% 필요
+  전체 네트워크의 51%/10 = 5.1%
+  
+  → 공격 비용 10× 감소!
 
+완화 방법:
 
+1. 랜덤 샤드 배정 (Random Shuffling):
+   검증자를 주기적으로 무작위로 샤드 재배정
+   
+   VDF (Verifiable Delay Function):
+   조작 불가능한 랜덤성 생성 (Ethereum 사용)
+   
+   재배정 빈도 ↑ → 보안 ↑ but 오버헤드 ↑
+
+2. 충분한 샤드 크기:
+   샤드당 최소 검증자 수 유지
+   
+   Ethereum 목표: 샤드당 128명 검증자
+   → 통계적으로 1% 공격 현실적 불가
+
+3. 크로스링크 (Crosslink):
+   비콘 체인이 각 샤드 상태 주기적 확인
+   → 샤드 조작 탐지
+
+Ethereum 2.0 (PoS + 샤딩):
+  PoS 검증자: 스테이킹 32 ETH
+  랜덤 위원회(Committee)로 샤드 배정
+  에포크(32 슬롯)마다 재배정
+```
 
 > 📢 **섹션 요약 비유**: 1% 공격은 작은 분대 점령 — 전군(전체 체인) 공격은 어려운데, 소부대(샤드) 하나 점령하면 그 샤드 독점. 랜덤 배치(셔플)로 어느 부대에 적이 올지 모르게!
 
@@ -190,42 +200,45 @@ KZG 약속 (KZG Commitments):
 
 ## Ⅴ. 실무 시나리오 — Zilliqa [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)
 
+```
+Zilliqa — 퍼블릭 블록체인 샤딩 구현:
 
+배경:
+  2018년 메인넷 출시
+  업계 최초 실용 샤딩 블록체인
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Zilliqa — 퍼블릭 블록체인 샤딩 구현:</div>
-<div class="kb-diagram-note">배경:</div>
-<div class="kb-diagram-note">2018년 메인넷 출시</div>
-<div class="kb-diagram-note">업계 최초 실용 샤딩 블록체인</div>
-<div class="kb-diagram-note">아키텍처:</div>
-<div class="kb-diagram-note">DS Committee (Directory Service):</div>
-<div class="kb-diagram-note">→ 새 에포크마다 샤드 구성 결정</div>
-<div class="kb-diagram-note">→ PoW로 DS 위원회 선정</div>
-<div class="kb-diagram-note">샤드 노드:</div>
-<div class="kb-diagram-note">트랜잭션 샤딩 처리</div>
-<div class="kb-diagram-note">PBFT 합의 (샤드 내)</div>
-<div class="kb-diagram-note">크로스샤드 처리:</div>
-<div class="kb-diagram-note">DS Committee 최종 합병</div>
-<div class="kb-diagram-note">성능:</div>
-<div class="kb-diagram-note">2,400개 노드 기준:</div>
-<div class="kb-diagram-note">샤드 4개 → TPS 2,828</div>
-<div class="kb-diagram-note">샤드 6개 → TPS ~2,488 (일부 오버헤드)</div>
-<div class="kb-diagram-note">이론: 샤드 × 500 TPS</div>
-<div class="kb-diagram-note">한계:</div>
-<div class="kb-diagram-note">상태 샤딩 미구현 (트랜잭션 샤딩만)</div>
-<div class="kb-diagram-note">크로스샤드 스마트컨트랙트 제약</div>
-<div class="kb-diagram-note">교훈:</div>
-<div class="kb-diagram-note">샤딩은 기술적으로 가능하지만 복잡</div>
-<div class="kb-diagram-note">크로스샤드 통신이 주요 병목</div>
-<div class="kb-diagram-note">Ethereum의 전략 전환(롤업+DAS)이 현실적</div>
-<div class="kb-diagram-note">현재:</div>
-<div class="kb-diagram-note">ZIL: DeFi, 게임 용도</div>
-<div class="kb-diagram-note">Ethereum L2 롤업 + Danksharding이 주류 흐름</div>
-</div>
-</div>
+아키텍처:
+  DS Committee (Directory Service):
+  → 새 에포크마다 샤드 구성 결정
+  → PoW로 DS 위원회 선정
+  
+  샤드 노드:
+  트랜잭션 샤딩 처리
+  PBFT 합의 (샤드 내)
+  
+  크로스샤드 처리:
+  DS Committee 최종 합병
 
+성능:
+  2,400개 노드 기준:
+  샤드 4개 → TPS 2,828
+  샤드 6개 → TPS ~2,488 (일부 오버헤드)
+  
+  이론: 샤드 × 500 TPS
 
+한계:
+  상태 샤딩 미구현 (트랜잭션 샤딩만)
+  크로스샤드 스마트컨트랙트 제약
+
+교훈:
+  샤딩은 기술적으로 가능하지만 복잡
+  크로스샤드 통신이 주요 병목
+  Ethereum의 전략 전환(롤업+DAS)이 현실적
+  
+현재:
+  ZIL: DeFi, 게임 용도
+  Ethereum L2 롤업 + Danksharding이 주류 흐름
+```
 
 > 📢 **섹션 요약 비유**: Zilliqa [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)은 최초 실험실 — 이론을 실제로 구현한 선구자. [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)으로 TPS 향상. Ethereum은 이 실험을 참고해 더 실용적인 [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)+DAS로 진화!
 

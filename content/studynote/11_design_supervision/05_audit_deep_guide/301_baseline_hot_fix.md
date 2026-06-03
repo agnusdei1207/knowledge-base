@@ -20,21 +20,26 @@ tags = ["studynote-design-supervision"]
 ## Ⅰ. 개요 및 필요성
 베이스라인과 Hot fix 통제 감리는 형상 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)([Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/))과 긴급 수정(Hot fix) 통제 체계를 대상으로 설계 기준과 운영 결과가 같은 방향으로 움직이는지 판단하는 감리 항목이다. 연속 배포 환경이 일반화되면서 빠른 수정과 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) 통제를 동시에 만족시키는 형상관리의 중요성이 커졌다. 특히 긴급 변경이 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)으로 정리되지 않으면 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)은 사람 의존 절차로 흩어지고, 최종적으로 승인 추적이 남지 않아 의사결정이 감각에 의존하게 된다. [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) 통제가 약하면 긴급 수정이 누적되어 재현 불가, 회귀 장애, 책임 추적 실패가 발생한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구사항·위험 인식</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">긴급 변경 기준 수립</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기준선 무결성 설계 반영</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">승인 추적 증적 확보</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────┐
+│ 요구사항·위험 인식 │
+└────────┬─────────┘
+         │
+         ▼
+┌──────────────────┐
+│ 긴급 변경 기준 수립 │
+└────────┬─────────┘
+         │
+         ▼
+┌──────────────────┐
+│ 기준선 무결성 설계 반영 │
+└────────┬─────────┘
+         │
+         ▼
+┌──────────────────┐
+│ 승인 추적 증적 확보 │
+└──────────────────┘
+```
 - **📢 섹션 요약 비유**: 베이스라인과 Hot fix 통제 감리는 설계도만 보는 검토가 아니라, 건물의 구조도와 실제 비상구 작동 여부를 함께 확인하는 점검과 같다.
 
 ---
@@ -48,16 +53,16 @@ tags = ["studynote-design-supervision"]
 | 실행 메커니즘 | [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 설계, 구현, 운영 절차에 반영한다. | 사람 의존이 아닌 반복 가능한 구조가 중요하다. |
 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 증적 | 승인 추적을 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 보고서, 테스트, 승인 이력으로 남긴다. | 재현 가능한 증적이 있어야 시정조치가 닫힌다. |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정책·표준 계층</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">구현·운영 계층</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모니터링·증적 계층</div><div class="kb-diagram-cell">시정조치·개선 계층</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────┐      ┌──────────────────┐
+│ 정책·표준 계층    │ ───▶ │ 구현·운영 계층    │
+└────────┬─────────┘      └────────┬─────────┘
+         │                           │
+         ▼                           ▼
+┌──────────────────┐ ◀──── ┌──────────────────┐
+│ 모니터링·증적 계층 │      │ 시정조치·개선 계층 │
+└──────────────────┘      └──────────────────┘
+```
 - **📢 섹션 요약 비유**: 긴급 변경, [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/), 승인 추적은 따로 도는 바퀴가 아니라 서로 맞물린 톱니바퀴라서 하나라도 헛돌면 전체 통제가 무너진다.
 
 ---

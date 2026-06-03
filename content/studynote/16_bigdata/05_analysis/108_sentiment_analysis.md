@@ -28,30 +28,35 @@ tags = ["studynote-bigdata"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">감성 분석 처리 파이프라인</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">텍스트 입력</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"배송이 느렸지만 품질은 정말 좋아요! 다음에도 살게요"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전처리 (Preprocessing)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">형태소 분석 (KoNLPy/Mecab) → 불용어 제거 → 정규화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">특성 추출 (Feature Extraction)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">방법 A: TF-IDF 벡터 (전통 ML)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">방법 B: Word2Vec/FastText 임베딩</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">방법 C: BERT (Bidirectional Encoder Representations from</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Transformers) 컨텍스트 임베딩</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">분류 모델</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사전 기반 ▶ 감성 사전 점수 합산</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전통 ML ▶ SVM / 로지스틱 회귀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">딥러닝 ▶ BERT Fine-tuning</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">출력</div><div class="kb-diagram-note">긍정 0.82 / 부정 0.08 / 중립 0.10</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ABSA</div><div class="kb-diagram-note">배송:부정, 품질:긍정 (속성별 감성)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│                감성 분석 처리 파이프라인                          │
+├──────────────────────────────────────────────────────────────────┤
+│  [텍스트 입력]                                                    │
+│   "배송이 느렸지만 품질은 정말 좋아요! 다음에도 살게요"           │
+│          │                                                        │
+│          ▼                                                        │
+│  [전처리 (Preprocessing)]                                         │
+│   형태소 분석 (KoNLPy/Mecab) → 불용어 제거 → 정규화              │
+│          │                                                        │
+│          ▼                                                        │
+│  [특성 추출 (Feature Extraction)]                                 │
+│   방법 A: TF-IDF 벡터 (전통 ML)                                  │
+│   방법 B: Word2Vec/FastText 임베딩                                │
+│   방법 C: BERT (Bidirectional Encoder Representations from        │
+│            Transformers) 컨텍스트 임베딩                          │
+│          │                                                        │
+│          ▼                                                        │
+│  [분류 모델]                                                      │
+│   사전 기반 ──────────▶ 감성 사전 점수 합산                      │
+│   전통 ML  ──────────▶ SVM / 로지스틱 회귀                       │
+│   딥러닝   ──────────▶ BERT Fine-tuning                          │
+│          │                                                        │
+│          ▼                                                        │
+│  [출력] 긍정 0.82 / 부정 0.08 / 중립 0.10                        │
+│  [ABSA] 배송:부정, 품질:긍정 (속성별 감성)                        │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 ### 방법론 비교
 
@@ -134,27 +139,25 @@ tags = ["studynote-bigdata"]
 | KoNLPy / Mecab | 한국어 형태소 분석 도구 |
 | ABSA (Aspect-Based [Sentiment Analysis](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/)) | [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 단위 세분화 [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/) |
 | [토픽 모델링](/knowledge-base/studynote/16_bigdata/05_analysis/116_topic_modeling/) ([Topic Modeling](/knowledge-base/studynote/16_bigdata/05_analysis/116_topic_modeling/)) | 주제와 감성을 결합한 심층 분석 |
-| VoC (Voice of [Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/)) | [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/)의 핵심 비즈니스 응용 |
+| VoC (Voice of [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/)) | [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/)의 핵심 비즈니스 응용 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">텍스트 데이터 수집</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전처리(토크나이징/불용어)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">감성 분석(규칙 기반)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">머신러닝 분류기</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">BERT/LLM 기반 감성 분석</div></div>
-</div>
-</div>
-
-
+```text
+[텍스트 데이터 수집]
+    │
+    ▼
+[전처리(토크나이징/불용어)]
+    │
+    ▼
+[감성 분석(규칙 기반)]
+    │
+    ▼
+[머신러닝 분류기]
+    │
+    ▼
+[BERT/LLM 기반 감성 분석]
+```
 
 [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/)은 규칙 기반에서 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기를 거쳐 BERT와 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 분석으로 발전한다.
 

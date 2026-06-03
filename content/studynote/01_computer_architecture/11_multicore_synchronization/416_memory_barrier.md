@@ -25,21 +25,22 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 왜 코드 순서와 관찰 순서가 달라질 수 있는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Producer code vs Consumer observation</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Producer program order</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Write data</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Write flag</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">delayed in store buffer</div><div class="kb-diagram-cell">quick visible</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Global visibility</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">data not visible yet</div><div class="kb-diagram-node">flag visible</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Consumer may see : flag == 1, data == old value</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Producer code vs Consumer observation                             │
+├────────────────────────────────────────────────────────────────────┤
+│ Producer program order                                            │
+│   [Write data] ───────────────────────────────▶ [Write flag]      │
+│        │                                        │                 │
+│        │ delayed in store buffer                │ quick visible   │
+│        ▼                                        ▼                 │
+│ Global visibility                                                   │
+│   [data not visible yet]                         [flag visible]    │
+│                                                     │              │
+│                                                     ▼              │
+│ Consumer may see : flag == 1, data == old value                    │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 즉 메모리 배리어는 "순서를 강요하는 추가 연산"이 아니라, 멀티코어 세계에서 프로그램 의미를 유지하기 위한 최소한의 계약이다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화가 강해질수록 이런 계약의 중요성은 더 커진다.
 
@@ -60,21 +61,20 @@ tags = ["studynote-computer-architecture"]
 
 다음 그림은 생산자와 소비자 사이에서 Release-Acquire가 어떤 경계를 만드는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Release-Acquire ordering</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Producer Core</div><div class="kb-diagram-cell">Consumer Core</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) payload = 42</div><div class="kb-diagram-cell">1) while (flag == 0) wait</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) release barrier/store</div><div class="kb-diagram-cell">2) acquire barrier/load</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) flag = 1</div><div class="kb-diagram-cell">3) read payload</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">payload write가 flag 뒤로</div><div class="kb-diagram-cell">flag를 본 이후의 payload read가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">밀리지 않도록 고정</div><div class="kb-diagram-cell">그 이전으로 당겨지지 않도록 고정</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Release-Acquire ordering                                           │
+├──────────────────────────────┬─────────────────────────────────────┤
+│ Producer Core                │ Consumer Core                       │
+├──────────────────────────────┼─────────────────────────────────────┤
+│ 1) payload = 42              │ 1) while (flag == 0) wait          │
+│ 2) release barrier/store     │ 2) acquire barrier/load            │
+│ 3) flag = 1                  │ 3) read payload                    │
+├──────────────────────────────┼─────────────────────────────────────┤
+│ payload write가 flag 뒤로     │ flag를 본 이후의 payload read가     │
+│ 밀리지 않도록 고정            │ 그 이전으로 당겨지지 않도록 고정    │
+└──────────────────────────────┴─────────────────────────────────────┘
+```
 
 여기서 중요한 점은 배리어가 "메모리를 즉시 모두 비운다"는 단순 그림으로만 이해되면 안 된다는 것이다. 실제 구현은 아키텍처마다 다르며, 어떤 경우에는 명시적 펜스 명령이 필요하고, 어떤 경우에는 원자 연산 자체가 필요한 배리어 의미를 포함한다. 결국 배리어는 하나의 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 이름보다, <strong>어떤 재배치를 어느 방향으로 금지할지 정의하는 메모리 모델 계약</strong>으로 이해해야 한다.
 
@@ -157,24 +157,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">비순차 실행 (Out-of-Order Execution)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">스토어 버퍼 (Store Buffer) · 가시성 지연 (Visibility Delay)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">완화된 일관성 (Relaxed Consistency)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">메모리 배리어 (Memory Barrier / Fence)</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ Release / Acquire</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ Full Fence</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ 원자 연산 (Atomic Operation) · 락프리 자료구조</div>
-</div>
-</div>
-
-
+```text
+비순차 실행 (Out-of-Order Execution)
+        │
+        ▼
+스토어 버퍼 (Store Buffer) · 가시성 지연 (Visibility Delay)
+        │
+        ▼
+완화된 일관성 (Relaxed Consistency)
+        │
+        ▼
+메모리 배리어 (Memory Barrier / Fence)
+        │
+        ├──▶ Release / Acquire
+        │
+        ├──▶ Full Fence
+        │
+        └──▶ 원자 연산 (Atomic Operation) · 락프리 자료구조
+```
 
 이 흐름은 "하드웨어 최적화 확대"가 왜 배리어를 필요하게 만들었고, 그 이후 소프트웨어가 더 정교한 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 추상화로 발전했는지를 보여준다.
 

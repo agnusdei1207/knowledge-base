@@ -27,17 +27,14 @@ tags = ["studynote-ai"]
 이때 [UC](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_underpinning_contract/) 버클리 연구진이 이마를 쳤다. "야! 이거 1960년대 컴퓨터 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(OS)가 램(RAM) 모자랄 때 해결했던 '[페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)([Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)) 기법'이랑 완전 똑같은 문제잖아? OS의 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)을 딥러닝 [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 어텐션 공식에 그대로 갖다 박아버리자!"
 그렇게 탄생한 것이 <strong>vLLM (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/">오픈소스</a> <a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/">LLM</a> 서빙 프레임워크)</strong>과 그 심장인 <strong>PagedAttention(<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/338_vllm_paged_attention/">페이지드 어텐션</a>)</strong> [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다. 무식하게 큰 방을 예약하는 짓을 끝내고, 블록(Block) 단위로 쪼개어 낭비율을 4%로 깎아낸 미친 최적화의 서막이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 기존 KV 캐시는 식당([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))의 '무식한 테이블 예약'이다. 손님이 2명 올지 20명 올지 모르니까 무조건 20인용 대형 테이블을 통째로 줘버린다. 손님 2명이 앉고 나면 나머지 18자리는 텅텅 비는데, 다른 손님을 못 받는다. PagedAttention(vLLM)은 '레고 블록 테이블'이다. 손님이 올 때 처음엔 딱 2인용 블록 테이블만 주고, 친구가 한 명 더 올 때마다 창고에서 1인용 테이블([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)/Block)을 딱 하나씩만 꺼내서 동적으로 붙여준다. 남는 자리가 없으니 식당에 손님(동시 유저)을 20배나 더 우겨넣을 수 있다.
 
@@ -47,28 +44,27 @@ tags = ["studynote-ai"]
 
 PagedAttention은 연속된 물리적 메모리를 요구하던 [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)의 어텐션 뇌 수술을 감행하여, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 파편화되어 흩어져 있어도 가상 주소로 한방에 묶어서 연산해 버리는 기적을 쓴다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">vLLM의 PagedAttention 메모리 관리 아키텍처 도해</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">기존: 멍청한 연속 메모리 할당 (Fragmentation 지옥)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">* GPU 메모리:</div><div class="kb-diagram-node">유저A (1,000칸 예약, 100칸 씀)</div><div class="kb-diagram-node">텅텅 빔 900칸</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* ─▶ 낭비가 90%라 유저 B, C를 더 받을 수가 없음. (서버 다운)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">PagedAttention: 블록(Block) 테이블과 동적 가상 할당 혁명</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 논리적 가상 메모리 (유저가 보는 환상): 유저 A의 KV 데이터는 이어진 것처럼 보임.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 물리적 GPU 메모리 (실제 쪼개진 파편):</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">블록1: 유저A</div><div class="kb-diagram-node">블록2: 유저B</div><div class="kb-diagram-node">블록3: 유저A</div><div class="kb-diagram-node">블록4: 텅빔</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">★ Block Table (포인터 맵핑 심장부)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* OS의 페이지 테이블처럼, 조각난 물리적 블록 주소를 논리적으로 묶어줌.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 유저 A의 문맥 ─▶ 물리적 GPU 블록 1번 + 블록 3번 순서로 이어라!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 글자가 길어져서 공간이 모자라면? 미리 예약하지 않고 그때그때 텅 빈</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블록 4번을 툭 떼어서 테이블 포인터에 쓱 엮어주기만 하면 끝 (동적 할당)!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ GPU 물리 메모리 구석구석 빈 공간(구멍) 없이 테트리스처럼 완벽히 꽉꽉 채워짐!</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           vLLM의 PagedAttention 메모리 관리 아키텍처 도해               │
+├──────────────────────────────────────────────────────────────┤
+│  [기존: 멍청한 연속 메모리 할당 (Fragmentation 지옥)]                  │
+│   * GPU 메모리: [ 유저A (1,000칸 예약, 100칸 씀) ] [ 텅텅 빔 900칸 ]       │
+│   * ─▶ 낭비가 90%라 유저 B, C를 더 받을 수가 없음. (서버 다운)             │
+│                                                              │
+│  [PagedAttention: 블록(Block) 테이블과 동적 가상 할당 혁명]            │
+│   * 논리적 가상 메모리 (유저가 보는 환상): 유저 A의 KV 데이터는 이어진 것처럼 보임.│
+│   * 물리적 GPU 메모리 (실제 쪼개진 파편):                             │
+│      [블록1: 유저A]  [블록2: 유저B]  [블록3: 유저A]  [블록4: 텅빔]      │
+│                                                              │
+│  [★ Block Table (포인터 맵핑 심장부)]                              │
+│   * OS의 페이지 테이블처럼, 조각난 물리적 블록 주소를 논리적으로 묶어줌.        │
+│     - 유저 A의 문맥 ─▶ 물리적 GPU 블록 1번 + 블록 3번 순서로 이어라!        │
+│   * 글자가 길어져서 공간이 모자라면? 미리 예약하지 않고 그때그때 텅 빈         │
+│     블록 4번을 툭 떼어서 테이블 포인터에 쓱 엮어주기만 하면 끝 (동적 할당)!     │
+│   ─▶ GPU 물리 메모리 구석구석 빈 공간(구멍) 없이 테트리스처럼 완벽히 꽉꽉 채워짐!│
+└──────────────────────────────────────────────────────────────┘
+```
 
 <strong>핵심 원리 (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/">공유 메모리</a> <a href="/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/">Copy-On-Write</a>)</strong>:
 이 '블록 쪼개기([페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/))'의 진짜 미친 마법은 <strong>메모리 공유(Memory Sharing)</strong>에서 터진다. 만약 10명의 유저가 "해리포터 1권 내용 요약해 줘!"라고 똑같은 프롬프트를 날렸다고 치자. 

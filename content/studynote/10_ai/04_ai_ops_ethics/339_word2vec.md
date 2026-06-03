@@ -31,17 +31,14 @@ tags = ["studynote-ai"]
 
 Word2Vec 은 이를 해결하기 위해 50~300 차원의 **밀집 실수 벡터 (Dense Vector)** 로 단어를 표현한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: One-Hot 은 "각 학생에게 출석부에서 자기 이름 칸만 1, 나머지는 0인 카드" 를 주는 방식이다. 이 카드로는 학생들이 서로 얼마나 친한지 알 수 없다. Word2Vec 은 각 학생의 "성격·취미 점수표"를 만들어 비슷한 사람끼리 점수가 가까워지게 한다.
 
@@ -51,23 +48,27 @@ Word2Vec 은 이를 해결하기 위해 50~300 차원의 **밀집 실수 벡터 
 
 ### CBOW vs Skip-Gram 구조
 
+```
+  CBOW (Continuous Bag of Words):
+  컨텍스트 단어들 → 중심 단어 예측
+  ┌──────┐ ┌──────┐             ┌──────┐
+  │w(t-2)│ │w(t-1)│ → [평균] → │ w(t) │ (예측)
+  └──────┘ └──────┘             └──────┘
+  ┌──────┐ ┌──────┐
+  │w(t+1)│ │w(t+2)│
+  └──────┘ └──────┘
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">CBOW (Continuous Bag of Words):</div>
-<div class="kb-diagram-note">컨텍스트 단어들 → 중심 단어 예측</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">평균</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">w(t) │ (예측)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">w(t+1)</div><div class="kb-diagram-cell">w(t+2)</div></div>
-<div class="kb-diagram-note">Skip-Gram: 중심 단어 → 컨텍스트 단어들 예측</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">은닉층</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">w(t-2)│ (예측)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">w(t-1)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">w(t+1)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">w(t+2)</div></div>
-</div>
-</div>
-
-
+  Skip-Gram: 중심 단어 → 컨텍스트 단어들 예측
+              ┌──────┐             ┌──────┐
+              │ w(t) │ → [은닉층] → │w(t-2)│ (예측)
+              └──────┘             ├──────┤
+                                   │w(t-1)│
+                                   ├──────┤
+                                   │w(t+1)│
+                                   ├──────┤
+                                   │w(t+2)│
+                                   └──────┘
+```
 
 ### 네거티브 샘플링 (Negative [Sampling](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/)) 원리
 

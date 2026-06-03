@@ -28,19 +28,13 @@ tags = ["software_engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Values</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Practices</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">High-quality Code</div>
-</div>
-</div>
-
-
+```text
+Values
+  ↓
+Practices
+  ↓
+High-quality Code
+```
 
 | 가치 | 의미 |
 | :-- | :-- |
@@ -66,7 +60,7 @@ XP는 5가지 가치 위에 12가지 실천을 얹어 품질을 높인다.
 
 | 특징 | 설명 |
 | :-- | :-- |
-| [Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) Feedback | 빠른 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
+| [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) Feedback | 빠른 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
 | [Refactoring](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/078_refactoring_code_smells/) | 개선 |
 
 XP는 스크럼보다 개발 실천에 더 깊게 들어간다.
@@ -110,37 +104,25 @@ XP는 품질과 피드백 속도를 높인다.
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Values</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">XP Practices</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">TDD / Pair Programming / CI</div>
-</div>
-</div>
-
-
+```text
+Values
+  ↓
+XP Practices
+  ↓
+TDD / Pair Programming / CI
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Agile</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">XP</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">TDD / CI / Pair Programming</div>
-</div>
-</div>
-
-
+```text
+Agile
+  ↓
+XP
+  ↓
+TDD / CI / Pair Programming
+```
 
 ---
 

@@ -23,15 +23,11 @@ tags = ["studynote-design-supervision"]
 
 [시맨틱 웹](/knowledge-base/studynote/06_ict_convergence/01_blockchain/003_semantic_web/)의 목적은 웹 문서를 사람이 읽는 수준을 넘어 기계가 이해 가능한 의미 단위로 바꾸는 데 있다. 이때 온톨로지는 어떤 개체가 무엇이고 어떤 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)가 허용되는지 정의하는 개념 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)다. 기술사 답안에서는 [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/)를 단순 [그래프 데이터베이스](/knowledge-base/studynote/14_data_engineering/01_infrastructure/039_graph_db/)가 아니라, <strong>의미 모델 + <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a> <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> + 추론 규칙</strong>의 결합으로 정리해야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Raw Data</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Ontology</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Triples</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Query / AI</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────┐      ┌───────────┐      ┌───────────┐      ┌───────────┐
+│ Raw Data  │ ───▶ │ Ontology  │ ───▶ │ Triples   │ ───▶ │ Query / AI│
+└───────────┘      └───────────┘      └───────────┘      └───────────┘
+```
 
 이 그림은 문서와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 곧바로 질의 결과가 되는 것이 아니라, 먼저 의미 규칙과 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 모델로 정제되어야 한다는 점을 보여 준다.
 
@@ -49,20 +45,26 @@ tags = ["studynote-design-supervision"]
 | 온톨로지/OWL | 클래스, [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/), 제약, 계층 구조를 정의 | 너무 복잡하면 운영이 어렵고, 너무 단순하면 의미가 약함 |
 | SPARQL/추론 엔진 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 질의와 규칙 기반 탐색 수행 | 질의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 추론 범위, 출처 추적을 함께 고려 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ontology Schema</div><div class="kb-diagram-cell">ETL / Entity Match</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RDF Triple Store</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SPARQL / Reasoning</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Search / Analytics</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────┐      ┌────────────────────┐
+│ Ontology Schema    │      │ ETL / Entity Match │
+└────────────────────┘      └────────────────────┘
+          │                           │
+          ▼                           │
+┌────────────────────┐ ◀──────────────┘
+│ RDF Triple Store   │
+└────────────────────┘
+          │
+          ▼
+┌────────────────────┐
+│ SPARQL / Reasoning │
+└────────────────────┘
+          │
+          ▼
+┌────────────────────┐
+│ Search / Analytics │
+└────────────────────┘
+```
 
 따라서 [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/) 아키텍처는 저장소 설계보다 먼저 <strong>용어와 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a> 규칙의 통일</strong>이 선행되어야 성공한다.
 
@@ -126,24 +128,22 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">문서 / DB / 메타데이터 수집</div>
-<div class="kb-diagram-note">v</div>
-<div class="kb-diagram-note">엔티티 정규화 및 온톨로지 설계</div>
-<div class="kb-diagram-note">v</div>
-<div class="kb-diagram-note">RDF 트리플 구축</div>
-<div class="kb-diagram-note">+--&gt; SPARQL 질의</div>
-<div class="kb-diagram-note">+--&gt; 규칙 기반 추론</div>
-<div class="kb-diagram-note">+--&gt; GraphRAG 연계</div>
-<div class="kb-diagram-note">v</div>
-<div class="kb-diagram-note">의미 기반 검색 / 분석 / AI 응답</div>
-</div>
-</div>
-
-
+```text
+문서 / DB / 메타데이터 수집
+    |
+    v
+엔티티 정규화 및 온톨로지 설계
+    |
+    v
+RDF 트리플 구축
+    |
+    +--> SPARQL 질의
+    +--> 규칙 기반 추론
+    +--> GraphRAG 연계
+    |
+    v
+의미 기반 검색 / 분석 / AI 응답
+```
 
 이 흐름은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 단순 저장을 넘어 의미와 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 갖춘 지식 자산으로 발전하는 과정을 나타낸다.
 

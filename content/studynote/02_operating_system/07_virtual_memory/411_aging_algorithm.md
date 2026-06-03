@@ -27,28 +27,29 @@ tags = ["studynote-operating-system"]
   2. **하드웨어의 한계**: 여전히 하드웨어는 R [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 1개만 지원함. 시계를 달아주지 않음.
   3. **OS 소프트웨어의 꼼수**: OS가 램 구석에 8비트 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 만들어놓고, 매 타이머 인터럽트마다 R [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 차곡차곡 수집하여 스스로 작은 시계(History)를 만들어냄.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">에이징(Aging)의 8비트 시프트(Shift) 누적 기록 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황: 타이머가 1틱(0.1초) 돌 때마다 OS가 비트를 밀어 넣음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(※ 규칙: 맨 앞에 현재 R비트 추가, 맨 뒤는 버려짐. 크면 생존)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 페이지 A (최근에 갑자기 미친 듯이 쓰이는 핫한 신인)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T=1 (R=0) : 00000000 (0)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T=2 (R=1) : 10000000 (128)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T=3 (R=1) : 11000000 (192) 🚀 (점수 수직 상승!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 페이지 B (과거에 잘 나갔으나 지금 버려진 고인물)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T=1 (R=1) : 10000000 (128)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T=2 (R=0) : 01000000 (64) (과거 기록이 반토막 깎임)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T=3 (R=0) : 00100000 (32) 🐢 (점수 계속 추락 중)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ OS의 최종 판결 (T=3 시점에서 램이 꽉 참)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"A는 192점, B는 32점! 당연히 가장 점수가 낮은 B를 쫓아낸다!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(과거에 잘 나갔던 B가 늙어 죽고(Aging), 신규 코어 A가 램을 장악함)</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│        에이징(Aging)의 8비트 시프트(Shift) 누적 기록 시각화        │
+├────────────────────────────────────────────────────────────────────┤
+│                                                                    │
+│ [ 상황: 타이머가 1틱(0.1초) 돌 때마다 OS가 비트를 밀어 넣음 ]      │
+│ (※ 규칙: 맨 앞에 현재 R비트 추가, 맨 뒤는 버려짐. 크면 생존)       │
+│                                                                    │
+│ ▶ 페이지 A (최근에 갑자기 미친 듯이 쓰이는 핫한 신인)              │
+│   T=1 (R=0) : 00000000 (0)                                         │
+│   T=2 (R=1) : 10000000 (128)                                       │
+│   T=3 (R=1) : 11000000 (192) 🚀 (점수 수직 상승!)                  │
+│                                                                    │
+│ ▶ 페이지 B (과거에 잘 나갔으나 지금 버려진 고인물)                 │
+│   T=1 (R=1) : 10000000 (128)                                       │
+│   T=2 (R=0) : 01000000 (64)  (과거 기록이 반토막 깎임)             │
+│   T=3 (R=0) : 00100000 (32)  🐢 (점수 계속 추락 중)                │
+│                                                                    │
+│ ✅ OS의 최종 판결 (T=3 시점에서 램이 꽉 참)                        │
+│ "A는 192점, B는 32점! 당연히 가장 점수가 낮은 B를 쫓아낸다!"       │
+│ (과거에 잘 나갔던 B가 늙어 죽고(Aging), 신규 코어 A가 램을 장악함) │
+└────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 이 8비트 정수의 크기 대소 비교는 경이로울 정도로 정확하게 <strong>"최근성(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/">LRU</a>)"과 "빈도(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/">LFU</a>)"를 동시에 대변</strong>한다. 맨 왼쪽 최상위 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)([MSB](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/080_msb/))에 가장 최근 기록이 꽂히기 때문에, 어제 7번 불린 놈(`01111111`, 127점)보다 방금 1번 불린 놈(`10000000`, 128점)이 더 점수가 높다. 철저하게 LRU의 원칙을 따르면서도, 만약 맨 앞 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 똑같다면 그 뒤의 과거 빈도([LFU](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/))로 동점자를 가르는 완벽한 타협의 기술이다.
 
 - **📢 섹션 요약 비유**: 최근 8일간의 일기를 쓰되, 어제 한 일은 100점, 그저께 한 일은 50점, 8일 전 일은 1점으로 쳐주는 점수판입니다. 8일 내내 공부한 놈이 제일 점수가 높지만, 일주일 내내 놀다가 어제 하루 벼락치기 한 놈(100점)이, 일주일 내내 공부하다 어제 하루 쉰 놈(99점)을 이기게 만드는 철저한 '현재 중심주의' 평가입니다.
@@ -99,18 +100,15 @@ tags = ["studynote-operating-system"]
 - 알박기(망령)가 사라지니, LFU의 진짜 장점인 "오랫동안 꾸준히 사랑받은 스테디셀러 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)"의 진가가 폭발한다. 
 - [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 버퍼나 웹서버 캐시가 가장 사랑하는 마법의 레시피가 바로 이 `LFU + Aging`의 결합이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">평가 지표</div><div class="kb-diagram-cell">순수 LFU</div><div class="kb-diagram-cell">1비트 Clock</div><div class="kb-diagram-cell">Aging 기법</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">과거 망령</div><div class="kb-diagram-cell">☠️ 알박기 됨</div><div class="kb-diagram-cell">🟢 바로 지움</div><div class="kb-diagram-cell">🟢 서서히 지움</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">빈도 반영</div><div class="kb-diagram-cell">🟢 완벽 반영</div><div class="kb-diagram-cell">❌ 무시함</div><div class="kb-diagram-cell">🟡 최근 빈도 반영</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하드웨어 짐</div><div class="kb-diagram-cell">무거움</div><div class="kb-diagram-cell">제일 가벼움</div><div class="kb-diagram-cell">적당함 (SW 연산)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬────────────────────────┐
+│ 평가 지표  │ 순수 LFU    │ 1비트 Clock │ Aging 기법         │
+├──────────┼────────────┼────────────┼────────────────────────┤
+│ 과거 망령  │ ☠️ 알박기 됨 │ 🟢 바로 지움 │ 🟢 서서히 지움   │
+│ 빈도 반영  │ 🟢 완벽 반영 │ ❌ 무시함    │ 🟡 최근 빈도 반영│
+│ 하드웨어 짐│ 무거움      │ 제일 가벼움   │ 적당함 (SW 연산) │
+└──────────┴────────────┴────────────┴────────────────────────┘
+```
 **[매트릭스 해설]** 에이징은 시간([LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/))과 빈도([LFU](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/)) 사이의 가장 완벽한 중재자다. 시간이 지나면 잊어버리지만, 아주 빠르게 잊진 않고 최근 8턴 동안의 누적된 애정(빈도)은 점수로 쳐준다. 양쪽의 장점을 모두 취한 궁극의 밸런스형 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
 
 - **📢 섹션 요약 비유**: 순수 LFU가 '10년 전 첫사랑을 평생 못 잊는 집착남'이고, 1비트 클럭이 '어제 만난 사람만 사랑하고 다 까먹는 금사빠'라면, 에이징은 '최근 몇 달 동안 꾸준히 만난 사람에게 가장 큰 점수를 주는 성숙한 어른'의 연애 방식입니다.
@@ -167,19 +165,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">MFU (Most Frequently Used) 알고리즘</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">에이징 (Aging) 기반 페이지 교체 로직</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스래싱 (Thrashing)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">다중 프로그래밍 정도 (Degree of Multiprogramming)와 CPU 이용률 관계 그래프</div></div>
-</div>
-</div>
-
-
+```text
+[MFU (Most Frequently Used) 알고리즘]
+    │
+    ▼
+[에이징 (Aging) 기반 페이지 교체 로직]
+    │
+    ├──▶ [스래싱 (Thrashing)]
+    └──▶ [다중 프로그래밍 정도 (Degree of Multiprogramming)와 CPU 이용률 관계 그래프]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

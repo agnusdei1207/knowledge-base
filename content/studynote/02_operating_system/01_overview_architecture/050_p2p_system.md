@@ -30,23 +30,19 @@ tags = ["BitTorrent", "DHT", "Gnutella", "IPFS", "Napster", "P2P", "distributed 
 
 ### 1.2 [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 유형
 
+```
+순수 P2P (Pure P2P)
+└── 중앙 노드 없음 (Gnutella)
+    └── 플러딩(flooding) 방식 검색 → 트래픽 과다
 
+혼합 P2P (Hybrid P2P)
+└── 수퍼피어(Super Peer) 존재 (초기 Kazaa, Skype)
+    └── 검색은 수퍼피어, 전송은 P2P
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">순수 P2P (Pure P2P)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">중앙 노드 없음 (Gnutella)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">플러딩(flooding) 방식 검색 → 트래픽 과다</div>
-<div class="kb-diagram-note">혼합 P2P (Hybrid P2P)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">수퍼피어(Super Peer) 존재 (초기 Kazaa, Skype)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">검색은 수퍼피어, 전송은 P2P</div>
-<div class="kb-diagram-note">DHT 기반 구조 P2P</div>
-<div class="kb-diagram-tree-item" style="--depth:0">Chord, Kademlia, CAN</div>
-<div class="kb-diagram-tree-item" style="--depth:2">O(log N) 라우팅 보장</div>
-</div>
-</div>
-
-
+DHT 기반 구조 P2P
+└── Chord, Kademlia, CAN
+    └── O(log N) 라우팅 보장
+```
 
 📢 **섹션 요약 비유**: 순수 P2P는 길에서 모르는 사람에게 물어보는 것, 혼합 P2P는 안내소(수퍼피어)에 먼저 물어보는 것.
 
@@ -56,18 +52,14 @@ tags = ["BitTorrent", "DHT", "Gnutella", "IPFS", "Napster", "P2P", "distributed 
 
 ### 2.1 Chord [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Ring 구조: 노드와 키 모두 0~2^m -1 ID 공간</div>
-<div class="kb-diagram-note">노드 8 노드 15</div>
-<div class="kb-diagram-note">노드 1 노드 54</div>
-<div class="kb-diagram-note">노드 32 노드 21</div>
-</div>
-</div>
-
-
+```
+Ring 구조: 노드와 키 모두 0~2^m -1 ID 공간
+ 노드 8 ─── 노드 15
+   │              │
+ 노드 1       노드 54
+   │              │
+ 노드 32 ──── 노드 21
+```
 
 키는 시계 방향으로 자신보다 크거나 같은 첫 번째 노드(successor)에 저장된다.
 
@@ -90,18 +82,12 @@ tags = ["BitTorrent", "DHT", "Gnutella", "IPFS", "Napster", "P2P", "distributed 
 
 ### 3.1 동작 흐름
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">1. 토렌트 파일(.torrent) 다운로드 → 메타데이터(파일 해시, 트래커 URL)</div>
-<div class="kb-diagram-note">2. 트래커(Tracker) 접속 → 피어(peer) 목록 수신</div>
-<div class="kb-diagram-note">3. Piece 단위(256KB~1MB)로 여러 피어에서 병렬 다운로드</div>
-<div class="kb-diagram-note">4. Tit-for-Tat: 업로드 많이 하는 피어에게 더 빠른 다운로드 허용</div>
-</div>
-</div>
-
-
+```
+1. 토렌트 파일(.torrent) 다운로드 → 메타데이터(파일 해시, 트래커 URL)
+2. 트래커(Tracker) 접속 → 피어(peer) 목록 수신
+3. Piece 단위(256KB~1MB)로 여러 피어에서 병렬 다운로드
+4. Tit-for-Tat: 업로드 많이 하는 피어에게 더 빠른 다운로드 허용
+```
 
 ### 3.2 DHT 트래커리스(Trackerless)
 
@@ -122,18 +108,12 @@ tags = ["BitTorrent", "DHT", "Gnutella", "IPFS", "Napster", "P2P", "distributed 
 
 ### 4.2 Merkle [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">파일 → 청크(chunk) 분할 → SHA256 해시</div>
-<div class="kb-diagram-tree-item" style="--depth:3">청크1 → CID1</div>
-<div class="kb-diagram-tree-item" style="--depth:3">청크2 → CID2</div>
-<div class="kb-diagram-tree-item" style="--depth:3">루트 CID = hash(CID1 + CID2 + …)</div>
-</div>
-</div>
-
-
+```
+파일 → 청크(chunk) 분할 → SHA256 해시
+      ├── 청크1 → CID1
+      ├── 청크2 → CID2
+      └── 루트 CID = hash(CID1 + CID2 + …)
+```
 
 📢 **섹션 요약 비유**: IPFS는 도서관 이름 대신 책 내용의 지문(CID)으로 찾는 시스템 — 어느 서가에 꽂혀 있어도 지문만 맞으면 OK.
 
@@ -162,56 +142,44 @@ tags = ["BitTorrent", "DHT", "Gnutella", "IPFS", "Napster", "P2P", "distributed 
 
 ## 📌 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">P2P 시스템</div>
-<div class="kb-diagram-tree-item" style="--depth:0">아키텍처</div>
-<div class="kb-diagram-note">── 순수 P2P (Gnutella)</div>
-<div class="kb-diagram-note">── 혼합 P2P (Kazaa, Skype)</div>
-<div class="kb-diagram-note">── DHT 기반 (Chord, Kademlia)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">응용</div>
-<div class="kb-diagram-note">── 파일 공유 (BitTorrent, eDonkey)</div>
-<div class="kb-diagram-note">── 블록체인 (Bitcoin, Ethereum)</div>
-<div class="kb-diagram-note">── 분산 파일 시스템 (IPFS, Filecoin)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">보안</div>
-<div class="kb-diagram-tree-item" style="--depth:2">시빌 공격</div>
-<div class="kb-diagram-tree-item" style="--depth:2">이클립스 공격</div>
-<div class="kb-diagram-tree-item" style="--depth:2">무임승차</div>
-</div>
-</div>
-
-
+```
+P2P 시스템
+├── 아키텍처
+│   ├── 순수 P2P (Gnutella)
+│   ├── 혼합 P2P (Kazaa, Skype)
+│   └── DHT 기반 (Chord, Kademlia)
+├── 응용
+│   ├── 파일 공유 (BitTorrent, eDonkey)
+│   ├── 블록체인 (Bitcoin, Ethereum)
+│   └── 분산 파일 시스템 (IPFS, Filecoin)
+└── 보안
+    ├── 시빌 공격
+    ├── 이클립스 공격
+    └── 무임승차
+```
 
 ---
 
 ## 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Napster (중앙 인덱스 + P2P 전송, 1999)</div>
-<div class="kb-diagram-note">저작권 문제로 폐쇄</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Gnutella / Kazaa (혼합 P2P, 2000)</div>
-<div class="kb-diagram-note">검색 비효율</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DHT 기반 P2P: Chord, Kademlia (2001)</div>
-<div class="kb-diagram-note">O(log N) 라우팅</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">BitTorrent (조각 기반 공유, 2003)</div>
-<div class="kb-diagram-note">트래커리스 DHT 추가</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">IPFS / Filecoin (콘텐츠 주소 지정, 2015~)</div>
-<div class="kb-diagram-note">블록체인 + P2P 저장 증명</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Web3 분산 인프라 (현재)</div>
-</div>
-</div>
-
-
+```
+Napster (중앙 인덱스 + P2P 전송, 1999)
+     │  저작권 문제로 폐쇄
+     ▼
+Gnutella / Kazaa (혼합 P2P, 2000)
+     │  검색 비효율
+     ▼
+DHT 기반 P2P: Chord, Kademlia (2001)
+     │  O(log N) 라우팅
+     ▼
+BitTorrent (조각 기반 공유, 2003)
+     │  트래커리스 DHT 추가
+     ▼
+IPFS / Filecoin (콘텐츠 주소 지정, 2015~)
+     │  블록체인 + P2P 저장 증명
+     ▼
+Web3 분산 인프라 (현재)
+```
 
 **핵심 키워드**: DHT, Chord, Kademlia, [BitTorrent](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/917_bittorrent_choke_unchoke_p2p_incentive_algorithm/), [IPFS](/knowledge-base/studynote/06_ict_convergence/01_blockchain/055_ipfs_interplanetary_file_system/), CID, [시빌 공격](/knowledge-base/studynote/06_ict_convergence/01_blockchain/070_sybil_attack_fake_nodes/), [이클립스 공격](/knowledge-base/studynote/06_ict_convergence/01_blockchain/068_eclipse_attack_p2p_isolation/)
 

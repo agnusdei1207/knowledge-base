@@ -35,27 +35,27 @@ tags = ["studynote-operating-system"]
 
 ### 1. [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 안전 달성 방법 4가지
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">스레드 안전 달성 전략</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① 뮤텍스(Mutex) / 락(Lock) 사용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공유 자원 접근 전 락 획득 → 임계 구역(Critical Section) 보호</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장점: 범용적 단점: 데드락(Deadlock), 성능 저하</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② 원자적 연산 (Atomic Operation)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CAS(Compare-And-Swap), fetch_add 등 CPU 명령어 수준 원자성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장점: 락 없이 안전 단점: 복잡한 연산에는 부적합</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ 스레드 지역 저장소 (TLS, Thread-Local Storage)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스레드별 독립 복사본 → 공유 자체를 없앰</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장점: 잠금 불필요 단점: 메모리 증가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">④ 불변 데이터 (Immutable Data)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">초기화 후 읽기 전용 → 경쟁 조건 원천 차단</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장점: 가장 안전 단점: 상태 변경 불가</div></div>
-</div>
-</div>
-
-
+```text
+스레드 안전 달성 전략
+┌──────────────────────────────────────────────────────────────────┐
+│                                                                  │
+│  ① 뮤텍스(Mutex) / 락(Lock) 사용                                  │
+│     공유 자원 접근 전 락 획득 → 임계 구역(Critical Section) 보호    │
+│     장점: 범용적   단점: 데드락(Deadlock), 성능 저하               │
+│                                                                  │
+│  ② 원자적 연산 (Atomic Operation)                                 │
+│     CAS(Compare-And-Swap), fetch_add 등 CPU 명령어 수준 원자성    │
+│     장점: 락 없이 안전   단점: 복잡한 연산에는 부적합               │
+│                                                                  │
+│  ③ 스레드 지역 저장소 (TLS, Thread-Local Storage)                  │
+│     스레드별 독립 복사본 → 공유 자체를 없앰                         │
+│     장점: 잠금 불필요   단점: 메모리 증가                           │
+│                                                                  │
+│  ④ 불변 데이터 (Immutable Data)                                    │
+│     초기화 후 읽기 전용 → 경쟁 조건 원천 차단                       │
+│     장점: 가장 안전   단점: 상태 변경 불가                          │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 ### 2. [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 안전 vs. 재진입 가능 비교
 
@@ -91,7 +91,7 @@ tags = ["studynote-operating-system"]
 |:---|:---|:---|:---|
 | [Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/) (뮤텍스) | 중간 | 있음 | 복잡한 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) |
 | [Spinlock](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/) ([스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)) | 낮음 (짧은 구간) | 낮음 | 짧은 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) + 멀티코어 |
-| RW [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) ([읽기-쓰기 락](/knowledge-base/studynote/02_operating_system/04_synchronization/280_read_write_lock/)) | 읽기 낮음 | 있음 | 읽기 , [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) |
+| RW [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) ([읽기-쓰기 락](/knowledge-base/studynote/02_operating_system/04_synchronization/280_read_write_lock/)) | 읽기 낮음 | 있음 | 읽기 다, [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 소 |
 | Atomic Operations | 최저 | 없음 | [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/), [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) 등 단순 연산 |
 | 불변 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 없음 | 없음 | [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 객체, 상수 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
 
@@ -149,24 +149,24 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단일 스레드 프로그래밍 (공유 상태 무관)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">멀티스레드 등장 → 경쟁 조건(Race Condition) 문제</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">뮤텍스(Mutex) / 세마포어(Semaphore) — 임계 구역 보호</div>
-<div class="kb-diagram-tree-item" style="--depth:0">재진입 가능 함수 (Reentrant) — 공유 상태 제거</div>
-<div class="kb-diagram-tree-item" style="--depth:0">Atomic Operations — 락 없는 원자 연산</div>
-<div class="kb-diagram-tree-item" style="--depth:0">Lock-free / Wait-free 알고리즘</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Rust 소유권 시스템 / 트랜잭셔널 메모리 (TM)</div>
-</div>
-</div>
-
-
+```text
+단일 스레드 프로그래밍 (공유 상태 무관)
+    │
+    ▼
+멀티스레드 등장 → 경쟁 조건(Race Condition) 문제
+    │
+    ▼
+뮤텍스(Mutex) / 세마포어(Semaphore) — 임계 구역 보호
+    │
+    ├─► 재진입 가능 함수 (Reentrant) — 공유 상태 제거
+    │
+    ├─► Atomic Operations — 락 없는 원자 연산
+    │
+    └─► Lock-free / Wait-free 알고리즘
+              │
+              ▼
+        Rust 소유권 시스템 / 트랜잭셔널 메모리 (TM)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -27,22 +27,24 @@ tags = ["studynote-operating-system"]
   2. <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 하락의 체감</strong>: 체감 속도가 툭툭 끊기자, 도대체 폴트가 몇 번 나야 시스템이 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 느려지는지 역산할 지표가 필요해짐.
   3. **EAT 방정식의 완성**: 하드웨어 메모리 속도와 디스크 속도 사이의 갭(Gap)이 만 배 이상 벌어진 현대에 와서, 이 수식은 메모리 증설 여부를 결정하는 기업 서버 튜닝의 절대 진리가 됨.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EAT (Effective Access Time)를 결정짓는 양극단 경로 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CPU 메모리 접근 요청 (출발!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (확률 1 - p) ▼ (확률 p, 끔찍한 지옥문)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Page Hit 🟢</div><div class="kb-diagram-node">Page Fault 🔴</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">램에 데이터가 있음! 램에 데이터가 없음! 디스크로 고고!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">걸린 시간: 100 ns 걸린 시간: 8,000,000 ns (8ms)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(0.0001 ms) (폴트 트랩 + 디스크 읽기 + 재시작)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ EAT 결괏값 도출 = (1-p) × 100ns + p × 8,000,000ns</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────────┐
+│        EAT (Effective Access Time)를 결정짓는 양극단 경로 시각화    │
+├─────────────────────────────────────────────────────────────────────┤
+│                                                                     │
+│ [ CPU 메모리 접근 요청 (출발!) ]                                    │
+│                   │                                                 │
+│     ┌─────────────┴─────────────┐                                   │
+│     ▼ (확률 1 - p)              ▼ (확률 p, 끔찍한 지옥문)           │
+│ [ Page Hit 🟢 ]            [ Page Fault 🔴 ]                        │
+│ 램에 데이터가 있음!             램에 데이터가 없음! 디스크로 고고!  │
+│     │                           │                                   │
+│ 걸린 시간: 100 ns            걸린 시간: 8,000,000 ns (8ms)          │
+│ (0.0001 ms)                (폴트 트랩 + 디스크 읽기 + 재시작)       │
+│                                                                     │
+│ ▶ EAT 결괏값 도출 = (1-p) × 100ns  +  p × 8,000,000ns               │
+└─────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 미스 페널티는 기껏해야 100ns 한 번 더 더하는 애교 수준이었다. 하지만 [Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/) 페널티는 <strong>8백만 나노초</strong>다. 수식에서 뒷부분 `p × 8,000,000`의 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)가 워낙 폭력적으로 거대하기 때문에, $p$가 아주 조금만 커져도 앞부분(램 속도)을 완전히 집어삼키고 시스템 전체를 디스크 속도로 끌어내려 버리는 지렛대(Leverage) 역전 현상이 발생한다.
 
 - **📢 섹션 요약 비유**: 우주선이 광속으로 100일간 비행(100ns 메모리 접근)하다가, 기름이 떨어져서([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)) 주유선을 부르느라 공중에 10년 동안 멈춰서 기다려야(8,000,000ns) 한다면, 우주선의 '평균(EAT) 비행 속도'는 자전거보다도 느려지는 끔찍한 평균의 함정입니다.
@@ -104,17 +106,14 @@ tags = ["studynote-operating-system"]
 - 초반 1초 동안 미친 듯이 폴트를 맞으며 <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/">워킹 셋</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/">Working Set</a>, 핵심 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 조각 모음)</strong>을 램에 쏙 올려놓고 나면, 그 뒤로 3시간 동안 게임을 할 때는 10억 번의 메모리 접근 중 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 폴트가 거의 0에 수렴하게([Hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/) 100%) 된다.
 - 결국 OS는 이 '[워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)'이 램에서 쫓겨나지 않고 옹기종기 잘 모여있게 방어막만 쳐주면, 미친 듯이 치솟는 EAT 수식을 안정권(200ns)으로 완벽하게 제압할 수 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로세스 패턴</div><div class="kb-diagram-cell">Locality 수준</div><div class="kb-diagram-cell">p 값 (폴트율)</div><div class="kb-diagram-cell">시스템 체감 속도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">배열 순차 스캔</div><div class="kb-diagram-cell">🌟 극강 (높음)</div><div class="kb-diagram-cell">0.0000001</div><div class="kb-diagram-cell">🚀 로켓 속도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">객체 무작위 점프</div><div class="kb-diagram-cell">☠️ 최악 (낮음)</div><div class="kb-diagram-cell">0.01 이상</div><div class="kb-diagram-cell">🐢 100배 지연 렉</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬─────────────────────────────┐
+│ 프로세스 패턴│ Locality 수준 │ p 값 (폴트율) │ 시스템 체감 속도  │
+├──────────┼────────────┼────────────┼─────────────────────────────┤
+│ 배열 순차 스캔│ 🌟 극강 (높음)│ 0.0000001  │ 🚀 로켓 속도        │
+│ 객체 무작위 점프│ ☠️ 최악 (낮음)│ 0.01 이상    │ 🐢 100배 지연 렉│
+└──────────┴────────────┴────────────┴─────────────────────────────┘
+```
 **[매트릭스 해설]** EAT 공식을 통해 우리가 배우는 진짜 교훈은 하드웨어 이론이 아니다. "[알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 짤 때 메모리 점프 뛰게([Linked List](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) 등) 만들지 마라! 네 코드가 지역성을 파괴하면 OS가 아무리 날고 기어도 서버는 뻗어버린다!"는 주니어 개발자를 향한 컴퓨터 구조의 준엄한 경고장이다.
 
 - **📢 섹션 요약 비유**: 수식으로만 보면 복권 당첨([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/) 방어) [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 터무니없이 낮아 보이지만, 알고 보니 로또 번호 6개 중 5개가 매주 똑같이 나오는 조작된 기계(Locality)라는 걸 깨닫고 안심하며 로또([가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/))를 즐기는 상황입니다.
@@ -170,19 +169,15 @@ EAT 수식의 뒷부분을 담당하던 `Page Fault Time(디스크 속도)`이 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">페이지 부재 처리 과정 6단계 (OS 트랩, 레지스터 저장, 디스크 읽기, 문맥교환 등)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">페이지 부재율 (Page Fault Rate) 와 실질 접근 시간 (EAT) 성능 관계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스왑 공간 (Swap Space) / 베이킹 스토어 (Backing Store)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">익명 메모리 (Anonymous Memory)</div></div>
-</div>
-</div>
-
-
+```text
+[페이지 부재 처리 과정 6단계 (OS 트랩, 레지스터 저장, 디스크 읽기, 문맥교환 등)]
+    │
+    ▼
+[페이지 부재율 (Page Fault Rate) 와 실질 접근 시간 (EAT) 성능 관계]
+    │
+    ├──▶ [스왑 공간 (Swap Space) / 베이킹 스토어 (Backing Store)]
+    └──▶ [익명 메모리 (Anonymous Memory)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

@@ -89,36 +89,35 @@ tags = ["studynote-bigdata"]
 
 ## Ⅲ. [데이터 분류](/knowledge-base/studynote/09_security/16_data_privacy/808_data_classification/): 정형 vs 비정형
 
+```
+데이터 유형 분포 (2025년):
 
+정형 데이터 (Structured): ~20%
+  관계형 DB (MySQL, Oracle 등)
+  엑셀 스프레드시트
+  CSV, JSON (스키마 고정)
+  
+반정형 데이터 (Semi-structured): ~10%
+  XML, JSON, YAML (스키마 유연)
+  이메일, 로그 파일
+  
+비정형 데이터 (Unstructured): ~80%
+  이미지, 영상, 오디오
+  소셜 미디어 텍스트
+  IoT 센서 스트림
+  의료 영상 (MRI, CT)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">데이터 유형 분포 (2025년):</div>
-<div class="kb-diagram-note">정형 데이터 (Structured): ~20%</div>
-<div class="kb-diagram-note">관계형 DB (MySQL, Oracle 등)</div>
-<div class="kb-diagram-note">엑셀 스프레드시트</div>
-<div class="kb-diagram-note">CSV, JSON (스키마 고정)</div>
-<div class="kb-diagram-note">반정형 데이터 (Semi-structured): ~10%</div>
-<div class="kb-diagram-note">XML, JSON, YAML (스키마 유연)</div>
-<div class="kb-diagram-note">이메일, 로그 파일</div>
-<div class="kb-diagram-note">비정형 데이터 (Unstructured): ~80%</div>
-<div class="kb-diagram-note">이미지, 영상, 오디오</div>
-<div class="kb-diagram-note">소셜 미디어 텍스트</div>
-<div class="kb-diagram-note">IoT 센서 스트림</div>
-<div class="kb-diagram-note">의료 영상 (MRI, CT)</div>
-<div class="kb-diagram-note">제타바이트 시대 과제:</div>
-<div class="kb-diagram-note">비정형 80% = 기존 RDB로 처리 불가</div>
-<div class="kb-diagram-note">→ NoSQL, 데이터 레이크 필요</div>
-<div class="kb-diagram-note">→ AI/ML 기반 비정형 분석 필요</div>
-<div class="kb-diagram-note">비정형 처리 기술:</div>
-<div class="kb-diagram-note">NLP (텍스트 분석)</div>
-<div class="kb-diagram-note">CV (이미지/영상 분석)</div>
-<div class="kb-diagram-note">음성 인식 (오디오 분석)</div>
-<div class="kb-diagram-note">멀티모달 AI (통합 분석)</div>
-</div>
-</div>
+제타바이트 시대 과제:
+  비정형 80% = 기존 RDB로 처리 불가
+  → NoSQL, 데이터 레이크 필요
+  → AI/ML 기반 비정형 분석 필요
 
-
+비정형 처리 기술:
+  NLP (텍스트 분석)
+  CV (이미지/영상 분석)
+  음성 인식 (오디오 분석)
+  멀티모달 AI (통합 분석)
+```
 
 > 📢 **섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 80%가 비정형 = 세상 정보의 80%가 책(정형)이 아닌 사진·영상·말(비정형) — [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 없이는 분석 불가.
 
@@ -126,35 +125,35 @@ tags = ["studynote-bigdata"]
 
 ## Ⅳ. [제타바이트 시대](/knowledge-base/studynote/16_bigdata/01_intro/004_bigdata_necessity/) 인프라
 
+```
+제타바이트 인프라 대응:
 
+스토리지 계층 (Data Tiering):
+  Hot:  SSD, NVMe (빠른 접근, 고비용)
+  Warm: HDD (일반적 접근)
+  Cold: Object Storage, 테이프 (드문 접근, 저비용)
+  
+  자동 티어링 (Intelligent Tiering):
+  접근 빈도에 따라 자동 이동
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">제타바이트 인프라 대응:</div>
-<div class="kb-diagram-note">스토리지 계층 (Data Tiering):</div>
-<div class="kb-diagram-note">Hot: SSD, NVMe (빠른 접근, 고비용)</div>
-<div class="kb-diagram-note">Warm: HDD (일반적 접근)</div>
-<div class="kb-diagram-note">Cold: Object Storage, 테이프 (드문 접근, 저비용)</div>
-<div class="kb-diagram-note">자동 티어링 (Intelligent Tiering):</div>
-<div class="kb-diagram-note">접근 빈도에 따라 자동 이동</div>
-<div class="kb-diagram-note">데이터 경량화:</div>
-<div class="kb-diagram-note">Edge AI: 디바이스 단에서 사전 처리</div>
-<div class="kb-diagram-note">→ 클라우드로 전송되는 데이터 99% 감소 가능</div>
-<div class="kb-diagram-note">예: 공장 카메라 → Edge AI → 불량만 전송</div>
-<div class="kb-diagram-note">분산 스토리지:</div>
-<div class="kb-diagram-note">HDFS (Hadoop 분산 파일 시스템)</div>
-<div class="kb-diagram-note">Ceph, MinIO (오브젝트 스토리지)</div>
-<div class="kb-diagram-note">클라우드 스케일:</div>
-<div class="kb-diagram-note">AWS S3: EB 규모 스토리지</div>
-<div class="kb-diagram-note">Azure Blob, Google Cloud Storage</div>
-<div class="kb-diagram-note">에너지 소비:</div>
-<div class="kb-diagram-note">전 세계 데이터센터 전력: 2025년 약 1,000 TWh</div>
-<div class="kb-diagram-note">세계 전력 소비의 3~5%</div>
-<div class="kb-diagram-note">→ Green Data Center, 재생에너지 전환 필수</div>
-</div>
-</div>
+데이터 경량화:
+  Edge AI: 디바이스 단에서 사전 처리
+  → 클라우드로 전송되는 데이터 99% 감소 가능
+  예: 공장 카메라 → Edge AI → 불량만 전송
+  
+분산 스토리지:
+  HDFS (Hadoop 분산 파일 시스템)
+  Ceph, MinIO (오브젝트 스토리지)
+  
+클라우드 스케일:
+  AWS S3: EB 규모 스토리지
+  Azure Blob, Google Cloud Storage
 
-
+에너지 소비:
+  전 세계 데이터센터 전력: 2025년 약 1,000 TWh
+  세계 전력 소비의 3~5%
+  → Green Data Center, 재생에너지 전환 필수
+```
 
 > 📢 **섹션 요약 비유**: 제타바이트 인프라는 거대 도서관 시스템 — 자주 읽히는 책(Hot)은 빠른 열람실, 오래된 책(Cold)은 창고, 전자책([Edge AI](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/174_edge_ai_on_device_ai/))으로 용량 절감.
 
@@ -162,39 +161,40 @@ tags = ["studynote-bigdata"]
 
 ## Ⅴ. 실무 시나리오 — 스마트 공장 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리
 
+```
+스마트 공장 A사 데이터 관리 사례:
 
+현황:
+  생산 라인 200개, 기계 당 센서 50개
+  초당 데이터: 10,000건 (= 1일 864GB)
+  연간: 약 315TB → 5년 = 1.5PB 예상
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">스마트 공장 A사 데이터 관리 사례:</div>
-<div class="kb-diagram-note">현황:</div>
-<div class="kb-diagram-note">생산 라인 200개, 기계 당 센서 50개</div>
-<div class="kb-diagram-note">초당 데이터: 10,000건 (= 1일 864GB)</div>
-<div class="kb-diagram-note">연간: 약 315TB → 5년 = 1.5PB 예상</div>
-<div class="kb-diagram-note">문제:</div>
-<div class="kb-diagram-note">전체 데이터 클라우드 전송 불가</div>
-<div class="kb-diagram-note">(네트워크 비용, 지연 시간 이슈)</div>
-<div class="kb-diagram-note">전체 보관 비용 과다</div>
-<div class="kb-diagram-note">(클라우드 스토리지 연 수억 원)</div>
-<div class="kb-diagram-note">해결: Edge-Cloud 하이브리드 아키텍처</div>
-<div class="kb-diagram-note">Edge 레이어:</div>
-<div class="kb-diagram-note">공장 내 Edge 서버에서 실시간 처리</div>
-<div class="kb-diagram-note">이상 감지: 정상 → 요약 통계만 클라우드</div>
-<div class="kb-diagram-note">이상 탐지: 원본 30초 버퍼 → 클라우드 전송</div>
-<div class="kb-diagram-note">→ 전송 데이터 98% 절감</div>
-<div class="kb-diagram-note">클라우드 레이어:</div>
-<div class="kb-diagram-note">이상 데이터 + 일일 요약 통계 저장</div>
-<div class="kb-diagram-note">30일: Hot 스토리지 (S3 Standard)</div>
-<div class="kb-diagram-note">30일~1년: Warm (S3 Intelligent Tiering)</div>
-<div class="kb-diagram-note">1년~: Cold (S3 Glacier)</div>
-<div class="kb-diagram-note">결과:</div>
-<div class="kb-diagram-note">클라우드 스토리지 비용: 연 3,000만원 (98% 절감)</div>
-<div class="kb-diagram-note">실시간 이상 감지: 지연 &lt;50ms</div>
-<div class="kb-diagram-note">불량률: 2.1% → 0.7% (AI 기반 이상 감지)</div>
-</div>
-</div>
+문제:
+  전체 데이터 클라우드 전송 불가
+  (네트워크 비용, 지연 시간 이슈)
+  
+  전체 보관 비용 과다
+  (클라우드 스토리지 연 수억 원)
 
+해결: Edge-Cloud 하이브리드 아키텍처
 
+Edge 레이어:
+  공장 내 Edge 서버에서 실시간 처리
+  이상 감지: 정상 → 요약 통계만 클라우드
+  이상 탐지: 원본 30초 버퍼 → 클라우드 전송
+  → 전송 데이터 98% 절감
+
+클라우드 레이어:
+  이상 데이터 + 일일 요약 통계 저장
+  30일: Hot 스토리지 (S3 Standard)
+  30일~1년: Warm (S3 Intelligent Tiering)
+  1년~: Cold (S3 Glacier)
+
+결과:
+  클라우드 스토리지 비용: 연 3,000만원 (98% 절감)
+  실시간 이상 감지: 지연 <50ms
+  불량률: 2.1% → 0.7% (AI 기반 이상 감지)
+```
 
 > 📢 **섹션 요약 비유**: 스마트 공장 Edge-Cloud는 현명한 비서 시스템 — 중요한 것만 사장(클라우드)에게 보고, 일상 업무는 현장(Edge)에서 처리.
 
@@ -202,28 +202,22 @@ tags = ["studynote-bigdata"]
 
 ## 📌 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">제타바이트 시대</div>
-<div class="kb-diagram-note">+-- 규모</div>
-<div class="kb-diagram-note">+-- 175 ZB (2025 IDC 예측)</div>
-<div class="kb-diagram-note">+-- 데이터 단위 (KB→ZB→YB)</div>
-<div class="kb-diagram-note">+-- 폭증 동인</div>
-<div class="kb-diagram-note">+-- IoT (750억 디바이스)</div>
-<div class="kb-diagram-note">+-- SNS/UGC (비정형 텍스트/영상)</div>
-<div class="kb-diagram-note">+-- 영상 스트리밍 (4K/8K)</div>
-<div class="kb-diagram-note">+-- 인프라 대응</div>
-<div class="kb-diagram-note">+-- Data Tiering (Hot/Warm/Cold)</div>
-<div class="kb-diagram-note">+-- Edge AI (데이터 경량화)</div>
-<div class="kb-diagram-note">+-- 과제</div>
-<div class="kb-diagram-note">+-- 에너지 효율, Green DC</div>
-<div class="kb-diagram-note">+-- 비정형 80% 분석</div>
-</div>
-</div>
-
-
+```
+제타바이트 시대
++-- 규모
+|   +-- 175 ZB (2025 IDC 예측)
+|   +-- 데이터 단위 (KB→ZB→YB)
++-- 폭증 동인
+|   +-- IoT (750억 디바이스)
+|   +-- SNS/UGC (비정형 텍스트/영상)
+|   +-- 영상 스트리밍 (4K/8K)
++-- 인프라 대응
+|   +-- Data Tiering (Hot/Warm/Cold)
+|   +-- Edge AI (데이터 경량화)
++-- 과제
+    +-- 에너지 효율, Green DC
+    +-- 비정형 80% 분석
+```
 
 ---
 

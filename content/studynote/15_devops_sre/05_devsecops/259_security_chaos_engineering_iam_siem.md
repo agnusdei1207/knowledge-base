@@ -1,5 +1,5 @@
 +++
-title = "259. 카오스 보안 엔지니어링 (Security Chaos Engineering)"
+title = "259. 카오스 보안 엔지니어링 (Security Chaos 엔진ering)"
 date = 2026-05-08
 
 [taxonomies]
@@ -19,20 +19,17 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅰ. 개요 및 필요성
 
-카오스 보안 엔지니어링 ([Security Chaos Engineering](/knowledge-base/studynote/09_security/20_extra_exam_prep/1025_security_chaos_engineering/))은 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)/[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 환경에서 반복되는 운영 문제를 구조적으로 다루기 위해 등장한 개념이다. [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템은 부분 실패가 상수이므로, 장애를 0으로 만드는 것보다 실패를 흡수하는 구조가 더 현실적이다. 핵심은 정상 상태 가설을 세우고 실제 장애를 주입해 복원력을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 엔지니어링 방식에 있다. 이 관점에서 보면, 이 주제는 단순 기술 소개가 아니라 속도와 안정성을 동시에 맞추기 위한 운영 설계 기준에 가깝다.
+카오스 보안 엔지니어링 ([Security Chaos 엔진ering](/knowledge-base/studynote/09_security/20_extra_exam_prep/1025_security_chaos_engineering/))은 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)/[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 환경에서 반복되는 운영 문제를 구조적으로 다루기 위해 등장한 개념이다. [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템은 부분 실패가 상수이므로, 장애를 0으로 만드는 것보다 실패를 흡수하는 구조가 더 현실적이다. 핵심은 정상 상태 가설을 세우고 실제 장애를 주입해 복원력을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 엔지니어링 방식에 있다. 이 관점에서 보면, 이 주제는 단순 기술 소개가 아니라 속도와 안정성을 동시에 맞추기 위한 운영 설계 기준에 가깝다.
 
 격리와 완충 장치가 없으면 하나의 느린 의존성이 재시도 폭풍과 연쇄 장애로 확대된다. 따라서 카오스 보안 엔지니어링을 이해할 때는 "무엇을 자동화하는가"보다 "어떤 실패와 편차를 줄이려는가"를 먼저 붙잡아야 한다.
 
+```text
+Deployment / Control / Feedback Flow
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Deployment / Control / Feedback Flow</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Failure Signal</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Protection Policy</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Isolation Layer</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Recovery Path</div></div>
-</div>
-</div>
-
-
+┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐
+│ Failure Signal       │──▶│ Protection Policy    │──▶│ Isolation Layer      │──▶│ Recovery Path        │
+└──────────────────────┘   └──────────────────────┘   └──────────────────────┘   └──────────────────────┘
+```
 
 이 그림은 카오스 보안 엔지니어링이 입력, 실행, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 환류를 한 흐름으로 묶는다는 점을 보여준다. 즉 기술 자체보다도 제어 루프와 피드백 구조가 본질이다.
 
@@ -51,16 +48,13 @@ tags = ["studynote-devops-sre"]
 | [Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/) Layer | 큐, 캐시, 버퍼, 서킷으로 장애를 분리 | 공유 자원 병목이 가장 먼저 점검 대상 |
 | [Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) Path | [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 후 트래픽 재개와 상태 정합성 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) | 되돌아오는 절차까지 설계해야 완결 |
 
+```text
+Reference Architecture
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Reference Architecture</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Failure Signal</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Protection Policy</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Isolation Layer</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Recovery Path</div></div>
-</div>
-</div>
-
-
+┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐
+│ Failure Signal       │──▶│ Protection Policy    │──▶│ Isolation Layer      │──▶│ Recovery Path        │
+└──────────────────────┘   └──────────────────────┘   └──────────────────────┘   └──────────────────────┘
+```
 
 위 구조에서 중요한 것은 각 계층의 책임을 분리하면서도, 마지막에 반드시 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 다시 제어 계층으로 돌아오게 만드는 것이다. 그래야 변경 실패가 누적되지 않고, 재현성과 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 가능성을 함께 확보할 수 있다.
 
@@ -127,20 +121,16 @@ tags = ["studynote-devops-sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Steady State</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">카오스 보안 엔지니어링</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Blast Radius</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Experiment</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ELK</div></div>
-</div>
-</div>
-
-
+```text
+[Steady State]
+    │
+    ▼
+[카오스 보안 엔지니어링]
+    │
+    ├──▶ [Blast Radius]
+    ├──▶ [Experiment]
+    └──▶ [ELK]
+```
 
 이 흐름도는 카오스 보안 엔지니어링이 선행 개념 위에 서서 운영 자동화, 보안, 확장, 가시성 중 어떤 축으로 확장되는지를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해서 보여준다.
 

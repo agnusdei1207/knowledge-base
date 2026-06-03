@@ -13,7 +13,7 @@ tags = ["studynote-ai"]
 
 > 1. **본질**: 머신러닝(Machine [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))은 인간의 오만을 꺾은 기술이다. 과거엔 천재 개발자가 "고양이는 귀가 뾰족하고 수염이 있다"는 규칙(If-Then)을 컴퓨터에 직접 코딩으로 우겨넣으려다 실패했다. 머신러닝은 <strong>"규칙 따윈 묻지 마! 그냥 고양이 사진 10만 장(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>/경험)을 던져줄 테니, 컴퓨터 네가 알아서 눈치껏 수학적 패턴(규칙)을 찾아내!"</strong>라고 패러다임을 뒤집어버린 혁명이다.
 > 2. **가치**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 부으면 부을수록 컴퓨터가 내뿜는 방정식(모델)의 오차(Loss)가 줄어들며 진화한다. 스팸 메일 필터링부터 주식 가격 예측, 신용카드 사기 탐지까지 인간이 차마 수십만 줄의 룰(Rule)로 설명할 수 없는 미묘한 '직감의 영역'을 수학의 통계 모델로 찍어내어 IT 산업의 지형을 바꿨다.
-> 3. **판단 포인트**: 머신러닝 아키텍트의 무대는 코딩 실력이 아니라 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 퀄리티(<a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/270_data_quality_great_expectations/">Data Quality</a>)와 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> 편향성 제어</strong>에 있다. "쓰레기가 들어가면 쓰레기가 나온다(GIGO)"는 대원칙 아래, 어떤 특성(Feature)을 뽑아서([Feature Engineering](/knowledge-base/studynote/12_it_management/02_itsm_itil/081_feature_engineering/)), 어떤 평가 지표([Metric](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/))로 훈련시킬 것인가가 머신러닝 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인([MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/))의 생명줄이다.
+> 3. **판단 포인트**: 머신러닝 아키텍트의 무대는 코딩 실력이 아니라 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 퀄리티(<a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/270_data_quality_great_expectations/">Data Quality</a>)와 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> 편향성 제어</strong>에 있다. "쓰레기가 들어가면 쓰레기가 나온다(GIGO)"는 대원칙 아래, 어떤 특성(Feature)을 뽑아서([Feature 엔진ering](/knowledge-base/studynote/12_it_management/02_itsm_itil/081_feature_engineering/)), 어떤 평가 지표([Metric](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/))로 훈련시킬 것인가가 머신러닝 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인([MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/))의 생명줄이다.
 
 ---
 
@@ -29,17 +29,14 @@ tags = ["studynote-ai"]
 이것이 <strong>머신러닝(Machine <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/">Learning</a>)</strong>의 강림이다. 개발자는 더 이상 '공짜'라는 글자를 스팸이라고 코딩하지 않는다. 그냥 과거의 진짜 스팸 메일 10만 통과 정상 메일 10만 통([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 무더기로 컴퓨터에게 먹인다. 
 컴퓨터는 밤새도록 단어들의 통계를 내고 수학 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 돌리더니, <strong>"아항! '당첨'이라는 단어가 '계좌'라는 단어와 같이 쓰일 때 스팸일 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a>이 98%구나!"라는 거대한 수학 방정식(모델)을 자기 스스로 뱉어냈다.</strong> 코딩의 시대가 저물고, 학습([Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))의 시대가 열린 것이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 기존 프로그래밍(룰 기반)은 '요리 레시피 강요'다. 엄마가 아이에게 "물은 500ml, 소금은 10g 넣어라"라고 1부터 10까지 깐깐하게 지시한다. 찌개가 바뀌면 레시피를 또 적어줘야 한다(개발자 과로사). 머신러닝은 '요리 시식 학습'이다. 아이 눈을 가리고 맛있는 찌개 100번, 맛없는 찌개 100번을 맛보게([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경험) 한다. 아이는 스스로 혀의 감각(수학적 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))을 깨우쳐서, 처음 보는 찌개도 냄새만 맡고 "이건 소금이 부족해!"라고 정확히 직감하는 완벽한 요리사로 진화한다.
 
@@ -49,30 +46,29 @@ tags = ["studynote-ai"]
 
 전통적 프로그래밍과 머신러닝의 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 아키텍처는 <strong>입력(Input)과 출력(Output)의 위치가 180도 완전히 역전</strong>되어 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전통적 프로그래밍 vs 머신러닝(ML) 패러다임 역전 아키텍처 도해</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">과거: 전통적 소프트웨어 공학 (Traditional Programming)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 입력 1: 데이터 (Data) - 예: "축하합니다! 1억 당첨!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 입력 2: 룰 (Rule/Code) - 예: IF "당첨" in text THEN Spam</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 과정: 컴퓨터에 이 두 개를 쑤셔 넣고 런(Run) 버튼을 누름.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 출력 (Output): 정답 (Answer) - "이 메일은 스팸입니다!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(한계: 룰(Rule)을 인간이 일일이 다 짜야 해서 머리가 터짐)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: 머신러닝 (Machine Learning) 패러다임</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 입력 1: 데이터 (Data) - 예: 수만 통의 메일 내용 모음집</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 입력 2: 정답 (Answer) - 예: 사람이 "이건 스팸, 이건 정상" 라벨 달아줌.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 훈련 과정(Training): 컴퓨터에 메일(데이터)과 정답을 같이 먹임.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">컴퓨터가 미친 듯이 통계와 미적분을 돌려 둘 사이의 관계(패턴)를 찾아냄!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 출력 (Output): 룰 (Rule / Model) - "확률 방정식 가중치 모델" 탄생!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">실전 배포 (Inference/Serving)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 컴퓨터가 만든 저 '룰(Model)'을 서버에 올리고, 내일 아침 새로운 메일(Data)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이 오면 모델을 통과시켜 0.1초 만에 스팸 여부(Answer)를 예측해 냄!</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           전통적 프로그래밍 vs 머신러닝(ML) 패러다임 역전 아키텍처 도해    │
+├──────────────────────────────────────────────────────────────┤
+│  [과거: 전통적 소프트웨어 공학 (Traditional Programming)]              │
+│   * 입력 1: 데이터 (Data) - 예: "축하합니다! 1억 당첨!"                   │
+│   * 입력 2: 룰 (Rule/Code) - 예: IF "당첨" in text THEN Spam          │
+│   * 과정: 컴퓨터에 이 두 개를 쑤셔 넣고 런(Run) 버튼을 누름.                │
+│   ─▶ 출력 (Output): 정답 (Answer) - "이 메일은 스팸입니다!"           │
+│   (한계: 룰(Rule)을 인간이 일일이 다 짜야 해서 머리가 터짐)                 │
+│                                                              │
+│  [현재: 머신러닝 (Machine Learning) 패러다임]                        │
+│   * 입력 1: 데이터 (Data) - 예: 수만 통의 메일 내용 모음집                 │
+│   * 입력 2: 정답 (Answer) - 예: 사람이 "이건 스팸, 이건 정상" 라벨 달아줌.   │
+│   * 훈련 과정(Training): 컴퓨터에 메일(데이터)과 정답을 같이 먹임.           │
+│     컴퓨터가 미친 듯이 통계와 미적분을 돌려 둘 사이의 관계(패턴)를 찾아냄!       │
+│   ─▶ 출력 (Output): 룰 (Rule / Model) - "확률 방정식 가중치 모델" 탄생!│
+│                                                              │
+│  [실전 배포 (Inference/Serving)]                                 │
+│   * 컴퓨터가 만든 저 '룰(Model)'을 서버에 올리고, 내일 아침 새로운 메일(Data)│
+│     이 오면 모델을 통과시켜 0.1초 만에 스팸 여부(Answer)를 예측해 냄!         │
+└──────────────────────────────────────────────────────────────┘
+```
 
 **핵심 원리 (경험 $E$, 작업 $T$, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) $P$)**:
 톰 미첼(Tom Mitchell) 교수의 우아한 정의에 따르면, 머신러닝은 <strong>"경험(E)이 쌓일수록 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>(P)이 올라가면, 이 기계는 작업(T)을 학습(<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/">Learning</a>)하고 있다"</strong>고 말한다.
@@ -111,7 +107,7 @@ tags = ["studynote-ai"]
 
 ### 실무 아키텍처 판단 ([체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/))
 1. <strong>과적합 (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/">Overfitting</a>)과 일반화(Generalization)의 트레이드오프 브레이크</strong>: 머신러닝의 영원한 적은 과적합이다. 모델에게 2010년부터 2020년까지의 회사 매출 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(훈련셋)를 1,000번 반복해서 먹였더니, 모델이 그 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 미세한 노이즈(먼지)까지 통째로 달달 외워버려 훈련 점수는 100점이 나왔다. 하지만 당장 내일(2021년 실전 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 매출을 예측하라니까 0점을 뱉어내며 폭망한다. 아키텍트는 훈련 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에 반드시 <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">정규화</a>(<a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/134_regularization_dropout_batch_norm/">Regularization</a>, <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a>가 커지지 못하게 벌점 부여)</strong>와 <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/">조기 종료</a>(<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/">Early Stopping</a>, 과적합 기미가 보이면 훈련 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>를 확 내려버림)</strong>라는 안전 브레이크를 하드코딩해 넣어야 모델이 실전 야생성(일반화 능력)을 갖춘다.
-2. <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/">피처</a> 엔지니어링 (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/081_feature_engineering/">Feature Engineering</a>) 수동 전처리 결단</strong>: 딥러닝이 아닌 엑스지부스트(XGBoost), [랜덤 포레스트](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/) 등 전통적 기계학습(Classic ML)을 돌릴 때는 원본 쓰레기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 그대로 넣으면 모델이 질식한다. 집값 예측을 할 때, '방 개수'와 '화장실 개수' [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 각각 넣지 말고, 사람이 수작업으로 `방 개수 * 화장실 개수 / 평수`라는 강력한 새로운 지표(파생 변수, Feature)를 짜내어 모델 입에 떠먹여 주는 <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 전문가의 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/">피처</a> 엔지니어링 개입</strong>이 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 90%를 결정짓는 핵심 병목 구간이다.
+2. <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/">피처</a> 엔지니어링 (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/081_feature_engineering/">Feature 엔진ering</a>) 수동 전처리 결단</strong>: 딥러닝이 아닌 엑스지부스트(XGBoost), [랜덤 포레스트](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/) 등 전통적 기계학습(Classic ML)을 돌릴 때는 원본 쓰레기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 그대로 넣으면 모델이 질식한다. 집값 예측을 할 때, '방 개수'와 '화장실 개수' [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 각각 넣지 말고, 사람이 수작업으로 `방 개수 * 화장실 개수 / 평수`라는 강력한 새로운 지표(파생 변수, Feature)를 짜내어 모델 입에 떠먹여 주는 <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 전문가의 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/">피처</a> 엔지니어링 개입</strong>이 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 90%를 결정짓는 핵심 병목 구간이다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - <strong>차원의 저주 (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/080_curse_of_dimensionality/">Curse of Dimensionality</a>) 무지성 수집 병목</strong>: "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 다다익선(많을수록 좋다)이야!"라며 고객의 나이, 성별뿐만 아니라 오늘 입은 팬티 색깔, 어제 먹은 점심 메뉴까지 1,000개의 쓸데없는 칼럼(차원)을 몽땅 DB에서 긁어와 머신러닝 모델에 밀어 넣는 최악의 호더(Hoarder) 짓. 차원(변수 개수)이 늘어날수록 모델이 정답을 찾기 위해 헤매야 하는 수학적 공간의 부피는 기하급수적으로 팽창하여, 모델이 빈 공간의 허상(노이즈)을 정답으로 착각하는 버그가 터진다. 모델링 전단에 반드시 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/">PCA</a>(<a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/338_pca_principal_component_analysis/">주성분 분석</a>)</strong>를 달아 쓸데없는 변수를 1,000개에서 10개 핵심으로 쥐어짜 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)([차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/))하지 않으면 클라우드 훈련 비용이 수천만 원 단위로 증발한다.

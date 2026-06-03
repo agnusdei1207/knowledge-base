@@ -22,21 +22,18 @@ tags = ["studynote-data-engineering"]
 
 "여러 약한 예측기(Weak Learner)의 집단 지성이 하나의 강한 예측기(Strong Learner)를 능가한다"는 원리가 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) 학습의 핵심이다.
 
+```
+단일 모델의 한계:
+┌──────────────────────────────────────────────────────────────┐
+│ 높은 편향(High Bias)   : 학습 데이터도 잘 못 맞춤 → 과소적합 │
+│ 높은 분산(High Variance): 새 데이터에 불안정   → 과적합      │
+└──────────────────────────────────────────────────────────────┘
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단일 모델의 한계:</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">높은 편향(High Bias) : 학습 데이터도 잘 못 맞춤 → 과소적합</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">높은 분산(High Variance): 새 데이터에 불안정 → 과적합</div></div>
-<div class="kb-diagram-note">앙상블 전략:</div>
-<div class="kb-diagram-note">배깅 (Bagging) → 분산(Variance) 감소 → 랜덤 포레스트</div>
-<div class="kb-diagram-note">부스팅 (Boosting) → 편향(Bias) 감소 → XGBoost, AdaBoost</div>
-<div class="kb-diagram-note">스태킹 (Stacking) → 여러 모델 결합 → 메타 학습기</div>
-</div>
-</div>
-
-
+앙상블 전략:
+  배깅 (Bagging) → 분산(Variance) 감소 → 랜덤 포레스트
+  부스팅 (Boosting) → 편향(Bias) 감소 → XGBoost, AdaBoost
+  스태킹 (Stacking) → 여러 모델 결합 → 메타 학습기
+```
 
 📢 **섹션 요약 비유**: [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) 학습은 "혼자 결정하지 않고 여러 전문가의 의견을 종합하는 위원회 제도"다. 전문가가 각자 다른 시각으로 판단하기 때문에 집단 실수 확률이 낮아진다.
 
@@ -46,25 +43,26 @@ tags = ["studynote-data-engineering"]
 
 ### 2-1. SVD (Singular Value Decomposition, [특이값 분해](/knowledge-base/studynote/10_ai/05_data_science_ml/342_svd/))
 
+```
+임의의 m×n 행렬 A를 다음으로 분해:
 
+A (m×n) = U (m×m) × Σ (m×n) × Vᵀ (n×n)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">임의의 m×n 행렬 A를 다음으로 분해:</div>
-<div class="kb-diagram-note">A (m×n) = U (m×m) × Σ (m×n) × Vᵀ (n×n)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">U: 왼쪽 특이벡터 (Left Singular Vectors)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">m×m 직교행렬 (열벡터가 서로 수직)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Σ: 특이값 대각행렬 (Singular Value Matrix)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대각원소 σ₁ ≥ σ₂ ≥ ... ≥ σₙ ≥ 0 (내림차순)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">특이값 크기 = 해당 축의 정보량</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Vᵀ: 오른쪽 특이벡터 (Right Singular Vectors)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">n×n 직교행렬</div></div>
-<div class="kb-diagram-note">Truncated SVD (절단 SVD): 상위 k개만 유지</div>
-<div class="kb-diagram-note">A ≈ Uₖ × Σₖ × Vₖᵀ → 데이터 압축·잠재 구조 추출</div>
-</div>
-</div>
+┌────────────────────────────────────────────────────────┐
+│ U: 왼쪽 특이벡터 (Left Singular Vectors)               │
+│    m×m 직교행렬 (열벡터가 서로 수직)                   │
+│                                                        │
+│ Σ: 특이값 대각행렬 (Singular Value Matrix)              │
+│    대각원소 σ₁ ≥ σ₂ ≥ ... ≥ σₙ ≥ 0 (내림차순)         │
+│    특이값 크기 = 해당 축의 정보량                       │
+│                                                        │
+│ Vᵀ: 오른쪽 특이벡터 (Right Singular Vectors)           │
+│     n×n 직교행렬                                       │
+└────────────────────────────────────────────────────────┘
 
-
+Truncated SVD (절단 SVD): 상위 k개만 유지
+A ≈ Uₖ × Σₖ × Vₖᵀ  → 데이터 압축·잠재 구조 추출
+```
 
 SVD와 [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/):
 - 사용자-아이템 행렬 R ≈ P × Qᵀ
@@ -73,26 +71,24 @@ SVD와 [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recomme
 
 ### 2-2. [랜덤 포레스트](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/) ([Random Forest](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/)) — [배깅](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/) [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/)
 
+```
+배깅 (Bagging, Bootstrap Aggregating):
+────────────────────────────────────────────────────────
+원본 데이터 D
+    │
+    ├── Bootstrap 샘플 D₁ → 의사결정트리 T₁
+    ├── Bootstrap 샘플 D₂ → 의사결정트리 T₂
+    ├── Bootstrap 샘플 D₃ → 의사결정트리 T₃
+    │   ...
+    └── Bootstrap 샘플 Dₙ → 의사결정트리 Tₙ
 
+Bootstrap: 복원 추출로 원본과 동일 크기의 샘플 생성
+           약 63.2% 원본 포함, 36.8% 미포함 (OOB: Out-of-Bag)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">배깅 (Bagging, Bootstrap Aggregating):</div>
-<div class="kb-diagram-note">원본 데이터 D</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Bootstrap 샘플 D₁ → 의사결정트리 T₁</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Bootstrap 샘플 D₂ → 의사결정트리 T₂</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Bootstrap 샘플 D₃ → 의사결정트리 T₃</div>
-<div class="kb-diagram-note">...</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Bootstrap 샘플 Dₙ → 의사결정트리 Tₙ</div>
-<div class="kb-diagram-note">Bootstrap: 복원 추출로 원본과 동일 크기의 샘플 생성</div>
-<div class="kb-diagram-note">약 63.2% 원본 포함, 36.8% 미포함 (OOB: Out-of-Bag)</div>
-<div class="kb-diagram-note">최종 예측:</div>
-<div class="kb-diagram-note">분류: 다수결 투표 (Majority Voting)</div>
-<div class="kb-diagram-note">회귀: 평균 (Averaging)</div>
-</div>
-</div>
-
-
+최종 예측:
+  분류: 다수결 투표 (Majority Voting)
+  회귀: 평균 (Averaging)
+```
 
 <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/">랜덤 포레스트</a> 추가 무작위성</strong>: 각 분기(Split)마다 전체 특성 중 √d개([분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)) 또는 d/3개(회귀)만 후보로 사용 → 트리 간 상관 감소 → [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 더 감소
 
@@ -106,30 +102,27 @@ SVD와 [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recomme
 
 ### 2-3. XGBoost — 그레이디언트 [부스팅](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)
 
+```
+부스팅 (Boosting) 흐름:
+────────────────────────────────────────────────────────
+단계 1: 초기 예측 f₀(x) = 상수 (평균값)
+단계 2: 잔차(Residual) = 실제값 - 예측값
+단계 3: 잔차를 학습하는 새 트리 추가
+단계 4: 모든 트리 예측 합산
+    ...반복...
 
+XGBoost (eXtreme Gradient Boosting) 특징:
+  - 목적함수 = 손실함수 + 정규화항 (트리 복잡도 페널티)
+  - 2차 테일러 근사로 더 정확한 기울기 계산
+  - Column Subsampling, Row Subsampling 지원
+  - 병렬 처리 (특성 분기점 탐색 병렬화)
+  - Pruning (전정): 음수 gain이면 가지 제거
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">부스팅 (Boosting) 흐름:</div>
-<div class="kb-diagram-note">단계 1: 초기 예측 f₀(x) = 상수 (평균값)</div>
-<div class="kb-diagram-note">단계 2: 잔차(Residual) = 실제값 - 예측값</div>
-<div class="kb-diagram-note">단계 3: 잔차를 학습하는 새 트리 추가</div>
-<div class="kb-diagram-note">단계 4: 모든 트리 예측 합산</div>
-<div class="kb-diagram-note">...반복...</div>
-<div class="kb-diagram-note">XGBoost (eXtreme Gradient Boosting) 특징:</div>
-<div class="kb-diagram-tree-item" style="--depth:1">목적함수 = 손실함수 + 정규화항 (트리 복잡도 페널티)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">2차 테일러 근사로 더 정확한 기울기 계산</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Column Subsampling, Row Subsampling 지원</div>
-<div class="kb-diagram-tree-item" style="--depth:1">병렬 처리 (특성 분기점 탐색 병렬화)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Pruning (전정): 음수 gain이면 가지 제거</div>
-<div class="kb-diagram-note">학습률 (Learning Rate, η):</div>
-<div class="kb-diagram-note">f(x) = f₀ + η·h₁ + η·h₂ + ...</div>
-<div class="kb-diagram-note">η 작으면: 과적합 방지, 트리 수 증가 필요</div>
-<div class="kb-diagram-note">η 크면: 빠른 학습, 과적합 위험</div>
-</div>
-</div>
-
-
+학습률 (Learning Rate, η):
+  f(x) = f₀ + η·h₁ + η·h₂ + ...
+  η 작으면: 과적합 방지, 트리 수 증가 필요
+  η 크면: 빠른 학습, 과적합 위험
+```
 
 | 하이퍼파라미터 | 설명 | 권장 범위 |
 |:---|:---|:---|
@@ -149,23 +142,20 @@ SVD와 [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recomme
 
 ### 3-1. [편향-분산 트레이드오프](/knowledge-base/studynote/14_data_engineering/02_math_mining/110_bias_variance_tradeoff/) ([Bias-Variance Tradeoff](/knowledge-base/studynote/14_data_engineering/02_math_mining/110_bias_variance_tradeoff/))
 
+```
+예측 오차 분해:
+E[(y - f̂(x))²] = Bias(f̂)² + Var(f̂) + 노이즈²
 
+단순 모델 (선형회귀):
+  높은 편향(Bias) + 낮은 분산(Var) → 과소적합
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">예측 오차 분해:</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">E</div><div class="kb-diagram-node">(y - f̂(x))²</div><div class="kb-diagram-note">= Bias(f̂)² + Var(f̂) + 노이즈²</div></div>
-<div class="kb-diagram-note">단순 모델 (선형회귀):</div>
-<div class="kb-diagram-note">높은 편향(Bias) + 낮은 분산(Var) → 과소적합</div>
-<div class="kb-diagram-note">복잡 모델 (깊은 의사결정트리):</div>
-<div class="kb-diagram-note">낮은 편향(Bias) + 높은 분산(Var) → 과적합</div>
-<div class="kb-diagram-note">앙상블 전략:</div>
-<div class="kb-diagram-note">배깅 → 분산 감소, 편향 유지</div>
-<div class="kb-diagram-note">부스팅 → 편향 감소, 분산 주의</div>
-</div>
-</div>
+복잡 모델 (깊은 의사결정트리):
+  낮은 편향(Bias) + 높은 분산(Var) → 과적합
 
-
+앙상블 전략:
+  배깅 → 분산 감소, 편향 유지
+  부스팅 → 편향 감소, 분산 주의
+```
 
 ### 3-2. [랜덤 포레스트](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/) vs XGBoost 비교
 
@@ -218,23 +208,21 @@ SHAP 분석: 신용 등급 > 부채비율 > 연체 이력 순 중요도
 
 ### 4-2. SVD 기반 [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/) 실제 구현
 
+```
+[Netflix 풍 추천 시스템]
 
+행렬 R (사용자 × 영화) = P × Qᵀ + 편향
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Netflix 풍 추천 시스템</div></div>
-<div class="kb-diagram-note">행렬 R (사용자 × 영화) = P × Qᵀ + 편향</div>
-<div class="kb-diagram-note">학습: ALS (Alternating Least Squares)</div>
-<div class="kb-diagram-note">P 고정 → Q 업데이트 (OLS)</div>
-<div class="kb-diagram-note">Q 고정 → P 업데이트 (OLS)</div>
-<div class="kb-diagram-note">...반복...</div>
-<div class="kb-diagram-note">정규화: λ(‖P‖² + ‖Q‖²) 추가 (과적합 방지)</div>
-<div class="kb-diagram-note">추천: 사용자 i의 아이템 j 예측 점수 = pᵢ · qⱼᵀ + bᵢ + bⱼ</div>
-<div class="kb-diagram-note">(bᵢ: 사용자 편향, bⱼ: 아이템 편향)</div>
-</div>
-</div>
+학습: ALS (Alternating Least Squares)
+  P 고정 → Q 업데이트 (OLS)
+  Q 고정 → P 업데이트 (OLS)
+  ...반복...
 
+정규화: λ(‖P‖² + ‖Q‖²) 추가 (과적합 방지)
 
+추천: 사용자 i의 아이템 j 예측 점수 = pᵢ · qⱼᵀ + bᵢ + bⱼ
+     (bᵢ: 사용자 편향, bⱼ: 아이템 편향)
+```
 
 📢 **섹션 요약 비유**: SVD 추천에서 잠재 요인은 "은밀한 영화 장르 코드"다. 공식 장르(액션·로맨스)가 아니라, "감성적이고 느린 템포"같은 측정 불가 특성을 수학이 자동으로 발견한다.
 
@@ -284,23 +272,20 @@ SVD·[랜덤 포레스트](/knowledge-base/studynote/06_ict_convergence/05_data_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단일 의사결정 트리 (과적합 위험)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">앙상블 학습</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Bagging: Random Forest (병렬 · 분산↓)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Boosting: AdaBoost → GBM → XGBoost → LightGBM → CatBoost</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">행렬 분해: SVD → 추천 시스템 · 차원 축소</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">딥러닝 앙상블 · AutoML 자동 모델 선택</div>
-</div>
-</div>
-
-
+```text
+단일 의사결정 트리 (과적합 위험)
+    │
+    ▼
+앙상블 학습
+    ├─► Bagging: Random Forest (병렬 · 분산↓)
+    └─► Boosting: AdaBoost → GBM → XGBoost → LightGBM → CatBoost
+    │
+    ▼
+행렬 분해: SVD → 추천 시스템 · 차원 축소
+    │
+    ▼
+딥러닝 앙상블 · AutoML 자동 모델 선택
+```
 2. [랜덤 포레스트](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/)는 "100명의 전문가가 각자 다른 자료를 보고 투표"하는 방식이고, XGBoost는 "한 전문가가 틀린 부분만 집중 보완하며 100번 반복 학습"하는 방식이다.
 3. [편향-분산 트레이드오프](/knowledge-base/studynote/14_data_engineering/02_math_mining/110_bias_variance_tradeoff/)는 "너무 단순한 규칙은 항상 틀리고(편향), 너무 복잡한 규칙은 외운 것만 맞고 새 문제엔 틀리는([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)) 딜레마"로, [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/)은 이 둘의 균형을 잡는 방법이다.
 

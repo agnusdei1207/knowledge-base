@@ -40,54 +40,56 @@ tags = ["studynote-algorithm"]
 
 ### Timsort 동작 흐름
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Timsort 전체 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력 배열</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① Run 탐지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">내림차순 Run → 뒤집어서 오름차순으로 변환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오름차순 Run → 그대로 사용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">크기 &lt; minRun → 삽입 정렬로 확장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② Run 스택 (Stack of Runs)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Run들을 스택에 푸시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스택 상위 3개 Run 크기 불변식 유지:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A &gt; B + C (균형 유지)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B &gt; C</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ Galloping 모드 병합</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">두 Run을 병합할 때 연속 7회 이상 같은 Run에서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원소가 선택되면 Galloping(지수적 탐색) 전환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">④ 최종 병합: 스택의 모든 Run을 순차 병합</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────┐
+│                    Timsort 전체 흐름                      │
+│                                                          │
+│  입력 배열                                               │
+│     │                                                    │
+│     ▼                                                    │
+│  ① Run 탐지 ─────────────────────────────────────────── │
+│     내림차순 Run → 뒤집어서 오름차순으로 변환             │
+│     오름차순 Run → 그대로 사용                            │
+│     크기 < minRun → 삽입 정렬로 확장                     │
+│     │                                                    │
+│     ▼                                                    │
+│  ② Run 스택 (Stack of Runs)                              │
+│     Run들을 스택에 푸시                                   │
+│     스택 상위 3개 Run 크기 불변식 유지:                   │
+│     A > B + C  (균형 유지)                               │
+│     B > C                                               │
+│     │                                                    │
+│     ▼                                                    │
+│  ③ Galloping 모드 병합 ───────────────────────────────── │
+│     두 Run을 병합할 때 연속 7회 이상 같은 Run에서        │
+│     원소가 선택되면 Galloping(지수적 탐색) 전환           │
+│     │                                                    │
+│     ▼                                                    │
+│  ④ 최종 병합: 스택의 모든 Run을 순차 병합                 │
+└──────────────────────────────────────────────────────────┘
+```
 
 ### [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 — Run 병합 과정
 
+```
+입력: [3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]
 
+Run 탐지:
+  Run1: [3, 1] → 내림차순 → 뒤집음 → [1, 3]
+  Run2: [1, 4, 5, 9] → 오름차순 → 그대로
+  Run3: [2, 6] → 오름차순 → 그대로
+  Run4: [3, 5] → 오름차순 → 그대로
+  (각 Run이 minRun보다 작으면 삽입 정렬로 확장)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-note">입력:</div><div class="kb-diagram-node">3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5</div></div>
-<div class="kb-diagram-note">Run 탐지:</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Run1:</div><div class="kb-diagram-node">3, 1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">1, 3</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Run2:</div><div class="kb-diagram-node">1, 4, 5, 9</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">오름차순 → 그대로</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Run3:</div><div class="kb-diagram-node">2, 6</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">오름차순 → 그대로</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Run4:</div><div class="kb-diagram-node">3, 5</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">오름차순 → 그대로</div></div>
-<div class="kb-diagram-note">(각 Run이 minRun보다 작으면 삽입 정렬로 확장)</div>
-<div class="kb-diagram-note">병합 단계 (Merge):</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">1, 1, 3, 4, 5, 9</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">2, 3, 5, 6</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">1, 1, 2, 3, 3, 4, 5, 5, 6, 9</div><div class="kb-diagram-note">✅</div></div>
-<div class="kb-diagram-note">스택 불변식 (A=4, B=2, C=1 예시):</div>
-<div class="kb-diagram-note">A &gt; B + C? → 4 &gt; 3 ✅</div>
-<div class="kb-diagram-note">B &gt; C? → 2 &gt; 1 ✅ (유지, 병합 불필요)</div>
-</div>
-</div>
+병합 단계 (Merge):
+  Run1+Run2 → [1, 1, 3, 4, 5, 9]
+  Run3+Run4 → [2, 3, 5, 6]
+  최종 병합 → [1, 1, 2, 3, 3, 4, 5, 5, 6, 9] ✅
 
-
+스택 불변식 (A=4, B=2, C=1 예시):
+  A > B + C? → 4 > 3 ✅
+  B > C?    → 2 > 1 ✅  (유지, 병합 불필요)
+```
 
 ### 시간/[공간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/)
 
@@ -133,21 +135,19 @@ tags = ["studynote-algorithm"]
 
 ### 기술사 관점의 판단 기준
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Timsort 선택 체크리스트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 데이터가 부분 정렬/역방향 구간을 포함하는가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 안정 정렬이 요구되는가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 최악 케이스 O(n log n) 보장이 필요한가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ Python/Java 환경에서 기본 sort로 충분한가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">❌ 원시 타입(int[]) 정렬: Java는 Dual-Pivot Quicksort</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">❌ GPU/병렬 정렬이 필요한 경우: Bitonic Sort 검토</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────┐
+│  Timsort 선택 체크리스트                              │
+│                                                      │
+│  ✅ 데이터가 부분 정렬/역방향 구간을 포함하는가?     │
+│  ✅ 안정 정렬이 요구되는가?                          │
+│  ✅ 최악 케이스 O(n log n) 보장이 필요한가?          │
+│  ✅ Python/Java 환경에서 기본 sort로 충분한가?       │
+│                                                      │
+│  ❌ 원시 타입(int[]) 정렬: Java는 Dual-Pivot Quicksort│
+│  ❌ GPU/병렬 정렬이 필요한 경우: Bitonic Sort 검토   │
+└──────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: Timsort를 선택하는 것은 만능 스위스 군용 칼을 고르는 것과 같다. 완벽하지 않지만, 일상적 상황(부분 정렬 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 안정성 요구)에서 어떤 단일 도구보다 탁월한 실용성을 제공한다.
 
@@ -182,23 +182,21 @@ Timsort는 <strong>이론과 현실의 간극을 메운 실용적 걸작</strong
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">삽입 정렬 (Insertion Sort) — 작은 런을 빠르게 정렬</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">자연 런 탐지 (Natural Run Detection) — 이미 정렬된 구간 활용</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">갤럽 모드 (Gallop Mode) — 한쪽 런 우위 시 빠르게 스킵</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">병합 정렬 (Merge Sort) — 런을 안정적으로 병합</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">적응형 정렬 (Adaptive Sort) — 실세계 데이터에 맞춘 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[삽입 정렬 (Insertion Sort) — 작은 런을 빠르게 정렬]
+    │
+    ▼
+[자연 런 탐지 (Natural Run Detection) — 이미 정렬된 구간 활용]
+    │
+    ▼
+[갤럽 모드 (Gallop Mode) — 한쪽 런 우위 시 빠르게 스킵]
+    │
+    ▼
+[병합 정렬 (Merge Sort) — 런을 안정적으로 병합]
+    │
+    ▼
+[적응형 정렬 (Adaptive Sort) — 실세계 데이터에 맞춘 최적화]
+```
 
 이 흐름은 작은 구간은 [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)로, 길게 정렬된 구간은 자연 런과 갤럽 모드로 살리고, 마지막에 병합해 실데이터에 강한 적응형 정렬로 완성되는 과정을 보여준다.
 

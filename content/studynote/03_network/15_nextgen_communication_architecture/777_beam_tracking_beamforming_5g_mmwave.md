@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/">빔포밍</a> 개념</strong>: 64개 이상의 다중 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)([Massive MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/))에서 전파를 쏠 때, 파동의 간섭 효과를 이용해 전파를 사방으로 퍼지지 않게 하고 <strong>하나의 얇고 날카로운 레이저 빔 형태로 뭉쳐서 특정 단말기 방향으로 집중 발사(지향)하는 기술</strong>입니다. 전력 낭비를 막고 거리를 늘려줍니다.
 - <strong><a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a> <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/">mmWave</a>(28GHz)에서의 한계</strong>: 파장이 매우 짧은 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 고주파는 빔이 바늘구멍처럼 얇아서 폰에 정확히 명중시키기가 극도로 어렵습니다. 사용자가 폰을 들고 걸어가 버리면 빔이 허공을 갈라 통신이 즉각 단절(Beam Failure)되는 현상이 발생합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Massive MIMO 대거 다중 배열 안테…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">빔포밍 트래킹 기술 체계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">3D MIMO 수직/수평 고차원 송수신 구조…</div></div>
-</div>
-</div>
-
-
+```text
+[Massive MIMO 대거 다중 배열 안테…]
+    │
+    ▼
+[빔포밍 트래킹 기술 체계]
+    │
+    └──▶ [3D MIMO 수직/수평 고차원 송수신 구조…]
+```
 
 - **📢 섹션 요약 비유**: [빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/) 트래킹 기술 체계는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -56,18 +52,14 @@ tags = ["studynote-network"]
 - 폰은 1밀리초(ms) 단위로 "어! [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 약해진다! 오른쪽으로 각도 좀 더 꺾어봐!"라고 계속해서 채널 상태 피드백([CSI](/knowledge-base/studynote/12_it_management/02_itsm_itil/068_csi/))을 보고합니다.
 - 기지국은 내부의 디지털 프로세서(DSP) 수학 연산을 통해 위상(Phase) 값을 바꿔치기하여, <strong>물리적인 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">안테나</a> 방향을 손으로 안 돌리고도 소프트웨어 마법으로 허공에 쏘는 빔의 각도를 오른쪽으로 32도, 35도 휘어지게 꺾어가며</strong> 도망가는 폰의 정수리에 빔을 끝까지 계속 꽂아 넣습니다(단말 수신 추정 기반 추적).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Massive MIMO 대거 다중 배열 안테…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">빔포밍 트래킹 기술 체계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">3D MIMO 수직/수평 고차원 송수신 구조…</div></div>
-</div>
-</div>
-
-
+```text
+[Massive MIMO 대거 다중 배열 안테…]
+    │
+    ▼
+[빔포밍 트래킹 기술 체계]
+    │
+    └──▶ [3D MIMO 수직/수평 고차원 송수신 구조…]
+```
 
 - **📢 섹션 요약 비유**: [빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/) 트래킹 기술 체계의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -128,19 +120,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: Massive MIMO 대거 다중 배열 안테…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 빔포밍 트래킹 기술 체계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 3D MIMO 수직/수평 고차원 송수신 구조…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 네트워크 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: Massive MIMO 대거 다중 배열 안테…]
+    │
+    ▼
+[현재 개념: 빔포밍 트래킹 기술 체계]
+    │
+    ├──▶ [확장 A: 3D MIMO 수직/수평 고차원 송수신 구조…]
+    └──▶ [확장 B: AI 기반 네트워크 최적화]
+```
 
 [빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/) 트래킹 기술 체계는 [Massive MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/) 대거 다중 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 안테…에서 출발해 현재 메커니즘을 정교화하고, 이후 3D [MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/) 수직/수평 고차원 송수신 구조…와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

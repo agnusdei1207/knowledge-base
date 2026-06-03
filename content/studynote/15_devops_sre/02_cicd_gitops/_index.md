@@ -23,20 +23,24 @@ CI/CD 및 GitOps가 필요한 이유는 세 가지이다. 첫째, <strong>배포
 
 이 그림은 전형적인 CI/CD 파이프라인의 단계별 흐름을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CI/CD Pipeline Flow (Standard)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Commit</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Build</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Test</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Artifact</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Source) (Compile) (Unit/Static) (Docker Image)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Staging</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Approval</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Production</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Integration) (Manual/Auto) (Blue-Green/Canary)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 각 단계 실패 시 파이프라인이 즉시 중단됨 (Fail-fast)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 CI/CD Pipeline Flow (Standard)              │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Commit ] ──▶ [ Build ] ──▶ [ Test ] ──▶ [ Artifact ]    │
+│       │            │            │            │              │
+│   (Source)     (Compile)    (Unit/Static) (Docker Image)    │
+│                                              │              │
+│   ┌──────────────────────────────────────────┘              │
+│   ▼                                                         │
+│   [ Staging ] ──▶ [ Approval ] ──▶ [ Production ]           │
+│   (Integration)    (Manual/Auto)    (Blue-Green/Canary)     │
+│                                                             │
+│   * 핵심: 각 단계 실패 시 파이프라인이 즉시 중단됨 (Fail-fast)│
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '자동화된 피드백'이다. 개발자가 코드를 올리자마자 서버가 빌드와 테스트를 수행하고, 문제가 있으면 1분 내로 알려준다. 실무에서는 이러한 파이프라인이 정착되어야만 하루에 수백 번의 배포를 수행하는 '초격차 민첩성'을 확보할 수 있다.
 
@@ -72,19 +76,23 @@ CI/CD 및 GitOps가 필요한 이유는 세 가지이다. 첫째, <strong>배포
 
 이 구조도는 <strong>ArgoCD</strong>를 이용한 Pull 기반 GitOps 아키텍처를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pull-based GitOps with ArgoCD</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Developer</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Git Repo (Manifests)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">── (Watch)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ArgoCD Operator</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Kubernetes Cluster</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Self-healing)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 특징: 서버 상태가 Git과 다르면 로봇이 즉시 원래대로 수정</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Pull-based GitOps with ArgoCD               │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Developer ] ──▶ [ Git Repo (Manifests) ] ◀──┐ (Watch)   │
+│                                                 │           │
+│          ┌──────────────────────────────────────┘           │
+│          ▼                                                  │
+│   [ ArgoCD Operator ] ──(Sync)──▶ [ Kubernetes Cluster ]    │
+│          │                               ▲                  │
+│          └──────── (Self-healing) ───────┘                  │
+│                                                             │
+│   * 특징: 서버 상태가 Git과 다르면 로봇이 즉시 원래대로 수정│
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '상태 일치 (State Reconciliation)'이다. 사람이 직접 서버 설정을 건드리는 행위 (Snowflake Server)를 원천 차단한다. 실무에서는 이 구조를 통해 "Git에 있는 코드가 곧 현재 운영 중인 서버의 모습이다"라는 강력한 신뢰를 구축한다.
 
@@ -124,21 +132,23 @@ CI/CD 및 GitOps가 필요한 이유는 세 가지이다. 첫째, <strong>배포
 
 이 도식은 기술사가 설계하는 '자동화된 배포 승인 및 게이트웨이' 로직을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Automated Deployment Gate Logic</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Build Done</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Security Scan</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Test Pass?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (Fail) ▼ (Pass)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Notification</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Approval Engine</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Deploy</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Slack/Teams) (Policy Check)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 기술사 가이드: 모든 승인 단계는 Git PR 기록으로 남겨</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">변경 이력을 100% 추적 가능하게 해야 함 (Compliance)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│               Automated Deployment Gate Logic               │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Build Done ] ──▶ [ Security Scan ] ──▶ [ Test Pass? ]   │
+│                               │               │             │
+│          ┌────────────────────┴───────────────┴────┐        │
+│          ▼ (Fail)                                  ▼ (Pass) │
+│   [ Notification ] ◀── [ Approval Engine ] ──▶ [ Deploy ]   │
+│   (Slack/Teams)          (Policy Check)                     │
+│                                                             │
+│   * 기술사 가이드: 모든 승인 단계는 Git PR 기록으로 남겨    │
+│     변경 이력을 100% 추적 가능하게 해야 함 (Compliance)     │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 기술사의 배포 설계는 '무인 자율주행 물류 센터'를 짓는 것과 같습니다. 로봇(파이프라인)들이 물건을 나르는 경로를 짜고, 물건이 파손되지 않았는지 센서(테스트)로 검사하며, 문제가 생기면 즉시 경보를 울리고 멈추게 하는 시스템 설계자입니다.
 

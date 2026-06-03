@@ -27,26 +27,26 @@ tags = ["studynote-operating-system"]
   2. <strong><a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> 캐시의 도입</strong>: 남는 램을 디스크 캐시로 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 시작하면서, 램을 '임시 버퍼'로 사용하는 꼼수가 발달함.
   3. <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a>(<a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/">Lazy</a> Write)의 완성</strong>: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 램에만 써두고 "[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 완료!"라고 앱을 속여서 돌려보낸 뒤, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 뒤에서 몰래 디스크에 기록하는 Writeback 아키텍처가 굳어졌다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지연 쓰기(Lazy Write)와 Writeback 데몬의 동작 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 앱의 Write 요청 (0.001ms 컷!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">앱: "<code>data.txt</code> 파일에 'HELLO' 적어줘!" <code>write()</code> 호출.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Dirty 🔴</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS: "응 디스크에 잘 적었어!(뻥카)" 앱을 바로 실행 재개시킴.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 위태로운 동거 (10초 경과)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">앱은 신나게 램에만 글씨를 씀. (램에 Dirty Page가 수백 개 쌓임)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⚠ 이 순간 코드를 뽑으면 지금까지 쓴 데이터 영구 증발 (Data Loss)!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3. 백그라운드 청소부 출동 (Writeback 발동)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS 데몬(<code>flusher thread</code>): "어우 더러워. 디스크로 밀어내!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">램의 🔴 Dirty Page들을 긁어모아 하드디스크에 한 방에 덮어씀 (Flush)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Clean 🟢</div><div class="kb-diagram-note">로 세탁 완료!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│        지연 쓰기(Lazy Write)와 Writeback 데몬의 동작 시각화             │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│ [ 1. 앱의 Write 요청 (0.001ms 컷!) ]                                    │
+│   앱: "`data.txt` 파일에 'HELLO' 적어줘!" `write()` 호출.               │
+│   OS: 램(Page Cache)에 'HELLO' 적음. 해당 페이지 상태 ──▶ [ Dirty 🔴 ]  │
+│   OS: "응 디스크에 잘 적었어!(뻥카)" 앱을 바로 실행 재개시킴.           │
+│                                                                         │
+│ [ 2. 위태로운 동거 (10초 경과) ]                                        │
+│   앱은 신나게 램에만 글씨를 씀. (램에 Dirty Page가 수백 개 쌓임)        │
+│   ⚠ 이 순간 코드를 뽑으면 지금까지 쓴 데이터 영구 증발 (Data Loss)!     │
+│                                                                         │
+│ [ 3. 백그라운드 청소부 출동 (Writeback 발동) ]                          │
+│   OS 데몬(`flusher thread`): "어우 더러워. 디스크로 밀어내!"            │
+│   램의 🔴 Dirty Page들을 긁어모아 하드디스크에 한 방에 덮어씀 (Flush)   │
+│   디스크 기록 완료 후 램의 상태 ──▶ [ Clean 🟢 ] 로 세탁 완료!          │
+└─────────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 이것이 우리가 흔히 경험하는 "USB를 그냥 뽑았더니 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 깨졌어요" 또는 "안전하게 제거하기를 눌러야 해요"의 기술적 원인이다. OS는 당신이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 다 복사했다고 프로그레스 바를 100%로 보여주었지만, 사실 그건 '램(Dirty [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))에 다 적었다'는 뻥카일 뿐, 뒤에서는 하드디스크로 미친 듯이 Writeback을 돌리고 있는 중이기 때문이다.
 
 - **📢 섹션 요약 비유**: 회사에서 법인카드 영수증(Write)이 생길 때마다 회계팀(디스크)에 결재 올리러 뛰어가지 않습니다. 내 책상 서랍(램)에 영수증을 꾸깃꾸깃 모아뒀다가(Dirty), 월말 정산일이 되거나 서랍이 꽉 차면(Writeback [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)) 한꺼번에 풀칠해서 회계팀에 던져주는 가장 효율적인 사무 처리 방식입니다.
@@ -99,18 +99,15 @@ tags = ["studynote-operating-system"]
    - **재앙 발생**: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 즉시 유저 앱의 실행을 강제로 멈춰 세운다(Blocked). "야! 더 이상 램에 쓰지 마! 네가 직접 디스크로 짐 날라!"라며 <strong>동기식(<a href="/knowledge-base/studynote/03_network/01_data_communication/010_동기식_비동기식_전송/">Synchronous</a>) Writeback</strong>을 강제한다. 
    - 유저 앱(예: [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/), [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 복사창)이 갑자기 수 초 동안 화면이 얼어버리는 이유가 바로 이 2차 방파제에 부딪혔기 때문이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">더티 %</div><div class="kb-diagram-cell">청소부 상태</div><div class="kb-diagram-cell">유저 앱 상태</div><div class="kb-diagram-cell">시스템 체감 I/O 렉</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0 ~ 9%</div><div class="kb-diagram-cell">자고 있음</div><div class="kb-diagram-cell">쾌속 질주 🚀</div><div class="kb-diagram-cell">0초 (완벽함)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">10% ~ 19%</div><div class="kb-diagram-cell">백그라운드 청소</div><div class="kb-diagram-cell">쾌속 질주 🚀</div><div class="kb-diagram-cell">사실상 못 느낌</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">20% 돌파</div><div class="kb-diagram-cell">💥 비상사태</div><div class="kb-diagram-cell">강제 정지 ☠️</div><div class="kb-diagram-cell">화면 얼어붙음 (수 초)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬──────────────────────────────┐
+│ 더티 %     │ 청소부 상태   │ 유저 앱 상태  │ 시스템 체감 I/O 렉   │
+├──────────┼────────────┼────────────┼──────────────────────────────┤
+│ 0 ~ 9%   │ 자고 있음   │ 쾌속 질주 🚀  │ 0초 (완벽함)             │
+│ 10% ~ 19%│ 백그라운드 청소│ 쾌속 질주 🚀  │ 사실상 못 느낌        │
+│ 20% 돌파  │ 💥 비상사태  │ **강제 정지 ☠️**│ 화면 얼어붙음 (수 초)│
+└──────────┴────────────┴────────────┴──────────────────────────────┘
+```
 **[매트릭스 해설]** [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 3.0에 기가바이트 단위의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 복사할 때 처음엔 미친 듯이 1초 만에 90%까지 가다가(램에 쓰는 중), 갑자기 남은 시간 1분을 띄우고 창이 얼어버리는(dirty_ratio 돌파로 강제 디스크 I/O) 현상의 100% 하드웨어적 근거다. 
 
 - **📢 섹션 요약 비유**: 쓰레기통(더티 램)이 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 찰 때는 엄마(백그라운드 데몬)가 조용히 갖다 버려서 내가 노는 데 지장이 없습니다. 하지만 내가 쓰레기를 너무 빨리 만들어서 20%까지 차버리면, 엄마가 내 등짝을 때리며 "놀지 말고 네가 직접 쓰레기장(디스크)에 버리고 와!"라고 시켜서 노는 흐름(앱 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))이 뚝 끊겨버리는 원리입니다.
@@ -167,19 +164,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">수요 페이지 제로화 (Demand Zero Paging)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">더티 페이지 쓰기 (Dirty Page Writeback) 메커니즘 (pdflush / flusher 스레드)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">캐시 컬러링 (Cache Coloring)에 의한 페이지 매핑 최적화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">역 페이지 테이블 탐색 최적화 해시 함수</div></div>
-</div>
-</div>
-
-
+```text
+[수요 페이지 제로화 (Demand Zero Paging)]
+    │
+    ▼
+[더티 페이지 쓰기 (Dirty Page Writeback) 메커니즘 (pdflush / flusher 스레드)]
+    │
+    ├──▶ [캐시 컬러링 (Cache Coloring)에 의한 페이지 매핑 최적화]
+    └──▶ [역 페이지 테이블 탐색 최적화 해시 함수]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

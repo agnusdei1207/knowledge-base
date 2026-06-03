@@ -32,20 +32,22 @@ SCP는 시간의 흐름을 거슬러 올라가며 미래를 예측하고 자원�
 | **유통/물류 계획 (Distribution Planning)** | 생산된 제품을 어느 지역의 물류 창고(DC)에 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 배치할지 재고 할당 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 수행 | 물류 보관비 최소화 및 결품 방지 |
 | **운송 계획 (Transportation Planning)** | 창고에서 매장까지 트럭이 이동하는 최단 거리 경로 최적화 ([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 시뮬레이션) | 유류비 절감 및 납기 시간 준수 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SCP (공급망 계획) 모듈 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시장 정보/과거 데이터</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">1. 수요 계획 (몇 개 팔릴까?)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">공장 CAPA/제약 조건</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">2. 생산 계획 (어디서 만들까?)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">창고 용량/재고 현황</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">3. 유통 계획 (어디에 쌓을까?)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">도로망/납기 정보</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">4. 운송 계획 (어떻게 보낼까?)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SCE (실행: 창고, 트럭 시스템)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                  SCP (공급망 계획) 모듈 아키텍처             │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│  [시장 정보/과거 데이터] ──▶ 1. 수요 계획 (몇 개 팔릴까?) │
+│                                      │                       │
+│  [공장 CAPA/제약 조건] ───▶ 2. 생산 계획 (어디서 만들까?) │
+│                                      │                       │
+│  [창고 용량/재고 현황] ───▶ 3. 유통 계획 (어디에 쌓을까?) │
+│                                      │                       │
+│  [도로망/납기 정보] ──────▶ 4. 운송 계획 (어떻게 보낼까?) │
+│                                                              │
+│  ★ 도출된 마스터 플랜 ────▶ [ SCE (실행: 창고, 트럭 시스템) ]  │
+└──────────────────────────────────────────────────────────────┘
+```
 이 그림은 외부 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 입력받아 가장 불확실한 '수요'를 먼저 확정 짓고, 이를 기준으로 생산, 유통, 운송 순으로 계획이 폭포수처럼 구체화되는 흐름을 보여준다.
 
 - **📢 섹션 요약 비유**: SCP는 체스 대국을 벌이는 <strong>'슈퍼컴퓨터 알파고'</strong>와 같다. 바둑판(글로벌 시장)을 내려다보며 "상대방이 A를 두면(태풍이 오면), 나는 B 공장에서 물건을 C 창고로 옮겨야 비용(HP)을 아낀다"는 최적의 승리 시나리오를 출력해 낸다.
@@ -96,23 +98,21 @@ SCP의 정밀한 계획은 채찍 효과 ([Bullwhip Effect](/knowledge-base/stud
 | <strong>채찍 효과 (<a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/093_bullwhip_effect_supply_chain/">Bullwhip Effect</a>)</strong> | 수요 왜곡 현상으로, SCP의 정확한 수요 예측이 이 현상을 방지하는 백신 역할을 함 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">MRP (자재 소요 계획, 내부 공장 중심)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ERP (전사적 자원 관리, 기업 내부 전체 통합)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SCM 도입 및 SCP (수요/생산 계획 알고리즘 고도화)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">S&amp;OP (부서 간 합의) 및 SCE (실행 시스템 연동)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">AI 기반 자율형 공급망 (Cognitive SCM &amp; Digital Twin)</div>
-</div>
-</div>
-
-
+```text
+MRP (자재 소요 계획, 내부 공장 중심)
+    │
+    ▼
+ERP (전사적 자원 관리, 기업 내부 전체 통합)
+    │
+    ▼
+SCM 도입 및 SCP (수요/생산 계획 알고리즘 고도화)
+    │
+    ▼
+S&OP (부서 간 합의) 및 SCE (실행 시스템 연동)
+    │
+    ▼
+AI 기반 자율형 공급망 (Cognitive SCM & Digital Twin)
+```
 이 흐름도는 단위 공장 내부의 단순 자재 계산([MRP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/082_mrp_material_requirements_planning/))에서 시작해 기업 전체([ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)), [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 전체([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/)/[SCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/747_scp/))로 시야가 넓어지고, 최종적으로 AI가 결합한 자율 예측망으로 진화하는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

@@ -21,18 +21,14 @@ tags = ["studynote-network"]
 
 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)은 겉봉투의 주소(IP)와 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 번호를 보고 패킷을 차단합니다. 이를 속이는 방법은 크게 <strong>'내용물 숨기기(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/">터널링</a>)'</strong>와 <strong>'검사기 눈 피하기(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/">단편화</a>)'</strong> 두 가지로 나뉩니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">포트 스캐닝 도구 작동 메커니즘 (NMAP…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">방화벽 우회기법</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">비인가 AP</div></div>
-</div>
-</div>
-
-
+```text
+[포트 스캐닝 도구 작동 메커니즘 (NMAP…]
+    │
+    ▼
+[방화벽 우회기법]
+    │
+    └──▶ [비인가 AP]
+```
 
 - **📢 섹션 요약 비유**: [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 우회기법은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -52,18 +48,14 @@ tags = ["studynote-network"]
 - 직원이 사내망에서 불법 토렌트 사이트에 들어가려 합니다. 회사의 [차세대 방화벽](/knowledge-base/studynote/09_security/05_web_app_security/216_ngfw_next_generation_firewall_dpi/)([NGFW](/knowledge-base/studynote/03_network/13_network_security_basics/698_ngfw_next_generation_firewall/))이 패킷을 뜯어보고 차단합니다.
 - 직원이 외부의 [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) 서버로 <strong>강력한 암호화 터널(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/">AES</a>)</strong>을 하나 뚫습니다. [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)은 직원이 외부와 뭔가 통신하는 것은 알지만, 데이터가 100% 암호화되어 있으므로 안에 토렌트가 들었는지 회사 기밀 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)([DLP](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/386_dlp/) 회피)이 들었는지 뜯어보지 못하고 까막눈이 되어 통과시켜 줍니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">포트 스캐닝 도구 작동 메커니즘 (NMAP…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">방화벽 우회기법</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">비인가 AP</div></div>
-</div>
-</div>
-
-
+```text
+[포트 스캐닝 도구 작동 메커니즘 (NMAP…]
+    │
+    ▼
+[방화벽 우회기법]
+    │
+    └──▶ [비인가 AP]
+```
 
 - **📢 섹션 요약 비유**: [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 우회기법의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -122,19 +114,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 포트 스캐닝 도구 작동 메커니즘 (NMAP…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 방화벽 우회기법</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 비인가 AP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 포트 스캐닝 도구 작동 메커니즘 (NMAP…]
+    │
+    ▼
+[현재 개념: 방화벽 우회기법]
+    │
+    ├──▶ [확장 A: 비인가 AP]
+    └──▶ [확장 B: 예측형 위협 대응]
+```
 
 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 우회기법는 [포트 스캐닝](/knowledge-base/studynote/02_operating_system/10_security/600_port_scanning/) 도구 작동 메커니즘 (NMAP…에서 출발해 현재 메커니즘을 정교화하고, 이후 비인가 AP와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

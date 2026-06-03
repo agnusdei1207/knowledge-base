@@ -60,29 +60,35 @@ tags = ["studynote-operating-system"]
 
 유니커널 아키텍처가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)상 일반 OS를 압도하는 근본적 이유는 <strong>유저 모드와 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 모드의 붕괴</strong>에 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일반 OS vs 유니커널 아키텍처 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전통적인 리눅스 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">User Space (Ring 3) :</div><div class="kb-diagram-node">Nginx App</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀── (시스템 콜 발생! 1000 cycle 소모)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Kernel Space (Ring 0):</div><div class="kb-diagram-node">VFS / TCP 스택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀── (드라이버 통신)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Hypervisor (Ring -1):</div><div class="kb-diagram-node">KVM / Virtio</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">유니커널 (Unikernel) 아키텍처</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(단일 주소 공간 - Single Address Space)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kernel Space (Ring 0) :</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App 코드 (Nginx)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(일반 함수 호출! 1 cycle 소모)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TCP/IP Library</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Virtio Driver</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Hypervisor (Ring -1):</div><div class="kb-diagram-node">KVM / Virtio</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 일반 OS vs 유니커널 아키텍처 비교                   │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │  [전통적인 리눅스 아키텍처]                                          │
+  │   User Space (Ring 3) :   [ Nginx App ]                           │
+  │                                 │ ◀── (시스템 콜 발생! 1000 cycle 소모) │
+  │  ───────────────────────────────┼──────────────────────────────── │
+  │   Kernel Space (Ring 0):  [ VFS / TCP 스택 ]                      │
+  │                                 │ ◀── (드라이버 통신)                 │
+  │  ───────────────────────────────┼──────────────────────────────── │
+  │   Hypervisor (Ring -1):   [ KVM / Virtio ]                        │
+  │                                                                   │
+  │                                                                   │
+  │  [유니커널 (Unikernel) 아키텍처]                                     │
+  │                                                                   │
+  │   (단일 주소 공간 - Single Address Space)                            │
+  │   Kernel Space (Ring 0) : ┌───────────────────────┐               │
+  │                           │  App 코드 (Nginx)     │               │
+  │                           │       │ (일반 함수 호출! 1 cycle 소모) │
+  │                           │  TCP/IP Library       │               │
+  │                           │       │               │               │
+  │                           │  Virtio Driver        │               │
+  │                           └───────┬───────────────┘               │
+  │  ─────────────────────────────────┼────────────────────────────── │
+  │   Hypervisor (Ring -1):   [ KVM / Virtio ]                        │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 리눅스에서 앱이 네트워크 패킷을 보내려면 `send()` 시스템 콜을 호출해야 한다. 이때 CPU는 Ring 3에서 Ring 0로 권한을 변경하고, TLB를 비우며, 레지스터를 백업하는 '[문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))' 낭비를 겪는다. 반면 유니커널에서는 애초에 앱 자체가 Ring 0(최고 권한)에서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)로 뜬다. `send()` 기능은 시스템 콜이 아니라 그냥 같은 주소 공간에 링크된 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)의 <strong>C <a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/">함수 호출</a>(Function <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/">Call</a>)</strong>로 대체된다. 오버헤드가 제로(0)가 되어 극단적인 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/)/초저지연 I/O 처리가 가능해진다.
 
@@ -131,27 +137,30 @@ tags = ["studynote-operating-system"]
 
 ### 의사결정 및 튜닝 플로우
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유니커널(Unikernel) 아키텍처 도입 의사결정 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">초경량, 초고보안을 요구하는 신규 마이크로서비스 프로젝트 기획</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">애플리케이션이 여러 프로세스(Multi-process) 통신을 요구하는가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(예: Nginx + PHP-FPM + MySQL 세트가 한 공간에 있어야 하는가?)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">유니커널 도입 불가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(유니커널은 1 App = 1 VM(Kernel) 철학임.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기존 컨테이너나 일반 VM 아키텍처 사용 필수)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 (단일 Go 바이너리, 단일 Node.js 서버 등이다)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발자들이 OCaml, Rust 등 특정 유니커널 프레임워크 언어에 친숙한가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MirageOS (OCaml) 등 네이티브 유니커널 적용</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">POSIX 호환 유니커널 (OSv, Nanos) 고려</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(기존 C/C++, Java 코드를 그대로 가져와 정적 링크만</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수행하여 유니커널화 하는 브릿지 툴 체인 활용)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 유니커널(Unikernel) 아키텍처 도입 의사결정 플로우          │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [초경량, 초고보안을 요구하는 신규 마이크로서비스 프로젝트 기획]                │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      애플리케이션이 여러 프로세스(Multi-process) 통신을 요구하는가?         │
+  │      (예: Nginx + PHP-FPM + MySQL 세트가 한 공간에 있어야 하는가?)        │
+  │          ├─ 예 ─────▶ [유니커널 도입 불가]                           │
+  │          │            (유니커널은 1 App = 1 VM(Kernel) 철학임.        │
+  │          │             기존 컨테이너나 일반 VM 아키텍처 사용 필수)         │
+  │          └─ 아니오 (단일 Go 바이너리, 단일 Node.js 서버 등이다)           │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      개발자들이 OCaml, Rust 등 특정 유니커널 프레임워크 언어에 친숙한가?      │
+  │          ├─ 예 ─────▶ [MirageOS (OCaml) 등 네이티브 유니커널 적용]      │
+  │          │                                                        │
+  │          └─ 아니오 ──▶ [POSIX 호환 유니커널 (OSv, Nanos) 고려]         │
+  │                         (기존 C/C++, Java 코드를 그대로 가져와 정적 링크만│
+  │                          수행하여 유니커널화 하는 브릿지 툴 체인 활용)        │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 유니커널의 최대 단점은 <strong>"디버깅의 지옥"</strong>과 <strong>"레거시 지원 불가"</strong>다. 리눅스 환경에 맞춰진 수천 개의 `fork()`, `exec()` 등 시스템 콜을 호출하는 거대 레거시 앱은 유니커널로 빌드조차 되지 않는다. 오직 특정 기능 하나만 수행하는 순수한 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)(예: [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 리졸버, [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 캐시 노드)만이 유니커널의 혜택(빠른 속도, 제로 공격 표면)을 누릴 수 있다. 기술사는 시스템을 잘게 쪼개는 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)([Microservices Architecture](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/122_msa_microservices_architecture/)) 성숙도가 극에 달했을 때만 유니커널 카드를 꺼내 들어야 한다.
 
@@ -195,19 +204,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">RDMA (Remote Direct Memory Access) 커널 바이패스 초고속 통신 체제</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">유니커널 (Unikernel) 커널 분할 오버헤드 극소화 구조체 망 보안 융합 (MirageOS)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">분산 OS 투명성 (Transparency: 위치, 마이그레이션, 복제, 병행 투명성 보장 구조)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">람포트 논리적 시계 (Lamport's Logical Clocks) 분산 환경 동기화 정렬</div></div>
-</div>
-</div>
-
-
+```text
+[RDMA (Remote Direct Memory Access) 커널 바이패스 초고속 통신 체제]
+    │
+    ▼
+[유니커널 (Unikernel) 커널 분할 오버헤드 극소화 구조체 망 보안 융합 (MirageOS)]
+    │
+    ├──▶ [분산 OS 투명성 (Transparency: 위치, 마이그레이션, 복제, 병행 투명성 보장 구조)]
+    └──▶ [람포트 논리적 시계 (Lamport's Logical Clocks) 분산 환경 동기화 정렬]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

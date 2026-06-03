@@ -31,17 +31,18 @@ tags = ["studynote-software-engineering"]
 
 다음은 데브옵스 (DevOps) [CALMS](/knowledge-base/studynote/15_devops_sre/05_devsecops/281_calms/) 의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데브옵스 (DevOps) CALMS</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                  데브옵스 (DevOps) CALMS                         │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
+│       │                    │                    │          │
+│       ▼                    ▼                    ▼          │
+│   요구 분석           설계·적용           품질 검증        │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램은 데브옵스 (DevOps) [CALMS](/knowledge-base/studynote/15_devops_sre/05_devsecops/281_calms/) 가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -64,21 +65,29 @@ DevOps를 평가하는 가장 유명한 프레임워크인 CALMS의 첫 두 기�
    - [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/) / [Continuous Deployment](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/165_continuous_deployment/)) 파이프라인을 구축하여 빌드, 테스트, 배포를 파이프라인 컨베이어 벨트에 태운다.
    - 인프라 스트럭처 애즈 코드 ([IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) - [Infrastructure as Code](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/062_infrastructure_as_code/)) 도구([Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/), [Ansible](/knowledge-base/studynote/15_devops_sre/05_devsecops/198_ansible_os_configuration_management_ssh/))를 통해 서버 세팅 자체를 코드로 작성하고 자동 생성하여 환경 불일치(내 PC에서는 되는데요?) 문제를 원천 차단한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DevOps 자동화 (IaC 및 파이프라인) 흐름</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">개발자</div><div class="kb-diagram-note">"git push"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CI/CD 파이프라인 (Jenkins / GitHub Actions)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">빌드</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">자동 테스트</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Docker 이미지 생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인프라 코드 (IaC - Terraform)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"AWS에 서버 10대와 DB를 자동 생성하라"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">100% 동일한 프로덕션 환경 구축 완료</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 DevOps 자동화 (IaC 및 파이프라인) 흐름            │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [개발자] "git push"                                         │
+│      │                                                      │
+│      ▼                                                      │
+│   ┌──────────────────────────────────────────────────┐      │
+│   │ CI/CD 파이프라인 (Jenkins / GitHub Actions)        │      │
+│   │                                                  │      │
+│   │  [빌드] ──▶ [자동 테스트] ──▶ [Docker 이미지 생성] │      │
+│   └────────────────────────┬─────────────────────────┘      │
+│                            │                                │
+│                            ▼                                │
+│   ┌──────────────────────────────────────────────────┐      │
+│   │ 인프라 코드 (IaC - Terraform)                      │      │
+│   │ "AWS에 서버 10대와 DB를 자동 생성하라"                │      │
+│   └────────────────────────┬─────────────────────────┘      │
+│                            ▼                                │
+│                   [ 100% 동일한 프로덕션 환경 구축 완료 ]         │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]**
 이 흐름은 Automation(자동화)의 궁극적 형태를 보여준다. 개발자가 코드를 커밋하는 단 한 번의 액션으로 애플리케이션의 테스트부터 인프라(서버, 네트워크) 구축, 최종 배포까지 모든 과정이 스크립트로 동작한다. 사람이 클릭하거나 터미널에 명령어를 치는 과정이 배제되어, [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 가능성(Reproducibility)과 [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/)([Idempotency](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/194_idempotency/))이 보장된다.
@@ -137,22 +146,25 @@ DevOps를 평가하는 가장 유명한 프레임워크인 CALMS의 첫 두 기�
    - 개발팀이 운영팀의 모니터링 대시보드를 함께 보며 코드의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목을 눈으로 확인하고, 운영팀은 개발팀의 Git 저장소를 보며 배포 파이프라인의 구조를 이해한다.
    - 특정 개인이 가진 암묵지(Tacit Knowledge)를 위키(Wiki), 사후 분석서(Post-mortem) 등을 통해 [형식지](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/129_explicit_knowledge_formalization/)([Explicit Knowledge](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/129_explicit_knowledge_formalization/))로 변환하여 조직의 집단 지성을 끌어올린다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DevOps 무한 피드백 루프 (Sharing)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">개발 (Dev)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">운영 (Ops)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 코드 작성 - 트래픽 처리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 단위 테스트 - 장애 로깅</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">측정 및 공유 (M &amp; S)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(장애 리포트, 메트릭 피드백)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 한 방향으로 던지고 끝나는 폭포수 모델이 아니라 뫼비우스의 띠처럼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">운영 데이터가 다시 개발 단계의 설계 데이터로 환류(Feedback)됨.</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 DevOps 무한 피드백 루프 (Sharing)             │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│       ┌──────────────────────────────────────────────┐      │
+│       │                                              │      │
+│       ▼                                              │      │
+│   [ 개발 (Dev) ] ──(자동화 배포)──▶ [ 운영 (Ops) ]        │      │
+│   - 코드 작성                        - 트래픽 처리            │      │
+│   - 단위 테스트                       - 장애 로깅             │      │
+│       │                                              │      │
+│       │          [ 측정 및 공유 (M & S) ]              │      │
+│       └─────────── (장애 리포트, 메트릭 피드백) ─────────┘      │
+│                                                             │
+│ * 핵심: 한 방향으로 던지고 끝나는 폭포수 모델이 아니라 뫼비우스의 띠처럼 │
+│         운영 데이터가 다시 개발 단계의 설계 데이터로 환류(Feedback)됨.│
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]**
 이 다이어그램은 뫼비우스의 띠처럼 순환하는 DevOps의 생명주기를 나타낸다. 운영 환경에서 발생한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(에러 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 사용자 패턴)가 단절되지 않고 즉시 개발팀의 이슈 트래커(Jira)로 자동 공유되며, 개발팀은 이를 바탕으로 코드를 수정해 다시 배포한다. 공유(Sharing)가 무너지면 이 순환 루프가 끊어져 다시 [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/) 시대로 돌아가게 된다.
@@ -174,7 +186,7 @@ DevOps는 만병통치약이 아니며, 잘못 도입하면 도구만 화려하�
 <strong>흔한 <a href="/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/161_anti_pattern/">안티 패턴</a> (<a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/403_architecture/">Anti-Patterns</a>)</strong>:
 1. **데브옵스 팀 (DevOps Team) 신설**: DevOps는 문화인데, 기존 개발팀과 운영팀 사이에 '데브옵스 팀'이라는 새로운 부서를 만들고 자동화 스크립트 작성만 전담시키는 행위. 이는 [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)를 2개에서 3개로 늘리는 최악의 패착이다.
 2. **툴 체인 집착 (Tool-driven DevOps)**: 문화(비난 없는 사후 분석, 작은 배포 단위)는 전혀 바뀌지 않았는데, 비싼 돈을 주고 쿠버네티스와 젠킨스만 깔아놓고 DevOps를 한다고 착각하는 현상.
-3. **NoOps 오해**: 클라우드와 자동화가 모든 것을 해주므로 운영(Ops) 전문가가 아예 필요 없다고 믿는 현상. 오히려 보안, 아키텍처 안정성, 비용 최적화를 다루는 고도화된 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)) 전문가의 수요가 폭증한다.
+3. **NoOps 오해**: 클라우드와 자동화가 모든 것을 해주므로 운영(Ops) 전문가가 아예 필요 없다고 믿는 현상. 오히려 보안, 아키텍처 안정성, 비용 최적화를 다루는 고도화된 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)) 전문가의 수요가 폭증한다.
 
 - **📢 섹션 요약 비유**: 좋은 악기(자동화 툴)를 샀다고 해서 당장 훌륭한 교향악단(DevOps 조직)이 되는 것은 아닙니다. 단원들이 서로의 소리를 듣고 맞추려는 배려와 문화([CALMS](/knowledge-base/studynote/15_devops_sre/05_devsecops/281_calms/))가 없다면 그저 시끄러운 소음이 될 뿐인 것과 같은 이치입니다.
 
@@ -195,30 +207,28 @@ DevOps는 만병통치약이 아니며, 잘못 도입하면 도구만 화려하�
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 데브옵스 (DevOps) [CALMS](/knowledge-base/studynote/15_devops_sre/05_devsecops/281_calms/) 문화의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 데브옵스 (DevOps) [CALMS](/knowledge-base/studynote/15_devops_sre/05_devsecops/281_calms/) 문화의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
 | [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 데브옵스 (DevOps) [CALMS](/knowledge-base/studynote/15_devops_sre/05_devsecops/281_calms/) 문화은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | 데브옵스 (DevOps) [CALMS](/knowledge-base/studynote/15_devops_sre/05_devsecops/281_calms/) 문화 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
 | [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 데브옵스 (DevOps) [CALMS](/knowledge-base/studynote/15_devops_sre/05_devsecops/281_calms/) 문화에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">데브옵스 (DevOps) CALMS 문화 개념 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 위기 (Software Crisis) 인식
+    │
+    ▼
+데브옵스 (DevOps) CALMS 문화 개념 정립
+    │
+    ▼
+표준화 및 방법론 체계화 (ISO, CMMI, Agile)
+    │
+    ▼
+클라우드 네이티브·AI 기반 확장 적용
+    │
+    ▼
+지속적 개선 및 DevOps·MLOps 통합
+```
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

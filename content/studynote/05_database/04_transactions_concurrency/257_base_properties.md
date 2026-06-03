@@ -21,16 +21,13 @@ tags = ["studynote-database"]
 
 BASE [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)은 Basically Available, Soft-state, Eventually consistent (NoSQL의 특성, ACID의 반대)에 초점을 맞춘 개념이다. 여러 SQL을 하나의 성공·실패 단위로 묶어야 업무 정합성이 유지된다. 경계가 흐리면 일부만 반영된 중간 상태가 남는다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Request -&gt; Tx boundary -&gt; Current concept -&gt; Commit/RB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Work unit -&gt; control point -&gt; consistency</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ Request -> Tx boundary -> Current concept -> Commit/RB       │
+├──────────────────────────────────────────────────────────────┤
+│ Work unit -> control point -> consistency                    │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 그림은 BASE [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 독립 기능이 아니라 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름에서 특정 통제 지점을 맡는 구조로 이해해야 한다는 점을 압축해 보여 준다.
 
@@ -49,16 +46,13 @@ BASE [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/08
 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 영향 | BASE [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)은 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/), 지연시간, 운영 복잡도 중 적어도 하나에 직접 영향을 준다. | 이득과 비용을 같이 보지 않으면 과설계가 된다. |
 | 운영 주의 | `결과적 일관성`·`벡터 시계 / 타임스탬프`과 경계를 혼동하면 적용 위치가 어긋난다. | 장애 시 관찰할 지표와 우회 전략을 미리 준비해야 한다. |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Begin -&gt; current concept -&gt; Commit / Rollback</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">State change -&gt; control command -&gt; durable result</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ Begin -> current concept -> Commit / Rollback                │
+├──────────────────────────────────────────────────────────────┤
+│ State change -> control command -> durable result            │
+└──────────────────────────────────────────────────────────────┘
+```
 
 핵심은 BASE [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 단순 옵션이 아니라 입력 조건, 처리 순서, 결과 보장을 함께 묶는 설계 규칙으로 보는 것이다. 그래서 구현 전에 평가 시점·충돌 지점·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성을 먼저 정리해야 한다.
 
@@ -119,19 +113,15 @@ BASE [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/08
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">결과적 일관성</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">BASE 속성</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">벡터 시계 / 타임스탬프</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">래프트 / 팍소스 알고리즘</div></div>
-</div>
-</div>
-
-
+```text
+[결과적 일관성]
+    │
+    ▼
+[BASE 속성]
+    │
+    ├──▶ [벡터 시계 / 타임스탬프]
+    └──▶ [래프트 / 팍소스 알고리즘]
+```
 
 [결과적 일관성](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/)에서 출발한 논점이 BASE [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)에서 핵심 판단으로 모이고, 이후 [벡터 시계](/knowledge-base/studynote/05_database/04_transactions_concurrency/258_vector_clock/) / 타임스탬프·[래프트](/knowledge-base/studynote/05_database/04_transactions_concurrency/259_raft_paxos/) / 팍소스 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 같은 확장 주제로 이어지는 흐름을 보여 준다.
 

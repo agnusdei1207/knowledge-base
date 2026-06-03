@@ -106,25 +106,19 @@ Confidence를 이해하면 [연관 규칙](/knowledge-base/studynote/16_bigdata/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">거래 데이터</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">항목 빈도 계산</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">연관 규칙 후보 생성</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Support / Confidence / Lift 평가</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">규칙 필터링</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">실무 적용</div>
-</div>
-</div>
-
-
+```text
+거래 데이터
+   ↓
+항목 빈도 계산
+   ↓
+연관 규칙 후보 생성
+   ↓
+Support / Confidence / Lift 평가
+   ↓
+규칙 필터링
+   ↓
+실무 적용
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

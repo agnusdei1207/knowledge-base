@@ -1,5 +1,5 @@
 +++
-title = "127. 정보공학 방법론 (IE, Information Engineering) - 데이터 중심 시스템 개발"
+title = "127. 정보공학 방법론 (IE, Information 엔진ering) - 데이터 중심 시스템 개발"
 date = 2026-04-19
 
 [taxonomies]
@@ -10,7 +10,7 @@ tags = ["studynote-database"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: IE(Information Engineering)는 <strong>기업 전체 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 중심으로 정보 시스템을 체계적으로 개발</strong>하는 방법론으로, [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/)(정보전략계획)→BAA(업무영역분석)→BSD(시스템 설계)→SC(구축)의 4단계로 구성된다.
+> 1. **본질**: IE(Information 엔진ering)는 <strong>기업 전체 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 중심으로 정보 시스템을 체계적으로 개발</strong>하는 방법론으로, [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/)(정보전략계획)→BAA(업무영역분석)→BSD(시스템 설계)→SC(구축)의 4단계로 구성된다.
 > 2. **가치**: 프로세스 중심 개발은 시스템마다 독립적으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 설계하여 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 중복·불일치</strong>가 발생하지만, IE는 <strong>전사 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/">데이터 모델</a>을 먼저 수립</strong>하여 시스템 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 보장한다.
 > 3. **판단 포인트**: IE는 James Martin(1981)이 제안했으며, 구조적 방법론과 달리 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>(What)를 프로세스(How)보다 우선</strong>시한다. ERD·CRUD 매트릭스가 핵심 산출물이다.
 
@@ -18,23 +18,20 @@ tags = ["studynote-database"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IE 4단계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1단계: ISP (정보전략계획)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 전사 데이터 모델·업무 기능 정의</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2단계: BAA (업무영역분석)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 엔터티·관계·프로세스 상세 분석</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3단계: BSD (시스템 설계)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 논리·물리 데이터 모델·프로그램 설계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4단계: SC (시스템 구축)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 코딩·테스트·이행</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    IE 4단계                                           │
+├───────────────────────────────────────────────────────┤
+│  1단계: ISP (정보전략계획)                            │
+│   → 전사 데이터 모델·업무 기능 정의                  │
+│  2단계: BAA (업무영역분석)                            │
+│   → 엔터티·관계·프로세스 상세 분석                   │
+│  3단계: BSD (시스템 설계)                              │
+│   → 논리·물리 데이터 모델·프로그램 설계              │
+│  4단계: SC (시스템 구축)                               │
+│   → 코딩·테스트·이행                                 │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: IE는 도시 계획([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/))→구역 설계(BAA)→건물 설계(BSD)→시공(SC)처럼 <strong>큰 그림(전사)에서 세부(시스템)</strong>로 내려가는 [Top-Down](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/402_top_down_integration/) 접근이다.
 
@@ -91,23 +88,21 @@ IE는 <strong>전사 <a href="/knowledge-base/studynote/12_it_management/03_ea_i
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">구조적 방법론 (DFD, 1970s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">정보공학 (IE, James Martin, 1981) — 데이터 중심</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">객체지향 (UML, 1990s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Agile + DDD (2000s~)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: 데이터 아키텍처 + 데이터 메시 — IE의 진화</div></div>
-</div>
-</div>
-
-
+```text
+[구조적 방법론 (DFD, 1970s)]
+    │
+    ▼
+[정보공학 (IE, James Martin, 1981) — 데이터 중심]
+    │
+    ▼
+[객체지향 (UML, 1990s)]
+    │
+    ▼
+[Agile + DDD (2000s~)]
+    │
+    ▼
+[현재: 데이터 아키텍처 + 데이터 메시 — IE의 진화]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. IE는 <strong>도시 계획</strong>이에요. 도시(회사) 전체 지도를 먼저 그리고, 건물(시스템)을 짓는 거예요.

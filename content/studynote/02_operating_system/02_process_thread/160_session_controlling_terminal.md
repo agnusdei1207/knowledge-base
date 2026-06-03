@@ -43,24 +43,23 @@ tags = ["studynote-operating-system"]
 
 아래 그림은 세션과 제어 터미널의 관계를 요약한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">session and controlling terminal hierarchy</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Session SID=3200</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Session leader: login shell PID=3200</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Controlling terminal: /dev/pts/5</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Foreground PGID=4500 ──▶ receives terminal input / SIGINT / SIGTSTP</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── vim</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── less</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background PGID=4600 ──▶ runs without owning terminal</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── find</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── sort</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│              session and controlling terminal hierarchy                    │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Session SID=3200                                                          │
+│   Session leader: login shell PID=3200                                    │
+│   Controlling terminal: /dev/pts/5                                        │
+│                                                                            │
+│   Foreground PGID=4500  ──▶ receives terminal input / SIGINT / SIGTSTP    │
+│      ├── vim                                                               │
+│      └── less                                                              │
+│                                                                            │
+│   Background PGID=4600  ──▶ runs without owning terminal                   │
+│      ├── find                                                              │
+│      └── sort                                                              │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 핵심은 터미널이 세션 전체에 무작정 붙는 것이 아니라, 그 순간의 포그라운드 그룹에 집중적으로 작동한다는 점이다. 그래서 셸은 `tcsetpgrp()`로 포그라운드 그룹을 바꾸고, `setsid()`는 호출 프로세스를 새 세션의 리더로 만들면서 기존 제어 터미널과 분리한다. 이 메커니즘이 작업 제어와 [데몬화](/knowledge-base/studynote/02_operating_system/02_process_thread/152_daemonization/)의 출발점이다.
 
@@ -126,24 +125,22 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">로그인 셸 시작</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">세션 생성 · SID 부여</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">프로세스 그룹 분리</div>
-<div class="kb-diagram-note">(foreground / background)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">제어 터미널 기반 작업 제어</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">setsid() / daemon / systemd 서비스</div>
-</div>
-</div>
-
-
+```text
+로그인 셸 시작
+      │
+      ▼
+세션 생성 · SID 부여
+      │
+      ▼
+프로세스 그룹 분리
+(foreground / background)
+      │
+      ▼
+제어 터미널 기반 작업 제어
+      │
+      ▼
+setsid() / daemon / systemd 서비스
+```
 
 이 흐름은 사용자 로그인에서 시작된 터미널 중심 실행 모델이 [데몬화](/knowledge-base/studynote/02_operating_system/02_process_thread/152_daemonization/)와 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 관리로 확장되는 과정을 보여 준다.
 

@@ -72,16 +72,11 @@ contract SimpleStorage {
 
 ### [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 흐름
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">사용자 서명 → MetaMask → 이더리움 노드 → 컨트랙트 실행</div>
-<div class="kb-diagram-note">개인키 사용 상태 변경 + 가스비 소모</div>
-</div>
-</div>
-
-
+```
+사용자 서명 → MetaMask → 이더리움 노드 → 컨트랙트 실행
+     ↓                                          ↓
+  개인키 사용                            상태 변경 + 가스비 소모
+```
 
 📢 **섹션 요약 비유**: [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)는 자동 계약서다 — 조건이 충족되면 변호사 없이 자동으로 실행되고, 한번 배포되면 변경할 수 없다.
 
@@ -104,20 +99,21 @@ contract SimpleStorage {
 
 ## Ⅳ. DApp 기술 스택과 개발 도구
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프론트엔드: React/Vue + Web3.js/Ethers.js</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지갑 연결: MetaMask / WalletConnect</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스마트 컨트랙트: Solidity / Vyper</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발 프레임워크: Hardhat / Foundry / Truffle</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블록체인 노드: Infura / Alchemy / 자체 노드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분산 스토리지: IPFS / Arweave</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────┐
+│  프론트엔드: React/Vue + Web3.js/Ethers.js   │
+├──────────────────────────────────────────────┤
+│  지갑 연결: MetaMask / WalletConnect         │
+├──────────────────────────────────────────────┤
+│  스마트 컨트랙트: Solidity / Vyper           │
+├──────────────────────────────────────────────┤
+│  개발 프레임워크: Hardhat / Foundry / Truffle│
+├──────────────────────────────────────────────┤
+│  블록체인 노드: Infura / Alchemy / 자체 노드 │
+├──────────────────────────────────────────────┤
+│  분산 스토리지: IPFS / Arweave               │
+└──────────────────────────────────────────────┘
+```
 
 **L2 확장 솔루션**: [Polygon](/knowledge-base/studynote/06_ict_convergence/01_blockchain/045_sidechain_bridge_polygon/)·Arbitrum·Optimism으로 가스비 절감 + 속도 개선
 
@@ -139,17 +135,11 @@ contract SimpleStorage {
 
 ### Web3 발전 방향
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Web1 (읽기) → Web2 (읽기+쓰기) → Web3 (읽기+쓰기+소유)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">DApp + DID + 토큰 이코노미</div>
-</div>
-</div>
-
-
+```
+Web1 (읽기) → Web2 (읽기+쓰기) → Web3 (읽기+쓰기+소유)
+                                     ↓
+                               DApp + DID + 토큰 이코노미
+```
 
 📢 **섹션 요약 비유**: DApp의 현재 한계는 초창기 인터넷과 같다 — 느리고 불편하지만, 인프라가 성숙해지면 지금의 앱스토어처럼 당연한 것이 될 것이다.
 
@@ -157,57 +147,50 @@ contract SimpleStorage {
 
 ## 📌 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">DApp (Decentralized Application)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">기반 기술</div>
-<div class="kb-diagram-note">── 스마트 컨트랙트 (Smart Contract)</div>
-<div class="kb-diagram-note">── EVM (Ethereum Virtual Machine)</div>
-<div class="kb-diagram-note">── IPFS (분산 스토리지)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">지갑 연결</div>
-<div class="kb-diagram-note">── MetaMask</div>
-<div class="kb-diagram-note">── WalletConnect</div>
-<div class="kb-diagram-note">── AA (Account Abstraction)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">카테고리</div>
-<div class="kb-diagram-note">── DeFi (탈중앙 금융)</div>
-<div class="kb-diagram-note">── NFT 마켓플레이스</div>
-<div class="kb-diagram-note">── DAO (탈중앙 자율 조직)</div>
-<div class="kb-diagram-note">── GameFi / SocialFi</div>
-<div class="kb-diagram-tree-item" style="--depth:0">확장 솔루션 (L2)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Polygon</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Arbitrum / Optimism (롤업)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">zkSync (ZK-롤업)</div>
-</div>
-</div>
-
-
+```
+DApp (Decentralized Application)
+├── 기반 기술
+│   ├── 스마트 컨트랙트 (Smart Contract)
+│   ├── EVM (Ethereum Virtual Machine)
+│   └── IPFS (분산 스토리지)
+├── 지갑 연결
+│   ├── MetaMask
+│   ├── WalletConnect
+│   └── AA (Account Abstraction)
+├── 카테고리
+│   ├── DeFi (탈중앙 금융)
+│   ├── NFT 마켓플레이스
+│   ├── DAO (탈중앙 자율 조직)
+│   └── GameFi / SocialFi
+└── 확장 솔루션 (L2)
+    ├── Polygon
+    ├── Arbitrum / Optimism (롤업)
+    └── zkSync (ZK-롤업)
+```
 
 ---
 
 ## 📈 관련 키워드 및 발전 흐름도
 
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                   DApp 발전 흐름                                 │
+├──────────────┬────────────────────┬─────────────────────────────┤
+│ 2015년       │ 이더리움 출시       │ 스마트 컨트랙트·EVM 등장     │
+│ 2017년       │ CryptoKitties      │ NFT·GameFi 원형              │
+│ 2018~19년    │ DeFi 초기 (MakerDAO) │ 탈중앙 금융 개념 확립      │
+│ 2020년       │ DeFi Summer        │ Uniswap·Compound 급성장      │
+│ 2021년       │ NFT 붐·GameFi 등장 │ OpenSea·Axie Infinity        │
+│ 2022~현재    │ L2 성장·AA         │ 확장성 개선·UX 단순화        │
+└──────────────┴────────────────────┴─────────────────────────────┘
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DApp 발전 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2015년</div><div class="kb-diagram-cell">이더리움 출시</div><div class="kb-diagram-cell">스마트 컨트랙트·EVM 등장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2017년</div><div class="kb-diagram-cell">CryptoKitties</div><div class="kb-diagram-cell">NFT·GameFi 원형</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2018~19년</div><div class="kb-diagram-cell">DeFi 초기 (MakerDAO)</div><div class="kb-diagram-cell">탈중앙 금융 개념 확립</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2020년</div><div class="kb-diagram-cell">DeFi Summer</div><div class="kb-diagram-cell">Uniswap·Compound 급성장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2021년</div><div class="kb-diagram-cell">NFT 붐·GameFi 등장</div><div class="kb-diagram-cell">OpenSea·Axie Infinity</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2022~현재</div><div class="kb-diagram-cell">L2 성장·AA</div><div class="kb-diagram-cell">확장성 개선·UX 단순화</div></div>
-<div class="kb-diagram-note">핵심 키워드 연결:</div>
-<div class="kb-diagram-note">블록체인 → 스마트 컨트랙트 → DApp → DeFi/NFT/DAO</div>
-<div class="kb-diagram-note">EVM Solidity Web3.js</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">L2 롤업 → zkEVM → 모바일 DApp 대중화</div>
-</div>
-</div>
-
-
+핵심 키워드 연결:
+블록체인 → 스마트 컨트랙트 → DApp → DeFi/NFT/DAO
+    ↓             ↓            ↓
+  EVM          Solidity     Web3.js
+    ↓
+  L2 롤업 → zkEVM → 모바일 DApp 대중화
+```
 
 ---
 

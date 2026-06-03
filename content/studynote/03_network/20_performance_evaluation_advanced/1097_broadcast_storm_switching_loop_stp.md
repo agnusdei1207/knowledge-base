@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **Flooding (플러딩)**: 1075번에서 배웠듯, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 모르는 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소나 `FF:FF:FF:FF:FF:FF` 같은 브로드캐스트([ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/)) 패킷을 받으면, 묻지도 따지지도 않고 <strong>자기에 꽂힌 모든 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>로 복사해서 다 쏟아버립니다.</strong>
 - <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/">TTL</a>(수명)의 부재</strong>: L3 라우터 패킷(IP)에는 `TTL`이라는 폭탄 타이머가 있어서 255번 점프하면 허공에서 자동 폭파됩니다. 하지만 L2 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 패킷([이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임)에는 이 **수명 타이머 껍데기가 아예 없습니다!** 한 번 던져진 패킷은 누군가 랜선을 뽑지 않는 한 우주가 멸망할 때까지 허공을 날아다닙니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">EIGRP DUAL 지연 스케일 분산</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">브로드캐스트 스톰</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">LACP 이더채널 포트 논리 그룹화</div></div>
-</div>
-</div>
-
-
+```text
+[EIGRP DUAL 지연 스케일 분산]
+    │
+    ▼
+[브로드캐스트 스톰]
+    │
+    └──▶ [LACP 이더채널 포트 논리 그룹화]
+```
 
 - **📢 섹션 요약 비유**: 브로드캐스트 스톰은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -49,18 +45,14 @@ tags = ["studynote-network"]
 4. 이제 B와 C가 서로 주고받은 걸 또다시 복사해서 A, B, C 서로에게 미친 듯이 메아리치며 핑퐁 복제를 시작합니다.
 5. **결과 (브로드캐스트 스톰)**: 패킷에 [TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/)(폭파 타이머)이 없기 때문에 죽지 않습니다. 1개가 2개, 4개, 100만 개로 1초 만에 기하급수적으로 자가 증식하여(폭풍), [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 사이의 1Gbps 랜선을 쓰레기 패킷으로 100% 가득 채워버립니다. 정상적인 인터넷 통신은 0.1초도 불가능해지며, 쇳덩어리 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 CPU가 100%를 찍고 다운(재부팅)됩니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">EIGRP DUAL 지연 스케일 분산</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">브로드캐스트 스톰</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">LACP 이더채널 포트 논리 그룹화</div></div>
-</div>
-</div>
-
-
+```text
+[EIGRP DUAL 지연 스케일 분산]
+    │
+    ▼
+[브로드캐스트 스톰]
+    │
+    └──▶ [LACP 이더채널 포트 논리 그룹화]
+```
 
 - **📢 섹션 요약 비유**: 브로드캐스트 스톰의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -121,19 +113,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: EIGRP DUAL 지연 스케일 분산</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 브로드캐스트 스톰</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: LACP 이더채널 포트 논리 그룹화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: EIGRP DUAL 지연 스케일 분산]
+    │
+    ▼
+[현재 개념: 브로드캐스트 스톰]
+    │
+    ├──▶ [확장 A: LACP 이더채널 포트 논리 그룹화]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 브로드캐스트 스톰는 [EIGRP](/knowledge-base/studynote/03_network/07_network_layer_routing/355_eigrp_enhanced_igrp_dual_algorithm/) DUAL [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 스케일 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)에서 출발해 현재 메커니즘을 정교화하고, 이후 LACP [이더채널](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/263_etherchannel_link_aggregation_lacp/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [그룹화](/knowledge-base/studynote/02_operating_system/09_file_system/535_grouping_counting_free_space/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

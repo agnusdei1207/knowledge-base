@@ -35,22 +35,20 @@ tags = ["studynote-computer-architecture"]
 | <strong>코드 포인트 (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a> Point)</strong> | 문자에 부여된 고유한 수학적 일련번호 (논리적 주소) | '가' $\rightarrow$ $U+AC00$, 💩 $\rightarrow$ $U+1F4A9$ |
 | **인코딩 (Encoding)** | 논리적 주소를 실제 메모리나 디스크에 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)([비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/))로 변환하여 저장하는 규칙 | [UTF-8](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/105_utf8/), [UTF-16](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/106_utf16/), UTF-32 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">The Unicode Abstraction Layer: 분리된 두 개의 우주</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">STEP 1: 논리적 매핑 (Code Point)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">'가'라는 문자에 영구 불변의 일련번호를 강제 부여</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ U+AC00 (추상적 번호표일 뿐, 아직 저장된 상태가 아님)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">STEP 2: 물리적 저장 (Encoding Scheme)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부여받은 U+AC00을 하드디스크나 RAM에 어떻게 비트로 기록할 것인가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* UTF-32: 무조건 4바이트 고정 크기로 넉넉하게 담기 (메모리 낭비)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* UTF-8: 문자에 따라 1~4바이트 가변 길이로 압축해서 담기 (통신 효율)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│         The Unicode Abstraction Layer: 분리된 두 개의 우주           │
+├──────────────────────────────────────────────────────────────┤
+│  [ STEP 1: 논리적 매핑 (Code Point) ]                          │
+│   '가'라는 문자에 영구 불변의 일련번호를 강제 부여                 │
+│   ──▶ U+AC00 (추상적 번호표일 뿐, 아직 저장된 상태가 아님)           │
+│                                                              │
+│  [ STEP 2: 물리적 저장 (Encoding Scheme) ]                     │
+│   부여받은 U+AC00을 하드디스크나 RAM에 어떻게 비트로 기록할 것인가?    │
+│      * UTF-32: 무조건 4바이트 고정 크기로 넉넉하게 담기 (메모리 낭비)  │
+│      * UTF-8: 문자에 따라 1~4바이트 가변 길이로 압축해서 담기 (통신 효율)│
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램은 유니코드가 단순히 글자를 저장하는 방식이 아니라, 글자를 추상적인 주소로 먼저 치환하고 물리적 렌더링은 하위 계층([인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/))에 위임하는 구조임을 보여준다.
 
@@ -111,23 +109,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">국가별 독립 인코딩 (ASCII, EUC-KR, Shift-JIS)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">단일 논리 주소 체계 합의 (Unicode Code Point 발급)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">가변/고정 물리 저장소 변환 (Encoding: UTF-8, UTF-16, UTF-32)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CPU 바이트 순서 파싱 보호 (Endianness 및 BOM 적용)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">운영체제 간 텍스트 조합 규격 통일 (Normalization: NFC/NFD)</div>
-</div>
-</div>
-
-
+```text
+국가별 독립 인코딩 (ASCII, EUC-KR, Shift-JIS)
+    │
+    ▼
+단일 논리 주소 체계 합의 (Unicode Code Point 발급)
+    │
+    ▼
+가변/고정 물리 저장소 변환 (Encoding: UTF-8, UTF-16, UTF-32)
+    │
+    ▼
+CPU 바이트 순서 파싱 보호 (Endianness 및 BOM 적용)
+    │
+    ▼
+운영체제 간 텍스트 조합 규격 통일 (Normalization: NFC/NFD)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

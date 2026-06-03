@@ -31,24 +31,22 @@ tags = ["studynote-computer-architecture"]
 ### 1의 보수를 활용한 상쇄 로직
 인터넷 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)([IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/), [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/), [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/))에서 체크섬은 단순히 값을 더하는 것을 넘어, <strong>1의 보수 덧셈</strong>이라는 우아한 아키텍처를 거친다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인터넷 체크섬(Checksum) 생성과 검증의 쇳덩어리 로직</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">송신자</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 블록: A (0101) , B (0011)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 다 더함: A + B = 1000</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 1의 보수(반전): 0111 (이것이 Checksum 값!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">A</div><div class="kb-diagram-note">+</div><div class="kb-diagram-node">B</div><div class="kb-diagram-note">+</div><div class="kb-diagram-node">Checksum(0111)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">수신자</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 받은 걸 다 더함: A(0101) + B(0011) + Checksum(0111)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 결과: 1111 (모든 비트가 1이 됨)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 최종 보수(반전): 0000 ──▶ "오! 0이네? 정상!"</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────┐
+│           인터넷 체크섬(Checksum) 생성과 검증의 쇳덩어리 로직     │
+├────────────────────────────────────────────────────────┤
+│   [ 송신자 ]                                           │
+│   데이터 블록: A (0101) , B (0011)                     │
+│   1. 다 더함: A + B = 1000                             │
+│   2. 1의 보수(반전): 0111 (이것이 Checksum 값!)           │
+│   ──▶ 전송 데이터: [ A ] + [ B ] + [ Checksum(0111) ]  │
+│                                                        │
+│   [ 수신자 ]                                           │
+│   1. 받은 걸 다 더함: A(0101) + B(0011) + Checksum(0111)│
+│   2. 결과: 1111 (모든 비트가 1이 됨)                     │
+│   3. 최종 보수(반전): 0000 ──▶ "오! 0이네? 정상!"       │
+└────────────────────────────────────────────────────────┘
+```
 
 이 구조의 천재성은 수신자가 복잡하게 "내 총합과 네 총합이 같냐"고 비교할 필요조차 없다는 것이다. 수신자는 그저 들어온 패킷 전체(체크섬 포함)를 ALU에 들이붓고 덧셈기(Adder)를 쫙 돌려서 최종 결과가 `0000...0000`으로 떨어지는지만 보면 끝난다. 조건문 비교 연산 비용조차 아껴버린 극한의 소프트웨어 최적화다.
 
@@ -106,23 +104,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 기반 패킷 검증 필요성 대두 (비싼 HW 회로 탑재 불가 환경)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">체크섬 (Checksum) 고안 (단순 1의 보수 블록 덧셈 체계)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">가상 헤더 (Pseudo Header) 융합 (목적지 주소 변조 방어 로직 추가)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">네트워크 고속화로 인한 CPU 병목 ──▶ NIC Checksum Offload (HW 가속)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">해시 함수 체계 (MD5, SHA) (고정밀 스토리지 무결성 영역으로 확장 분리)</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 기반 패킷 검증 필요성 대두 (비싼 HW 회로 탑재 불가 환경)
+    │
+    ▼
+체크섬 (Checksum) 고안 (단순 1의 보수 블록 덧셈 체계)
+    │
+    ▼
+가상 헤더 (Pseudo Header) 융합 (목적지 주소 변조 방어 로직 추가)
+    │
+    ▼
+네트워크 고속화로 인한 CPU 병목 ──▶ NIC Checksum Offload (HW 가속)
+    │
+    ▼
+해시 함수 체계 (MD5, SHA) (고정밀 스토리지 무결성 영역으로 확장 분리)
+```
 
 이 흐름도는 "싸고 가벼운 SW [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)기 탄생 → 네트워크 방어 고도화 → [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 증가에 따른 HW 가속 회귀 → 한계 영역 분리"라는 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 아키텍처의 흐름을 보여준다.
 

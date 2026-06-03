@@ -47,18 +47,12 @@ DSRC는 <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mob
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DSRC 802.11p (2010)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">WAVE 표준 (IEEE 1609)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">FCC 5.9GHz 재배정 (2020)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">C-V2X 부상 (2020~)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: C-V2X 주류 — DSRC 축소</div></div>
-</div>
-</div>
-
-
+```text
+[DSRC 802.11p (2010)] → [WAVE 표준 (IEEE 1609)]
+    → [FCC 5.9GHz 재배정 (2020)]
+    → [C-V2X 부상 (2020~)]
+    → [현재: C-V2X 주류 — DSRC 축소]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. DSRC는 <strong>워키토키</strong>예요. 가까운 차끼리 <strong>직접 대화</strong>해요.

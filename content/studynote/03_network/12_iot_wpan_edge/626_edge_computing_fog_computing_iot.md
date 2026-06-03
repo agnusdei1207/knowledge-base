@@ -21,18 +21,14 @@ tags = ["studynote-network"]
 
 - 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 중앙 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)(Cloud)로 쫙 빨아들여 분석하는 기존 방식은, 수십억 개의 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서가 내뿜는 폭발적인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)양(트래픽)을 감당하지 못해 인터넷망을 마비시키고, 수백 밀리초(ms)의 [전송 지연](/knowledge-base/studynote/03_network/01_data_communication/017_전송_지연/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))을 유발하여 실시간 자율주행이나 공장 자동화 로봇 제어에 쓸 수 없게 되었습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">oneM2M 아키텍처</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">엣지 컴퓨팅</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MEC</div></div>
-</div>
-</div>
-
-
+```text
+[oneM2M 아키텍처]
+    │
+    ▼
+[엣지 컴퓨팅]
+    │
+    └──▶ [MEC]
+```
 
 - **📢 섹션 요약 비유**: [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -46,18 +42,14 @@ tags = ["studynote-network"]
   2. **통신망 부하 감소**: 쓸데없는 고화질 영상 원본은 현장에서 다 처리하고 버린 뒤, "10시 5분에 불량품 1개 발생함"이라는 10바이트짜리 요약 결과 텍스트만 중앙 클라우드로 보내므로 인터넷 트래픽이 획기적으로 줍니다.
   3. **보안 및 프라이버시**: 병원의 환자 얼굴 영상이나 공장의 극비 설계도가 현장 밖(외부 인터넷)으로 빠져나가지 않으므로 원천적인 보안이 달성됩니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">oneM2M 아키텍처</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">엣지 컴퓨팅</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MEC</div></div>
-</div>
-</div>
-
-
+```text
+[oneM2M 아키텍처]
+    │
+    ▼
+[엣지 컴퓨팅]
+    │
+    └──▶ [MEC]
+```
 
 - **📢 섹션 요약 비유**: [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -116,19 +108,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: oneM2M 아키텍처</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 엣지 컴퓨팅</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: MEC</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율형 엣지 협업</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: oneM2M 아키텍처]
+    │
+    ▼
+[현재 개념: 엣지 컴퓨팅]
+    │
+    ├──▶ [확장 A: MEC]
+    └──▶ [확장 B: 자율형 엣지 협업]
+```
 
 [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)는 oneM2M 아키텍처에서 출발해 현재 메커니즘을 정교화하고, 이후 MEC와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

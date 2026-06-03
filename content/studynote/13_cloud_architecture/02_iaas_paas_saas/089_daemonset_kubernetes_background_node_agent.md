@@ -34,20 +34,20 @@ tags = ["studynote-cloud-architecture"]
 | **노드 셀렉터 (Node Selector)** | [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 노드 등 특정 라벨의 노드에만 선택적 배포 | 특수 하드웨어 에이전트 타겟팅 |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/117_rolling_update_deployment/">롤링 업데이트</a> (<a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/083_rolling_update_deployment_zero_downtime_version_inconsistency/">Rolling Update</a>)</strong> | 노드별로 기존 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 종료하고 새 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 순차 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 에이전트 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 업그레이드 시 무중단 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DaemonSet 배포 흐름: 노드와 파드의 1:1 강제 결합</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">K8s Master</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DaemonSet Controller ──감지──▶ New Node Added</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (Pod 자동 주입)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Node 1</div><div class="kb-diagram-node">Node 2</div><div class="kb-diagram-node">Node 3 (신규)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pod (A)</div><div class="kb-diagram-cell">Pod (A)</div><div class="kb-diagram-cell">Pod (A)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           DaemonSet 배포 흐름: 노드와 파드의 1:1 강제 결합   │
+├──────────────────────────────────────────────────────────────┤
+│ [K8s Master]                                                 │
+│  DaemonSet Controller ──감지──▶ New Node Added             │
+│        │                                                     │
+│        ▼ (Pod 자동 주입)                                     │
+│ [Node 1]          [Node 2]          [Node 3 (신규)]          │
+│ ┌─────────┐       ┌─────────┐       ┌─────────┐              │
+│ │ Pod (A) │       │ Pod (A) │       │ Pod (A) │              │
+│ └─────────┘       └─────────┘       └─────────┘              │
+└──────────────────────────────────────────────────────────────┘
+```
 이 그림은 클러스터에 `Node 3`가 추가될 때, 데몬셋 컨트롤러가 자동으로 동일한 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) `(A)`를 할당하는 무인 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) 구조를 보여준다.
 
 - **📢 섹션 요약 비유**: 데몬셋은 아파트 단지에 새로운 동이 지어질 때마다 본사에서 알아서 1층 경비실에 경비원 한 명을 무조건 파견해 주는 자동 인력 배치 시스템과 같습니다.
@@ -102,23 +102,21 @@ tags = ["studynote-cloud-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">디플로이먼트 (Deployment)의 무작위 스케줄링 한계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">노드와의 1:1 강제 결합 필요성 대두</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">데몬셋 (DaemonSet) 등장 · 자동 프로비저닝</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">노드 어피니티 (Node Affinity) 결합 · 조건부 데몬셋</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">관측성 에이전트 및 CNI/CSI 플러그인 표준 배포 모델로 정착</div>
-</div>
-</div>
-
-
+```text
+디플로이먼트 (Deployment)의 무작위 스케줄링 한계
+    │
+    ▼
+노드와의 1:1 강제 결합 필요성 대두
+    │
+    ▼
+데몬셋 (DaemonSet) 등장 · 자동 프로비저닝
+    │
+    ▼
+노드 어피니티 (Node Affinity) 결합 · 조건부 데몬셋
+    │
+    ▼
+관측성 에이전트 및 CNI/CSI 플러그인 표준 배포 모델로 정착
+```
 
 이 흐름도는 무작위 배포의 한계에서 출발해, 노드 밀착형 배포(데몬셋)로 발전하고, 이후 세밀한 조건 제어와 인프라 표준 플랫폼으로 확장되는 과정을 보여준다.
 

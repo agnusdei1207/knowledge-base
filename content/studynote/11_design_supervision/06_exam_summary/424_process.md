@@ -33,21 +33,17 @@ tags = ["studynote-design-supervision"]
 
 [결함 허용](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/296_fault_tolerance_architecture/)·페일세이프·페일오버 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)의 핵심은 <strong>장애 감지 → 판단 → <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 지속 또는 안전 정지</strong>의 흐름을 설계하는 것이다. 이를 위해서는 중복 자원만이 아니라 헬스 체크, 하트비트, 상태 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/), 절체 규칙, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 절차가 함께 있어야 한다. 특히 액티브-스탠바이 구조에서는 절체 시점과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)이 가장 중요한 관리 포인트다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">heartbeat</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Active Node</div><div class="kb-diagram-cell">◀ ▶</div><div class="kb-diagram-cell">Standby Node</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서비스 처리</div><div class="kb-diagram-cell">상태 대기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장애 감지</div></div>
-<div class="kb-diagram-tree-item" style="--depth:3">▶ 절체(Failover)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">서비스 지속 또는 안전 정지</div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐      heartbeat      ┌──────────────┐
+│ Active Node  │◀──────────────────▶│ Standby Node │
+│ 서비스 처리    │                    │ 상태 대기      │
+└──────┬───────┘                    └──────┬───────┘
+       │ 장애 감지                               │
+       └──────────────▶ 절체(Failover) ─────────┘
+                           │
+                           ▼
+                     서비스 지속 또는 안전 정지
+```
 
 | 핵심 요소 | 역할 | 기술사 포인트 |
 | :--- | :--- | :--- |
@@ -127,23 +123,21 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단일 서버 운영</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">이중화 자원 구성</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">장애 감지 · 상태 동기화 · 페일오버 자동화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">결함 허용 설계 · 페일세이프 정책 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">고가용성 · 안전성 · 재해 대응 체계 고도화</div>
-</div>
-</div>
-
-
+```text
+단일 서버 운영
+      │
+      ▼
+이중화 자원 구성
+      │
+      ▼
+장애 감지 · 상태 동기화 · 페일오버 자동화
+      │
+      ▼
+결함 허용 설계 · 페일세이프 정책 정립
+      │
+      ▼
+고가용성 · 안전성 · 재해 대응 체계 고도화
+```
 
 이 흐름은 단순한 장비 중복에서 출발해, 절체 메커니즘과 안전 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 결합하고, 최종적으로 고가용성 운영 체계로 발전하는 설계 단계를 보여 준다.
 

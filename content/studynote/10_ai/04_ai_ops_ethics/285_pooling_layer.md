@@ -29,18 +29,13 @@ tags = ["studynote-ai"]
 
 ### 풀링의 위치와 역할
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">합성곱 → 활성화 → 풀링 → 합성곱 → 활성화 → 풀링 → FC (분류)</div>
-<div class="kb-diagram-note">Conv ReLU Pool Conv ReLU Pool Layer</div>
-<div class="kb-diagram-note">3×3 ── 2×2 3×3 ── 2×2</div>
-<div class="kb-diagram-note">32×32 32×32 16×16 16×16 16×16 8×8</div>
-</div>
-</div>
-
-
+```
+합성곱 → 활성화 → 풀링 → 합성곱 → 활성화 → 풀링 → FC (분류)
+ Conv      ReLU   Pool    Conv     ReLU   Pool   Layer
+ 3×3       ──     2×2     3×3       ──     2×2
+ ↓         ↓      ↓       ↓         ↓      ↓
+32×32     32×32  16×16   16×16    16×16   8×8
+```
 
 - **📢 섹션 요약 비유**: 풀링은 '사진 축소' 버튼이다. 100×100 사진을 50×50으로 줄이더라도 고양이인지 강아지인지는 충분히 알 수 있다. 세세한 픽셀 위치보다 전체적인 특징이 중요하기 때문이다.
 
@@ -52,22 +47,20 @@ tags = ["studynote-ai"]
 
 각 풀링 윈도우(Window) 내에서 <strong>가장 큰 값</strong>을 선택한다. 가장 강한 특징(활성화가 최대인 뉴런)을 보존하므로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)에 효과적이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">입력 특징 맵 (4×4) 최대 풀링 (2×2, Stride=2)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1 3 2 4</div><div class="kb-diagram-cell">max(1,3,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5 6 1 2</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">5,6) = 6</div><div class="kb-diagram-cell">...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3 2 1 0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1 2 3 4</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6 4</div><div class="kb-diagram-cell">각 2×2 블록에서 최댓값 선택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3 4</div><div class="kb-diagram-cell">→ 출력 크기: 2×2</div></div>
-</div>
-</div>
-
-
+```
+입력 특징 맵 (4×4)            최대 풀링 (2×2, Stride=2)
+┌────────────────────┐       ┌────────────┐
+│  1   3   2   4     │       │  max(1,3,  │
+│  5   6   1   2     │  →    │  5,6) = 6  │ ...
+│  3   2   1   0     │       │            │
+│  1   2   3   4     │       └────────────┘
+└────────────────────┘
+          ↓
+┌────────────────────┐
+│  6   4             │   각 2×2 블록에서 최댓값 선택
+│  3   4             │   → 출력 크기: 2×2
+└────────────────────┘
+```
 
 ### 평균 풀링 (Average Pooling)
 
@@ -84,22 +77,21 @@ tags = ["studynote-ai"]
 
 GAP (Global Average Pooling)은 각 채널의 전체 공간에 대해 **단일 평균값** 하나를 출력하는 특수 풀링이다. 이는 <strong>완전 연결 계층(<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/102_fully_connected_layer_dense_flatten_softmax/">FC Layer</a>)을 대체</strong>하여 파라미터를 획기적으로 줄인다.
 
+```
+일반 완전 연결 (FC) 방식:
+┌─────────────────────────────────────────┐
+│ 특징 맵 7×7×512 → Flatten → FC(25088→1000) │
+│ 파라미터: 25,088 × 1,000 = 약 2,500만   │
+└─────────────────────────────────────────┘
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">일반 완전 연결 (FC) 방식:</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">특징 맵 7×7×512 → Flatten → FC(25088→1000)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파라미터: 25,088 × 1,000 = 약 2,500만</div></div>
-<div class="kb-diagram-note">GAP (Global Average Pooling) 방식:</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">특징 맵 7×7×1024</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↓ 각 채널별 7×7 평균</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">벡터 1024 → Softmax(1000)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파라미터: 1,024 × 1,000 = 약 100만</div></div>
-</div>
-</div>
-
-
+GAP (Global Average Pooling) 방식:
+┌─────────────────────────────────────────┐
+│ 특징 맵 7×7×1024                        │
+│    ↓ 각 채널별 7×7 평균                  │
+│ 벡터 1024 → Softmax(1000)               │
+│ 파라미터: 1,024 × 1,000 = 약 100만      │
+└─────────────────────────────────────────┘
+```
 
 GoogLeNet(Inception), MobileNet, [ResNet](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/) 등 현대 아키텍처에서 GAP는 [FC Layer](/knowledge-base/studynote/10_ai/02_dl_architecture_new/102_fully_connected_layer_dense_flatten_softmax/) 직전에 배치된다.
 
@@ -156,18 +148,12 @@ $$O = \left\lfloor \frac{I - F}{S} \right\rfloor + 1$$
 
 GAP (Global Average Pooling)는 CAM (Class Activation [Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/))의 핵심 전제이다. GAP 이후 [FC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/) Layer의 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)와 각 채널 맵을 선형 결합하면 <strong>클래스 활성화 지도(CAM)</strong>를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하여, CNN이 어느 영역을 보고 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 결정을 내렸는지 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)할 수 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">GAP → FC(softmax) → 클래스 예측</div>
-<div class="kb-diagram-connector">↑</div>
-<div class="kb-diagram-note">채널 × FC 가중치의 선형 결합</div>
-<div class="kb-diagram-note">= CAM (어느 위치가 분류에 기여했나)</div>
-</div>
-</div>
-
-
+```
+GAP → FC(softmax) → 클래스 예측
+ ↑
+채널 × FC 가중치의 선형 결합
+= CAM (어느 위치가 분류에 기여했나)
+```
 
 ### 기술사 서술 포인트
 
@@ -187,20 +173,18 @@ GAP (Global Average Pooling)는 CAM (Class Activation [Mapping](/knowledge-base/
 
 ### 풀링 유형 정리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">풀링 분류</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공간 풀링 ── ── Max Pooling (최댓값, 가장 강한 특징)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Avg Pooling (평균값, 부드러운 특징)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Stochastic (랜덤 샘플, 드롭아웃 효과)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전역 풀링 ── ── GAP (채널당 전역 평균)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── GMP (채널당 전역 최댓값)</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────┐
+│                     풀링 분류                             │
+│                                                          │
+│  공간 풀링 ──┬── Max Pooling   (최댓값, 가장 강한 특징)   │
+│             ├── Avg Pooling   (평균값, 부드러운 특징)     │
+│             └── Stochastic    (랜덤 샘플, 드롭아웃 효과) │
+│                                                          │
+│  전역 풀링 ──┬── GAP          (채널당 전역 평균)          │
+│             └── GMP          (채널당 전역 최댓값)         │
+└──────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 풀링은 CNN의 '다이어트 전문가'다. 중요하지 않은 위치 세부 정보를 버리고 핵심 특징만 남겨 모델을 날씬하고 튼튼하게 만든다.
 

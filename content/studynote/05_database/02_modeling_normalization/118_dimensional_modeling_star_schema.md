@@ -18,21 +18,21 @@ tags = ["studynote-database"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스타 스키마 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DIM_날짜</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DIM_상품</div><div class="kb-diagram-note">──</div><div class="kb-diagram-node">FACT_매출</div><div class="kb-diagram-note">──</div><div class="kb-diagram-node">DIM_고객</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DIM_매장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FACT_매출: 날짜KEY, 상품KEY, 고객KEY, 매장KEY,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">매출액, 수량, 할인액 (측정값)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DIM_상품: 상품KEY, 상품명, 카테고리, 브랜드 (분석 축)</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    스타 스키마 구조                                    │
+├───────────────────────────────────────────────────────┤
+│        [DIM_날짜]                                     │
+│            │                                          │
+│  [DIM_상품]──[FACT_매출]──[DIM_고객]                  │
+│            │                                          │
+│        [DIM_매장]                                     │
+│                                                       │
+│  FACT_매출: 날짜KEY, 상품KEY, 고객KEY, 매장KEY,       │
+│            매출액, 수량, 할인액 (측정값)               │
+│  DIM_상품: 상품KEY, 상품명, 카테고리, 브랜드 (분석 축)│
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [팩트 테이블](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/210_fact_dimension_table_snowflake_schema/)은 "무엇이 일어났는가(매출 3만원)"를 기록하고, 디멘전 테이블은 "어디서, 언제, 누가, 무엇을(분석 축)"을 설명한다.
 
@@ -105,23 +105,21 @@ tags = ["studynote-database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">ER 모델 3NF (OLTP, 1970s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Kimball 차원 모델링 (1996) — 스타 스키마·팩트/디멘전</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스노우플레이크 스키마 (디멘전 정규화 변형)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">컬럼 스토어 DW (BigQuery, 2010s) — 스타 스키마 최적</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: dbt + 스타 스키마 — 분석 엔지니어링 자동화</div></div>
-</div>
-</div>
-
-
+```text
+[ER 모델 3NF (OLTP, 1970s)]
+    │
+    ▼
+[Kimball 차원 모델링 (1996) — 스타 스키마·팩트/디멘전]
+    │
+    ▼
+[스노우플레이크 스키마 (디멘전 정규화 변형)]
+    │
+    ▼
+[컬럼 스토어 DW (BigQuery, 2010s) — 스타 스키마 최적]
+    │
+    ▼
+[현재: dbt + 스타 스키마 — 분석 엔지니어링 자동화]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [팩트 테이블](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/210_fact_dimension_table_snowflake_schema/)은 "가게에서 **무엇이 일어났는지**(매출 3만원)"를 기록하는 일지예요.

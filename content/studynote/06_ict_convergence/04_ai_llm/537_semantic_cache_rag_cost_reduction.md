@@ -35,25 +35,30 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시맨틱 캐시 RAG 파이프라인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 질의</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">임베딩 생성(Embedding)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시맨틱 캐시 조회</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코사인 유사도 ≥ 임계치(예: 0.92)?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">YES NO</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">캐시 히트</div><div class="kb-diagram-cell">캐시 미스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">저장 답변</div><div class="kb-diagram-cell">LLM 호출</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">즉시 반환</div><div class="kb-diagram-cell">답변 생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">캐시 저장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 응답</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────┐
+│              시맨틱 캐시 RAG 파이프라인                   │
+│                                                         │
+│  사용자 질의                                             │
+│      │                                                  │
+│      ▼                                                  │
+│  임베딩 생성(Embedding)                                  │
+│      │                                                  │
+│      ▼                                                  │
+│  ┌─────────────────────────────────────────────────┐    │
+│  │         시맨틱 캐시 조회                          │    │
+│  │  코사인 유사도 ≥ 임계치(예: 0.92)?               │    │
+│  │  ┌─── YES ───┐         ┌─── NO ────┐            │    │
+│  │  │캐시 히트  │         │캐시 미스  │            │    │
+│  │  │저장 답변  │         │LLM 호출   │            │    │
+│  │  │즉시 반환  │         │답변 생성  │            │    │
+│  │  └───────────┘         └─────┬─────┘            │    │
+│  │                              │ 캐시 저장         │    │
+│  └──────────────────────────────┼──────────────────┘    │
+│                                 │                       │
+│                            사용자 응답                   │
+└─────────────────────────────────────────────────────────┘
+```
 
 **핵심 구성 요소**
 

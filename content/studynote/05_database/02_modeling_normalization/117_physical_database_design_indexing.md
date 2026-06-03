@@ -18,26 +18,23 @@ tags = ["studynote-database"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물리 설계 핵심 활동</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 인덱스 설계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WHERE·JOIN·ORDER BY 컬럼에 B-Tree 인덱스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고카디널리티 컬럼 우선</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 파티셔닝</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대용량 테이블 → Range/Hash/List 분할</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I/O 분산, Partition Pruning</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 역정규화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자주 JOIN하는 테이블 → 병합/중복 컬럼 추가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">읽기 성능 ↑, 쓰기 복잡도 ↑</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 스토리지 배치</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">테이블스페이스·데이터 파일·RAID 레벨</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    물리 설계 핵심 활동                                 │
+├───────────────────────────────────────────────────────┤
+│  1. 인덱스 설계                                       │
+│     WHERE·JOIN·ORDER BY 컬럼에 B-Tree 인덱스         │
+│     고카디널리티 컬럼 우선                            │
+│  2. 파티셔닝                                          │
+│     대용량 테이블 → Range/Hash/List 분할              │
+│     I/O 분산, Partition Pruning                       │
+│  3. 역정규화                                          │
+│     자주 JOIN하는 테이블 → 병합/중복 컬럼 추가        │
+│     읽기 성능 ↑, 쓰기 복잡도 ↑                       │
+│  4. 스토리지 배치                                     │
+│     테이블스페이스·데이터 파일·RAID 레벨              │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 설계가 건물 평면도(방 배치)라면, 물리 설계는 콘크리트 두께·배관 위치·에어컨 위치를 정하는 시공 도면이다.
 
@@ -107,23 +104,21 @@ tags = ["studynote-database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">단일 테이블 + Full Scan (초기)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">B-Tree 인덱스 (1970s) — O(log N) 검색</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">파티셔닝 (1990s) — 대용량 테이블 분할</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Covering Index / Index Organized Table (2000s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: AI 기반 인덱스 자동 추천 (AutoIndex)</div></div>
-</div>
-</div>
-
-
+```text
+[단일 테이블 + Full Scan (초기)]
+    │
+    ▼
+[B-Tree 인덱스 (1970s) — O(log N) 검색]
+    │
+    ▼
+[파티셔닝 (1990s) — 대용량 테이블 분할]
+    │
+    ▼
+[Covering Index / Index Organized Table (2000s)]
+    │
+    ▼
+[현재: AI 기반 인덱스 자동 추천 (AutoIndex)]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 교과서 맨 뒤 <strong>색인</strong>이에요. "광합성"을 찾으려면 색인에서 페이지를 찾아 바로 가요.

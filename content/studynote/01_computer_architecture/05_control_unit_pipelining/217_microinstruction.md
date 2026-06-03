@@ -42,27 +42,33 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 마이크로명령어 한 줄로 바뀐 뒤 실제로 어떤 경로를 거쳐 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 되는지를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마이크로명령어가 제어 신호가 되는 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제어 주소 레지스터 (Control Address Register, CAR)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Control Memory</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">읽기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마이크로명령어 레지스터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Microinstruction</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Register, MIR)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 다음 주소 계산</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(분기/순차/예외)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Datapath 제어선</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ ALU 제어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Register File 제어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Memory/Bus 제어</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                마이크로명령어가 제어 신호가 되는 흐름                      │
+├────────────────────────────────────────────────────────────────────────────┤
+│ 제어 주소 레지스터 (Control Address Register, CAR)                        │
+│                    │                                                       │
+│                    ▼                                                       │
+│           ┌──────────────────────┐                                         │
+│           │ Control Memory       │                                         │
+│           └──────────┬───────────┘                                         │
+│                      │ 읽기                                                 │
+│                      ▼                                                       │
+│           ┌──────────────────────┐                                         │
+│           │ 마이크로명령어 레지스터│                                        │
+│           │ (Microinstruction    │                                        │
+│           │  Register, MIR)      │                                        │
+│           └───────┬─────────┬────┘                                         │
+│                   │         │                                              │
+│                   │         └──────────────▶ 다음 주소 계산                 │
+│                   │                            (분기/순차/예외)             │
+│                   │                                                        │
+│                   └───────────────────────▶ Datapath 제어선                │
+│                                            ├─ ALU 제어                     │
+│                                            ├─ Register File 제어           │
+│                                            └─ Memory/Bus 제어              │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조에서 중요한 점은 마이크로명령어 한 줄이 단일 마이크로연산 ([Micro-operation](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/213_micro_operation/)) 하나와 항상 [일대일](/knowledge-base/studynote/02_operating_system/02_process_thread/099_one_to_one_model/) 대응하지는 않는다는 사실이다. 수평형 마이크로명령어라면 한 줄 안에서 `R1 출력`, `ALU 덧셈`, `R3 적재` 같은 여러 동작을 동시에 켤 수 있다. 반대로 수직형은 제어 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 압축해서 저장하므로 해독기 ([Decoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/))를 거쳐야 하고, 동시에 줄 수 있는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 조합이 제한된다.
 
@@ -148,26 +154,26 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">하드와이어드 제어의 복잡도 증가</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">마이크로프로그래밍 (Microprogrammed Control)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">제어 메모리 (Control Memory)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">마이크로명령어 (Microinstruction)</div>
-<div class="kb-diagram-tree-item" style="--depth:6">▶ 수평형 (Horizontal) · 수직형 (Vertical) 형식 분화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">마이크로코드 (Microcode) 패치 · WCS (Writable Control Store)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">현대 하이브리드 제어 · 빠른 경로 직접 제어 + 복잡 경로 마이크로코드</div>
-</div>
-</div>
-
-
+```text
+하드와이어드 제어의 복잡도 증가
+            │
+            ▼
+마이크로프로그래밍 (Microprogrammed Control)
+            │
+            ▼
+제어 메모리 (Control Memory)
+            │
+            ▼
+마이크로명령어 (Microinstruction)
+            │
+            ├────────▶ 수평형 (Horizontal) · 수직형 (Vertical) 형식 분화
+            │
+            ▼
+마이크로코드 (Microcode) 패치 · WCS (Writable Control Store)
+            │
+            ▼
+현대 하이브리드 제어 · 빠른 경로 직접 제어 + 복잡 경로 마이크로코드
+```
 
 이 흐름은 제어 로직이 고정 배선의 한계를 넘어서 저장형 제어로 이동하고, 이후 속도와 유연성을 절충하는 하이브리드 구조로 발전한 과정을 보여준다.
 

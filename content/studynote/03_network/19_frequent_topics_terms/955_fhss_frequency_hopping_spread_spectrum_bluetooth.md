@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 954번 문서에서 배운 협대역(Narrowband) 통신은 하나의 주파수 차선만 씁니다. 
 - 옆에서 드론 조종기나 전자레인지가 똑같은 주파수(예: 2.4GHz)의 굉음을 쏘면, 내 통신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 간섭에 부딪혀 100% 파괴됩니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">확산 스펙트럼</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">FHSS</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DSSS</div></div>
-</div>
-</div>
-
-
+```text
+[확산 스펙트럼]
+    │
+    ▼
+[FHSS]
+    │
+    └──▶ [DSSS]
+```
 
 - **📢 섹션 요약 비유**: FHSS는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -43,18 +39,14 @@ tags = ["studynote-network"]
 
 - **개념**: <strong>송신자와 수신자가 사전에 약속된 '비밀 수학 공식(도약 패턴, PN Sequence)'에 따라, 0.01초 등 아주 짧은 시간 간격(Hop)마다 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 실어 보내는 주파수 채널을 메뚜기처럼 이리저리 미친 듯이 점프(Hopping)하며 통신하는 <a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/954_spread_spectrum_communication_anti_jamming_cdma/">확산 스펙트럼</a> 기술</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">확산 스펙트럼</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">FHSS</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DSSS</div></div>
-</div>
-</div>
-
-
+```text
+[확산 스펙트럼]
+    │
+    ▼
+[FHSS]
+    │
+    └──▶ [DSSS]
+```
 
 - **📢 섹션 요약 비유**: FHSS의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -130,19 +122,15 @@ FHSS는 빈출 주제와 용어를 이해할 때 핵심 축을 잡아 주는 개
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 확산 스펙트럼</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: FHSS</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: DSSS</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 확산 스펙트럼]
+    │
+    ▼
+[현재 개념: FHSS]
+    │
+    ├──▶ [확장 A: DSSS]
+    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
+```
 
 FHSS는 [확산 스펙트럼](/knowledge-base/studynote/03_network/19_frequent_topics_terms/954_spread_spectrum_communication_anti_jamming_cdma/)에서 출발해 현재 메커니즘을 정교화하고, 이후 DSSS와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

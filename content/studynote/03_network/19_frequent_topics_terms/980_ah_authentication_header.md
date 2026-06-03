@@ -19,7 +19,7 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [AH](/knowledge-base/studynote/03_network/07_network_layer_routing/381_ah_authentication_header_integrity_auth/) ([Authentication Header](/knowledge-base/studynote/03_network/07_network_layer_routing/381_ah_authentication_header_integrity_auth/))는 IP 패킷의 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 및 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 보장하기 위해 [IETF](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/) (Internet Engineering [Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) Force)에서 정의한 [IPSec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 보안 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이다. 패킷의 내용이 전송 중에 변경되지 않았으며, 송신자가 위장되지 않았음을 수신자가 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 있게 해주는 '디지털 봉인' 역할을 한다.
+- **개념**: [AH](/knowledge-base/studynote/03_network/07_network_layer_routing/381_ah_authentication_header_integrity_auth/) ([Authentication Header](/knowledge-base/studynote/03_network/07_network_layer_routing/381_ah_authentication_header_integrity_auth/))는 IP 패킷의 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 및 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 보장하기 위해 [IETF](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/) (Internet 엔진ering [Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) Force)에서 정의한 [IPSec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 보안 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이다. 패킷의 내용이 전송 중에 변경되지 않았으며, 송신자가 위장되지 않았음을 수신자가 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 있게 해주는 '디지털 봉인' 역할을 한다.
 - **필요성**: 기존의 평문 IP 기반 통신에서는 공격자가 패킷을 가로채어 출발지 IP 주소를 조작 ([IP Spoofing](/knowledge-base/studynote/03_network/14_network_security_threats/704_ip_spoofing_trust_injection/))하거나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 내용을 몰래 변경하더라도 수신자가 이를 알아챌 방법이 없다. 금융 거래나 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 정보 교환 시에는 내용이 암호화되지 않아도 무방하더라도 내용이 조작되지 않았다는 '확실한 증명'이 반드시 필요하다.
 - **💡 비유**: AH는 중요한 공문서 봉투 겉면에 찍힌 '밀랍 인장 (Wax Seal)'과 같다. 투명한 봉투라 누구나 안의 글씨 (평문 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 읽을 수는 있지만, 도중에 누군가 글자를 고치거나 위조 서명을 넣으려 하면 인장이 깨지기 때문에 수신자는 즉시 조작 사실을 알아챌 수 있다.
 - **등장 배경 및 발전 과정**:
@@ -29,27 +29,27 @@ tags = ["studynote-network"]
 
 [AH](/knowledge-base/studynote/03_network/07_network_layer_routing/381_ah_authentication_header_integrity_auth/) 도입 전 IP [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) 공격의 위협과 [AH](/knowledge-base/studynote/03_network/07_network_layer_routing/381_ah_authentication_header_integrity_auth/) 도입 후의 방어 메커니즘을 구조도로 시각화하면 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)이 왜 중요한지 명확해진다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IP 스푸핑 위협 및 AH를 통한 방어 원리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AH 미적용 시 IP Spoofing 공격</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해커 (IP: 1.1.1.1) ▶ 목적지 서버</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">가짜 패킷:</div><div class="kb-diagram-node">Src IP: 정상PC(10.0.0.2) | Data: "돈을 보내라"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⚠ 서버: "정상PC(10.0.0.2)가 보낸 명령이군. 실행!" (위장 성공)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AH 적용 시 방어 성공</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해커 (IP: 1.1.1.1) ▶ 목적지 서버</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">조작 패킷:</div><div class="kb-diagram-node">Src IP: 정상PC | AH Header | Data</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버의 AH 검증 프로세스:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. AH에 포함된 무결성 해시(ICV) 확인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 서버가 수신된 (IP헤더+데이터+비밀키)로 해시 재계산</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 수신된 ICV ≠ 계산된 ICV (해커는 정상PC의 비밀키를 모름)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 서버: "해시값이 불일치한다! IP가 조작된 패킷이군. 폐기!"</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │              IP 스푸핑 위협 및 AH를 통한 방어 원리              │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │  [AH 미적용 시 IP Spoofing 공격]                                │
+  │  해커 (IP: 1.1.1.1) ───────────▶ 목적지 서버                     │
+  │  가짜 패킷: [ Src IP: 정상PC(10.0.0.2) | Data: "돈을 보내라" ]     │
+  │  ⚠ 서버: "정상PC(10.0.0.2)가 보낸 명령이군. 실행!" (위장 성공)         │
+  │                                                             │
+  │  [AH 적용 시 방어 성공]                                          │
+  │  해커 (IP: 1.1.1.1) ───────────▶ 목적지 서버                     │
+  │  조작 패킷: [ Src IP: 정상PC | AH Header | Data ]               │
+  │                                                             │
+  │  서버의 AH 검증 프로세스:                                        │
+  │   1. AH에 포함된 무결성 해시(ICV) 확인                            │
+  │   2. 서버가 수신된 (IP헤더+데이터+비밀키)로 해시 재계산              │
+  │   3. 수신된 ICV ≠ 계산된 ICV (해커는 정상PC의 비밀키를 모름)          │
+  │  ✅ 서버: "해시값이 불일치한다! IP가 조작된 패킷이군. 폐기!"            │
+  └─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** [IPSec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) AH가 없는 환경에서 목적지 서버는 IP 헤더의 출발지 주소 (Source IP)를 전적으로 신뢰하여 작동한다. 따라서 해커가 자신의 IP를 속여 패킷을 전송하면 서버는 이를 막아낼 수 없다. 그러나 AH를 적용하면 송수신자만 아는 공유 비밀키 (Shared [Secret](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))를 이용해 전체 패킷에 대한 해시 ([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/), [Message Authentication Code](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))를 생성하여 패킷에 부착한다. 해커가 IP 헤더를 조작하려 해도 비밀키를 모르기 때문에 올바른 해시값을 다시 계산하여 붙일 수 없다. 결국 수신 서버에서 해시 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) (ICV [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))에 실패하여 조작된 패킷은 즉시 버려지며 (Drop), 완벽한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 발신자 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)이 이루어진다.
 
@@ -73,26 +73,35 @@ tags = ["studynote-network"]
 
 AH의 핵심은 패킷에서 '어디까지를 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 범위([Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/) Coverage)로 삼는가'이다. ESP가 IP 헤더를 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하지 않는 반면, AH는 IP 헤더의 '고정 필드'까지 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 영역에 포함시켜 더 넓은 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 제공한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IPSec AH의 패킷 캡슐화 및 인증 범위 (수송 모드)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IPSec AH 수송 모드 패킷 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">← 인증 범위 (MAC 계산 영역) →</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Orig IP Header</div><div class="kb-diagram-cell">AH Header</div><div class="kb-diagram-cell">TCP Header</div><div class="kb-diagram-cell">Data</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(가변 필드 제외)</div><div class="kb-diagram-cell">(ICV 필드 제외)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AH Header 세부 구조 (RFC 4302)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0 1 2 3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Next Header</div><div class="kb-diagram-cell">Payload Len</div><div class="kb-diagram-cell">RESERVED</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Security Parameters Index (SPI)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sequence Number</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Integrity Check Value (ICV) - 가변 길이</div></div>
-</div>
-</div>
-
-
+```text
+  ┌──────────────────────────────────────────────────────────────────┐
+  │                 IPSec AH의 패킷 캡슐화 및 인증 범위 (수송 모드)        │
+  ├──────────────────────────────────────────────────────────────────┤
+  │                                                                  │
+  │ [IPSec AH 수송 모드 패킷 구조]                                     │
+  │                                                                  │
+  │     ←───────────────────── 인증 범위 (MAC 계산 영역) ─────────────────→│
+  │ ┌───────────────┬───────────────┬───────────────┬────────────────┐ │
+  │ │ Orig IP Header│   AH Header   │   TCP Header  │      Data      │ │
+  │ │(가변 필드 제외) │ (ICV 필드 제외) │               │                │ │
+  │ └───────────────┴───────────────┴───────────────┴────────────────┘ │
+  │                                                                  │
+  │ [AH Header 세부 구조 (RFC 4302)]                                   │
+  │  0                   1                   2                   3   │
+  │  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 │
+  │ ┌───────────────┬───────────────┬───────────────────────────────┐│
+  │ │ Next Header   │ Payload Len   │          RESERVED             ││
+  │ ├───────────────┴───────────────┴───────────────────────────────┤│
+  │ │                  Security Parameters Index (SPI)              ││
+  │ ├───────────────────────────────────────────────────────────────┤│
+  │ │                      Sequence Number                          ││
+  │ ├───────────────────────────────────────────────────────────────┤│
+  │ │                                                               ││
+  │ │            Integrity Check Value (ICV) - 가변 길이                ││
+  │ │                                                               ││
+  │ └───────────────────────────────────────────────────────────────┘│
+  └──────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** AH는 수송 모드 적용 시 기존 IP 헤더와 상위 계층 ([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/[UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/)) 사이에 위치한다. AH의 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 범위([Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/) Coverage)는 놀랍게도 IP 헤더, [AH](/knowledge-base/studynote/03_network/07_network_layer_routing/381_ah_authentication_header_integrity_auth/) 헤더 자신, 그리고 상위 페이로드 전체를 포괄한다. 단, 라우터를 거치며 값이 필연적으로 변하는 IP 헤더의 가변 필드 (Mutable Fields, 예: [TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/), [Header Checksum](/knowledge-base/studynote/03_network/06_network_layer_ip/296_header_checksum_ipv4_integrity/), TOS 등)는 ICV 계산을 할 때 임시로 '0'으로 설정하여 계산에서 제외한다. 이를 통해 라우터를 정상적으로 통과하면서도 IP 주소(고정 필드)의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 지켜낸다. [AH](/knowledge-base/studynote/03_network/07_network_layer_routing/381_ah_authentication_header_integrity_auth/) 헤더 내부는 다음 헤더를 가리키는 포인터, [SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/) [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)용 [SPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/), [재생 공격](/knowledge-base/studynote/03_network/14_network_security_threats/708_replay_attack_timestamp_nonce/) 방어용 Sequence Number, 그리고 최종 해시값인 ICV로 구성된다.
 
@@ -124,27 +133,28 @@ IPSec의 양대 산맥인 AH와 ESP는 [보호](/knowledge-base/studynote/02_ope
 
 현대 네트워크 설계에서 AH와 ESP의 생존을 가른 가장 큰 기술적 분기점인 '[NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 통과 가능성'을 시각화하면 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NAT 환경에서의 AH와 ESP의 동작 차이 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AH의 NAT 통과 실패 (인증 범위 충돌)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NAT 라우터</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">인터넷 ▶ 수신자</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(AH: Src=10.0.0.2로 ICV 계산)</div><div class="kb-diagram-cell">(Src를 203.0.113.5로 변경)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수신자 검증: 수신된 Src IP(203.0.113.5)로 ICV 재계산</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 원본 ICV(10.0.0.2 기반) ≠ 계산된 ICV(203.x 기반)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💥 AH 무결성 검증 실패! 패킷 무조건 폐기 (Drop). NAT와 절대 공존 불가.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ESP의 NAT 통과 성공 (NAT-T 적용 시)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NAT 라우터</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">인터넷 ▶ 수신자</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(ESP: IP 헤더는 인증에서 제외됨)</div><div class="kb-diagram-cell">(Src를 203.0.113.5로 변경)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수신자 검증: ESP는 IP 헤더가 아닌 '페이로드'에 대해서만 인증 수행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: IP가 변조되어도 페이로드 해시는 일치함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ ESP 무결성 검증 성공! (IP 주소가 바뀌어도 통신 유지)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌──────────────────────────────────────────────────────────────────┐
+  │                 NAT 환경에서의 AH와 ESP의 동작 차이 비교               │
+  ├──────────────────────────────────────────────────────────────────┤
+  │                                                                  │
+  │ [AH의 NAT 통과 실패 (인증 범위 충돌)]                                 │
+  │  송신자 (10.0.0.2) ───▶ [ NAT 라우터 ] ───▶ 인터넷 ───▶ 수신자          │
+  │  (AH: Src=10.0.0.2로 ICV 계산)    │(Src를 203.0.113.5로 변경)     │
+  │                                   │                              │
+  │  수신자 검증: 수신된 Src IP(203.0.113.5)로 ICV 재계산                 │
+  │  결과: 원본 ICV(10.0.0.2 기반) ≠ 계산된 ICV(203.x 기반)              │
+  │  💥 AH 무결성 검증 실패! 패킷 무조건 폐기 (Drop). NAT와 절대 공존 불가. │
+  │                                                                  │
+  │ [ESP의 NAT 통과 성공 (NAT-T 적용 시)]                                 │
+  │  송신자 (10.0.0.2) ───▶ [ NAT 라우터 ] ───▶ 인터넷 ───▶ 수신자          │
+  │  (ESP: IP 헤더는 인증에서 제외됨) │(Src를 203.0.113.5로 변경)     │
+  │                                   │                              │
+  │  수신자 검증: ESP는 IP 헤더가 아닌 '페이로드'에 대해서만 인증 수행        │
+  │  결과: IP가 변조되어도 페이로드 해시는 일치함                          │
+  │  ✅ ESP 무결성 검증 성공! (IP 주소가 바뀌어도 통신 유지)                 │
+  └──────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** AH가 가진 가장 치명적인 아킬레스건은 바로 'IP 헤더 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)'이다. AH는 강력한 방어를 위해 출발지 IP 주소를 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에 포함시킨다. 그런데 [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)(공유기) 장비를 지나면 필연적으로 출발지 사설 IP가 공인 IP로 변환(조작)된다. 수신자는 변경된 공인 IP를 바탕으로 해시(ICV)를 재계산하므로, 송신자가 사설 IP로 계산했던 원본 해시값과 무조건 불일치하게 된다. 즉, AH는 [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 환경에서 모든 정상 패킷을 '조작된 공격 패킷'으로 오인하여 폐기한다. 반면 ESP는 외부 IP 헤더를 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 대상에서 제외하므로 [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 환경에서도 [NAT-T](/knowledge-base/studynote/03_network/07_network_layer_routing/384_nat_t_ipsec_nat_traversal_udp_4500/) 우회 기술을 통해 성공적으로 통신할 수 있다. 이로 인해 현대 인터넷에서 AH의 사용은 급감했다.
 
@@ -165,27 +175,28 @@ IPSec의 양대 산맥인 AH와 ESP는 [보호](/knowledge-base/studynote/02_ope
 
 AH가 제공하는 또 다른 핵심 기능인 '[재생 공격](/knowledge-base/studynote/03_network/14_network_security_threats/708_replay_attack_timestamp_nonce/)([Replay Attack](/knowledge-base/studynote/09_security/03_network_security/274_replay_attack/)) 방어 메커니즘'의 내부 윈도우 관리를 시각화하면, 수신 측의 정교한 시퀀스 넘버 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 로직을 알 수 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AH의 재생 공격 방어 (Anti-Replay Window)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">수신자의 Sliding Window (크기 W, 예: 64)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 시간 (Sequence Number 증가 방향)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(이미 받은 오래된 패킷) (현재 수신 윈도우 범위)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">... 97, 98, 99, 100</div><div class="kb-diagram-cell">101, 102, 103 ... 164</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">폐기 구역: 너무 늦음</div><div class="kb-diagram-node">검증 구역: 정상 수신 대기</div><div class="kb-diagram-node">미래 구역</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">윈도우 W</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비트맵으로 수신 여부 체크 (1=수신, 0=미수신)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">판단 1. Seq=95 수신 → 윈도우 왼쪽(과거) → 즉시 폐기 (Replay 공격)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">판단 2. Seq=102 수신 → 윈도우 내부, 비트맵=1(이미 받음) → 즉시 폐기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">판단 3. Seq=105 수신 → 윈도우 내부, 비트맵=0 → 정상 처리 후 비트맵=1로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">판단 4. Seq=166 수신 → 윈도우 오른쪽(새로운 최신) → 정상 처리 후 윈도우</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전체를 오른쪽으로 슬라이딩 (103~166으로 갱신)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌──────────────────────────────────────────────────────────────────┐
+  │                 AH의 재생 공격 방어 (Anti-Replay Window)               │
+  ├──────────────────────────────────────────────────────────────────┤
+  │                                                                  │
+  │   [수신자의 Sliding Window (크기 W, 예: 64)]                        │
+  │   ───────────────────▶ 시간 (Sequence Number 증가 방향)               │
+  │                                                                  │
+  │           (이미 받은 오래된 패킷)     (현재 수신 윈도우 범위)                  │
+  │         ... 97, 98, 99, 100 │ 101, 102, 103 ... 164 │           │
+  │   [폐기 구역: 너무 늦음]        [검증 구역: 정상 수신 대기]   [미래 구역]  │
+  │                             └──────── 윈도우 W ───────┘           │
+  │                                     ↑                            │
+  │                           비트맵으로 수신 여부 체크 (1=수신, 0=미수신)   │
+  │                                                                  │
+  │   판단 1. Seq=95 수신 → 윈도우 왼쪽(과거) → 즉시 폐기 (Replay 공격)     │
+  │   판단 2. Seq=102 수신 → 윈도우 내부, 비트맵=1(이미 받음) → 즉시 폐기    │
+  │   판단 3. Seq=105 수신 → 윈도우 내부, 비트맵=0 → 정상 처리 후 비트맵=1로 │
+  │   판단 4. Seq=166 수신 → 윈도우 오른쪽(새로운 최신) → 정상 처리 후 윈도우 │
+  │                          전체를 오른쪽으로 슬라이딩 (103~166으로 갱신)    │
+  └──────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** [재생 공격](/knowledge-base/studynote/03_network/14_network_security_threats/708_replay_attack_timestamp_nonce/)([Replay Attack](/knowledge-base/studynote/09_security/03_network_security/274_replay_attack/))은 해커가 정상적인 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)이 완료된 과거의 패킷(예: '계좌로 100만 원 송금하라')을 복사해두었다가 나중에 다시 전송하는 해킹 기법이다. AH는 모든 패킷에 순차적으로 증가하는 Sequence Number(Seq)를 부여한다. 수신자는 보통 64 패킷 크기의 '슬라이딩 윈도우' 비트맵을 유지한다. 만약 해커가 과거 패킷을 다시 보내면, 그 패킷의 Seq는 이미 윈도우의 왼쪽(너무 낡음)에 있거나, 윈도우 내부에 있더라도 이미 수신 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(비트맵=1)이 된 상태이므로 즉각 폐기된다. 이 정교한 윈도우 메커니즘을 통해 네트워크 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)으로 인한 약간의 순서 뒤바뀜(Out-of-order)은 허용하면서도 악의적인 [재생 공격](/knowledge-base/studynote/03_network/14_network_security_threats/708_replay_attack_timestamp_nonce/)은 완벽히 차단한다.
 
@@ -222,24 +233,28 @@ AH가 제공하는 또 다른 핵심 기능인 '[재생 공격](/knowledge-base/
 
 [IPSec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 내에서 AH와 ESP가 차지하는 [보안 기능](/knowledge-base/studynote/04_software_engineering/11_testing_validation/503_security_features_design/) 제공의 커버리지를 벤 다이어그램과 매트릭스로 요약하면, 두 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이 어떻게 보완적 역할을 하는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 수 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IPSec 보안 기능 커버리지 (AH vs ESP)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IPSec 보안 프레임워크 (RFC 4301)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AH</div><div class="kb-diagram-cell">ESP</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">무결성/인증 보장</div><div class="kb-diagram-cell">기밀성(암호화)보장</div><div class="kb-diagram-cell">페이로드 무결성/</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(IP헤더 + 페이로드</div><div class="kb-diagram-cell">(순수 데이터 은닉)</div><div class="kb-diagram-cell">인증 보장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">강력한 스푸핑 방어</div><div class="kb-diagram-cell">NAT 완벽 통과</div><div class="kb-diagram-cell">(IP헤더 제외)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">재생공격 방어</div><div class="kb-diagram-node">재생공격 방어</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">현대의 결론: ESP의</div><div class="kb-diagram-node">인증 보장</div><div class="kb-diagram-note">기능 발전과 NAT 환경의 고착화로 인해,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대부분의 방화벽/VPN 벤더는 ESP를 단독으로 사용하는 것을 표준으로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">삼고, AH는 특수 목적망(IPv6, BGP 등)에서만 제한적으로 활용한다.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌──────────────────────────────────────────────────────────────────┐
+  │              IPSec 보안 기능 커버리지 (AH vs ESP)                   │
+  ├──────────────────────────────────────────────────────────────────┤
+  │                                                                  │
+  │                  [ IPSec 보안 프레임워크 (RFC 4301) ]                 │
+  │                                                                  │
+  │  ┌──────────────────┐  ┌──────────────────────────────────────┐  │
+  │  │        AH        │  │                 ESP                  │  │
+  │  │ ┌──────────────┐ │  │ ┌──────────────┐ ┌─────────────────┐ │  │
+  │  │ │무결성/인증 보장│ │  │ │기밀성(암호화)보장│ │ 페이로드 무결성/│ │  │
+  │  │ │(IP헤더 + 페이로드│ │  │ │(순수 데이터 은닉)│ │ 인증 보장       │ │  │
+  │  │ │  강력한 스푸핑 방어│ │  │ │  NAT 완벽 통과  │ │ (IP헤더 제외)   │ │  │
+  │  │ └──────────────┘ │  │ └──────────────┘ └─────────────────┘ │  │
+  │  │    [재생공격 방어]   │  │             [재생공격 방어]              │  │
+  │  └──────────────────┘  └──────────────────────────────────────┘  │
+  │                                                                  │
+  │  현대의 결론: ESP의 [인증 보장] 기능 발전과 NAT 환경의 고착화로 인해,         │
+  │             대부분의 방화벽/VPN 벤더는 ESP를 단독으로 사용하는 것을 표준으로 │
+  │             삼고, AH는 특수 목적망(IPv6, BGP 등)에서만 제한적으로 활용한다.│
+  └──────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** AH는 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)([Integrity](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/))과 출발지 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)([Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/))에 집중하여 IP 헤더까지 강력하게 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)한다. ESP는 본래 암호화([Confidentiality](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/))를 위해 탄생했으나, 진화를 거듭하며 자체적인 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)(Auth Trailer) 기능까지 추가로 장착하게 되었다. 비록 ESP의 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)이 외부 IP 헤더를 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하지는 못하지만, 페이로드를 완벽히 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하고 NAT를 무사히 통과한다는 엄청난 실무적 장점이 있다. 그 결과 현대 실무에서는 굳이 [AH](/knowledge-base/studynote/03_network/07_network_layer_routing/381_ah_authentication_header_integrity_auth/)+ESP를 같이 쓰지 않고, [ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/) 단독 사용만으로 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/), 페이로드 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/), [재생 공격](/knowledge-base/studynote/03_network/14_network_security_threats/708_replay_attack_timestamp_nonce/) 방어, [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 통과라는 네 마리 토끼를 모두 잡는 아키텍처가 시장의 표준(De facto standard)이 되었다.
 
@@ -258,19 +273,15 @@ AH가 제공하는 또 다른 핵심 기능인 '[재생 공격](/knowledge-base/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: IPSec 터널/수송 모드</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: AH</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: ESP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: IPSec 터널/수송 모드]
+    │
+    ▼
+[현재 개념: AH]
+    │
+    ├──▶ [확장 A: ESP]
+    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
+```
 
 AH는 [IPSec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 터널/수송 모드에서 출발해 현재 메커니즘을 정교화하고, 이후 ESP와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -22,23 +22,25 @@ tags = ["studynote-data-engineering"]
 
 ### 기존 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) vs [파운데이션 모델](/knowledge-base/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/) 패러다임
 
+```
+기존 패러다임
+  ┌─────────────────────────────────────────────┐
+  │  태스크 A 데이터 → 모델 A (분류기)          │
+  │  태스크 B 데이터 → 모델 B (NER)             │
+  │  태스크 C 데이터 → 모델 C (번역기)          │
+  │  태스크마다 별도 모델 훈련 필요             │
+  └─────────────────────────────────────────────┘
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">기존 패러다임</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">태스크 A 데이터 → 모델 A (분류기)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">태스크 B 데이터 → 모델 B (NER)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">태스크 C 데이터 → 모델 C (번역기)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">태스크마다 별도 모델 훈련 필요</div></div>
-<div class="kb-diagram-note">파운데이션 모델 패러다임</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">파운데이션 모델</div><div class="kb-diagram-note">(사전학습)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분류기 NER 번역</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(파인튜닝) (프롬프팅) (파인튜닝)</div></div>
-</div>
-</div>
-
-
+파운데이션 모델 패러다임
+  ┌─────────────────────────────────────────────┐
+  │  방대한 데이터 → [파운데이션 모델] (사전학습)│
+  │                         │                   │
+  │         ┌───────────────┼───────────────┐   │
+  │         ↓               ↓               ↓   │
+  │      분류기            NER            번역   │
+  │   (파인튜닝)        (프롬프팅)    (파인튜닝) │
+  └─────────────────────────────────────────────┘
+```
 
 | 특성 | 기존 모델 | [파운데이션 모델](/knowledge-base/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/) |
 |:---|:---|:---|
@@ -57,83 +59,69 @@ tags = ["studynote-data-engineering"]
 
 라벨 없이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자체에서 학습 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한다.
 
+```
+방법 1: 마스킹 언어 모델 (Masked Language Modeling, MLM) — BERT 계열
+  입력: "나는 [MASK] 에 간다"
+  목표: "[MASK]" = "학교" 예측
+  → 양방향 문맥 이해
 
+방법 2: 다음 토큰 예측 (Next Token Prediction) — GPT 계열
+  입력: "나는 학교에"
+  목표: "간다" 예측
+  → 인과적 언어 모델 (Causal LM)
+  → 자동 회귀 생성 가능
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">방법 1: 마스킹 언어 모델 (Masked Language Modeling, MLM) — BERT 계열</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">입력: "나는</div><div class="kb-diagram-node">MASK</div><div class="kb-diagram-note">에 간다"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">목표: "</div><div class="kb-diagram-node">MASK</div><div class="kb-diagram-note">" = "학교" 예측</div></div>
-<div class="kb-diagram-note">→ 양방향 문맥 이해</div>
-<div class="kb-diagram-note">방법 2: 다음 토큰 예측 (Next Token Prediction) — GPT 계열</div>
-<div class="kb-diagram-note">입력: "나는 학교에"</div>
-<div class="kb-diagram-note">목표: "간다" 예측</div>
-<div class="kb-diagram-note">→ 인과적 언어 모델 (Causal LM)</div>
-<div class="kb-diagram-note">→ 자동 회귀 생성 가능</div>
-<div class="kb-diagram-note">방법 3: 노이즈 제거 (Denoising) — T5, BART 계열</div>
-<div class="kb-diagram-note">입력: "나는 &lt;blank&gt; 에 간다" (랜덤 스팬 마스킹)</div>
-<div class="kb-diagram-note">목표: "학교" 복원</div>
-</div>
-</div>
-
-
+방법 3: 노이즈 제거 (Denoising) — T5, BART 계열
+  입력: "나는 <blank> 에 간다" (랜덤 스팬 마스킹)
+  목표: "학교" 복원
+```
 
 ### [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) 법칙 (Scaling Law)
 
 Kaplan et al., OpenAI 2020 연구:
 
+```
+L(N, D, C) ≈ (N_c/N)^{α_N} + (D_c/D)^{α_D} + L_∞
 
+L: 손실, N: 파라미터 수, D: 데이터 크기, C: 연산량
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">L(N, D, C) ≈ (N_c/N)^{α_N} + (D_c/D)^{α_D} + L_∞</div>
-<div class="kb-diagram-note">L: 손실, N: 파라미터 수, D: 데이터 크기, C: 연산량</div>
-<div class="kb-diagram-note">α_N ≈ 0.076 (파라미터 스케일링 지수)</div>
-<div class="kb-diagram-note">α_D ≈ 0.095 (데이터 스케일링 지수)</div>
-<div class="kb-diagram-note">→ 파라미터·데이터·연산 세 요소를 균형 있게 스케일</div>
-<div class="kb-diagram-note">→ 모델 크기만 늘리면 데이터가 병목</div>
-</div>
-</div>
+α_N ≈ 0.076 (파라미터 스케일링 지수)
+α_D ≈ 0.095 (데이터 스케일링 지수)
 
+→ 파라미터·데이터·연산 세 요소를 균형 있게 스케일
+→ 모델 크기만 늘리면 데이터가 병목
+```
 
-
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">스케일링에 따른 성능 향상 (개념도)</div>
-<div class="kb-diagram-note">창발성 출현 임계점</div>
-<div class="kb-diagram-note">손실 ↓</div>
-<div class="kb-diagram-note">╲</div>
-<div class="kb-diagram-note">╲── (특정 스케일 이상에서</div>
-<div class="kb-diagram-note">╲ 예상치 못한 능력 출현)</div>
-<div class="kb-diagram-note">╲</div>
-<div class="kb-diagram-note">모델 크기 (파라미터 수)</div>
-</div>
-</div>
-
-
+```
+스케일링에 따른 성능 향상 (개념도)
+                    창발성 출현 임계점
+  손실               ↓
+   │      ╲
+   │       ╲──        (특정 스케일 이상에서
+   │          ╲────     예상치 못한 능력 출현)
+   │               ╲─────────────────────
+   └──────────────────────────────────────→
+                  모델 크기 (파라미터 수)
+```
 
 ### [창발성](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/265_emergent_abilities/) (Emergence) 현상
 
+```
+창발적 능력 예시 (파라미터 임계점)
+─────────────────────────────────────────────
+능력                | 임계점 규모 | 이전 성능
+─────────────────────────────────────────────
+3자리 덧셈           | ~10B       | 무작위 수준
+다단계 추론 (CoT)    | ~100B      | 실패
+맥락 학습 (ICL)      | ~10B       | 미미
+코드 생성            | ~12B       | 낮음
+─────────────────────────────────────────────
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">창발적 능력 예시 (파라미터 임계점)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">능력</div><div class="kb-diagram-cell">임계점 규모</div><div class="kb-diagram-cell">이전 성능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3자리 덧셈</div><div class="kb-diagram-cell">~10B</div><div class="kb-diagram-cell">무작위 수준</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다단계 추론 (CoT)</div><div class="kb-diagram-cell">~100B</div><div class="kb-diagram-cell">실패</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">맥락 학습 (ICL)</div><div class="kb-diagram-cell">~10B</div><div class="kb-diagram-cell">미미</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코드 생성</div><div class="kb-diagram-cell">~12B</div><div class="kb-diagram-cell">낮음</div></div>
-<div class="kb-diagram-note">창발성의 특징:</div>
-<div class="kb-diagram-tree-item" style="--depth:1">선형적 증가가 아닌 갑작스러운 질적 전환</div>
-<div class="kb-diagram-tree-item" style="--depth:1">사전에 예측 어려움</div>
-<div class="kb-diagram-tree-item" style="--depth:1">훈련 목표에 포함되지 않은 능력 출현</div>
-</div>
-</div>
-
-
+창발성의 특징:
+  - 선형적 증가가 아닌 갑작스러운 질적 전환
+  - 사전에 예측 어려움
+  - 훈련 목표에 포함되지 않은 능력 출현
+```
 
 📢 **섹션 요약 비유**: [창발성](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/265_emergent_abilities/)은 모래 더미와 같다. 모래알 하나, 둘을 쌓을 때는 그냥 모래더미지만, 어느 순간 갑자기 "모래성"이 된다. 파라미터도 일정 규모를 넘으면 갑자기 새로운 능력이 나타난다.
 
@@ -154,22 +142,17 @@ Kaplan et al., OpenAI 2020 연구:
 
 ### [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 내 학습 (In-Context [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/), ICL)
 
+```
+제로샷 (Zero-Shot):
+  프롬프트: "다음 문장의 감정을 분류하세요: '오늘 정말 슬프다'"
+  → 예시 없이 바로 수행
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">제로샷 (Zero-Shot):</div>
-<div class="kb-diagram-note">프롬프트: "다음 문장의 감정을 분류하세요: '오늘 정말 슬프다'"</div>
-<div class="kb-diagram-note">→ 예시 없이 바로 수행</div>
-<div class="kb-diagram-note">퓨샷 (Few-Shot):</div>
-<div class="kb-diagram-note">프롬프트: "긍정: '오늘 너무 행복해'</div>
-<div class="kb-diagram-note">부정: '정말 짜증나'</div>
-<div class="kb-diagram-note">다음: '오늘 정말 슬프다' → "</div>
-<div class="kb-diagram-note">→ 2~5개 예시로 태스크 정의</div>
-</div>
-</div>
-
-
+퓨샷 (Few-Shot):
+  프롬프트: "긍정: '오늘 너무 행복해'
+             부정: '정말 짜증나'
+             다음: '오늘 정말 슬프다' → "
+  → 2~5개 예시로 태스크 정의
+```
 
 📢 **섹션 요약 비유**: ICL은 새로운 직원에게 입사 첫날 "이렇게 이렇게 해줘"라고 몇 가지 예시를 보여주면 바로 이해하는 것이다. 두꺼운 매뉴얼(파인튜닝) 없이도 바로 일한다.
 
@@ -179,25 +162,19 @@ Kaplan et al., OpenAI 2020 연구:
 
 ### [파운데이션 모델](/knowledge-base/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/) 배포 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">애플리케이션 레이어</div>
-<div class="kb-diagram-note">사용자 인터페이스 / API</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">프롬프트 엔지니어링 레이어</div>
-<div class="kb-diagram-note">System Prompt + Few-Shot + RAG 컨텍스트</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">LLM API / 추론 레이어</div>
-<div class="kb-diagram-note">GPT-4 API / 자체 호스팅 LLaMA</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">인프라 레이어</div>
-<div class="kb-diagram-note">GPU 클러스터 (H100/A100) + 고속 스토리지</div>
-</div>
-</div>
-
-
+```
+애플리케이션 레이어
+  사용자 인터페이스 / API
+        ↓
+프롬프트 엔지니어링 레이어
+  System Prompt + Few-Shot + RAG 컨텍스트
+        ↓
+LLM API / 추론 레이어
+  GPT-4 API / 자체 호스팅 LLaMA
+        ↓
+인프라 레이어
+  GPU 클러스터 (H100/A100) + 고속 스토리지
+```
 
 ### [파운데이션 모델](/knowledge-base/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/) [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)
 
@@ -217,22 +194,17 @@ Kaplan et al., OpenAI 2020 연구:
 
 ### [파운데이션 모델](/knowledge-base/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/)의 사회적 영향
 
+```
+산업 적용
+  ├── 코드 생성 (GitHub Copilot, Cursor)
+  ├── 의료 진단 보조 (Med-PaLM)
+  ├── 법률 문서 분석 (Harvey AI)
+  ├── 교육 개인화 (Khan Academy Khanmigo)
+  └── 과학 연구 가속 (AlphaFold, GNoME)
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">산업 적용</div>
-<div class="kb-diagram-tree-item" style="--depth:1">코드 생성 (GitHub Copilot, Cursor)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">의료 진단 보조 (Med-PaLM)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">법률 문서 분석 (Harvey AI)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">교육 개인화 (Khan Academy Khanmigo)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">과학 연구 가속 (AlphaFold, GNoME)</div>
-<div class="kb-diagram-note">경제적 영향</div>
-<div class="kb-diagram-note">McKinsey: 생성 AI 연간 2.6~4.4조 달러 경제 가치 창출 (2023)</div>
-</div>
-</div>
-
-
+경제적 영향
+  McKinsey: 생성 AI 연간 2.6~4.4조 달러 경제 가치 창출 (2023)
+```
 
 ### 기술사 시험 핵심 포인트
 
@@ -263,21 +235,17 @@ Kaplan et al., OpenAI 2020 연구:
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Task-Specific 모델 (한 가지 용도)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Foundation Model: 대규모 자기지도 사전학습</div>
-<div class="kb-diagram-tree-item" style="--depth:2">파라미터 스케일: 1B → 100B → 1T+</div>
-<div class="kb-diagram-tree-item" style="--depth:2">창발 능력 (Emergence): 규모 증가 시 새 능력</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Fine-Tuning · Prompt Engineering · In-Context Learning</div>
-</div>
-</div>
-
-
+```text
+Task-Specific 모델 (한 가지 용도)
+    │
+    ▼
+Foundation Model: 대규모 자기지도 사전학습
+    ├─► 파라미터 스케일: 1B → 100B → 1T+
+    └─► 창발 능력 (Emergence): 규모 증가 시 새 능력
+    │
+    ▼
+Fine-Tuning · Prompt Engineering · In-Context Learning
+```
 2. [창발성](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/265_emergent_abilities/)은 레고 블록과 같아. 블록 몇 개로는 별로 못 만들지만, 아주 많이 모이면 갑자기 성이나 로켓 같은 것을 만들 수 있게 되는 마법 같은 일이야.
 3. 제로샷 학습은 설명서 없이 새 게임을 켰는데 이전에 비슷한 게임을 많이 해봐서 바로 잘 하는 것이야.
 

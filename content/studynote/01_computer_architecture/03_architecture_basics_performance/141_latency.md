@@ -43,24 +43,27 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 CPU가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 요청할 때 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간이 어디에서 쌓이는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 접근 지연 시간의 누적 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 요청</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ L1 캐시 (Level 1 Cache) 히트 ─▶ 즉시 반환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ L1 미스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ L2/L3 캐시 탐색 ─▶ 히트 시 짧은 지연</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 마지막 캐시 미스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 메모리 컨트롤러 큐 대기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ DRAM 행 활성화 / 열 접근</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 첫 데이터 반환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심: 아래 단계로 갈수록 용량은 커지지만 첫 응답까지의 시간은 길어진다</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                메모리 접근 지연 시간의 누적 구조                    │
+├──────────────────────────────────────────────────────────────────────┤
+│ CPU 요청                                                            │
+│   │                                                                  │
+│   ├─▶ L1 캐시 (Level 1 Cache) 히트          ─▶ 즉시 반환             │
+│   │                                                                  │
+│   └─▶ L1 미스                                                         │
+│         │                                                            │
+│         ├─▶ L2/L3 캐시 탐색                ─▶ 히트 시 짧은 지연       │
+│         │                                                            │
+│         └─▶ 마지막 캐시 미스                                          │
+│               │                                                      │
+│               ├─▶ 메모리 컨트롤러 큐 대기                            │
+│               ├─▶ DRAM 행 활성화 / 열 접근                           │
+│               └─▶ 첫 데이터 반환                                     │
+│                                                                    │
+│ 핵심: 아래 단계로 갈수록 용량은 커지지만 첫 응답까지의 시간은 길어진다 │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 따라서 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간 최적화의 핵심은 단순 주파수 상승이 아니라 <strong>가까운 곳에서 먼저 맞히는 것</strong>이다. 캐시 계층, [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) ([Translation Lookaside Buffer](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/291_tlb/)), 프리패치, 분기 예측은 모두 느린 경로로 내려가는 횟수를 줄여 첫 결과 도착 시간을 앞당기기 위한 장치다. 반대로 멀티코어가 늘어도 공유 자원 경쟁이 심해지면 큐 대기가 커져 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간이 다시 악화될 수 있으므로, [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화가 항상 저지연을 보장하지는 않는다.
 
@@ -138,23 +141,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">레지스터 · 온칩 접근</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">캐시 메모리 (Cache Memory)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">메모리 월 (Memory Wall) 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">프리패치 · 비순차 실행 · 지연 시간 은닉 (Latency Hiding)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">NUMA · CXL (Compute Express Link) · 근접 메모리 최적화</div>
-</div>
-</div>
-
-
+```text
+레지스터 · 온칩 접근
+    │
+    ▼
+캐시 메모리 (Cache Memory)
+    │
+    ▼
+메모리 월 (Memory Wall) 인식
+    │
+    ▼
+프리패치 · 비순차 실행 · 지연 시간 은닉 (Latency Hiding)
+    │
+    ▼
+NUMA · CXL (Compute Express Link) · 근접 메모리 최적화
+```
 
 이 흐름은 "가까운 저장장치 활용 → 느린 하위 계층 문제 인식 → 기다림 숨기기 → 계층 자체 재구성"으로 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간 대응 전략이 발전하는 과정을 보여준다.
 

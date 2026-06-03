@@ -18,20 +18,20 @@ tags = ["studynote-enterprise-systems"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Porter 가치 사슬 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지원 활동:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기업 인프라 / HR / 기술 개발 / 조달</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">본원적 활동:</div><div class="kb-diagram-node">내부물류</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">운영</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">외부물류</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">마케팅</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">서비스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">►</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이익 마진</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────┐
+│                Porter 가치 사슬 구조                        │
+├────────────────────────────────────────────────────────────┤
+│                                                            │
+│  지원 활동:  ┌─────────────────────────────────────────┐   │
+│              │ 기업 인프라 / HR / 기술 개발 / 조달      │   │
+│              └─────────────────────────────────────────┘   │
+│                                                            │
+│  본원적 활동: [내부물류]→[운영]→[외부물류]→[마케팅]→[서비스]│
+│                                        ───────────────►    │
+│                                          이익 마진          │
+└────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [가치 사슬](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/)은 음식점 운영 흐름이다. 식재료 입고(내부 물류) → 요리(운영) → 서빙(외부 물류) → 홍보(마케팅) → 애프터 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(고객 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)). 각 단계를 잘할수록 더 많은 이익이 남는다.
 
@@ -106,23 +106,21 @@ AI와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relat
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">전통 가치 사슬 — 5개 본원적 활동 순차 흐름</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">가치 사슬 분석 — 경쟁 우위 원천 활동 식별</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IT 통합 — ERP/SCM/CRM으로 활동 연결</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">디지털 가치 사슬 — AI·IoT·클라우드 통합</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">가치 네트워크 — 플랫폼 기반 다방향 가치 생성</div></div>
-</div>
-</div>
-
-
+```text
+[전통 가치 사슬 — 5개 본원적 활동 순차 흐름]
+    │
+    ▼
+[가치 사슬 분석 — 경쟁 우위 원천 활동 식별]
+    │
+    ▼
+[IT 통합 — ERP/SCM/CRM으로 활동 연결]
+    │
+    ▼
+[디지털 가치 사슬 — AI·IoT·클라우드 통합]
+    │
+    ▼
+[가치 네트워크 — 플랫폼 기반 다방향 가치 생성]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -25,29 +25,33 @@ A, B, C 세 [스레드](/knowledge-base/studynote/02_operating_system/02_process
 
 **💡 비유**: 3차선 교차로 한가운데 엉켜버린 차량 3대(사이클). 그러나 남아있는 옆 1개의 우회 차선(잉여 인스턴스)으로 오토바이 한 대가 빠져나가 빈 공간이 생기면, 엉켰던 차량들이 기적적으로 테트리스처럼 풀려나게 된다. 데드락이 빗겨간 것이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다중 인스턴스 환경에서의 가짜(False) 교착 현상</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시나리오</div><div class="kb-diagram-note">자원 R1(인스턴스 2개), 자원 R2(인스턴스 2개)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(점유) (요청, 0개 남음)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">R1 (•)(•)</div><div class="kb-diagram-note">(사이클 시작)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(점유) ▼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ P3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(요청)</div><div class="kb-diagram-cell">(점유)</div><div class="kb-diagram-cell">(점유)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">R2 (•)(•)</div><div class="kb-diagram-connector">◀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(점유)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P4 (사이클 밖의 제3자)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해석: P1 → R1 → P3 → R2 → P1 원형(Cycle) 발생!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">But!! P2나 P4는 고리 밖에 있다. 이들이 자원을 다 쓰고</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">R1이나 R2를 뿜어내는(반환) 순간, P1이나 P3 중 하나가 부활함!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 사이클이 있어도 데드락은 발생하지 않았다!</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│         다중 인스턴스 환경에서의 가짜(False) 교착 현상       │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│  [시나리오] 자원 R1(인스턴스 2개), 자원 R2(인스턴스 2개)     │
+│                                                              │
+│       (점유)                   (요청, 0개 남음)              │
+│  P1 ──────────▶ [ R1 (•)(•) ] ───────┐ (사이클 시작)         │
+│   ▲                  │               │                       │
+│   │                  │ (점유)        ▼                       │
+│   │                  ▼               P3                      │
+│   │                 P2               │                       │
+│   │ (요청)           │ (점유)        │ (점유)                │
+│   │                  ▼               ▼                       │
+│   └────────── [ R2 (•)(•) ] ◀───────┘                        │
+│                      │                                       │
+│                      │ (점유)                                │
+│                      ▼                                       │
+│                     P4 (사이클 밖의 제3자)                   │
+│                                                              │
+│  해석: P1 → R1 → P3 → R2 → P1 원형(Cycle) 발생!              │
+│  But!! P2나 P4는 고리 밖에 있다. 이들이 자원을 다 쓰고       │
+│  R1이나 R2를 뿜어내는(반환) 순간, P1이나 P3 중 하나가 부활함!│
+│  → 사이클이 있어도 데드락은 발생하지 않았다!                 │
+└──────────────────────────────────────────────────────────────┘
+```
 
 **📢 섹션 요약 비유**: 다중 인스턴스 사이클은 숨 구멍이 있는 뱀 허물 — 겉보기엔 뱀이 자기 꼬리를 잡아먹는 둥근 함정(사이클) 같지만, 중간중간 뚫린 여분의 구멍(여분 자원)으로 빠져나갈 희망이 충분히 있습니다.
 
@@ -118,19 +122,15 @@ A, B, C 세 [스레드](/knowledge-base/studynote/02_operating_system/02_process
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">단일 인스턴스 자원 환경</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">다중 인스턴스 자원 환경 (Multiple Instance Resource)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">교착 상태 처리 방법 3가지</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">타조 알고리즘 (Ostrich Algorithm)</div></div>
-</div>
-</div>
-
-
+```text
+[단일 인스턴스 자원 환경]
+    │
+    ▼
+[다중 인스턴스 자원 환경 (Multiple Instance Resource)]
+    │
+    ├──▶ [교착 상태 처리 방법 3가지]
+    └──▶ [타조 알고리즘 (Ostrich Algorithm)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

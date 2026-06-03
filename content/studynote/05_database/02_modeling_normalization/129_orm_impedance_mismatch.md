@@ -18,23 +18,22 @@ tags = ["studynote-database"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">임피던스 불일치 지점</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">객체 모델: 상속, 다형성, 참조(포인터), 캡슐화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">관계 모델: 테이블, FK, JOIN, 정규화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">불일치:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 상속 → 테이블? (단일/조인/구분 테이블)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 객체 참조 → FK + JOIN</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 객체 그래프 탐색 → SQL N+1 문제</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 동일성(==) → PK 비교</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ORM: 이 불일치를 자동 매핑</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    임피던스 불일치 지점                                │
+├───────────────────────────────────────────────────────┤
+│  객체 모델:  상속, 다형성, 참조(포인터), 캡슐화      │
+│  관계 모델:  테이블, FK, JOIN, 정규화                │
+│                                                       │
+│  불일치:                                              │
+│   1. 상속 → 테이블? (단일/조인/구분 테이블)          │
+│   2. 객체 참조 → FK + JOIN                            │
+│   3. 객체 그래프 탐색 → SQL N+1 문제                  │
+│   4. 동일성(==) → PK 비교                            │
+│                                                       │
+│  ORM: 이 불일치를 자동 매핑                           │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [임피던스](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/) 불일치는 미터법과 인치법의 차이이다. ORM은 자동 단위 변환기이다.
 
@@ -96,23 +95,21 @@ ORM은 <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_ba
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">수동 JDBC/SQL (2000s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Hibernate (2001~) → JPA 표준 (2006)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">경량 ORM (MyBatis, 2010s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Prisma / TypeORM (2018~) — 타입 안전 ORM</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: AI SQL 생성 — Text-to-SQL (ORM 대안)</div></div>
-</div>
-</div>
-
-
+```text
+[수동 JDBC/SQL (2000s)]
+    │
+    ▼
+[Hibernate (2001~) → JPA 표준 (2006)]
+    │
+    ▼
+[경량 ORM (MyBatis, 2010s)]
+    │
+    ▼
+[Prisma / TypeORM (2018~) — 타입 안전 ORM]
+    │
+    ▼
+[현재: AI SQL 생성 — Text-to-SQL (ORM 대안)]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [임피던스](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/) 불일치는 <strong>미터법과 인치법의 차이</strong>예요. 서로 단위가 달라 혼동돼요.

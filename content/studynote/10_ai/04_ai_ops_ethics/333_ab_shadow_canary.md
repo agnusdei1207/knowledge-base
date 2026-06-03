@@ -26,17 +26,14 @@ tags = ["studynote-ai"]
 2. <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/">카나리 배포</a></strong>: 1~5% 사용자에게 새 모델 노출, 실제 반응 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)
 3. **A/B 테스팅**: 통계적으로 유의미한 규모로 두 모델을 비교
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 세 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 새 요리를 식당에 올리기 전 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 과정이다. 섀도우는 주방에서 몰래 새 레시피로 맛을 보는 것(손님에게 안 냄), [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)는 VIP 손님 3명에게 먼저 맛보게 하는 것, A/B는 절반 손님에게 기존 메뉴, 나머지 절반에게 새 메뉴를 내고 재방문율을 비교하는 것이다.
 
@@ -44,30 +41,31 @@ tags = ["studynote-ai"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">점진적 배포 전략 3종 비교 아키텍처</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① 섀도우 배포 (Shadow Deployment):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실제 트래픽 ▶ 현재 모델 (Champion) ▶ 사용자에게 응답 전송</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 새 모델 (Shadow) ▶ 응답 로깅만 (미전송)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">효과: 사용자 영향 0, 새 모델 성능/오류 완전 검증 가능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② 카나리 배포 (Canary Release):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실제 트래픽 ▶ 라우터 95% ▶ 현재 모델 → 사용자</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 5% ▶ 새 모델 → 사용자</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">효과: 5%만 영향, 실제 사용자 반응 확인, 이상 시 즉시 롤백</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ A/B 테스팅 (A/B Testing):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 그룹 A(50%) ▶ 모델 A (현재)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 그룹 B(50%) ▶ 모델 B (새 모델)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 두 그룹의 비즈니스 메트릭(CTR, 전환율, 매출) 통계 비교</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 유의확률 p &lt; 0.05이면 새 모델로 전환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">배포 단계 (Best Practice):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">섀도우(검증) → 카나리 1%(안전 확인) → 10% → 50% → 100%(전체 전환)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│         점진적 배포 전략 3종 비교 아키텍처                            │
+├──────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  ① 섀도우 배포 (Shadow Deployment):                               │
+│  실제 트래픽 ─────▶ 현재 모델 (Champion) ─────▶ 사용자에게 응답 전송 │
+│              └────▶ 새 모델 (Shadow) ────────▶ 응답 로깅만 (미전송) │
+│  효과: 사용자 영향 0, 새 모델 성능/오류 완전 검증 가능               │
+│                                                                  │
+│  ② 카나리 배포 (Canary Release):                                   │
+│  실제 트래픽 ─────▶ 라우터 ──── 95% ────▶ 현재 모델 → 사용자        │
+│                          └── 5% ─────▶ 새 모델 → 사용자           │
+│  효과: 5%만 영향, 실제 사용자 반응 확인, 이상 시 즉시 롤백           │
+│                                                                  │
+│  ③ A/B 테스팅 (A/B Testing):                                      │
+│  사용자 그룹 A(50%) ────▶ 모델 A (현재)                            │
+│  사용자 그룹 B(50%) ────▶ 모델 B (새 모델)                         │
+│  → 두 그룹의 비즈니스 메트릭(CTR, 전환율, 매출) 통계 비교            │
+│  → 유의확률 p < 0.05이면 새 모델로 전환                            │
+│                                                                  │
+│  배포 단계 (Best Practice):                                       │
+│  섀도우(검증) → 카나리 1%(안전 확인) → 10% → 50% → 100%(전체 전환)  │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 사용자 영향 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 방식 | 적합 상황 |
 |:---|:---|:---|:---|
@@ -120,7 +118,7 @@ tags = ["studynote-ai"]
 
 A/B 테스팅·섀도우·[카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/)는 ML 모델의 안전한 프로덕션 전환을 위한 업계 표준 방법론이다. "빠르게 배포하되 안전하게"라는 MLOps의 핵심 가치를 구현하는 기술이다. 아마존·넷플릭스·구글은 매일 수백~수천 개의 A/B 테스트를 동시 운영하며, 이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 의사결정 문화가 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 제품의 지속적 개선과 비즈니스 경쟁력의 원천이 됐다. 기술사 시험에서 ML 시스템 설계 문제에서는 이 배포 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)들을 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인과 연계해서 설명하는 것이 고득점 포인트다.
 
-- **📢 섹션 요약 비유**: 점진적 배포 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 전체는 항공기 신형 기체 투입 과정과 같다. 시뮬레이터(섀도우)로 먼저 테스트, 비상업 노선([카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 1%) 먼저 투입, 일부 단거리 노선([카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~50%)으로 확대, 전체 노선(100% 전환) 순서로 안전을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하며 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)한다. 한 번에 전 세계 모든 비행기를 교체하는 것은 항공 안전 당국도 허가하지 않는다.
+- **📢 섹션 요약 비유**: 점진적 배포 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 전체는 항공기 새로운 유형의 기체 투입 과정과 같다. 시뮬레이터(섀도우)로 먼저 테스트, 비상업 노선([카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 1%) 먼저 투입, 일부 단거리 노선([카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~50%)으로 확대, 전체 노선(100% 전환) 순서로 안전을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하며 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)한다. 한 번에 전 세계 모든 비행기를 교체하는 것은 항공 안전 당국도 허가하지 않는다.
 
 ---
 

@@ -28,17 +28,14 @@ tags = ["studynote-ai"]
 
 이 선언 하나로 인공지능([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))이라는 학문은 철학자의 몽상에서 벗어나, "인간을 감쪽같이 속일 수 있는 텍스트/비전 대화 시스템을 코드로 짜보자"라는 명확한 타겟([KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/))을 가진 컴퓨터 공학의 최대 격전지로 진입하게 되었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [튜링 테스트](/knowledge-base/studynote/10_ai/01_ai_basics/002_turing_test/)는 '복면가왕' 프로그램이다. 무대 뒤에서 노래 부르는 사람이 잘생겼는지, 춤을 잘 추는지(기계 내부의 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 원리)는 하나도 중요하지 않다. 오직 스피커로 흘러나오는 '목소리(대화, Output)'만 듣고 판정단이 "우와 저건 완벽한 최고급 가수의 감성이야!"라고 속아 넘어가면, 그 사람이 사실 노래 부르는 로봇이라 할지라도 '가왕(인공지능)'으로 인정해 주겠다는 극단적인 결과주의 채점 방식이다.
 
@@ -48,28 +45,30 @@ tags = ["studynote-ai"]
 
 [튜링 테스트](/knowledge-base/studynote/10_ai/01_ai_basics/002_turing_test/)를 완벽하게 통과하기 위해, 기계(Computer)는 단순히 사칙연산을 넘어 4가지의 거대한 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 뇌 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)(Sub-system)을 동시에 탑재해야만 한다. (현대 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 조상격 아키텍처)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">튜링 테스트(Imitation Game)의 블라인드 평가 아키텍처 도해</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">블라인드 벽 (벽 너머엔 누가 있는지 모름)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">인간 심사관 (Interrogator)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 타자기를 치며 묻는다: "너 어제 저녁 뭐 먹었어? 사랑이 뭐라고 생각해?"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">방 A (진짜 인간)</div><div class="kb-diagram-note">"라면 먹었지. 사랑은 아픔이야."</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">방 B (컴퓨터 AI)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">★ 방 B의 컴퓨터가 튜링 테스트를 통과하기 위해 필요한 4대 AI 모듈</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 자연어 처리 (NLP): 심사관의 한글/영어 질문을 문법적으로 이해해야 함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 지식 표현 (Knowledge Rep.): 인터넷에서 읽은 백과사전 지식을 뇌에 저장.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 자동 추론 (Reasoning): "인간은 밤에 밥을 먹는다"는 지식으로 대답을 추론.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 머신 러닝 (Machine Learning): 대화 중 심사관의 패턴에 맞춰 알아서 적응.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">결과</div><div class="kb-diagram-note">: 방 B의 AI가 방 A의 인간과 똑같은 텐션으로 완벽한 대답을 뱉어서,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">심사관이 30% 이상의 확률로 "둘 중 누가 사람인지 모르겠다!"고 하면</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 이 컴퓨터는 튜링 테스트 통과! (인공지능 인증 완료)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           튜링 테스트(Imitation Game)의 블라인드 평가 아키텍처 도해        │
+├──────────────────────────────────────────────────────────────┤
+│  [블라인드 벽 (벽 너머엔 누가 있는지 모름)]                              │
+│                                                              │
+│  [인간 심사관 (Interrogator)]                                   │
+│   * 타자기를 치며 묻는다: "너 어제 저녁 뭐 먹었어? 사랑이 뭐라고 생각해?"   │
+│   │                                                          │
+│   ├─▶ (채팅 텍스트 전송) ─▶ [방 A (진짜 인간)] "라면 먹었지. 사랑은 아픔이야." │
+│   │                                                          │
+│   └─▶ (채팅 텍스트 전송) ─▶ [방 B (컴퓨터 AI)]                       │
+│                                                              │
+│  [★ 방 B의 컴퓨터가 튜링 테스트를 통과하기 위해 필요한 4대 AI 모듈]        │
+│   1. 자연어 처리 (NLP): 심사관의 한글/영어 질문을 문법적으로 이해해야 함.   │
+│   2. 지식 표현 (Knowledge Rep.): 인터넷에서 읽은 백과사전 지식을 뇌에 저장. │
+│   3. 자동 추론 (Reasoning): "인간은 밤에 밥을 먹는다"는 지식으로 대답을 추론.│
+│   4. 머신 러닝 (Machine Learning): 대화 중 심사관의 패턴에 맞춰 알아서 적응.│
+│                                                              │
+│  [결과]: 방 B의 AI가 방 A의 인간과 똑같은 텐션으로 완벽한 대답을 뱉어서,     │
+│         심사관이 30% 이상의 확률로 "둘 중 누가 사람인지 모르겠다!"고 하면    │
+│         ─▶ 이 컴퓨터는 튜링 테스트 통과! (인공지능 인증 완료)            │
+└──────────────────────────────────────────────────────────────┘
+```
 
 **핵심 원리 (행동주의적 지능 관점)**:
 튜링의 철학은 본질적으로 <strong>행동주의(Behaviorism)</strong>다. 내부의 코드가 조건문(if-else) 100만 개로 짜여진 멍청한 노가다 봇이든, 수천억 파라미터를 굴리는 [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)([Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)) 딥러닝이든 그 '수학적 우아함'은 평가 대상이 아니다. 철저하게 블랙박스 밖으로 튀어나오는 <strong>'출력(Output) 결과물이 인간의 지성적 행동과 구별 불가능하게 모방(Imitation)할 수 있는가?'</strong>만이 유일한 잣대다. 최근에는 문자로만 채팅하는 기본 테스트를 넘어, 눈으로 보고 듣고 물건을 만지며 속이는 <strong>'토탈 <a href="/knowledge-base/studynote/10_ai/01_ai_basics/002_turing_test/">튜링 테스트</a>(Total <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/235_ai_turing_test_expert_system_fuzzy_logic/">Turing Test</a> - 컴퓨터 비전과 로보틱스 결합)'</strong>로 평가 아키텍처가 진화하고 있다.

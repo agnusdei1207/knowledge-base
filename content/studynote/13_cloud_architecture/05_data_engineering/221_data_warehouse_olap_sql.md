@@ -22,22 +22,25 @@ tags = ["studynote-cloud-architecture"]
 
 운영 DB([OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/))는 초당 수천 건의 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 처리에 최적화되어 있어, 대규모 집계·분석 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 실행하면 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)에 영향을 준다. DW는 이를 <strong>물리적으로 분리</strong>하여 분석 전용 환경을 제공한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">기업 데이터 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ERP 시스템</div><div class="kb-diagram-cell">CRM 시스템</div><div class="kb-diagram-cell">SCM 시스템</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(운영 DB)</div><div class="kb-diagram-cell">(운영 DB)</div><div class="kb-diagram-cell">(운영 DB)</div></div>
-<div class="kb-diagram-note">↓ ETL (야간 배치)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data Warehouse</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(통합·정제 데이터)</div></div>
-<div class="kb-diagram-note">BI 도구 OLAP 분석 데이터 마트</div>
-<div class="kb-diagram-note">(Tableau) (집계쿼리) (부서별 뷰)</div>
-</div>
-</div>
-
-
+```
+[기업 데이터 흐름]
+┌─────────────┐  ┌─────────────┐  ┌─────────────┐
+│  ERP 시스템  │  │  CRM 시스템  │  │  SCM 시스템  │
+│  (운영 DB)  │  │  (운영 DB)  │  │  (운영 DB)  │
+└──────┬──────┘  └──────┬──────┘  └──────┬──────┘
+       │                │                │
+       └────────────────┼────────────────┘
+                        ↓  ETL (야간 배치)
+               ┌────────────────┐
+               │  Data Warehouse │
+               │  (통합·정제 데이터)│
+               └───────┬────────┘
+                       │
+            ┌──────────┼──────────┐
+            ↓          ↓          ↓
+         BI 도구    OLAP 분석   데이터 마트
+        (Tableau) (집계쿼리)  (부서별 뷰)
+```
 
 📢 **섹션 요약 비유**: DW는 기업의 "중앙 도서관"이다. 각 부서(운영 DB)가 직접 만든 장부([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 밤마다 복사·정리해 중앙 도서관에 보관하고, 경영진이 언제든 전사적 통계를 조회할 수 있도록 한다.
 
@@ -47,23 +50,26 @@ tags = ["studynote-cloud-architecture"]
 
 ### 클라우드 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 아키텍처 (스토리지-컴퓨팅 분리)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라우드 DW 아키텍처</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소스 시스템 → ETL/ELT →</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공유 스토리지 계층</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(S3/GCS/Azure Blob)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">컬럼 압축 Parquet</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">컴퓨팅 클러스터 (독립 스케일)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가상웨어</div><div class="kb-diagram-cell">가상웨어</div><div class="kb-diagram-cell">...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하우스 1</div><div class="kb-diagram-cell">하우스 2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(BI팀)</div><div class="kb-diagram-cell">(데이터팀)</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────┐
+│              클라우드 DW 아키텍처                       │
+│                                                      │
+│  소스 시스템 → ETL/ELT → ┌──────────────────────┐   │
+│                          │  공유 스토리지 계층     │   │
+│                          │  (S3/GCS/Azure Blob)  │   │
+│                          │  컬럼 압축 Parquet     │   │
+│                          └──────────┬───────────┘   │
+│                                     │               │
+│          ┌──────────────────────────┴─────┐         │
+│          │     컴퓨팅 클러스터 (독립 스케일)│         │
+│          │  ┌────────┐  ┌────────┐         │         │
+│          │  │ 가상웨어│  │ 가상웨어│  ...    │         │
+│          │  │ 하우스 1│  │ 하우스 2│         │         │
+│          │  │(BI팀)  │  │(데이터팀)│         │         │
+│          │  └────────┘  └────────┘         │         │
+│          └────────────────────────────────┘         │
+└──────────────────────────────────────────────────────┘
+```
 
 ### 핵심 기술 요소
 
@@ -112,20 +118,19 @@ tags = ["studynote-cloud-architecture"]
 
 ### [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 설계: [Star Schema](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/296_star_schema/) vs [Snowflake Schema](/knowledge-base/studynote/12_it_management/05_security_compliance/313_snowflake_schema/)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Star Schema - 팩트 중심 비정규화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">날짜 차원</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상품 차원</div><div class="kb-diagram-cell">──</div><div class="kb-diagram-cell">매출 팩트 테이블</div><div class="kb-diagram-cell">──</div><div class="kb-diagram-cell">고객 차원</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(주문ID, 날짜ID,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상품ID, 고객ID,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">금액, 수량)</div></div>
-</div>
-</div>
-
-
+```
+[Star Schema - 팩트 중심 비정규화]
+           ┌──────────────┐
+           │  날짜 차원    │
+           └──────┬───────┘
+                  │
+┌──────────┐  ┌───┴──────────────┐  ┌──────────┐
+│ 상품 차원 │──│  매출 팩트 테이블  │──│ 고객 차원 │
+└──────────┘  │ (주문ID, 날짜ID,  │  └──────────┘
+              │  상품ID, 고객ID,  │
+              │  금액, 수량)      │
+              └──────────────────┘
+```
 
 ### 실무 적용 지침
 
@@ -184,21 +189,17 @@ tags = ["studynote-cloud-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">OLTP (트랜잭션 처리, 행 기반)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Data Warehouse: OLAP · Star/Snowflake 스키마</div>
-<div class="kb-diagram-tree-item" style="--depth:2">BigQuery · Snowflake · Redshift</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Schema-on-Write · 컬럼 지향 저장</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Lakehouse: DW + Lake 통합 (Delta Lake · Iceberg)</div>
-</div>
-</div>
-
-
+```text
+OLTP (트랜잭션 처리, 행 기반)
+    │
+    ▼
+Data Warehouse: OLAP · Star/Snowflake 스키마
+    ├─► BigQuery · Snowflake · Redshift
+    └─► Schema-on-Write · 컬럼 지향 저장
+    │
+    ▼
+Lakehouse: DW + Lake 통합 (Delta Lake · Iceberg)
+```
 2. 마치 도서관 사서처럼, 밤마다([ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 야간 배치) 각 교실(운영 DB)에서 중요한 내용을 가져와 도서관([DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/))에 깔끔하게 분류해 넣는다.
 3. [BigQuery](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/)·[Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/)·Redshift는 같은 서류함이지만, 각각 Google·중립·Amazon 건물에 있는 셈이다. 어느 건물에 이미 살고 있느냐에 따라 선택이 달라진다.
 

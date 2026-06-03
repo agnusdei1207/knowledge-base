@@ -31,22 +31,26 @@ tags = ["studynote-operating-system"]
 ### PMU ([Performance Monitoring](/knowledge-base/studynote/02_operating_system/10_security/609_performance_monitoring/) Unit)와 eBPF의 하드웨어/[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 융합
 현대 CPU 안에는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)도 모르게 캐시 미스(Cache Miss)나 [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) 실패 횟수를 묵묵히 세고 있는 PMU라는 하드웨어 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 쇳덩어리가 박혀있다. 리눅스의 `perf` 도구는 이 PMU의 레지스터를 직접 읽어온다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">현대 OS 트레이싱/프로파일링 스택 아키텍처 (eBPF)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">유저 스페이스 (User Space)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BCC / bpftrace (프론트엔드 도구) ──▶ (트레이싱 스크립트 작성)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">커널 스페이스 (Kernel Space)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">eBPF JIT 컴파일러</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(유저의 추적 코드를 안전한 기계어로 변환)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kprobes (커널 함수 추적), Tracepoints, Uprobes 연동</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">PMU (Hardware)</div><div class="kb-diagram-note">: CPU 캐시 미스, 클럭 사이클 측정</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────┐
+│           현대 OS 트레이싱/프로파일링 스택 아키텍처 (eBPF)   │
+├────────────────────────────────────────────────────────┤
+│   [ 유저 스페이스 (User Space) ]                         │
+│     BCC / bpftrace (프론트엔드 도구) ──▶ (트레이싱 스크립트 작성)│
+│            │                                           │
+│ ═══════════▼═════════════════════════════════════════│
+│   [ 커널 스페이스 (Kernel Space) ]                       │
+│     ┌─────────────────────────────────────┐            │
+│     │          [ eBPF JIT 컴파일러 ]        │            │
+│     │   (유저의 추적 코드를 안전한 기계어로 변환) │            │
+│     └─────────────────┬───────────────────┘            │
+│                       ▼                                │
+│     Kprobes (커널 함수 추적), Tracepoints, Uprobes 연동   │
+│                       │                                │
+│                       ▼                                │
+│     [ PMU (Hardware) ] : CPU 캐시 미스, 클럭 사이클 측정   │
+└────────────────────────────────────────────────────────┘
+```
 
 특히 <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/">eBPF</a> (Extended <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/069_ebpf/">Berkeley Packet Filter</a>)</strong>의 등장은 혁명이다. 과거에는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부 로직을 트레이싱하려면 위험한 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)(C 코드)을 직접 컴파일해 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 주입해야 했다. 하지만 eBPF는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 안에 안전한 샌드박스 가상머신([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))을 띄우고, 유저가 짠 트레이싱 코드가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 터뜨리지 않는지 검사(Verifier)한 뒤 실시간으로 이식([JIT](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/))한다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하(오버헤드) 0%에 수렴하는 완벽한 라이브 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 해부학이다.
 
@@ -104,23 +108,21 @@ SRE와 시스템 엔지니어는 증상에 따라 메스를 다르게 든다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">시스템 콜 및 성능 저하 원인의 블랙박스 현상 대두</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">strace 및 OProfile (초기 추적 도구, 막대한 성능 오버헤드 문제)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CPU 하드웨어 PMU 결합 ──▶ perf 도구의 커널 통합 (Sampling Profiling 달성)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">동적 추적(Dynamic Tracing) 요구 ──▶ ftrace, kprobes 도입</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">eBPF 생태계(BCC, bpftrace) 폭발적 성장 (오버헤드 제로의 라이브 관측 시대 개막)</div>
-</div>
-</div>
-
-
+```text
+시스템 콜 및 성능 저하 원인의 블랙박스 현상 대두
+    │
+    ▼
+strace 및 OProfile (초기 추적 도구, 막대한 성능 오버헤드 문제)
+    │
+    ▼
+CPU 하드웨어 PMU 결합 ──▶ perf 도구의 커널 통합 (Sampling Profiling 달성)
+    │
+    ▼
+동적 추적(Dynamic Tracing) 요구 ──▶ ftrace, kprobes 도입
+    │
+    ▼
+eBPF 생태계(BCC, bpftrace) 폭발적 성장 (오버헤드 제로의 라이브 관측 시대 개막)
+```
 
 이 흐름도는 "오버헤드로 인한 추적 불가 → 하드웨어 지원을 통한 병목 해소 → [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내 안전한 샌드박스 주입 기술 발명"으로 귀결되는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 관측 기술([Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/))의 정점 궤적을 보여준다.
 

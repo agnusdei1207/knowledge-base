@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 앞선 문서에서 배운 일반적인 [OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/) 통신은 클라이언트(내 폰)가 직접 [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/)([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)기관) 서버에 질의를 날렸습니다. 
 이로 인해 <strong>1) 클라이언트의 접속 대기 시간(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>) 급증</strong>, <strong>2) <a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/">CA</a> 서버의 어마어마한 트래픽 과부하(DDoS급 병목)</strong>, <strong>3) 클라이언트의 웹서핑 접속 기록(프라이버시)이 CA에 고스란히 노출</strong>되는 세 가지 치명타를 입었습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">OCSP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">OCSP Stapling</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SSL/TLS 통신 모델 개요</div></div>
-</div>
-</div>
-
-
+```text
+[OCSP]
+    │
+    ▼
+[OCSP Stapling]
+    │
+    └──▶ [SSL/TLS 통신 모델 개요]
+```
 
 - **📢 섹션 요약 비유**: [OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/) Stapling는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -49,18 +45,14 @@ tags = ["studynote-network"]
   3. **스테이플링 전송 (웹 서버 ➜ 클라이언트)**: 네이버 서버는 굳이 클라이언트가 경찰청에 묻게 놔두지 않고, 자신의 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 줄 때 **아까 받아둔 'Good 영수증'을 호치키스(Stapling)로 딱 묶어서 한 덩어리로 내 컴퓨터에 던져줍니다.**
   4. <strong><a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 완료</strong>: 내 컴퓨터는 영수증에 찍힌 CA의 암호화 도장([전자서명](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/))을 보고 조작되지 않은 진짜 영수증임을 1초 만에 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 안심하고 접속합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">OCSP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">OCSP Stapling</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SSL/TLS 통신 모델 개요</div></div>
-</div>
-</div>
-
-
+```text
+[OCSP]
+    │
+    ▼
+[OCSP Stapling]
+    │
+    └──▶ [SSL/TLS 통신 모델 개요]
+```
 
 - **📢 섹션 요약 비유**: [OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/) Stapling의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -119,19 +111,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: OCSP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: OCSP Stapling</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: SSL/TLS 통신 모델 개요</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: OCSP]
+    │
+    ▼
+[현재 개념: OCSP Stapling]
+    │
+    ├──▶ [확장 A: SSL/TLS 통신 모델 개요]
+    └──▶ [확장 B: 자동화된 신뢰 체계]
+```
 
 [OCSP](/knowledge-base/studynote/03_network/13_network_security_basics/679_ocsp_online_certificate_status_protocol/) Stapling는 OCSP에서 출발해 현재 메커니즘을 정교화하고, 이후 SSL/[TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 통신 모델 개요와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

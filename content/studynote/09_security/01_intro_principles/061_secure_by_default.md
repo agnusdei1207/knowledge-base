@@ -29,21 +29,15 @@ Secure by Default는 사용자가 아무것도 바꾸지 않아도 안전하게 
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">기본 설치</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">안전한 기본값</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">명시적 Opt-in</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">감사 로그 / 모니터링</div>
-</div>
-</div>
-
-
+```text
+기본 설치
+   ↓
+안전한 기본값
+   ↓
+명시적 Opt-in
+   ↓
+감사 로그 / 모니터링
+```
 
 | 원칙 | 의미 |
 | :-- | :-- |
@@ -121,45 +115,33 @@ Secure by Default는 사고를 없애는 만능열쇠는 아니지만, 가장 �
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Security by Design</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Secure by Default</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Least Privilege</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Fail-safe / Opt-in</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Secure Product Baseline</div>
-</div>
-</div>
-
-
+```text
+Security by Design
+   ↓
+Secure by Default
+   ↓
+Least Privilege
+   ↓
+Fail-safe / Opt-in
+   ↓
+Secure Product Baseline
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">기본 비밀번호</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">초기 설정 실수</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Secure by Default</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">기본값 보안 강화</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Zero Trust</div>
-</div>
-</div>
-
-
+```text
+기본 비밀번호
+   ↓
+초기 설정 실수
+   ↓
+Secure by Default
+   ↓
+기본값 보안 강화
+   ↓
+Zero Trust
+```
 
 ---
 

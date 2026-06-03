@@ -23,20 +23,23 @@ tags = ["database"]
 
 이 그림은 데이터베이스의 전체 지식 체계를 시험 관점에서 구조화한 것이다. 설계부터 활용까지의 공학적 연계성을 시각화한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터베이스(DB) 시험 핵심 지식 체계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">융합/분석</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">분산/신기술</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">관리/보안</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(DW, Lakehouse) (NoSQL, NewSQL) (Governance)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">운영/튜닝</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">트랜잭션</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(SQL, Index) (ACID, Lock)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">기초/설계</div><div class="kb-diagram-note">(ERD, Normalization)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│             데이터베이스(DB) 시험 핵심 지식 체계            │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│       [ 융합/분석 ] ◀─────▶ [ 분산/신기술 ] ◀─────▶ [ 관리/보안 ] │
+│       (DW, Lakehouse)      (NoSQL, NewSQL)    (Governance)  │
+│             ▲                     ▲                 ▲       │
+│             └───────┬─────────────┴────────┬────────┘       │
+│                     │                      │                │
+│               [ 운영/튜닝 ] ◀──────▶ [ 트랜잭션 ]           │
+│               (SQL, Index)         (ACID, Lock)             │
+│                                                             │
+│               [ 기초/설계 ] (ERD, Normalization)            │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '상향식 설계 능력'이다. 기초 설계(정규화)가 흔들리면 성능 튜닝은 임시방편에 불과하며, 트랜잭션 원리를 모르면 분산 DB의 복잡성을 이해할 수 없다. 실무에서는 이러한 모든 단계가 유기적으로 연결되므로, 기술사는 각 단계의 의사결정이 시스템 전체에 미치는 파급 효과를 설명할 수 있어야 한다.
 
@@ -89,21 +92,24 @@ tags = ["database"]
 
 이 구조도는 쿼리 튜닝 시 옵티마이저를 유도하는 기술사적 판단 프로세스를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Query Optimization Decision Flow</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Slow Query</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Execution Plan Check</div><div class="kb-diagram-note">──</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">──</div><div class="kb-diagram-node">Full Scan?</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Statistics Fresh?</div><div class="kb-diagram-connector">◀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(NO) (YES)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Gather Stats</div><div class="kb-diagram-node">Check Index Selectivity</div><div class="kb-diagram-note">──</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Index Optimization</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Join Method Change</div><div class="kb-diagram-connector">◀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 실무 핵심: 인덱스 수정이 불가능하면 SQL 힌트(Hint) 활용</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Query Optimization Decision Flow            │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Slow Query ] ──▶ [ Execution Plan Check ] ──┐           │
+│                                                 │           │
+│   ┌── [ Full Scan? ] ◀── [ Statistics Fresh? ] ◀┘           │
+│   │          │ (NO)             (YES)                       │
+│   │          ▼                  ▼                           │
+│   │   [ Gather Stats ]   [ Check Index Selectivity ] ──┐    │
+│   │                                                    │    │
+│   └──▶ [ Index Optimization ] ◀── [ Join Method Change ] ◀┘    │
+│                                                             │
+│   * 실무 핵심: 인덱스 수정이 불가능하면 SQL 힌트(Hint) 활용 │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 기술사의 통찰은 '요리사의 불 조절'과 같습니다. 강한 불(성능)이 필요할 때와 은근한 불(정합성)이 필요할 때를 정확히 알고, 재료의 신선도(통계 정보)에 따라 조리법(실행 계획)을 바꾸는 안목입니다.
 
@@ -121,20 +127,24 @@ tags = ["database"]
 
 이 도식은 데이터베이스 장애 발생 시 수행해야 할 '회복 프로세스'를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DB Recovery Decision Tree</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Crash Occurred</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Analyze Redo Logs</div><div class="kb-diagram-note">──</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">──</div><div class="kb-diagram-node">Incomplete Tx?</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Redo Phase Done</div><div class="kb-diagram-connector">◀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(YES)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Undo Phase: Rollback</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DB Open</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* ARIES 알고리즘: Analysis -&gt; Redo -&gt; Undo 순서 준수</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│               DB Recovery Decision Tree                      │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Crash Occurred ] ──▶ [ Analyze Redo Logs ] ──┐          │
+│                                                  │          │
+│   ┌── [ Incomplete Tx? ] ◀── [ Redo Phase Done ] ◀┘          │
+│   │          │ (YES)                                        │
+│   │          ▼                                              │
+│   │   [ Undo Phase: Rollback ] ──▶ [ DB Open ]              │
+│   │                                     ▲                   │
+│   └─────────────────────────────────────┘                   │
+│                                                             │
+│   * ARIES 알고리즘: Analysis -> Redo -> Undo 순서 준수     │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 기술사의 진단은 '응급실의 의사'와 같습니다. 환자(시스템)가 실려 오면 가장 먼저 활력 징후(대기 이벤트)를 체크하고, 수술(인덱스 재구성)이 필요한지 약물 치료(쿼리 튜닝)로 가능한지 신속하게 판단하는 능력이 핵심입니다.
 

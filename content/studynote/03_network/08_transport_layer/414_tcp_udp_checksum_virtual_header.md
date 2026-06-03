@@ -29,18 +29,14 @@ tags = ["studynote-network"]
   - 수취인(서버)이 박스를 받고 저울에 재보니 "99.[5g](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)"이 나옵니다.
   - 수취인은 겉면에 적힌 스티커(100.[5g](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/))와 지금 잰 무게가 다른 걸 보고 <strong>"이거 오면서 돈 빠졌네!! 무효 처리해!!"</strong>라며 거래를 취소시킵니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">윈도우 크기</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">체크섬</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">긴급 포인터</div></div>
-</div>
-</div>
-
-
+```text
+[윈도우 크기]
+    │
+    ▼
+[체크섬]
+    │
+    └──▶ [긴급 포인터]
+```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/">체크섬</a>은 택배 상자가 오면서 모서리가 찌그러졌는지 내용물이 상했는지 검사하는 </strong>"안심 스티커"**입니다. 단 1비트의 손상이라도 발생하면 스티커 색깔이 변하여 수신자가 패킷을 가차 없이 폐기하게 만듭니다.
 
@@ -65,25 +61,25 @@ TCP나 UDP는 4계층이라 자기 헤더랑 [데이터](/knowledge-base/studyno
 - **왜 이런 미친 짓을 할까?**: 극악의 확률로, 중간에 고장 난 라우터가 목적지 IP 주소를 `10.1.1.2`에서 `10.1.1.3`으로 잘못 바꿔서 엉뚱한 집에 배달했다고 치자 (L3 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 오류). 패킷(L4) 내용물은 하나도 안 깨졌다. 만약 가상 헤더를 안 썼다면, 엉뚱한 집에 온 패킷이 "내용물 안 깨졌네? 굿!" 하고 정상 처리되는 대재앙이 일어난다.
 - **가상 헤더의 방어**: 수신자는 자기가 받은 목적지 IP(`10.1.1.3`)를 가상 헤더로 만들어 믹서기에 돌린다. 그런데 원래 계산된 [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/)은 출발할 때 `10.1.1.2`로 만들어진 놈이다. 두 값이 불일치하므로 "야! 이거 내용물은 멀쩡한데, 내 IP로 와야 할 패킷이 아니잖아! 잘못 배달 온 놈이네! 버려!" 하고 귀신같이 오배송을 컷트해 버린다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공유기(NAT/PAT)의 눈물겨운 체크섬 재계산</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">내 PC (IP 192.168.0.5)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 가상 헤더에 출발지 IP (192.168.0.5) 넣고 체크섬 5555 계산함!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">집 공유기 (NAT)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 헐.. 내가 출발지 IP를 내 공인 IP(211.x)로 바꿔치기해야 하는데...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 내가 겉면 IP를 바꾸면, 목적지에 도착했을 때 아까 PC가 계산해 둔</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">체크섬 5555 랑 안 맞아서 버려지겠지? ㅠㅠ</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 아놔 귀찮아!! ──▶ 공유기가 CPU를 팽팽 돌려서 출발지 IP를 211.x로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">놓고 4계층 TCP 체크섬을 처음부터 다시 계산해서 덮어씀!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: 우리가 집에서 와이파이 쓸 때마다, 공유기는 미친 듯이 IP를</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">바꾸면서 동시에 이 TCP 체크섬까지 재계산하느라 과로사 직전이다!</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                공유기(NAT/PAT)의 눈물겨운 체크섬 재계산            │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 내 PC (IP 192.168.0.5) ]                                │
+ │   - 가상 헤더에 출발지 IP (192.168.0.5) 넣고 체크섬 5555 계산함!     │
+ │                                                             │
+ │   [ 집 공유기 (NAT) ]                                         │
+ │   - 헐.. 내가 출발지 IP를 내 공인 IP(211.x)로 바꿔치기해야 하는데...  │
+ │   - 내가 겉면 IP를 바꾸면, 목적지에 도착했을 때 아까 PC가 계산해 둔 │
+ │     체크섬 5555 랑 안 맞아서 버려지겠지? ㅠㅠ                       │
+ │   - 아놔 귀찮아!! ──▶ **공유기가 CPU를 팽팽 돌려서 출발지 IP를 211.x로**│
+ │                   **놓고 4계층 TCP 체크섬을 처음부터 다시 계산해서 덮어씀!**│
+ │                                                             │
+ │   ▶ 결과: 우리가 집에서 와이파이 쓸 때마다, 공유기는 미친 듯이 IP를   │
+ │           바꾸면서 동시에 이 TCP 체크섬까지 재계산하느라 과로사 직전이다!│
+ └─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: <strong> 가상 헤더 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>법은 우체국 배달원이 내용물(편지)이 상했는지 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a>하는 것을 넘어서, </strong>"겉봉투에 적힌 수취인 이름(목적지 IP)과 이 집에 사는 실제 집주인의 명패가 완벽하게 일치하는지"**까지 깐깐하게 크로스 체크하여 오배송을 원천 차단하는 이중 삼중의 검수 작업입니다.
 
@@ -141,19 +137,15 @@ TCP나 UDP는 4계층이라 자기 헤더랑 [데이터](/knowledge-base/studyno
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 윈도우 크기</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 체크섬</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 긴급 포인터</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 윈도우 크기]
+    │
+    ▼
+[현재 개념: 체크섬]
+    │
+    ├──▶ [확장 A: 긴급 포인터]
+    └──▶ [확장 B: 적응형 저지연 전송]
+```
 
 [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/)는 [윈도우 크기](/knowledge-base/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [긴급 포인터](/knowledge-base/studynote/03_network/08_transport_layer/415_tcp_urgent_pointer/)와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

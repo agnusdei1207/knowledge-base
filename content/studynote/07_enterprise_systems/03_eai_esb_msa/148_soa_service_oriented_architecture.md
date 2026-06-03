@@ -30,22 +30,23 @@ tags = ["studynote-enterprise-systems"]
 
 [SOA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/) [트라이](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/087_trie/)앵글의 심장은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 제공자, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 소비자, 그리고 그 둘을 중개하는 거대한 중앙 전화번호부의 핑퐁 아키텍처다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SOA 트라이앵글의 3대 액터 십자 핑퐁 파이프라인 (Publish/Find/Bind)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🗄️</div><div class="kb-diagram-node">1. Service Registry (UDDI / 중앙 공용 서비스 전화번호부 뇌)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 포커스: 사내 1,000개의 '서비스(API)' 주소록이 등록된 황금 전화번호부.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(3. 검색 / Find) ↗️ ↖️ (1. 등록 / Publish)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">👨‍💻</div><div class="kb-diagram-node">3. Service Requester (소비자)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">2. Service Provider (공급자)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1️⃣ Publish: 인사팀 서버가 "내가 방금</div><div class="kb-diagram-node">연봉계산기 API</div><div class="kb-diagram-note">만들었으니 등록해놔!" 외침</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2️⃣ Find : 마케팅 앱이 "연봉계산 API 짠 거 사내에 있어?" UDDI에 검색 조회</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3️⃣ Bind : 마케팅 앱이 찾은 IP 주소(10.1.1.5)로 다이렉트 통신 융합 호출 쓩!!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          SOA 트라이앵글의 3대 액터 십자 핑퐁 파이프라인 (Publish/Find/Bind) │
+├─────────────────────────────────────────────────────────────┤
+│ 🗄️ [ 1. Service Registry (UDDI / 중앙 공용 서비스 전화번호부 뇌) ]  │
+│   - 포커스: 사내 1,000개의 '서비스(API)' 주소록이 등록된 황금 전화번호부.      │
+│                                                             │
+│         (3. 검색 / Find)  ↗️               ↖️ (1. 등록 / Publish) │
+│                          /                    \             │
+│                         /                      \            │
+│ 👨‍💻 [ 3. Service Requester (소비자) ] ──(2. 호출/Bind)──▶ 🛠️ [ 2. Service Provider (공급자) ]│
+│                                                             │
+│ 1️⃣ Publish: 인사팀 서버가 "내가 방금 [연봉계산기 API] 만들었으니 등록해놔!" 외침│
+│ 2️⃣ Find   : 마케팅 앱이 "연봉계산 API 짠 거 사내에 있어?" UDDI에 검색 조회  │
+│ 3️⃣ Bind   : 마케팅 앱이 찾은 IP 주소(10.1.1.5)로 다이렉트 통신 융합 호출 쓩!!│
+└─────────────────────────────────────────────────────────────┘
+```
 
 [SOA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/) 아키텍처를 구현하는 3대 웹 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(Web [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) 표준 헌법.
 1. <strong><a href="/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/152_wsdl_web_services_description_language/">WSDL</a> (<a href="/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/152_wsdl_web_services_description_language/">Web Services Description Language</a>)</strong>: [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 인터페이스 명세서 메뉴판. 컴퓨터가 100% 자동 해독(Machine-Readable)할 수 있도록 빡빡한 XML 태그 문법으로 강제 통일시켰다.
@@ -112,26 +113,24 @@ SOA는 코드 생산 공학의 관점에서 '혁명'이었다. 기존에는 다�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">모놀리식 (Monolithic) 스파게티 사일로 / 1통짜리 쇳덩이 코딩, 강결합 도미노 파국</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">EAI (Enterprise Application Integration) / 전사 시스템을 허브 앤 스포크(Hub &amp; Spoke)로 단순 연결</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SOA (Service Oriented Architecture) 십자 융합 탄생</div>
-<div class="kb-diagram-note">(1) 서비스 찢기 + 재사용(Reuse) 철학 도입</div>
-<div class="kb-diagram-note">(2) 3대 표준 웹 서비스 헌법 락킹 (WSDL, SOAP, UDDI)</div>
-<div class="kb-diagram-note">(3) 중앙집권 통제 미들웨어 (ESB 버스 오케스트레이션 지휘)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ESB 오버헤드 폭주 및 뚱뚱한 XML 파싱 CPU 붕괴 (SPOF 병목의 한계)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">MSA (마이크로서비스) 생태계 완전 도약 / 초경량 REST/JSON, 깡통 버스(Kafka), 코레오그래피 무중앙 춤추기</div>
-</div>
-</div>
-
-
+```text
+모놀리식 (Monolithic) 스파게티 사일로 / 1통짜리 쇳덩이 코딩, 강결합 도미노 파국
+    │
+    ▼
+EAI (Enterprise Application Integration) / 전사 시스템을 허브 앤 스포크(Hub & Spoke)로 단순 연결
+    │
+    ▼
+SOA (Service Oriented Architecture) 십자 융합 탄생
+ (1) 서비스 찢기 + 재사용(Reuse) 철학 도입
+ (2) 3대 표준 웹 서비스 헌법 락킹 (WSDL, SOAP, UDDI)
+ (3) 중앙집권 통제 미들웨어 (ESB 버스 오케스트레이션 지휘)
+    │
+    ▼
+ESB 오버헤드 폭주 및 뚱뚱한 XML 파싱 CPU 붕괴 (SPOF 병목의 한계)
+    │
+    ▼
+MSA (마이크로서비스) 생태계 완전 도약 / 초경량 REST/JSON, 깡통 버스(Kafka), 코레오그래피 무중앙 춤추기
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

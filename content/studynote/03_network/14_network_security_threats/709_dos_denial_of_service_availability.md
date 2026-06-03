@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: 서버의 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이나 CPU, 메모리, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 연산 자원 등 <strong>시스템 자원(Resource)을 대량의 쓰레기 트래픽으로 고갈시켜 버려, 정당한 권한을 가진 일반 사용자들이 정상적인 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>를 이용할 수 없도록(거부되도록) 마비시키는 악의적 공격 행위</strong>입니다.
 - **보안 목적 타격**: CIA 트라이어드([기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/), [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/), [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)) 중에서, 시스템이 원할 때 응답해야 한다는 <strong>'<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a>(<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">Availability</a>)'</strong>을 정면으로 파괴하는 것이 유일한 목적입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">재생 공격</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DoS</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">분산 서비스 거부 공격 봇넷 시스템 C&amp;C…</div></div>
-</div>
-</div>
-
-
+```text
+[재생 공격]
+    │
+    ▼
+[DoS]
+    │
+    └──▶ [분산 서비스 거부 공격 봇넷 시스템 C&C…]
+```
 
 - **📢 섹션 요약 비유**: DoS는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -51,18 +47,14 @@ tags = ["studynote-network"]
 - **원리**: 무식하게 트래픽을 쏟아붓지 않습니다. 트래픽은 적지만, <strong>서버의 <a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a>/IP 운영체제나 애플리케이션 설계의 논리적 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a>(취약점)을 얄밉게 파고들어 서버 CPU나 메모리를 극심하게 소모시켜 기절하게 만드는 똑똑한 공격</strong>입니다.
 - 1시간 동안 기다려야 하는 복잡한 암호 풀기 연산을 요청하거나, 전화([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) SYN)를 걸고서 대답도 안 하고 끊어버려 서버가 전화기를 든 채 하루 종일 기다리게([세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 메모리 낭비) 만듭니다. (예: [SYN Flood](/knowledge-base/studynote/09_security/03_network_security/255_syn_flood/), [Slowloris](/knowledge-base/studynote/09_security/03_network_security/258_slowloris/) 등)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">재생 공격</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DoS</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">분산 서비스 거부 공격 봇넷 시스템 C&amp;C…</div></div>
-</div>
-</div>
-
-
+```text
+[재생 공격]
+    │
+    ▼
+[DoS]
+    │
+    └──▶ [분산 서비스 거부 공격 봇넷 시스템 C&C…]
+```
 
 - **📢 섹션 요약 비유**: DoS의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -124,19 +116,15 @@ DoS는 [네트워크 보안](/knowledge-base/studynote/03_network/20_performance
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 재생 공격</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: DoS</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 분산 서비스 거부 공격 봇넷 시스템 C&amp;C…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 재생 공격]
+    │
+    ▼
+[현재 개념: DoS]
+    │
+    ├──▶ [확장 A: 분산 서비스 거부 공격 봇넷 시스템 C&C…]
+    └──▶ [확장 B: 예측형 위협 대응]
+```
 
 DoS는 [재생 공격](/knowledge-base/studynote/03_network/14_network_security_threats/708_replay_attack_timestamp_nonce/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [서비스 거부 공격](/knowledge-base/studynote/03_network/19_frequent_topics_terms/989_dos_denial_of_service/) [봇넷](/knowledge-base/studynote/03_network/19_frequent_topics_terms/990_botnet_cnc/) 시스템 C&C…와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

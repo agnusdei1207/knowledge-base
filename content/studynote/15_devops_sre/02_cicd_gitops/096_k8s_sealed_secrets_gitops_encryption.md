@@ -37,21 +37,23 @@ Sealed Secrets 시스템은 클러스터 내부에 상주하는 '컨트롤러(Co
 | <strong><code>kubeseal</code> (CLI)</strong> | 로컬 환경에서의 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 암호화 | 클러스터에서 퍼블릭 키를 다운받아, 로컬의 평문 Secret을 `SealedSecret` CRD로 암호화 |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/">GitOps</a> Agent (ArgoCD)</strong> | 상태 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 및 반영 | Git에 푸시된 암호화 매니페스트를 K8s 클러스터로 끌고 와서 적용 (Pull) |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sealed Secrets 기반의 GitOps 파이프라인</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">개발자 로컬 PC</div><div class="kb-diagram-node">Git 저장소</div><div class="kb-diagram-node">K8s 클러스터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 평문 Secret 작성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. <code>kubeseal</code> 실행 ──(Public Key)──</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3. 암호화된 SealedSecret 생성</div><div class="kb-diagram-node">Controller</div><div class="kb-diagram-note">(Private Key)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. Git Push ▶ 저장 (ArgoCD Sync)──▶ 5. K8s 배포</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">원본 Secret 복원</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           Sealed Secrets 기반의 GitOps 파이프라인           │
+├──────────────────────────────────────────────────────────────┤
+│  [개발자 로컬 PC]             [Git 저장소]            [K8s 클러스터] │
+│                                                              │
+│ 1. 평문 Secret 작성                                          │
+│         │                                                    │
+│ 2. `kubeseal` 실행 ──(Public Key)──┐                       │
+│         │                          │                       │
+│ 3. 암호화된 SealedSecret 생성        │  [Controller] (Private Key)│
+│         │                          │                       │
+│ 4. Git Push ─────────────────▶ 저장 ────(ArgoCD Sync)──▶ 5. K8s 배포 │
+│                                                            │ │
+│                                        [원본 Secret 복원] ◀─┘ │
+└──────────────────────────────────────────────────────────────┘
+```
 
 가장 중요한 원리는 <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/">단방향</a> 워크플로</strong>다. 개발자는 퍼블릭 키를 사용해 평문을 묶어(Seal) 암호문 덩어리로 만들 수 있지만, 이 암호문은 개발자 본인조차도 다시 풀 수 없다. 오직 클러스터 안에서 프라이빗 키를 품고 있는 컨트롤러만이 이를 해독하여 K8s 내부에 실제 [Secret](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) 객체를 렌더링한다.
 
@@ -113,23 +115,21 @@ Sealed Secrets의 도입은 '[DevSecOps](/knowledge-base/studynote/04_software_e
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Base64 인코딩 K8s Secret (단순 평문)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">GitOps 도입에 따른 시크릿 유출 취약점 발생</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">K8s Sealed Secrets (GitOps 친화적 비대칭 암호화)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">HashiCorp Vault / External Secrets Operator (중앙 집중식 동적 관리)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Secret Rotation &amp; OIDC/SPIFFE (비밀번호 없는 자격 증명 연동)</div>
-</div>
-</div>
-
-
+```text
+Base64 인코딩 K8s Secret (단순 평문)
+    │
+    ▼
+GitOps 도입에 따른 시크릿 유출 취약점 발생
+    │
+    ▼
+K8s Sealed Secrets (GitOps 친화적 비대칭 암호화)
+    │
+    ▼
+HashiCorp Vault / External Secrets Operator (중앙 집중식 동적 관리)
+    │
+    ▼
+Secret Rotation & OIDC/SPIFFE (비밀번호 없는 자격 증명 연동)
+```
 
 이 흐름도는 인프라 보안 관리 방식이 "평문 노출 → 로컬 정적 암호화 → 외부 중앙화 → 단기 토큰/무암호화"로 진화하는 과정을 보여준다.
 

@@ -25,18 +25,14 @@ tags = ["studynote-network"]
 - **💡 비유**: NAT는 거대한 회사 건물 1층의 <strong>"대표 번호 안내 데스크"</strong>와 같습니다. 
 외부(인터넷)에서 전화를 걸 때는 무조건 대표 번호(공인 IP) 하나로만 걸어야 하고, 안내 데스크 직원이 전화를 받아서 몇 팀 누구(사설 IP)를 찾는지 물어보고 내부 내선 번호로 돌려줍니다. 밖에서는 직원 1000명의 직통 번호를 아무도 알 수 없습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">VLSM</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NAT</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Static NAT / Dynamic NAT…</div></div>
-</div>
-</div>
-
-
+```text
+[VLSM]
+    │
+    ▼
+[NAT]
+    │
+    └──▶ [Static NAT / Dynamic NAT…]
+```
 
 - **📢 섹션 요약 비유**: <strong> 사설 IP를 단 노트북이 인터넷이라는 클럽에 들어가려면 신분증(공인 IP)이 필요합니다. NAT 장비(공유기)는 문 앞에서 10명의 노트북들에게 </strong>자신이 가진 단 1개의 "합법적 신분증(공인 IP)"을 돌려가며 빌려주어 모두가 클럽에 입장할 수 있게 해주는 기막힌 브로커**입니다.
 
@@ -58,22 +54,24 @@ tags = ["studynote-network"]
 - "아! 아까 192.168.0.5 녀석이 구글에 요청한 거였지!"
 - 공유기는 목적지 주소를 다시 `192.168.0.5`로 지우고 덮어쓴 뒤 거실의 노트북으로 쏴준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NAT의 IP 헤더 바꿔치기 마법 도식</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">내 노트북</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">8.8.8.8) ──</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">거실 공유기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(211.200.x.x 공인IP)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(211.200.x.x -&gt; 8.8.8.8 로 변조!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">인터넷</div><div class="kb-diagram-note">── (구글 서버 도착)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 핵심: 노트북은 공유기가 주소를 바꾼 사실조차 모른다 (투명성).</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">구글은 공유기 뒤에 노트북이 숨어있다는 사실을 전혀 모른다.</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                NAT의 IP 헤더 바꿔치기 마법 도식                 │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 내 노트북 ] ── (192.168.0.5 -> 8.8.8.8) ──┐             │
+ │                                             ▼              │
+ │                                       [ 거실 공유기 ]         │
+ │                                    (211.200.x.x 공인IP)     │
+ │                                             │              │
+ │                   ┌─── (211.200.x.x -> 8.8.8.8 로 변조!) ───┘  │
+ │                   ▼                                         │
+ │   [ 인터넷 ] ── (구글 서버 도착) ─────────────────────────┘  │
+ │                                                             │
+ │   ▶ 핵심: 노트북은 공유기가 주소를 바꾼 사실조차 모른다 (투명성).        │
+ │           구글은 공유기 뒤에 노트북이 숨어있다는 사실을 전혀 모른다.   │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 3. 용어 정리 ([Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/) 표준 기준)
 시험에 자주 나오는 악랄한 용어 매칭이다. (라우터 안쪽이냐 바깥쪽이냐 기준)
@@ -138,19 +136,15 @@ NAT는 네트워크 계층과 IP를 이해할 때 핵심 축을 잡아 주는 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: VLSM</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: NAT</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: Static NAT / Dynamic NAT…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 대규모 주소 자동화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: VLSM]
+    │
+    ▼
+[현재 개념: NAT]
+    │
+    ├──▶ [확장 A: Static NAT / Dynamic NAT…]
+    └──▶ [확장 B: 대규모 주소 자동화]
+```
 
 NAT는 VLSM에서 출발해 현재 메커니즘을 정교화하고, 이후 [Static NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/) / Dynamic NAT…와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

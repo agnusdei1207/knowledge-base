@@ -110,23 +110,21 @@ Problem Management는 KEDB를 통해 해결책과 우회책을 축적한다. 그
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">장애 발생</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">즉시 복구</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">문제 등록</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">RCA / KEDB</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">영구 수정 / 재발 방지</div>
-</div>
-</div>
-
-
+```text
+장애 발생
+    │
+    ▼
+즉시 복구
+    │
+    ▼
+문제 등록
+    │
+    ▼
+RCA / KEDB
+    │
+    ▼
+영구 수정 / 재발 방지
+```
 
 이 흐름은 운영 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)에서 지속 개선으로 넘어가는 과정을 보여준다.
 

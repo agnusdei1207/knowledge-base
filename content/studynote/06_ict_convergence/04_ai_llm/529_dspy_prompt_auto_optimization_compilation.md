@@ -33,23 +33,28 @@ DSPy(Stanford NLP, 2023)는 이 문제를 컴파일러 패러다임으로 해결
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DSPy 아키텍처</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발자 선언</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Signature: "질문 → 답변"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Module: ChainOfThought, Predict</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최적화기(Teleprompter)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BootstrapFewShot: 자동 예제 생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MIPRO: 명령어+예제 동시 최적화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">컴파일된 프로그램(Compiled Program)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최적 프롬프트 + 퓨샷 예제 + 구조</div></div>
-</div>
-</div>
-
-
+```
+┌────────────────────────────────────────────────────┐
+│                DSPy 아키텍처                        │
+│                                                    │
+│  개발자 선언                                        │
+│  ┌─────────────────────────────────────┐           │
+│  │  Signature: "질문 → 답변"            │           │
+│  │  Module: ChainOfThought, Predict    │           │
+│  └──────────────┬──────────────────────┘           │
+│                 │                                  │
+│  최적화기(Teleprompter)                             │
+│  ┌──────────────▼──────────────────────┐           │
+│  │  BootstrapFewShot: 자동 예제 생성   │           │
+│  │  MIPRO: 명령어+예제 동시 최적화     │           │
+│  └──────────────┬──────────────────────┘           │
+│                 │                                  │
+│  컴파일된 프로그램(Compiled Program)                │
+│  ┌──────────────▼──────────────────────┐           │
+│  │  최적 프롬프트 + 퓨샷 예제 + 구조  │           │
+│  └─────────────────────────────────────┘           │
+└────────────────────────────────────────────────────┘
+```
 
 <strong>핵심 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/">컴포넌트</a></strong>
 

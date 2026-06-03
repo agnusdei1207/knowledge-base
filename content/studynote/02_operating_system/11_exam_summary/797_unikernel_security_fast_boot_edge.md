@@ -34,27 +34,31 @@ tags = ["studynote-operating-system"]
 - **등장 배경**: 
   - 1990년대 학계의 [Exokernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/026_exokernel/) 연구에서 비롯되었고, 2013년 Xen [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 위에서 도는 MirageOS(OCaml) 논문이 발표되며 클라우드 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 패러다임의 혁명적 대안으로 상용화되기 시작했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전통적 스택 vs 컨테이너 vs 유니커널 아키텍처 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 전통적 가상 머신 (VM)</div><div class="kb-diagram-note">- 비만(Bloat)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">앱 (Nginx) 앱 (Redis)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Guest 리눅스 OS</div><div class="kb-diagram-cell">Guest 리눅스 OS</div><div class="kb-diagram-cell">◀ 무거운 중복!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 하이퍼바이저 (Hypervisor) ▼</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 컨테이너 (Docker)</div><div class="kb-diagram-note">- 격리의 한계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 앱 (Nginx) ─ ─ 앱 (Redis) ─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">빈 껍데기</div><div class="kb-diagram-cell">빈 껍데기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 공유 커널 (Host OS) ▼ ◀ 뚫리면 전체가 다 털림! (보안위험)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3. 유니커널 (Unikernel)</div><div class="kb-diagram-note">- 극한의 보안과 가벼움 🚀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">통짜 앱(Nginx+OS)</div><div class="kb-diagram-cell">통짜 앱(DB+OS)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(딱 5MB, 쉘 없음)</div><div class="kb-diagram-cell">(딱 8MB, 쉘 없음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 하이퍼바이저 (Hypervisor) ▼ ◀ 하드웨어급 철통 격리 보장!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │                 전통적 스택 vs 컨테이너 vs 유니커널 아키텍처 비교     │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │  [ 1. 전통적 가상 머신 (VM) ] - 비만(Bloat)                   │
+  │   ┌─── 앱 (Nginx) ────┐ ┌─── 앱 (Redis) ────┐                 │
+  │   │  Guest 리눅스 OS  │ │  Guest 리눅스 OS  │ ◀ 무거운 중복!     │
+  │   └────────┬──────────┘ └────────┬──────────┘                 │
+  │            ▼ 하이퍼바이저 (Hypervisor) ▼                       │
+  │                                                             │
+  │  [ 2. 컨테이너 (Docker) ] - 격리의 한계                       │
+  │   ┌─ 앱 (Nginx) ─┐  ┌─ 앱 (Redis) ─┐                        │
+  │   │   빈 껍데기  │  │   빈 껍데기  │                        │
+  │   └──────┬─────┘  └──────┬─────┘                        │
+  │            ▼ 공유 커널 (Host OS) ▼ ◀ 뚫리면 전체가 다 털림! (보안위험)│
+  │                                                             │
+  │  [ 3. 유니커널 (Unikernel) ] - 극한의 보안과 가벼움 🚀           │
+  │   ┌────────────────┐ ┌───────────────┐                    │
+  │   │ 통짜 앱(Nginx+OS) │ │ 통짜 앱(DB+OS) │                    │
+  │   │ (딱 5MB, 쉘 없음)  │ │ (딱 8MB, 쉘 없음)│                    │
+  │   └────────┬───────┘ └───────┬───────┘                    │
+  │            ▼ 하이퍼바이저 (Hypervisor) ▼ ◀ 하드웨어급 철통 격리 보장! │
+  └─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 클라우드 엔지니어링의 정점이다. VM은 보안 격리([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/))는 완벽하지만 OS를 중복 부팅하느라 너무 무거워 부팅에 1분이 걸린다. [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/))는 1초 만에 켜지지만, 밑바닥 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 공유하기 때문에 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [제로데이 취약점](/knowledge-base/studynote/09_security/04_endpoint_security/358_zero_day/) 하나가 터지면 모든 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 싹 다 털리는 보안 구멍(Shared [Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Exploit)을 안고 있다. [유니커널](/knowledge-base/studynote/02_operating_system/10_security/640_unikernel_mirageos_architecture/)은 이 딜레마를 깼다. [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 위에 직결되므로 'VM급 완벽한 하드웨어 격리'를 얻으면서도, 덩치가 고작 수십 메가바이트뿐이라 '[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)보다 더 빠른 밀리초(ms) 단위의 부팅'을 쟁취해 냈다. 단일 주소 공간(Single Address Space)을 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 때문에 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)/유저 모드 간의 느려터진 시스템 콜([System call](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/)) 스위칭조차 아예 사라지는 극강의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 펌핑을 보여준다.
 
@@ -76,24 +80,25 @@ tags = ["studynote-operating-system"]
 
 일반 OS에서 앱(Ring 3)이 디스크를 읽으려면 무거운 '시스템 콜'을 날려 권한 검사를 거쳐 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)(Ring 0)로 들어가야 한다([문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 오버헤드 5µs).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시스템 콜 병목 제거: 단일 주소 공간 (Single Address Space)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">기존 리눅스 (시스템 콜 병목)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App (유저 모드) ──(read 호출)──▶ 🔴 멈춤! 권한 스위칭(Context Switch)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(레지스터 백업, TLB 파괴)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS (커널 모드) ◀─(결과 반환)──▶ 디스크 읽기 로직 수행</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">유니커널 (초고속 인라인 함수 호출)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">통짜 App ──(OS 파일 읽기 로직 호출)──▶ 🟢 멈춤 없음! 그냥 일반 C함수 부르듯</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다이렉트 점프(Jump)로 즉시 실행!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ 이유: 앱과 OS(네트워크 스택)가 하나의 바이너리로 뭉쳐서(Linked) 같은</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최상위 하드웨어 권한(Ring 0) 공간에서 돌기 때문!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 시스템 콜 병목 제거: 단일 주소 공간 (Single Address Space)│
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [ 기존 리눅스 (시스템 콜 병목) ]                                   │
+  │   App (유저 모드)  ──(read 호출)──▶ 🔴 멈춤! 권한 스위칭(Context Switch)│
+  │                                       │ (레지스터 백업, TLB 파괴)      │
+  │                                       ▼                           │
+  │   OS (커널 모드)   ◀─(결과 반환)──▶ 디스크 읽기 로직 수행                  │
+  │                                                                   │
+  │   [ 유니커널 (초고속 인라인 함수 호출) ]                               │
+  │   통짜 App ──(OS 파일 읽기 로직 호출)──▶ 🟢 멈춤 없음! 그냥 일반 C함수 부르듯 │
+  │                                        다이렉트 점프(Jump)로 즉시 실행!│
+  │                                                                   │
+  │   ※ 이유: 앱과 OS(네트워크 스택)가 하나의 바이너리로 뭉쳐서(Linked) 같은      │
+  │          최상위 하드웨어 권한(Ring 0) 공간에서 돌기 때문!                │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** [유니커널](/knowledge-base/studynote/02_operating_system/10_security/640_unikernel_mirageos_architecture/)은 미친 짓이다. 애플리케이션 자체가 곧 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 권한을 쥐고 달린다. "앱이 해킹당하면 시스템을 다 털리는 거 아냐?" 맞다. 그런데 어차피 이 [유니커널](/knowledge-base/studynote/02_operating_system/10_security/640_unikernel_mirageos_architecture/)이라는 놈은 밑단의 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)(AWS Nitro 등)가 만든 아주 좁은 '가상 하드웨어 박스' 안에 갇혀있다. 박스 안에서 앱이 미쳐서 깽판을 쳐봤자 그 박스 하나(단일 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/))만 망가질 뿐, 옆 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)나 호스트 서버에는 손끝 하나 닿지 못한다. 따라서 무거운 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)/유저 모드 분리라는 오래된 족쇄를 과감히 벗어던지고, 마이크로초 단위의 I/O 시스템 콜 패널티를 0으로 증발시켜 극한의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 뽑아내는 아키텍처적 결단을 내린 것이다.
 
@@ -134,25 +139,28 @@ tags = ["studynote-operating-system"]
    - **원인 분석**: 이게 바로 공격 표면 0([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) Attack Surface)의 치명적 부작용이다. 해커가 들어올 쉘과 유틸리티가 없다는 건, 장애가 터졌을 때 관리자가 고치러 들어갈 쉘과 디버거도 없다는 뜻이다. 
    - <strong>아키텍트 판단 (원격 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/">옵저버빌리티</a> 아키텍처 강제)</strong>: [유니커널](/knowledge-base/studynote/02_operating_system/10_security/640_unikernel_mirageos_architecture/)은 "[불변 인프라](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/)([Immutable Infrastructure](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/204_immutable_infrastructure_configuration_drift_prevention/))"의 끝판왕이다. 고장 나면 들어가서 고치는 게 아니라 그냥 부숴버리고 새 코드로 다시 배포하는 것이다. 따라서 아키텍처 설계 시, 앱 내부에 [Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/) 매트릭 수출기나 [OpenTelemetry](/knowledge-base/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/) 에이전트 로직을 코드로 꽉꽉 묶어 넣어서, 서버 안의 상태가 중앙 로깅 서버로 1초 단위로 쏟아져 나오게(External [Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)) 만들어야 한다. 서버에 접속해서 고치겠다는 낡은 마인드셋을 완전히 파괴해야만 [유니커널](/knowledge-base/studynote/02_operating_system/10_security/640_unikernel_mirageos_architecture/)을 다룰 자격이 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라우드 컴퓨팅 런타임 선택을 위한 아키텍트 결정 트리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1만 개의 트래픽을 처리하는 마이크로서비스를 배포한다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코드 변경이 매우 잦고, 개발자의 디버깅(로그, 접속) 편의성이 1순위인가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">일반 Docker 컨테이너 (K8s) 채택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(가장 풍부한 리눅스 생태계, 디버깅, 호환성 지원)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">절대로 뚫리면 안 되는 국방/금융망의 결제/암호화 모듈과 같은 핵심 로직인가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">유니커널(Unikernel) 전격 도입!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(쉘 삭제로 RCE 공격 원천 차단, 초고속 구동, 메모리 보안)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">gVisor / Firecracker (MicroVM) 타협</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(기존 컨테이너를 가벼운 VM 철창 안에 가둬 보안성만 올림)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 클라우드 컴퓨팅 런타임 선택을 위한 아키텍트 결정 트리       │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [ 1만 개의 트래픽을 처리하는 마이크로서비스를 배포한다 ]                  │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      코드 변경이 매우 잦고, 개발자의 디버깅(로그, 접속) 편의성이 1순위인가?      │
+  │          ├─ 예 ─────▶ 🟢 [ 일반 Docker 컨테이너 (K8s) 채택 ]          │
+  │          │             (가장 풍부한 리눅스 생태계, 디버깅, 호환성 지원)         │
+  │          └─ 아니오                                                │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      절대로 뚫리면 안 되는 국방/금융망의 결제/암호화 모듈과 같은 핵심 로직인가?   │
+  │          ├─ 예 ─────▶ 🚀 [ 유니커널(Unikernel) 전격 도입! ]         │
+  │          │             (쉘 삭제로 RCE 공격 원천 차단, 초고속 구동, 메모리 보안) │
+  │          │                                                        │
+  │          └─ 아니오 ──▶ [ gVisor / Firecracker (MicroVM) 타협 ]      │
+  │                        (기존 컨테이너를 가벼운 VM 철창 안에 가둬 보안성만 올림) │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** [유니커널](/knowledge-base/studynote/02_operating_system/10_security/640_unikernel_mirageos_architecture/)은 모두를 위한 마법약이 아니다. 현재 생태계에서 [유니커널](/knowledge-base/studynote/02_operating_system/10_security/640_unikernel_mirageos_architecture/)은 너무 낯설고 외로운 섬이다. 넷플릭스나 우버가 수천 개의 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 돌릴 때, 굳이 [유니커널](/knowledge-base/studynote/02_operating_system/10_security/640_unikernel_mirageos_architecture/)을 쓰지 않는 이유는 개발자의 생산성(디버깅 편의성)이 떨어지기 때문이다. 아키텍트는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 전체를 [유니커널](/knowledge-base/studynote/02_operating_system/10_security/640_unikernel_mirageos_architecture/)로 짜는 미친 짓을 피해야 한다. 대신, 암호화 키를 관리하는 [Vault](/knowledge-base/studynote/09_security/11_iam_access_control/567_vault/) 서버나 1초에 천만 번 불리는 단순한 이미지 리사이징 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 같이, "로직이 단순하고, 절대 뚫리면 안 되며, 스케일 아웃이 엄청나게 빠른" 특정 핀포인트 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)에만 [유니커널](/knowledge-base/studynote/02_operating_system/10_security/640_unikernel_mirageos_architecture/)을 발라서 아키텍처의 방폭벽(Blast Wall)으로 삼는 것이 진정한 하이브리드 클라우드의 정수다.
 
@@ -198,19 +206,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">NUMA 로컬 메모리 원격 메모리 지연차</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">유니커널 보안과 가벼운 부팅 특성 망 적용 (Unikernel Security Fast Boot Edge)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">분산 락 주키퍼(ZooKeeper) 합의 동기화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">람포트 타임스탬프 인과 관계 정렬</div></div>
-</div>
-</div>
-
-
+```text
+[NUMA 로컬 메모리 원격 메모리 지연차]
+    │
+    ▼
+[유니커널 보안과 가벼운 부팅 특성 망 적용 (Unikernel Security Fast Boot Edge)]
+    │
+    ├──▶ [분산 락 주키퍼(ZooKeeper) 합의 동기화]
+    └──▶ [람포트 타임스탬프 인과 관계 정렬]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

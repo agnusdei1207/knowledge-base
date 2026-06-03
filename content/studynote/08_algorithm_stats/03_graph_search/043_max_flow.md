@@ -50,23 +50,21 @@ tags = ["studynote-algorithm"]
 
 ### [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 — 잔여 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)와 증가 경로
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원본 그래프 (용량): 잔여 그래프 (흐름 2 후):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">S──(10)→A──(8)→T S──(8)→A──(6)→T</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">S──(5)→B──(6)→T S──(3)→B──(4)→T</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A──(4)→B A──(2)→B, B──(2)→A(역방향)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">증가 경로 탐색 (BFS):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Path1: S→A→T (용량=8) → 흐름 8 추가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Path2: S→B→T (용량=5) → 흐름 5 추가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Path3: S→A→B→T (역방향 활용) → 추가 가능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최대 유량 = 경로 탐색 불가 시점의 총 흐름</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────┐
+│  원본 그래프 (용량):         잔여 그래프 (흐름 2 후):     │
+│  S──(10)→A──(8)→T           S──(8)→A──(6)→T             │
+│  S──(5)→B──(6)→T            S──(3)→B──(4)→T             │
+│  A──(4)→B                   A──(2)→B, B──(2)→A(역방향)  │
+│                                                          │
+│  증가 경로 탐색 (BFS):                                   │
+│  Path1: S→A→T  (용량=8) → 흐름 8 추가                   │
+│  Path2: S→B→T  (용량=5) → 흐름 5 추가                   │
+│  Path3: S→A→B→T (역방향 활용) → 추가 가능               │
+│                                                          │
+│  최대 유량 = 경로 탐색 불가 시점의 총 흐름               │
+└──────────────────────────────────────────────────────────┘
+```
 
 ### Ford-Fulkerson vs Edmonds-Karp
 
@@ -104,19 +102,13 @@ Max-Flow = Min-Cut 용량
 
 ### [이분 매칭](/knowledge-base/studynote/08_algorithm_stats/12_graph_algorithms/172_bipartite_matching/) ([Bipartite Matching](/knowledge-base/studynote/08_algorithm_stats/12_graph_algorithms/172_bipartite_matching/))으로 환원
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이분 그래프: 좌측 집합 L, 우측 집합 R</div>
-<div class="kb-diagram-note">→ 소스 s에서 L의 모든 정점에 용량 1 간선</div>
-<div class="kb-diagram-note">→ R의 모든 정점에서 싱크 t로 용량 1 간선</div>
-<div class="kb-diagram-note">→ L-R 간 원래 간선은 용량 1</div>
-<div class="kb-diagram-note">→ 최대 유량 = 최대 매칭 수</div>
-</div>
-</div>
-
-
+```
+이분 그래프: 좌측 집합 L, 우측 집합 R
+→ 소스 s에서 L의 모든 정점에 용량 1 간선
+→ R의 모든 정점에서 싱크 t로 용량 1 간선
+→ L-R 간 원래 간선은 용량 1
+→ 최대 유량 = 최대 매칭 수
+```
 
 📢 **섹션 요약 비유**: [이분 매칭](/knowledge-base/studynote/08_algorithm_stats/12_graph_algorithms/172_bipartite_matching/)의 최대 유량 변환은 구직자와 회사 사이에 지원 가능한 경로만 있고, 각 사람은 한 회사에만 매칭될 수 있는 채용 네트워크를 만드는 것이다.
 
@@ -170,23 +162,21 @@ Max-Flow = Min-Cut 용량
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DFS 기반 Ford-Fulkerson — 증가 경로 탐색, 무한 루프 위험(비정수 용량)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">BFS 기반 Edmonds-Karp — O(VE²) 다항 시간 보장, 최단 증가 경로 선택</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Dinic's Algorithm — 계층 그래프 + 차단 흐름, O(V²E) 고성능</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Max-Flow Min-Cut 정리 — 최대 유량 = 최소 컷, 네트워크 병목 분석 기반</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">이분 매칭 (Bipartite Matching) / 프로젝트 선택 — 최대 유량으로 환원하는 응용</div></div>
-</div>
-</div>
-
-
+```text
+[DFS 기반 Ford-Fulkerson — 증가 경로 탐색, 무한 루프 위험(비정수 용량)]
+    │
+    ▼
+[BFS 기반 Edmonds-Karp — O(VE²) 다항 시간 보장, 최단 증가 경로 선택]
+    │
+    ▼
+[Dinic's Algorithm — 계층 그래프 + 차단 흐름, O(V²E) 고성능]
+    │
+    ▼
+[Max-Flow Min-Cut 정리 — 최대 유량 = 최소 컷, 네트워크 병목 분석 기반]
+    │
+    ▼
+[이분 매칭 (Bipartite Matching) / 프로젝트 선택 — 최대 유량으로 환원하는 응용]
+```
 이 흐름은 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 유량 문제의 기초 아이디어(Ford-Fulkerson)가 수렴 보장의 결함을 극복하며 효율적인 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 정제되고, 그 결과물인 Max-Flow Min-Cut 정리가 매칭·분리·스케줄링 등 다양한 문제를 통합하는 이론적 기반으로 자리잡는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

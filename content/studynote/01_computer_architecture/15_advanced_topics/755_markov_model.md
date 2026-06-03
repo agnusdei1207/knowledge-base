@@ -35,17 +35,14 @@ Markov Model의 구성요소는 <strong>상태 (<a href="/knowledge-base/studyno
 
 아래는 동일한 두 개의 노드가 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 구성하는 수리 가능 시스템의 단순 CTMC 예다. 두 노드가 모두 살아 있는 상태에서 하나가 고장 나면 열화 상태로 가고, 남은 하나마저 고장 나면 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단 상태가 된다. 반대로 수리가 끝나면 다시 상위 상태로 복귀한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CTMC example: 2-unit repairable cluster availability</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">U2: two units up --2λ--&gt; U1: one unit up --λ--&gt; F0: down</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">U2: two units up &lt;-- μ -- U1: one unit up &lt;-- μ -- F0: down</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│       CTMC example: 2-unit repairable cluster availability          │
+├──────────────────────────────────────────────────────────────────────┤
+│ U2: two units up   --2λ-->   U1: one unit up   --λ-->   F0: down    │
+│ U2: two units up   <-- μ --   U1: one unit up   <-- μ --   F0: down │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 | 상태 | 의미 | 주요 전이 |
 | :--- | :--- | :--- |
@@ -130,28 +127,27 @@ Markov Model을 잘 쓰면 수리 가능 시스템의 [가용성](/knowledge-bas
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">static reliability view</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">state definition</div>
-<div class="kb-diagram-note">: fully up · degraded · failed</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Markov model / CTMC</div>
-<div class="kb-diagram-note">: λ · μ · coverage</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">state probability solution</div>
-<div class="kb-diagram-note">: transient · steady-state availability</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ design decisions</div>
-<div class="kb-diagram-note">: repair staffing · spare part · failover policy</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ extensions</div>
-<div class="kb-diagram-note">: reward model · semi-Markov · simulation</div>
-</div>
-</div>
-
-
+```text
+static reliability view
+    │
+    ▼
+state definition
+: fully up · degraded · failed
+    │
+    ▼
+Markov model / CTMC
+: λ · μ · coverage
+    │
+    ▼
+state probability solution
+: transient · steady-state availability
+    │
+    ├──▶ design decisions
+    │     : repair staffing · spare part · failover policy
+    │
+    └──▶ extensions
+          : reward model · semi-Markov · simulation
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

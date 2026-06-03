@@ -18,39 +18,41 @@ tags = ["studynote-algorithm-stats"]
 
 ## Ⅰ. [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 원리
 
+```
+에라토스테네스의 체 동작 원리:
 
+1단계: 2부터 N까지 배열 생성
+  [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, ...]
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">에라토스테네스의 체 동작 원리:</div>
-<div class="kb-diagram-note">1단계: 2부터 N까지 배열 생성</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, ...</div></div>
-<div class="kb-diagram-note">2단계: 소수 p=2 → p²부터 p 배수 제거</div>
-<div class="kb-diagram-note">제거: 4, 6, 8, 10, 12, ...</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2, 3, _, 5, _, 7, _, 9, _, 11, _, 13, ...</div></div>
-<div class="kb-diagram-note">3단계: 다음 소수 p=3 → p²=9부터 3 배수 제거</div>
-<div class="kb-diagram-note">(6은 이미 제거, 9부터)</div>
-<div class="kb-diagram-note">제거: 9, 12, 15, ...</div>
-<div class="kb-diagram-note">4단계: p=5 → 25부터 제거</div>
-<div class="kb-diagram-note">(10, 15, 20은 이미 제거)</div>
-<div class="kb-diagram-note">5단계: p &gt; √N이면 종료</div>
-<div class="kb-diagram-note">(이후 소수의 배수는 이미 모두 제거됨)</div>
-<div class="kb-diagram-note">예: N=30까지 소수 구하기</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">초기:</div><div class="kb-diagram-node">2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30</div></div>
-<div class="kb-diagram-note">p=2: 4,6,8,10,12,14,16,18,20,22,24,26,28,30 제거</div>
-<div class="kb-diagram-note">p=3: 9,15,21,27 제거 (6,12...는 이미 제거)</div>
-<div class="kb-diagram-note">p=5: 25 제거 (10,15,20,30은 이미 제거)</div>
-<div class="kb-diagram-note">p=7 &gt; √30≈5.47이므로 종료</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">결과:</div><div class="kb-diagram-node">2,3,5,7,11,13,17,19,23,29</div></div>
-<div class="kb-diagram-note">왜 p²부터 시작?</div>
-<div class="kb-diagram-note">소수 p를 처리할 때:</div>
-<div class="kb-diagram-note">2p, 3p, ..., (p-1)p는 모두 2, 3, ..., p-1 중 소수의 배수</div>
-<div class="kb-diagram-note">→ 이미 이전 단계에서 제거됨</div>
-<div class="kb-diagram-note">→ p²부터 처리하면 됨</div>
-</div>
-</div>
+2단계: 소수 p=2 → p²부터 p 배수 제거
+  제거: 4, 6, 8, 10, 12, ...
+  [2, 3, _, 5, _, 7, _, 9, _, 11, _, 13, ...]
 
+3단계: 다음 소수 p=3 → p²=9부터 3 배수 제거
+  (6은 이미 제거, 9부터)
+  제거: 9, 12, 15, ...
 
+4단계: p=5 → 25부터 제거
+  (10, 15, 20은 이미 제거)
+
+5단계: p > √N이면 종료
+  (이후 소수의 배수는 이미 모두 제거됨)
+
+예: N=30까지 소수 구하기
+  초기: [2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30]
+  p=2: 4,6,8,10,12,14,16,18,20,22,24,26,28,30 제거
+  p=3: 9,15,21,27 제거 (6,12...는 이미 제거)
+  p=5: 25 제거 (10,15,20,30은 이미 제거)
+  p=7 > √30≈5.47이므로 종료
+  
+  결과: [2,3,5,7,11,13,17,19,23,29]
+
+왜 p²부터 시작?
+  소수 p를 처리할 때:
+  2p, 3p, ..., (p-1)p는 모두 2, 3, ..., p-1 중 소수의 배수
+  → 이미 이전 단계에서 제거됨
+  → p²부터 처리하면 됨
+```
 
 > 📢 **섹션 요약 비유**: [에라토스테네스의 체](/knowledge-base/studynote/12_it_management/02_itsm_itil/072_sieve_of_eratosthenes/) = 번호표 소각 — 2번 배수(짝수) 소각, 3번 배수 소각, 5번 배수 소각... 남은 번호표가 모두 소수! 불필요한 것을 제거하는 소수 대청소!
 

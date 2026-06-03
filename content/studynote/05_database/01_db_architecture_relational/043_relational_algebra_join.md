@@ -52,41 +52,42 @@ tags = ["studynote-database"]
 
 ## Ⅱ. SQL 조인 유형
 
+```
+SQL 조인 문법 및 의미:
 
+INNER JOIN (기본):
+  SELECT e.name, d.dept_name
+  FROM employee e
+  INNER JOIN department d ON e.dept_id = d.dept_id;
+  → 양쪽 테이블 모두에 매칭되는 행만 반환
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">SQL 조인 문법 및 의미:</div>
-<div class="kb-diagram-note">INNER JOIN (기본):</div>
-<div class="kb-diagram-note">SELECT e.name, d.dept_name</div>
-<div class="kb-diagram-note">FROM employee e</div>
-<div class="kb-diagram-note">INNER JOIN department d ON e.dept_id = d.dept_id;</div>
-<div class="kb-diagram-note">→ 양쪽 테이블 모두에 매칭되는 행만 반환</div>
-<div class="kb-diagram-note">LEFT OUTER JOIN:</div>
-<div class="kb-diagram-note">SELECT c.name, o.order_date</div>
-<div class="kb-diagram-note">FROM customer c</div>
-<div class="kb-diagram-note">LEFT JOIN orders o ON c.id = o.customer_id;</div>
-<div class="kb-diagram-note">→ 주문 없는 고객도 반환 (o.order_date = NULL)</div>
-<div class="kb-diagram-note">RIGHT OUTER JOIN:</div>
-<div class="kb-diagram-note">→ 오른쪽 테이블 모든 행 보존</div>
-<div class="kb-diagram-note">FULL OUTER JOIN:</div>
-<div class="kb-diagram-note">→ 양쪽 테이블 모든 행 (MySQL 미지원, UNION으로 대체)</div>
-<div class="kb-diagram-note">CROSS JOIN:</div>
-<div class="kb-diagram-note">SELECT * FROM product CROSS JOIN color;</div>
-<div class="kb-diagram-note">→ 카티전 프로덕트 (조건 없음)</div>
-<div class="kb-diagram-note">n × m 행 생성</div>
-<div class="kb-diagram-note">SELF JOIN:</div>
-<div class="kb-diagram-note">SELECT e.name AS employee, m.name AS manager</div>
-<div class="kb-diagram-note">FROM employee e</div>
-<div class="kb-diagram-note">JOIN employee m ON e.manager_id = m.id;</div>
-<div class="kb-diagram-note">→ 같은 테이블을 두 번 조인 (계층 구조 표현)</div>
-<div class="kb-diagram-note">NATURAL JOIN (주의):</div>
-<div class="kb-diagram-note">공통 이름 속성 자동 조인 → 의도치 않은 조인 위험</div>
-<div class="kb-diagram-note">실무에서 명시적 ON 절 권장</div>
-</div>
-</div>
+LEFT OUTER JOIN:
+  SELECT c.name, o.order_date
+  FROM customer c
+  LEFT JOIN orders o ON c.id = o.customer_id;
+  → 주문 없는 고객도 반환 (o.order_date = NULL)
 
+RIGHT OUTER JOIN:
+  → 오른쪽 테이블 모든 행 보존
 
+FULL OUTER JOIN:
+  → 양쪽 테이블 모든 행 (MySQL 미지원, UNION으로 대체)
+
+CROSS JOIN:
+  SELECT * FROM product CROSS JOIN color;
+  → 카티전 프로덕트 (조건 없음)
+  n × m 행 생성
+
+SELF JOIN:
+  SELECT e.name AS employee, m.name AS manager
+  FROM employee e
+  JOIN employee m ON e.manager_id = m.id;
+  → 같은 테이블을 두 번 조인 (계층 구조 표현)
+
+NATURAL JOIN (주의):
+  공통 이름 속성 자동 조인 → 의도치 않은 조인 위험
+  실무에서 명시적 ON 절 권장
+```
 
 > 📢 **섹션 요약 비유**: SQL 조인 유형은 파티 초대 방식 — INNER는 양쪽 다 아는 사람만, LEFT는 내 친구는 모두, RIGHT는 그쪽 친구는 모두, FULL은 둘 다 전부 초대.
 
@@ -94,41 +95,44 @@ tags = ["studynote-database"]
 
 ## Ⅲ. 물리적 조인 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
 
+```
+DBMS 조인 구현 알고리즘:
 
+1. Nested Loop Join (중첩 루프 조인):
+   FOR each r in R:
+     FOR each s in S:
+       IF r.key = s.key: output (r, s)
+   
+   복잡도: O(|R| × |S|) = O(n²)
+   
+   Index Nested Loop:
+     FOR each r in R:
+       s = INDEX_LOOKUP(S, r.key)  ← O(log n)
+   
+   복잡도: O(|R| × log|S|)
+   적합: 한쪽 테이블 작거나 조인 키 인덱스 있을 때
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">DBMS 조인 구현 알고리즘:</div>
-<div class="kb-diagram-note">1. Nested Loop Join (중첩 루프 조인):</div>
-<div class="kb-diagram-note">FOR each r in R:</div>
-<div class="kb-diagram-note">FOR each s in S:</div>
-<div class="kb-diagram-note">IF r.key = s.key: output (r, s)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">복잡도: O(</div><div class="kb-diagram-cell">R</div><div class="kb-diagram-cell">×</div><div class="kb-diagram-cell">S</div><div class="kb-diagram-cell">) = O(n²)</div></div>
-<div class="kb-diagram-note">Index Nested Loop:</div>
-<div class="kb-diagram-note">FOR each r in R:</div>
-<div class="kb-diagram-note">s = INDEX_LOOKUP(S, r.key) ← O(log n)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">복잡도: O(</div><div class="kb-diagram-cell">R</div><div class="kb-diagram-cell">× log</div><div class="kb-diagram-cell">S</div><div class="kb-diagram-cell">)</div></div>
-<div class="kb-diagram-note">적합: 한쪽 테이블 작거나 조인 키 인덱스 있을 때</div>
-<div class="kb-diagram-note">2. Hash Join:</div>
-<div class="kb-diagram-note">Phase 1 (Build): 작은 테이블 R → 해시 테이블 구성</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">hash_table</div><div class="kb-diagram-node">h(r.key)</div><div class="kb-diagram-note">= r</div></div>
-<div class="kb-diagram-note">Phase 2 (Probe): 큰 테이블 S → 해시 테이블 조회</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">FOR each s in S: lookup hash_table</div><div class="kb-diagram-node">h(s.key)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">복잡도: O(</div><div class="kb-diagram-cell">R</div><div class="kb-diagram-cell">+</div><div class="kb-diagram-cell">S</div><div class="kb-diagram-cell">) 평균</div></div>
-<div class="kb-diagram-note">적합: 대용량 테이블, 동등 조인, 정렬 불필요</div>
-<div class="kb-diagram-note">단점: 메모리 부족 시 디스크 스필 발생</div>
-<div class="kb-diagram-note">3. Sort-Merge Join:</div>
-<div class="kb-diagram-note">Phase 1: R을 키 기준 정렬, S를 키 기준 정렬</div>
-<div class="kb-diagram-note">Phase 2: 두 정렬된 결과를 병렬 스캔으로 병합</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">복잡도: O(</div><div class="kb-diagram-cell">R</div><div class="kb-diagram-cell">log</div><div class="kb-diagram-cell">R</div><div class="kb-diagram-cell">+</div><div class="kb-diagram-cell">S</div><div class="kb-diagram-cell">log</div><div class="kb-diagram-cell">S</div><div class="kb-diagram-cell">) (정렬 미리 되어 있으면 O(n))</div></div>
-<div class="kb-diagram-note">적합: 조인 키에 이미 인덱스/정렬, 범위 조인</div>
-<div class="kb-diagram-note">옵티마이저 선택 기준:</div>
-<div class="kb-diagram-note">데이터 크기, 인덱스 유무, 메모리, CPU 비용</div>
-<div class="kb-diagram-note">EXPLAIN (MySQL/PostgreSQL)으로 확인</div>
-</div>
-</div>
+2. Hash Join:
+   Phase 1 (Build): 작은 테이블 R → 해시 테이블 구성
+     hash_table[h(r.key)] = r
+   Phase 2 (Probe): 큰 테이블 S → 해시 테이블 조회
+     FOR each s in S: lookup hash_table[h(s.key)]
+   
+   복잡도: O(|R| + |S|) 평균
+   적합: 대용량 테이블, 동등 조인, 정렬 불필요
+   단점: 메모리 부족 시 디스크 스필 발생
 
+3. Sort-Merge Join:
+   Phase 1: R을 키 기준 정렬, S를 키 기준 정렬
+   Phase 2: 두 정렬된 결과를 병렬 스캔으로 병합
+   
+   복잡도: O(|R|log|R| + |S|log|S|) (정렬 미리 되어 있으면 O(n))
+   적합: 조인 키에 이미 인덱스/정렬, 범위 조인
 
+옵티마이저 선택 기준:
+  데이터 크기, 인덱스 유무, 메모리, CPU 비용
+  EXPLAIN (MySQL/PostgreSQL)으로 확인
+```
 
 > 📢 **섹션 요약 비유**: 조인 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 두 명단 비교 방법 — NL은 한명씩 체크(느리지만 간단), Hash는 색인카드 만들어 검색(빠름), Merge는 두 명단 미리 정렬 후 동시에 훑기.
 
@@ -136,44 +140,45 @@ tags = ["studynote-database"]
 
 ## Ⅳ. [조인 순서](/knowledge-base/studynote/05_database/03_relational_model/176_join_order_optimization/) 최적화
 
+```
+조인 순서 (Join Order)의 중요성:
 
+3개 테이블 조인:
+  (A ⋈ B) ⋈ C   vs   A ⋈ (B ⋈ C)
+  중간 결과 크기가 다를 수 있음
+  → 중간 결과가 작을수록 빠름
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">조인 순서 (Join Order)의 중요성:</div>
-<div class="kb-diagram-note">3개 테이블 조인:</div>
-<div class="kb-diagram-note">(A ⋈ B) ⋈ C vs A ⋈ (B ⋈ C)</div>
-<div class="kb-diagram-note">중간 결과 크기가 다를 수 있음</div>
-<div class="kb-diagram-note">→ 중간 결과가 작을수록 빠름</div>
-<div class="kb-diagram-note">동적 프로그래밍 기반 조인 순서 최적화:</div>
-<div class="kb-diagram-note">Selinger 알고리즘: 비용 추정 기반 DP</div>
-<div class="kb-diagram-note">테이블 n개: 최적 순서 탐색 = O(n! ) → DP로 O(2^n)</div>
-<div class="kb-diagram-note">EXPLAIN 실행 계획 분석 (PostgreSQL):</div>
-<div class="kb-diagram-note">EXPLAIN ANALYZE</div>
-<div class="kb-diagram-note">SELECT * FROM orders o</div>
-<div class="kb-diagram-note">JOIN customers c ON o.customer_id = c.id</div>
-<div class="kb-diagram-note">JOIN products p ON o.product_id = p.id;</div>
-<div class="kb-diagram-note">출력:</div>
-<div class="kb-diagram-note">Hash Join (cost=... rows=...)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Seq Scan on orders</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Hash</div>
-<div class="kb-diagram-tree-item" style="--depth:3">Seq Scan on customers ← 비용 높은 Full Scan 발견</div>
-<div class="kb-diagram-note">튜닝 전략:</div>
-<div class="kb-diagram-note">인덱스 추가:</div>
-<div class="kb-diagram-note">CREATE INDEX idx_orders_customer ON orders(customer_id);</div>
-<div class="kb-diagram-note">→ Nested Loop + Index Scan으로 변경</div>
-<div class="kb-diagram-note">조인 힌트 (MySQL):</div>
-<div class="kb-diagram-note">SELECT * FROM A</div>
-<div class="kb-diagram-note">STRAIGHT_JOIN B ON A.id = B.a_id;</div>
-<div class="kb-diagram-note">→ A를 항상 외부 테이블로 강제</div>
-<div class="kb-diagram-note">통계 정보 갱신:</div>
-<div class="kb-diagram-note">ANALYZE TABLE (MySQL)</div>
-<div class="kb-diagram-note">ANALYZE (PostgreSQL)</div>
-<div class="kb-diagram-note">→ 옵티마이저 통계 최신화 → 더 좋은 실행 계획</div>
-</div>
-</div>
+동적 프로그래밍 기반 조인 순서 최적화:
+  Selinger 알고리즘: 비용 추정 기반 DP
+  테이블 n개: 최적 순서 탐색 = O(n! ) → DP로 O(2^n)
 
+EXPLAIN 실행 계획 분석 (PostgreSQL):
+  EXPLAIN ANALYZE
+  SELECT * FROM orders o
+  JOIN customers c ON o.customer_id = c.id
+  JOIN products p ON o.product_id = p.id;
+  
+  출력:
+  Hash Join (cost=... rows=...)
+    -> Seq Scan on orders
+    -> Hash
+       -> Seq Scan on customers  ← 비용 높은 Full Scan 발견
 
+튜닝 전략:
+  인덱스 추가:
+    CREATE INDEX idx_orders_customer ON orders(customer_id);
+  → Nested Loop + Index Scan으로 변경
+
+조인 힌트 (MySQL):
+  SELECT * FROM A
+  STRAIGHT_JOIN B ON A.id = B.a_id;
+  → A를 항상 외부 테이블로 강제
+
+통계 정보 갱신:
+  ANALYZE TABLE (MySQL)
+  ANALYZE (PostgreSQL)
+  → 옵티마이저 통계 최신화 → 더 좋은 실행 계획
+```
 
 > 📢 **섹션 요약 비유**: [조인 순서](/knowledge-base/studynote/05_database/03_relational_model/176_join_order_optimization/) 최적화는 장보기 순서 — 가장 작은 양의 재료부터 손에 들면 마지막에 많이 들 필요 없어요. 첫 조인에서 결과를 최대한 줄여야 효율적.
 
@@ -181,45 +186,46 @@ tags = ["studynote-database"]
 
 ## Ⅴ. 실무 시나리오 — [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝
 
+```
+이커머스 주문 분석 쿼리 튜닝:
 
+초기 쿼리 (성능 문제):
+  SELECT c.name, p.product_name, o.order_date, oi.quantity
+  FROM customers c
+  LEFT JOIN orders o ON c.id = o.customer_id
+  LEFT JOIN order_items oi ON o.id = oi.order_id
+  LEFT JOIN products p ON oi.product_id = p.id
+  WHERE o.order_date >= '2026-01-01';
+  
+  실행 시간: 45초 (데이터: customer 100만, orders 500만)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이커머스 주문 분석 쿼리 튜닝:</div>
-<div class="kb-diagram-note">초기 쿼리 (성능 문제):</div>
-<div class="kb-diagram-note">SELECT c.name, p.product_name, o.order_date, oi.quantity</div>
-<div class="kb-diagram-note">FROM customers c</div>
-<div class="kb-diagram-note">LEFT JOIN orders o ON c.id = o.customer_id</div>
-<div class="kb-diagram-note">LEFT JOIN order_items oi ON o.id = oi.order_id</div>
-<div class="kb-diagram-note">LEFT JOIN products p ON oi.product_id = p.id</div>
-<div class="kb-diagram-note">WHERE o.order_date &gt;= '2026-01-01';</div>
-<div class="kb-diagram-note">실행 시간: 45초 (데이터: customer 100만, orders 500만)</div>
-<div class="kb-diagram-note">EXPLAIN 분석:</div>
-<div class="kb-diagram-note">Seq Scan on customers (rows: 1,000,000) ← 문제!</div>
-<div class="kb-diagram-note">Hash Join (rows: 500,000)</div>
-<div class="kb-diagram-note">Seq Scan on orders → WHERE 적용 후 10만 행</div>
-<div class="kb-diagram-note">문제점:</div>
-<div class="kb-diagram-note">customers 전체 스캔 후 조인 → 90만 행이 NULL 결과</div>
-<div class="kb-diagram-note">WHERE 조건이 orders에 있는데 LEFT JOIN 사용 → 비효율</div>
-<div class="kb-diagram-note">쿼리 리팩토링:</div>
-<div class="kb-diagram-tree-item" style="--depth:1">LEFT → INNER JOIN 변경 (NULL 결과 불필요)</div>
-<div class="kb-diagram-note">SELECT c.name, p.product_name, o.order_date, oi.quantity</div>
-<div class="kb-diagram-note">FROM orders o ← 작은 결과부터 시작 (기간 조건 적용)</div>
-<div class="kb-diagram-note">INNER JOIN customers c ON o.customer_id = c.id</div>
-<div class="kb-diagram-note">INNER JOIN order_items oi ON o.id = oi.order_id</div>
-<div class="kb-diagram-note">INNER JOIN products p ON oi.product_id = p.id</div>
-<div class="kb-diagram-note">WHERE o.order_date &gt;= '2026-01-01';</div>
-<div class="kb-diagram-note">인덱스 추가:</div>
-<div class="kb-diagram-note">CREATE INDEX idx_orders_date ON orders(order_date);</div>
-<div class="kb-diagram-note">CREATE INDEX idx_oi_order ON order_items(order_id);</div>
-<div class="kb-diagram-note">결과:</div>
-<div class="kb-diagram-note">실행 시간: 45초 → 0.3초 (150배 향상)</div>
-<div class="kb-diagram-note">Index Scan on orders (date 조건 = 10만 행)</div>
-<div class="kb-diagram-note">→ Nested Loop Join (소규모 결과에 최적)</div>
-</div>
-</div>
+EXPLAIN 분석:
+  Seq Scan on customers (rows: 1,000,000) ← 문제!
+  Hash Join (rows: 500,000)
+  Seq Scan on orders → WHERE 적용 후 10만 행
+  
+  문제점:
+    customers 전체 스캔 후 조인 → 90만 행이 NULL 결과
+    WHERE 조건이 orders에 있는데 LEFT JOIN 사용 → 비효율
 
+쿼리 리팩토링:
+  -- LEFT → INNER JOIN 변경 (NULL 결과 불필요)
+  SELECT c.name, p.product_name, o.order_date, oi.quantity
+  FROM orders o  ← 작은 결과부터 시작 (기간 조건 적용)
+  INNER JOIN customers c ON o.customer_id = c.id
+  INNER JOIN order_items oi ON o.id = oi.order_id
+  INNER JOIN products p ON oi.product_id = p.id
+  WHERE o.order_date >= '2026-01-01';
 
+인덱스 추가:
+  CREATE INDEX idx_orders_date ON orders(order_date);
+  CREATE INDEX idx_oi_order ON order_items(order_id);
+
+결과:
+  실행 시간: 45초 → 0.3초 (150배 향상)
+  Index Scan on orders (date 조건 = 10만 행)
+  → Nested Loop Join (소규모 결과에 최적)
+```
 
 > 📢 **섹션 요약 비유**: 조인 튜닝은 요리 재료 다듬기 순서 — 큰 야채를 먼저 썰어 작게 만들고(조건 필터 먼저), 작아진 재료끼리 볶으면(조인) 훨씬 빠르다.
 

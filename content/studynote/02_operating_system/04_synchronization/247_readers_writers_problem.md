@@ -28,24 +28,24 @@ tags = ["studynote-operating-system"]
 
 **💡 비유**: 도서관 열람실 규칙을 상상하라. 같은 책을 여러 사람이 동시에 읽을 수 있지만, 누군가 내용을 수정(저자)하려면 독점 열람실을 사용해야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">독자-저자 접근 패턴</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Reader1</div><div class="kb-diagram-note">─</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Reader2</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">공유 데이터</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">동시 읽기 허용 ✅</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Reader3</div><div class="kb-diagram-note">─</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Writer1</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">공유 데이터</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">독점 쓰기 필요</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Reader 모두 차단, 다른 Writer도 차단)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제약 조건:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① Reader ↔ Writer: 상호 배제</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② Writer ↔ Writer: 상호 배제</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ Reader ↔ Reader: 동시 허용</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────┐
+│           독자-저자 접근 패턴                            │
+├──────────────────────────────────────────────────────────┤
+│                                                          │
+│  [Reader1] ─┐                                            │
+│  [Reader2] ─┤──▶ [공유 데이터] ← 동시 읽기 허용 ✅       │
+│  [Reader3] ─┘                                            │
+│                                                          │
+│  [Writer1] ──▶ [공유 데이터] ← 독점 쓰기 필요            │
+│              (Reader 모두 차단, 다른 Writer도 차단)      │
+│                                                          │
+│  제약 조건:                                              │
+│  ① Reader ↔ Writer: 상호 배제                            │
+│  ② Writer ↔ Writer: 상호 배제                            │
+│  ③ Reader ↔ Reader: 동시 허용                            │
+└──────────────────────────────────────────────────────────┘
+```
 
 **📢 섹션 요약 비유**: 독자-저자는 '다 함께 읽되, 홀로 쓰는' 원칙 — 이 단순한 규칙을 구현하는 방법에서 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)과 공정성의 트레이드오프가 발생합니다.
 
@@ -84,23 +84,24 @@ signal(rw_mutex);
 
 ### 제1유형 동작 흐름
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제1유형 독자 우선 — 저자 기아 발생 시나리오</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간 흐름 ▶</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">R1: ──</div><div class="kb-diagram-node">읽기 시작</div><div class="kb-diagram-node">읽기 종료</div><div class="kb-diagram-note">──</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">R2: ──</div><div class="kb-diagram-node">읽기 시작</div><div class="kb-diagram-node">읽기 종료</div><div class="kb-diagram-note">──</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">R3: ──</div><div class="kb-diagram-node">읽기 시작</div><div class="kb-diagram-node">읽기 종료</div><div class="kb-diagram-note">──</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">W1:</div><div class="kb-diagram-node">대기 중...</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">기아!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">^</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">read_count &gt; 0 내내 → rw_mutex 계속 잠김</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⚠ 연속적인 독자 유입 시 저자는 영원히 대기할 수 있음</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│      제1유형 독자 우선 — 저자 기아 발생 시나리오             │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│  시간 흐름 ─────────────────────────────────────────────▶    │
+│                                                              │
+│  R1: ──[읽기 시작]──────────────────────[읽기 종료]──        │
+│  R2:     ──[읽기 시작]──────────────────────[읽기 종료]──    │
+│  R3:         ──[읽기 시작]──────────────────────[읽기 종료]──│
+│                                                              │
+│  W1:                [대기 중...]               ← 기아!       │
+│         ^                                                    │
+│         read_count > 0 내내 → rw_mutex 계속 잠김             │
+│                                                              │
+│  ⚠ 연속적인 독자 유입 시 저자는 영원히 대기할 수 있음        │
+└──────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 독자가 연속으로 들어오면 read_count가 0이 되지 않아 rw_mutex가 해제되지 않는다. 저자는 이론적으로 무한 대기할 수 있다. 실무에서는 이 기아 위험 때문에 반드시 타임아웃이나 저자 대기 카운터를 추가해야 한다.
 
@@ -110,21 +111,21 @@ signal(rw_mutex);
 
 ### 공정 해결 ([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)-Free): 큐 기반
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공정 해결: 도착 순서 기반 큐 관리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">도착 순서 큐</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">R1 → W1 → R2 → R3 → W2 ...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">처리 순서:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">R1 실행 → W1이 대기 중이므로 신규 R 차단</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">W1 독점 실행 → R2, R3 동시 실행 → W2 독점 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Java ReadWriteLock (fair=true)이 이 방식을 구현함</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────┐
+│       공정 해결: 도착 순서 기반 큐 관리                  │
+├──────────────────────────────────────────────────────────┤
+│                                                          │
+│  [도착 순서 큐]                                          │
+│  R1 → W1 → R2 → R3 → W2 ...                              │
+│                                                          │
+│  처리 순서:                                              │
+│  R1 실행 → W1이 대기 중이므로 신규 R 차단                │
+│  W1 독점 실행 → R2, R3 동시 실행 → W2 독점 실행          │
+│                                                          │
+│  Java ReadWriteLock (fair=true)이 이 방식을 구현함       │
+└──────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 공정 큐 방식은 대기 순서를 보존하므로 기아가 발생하지 않는다. 단, 독자 여럿을 연속 처리하지 못하므로 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 감소할 수 있다. Java `ReentrantReadWriteLock(fair=true)`가 이를 구현하며, 저자 우선순위가 높은 환경에서는 NonfairReadWriteLock이 더 높은 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 제공한다.
 
@@ -136,20 +137,17 @@ signal(rw_mutex);
 
 ### 세 유형 비교
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">항목</div><div class="kb-diagram-cell">독자 우선</div><div class="kb-diagram-cell">저자 우선</div><div class="kb-diagram-cell">공정 (큐)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">읽기 처리량</div><div class="kb-diagram-cell">최고</div><div class="kb-diagram-cell">낮음</div><div class="kb-diagram-cell">중간</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">저자 기아</div><div class="kb-diagram-cell">발생 가능</div><div class="kb-diagram-cell">없음</div><div class="kb-diagram-cell">없음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">독자 기아</div><div class="kb-diagram-cell">없음</div><div class="kb-diagram-cell">발생 가능</div><div class="kb-diagram-cell">없음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">구현 복잡도</div><div class="kb-diagram-cell">중간</div><div class="kb-diagram-cell">높음</div><div class="kb-diagram-cell">높음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실무 적용</div><div class="kb-diagram-cell">읽기 집중 DB</div><div class="kb-diagram-cell">쓰기 중요 DB</div><div class="kb-diagram-cell">일반 목적</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────┬──────────────┬──────────────┬──────────────┐
+│ 항목             │ 독자 우선    │ 저자 우선    │ 공정 (큐)    │
+├──────────────────┼──────────────┼──────────────┼──────────────┤
+│ 읽기 처리량      │ 최고         │ 낮음         │ 중간         │
+│ 저자 기아        │ 발생 가능    │ 없음         │ 없음         │
+│ 독자 기아        │ 없음         │ 발생 가능    │ 없음         │
+│ 구현 복잡도      │ 중간         │ 높음         │ 높음         │
+│ 실무 적용        │ 읽기 집중 DB │ 쓰기 중요 DB │ 일반 목적    │
+└──────────────────┴──────────────┴──────────────┴──────────────┘
+```
 
 ### 리눅스 [RCU](/knowledge-base/studynote/02_operating_system/04_synchronization/254_rcu_read_copy_update/) ([Read-Copy-Update](/knowledge-base/studynote/02_operating_system/04_synchronization/254_rcu_read_copy_update/)) — 궁극적 해법
 
@@ -210,19 +208,15 @@ rcu_read_unlock();
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">유한 버퍼 문제 (Bounded-Buffer Problem) / 생산자-소비자 (Producer-Consumer) 문제</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">독자-저자 문제 (Readers-Writers Problem)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">식사하는 철학자 문제 (Dining-Philosophers Problem)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">자바 동기화</div></div>
-</div>
-</div>
-
-
+```text
+[유한 버퍼 문제 (Bounded-Buffer Problem) / 생산자-소비자 (Producer-Consumer) 문제]
+    │
+    ▼
+[독자-저자 문제 (Readers-Writers Problem)]
+    │
+    ├──▶ [식사하는 철학자 문제 (Dining-Philosophers Problem)]
+    └──▶ [자바 동기화]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

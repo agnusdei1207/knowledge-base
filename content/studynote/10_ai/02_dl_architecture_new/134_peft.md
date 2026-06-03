@@ -18,19 +18,13 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Full FT: 100% 파라미터 학습 (비용↑↑)</div>
-<div class="kb-diagram-note">LoRA: 저랭크 행렬만 학습 (~1%)</div>
-<div class="kb-diagram-note">Adapter: 작은 모듈 삽입 (~3%)</div>
-<div class="kb-diagram-note">Prefix Tuning: 프리픽스 벡터 학습 (&lt;0.1%)</div>
-<div class="kb-diagram-note">Prompt Tuning: 소프트 프롬프트 학습 (&lt;0.01%)</div>
-</div>
-</div>
-
-
+```text
+Full FT:       100% 파라미터 학습 (비용↑↑)
+LoRA:          저랭크 행렬만 학습 (~1%)
+Adapter:       작은 모듈 삽입 (~3%)
+Prefix Tuning: 프리픽스 벡터 학습 (<0.1%)
+Prompt Tuning: 소프트 프롬프트 학습 (<0.01%)
+```
 
 - **📢 섹션 요약 비유**: Full FT는 집 전체 리모델링, LoRA는 벽지만 교체, Prompt Tuning은 액자만 바꾸기이다.
 
@@ -54,17 +48,11 @@ PEFT는 <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Full Fine-tuning (2018)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Adapter (2019)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Prefix Tuning (2021)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">LoRA (2021)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">QLoRA (2023)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: DoRA·LoRA+ — 차세대 PEFT</div></div>
-</div>
-</div>
-
-
+```text
+[Full Fine-tuning (2018)] → [Adapter (2019)]
+    → [Prefix Tuning (2021)] → [LoRA (2021)]
+    → [QLoRA (2023)] → [현재: DoRA·LoRA+ — 차세대 PEFT]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. PEFT는 **집 전체를 리모델링하지 않고 벽지만 바꾸는** 거예요.

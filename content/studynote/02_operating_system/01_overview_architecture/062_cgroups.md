@@ -29,23 +29,17 @@ tags = ["studynote-operating-system"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Root Cgroup</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Group A</div>
-<div class="kb-diagram-note">─ CPU</div>
-<div class="kb-diagram-note">─ Memory</div>
-<div class="kb-diagram-note">─ IO</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Group B</div>
-<div class="kb-diagram-tree-item" style="--depth:3">CPU</div>
-<div class="kb-diagram-tree-item" style="--depth:3">Memory</div>
-<div class="kb-diagram-tree-item" style="--depth:3">IO</div>
-</div>
-</div>
-
-
+```text
+Root Cgroup
+  ├─ Group A
+  │   ├─ CPU
+  │   ├─ Memory
+  │   └─ IO
+  └─ Group B
+      ├─ CPU
+      ├─ Memory
+      └─ IO
+```
 
 | 컨트롤러 | 역할 |
 | :-- | :-- |
@@ -110,43 +104,31 @@ cgroups는 Linux를 대규모 [서비스](/knowledge-base/studynote/13_cloud_arc
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Process Group</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">cgroups</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Resource Control</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Kubernetes requests/limits</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Container Scheduling</div>
-</div>
-</div>
-
-
+```text
+Process Group
+   ↓
+cgroups
+   ↓
+Resource Control
+   ↓
+Kubernetes requests/limits
+   ↓
+Container Scheduling
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Process Containers</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">cgroups</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Container Resource Control</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Kubernetes Limits</div>
-</div>
-</div>
-
-
+```text
+Process Containers
+   ↓
+cgroups
+   ↓
+Container Resource Control
+   ↓
+Kubernetes Limits
+```
 
 ---
 

@@ -35,21 +35,19 @@ FBI의 핵심은 <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethi
 
 아래 그림은 왜 원본 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 무력화되고, FBI가 이를 어떻게 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">함수식과 인덱스 키의 형태가 같아야 탐색 가능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일반 인덱스 키: email</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조건절: UPPER(email) = 'ADMIN@EXAMPLE.COM'</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 비교 형태 불일치 → 일반 인덱스 활용 약함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FBI 인덱스 키: UPPER(email)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조건절: UPPER(email) = 'ADMIN@EXAMPLE.COM'</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 비교 형태 일치 → Index Range Scan 가능</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│            함수식과 인덱스 키의 형태가 같아야 탐색 가능            │
+├────────────────────────────────────────────────────────────────────┤
+│ 일반 인덱스 키:            email                                   │
+│ 조건절:                    UPPER(email) = 'ADMIN@EXAMPLE.COM'      │
+│ 결과:                      비교 형태 불일치 → 일반 인덱스 활용 약함 │
+│                                                                    │
+│ FBI 인덱스 키:             UPPER(email)                            │
+│ 조건절:                    UPPER(email) = 'ADMIN@EXAMPLE.COM'      │
+│ 결과:                      비교 형태 일치 → Index Range Scan 가능   │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 핵심은 FBI가 새로운 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 만드는 것이 아니라, <strong>비교 기준을 미리 맞춘 보조 <a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a></strong>라는 점이다. 그래서 원본 컬럼 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 완전히 대체하기보다, 특정 표현식에 대한 추가 경로로 이해해야 한다.
 
@@ -132,23 +130,21 @@ FBI를 이해하려면 일반 [인덱스](/knowledge-base/studynote/05_database/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">원본 컬럼 인덱스</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">함수 조건식으로 인한 인덱스 미사용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">함수 기반 인덱스 (FBI)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">가상 컬럼 인덱스 · 식 기반 최적화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">통계 기반 옵티마이저 튜닝</div>
-</div>
-</div>
-
-
+```text
+원본 컬럼 인덱스
+    │
+    ▼
+함수 조건식으로 인한 인덱스 미사용
+    │
+    ▼
+함수 기반 인덱스 (FBI)
+    │
+    ▼
+가상 컬럼 인덱스 · 식 기반 최적화
+    │
+    ▼
+통계 기반 옵티마이저 튜닝
+```
 
 이 흐름은 "원본 값 인덱싱 → 표현식 인덱싱 → 모델링·통계 최적화"로 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 튜닝이 확장되는 방향을 보여준다.
 

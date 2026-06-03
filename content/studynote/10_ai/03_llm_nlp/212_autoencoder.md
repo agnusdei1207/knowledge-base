@@ -26,17 +26,14 @@ tags = ["studynote-ai"]
 
 이 미친 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)과 복원의 고문을 견디기 위해, 인공신경망 뇌는 고양이의 배경(하늘, 풀밭) 같은 쓸데없는 정보는 눈물을 머금고 다 쳐내버리고, 오직 고양이의 뾰족한 귀, 둥근 눈동자 같은 <strong>'절대 까먹으면 안 되는 가장 중요한 핵심 알맹이(Feature)'</strong>만 병목 구간에 필사적으로 살아남게 보존하는 생존 본능을 발휘한다. 이것이 정답 없이 세상을 스스로 깨우치는 [차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/)([압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/))의 기적이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [오토인코더](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/335_autoencoder/)는 천재 화가에게 치는 가장 가혹한 장난이다. 거대한 풍경화를 보여준 다음, 화가의 손에 아주 얇은 포스트잇 종이 1장(병목 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 공간 $Z$)만 주고 그 풍경을 메모하라고 시킨다. 1시간 뒤 풍경화를 싹 치워버리고, "아까 네가 포스트잇에 적은 메모만 보고 원본 풍경화를 100% 똑같이 다시 그려내(복원)!"라고 명령한다. 화가는 포스트잇에 쓸데없는 구름이나 나뭇잎 개수 따윈 적지 않고, 오직 "큰 산 1개, 강물 1개"라는 진짜 핵심 뼈대 정보만 꾹꾹 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해서 적어둘 것이다. 이 강제된 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 능력이 바로 [오토인코더](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/335_autoencoder/)가 세상의 본질을 파악하는 핵심 원리다.
 
@@ -46,28 +43,28 @@ tags = ["studynote-ai"]
 
 [오토인코더](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/335_autoencoder/)의 뼈대는 가운데 허리가 극단적으로 잘록하게 들어간 **모래시계(Hourglass)** 모양의 대칭적 신경망 네트워크 아키텍처다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오토인코더 (Autoencoder)의 모래시계 압축-복원 아키텍처 도해</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 인코더 (Encoder) - 무자비한 압축기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 입력(X): 1024 픽셀의 원본 고양이 사진.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 과정: 신경망 층을 지날 때마다 데이터 크기를 512 ─▶ 256 ─▶ 128로 깎아버림.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 잠재 공간 (Latent Space / Bottleneck Z) - 마법의 엑기스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 1024개의 픽셀이 겨우 숫자 32개(Z 벡터)로 짓눌려 압축된 심해의 병목 구간.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 놀라운 점: 이 32개의 숫자 안에는 고양이의 '귀 모양, 눈 색깔, 털 질감'이라는</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">우주 최고로 엑기스만 남은 고밀도 의미(Feature)가 응축되어 있음.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3. 디코더 (Decoder) - 기적의 부풀리기 복원기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 과정: 32개의 숫자(Z)만 달랑 들고, 다시 128 ─▶ 256 ─▶ 512 ─▶ 1024 픽셀로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상상력을 동원해 거꾸로 부풀려 그림을 새로 그려냄 (출력 X').</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">4. 훈련 로스(Loss) 계산</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 내가 처음에 넣은 사진(X)과, 모델이 압축했다가 복원해 낸 가짜 사진(X') 사이의</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">틀린 그림 찾기(MSE 오차)를 해서, 둘이 100% 똑같아지도록 뇌를 뜯어고침!</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           오토인코더 (Autoencoder)의 모래시계 압축-복원 아키텍처 도해       │
+├──────────────────────────────────────────────────────────────┤
+│  [1. 인코더 (Encoder) - 무자비한 압축기]                          │
+│   * 입력(X): 1024 픽셀의 원본 고양이 사진.                       │
+│   * 과정: 신경망 층을 지날 때마다 데이터 크기를 512 ─▶ 256 ─▶ 128로 깎아버림. │
+│                                                              │
+│  [2. 잠재 공간 (Latent Space / Bottleneck Z) - 마법의 엑기스]    │
+│   * 1024개의 픽셀이 겨우 숫자 32개(Z 벡터)로 짓눌려 압축된 심해의 병목 구간. │
+│   * 놀라운 점: 이 32개의 숫자 안에는 고양이의 '귀 모양, 눈 색깔, 털 질감'이라는 │
+│               우주 최고로 엑기스만 남은 고밀도 의미(Feature)가 응축되어 있음.│
+│                                                              │
+│  [3. 디코더 (Decoder) - 기적의 부풀리기 복원기]                   │
+│   * 과정: 32개의 숫자(Z)만 달랑 들고, 다시 128 ─▶ 256 ─▶ 512 ─▶ 1024 픽셀로│
+│          상상력을 동원해 거꾸로 부풀려 그림을 새로 그려냄 (출력 X').          │
+│                                                              │
+│  [4. 훈련 로스(Loss) 계산]                                       │
+│   * 내가 처음에 넣은 사진(X)과, 모델이 압축했다가 복원해 낸 가짜 사진(X') 사이의│
+│     틀린 그림 찾기(MSE 오차)를 해서, 둘이 100% 똑같아지도록 뇌를 뜯어고침!  │
+└──────────────────────────────────────────────────────────────┘
+```
 
 **핵심 원리 (잠재 벡터 $Z$의 [차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/))**:
 고전적인 통계학의 '[PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/)([주성분 분석](/knowledge-base/studynote/06_ict_convergence/05_data_science/338_pca_principal_component_analysis/))'도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하지만, 선형적인 깎아내기밖에 못 해서 복잡한 얼굴 사진을 넣으면 바보가 된다. 반면 [오토인코더](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/335_autoencoder/)는 딥러닝의 비선형(Non-linear) [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/) 릴레이를 타고 깎아 들어가기 때문에, 사진 속의 구불구불한 털과 곡선 패턴마저 억지로 펴서 좁은 잠재 공간($Z$) 안에 완벽하게 욱여넣는 압도적인 [차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/)([Dimensionality Reduction](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_dimensionality_reduction/)) 파워를 발휘한다.

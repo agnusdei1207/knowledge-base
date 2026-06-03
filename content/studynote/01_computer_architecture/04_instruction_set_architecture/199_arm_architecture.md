@@ -35,22 +35,28 @@ ARM의 핵심은 [명령어](/knowledge-base/studynote/01_computer_architecture/
 
 다음 그림은 ARM 코어가 왜 전력 효율적인지 보여준다. 복잡한 메모리-직접 연산을 줄이고, 규칙적인 해독과 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 중심 실행으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름을 정돈한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ARM 코어의 기본 실행 흐름과 병목 분리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">명령어 Fetch</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">규칙적 Decode ▶ 레지스터 파일 (Register File)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ ALU (Arithmetic Logic Unit)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과 레지스터 갱신</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ LSU (Load/Store Unit)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">캐시/메모리 접근</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심: 계산은 레지스터에서, 메모리 접근은 LSU에서 분리 처리</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────┐
+│                 ARM 코어의 기본 실행 흐름과 병목 분리                    │
+├──────────────────────────────────────────────────────────────────────────┤
+│ 명령어 Fetch                                                            │
+│      │                                                                  │
+│      ▼                                                                  │
+│ 규칙적 Decode ─────▶ 레지스터 파일 (Register File)                       │
+│      │                              │                                    │
+│      │                              ├───────▶ ALU (Arithmetic Logic Unit)│
+│      │                              │                 │                  │
+│      │                              │                 ▼                  │
+│      │                              │            결과 레지스터 갱신       │
+│      │                              │                                    │
+│      └──────────────────────────────┴───────▶ LSU (Load/Store Unit)      │
+│                                                        │                  │
+│                                                        ▼                  │
+│                                                 캐시/메모리 접근          │
+├──────────────────────────────────────────────────────────────────────────┤
+│ 핵심: 계산은 레지스터에서, 메모리 접근은 LSU에서 분리 처리               │
+└──────────────────────────────────────────────────────────────────────────┘
+```
 
 | 요소 | ARM에서의 의미 | 설계상 효과 |
 | :--- | :--- | :--- |
@@ -133,25 +139,24 @@ ARM 아키텍처의 가장 큰 효과는 제한된 전력과 면적 안에서 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Acorn의 저전력 RISC 설계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ARM ISA 정착 · 로드/스토어 구조 확산</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Thumb / Thumb-2로 코드 밀도 개선</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">AArch64 도입 · 모바일을 넘어 서버 확장</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">big.LITTLE · NEON · SoC 통합 고도화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 ARM 서버 · 고성능 노트북 · AI 결합형 플랫폼</div>
-</div>
-</div>
-
-
+```text
+Acorn의 저전력 RISC 설계
+    │
+    ▼
+ARM ISA 정착 · 로드/스토어 구조 확산
+    │
+    ▼
+Thumb / Thumb-2로 코드 밀도 개선
+    │
+    ▼
+AArch64 도입 · 모바일을 넘어 서버 확장
+    │
+    ▼
+big.LITTLE · NEON · SoC 통합 고도화
+    │
+    ▼
+클라우드 ARM 서버 · 고성능 노트북 · AI 결합형 플랫폼
+```
 
 이 흐름은 ARM이 "저전력 임베디드 코어"에서 출발해, 코드 밀도 개선과 64비트 전환을 거쳐 범용 컴퓨팅 플랫폼으로 확장된 과정을 보여준다.
 

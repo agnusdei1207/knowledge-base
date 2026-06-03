@@ -31,23 +31,23 @@ tags = ["studynote-computer-architecture"]
 ### 메모리 레이아웃 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)
 32비트 정수 `0x12345678`을 주소 `0x00`부터 저장해 보자. `78`이 가장 작은 꼬리 값([LSB](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/079_lsb/))이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">리틀 엔디안 (Little-Endian) 메모리 맵핑 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터: 0x 12 34 56 78 (12가 머리, 78이 꼬리)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 주소</div><div class="kb-diagram-cell">저장된 바이트</div><div class="kb-diagram-cell">하드웨어적 우위 분석</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0x00</div><div class="kb-diagram-cell">78</div><div class="kb-diagram-cell">◀ LSB (제일 먼저 더할 놈이 대기)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0x01</div><div class="kb-diagram-cell">56</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0x02</div><div class="kb-diagram-cell">34</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0x03</div><div class="kb-diagram-cell">12</div><div class="kb-diagram-cell">◀ MSB (가장 나중에 더해질 놈)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심 논리: 메모리 덤프를 보면 '78 56 34 12'로 보임.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인간은 욕을 하지만, ALU는 미친 듯이 환호하는 완벽한 구조!</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────┐
+│           리틀 엔디안 (Little-Endian) 메모리 맵핑 구조     │
+├────────────────────────────────────────────────────────┤
+│   데이터: 0x 12 34 56 78  (12가 머리, 78이 꼬리)           │
+│                                                        │
+│   메모리 주소 │ 저장된 바이트 │ 하드웨어적 우위 분석            │
+│   ─────────┼───────────┼────────────────────────        │
+│    0x00    │    78     │ ◀ LSB (제일 먼저 더할 놈이 대기)   │
+│    0x01    │    56     │                                │
+│    0x02    │    34     │                                │
+│    0x03    │    12     │ ◀ MSB (가장 나중에 더해질 놈)      │
+│                                                        │
+│ * 핵심 논리: 메모리 덤프를 보면 '78 56 34 12'로 보임.       │
+│   인간은 욕을 하지만, ALU는 미친 듯이 환호하는 완벽한 구조!   │
+└────────────────────────────────────────────────────────┘
+```
 
 ### 타입 캐스팅(Casting)의 마법
 리틀 엔디안의 진가는 변수 크기를 자르거나 늘릴 때 폭발한다. C 언어에서 32비트 변수를 16비트로 다운캐스팅할 때, [빅 엔디안](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/114_big_endian/) 시스템은 메모리의 시작 포인터 주소를 `+2` 만큼 뒤로 강제 이동시켜야만 올바른 하위 16비트(`5678`)를 가리킬 수 있다.
@@ -109,23 +109,21 @@ x86과 인터넷은 영원히 섞이지 않는 평행선을 달린다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">CPU ALU 연산의 하드웨어적 지연(Delay) 한계 직면</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">자리올림(Carry) 처리에 유리한 데이터 배치 고민</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">리틀 엔디안 (Little-Endian) 도입 (꼬리인 LSB를 맨 앞 메모리에 저장)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">비트 캐스팅(확장/축소) 시 포인터 주소 고정을 통한 오버헤드 소멸</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">인텔 x86 아키텍처의 데스크톱/서버 메모리 표준 규격 제패</div>
-</div>
-</div>
-
-
+```text
+CPU ALU 연산의 하드웨어적 지연(Delay) 한계 직면
+    │
+    ▼
+자리올림(Carry) 처리에 유리한 데이터 배치 고민
+    │
+    ▼
+리틀 엔디안 (Little-Endian) 도입 (꼬리인 LSB를 맨 앞 메모리에 저장)
+    │
+    ▼
+비트 캐스팅(확장/축소) 시 포인터 주소 고정을 통한 오버헤드 소멸
+    │
+    ▼
+인텔 x86 아키텍처의 데스크톱/서버 메모리 표준 규격 제패
+```
 
 이 흐름도는 "[가독성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/) 포기 → 연산 효율 극대화 → [마이크로아키텍처](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/204_microarchitecture/) 최적화 도달 → [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 시장 하드웨어 표준 점령"으로 귀결된 리틀 엔디안의 진화 과정을 보여준다.
 

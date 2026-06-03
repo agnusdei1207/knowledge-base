@@ -18,20 +18,17 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Fallback 전략 유형</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 캐시 반환: 이전 성공 응답 캐시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 기본값: 정적 기본 데이터 반환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 대체 서비스: 다른 서비스 호출</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 기능 비활성화: 해당 기능 숨김</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 에러 안내: 사용자에게 상태 안내</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    Fallback 전략 유형                                 │
+├───────────────────────────────────────────────────────┤
+│  1. 캐시 반환: 이전 성공 응답 캐시                   │
+│  2. 기본값: 정적 기본 데이터 반환                    │
+│  3. 대체 서비스: 다른 서비스 호출                    │
+│  4. 기능 비활성화: 해당 기능 숨김                    │
+│  5. 에러 안내: 사용자에게 상태 안내                  │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: Fallback은 <strong>비상식량</strong>이다. 정상 배달([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))이 안 오면 비상식량(캐시·기본값)으로 버틴다.
 
@@ -84,19 +81,13 @@ Fallback은 <strong>MSA에서 사용자 경험을 지키는 마지막 방어선<
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">직접 에러 반환 (~2010s)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Hystrix Fallback (2012~)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Resilience4j Fallback (2018~)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">서비스 메시 Fallback (Istio, 2020~)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: AI Fallback — 상황별 최적 대체 자동 선택</div></div>
-</div>
-</div>
-
-
+```text
+[직접 에러 반환 (~2010s)]
+    → [Hystrix Fallback (2012~)]
+    → [Resilience4j Fallback (2018~)]
+    → [서비스 메시 Fallback (Istio, 2020~)]
+    → [현재: AI Fallback — 상황별 최적 대체 자동 선택]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. Fallback은 <strong>비상식량</strong>이에요. 정상 배달이 안 오면 **비상식량으로 버텨요**.

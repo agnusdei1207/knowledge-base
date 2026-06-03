@@ -28,26 +28,28 @@ tags = ["studynote-operating-system"]
      - <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/">페이징</a> 진영</strong>: 무조건 똑같이 4KB로 자르자! 관리([단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 0%)가 최우선이다! (기계 중심)
      - **세그먼트 진영**: 찢더라도 코드/[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 등 의미 단위로 찢자! 보안/공유/관리가 편해야 한다! (인간 중심)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페이징과 세그멘테이션의 '프로그램 찢기' 철학 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">원본 프로그램 A</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Main 함수 (7KB)</div><div class="kb-diagram-cell">전역 변수</div><div class="kb-diagram-cell">Stack</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 페이징(Paging)의 도끼질: (의미 무시, 4KB 고정 절단)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Main 앞 4KB</div><div class="kb-diagram-node">Main 뒤 3KB + 전역변수 1KB 섞임!</div><div class="kb-diagram-node">나머지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⚠ 문제: 가운데 조각(페이지)에 '읽기 전용' 락을 걸면, 섞여 들어간</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전역 변수(데이터)마저 글을 못 쓰게 되어 프로그램이 터짐!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 세그멘테이션(Segmentation)의 정밀한 칼질: (가변 크기 유지)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Main 세그먼트 (7KB 통째로)</div><div class="kb-diagram-node">전역변수 세그먼트</div><div class="kb-diagram-node">Stack 세그먼트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 장점: Main 세그먼트 전체에 깔끔하게 '실행/읽기' 락 하나만 걸면 끝!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⚠ 치명적 단점: 잘라낸 조각 크기(7K, 2K)가 제각각이라 램에 넣을 때</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다시 끔찍한 외부 단편화가 발생함.</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│        페이징과 세그멘테이션의 '프로그램 찢기' 철학 비교             │
+├──────────────────────────────────────────────────────────────────────┤
+│                                                                      │
+│ [ 원본 프로그램 A ]                                                  │
+│ ┌───────────────┐ ┌────────┐ ┌────────┐                              │
+│ │ Main 함수 (7KB)│ │ 전역 변수│ │ Stack  │                           │
+│ └───────────────┘ └────────┘ └────────┘                              │
+│                                                                      │
+│ ▶ 페이징(Paging)의 도끼질: (의미 무시, 4KB 고정 절단)                │
+│ [Main 앞 4KB] [Main 뒤 3KB + 전역변수 1KB 섞임!] [나머지]            │
+│ ⚠ 문제: 가운데 조각(페이지)에 '읽기 전용' 락을 걸면, 섞여 들어간     │
+│         전역 변수(데이터)마저 글을 못 쓰게 되어 프로그램이 터짐!     │
+│                                                                      │
+│ ▶ 세그멘테이션(Segmentation)의 정밀한 칼질: (가변 크기 유지)         │
+│ [Main 세그먼트 (7KB 통째로)] [전역변수 세그먼트] [Stack 세그먼트]    │
+│ ✅ 장점: Main 세그먼트 전체에 깔끔하게 '실행/읽기' 락 하나만 걸면 끝!│
+│ ⚠ 치명적 단점: 잘라낸 조각 크기(7K, 2K)가 제각각이라 램에 넣을 때    │
+│              다시 끔찍한 외부 단편화가 발생함.                       │
+└──────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 세그멘테이션은 컴파일러가 만들어낸 심볼(기호) 테이블을 그대로 하드웨어 메모리 매핑에 투영한다. 개발자가 `int arr[100]`을 선언하면 이게 그냥 하나의 세그먼트가 된다. 프로그램의 구조와 메모리의 물리적 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 단위가 완벽하게 1:1로 일치하므로 디버깅, 공유, [샌드박싱](/knowledge-base/studynote/02_operating_system/10_security/602_sandboxing_kernel_wrapper/) 등 보안 측면에서 예술적인 우아함을 자랑한다.
 
 - **📢 섹션 요약 비유**: 이삿짐을 쌀 때, 그릇과 옷을 무조건 5kg짜리 박스([페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/))에 무게만 맞춰 섞어 담으면 트럭에 싣기는 편하지만 새집에서 물건 찾다 화가 납니다. 반면, 그릇은 그릇 통에, 옷은 옷통(세그멘테이션)에 종류별로 담으면 정리는 완벽하지만 트럭에 싣을 때 박스 크기가 다 달라 빈 공간([외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/))이 생기는 것과 같습니다.
@@ -61,26 +63,34 @@ tags = ["studynote-operating-system"]
 세그멘테이션도 비연속 할당이므로, CPU 주소를 물리 주소로 번역해 줄 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/365_segment_table/">세그먼트 테이블</a>(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/365_segment_table/">Segment Table</a>)</strong> 장부가 필요하다. 
 CPU는 `<세그먼트 번호(s), 오프셋(d)>`을 내뿜는다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">세그멘테이션의 논리 -&gt; 물리 주소 번역 회로</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CPU 요청</div><div class="kb-diagram-note">논리 주소 &lt; s(세그먼트 2), d(오프셋 500) &gt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 1단계: 세그먼트 테이블(장부) 조회</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Seg</div><div class="kb-diagram-cell">Limit (크기)</div><div class="kb-diagram-cell">Base (물리 시작점)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">1000</div><div class="kb-diagram-cell">1400</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">400</div><div class="kb-diagram-cell">6300</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2</div><div class="kb-diagram-cell">600</div><div class="kb-diagram-cell">4300</div><div class="kb-diagram-cell">◀─ 매핑 정보 획득!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 2단계: 크기 방어선 (Limit Check)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요청한 오프셋(d=500)이 Limit(600) 보다 작은가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Yes! 통과) ※ 만약 700을 불렀다면 즉시 SegFault 트랩!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 3단계: 물리 주소 덧셈 연산</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Base(4300) + d(500) = 물리 주소 4800 도출 완료!</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│              세그멘테이션의 논리 -> 물리 주소 번역 회로              │
+├──────────────────────────────────────────────────────────────────────┤
+│                                                                      │
+│ [ CPU 요청 ] 논리 주소 < s(세그먼트 2), d(오프셋 500) >              │
+│      │                                                               │
+│      ▼ 1단계: 세그먼트 테이블(장부) 조회                             │
+│ ┌──────┬────────────────┬─────────────────┐                          │
+│ │ Seg  │ Limit (크기)   │ Base (물리 시작점)│                        │
+│ ├──────┼────────────────┼─────────────────┤                          │
+│ │  0   │     1000       │      1400       │                          │
+│ │  1   │      400       │      6300       │                          │
+│ │  2   │      600       │      4300       │ ◀─ 매핑 정보 획득!       │
+│ └──────┴────────────────┴─────────────────┘                          │
+│      │                                                               │
+│      ▼ 2단계: 크기 방어선 (Limit Check)                              │
+│ ┌───────────────────────────┐                                        │
+│ │ 요청한 오프셋(d=500)이 Limit(600) 보다 작은가?                     │
+│ └─────────┬─────────────────┘                                        │
+│           │ (Yes! 통과)   ※ 만약 700을 불렀다면 즉시 SegFault 트랩!  │
+│           ▼                                                          │
+│      ▼ 3단계: 물리 주소 덧셈 연산                                    │
+│ ┌───────────────────────────┐                                        │
+│ │ Base(4300) + d(500) = 물리 주소 4800 도출 완료!                    │
+│ └───────────────────────────┘                                        │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 번역과 비슷해 보이지만 결정적인 차이가 두 군데 있다. 
 1. **Limit 검사의 부활**: [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)은 프레임 크기(4KB)가 고정이므로 오프셋이 무조건 4KB 이하라는 게 수학적으로 보장되지만, 세그먼트는 조각 크기가 600바이트일 수도 1MB일 수도 있다. 따라서 장부에 적힌 고유의 **Limit(크기)** 값을 반드시 비교하는 하드웨어 회로가 동반된다. (이게 어긋날 때 나는 에러가 프로그래머의 주적 **Segmentation Fault** 다.)
@@ -176,19 +186,15 @@ CPU는 `<세그먼트 번호(s), 오프셋(d)>`을 내뿜는다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">역 페이지 테이블 (Inverted Page Table)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">세그멘테이션 (Segmentation)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">세그먼트 테이블 (Segment Table)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">세그멘테이션과 외부 단편화 (가변 크기이므로 재발생)</div></div>
-</div>
-</div>
-
-
+```text
+[역 페이지 테이블 (Inverted Page Table)]
+    │
+    ▼
+[세그멘테이션 (Segmentation)]
+    │
+    ├──▶ [세그먼트 테이블 (Segment Table)]
+    └──▶ [세그멘테이션과 외부 단편화 (가변 크기이므로 재발생)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

@@ -41,22 +41,24 @@ tags = ["database"]
 | [제4정규형](/knowledge-base/studynote/05_database/02_modeling_normalization/108_fourth_normal_form_4nf/) ([4NF](/knowledge-base/studynote/05_database/02_modeling_normalization/108_fourth_normal_form_4nf/)) | [다치 종속](/knowledge-base/studynote/05_database/07_exam_summary/400_mvd_4nf/) ([MVD](/knowledge-base/studynote/05_database/07_exam_summary/400_mvd_4nf/)) 제거 | 하나의 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이 여러 독립적 값을 가질 때 분리 |
 | [제5정규형](/knowledge-base/studynote/05_database/02_modeling_normalization/110_fifth_normal_form_5nf_pjnf/) (5NF) | 조인 종속 (JD) 제거 | 3개 이상의 [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)으로 [무손실 분해](/knowledge-base/studynote/05_database/02_modeling_normalization/101_lossless_join_decomposition/) 가능 시 분리 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정규화 과정의 무손실 분해 원리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">원래 테이블: 수강</div><div class="kb-diagram-note">(학번, 과목코드, 성적, 과목명)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(부분 함수 종속 발생: 과목코드 ─▶ 과목명)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">테이블 A: 성적</div><div class="kb-diagram-node">테이블 B: 과목</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">학번, 과목코드, 성적</div><div class="kb-diagram-cell">과목코드(PK), 과목명</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 조인 (JOIN) ◀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(과목코드 기준)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">완벽히 복원된 원래 테이블</div><div class="kb-diagram-note">(가짜 데이터 없음 = 무손실)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                  정규화 과정의 무손실 분해 원리               │
+├──────────────────────────────────────────────────────────────┤
+│ [원래 테이블: 수강] (학번, 과목코드, 성적, 과목명)                 │
+│         │ (부분 함수 종속 발생: 과목코드 ─▶ 과목명)             │
+│         ▼                                                    │
+│ ┌──────────────────────┐  ┌────────────────────────┐         │
+│ │ [테이블 A: 성적]      │  │ [테이블 B: 과목]        │         │
+│ │ 학번, 과목코드, 성적    │  │ 과목코드(PK), 과목명      │         │
+│ └──────────────────────┘  └────────────────────────┘         │
+│         │                             │                      │
+│         └──────▶ 조인 (JOIN) ◀──────┘                      │
+│                (과목코드 기준)                                  │
+│         ▼                                                    │
+│ [완벽히 복원된 원래 테이블] (가짜 데이터 없음 = 무손실)               │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 그림은 분해 후 외래키를 통해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다시 연결할 때, 어떤 정보의 손실이나 잉여 없이 완벽히 복원되어야 한다는 [무손실 분해](/knowledge-base/studynote/05_database/02_modeling_normalization/101_lossless_join_decomposition/)의 핵심을 보여준다.
 
@@ -119,23 +121,21 @@ tags = ["database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">데이터 종속성 파악 (Functional Dependency)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">정규화 적용 (1NF ~ BCNF)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">무손실 분해 및 종속성 보존 검증</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">논리적 무결성 확보 (Anomaly 제거)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">성능 튜닝 및 반정규화 (De-normalization) 결합</div>
-</div>
-</div>
-
-
+```text
+데이터 종속성 파악 (Functional Dependency)
+    │
+    ▼
+정규화 적용 (1NF ~ BCNF)
+    │
+    ▼
+무손실 분해 및 종속성 보존 검증
+    │
+    ▼
+논리적 무결성 확보 (Anomaly 제거)
+    │
+    ▼
+성능 튜닝 및 반정규화 (De-normalization) 결합
+```
 
 이 흐름도는 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) 분석을 시작으로 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)를 거쳐 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 확보한 뒤, 현실적인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 타협점인 반정규화로 이어지는 실무적 발전 과정을 보여준다.
 

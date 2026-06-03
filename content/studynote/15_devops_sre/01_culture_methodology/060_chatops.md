@@ -29,25 +29,19 @@ ChatOps는 이런 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">사용자</div>
-<div class="kb-diagram-note">↓ /deploy, /incident, /metrics</div>
-<div class="kb-diagram-note">Slack / Teams</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Bot</div>
-<div class="kb-diagram-tree-item" style="--depth:1">CI/CD (Continuous Integration/Continuous Delivery)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Monitoring</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Incident Management</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Infra / Runbook</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">결과를 같은 채널에 게시</div>
-</div>
-</div>
-
-
+```text
+사용자
+  ↓ /deploy, /incident, /metrics
+Slack / Teams
+  ↓
+Bot
+  ├─ CI/CD (Continuous Integration/Continuous Delivery)
+  ├─ Monitoring
+  ├─ Incident Management
+  └─ Infra / Runbook
+  ↓
+결과를 같은 채널에 게시
+```
 
 | 구성 요소 | 역할 |
 | :-- | :-- |
@@ -120,43 +114,31 @@ ChatOps는 운영을 대화형 협업으로 바꿔 주고, 그 과정에서 공�
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Slack / Teams</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Bot / Slash Command</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">CI/CD / Monitoring / Incident</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Shared Channel</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Audit Trail</div>
-</div>
-</div>
-
-
+```text
+Slack / Teams
+   ↓
+Bot / Slash Command
+   ↓
+CI/CD / Monitoring / Incident
+   ↓
+Shared Channel
+   ↓
+Audit Trail
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">터미널 / 이메일</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">대시보드 분산 운영</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">ChatOps</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">ChatOps + Runbook Automation</div>
-</div>
-</div>
-
-
+```text
+터미널 / 이메일
+   ↓
+대시보드 분산 운영
+   ↓
+ChatOps
+   ↓
+ChatOps + Runbook Automation
+```
 
 ---
 

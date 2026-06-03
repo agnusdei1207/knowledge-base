@@ -32,26 +32,24 @@ tags = ["network"]
 
 기지국 간 동기를 맞출 수 있느냐 없느냐에 따라 단말기가 기지국을 찾고 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)하는 아키텍처 자체가 완전히 바뀐다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동기식 CDMA vs 비동기식 WCDMA 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">동기식 시스템 (CDMA2000 등)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 동기화 소스: 외부 GPS 위성 신호 (절대 시간 공유)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 기지국 식별: 동일한 PN 코드 + 각기 다른 시간차 (Offset)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 셀 탐색: 하나의 코드를 시간차로 탐색 (매우 빠름)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">비동기식 시스템 (WCDMA)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 동기화 소스: 기지국 자체 클럭 (서로 타이밍 다름)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 기지국 식별: 512개의 서로 다른 고유 Scrambling Code</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 셀 탐색 (3단계 절차 필요):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) P-SCH: 슬롯 동기(타이밍) 파악</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) S-SCH: 프레임 동기 및 코드 그룹 파악</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) CPICH: 그룹 내 최종 고유 스크램블링 코드 확정</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           동기식 CDMA vs 비동기식 WCDMA 아키텍처             │
+├──────────────────────────────────────────────────────────────┤
+│ [동기식 시스템 (CDMA2000 등)]                                │
+│ - 동기화 소스: 외부 GPS 위성 신호 (절대 시간 공유)           │
+│ - 기지국 식별: 동일한 PN 코드 + 각기 다른 시간차 (Offset)    │
+│ - 셀 탐색: 하나의 코드를 시간차로 탐색 (매우 빠름)           │
+│                                                              │
+│ [비동기식 시스템 (WCDMA)]                                    │
+│ - 동기화 소스: 기지국 자체 클럭 (서로 타이밍 다름)           │
+│ - 기지국 식별: 512개의 서로 다른 고유 Scrambling Code        │
+│ - 셀 탐색 (3단계 절차 필요):                                 │
+│   1) P-SCH: 슬롯 동기(타이밍) 파악                           │
+│   2) S-SCH: 프레임 동기 및 코드 그룹 파악                    │
+│   3) CPICH: 그룹 내 최종 고유 스크램블링 코드 확정           │
+└──────────────────────────────────────────────────────────────┘
+```
 
 동기식에서는 모든 기지국이 동일한 패턴의 코드를 사용하되, 방송 시작 시간을 조금씩 비틀어(Offset) 단말기가 거리와 기지국을 구분하게 한다. 반면 비동기식 WCDMA에서는 단말기가 기지국의 시간 기준을 모르기 때문에 다짜고짜 전체 코드를 뒤질 수 없다. 따라서 3단계 셀 탐색 과정(Cell Search)을 통해 범위를 좁혀나가며 최종적으로 기지국의 고유한 골드 코드(Gold [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))를 특정하는 방식을 채택했다. 이로 인해 단말기의 DSP(Digital [Signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) Processor) 구조는 훨씬 복잡해졌다.
 
@@ -112,23 +110,21 @@ tags = ["network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">IS-95 2G CDMA (동기식) · 초기 GPS 기반 동기 확립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">WCDMA (비동기식) · 3단계 셀 탐색 아키텍처 확립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">글로벌 3G 로밍 단일화 · 인프라 제약(SPOF) 완전 해소</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">LTE (OFDM 기반 비동기 네트워크) · PSS/SSS 동기 메커니즘 계승</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">5G NR (New Radio) · 초광대역 유연성 기반 비동기 설계 성숙</div>
-</div>
-</div>
-
-
+```text
+IS-95 2G CDMA (동기식) · 초기 GPS 기반 동기 확립
+    │
+    ▼
+WCDMA (비동기식) · 3단계 셀 탐색 아키텍처 확립
+    │
+    ▼
+글로벌 3G 로밍 단일화 · 인프라 제약(SPOF) 완전 해소
+    │
+    ▼
+LTE (OFDM 기반 비동기 네트워크) · PSS/SSS 동기 메커니즘 계승
+    │
+    ▼
+5G NR (New Radio) · 초광대역 유연성 기반 비동기 설계 성숙
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

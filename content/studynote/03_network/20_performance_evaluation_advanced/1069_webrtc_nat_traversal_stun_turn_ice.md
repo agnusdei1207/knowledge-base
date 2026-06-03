@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: 플래시나 줌 클라이언트 프로그램 설치 1도 없이, <strong>순수 웹 브라우저(크롬, 엣지) 간에 음성, 비디오, 데이터를 중간 미디어 서버를 거치지 않고 <a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/">P2P</a>(<a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/">Peer-to-Peer</a>)로 1:1 직접 연결하여 초저지연으로 쏘는 구글 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/">오픈소스</a> 통신 표준</strong>입니다. (505번 연계)
 - 딜레마: P2P로 직접 쏘려면 상대방의 '진짜 집 주소(공인 IP)'를 알아야 하는데, 전 세계 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 99%는 911번에서 배운 공유기([NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)/[방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)) 뒤에 숨은 가짜 사설 IP(`192.168.0.2`)를 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 때문에 길을 절대 찾을 수 없습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">gRPC / 프로토콜 버퍼 직렬화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">WebRTC NAT 횡단</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CDN 엣지 노드 분산</div></div>
-</div>
-</div>
-
-
+```text
+[gRPC / 프로토콜 버퍼 직렬화]
+    │
+    ▼
+[WebRTC NAT 횡단]
+    │
+    └──▶ [CDN 엣지 노드 분산]
+```
 
 - **📢 섹션 요약 비유**: [WebRTC](/knowledge-base/studynote/03_network/09_application_layer_web_email/505_webrtc_web_real_time_communication/) [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 횡단은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -62,18 +58,14 @@ STUN과 TURN을 조종하는 똑똑한 사령관입니다.
 - **동작**: "자, 일단 사내망 직통(LAN)으로 쏴보고 ➜ 안 되면 STUN(거울)으로 홀 펀칭 뚫어보고 ➜ 젠장 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 너무 쎄네? 마지막으로 비싼 TURN(중계 서버)으로 우회 돌려라!"
 - 이처럼 <strong>가장 빠르고 돈 안 드는 다이렉트 통신(STUN)부터, 최후의 릴레이 서버(TURN) 우회까지 수십 개의 후보 경로(Candidate)를 싹 다 뒤져서 단 1초 만에 최적의 길을 찾아내 연결을 성사시키는 종합 패키지 프레임워크</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">gRPC / 프로토콜 버퍼 직렬화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">WebRTC NAT 횡단</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CDN 엣지 노드 분산</div></div>
-</div>
-</div>
-
-
+```text
+[gRPC / 프로토콜 버퍼 직렬화]
+    │
+    ▼
+[WebRTC NAT 횡단]
+    │
+    └──▶ [CDN 엣지 노드 분산]
+```
 
 - **📢 섹션 요약 비유**: [WebRTC](/knowledge-base/studynote/03_network/09_application_layer_web_email/505_webrtc_web_real_time_communication/) [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 횡단의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -133,19 +125,15 @@ STUN과 TURN을 조종하는 똑똑한 사령관입니다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: gRPC / 프로토콜 버퍼 직렬화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: WebRTC NAT 횡단</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: CDN 엣지 노드 분산</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: gRPC / 프로토콜 버퍼 직렬화]
+    │
+    ▼
+[현재 개념: WebRTC NAT 횡단]
+    │
+    ├──▶ [확장 A: CDN 엣지 노드 분산]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 [WebRTC](/knowledge-base/studynote/03_network/09_application_layer_web_email/505_webrtc_web_real_time_communication/) [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 횡단는 [gRPC](/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/) / [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 버퍼 직렬화에서 출발해 현재 메커니즘을 정교화하고, 이후 [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) 엣지 노드 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

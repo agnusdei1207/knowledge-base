@@ -23,18 +23,14 @@ tags = ["studynote-network"]
 - 파동의 원리상, [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 옆으로 1줄만 있으면 전파(빔)의 방향을 <strong>왼쪽/오른쪽(수평, Azimuth)으로만 꺾어서 조종</strong>할 수 있었습니다.
 - **한계점**: 고층 아파트 단지에 빔을 쏠 때, 1층에 사는 사람과 15층에 사는 사람은 수평 위치는 같지만 높이가 다릅니다. 기지국은 위아래 조준을 못 하니 그냥 아래위로 넓게 퍼지는 둔탁한 빔을 쏘아버렸고, 결국 에너지가 허공으로 흩어져 건물 위층 사람들은 전파 간섭(노이즈)에 시달렸습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">빔포밍 트래킹 기술 체계</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3D MIMO 수직/수평 고차원 송수신 구조…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">BSS Coloring</div></div>
-</div>
-</div>
-
-
+```text
+[빔포밍 트래킹 기술 체계]
+    │
+    ▼
+[3D MIMO 수직/수평 고차원 송수신 구조…]
+    │
+    └──▶ [BSS Coloring]
+```
 
 - **📢 섹션 요약 비유**: 3D [MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/) 수직/수평 고차원 송수신 구조…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -45,18 +41,14 @@ tags = ["studynote-network"]
 - **개념**: [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 소자들을 단순 1줄이 아니라 <strong>가로세로 바둑판 모양의 2차원 평면(2D Planar <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">Array</a>)</strong>으로 빼곡하게 배치하여, 기지국이 전파(빔)를 쏠 때 <strong>좌우(수평) 방향뿐만 아니라 위아래(수직, Elevation) 고도 방향까지 완벽하게 3차원 입체적으로 꺾고 조종할 수 있는 고차원 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">안테나</a> 제어 기술</strong>입니다.
 - **적용**: 776번에서 배운 64T64R 이상의 [Massive MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/) (대규모 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)) 시스템을 물리적으로 구현하는 핵심 원천 설계 기술이 바로 이 3D MIMO입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">빔포밍 트래킹 기술 체계</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3D MIMO 수직/수평 고차원 송수신 구조…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">BSS Coloring</div></div>
-</div>
-</div>
-
-
+```text
+[빔포밍 트래킹 기술 체계]
+    │
+    ▼
+[3D MIMO 수직/수평 고차원 송수신 구조…]
+    │
+    └──▶ [BSS Coloring]
+```
 
 - **📢 섹션 요약 비유**: 3D [MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/) 수직/수평 고차원 송수신 구조…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -123,19 +115,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 빔포밍 트래킹 기술 체계</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 3D MIMO 수직/수평 고차원 송수신 구조…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: BSS Coloring</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 네트워크 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 빔포밍 트래킹 기술 체계]
+    │
+    ▼
+[현재 개념: 3D MIMO 수직/수평 고차원 송수신 구조…]
+    │
+    ├──▶ [확장 A: BSS Coloring]
+    └──▶ [확장 B: AI 기반 네트워크 최적화]
+```
 
 3D [MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/) 수직/수평 고차원 송수신 구조…는 [빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/) 트래킹 기술 체계에서 출발해 현재 메커니즘을 정교화하고, 이후 [BSS](/knowledge-base/studynote/02_operating_system/02_process_thread/083_bss_segment/) Coloring와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

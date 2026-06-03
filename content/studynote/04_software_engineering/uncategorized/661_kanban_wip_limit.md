@@ -32,29 +32,29 @@ tags = ["studynote-software-engineering"]
 
 전통적인 Push 시스템과 [칸반](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/)의 Pull 시스템(WIP 통제)의 차이를 시각화하면 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">생산 흐름 패러다임: 푸시(Push) vs 풀(Pull) 시스템 차이</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">푸시 시스템: 전통적 폭포수/일반 개발</div><div class="kb-diagram-note">(WIP 무제한)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(기획) (개발) (테스트)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">■■■ ■ ■</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">■■■ ──Push─▶ ■■■ ──Push──▶ ■■■■■ ──▶ 병목/적체 발생</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">■■■ ■■ ■■■■</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(자기 할 일만 끝나면 뒤로 밀어냄. 뒷단의 과부하를 무시함)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">풀 시스템: 칸반</div><div class="kb-diagram-note">(WIP 제한 적용)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">(기획) (개발)</div><div class="kb-diagram-node">WIP:2</div><div class="kb-diagram-note">(테스트)</div><div class="kb-diagram-node">WIP:2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">■ ■</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">■■■ ◀──(1) ■ ◀──(2) ■ ──(3)──▶ Done!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">■■■ (Pull!) (비어있음) (Pull!) (비어있음) (완료 후 Pull)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동작 원리: (3) 테스트가 완료되어 자리가 나면, (2) 테스트가 개발에서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">작업을 당겨오고, (1) 개발에 자리가 나면 기획을 당겨온다.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 시스템 전체의 WIP가 4개 이하로 유지되어 정체 없이 흐름(Flow).</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────┐
+  │         생산 흐름 패러다임: 푸시(Push) vs 풀(Pull) 시스템 차이        │
+  ├───────────────────────────────────────────────────────────────┤
+  │                                                               │
+  │  [푸시 시스템: 전통적 폭포수/일반 개발] (WIP 무제한)                 │
+  │   (기획)         (개발)           (테스트)                     │
+  │   ■■■            ■               ■                           │
+  │   ■■■ ──Push─▶ ■■■ ──Push──▶  ■■■■■  ──▶ 병목/적체 발생        │
+  │   ■■■            ■■               ■■■■                     │
+  │   (자기 할 일만 끝나면 뒤로 밀어냄. 뒷단의 과부하를 무시함)               │
+  │                                                               │
+  │  [풀 시스템: 칸반] (WIP 제한 적용)                               │
+  │   (기획)        (개발) [WIP:2]   (테스트) [WIP:2]              │
+  │                   ■                ■                       │
+  │   ■■■ ◀──(1)─── ■      ◀──(2)─── ■   ──(3)──▶ Done!       │
+  │   ■■■ (Pull!)    (비어있음) (Pull!)  (비어있음) (완료 후 Pull)    │
+  │                                                               │
+  │   동작 원리: (3) 테스트가 완료되어 자리가 나면, (2) 테스트가 개발에서   │
+  │              작업을 당겨오고, (1) 개발에 자리가 나면 기획을 당겨온다.   │
+  │   결과: 시스템 전체의 WIP가 4개 이하로 유지되어 정체 없이 흐름(Flow).│
+  └───────────────────────────────────────────────────────────────┘
+```
 
   **[다이어그램 해설]** 상단의 Push 시스템에서는 기획자와 개발자가 자신의 생산 속도에 취해 무작정 작업물을 뒷단으로 넘긴다. 결과적으로 테스트 단계에 산더미 같은 일이 쌓이게 되고, 테스트 중 버그가 발견되면 개발자는 이미 새로운 코드를 짜고 있어 [컨텍스트 스위칭](/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/)([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Switching)의 고통을 겪는다. 반면 하단의 [칸반](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/) Pull 시스템에서는 테스트 단계의 WIP 제한이 2개다. 테스트가 꽉 차면 더 이상 개발에서 물건을 당겨갈 수 없고, 개발 단계도 자신의 WIP가 차면 기획에서 당겨올 수 없다. 이 순간 개발자는 새로운 코드를 짜는 것을 멈추고 테스트 부서로 달려가 '테스트 병목'을 함께 해결(Swarming)해야만 한다. 시스템 전체의 흐름을 최적화하는 강제적 트리거가 바로 WIP 제한이다.
 
@@ -148,30 +148,28 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | [칸반](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/) WIP (Work In [Progress](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)) 제한의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | [칸반](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/) WIP (Work In [Progress](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)) 제한의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
 | [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | [칸반](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/) WIP (Work In [Progress](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)) 제한은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | [칸반](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/) WIP (Work In [Progress](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)) 제한 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
 | [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | [칸반](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/) WIP (Work In [Progress](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)) 제한에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">칸반 WIP (Work In Progress) 제한 개념 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 위기 (Software Crisis) 인식
+    │
+    ▼
+칸반 WIP (Work In Progress) 제한 개념 정립
+    │
+    ▼
+표준화 및 방법론 체계화 (ISO, CMMI, Agile)
+    │
+    ▼
+클라우드 네이티브·AI 기반 확장 적용
+    │
+    ▼
+지속적 개선 및 DevOps·MLOps 통합
+```
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

@@ -1,5 +1,5 @@
 +++
-title = "178. SRE (Site Reliability Engineering, 사이트 신뢰성 공학)"
+title = "178. SRE (Site Reliability 엔진ering, 사이트 신뢰성 공학)"
 date = 2026-04-21
 
 [taxonomies]
@@ -11,7 +11,7 @@ tags = ["studynote-cloud-architecture"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/))는 운영을 인력 증원이 아니라 소프트웨어 문제로 다루어, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 측정·자동화·설계하는 엔지니어링 접근이다.
+> 1. **본질**: [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/))는 운영을 인력 증원이 아니라 소프트웨어 문제로 다루어, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 측정·자동화·설계하는 엔지니어링 접근이다.
 > 2. **가치**: [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) ([Service Level Indicator](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)), [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) ([Service Level Objective](/knowledge-base/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/)), Error Budget으로 "얼마나 안정해야 하는가"를 숫자로 합의하면 배포 속도와 안정성의 충돌을 감정이 아니라 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 조정할 수 있다.
 > 3. **판단 포인트**: [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 규모가 커져 수동 운영, 알람 피로, 반복 장애 대응이 병목이 되는 순간 SRE가 효과적이며, 작은 조직이라도 전담 팀보다 먼저 [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)·자동화·블레임리스 회고 원칙을 도입하는 것이 핵심이다.
 
@@ -25,20 +25,21 @@ SRE는 "운영을 더 열심히 한다"가 아니라 "운영을 코드로 바꾼
 
 아래 그림은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 성장이 수동 운영 체계를 어떻게 압박하는지 보여준다. 핵심은 장애가 많아서만 문제가 생기는 것이 아니라, 변화 속도와 운영 복잡도가 사람의 처리 한계를 넘어설 때 시스템적으로 불안정해진다는 점이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서비스 성장과 수동 운영의 충돌</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 증가 ─▶ 배포 빈도 증가 ─▶ 운영 변경 증가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 수동 점검/승인/복구 증가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 토일(Toil) 누적</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 장애 시 사람 의존 대응 증가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 배포 동결·속도 저하</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ 서비스 성장과 수동 운영의 충돌                               │
+├──────────────────────────────────────────────────────────────┤
+│ 사용자 증가 ─▶ 배포 빈도 증가 ─▶ 운영 변경 증가              │
+│                            │                                 │
+│                            ├─▶ 수동 점검/승인/복구 증가      │
+│                            │          │                      │
+│                            │          └─▶ 토일(Toil) 누적    │
+│                            │                                 │
+│                            └─▶ 장애 시 사람 의존 대응 증가   │
+│                                       │                      │
+│                                       └─▶ 배포 동결·속도 저하 │
+└──────────────────────────────────────────────────────────────┘
+```
 
 SRE는 이 문제를 "[신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)도 기능 요구사항처럼 설계하자"는 관점으로 푼다. 즉 사용자가 체감하는 성공률과 응답시간을 정의하고, 그 목표를 유지하기 위한 운영 절차를 자동화하며, 장애 이후에는 개인 추궁보다 시스템 개선에 집중한다. 그래서 SRE는 단순 직무명이 아니라, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 제품 설계 항목으로 끌어올린 운영 철학이자 실행 모델이다.
 
@@ -63,22 +64,23 @@ SRE의 핵심 원리는 "측정 가능한 목표 → 운영 [데이터](/knowled
 
 아래 그림은 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 운영을 하나의 제어 루프로 표현한 것이다. 관측 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 SLI를 만들고, SLO와의 차이가 [Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) 상태를 결정하며, 이 결과가 배포 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 플랫폼 개선 우선순위를 바꾼다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SRE 제어 루프: 측정 → 판단 → 자동화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 요청 ─▶ 관측성 데이터 ─▶ SLI 계산 ─▶ SLO 비교</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예산 정상</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 기능 배포 지속</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예산 급속 소진</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 안정화 우선</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장애 발생 ─▶ On-call 대응 ─▶ Postmortem ─▶ 자동화/플랫폼 개선</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Toil 감소</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ SRE 제어 루프: 측정 → 판단 → 자동화                          │
+├──────────────────────────────────────────────────────────────┤
+│ 사용자 요청 ─▶ 관측성 데이터 ─▶ SLI 계산 ─▶ SLO 비교         │
+│                                      │                      │
+│                                      ├─ 예산 정상           │
+│                                      │    └─ 기능 배포 지속 │
+│                                      │                      │
+│                                      └─ 예산 급속 소진      │
+│                                           └─ 안정화 우선    │
+│                                                              │
+│ 장애 발생 ─▶ On-call 대응 ─▶ Postmortem ─▶ 자동화/플랫폼 개선│
+│                                               │              │
+│                                               └─ Toil 감소   │
+└──────────────────────────────────────────────────────────────┘
+```
 
 [Toil](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/) 관리도 SRE에서 매우 중요하다. 흔히 "운영 업무의 50% 이상이 Toil이면 위험 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)"라고 말하는데, 이는 절대 법칙이라기보다 사람 시간을 어디에 쓰고 있는지 점검하기 위한 경험적 기준이다. 반복 업무를 줄여야 SRE는 장애 티켓 처리반이 아니라, 배포 안전장치·셀프서비스 플랫폼·자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 메커니즘을 만드는 엔지니어링 팀으로 남을 수 있다.
 
@@ -90,9 +92,9 @@ SRE의 핵심 원리는 "측정 가능한 목표 → 운영 [데이터](/knowled
 
 ## Ⅲ. 비교 및 연결
 
-SRE를 제대로 이해하려면 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/), 전통 운영, Platform Engineering을 구분해서 봐야 한다. DevOps는 개발과 운영이 벽을 허물고 함께 일해야 한다는 문화와 원칙에 가깝다. SRE는 그 원칙을 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 중심의 역할, 지표, 운영 규칙으로 구체화한 실행 모델이다. Platform Engineering은 개발팀이 안전하게 배포하고 운영할 수 있도록 공통 플랫폼을 제공하는 조직 형태에 가깝다.
+SRE를 제대로 이해하려면 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/), 전통 운영, Platform 엔진ering을 구분해서 봐야 한다. DevOps는 개발과 운영이 벽을 허물고 함께 일해야 한다는 문화와 원칙에 가깝다. SRE는 그 원칙을 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 중심의 역할, 지표, 운영 규칙으로 구체화한 실행 모델이다. Platform 엔진ering은 개발팀이 안전하게 배포하고 운영할 수 있도록 공통 플랫폼을 제공하는 조직 형태에 가깝다.
 
-| 관점 | 전통 운영 | [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) | [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) | [Platform Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/) |
+| 관점 | 전통 운영 | [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) | [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) | [Platform 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/) |
 | :--- | :--- | :--- | :--- | :--- |
 | 핵심 질문 | "어떻게 안정적으로 운영할까?" | "어떻게 협업 장벽을 줄일까?" | "변화 속도와 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 어떻게 수치로 조정할까?" | "어떻게 반복 가능한 운영 기반을 제공할까?" |
 | 중심 수단 | 매뉴얼, 승인, 숙련자 경험 | 문화, 파이프라인, 협업 | [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)/[SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/), [Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/), 자동화 | 셀프서비스 플랫폼, 표준 템플릿 |
@@ -101,7 +103,7 @@ SRE를 제대로 이해하려면 [DevOps](/knowledge-base/studynote/04_software_
 
 이 비교에서 중요한 점은 SRE가 DevOps의 반대말이 아니라는 것이다. 오히려 DevOps가 "함께 책임지자"라고 말하는 철학이라면, SRE는 "그 책임을 SLO와 Error Budget으로 운영하자"라고 말하는 방법론이다. 그래서 조직에 전담 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 팀이 없더라도, 제품 팀이 SLO를 정의하고 배포 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 오류 예산과 연결하면 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 원칙을 부분적으로 구현하고 있는 셈이다.
 
-SRE는 [Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) (관측성), [Chaos Engineering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/), Incident Management와도 강하게 연결된다. SLI를 만들려면 지표·[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·트레이스가 신뢰할 수 있어야 하고, 장애를 학습으로 바꾸려면 재현 가능한 실험과 회고 체계가 필요하다. 즉 SRE는 독립된 섬이 아니라, 관측·배포·플랫폼·보안 설계를 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 목표 아래 묶는 중심축에 가깝다.
+SRE는 [Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) (관측성), [Chaos 엔진ering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/), Incident Management와도 강하게 연결된다. SLI를 만들려면 지표·[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·트레이스가 신뢰할 수 있어야 하고, 장애를 학습으로 바꾸려면 재현 가능한 실험과 회고 체계가 필요하다. 즉 SRE는 독립된 섬이 아니라, 관측·배포·플랫폼·보안 설계를 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 목표 아래 묶는 중심축에 가깝다.
 
 또 하나 기억할 점은 모든 조직이 구글식 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 팀을 그대로 복제할 필요는 없다는 것이다. 제품 수가 적고 조직이 작다면 전담 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 조직보다 제품 팀 안에 운영 자동화와 [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) 원칙을 심는 편이 현실적일 수 있다. 반대로 공통 인프라와 다수의 크리티컬 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 있는 조직에서는 중앙 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 또는 플랫폼+[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 혼합 모델이 더 잘 맞는다.
 
@@ -143,7 +145,7 @@ SRE를 제대로 도입하면 운영은 사람의 희생에 의존하는 활동�
 
 물론 한계도 있다. SRE는 도구 몇 개 설치로 끝나는 기법이 아니라, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 목표 합의와 포스트모템 문화, 관측성 품질, 자동화 투자까지 요구하는 운영 체계다. 지표가 부정확하거나 조직이 실패를 숨기면 SLO와 Error Budget도 숫자 장식으로 전락한다. 따라서 SRE의 성공 조건은 기술과 문화가 동시에 맞물리는 데 있다.
 
-앞으로는 [Platform Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/), [Artificial Intelligence](/knowledge-base/studynote/10_ai/01_ai_basics/001_artificial_intelligence/) for IT Operations ([AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/099_aiops_chatbot_itsm_automation/)), 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 도구가 발전하더라도 SRE의 핵심은 크게 변하지 않는다. 결국 기억해야 할 본질은 "[신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 우연이나 영웅심이 아니라, 측정 가능한 목표와 자동화 가능한 절차로 만든다"는 점이다. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 커질수록 이 관점은 선택이 아니라 운영의 기본 문법이 된다.
+앞으로는 [Platform 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/), [Artificial Intelligence](/knowledge-base/studynote/10_ai/01_ai_basics/001_artificial_intelligence/) for IT Operations ([AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/099_aiops_chatbot_itsm_automation/)), 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 도구가 발전하더라도 SRE의 핵심은 크게 변하지 않는다. 결국 기억해야 할 본질은 "[신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 우연이나 영웅심이 아니라, 측정 가능한 목표와 자동화 가능한 절차로 만든다"는 점이다. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 커질수록 이 관점은 선택이 아니라 운영의 기본 문법이 된다.
 
 - **📢 섹션 요약 비유**: SRE는 자동차를 더 빨리 모는 기술이 아니라, 속도계만 보는 대신 브레이크·연료·엔진 경고등을 함께 보며 끝까지 완주하게 만드는 주행 시스템과 같다.
 
@@ -159,29 +161,28 @@ SRE를 제대로 도입하면 운영은 사람의 희생에 의존하는 활동�
 | [Toil](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/) | 자동화 투자 필요성을 드러내는 반복 수동 작업 |
 | [Blameless Postmortem](/knowledge-base/studynote/15_devops_sre/03_sre_observability/128_blameless_postmortem/) | 장애를 사람 비난이 아니라 시스템 학습으로 바꾸는 절차 |
 | [Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) | SLI를 신뢰할 수 있게 만드는 측정 기반 |
-| [Platform Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/) | [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 원칙을 조직 전체에 재사용 가능한 가드레일로 제공하는 동반 영역 |
+| [Platform 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/) | [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 원칙을 조직 전체에 재사용 가능한 가드레일로 제공하는 동반 영역 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">수동 운영 · 영웅형 On-call</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">모니터링 고도화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SLI / SLO 기반 신뢰성 측정</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Error Budget 기반 배포 의사결정</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Toil 자동화 · Platform Engineering</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속적 학습형 SRE 운영 체계</div>
-</div>
-</div>
-
-
+```text
+수동 운영 · 영웅형 On-call
+    │
+    ▼
+모니터링 고도화
+    │
+    ▼
+SLI / SLO 기반 신뢰성 측정
+    │
+    ▼
+Error Budget 기반 배포 의사결정
+    │
+    ▼
+Toil 자동화 · Platform Engineering
+    │
+    ▼
+지속적 학습형 SRE 운영 체계
+```
 
 이 흐름은 운영의 중심이 "장애를 나중에 막기"에서 "[신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 미리 설계하고 지속적으로 조정하기"로 이동하는 과정을 보여준다.
 

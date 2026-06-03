@@ -27,18 +27,14 @@ tags = ["studynote-network"]
   - **TURN**: A와 B가 땅굴을 파다 걸려서([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)) 도저히 못 만날 때, 산꼭대기 친구(TURN)가 <strong>"아휴 답답해! 그냥 나한테 편지 던져! 내가 받아서 B한테 던져줄게!"</strong>라며 직접 중계해 주는 녀석입니다.
   - **ICE**: 땅굴을 팔지, 돌을 던질지, 아니면 같은 감방 안인지 모든 수단을 시도해 보고 <strong>"가장 성공 확률이 높은 방법"을 골라주는 탈옥 브로커</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">ALG</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">STUN, TURN, ICE</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ARP</div></div>
-</div>
-</div>
-
-
+```text
+[ALG]
+    │
+    ▼
+[STUN, TURN, ICE]
+    │
+    └──▶ [ARP]
+```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/">NAT</a> 횡단 기술은 각자의 요새(사설망)에 틀어박혀 밖으로 나올 수 없는 두 성주가, 서로 직접 대화하기 위해 </strong>거울로 햇빛을 반사시켜 위치를 알리거나(STUN), 전령을 띄워(TURN) 어떻게든 소통의 다리를 놓는 눈물겨운 공병 작전**입니다.
 
@@ -63,24 +59,26 @@ tags = ["studynote-network"]
   3. **TURN (우선순위 꼴찌)**: "다 안 되면 어쩔 수 없지... 비싼 중계 서버 쓰자."
 - WebRTC는 이 ICE 프레임워크를 기본 탑재하고 있어, 개발자가 별도로 셋업하지 않아도 알아서 최적의 통신망을 찾아낸다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WebRTC의 ICE 구동 (NAT 횡단) 시나리오</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">PC A (사설 10.x)</div><div class="kb-diagram-node">PC B (사설 192.x)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 내 공인 IP가 뭐야?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">STUN 서버</div><div class="kb-diagram-connector">◀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(거울 역할)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 서로 공인 IP 알아냄 -&gt; P2P 직통 시도!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(방화벽 때문에 실패 X)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. ICE 왈: "안 되겠다, 3안(TURN)으로 간다!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TURN 중계 서버</div><div class="kb-diagram-connector">◀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(모든 데이터 패킷을 중계)</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                 WebRTC의 ICE 구동 (NAT 횡단) 시나리오            │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ PC A (사설 10.x) ]                       [ PC B (사설 192.x) ] │
+ │         │                                            │        │
+ │         │   1. 내 공인 IP가 뭐야?                      │        │
+ │         ├────────────────▶ [ STUN 서버 ] ◀──────────┤        │
+ │         │                   (거울 역할)                │        │
+ │         │                                            │        │
+ │         │   2. 서로 공인 IP 알아냄 -> P2P 직통 시도!      │        │
+ │         └─────── (방화벽 때문에 실패 X) ───────────────┘        │
+ │                                                             │
+ │         3. ICE 왈: "안 되겠다, 3안(TURN)으로 간다!"                 │
+ │         │                                            │        │
+ │         └─────────▶  [ TURN 중계 서버 ]  ◀───────────┘        │
+ │                      (모든 데이터 패킷을 중계)                  │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: ** ICE는 **"만남 주선 앱"<strong>입니다. 두 남녀가 같은 동네면 바로 카페에서 만나게 해주고(<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/">Direct</a>), 다른 동네면 서로의 주소를 알려줘서 중간 지점에서 만나게 해주며(STUN), 상대방 부모님이 너무 엄해서 외출이 안 되면(Symmetric <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/">NAT</a>), 앱 관리자가 </strong>직접 편지를 배달(TURN)**해 주는 완벽한 매칭 알고리즘입니다.
 
@@ -138,19 +136,15 @@ STUN, TURN, ICE는 네트워크 계층과 IP를 이해할 때 핵심 축을 잡�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: ALG</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: STUN, TURN, ICE</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: ARP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 대규모 주소 자동화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: ALG]
+    │
+    ▼
+[현재 개념: STUN, TURN, ICE]
+    │
+    ├──▶ [확장 A: ARP]
+    └──▶ [확장 B: 대규모 주소 자동화]
+```
 
 STUN, TURN, ICE는 ALG에서 출발해 현재 메커니즘을 정교화하고, 이후 ARP와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -20,48 +20,34 @@ tags = ["studynote-design-supervision"]
 ## Ⅰ. 개요 및 필요성
 멀티스레드 환경에서 가변 객체를 공유하면:
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Thread A: user.setName("Alice"); ──</div>
-<div class="kb-diagram-note">Thread B: user.setName("Bob"); ── ── 동시 실행 → Race Condition</div>
-<div class="kb-diagram-note">결과: user.getName() == ??? (예측 불가)</div>
-</div>
-</div>
-
-
+```
+Thread A: user.setName("Alice");   ──┐
+Thread B: user.setName("Bob");     ──┼── 동시 실행 → Race Condition
+                                     │
+결과: user.getName() == ??? (예측 불가)
+```
 
 방어책으로 `synchronized`, `Lock`, `volatile` 등을 사용하지만:
 - [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 ([Lock Contention](/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/))
 - 데드락([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)) 위험
 - 코드 복잡도 증가
 
+```
+불변 객체 설계 체크리스트:
 
+  1. final class       → 상속으로 인한 불변성 파괴 방지
+  2. final fields      → 재할당 방지
+  3. 생성자에서만 초기화 → 외부에서 값 세팅 불가 (setter 없음)
+  4. 가변 객체 필드는   → 방어적 복사(Defensive Copy) 적용
+     getters에서        → 방어적 복사본 반환
+  5. 깊은 복사(Deep Copy) → 컬렉션/배열 필드 초기화 시 복사
+```
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">불변 객체 설계 체크리스트:</div>
-<div class="kb-diagram-note">1. final class → 상속으로 인한 불변성 파괴 방지</div>
-<div class="kb-diagram-note">2. final fields → 재할당 방지</div>
-<div class="kb-diagram-note">3. 생성자에서만 초기화 → 외부에서 값 세팅 불가 (setter 없음)</div>
-<div class="kb-diagram-note">4. 가변 객체 필드는 → 방어적 복사(Defensive Copy) 적용</div>
-<div class="kb-diagram-note">getters에서 → 방어적 복사본 반환</div>
-<div class="kb-diagram-note">5. 깊은 복사(Deep Copy) → 컬렉션/배열 필드 초기화 시 복사</div>
-</div>
-</div>
-
-
-
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Core Idea</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Expected Gain</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐    ┌──────────────┐    ┌──────────────┐
+│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
+└──────────────┘    └──────────────┘    └──────────────┘
+```
 
 - **📢 섹션 요약 비유**: 불변 객체는 박물관 전시품 — 유리 케이스(final 클래스) 안에 있어서 누구나 볼 수 있지만(공유 가능), 아무도 건드릴 수 없다(상태 변경 불가). 복사본이 필요하면 3D 프린터(새 객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/))로 만든다.
 
@@ -98,25 +84,24 @@ public final class Money {                    // 1. final class
 }
 ```
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">불변 객체 공유 안전성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Thread A ──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">읽기(Read) ──▶ Money { amount=1000, KRW }</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Thread B ── (불변 객체 공유 — Lock 불필요)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">읽기(Read) ──▶ (동일 참조 안전)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Thread C ──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Thread A가 상태 변경이 필요할 때:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Money original = Money(1000, KRW)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Money updated = original.add(500) ← 새 객체 생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">original → Money { amount=1000, KRW } ← 그대로 유지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">updated → Money { amount=1500, KRW } ← 새 객체</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                  불변 객체 공유 안전성                           │
+│                                                                 │
+│   Thread A ──┐                                                  │
+│              ├──── 읽기(Read) ──▶ Money { amount=1000, KRW }    │
+│   Thread B ──┤                   (불변 객체 공유 — Lock 불필요)  │
+│              ├──── 읽기(Read) ──▶ (동일 참조 안전)               │
+│   Thread C ──┘                                                  │
+│                                                                 │
+│   Thread A가 상태 변경이 필요할 때:                               │
+│   Money original = Money(1000, KRW)                             │
+│   Money updated  = original.add(500)  ← 새 객체 생성            │
+│                                                                 │
+│   original → Money { amount=1000, KRW }  ← 그대로 유지           │
+│   updated  → Money { amount=1500, KRW }  ← 새 객체              │
+└─────────────────────────────────────────────────────────────────┘
+```
 
 | 클래스 | 설명 | 가변 대응 클래스 |
 |:---|:---|:---|

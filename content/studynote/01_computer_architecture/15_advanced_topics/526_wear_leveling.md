@@ -25,20 +25,18 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 왜 평균 여유 수명이 아니라 최악 블록이 장치 운명을 좌우하는지를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마모 평준화가 없으면 수명은 평균이 아니라 최악 블록이 결정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LBA 0~15 (메타데이터) ▶ Block 03 : P/E 2,980</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LBA 16~31 (저널) ▶ Block 04 : P/E 2,910</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LBA 32~95 (거의 안 변함) ▶ Block 18 : P/E 27</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LBA 96~... (거의 안 변함) ▶ Block 19 : P/E 14</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전체 여유 공간이 많아도 Block 03/04가 먼저 소진되면 장치 신뢰성이 흔들린다.</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│           마모 평준화가 없으면 수명은 평균이 아니라 최악 블록이 결정       │
+├────────────────────────────────────────────────────────────────────────────┤
+│ LBA 0~15  (메타데이터) ───────────────▶ Block 03 : P/E 2,980               │
+│ LBA 16~31 (저널)     ───────────────▶ Block 04 : P/E 2,910               │
+│ LBA 32~95 (거의 안 변함) ───────────▶ Block 18 : P/E   27                │
+│ LBA 96~... (거의 안 변함) ──────────▶ Block 19 : P/E   14                │
+├────────────────────────────────────────────────────────────────────────────┤
+│ 전체 여유 공간이 많아도 Block 03/04가 먼저 소진되면 장치 신뢰성이 흔들린다. │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 즉 [마모 평준화](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/479_wear_leveling/)의 목표는 "많이 남은 블록을 더 쓰게 하고, 많이 닳은 블록을 쉬게 한다"가 아니다. 오히려 장치 전체가 비슷한 속도로 늙도록 만들어, 특정 블록의 조기 사망이 전체 장애로 번지지 않게 하는 데 있다.
 
@@ -61,22 +59,24 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 [FTL](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/) 내부에서 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)와 정적 이동이 어떻게 이어지는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FTL 안에서의 마모 평준화 동작 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Host Write (LBA 42)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">FTL</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">낮은 erase count free block 선택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ mapping table: LBA42 → PBA901 갱신</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ erase count / wear histogram 갱신</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ background thread: wear gap 확인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 임계치 초과 → cold data migration</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">저마모 블록을 future hot write용 확보</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                   FTL 안에서의 마모 평준화 동작 흐름                       │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Host Write (LBA 42)                                                       │
+│        │                                                                  │
+│        ▼                                                                  │
+│ [FTL] ── old PBA invalid 표시 ──▶ 낮은 erase count free block 선택        │
+│   │                                                                       │
+│   ├─ mapping table: LBA42 → PBA901 갱신                                   │
+│   ├─ erase count / wear histogram 갱신                                    │
+│   └─ background thread: wear gap 확인                                     │
+│                                   │                                       │
+│                                   └─ 임계치 초과 → cold data migration    │
+│                                                      ↓                     │
+│                                        저마모 블록을 future hot write용 확보│
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 이때 핵심 비용 지표가 WAF다. `WAF = 실제 낸드에 기록된 데이터량 / 호스트가 요청한 데이터량`이므로, 정적 [마모 평준화](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/479_wear_leveling/)가 과도하면 수명을 늘리려다 오히려 내부 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 폭증시키는 역설이 생긴다. 따라서 좋은 설계는 단순히 wear gap을 줄이는 것이 아니라, <strong>wear gap 감소량 대비 추가 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 비용이 합리적인가</strong>를 계속 계산하는 쪽에 가깝다.
 
@@ -154,25 +154,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">고정 논리-물리 매핑 기반 플래시 사용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">핫스폿 블록 조기 마모 문제</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">FTL 기반 동적 마모 평준화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">정적 마모 평준화 · OP 확대 · GC 연계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">웨어 히스토그램 기반 예측형 컨트롤러</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ZNS / SCM까지 확장되는 호스트-장치 협력 수명 관리</div>
-</div>
-</div>
-
-
+```text
+고정 논리-물리 매핑 기반 플래시 사용
+        │
+        ▼
+핫스폿 블록 조기 마모 문제
+        │
+        ▼
+FTL 기반 동적 마모 평준화
+        │
+        ▼
+정적 마모 평준화 · OP 확대 · GC 연계
+        │
+        ▼
+웨어 히스토그램 기반 예측형 컨트롤러
+        │
+        ▼
+ZNS / SCM까지 확장되는 호스트-장치 협력 수명 관리
+```
 
 이 흐름은 단순 주소 변환에서 시작해, 장치 내부 통계와 호스트 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)를 함께 사용하는 방향으로 수명 관리가 고도화되는 과정을 보여 준다.
 

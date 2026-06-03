@@ -38,27 +38,26 @@ tags = ["studynote-ict-convergence"]
 
 ### [데이터 패브릭](/knowledge-base/studynote/12_it_management/05_security_compliance/212_data_fabric_virtualization/) vs [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/) 구조
 
+```
+[데이터 패브릭]
+소스A  소스B  소스C  소스D
+  └──────┴──────┴──────┘
+         메타데이터 계층
+    (자동 카탈로그 + 계보 + 품질)
+         │
+    가상 통합 계층
+    (논리적 단일 뷰, 물리적 이동 최소화)
+         │
+    소비자 (BI, ML, API)
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 패브릭</div></div>
-<div class="kb-diagram-note">소스A 소스B 소스C 소스D</div>
-<div class="kb-diagram-note">메타데이터 계층</div>
-<div class="kb-diagram-note">(자동 카탈로그 + 계보 + 품질)</div>
-<div class="kb-diagram-note">가상 통합 계층</div>
-<div class="kb-diagram-note">(논리적 단일 뷰, 물리적 이동 최소화)</div>
-<div class="kb-diagram-note">소비자 (BI, ML, API)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 메시</div></div>
-<div class="kb-diagram-note">도메인A팀 도메인B팀 도메인C팀</div>
-<div class="kb-diagram-note">데이터 제품 데이터 제품 데이터 제품</div>
-<div class="kb-diagram-note">(Sales) (Marketing) (Operations)</div>
-<div class="kb-diagram-note">연합 거버넌스 (공통 표준)</div>
-<div class="kb-diagram-note">셀프 서비스 인프라 플랫폼</div>
-</div>
-</div>
-
-
+[데이터 메시]
+도메인A팀     도메인B팀     도메인C팀
+데이터 제품   데이터 제품   데이터 제품
+(Sales)      (Marketing)   (Operations)
+    └────────────┼────────────┘
+         연합 거버넌스 (공통 표준)
+         셀프 서비스 인프라 플랫폼
+```
 
 ### [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/) 4원칙
 

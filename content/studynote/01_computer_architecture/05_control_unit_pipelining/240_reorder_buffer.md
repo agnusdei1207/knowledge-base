@@ -44,28 +44,28 @@ ROB는 보통 헤드 (Head)와 테일 (Tail)을 가진 원형 큐로 구현된�
 
 이 그림은 <strong>할당 → 실행 완료 → 순차 커밋</strong>이 어떻게 분리되는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ROB가 유지하는 3단계: Allocate → Finish → Commit</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Decode/Rename</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ROB 12</div><div class="kb-diagram-note">not-ready</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ROB 13</div><div class="kb-diagram-note">not-ready</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ROB 14</div><div class="kb-diagram-note">not-ready</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Execute Units</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ROB 13</div><div class="kb-diagram-note">ready</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ROB 14</div><div class="kb-diagram-note">ready</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ROB 12</div><div class="kb-diagram-note">wait</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Commit Engine</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Head = ROB 12 : wait → 뒤 명령어도 커밋 보류</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Head = ROB 12 : ready → A 커밋</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Next = ROB 13 : ready → B 커밋</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Next = ROB 14 : ready → C 커밋</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────┐
+│                ROB가 유지하는 3단계: Allocate → Finish → Commit         │
+├──────────────────────────────────────────────────────────────────────────┤
+│ Decode/Rename                                                           │
+│    │                                                                     │
+│    ├─ Inst A ───────────────▶ [ROB 12] not-ready                         │
+│    ├─ Inst B ───────────────▶ [ROB 13] not-ready                         │
+│    └─ Inst C ───────────────▶ [ROB 14] not-ready                         │
+│                                                                          │
+│ Execute Units                                                            │
+│    ├─ Inst B finished ───────▶ [ROB 13] ready                            │
+│    ├─ Inst C finished ───────▶ [ROB 14] ready                            │
+│    └─ Inst A late miss ───────▶ [ROB 12] wait                            │
+│                                                                          │
+│ Commit Engine                                                            │
+│    ├─ Head = ROB 12 : wait  → 뒤 명령어도 커밋 보류                      │
+│    ├─ Head = ROB 12 : ready → A 커밋                                     │
+│    ├─ Next = ROB 13 : ready → B 커밋                                     │
+│    └─ Next = ROB 14 : ready → C 커밋                                     │
+└──────────────────────────────────────────────────────────────────────────┘
+```
 
 핵심은 실행 완료와 커밋 완료가 다르다는 점이다. 어떤 덧셈 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 이미 결과를 계산했더라도, 앞선 로드 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 아직 메모리에서 데이터를 기다리는 중이면 그 덧셈 결과는 ROB 안에서 대기해야 한다. 이 분리가 있기 때문에 프로세서는 내부적으로는 유연하게 움직이되, 외부적으로는 <strong>항상 앞 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a>부터 상태가 확정되는 것처럼</strong> 보일 수 있다.
 
@@ -142,24 +142,24 @@ ROB의 가장 큰 효과는 "빠르게 실행해도 상태는 차분하게 확�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">순차 파이프라인</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">스코어보드 (Scoreboard) · 제한적 비순차 실행</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">레지스터 리네이밍 (Register Renaming)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">재주문 버퍼 (ROB, Reorder Buffer)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 정밀한 예외 (Precise Exception)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 분기 실패 플러시 (Branch Misprediction Flush)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 대규모 명령어 윈도우 · 고성능 슈퍼스칼라 설계</div>
-</div>
-</div>
-
-
+```text
+순차 파이프라인
+    │
+    ▼
+스코어보드 (Scoreboard) · 제한적 비순차 실행
+    │
+    ▼
+레지스터 리네이밍 (Register Renaming)
+    │
+    ▼
+재주문 버퍼 (ROB, Reorder Buffer)
+    │
+    ├─▶ 정밀한 예외 (Precise Exception)
+    │
+    ├─▶ 분기 실패 플러시 (Branch Misprediction Flush)
+    │
+    └─▶ 대규모 명령어 윈도우 · 고성능 슈퍼스칼라 설계
+```
 
 이 흐름은 "순서 보장 중심 실행 → 제한적 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 실행 → 순서 복원 장치 도입 → 대규모 [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/)"으로 진화한 과정을 보여준다.
 

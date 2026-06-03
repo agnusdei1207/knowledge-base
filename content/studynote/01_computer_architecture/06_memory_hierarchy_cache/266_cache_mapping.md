@@ -25,19 +25,19 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 맵핑 방식이 왜 필요한지, 그리고 주소 규칙이 없을 때 무엇이 비효율적인지를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">맵핑 규칙이 없는 경우 vs 있는 경우</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 주소 요청</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 맵핑 규칙 없음 ─▶ 모든 라인 태그 비교 ─▶ 회로 복잡도·전력 증가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 맵핑 규칙 있음 ─▶ 특정 라인/세트만 선택 ─▶ 빠른 탐색 가능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심: "아무 데나 저장"이 자유로워 보여도, 실제 하드웨어는 검색 비용을 낸다</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                  맵핑 규칙이 없는 경우 vs 있는 경우                       │
+├────────────────────────────────────────────────────────────────────────────┤
+│ CPU 주소 요청                                                              │
+│   │                                                                        │
+│   ├─ 맵핑 규칙 없음        ─▶ 모든 라인 태그 비교 ─▶ 회로 복잡도·전력 증가 │
+│   │                                                                        │
+│   └─ 맵핑 규칙 있음        ─▶ 특정 라인/세트만 선택 ─▶ 빠른 탐색 가능      │
+│                                                                            │
+│ 핵심: "아무 데나 저장"이 자유로워 보여도, 실제 하드웨어는 검색 비용을 낸다 │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 따라서 캐시 맵핑의 출발점은 "공간을 얼마나 유연하게 쓸 것인가"보다 "검색 범위를 어디까지 허용할 것인가"에 더 가깝다. 너무 엄격하면 충돌이 늘고, 너무 자유로우면 회로가 무거워진다. 캐시 설계는 이 두 극단 사이에서 적절한 제약을 고르는 작업이다.
 
@@ -53,24 +53,32 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 세 방식의 주소 해석 차이를 한 번에 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">같은 주소라도 맵핑 방식에 따라 보는 범위가 다름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Direct Mapping</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tag</div><div class="kb-diagram-cell">Index</div><div class="kb-diagram-cell">Offset</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 라인 1개 선택 → 태그 1개 비교</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4-Way Set Associative Mapping</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tag</div><div class="kb-diagram-cell">SetIndex</div><div class="kb-diagram-cell">Offset</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 세트 1개 선택 → Way 4개 태그 비교</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Fully Associative</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tag</div><div class="kb-diagram-cell">Offset</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 전체 후보 태그 비교</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                 같은 주소라도 맵핑 방식에 따라 보는 범위가 다름            │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Direct Mapping                                                             │
+│ ┌──────────────┬────────┬──────────────┐                                   │
+│ │ Tag          │ Index  │ Offset       │                                   │
+│ └──────────────┴────────┴──────────────┘                                   │
+│                  │                                                         │
+│                  └─▶ 라인 1개 선택 → 태그 1개 비교                         │
+│                                                                            │
+│ 4-Way Set Associative Mapping                                              │
+│ ┌────────────────┬──────────┬──────────────┐                               │
+│ │ Tag            │ SetIndex │ Offset       │                               │
+│ └────────────────┴──────────┴──────────────┘                               │
+│                    │                                                       │
+│                    └─▶ 세트 1개 선택 → Way 4개 태그 비교                   │
+│                                                                            │
+│ Fully Associative                                                           │
+│ ┌──────────────────────────────────────┬──────────────┐                     │
+│ │ Tag                                  │ Offset       │                     │
+│ └──────────────────────────────────────┴──────────────┘                     │
+│                                         │                                   │
+│                                         └─▶ 전체 후보 태그 비교            │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 | 방식 | 주소 분할 특징 | 한 번에 비교하는 후보 | 장점 | 약점 |
 | :--- | :--- | :--- | :--- | :--- |
@@ -158,24 +166,27 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">메모리 벽 (Memory Wall)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">캐시 메모리 (Cache Memory) · 캐시 라인 (Cache Line)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">캐시 맵핑 방식 (Cache Mapping)</div>
-<div class="kb-diagram-note">직접 사상 집합 연관 사상 완전 연관 사상</div>
-<div class="kb-diagram-note">(Direct) (Set Associative) (Fully Associative)</div>
-<div class="kb-diagram-note">충돌 미스 완화 · 교체 정책 · AMAT 최적화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Way Prediction · Victim Cache · Page Coloring</div>
-</div>
-</div>
-
-
+```text
+메모리 벽 (Memory Wall)
+        │
+        ▼
+캐시 메모리 (Cache Memory) · 캐시 라인 (Cache Line)
+        │
+        ▼
+캐시 맵핑 방식 (Cache Mapping)
+        │
+        ├──────────────┬──────────────┐
+        ▼              ▼              ▼
+직접 사상        집합 연관 사상      완전 연관 사상
+(Direct)         (Set Associative)   (Fully Associative)
+        │              │              │
+        └──────┬───────┴───────┬──────┘
+               ▼               ▼
+충돌 미스 완화 · 교체 정책 · AMAT 최적화
+               │
+               ▼
+Way Prediction · Victim Cache · Page Coloring
+```
 
 이 흐름은 캐시가 왜 등장했는지에서 출발해, 맵핑 방식의 분화와 다시 현대적 절충 구조로 수렴하는 과정을 보여준다.
 

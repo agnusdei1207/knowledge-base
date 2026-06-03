@@ -31,17 +31,14 @@ tags = ["studynote-ai"]
 
 [부스팅](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)은 약한 학습기를 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)로 연결한다. AdaBoost는 오답 샘플에 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 올리고, Gradient Boosting은 잔차 (Residual)를 다음 모델의 타깃으로 삼는다. 이 반복 덕분에 최종 예측이 정답에 수렴한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부스팅의 순차적 오차 보정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력 데이터 → Tree 1 → 잔차 계산 → Tree 2 → 잔차 계산</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ Tree 3 → ... → 최종 앙상블</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                 부스팅의 순차적 오차 보정                   │
+├──────────────────────────────────────────────────────────────┤
+│ 입력 데이터 → Tree 1 → 잔차 계산 → Tree 2 → 잔차 계산       │
+│                     → Tree 3 → ... → 최종 앙상블           │
+└──────────────────────────────────────────────────────────────┘
+```
 
 | 항목 | 의미 | 영향 |
 | :--- | :--- | :--- |
@@ -126,23 +123,21 @@ tags = ["studynote-ai"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">약한 학습기</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">AdaBoost</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Gradient Boosting</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">XGBoost / LightGBM / CatBoost</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">정형 데이터 고정밀 앙상블</div>
-</div>
-</div>
-
-
+```text
+약한 학습기
+    │
+    ▼
+AdaBoost
+    │
+    ▼
+Gradient Boosting
+    │
+    ▼
+XGBoost / LightGBM / CatBoost
+    │
+    ▼
+정형 데이터 고정밀 앙상블
+```
 
 이 흐름은 오답 보정형 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/)이 고성능 산업 표준으로 진화한 과정을 보여준다.
 

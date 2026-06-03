@@ -23,17 +23,14 @@ tags = ["studynote-ai"]
 
 <strong>LIME</strong>은 이 아이디어를 구현한다: 해당 예측 인스턴스 x₀의 "근방(Neighborhood)"에서 복잡한 블랙박스 f가 어떻게 행동하는지 관찰하고, 이를 설명 가능한 간단한 모델 g(x)(선형 회귀, 결정 트리)로 근사한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: LIME은 지구 전체 지형(블랙박스 모델 전체)을 이해하려는 대신, 현재 서 있는 서울 강남구(설명할 예측 인스턴스) 주변만 평평한 지도(선형 대리 모델)로 만드는 것이다. 전체 지구 지도는 복잡하지만, 강남구만 확대하면 단순한 격자 지도로 길 안내(설명)가 가능하다.
 
@@ -41,31 +38,34 @@ tags = ["studynote-ai"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LIME 알고리즘 단계별 과정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">설명 대상: 입력 x₀, 블랙박스 모델 f</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단계 1: 섭동 샘플 생성 (Perturbed Samples)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 텍스트: x₀의 단어 일부를 무작위로 제거하여 변형 샘플 생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 이미지: x₀의 슈퍼픽셀(Superpixel) 일부를 회색으로 마스킹</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 표 데이터: 연속 특징에 가우시안 노이즈 추가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단계 2: 블랙박스 예측 수집</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 생성된 N개 샘플들을 f(모델)에 입력 → 예측값 레이블링</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단계 3: 근접도 가중치 계산</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- π(x₀, x') = exp(-d(x₀,x')²/σ²) (x₀과의 거리 역 가중치)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- x₀와 가까운 샘플일수록 높은 가중치</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단계 4: 가중 선형 모델 학습</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 가중 선형 회귀: g* = argmin_g Σ π(x₀,x')·(f(x')-g(x'))²</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 규제 항으로 간단한 모델 강제</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단계 5: 설명 도출</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- g*의 계수 → 각 특징의 양/음 기여도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 예: "단어 '환불'(+0.3)이 부정적 감성 예측에 기여"</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│         LIME 알고리즘 단계별 과정                                    │
+├──────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  설명 대상: 입력 x₀, 블랙박스 모델 f                                │
+│                                                                  │
+│  단계 1: 섭동 샘플 생성 (Perturbed Samples)                        │
+│  - 텍스트: x₀의 단어 일부를 무작위로 제거하여 변형 샘플 생성          │
+│  - 이미지: x₀의 슈퍼픽셀(Superpixel) 일부를 회색으로 마스킹          │
+│  - 표 데이터: 연속 특징에 가우시안 노이즈 추가                        │
+│                                                                  │
+│  단계 2: 블랙박스 예측 수집                                         │
+│  - 생성된 N개 샘플들을 f(모델)에 입력 → 예측값 레이블링              │
+│                                                                  │
+│  단계 3: 근접도 가중치 계산                                          │
+│  - π(x₀, x') = exp(-d(x₀,x')²/σ²)  (x₀과의 거리 역 가중치)       │
+│  - x₀와 가까운 샘플일수록 높은 가중치                               │
+│                                                                  │
+│  단계 4: 가중 선형 모델 학습                                         │
+│  - 가중 선형 회귀: g* = argmin_g Σ π(x₀,x')·(f(x')-g(x'))²      │
+│  - 규제 항으로 간단한 모델 강제                                      │
+│                                                                  │
+│  단계 5: 설명 도출                                                  │
+│  - g*의 계수 → 각 특징의 양/음 기여도                               │
+│  - 예: "단어 '환불'(+0.3)이 부정적 감성 예측에 기여"                │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 타입 | 특징 분해 방식 | [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 방법 |
 |:---|:---|:---|

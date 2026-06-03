@@ -28,18 +28,14 @@ tags = ["studynote-network"]
 구글의 엔지니어들은 이 낭비를 막기 위해 SPDY에서 쓰던 Gzip 헤더 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)을 버리고(보안 취약점 때문), [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 전용 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 알고리즘인 <strong>HPACK</strong>을 발명했습니다.
 - **필요성**: 브라우저와 서버 양쪽에 똑같은 '메모장(Table)'을 펼쳐놓고, 처음에 `User-Agent: Chrome`을 보내면 메모장 62번에 적어둡니다. 두 번째 요청부터는 긴 글씨 대신 "아까 메모장 62번 줘!"라는 숫자 1개만 보내어 수천 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)의 텍스트를 1바이트로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하는 혁명을 이뤄냈습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">HTTP/2 스트림 다중화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HTTP/2 헤더 압축</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">HTTP/2 서버 푸시</div></div>
-</div>
-</div>
-
-
+```text
+[HTTP/2 스트림 다중화]
+    │
+    ▼
+[HTTP/2 헤더 압축]
+    │
+    └──▶ [HTTP/2 서버 푸시]
+```
 
 - **📢 섹션 요약 비유**: [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/1.1은 식당에 갈 때마다 종업원에게 "저는 알러지가 있고, 매운 걸 못 먹고, 밥은 적게 주시고..."를 매번 처음부터 끝까지 랩퍼처럼 읊어대는 피곤한 단골손님입니다. HPACK은 종업원이 손님의 식성을 장부에 '1번 메뉴얼'로 적어두고, 다음부터는 손님이 식당에 들어오며 손가락 1개만 펴도([인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 번호) 똑같은 밥상이 완벽하게 차려지는 VIP 회원 관리 시스템입니다.
 
@@ -49,27 +45,26 @@ tags = ["studynote-network"]
 
 HPACK 아키텍처는 3가지 강력한 수학적/논리적 무기로 구성됩니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">HTTP/2 HPACK 알고리즘 3대 핵심 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 정적 테이블 (Static Table)</div><div class="kb-diagram-note">- 영원히 변하지 않는 규칙</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 전 세계 모든 브라우저와 서버가 공유하는 61개의 고정 딕셔너리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 인덱스 2번: <code>method: GET</code></div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 인덱스 8번: <code>status: 200</code></div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 동적 테이블 (Dynamic Table)</div><div class="kb-diagram-note">- 통신하면서 실시간 기록</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 클라이언트와 서버가 연결된(TCP) 동안 유지되는 메모장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 인덱스 62번: <code>Cookie: session_id=ABC123XYZ...</code></div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 인덱스 63번: <code>Custom-Header: my-app-v1</code></div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3. 허프만 코딩 (Huffman Coding)</div><div class="kb-diagram-note">- 텍스트 자체의 픽셀 압축</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 테이블에 없는 완전 새로운 헤더 글자를 보낼 때 사용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 자주 쓰이는 알파벳(e, a)은 5비트로, 안 쓰이는 글자(z, q)는 10비트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">로 가변 압축하여 전송 용량을 물리적으로 30% 추가 삭감</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│             [ HTTP/2 HPACK 알고리즘 3대 핵심 아키텍처 ]            │
+│                                                             │
+│   [ 1. 정적 테이블 (Static Table) ] - 영원히 변하지 않는 규칙        │
+│    ▶ 전 세계 모든 브라우저와 서버가 공유하는 61개의 고정 딕셔너리      │
+│       - 인덱스 2번: `method: GET`                             │
+│       - 인덱스 8번: `status: 200`                             │
+│                                                             │
+│   [ 2. 동적 테이블 (Dynamic Table) ] - 통신하면서 실시간 기록        │
+│    ▶ 클라이언트와 서버가 연결된(TCP) 동안 유지되는 메모장             │
+│       - 인덱스 62번: `Cookie: session_id=ABC123XYZ...`        │
+│       - 인덱스 63번: `Custom-Header: my-app-v1`               │
+│                                                             │
+│   [ 3. 허프만 코딩 (Huffman Coding) ] - 텍스트 자체의 픽셀 압축       │
+│    ▶ 테이블에 없는 완전 새로운 헤더 글자를 보낼 때 사용               │
+│    ▶ 자주 쓰이는 알파벳(e, a)은 5비트로, 안 쓰이는 글자(z, q)는 10비트│
+│       로 가변 압축하여 전송 용량을 물리적으로 30% 추가 삭감           │
+└─────────────────────────────────────────────────────────────┘
+```
 
 ### 동작 메커니즘 (인덱싱 통신)
 1. 브라우저가 첫 요청 시 `Cookie: abcd`를 보냅니다. 서버는 이를 받아 자신의 <strong>동적 테이블 62번</strong>에 저장합니다.
@@ -164,19 +159,15 @@ HPACK 아키텍처는 3가지 강력한 수학적/논리적 무기로 구성됩�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: HTTP/2 스트림 다중화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: HTTP/2 헤더 압축</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: HTTP/2 서버 푸시</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 애플리케이션 전달</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: HTTP/2 스트림 다중화]
+    │
+    ▼
+[현재 개념: HTTP/2 헤더 압축]
+    │
+    ├──▶ [확장 A: HTTP/2 서버 푸시]
+    └──▶ [확장 B: 지능형 애플리케이션 전달]
+```
 
 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 헤더 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)는 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 스트림 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 서버 푸시와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

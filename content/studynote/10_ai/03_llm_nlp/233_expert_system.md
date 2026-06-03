@@ -27,17 +27,14 @@ tags = ["studynote-ai"]
 
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 스스로 공부하며 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 맞추는 요즘의 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)(Machine [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/))과는 완전히 다르다. 지식을 사람이 직접 손으로 떠먹여 줘야 하는 <strong>규칙 기반(Rule-based) <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/">인공지능</a></strong>, 이것이 1980년대 전 세계 기업들의 돈줄을 빨아들였던 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)의 두 번째 황금기를 연 <strong>전문가 시스템 (Expert System)</strong>의 정체다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 현재의 딥러닝이 수만 장의 고양이 사진을 보고 스스로 눈치껏 고양이를 구별하는 '천재적인 직감의 예술가'라면, 1980년대 전문가 시스템은 깐깐한 '원리원칙주의자 공무원'이다. 공무원(추론 엔진)은 자기 판단이나 직감 따윈 절대 쓰지 않는다. 오직 책상 서랍 속에 꽂혀있는 거대한 '업무 매뉴얼 북([지식 베이스](/knowledge-base/studynote/10_ai/01_ai_basics/008_knowledge_base_inference_engine/))'을 펴놓고, "매뉴얼 3조 2항에 따라 열이 나니까 감기입니다!"라고 정해진 매뉴얼대로만 딱딱하게 대답하는 도서관 사서 봇이다.
 
@@ -47,29 +44,28 @@ tags = ["studynote-ai"]
 
 전문가 시스템은 지식을 저장하는 뇌(DB)와 그 지식을 꺼내서 결론을 엮어내는 심장(엔진)으로 완벽히 분리된 우아한 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)형 아키텍처를 가졌다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전문가 시스템 (Expert System)의 논리 추론 아키텍처 도해</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 지식 베이스 (Knowledge Base) - "의사의 뇌를 텍스트로 박제"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 수만 개의 지식 룰(Rule)이 하드코딩되어 모여있는 절대 거대한 도서관.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 룰 1: IF (환자 열 &gt; 38도) AND (콧물 = True) THEN (의심 병명 = 감기)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 룰 2: IF (의심 병명 = 감기) AND (몸살 = True) THEN (처방 = 타이레놀)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 추론 엔진 (Inference Engine) - "팩트를 엮어 결론을 내는 논리 회로"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 사용자 입력(Fact): "우리 애가 39도고 콧물, 몸살이 있어요!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 엔진 발동: 도서관(지식 베이스)을 싹 뒤짐.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- 입력값을</div><div class="kb-diagram-node">룰 1</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">"아, 일단 감기구나!" 팩트 추가.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- 새 팩트(감기)를</div><div class="kb-diagram-node">룰 2</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">"최종 정답은 타이레놀!" 도출.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3. 설명 기능 모듈 (Explanation Facility)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 사용자: "기계야, 왜 타이레놀을 먹으라고 한 거야?"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 시스템: "왜냐하면 환자 열이 38도를 넘었고 콧물이 났기 때문에 룰 1에 따라</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">감기로 판단했고, 몸살이 있으니 룰 2에 의해 타이레놀을 추천했습니다!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 100% 팩트에 기반한 압도적인 설명 가능성(Explainability) 폭발!</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           전문가 시스템 (Expert System)의 논리 추론 아키텍처 도해         │
+├──────────────────────────────────────────────────────────────┤
+│  [1. 지식 베이스 (Knowledge Base) - "의사의 뇌를 텍스트로 박제"]       │
+│   * 수만 개의 지식 룰(Rule)이 하드코딩되어 모여있는 절대 거대한 도서관.     │
+│   * 룰 1: IF (환자 열 > 38도) AND (콧물 = True) THEN (의심 병명 = 감기) │
+│   * 룰 2: IF (의심 병명 = 감기) AND (몸살 = True) THEN (처방 = 타이레놀) │
+│                                                              │
+│  [2. 추론 엔진 (Inference Engine) - "팩트를 엮어 결론을 내는 논리 회로"] │
+│   * 사용자 입력(Fact): "우리 애가 39도고 콧물, 몸살이 있어요!"           │
+│   * 엔진 발동: 도서관(지식 베이스)을 싹 뒤짐.                        │
+│     - 입력값을 [룰 1]에 대입 ─▶ "아, 일단 감기구나!" 팩트 추가.         │
+│     - 새 팩트(감기)를 [룰 2]에 연쇄 대입 ─▶ "최종 정답은 타이레놀!" 도출.  │
+│                                                              │
+│  [3. 설명 기능 모듈 (Explanation Facility)]                      │
+│   * 사용자: "기계야, 왜 타이레놀을 먹으라고 한 거야?"                  │
+│   * 시스템: "왜냐하면 환자 열이 38도를 넘었고 콧물이 났기 때문에 룰 1에 따라 │
+│            감기로 판단했고, 몸살이 있으니 룰 2에 의해 타이레놀을 추천했습니다!"│
+│   ─▶ 100% 팩트에 기반한 압도적인 설명 가능성(Explainability) 폭발!     │
+└──────────────────────────────────────────────────────────────┘
+```
 
 **핵심 원리 (추론 엔진의 2대 검색 방향)**:
 추론 엔진이 도서관의 룰(Rule) 책을 뒤지는 방법에는 두 가지 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 있다.

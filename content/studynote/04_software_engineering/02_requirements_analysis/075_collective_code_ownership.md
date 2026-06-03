@@ -102,23 +102,21 @@ issue -> any dev -> tests / review -> merge -> shared knowledge
 
 ### 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">commit</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CI</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">review</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">merge</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">shared responsibility</div>
-</div>
-</div>
-
-
+```text
+commit
+  │
+  ▼
+CI
+  │
+  ▼
+review
+  │
+  ▼
+merge
+  │
+  ▼
+shared responsibility
+```
 
 ### 어린이를 위한 3줄 비유 설명
 

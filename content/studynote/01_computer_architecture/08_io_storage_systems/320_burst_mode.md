@@ -45,19 +45,17 @@ tags = ["studynote-computer-architecture"]
 
 다음 그림은 단일 전송과 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 전송의 차이를 시간축으로 압축해서 보여준다. 중요한 점은 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 모드가 <strong>첫 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>는 비슷하게 늦을 수 있어도, 뒤의 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>들을 매우 싸게 가져온다</strong>는 사실이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단일 전송 vs 버스트 전송의 시간 사용</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">단일 전송</div><div class="kb-diagram-node">주소/중재</div><div class="kb-diagram-node">대기</div><div class="kb-diagram-node">데이터1</div><div class="kb-diagram-node">주소/중재</div><div class="kb-diagram-node">대기</div><div class="kb-diagram-node">데이터2</div><div class="kb-diagram-note">...</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">버스트 전송</div><div class="kb-diagram-node">주소/중재</div><div class="kb-diagram-node">대기</div><div class="kb-diagram-node">데이터1</div><div class="kb-diagram-node">데이터2</div><div class="kb-diagram-node">데이터3</div><div class="kb-diagram-node">데이터4</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">병목 위치</div><div class="kb-diagram-cell">준비 오버헤드가 데이터마다 반복</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개선 포인트</div><div class="kb-diagram-cell">준비 오버헤드를 첫 전송에 집중하고 이후는 연속 흘려보냄</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                    단일 전송 vs 버스트 전송의 시간 사용                     │
+├──────────────┬───────────────────────────────────────────────────────────────┤
+│ 단일 전송    │ [주소/중재][대기][데이터1][주소/중재][대기][데이터2]...      │
+│ 버스트 전송  │ [주소/중재][대기][데이터1][데이터2][데이터3][데이터4]         │
+├──────────────┼───────────────────────────────────────────────────────────────┤
+│ 병목 위치    │ 준비 오버헤드가 데이터마다 반복                              │
+│ 개선 포인트  │ 준비 오버헤드를 첫 전송에 집중하고 이후는 연속 흘려보냄      │
+└──────────────────────────────────────────────────────────────────────────────┘
+```
 
 예를 들어 64비트 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)에서 캐시 라인 64바이트를 채운다고 가정하면, 단일 전송은 8바이트씩 8번 요청해야 한다. 반면 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 길이 8의 전송이라면 첫 요청 후 8개의 워드를 연속으로 받아 한 번의 캐시 라인 필 (Fill)로 끝낼 수 있다. 그래서 메모리 계층에서는 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 효율이 곧 캐시 미스 패널티를 줄이는 핵심 수단이 된다.
 
@@ -83,23 +81,21 @@ tags = ["studynote-computer-architecture"]
 
 이 차이는 다른 개념과도 바로 연결된다. 캐시 라인, [공간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/) ([Spatial Locality](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/)), [메모리 인터리빙](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/254_memory_interleaving/), [SDRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/252_sdram/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 길이, AXI (Advanced eXtensible Interface) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 같은 개념은 모두 <strong>연속 주소를 한 번에 다루면 시스템이 더 효율적이다</strong>라는 같은 철학 위에 있다. 결국 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 모드는 단독 기술이 아니라, 메모리 계층 최적화와 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 설계 전반을 관통하는 기본 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">연속 데이터 존재</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">공간적 지역성 (Spatial Locality)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">캐시 라인 단위 요청</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">버스트 모드 전송</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">유효 대역폭 증가 · 미스 패널티 완화</div>
-</div>
-</div>
-
-
+```text
+연속 데이터 존재
+    │
+    ▼
+공간적 지역성 (Spatial Locality)
+    │
+    ▼
+캐시 라인 단위 요청
+    │
+    ▼
+버스트 모드 전송
+    │
+    ▼
+유효 대역폭 증가 · 미스 패널티 완화
+```
 
 - **📢 섹션 요약 비유**: 단일 전송은 손님 한 명씩 엘리베이터를 태우는 것이고, [사이클 스틸링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/451_cycle_stealing/)은 틈날 때 한 명씩 끼워 태우는 것이며, [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 모드는 같은 층으로 갈 사람들을 한 번에 태워 올리는 것이다. 목적지가 비슷할수록 한 번에 움직이는 편이 더 이득이다.
 
@@ -129,20 +125,17 @@ tags = ["studynote-computer-architecture"]
 - 장치 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 요구를 무시하고 지나치게 긴 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트만 허용하는 설계
 - 캐시 라인·정렬 조건을 고려하지 않아 여러 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트로 쪼개지는 설계
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">버스트 모드 적용 판단 체크</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 배치</div><div class="kb-diagram-cell">연속 주소인가, 아니면 산발적 접근인가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전송 크기</div><div class="kb-diagram-cell">블록 단위 이득이 설정 비용보다 큰가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지연 허용치</div><div class="kb-diagram-cell">다른 마스터가 기다려도 괜찮은가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로토콜 제약</div><div class="kb-diagram-cell">최대 Burst Length와 정렬 규칙을 만족하는가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시스템 목표</div><div class="kb-diagram-cell">최고 처리량이 우선인가, 응답성 균형이 우선인가?</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                    버스트 모드 적용 판단 체크                               │
+├──────────────────────┬───────────────────────────────────────────────────────┤
+│ 데이터 배치          │ 연속 주소인가, 아니면 산발적 접근인가?               │
+│ 전송 크기            │ 블록 단위 이득이 설정 비용보다 큰가?                 │
+│ 지연 허용치          │ 다른 마스터가 기다려도 괜찮은가?                     │
+│ 프로토콜 제약        │ 최대 Burst Length와 정렬 규칙을 만족하는가?         │
+│ 시스템 목표          │ 최고 처리량이 우선인가, 응답성 균형이 우선인가?      │
+└──────────────────────────────────────────────────────────────────────────────┘
+```
 
 따라서 답안에서는 "[버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트 모드는 빠르다"에서 멈추면 부족하다. <strong>연속성·<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>·<a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>·공정성의 교환 관계를 설명하고, 대용량 전송에는 채택하되 실시간 응답이 중요한 구간에서는 길이를 제어해야 한다</strong>고 말해야 설계 판단이 된다.
 
@@ -175,23 +168,22 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단일 전송 (Single Transfer)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DMA (Direct Memory Access) · 블록 전송 요구</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">버스트 모드 (Burst Mode)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 캐시 라인 필 (Cache Line Fill)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ SDRAM / DDR (Double Data Rate) 연속 전송</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">AXI (Advanced eXtensible Interface) 버스트 · 고속 인터커넥트 최적화</div>
-</div>
-</div>
-
-
+```text
+단일 전송 (Single Transfer)
+    │
+    ▼
+DMA (Direct Memory Access) · 블록 전송 요구
+    │
+    ▼
+버스트 모드 (Burst Mode)
+    │
+    ├──▶ 캐시 라인 필 (Cache Line Fill)
+    │
+    ├──▶ SDRAM / DDR (Double Data Rate) 연속 전송
+    │
+    ▼
+AXI (Advanced eXtensible Interface) 버스트 · 고속 인터커넥트 최적화
+```
 
 이 흐름은 "한 개씩 옮기기 → 블록으로 묶기 → 메모리/[버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 차원의 정교한 연속 전송"으로 개념이 발전하는 과정을 보여준다.
 

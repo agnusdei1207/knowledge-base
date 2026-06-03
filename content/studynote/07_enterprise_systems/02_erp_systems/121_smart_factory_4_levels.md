@@ -18,20 +18,18 @@ tags = ["studynote-enterprise-systems"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스마트 팩토리 성숙도 4단계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 1 (기초): 수기 관리, ICT 미적용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 2 (중간1): 바코드·POP, 자동화 설비</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 3 (중간2): MES·ERP 연동, 실시간 모니터링</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 4 (고도화): AI 예측, 디지털 트윈, 자율 최적화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">국내 현황: 70%+ 기업이 Level 1~2</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    스마트 팩토리 성숙도 4단계                          │
+├───────────────────────────────────────────────────────┤
+│  Level 1 (기초): 수기 관리, ICT 미적용               │
+│  Level 2 (중간1): 바코드·POP, 자동화 설비            │
+│  Level 3 (중간2): MES·ERP 연동, 실시간 모니터링      │
+│  Level 4 (고도화): AI 예측, 디지털 트윈, 자율 최적화 │
+│                                                       │
+│  국내 현황: 70%+ 기업이 Level 1~2                    │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [스마트 팩토리](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/) 4단계는 자동차 운전 자율주행 레벨과 비슷하다. Level 1은 수동 운전, Level 4는 완전 자율주행이다.
 
@@ -89,23 +87,21 @@ tags = ["studynote-enterprise-systems"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">수동 제조 (Level 1, ~2000s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">자동화 + POP (Level 2, 2005~)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MES + IoT 실시간 (Level 3, 2015~)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AI + 디지털 트윈 (Level 4, 2020~)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: Industry 5.0 — 인간-AI 협업 제조</div></div>
-</div>
-</div>
-
-
+```text
+[수동 제조 (Level 1, ~2000s)]
+    │
+    ▼
+[자동화 + POP (Level 2, 2005~)]
+    │
+    ▼
+[MES + IoT 실시간 (Level 3, 2015~)]
+    │
+    ▼
+[AI + 디지털 트윈 (Level 4, 2020~)]
+    │
+    ▼
+[현재: Industry 5.0 — 인간-AI 협업 제조]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. Level 1은 <strong>종이에 직접 기록</strong>하는 옛날 공장이에요.

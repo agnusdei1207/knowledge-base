@@ -18,23 +18,23 @@ tags = ["studynote-enterprise-systems"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PDM 핵심 기능</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Vault — 데이터 저장소</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CAD 도면, 3D 모델, 문서 → 버전 관리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">체크인/체크아웃</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수정 시 체크아웃(잠금) → 완료 후 체크인(신 버전)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">BOM 관리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">E-BOM(설계) → M-BOM(제조) 변환</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">변경 관리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ECR(요청) → ECO(승인) → ECN(통보)</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    PDM 핵심 기능                                      │
+├───────────────────────────────────────────────────────┤
+│  [Vault — 데이터 저장소]                              │
+│   CAD 도면, 3D 모델, 문서 → 버전 관리                │
+│                                                       │
+│  [체크인/체크아웃]                                    │
+│   수정 시 체크아웃(잠금) → 완료 후 체크인(신 버전)   │
+│                                                       │
+│  [BOM 관리]                                           │
+│   E-BOM(설계) → M-BOM(제조) 변환                     │
+│                                                       │
+│  [변경 관리]                                          │
+│   ECR(요청) → ECO(승인) → ECN(통보)                  │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: PDM은 설계팀의 <strong>Git</strong>이다. CAD 도면을 커밋(체크인)·브랜치(리비전)·[PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/)(ECO 승인)로 관리한다.
 
@@ -91,23 +91,21 @@ PDM은 <strong>설계 협업의 기본 인프라</strong>이며, PLM으로 확�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">파일 서버 (수동 CAD 관리, 1980s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">PDM (1990s) — CAD 버전·BOM 관리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">PLM (2000s) — 전주기 확장</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">클라우드 PLM (2015~) — SaaS 기반</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: AI+PDM — 자동 BOM 생성·도면 유사 검색</div></div>
-</div>
-</div>
-
-
+```text
+[파일 서버 (수동 CAD 관리, 1980s)]
+    │
+    ▼
+[PDM (1990s) — CAD 버전·BOM 관리]
+    │
+    ▼
+[PLM (2000s) — 전주기 확장]
+    │
+    ▼
+[클라우드 PLM (2015~) — SaaS 기반]
+    │
+    ▼
+[현재: AI+PDM — 자동 BOM 생성·도면 유사 검색]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. PDM은 설계팀의 <strong>도서관</strong>이에요. 도면(책)을 빌리고(체크아웃) 돌려놓아요(체크인).

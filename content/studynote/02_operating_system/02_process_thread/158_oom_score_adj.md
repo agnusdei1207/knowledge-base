@@ -43,21 +43,23 @@ tags = ["studynote-operating-system"]
 
 아래 그림은 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 판단에 `oom_score_adj`가 개입하는 지점을 요약한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OOM selection path with policy override</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">memory pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── reclaim / compact / swap try</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── still allocation failure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">kernel badness heuristic ──▶ oom_score</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">admin policy ──▶ oom_score_adj</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">victim chosen and SIGKILL issued</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                 OOM selection path with policy override                    │
+├────────────────────────────────────────────────────────────────────────────┤
+│ memory pressure                                                            │
+│      │                                                                     │
+│      ├── reclaim / compact / swap try                                      │
+│      └── still allocation failure                                          │
+│              ▼                                                             │
+│      kernel badness heuristic ──▶ oom_score                                │
+│                                   +                                        │
+│                          admin policy ──▶ oom_score_adj                    │
+│                                   │                                        │
+│                                   ▼                                        │
+│                        victim chosen and SIGKILL issued                     │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 실무적으로 기억할 점은 세 가지다. 첫째, `oom_score_adj`는 프로세스 단위 값이며 자식 프로세스에 상속될 수 있어 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 트리 전체에 영향을 준다. 둘째, 직접 `/proc`에 쓴 값은 프로세스가 재시작되면 사라지므로 지속 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 `systemd`나 오케스트레이터에서 관리하는 편이 낫다. 셋째, `-1000`은 강력하지만 남용하면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 실제 위기 때 선택할 후보를 잃어 더 큰 장애를 만들 수 있다.
 
@@ -127,23 +129,21 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">메모리 압박</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">페이지 회수 · 스왑 · 압축 시도</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">OOM Killer 진입</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">oom_score + oom_score_adj</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">cgroup 정책 · systemd · Kubernetes QoS와 결합한 생존 우선순위 설계</div>
-</div>
-</div>
-
-
+```text
+메모리 압박
+    │
+    ▼
+페이지 회수 · 스왑 · 압축 시도
+    │
+    ▼
+OOM Killer 진입
+    │
+    ▼
+oom_score + oom_score_adj
+    │
+    ▼
+cgroup 정책 · systemd · Kubernetes QoS와 결합한 생존 우선순위 설계
+```
 
 이 흐름은 `oom_score_adj`가 단독 기능이 아니라, 메모리 압박 감지에서 희생자 선정과 상위 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 이어지는 운영 체계의 한 요소임을 보여준다.
 

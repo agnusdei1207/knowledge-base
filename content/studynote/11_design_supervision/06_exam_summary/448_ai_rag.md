@@ -21,16 +21,12 @@ LLM은 방대한 사전학습을 거쳤더라도 조직 내부 지식, 최신 �
 
 그러나 RAG의 품질은 검색 단계가 결정한다. 문서가 잘못 청킹되면 문맥이 끊기고, [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)이 부정확하면 관련 문서를 못 찾고, [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 갱신이 늦으면 오래된 답을 내놓는다. 따라서 감리에서는 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)보다도 [벡터 인덱싱](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/300_ann_approximate_nearest_neighbor_vector_index/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)의 설계와 운영 통제를 더 세밀하게 본다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Knowledge</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">RAG Indexing</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Grounded Answer</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Documents</div><div class="kb-diagram-cell">and Retrieval</div><div class="kb-diagram-cell">with Evidence</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────┐    ┌────────────────┐    ┌──────────────────┐
+│ Knowledge   │──▶│ RAG Indexing   │──▶│ Grounded Answer  │
+│ Documents   │    │ and Retrieval  │    │ with Evidence    │
+└─────────────┘    └────────────────┘    └──────────────────┘
+```
 
 이 흐름은 RAG가 "똑똑한 모델"보다 "잘 정리된 지식 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/)"에 가깝다는 점을 보여 준다. 그래서 답안에는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 준비, 검색 품질, 응답 근거를 함께 넣어야 한다.
 
@@ -40,18 +36,19 @@ LLM은 방대한 사전학습을 거쳤더라도 조직 내부 지식, 최신 �
 
 [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) [벡터 인덱싱](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/300_ann_approximate_nearest_neighbor_vector_index/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)는 수집 - 정제 - 청킹 - [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) - 색인 - 검색 - 재랭킹 - 응답 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)의 연쇄 구조다. 이때 인덱싱 품질과 검색 품질은 분리해서 봐야 한다. 좋은 모델을 써도 청크 경계가 엉키면 소용없고, 좋은 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 써도 권한 필터가 없으면 보안 사고가 난다. 감리 관점에서는 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/), 검색 정확도, 운영 갱신 주기를 함께 확인해야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Docs</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Clean</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Chunk</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Embed</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Vector DB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Query</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Retrieve</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Rerank</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Prompt</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LLM</div></div>
-</div>
-</div>
-
-
+```text
+┌────────┐   ┌───────┐   ┌───────┐   ┌────────┐   ┌────────────┐
+│ Docs   │──▶│ Clean │──▶│ Chunk │──▶│ Embed  │──▶│ Vector DB  │
+└────────┘   └───────┘   └───────┘   └────────┘   └────────────┘
+                                                             │
+┌────────┐   ┌─────────┐   ┌────────┐   ┌────────┐           │
+│ Query  │──▶│ Retrieve│──▶│ Rerank │──▶│ Prompt │───────────┤
+└────────┘   └─────────┘   └────────┘   └────────┘           │
+                                                             ▼
+                                                      ┌────────┐
+                                                      │  LLM   │
+                                                      └────────┘
+```
 
 | 구성축 | 핵심 내용 | 감리 포인트 |
 |:---|:---|:---|
@@ -117,23 +114,31 @@ LLM은 방대한 사전학습을 거쳤더라도 조직 내부 지식, 최신 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Raw Documents</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Chunk / Metadata</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Embedding / Index</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hybrid / Rerank</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Grounded Answer</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────┐
+│ Raw Documents │
+└───────────────┘
+          │
+          ▼
+┌───────────────────┐
+│ Chunk / Metadata  │
+└───────────────────┘
+          │
+          ▼
+┌───────────────────┐
+│ Embedding / Index │
+└───────────────────┘
+          │
+          ▼
+┌───────────────────┐
+│ Hybrid / Rerank   │
+└───────────────────┘
+          │
+          ▼
+┌───────────────────┐
+│ Grounded Answer   │
+└───────────────────┘
+```
 
 RAG는 단일 검색기가 아니라 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 준비에서 평가까지 이어지는 운영 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인으로 이해해야 한다.
 

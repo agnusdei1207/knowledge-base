@@ -33,36 +33,40 @@ tags = ["studynote-design-supervision"]
 
 모든 [구조 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/258_structural_patterns_overview/)은 결국 "어떻게 선(Interface)을 꼽고 피를 돌게 할 것인가"에 대한 해답이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GoF 7대 구조 패턴의 십자 융합 목적(Intent) 압살 맵 도해</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🔌</div><div class="kb-diagram-node">Adapter (어댑터)</div><div class="kb-diagram-note">➔ 110V ➔ 220V 강제 변환 젠더</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 목적: 일본 직구 전자제품 110V 대가리를 220V 한국 콘센트 구멍 규격에 억지로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">맞춰 끼워 넣으려고 중간에 껍데기 변환 젠더 끼움. (인터페이스 호환 락킹)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🌉</div><div class="kb-diagram-node">Bridge (브리지)</div><div class="kb-diagram-note">➔ 추상과 구현의 완벽 이혼 절단술 🔪</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 목적: '리모컨(추상)' 기능과 'TV(구현)' 쇳덩이 기능이 1개 기계통 안에 섞여 타</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">죽는 걸 찢어발겨 ➔ 허공에 다리(Bridge) 1개 놓고 분할 양립 생존 시킴.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🎄</div><div class="kb-diagram-node">Decorator (데코레이터)</div><div class="kb-diagram-note">➔ 러시아 인형 무한 껍데기 양파 까기 🧅</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 목적: 원본 케이크 빵 뜯지 마! 걍 그 위에 딸기 얹고 ➔ 초코 얹고 ➔ 촛불 얹어!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상속(Class) 추가 1도 없이 런타임에 껍데기를 무한 포장해 기능 펌핑 스케일 업.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">💂</div><div class="kb-diagram-node">Proxy (프록시)</div><div class="kb-diagram-note">➔ 클럽 문지기 가드 초병 쉴드 🛡️</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 목적: 메인 대장 봇 직접 찌르지 마! 대장 코앞에 똑같이 생긴 문지기(Proxy) 1명</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">세워두고, 걔가 손님 신분증 캐시(Cache) 검열 차단 짬처리 다 쳐 막아냄 쾅!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🏢</div><div class="kb-diagram-node">Facade (퍼사드)</div><div class="kb-diagram-note">➔ 짬처리 안내데스크 단일 대문 융합 🚪</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 목적: 엔진, 바퀴, 핸들 복잡한 서브 봇들 100개 다이렉트 찌르다 스파게티 얽혀</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">죽지 마 ➔ 걍 대문 앞</div><div class="kb-diagram-node">안내데스크 봇 1명</div><div class="kb-diagram-note">세워 다이렉트 단일 소통 핑퐁 끝.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🌲</div><div class="kb-diagram-node">Composite (컴포지트)</div><div class="kb-diagram-note">➔ 폴더-파일 마트료시카 무한 재귀 트리 📂</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- 목적:</div><div class="kb-diagram-node">단일 파일</div><div class="kb-diagram-note">이든</div><div class="kb-diagram-node">파일 100개 든 뚱뚱한 폴더</div><div class="kb-diagram-note">든 똑같은 인터페이스 1개로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">취급 퉁쳐버려! 클라이언트는 걍 '삭제' 누르면 밑단 트리까지 싹 다 동시 소각 컷.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🪶</div><div class="kb-diagram-node">Flyweight (플라이웨이트)</div><div class="kb-diagram-note">➔ 메모리 재탕 공유 자본주의 끝판왕 💰</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 목적: 총알 10만 개 <code>new</code> 쳐서 램 뻗어 죽음 ➔ '총알 모양(Image)' 무거운</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터는 캐시에 1개만 딱 올려 10만 번 공용 쉐어(Share) 재탕 돌려막기 생존.</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          GoF 7대 구조 패턴의 십자 융합 목적(Intent) 압살 맵 도해        │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ 🔌 [ Adapter (어댑터) ] ➔ 110V ➔ 220V 강제 변환 젠더             │
+│   - 목적: 일본 직구 전자제품 110V 대가리를 220V 한국 콘센트 구멍 규격에 억지로│
+│     맞춰 끼워 넣으려고 중간에 껍데기 변환 젠더 끼움. (인터페이스 호환 락킹)   │
+│                                                             │
+│ 🌉 [ Bridge (브리지) ] ➔ 추상과 구현의 완벽 이혼 절단술 🔪           │
+│   - 목적: '리모컨(추상)' 기능과 'TV(구현)' 쇳덩이 기능이 1개 기계통 안에 섞여 타│
+│     죽는 걸 찢어발겨 ➔ 허공에 다리(Bridge) 1개 놓고 분할 양립 생존 시킴.     │
+│                                                             │
+│ 🎄 [ Decorator (데코레이터) ] ➔ 러시아 인형 무한 껍데기 양파 까기 🧅 │
+│   - 목적: 원본 케이크 빵 뜯지 마! 걍 그 위에 딸기 얹고 ➔ 초코 얹고 ➔ 촛불 얹어!│
+│     상속(Class) 추가 1도 없이 런타임에 껍데기를 무한 포장해 기능 펌핑 스케일 업.│
+│                                                             │
+│ 💂 [ Proxy (프록시) ] ➔ 클럽 문지기 가드 초병 쉴드 🛡️              │
+│   - 목적: 메인 대장 봇 직접 찌르지 마! 대장 코앞에 똑같이 생긴 문지기(Proxy) 1명 │
+│     세워두고, 걔가 손님 신분증 캐시(Cache) 검열 차단 짬처리 다 쳐 막아냄 쾅!   │
+│                                                             │
+│ 🏢 [ Facade (퍼사드) ] ➔ 짬처리 안내데스크 단일 대문 융합 🚪        │
+│   - 목적: 엔진, 바퀴, 핸들 복잡한 서브 봇들 100개 다이렉트 찌르다 스파게티 얽혀 │
+│     죽지 마 ➔ 걍 대문 앞 [안내데스크 봇 1명] 세워 다이렉트 단일 소통 핑퐁 끝.  │
+│                                                             │
+│ 🌲 [ Composite (컴포지트) ] ➔ 폴더-파일 마트료시카 무한 재귀 트리 📂 │
+│   - 목적: [단일 파일]이든 [파일 100개 든 뚱뚱한 폴더]든 똑같은 인터페이스 1개로 │
+│     취급 퉁쳐버려! 클라이언트는 걍 '삭제' 누르면 밑단 트리까지 싹 다 동시 소각 컷.│
+│                                                             │
+│ 🪶 [ Flyweight (플라이웨이트) ] ➔ 메모리 재탕 공유 자본주의 끝판왕 💰 │
+│   - 목적: 총알 10만 개 `new` 쳐서 램 뻗어 죽음 ➔ '총알 모양(Image)' 무거운 │
+│     데이터는 캐시에 1개만 딱 올려 10만 번 공용 쉐어(Share) 재탕 돌려막기 생존.│
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[래퍼(Wrapper) 계열 4패턴 구조의 피 터지는 트레이드오프 비교]**
 초보자들은 코드를 까보고 "어? [Adapter](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/), [Decorator](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/), [Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/), [Bridge](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) 넷 다 결국 남의 객체 1개를 자기 뱃속 변수로 품고 껍데기 감싸는 거(Wrapper) 100% 똑같은 거 아님 ㅋ?" 라며 혼란에 빠진다. 구조(Structural)는 같지만 아키텍트의 의도([Intent](/knowledge-base/studynote/06_ict_convergence/05_data_science/416_prompt_injection_semantic_routing/))가 하늘과 땅 차이다.
@@ -126,23 +130,21 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">무지성 객체지향 상속(Inheritance extends) 떡칠 파국 💥 / 부모 클래스 1줄 수정 치면 밑에 자식 100놈 동반 컴파일 에러 빨간줄 시뻘겋게 뜨며 셧다운 뻗음 지옥 💀</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">GoF 아키텍트 분노의 도끼 척살 🪓 / "야 씨발 상속 피 섞지 마!! 객체끼리 껍데기 래퍼(Wrapper) 씌우고 뱃속에 포인터로 품어 조립(Composition 합성) 쳐 쾅!!!"</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">구조 패턴(Structural Patterns) 대관식 🚀 / 어댑터, 프록시, 퍼사드 등 7가지 레고 블록 조립 십자 융합 생태계 탄생</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Spring Framework AOP 및 IoC 컨테이너 대통일 ✨ / 프록시와 데코레이터 패턴을 아예 프레임워크 뇌가 런타임 찰나에 오토 렌더링 스위칭 복제 치며 백엔드 코더 짐 100% 압살 오프로드</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">MSA (마이크로서비스) 클라우드 인프라 아키텍처로 혼 빙의 환생 / 소프트웨어 껍데기 퍼사드(Facade) 패턴이 ➔ 물리적 거대 쇳덩이 장비 방폭문인</div><div class="kb-diagram-node">API Gateway 및 Service Mesh 사이드카 봇</div><div class="kb-diagram-note">네트워크 통제막 제국으로 차원 승격 도약 융합 달성 🚀</div></div>
-</div>
-</div>
-
-
+```text
+무지성 객체지향 상속(Inheritance extends) 떡칠 파국 💥 / 부모 클래스 1줄 수정 치면 밑에 자식 100놈 동반 컴파일 에러 빨간줄 시뻘겋게 뜨며 셧다운 뻗음 지옥 💀
+    │
+    ▼
+GoF 아키텍트 분노의 도끼 척살 🪓 / "야 씨발 상속 피 섞지 마!! 객체끼리 껍데기 래퍼(Wrapper) 씌우고 뱃속에 포인터로 품어 조립(Composition 합성) 쳐 쾅!!!"
+    │
+    ▼
+구조 패턴(Structural Patterns) 대관식 🚀 / 어댑터, 프록시, 퍼사드 등 7가지 레고 블록 조립 십자 융합 생태계 탄생
+    │
+    ▼
+Spring Framework AOP 및 IoC 컨테이너 대통일 ✨ / 프록시와 데코레이터 패턴을 아예 프레임워크 뇌가 런타임 찰나에 오토 렌더링 스위칭 복제 치며 백엔드 코더 짐 100% 압살 오프로드
+    │
+    ▼
+MSA (마이크로서비스) 클라우드 인프라 아키텍처로 혼 빙의 환생 / 소프트웨어 껍데기 퍼사드(Facade) 패턴이 ➔ 물리적 거대 쇳덩이 장비 방폭문인 [API Gateway 및 Service Mesh 사이드카 봇] 네트워크 통제막 제국으로 차원 승격 도약 융합 달성 🚀
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

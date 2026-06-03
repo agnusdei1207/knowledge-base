@@ -51,28 +51,27 @@ for k in 0..V:
 
 ### [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 — 플로이드-워샬 행렬 갱신
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">그래프: 0─(3)→1, 0─(7)→2, 1─(2)→2, 2─(1)→0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">초기 dist (adj 행렬, ∞=무한):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0 1 2</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">0</div><div class="kb-diagram-node">0,   3,   7</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1</div><div class="kb-diagram-node">∞,   0,   2</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2</div><div class="kb-diagram-node">1,   ∞,   0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">k=0 (0번 정점 경유) 후:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0 1 2</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">0</div><div class="kb-diagram-node">0,   3,   7</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1</div><div class="kb-diagram-node">∞,   0,   2</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2</div><div class="kb-diagram-node">1,   4,   0</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-node">2</div><div class="kb-diagram-node">1</div><div class="kb-diagram-note">= dist</div><div class="kb-diagram-node">2</div><div class="kb-diagram-node">0</div><div class="kb-diagram-note">+dist</div><div class="kb-diagram-node">0</div><div class="kb-diagram-node">1</div><div class="kb-diagram-note">= 1+3=4</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">k=1 후:</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">0</div><div class="kb-diagram-node">0,   3,   5</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-node">0</div><div class="kb-diagram-node">2</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">1→2)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">...</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────┐
+│  그래프:  0─(3)→1, 0─(7)→2, 1─(2)→2, 2─(1)→0          │
+│                                                         │
+│  초기 dist (adj 행렬, ∞=무한):                           │
+│       0    1    2                                       │
+│  0 [  0,   3,   7 ]                                     │
+│  1 [  ∞,   0,   2 ]                                     │
+│  2 [  1,   ∞,   0 ]                                     │
+│                                                         │
+│  k=0 (0번 정점 경유) 후:                                  │
+│       0    1    2                                       │
+│  0 [  0,   3,   7 ]                                     │
+│  1 [  ∞,   0,   2 ]                                     │
+│  2 [  1,   4,   0 ]  ← dist[2][1] = dist[2][0]+dist[0][1] = 1+3=4 │
+│                                                         │
+│  k=1 후:                                                │
+│  0 [  0,   3,   5 ]  ← dist[0][2] = 0+3+2=5 (0→1→2)   │
+│  ...                                                    │
+└─────────────────────────────────────────────────────────┘
+```
 
 ### [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 단계별 동작
 
@@ -86,18 +85,12 @@ for k in 0..V:
 
 ### 음수 사이클 검출
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">알고리즘 종료 후:</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">if dist</div><div class="kb-diagram-node">i</div><div class="kb-diagram-node">i</div><div class="kb-diagram-note">&lt; 0 for any i:</div></div>
-<div class="kb-diagram-note">→ 음수 사이클이 존재</div>
-<div class="kb-diagram-note">→ 최단 경로 정의 불가 (무한히 작아짐)</div>
-</div>
-</div>
-
-
+```
+알고리즘 종료 후:
+if dist[i][i] < 0 for any i:
+    → 음수 사이클이 존재
+    → 최단 경로 정의 불가 (무한히 작아짐)
+```
 
 📢 **섹션 요약 비유**: 음수 사이클 검출은 "자기 자신으로 돌아오는 여행 경비가 음수"인 경우를 찾는 것이다. 이런 사이클이 있으면 무한 반복으로 비용을 무한히 낮출 수 있어 최단 경로가 의미 없어진다.
 
@@ -173,23 +166,21 @@ for k in 0..V:
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">단일 출발 최단 경로(Dijkstra)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전체 쌍 최단 경로 문제</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">플로이드-워셜(DP 점화식)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">음수 사이클 감지</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 라우팅 응용</div></div>
-</div>
-</div>
-
-
+```text
+[단일 출발 최단 경로(Dijkstra)]
+    │
+    ▼
+[전체 쌍 최단 경로 문제]
+    │
+    ▼
+[플로이드-워셜(DP 점화식)]
+    │
+    ▼
+[음수 사이클 감지]
+    │
+    ▼
+[네트워크 라우팅 응용]
+```
 
 플로이드-워셜은 모든 쌍 최단 경로를 동적 계획법으로 구하고 음수 사이클까지 탐지하는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
 

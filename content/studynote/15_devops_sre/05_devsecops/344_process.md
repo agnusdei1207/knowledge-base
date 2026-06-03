@@ -38,18 +38,17 @@ tags = ["studynote-devops-sre"]
 | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 엔진 | [접근 통제](/knowledge-base/studynote/04_software_engineering/06_software_architecture/387_access_control_pattern/)와 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)킹 | 규제 준수, [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 기반 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) |
 | 자동화/추천 계층 | 품질 경고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 추천 | [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 품질에 의존 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">connect enrich</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data Sources</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Metadata Hub</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Policy / AI</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">virtual query</div><div class="kb-diagram-cell">lineage</div><div class="kb-diagram-cell">govern</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Virtual View</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Catalog</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Consumers</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐   connect   ┌──────────────┐   enrich    ┌──────────────┐
+│ Data Sources │ ──────────▶ │ Metadata Hub │ ──────────▶ │ Policy / AI  │
+└──────────────┘             └──────────────┘             └──────────────┘
+        │                             │                            │
+        │ virtual query               │ lineage                    │ govern
+        ▼                             ▼                            ▼
+┌──────────────┐             ┌──────────────┐             ┌──────────────┐
+│ Virtual View │ ──────────▶ │ Catalog      │ ──────────▶ │ Consumers    │
+└──────────────┘             └──────────────┘             └──────────────┘
+```
 
 핵심 원리는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 모두 물리 이동시키지 않고도 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 통해 “어디에 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 있는지”를 파악하고, 필요하면 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 질의나 최적화된 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)를 결합하는 것이다. 따라서 패브릭은 저장소를 대체하기보다 저장소 위에 얹히는 제어면(Control Plane) 성격이 강하다.
 
@@ -117,21 +116,18 @@ tags = ["studynote-devops-sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">ETL Integration</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Metadata Catalog</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Virtualization + Lineage</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Data Fabric with Policy Automation</div>
-</div>
-</div>
-
-
+```text
+ETL Integration
+   │
+   ▼
+Metadata Catalog
+   │
+   ▼
+Virtualization + Lineage
+   │
+   ▼
+Data Fabric with Policy Automation
+```
 
 이 흐름은 “연결 → 이해 → [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) → 자동 통제”로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리가 발전하는 과정을 보여준다.
 

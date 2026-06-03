@@ -33,18 +33,15 @@ tags = ["studynote-computer-architecture"]
 
 스토리지 [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)의 핵심 질문은 간단하다. "주 센터에 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 요청이 들어왔을 때, 언제 완료 응답 (ACK, Acknowledgement)을 줄 것인가?" 이 답에 따라 동기식과 비동기식이 갈린다. 동기식은 원격 센터까지 반영된 뒤 ACK를 주고, 비동기식은 주 센터에만 먼저 반영한 뒤 나중에 원격으로 보낸다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ACK timing decides latency, distance, and data loss</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sync : Host -&gt; Primary -&gt; WAN -&gt; Secondary -&gt; ACK -&gt; Host</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Async : Host -&gt; Primary -&gt; ACK -&gt; Host</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Journal / Queue ▶ Secondary</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────┐
+│             ACK timing decides latency, distance, and data loss          │
+├──────────────────────────────────────────────────────────────────────────┤
+│ Sync  : Host -> Primary -> WAN -> Secondary -> ACK -> Host              │
+│ Async : Host -> Primary -> ACK -> Host                                  │
+│                          └──── Journal / Queue ───▶ Secondary           │
+└──────────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림에서 보듯 동기식은 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간에 네트워크 왕복시간 ([RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/), [Round Trip Time](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/))이 직접 들어간다. 그래서 보통 수 ms 이하 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 비교적 짧은 거리의 메트로 구간에서 유리하다. 반면 비동기식은 주 센터 응답 경로에서 원격 WAN을 떼어 내기 때문에 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 거리에서 훨씬 유연하지만, 큐에 남아 아직 전송되지 않은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 있으면 장애 시 그 구간만큼 RPO가 생긴다.
 
@@ -123,23 +120,21 @@ DRS 스토리지 [미러링](/knowledge-base/studynote/01_computer_architecture/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">로컬 디스크 이중화 (RAID)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">원격 스냅샷 · 비동기 복제</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">메트로 구간 동기 미러링</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">3DC 하이브리드 DR 구조</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CDP · 합의 기반 분산 저장 구조</div>
-</div>
-</div>
-
-
+```text
+로컬 디스크 이중화 (RAID)
+    │
+    ▼
+원격 스냅샷 · 비동기 복제
+    │
+    ▼
+메트로 구간 동기 미러링
+    │
+    ▼
+3DC 하이브리드 DR 구조
+    │
+    ▼
+CDP · 합의 기반 분산 저장 구조
+```
 
 이 흐름은 저장장치 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)가 "디스크 고장 대응"에서 "센터 장애 이후 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 지속"으로 확장되는 과정을 보여준다.
 

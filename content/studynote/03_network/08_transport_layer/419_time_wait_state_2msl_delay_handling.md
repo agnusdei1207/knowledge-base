@@ -29,18 +29,14 @@ tags = ["studynote-network"]
   - 내가 사직서(FIN)를 냈고, 회사도 승인(FIN)했고, 나도 마지막 서명(ACK)을 했습니다.
   - 하지만 내일부터 바로 전화기를 꺼버리는 게 아닙니다. 혹시 회사가 내 마지막 서명 서류를 잃어버려서 다시 보내라고 연락 올까 봐, 또는 예전에 내가 시켜둔 택배가 뒤늦게 회사로 날아와서 엉뚱한 후임자(새 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 할당자)가 뜯어볼까 봐, <strong>한 달 동안은 내 자리(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>)를 아무도 못 쓰게 비워두고 혹시 모를 뒷수습을 챙겨주는 책임감 있는 유예 기간</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">TCP 4-Way Handshake</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">TIME_WAIT 상태</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CLOSE_WAIT / LAST_ACK 상태</div></div>
-</div>
-</div>
-
-
+```text
+[TCP 4-Way Handshake]
+    │
+    ▼
+[TIME_WAIT 상태]
+    │
+    └──▶ [CLOSE_WAIT / LAST_ACK 상태]
+```
 
 - **📢 섹션 요약 비유**: <strong> TIME_WAIT은 폭파 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>를 누른 뒤 </strong>"안전 구역에서 1분간 폭발을 눈으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 깐깐한 폭파범"**입니다. 내가 누른 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(ACK)가 불발이 나서 폭탄(서버)이 안 터졌으면 다시 눌러줘야 하고, 혹시 날아오는 파편(유령 패킷)이 있으면 무사히 다 떨어질 때까지 가드 올리고 버티는 필수 대기 시간입니다.
 
@@ -52,25 +48,26 @@ tags = ["studynote-network"]
 - <strong>MSL (Maximum <a href="/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/">Segment</a> Lifetime)</strong>: 인터넷상에서 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 패킷 한 놈이 살아서 뺑뺑이를 돌 수 있는 물리적 최대 수명. (라우터의 [TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/) 값 등을 고려해 보통 30초~1분으로 규정).
 - **왜 곱하기 2인가?**: 서버가 나한테 `FIN`을 보내느라 걸리는 최대 시간 1MSL + 내가 다시 서버한테 `ACK`를 보내느라 걸리는 최대 시간 1MSL = **도합 2 MSL (보통 60초 ~ 120초)** 동안 넉넉하게 대기해야 어떤 불상사도 막을 수 있다고 설계자들([IETF](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/))이 계산했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버의 구원자: TIME_WAIT의 마지막 ACK 재전송</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">나 (Active Close)</div><div class="kb-diagram-node">서버</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(TIME_WAIT 상태 진입)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── (마지막 찐막 ACK 발송!) ─(해저 컷!)─▶ ❌ 닿지 않음!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(LAST_ACK)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">FIN 재전송</div><div class="kb-diagram-note">──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 만약 내가 TIME_WAIT 안 하고 꺼졌다면?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버는 대답을 평생 못 듣고 LAST_ACK 좀비로 서버 메모리 폭발함!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* TIME_WAIT으로 멍때리고 있던 나:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"어이구, 아까 내 인사가 증발했구나. 옛다 다시 받아라!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── (마지막 ACK를 다시 쏴줌!!) ▶ (서버 CLOSED)</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                서버의 구원자: TIME_WAIT의 마지막 ACK 재전송         │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 나 (Active Close) ]                          [ 서버 ]      │
+ │    (TIME_WAIT 상태 진입)                                      │
+ │        │ ── (마지막 찐막 ACK 발송!) ─(해저 컷!)─▶ ❌ 닿지 않음!  │
+ │        │                                         (LAST_ACK) │
+ │        │                                                    │
+ │        │ ◀── "야! 네 마지막 인사 안 왔어 다시 줘!" [FIN 재전송] ── │
+ │                                                             │
+ │   * 만약 내가 TIME_WAIT 안 하고 꺼졌다면?                       │
+ │     서버는 대답을 평생 못 듣고 LAST_ACK 좀비로 서버 메모리 폭발함!     │
+ │                                                             │
+ │   * TIME_WAIT으로 멍때리고 있던 나:                             │
+ │     "어이구, 아까 내 인사가 증발했구나. 옛다 다시 받아라!"           │
+ │        │ ── (마지막 ACK를 다시 쏴줌!!) ───────▶ (서버 CLOSED) │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: TIME_WAIT 상태의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -133,19 +130,15 @@ TIME_WAIT 상태는 전송 계층을 이해할 때 핵심 축을 잡아 주는 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: TCP 4-Way Handshake</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: TIME_WAIT 상태</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: CLOSE_WAIT / LAST_ACK 상태</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: TCP 4-Way Handshake]
+    │
+    ▼
+[현재 개념: TIME_WAIT 상태]
+    │
+    ├──▶ [확장 A: CLOSE_WAIT / LAST_ACK 상태]
+    └──▶ [확장 B: 적응형 저지연 전송]
+```
 
 TIME_WAIT 상태는 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 4-Way Handshake에서 출발해 현재 메커니즘을 정교화하고, 이후 CLOSE_WAIT / LAST_ACK 상태와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

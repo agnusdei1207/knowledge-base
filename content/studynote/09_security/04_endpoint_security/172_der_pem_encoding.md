@@ -25,22 +25,21 @@ DER / PEM 인코딩은 [인증](/knowledge-base/studynote/04_software_engineerin
 
 아래 그림은 "[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 구조"와 "전달 형식"이 어떻게 구분되는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Logical certificate vs wire/file representation</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">X.509 fields</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Subject</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Issuer</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Validity</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Subject Public Key Info</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ DER encode -&gt; canonical binary bytes</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ PEM armor -&gt; Base64 text with BEGIN/END markers</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Logical certificate vs wire/file representation                     │
+├──────────────────────────────────────────────────────────────────────┤
+│ X.509 fields                                                        │
+│ ├─ Subject                                                          │
+│ ├─ Issuer                                                           │
+│ ├─ Validity                                                         │
+│ └─ Subject Public Key Info                                          │
+│        │                                                            │
+│        ├─ DER encode -> canonical binary bytes                      │
+│        │                                                            │
+│        └─ PEM armor -> Base64 text with BEGIN/END markers           │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 핵심은 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서의 의미가 DER와 PEM 사이에서 바뀌지 않는다는 점이다. 바뀌는 것은 사람이 다루기 쉬운가, 기계가 바로 읽기 쉬운가 하는 외피다.
 
@@ -64,23 +63,24 @@ PEM은 이 DER [바이트](/knowledge-base/studynote/01_computer_architecture/02
 
 아래 그림은 동일한 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서가 두 형식으로 표현되는 흐름을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">One certificate, two representations</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ASN.1 Certificate</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DER bytes</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">30 82 04 F1 30 82 03 D9 ...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Base64 armor</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-----BEGIN CERTIFICATE-----</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MIID8TCCAtmgAwIBAgIU...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-----END CERTIFICATE-----</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ One certificate, two representations                                │
+├──────────────────────────────────────────────────────────────────────┤
+│ ASN.1 Certificate                                                   │
+│        │                                                            │
+│        ▼                                                            │
+│ DER bytes                                                           │
+│ 30 82 04 F1 30 82 03 D9 ...                                         │
+│        │                                                            │
+│        └─ Base64 armor                                               │
+│                 ▼                                                    │
+│ -----BEGIN CERTIFICATE-----                                         │
+│ MIID8TCCAtmgAwIBAgIU...                                              │
+│ ...                                                                 │
+│ -----END CERTIFICATE-----                                           │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 여기서 중요한 오해 하나를 바로잡아야 한다. PEM은 보기 쉬워졌을 뿐 [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)이 높아진 것이 아니다. 개인키를 PEM으로 저장해도 암호화를 별도로 하지 않았다면, 그것은 "읽기 쉬운 평문 비밀"일 뿐이다.
 
@@ -163,22 +163,19 @@ DER / PEM을 정확히 구분하면 [인증](/knowledge-base/studynote/04_softwa
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">ASN.1 data model</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DER canonical binary encoding</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">PEM text armor for transport</div>
-<div class="kb-diagram-tree-item" style="--depth:4">certificate chain handling</div>
-<div class="kb-diagram-tree-item" style="--depth:4">web server configuration</div>
-<div class="kb-diagram-tree-item" style="--depth:4">automation with OpenSSL / ACME</div>
-</div>
-</div>
-
-
+```text
+ASN.1 data model
+        │
+        ▼
+DER canonical binary encoding
+        │
+        ▼
+PEM text armor for transport
+        │
+        ├─ certificate chain handling
+        ├─ web server configuration
+        └─ automation with OpenSSL / ACME
+```
 
 이 흐름은 "[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 구조 정의 → 정규 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 표현 → 텍스트 포장 → 운영 자동화"로 DER와 PEM이 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 수명주기 안에서 이어진다는 점을 보여 준다.
 

@@ -23,25 +23,26 @@ tags = ["studynote-network"]
 - **필요성**: 기본 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 환경에서는 IP 주소가 두 가지 의미(단말기 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) + [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)할 장소의 물리적 위치)를 동시에 갖는다. 서울 카페(A 네트워크)에서 다운로드를 걸어놓고 랩탑을 들고 걸어서 대전 카페(B 네트워크)로 가면, 공유기(Subnet)가 달라져 IP가 바뀐다. IP가 바뀌면 기존 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 소켓이 파괴되어 다운로드가 취소된다. "물리적 장소는 바뀌어도, 나의 논리적 주소(신분)는 유지하고 싶다!"는 열망이 모바일 IP의 탄생을 이끌었다.
 - **등장 배경**: ① IP 주소 변경에 따른 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 절단 및 애플리케이션 리셋 재앙 → ② 셀룰러 폰(이동통신) 방식이 아닌 IP [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 레이어 자체에서의 모빌리티(Mobility) 해결 요구 → ③ HA와 FA라는 듀얼 대리인 구조와 IP in IP [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/)을 이용해 억지로 전파를 이어주는 MIPv4 표준 확립.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일반 IP 라우팅의 단절 문제 vs MIPv4의 우회 해결법 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">과거: 고정 IP의 비극</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">노트북(IP: 1.1.1.1, 서울) ──(이동)──▶ (대전 네트워크 도착)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대전 공유기: "너 IP 2.2.2.2로 바꿔!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기존 접속(TCP/IP 세션) ─▶ IP가 바뀌었으니 그 즉시 터지고 다운로드 실패!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">혁신: MIPv4의 Home Agent(HA)와 대리 수령 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">대전 도착, 임시 IP 2.2.2.2 획득</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HA (서울 집에 남은 부모님)</div><div class="kb-diagram-node">FA (대전 호텔 지배인)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버 ──(1.1.1.1로 쏨)──▶ HA가 받음 ──(터널링)──▶ FA가 받아서 폰에 전달!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 서버 입장에서는 노트북이 아직도 서울(1.1.1.1)에 있는 줄 안다!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IP가 안 바뀌었으니 영상통화나 다운로드가 0.1초도 안 끊김!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│             일반 IP 라우팅의 단절 문제 vs MIPv4의 우회 해결법 시각화  │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [과거: 고정 IP의 비극]                                        │
+│   노트북(IP: 1.1.1.1, 서울)  ──(이동)──▶ (대전 네트워크 도착)         │
+│                                       대전 공유기: "너 IP 2.2.2.2로 바꿔!"│
+│   기존 접속(TCP/IP 세션) ─▶ IP가 바뀌었으니 그 즉시 터지고 다운로드 실패!  │
+│                                                             │
+│   [혁신: MIPv4의 Home Agent(HA)와 대리 수령 아키텍처]             │
+│   노트북(원래 IP 1.1.1.1) ──(이동)──▶ [대전 도착, 임시 IP 2.2.2.2 획득]│
+│                                                             │
+│         [HA (서울 집에 남은 부모님)]         [FA (대전 호텔 지배인)]   │
+│   서버 ──(1.1.1.1로 쏨)──▶ HA가 받음 ──(터널링)──▶ FA가 받아서 폰에 전달!│
+│                                                             │
+│   => 결과: 서버 입장에서는 노트북이 아직도 서울(1.1.1.1)에 있는 줄 안다!  │
+│            IP가 안 바뀌었으니 영상통화나 다운로드가 0.1초도 안 끊김!        │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** MIPv4는 일종의 위대한 '속임수(Trick)' 아키텍처다. 단말기가 집에 부여된 영구 주소(Home Address, HoA)를 가진 채 타향으로 이동하면, 타향 공유기는 임시 주소(Care-of-Address, COA)를 부여한다. 이때 단말기는 집에 있는 홈 에이전트(HA)에게 "엄마 나 대전(COA)으로 왔어"라고 등록(Registration)한다. 외부에 있는 구글 서버(CN)는 노트북이 대전으로 간 줄 모르고 서울(HoA)로 패킷을 쏜다. 서울에 있는 엄마(HA)가 이 패킷을 낚아챈 뒤, 택배 박스에 하나 더 포장을 씌워(IP in IP [Tunneling](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/)) 대전 지배인(FA)에게 몰래 날려준다. 지배인은 박스를 까서 노트북에 건네준다. 즉, 논리적 신분증과 물리적 주소를 이원화(Decoupling)한 것이다.
 
@@ -65,26 +66,28 @@ tags = ["studynote-network"]
 
 MIPv4의 가장 치명적이고 유명한 단점이 바로 경로의 비효율성을 뜻하는 <strong>세모 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a>(Triangular <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">Routing</a>)</strong> 문제다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Triangular Routing (삼각 라우팅)의 비극</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상황: 대전(FA)에 놀러 간 아들(MN)이, 바로 옆에 있는 친구(CN)와 통신함.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 보낼 때 (MN ──▶ CN)</div><div class="kb-diagram-note">최적 경로</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">대전 아들(MN)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">대전 친구(CN)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(아들이 쏠 때는 출발지 IP를 1.1.1.1로 속여서 보내면 되므로 문제없음)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 받을 때 (CN ──▶ MN)</div><div class="kb-diagram-note">재앙적 비효율 (세모 모양 완성 🔺)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">서울 엄마 (HA)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">대전 친구(CN)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">↗ ↘ (터널링으로 포장해서 보냄)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">대전 지배인 (FA/COA)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">대전 아들 (MN)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 대전에 있는 친구끼리 패킷을 주고받는데, 받을 때는 데이터가 굳이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서울(HA)을 찍고 다시 대전으로 꺾여 내려오는 무지막지한 지연 발생!</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────┐
+│               Triangular Routing (삼각 라우팅)의 비극              │
+├───────────────────────────────────────────────────────────────┤
+│                                                               │
+│   상황: 대전(FA)에 놀러 간 아들(MN)이, 바로 옆에 있는 친구(CN)와 통신함.    │
+│                                                               │
+│   [1. 보낼 때 (MN ──▶ CN)] 최적 경로                            │
+│   [대전 아들(MN)] ──────────────────(다이렉트로 직행!)────────────────▶ [대전 친구(CN)]│
+│   (아들이 쏠 때는 출발지 IP를 1.1.1.1로 속여서 보내면 되므로 문제없음)         │
+│                                                               │
+│   [2. 받을 때 (CN ──▶ MN)] 재앙적 비효율 (세모 모양 완성 🔺)        │
+│                                  [서울 엄마 (HA)]               │
+│   [대전 친구(CN)] ─(서울 집 1.1.1.1로 전송)─▶ ↗        ↘ (터널링으로 포장해서 보냄) │
+│                                            [대전 지배인 (FA/COA)]│
+│                                                   ↓           │
+│                                             [대전 아들 (MN)]    │
+│                                                               │
+│   => 결과: 대전에 있는 친구끼리 패킷을 주고받는데, 받을 때는 데이터가 굳이   │
+│            서울(HA)을 찍고 다시 대전으로 꺾여 내려오는 무지막지한 지연 발생! │
+└───────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 단말기(MN)가 패킷을 보낼 때는 외부 라우터를 통해 다이렉트로 구글 서버(CN)에 쏠 수 있다. 하지만 CN이 응답을 보낼 때는 단말기의 영구 주소(서울 집, HoA)밖에 모르기 때문에 패킷이 무조건 홈 네트워크(HA)로 직행한다. HA가 이를 낚아채어 IP in IP [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/)으로 감싼 뒤 단말기가 있는 대전(FA)으로 돌려보낸다. 경로를 선으로 그어보면 `CN -> HA -> FA(MN)` 형태의 거대한 삼각형 모양이 그려진다. 이 세모 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 때문에 코어망 대역폭이 낭비되고 트래픽 [전송 지연](/knowledge-base/studynote/03_network/01_data_communication/017_전송_지연/)(Delay/[Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))이 치솟아 실시간 스트리밍에 치명타를 입힌다.
 
@@ -106,21 +109,21 @@ MIPv4의 가장 치명적이고 유명한 단점이 바로 경로의 비효율�
 
 경로 최적화를 쓰면 트래픽이 빛의 속도로 날아가지만, "구글, 네이버 같은 전 세계 모든 서버(CN)들이 모바일 IP 최적화 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 이해하도록 업그레이드해야 한다"는 절망적인 딜레마(의존성) 때문에 MIPv4 환경에서는 사실상 완벽한 도입에 실패했다. (이 뼈아픈 교훈은 훗날 MIPv6에서 기본 기능으로 통합되며 해결된다).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IP in IP Tunneling (캡슐화) 패킷 구조 분석</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버(CN)가 쏜 오리지널 패킷:</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">목적지 IP: 1.1.1.1 (서울 아들) | 페이로드 (데이터)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HA가 가로채어 터널링(캡슐화)한 뒤 FA로 보내는 패킷:</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">[ 목적지 IP: 2.2.2.2 (대전 호텔)</div><div class="kb-diagram-node">목적지: 1.1.1.1 | 페이로드</div><div class="kb-diagram-note">]</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ 새로운 겉포장(Outer IP Header) ▲ 원래 알맹이(Inner IP Header)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; FA는 겉포장을 뜯어서(디캡슐레이션) 버리고, 알맹이만 아들에게 건네준다.</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────┐
+│               IP in IP Tunneling (캡슐화) 패킷 구조 분석             │
+├───────────────────────────────────────────────────────────────┤
+│                                                               │
+│   서버(CN)가 쏜 오리지널 패킷:                                     │
+│   [ 목적지 IP: 1.1.1.1 (서울 아들) | 페이로드 (데이터) ]                │
+│                                                               │
+│   HA가 가로채어 터널링(캡슐화)한 뒤 FA로 보내는 패킷:                     │
+│   [ 목적지 IP: 2.2.2.2 (대전 호텔) | [목적지: 1.1.1.1 | 페이로드] ]    │
+│   ▲ 새로운 겉포장(Outer IP Header)    ▲ 원래 알맹이(Inner IP Header)│
+│                                                               │
+│   => FA는 겉포장을 뜯어서(디캡슐레이션) 버리고, 알맹이만 아들에게 건네준다.     │
+└───────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/)의 가장 명확한 패킷 해부도다. 인터넷 라우터들은 무조건 패킷의 맨 앞(Outer Header) 목적지 주소만 보고 길을 찾는다. 서울 집(HA)은 서버가 보낸 원본 패킷을 통째로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Payload) 취급해버리고, 그 앞에 "대전 호텔(FA/COA)로 가라"는 새로운 IP 주소 딱지를 붙여버린다(캡슐화). 인터넷 망을 무사히 통과해 대전 호텔에 도착하면, 지배인(FA)이 겉 박스를 쭉 찢어버린다(역캡슐화). 그 안에 들어있는 원본 패킷을 단말기가 받아보면, 단말기는 "오, 목적지가 내 홈 주소 1.1.1.1이네? IP 안 바뀌고 무사히 잘 왔네!"라며 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)을 유지하는 눈물겨운 사기극([Tunneling](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/))이 완성된다.
 
@@ -180,19 +183,15 @@ MIPv4의 가장 치명적이고 유명한 단점이 바로 경로의 비효율�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 이동성 관리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: MIPv4</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: MIPv6</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 무선 자원 제어</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 이동성 관리]
+    │
+    ▼
+[현재 개념: MIPv4]
+    │
+    ├──▶ [확장 A: MIPv6]
+    └──▶ [확장 B: 지능형 무선 자원 제어]
+```
 
 MIPv4는 [이동성 관리](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/561_mobility_management_hlr_vlr_paging/)에서 출발해 현재 메커니즘을 정교화하고, 이후 MIPv6와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

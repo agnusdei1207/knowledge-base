@@ -27,25 +27,25 @@ tags = ["studynote-operating-system"]
   2. <strong><a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">버스</a> 마스터링(<a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">Bus</a> Mastering)의 도입</strong>: CPU만이 가지고 있던 "메모리 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)에 전기를 쏠 수 있는 특권(마스터 권한)"을 제3의 하드웨어 칩셋([DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/))에게 쥐여주는 권력의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이 일어남.
   3. <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/">Zero-Copy</a> 철학의 태동</strong>: CPU의 레지스터를 거치지 않고 디스크 -> 램으로 직통 웜홀이 뚫리면서, 현대 I/O 가속화의 가장 기본 뼈대가 완성됨.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DMA 유무에 따른 10MB 파일 복사(I/O) 파이프라인의 끔찍한 차이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1. 낡은 PIO (Programmed I/O - DMA 없음)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">디스크</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CPU 레지스터</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RAM</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- CPU가 1바이트 옮길 때마다 루프 돎 + 인터럽트 터짐.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💥 결과: 10MB 옮기는 데 CPU 100% 폭주. 화면 멈추고 마우스 안 움직임.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2. 구원자 DMA (Direct Memory Access)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU: (명령서 작성) "DMA야, 디스크 10MB 램으로 좀 옮겨놔라."</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU ──▶ 넷플릭스 4K 영상 디코딩 하러 휙 떠남. (점유율 0%로 떨어짐)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">디스크</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RAM</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CPU</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU: "오 다 옮겼어? 땡큐." (수천만 번의 렉을 1번의 인터럽트로 퉁침)</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────────────┐
+│        DMA 유무에 따른 10MB 파일 복사(I/O) 파이프라인의 끔찍한 차이   │
+├───────────────────────────────────────────────────────────────────────┤
+│                                                                       │
+│ ▶ 1. 낡은 PIO (Programmed I/O - DMA 없음)                             │
+│   [ 디스크 ] ──1바이트──▶ [ CPU 레지스터 ] ──1바이트──▶ [ RAM ]       │
+│   - CPU가 1바이트 옮길 때마다 루프 돎 + 인터럽트 터짐.                │
+│   💥 결과: 10MB 옮기는 데 CPU 100% 폭주. 화면 멈추고 마우스 안 움직임.│
+│                                                                       │
+│ ▶ 2. 구원자 DMA (Direct Memory Access)                                │
+│   CPU: (명령서 작성) "DMA야, 디스크 10MB 램으로 좀 옮겨놔라."         │
+│   CPU ──▶ 넷플릭스 4K 영상 디코딩 하러 휙 떠남. (점유율 0%로 떨어짐)  │
+│                                                                       │
+│   [ 디스크 ] ──(CPU 몰래 고속 버스로 통짜 10MB 전송)──▶ [ RAM ]       │
+│   (전송 완료 후) DMA 칩 ──💥 1번의 인터럽트 ──▶ [ CPU ]               │
+│   CPU: "오 다 옮겼어? 땡큐." (수천만 번의 렉을 1번의 인터럽트로 퉁침) │
+└───────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 이 그림은 현대 컴퓨터가 왜 영화를 10GB 복사하는 와중에도 게임이 렉 없이 부드럽게 돌아갈 수 있는지에 대한 가장 근본적인 해답이다. 10GB의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 메모리로 퍼 올리는 물리적 중노동을 순수하게 메인보드의 노예 칩([DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/))이 독박 쓰고, CPU는 그 짐에 손가락 하나 대지 않기 때문에 완벽한 [멀티태스킹](/knowledge-base/studynote/02_operating_system/11_exam_summary/675_multitasking_terminology_preemptive/) UX가 성립하는 것이다.
 
 - **📢 섹션 요약 비유**: 옛날엔 은행원(CPU)이 창구에서 손님(디스크)이 던져주는 동전 100만 개([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 손으로 1개씩 세어 금고(램)에 넣느라 하루 종일 딴 손님을 못 받았습니다. 지금은 동전 계수기([DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/)) 기계에 돈을 와르르 붓고 스위치만 켜놓으면, 기계가 다 세고 나서 띠링!([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)) 울릴 때까지 은행원은 뒤에서 편하게 다른 손님 대출 서류(연산)를 처리하는 눈부신 자동화 시스템입니다.
@@ -101,17 +101,14 @@ tags = ["studynote-operating-system"]
 - CPU가 "여기 1번 방 4K, 90번 방 4K, 15번 방 4K 배송지 3개 목록([Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)) 던져둔다. 네가 알아서 찢어진 방에 흩뿌려(Scatter) 넣거나, 흩어진 놈들을 하나로 수집(Gather)해서 와라!"
 - DMA가 목록을 읽고 찢어진 램에 알아서 배달을 다 끝낸 뒤 단 1번의 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)만 때린다. <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">가상 메모리</a>(파편화)와 하드웨어(물리 전송)가 완벽하게 화해한 융합 기술의 정점이다.</strong>
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DMA 수준</div><div class="kb-diagram-cell">물리 램 찢어짐</div><div class="kb-diagram-cell">CPU 개입 횟수</div><div class="kb-diagram-cell">최적화 결과</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기본 DMA</div><div class="kb-diagram-cell">찢어지면 에러남</div><div class="kb-diagram-cell">쪼개진 개수만큼</div><div class="kb-diagram-cell">🔴 버벅댐 (구시대)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">S-G DMA</div><div class="kb-diagram-cell">완전히 찢어짐</div><div class="kb-diagram-cell">단 1번 셋업</div><div class="kb-diagram-cell">🚀 최강 (현대 표준)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬───────────────────────────────┐
+│ DMA 수준   │ 물리 램 찢어짐 │ CPU 개입 횟수 │ 최적화 결과          │
+├──────────┼────────────┼────────────┼───────────────────────────────┤
+│ 기본 DMA │ 찢어지면 에러남│ 쪼개진 개수만큼│ 🔴 버벅댐 (구시대)    │
+│ S-G DMA  │ 완전히 찢어짐 │ **단 1번 셋업**│ 🚀 **최강 (현대 표준)**│
+└──────────┴────────────┴────────────┴───────────────────────────────┘
+```
 **[매트릭스 해설]** 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 소스코드를 까보면 디바이스 드라이버의 99%가 이 `dma_map_sg()` ([Scatter-Gather](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/452_dma_scatter_gather/)) 함수로 떡칠되어 있다. 이 기능이 없다면 유저 프로그램이 mmap으로 찢어놓은 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)에 10기가짜리 그래픽카드의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 절대 다이렉트로 꽂아 넣을 수 없다.
 
 - **📢 섹션 요약 비유**: 옛날 택배 기사(기본 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/))는 주소가 다르면 본부(CPU)로 다시 돌아와서 새 송장을 받아가야 했습니다. 최신 S-G 택배 기사는 아예 "오늘 배송할 100군데 찢어진 동네 주소록([Linked List](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/))"을 스마트폰에 넣어주고 출발시키면, 하루 종일 알아서 다 배달하고(Scatter) 퇴근할 때 딱 한 번 보고하는 초지능형 배달 로직입니다.
@@ -172,19 +169,15 @@ DMA는 램(RAM)에 [데이터](/knowledge-base/studynote/05_database/01_db_archi
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">인터럽트 구동 I/O (Interrupt-driven I/O)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">직접 메모리 접근 (DMA, Direct Memory Access)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">사이클 스틸링 (Cycle Stealing)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DMA 산란-수집 (Scatter-Gather)</div></div>
-</div>
-</div>
-
-
+```text
+[인터럽트 구동 I/O (Interrupt-driven I/O)]
+    │
+    ▼
+[직접 메모리 접근 (DMA, Direct Memory Access)]
+    │
+    ├──▶ [사이클 스틸링 (Cycle Stealing)]
+    └──▶ [DMA 산란-수집 (Scatter-Gather)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

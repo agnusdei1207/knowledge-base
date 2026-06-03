@@ -25,26 +25,31 @@ tags = ["studynote-operating-system"]
 **필요성 및 등장 배경**
 1990년대 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 기반 [버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/)([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) Smashing)는 해커들에게 시스템 루트 권한을 내어주는 자동문이었다. 공격자는 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 경계 검사가 없는 `strcpy`나 `gets` 같은 취약한 C언어 함수를 악용해 버퍼를 넘치게 한 뒤, 리턴 주소를 덮어써 실행 흐름을 훔쳤다. 이를 하드웨어 레벨([DEP](/knowledge-base/studynote/09_security/04_endpoint_security/336_dep/))에서 막기 전, 소프트웨어 컴파일러 진영에서 먼저 내놓은 해결책이 바로 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 레이아웃 구조의 변경과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 값 삽입이었다. '카나리(Canary)'라는 이름은 과거 광부들이 탄광의 유독가스를 감지하기 위해 민감한 카나리아 새를 먼저 들여보냈던 일화에서 유래했다. 카나리 값이 죽으면(변조되면), 시스템에 독가스([오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/))가 퍼졌음을 알고 즉각 작업을 중단하는 원리다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">카나리(Canary) 삽입 전과 삽입 후의 스택 메모리 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전통적인 스택 구조 (보호 없음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지역 버퍼 (Buffer)</div><div class="kb-diagram-cell">이전 EBP</div><div class="kb-diagram-cell">RET 주소</div><div class="kb-diagram-cell">함수 매개변수</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▲</div><div class="kb-diagram-node">EBP</div><div class="kb-diagram-note">와</div><div class="kb-diagram-node">RET</div><div class="kb-diagram-note">가 직격탄을 맞음</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">카나리가 적용된 스택 구조 (SSP 적용)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지역 버퍼 (Buffer)</div><div class="kb-diagram-cell">Canary</div><div class="kb-diagram-cell">이전 EBP</div><div class="kb-diagram-cell">RET 주소</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ 덮어쓰기 시도 시 무조건 Canary를 거쳐야 함!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">A</div><div class="kb-diagram-node">A</div><div class="kb-diagram-node">A</div><div class="kb-diagram-node">A</div><div class="kb-diagram-node">A</div><div class="kb-diagram-node">A</div><div class="kb-diagram-note">...</div><div class="kb-diagram-node">A</div><div class="kb-diagram-node">A</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">Canary 훼손 발생!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">함수 에필로그(종료) 시:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IF (현재 스택의 Canary != 마스터 Canary) {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💥 프로그램 즉시 강제 종료 (Stack Smashing Detected)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│      카나리(Canary) 삽입 전과 삽입 후의 스택 메모리 구조    │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  [전통적인 스택 구조 (보호 없음)]                           │
+│  ┌──────────────────┬──────────┬─────────┬──────────────┐   │
+│  │ 지역 버퍼 (Buffer)│ 이전 EBP │ RET 주소│ 함수 매개변수  ││
+│  └──────────────────┴──────────┴─────────┴──────────────┘   │
+│       ▲ 오버플로우가 발생하면 [EBP]와 [RET]가 직격탄을 맞음 │
+│                                                             │
+│  [카나리가 적용된 스택 구조 (SSP 적용)]                     │
+│  ┌──────────────────┬──────────┬──────────┬─────────┐       │
+│  │ 지역 버퍼 (Buffer)│ Canary   │ 이전 EBP │ RET 주소│      │
+│  └──────────────────┴──────────┴──────────┴─────────┘       │
+│       ▲ 덮어쓰기 시도 시 무조건 Canary를 거쳐야 함!         │
+│       │                                                     │
+│   [A][A][A][A][A][A]...[A][A] → Canary 훼손 발생!           │
+│                                                             │
+│   함수 에필로그(종료) 시:                                   │
+│   IF (현재 스택의 Canary != 마스터 Canary) {                │
+│       💥 프로그램 즉시 강제 종료 (Stack Smashing Detected)  │
+│   }                                                         │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 구조도는 카나리가 [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)를 어떻게 기계적으로 탐지해내는지를 직관적으로 보여준다. 공격자가 버퍼(예: 크기가 64바이트인 char [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/))의 경계를 넘어 EBP와 RET를 변조하려면, 메모리 주소가 낮은 곳에서 높은 곳으로 순차적으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 덮어써야 한다. 컴파일러는 이 성질을 역이용하여, 버퍼와 제어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(EBP/RET) 사이에 카나리라는 방패막이를 물리적으로 끼워 넣었다. 공격자가 RET에 도달하려면 필연적으로 카나리 값을 덮어써야만 하므로 원본 난수 값이 파괴된다. 함수가 `ret` 명령을 수행하기 직전, 이 카나리 값이 훼손된 것을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하면 제어권 탈취를 허용하기 전에 시스템이 프로세스를 스스로 죽여버려 보안을 유지한다.
 
@@ -67,32 +72,33 @@ tags = ["studynote-operating-system"]
 
 카나리는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 아닌 <strong>컴파일러(GCC, Clang)</strong>가 소스코드를 기계어로 번역할 때 함수 시작과 끝에 특별한 어셈블리 코드를 끼워 넣는 방식으로 구현된다. 카나리의 값은 프로그램이 실행될 때마다(정확히는 프로세스가 로드될 때마다) `/dev/urandom` 같은 커널의 난수 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)기를 통해 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되어 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 전역 변수 공간에 저장된다. 
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GCC x86-64 아키텍처 기반 카나리 동작 어셈블리 흐름</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">함수 프롤로그: 진입 시 카나리 설치</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">push rbp</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">mov rbp, rsp</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">sub rsp, 0x10 ; 버퍼 공간 할당</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">mov rax, QWORD PTR fs:0x28 ; TLS에서 마스터 카나리 읽기</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">mov QWORD PTR</div><div class="kb-diagram-node">rbp-0x8</div><div class="kb-diagram-note">, rax ; 스택(버퍼와 rbp 사이)에</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">; 카나리 값 저장 (설치!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">xor eax, eax ; 레지스터에서 원본 쿠키 지우기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">... (함수 본문 실행, strcpy 등 잠재적 취약점 존재 구간) ...</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">함수 에필로그: 종료 전 카나리 검증</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">mov rdx, QWORD PTR</div><div class="kb-diagram-node">rbp-0x8</div><div class="kb-diagram-note">; 스택의 카나리 값 읽기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">xor rdx, QWORD PTR fs:0x28 ; 마스터 카나리와 XOR 비교</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">je 정상종료_루틴 ; 값이 같으면(0) 정상 리턴</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">call __stack_chk_fail ; 다르면 패닉 함수 호출!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정상종료_루틴:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">leave</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ret</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────┐
+│      GCC x86-64 아키텍처 기반 카나리 동작 어셈블리 흐름       │
+├───────────────────────────────────────────────────────────────┤
+│                                                               │
+│  [함수 프롤로그: 진입 시 카나리 설치]                         │
+│  push   rbp                                                   │
+│  mov    rbp, rsp                                              │
+│  sub    rsp, 0x10         ; 버퍼 공간 할당                    │
+│  mov    rax, QWORD PTR fs:0x28 ; TLS에서 마스터 카나리 읽기   │
+│  mov    QWORD PTR [rbp-0x8], rax ; 스택(버퍼와 rbp 사이)에    │
+│                                  ; 카나리 값 저장 (설치!)     │
+│  xor    eax, eax          ; 레지스터에서 원본 쿠키 지우기     │
+│                                                               │
+│  ... (함수 본문 실행, strcpy 등 잠재적 취약점 존재 구간) ...  │
+│                                                               │
+│  [함수 에필로그: 종료 전 카나리 검증]                         │
+│  mov    rdx, QWORD PTR [rbp-0x8] ; 스택의 카나리 값 읽기      │
+│  xor    rdx, QWORD PTR fs:0x28   ; 마스터 카나리와 XOR 비교   │
+│  je     정상종료_루틴            ; 값이 같으면(0) 정상 리턴   │
+│  call   __stack_chk_fail         ; 다르면 패닉 함수 호출!     │
+│                                                               │
+│  정상종료_루틴:                                               │
+│  leave                                                        │
+│  ret                                                          │
+└───────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 타이밍/코드 흐름도는 64비트 리눅스 환경에서 카나리가 하드웨어 레지스터와 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)을 어떻게 활용하는지 정밀하게 보여준다. `fs:0x28`은 각 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)마다 고유하게 할당되는 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)([Thread Local Storage](/knowledge-base/studynote/02_operating_system/02_process_thread/113_thread_local_storage/)) 공간으로, 여기에 커널이 프로세스 시작 시 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한 진품 카나리 값(Master Canary)이 들어 있다. 함수가 시작할 때 이 값을 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 변수 `[rbp-0x8]` 위치에 복사해 둔다. 만약 함수 실행 중 [버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/)가 발생하면 버퍼 다음에 위치한 `[rbp-0x8]`의 카나리 값은 'A'(`0x41`) 같은 공격자의 쓰레기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 변조된다. 함수가 끝날 무렵, [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)에 있는 값과 `fs:0x28`의 원본 값을 XOR 연산한다. 두 값이 완벽히 동일하면 결과는 `0`이 되어 정상적으로 `ret` 명령을 수행하지만, 단 1비트라도 다르다면 `__stack_chk_fail`이 호출되며 해커의 제어권 탈취 시도를 차단한다.
 
@@ -115,24 +121,27 @@ tags = ["studynote-operating-system"]
 
 현대 64비트 리눅스/윈도우 시스템은 <strong>널 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/">바이트</a>가 섞인 랜덤 카나리</strong>를 표준으로 사용한다. 난수의 예측 불가능성(Random)과 문자열 우회 차단(Terminator)의 장점을 융합한 것이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">64비트 카나리의 바이트 구조 (랜덤 + 터미네이터 융합)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">64-bit Stack Canary (8 Bytes)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MSB LSB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0x4B</div><div class="kb-diagram-cell">0x82</div><div class="kb-diagram-cell">0x1F</div><div class="kb-diagram-cell">0x99</div><div class="kb-diagram-cell">0xE3</div><div class="kb-diagram-cell">0x2A</div><div class="kb-diagram-cell">0x77</div><div class="kb-diagram-cell">0x00</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 7바이트의 강력한 무작위 난수 (Random Payload)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(재부팅이나 프로세스 재시작 시마다 변경됨)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 최하위 1바이트(LSB)는 항상 Null Byte (0x00) 강제!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이유: strcpy 같은 문자열 취약점을 통한 공격 시,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공격자가 0x00을 삽입하려 하면 복사 로직이 멈추기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">때문에 카나리를 훼손하면서 지나갈 수 없게 됨.</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────────┐
+│      64비트 카나리의 바이트 구조 (랜덤 + 터미네이터 융합)         │
+├───────────────────────────────────────────────────────────────────┤
+│                                                                   │
+│  [64-bit Stack Canary (8 Bytes)]                                  │
+│   MSB                                                LSB          │
+│  ┌────┬────┬────┬────┬────┬────┬────┬────────┐                    │
+│  │ 0x4B│ 0x82│ 0x1F│ 0x99│ 0xE3│ 0x2A│ 0x77│  0x00  │             │
+│  └────┴────┴────┴────┴────┴────┴────┴────────┘                    │
+│    ▲                                   ▲                          │
+│    │                                   │                          │
+│    └── 7바이트의 강력한 무작위 난수 (Random Payload)              │
+│        (재부팅이나 프로세스 재시작 시마다 변경됨)                 │
+│                                        │                          │
+│    └── 최하위 1바이트(LSB)는 항상 Null Byte (0x00) 강제!          │
+│        이유: strcpy 같은 문자열 취약점을 통한 공격 시,            │
+│        공격자가 0x00을 삽입하려 하면 복사 로직이 멈추기           │
+│        때문에 카나리를 훼손하면서 지나갈 수 없게 됨.              │
+└───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 레이아웃은 현대 카나리 설계의 치밀함을 보여준다. 8바이트 카나리 중 7바이트는 강력한 난수(Random)로 채워져 있어 해커가 값을 때려 맞추는 것(Brute-force)을 불가능하게 한다. 동시에 최하위 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)([리틀 엔디안](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/115_little_endian/) 기준 메모리에서 가장 먼저 만나는 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/))는 반드시 널 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)(`0x00`)로 고정한다. 그 이유는, C언어의 전형적인 취약점인 `strcpy(dest, src)`는 원본 버퍼에서 널 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)를 만날 때까지만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 복사하기 때문이다. 해커가 원래의 카나리 값을 알게 되더라도, 그 값을 주입 페이로드에 넣는 순간 페이로드 내의 `0x00` 때문에 `strcpy`가 중단되어 리턴 주소(RET)까지 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 도달하지 못하게 하는 이중 잠금장치 역할을 한다.
 
@@ -199,19 +208,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">가상 주소 공간 구조 무작위화 (ASLR)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">카나리 (Canary) / 스택 스매싱 가드 (Stack Smashing Protector)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ROP (Return-Oriented Programming) 기법</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">제로 데이 (Zero-Day) 취약점 / 익스플로잇 (Exploit)</div></div>
-</div>
-</div>
-
-
+```text
+[가상 주소 공간 구조 무작위화 (ASLR)]
+    │
+    ▼
+[카나리 (Canary) / 스택 스매싱 가드 (Stack Smashing Protector)]
+    │
+    ├──▶ [ROP (Return-Oriented Programming) 기법]
+    └──▶ [제로 데이 (Zero-Day) 취약점 / 익스플로잇 (Exploit)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

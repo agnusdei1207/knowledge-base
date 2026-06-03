@@ -18,22 +18,20 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Push 기반 CD vs Pull 기반 GitOps (Argo CD)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Push: Jenkins</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발자 → Git Push → Jenkins → kubectl apply → K8s</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Jenkins에 클러스터 kubeconfig 필요 (보안 위험)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Pull: Argo CD</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발자 → Git Push → (끝)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Argo CD (클러스터 내부) → Git 감시 → 자동 Sync</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Jenkins에 클러스터 권한 불필요 (보안 강화)</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    Push 기반 CD vs Pull 기반 GitOps (Argo CD)         │
+├───────────────────────────────────────────────────────┤
+│  [Push: Jenkins]                                      │
+│   개발자 → Git Push → Jenkins → kubectl apply → K8s  │
+│   Jenkins에 클러스터 kubeconfig 필요 (보안 위험)      │
+│                                                       │
+│  [Pull: Argo CD]                                      │
+│   개발자 → Git Push → (끝)                            │
+│   Argo CD (클러스터 내부) → Git 감시 → 자동 Sync     │
+│   Jenkins에 클러스터 권한 불필요 (보안 강화)          │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: Push CD는 택배([Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/))가 집까지 직접 배달하는 것이고, Pull CD(Argo CD)는 집 앞 우편함(Git)에 넣으면 집주인(클러스터)이 스스로 가져가는 것이다.
 
@@ -105,23 +103,21 @@ Argo CD는 멀티클러스터 [GitOps](/knowledge-base/studynote/04_software_eng
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Jenkins CD (2010s) — Push 기반 파이프라인 배포</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">GitOps 개념 (2017, Weaveworks) — Git = 단일 진실 원천</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Argo CD v1 (2018) — K8s Pull 기반 CD</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CNCF Graduated (2022) — 생태계 표준화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: Argo CD + Argo Workflows — CI/CD 전체 GitOps 통합</div></div>
-</div>
-</div>
-
-
+```text
+[Jenkins CD (2010s) — Push 기반 파이프라인 배포]
+    │
+    ▼
+[GitOps 개념 (2017, Weaveworks) — Git = 단일 진실 원천]
+    │
+    ▼
+[Argo CD v1 (2018) — K8s Pull 기반 CD]
+    │
+    ▼
+[CNCF Graduated (2022) — 생태계 표준화]
+    │
+    ▼
+[현재: Argo CD + Argo Workflows — CI/CD 전체 GitOps 통합]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 옛날에는 택배 아저씨([Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/))가 집까지 와서 직접 물건을 놓아줬어요.

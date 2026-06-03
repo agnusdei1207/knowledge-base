@@ -25,21 +25,19 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 존 스토리지가 어떤 규칙을 노출하는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Zoned storage exposes the media rule: write forward, reclaim by reset</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Zone 0 :</div><div class="kb-diagram-node">data</div><div class="kb-diagram-node">data</div><div class="kb-diagram-node">data</div><div class="kb-diagram-node">WP.........................</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Zone 1 :</div><div class="kb-diagram-node">data</div><div class="kb-diagram-node">data</div><div class="kb-diagram-node">WP..............................</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Zone 2 :</div><div class="kb-diagram-node">empty......................................</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Read : random read is allowed</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Write : only at the current Write Pointer (WP)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Reuse : reset the whole zone, then WP returns to the start</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│ Zoned storage exposes the media rule: write forward, reclaim by reset     │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Zone 0 : [data][data][data][WP.........................]                  │
+│ Zone 1 : [data][data][WP..............................]                   │
+│ Zone 2 : [empty......................................]                   │
+│                                                                            │
+│ Read  : random read is allowed                                             │
+│ Write : only at the current Write Pointer (WP)                             │
+│ Reuse : reset the whole zone, then WP returns to the start                 │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 핵심은 장치가 내부에서 몰래 정리하던 일을 소프트웨어가 더 잘 예측할 수 있는 규칙으로 바꿨다는 점이다. 이 덕분에 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)나 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템은 “장치가 언젠가 알아서 정리하겠지”를 기대하는 대신, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 쌓고 세그먼트를 회수하는 식으로 저장 패턴을 명시적으로 설계할 수 있다.
 
@@ -62,20 +60,20 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 존의 생애주기를 단순화한 것이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Zone lifecycle: open -&gt; append -&gt; full -&gt; reclaim -&gt; reset</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Empty Zone</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">open</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">WP moves forward</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">... --&gt; Full Zone</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">close / reopen as needed</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Reclaim path: migrate valid data to another zone -&gt; reset -&gt; Empty ----</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│ Zone lifecycle: open -> append -> full -> reclaim -> reset                │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Empty Zone                                                                 │
+│     │ open                                                                  │
+│     ▼                                                                       │
+│ Open Zone -- append --> [WP moves forward] --> ... --> Full Zone           │
+│     │                                                                       │
+│     └──────── close / reopen as needed ───────────────────────────────┐     │
+│                                                                        │     │
+│ Reclaim path: migrate valid data to another zone -> reset -> Empty ----┘     │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 여기서 중요한 추가 조건이 열린 존(open zone) 수와 활성 존([active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) zone) 수 제한이다. 장치는 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성과 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 자원을 이유로 동시에 관리할 수 있는 존 수를 제한할 수 있으므로, 호스트는 무한정 많은 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 동시에 열어 둘 수 없다. 그래서 존 스토리지는 단순히 “순차 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)만 하면 된다”가 아니라, <strong>세그먼트 수명주기와 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/">동시성</a> 예산을 함께 다루는 인터페이스</strong>다.
 
@@ -153,25 +151,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">블록 인터페이스의 overwrite 환상</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Device FTL · SMR translation의 숨은 정리 비용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">매체 규칙 노출: Zoned Storage</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ZNS · Zone Append · Zone Reset</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Zone-aware LSM-Tree · Object Storage</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Low-WAF · 예측 가능한 대규모 저장 시스템</div>
-</div>
-</div>
-
-
+```text
+블록 인터페이스의 overwrite 환상
+            │
+            ▼
+Device FTL · SMR translation의 숨은 정리 비용
+            │
+            ▼
+매체 규칙 노출: Zoned Storage
+            │
+            ▼
+ZNS · Zone Append · Zone Reset
+            │
+            ▼
+Zone-aware LSM-Tree · Object Storage
+            │
+            ▼
+Low-WAF · 예측 가능한 대규모 저장 시스템
+```
 
 이 흐름은 저장장치가 “무작위 갱신을 몰래 흉내 내는 단계”에서 벗어나, 이제는 소프트웨어가 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 제약을 알고 협력하는 방향으로 진화하고 있음을 보여 준다.
 

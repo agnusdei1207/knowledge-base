@@ -25,17 +25,14 @@ tags = ["studynote-ai"]
 
 그래서 연구자들은 딥러닝의 눈을 개조했다. **"모양(행렬)이 제멋대로면 어때? 그냥 나랑 선으로 직접 연결된 친구들한테 '너 특징이 뭐야?'라고 물어봐서 그 정보를 모아 내 정보를 업데이트하게 만들자!"** 이 미친 '이웃 정보 삥뜯기' 아이디어가 바로 <strong><a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/">GNN</a> (<a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/">Graph Neural Network</a>)</strong>의 탄생이며, 이 덕분에 컴퓨터는 인간의 인맥과 화합물의 구조를 3차원 입체적으로 이해할 수 있게 되었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 기존 CNN은 '아파트 우편함'이다. 101호 옆엔 102호, 위엔 201호가 있다는 네모난 규칙이 완벽해서 우편물을 예쁘게 넣을 수 있다. 하지만 GNN은 '아마존 정글의 덩굴'이다. 규칙도 없고 꼬여있지만, 내가 잡은 덩굴 선(Edge)을 쭉 따라가면 10km 밖의 원숭이(Node)가 잡고 있다는 걸 1초 만에 알게 되는 거미줄의 딥러닝이다.
 
@@ -45,26 +42,26 @@ tags = ["studynote-ai"]
 
 GNN을 관통하는 하나의 거대한 수학적 철학은 <strong><a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">메시</a>지 패싱 (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/">Message Passing</a>)</strong> 프레임워크다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">그래프 신경망(GNN)의 이웃 정보 삥뜯기 (Message Passing) 도해</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 초기 상태 (t=0)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 타겟 노드(나): '김철수' (특징: 20대, 게임 좋아함)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 이웃 노드들(친구): 'A' (축구 좋아함), 'B' (독서 좋아함)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 집계 (Aggregation) - 동네 정보 수집</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 타겟 노드 ─▶ 친구들(A, B)에게 무전을 침: "너네 특징 좀 나한테 다 보내봐!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 수학적 연산: 친구들의 특징 벡터를 가져와서 더하거나 평균 냄(Sum / Mean).</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3. 업데이트 (Update) - 내 뇌(특징) 업그레이드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 타겟 노드의 새로운 특징(t=1) = 인공신경망( 내 옛날 특징 + 동네에서 모은 정보 )</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 결론: "아, 내 친구들이 축구랑 독서를 좋아하니까, 나도 그 영향을 받겠구나!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">20대, 게임, 축구 영향 30%, 독서 영향 30%</div><div class="kb-diagram-note">로 뚱뚱해짐.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 이 짓을 3번(3 Layer) 반복하면? 내 친구의 친구의 친구 정보까지 나한테 들어옴!</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           그래프 신경망(GNN)의 이웃 정보 삥뜯기 (Message Passing) 도해 │
+├──────────────────────────────────────────────────────────────┤
+│  [1. 초기 상태 (t=0)]                                        │
+│   * 타겟 노드(나): '김철수' (특징: 20대, 게임 좋아함)               │
+│   * 이웃 노드들(친구): 'A' (축구 좋아함), 'B' (독서 좋아함)          │
+│                                                              │
+│  [2. 집계 (Aggregation) - 동네 정보 수집]                      │
+│   * 타겟 노드 ─▶ 친구들(A, B)에게 무전을 침: "너네 특징 좀 나한테 다 보내봐!"│
+│   * 수학적 연산: 친구들의 특징 벡터를 가져와서 더하거나 평균 냄(Sum / Mean).│
+│                                                              │
+│  [3. 업데이트 (Update) - 내 뇌(특징) 업그레이드]                   │
+│   * 타겟 노드의 새로운 특징(t=1) = 인공신경망( 내 옛날 특징 + 동네에서 모은 정보 )│
+│   * 결론: "아, 내 친구들이 축구랑 독서를 좋아하니까, 나도 그 영향을 받겠구나!" │
+│     ─▶ 김철수의 벡터는 [20대, 게임, 축구 영향 30%, 독서 영향 30%]로 뚱뚱해짐.│
+│                                                              │
+│  * 이 짓을 3번(3 Layer) 반복하면? 내 친구의 친구의 친구 정보까지 나한테 들어옴!│
+└──────────────────────────────────────────────────────────────┘
+```
 
 <strong>핵심 원리 (<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a> <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/">합성곱</a>, GCN)</strong>:
 이 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 패싱을 CNN처럼 필터로 예쁘게 수학적으로 깎아낸 것이 가장 유명한 <strong>GCN (<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/">Graph</a> Convolutional Network)</strong>이다. GCN은 인접 행렬([Adjacency](/knowledge-base/studynote/03_network/07_network_layer_routing/358_ospf_adjacency_hello_lsa_lsdb/) Matrix, 누가 누구랑 연결됐는지 1과 0으로 그린 표)을 이용해, 행렬 곱셈 한 방으로 전 세계 10억 명의 유저가 동시에 자기 친구들의 정보를 1/N로 사이좋게 나눠 갖게(평균 내게) 만든다. 여기에 "나랑 친한 친구 정보는 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 많이 주고, 안 친한 놈은 무시해!"라고 똑똑하게 비율을 따지는 어텐션(Attention) 기법을 붙인 것이 최강의 모델 <strong><a href="/knowledge-base/studynote/10_ai/05_data_science_ml/398_gat/">GAT</a> (<a href="/knowledge-base/studynote/10_ai/05_data_science_ml/398_gat/">Graph Attention Network</a>)</strong>다.

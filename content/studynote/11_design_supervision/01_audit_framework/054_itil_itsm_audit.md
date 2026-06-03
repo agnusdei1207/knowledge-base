@@ -109,21 +109,18 @@ Process Definition → Ticket/Evidence Review → Compliance Check → Findings 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">프로세스 정의</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">운영 증적</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">감사 검토</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">부적합 / 개선</div>
-</div>
-</div>
-
-
+```text
+프로세스 정의
+    │
+    ▼
+운영 증적
+    │
+    ▼
+감사 검토
+    │
+    ▼
+부적합 / 개선
+```
 
 이 흐름은 IT [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 관리가 규칙에서 증거 기반 개선으로 이어지는 과정을 보여준다.
 

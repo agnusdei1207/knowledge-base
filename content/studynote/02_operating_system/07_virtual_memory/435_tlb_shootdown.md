@@ -27,28 +27,30 @@ tags = ["studynote-operating-system"]
   2. <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/">SMP</a>(<a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/382_smp/">대칭형 다중 처리</a>)의 등장</strong>: 코어가 2개, 4개로 늘자 코어 간 캐시 불일치(Inconsistency)가 악마로 돌변함.
   3. <strong>IPI 강제 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a></strong>: [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/)(MESI) 로직만으로는 부족하여, OS 소프트웨어가 직접 [하드웨어 인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/)를 때려 남의 캐시를 터뜨리는 슛다운 메커니즘이 확립됨.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">멀티코어 지옥: TLB Shootdown 발생 메커니즘과 병목 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황: 코어 0과 코어 1이 같은 앱을 병렬로 돌림 (스레드 공유)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1. 메모리 해제 명령 (코어 0)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 코어 0: <code>free(ptr);</code> 실행 -&gt; OS가 페이지 테이블 장부를 지움.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 코어 0: "내 TLB 캐시(수첩)에서도 이 주소 지운다 쓱쓱."</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2. 💥 Shootdown 발사! (IPI: 코어 간 인터럽트)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 코어 0: (옆 동네 코어 1을 향해 소리침) "야! 일 멈춰!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 코어 1: 하던 계산 멈춤(Interrupt). "왜? 무슨 일이야?"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 코어 0: "아까 그 주소 찢어버려!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 코어 1: 자기 TLB에서 주소를 지우고 (Flush), "ㅇㅋ 지웠다!" 답장(Ack).</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 3. 대기(Wait)의 늪</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 코어 0은 코어 1이 "ㅇㅋ" 할 때까지 (수천 클럭 동안) 멍때리고 멈춰있음(Spin).</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">☠️ 결론: 64코어 서버면, 코어 0이 63개의 코어에 소리치고, 63명이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하던 일을 다 멈추고 지우고 대답할 때까지 코어 0이 멈춰서 서버가 기어감.</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────────┐
+│        멀티코어 지옥: TLB Shootdown 발생 메커니즘과 병목 시각화                │
+├────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                │
+│ [ 상황: 코어 0과 코어 1이 같은 앱을 병렬로 돌림 (스레드 공유) ]                │
+│                                                                                │
+│ ▶ 1. 메모리 해제 명령 (코어 0)                                                 │
+│  - 코어 0: `free(ptr);` 실행 -> OS가 페이지 테이블 장부를 지움.                │
+│  - 코어 0: "내 TLB 캐시(수첩)에서도 이 주소 지운다 쓱쓱."                      │
+│                                                                                │
+│ ▶ 2. 💥 Shootdown 발사! (IPI: 코어 간 인터럽트)                                │
+│  - 코어 0: (옆 동네 코어 1을 향해 소리침) "야! 일 멈춰!"                       │
+│  - 코어 1: 하던 계산 멈춤(Interrupt). "왜? 무슨 일이야?"                       │
+│  - 코어 0: "아까 그 주소 찢어버려!"                                            │
+│  - 코어 1: 자기 TLB에서 주소를 지우고 (Flush), "ㅇㅋ 지웠다!" 답장(Ack).       │
+│                                                                                │
+│ ▶ 3. 대기(Wait)의 늪                                                           │
+│  - 코어 0은 코어 1이 "ㅇㅋ" 할 때까지 (수천 클럭 동안) 멍때리고 멈춰있음(Spin).│
+│                                                                                │
+│ ☠️ 결론: 64코어 서버면, 코어 0이 63개의 코어에 소리치고, 63명이                │
+│    하던 일을 다 멈추고 지우고 대답할 때까지 코어 0이 멈춰서 서버가 기어감.     │
+└────────────────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 슛다운의 핵심 공포는 "모두가 다 지웠다고 응답(Ack)할 때까지 부른 놈이 멈춰서(Spin [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 대기해야 한다"는 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)([Synchronization](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/))의 저주에 있다. 만약 코어 63개 중 1개가 하필 네트워크 패킷을 처리하느라 0.1초 동안 응답을 안 주면? 메모리를 해제하려던 코어 0번은 그 0.1초 동안 꿀 먹은 벙어리처럼 멈춰버려 스케일업([Scale-up](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)) 확장성의 목을 비틀어버린다.
 
 - **📢 섹션 요약 비유**: 단톡방(멀티코어)에 사장님(코어 0)이 "이 계약 파기다!(메모리 해제)" 공지를 올렸습니다. 사장님은 단톡방에 있는 직원 63명이 전부 '숫자 1(읽음 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))'이 지워지고 "네 알겠습니다(Ack)"라는 답장을 칠 때까지 다른 일을 안 하고 화면만 뚫어져라 쳐다보고(Spin [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) 낭비) 있는 숨 막히는 회사 톡방의 굴레입니다.
@@ -100,17 +102,14 @@ tags = ["studynote-operating-system"]
 - <strong>멀티 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a> (Tomcat 방식)</strong>: [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 64개가 코어 64개에 퍼져서 '단 하나의 가상 주소 장부'를 똑같이 공유하고 있다. 0번 코어 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 힙([Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)) 메모리 한 줄을 해제(`free`)하면? **나머지 63개 코어 전체에 무자비하게 슛다운 IPI를 난사해야 한다!**
 - 💥 **결론**: 대형 서버에서 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 너무 많이 쪼개고 공유 메모리를 팡팡 지워대면, [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) Shootdown 폭풍에 갇혀 서버 CPU 점유율은 100%인데 정작 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)(TPS)은 1코어보다 느려지는 역주행(Degradation) 참사가 터진다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">아키텍처</div><div class="kb-diagram-cell">장부(Table) 공유</div><div class="kb-diagram-cell">메모리 해제(Free)시</div><div class="kb-diagram-cell">Shootdown 렉 발생</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Multi-Process</div><div class="kb-diagram-cell">안 함 (각자)</div><div class="kb-diagram-cell">혼자 조용히 지움</div><div class="kb-diagram-cell">🚀 전혀 안 터짐 쾌적</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Multi-Thread</div><div class="kb-diagram-cell">100% 공유</div><div class="kb-diagram-cell">코어 전체에 IPI 쏨</div><div class="kb-diagram-cell">☠️ 사방팔방 폭탄 터짐</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬──────────────────────────────────┐
+│ 아키텍처   │ 장부(Table) 공유│ 메모리 해제(Free)시│ Shootdown 렉 발생 │
+├──────────┼────────────┼────────────┼──────────────────────────────────┤
+│ Multi-Process│ 안 함 (각자) │ 혼자 조용히 지움 │ 🚀 전혀 안 터짐 쾌적 │
+│ Multi-Thread │ 100% 공유   │ 코어 전체에 IPI 쏨│ ☠️ 사방팔방 폭탄 터짐│
+└──────────┴────────────┴────────────┴──────────────────────────────────┘
+```
 **[매트릭스 해설]** "[스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 무조건 짱이다"라는 편견을 부수는 아키텍처의 배신이다. 크롬 브라우저가 옛날에 탭을 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)로 띄우다 버벅대서 뻗는 걸 포기하고, 요즘 크롬이 탭 하나하나를 아예 무거운 '독립 프로세스'로 띄우는(Multi-[process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) [architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/)) 진짜 숨겨진 이유 중 하나가 바로 이 보안과 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 슛다운 병목을 피해 코어 가동률을 끌어올리기 위함이다.
 
 - **📢 섹션 요약 비유**: 가족(멀티 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))이 한 카드로 결제 내역(장부)을 공유하면, 엄마가 카드 한도를 줄일 때마다(메모리 해제) 아빠, 아들, 딸 폰으로 전부 경고 카톡(슛다운)을 날려 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)시켜야 해서 가족이 피곤합니다. 차라리 다 남남인 친구(멀티 프로세스)끼리 각자 카드를 쓰면, 한 명이 카드 정지를 당하든 말든 남들은 카톡 받을 일 없이 평화로운 이치입니다.
@@ -164,19 +163,15 @@ Java [가비지 컬렉터](/knowledge-base/studynote/05_database/uncategorized/5
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">비동기식 페이지 폴트 (Asynchronous Page Faults) 핸들링</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">TLB 슛다운 (TLB Shootdown)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">커널 페이지 테이블 격리 (KPTI, Kernel Page-Table Isolation)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">메모리 암호화 가상화 (AMD SME/SEV, Intel SGX)</div></div>
-</div>
-</div>
-
-
+```text
+[비동기식 페이지 폴트 (Asynchronous Page Faults) 핸들링]
+    │
+    ▼
+[TLB 슛다운 (TLB Shootdown)]
+    │
+    ├──▶ [커널 페이지 테이블 격리 (KPTI, Kernel Page-Table Isolation)]
+    └──▶ [메모리 암호화 가상화 (AMD SME/SEV, Intel SGX)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

@@ -24,18 +24,14 @@ tags = ["studynote-network"]
   - <strong><a href="/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/">XSS</a> (726번)</strong>: 해커가 내 브라우저에 악성 스크립트를 돌려서 내 '[쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)(지갑)'를 **훔쳐다 자기 주머니로 가져가는** 도둑질입니다.
   - **CSRF**: 해커는 내 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)를 훔치지(보지) 못합니다. 단지 로그인되어 있는 내 '손(권한)'을 꼭두각시처럼 강제로 조종해서, **내 신분으로 나도 모르게 은행에 악성 송금 버튼을 누르게(위조 요청)** 만드는 꼭두각시 조종술입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SQL 인젝션</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CSRF 인증 세션 권한 도용</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">크로스 사이트 요청 위조</div></div>
-</div>
-</div>
-
-
+```text
+[SQL 인젝션]
+    │
+    ▼
+[CSRF 인증 세션 권한 도용]
+    │
+    └──▶ [크로스 사이트 요청 위조]
+```
 
 - **📢 섹션 요약 비유**: CSRF [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 권한 도용은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -49,18 +45,14 @@ tags = ["studynote-network"]
 2. **피해자의 로그인 유지 상태**: 희생자의 브라우저에는 이미 은행 사이트의 <strong>'정상적인 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">세션</a> <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/">쿠키</a>(로그인 통행증)'가 살아 숨 쉬고 있어야 합니다.</strong>
 3. **피해자의 무의식적 클릭 (Trigger)**: 해커가 카톡이나 이메일로 보낸 낚시 링크를, 희생자가 로그인된 브라우저에서 무심코 찰칵 클릭해야 합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SQL 인젝션</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CSRF 인증 세션 권한 도용</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">크로스 사이트 요청 위조</div></div>
-</div>
-</div>
-
-
+```text
+[SQL 인젝션]
+    │
+    ▼
+[CSRF 인증 세션 권한 도용]
+    │
+    └──▶ [크로스 사이트 요청 위조]
+```
 
 - **📢 섹션 요약 비유**: CSRF [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 권한 도용의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -119,19 +111,15 @@ CSRF [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: SQL 인젝션</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: CSRF 인증 세션 권한 도용</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 크로스 사이트 요청 위조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: SQL 인젝션]
+    │
+    ▼
+[현재 개념: CSRF 인증 세션 권한 도용]
+    │
+    ├──▶ [확장 A: 크로스 사이트 요청 위조]
+    └──▶ [확장 B: 예측형 위협 대응]
+```
 
 CSRF [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 권한 도용는 SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/)에서 출발해 현재 메커니즘을 정교화하고, 이후 크로스 사이트 요청 위조와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

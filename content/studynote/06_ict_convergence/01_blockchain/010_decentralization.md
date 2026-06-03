@@ -25,21 +25,21 @@ tags = ["ict_convergence"]
 
 다음은 중앙화(Centralized), [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)화(Distributed), 탈중앙화(Decentralized) 네트워크 토폴로지의 근본적 권력 구조 차이를 보여주는 비교 도식이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">A. Centralized</div><div class="kb-diagram-node">B. Decentralized</div><div class="kb-diagram-node">C. Distributed</div></div>
-<div class="kb-diagram-note">중앙화 탈중앙화 완전 분산화</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(C) (N) (N) (N)-(N)-(N)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(N)(N)(N) (C)-(C) (N)-(N)-(N)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(N)(N) (N)(N) (N)-(N)-(N)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* (C)=Central Node, (N)=Normal Node</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* B와 C는 물리적으로 유사하나 블록체인은 논리적 C 지향</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────┐
+│ [ A. Centralized ] [ B. Decentralized ] [ C. Distributed ] 
+│      중앙화               탈중앙화            완전 분산화      
+│                                                        │
+│        (C)                  (N)   (N)      (N)-(N)-(N) │
+│       / | \                  | \ / |        | \ | / |  │
+│     (N)(N)(N)               (C)-(C)        (N)-(N)-(N) │
+│                             / |   | \       | / | \ |  │
+│                           (N)(N) (N)(N)    (N)-(N)-(N) │
+│                                                        │
+│ * (C)=Central Node, (N)=Normal Node                    │
+│ * B와 C는 물리적으로 유사하나 블록체인은 논리적 C 지향 │
+└────────────────────────────────────────────────────────┘
+```
 이 도식의 핵심은 중앙 노드(C)의 소멸에 따른 시스템 생존성 차이다. A 구조에서는 (C)가 해킹되거나 전원이 꺼지면 모든 (N)이 고립되며 시스템이 100% 붕괴([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) 발동)된다. 반면 B나 C 구조([블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 탈중앙화 모델)에서는 노드 절반이 폭격으로 파괴되더라도 남은 노드들끼리 P2P로 연결되어 시스템의 원장과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 살아남는다. 실무 아키텍트 입장에서 탈중앙화란 가장 가혹한 적대적 환경에서도 멈추지 않는 궁극의 '무중단 시스템([Zero-Downtime](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/110_zero_downtime_db_schema_rollout/) System)'을 설계하는 목표가 된다.
 
 📢 **섹션 요약 비유**: "하나의 거대한 중앙 은행 금고(중앙화)를 부수면 모든 돈이 털리지만, 전 국민의 수첩(탈중앙화)에 모든 거래 내역을 복사해 나눠주면 강도가 나라의 수첩 절반 이상을 불태우지 않는 이상 장부 조작이 불가능한 원리입니다."
@@ -59,27 +59,23 @@ tags = ["ict_convergence"]
 
 다음은 중앙화된 클라이언트-서버 구조의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름과 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 기반 탈중앙화 네트워크의 합의 및 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 확정 흐름을 대조하는 아키텍처 흐름도이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-note">──</div><div class="kb-diagram-node">중앙화 (Web 2.0) 결제</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">은행 중앙 서버 (DB)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">Client B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. A가 송금 요청</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 서버가 A 잔고 확인 후 DB 레코드 UPDATE (단일 권한)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. B에게 통보 (검증 수단: 은행을 무조건 신뢰)</div></div>
-<div class="kb-diagram-note">VS</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">──</div><div class="kb-diagram-node">탈중앙화 (Web 3.0) 결제 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client A -&gt; (P2P Gossip 전파) -&gt; 네트워크 전체 노드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1. A의 송금 내역이 수만 대의</div><div class="kb-diagram-node">Node</div><div class="kb-diagram-note">메모리풀로 퍼짐</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2.</div><div class="kb-diagram-node">채굴 Node</div><div class="kb-diagram-note">들이 경쟁적으로 Hash 연산 (PoW/PoS)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3. 누군가 정답을 찾으면</div><div class="kb-diagram-node">새 블록</div><div class="kb-diagram-note">생성 후 다시 전파</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">4. 수만 대의</div><div class="kb-diagram-node">Node</div><div class="kb-diagram-note">들이 각자 '독립적 검증' 수행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 51% 이상이 수용하면 각자 로컬 DB(원장) 업데이트</div></div>
-</div>
-</div>
-
-
+```text
+┌── [ 중앙화 (Web 2.0) 결제 ] ─────────────────────────┐
+│ Client A -> [ 은행 중앙 서버 (DB) ] -> Client B      │
+│ 1. A가 송금 요청                                     │
+│ 2. 서버가 A 잔고 확인 후 DB 레코드 UPDATE (단일 권한)│
+│ 3. B에게 통보 (검증 수단: 은행을 무조건 신뢰)        │
+└──────────────────────────────────────────────────────┘
+                          VS
+┌── [ 탈중앙화 (Web 3.0) 결제 구조 ] ──────────────────┐
+│ Client A -> (P2P Gossip 전파) -> 네트워크 전체 노드  │
+│ 1. A의 송금 내역이 수만 대의 [Node] 메모리풀로 퍼짐  │
+│ 2. [채굴 Node] 들이 경쟁적으로 Hash 연산 (PoW/PoS)   │
+│ 3. 누군가 정답을 찾으면 [새 블록] 생성 후 다시 전파  │
+│ 4. 수만 대의 [Node] 들이 각자 '독립적 검증' 수행     │
+│ 5. 51% 이상이 수용하면 각자 로컬 DB(원장) 업데이트   │
+└──────────────────────────────────────────────────────┘
+```
 이 흐름도의 핵심은 탈중앙화 시스템이 <strong>'신뢰(Trust)'를 '<a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>(<a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">Verification</a>)'으로 대체</strong>했다는 점이다. 이런 배치는 누군가에게 의존할 필요 없이, 투명하게 공개된 수학 규칙([오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 코드)에 의해 상태가 변이되도록 만든다. 따라서 어떤 정부 권력도 특정 송금을 강제로 중단시킬 수 없는 '검열 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)성(Censorship [Resistance](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/))'이 확보된다. 하지만 모든 노드가 똑같은 계산을 중복 수행해야 하므로 컴퓨팅 자원 관점에서는 극도로 비효율적이라는 명확한 구조적 한계(Trade-off)를 갖는다.
 
 📢 **섹션 요약 비유**: "반장이 혼자 채점하고 점수를 부르는 교실(중앙화)에서, 모든 학생이 시험지를 돌려보며 각자 채점한 뒤 만장일치로 맞은 답만 인정하는 교실(탈중앙화)로 바뀐 것입니다."
@@ -98,19 +94,18 @@ tags = ["ict_convergence"]
 
 다음은 위 세 가지 요소가 서로 어떻게 상충(Trade-off)하는지, 그리고 현재 기술들이 어느 좌표에 위치해 있는지 보여주는 결정 매트릭스 도식이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">확장성 (TPS)</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">/ \ &lt;--- (Solana, DPoS 진영: 속도를 위해 탈중앙 포기)</div>
-<div class="kb-diagram-note">(Bitcoin) -&gt; /______________\ &lt;- (기존 은행, 프라이빗 체인)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">탈중앙화</div><div class="kb-diagram-node">보안성</div></div>
-</div>
-</div>
-
-
+```text
+               [ 확장성 (TPS) ]
+                     /\
+                    /  \
+                   /    \ <--- (Solana, DPoS 진영: 속도를 위해 탈중앙 포기)
+                  /      \
+                 /        \
+                /          \
+               /            \
+ (Bitcoin) -> /______________\ <- (기존 은행, 프라이빗 체인)
+ [ 탈중앙화 ]                  [ 보안성 ]
+```
 이 도식의 핵심은 구조적으로 세 꼭짓점(탈중앙화, 확장성, [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))을 동시에 완벽하게 만족시키는 단일 시스템(L1)은 현재 존재하지 않는다는 점이다. 확장을 위해 초당 만 건을 처리하려면 노드의 사양을 슈퍼컴퓨터급으로 올려야 하는데, 이러면 일반인은 노드를 굴릴 수 없어 소수 기업 노드만 남게 되어 결국 '탈중앙화'가 파괴된다. 실무에서는 비즈니스 성격에 따라 이 트릴레마 삼각형에서 어느 지점에 점을 찍을 것인가를 전략적으로 선택해야 한다.
 
 📢 **섹션 요약 비유**: "빠른 차(확장성), 튼튼한 장갑차([보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)), 누구나 살 수 있는 저렴한 가격(탈중앙화). 이 세 가지를 모두 갖춘 완벽한 자동차는 만들 수 없기 때문에 목적에 맞춰 하나를 포기해야 하는 물리적 법칙과 같습니다."
@@ -140,22 +135,19 @@ tags = ["ict_convergence"]
 
 다음은 신규 프로젝트에 탈중앙화 아키텍처([블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/))를 적용할지 여부를 판별하는 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 기반의 의사결정 트리이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">비즈니스 아키텍처 선정 플로우</div></div>
-<div class="kb-diagram-tree-item" style="--depth:1">Q1: 다수의 주체가 동일한 데이터를 수정(Write)해야 하는가?</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ No ──&gt;</div><div class="kb-diagram-node">일반 RDBMS 데이터베이스 사용</div><div class="kb-diagram-note">(블록체인 불필요)</div></div>
-<div class="kb-diagram-note">─ Yes ──&gt; Q2: 참여자들끼리 서로 100% 신뢰하는가?</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─Q2 ─ Yes ──&gt;</div><div class="kb-diagram-node">공유 데이터베이스 / 중앙화 클라우드 사용</div></div>
-<div class="kb-diagram-note">─ No &gt; Q3: 신뢰할 수 있는 제3의 중개 기관(TTP)을 둘 수 있는가?</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─Q3 ─ Yes ──&gt;</div><div class="kb-diagram-node">전통적 에스크로/클리어링 중앙 시스템 구축</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ No &gt; 🔥 비로소</div><div class="kb-diagram-node">탈중앙화 블록체인 아키텍처</div><div class="kb-diagram-note">도입 타당성 확보!</div></div>
-</div>
-</div>
-
-
+```text
+[ 비즈니스 아키텍처 선정 플로우 ]
+   │
+   ├─Q1: 다수의 주체가 동일한 데이터를 수정(Write)해야 하는가?
+   │  ├─ No ──> [일반 RDBMS 데이터베이스 사용] (블록체인 불필요)
+   │  └─ Yes ──> Q2: 참여자들끼리 서로 100% 신뢰하는가?
+   │
+   ├─Q2 ├─ Yes ──> [공유 데이터베이스 / 중앙화 클라우드 사용]
+   │    └─ No ───> Q3: 신뢰할 수 있는 제3의 중개 기관(TTP)을 둘 수 있는가?
+   │
+   ├─Q3 ├─ Yes ──> [전통적 에스크로/클리어링 중앙 시스템 구축]
+   │    └─ No ───> 🔥 비로소 [탈중앙화 블록체인 아키텍처] 도입 타당성 확보!
+```
 이 플로우의 핵심은 탈중앙화가 만병통치약이 아니라는 점이다. 탈중앙화는 극도의 비효율을 감수하고서라도 '무신뢰 환경에서의 합의'가 비즈니스 가치를 넘어설 때만 채택해야 하는 매우 무겁고 비싼 구조설계 패턴이다.
 
 📢 **섹션 요약 비유**: "탈중앙화는 보안 유지비가 엄청나게 비싼 유리로 된 금고입니다. 감출 필요가 없는 공공재나 서로를 믿지 못하는 적들끼리 거래할 때는 최고지만, 자기 집 안방에 놓을 용도로는 너무나 비효율적입니다."
@@ -187,23 +179,22 @@ Web 3.0 시대의 도래와 함께 탈중앙화 아키텍처는 기술적 실험
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">중앙집중식 시스템 (Centralized) — 단일 신뢰 기관 의존</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">분산 시스템 (Distributed) — 노드 분산, 여전히 제어 주체 존재</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">탈중앙화 (Decentralization) — 제어 권한 분산, 합의 알고리즘 기반</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">블록체인 (Blockchain) — 탈중앙 불변 원장</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DeFi (탈중앙화 금융) — 금융 서비스의 탈중개화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DAO (탈중앙화 자율 조직) — 스마트 컨트랙트 기반 거버넌스</div></div>
-</div>
-</div>
-
-
+```text
+[중앙집중식 시스템 (Centralized) — 단일 신뢰 기관 의존]
+    │
+    ▼
+[분산 시스템 (Distributed) — 노드 분산, 여전히 제어 주체 존재]
+    │
+    ▼
+[탈중앙화 (Decentralization) — 제어 권한 분산, 합의 알고리즘 기반]
+    │
+    ▼
+[블록체인 (Blockchain) — 탈중앙 불변 원장]
+    │
+    ├─▶ [DeFi (탈중앙화 금융) — 금융 서비스의 탈중개화]
+    │
+    └─▶ [DAO (탈중앙화 자율 조직) — 스마트 컨트랙트 기반 거버넌스]
+```
 탈중앙화는 중앙 신뢰 기관을 없애고 [합의 알고리즘](/knowledge-base/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/)으로 신뢰를 대체함으로써, [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)·[DeFi](/knowledge-base/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/)·DAO라는 새로운 디지털 경제 구조를 낳았다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

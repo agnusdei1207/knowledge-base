@@ -48,17 +48,11 @@ JOIN (SELECT dept_id, MAX(sal) AS max_sal FROM emp GROUP BY dept_id) t
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">기본 서브쿼리</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">인라인 뷰 (SQL-92)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">CTE (SQL:1999)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Materialized CTE</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: 옵티마이저 자동 인라인/CTE 변환</div></div>
-</div>
-</div>
-
-
+```text
+[기본 서브쿼리] → [인라인 뷰 (SQL-92)]
+    → [CTE (SQL:1999)] → [Materialized CTE]
+    → [현재: 옵티마이저 자동 인라인/CTE 변환]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 인라인 뷰는 <strong>임시 메모</strong>예요. 복잡한 계산 결과를 **메모에 적어둬요**.

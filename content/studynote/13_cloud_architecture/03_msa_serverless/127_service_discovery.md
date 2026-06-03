@@ -18,21 +18,18 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Service Discovery 동작</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 서비스 인스턴스 시작 → Registry에 등록</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Order-Svc: 10.0.1.5:8080)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 호출자가 "Order-Svc 어디?" → Registry 조회</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Registry 응답: 10.0.1.5:8080</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 호출자 → 10.0.1.5:8080 직접 호출</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 인스턴스 종료 → Registry에서 제거 (헬스체크)</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    Service Discovery 동작                             │
+├───────────────────────────────────────────────────────┤
+│  1. 서비스 인스턴스 시작 → Registry에 등록           │
+│     (Order-Svc: 10.0.1.5:8080)                       │
+│  2. 호출자가 "Order-Svc 어디?" → Registry 조회       │
+│  3. Registry 응답: 10.0.1.5:8080                     │
+│  4. 호출자 → 10.0.1.5:8080 직접 호출                │
+│  5. 인스턴스 종료 → Registry에서 제거 (헬스체크)     │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Discovery는 <strong>전화번호부</strong>이다. 사람([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))이 이사(IP 변경)해도 전화번호부([레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/))를 보면 **현재 주소를 찾을 수 있다**.
 
@@ -93,23 +90,21 @@ tags = ["studynote-cloud-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">하드코딩 IP (전통, ~2010s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Client-side Discovery (Eureka, 2012~)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Server-side Discovery (K8s Service, 2015~)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Service Mesh (Istio/Envoy, 2018~) — 투명한 Discovery</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: 멀티 클러스터 Discovery — 클러스터 간 서비스 탐색</div></div>
-</div>
-</div>
-
-
+```text
+[하드코딩 IP (전통, ~2010s)]
+    │
+    ▼
+[Client-side Discovery (Eureka, 2012~)]
+    │
+    ▼
+[Server-side Discovery (K8s Service, 2015~)]
+    │
+    ▼
+[Service Mesh (Istio/Envoy, 2018~) — 투명한 Discovery]
+    │
+    ▼
+[현재: 멀티 클러스터 Discovery — 클러스터 간 서비스 탐색]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Discovery는 <strong>전화번호부</strong>예요. 친구([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))가 이사해도 <strong>새 주소</strong>를 찾을 수 있어요.

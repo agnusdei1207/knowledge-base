@@ -30,28 +30,31 @@ tags = ["studynote-operating-system"]
 - <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a> 메모리(<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">Stack</a> Layout) 가 파괴되며 복귀 주소(EIP/<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/">RIP</a>) 가 감염되는 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> 폭쇄 뷰</strong>:
 해커의 페이로드가 어떻게 로컬 변수 버퍼부터 EBP 와 RET 영역까지 쓰나미처럼 덮고 가는지 까보면 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"물(버퍼) 이 넘쳐서 댐(EBP) 을 부수고, 마을(RET) 을 익사시켰다!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🚨</div><div class="kb-diagram-node">1. 정상적인 함수 호출 시 스택(Stack) 메모리 상태</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지역 변수 (Buffer) 10 Bytes</div><div class="kb-diagram-cell">EBP (Base Pointer)</div><div class="kb-diagram-cell">RET (Return 집주소)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">H</div><div class="kb-diagram-node">i</div><div class="kb-diagram-node">\0</div><div class="kb-diagram-node">기존 변수 저장 공간</div><div class="kb-diagram-node">0x08048420</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">( ↑ 여기서 위로 물이 채워짐 )</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🔥</div><div class="kb-diagram-node">2. 버퍼 오버플로우 쓰나미 강타! (해커가 A 20개를 난사 록백 ❗)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 취약 함수 <code>strcpy(buffer, 해커입력값);</code> 실행!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지역 변수 (Buffer) 공간 완전 점령!</div><div class="kb-diagram-cell">EBP 댐(저장공간) 박살!</div><div class="kb-diagram-cell">⭐ RET 주소 감염! ⭐</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">A</div><div class="kb-diagram-node">A</div><div class="kb-diagram-node">A</div><div class="kb-diagram-node">A</div><div class="kb-diagram-node">A</div><div class="kb-diagram-node">A</div><div class="kb-diagram-node">A</div><div class="kb-diagram-node">A</div><div class="kb-diagram-node">A</div><div class="kb-diagram-node">A</div><div class="kb-diagram-node">A</div><div class="kb-diagram-node">A</div><div class="kb-diagram-node">A</div><div class="kb-diagram-node">A</div><div class="kb-diagram-node">A</div><div class="kb-diagram-node">A</div><div class="kb-diagram-node">A</div><div class="kb-diagram-node">A</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(버퍼 10칸 꽉참) (EBP 4칸 덮임) (RET 4칸 덮임!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">✅</div><div class="kb-diagram-node">OS CPU 점프 심연 크래시 빔!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">함수 종료 명령어(ret) 가 실행될 때, CPU 가 집 주소를 읽어보니 "AAAA(0x41414141)" 다!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결국 CPU 는 멍청하게 메모리 0x41414141 번지로 날아가고, 그곳에 대기하고 있던 해커의</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">악성 쉘코드(Shellcode) 가 0.1초 만에 불을 뿜으며 루트 쉘을 던져버림 쾅!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────────────────────────────┐
+  │                 "물(버퍼) 이 넘쳐서 댐(EBP) 을 부수고, 마을(RET) 을 익사시켰다!"          │
+  ├───────────────────────────────────────────────────────────────────────────────────────────┤
+  │                                                                                           │
+  │  🚨 [ 1. 정상적인 함수 호출 시 스택(Stack) 메모리 상태 ]                                  │
+  │     |  지역 변수 (Buffer) 10 Bytes     |  EBP (Base Pointer) | RET (Return 집주소) |      │
+  │     | [H][i][\0][ ][ ][ ][ ][ ][ ][ ] | [기존 변수 저장 공간]  | [0x08048420]      |      │
+  │     ( ↑ 여기서 위로 물이 채워짐 )                                                         │
+  │                                                                                           │
+  │  =========================▼===================================                            │
+  │                                                                                           │
+  │  🔥 [ 2. 버퍼 오버플로우 쓰나미 강타! (해커가 A 20개를 난사 록백 ❗) ]                    │
+  │     => 취약 함수 `strcpy(buffer, 해커입력값);` 실행!                                      │
+  │                                                                                           │
+  │     |  지역 변수 (Buffer) 공간 완전 점령!| EBP 댐(저장공간) 박살! | ⭐ RET 주소 감염! ⭐ |│
+  │     | [A][A][A][A][A][A][A][A][A][A] | [A][A][A][A]        | [A][A][A][A]      |          │
+  │     (버퍼 10칸 꽉참)                   (EBP 4칸 덮임)         (RET 4칸 덮임!)             │
+  │                                                                                           │
+  │  ✅ [ OS CPU 점프 심연 크래시 빔! ]                                                       │
+  │     함수 종료 명령어(ret) 가 실행될 때, CPU 가 집 주소를 읽어보니 "AAAA(0x41414141)" 다!  │
+  │     결국 CPU 는 멍청하게 메모리 0x41414141 번지로 날아가고, 그곳에 대기하고 있던 해커의   │
+  │     악성 쉘코드(Shellcode) 가 0.1초 만에 불을 뿜으며 루트 쉘을 던져버림 쾅!               │
+  └───────────────────────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이것이 바로 전설적인 프랙(Phrack) 매거진의 "Smashing The [Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) For Fun And Profit (알레프 원 Aleph One)" 논문이 세상에 까발린 메모리 박살 궤적이다. 해커의 공격 문자열은 보통 `[ NOP 썰매(의미 없는 공간) + 쉘코드(악성 파일 실행) + AAAA(쓰레기) + 덮어쓸 주소(RET) ]` 의 다단 로켓 구조로 조립된다.
 
@@ -133,19 +136,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">웜 (Worm)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">버퍼 오버플로우 (Buffer Overflow) 원리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">셸코드 (Shellcode) 인젝션</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">버퍼 오버플로우 방어 하드웨어 기술 (NX Bit / Data Execution Prevention, DEP)</div></div>
-</div>
-</div>
-
-
+```text
+[웜 (Worm)]
+    │
+    ▼
+[버퍼 오버플로우 (Buffer Overflow) 원리]
+    │
+    ├──▶ [셸코드 (Shellcode) 인젝션]
+    └──▶ [버퍼 오버플로우 방어 하드웨어 기술 (NX Bit / Data Execution Prevention, DEP)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

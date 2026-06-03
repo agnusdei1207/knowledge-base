@@ -37,21 +37,17 @@ tags = ["studynote-ict-convergence"]
 
 ### 오류 행렬과 검정력
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">실제 상황</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">H₀ 참</div><div class="kb-diagram-cell">H₁ 참</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">판정 H₀ 채택</div><div class="kb-diagram-cell">정확 ✓</div><div class="kb-diagram-cell">β(2종↑)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">H₀ 기각</div><div class="kb-diagram-cell">α(1종↑)</div><div class="kb-diagram-cell">검정력</div></div>
-<div class="kb-diagram-note">α = P(H₀ 기각 | H₀ 참) ← 1종 오류(False Positive)</div>
-<div class="kb-diagram-note">β = P(H₀ 채택 | H₁ 참) ← 2종 오류(False Negative)</div>
-<div class="kb-diagram-note">Power = 1 - β ← 통계적 검정력</div>
-</div>
-</div>
-
-
+```
+                   실제 상황
+                ┌──────────┬──────────┐
+                │  H₀ 참   │  H₁ 참   │
+ 판정  H₀ 채택  │  정확 ✓  │ β(2종↑)  │
+       H₀ 기각  │ α(1종↑)  │  검정력  │
+                └──────────┴──────────┘
+  α = P(H₀ 기각 | H₀ 참)  ← 1종 오류(False Positive)
+  β = P(H₀ 채택 | H₁ 참)  ← 2종 오류(False Negative)
+  Power = 1 - β            ← 통계적 검정력
+```
 
 ### p-값 vs [유의 수준](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/) 구분
 

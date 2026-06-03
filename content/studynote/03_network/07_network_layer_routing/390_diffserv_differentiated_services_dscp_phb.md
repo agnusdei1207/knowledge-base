@@ -26,18 +26,14 @@ tags = ["studynote-network"]
   - **DSCP 마킹**: 놀이공원 입구([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))에서 돈을 더 낸 사람 손목에 <strong>"파란색 매직 패스 띠지(EF)"</strong>를, 일반인에겐 <strong>"종이 띠지(BE)"</strong>를 채워줍니다.
   - **PHB (라우터의 행동)**: T-익스프레스 직원(라우터)은 이 사람이 언제 예약했는지, 누구인지 장부를 뒤지지 않습니다. 오직 손목의 띠지 색깔만 보고, "파란 띠지 이쪽(하이패스 줄)으로 오세요!"라며 기계적으로 줄을 분리해 먼저 태워 보냅니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">IntServ</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DiffServ</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">우선순위 큐, 맞춤형 큐, WFQ, CBWF…</div></div>
-</div>
-</div>
-
-
+```text
+[IntServ]
+    │
+    ▼
+[DiffServ]
+    │
+    └──▶ [우선순위 큐, 맞춤형 큐, WFQ, CBWF…]
+```
 
 - **📢 섹션 요약 비유**: ** DiffServ는 공항 보안 검색대의 **"비즈니스 클래스 전용 라인"**입니다. 검색대 직원(라우터)은 오직 탑승권에 찍힌 '퍼스트(EF)', '비즈니스(AF)', '이코노미(BE)' 글자만 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 즉각 줄을 세우므로(PHB), 대기 줄이 아무리 길어도 VIP 승객은 절대 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Delay)을 겪지 않고 통과할 수 있습니다.
 
@@ -70,21 +66,23 @@ $2^6 = 64$ 가지의 신분(등급)을 부여할 수 있다.
    - 라우터 큐에 앞서 기다리는 천민 패킷이 1,000개가 있어도, EF 딱지를 붙인 패킷이 들어오면 무조건 새치기(LLQ, [Priority Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/))를 해서 0순위로 출력 포트로 던져버린다.
    - 오직 **VoIP(인터넷 전화), 화상 회의(Zoom)** 같이 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Delay)이 0.1초라도 발생하면 끊어지는 목소리/실시간 영상 패킷에만 이 거룩한 황족 스티커를 붙여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DiffServ 환경에서의 라우터 대기열(Queue) 갈라치기</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">수만 개의 패킷이 라우터로 쏟아져 들어옴!!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (분류기: DSCP 스티커 확인!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">황족 전용 VIP 큐</div><div class="kb-diagram-note">── (무조건 최우선 처리!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">우등생 전용 2번 큐</div><div class="kb-diagram-note">── (VIP 없으면 처리)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">흙수저 전용 3번 큐</div><div class="kb-diagram-note">── (남는 시간에 처리)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(큐 꽉 차면 가차 없이 1순위로 패킷 버림-Drop)</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                DiffServ 환경에서의 라우터 대기열(Queue) 갈라치기   │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 수만 개의 패킷이 라우터로 쏟아져 들어옴!! ]                     │
+ │      │                                                      │
+ │      ▼ (분류기: DSCP 스티커 확인!)                              │
+ │                                                             │
+ │   ▶ 스티커가 EF(46)네? ──▶ [ 황족 전용 VIP 큐 ] ── (무조건 최우선 처리!)│
+ │                                                             │
+ │   ▶ 스티커가 AF31 이네? ──▶ [ 우등생 전용 2번 큐 ] ── (VIP 없으면 처리) │
+ │                                                             │
+ │   ▶ 스티커가 BE(0) 이네?  ──▶ [ 흙수저 전용 3번 큐 ] ── (남는 시간에 처리) │
+ │                      (큐 꽉 차면 가차 없이 1순위로 패킷 버림-Drop)│
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 3. DiffServ의 훌륭한 장점 (확장성)
 라우터는 앞뒤 전후 사정(예약)을 외울 필요가 전혀 없다. 들어오는 패킷 한 장, 한 장 겉면(DSCP)만 기계적으로 스캔해서 던져주기만 하면 끝난다. CPU도 안 먹고 메모리도 안 먹는다. 이게 대규모 통신사 망에서 DiffServ가 100% 대승을 거둔 이유다.
@@ -145,19 +143,15 @@ DiffServ는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_ro
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: IntServ</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: DiffServ</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 우선순위 큐, 맞춤형 큐, WFQ, CBWF…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: IntServ]
+    │
+    ▼
+[현재 개념: DiffServ]
+    │
+    ├──▶ [확장 A: 우선순위 큐, 맞춤형 큐, WFQ, CBWF…]
+    └──▶ [확장 B: 의도 기반 라우팅]
+```
 
 DiffServ는 IntServ에서 출발해 현재 메커니즘을 정교화하고, 이후 [우선순위 큐](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/), 맞춤형 큐, WFQ, CBWF…와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: 단순한 방어 장비([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))를 넘어, <strong>현재 일어나고 있거나 발생할 가능성이 있는 사이버 공격(해커 집단, 유행하는 <a href="/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/">랜섬웨어</a>, 신종 악성 IP, 취약점)에 대한 증거 기반의 빅데이터와 인사이트(정보)를 수집, 분석하여 전 세계 기업이 방어에 선제적으로 활용하도록 배포하는 지식 플랫폼</strong>입니다.
 - 구글의 VirusTotal, 한국 KISA의 C-TAS, 민간 업체의 TI 피드(Feed) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 등이 대표적입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SOAR</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">TI 융합 / STIX, TAXII 표준 지…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">웹쉘</div></div>
-</div>
-</div>
-
-
+```text
+[SOAR]
+    │
+    ▼
+[TI 융합 / STIX, TAXII 표준 지…]
+    │
+    └──▶ [웹쉘]
+```
 
 - **📢 섹션 요약 비유**: TI 융합 / STIX, TAXII 표준 지…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -49,18 +45,14 @@ TI 시스템이 씹고 뜯고 맛보는 핵심 [데이터](/knowledge-base/study
   - 방금 잡힌 신종 [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 고유한 **해시값(SHA-256)**
   - 특정 윈도우 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) 키가 몰래 변경된 기록
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SOAR</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">TI 융합 / STIX, TAXII 표준 지…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">웹쉘</div></div>
-</div>
-</div>
-
-
+```text
+[SOAR]
+    │
+    ▼
+[TI 융합 / STIX, TAXII 표준 지…]
+    │
+    └──▶ [웹쉘]
+```
 
 - **📢 섹션 요약 비유**: TI 융합 / STIX, TAXII 표준 지…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -124,19 +116,15 @@ TI 융합 / STIX, TAXII 표준 지…는 [네트워크 보안](/knowledge-base/s
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: SOAR</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: TI 융합 / STIX, TAXII 표준 지…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 웹쉘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: SOAR]
+    │
+    ▼
+[현재 개념: TI 융합 / STIX, TAXII 표준 지…]
+    │
+    ├──▶ [확장 A: 웹쉘]
+    └──▶ [확장 B: 예측형 위협 대응]
+```
 
 TI 융합 / STIX, TAXII 표준 지…는 SOAR에서 출발해 현재 메커니즘을 정교화하고, 이후 [웹쉘](/knowledge-base/studynote/03_network/14_network_security_threats/747_web_shell_file_upload_vulnerability/)와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

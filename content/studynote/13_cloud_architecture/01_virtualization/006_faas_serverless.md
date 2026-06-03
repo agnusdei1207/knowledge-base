@@ -60,50 +60,52 @@ Function  :    ___/\___        ___/\/\/\___     (요청 즉시 실행 및 소멸
 | <strong><a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/">Stateless</a> Runtime</strong>| 비즈니스 로직 실행 | Node.js, Python 런타임을 로드해 코드 실행. 상태는 외부 저장소 의존 | V8 엔진 | 수술 집도의 |
 
 이 도식은 사용자의 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 요청부터 [FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/) 백엔드 엔진이 어떻게 마이크로VM을 할당하고 반환하는지를 보여주는 계층 구조도이다.
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 클라이언트 요청 (HTTP / S3 이벤트 / Cron)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(페이로드)</div><div class="kb-diagram-cell">(응답)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. API 게이트웨이 / 이벤트 라우터 (인증, 속도 제한)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(함수 호출 이벤트)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. FaaS 컨트롤러 (스케일아웃 매니저)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">유휴 워커 풀</div><div class="kb-diagram-connector">==&gt;</div><div class="kb-diagram-node">콜드 워커 초기화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(디스패치)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 워커 노드 (물리 서버)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MicroVM (Warm)</div><div class="kb-diagram-cell">MicroVM (Cold)</div><div class="kb-diagram-cell">MicroVM (Term)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 노드 런타임</div><div class="kb-diagram-cell">- OS/코드 부팅</div><div class="kb-diagram-cell">- GC / 정리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 실행()</div><div class="kb-diagram-cell">- 패키지 다운</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(상태 읽기/쓰기 - 필수!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 외부 백엔드 서비스 (DynamoDB, S3, RDS)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│ 1. 클라이언트 요청 (HTTP / S3 이벤트 / Cron)                │
+└───────┬──────────────────────────────────────────────┬──────┘
+        │ (페이로드)                                   │ (응답)
+┌───────▼──────────────────────────────────────────────┴──────┐
+│ 2. API 게이트웨이 / 이벤트 라우터 (인증, 속도 제한)         │
+└───────┬──────────────────────────────────────────────┬──────┘
+        │ (함수 호출 이벤트)                           │
+┌───────▼──────────────────────────────────────────────┴──────┐
+│ 3. FaaS 컨트롤러 (스케일아웃 매니저)                        │
+│   [ 유휴 워커 풀 ]       ==>   [ 콜드 워커 초기화 ]         │
+└───────┬──────────────────────────────────────────────┬──────┘
+        │ (디스패치)                                   │
+┌───────▼──────────────────────────────────────────────┴──────┐
+│ 4. 워커 노드 (물리 서버)                                    │
+│ ┌────────────────┐ ┌────────────────┐ ┌────────────────┐    │
+│ │ MicroVM (Warm) │ │ MicroVM (Cold) │ │ MicroVM (Term) │    │
+│ │ - 노드 런타임  │ │ - OS/코드 부팅 │ │ - GC / 정리    │    │
+│ │ - 실행()       │ │ - 패키지 다운  │ │                │    │
+│ └────────────────┘ └────────────────┘ └────────────────┘    │
+└───────┬──────────────────────────────────────────────┬──────┘
+        │ (상태 읽기/쓰기 - 필수!)                     │
+┌───────▼──────────────────────────────────────────────┴──────┐
+│ 5. 외부 백엔드 서비스 (DynamoDB, S3, RDS)                   │
+└─────────────────────────────────────────────────────────────┘
+```
 이 구조도의 핵심은 [FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/) 컨트롤러가 요청 인입 시 '유휴 워커(Warm)'가 있는지, '새로운 워커(Cold)'를 띄워야 하는지 판단하는 동적 스케줄링 계층에 있다. Worker Node 내부에서는 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)보다 격리 수준이 높으면서도 부팅이 빠른 MicroVM(예: AWS Firecracker)이 사용된다. 또한 실행 환경 자체가 무상태([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/))이므로, 모든 영구 데이터는 반드시 5번 계층(DB)에 의존해야 한다는 점이 아키텍처의 최대 제약이자 트레이드오프다.
 
 <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/">콜드 스타트</a> (<a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/347_cold_start_problem/">Cold Start</a>) 메커니즘</strong>
 FaaS의 가장 치명적인 단점은 [콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/)다. 함수가 오랫동안 호출되지 않으면 클라우드는 비용 절감을 위해 해당 인스턴스를 회수(Kill)한다.
 이 타이밍 그래프는 웜 스타트와 [콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/) 시 발생하는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 구간의 차이를 명확히 대조한다.
+```text
+[요청 시작] ──────────────────── 시간(ms) ─────────────────────► [응답 완료]
 
+[Warm Start (최적)]
+REQ ──►│ 실행(Execute) 10ms │──► ACK
+       (이미 준비된 컨테이너/메모리 재사용)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">요청 시작</div><div class="kb-diagram-note">시간(ms) ►</div><div class="kb-diagram-node">응답 완료</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Warm Start (최적)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">REQ ──►</div><div class="kb-diagram-cell">실행(Execute) 10ms</div><div class="kb-diagram-cell">──► ACK</div></div>
-<div class="kb-diagram-note">(이미 준비된 컨테이너/메모리 재사용)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Cold Start (초기 지연 병목 발생)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">REQ ──►</div><div class="kb-diagram-cell">1. 인스턴스/VM 부팅 (50ms)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 런타임 초기화 (100ms)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 코드/패키지 로드 (200ms)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. DB 커넥션 맺기 (150ms)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 실행(Execute) (10ms)</div><div class="kb-diagram-cell">──► ACK (총 510ms 소요)</div></div>
-</div>
-</div>
-
-
+[Cold Start (초기 지연 병목 발생)]
+REQ ──►│ 1. 인스턴스/VM 부팅 (50ms) │
+       │ 2. 런타임 초기화 (100ms)    │
+       │ 3. 코드/패키지 로드 (200ms) │
+       │ 4. DB 커넥션 맺기 (150ms)   │
+       │ 5. 실행(Execute) (10ms)     │──► ACK (총 510ms 소요)
+```
 이 타이밍 도식의 핵심은 [콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/) 시 순수 비즈니스 로직(5번)의 실행 시간보다 인프라와 런타임이 준비되는 시간(1~4번)이 몇십 배 길게 소요된다는 점이다. [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 패키지처럼 크기가 크거나 JVM처럼 무거운 환경일수록 3번 구간의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 치명적이다. 따라서 실시간 응답성이 극도로 중요한 경우, [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 채택을 보류하거나 '[프로비저닝된 동시성](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/202_provisioned_concurrency_serverless_cold_start/)([Provisioned Concurrency](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/202_provisioned_concurrency_serverless_cold_start/))' 기능을 통해 강제로 웜 상태를 유지(비용 지불)하는 설계가 필요하다.
 
 **📢 섹션 요약 비유**: 요리사가 주방에 요리 레시피(코드)만 던져놓으면, 주문이 들어올 때마다 클라우드가 0.1초 만에 도마와 가스레인지를 세팅하고 조리 후 바로 치워버리는 첨단 팝업 주방이다.
@@ -137,20 +139,15 @@ FaaS는 만능이 아니며 워크로드의 특성에 따라 [IaaS](/knowledge-b
 <strong>시나리오: RDBMS 커넥션 풀 고갈 현상 (치명적 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a>)</strong>
 가장 흔한 실패 사례는 FaaS에서 기존 온프레미스형 RDBMS(MySQL, [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/))를 직접 호출하는 것이다. 
 이 도식은 오토 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)되는 [FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/) 환경이 백엔드 DB 연결 병목을 어떻게 유발하는지 시각화한다.
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Client / 클라이언트</div><div class="kb-diagram-node">API Gateway / API 게이트웨이</div><div class="kb-diagram-node">FaaS (AWS Lambda)</div><div class="kb-diagram-node">RDBMS</div></div>
-<div class="kb-diagram-note">____(Scale-out)___</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">DB Max Conn = 200</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Func 2 (Conn 1)</div><div class="kb-diagram-cell">--- (TCP Handshake) ---&gt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">...</div><div class="kb-diagram-cell">(200개 초과 시 즉각 연결 거부!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Func 1000 (Conn)</div><div class="kb-diagram-cell">--- (Conn Refused) ----X (전체 시스템 장애 발생)</div></div>
-</div>
-</div>
-
-
+```text
+[Client / 클라이언트]        [API Gateway / API 게이트웨이]             [FaaS (AWS Lambda)]            [RDBMS]
+                            ____(Scale-out)___
+Requests =>    1,000 req => │ Func 1 (Conn 1) │ --- (TCP Handshake) ---> [DB Max Conn = 200]
+                            │ Func 2 (Conn 1) │ --- (TCP Handshake) --->  │
+                            │ ...             │                           │ (200개 초과 시 즉각 연결 거부!)
+                            │ Func 1000 (Conn)│ --- (Conn Refused) ----X (전체 시스템 장애 발생)
+                            -------------------
+```
 이 흐름의 핵심은 FaaS의 무한한 [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)이 역설적으로 백엔드 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)를 공격하는 자체 DDoS 형태가 된다는 점이다. 기존 WAS 서버는 한정된 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 내에서 DB 커넥션 풀을 공유하지만, FaaS는 각각 독립된 마이크로VM이므로 풀을 공유하지 못하고 수천 개의 새로운 연결을 맺으려다 DB를 터뜨린다.
 * **실무 판단**: 이를 방지하기 위해 [FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/) 전용 DB [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)(예: AWS RDS [Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/))를 중간에 두어 커넥션을 캐싱하거나, 아예 연결 오버헤드가 없는 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 기반의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/)([DynamoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/545_dynamodb/))로 전환해야 한다.
 
@@ -188,21 +185,18 @@ FaaS는 단순히 함수 조각을 넘어서, 진정한 [클라우드 네이티�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">가상 머신 (VM, Virtual Machine)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">컨테이너 (Container)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">FaaS (Function as a Service)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">이벤트 기반 아키텍처 (Event-Driven Architecture)</div></div>
-</div>
-</div>
-
-
+```text
+[가상 머신 (VM, Virtual Machine)]
+    │
+    ▼
+[컨테이너 (Container)]
+    │
+    ▼
+[FaaS (Function as a Service)]
+    │
+    ▼
+[이벤트 기반 아키텍처 (Event-Driven Architecture)]
+```
 
 이 흐름도는 VM과 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 지나 FaaS와 [이벤트 기반 아키텍처](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/538_event_driven_architecture_eda/)로 발전하는 흐름을 보여준다.
 ### 👶 어린이를 위한 3줄 비유 설명

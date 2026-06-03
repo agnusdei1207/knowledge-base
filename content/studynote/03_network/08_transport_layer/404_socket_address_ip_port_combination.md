@@ -27,18 +27,14 @@ tags = ["studynote-network"]
   - 하지만 집 안에서 선풍기(프로그램)를 켜려면, 그냥 벽에 뚫린 동그란 <strong>콘센트 구멍(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/">소켓</a>)</strong>에 플러그([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))만 딱 꽂으면 끝입니다.
   - 이 220V 콘센트 구멍의 이름표가 바로 <strong><code>우리아파트(IP) : 거실 1번 구멍(Port)</code></strong>인 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 주소입니다. 선풍기(프로그램)는 발전소가 어딨는지 몰라도 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)에만 꽂으면 전기가 통합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Well-Known 포트, Registere…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">소켓 주소 = IP 주소 + 포트 번호</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TCP</div></div>
-</div>
-</div>
-
-
+```text
+[Well-Known 포트, Registere…]
+    │
+    ▼
+[소켓 주소 = IP 주소 + 포트 번호]
+    │
+    └──▶ [TCP]
+```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/">소켓</a> 주소는 우편물 겉면에 적힌 </strong>"서울특별시 강남구 테헤란로 123 (IP 주소), 101동 502호 ([포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/))"**라는 풀네임(완전체) 주소입니다. 이 두 개가 합쳐져야만 택배 기사가 아파트 경비실(라우터)을 거쳐 내 방문 앞(프로그램)까지 물건을 정확히 내려놓을 수 있습니다.
 
@@ -67,24 +63,24 @@ tags = ["studynote-network"]
 - 유저 A가 탭을 하나 더 엶: `1.1.1.1:50001` ────▶ `네이버IP:80` (3번 터널)
 - **결과**: 네이버 웹서버(80번)는 가만히 앉아있지만, 들어오는 놈들의 "출발지 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 주소"가 전부 다르기 때문에, 운영체제는 1,000만 개의 각기 다른 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)([소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/))를 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)(Fork)해서 하나하나 독립적으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏴준다. 절대로 A의 카톡이 B에게 잘못 가는 일은 없다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소켓 프로그래밍(코딩)의 극단적 요약 흐름</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">서버 개발자</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. socket() : "OS야 빈 콘센트 구멍 하나 만들어줘"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. bind(80) : "이 콘센트에 80번 이라는 이름표를 붙일게"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. listen() : "이제 손님 올 때까지 귀 열고 대기 탄다!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. accept() : "오! 손님 왔다! 1:1 비밀 통로 파서 대화 시작!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">클라이언트(유저)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. socket() : "나도 빈 콘센트 하나 줘"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. connect(네이버IP:80) : "저쪽 80번 콘센트로 냅다 전기 꽂아버려!!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ "이 6줄의 코드로 전 세계 수십억 대의 컴퓨터가 인터넷을 한다!"</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                소켓 프로그래밍(코딩)의 극단적 요약 흐름             │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 서버 개발자 ]                                              │
+ │   1. socket() : "OS야 빈 콘센트 구멍 하나 만들어줘"                │
+ │   2. bind(80) : "이 콘센트에 80번 이라는 이름표를 붙일게"           │
+ │   3. listen() : "이제 손님 올 때까지 귀 열고 대기 탄다!"            │
+ │   4. accept() : "오! 손님 왔다! 1:1 비밀 통로 파서 대화 시작!"       │
+ │                                                             │
+ │   [ 클라이언트(유저) ]                                          │
+ │   1. socket() : "나도 빈 콘센트 하나 줘"                        │
+ │   2. connect(네이버IP:80) : "저쪽 80번 콘센트로 냅다 전기 꽂아버려!!"│
+ │                                                             │
+ │   ▶ "이 6줄의 코드로 전 세계 수십억 대의 컴퓨터가 인터넷을 한다!"         │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/">소켓</a> 주소 묶음(5-Tuple)은 은행의 </strong>"1:1 창구 상담표"**입니다. 내 주민번호(출발지 IP), 대기표 번호(출발지 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)), 창구 직원 이름(목적지 IP), 창구 창구 번호(목적지 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))가 완벽히 매칭되어야만 두 사람만의 프라이빗한 상담([세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/))이 시작되며, 옆 창구 사람과 절대 대화가 섞이지 않습니다.
 
@@ -142,19 +138,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: Well-Known 포트, Registere…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 소켓 주소 = IP 주소 + 포트 번호</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: TCP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: Well-Known 포트, Registere…]
+    │
+    ▼
+[현재 개념: 소켓 주소 = IP 주소 + 포트 번호]
+    │
+    ├──▶ [확장 A: TCP]
+    └──▶ [확장 B: 적응형 저지연 전송]
+```
 
 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 주소 = IP 주소 + [포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/)는 Well-Known [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), Registere…에서 출발해 현재 메커니즘을 정교화하고, 이후 TCP와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

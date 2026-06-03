@@ -32,24 +32,28 @@ tags = ["studynote-operating-system"]
   2. **IBM RAMAC (1956년)의 등장**: 냉장고 2개만 한 크기에 5MB 용량을 담은 최초의 HDD가 등장해 램덤 액세스 혁명을 일으켰다.
   3. **집적도의 극한 진화**: 100만 배 작아지고 100만 배 빽빽해져, 손바닥만 한 쇳덩이 하나에 도서관 1,000개 분량(20TB)의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 자석으로 욱여넣는 현대 나노 공학의 기적으로 진화했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하드 디스크(HDD) 내부의 물리적 구조와 데이터 탐색 시각화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">트랙(Track): 동심원 원형 띠</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ \</div><div class="kb-diagram-cell">기계 팔(Actuator Arm)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">││ │</div><div class="kb-diagram-node">섹터 Sector</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">── (바늘 Head)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">512 Bytes</div><div class="kb-diagram-cell">(이동: Seek)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">플래터 (Platter) ─ 초당 7200번 미친 듯이 회전! (RPM)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1. Seek (탐색): 바늘(Head)이 안팎으로 징~ 움직여 트랙을 찾음.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2. Latency (회전 지연): 플래터가 팽팽 돌아가서, 찾고 있는 섹터가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">바늘 밑에 정확히 도착할 때까지 멍하니 기다림.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 3. Transfer (전송): 바늘이 섹터의 0, 1 자석값을 전기 신호로 쫙 빨아들임.</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────────────────┐
+│        하드 디스크(HDD) 내부의 물리적 구조와 데이터 탐색 시각화           │
+├───────────────────────────────────────────────────────────────────────────┤
+│                                                                           │
+│ ┌─────────────────────────┐                                               │
+│ │   트랙(Track): 동심원 원형 띠 │                                         │
+│ │  / ┌─────────────────┐ \  │      기계 팔(Actuator Arm)                  │
+│ │ / / ┌───────────────┐ \ \ │      │                                      │
+│ ││ │ │ [ 섹터 Sector ] │ │ │ │  ◀──┼────(바늘 Head)                       │
+│ ││ │ │   512 Bytes   │ │ │ │      │  (이동: Seek)                         │
+│ │ \ \ └───────────────┘ / / │      │                                      │
+│ │  \ └─────────────────┘ /  │                                             │
+│ └─────────────────────────┘                                               │
+│   플래터 (Platter) ─ 초당 7200번 미친 듯이 회전! (RPM)                    │
+│                                                                           │
+│ ▶ 1. Seek (탐색): 바늘(Head)이 안팎으로 징~ 움직여 트랙을 찾음.           │
+│ ▶ 2. Latency (회전 지연): 플래터가 팽팽 돌아가서, 찾고 있는 섹터가        │
+│    바늘 밑에 정확히 도착할 때까지 멍하니 기다림.                          │
+│ ▶ 3. Transfer (전송): 바늘이 섹터의 0, 1 자석값을 전기 신호로 쫙 빨아들임.│
+└───────────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 초보자들이 HDD를 SSD처럼 "전기 신호로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 즉시 불러오는 칩"으로 착각하는데, HDD는 철저한 모터와 쇳덩어리로 이루어진 <strong>아날로그 물리 역학의 결정체</strong>다. 저 바늘이 플래터 위를 날아다니는 간격은 고작 몇 나노미터다. (비행기가 땅 위 1mm 간격으로 초음속 비행하는 것과 같다). 컴퓨터가 켜져 있을 때 본체를 발로 차면 이 바늘이 원판을 긁어버려 디스크가 물리적으로 박살 나는 '헤드 크래시(Head Crash)' 재앙이 터지는 이유다.
 
 - **📢 섹션 요약 비유**: 서랍장(플래터)에서 서류를 찾을 때, 내 손(헤드)을 움직여서 3번째 서랍을 잡는 시간이 '[탐색 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/)(Seek)'입니다. 서랍을 열고 내 서류가 나올 때까지 뒤적거리며 기다리는 시간이 '[회전 지연](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/325_rotational_latency/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))'입니다. 서류를 찾아서 복사기로 빼내는 시간이 '[전송 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/326_transfer_time/)(Transfer)'입니다. 이 세 가지 노가다가 합쳐져야 비로소 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 하나가 화면에 뜹니다.
@@ -99,17 +103,14 @@ tags = ["studynote-operating-system"]
 - **하드웨어의 반란 (LBA 도입)**: 디스크 내부의 작은 칩셋(컨트롤러)이 반란을 일으켰다. "OS 너 복잡한 거 신경 끄고, 이 하드디스크는 그냥 0번부터 1억 번까지 있는 1차원 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)(Block)이라고 생각해!"
 - **LBA의 마법**: OS가 `LBA 500번 줘`라고 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 주소(1차원)만 던지면, 칩셋이 자기 하드웨어 스펙에 맞춰 `C:10, H:2, S:5` 로 몰래 변환([Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/))해서 바늘을 움직인다. 우리는 이 "[논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/) -> [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/) 맵핑" 철학을 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))에서 이미 징그럽게 봤다. 컴퓨터의 역사는 끝없는 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)([Abstraction](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/))의 반복이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">계층</div><div class="kb-diagram-cell">주소의 형태</div><div class="kb-diagram-cell">주소 변환기</div><div class="kb-diagram-cell">최종 물리 위치</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가상 메모리</div><div class="kb-diagram-cell">가상 주소 (Virtual)</div><div class="kb-diagram-cell">MMU (칩셋)</div><div class="kb-diagram-cell">물리 램 프레임</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하드 디스크</div><div class="kb-diagram-cell">LBA 블록 (Logical)</div><div class="kb-diagram-cell">Disk Controller</div><div class="kb-diagram-cell">CHS 섹터 (쇳덩어리)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬─────────────────────────────────┐
+│ 계층       │ 주소의 형태   │ 주소 변환기   │ 최종 물리 위치          │
+├──────────┼────────────┼────────────┼─────────────────────────────────┤
+│ 가상 메모리│ 가상 주소 (Virtual)│ MMU (칩셋)  │ 물리 램 프레임       │
+│ 하드 디스크│ LBA 블록 (Logical)│ Disk Controller│ CHS 섹터 (쇳덩어리)│
+└──────────┴────────────┴────────────┴─────────────────────────────────┘
+```
 **[매트릭스 해설]** 가상 주소의 환상은 메모리에만 있는 게 아니다. 하드디스크 역시 둥그런 플래터가 아니라 "끝이 안 보이는 네모난 1차원 선형 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)"로 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)를 완벽히 속여먹고 있다. OS는 자기가 바늘을 조종한다고 믿지만, 사실은 디스크 컨트롤러가 보여주는 가짜 매트릭스 위에서 포인터만 찌르고 있을 뿐이다.
 
 - **📢 섹션 요약 비유**: OS(손님)가 식당에서 "스테이크(LBA 500번) 주세요"라고 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적인 주문을 합니다. 그러면 식당 매니저(디스크 컨트롤러)가 주방으로 들어가서 "야, 1번 냉장고 두 번째 칸에서 고기 꺼내서 3번 불판에 구워(CHS 물리 조작)!"라고 복잡한 지시를 대행합니다. 손님은 주방이 어떻게 생겼는지 평생 알 필요가 없는 완벽한 분업화입니다.
@@ -164,19 +165,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">io_uring</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">하드 디스크 드라이브 (HDD) 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">논리적 블록 주소 (LBA, Logical Block Address)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">디스크 접근 시간 = 탐색 시간(Seek Time) + 회전 지연(Rotational Latency) + 전송 시간(Transfer Time)</div></div>
-</div>
-</div>
-
-
+```text
+[io_uring]
+    │
+    ▼
+[하드 디스크 드라이브 (HDD) 구조]
+    │
+    ├──▶ [논리적 블록 주소 (LBA, Logical Block Address)]
+    └──▶ [디스크 접근 시간 = 탐색 시간(Seek Time) + 회전 지연(Rotational Latency) + 전송 시간(Transfer Time)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

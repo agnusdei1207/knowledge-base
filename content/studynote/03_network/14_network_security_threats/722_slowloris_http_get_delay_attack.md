@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: 대량의 트래픽을 쏟아붓는(Volumetric) 전통적인 DDoS와 달리, <strong>아주 적은 수의 패킷만으로 웹 서버(Apache 등)와의 <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a> 연결(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">세션</a>)을 수십 분~수 시간 동안 의도적으로 끊지 않고 질질 끌어서, 서버의 연결 가능 슬롯(Connection Pool)을 모두 고갈시키는 응용 계층(L7) 타겟형 <a href="/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/">DoS</a> 공격</strong>입니다.
 - 동작이 너무 느릿느릿해서 공격 탐지기([IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/))에 잘 걸리지 않아, 느림보 원숭이인 '슬로우로리스'라는 이름이 붙었습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SLOW GET / SLOW POST 공격</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">트래픽 혼잡공격 유도 및 캡챠 적용</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">랜섬웨어</div></div>
-</div>
-</div>
-
-
+```text
+[SLOW GET / SLOW POST 공격]
+    │
+    ▼
+[트래픽 혼잡공격 유도 및 캡챠 적용]
+    │
+    └──▶ [랜섬웨어]
+```
 
 - **📢 섹션 요약 비유**: 트래픽 혼잡공격 유도 및 캡챠 적용은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -54,18 +50,14 @@ tags = ["studynote-network"]
 4. 해커가 이런 '말 더듬는 좀비' 1,000마리를 만들어 서버에 붙여놓으면, 서버는 1,000명의 말을 끝까지 다 들어주기 위해 모든 연결 슬롯([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)/[Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/))을 다 소진해 버립니다.
 5. 결국 정상적인 고객이 접속하려 해도, 서버는 "지금 1,000명 주문받고 있어서 꽉 찼으니 기다리세요!"라며 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 거부([DoS](/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/))하게 됩니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SLOW GET / SLOW POST 공격</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">트래픽 혼잡공격 유도 및 캡챠 적용</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">랜섬웨어</div></div>
-</div>
-</div>
-
-
+```text
+[SLOW GET / SLOW POST 공격]
+    │
+    ▼
+[트래픽 혼잡공격 유도 및 캡챠 적용]
+    │
+    └──▶ [랜섬웨어]
+```
 
 - **📢 섹션 요약 비유**: 트래픽 혼잡공격 유도 및 캡챠 적용의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -123,19 +115,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: SLOW GET / SLOW POST 공격</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 트래픽 혼잡공격 유도 및 캡챠 적용</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 랜섬웨어</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: SLOW GET / SLOW POST 공격]
+    │
+    ▼
+[현재 개념: 트래픽 혼잡공격 유도 및 캡챠 적용]
+    │
+    ├──▶ [확장 A: 랜섬웨어]
+    └──▶ [확장 B: 예측형 위협 대응]
+```
 
 트래픽 혼잡공격 유도 및 캡챠 적용는 SLOW GET / SLOW POST 공격에서 출발해 현재 메커니즘을 정교화하고, 이후 [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/)와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

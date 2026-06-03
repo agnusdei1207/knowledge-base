@@ -12,7 +12,7 @@ tags = ["ict_convergence"]
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 믹싱(mixing)은 블록체인의 공개 거래 경로를 흐려 입금 주소와 출금 주소의 직접 연결을 끊는 프라이버시 기술이다.
-> 2. **가치**: 개인 정보 보호에는 도움이 될 수 있지만, AML (Anti-Money Laundering)과 KYC (Know Your [Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/)) 규제와 충돌할 수 있다.
+> 2. **가치**: 개인 정보 보호에는 도움이 될 수 있지만, AML (Anti-Money Laundering)과 KYC (Know Your [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/)) 규제와 충돌할 수 있다.
 > 3. **판단 포인트**: 수탁 여부, 증명 방식, 제재 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/), 법적 사용 맥락을 함께 봐야 한다.
 
 ---
@@ -35,16 +35,11 @@ tags = ["ict_convergence"]
 | [풀 기반](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/088_pull_based_deployment_gitops_argocd_security_auto_healing/) Mixer | 다수 입금을 한 풀에서 분리 | 유동성·흐름 분석 가능성 |
 | [ZKP](/knowledge-base/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/) 기반 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) | 권리만 증명하고 링크는 숨김 | 규제·제재 이슈 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">입금 주소 ──▶ 믹싱 풀 ──▶ 출금 주소</div>
-<div class="kb-diagram-tree-item" style="--depth:3">링크 약화 ── ZKP (Zero-Knowledge Proof)</div>
-</div>
-</div>
-
-
+```text
+입금 주소 ──▶ 믹싱 풀 ──▶ 출금 주소
+      │          │          │
+      └── 링크 약화 ── ZKP (Zero-Knowledge Proof)
+```
 
 Tornado Cash 계열의 핵심 아이디어는 예치 시 남긴 약속(commitment)과 출금 시의 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)(nullifier)를 이용해, 동일 자금의 중복 인출을 막으면서도 원래 예치 주소를 쉽게 드러내지 않는 데 있다. 다만 이 설명은 개념 수준이며, 실제 사용은 반드시 법과 규정을 따라야 한다.
 
@@ -91,27 +86,25 @@ Tornado Cash 계열의 핵심 아이디어는 예치 시 남긴 약속(commitmen
 | Mixer / Tumbler | 주소 연결 약화 |
 | [ZKP](/knowledge-base/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/) ([Zero-Knowledge Proof](/knowledge-base/studynote/06_ict_convergence/01_blockchain/037_zero_knowledge_proof_zkp/)) | 권리 증명과 [정보 은닉](/knowledge-base/studynote/04_software_engineering/04_testing_quality/199_information_hiding_encapsulation/) |
 | AML (Anti-Money Laundering) | 자금세탁 방지 |
-| KYC (Know Your [Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/)) | 사용자 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 규제 |
+| KYC (Know Your [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/)) | 사용자 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 규제 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">공개 블록체인</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">주소 추적과 클러스터링</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Tumbler / Mixer</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ZKP 기반 프라이버시 프로토콜</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">규제 준수와 선택적 공개</div>
-</div>
-</div>
-
-
+```text
+공개 블록체인
+    │
+    ▼
+주소 추적과 클러스터링
+    │
+    ▼
+Tumbler / Mixer
+    │
+    ▼
+ZKP 기반 프라이버시 프로토콜
+    │
+    ▼
+규제 준수와 선택적 공개
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

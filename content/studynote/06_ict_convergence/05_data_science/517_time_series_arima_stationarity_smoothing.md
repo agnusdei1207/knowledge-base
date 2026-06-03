@@ -42,24 +42,24 @@ tags = ["studynote-ict-convergence"]
 
 ### [ARIMA](/knowledge-base/studynote/06_ict_convergence/05_data_science/342_arima_auto_regressive_integrated_moving_average/)(p, d, q) 파라미터 결정 흐름
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">시계열 데이터</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ADF 검정 → 비정상? → d회 차분 (I 부분 결정)</div>
-<div class="kb-diagram-note">정상성 달성 d=1 or 2</div>
-<div class="kb-diagram-tree-item" style="--depth:3">PACF 분석 → AR 차수 p 결정</div>
-<div class="kb-diagram-note">(절단점 = p)</div>
-<div class="kb-diagram-tree-item" style="--depth:3">ACF 분석 → MA 차수 q 결정</div>
-<div class="kb-diagram-note">(절단점 = q)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ARIMA(p,d,q) 적합 → AIC/BIC 최소 모델 선택</div>
-</div>
-</div>
-
-
+```
+시계열 데이터
+      │
+      ▼
+ADF 검정 → 비정상? → d회 차분 (I 부분 결정)
+      │                 │
+      ▼                 ▼
+  정상성 달성         d=1 or 2
+      │
+      ├─ PACF 분석 → AR 차수 p 결정
+      │  (절단점 = p)
+      │
+      └─ ACF 분석 → MA 차수 q 결정
+         (절단점 = q)
+      │
+      ▼
+ARIMA(p,d,q) 적합 → AIC/BIC 최소 모델 선택
+```
 
 ### ACF vs PACF 패턴 해석
 

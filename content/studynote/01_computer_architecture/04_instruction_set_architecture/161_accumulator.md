@@ -44,20 +44,21 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 누산기 중심 1-주소 구조가 어떻게 동작하는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">accumulator-centered 1-address datapath</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Memory operand M</div><div class="kb-diagram-node">X</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">ALU input B</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ALU</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Accumulator</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ Flags</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">implicit source</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">←</div><div class="kb-diagram-node">X</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                 accumulator-centered 1-address datapath                    │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Memory operand M[X] ───────────────▶ ALU input B                           │
+│                                        ▲                                   │
+│                                        │                                   │
+│ Control + opcode ───────────────▶ [ ALU ] ───────────────▶ Accumulator     │
+│                                        ▲                         │          │
+│                                        │                         ├─▶ Flags  │
+│                                        └──────── implicit source ┘          │
+│                                                                            │
+│ Example instruction: ADD X   =>   ACC ← ACC + M[X]                         │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 핵심은 누산기가 단순 저장소가 아니라 연산 경로를 고정하는 중심점이라는 것이다. 연산 결과는 다시 누산기로 돌아오므로, 연속 계산에서는 빠르게 이어질 수 있다. 대신 여러 독립 연산을 동시에 진행하기 어렵고, 컴파일러도 값을 오래 보존하려면 결국 메모리나 다른 보조 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 써야 한다.
 
@@ -130,23 +131,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">누산기 (Accumulator)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">1-주소 명령어 구조</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">GPR (General Purpose Register) 기반 다주소 ISA</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">파이프라인 · ILP (Instruction-Level Parallelism)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DSP / NPU의 전용 MAC 누산기</div>
-</div>
-</div>
-
-
+```text
+누산기 (Accumulator)
+        │
+        ▼
+1-주소 명령어 구조
+        │
+        ▼
+GPR (General Purpose Register) 기반 다주소 ISA
+        │
+        ▼
+파이프라인 · ILP (Instruction-Level Parallelism)
+        │
+        ▼
+DSP / NPU의 전용 MAC 누산기
+```
 
 이 흐름은 누산기가 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) CPU의 기본 구조에서 출발해, 범용 시스템에서는 분산되고 특수 연산기에서는 재등장하는 과정을 보여 준다.
 

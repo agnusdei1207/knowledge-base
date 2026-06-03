@@ -36,23 +36,23 @@ R-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_s
 3. <strong>Faster R-<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/">CNN</a> (2015)</strong>: 
    가장 큰 병목이었던 Selective Search (CPU 연산)를 버리고, 후보 영역 자체를 찾아내는 소형 신경망 RPN을 도입했다. 이로써 추출부터 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)까지 완벽한 종단간([End-to-End](/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/)) 딥러닝 모델이 완성되었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">2-Stage Object Detection 진화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">R-CNN</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이미지 ─(Selective Search)─▶ 2,000개 조각 ─(CNN 2,000번)─▶ 판별</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Fast R-CNN</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이미지 ─(CNN 1번)─▶ 특성 맵 ─(RoI Pooling)─▶ 2,000개 추출 ─▶ 판별</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ (Selective Search로 좌표만 전달)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Faster R-CNN</div><div class="kb-diagram-note">★ 병목 완전 제거</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이미지 ─(CNN 1번)─▶ 특성 맵 ─(RPN)─▶ 후보 영역 좌표 제안</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─(RoI Pooling)─▶ 최종 판별</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│               [ 2-Stage Object Detection 진화 ]             │
+├─────────────────────────────────────────────────────────────┤
+│ [R-CNN]                                                     │
+│ 이미지 ─(Selective Search)─▶ 2,000개 조각 ─(CNN 2,000번)─▶ 판별 │
+│                                                             │
+│ [Fast R-CNN]                                                │
+│ 이미지 ─(CNN 1번)─▶ 특성 맵 ─(RoI Pooling)─▶ 2,000개 추출 ─▶ 판별 │
+│                 ▲                                           │
+│                 └─ (Selective Search로 좌표만 전달)          │
+│                                                             │
+│ [Faster R-CNN]  ★ 병목 완전 제거                            │
+│ 이미지 ─(CNN 1번)─▶ 특성 맵 ┬─(RPN)─▶ 후보 영역 좌표 제안       │
+│                            └─(RoI Pooling)─▶ 최종 판별     │
+└─────────────────────────────────────────────────────────────┘
+```
 
 여기서 RPN은 앵커 박스(Anchor Box)라는 다양한 비율과 크기의 기본 틀을 [특성 맵](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/) 위에 겹쳐보며 물체의 존재 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)과 위치를 빠르게 계산해낸다.
 
@@ -113,23 +113,21 @@ R-CNN에서 Faster R-CNN으로의 발전은 단순히 속도 향상을 넘어, [
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">객체 탐지 (Object Detection)의 진화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">R-CNN (Selective Search + 2,000번 CNN 병목)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Fast R-CNN (RoI Pooling 도입, CNN 연산 1번으로 공유)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Faster R-CNN (RPN 도입, 완전한 End-to-End 딥러닝 모델 완성)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Mask R-CNN (객체의 픽셀 단위 픽셀 윤곽선까지 따내는 분할로 확장)</div>
-</div>
-</div>
-
-
+```text
+객체 탐지 (Object Detection)의 진화
+    │
+    ▼
+R-CNN (Selective Search + 2,000번 CNN 병목)
+    │
+    ▼
+Fast R-CNN (RoI Pooling 도입, CNN 연산 1번으로 공유)
+    │
+    ▼
+Faster R-CNN (RPN 도입, 완전한 End-to-End 딥러닝 모델 완성)
+    │
+    ▼
+Mask R-CNN (객체의 픽셀 단위 픽셀 윤곽선까지 따내는 분할로 확장)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

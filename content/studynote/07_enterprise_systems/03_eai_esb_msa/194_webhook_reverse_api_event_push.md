@@ -43,18 +43,18 @@ tags = ["studynote-enterprise"]
 
 아래 그림은 운영에서 권장되는 [웹훅](/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/) 수신 경로를 요약한 것이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Webhook flow: event source pushes only when change occurs</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Event Source -&gt; Retry Queue -&gt; HTTPS POST -&gt; Receiver Endpoint</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Signature Verify -&gt; Idempotency Check</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&gt; Async Worker</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Webhook flow: event source pushes only when change occurs           │
+├──────────────────────────────────────────────────────────────────────┤
+│ Event Source -> Retry Queue -> HTTPS POST -> Receiver Endpoint      │
+│                                          │                          │
+│                                          ▼                          │
+│                              Signature Verify -> Idempotency Check  │
+│                                          │                          │
+│                                          └──────> Async Worker      │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 여기서 중요한 것은 [웹훅](/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/)을 RPC처럼 오래 붙잡지 않는 것이다. 공급자 입장에서는 성공 여부를 빠르게 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 다음 재시도 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 결정해야 하므로, 소비자는 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 후 바로 200 또는 202를 반환하고 실제 DB 갱신, 메일 발송, [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) 반영은 내부 큐에서 처리하는 편이 안정적이다. 즉 [웹훅](/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/)은 "푸시 전송"이지만 내부 처리까지 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)할 필요는 없다.
 
@@ -126,23 +126,21 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Polling 기반 조회</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Webhook 구독 등록</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">이벤트 발생 시 HTTPS Push</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">서명 검증 · 멱등 처리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">내부 큐 · 비동기 후처리</div>
-</div>
-</div>
-
-
+```text
+Polling 기반 조회
+    │
+    ▼
+Webhook 구독 등록
+    │
+    ▼
+이벤트 발생 시 HTTPS Push
+    │
+    ▼
+서명 검증 · 멱등 처리
+    │
+    ▼
+내부 큐 · 비동기 후처리
+```
 
 이 흐름은 "반복 조회 → 사건 알림 → 안전한 내부 처리"로 [웹훅](/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/) 통합의 성숙 단계를 보여준다.
 

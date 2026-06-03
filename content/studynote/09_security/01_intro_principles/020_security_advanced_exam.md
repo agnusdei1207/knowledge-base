@@ -25,22 +25,20 @@ tags = ["security"]
 
 **[데이터 상태별 보안 사각지대 및 하드웨어 우회 공격 도식]**
 이 도식은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 저장-전송-사용되는 3가지 상태 중, 왜 '사용 중(In-Use)' 상태가 가장 취약한 지점(Blind Spot)이 되는지를 보여준다.
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data State &amp; Security Blind Spot</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data-at-Rest</div><div class="kb-diagram-cell">Data-in-Transit</div><div class="kb-diagram-cell">Data-in-Use (RAM)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(디스크 저장)</div><div class="kb-diagram-cell">(네트워크 전송)</div><div class="kb-diagram-cell">(CPU 연산 중)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보호: AES/TDE</div><div class="kb-diagram-cell">보호: TLS/IPsec</div><div class="kb-diagram-cell">보호: 없음 (평문)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위협: 도난</div><div class="kb-diagram-cell">위협: 스니핑/MITM</div><div class="kb-diagram-cell">위협: 메모리 덤프</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Cold Boot)</div></div>
-<div class="kb-diagram-note">(OS 우회 직접 접근)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DMA Attack (Thunderbolt)</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────┐
+│               Data State & Security Blind Spot         │
+├───────────────┬───────────────────┬────────────────────┤
+│ Data-at-Rest  │ Data-in-Transit   │ Data-in-Use (RAM)  │
+│ (디스크 저장) │ (네트워크 전송)   │ (CPU 연산 중)      │
+├───────────────┼───────────────────┼────────────────────┤
+│ 보호: AES/TDE │ 보호: TLS/IPsec   │ 보호: 없음 (평문)  │
+│ 위협: 도난    │ 위협: 스니핑/MITM │ 위협: 메모리 덤프  │
+│               │                   │       (Cold Boot)  │
+└───────────────┴───────────────────┴──────────▲─────────┘
+                                               │ (OS 우회 직접 접근)
+                                      [ DMA Attack (Thunderbolt) ]
+```
 이 흐름의 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 연산을 위해 디스크(암호화 상태)에서 메모리(RAM)로 올라오는 순간 평문(Plaintext)으로 노출된다는 점이다. 이 찰나의 순간을 노려, 공격자는 악의적으로 조작된 [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/)([Rubber Ducky](/knowledge-base/studynote/09_security/20_extra_exam_prep/0997_rubber_ducky_hid_attack/))를 꽂아 키보드를 에뮬레이션하거나, 썬더볼트 포트를 통해 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/)([Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/)) 권한을 획득하여 OS의 권한 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 없이 RAM 전체를 통째로 읽어 들인다([Evil Maid Attack](/knowledge-base/studynote/09_security/20_extra_exam_prep/0991_evil_maid_attack/)). 이로 인해 디스크 암호화 키([BitLocker](/knowledge-base/studynote/09_security/04_endpoint_security/397_bitlocker_windows_fde/) [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))나 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 토큰이 유출되는 치명적인 결과가 발생한다.
 
 > 📢 **섹션 요약 비유**: 이것은 마치 아무리 튼튼한 금고(디스크)와 현금 수송차(네트워크)를 갖췄다 하더라도, 은행원이 돈을 세기 위해 책상 위(RAM)에 돈을 꺼내 놓는 순간 창문을 깨고 들어온 강도(물리적 공격)에게 속수무책으로 당하는 것과 같습니다.
@@ -61,20 +59,19 @@ tags = ["security"]
 
 <strong>ARM TrustZone 기반 <a href="/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/478_tee/">TEE</a> 시스템 아키텍처 도식]</strong>
 이 도식은 하나의 물리적 CPU와 메모리가 어떻게 '일반 세계(Normal World)'와 '보안 세계(Secure World)'로 하드웨어 레벨에서 격리되는지를 보여준다.
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일반 영역 (REE)</div><div class="kb-diagram-cell">보안 영역 (TEE)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 앱</div><div class="kb-diagram-cell">악성코드</div><div class="kb-diagram-cell">키 저장소</div><div class="kb-diagram-cell">DRM / 결제</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일반 운영체제(Linux/Android)</div><div class="kb-diagram-cell">신뢰 운영체제(Trusted OS)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">일반 RAM 영역</div><div class="kb-diagram-node">보안 RAM (Enclave)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(SMC)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CPU 모니터</div><div class="kb-diagram-connector">◀</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────┐      ┌───────────────────────────┐
+│       일반 영역 (REE)       │      │       보안 영역 (TEE)       │
+├──────────────┬────────────┤      ├─────────────┬─────────────┤
+│  사용자 앱   │  악성코드  │      │  키 저장소  │ DRM / 결제  │
+├──────────────┴────────────┤      ├─────────────┴─────────────┤
+│일반 운영체제(Linux/Android)│      │신뢰 운영체제(Trusted OS)  │
+├───────────────────────────┤      ├───────────────────────────┤
+│     [ 일반 RAM 영역 ]      │      │  [ 보안 RAM (Enclave) ]   │
+└─────────────┬─────────────┘      └─────────────┬─────────────┘
+              │                  (SMC)           │
+              └─────────▶ [ CPU 모니터 ] ◀────────┘
+```
 이 구조의 핵심은 <strong>하드웨어적 격리(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/">Isolation</a>)</strong>다. Normal World의 OS가 루트(Root) 권한을 탈취당해 완전히 장악되더라도, 악성코드는 결코 Secure World의 메모리 영역에 접근할 수 없다. 사용자가 지문 인식이나 간편 결제를 수행할 때, 핵심 암호화 연산은 CPU Monitor를 통해 상태가 전환([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Switching)된 [TEE](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/478_tee/) 내부에서만 이루어지고, REE로는 오직 '성공/실패'라는 결과값(Boolean)만 반환된다. 이 때문에 스마트폰이 해킹당해도 금융 앱의 [생체 인증](/knowledge-base/studynote/09_security/uncategorized/702_biometric_authentication/) 정보가 털리지 않는 것이다. 
 
 이러한 보안 구역 내에서 가장 중요한 요소는 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/">엔트로피</a>(<a href="/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/">Entropy</a>)</strong>다. 아무리 TEE가 안전해도 암호 키를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)할 때 예측 가능한 난수를 사용하면 시스템은 붕괴한다. 따라서 하드웨어 노이즈 기반의 [CSPRNG](/knowledge-base/studynote/09_security/20_extra_exam_prep/1001_csprng_random_generator/)(Cryptographically Secure Pseudo-Random Number Generator)가 필수적이다.
@@ -96,23 +93,17 @@ tags = ["security"]
 
 <strong><a href="/knowledge-base/studynote/09_security/20_extra_exam_prep/1019_homomorphic_encryption/">동형 암호([Homomorphic Encryption</a>) 연산 흐름도]</strong>
 이 흐름도는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 클라우드 서버에 올라가 연산되는 전 과정에서 '복호화 키(Decryption [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))'가 단 한 번도 서버에 제공되지 않는 기적적인 수학적 매커니즘을 보여준다.
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Client (고객)</div><div class="kb-diagram-node">Cloud Server (처리자)</div></div>
-<div class="kb-diagram-note">1. M1, M2 데이터 생성</div>
-<div class="kb-diagram-note">2. E(M1), E(M2) 암호화 (전송) ▶ 3. 수신: E(M1), E(M2)</div>
-<div class="kb-diagram-note">(※ 복호화 키 없음!)</div>
-<div class="kb-diagram-note">4. 암호문 상태로 연산 (Add/Mul)</div>
-<div class="kb-diagram-note">E(M1) ⊕ E(M2) = E(M1+M2)</div>
-<div class="kb-diagram-note">5. 결과값 E(M1+M2) 수신 ◀ (반환) 6. 결과 반환</div>
-<div class="kb-diagram-note">6. 개인키로 복호화</div>
-<div class="kb-diagram-note">7. 결과: M1+M2 확인!</div>
-</div>
-</div>
-
-
+```text
+[ Client (고객) ]                         [ Cloud Server (처리자) ]
+1. M1, M2 데이터 생성
+2. E(M1), E(M2) 암호화 ─────(전송)─────▶ 3. 수신: E(M1), E(M2)
+                                              (※ 복호화 키 없음!)
+                                         4. 암호문 상태로 연산 (Add/Mul)
+                                              E(M1) ⊕ E(M2) = E(M1+M2)
+5. 결과값 E(M1+M2) 수신 ◀───(반환)───── 6. 결과 반환
+6. 개인키로 복호화
+7. 결과: M1+M2 확인!
+```
 이 기술의 핵심은 클라우드 관리자나 해커가 서버를 장악하더라도 오직 '암호화된 쓰레기 값'만 볼 수 있다는 점이다. [FHE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/617_fhe_modular_multiplier/)(Fully [Homomorphic Encryption](/knowledge-base/studynote/09_security/20_extra_exam_prep/1019_homomorphic_encryption/))는 덧셈과 곱셈을 무한히 수행할 수 있어 이론적으로 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 추론까지 암호화된 상태로 가능하게 만든다. 하지만 연산마다 붙는 '노이즈(Noise)'를 제거하는 [부트스트래핑](/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/)([Bootstrapping](/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/)) 과정에서 막대한 컴퓨팅 파워가 소모된다. 실무에서는 이러한 FHE의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 한계를 극복하기 위해, TEE와 FHE를 하이브리드로 결합하는 [기밀 컴퓨팅](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/795_confidential_computing/)([Confidential Computing](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/795_confidential_computing/)) 아키텍처가 부상하고 있다.
 
 > 📢 **섹션 요약 비유**: TEE가 믿을 수 있는 경호원(하드웨어)에게 돈통을 맡기는 것이라면, [동형 암호](/knowledge-base/studynote/09_security/20_extra_exam_prep/1019_homomorphic_encryption/)는 돈통에 용접된 잠금장치(수학)에 작은 구멍만 뚫어, 누구든 손을 넣어 지폐를 합칠 수는 있지만 절대 꺼내 볼 수는 없게 만든 마법의 상자입니다.
@@ -133,7 +124,7 @@ tags = ["security"]
    - **문제**: 노트북이 '절전 모드(Sleep)' 상태였으며, 공격자가 노트북 케이스를 열고 RAM에 냉각 스프레이를 뿌린 뒤 메모리 잔상을 읽어(Cold Boot) [BitLocker](/knowledge-base/studynote/09_security/04_endpoint_security/397_bitlocker_windows_fde/) 복호화 키를 평문으로 빼냄.
    - **의사결정**: 고위험군 단말기는 덮개를 닫을 때 단순 '절전 모드(S3)'가 아닌 '최대 절전 모드(Hibernation, S4)'나 '종료'되도록 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 강제해야 한다. 또한 BIOS/UEFI에서 썬더볼트 포트의 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 접근 권한을 'User [Authorization](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)' 이상으로 통제해야 한다.
 
-3. <strong>보안 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/">카오스 엔지니어링</a> (<a href="/knowledge-base/studynote/09_security/20_extra_exam_prep/1025_security_chaos_engineering/">Security Chaos Engineering</a>)의 부재</strong>
+3. <strong>보안 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/">카오스 엔지니어링</a> (<a href="/knowledge-base/studynote/09_security/20_extra_exam_prep/1025_security_chaos_engineering/">Security Chaos 엔진ering</a>)의 부재</strong>
    - **상황**: 완벽한 클라우드 보안 아키텍처를 설계했다고 자부하지만, 실제 침해 사고 발생 시 방어벽이 무력화됨.
    - **문제**: 보안 장비([WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/), [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/))가 장애 시 "Fail-Open(통과 허용)"으로 동작하도록 잘못 설정되어 있어, 고부하 공격(DDoS) 발생 시 보안 기능이 꺼져버림.
    - **의사결정**: 시스템 운영 중 의도적으로 보안 장애(예: [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 무작위 삭제, 권한 탈취 시뮬레이션)를 발생시키는 <strong>보안 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/">카오스 엔지니어링</a></strong>을 정기적으로 도입하여, 시스템의 면역력과 '[Fail-Safe](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/459_fail_safe/)(기본 거부)' 원칙 준수 여부를 경험적으로 증명해야 한다.
@@ -169,25 +160,24 @@ tags = ["security"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Data-in-Rest (저장 데이터) — AES/TDE 암호화 보호</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Data-in-Transit (전송 데이터) — TLS/IPsec 보호</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Data-in-Use (사용 중 데이터) — RAM 평문 노출 취약점</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">TEE (Trusted Execution Environment) — 하드웨어 Enclave 격리 (ARM TrustZone / Intel SGX)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">FHE (Fully Homomorphic Encryption) — 복호화 없이 암호문 상태 연산</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">기밀 컴퓨팅 (Confidential Computing) — TEE + FHE 하이브리드, 제로 트러스트 완성</div></div>
-</div>
-</div>
-
-
+```text
+[Data-in-Rest (저장 데이터) — AES/TDE 암호화 보호]
+    │
+    ▼
+[Data-in-Transit (전송 데이터) — TLS/IPsec 보호]
+    │
+    ▼
+[Data-in-Use (사용 중 데이터) — RAM 평문 노출 취약점]
+    │
+    ▼
+[TEE (Trusted Execution Environment) — 하드웨어 Enclave 격리 (ARM TrustZone / Intel SGX)]
+    │
+    ▼
+[FHE (Fully Homomorphic Encryption) — 복호화 없이 암호문 상태 연산]
+    │
+    ▼
+[기밀 컴퓨팅 (Confidential Computing) — TEE + FHE 하이브리드, 제로 트러스트 완성]
+```
 저장·전송 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)를 넘어 '사용 중 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)'의 메모리 취약점을 [TEE](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/478_tee/)(하드웨어 격리)와 [동형 암호](/knowledge-base/studynote/09_security/20_extra_exam_prep/1019_homomorphic_encryption/)([FHE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/617_fhe_modular_multiplier/))로 해결하는 [기밀 컴퓨팅](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/795_confidential_computing/)으로 진화하고 있다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

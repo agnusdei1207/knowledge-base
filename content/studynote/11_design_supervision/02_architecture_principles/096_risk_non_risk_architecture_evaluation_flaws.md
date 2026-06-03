@@ -31,19 +31,18 @@ tags = ["studynote-design"]
 
 리스크와 비리스크는 단독으로 튀어나오지 않는다. 설계 결정이 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)에 영향을 주는 [민감도점](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/094_sensitivity_point_architecture_tradeoff_control_knob/) ([Sensitivity Point](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/094_sensitivity_point_architecture_tradeoff_control_knob/))과, 여러 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이 서로 충돌하는 타협점 ([Trade-off Point](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/095_tradeoff_point_architecture_evaluation_atam_conflict/)) 분석을 거쳐 최종적으로 도출된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ATAM 평가에서의 리스크/비리스크 도출 메커니즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">아키텍처 결정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">민감도점 식별</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">타협점 분석</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">최종 판정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(예: 256bit 암호화) (보안↑, 성능↓) (보안 vs 성능)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Risk (리스크)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Non-risk (비리스크)</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────┐
+│            ATAM 평가에서의 리스크/비리스크 도출 메커니즘           │
+├────────────────────────────────────────────────────────────────────────┤
+│  [아키텍처 결정] ──▶ [민감도점 식별] ──▶ [타협점 분석] ──▶ [최종 판정] │
+│   (예: 256bit 암호화)  (보안↑, 성능↓)    (보안 vs 성능)         │        │
+│                                                                        │
+│   ├─ 시나리오 A 통과 실패 (응답시간 3초 초과) ──▶ [ Risk (리스크) ]     │
+│   │                                                                    │
+│   └─ 시나리오 B 무난히 통과 (보안 요건 충족)  ──▶ [ Non-risk (비리스크)]│
+└────────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림은 하나의 설계 결정이 어떻게 위험으로 발전하는지 보여준다. 리스크(Risk)는 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 목표를 달성하지 못하게 방해하는 구조적 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이다. 반면 비리스크(Non-risk)는 현재 주어진 시나리오 하에서는 목표 달성을 방해하지 않는 수용 가능한 결정이다. 비리스크라고 해서 완벽하다는 뜻은 아니며, 미래의 요구사항 변경 시에는 언제든 리스크로 돌변할 수 있다.
 
@@ -102,23 +101,21 @@ tags = ["studynote-design"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">품질 속성 시나리오 (QA Scenario) 도출</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">아키텍처 전술 (Architecture Tactic) 투영</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">민감도점 (Sensitivity) · 타협점 (Trade-off) 분석</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">리스크 (Risk) · 비리스크 (Non-risk) 식별</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">리스크 완화 계획 (Mitigation Plan) 및 도면 갱신</div>
-</div>
-</div>
-
-
+```text
+품질 속성 시나리오 (QA Scenario) 도출
+    │
+    ▼
+아키텍처 전술 (Architecture Tactic) 투영
+    │
+    ▼
+민감도점 (Sensitivity) · 타협점 (Trade-off) 분석
+    │
+    ▼
+리스크 (Risk) · 비리스크 (Non-risk) 식별
+    │
+    ▼
+리스크 완화 계획 (Mitigation Plan) 및 도면 갱신
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

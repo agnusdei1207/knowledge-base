@@ -35,25 +35,28 @@ tags = ["studynote-ict-convergence"]
 
 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a> vs 베어메탈 비교</strong>:
 
+```
+[가상 머신 (VM)]
+┌─────────────────────────────────────────┐
+│ 물리 서버                                │
+│  ┌──────────────┐  ┌──────────────┐    │
+│  │ VM 1         │  │ VM 2         │    │
+│  │ (Guest OS)   │  │ (Guest OS)   │    │
+│  └──────────────┘  └──────────────┘    │
+│  ↑ 하이퍼바이저 (VMware/KVM)            │
+│  ↑ Host OS                             │
+└─────────────────────────────────────────┘
+  오버헤드: CPU 5~10%, 메모리 2~5%, I/O 가변
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">가상 머신 (VM)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물리 서버</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VM 1</div><div class="kb-diagram-cell">VM 2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Guest OS)</div><div class="kb-diagram-cell">(Guest OS)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↑ 하이퍼바이저 (VMware/KVM)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↑ Host OS</div></div>
-<div class="kb-diagram-note">오버헤드: CPU 5~10%, 메모리 2~5%, I/O 가변</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">베어메탈 클라우드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물리 서버 (단독 고객 전용)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고객 OS (직접 실행)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하이퍼바이저 없음 → 가상화 오버헤드 없음</div></div>
-</div>
-</div>
-
-
+[베어메탈 클라우드]
+┌─────────────────────────────────────────┐
+│ 물리 서버 (단독 고객 전용)                │
+│  ┌────────────────────────────────────┐ │
+│  │ 고객 OS (직접 실행)                 │ │
+│  └────────────────────────────────────┘ │
+│  하이퍼바이저 없음 → 가상화 오버헤드 없음  │
+└─────────────────────────────────────────┘
+```
 
 | 구분 | [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) | [베어메탈 클라우드](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/629_bare_metal_cloud/) |
 |:---|:---|:---|
@@ -66,7 +69,7 @@ tags = ["studynote-ict-convergence"]
 | [탄력성](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/) | 높음 (빠른 증감) | 낮음 (느린 증감) |
 
 <strong>베어메탈 + <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a>(CaaS)</strong>:
-CaaS([Container](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/) [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) 위에서 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 실행하되, 기반을 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 대신 베어메탈로 구성. [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 밀도와 베어메탈 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 동시에 확보. Google [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) Engine Bare Metal, AWS EKS on Bare Metal.
+CaaS([Container](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/) [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) 위에서 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 실행하되, 기반을 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 대신 베어메탈로 구성. [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 밀도와 베어메탈 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 동시에 확보. Google [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 엔진 Bare Metal, AWS EKS on Bare Metal.
 
 - **📢 섹션 요약 비유**: [베어메탈 클라우드](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/629_bare_metal_cloud/)는 렌터카([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))가 아니라 구독제 자가용이다 — 타인이 이전에 쓴 흔적 없고, 내 마음대로 튜닝(OS [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)) 가능하며, 최대 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 보장된다.
 
@@ -94,7 +97,7 @@ CaaS([Container](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastru
 
 **실무 시나리오**: 증권사 초단타 매매(HFT) 시스템 — μs 단위 주문 처리 필요. [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 기반 구성 시 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 콘텍스트 스위칭 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) + Noisy Neighbor 지터가 허용 한계 초과. [베어메탈 클라우드](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/629_bare_metal_cloud/)(IBM Bare Metal, Equinix Metal) 전환 후 P99 레이턴시 40% 개선, 최대 지터 90% 감소.
 
-- **📢 섹션 요약 비유**: 베어메탈 vs VM은 전용 고속도로(베어메탈) vs 일반 고속도로([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))의 차이다 — 전용 차선은 막힘이 없지만 비싸고, 일반 차선은 가격이 저렴한 대신 교통량에 따라 속도가 달라진다.
+- **📢 섹션 요약 비유**: 베어메탈 vs VM은 전용 고속도로(베어메탈) vs 일반 고속도로([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))의 차이다 — 전용 차선은 병목이 없지만 비싸고, 일반 차선은 가격이 저렴한 대신 교통량에 따라 속도가 달라진다.
 
 ---
 

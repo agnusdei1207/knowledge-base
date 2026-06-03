@@ -18,21 +18,20 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VCS 유형 진화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1세대 LVCS</div><div class="kb-diagram-cell">로컬 버전 관리 (RCS, SCCS)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Local)</div><div class="kb-diagram-cell">단일 파일 이력, 협업 불가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2세대 CVCS</div><div class="kb-diagram-cell">중앙 서버 (SVN, CVS, Perforce)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Central)</div><div class="kb-diagram-cell">단일 서버, 오프라인 작업 불가, SPOF</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3세대 DVCS</div><div class="kb-diagram-cell">분산 (Git, Mercurial)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Distrib.)</div><div class="kb-diagram-cell">전체 이력 로컬 복제, 오프라인 작업, 빠른 분기</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────┐
+│           VCS 유형 진화                                      │
+├──────────────────────────────────────────────────────────┤
+│ 1세대 LVCS  │ 로컬 버전 관리 (RCS, SCCS)                    │
+│ (Local)     │ 단일 파일 이력, 협업 불가                      │
+│─────────────┼──────────────────────────────────────────── │
+│ 2세대 CVCS  │ 중앙 서버 (SVN, CVS, Perforce)                │
+│ (Central)   │ 단일 서버, 오프라인 작업 불가, SPOF           │
+│─────────────┼──────────────────────────────────────────── │
+│ 3세대 DVCS  │ 분산 (Git, Mercurial)                         │
+│ (Distrib.)  │ 전체 이력 로컬 복제, 오프라인 작업, 빠른 분기  │
+└──────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: VCS의 진화는 은행 시스템의 진화다. 개인 장부(LVCS) → 은행 중앙 서버(CVCS) → 각자 완전한 사본을 가진 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 원장(DVCS/[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 유사). [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 원장은 서버가 죽어도 거래가 계속된다.
 
@@ -42,36 +41,27 @@ tags = ["studynote-software-engineering"]
 
 ### Git 기본 아키텍처 (3 트리)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">작업 디렉토리</div><div class="kb-diagram-note">git add</div><div class="kb-diagram-node">스테이징 영역</div><div class="kb-diagram-note">git commit</div><div class="kb-diagram-node">로컬 저장소</div></div>
-<div class="kb-diagram-note">수정된 파일 &gt; 변경 준비 파일 &gt; 커밋 이력</div>
-<div class="kb-diagram-note">git push ▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">원격 저장소 (GitHub)</div></div>
-</div>
-</div>
-
-
+```text
+[작업 디렉토리]  git add  [스테이징 영역]  git commit  [로컬 저장소]
+  수정된 파일  ─────────>  변경 준비 파일  ──────────>  커밋 이력
+                                                           │
+                                               git push    ▼
+                                             [원격 저장소 (GitHub)]
+```
 
 ### 브랜치 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 비교
 
+```text
+GitFlow:
+main ──────────────────────────────────── v1.0
+  │                                        │
+  └─ develop ──── feature/A ─── merge ────┘
+                └─ feature/B ─── merge
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">GitFlow:</div>
-<div class="kb-diagram-note">main v1.0</div>
-<div class="kb-diagram-tree-item" style="--depth:1">develop feature/A merge</div>
-<div class="kb-diagram-tree-item" style="--depth:8">feature/B merge</div>
-<div class="kb-diagram-note">Trunk-Based:</div>
-<div class="kb-diagram-note">main commit commit commit (Feature Flag)</div>
-<div class="kb-diagram-note">(매일 main에 직접 커밋, CI/CD 즉시)</div>
-</div>
-</div>
-
-
+Trunk-Based:
+main ─── commit ─── commit ─── commit ─── (Feature Flag)
+  (매일 main에 직접 커밋, CI/CD 즉시)
+```
 
 - **📢 섹션 요약 비유**: GitFlow는 장기 프로젝트의 단계별 관리(건축의 설계→시공→준공 단계), Trunk-Based는 지속적 현장 개선(매일 소량씩 개선하는 린 생산 방식)이다.
 
@@ -143,23 +133,21 @@ GitOps는 VCS(Git)를 인프라 선언적 [설정](/knowledge-base/studynote/15_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">LVCS — 로컬 파일 이력 관리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CVCS (SVN) — 중앙 서버 기반 협업</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DVCS (Git) — 분산 전체 이력, 경량 브랜치</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">GitHub/GitLab — PR, CI/CD 통합 플랫폼</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">GitOps — Git = 인프라 SSOT, 자동 배포</div></div>
-</div>
-</div>
-
-
+```text
+[LVCS — 로컬 파일 이력 관리]
+    │
+    ▼
+[CVCS (SVN) — 중앙 서버 기반 협업]
+    │
+    ▼
+[DVCS (Git) — 분산 전체 이력, 경량 브랜치]
+    │
+    ▼
+[GitHub/GitLab — PR, CI/CD 통합 플랫폼]
+    │
+    ▼
+[GitOps — Git = 인프라 SSOT, 자동 배포]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

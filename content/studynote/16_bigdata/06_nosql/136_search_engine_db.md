@@ -1,5 +1,5 @@
 +++
-title = "136. 검색 엔진 데이터베이스 (Search Engine DB) — Elasticsearch/OpenSearch"
+title = "136. 검색 엔진 데이터베이스 (Search 엔진 DB) — Elasticsearch/OpenSearch"
 date = 2026-04-21
 
 [taxonomies]
@@ -20,28 +20,31 @@ tags = ["studynote-bigdata"]
 
 ### [역색인](/knowledge-base/studynote/05_database/07_exam_summary/500_inverted_index_elasticsearch/)([Inverted Index](/knowledge-base/studynote/05_database/07_exam_summary/500_inverted_index_elasticsearch/)) 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">역색인 (Inverted Index) 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문서:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Doc1: "Redis는 빠른 인메모리 캐시다"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Doc2: "MongoDB는 유연한 문서형 DB다"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Doc3: "Redis와 MongoDB 모두 NoSQL이다"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↓ 분석(Tokenize + Normalize)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">역색인 테이블:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Term (단어)</div><div class="kb-diagram-cell">문서 목록 (Posting List)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ redis</div><div class="kb-diagram-node">Doc1(pos:0), Doc3(pos:0)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ 캐시</div><div class="kb-diagram-node">Doc1(pos:3)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ mongodb</div><div class="kb-diagram-node">Doc2(pos:0), Doc3(pos:2)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ nosql</div><div class="kb-diagram-node">Doc3(pos:4)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"redis" 검색 → Posting List 조회 → Doc1, Doc3 즉시 반환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일반 B-Tree: O(log N)</div><div class="kb-diagram-cell">역색인: O(1) 용어 조회</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────┐
+│              역색인 (Inverted Index) 구조                   │
+│                                                           │
+│  문서:                                                    │
+│  Doc1: "Redis는 빠른 인메모리 캐시다"                        │
+│  Doc2: "MongoDB는 유연한 문서형 DB다"                        │
+│  Doc3: "Redis와 MongoDB 모두 NoSQL이다"                     │
+│                                                           │
+│  ↓ 분석(Tokenize + Normalize)                             │
+│                                                           │
+│  역색인 테이블:                                             │
+│  ┌──────────────┬─────────────────────────────────┐       │
+│  │  Term (단어) │  문서 목록 (Posting List)         │       │
+│  ├──────────────┼─────────────────────────────────┤       │
+│  │  redis       │  [Doc1(pos:0), Doc3(pos:0)]      │       │
+│  │  캐시         │  [Doc1(pos:3)]                   │       │
+│  │  mongodb     │  [Doc2(pos:0), Doc3(pos:2)]      │       │
+│  │  nosql       │  [Doc3(pos:4)]                   │       │
+│  └──────────────┴─────────────────────────────────┘       │
+│                                                           │
+│  "redis" 검색 → Posting List 조회 → Doc1, Doc3 즉시 반환   │
+│  일반 B-Tree: O(log N)  |  역색인: O(1) 용어 조회           │
+└───────────────────────────────────────────────────────────┘
+```
 
 ### [Elasticsearch](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/) vs OpenSearch
 
@@ -63,25 +66,31 @@ tags = ["studynote-bigdata"]
 
 ### [Elasticsearch](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/) 클러스터 구조
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Elasticsearch 클러스터 아키텍처</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client / Load Balancer</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Node 1</div><div class="kb-diagram-cell">Node 2</div><div class="kb-diagram-cell">Node 3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Master</div><div class="kb-diagram-cell">Data</div><div class="kb-diagram-cell">Data</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Eligible</div><div class="kb-diagram-cell">+ Ingest</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Shard 0P</div><div class="kb-diagram-cell">Shard 1P</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Shard 2P</div><div class="kb-diagram-cell">Shard 1R</div><div class="kb-diagram-cell">Shard 0R</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Shard 2R</div><div class="kb-diagram-cell">Shard 2R</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P: Primary Shard (쓰기 가능)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">R: Replica Shard (읽기 가능, HA 보장)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Master: 클러스터 상태 관리 (인덱스 생성/삭제, 샤드 할당)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│              Elasticsearch 클러스터 아키텍처                   │
+│                                                              │
+│  ┌────────────────────────────────────────────────────────┐  │
+│  │               Client / Load Balancer                   │  │
+│  └────────────────────────────────────────────────────────┘  │
+│                      │                                       │
+│         ┌────────────┼────────────┐                          │
+│         ↓            ↓            ↓                          │
+│  ┌──────────┐  ┌──────────┐  ┌──────────┐                   │
+│  │  Node 1  │  │  Node 2  │  │  Node 3  │                   │
+│  │          │  │          │  │          │                   │
+│  │ Master   │  │  Data    │  │  Data    │                   │
+│  │ Eligible │  │          │  │ + Ingest │                   │
+│  │          │  │ Shard 0P │  │ Shard 1P │                   │
+│  │ Shard 2P │  │ Shard 1R │  │ Shard 0R │                   │
+│  │ Shard 2R │  │          │  │ Shard 2R │                   │
+│  └──────────┘  └──────────┘  └──────────┘                   │
+│                                                              │
+│  P: Primary Shard (쓰기 가능)                                 │
+│  R: Replica Shard (읽기 가능, HA 보장)                        │
+│  Master: 클러스터 상태 관리 (인덱스 생성/삭제, 샤드 할당)          │
+└──────────────────────────────────────────────────────────────┘
+```
 
 ### [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) DSL ([Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Specific Language) 핵심
 
@@ -138,21 +147,26 @@ tags = ["studynote-bigdata"]
 
 ### ELK/EFK [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 구성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ELK Stack (관찰 가능성 플랫폼)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">로그 소스</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">Logstash</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">Elasticsearch</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(앱 서버)</div><div class="kb-diagram-cell">(필터/파싱)</div><div class="kb-diagram-cell">(저장 + 검색)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메트릭 소스</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">Beats</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(시스템)</div><div class="kb-diagram-cell">(경량 수집)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kibana (시각화)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대시보드, 로그 검색, 알람</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────┐
+│            ELK Stack (관찰 가능성 플랫폼)                    │
+│                                                            │
+│  ┌──────────┐    ┌───────────┐    ┌──────────────────────┐ │
+│  │ 로그 소스 │───→│ Logstash  │───→│   Elasticsearch      │ │
+│  │ (앱 서버) │    │ (필터/파싱)│    │   (저장 + 검색)      │ │
+│  └──────────┘    └───────────┘    └──────────────────────┘ │
+│                                            ↑               │
+│  ┌──────────┐    ┌───────────┐             │               │
+│  │메트릭 소스│───→│  Beats    │─────────────┘               │
+│  │(시스템)  │    │(경량 수집) │                              │
+│  └──────────┘    └───────────┘                              │
+│                                                            │
+│                       ┌──────────────────────────────────┐ │
+│                       │         Kibana (시각화)           │ │
+│                       │  대시보드, 로그 검색, 알람         │ │
+│                       └──────────────────────────────────┘ │
+└────────────────────────────────────────────────────────────┘
+```
 
 ### [Elasticsearch](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/) vs Solr 비교
 
@@ -174,25 +188,23 @@ tags = ["studynote-bigdata"]
 
 ### [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 설계 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
+```text
+인덱스 설계 Best Practice:
 
+1. 시간 기반 인덱스 롤링
+   logs-2026.04.21  →  logs-2026.04.22  → ...
+   오래된 인덱스 삭제 용이, 클러스터 부하 분산
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">인덱스 설계 Best Practice:</div>
-<div class="kb-diagram-note">1. 시간 기반 인덱스 롤링</div>
-<div class="kb-diagram-note">logs-2026.04.21 → logs-2026.04.22 → ...</div>
-<div class="kb-diagram-note">오래된 인덱스 삭제 용이, 클러스터 부하 분산</div>
-<div class="kb-diagram-note">2. 샤드 수 계산</div>
-<div class="kb-diagram-note">권장: 샤드 당 10~50GB</div>
-<div class="kb-diagram-note">인덱스 크기 예상 → 샤드 수 = 예상 크기 / 30GB</div>
-<div class="kb-diagram-note">3. 매핑 동적 생성 비활성화</div>
-<div class="kb-diagram-note">"dynamic": "strict" ← 알 수 없는 필드 거부</div>
-<div class="kb-diagram-note">4. 인덱스 별칭(Alias) 사용</div>
-<div class="kb-diagram-note">alias "current_logs" → 실제 인덱스 교체 시 무중단</div>
-</div>
-</div>
+2. 샤드 수 계산
+   권장: 샤드 당 10~50GB
+   인덱스 크기 예상 → 샤드 수 = 예상 크기 / 30GB
 
+3. 매핑 동적 생성 비활성화
+   "dynamic": "strict"  ← 알 수 없는 필드 거부
 
+4. 인덱스 별칭(Alias) 사용
+   alias "current_logs" → 실제 인덱스 교체 시 무중단
+```
 
 ### 기술사 필수 개념: BM25 관련성 스코어링
 
@@ -244,23 +256,21 @@ score = IDF × (TF × (k1+1)) / (TF + k1 × (1-b+b×fieldLen/avgLen))
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">관계형 DB LIKE 검색 — 풀 테이블 스캔, 대규모 비정형 텍스트 처리 한계</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">역색인 (Inverted Index) — 단어→문서 매핑, 전문 검색(Full-Text Search) 핵심</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Elasticsearch — 루씬(Lucene) 기반 분산 검색 엔진, JSON REST API, 실시간 색인</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">벡터 검색 (Vector Search) — 임베딩 유사도 기반 의미 검색, ANN 인덱스</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AI 검색 엔진 — RAG + 벡터DB + LLM, 의미 기반 지식 검색 통합</div></div>
-</div>
-</div>
-
-
+```text
+[관계형 DB LIKE 검색 — 풀 테이블 스캔, 대규모 비정형 텍스트 처리 한계]
+    │
+    ▼
+[역색인 (Inverted Index) — 단어→문서 매핑, 전문 검색(Full-Text Search) 핵심]
+    │
+    ▼
+[Elasticsearch — 루씬(Lucene) 기반 분산 검색 엔진, JSON REST API, 실시간 색인]
+    │
+    ▼
+[벡터 검색 (Vector Search) — 임베딩 유사도 기반 의미 검색, ANN 인덱스]
+    │
+    ▼
+[AI 검색 엔진 — RAG + 벡터DB + LLM, 의미 기반 지식 검색 통합]
+```
 
 이 흐름은 RDBMS 전문 검색의 한계에서 [역색인](/knowledge-base/studynote/05_database/07_exam_summary/500_inverted_index_elasticsearch/) 기반 Elasticsearch로 검색 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 혁신되고, 벡터 검색으로 의미 기반 검색이 가능해지며 [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/)+[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 조합의 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 검색 엔진으로 진화하는 검색 기술의 핵심 계보를 보여준다.
 

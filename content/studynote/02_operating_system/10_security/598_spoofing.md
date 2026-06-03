@@ -25,25 +25,27 @@ tags = ["studynote-operating-system"]
 **필요성 및 등장 배경**
 인터넷의 기반이 되는 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)은 설계 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 단계에서 통신의 '[기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)'이나 송신자에 대한 '[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)'보다는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 '확실한 전달'과 '효율성'에 초점을 맞추었다. [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) ([Address Resolution Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/))는 응답이 오면 의심 없이 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 갱신하며, IP 패킷은 출발지 주소를 누구나 쉽게 위조할 수 있도록 열려 있었다. 해커들은 이러한 <strong>맹목적 신뢰(Implicit Trust)</strong>를 악용하여, 시스템에 침입하지 않고도 네트워크 중간에 끼어들어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 조작하거나 훔쳐보는 기법들을 고안해 냈다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">네트워크 스푸핑의 근본 원인: 신뢰 기반 프로토콜의 맹점</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">정상적인 네트워크 신뢰 모델</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 A ──(요청)──▶ 사용자 B (서버)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀──(응답)──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ B는 A의 IP 주소만 보고 A가 맞다고 "무조건 믿음"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스푸핑 기반 침투 모델 (IP Spoofing 예시)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해커 C (Attacker)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 조작된 패킷 생성 (출발지 IP를 A의 IP로 변조)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──(위조된 요청)──▶ 사용자 B (서버)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 B는 출발지가 A인 줄 알고, 진짜 사용자 A에게</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정보나 권한 응답을 보냄. (때로는 B의 인증 우회에 사용됨)</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────┐
+│      네트워크 스푸핑의 근본 원인: 신뢰 기반 프로토콜의 맹점   │
+├───────────────────────────────────────────────────────────────┤
+│                                                               │
+│  [정상적인 네트워크 신뢰 모델]                                │
+│  사용자 A ──(요청)──▶ 사용자 B (서버)                         │
+│           ◀──(응답)──                                         │
+│  ※ B는 A의 IP 주소만 보고 A가 맞다고 "무조건 믿음"            │
+│                                                               │
+│  [스푸핑 기반 침투 모델 (IP Spoofing 예시)]                   │
+│  해커 C (Attacker)                                            │
+│    │                                                          │
+│    ├── 조작된 패킷 생성 (출발지 IP를 A의 IP로 변조)           │
+│    │                                                          │
+│    └──(위조된 요청)──▶ 사용자 B (서버)                        │
+│                                                               │
+│  사용자 B는 출발지가 A인 줄 알고, 진짜 사용자 A에게           │
+│  정보나 권한 응답을 보냄. (때로는 B의 인증 우회에 사용됨)     │
+└───────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 그림은 네트워크 스푸핑이 왜 쉽게 성립하는지를 보여준다. IP [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)은 우편 배달부와 같아서, 편지 봉투에 적힌 '보내는 사람(출발지 IP)'의 진짜 여부를 우체국(라우터)이 일일이 주민등록증을 대조하며 검사하지 않는다. [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이나 서버 내부에서 "내부 IP(A)는 안전하다"라는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)되어 있을 경우, 외부의 해커(C)가 단순히 IP 헤더의 Source Address 필드를 A의 IP로 위조해서 보내는 것만으로도 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 시스템을 통과하거나 [접근 제어 목록](/knowledge-base/studynote/02_operating_system/11_exam_summary/739_access_control_list_acl/)([ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/))을 우회할 수 있는 치명적 결과를 낳는다.
 
@@ -66,30 +68,31 @@ tags = ["studynote-operating-system"]
 
 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(OS)의 네트워크 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)에서 가장 취약한 고리 중 하나가 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/)(주소 분석 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))의 캐시 관리 체계다. ARP는 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 메커니즘이 없으며([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)), 심지어 자신이 요청하지 않은 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) Reply(응답) 패킷을 받더라도 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 테이블을 무조건 갱신해 버리는 설계 결함을 가지고 있다. 이를 무상 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) ([Gratuitous ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/316_gratuitous_arp_g_arp_ip_conflict_cache_update/)) 취약점이라 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ARP Spoofing을 통한 중간자 공격 (MITM) 동작 흐름</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 참여자</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 사용자(PC): IP=10.0.0.2, MAC=AA:AA</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 게이트웨이(GW): IP=10.0.0.1, MAC=BB:BB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 해커(Attacker): IP=10.0.0.3, MAC=CC:CC</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1단계: 가짜 ARP Reply 지속 살포 (Poisoning)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해커 ──(나는 GW 10.0.0.1 이고 MAC은 CC:CC야!)──▶ 사용자</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해커 ──(나는 PC 10.0.0.2 이고 MAC은 CC:CC야!)──▶ GW</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2단계: OS의 ARP Cache 변조 완료</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 ARP 테이블: 10.0.0.1 의 MAC은 CC:CC 다! (변조됨)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GW의 ARP 테이블: 10.0.0.2 의 MAC은 CC:CC 다! (변조됨)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3단계: 트래픽 가로채기 및 패킷 릴레이 (MITM)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 ──(인터넷 검색 요청)──▶ 해커 (스니핑/변조 수행)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해커 ──(대신 전달해줌) ▶ 게이트웨이(GW)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GW ──(응답 데이터) ▶ 해커 (스니핑 수행)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해커 ──(대신 전달해줌) ▶ 사용자</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│      ARP Spoofing을 통한 중간자 공격 (MITM) 동작 흐름        │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│  [네트워크 참여자]                                           │
+│  - 사용자(PC): IP=10.0.0.2, MAC=AA:AA                        │
+│  - 게이트웨이(GW): IP=10.0.0.1, MAC=BB:BB                    │
+│  - 해커(Attacker): IP=10.0.0.3, MAC=CC:CC                    │
+│                                                              │
+│  [1단계: 가짜 ARP Reply 지속 살포 (Poisoning)]               │
+│  해커 ──(나는 GW 10.0.0.1 이고 MAC은 CC:CC야!)──▶ 사용자     │
+│  해커 ──(나는 PC 10.0.0.2 이고 MAC은 CC:CC야!)──▶ GW         │
+│                                                              │
+│  [2단계: OS의 ARP Cache 변조 완료]                           │
+│  사용자 ARP 테이블: 10.0.0.1 의 MAC은 CC:CC 다! (변조됨)     │
+│  GW의 ARP 테이블:   10.0.0.2 의 MAC은 CC:CC 다! (변조됨)     │
+│                                                              │
+│  [3단계: 트래픽 가로채기 및 패킷 릴레이 (MITM)]              │
+│  사용자 ──(인터넷 검색 요청)──▶ 해커 (스니핑/변조 수행)      │
+│  해커   ──(대신 전달해줌)─────▶ 게이트웨이(GW)               │
+│  GW     ──(응답 데이터)───────▶ 해커 (스니핑 수행)           │
+│  해커   ──(대신 전달해줌)─────▶ 사용자                       │
+└──────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 흐름도는 동일한 LAN 구간 내부에서 해커가 어떻게 '보이지 않는 중계기' 역할을 자처하게 되는지를 보여준다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 커널은 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 캐시를 최신 상태로 유지하기 위해 수신된 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) Reply를 즉시 신뢰하여 기록한다. 해커는 공격 툴(예: [arp](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/)-spoof, Ettercap)을 이용해 1초에도 수십 번씩 변조된 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) Reply를 방송한다. 사용자와 게이트웨이 라우터는 상대방의 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소가 해커의 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소([CC](/knowledge-base/studynote/09_security/17_framework_compliance/883_common_criteria_iso_15408/):[CC](/knowledge-base/studynote/09_security/17_framework_compliance/883_common_criteria_iso_15408/))인 줄 속아 넘어가게 되고, 이후 양방향의 모든 트래픽이 해커의 네트워크 인터페이스를 관통하게 된다. 해커는 리눅스 커널의 IP 포워딩(`ip_forward=1`) 기능을 활성화하여 패킷을 슬쩍 읽거나 변조한 뒤 원래 목적지로 몰래 전달해주기 때문에, 사용자는 인터넷이 정상적으로 되는 것처럼 느껴 해킹 사실을 전혀 인지하지 못한다.
 
@@ -110,25 +113,27 @@ tags = ["studynote-operating-system"]
 | **상관관계** | 스니핑과 하이재킹을 하기 위한 **전제 조건** | 스푸핑 성공 후 트래픽을 가로채어 분석하는 행위 | 스니핑을 통해 얻은 시퀀스 넘버/[세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) ID로 연결을 뺏음 |
 | **비유** | 가짜 신분증으로 출입증 발급받기 | 사무실 창문에 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/)기 설치하기 | 이미 로그인된 남의 자리에 앉아서 업무 보기 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IP Spoofing을 이용한 TCP 세션 하이재킹의 역학 관계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버(Target) 클라이언트(PC)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">1</div><div class="kb-diagram-connector">▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Server: Seq=100, Client: Seq=200)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2</div><div class="kb-diagram-note">해커가 클라이언트 IP로 스푸핑 │</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀ 해커</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(가짜 패킷 전송: Client IP + Seq=200)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3</div><div class="kb-diagram-note">진짜 클라이언트를 마비시킴 (DoS)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(클라이언트가 RST를 보내지 못하도록 막음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버는 패킷의 'IP 주소'와 'Seq Number'가 맞으므로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해커의 위조 패킷을 진짜 클라이언트의 명령으로 착각하고 실행!</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│      IP Spoofing을 이용한 TCP 세션 하이재킹의 역학 관계      │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│  서버(Target)                                클라이언트(PC)  │
+│       │                                             │        │
+│       │ ◀─── [1] 정상적인 TCP 연결 및 인증 완료 ───▶ │       │
+│       │        (Server: Seq=100, Client: Seq=200)   │        │
+│       │                                             │        │
+│       │      [2] 해커가 클라이언트 IP로 스푸핑       │       │
+│       │ ◀────────────────────────────────────────── ┼ 해커   │
+│       │      (가짜 패킷 전송: Client IP + Seq=200)           │
+│       │                                                      │
+│       │      [3] 진짜 클라이언트를 마비시킴 (DoS)            │
+│       │      (클라이언트가 RST를 보내지 못하도록 막음)       │
+│       │                                                      │
+│  서버는 패킷의 'IP 주소'와 'Seq Number'가 맞으므로           │
+│  해커의 위조 패킷을 진짜 클라이언트의 명령으로 착각하고 실행!│
+└──────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [세션 하이재킹](/knowledge-base/studynote/03_network/14_network_security_threats/707_session_hijacking_tcp_seq_cookie/)을 성공시키기 위해서는 반드시 IP 스푸핑이 선행되어야 한다. 서버는 이미 연결된 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)을 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)할 때, 상대방의 IP 주소와 현재 차례에 맞는 시퀀스 넘버(Sequence Number)만을 검사한다. 해커가 스니핑을 통해 시퀀스 넘버를 알아낸 뒤, 출발지 IP를 클라이언트로 위조(Spoofing)하여 패킷을 주입하면 서버는 이를 의심 없이 처리한다. 이 과정에서 진짜 클라이언트가 개입하여 오류를 낼 수 있으므로, 공격자는 진짜 클라이언트에게 대량의 쓰레기 패킷을 날려([DoS](/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/)) 침묵시키는 복합 공격(Combo)을 수행한다.
 
@@ -196,19 +201,15 @@ IP 주소나 [MAC](/knowledge-base/studynote/03_network/13_network_security_basi
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">제로 데이 (Zero-Day) 취약점 / 익스플로잇 (Exploit)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스푸핑 (Spoofing)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">서비스 거부 (DoS) 및 분산 서비스 거부 (DDoS) 네트워크 자원 고갈 공격</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">포트 스캐닝 (Port Scanning) 도구 원리</div></div>
-</div>
-</div>
-
-
+```text
+[제로 데이 (Zero-Day) 취약점 / 익스플로잇 (Exploit)]
+    │
+    ▼
+[스푸핑 (Spoofing)]
+    │
+    ├──▶ [서비스 거부 (DoS) 및 분산 서비스 거부 (DDoS) 네트워크 자원 고갈 공격]
+    └──▶ [포트 스캐닝 (Port Scanning) 도구 원리]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

@@ -12,7 +12,7 @@ tags = ["software_engineering"]
 
 > 1. **본질**: 마인드 맵 (Mind Map)은 하나의 중심 주제에서 연관 아이디어를 방사형으로 확장하는 발산 도구이고, 친화도 ([Affinity](/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/) Diagram)는 흩어진 의견을 유사성에 따라 묶어 의미 있는 그룹으로 수렴시키는 정리 도구다.
 > 2. **가치**: 요구사항 정의나 아키텍처 구상 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 이 둘을 함께 쓰면, 빠짐없이 아이디어를 펼치면서도 최종적으로는 구조화된 요구와 설계 주제로 압축할 수 있다.
-> 3. **판단 포인트**: 중심 문제는 분명하지만 생각이 부족할 때는 마인드 맵이 유리하고, 인터뷰 메모나 VOC (Voice of [Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/))처럼 자료는 많은데 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계가 없을 때는 친화도가 더 적합하며, 실제 워크숍에서는 보통 마인드 맵 후 친화도 순서가 효과적이다.
+> 3. **판단 포인트**: 중심 문제는 분명하지만 생각이 부족할 때는 마인드 맵이 유리하고, 인터뷰 메모나 VOC (Voice of [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/))처럼 자료는 많은데 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계가 없을 때는 친화도가 더 적합하며, 실제 워크숍에서는 보통 마인드 맵 후 친화도 순서가 효과적이다.
 
 ---
 
@@ -24,18 +24,16 @@ tags = ["software_engineering"]
 
 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) 관점에서도 중요하다. 좋은 요구사항은 처음부터 완성된 문장으로 나오지 않는다. 사용자의 말, 운영자의 불만, 경쟁사 비교, 제약 조건, 품질 요구가 뒤섞인 상태로 나타난다. 따라서 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 <strong>생각을 넓히는 도구와, 넓어진 생각을 다시 구조화하는 도구</strong>를 의도적으로 구분해야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">아이디어 워크숍의 두 단계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">질문이 막히는 단계 -&gt; 생각을 넓혀야 함 -&gt; Mind Map</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">생각이 넘치는 단계 -&gt; 묶고 이름 붙여야 함 -&gt; Affinity Diagram</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">둘을 연결해야 "아이디어 모음"이 "요구사항 후보"로 바뀐다.</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ 아이디어 워크숍의 두 단계                                            │
+├────────────────────────────────────────────────────────────────────┤
+│ 질문이 막히는 단계  -> 생각을 넓혀야 함 -> Mind Map                │
+│ 생각이 넘치는 단계  -> 묶고 이름 붙여야 함 -> Affinity Diagram     │
+│                                                                    │
+│ 둘을 연결해야 "아이디어 모음"이 "요구사항 후보"로 바뀐다.          │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 마인드 맵과 친화도는 요리 준비와 같다. 먼저 냉장고에서 재료를 넓게 꺼내 보고, 그다음 비슷한 재료끼리 묶어 어떤 메뉴를 만들지 정해야 식사가 완성된다.
 
@@ -55,24 +53,22 @@ tags = ["software_engineering"]
 
 아래 그림은 두 도구의 역할 차이를 한 번에 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Diverge first, then converge</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mind Map</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">결제 시스템 개선</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 사용자 경험</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 보안</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 연계 시스템</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 운영 정책</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Affinity Diagram</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">앱 느림</div><div class="kb-diagram-node">오류 잦음</div><div class="kb-diagram-node">로그인 불편</div><div class="kb-diagram-node">결제 실패</div><div class="kb-diagram-node">승인 지연</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">성능 ── 인증 ── 결제 흐름</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Diverge first, then converge                                        │
+├────────────────────────────────────────────────────────────────────┤
+│ Mind Map                                                            │
+│                  [ 결제 시스템 개선 ]                                │
+│                    ├─ 사용자 경험                                    │
+│                    ├─ 보안                                            │
+│                    ├─ 연계 시스템                                    │
+│                    └─ 운영 정책                                      │
+│                                                                    │
+│ Affinity Diagram                                                    │
+│ [앱 느림] [오류 잦음] [로그인 불편] [결제 실패] [승인 지연]          │
+│        └──── 성능 ────┘      └── 인증 ──┘  └──── 결제 흐름 ─────┘  │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 마인드 맵은 상위 주제를 중심으로 하위 기능, 제약, [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/), 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 등을 빠르게 펼쳐 보는 데 강하다. 반면 친화도는 인터뷰 메모, VOC, 장애 원인 목록처럼 문장 단위의 조각 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 묶어 숨은 패턴을 찾는 데 강하다. 그래서 마인드 맵은 **생각을 생성하는 도구**, 친화도는 <strong>생각을 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a>하고 해석하는 도구</strong>로 구분하면 실무 활용이 쉬워진다.
 
@@ -108,19 +104,17 @@ tags = ["software_engineering"]
 
 이렇게 하면 "무슨 생각을 해야 하지?"라는 공백과 "의견은 많은데 뭘 결정하지?"라는 혼란을 모두 줄일 수 있다. 이후에는 각 친화 그룹을 요구사항, 화면, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), 비기능 요구로 연결하면 실제 설계 입력으로 바뀐다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Workshop decision flow</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">central theme is clear, but ideas are thin? -&gt; Mind Map first</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">many raw notes exist, but categories are unclear? -&gt; Affinity first</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">both are true? -&gt; Mind Map -&gt; collect notes -&gt; Affinity</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">output should become: requirement themes / architecture issues</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Workshop decision flow                                              │
+├────────────────────────────────────────────────────────────────────┤
+│ central theme is clear, but ideas are thin? -> Mind Map first       │
+│ many raw notes exist, but categories are unclear? -> Affinity first │
+│ both are true? -> Mind Map -> collect notes -> Affinity             │
+│                                                                    │
+│ output should become: requirement themes / architecture issues      │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 ### 실무 판단 기준
 
@@ -156,7 +150,7 @@ tags = ["software_engineering"]
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | 브레인스토밍 (Brainstorming) | 마인드 맵의 발산 입력이 되는 대표 기법이다 |
-| VOC (Voice of [Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/)) | 친화도로 [군집화](/knowledge-base/studynote/16_bigdata/05_analysis/105_clustering_analysis/)하기 좋은 대표 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)다 |
+| VOC (Voice of [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/)) | 친화도로 [군집화](/knowledge-base/studynote/16_bigdata/05_analysis/105_clustering_analysis/)하기 좋은 대표 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)다 |
 | KJ 기법 (Kawakita Jiro Method) | 친화도의 대표적 원형으로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)와 명명 과정을 강조한다 |
 | [WBS](/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/) ([Work Breakdown Structure](/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/)) | 마인드 맵에서 나온 기능 가지를 구조화된 작업 분해로 연결할 수 있다 |
 | 요구사항 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 친화도 결과를 기능·비기능·운영 요구로 전환하는 단계다 |
@@ -164,23 +158,21 @@ tags = ["software_engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">문제 정의</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">마인드 맵으로 논점 발산</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">메모·인터뷰·VOC 수집</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">친화도로 군집화 및 명명</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">요구사항 테마 · 아키텍처 이슈 · 백로그</div>
-</div>
-</div>
-
-
+```text
+문제 정의
+    │
+    ▼
+마인드 맵으로 논점 발산
+    │
+    ▼
+메모·인터뷰·VOC 수집
+    │
+    ▼
+친화도로 군집화 및 명명
+    │
+    ▼
+요구사항 테마 · 아키텍처 이슈 · 백로그
+```
 
 이 흐름도는 아이디어 생성과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정리가 분리되어야 하며, 최종적으로는 요구사항과 설계 의사결정으로 연결되어야 한다는 점을 보여 준다.
 

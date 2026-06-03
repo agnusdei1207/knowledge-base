@@ -19,18 +19,20 @@ tags = ["studynote-design-supervision"]
 
 이 구조가 필요한 이유는 시장 변화 속도 때문이다. 상품 조합, 채널 확장, 외부 제휴, 규제 변경이 잦은 환경에서는 모놀리식 패키지의 일괄 개편으로는 대응 속도가 나오지 않는다. 컴포저블 아키텍처는 주문, 결제, 추천, 배송, 정산 같은 업무 블록을 조합해 신속하게 새로운 프로세스를 구성하도록 돕는다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Web/App</div><div class="kb-diagram-cell">Partner</div><div class="kb-diagram-cell">Channel</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">API 조합 계층</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PBS1</div><div class="kb-diagram-cell">PBS2</div><div class="kb-diagram-cell">PBS3</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┐   ┌──────────┐   ┌──────────┐
+│ Web/App  │   │ Partner  │   │ Channel  │
+└────┬─────┘   └────┬─────┘   └────┬─────┘
+     └──────────┬───┴──────────────┘
+                ▼
+         ┌──────────────┐
+         │ API 조합 계층 │
+         └───┬────┬─────┘
+             │    │
+        ┌────▼┐ ┌─▼────┐ ┌────▼─┐
+        │ PBS1│ │ PBS2 │ │ PBS3 │
+        └─────┘ └──────┘ └──────┘
+```
 
 따라서 필요성의 핵심은 “변화 대응력”과 “업무 중심 분해”다. 기술사 답안에서는 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 우선 설계, 조합형 업무 프로세스, 벤더 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) 완화를 함께 써야 논리적 완성도가 높다.
 - **📢 섹션 요약 비유**: 도시락을 한 종류만 파는 가게가 아니라, 밥·반찬·국을 따로 고르게 해서 손님마다 다른 도시락을 바로 조합해 주는 식당과 같다.
@@ -45,17 +47,15 @@ tags = ["studynote-design-supervision"]
 | 조합·[오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) 계층 | 여러 PBS를 묶어 사용자 여정과 업무 프로세스를 빠르게 구성한다. | 조합 복잡도, 장애 전파, [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 보상 설계 검토 |
 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소유 구조 | 각 PBS가 자신의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 책임지고 필요한 정보만 공유한다. | [마스터 데이터](/knowledge-base/studynote/05_database/07_exam_summary/539_mdm_master_data_management/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/), 중복 저장, 정합성 통제 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">API Composition Layer</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인증</div><div class="kb-diagram-cell">라우팅</div><div class="kb-diagram-cell">오케스트레이션</div><div class="kb-diagram-cell">모니터링</div><div class="kb-diagram-cell">정책 적용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Order PBS</div><div class="kb-diagram-cell">Pay PBS</div><div class="kb-diagram-cell">Ship PBS</div><div class="kb-diagram-cell">CRM PBS</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────── API Composition Layer ────────────────┐
+│ 인증 │ 라우팅 │ 오케스트레이션 │ 모니터링 │ 정책 적용 │
+└──────┬───────────┬──────────────┬───────────┬────────┘
+       │           │              │           │
+┌──────▼───┐ ┌─────▼────┐ ┌──────▼───┐ ┌─────▼────┐
+│ Order PBS│ │ Pay PBS  │ │ Ship PBS │ │ CRM PBS  │
+└──────────┘ └──────────┘ └──────────┘ └──────────┘
+```
 
 설계 핵심은 “잘게 나누는 것”이 아니라 “비즈니스적으로 다시 조립 가능한 단위로 나누는 것”이다. 기술사 답안에서는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수가 많다는 사실보다 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 표준화, 조합 계층, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경계의 균형을 강조해야 한다.
 - **📢 섹션 요약 비유**: 레고 블록이 많다고 좋은 게 아니라, 바퀴·창문·문처럼 의미 있는 부품으로 나뉘어 있어야 자동차든 집이든 다시 조립하기 쉽다.
@@ -99,23 +99,17 @@ tags = ["studynote-design-supervision"]
 - <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/238_lowcode_nocode_citizen_developer/">LCNC</a></strong>: 현업이 조합 계층을 더 빠르게 구성하도록 돕는 실무 도구군
 
 ### 📈 관련 키워드 및 발전 흐름도
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">모놀리식 패키지 중심 업무 시스템</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">서비스 분리와 API 공개</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">업무 역량 단위 PBS 설계</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">조합 계층 기반 채널 확장</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">컴포저블 엔터프라이즈 운영</div>
-</div>
-</div>
-
-
+```text
+모놀리식 패키지 중심 업무 시스템
+    ↓
+서비스 분리와 API 공개
+    ↓
+업무 역량 단위 PBS 설계
+    ↓
+조합 계층 기반 채널 확장
+    ↓
+컴포저블 엔터프라이즈 운영
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 큰 로봇 하나를 통째로 사는 대신, 팔·다리·눈을 따로 사서 붙이는 거예요.

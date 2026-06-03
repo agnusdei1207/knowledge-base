@@ -21,27 +21,28 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 심각도 (Severity)는 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 시스템의 기능, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), [사용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/286_usability_tactics/), [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 등에 미치는 영향의 정도를 나타낸다. 심각도는 주로 테스트팀이나 품질 관리팀에서 평가하며, 기술적 관점에서 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)의 영향도를 평가한다. [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 우선순위 (Priority)는 해당 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 얼마나 빨리 수정해야 하는지를 나타낸다. 우선순위는 비즈니스 관점에서 조사의욕, 출시 일정, 고객 영향도 등을 고려하여 결정한다.
 
-- **필요성**: 심각도와 우선순위를 혼동하면 리소스가 잘못 배분되어 중요한 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 제때 수정되지 않거나, 긴급하지 않은 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)에 리소스가 과다될 수 있다. 예를 들어, 단순한 UI [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 우선순위 High로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)되면 (심각도 Low) 개발 리소스가 잘못 배분될 수 있다.
+- **필요성**: 심각도와 우선순위를 혼동하면 리소스가 잘못 배분되어 중요한 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 제때 수정되지 않거나, 긴급하지 않은 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)에 리소스가 과다투입될 수 있다. 예를 들어, 단순한 UI [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 우선순위 High로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)되면 (심각도 Low) 개발 리소스가 잘못 배분될 수 있다.
 
-- **💡 비유**: 심각도와 우선순위의 차이는 "지진의와/과"에 비유할 수 있다.(심각도)는의를 나타내고,(우선순위)는경제적/사회적 영향을 나타낸다. 대지진(심각도 High)이라도 인구 지역(우선순위 Low)일 수 있고,(심각도 Medium)이라도(우선순위 High)일 수 있다.
+- **💡 비유**: 심각도와 우선순위의 차이는 "지진의진도와피해규모"에 비유할 수 있다.진도(심각도)는지진의규모를 나타내고,피해규모(우선순위)는경제적/사회적 영향을 나타낸다. 대지진(심각도 High)이라도 인구희소 지역(우선순위 Low)일 수 있고,중소지진(심각도 Medium)이라도대도시(우선순위 High)일 수 있다.
 
-- **📢 섹션 요약 비유**: 심각도와 우선순위의 차이는 "사고의와/과"에 비유할 수 있다. (심각도)는의상태의을/를하고、(우선순위)는응급실 도착 순서를 결정하는 것이다. 에서도이/가(심각도 High + 우선순위 Low)에된다이/가。
+- **📢 섹션 요약 비유**: 심각도와 우선순위의 차이는 "사고의중증도와긴급도"에 비유할 수 있다. 중증도(심각도)는환자의상태의심각さ을/를의미하고, 긴급도(우선순위)는응급실 도착 순서를 결정하는 것이다. 중증에서も의식이청명なら(심각도 High + 우선순위 Low)후회し에される가능성이ある. 
 
 ---
 
 다음은 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 심각도 (Severity) vs의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결함 심각도 (Severity) vs</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                  결함 심각도 (Severity) vs                        │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
+│       │                    │                    │          │
+│       ▼                    ▼                    ▼          │
+│   요구 분석           설계·적용           품질 검증        │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램은 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 심각도 (Severity) vs가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -131,30 +132,28 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 심각도 (Severity) vs [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 우선순위 (Priority)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 심각도 (Severity) vs [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 우선순위 (Priority)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
 | [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 심각도 (Severity) vs [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 우선순위 (Priority)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 심각도 (Severity) vs [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 우선순위 (Priority) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
 | [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 심각도 (Severity) vs [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 우선순위 (Priority)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">결함 심각도 (Severity) vs 결함 우선순위 (Priority) 개념 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 위기 (Software Crisis) 인식
+    │
+    ▼
+결함 심각도 (Severity) vs 결함 우선순위 (Priority) 개념 정립
+    │
+    ▼
+표준화 및 방법론 체계화 (ISO, CMMI, Agile)
+    │
+    ▼
+클라우드 네이티브·AI 기반 확장 적용
+    │
+    ▼
+지속적 개선 및 DevOps·MLOps 통합
+```
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

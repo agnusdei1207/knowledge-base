@@ -30,16 +30,11 @@ tags = ["ict_convergence"]
 
 핵심 흐름은 고객 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)(KYC), 송금 요청, Travel Rule payload [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 수신 VASP [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 기록 보관이다. payload에는 송신자·수신자 이름, 계정 또는 지갑 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/), 거래 금액, 날짜, 참조번호가 들어가며, 보통 IVMS 101 (InterVASP Messaging Standard 101) 같은 공통 메시지 형식을 활용한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">고객 A -&gt; 송신 VASP -&gt; Travel Rule 메시지 -&gt; 수신 VASP -&gt; 고객 B</div>
-<div class="kb-diagram-note">KYC screening identity data beneficiary check</div>
-</div>
-</div>
-
-
+```text
+고객 A -> 송신 VASP -> Travel Rule 메시지 -> 수신 VASP -> 고객 B
+   |         |                |                 |
+  KYC      screening       identity data      beneficiary check
+```
 
 | 구성 요소 | 역할 | 핵심 통제 |
 | --- | --- | --- |
@@ -61,7 +56,7 @@ tags = ["ict_convergence"]
 | 비교 대상 | 차이점 |
 | --- | --- |
 | 은행 송금 | 메시지망이 실명 정보를 기본 포함 |
-| KYC (Know Your [Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/)) | 거래 전 고객 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 절차 |
+| KYC (Know Your [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/)) | 거래 전 고객 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 절차 |
 | 온체인 분석 | 지갑 패턴 추정은 가능하지만 실명 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 불가 |
 | 셀프 호스티드 지갑(Self-hosted Wallet) | 상대방 VASP가 없을 수 있어 추가 위험 평가가 필요 |
 
@@ -110,25 +105,19 @@ tags = ["ict_convergence"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">가상자산 송금</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">고객 식별(KYC)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Travel Rule payload 생성</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">VASP 간 안전 전송</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">수신자 확인 / 제재 점검</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">기록 보관 / 감사 대응</div>
-</div>
-</div>
-
-
+```text
+가상자산 송금
+   ↓
+고객 식별(KYC)
+   ↓
+Travel Rule payload 생성
+   ↓
+VASP 간 안전 전송
+   ↓
+수신자 확인 / 제재 점검
+   ↓
+기록 보관 / 감사 대응
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

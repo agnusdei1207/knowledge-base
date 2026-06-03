@@ -26,28 +26,27 @@ tags = ["studynote-operating-system"]
 
 **💡 비유**: 데드락 예방을 위해 마을 화장실의 칸막이 1인용 룰([상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/))을 부정하는 것. "줄 서지 말고, 10명이 동시에 한 칸에 들어가서 알아서 섞여서 볼일 봐!" 데드락은 없어지겠지만, 그 결과물([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))은 상상할 수 없을 정도로 파괴적인 위상 오염이 발생한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상호 배제 (Mutual Exclusion) 보장 vs 부정</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상호 배제 보장 (현실의 필수악)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공유 계좌 잔액 = 1,000원</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A: +500원 입금</div><div class="kb-diagram-cell">B: -300원 출금</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(■ LOCK ■)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">순차 진행: 1000 + 500 = 1500 → 1500 - 300 = 1200 (정상)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 대가: A가 끝날 때까지 B가 대기하다가 데드락 날 수 있음!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상호 배제 부정 (데드락 방지 100% 개방)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공유 계좌 잔액 = 1,000원</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A: +500원 처리 중(메모리에 1500 기억)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B: -300원 처리 중(메모리에 700 기억)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B 저장(700) → A 저장(1500). 최종 잔액: 1500원</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 결과: 데드락 대기는 전혀 없었으나, 300원 출금이 소거됨.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(은행 파산 ❌)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│         상호 배제 (Mutual Exclusion) 보장 vs 부정            │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│  [상호 배제 보장 (현실의 필수악)]                            │
+│  공유 계좌 잔액 = 1,000원                                    │
+│  A: +500원 입금   │   B: -300원 출금                         │
+│                (■ LOCK ■)                                    │
+│  순차 진행: 1000 + 500 = 1500 → 1500 - 300 = 1200 (정상)     │
+│  * 대가: A가 끝날 때까지 B가 대기하다가 데드락 날 수 있음!   │
+│                                                              │
+│  [상호 배제 부정 (데드락 방지 100% 개방)]                    │
+│  공유 계좌 잔액 = 1,000원                                    │
+│  A: +500원 처리 중(메모리에 1500 기억)                       │
+│  B: -300원 처리 중(메모리에 700 기억)                        │
+│  B 저장(700) → A 저장(1500). 최종 잔액: 1500원               │
+│  * 결과: 데드락 대기는 전혀 없었으나, 300원 출금이 소거됨.   │
+│         (은행 파산 ❌)                                       │
+└──────────────────────────────────────────────────────────────┘
+```
 
 **📢 섹션 요약 비유**: 줄 서는 대기(데드락)가 없게 하려고 도로의 모든 신호등을 파란불(부정)로 바꾸면, 영구 정차는 사라지지만 차들이 전부 부딪혀 대형 사고([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정합성 붕괴)가 폭발합니다.
 
@@ -120,19 +119,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">교착 상태 예방 (Deadlock Prevention)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상호 배제 부정 (Deny Mutual Exclusion)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">점유 대기 부정</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">비선점 부정</div></div>
-</div>
-</div>
-
-
+```text
+[교착 상태 예방 (Deadlock Prevention)]
+    │
+    ▼
+[상호 배제 부정 (Deny Mutual Exclusion)]
+    │
+    ├──▶ [점유 대기 부정]
+    └──▶ [비선점 부정]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

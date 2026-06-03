@@ -43,22 +43,24 @@ tags = ["studynote-ict-convergence"]
 
 아래 구조는 엣지 AI가 왜 "클라우드 제거"가 아니라 "판단 루프의 재배치"인지 보여 준다. 짧은 루프는 로컬에서 닫고, 긴 루프만 상위 계층으로 올린다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Edge / On-Device AI execution loop</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sensor -&gt; Preprocess -&gt; Model Runtime -&gt; NPU/GPU/CPU -&gt; Decision</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── local action</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(brake / alert)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── low confidence</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">or rare sample</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Edge/Cloud service</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OTA compressed model update ◄──</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│                Edge / On-Device AI execution loop                  │
+├────────────────────────────────────────────────────────────────────┤
+│ Sensor -> Preprocess -> Model Runtime -> NPU/GPU/CPU -> Decision  │
+│                                             │                      │
+│                                             ├── local action       │
+│                                             │   (brake / alert)    │
+│                                             │                      │
+│                                             └── low confidence     │
+│                                                 or rare sample     │
+│                                                        │           │
+│                                                        ▼           │
+│                                               Edge/Cloud service   │
+│                                                        │           │
+│                         OTA compressed model update ◄──┘           │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 엣지에서 AI가 돌아가려면 모델을 작게 만드는 공학이 필수다. 대표 수단은 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) ([Quantization](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)), [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/) ([Pruning](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)), [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/) ([Knowledge Distillation](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)) 다. 예를 들어 32비트 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 가중치를 8비트 정수로 줄이면 메모리 사용량과 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 크게 낮출 수 있지만, 정확도 손실이 허용 범위 안에 있는지 반드시 검증해야 한다.
 
@@ -142,25 +144,24 @@ tags = ["studynote-ict-convergence"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Cloud-only inference</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Latency / privacy / bandwidth pressure</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Model compression + edge accelerators</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">On-device inference and local action</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Selective feedback + OTA update</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Hybrid edge-cloud intelligence</div>
-</div>
-</div>
-
-
+```text
+Cloud-only inference
+        │
+        ▼
+Latency / privacy / bandwidth pressure
+        │
+        ▼
+Model compression + edge accelerators
+        │
+        ▼
+On-device inference and local action
+        │
+        ▼
+Selective feedback + OTA update
+        │
+        ▼
+Hybrid edge-cloud intelligence
+```
 
 이 흐름은 "원격 추론 중심 구조 → 현장 제약 인식 → 경량화와 가속 → 로컬 추론 → 선택적 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) → 하이브리드 지능"으로 발전하는 방향을 보여 준다.
 

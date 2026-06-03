@@ -18,19 +18,13 @@ tags = ["studynote-dataengineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">활성화 함수 비교:</div>
-<div class="kb-diagram-note">Sigmoid: σ(x) = 1/(1+e⁻ˣ) → 0~1, Vanishing</div>
-<div class="kb-diagram-note">ReLU: f(x) = max(0, x) → 현재 표준, Dead Neuron</div>
-<div class="kb-diagram-note">GELU: f(x) = x·Φ(x) → Transformer 표준</div>
-<div class="kb-diagram-note">SwiGLU: f(x) = Swish(xW₁)⊙xW₂ → LLM 최신</div>
-</div>
-</div>
-
-
+```text
+활성화 함수 비교:
+Sigmoid: σ(x) = 1/(1+e⁻ˣ)     → 0~1, Vanishing
+ReLU:    f(x) = max(0, x)       → 현재 표준, Dead Neuron
+GELU:    f(x) = x·Φ(x)         → Transformer 표준
+SwiGLU:  f(x) = Swish(xW₁)⊙xW₂ → LLM 최신
+```
 
 - **📢 섹션 요약 비유**: 활성화 함수는 신경망의 <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a></strong>이다. [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 없으면 전기(정보)가 그냥 흐를 뿐 아무 기능을 못 한다.
 
@@ -76,17 +70,11 @@ tags = ["studynote-dataengineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Sigmoid (1980s)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Tanh (1990s)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">ReLU (2010, Nair)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">GELU (2016)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">SwiGLU (2022, PaLM/Llama)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: 학습 가능 활성화 (KAN, 2024)</div></div>
-</div>
-</div>
-
-
+```text
+[Sigmoid (1980s)] → [Tanh (1990s)] → [ReLU (2010, Nair)]
+    → [GELU (2016)] → [SwiGLU (2022, PaLM/Llama)]
+    → [현재: 학습 가능 활성화 (KAN, 2024)]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 활성화 함수는 신경망의 <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a></strong>예요. 켜야(비선형) 뇌가 <strong>생각</strong>할 수 있어요.

@@ -22,25 +22,36 @@ tags = ["studynote-operating-system"]
 
 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 컴퓨팅 환경은 하드웨어 자원이 극도로 제한적이었고, OS 내부 통신 비용을 최소화하는 것이 가장 중요한 과제였다. 모놀리식 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 이 '[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화' 요구에 완벽하게 부합하는 구조로, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 통신을 단순한 C [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/)로 처리하여 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) ([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)) 비용을 제로에 가깝게 낮췄다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모놀리식 커널의 단일 주소 공간 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">사용자 모드 (User Mode)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">응용 프로그램 A</div><div class="kb-diagram-cell">응용 프로그램 B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">System Call</div><div class="kb-diagram-cell">System Call</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">커널 모드 (Kernel Mode) — 단일 주소 공간</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로세스</div><div class="kb-diagram-cell">파일 시스템</div><div class="kb-diagram-cell">스케줄러 CFS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">관리</div><div class="kb-diagram-cell">VFS/Ext4</div><div class="kb-diagram-cell">(CPU 분배)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">함수 호출</div><div class="kb-diagram-cell">함수 호출</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리</div><div class="kb-diagram-cell">장치 드라</div><div class="kb-diagram-cell">네트워크</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">관리 (MM)</div><div class="kb-diagram-cell">이버 (DD)</div><div class="kb-diagram-cell">스택 TCP/IP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">하드웨어 (Hardware)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────┐
+│              모놀리식 커널의 단일 주소 공간 구조                  │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  [ 사용자 모드 (User Mode) ]                                     │
+│   ┌──────────────────┐    ┌──────────────────┐                  │
+│   │  응용 프로그램 A  │    │  응용 프로그램 B  │                  │
+│   └────────┬─────────┘    └────────┬─────────┘                  │
+│            │  System Call          │  System Call               │
+│ ───────────┼───────────────────────┼─────────────────────────── │
+│            ▼                       ▼                            │
+│  [ 커널 모드 (Kernel Mode) — 단일 주소 공간 ]                    │
+│  ┌─────────────────────────────────────────────────────┐        │
+│  │  ┌───────────┐  ┌───────────┐  ┌───────────────┐   │        │
+│  │  │ 프로세스  │  │ 파일 시스템│  │  스케줄러 CFS │   │        │
+│  │  │ 관리      │  │ VFS/Ext4  │  │  (CPU 분배)   │   │        │
+│  │  └─────┬─────┘  └─────┬─────┘  └───────┬───────┘   │        │
+│  │        │  함수 호출    │  함수 호출      │           │        │
+│  │        ▼              ▼                 ▼           │        │
+│  │  ┌───────────┐  ┌───────────┐  ┌───────────────┐   │        │
+│  │  │ 메모리    │  │ 장치 드라  │  │ 네트워크      │   │        │
+│  │  │ 관리 (MM) │  │ 이버 (DD) │  │ 스택 TCP/IP   │   │        │
+│  │  └───────────┘  └───────────┘  └───────────────┘   │        │
+│  └─────────────────────────┬───────────────────────────┘        │
+│                            ▼                                    │
+│                   [ 하드웨어 (Hardware) ]                        │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
+```
 
 [마이크로 커널](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/598_microkernel_plugin_architecture/)이 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 통신에 [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) [메시지 전달](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/)을 사용하는 것과 달리, 모놀리식 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 모든 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 동일한 메모리 공간 안에서 함수 포인터를 통해 직접 호출되어 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 없다.
 
@@ -63,51 +74,57 @@ tags = ["studynote-operating-system"]
 
 ### [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 호출 메커니즘 — [마이크로 커널](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/598_microkernel_plugin_architecture/)과의 결정적 차이
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모놀리식 (함수 호출) vs 마이크로 커널 (IPC 메시지 전달) 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">모놀리식 커널의 read() I/O 처리 흐름</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">User App</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">VFS 계층</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">직접 함수 호출 (0ns 추가 비용)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Page Cache 확인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">직접 함수 호출</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Disk Driver</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Hardware</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✔ 커널 내부에서 모드 전환 없이 단방향 함수 체인으로 처리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">마이크로 커널의 read() I/O 처리 흐름</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">User App</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Kernel Core</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">FS Server (User Mode)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IPC</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Driver Server</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✘ 모드 전환 4~6회 + IPC 직렬화 비용 → 지연 시간 2~5배 증가</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────┐
+│  모놀리식 (함수 호출) vs 마이크로 커널 (IPC 메시지 전달) 비교     │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  [모놀리식 커널의 read() I/O 처리 흐름]                          │
+│                                                                 │
+│  [User App] ─syscall─▶ [VFS 계층]                               │
+│                              │ 직접 함수 호출 (0ns 추가 비용)    │
+│                              ▼                                  │
+│                        [Page Cache 확인]                        │
+│                              │ 직접 함수 호출                    │
+│                              ▼                                  │
+│                        [Disk Driver] ─▶ [Hardware]              │
+│                                                                 │
+│  ✔ 커널 내부에서 모드 전환 없이 단방향 함수 체인으로 처리         │
+│                                                                 │
+│  [마이크로 커널의 read() I/O 처리 흐름]                          │
+│                                                                 │
+│  [User App] ─IPC─▶ [Kernel Core] ─IPC─▶ [FS Server (User Mode)]│
+│                                               │ IPC              │
+│                                               ▼                 │
+│                                         [Driver Server]         │
+│                                                                 │
+│  ✘ 모드 전환 4~6회 + IPC 직렬화 비용 → 지연 시간 2~5배 증가      │
+└─────────────────────────────────────────────────────────────────┘
+```
 
 ### [LKM](/knowledge-base/studynote/02_operating_system/01_overview_architecture/067_lkm/) (Loadable [Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [Module](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)) — 동적 확장 기술
 
 전통적 모놀리식 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 단점인 '수정 시 전체 재컴파일'을 극복하기 위해 Linux는 [LKM](/knowledge-base/studynote/02_operating_system/01_overview_architecture/067_lkm/) 기술을 채택했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동적 커널 모듈 (LKM) 로딩 및 통합</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">커널 주소 공간</div><div class="kb-diagram-node">디스크 저장소</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core Kernel</div><div class="kb-diagram-cell">new_driver.ko</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(PM / MM / FS)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">insmod 명령</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Symbol Export ▼</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">런타임 커널 메모리 통합</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core ◀──함수 호출──▶ New Module</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 모듈은 커널 심볼 테이블에 등록, 동일 권한으로 직접 통신</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 시스템 중단 없이 드라이버 추가/제거 가능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 단, 악성 모듈은 커널 전체를 오염시킬 수 있어 서명 검증 필수</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────┐
+│               동적 커널 모듈 (LKM) 로딩 및 통합                  │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  [ 커널 주소 공간 ]           [ 디스크 저장소 ]                  │
+│  ┌───────────────────┐       ┌───────────────────┐              │
+│  │  Core Kernel      │       │  new_driver.ko    │              │
+│  │  (PM / MM / FS)   │       └─────────┬─────────┘              │
+│  └────────┬──────────┘                 │ insmod 명령             │
+│           │ Symbol Export              ▼                        │
+│           └─────────────────▶ [ 런타임 커널 메모리 통합 ]        │
+│                               Core ◀──함수 호출──▶ New Module    │
+│                                                                 │
+│  * 모듈은 커널 심볼 테이블에 등록, 동일 권한으로 직접 통신        │
+│  * 시스템 중단 없이 드라이버 추가/제거 가능                       │
+│  * 단, 악성 모듈은 커널 전체를 오염시킬 수 있어 서명 검증 필수    │
+└─────────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 레고 기본 판([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코어) 위에 새 기능 블록([LKM](/knowledge-base/studynote/02_operating_system/01_overview_architecture/067_lkm/))을 실시간으로 꽂아 넣어 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 없이 로봇의 능력을 확장하는 것과 같다. 단, 불량 블록을 꽂으면 기본 판째로 망가지는 위험이 있다.
 
@@ -153,23 +170,27 @@ tags = ["studynote-operating-system"]
 
 공격자가 LKM을 악용해 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부에 악성 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 삽입, 모든 시스템 콜을 후킹하는 [루트킷](/knowledge-base/studynote/02_operating_system/10_security/603_rootkit_syscall_hooking/)을 심은 사례. [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 서명 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) ([Module](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) Signing) 활성화와 `/proc/sys/kernel/modules_disabled=1` 설정으로 런타임 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 삽입을 원천 차단하는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 하드닝 ([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Hardening) 전략을 즉시 적용해야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모놀리식 커널 장애 대응 의사결정 트리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시스템 중단 / 오작동 감지</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">dmesg / journalctl 로그 분석</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">rmmod 언로드 / 버전 롤백</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Kdump 메모리 덤프 분석</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">근본 원인 분류 및 해결</div><div class="kb-diagram-connector">▼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 보안 침해: 모듈 서명 강제 + modules_disabled</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 성능 부족: sysctl net.core.somaxconn, vm.swappiness 튜닝</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 기능 결함: 커널 버전 업그레이드 또는 패치 적용</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────┐
+│              모놀리식 커널 장애 대응 의사결정 트리                │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│   [시스템 중단 / 오작동 감지]                                    │
+│           │                                                     │
+│           ▼                                                     │
+│   [dmesg / journalctl 로그 분석]                                 │
+│           │                                                     │
+│           ├─ 특정 모듈 오류 ─▶ [rmmod 언로드 / 버전 롤백]        │
+│           │                                                     │
+│           └─ 커널 코어 패닉 ─▶ [Kdump 메모리 덤프 분석]          │
+│                                        │                        │
+│   [근본 원인 분류 및 해결]              ▼                        │
+│     ├─ 보안 침해: 모듈 서명 강제 + modules_disabled              │
+│     ├─ 성능 부족: sysctl net.core.somaxconn, vm.swappiness 튜닝 │
+│     └─ 기능 결함: 커널 버전 업그레이드 또는 패치 적용             │
+│                                                                 │
+└─────────────────────────────────────────────────────────────────┘
+```
 
 ### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -221,32 +242,26 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">초기 모놀리식 커널 (UNIX, 1970s)</div></div>
-<div class="kb-diagram-note">단일 바이너리에 모든 기능 내장</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Linux 모놀리식 커널 (1991~)</div></div>
-<div class="kb-diagram-note">오픈소스 확산 + 방대한 드라이버 생태계</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">LKM (Loadable Kernel Module)</div></div>
-<div class="kb-diagram-note">런타임 드라이버 동적 로드로 유연성 확보</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">커널 하드닝 (Kernel Hardening)</div></div>
-<div class="kb-diagram-note">모듈 서명, KASLR, Stack Canary 등 보안 강화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">모듈형 모놀리식 (Modular Monolithic)</div></div>
-<div class="kb-diagram-note">컨테이너 격리 (Namespace/Cgroups) + LKM 결합</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">eBPF 기반 확장 (2015~)</div></div>
-<div class="kb-diagram-note">커널 재컴파일 없는 안전한 커널 내부 프로그래밍</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">미래: AI-driven Kernel Tuning</div></div>
-<div class="kb-diagram-note">자동화된 sysctl 파라미터 최적화 및 이상 탐지</div>
-</div>
-</div>
-
-
+```text
+[초기 모놀리식 커널 (UNIX, 1970s)]
+  │  단일 바이너리에 모든 기능 내장
+  ▼
+[Linux 모놀리식 커널 (1991~)]
+  │  오픈소스 확산 + 방대한 드라이버 생태계
+  ├──▶ [LKM (Loadable Kernel Module)]
+  │       런타임 드라이버 동적 로드로 유연성 확보
+  ├──▶ [커널 하드닝 (Kernel Hardening)]
+  │       모듈 서명, KASLR, Stack Canary 등 보안 강화
+  ▼
+[모듈형 모놀리식 (Modular Monolithic)]
+  │  컨테이너 격리 (Namespace/Cgroups) + LKM 결합
+  ▼
+[eBPF 기반 확장 (2015~)]
+  │  커널 재컴파일 없는 안전한 커널 내부 프로그래밍
+  ▼
+[미래: AI-driven Kernel Tuning]
+     자동화된 sysctl 파라미터 최적화 및 이상 탐지
+```
 
 모놀리식 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 안정성의 긴장 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 속에서, [LKM](/knowledge-base/studynote/02_operating_system/01_overview_architecture/067_lkm/) → [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)형 모놀리식 → eBPF로 이어지는 진화를 통해 두 가지 요구를 모두 충족하는 방향으로 발전하고 있다.
 

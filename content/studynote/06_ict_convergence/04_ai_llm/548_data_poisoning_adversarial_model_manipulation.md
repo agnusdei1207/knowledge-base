@@ -32,26 +32,26 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AI 보안 위협 전체 지형</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">훈련 단계 위협 추론 단계 위협</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 포이즈닝</div><div class="kb-diagram-cell">적대적 예제(Evasion)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">·백도어(트리거 삽입)</div><div class="kb-diagram-cell">·FGSM, PGD, C&amp;W</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">·클린-라벨 공격</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">·모델 독(Model Rot)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">멤버십 추론 공격</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">·Shadow Model</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">학습 완료 후 위협</div><div class="kb-diagram-cell">·Likelihood Test</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모델 추출(Stealing)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">·블랙박스 쿼리 반복</div><div class="kb-diagram-cell">모델 역전(Inversion)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">·훈련 데이터 복원</div></div>
-</div>
-</div>
-
-
+```
+┌───────────────────────────────────────────────────────────┐
+│               AI 보안 위협 전체 지형                        │
+│                                                           │
+│  훈련 단계 위협                   추론 단계 위협            │
+│  ┌─────────────────────┐         ┌────────────────────┐   │
+│  │ 데이터 포이즈닝       │         │ 적대적 예제(Evasion)│   │
+│  │ ·백도어(트리거 삽입) │         │ ·FGSM, PGD, C&W   │   │
+│  │ ·클린-라벨 공격      │         └────────────────────┘   │
+│  │ ·모델 독(Model Rot) │         ┌────────────────────┐   │
+│  └─────────────────────┘         │ 멤버십 추론 공격   │   │
+│                                  │ ·Shadow Model     │   │
+│  학습 완료 후 위협                │ ·Likelihood Test  │   │
+│  ┌─────────────────────┐         └────────────────────┘   │
+│  │ 모델 추출(Stealing) │         ┌────────────────────┐   │
+│  │ ·블랙박스 쿼리 반복 │         │ 모델 역전(Inversion)│   │
+│  └─────────────────────┘         │ ·훈련 데이터 복원  │   │
+│                                  └────────────────────┘   │
+└───────────────────────────────────────────────────────────┘
+```
 
 <strong><a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/947_data_poisoning/">데이터 포이즈닝</a> 세부 유형</strong>
 

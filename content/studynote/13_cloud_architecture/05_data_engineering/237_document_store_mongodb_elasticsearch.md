@@ -20,31 +20,26 @@ tags = ["studynote-cloud-architecture"]
 
 전자상거래 주문 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 RDBMS로 저장하려면 orders, order_items, shipping_addresses 등 여러 테이블로 정규화하고 JOIN해야 한다. 도큐먼트 저장소는 이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 <strong>하나의 <a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/">JSON</a> 문서</strong>로 저장하여 [JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 없이 단일 조회로 완성된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 반환한다.
 
+```
+[RDBMS vs Document Store 비교]
+RDBMS:
+  orders 테이블 + order_items 테이블 + addresses 테이블
+  → SELECT orders JOIN order_items JOIN addresses WHERE order_id=1
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">RDBMS vs Document Store 비교</div></div>
-<div class="kb-diagram-note">RDBMS:</div>
-<div class="kb-diagram-note">orders 테이블 + order_items 테이블 + addresses 테이블</div>
-<div class="kb-diagram-note">→ SELECT orders JOIN order_items JOIN addresses WHERE order_id=1</div>
-<div class="kb-diagram-note">Document Store (MongoDB):</div>
-<div class="kb-diagram-note">{</div>
-<div class="kb-diagram-note">"_id": "order_001",</div>
-<div class="kb-diagram-note">"customer": {"name": "김철수", "email": "kim@email.com"},</div>
-<div class="kb-diagram-note">"shipping": {"city": "서울", "street": "강남대로 100"},</div>
-<div class="kb-diagram-note">"items": [</div>
-<div class="kb-diagram-note">{"product": "책", "qty": 2, "price": 15000},</div>
-<div class="kb-diagram-note">{"product": "노트북", "qty": 1, "price": 1500000}</div>
-<div class="kb-diagram-note">],</div>
-<div class="kb-diagram-note">"total": 1530000,</div>
-<div class="kb-diagram-note">"status": "delivered"</div>
-<div class="kb-diagram-note">}</div>
-<div class="kb-diagram-note">→ db.orders.findOne({_id: "order_001"}) (단일 조회)</div>
-</div>
-</div>
-
-
+Document Store (MongoDB):
+  {
+    "_id": "order_001",
+    "customer": {"name": "김철수", "email": "kim@email.com"},
+    "shipping": {"city": "서울", "street": "강남대로 100"},
+    "items": [
+      {"product": "책", "qty": 2, "price": 15000},
+      {"product": "노트북", "qty": 1, "price": 1500000}
+    ],
+    "total": 1530000,
+    "status": "delivered"
+  }
+  → db.orders.findOne({_id: "order_001"})  (단일 조회)
+```
 
 📢 **섹션 요약 비유**: 도큐먼트 저장소는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 봉투 시스템이다. 한 건의 주문 관련 서류(고객 정보, 배송지, 상품 목록)를 봉투 하나에 다 넣어두면, 해당 주문 봉투만 꺼내면 모든 정보가 있다. RDBMS는 각 서류를 별도 서랍에 보관하고 매번 꺼내 맞춰야 한다.
 
@@ -54,22 +49,24 @@ tags = ["studynote-cloud-architecture"]
 
 ### [MongoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/540_mongodb/) 아키텍처
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MongoDB 클러스터 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Replica Set (복제 셋)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Primary ──▶ Secondary ──▶ Secondary (자동 장애복구)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sharded Cluster (샤드 클러스터)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">mongos (라우터)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Shard 1 (Replica Set): user_id 0~999</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Shard 2 (Replica Set): user_id 1000~1999</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Shard 3 (Replica Set): user_id 2000+</div></div>
-</div>
-</div>
-
-
+```
+┌────────────────────────────────────────────────────────────┐
+│                   MongoDB 클러스터 구조                      │
+│                                                            │
+│  ┌──────────────────────────────────────────────────────┐  │
+│  │  Replica Set (복제 셋)                               │  │
+│  │  Primary ──▶ Secondary ──▶ Secondary (자동 장애복구) │  │
+│  └──────────────────────────────────────────────────────┘  │
+│                                                            │
+│  ┌──────────────────────────────────────────────────────┐  │
+│  │  Sharded Cluster (샤드 클러스터)                     │  │
+│  │  mongos (라우터)                                     │  │
+│  │   ├── Shard 1 (Replica Set): user_id 0~999           │  │
+│  │   ├── Shard 2 (Replica Set): user_id 1000~1999       │  │
+│  │   └── Shard 3 (Replica Set): user_id 2000+           │  │
+│  └──────────────────────────────────────────────────────┘  │
+└────────────────────────────────────────────────────────────┘
+```
 
 ### [MongoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/540_mongodb/) 집계 파이프라인
 
@@ -89,48 +86,41 @@ db.orders.aggregate([
 
 ### [Elasticsearch](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/) 역인덱스 원리
 
+```
+[역인덱스 (Inverted Index) 구조]
+문서:
+  Doc 1: "Redis는 인메모리 캐시 데이터베이스이다"
+  Doc 2: "Redis Cluster로 분산 캐시를 구성한다"
+  Doc 3: "MongoDB는 도큐먼트 데이터베이스이다"
 
+역인덱스:
+  "Redis"      → [Doc1, Doc2]
+  "캐시"        → [Doc1, Doc2]
+  "데이터베이스" → [Doc1, Doc3]
+  "인메모리"    → [Doc1]
+  "MongoDB"    → [Doc3]
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">역인덱스 (Inverted Index) 구조</div></div>
-<div class="kb-diagram-note">문서:</div>
-<div class="kb-diagram-note">Doc 1: "Redis는 인메모리 캐시 데이터베이스이다"</div>
-<div class="kb-diagram-note">Doc 2: "Redis Cluster로 분산 캐시를 구성한다"</div>
-<div class="kb-diagram-note">Doc 3: "MongoDB는 도큐먼트 데이터베이스이다"</div>
-<div class="kb-diagram-note">역인덱스:</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Doc1, Doc2</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Doc1, Doc2</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Doc1, Doc3</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Doc1</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Doc3</div></div>
-<div class="kb-diagram-note">검색: "Redis 캐시"</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Doc1, Doc2</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Doc1, Doc2</div></div>
-<div class="kb-diagram-note">→ 교집합 + TF-IDF 스코어링 → Doc1(연관성 높음), Doc2</div>
-</div>
-</div>
-
-
+검색: "Redis 캐시"
+  → "Redis" 히트: [Doc1, Doc2]
+  → "캐시" 히트: [Doc1, Doc2]
+  → 교집합 + TF-IDF 스코어링 → Doc1(연관성 높음), Doc2
+```
 
 ### [Elasticsearch](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/) 아키텍처
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Elasticsearch 클러스터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Index: "products" (5 Primary Shards, Replica 1)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Node 1: Shard 0 (P) + Shard 3 (R)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Node 2: Shard 1 (P) + Shard 4 (R)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Node 3: Shard 2 (P) + Shard 0 (R)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Node 4: Shard 3 (P) + Shard 1 (R)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Node 5: Shard 4 (P) + Shard 2 (R)</div></div>
-<div class="kb-diagram-note">P = Primary, R = Replica</div>
-</div>
-</div>
-
-
+```
+[Elasticsearch 클러스터]
+┌─────────────────────────────────────────────────────┐
+│  Index: "products" (5 Primary Shards, Replica 1)    │
+│                                                     │
+│  Node 1: Shard 0 (P) + Shard 3 (R)                 │
+│  Node 2: Shard 1 (P) + Shard 4 (R)                 │
+│  Node 3: Shard 2 (P) + Shard 0 (R)                 │
+│  Node 4: Shard 3 (P) + Shard 1 (R)                 │
+│  Node 5: Shard 4 (P) + Shard 2 (R)                 │
+└─────────────────────────────────────────────────────┘
+P = Primary, R = Replica
+```
 
 📢 **섹션 요약 비유**: 역인덱스는 책 뒷면 색인([Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))과 같다. "[Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/)"를 색인에서 찾으면 관련 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 번호가 나오듯이, ES는 단어→문서 목록 매핑으로 수억 개 문서에서도 밀리초 만에 검색 결과를 반환한다.
 
@@ -154,22 +144,17 @@ db.orders.aggregate([
 
 ### ELK [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) ([Elasticsearch](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/) + Logstash + [Kibana](/knowledge-base/studynote/16_bigdata/08_visualization/169_kibana/))
 
+```
+[ELK 로그 분석 파이프라인]
+앱 서버 로그 → Filebeat → Logstash (파싱/변환) → Elasticsearch → Kibana
+             → Kafka (버퍼) → Logstash → Elasticsearch
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">ELK 로그 분석 파이프라인</div></div>
-<div class="kb-diagram-note">앱 서버 로그 → Filebeat → Logstash (파싱/변환) → Elasticsearch → Kibana</div>
-<div class="kb-diagram-note">→ Kafka (버퍼) → Logstash → Elasticsearch</div>
-<div class="kb-diagram-note">Kibana: ES 데이터 시각화 대시보드</div>
-<div class="kb-diagram-tree-item" style="--depth:1">로그 검색 (Discover)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">대시보드 (Dashboard)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">APM (Application Performance Monitoring)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">SIEM (보안 이벤트 모니터링)</div>
-</div>
-</div>
-
-
+Kibana: ES 데이터 시각화 대시보드
+  - 로그 검색 (Discover)
+  - 대시보드 (Dashboard)
+  - APM (Application Performance Monitoring)
+  - SIEM (보안 이벤트 모니터링)
+```
 
 📢 **섹션 요약 비유**: MongoDB는 회사 내부 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 서버(주문·고객 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장), Elasticsearch는 구글 검색(빠른 텍스트 검색·분석)이다. 많은 회사가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 서버에 저장하고, 중요 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 검색 시스템에도 인덱싱하는 방식으로 두 시스템을 병행한다.
 
@@ -221,7 +206,7 @@ db.orders.explain("executionStats").find({ customer_id: "U001" })
 }
 ```
 
-📢 **섹션 요약 비유**: [MongoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/540_mongodb/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 책의 목차다. "customer_id + status"로 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 만들면, 특정 고객의 특정 상태 주문을 목차에서 바로 찾을 수 있다. [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 없으면 모든 주문을 하나씩 확인해야 한다(Full Collection Scan).
+📢 **섹션 요약 비유**: [MongoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/540_mongodb/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 책의 목차다. "c고객_id + status"로 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 만들면, 특정 고객의 특정 상태 주문을 목차에서 바로 찾을 수 있다. [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 없으면 모든 주문을 하나씩 확인해야 한다(Full Collection Scan).
 
 ---
 
@@ -265,21 +250,17 @@ db.orders.explain("executionStats").find({ customer_id: "U001" })
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">RDBMS: 정규화 → JOIN 필요 (비용 ↑)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Document DB: JSON/BSON 문서 단위 저장 (JOIN 불필요)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">MongoDB: 범용 도큐먼트 DB</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Elasticsearch: 전문 검색 + 분석</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">활용: CMS · 카탈로그 · 사용자 프로필 · 로그</div>
-</div>
-</div>
-
-
+```text
+RDBMS: 정규화 → JOIN 필요 (비용 ↑)
+    │
+    ▼
+Document DB: JSON/BSON 문서 단위 저장 (JOIN 불필요)
+    ├─► MongoDB: 범용 도큐먼트 DB
+    └─► Elasticsearch: 전문 검색 + 분석
+    │
+    ▼
+활용: CMS · 카탈로그 · 사용자 프로필 · 로그
+```
 2. MongoDB는 자유 노트 앱이다. 줄이 없는 노트처럼 각 메모(문서)가 원하는 형태로 저장되고, 메모마다 다른 내용을 적어도 된다.
 3. Elasticsearch는 강력한 책 검색 시스템이다. "레시피 책"을 찾을 때 "레시피"나 "조리법"을 검색해도 찾아주고, 어떤 책이 더 관련 있는지 점수([TF-IDF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/232_tfidf_cosine_similarity_text_embedding_confusion_matrix/))로 정렬해서 보여준다.
 

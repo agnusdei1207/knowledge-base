@@ -35,20 +35,19 @@ tags = ["studynote-ai"]
 
 아래 그림은 같은 입력을 교사와 학생이 동시에 보고, 학생이 두 종류의 목표를 함께 학습하는 구조를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Distillation pipeline: one input, two learning signals</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">input x ─ ─▶ Teacher ─▶ logits z_t ─▶ Softmax(T) ─▶ q_t</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ Student ─▶ logits z_s ─▶ Softmax(T) ─▶ q_s</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ Softmax(1) ─▶ y_hat</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Loss = α·CE(y, y_hat) + (1-α)·KL(q_t</div><div class="kb-diagram-cell">q_s)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">hard label fitting teacher distribution matching</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Distillation pipeline: one input, two learning signals              │
+├──────────────────────────────────────────────────────────────────────┤
+│ input x ─┬─▶ Teacher ─▶ logits z_t ─▶ Softmax(T) ─▶ q_t             │
+│          │                                                           │
+│          └─▶ Student ─▶ logits z_s ─▶ Softmax(T) ─▶ q_s             │
+│                                   └─▶ Softmax(1) ─▶ y_hat           │
+│                                                                      │
+│ Loss = α·CE(y, y_hat) + (1-α)·KL(q_t || q_s)                         │
+│        hard label fitting      teacher distribution matching         │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 여기서 온도는 매우 중요하다. [Softmax](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/) 함수의 온도 T를 높이면 정답 이외의 클래스 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)도 더 평평하게 드러나서, 학생이 교사의 "헷갈림 구조"를 볼 수 있다. 이 정보는 흔히 다크 지식 (Dark Knowledge)이라 부르며, 예를 들어 고양이 사진에서 "개와는 조금 비슷하지만 자동차와는 거의 무관하다"는 식의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 전달한다.
 
@@ -135,24 +134,22 @@ tags = ["studynote-ai"]
 
 ### 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Large Teacher Model</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Soft Target + Dark Knowledge</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Knowledge Distillation</div>
-<div class="kb-diagram-tree-item" style="--depth:3">▶ Self-Distillation</div>
-<div class="kb-diagram-tree-item" style="--depth:3">▶ Feature Distillation</div>
-<div class="kb-diagram-tree-item" style="--depth:3">▶ Multi-Teacher Distillation</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Edge AI / On-device Inference / Low-latency Service</div>
-</div>
-</div>
-
-
+```text
+Large Teacher Model
+       │
+       ▼
+Soft Target + Dark Knowledge
+       │
+       ▼
+Knowledge Distillation
+       │
+       ├──▶ Self-Distillation
+       ├──▶ Feature Distillation
+       └──▶ Multi-Teacher Distillation
+       │
+       ▼
+Edge AI / On-device Inference / Low-latency Service
+```
 
 이 흐름은 "대형 모델의 지식 확보 → 분포 전달 → 경량 학생 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) → 배포 최적화"로 이어지는 확장 경로를 보여준다.
 

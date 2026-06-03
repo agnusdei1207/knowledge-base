@@ -33,19 +33,17 @@ LLVM (Low Level [Virtual Machine](/knowledge-base/studynote/01_computer_architec
 
 LLVM IR의 핵심 특징은 정적 단일 대입 (SSA, Static Single Assignment) 구조다. SSA에서는 값이 한 번 정의되면 다른 이름으로 다시 정의되므로, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름 분석이 쉬워지고 불필요한 코드 제거, 상수 전파, 루프 변환 같은 최적화가 정교해진다. 또한 타입과 메모리 접근이 비교적 명시적이어서, 하드웨어 독립적인 상태에서도 기계어 수준에 가까운 판단을 내릴 수 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LLVM compile pipeline</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Source → Frontend → LLVM IR → Mid-end → Machine IR → Backend → ISA</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C/Rust Clang typed SSA inline / isel / x86 / Arm /</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ flow vectorize regalloc RISC-V</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Target Triple + Data Layout guide lowering and code generation</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────────┐
+│ LLVM compile pipeline                                               │
+├─────────────────────────────────────────────────────────────────────┤
+│ Source → Frontend → LLVM IR → Mid-end → Machine IR → Backend → ISA │
+│ C/Rust   Clang     typed SSA   inline /   isel /      x86 / Arm /  │
+│                    + flow      vectorize  regalloc    RISC-V       │
+├─────────────────────────────────────────────────────────────────────┤
+│ Target Triple + Data Layout guide lowering and code generation      │
+└─────────────────────────────────────────────────────────────────────┘
+```
 
 이 파이프라인에서 중간부는 공통 최적화를 담당하고, 후반부는 하드웨어 특화 처리를 담당한다. 타깃 트리플 (Target Triple)과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 레이아웃 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Layout)은 포인터 크기, 엔디언, 호출 규약, 정렬 규칙을 알려 주어, 같은 LLVM IR이라도 타깃마다 다른 코드가 나오도록 만든다. 이후 기계 [IR](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/) 단계에서 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 선택, [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 할당, 스케줄링이 수행되며 최종 바이너리가 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된다.
 
@@ -139,22 +137,19 @@ LLVM [IR](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Language × Architecture 별 개별 컴파일러</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Common IR 도입 = LLVM IR</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Shared Mid-end Optimization</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ Target-specific Backend</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ LTO · Auto-vectorization</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ MLIR 기반 Heterogeneous Lowering</div>
-</div>
-</div>
-
-
+```text
+Language × Architecture 별 개별 컴파일러
+        │
+        ▼
+Common IR 도입 = LLVM IR
+        │
+        ▼
+Shared Mid-end Optimization
+        │
+        ├────────▶ Target-specific Backend
+        ├────────▶ LTO · Auto-vectorization
+        └────────▶ MLIR 기반 Heterogeneous Lowering
+```
 
 이 흐름은 컴파일러 구조가 [일대일](/knowledge-base/studynote/02_operating_system/02_process_thread/099_one_to_one_model/) 번역에서 공통 최적화 중심 구조로 바뀌고, 다시 이기종 하드웨어 전체를 아우르는 방향으로 확장되는 과정을 보여 준다.
 

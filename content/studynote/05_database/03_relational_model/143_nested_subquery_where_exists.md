@@ -18,22 +18,16 @@ tags = ["studynote-database"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">SELECT * FROM customer c WHERE EXISTS (</div>
-<div class="kb-diagram-note">SELECT 1 FROM orders o WHERE o.cust_id = c.id</div>
-<div class="kb-diagram-note">AND EXISTS (</div>
-<div class="kb-diagram-note">SELECT 1 FROM returns r WHERE r.order_id = o.id</div>
-<div class="kb-diagram-note">)</div>
-<div class="kb-diagram-note">);</div>
-<div class="kb-diagram-note">→ 주문이 있고, 그 주문에 반품이 있는 고객</div>
-<div class="kb-diagram-note">→ CTE 분해 권장 (가독성)</div>
-</div>
-</div>
-
-
+```text
+SELECT * FROM customer c WHERE EXISTS (
+  SELECT 1 FROM orders o WHERE o.cust_id = c.id
+    AND EXISTS (
+      SELECT 1 FROM returns r WHERE r.order_id = o.id
+    )
+);
+→ 주문이 있고, 그 주문에 반품이 있는 고객
+→ CTE 분해 권장 (가독성)
+```
 
 - **📢 섹션 요약 비유**: 중첩 서브쿼리는 <strong>러시안 마트료시카(인형 안의 인형)</strong>이다. 열면 안에 또 있다.
 
@@ -57,18 +51,12 @@ tags = ["studynote-database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">단일 서브쿼리</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">중첩 서브쿼리 (복잡)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">CTE 분해 (가독성)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">LATERAL/APPLY (고급)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: 옵티마이저 자동 Flatten — 중첩 해소</div></div>
-</div>
-</div>
-
-
+```text
+[단일 서브쿼리] → [중첩 서브쿼리 (복잡)]
+    → [CTE 분해 (가독성)]
+    → [LATERAL/APPLY (고급)]
+    → [현재: 옵티마이저 자동 Flatten — 중첩 해소]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 중첩 서브쿼리는 <strong>마트료시카 인형</strong>이에요. 열면 **안에 또 있어요**.

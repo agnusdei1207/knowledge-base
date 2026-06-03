@@ -29,22 +29,26 @@ CNAPP은 이 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CNAPP 통합 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Risk Graph</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(취약점 + 노출도 + 권한 조합 -&gt; 실제 공격 경로 시각화)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">v v v</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CSPM CWPP IaC 보안</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(설정 오류) (런타임) (Terraform)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">v</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Agentless (스냅샷) + Agent (런타임) 복합 탐지</div></div>
-</div>
-</div>
-
-
+```text
++--------------------------------------------------------------+
+|                    CNAPP 통합 구조                            |
++--------------------------------------------------------------+
+|                                                              |
+|  +----------------------------------------------------------+ |
+|  |                    Risk Graph                            | |
+|  |  (취약점 + 노출도 + 권한 조합 -> 실제 공격 경로 시각화) | |
+|  +----------------------------------------------------------+ |
+|               |                                             |
+|    +----------+----------+                                  |
+|    v          v          v                                  |
+|  CSPM       CWPP       IaC 보안                             |
+|  (설정 오류) (런타임)  (Terraform)                          |
+|    |          |          |                                  |
+|    +----------+----------+                                  |
+|               v                                             |
+|  Agentless (스냅샷) + Agent (런타임) 복합 탐지              |
++--------------------------------------------------------------+
+```
 
 | 구성 요소 | 역할 |
 |:---|:---|
@@ -115,19 +119,14 @@ CNAPP의 핵심 가치는 <strong>"개별 취약점이 아니라 공격 경로(A
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">분리된 보안 도구 CNAPP 등장 현대 CNAPP</div>
-<div class="kb-diagram-note">CSPM 별도 -&gt; Gartner CNAPP 정의(2021) -&gt; Risk Graph 중심</div>
-<div class="kb-diagram-note">CWPP 별도 Wiz Agentless 혁신 AI 기반 공격 예측</div>
-<div class="kb-diagram-note">IaC 스캐너 별도 멀티클라우드 통합 Supply Chain 통합</div>
-<div class="kb-diagram-note">Alert Fatigue Risk Graph 우선순위화 SBOM + CNAPP 연동</div>
-</div>
-</div>
-
-
+```text
+분리된 보안 도구              CNAPP 등장                현대 CNAPP
+------------------   --------------------------   ------------------------
+CSPM 별도           ->  Gartner CNAPP 정의(2021)  ->  Risk Graph 중심
+CWPP 별도                Wiz Agentless 혁신           AI 기반 공격 예측
+IaC 스캐너 별도            멀티클라우드 통합             Supply Chain 통합
+Alert Fatigue              Risk Graph 우선순위화         SBOM + CNAPP 연동
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

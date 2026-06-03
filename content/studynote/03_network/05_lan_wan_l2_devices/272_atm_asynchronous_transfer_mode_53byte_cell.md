@@ -24,18 +24,14 @@ tags = ["studynote-network"]
 
 - **💡 비유**: 일반적인 인터넷망이 트럭, 승용차, 오토바이가 마구잡이로 뒤섞여 달리는 <strong>"일반 도로"</strong>라면, ATM은 모든 화물을 똑같은 크기의 <strong>"53cm 규격 택배 상자(Cell)"</strong>로 잘게 포장해서 컨베이어 벨트에 끝없이 쏟아붓는 <strong>"최첨단 물류 센터"</strong>입니다. 상자 크기가 똑같으니 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 기계(ATM [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))가 박스를 눈감고도 초광속으로 쳐낼 수 있습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">CIR / FECN, BECN 혼잡 알림</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ATM</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ATM 동기화</div></div>
-</div>
-</div>
-
-
+```text
+[CIR / FECN, BECN 혼잡 알림]
+    │
+    ▼
+[ATM]
+    │
+    └──▶ [ATM 동기화]
+```
 
 - **📢 섹션 요약 비유**: <strong> ATM은 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>(돌덩이)와 음성(물)을 섞어 보내기 위해 모든 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 똑같은 크기의 </strong>"얼음 큐브(53바이트 셀)"**로 얼려서 파이프로 쏘아 보내는 완벽한 융합 통신 모델이었습니다.
 
@@ -54,23 +50,26 @@ ITU-T 회의장에서 페이로드 크기를 두고 미국과 유럽이 치열�
 - **유럽 (음성 중심)**: "아닙니다! 우리는 나라가 다닥다닥 붙어있어 전화 통화(음성) [에코](/knowledge-base/studynote/03_network/01_data_communication/031_에코_반향/)(메아리) 지연에 민감합니다. 셀이 다 채워질 때까지 기다리는 시간을 줄이려면 작게 <strong>32바이트</strong>로 갑시다!"
 - **결론**: 치열한 기싸움 끝에 $ \frac{64 + 32}{2} = 48 $ 이라는 타협안을 도출했다. (그래서 전 세계 IT 역사상 유일하게 2의 승수(16, 32, 64)가 아닌 48바이트라는 괴상한 규격이 탄생했다.)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이더넷 패킷과 ATM 셀(Cell)의 쪼개기 비유</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">인터넷 (IP 패킷)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IP 패킷 (최대 1500 Bytes) - 뚱뚱해서 통과하는 데 1초 걸림</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(이 녀석이 스위치를 통과하는 동안 뒤에 있는 '음성' 패킷은 대기)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ATM 망 (Cell 릴레이)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IP 패킷을 잘게 썰어서 53바이트씩 포장해 버린다!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">53</div><div class="kb-diagram-cell">53</div><div class="kb-diagram-cell">53</div><div class="kb-diagram-cell">53</div><div class="kb-diagram-cell">53</div><div class="kb-diagram-cell">53</div><div class="kb-diagram-cell">53</div><div class="kb-diagram-cell">53</div><div class="kb-diagram-cell">53</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: 중간중간에 실시간 '전화(음성)' 셀을 쏙쏙 끼워 넣을 수 있어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">딜레이 없이 멀티미디어 통신이 완벽하게 융합된다.</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                이더넷 패킷과 ATM 셀(Cell)의 쪼개기 비유          │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 인터넷 (IP 패킷) ]                                        │
+ │   ┌──────────────────────────────────────────────┐        │
+ │   │ IP 패킷 (최대 1500 Bytes) - 뚱뚱해서 통과하는 데 1초 걸림    │        │
+ │   └──────────────────────────────────────────────┘        │
+ │       (이 녀석이 스위치를 통과하는 동안 뒤에 있는 '음성' 패킷은 대기)   │
+ │                                                             │
+ │   [ ATM 망 (Cell 릴레이) ]                                    │
+ │   IP 패킷을 잘게 썰어서 53바이트씩 포장해 버린다!                  │
+ │   ┌──┐ ┌──┐ ┌──┐ ┌──┐ ┌──┐ ┌──┐ ┌──┐ ┌──┐ ┌──┐              │
+ │   │53│ │53│ │53│ │53│ │53│ │53│ │53│ │53│ │53│              │
+ │   └──┘ └──┘ └──┘ └──┘ └──┘ └──┘ └──┘ └──┘ └──┘              │
+ │   ▶ 결과: 중간중간에 실시간 '전화(음성)' 셀을 쏙쏙 끼워 넣을 수 있어    │
+ │          딜레이 없이 멀티미디어 통신이 완벽하게 융합된다.            │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 3. ATM의 몰락 (셀 택스, Cell Tax)
 천재적인 아이디어였으나 치명적인 딜레마가 있었다. 바로 <strong>오버헤드(Cell Tax)</strong>다.
@@ -133,19 +132,15 @@ ATM는 LAN/WAN과 2계층 장비를 이해할 때 핵심 축을 잡아 주는 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: CIR / FECN, BECN 혼잡 알림</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: ATM</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: ATM 동기화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 캠퍼스 패브릭</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: CIR / FECN, BECN 혼잡 알림]
+    │
+    ▼
+[현재 개념: ATM]
+    │
+    ├──▶ [확장 A: ATM 동기화]
+    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
+```
 
 ATM는 [CIR](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/271_cir_fecn_becn_congestion_notification/) / FECN, BECN 혼잡 알림에서 출발해 현재 메커니즘을 정교화하고, 이후 ATM [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

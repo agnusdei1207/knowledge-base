@@ -25,20 +25,19 @@ tags = ["studynote-algorithm-stats"]
 
 **삽입 정렬의 존재 이유**: "앞부분은 이미 정렬되어 있다"는 확신을 전제로, 타겟 원소보다 큰 값을 만나는 순간만 뒤로 밀고, **자신보다 작은 값을 만나는 즉시 탐색을 멈추는(Break)** [조기 종료](/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/) 메커니즘이 핵심이다. 이 최적화 때문에 거의 정렬된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 O(N)에 수렴한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">삽입 정렬 vs 선택 정렬 — 비교 횟수 차이 직관화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">배열:</div><div class="kb-diagram-node">1, 2, 3, 4, 99</div><div class="kb-diagram-note">(거의 정렬 완료 상태)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">선택 정렬: 99를 정렬하기 위해 1, 2, 3, 4, 99를 끝까지 순회</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 항상 N(N-1)/2 번 비교 (맹목적 완전 탐색)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">삽입 정렬: 99를 뽑아 앞의 4와 비교 → 4 &lt; 99 이므로 즉시 멈춤</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 단 1번의 비교로 1패스 종료! (조기 종료의 위력)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│      [삽입 정렬 vs 선택 정렬 — 비교 횟수 차이 직관화]           │
+├──────────────────────────────────────────────────────────────────┤
+│  배열: [ 1, 2, 3, 4, 99 ]  (거의 정렬 완료 상태)                │
+│                                                                  │
+│  선택 정렬:  99를 정렬하기 위해 1, 2, 3, 4, 99를 끝까지 순회   │
+│              → 항상 N(N-1)/2 번 비교 (맹목적 완전 탐색)         │
+│                                                                  │
+│  삽입 정렬:  99를 뽑아 앞의 4와 비교 → 4 < 99 이므로 즉시 멈춤 │
+│              → 단 1번의 비교로 1패스 종료! (조기 종료의 위력)   │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 삽입 정렬은 도서관 사서가 반납된 책을 꽂는 방식이다. 처음부터 끝까지 훑지 않고, 이미 꽂힌 책들 사이를 눈으로 훑다가 딱 맞는 틈을 발견하는 순간 꽂고(Insert) 즉시 다음 책을 집으러 간다.
 
@@ -48,34 +47,35 @@ tags = ["studynote-algorithm-stats"]
 
 삽입 정렬은 두 번째 원소([Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 1)부터 시작하여, 그 앞의 원소들과 역순으로 비교하며 삽입 위치를 찾는다. 핵심 연산은 <strong>Swap(교환) 대신 Shift(이동)</strong>이다: 타겟 값을 임시 변수에 복사하고, 타겟보다 큰 값들을 우측으로 한 칸씩 밀어낸 후, 빈자리에 타겟을 삽입한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">삽입 정렬 동작 과정 — 오름차순</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">초기 배열:</div><div class="kb-diagram-node">8, 5, 2, 6, 9</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(첫 번째 원소 8은 단독이므로 정렬된 영역으로 간주)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 1회전 (Pass 1): 타겟 = '5'</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">정렬됨:</div><div class="kb-diagram-node">8</div><div class="kb-diagram-note">미정렬:</div><div class="kb-diagram-node">5, 2, 6, 9</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5 &lt; 8 → 8을 우측으로 Shift</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">결과:</div><div class="kb-diagram-node">5, 8 | 2, 6, 9</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 2회전 (Pass 2): 타겟 = '2'</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">정렬됨:</div><div class="kb-diagram-node">5, 8</div><div class="kb-diagram-note">미정렬:</div><div class="kb-diagram-node">2, 6, 9</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2 &lt; 8 → 8 Shift, 2 &lt; 5 → 5 Shift, 맨 앞에 2 삽입</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">결과:</div><div class="kb-diagram-node">2, 5, 8 | 6, 9</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 3회전 (Pass 3): 타겟 = '6' ★ 조기 종료 핵심 ★</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">정렬됨:</div><div class="kb-diagram-node">2, 5, 8</div><div class="kb-diagram-note">미정렬:</div><div class="kb-diagram-node">6, 9</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6 &lt; 8 → 8 Shift</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6 &gt; 5 → 즉시 탐색 중단! (2는 비교조차 안 함)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">결과:</div><div class="kb-diagram-node">2, 5, 6, 8 | 9</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 4회전 (Pass 4): 타겟 = '9'</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">정렬됨:</div><div class="kb-diagram-node">2, 5, 6, 8</div><div class="kb-diagram-note">미정렬:</div><div class="kb-diagram-node">9</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">9 &gt; 8 → 즉시 탐색 중단! (단 1번 비교)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">결과:</div><div class="kb-diagram-node">2, 5, 6, 8, 9</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">정렬 완료</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│              [ 삽입 정렬 동작 과정 — 오름차순 ]                  │
+│                                                                  │
+│  초기 배열: [ 8, 5, 2, 6, 9 ]                                    │
+│  (첫 번째 원소 8은 단독이므로 정렬된 영역으로 간주)              │
+│                                                                  │
+│  ── 1회전 (Pass 1): 타겟 = '5' ───────────────────────────────  │
+│   정렬됨: [8]   미정렬: [5, 2, 6, 9]                            │
+│   5 < 8 → 8을 우측으로 Shift                                     │
+│   결과: [ 5, 8 | 2, 6, 9 ]                                       │
+│                                                                  │
+│  ── 2회전 (Pass 2): 타겟 = '2' ───────────────────────────────  │
+│   정렬됨: [5, 8]   미정렬: [2, 6, 9]                            │
+│   2 < 8 → 8 Shift, 2 < 5 → 5 Shift, 맨 앞에 2 삽입             │
+│   결과: [ 2, 5, 8 | 6, 9 ]                                       │
+│                                                                  │
+│  ── 3회전 (Pass 3): 타겟 = '6' ★ 조기 종료 핵심 ★ ─────────── │
+│   정렬됨: [2, 5, 8]   미정렬: [6, 9]                            │
+│   6 < 8 → 8 Shift                                               │
+│   6 > 5 → 즉시 탐색 중단! (2는 비교조차 안 함)                  │
+│   결과: [ 2, 5, 6, 8 | 9 ]                                       │
+│                                                                  │
+│  ── 4회전 (Pass 4): 타겟 = '9' ───────────────────────────────  │
+│   정렬됨: [2, 5, 6, 8]   미정렬: [9]                            │
+│   9 > 8 → 즉시 탐색 중단! (단 1번 비교)                         │
+│   결과: [ 2, 5, 6, 8, 9 ]  ← 정렬 완료                          │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> 의사코드 (Pseudocode)</strong>:
 
@@ -121,29 +121,28 @@ for i = 1 to n-1:
 
 ### 현대 하이브리드 정렬에서의 역할
 
+```text
+  거대 배열 (N > 1,000,000)
+          │
+          ▼
+  퀵 정렬 / 병합 정렬로 분할 (Divide)
+  → O(N log N) 전체 틀을 잡음
+          │
+          ▼
+  분할된 서브배열 크기 ≤ 32개?
+          │
+          YES ──────────────────────▶
+          │                          │
+          │                [삽입 정렬로 마무리]
+          │                 O(N)에 가까운 성능
+          ▼
+  계속 분할 반복
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">거대 배열 (N &gt; 1,000,000)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">퀵 정렬 / 병합 정렬로 분할 (Divide)</div>
-<div class="kb-diagram-note">→ O(N log N) 전체 틀을 잡음</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">분할된 서브배열 크기 ≤ 32개?</div>
-<div class="kb-diagram-note">YES ▶</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">삽입 정렬로 마무리</div></div>
-<div class="kb-diagram-note">O(N)에 가까운 성능</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">계속 분할 반복</div>
-<div class="kb-diagram-note">※ Python sort(), Java Arrays.sort() =</div>
-<div class="kb-diagram-note">Timsort (병합 정렬 + 삽입 정렬)</div>
-<div class="kb-diagram-note">※ C++ std::sort() = Introsort</div>
-<div class="kb-diagram-note">(퀵 정렬 + 힙 정렬 + 삽입 정렬)</div>
-</div>
-</div>
-
-
+  ※ Python sort(), Java Arrays.sort() =
+     Timsort (병합 정렬 + 삽입 정렬)
+  ※ C++ std::sort() = Introsort
+     (퀵 정렬 + 힙 정렬 + 삽입 정렬)
+```
 
 📢 **섹션 요약 비유**: 운동장을 쓸 때는 불도저([퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/))가 맞지만, 책상 밑 구석을 불도저로 밀면 벽이 부서진다. 작은 구석은 작은 빗자루(삽입 정렬)로 싹싹 쓸어 담는 것이 엔지니어링의 정수다.
 
@@ -167,24 +166,19 @@ for i = 1 to n-1:
 
 **이진 삽입 정렬 (Binary Insertion Sort)**: 삽입 위치를 [이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/)([Binary Search](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/))으로 찾아 비교 횟수를 O(log N)으로 줄인다. 그러나 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) Shift 연산 비용은 여전히 O(N)이므로 전체 [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/)는 동일하다. **비교 비용이 매우 큰(예: 문자열 비교)** 경우에 유의미한 개선 효과가 있다.
 
+```text
+  [기술사 판단 흐름도]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">기술사 판단 흐름도</div></div>
-<div class="kb-diagram-note">데이터 크기 N ≤ 32?</div>
-<div class="kb-diagram-tree-item" style="--depth:1">YES: 삽입 정렬 (O(N)에 가까움)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">NO:</div>
-<div class="kb-diagram-note">안정 정렬 필요?</div>
-<div class="kb-diagram-tree-item" style="--depth:3">YES: 병합 정렬 또는 Timsort</div>
-<div class="kb-diagram-tree-item" style="--depth:3">NO:</div>
-<div class="kb-diagram-note">메모리 제약?</div>
-<div class="kb-diagram-tree-item" style="--depth:6">YES (O(1)): 힙 정렬</div>
-<div class="kb-diagram-tree-item" style="--depth:6">NO: 퀵 정렬 (평균 O(N log N))</div>
-</div>
-</div>
-
-
+  데이터 크기 N ≤ 32?
+  ├── YES: 삽입 정렬 (O(N)에 가까움)
+  └── NO:
+       안정 정렬 필요?
+       ├── YES: 병합 정렬 또는 Timsort
+       └── NO:
+            메모리 제약?
+            ├── YES (O(1)): 힙 정렬
+            └── NO: 퀵 정렬 (평균 O(N log N))
+```
 
 📢 **섹션 요약 비유**: 삽입 정렬은 "마지막 1인치를 정밀하게 조이는 드라이버"다. 굵은 나사는 임팩트 드릴([퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/))로 박지만, 마지막 조임은 정밀 드라이버(삽입 정렬)로 완성해야 제대로 박힌다.
 
@@ -221,23 +215,22 @@ for i = 1 to n-1:
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">버블/선택 정렬 — O(N²), 조기 종료 없음</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">삽입 정렬 — O(N²) / O(N) Best, 조기 종료, 안정 정렬</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">셸 정렬 — Gap 간격 활용, O(N^1.5)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">이진 삽입 정렬 — 이진 탐색으로 위치 결정</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">팀소트 (Timsort) — 병합 정렬 + 삽입 정렬 하이브리드</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">인트로소트 (Introsort) — 퀵 + 힙 + 삽입 정렬 3단 하이브리드</div></div>
-</div>
-</div>
-
-
+```text
+[버블/선택 정렬 — O(N²), 조기 종료 없음]
+          │
+          ▼
+[삽입 정렬 — O(N²) / O(N) Best, 조기 종료, 안정 정렬]
+          │
+          ├──▶ [셸 정렬 — Gap 간격 활용, O(N^1.5)]
+          │
+          └──▶ [이진 삽입 정렬 — 이진 탐색으로 위치 결정]
+                    │
+                    ▼
+          [팀소트 (Timsort) — 병합 정렬 + 삽입 정렬 하이브리드]
+                    │
+                    ▼
+          [인트로소트 (Introsort) — 퀵 + 힙 + 삽입 정렬 3단 하이브리드]
+```
 
 단순 O(N²)에서 출발한 삽입 정렬이 [셸 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/029_shell_sort/)로 진화하고, 현대 하이브리드 정렬 엔진의 핵심 부품으로 통합된 흐름이다.
 

@@ -31,25 +31,31 @@ tags = ["studynote-computer-architecture"]
 ### 4대 구성 요소와 [시스템 버스](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/127_system_bus/)
 이 아키텍처는 필연적으로 CPU와 메모리를 분리하고 그 사이를 단일한 공용 도로([Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))로 잇는 구조를 취한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">폰 노이만 아키텍처 (내장형 프로그램 구조)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">중앙 처리 장치 (CPU)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제어 장치 (CU)</div><div class="kb-diagram-cell">연산 장치 (ALU)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(명령어 해독/제어)</div><div class="kb-diagram-cell">(실제 덧셈/논리)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(명령어/데이터)</div><div class="kb-diagram-cell">(결과값)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시스템 버스</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">메인 메모리</div><div class="kb-diagram-node">입출력 장치 (I/O)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(프로그램 명령어 + 데이터) (키보드, 마우스, 디스플레이)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심 병목 지점: 메모리에 명령어(Code)와 데이터(Data)가 같이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">들어있어, 하나의 버스(Bus)를 놓고 서로 번갈아 가며 지나가야</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하므로 극심한 교통 체증(Bottleneck)이 발생한다.</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────┐
+│           폰 노이만 아키텍처 (내장형 프로그램 구조)            │
+├────────────────────────────────────────────────────────┤
+│                                                        │
+│     [ 중앙 처리 장치 (CPU) ]                             │
+│     ┌──────────────────┬──────────────────┐            │
+│     │   제어 장치 (CU)   │   연산 장치 (ALU)  │            │
+│     │ (명령어 해독/제어) │ (실제 덧셈/논리)   │            │
+│     └──────────────────┴──────────────────┘            │
+│                 ▲              │                       │
+│                 │ (명령어/데이터) │ (결과값)               │
+│                 ▼              ▼                       │
+│ ═════════════════ [ 시스템 버스 ] ═════════════════════│
+│                 ▲              ▲                       │
+│                 │              │                       │
+│                 ▼              ▼                       │
+│        [ 메인 메모리 ]      [ 입출력 장치 (I/O) ]        │
+│    (프로그램 명령어 + 데이터)  (키보드, 마우스, 디스플레이)   │
+│                                                        │
+│ * 핵심 병목 지점: 메모리에 명령어(Code)와 데이터(Data)가 같이 │
+│   들어있어, 하나의 버스(Bus)를 놓고 서로 번갈아 가며 지나가야 │
+│   하므로 극심한 교통 체증(Bottleneck)이 발생한다.          │
+└────────────────────────────────────────────────────────┘
+```
 
 1. **Fetch (인출)**: CPU가 메모리에서 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)(예: `ADD`)를 가져온다.
 2. **Decode (해독)**: 제어 장치가 그 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 덧셈인지 뺄셈인지 해독한다.
@@ -112,23 +118,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">하드와이어드(Hardwired) 프로그래밍 방식의 물리적 한계 직면</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">내장형 프로그램(Stored-program) 도입 ──▶ 폰 노이만 아키텍처 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">메모리 공유로 인한 순차적 처리 지연 ──▶ 폰 노이만 병목(Bottleneck) 현상 부각</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">데이터와 명령어를 분리하는 하버드 아키텍처 제안</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">현대 CPU의 융합 ──▶ 외부 메인 메모리는 폰 노이만, 내부 캐시는 하버드 구조(수정된 하버드 아키텍처) 채택</div>
-</div>
-</div>
-
-
+```text
+하드와이어드(Hardwired) 프로그래밍 방식의 물리적 한계 직면
+    │
+    ▼
+내장형 프로그램(Stored-program) 도입 ──▶ 폰 노이만 아키텍처 정립
+    │
+    ▼
+메모리 공유로 인한 순차적 처리 지연 ──▶ 폰 노이만 병목(Bottleneck) 현상 부각
+    │
+    ▼
+데이터와 명령어를 분리하는 하버드 아키텍처 제안
+    │
+    ▼
+현대 CPU의 융합 ──▶ 외부 메인 메모리는 폰 노이만, 내부 캐시는 하버드 구조(수정된 하버드 아키텍처) 채택
+```
 
 이 흐름도는 "범용성 획득 → 구조적 병목에 의한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 한계 직면 → 캐시와 하버드 구조 융합을 통한 타협적 진화"로 이어지는 현대 컴퓨팅 하드웨어의 아키텍처 발전사를 보여준다.
 

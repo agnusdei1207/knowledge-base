@@ -43,23 +43,21 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 서버 fan wall이 고장 시 어떻게 airflow를 유지하는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hot-swap fan wall keeps airflow while one failed module is replaced</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">F1</div><div class="kb-diagram-node">F2</div><div class="kb-diagram-node">F3</div><div class="kb-diagram-node">F4</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">CPU / DIMM / VRM zone -&gt; Rear exhaust</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">X</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">failed module</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BMC action:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) detect tach loss</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) boost F1,F2,F4</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) technician removes F3 cartridge</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4) new F3 inserted, airflow normalizes</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│      Hot-swap fan wall keeps airflow while one failed module is replaced  │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Front intake -> [F1][F2][F3][F4] -> CPU / DIMM / VRM zone -> Rear exhaust │
+│                         X                                                  │
+│                     failed module                                          │
+│                                                                            │
+│ BMC action:                                                                │
+│   1) detect tach loss                                                      │
+│   2) boost F1,F2,F4                                                        │
+│   3) technician removes F3 cartridge                                       │
+│   4) new F3 inserted, airflow normalizes                                   │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 핵심은 팬 교체 순간에도 냉각 경로가 완전히 무너지지 않도록 <strong>감시, 여유 용량, 기계적 정렬</strong>이 한 세트로 동작한다는 점이다.
 - **📢 섹션 요약 비유**: 공연장 환풍기 한 대가 멈췄을 때 남은 환풍기를 잠시 더 세게 돌리고, 고장 난 카트리지만 서랍처럼 빼서 갈아 끼우는 것과 같다. 공연은 멈추지 않고 환기만 즉시 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)된다.
@@ -131,23 +129,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Fixed non-serviceable chassis fan</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Redundant fan wall</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Blind-mate hot-swap fan module</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">BMC-driven thermal zoning and automatic boost</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Predictive maintenance and closed-loop service orchestration</div>
-</div>
-</div>
-
-
+```text
+Fixed non-serviceable chassis fan
+        │
+        ▼
+Redundant fan wall
+        │
+        ▼
+Blind-mate hot-swap fan module
+        │
+        ▼
+BMC-driven thermal zoning and automatic boost
+        │
+        ▼
+Predictive maintenance and closed-loop service orchestration
+```
 
 이 흐름은 냉각팬이 단순 회전 부품에서 출발해, 이제는 센서·제어·정비 절차까지 통합된 고가용성 인프라로 발전하고 있음을 보여 준다.
 

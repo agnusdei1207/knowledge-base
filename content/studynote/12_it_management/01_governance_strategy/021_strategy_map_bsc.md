@@ -38,24 +38,27 @@ CEO가 "매출 20% 증가!"라는 재무적 [전략](/knowledge-base/studynote/0
 ### 1. [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 체계도의 4대 핵심 아키텍처 ([BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/) 4관점 기반)
 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 체계도는 무작정 그리는 것이 아니라, 반드시 상향식([Bottom-Up](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/403_bottom_up_integration/))의 강력한 인과관계(Cause and Effect) 화살표를 통해 4가지 계층을 관통해야 합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">전략 체계도(Strategy Map) 핵심 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">4. 재무 관점 (Financial Perspective)</div><div class="kb-diagram-note">- 주주 가치 창출</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">생산성 향상 (원가 절감)</div><div class="kb-diagram-node">수익 성장 (신규 시장)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">3. 고객 관점 (Customer Perspective)</div><div class="kb-diagram-note">- 고객 가치 제안</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">저렴한 가격 / 빠른 납기</div><div class="kb-diagram-node">제품 품질 / 신뢰성</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">2. 내부 프로세스 관점 (Internal Process)</div><div class="kb-diagram-note">- 가치 창출 핵심</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">운영 관리</div><div class="kb-diagram-node">고객 관리</div><div class="kb-diagram-node">혁신 프로세스</div><div class="kb-diagram-node">규제 및 사회</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">1. 학습과 성장 관점 (Learning &amp; Growth)</div><div class="kb-diagram-note">- 무형 자산 기반</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">인적 자본 (기술/역량)</div><div class="kb-diagram-node">정보 자본 (IT 시스템)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">조직 자본 (리더십/문화)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│           [ 전략 체계도(Strategy Map) 핵심 구조 ]               │
+│                                                             │
+│ ┌─ [ 4. 재무 관점 (Financial Perspective) ] - 주주 가치 창출    │
+│ │   [ 생산성 향상 (원가 절감) ]     [ 수익 성장 (신규 시장) ]   │
+│ └───────────────────▲─────────────────────────▲───────────────┘ │
+│                     │                         │             │
+│ ┌─ [ 3. 고객 관점 (Customer Perspective) ] - 고객 가치 제안     │
+│ │   [ 저렴한 가격 / 빠른 납기 ]     [ 제품 품질 / 신뢰성 ]      │
+│ └─────────▲─────────▲─────────────────────────▲───────────────┘ │
+│           │         │                         │             │
+│ ┌─ [ 2. 내부 프로세스 관점 (Internal Process) ] - 가치 창출 핵심│
+│ │ [운영 관리]  [고객 관리]  [혁신 프로세스]  [규제 및 사회]     │
+│ └──────▲────────────▲──────────────▲────────────────▲────────┘ │
+│        │            │              │                │       │
+│ ┌─ [ 1. 학습과 성장 관점 (Learning & Growth) ] - 무형 자산 기반 │
+│ │  [ 인적 자본 (기술/역량) ]   [ 정보 자본 (IT 시스템) ]        │
+│ │               [ 조직 자본 (리더십/문화) ]                    │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 아키텍처의 맨 아래 기초 공사인 <strong>학습과 성장(IT 인프라 구축, 개발자 교육)</strong>이 튼튼해야, 그 위층인 <strong>내부 프로세스(빠른 배포, 버그 감소)</strong>가 개선됩니다. 프로세스가 좋아지면 <strong>고객(빠른 응답속도, 만족도 상승)</strong>이 기뻐하고, 최종적으로 가장 위층인 **재무(매출 증가, 유지비 감소)** 목표가 달성되는 완벽한 인과 흐름(Cause-Effect Flow)을 화살표로 증명합니다.
 
@@ -63,7 +66,7 @@ CEO가 "매출 20% 증가!"라는 재무적 [전략](/knowledge-base/studynote/0
 고객 관점(Layer 3)에서 기업은 모든 것을 다 잘할 수 없습니다. [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 체계도를 그릴 때 기업은 다음 3가지 가치 제안 중 하나를 명확한 '초점'으로 잡고 내부 프로세스를 정렬해야 합니다.
 1. **운영 탁월성 (Operational Excellence)**: 맥도날드나 아마존처럼 압도적인 저원가와 무결점 프로세스 추구.
 2. **제품 리더십 (Product Leadership)**: 애플이나 테슬라처럼 혁신적이고 독보적인 최고 품질 제품 제공.
-3. <strong>고객 친밀도 (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/">Customer</a> Intimacy)</strong>: 프라이빗 뱅킹처럼 고객 개인별 맞춤형(Customized) 밀착 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 제공.
+3. <strong>고객 친밀도 (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/">C고객</a> Intimacy)</strong>: 프라이빗 뱅킹처럼 고객 개인별 맞춤형(Customized) 밀착 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 제공.
 
 ---
 
@@ -94,7 +97,7 @@ CEO가 "매출 20% 증가!"라는 재무적 [전략](/knowledge-base/studynote/0
 | **보안/위험** | 컴플라이언스 준수 및 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성 보장](/knowledge-base/studynote/05_database/07_exam_summary/442_consistency_integrity/) | [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 기반 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)/[인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) 체계 연계 |
 
 *(추가 실무 적용 가이드 - IT [정보화 전략 계획](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) ([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/)) 연계)*
-- 공공기관이나 대기업이 수백억 원 규모의 차세대 IT 시스템을 발주([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) 수립)할 때, 기재부나 이사회는 "왜 이 IT 서버를 최신형으로 바꿔야 하는가?"를 묻습니다.
+- 공공기관이나 대기업이 수백억 원 규모의 차세대 IT 시스템을 발주([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) 수립)할 때, 기재부나 이사회는 "왜 이 IT 서버를 최새로운 유형의으로 바꿔야 하는가?"를 묻습니다.
 - 이때 단순히 "CPU가 빠릅니다"라는 IT적 대답은 실패합니다. 반드시 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 체계도를 사용하여 **"서버를 업그레이드(정보 자본 확보) -> 주문 처리 프로세스 30% 개선(내부 프로세스) -> 고객 이탈율 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 방어(고객) -> 연매출 50억 원 방어(재무)"**라는 스토리텔링 맵을 그려서 제시해야만 IT 예산 승인을 얻어낼 수 있습니다. [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 체계도는 IT 부서의 가장 강력한 예산 방어 무기입니다.
 
 - **📢 섹션 요약 비유**: 실무 적용은 "집을 지을 때 터를 다지고 자재를 고르는 과정"과 같이, 환경과 예산에 맞춘 최적의 선택이 필요합니다. 아무리 비싸고 화려한 이탈리아제 대리석(최신 클라우드 서버)을 사와도, 이것이 전체 건물의 지붕(재무적 목표)을 지탱하는 설계도([전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 체계도) 안에 위치하지 않는다면 단순한 사치일 뿐입니다.
@@ -124,7 +127,7 @@ CEO가 "매출 20% 증가!"라는 재무적 [전략](/knowledge-base/studynote/0
     *   [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/) ([애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 시대의 유연한 목표 관리)
 *   <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> 체계도 4대 관점 (인과관계: <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/403_bottom_up_integration/">Bottom-Up</a>)</strong>
     *   재무 관점 (Financial) <- 최종 목적지
-    *   고객 관점 ([Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/))
+    *   고객 관점 ([C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/))
     *   내부 프로세스 관점 (Internal Business [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/))
     *   학습과 성장 관점 ([Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) & Growth) <- 무형 자산 (IT, 조직문화)
 *   **IT 거버넌스 연계 도구**
@@ -135,23 +138,21 @@ CEO가 "매출 20% 증가!"라는 재무적 [전략](/knowledge-base/studynote/0
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">MBO (목표에 의한 관리 — 단순 재무 목표 중심)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">BSC (Balanced Scorecard — 재무·고객·프로세스·학습 4관점)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전략 체계도 (Strategy Map — BSC의 인과관계 시각화)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">KPI 대시보드 연계 — 실시간 목표 달성 모니터링</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">OKR (애자일 목표 관리) + AI 기반 동적 전략 조정</div></div>
-</div>
-</div>
-
-
+```text
+[MBO (목표에 의한 관리 — 단순 재무 목표 중심)]
+    │
+    ▼
+[BSC (Balanced Scorecard — 재무·고객·프로세스·학습 4관점)]
+    │
+    ▼
+[전략 체계도 (Strategy Map — BSC의 인과관계 시각화)]
+    │
+    ▼
+[KPI 대시보드 연계 — 실시간 목표 달성 모니터링]
+    │
+    ▼
+[OKR (애자일 목표 관리) + AI 기반 동적 전략 조정]
+```
 BSC는 단순 재무 지표의 한계를 극복해 4관점의 균형을 맞추며, [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 체계도는 각 관점 간의 인과관계를 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)해 IT [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 비즈니스 목표와 일치하도록 연결한다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

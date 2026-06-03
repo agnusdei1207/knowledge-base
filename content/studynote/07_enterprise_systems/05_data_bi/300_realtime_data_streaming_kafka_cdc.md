@@ -30,16 +30,11 @@ tags = ["studynote-enterprise"]
 
 이 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 원천 DB -> [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) 커넥터 -> [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) -> 타겟 시스템([DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/), [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/), App) 순으로 흐른다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">운영 DB (MySQL/Oracle)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CDC Engine (Debezium)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Kafka Topic</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">분석계/Application</div></div>
-<div class="kb-diagram-note">(로그 기록: Binlog) (변경 이벤트 추출) (고속 분산 저장) (실시간 활용)</div>
-</div>
-</div>
-
-
+```text
+[운영 DB (MySQL/Oracle)] ──▶ [CDC Engine (Debezium)] ──▶ [Kafka Topic] ──▶ [분석계/Application]
+          │                          │                      │                     │
+   (로그 기록: Binlog)          (변경 이벤트 추출)       (고속 분산 저장)        (실시간 활용)
+```
 
 | 주요 구성 요소 | 역할 | 핵심 특징 |
 |:---|:---|:---|
@@ -105,23 +100,21 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">배치 ETL - 야간 처리, T+1 데이터 지연</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">메시지 큐 (RabbitMQ) - 실시간 이벤트 전달</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Apache Kafka - 분산 로그 스트리밍 플랫폼</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CDC (Change Data Capture) - DB 변경 이벤트 캡처</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Kafka + Debezium + Flink 실시간 스트리밍 파이프라인</div>
-</div>
-</div>
-
-
+```
+배치 ETL - 야간 처리, T+1 데이터 지연
+    │
+    ▼
+메시지 큐 (RabbitMQ) - 실시간 이벤트 전달
+    │
+    ▼
+Apache Kafka - 분산 로그 스트리밍 플랫폼
+    │
+    ▼
+CDC (Change Data Capture) - DB 변경 이벤트 캡처
+    │
+    ▼
+Kafka + Debezium + Flink 실시간 스트리밍 파이프라인
+```
 
 > **키워드**: [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/), [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/), [Change Data Capture](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/), Debezium, [Stream Processing](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/229_stream_processing_kafka_flink/), Real-Time [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/), Flink
 

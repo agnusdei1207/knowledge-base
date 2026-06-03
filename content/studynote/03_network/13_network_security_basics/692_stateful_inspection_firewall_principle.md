@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 내부에 통신의 맥락([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))을 기억하는 <strong>상태 테이블(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a>/<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">Session</a> Table)이라는 메모리를 두고, 현재 오고 가는 모든 패킷이 '이전에 맺어진 정당한 연결(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">Session</a>)의 연장선인가?'를 검사</strong>하는 2세대 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 기술입니다. Check Point [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) 특허를 내며 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 시장의 표준을 바꿨습니다.
 - **작동 계층**: 기본적으로 3~4계층을 보지만, 응용 프로그램의 연결 상태([세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/))를 추적한다는 점에서 제한적인 7계층 기능까지 포괄합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">패킷 필터, 애플리케이션 상태 필터 및 프록…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상태 기반 감시 기술의 원리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NIDS 공격</div></div>
-</div>
-</div>
-
-
+```text
+[패킷 필터, 애플리케이션 상태 필터 및 프록…]
+    │
+    ▼
+[상태 기반 감시 기술의 원리]
+    │
+    └──▶ [NIDS 공격]
+```
 
 - **📢 섹션 요약 비유**: 상태 기반 감시 기술의 원리는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -54,18 +50,14 @@ tags = ["studynote-network"]
    - 만약 해커가 뜬금없이 네이버 IP로 위장하여 `[ACK]`나 `[RST]` 패킷을 사내망으로 툭 던졌다고 가정해 봅시다 ([세션 하이재킹](/knowledge-base/studynote/03_network/14_network_security_threats/707_session_hijacking_tcp_seq_cookie/) 등).
    - [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이 장부를 까봅니다. <strong>"내 장부에 이 녀석이 먼저 나한테 요청한 기록이 없는데? 넌 가짜다!"</strong>라며 즉각 이 패킷을 버립니다(Drop).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">패킷 필터, 애플리케이션 상태 필터 및 프록…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상태 기반 감시 기술의 원리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NIDS 공격</div></div>
-</div>
-</div>
-
-
+```text
+[패킷 필터, 애플리케이션 상태 필터 및 프록…]
+    │
+    ▼
+[상태 기반 감시 기술의 원리]
+    │
+    └──▶ [NIDS 공격]
+```
 
 - **📢 섹션 요약 비유**: 상태 기반 감시 기술의 원리의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -129,19 +121,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 패킷 필터, 애플리케이션 상태 필터 및 프록…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 상태 기반 감시 기술의 원리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: NIDS 공격</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 패킷 필터, 애플리케이션 상태 필터 및 프록…]
+    │
+    ▼
+[현재 개념: 상태 기반 감시 기술의 원리]
+    │
+    ├──▶ [확장 A: NIDS 공격]
+    └──▶ [확장 B: 자동화된 신뢰 체계]
+```
 
 상태 기반 감시 기술의 원리는 [패킷 필터](/knowledge-base/studynote/03_network/13_network_security_basics/691_packet_filter_application_proxy/), 애플리케이션 상태 필터 및 프록…에서 출발해 현재 메커니즘을 정교화하고, 이후 [NIDS](/knowledge-base/studynote/03_network/13_network_security_basics/693_nids_network_intrusion_detection_system/) 공격와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

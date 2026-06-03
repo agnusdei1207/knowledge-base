@@ -31,29 +31,26 @@ eBPFì íì íìì ëìê êë:
 ### ì eBPFê ììíê
 êì ìë ëë ëìì êëíìë ìííë. ìë ëëì ìë ììì ëìí êíìë ìíëëë ëêê ììë ììí ììê ëì ì ìë. ëë ììì êê íëêëì ììí ìì íí ìëê íìíì íëë ìì ìíìí ìììë ìë ìëíëê ëìíë. eBPFë ì ë ëìì ììë ìíëì ëìì êëíë.
 
+```
+[êì ëìì ëìì]
 
+[ìë ëë ëì]
+ìì: ìë êêìì ìì ìí -> êìë
+ëì: êì ììì ëê ì ìë íë -> ììí ìì ëì
+      ëí ì ìë íì, ìëí íìí ì ìì
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">êì ëìì ëìì</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ìë ëë ëì</div></div>
-<div class="kb-diagram-note">ìì: ìë êêìì ìì ìí -&gt; êìë</div>
-<div class="kb-diagram-note">ëì: êì ììì ëê ì ìë íë -&gt; ììí ìì ëì</div>
-<div class="kb-diagram-note">ëí ì ìë íì, ìëí íìí ì ìì</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ììì êê íëêë ëì</div></div>
-<div class="kb-diagram-note">ìì: ììí, êì ìì</div>
-<div class="kb-diagram-note">ëì: ììí ì íì -&gt; ëë ìíìí ììì -&gt; ìë ìëíë</div>
-<div class="kb-diagram-note">ìì íì ì latency ìê</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">eBPF ëì</div></div>
-<div class="kb-diagram-note">ìì: ìë êêìì ìì ìí -&gt; êìë</div>
-<div class="kb-diagram-note">êìê íê íì -&gt; ììì íë</div>
-<div class="kb-diagram-note">ëì ëë/ìëë -&gt; ììì</div>
-<div class="kb-diagram-note">ëì: êìêì ìí ìíë êëë êë</div>
-<div class="kb-diagram-note">íì êìì ìì</div>
-</div>
-</div>
+[ììì êê íëêë ëì]
+ìì: ììí, êì ìì
+ëì: ììí ì íì -> ëë ìíìí ììì -> ìë ìëíë
+      ìì íì ì latency ìê
 
-
+[eBPF ëì]
+ìì: ìë êêìì ìì ìí -> êìë
+      êìê íê íì -> ììì íë
+      ëì ëë/ìëë -> ììì
+ëì: êìêì ìí ìíë êëë êë
+      íì êìì ìì
+```
 
 **[ëììêë íì]** eBPFë "ìë êêì ìì"ìëê í ì ìë. ìë ììì ììì ìíì ëì ì ìë ëëí ìëë ìíìíì ìê, êìêëë ììí êëìì "ì íëêëì ììíë ìíììë ëë"ê íëí íëêëë ìë êêìì ëëë êìë. ìë ìí êì ìë ëëì ìêíë ìëê, ììì íëêëì ìììì ëìì íëíë.
 
@@ -78,45 +75,52 @@ eBPFì íì íìì ëìê êë:
 
 ### eBPF íëêë ìí íë
 
+```
+[1ëê: Cììë íëêë ìì]
 
+#include <linux/bpf.h>
+#include <bpf/bpf_helpers.h>
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">1ëê: Cììë íëêë ìì</div></div>
-<div class="kb-diagram-note">#include &lt;linux/bpf.h&gt;</div>
-<div class="kb-diagram-note">#include &lt;bpf/bpf_helpers.h&gt;</div>
-<div class="kb-diagram-note">SEC("tracepoint/syscalls/sys_enter_openat")</div>
-<div class="kb-diagram-note">int trace_openat(struct trace_event_raw_sys_enter *ctx) {</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">char filename</div><div class="kb-diagram-node">256</div><div class="kb-diagram-note">;</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">1</div><div class="kb-diagram-note">);</div></div>
-<div class="kb-diagram-note">bpf_printk("Opening: %s\n", filename);</div>
-<div class="kb-diagram-note">return 0;</div>
-<div class="kb-diagram-note">}</div>
-<div class="kb-diagram-note">LLVM/Clangë ëìíìëë ìíì</div>
-<div class="kb-diagram-note">v</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2ëê: êìê(Verifier)ë íí ììì êì</div></div>
-<div class="kb-diagram-tree-item" style="--depth:0">ëë ìí êëê ìëëëê?</div>
-<div class="kb-diagram-tree-item" style="--depth:0">ëí ëíê ìëê?</div>
-<div class="kb-diagram-tree-item" style="--depth:0">ëëë ìêì ìííê?</div>
-<div class="kb-diagram-tree-item" style="--depth:0">íìì ììíëê?</div>
-<div class="kb-diagram-note">êì ìí -&gt; íëêë êë</div>
-<div class="kb-diagram-note">êì íê -&gt; ëì ëê</div>
-<div class="kb-diagram-note">v</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3ëê: JIT ìíìëë íí ëìíë ìë ëí</div></div>
-<div class="kb-diagram-tree-item" style="--depth:0">ëìíìë -&gt; x86_64 ëë ARM ëìíë ìë</div>
-<div class="kb-diagram-tree-item" style="--depth:0">ìë ëìì ìì ìí êëí êêìë ëí</div>
-<div class="kb-diagram-note">v</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">4ëê: íí íìíì ìê ë ìí</div></div>
-<div class="kb-diagram-tree-item" style="--depth:0">ììë ììí ì ììììì ìë ìí</div>
-<div class="kb-diagram-tree-item" style="--depth:0">ëë ììí ì íì ì íëêë ìí</div>
-<div class="kb-diagram-note">v</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">5ëê: êê ìë</div></div>
-<div class="kb-diagram-tree-item" style="--depth:0">bpf_printk() -&gt; /sys/kernel/debug/tracing/trace_pipe ìë</div>
-<div class="kb-diagram-tree-item" style="--depth:0">ëì ëìí êë -&gt; ììì êêìì ìê</div>
-</div>
-</div>
+SEC("tracepoint/syscalls/sys_enter_openat")
+int trace_openat(struct trace_event_raw_sys_enter *ctx) {
+    char filename[256];
+    bpf_probe_read_user_str(filename, sizeof(filename), (void *)ctx->args[1]);
+    bpf_printk("Opening: %s\n", filename);
+    return 0;
+}
 
+|
+| LLVM/Clangë ëìíìëë ìíì
+|
+v
 
+[2ëê: êìê(Verifier)ë íí ììì êì]
+- ëë ìí êëê ìëëëê?
+- ëí ëíê ìëê?
+- ëëë ìêì ìííê?
+- íìì ììíëê?
+|
+| êì ìí -> íëêë êë
+| êì íê -> ëì ëê
+|
+v
+
+[3ëê: JIT ìíìëë íí ëìíë ìë ëí]
+- ëìíìë -> x86_64 ëë ARM ëìíë ìë
+- ìë ëìì ìì ìí êëí êêìë ëí
+|
+v
+
+[4ëê: íí íìíì ìê ë ìí]
+- ììë ììí ì ììììì ìë ìí
+- ëë ììí ì íì ì íëêë ìí
+|
+v
+
+[5ëê: êê ìë]
+- bpf_printk() -> /sys/kernel/debug/tracing/trace_pipe ìë
+- ëì ëìí êë -> ììì êêìì ìê
+```
 
 **[ëììêë íì]** eBPF íëêëì ìëìêë "ìí -> ììêì -> ìì -> ëì -> íë"ìë ëìí ì ìë. Cììë ììë íëêëì êìêëë ìí ìë ìììì êìëê, [JIT](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/) ìíìëëë êìêìì êì ëìíë ìëë ìííê ë ë, ììí ììì ëìëìíë. ì êììì êìêê íëêëì êìíë "ìí êì"ì ëê ëìêì íë.
 
@@ -134,28 +138,30 @@ eBPFì íì íìì ëìê êë:
 
 XDPë ëíìí ííì ìë ëíìí ìíì ëëíê ìì ìíëë eBPF íëêëë, ìë ìëë ííì ìëí ì ìë.
 
+```
+[ëíìí íí ìì êì]
 
+ NIC(ëìë)ìì íí ìì
+      |
+      v
+ [íëìì ëëìë ìì] <- XDP íí íìí!
+      |
+      | XDP íëêëì ì ìììì ìíë
+      |
+      +--> [XDP_PASS] -> ìë ëíìí ìíìë ìë
+      |
+      +--> [XDP_DROP] -> íí íê (DDoS ëì ë)
+      |
+      +--> [XDP_REDIRECT] -> ëë NICìë íëììë ìë
+      |
+      v
+ [ìë ëíìí ìí] -> OSI 7êì ìë
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">ëíìí íí ìì êì</div></div>
-<div class="kb-diagram-note">NIC(ëìë)ìì íí ìì</div>
-<div class="kb-diagram-note">v</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">íëìì ëëìë ìì</div><div class="kb-diagram-connector">&lt;-</div><div class="kb-diagram-note">XDP íí íìí!</div></div>
-<div class="kb-diagram-note">XDP íëêëì ì ìììì ìíë</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">XDP_PASS</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">ìë ëíìí ìíìë ìë</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">XDP_DROP</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">íí íê (DDoS ëì ë)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">XDP_REDIRECT</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">ëë NICìë íëììë ìë</div></div>
-<div class="kb-diagram-note">v</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ìë ëíìí ìí</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">OSI 7êì ìë</div></div>
-<div class="kb-diagram-note">íì ìì:</div>
-<div class="kb-diagram-tree-item" style="--depth:0">ìë ëíìí ìí ìì ììëë ëì ëë</div>
-<div class="kb-diagram-tree-item" style="--depth:0">ìë ììë êìì ìì -&gt; ìëíë ììí</div>
-<div class="kb-diagram-tree-item" style="--depth:0">ìë ììëë ëì íí ìë êë -&gt; DDoS ëìì íêì</div>
-</div>
-</div>
-
-
+íì ìì:
+- ìë ëíìí ìí ìì ììëë ëì ëë
+- ìë ììë êìì ìì -> ìëíë ììí
+- ìë ììëë ëì íí ìë êë -> DDoS ëìì íêì
+```
 
 **[ëììêë íì]** XDPë "êìë íê ìì êì íìêë êìë ê"ê êë. ëìê ìëìì ëí(ìë ëíìí ìí)ì ëëíê ìì, êì íìê([XDP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/670_xdp/) íëêë)ë íêìì ìíí ëê(XDP_DROP)ì ëë êëëë. ìëê íë ëêì ìëìì ëí ììë íêí íë ëêíë êëë íì íìììë.
 
@@ -295,19 +301,15 @@ eBPFë ìëëíì ëíìí([Cilium](/knowledge-base/studynote/03_network/16_data
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">시스템 DTrace 선언적 동적 트레이싱 엔진 메커니즘</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">eBPF 네트워크/보안/모니터링 이벤트 커널 안전 훅 매커니즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">멀티코어 확장성 병목 (Amdahl's Law) 및 커널 락 경합 진단</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">I/O 성능 병목 (Bottleneck) 탐색법 (iostat, vmstat)</div></div>
-</div>
-</div>
-
-
+```text
+[시스템 DTrace 선언적 동적 트레이싱 엔진 메커니즘]
+    │
+    ▼
+[eBPF 네트워크/보안/모니터링 이벤트 커널 안전 훅 매커니즘]
+    │
+    ├──▶ [멀티코어 확장성 병목 (Amdahl's Law) 및 커널 락 경합 진단]
+    └──▶ [I/O 성능 병목 (Bottleneck) 탐색법 (iostat, vmstat)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

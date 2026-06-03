@@ -38,20 +38,19 @@ tags = ["enterprise_systems"]
 | <strong>고속 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a> 자동화</strong> | 박스를 열지 않고 바코드/RFID만으로 0.1초 만에 행선지 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 자동 스캐너, 고속 소터 (Cross-belt Sorter) |
 | <strong>정밀 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/">스케줄</a>링</strong> | 입고 트럭과 출고 트럭이 도크에 도착하는 시간의 완벽한 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) | [TMS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/098_tms_transportation_management_system/) ([Transportation Management System](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/098_tms_transportation_management_system/)), [WMS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/097_wms_warehouse_management_system/) ([Warehouse Management System](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/097_wms_warehouse_management_system/)) |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">크로스 도킹 (Cross-Docking) 물류 흐름</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">공급처 트럭</div><div class="kb-diagram-node">고객 배송 트럭</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(창고 보관, 적치, 피킹 과정 삭제!) ▲</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">초고속 자동 분류 컨베이어</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">바코드 스캔</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">행선지 분류</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">출고 도크 │</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Inbound) 머무는 시간: 보통 24시간 이내 (Outbound)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│             크로스 도킹 (Cross-Docking) 물류 흐름              │
+├──────────────────────────────────────────────────────────────┤
+│ [공급처 트럭]                                   [고객 배송 트럭] │
+│      │        (창고 보관, 적치, 피킹 과정 삭제!)        ▲      │
+│      ▼        ================================       │      │
+│ ┌─────────┐   │ [초고속 자동 분류 컨베이어]  │    ┌─────────┐ │
+│ │ 입고 도크 │ ──▶ [바코드 스캔] ─▶ [행선지 분류] ──▶ │ 출고 도크 │ │
+│ └─────────┘   ================================    └─────────┘ │
+│ (Inbound)        머무는 시간: 보통 24시간 이내         (Outbound)│
+└──────────────────────────────────────────────────────────────┘
+```
 
 그림에서 보듯 가운데 존재해야 할 거대한 선반 창고 구역이 통째로 삭제되고, 입고와 출고가 컨베이어 벨트를 통해 하나의 직선 흐름으로 직결된다.
 
@@ -114,23 +113,21 @@ tags = ["enterprise_systems"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">전통적 보관 중심 창고 (Warehousing)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">바코드/RFID 및 EDI/ASN 정보 인프라 확충</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">크로스 도킹 (Cross-Docking) 도입 (보관 시간 최소화)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">물류센터 자동화 (고속 Sorter, 무인 AGV 결합)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">데이터 기반 수요 예측 및 100% 무재고 통과형 풀필먼트 (Fulfillment) 진화</div>
-</div>
-</div>
-
-
+```text
+전통적 보관 중심 창고 (Warehousing)
+    │
+    ▼
+바코드/RFID 및 EDI/ASN 정보 인프라 확충
+    │
+    ▼
+크로스 도킹 (Cross-Docking) 도입 (보관 시간 최소화)
+    │
+    ▼
+물류센터 자동화 (고속 Sorter, 무인 AGV 결합)
+    │
+    ▼
+데이터 기반 수요 예측 및 100% 무재고 통과형 풀필먼트 (Fulfillment) 진화
+```
 
 이 흐름도는 과거의 '보관' 중심에서 정보 인프라를 바탕으로 '통과' 중심으로 진화하고, 궁극적으로 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 자동화와 결합하여 무재고 풀필먼트로 나아가는 물류의 진보를 보여준다.
 

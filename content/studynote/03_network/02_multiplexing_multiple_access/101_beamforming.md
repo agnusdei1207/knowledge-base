@@ -31,24 +31,25 @@ tags = ["network"]
 
 빔포밍의 심장부는 **위상 천이기(Phase Shifter)** 와 **파동의 보강/상쇄 간섭** 원리다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위상 지연(Phase Shift)을 통한 빔의 조향 (Steering) 원리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">기저대역 신호</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">분배 (위상 지연 계산)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">PS 1</div><div class="kb-diagram-node">PS 2</div><div class="kb-diagram-node">PS 3</div><div class="kb-diagram-node">PS 4</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(0초)</div><div class="kb-diagram-cell">(0.1초 지연)</div><div class="kb-diagram-cell">(0.2초 지연)</div><div class="kb-diagram-cell">(0.3초 지연)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Ant 1</div><div class="kb-diagram-node">Ant 2</div><div class="kb-diagram-node">Ant 3</div><div class="kb-diagram-node">Ant 4</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">))))</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">)))) )</div><div class="kb-diagram-cell">기울어진 파면</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">))))</div><div class="kb-diagram-cell">) )</div><div class="kb-diagram-cell">(Wavefront)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">))))</div><div class="kb-diagram-cell">) ) ============▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">))))</div><div class="kb-diagram-cell">원하는 타겟 각도</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           위상 지연(Phase Shift)을 통한 빔의 조향 (Steering) 원리    │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│       [기저대역 신호] ───────▶ 분배 (위상 지연 계산)                  │
+│                                                              │
+│        [PS 1]      [PS 2]      [PS 3]      [PS 4]            │
+│         │ (0초)     │ (0.1초 지연)│ (0.2초 지연)│ (0.3초 지연)       │
+│        [Ant 1]     [Ant 2]     [Ant 3]     [Ant 4]           │
+│         │           │           │           │                │
+│         ))))        │           │           │                │
+│             ))))    )           │           │    기울어진 파면    │
+│                 ))))│  )        )           │   (Wavefront)  │
+│                     ││    ))))  │)          )  ============▶ │
+│                     ││        ││   ))))     │   원하는 타겟 각도  │
+│                     ││        ││         ││                  │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램은 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)에서 전파의 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 방향이 어떻게 꺾이는지를 보여준다. 각 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 소자(Ant 1~4)에서 전파가 뿜어져 나올 때, 위상 천이기(PS)가 신호의 출발 타이밍을 인위적으로 미세하게 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시킨다. Ant 1이 가장 먼저 쏘고 Ant 4가 가장 늦게 쏘면 공간에서 퍼져나가는 파동의 파면(Wavefront)이 대각선으로 형성된다. 이 계산된 각도에서 보강 간섭이 일어나 에너지가 극대화되고, 나머지 각도에서는 파동이 찌그러지며 상쇄된다. [기저대역](/knowledge-base/studynote/03_network/19_frequent_topics_terms/940_baseband_line_coding_nrz_rz_manchester/)([Baseband](/knowledge-base/studynote/03_network/19_frequent_topics_terms/940_baseband_line_coding_nrz_rz_manchester/)) 프로세서는 단말로부터 채널 상태 정보([CSI](/knowledge-base/studynote/12_it_management/02_itsm_itil/068_csi/))를 피드백받아 이 정밀한 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)([Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) Vector)을 밀리초 단위로 실시간 연산해 낸다.
 
@@ -110,25 +111,24 @@ tags = ["network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">무지향성 (Omni) 및 섹터 (Sector) 안테나</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">신호 에너지 낭비 및 셀 간 전파 간섭 한계 직면</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">빔포밍 (Beamforming) 및 위상 제어 기술 도입</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">공간 분할 다중 접속 (SDMA) 구현 및 용량 극대화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">아날로그/디지털 결합: 하이브리드 (Hybrid) 빔포밍 표준화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Massive MIMO 결합 및 RIS (지능형 반사 표면)를 통한 6G 진화</div>
-</div>
-</div>
-
-
+```text
+무지향성 (Omni) 및 섹터 (Sector) 안테나
+    │
+    ▼
+신호 에너지 낭비 및 셀 간 전파 간섭 한계 직면
+    │
+    ▼
+빔포밍 (Beamforming) 및 위상 제어 기술 도입
+    │
+    ▼
+공간 분할 다중 접속 (SDMA) 구현 및 용량 극대화
+    │
+    ▼
+아날로그/디지털 결합: 하이브리드 (Hybrid) 빔포밍 표준화
+    │
+    ▼
+Massive MIMO 결합 및 RIS (지능형 반사 표면)를 통한 6G 진화
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 어두운 방에서 친구를 찾을 때 방 전체를 밝히는 큰 전등을 켜면 전기를 많이 먹고 다른 친구들 눈까지 부시게 만들어요.

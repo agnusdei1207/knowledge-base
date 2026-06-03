@@ -25,28 +25,33 @@ tags = ["studynote-operating-system"]
 - <strong>1단계 혼돈 늪 vs 2단계 구조 스펙 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/">네임스페이스</a> 경로 격리 다이어그램</strong>:
 운영체제가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 충돌([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/))을 구조적으로 어떻게 찢어 방어해 내는지 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)으로 분해하면 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파일 시스템 이름 공간(Namespace) 충돌 분리 아키텍처 진화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">지옥의 1단계 (Single-Level Directory) : 무분별한 믹서기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(System Directory)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 📄 UserA_prog.c</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 📄 UserB_prog.c ◀ "prog.c" 이름이 겹치니까 억지로 User 이름붙임</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 📄 kernel.bin</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 🚨 파일이 1만 개가 넘어가 검색 불가. 이름 짓기 노이로제(제한) 폭발!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">구원의 2단계 (Two-Level Directory) : MFD와 UFD 개인방 찢기 분할</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MFD (Master File Directory - 시스템 최고 대장 목차)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(User 1 전용 방 UFD) (User 2 전용 방 UFD) (User 3 전용 방)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Bob (밥)</div><div class="kb-diagram-node">Alice (앨리스)</div><div class="kb-diagram-node">Tom (톰)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">📄 test.txt 📄 run.exe 📄 test.txt 📄 hello.c 📄 test.txt</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 💡 기적 완성: Bob 의 <code>test.txt</code> 와 Alice 의 <code>test.txt</code> 는 서로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">완벽히 다른 방에 살고 있으므로 경로상 절대 충돌하지 않음! (격리 락백)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌────────────────────────────────────────────────────────────────────────────┐
+  │                 파일 시스템 이름 공간(Namespace) 충돌 분리 아키텍처 진화   │
+  ├────────────────────────────────────────────────────────────────────────────┤
+  │                                                                            │
+  │  [ 지옥의 1단계 (Single-Level Directory) : 무분별한 믹서기 ]               │
+  │    (System Directory)                                                      │
+  │     └─ 📄 UserA_prog.c                                                     │
+  │     └─ 📄 UserB_prog.c  ◀ "prog.c" 이름이 겹치니까 억지로 User 이름붙임    │
+  │     └─ 📄 kernel.bin                                                       │
+  │     => 🚨 파일이 1만 개가 넘어가 검색 불가. 이름 짓기 노이로제(제한) 폭발! │
+  │                                                                            │
+  │  =============================================================             │
+  │                                                                            │
+  │  [ 구원의 2단계 (Two-Level Directory) : MFD와 UFD 개인방 찢기 분할 ]       │
+  │                                                                            │
+  │             [ MFD (Master File Directory - 시스템 최고 대장 목차) ]        │
+  │              /                 |                 \                         │
+  │    (User 1 전용 방 UFD)  (User 2 전용 방 UFD)   (User 3 전용 방)           │
+  │     [ Bob (밥) ]        [ Alice (앨리스) ]     [ Tom (톰) ]                │
+  │     /        \            /          \             |                       │
+  │ 📄 test.txt 📄 run.exe 📄 test.txt 📄 hello.c  📄 test.txt                 │
+  │                                                                            │
+  │  => 💡 기적 완성: Bob 의 `test.txt` 와 Alice 의 `test.txt` 는 서로         │
+  │     완벽히 다른 방에 살고 있으므로 경로상 절대 충돌하지 않음! (격리 락백)  │
+  └────────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이전 1단계 모델에서 프로그래머는 친구 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 이름과 안 겹치려고 `P_1_Final_Really_Test.c` 처럼 해괴망측한 변태적 길이의 이름을 지어야 했다. 하지만 2단계 구조로 오프셋 트리가 격리 분리되자, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부적으로 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)하는 진짜 경로(Path) 규칙이 `사용자이름 + 파일이름 (예: /Alice/test.txt)` 으로 확립 덧붙여졌다. 덕분에 사용자의 눈엔 똑같은 `test.txt` 처럼 보일지언정, 기계 OS 입장에서는 맨 앞의 UFD 헤더 방 주소가 서로 다르므로 완벽하게 격리 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/)) 되는 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)의 혁신 마스킹 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)막이 구현 장착된 것이다.
 
@@ -82,7 +87,7 @@ tags = ["studynote-operating-system"]
 
 - <strong>클라우드 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 충돌 (의존성 패키지 지옥)</strong>: 서버 컴퓨터 하나에 Nginx 웹서버 프로그램도 깔고, 파이썬 서버도 까는데, A 개발자가 "난 Python 2 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)에 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 이름은 `server.py` 쓸래!" 하고, B 개발자도 "난 Python 3에 똑같이 내 메인코드 `server.py` 야!" 한다. 1단계(Single OS 루트)에 다 때려 박으면 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 충돌 의존성 폭발로 서버가 완전 포팅 에러가 부딪혀 녹아내린다.
 - <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/">도커</a>(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/">Docker</a> <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a>) <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/">네임스페이스</a> 분할 마스킹 적용 (현대판 UFD 격주)</strong>: [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 기술의 본질인 리눅스 `chroot` 와 `Namespace 묶음 격리` 는 정확히 2단계 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)의 MFD/UFD 철학을 가상 S/W로 마스킹 증명한 스펙이다!
-  - OS([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) Host Engine = MFD 마스터 감시자)는 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) A(UFD 앨리스 방)와 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) B(UFD 밥 방)를 찰흙 찢듯 찢어서 완전 별개의 `/root` 우주로 던져버린다(격리 고립 제어 통치). 
+  - OS([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) Host 엔진 = MFD 마스터 감시자)는 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) A(UFD 앨리스 방)와 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) B(UFD 밥 방)를 찰흙 찢듯 찢어서 완전 별개의 `/root` 우주로 던져버린다(격리 고립 제어 통치). 
   - 덕분에 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) A 안에서도 `/var/www/server.py` 가 잘 돌아가고, 바로 옆의 타 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) B 배 속에서도 똑같은 이름 경로의 `/var/www/server.py` 가 돌아가지만 이 둘은 평생 이름 충돌이나 [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/) 랙 없이 지구 반대편에서 사는 것처럼 완벽히 서로를 무시한 채 평행 우주를 쾌적하게 비행 성취한다.
 
 | [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)/시스템 격리([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/)) 통치 아크 | 1단계 (미개 통합 Single 믹서기 종결) | 2단계 MFD-UFD (가장 강력한 1차 고립 방어 장막) | 현대 트리(Tree) + 리눅스 [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) 권한 시스템 통제 |
@@ -130,19 +135,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">디렉터리 (Directory) 구조</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1단계 디렉터리 / 2단계 디렉터리 (사용자별 UFD) (Single Two Level Directory Ufd)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">트리 구조 디렉터리 (Tree-structured Directory)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">절대 경로 (Absolute Path) / 상대 경로 (Relative Path)</div></div>
-</div>
-</div>
-
-
+```text
+[디렉터리 (Directory) 구조]
+    │
+    ▼
+[1단계 디렉터리 / 2단계 디렉터리 (사용자별 UFD) (Single Two Level Directory Ufd)]
+    │
+    ├──▶ [트리 구조 디렉터리 (Tree-structured Directory)]
+    └──▶ [절대 경로 (Absolute Path) / 상대 경로 (Relative Path)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

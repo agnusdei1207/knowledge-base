@@ -24,18 +24,14 @@ tags = ["studynote-network"]
 1. <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/816_underlay_network_physical_infrastructure_routing/">언더레이 네트워크</a> (<a href="/knowledge-base/studynote/03_network/16_data_center_cloud/816_underlay_network_physical_infrastructure_routing/">Underlay Network</a>)</strong>: 눈에 보이는 진짜 쇳덩어리 장비들([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/), 라우터, 광케이블)이 깔려 있는 <strong>실제 물리적인 뼈대 네트워크(하부 인프라)</strong>입니다. 오직 패킷을 빠르고 무식하게 목적지(IP)까지 실어 나르는 도로(아스팔트) 역할만 합니다. (상세는 다음 816번 문서)
 2. **오버레이 네트워크 (Overlay Network)**: 이 언더레이 아스팔트 도로 위에 허공에 둥둥 떠서 그려진 <strong>'소프트웨어로 만든 100% 가상의 <a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>적 네트워크(상부망)'</strong>입니다. 물리적 선이 어떻게 연결되었든 무시하고, 내 마음대로 서버끼리 가상의 랜선(터널)을 푹푹 꽂아 연결해 버리는 마법입니다. VPN이 가장 대표적인 오버레이망입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">iWARP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">오버레이 네트워크 논리 스위치 L2 확장 터…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">언더레이 네트워크 오버레이 터널을 품는 물리…</div></div>
-</div>
-</div>
-
-
+```text
+[iWARP]
+    │
+    ▼
+[오버레이 네트워크 논리 스위치 L2 확장 터…]
+    │
+    └──▶ [언더레이 네트워크 오버레이 터널을 품는 물리…]
+```
 
 - **📢 섹션 요약 비유**: 오버레이 네트워크 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) L2 확장 터…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -51,18 +47,14 @@ tags = ["studynote-network"]
   - VMWare나 오픈스택(OpenStack) 컨트롤러가 **1층과 5층 서버 사이에 거대한 소프트웨어 투명 튜브(터널)를 허공에 뚫어버립니다.**
   - 이 터널을 통해, VM이 5층으로 이사를 가도 옛날 1층 IP(192.168.1.x)를 그대로 유지(L2 확장)한 채 옆방 서버와 통신하게 만듭니다. 밑바닥 라우터들(언더레이)은 그냥 자기 머리 위로 투명 튜브가 지나가는 줄만 알고 속아 넘어갑니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">iWARP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">오버레이 네트워크 논리 스위치 L2 확장 터…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">언더레이 네트워크 오버레이 터널을 품는 물리…</div></div>
-</div>
-</div>
-
-
+```text
+[iWARP]
+    │
+    ▼
+[오버레이 네트워크 논리 스위치 L2 확장 터…]
+    │
+    └──▶ [언더레이 네트워크 오버레이 터널을 품는 물리…]
+```
 
 - **📢 섹션 요약 비유**: 오버레이 네트워크 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) L2 확장 터…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -120,19 +112,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: iWARP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 오버레이 네트워크 논리 스위치 L2 확장 터…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 언더레이 네트워크 오버레이 터널을 품는 물리…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: iWARP]
+    │
+    ▼
+[현재 개념: 오버레이 네트워크 논리 스위치 L2 확장 터…]
+    │
+    ├──▶ [확장 A: 언더레이 네트워크 오버레이 터널을 품는 물리…]
+    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
+```
 
 오버레이 네트워크 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) L2 확장 터…는 iWARP에서 출발해 현재 메커니즘을 정교화하고, 이후 [언더레이 네트워크](/knowledge-base/studynote/03_network/16_data_center_cloud/816_underlay_network_physical_infrastructure_routing/) 오버레이 터널을 품는 물리…와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

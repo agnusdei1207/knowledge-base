@@ -41,18 +41,20 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 시간에 따라 고장률이 어떻게 달라지는지 보여 준다. 중간 평탄 구간만 떼어 보면 지수분포나 [MTBF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/) 모델이 잘 맞지만, 전체 생애를 한 식으로 설명하기는 어렵다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Bathtub Curve: hazard rate h(t) over lifetime</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">h(t)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ time</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">early failure useful life wear-out</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│             Bathtub Curve: hazard rate h(t) over lifetime           │
+├──────────────────────────────────────────────────────────────────────┤
+│ h(t)                                                                 │
+│  ▲                                                                   │
+│  │  \                                                                │
+│  │   \                                                               │
+│  │    \______________________________                         /       │
+│  │                                   \_______________________/        │
+│  └──────────────────────────────────────────────────────────────▶ time │
+│     early failure               useful life                  wear-out  │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 여기서 중요한 기술적 포인트는 <strong>배스터브 곡선 자체가 단일 분포가 아니라는 점</strong>이다. 실무에서는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)·중기·말기 구간을 별도로 피팅하거나, Weibull Distribution을 구간별로 나눠 적용하는 경우가 많다. 그래서 "장비의 MTBF가 높다"는 말은 주로 우발 고장기의 평균적 특성을 뜻할 뿐, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 불량이나 말기 마모를 자동으로 설명해 주지 않는다.
 
@@ -129,26 +131,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">manufacturing variation</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">early failure / DFR</div>
-<div class="kb-diagram-note">: burn-in · screening</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">useful life / CFR</div>
-<div class="kb-diagram-note">: MTBF · exponential model · redundancy</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">wear-out / IFR</div>
-<div class="kb-diagram-note">: preventive replacement · predictive maintenance</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">life testing · warranty planning · asset renewal</div>
-</div>
-</div>
-
-
+```text
+manufacturing variation
+    │
+    ▼
+early failure / DFR
+: burn-in · screening
+    │
+    ▼
+useful life / CFR
+: MTBF · exponential model · redundancy
+    │
+    ▼
+wear-out / IFR
+: preventive replacement · predictive maintenance
+    │
+    ▼
+life testing · warranty planning · asset renewal
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

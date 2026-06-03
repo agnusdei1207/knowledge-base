@@ -29,19 +29,13 @@ MLP는 은닉층을 넣어 입력 공간을 새로운 특징 공간으로 바꾸
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Input Layer</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Hidden Layer(s)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Output Layer</div>
-</div>
-</div>
-
-
+```text
+Input Layer
+  ↓
+Hidden Layer(s)
+  ↓
+Output Layer
+```
 
 | 요소 | 역할 |
 | :-- | :-- |
@@ -111,41 +105,29 @@ MLP는 선형 분리 불가능 문제를 해결하며 신경망 시대를 열었
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Perceptron</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Hidden Layer</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">MLP</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Nonlinear Representation</div>
-</div>
-</div>
-
-
+```text
+Perceptron
+  ↓
+Hidden Layer
+  ↓
+MLP
+  ↓
+Nonlinear Representation
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">XOR Problem</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Hidden Layer</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">MLP</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Deep Learning</div>
-</div>
-</div>
-
-
+```text
+XOR Problem
+  ↓
+Hidden Layer
+  ↓
+MLP
+  ↓
+Deep Learning
+```
 
 ---
 

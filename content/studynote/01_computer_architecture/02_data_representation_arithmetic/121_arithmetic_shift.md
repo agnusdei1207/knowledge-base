@@ -31,22 +31,24 @@ tags = ["studynote-computer-architecture"]
 ### 부호 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)(Sign [Replication](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)) 로직
 산술 우측 시프트(SAR, Shift Arithmetic Right)는 빈자리에 0을 넣는 하드웨어 결선을 끊고, MSB의 핀 출력을 피드백시켜 자기 자신을 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)하도록 라우팅된 구조다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">산술 우측 시프트(SAR)의 하드웨어 부호 보존 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원본 음수 데이터: 1 1 1 1 1 1 0 0 (십진수 -4, Signed)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">우측으로 1칸 산술 시프트 연산 수행 (&gt;&gt; 1)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1. 밀려 나감:</div><div class="kb-diagram-node">빈칸</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(끝의 0은 추락)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2. 부호 복제:</div><div class="kb-diagram-node">1</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(MSB의 1을 복제)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과 데이터: 1 1 1 1 1 1 1 0 (십진수 -2) ──▶ 부호 유지!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심 논리: 맨 앞의 부호(1)를 유전자처럼 복제하여 채워 넣음.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">음수 -4가 정확히 -2(나누기 2)로 연산되는 물리적 마법 달성.</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────┐
+│           산술 우측 시프트(SAR)의 하드웨어 부호 보존 구조      │
+├────────────────────────────────────────────────────────┤
+│   원본 음수 데이터: 1 1 1 1 1 1 0 0  (십진수 -4, Signed)   │
+│                   │                                    │
+│   [ 우측으로 1칸 산술 시프트 연산 수행 (>> 1) ]             │
+│                   │                                    │
+│   1. 밀려 나감: [ 빈칸 ] 1 1 1 1 1 1 0  ──▶ (끝의 0은 추락)  │
+│                   ▲                                    │
+│   2. 부호 복제: [  1   ] 1 1 1 1 1 1 0  ──▶ (MSB의 1을 복제) │
+│                   │                                    │
+│   결과 데이터: 1 1 1 1 1 1 1 0  (십진수 -2) ──▶ 부호 유지!  │
+│                                                        │
+│ * 핵심 논리: 맨 앞의 부호(1)를 유전자처럼 복제하여 채워 넣음.    │
+│   음수 -4가 정확히 -2(나누기 2)로 연산되는 물리적 마법 달성.     │
+└────────────────────────────────────────────────────────┘
+```
 
 반면 좌측 시프트(SAL, Shift Arithmetic Left)는 뒤쪽 빈자리에 0을 채우기 때문에 사실상 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 좌측 시프트(SHL)와 하드웨어 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 구조가 100% 동일하다. 따라서 진정한 산술 시프트의 가치는 <strong>오직 우측 시프트(SAR)에서만 발생</strong>한다.
 
@@ -103,23 +105,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">2의 보수(2's Complement) 음수 표현 체계의 CPU 표준 정착</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">우측 시프트(&gt;&gt; 1) 연산 시 MSB가 0으로 덮여 양수로 박살나는 버그 발생</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">부호 보존의 필요성 대두 ──▶ 산술 시프트(Arithmetic Shift) 하드웨어 로직 분리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">홀수 나눗셈(오차) 교정을 위한 컴파일러 레벨의 명령어 보정 스케줄링 융합</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DSP 및 멀티미디어(SIMD) 음향/영상 신호 감쇠(Scale down) 핵심 연산기로 정착</div>
-</div>
-</div>
-
-
+```text
+2의 보수(2's Complement) 음수 표현 체계의 CPU 표준 정착
+    │
+    ▼
+우측 시프트(>> 1) 연산 시 MSB가 0으로 덮여 양수로 박살나는 버그 발생
+    │
+    ▼
+부호 보존의 필요성 대두 ──▶ 산술 시프트(Arithmetic Shift) 하드웨어 로직 분리
+    │
+    ▼
+홀수 나눗셈(오차) 교정을 위한 컴파일러 레벨의 명령어 보정 스케줄링 융합
+    │
+    ▼
+DSP 및 멀티미디어(SIMD) 음향/영상 신호 감쇠(Scale down) 핵심 연산기로 정착
+```
 
 이 흐름도는 "음수 체계 도입 → [시프트 연산](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/119_shift_operations/)의 파괴적 버그 직면 → 부호 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 로직(산술 시프트) 하드웨어 추가 → 컴파일러 보완을 통한 완성"으로 이어지는 발전사를 보여준다.
 

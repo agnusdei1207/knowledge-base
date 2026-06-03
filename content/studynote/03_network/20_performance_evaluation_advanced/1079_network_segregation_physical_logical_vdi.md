@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: 외부 해커의 침입과 내부 정보(고객 정보)의 유출을 원천 차단하기 위해, 직원이 바깥세상 유튜브나 웹서핑을 하는 <strong>'인터넷망'</strong>과, 회사 기밀 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다루는 <strong>'업무망(내부망)'</strong>을 아예 두 세계로 갈라놓아 네트워크 통신이 서로 넘어가지 못하게 막는 극강의 에어갭(Air-Gap) 보안 아키텍처입니다.
 - **배경**: 해커는 악성 메일(인터넷)로 직원의 PC를 감염시키고, 그 PC를 숙주 삼아 연결된 DB 서버(업무망)를 다 털어갑니다. 이걸 막으려면 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 자체를 2개로 쪼개야 했습니다. 한국 공공기관, 금융, 방위산업체의 필수 법적 의무 사항입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">클라우스 보안 워크로드 CWPP 통제망</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">망분리 논리적 / 물리적 VDI 전이 모델</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">네트워크 포렌식 패킷 덤프 파싱</div></div>
-</div>
-</div>
-
-
+```text
+[클라우스 보안 워크로드 CWPP 통제망]
+    │
+    ▼
+[망분리 논리적 / 물리적 VDI 전이 모델]
+    │
+    └──▶ [네트워크 포렌식 패킷 덤프 파싱]
+```
 
 - **📢 섹션 요약 비유**: [망분리](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/) 논리적 / 물리적 [VDI](/knowledge-base/studynote/11_design_supervision/01_audit_framework/079_developer_cleanroom_vdi_security/) 전이 모델은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -61,18 +57,14 @@ tags = ["studynote-network"]
 - <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/">PC</a> 기반 논리적 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/">망분리</a> (<a href="/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/">CBC</a> 방식)</strong>
   - 서버를 안 사고, 책상 위 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 1대에 'VMware'를 깔아 윈도우 안에 윈도우(가상 머신)를 띄웁니다. 하나는 업무, 하나는 인터넷. (보안이 물렁해서 잘 안 씁니다.)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">클라우스 보안 워크로드 CWPP 통제망</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">망분리 논리적 / 물리적 VDI 전이 모델</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">네트워크 포렌식 패킷 덤프 파싱</div></div>
-</div>
-</div>
-
-
+```text
+[클라우스 보안 워크로드 CWPP 통제망]
+    │
+    ▼
+[망분리 논리적 / 물리적 VDI 전이 모델]
+    │
+    └──▶ [네트워크 포렌식 패킷 덤프 파싱]
+```
 
 - **📢 섹션 요약 비유**: [망분리](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/) 논리적 / 물리적 [VDI](/knowledge-base/studynote/11_design_supervision/01_audit_framework/079_developer_cleanroom_vdi_security/) 전이 모델의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -130,19 +122,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 클라우스 보안 워크로드 CWPP 통제망</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 망분리 논리적 / 물리적 VDI 전이 모델</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 네트워크 포렌식 패킷 덤프 파싱</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 클라우스 보안 워크로드 CWPP 통제망]
+    │
+    ▼
+[현재 개념: 망분리 논리적 / 물리적 VDI 전이 모델]
+    │
+    ├──▶ [확장 A: 네트워크 포렌식 패킷 덤프 파싱]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 [망분리](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/) 논리적 / 물리적 [VDI](/knowledge-base/studynote/11_design_supervision/01_audit_framework/079_developer_cleanroom_vdi_security/) 전이 모델는 클라우스 보안 워크로드 [CWPP](/knowledge-base/studynote/15_devops_sre/05_devsecops/332_cwpp/) 통제망에서 출발해 현재 메커니즘을 정교화하고, 이후 [네트워크 포렌식](/knowledge-base/studynote/09_security/13_secops_ir_forensics/668_network_forensics/) 패킷 덤프 파싱와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

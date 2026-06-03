@@ -52,23 +52,24 @@ tags = ["studynote-ai"]
 
 ### 2.1 [혼동 행렬](/knowledge-base/studynote/14_data_engineering/02_math_mining/089_confusion_matrix_tp_fp_fn_tn/) 전체 구조
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">혼동 행렬 (Confusion Matrix)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예측: Positive</div><div class="kb-diagram-cell">예측: Negative</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실제: Pos.</div><div class="kb-diagram-cell">TP (진양성)</div><div class="kb-diagram-cell">FN (위음성)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(올바른 양성)</div><div class="kb-diagram-cell">(2종 오류, 미검출)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실제: Neg.</div><div class="kb-diagram-cell">FP (위양성)</div><div class="kb-diagram-cell">TN (진음성)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(1종 오류, 과경보)</div><div class="kb-diagram-cell">(올바른 음성)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오류 유형:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FP = 1종 오류 (Type I Error) — 없는 것을 있다고 함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FN = 2종 오류 (Type II Error) — 있는 것을 없다고 함</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────┐
+│                   혼동 행렬 (Confusion Matrix)             │
+│                                                          │
+│              │  예측: Positive  │  예측: Negative  │      │
+│  ────────────┼──────────────────┼──────────────────┤      │
+│  실제: Pos.  │   TP (진양성)    │   FN (위음성)    │      │
+│              │  (올바른 양성)   │ (2종 오류, 미검출)│      │
+│  ────────────┼──────────────────┼──────────────────┤      │
+│  실제: Neg.  │   FP (위양성)   │   TN (진음성)    │      │
+│              │ (1종 오류, 과경보)│  (올바른 음성)   │      │
+│  ────────────┴──────────────────┴──────────────────┘      │
+│                                                          │
+│  오류 유형:                                               │
+│  FP = 1종 오류 (Type I Error) — 없는 것을 있다고 함       │
+│  FN = 2종 오류 (Type II Error) — 있는 것을 없다고 함      │
+└──────────────────────────────────────────────────────────┘
+```
 
 ### 2.2 핵심 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표 계산
 
@@ -84,20 +85,15 @@ tags = ["studynote-ai"]
 
 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)와 [재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/) 중 하나만 높여도 점수가 오르는 산술평균과 달리, 조화평균은 **둘 다 균형 있게 높아야** 높은 [F1-Score](/knowledge-base/studynote/10_ai/03_llm_nlp/255_f1_score/) 달성:
 
+```
+정밀도=1.0, 재현율=0.0:
+  산술평균 = 0.5      ← 높아 보임
+  F1-Score = 0.0     ← 실제론 쓸모없음
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">정밀도=1.0, 재현율=0.0:</div>
-<div class="kb-diagram-note">산술평균 = 0.5 ← 높아 보임</div>
-<div class="kb-diagram-note">F1-Score = 0.0 ← 실제론 쓸모없음</div>
-<div class="kb-diagram-note">정밀도=0.8, 재현율=0.8:</div>
-<div class="kb-diagram-note">산술평균 = 0.8</div>
-<div class="kb-diagram-note">F1-Score = 0.8 ← 균형잡힌 성능</div>
-</div>
-</div>
-
-
+정밀도=0.8, 재현율=0.8:
+  산술평균 = 0.8
+  F1-Score = 0.8     ← 균형잡힌 성능
+```
 
 - **📢 섹션 요약 비유**: F1-Score는 양 팔 힘이 다 좋아야 높은 점수를 받는 철봉 체력검사와 같다. 왼팔만 강하고 오른팔이 0이면 총점은 0에 가깝다 — 양쪽이 균형 있어야 진짜 강한 것이다.
 
@@ -154,19 +150,15 @@ F1    = 2×(0.895×0.85)/(0.895+0.85) = 87.2%
 
 ### 4.2 임계값 (Threshold) 조정 효과
 
+```
+확률 출력 모델: P(스팸) = 0.65
 
+임계값 = 0.5 → Positive 판정 (P > 0.5)
+  → 더 많이 양성 판정 → 재현율↑, 정밀도↓
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">확률 출력 모델: P(스팸) = 0.65</div>
-<div class="kb-diagram-note">임계값 = 0.5 → Positive 판정 (P &gt; 0.5)</div>
-<div class="kb-diagram-note">→ 더 많이 양성 판정 → 재현율↑, 정밀도↓</div>
-<div class="kb-diagram-note">임계값 = 0.8 → Negative 판정 (P &lt; 0.8)</div>
-<div class="kb-diagram-note">→ 더 적게 양성 판정 → 정밀도↑, 재현율↓</div>
-</div>
-</div>
-
-
+임계값 = 0.8 → Negative 판정 (P < 0.8)
+  → 더 적게 양성 판정 → 정밀도↑, 재현율↓
+```
 
 ### 4.3 기술사 핵심 판단 포인트
 - <strong>클래스 불균형 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>에서 정확도(Accuracy)만 보고하는 것은 오류</strong>

@@ -27,18 +27,14 @@ tags = ["studynote-network"]
   - 그리고 0.1초 뒤, B도 할 말이 있어서 "너 밥 먹었냐?([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))"를 담은 새로운 프레임을 A에게 또 쏩니다.
   - A에게 갈 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 2개(ACK 1개, B의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 1개)로 쪼개져서 두 번 전송되므로, 톨게이트(네트워크) 비용과 헤더(껍데기) 용량이 2배로 낭비됩니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">NAK</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">피기배킹</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">흐름 제어</div></div>
-</div>
-</div>
-
-
+```text
+[NAK]
+    │
+    ▼
+[피기배킹]
+    │
+    └──▶ [흐름 제어]
+```
 
 - **📢 섹션 요약 비유**: 피기배킹은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -54,18 +50,14 @@ tags = ["studynote-network"]
 4. B는 자기가 보낼 <strong>"밥 먹었냐" 프레임의 헤더(머리 부분)에 빈칸을 파서, 아까 빚졌던 "A야, 나 아까 네 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 잘 받았어(ACK)"라는 도장을 슬쩍 같이 찍어서 한 방에 쏴버립니다.</strong>
 5. A는 한 개의 프레임을 받았는데, 그 안에 자기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 잘 갔다는 영수증(ACK)과 B가 보낸 새로운 메시지가 짬짜면처럼 동시에 들어있는 마법을 경험합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">NAK</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">피기배킹</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">흐름 제어</div></div>
-</div>
-</div>
-
-
+```text
+[NAK]
+    │
+    ▼
+[피기배킹]
+    │
+    └──▶ [흐름 제어]
+```
 
 - **📢 섹션 요약 비유**: 피기배킹의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -129,19 +121,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: NAK</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 피기배킹</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 흐름 제어</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고신뢰 저지연 링크 제어</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: NAK]
+    │
+    ▼
+[현재 개념: 피기배킹]
+    │
+    ├──▶ [확장 A: 흐름 제어]
+    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
+```
 
 피기배킹는 NAK에서 출발해 현재 메커니즘을 정교화하고, 이후 [흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/)와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

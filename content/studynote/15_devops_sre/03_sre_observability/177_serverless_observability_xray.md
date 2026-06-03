@@ -23,18 +23,16 @@ tags = ["studynote-devops-sre"]
 
 문제는 서버가 사라진다고 원인까지 사라지는 것은 아니라는 점이다. 사용자는 단지 "응답이 느리다"고 느끼지만 실제 원인은 [콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/), 함수 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 한도, 외부 [Application Programming Interface](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) ([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 큐 적체, 재시도 폭증 중 어디에든 있을 수 있다. 특히 비동기 이벤트 흐름에서는 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)만으로 요청의 인과 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 이어 붙이기 어렵다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Serverless trace가 끊어지기 쉬운 지점</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">API Gateway -&gt; Lambda A -&gt; SQS Queue -&gt; Lambda B -&gt; DB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">cold start async gap downstream call</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버는 사라져도 요청 원인은 남으므로 context가 핵심 키가 됨</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ Serverless trace가 끊어지기 쉬운 지점                         │
+├──────────────────────────────────────────────────────────────┤
+│ API Gateway -> Lambda A -> SQS Queue -> Lambda B -> DB       │
+│                cold start     async gap       downstream call│
+│                                                              │
+│ 서버는 사라져도 요청 원인은 남으므로 context가 핵심 키가 됨   │
+└──────────────────────────────────────────────────────────────┘
+```
 
 AWS X-Ray가 중요한 이유는 이 단절을 "요청 ID를 가진 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 맵"으로 바꿔 주기 때문이다. 루트 세그먼트([Segment](/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/))와 하위 세그먼트(Subsegment)를 통해 어느 함수의 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화가 느렸는지, 어느 다운스트림 호출이 병목인지, 비동기 경계에서 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)가 끊겼는지를 한눈에 볼 수 있다.
 
@@ -48,24 +46,21 @@ AWS X-Ray가 중요한 이유는 이 단절을 "요청 ID를 가진 [서비스](
 
 아래 그림은 동기 호출과 비동기 경계를 모두 포함한 전형적 구성을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">trace header</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">API Gateway</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Lambda A</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Init / Handler</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DynamoDB / SQS span</div></div>
-<div class="kb-diagram-note">X-Ray Root Segment │ message attr</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Lambda B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HTTP / DB subsegment</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">X-Ray Service Map + Logs + Metrics</div>
-</div>
-</div>
-
-
+```text
+┌─────────────┐   trace header   ┌──────────────────────┐
+│ API Gateway │────────────────▶ │ Lambda A             │
+└──────┬──────┘                  │ Init / Handler       │
+       │                         │ DynamoDB / SQS span  │
+       ▼                         └─────────┬────────────┘
+  X-Ray Root Segment                        │ message attr
+                                            ▼
+                                  ┌──────────────────────┐
+                                  │ Lambda B             │
+                                  │ HTTP / DB subsegment │
+                                  └─────────┬────────────┘
+                                            ▼
+                            X-Ray Service Map + Logs + Metrics
+```
 
 [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) 관점에서는 두 구간을 분리해 봐야 한다. 첫째는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 구간(Init)으로, 패키지 로딩과 런타임 부팅이 포함된 [콜드 스타트 지연](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/152_cold_start_latency_serverless/)이다. 둘째는 핸들러 실행 구간으로, 실제 비즈니스 로직과 외부 호출 시간이 포함된다. 둘을 구분하지 않으면 "함수가 느리다"는 사실만 알 뿐, 코드가 느린지 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화가 느린지 판단할 수 없다.
 
@@ -94,7 +89,7 @@ X-Ray의 어노테이션과 [메타데이터](/knowledge-base/studynote/05_datab
 
 또한 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)에서는 동기 경계와 비동기 경계를 각각 봐야 한다. [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 호출은 헤더 전파가 상대적으로 쉽지만, Amazon Simple [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) (SQS), EventBridge, Simple Notification [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) (SNS) 같은 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)징 경계는 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이나 본문에 추적 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)를 실어야 한다. 그래서 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) [옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)는 결국 [분산 추적](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/)([Distributed Tracing](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/))과 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 설계를 함께 요구한다.
 
-[Site Reliability Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)) 관점에서는 이것이 곧 [Service Level Indicator](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) ([SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)) 설계로 이어진다. 사용자 요청 경로는 P95/P99 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 오류율이 중심이고, 비동기 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 큐 적체와 재시도율, Dead Letter [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) (DLQ) 건수가 중심이다. 즉 같은 Lambda라도 "사용자 경로"인지 "배치 경로"인지에 따라 봐야 할 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 달라진다.
+[Site Reliability 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)) 관점에서는 이것이 곧 [Service Level Indicator](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) ([SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)) 설계로 이어진다. 사용자 요청 경로는 P95/P99 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 오류율이 중심이고, 비동기 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 큐 적체와 재시도율, Dead Letter [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) (DLQ) 건수가 중심이다. 즉 같은 Lambda라도 "사용자 경로"인지 "배치 경로"인지에 따라 봐야 할 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 달라진다.
 
 - **📢 섹션 요약 비유**: AWS X-Ray와 OpenTelemetry는 같은 여행을 기록하는 두 종류의 여행 수첩과 같다. 하나는 국내 교통망에 최적화된 수첩이고, 다른 하나는 나라가 바뀌어도 같은 형식으로 적을 수 있는 국제 표준 수첩이다.
 
@@ -156,23 +151,21 @@ X-Ray의 어노테이션과 [메타데이터](/knowledge-base/studynote/05_datab
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">호스트 에이전트 중심 모니터링</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CloudWatch Metrics / Logs</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">AWS X-Ray 기반 분산 추적</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">OpenTelemetry + Async Context Propagation</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SLO 기반 Serverless Operations</div>
-</div>
-</div>
-
-
+```text
+호스트 에이전트 중심 모니터링
+    │
+    ▼
+CloudWatch Metrics / Logs
+    │
+    ▼
+AWS X-Ray 기반 분산 추적
+    │
+    ▼
+OpenTelemetry + Async Context Propagation
+    │
+    ▼
+SLO 기반 Serverless Operations
+```
 
 이 흐름은 "서버 상태 관찰"에서 "이벤트와 요청의 경로 복원"으로 관측 중심축이 이동하는 과정을 보여준다.
 

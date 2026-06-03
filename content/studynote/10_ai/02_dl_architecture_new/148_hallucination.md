@@ -30,23 +30,23 @@ tags = ["studynote-ai"]
 
 [할루시네이션](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/)이 발생하는 근본 원인은 [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)([Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)) 아키텍처를 기반으로 한 언어 모델의 수학적 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 메커니즘 그 자체에 내재되어 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LLM의 확률적 토큰 생성과 할루시네이션 발생 원리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">사용자 프롬프트</div><div class="kb-diagram-note">: "대한민국의 제100대 대통령은 누구인가?"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">모델 내부의 다음 단어 확률 계산 (Fact 기반이 아님!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. "대한민국의" ─▶ 2. "제100대" ─▶ 3. "대통령은"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">확률적 연결 (통계적 말 이어붙이기)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ "이순신"(45%) / "홍길동"(30%) / "김철수"(20%)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">최종 출력</div><div class="kb-diagram-note">: "대한민국의 제100대 대통령은 이순신입니다."</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 왜? DB 검색이 아니라, 학습 데이터의 통계망에서 가장 자연스러운</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단어의 조합(맥락)을 그냥 수학적으로 선택해 버렸기 때문.</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│           LLM의 확률적 토큰 생성과 할루시네이션 발생 원리          │
+├─────────────────────────────────────────────────────────────┤
+│  [사용자 프롬프트]: "대한민국의 제100대 대통령은 누구인가?"          │
+│                                                             │
+│  [ 모델 내부의 다음 단어 확률 계산 (Fact 기반이 아님!) ]             │
+│    1. "대한민국의" ─▶ 2. "제100대" ─▶ 3. "대통령은"              │
+│                                                             │
+│  [ 확률적 연결 (통계적 말 이어붙이기) ]                           │
+│   ──▶ "이순신"(45%) / "홍길동"(30%) / "김철수"(20%)             │
+│                                                             │
+│  [ 최종 출력 ]: "대한민국의 제100대 대통령은 이순신입니다."        │
+│   * 왜? DB 검색이 아니라, 학습 데이터의 통계망에서 가장 자연스러운  │
+│     단어의 조합(맥락)을 그냥 수학적으로 선택해 버렸기 때문.         │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **발생 원인 분석**:
 1. <strong>오토레그레시브(<a href="/knowledge-base/studynote/10_ai/05_data_science_ml/383_llm_autoregressive_math/">Auto-Regressive</a>) 구조의 한계</strong>: LLM은 팩트를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 게 아니라 그저 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적으로 다음 단어를 예측한다. 한 번 엉뚱한 단어를 내뱉으면 그 뒤 문장 전체가 거짓말을 정당화하는 방향으로 소설을 쓰게 된다(Snowball Effect).
@@ -111,23 +111,21 @@ tags = ["studynote-ai"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">RNN / LSTM 기반 초기 언어 모델 / 짧은 문장 생성, 기억력 한계로 금방 엉뚱한 소리 시전</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Transformer 및 LLM (GPT) 등장 / 방대한 파라미터로 유창성(Fluency)은 극대화됨</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">할루시네이션 (Hallucination) 부작용 폭발 / 팩트 체크 불가능, 거짓 정보 양산의 위협</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">RLHF (인간 피드백 강화학습) 도입 / 거짓말과 유해한 답변을 억제하는 미세 조정(Fine-tuning)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">RAG (검색 증강 생성) 아키텍처 대세화 / 외부 데이터베이스를 연동하여 팩트 기반의 생성 강제 (환각 최소화)</div>
-</div>
-</div>
-
-
+```text
+RNN / LSTM 기반 초기 언어 모델 / 짧은 문장 생성, 기억력 한계로 금방 엉뚱한 소리 시전
+    │
+    ▼
+Transformer 및 LLM (GPT) 등장 / 방대한 파라미터로 유창성(Fluency)은 극대화됨
+    │
+    ▼
+할루시네이션 (Hallucination) 부작용 폭발 / 팩트 체크 불가능, 거짓 정보 양산의 위협
+    │
+    ▼
+RLHF (인간 피드백 강화학습) 도입 / 거짓말과 유해한 답변을 억제하는 미세 조정(Fine-tuning)
+    │
+    ▼
+RAG (검색 증강 생성) 아키텍처 대세화 / 외부 데이터베이스를 연동하여 팩트 기반의 생성 강제 (환각 최소화)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

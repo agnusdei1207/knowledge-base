@@ -26,22 +26,18 @@ tags = ["software_engineering"]
 
 이 모델이 대규모 실무에서 필수적인 이유는 불확실성 통제 능력에 있습니다. 새로운 아키텍처 도입, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) 미확인, 고객 요구사항의 변동성 등 프로젝트를 실패로 이끄는 잠재적 위험([Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/))을 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/)과 시뮬레이션을 통해 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)합니다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에는 작은 비용과 범위로 시작하여 점차 투자 비용과 시스템의 완벽도를 높여가며 나선형으로 확장됩니다.
 
+```text
+이 도식은 폭포수 모델의 후반부 위험 집중 현상과 나선형 모델의 분산 통제 원리를 보여줍니다.
 
+[폭포수 모델의 위험 누적 (Big Bang Fail)]
+시간 ─▶  [요구사항] ─▶ [설계] ─▶ [구현] ─▶ [테스트 (위험 폭발! 💣)]
+비용/리스크: 낮음 ───────────▶ 매우 높음 ───────────▶ 복구 불가
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 도식은 폭포수 모델의 후반부 위험 집중 현상과 나선형 모델의 분산 통제 원리를 보여줍니다.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">폭포수 모델의 위험 누적 (Big Bang Fail)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">설계</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">구현</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">테스트 (위험 폭발! 💣)</div></div>
-<div class="kb-diagram-note">비용/리스크: 낮음 ▶ 매우 높음 ▶ 복구 불가</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">나선형 모델의 위험 통제 (Risk-Driven)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">위험 분석 (PoC)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">개발 ─▶ 평가 (작은 리스크 해소)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">위험 분석 (Proto)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">개발 ─▶ 평가 (중간 리스크 해소)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">위험 분석 (Simul)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">개발 ─▶ 평가 (최종 리스크 해소)</div></div>
-</div>
-</div>
-
-
+[나선형 모델의 위험 통제 (Risk-Driven)]
+Phase 1: 기획 ─▶ [위험 분석 (PoC)] ─▶ 개발 ─▶ 평가 (작은 리스크 해소)
+Phase 2: 기획 ─▶ [위험 분석 (Proto)] ─▶ 개발 ─▶ 평가 (중간 리스크 해소)
+Phase 3: 기획 ─▶ [위험 분석 (Simul)] ─▶ 개발 ─▶ 평가 (최종 리스크 해소)
+```
 이 도식에서 핵심은 위험을 발견하고 대응하는 시점이 '테스트' 단계에서 '각 주기의 위험 분석' 단계로 [시프트 레프트](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/)([Shift-Left](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/)) 되었다는 점입니다. 이런 배치는 실패 시 발생하는 매몰 비용(Sunk Cost)을 최소화하기 때문이며, 따라서 프로젝트가 돌이킬 수 없는 상태가 되기 전에 방향을 수정하거나 중단(Go/No-Go) 결정을 내릴 수 있게 합니다. 
 
 📢 **섹션 요약 비유**: 미지의 정글을 탐험할 때, 한 번에 목적지까지 직진하는 것이 아니라 베이스캠프를 치고 반경 1km를 정찰(위험 분석)한 뒤 안전이 확인되면 다음 캠프로 전진하는 것과 같습니다.
@@ -56,28 +52,26 @@ tags = ["software_engineering"]
 |:---|:---|:---|:---|
 | <strong>1. 목표/대안 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a> (Planning)</strong> | 방향성 수립 | 이번 주기의 성과 목표 지정, 제약 조건 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/), 대안적 접근 방식 탐색 | 프로젝트 계획서 |
 | <strong>2. 위험 분석 (<a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">Risk</a> Analysis)</strong> | [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)된 대안들의 위험 요소 평가, 프로토타이핑, 시뮬레이션을 통한 타당성 검토 | 위험 평가서, PoC/[프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/) |
-| <strong>3. 개발/<a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> (Engineering)</strong> | 실체 구현 | 위험이 제거된 상태에서 해당 주기의 기능을 코딩하고 테스트 수행 | 동작하는 소프트웨어 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) |
+| <strong>3. 개발/<a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> (엔진ering)</strong> | 실체 구현 | 위험이 제거된 상태에서 해당 주기의 기능을 코딩하고 테스트 수행 | 동작하는 소프트웨어 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) |
 | **4. 고객 평가 (Evaluation)** | 피드백 및 다음 루프 | 구현된 결과를 고객과 리뷰하고, 다음 나선 주기로 넘어갈지 여부 결정 | 리뷰 보고서, 다음 주기 요구사항 |
 
+```text
+이 구조도는 나선형 모델의 4개 사분면을 도는 사이클과 비용/반경의 확장을 보여줍니다.
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 구조도는 나선형 모델의 4개 사분면을 도는 사이클과 비용/반경의 확장을 보여줍니다.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 목표 설정 및 대안 탐색</div><div class="kb-diagram-node">2. 위험 분석 및 타당성 검증</div></div>
-<div class="kb-diagram-note">계획 수립 │ 프로토타입 1, 2, 3...</div>
-<div class="kb-diagram-note">↖ │ ↗ (시뮬레이션, 모델링)</div>
-<div class="kb-diagram-note">↖ │ ↗</div>
-<div class="kb-diagram-tree-item" style="--depth:0">똬리(Spiral) 확장</div>
-<div class="kb-diagram-note">↙ │ ↘</div>
-<div class="kb-diagram-note">고객 평가/리뷰 │ 설계, 코딩, 테스트</div>
-<div class="kb-diagram-note">↙ │ ↘ (단위/통합 테스트)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">4. 다음 단계 계획 및 평가</div><div class="kb-diagram-node">3. 엔지니어링 및 개발</div></div>
-<div class="kb-diagram-note">* 중심점(0,0)에서 시작하여 밖으로 나갈수록 누적 개발 비용과 프로젝트 규모가 증가함.</div>
-</div>
-</div>
-
-
+                 [1. 목표 설정 및 대안 탐색] │ [2. 위험 분석 및 타당성 검증]
+                                             │
+                       계획 수립             │      프로토타입 1, 2, 3...
+                             ↖               │      ↗ (시뮬레이션, 모델링)
+                                 ↖           │   ↗
+──────────────────────────────────── 똬리(Spiral) 확장 ────────────────────────────────
+                                 ↙           │   ↘
+                     고객 평가/리뷰          │      설계, 코딩, 테스트
+                             ↙               │      ↘ (단위/통합 테스트)
+                                             │
+                 [4. 다음 단계 계획 및 평가] │ [3. 엔지니어링 및 개발]
+                 
+* 중심점(0,0)에서 시작하여 밖으로 나갈수록 누적 개발 비용과 프로젝트 규모가 증가함.
+```
 이 그림의 핵심은 나선이 한 바퀴 돌 때마다 반드시 '위험 분석' 영역(2사분면)을 통과해야만 '개발' 영역(3사분면)으로 진입할 수 있다는 점입니다. 따라서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목, 보안 취약점, 기술적 한계 등의 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)가 사전에 제거되지 않으면 개발을 시작하지 않습니다. 실무에서는 대규모 SI 사업이나 우주/항공 등 실패 비용이 천문학적인 도메인에서 절대적으로 유리하지만, 반대로 위험 분석 능력이 부족한 팀이 사용할 경우 무의미한 [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/)만 양산하며 비용만 낭비하는 치명적 구조가 될 수 있습니다.
 
 📢 **섹션 요약 비유**: 태풍이 다가오고 있는지 레이더(위험 분석)로 계속 확인하면서, 안전할 때만 조업망(엔지니어링)을 넓혀가는 원양 어선의 조업 방식과 같습니다.
@@ -95,18 +89,16 @@ tags = ["software_engineering"]
 | **규모 확장성** | 소~중규모 시스템에 적합 | 대규모(Large-Scale), 복잡한 시스템 최적 | 소규모 팀 중심 (대규모는 SAFe로 확장 필요) |
 | **실패 시 병목** | 버리기형 모델의 운영 강제 전환 | 위험 분석 전문가 부재 시 무한 루프 낭비 | 잦은 변경으로 인한 아키텍처 붕괴 |
 
+```text
+이 매트릭스는 프로젝트의 특성(불확실성 vs 규모)에 따른 생명주기 모델의 의사결정 트리를 보여줍니다.
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 매트릭스는 프로젝트의 특성(불확실성 vs 규모)에 따른 생명주기 모델의 의사결정 트리를 보여줍니다.</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 불확실성</div><div class="kb-diagram-cell">시스템 규모 (Small)</div><div class="kb-diagram-cell">시스템 규모 (Large)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">낮음 (Low)</div><div class="kb-diagram-cell">V-모델 / 폭포수 모델</div><div class="kb-diagram-cell">폭포수 모델 (점진적 적용)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">높음 (High)</div><div class="kb-diagram-cell">프로토타입 / 애자일</div><div class="kb-diagram-cell">▶ 나선형 모델 (Spiral)◀</div></div>
-</div>
-</div>
-
-
+┌────────────┬────────────────────────┬────────────────────────┐
+│ 요구 불확실성│ 시스템 규모 (Small)    │ 시스템 규모 (Large)    │
+├────────────┼────────────────────────┼────────────────────────┤
+│ 낮음 (Low) │ V-모델 / 폭포수 모델   │ 폭포수 모델 (점진적 적용)│
+│ 높음 (High)│ 프로토타입 / 애자일    │ ▶ 나선형 모델 (Spiral)◀ │
+└────────────┴────────────────────────┴────────────────────────┘
+```
 이 매트릭스의 핵심은 '규모가 크면서 동시에 불확실성(위험)이 높은 프로젝트'에는 나선형 모델이 유일한 해답이 된다는 점입니다. 규모가 클 때 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)을 단순히 적용하면 팀 간 의존성 관리에 실패하고, 폭포수를 적용하면 막판 빅뱅 테스트에서 프로젝트가 파탄납니다. 나선형 모델은 매 사이클마다 아키텍처적 위험을 수학적/공학적으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하므로, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 비용이 높더라도 전체 프로젝트의 기대 손실 비용(Expected Loss)을 드라마틱하게 낮춥니다.
 
 📢 **섹션 요약 비유**: 자전거를 만들 때는 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)하게 부품을 갈아 끼우면 되지만, 우주선을 만들 때는 매 부품 조립 단계마다 철저한 폭발 위험 분석(나선형)이 필수적인 것과 같습니다.
@@ -117,18 +109,14 @@ tags = ["software_engineering"]
 
 실무에서 나선형 모델은 훌륭한 이론이지만, 이를 제대로 수행할 수 있는 '위험 분석 전문가'의 역량에 모든 것이 달려있습니다.
 
+```text
+이 상태도는 나선형 모델에서 위험 분석 실패 시 발생하는 안티패턴(무한 나선)을 시각화합니다.
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 상태도는 나선형 모델에서 위험 분석 실패 시 발생하는 안티패턴(무한 나선)을 시각화합니다.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">위험 식별</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">프로토타입 검증</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">위험 미해결</div><div class="kb-diagram-note">──</div></div>
-<div class="kb-diagram-note">▲ │ (의사결정 보류)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">(위험 감수 없이 무한 프로토타이핑)</div><div class="kb-diagram-node">예산 고갈 및 납기 지연</div></div>
-</div>
-</div>
-
-
+[위험 식별] ──▶ [프로토타입 검증] ──▶ [위험 미해결] ──┐
+   ▲                                              │ (의사결정 보류)
+   │                                              ▼
+   └──────── (위험 감수 없이 무한 프로토타이핑) ─── [예산 고갈 및 납기 지연]
+```
 <strong>도입 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a> 및 실무 판단</strong>
 1. **위험 평가 역량**: 프로젝트 매니저(PM)와 아키텍트가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 모델링, 재무적 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 분석, 보안 취약점 도출을 정량적으로 수행할 수 있는가? (단순 추측이 아님)
 2. **Go/No-Go 결단력**: 2번째 나선 주기에서 도저히 기술적 난관을 극복할 수 없다고 판단될 때, 매몰 비용을 포기하고 프로젝트를 중단(Drop)할 경영진의 의지가 있는가?
@@ -162,23 +150,21 @@ tags = ["software_engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">폭포수 모델 (Waterfall Model)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">프로토타입 모델 (Prototype Model)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">나선형 모델 (Spiral Model)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">위험 분석 (Risk Analysis)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">애자일 방법론 (Agile Methodology)</div></div>
-</div>
-</div>
-
-
+```text
+[폭포수 모델 (Waterfall Model)]
+    │
+    ▼
+[프로토타입 모델 (Prototype Model)]
+    │
+    ▼
+[나선형 모델 (Spiral Model)]
+    │
+    ▼
+[위험 분석 (Risk Analysis)]
+    │
+    ▼
+[애자일 방법론 (Agile Methodology)]
+```
 
 소프트웨어 개발 방법론이 순차 방식에서 반복적 위험 중심 접근으로 진화한 흐름이다.
 

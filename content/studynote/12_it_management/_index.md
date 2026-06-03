@@ -8,9 +8,7 @@ tags = ["studynote-it-management"]
 > 🧸 **어린이를 위한 비유**
 > 회사 사장님이 되어 컴퓨터와 인터넷에 얼마의 용돈을 쓸지 결정하고, 직원들이 컴퓨터가 고장 났을 때 가장 빨리 고쳐주는 '최고의 AS 센터' 규칙을 만드는 똑똑한 리더십을 배워요!
 
----
-
-# 도메인 12: IT 경영 및 관리 (IT Management)
+---# 도메인 12: IT 경영 및 관리 (IT Management)
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 기술 중심의 IT 부서를 비즈니스 전략과 정렬(Alignment)시켜, 투자의 타당성(ROI)을 검증하고 서비스 가치를 고객에게 적시에 제공하는 전사적 거버넌스(Governance) 및 관리 체계.
@@ -39,25 +37,28 @@ IT 경영은 크게 방향성을 제시하는 '거버넌스(Governance)'와 일�
 | **Outsourcing/SLA**| 외부 자원 활용 및 품질 통제 | 서비스 수준 협약(SLA), BPO, 클라우드 매니지드 | OLA, Underpinning Contract | 하청업체 계약서 |
 
 #### 2. ITIL v4 서비스 가치 체계 (SVS) 및 COBIT 거버넌스 연계 (ASCII)
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Enterprise IT Governance &amp; Service Value Architecture / 기업 IT 거버넌스 및 서비스 가치 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Board of Directors / 이사회</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">COBIT Governance / 통제 체계</div></div>
-<div class="kb-diagram-note">(Alignment / 정렬)</div>
-<div class="kb-diagram-note">v</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ITIL Service Value System (SVS) / 서비스 가치 체계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Opportunity / Demand (요구) ==========&gt; Value (가치 창출)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+---(Guiding Principles / 지도 원칙)----------------------------------------+</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Service Value Chain / 서비스 가치 사슬</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Plan(계획) -&gt; Improve(개선) -&gt; Engage(참여) -&gt; Design/Transition(설계)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; Obtain/Build(구축) -&gt; Deliver/Support(인도 및 지원)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Practices / 34개 관리 프랙티스) / (Continual Improvement / 지속적 개선)</div></div>
-</div>
-</div>
-
-
+```text
+    [ Enterprise IT Governance & Service Value Architecture / 기업 IT 거버넌스 및 서비스 가치 아키텍처 ]
+    
+    [ Board of Directors / 이사회 ] --- (Direct / Evaluate / Monitor) ---> [ COBIT Governance / 통제 체계 ]
+             |
+          (Alignment / 정렬)
+             v
+    [ ITIL Service Value System (SVS) / 서비스 가치 체계 ]
+    +---------------------------------------------------------------------------------+
+    |  Opportunity / Demand (요구)   ==========>   Value (가치 창출)                  |
+    |                                                                                 |
+    |  +---(Guiding Principles / 지도 원칙)----------------------------------------+  |
+    |  |                                                                           |  |
+    |  |  [ Service Value Chain / 서비스 가치 사슬 ]                               |  |
+    |  |  Plan(계획) -> Improve(개선) -> Engage(참여) -> Design/Transition(설계)   |  |
+    |  |             -> Obtain/Build(구축) -> Deliver/Support(인도 및 지원)        |  |
+    |  |                                                                           |  |
+    |  +---------------------------------------------------------------------------+  |
+    |                                                                                 |
+    |  (Practices / 34개 관리 프랙티스) / (Continual Improvement / 지속적 개선)       |
+    +---------------------------------------------------------------------------------+
+```
 
 #### 3. 핵심 재무 수학 공식 (투자의 타당성 검증)
 - **순현재가치 (NPV, Net Present Value)**: $NPV = \sum_{t=1}^{n} \frac{CF_t}{(1+r)^t} - C_0$ (NPV > 0 이면 투자 타당성 있음. $CF_t$: 현금흐름, $r$: 할인율, $C_0$: 초기 투자비용)
@@ -92,7 +93,7 @@ IT 경영은 크게 방향성을 제시하는 '거버넌스(Governance)'와 일�
 
 **시나리오 2: 잦은 기능 배포로 인한 주말 야간 장애 발생 (개발 vs 운영 충돌)**
 - **문제 상황**: 애자일 개발팀은 무차별적으로 새 코드를 배포하려 하고, 운영팀(Ops)은 안정성을 위해 배포를 막으려 하여 ITIL의 '변경 관리(Change Management)' 프로세스가 마비됨.
-- **기술사적 결단**: 구글의 SRE(Site Reliability Engineering) 철학을 ITIL 거버넌스에 융합한다. 비즈니스 부서와 합의하여 시스템 가용성 목표를 99.9%로 설정하고, 남은 0.1%를 <strong>에러 버짓(Error Budget)</strong>으로 할당. 버짓이 남아있을 때는 자동화된 CAB(변경승인위원회)를 통해 프리패스로 배포를 허용하고, 버짓 고갈 시 모든 신규 기능 배포를 강제 동결(Freeze)하는 정량적 통제 체계를 결착시킨다.
+- **기술사적 결단**: 구글의 SRE(Site Reliability 엔진ering) 철학을 ITIL 거버넌스에 융합한다. 비즈니스 부서와 합의하여 시스템 가용성 목표를 99.9%로 설정하고, 남은 0.1%를 <strong>에러 버짓(Error Budget)</strong>으로 할당. 버짓이 남아있을 때는 자동화된 CAB(변경승인위원회)를 통해 프리패스로 배포를 허용하고, 버짓 고갈 시 모든 신규 기능 배포를 강제 동결(Freeze)하는 정량적 통제 체계를 결착시킨다.
 
 **도입 시 고려사항 (안티패턴)**
 - **Watermelon SLA (수박 지표) 안티패턴**: IT 부서가 측정하는 서버 CPU 가동률이나 핑(Ping) 테스트는 100% 정상(겉은 초록색)인데, 실제 고객은 DB 병목으로 인해 서비스를 전혀 쓰지 못해 불만이 폭발(속은 빨간색)하는 현상. 기술사는 인프라 지표가 아닌, 사용자 체감 여정(User Journey) 기반의 엔드투엔드 <strong>XLA(eXperience Level Agreement)</strong>로 평가 체계를 전면 개편해야 전 진정한 관리를 할 수 있다.

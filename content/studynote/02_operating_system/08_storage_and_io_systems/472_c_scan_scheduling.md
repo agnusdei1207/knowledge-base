@@ -27,26 +27,38 @@ tags = ["studynote-operating-system"]
   2. **실시간(RTOS) 시스템의 불만**: "나는 0.5초마다 영상 프레임이 꼬박꼬박 와야 해! 평균 속도보다 일정함(Jitter [Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/))이 중요해!"
   3. <strong>시간 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>(<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">Variance</a>) <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/">억제</a></strong>: 귀환 시간(Return Sweep)을 희생해서라도 대기 시간의 표준편차를 0에 수렴시키는 C-SCAN이 발명됨.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SCAN (불평등) vs C-SCAN (절대 평등) 바늘 동선 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">큐 요청 순서</div><div class="kb-diagram-note">: 98, 183, 37, 122, 14, 124</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">헤드 위치</div><div class="kb-diagram-note">: 53번 트랙 /</div><div class="kb-diagram-node">199번을 향해 상행 중!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1. 기본 SCAN (가운데 꿀 빨고 양끝단 굶어 죽음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">14 37 53 98 122 124 183 199</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│</div><div class="kb-diagram-node">시작</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">│ │ │</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2. C-SCAN (돌아올 땐 줍지 않고 0번으로 순간 이동 롤백!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">14 37 53 98 122 124 183 199</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│</div><div class="kb-diagram-node">시작</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">│ │ │</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">◀─ (줍지 않고 빛의 속도로 점프하여 0번 벽으로 복귀!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 특징: 14번과 37번은 눈앞에서 바늘이 지나가도 못 줍지만, 0번으로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">돌아와서 다시 훑어주기 때문에 대기 시간이 완벽히 일정해짐.</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────────────┐
+│        SCAN (불평등) vs C-SCAN (절대 평등) 바늘 동선 시각화           │
+├───────────────────────────────────────────────────────────────────────┤
+│                                                                       │
+│ [ 큐 요청 순서 ]:  98, 183, 37, 122, 14, 124                          │
+│ [ 헤드 위치 ]: 53번 트랙 / [ 199번을 향해 상행 중! ]                  │
+│                                                                       │
+│ ▶ 1. 기본 SCAN (가운데 꿀 빨고 양끝단 굶어 죽음)                      │
+│   14   37     53     98    122 124        183      199                │
+│   │    │      [시작] ──▶     │  │          │        │                 │
+│   │    │             └────▶ │  │          │        │                  │
+│   │    │                    └─▶ │          │        │                 │
+│   │    │                       └─────────▶ │        │                 │
+│   │    │                                  └───────▶ │                 │
+│   │    │◀─────────────────────────────────────────┘                   │
+│   │◀──┘                                                               │
+│                                                                       │
+│ ▶ 2. C-SCAN (돌아올 땐 줍지 않고 0번으로 순간 이동 롤백!)             │
+│   14   37     53     98    122 124        183      199                │
+│   │    │      [시작] ──▶     │  │          │        │                 │
+│   │    │             └────▶ │  │          │        │                  │
+│   │    │                    └─▶ │          │        │                 │
+│   │    │                       └─────────▶ │        │                 │
+│   │    │                                  └───────▶ │                 │
+│ 0 │    │ ◀─ (줍지 않고 빛의 속도로 점프하여 0번 벽으로 복귀!) ───┘    │
+│ └─▶│    │                                                             │
+│    └─▶│                                                               │
+│ ✅ 특징: 14번과 37번은 눈앞에서 바늘이 지나가도 못 줍지만, 0번으로    │
+│        돌아와서 다시 훑어주기 때문에 대기 시간이 완벽히 일정해짐.     │
+└───────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 그림 2를 보면 인간의 직관으론 이해가 안 된다. 183번에서 199번 끝을 찍고 0번으로 돌아올 때, 가는 길목에 있는 37번과 14번을 왜 안 줍고 쌩까는가? "기왕 돌아가는 길에 주우면(SCAN) 훨씬 빠르잖아!" 이게 C-SCAN을 이해하는 가장 큰 장벽이다. 하지만 줍는 순간 그건 SCAN이 되어 양 끝단 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다시 2배의 시간 동안 굶겨 죽이게 된다. <strong>'무조건 맨 앞부터 순서대로 쓸어 담는다'</strong>는 원형(Circular)의 철학을 지키기 위해, 돌아가는 헛스윙 오버헤드를 눈물 머금고 감수한 것이다.
 
 - **📢 섹션 요약 비유**: [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 노선입니다. SCAN은 서울에서 부산까지 손님을 태우고 가다가, 부산에서 다시 서울로 올라오면서 반대편 손님을 태웁니다(양방향). C-SCAN은 서울에서 부산까지 손님을 다 내리면, [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 텅 빈 채 고속도로 1차선을 타고 서울로 미친 듯이 무정차 직행([롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/))한 뒤, 다시 서울에서 부산행 손님을 태웁니다. 기름값(오버헤드)은 버리지만, 서울역 승객과 대전역 승객의 배차 간격(대기 시간)은 100% 일정해집니다.
@@ -96,18 +108,15 @@ OS 시험 문제에서 C-SCAN이 정답이 되는 핵심 키워드는 <strong>"<
 - SCAN을 쓰면, 디스크 끝단에 저장된 영상 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 조각은 바늘이 왕복하는 긴 시간 동안 읽히지 않아 유저 폰에 [버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/) 렉이 무조건 터진다.
 - C-SCAN을 쓰면, 디스크 전체 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)은 약간 떨어지지만 <strong>"어떤 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>이든 최대 X 밀리초 안에는 무조건 1번씩 읽힌다"</strong>는 강력한 족쇄가 채워진다. 이 대기 시간 평탄화 덕분에, 모든 유저가 끊김 없이 안정적으로 스트리밍을 볼 수 있는 인프라가 완성된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스케줄러</div><div class="kb-diagram-cell">중앙 데이터 대기</div><div class="kb-diagram-cell">구석 데이터 대기</div><div class="kb-diagram-cell">최종 서비스 체감</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SSTF</div><div class="kb-diagram-cell">1초 (VIP)</div><div class="kb-diagram-cell">평생 굶어죽음 ☠️</div><div class="kb-diagram-cell">에러 뿜고 서버 마비</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SCAN</div><div class="kb-diagram-cell">2초 (빠름)</div><div class="kb-diagram-cell">10초 (너무 느림)</div><div class="kb-diagram-cell">일부 유저 뚝뚝 끊김</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C-SCAN</div><div class="kb-diagram-cell">5초 (느려짐)</div><div class="kb-diagram-cell">5초 (극적 빨라짐)</div><div class="kb-diagram-cell">🚀 전원 스무스 재생</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬──────────────────────────────┐
+│ 스케줄러   │ 중앙 데이터 대기│ 구석 데이터 대기│ 최종 서비스 체감 │
+├──────────┼────────────┼────────────┼──────────────────────────────┤
+│ SSTF     │ 1초 (VIP)   │ 평생 굶어죽음 ☠️│ 에러 뿜고 서버 마비    │
+│ SCAN     │ 2초 (빠름)  │ 10초 (너무 느림)│ 일부 유저 뚝뚝 끊김    │
+│ C-SCAN   │ 5초 (느려짐) │ 5초 (극적 빨라짐)│ 🚀 전원 스무스 재생  │
+└──────────┴────────────┴────────────┴──────────────────────────────┘
+```
 **[매트릭스 해설]** "다 같이 평균적으로 늦어지더라도, 튀는 놈([Outlier](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)) 없이 다 같이 똑같은 시간에 받자!" 공학에서 '최악의 경우(Worst Case)'를 방어하는 것이, '최상의 경우(Best Case)'를 높이는 것보다 시스템 안정성에 수만 배 더 가치 있다는 걸 증명하는 철학적 결과물이다.
 
 - **📢 섹션 요약 비유**: 인터넷 기사가 "어떤 집은 1000메가 나오고, 어떤 집은 10메가 나오는" 불안정한 인터넷(SCAN)보다, "우리 동네는 어느 집이든 무조건 500메가가 고정으로 딱 박혀 나옵니다(C-SCAN)"라고 광고하는 인터넷을 훨씬 더 좋은 통신망으로 쳐주는 것과 같습니다. 인프라의 생명은 '균일함'입니다.
@@ -164,19 +173,15 @@ C-SCAN (Circular SCAN)은 시스템 공학에서 "효율성(전체 [처리량](/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SCAN 스케줄링 (엘리베이터 알고리즘)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">C-SCAN (Circular SCAN)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">LOOK 및 C-LOOK</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">리눅스 I/O 스케줄러</div></div>
-</div>
-</div>
-
-
+```text
+[SCAN 스케줄링 (엘리베이터 알고리즘)]
+    │
+    ▼
+[C-SCAN (Circular SCAN)]
+    │
+    ├──▶ [LOOK 및 C-LOOK]
+    └──▶ [리눅스 I/O 스케줄러]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

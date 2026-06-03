@@ -34,23 +34,23 @@ DataOps는 Gartner(2019)가 정의한 방법론으로, [데이터](/knowledge-ba
 
 ### 1.3 [DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/324_dataops/) 핵심 원칙
 
+```
+DataOps 4대 원칙
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">DataOps 4대 원칙</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 코드로서의 데이터 (Data as Code)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SQL/Python 변환 로직을 Git으로 버전 관리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 지속적 통합 (Continuous Integration)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PR 생성 시 자동 데이터 테스트 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 자동화된 품질 보증 (Automated QA)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">not_null, unique, referential_integrity 검사</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 모니터링 기반 운영 (Observability)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 신선도, 볼륨, 분포 이상 감지</div></div>
-</div>
-</div>
-
-
+┌────────────────────────────────────────────────────┐
+│  1. 코드로서의 데이터 (Data as Code)                │
+│     SQL/Python 변환 로직을 Git으로 버전 관리         │
+│                                                    │
+│  2. 지속적 통합 (Continuous Integration)            │
+│     PR 생성 시 자동 데이터 테스트 실행               │
+│                                                    │
+│  3. 자동화된 품질 보증 (Automated QA)               │
+│     not_null, unique, referential_integrity 검사   │
+│                                                    │
+│  4. 모니터링 기반 운영 (Observability)              │
+│     데이터 신선도, 볼륨, 분포 이상 감지              │
+└────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: DataOps는 [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)에 "자동차 안전 검사 시스템"을 도입하는 것이다. 매번 수동으로 점검(수동 배포)하는 대신, 출발 전 자동으로 브레이크·엔진·타이어를 검사(자동 테스트)하고 이상 시 출발을 막는다.
 
@@ -62,31 +62,30 @@ DataOps는 Gartner(2019)가 정의한 방법론으로, [데이터](/knowledge-ba
 
 dbt는 <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/034_elt/">ELT</a>(Extract-Load-Transform)</strong> 패턴의 Transform 단계를 SQL로 모듈화하는 프레임워크다.
 
+```
+dbt 핵심 구성요소
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">dbt 핵심 구성요소</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">dbt 프로젝트 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">models/</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ staging/ ← Bronze → Silver 변환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ stg_orders.sql</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ stg_customers.sql</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ intermediate/ ← 중간 변환 레이어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ int_order_items.sql</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ marts/ ← Silver → Gold (최종 모델)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ finance/</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ fct_orders.sql</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ marketing/</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ dim_customers.sql</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">tests/ ← 데이터 품질 테스트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">seeds/ ← 정적 참조 데이터(CSV)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">macros/ ← 재사용 SQL 함수</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">snapshots/ ← SCD(천천히 변하는 차원) 이력</div></div>
-</div>
-</div>
-
-
+┌──────────────────────────────────────────────────────┐
+│                   dbt 프로젝트 구조                    │
+│                                                      │
+│  models/                                             │
+│  ├─ staging/            ← Bronze → Silver 변환        │
+│  │   ├─ stg_orders.sql                               │
+│  │   └─ stg_customers.sql                            │
+│  ├─ intermediate/       ← 중간 변환 레이어             │
+│  │   └─ int_order_items.sql                          │
+│  └─ marts/              ← Silver → Gold (최종 모델)    │
+│      ├─ finance/                                     │
+│      │   └─ fct_orders.sql                           │
+│      └─ marketing/                                   │
+│          └─ dim_customers.sql                        │
+│                                                      │
+│  tests/                 ← 데이터 품질 테스트           │
+│  seeds/                 ← 정적 참조 데이터(CSV)        │
+│  macros/                ← 재사용 SQL 함수              │
+│  snapshots/             ← SCD(천천히 변하는 차원) 이력 │
+└──────────────────────────────────────────────────────┘
+```
 
 ### 2.2 dbt 모델 정의 및 테스트
 
@@ -147,32 +146,34 @@ models:
 
 ### 2.3 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인 아키텍처
 
+```
+GitHub Actions + dbt Cloud CI/CD 파이프라인
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">GitHub Actions + dbt Cloud CI/CD 파이프라인</div>
-<div class="kb-diagram-note">개발자 PR 생성</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GitHub Actions Workflow</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Job 1: Lint &amp; Format Check</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ sqlfluff lint (SQL 스타일)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yamllint (YAML 검증)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">통과</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Job 2: dbt CI Run</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ dbt deps (패키지 설치)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ dbt compile (SQL 컴파일 검증)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ dbt run --target ci (스테이징 환경 실행)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ dbt test (데이터 품질 테스트)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">통과</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Job 3: 코드 리뷰 + 승인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">승인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Job 4: dbt 운영 환경 배포</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ dbt run --target prod</div></div>
-</div>
-</div>
-
-
+개발자 PR 생성
+    │
+    ▼
+┌────────────────────────────────────────────────────────┐
+│              GitHub Actions Workflow                    │
+│                                                        │
+│  Job 1: Lint & Format Check                            │
+│  ├─ sqlfluff lint (SQL 스타일)                          │
+│  └─ yamllint (YAML 검증)                               │
+│          │ 통과                                         │
+│          ▼                                             │
+│  Job 2: dbt CI Run                                     │
+│  ├─ dbt deps (패키지 설치)                              │
+│  ├─ dbt compile (SQL 컴파일 검증)                       │
+│  ├─ dbt run --target ci (스테이징 환경 실행)             │
+│  └─ dbt test (데이터 품질 테스트)                       │
+│          │ 통과                                         │
+│          ▼                                             │
+│  Job 3: 코드 리뷰 + 승인                               │
+│          │ 승인                                         │
+│          ▼                                             │
+│  Job 4: dbt 운영 환경 배포                              │
+│  └─ dbt run --target prod                              │
+└────────────────────────────────────────────────────────┘
+```
 
 ### 2.4 dbt 핵심 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)
 
@@ -247,25 +248,24 @@ quality:
 
 ### 3.3 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관측가능성 ([Data Observability](/knowledge-base/studynote/16_bigdata/13_intro_trends/255_data_observability/))
 
+```
+데이터 관측가능성 5대 기둥 (Monte Carlo)
 
+1. 신선도 (Freshness)
+   └─ "주문 테이블이 마지막 업데이트된 것은 언제인가?"
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">데이터 관측가능성 5대 기둥 (Monte Carlo)</div>
-<div class="kb-diagram-note">1. 신선도 (Freshness)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">"주문 테이블이 마지막 업데이트된 것은 언제인가?"</div>
-<div class="kb-diagram-note">2. 볼륨 (Volume)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">"예상보다 행 수가 급격히 감소/증가했는가?"</div>
-<div class="kb-diagram-note">3. 스키마 (Schema)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">"컬럼이 추가/삭제/변경되었는가?"</div>
-<div class="kb-diagram-note">4. 분포 (Distribution)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">"금액 컬럼의 평균/표준편차가 비정상적으로 변했는가?"</div>
-<div class="kb-diagram-note">5. 계보 (Lineage)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">"이상 데이터가 어느 소스에서 유입되었는가?"</div>
-</div>
-</div>
+2. 볼륨 (Volume)
+   └─ "예상보다 행 수가 급격히 감소/증가했는가?"
 
+3. 스키마 (Schema)
+   └─ "컬럼이 추가/삭제/변경되었는가?"
 
+4. 분포 (Distribution)
+   └─ "금액 컬럼의 평균/표준편차가 비정상적으로 변했는가?"
+
+5. 계보 (Lineage)
+   └─ "이상 데이터가 어느 소스에서 유입되었는가?"
+```
 
 📢 **섹션 요약 비유**: [데이터 계약](/knowledge-base/studynote/16_bigdata/12_trends/236_data_contract/)은 음식 주문서와 같다. "피자 라지, 페페로니, 30분 이내 배달"처럼 소비자가 원하는 것을 명확히 적고, 생산자(파이프라인)가 이를 보장한다. 계약 위반 시 즉시 알림이 간다.
 
@@ -275,35 +275,34 @@ quality:
 
 ### 4.1 dbt 도입 단계별 성숙도 모델
 
+```
+DataOps 성숙도 단계
 
+Level 0: 임시방편 (Ad-Hoc)
+  ├─ SQL 스크립트 개인 PC 보관
+  ├─ 수동 실행, 테스트 없음
+  └─ 문서화 없음
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">DataOps 성숙도 단계</div>
-<div class="kb-diagram-note">Level 0: 임시방편 (Ad-Hoc)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">SQL 스크립트 개인 PC 보관</div>
-<div class="kb-diagram-tree-item" style="--depth:1">수동 실행, 테스트 없음</div>
-<div class="kb-diagram-tree-item" style="--depth:1">문서화 없음</div>
-<div class="kb-diagram-note">Level 1: 기본 자동화</div>
-<div class="kb-diagram-tree-item" style="--depth:1">SQL을 Git에 저장</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Airflow/Cron 스케줄링</div>
-<div class="kb-diagram-tree-item" style="--depth:1">기본 not_null 테스트</div>
-<div class="kb-diagram-note">Level 2: 표준화 (dbt 도입)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">dbt 모델 계층화 (staging/mart)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">자동 문서화 + 테스트</div>
-<div class="kb-diagram-tree-item" style="--depth:1">환경 분리 (dev/prod)</div>
-<div class="kb-diagram-note">Level 3: CI/CD 완전 자동화</div>
-<div class="kb-diagram-tree-item" style="--depth:1">PR → 자동 dbt test</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Slim CI (영향받는 모델만 테스트)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">배포 승인 프로세스</div>
-<div class="kb-diagram-note">Level 4: 데이터 계약 + 관측가능성</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Data Contract 도입</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Monte Carlo/Bigeye 모니터링</div>
-<div class="kb-diagram-tree-item" style="--depth:1">이상 감지 자동 알림</div>
-</div>
-</div>
+Level 1: 기본 자동화
+  ├─ SQL을 Git에 저장
+  ├─ Airflow/Cron 스케줄링
+  └─ 기본 not_null 테스트
 
+Level 2: 표준화 (dbt 도입)
+  ├─ dbt 모델 계층화 (staging/mart)
+  ├─ 자동 문서화 + 테스트
+  └─ 환경 분리 (dev/prod)
 
+Level 3: CI/CD 완전 자동화
+  ├─ PR → 자동 dbt test
+  ├─ Slim CI (영향받는 모델만 테스트)
+  └─ 배포 승인 프로세스
+
+Level 4: 데이터 계약 + 관측가능성
+  ├─ Data Contract 도입
+  ├─ Monte Carlo/Bigeye 모니터링
+  └─ 이상 감지 자동 알림
+```
 
 ### 4.2 dbt Slim [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) (변경 영향 범위 최소화)
 
@@ -360,26 +359,23 @@ Slim CI:    3분 (PR 당 93% 절감)
 
 ### 5.2 [DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/324_dataops/) 성공 요소
 
+```
+DataOps 성공 3요소
 
+기술(Technology)
+  ├─ dbt + Airflow + GitHub Actions
+  └─ 데이터 관측가능성 도구
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">DataOps 성공 3요소</div>
-<div class="kb-diagram-note">기술(Technology)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">dbt + Airflow + GitHub Actions</div>
-<div class="kb-diagram-tree-item" style="--depth:1">데이터 관측가능성 도구</div>
-<div class="kb-diagram-note">프로세스(Process)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">PR 리뷰 + 승인 프로세스</div>
-<div class="kb-diagram-tree-item" style="--depth:1">데이터 계약 표준화</div>
-<div class="kb-diagram-tree-item" style="--depth:1">인시던트 대응 Runbook</div>
-<div class="kb-diagram-note">문화(Culture)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">"데이터도 소프트웨어" 인식</div>
-<div class="kb-diagram-tree-item" style="--depth:1">품질 책임 공유</div>
-<div class="kb-diagram-tree-item" style="--depth:1">지속적 개선 습관</div>
-</div>
-</div>
+프로세스(Process)
+  ├─ PR 리뷰 + 승인 프로세스
+  ├─ 데이터 계약 표준화
+  └─ 인시던트 대응 Runbook
 
-
+문화(Culture)
+  ├─ "데이터도 소프트웨어" 인식
+  ├─ 품질 책임 공유
+  └─ 지속적 개선 습관
+```
 
 ### 5.3 결론 요약
 
@@ -409,27 +405,24 @@ DataOps는 [데이터 파이프라인](/knowledge-base/studynote/01_computer_arc
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">수동 데이터 파이프라인 (ad-hoc SQL · 스크립트)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DataOps: 데이터 파이프라인 CI/CD 자동화</div>
-<div class="kb-diagram-tree-item" style="--depth:2">dbt (data build tool): SQL 기반 변환 + 테스트</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Great Expectations: 데이터 품질 검증</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Git 기반 버전 관리 · PR 리뷰 · 자동 배포</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">데이터 테스트</div>
-<div class="kb-diagram-tree-item" style="--depth:2">스키마 테스트: not_null · unique · accepted_values</div>
-<div class="kb-diagram-tree-item" style="--depth:2">데이터 품질 테스트: 범위 · 참조 무결성</div>
-<div class="kb-diagram-tree-item" style="--depth:2">프레시니스 테스트: 데이터 최신성 확인</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Observability: Monte Carlo · Bigeye → 데이터 이상 자동 감지</div>
-</div>
-</div>
-
-
+```text
+수동 데이터 파이프라인 (ad-hoc SQL · 스크립트)
+    │
+    ▼
+DataOps: 데이터 파이프라인 CI/CD 자동화
+    ├─► dbt (data build tool): SQL 기반 변환 + 테스트
+    ├─► Great Expectations: 데이터 품질 검증
+    └─► Git 기반 버전 관리 · PR 리뷰 · 자동 배포
+    │
+    ▼
+데이터 테스트
+    ├─► 스키마 테스트: not_null · unique · accepted_values
+    ├─► 데이터 품질 테스트: 범위 · 참조 무결성
+    └─► 프레시니스 테스트: 데이터 최신성 확인
+    │
+    ▼
+Observability: Monte Carlo · Bigeye → 데이터 이상 자동 감지
+```
 2. dbt는 레고 설명서예요. 각 레고 블록(SQL 모델)이 어떻게 연결되는지 그려주고, 완성된 모습(문서)과 품질 검사(테스트)도 함께 제공해요.
 3. [데이터 계약](/knowledge-base/studynote/16_bigdata/12_trends/236_data_contract/)은 식당 메뉴판이에요. "피자는 30분 안에, 반드시 뜨겁게, 토핑은 이것들"처럼 소비자가 기대하는 것을 명확히 약속하고, 지키지 않으면 알림이 와요.
 

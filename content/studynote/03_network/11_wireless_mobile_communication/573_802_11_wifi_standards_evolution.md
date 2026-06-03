@@ -21,18 +21,14 @@ tags = ["studynote-network"]
 
 무선 LAN 표준은 미국 IEEE 산하 802.[11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/) 워킹그룹에서 제정합니다. 와이파이는 통신사처럼 돈을 주고 주파수를 사지 않아도 되는 무료 공용 대역인 <strong>ISM 대역 (2.4GHz 및 5GHz)</strong>을 사용합니다. 무료인 만큼 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/), 전자레인지 등 온갖 기기가 섞여 간섭이 매우 심하다는 특징이 있습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">AP / DS</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">11 b/g/a/n 표준 세대 발전</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">11n</div></div>
-</div>
-</div>
-
-
+```text
+[AP / DS]
+    │
+    ▼
+[11 b/g/a/n 표준 세대 발전]
+    │
+    └──▶ [11n]
+```
 
 - **📢 섹션 요약 비유**: [11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/) b/g/a/n 표준 세대 발전은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -52,18 +48,14 @@ tags = ["studynote-network"]
 - **주파수 / 속도**: **2.4GHz** 대역 / 최대 **54Mbps**
 - **특징**: 기존 802.11b(2.4GHz) 장비들과 호환되면서도, 802.11a의 빠른 OFDM 기술을 가져와 2.4GHz 환경에서도 54Mbps를 뽑아낸 대성공작입니다. 대중적인 공유기의 표준이 되었습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">AP / DS</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">11 b/g/a/n 표준 세대 발전</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">11n</div></div>
-</div>
-</div>
-
-
+```text
+[AP / DS]
+    │
+    ▼
+[11 b/g/a/n 표준 세대 발전]
+    │
+    └──▶ [11n]
+```
 
 - **📢 섹션 요약 비유**: [11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/) b/g/a/n 표준 세대 발전의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -126,19 +118,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: AP / DS</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 11 b/g/a/n 표준 세대 발전</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 11n</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 무선 자원 제어</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: AP / DS]
+    │
+    ▼
+[현재 개념: 11 b/g/a/n 표준 세대 발전]
+    │
+    ├──▶ [확장 A: 11n]
+    └──▶ [확장 B: 지능형 무선 자원 제어]
+```
 
 [11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/) b/g/a/n 표준 세대 발전는 [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) / DS에서 출발해 현재 메커니즘을 정교화하고, 이후 11n와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

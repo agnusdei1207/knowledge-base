@@ -24,24 +24,21 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경**: 메인프레임 시절부터 멀티 프로세서([SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/))가 도입되자, 코어 두 개가 동시에 동일한 메모리 번지에 `WRITE`를 날리는 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 경합이 발생했다. 이를 해결하기 위해 IBM과 Intel은 칩셋 수준에서 메모리 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 자체를 장악하는 락 핀([LOCK](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)#)과 원자적 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 세트를 [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/)([Instruction Set Architecture](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/))에 공식 추가하게 되었다.
 
+```text
+  [일반 명령어와 하드웨어 원자적 명령어(TAS)의 쪼개짐 차이 시각화]
 
+  (상황: 락(Lock) 변수를 확인하고 잠그는 과정)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">일반 명령어와 하드웨어 원자적 명령어(TAS)의 쪼개짐 차이 시각화</div></div>
-<div class="kb-diagram-note">(상황: 락(Lock) 변수를 확인하고 잠그는 과정)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">❌ 일반 소프트웨어 코드 (C언어)</div></div>
-<div class="kb-diagram-note">if (lock == 0) { ◀─ (CPU 명령어 1: 메모리 읽기)</div>
-<div class="kb-diagram-note">// 🚨 여기서 인터럽트 터지면 다른 놈이 들어감! (Race Condition)</div>
-<div class="kb-diagram-note">lock = 1; ◀─ (CPU 명령어 2: 메모리 쓰기)</div>
-<div class="kb-diagram-note">}</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">✅ 하드웨어 TAS 명령어 (TestAndSet)</div></div>
-<div class="kb-diagram-note">TestAndSet(&amp;lock); ◀─ (CPU 명령어 1개: 읽고 1로 쓰기를 동시 실행!)</div>
-<div class="kb-diagram-note">(🚨 인터럽트가 낄 틈이 물리적으로 존재하지 않음)</div>
-</div>
-</div>
+  [ ❌ 일반 소프트웨어 코드 (C언어) ]
+  if (lock == 0) {       ◀─ (CPU 명령어 1: 메모리 읽기)
+     // 🚨 여기서 인터럽트 터지면 다른 놈이 들어감! (Race Condition)
+     lock = 1;           ◀─ (CPU 명령어 2: 메모리 쓰기)
+  }
 
-
+  [ ✅ 하드웨어 TAS 명령어 (TestAndSet) ]
+  TestAndSet(&lock);     ◀─ (CPU 명령어 1개: 읽고 1로 쓰기를 동시 실행!)
+                         (🚨 인터럽트가 낄 틈이 물리적으로 존재하지 않음)
+```
 **[다이어그램 해설]** 소프트웨어 개발자가 아무리 C 코드를 한 줄로 적어도, 컴파일러는 이를 여러 줄의 어셈블리어로 쪼갠다. 하드웨어 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 이 쪼개진 어셈블리어를 다시 하나로 합쳐서, CPU 실리콘 파이프라인 단에서 "이 명령이 완전히 끝날 때까지는 이 코어의 시계를 멈춰라([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 무시)"라고 강제하는 절대 반지다.
 
 - **📢 섹션 요약 비유**: 소프트웨어 방식은 요리 레시피에 "재빨리 계란을 깨고 껍질을 버려라"라고 글로 쓴 것입니다. 하드웨어 방식은 아예 공장에서 '계란을 깨면서 껍질을 분리하는 자동 기계(TAS)'를 만들어서 파는 것입니다. 기계가 하는 일은 사람이 중간에 손을 집어넣어 망칠 수 없습니다.
@@ -123,26 +120,27 @@ CAS가 아무리 완벽해 보여도 "값만 비교한다"는 맹점이 있다.
    - **재앙**: [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)을 얻으려는 놈들 때문에, 락과 상관없이 자기 로컬 메모리([NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/))를 읽으려는 다른 선량한 프로세스들까지 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 잠겨서 다 같이 멈추는([Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) Contention) 하드웨어적 병목이 터졌다.
    - **아키텍트 조치**: 이를 막기 위해 `Ticket Spinlock`이나 `MCS Spinlock`처럼 코어의 캐시 안에서만 혼자 뺑뺑이를 돌다가 자기 차례가 오면 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 한 번만 타는 영리한 하드웨어 친화적 락 아키텍처로 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 갈아엎어야 했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실무에서 TAS / CAS (하드웨어 락)를 대하는 아키텍처의 자세</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">요구사항: 초고속 인메모리 캐시(Memcached)의 카운터 개발</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 락(Lock) 메커니즘의 층위 선택</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">❌ 레벨 1: Java/C#의 일반 Mutex, Synchronized 떡칠</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 판정: OS 개입(Context Switch)으로 초당 10만 건도 못 버팀.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">❌ 레벨 2: C언어 인라인 어셈블리로 직접 TAS/CAS 코딩</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 판정: 바퀴의 재발명. 멀티코어 캐시 지식을 100% 모르면</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ABA 문제나 Memory Ordering 버그로 서버 무조건 터짐.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">✅ 레벨 3: 검증된 고수준 Atomic 라이브러리 사용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 예: Java의 <code>AtomicLong</code>, C++의 <code>std::atomic&lt;int&gt;</code></div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 판정: 언어 제작자들이 CPU별(x86, ARM) 하드웨어 CAS 명령어를</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가장 안전하게 매핑해 놓은 궁극의 락-프리(Lock-free) 도구.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌──────────────────────────────────────────────────────────────────────┐
+  │     실무에서 TAS / CAS (하드웨어 락)를 대하는 아키텍처의 자세        │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │                                                                      │
+  │   [요구사항: 초고속 인메모리 캐시(Memcached)의 카운터 개발]          │
+  │                │                                                     │
+  │                ▼ 락(Lock) 메커니즘의 층위 선택                       │
+  │   [ ❌ 레벨 1: Java/C#의 일반 Mutex, Synchronized 떡칠 ]             │
+  │     - 판정: OS 개입(Context Switch)으로 초당 10만 건도 못 버팀.      │
+  │                                                                      │
+  │   [ ❌ 레벨 2: C언어 인라인 어셈블리로 직접 TAS/CAS 코딩 ]           │
+  │     - 판정: 바퀴의 재발명. 멀티코어 캐시 지식을 100% 모르면          │
+  │             ABA 문제나 Memory Ordering 버그로 서버 무조건 터짐.      │
+  │                                                                      │
+  │   [ ✅ 레벨 3: 검증된 고수준 Atomic 라이브러리 사용 ]                │
+  │     - 예: Java의 `AtomicLong`, C++의 `std::atomic<int>`              │
+  │     - 판정: 언어 제작자들이 CPU별(x86, ARM) 하드웨어 CAS 명령어를    │
+  │             가장 안전하게 매핑해 놓은 궁극의 락-프리(Lock-free) 도구.│
+  └──────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** CAS와 TAS는 위대하지만, 인간이 날것([Raw](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/) Assembly)으로 다루기엔 너무 날카로운 칼이다. 멀티코어 환경에서는 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/)(MESI)과 [메모리 배리어](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/) 등 눈에 보이지 않는 물리학의 영역까지 통제해야 하기 때문이다. 따라서 실무자는 이 원리를 깊이 이해하되, 사용은 반드시 언어 표준(Standard [Library](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/))이 제공하는 `Atomic` 래퍼(Wrapper) 클래스에 전적으로 의지하는 것이 시스템을 살리는 길이다.
 
 - **📢 섹션 요약 비유**: 하드웨어 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)([CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/))는 우라늄과 같습니다. 폭발적인 에너지(속도)를 내지만 맨손으로 만지면 피폭(버그)되어 죽습니다. 반드시 납으로 만든 안전한 원자로(언어의 Atomic [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)) 안에 가둬놓고 레버만 조작해서 그 에너지를 뽑아 써야 합니다.
@@ -173,19 +171,15 @@ CAS가 아무리 완벽해 보여도 "값만 비교한다"는 맹점이 있다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">무중단 라이브 마이그레이션 스케줄링 고려사항</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">하드웨어적 동기화 (TAS, CAS)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">임계 구역 (Critical Section)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">임계 구역 문제 해결의 3조건</div></div>
-</div>
-</div>
-
-
+```text
+[무중단 라이브 마이그레이션 스케줄링 고려사항]
+    │
+    ▼
+[하드웨어적 동기화 (TAS, CAS)]
+    │
+    ├──▶ [임계 구역 (Critical Section)]
+    └──▶ [임계 구역 문제 해결의 3조건]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

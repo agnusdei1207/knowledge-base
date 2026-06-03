@@ -23,25 +23,22 @@ tags = ["studynote-bigdata"]
 
 Jay Kreps는 2014년 "Questioning the [Lambda Architecture](/knowledge-base/studynote/16_bigdata/04_streaming/095_lambda_architecture/)"라는 블로그 글에서 Lambda의 근본적인 문제를 제기했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Lambda의 핵심 문제:</div>
-<div class="kb-diagram-note">"배치와 실시간에서 동일한 로직을 두 번 구현"</div>
-<div class="kb-diagram-note">배치 코드 (Spark SQL):</div>
-<div class="kb-diagram-note">SELECT user_id, SUM(amount) FROM orders GROUP BY user_id</div>
-<div class="kb-diagram-note">실시간 코드 (Flink Java):</div>
-<div class="kb-diagram-note">stream.keyBy(e -&gt; e.getUserId())</div>
-<div class="kb-diagram-note">.window(TumblingEventTimeWindows.of(Time.hours(1)))</div>
-<div class="kb-diagram-note">.sum("amount")</div>
-<div class="kb-diagram-note">→ 비즈니스 규칙이 바뀌면 두 곳을 모두 수정</div>
-<div class="kb-diagram-note">→ 버그가 배치에서 수정되도 실시간에는 반영 안 될 수 있음</div>
-<div class="kb-diagram-note">→ 두 결과가 미묘하게 다른 경우 디버깅 어려움</div>
-</div>
-</div>
-
-
+```
+Lambda의 핵심 문제:
+  "배치와 실시간에서 동일한 로직을 두 번 구현"
+  
+  배치 코드 (Spark SQL):
+    SELECT user_id, SUM(amount) FROM orders GROUP BY user_id
+  
+  실시간 코드 (Flink Java):
+    stream.keyBy(e -> e.getUserId())
+          .window(TumblingEventTimeWindows.of(Time.hours(1)))
+          .sum("amount")
+  
+  → 비즈니스 규칙이 바뀌면 두 곳을 모두 수정
+  → 버그가 배치에서 수정되도 실시간에는 반영 안 될 수 있음
+  → 두 결과가 미묘하게 다른 경우 디버깅 어려움
+```
 
 ### 2. Kappa의 핵심 통찰
 
@@ -64,26 +61,32 @@ Kappa 제안:
 
 ### 1. [Kappa](/knowledge-base/studynote/16_bigdata/12_trends/235_kappa/) [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) 다이어그램
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">원본 이벤트 스트림</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Apache Kafka (Immutable Event Log)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Topic "events": 오프셋 0 ~~~~~~~~~~~~~~~~~~~~~~~~~→ 현재</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(모든 과거 데이터 영구 보존)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">현재 처리</div><div class="kb-diagram-cell">재처리(로직 변경 시)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Streaming Job v1</div><div class="kb-diagram-cell">Streaming Job v2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(현재 실행 중)</div><div class="kb-diagram-cell">(오프셋 0부터)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과 저장</div><div class="kb-diagram-cell">결과 저장 (신규 테이블)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Output Table v1</div><div class="kb-diagram-cell">Output Table v2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(현재 서빙)</div><div class="kb-diagram-cell">(검증 완료 후</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">v1 대체)</div></div>
-</div>
-</div>
-
-
+```
+원본 이벤트 스트림
+     │
+     ▼
+┌─────────────────────────────────────────────────────────────┐
+│  Apache Kafka (Immutable Event Log)                          │
+│                                                             │
+│  Topic "events": 오프셋 0 ~~~~~~~~~~~~~~~~~~~~~~~~~→ 현재   │
+│                  (모든 과거 데이터 영구 보존)               │
+└──────────────────────────┬──────────────────────────────────┘
+                           │
+              ┌────────────┴────────────┐
+              │ 현재 처리               │ 재처리(로직 변경 시)
+              ▼                         ▼
+     ┌─────────────────┐      ┌─────────────────┐
+     │ Streaming Job v1 │      │ Streaming Job v2 │
+     │ (현재 실행 중)   │      │ (오프셋 0부터)   │
+     └────────┬─────────┘      └────────┬─────────┘
+              │ 결과 저장               │ 결과 저장 (신규 테이블)
+              ▼                         ▼
+     ┌─────────────────┐      ┌─────────────────┐
+     │  Output Table v1 │      │  Output Table v2 │
+     │  (현재 서빙)     │      │  (검증 완료 후   │
+     └─────────────────┘      │   v1 대체)       │
+                               └─────────────────┘
+```
 
 ### 2. 재처리(Reprocessing) 절차
 
@@ -123,19 +126,14 @@ Step 5: v1 잡과 v1 출력 테이블 종료/삭제
 
 ### 2. 현실의 하이브리드: 수정된 [Kappa](/knowledge-base/studynote/16_bigdata/12_trends/235_kappa/)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">실제 많은 기업이 사용하는 절충안:</div>
-<div class="kb-diagram-note">"주요 파이프라인은 Kappa, 복잡한 집계만 배치"</div>
-<div class="kb-diagram-note">Kafka → Flink (실시간, 표준 사례) → 결과 DB</div>
-<div class="kb-diagram-note">↓ 특정 복잡 집계에만</div>
-<div class="kb-diagram-note">S3/Delta Lake (배치, 월별 전체 통계) → DW</div>
-</div>
-</div>
-
-
+```
+실제 많은 기업이 사용하는 절충안:
+  "주요 파이프라인은 Kappa, 복잡한 집계만 배치"
+  
+  Kafka → Flink (실시간, 표준 사례) → 결과 DB
+  ↓ 특정 복잡 집계에만
+  S3/Delta Lake (배치, 월별 전체 통계) → DW
+```
 
 **📢 섹션 요약 비유**
 > [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) vs Kappa는 "두 공장 운영 vs 공장 확장"이다. Lambda는 일반 공장 + 특급 공장 두 개를 따로 운영하는 것이고, Kappa는 하나의 공장을 충분히 빠르게 만들어 두 역할을 모두 담당하게 하는 것이다.
@@ -196,23 +194,21 @@ Step 5: v1 잡과 v1 출력 테이블 종료/삭제
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Lambda Architecture (배치 레이어 + 스피드 레이어 이중화)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Kappa Architecture (단일 스트리밍 파이프라인)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Kafka (Immutable 이벤트 로그 — 무한 보존)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Flink (Exactly-Once 보장 스트림 처리 엔진)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Tiered Storage (콜드 저장) → Replay (재처리) 기반 보정</div></div>
-</div>
-</div>
-
-
+```text
+[Lambda Architecture (배치 레이어 + 스피드 레이어 이중화)]
+    │
+    ▼
+[Kappa Architecture (단일 스트리밍 파이프라인)]
+    │
+    ▼
+[Apache Kafka (Immutable 이벤트 로그 — 무한 보존)]
+    │
+    ▼
+[Apache Flink (Exactly-Once 보장 스트림 처리 엔진)]
+    │
+    ▼
+[Tiered Storage (콜드 저장) → Replay (재처리) 기반 보정]
+```
 [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) 아키텍처의 코드 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) 복잡성을 해소하기 위해 Kappa는 Kafka의 불변 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)와 Flink의 Exactly-Once 스트리밍만으로 배치와 실시간을 단일 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에 통합한다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

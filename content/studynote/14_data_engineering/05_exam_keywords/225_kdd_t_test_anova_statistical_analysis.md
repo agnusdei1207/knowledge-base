@@ -22,20 +22,16 @@ tags = ["studynote-data-engineering"]
 
 KDD는 1996년 Fayyad et al.이 정의한 5단계 지식 발견 프레임워크다. 단순한 [데이터 마이닝](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/284_data_mining_association_classification_clustering_crisp_dm/)([Data Mining](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/284_data_mining_association_classification_clustering_crisp_dm/))이 아니라, 전처리부터 해석까지 포함하는 완전한 파이프라인이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① Selection</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">②Preprocess</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">③Transform</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">④Data Mining →</div><div class="kb-diagram-cell">⑤Interpret</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(선택)</div><div class="kb-diagram-cell">(전처리)</div><div class="kb-diagram-cell">(변환)</div><div class="kb-diagram-cell">(데이터</div><div class="kb-diagram-cell">/Evaluate</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마이닝)</div><div class="kb-diagram-cell">(해석)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분석 목적에</div><div class="kb-diagram-cell">결측값 처리</div><div class="kb-diagram-cell">정규화</div><div class="kb-diagram-cell">패턴 탐색</div><div class="kb-diagram-cell">비즈니스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">맞는 데이터</div><div class="kb-diagram-cell">이상값 제거</div><div class="kb-diagram-cell">차원 축소</div><div class="kb-diagram-cell">분류·군집</div><div class="kb-diagram-cell">적용 가능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하위집합</div><div class="kb-diagram-cell">노이즈 제거</div><div class="kb-diagram-cell">특성 공학</div><div class="kb-diagram-cell">회귀·연관</div><div class="kb-diagram-cell">여부 검증</div></div>
-</div>
-</div>
-
-
+```
+┌───────────┐    ┌───────────┐    ┌───────────┐    ┌───────────┐    ┌───────────┐
+│ ① Selection│───→│②Preprocess│───→│③Transform │───→│④Data Mining───→│⑤Interpret │
+│  (선택)   │    │ (전처리)  │    │  (변환)   │    │ (데이터  │    │ /Evaluate │
+│           │    │           │    │           │    │  마이닝) │    │  (해석)   │
+│ 분석 목적에│    │ 결측값 처리│    │ 정규화    │    │ 패턴 탐색│    │ 비즈니스  │
+│ 맞는 데이터│    │ 이상값 제거│    │ 차원 축소 │    │ 분류·군집│    │ 적용 가능 │
+│ 하위집합  │    │ 노이즈 제거│    │ 특성 공학 │    │ 회귀·연관│    │ 여부 검증 │
+└───────────┘    └───────────┘    └───────────┘    └───────────┘    └───────────┘
+```
 
 📢 **섹션 요약 비유**: KDD는 "금광에서 금 캐는 과정"이다. 산([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 선택하고, 흙(노이즈)을 제거하고, 돌을 분쇄(변환)하고, 금맥(패턴)을 찾고, 순도 검사(해석)를 한다.
 
@@ -45,27 +41,27 @@ KDD는 1996년 Fayyad et al.이 정의한 5단계 지식 발견 프레임워크�
 
 ### 2-1. 통계 검정 선택 가이드
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">분석 목적: 집단 간 차이가 유의한가?</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">변수 유형은?</div>
-<div class="kb-diagram-note">수치형(연속) 범주형(이산)</div>
-<div class="kb-diagram-note">집단 수는? 카이제곱 검정</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Chi-Square Test)</div></div>
-<div class="kb-diagram-note">2개 3개+</div>
-<div class="kb-diagram-note">T검정 ANOVA</div>
-<div class="kb-diagram-note">(일원분산분석)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">독립표본 T검정</div>
-<div class="kb-diagram-note">(두 집단 평균 비교)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">대응표본 T검정</div>
-<div class="kb-diagram-note">(동일 집단 전후 비교)</div>
-</div>
-</div>
-
-
+```
+분석 목적: 집단 간 차이가 유의한가?
+         │
+         ▼
+   변수 유형은?
+    │          │
+수치형(연속)    범주형(이산)
+    │              │
+    ▼              ▼
+집단 수는?     카이제곱 검정
+  │    │       (Chi-Square Test)
+ 2개  3개+
+  │    │
+  ▼    ▼
+T검정  ANOVA
+│     (일원분산분석)
+├─ 독립표본 T검정
+│   (두 집단 평균 비교)
+└─ 대응표본 T검정
+    (동일 집단 전후 비교)
+```
 
 ### 2-2. T검정 ([T-Test](/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/))
 
@@ -78,36 +74,27 @@ T검정은 두 집단의 평균 차이가 통계적으로 유의한지 [검증](
 | 일표본 T검정 (One-Sample [T-Test](/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/)) | 표본 평균이 기준값과 다른지 | 불량률 평균이 2% 기준과 다른가 |
 
 T 통계량 계산:
+```
+       x̄₁ - x̄₂
+t = ─────────────────
+     √(s²/n₁ + s²/n₂)
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">x̄₁ - x̄₂</div>
-<div class="kb-diagram-note">t =</div>
-<div class="kb-diagram-note">√(s²/n₁ + s²/n₂)</div>
-<div class="kb-diagram-note">x̄₁, x̄₂: 두 집단의 표본 평균</div>
-<div class="kb-diagram-note">s²: 합동 표준편차</div>
-<div class="kb-diagram-note">n₁, n₂: 두 집단 표본 크기</div>
-</div>
-</div>
-
-
+x̄₁, x̄₂: 두 집단의 표본 평균
+s²: 합동 표준편차
+n₁, n₂: 두 집단 표본 크기
+```
 
 ### 2-3. 일원분산분석 (One-Way [ANOVA](/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/), Analysis of [Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/))
 
 ANOVA는 3개 이상 집단의 평균 차이를 동시에 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다. (T검정을 반복하면 1종 오류가 누적됨)
 
+```
+F = 집단 간 분산(Between-Group Variance)
+    ─────────────────────────────────────
+    집단 내 분산(Within-Group Variance)
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">F = 집단 간 분산(Between-Group Variance)</div>
-<div class="kb-diagram-note">집단 내 분산(Within-Group Variance)</div>
-<div class="kb-diagram-note">F 값 크면 → 집단 간 차이가 내부 변동보다 크다 → 유의한 차이 존재</div>
-</div>
-</div>
-
-
+F 값 크면 → 집단 간 차이가 내부 변동보다 크다 → 유의한 차이 존재
+```
 
 | 구분 | 검정 통계량 | 귀무가설 | 사후검정 필요 |
 |:---|:---:|:---|:---:|
@@ -175,26 +162,24 @@ ANOVA는 3개 이상 집단의 평균 차이를 동시에 [검증](/knowledge-ba
 
 <strong>시나리오: 이커머스 결제 버튼 색상 변경 효과 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>
 
+```
+[실험 설계]
+대조군 (n=5,000): 파란색 버튼
+실험군 (n=5,000): 빨간색 버튼
 
+[측정값]
+대조군 전환율: 3.2% ± 0.5%
+실험군 전환율: 3.8% ± 0.5%
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">실험 설계</div></div>
-<div class="kb-diagram-note">대조군 (n=5,000): 파란색 버튼</div>
-<div class="kb-diagram-note">실험군 (n=5,000): 빨간색 버튼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">측정값</div></div>
-<div class="kb-diagram-note">대조군 전환율: 3.2% ± 0.5%</div>
-<div class="kb-diagram-note">실험군 전환율: 3.8% ± 0.5%</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">독립표본 T검정 적용</div></div>
-<div class="kb-diagram-note">H₀: μ대조군 = μ실험군</div>
-<div class="kb-diagram-note">H₁: μ대조군 ≠ μ실험군</div>
-<div class="kb-diagram-note">결과: t = 4.2, p = 0.00003 → p &lt; 0.05이므로 귀무가설 기각</div>
-<div class="kb-diagram-note">Cohen's d = 0.24 → 소~중 효과 크기</div>
-<div class="kb-diagram-note">결론: 통계적으로 유의하나 효과 크기는 작음 → 배포 결정 시 비용-편익 분석 추가 필요</div>
-</div>
-</div>
+[독립표본 T검정 적용]
+H₀: μ대조군 = μ실험군
+H₁: μ대조군 ≠ μ실험군
 
+결과: t = 4.2, p = 0.00003 → p < 0.05이므로 귀무가설 기각
+Cohen's d = 0.24 → 소~중 효과 크기
 
+결론: 통계적으로 유의하나 효과 크기는 작음 → 배포 결정 시 비용-편익 분석 추가 필요
+```
 
 ### 4-2. KDD-통계 분석 통합 파이프라인
 
@@ -252,22 +237,18 @@ KDD 프로세스와 통계 검정의 결합은 <strong><a href="/knowledge-base/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">KDD 프로세스: 데이터 선택 → 전처리 → 변환 → 마이닝 → 평가</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">통계 검정</div>
-<div class="kb-diagram-tree-item" style="--depth:2">T-Test: 두 집단 평균 비교</div>
-<div class="kb-diagram-tree-item" style="--depth:2">ANOVA: 세 집단 이상 분산 분석</div>
-<div class="kb-diagram-tree-item" style="--depth:2">카이제곱: 범주형 변수 독립성 검정</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">유의수준(α) · p-value · 1종/2종 오류</div>
-</div>
-</div>
-
-
+```text
+KDD 프로세스: 데이터 선택 → 전처리 → 변환 → 마이닝 → 평가
+    │
+    ▼
+통계 검정
+    ├─► T-Test: 두 집단 평균 비교
+    ├─► ANOVA: 세 집단 이상 분산 분석
+    └─► 카이제곱: 범주형 변수 독립성 검정
+    │
+    ▼
+유의수준(α) · p-value · 1종/2종 오류
+```
 2. 3개 반 이상 비교할 때는 T검정을 여러 번 쓰면 오류가 쌓이므로, ANOVA라는 한 번에 모두 비교하는 방법을 쓴다.
 3. KDD는 "보물 지도에서 보물을 찾는 5단계 과정"이고, 통계 검정은 "찾은 것이 진짜 보물인지 감정하는 단계"이다.
 

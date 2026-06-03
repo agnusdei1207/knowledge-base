@@ -31,21 +31,15 @@ tags = ["studynote-it-management"]
 
 구독 모델은 고객이 무엇을 얼마나 썼는지 계속 기록해야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">고객</div>
-<div class="kb-diagram-note">↓ 사용</div>
-<div class="kb-diagram-note">서비스 제공자</div>
-<div class="kb-diagram-note">↓ 측정</div>
-<div class="kb-diagram-note">사용량 / 요금제 / 결제 / 고객 지원</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">반복 매출</div>
-</div>
-</div>
-
-
+```text
+고객
+  ↓ 사용
+서비스 제공자
+  ↓ 측정
+사용량 / 요금제 / 결제 / 고객 지원
+  ↓
+반복 매출
+```
 
 핵심은 판매가 아니라 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 관리다. 가입, 결제, 갱신, 해지, 재구매를 모두 잘 다뤄야 한다.
 
@@ -105,21 +99,15 @@ XaaS는 모든 것을 [서비스](/knowledge-base/studynote/13_cloud_architectur
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소유</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">구독</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">사용량 측정 / 결제 / 유지</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">반복 매출 / 고객 생애 가치</div>
-</div>
-</div>
-
-
+```text
+소유
+  ↓
+구독
+  ↓
+사용량 측정 / 결제 / 유지
+  ↓
+반복 매출 / 고객 생애 가치
+```
 
 ---
 

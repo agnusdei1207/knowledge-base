@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 옛날 VXLAN은 오버레이 터널([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면)은 환상적이었지만, 정작 **통제탑(제어 평면, Control Plane)의 뇌가 없었습니다.**
 - [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 낯선 목적지 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 찾을 때, 옛날 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들이 하던 버릇 그대로 "이 IP 가진 사람 응답해!"라며 모든 망에 패킷을 다 던져서 물어보는 무식한 <strong>Flooding(브로드캐스트/<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/">멀티캐스트</a>)</strong> 짓거리를 했습니다. 거대 클라우드 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)에서는 이 묻지도 따지지도 않는 탐색 방송(BUM 트래픽)이 태풍이 되어 네트워크를 마비시켰습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">STT 가상화 망 패킷 오프로드 LSO 지원…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">EVPN</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">클라우드 네이티브 네트워킹 스케일아웃 분산…</div></div>
-</div>
-</div>
-
-
+```text
+[STT 가상화 망 패킷 오프로드 LSO 지원…]
+    │
+    ▼
+[EVPN]
+    │
+    └──▶ [클라우드 네이티브 네트워킹 스케일아웃 분산…]
+```
 
 - **📢 섹션 요약 비유**: EVPN는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -44,18 +40,14 @@ tags = ["studynote-network"]
 - **개념**: 인터넷 전 세계 국가망을 엮어주던 가장 강력하고 똑똑한 외교관 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 프로토콜인 <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/">BGP</a>(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/">Border Gateway Protocol</a>, 구체적으로 MP-<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/">BGP</a>)를 개조하여, <a href="/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/">데이터센터</a> 내부의 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> 주소와 IP 주소 이동 경로를 스마트하게 엑셀로 정리하고 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>들에게 전파해 주는 차세대 L2/L3 통합 <a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/">VPN</a> 제어 평면(Control Plane) 기술 표준</strong>입니다.
 - **완벽한 한 쌍**: 요즘 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 설계자들은 <strong>"<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 택배 상자(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Plane)는 <a href="/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/">VXLAN</a> 박스를 쓰고, 길을 알려주는 네비게이션 두뇌(Control Plane)는 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/">BGP</a> EVPN을 쓴다"</strong>를 신앙처럼 외우고 다닙니다. 이 둘이 짝꿍으로 돌아갑니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">STT 가상화 망 패킷 오프로드 LSO 지원…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">EVPN</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">클라우드 네이티브 네트워킹 스케일아웃 분산…</div></div>
-</div>
-</div>
-
-
+```text
+[STT 가상화 망 패킷 오프로드 LSO 지원…]
+    │
+    ▼
+[EVPN]
+    │
+    └──▶ [클라우드 네이티브 네트워킹 스케일아웃 분산…]
+```
 
 - **📢 섹션 요약 비유**: EVPN의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -128,19 +120,15 @@ EVPN는 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cl
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: STT 가상화 망 패킷 오프로드 LSO 지원…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: EVPN</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 클라우드 네이티브 네트워킹 스케일아웃 분산…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: STT 가상화 망 패킷 오프로드 LSO 지원…]
+    │
+    ▼
+[현재 개념: EVPN]
+    │
+    ├──▶ [확장 A: 클라우드 네이티브 네트워킹 스케일아웃 분산…]
+    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
+```
 
 EVPN는 [STT](/knowledge-base/studynote/03_network/16_data_center_cloud/819_stt_stateless_transport_tunneling_offload/) [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 망 패킷 오프로드 LSO 지원…에서 출발해 현재 메커니즘을 정교화하고, 이후 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 스케일아웃 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)…와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

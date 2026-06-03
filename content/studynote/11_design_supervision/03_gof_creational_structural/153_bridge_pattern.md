@@ -39,34 +39,36 @@ tags = ["studynote-design-supervision"]
 
 [브리지 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/384_bridge_pattern_summary/)의 심장 뼈대는 <strong>'<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/">상속</a> 계층구조(Hierarchy)를 2개의 독립된 기둥으로 쪼개 세우고 중간 허공에 끈(위임 Delegation)을 매단다'</strong>에 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">브리지(Bridge) 패턴 십자 융합 도끼 찢기(Decoupling) 록온 도해 🚀</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🎮</div><div class="kb-diagram-node">기능 추상부 (Abstraction 껍데기 리모컨) 계층 텐트 🛡️</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">합성(Composition) 끈 다리 🔗</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Abstraction (일반 리모컨)</div><div class="kb-diagram-cell">위임 핑퐁</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- impl: Implementor</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Implementor (TV 쇳덩이 인터페이스)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ turnOn() {</div><div class="kb-diagram-cell">+ powerOnMachine()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">impl.powerOnMachine()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div><div class="kb-diagram-cell">▲</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(구현 implements)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ (기능 확장 extends)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RefinedAbstraction</div><div class="kb-diagram-cell">ConcreteImplementor</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(고급형 넷플릭스 리모컨 껍데기)</div><div class="kb-diagram-cell">(삼성 TV 하드웨어 모터 엔진)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ turnOnNetflix()</div><div class="kb-diagram-cell">+ powerOnMachine()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 아키텍트 극딜 (상속의 조합 폭발 M x N 타파 🚀):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"봐라 쾅!! 리모컨 껍데기 종류(기능)가 추가되면 걍 왼쪽 기둥 아래에만 새끼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클래스(Refined) 1개 딱 파면 끝 ㅋ!! TV 브랜드(구현)가 100개 추가되면 걍</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오른쪽 기둥 아래에 새끼 클래스(Concrete) 100개 파면 끝 ㅋ!!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">양쪽 세계는 서로 평생 얼굴 1번 안 보고 1바이트 핏줄도 안 섞인 채(완벽 격리)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➔ 중간 허공에 떠 있는 <code>impl</code> 포인터 다리(Bridge) 1개로만 런타임 0.01초</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">찰나에 다이렉트 호출 짬처리 위임(Delegation) 넘기고 무정단 생존 달성 쾅 ✨!!"</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          브리지(Bridge) 패턴 십자 융합 도끼 찢기(Decoupling) 록온 도해 🚀 │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ 🎮 [ 기능 추상부 (Abstraction 껍데기 리모컨) 계층 텐트 🛡️ ]         │
+│                                                             │
+│ ┌────────────────────────┐         [ 합성(Composition) 끈 다리 🔗 ]│
+│ │ Abstraction (일반 리모컨)│  위임 핑퐁   ┌────────────────────────┐ │
+│ │ - impl: Implementor    │ ───────▶ │ Implementor (TV 쇳덩이 인터페이스)│
+│ │ + turnOn() {           │          │ + powerOnMachine()       │ │
+│ │   impl.powerOnMachine()│          └────────────────────────┘ │
+│ │ }                      │                     ▲               │
+│ └────────────────────────┘                     │ (구현 implements)│
+│            ▲ (기능 확장 extends)                │               │
+│ ┌──────────┴─────────────┐          ┌──────────┴─────────────┐ │
+│ │ RefinedAbstraction     │          │ ConcreteImplementor    │ │
+│ │ (고급형 넷플릭스 리모컨 껍데기)│          │ (삼성 TV 하드웨어 모터 엔진)  │ │
+│ │ + turnOnNetflix()      │          │ + powerOnMachine()     │ │
+│ └────────────────────────┘          └────────────────────────┘ │
+│                                                             │
+│ 🌟 아키텍트 극딜 (상속의 조합 폭발 M x N 타파 🚀):                   │
+│   "봐라 쾅!! 리모컨 껍데기 종류(기능)가 추가되면 걍 왼쪽 기둥 아래에만 새끼   │
+│   클래스(Refined) 1개 딱 파면 끝 ㅋ!! TV 브랜드(구현)가 100개 추가되면 걍   │
+│   오른쪽 기둥 아래에 새끼 클래스(Concrete) 100개 파면 끝 ㅋ!!              │
+│   양쪽 세계는 서로 평생 얼굴 1번 안 보고 1바이트 핏줄도 안 섞인 채(완벽 격리)  │
+│   ➔ 중간 허공에 떠 있는 `impl` 포인터 다리(Bridge) 1개로만 런타임 0.01초   │
+│   찰나에 다이렉트 호출 짬처리 위임(Delegation) 넘기고 무정단 생존 달성 쾅 ✨!!" │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[아키텍트의 피 터지는 핵심 원리: OCP와 DIP의 동시 쌍끌이 융합 대관식 ✨]**
 - <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/">OCP</a> (<a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/356_process/">개방-폐쇄 원칙</a>)</strong>: 왼쪽(기능 추상부)에 리모컨 음성인식 버튼 코드를 수천 줄 추가(Open)해도 ➔ 오른쪽(구현부) 삼성 TV 코드는 1글자 1바이트 수정(Closed)할 필요 없이 100% 무결점 평화 생존 쉴드 방어막이 쳐진다.
@@ -156,23 +158,21 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">무지성 하드코딩 다중 상속(Inheritance extends) 떡칠 파국 💥 / "리모컨(기능) + 삼성TV(플랫폼) = 상속 1개 쳐서 합체 로봇 만들자 데헷 ㅋ" ➔ 플랫폼 10개, 기능 10개 늘어나니까 클래스 100개 M x N 조합 피라미드 스파게티 거미줄 폭발 터져 1줄 수정에 100개 연쇄 시뻘건 컴파일 뻗음 셧다운 멸망 타죽음 💀</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">GoF 아키텍트 분노 도끼 척살 🪓 / "야 씨발아 상속 피 섞지 마 제발 쾅!! 하늘이 두 쪽 나도</div><div class="kb-diagram-node">껍데기 리모컨 텐트 기능 기둥</div><div class="kb-diagram-note">이랑</div><div class="kb-diagram-node">뒷단 TV 쇳덩이 모터 기둥</div><div class="kb-diagram-note">2개로 완.벽.히. 이혼 분할 100% 찢어발겨 격리 쳐 쾅!!!"</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Bridge 패턴 (브리지 다리 끈 록온 ✨) 대관식 🚀 / "두 기둥은 서로 얼굴도 보지 말고 1바이트 핏줄도 안 섞인 남남으로 우주 평행 생존 각자 무한 증식 진화해라 쾅!! ➔ 오직 중간 허공에 띄운 끈(위임 Delegation 포인터 변수) 1가닥 다리 브리지 위에서만 런타임 0.01초 찰나에 다이렉트 호출 핑퐁 짬처리 엮어 스위칭 스텔스 통신 때리고 헤어져 쓩🚀!"</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">JDBC 및 SLF4J 엔터프라이즈 프레임워크 대통일 ✨ / 자바 진영 코더(왼쪽 기둥)는 오라클 DB/MySQL 쇳덩이 1바이트 쳐다보지 않고 걍 JDBC 표준 인터페이스 대문만 찌름 ➔ 벤더사(오른쪽 기둥)가 짠 쇳덩이 드라이버를 브리지(다리)로 런타임 주입 연결 찰칵 꽂아 돌려버리는 극강 디커플링 우주 대통일 성배 달성 쾅!!</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">MSA (마이크로서비스) 클라우드 모던 아키텍처 혼 빙의 환생 (현재) 🚀 / 소프트웨어 껍데기 브리지(Bridge) 객체 디자인 패턴 사상이 ➔ 물리적 거대 백엔드 쇳덩이 서버망 게이트웨이(API Gateway 프록시) 스위칭 록온 라우팅 통제막 텐트 제국으로 영구 차원 승격 도약 융합 달성 🚀</div>
-</div>
-</div>
-
-
+```text
+무지성 하드코딩 다중 상속(Inheritance extends) 떡칠 파국 💥 / "리모컨(기능) + 삼성TV(플랫폼) = 상속 1개 쳐서 합체 로봇 만들자 데헷 ㅋ" ➔ 플랫폼 10개, 기능 10개 늘어나니까 클래스 100개 M x N 조합 피라미드 스파게티 거미줄 폭발 터져 1줄 수정에 100개 연쇄 시뻘건 컴파일 뻗음 셧다운 멸망 타죽음 💀
+    │
+    ▼
+GoF 아키텍트 분노 도끼 척살 🪓 / "야 씨발아 상속 피 섞지 마 제발 쾅!! 하늘이 두 쪽 나도 [껍데기 리모컨 텐트 기능 기둥] 이랑 [뒷단 TV 쇳덩이 모터 기둥] 2개로 완.벽.히. 이혼 분할 100% 찢어발겨 격리 쳐 쾅!!!"
+    │
+    ▼
+Bridge 패턴 (브리지 다리 끈 록온 ✨) 대관식 🚀 / "두 기둥은 서로 얼굴도 보지 말고 1바이트 핏줄도 안 섞인 남남으로 우주 평행 생존 각자 무한 증식 진화해라 쾅!! ➔ 오직 중간 허공에 띄운 끈(위임 Delegation 포인터 변수) 1가닥 다리 브리지 위에서만 런타임 0.01초 찰나에 다이렉트 호출 핑퐁 짬처리 엮어 스위칭 스텔스 통신 때리고 헤어져 쓩🚀!"
+    │
+    ▼
+JDBC 및 SLF4J 엔터프라이즈 프레임워크 대통일 ✨ / 자바 진영 코더(왼쪽 기둥)는 오라클 DB/MySQL 쇳덩이 1바이트 쳐다보지 않고 걍 JDBC 표준 인터페이스 대문만 찌름 ➔ 벤더사(오른쪽 기둥)가 짠 쇳덩이 드라이버를 브리지(다리)로 런타임 주입 연결 찰칵 꽂아 돌려버리는 극강 디커플링 우주 대통일 성배 달성 쾅!!
+    │
+    ▼
+MSA (마이크로서비스) 클라우드 모던 아키텍처 혼 빙의 환생 (현재) 🚀 / 소프트웨어 껍데기 브리지(Bridge) 객체 디자인 패턴 사상이 ➔ 물리적 거대 백엔드 쇳덩이 서버망 게이트웨이(API Gateway 프록시) 스위칭 록온 라우팅 통제막 텐트 제국으로 영구 차원 승격 도약 융합 달성 🚀
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

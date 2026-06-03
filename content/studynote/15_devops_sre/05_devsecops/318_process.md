@@ -29,19 +29,19 @@ Toil은 다음 6가지 특성을 모두 가진 업무다:
 | No Lasting Value| 완료 후 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 상태를 영구 개선하지 않음        |
 | Scales linearly | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 성장에 비례해 업무량 증가                |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Toil 판별 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">반복 작업 발견</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 자동화 가능? No ──▶ Toil 아님</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Yes</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ Toil ──▶ 자동화 우선순위 큐에 등록</div></div>
-</div>
-</div>
-
-
+```
+┌───────────────────────────────────────────────────┐
+│                Toil 판별 흐름                     │
+│                                                   │
+│  반복 작업 발견                                   │
+│      │                                            │
+│      ├─ 자동화 가능? ─── No ──▶ Toil 아님        │
+│      │       │                                   │
+│      │      Yes                                  │
+│      │       │                                   │
+│      └──▶  Toil ──▶ 자동화 우선순위 큐에 등록    │
+└───────────────────────────────────────────────────┘
+```
 
 > 📢 **Ⅰ 섹션 요약 비유**
 > Toil은 매일 아침 똑같은 방법으로 청소하는 것 — 청소 로봇을 사면 그 시간을 더 창의적인 일에 쓸 수 있다.
@@ -54,7 +54,7 @@ Toil은 다음 6가지 특성을 모두 가진 업무다:
 |-------------|------------------------------------------|--------------------------|
 | [Toil](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)        | 자동화 가능한 반복 수동 작업              | 수동 배포, 반복 재시작    |
 | Overhead    | 조직 운영을 위한 필수 비생산적 업무       | 회의, 문서 작성, 채용     |
-| Engineering | 장기적 가치를 창출하는 프로젝트 업무      | 자동화 도구 개발          |
+| 엔진ering | 장기적 가치를 창출하는 프로젝트 업무      | 자동화 도구 개발          |
 
 SRE는 Overhead는 줄이되, 제거하는 것이 목표인 Toil에 집중한다.
 
@@ -108,26 +108,20 @@ Toil이 지속적으로 높으면:
 |-----------------|-----------------------------------------|
 | [Toil](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)            | 자동화 가능한 반복 수동 운영 업무        |
 | Overhead        | 조직 운영 필수 비엔지니어링 업무         |
-| Engineering     | 장기 가치 창출 엔지니어링 업무           |
+| 엔진ering     | 장기 가치 창출 엔지니어링 업무           |
 | 50% Rule        | Toil은 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 업무의 절반 이하여야 함      |
 | Self-healing    | 자동 장애 감지·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 메커니즘            |
 | [ChatOps](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/207_chatops_slack_bot_deployment/)         | 채팅 인터페이스 기반 운영 자동화        |
 
 ### 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Toil</div>
-<div class="kb-diagram-tree-item" style="--depth:2">측정 → 주단위 Toil 시간 로그</div>
-<div class="kb-diagram-tree-item" style="--depth:2">자동화 → Runbook 스크립트화, Ansible</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Self-healing → 장애 자동 감지·재시작</div>
-<div class="kb-diagram-tree-item" style="--depth:2">SRE 건강 지표 → Toil 50% 상한 모니터링</div>
-</div>
-</div>
-
-
+```
+Toil
+    ├── 측정 → 주단위 Toil 시간 로그
+    ├── 자동화 → Runbook 스크립트화, Ansible
+    ├── Self-healing → 장애 자동 감지·재시작
+    └── SRE 건강 지표 → Toil 50% 상한 모니터링
+```
 
 > 🧒 **어린이 비유**
 > Toil은 매일 같은 숙제를 손으로 쓰는 것이에요. 타자를 배우면(자동화) 그 시간에 더 재미있는 공부를 할 수 있어요.

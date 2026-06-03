@@ -27,28 +27,31 @@ tags = ["studynote-operating-system"]
   2. **하드웨어의 찢기 (NUMA 탄생)**: CPU 벤더(Intel/AMD)가 메인보드 구조를 바꿔, CPU마다 독자적인 메모리 컨트롤러를 달아주어 트래픽을 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시킴.
   3. **소프트웨어(OS)의 대응**: 하드웨어가 찢어졌으니, OS의 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 시스템도 "아무 빈 프레임이나 막 주면 안 되고, 이 프로그램이 돌고 있는 CPU와 가장 물리적으로 가까운(Local) 빈 프레임을 골라서 줘야 한다"는 <strong>거리 계산 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>(NUMA Aware)</strong>이 강제되었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">UMA (과거) vs NUMA (현대 대형 서버) 아키텍처의 직관적 차이</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">UMA (Uniform Memory Access) - 균일 접근</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 0 ── ── RAM 뱅크 A</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">CPU 1 ──</div><div class="kb-diagram-node">공용 시스템 버스</div><div class="kb-diagram-note">── RAM 뱅크 B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 2 ── ── RAM 뱅크 C</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: 100명이 하나의 길로 몰려 병목 펑펑! 어느 램이든 속도는 똑같음.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NUMA (Non-Uniform Memory Access) - 불균일 접근</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(로컬 접근: 빠름!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Node 0 (CPU 0)</div><div class="kb-diagram-node">Node 1 (CPU 1)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↕️</div><div class="kb-diagram-cell">↕️</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Node 0 (RAM 0)</div><div class="kb-diagram-node">Node 1 (RAM 1)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">QPI (다리 연결)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(리모트 접근: 다리 건너가야 해서 느림!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: 각자 자기 램을 써서 병목 제로. 단, 남의 램을 쓰면 페널티 발생.</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────┐
+│        UMA (과거) vs NUMA (현대 대형 서버) 아키텍처의 직관적 차이      │
+├────────────────────────────────────────────────────────────────────────┤
+│                                                                        │
+│ [ UMA (Uniform Memory Access) - 균일 접근 ]                            │
+│   CPU 0 ──┐                        ┌── RAM 뱅크 A                      │
+│   CPU 1 ──┼─── [ 공용 시스템 버스 ] ───┼── RAM 뱅크 B                  │
+│   CPU 2 ──┘                        └── RAM 뱅크 C                      │
+│  ▶ 결과: 100명이 하나의 길로 몰려 병목 펑펑! 어느 램이든 속도는 똑같음.│
+│                                                                        │
+│ [ NUMA (Non-Uniform Memory Access) - 불균일 접근 ]                     │
+│          (로컬 접근: 빠름!)                                            │
+│   ┌─────────────────────┐      ┌─────────────────────┐                 │
+│   │ [ Node 0 (CPU 0) ]  │      │ [ Node 1 (CPU 1) ]  │                 │
+│   │       ↕️            │      │       ↕️            │                 │
+│   │ [ Node 0 (RAM 0) ]  │      │ [ Node 1 (RAM 1) ]  │                 │
+│   └──────────┬──────────┘      └──────────┬──────────┘                 │
+│              │                          │                              │
+│              └───── QPI (다리 연결) ──────┘                            │
+│                 (리모트 접근: 다리 건너가야 해서 느림!)                │
+│                                                                        │
+│  ▶ 결과: 각자 자기 램을 써서 병목 제로. 단, 남의 램을 쓰면 페널티 발생.│
+└────────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** NUMA의 철학은 '고립을 통한 속도 향상'이다. Node 0에서 카카오톡을 실행하고 Node 0의 램에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 박아두면, 옆집 Node 1이 뭘 하든 간섭받지 않고 최대 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)으로 통신할 수 있다. 하지만 만약 OS가 멍청해서 카카오톡을 Node 0에서 실행시키면서 메모리는 저 멀리 Node 1의 램에 매핑(할당)해 버리면, 카카오톡은 매 클럭마다 QPI 다리를 건너느라 심각한 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 페널티에 갇혀버리게 된다.
 
 - **📢 섹션 요약 비유**: 옛날엔 서울 한가운데 거대한 중앙 주방 하나만 두고 전국으로 배달([UMA](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/379_uma/))하려다 길이 다 막혔는데, 이제는 지역별 배달지사(NUMA 노드)를 두어 서울 주문은 서울 주방에서, 부산 주문은 부산 주방에서(로컬 접근) 즉시 처리하는 로켓 배송 시스템입니다. 단, 부산에 재고가 없어서 서울 주방에서 부산으로 배달(리모트 접근)을 시키는 순간 예전보다 훨씬 느려집니다.
@@ -77,23 +80,25 @@ tags = ["studynote-operating-system"]
 - **Node 결정**: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 바로 이 <strong>"최초로 쓰기를 발생시킨 CPU 코어"가 속해있는 Node의 물리 램(Local RAM)</strong>을 떼어서 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)에 매핑해 준다.
 - **의도**: "네가 이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 만졌다는 건, 앞으로도 네가 계속 만질 확률이 높으니까, 네 턱밑에 있는 로컬 램에 배정해 줄게!"라는 가장 합리적이고 우아한 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/)([Heuristic](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/))이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">First-Touch Policy에 의한 NUMA 로컬 메모리 매핑</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 스레드 A가 CPU 0 (Node 0) 위에서 실행 중.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. <code>int* p = malloc(4096);</code> 실행 -&gt; (이때까진 물리 램 할당 안 됨)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3. <code>p</div><div class="kb-diagram-node">0</div><div class="kb-diagram-note">= 10;</code> (최초 접근, First Touch 발생!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (Page Fault 터짐)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">커널 NUMA 매니저</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"어? 방금 0번 CPU가 터치했네? 그럼 무조건 Node 0 램에서 프레임 빼줘!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Node 0의 물리 RAM (Local)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 결과: 스레드 A는 이후 100만 번의 연산을 가장 빠른 로컬 램에서 수행!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│              First-Touch Policy에 의한 NUMA 로컬 메모리 매핑            │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│ 1. 스레드 A가 CPU 0 (Node 0) 위에서 실행 중.                            │
+│ 2. `int* p = malloc(4096);` 실행 -> (이때까진 물리 램 할당 안 됨)       │
+│                                                                         │
+│ 3. `p[0] = 10;` (최초 접근, First Touch 발생!)                          │
+│       │                                                                 │
+│       ▼ (Page Fault 터짐)                                               │
+│ [ 커널 NUMA 매니저 ]                                                    │
+│ "어? 방금 0번 CPU가 터치했네? 그럼 무조건 Node 0 램에서 프레임 빼줘!"   │
+│       │                                                                 │
+│       ▼                                                                 │
+│ 물리 메모리 매핑: 가상 주소 P ──▶ [ Node 0의 물리 RAM (Local) ]         │
+│ ✅ 결과: 스레드 A는 이후 100만 번의 연산을 가장 빠른 로컬 램에서 수행!  │
+└─────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 똑똑하게 알아서 가장 빠른 로컬(Local) 램을 배정해 주는 완벽한 마법처럼 보이지만, 이 마법은 뒤에서 설명할 '멀티스레드와 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 이동' 앞에서는 처참하게 꼬여버리는 치명적 한계를 안고 있다.
 
@@ -123,17 +128,14 @@ OS의 CPU [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas
 3. [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 Node 1에서 열심히 계산하는데, 자기가 쓸 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 저 멀리 Node 0에 버려져 있다.
 4. 모든 메모리 접근이 끔찍하게 느린 <strong>Remote Access(원격 접근)로 100% 강제 역전</strong>되어 성능이 수직으로 폭락한다. 이것이 NUMA 아키텍처의 최대 부작용인 "NUMA Remote Penalty"다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스레드 위치</div><div class="kb-diagram-cell">데이터(램) 위치</div><div class="kb-diagram-cell">접근 유형</div><div class="kb-diagram-cell">성능 상태</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Node 0</div><div class="kb-diagram-cell">Node 0</div><div class="kb-diagram-cell">Local</div><div class="kb-diagram-cell">🚀 로켓 속도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Node 1</div><div class="kb-diagram-cell">Node 0</div><div class="kb-diagram-cell">Remote</div><div class="kb-diagram-cell">🐢 기어감</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬────────────────────────┐
+│ 스레드 위치│ 데이터(램) 위치│ 접근 유형     │ 성능 상태     │
+├──────────┼────────────┼────────────┼────────────────────────┤
+│ Node 0   │ Node 0     │ Local      │ 🚀 로켓 속도           │
+│ Node 1   │ Node 0     │ Remote     │ 🐢 기어감              │
+└──────────┴────────────┴────────────┴────────────────────────┘
+```
 **[매트릭스 해설]** 이 참사를 막기 위해 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 `Auto NUMA Balancing`이라는 데몬을 띄워서, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 이사 가면 램에 있던 수백 MB의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 따라 Node 1의 램으로 낑낑대며 이사([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Migration)시켜주는 무거운 백그라운드 작업을 돌려야만 했다.
 
 - **📢 섹션 요약 비유**: 이태원에 살아서 이태원 헬스장(로컬 램)을 끊어놨는데, 회사(OS [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/))가 갑자기 강남으로 발령을 내버려서(CPU 마이그레이션), 매일 강남에서 이태원까지 왕복 2시간 걸려 헬스장을 다녀야 하는(리모트 접근) 끔찍한 동선 낭비가 발생한 꼴입니다.
@@ -190,19 +192,15 @@ NUMA (Non-[Uniform Memory Access](/knowledge-base/studynote/01_computer_architec
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">캐시 인식 데이터 구조 (Cache-aware Data Structures)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NUMA (Non-Uniform Memory Access) 아키텍처와 메모리 할당 정책</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">로컬 노드 할당 vs 인터리브 할당</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">캐시 컬러링 (Cache Coloring) / 페이지 컬러링</div></div>
-</div>
-</div>
-
-
+```text
+[캐시 인식 데이터 구조 (Cache-aware Data Structures)]
+    │
+    ▼
+[NUMA (Non-Uniform Memory Access) 아키텍처와 메모리 할당 정책]
+    │
+    ├──▶ [로컬 노드 할당 vs 인터리브 할당]
+    └──▶ [캐시 컬러링 (Cache Coloring) / 페이지 컬러링]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

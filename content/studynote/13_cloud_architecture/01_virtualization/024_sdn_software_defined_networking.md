@@ -22,23 +22,20 @@ tags = ["studynote-cloud-architecture"]
 
 SDN은 이 제어 로직을 중앙 컨트롤러로 추출하여 "소프트웨어처럼" 관리한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SDN 3계층 아키텍처</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">애플리케이션 레이어 (Application Layer)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 앱: 로드밸런서, 방화벽, 트래픽 엔지니어링</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">노스바운드 API (Northbound API, REST)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제어 레이어 (Control Layer)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SDN 컨트롤러: OpenDaylight, ONOS, Cisco ACI</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사우스바운드 API (Southbound API, OpenFlow)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인프라 레이어 (Infrastructure/Data Layer)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">물리·가상 스위치: 패킷 포워딩만 담당</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────┐
+│            SDN 3계층 아키텍처                               │
+├────────────────────────────────────────────────────────────┤
+│  애플리케이션 레이어 (Application Layer)                     │
+│  [네트워크 앱: 로드밸런서, 방화벽, 트래픽 엔지니어링]           │
+│       │ 노스바운드 API (Northbound API, REST)               │
+│  제어 레이어 (Control Layer)                                │
+│  [SDN 컨트롤러: OpenDaylight, ONOS, Cisco ACI]             │
+│       │ 사우스바운드 API (Southbound API, OpenFlow)         │
+│  인프라 레이어 (Infrastructure/Data Layer)                  │
+│  [물리·가상 스위치: 패킷 포워딩만 담당]                        │
+└────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 전통 네트워크는 각 교통경찰이 자기 교차로를 독립 관리하는 것이고, SDN은 중앙 교통 관제센터(컨트롤러)가 도시 모든 신호를 소프트웨어로 일괄 제어하는 것이다.
 
@@ -127,23 +124,21 @@ SDN은 [O-RAN](/knowledge-base/studynote/03_network/15_nextgen_communication_arc
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">전통 네트워크 — 분산 제어, 장비별 독립 설정</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SDN — 제어/데이터 평면 분리, 중앙 컨트롤러</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NFV + SDN — 네트워크 기능 가상화 결합</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">클라우드 네트워킹 — VPC, Kubernetes CNI</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AI 자율 네트워킹 — ML 기반 자동 트래픽 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[전통 네트워크 — 분산 제어, 장비별 독립 설정]
+    │
+    ▼
+[SDN — 제어/데이터 평면 분리, 중앙 컨트롤러]
+    │
+    ▼
+[NFV + SDN — 네트워크 기능 가상화 결합]
+    │
+    ▼
+[클라우드 네트워킹 — VPC, Kubernetes CNI]
+    │
+    ▼
+[AI 자율 네트워킹 — ML 기반 자동 트래픽 최적화]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

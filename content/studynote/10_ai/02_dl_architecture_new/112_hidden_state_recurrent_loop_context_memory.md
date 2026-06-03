@@ -20,19 +20,21 @@ tags = ["studynote-ai"]
 
 [FC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/) 네트워크는 입력을 독립적으로 처리하여 "나는 학교에 간다"의 순서 정보를 버린다. RNN은 순환 루프로 이전 은닉 상태를 재주입하여 <strong>순서(시간) 정보를 보존</strong>한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">순환 루프: 은닉 상태의 시간 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">h_0</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">h_1</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">h_2</div><div class="kb-diagram-cell">──▶ ...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">x_0="나" x_1="는" x_2="학교"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">h_2 = tanh(W_h · h_1 + W_x · "학교" + b)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ h_2에는 "나는"이라는 과거 문맥이 압축되어 있음</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    순환 루프: 은닉 상태의 시간 흐름                     │
+├───────────────────────────────────────────────────────┤
+│  ┌──────┐     ┌──────┐     ┌──────┐                  │
+│  │ h_0  │──▶  │ h_1  │──▶  │ h_2  │──▶ ...          │
+│  └──────┘     └──────┘     └──────┘                  │
+│     ▲           ▲           ▲                         │
+│     │           │           │                         │
+│   x_0="나"    x_1="는"    x_2="학교"                  │
+│                                                       │
+│  h_2 = tanh(W_h · h_1 + W_x · "학교" + b)           │
+│  → h_2에는 "나는"이라는 과거 문맥이 압축되어 있음     │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 은닉 상태는 독서 중인 뇌의 "지금까지 읽은 내용 요약"이다. 2장을 읽을 때 뇌에는 1장 내용이 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)되어 있고, 3장에서는 1~2장이 합쳐진 요약이 남는다.
 
@@ -94,23 +96,21 @@ $h_t$는 고정 크기 벡터이므로, 시퀀스가 길어질수록 [초기](/k
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Elman Network (1990) — 최초의 은닉 상태 순환</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LSTM Cell State (1997) — 게이트로 기억 보호</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Seq2Seq (2014) — 인코더 h_T를 디코더 초기값으로 전달</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Attention (2015) — 모든 h_t를 가중 참조</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Transformer (2017) — 순환 제거, Self-Attention으로 병렬화</div></div>
-</div>
-</div>
-
-
+```text
+[Elman Network (1990) — 최초의 은닉 상태 순환]
+    │
+    ▼
+[LSTM Cell State (1997) — 게이트로 기억 보호]
+    │
+    ▼
+[Seq2Seq (2014) — 인코더 h_T를 디코더 초기값으로 전달]
+    │
+    ▼
+[Attention (2015) — 모든 h_t를 가중 참조]
+    │
+    ▼
+[Transformer (2017) — 순환 제거, Self-Attention으로 병렬화]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 은닉 상태는 소설을 읽으면서 <strong>머릿속에 남는 "지금까지 요약"</strong>이에요.

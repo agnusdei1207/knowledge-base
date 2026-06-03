@@ -27,18 +27,19 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 밀집 텐서가 희소 표현으로 바뀌는 과정을 직관적으로 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Dense tensor -&gt; sparse values + metadata</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Dense :</div><div class="kb-diagram-node">9 | 0 | 0 | 4 | 7 | 0 | 1 | 0</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Encode: values=</div><div class="kb-diagram-node">9,4,7,1</div><div class="kb-diagram-note">metadata=</div><div class="kb-diagram-node">1,0,0,1,1,0,1,0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Decoder / scheduler sends only useful lanes to MAC array</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│ Dense tensor -> sparse values + metadata                                  │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Dense : [ 9 | 0 | 0 | 4 | 7 | 0 | 1 | 0 ]                                 │
+│                     │                                                      │
+│                     ▼                                                      │
+│ Encode: values=[9,4,7,1]  metadata=[1,0,0,1,1,0,1,0]                      │
+│                     │                                                      │
+│                     ▼                                                      │
+│ Decoder / scheduler sends only useful lanes to MAC array                  │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 텐서 희소성 [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)는 콩이 듬성듬성 들어 있는 자루를 통째로 나르지 않고, 콩만 작은 주머니에 옮겨 담고 원래 자리표만 함께 적어 두는 포장 방식과 같다.
 
@@ -60,19 +61,22 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)와 [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)가 연산 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 사이에서 어떤 역할 분담을 하는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sparse execution pipeline</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Dense weights / activations</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">sparsity encoder -&gt; values buffer + metadata buffer</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">sparse decoder / scheduler</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PE array / MAC lanes skip zero work</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│ Sparse execution pipeline                                                 │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Dense weights / activations                                               │
+│          │                                                                 │
+│          ▼                                                                 │
+│   sparsity encoder -> values buffer + metadata buffer                      │
+│          │                                                                 │
+│          ▼                                                                 │
+│   sparse decoder / scheduler                                               │
+│          │                                                                 │
+│          ▼                                                                 │
+│   PE array / MAC lanes skip zero work                                     │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 기술적으로 중요한 함정은 "50% 희소성 = 2배 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)"이 아니라는 점이다. [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 읽기, 디코딩, 불균등 분배, 메모리 정렬 손실이 있어 실제 이득은 더 낮을 수 있다. 그래서 좋은 희소성 [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)는 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)률만 자랑하지 않고, <strong>연산 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a>이 쉬지 않게 값 공급을 얼마나 고르게 유지하느냐</strong>까지 함께 해결해야 한다.
 
@@ -149,25 +153,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">대형 딥러닝 모델 확산</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">가지치기 · ReLU 기반 희소성 증가</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">값 + 메타데이터 기반 희소 인코딩</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">구조적 2:4 · N:M 희소 실행 엔진</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">제로 스키핑 · 양자화와 결합</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">레이어별 적응형 희소성 스케줄링</div>
-</div>
-</div>
-
-
+```text
+대형 딥러닝 모델 확산
+        │
+        ▼
+가지치기 · ReLU 기반 희소성 증가
+        │
+        ▼
+값 + 메타데이터 기반 희소 인코딩
+        │
+        ▼
+구조적 2:4 · N:M 희소 실행 엔진
+        │
+        ▼
+제로 스키핑 · 양자화와 결합
+        │
+        ▼
+레이어별 적응형 희소성 스케줄링
+```
 
 이 흐름은 희소성이 단순 모델 다이어트에서 끝나지 않고, 이제는 인코딩·스케줄링·실행 엔진까지 함께 바꾸는 하드웨어 공동 설계로 발전하고 있음을 보여 준다.
 

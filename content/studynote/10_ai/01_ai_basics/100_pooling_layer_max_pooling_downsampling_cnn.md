@@ -30,23 +30,26 @@ tags = ["studynote-ai"]
 | [윈도우 크기](/knowledge-base/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/) ([Window Size](/knowledge-base/studynote/03_network/04_data_link_layer_error/215_window_size_sender_receiver/)) | 추출을 수행할 구역의 크기 (보통 $2 \times 2$) | 크기가 클수록 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)률이 높아지나 정보 손실도 커짐 |
 | 보폭 ([Stride](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)) | 윈도우가 한 번에 이동하는 칸 수 (보통 2) | 보폭을 [윈도우 크기](/knowledge-base/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/)와 같게 하여 구역이 겹치지 않게 함 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Max Pooling (2x2 Window, Stride=2)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">입력 특성 맵 (4x4)</div><div class="kb-diagram-node">출력 특성 맵 (2x2)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">3</div><div class="kb-diagram-cell">2</div><div class="kb-diagram-cell">4</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">8</div><div class="kb-diagram-cell">7</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">8</div><div class="kb-diagram-cell">5</div><div class="kb-diagram-cell">7</div><div class="kb-diagram-cell">1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6</div><div class="kb-diagram-cell">9</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">5</div><div class="kb-diagram-cell">8</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6</div><div class="kb-diagram-cell">2</div><div class="kb-diagram-cell">9</div><div class="kb-diagram-cell">3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 4칸 중 가장 큰 숫자 1개만 살아남아 용량이 1/4로 줄어듦</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│               Max Pooling (2x2 Window, Stride=2)            │
+├─────────────────────────────────────────────────────────────┤
+│   [ 입력 특성 맵 (4x4) ]            [ 출력 특성 맵 (2x2) ]  │
+│                                                             │
+│   ┌───┬───┐ ┌───┬───┐                                       │
+│   │ 1 │ 3 │ │ 2 │ 4 │               ┌───┬───┐               │
+│   ├───┼───┤ ├───┼───┤ ───────────▶  │ 8 │ 7 │               │
+│   │ 8 │ 5 │ │ 7 │ 1 │               ├───┼───┤               │
+│   └───┴───┘ └───┴───┘               │ 6 │ 9 │               │
+│   ┌───┬───┐ ┌───┬───┐ ───────────▶  └───┴───┘               │
+│   │ 3 │ 1 │ │ 5 │ 8 │                                       │
+│   ├───┼───┤ ├───┼───┤                                       │
+│   │ 6 │ 2 │ │ 9 │ 3 │                                       │
+│   └───┴───┘ └───┴───┘                                       │
+│                                                             │
+│   * 4칸 중 가장 큰 숫자 1개만 살아남아 용량이 1/4로 줄어듦  │
+└─────────────────────────────────────────────────────────────┘
+```
 위 다이어그램은 16개의 픽셀이 $2 \times 2$ 구역별로 묶여 가장 큰 값 하나씩만 추출됨으로써 총 4개의 픽셀로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)되는 과정을 보여준다. 이 과정을 통해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기는 $25\%$로 줄어든다.
 
 - **📢 섹션 요약 비유**: 전국 노래자랑 예선전([특성 맵](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/))에 16명의 참가자가 4개 조(2x2 구역)로 나뉘어 대결할 때, 심사위원([Max Pooling](/knowledge-base/studynote/10_ai/02_dl_architecture_new/101_max_pooling_average_pooling_global_average_pooling/))이 각 조에서 목소리가 제일 큰 1명만 결선으로 올려보내 방송 시간(연산량)을 $1/4$로 줄이는 룰과 같다.
@@ -86,21 +89,18 @@ tags = ["studynote-ai"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">합성곱 층 (Conv Layer) 연산 폭발</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">최대 풀링 (Max Pooling) 도입 · 공간 이동 불변성 확보</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">전역 평균 풀링 (GAP) · FC Layer 대체 및 파라미터 최소화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Strided Convolution · 풀링 계층 생략 및 정보 손실 방지</div>
-</div>
-</div>
-
-
+```text
+합성곱 층 (Conv Layer) 연산 폭발
+    │
+    ▼
+최대 풀링 (Max Pooling) 도입 · 공간 이동 불변성 확보
+    │
+    ▼
+전역 평균 풀링 (GAP) · FC Layer 대체 및 파라미터 최소화
+    │
+    ▼
+Strided Convolution · 풀링 계층 생략 및 정보 손실 방지
+```
 
 이 흐름도는 "특징 탐지 → [데이터 압축](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/159_compression/) → 파라미터 최소화 → [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)과 연산의 통합"으로 진화하는 해상도 축소 기법의 발전 과정을 보여준다.
 

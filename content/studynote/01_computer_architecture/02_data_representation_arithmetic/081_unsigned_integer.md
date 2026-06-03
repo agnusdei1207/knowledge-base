@@ -50,20 +50,19 @@ tags = ["studynote-computer-architecture"]
 ### 랩어라운드(Wraparound)와 [언더플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/)
 [부호 있는 정수](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/082_signed_integer/)가 범위를 넘어서면 양수가 음수가 되는 '[오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)'가 발생하지만, 부호 없는 정수는 모듈로(Modulo) 연산 특성에 의해 닫힌 원형 트랙을 도는 **랩어라운드(Wraparound)** 현상을 겪는다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부호 없는 정수의 한계 돌파: 랩어라운드 현상</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">8비트 Unsigned 기준: 0 ~ 255 범위</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">255 (11111111) + 1 ──▶ 0 (00000000) : 원점으로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0 (00000000) - 1 ──▶ 255 (11111111) : 최댓값으로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심 판단: 0에서 작은 뺄셈을 수행하면 시스템상 가장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">거대한 숫자로 순간이동(언더플로우) 해버린다.</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────┐
+│        부호 없는 정수의 한계 돌파: 랩어라운드 현상           │
+├──────────────────────────────────────────────────────┤
+│   [ 8비트 Unsigned 기준: 0 ~ 255 범위 ]                  │
+│                                                      │
+│   255 (11111111) + 1  ──▶  0 (00000000)   : 원점으로   │
+│     0 (00000000) - 1  ──▶ 255 (11111111)  : 최댓값으로 │
+│                                                      │
+│ * 핵심 판단: 0에서 작은 뺄셈을 수행하면 시스템상 가장      │
+│   거대한 숫자로 순간이동(언더플로우) 해버린다.             │
+└──────────────────────────────────────────────────────┘
+```
 
 이러한 특성 때문에 부호 없는 정수를 루프(Loop) [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)로 사용할 때, `i >= 0` 조건으로 감소시키면 `i`가 0에서 -1이 되는 대신 42억으로 랩어라운드되어 무한 루프에 빠지는 치명적인 버그가 발생한다.
 
@@ -104,23 +103,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">정수 표현의 비트 한계 (Hardware Constraints)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">부호 없는 정수 도입 (부호 비트 제거)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">양수 범위 2배 확장 · 제로 확장 (Zero Extension)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">논리 시프트 (Logical Shift) 최적화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">메모리 주소 (Pointer) 및 네트워크 포트 규격화 표준안 정립</div>
-</div>
-</div>
-
-
+```text
+정수 표현의 비트 한계 (Hardware Constraints)
+    │
+    ▼
+부호 없는 정수 도입 (부호 비트 제거)
+    │
+    ▼
+양수 범위 2배 확장 · 제로 확장 (Zero Extension)
+    │
+    ▼
+논리 시프트 (Logical Shift) 최적화
+    │
+    ▼
+메모리 주소 (Pointer) 및 네트워크 포트 규격화 표준안 정립
+```
 
 이 흐름도는 "하드웨어 한계 극복 → 수치 전용 설계 → [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수준 가속 → 시스템 표준(주소 체계) 확립"으로 확장되는 부호 없는 정수의 진화를 보여준다.
 

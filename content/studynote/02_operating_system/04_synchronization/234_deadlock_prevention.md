@@ -24,21 +24,17 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경**: [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 프로그래밍 초창기, 데드락이 왜 발생하는지 이유를 몰랐을 때는 그저 껐다 켜는 게 답이었다. 코프만(Coffman)이 4대 조건을 수학적으로 정의한 이후, 학계는 "이 4개 중 하나만 확실히 부수면 100% 면역이 된다"는 사실을 깨닫고 각 조건을 파괴하는 예방 설계론을 확립했다.
 
+```text
+  [교착 상태 4대 조건과 예방(Prevention)의 타격점]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">교착 상태 4대 조건과 예방(Prevention)의 타격점</div></div>
-<div class="kb-diagram-note">1. 상호 배제 (Mutual Exclusion) ─▶ 파괴 시도: "다 같이 쓰게 해!" (현실적 불가)</div>
-<div class="kb-diagram-note">2. 점유 대기 (Hold and Wait) ─▶ 파괴 시도: "가진 거 다 놓고 기다려!" (자원 낭비)</div>
-<div class="kb-diagram-note">3. 비선점 (No Preemption) ─▶ 파괴 시도: "안 주면 억지로 뺏어!" (롤백 비용 폭발)</div>
-<div class="kb-diagram-note">4. 순환 대기 (Circular Wait) ─▶ 파괴 시도: "무조건 한 방향으로만 잡아!" (가장 실용적)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">&gt; 시스템 설계자는 이 4개의 방어막 중 "가장 비용이 싸고 현실적인 것 1개"만</div>
-<div class="kb-diagram-note">집중 타격하여 무너뜨리면 데드락 예방을 달성할 수 있다.</div>
-</div>
-</div>
-
-
+  1. 상호 배제 (Mutual Exclusion) ─▶ 파괴 시도: "다 같이 쓰게 해!" (현실적 불가)
+  2. 점유 대기 (Hold and Wait)   ─▶ 파괴 시도: "가진 거 다 놓고 기다려!" (자원 낭비)
+  3. 비선점 (No Preemption)      ─▶ 파괴 시도: "안 주면 억지로 뺏어!" (롤백 비용 폭발)
+  4. 순환 대기 (Circular Wait)   ─▶ 파괴 시도: "무조건 한 방향으로만 잡아!" (가장 실용적)
+  
+  >> 시스템 설계자는 이 4개의 방어막 중 "가장 비용이 싸고 현실적인 것 1개"만 
+     집중 타격하여 무너뜨리면 데드락 예방을 달성할 수 있다.
+```
 **[다이어그램 해설]** 예방 기법은 4개를 다 깰 필요가 없다. 4개 중 가장 만만한 고리 1개만 끊어버리면 완벽히 방어된다. 실무에서 [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)나 [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)을 깨는 것은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 파괴를 부르기 때문에 너무 위험하고, 주로 [점유 대기](/knowledge-base/studynote/02_operating_system/04_synchronization/231_hold_and_wait/)나 [순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/)를 타겟팅하여 아키텍처를 비튼다.
 
 - **📢 섹션 요약 비유**: 집에 도둑(데드락)이 드는 4가지 조건(문이 열림, 경비원 없음, 도둑이 있음, 훔칠 물건이 있음) 중 딱 하나만 완벽히 없애면 됩니다. 제일 쉬운 건 "훔칠 물건을 아예 집에 안 두는 것([순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/) 파괴)"입니다.
@@ -68,23 +64,24 @@ tags = ["studynote-operating-system"]
 - **수학적 효과**: 큰 번호를 쥔 놈이 작은 번호를 요구할 수 없으므로, 화살표가 뒤로 돌아가서 꼬리를 무는 사이클(동그라미) 형성이 물리적으로 100% 불가능해진다.
 - **부작용**: 동적으로 자원이 계속 생겨나는 시스템에서는 번호를 매기기가 어렵다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">순환 대기 부정(Lock Ordering)의 수학적 데드락 회피 증명</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시스템 법률: 반드시 번호(ID)가 작은 자원부터 락을 잡을 것!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상황: 스레드 A는 R1, R2가 필요. 스레드 B도 R1, R2가 필요.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스레드 A</div><div class="kb-diagram-node">스레드 B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. lock(R1) ─▶ 성공 1. lock(R1) ─▶ 🚨 A가 쥐고 있어 대기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. lock(R2) ─▶ 성공 (R1을 못 쥐었으니 R2는 쳐다보지도 못함)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 연산 완료 및 해제 2. A가 다 쓴 후 R1 획득!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. lock(R2) ─▶ 성공 및 연산 완료</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 결론: 꼬리물기(교차) 자체가 발생할 수 없는 완벽한 일방통행 완성!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌──────────────────────────────────────────────────────────────────────┐
+  │         순환 대기 부정(Lock Ordering)의 수학적 데드락 회피 증명      │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │                                                                      │
+  │  [ 시스템 법률: 반드시 번호(ID)가 작은 자원부터 락을 잡을 것! ]      │
+  │                                                                      │
+  │  상황: 스레드 A는 R1, R2가 필요. 스레드 B도 R1, R2가 필요.           │
+  │                                                                      │
+  │  [ 스레드 A ]                [ 스레드 B ]                            │
+  │  1. lock(R1) ─▶ 성공       1. lock(R1) ─▶ 🚨 A가 쥐고 있어 대기      │
+  │  2. lock(R2) ─▶ 성공       (R1을 못 쥐었으니 R2는 쳐다보지도 못함)   │
+  │  3. 연산 완료 및 해제         2. A가 다 쓴 후 R1 획득!               │
+  │                            3. lock(R2) ─▶ 성공 및 연산 완료          │
+  │                                                                      │
+  │  ✅ 결론: 꼬리물기(교차) 자체가 발생할 수 없는 완벽한 일방통행 완성! │
+  └──────────────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/) 예방은 고속도로의 "중앙분리대"입니다. 불법 유턴(역방향 락 획득)을 아예 못 하게 물리적인 벽을 쳐버리면, 차가 막힐지언정 정면충돌이나 꼬리물기 교착상태는 절대 일어나지 않습니다.
 
@@ -120,24 +117,24 @@ tags = ["studynote-operating-system"]
    - **아키텍트 결단**: 실무에서는 비관적 락을 버리고 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)(@Version) 컬럼을 이용한 <strong>낙관적 락</strong>을 쓴다. 낙관적 락은 락을 걸지 않고 메모리를 수정하다가 Commit 시점에 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)이 다르면 `OptimisticLockException`을 터뜨린다. 
    - 이 예외를 잡아서 재시도(Retry)하는 구조는 코프만의 4조건 중 <strong>"<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/">비선점</a>(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/">No Preemption</a>)"을 애플리케이션 레벨에서 자발적으로 파괴</strong>한 가장 우아한 실무적 예방 기술이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">애플리케이션(Spring, Node.js) 데드락 예방 설계 가이드라인</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1원칙: 상호 배제 타파 (가장 이상적이나 어려움)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 방법: 공유 자원을 불변 객체(Immutable)로 설계하거나,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Actor 패턴(메시지 큐)으로 동기화 병목 자체를 지움.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2원칙: 순환 대기 타파 (가장 현실적인 실무 표준)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 방법: 락 획득을 사전 정의된 열거형(Enum) 순서나,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">객체의 고유 HashCode 오름차순으로만 획득하게 코딩.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3원칙: 점유 대기/비선점 타파 (최후의 보루)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 방법: <code>tryLock(timeout)</code>을 사용하여 락을 잡지 못하면</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">내가 쥐고 있던 락마저 모두 뱉어내고 처음부터 재시도.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌──────────────────────────────────────────────────────────────────┐
+  │     애플리케이션(Spring, Node.js) 데드락 예방 설계 가이드라인    │
+  ├──────────────────────────────────────────────────────────────────┤
+  │                                                                  │
+  │   [ 1원칙: 상호 배제 타파 (가장 이상적이나 어려움) ]             │
+  │     ▶ 방법: 공유 자원을 불변 객체(Immutable)로 설계하거나,       │
+  │             Actor 패턴(메시지 큐)으로 동기화 병목 자체를 지움.   │
+  │                                                                  │
+  │   [ 2원칙: 순환 대기 타파 (가장 현실적인 실무 표준) ]            │
+  │     ▶ 방법: 락 획득을 사전 정의된 열거형(Enum) 순서나,           │
+  │             객체의 고유 HashCode 오름차순으로만 획득하게 코딩.   │
+  │                                                                  │
+  │   [ 3원칙: 점유 대기/비선점 타파 (최후의 보루) ]                 │
+  │     ▶ 방법: `tryLock(timeout)`을 사용하여 락을 잡지 못하면       │
+  │             내가 쥐고 있던 락마저 모두 뱉어내고 처음부터 재시도. │
+  └──────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** "OS가 데드락을 예방해 주겠지"라고 기대하는 주니어 개발자는 100% 서버를 터뜨린다. 현대의 [타조 알고리즘](/knowledge-base/studynote/02_operating_system/05_deadlock/291_ostrich_algorithm/)(무시) 기반 OS 위에서 돌아가는 앱을 짤 때는, 프로그래머 스스로가 1원칙~3원칙을 아키텍처에 녹여내어 애플리케이션 레벨의 완벽한 예방(Prevention) 방어막을 쳐야만 새벽에 전화받을 일이 없어진다.
 
 - **📢 섹션 요약 비유**: OS는 모래사장(인프라)만 제공할 뿐입니다. 모래성을 쌓다가 무너지는(데드락) 건 OS 책임이 아닙니다. 견고한 성을 쌓으려면 개발자 스스로 물([순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/) 방지)과 뼈대(tryLock)를 섞어 모래가 무너지지 않는 예방 공학을 적용해야 합니다.
@@ -168,19 +165,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">스핀락 (Spinlock)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">교착 상태 예방 (Deadlock Prevention)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">이진 세마포어 (Binary Semaphore) = 뮤텍스와 유사</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">카운팅 세마포어 (Counting Semaphore)</div></div>
-</div>
-</div>
-
-
+```text
+[스핀락 (Spinlock)]
+    │
+    ▼
+[교착 상태 예방 (Deadlock Prevention)]
+    │
+    ├──▶ [이진 세마포어 (Binary Semaphore) = 뮤텍스와 유사]
+    └──▶ [카운팅 세마포어 (Counting Semaphore)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

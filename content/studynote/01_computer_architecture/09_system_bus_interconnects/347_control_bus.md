@@ -27,21 +27,18 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 왜 제어 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 주소/[데이터 버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/345_data_bus/)와 별도로 필요한지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">같은 주소·데이터라도 제어 신호가 의미를 결정함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주소 버스 : 0x1000</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 버스 : 0x2A</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제어 버스 : READ ▶ 메모리: "0x1000의 값을 내보내라"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WRITE ▶ 메모리: "0x2A를 0x1000에 저장하라"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WAIT (Wait) ◀─ 느린 장치: "아직 준비 안 됨"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IRQ (Interrupt Request) ◀─ 장치: "긴급 서비스 요청"</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│             같은 주소·데이터라도 제어 신호가 의미를 결정함          │
+├──────────────────────────────────────────────────────────────────────┤
+│ 주소 버스    : 0x1000                                                │
+│ 데이터 버스  : 0x2A                                                  │
+│ 제어 버스    : READ  ─────▶ 메모리: "0x1000의 값을 내보내라"         │
+│                WRITE ────▶ 메모리: "0x2A를 0x1000에 저장하라"        │
+│                WAIT (Wait) ◀─ 느린 장치: "아직 준비 안 됨"           │
+│                IRQ (Interrupt Request) ◀─ 장치: "긴급 서비스 요청"     │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 같은 전기적 배선 위에서도 의미가 달라지는 지점이 바로 제어 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)의 핵심이다. 주소와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 명사라면 제어 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 동사에 가깝다.
 
@@ -65,20 +62,18 @@ tags = ["studynote-computer-architecture"]
 
 다음 그림은 읽기 요청이 실제로 어떻게 완료되는지 단계별로 압축해 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제어 버스 기반 읽기 트랜잭션의 시간 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단계</div><div class="kb-diagram-cell">주소 버스</div><div class="kb-diagram-cell">제어 버스</div><div class="kb-diagram-cell">데이터 버스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 요청</div><div class="kb-diagram-cell">주소 제시</div><div class="kb-diagram-cell">READ = 1</div><div class="kb-diagram-cell">비어 있음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 준비</div><div class="kb-diagram-cell">주소 유지</div><div class="kb-diagram-cell">WAIT = 1</div><div class="kb-diagram-cell">장치가 데이터 준비 중</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 완료</div><div class="kb-diagram-cell">주소 유지</div><div class="kb-diagram-cell">READY = 1</div><div class="kb-diagram-cell">유효 데이터 출력</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 종료</div><div class="kb-diagram-cell">주소 해제</div><div class="kb-diagram-cell">READ = 0</div><div class="kb-diagram-cell">버스 해제</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                 제어 버스 기반 읽기 트랜잭션의 시간 흐름            │
+├──────────┬──────────────┬──────────────┬────────────────────────────┤
+│ 단계     │ 주소 버스     │ 제어 버스     │ 데이터 버스                 │
+├──────────┼──────────────┼──────────────┼────────────────────────────┤
+│ 1. 요청  │ 주소 제시      │ READ = 1      │ 비어 있음                   │
+│ 2. 준비  │ 주소 유지      │ WAIT = 1      │ 장치가 데이터 준비 중       │
+│ 3. 완료  │ 주소 유지      │ READY = 1     │ 유효 데이터 출력            │
+│ 4. 종료  │ 주소 해제      │ READ = 0      │ 버스 해제                   │
+└──────────┴──────────────┴──────────────┴────────────────────────────┘
+```
 
 이 그림이 강조하는 것은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)보다 제어가 먼저라는 사실이다. [데이터 버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/345_data_bus/)에 무엇이 놓일지는 주소 디코딩과 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 먼저 맞아야만 결정된다. 그래서 제어 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 설계는 단순한 선의 개수 문제가 아니라, <strong>장치 속도 차이를 어떻게 흡수하고, 누가 언제 말할 권한을 갖는가</strong>를 정하는 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 설계에 가깝다.
 
@@ -149,23 +144,22 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">주소 지정 · 데이터 전달</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">제어 버스 (읽기/쓰기/대기 신호)</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ 인터럽트 (Interrupt) 처리</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ 버스 중재 (Bus Arbitration)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DMA (Direct Memory Access) · 다중 마스터 버스</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">고속 인터커넥트의 프로토콜 기반 제어</div>
-</div>
-</div>
-
-
+```text
+주소 지정 · 데이터 전달
+        │
+        ▼
+제어 버스 (읽기/쓰기/대기 신호)
+        │
+        ├─▶ 인터럽트 (Interrupt) 처리
+        │
+        ├─▶ 버스 중재 (Bus Arbitration)
+        │
+        ▼
+DMA (Direct Memory Access) · 다중 마스터 버스
+        │
+        ▼
+고속 인터커넥트의 프로토콜 기반 제어
+```
 
 이 흐름은 단순 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 제어에서 시작해 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/), 중재, 다중 마스터 지원, 현대 인터커넥트 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)로 확장되는 방향을 보여준다.
 

@@ -22,52 +22,41 @@ tags = ["studynote-design-supervision"]
 
 STI (Single Table Inheritance) 는 가장 단순한 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다—**계층 전체를 하나의 테이블로 합친다**. `employee_type` 컬럼(JPA에서는 `DTYPE`이 기본)이 어떤 서브타입인지 구분한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Employee (추상 클래스)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">FullTimeEmployee (salary 컬럼 추가)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">PartTimeEmployee (hourlyRate 컬럼 추가)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">Contractor (contractEndDate 컬럼 추가)</div>
-</div>
-</div>
-
-
+```
+Employee (추상 클래스)
+ ├── FullTimeEmployee   (salary 컬럼 추가)
+ ├── PartTimeEmployee   (hourlyRate 컬럼 추가)
+ └── Contractor         (contractEndDate 컬럼 추가)
+```
 
 이를 STI로 매핑하면 `employees` 테이블 하나에 모든 컬럼이 모인다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Core Idea</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Expected Gain</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐    ┌──────────────┐    ┌──────────────┐
+│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
+└──────────────┘    └──────────────┘    └──────────────┘
+```
 
 - **📢 섹션 요약 비유**: 다양한 직원 유형(정규직, 시간제, 계약직)의 서류를 하나의 서랍에 모두 넣되, 서류 오른쪽 위에 "정규직/시간제/계약직" 도장을 찍어 구분하는 것과 같다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">employees 테이블 (STI)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">id</div><div class="kb-diagram-cell">DTYPE</div><div class="kb-diagram-cell">name</div><div class="kb-diagram-cell">salary</div><div class="kb-diagram-cell">hourly_rate</div><div class="kb-diagram-cell">end_date</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">FullTimeEmployee</div><div class="kb-diagram-cell">Alice</div><div class="kb-diagram-cell">5000</div><div class="kb-diagram-cell">NULL</div><div class="kb-diagram-cell">NULL</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2</div><div class="kb-diagram-cell">PartTimeEmployee</div><div class="kb-diagram-cell">Bob</div><div class="kb-diagram-cell">NULL</div><div class="kb-diagram-cell">25.50</div><div class="kb-diagram-cell">NULL</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3</div><div class="kb-diagram-cell">Contractor</div><div class="kb-diagram-cell">Carol</div><div class="kb-diagram-cell">NULL</div><div class="kb-diagram-cell">NULL</div><div class="kb-diagram-cell">2026-12-31</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4</div><div class="kb-diagram-cell">FullTimeEmployee</div><div class="kb-diagram-cell">Dave</div><div class="kb-diagram-cell">6000</div><div class="kb-diagram-cell">NULL</div><div class="kb-diagram-cell">NULL</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ DTYPE: JPA 기본 구분자 컬럼 (DiscriminatorColumn)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ NULL이 많아지는 것이 STI의 단점</div></div>
-</div>
-</div>
-
-
+```
+┌────────────────────────────────────────────────────────────────────┐
+│                  employees 테이블 (STI)                             │
+│                                                                    │
+│  id  │ DTYPE           │ name  │ salary │ hourly_rate │ end_date   │
+│  ────┼─────────────────┼───────┼────────┼─────────────┼─────────── │
+│   1  │ FullTimeEmployee│ Alice │ 5000   │   NULL      │   NULL     │
+│   2  │ PartTimeEmployee│ Bob   │ NULL   │   25.50     │   NULL     │
+│   3  │ Contractor      │ Carol │ NULL   │   NULL      │ 2026-12-31 │
+│   4  │ FullTimeEmployee│ Dave  │ 6000   │   NULL      │   NULL     │
+│                                                                    │
+│  ※ DTYPE: JPA 기본 구분자 컬럼 (DiscriminatorColumn)              │
+│  ※ NULL이 많아지는 것이 STI의 단점                                 │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 ```java
 @Entity
@@ -113,20 +102,18 @@ public class PartTimeEmployee extends Employee {
 | CTI (Class Table) | `JOINED` | 부모+자식 수 | ✅ | 없음 | 서브타입별 고유 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 많을 때 |
 | Concrete Table | `TABLE_PER_CLASS` | 자식 수 | 다형 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 느림 | 없음 | 다형 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 거의 없을 때 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">하위 클래스 수가 많은가?</div>
-<div class="kb-diagram-tree-item" style="--depth:3">아니오 (2~4개) → STI 가능성 높음</div>
-<div class="kb-diagram-tree-item" style="--depth:3">예 → 아래 확인</div>
-<div class="kb-diagram-tree-item" style="--depth:6">하위 클래스별 고유 컬럼이 많은가?</div>
-<div class="kb-diagram-tree-item" style="--depth:8">아니오 → STI 여전히 적합</div>
-<div class="kb-diagram-tree-item" style="--depth:8">예 → CTI (JOINED) 고려</div>
-</div>
-</div>
-
-
+```
+하위 클래스 수가 많은가?
+      │
+      ├── 아니오 (2~4개) → STI 가능성 높음
+      │
+      └── 예           → 아래 확인
+            │
+            └── 하위 클래스별 고유 컬럼이 많은가?
+                    │
+                    ├── 아니오 → STI 여전히 적합
+                    └── 예    → CTI (JOINED) 고려
+```
 
 - **📢 섹션 요약 비유**: 소규모 가족 회사에서 정규직·알바·인턴을 같은 엑셀 시트에 관리하는 건 합리적이지만, 직원이 수백 명이면 시트를 나눠야 한다.
 

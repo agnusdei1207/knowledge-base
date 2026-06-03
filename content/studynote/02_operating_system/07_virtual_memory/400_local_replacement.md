@@ -27,28 +27,31 @@ tags = ["studynote-operating-system"]
   2. <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 격리(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">Performance</a> <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/">Isolation</a>)</strong>: 1980년대 대형 컴퓨터 시절, 여러 회사가 비싼 서버 한 대를 쪼개서 임대해 쓸 때 남의 회사 배치 작업 때문에 내 회사 작업이 느려지면 소송이 걸렸다. 이를 막기 위한 철통 격리가 필수였다.
   3. **효율성의 한계**: 램이 10GB 남아돌아도, 자기 몫(10MB)을 다 쓴 프로세스는 죽어라 디스크만 긁는 끔찍한 비효율 때문에 결국 역사 속으로 잊히게 되었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지역 교체 (Local Replacement)의 꽉 막힌 철창 생태계 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황: 물리 RAM 할당 현황 (할당량 픽스)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로세스 A의 철창 (100장)</div><div class="kb-diagram-cell">프로세스 B의 철창 (100장)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">100장 꽉 참 (여유 0)</div><div class="kb-diagram-cell">10장 씀 (90장 텅텅 빔)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 위기 발생 (Page Fault)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로세스 A: "데이터 하나만 더! 101장째 페이지 램에 올려줘!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">OS의 냉혹한 판결 (Local Replacement)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS: "야 프로세스 A. 네 철창 안에 빈 공간 0장인 거 보이지?"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS: "B 철창에 90장 남아도는 거 나도 알아. 근데 규칙은 규칙이야."</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS: "네 철창(A) 안에서 가장 안 쓴 페이지 1장 골라서 스왑으로 던져."</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS: "그리고 그 1장 빈자리에 새 데이터 가져와서 써라."</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💥 결과 (최악의 램 낭비):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- B의 램 90장은 텅텅 비어서 썩어 들어감 (메모리 낭비 극심).</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- A는 혼자서 램 쫓아내고 가져오고 쌩고생을 하며 속도가 바닥을 김.</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│        지역 교체 (Local Replacement)의 꽉 막힌 철창 생태계 시각화       │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│ [ 상황: 물리 RAM 할당 현황 (할당량 픽스) ]                              │
+│ ┌──────────────────────┬──────────────────────┐                         │
+│ │ 프로세스 A의 철창 (100장)  │ 프로세스 B의 철창 (100장)  │             │
+│ │ 100장 꽉 참 (여유 0)      │ 10장 씀 (90장 텅텅 빔)      │             │
+│ └──────────────────────┴──────────────────────┘                         │
+│                                                                         │
+│ ▶ 위기 발생 (Page Fault)                                                │
+│  프로세스 A: "데이터 하나만 더! 101장째 페이지 램에 올려줘!"            │
+│                                                                         │
+│ [ OS의 냉혹한 판결 (Local Replacement) ]                                │
+│  OS: "야 프로세스 A. 네 철창 안에 빈 공간 0장인 거 보이지?"             │
+│  OS: "B 철창에 90장 남아도는 거 나도 알아. 근데 규칙은 규칙이야."       │
+│  OS: "네 철창(A) 안에서 가장 안 쓴 페이지 1장 골라서 스왑으로 던져."    │
+│  OS: "그리고 그 1장 빈자리에 새 데이터 가져와서 써라."                  │
+│                                                                         │
+│ 💥 결과 (최악의 램 낭비):                                               │
+│  - B의 램 90장은 텅텅 비어서 썩어 들어감 (메모리 낭비 극심).            │
+│  - A는 혼자서 램 쫓아내고 가져오고 쌩고생을 하며 속도가 바닥을 김.      │
+└─────────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 이 그림 하나로 왜 데스크톱과 범용 리눅스 서버가 이 훌륭한 격리 기술을 쓰레기통에 처박고 전역(Global) 교체로 도망쳤는지 알 수 있다. 컴퓨터 자원이 수백만 원 하던 시절에, 램 90장을 놀리면서 한 앱을 버벅대게 방치하는 것은 공학적 범죄에 가까웠다. 지역 교체는 '안전함'을 얻기 위해 '전체 파이의 효율'을 처참하게 희생시키는 극단적 아키텍처다.
 
 - **📢 섹션 요약 비유**: 도서관에 내 지정석 1개, 남의 지정석 99개가 있습니다. 남의 자리 99개가 텅텅 비어있어도 지역 교체(Local) 룰 때문에 나는 내 좁은 지정석 1개에 책 수십 권을 쌓아 올리다 무너뜨리며([스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)) 혼자 고통받아야 하는, 지독하게 융통성 없는 자리 배정 시스템입니다.
@@ -68,24 +71,23 @@ tags = ["studynote-operating-system"]
   `for(int i=0; i<프로세스A에_할당된_프레임_100개; i++) { ... }`
   -> 자기 몫의 짧은 리스트만 빠르게 훑어서 그 안의 가장 늙은 놈 1명 사살.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지역 교체의 숨은 장점: O(1) 수준의 빠른 탐색 오버헤드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 교체 대상을 찾는 시간 (Search Overhead)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 전역 교체는 램에 깔린 수백만 장의 페이지 상태를 뒤져야 해서 OS가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">백그라운드 데몬(kswapd)을 띄우고 CPU를 오지게 갉아먹음.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 지역 교체는 딱 자기한테 할당된 100장 리스트만 순회하면 끝남!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">탐색 속도 자체가 빛의 속도라 시스템 CPU 연산 낭비가 거의 없음.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 메모리 기복 (Performance Jitter) 제로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 전역 교체: 어제는 0.1초, 오늘은 남이 램 뺏어가서 5초 (복불복 심함).</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 지역 교체: 항상 나한테 100장이 고정되어 있으므로 1년 365일 내내</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">똑같이 1초 만에 실행이 끝나는 '시간 결정성(Determinism)' 완벽 보장!</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────┐
+│              지역 교체의 숨은 장점: O(1) 수준의 빠른 탐색 오버헤드       │
+├──────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│ [ 1. 교체 대상을 찾는 시간 (Search Overhead) ]                           │
+│ - 전역 교체는 램에 깔린 수백만 장의 페이지 상태를 뒤져야 해서 OS가       │
+│   백그라운드 데몬(kswapd)을 띄우고 CPU를 오지게 갉아먹음.                │
+│ - 지역 교체는 딱 자기한테 할당된 100장 리스트만 순회하면 끝남!           │
+│   탐색 속도 자체가 빛의 속도라 시스템 CPU 연산 낭비가 거의 없음.         │
+│                                                                          │
+│ [ 2. 메모리 기복 (Performance Jitter) 제로 ]                             │
+│ - 전역 교체: 어제는 0.1초, 오늘은 남이 램 뺏어가서 5초 (복불복 심함).    │
+│ - 지역 교체: 항상 나한테 100장이 고정되어 있으므로 1년 365일 내내        │
+│   똑같이 1초 만에 실행이 끝나는 '시간 결정성(Determinism)' 완벽 보장!    │
+└──────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 지역 교체를 그저 융통성 없는 바보라고 치부하면 안 된다. "내 프로그램이 어제는 빨리 돌았는데, 오늘은 왜 이렇게 버벅대지?"라는 스트레스를 원천 차단해 준다. 타인의 간섭(Noisy Neighbor)이 절대 뚫고 들어올 수 없으므로, 금융 거래나 미사일 궤도 계산 같은 <strong>'예측 가능한 런타임 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>'이 목숨보다 중요한 특수 분야에서는 오히려 <a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/">전역 교체</a>보다 수천 배 더 위대한 구원자</strong>가 된다.
 
@@ -168,19 +170,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">전역 교체 (Global Replacement)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">지역 교체 (Local Replacement)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">페이지 교체 알고리즘 (Page Replacement Algorithms)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">최적 교체 알고리즘 (OPT, Optimal)</div></div>
-</div>
-</div>
-
-
+```text
+[전역 교체 (Global Replacement)]
+    │
+    ▼
+[지역 교체 (Local Replacement)]
+    │
+    ├──▶ [페이지 교체 알고리즘 (Page Replacement Algorithms)]
+    └──▶ [최적 교체 알고리즘 (OPT, Optimal)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

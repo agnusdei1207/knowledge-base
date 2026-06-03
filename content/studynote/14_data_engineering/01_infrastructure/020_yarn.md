@@ -26,22 +26,18 @@ tags = ["data_engineering"]
 이 아키텍처 혁신 덕분에 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 클러스터는 특정 프레임워크에 종속되지 않는 범용 자원 플랫폼이 되었습니다. 오늘날 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어들이 동일한 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 장비 위에서 낮에는 실시간 스트림([Spark Streaming](/knowledge-base/studynote/16_bigdata/03_spark/060_spark_streaming_dstream/))을 띄우고, 밤에는 무거운 배치([MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/)/[Hive](/knowledge-base/studynote/05_database/04_transactions_concurrency/544_hive/))를 돌려 인프라 활용률을 100%로 쥐어짤 수 있게 된 것은 순전히 YARN 덕분입니다.
 
 이 도식은 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 1.0의 병목 구조가 YARN의 위임형 아키텍처로 진화하며 얻은 확장의 자유를 시각화한 것입니다.
+```text
+[과거: 하둡 1.0 (JobTracker 중앙 독재 병목)]
+                ┌─> Task (Map)
+ [JobTracker] ──┼─> Task (Reduce)   ==> 수만 개의 태스크를 혼자 감시하다가
+ (자원+스케줄링)  └─> Task (Map)         메모리 터지고 병목 발생! 💥
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">과거: 하둡 1.0 (JobTracker 중앙 독재 병목)</div></div>
-<div class="kb-diagram-note">─&gt; Task (Map)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">JobTracker</div><div class="kb-diagram-connector">==&gt;</div><div class="kb-diagram-note">수만 개의 태스크를 혼자 감시하다가</div></div>
-<div class="kb-diagram-note">(자원+스케줄링) ─&gt; Task (Map) 메모리 터지고 병목 발생! 💥</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">혁신: 하둡 2.0 YARN (권한 위임 분산 구조)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ResourceManager</div><div class="kb-diagram-note">(중앙: 난 전체 CPU/RAM 양만 관리할게. 태스크 감시는 안해!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">──(자원 협상)──&gt;</div><div class="kb-diagram-node">ApplicationMaster A (스파크 전담 현장 소장)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">Worker 제어</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">──(자원 협상)──&gt;</div><div class="kb-diagram-node">ApplicationMaster B (Hive 전담 현장 소장)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">Worker 제어</div></div>
-</div>
-</div>
-
-
+[혁신: 하둡 2.0 YARN (권한 위임 분산 구조)]
+ [ResourceManager] (중앙: 난 전체 CPU/RAM 양만 관리할게. 태스크 감시는 안해!)
+         │
+         ├──(자원 협상)──> [ApplicationMaster A (스파크 전담 현장 소장)] ---> Worker 제어
+         └──(자원 협상)──> [ApplicationMaster B (Hive 전담 현장 소장)]  ---> Worker 제어
+```
 이 흐름의 핵심은 '권한의 하방 위임'입니다. 수만 개의 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 상태 추적이라는 엄청난 오버헤드를 중앙 마스터에서 떼어내어, 클러스터의 임의 노드에 동적으로 뜨는 `ApplicationMaster`들에게 떠넘겼습니다. 따라서 YARN 클러스터는 노드가 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000대를 넘어가도 중앙 마스터가 터지지 않는 진정한 무한 확장의 지위를 얻어냈습니다. 실무에서는 이 구조 변화 덕분에 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)([Out of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))으로 클러스터 전체가 뻗는 대재앙이 사라졌습니다.
 
 📢 **섹션 요약 비유**: 회장님(JobTracker)이 전 직원의 책상 배정과 개별 업무 실적까지 혼자 감시하다가 과로사하는 회사에서, 회장님(ResourceManager)은 각 부서에 예산만 던져주고 실제 팀원 관리와 프로젝트 책임은 각 팀장(ApplicationMaster)이 현장에서 전담하는 체계적 대기업으로 승격한 것과 같습니다.
@@ -60,25 +56,24 @@ YARN은 철저하게 마스터-슬레이브(Master-Slave) 구조 위에서 동�
 | <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/">Container</a></strong> | 논리적 자원 격리 단위 | 'RAM 2GB, CPU 1코어' 형태로 격리된 실행 공간. 이 안에서 Spark Executor나 Map [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)가 돕니다. | [cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) / JVM | 임대 사무실 |
 
 이 다이어그램은 사용자가 스파크(Spark) 잡을 YARN에 제출했을 때 벌어지는 아키텍처 내부의 5단계 동적 [자원 할당](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) 시퀀스를 보여줍니다.
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">YARN Application Execution Flow</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Client</div><div class="kb-diagram-note">──1. Job 제출 (Spark 앱)──&gt;</div><div class="kb-diagram-node">ResourceManager</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(전체 큐/자원 확인)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 첫 컨테이너 띄워라 명령</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NodeManager 1</div><div class="kb-diagram-note">&lt;</div><div class="kb-diagram-node">ApplicationMaster 생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(스파크 잡의 대장)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ 3. 나 컨테이너 100개 필요해! 자원 협상 요청</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Resource Negotiation)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. Task 실행 명령 ▼</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NodeManager 2~N</div><div class="kb-diagram-note">&lt;──4. 컨테이너 할당 티켓 발급──</div><div class="kb-diagram-node">ResourceManager</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Container</div><div class="kb-diagram-note">─ (그 안에서 Spark Executor가 메모리를 잡고 연산 시작)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────── YARN Application Execution Flow ────────────────┐
+│                                                                 │
+│ [Client] ──1. Job 제출 (Spark 앱)──> [ResourceManager]              │
+│                                       (전체 큐/자원 확인)             │
+│                                            │                    │
+│                    2. 첫 컨테이너 띄워라 명령 │                    │
+│                                            ▼                    │
+│ [NodeManager 1] <────────────────── [ApplicationMaster 생성]       │
+│                                            │ (스파크 잡의 대장)      │
+│     ▲                   3. 나 컨테이너 100개 필요해! 자원 협상 요청 │
+│     │                           (Resource Negotiation)          │
+│     │ 5. Task 실행 명령                        ▼                    │
+│ [NodeManager 2~N] <──4. 컨테이너 할당 티켓 발급── [ResourceManager] │
+│      │                                                          │
+│  [Container] ─ (그 안에서 Spark Executor가 메모리를 잡고 연산 시작)  │
+└─────────────────────────────────────────────────────────────────┘
+```
 이 도식에서 가장 놀라운 점은 ApplicationMaster(AM)의 존재 방식입니다. AM은 고정된 마스터 서버에 뜨지 않고, 워커 노드(NodeManager) 중 자원이 남는 아무 곳의 첫 번째 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 안에서 동적으로 스폰(Spawn)됩니다. 만약 AM이 띄워진 노드의 하드웨어가 죽어버리면, RM은 이를 감지하고 다른 노드에 새 AM을 띄워 처음부터 다시 복구시킵니다. 따라서 이 배치는 특정 마스터 노드의 [SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)([단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)) 한계를 극복하고, 클러스터 자원을 극도로 탄력적으로 유동화하는 결과를 낳습니다. 
 
 **심층 동작 원리**
@@ -103,21 +98,18 @@ YARN은 철저하게 마스터-슬레이브(Master-Slave) 구조 위에서 동�
 | **장기 실행(Long-running)**| 비교적 취약, 배치 잡 중심 스케줄링 | 자가 치유([ReplicaSet](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/086_replicaset_kubernetes_controller_self_healing/)) 기반 365일 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 최적 | 웹 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 서버 vs [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 잡 |
 
 이 비교 매트릭스는 온프레미스의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 왕자(YARN)와 클라우드의 제왕(K8s) 간의 워크로드 차이를 보여주는 대조 매트릭스입니다.
+```text
+┌── 자원 스케줄링 패러다임 차이 ──┐
 
+[YARN 강점: Batch Data Processing]
+"이 스파크 잡은 데이터가 노드 A에 있으니 무조건 노드 A 근처에 띄워!"
+=> I/O 속도 극대화에 목숨 욺 (Data Locality 사수)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">── 자원 스케줄링 패러다임 차이 ──</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">YARN 강점: Batch Data Processing</div></div>
-<div class="kb-diagram-note">"이 스파크 잡은 데이터가 노드 A에 있으니 무조건 노드 A 근처에 띄워!"</div>
-<div class="kb-diagram-note">=&gt; I/O 속도 극대화에 목숨 욺 (Data Locality 사수)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Kubernetes 강점: Microservices</div></div>
-<div class="kb-diagram-note">"웹 서버 파드 3개가 죽었네? 클러스터 안 아무 노드에나 빨리 띄워 복구해!"</div>
-<div class="kb-diagram-note">=&gt; 무중단 서비스와 빠른 복원력에 목숨 욺 (빠른 재배치 사수)</div>
-</div>
-</div>
-
-
+[Kubernetes 강점: Microservices]
+"웹 서버 파드 3개가 죽었네? 클러스터 안 아무 노드에나 빨리 띄워 복구해!"
+=> 무중단 서비스와 빠른 복원력에 목숨 욺 (빠른 재배치 사수)
+└────────────────────────────┘
+```
 A 방식(YARN)은 철저히 '[하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/)'라는 스토리지 구조와 피가 섞여 있어, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 있는 곳으로 연산을 밀어 넣는 데 미친 성능을 보여줍니다. 반면 B 방식(K8s)은 개발자가 파이썬, 고(Go), 노드(Node) 등 어떤 언어로 짠 환경이든 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 이미지로 말아 올리기만 하면 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 충돌 없이 깔끔하게 격리해 돌려주는 이식성이 뛰어납니다. 실무에서는 스파크(Spark) 잡을 돌릴 때 레거시 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 클러스터가 있다면 YARN을 쓰고, 클라우드 네이티브로 신규 구축한다면 [데이터 지역성](/knowledge-base/studynote/14_data_engineering/01_infrastructure/019_data_locality/) 손실을 캐시로 메꾸면서 Spark on K8s 아키텍처로 넘어가고 있는 거대한 과도기적 융합 국면에 있습니다.
 
 📢 **섹션 요약 비유**: YARN이 중장비를 동원해 거대한 광산([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 순식간에 캐고 철수하는 데 특화된 야전 공병대라면, [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)는 다양한 상점([마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/))들이 폐업해도 즉시 새 상점을 열어 1년 내내 불이 꺼지지 않게 관리하는 거대한 쇼핑몰 관리단과 같습니다.
@@ -140,20 +132,19 @@ A 방식(YARN)은 철저히 '[하둡](/knowledge-base/studynote/03_network/16_da
 - **단일 Default 큐 방치**: 클러스터를 구축하고 수백 명이 쓰는데 YARN 큐를 하나(default)로만 두면, 나쁜 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 하나를 던진 주니어 개발자가 전사의 빅데이터 인프라를 다운시킬 수 있습니다. 반드시 용도/부서별로 자원을 격리(Quotas)해야 합니다.
 
 이 흐름도는 실무에서 클러스터 자원 고갈 시 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 개입하는 선점(Preemption) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 플로우를 보여줍니다.
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황: VIP 부서(A큐)가 급하게 스파크 잡 제출</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">클러스터 자원 0% 남음</div></div>
-<div class="kb-diagram-tree-item" style="--depth:3">RM 스케줄러: "A큐의 최소 보장 자원이 지켜지지 않고 있다!" 판단</div>
-<div class="kb-diagram-tree-item" style="--depth:3">(희생양 탐색) 현재 할당량을 초과해서 막 쓰고 있는 B부서 컨테이너 색출</div>
-<div class="kb-diagram-tree-item" style="--depth:3">(경고 1차) B부서의 ApplicationMaster에게 "15초 안에 자원 반납해" 시그널 전송</div>
-<div class="kb-diagram-tree-item" style="--depth:3">(강제 킬) 안 뱉으면 NodeManager에게 OS kill(-9) 명령 하달 -&gt; 자원 회수</div>
-<div class="kb-diagram-tree-item" style="--depth:8">회수한 자원을 VIP A큐에 즉시 할당하여 서비스 지연 방지</div>
-</div>
-</div>
-
-
+```text
+[상황: VIP 부서(A큐)가 급하게 스파크 잡 제출] -> 클러스터 자원 0% 남음
+       │
+       ├─ RM 스케줄러: "A큐의 최소 보장 자원이 지켜지지 않고 있다!" 판단
+       │
+       ├─ (희생양 탐색) 현재 할당량을 초과해서 막 쓰고 있는 B부서 컨테이너 색출
+       │
+       ├─ (경고 1차) B부서의 ApplicationMaster에게 "15초 안에 자원 반납해" 시그널 전송
+       │
+       └─ (강제 킬) 안 뱉으면 NodeManager에게 OS kill(-9) 명령 하달 -> 자원 회수
+                 │
+                 └──> 회수한 자원을 VIP A큐에 즉시 할당하여 서비스 지연 방지
+```
 이 흐름의 핵심은 제한된 자원 하에서 '공평함(Fairness)'을 수리적으로 강제한다는 점입니다. 이 선점 기능이 없으면 무거운 배치 잡 하나가 끝날 때까지 전체 클러스터가 먹통이 되는 데드락([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))에 빠집니다. 따라서 실무 관리자는 큐의 깊이(Depth)와 우선순위 가중치를 어떻게 세팅하느냐에 따라 클러스터의 투자 대비 효용([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/))을 2배 이상 끌어올릴 수 있습니다.
 
 📢 **섹션 요약 비유**: 왕복 2차선 도로(자원)에서 평소에는 화물차(마케팅 배치)가 2차선을 다 막고 달려도 놔두지만, 구급차(VIP 사이언스 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/))가 등장하면 사이렌(Preemption)을 울려 화물차를 갓길로 쫓아내고 길을 터주는 스마트 교통 통제 시스템입니다.
@@ -184,23 +175,21 @@ YARN의 도입은 [하둡](/knowledge-base/studynote/03_network/16_data_center_c
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">MapReduce v1 (MRv1) — JobTracker 단일 장애점, 자원 관리·실행 혼재</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">YARN (Yet Another Resource Negotiator) — ResourceManager·NodeManager 분리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ApplicationMaster — 각 잡(Job)별 독립 실행 조율자, 컨테이너 요청/관리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Capacity / Fair Scheduler — 다중 테넌트 자원 큐 관리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Spark on YARN — 인메모리 엔진이 YARN 자원 풀 위에서 MR 대체</div></div>
-</div>
-</div>
-
-
+```text
+[MapReduce v1 (MRv1) — JobTracker 단일 장애점, 자원 관리·실행 혼재]
+    │
+    ▼
+[YARN (Yet Another Resource Negotiator) — ResourceManager·NodeManager 분리]
+    │
+    ▼
+[ApplicationMaster — 각 잡(Job)별 독립 실행 조율자, 컨테이너 요청/관리]
+    │
+    ▼
+[Capacity / Fair Scheduler — 다중 테넌트 자원 큐 관리]
+    │
+    ▼
+[Apache Spark on YARN — 인메모리 엔진이 YARN 자원 풀 위에서 MR 대체]
+```
 MRv1의 [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)과 자원 비효율을 YARN이 역할 분리로 해결했으며, ApplicationMaster 모델로 Spark 등 다양한 프레임워크를 통합하는 범용 클러스터 OS로 진화했다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

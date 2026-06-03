@@ -23,19 +23,17 @@ tags = ["studynote-ai"]
 
 재표본화는 이 문제를 가장 직접적으로 다룬다. [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)를 바꾸기 전에, 학습에 들어가는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 비율부터 조정해 모델이 소수 클래스를 충분히 보도록 만드는 것이다. 그래서 불균형 학습의 가장 기본적이면서도 실무적인 출발점으로 여겨진다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클래스 불균형이 만드는 학습 편향</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원본 데이터 : ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ●</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다수 클래스가 의사결정을 지배</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">재표본화 후 : ○ ○ ○ ○ ○ ○ ● ● ● ●</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소수 클래스가 학습에서 보이기 시작</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           클래스 불균형이 만드는 학습 편향                   │
+├──────────────────────────────────────────────────────────────┤
+│ 원본 데이터 :  ○ ○ ○ ○ ○ ○ ○ ○ ○ ○ ○   ●                    │
+│                 다수 클래스가 의사결정을 지배                │
+│                                                              │
+│ 재표본화 후 : ○ ○ ○ ○ ○ ○   ● ● ● ●                         │
+│                 소수 클래스가 학습에서 보이기 시작           │
+└──────────────────────────────────────────────────────────────┘
+```
 
 핵심은 "현실 비율"을 바꾸는 것이 아니라 "학습이 보게 되는 비율"을 바꾸는 데 있다. 운영 환경의 클래스 비율은 그대로 두더라도, 학습 단계에서만 분포를 조정해 의사결정 경계를 더 공정하게 만들 수 있다.
 
@@ -61,18 +59,17 @@ $$
 
 여기서 `x_i`는 소수 클래스 샘플, `x_{nn}`은 그 최근접 이웃이다. 즉, 소수 클래스 공간 안에서 두 점을 잇는 선분 위에 새로운 샘플을 만든다. [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)보다 덜 경직되지만, 경계 바깥까지 샘플을 밀어내면 오히려 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기를 혼란스럽게 할 수 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SMOTE의 합성 샘플 생성 원리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">minority point xi ● ● xnn nearest minority</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">\ ● / new synthetic sample</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심: 소수 클래스 내부 이웃 사이를 보간한다</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                SMOTE의 합성 샘플 생성 원리                   │
+├──────────────────────────────────────────────────────────────┤
+│ minority point xi ●──────● xnn nearest minority              │
+│                     \    /                                    │
+│                      \ ● /  new synthetic sample              │
+│                       \  /                                   │
+│ 핵심: 소수 클래스 내부 이웃 사이를 보간한다                  │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 구조는 [K-NN](/knowledge-base/studynote/06_ict_convergence/05_data_science/352_knn_distance_metrics/) ([K-Nearest Neighbors](/knowledge-base/studynote/10_ai/03_llm_nlp/262_knn/))에 기반하므로, 특징 공간이 잘 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)되어 있어야 한다. 거리 기반 이웃이 왜곡되면 잘못된 방향으로 합성 샘플이 생긴다. 따라서 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/), 표준화, 범주형 처리 여부가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)에 직접 영향을 준다.
 

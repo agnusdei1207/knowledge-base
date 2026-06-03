@@ -37,22 +37,21 @@ Helm의 아키텍처는 정적 뼈대(Template)와 동적 [데이터](/knowledge
 | **Values.yaml** | 값 주입 | 템플릿의 빈칸(변수)에 들어갈 실제 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)값들을 정의한 사용자 구성 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) |
 | **Release (릴리스)** | 배포 인스턴스 | 차트와 값이 결합되어 K8s 클러스터 내에 실제 구동 중인 패키지의 상태 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Helm 렌더링 메커니즘: Template + Values</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">templates/deployment.yaml</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">image: {{ .Values.image.repository }}:{{ .Values.image.tag }}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (Helm Client 엔진 결합)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">values.yaml</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">image:</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">최종 렌더링된 YAML K8s 전송</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">tag: 1.25.0</div><div class="kb-diagram-cell">image: nginx:1.25.0</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           Helm 렌더링 메커니즘: Template + Values             │
+├──────────────────────────────────────────────────────────────┤
+│ [templates/deployment.yaml]                                  │
+│   image: {{ .Values.image.repository }}:{{ .Values.image.tag }}│
+│                           │                                  │
+│                           ▼ (Helm Client 엔진 결합)           │
+│                           │                                  │
+│ [values.yaml]             │                                  │
+│   image:                  │                                  │
+│     repository: nginx     │ ──▶ [최종 렌더링된 YAML K8s 전송]  │
+│     tag: 1.25.0           │      image: nginx:1.25.0         │
+└──────────────────────────────────────────────────────────────┘
+```
 
 Helm은 배포를 수행할 때마다 해당 릴리스(Release)의 상태와 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 K8s [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/)([Secret](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/))에 저장한다. 이를 통해 `helm upgrade`로 안전하게 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 올리거나, 실패 시 `helm rollback`으로 이전 릴리스 상태의 전체 YAML 묶음을 즉시 원복([Undo](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/))할 수 있다.
 
@@ -114,23 +113,21 @@ Helm을 도입하면 [쿠버네티스](/knowledge-base/studynote/06_ict_converge
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Static YAML Manifests (수동 작성 및 kubectl 배포)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Helm Chart (패키지 묶음 및 Go Template 기반 변수 렌더링)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Artifact Hub (공개 차트 공유 생태계 및 앱스토어화)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Helm v3 Architecture (서버리스 클라이언트 렌더링 구조로 보안 강화)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">GitOps Integration (ArgoCD / FluxCD와 연동한 자동화된 상태 동기화)</div>
-</div>
-</div>
-
-
+```text
+Static YAML Manifests (수동 작성 및 kubectl 배포)
+    │
+    ▼
+Helm Chart (패키지 묶음 및 Go Template 기반 변수 렌더링)
+    │
+    ▼
+Artifact Hub (공개 차트 공유 생태계 및 앱스토어화)
+    │
+    ▼
+Helm v3 Architecture (서버리스 클라이언트 렌더링 구조로 보안 강화)
+    │
+    ▼
+GitOps Integration (ArgoCD / FluxCD와 연동한 자동화된 상태 동기화)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -1,5 +1,5 @@
 +++
-title = "161. Level 3 - HATEOAS (Hypermedia As The Engine Of Application State), 응답에 다음 상태 전이용 하이퍼링크 동적 포함"
+title = "161. Level 3 - HATEOAS (Hypermedia As The 엔진 Of Application State), 응답에 다음 상태 전이용 하이퍼링크 동적 포함"
 date = 2026-05-05
 
 [taxonomies]
@@ -11,7 +11,7 @@ tags = ["studynote-enterprise-systems"]
 
 ## 핵심 인사이트
 
-> 1. **본질**: 리처드슨 성숙도 모델 ([Richardson Maturity Model](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/157_restful_api_richardson_maturity_model/))의 Level 3는 HATEOAS (Hypermedia [As](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) The Engine Of Application [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))를 통해, 클라이언트가 <strong>응답에 포함된 링크와 행위 정보로 다음 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/">상태 전이</a>를 발견</strong>하게 만드는 단계다.
+> 1. **본질**: 리처드슨 성숙도 모델 ([Richardson Maturity Model](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/157_restful_api_richardson_maturity_model/))의 Level 3는 HATEOAS (Hypermedia [As](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) The 엔진 Of Application [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))를 통해, 클라이언트가 <strong>응답에 포함된 링크와 행위 정보로 다음 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/">상태 전이</a>를 발견</strong>하게 만드는 단계다.
 > 2. **가치**: 클라이언트가 URI (Uniform Resource [Identifier](/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/))를 하드코딩하는 정도를 줄여, 서버가 워크플로를 진화시켜도 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)를 낮추고 자기 서술적인 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) ([Application Programming Interface](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))를 만들 수 있다.
 > 3. **판단 포인트**: Level 3는 [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) ([Representational State Transfer](/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/))의 이상형에 가깝지만, 모든 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 필요한 것은 아니며 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 복잡도와 클라이언트 다양성을 보고 채택 범위를 정해야 한다.
 
@@ -35,27 +35,27 @@ HATEOAS 응답은 보통 리소스 [데이터](/knowledge-base/studynote/05_data
 
 아래 그림은 주문 상태에 따른 Level 3 응답 개념을 나타낸다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 3 HATEOAS의 상태 전이 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GET /orders/1001</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">state = CREATED</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">links:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">self -&gt; /orders/1001</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">pay -&gt; /orders/1001/payment</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">cancel -&gt; /orders/1001/cancel</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">state = SHIPPED</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">links:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">self -&gt; /orders/1001</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">track -&gt; /orders/1001/tracking</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">cancel -&gt; 제공하지 않음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심: URI를 외우는 것이 아니라, 서버가 허용한 다음 행동을 따른다</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│                Level 3 HATEOAS의 상태 전이 구조                   │
+├────────────────────────────────────────────────────────────────────┤
+│ GET /orders/1001                                                  │
+│                                                                    │
+│ state = CREATED                                                    │
+│ links:                                                             │
+│   self    -> /orders/1001                                          │
+│   pay     -> /orders/1001/payment                                  │
+│   cancel  -> /orders/1001/cancel                                   │
+│                                                                    │
+│ state = SHIPPED                                                    │
+│ links:                                                             │
+│   self    -> /orders/1001                                          │
+│   track   -> /orders/1001/tracking                                 │
+│   cancel  -> 제공하지 않음                                         │
+│                                                                    │
+│ 핵심: URI를 외우는 것이 아니라, 서버가 허용한 다음 행동을 따른다     │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 의미는 "같은 리소스라도 상태가 바뀌면 인터페이스도 함께 바뀐다"는 것이다. 클라이언트는 `cancel` 링크가 없으면 취소가 불가능하다는 사실을 자연스럽게 이해할 수 있다. 이렇게 하면 비즈니스 규칙을 문서 외부가 아니라 <strong>응답 표현 자체</strong>에 더 가깝게 실을 수 있다.
 
@@ -138,23 +138,21 @@ Level 3를 적절히 적용하면 클라이언트가 서버의 [상태 전이](/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">RPC 스타일 API</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">리소스 중심 URI</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">HTTP 메서드 의미 분리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">HATEOAS (Hypermedia As The Engine Of Application State)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">자기 서술적 워크플로 API</div>
-</div>
-</div>
-
-
+```text
+RPC 스타일 API
+    │
+    ▼
+리소스 중심 URI
+    │
+    ▼
+HTTP 메서드 의미 분리
+    │
+    ▼
+HATEOAS (Hypermedia As The Engine Of Application State)
+    │
+    ▼
+자기 서술적 워크플로 API
+```
 
 이 흐름은 "[함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/)형 인터페이스 → 리소스화 → 웹 의미 활용 → [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 안내"로 [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) 성숙도가 발전하는 맥락을 보여준다.
 

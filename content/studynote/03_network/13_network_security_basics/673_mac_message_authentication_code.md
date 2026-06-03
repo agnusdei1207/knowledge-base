@@ -23,18 +23,14 @@ tags = ["studynote-network"]
 - 중간에서 훔쳐본 해커 다스가 평문을 `[100만 원 송금]`으로 쓱 조작합니다. 그리고 다스가 직접 해시 믹서기에 이 가짜 평문을 돌려 새로운 해시값 `[XX99]`를 뽑아냅니다.
 - 다스가 `[100만 원 송금]` + 가짜 해시값 `[XX99]`를 밥에게 보냅니다. 밥은 평문을 믹서기에 돌려보니 똑같이 `[XX99]`가 나오므로 "아, [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)이 지켜졌네! 조작 안 됐어!"라고 완벽하게 속아버립니다. (단순 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 검증의 실패)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">무결성 및 출처 인증용 서명 데이터 코드 제…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MAC 변수 및 기능</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">HMAC 통신 기반 IPsec 등 활용 구조</div></div>
-</div>
-</div>
-
-
+```text
+[무결성 및 출처 인증용 서명 데이터 코드 제…]
+    │
+    ▼
+[MAC 변수 및 기능]
+    │
+    └──▶ [HMAC 통신 기반 IPsec 등 활용 구조]
+```
 
 - **📢 섹션 요약 비유**: MAC 변수 및 기능은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -52,18 +48,14 @@ tags = ["studynote-network"]
   4. 밥은 받은 메시지 `[1만 원 송금]`에 자신이 가진 비밀키 `K`를 섞어서 직접 MAC 생성기를 돌려 `MAC_B`를 만듭니다.
   5. 밥이 직접 만든 `MAC_B`와 앨리스가 보낸 `MAC_A`가 100% 똑같으면 "중간에 아무도 조작하지 않았고, K를 아는 앨리스가 보낸 게 확실해!"라고 통과시킵니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">무결성 및 출처 인증용 서명 데이터 코드 제…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MAC 변수 및 기능</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">HMAC 통신 기반 IPsec 등 활용 구조</div></div>
-</div>
-</div>
-
-
+```text
+[무결성 및 출처 인증용 서명 데이터 코드 제…]
+    │
+    ▼
+[MAC 변수 및 기능]
+    │
+    └──▶ [HMAC 통신 기반 IPsec 등 활용 구조]
+```
 
 - **📢 섹션 요약 비유**: MAC 변수 및 기능의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -121,19 +113,15 @@ MAC 변수 및 기능은 [네트워크 보안](/knowledge-base/studynote/03_netw
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 무결성 및 출처 인증용 서명 데이터 코드 제…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: MAC 변수 및 기능</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: HMAC 통신 기반 IPsec 등 활용 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 무결성 및 출처 인증용 서명 데이터 코드 제…]
+    │
+    ▼
+[현재 개념: MAC 변수 및 기능]
+    │
+    ├──▶ [확장 A: HMAC 통신 기반 IPsec 등 활용 구조]
+    └──▶ [확장 B: 자동화된 신뢰 체계]
+```
 
 MAC 변수 및 기능는 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 및 출처 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)용 서명 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 코드 제…에서 출발해 현재 메커니즘을 정교화하고, 이후 [HMAC](/knowledge-base/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/) 통신 기반 [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 등 활용 구조와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

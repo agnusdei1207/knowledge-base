@@ -37,22 +37,20 @@ K-Means [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/00
 | <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/481_sse_server_sent_events/">SSE</a> (Sum of Squared Errors)</strong> | 각 군집의 중심점과 그 군집 내 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 간의 거리 제곱을 모두 합산한 값 (Inertia) | 값이 작을수록 [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)가 높음을 의미 |
 | **실루엣 계수 (Silhouette Coefficient)** | 군집 내 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/) $a(i)$와 인접 군집과의 분리도 $b(i)$를 비교 계산 | $s(i) = \frac{b(i) - a(i)}{\max(a(i), b(i))}$, -1 ~ 1의 값 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최적 K 도출을 위한 지표 변화 그래프</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">엘보우 기법 (SSE)</div><div class="kb-diagram-node">실루엣 분석 (Score)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SSE Score</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│\ 1.0</div><div class="kb-diagram-node">최적 K 지점</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">\ &lt;- 감소가 둔화되는 팔꿈치</div><div class="kb-diagram-cell">/ \</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">\ (Elbow Point) 0.5</div><div class="kb-diagram-cell">/ \</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* ▶ K=3 이 적당해 보임</div><div class="kb-diagram-cell">/ \</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">K K</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                  최적 K 도출을 위한 지표 변화 그래프                │
+├──────────────────────────────────────────────────────────────┤
+│    [ 엘보우 기법 (SSE) ]            [ 실루엣 분석 (Score) ]     │
+│ SSE                                Score                      │
+│  │\                                1.0 │    [최적 K 지점]     │
+│  │ \  <- 감소가 둔화되는 팔꿈치           │   / \                │
+│  │  \ (Elbow Point)                0.5 │  /   \              │
+│  │   *─────▶ K=3 이 적당해 보임        │ /     \             │
+│  │    \                                │/       \            │
+│  └──────────────── K               └──────────────── K      │
+└──────────────────────────────────────────────────────────────┘
+```
 
 엘보우 기법은 K가 증가함에 따라 SSE가 급격히 줄어들다가 어느 순간 완만해지는 변곡점을 찾는다. 반면 실루엣 분석은 개별 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 자신이 속한 군집에 얼마나 잘 맞고 다른 군집과 얼마나 잘 분리되었는지를 -1에서 1 사이의 스코어로 정량화하여 가장 1에 가까운 K 지점을 찾아낸다.
 
@@ -113,23 +111,21 @@ K-Means와 두 가지 평가 지표의 결합은 정답이 없는 미지의 [데
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">미지의 데이터 군집화 (비지도 학습)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">K-Means 군집화 알고리즘 · 유클리드 거리 측정</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">최적 K 도출 1: 엘보우 (Elbow) 기법 (SSE 감소량 확인)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">최적 K 도출 2: 실루엣 (Silhouette) 분석 (군집 내/외부 거리 평가)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">초기화 문제 해결 (K-Means++) 및 고차원 문제 해결 (PCA 결합)</div>
-</div>
-</div>
-
-
+```text
+미지의 데이터 군집화 (비지도 학습)
+    │
+    ▼
+K-Means 군집화 알고리즘 · 유클리드 거리 측정
+    │
+    ▼
+최적 K 도출 1: 엘보우 (Elbow) 기법 (SSE 감소량 확인)
+    │
+    ▼
+최적 K 도출 2: 실루엣 (Silhouette) 분석 (군집 내/외부 거리 평가)
+    │
+    ▼
+초기화 문제 해결 (K-Means++) 및 고차원 문제 해결 (PCA 결합)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

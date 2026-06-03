@@ -25,18 +25,17 @@ V2G가 주목받는 이유는 두 가지다. 첫째, 태양광·풍력 비중이
 
 특히 대부분의 승용 전기차는 하루 중 실제 주행 시간보다 주차 시간이 훨씬 길다. 이 정지 시간을 활용해 충전과 방전을 지능적으로 제어하면, 전력망 입장에서는 피크 부하를 깎고 예비력을 보강하는 수단이 된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">V2G의 기본 개념: 이동 수단이 전력 자원이 됨</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Night / surplus power ──▶ EV charging</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Day / peak demand ◀── EV discharging to grid</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Result: load shifting + renewable balancing + reserve support</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                 V2G의 기본 개념: 이동 수단이 전력 자원이 됨         │
+├──────────────────────────────────────────────────────────────────────┤
+│ Night / surplus power     ──▶  EV charging                          │
+│                                                                  │
+│ Day / peak demand         ◀──  EV discharging to grid              │
+│                                                                  │
+│ Result: load shifting + renewable balancing + reserve support     │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 핵심은 V2G가 단순 충전 인프라가 아니라, <strong>시간에 따라 전력의 방향을 바꾸는 운영 기술</strong>이라는 점이다. 그래서 전기차 산업, 전력시장, 통신 표준이 함께 연결된다.
 
@@ -58,20 +57,21 @@ V2G가 작동하려면 차량, 충전기, 운영 플랫폼, 전력망이 한 세
 
 아래 그림은 V2G가 단순 차량 충전이 아니라, 제어 신호와 전력 흐름이 동시에 오가는 구조임을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">V2G의 제어·전력 흐름 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Grid / Renewable Source</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Bidirectional Charger</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Aggregator / EMS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ ─ tariff / demand</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">EV Battery</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">BMS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ charge at low price / discharge at peak</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                    V2G의 제어·전력 흐름 구조                        │
+├──────────────────────────────────────────────────────────────────────┤
+│ Grid / Renewable Source                                              │
+│        │                                                             │
+│        ▼                                                             │
+│ [ Bidirectional Charger ] ◀──── control ──── [ Aggregator / EMS ]   │
+│        │                                       │                     │
+│        ▼                                       └─ tariff / demand    │
+│ [ EV Battery ] ◀──────────── status ───────── [ BMS ]               │
+│        │                                                             │
+│        └─ charge at low price / discharge at peak                   │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 운영 원리는 비교적 명확하다. 전기가 남고 요금이 낮은 시간에는 G2V (Grid to Vehicle) 방식으로 충전하고, 전력 수요가 높거나 주파수 보조가 필요한 시간에는 V2G로 방전한다. 이때 모든 전기를 다 꺼내 쓰는 것이 아니라, 차량 운행에 필요한 최소 잔량과 배터리 열화 한계를 남겨 두는 정책이 필수다.
 
@@ -150,22 +150,19 @@ V2G가 잘 정착되면 전력망은 피크 부하를 줄이고, 재생에너지
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">전기차 보급 확대</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">스마트 충전 (V1G)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">V2G (Vehicle to Grid)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">피크 절감 · 주파수 조정</div>
-<div class="kb-diagram-tree-item" style="--depth:2">재생에너지 변동 대응</div>
-<div class="kb-diagram-tree-item" style="--depth:2">V2H · V2B · VPP 확장</div>
-</div>
-</div>
-
-
+```text
+전기차 보급 확대
+    │
+    ▼
+스마트 충전 (V1G)
+    │
+    ▼
+V2G (Vehicle to Grid)
+    │
+    ├─ 피크 절감 · 주파수 조정
+    ├─ 재생에너지 변동 대응
+    └─ V2H · V2B · VPP 확장
+```
 
 이 흐름은 전기차가 단순 이동 수단에서 분산형 전력 자원으로 진화하는 방향을 보여준다.
 

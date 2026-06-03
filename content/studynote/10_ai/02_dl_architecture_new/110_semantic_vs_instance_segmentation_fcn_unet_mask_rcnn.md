@@ -20,20 +20,19 @@ tags = ["studynote-ai"]
 
 [객체 탐지](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/)(YOLO)가 "어디에 무엇이 있는지" Bounding Box로 알려준다면, [이미지 분할](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/289_image_segmentation/)은 "어떤 픽셀이 무엇인지"까지 정밀하게 색칠한다. 의료 MRI에서 종양 경계를 **1픽셀 단위로** 추출하거나, 자율주행에서 차선·보행자·차량을 동시에 분리하는 데 필수적이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Semantic vs Instance vs Panoptic 분할 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Semantic</div><div class="kb-diagram-node">Instance</div><div class="kb-diagram-node">Panoptic</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">████ ████</div><div class="kb-diagram-cell">▓▓▓▓ ░░░░</div><div class="kb-diagram-cell">▓▓▓▓ ░░░░</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(전부 파랑)</div><div class="kb-diagram-cell">(빨강)(노랑)</div><div class="kb-diagram-cell">(빨강)(노랑)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1덩어리</div><div class="kb-diagram-cell">각각 분리</div><div class="kb-diagram-cell">+배경 분리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개체 수 파악 불가 개체 수 파악 가능 완전 분석</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│   Semantic vs Instance vs Panoptic 분할 비교           │
+├───────────────────────────────────────────────────────┤
+│  [Semantic]         [Instance]         [Panoptic]     │
+│  ┌────────────┐    ┌────────────┐    ┌────────────┐  │
+│  │ ████ ████ │    │ ▓▓▓▓ ░░░░ │    │ ▓▓▓▓ ░░░░ │  │
+│  │ (전부 파랑)│    │ (빨강)(노랑)│    │ (빨강)(노랑)│  │
+│  │  1덩어리  │    │ 각각 분리   │    │+배경 분리   │  │
+│  └────────────┘    └────────────┘    └────────────┘  │
+│  개체 수 파악 불가   개체 수 파악 가능  완전 분석       │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: Semantic은 "여기에 양 떼가 있다"(하얀 덩어리), Instance는 "첫째 양, 둘째 양, 셋째 양"(각각 다른 색), Panoptic은 "양+풀밭+하늘 전부 분리"이다.
 
@@ -106,23 +105,21 @@ SAM([Segment](/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_se
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">FCN (2015) — 최초 E2E Semantic Segmentation</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">U-Net (2015) — Skip Connection, 의료 영상 정복</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Mask R-CNN (2017) — Instance Segmentation 확립</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Panoptic FPN (2019) — Semantic+Instance 통합</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SAM (2023) — 프롬프트 기반 범용 분할 Foundation Model</div></div>
-</div>
-</div>
-
-
+```text
+[FCN (2015) — 최초 E2E Semantic Segmentation]
+    │
+    ▼
+[U-Net (2015) — Skip Connection, 의료 영상 정복]
+    │
+    ▼
+[Mask R-CNN (2017) — Instance Segmentation 확립]
+    │
+    ▼
+[Panoptic FPN (2019) — Semantic+Instance 통합]
+    │
+    ▼
+[SAM (2023) — 프롬프트 기반 범용 분할 Foundation Model]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. <strong>Semantic</strong>은 양 떼를 전부 하얀색으로만 칠하는 거예요 (양이 몇 마리인지는 몰라요).

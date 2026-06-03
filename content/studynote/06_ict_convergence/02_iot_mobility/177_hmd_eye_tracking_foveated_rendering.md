@@ -27,20 +27,18 @@ HMD는 눈앞 가까이에 소형 디스플레이를 두고 렌즈를 통해 가
 
 아래 그림은 인간 시각 특성과 렌더링 자원 배분이 어떻게 연결되는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Perception-aware rendering zones</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Center 2~5° : highest acuity -&gt; full resolution / dense shade</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mid zone 10~20° : medium detail -&gt; reduced shading</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Outer periphery : motion priority -&gt; coarse shading</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Render all zones equally -&gt; GPU load↑ heat↑ battery↓ latency↑</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Render by gaze importance -&gt; quality kept where the eye inspects</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Perception-aware rendering zones                                   │
+├────────────────────────────────────────────────────────────────────┤
+│ Center 2~5°      : highest acuity  -> full resolution / dense shade│
+│ Mid zone 10~20°  : medium detail   -> reduced shading             │
+│ Outer periphery  : motion priority -> coarse shading              │
+│                                                                    │
+│ Render all zones equally  -> GPU load↑ heat↑ battery↓ latency↑    │
+│ Render by gaze importance -> quality kept where the eye inspects   │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 즉 이 기술의 출발점은 "화질을 속이자"가 아니라, <strong>인간의 지각 구조에 맞춰 계산 우선순위를 다시 짜자</strong>는 데 있다.
 
@@ -64,21 +62,20 @@ HMD는 눈앞 가까이에 소형 디스플레이를 두고 렌즈를 통해 가
 
 아래 그림은 시선 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 실제 렌더링 제어 신호로 바뀌는 파이프라인을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Eye tracking to display pipeline</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Eye image capture -&gt; Gaze estimation -&gt; Prediction/filter</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2~4 ms 1~2 ms &lt;1 ms</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; Shading-rate map -&gt; Render/composite</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1 ms 5~8 ms</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; Lens warp / timewarp -&gt; Panel output</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1~2 ms total budget guarded</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Eye tracking to display pipeline                                   │
+├────────────────────────────────────────────────────────────────────┤
+│ Eye image capture  ->  Gaze estimation  ->  Prediction/filter      │
+│   2~4 ms               1~2 ms               <1 ms                  │
+│                                                                    │
+│                 ->  Shading-rate map  ->  Render/composite         │
+│                         1 ms               5~8 ms                  │
+│                                                                    │
+│                 ->  Lens warp / timewarp  ->  Panel output         │
+│                         1~2 ms                total budget guarded  │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 이때 가장 어려운 구간은 사카드처럼 시선이 빠르게 이동하는 순간이다. 눈이 먼저 움직였는데 선명 영역이 뒤늦게 따라오면, 사용자는 주변부 저해상도 영역을 순간적으로 보게 된다. 그래서 최신 구현은 단순 현재 좌표만 쓰지 않고, 예측 필터와 재투영을 함께 써서 **"눈이 도착할 곳"에 선명 영역이 맞춰지도록** 조정한다.
 
@@ -164,25 +161,24 @@ HMD 시선 추적과 포비티드 렌더링이 잘 구현되면 얻는 효과는
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">IR eye image capture</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Gaze vector estimation</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Prediction / calibration correction</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Shading-rate map generation</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">High-res center + low-res periphery rendering</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Display output + gaze-based interaction</div>
-</div>
-</div>
-
-
+```text
+IR eye image capture
+        │
+        ▼
+Gaze vector estimation
+        │
+        ▼
+Prediction / calibration correction
+        │
+        ▼
+Shading-rate map generation
+        │
+        ▼
+High-res center + low-res periphery rendering
+        │
+        ▼
+Display output + gaze-based interaction
+```
 
 이 흐름도는 "눈을 읽기 → 시선을 예측하기 → 셰이딩 자원을 배분하기 → 화면과 입력에 반영하기"로 이어지는 HMD 포비티드 렌더링의 핵심 경로를 압축한다.
 

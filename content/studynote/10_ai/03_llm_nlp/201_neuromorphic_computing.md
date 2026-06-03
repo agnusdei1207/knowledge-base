@@ -23,20 +23,17 @@ tags = ["studynote-ai"]
 
 엔비디아의 GPU는 폰 노이만([Von Neumann](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/124_von_neumann/)) 아키텍처다. 연산기(코어)와 기억창고(메모리)가 분리되어 있어서, 계산을 한 번 하려면 메모리에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 퍼오고, 곱하고, 다시 메모리에 갖다 놓는 미친 짓([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 셔틀)을 1초에 수조 번 반복한다. 이때 발생하는 열을 식히려고 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)는 에어컨에 수백억 원을 태우고, 국가 단위의 전기를 집어삼킨다.
 
-반면 인간의 뇌는 연산기(뉴런)와 메모리(시냅스)가 한 곳에 찰싹 붙어있다. 게다가 뇌는 100% 가동되지 않는다. 눈앞에 사과가 나타나는 <strong>특정 이벤트가 터질 때만, 그와 관련된 뉴런들만 찌릿! 하고 전기 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/">스파이크</a>(<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/">Spike</a>)를 쏠 뿐, 나머지 99%의 뉴런은 잠을 자며 전기를 한 푼도 쓰지 않는다.</strong>
+반면 인간의 뇌는 연산기(뉴런)와 메모리(시냅스)가 한 곳에 찰싹 붙어있다. 게다가 뇌는 100% 가동되지 않는다. 눈앞에 사과가 나타나는 <strong>특정 이벤트가 터질 때만, 그와 관련된 뉴런들만 찌릿! 하고 전기 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/">스파이크</a>(<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/">Spike</a>)를 쏠 뿐, 나머지 99%의 뉴런은 잠을 자며 전기를 한 푼도 쓰지 않는다.</strong> 
 이 미친 에너지 효율을 본 공학자들은 "아예 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 칩 안에 연산기와 메모리를 섞어 박고, 전기가 찌릿할 때만 켜지는 칩을 만들자!"라고 결심했다. 이것이 폰 노이만의 70년 독재를 깨부수고 나타난 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 혁명, <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/445_neuromorphic_computing/">뉴로모픽 컴퓨팅</a> (<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/445_neuromorphic_computing/">Neuromorphic Computing</a>)</strong>이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 폰 노이만 GPU는 '10만 명의 콜센터 직원'이다. 손님이 한 명만 전화를 걸어도 10만 명의 직원이 매일 아침 출근해서 대기해야 하므로 월급(전기세)이 엄청 깨진다. 반면 뉴로모픽 뇌는 '비상 연락망'이다. 평소엔 다 집에서 불 끄고 잔다. 그러다 도둑(이벤트)이 들면 근처에 있는 경찰 딱 3명만 삐용삐용([Spike](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/)) 불을 켜고 일어나서 범인을 잡고 다시 잔다. 월급(전기세)이 사실상 0원에 가깝다.
 
@@ -46,29 +43,27 @@ tags = ["studynote-ai"]
 
 뉴로모픽 하드웨어의 영혼을 담당하는 소프트웨어(수학 모델)는 기존 딥러닝([ANN](/knowledge-base/studynote/05_database/06_dw_olap_trends/350_ann/))과 완전히 다른 <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/446_snn/">SNN</a> (Spiking Neural Network)</strong>이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기존 딥러닝(ANN) vs 뉴로모픽 뇌(SNN)의 전기 신호 아키텍처 도해</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 기존 딥러닝 (ANN, 예: CNN / Transformer)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 정보 형태: 0.1415, -0.9823 같은 연속적인 '소수점 실수(Float) 행렬'</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 작동 방식: 모든 층의 수백만 개 숫자를 무조건 다 곱하고 더해야 함. (동기식 풀가동)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 비유: 수도꼭지를 틀어놓고 콸콸 쏟아지는 물의 양(소수점)으로 신호를 보냄.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 뉴로모픽 컴퓨팅 (SNN: Spiking Neural Network)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 정보 형태: 오직 1(Spike!) 아니면 0(조용함). '시간(Time)'이라는 변수 추가!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 작동 방식: 뉴런은 자극을 받으면 전압을 차곡차곡 모음(Integrate).</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">그러다 전압이 한계치(Threshold)를 뚫으면 찌릿! 하고</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다음 뉴런에게 번개(Spike)를 쏘고 다시 0으로 기절함(Fire).</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 비유: 물방울이 똑똑 떨어지는 양동이. 물이 꽉 차면 양동이가 확 엎어지고(1),</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">빈 양동이로 돌아감(0). 양동이가 엎어질 때만 전기가 소모됨!</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           기존 딥러닝(ANN) vs 뉴로모픽 뇌(SNN)의 전기 신호 아키텍처 도해     │
+├──────────────────────────────────────────────────────────────┤
+│  [1. 기존 딥러닝 (ANN, 예: CNN / Transformer)]                    │
+│   * 정보 형태: 0.1415, -0.9823 같은 연속적인 '소수점 실수(Float) 행렬'     │
+│   * 작동 방식: 모든 층의 수백만 개 숫자를 무조건 다 곱하고 더해야 함. (동기식 풀가동)│
+│   * 비유: 수도꼭지를 틀어놓고 콸콸 쏟아지는 물의 양(소수점)으로 신호를 보냄.     │
+│                                                              │
+│  [2. 뉴로모픽 컴퓨팅 (SNN: Spiking Neural Network)]               │
+│   * 정보 형태: 오직 1(Spike!) 아니면 0(조용함). '시간(Time)'이라는 변수 추가!  │
+│   * 작동 방식: 뉴런은 자극을 받으면 전압을 차곡차곡 모음(Integrate).        │
+│               그러다 전압이 한계치(Threshold)를 뚫으면 찌릿! 하고         │
+│               다음 뉴런에게 번개(Spike)를 쏘고 다시 0으로 기절함(Fire).    │
+│   * 비유: 물방울이 똑똑 떨어지는 양동이. 물이 꽉 차면 양동이가 확 엎어지고(1), │
+│           빈 양동이로 돌아감(0). 양동이가 엎어질 때만 전기가 소모됨!        │
+└──────────────────────────────────────────────────────────────┘
+```
 
 **핵심 원리 (비동기 이벤트 구동과 로컬 메모리)**:
-뉴로모픽 칩(인텔 Loihi 등) 내부에는 거대한 공용 램(RAM)이 아예 존재하지 않는다. 대신 13만 개의 작은 인공 뉴런 회로 옆에 아주 콩알만 한 <strong><a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/">SRAM</a> 메모리(시냅스 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a>)</strong>가 각각 1:1로 찰싹 붙어있다. [데이터 버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/345_data_bus/)가 칩을 횡단할 필요가 없으니 폰 노이만 병목이 삭제된다.
+뉴로모픽 칩(인텔 Loihi 등) 내부에는 거대한 공용 램(RAM)이 아예 존재하지 않는다. 대신 13만 개의 작은 인공 뉴런 회로 옆에 아주 콩알만 한 <strong><a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/">SRAM</a> 메모리(시냅스 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a>)</strong>가 각각 1:1로 찰싹 붙어있다. [데이터 버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/345_data_bus/)가 칩을 횡단할 필요가 없으니 폰 노이만 병목이 삭제된다. 
 또한 시계처럼 째깍거리는 중앙 클럭([Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/))이 없다. 영상 카메라에 '움직이는 물체'가 찍혔을 때만, 그 픽셀과 연결된 뉴런들이 "타다닥!" 하고 연쇄 폭죽(비동기 [Spike](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/))을 터뜨리고, 안 움직이는 배경 픽셀의 뉴런들은 그냥 쿨쿨 잔다(Event-driven). 이 방식이 [전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/)를 1/1,000로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하는 치트키다.
 
 | 요소 | 역할 |
@@ -88,10 +83,10 @@ AI가 세상을 정복하기 위해 쓰는 [반도체](/knowledge-base/studynote
 
 | [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 패러다임 | [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) (범용 그래픽 처리 장치) | [TPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/425_tpu/) / [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/) ([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 전용 가속기 [ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/)) | 뉴로모픽 ([Neuromorphic Chip](/knowledge-base/studynote/14_data_engineering/04_mlops/193_neuromorphic_chip_snn_low_power_inference/)) |
 |:---|:---|:---|:---|
-| **근본 아키텍처** | 폰 노이만 구조 ([병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 코어) | 폰 노이만 베이스 + [시스톨릭 어레이](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/426_systolic_array/) | **비() 폰 노이만 구조 (연산+메모리 융합 뇌)** |
+| **근본 아키텍처** | 폰 노이만 구조 ([병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 코어) | 폰 노이만 베이스 + [시스톨릭 어레이](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/426_systolic_array/) | **비(非) 폰 노이만 구조 (연산+메모리 융합 뇌)** |
 | **소프트웨어 짝꿍**| [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/), [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) (기존 딥러닝) | [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/), [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) (기존 딥러닝) | <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/446_snn/">SNN</a> (<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/446_snn/">스파이킹 신경망</a>)</strong> |
 | <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/">전력 소모</a>량</strong> | 수천 와트 (원전 폭발 수준) | 수십~수백 와트 (효율적) | **밀리와트(mW) 수준 (동전 배터리로 구동)** |
-| **대표 칩셋** | NVIDIA H100, RTX 4090 | 구글 [TPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/425_tpu/), 애플 Neural Engine | **Intel Loihi, IBM TrueNorth** |
+| **대표 칩셋** | NVIDIA H100, RTX 4090 | 구글 [TPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/425_tpu/), 애플 Neural 엔진 | **Intel Loihi, IBM TrueNorth** |
 | **약점 및 병목** | 전기를 미친 듯이 퍼먹어 모바일 불가 | 행렬 곱셈만 잘해서 다른 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 깡통됨 | 기존 딥러닝([역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 미분) 호환 안 됨, 상용화 극초기 |
 
 뉴로모픽 칩은 딥러닝이 쓰는 미분([Gradient Descent](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/165_gradient_descent/)) 훈련이 안 먹힌다. [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/)(1과 0)는 계단처럼 뚝뚝 끊어져 있어서 수학적으로 미분이 불가능하기 때문이다. 그래서 뇌과학자들이 밝혀낸 <strong>STDP (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/">Spike</a>-Timing-Dependent Plasticity, 시간차 의존 가소성)</strong>라는 생물학적 학습법(먼저 [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/)를 쏜 놈과 나중에 쏜 놈의 시간차를 보고 연결을 강화하는 방식)을 쓰거나, 억지로 미분 가능하게 꼼수(Surrogate Gradient)를 써서 훈련하는 끔찍한 과도기에 머물러 있다.

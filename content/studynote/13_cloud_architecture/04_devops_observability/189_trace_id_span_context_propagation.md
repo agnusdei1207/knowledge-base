@@ -32,41 +32,41 @@ tags = ["studynote-cloud-architecture"]
 
 ### [Trace ID](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/303_trace_id/) / Span ID 구조
 
+```
+사용자 요청: "주문하기"
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">사용자 요청: "주문하기"</div>
-<div class="kb-diagram-note">Trace ID: trace-7f4a2b9c (전체 요청 고유값)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">Root Span (API Gateway)</div>
-<div class="kb-diagram-note">span_id: span-001</div>
-<div class="kb-diagram-note">parent_span_id: null</div>
-<div class="kb-diagram-note">시작: 14:32:01.000</div>
-<div class="kb-diagram-note">종료: 14:32:01.250</div>
-<div class="kb-diagram-tree-item" style="--depth:0">Child Span (Order Service)</div>
-<div class="kb-diagram-note">span_id: span-002</div>
-<div class="kb-diagram-note">parent_span_id: span-001</div>
-<div class="kb-diagram-note">시작: 14:32:01.010</div>
-<div class="kb-diagram-note">종료: 14:32:01.200</div>
-<div class="kb-diagram-note">── Child Span (Inventory Service)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">span_id: span-003</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">parent_span_id: span-002</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시작: 14:32:01.020</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">종료: 14:32:01.080</div></div>
-<div class="kb-diagram-note">── Child Span (Payment Service)</div>
-<div class="kb-diagram-note">span_id: span-004</div>
-<div class="kb-diagram-note">parent_span_id: span-002</div>
-<div class="kb-diagram-note">시작: 14:32:01.090</div>
-<div class="kb-diagram-note">종료: 14:32:01.190</div>
-<div class="kb-diagram-tree-item" style="--depth:0">Child Span (Notification Service)</div>
-<div class="kb-diagram-note">span_id: span-005</div>
-<div class="kb-diagram-note">parent_span_id: span-001</div>
-<div class="kb-diagram-note">시작: 14:32:01.200</div>
-<div class="kb-diagram-note">종료: 14:32:01.220</div>
-</div>
-</div>
-
-
+Trace ID: trace-7f4a2b9c  (전체 요청 고유값)
+│
+├── Root Span (API Gateway)
+│   span_id: span-001
+│   parent_span_id: null
+│   시작: 14:32:01.000
+│   종료: 14:32:01.250
+│
+├── Child Span (Order Service)
+│   span_id: span-002
+│   parent_span_id: span-001
+│   시작: 14:32:01.010
+│   종료: 14:32:01.200
+│
+│   ├── Child Span (Inventory Service)
+│   │   span_id: span-003
+│   │   parent_span_id: span-002
+│   │   시작: 14:32:01.020
+│   │   종료: 14:32:01.080
+│   │
+│   └── Child Span (Payment Service)
+│       span_id: span-004
+│       parent_span_id: span-002
+│       시작: 14:32:01.090
+│       종료: 14:32:01.190
+│
+└── Child Span (Notification Service)
+    span_id: span-005
+    parent_span_id: span-001
+    시작: 14:32:01.200
+    종료: 14:32:01.220
+```
 
 | 개념 | 형식 | 범위 | 고유성 |
 |:---|:---|:---|:---|
@@ -82,19 +82,15 @@ tags = ["studynote-cloud-architecture"]
 
 ### W3C Trace [Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 헤더 형식
 
+```
+HTTP 요청 헤더 예시:
+traceparent: 00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01
+             ↑  ↑────────────────────────────  ↑──────────────  ↑
+             버전  Trace ID (128bit/32hex)      Span ID(64bit/16hex) 플래그
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">HTTP 요청 헤더 예시:</div>
-<div class="kb-diagram-note">traceparent: 00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01</div>
-<div class="kb-diagram-note">버전 Trace ID (128bit/32hex) Span ID(64bit/16hex) 플래그</div>
-<div class="kb-diagram-note">tracestate: vendor1=value1,vendor2=value2</div>
-<div class="kb-diagram-note">(벤더별 추가 메타데이터)</div>
-</div>
-</div>
-
-
+tracestate: vendor1=value1,vendor2=value2
+           (벤더별 추가 메타데이터)
+```
 
 | 헤더 | 역할 | 형식 |
 |:---|:---|:---|
@@ -115,26 +111,21 @@ tags = ["studynote-cloud-architecture"]
 
 <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/570_trace_id_span_id_context_propagation/">Context Propagation</a> 끊김 방지:</strong>
 
+```
+// 나쁜 예: 새 Thread에서 컨텍스트 유실
+executor.submit(() -> {
+    // Trace Context가 새 Thread에 전달되지 않음!
+    callNextService();
+});
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">// 나쁜 예: 새 Thread에서 컨텍스트 유실</div>
-<div class="kb-diagram-note">executor.submit(() -&gt; {</div>
-<div class="kb-diagram-note">// Trace Context가 새 Thread에 전달되지 않음!</div>
-<div class="kb-diagram-note">callNextService();</div>
-<div class="kb-diagram-note">});</div>
-<div class="kb-diagram-note">// 좋은 예: OTel Context 명시 전파</div>
-<div class="kb-diagram-note">Context ctx = Context.current();</div>
-<div class="kb-diagram-note">executor.submit(() -&gt; {</div>
-<div class="kb-diagram-note">try (Scope scope = ctx.makeCurrent()) {</div>
-<div class="kb-diagram-note">callNextService(); // Trace Context 유지</div>
-<div class="kb-diagram-note">}</div>
-<div class="kb-diagram-note">});</div>
-</div>
-</div>
-
-
+// 좋은 예: OTel Context 명시 전파
+Context ctx = Context.current();
+executor.submit(() -> {
+    try (Scope scope = ctx.makeCurrent()) {
+        callNextService(); // Trace Context 유지
+    }
+});
+```
 
 **비동기/메시지 큐에서의 전파:**
 - [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 메시지 헤더에 Trace [Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 포함
@@ -177,19 +168,15 @@ Trace ID와 Span ID를 모든 [서비스](/knowledge-base/studynote/13_cloud_arc
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Trace ID: 요청 고유 식별자 (전 서비스 전파)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Span: 각 서비스 내 작업 단위 (parent-child 관계)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Context Propagation: W3C Trace Context · B3 헤더</div>
-</div>
-</div>
-
-
+```text
+Trace ID: 요청 고유 식별자 (전 서비스 전파)
+    │
+    ▼
+Span: 각 서비스 내 작업 단위 (parent-child 관계)
+    │
+    ▼
+Context Propagation: W3C Trace Context · B3 헤더
+```
 2. Span ID는 각 구간(10km, 20km, 30km)에서 그 선수의 기록이에요.
 3. [Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Propagation은 구간마다 "이 선수 번호는 X번이야"라고 이어서 알려주는 것이에요!
 

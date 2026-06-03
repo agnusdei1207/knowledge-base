@@ -21,18 +21,14 @@ tags = ["studynote-network"]
 
 일반적으로 클라이언트(브라우저)가 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 이름(예: `www.google.com`)을 IP 주소로 변환해 달라고 네임서버에 요청할 때, [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 프로토콜은 전송 계층으로 <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a> <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> 53번</strong>을 사용합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">영역 전송</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">일반 DNS 질의</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DNSSEC</div></div>
-</div>
-</div>
-
-
+```text
+[영역 전송]
+    │
+    ▼
+[일반 DNS 질의]
+    │
+    └──▶ [DNSSEC]
+```
 
 - **📢 섹션 요약 비유**: 일반 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 질의는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -46,18 +42,14 @@ tags = ["studynote-network"]
 2. <strong>단일 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/276_packet_switching_vs_circuit_switching_message_switching/">패킷 교환</a> (Single Packet)</strong>
    - 일반적인 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 질의(Query)와 응답(Response)은 그 크기가 매우 작아 512바이트([UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 권장 최대 페이로드)를 넘지 않습니다. 따라서 패킷 1개로 요청과 응답이 충분히 완료됩니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">영역 전송</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">일반 DNS 질의</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DNSSEC</div></div>
-</div>
-</div>
-
-
+```text
+[영역 전송]
+    │
+    ▼
+[일반 DNS 질의]
+    │
+    └──▶ [DNSSEC]
+```
 
 - **📢 섹션 요약 비유**: 일반 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 질의의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -65,26 +57,24 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
+```text
+[ DNS over UDP (일반 질의) ]
+Client                               DNS Server
+  │                                      │
+  ├─── 1. DNS Query (UDP 53) ───────────▶│ (단 1번의 전송)
+  │                                      │
+  │◀── 2. DNS Response (UDP 53) ─────────┤ (단 1번의 수신)
+  │                                      │
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DNS over UDP (일반 질의)</div></div>
-<div class="kb-diagram-note">Client DNS Server</div>
-<div class="kb-diagram-tree-item" style="--depth:1">1. DNS Query (UDP 53) ▶│ (단 1번의 전송)</div>
-<div class="kb-diagram-note">◀── 2. DNS Response (UDP 53) (단 1번의 수신)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">만약 TCP를 쓴다면?</div></div>
-<div class="kb-diagram-note">Client DNS Server</div>
-<div class="kb-diagram-tree-item" style="--depth:1">1. SYN ▶│ \</div>
-<div class="kb-diagram-note">◀── 2. SYN+ACK &gt; 연결 설정만 3단계</div>
-<div class="kb-diagram-tree-item" style="--depth:1">3. ACK ▶│ /</div>
-<div class="kb-diagram-tree-item" style="--depth:1">4. DNS Query (TCP) ▶</div>
-<div class="kb-diagram-note">◀── 5. DNS Response (TCP)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">6. FIN ... (종료 과정) ▶</div>
-</div>
-</div>
-
-
+[ 만약 TCP를 쓴다면? ]
+Client                               DNS Server
+  ├─── 1. SYN ──────────────────────────▶│ \
+  │◀── 2. SYN+ACK ───────────────────────┤  > 연결 설정만 3단계
+  ├─── 3. ACK ──────────────────────────▶│ /
+  ├─── 4. DNS Query (TCP) ──────────────▶│
+  │◀── 5. DNS Response (TCP) ────────────┤
+  ├─── 6. FIN ... (종료 과정) ──────────▶│
+```
 
 - **📢 섹션 요약 비유**: 일반 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 질의는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
@@ -125,19 +115,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 영역 전송</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 일반 DNS 질의</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: DNSSEC</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율 운영 네트워크</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 영역 전송]
+    │
+    ▼
+[현재 개념: 일반 DNS 질의]
+    │
+    ├──▶ [확장 A: DNSSEC]
+    └──▶ [확장 B: 자율 운영 네트워크]
+```
 
 일반 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 질의는 [영역 전송](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/516_dns_zone_transfer_tcp_53/)에서 출발해 현재 메커니즘을 정교화하고, 이후 DNSSEC와 자율 운영 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

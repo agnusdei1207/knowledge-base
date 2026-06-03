@@ -27,29 +27,29 @@ tags = ["studynote-operating-system"]
   2. <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/">Lazy</a> 철학의 극단화</strong>: 아예 아무것도 예측하지 마라. CPU가 찌르는(Demand) 주소만 100% 진실이다.
   3. **결과적 고통**: 부팅하자마자 폴트가 수십 번 터지며 앱이 켜지는 데 한참이 걸려 UX(사용자 경험)를 끔찍하게 깎아 먹었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일반 요구 페이징 vs 순수 요구 페이징의 런타임 시작 과정</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">프로세스 P (총 10페이지) 실행 버튼 클릭!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1. 일반 요구 페이징 (적당한 타협)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- OS: "음, main 함수가 있는 0번, 1번 페이지는 램에 넣어줄게."</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- 램 상태:</div><div class="kb-diagram-node">Pg 0</div><div class="kb-diagram-node">Pg 1</div><div class="kb-diagram-note">(V 비트 켜짐)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 실행: 스무스하게 시작하다가 중간에 Pg 2 부를 때 렉(Fault) 한 번 남.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2. 순수 요구 페이징 (Pure Demand Paging)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- OS: "램? 국물도 없다. 테이블 전부 I 비트 박고 일단 CPU 굴려!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- 램 상태:</div><div class="kb-diagram-node">텅 빔</div><div class="kb-diagram-note">(10개 다 Invalid)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 실행 과정:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💥 0.0001초: CPU가 1번째 줄 읽으려다 Page Fault 터짐! (디스크행)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💥 0.0010초: 0번 페이지 가져와서 다시 시작. 근데 변수 읽으려다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">또 5번 페이지 Fault 터짐! (디스크행)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💥 0.0020초: 5번 가져왔더니 스택 필요해서 9번 Fault 터짐!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 결과: 초기 1초 동안 미친 듯이 버벅대다가(소나기), 한참 뒤에 평온해짐.</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────┐
+│        일반 요구 페이징 vs 순수 요구 페이징의 런타임 시작 과정           │
+├──────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│ [ 프로세스 P (총 10페이지) 실행 버튼 클릭! ]                             │
+│                                                                          │
+│ ▶ 1. 일반 요구 페이징 (적당한 타협)                                      │
+│  - OS: "음, main 함수가 있는 0번, 1번 페이지는 램에 넣어줄게."           │
+│  - 램 상태: [ Pg 0 ] [ Pg 1 ] (V 비트 켜짐)                              │
+│  - 실행: 스무스하게 시작하다가 중간에 Pg 2 부를 때 렉(Fault) 한 번 남.   │
+│                                                                          │
+│ ▶ 2. 순수 요구 페이징 (Pure Demand Paging)                               │
+│  - OS: "램? 국물도 없다. 테이블 전부 I 비트 박고 일단 CPU 굴려!"         │
+│  - 램 상태: [ 텅 빔 ] (10개 다 Invalid)                                  │
+│  - 실행 과정:                                                            │
+│    💥 0.0001초: CPU가 1번째 줄 읽으려다 Page Fault 터짐! (디스크행)      │
+│    💥 0.0010초: 0번 페이지 가져와서 다시 시작. 근데 변수 읽으려다        │
+│               또 5번 페이지 Fault 터짐! (디스크행)                       │
+│    💥 0.0020초: 5번 가져왔더니 스택 필요해서 9번 Fault 터짐!             │
+│  - 결과: 초기 1초 동안 미친 듯이 버벅대다가(소나기), 한참 뒤에 평온해짐. │
+└──────────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 순수 [요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)의 곡선은 초반에 절벽처럼 떨어졌다가 나중에 평탄해진다. 시작하자마자 코드 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)([명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)(변수), [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)(함수)를 세팅하느라 무더기로 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)가 터진다. 하지만 이 고통스러운 '소나기(Burst of [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Faults)' 시기가 지나고 나면, 프로그램이 궤도에 올라 자기만의 '[워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)([Working Set](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/))'을 램에 다 모아두어 폴트율이 극도로 낮아지게 된다.
 
 - **📢 섹션 요약 비유**: 수영장에 들어갈 때, 발끝부터 물을 적시며 천천히 들어가는(사전 적재) 게 아니라, 다이빙대에서 빈몸으로 냅다 물통(디스크)에 던져진 뒤 물을 퍼 올려 수영장을 채워나가는 무식하고도 확실한 생존 방식입니다.
@@ -103,17 +103,14 @@ tags = ["studynote-operating-system"]
 - `Time = 1 sec`: <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/">워킹 셋</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/">Working Set</a>)</strong> 형성 완료. 폴트율 **0.001%** 수렴. 평온한 상태(Steady [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)) 돌입.
 - 순수 [요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)은 이 초반의 100% 절벽 구간을 몸으로 온전히 때우겠다는 살신성인의 전략이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정책</div><div class="kb-diagram-cell">부팅 속도(UX)</div><div class="kb-diagram-cell">램 공간 절약</div><div class="kb-diagram-cell">하드디스크 무리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pure Demand</div><div class="kb-diagram-cell">☠️ 최악</div><div class="kb-diagram-cell">⭐ 최고 방어</div><div class="kb-diagram-cell">☠️ 드르륵 파괴됨</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Prepaging</div><div class="kb-diagram-cell">⭐ 쾌적</div><div class="kb-diagram-cell">🔴 낭비 큼</div><div class="kb-diagram-cell">🟢 수명 절약</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬───────────────────────┐
+│ 정책       │ 부팅 속도(UX)│ 램 공간 절약 │ 하드디스크 무리 │
+├──────────┼────────────┼────────────┼───────────────────────┤
+│ Pure Demand│ ☠️ 최악    │ ⭐ 최고 방어 │ ☠️ 드르륵 파괴됨  │
+│ Prepaging  │ ⭐ 쾌적    │ 🔴 낭비 큼   │ 🟢 수명 절약      │
+└──────────┴────────────┴────────────┴───────────────────────┘
+```
 **[매트릭스 해설]** 순수 [요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)은 하드디스크([HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/)) 시절에는 절대 쓸 수 없는 금기였다. 암(Arm)이 한 번 움직일 때([Seek time](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/)) 주변 걸 다 긁어와야([Prepaging](/knowledge-base/studynote/02_operating_system/07_virtual_memory/385_prepaging/)) 이득인데, 바보처럼 1번 폴트 나고 4KB 읽고, 또 돌아가서 4KB 읽고를 반복하면 하드디스크가 소음을 내며 터져나갔다. 이 극단적 방법은 [플래시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/)([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/), [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/))가 등장하여 랜덤 액세스(Random Access) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 사라진 현대에 와서야 그럭저럭 비벼볼 만한 이론이 되었다.
 
 - **📢 섹션 요약 비유**: 마트에 장 보러 갈 때, 한 번 갔을 때 오늘내일 먹을 걸 미리 다 사 오는 게([선행 페이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/385_prepaging/)) 기름값과 시간이 절약됩니다. 밥 한 숟갈 먹고 마트 뛰어가고, 반찬 한 젓가락 먹고 마트 뛰어가는 짓(순수 [요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/))은 기름값(디스크 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))이 0원인 텔레포트 시대([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))에나 가능한 정신 나간 식습관입니다.
@@ -167,19 +164,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">요구 페이징 (Demand Paging)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">순수 요구 페이징 (Pure Demand Paging)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">선행 페이징 (Prepaging)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">유효-무효 비트 (Valid-Invalid Bit)</div></div>
-</div>
-</div>
-
-
+```text
+[요구 페이징 (Demand Paging)]
+    │
+    ▼
+[순수 요구 페이징 (Pure Demand Paging)]
+    │
+    ├──▶ [선행 페이징 (Prepaging)]
+    └──▶ [유효-무효 비트 (Valid-Invalid Bit)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

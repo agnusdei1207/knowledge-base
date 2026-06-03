@@ -21,23 +21,24 @@ tags = ["studynote-design-supervision"]
 
 디미터 법칙은 1987년 미국 노스이스턴 대학교(Northeastern University)의 디미터 프로젝트(Demeter [Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/))에서 이안 홀랜드(Ian Holland)가 제안한 객체지향 설계 원칙이다. 원래는 자동화된 소프트웨어 성장 시스템을 연구하면서 발견된 패턴이었지만, 이후 객체 간 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)([coupling](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/))를 낮추는 실용적 설계 원칙으로 광범위하게 채택되었다.
 
-LoD가 없으면 클라이언트 객체는 협력 객체의 내부 구조 전체를 알아야 한다. `order.getCustomer().getAddress().getCity()` 같은 코드에서 Order는 Customer의 구조, Address의 구조, City 표현 방식까지 모두 안다. `Address`를 `Location`으로 리팩토링하면 이 체인을 사용하는 모든 코드를 찾아 수정해야 한다.
+LoD가 없으면 클라이언트 객체는 협력 객체의 내부 구조 전체를 알아야 한다. `order.getCustomer().getAddress().getCity()` 같은 코드에서 Order는 C고객의 구조, Address의 구조, City 표현 방식까지 모두 안다. `Address`를 `Location`으로 리팩토링하면 이 체인을 사용하는 모든 코드를 찾아 수정해야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LoD 위반: 깊은 탐색 체이닝의 결합도 문제</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OrderService</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ order.getCustomer() → Customer 구조 알아야 함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ .getAddress() → Address 구조 알아야 함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ .getCity() → 3단계 깊이 결합</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LoD 적용 후:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ order.getShippingCity() → Order 하나만 알면 됨 ✓</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│        LoD 위반: 깊은 탐색 체이닝의 결합도 문제             │
+├─────────────────────────────────────────────────────────────┤
+│  OrderService                                               │
+│      │                                                      │
+│      ├─ order.getCustomer()  → Customer 구조 알아야 함       │
+│      │       │                                              │
+│      │       ├─ .getAddress() → Address 구조 알아야 함       │
+│      │               │                                      │
+│      │               └─ .getCity() → 3단계 깊이 결합         │
+│      │                                                      │
+│  LoD 적용 후:                                               │
+│      └─ order.getShippingCity() → Order 하나만 알면 됨 ✓    │
+└─────────────────────────────────────────────────────────────┘
+```
 
 LoD의 실용적 규칙은 메서드 내에서 호출 가능한 대상을 4가지로 제한한다: ① 자기 자신(this), ② 메서드 인자로 전달된 객체, ③ 직접 생성한 객체, ④ 직접 참조하는 인스턴스 변수.
 
@@ -56,19 +57,19 @@ LoD를 실현하는 핵심 기법은 위임(Delegation)이다. 클라이언트�
 | 설정값 접근 | `config.getDb().getPool().getMaxSize()` | `config.getDbPoolMaxSize()` 위임 |
 | 계층 탐색 | `dept.getCompany().getCeo().getEmail()` | 직접 관계가 아니면 설계 재검토 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위임 패턴으로 LoD 준수: 정보 은닉 강화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Client</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Order.getShippingCity()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Order 내부에서 처리)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Customer.getAddress().getCity()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: Client는 Order만 안다. Customer·Address 구조는 캡슐화</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│        위임 패턴으로 LoD 준수: 정보 은닉 강화               │
+├─────────────────────────────────────────────────────────────┤
+│  [Client]──▶[Order.getShippingCity()]                       │
+│                     │                                       │
+│                     │ (Order 내부에서 처리)                  │
+│                     ▼                                       │
+│              [Customer.getAddress().getCity()]              │
+│                                                             │
+│  결과: Client는 Order만 안다. Customer·Address 구조는 캡슐화 │
+└─────────────────────────────────────────────────────────────┘
+```
 
 트레이드오프로는 위임 메서드가 늘어나면서 얕지만 넓은 인터페이스(wide but shallow interface)가 형성된다. 과도하게 적용하면 모든 내부 데이터에 대한 위임 메서드가 생겨 인터페이스가 비대해지는 "위임 메서드 폭발(delegation method explosion)" 안티패턴이 생길 수 있다.
 

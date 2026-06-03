@@ -34,24 +34,21 @@ HTTP는 헤더 오버헤드가 수백~수천 [바이트](/knowledge-base/studyno
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MQTT Pub/Sub 구조 vs CoAP 요청-응답 구조 비교</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MQTT</div><div class="kb-diagram-cell">CoAP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Publisher(발행자)</div><div class="kb-diagram-node">CoAP Client</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GET/PUT/POST/DELETE</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 토픽(Topic)</div><div class="kb-diagram-cell">▼</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Broker(브로커)</div><div class="kb-diagram-node">CoAP Server</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(자원 URI: /sensor/temp)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 구독(Subscribe)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Subscriber(구독자)</div><div class="kb-diagram-node">Observe 옵션</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(다수의 클라이언트)</div><div class="kb-diagram-cell">(변경 시 자동 알림 → Push)</div></div>
-</div>
-</div>
-
-
+```
+┌────────────────────────────────────────────────────────────┐
+│         MQTT Pub/Sub 구조 vs CoAP 요청-응답 구조 비교         │
+├──────────────────────────┬─────────────────────────────────┤
+│         MQTT             │           CoAP                  │
+│  [Publisher(발행자)]      │  [CoAP Client]                  │
+│       │                  │       │ GET/PUT/POST/DELETE      │
+│       ▼  토픽(Topic)      │       ▼                         │
+│  [Broker(브로커)]         │  [CoAP Server]                  │
+│       │                  │  (자원 URI: /sensor/temp)        │
+│       ▼  구독(Subscribe)  │                                 │
+│  [Subscriber(구독자)]     │  [Observe 옵션]                  │
+│  (다수의 클라이언트)        │  (변경 시 자동 알림 → Push)       │
+└──────────────────────────┴─────────────────────────────────┘
+```
 
 ### [MQTT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/622_mqtt_publish_subscribe_qos/) vs [CoAP](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/) 핵심 비교표
 

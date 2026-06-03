@@ -24,18 +24,14 @@ tags = ["studynote-network"]
 
 - **💡 비유**: 클라스풀(Classful) 할당은 국가에서 땅을 분양할 때 오직 <strong>"10만 평(A), 1만 평(B), 100평(C)" 딱 세 종류의 땅 문서</strong>만 파는 것과 같습니다. 내가 공장을 지으려고 200평이 필요한데 100평짜리 땅(C)은 작으니, 어쩔 수 없이 1만 평짜리 땅(B)을 사서 200평만 쓰고 <strong>나머지 9,800평은 펜스를 치고 영원히 버려두는 끔찍한 낭비</strong>를 저지른 것입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">헤더 체크섬</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IP 주소 고갈 문제, 클라스풀 주소체계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">클래스 A, B, C, D, E</div></div>
-</div>
-</div>
-
-
+```text
+[헤더 체크섬]
+    │
+    ▼
+[IP 주소 고갈 문제, 클라스풀 주소체계]
+    │
+    └──▶ [클래스 A, B, C, D, E]
+```
 
 - **📢 섹션 요약 비유**: <strong> IP 고갈 문제는 석유 고갈과 같습니다. 매장량(43억 개)은 정해져 있는데 초창기에 기름을 물 쓰듯 펑펑 쓰다가(Classful), 바닥이 보일 즈음이 되어서야 </strong>연비 좋은 하이브리드카(CIDR)를 만들고 카풀([NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/))을 강제**하며 버티고 있는 형국입니다.
 
@@ -58,22 +54,22 @@ IP 주소 32비트는 "동네 번호(Network ID)"와 "그 동네 안의 집 번�
 - 이 회사는 300개의 IP만 쓰고 나머지 **65,234개의 금 같은 IP를 허공에 날려버렸다.** 아무도 이 주소를 쓸 수 없다.
 이런 짓을 전 세계 수만 개의 기업이 저지르자, 1990년대 중반에 이미 "이대로면 몇 년 안에 B 클래스가 멸종한다!"라는 경고가 떴다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라스풀(Classful) 낭비의 극단적 예시</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">직원 300명인 회사</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구사항: IP 300개 필요.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C클래스 (254개) ──▶ "모자라! 이거 안 해!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">300개 사용 | 65,234개 낭비!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 결과: 인터넷 전체에 배포 가능한 B 클래스는 전 세계에 고작</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">16,384개뿐인데, 이런 중소기업들이 하나씩 들고 가버려서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">순식간에 B 클래스가 씨가 말라버림.</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                 클라스풀(Classful) 낭비의 극단적 예시            │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 직원 300명인 회사 ]                                       │
+ │                                                             │
+ │   요구사항: IP 300개 필요.                                    │
+ │   C클래스 (254개) ──▶ "모자라! 이거 안 해!"                   │
+ │   B클래스 (65,534개) ──▶ "이거 줘!" ──▶ [ 300개 사용 | 65,234개 낭비! ] │
+ │                                                             │
+ │   * 결과: 인터넷 전체에 배포 가능한 B 클래스는 전 세계에 고작      │
+ │          16,384개뿐인데, 이런 중소기업들이 하나씩 들고 가버려서   │
+ │          순식간에 B 클래스가 씨가 말라버림.                      │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 3. 고갈을 막기 위한 3대 생명 연장술의 등장
 완전히 고갈된 IPv4를 당장 버릴 수 없었기에 네트워크 엔지니어들은 다음의 해결책들을 도입했다.
@@ -137,19 +133,15 @@ IP 주소 고갈 문제, 클라스풀 주소체계는 네트워크 계층과 IP�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 헤더 체크섬</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: IP 주소 고갈 문제, 클라스풀 주소체계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 클래스 A, B, C, D, E</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 대규모 주소 자동화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 헤더 체크섬]
+    │
+    ▼
+[현재 개념: IP 주소 고갈 문제, 클라스풀 주소체계]
+    │
+    ├──▶ [확장 A: 클래스 A, B, C, D, E]
+    └──▶ [확장 B: 대규모 주소 자동화]
+```
 
 IP 주소 고갈 문제, 클라스풀 주소체계는 [헤더 체크섬](/knowledge-base/studynote/03_network/06_network_layer_ip/296_header_checksum_ipv4_integrity/)에서 출발해 현재 메커니즘을 정교화하고, 이후 클래스 A, B, C, D, E와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

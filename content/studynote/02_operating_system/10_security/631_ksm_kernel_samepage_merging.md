@@ -52,38 +52,44 @@ tags = ["studynote-operating-system"]
 
 KSM은 무작정 모든 메모리를 뒤지는 것이 아니라, 애플리케이션(주로 가상머신인 QEMU)이 허락한(`madvise`) 메모리 영역([VMA](/knowledge-base/studynote/02_operating_system/07_virtual_memory/428_vma_struct/), [Virtual Memory Area](/knowledge-base/studynote/02_operating_system/07_virtual_memory/428_vma_struct/))만 스캔한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">KSM (Kernel Samepage Merging) 동작 원리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황 1: 병합 전 (Before KSM)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VM 1 (QEMU A) VM 2 (QEMU B)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가상 주소 (VA_1) 가상 주소 (VA_2)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (Page Table) ▼ (Page Table)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물리 주소 (PA_X) 물리 주소 (PA_Y)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DATA: "Ubuntu"</div><div class="kb-diagram-cell">DATA: "Ubuntu"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(내용은 같지만 물리 메모리 2개 낭비 중)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황 2: ksmd 데몬 스캐닝 및 병합 (After KSM)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. ksmd가 PA_X와 PA_Y의 내용이 정확히 같음을 발견 (해시 트리로 검색)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. VM 2의 페이지 테이블을 뜯어고쳐 VA_2가 PA_X를 가리키게 바꿈</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. PA_Y는 메모리에서 삭제 (Free) -&gt; RAM 절약!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">4. PA_X의 권한을</div><div class="kb-diagram-node">Read-Only (읽기 전용)</div><div class="kb-diagram-note">으로 강제 변경.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VM 1 (VA_1)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (Read-Only)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물리 주소 (PA_X)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DATA: "Ubuntu"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ (Read-Only)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VM 2 (VA_2)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황 3: COW (Copy-On-Write) 발동</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- VM 2가 "Ubuntu"를 "CentOS"로 바꾸려고 시도 (Write)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- PA_X는 Read-Only이므로 하드웨어</div><div class="kb-diagram-node">Page Fault</div><div class="kb-diagram-note">트랩 발생!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 커널이 잽싸게 빈 물리 메모리 PA_Z를 할당하고 "Ubuntu"를 복사함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- VM 2의 테이블을 PA_Z로 변경하고 Write 허용. VM 2는 변경 완료.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 KSM (Kernel Samepage Merging) 동작 원리             │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │  [상황 1: 병합 전 (Before KSM)]                                     │
+  │   VM 1 (QEMU A)                  VM 2 (QEMU B)                    │
+  │   가상 주소 (VA_1)               가상 주소 (VA_2)                   │
+  │          │                             │                          │
+  │          ▼ (Page Table)                ▼ (Page Table)             │
+  │   물리 주소 (PA_X)               물리 주소 (PA_Y)                   │
+  │  ┌────────────────┐             ┌────────────────┐                │
+  │  │ DATA: "Ubuntu" │             │ DATA: "Ubuntu" │                │
+  │  └────────────────┘             └────────────────┘                │
+  │  (내용은 같지만 물리 메모리 2개 낭비 중)                                │
+  │                                                                   │
+  │  [상황 2: ksmd 데몬 스캐닝 및 병합 (After KSM)]                       │
+  │   1. ksmd가 PA_X와 PA_Y의 내용이 정확히 같음을 발견 (해시 트리로 검색)        │
+  │   2. VM 2의 페이지 테이블을 뜯어고쳐 VA_2가 PA_X를 가리키게 바꿈             │
+  │   3. PA_Y는 메모리에서 삭제 (Free) -> RAM 절약!                        │
+  │   4. PA_X의 권한을 [Read-Only (읽기 전용)]으로 강제 변경.                 │
+  │                                                                   │
+  │   VM 1 (VA_1) ────┐                                               │
+  │                   ▼ (Read-Only)                                   │
+  │                물리 주소 (PA_X)                                     │
+  │               ┌────────────────┐                                  │
+  │               │ DATA: "Ubuntu" │                                  │
+  │               └────────────────┘                                  │
+  │                   ▲ (Read-Only)                                   │
+  │   VM 2 (VA_2) ────┘                                               │
+  │                                                                   │
+  │  [상황 3: COW (Copy-On-Write) 발동]                                 │
+  │   - VM 2가 "Ubuntu"를 "CentOS"로 바꾸려고 시도 (Write)                 │
+  │   - PA_X는 Read-Only이므로 하드웨어 [Page Fault] 트랩 발생!              │
+  │   - 커널이 잽싸게 빈 물리 메모리 PA_Z를 할당하고 "Ubuntu"를 복사함.           │
+  │   - VM 2의 테이블을 PA_Z로 변경하고 Write 허용. VM 2는 변경 완료.            │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** KSM의 핵심은 <strong>투명성(Transparency)</strong>이다. [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 1과 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 2는 자신들의 메모리가 남과 공유되고 있다는 사실을 전혀 모른다. 그들은 평소처럼 자신의 가상 주소(VA)를 읽는다. 그러다 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Write) 작업을 시도하면, 하드웨어 MMU가 권한 없음을 이유로 트랩을 발생시킨다. 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 핸들러가 이를 잡아서 KSM [COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) 로직을 실행하여 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)본을 던져준다. 이 모든 과정이 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 모르게 물밑에서 밀리초 단위로 이뤄진다. 가장 큰 부하가 걸리는 곳은 `ksmd`가 램의 수백만 개 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 내용을 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 단위로 비교(`memcmp`)하고 [레드-블랙 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/063_red_black_tree/)(RB-Tree)를 유지하는 과정이다.
 
@@ -127,24 +133,29 @@ KSM은 무작정 모든 메모리를 뒤지는 것이 아니라, 애플리케이
 
 ### 의사결정 및 튜닝 플로우
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">KSM (메모리 병합) 도입 및 튜닝 의사결정 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">가상화 호스트의 물리 메모리(RAM) 부족 현상 발생</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">호스트 위에서 도는 VM들의 OS나 주요 애플리케이션이 동일한가? (Homogeneous)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ▶ KSM 효과 미미. (벌루닝이나 RAM 증설 고려)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예 (VDI, 동일 컨테이너 노드 등)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VM 워크로드가 메모리 '읽기' 위주인가, '쓰기' 위주인가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">KSM 절대 사용 금지</div><div class="kb-diagram-note">(COW 폭풍으로 망함)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">KSM 활성화 (run=1)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">호스트의 CPU 사용률(ksmd)을 모니터링하여,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU가 너무 높으면 pages_to_scan 값 감소 (속도 조절)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 KSM (메모리 병합) 도입 및 튜닝 의사결정 플로우             │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [가상화 호스트의 물리 메모리(RAM) 부족 현상 발생]                        │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      호스트 위에서 도는 VM들의 OS나 주요 애플리케이션이 동일한가? (Homogeneous)│
+  │          ├─ 아니오 ────▶ KSM 효과 미미. (벌루닝이나 RAM 증설 고려)       │
+  │          └─ 예 (VDI, 동일 컨테이너 노드 등)                             │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      VM 워크로드가 메모리 '읽기' 위주인가, '쓰기' 위주인가?                 │
+  │          ├─ 쓰기(Write) 위주 ─▶ [KSM 절대 사용 금지] (COW 폭풍으로 망함) │
+  │          │                                                        │
+  │          └─ 읽기(Read) 위주  ─▶ [KSM 활성화 (run=1)]                │
+  │                                           │                       │
+  │                                           ▼                       │
+  │                       호스트의 CPU 사용률(ksmd)을 모니터링하여,          │
+  │                       CPU가 너무 높으면 pages_to_scan 값 감소 (속도 조절)│
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** KSM은 메모리를 대가로 CPU를 태우는 연금술이다. 메모리가 남는데 CPU가 부족한 서버에서 KSM을 켜는 것은 바보 짓이며, 반대로 CPU는 남아도는데 메모리가 부족해서 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)이 터질 것 같은 서버에서는 KSM이 구세주다. 기술사는 현재 인프라의 진짜 병목이 CPU인지 메모리인지(Trade-off)를 정확히 저울질하여 KSM 데몬의 스로틀링(Throttling) 값을 미세 튜닝해야 한다.
 
@@ -188,19 +199,15 @@ KSM은 무작정 모든 메모리를 뒤지는 것이 아니라, 애플리케이
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">가상 스위치 (vSwitch) 패킷 오버헤드 VNF 구조 적용 방식</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">메모리 KSM (Kernel Samepage Merging) 가상머신 간 중복 메모리 통합 절약</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">벌루닝 (Ballooning) 하이퍼바이저 가상머신 동적 메모리 회수 기법 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">무정전 업데이트 (Ksplice 등 커널 재부팅 없는 패치망 체계 구조)</div></div>
-</div>
-</div>
-
-
+```text
+[가상 스위치 (vSwitch) 패킷 오버헤드 VNF 구조 적용 방식]
+    │
+    ▼
+[메모리 KSM (Kernel Samepage Merging) 가상머신 간 중복 메모리 통합 절약]
+    │
+    ├──▶ [벌루닝 (Ballooning) 하이퍼바이저 가상머신 동적 메모리 회수 기법 구조]
+    └──▶ [무정전 업데이트 (Ksplice 등 커널 재부팅 없는 패치망 체계 구조)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

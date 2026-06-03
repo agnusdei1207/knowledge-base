@@ -35,29 +35,29 @@ tags = ["studynote-operating-system"]
 - **등장 배경**: 
   - 과거 싱글 코어(Uniprocessor) 시절에는 아무 쓸모없는 기능이었다. 그러나 다중 코어([SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/)) 시대가 도래하면서, 코어 1번이 락을 쥐고 있는 동안 코어 2번이 병렬적으로 스핀(루프)을 도는 전략이 성립하게 되며 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 가장 핵심적인 저수준 락으로 등극했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mutex (수면) vs Spinlock (바쁜 대기) 타이밍 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황: Core 1이 Lock을 쥐고 2µs 후 풀 예정</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. Mutex (블로킹 방식) - 오버헤드 지옥</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core 2: Lock 요청 -&gt; 실패!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core 2: 짐 싸서 잔다 (문맥 교환 저장: 5µs 소요) ──▶ Sleep 😴</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(2µs 후 Core 1이 Lock 해제)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core 2: OS가 깨움 (문맥 교환 복원: 5µs 소요) ──▶ 다시 실행!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: 2µs만 기다리면 될 것을, 짐 싸고 푸느라 총 10µs 낭비!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. Spinlock (스핀 방식) - 초고속 낚아채기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core 2: Lock 요청 -&gt; 실패!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core 2: 안 자! 문고리 돌려!! (while 루프 맹렬히 회전) 🌀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(2µs 동안 CPU 100% 태우며 헛돌기)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(2µs 후 Core 1이 Lock 해제)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core 2: "열렸다!" 문맥 교환 0초 지연으로 즉각 진입 및 실행! 🚀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: 짐을 안 쌌기 때문에 2µs만 딱 버티고 빛의 속도로 일 처리 완료!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │                 Mutex (수면) vs Spinlock (바쁜 대기) 타이밍 비교        │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │  [ 상황: Core 1이 Lock을 쥐고 2µs 후 풀 예정 ]                    │
+  │                                                             │
+  │  [ 1. Mutex (블로킹 방식) - 오버헤드 지옥 ]                     │
+  │  Core 2: Lock 요청 -> 실패!                                  │
+  │  Core 2: 짐 싸서 잔다 (문맥 교환 저장: 5µs 소요) ──▶ Sleep 😴    │
+  │          (2µs 후 Core 1이 Lock 해제)                          │
+  │  Core 2: OS가 깨움 (문맥 교환 복원: 5µs 소요) ──▶ 다시 실행!     │
+  │    ▶ 결과: 2µs만 기다리면 될 것을, 짐 싸고 푸느라 총 10µs 낭비!     │
+  │                                                             │
+  │  [ 2. Spinlock (스핀 방식) - 초고속 낚아채기 ]                  │
+  │  Core 2: Lock 요청 -> 실패!                                  │
+  │  Core 2: 안 자! 문고리 돌려!! (while 루프 맹렬히 회전) 🌀          │
+  │          (2µs 동안 CPU 100% 태우며 헛돌기)                       │
+  │          (2µs 후 Core 1이 Lock 해제)                          │
+  │  Core 2: "열렸다!" 문맥 교환 0초 지연으로 즉각 진입 및 실행! 🚀        │
+  │    ▶ 결과: 짐을 안 쌌기 때문에 2µs만 딱 버티고 빛의 속도로 일 처리 완료! │
+  └─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 그림은 [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)이 왜 "도박"인지 보여준다. [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)([Critical Section](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/))이 극도로 짧을 때는 [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)이 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)을 없애주어 시스템의 영웅이 된다. 하지만 만약 Core 1이 락을 쥔 채 1초(1,000,000µs) 동안 작업을 한다면? Core 2는 1초 내내 의미 없는 while 문만 미친 듯이 돌며 CPU의 귀중한 연산 클럭과 전력을 불태워버리는 끔찍한 낭비([Busy Waiting](/knowledge-base/studynote/02_operating_system/04_synchronization/227_busy_waiting/))를 저지른다. [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)은 철저하게 '짧은 락 유지 시간'을 담보할 수 있는 실력 있는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 해커들만 써야 하는 양날의 검이다.
 
@@ -71,27 +71,28 @@ tags = ["studynote-operating-system"]
 
 [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)을 이해하는 핵심은 싱글 코어 시스템에서 [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)을 쓰면 <strong>100% 데드락(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">Deadlock</a>)에 빠지거나 시스템이 죽는다</strong>는 사실을 아는 것이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">싱글 코어에서 스핀락이 절대 금지되는 이유</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1 CPU 코어 환경</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 스레드 A가 실행 중 락(Lock)을 획득함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 스레드 A가 일하던 중, 타이머 인터럽트가 터져 스레드 B로 강제 문맥 교환됨.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 스레드 B가 깨어나서 똑같은 락(Lock)을 요청함. -&gt; 당연히 잠겨있음.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 스레드 B는 스핀락이므로 "안 자고 while 무한 루프"를 돌기 시작함! 🌀</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🚨</div><div class="kb-diagram-node">재앙 발생 - Livelock / Deadlock</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 스레드 B가 CPU 100%를 쓰며 루프를 도니까, 락을 풀어줘야 할 스레드 A가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU를 할당받지 못해 영원히 깨어나질 못함!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 스레드 A는 실행을 못 하니 락을 못 풀고, 스레드 B는 락이 안 풀리니 무한 루프.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 결과: 컴퓨터 그대로 블루스크린(Hang) 뻗음.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결론: 스핀락은 오직 다른 코어가 락을 쥐고 "병렬로" 동시에 풀고 있을 때만</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">작동하는 '다중 코어(SMP) 전용' 아키텍처다!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 싱글 코어에서 스핀락이 절대 금지되는 이유                 │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [ 1 CPU 코어 환경 ]                                                │
+  │                                                                   │
+  │   1. 스레드 A가 실행 중 락(Lock)을 획득함.                               │
+  │   2. 스레드 A가 일하던 중, 타이머 인터럽트가 터져 스레드 B로 강제 문맥 교환됨. │
+  │   3. 스레드 B가 깨어나서 똑같은 락(Lock)을 요청함. -> 당연히 잠겨있음.        │
+  │   4. 스레드 B는 스핀락이므로 "안 자고 while 무한 루프"를 돌기 시작함! 🌀     │
+  │                                                                   │
+  │   🚨 [ 재앙 발생 - Livelock / Deadlock ]                            │
+  │   - 스레드 B가 CPU 100%를 쓰며 루프를 도니까, 락을 풀어줘야 할 스레드 A가     │
+  │     CPU를 할당받지 못해 영원히 깨어나질 못함!                             │
+  │   - 스레드 A는 실행을 못 하니 락을 못 풀고, 스레드 B는 락이 안 풀리니 무한 루프.│
+  │   - 결과: 컴퓨터 그대로 블루스크린(Hang) 뻗음.                            │
+  │                                                                   │
+  │   ▶ 결론: 스핀락은 오직 다른 코어가 락을 쥐고 "병렬로" 동시에 풀고 있을 때만 │
+  │           작동하는 '다중 코어(SMP) 전용' 아키텍처다!                    │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)의 대원칙은 "내가 헛도는 동안, 다른 누군가는 실제로 일을 해서 락을 풀어줘야 한다"는 것이다. 싱글 코어에서는 내가 CPU를 잡고 헛도는 순간 락을 쥔 스레드가 얼어붙으므로 절대로 락이 풀릴 수 없다. 따라서 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 컴파일 옵션에 `CONFIG_SMP` (대칭형 멀티 프로세싱)가 꺼져 있으면, 소스 코드 내의 [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)(`spin_lock`) 함수 호출을 아예 아무 기능도 없는 텅 빈 매크로(NOP)로 지워버리거나, 선점(Preemption) 기능만 끄는 코드로 변환해 버린다.
 
@@ -136,25 +137,28 @@ tags = ["studynote-operating-system"]
 2. <strong>시나리오 — C++<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/">11</a> 멀티스레딩과 적응형 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/">스핀락</a> (Adaptive <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/">Mutex</a>)</strong>: 고성능 게임 서버 개발 중, 유저 맵 좌표 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)를 위해 Mutex를 썼더니 [문맥 교환 비용](/knowledge-base/studynote/02_operating_system/11_exam_summary/754_context_switch_cost/) 때문에 TPS가 안 나오고, [Spinlock](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)(원자적 `std::atomic_flag`)을 썼더니 락이 길어질 때 CPU 사용률만 100%를 찍고 발열로 쓰로틀링(Throttling)이 걸렸다.
    - **아키텍트 판단 (하이브리드 락 튜닝)**: 양쪽의 단점을 피하는 <strong>적응형 뮤텍스 (Adaptive <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/">Mutex</a> / Hybrid <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>)</strong> 구조를 채택한다. 처음에는 [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)처럼 루프를 돌며 기다린다. 단, 무한정 도는 게 아니라 임계점(예: 1000번 회전)을 설정한다. 1000번을 돌았는데도 락이 안 풀리면 "아, 이건 긴 작업이구나"라고 스스로 판단하고 쿨하게 스핀을 멈춘 뒤 뮤텍스처럼 수면(Sleep/Yield) 모드로 빠지는 영리한 타협안이다. 리눅스의 `futex` 백엔드 구조가 이미 이 방식을 채택하고 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고성능 락(Lock) 메커니즘 선택을 위한 아키텍트 트리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">멀티스레드/멀티코어 환경의 공유 자원 보호 아키텍처</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코드 실행 환경이 인터럽트 핸들러(ISR) 내부인가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">무조건 Spinlock (스핀락) 사용 강제</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(수면/문맥교환 불가. <code>spin_lock_irqsave</code> 필수)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 (일반 유저 스페이스 또는 커널 프로세스 컨텍스트)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보호하려는 코드가 극도로 짧고(수십 명령줄 이내) I/O 작업이 아예 없는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Spinlock 또는 Lock-Free(Atomic) 고려</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(문맥 교환 오버헤드 0으로 초고속 응답 달성)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Mutex (뮤텍스) 사용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(I/O 지연 시 CPU를 양보하여 다른 스레드를 살려야 함)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 고성능 락(Lock) 메커니즘 선택을 위한 아키텍트 트리         │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [ 멀티스레드/멀티코어 환경의 공유 자원 보호 아키텍처 ]                      │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      코드 실행 환경이 인터럽트 핸들러(ISR) 내부인가?                       │
+  │          ├─ 예 ─────▶ [ 무조건 Spinlock (스핀락) 사용 강제 ]          │
+  │          │             (수면/문맥교환 불가. `spin_lock_irqsave` 필수) │
+  │          └─ 아니오 (일반 유저 스페이스 또는 커널 프로세스 컨텍스트)           │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      보호하려는 코드가 극도로 짧고(수십 명령줄 이내) I/O 작업이 아예 없는가?   │
+  │          ├─ 예 ─────▶ [ Spinlock 또는 Lock-Free(Atomic) 고려 ]      │
+  │          │             (문맥 교환 오버헤드 0으로 초고속 응답 달성)        │
+  │          │                                                        │
+  │          └─ 아니오 ──▶ [ Mutex (뮤텍스) 사용 ]                        │
+  │                        (I/O 지연 시 CPU를 양보하여 다른 스레드를 살려야 함)│
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)은 남용하면 시스템을 끓어오르게 만드는 맹독이다. 특히 유저 스페이스 앱 개발자(Java, Python 등)는 웬만하면 [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)을 직접 구현하지 말고 프레임워크가 제공하는 뮤텍스를 쓰는 것이 안전하다. 위 트리는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 개발자나 초지연 금융망(HFT) 엔지니어들이 나노초 단위의 마찰을 줄이기 위해 선택하는 벼랑 끝의 지침이다. [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)라는 특수 환경에서만 [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)은 합법적인 구원자로 인정받는다.
 
@@ -200,19 +204,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">실시간 스케줄링 마감 시간 (Deadline)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스핀락 멀티 프로세서 전용 활용 (Spinlock SMP Multiprocessor)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CAS (Compare And Swap) 명령어 기초</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">데드락 희생자 롤백 복구망</div></div>
-</div>
-</div>
-
-
+```text
+[실시간 스케줄링 마감 시간 (Deadline)]
+    │
+    ▼
+[스핀락 멀티 프로세서 전용 활용 (Spinlock SMP Multiprocessor)]
+    │
+    ├──▶ [CAS (Compare And Swap) 명령어 기초]
+    └──▶ [데드락 희생자 롤백 복구망]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

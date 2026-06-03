@@ -24,23 +24,19 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경**: 피터 데닝(Peter Denning)이 1970년에 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)([Working Set](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)) 모델을 제안하며 학술적으로 정립되었다. 이 법칙 덕분에 컴퓨터 설계자들은 느린 메인 메모리와 빠른 CPU 사이의 거대한 속도 격차([Memory Wall](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/433_memory_wall/))를 '[캐시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/259_cache_memory/)'라는 아주 작은 징검다리 하나로 극복할 수 있다는 확신을 얻었다.
 
+```text
+  [참조의 지역성에 따른 메모리 접근 패턴(Access Pattern) 시각화]
 
+  (1) 만약 지역성이 없는 완전 무작위(Random) 프로그램이라면?
+  메모리 주소: [  0] [ 100] [ 50] [999] [  5] [200]
+  캐시 적중률: 0.1% (매번 캐시 미스가 나서 캐시가 쓸모없음)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">참조의 지역성에 따른 메모리 접근 패턴(Access Pattern) 시각화</div></div>
-<div class="kb-diagram-note">(1) 만약 지역성이 없는 완전 무작위(Random) 프로그램이라면?</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">메모리 주소:</div><div class="kb-diagram-node">0</div><div class="kb-diagram-node">100</div><div class="kb-diagram-node">50</div><div class="kb-diagram-node">999</div><div class="kb-diagram-node">5</div><div class="kb-diagram-node">200</div></div>
-<div class="kb-diagram-note">캐시 적중률: 0.1% (매번 캐시 미스가 나서 캐시가 쓸모없음)</div>
-<div class="kb-diagram-note">(2) 실제 인간이 짜는 전형적인 프로그램의 지역성</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">메모리 주소:</div><div class="kb-diagram-node">10</div><div class="kb-diagram-node">11</div><div class="kb-diagram-node">12</div><div class="kb-diagram-node">10</div><div class="kb-diagram-node">11</div><div class="kb-diagram-node">12</div><div class="kb-diagram-node">13</div></div>
-<div class="kb-diagram-note">▶ 10번지를 불렀더니 바로 옆의 11, 12, 13번지를 부른다 (공간적 지역성)</div>
-<div class="kb-diagram-note">▶ 10, 11, 12번지를 썼더니 1초 뒤에 또 10, 11, 12번지를 부른다 (시간적 지역성)</div>
-<div class="kb-diagram-note">캐시 적중률: 95% 이상! (캐시에 한 번 올려두면 미친 듯이 뽕을 뽑음)</div>
-</div>
-</div>
-
-
+  (2) 실제 인간이 짜는 전형적인 프로그램의 지역성
+  메모리 주소: [ 10] [ 11] [ 12] [ 10] [ 11] [ 12] [ 13]
+  ▶ 10번지를 불렀더니 바로 옆의 11, 12, 13번지를 부른다 (공간적 지역성)
+  ▶ 10, 11, 12번지를 썼더니 1초 뒤에 또 10, 11, 12번지를 부른다 (시간적 지역성)
+  캐시 적중률: 95% 이상! (캐시에 한 번 올려두면 미친 듯이 뽕을 뽑음)
+```
 **[다이어그램 해설]** 컴퓨터 구조론에서 이 지역성의 법칙은 물리학의 만유인력과 같다. 의도한 게 아니라, 인간이 생각하고 코드를 짜는 방식(루프, [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/), 순차적 실행) 자체가 자연스럽게 이 두 가지 지역성을 뿜어내게 되어 있다.
 
 - **📢 섹션 요약 비유**: 마트의 진열대 배치 원리입니다. 맥주를 사는 사람은 방금 샀던 맥주를 한 캔 더 살 확률이 높고([시간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/)), 맥주를 산 사람은 바로 옆에 있는 땅콩이나 오징어를 집어들 확률이 압도적으로 높습니다([공간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/)). 그래서 편의점 매대에 맥주와 안주를 같이 올려두면 손님(CPU)이 멀리 안 가고 한 번에 물건을 쓸어 담습니다(Cache [Hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/)).
@@ -79,27 +75,27 @@ tags = ["studynote-operating-system"]
 ### 캐시 라인 (Cache Line) 구조와 무임승차
 [공간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/)을 극대화하기 위해 하드웨어는 메인 메모리와 캐시 간의 전송 단위를 `블록(Block)` 단위로 묶어버렸다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">캐시 라인(64 Byte)을 통한 공간적 지역성의 '무임승차' 원리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">메인 메모리 (RAM)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주소 1000: Data A (4B)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주소 1004: Data B (4B)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주소 1008: Data C (4B)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CPU의 요청과 하드웨어의 오지랖</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. CPU: "메모리야, 주소 1000번지의 Data A 좀 줘!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Cache Controller: "옙! 근데 A만 주면 정 없으니, 어차피 곧</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">찾을 것 같은 B랑 C까지 포함해서 64바이트를 통째로 캐시에</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">올려드리겠습니다!" (이것이 1개의 Cache Line)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. CPU: "이제 주소 1004번지 Data B 줘!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. Cache Controller: "아까 A 가져갈 때 덤으로 캐시에 올려놨죠?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RAM까지 갈 필요 없이 캐시에서 0.1ns 만에 드시죠!" (Cache Hit)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────────────┐
+  │         캐시 라인(64 Byte)을 통한 공간적 지역성의 '무임승차' 원리   │
+  ├─────────────────────────────────────────────────────────────────────┤
+  │                                                                     │
+  │   [ 메인 메모리 (RAM) ]                                             │
+  │   주소 1000: Data A (4B)                                            │
+  │   주소 1004: Data B (4B)                                            │
+  │   주소 1008: Data C (4B)                                            │
+  │                                                                     │
+  │   [ CPU의 요청과 하드웨어의 오지랖 ]                                │
+  │   1. CPU: "메모리야, 주소 1000번지의 Data A 좀 줘!"                 │
+  │   2. Cache Controller: "옙! 근데 A만 주면 정 없으니, 어차피 곧      │
+  │      찾을 것 같은 B랑 C까지 포함해서 **64바이트를 통째로** 캐시에   │
+  │      올려드리겠습니다!" (이것이 1개의 Cache Line)                   │
+  │                                                                     │
+  │   3. CPU: "이제 주소 1004번지 Data B 줘!"                           │
+  │   4. Cache Controller: "아까 A 가져갈 때 덤으로 캐시에 올려놨죠?    │
+  │      RAM까지 갈 필요 없이 캐시에서 0.1ns 만에 드시죠!" (Cache Hit)  │
+  └─────────────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 책상에 앉아서 "지우개 하나 가져다줘"라고 심부름을 시켰더니, 똑똑한 조수(하드웨어)가 "어차피 지우개 쓰면 곧 연필이랑 자도 쓰실 거잖아요?" 하고 연필통 전체(64바이트 캐시 라인)를 책상 위에 올려주는 센스입니다.
 
@@ -151,29 +147,29 @@ tags = ["studynote-operating-system"]
    ```
    이 단순한 루프 순서 하나가 딥러닝 행렬 곱셈 연산에서는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 수만 배까지 차이 나게 만든다. <strong>"메모리가 어떻게 연속되어 있는가"</strong>를 이해하고 코딩하는 자만이 하드웨어의 축복을 받는다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">성능 최적화(Performance Tuning)를 위한 아키텍트의 공간 재배치</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">요구사항: 게임 내 10만 개의 총알(Bullet) 객체 업데이트 로직 구현</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">❌ OOP (객체 지향) 기반의 낡은 설계 (AoS 패턴)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- class Bullet { bool isActive; float x,y,z; Mesh m; }</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Bullet 배열을 순회하며 isActive가 true인 것만 x++ 처리.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 🚨 문제: 객체 안에 안 쓰는 무거운 데이터(Mesh)가 섞여 있어,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">캐시 라인 64B 안에 정작 필요한 x,y 좌표는 1개만 들어옴.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Cache Miss 폭발)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">✅ DoD (데이터 지향) 기반의 현대적 설계 (SoA 패턴)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- class BulletSystem {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">bool[] isActive;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">float[] x, y, z;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- ✅ 해결: x 배열만 쫙 순회함. 64B 캐시 라인 안에 x 좌표가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">16개씩 꽉꽉 차서 무임승차함! (공간적 지역성 1000% 획득)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────────────┐
+  │     성능 최적화(Performance Tuning)를 위한 아키텍트의 공간 재배치   │
+  ├─────────────────────────────────────────────────────────────────────┤
+  │                                                                     │
+  │   [요구사항: 게임 내 10만 개의 총알(Bullet) 객체 업데이트 로직 구현]│
+  │                                                                     │
+  │   [ ❌ OOP (객체 지향) 기반의 낡은 설계 (AoS 패턴) ]                │
+  │     - class Bullet { bool isActive; float x,y,z; Mesh m; }          │
+  │     - Bullet 배열을 순회하며 isActive가 true인 것만 x++ 처리.       │
+  │     - 🚨 문제: 객체 안에 안 쓰는 무거운 데이터(Mesh)가 섞여 있어,   │
+  │             캐시 라인 64B 안에 정작 필요한 x,y 좌표는 1개만 들어옴. │
+  │             (Cache Miss 폭발)                                       │
+  │                                                                     │
+  │   [ ✅ DoD (데이터 지향) 기반의 현대적 설계 (SoA 패턴) ]            │
+  │     - class BulletSystem {                                          │
+  │           bool[] isActive;                                          │
+  │           float[] x, y, z;                                          │
+  │       }                                                             │
+  │     - ✅ 해결: x 배열만 쫙 순회함. 64B 캐시 라인 안에 x 좌표가      │
+  │             16개씩 꽉꽉 차서 무임승차함! (공간적 지역성 1000% 획득) │
+  └─────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 전통적인 객체 지향([OOP](/knowledge-base/studynote/04_software_engineering/06_software_architecture/322_oop_4_characteristics/)) 은 인간이 이해하긴 좋지만, 메모리를 파편화시켜 CPU 캐시 입장에선 쥐약이다. 메모리 계층 구조를 극한으로 쥐어짜는 게임 엔진(Unity DOTS 등)이나 HFT(고주파 거래) 시스템은 구조체를 버리고 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 열(Column) 단위의 연속된 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a>(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/">SoA</a>)</strong>로 찢어서 관리한다. 인간의 편의([OOP](/knowledge-base/studynote/04_software_engineering/06_software_architecture/322_oop_4_characteristics/))를 버리고 하드웨어의 식성(지역성)에 맞춘 극단적 아키텍처다.
 
 - **📢 섹션 요약 비유**: 서랍(캐시) 정리를 할 때, "필통, 공책, 지우개([OOP](/knowledge-base/studynote/04_software_engineering/06_software_architecture/322_oop_4_characteristics/))"를 세트로 묶어서 서랍에 넣으면 부피가 커서 몇 세트 못 들어갑니다. 하지만 "연필은 연필끼리 100자루, 지우개는 지우개끼리 100개([SoA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/))" 묶어서 연속으로 넣어두면 공간 활용도([공간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/))가 미친 듯이 올라가서 연필을 찾을 때 한 번에 100개를 움켜쥘 수 있습니다.
@@ -204,19 +200,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">이벤트 객체 (Event Object)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">참조의 지역성 (Locality of Reference)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RCU (Read-Copy-Update)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SeqLock (순차 락)</div></div>
-</div>
-</div>
-
-
+```text
+[이벤트 객체 (Event Object)]
+    │
+    ▼
+[참조의 지역성 (Locality of Reference)]
+    │
+    ├──▶ [RCU (Read-Copy-Update)]
+    └──▶ [SeqLock (순차 락)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

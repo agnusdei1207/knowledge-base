@@ -31,26 +31,27 @@ tags = ["studynote-database"]
 ### 세 가지 절대 기호와 시각적 렌더링 로직
 피터 첸의 E-R 모델은 도형(Symbol)이 곧 아키텍처의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 계약서다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">피터 첸(Peter Chen) 기본 E-R 표기법의 시각적 컴포넌트</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">동그라미: 속성(Attribute)</div><div class="kb-diagram-node">동그라미: 속성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(학번) (이름)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(N:M)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">학생</div><div class="kb-diagram-cell">◀ ◆ 수강 ◆ ▶</div><div class="kb-diagram-cell">과목</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Entity)</div><div class="kb-diagram-cell">(마름모)</div><div class="kb-diagram-cell">(Entity)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Relation)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(네모 상자)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 맵핑 논리:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 네모(개체) ──▶ 훗날 물리 DB의 '테이블(Table)'로 변신!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 동그라미(속성) ──▶ 테이블 안의 '컬럼(Column/필드)'로 쏙!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 마름모(관계) ──▶ N:M 관계의 경우 '교차 테이블'로 변신!</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────┐
+│           피터 첸(Peter Chen) 기본 E-R 표기법의 시각적 컴포넌트 │
+├────────────────────────────────────────────────────────┤
+│                                                        │
+│  [ 동그라미: 속성(Attribute) ]   [ 동그라미: 속성 ]        │
+│          (학번)                      (이름)            │
+│            │                          │                │
+│            ▼                          ▼                │
+│       ┌─────────┐      (N:M)      ┌─────────┐          │
+│       │  학생   │ ◀───◆ 수강 ◆───▶ │  과목   │          │
+│       │(Entity) │      (마름모)      │(Entity) │          │
+│       └─────────┘     (Relation)    └─────────┘          │
+│        (네모 상자)                                       │
+│                                                        │
+│ * 맵핑 논리:                                            │
+│   - 네모(개체) ──▶ 훗날 물리 DB의 '테이블(Table)'로 변신!    │
+│   - 동그라미(속성) ──▶ 테이블 안의 '컬럼(Column/필드)'로 쏙!   │
+│   - 마름모(관계) ──▶ N:M 관계의 경우 '교차 테이블'로 변신!    │
+└────────────────────────────────────────────────────────┘
+```
 
 <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a>성(Cardinality)</strong>의 정의가 E-R 모델의 꽃이다. 학생 한 명이 여러 과목을 듣고, 과목 하나에 여러 학생이 들어온다면 이는 [다대다](/knowledge-base/studynote/02_operating_system/02_process_thread/100_many_to_many_model/)(N:M) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)다. 마름모 선 위에 적히는 1:1, 1:N, N:M 같은 카디널리티 숫자가 나중에 외래키(FK)를 어느 테이블에 꽂아야 할지 결정짓는 물리적 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 설계 도면이 된다.
 
@@ -93,7 +94,7 @@ E-R 모델은 특정 DB의 쇳덩어리에 종속되지 않는 고결함을 갖�
 
 1976년 피터 첸의 E-R 논문은 "[데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 설계는 프로그래머들의 쇳덩어리 조립이 아니라, 세상을 인식하고 분류하는 철학적 모델링의 영역"임을 천명한 기념비적인 선언이다.
 
-이 단순한 기호의 언어 덕분에 비즈니스 현업 전문가와 뼛속까지 공대생인 DB 관리자([DBA](/knowledge-base/studynote/05_database/01_db_architecture_relational/025_dba_database_administrator/))는 같은 화이트보드 앞에서 시스템의 뼈대를 그릴 수 있게 되었다. 오늘날 까마귀발(Crow's foot) 표기법이나 IE(Information Engineering) 표기법 등 실무를 위한 변형 ERD 기호들이 범람하고 있지만, 그 심층 깊은 곳에 흐르는 '실체와 그 실체의 상호작용'이라는 피터 첸의 본질적 아키텍처 사상은 앞으로 [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/) 시대가 오더라도 절대 변하지 않는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 철학의 코어로 남을 것이다.
+이 단순한 기호의 언어 덕분에 비즈니스 현업 전문가와 뼛속까지 공대생인 DB 관리자([DBA](/knowledge-base/studynote/05_database/01_db_architecture_relational/025_dba_database_administrator/))는 같은 화이트보드 앞에서 시스템의 뼈대를 그릴 수 있게 되었다. 오늘날 까마귀발(Crow's foot) 표기법이나 IE(Information 엔진ering) 표기법 등 실무를 위한 변형 ERD 기호들이 범람하고 있지만, 그 심층 깊은 곳에 흐르는 '실체와 그 실체의 상호작용'이라는 피터 첸의 본질적 아키텍처 사상은 앞으로 [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/) 시대가 오더라도 절대 변하지 않는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 철학의 코어로 남을 것이다.
 
 - **📢 섹션 요약 비유**: E-R 모델은 세상 모든 복잡한 풍경을 그리는 '피카소의 스케치'다. 선과 동그라미 몇 개만으로 사람, 산, 강(개체)과 그들이 어우러진 풍경([관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/))의 본질을 완벽히 묘사하여, 나중에 그 스케치에 물감(오라클 DB)을 칠하든 크레파스(MySQL)를 칠하든 똑같이 훌륭한 명작이 나오도록 뼈대를 잡아주는 불멸의 밑그림이다.
 
@@ -109,23 +110,21 @@ E-R 모델은 특정 DB의 쇳덩어리에 종속되지 않는 고결함을 갖�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">하드웨어 중심의 망형(Network) / 계층형(Hierarchical) DB의 복잡성 직면</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">에드거 코드의 관계형 데이터 모델(Relational Model) 수학적 제안 (1970)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">수학을 비즈니스 현실 언어로 번역할 필요성 대두</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">피터 첸(Peter Chen)의 E-R (Entity-Relationship) 모델 논문 발표 (1976)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">개념적/논리적/물리적 데이터 모델링 3단계 분리 원칙 확립 ──▶ 현대 정보공학(IE) ERD 표준으로 안착</div>
-</div>
-</div>
-
-
+```text
+하드웨어 중심의 망형(Network) / 계층형(Hierarchical) DB의 복잡성 직면
+    │
+    ▼
+에드거 코드의 관계형 데이터 모델(Relational Model) 수학적 제안 (1970)
+    │
+    ▼
+수학을 비즈니스 현실 언어로 번역할 필요성 대두
+    │
+    ▼
+피터 첸(Peter Chen)의 E-R (Entity-Relationship) 모델 논문 발표 (1976)
+    │
+    ▼
+개념적/논리적/물리적 데이터 모델링 3단계 분리 원칙 확립 ──▶ 현대 정보공학(IE) ERD 표준으로 안착
+```
 
 이 흐름도는 "딱딱한 수학 및 기계 중심의 설계 → 인간과 비즈니스 중심의 직관적 모델링([추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)) → 이를 기계어로 맵핑하는 자동화 체계"로 이어지는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 설계 공학의 진화 과정을 보여준다.
 

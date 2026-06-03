@@ -23,22 +23,22 @@ tags = ["studynote-design-supervision"]
 
 예를 들어 음성 인식 시스템에서 '음소 전문가'가 음소를 블랙보드에 쓰면, '단어 전문가'가 이를 보고 단어를 추론하고, '문법 전문가'가 단어를 보고 문장을 구성한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블랙보드 패턴 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">BLACKBOARD</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(공유 문제 해결 상태 공간)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부분 해결책 A</div><div class="kb-diagram-cell">부분 해결책 B</div><div class="kb-diagram-cell">...</div><div class="kb-diagram-cell">최종 해결책</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↑ 읽기/쓰기 ↑ 읽기/쓰기</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">KS1: 음소 전문가</div><div class="kb-diagram-node">KS2: 단어 전문가</div><div class="kb-diagram-node">KS3: 문법 전문가</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Control</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(어느 KS를 다음에 실행할지 결정)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│              블랙보드 패턴 구조                               │
+├─────────────────────────────────────────────────────────────┤
+│                    [BLACKBOARD]                              │
+│               (공유 문제 해결 상태 공간)                     │
+│  ┌──────────────────────────────────────────────────────┐   │
+│  │  부분 해결책 A │ 부분 해결책 B │ ... │ 최종 해결책   │   │
+│  └──────────────────────────────────────────────────────┘   │
+│       ↑ 읽기/쓰기         ↑ 읽기/쓰기                        │
+│  [KS1: 음소 전문가]   [KS2: 단어 전문가]   [KS3: 문법 전문가]│
+│                                                             │
+│                    [Control]                                │
+│           (어느 KS를 다음에 실행할지 결정)                  │
+└─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 교수님이 칠판에 수식을 쓰면 학생들(전문가)이 각자의 지식으로 다음 단계를 추가하고, 칠판 내용이 점점 완성되어 최종 답(해결책)에 도달하는 세미나 방식이다.
 
@@ -54,19 +54,17 @@ tags = ["studynote-design-supervision"]
 | Knowledge Source | 전문 영역 해결책 기여 | 음소 분석기, 단어 인식기 |
 | Control | KS 실행 순서 결정 | 활성화 조건 평가 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블랙보드 패턴 vs 파이프-필터 패턴 비교</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파이프-필터: 선형 순서 고정, 각 필터가 다음 필터에 전달</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A → B → C → D (순서 고정)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블랙보드: 비선형 협력, KS가 공유 상태 읽고 기여</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">KS1, KS2, KS3 모두 Blackboard 읽기/쓰기 (순서 동적 결정)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│         블랙보드 패턴 vs 파이프-필터 패턴 비교               │
+├─────────────────────────────────────────────────────────────┤
+│  파이프-필터: 선형 순서 고정, 각 필터가 다음 필터에 전달     │
+│  A → B → C → D (순서 고정)                                  │
+│                                                             │
+│  블랙보드: 비선형 협력, KS가 공유 상태 읽고 기여             │
+│  KS1, KS2, KS3 모두 Blackboard 읽기/쓰기 (순서 동적 결정)  │
+└─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 블랙보드는 회의실 화이트보드처럼 팀원들이 각자의 아이디어를 적고 서로의 것을 보면서 최종 해결책을 만들어가는 집단 지성 방식이다.
 

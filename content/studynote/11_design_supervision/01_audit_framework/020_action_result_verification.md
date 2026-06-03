@@ -31,28 +31,30 @@ tags = ["studynote-design-supervision"]
 ### [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 판정의 3-Way 메커니즘
 [조치 결과 확인](/knowledge-base/studynote/11_design_supervision/01_audit_framework/020_follow_up_action_verification/)은 주관적인 평가가 아니다. 1:1 매핑을 통한 기계적 판정 프로세스다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조치 결과 확인(Verification)의 판정 아키텍처 로직</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">입력(Input): 지적 사항 (과거)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"사용자 로그인 시 1초 이상 지연됨 (성능 결함)"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">수행(Process): 검증 방법론 (현재)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 문서 리뷰: 조치 내역서 확인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 코드 리뷰: 인덱스 추가 및 쿼리 튜닝 내역 확인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 쇳덩어리 실사: 직접 APM/JMeter를 돌려 응답속도 측정</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">출력(Output): 판정 결과 (미래 결정)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 🟢 조치 완료 (Accept): 0.5초로 개선됨. 통과!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 🔴 미조치 (Reject) : 1.2초 나옴. 불합격!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ ⚪ 부분 조치 (Partial): 0.9초 나옴 (조건부 수용)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심 논리: 판정의 기준은 절대적으로 '과거에 지적한 문서'다.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">여기서 새로운 결함(예: "디자인이 구리네요")을 지적하는 것은</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">감리 거버넌스의 범위를 벗어난 심각한 월권행위다.</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────┐
+│           조치 결과 확인(Verification)의 판정 아키텍처 로직        │
+├────────────────────────────────────────────────────────┤
+│   [ 입력(Input): 지적 사항 (과거) ]                        │
+│   "사용자 로그인 시 1초 이상 지연됨 (성능 결함)"                │
+│             │                                          │
+│             ▼                                          │
+│   [ 수행(Process): 검증 방법론 (현재) ]                     │
+│    - 문서 리뷰: 조치 내역서 확인                            │
+│    - 코드 리뷰: 인덱스 추가 및 쿼리 튜닝 내역 확인             │
+│    - 쇳덩어리 실사: 직접 APM/JMeter를 돌려 응답속도 측정       │
+│             │                                          │
+│             ▼                                          │
+│   [ 출력(Output): 판정 결과 (미래 결정) ]                    │
+│    ├──▶ 🟢 조치 완료 (Accept): 0.5초로 개선됨. 통과!       │
+│    ├──▶ 🔴 미조치 (Reject) : 1.2초 나옴. 불합격!          │
+│    └──▶ ⚪ 부분 조치 (Partial): 0.9초 나옴 (조건부 수용)    │
+│                                                        │
+│ * 핵심 논리: 판정의 기준은 절대적으로 '과거에 지적한 문서'다.    │
+│   여기서 새로운 결함(예: "디자인이 구리네요")을 지적하는 것은 │
+│   감리 거버넌스의 범위를 벗어난 심각한 월권행위다.           │
+└────────────────────────────────────────────────────────┘
+```
 
 특히 <strong>대체 조치(Alternative Action)</strong>에 대한 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 가장 고난도다. 수행사가 "돈이 없어서 상용 보안 솔루션 도입은 못 했지만, 파이썬 스크립트로 짰습니다"라고 할 때, 그 스크립트가 원래 요구했던 보안 수준([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/))을 100% 만족하는지 아키텍처적 관점에서 재평가(Re-evaluation)해야 하기 때문이다.
 
@@ -112,23 +114,21 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 프로젝트의 부실화 및 탁상 감리(문서 검토 위주) 관행의 한계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">오픈 후 시스템 장애/해킹 발생 및 책임 소재 불분명 (발주처 vs 수행사)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">감리의 실효성 확보를 위한 '현장 실사(Physical Verification)' 의무화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">과거 지적 사항(Baseline)과 현재 조치 내역의 1:1 기계적 매핑 판정 룰 확립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">대금 지급 보류 및 지체상금 부과라는 강력한 법적/재무적 거버넌스의 판결문으로 안착</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 프로젝트의 부실화 및 탁상 감리(문서 검토 위주) 관행의 한계
+    │
+    ▼
+오픈 후 시스템 장애/해킹 발생 및 책임 소재 불분명 (발주처 vs 수행사)
+    │
+    ▼
+감리의 실효성 확보를 위한 '현장 실사(Physical Verification)' 의무화
+    │
+    ▼
+과거 지적 사항(Baseline)과 현재 조치 내역의 1:1 기계적 매핑 판정 룰 확립
+    │
+    ▼
+대금 지급 보류 및 지체상금 부과라는 강력한 법적/재무적 거버넌스의 판결문으로 안착
+```
 
 이 흐름도는 "탁상행정의 실패 → 실물 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)의 도입 → 주관성 배제를 위한 1:1 기계적 판정 → 법적/재무적 거버넌스와의 완벽한 융합"이라는 감리 종결 과정의 진화를 보여준다.
 

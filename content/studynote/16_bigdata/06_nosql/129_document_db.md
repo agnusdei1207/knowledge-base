@@ -62,58 +62,61 @@ tags = ["studynote-bigdata"]
 
 ### 문서 저장 구조 ([MongoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/540_mongodb/) 기준)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MongoDB 데이터 계층 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Database: shop_db</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Collection: products (테이블 개념)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Document { _id: "prod_1", ... }</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Document { _id: "prod_2", ... }</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Document { _id: "prod_3", specs:{...} }</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Collection: users</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Document { _id: ObjectId("..."), name:... }</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Document { _id: ObjectId("..."), ... }</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Collection: orders</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">── Document { items:</div><div class="kb-diagram-node">{...},{...}</div><div class="kb-diagram-note">, total:... }</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 컬렉션: 스키마 강제 없음 (각 문서가 다른 필드 가능)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* _id: 기본 인덱스 (ObjectId = 12바이트 타임스탬프+랜덤)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────┐
+│              MongoDB 데이터 계층 구조                      │
+│                                                          │
+│  Database: shop_db                                       │
+│  │                                                       │
+│  ├── Collection: products  (테이블 개념)                  │
+│  │   ├── Document { _id: "prod_1", ... }                 │
+│  │   ├── Document { _id: "prod_2", ... }                 │
+│  │   └── Document { _id: "prod_3", specs:{...} }         │
+│  │                                                       │
+│  ├── Collection: users                                   │
+│  │   ├── Document { _id: ObjectId("..."), name:... }     │
+│  │   └── Document { _id: ObjectId("..."), ... }          │
+│  │                                                       │
+│  └── Collection: orders                                  │
+│      └── Document { items:[{...},{...}], total:... }     │
+│                                                          │
+│  * 컬렉션: 스키마 강제 없음 (각 문서가 다른 필드 가능)        │
+│  * _id: 기본 인덱스 (ObjectId = 12바이트 타임스탬프+랜덤)    │
+└──────────────────────────────────────────────────────────┘
+```
 
 ### [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)([Embedding](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)) vs [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)(Referencing)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 모델링 전략 비교</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">■ 임베딩(Embedding) — 비정규화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Order Document</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">{ orderId: 1001,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">customer: { name:"홍길동",</div><div class="kb-diagram-cell">← 고객 정보 내장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">email:"..." },</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">items: [</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">{ sku:"A1", qty:2,</div><div class="kb-diagram-cell">← 상품 정보 내장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">price:9900 },</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">{ sku:"B2", qty:1,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">price:49900 }</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">]</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장점: 단일 조회(1 I/O) 단점: 데이터 중복, 큰 문서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">■ 참조(Referencing) — 정규화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Order</div><div class="kb-diagram-cell">Customer</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">{ custId:</div><div class="kb-diagram-cell">──→</div><div class="kb-diagram-cell">{ _id: "cust_1",</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"cust_1"</div><div class="kb-diagram-cell">name: "홍길동" }</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장점: 데이터 정규화, 갱신 단순 단점: 여러 번 조회 필요</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────┐
+│              데이터 모델링 전략 비교                          │
+│                                                            │
+│  ■ 임베딩(Embedding) — 비정규화                              │
+│  ┌──────────────────────────────────┐                      │
+│  │ Order Document                   │                      │
+│  │  { orderId: 1001,                │                      │
+│  │    customer: { name:"홍길동",    │ ← 고객 정보 내장        │
+│  │                email:"..." },    │                      │
+│  │    items: [                      │                      │
+│  │      { sku:"A1", qty:2,          │ ← 상품 정보 내장        │
+│  │        price:9900 },             │                      │
+│  │      { sku:"B2", qty:1,          │                      │
+│  │        price:49900 }             │                      │
+│  │    ]                             │                      │
+│  │  }                               │                      │
+│  └──────────────────────────────────┘                      │
+│  장점: 단일 조회(1 I/O)   단점: 데이터 중복, 큰 문서           │
+│                                                            │
+│  ■ 참조(Referencing) — 정규화                               │
+│  ┌────────────┐    ┌───────────────────────┐               │
+│  │ Order      │    │ Customer              │               │
+│  │ { custId:  │──→ │ { _id: "cust_1",      │               │
+│  │   "cust_1" │    │   name: "홍길동" }     │               │
+│  │ }          │    └───────────────────────┘               │
+│  └────────────┘                                            │
+│  장점: 데이터 정규화, 갱신 단순  단점: 여러 번 조회 필요         │
+└────────────────────────────────────────────────────────────┘
+```
 
 ### CouchDB [오프라인 우선](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/579_offline_first_pwa_service_worker/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)
 
@@ -143,20 +146,15 @@ tags = ["studynote-bigdata"]
 
 ### Firestore 실시간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)
 
+```text
+Mobile App ──→ Firestore ──→ 실시간 스냅샷 리스너
+                          ←── 변경 즉시 Push (WebSocket)
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Mobile App ──→ Firestore ──→ 실시간 스냅샷 리스너</div>
-<div class="kb-diagram-note">←── 변경 즉시 Push (WebSocket)</div>
-<div class="kb-diagram-note">특징:</div>
-<div class="kb-diagram-tree-item" style="--depth:0">오프라인 캐시: 인터넷 연결 끊겨도 로컬에서 읽기 가능</div>
-<div class="kb-diagram-tree-item" style="--depth:0">낙관적 업데이트: 로컬 즉시 반영 후 서버 동기화</div>
-<div class="kb-diagram-tree-item" style="--depth:0">보안 규칙: 서버 측 클라이언트 접근 제어</div>
-</div>
-</div>
-
-
+특징:
+- 오프라인 캐시: 인터넷 연결 끊겨도 로컬에서 읽기 가능
+- 낙관적 업데이트: 로컬 즉시 반영 후 서버 동기화
+- 보안 규칙: 서버 측 클라이언트 접근 제어
+```
 
 📢 **섹션 요약 비유**
 > RDBMS가 "무슨 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 있는가"를 기준으로 설계한다면, 문서형 DB는 "어떻게 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽을 것인가"를 기준으로 설계한다. 요리사(개발자)가 아니라 손님([쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 패턴)의 입맛에 맞춰 메뉴([스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/))를 구성하는 방식이다.
@@ -228,25 +226,24 @@ db.orders.aggregate([
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">관계형 DB</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NoSQL</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">문서형 DB</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MongoDB</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Atlas</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Document API</div></div>
-</div>
-</div>
-
-
+```text
+[관계형 DB]
+    │
+    ▼
+[NoSQL]
+    │
+    ▼
+[문서형 DB]
+    │
+    ▼
+[MongoDB]
+    │
+    ▼
+[Atlas]
+    │
+    ▼
+[Document API]
+```
 
 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 한계를 보완하기 위해 NoSQL과 문서형 DB가 등장하고, [MongoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/540_mongodb/) 클라우드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)와 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 중심 활용으로 확장되는 흐름이다.
 

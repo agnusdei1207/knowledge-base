@@ -43,25 +43,26 @@ RS 엔트리는 [명령어](/knowledge-base/studynote/01_computer_architecture/0
 
 아래 그림은 RS가 <strong>발행 → 대기 → 웨이크업 → 선택 → 실행</strong>으로 이어지는 흐름을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Reservation Station의 피연산자 대기 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Decode/Rename</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RS0</div><div class="kb-diagram-note">Qj=Load3 Vk=8 Busy=1</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RS1</div><div class="kb-diagram-note">Vj=5 Vk=2 Busy=1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CDB Broadcast</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ "Tag=Load3, Value=12"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">RS0</div><div class="kb-diagram-note">Vj=12, Qj=empty</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ready Check</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">RS0</div><div class="kb-diagram-note">Vj,Vk 준비 완료 ─</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">RS1</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Select Logic ─▶ Execute Unit</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 오래 기다린 엔트리/우선순위 기준 선택</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────┐
+│                 Reservation Station의 피연산자 대기 흐름                │
+├──────────────────────────────────────────────────────────────────────────┤
+│ Decode/Rename                                                           │
+│    │                                                                     │
+│    ├─ Inst A ───────────────▶ [RS0] Qj=Load3  Vk=8    Busy=1             │
+│    └─ Inst B ───────────────▶ [RS1] Vj=5      Vk=2    Busy=1             │
+│                                                                          │
+│ CDB Broadcast                                                            │
+│    └─ "Tag=Load3, Value=12" ───────────────────────────────┐              │
+│                                                            ▼              │
+│                                             [RS0] Vj=12, Qj=empty         │
+│                                                                          │
+│ Ready Check                                                               │
+│    ├─ [RS0] Vj,Vk 준비 완료 ─┐                                            │
+│    └─ [RS1] Vj,Vk 준비 완료 ─┼─▶ Select Logic ─▶ Execute Unit            │
+│                              └─▶ 오래 기다린 엔트리/우선순위 기준 선택     │
+└──────────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조의 핵심 연산은 두 가지다. 첫째, **웨이크업 (Wakeup)** 단계에서 CDB를 감시하던 엔트리가 자기 태그와 일치하는 결과를 받으면 Q 필드를 비우고 V 필드에 실제 값을 채운다. 둘째, <strong>선택 (<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/">Select</a>)</strong> 단계에서 준비 완료된 엔트리들 중 실행 유닛에 보낼 대상을 고른다. 따라서 RS [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 단순 저장량보다 "얼마나 빠르게 깨우고, 그중 누굴 먼저 내보내는가"에 달려 있다.
 
@@ -139,26 +140,27 @@ RS의 가장 큰 효과는 실행 유닛을 가능한 한 쉬지 않게 만든�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">순차 파이프라인</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">데이터 해저드 (Data Hazard) 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">레지스터 리네이밍 (Register Renaming)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">예약역 (Reservation Station)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 토마술로 알고리즘 (Tomasulo's Algorithm)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 공통 데이터 버스 (Common Data Bus, CDB)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 재주문 버퍼 (Reorder Buffer, ROB) 결합</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">대규모 비순차 실행 코어</div>
-</div>
-</div>
-
-
+```text
+순차 파이프라인
+    │
+    ▼
+데이터 해저드 (Data Hazard) 인식
+    │
+    ▼
+레지스터 리네이밍 (Register Renaming)
+    │
+    ▼
+예약역 (Reservation Station)
+    │
+    ├─▶ 토마술로 알고리즘 (Tomasulo's Algorithm)
+    │
+    ├─▶ 공통 데이터 버스 (Common Data Bus, CDB)
+    │
+    └─▶ 재주문 버퍼 (Reorder Buffer, ROB) 결합
+            │
+            ▼
+      대규모 비순차 실행 코어
+```
 
 이 흐름은 "해저드 회피 → 의존성 완화 → 실행 직전 대기·선택 → 순서 복원 결합"으로 현대 파이프라인이 진화한 방향을 보여준다.
 

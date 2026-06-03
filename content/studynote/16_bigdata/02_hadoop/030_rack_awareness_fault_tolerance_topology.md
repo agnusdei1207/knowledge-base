@@ -67,23 +67,21 @@ Block Replication (Factor = 3):
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">HDFS 복제 (Replication) — 기본 복제 계수 3</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">랙 인지 (Rack Awareness) — 랙 단위 장애 격리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">복제본 배치 정책 (Replica Placement Policy)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">가용 영역 (AZ, Availability Zone) — 클라우드 확장</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">리전 복제 (Cross-Region Replication) — 지역 재해 대비</div></div>
-</div>
-</div>
-
-
+```text
+[HDFS 복제 (Replication) — 기본 복제 계수 3]
+    │
+    ▼
+[랙 인지 (Rack Awareness) — 랙 단위 장애 격리]
+    │
+    ▼
+[복제본 배치 정책 (Replica Placement Policy)]
+    │
+    ▼
+[가용 영역 (AZ, Availability Zone) — 클라우드 확장]
+    │
+    ▼
+[리전 복제 (Cross-Region Replication) — 지역 재해 대비]
+```
 
 [분산 파일 시스템](/knowledge-base/studynote/02_operating_system/09_file_system/553_distributed_file_system/)의 내결함성 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 [랙 인지](/knowledge-base/studynote/14_data_engineering/01_infrastructure/017_rack_awareness/)에서 클라우드 가용 영역과 리전 수준 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)로 발전한 흐름이다.
 

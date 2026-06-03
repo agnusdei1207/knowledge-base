@@ -18,38 +18,41 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅰ. 소프트 포크 개념
 
+```
+포크 유형 비교:
 
+하드 포크 (Hard Fork):
+  규칙 완화 (기존에 허용 안 되던 것을 허용)
+  또는 근본적 규칙 변경
+  
+  구버전 노드: 새 블록을 무효로 인식
+  → 체인 분리 (구버전 체인 vs 신버전 체인)
+  → 모든 노드의 강제 업그레이드 필요
+  
+  예: Ethereum의 DAO 포크 (ETH vs ETC)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">포크 유형 비교:</div>
-<div class="kb-diagram-note">하드 포크 (Hard Fork):</div>
-<div class="kb-diagram-note">규칙 완화 (기존에 허용 안 되던 것을 허용)</div>
-<div class="kb-diagram-note">또는 근본적 규칙 변경</div>
-<div class="kb-diagram-note">구버전 노드: 새 블록을 무효로 인식</div>
-<div class="kb-diagram-note">→ 체인 분리 (구버전 체인 vs 신버전 체인)</div>
-<div class="kb-diagram-note">→ 모든 노드의 강제 업그레이드 필요</div>
-<div class="kb-diagram-note">예: Ethereum의 DAO 포크 (ETH vs ETC)</div>
-<div class="kb-diagram-note">소프트 포크 (Soft Fork):</div>
-<div class="kb-diagram-note">규칙 강화 (기존에 허용되던 것을 제한)</div>
-<div class="kb-diagram-note">구버전 노드: 새 블록을 유효로 인식 (하위 호환)</div>
-<div class="kb-diagram-note">→ 체인 분리 없음</div>
-<div class="kb-diagram-note">→ 채굴자 과반수 지지만으로 활성화 가능</div>
-<div class="kb-diagram-note">예: 비트코인 P2SH (2012), SegWit (2017)</div>
-<div class="kb-diagram-note">소프트 포크가 가능한 이유:</div>
-<div class="kb-diagram-note">구버전: "이 블록이 내 규칙을 위반하지 않는가?" → 패스</div>
-<div class="kb-diagram-note">신버전: "이 블록이 새로운 엄격한 규칙을 준수하는가?" → 추가 검증</div>
-<div class="kb-diagram-note">새 블록은 두 규칙을 동시에 만족:</div>
-<div class="kb-diagram-tree-item" style="--depth:1">기존 규칙: 준수 (구버전 노드 통과)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">새 규칙: 준수 (신버전 노드 통과)</div>
-<div class="kb-diagram-note">소프트 포크 한계:</div>
-<div class="kb-diagram-note">새 기능이 기존 포맷 내에서 구현되어야 함</div>
-<div class="kb-diagram-note">근본적 구조 변경 불가</div>
-<div class="kb-diagram-note">엔지니어링 복잡도 높음 (하위 호환성 유지)</div>
-</div>
-</div>
+소프트 포크 (Soft Fork):
+  규칙 강화 (기존에 허용되던 것을 제한)
+  
+  구버전 노드: 새 블록을 유효로 인식 (하위 호환)
+  → 체인 분리 없음
+  → 채굴자 과반수 지지만으로 활성화 가능
+  
+  예: 비트코인 P2SH (2012), SegWit (2017)
 
+소프트 포크가 가능한 이유:
+  구버전: "이 블록이 내 규칙을 위반하지 않는가?" → 패스
+  신버전: "이 블록이 새로운 엄격한 규칙을 준수하는가?" → 추가 검증
+  
+  새 블록은 두 규칙을 동시에 만족:
+  - 기존 규칙: 준수 (구버전 노드 통과)
+  - 새 규칙: 준수 (신버전 노드 통과)
 
+소프트 포크 한계:
+  새 기능이 기존 포맷 내에서 구현되어야 함
+  근본적 구조 변경 불가
+  엔지니어링 복잡도 높음 (하위 호환성 유지)
+```
 
 > 📢 **섹션 요약 비유**: 소프트 포크 = 도서관 규칙 강화 — 기존: "책 반납 기한 없음". 신규: "2주 내 반납 필수". 기존 규칙엔 위반 안 됨(하위 호환). 새 규칙 모르는 사람도 2주 안에 반납하면 OK!
 
@@ -57,39 +60,43 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅱ. BIP (Bitcoin Improvement Proposal) 활성화
 
+```
+BIP (Bitcoin Improvement Proposal):
+  비트코인 프로토콜 변경 제안 문서
+  
+  소프트 포크 활성화 메커니즘:
 
+IsSuperMajority (초기 방식):
+  950/1000 블록이 특정 버전 신호 → 활성화
+  
+  문제: 채굴자가 신호 보내도 실제 업그레이드 안 함
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">BIP (Bitcoin Improvement Proposal):</div>
-<div class="kb-diagram-note">비트코인 프로토콜 변경 제안 문서</div>
-<div class="kb-diagram-note">소프트 포크 활성화 메커니즘:</div>
-<div class="kb-diagram-note">IsSuperMajority (초기 방식):</div>
-<div class="kb-diagram-note">950/1000 블록이 특정 버전 신호 → 활성화</div>
-<div class="kb-diagram-note">문제: 채굴자가 신호 보내도 실제 업그레이드 안 함</div>
-<div class="kb-diagram-note">BIP9 (Version Bits):</div>
-<div class="kb-diagram-note">블록 헤더 versionbits 필드 활용</div>
-<div class="kb-diagram-note">2,016블록마다 75% 이상 신호 → 활성화</div>
-<div class="kb-diagram-note">타임아웃 없으면 실패 처리</div>
-<div class="kb-diagram-note">예: SegWit (BIP141) BIP9으로 처음 시도</div>
-<div class="kb-diagram-note">→ 채굴자 저항으로 실패</div>
-<div class="kb-diagram-note">BIP148 (UASF: User Activated Soft Fork):</div>
-<div class="kb-diagram-note">사용자/노드 주도 활성화</div>
-<div class="kb-diagram-note">특정 날짜 이후 SegWit 미신호 블록 거부</div>
-<div class="kb-diagram-note">"채굴자가 아닌 사용자가 규칙 집행"</div>
-<div class="kb-diagram-note">→ 채굴자 게임 이론적 압박</div>
-<div class="kb-diagram-note">BIP91:</div>
-<div class="kb-diagram-note">80% 채굴자 동의 → 2,016블록 내 활성화</div>
-<div class="kb-diagram-note">SegWit 활성화에 실제 사용됨</div>
-<div class="kb-diagram-note">Taproot 활성화 (2021):</div>
-<div class="kb-diagram-note">Speedy Trial:</div>
-<div class="kb-diagram-note">2,016블록 기간 동안 90% 채굴자 신호</div>
-<div class="kb-diagram-note">→ 성공 시 즉시 확정 (타임아웃 후 락인)</div>
-<div class="kb-diagram-note">결과: 90%+ 신호 → 826,848블록에서 활성화</div>
-</div>
-</div>
+BIP9 (Version Bits):
+  블록 헤더 versionbits 필드 활용
+  2,016블록마다 75% 이상 신호 → 활성화
+  타임아웃 없으면 실패 처리
+  
+  예: SegWit (BIP141) BIP9으로 처음 시도
+  → 채굴자 저항으로 실패
 
+BIP148 (UASF: User Activated Soft Fork):
+  사용자/노드 주도 활성화
+  특정 날짜 이후 SegWit 미신호 블록 거부
+  
+  "채굴자가 아닌 사용자가 규칙 집행"
+  → 채굴자 게임 이론적 압박
 
+BIP91:
+  80% 채굴자 동의 → 2,016블록 내 활성화
+  SegWit 활성화에 실제 사용됨
+
+Taproot 활성화 (2021):
+  Speedy Trial:
+  2,016블록 기간 동안 90% 채굴자 신호
+  → 성공 시 즉시 확정 (타임아웃 후 락인)
+  
+  결과: 90%+ 신호 → 826,848블록에서 활성화
+```
 
 > 📢 **섹션 요약 비유**: BIP 활성화 = 법안 통과 과정 — BIP9(국회 75% 찬성), UASF(국민 청원으로 강제), BIP91(신속처리). SegWit은 채굴자 저항에도 결국 사용자 압박으로 통과!
 
@@ -97,43 +104,48 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅲ. SegWit (Segregated Witness)
 
+```
+SegWit (BIP141, 2017):
+  "서명(Witness) 데이터를 분리(Segregate)"
 
+문제 배경:
+  비트코인 블록 크기: 1MB 제한
+  트랜잭션 서명 데이터: 전체의 ~60~70%
+  
+  처리량 병목:
+  1MB 블록 → 평균 7 TPS
+  
+  트랜잭션 변조 취약성(TxID Malleability):
+  서명 데이터 변경 → 트랜잭션 ID 변경 가능
+  → Lightning Network 구현의 전제 조건 해결 필요
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">SegWit (BIP141, 2017):</div>
-<div class="kb-diagram-note">"서명(Witness) 데이터를 분리(Segregate)"</div>
-<div class="kb-diagram-note">문제 배경:</div>
-<div class="kb-diagram-note">비트코인 블록 크기: 1MB 제한</div>
-<div class="kb-diagram-note">트랜잭션 서명 데이터: 전체의 ~60~70%</div>
-<div class="kb-diagram-note">처리량 병목:</div>
-<div class="kb-diagram-note">1MB 블록 → 평균 7 TPS</div>
-<div class="kb-diagram-note">트랜잭션 변조 취약성(TxID Malleability):</div>
-<div class="kb-diagram-note">서명 데이터 변경 → 트랜잭션 ID 변경 가능</div>
-<div class="kb-diagram-note">→ Lightning Network 구현의 전제 조건 해결 필요</div>
-<div class="kb-diagram-note">SegWit 해결책:</div>
-<div class="kb-diagram-note">구조 변경:</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">기존:</div><div class="kb-diagram-node">버전</div><div class="kb-diagram-node">입력</div><div class="kb-diagram-node">출력</div><div class="kb-diagram-node">잠금 시간</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">SegWit:</div><div class="kb-diagram-node">버전</div><div class="kb-diagram-node">마커=0</div><div class="kb-diagram-node">플래그</div><div class="kb-diagram-node">입력</div><div class="kb-diagram-node">출력</div><div class="kb-diagram-node">증인(서명)</div><div class="kb-diagram-node">잠금 시간</div></div>
-<div class="kb-diagram-note">서명(Witness) = 별도 필드로 분리</div>
-<div class="kb-diagram-note">가중치 시스템 (Weight):</div>
-<div class="kb-diagram-note">기본 데이터: 4 weight units/byte</div>
-<div class="kb-diagram-note">증인(서명) 데이터: 1 weight unit/byte</div>
-<div class="kb-diagram-note">블록 한도: 4,000,000 weight units</div>
-<div class="kb-diagram-note">실질 효과:</div>
-<div class="kb-diagram-note">순수 SegWit 트랜잭션 블록: 최대 ~1.8~2.7MB 동등</div>
-<div class="kb-diagram-note">→ 처리량: 7 TPS → 약 14~18 TPS</div>
-<div class="kb-diagram-note">하위 호환성:</div>
-<div class="kb-diagram-note">구버전 노드: Witness 필드 무시 → 블록 유효로 인식</div>
-<div class="kb-diagram-note">신버전 노드: Witness 검증 → 추가 보안</div>
-<div class="kb-diagram-note">부가 효과:</div>
-<div class="kb-diagram-note">TxID Malleability 해결</div>
-<div class="kb-diagram-note">→ Lightning Network 활성화 가능</div>
-<div class="kb-diagram-note">→ 레이어 2 결제 채널 기반 구축</div>
-</div>
-</div>
+SegWit 해결책:
 
+구조 변경:
+  기존: [버전][입력][출력][잠금 시간]
+  SegWit: [버전][마커=0][플래그][입력][출력][증인(서명)][잠금 시간]
+  
+  서명(Witness) = 별도 필드로 분리
 
+가중치 시스템 (Weight):
+  기본 데이터: 4 weight units/byte
+  증인(서명) 데이터: 1 weight unit/byte
+  
+  블록 한도: 4,000,000 weight units
+  
+  실질 효과:
+  순수 SegWit 트랜잭션 블록: 최대 ~1.8~2.7MB 동등
+  → 처리량: 7 TPS → 약 14~18 TPS
+
+하위 호환성:
+  구버전 노드: Witness 필드 무시 → 블록 유효로 인식
+  신버전 노드: Witness 검증 → 추가 보안
+
+부가 효과:
+  TxID Malleability 해결
+  → Lightning Network 활성화 가능
+  → 레이어 2 결제 채널 기반 구축
+```
 
 > 📢 **섹션 요약 비유**: SegWit = 여권 수하물 분리 — 여권(거래 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))과 수하물(서명)을 분리해서 같은 비행기(블록)에 더 많은 여행자([트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)) 탑승. 수하물 요금 할인(서명 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 1/4)!
 
@@ -141,42 +153,46 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅳ. Taproot 소프트 포크
 
+```
+Taproot (BIP340/341/342, 2021):
+  비트코인 최대 소프트 포크 중 하나
+  
+  3가지 BIP 결합:
 
+BIP340: Schnorr Signatures (슈노르 서명):
+  기존 ECDSA → Schnorr으로 교체
+  
+  장점:
+  선형성(Linearity): 여러 서명 → 하나로 집계
+  MuSig: n-of-n 다중 서명을 단일 서명처럼
+  공간 절약: ECDSA 71바이트 → Schnorr 64바이트
+  
+BIP341: Taproot:
+  MAST (Merklized Alternative Script Trees)와 결합
+  
+  스마트 컨트랙트 프라이버시:
+  복잡한 조건 스크립트 → Merkle 트리로 숨기기
+  
+  "키 경로(Key Path)": 모두 동의 시 단순 서명처럼
+  "스크립트 경로": 조건 분기 시 해당 경로만 공개
+  
+  장점:
+  복잡한 계약 = 단순 결제와 구분 불가 → 프라이버시
+  Merkle 브랜치만 공개 → 공간 효율
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Taproot (BIP340/341/342, 2021):</div>
-<div class="kb-diagram-note">비트코인 최대 소프트 포크 중 하나</div>
-<div class="kb-diagram-note">3가지 BIP 결합:</div>
-<div class="kb-diagram-note">BIP340: Schnorr Signatures (슈노르 서명):</div>
-<div class="kb-diagram-note">기존 ECDSA → Schnorr으로 교체</div>
-<div class="kb-diagram-note">장점:</div>
-<div class="kb-diagram-note">선형성(Linearity): 여러 서명 → 하나로 집계</div>
-<div class="kb-diagram-note">MuSig: n-of-n 다중 서명을 단일 서명처럼</div>
-<div class="kb-diagram-note">공간 절약: ECDSA 71바이트 → Schnorr 64바이트</div>
-<div class="kb-diagram-note">BIP341: Taproot:</div>
-<div class="kb-diagram-note">MAST (Merklized Alternative Script Trees)와 결합</div>
-<div class="kb-diagram-note">스마트 컨트랙트 프라이버시:</div>
-<div class="kb-diagram-note">복잡한 조건 스크립트 → Merkle 트리로 숨기기</div>
-<div class="kb-diagram-note">"키 경로(Key Path)": 모두 동의 시 단순 서명처럼</div>
-<div class="kb-diagram-note">"스크립트 경로": 조건 분기 시 해당 경로만 공개</div>
-<div class="kb-diagram-note">장점:</div>
-<div class="kb-diagram-note">복잡한 계약 = 단순 결제와 구분 불가 → 프라이버시</div>
-<div class="kb-diagram-note">Merkle 브랜치만 공개 → 공간 효율</div>
-<div class="kb-diagram-note">BIP342: Tapscript:</div>
-<div class="kb-diagram-note">Taproot 스크립트 해석 규칙 업데이트</div>
-<div class="kb-diagram-note">향후 업그레이드 유연성 추가 (OP_SUCCESS)</div>
-<div class="kb-diagram-note">Taproot 활성화 결과:</div>
-<div class="kb-diagram-note">826,848 블록 (2021년 11월)</div>
-<div class="kb-diagram-note">채굴자 90%+ 신호로 소프트 포크 완료</div>
-<div class="kb-diagram-note">즉각적 효과:</div>
-<div class="kb-diagram-note">멀티시그 비용 감소</div>
-<div class="kb-diagram-note">Lightning Network 채널 비용 절감</div>
-<div class="kb-diagram-note">CoinJoin 개인정보 보호 향상</div>
-</div>
-</div>
+BIP342: Tapscript:
+  Taproot 스크립트 해석 규칙 업데이트
+  향후 업그레이드 유연성 추가 (OP_SUCCESS)
 
-
+Taproot 활성화 결과:
+  826,848 블록 (2021년 11월)
+  채굴자 90%+ 신호로 소프트 포크 완료
+  
+  즉각적 효과:
+  멀티시그 비용 감소
+  Lightning Network 채널 비용 절감
+  CoinJoin 개인정보 보호 향상
+```
 
 > 📢 **섹션 요약 비유**: Taproot = 비밀 금고 업그레이드 — 복잡한 잠금장치([스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/))가 있어도 모두 동의하면 일반 열쇠(단순 서명)처럼 사용. 복잡한 계약도 외부에선 평범해 보임(프라이버시)!
 
@@ -184,41 +200,44 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅴ. 실무 시나리오 — 거래소 SegWit 도입
 
+```
+암호화폐 거래소 SegWit 마이그레이션:
 
+배경:
+  2017년 비트코인 수수료 급등
+  1 BTC 전송: 수수료 $30~50 (일반 유저 부담)
+  
+  원인: 블록 공간 부족 (1MB, 7 TPS 한계)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">암호화폐 거래소 SegWit 마이그레이션:</div>
-<div class="kb-diagram-note">배경:</div>
-<div class="kb-diagram-note">2017년 비트코인 수수료 급등</div>
-<div class="kb-diagram-note">1 BTC 전송: 수수료 $30~50 (일반 유저 부담)</div>
-<div class="kb-diagram-note">원인: 블록 공간 부족 (1MB, 7 TPS 한계)</div>
-<div class="kb-diagram-note">SegWit 도입 의사결정:</div>
-<div class="kb-diagram-note">비용 절감: SegWit 트랜잭션 수수료 약 30~40% 절감</div>
-<div class="kb-diagram-note">구버전 노드: 기존 비SegWit 주소로 입금 계속 처리</div>
-<div class="kb-diagram-note">신규: bech32 주소(bc1...)로 SegWit 활성화</div>
-<div class="kb-diagram-note">마이그레이션 과정:</div>
-<div class="kb-diagram-note">Phase 1 (1개월): 출금 SegWit 전환</div>
-<div class="kb-diagram-note">거래소 HOT 지갑: Legacy → SegWit 지갑</div>
-<div class="kb-diagram-note">출금 트랜잭션: SegWit 타입으로 전환</div>
-<div class="kb-diagram-note">수수료 절감: 즉시 발생</div>
-<div class="kb-diagram-note">Phase 2 (3개월): 입금 주소 SegWit 전환</div>
-<div class="kb-diagram-note">신규 입금 주소: bc1... (bech32)</div>
-<div class="kb-diagram-note">기존 주소 (1..., 3...): 계속 지원 (Legacy)</div>
-<div class="kb-diagram-note">Phase 3: P2SH-SegWit (3...주소) 단계적 폐지</div>
-<div class="kb-diagram-note">결과:</div>
-<div class="kb-diagram-note">거래소 비트코인 출금 수수료: $30 → $10 (67% 감소)</div>
-<div class="kb-diagram-note">블록 공간 효율: 약 40% 개선</div>
-<div class="kb-diagram-note">사용자 불만 감소</div>
-<div class="kb-diagram-note">교훈:</div>
-<div class="kb-diagram-note">소프트 포크 특성 덕분에:</div>
-<div class="kb-diagram-note">구버전 지갑도 새 SegWit 트랜잭션 수신 가능</div>
-<div class="kb-diagram-note">= 거래소 마이그레이션이 점진적으로 가능</div>
-<div class="kb-diagram-note">(하드 포크였다면 동시 전환 필요 = 위험)</div>
-</div>
-</div>
+SegWit 도입 의사결정:
+  비용 절감: SegWit 트랜잭션 수수료 약 30~40% 절감
+  구버전 노드: 기존 비SegWit 주소로 입금 계속 처리
+  신규: bech32 주소(bc1...)로 SegWit 활성화
 
+마이그레이션 과정:
+  
+  Phase 1 (1개월): 출금 SegWit 전환
+  거래소 HOT 지갑: Legacy → SegWit 지갑
+  출금 트랜잭션: SegWit 타입으로 전환
+  수수료 절감: 즉시 발생
+  
+  Phase 2 (3개월): 입금 주소 SegWit 전환
+  신규 입금 주소: bc1... (bech32)
+  기존 주소 (1..., 3...): 계속 지원 (Legacy)
+  
+  Phase 3: P2SH-SegWit (3...주소) 단계적 폐지
 
+결과:
+  거래소 비트코인 출금 수수료: $30 → $10 (67% 감소)
+  블록 공간 효율: 약 40% 개선
+  사용자 불만 감소
+  
+  교훈:
+  소프트 포크 특성 덕분에:
+  구버전 지갑도 새 SegWit 트랜잭션 수신 가능
+  = 거래소 마이그레이션이 점진적으로 가능
+  (하드 포크였다면 동시 전환 필요 = 위험)
+```
 
 > 📢 **섹션 요약 비유**: 거래소 SegWit 도입 = 택배 박스 슬림화 — 같은 내용물(거래)을 얇은 박스(SegWit)에 넣어 배송비(수수료) 67% 절감! 기존 박스(Legacy) 고객도 그대로 받을 수 있어서 혼란 없이 전환!
 
@@ -226,28 +245,22 @@ tags = ["studynote-ict-convergence"]
 
 ## 📌 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트 포크 (Soft Fork)</div>
-<div class="kb-diagram-note">+-- 특성: 하위 호환, 규칙 강화</div>
-<div class="kb-diagram-note">+-- 활성화 메커니즘</div>
-<div class="kb-diagram-note">+-- BIP9 (채굴자 신호)</div>
-<div class="kb-diagram-note">+-- UASF (사용자 활성화)</div>
-<div class="kb-diagram-note">+-- Speedy Trial</div>
-<div class="kb-diagram-note">+-- 대표 사례</div>
-<div class="kb-diagram-note">+-- P2SH (2012)</div>
-<div class="kb-diagram-note">+-- SegWit (2017)</div>
-<div class="kb-diagram-note">+-- Taproot (2021)</div>
-<div class="kb-diagram-note">+-- 비교</div>
-<div class="kb-diagram-note">+-- 하드 포크 (체인 분리)</div>
-<div class="kb-diagram-note">+-- BIP 프로세스</div>
-<div class="kb-diagram-note">+-- 제안 → 검토 → BIP → 구현 → 활성화</div>
-</div>
-</div>
-
-
+```
+소프트 포크 (Soft Fork)
++-- 특성: 하위 호환, 규칙 강화
++-- 활성화 메커니즘
+|   +-- BIP9 (채굴자 신호)
+|   +-- UASF (사용자 활성화)
+|   +-- Speedy Trial
++-- 대표 사례
+|   +-- P2SH (2012)
+|   +-- SegWit (2017)
+|   +-- Taproot (2021)
++-- 비교
+|   +-- 하드 포크 (체인 분리)
++-- BIP 프로세스
+    +-- 제안 → 검토 → BIP → 구현 → 활성화
+```
 
 ---
 

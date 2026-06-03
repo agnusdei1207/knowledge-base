@@ -29,26 +29,24 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">O-RAN 기능 분할 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">O-CU: Centralized Unit</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PDCP/RRC 레이어 처리, 코어 연결</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">F1 인터페이스</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">O-DU: Distributed Unit</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RLC/MAC 레이어 처리, 실시간 스케줄링</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Open Fronthaul (eCPRI, Split 7-2x)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">O-RU: Radio Unit</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물리 레이어 하위부, 안테나 신호 처리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">RIC: RAN Intelligent Controller</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Near-RT RIC: xApp (ms단위 최적화)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Non-RT RIC: rApp (초단위 정책, ML 학습)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│                O-RAN 기능 분할 구조                              │
+├──────────────────────────────────────────────────────────────────┤
+│  [O-CU: Centralized Unit]                                        │
+│  PDCP/RRC 레이어 처리, 코어 연결                                  │
+│         │ F1 인터페이스                                           │
+│  [O-DU: Distributed Unit]                                        │
+│  RLC/MAC 레이어 처리, 실시간 스케줄링                             │
+│         │ Open Fronthaul (eCPRI, Split 7-2x)                     │
+│  [O-RU: Radio Unit]                                              │
+│  물리 레이어 하위부, 안테나 신호 처리                             │
+│         │                                                        │
+│  [RIC: RAN Intelligent Controller]                               │
+│  Near-RT RIC: xApp (ms단위 최적화)                               │
+│  Non-RT RIC: rApp (초단위 정책, ML 학습)                         │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 | 구성 요소       | 기능                           | 레이턴시 요건     |
 | :-------------- | :----------------------------- | :---------------- |
@@ -116,25 +114,24 @@ tags = ["studynote-devops-sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">전통 D-RAN (단일 벤더 독점)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CPRI 기반 C-RAN (중앙화 RAN)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">O-RAN Alliance — 개방형 인터페이스 표준화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">O-RU / O-DU / O-CU 기능 분리 + eCPRI Open Fronthaul</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">RIC (xApp/rApp) — AI 기반 무선 자원 최적화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">AI-native O-RAN — Self-Optimizing Network (미래)</div>
-</div>
-</div>
-
-
+```text
+전통 D-RAN (단일 벤더 독점)
+    │
+    ▼
+CPRI 기반 C-RAN (중앙화 RAN)
+    │
+    ▼
+O-RAN Alliance — 개방형 인터페이스 표준화
+    │
+    ▼
+O-RU / O-DU / O-CU 기능 분리 + eCPRI Open Fronthaul
+    │
+    ▼
+RIC (xApp/rApp) — AI 기반 무선 자원 최적화
+    │
+    ▼
+AI-native O-RAN — Self-Optimizing Network (미래)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

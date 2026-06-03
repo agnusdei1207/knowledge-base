@@ -21,16 +21,13 @@ tags = ["studynote-database"]
 
 [팩트 테이블](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/210_fact_dimension_table_snowflake_schema/) 차원 모델 비즈니스 수치 저장은 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 설계와 운영에서 중요한 판단 지점을 설명하는 개념이다. 병행 제어는 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 유지하면서도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 충돌을 막기 위한 규칙 집합이다. 통제가 약하면 이상 현상이, 통제가 과하면 대기 시간이 증가한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sessions -&gt; Control rule -&gt; Current concept -&gt; Safe overlap</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Read/Write race -&gt; rule -&gt; anomaly prevention</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ Sessions -> Control rule -> Current concept -> Safe overlap  │
+├──────────────────────────────────────────────────────────────┤
+│ Read/Write race -> rule -> anomaly prevention                │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 그림은 [팩트 테이블](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/210_fact_dimension_table_snowflake_schema/) 차원 모델 비즈니스 수치 저장을 독립 기능이 아니라 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름에서 특정 통제 지점을 맡는 구조로 이해해야 한다는 점을 압축해 보여 준다.
 
@@ -49,16 +46,13 @@ tags = ["studynote-database"]
 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 영향 | [팩트 테이블](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/210_fact_dimension_table_snowflake_schema/) 차원 모델 비즈니스 수치 저장은 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/), 지연시간, 운영 복잡도 중 적어도 하나에 직접 영향을 준다. | 이득과 비용을 같이 보지 않으면 과설계가 된다. |
 | 운영 주의 | `반정규화 성능 트레이드오프 파생 컬럼 설계`·`시계열 DB 보존 정책 데이터 라이프사이클`과 경계를 혼동하면 적용 위치가 어긋난다. | 장애 시 관찰할 지표와 우회 전략을 미리 준비해야 한다. |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Read/Write set -&gt; current concept -&gt; serialization</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Acquire/validate -&gt; conflict check -&gt; correctness</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ Read/Write set -> current concept -> serialization           │
+├──────────────────────────────────────────────────────────────┤
+│ Acquire/validate -> conflict check -> correctness            │
+└──────────────────────────────────────────────────────────────┘
+```
 
 핵심은 [팩트 테이블](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/210_fact_dimension_table_snowflake_schema/) 차원 모델 비즈니스 수치 저장을 단순 옵션이 아니라 입력 조건, 처리 순서, 결과 보장을 함께 묶는 설계 규칙으로 보는 것이다. 그래서 구현 전에 평가 시점·충돌 지점·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성을 먼저 정리해야 한다.
 
@@ -119,19 +113,15 @@ tags = ["studynote-database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">반정규화 성능 트레이드오프 파생 컬럼 설계</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">팩트 테이블 차원 모델 비즈니스 수치 저장</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">시계열 DB 보존 정책 데이터 라이프사이클</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">GNN 그래프 모델 연계 추천 시스템 설계망 적용</div></div>
-</div>
-</div>
-
-
+```text
+[반정규화 성능 트레이드오프 파생 컬럼 설계]
+    │
+    ▼
+[팩트 테이블 차원 모델 비즈니스 수치 저장]
+    │
+    ├──▶ [시계열 DB 보존 정책 데이터 라이프사이클]
+    └──▶ [GNN 그래프 모델 연계 추천 시스템 설계망 적용]
+```
 
 반정규화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 트레이드오프 파생 컬럼 설계에서 출발한 논점이 [팩트 테이블](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/210_fact_dimension_table_snowflake_schema/) 차원 모델 비즈니스 수치 저장에서 핵심 판단으로 모이고, 이후 시계열 DB 보존 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 라이프사이클·[GNN](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/) [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 모델 연계 [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/) 설계망 적용 같은 확장 주제로 이어지는 흐름을 보여 준다.
 

@@ -24,18 +24,14 @@ tags = ["studynote-network"]
 - 수신기는 오직 자기 코앞에 떨어지는 순서에 맞는 프레임 1개만 기다립니다(버퍼 1개).
 - 송신기는 ACK를 안 받아도 버퍼에 있는 1, 2, 3, 4, 5번 프레임 5개를 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)(네트워크) 안으로 한꺼번에 와다다다 밀어 넣습니다. 이렇게 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)를 가득 채우므로 통신 속도가 미친 듯이 빨라집니다. ([Pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/) 효과).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">정지-대기 ARQ</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">GBN ARQ</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SR ARQ</div></div>
-</div>
-</div>
-
-
+```text
+[정지-대기 ARQ]
+    │
+    ▼
+[GBN ARQ]
+    │
+    └──▶ [SR ARQ]
+```
 
 - **📢 섹션 요약 비유**: GBN ARQ는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -53,18 +49,14 @@ tags = ["studynote-network"]
 5. **수신기의 태도**: 수신기는 윈도우 크기가 1이므로, 2번 자리가 비어있는데 3번이 먼저 오면 <strong>"난 2번이 안 오면 3, 4, 5번은 안 받아!"</strong>라며 완벽하고 멀쩡하게 도착한 3, 4, 5번 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가차 없이 쓰레기통에 폐기(Discard)해 버립니다. 그리고 송신기에게 계속 `NAK 2(2번 깨졌어!)`만 보냅니다.
 6. **송신기의 태도**: NAK를 받은 송신기는 눈물을 머금고, 에러가 발생한 지점인 **2번(N)으로 되돌아가서(Go-Back)**, 그 뒤에 이미 보냈던 `2, 3, 4, 5`를 싹 다 새로 긁어서 재전송해야 합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">정지-대기 ARQ</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">GBN ARQ</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SR ARQ</div></div>
-</div>
-</div>
-
-
+```text
+[정지-대기 ARQ]
+    │
+    ▼
+[GBN ARQ]
+    │
+    └──▶ [SR ARQ]
+```
 
 - **📢 섹션 요약 비유**: GBN ARQ의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -125,19 +117,15 @@ GBN ARQ는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 정지-대기 ARQ</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: GBN ARQ</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: SR ARQ</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고신뢰 저지연 링크 제어</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 정지-대기 ARQ]
+    │
+    ▼
+[현재 개념: GBN ARQ]
+    │
+    ├──▶ [확장 A: SR ARQ]
+    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
+```
 
 GBN ARQ는 정지-대기 ARQ에서 출발해 현재 메커니즘을 정교화하고, 이후 SR ARQ와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

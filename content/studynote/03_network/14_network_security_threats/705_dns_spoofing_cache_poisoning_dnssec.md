@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: 희생자가 정상적인 웹사이트 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 이름(`www.bank.com`)을 요청할 때, 해커가 중간에서 조작된(위조된) 가짜 IP 주소를 응답으로 보내어, 희생자를 해커가 만들어놓은 가짜 [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/) 사이트로 유도하는 해킹 기법입니다.
 - **구조적 취약점**: [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 통신은 엄청나게 빨라야 하므로 무겁게 검증하는 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 대신 <strong>가볍고 빠른 <a href="/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a> 53번 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a></strong>를 씁니다. UDP는 상대방이 진짜인지 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)하는 과정이 1도 없어서, <strong>질문(Query)을 던진 뒤 "누구든 가장 먼저 도착한 응답 패킷"을 무조건 정답으로 맹신</strong>해버리는 치명적인 바보 같은 성질을 가집니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">IP 스푸핑</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DNS 스푸핑 / DNS Cache Pois…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">중간자 공격 도청 흐름과 통제 조치</div></div>
-</div>
-</div>
-
-
+```text
+[IP 스푸핑]
+    │
+    ▼
+[DNS 스푸핑 / DNS Cache Pois…]
+    │
+    └──▶ [중간자 공격 도청 흐름과 통제 조치]
+```
 
 - **📢 섹션 요약 비유**: [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) / [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) Cache Pois…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -54,18 +50,14 @@ tags = ["studynote-network"]
 3. 이 중 하나가 KT 서버에 먹혀들어 가면, KT 서버의 메모리(Cache) 장부에는 `bank.com = 해커 IP`라고 기록(Poisoning, 독극물 오염)되어 버립니다.
 4. 이제 KT 인터넷을 쓰는 수십만 명의 시민들이 은행에 접속하려 할 때마다, 오염된 KT [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버가 일제히 가짜 해커 IP를 뿌려대어 수십만 명을 [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/) 사이트로 납치해 버립니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">IP 스푸핑</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DNS 스푸핑 / DNS Cache Pois…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">중간자 공격 도청 흐름과 통제 조치</div></div>
-</div>
-</div>
-
-
+```text
+[IP 스푸핑]
+    │
+    ▼
+[DNS 스푸핑 / DNS Cache Pois…]
+    │
+    └──▶ [중간자 공격 도청 흐름과 통제 조치]
+```
 
 - **📢 섹션 요약 비유**: [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) / [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) Cache Pois…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -123,19 +115,15 @@ KT 서버가 해커의 가짜 응답을 쉽게 믿는 이유는, 과거 [DNS](/k
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: IP 스푸핑</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: DNS 스푸핑 / DNS Cache Pois…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 중간자 공격 도청 흐름과 통제 조치</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: IP 스푸핑]
+    │
+    ▼
+[현재 개념: DNS 스푸핑 / DNS Cache Pois…]
+    │
+    ├──▶ [확장 A: 중간자 공격 도청 흐름과 통제 조치]
+    └──▶ [확장 B: 예측형 위협 대응]
+```
 
 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) / [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) Cache Pois…는 IP [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [중간자 공격](/knowledge-base/studynote/03_network/14_network_security_threats/706_mitm_man_in_the_middle_hsts/) [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 흐름과 통제 조치와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

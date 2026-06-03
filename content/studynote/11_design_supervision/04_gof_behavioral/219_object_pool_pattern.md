@@ -31,58 +31,54 @@ tags = ["studynote-design-supervision"]
 - DB 연결 한도 초과 → 연결 거부(Connection Refused)
 - GC 압박 → [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 급증
 
+```
+풀 초기화 (Startup):
+  └→ N개 객체를 미리 생성하여 IDLE 상태로 대기
 
+대여 (Acquire):
+  └→ Client가 풀에 객체 요청
+     ├─ IDLE 객체 존재 → 즉시 반환
+     └─ IDLE 없음      → 대기(Wait) 또는 타임아웃(Timeout) 후 예외
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">풀 초기화 (Startup):</div>
-<div class="kb-diagram-tree-item" style="--depth:1">→ N개 객체를 미리 생성하여 IDLE 상태로 대기</div>
-<div class="kb-diagram-note">대여 (Acquire):</div>
-<div class="kb-diagram-tree-item" style="--depth:1">→ Client가 풀에 객체 요청</div>
-<div class="kb-diagram-tree-item" style="--depth:2">IDLE 객체 존재 → 즉시 반환</div>
-<div class="kb-diagram-tree-item" style="--depth:2">IDLE 없음 → 대기(Wait) 또는 타임아웃(Timeout) 후 예외</div>
-<div class="kb-diagram-note">사용 (Use):</div>
-<div class="kb-diagram-tree-item" style="--depth:1">→ Client가 객체로 작업 수행</div>
-<div class="kb-diagram-note">반납 (Release):</div>
-<div class="kb-diagram-tree-item" style="--depth:1">→ 객체를 IDLE 상태로 풀에 반환 (소멸 X)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">→ 다음 대여자가 즉시 재사용</div>
-</div>
-</div>
+사용 (Use):
+  └→ Client가 객체로 작업 수행
 
+반납 (Release):
+  └→ 객체를 IDLE 상태로 풀에 반환 (소멸 X)
+     └→ 다음 대여자가 즉시 재사용
+```
 
-
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Core Idea</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Expected Gain</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐    ┌──────────────┐    ┌──────────────┐
+│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
+└──────────────┘    └──────────────┘    └──────────────┘
+```
 
 - **📢 섹션 요약 비유**: 도서관 대출 시스템 — 책(객체)이 없어질 때마다 새로 인쇄하는 것이 아니라, 반납된 책을 다시 대출하는 방식으로 비용을 아낀다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Object Pool Pattern</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Acquire()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client A</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Object Pool</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Obj1</div><div class="kb-diagram-cell">Obj2</div><div class="kb-diagram-cell">...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Use</div><div class="kb-diagram-cell">BUSY</div><div class="kb-diagram-cell">IDLE</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ Release()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client A</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">재사용 (소멸하지 않음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IDLE 없을 때:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client B</div><div class="kb-diagram-cell">─ Acquire() ─▶</div><div class="kb-diagram-cell">대기(Wait) or 타임아웃</div></div>
-</div>
-</div>
-
-
+```
+┌───────────────────────────────────────────────────────────────┐
+│                    Object Pool Pattern                        │
+│                                                               │
+│  ┌───────────┐  Acquire()   ┌────────────────────────────┐   │
+│  │  Client A │─────────────▶│         Object Pool        │   │
+│  └─────┬─────┘              │  ┌──────┐ ┌──────┐         │   │
+│        │                    │  │ Obj1 │ │ Obj2 │  ...    │   │
+│        │ Use                │  │BUSY  │ │IDLE  │         │   │
+│        │                    │  └──────┘ └──────┘         │   │
+│  ┌─────▼─────┐  Release()   │                            │   │
+│  │  Client A │─────────────▶│  재사용 (소멸하지 않음)      │   │
+│  └───────────┘              └────────────────────────────┘   │
+│                                                               │
+│  IDLE 없을 때:                                                 │
+│  ┌───────────┐              ┌────────────────────────────┐   │
+│  │  Client B │─ Acquire() ─▶│  대기(Wait) or 타임아웃     │   │
+│  └───────────┘              └────────────────────────────┘   │
+└───────────────────────────────────────────────────────────────┘
+```
 
 | 파라미터 | 설명 | 기본값 |
 |:---|:---|:---|
@@ -118,26 +114,23 @@ Little's Law: L = λ × W
 | ByteBuffer Pool | 메모리 버퍼 | Netty `PooledByteBufAllocator` | GC 압박 감소 목적 |
 | Connection Pool ([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)) | [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 커넥션 | `OkHttpClient`, `HttpClient` | Keep-Alive 활용 |
 
+```
+풀 객체 누수 시나리오:
+  1. 대여 후 예외 발생 → finally/close() 미호출 → 영구 BUSY 상태
+  2. 풀 크기 점점 감소 → 결국 모든 요청 타임아웃
 
+방지 전략:
+  1. try-with-resources 강제 사용:
+     try (Connection conn = pool.acquire()) {
+         // 사용
+     } // AutoCloseable.close() → 자동 반납
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">풀 객체 누수 시나리오:</div>
-<div class="kb-diagram-note">1. 대여 후 예외 발생 → finally/close() 미호출 → 영구 BUSY 상태</div>
-<div class="kb-diagram-note">2. 풀 크기 점점 감소 → 결국 모든 요청 타임아웃</div>
-<div class="kb-diagram-note">방지 전략:</div>
-<div class="kb-diagram-note">1. try-with-resources 강제 사용:</div>
-<div class="kb-diagram-note">try (Connection conn = pool.acquire()) {</div>
-<div class="kb-diagram-note">// 사용</div>
-<div class="kb-diagram-note">} // AutoCloseable.close() → 자동 반납</div>
-<div class="kb-diagram-note">2. Leak Detection Timeout (HikariCP: leakDetectionThreshold):</div>
-<div class="kb-diagram-note">일정 시간 이상 체크아웃된 커넥션 → 경고 로그 출력</div>
-<div class="kb-diagram-note">3. 커넥션 최대 수명 설정 (maxLifetime):</div>
-<div class="kb-diagram-note">DB 서버가 커넥션을 먼저 끊을 때 대비</div>
-</div>
-</div>
+  2. Leak Detection Timeout (HikariCP: leakDetectionThreshold):
+     일정 시간 이상 체크아웃된 커넥션 → 경고 로그 출력
 
-
+  3. 커넥션 최대 수명 설정 (maxLifetime):
+     DB 서버가 커넥션을 먼저 끊을 때 대비
+```
 
 - **📢 섹션 요약 비유**: 자동차 렌탈 회사에서 렌트한 차를 돌려주지 않으면(누수) 보유 차량이 점점 줄어들고, 결국 새 손님에게 "차 없음" — try-with-resources는 계약서에 "여행 끝나면 무조건 반납" 조항을 자동으로 넣는 것이다.
 

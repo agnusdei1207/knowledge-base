@@ -24,26 +24,23 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경**: 1970년대 후반, [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 시스템이 상용화되면서 OS의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 오버헤드를 줄이는 것이 지상 과제가 되었다. 이때 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)의 무거움을 비판하며 W. W. Chu 등이 제안한 PFF는 복잡한 수학적 추적을 단순한 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 2개(상한/하한)로 대체하며 메모리 동적 할당의 실무적 근간을 세웠다.
 
+```text
+  [페이지 부재 빈도(PFF)에 따른 OS의 동적 프레임 할당 메커니즘]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">페이지 부재 빈도(PFF)에 따른 OS의 동적 프레임 할당 메커니즘</div></div>
-<div class="kb-diagram-connector">▲</div>
-<div class="kb-diagram-note">Page │ 🚨 스래싱 위험 구간 (메모리 턱없이 부족!)</div>
-<div class="kb-diagram-note">Fault │ ─▶ OS 조치: 이 프로세스에게 빈 프레임을 당장 더 줘라!</div>
-<div class="kb-diagram-note">Rate │ (빈 프레임이 없으면 아예 이 놈을 Swap-out 시켜서 죽여라)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상한선 (Upper Bound)</div></div>
-<div class="kb-diagram-note">✅ 안정 구간 (메모리가 딱 알맞음)</div>
-<div class="kb-diagram-note">─▶ OS 조치: 건드리지 말고 현상 유지.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">하한선 (Lower Bound)</div></div>
-<div class="kb-diagram-note">💤 낭비 구간 (메모리를 너무 많이 쥐고 있음)</div>
-<div class="kb-diagram-note">─▶ OS 조치: 램 낭비다! 이 프로세스에서 프레임을 뺏어와라!</div>
-<div class="kb-diagram-connector">▼</div>
-</div>
-</div>
-
-
+        ▲
+   Page │       🚨 스래싱 위험 구간 (메모리 턱없이 부족!)
+  Fault │       ─▶ OS 조치: 이 프로세스에게 빈 프레임을 당장 더 줘라!
+   Rate │       (빈 프레임이 없으면 아예 이 놈을 Swap-out 시켜서 죽여라)
+        ├───────────────────────── [ 상한선 (Upper Bound) ] ──────
+        │
+        │       ✅ 안정 구간 (메모리가 딱 알맞음)
+        │       ─▶ OS 조치: 건드리지 말고 현상 유지.
+        │
+        ├───────────────────────── [ 하한선 (Lower Bound) ] ──────
+        │       💤 낭비 구간 (메모리를 너무 많이 쥐고 있음)
+        │       ─▶ OS 조치: 램 낭비다! 이 프로세스에서 프레임을 뺏어와라!
+        ▼
+```
 **[다이어그램 해설]** PFF는 "모든 프로세스를 상한선과 하한선 사이의 '안정 구간'에 가둬두는 것"이 목표다. 어떤 놈이 상한선을 뚫고 올라갔는데 시스템에 남은 빈 방(Free Frame)이 0개라면? OS는 가차 없이 그 놈이나 다른 만만한 놈 하나를 골라 디스크로 내쫓아(Suspend) 빈 방을 만들어낸다. 이것이 [다중 프로그래밍 정도](/knowledge-base/studynote/02_operating_system/04_synchronization/258_degree_of_multiprogramming/)(DOM)를 조절하여 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)을 막는 핵심 원리다.
 
 - **📢 섹션 요약 비유**: 회사에서 부서별로 예산(프레임)을 줄 때, PFF는 "돈이 모자라요!"라고 징징대는 결재 서류([페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/))의 개수를 셉니다. 서류가 너무 많이 올라오면 예산을 늘려주고, 한 달 내내 예산 달란 소리가 없으면 "돈이 남나 보네?" 하고 예산을 깎아서 다른 부서에 줘버리는 가장 직관적인 재무부장입니다.
@@ -117,26 +114,26 @@ PFF의 유일한 단점은 <strong>"폴트가 안 터지면 OS가 개입을 안 
    - **장애 발생**: JVM이 힙을 10GB 할당해놓고 평소에 2GB만 쓰면, OS의 PFF는 "이 자식 폴트도 안 내고 8GB나 안 쓰네?" 라며 8GB를 디스크 스왑으로 쫓아낸다(수축기). 나중에 JVM의 GC가 돌며 안 쓰던 메모리를 쓱 스캔하는 순간, 디스크로 쫓겨났던 8GB가 램으로 미친 듯이 불려 올라오며(팽창기 [PFF](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/306_pff/) 상한선 돌파) 수만 번의 Major [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Fault가 터져 서버가 10초간 뻗어버린다.
    - **아키텍트 조치**: 이 환장할 OS와 JVM의 엇박자를 막기 위해 클라우드 인프라에서는 <strong>무조건 Swap을 끄는 것(<code>swapoff</code>)</strong>이 절대 진리로 굳어졌다. PFF가 프레임을 회수하고 싶어도 쫓아낼 디스크가 없으므로 JVM은 10GB를 영구적으로 온전히 보존받게 된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가상 메모리의 과도한 팽창/수축을 막는 실무 아키텍트의 무기</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">요구사항: 초격차 지연시간(Ultra-Low Latency)을 요하는 AI 서버</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">❌ PFF의 자율 조절에 맡김 (운영체제 디폴트)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 작동: 모델 추론(Inference) 시 메모리 10GB 팽창,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">쉬는 시간에 1GB로 수축됨.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 결과: 다음 추론이 들어오면 다시 10GB를 램으로 퍼오느라</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">응답 시간이 10ms에서 5초로 튀는 'Jitter' 발생!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">✅ mlock() / HugePages 강제 고정 (아키텍트의 결단)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 작동: OS에게 "내 10GB 메모리는 상한/하한 계산하지 말고</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">무조건 램에 영원히 본드로 붙여놔!"라고 시스템 콜 호출.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 결과: PFF 알고리즘의 대상에서 제외됨. 램은 낭비되지만,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">언제 찔러도 0.1ms의 응답 속도를 1년 내내 방어함!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌────────────────────────────────────────────────────────────────────┐
+  │     가상 메모리의 과도한 팽창/수축을 막는 실무 아키텍트의 무기     │
+  ├────────────────────────────────────────────────────────────────────┤
+  │                                                                    │
+  │   [요구사항: 초격차 지연시간(Ultra-Low Latency)을 요하는 AI 서버]  │
+  │                                                                    │
+  │   [ ❌ PFF의 자율 조절에 맡김 (운영체제 디폴트) ]                  │
+  │     - 작동: 모델 추론(Inference) 시 메모리 10GB 팽창,              │
+  │             쉬는 시간에 1GB로 수축됨.                              │
+  │     - 결과: 다음 추론이 들어오면 다시 10GB를 램으로 퍼오느라       │
+  │             응답 시간이 10ms에서 5초로 튀는 'Jitter' 발생!         │
+  │                                                                    │
+  │   [ ✅ mlock() / HugePages 강제 고정 (아키텍트의 결단) ]           │
+  │     - 작동: OS에게 "내 10GB 메모리는 상한/하한 계산하지 말고       │
+  │             무조건 램에 영원히 본드로 붙여놔!"라고 시스템 콜 호출. │
+  │     - 결과: PFF 알고리즘의 대상에서 제외됨. 램은 낭비되지만,       │
+  │             언제 찔러도 0.1ms의 응답 속도를 1년 내내 방어함!       │
+  └────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** PFF와 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/) 모델은 "모자란 자원을 1byte라도 아껴서 여러 명이 나눠 쓰자"는 1980년대 빈곤의 시대 철학이다. 현대의 거대 기업들은 "램 128GB 더 꽂아줄 테니, 내 돈 벌어다 주는 코어 앱은 절대 뺏기지 말고 100% 점유해라"라는 메모리 결박(Pinning) 아키텍처를 선호한다. PFF는 이제 백그라운드 잡동사니 프로그램들을 통제하는 용도로 전락했다.
 
 - **📢 섹션 요약 비유**: PFF는 렌터카 시스템입니다. 안 쓸 땐 반납해서 돈(메모리)을 아끼고, 필요할 때 다시 빌립니다. 하지만 구급차나 소방차(핵심 서버)를 렌터카로 쓰면 위급할 때 빌리러 가다([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)) 사람이 죽습니다. 이런 놈들은 돈이 아무리 들어도 무조건 자가용으로 사서 주차장에 24시간 대기시켜야(mlock) 합니다.
@@ -167,19 +164,15 @@ PFF의 유일한 단점은 <strong>"폴트가 안 터지면 OS가 개입을 안 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">낙관적 병행성 제어 (Optimistic Concurrency Control)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">페이지 부재 빈도 (PFF, Page Fault Frequency)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">원자적 트랜잭션 (Atomic Transaction) 개념</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">소프트웨어 트랜잭셔널 메모리 (STM)</div></div>
-</div>
-</div>
-
-
+```text
+[낙관적 병행성 제어 (Optimistic Concurrency Control)]
+    │
+    ▼
+[페이지 부재 빈도 (PFF, Page Fault Frequency)]
+    │
+    ├──▶ [원자적 트랜잭션 (Atomic Transaction) 개념]
+    └──▶ [소프트웨어 트랜잭셔널 메모리 (STM)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

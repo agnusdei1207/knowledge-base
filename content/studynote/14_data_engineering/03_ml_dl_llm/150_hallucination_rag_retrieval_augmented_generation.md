@@ -35,31 +35,33 @@ tags = ["studynote-data-engineering"]
 
 RAG는 단일 봇이 아니라 세 가지 액터(Actor)가 0.1초 만에 핑퐁을 치는 십자 융합 파이프라인이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RAG 3단 콤보 (Retrieval ➔ Augmentation ➔ Generation) 도해</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🗄️</div><div class="kb-diagram-node">0. 사전 인덱싱 (Data Ingestion 오프라인 짬처리)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사내 PDF 1만 장 ➔ 500자 단위 블록(Chunk)으로 도끼 찢기 ✂️</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➔ 임베딩 모델(Embedding) 돌려서 텍스트를 숫자 배열(Vector)로 압축 변환</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">➔ </div><div class="kb-diagram-node">벡터 DB (Pinecone, Milvus)</div><div class="kb-diagram-note"> 창고에 차곡차곡 무한 적재 쾅!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">🚀 런타임 실시간 유저 질문 핑퐁 시나리오</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🔍</div><div class="kb-diagram-node">1. Retrieval (검색)</div><div class="kb-diagram-note">"야 방금 질문이랑 똑같은 의미 조각 찾아!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 유저: "이번 달 출장비 한도 얼마야?" (질문을 벡터 숫자로 변환)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- 벡터 DB가 1억 개 조각 중</div><div class="kb-diagram-node">유사도(Cosine)</div><div class="kb-diagram-note">가 가장 가까운 찐 엑기스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상위 3개 텍스트 조각(Top-K)을 0.01초 만에 핀셋으로 쏙 뽑아냄 ✨</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">💉</div><div class="kb-diagram-node">2. Augmentation (프롬프트 증강 주입 록온 쉴드 🛡️)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">-</div><div class="kb-diagram-node">기존 프롬프트</div><div class="kb-diagram-note">: "출장비 얼마야?"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">-</div><div class="kb-diagram-node">증강 프롬프트</div><div class="kb-diagram-note">: "★절대 지어내지 말고 아래 문서만 보고 대답해★</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">문서1: 출장비는 5만 원...</div><div class="kb-diagram-note">,</div><div class="kb-diagram-node">문서2: 식대는...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자 이제 대답해! 출장비 얼마야?" (강제 커닝 락 쾅!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🤖</div><div class="kb-diagram-node">3. Generation (생성)</div><div class="kb-diagram-note">"오케이! 커닝 페이퍼 보고 완벽 요약 리턴 ㅋ"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- LLM: "제시해주신 사내 규정에 따르면, 출장비 한도는 5만 원입니다!"</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          RAG 3단 콤보 (Retrieval ➔ Augmentation ➔ Generation) 도해      │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ 🗄️ [ 0. 사전 인덱싱 (Data Ingestion 오프라인 짬처리) ]            │
+│   사내 PDF 1만 장 ➔ 500자 단위 블록(Chunk)으로 도끼 찢기 ✂️          │
+│   ➔ 임베딩 모델(Embedding) 돌려서 텍스트를 숫자 배열(Vector)로 압축 변환  │
+│   ➔ **[벡터 DB (Pinecone, Milvus)]** 창고에 차곡차곡 무한 적재 쾅!      │
+│                                                             │
+│        ======= [ 🚀 런타임 실시간 유저 질문 핑퐁 시나리오 ] ========   │
+│                                                             │
+│ 🔍 [ 1. Retrieval (검색) ] "야 방금 질문이랑 똑같은 의미 조각 찾아!"  │
+│   - 유저: "이번 달 출장비 한도 얼마야?" (질문을 벡터 숫자로 변환)        │
+│   - 벡터 DB가 1억 개 조각 중 [유사도(Cosine)]가 가장 가까운 찐 엑기스   │
+│     상위 3개 텍스트 조각(Top-K)을 0.01초 만에 핀셋으로 쏙 뽑아냄 ✨       │
+│                                                             │
+│ 💉 [ 2. Augmentation (프롬프트 증강 주입 록온 쉴드 🛡️) ]         │
+│   - [기존 프롬프트]: "출장비 얼마야?"                                 │
+│   - [증강 프롬프트]: "★절대 지어내지 말고 아래 문서만 보고 대답해★      │
+│                     [문서1: 출장비는 5만 원...], [문서2: 식대는...]     │
+│                     자 이제 대답해! 출장비 얼마야?" (강제 커닝 락 쾅!) │
+│                                                             │
+│ 🤖 [ 3. Generation (생성) ] "오케이! 커닝 페이퍼 보고 완벽 요약 리턴 ㅋ"   │
+│   - LLM: "제시해주신 사내 규정에 따르면, 출장비 한도는 5만 원입니다!"     │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[아키텍트의 피 터지는 튜닝: 청킹(Chunking)과 벡터 DB 락킹]**
 LLM에게 1만 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) PDF를 한 번에 프롬프트로 다 던져주면 뇌 용량([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Window 토큰) 터져서 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 뻗어 죽고 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 요금 100만 원 청구 폭탄 💥 맞는다. 
@@ -133,23 +135,21 @@ LLM에게 1만 [페이지](/knowledge-base/studynote/01_computer_architecture/07
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">초거대 LLM의 환각(Hallucination) 재앙 💥 / 회사 비밀 규정 물어봤더니 지 뇌피셜 인터넷 소설 지어내서 고객 사기 치고 소송 파국 멸망 터짐 💀</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Fine-tuning의 자본주의 무덤 / 규정 1개 바뀔 때마다 GPU 서버 수천만 원 태우며 모델 전체 밤새 재학습 뺑뺑이 치다 코더 타죽음 뻗음</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">RAG (검색 증강 생성 융합 ✨) 대관식 발동 / 기계 뇌 뜯지 마! "사내 문서를 벡터 DB에 쑤셔 박고 ➔ 유저 질문 오면 검색해서 ➔ 프롬프트에 오픈북 커닝 강제 주입 락킹 쳐 쾅!!"</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Advanced RAG 아키텍처 진화 🚀 / 벡터 맹점(숫자 못 찾음) 커버 치는 BM25</div><div class="kb-diagram-node">하이브리드 서치</div><div class="kb-diagram-note">+ 쓰레기 쳐내는</div><div class="kb-diagram-node">리랭커 Re-ranker</div><div class="kb-diagram-note">필터 2중 쉴드 텐트 구축</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">GraphRAG &amp; Agentic RAG / 단순 문단 검색 텍스트를 넘어 ➔ 사내 인물, 부서, 권한을 거미줄 지식 그래프(Knowledge Graph)로 엮어 AI 에이전트 봇이 지 스스로 다단계 추론 척살해 내는 궁극 생태계 도래</div>
-</div>
-</div>
-
-
+```text
+초거대 LLM의 환각(Hallucination) 재앙 💥 / 회사 비밀 규정 물어봤더니 지 뇌피셜 인터넷 소설 지어내서 고객 사기 치고 소송 파국 멸망 터짐 💀
+    │
+    ▼
+Fine-tuning의 자본주의 무덤 / 규정 1개 바뀔 때마다 GPU 서버 수천만 원 태우며 모델 전체 밤새 재학습 뺑뺑이 치다 코더 타죽음 뻗음
+    │
+    ▼
+RAG (검색 증강 생성 융합 ✨) 대관식 발동 / 기계 뇌 뜯지 마! "사내 문서를 벡터 DB에 쑤셔 박고 ➔ 유저 질문 오면 검색해서 ➔ 프롬프트에 오픈북 커닝 강제 주입 락킹 쳐 쾅!!"
+    │
+    ▼
+Advanced RAG 아키텍처 진화 🚀 / 벡터 맹점(숫자 못 찾음) 커버 치는 BM25 [하이브리드 서치] + 쓰레기 쳐내는 [리랭커 Re-ranker] 필터 2중 쉴드 텐트 구축
+    │
+    ▼
+GraphRAG & Agentic RAG / 단순 문단 검색 텍스트를 넘어 ➔ 사내 인물, 부서, 권한을 거미줄 지식 그래프(Knowledge Graph)로 엮어 AI 에이전트 봇이 지 스스로 다단계 추론 척살해 내는 궁극 생태계 도래
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -163,7 +163,7 @@ LLM에게 1만 [페이지](/knowledge-base/studynote/01_computer_architecture/07
 
 **진행 상황**: 150 / 258
 
-← **이전**: [149. 프롬프트 엔지니어링 (Prompt Engineering) - CoT / Few-Shot](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/149_prompt_engineering_cot_few_shot/)
+← **이전**: [149. 프롬프트 엔지니어링 (Prompt 엔진ering) - CoT / Few-Shot](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/149_prompt_engineering_cot_few_shot/)
 **다음**: [151. 벡터 데이터베이스 (Vector DB) 임베딩과 ANN (근사 최근접) 검색 알고리즘](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/151_vector_database_embedding_ann_search/) →
 
 ---

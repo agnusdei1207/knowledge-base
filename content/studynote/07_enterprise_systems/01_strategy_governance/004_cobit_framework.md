@@ -28,23 +28,24 @@ COBIT은 바로 이 지점에서 탄생했다. COBIT은 막연한 'IT 거버넌�
 
 아래 도식은 기업의 [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 요구가 어떻게 [COBIT](/knowledge-base/studynote/12_it_management/01_governance_strategy/004_cobit/) 프레임워크를 거쳐 실제 IT 시스템의 가치 창출로 변환되는지를 보여주는 근본적인 필요성 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)다.
 
+```text
+[COBIT의 존재 이유: 목표의 폭포수 (Goals Cascade) 메커니즘]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">COBIT의 존재 이유: 목표의 폭포수 (Goals Cascade) 메커니즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">이해관계자 요구</div><div class="kb-diagram-note">"시장 점유율 확대와 고객 정보 보호"</div></div>
-<div class="kb-diagram-note">▼ (번역 및 하향 전개)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">COBIT 프레임워크</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 전사적 목표 (Enterprise Goals)</div><div class="kb-diagram-cell">: "신규 서비스 매출 20% 증가"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. IT 관련 목표 (IT-related Goals)</div><div class="kb-diagram-cell">: "민첩한 시스템 배포 및 보안 무결성"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. IT 프로세스 목표 (Process Goals)</div><div class="kb-diagram-cell">: "CI/CD 자동화 및 취약점 점검"</div></div>
-<div class="kb-diagram-note">▼ (실행 및 통제)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IT 자원 및 운영 환경</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">가치 창출 (Value) 및 위험 억제 (Risk) 증명</div></div>
-</div>
-</div>
-
-
+[이해관계자 요구] "시장 점유율 확대와 고객 정보 보호"
+       │
+       ▼ (번역 및 하향 전개)
+┌──────────────────────────────────────┐
+│           COBIT 프레임워크           │
+│ 1. 전사적 목표 (Enterprise Goals)    │ : "신규 서비스 매출 20% 증가"
+│                 ↓                    │
+│ 2. IT 관련 목표 (IT-related Goals)   │ : "민첩한 시스템 배포 및 보안 무결성"
+│                 ↓                    │
+│ 3. IT 프로세스 목표 (Process Goals)  │ : "CI/CD 자동화 및 취약점 점검"
+└──────────────────────────────────────┘
+       │
+       ▼ (실행 및 통제)
+[IT 자원 및 운영 환경] -> 가치 창출 (Value) 및 위험 억제 (Risk) 증명
+```
 *해설: 이 폭포수(Cascading) 흐름의 핵심은 '추적성'이다. 개발자가 수행하는 "취약점 점검(프로세스 목표)"이 최종적으로 "시장 점유율 확대([이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 요구)"와 어떻게 연결되는지 수학적으로 매핑된다. COBIT이 없다면 경영진과 개발자는 서로 다른 목표를 바라보고 달리게 된다.*
 
 > 📢 **섹션 요약 비유**: COBIT은 복잡한 IT 세계와 비즈니스 세계를 연결하는 '정밀한 통역기'이자 '지도'입니다. 이사회가 "서울로 가자"고 지시하면, COBIT은 IT 부서에게 "경부고속도로를 타고, 속도는 100km/h를 유지하며, 타이어 공기압을 체크하라"는 구체적이고 측정 가능한 지침으로 번역해 줍니다.
@@ -65,25 +66,32 @@ COBIT은 바로 이 지점에서 탄생했다. COBIT은 막연한 'IT 거버넌�
 
 아래의 구조도는 COBIT에서 가장 중요하게 다루는 <strong>거버넌스(Governance)와 관리(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/">Management</a>)의 아키텍처 분리</strong>를 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)한 것이다. COBIT은 모든 IT 활동을 5개의 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)(총 40여 개의 프로세스)으로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Governance 영역</div><div class="kb-diagram-note">- 이사회 책임</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">EDM</div><div class="kb-diagram-note">: Evaluate(평가), Direct(지시), Monitor(모니터)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 거버넌스 프레임워크 설정, 가치 전달, 위험/자원 최적화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지시(Direct)</div><div class="kb-diagram-cell">보고(Monitor)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Management 영역</div><div class="kb-diagram-note">- 경영진 및 IT 부서 책임</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">APO</div><div class="kb-diagram-node">BAI</div><div class="kb-diagram-node">DSS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Align, Plan,</div><div class="kb-diagram-cell">►</div><div class="kb-diagram-cell">Build, Acquire</div><div class="kb-diagram-cell">►</div><div class="kb-diagram-cell">Deliver,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Organize</div><div class="kb-diagram-cell">&amp; Implement</div><div class="kb-diagram-cell">Service,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(계획 및 조직)</div><div class="kb-diagram-cell">(구축 및 도입)</div><div class="kb-diagram-cell">Support (운영)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MEA</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Monitor, Evaluate and Assess (모니터링 및 평가)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 [ Governance 영역 ] - 이사회 책임           │
+│                                                             │
+│       ▶ [ EDM ] : Evaluate(평가), Direct(지시), Monitor(모니터) │
+│       - 거버넌스 프레임워크 설정, 가치 전달, 위험/자원 최적화       │
+└──────┬────────────────────────────────────────────────────▲─┘
+지시(Direct) │                                                    │ 보고(Monitor)
+             ▼                                                   │
+┌─────────────────────────────────────────────────────────────┐
+│                [ Management 영역 ] - 경영진 및 IT 부서 책임     │
+│                                                             │
+│ ┌───────────────┐ ┌───────────────┐ ┌───────────────┐ │
+│ │    [ APO ]    │ │    [ BAI ]    │ │    [ DSS ]    │ │
+│ │ Align, Plan,  │►│ Build, Acquire│►│ Deliver,      │ │
+│ │ Organize      │ │ & Implement   │ │ Service,      │ │
+│ │ (계획 및 조직)│ │ (구축 및 도입)│ │ Support (운영)│ │
+│ └───────┬───────┘ └───────┬───────┘ └───────┬───────┘ │
+│         │               │               │           │
+│         ▼               ▼               ▼           │
+│ ┌───────────────────────────────────────────────┐     │
+│ │                 [ MEA ]                       │     │
+│ │ Monitor, Evaluate and Assess (모니터링 및 평가)  │     │
+│ └───────────────────────────────────────────────┘     │
+└─────────────────────────────────────────────────────────────┘
+```
 *해설: 맨 위의 EDM 영역은 이사회가 방향을 정하는 '거버넌스' 파트이다. 그 아래 4개 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)(APO, BAI, DSS, MEA)은 IT 부서가 실제로 시스템을 기획(APO)하고, 만들거나 사오며(BAI), [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 제공하고(DSS), 이를 자체 평가(MEA)하는 '관리' 파트이다. MEA의 결과가 다시 EDM으로 보고되어 사이클이 완성된다. 실무 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)에서는 각 약어(APO, BAI 등)에 속한 세부 프로세스들이 통제 기준을 만족하는지 집중 점검한다.*
 
 > 📢 **섹션 요약 비유**: [COBIT](/knowledge-base/studynote/12_it_management/01_governance_strategy/004_cobit/) 아키텍처는 거대한 '공장 운영 매뉴얼'입니다. 본사 경영진(EDM)이 어떤 제품을 만들지 결정하면, 공장장(APO)이 계획을 세우고, 조립 라인(BAI)이 물건을 만들며, 배송/AS팀(DSS)이 고객에게 전달하고, 품질 검사팀(MEA)이 불량률을 본사에 보고하는 완벽한 통제 루프입니다.
@@ -103,20 +111,22 @@ COBIT은 바로 이 지점에서 탄생했다. COBIT은 막연한 'IT 거버넌�
 
 아래의 계층적 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)는 COBIT이 다른 프레임워크들을 어떻게 포용하는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">비즈니스 전략 및 목표 (Corporate Governance)</div></div>
-<div class="kb-diagram-note">(무엇을 통제하고 달성할 것인가?)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최상위 지침</div><div class="kb-diagram-cell">COBIT (IT 거버넌스 우산)</div><div class="kb-diagram-cell">(What to do)</div></div>
-<div class="kb-diagram-note">(어떻게 실행하고 운영할 것인가? - 세부 도메인별 표준)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">세부 실행</div><div class="kb-diagram-cell">ITIL</div><div class="kb-diagram-cell">PMBOK</div><div class="kb-diagram-cell">ISO 27001</div><div class="kb-diagram-cell">(How to do)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프레임워크</div><div class="kb-diagram-cell">(서비스)</div><div class="kb-diagram-cell">(구축)</div><div class="kb-diagram-cell">(보안)</div></div>
-</div>
-</div>
-
-
+```text
+       [ 비즈니스 전략 및 목표 (Corporate Governance) ]
+                         │
+             (무엇을 통제하고 달성할 것인가?)
+===========================================================
+      ▲       ┌─────────────────────────────────┐
+  최상위 지침  │     COBIT (IT 거버넌스 우산)    │ (What to do)
+      ▼       └──────┬────────┬────────┬────────┘
+                     │        │        │
+           (어떻게 실행하고 운영할 것인가? - 세부 도메인별 표준)
+===========================================================
+      ▲      ┌───────▼─┐┌─────▼─┐┌─────▼──┐
+   세부 실행  │  ITIL   ││ PMBOK ││ISO 27001 │ (How to do)
+   프레임워크 │(서비스) ││(구축)  ││ (보안)   │
+      ▼      └─────────┘└───────┘└──────────┘
+```
 *해설: COBIT은 "IT [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 효율적으로 관리하라(DSS [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))"라고 원칙을 제시하지만, "헬프데스크 전화를 어떻게 받고 장애를 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)할 것인가"하는 세부 절차(How)는 명시하지 않는다. 그 세부 실행은 ITIL을 가져다 쓰면 된다. 즉, COBIT은 기업 IT 프레임워크들의 '메인보드' 역할을 하여, 필요에 따라 ITIL이나 ISO 27001 같은 '그래픽 카드(세부 표준)'를 꽂아 쓸 수 있게 해 준다.*
 
 > 📢 **섹션 요약 비유**: COBIT은 헌법(최상위 법)입니다. 헌법은 "국민의 안전을 지킨다(What)"라고 명시할 뿐, 구체적으로 범인을 어떻게 잡을지는 정하지 않습니다. 경찰 직무집행법([ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/))이나 도로교통법(ISO 27001) 같은 하위 법령들이 그 구체적인 방법(How)을 채워주며 헌법의 우산 아래서 작동합니다.
@@ -140,28 +150,23 @@ COBIT은 바로 이 지점에서 탄생했다. COBIT은 막연한 'IT 거버넌�
 
 아래 흐름도는 기업이 COBIT을 실무에 도입하기 위해 밟아야 하는 7단계 구현 생명주기(Implementation Lifecycle)를 보여준다.
 
+```text
+[COBIT 도입 생명주기 (지속적 개선 루프)]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">COBIT 도입 생명주기 (지속적 개선 루프)</div></div>
-<div class="kb-diagram-note">Phase 1: 동인 파악 ──► (경영진) "보안 사고 발생! IT를 통제해야 해"</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Phase 2: 현재 상태 진단 ──► (감사인) "우리 IT 프로세스 수준은 Level 1입니다."</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Phase 3: 목표 상태 정의 ──► (IT 스티어링) "우선 보안 및 변경 관리만 Level 3으로 올립시다."</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Phase 4: 해결책 구축 ──► (실무진) 방화벽 도입, 변경 통제 위원회(CAB) 신설</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Phase 5: 실행 ──► (조직) 새로운 프로세스 적용 및 변화 관리(교육)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Phase 6: 효익 실현 여부 ──► (평가자) "보안 사고가 0건으로 줄고 ROI가 증명됨"</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Phase 7: 모멘텀 유지 ──► (지속성) 새로운 비즈니스 목표에 맞춰 Phase 1로 피드백 반복</div>
-</div>
-</div>
-
-
+Phase 1: 동인 파악 ──► (경영진) "보안 사고 발생! IT를 통제해야 해"
+          ↓
+Phase 2: 현재 상태 진단 ──► (감사인) "우리 IT 프로세스 수준은 Level 1입니다."
+          ↓
+Phase 3: 목표 상태 정의 ──► (IT 스티어링) "우선 보안 및 변경 관리만 Level 3으로 올립시다."
+          ↓
+Phase 4: 해결책 구축 ──► (실무진) 방화벽 도입, 변경 통제 위원회(CAB) 신설
+          ↓
+Phase 5: 실행 ──► (조직) 새로운 프로세스 적용 및 변화 관리(교육)
+          ↓
+Phase 6: 효익 실현 여부 ──► (평가자) "보안 사고가 0건으로 줄고 ROI가 증명됨"
+          ↓
+Phase 7: 모멘텀 유지 ──► (지속성) 새로운 비즈니스 목표에 맞춰 Phase 1로 피드백 반복
+```
 *해설: 이 생명주기의 핵심은 [COBIT](/knowledge-base/studynote/12_it_management/01_governance_strategy/004_cobit/) 도입이 일회성 IT 프로젝트가 아니라 '변화 관리([Change Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/027_change_management/))' 과정이라는 점이다. 인간은 본능적으로 새로운 통제를 거부하므로, Phase 5(실행)에서 구성원의 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)을 극복하기 위한 경영진의 강력한 스폰서십이 없다면 완벽한 [COBIT](/knowledge-base/studynote/12_it_management/01_governance_strategy/004_cobit/) 아키텍처도 무용지물이 된다.*
 
 > 📢 **섹션 요약 비유**: [COBIT](/knowledge-base/studynote/12_it_management/01_governance_strategy/004_cobit/) 도입은 개인의 '다이어트 및 체질 개선' 프로젝트와 같습니다. 한 번에 극단적인 식단(모든 통제 적용)을 하면 금방 요요현상(실패)이 옵니다. 현재 체지방(성숙도)을 정확히 재고, 현실적인 목표를 세워 꾸준히 운동(지속적 개선)해야만 체질(기업의 거버넌스)이 바뀝니다.
@@ -194,23 +199,21 @@ COBIT은 기업이 비즈니스 목표라는 목적지에 도달하기 위해, I
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">IT 거버넌스 (IT Governance)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ITIL (IT Infrastructure Library)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">EA (전사 아키텍처)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CMMI (성숙도 모델)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SOX (사베인스-옥슬리법)</div></div>
-</div>
-</div>
-
-
+```text
+[IT 거버넌스 (IT Governance)]
+    │
+    ▼
+[ITIL (IT Infrastructure Library)]
+    │
+    ▼
+[EA (전사 아키텍처)]
+    │
+    ▼
+[CMMI (성숙도 모델)]
+    │
+    ▼
+[SOX (사베인스-옥슬리법)]
+```
 
 이 흐름도는 IT 거버넌스 ([IT Governance](/knowledge-base/studynote/12_it_management/01_governance_strategy/001_it_governance/))에서 출발해 SOX (사베인스-옥슬리법)까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

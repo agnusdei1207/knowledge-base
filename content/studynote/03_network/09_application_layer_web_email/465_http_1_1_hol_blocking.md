@@ -29,18 +29,14 @@ tags = ["studynote-network"]
 - **문제 발생**: `이미지 1`이 용량이 1GB짜리 고화질 영상이고, `이미지 2`와 `3`이 1KB짜리 작은 텍스트라고 가정해 봅시다. 서버는 2번과 3번 텍스트를 눈 깜짝할 새에 준비 완료했습니다. 그러나 1번 영상의 렌더링이 10초 걸린다면, 2번과 3번은 10초 동안 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 입구에서 나가지 못하고 갇혀버립니다.
 - **결과**: 이로 인해 웹 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 렌더링이 완전히 멈춰버리는 재앙, 즉 <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a> 계층의 <a href="/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/">HOL</a>(<a href="/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/">Head-of-Line</a>) 블로킹</strong>이 발생했습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">HTTP 1.1</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HTTP 1.1 HOL 블로킹</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">HTTP/2 특징</div></div>
-</div>
-</div>
-
-
+```text
+[HTTP 1.1]
+    │
+    ▼
+[HTTP 1.1 HOL 블로킹]
+    │
+    └──▶ [HTTP/2 특징]
+```
 
 - **📢 섹션 요약 비유**: [HOL](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/) 블로킹은 "1차선 도로의 정체"와 같습니다. 내 차가 아무리 시속 300km로 달리는 페라리(1KB 텍스트)라도, 내 앞에 시속 10km로 달리는 낡은 경운기(1GB 영상)가 길을 막고 있다면 나는 절대 앞으로 나아갈 수 없습니다.
 
@@ -50,27 +46,28 @@ tags = ["studynote-network"]
 
 [HOL](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/) 블로킹은 물리적 네트워크 장애가 아니라, '[프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)의 논리적 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)) 관리 실패'로 인한 소프트웨어적 병목입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">HTTP 1.1 파이프라이닝과 HOL 블로킹 발생 메커니즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">클라이언트 (Browser)</div><div class="kb-diagram-node">웹 서버 (Server)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">--- Req 1 (무거운 DB 연산 영상) --------&gt;</div><div class="kb-diagram-cell">(처리 중..)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">--- Req 2 (가벼운 CSS) ----------------&gt;</div><div class="kb-diagram-cell">(처리 완료!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">--- Req 3 (가벼운 JS) -----------------&gt;</div><div class="kb-diagram-cell">(처리 완료!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Req 1이 끝날 때까지 서버는 Req 2, 3을 보낼 수 없음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;========== HOL Blocking ==========&gt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(10초 뒤... 1번 끝남)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;-- Res 1 (1GB 영상) -------------------</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;-- Res 2 (1KB CSS) --------------------</div><div class="kb-diagram-cell">(이제야..)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;-- Res 3 (1KB JS) ---------------------</div><div class="kb-diagram-cell">(방출됨)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 결론: 차라리 소켓을 여러 개 뚫어서 따로 보냈으면 2, 3번은</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">10초 전에 도착해서 화면에 렌더링 되었을 것임.</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          [ HTTP 1.1 파이프라이닝과 HOL 블로킹 발생 메커니즘 ]        │
+│                                                             │
+│  [ 클라이언트 (Browser) ]                  [ 웹 서버 (Server) ] │
+│        |                                        |           │
+│        |--- Req 1 (무거운 DB 연산 영상) -------->|  (처리 중..)│
+│        |--- Req 2 (가벼운 CSS) ---------------->|  (처리 완료!)│
+│        |--- Req 3 (가벼운 JS) ----------------->|  (처리 완료!)│
+│        |                                        |           │
+│        |     (Req 1이 끝날 때까지 서버는 Req 2, 3을 보낼 수 없음)   │
+│        |        <========== HOL Blocking ==========>        │
+│        |                                        |           │
+│        |   (10초 뒤... 1번 끝남)                   |           │
+│        |<-- Res 1 (1GB 영상) -------------------|           │
+│        |<-- Res 2 (1KB CSS) --------------------| (이제야..)  │
+│        |<-- Res 3 (1KB JS) ---------------------| (방출됨)    │
+│                                                             │
+│   * 결론: 차라리 소켓을 여러 개 뚫어서 따로 보냈으면 2, 3번은       │
+│           10초 전에 도착해서 화면에 렌더링 되었을 것임.            │
+└─────────────────────────────────────────────────────────────┘
+```
 
 ### 1. 웹 브라우저 제조사들의 포기 선언
 이 문제가 너무나 끔찍했기 때문에, 애플(Safari), 구글(Chrome), 모질라(Firefox) 등 전 세계 브라우저 개발사들은 소스 코드에서 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 파이프라이닝 기능을 아예 **기본 비활성화(Disabled by Default)** 시켜버렸습니다. 사실상 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 1.1의 파이프라이닝은 '스펙 문서에만 존재하는 죽은 기술'이 되었습니다.
@@ -160,19 +157,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: HTTP 1.1</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: HTTP 1.1 HOL 블로킹</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: HTTP/2 특징</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 애플리케이션 전달</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: HTTP 1.1]
+    │
+    ▼
+[현재 개념: HTTP 1.1 HOL 블로킹]
+    │
+    ├──▶ [확장 A: HTTP/2 특징]
+    └──▶ [확장 B: 지능형 애플리케이션 전달]
+```
 
 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 1.1 [HOL](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/) 블로킹는 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 1.1에서 출발해 현재 메커니즘을 정교화하고, 이후 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 특징와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -35,23 +35,25 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 캐시 hit와 miss가 coherence 경로를 어떻게 갈라놓는지를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디렉터리 캐시는 데이터가 아니라 권한 정보를 가속한다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Requesting Core</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Home Agent / LLC Slice</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ hit ─▶ Directory Cache ─▶ sharer/owner 즉시 확인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ targeted invalidate / data fetch</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ miss ─▶ Backing Directory in LLC/Memory</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 메타데이터 조회</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 엔트리 채움 후 coherence 진행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: hit면 권한 부여가 짧아지고, miss면 coherence 지연이 길어진다</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│            디렉터리 캐시는 데이터가 아니라 권한 정보를 가속한다      │
+├──────────────────────────────────────────────────────────────────────┤
+│ Requesting Core                                                     │
+│      │                                                              │
+│      ▼                                                              │
+│ Home Agent / LLC Slice                                              │
+│      │                                                              │
+│      ├─ hit  ─▶ Directory Cache ─▶ sharer/owner 즉시 확인           │
+│      │                         └─ targeted invalidate / data fetch   │
+│      │                                                              │
+│      └─ miss ─▶ Backing Directory in LLC/Memory                     │
+│                                ├─ 메타데이터 조회                   │
+│                                └─ 엔트리 채움 후 coherence 진행     │
+│                                                                      │
+│ 결과: hit면 권한 부여가 짧아지고, miss면 coherence 지연이 길어진다  │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 | 엔트리 필드 | 의미 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -137,26 +139,25 @@ sharer 표현 방식도 핵심이다. 코어 수가 적다면 full [bit](/knowle
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">스누핑 확장성 한계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">디렉터리 기반 프로토콜 (Directory-based Protocol)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">backing directory in LLC / memory</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">디렉터리 캐시 (Directory Cache)</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ 희소 디렉터리 · sharer 압축</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ inclusive LLC 기반 snoop filter</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ 분산 home agent</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">칩렛 · NUMA · CXL.cache 대응 메타데이터 계층화</div>
-</div>
-</div>
-
-
+```text
+스누핑 확장성 한계
+        │
+        ▼
+디렉터리 기반 프로토콜 (Directory-based Protocol)
+        │
+        ▼
+backing directory in LLC / memory
+        │
+        ▼
+디렉터리 캐시 (Directory Cache)
+        │
+        ├─▶ 희소 디렉터리 · sharer 압축
+        ├─▶ inclusive LLC 기반 snoop filter
+        ├─▶ 분산 home agent
+        │
+        ▼
+칩렛 · NUMA · CXL.cache 대응 메타데이터 계층화
+```
 
 이 흐름은 "브로드캐스트 회피"에서 출발해, "권한 장부를 빠르게 만들고 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)하는 방향"으로 발전하는 과정을 보여준다.
 

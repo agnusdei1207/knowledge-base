@@ -35,25 +35,29 @@ APM은 보통 애플리케이션 에이전트, 텔레메트리 수집 경로, �
 
 아래 그림은 APM이 단순 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 저장이 아니라 "요청 발생 → 계측 → 집계 → 병목 분석"의 폐쇄 루프라는 점을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">APM 데이터 처리 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 요청</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">애플리케이션 + APM Agent / OpenTelemetry SDK</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 트랜잭션 시간 · 오류 · 스팬(Span) 수집</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ DB 쿼리 · 외부 API · 런타임 메트릭 수집</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Collector / Vendor Ingest</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">APM Backend</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 서비스 맵(Service Map)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 슬로우 트랜잭션 분석</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 오류 상관관계 분석</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">운영자 대시보드 · 알람 · 최적화 액션</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                    APM 데이터 처리 흐름                      │
+├──────────────────────────────────────────────────────────────┤
+│ 사용자 요청                                                  │
+│     │                                                        │
+│     ▼                                                        │
+│ 애플리케이션 + APM Agent / OpenTelemetry SDK                │
+│     │                                                        │
+│     ├─ 트랜잭션 시간 · 오류 · 스팬(Span) 수집               │
+│     ├─ DB 쿼리 · 외부 API · 런타임 메트릭 수집              │
+│     ▼                                                        │
+│ Collector / Vendor Ingest                                   │
+│     │                                                        │
+│     ▼                                                        │
+│ APM Backend                                                  │
+│     ├─ 서비스 맵(Service Map)                                │
+│     ├─ 슬로우 트랜잭션 분석                                  │
+│     ├─ 오류 상관관계 분석                                    │
+│     ▼                                                        │
+│ 운영자 대시보드 · 알람 · 최적화 액션                         │
+└──────────────────────────────────────────────────────────────┘
+```
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -135,24 +139,23 @@ APM을 잘 설계하면 장애 원인 분석 시간이 단축되고, [성능](/k
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">인프라 모니터링</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">관측성 (Observability)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 메트릭 · 로그</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 분산 추적 (Distributed Tracing)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">APM (Application Performance Management)</div>
-<div class="kb-diagram-tree-item" style="--depth:6">▶ RUM (Real User Monitoring)</div>
-<div class="kb-diagram-tree-item" style="--depth:6">▶ Synthetic Monitoring</div>
-<div class="kb-diagram-tree-item" style="--depth:6">▶ SLO 기반 성능 운영</div>
-</div>
-</div>
-
-
+```text
+인프라 모니터링
+    │
+    ▼
+관측성 (Observability)
+    │
+    ├─▶ 메트릭 · 로그
+    │
+    └─▶ 분산 추적 (Distributed Tracing)
+             │
+             ▼
+APM (Application Performance Management)
+             │
+             ├─▶ RUM (Real User Monitoring)
+             ├─▶ Synthetic Monitoring
+             └─▶ SLO 기반 성능 운영
+```
 
 이 흐름은 운영 관점이 서버 자원 감시에서 출발해, 애플리케이션 내부 분석과 사용자 경험 연계까지 확장되는 과정을 보여 준다.
 

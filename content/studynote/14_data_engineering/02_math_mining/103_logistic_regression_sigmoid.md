@@ -35,24 +35,25 @@ tags = ["studynote-data-engineering"]
 2. **로짓 (Logit) 변환**: 승산에 자연로그를 취해, $0 \sim 1$ 사이의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 $-\infty \sim +\infty$ 범위의 실수로 확장한다. 이를 통해 선형 회귀식($\beta_0 + \beta_1 X$)과 연결 고리를 만든다.
 3. <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/069_sigmoid_function_vanishing_gradient/">시그모이드 함수</a> (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/">Sigmoid</a> Function)</strong>: 로짓 함수의 역함수로, 무한대의 선형식 결과를 다시 $0 \sim 1$ 사이의 곡선으로 압축한다. $\sigma(z) = 1 / (1 + e^{-z})$
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">로지스틱 회귀의 데이터 변환 흐름</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1.</div><div class="kb-diagram-node">입력 데이터 X</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">선형 결합 (Linear Combination)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">z = β0 + β1X1 + β2X2 + ...</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2.</div><div class="kb-diagram-node">시그모이드 S-곡선</div><div class="kb-diagram-connector">◀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1.0 .</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0.5 ──*── (임계값 Threshold)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0.0 ──/ (z값)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3.</div><div class="kb-diagram-node">출력 확률 P</div><div class="kb-diagram-connector">◀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P &gt; 0.5 이면 클래스 1 (합격/양성)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P ≤ 0.5 이면 클래스 0 (불합격/음성)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                  로지스틱 회귀의 데이터 변환 흐름                 │
+├──────────────────────────────────────────────────────────────┤
+│ 1. [입력 데이터 X] ───▶ 선형 결합 (Linear Combination)          │
+│                          z = β0 + β1X1 + β2X2 + ...          │
+│                                 │                            │
+│ 2. [시그모이드 S-곡선] ◀──────────┘                            │
+│      1.0 ┤         .──────                                   │
+│          │       /                                           │
+│      0.5 ┤   ──*── (임계값 Threshold)                        │
+│          │    /                                              │
+│      0.0 ┤──/───────────  (z값)                              │
+│                                 │                            │
+│ 3. [출력 확률 P] ◀───────────────┘                            │
+│      P > 0.5 이면 클래스 1 (합격/양성)                          │
+│      P ≤ 0.5 이면 클래스 0 (불합격/음성)                         │
+└──────────────────────────────────────────────────────────────┘
+```
 
 최적의 파라미터($\beta$)를 찾을 때 선형 회귀는 최소제곱법([MSE](/knowledge-base/studynote/10_ai/01_ai_basics/076_mse_mean_squared_error_regression/))을 쓰지만, [로지스틱 회귀](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/)는 [최대 우도 추정법](/knowledge-base/studynote/06_ict_convergence/05_data_science/332_maximum_likelihood_estimation_mle/) ([MLE](/knowledge-base/studynote/08_algorithm_stats/08_stats/143_mle/), Maximum Likelihood Estimation)을 사용하여 실제 관측치가 나올 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 가장 극대화하는 계수를 찾는다.
 
@@ -97,7 +98,7 @@ tags = ["studynote-data-engineering"]
 
 결론적으로, 아무리 화려하고 복잡한 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/)([Ensemble](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/)) 기법이나 딥러닝이 등장해도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 과학의 파이프라인에서 가장 먼저 시도해야 할 '[베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/)([Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)) 모델'은 변함없이 [로지스틱 회귀](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/)다. 단순함과 해석력, 통계적 엄밀함을 모두 갖춘 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 문제의 근간으로 기억해야 한다.
 
-- **📢 섹션 요약 비유**: [로지스틱 회귀](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/)는 화려한 최신식 스마트워치가 아니라 튼튼하고 정확한 아날로그 나침반이다. 복잡한 길을 찾기 전에, 우선 동서남북의 기본 방향이 어디인지 가장 빠르고 확실하게 알려준다.
+- **📢 섹션 요약 비유**: [로지스틱 회귀](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/)는 화려한 최정보 스마트워치가 아니라 튼튼하고 정확한 아날로그 나침반이다. 복잡한 길을 찾기 전에, 우선 동서남북의 기본 방향이 어디인지 가장 빠르고 확실하게 알려준다.
 
 ---
 
@@ -112,23 +113,21 @@ tags = ["studynote-data-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">선형 예측의 한계 (Linear Regression)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">승산 및 로짓 변환 (Odds &amp; Logit)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">확률 매핑 함수 도입 (Sigmoid Function)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">이진 분류의 표준 (Logistic Regression)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">다중 분류 (Softmax) 및 신경망(Deep Learning)으로 확장</div>
-</div>
-</div>
-
-
+```text
+선형 예측의 한계 (Linear Regression)
+    │
+    ▼
+승산 및 로짓 변환 (Odds & Logit)
+    │
+    ▼
+확률 매핑 함수 도입 (Sigmoid Function)
+    │
+    ▼
+이진 분류의 표준 (Logistic Regression)
+    │
+    ▼
+다중 분류 (Softmax) 및 신경망(Deep Learning)으로 확장
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

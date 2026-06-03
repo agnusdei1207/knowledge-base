@@ -37,42 +37,40 @@ w ← w - α · ∇L(w)
 
 ### 배치 크기에 따른 경사 하강법 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">경사 하강법(GD) 세 가지 변형</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Batch GD</div><div class="kb-diagram-cell">SGD</div><div class="kb-diagram-cell">Mini-batch GD</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Stochastic GD)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전체 N개</div><div class="kb-diagram-cell">1개 샘플로</div><div class="kb-diagram-cell">k개(32~512)로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터로</div><div class="kb-diagram-cell">매 스텝 갱신</div><div class="kb-diagram-cell">매 스텝 갱신</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">한 번 갱신</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정확한 기울기</div><div class="kb-diagram-cell">노이즈 많음</div><div class="kb-diagram-cell">균형 잡힌 기울기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">느린 갱신</div><div class="kb-diagram-cell">빠른 갱신</div><div class="kb-diagram-cell">GPU 병렬 최적</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 한계</div><div class="kb-diagram-cell">지역 최솟값 탈출</div><div class="kb-diagram-cell">현대 DL 표준</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────┐
+│              경사 하강법(GD) 세 가지 변형                 │
+├──────────────┬───────────────────┬───────────────────────┤
+│  Batch GD    │  SGD              │  Mini-batch GD        │
+│              │  (Stochastic GD)  │                       │
+├──────────────┼───────────────────┼───────────────────────┤
+│ 전체 N개     │ 1개 샘플로        │ k개(32~512)로         │
+│ 데이터로     │ 매 스텝 갱신      │ 매 스텝 갱신          │
+│ 한 번 갱신   │                   │                       │
+├──────────────┼───────────────────┼───────────────────────┤
+│ 정확한 기울기│ 노이즈 많음       │ 균형 잡힌 기울기       │
+│ 느린 갱신    │ 빠른 갱신         │ GPU 병렬 최적          │
+│ 메모리 한계  │ 지역 최솟값 탈출  │ 현대 DL 표준          │
+└──────────────┴───────────────────┴───────────────────────┘
+```
 
 ### 손실 곡면의 문제점
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">손실(Loss)</div>
-<div class="kb-diagram-note">지역 최솟값 안장점</div>
-<div class="kb-diagram-note">(Local Min) (Saddle)</div>
-<div class="kb-diagram-note">높음│ ∩──●──∩ ●</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">낮음</div><div class="kb-diagram-cell">──</div><div class="kb-diagram-cell">──</div></div>
-<div class="kb-diagram-note">전역 최솟값 기울기=0</div>
-<div class="kb-diagram-note">(Global Min) 이지만 최솟값 아님</div>
-<div class="kb-diagram-tree-item" style="--depth:2">→ 가중치</div>
-</div>
-</div>
-
-
+```
+손실(Loss)
+    │
+    │    지역 최솟값        안장점
+    │    (Local Min)        (Saddle)
+    │      ↓                  ↓
+높음│  ∩──●──∩         ──────●──────
+    │  │  │  │             / │ \
+    │  │  │  │            /  │  \
+낮음│──┘  │  └──      ───    │    ───
+    │     ↓                  │
+    │  전역 최솟값            기울기=0
+    │  (Global Min)          이지만 최솟값 아님
+    └────────────────────────────────→ 가중치
+```
 
 ### [지역 최솟값](/knowledge-base/studynote/10_ai/01_ai_basics/083_local_minima_vs_global_minimum/) vs 안장점
 

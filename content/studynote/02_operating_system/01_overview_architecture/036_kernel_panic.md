@@ -18,24 +18,19 @@ tags = ["studynote-operating-system"]
 
 ## I. [Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Panic vs BSOD
 
+```
+Linux Kernel Panic:
+  커널이 심각한 오류 감지
+  -> panic() 함수 호출
+  -> "Kernel panic - not syncing: ..." 메시지
+  -> 시스템 중단 (halt or reboot)
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Linux Kernel Panic:</div>
-<div class="kb-diagram-note">커널이 심각한 오류 감지</div>
-<div class="kb-diagram-tree-item" style="--depth:1">panic() 함수 호출</div>
-<div class="kb-diagram-tree-item" style="--depth:1">"Kernel panic - not syncing: ..." 메시지</div>
-<div class="kb-diagram-tree-item" style="--depth:1">시스템 중단 (halt or reboot)</div>
-<div class="kb-diagram-note">Windows BSOD (Blue Screen of Death):</div>
-<div class="kb-diagram-note">KeBugCheck() 호출</div>
-<div class="kb-diagram-tree-item" style="--depth:1">버그 체크 코드 표시 (예: 0x0000007E)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">메모리 덤프 저장</div>
-<div class="kb-diagram-tree-item" style="--depth:1">재시작</div>
-</div>
-</div>
-
-
+Windows BSOD (Blue Screen of Death):
+  KeBugCheck() 호출
+  -> 버그 체크 코드 표시 (예: 0x0000007E)
+  -> 메모리 덤프 저장
+  -> 재시작
+```
 
 | 항목       | Linux [Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Panic   | Windows BSOD      |
 |-----------|---------------------|-------------------|

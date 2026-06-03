@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 50대가 밖으로 인터넷을 하려면 반드시 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 뱃속에 있는 '[vSwitch](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/) ([가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/), 소프트웨어)'를 거쳐야 했습니다.
 - 패킷 하나를 보낼 때마다 `VM 메모리 ➜ 하이퍼바이저 메모리(vSwitch) ➜ 물리 랜카드(NIC)`로 2~3번씩 복사(Copy)와 [Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Switching이 일어납니다. 10Gbps, 100Gbps 통신이 시작되면 서버의 CPU가 이 쓰레기 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)(스위칭) 작업만 하다가 100% 뻗어버립니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DPDK 커널 우회 사용자 공간 고속 패킷…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SR-IOV 통과 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스마트NIC / DPU</div></div>
-</div>
-</div>
-
-
+```text
+[DPDK 커널 우회 사용자 공간 고속 패킷…]
+    │
+    ▼
+[SR-IOV 통과 구조]
+    │
+    └──▶ [스마트NIC / DPU]
+```
 
 - **📢 섹션 요약 비유**: [SR-IOV](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/497_sr_iov_pcie_mapping/) 통과 구조는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -43,18 +39,14 @@ tags = ["studynote-network"]
 
 - **개념**: <strong><a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/">PCIe</a> (컴퓨터 메인보드 슬롯) 표준 규격</strong> 중 하나로, 한 개의 쇳덩어리 물리 랜카드([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/)) 하드웨어 기기를, 마치 여러 개의 독립된 쇳덩어리 랜카드인 것처럼 논리적으로 잘게 쪼개어, <strong>가상머신(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a>)과 물리 랜카드를 다이렉트로 직결(Pass-through)시켜버리는 하드웨어 기반의 입출력 <a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a> 기술</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DPDK 커널 우회 사용자 공간 고속 패킷…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SR-IOV 통과 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스마트NIC / DPU</div></div>
-</div>
-</div>
-
-
+```text
+[DPDK 커널 우회 사용자 공간 고속 패킷…]
+    │
+    ▼
+[SR-IOV 통과 구조]
+    │
+    └──▶ [스마트NIC / DPU]
+```
 
 - **📢 섹션 요약 비유**: [SR-IOV](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/497_sr_iov_pcie_mapping/) 통과 구조의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -124,19 +116,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: DPDK 커널 우회 사용자 공간 고속 패킷…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: SR-IOV 통과 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 스마트NIC / DPU</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: DPDK 커널 우회 사용자 공간 고속 패킷…]
+    │
+    ▼
+[현재 개념: SR-IOV 통과 구조]
+    │
+    ├──▶ [확장 A: 스마트NIC / DPU]
+    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
+```
 
 [SR-IOV](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/497_sr_iov_pcie_mapping/) 통과 구조는 [DPDK](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 우회 사용자 공간 고속 패킷…에서 출발해 현재 메커니즘을 정교화하고, 이후 스마트NIC / DPU와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

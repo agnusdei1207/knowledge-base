@@ -29,28 +29,29 @@ tags = ["studynote-operating-system"]
   2. <strong>Double <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/">Caching</a> 딜레마</strong>: `read`로 읽은 걸 `mmap`으로 읽으면 램이 2배로 깎이고, Write 시 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)(Sync) 로직이 지옥처럼 꼬였다.
   3. <strong><a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">Page</a> Cache의 천하 통일</strong>: 블록 단위(512B)의 버퍼 헤더를 4KB짜리 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시의 구조체 안에 묶어(Piggyback) 버림으로써, [버퍼 캐시](/knowledge-base/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/)를 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시의 노예로 전락시켜 완벽한 대통합을 이룸.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">과거의 이중 낭비(Split) vs 현대의 대통합(Unified) 캐시 시각화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1. 과거 분리형(Split) 캐시 시절 (지옥의 불일치)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">하드디스크의 엑셀.xls 원본</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↙ (read 함수) ↘ (mmap 함수)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">RAM: Buffer Cache 방</div><div class="kb-diagram-node">RAM: Page Cache 방</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"난 블록 단위로 엑셀 저장!" "난 페이지 단위로 엑셀 띄움!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💥 램 용량 2배로 파먹음. 한 곳 수정 시 다른 곳은 옛날 데이터(오류)!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2. 현대 통합(Unified) 캐시 시절 (평화의 시대)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">하드디스크의 엑셀.xls 원본</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(무조건 여기로 올림)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🌟</div><div class="kb-diagram-node">RAM: 통합 Page Cache (단 1개!)</div><div class="kb-diagram-note">🌟</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(read/write) (mmap) (sendfile)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A 앱이 읽든 B 앱이 맵핑하든 네트워크로 쏘든</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">모두가 똑같은</div><div class="kb-diagram-node">물리 램 1장(Page Cache)</div><div class="kb-diagram-note">을 다이렉트로 공유함!</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────────────┐
+│        과거의 이중 낭비(Split) vs 현대의 대통합(Unified) 캐시 시각화  │
+├───────────────────────────────────────────────────────────────────────┤
+│                                                                       │
+│ ▶ 1. 과거 분리형(Split) 캐시 시절 (지옥의 불일치)                     │
+│                 [ 하드디스크의 엑셀.xls 원본 ]                        │
+│                 ↙ (read 함수)       ↘ (mmap 함수)                     │
+│  [ RAM: Buffer Cache 방 ]     [ RAM: Page Cache 방 ]                  │
+│  "난 블록 단위로 엑셀 저장!"       "난 페이지 단위로 엑셀 띄움!"      │
+│  💥 램 용량 2배로 파먹음. 한 곳 수정 시 다른 곳은 옛날 데이터(오류)!  │
+│                                                                       │
+│ ▶ 2. 현대 통합(Unified) 캐시 시절 (평화의 시대)                       │
+│                 [ 하드디스크의 엑셀.xls 원본 ]                        │
+│                         │ (무조건 여기로 올림)                        │
+│                         ▼                                             │
+│         🌟 [ RAM: 통합 Page Cache (단 1개!) ] 🌟                      │
+│         /               │              \                              │
+│    (read/write)       (mmap)          (sendfile)                      │
+│  A 앱이 읽든          B 앱이 맵핑하든      네트워크로 쏘든            │
+│  모두가 똑같은 [물리 램 1장(Page Cache)]을 다이렉트로 공유함!         │
+└───────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 통합의 힘은 위대하다. 이제 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 안에서 하드디스크를 거치는 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는, 유저가 어떤 시스템 콜(`read`, `write`, `mmap`, 심지어 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부의 디렉토리 탐색까지)을 때리더라도 무조건 <strong>'단 하나의 <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">Page</a> Cache 물리 프레임'</strong>으로 수렴(Converge)한다. 이로 인해 메모리 오버헤드가 제로(0)가 되고, [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)를 맞추기 위한 수천 줄의 더러운 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 코드가 삭제되었다.
 
 - **📢 섹션 요약 비유**: 옛날 은행은 지점 창구에서 입금하는 장부([버퍼 캐시](/knowledge-base/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/))와 [ATM](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/) 기계에서 입금하는 장부([페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시)를 따로 적어놓고 밤 12시에 억지로 맞추다 사고가 났습니다. 지금은 인터넷 뱅킹이든, ATM이든, 지점 창구든 무조건 중앙의 '하나의 메인 서버 DB(통합 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시)'에 즉시 꽂혀서 통장 잔고([일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/))가 절대 틀어질 일이 없는 전산 대통합입니다.
@@ -100,18 +101,15 @@ tags = ["studynote-operating-system"]
 - "리눅스 놈아, 네 잘난 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시 거치지 말고 디스크랑 내 DB 메모리랑 다이렉트로 바로 꽂아줘! 너 빠져!"
 - 이를 통해 통합 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시의 거대한 이점을 포기하는 대신, DB만의 극한 컨트롤을 얻는 실무 최고의 안티-캐시 튜닝이 탄생했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">애플리케이션</div><div class="kb-diagram-cell">Page Cache 의존</div><div class="kb-diagram-cell">파일 읽기 방식</div><div class="kb-diagram-cell">추천 O_DIRECT 여부</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Nginx/Web</div><div class="kb-diagram-cell">100% 맹신</div><div class="kb-diagram-cell"><code>sendfile()</code></div><div class="kb-diagram-cell">절대 끄면 안 됨(성능 좍)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kafka</div><div class="kb-diagram-cell">100% 맹신</div><div class="kb-diagram-cell"><code>mmap()</code></div><div class="kb-diagram-cell">무조건 켜둠</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MySQL DB</div><div class="kb-diagram-cell">0% (혐오함)</div><div class="kb-diagram-cell"><code>read()</code> + 자체버퍼</div><div class="kb-diagram-cell">🟢 무조건 켜라 (Bypass)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬──────────────────────────────────────┐
+│ 애플리케이션 │ Page Cache 의존│ 파일 읽기 방식 │ 추천 O_DIRECT 여부       │
+├──────────┼────────────┼────────────┼──────────────────────────────────────┤
+│ Nginx/Web│ 100% 맹신   │ `sendfile()`│ 절대 끄면 안 됨(성능 좍)           │
+│ Kafka    │ 100% 맹신   │ `mmap()`    │ 무조건 켜둠                        │
+│ MySQL DB │ 0% (혐오함)  │ `read()` + 자체버퍼│ **🟢 무조건 켜라 (Bypass)**│
+└──────────┴────────────┴────────────┴──────────────────────────────────────┘
+```
 **[매트릭스 해설]** "[페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시는 웹 서버(Nginx)의 신이지만, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)(DB)에게는 짐짝이다." 카프카나 웹 서버는 OS가 남는 램 100GB를 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시로 꽉꽉 채워두는 덕분에 로켓 스피드가 나오지만, DB는 자기가 램을 100GB 먹어야 하는데 OS가 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시로 램을 선점하고 안 내놓으면 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))이 터지는 악연이다.
 
 - **📢 섹션 요약 비유**: 통합 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시는 정부(OS)가 나눠주는 '공공 무료 급식(캐시)'입니다. 돈 없는 스타트업(일반 앱)들은 이 무료 급식을 받아먹고 무럭무럭 자라서 행복합니다. 하지만 자체 최고급 셰프를 보유한 5성급 레스토랑(오라클 DB)은, 정부가 억지로 식당 앞에 공공 급식차([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache)를 주차해 놓으면 손님 동선만 방해되니 "급식차 빼!([O_DIRECT](/knowledge-base/studynote/02_operating_system/09_file_system/565_o_direct_io_bypass_cache/))"라고 시위를 하는 셈입니다.
@@ -166,19 +164,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">메모리 암호화 가상화 (AMD SME/SEV, Intel SGX)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">파일시스템 버퍼 캐시(Buffer Cache)와 가상 메모리 페이지 캐시(Page Cache)의 통합 원리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Cgroups 메모리 서브시스템의 자원 제한 (Memory Limit) 동작</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">eBPF 기반 메모리 할당 트레이싱</div></div>
-</div>
-</div>
-
-
+```text
+[메모리 암호화 가상화 (AMD SME/SEV, Intel SGX)]
+    │
+    ▼
+[파일시스템 버퍼 캐시(Buffer Cache)와 가상 메모리 페이지 캐시(Page Cache)의 통합 원리]
+    │
+    ├──▶ [Cgroups 메모리 서브시스템의 자원 제한 (Memory Limit) 동작]
+    └──▶ [eBPF 기반 메모리 할당 트레이싱]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

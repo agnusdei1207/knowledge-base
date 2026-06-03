@@ -49,18 +49,12 @@ tags = ["studynote-devops-sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">printf 로깅 (~2010s)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">구조화 로깅 (Serilog, 2013)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">JSON 로그 표준화 (2016~)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">OTel Log Signal (2023)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: 구조화 로그 + AI 이상 탐지</div></div>
-</div>
-</div>
-
-
+```text
+[printf 로깅 (~2010s)] → [구조화 로깅 (Serilog, 2013)]
+    → [JSON 로그 표준화 (2016~)]
+    → [OTel Log Signal (2023)]
+    → [현재: 구조화 로그 + AI 이상 탐지]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 비구조화 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 <strong>자유 형식 메모</strong>예요. 찾기 어려워요.

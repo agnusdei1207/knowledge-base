@@ -31,21 +31,15 @@ tags = ["studynote-operating-system"]
 
 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)에서는 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 중간에서 모든 자원을 조정한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Application</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Guest OS</div>
-<div class="kb-diagram-note">↓ 특권 명령 시도</div>
-<div class="kb-diagram-note">Hypervisor</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Physical Hardware</div>
-</div>
-</div>
-
-
+```text
+Application
+   ↓
+Guest OS
+   ↓  특권 명령 시도
+Hypervisor
+   ↓
+Physical Hardware
+```
 
 전통적인 x86 환경에서는 특권 명령을 가로채기 어려운 경우가 있어, [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 실행 코드를 바꾸거나 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)을 처리해야 했다.
 
@@ -85,21 +79,15 @@ tags = ["studynote-operating-system"]
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">게스트 운영체제</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">하이퍼바이저</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">이진 변환 / 트랩 처리</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">하드웨어 보조 가상화</div>
-</div>
-</div>
-
-
+```text
+게스트 운영체제
+   ↓
+하이퍼바이저
+   ↓
+이진 변환 / 트랩 처리
+   ↓
+하드웨어 보조 가상화
+```
 
 ---
 

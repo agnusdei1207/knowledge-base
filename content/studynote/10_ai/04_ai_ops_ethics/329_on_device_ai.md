@@ -23,17 +23,14 @@ tags = ["studynote-ai"]
 
 자율주행의 경우 더 명확하다. 브레이크 여부를 클라우드에 물어보고 100ms 후 답을 받으면 이미 사고다. <strong>엣지에서 1ms 내 결정</strong>이 생명을 구한다. 보안 카메라의 얼굴 인식도 영상을 클라우드로 보내면 [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) 위반 — 디바이스에서 처리하면 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 문제가 없다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 온디바이스 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) vs 클라우드 AI는 집 밖 vs 편의점의 차이다. 집에 있는 것(온디바이스)은 서버(편의점) 없이 즉시 사용 가능하지만 공간(메모리·연산)이 한정된다. 편의점(클라우드)은 모든 게 있지만 나갔다 와야 해서([네트워크 지연](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/)) 긴급 상황에는 집에 있는 것만 사용할 수 있다.
 
@@ -41,28 +38,31 @@ tags = ["studynote-ai"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">온디바이스 AI 시스템 스택 (스마트폰 기준)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">애플리케이션 레이어 (Application Layer):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">카메라 AI, 번역, 음성인식, 코드 완성, 이미지 생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AI 런타임 프레임워크 (AI Runtime):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TensorFlow Lite / CoreML / ONNX Runtime / MediaPipe</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">경량화 모델 (Lightweight Model):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">양자화 (INT4/INT8) + 지식 증류 + 프루닝 적용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예: LLaMA 3.2 1B (INT4) → 700MB → 스마트폰 DRAM에 로드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하드웨어 가속기 (NPU/DSP):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Apple ANE (Apple Neural Engine): 38 TOPS (조 연산/초)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">퀄컴 Hexagon NPU: 75 TOPS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">삼성 Exynos NPU: 34.4 TOPS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Google Tensor NPU: 51 TOPS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">특징: INT8/INT4 행렬 곱셈 특화 병렬 처리</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│         온디바이스 AI 시스템 스택 (스마트폰 기준)                     │
+├──────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  애플리케이션 레이어 (Application Layer):                           │
+│  카메라 AI, 번역, 음성인식, 코드 완성, 이미지 생성                    │
+│              │                                                   │
+│  AI 런타임 프레임워크 (AI Runtime):                                  │
+│  TensorFlow Lite / CoreML / ONNX Runtime / MediaPipe            │
+│              │                                                   │
+│  경량화 모델 (Lightweight Model):                                  │
+│  양자화 (INT4/INT8) + 지식 증류 + 프루닝 적용                       │
+│  예: LLaMA 3.2 1B (INT4) → 700MB → 스마트폰 DRAM에 로드           │
+│              │                                                   │
+│  하드웨어 가속기 (NPU/DSP):                                         │
+│  ┌─────────────────────────────────────────────────────────┐    │
+│  │  Apple ANE (Apple Neural Engine): 38 TOPS (조 연산/초)  │    │
+│  │  퀄컴 Hexagon NPU: 75 TOPS                              │    │
+│  │  삼성 Exynos NPU: 34.4 TOPS                             │    │
+│  │  Google Tensor NPU: 51 TOPS                             │    │
+│  │  특징: INT8/INT4 행렬 곱셈 특화 병렬 처리                  │    │
+│  └─────────────────────────────────────────────────────────┘    │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 | 비교 항목 | 온디바이스 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) | 클라우드 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) |
 |:---|:---|:---|

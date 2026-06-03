@@ -23,17 +23,14 @@ tags = ["studynote-ai"]
 
 이러한 <strong>정렬 문제 (Alignment Problem)</strong>를 해결하기 위해 오픈AI(OpenAI)는 강화학습([Reinforcement Learning](/knowledge-base/studynote/12_it_management/02_itsm_itil/094_reinforcement_learning/))의 아이디어를 끌고 왔다. 강아지에게 앉으라고 지시한 뒤, 잘 앉으면 간식을 주고 사람을 물면 혼을 내듯, AI가 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한 답변에 인간이 칭찬(보상, Reward)을 주어 모델을 인간의 가치관과 도덕성에 완벽히 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)시키는 <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/">RLHF</a> (<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/">Reinforcement Learning from Human Feedback</a>)</strong> 방법론을 완성했고, 그 결과물이 바로 세상을 뒤집은 ChatGPT다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 인터넷 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 그대로 삼킨 AI가 막말을 일삼는 '야생의 앵무새'라면, RLHF는 이 앵무새에게 나쁜 말을 하면 밥을 안 주고, 예쁜 말을 하면 해바라기씨(보상)를 주어 가장 예의 바른 '안내원 앵무새'로 길들이는 엄격한 조련 과정이다.
 
@@ -43,27 +40,27 @@ tags = ["studynote-ai"]
 
 RLHF의 아키텍처는 사람의 노동력과 수학적 모델링이 결합된 고도의 3단계 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인으로 굴러간다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RLHF (인간 피드백 강화학습) 3단계 아키텍처 사이클</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Step 1. SFT (Supervised Fine-Tuning)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 사람의 지시를 따를 수 있도록 인스트럭션 튜닝으로 기본 챗봇 훈련</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Step 2. RM (Reward Model) 보상 모델 훈련 - 핵심!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 질문: "달에 토끼가 살아?"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 챗봇이 4개의 다른 답변(A, B, C, D)을 생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 인간 채점자가 순위를 매김: B(사실) &gt; C(거절) &gt; A(거짓말) &gt; D(욕설)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* "이 인간의 채점 취향(점수)"을 그대로 외우는 2번째 심판 AI(RM)를 생성</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Step 3. PPO (Proximal Policy Optimization) 강화학습 최적화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 이제 인간은 퇴근하고, SFT 모델이 끝없이 답변을 뱉어냄</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 심판 AI(RM)가 답변을 보고 자동으로 점수(간식)를 줌</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* SFT 모델은 PPO 알고리즘을 통해 간식을 가장 많이 받는 방향으로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자신의 파라미터(말투, 논리)를 최종 업데이트함!</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           RLHF (인간 피드백 강화학습) 3단계 아키텍처 사이클          │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│  [Step 1. SFT (Supervised Fine-Tuning)]                      │
+│   * 사람의 지시를 따를 수 있도록 인스트럭션 튜닝으로 기본 챗봇 훈련         │
+│                                                              │
+│  [Step 2. RM (Reward Model) 보상 모델 훈련 - 핵심!]              │
+│   * 질문: "달에 토끼가 살아?"                                  │
+│   * 챗봇이 4개의 다른 답변(A, B, C, D)을 생성                       │
+│   * 인간 채점자가 순위를 매김: B(사실) > C(거절) > A(거짓말) > D(욕설)  │
+│   * "이 인간의 채점 취향(점수)"을 그대로 외우는 2번째 심판 AI(RM)를 생성│
+│                                                              │
+│  [Step 3. PPO (Proximal Policy Optimization) 강화학습 최적화] │
+│   * 이제 인간은 퇴근하고, SFT 모델이 끝없이 답변을 뱉어냄             │
+│   * 심판 AI(RM)가 답변을 보고 자동으로 점수(간식)를 줌                │
+│   * SFT 모델은 PPO 알고리즘을 통해 간식을 가장 많이 받는 방향으로        │
+│     자신의 파라미터(말투, 논리)를 최종 업데이트함!                    │
+└──────────────────────────────────────────────────────────────┘
+```
 
 **핵심 원리 (보상 모델과 PPO의 분리)**:
 수억 번의 답변을 인간이 일일이 채점할 수는 없다. 그래서 RLHF의 천재적인 아이디어는 인간의 채점(선호도) 기준을 흉내 내는 또 다른 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)인 <strong>보상 모델(<a href="/knowledge-base/studynote/10_ai/05_data_science_ml/403_rlhf_reward_model/">Reward Model</a>)</strong>을 먼저 훈련하는 것이다. 이후 인간 채점자는 빠지고, 본 모델(Actor)과 보상 모델(Critic) 간에 서로 무한대의 가상 랠리를 돌리며 점수를 극대화하는 방향으로 본 모델의 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 깎아나가는 <strong><a href="/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/">PPO</a> (근접 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> 최적화)</strong> [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 적용한다.

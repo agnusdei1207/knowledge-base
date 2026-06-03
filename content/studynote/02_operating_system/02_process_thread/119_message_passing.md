@@ -21,19 +21,15 @@ tags = ["studynote-operating-system"]
 
 메시지 전달 (Message Passing) 방식은 프로세스와 스레드의 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·실행·협력을 설명할 때 빠지지 않는 핵심 개념이다. 특히 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) ([Shared Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)) 방식에서 출발해 현재 구조가 왜 필요해졌는지를 이해하면, 이 개념이 단순 용어가 아니라 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 설계의 배경이라는 점이 분명해진다. 이 개념이 없으면 자원 배분 기준이 흔들리거나 시스템 동작이 예측 불가능해져 성능과 안정성 모두 악화된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">배경 문제</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">메시지 전달 (Message Passing) 방식</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">운영체제의 제어 가능성 향상</div></div>
-</div>
-</div>
-
-
+```text
+[배경 문제]
+    │
+    ▼
+[메시지 전달 (Message Passing) 방식]
+    │
+    ▼
+[운영체제의 제어 가능성 향상]
+```
 
 - **📢 섹션 요약 비유**: 복잡한 창고에서 필요한 물건을 찾기 위해 먼저 구역과 표지판을 세우는 것과 같다.
 
@@ -102,19 +98,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">공유 메모리 (Shared Memory) 방식</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">메시지 전달 (Message Passing) 방식</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">직접 통신 (Direct Communication)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">간접 통신 (Indirect Communication)</div></div>
-</div>
-</div>
-
-
+```text
+[공유 메모리 (Shared Memory) 방식]
+    │
+    ▼
+[메시지 전달 (Message Passing) 방식]
+    │
+    ├──▶ [직접 통신 (Direct Communication)]
+    └──▶ [간접 통신 (Indirect Communication)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

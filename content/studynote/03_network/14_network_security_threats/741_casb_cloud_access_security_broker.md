@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: 가트너(Gartner)가 명명한 용어로, <strong>기업의 내부 사용자(직원)와 외부 클라우드 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 공급자(AWS, MS 365, 구글 드라이브 등) 사이에 위치하여, 보안 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>을 강제하고 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 가시성(Visibility)을 확보하는 보안 중개자(Broker) 솔루션</strong>입니다. (앞선 740번 [SASE](/knowledge-base/studynote/03_network/14_network_security_threats/740_sase_secure_access_service_edge_sdwan_cloud/) 아키텍처의 핵심 구성 요소입니다.)
 - **배경 (Shadow IT의 공포)**: 회사 IT 부서의 허락을 받지 않고 직원들이 몰래 카카오톡, 드롭박스, 에버노트 등을 업무에 쓰는 <strong>'섀도우 IT(<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/049_shadow_it/">Shadow IT</a>)'</strong> 현상이 폭발하면서, 회사 기밀 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 통제 불능 상태로 새어 나가는 것을 막기 위해 탄생했습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SASE</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CASB</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SWG</div></div>
-</div>
-</div>
-
-
+```text
+[SASE]
+    │
+    ▼
+[CASB]
+    │
+    └──▶ [SWG]
+```
 
 - **📢 섹션 요약 비유**: CASB는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -53,18 +49,14 @@ tags = ["studynote-network"]
 ### 4. 위협 방지 (Threat [Protection](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/))
 - 클라우드에서 회사로 다운로드되는 파일에 랜섬웨어나 악성코드가 묻어있는지(샌드박스 연동) 스캔하고, 누군가 파리에서 로그인한 지 1시간 만에 뉴욕에서 클라우드에 접속하려 하면(불가능한 여행) 이상 행동으로 간주해 차단합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SASE</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CASB</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SWG</div></div>
-</div>
-</div>
-
-
+```text
+[SASE]
+    │
+    ▼
+[CASB]
+    │
+    └──▶ [SWG]
+```
 
 - **📢 섹션 요약 비유**: CASB의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -131,19 +123,15 @@ CASB는 [네트워크 보안](/knowledge-base/studynote/03_network/20_performanc
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: SASE</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: CASB</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: SWG</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: SASE]
+    │
+    ▼
+[현재 개념: CASB]
+    │
+    ├──▶ [확장 A: SWG]
+    └──▶ [확장 B: 예측형 위협 대응]
+```
 
 CASB는 SASE에서 출발해 현재 메커니즘을 정교화하고, 이후 SWG와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -18,22 +18,22 @@ tags = ["studynote-enterprise-systems"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">포터의 가치 사슬 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지원 활동</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기업 인프라 (재무, 법무, 경영 관리)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HRM (인적자원 관리)</div><div class="kb-diagram-cell">이윤</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기술 개발 (R&amp;D, IT, 자동화)</div><div class="kb-diagram-cell">(Margin)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조달 (구매, 공급업체 관리)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주활동 → 입고 → 운영 → 출고 → 마케팅 → 서비스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물류 생산 물류 영업 A/S</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────┐
+│           포터의 가치 사슬 구조                              │
+├──────────────────────────────────────────────────────────┤
+│  지원 활동                                                  │
+│  ┌──────────────────────────────────────────┐            │
+│  │ 기업 인프라 (재무, 법무, 경영 관리)         │            │
+│  │ HRM (인적자원 관리)                        │  이윤       │
+│  │ 기술 개발 (R&D, IT, 자동화)                │  (Margin)  │
+│  │ 조달 (구매, 공급업체 관리)                  │            │
+│  └──────────────────────────────────────────┘            │
+│                                                           │
+│  주활동 →  입고 → 운영 → 출고 → 마케팅 → 서비스           │
+│        물류  생산  물류  영업   A/S                         │
+└──────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [가치 사슬](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/)은 레스토랑의 요리 과정이다. 식재료 구입(입고 물류) → 요리(운영) → 서빙(출고 물류) → 광고(마케팅·영업) → 후식·[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(A/S). 각 단계에서 비용을 낮추거나 맛을 높여야(차별화) 이윤이 커진다.
 
@@ -111,23 +111,21 @@ tags = ["studynote-enterprise-systems"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">전통 가치 사슬 — 물리적 활동 비용 최적화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IT 접목 (ERP/SCM/CRM) — 주활동 디지털화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">디지털 가치 사슬 — AI·IoT·클라우드 전 활동 혁신</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">플랫폼 가치 사슬 — 활동 자체를 사업화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">생태계 가치 사슬 — 산업 경계 초월 협업 네트워크</div></div>
-</div>
-</div>
-
-
+```text
+[전통 가치 사슬 — 물리적 활동 비용 최적화]
+    │
+    ▼
+[IT 접목 (ERP/SCM/CRM) — 주활동 디지털화]
+    │
+    ▼
+[디지털 가치 사슬 — AI·IoT·클라우드 전 활동 혁신]
+    │
+    ▼
+[플랫폼 가치 사슬 — 활동 자체를 사업화]
+    │
+    ▼
+[생태계 가치 사슬 — 산업 경계 초월 협업 네트워크]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

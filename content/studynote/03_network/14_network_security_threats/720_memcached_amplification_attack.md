@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: 멤캐시드는 구글, 트위터 같은 대형 사이트들이 느려터진 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)(DB)를 매번 뒤지는 시간을 아끼기 위해, 램(RAM) 메모리에 자주 쓰는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 임시로 올려두고 빛의 속도로 꺼내 쓰는 <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a> <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> <a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/295_olap_operations/">메모리 캐싱</a> 시스템</strong>입니다.
 - **치명적 특징**: 오직 "속도" 하나만을 위해 만들어진 내부망 전용 소프트웨어라, <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/">사용자 인증</a>(비밀번호 검사) 기능이 아예 없고, <a href="/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a> <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>(11211번)</strong>를 활짝 열어두고 아무나 던지는 패킷을 빛의 속도로 처리해 버리는 극강의 멍청함과 순진함을 가졌습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DNS 증폭</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Memcached 증폭 서버 공격 방어 미흡</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SLOW GET / SLOW POST 공격</div></div>
-</div>
-</div>
-
-
+```text
+[DNS 증폭]
+    │
+    ▼
+[Memcached 증폭 서버 공격 방어 미흡]
+    │
+    └──▶ [SLOW GET / SLOW POST 공격]
+```
 
 - **📢 섹션 요약 비유**: Memcached 증폭 서버 공격 방어 미흡은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -52,18 +48,14 @@ tags = ["studynote-network"]
 - 해커는 방금 그 멍청한 서버를 향해 딱 <strong>15바이트</strong>짜리 짧은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 날립니다. *"야, 아까 내가 저장해 둔 그 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Get 명령) 싹 다 뱉어내!"*
 - **폭발**: 멍청한 서버는 타겟(피해자)이 요청한 줄 알고, 아까 품고 있던 거대한 1MB짜리 쓰레기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 피해자에게 냅다 토해냅니다. 해커가 던진 15바이트의 조약돌이 무려 <strong>1MB (약 51,000배 증폭) 크기의 핵폭탄</strong>이 되어 피해자의 서버를 완전히 부숴버립니다. (2018년 Github가 이 공격으로 1.35 Tbps라는 사상 초유의 트래픽을 얻어맞고 기절했습니다.)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DNS 증폭</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Memcached 증폭 서버 공격 방어 미흡</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SLOW GET / SLOW POST 공격</div></div>
-</div>
-</div>
-
-
+```text
+[DNS 증폭]
+    │
+    ▼
+[Memcached 증폭 서버 공격 방어 미흡]
+    │
+    └──▶ [SLOW GET / SLOW POST 공격]
+```
 
 - **📢 섹션 요약 비유**: Memcached 증폭 서버 공격 방어 미흡의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -125,19 +117,15 @@ Memcached 증폭 서버 공격 방어 미흡은 [네트워크 보안](/knowledge
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: DNS 증폭</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: Memcached 증폭 서버 공격 방어 미흡</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: SLOW GET / SLOW POST 공격</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: DNS 증폭]
+    │
+    ▼
+[현재 개념: Memcached 증폭 서버 공격 방어 미흡]
+    │
+    ├──▶ [확장 A: SLOW GET / SLOW POST 공격]
+    └──▶ [확장 B: 예측형 위협 대응]
+```
 
 Memcached 증폭 서버 공격 방어 미흡는 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 증폭에서 출발해 현재 메커니즘을 정교화하고, 이후 SLOW GET / SLOW POST 공격와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

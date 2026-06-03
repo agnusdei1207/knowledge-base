@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 모뎀은 **Mo**dulator(변조기)와 <strong><a href="/knowledge-base/studynote/09_security/03_network_security/135_dem_data_encapsulation/">Dem</a></strong>odulator(복조기)의 합성어입니다.
 컴퓨터 내부의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 직류 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)(예: +5V는 1, 0V는 0) 형태의 펄스파입니다. 이 각진 디지털 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)는 공기나 아날로그 구리선을 만나면 얼마 못 가 모양이 찌그러지고 사라집니다. 이를 멀리 보내기 위해 일정한 파동(아날로그 [반송파](/knowledge-base/studynote/03_network/01_data_communication/054_반송파_Carrier_Wave/))에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 싣는 작업을 변조, 반대로 파동에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 추출하는 작업을 복조라고 합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DSU / CSU</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">모뎀</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">케이블 모뎀 / DOCSIS 표준</div></div>
-</div>
-</div>
-
-
+```text
+[DSU / CSU]
+    │
+    ▼
+[모뎀]
+    │
+    └──▶ [케이블 모뎀 / DOCSIS 표준]
+```
 
 - **📢 섹션 요약 비유**: 모뎀은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -49,18 +45,14 @@ tags = ["studynote-network"]
 ### 통신 속도의 한계
 음성 전화선이 통과시킬 수 있는 주파수 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)은 300Hz ~ 3,400Hz (약 3.1kHz [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))로 매우 좁게 제한되어 있습니다. 나이퀴스트와 샤논의 정리에 따라, 이렇게 좁은 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)에서는 아무리 정교한 모뎀 기술(V.90 표준 등)을 써도 물리적으로 **최대 56 Kbps** 이상의 속도를 낼 수 없었습니다. (사진 한 장 받는 데 수 분이 걸림)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DSU / CSU</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">모뎀</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">케이블 모뎀 / DOCSIS 표준</div></div>
-</div>
-</div>
-
-
+```text
+[DSU / CSU]
+    │
+    ▼
+[모뎀]
+    │
+    └──▶ [케이블 모뎀 / DOCSIS 표준]
+```
 
 - **📢 섹션 요약 비유**: 모뎀의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -124,19 +116,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: DSU / CSU</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 모뎀</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 케이블 모뎀 / DOCSIS 표준</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고속 광전송 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: DSU / CSU]
+    │
+    ▼
+[현재 개념: 모뎀]
+    │
+    ├──▶ [확장 A: 케이블 모뎀 / DOCSIS 표준]
+    └──▶ [확장 B: 고속 광전송 최적화]
+```
 
 모뎀는 [DSU](/knowledge-base/studynote/03_network/03_physical_layer_media/145_dsu_csu_digital_service_unit/) / CSU에서 출발해 현재 메커니즘을 정교화하고, 이후 [케이블 모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/147_cable_modem_docsis/) / DOCSIS 표준와 고속 광전송 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

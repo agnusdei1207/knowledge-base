@@ -47,17 +47,11 @@ Non-Equi·Self JOIN은 <strong><a href="/knowledge-base/studynote/05_database/02
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Equi JOIN (기본)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Non-Equi JOIN (범위)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Self JOIN (자기 참조)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Recursive CTE (계층 대체)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: Graph Query — 계층·관계 전용 쿼리</div></div>
-</div>
-</div>
-
-
+```text
+[Equi JOIN (기본)] → [Non-Equi JOIN (범위)]
+    → [Self JOIN (자기 참조)] → [Recursive CTE (계층 대체)]
+    → [현재: Graph Query — 계층·관계 전용 쿼리]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. Non-Equi는 <strong>"키가 150~160이면 M사이즈"</strong>처럼 범위로 매칭해요.

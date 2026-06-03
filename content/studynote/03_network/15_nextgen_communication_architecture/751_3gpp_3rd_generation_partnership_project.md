@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: 전 세계의 주요 통신 표준 기관(한국의 TTA, 유럽의 ETSI, 일본의 TTC 등)과 이동통신사, 통신 장비 제조사(삼성, 에릭슨, 노키아)들이 연합하여 설립한 <strong>이동통신 기술 국제 표준화 기구</strong>입니다.
 - **배경**: 2G 시절에는 유럽의 GSM 방식과 한국/미국의 [CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) 방식이 서로 달라 폰을 외국에서 쓸 수 없었습니다. 3G 시대([WCDMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/091_동기식_비동기식_CDMA_WCDMA/))로 넘어오면서 글로벌 단일 표준을 만들기 위해 1998년에 결성되었습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">ISO 27001 네트워크 통제 및 개인정보…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3GPP 표준 개발</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">LTE All-IP 패킷 교환 완전 전환,…</div></div>
-</div>
-</div>
-
-
+```text
+[ISO 27001 네트워크 통제 및 개인정보…]
+    │
+    ▼
+[3GPP 표준 개발]
+    │
+    └──▶ [LTE All-IP 패킷 교환 완전 전환,…]
+```
 
 - **📢 섹션 요약 비유**: 3GPP 표준 개발은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -50,18 +46,14 @@ tags = ["studynote-network"]
 - **Release 16**: 5G의 3대 요소([초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/), 초저지연, 초연결) 중 초저지연([URLLC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/))과 자율주행([V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/)) 통신을 본격적으로 완성한 5G의 완성판.
 - **Release 18 이상**: 현재 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)-Advanced와 차세대 [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 시대를 위한 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)) 접목 네트워크 및 [저궤도 위성](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/) 통신 표준안을 치열하게 논의 중입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">ISO 27001 네트워크 통제 및 개인정보…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3GPP 표준 개발</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">LTE All-IP 패킷 교환 완전 전환,…</div></div>
-</div>
-</div>
-
-
+```text
+[ISO 27001 네트워크 통제 및 개인정보…]
+    │
+    ▼
+[3GPP 표준 개발]
+    │
+    └──▶ [LTE All-IP 패킷 교환 완전 전환,…]
+```
 
 - **📢 섹션 요약 비유**: 3GPP 표준 개발의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -120,19 +112,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: ISO 27001 네트워크 통제 및 개인정보…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 3GPP 표준 개발</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: LTE All-IP 패킷 교환 완전 전환,…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 네트워크 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: ISO 27001 네트워크 통제 및 개인정보…]
+    │
+    ▼
+[현재 개념: 3GPP 표준 개발]
+    │
+    ├──▶ [확장 A: LTE All-IP 패킷 교환 완전 전환,…]
+    └──▶ [확장 B: AI 기반 네트워크 최적화]
+```
 
 3GPP 표준 개발는 ISO 27001 네트워크 통제 및 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)…에서 출발해 현재 메커니즘을 정교화하고, 이후 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) All-IP [패킷 교환](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/276_packet_switching_vs_circuit_switching_message_switching/) 완전 전환,…와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

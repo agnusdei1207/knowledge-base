@@ -120,19 +120,15 @@ private static volatile Singleton instance; // 핵심: volatile 선언!
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">스레드 풀 스케줄링 락 경합 (Work Stealing)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">더블 체크드 락킹 (Double-Checked Locking) 안티패턴 및 해결 (volatile)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">세큐어 코딩에서의 동기화 약점 (TOCTOU: Time of Check to Time of Use)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">임계 구역 크기 최소화 기법</div></div>
-</div>
-</div>
-
-
+```text
+[스레드 풀 스케줄링 락 경합 (Work Stealing)]
+    │
+    ▼
+[더블 체크드 락킹 (Double-Checked Locking) 안티패턴 및 해결 (volatile)]
+    │
+    ├──▶ [세큐어 코딩에서의 동기화 약점 (TOCTOU: Time of Check to Time of Use)]
+    └──▶ [임계 구역 크기 최소화 기법]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

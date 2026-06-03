@@ -27,23 +27,19 @@ tags = ["security"]
 
 💡 **비유하자면**, 중세 시대 성을 지킬 때 해자(물웅덩이)를 파고, 그 뒤에 높은 성벽을 쌓고, 성문을 두껍게 만들고, 성 안에도 내성을 따로 두어 적이 한 곳을 뚫더라도 다음 장애물에 부딪히게 만드는 것과 같습니다.
 
+```text
+[단일 방어의 한계와 심층 방어의 필요성]
 
+(단일 방어 실패 시나리오)
+[Hacker] ──(Phishing)──> [Firewall 우회] ──> [내부망 평문 통신] ──> [DB 전체 탈취]
+                           ▲ 단일 실패점(SPOF) 발생 시 전면 붕괴
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">단일 방어의 한계와 심층 방어의 필요성</div></div>
-<div class="kb-diagram-note">(단일 방어 실패 시나리오)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Hacker</div><div class="kb-diagram-note">──(Phishing)──&gt;</div><div class="kb-diagram-node">Firewall 우회</div><div class="kb-diagram-note">──&gt;</div><div class="kb-diagram-node">내부망 평문 통신</div><div class="kb-diagram-note">──&gt;</div><div class="kb-diagram-node">DB 전체 탈취</div></div>
-<div class="kb-diagram-note">▲ 단일 실패점(SPOF) 발생 시 전면 붕괴</div>
-<div class="kb-diagram-note">(심층 방어 적용 시나리오)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Hacker</div><div class="kb-diagram-note">──(Phishing)──&gt;</div><div class="kb-diagram-node">이메일 필터(차단)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─(우회)──&gt;</div><div class="kb-diagram-node">엔드포인트 EDR(격리)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─(우회)──&gt;</div><div class="kb-diagram-node">내부망 세그멘테이션(접근 거부)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─(우회)──&gt;</div><div class="kb-diagram-node">DB 암호화(데이터 해독 불가)</div></div>
-</div>
-</div>
-
-
+(심층 방어 적용 시나리오)
+[Hacker] ──(Phishing)──> [이메일 필터(차단)]
+           └─(우회)──> [엔드포인트 EDR(격리)]
+                       └─(우회)──> [내부망 세그멘테이션(접근 거부)]
+                                   └─(우회)──> [DB 암호화(데이터 해독 불가)]
+```
 
 이 흐름도는 방어 계층이 겹겹이 쌓여 있을 때 공격자가 각 단계를 돌파하기 위해 더 많은 비용과 시간을 소모해야 함을 직관적으로 보여준다. 이러한 배치는 공격자가 내뿜는 '노이즈([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))'를 여러 구간에서 수집할 수 있게 해주며, 따라서 방어자는 선제적으로 공격을 탐지하고 차단할 기회를 얻는다. 실무에서는 이러한 방어선이 서로 다른 제조사나 다른 방식의 기술로 구성되어야(다양성) 효과가 극대화된다.
 
@@ -63,21 +59,28 @@ tags = ["security"]
 | **애플리케이션 보안** | [WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/), [시큐어 코딩](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/), [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/)/[DAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/) | SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/), [XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/) 등 소프트웨어 취약점 악용 차단 | 독극물 검사기 |
 | <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 보안</strong> | DB 암호화, [DLP](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/386_dlp/), 접근 제어, 해싱 | 최종 목표 자산의 기밀성과 [무결성 보장](/knowledge-base/studynote/05_database/07_exam_summary/442_consistency_integrity/) | 강철 금고 |
 
+```text
+[심층 방어의 양파 껍질 (Onion) 아키텍처]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">심층 방어의 양파 껍질 (Onion) 아키텍처</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Policies &amp; Procedures</div><div class="kb-diagram-cell">(관리적 통제)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Physical Security</div><div class="kb-diagram-cell">(물리적 통제)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Network Security</div><div class="kb-diagram-cell">(기술적 통제)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Host/Endpoint</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Application</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DATA (자산)</div></div>
-</div>
-</div>
-
-
+       ┌───────────────────────────────────────────────────┐
+       │                 Policies & Procedures             │ (관리적 통제)
+       │  ┌─────────────────────────────────────────────┐  │
+       │  │               Physical Security             │  │ (물리적 통제)
+       │  │  ┌───────────────────────────────────────┐  │  │
+       │  │  │            Network Security           │  │  │ (기술적 통제)
+       │  │  │  ┌─────────────────────────────────┐  │  │  │
+       │  │  │  │          Host/Endpoint          │  │  │  │
+       │  │  │  │  ┌───────────────────────────┐  │  │  │  │
+       │  │  │  │  │        Application        │  │  │  │  │
+       │  │  │  │  │  ┌─────────────────────┐  │  │  │  │  │
+       │  │  │  │  │  │    DATA (자산)    │  │  │  │  │  │
+       │  │  │  │  │  └─────────────────────┘  │  │  │  │  │
+       │  │  │  │  └───────────────────────────┘  │  │  │  │
+       │  │  │  └─────────────────────────────────┘  │  │  │
+       │  │  └───────────────────────────────────────┘  │  │
+       │  └─────────────────────────────────────────────┘  │
+       └───────────────────────────────────────────────────┘
+```
 
 이 양파 껍질 구조도의 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)라는 가장 중요한 자산을 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하기 위해, 외곽에서부터 독립된 제어 장치들이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 감싸고 있다는 점이다. 특히 주목할 부분은 맨 바깥을 둘러싼 '[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 및 절차'이다. 아무리 기술적 통제가 훌륭해도 관리적 통제(비밀번호 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 보안 교육)가 무너지면 내부자를 통해 가장 안쪽의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 쉽게 뚫릴 수 있기 때문이다. 실무에서는 각 계층 간의 상호 의존성을 최소화하여, 한 계층이 손상되더라도 다른 계층이 영향을 받지 않도록 설계해야 한다.
 
@@ -98,21 +101,19 @@ tags = ["security"]
 | **신뢰 모델** | 내부망에 들어오면 일정 수준 신뢰 (Trust but Verify) | 내부망이라도 절대 신뢰 불가 (Never Trust, Always Verify) | ZTA를 심층 방어의 가장 강력한 내부 계층으로 편입 |
 | **핵심 기술** | [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/), [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/), 망 분리 | [MFA](/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/), [마이크로 세그멘테이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/), 동적 권한 제어 | [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)으로 노이즈를 줄이고, ZTA로 정밀 타격 방어 |
 
+```text
+[DiD와 ZTA의 상호 보완적 아키텍처 매트릭스]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DiD와 ZTA의 상호 보완적 아키텍처 매트릭스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제어 평면 (Control Plane - ZTA)</div></div>
-<div class="kb-diagram-note">데이터 평면</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Data Plane - DiD)</div><div class="kb-diagram-cell">신원 (Identity)</div><div class="kb-diagram-cell">기기 (Device)</div><div class="kb-diagram-cell">맥락 (Context)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Network Layer</div><div class="kb-diagram-cell">802.1x 인증</div><div class="kb-diagram-cell">NAC / VPN</div><div class="kb-diagram-cell">위치 기반 제어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Endpoint Layer</div><div class="kb-diagram-cell">MFA 로그인</div><div class="kb-diagram-cell">EDR 무결성</div><div class="kb-diagram-cell">이상 행위 탐지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. App/Data Layer</div><div class="kb-diagram-cell">SSO / OIDC</div><div class="kb-diagram-cell">토큰 바인딩</div><div class="kb-diagram-cell">JIT 권한 부여</div></div>
-</div>
-</div>
-
-
+┌───────────────────┬────────────────────────────────────────────┐
+│                   │        제어 평면 (Control Plane - ZTA)     │
+│   데이터 평면     ├───────────────┬──────────────┬─────────────┤
+│ (Data Plane - DiD)│ 신원 (Identity) │ 기기 (Device)│ 맥락 (Context)│
+├───────────────────┼───────────────┼──────────────┼─────────────┤
+│ 1. Network Layer  │ 802.1x 인증   │ NAC / VPN    │ 위치 기반 제어│
+│ 2. Endpoint Layer │ MFA 로그인    │ EDR 무결성   │ 이상 행위 탐지│
+│ 3. App/Data Layer │ SSO / OIDC    │ 토큰 바인딩  │ JIT 권한 부여 │
+└───────────────────┴───────────────┴──────────────┴─────────────┘
+```
 
 이 매트릭스는 전통적인 물리/네트워크 인프라 계층([DiD](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/))에 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)의 동적 신원 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)([ZTA](/knowledge-base/studynote/09_security/01_intro_principles/047_zta/))이 어떻게 씨줄과 날줄로 엮이는지를 보여준다. 이 방식은 DiD의 '다중 계층'이라는 장점을 살리면서도 DiD의 고질적인 약점인 '한 번 뚫린 후의 내부 횡적 이동(Lateral Movement)'을 완벽하게 통제한다. 반면 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)만 단독으로 구축할 경우, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 할 트래픽이 폭주하여 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 서버가 마비될 수 있다. 따라서 DiD로 무가치한 트래픽을 사전에 필터링하고 핵심 트래픽만 ZTA로 넘기는 것이 실무의 정석이다.
 
@@ -133,20 +134,17 @@ tags = ["security"]
 - **Alert Fatigue (경고 피로)**: 너무 많은 계층에서 동일한 이벤트에 대한 알람을 발생시켜, 보안 관제 요원([SOC](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/))이 피로감에 빠져 정작 중요한 경고를 무시하는 현상. SIEM을 도입하여 다중 계층의 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 정규화하고 [상관 분석](/knowledge-base/studynote/06_ict_convergence/05_data_science/325_correlation_analysis_pearson_spearman/)(Correlation)하는 체계가 필수적이다.
 - **복잡성 증가로 인한 장애**: 트래픽이 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) → [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/) → [WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/) → [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 등 너무 많은 인라인(In-line) 장비를 거치면서 레이턴시([지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))가 기하급수적으로 증가하거나 정당한 비즈니스 트래픽이 차단되는 현상.
 
+```text
+[심층 방어에서의 사고 대응 타이밍 타이밍도]
 
+공격 시작 ────> 침투 완료 ──────────> 데이터 유출 ────────> 복구 완료
+    ├────── T1 ──────┼──────── T2 ────────┼────── T3 ──────┤
+    │                │                    │                │
+[Protection]     [Detection]          [Response]      [Recovery]
+ (방화벽/IPS)      (EDR/SIEM)          (SOAR/차단)      (백업/패치)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">심층 방어에서의 사고 대응 타이밍 타이밍도</div></div>
-<div class="kb-diagram-note">공격 시작 &gt; 침투 완료 &gt; 데이터 유출 &gt; 복구 완료</div>
-<div class="kb-diagram-tree-item" style="--depth:2">T1 T2 T3</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Protection</div><div class="kb-diagram-node">Detection</div><div class="kb-diagram-node">Response</div><div class="kb-diagram-node">Recovery</div></div>
-<div class="kb-diagram-note">(방화벽/IPS) (EDR/SIEM) (SOAR/차단) (백업/패치)</div>
-<div class="kb-diagram-note">* 승리 조건: T1(보호 지연 시간) + T2(탐지 시간) &lt; T_Attack(공격자의 목표 달성 시간)</div>
-</div>
-</div>
-
-
+* 승리 조건: T1(보호 지연 시간) + T2(탐지 시간) < T_Attack(공격자의 목표 달성 시간)
+```
 
 이 타이밍 그래프의 핵심은 심층 방어의 목표가 단순한 '차단'이 아니라 '시간 싸움'이라는 점이다. 완벽한 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)([Protection](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/))가 불가능하다면, 방어 계층들이 공격자를 최대한 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(T1 증가)시키는 동안 탐지(T2 감소)와 대응 역량을 결합하여 공격이 완료되기 전에 프로세스를 끊어내야 한다. 따라서 실무에서는 방어 장비의 갯수만 늘리는 것이 아니라 탐지 가시성(Visibility)과 대응 자동화([SOAR](/knowledge-base/studynote/03_network/14_network_security_threats/745_soar_security_orchestration_automation_response/))를 병행해야 심층 방어가 완성된다.
 
@@ -180,23 +178,21 @@ tags = ["security"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">경계 방어 (Perimeter Defense) — 단일 방어선</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">심층 방어 (Defense in Depth) — 다중 레이어</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">제로 트러스트 (Zero Trust) — 내부도 불신</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">마이크로 세그멘테이션 (Micro-segmentation) — 최소 접근</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SASE (Secure Access Service Edge) — 클라우드 통합 보안</div></div>
-</div>
-</div>
-
-
+```text
+[경계 방어 (Perimeter Defense) — 단일 방어선]
+    │
+    ▼
+[심층 방어 (Defense in Depth) — 다중 레이어]
+    │
+    ▼
+[제로 트러스트 (Zero Trust) — 내부도 불신]
+    │
+    ▼
+[마이크로 세그멘테이션 (Micro-segmentation) — 최소 접근]
+    │
+    ▼
+[SASE (Secure Access Service Edge) — 클라우드 통합 보안]
+```
 
 이 흐름은 외곽 한 줄 방어에서 시작해, 여러 겹의 방어층과 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)를 거쳐 클라우드 중심의 통합 보안으로 진화하는 흐름을 보여준다.
 

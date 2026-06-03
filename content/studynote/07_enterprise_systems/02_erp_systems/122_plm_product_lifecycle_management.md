@@ -18,22 +18,20 @@ tags = ["studynote-enterprise-systems"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PLM이 관리하는 제품 전주기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기획 → 설계(CAD) → 시뮬레이션(CAE) → 제조(CAM)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 품질관리 → 서비스·유지보수 → 폐기·재활용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PLM 관리 대상:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- CAD 도면·3D 모델</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- BOM (Bill of Materials, 부품 목록)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- ECO (Engineering Change Order, 설계 변경)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 품질·시험 데이터</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    PLM이 관리하는 제품 전주기                          │
+├───────────────────────────────────────────────────────┤
+│  기획 → 설계(CAD) → 시뮬레이션(CAE) → 제조(CAM)     │
+│     → 품질관리 → 서비스·유지보수 → 폐기·재활용      │
+│                                                       │
+│  PLM 관리 대상:                                       │
+│   - CAD 도면·3D 모델                                 │
+│   - BOM (Bill of Materials, 부품 목록)               │
+│   - ECO (Engineering Change Order, 설계 변경)        │
+│   - 품질·시험 데이터                                 │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: PLM은 제품의 <strong>출생(기획)부터 사망(폐기)</strong>까지의 모든 기록을 보관하는 전자 건강 기록부다.
 
@@ -90,23 +88,21 @@ PLM은 <strong>제조업 <a href="/knowledge-base/studynote/04_software_engineer
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">PDM (Product Data Management, 1990s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">PLM (전주기 확장, 2000s) — Siemens·PTC·Dassault</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">클라우드 PLM (2015~) — SaaS 기반</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Digital Thread + 디지털 트윈 (2020~)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: AI PLM — 생성적 설계·자동 BOM 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[PDM (Product Data Management, 1990s)]
+    │
+    ▼
+[PLM (전주기 확장, 2000s) — Siemens·PTC·Dassault]
+    │
+    ▼
+[클라우드 PLM (2015~) — SaaS 기반]
+    │
+    ▼
+[Digital Thread + 디지털 트윈 (2020~)]
+    │
+    ▼
+[현재: AI PLM — 생성적 설계·자동 BOM 최적화]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. PLM은 제품의 <strong>출생(기획)부터 은퇴(폐기)</strong>까지의 모든 기록을 관리하는 시스템이에요.

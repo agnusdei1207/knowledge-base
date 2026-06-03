@@ -37,80 +37,68 @@ tags = ["studynote-design-supervision"]
 | **Token Bucket** | **토큰 소비 방식** | **허용** | **중간** |
 | Leaky Bucket | 큐를 통한 일정 속도 출력 | 흡수 후 평활화 | 중간 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Core Idea</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Expected Gain</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐    ┌──────────────┐    ┌──────────────┐
+│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
+└──────────────┘    └──────────────┘    └──────────────┘
+```
 
 - **📢 섹션 요약 비유**: Rate Limiting은 놀이공원 입장 관리 — 아무리 많은 손님이 몰려도 회전문이 초당 R명만 통과시키고, 토큰 버킷은 대기열에 R명씩 들어가는 입장권(토큰)을 주는 방식이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
+```
+┌─────────────────────────────────────────────────────────────┐
+│                   Token Bucket Algorithm                    │
+│                                                             │
+│  토큰 생성:                                                   │
+│    초당 R개 토큰 추가 ────▶  ┌──────────────────┐            │
+│    (Rate Refill)            │    Token Bucket   │            │
+│                             │  [T][T][T][T][T]  │            │
+│                             │  capacity = B개   │            │
+│                             └────────┬─────────┘            │
+│                                      │                       │
+│  요청 처리:                            │                       │
+│    ┌──────────┐  토큰 있음?  토큰 소비  │                       │
+│    │ Request  │────────────▶ (1개 차감) └──▶  처리(200 OK)    │
+│    └──────────┘                                             │
+│         │        토큰 없음                                    │
+│         └─────────────────────────────▶  거부(429 Too Many) │
+│                                                             │
+│  파라미터:                                                    │
+│    R (Rate): 초당 토큰 충전 속도                               │
+│    B (Bucket): 버킷 최대 용량 (최대 버스트 크기)               │
+└─────────────────────────────────────────────────────────────┘
+```
 
+```
+Token Bucket (토큰 버킷):
+  입력:  [burst][burst][burst]···[quiet]···
+  처리:  [burst][burst][burst]···[quiet]···
+  → 버킷에 토큰이 있으면 버스트 즉시 처리
+  → 버킷 비면 거부 (거부 또는 대기)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Token Bucket Algorithm</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">토큰 생성:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">초당 R개 토큰 추가 ▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Rate Refill)</div><div class="kb-diagram-cell">Token Bucket</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">T</div><div class="kb-diagram-node">T</div><div class="kb-diagram-node">T</div><div class="kb-diagram-node">T</div><div class="kb-diagram-node">T</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">capacity = B개</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요청 처리:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">토큰 있음? 토큰 소비</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Request</div><div class="kb-diagram-cell">▶ (1개 차감) ──▶ 처리(200 OK)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">토큰 없음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 거부(429 Too Many)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파라미터:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">R (Rate): 초당 토큰 충전 속도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B (Bucket): 버킷 최대 용량 (최대 버스트 크기)</div></div>
-</div>
-</div>
+Leaky Bucket (리키 버킷):
+  입력:  [burst][burst][burst]···[quiet]···
+  처리:  [▬][▬][▬][▬][▬][▬][▬]···  (일정 속도)
+  → 버스트를 버킷에 흡수하고 일정 속도로 '새어 나옴'
+  → 버킷 넘침 시 패킷 드롭
+```
 
+```
+AWS API Gateway 쓰로틀링 설정:
+  Rate (속도):  초당 요청 수 (rps)
+  Burst:        순간 최대 요청 수 (버킷 크기)
 
+예시:
+  Rate  = 100 rps (초당 100개 토큰 충전)
+  Burst = 500     (버킷 용량, 최대 버스트)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Token Bucket (토큰 버킷):</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">입력:</div><div class="kb-diagram-node">burst</div><div class="kb-diagram-node">burst</div><div class="kb-diagram-node">burst</div><div class="kb-diagram-note">···</div><div class="kb-diagram-node">quiet</div><div class="kb-diagram-note">···</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">처리:</div><div class="kb-diagram-node">burst</div><div class="kb-diagram-node">burst</div><div class="kb-diagram-node">burst</div><div class="kb-diagram-note">···</div><div class="kb-diagram-node">quiet</div><div class="kb-diagram-note">···</div></div>
-<div class="kb-diagram-note">→ 버킷에 토큰이 있으면 버스트 즉시 처리</div>
-<div class="kb-diagram-note">→ 버킷 비면 거부 (거부 또는 대기)</div>
-<div class="kb-diagram-note">Leaky Bucket (리키 버킷):</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">입력:</div><div class="kb-diagram-node">burst</div><div class="kb-diagram-node">burst</div><div class="kb-diagram-node">burst</div><div class="kb-diagram-note">···</div><div class="kb-diagram-node">quiet</div><div class="kb-diagram-note">···</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">처리:</div><div class="kb-diagram-node">▬</div><div class="kb-diagram-node">▬</div><div class="kb-diagram-node">▬</div><div class="kb-diagram-node">▬</div><div class="kb-diagram-node">▬</div><div class="kb-diagram-node">▬</div><div class="kb-diagram-node">▬</div><div class="kb-diagram-note">··· (일정 속도)</div></div>
-<div class="kb-diagram-note">→ 버스트를 버킷에 흡수하고 일정 속도로 '새어 나옴'</div>
-<div class="kb-diagram-note">→ 버킷 넘침 시 패킷 드롭</div>
-</div>
-</div>
-
-
-
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">AWS API Gateway 쓰로틀링 설정:</div>
-<div class="kb-diagram-note">Rate (속도): 초당 요청 수 (rps)</div>
-<div class="kb-diagram-note">Burst: 순간 최대 요청 수 (버킷 크기)</div>
-<div class="kb-diagram-note">예시:</div>
-<div class="kb-diagram-note">Rate = 100 rps (초당 100개 토큰 충전)</div>
-<div class="kb-diagram-note">Burst = 500 (버킷 용량, 최대 버스트)</div>
-<div class="kb-diagram-note">→ 평시: 초당 100 요청 처리</div>
-<div class="kb-diagram-note">→ 갑자기 500 요청: 버킷에 토큰 남아있으면 즉시 처리</div>
-<div class="kb-diagram-note">→ 500 초과: 429 Too Many Requests 반환</div>
-</div>
-</div>
-
-
+  → 평시: 초당 100 요청 처리
+  → 갑자기 500 요청: 버킷에 토큰 남아있으면 즉시 처리
+  → 500 초과: 429 Too Many Requests 반환
+```
 
 | 항목 | 설명 | 포인트 |
 |:---|:---|:---|

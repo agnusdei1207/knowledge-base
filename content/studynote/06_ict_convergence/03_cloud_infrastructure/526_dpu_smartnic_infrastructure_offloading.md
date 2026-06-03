@@ -36,22 +36,23 @@ tags = ["studynote-ict-convergence"]
 
 <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/">DPU</a> 내부 구조</strong>:
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DPU / SmartNIC 카드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NIC 포트</div><div class="kb-diagram-cell">ARM 코어</div><div class="kb-diagram-cell">FPGA/ASIC 가속기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(100/400Gbps)</div><div class="kb-diagram-cell">(OS 실행</div><div class="kb-diagram-cell">(암호화, 압축,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SW 프로그래밍)</div><div class="kb-diagram-cell">매칭, 오프로드)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PCIe 인터페이스</div></div>
-<div class="kb-diagram-note">↕ PCIe 연결</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">호스트 CPU</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(애플리케이션)</div></div>
-</div>
-</div>
-
-
+```
+┌───────────────────────────────────────────────────────────┐
+│                  DPU / SmartNIC 카드                       │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────────┐ │
+│  │  NIC 포트    │  │  ARM 코어    │  │ FPGA/ASIC 가속기 │ │
+│  │ (100/400Gbps)│  │ (OS 실행     │  │ (암호화, 압축,   │ │
+│  │              │  │  SW 프로그래밍)│  │  매칭, 오프로드) │ │
+│  └──────┬───────┘  └──────┬───────┘  └──────────────────┘ │
+│         └─────────────────┘                               │
+│              PCIe 인터페이스                               │
+└───────────────────────────────────────────────────────────┘
+         ↕ PCIe 연결
+  ┌──────────────────┐
+  │   호스트 CPU     │
+  │  (애플리케이션)   │
+  └──────────────────┘
+```
 
 | [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) 기능 | 내용 | 효과 |
 |:---|:---|:---|

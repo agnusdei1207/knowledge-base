@@ -28,21 +28,21 @@ tags = ["studynote-operating-system"]
 
 **💡 비유**: 도서관의 참고서 — 여러 학생이 동시에 볼 수 있지만, 선생님이 내용을 수정할 때는 모두 자리를 비워야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">읽기-쓰기 락 접근 매트릭스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Reader</div><div class="kb-diagram-cell">Writer</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Reader</div><div class="kb-diagram-cell">✅ OK</div><div class="kb-diagram-cell">❌ Block</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Writer</div><div class="kb-diagram-cell">❌ Block</div><div class="kb-diagram-cell">❌ Block</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">처리량 향상:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">뮤텍스: 최대 1× (항상 직렬화)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RWLock: 최대 독자수× (동시 읽기)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────┐
+│       읽기-쓰기 락 접근 매트릭스                         │
+├──────────────────────────────────────────────────────────┤
+│                                                          │
+│           │  Reader      │  Writer                       │
+│  ─────────┼──────────────┼──────────                     │
+│  Reader   │    ✅ OK     │   ❌ Block                    │
+│  Writer   │   ❌ Block   │   ❌ Block                    │
+│                                                          │
+│  처리량 향상:                                            │
+│  뮤텍스: 최대 1×              (항상 직렬화)              │
+│  RWLock: 최대 독자수×         (동시 읽기)                │
+└──────────────────────────────────────────────────────────┘
+```
 
 **📢 섹션 요약 비유**: 읽기-[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 락은 도서관 열람실 — 여러 학생이 동시에 책을 펼칠 수 있지만, 사서가 서가를 재배치할 때는 모두 나가야 합니다.
 
@@ -70,26 +70,30 @@ pthread_rwlock_unlock(&rwlock);
 
 ### 내부 상태 기계
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">읽기-쓰기 락 내부 상태 전이</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">상태:</div><div class="kb-diagram-node">Idle</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ReadLocked: count=N</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">wrlock 모든 독자 unlock</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">WriteLocked</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Idle</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">writlock 해제</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Idle</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">변수:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">read_count : 현재 읽고 있는 독자 수</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">write_pending : 대기 중인 저자 수</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">write_locked : 쓰기 락 획득 여부</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">독자 우선 정책: write_pending 무시하고 새 독자 진입 허용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">저자 우선 정책: write_pending &gt; 0이면 새 독자 차단</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│        읽기-쓰기 락 내부 상태 전이                           │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│  상태: [Idle] ──rdlock──▶ [ReadLocked: count=N]              │
+│          │                      │                            │
+│          │ wrlock          모든 독자 unlock                  │
+│          ▼                      ▼                            │
+│       [WriteLocked]  ◀── [Idle]                              │
+│          │                                                   │
+│       writlock 해제                                          │
+│          ▼                                                   │
+│        [Idle]                                                │
+│                                                              │
+│  변수:                                                       │
+│  read_count : 현재 읽고 있는 독자 수                         │
+│  write_pending : 대기 중인 저자 수                           │
+│  write_locked : 쓰기 락 획득 여부                            │
+│                                                              │
+│  독자 우선 정책: write_pending 무시하고 새 독자 진입 허용    │
+│  저자 우선 정책: write_pending > 0이면 새 독자 차단          │
+└──────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** RW Lock의 내부 구현은 독자 카운터와 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 잠금 플래그를 원자적으로 관리한다. 독자 우선(Reader-Preference) 구현에서는 독자가 있으면 새 독자가 즉시 진입하여 저자 기아(Writer [Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))가 발생할 수 있다. 저자 우선(Writer-Preference)에서는 그 반대다. 공정(Fair) 구현은 대기 큐로 기아를 방지하지만 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 감소한다.
 
@@ -121,22 +125,23 @@ try {
 
 ### 읽기→[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 락 업그레이드 문제
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">읽기→쓰기 업그레이드 교착 상태 시나리오</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T1: readLock() 획득</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T2: readLock() 획득</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T1: writeLock() 시도 → T2의 readLock 해제 대기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T2: writeLock() 시도 → T1의 readLock 해제 대기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 교착 상태! 두 스레드가 서로를 기다림</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해결: 읽기를 포기하고 쓰기 락을 처음부터 획득</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">또는 StampedLock (Java 8+)의 tryConvertToWriteLock()</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────┐
+│    읽기→쓰기 업그레이드 교착 상태 시나리오               │
+├──────────────────────────────────────────────────────────┤
+│                                                          │
+│  T1: readLock() 획득                                     │
+│  T2: readLock() 획득                                     │
+│                                                          │
+│  T1: writeLock() 시도 → T2의 readLock 해제 대기          │
+│  T2: writeLock() 시도 → T1의 readLock 해제 대기          │
+│                                                          │
+│  → 교착 상태! 두 스레드가 서로를 기다림                  │
+│                                                          │
+│  해결: 읽기를 포기하고 쓰기 락을 처음부터 획득           │
+│  또는 StampedLock (Java 8+)의 tryConvertToWriteLock()    │
+└──────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 락 업그레이드(읽기→[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 변환)는 대부분의 RW [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) 구현에서 지원하지 않거나 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)를 유발한다. Java의 `StampedLock`은 낙관적 읽기(Optimistic Read)와 `tryConvertToWriteLock()`으로 이 문제를 보다 안전하게 처리한다.
 
@@ -148,21 +153,18 @@ try {
 
 ### RW [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) vs [Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/) vs [RCU](/knowledge-base/studynote/02_operating_system/04_synchronization/254_rcu_read_copy_update/) 비교
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">항목</div><div class="kb-diagram-cell">Mutex</div><div class="kb-diagram-cell">RW Lock</div><div class="kb-diagram-cell">RCU</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동시 읽기</div><div class="kb-diagram-cell">불가</div><div class="kb-diagram-cell">가능</div><div class="kb-diagram-cell">가능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">독자 오버헤드</div><div class="kb-diagram-cell">락비용</div><div class="kb-diagram-cell">카운터비용</div><div class="kb-diagram-cell">사실상 0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">저자 레이턴시</div><div class="kb-diagram-cell">즉시(다음)</div><div class="kb-diagram-cell">즉시(다음)</div><div class="kb-diagram-cell">Grace Period</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기아 방지</div><div class="kb-diagram-cell">정책 필요</div><div class="kb-diagram-cell">정책 필요</div><div class="kb-diagram-cell">없음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">구현 복잡도</div><div class="kb-diagram-cell">낮음</div><div class="kb-diagram-cell">중간</div><div class="kb-diagram-cell">높음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">적합 환경</div><div class="kb-diagram-cell">균등 R/W</div><div class="kb-diagram-cell">읽기 집중</div><div class="kb-diagram-cell">SMP 읽기 집중</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────┬────────────┬────────────┬──────────────┐
+│ 항목             │ Mutex      │ RW Lock    │ RCU          │
+├──────────────────┼────────────┼────────────┼──────────────┤
+│ 동시 읽기        │ 불가       │ 가능       │ 가능         │
+│ 독자 오버헤드    │ 락비용     │ 카운터비용 │ 사실상 0     │
+│ 저자 레이턴시    │ 즉시(다음) │ 즉시(다음) │ Grace Period │
+│ 기아 방지        │ 정책 필요  │ 정책 필요  │ 없음         │
+│ 구현 복잡도      │ 낮음       │ 중간       │ 높음         │
+│ 적합 환경        │ 균등 R/W   │ 읽기 집중  │ SMP 읽기 집중│
+└──────────────────┴────────────┴────────────┴──────────────┘
+```
 
 **📢 섹션 요약 비유**: Mutex는 단차선, RW Lock은 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 전용 차선(읽기)/일반 차선([쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)) 분리, RCU는 차선 없는 자율 주행 고속도로입니다.
 
@@ -212,19 +214,15 @@ try {
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">재진입 가능 락 (Reentrant Lock / Recursive Lock)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">읽기-쓰기 락 (Read-Write Lock)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">교착 상태 (Deadlock) 정의</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">교착 상태 발생 4가지 필요조건 (모두 만족해야 발생)</div></div>
-</div>
-</div>
-
-
+```text
+[재진입 가능 락 (Reentrant Lock / Recursive Lock)]
+    │
+    ▼
+[읽기-쓰기 락 (Read-Write Lock)]
+    │
+    ├──▶ [교착 상태 (Deadlock) 정의]
+    └──▶ [교착 상태 발생 4가지 필요조건 (모두 만족해야 발생)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

@@ -25,27 +25,29 @@ tags = ["studynote-operating-system"]
 - <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/">RAID</a> 6의 이중 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 패리티 (P + Q) 아키텍처 모델 맵핑</strong>: 
 두 개의 빗장 방정식이 어떤 식으로 서로 엇갈려서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 파편에 자리 잡는지를 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 테이블 다이어그램으로 체계화 시각 묘사하면 아래와 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RAID 6 듀얼-패리티 (P &amp; Q) 엇갈림 교차 스트라이프 분산 매핑</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최소 디스크 4개 조건 (아래는 5개 샷시 구성 디스크 어레이의 예)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">디스크 1</div><div class="kb-diagram-node">디스크 2</div><div class="kb-diagram-node">디스크 3</div><div class="kb-diagram-node">디스크 4</div><div class="kb-diagram-node">디스크 5</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1열: Data A Data B Data C</div><div class="kb-diagram-node">P 1</div><div class="kb-diagram-node">Q 1</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2열: Data D Data E</div><div class="kb-diagram-node">P 2</div><div class="kb-diagram-node">Q 2</div><div class="kb-diagram-note">Data F</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3열: Data G</div><div class="kb-diagram-node">P 3</div><div class="kb-diagram-node">Q 3</div><div class="kb-diagram-note">Data H Data I</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">4열:</div><div class="kb-diagram-node">P 4</div><div class="kb-diagram-node">Q 4</div><div class="kb-diagram-note">Data J Data K Data L</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">5열:</div><div class="kb-diagram-node">Q 5</div><div class="kb-diagram-note">Data M Data N Data O</div><div class="kb-diagram-node">P 5</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(※ P 번호 = 기존 XOR 합계 값 / Q 번호 = 복잡한 갈루아 필드(Galois) 곱셈 승수 값)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">💥 대재앙 시나리오: 디스크 2, 4 두 개가 무려 동시 박살 사망 발화! 극악!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- 1열 복구:</div><div class="kb-diagram-node">P1</div><div class="kb-diagram-note">과</div><div class="kb-diagram-node">Q1</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">분실 Data B 살림!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- 3열 복구:</div><div class="kb-diagram-node">P3</div><div class="kb-diagram-note">장부가 찢어발겨 타버렸지만</div><div class="kb-diagram-node">Q3</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">역산수식 타파!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 시스템 가동 상태: 두 개가 구멍 났으나 사용자(DB)는 다운 체감 멈춤 없음! 무적.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌────────────────────────────────────────────────────────────────────────────────────┐
+  │                 RAID 6 듀얼-패리티 (P & Q) 엇갈림 교차 스트라이프 분산 매핑        │
+  ├────────────────────────────────────────────────────────────────────────────────────┤
+  │                                                                                    │
+  │   최소 디스크 4개 조건 (아래는 5개 샷시 구성 디스크 어레이의 예)                   │
+  │                                                                                    │
+  │         [ 디스크 1 ]   [ 디스크 2 ]   [ 디스크 3 ]   [ 디스크 4 ]   [ 디스크 5 ]   │
+  │        ────────────────────────────────────────────────────────                    │
+  │   1열:   Data A     Data B     Data C     [ P 1 ]    [ Q 1 ]                       │
+  │   2열:   Data D     Data E     [ P 2 ]    [ Q 2 ]    Data F                        │
+  │   3열:   Data G     [ P 3 ]    [ Q 3 ]    Data H     Data I                        │
+  │   4열:   [ P 4 ]    [ Q 4 ]    Data J     Data K     Data L                        │
+  │   5열:   [ Q 5 ]    Data M     Data N     Data O     [ P 5 ]                       │
+  │                                                                                    │
+  │   (※ P 번호 = 기존 XOR 합계 값 / Q 번호 = 복잡한 갈루아 필드(Galois) 곱셈 승수 값) │
+  │                                                                                    │
+  │   [ 💥 대재앙 시나리오: 디스크 2, 4 두 개가 무려 동시 박살 사망 발화! 극악! ]      │
+  │     - 1열 복구: [P1]과 [Q1]이 무사하므로 연산 수식 대입 ──▶ 분실 Data B 살림!      │
+  │     - 3열 복구: [P3] 장부가 찢어발겨 타버렸지만 [Q3]이 생존! ──▶ 역산수식 타파!    │
+  │     - 시스템 가동 상태: 두 개가 구멍 났으나 사용자(DB)는 다운 체감 멈춤 없음! 무적.│
+  └────────────────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 다이어그램을 분석하면 단순한 한 줄기 XOR 합계(P) 엑셀뿐만 아니라, 전혀 다른 논리의 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 수식 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 방정식 인크립트값(Q)이 또 다른 한 칸을 장악하고 디스크 열(Row)을 따라 비틀거리며 같이 순환(Rotate) 배분됨을 볼 수 있다. 디스크 어떤 자리의 2개 기계가 무작위로 작살이 나 불타 없어지더라도, 가로로 늘어진 수식 퍼즐에서 P와 Q 둘 중 하나는 무조건 살아서 역산 공식($P= A \oplus B... / Q= A \times B...$)에 대입할 단서를 제공하기 때문에 연립 방정식을 풀어 두 개의 망가진 미지수($x, y$ 구멍값)를 도출해 내듯, 기계적인 2차 붕괴 연달아 발생 사고를 퍼펙트하게 실드 막아내는 구국의 요새 블록 디자인 구조체다. 당연히 쓸 공간의 $2/N$ 칸이나 희생 당하므로 공간 로스 낭비가 뼈를 깎는 수치 단점이다.
 
@@ -157,19 +159,15 @@ P 값 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">RAID 5 (블록 단위 스트라이핑 + 분산 패리티)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">RAID 6 (분산 이중 패리티) (RAID 6 Dual Parity)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RAID 10 (1+0) / RAID 01 (0+1) 혼합형 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">소프트웨어 RAID vs 하드웨어 RAID (컨트롤러 캐시/BBU 장착)</div></div>
-</div>
-</div>
-
-
+```text
+[RAID 5 (블록 단위 스트라이핑 + 분산 패리티)]
+    │
+    ▼
+[RAID 6 (분산 이중 패리티) (RAID 6 Dual Parity)]
+    │
+    ├──▶ [RAID 10 (1+0) / RAID 01 (0+1) 혼합형 구조]
+    └──▶ [소프트웨어 RAID vs 하드웨어 RAID (컨트롤러 캐시/BBU 장착)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

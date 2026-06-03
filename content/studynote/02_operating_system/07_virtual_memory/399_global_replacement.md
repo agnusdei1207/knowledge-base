@@ -27,28 +27,32 @@ tags = ["studynote-operating-system"]
   2. **동적 램 재배분의 욕구**: "메모리(RAM)라는 건 고정된 땅이 아니라, 숨을 쉬는 유기체다." 바쁜 놈에게 램을 유동적으로 몰아주는 것이 시스템 가동률 100%를 달성하는 길임을 깨달았다.
   3. **표준의 정착**: 리눅스 데몬 `kswapd`가 밤낮없이 백그라운드를 순회하며 남의 램을 쓸어다 빈 통장(Free list)에 넣는 전역적(Global) 징수 시스템이 확립되었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전역 교체 (Global Replacement)의 무자비한 램 약탈 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황: 물리 RAM이 100% 꽉 찬 상태</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">크롬 (바쁘게 돎)</div><div class="kb-diagram-cell">엑셀 (쉬는 중)</div><div class="kb-diagram-cell">카톡 (잠자는 중)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 위기: 크롬이 4K 영상을 보느라 "새로운 램 1장 더 줘!" 폴트 발생!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 램 잔고 = 0. 누군가를 쫓아내서 빈방을 만들어야 함.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">OS의 매의 눈 (Global LRU 스캔)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"크롬, 엑셀, 카톡의 모든 페이지를 1열로 쫙 세워봐. 누가 젤 잉여야?"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"오, 카톡이 들고 있는 '배너 광고 이미지'가 1시간째 터치 안 됐네?"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">약탈 실행 (Swap-out)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS가 카톡의 배너 이미지를 무자비하게 디스크(스왑)로 걷어차버림.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">카톡의 램 1장 탈취 완료</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">수여 (Swap-in)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS가 빼앗은 그 램 1장을 크롬의 유튜브 영상 버퍼로 채워줌!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 결과: 크롬의 램 점유율 상승 🚀 / 카톡의 램 점유율 하락 📉</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│        전역 교체 (Global Replacement)의 무자비한 램 약탈 시각화         │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│ [ 상황: 물리 RAM이 100% 꽉 찬 상태 ]                                    │
+│ ┌──────────────┬──────────────┬──────────────┐                          │
+│ │ 크롬 (바쁘게 돎) │ 엑셀 (쉬는 중) │ 카톡 (잠자는 중)│                 │
+│ └──────────────┴──────────────┴──────────────┘                          │
+│                                                                         │
+│ ▶ 위기: 크롬이 4K 영상을 보느라 "새로운 램 1장 더 줘!" 폴트 발생!       │
+│ ▶ 램 잔고 = 0. 누군가를 쫓아내서 빈방을 만들어야 함.                    │
+│                                                                         │
+│ [ OS의 매의 눈 (Global LRU 스캔) ]                                      │
+│ "크롬, 엑셀, 카톡의 모든 페이지를 1열로 쫙 세워봐. 누가 젤 잉여야?"     │
+│ "오, 카톡이 들고 있는 '배너 광고 이미지'가 1시간째 터치 안 됐네?"       │
+│                                                                         │
+│ [ 약탈 실행 (Swap-out) ]                                                │
+│ OS가 카톡의 배너 이미지를 무자비하게 디스크(스왑)로 걷어차버림.         │
+│ ──▶ [ 카톡의 램 1장 탈취 완료 ]                                         │
+│                                                                         │
+│ [ 수여 (Swap-in) ]                                                      │
+│ OS가 빼앗은 그 램 1장을 크롬의 유튜브 영상 버퍼로 채워줌!               │
+│ ✅ 결과: 크롬의 램 점유율 상승 🚀 / 카톡의 램 점유율 하락 📉            │
+└─────────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 이것이 내가 크롬 탭을 100개 띄우면 옆에 켜둔 게임이 렉이 걸리는 근본적인 하드웨어적 이유다. 크롬이 폴트를 미친 듯이 뿜어내며 시스템 전역(Global)의 램 프레임들을 닥치는 대로 훔쳐 가서 자기 배를 불렸기 때문이다. 공산주의적 [균등 할당](/knowledge-base/studynote/02_operating_system/07_virtual_memory/398_equal_vs_proportional_allocation/)을 완전히 박살 낸 승자 독식의 철학이다.
 
 - **📢 섹션 요약 비유**: 회사에서 프로젝트를 할 때, 내 팀(자신의 앱) 예산이 다 떨어졌다고 우리 팀원 월급을 깎는 게 아니라, 사장님(OS)한테 가서 "저기 맨날 유튜브만 보는 영업팀(남의 앱) 예산 확 뺏어서 우리 팀 서버비로 꽂아주세요!"라고 읍소하여 회사 전체 자금을 융통하는 공격적인 예산(전역 램) 운영 방식입니다.
@@ -101,17 +105,14 @@ tags = ["studynote-operating-system"]
 - 반대로 어떤 앱이 10분 동안 폴트가 단 1번도 안 났다? "이놈 방이 너무 널널해서 램을 낭비하고 있네! 얘 프레임을 당장 압수(Trim)해서 프리 리스트(Free list)로 회수해!"
 - 이 [PFF](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/306_pff/) 조절 로직이 백그라운드에서 실시간으로 돌면서, 전역 교체의 야생성에 '최소한의 공권력'을 부여하여 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)을 막아낸다. (상세 내용은 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) 챕터에서 다룸)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스케줄러 철학</div><div class="kb-diagram-cell">할당량 조절</div><div class="kb-diagram-cell">노는 램의 운명</div><div class="kb-diagram-cell">OOM 방어력</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전역(Global)</div><div class="kb-diagram-cell">실시간 변동</div><div class="kb-diagram-cell">즉시 남이 뺏어감</div><div class="kb-diagram-cell">끝까지 쥐어짬</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지역(Local)</div><div class="kb-diagram-cell">영구 고정</div><div class="kb-diagram-cell">영원히 썩어감</div><div class="kb-diagram-cell">램 남는데 터짐</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬───────────────────────────┐
+│ 스케줄러 철학│ 할당량 조절   │ 노는 램의 운명 │ OOM 방어력     │
+├──────────┼────────────┼────────────┼───────────────────────────┤
+│ 전역(Global)│ 실시간 변동   │ 즉시 남이 뺏어감│ 끝까지 쥐어짬  │
+│ 지역(Local) │ 영구 고정     │ 영원히 썩어감  │ 램 남는데 터짐  │
+└──────────┴────────────┴────────────┴───────────────────────────┘
+```
 **[매트릭스 해설]** 이 표를 보면 리눅스가 왜 전역(Global)을 택했는지 알 수 있다. 서버 관리자 입장에서 램이 10GB나 비어있는데 [지역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/400_local_replacement/) 룰([Quota](/knowledge-base/studynote/02_operating_system/09_file_system/551_quota_disk_limit/))에 묶여서 1개 앱이 뻗어버리는 꼴은 절대 용납할 수 없다. "누가 렉 걸리든 알 바 아니고, 물리 램 16GB의 마지막 한 톨까지 100% 쥐어 짜내서 시스템 전체의 스루풋([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))을 우주 끝까지 높이겠다"는 것이 현대 OS의 서늘한 가치관이다.
 
 - **📢 섹션 요약 비유**: [지역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/400_local_replacement/)가 각 부서에 무조건 예산 1억씩 고정으로 주고 맘대로 쓰라는 공무원 행정이라면, 전역 교체는 월말마다 실적(폴트 빈도)을 평가해서 실적 안 나오는 부서 예산을 싹 뺏어다가 일 잘하는 부서에 팍팍 몰아주는 피도 눈물도 없는 성과주의 대기업의 살벌한 생존 경쟁입니다.
@@ -166,19 +167,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">균등 할당 (Equal Allocation) vs 비례 할당 (Proportional Allocation)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전역 교체 (Global Replacement)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">지역 교체 (Local Replacement)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">페이지 교체 알고리즘 (Page Replacement Algorithms)</div></div>
-</div>
-</div>
-
-
+```text
+[균등 할당 (Equal Allocation) vs 비례 할당 (Proportional Allocation)]
+    │
+    ▼
+[전역 교체 (Global Replacement)]
+    │
+    ├──▶ [지역 교체 (Local Replacement)]
+    └──▶ [페이지 교체 알고리즘 (Page Replacement Algorithms)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

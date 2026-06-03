@@ -44,22 +44,29 @@ NVMe의 핵심은 <strong>제어 경로를 단순하게 하고, <a href="/knowle
 
 아래 그림은 NVMe가 왜 멀티코어와 잘 맞는지를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NVMe 큐 기반 I/O 처리 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU Core 0 CPU Core 1 CPU Core 2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SQ 0 / CQ 0 SQ 1 / CQ 1 SQ 2 / CQ 2</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Host Memory Queue Pair Array</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Doorbell Register Write</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NVMe Controller on PCIe</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DMA Read/Write Data Blocks</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NAND Flash / Media</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                    NVMe 큐 기반 I/O 처리 구조                              │
+├────────────────────────────────────────────────────────────────────────────┤
+│ CPU Core 0            CPU Core 1            CPU Core 2                    │
+│    │                     │                     │                           │
+│    ▼                     ▼                     ▼                           │
+│ SQ 0 / CQ 0          SQ 1 / CQ 1          SQ 2 / CQ 2                     │
+│    └──────────────┬──────┴──────────────┬──────┘                           │
+│                   ▼                     ▼                                  │
+│             [ Host Memory Queue Pair Array ]                               │
+│                               │                                            │
+│                     Doorbell Register Write                                │
+│                               │                                            │
+│                               ▼                                            │
+│                    [ NVMe Controller on PCIe ]                             │
+│                               │                                            │
+│                     DMA Read/Write Data Blocks                             │
+│                               │                                            │
+│                               ▼                                            │
+│                      [ NAND Flash / Media ]                                │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 매번 CPU를 통과하는 것이 아니라, 큐와 DMA를 중심으로 흐른다는 점이다. 그래서 NVMe는 빠른 매체를 단순히 “연결”하는 것이 아니라, 명령 발행과 완료 처리까지 포함한 전체 I/O 경로를 짧게 만든다.
 
@@ -150,26 +157,25 @@ NVMe를 적절히 도입하면 시스템은 더 짧은 [응답 시간](/knowledg
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">HDD 중심 인터페이스</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">AHCI (Advanced Host Controller Interface) · SATA (Serial ATA)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SSD (Solid State Drive) 대중화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">PCIe (Peripheral Component Interconnect Express) 기반 NVMe</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 다중 큐 · 저지연 I/O</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ M.2 · U.2 폼팩터 확산</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 서버 · 워크스테이션 고성능 스토리지</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">NVMe-oF (NVMe over Fabrics) · 분리형 스토리지 아키텍처</div>
-</div>
-</div>
-
-
+```text
+HDD 중심 인터페이스
+    │
+    ▼
+AHCI (Advanced Host Controller Interface) · SATA (Serial ATA)
+    │
+    ▼
+SSD (Solid State Drive) 대중화
+    │
+    ▼
+PCIe (Peripheral Component Interconnect Express) 기반 NVMe
+    │
+    ├─▶ 다중 큐 · 저지연 I/O
+    ├─▶ M.2 · U.2 폼팩터 확산
+    └─▶ 서버 · 워크스테이션 고성능 스토리지
+    │
+    ▼
+NVMe-oF (NVMe over Fabrics) · 분리형 스토리지 아키텍처
+```
 
 이 흐름은 저장 매체의 발전보다도, <strong>저장장치를 제어하는 명령 체계가 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/">HDD</a> 중심에서 플래시 중심으로 이동한 과정</strong>을 보여준다.
 

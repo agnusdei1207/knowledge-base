@@ -25,18 +25,16 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)가 왜 "통신을 메모리 접근으로 바꾸는 구조"인지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메시지 전달 대신 같은 주소를 함께 보는 공유 메모리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코어 A 공유 메인 메모리 코어 B</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">계산 결과 42 생성</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">주소 0x1000 = 42</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">0x1000 읽기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">의미: "보내기(send)"가 아니라 "같은 칠판의 같은 칸을 본다"</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│         메시지 전달 대신 같은 주소를 함께 보는 공유 메모리           │
+├──────────────────────────────────────────────────────────────────────┤
+│ 코어 A                     공유 메인 메모리                    코어 B │
+│ [계산 결과 42 생성] ─────▶ [ 주소 0x1000 = 42 ] ─────▶ [0x1000 읽기] │
+│                                                                    │
+│ 의미: "보내기(send)"가 아니라 "같은 칠판의 같은 칸을 본다"         │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 단순함 덕분에 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)는 [대칭형 다중 처리](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/382_smp/) ([SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/), Symmetric Multiprocessing), [멀티코어 프로세서](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/393_multicore_processor/), [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조의 기본 토대가 되었다. 다만 편리하다는 말은 곧 "여러 주체가 같은 자원을 동시에 건드린다"는 뜻이기도 하므로, 처음부터 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)와 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 문제가 함께 따라온다.
 
@@ -58,20 +56,20 @@ tags = ["studynote-computer-architecture"]
 
 다음 그림은 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)에서 성능과 정확성이 동시에 걸려 있는 지점을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공유 메모리 시스템의 실제 동작: 캐시를 둔 공유</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core 0 Core 1</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">L1 Cache</div><div class="kb-diagram-node">L1 Cache</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">snoop / invalidate / update</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Interconnect</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Shared Memory / RAM</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│            공유 메모리 시스템의 실제 동작: 캐시를 둔 공유            │
+├──────────────────────────────────────────────────────────────────────┤
+│  Core 0            Core 1                                            │
+│ [L1 Cache]        [L1 Cache]                                         │
+│     │                 │                                              │
+│     ├───── snoop / invalidate / update ─────┤                        │
+│     │                 │                                              │
+│     └─────────────── Interconnect ───────────┘                        │
+│                               │                                      │
+│                      [Shared Memory / RAM]                           │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 포인트는 코어가 메모리를 직접만 보는 것이 아니라, 대부분은 자기 캐시의 복사본을 먼저 본다는 점이다. 그래서 코어 0이 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수정하면 코어 1의 오래된 복사본을 어떻게 무효화할지 정해져 있어야 한다. 이를 위해 MESI (Modified, Exclusive, Shared, Invalid) 같은 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) 프로토콜이 쓰이며, [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)는 사실상 <strong>메모리 공유 + 캐시 조정 메커니즘</strong>의 결합체라고 보는 편이 정확하다.
 
@@ -97,21 +95,18 @@ tags = ["studynote-computer-architecture"]
 
 이 연결은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)와 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 프로그래밍에서도 중요하다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 스케줄러를 통해 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 어느 코어에 배치할지 정하고, 프로그래밍 언어 런타임은 뮤텍스 ([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/)), [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) ([Monitor](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)), 원자 변수 같은 추상화를 제공한다. 결국 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)는 하드웨어 개념이면서 동시에 소프트웨어 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 모델의 출발점이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">공유 메모리</div>
-<div class="kb-diagram-tree-item" style="--depth:2">프로그래밍 단순성 확보</div>
-<div class="kb-diagram-note">─ Thread / Mutex / Atomic</div>
-<div class="kb-diagram-tree-item" style="--depth:2">하드웨어 부담 증가</div>
-<div class="kb-diagram-note">─ Cache Coherence / Memory Ordering</div>
-<div class="kb-diagram-tree-item" style="--depth:2">확장성 한계 노출</div>
-<div class="kb-diagram-tree-item" style="--depth:4">UMA → NUMA → 분산 메모리 보완</div>
-</div>
-</div>
-
-
+```text
+공유 메모리
+    │
+    ├─ 프로그래밍 단순성 확보
+    │    └─ Thread / Mutex / Atomic
+    │
+    ├─ 하드웨어 부담 증가
+    │    └─ Cache Coherence / Memory Ordering
+    │
+    └─ 확장성 한계 노출
+         └─ UMA → NUMA → 분산 메모리 보완
+```
 
 - **📢 섹션 요약 비유**: [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)는 한 사무실에서 같은 화이트보드를 같이 쓰는 방식이고, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 메모리는 각자 다른 사무실에서 메일로 자료를 주고받는 방식이다. 전자는 협업이 빠르고, 후자는 인원이 커져도 덜 막힌다.
 
@@ -141,19 +136,19 @@ tags = ["studynote-computer-architecture"]
 
 아래 진단 흐름은 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 병목을 어디서 봐야 하는지 요약한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공유 메모리 병목 진단의 우선순위 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">처리량 저하</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 락 대기 시간 급증? Yes ─▶ 락 분할 / Lock-free 검토</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 캐시 미스·무효화 급증? ─ Yes ─▶ 데이터 배치 / False Sharing 수정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 원격 메모리 비율 높음? ─ Yes ─▶ NUMA Pinning / Locality 조정</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│               공유 메모리 병목 진단의 우선순위 흐름                 │
+├──────────────────────────────────────────────────────────────────────┤
+│ 처리량 저하                                                           │
+│   │                                                                  │
+│   ├─ 락 대기 시간 급증? ────── Yes ─▶ 락 분할 / Lock-free 검토       │
+│   │                                                                  │
+│   ├─ 캐시 미스·무효화 급증? ─ Yes ─▶ 데이터 배치 / False Sharing 수정│
+│   │                                                                  │
+│   └─ 원격 메모리 비율 높음? ─ Yes ─▶ NUMA Pinning / Locality 조정    │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 기술사 관점에서의 핵심 판단은 명확하다. <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/">공유 메모리</a>는 협력을 빠르게 만들지만, 협력의 규칙을 설계하지 않으면 가장 먼저 무너지는 구조</strong>다. 따라서 채택 질문은 "공유 가능한가"가 아니라 "공유를 통제할 수 있는가"여야 한다.
 
@@ -187,25 +182,26 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단일 프로세서의 메모리 접근</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">다중 프로세서 (Multiprocessor)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">공유 메모리 시스템 (Shared Memory)</div>
-<div class="kb-diagram-note">UMA SMP Cache Coherence</div>
-<div class="kb-diagram-tree-item" style="--depth:2">코어 수 증가 ◄</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">NUMA / False Sharing / Lock Contention</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">하이브리드 확장 (Sharding, Message Passing, CXL)</div>
-</div>
-</div>
-
-
+```text
+단일 프로세서의 메모리 접근
+    │
+    ▼
+다중 프로세서 (Multiprocessor)
+    │
+    ▼
+공유 메모리 시스템 (Shared Memory)
+    ├───────────────┬────────────────┐
+    ▼               ▼                ▼
+UMA               SMP         Cache Coherence
+    │               │                │
+    └───────► 코어 수 증가 ◄─────────┘
+                    │
+                    ▼
+NUMA / False Sharing / Lock Contention
+                    │
+                    ▼
+하이브리드 확장 (Sharding, Message Passing, CXL)
+```
 
 이 흐름은 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)가 "단순한 공동 사용"에서 시작해, 코어 확장과 함께 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)·지역성·하이브리드 구조의 문제로 발전해 가는 과정을 보여준다.
 

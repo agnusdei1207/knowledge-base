@@ -11,7 +11,7 @@ tags = ["studynote-software-engineering"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 품질 기능 전개 (Quality Function [Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/), QFD)는 고객의 목소리 (Voice of [Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/), VOC)를 설계 특성, 부품 특성, 공정, 테스트 기준으로 단계적으로 변환해 주는 요구사항 전개 방법론이다.
+> 1. **본질**: 품질 기능 전개 (Quality Function [Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/), QFD)는 고객의 목소리 (Voice of [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/), VOC)를 설계 특성, 부품 특성, 공정, 테스트 기준으로 단계적으로 변환해 주는 요구사항 전개 방법론이다.
 > 2. **가치**: QFD는 "좋아 보이는 기능"이 아니라 "고객 가치와 연결된 기술 항목"에 자원을 집중하게 만들어, 오버엔지니어링과 재작업 비용을 줄인다.
 > 3. **판단 포인트**: QFD의 목적은 문서를 많이 만드는 것이 아니라 추상 요구를 계량 가능한 목표로 번역하는 데 있다. 따라서 하우스 오브 퀄리티 (House of Quality, HoQ) 점수와 목표치는 반드시 측정 가능한 형태여야 한다.
 
@@ -25,19 +25,22 @@ QFD는 고객이 말하는 요구를 엔지니어가 실행 가능한 설계 언
 
 이 그림은 QFD가 왜 단순 요구 수집이 아니라 "번역 파이프라인"으로 불리는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">QFD cascade: from voice to work</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VOC (customer needs)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HoQ 1: product characteristics</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HoQ 2: subsystem / component specs</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">process specs / test criteria / operation metrics</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                 QFD cascade: from voice to work             │
+├──────────────────────────────────────────────────────────────┤
+│ VOC (customer needs)                                        │
+│        │                                                     │
+│        ▼                                                     │
+│ HoQ 1: product characteristics                              │
+│        │                                                     │
+│        ▼                                                     │
+│ HoQ 2: subsystem / component specs                           │
+│        │                                                     │
+│        ▼                                                     │
+│ process specs / test criteria / operation metrics            │
+└──────────────────────────────────────────────────────────────┘
+```
 
 즉 QFD의 핵심은 요구사항을 한 번 정리하고 끝내는 것이 아니라, 상위 요구를 하위 실행 항목까지 끊기지 않게 전개하는 데 있다. 이 연결성이 있어야 설계와 테스트가 처음 고객 요구와 같은 방향을 바라본다.
 
@@ -59,18 +62,17 @@ QFD의 대표 도구는 HoQ다. 왼쪽에는 고객 요구(WHAT), 위쪽에는 �
 
 이 그림은 HoQ의 핵심 구조를 단순화한 것이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">House of Quality (HoQ)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Roof: HOW vs HOW correlation (+ / -)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WHAT + importance ─▶ Relationship Matrix ◀─ HOW metrics</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Competitive review ─▶ weighted priority ─▶ target values</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                    House of Quality (HoQ)                   │
+├──────────────────────────────────────────────────────────────┤
+│ Roof: HOW vs HOW correlation (+ / -)                        │
+│                                                              │
+│ WHAT + importance ─▶ Relationship Matrix ◀─ HOW metrics      │
+│                                                              │
+│ Competitive review ─▶ weighted priority ─▶ target values     │
+└──────────────────────────────────────────────────────────────┘
+```
 
 QFD의 중요한 특징은 "전개"에 있다. 첫 번째 HoQ에서 정리한 제품 수준 기술 특성은 다음 단계에서는 다시 WHAT이 되어, 세부 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 설계·부품 선택·공정 조건·테스트 기준으로 이어진다. 그래서 QFD를 제대로 쓰면 "고객이 왜 그 기능을 원하는가"와 "테스터가 무엇을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 하는가"가 한 줄의 추적성으로 연결된다.
 
@@ -89,7 +91,7 @@ QFD는 종종 [카노 모델](/knowledge-base/studynote/04_software_engineering/
 | 출력 | 당연적/일원적/매력적 품질 | 우선순위, 목표치, 상충 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
 | 강점 | 시장 관점 통찰 | 설계·개발·테스트 연결 |
 
-또한 HoQ와 QFD는 동일 개념이 아니다. HoQ는 QFD의 1단계 핵심 도구이고, QFD는 그보다 넓은 전개 방법론이다. HoQ만 한 장 작성해 놓고 이후 설계나 테스트로 연결하지 않으면 "보기 좋은 분석표"로 끝날 위험이 있다. 반대로 QFD가 제대로 작동하면 [요구사항 공학](/knowledge-base/studynote/04_software_engineering/03_design_architecture/131_requirements_engineering/) ([Requirements Engineering](/knowledge-base/studynote/04_software_engineering/03_design_architecture/131_requirements_engineering/)), 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 설계, [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/) 정의, 운영 지표 설계까지 일관된 흐름을 만들 수 있다.
+또한 HoQ와 QFD는 동일 개념이 아니다. HoQ는 QFD의 1단계 핵심 도구이고, QFD는 그보다 넓은 전개 방법론이다. HoQ만 한 장 작성해 놓고 이후 설계나 테스트로 연결하지 않으면 "보기 좋은 분석표"로 끝날 위험이 있다. 반대로 QFD가 제대로 작동하면 [요구사항 공학](/knowledge-base/studynote/04_software_engineering/03_design_architecture/131_requirements_engineering/) ([Requirements 엔진ering](/knowledge-base/studynote/04_software_engineering/03_design_architecture/131_requirements_engineering/)), 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 설계, [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/) 정의, 운영 지표 설계까지 일관된 흐름을 만들 수 있다.
 
 이 점에서 QFD는 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) ([DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/))나 품질 관리와도 연결된다. 목표 응답시간 200ms, 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간 5분, [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 99.95% 같은 수치가 HoQ에서 도출되면, 이후 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 테스트와 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 목표 ([Service Level Objective](/knowledge-base/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/), [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/))까지 자연스럽게 이어질 수 있다.
 
@@ -140,32 +142,29 @@ QFD를 올바르게 적용하면 요구사항의 모호성이 줄고, 설계·�
 
 | 개념 | 연결 포인트 |
 | :--- | :---------- |
-| VOC (Voice of [Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/)) | QFD의 출발점이 되는 고객 요구 입력 |
+| VOC (Voice of [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/)) | QFD의 출발점이 되는 고객 요구 입력 |
 | HoQ (House of Quality) | WHAT과 HOW를 연결하는 QFD의 핵심 분석 도구 |
-| [요구사항 공학](/knowledge-base/studynote/04_software_engineering/03_design_architecture/131_requirements_engineering/) ([Requirements Engineering](/knowledge-base/studynote/04_software_engineering/03_design_architecture/131_requirements_engineering/)) | 요구를 구조화하고 추적성 있게 관리하는 상위 활동 |
+| [요구사항 공학](/knowledge-base/studynote/04_software_engineering/03_design_architecture/131_requirements_engineering/) ([Requirements 엔진ering](/knowledge-base/studynote/04_software_engineering/03_design_architecture/131_requirements_engineering/)) | 요구를 구조화하고 추적성 있게 관리하는 상위 활동 |
 | [카노 모델](/knowledge-base/studynote/04_software_engineering/03_design_architecture/167_kano_model_quality_attributes/) ([Kano Model](/knowledge-base/studynote/04_software_engineering/03_design_architecture/167_kano_model_quality_attributes/)) | 고객 만족 성격을 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)해 QFD 입력 품질을 높여 주는 선행 기법 |
 | [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) ([Service Level Objective](/knowledge-base/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/)) | QFD에서 도출한 품질 목표를 운영 지표로 연결하는 개념 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">VOC 수집</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">WHAT 정리 · 중요도 부여</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">HoQ 작성</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ HOW 도출 · 관계 점수화</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 상충 관계 분석</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 목표치·우선순위 결정</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">설계 · 구현 · 테스트 · 운영 지표 전개</div>
-</div>
-</div>
-
-
+```text
+VOC 수집
+    │
+    ▼
+WHAT 정리 · 중요도 부여
+    │
+    ▼
+HoQ 작성
+    │
+    ├──────────────▶ HOW 도출 · 관계 점수화
+    ├──────────────▶ 상충 관계 분석
+    ├──────────────▶ 목표치·우선순위 결정
+    ▼
+설계 · 구현 · 테스트 · 운영 지표 전개
+```
 
 이 흐름도는 고객의 언어가 HoQ를 거쳐 기술 목표와 실행 지표로 번역되는 QFD의 전개 구조를 요약한다.
 

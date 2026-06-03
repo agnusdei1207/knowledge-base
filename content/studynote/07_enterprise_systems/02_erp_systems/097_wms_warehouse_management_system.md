@@ -36,22 +36,20 @@ WMS의 핵심 아키텍처는 물건이 창고에 들어와서 나갈 때까지�
 | <strong>피킹 (Picking) <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a></strong> | 여러 주문을 분석하여, 작업자가 창고를 가로지르는 동선을 최소화하는 최단 경로 (Z자형, U자형 등) 제공 | 이동 시간 단축 (동선 낭비 0%) |
 | **출하 및 패킹 검수** | 포장 단계에서 선입선출([FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/)) 등 규칙 위반을 최종 검수하고 운송장 자동 발행 | 출고 오류(오배송) 방지율 100% |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WMS의 피킹 경로 최적화 (Routing) 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">WMS 미도입: 지그재그 난개발 동선</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">작업자 출발 ─▶ A열(치약) ─▶ 저끝 Z열(휴지) ─▶ 다시 B열(비누)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(1시간 동안 5km를 걸으며 체력 방전, 배송 지연)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">WMS 알고 조명 최적화: 일방통행 Z-Route 동선</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">작업자 출발 ─▶ A열(치약) ─▶ B열(비누) ─▶ ... ─▶ Z열(휴지)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(시스템이 계산한 최단 경로 화면 지시대로 카트만 밀면 됨)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(10분 만에 피킹 완료, 동선 효율 극대화)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                WMS의 피킹 경로 최적화 (Routing) 시각화       │
+├──────────────────────────────────────────────────────────────┤
+│ [ WMS 미도입: 지그재그 난개발 동선 ]                         │
+│ 작업자 출발 ─▶ A열(치약) ─▶ 저끝 Z열(휴지) ─▶ 다시 B열(비누) │
+│ (1시간 동안 5km를 걸으며 체력 방전, 배송 지연)               │
+│                                                              │
+│ [ WMS 알고 조명 최적화: 일방통행 Z-Route 동선 ]              │
+│ 작업자 출발 ─▶ A열(치약) ─▶ B열(비누) ─▶ ... ─▶ Z열(휴지) │
+│ (시스템이 계산한 최단 경로 화면 지시대로 카트만 밀면 됨)     │
+│ (10분 만에 피킹 완료, 동선 효율 극대화)                      │
+└──────────────────────────────────────────────────────────────┘
+```
 
 WMS는 작업자에게 "무엇을 가져오라"고 종이로 주지 않는다. "지금 앞으로 5보 전진해서 오른쪽 위에서 두 번째 박스의 바코드를 찍어라"라고 행동 단위로 지시한다.
 
@@ -111,23 +109,21 @@ WMS의 성공적인 도입은 물류센터의 생산성을 차원이 다르게 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">전통적 장부 기반 창고 관리 (오기입, 재고 불일치)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">바코드/RFID 기반 고정 로케이션 WMS 도입</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">알고리즘 기반 피킹 동선 최적화 (라우팅 적용)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">다이나믹 로케이션 (Random Stow) 및 AI 예측 배치 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">WCS/AGV(자율이동로봇) 연동 무인 자동화 물류센터 구축</div>
-</div>
-</div>
-
-
+```text
+전통적 장부 기반 창고 관리 (오기입, 재고 불일치)
+    │
+    ▼
+바코드/RFID 기반 고정 로케이션 WMS 도입
+    │
+    ▼
+알고리즘 기반 피킹 동선 최적화 (라우팅 적용)
+    │
+    ▼
+다이나믹 로케이션 (Random Stow) 및 AI 예측 배치 적용
+    │
+    ▼
+WCS/AGV(자율이동로봇) 연동 무인 자동화 물류센터 구축
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

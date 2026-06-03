@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 DoH는 평문으로 전송되던 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 질의를 암호화된 [HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 내부에 캡슐화하여 전송하는 국제 표준(RFC 8484) 기술입니다. 
 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 질의가 일반적인 웹 서핑 트래픽과 완벽하게 동일하게 보이므로, 인터넷 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 제공자([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/))나 기업의 방화벽이 사용자의 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 조회 내역을 엿보거나 특정 사이트 접속을 차단(검열)하는 것을 불가능하게 만듭니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DoT</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DoH</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">mDNS / LMNR</div></div>
-</div>
-</div>
-
-
+```text
+[DoT]
+    │
+    ▼
+[DoH]
+    │
+    └──▶ [mDNS / LMNR]
+```
 
 - **📢 섹션 요약 비유**: DoH는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -48,18 +44,14 @@ DoH는 평문으로 전송되던 [DNS](/knowledge-base/studynote/03_network/10_a
 | **차단 난이도**| 방화벽에서 853 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 막으면 쉽게 차단됨 | 443 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 막으면 인터넷 전체가 먹통이 되므로 차단 불가 |
 | **주요 주체** | OS 수준 지원 (Android 등) | 브라우저 수준 지원 (Chrome, Firefox 등) |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DoT</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DoH</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">mDNS / LMNR</div></div>
-</div>
-</div>
-
-
+```text
+[DoT]
+    │
+    ▼
+[DoH]
+    │
+    └──▶ [mDNS / LMNR]
+```
 
 - **📢 섹션 요약 비유**: DoH의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -118,19 +110,15 @@ DoH는 이름 해석과 네트워크 관리를 이해할 때 핵심 축을 잡�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: DoT</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: DoH</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: mDNS / LMNR</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율 운영 네트워크</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: DoT]
+    │
+    ▼
+[현재 개념: DoH]
+    │
+    ├──▶ [확장 A: mDNS / LMNR]
+    └──▶ [확장 B: 자율 운영 네트워크]
+```
 
 DoH는 DoT에서 출발해 현재 메커니즘을 정교화하고, 이후 [mDNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/521_mdns_multicast_dns_llmnr/) / LMNR와 자율 운영 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

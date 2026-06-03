@@ -18,20 +18,20 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">편향-분산 분해 (Bias-Variance Decomposition)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">총 오차 = 편향² + 분산 + 노이즈</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(모델의 (데이터 변동에 (줄일 수</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">체계적 오류) 대한 민감도) 없는 본질 오차)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고편향(High Bias) → 과소적합 → 훈련/테스트 오차 모두 높음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고분산(High Variance)→ 과적합 → 훈련 낮고 테스트 높음</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────┐
+│           편향-분산 분해 (Bias-Variance Decomposition)       │
+├────────────────────────────────────────────────────────────┤
+│                                                            │
+│  총 오차  =  편향²      +  분산         +  노이즈           │
+│            (모델의      (데이터 변동에   (줄일 수           │
+│             체계적 오류) 대한 민감도)     없는 본질 오차)    │
+│                                                            │
+│  고편향(High Bias)   → 과소적합 → 훈련/테스트 오차 모두 높음│
+│  고분산(High Variance)→ 과적합  → 훈련 낮고 테스트 높음     │
+│                                                            │
+└────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 편향은 양궁에서 활의 정렬이 잘못된 것(항상 같은 방향으로 빗나감)이고, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)은 실력이 불안정한 것(때로는 맞고 때로는 크게 빗나감)이다. 최고의 궁수(모델)는 편향도 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)도 낮아야 한다.
 
@@ -41,22 +41,21 @@ tags = ["studynote-ai"]
 
 ### 모델 복잡도와 오차의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
 
+```text
+오차
+ │
+ │\           /
+ │ \         /  ← 총 오차 (U자형 곡선)
+ │  \       /
+ │   \  ★ /  ← 최적 복잡도
+ │    \/
+ │─────────────────────── 모델 복잡도
+  단순      ↑         복잡
+         최적점
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">오차</div>
-<div class="kb-diagram-note">\ / ← 총 오차 (U자형 곡선)</div>
-<div class="kb-diagram-note">\ ★ / ← 최적 복잡도</div>
-<div class="kb-diagram-note">모델 복잡도</div>
-<div class="kb-diagram-note">단순 ↑ 복잡</div>
-<div class="kb-diagram-note">최적점</div>
-<div class="kb-diagram-tree-item" style="--depth:0">편향²: 복잡도↑ → 감소</div>
-<div class="kb-diagram-tree-item" style="--depth:0">분산: 복잡도↑ → 증가</div>
-</div>
-</div>
-
-
+── 편향²: 복잡도↑ → 감소
+── 분산: 복잡도↑ → 증가
+```
 
 ### 트레이드오프 관리 기법
 
@@ -83,20 +82,18 @@ tags = ["studynote-ai"]
 
 ### 이중 강하 (Double Descent) 현상
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">오차</div>
-<div class="kb-diagram-note">\ / ← 전통 U자 곡선 (과적합 구간)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">\ ← 이중 강하: 매우 큰 모델에서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">\ 다시 오차 감소</div></div>
-<div class="kb-diagram-tree-item" style="--depth:3">모델 파라미터 수</div>
-<div class="kb-diagram-note">↑ 보간점(Interpolation Threshold)</div>
-</div>
-</div>
-
-
+```text
+오차  ┤
+      │\     /
+      │ \   /
+      │  \ /  ← 전통 U자 곡선 (과적합 구간)
+      │   │
+      │   │\    ← 이중 강하: 매우 큰 모델에서
+      │   │ \     다시 오차 감소
+      │   │  \___
+      └──────────── 모델 파라미터 수
+             ↑ 보간점(Interpolation Threshold)
+```
 
 - **📢 섹션 요약 비유**: 이중 강하는 더 많이 공부(모델 크기 증가)할수록 처음엔 과부하로 성적이 떨어지지만, 계속 공부하면 오히려 성적이 더 좋아지는 현상이다. [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) 같은 대형 모델이 이를 보여준다.
 
@@ -155,23 +152,21 @@ for alpha in alphas:
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">편향-분산 트레이드오프 이론 — 통계학 기반</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">정규화 (Ridge/Lasso/Dropout) — 분산 통제</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">앙상블 (배깅/부스팅) — 편향·분산 동시 개선</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">교차 검증 + HPO — 자동 최적점 탐색</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Double Descent — 초대규모 모델의 새 패러다임</div></div>
-</div>
-</div>
-
-
+```text
+[편향-분산 트레이드오프 이론 — 통계학 기반]
+    │
+    ▼
+[정규화 (Ridge/Lasso/Dropout) — 분산 통제]
+    │
+    ▼
+[앙상블 (배깅/부스팅) — 편향·분산 동시 개선]
+    │
+    ▼
+[교차 검증 + HPO — 자동 최적점 탐색]
+    │
+    ▼
+[Double Descent — 초대규모 모델의 새 패러다임]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

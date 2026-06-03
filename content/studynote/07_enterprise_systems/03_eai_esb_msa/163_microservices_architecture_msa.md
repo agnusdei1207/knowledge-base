@@ -43,22 +43,22 @@ MSA의 핵심은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_
 
 아래 그림은 MSA의 대표적인 구성 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MSA의 기본 서비스 구성도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">API Gateway</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Order Service ── Order DB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Payment Service ── Payment DB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Delivery Service ── Delivery DB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ User Service ── User DB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Services communicate via REST / gRPC / Event Bus</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                      MSA의 기본 서비스 구성도                       │
+├──────────────────────────────────────────────────────────────────────┤
+│ Client                                                              │
+│   │                                                                  │
+│   ▼                                                                  │
+│ API Gateway                                                          │
+│   ├─ Order Service   ── Order DB                                     │
+│   ├─ Payment Service ── Payment DB                                   │
+│   ├─ Delivery Service ── Delivery DB                                 │
+│   └─ User Service    ── User DB                                      │
+│                                                                      │
+│ Services communicate via REST / gRPC / Event Bus                    │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조에서 중요한 원리는 두 가지다. 첫째, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 단순히 코드를 나눈 것이 아니라 <strong>배포와 장애의 경계를 나눈 것</strong>이어야 한다. 둘째, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)를 공유하면 결국 배포와 변경 영향도가 다시 엮이므로, "[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소유"가 매우 중요하다. 그래서 MSA는 아키텍처와 동시에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 설계, 팀 구조, 배포 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인까지 함께 바꾸는 전환이다.
 
@@ -135,22 +135,19 @@ MSA가 제대로 정착되면 기능별 독립 배포, 빠른 릴리스, 선택�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">모놀리식 아키텍처</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">서비스 분해 요구 증가</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">MSA (독립 배포 · 독립 데이터)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">API Gateway · Service Discovery</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Event-Driven Architecture</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Saga · Observability · Platform Engineering</div>
-</div>
-</div>
-
-
+```text
+모놀리식 아키텍처
+    │
+    ▼
+서비스 분해 요구 증가
+    │
+    ▼
+MSA (독립 배포 · 독립 데이터)
+    │
+    ├─ API Gateway · Service Discovery
+    ├─ Event-Driven Architecture
+    └─ Saga · Observability · Platform Engineering
+```
 
 이 흐름은 "거대 단일 시스템 → [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 분리 → 운영 자동화와 관측성 강화"로 이어지는 MSA의 확장 방향을 보여준다.
 

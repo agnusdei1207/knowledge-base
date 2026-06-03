@@ -30,30 +30,38 @@ tags = ["studynote-operating-system"]
 - <strong>i-node 권한 평가(Evaluation) 순서와 ACL 마스킹 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> 폭쇄 뷰</strong>:
 유저 존(John)이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 열 때(Open 콜), [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 검사봇이 전통적 권한과 ACL 장부 사이에서 어떻게 충돌을 조율하고 뚝배기를 깨는지 그 렌더를 까보면 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"개인 지명수배(ACL User)가 우선이냐? 그룹(Group)이 우선이냐? 결전!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">대상 파일 정보</div><div class="kb-diagram-note">: 보안문서.pdf</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 일반 권한: 소유자(Root), 그룹(HR-team: r--), 타인(---)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- + ACL 장부: 유저 John(rw-), 유저 Mike(--- 금지!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🚨</div><div class="kb-diagram-node">유저 John (HR-team 소속) 의 "쓰기(w) 요청" 빔 록백!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">OS 커널 권한 평가 스캐너 (Sequential Evaluation 스왑 렌더)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1단계 (파일 진짜 소유자인가?): "넌 Root가 아니네. 패스!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2단계 🔥(ACL 특정 개인 지명수배인가?): "어? ACL 장부에 이름 존(John)이 있네!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; 존의 권한은 (rw-) 로 부여되어 있다 부스트!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; 여기서 검사 중단! "너 HR팀(그룹 r--)이지만 ACL 개인 지명이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">더 우위다! 쓰기(w) 권한 최종 결착 승인 문 열어 록백!!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">✅</div><div class="kb-diagram-node">유저 Mike (HR-team 소속) 의 "읽기(r) 요청" 폭쇄 렌더!!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1단계 (소유자?): "아님 패스!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2단계 🔥(ACL 개인 지명?): "명부에 이름 마이크(Mike) 있네! 권한은 (---) 금지!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; 검사 중단! "너 HR팀(r--)이라 원래 자격 있지만, ACL 명부 블랙</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">리스트에 킬 마크 떴다! 무조건 거부(Denied) 컷 파단!!"</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────────────────────────────┐
+  │                 "개인 지명수배(ACL User)가 우선이냐? 그룹(Group)이 우선이냐? 결전!" │
+  ├─────────────────────────────────────────────────────────────────────────────────────┤
+  │                                                                                     │
+  │  [ 대상 파일 정보 ] : 보안문서.pdf                                                  │
+  │     - 일반 권한: 소유자(Root), 그룹(HR-team: r--), 타인(---)                        │
+  │     - + ACL 장부: 유저 John(rw-), 유저 Mike(--- 금지!)                              │
+  │                                                                                     │
+  │  =========================▼===================================                      │
+  │                                                                                     │
+  │  🚨 [ 유저 John (HR-team 소속) 의 "쓰기(w) 요청" 빔 록백! ]                         │
+  │                                                                                     │
+  │     [ OS 커널 권한 평가 스캐너 (Sequential Evaluation 스왑 렌더) ]                  │
+  │                                                                                     │
+  │      1단계 (파일 진짜 소유자인가?): "넌 Root가 아니네. 패스!"                       │
+  │                                                                                     │
+  │      2단계 🔥(ACL 특정 개인 지명수배인가?): "어? ACL 장부에 이름 존(John)이 있네!"  │
+  │               -> 존의 권한은 (rw-) 로 부여되어 있다 부스트!                         │
+  │               -> 여기서 검사 중단! "너 HR팀(그룹 r--)이지만 ACL 개인 지명이         │
+  │                  더 우위다! 쓰기(w) 권한 최종 결착 승인 문 열어 록백!!"             │
+  │                                                                                     │
+  │  =========================▼===================================                      │
+  │                                                                                     │
+  │  ✅ [ 유저 Mike (HR-team 소속) 의 "읽기(r) 요청" 폭쇄 렌더!! ]                      │
+  │                                                                                     │
+  │      1단계 (소유자?): "아님 패스!"                                                  │
+  │      2단계 🔥(ACL 개인 지명?): "명부에 이름 마이크(Mike) 있네! 권한은 (---) 금지!"  │
+  │               -> 검사 중단! "너 HR팀(r--)이라 원래 자격 있지만, ACL 명부 블랙       │
+  │                  리스트에 킬 마크 떴다! 무조건 거부(Denied) 컷 파단!!"              │
+  └─────────────────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** ACL이 박히면 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 탐색(ls -l) 시 권한 끝에 `+` 기호가 붙는다(예: `-rw-r--r--+`). OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 [VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) [접근 통제](/knowledge-base/studynote/04_software_engineering/06_software_architecture/387_access_control_pattern/) 모듈은 권한을 짬뽕시키지 않는다. 철저한 순차 폭포수(Waterfall) 처형 룰이다. **[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 진짜 주인 \> ACL에 명시된 특정 유저 \> [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 기본 소속 그룹 및 ACL 명시 그룹 \> 생판 타인(Other)** 순서로 내려간다. 내 이름이 위쪽에 걸리는 순간 그 밑에 내가 속한 그룹 규칙은 무시당하는 마스킹(Masking 렌더) 권력 우위다. 마이크(Mike)처럼 속한 부서는 열려있어도 개인 족쇄가 차단이면 칼같이 목이 날아가는 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 뷰가 도출된다.
 
@@ -132,19 +140,15 @@ ACL ([Access Control](/knowledge-base/studynote/02_operating_system/09_file_syst
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SetUID (4000), SetGID (2000), Sticky Bit (1000) 특수 권한</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ACL (Access Control List) 확장을 통한 세밀한 사용자별 파일 권한 통제</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">리눅스 확장 속성 (Extended Attributes, xattr)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">할당량 (Quota) 시스템</div></div>
-</div>
-</div>
-
-
+```text
+[SetUID (4000), SetGID (2000), Sticky Bit (1000) 특수 권한]
+    │
+    ▼
+[ACL (Access Control List) 확장을 통한 세밀한 사용자별 파일 권한 통제]
+    │
+    ├──▶ [리눅스 확장 속성 (Extended Attributes, xattr)]
+    └──▶ [할당량 (Quota) 시스템]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

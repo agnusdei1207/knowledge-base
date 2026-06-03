@@ -25,18 +25,15 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 왜 버퍼가 "burst fill"과 "steady drain" 사이를 이어 주는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">명령어 공급은 뭉텅이로 채워지고, 디코더는 일정한 속도로 소비한다</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Prefetch Buffer</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">Decode / Issue</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">burst fill smooth drain</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">refill 지연이 와도 버퍼가 남아 있으면 front-end stall을 늦출 수 있다.</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│      명령어 공급은 뭉텅이로 채워지고, 디코더는 일정한 속도로 소비한다        │
+├────────────────────────────────────────────────────────────────────────────┤
+│ I-cache / Flash Refill ---> [Prefetch Buffer] ---> Decode / Issue         │
+│      burst fill                 smooth drain                              │
+│ refill 지연이 와도 버퍼가 남아 있으면 front-end stall을 늦출 수 있다.      │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 프리패치 버퍼는 분식집 앞에 미리 삶아 둔 떡과 어묵 바구니와 같다. 손님 주문이 잠깐 몰려도 재료가 이미 앞에 있으면 조리대가 바로 멈추지 않는다.
 
@@ -58,19 +55,19 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 front-end에서 버퍼가 차지하는 자리를 구조적으로 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Fetch Front-End: predict -&gt; fetch -&gt; buffer -&gt; align -&gt; decode</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">PC / Branch Predictor</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">I-cache / Flash</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Fill Buffer</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">------ redirect / flush &lt;-------------</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Prefetch Buffer Queue</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Align / Predecode / Decode</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│        Fetch Front-End: predict -> fetch -> buffer -> align -> decode       │
+├────────────────────────────────────────────────────────────────────────────┤
+│ [PC / Branch Predictor] -> [I-cache / Flash] -> [Fill Buffer]              │
+│            │                                      │                         │
+│            └------ redirect / flush <-------------┘                         │
+│                                                     ▼                      │
+│                                            [Prefetch Buffer Queue]         │
+│                                                     ▼                      │
+│                                            [Align / Predecode / Decode]    │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 유튜브 영상이 끊기지 않으려면 인터넷이 완벽해서가 아니라, 잠깐 느려져도 버퍼에 남은 화면이 있기 때문이다. [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 프리패치 버퍼도 바로 그 완충 공간이다.
 
@@ -145,23 +142,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">8086 Prefetch Queue</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">I-cache + Simple Instruction Buffer</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Predecode · Alignment-Aware Buffer</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">BTB · Branch Predictor 결합 Front-End</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Loop Stream Detector · Micro-Operation Cache</div>
-</div>
-</div>
-
-
+```text
+8086 Prefetch Queue
+        │
+        ▼
+I-cache + Simple Instruction Buffer
+        │
+        ▼
+Predecode · Alignment-Aware Buffer
+        │
+        ▼
+BTB · Branch Predictor 결합 Front-End
+        │
+        ▼
+Loop Stream Detector · Micro-Operation Cache
+```
 
 이 흐름은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 공급이 단순 순차 읽기에서 출발해, 이제는 예측·완충·decode 재사용이 결합된 계층형 front-end로 발전했음을 보여 준다.
 

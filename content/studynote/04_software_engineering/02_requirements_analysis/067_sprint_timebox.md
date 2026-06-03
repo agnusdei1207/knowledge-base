@@ -28,21 +28,15 @@ Timebox가 정해져 있어 범위가 흔들리지 않고, 팀은 짧은 주기 
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Plan</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Do</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Check</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Adapt</div>
-</div>
-</div>
-
-
+```text
+Plan
+  ↓
+Do
+  ↓
+Check
+  ↓
+Adapt
+```
 
 | 요소 | 의미 |
 | :-- | :-- |
@@ -113,41 +107,29 @@ Timebox가 정해져 있어 범위가 흔들리지 않고, 팀은 짧은 주기 
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Backlog</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Sprint</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Increment</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Review / Retro</div>
-</div>
-</div>
-
-
+```text
+Backlog
+  ↓
+Sprint
+  ↓
+Increment
+  ↓
+Review / Retro
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Timebox</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Sprint</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Increment</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Continuous Improvement</div>
-</div>
-</div>
-
-
+```text
+Timebox
+  ↓
+Sprint
+  ↓
+Increment
+  ↓
+Continuous Improvement
+```
 
 ---
 

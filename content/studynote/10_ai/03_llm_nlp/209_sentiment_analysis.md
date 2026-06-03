@@ -24,17 +24,14 @@ tags = ["studynote-ai"]
 하지만 이 글들을 인간이 읽는 것은 물리적으로 불가능하다. 그래서 등장한 것이 <strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/">감성 분석</a> (<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/">Sentiment Analysis</a>)</strong>, 또는 <strong>오피니언 마이닝(Opinion Mining)</strong>이다. 
 초창기 [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/)은 단순히 사전에 "좋다=1점, 나쁘다=-1점"이라고 적어놓고 글 안에 무슨 단어가 많이 들어있는지 점수를 더하는 원시적인 덧셈 기계였다. 하지만 언어는 교활하다. "배송이 미치도록 빠르네요"라는 문장에서 '미치도록'은 사전적으로 부정적이지만 문맥상 극찬이다. 이 미묘한 뉘앙스의 한계를 돌파하기 위해, 딥러닝([RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/), [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/))이 도입되어 단어의 앞뒤 순서를 기억하기 시작했고, 마침내 [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)([Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/))가 문장 전체의 감정적 색채를 꿰뚫어 보며 [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/)은 인간의 눈치를 100% 모방하는 경지에 이르렀다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/)은 기업의 '초음파 청진기'다. 예전엔 사장님이 고객의 마음을 알기 위해 100명에게 일일이 전화해서 물어봐야 했다. 지금은 청진기([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))를 인터넷이라는 거대한 바다에 딱 대기만 하면, 100만 명의 사람들이 웅성거리는 소리를 빨간색(분노), 파란색(우울), 노란색(환희)의 예쁜 온도계 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)로 1초 만에 변환해서 사장님 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)에 띄워준다.
 
@@ -44,27 +41,26 @@ tags = ["studynote-ai"]
 
 [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/)의 뇌 구조는 단순한 단어장 매칭에서 벗어나, 문맥의 깊은 뜻을 벡터(Vector)로 짓눌러 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)한 뒤 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)로 뱉어내는 딥러닝 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인으로 굴러간다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">감성 분석 (Sentiment Analysis)의 딥러닝 분류(Classification) 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 데이터 텍스트 입력 및 토큰화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 사용자 리뷰: "화면은 큰데 배터리가 진짜 광탈이네요 ㅠㅠ"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">'화면', '크', '배터리', '광탈', 'ㅠㅠ'</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 임베딩(Embedding) 및 문맥 추출 뇌 (BERT / LSTM)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 글자들을 고차원 숫자 배열(Vector)로 번역하여 인공신경망에 밀어 넣음.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 어텐션(Attention) 레이어가 작동! ─▶ "화면이 큰 건(+) 좋지만,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">'배터리'와 '광탈'이라는 단어가 너무 찰싹 붙어있어서 치명적 타격(-)이군!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">* 문장 전체의 감정을 압축한 단 1개의 '요약 텐서(</div><div class="kb-diagram-node">CLS</div><div class="kb-diagram-note">Token)'를 쫙 뽑아냄.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3. 최종 감성 분류기 (Softmax Classifier)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 압축된 요약 텐서를 받아서, 마지막 확률 계산 필터에 던짐.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 출력 ─▶ 긍정(Positive) 12% / 중립(Neutral) 5% / 부정(Negative) 83%</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 결론: "이 리뷰는 83% 확률로 빡친 상태입니다!"</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           감성 분석 (Sentiment Analysis)의 딥러닝 분류(Classification) 아키텍처│
+├──────────────────────────────────────────────────────────────┤
+│  [1. 데이터 텍스트 입력 및 토큰화]                              │
+│   * 사용자 리뷰: "화면은 큰데 배터리가 진짜 광탈이네요 ㅠㅠ"             │
+│   * 형태소 분석기 ─▶ ['화면', '크', '배터리', '광탈', 'ㅠㅠ']         │
+│                                                              │
+│  [2. 임베딩(Embedding) 및 문맥 추출 뇌 (BERT / LSTM)]           │
+│   * 글자들을 고차원 숫자 배열(Vector)로 번역하여 인공신경망에 밀어 넣음.    │
+│   * 어텐션(Attention) 레이어가 작동! ─▶ "화면이 큰 건(+) 좋지만,     │
+│     '배터리'와 '광탈'이라는 단어가 너무 찰싹 붙어있어서 치명적 타격(-)이군!" │
+│   * 문장 전체의 감정을 압축한 단 1개의 '요약 텐서([CLS] Token)'를 쫙 뽑아냄.│
+│                                                              │
+│  [3. 최종 감성 분류기 (Softmax Classifier)]                     │
+│   * 압축된 요약 텐서를 받아서, 마지막 확률 계산 필터에 던짐.             │
+│   * 출력 ─▶ 긍정(Positive) 12% / 중립(Neutral) 5% / 부정(Negative) 83% │
+│   * 결론: "이 리뷰는 83% 확률로 빡친 상태입니다!"                     │
+└──────────────────────────────────────────────────────────────┘
+```
 
 <strong>핵심 원리 (ABSA, <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/">속성</a> 기반 <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/">감성 분석</a>)</strong>:
 실무에서는 단순히 문장 전체가 긍정인지 부정인지 뭉뚱그려 묻지 않는다. 앞선 예시처럼 "화면은 긍정, 배터리는 부정"이라는 한 문장 안의 양면성을 발라내야 한다. 이를 <strong>ABSA (Aspect-Based <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/">Sentiment Analysis</a>, <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/">속성</a> 기반 <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/105_exploratory_data_analysis/">감성 분석</a>)</strong>라고 한다. AI는 먼저 문장에서 제품의 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)(Aspect: 화면, 배터리, 가격)을 가위로 오려낸 뒤, 그 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 단어 주변에 붙어있는 수식어들의 감성을 개별적으로 계산하여 1개의 리뷰에서 3개의 서로 다른 감성 점수를 동시에 뱉어내는 극도로 고도화된 타겟팅 분석을 수행한다.

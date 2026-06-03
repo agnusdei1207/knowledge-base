@@ -25,17 +25,14 @@ tags = ["studynote-ai"]
 
 이때 [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/)(이미지 필터) 전문가들이 반란을 일으켰다. **"야! 10년 치 주식 차트를 그림(1D 이미지)이라고 생각하고, 돋보기(필터)로 한 방에 쾅 찍어서 훈련하면 안 돼?"** 단, 미래의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 과거에 섞여 들어가는 타임 패러독스(미래 누수)를 막기 위해 아주 교묘하게 필터의 모양을 깎아서 들이밀었다. 이 미친 발상의 전환으로 RNN을 관짝에 넣어버리고 등장한 것이 바로 <strong>TCN (시간 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/">합성곱</a> 네트워크)</strong>이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: RNN은 책을 1페이지부터 1,000페이지까지 손가락으로 하나하나 짚어가며 읽는 고지식한 선비다. 엄청 느리고 다 읽으면 앞 내용을 까먹는다. TCN은 1,000페이지짜리 책을 바닥에 쫙 펼쳐놓고, 거대한 돋보기를 들고 하늘에서 한 번에 쾅! 내려다보며 전체 책의 핵심 내용(맥락)을 1초 만에 사진 찍듯 스캔해 버리는 천재적인 속독 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터다.
 
@@ -45,28 +42,26 @@ tags = ["studynote-ai"]
 
 TCN의 심장에는 일반 이미지 CNN을 시계열 전용으로 마개조한 두 가지 마법의 톱니바퀴가 장착되어 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TCN (Temporal Convolutional Network)의 2대 수학적 마법 도해</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">마법 1. 인과적 합성곱 (Causal Convolution) - 미래 스포일러 차단!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 문제: 일반 CNN 돋보기로 '오늘(t)' 주가를 찍으면, 옆에 있는 '내일(t+1)'</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주가까지 돋보기에 같이 보여서 커닝(Data Leakage)하게 됨!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 마법: 돋보기를 딱 절반으로 쪼개서, 오늘(t)보다 오른쪽에 있는 미래 데이터는</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">검은 테이프로 가려버림! 철저히 '과거~오늘'까지만 훑어보는 돋보기 완성.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">마법 2. 팽창된 합성곱 (Dilated Convolution) - 구멍 난 거대 뜰채!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 문제: 10년 치 과거를 보려면 돋보기(필터) 크기를 무식하게 1,000배 키워야 함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">그러면 연산량이 폭발해서 칩이 타버림.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 마법: 돋보기에 징검다리처럼 구멍(비우기)을 뚫음!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 1층에선 (어제, 오늘) 2개만 봄.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 2층에선 (2일 전, 오늘) 2개만 봄. (사이는 뻥 뚫고 점프!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 3층에선 (4일 전, 오늘) 2개만 봄. (기하급수적으로 시야가 미친 듯 팽창!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 결과: 연산은 딱 2번씩만 했는데, 3층만 쌓아도 한 번에 과거 10년 치를 다 뚫어봄!</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           TCN (Temporal Convolutional Network)의 2대 수학적 마법 도해│
+├──────────────────────────────────────────────────────────────┤
+│  [마법 1. 인과적 합성곱 (Causal Convolution) - 미래 스포일러 차단!]    │
+│   * 문제: 일반 CNN 돋보기로 '오늘(t)' 주가를 찍으면, 옆에 있는 '내일(t+1)'│
+│           주가까지 돋보기에 같이 보여서 커닝(Data Leakage)하게 됨!      │
+│   * 마법: 돋보기를 딱 절반으로 쪼개서, 오늘(t)보다 오른쪽에 있는 미래 데이터는│
+│           검은 테이프로 가려버림! 철저히 '과거~오늘'까지만 훑어보는 돋보기 완성.│
+│                                                              │
+│  [마법 2. 팽창된 합성곱 (Dilated Convolution) - 구멍 난 거대 뜰채!]   │
+│   * 문제: 10년 치 과거를 보려면 돋보기(필터) 크기를 무식하게 1,000배 키워야 함.│
+│           그러면 연산량이 폭발해서 칩이 타버림.                         │
+│   * 마법: 돋보기에 징검다리처럼 구멍(비우기)을 뚫음!                      │
+│     ─▶ 1층에선 (어제, 오늘) 2개만 봄.                               │
+│     ─▶ 2층에선 (2일 전, 오늘) 2개만 봄. (사이는 뻥 뚫고 점프!)          │
+│     ─▶ 3층에선 (4일 전, 오늘) 2개만 봄. (기하급수적으로 시야가 미친 듯 팽창!)│
+│   * 결과: 연산은 딱 2번씩만 했는데, 3층만 쌓아도 한 번에 과거 10년 치를 다 뚫어봄!│
+└──────────────────────────────────────────────────────────────┘
+```
 
 **핵심 원리 (장기 기억의 폭발적 수용력)**:
 RNN이 100일 전의 기억을 되살리려면 정보가 100번의 레이어를 징검다리 건너듯 거쳐와야 해서 중간에 기억이 닳고 증발해 버렸다([기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/)). 반면 TCN은 <strong>Dilated(팽창된) 필터</strong>를 통해, 층(Layer)을 10개만 쌓아도 $2^{[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)}$ = 1,024일 전의 과거 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 수직 엘리베이터(Residual Connection)를 타고 단 10계단 만에 다이렉트로 오늘(출력)까지 빛의 속도로 꽂혀 들어온다. 계산량은 쥐꼬리만 한데, 기억력(Receptive Field)은 우주처럼 넓어지는 궁극의 아키텍처다.

@@ -30,22 +30,23 @@ SAFe ([Scaled Agile](/knowledge-base/studynote/04_software_engineering/02_requir
 
 SAFe의 아키텍처는 수백 명의 인원을 통제하기 위해 <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/621_art_android_runtime/">ART</a> (<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">Agile</a> Release Train)</strong>라는 강력한 [메타포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/079_metaphor_xp_practice/)를 운영 심장부로 사용한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SAFe의 핵심 심장: ART (애자일 릴리즈 열차) 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">PI (Program Increment) 기간: 보통 10주 (2주 x 5번의 스프린트)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(출발) PI 플래닝 (2박 3일 100명 전원 오프라인 합의)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스크럼 A팀</div><div class="kb-diagram-note">S1 ── S2 ── S3 ── S4 ── S5 (통합/배포)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스크럼 B팀</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">1.0</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스크럼 C팀</div><div class="kb-diagram-note">S1 ── S2 ── S3 ── S4 ── S5 (통합/배포) Release</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심 규칙: 모든 팀은 "반드시" 같은 날에 스프린트를 시작하고 같은 날에 끝낸다.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">누구는 2주, 누구는 3주 제멋대로 도는 것을 절대 금지함 (동기화 강제).</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────────────┐
+│              SAFe의 핵심 심장: ART (애자일 릴리즈 열차) 구조               │
+├───────────────────────────────────────────────────────────────────────┤
+│                                                                       │
+│  [ PI (Program Increment) 기간: 보통 10주 (2주 x 5번의 스프린트) ]             │
+│                                                                       │
+│  (출발) PI 플래닝 (2박 3일 100명 전원 오프라인 합의)                         │
+│    │                                                                  │
+│    ├─▶ [스크럼 A팀] S1 ── S2 ── S3 ── S4 ── S5 (통합/배포)            │
+│    ├─▶ [스크럼 B팀] S1 ── S2 ── S3 ── S4 ── S5 (통합/배포)  ======▶ 1.0 │
+│    └─▶ [스크럼 C팀] S1 ── S2 ── S3 ── S4 ── S5 (통합/배포)  Release    │
+│                                                                       │
+│ * 핵심 규칙: 모든 팀은 "반드시" 같은 날에 스프린트를 시작하고 같은 날에 끝낸다.│
+│   누구는 2주, 누구는 3주 제멋대로 도는 것을 절대 금지함 (동기화 강제).        │
+└───────────────────────────────────────────────────────────────────────┘
+```
 
 <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/621_art_android_runtime/">ART</a> (<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">애자일</a> 릴리즈 열차)</strong>는 50명에서 125명의 인원(프론트, 백엔드, 테스터 등 10여 개의 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 팀)이 하나의 가상 기차에 탑승하는 구조다. 이 열차는 철저하게 정해진 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)(Cadence, 보통 10주)에 맞춰 출발하고 도착한다. 10개의 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 팀은 각자 편한 대로 일정을 잡지 못하고, 무조건 똑같이 월요일에 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)를 시작해 금요일에 맞춰 끝내는 템포 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) ([Synchronization](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/))를 강제받는다. 10주 뒤 열차가 멈춰 서면, 100명이 짠 모든 코드가 하나로 통합되어 거대한 배포(Release)가 터진다. 
 
@@ -104,23 +105,21 @@ SAFe ([Scaled Agile](/knowledge-base/studynote/04_software_engineering/02_requir
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단일 팀 단위의 순수 애자일 (Scrum) 한계 봉착</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">대기업 도입을 위한 관료화 프레임워크 SAFe의 등장</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">4계층 분리 통제 (포트폴리오 ─ 솔루션 ─ 프로그램 ─ 팀)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">PI 플래닝 (PI Planning)을 통한 부서 간 의존성 사전 타협</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ART (Agile Release Train) 출항 · 수백 명의 템포 동기화 달성</div>
-</div>
-</div>
-
-
+```text
+단일 팀 단위의 순수 애자일 (Scrum) 한계 봉착
+    │
+    ▼
+대기업 도입을 위한 관료화 프레임워크 SAFe의 등장
+    │
+    ▼
+4계층 분리 통제 (포트폴리오 ─ 솔루션 ─ 프로그램 ─ 팀)
+    │
+    ▼
+PI 플래닝 (PI Planning)을 통한 부서 간 의존성 사전 타협
+    │
+    ▼
+ART (Agile Release Train) 출항 · 수백 명의 템포 동기화 달성
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

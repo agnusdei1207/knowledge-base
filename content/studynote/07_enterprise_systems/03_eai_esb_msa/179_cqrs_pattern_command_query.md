@@ -23,19 +23,17 @@ tags = ["studynote-enterprise"]
 
 [마이크로서비스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/) ([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/), [Microservices Architecture](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/122_msa_microservices_architecture/)) 에서는 이 충돌이 더 커진다. 주문, 회원, 상품 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)되면 과거처럼 하나의 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)에서 복잡한 조인을 수행하기 어렵다. 게이트웨이에서 여러 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 호출해 결과를 합칠 수도 있지만, [네트워크 지연](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/)이 누적되고 장애 전파가 쉬워지며, 화면별 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조를 만들기 위해 애플리케이션 코드가 지나치게 복잡해진다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Single model overload</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">same domain model + same schema + same database</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Command needs transaction, validation, invariant</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Query needs join, search, pagination, denormalized view</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 하나의 모델이 두 종류의 요구를 모두 억지로 떠안음</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Single model overload                                              │
+├────────────────────────────────────────────────────────────────────┤
+│ same domain model + same schema + same database                    │
+│   ├─ Command needs transaction, validation, invariant              │
+│   └─ Query needs join, search, pagination, denormalized view       │
+│                                                                    │
+│ 결과: 하나의 모델이 두 종류의 요구를 모두 억지로 떠안음              │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 CQRS는 바로 이 지점에서 출발한다. "같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다룬다"와 "같은 모델로 다뤄야 한다"는 가정을 분리하는 것이다. 즉 업무 규칙을 지키는 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 모델과, 사용자가 빨리 읽을 수 있게 재구성한 조회 모델을 나누어 각자 다른 목표에 최적화한다.
 
@@ -59,22 +57,27 @@ CQRS는 바로 이 지점에서 출발한다. "같은 [데이터](/knowledge-bas
 
 아래 그림은 CQRS의 전형적인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름을 요약한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CQRS flow</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User command</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Command handler ─▶ Write model ─▶ Write store</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ outbox / event</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">projector / consumer</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Read model store</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User query</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Query API reads optimized projection</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ CQRS flow                                                          │
+├────────────────────────────────────────────────────────────────────┤
+│ User command                                                       │
+│   │                                                                │
+│   ▼                                                                │
+│ Command handler ─▶ Write model ─▶ Write store                      │
+│                                 │                                  │
+│                                 └─ outbox / event                  │
+│                                            │                       │
+│                                            ▼                       │
+│                                      projector / consumer          │
+│                                            │                       │
+│                                            ▼                       │
+│                                      Read model store              │
+│                                            │                       │
+│ User query  ───────────────────────────────┘                       │
+│   └─ Query API reads optimized projection                          │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조에서 중요한 것은 읽기 저장소가 단순 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)본이 아니라는 점이다. 조회 모델은 "주문 상세 화면", "고객별 최근 주문 목록", "검색 자동완성"처럼 <strong>사용 사례별로 미리 가공된 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 뷰</strong>가 될 수 있다. 그래서 CQRS는 종종 머티리얼라이즈드 뷰 (Materialized [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/)) 나 이벤트 기반 프로젝션과 함께 설명된다.
 
@@ -158,25 +161,24 @@ CQRS를 올바르게 적용하면 [쓰기](/knowledge-base/studynote/13_cloud_ar
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">사용자 명령</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Command Handler + Write Model</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Write Store + Outbox/Event</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Projector / Consumer</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Read Model (projection)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Query API · 검색 · 화면 응답</div>
-</div>
-</div>
-
-
+```text
+사용자 명령
+    │
+    ▼
+Command Handler + Write Model
+    │
+    ▼
+Write Store + Outbox/Event
+    │
+    ▼
+Projector / Consumer
+    │
+    ▼
+Read Model (projection)
+    │
+    ▼
+Query API · 검색 · 화면 응답
+```
 
 이 흐름도는 "명령 처리 → 변경 사실 전달 → 조회 모델 투영 → 읽기 응답"이라는 CQRS의 핵심 작동 순서를 요약한다.
 

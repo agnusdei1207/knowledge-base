@@ -35,18 +35,14 @@ OLTP는 빠른 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_
 
 OLAP의 핵심은 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 큐브(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Cube)</strong> — 측정값(Measure)을 여러 차원(Dimension)의 교차점에 배치한 구조다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">제품 차원</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간 차원</div><div class="kb-diagram-cell">매출 큐브</div><div class="kb-diagram-cell">지역 차원</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">►</div><div class="kb-diagram-node">날짜</div><div class="kb-diagram-node">제품</div><div class="kb-diagram-note">◄</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">지역</div><div class="kb-diagram-node">금액</div></div>
-</div>
-</div>
-
-
+```
+          제품 차원
+          ┌──────────────┐
+시간 차원  │  매출 큐브   │  지역 차원
+    ──────►│  [날짜][제품]│◄──────
+          │  [지역][금액]│
+          └──────────────┘
+```
 
 - **측정값(Measure)**: 매출액, 수량, 이익률 등 집계 대상 숫자
 - **차원(Dimension)**: 분석 관점 — 시간, 제품, 지역, 고객
@@ -68,26 +64,28 @@ OLAP의 핵심은 <strong><a href="/knowledge-base/studynote/05_database/01_db_a
 
 ### 2.2 [스타 스키마](/knowledge-base/studynote/05_database/06_dw_olap_trends/334_star_schema/) ([Star Schema](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/296_star_schema/)) 구조
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DIM_시간</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">surrogate_key</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">날짜/월/분기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DIM_제품</div><div class="kb-diagram-cell">FACT_매출</div><div class="kb-diagram-cell">DIM_지역</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">product_sk ── time_sk ── region_sk</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제품명/카테</div><div class="kb-diagram-cell">product_sk</div><div class="kb-diagram-cell">도시/국가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">region_sk</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">customer_sk</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">매출액 / 수량</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DIM_고객</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">customer_sk</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고객명/등급/연령대</div></div>
-</div>
-</div>
-
-
+```
+             ┌─────────────────┐
+             │  DIM_시간       │
+             │  surrogate_key  │
+             │  날짜/월/분기   │
+             └────────┬────────┘
+                      │
+┌─────────────┐  ┌────┴──────────────┐  ┌─────────────┐
+│  DIM_제품   │  │  FACT_매출        │  │  DIM_지역   │
+│ product_sk  ├──┤  time_sk          ├──┤ region_sk   │
+│ 제품명/카테 │  │  product_sk       │  │ 도시/국가   │
+└─────────────┘  │  region_sk        │  └─────────────┘
+                 │  customer_sk      │
+                 │  매출액 / 수량    │
+                 └───────────────────┘
+                         │
+             ┌───────────┴──────────┐
+             │  DIM_고객            │
+             │  customer_sk         │
+             │  고객명/등급/연령대  │
+             └──────────────────────┘
+```
 
 ### 2.3 [서로게이트 키](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/276_surrogate_key_artificial_identifier/) ([Surrogate Key](/knowledge-base/studynote/12_it_management/05_security_compliance/314_surrogate_key/))
 
@@ -104,34 +102,28 @@ OLAP의 핵심은 <strong><a href="/knowledge-base/studynote/05_database/01_db_a
 
 <strong><a href="/knowledge-base/studynote/07_enterprise_systems/05_data_bi/277_scd_slowly_changing_dimension_modeling/">SCD</a>(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/575_scd_slowly_changing_dimension_type_history_management/">Slowly Changing Dimension</a>) Type 2</strong> 적용 예:
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">고객_SK 고객_자연키 고객명 등급 시작일 종료일 현재</div>
-<div class="kb-diagram-note">1001 C-00123 홍길동 GOLD 2020-01-01 2022-05-31 N</div>
-<div class="kb-diagram-note">1002 C-00123 홍길동 VIP 2022-06-01 9999-12-31 Y</div>
-</div>
-</div>
-
-
+```
+고객_SK  고객_자연키  고객명  등급  시작일      종료일      현재
+───────  ──────────  ──────  ────  ──────────  ──────────  ──────
+1001     C-00123     홍길동  GOLD  2020-01-01  2022-05-31  N
+1002     C-00123     홍길동  VIP   2022-06-01  9999-12-31  Y
+```
 
 ### 2.4 [OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/) 연산 4종
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">롤업 Roll-Up : 세부 → 요약 (일→월→분기→연도)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">드릴다운 Drill-Down : 요약 → 세부 (연도→분기→월→일)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">슬라이스 Slice : 한 차원을 고정값으로 필터링</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(예: 지역='서울'로 고정 → 2D 단면 추출)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다이스 Dice : 여러 차원을 범위 필터링</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(예: 지역 IN('서울','부산') AND 월 IN(1,2,3))</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────┐
+│  롤업 Roll-Up : 세부 → 요약 (일→월→분기→연도)          │
+│  ↑                                                      │
+│  드릴다운 Drill-Down : 요약 → 세부 (연도→분기→월→일)   │
+│  ↓                                                      │
+│  슬라이스 Slice : 한 차원을 고정값으로 필터링           │
+│  (예: 지역='서울'로 고정 → 2D 단면 추출)               │
+│                                                         │
+│  다이스 Dice : 여러 차원을 범위 필터링                  │
+│  (예: 지역 IN('서울','부산') AND 월 IN(1,2,3))         │
+└─────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: [OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/) 연산은 지도 앱과 같다 — [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)은 줌아웃(전국 보기), 드릴다운은 줌인(골목길 보기), [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/)는 서울만 보기, 다이스는 서울·부산 겨울철만 보기다.
 
@@ -173,19 +165,14 @@ WHERE ([지역].[도시].[서울])
 
 ### 4.1 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 설계 시 [서로게이트 키](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/276_surrogate_key_artificial_identifier/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
+```
+ETL 파이프라인 내 SK 생성 흐름:
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">ETL 파이프라인 내 SK 생성 흐름:</div>
-<div class="kb-diagram-note">소스DB → 스테이징 영역 → DW 차원 테이블</div>
-<div class="kb-diagram-note">고객ID(자) 중복제거/정제 customer_sk(SK)=시퀀스</div>
-<div class="kb-diagram-note">C-00123 → C-00123 → 1001</div>
-<div class="kb-diagram-note">C-00456 → C-00456 → 1002</div>
-</div>
-</div>
-
-
+소스DB     →  스테이징 영역     →  DW 차원 테이블
+고객ID(자)     중복제거/정제         customer_sk(SK)=시퀀스
+C-00123    →  C-00123          →  1001
+C-00456    →  C-00456          →  1002
+```
 
 <strong>실무 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong>:
 - SK는 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/)(Extract, Transform, Load) 레이어에서 자동 증가(IDENTITY/SEQUENCE)로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
@@ -194,23 +181,19 @@ WHERE ([지역].[도시].[서울])
 
 ### 4.2 [MOLAP](/knowledge-base/studynote/05_database/06_dw_olap_trends/336_molap/) vs [ROLAP](/knowledge-base/studynote/05_database/06_dw_olap_trends/337_rolap/) 선택 기준
 
+```
+데이터 크기가 크고 갱신 빈도가 높다면?
+       ↓
+  ROLAP or HOLAP
 
+데이터 크기가 작고 쿼리 속도가 최우선이라면?
+       ↓
+  MOLAP (사전 집계 큐브)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">데이터 크기가 크고 갱신 빈도가 높다면?</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">ROLAP or HOLAP</div>
-<div class="kb-diagram-note">데이터 크기가 작고 쿼리 속도가 최우선이라면?</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">MOLAP (사전 집계 큐브)</div>
-<div class="kb-diagram-note">혼합 워크로드라면?</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">HOLAP (세부 데이터→ROLAP, 집계→MOLAP)</div>
-</div>
-</div>
-
-
+혼합 워크로드라면?
+       ↓
+  HOLAP (세부 데이터→ROLAP, 집계→MOLAP)
+```
 
 📢 **섹션 요약 비유**: MOLAP은 미리 요리해 놓은 도시락(빠르나 메뉴 고정), ROLAP은 즉석 주문 조리(느리나 메뉴 무한대)다. 둘의 장점을 합친 게 HOLAP이다.
 
@@ -252,24 +235,21 @@ WHERE ([지역].[도시].[서울])
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">OLTP (행 기반 트랜잭션)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">OLAP: 다차원 분석 (Cube · Drill-Down · Roll-Up)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">MOLAP: 사전 집계 큐브 (빠름 · 유연성↓)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">ROLAP: RDBMS 기반 (유연 · 속도↓)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">HOLAP: 혼합 방식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Surrogate Key: 비즈니스 키 대체 인조키 (SCD 연동)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 MPP DW: BigQuery · Snowflake (OLAP 현대화)</div>
-</div>
-</div>
-
-
+```text
+OLTP (행 기반 트랜잭션)
+    │
+    ▼
+OLAP: 다차원 분석 (Cube · Drill-Down · Roll-Up)
+    ├─► MOLAP: 사전 집계 큐브 (빠름 · 유연성↓)
+    ├─► ROLAP: RDBMS 기반 (유연 · 속도↓)
+    └─► HOLAP: 혼합 방식
+    │
+    ▼
+Surrogate Key: 비즈니스 키 대체 인조키 (SCD 연동)
+    │
+    ▼
+클라우드 MPP DW: BigQuery · Snowflake (OLAP 현대화)
+```
 2. 드릴다운은 전국 매출에서 서울, 서울에서 강남, 강남에서 특정 매장으로 점점 깊이 파고드는 거야 — 마치 지도 줌인처럼!
 3. [서로게이트 키](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/276_surrogate_key_artificial_identifier/)는 고객 번호가 바뀌어도 변하지 않는 '도서관 등록 번호'야 — 이름이 바뀌거나 주소가 바뀌어도 도서관 카드 번호는 그대로지.
 

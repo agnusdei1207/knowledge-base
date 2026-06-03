@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **비용의 악몽**: 기업 본사와 지사를 안전하게 연결하려면 통신사가 파는 전용망([MPLS](/knowledge-base/studynote/03_network/07_network_layer_routing/373_mpls_multiprotocol_label_switching_20bit/), 984번)을 썼습니다. 보안과 품질([QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/))은 완벽하지만 일반 인터넷 요금의 10배~100배로 미치도록 비쌉니다.
 - **클라우드 트래픽 병목 (헤어핀 현상)**: 부산 지사 직원이 MS 오피스 365(클라우드)를 씁니다. 옛날 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)은 보안 때문에 무조건 '부산 ➜ 서울 본사 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) ➜ 미국 클라우드'로 빙빙 돌아가게 설계되어 본사 회선이 폭발했습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Thread / Matter 표준 망</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SD-WAN 중앙 정책 관리형 브랜치</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SASE 네트워킹/보안 융합 클라우드</div></div>
-</div>
-</div>
-
-
+```text
+[Thread / Matter 표준 망]
+    │
+    ▼
+[SD-WAN 중앙 정책 관리형 브랜치]
+    │
+    └──▶ [SASE 네트워킹/보안 융합 클라우드]
+```
 
 - **📢 섹션 요약 비유**: [SD-WAN](/knowledge-base/studynote/03_network/16_data_center_cloud/849_sd_wan_software_defined_wide_area_network/) 중앙 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 관리형 브랜치는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -44,18 +40,14 @@ tags = ["studynote-network"]
 - **개념**: [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 안에서만 놀던 850번 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/">SDN</a>(<a href="/knowledge-base/studynote/03_network/17_sdn_nfv/850_sdn_software_defined_networking_concept/">소프트웨어 정의 네트워킹</a>)</strong> 기술을, 수백 km 떨어진 본사와 지사를 잇는 광역망(WAN)으로 확장한 것입니다.
 - 비싼 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/)([MPLS](/knowledge-base/studynote/03_network/07_network_layer_routing/373_mpls_multiprotocol_label_switching_20bit/)) 대신 싸구려 광랜 인터넷 2개, [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)/[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 무선망 등을 짬뽕으로(하이브리드) 꽂아두고, <strong>소프트웨어 <a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a> 기술을 이용해 마치 1개의 거대한 가상 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/">전용선</a>(Overlay)처럼 묶어버리는 기술</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Thread / Matter 표준 망</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SD-WAN 중앙 정책 관리형 브랜치</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SASE 네트워킹/보안 융합 클라우드</div></div>
-</div>
-</div>
-
-
+```text
+[Thread / Matter 표준 망]
+    │
+    ▼
+[SD-WAN 중앙 정책 관리형 브랜치]
+    │
+    └──▶ [SASE 네트워킹/보안 융합 클라우드]
+```
 
 - **📢 섹션 요약 비유**: [SD-WAN](/knowledge-base/studynote/03_network/16_data_center_cloud/849_sd_wan_software_defined_wide_area_network/) 중앙 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 관리형 브랜치의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -122,19 +114,15 @@ SD-WAN의 존재 이유입니다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: Thread / Matter 표준 망</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: SD-WAN 중앙 정책 관리형 브랜치</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: SASE 네트워킹/보안 융합 클라우드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: Thread / Matter 표준 망]
+    │
+    ▼
+[현재 개념: SD-WAN 중앙 정책 관리형 브랜치]
+    │
+    ├──▶ [확장 A: SASE 네트워킹/보안 융합 클라우드]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 [SD-WAN](/knowledge-base/studynote/03_network/16_data_center_cloud/849_sd_wan_software_defined_wide_area_network/) 중앙 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 관리형 브랜치는 [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) / [Matter](/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/) 표준 망에서 출발해 현재 메커니즘을 정교화하고, 이후 [SASE](/knowledge-base/studynote/03_network/14_network_security_threats/740_sase_secure_access_service_edge_sdwan_cloud/) 네트워킹/보안 융합 클라우드와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

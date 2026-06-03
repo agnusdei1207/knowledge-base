@@ -29,29 +29,36 @@ tags = ["studynote-it-management"]
 | **통제 (Gatekeeping)** | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인 (Quality Gate) | 설정된 부채 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)(예: 테스트 커버리지 80% 미만) 위반 시 빌드 및 릴리스 강제 실패 처리 (Fail) |
 | <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> (<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">Policy</a>)</strong> | 에러 버짓([Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)) 연동 | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단 허용 시간이 바닥나면 신규 배포를 즉각 멈추고 시스템 안정화 작업으로 강제 전환 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Technical Debt Monitoring &amp; Release Pipeline</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">개발자 Commit</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CI Server (빌드 &amp; 테스트)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SonarQube 정적 분석</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 복잡도 검사</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 기술 부채 일수 계산</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Quality Gate (릴리스 정책 검증)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Pass: 빚 정상</div><div class="kb-diagram-node">Fail: 한도 초과</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">운영 환경 Release</div><div class="kb-diagram-node">배포 강제 중단</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(리팩토링 지시)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          Technical Debt Monitoring & Release Pipeline       │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ 개발자 Commit ] ──▶ [ CI Server (빌드 & 테스트) ]     │
+│                                 │                           │
+│                                 ▼                           │
+│                      ┌──────────────────────┐               │
+│                      │ SonarQube 정적 분석  │               │
+│                      │ - 복잡도 검사        │               │
+│                      │ - 기술 부채 일수 계산│               │
+│                      └──────────┬───────────┘               │
+│                                 │                           │
+│                                 ▼                           │
+│                 [ Quality Gate (릴리스 정책 검증) ]         │
+│                 /                               \           │
+│         [Pass: 빚 정상]                   [Fail: 한도 초과] │
+│              │                                  │           │
+│              ▼                                  ▼           │
+│      [운영 환경 Release]                  [배포 강제 중단]  │
+│                                           (리팩토링 지시)   │
+└─────────────────────────────────────────────────────────────┘
+```
 위 다이어그램은 코드가 병합될 때마다 [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) 도구가 기술 부채를 계산하고, 이 점수가 사전에 합의된 퀄리티 게이트의 기준을 통과하지 못하면 상용 환경으로의 배포(Release)가 기술적으로 차단되는 자동화된 파이프라인을 보여준다.
 
 - **📢 섹션 요약 비유**: 눈에 보이지 않는 신용카드 빚(기술 부채) 명세서를 사장님 책상 위에 매일 올려두고, "이번 달 빚이 한도(Quality Gate)를 넘었으니 빚을 갚기 전까진 결제 승인(배포 허가)을 절대 안 내준다"고 막아서는 깐깐한 회계 시스템과 같다.
 
 ### Ⅲ. 비교 및 연결
-부채의 성격에 따라 관리 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 달라져야 하며, 이를 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)([Site Reliability Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)) 관점의 에러 버짓과 연결해야 한다.
+부채의 성격에 따라 관리 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 달라져야 하며, 이를 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)([Site Reliability 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)) 관점의 에러 버짓과 연결해야 한다.
 
 | 비교 항목 | 의도적 부채 (Prudent Debt) | 무모한 부채 (Reckless Debt) |
 |---|---|---|
@@ -81,27 +88,25 @@ tags = ["studynote-it-management"]
 ### 📌 관련 개념 맵
 - **상위 개념**: 소프트웨어 유지보수, [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) ([Refactoring](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/078_refactoring_code_smells/))
 - **연관 개념**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인, [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) ([Static Analysis](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/)), [코드 스멜](/knowledge-base/studynote/04_software_engineering/06_software_architecture/370_code_smell/) ([Code Smell](/knowledge-base/studynote/12_it_management/05_security_compliance/365_5_solid_code_smell/))
-- **파생 개념**: [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)), 에러 버짓 ([Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)), 퀄리티 게이트 (Quality Gate)
+- **파생 개념**: [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)), 에러 버짓 ([Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)), 퀄리티 게이트 (Quality Gate)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">개발 속도 우선주의 · 스파게티 코드 양산</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">기술 부채 (Technical Debt) 개념화 · 이자(유지보수 비용) 발생 인지</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">정적 분석 도구 도입 (SonarQube) · 부채의 정량화 및 지수화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CI/CD Quality Gate 연동 · 부채 초과 시 릴리스 강제 차단 자동화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SRE 연계 (Error Budget) · 데이터 기반의 비즈니스 타협 정책 확립</div>
-</div>
-</div>
-
-
+```text
+개발 속도 우선주의 · 스파게티 코드 양산
+    │
+    ▼
+기술 부채 (Technical Debt) 개념화 · 이자(유지보수 비용) 발생 인지
+    │
+    ▼
+정적 분석 도구 도입 (SonarQube) · 부채의 정량화 및 지수화
+    │
+    ▼
+CI/CD Quality Gate 연동 · 부채 초과 시 릴리스 강제 차단 자동화
+    │
+    ▼
+SRE 연계 (Error Budget) · 데이터 기반의 비즈니스 타협 정책 확립
+```
 
 이 흐름도는 방치되던 부채가 점차 정량화되고 자동화된 배포 파이프라인의 통제 장치로, 나아가 조직 전체의 릴리스 통제 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 성숙해가는 과정을 보여준다.
 

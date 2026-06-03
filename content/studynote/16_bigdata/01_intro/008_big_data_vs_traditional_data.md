@@ -25,22 +25,18 @@ tags = ["bigdata"]
 
 이 시점에서 RDBMS는 두 가지 치명적인 한계에 직면했다. 첫째, 조인([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/)) 연산과 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 유지하기 위해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 단일 서버(또는 소수의 강력한 서버)에 집중되어야 했으므로 확장에 물리적/비용적 한계(Scale-Up의 한계)가 뚜렷했다. 둘째, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 유입되기 전에 반드시 테이블 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)가 정의되어 있어야 하는 '[스키마 온 라이트](/knowledge-base/studynote/14_data_engineering/01_infrastructure/010_schema_on_write/)([Schema-on-Write](/knowledge-base/studynote/14_data_engineering/01_infrastructure/010_schema_on_write/))' 구조 탓에 다변하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포맷을 실시간으로 수용할 수 없었다. 이 두 가지 병목을 해결하기 위해 등장한 것이 바로 [분산 파일 시스템](/knowledge-base/studynote/02_operating_system/09_file_system/553_distributed_file_system/)([HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/))과 NoSQL로 대표되는 빅데이터 아키텍처다.
 
+```text
+이 도식은 데이터가 폭증하는 상황에서 전통적 데이터베이스가 겪는 물리적 한계(스케일업)와, 빅데이터 시스템의 스케일아웃 방식을 비교하여 보여준다.
 
+[전통적 RDBMS: 스케일업(Scale-Up)의 한계]
+[CPU/RAM ↑] ──(비용 기하급수적 증가)──> [Super Server] ──(물리적 임계점 도달)──> 시스템 마비
+                                            ▲ 병목 지점: 특정 성능 이상 확장이 불가능함
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 도식은 데이터가 폭증하는 상황에서 전통적 데이터베이스가 겪는 물리적 한계(스케일업)와, 빅데이터 시스템의 스케일아웃 방식을 비교하여 보여준다.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전통적 RDBMS: 스케일업(Scale-Up)의 한계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CPU/RAM ↑</div><div class="kb-diagram-note">──(비용 기하급수적 증가)──&gt;</div><div class="kb-diagram-node">Super Server</div><div class="kb-diagram-note">──(물리적 임계점 도달)──&gt; 시스템 마비</div></div>
-<div class="kb-diagram-note">▲ 병목 지점: 특정 성능 이상 확장이 불가능함</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">빅데이터 플랫폼: 스케일아웃(Scale-Out)의 유연성</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Commodity PC 1</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Commodity PC 2</div><div class="kb-diagram-note">──(선형적 비용 증가)──&gt;</div><div class="kb-diagram-node">Distributed Cluster</div><div class="kb-diagram-note">──(무한 확장 가능)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Commodity PC N</div><div class="kb-diagram-connector">▲</div><div class="kb-diagram-note">이점: 저렴한 장비 추가만으로 성능 향상</div></div>
-</div>
-</div>
-
-
+[빅데이터 플랫폼: 스케일아웃(Scale-Out)의 유연성]
+[Commodity PC 1] ┐
+[Commodity PC 2] ┼──(선형적 비용 증가)──> [Distributed Cluster] ──(무한 확장 가능)
+[Commodity PC N] ┘                          ▲ 이점: 저렴한 장비 추가만으로 성능 향상
+```
 이 비교의 핵심은 '비용과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 상관곡선'이다. 스케일업은 하이엔드 장비를 도입해야 하므로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 조금만 올라가도 비용이 수십 배 상승하는 반면, 빅데이터의 스케일아웃 구조는 저렴한 범용 x86 서버(Commodity Hardware)를 수백, 수천 대 연결하여 비용을 선형적으로 유지하면서도 무한한 확장을 가능하게 한다.
 
 > 📢 **섹션 요약 비유**: RDBMS의 확장이 천재 요리사 한 명에게 점점 더 크고 비싼 주방 도구를 사주는 것(결국 한계에 부딪힘)이라면, 빅데이터의 확장은 평범한 요리사 수십 명을 고용해 역할을 분담시키는 것(무한한 생산성)과 같습니다.
@@ -61,24 +57,20 @@ tags = ["bigdata"]
 
 Shared-Nothing 아키텍처는 각 노드가 자신만의 CPU, 메모리, 디스크를 가지며 네트워크를 통해서만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주고받는다. 이 구조는 노드 간 상태 공유를 최소화하여 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 경합을 없애고 선형적 확장을 가능하게 한다.
 
+```text
+이 도식은 RDBMS의 병목인 Shared-Disk 구조와 빅데이터의 확장성 근간인 Shared-Nothing 분산 구조의 메모리/디스크 레이아웃을 비교한다.
 
+[전통적 DB: Shared-Disk Architecture]
+[Node A (CPU/RAM)] ──┐                    ┌──> 락 경합(Lock Contention) 발생
+[Node B (CPU/RAM)] ──┼──> [SAN Storage] ──┤ 
+[Node C (CPU/RAM)] ──┘                    └──> 디스크 I/O 대역폭 병목
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 도식은 RDBMS의 병목인 Shared-Disk 구조와 빅데이터의 확장성 근간인 Shared-Nothing 분산 구조의 메모리/디스크 레이아웃을 비교한다.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전통적 DB: Shared-Disk Architecture</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Node A (CPU/RAM)</div><div class="kb-diagram-note">── ──&gt; 락 경합(Lock Contention) 발생</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Node B (CPU/RAM)</div><div class="kb-diagram-note">── ──&gt;</div><div class="kb-diagram-node">SAN Storage</div><div class="kb-diagram-note">──</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Node C (CPU/RAM)</div><div class="kb-diagram-note">── ──&gt; 디스크 I/O 대역폭 병목</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">빅데이터: Shared-Nothing Architecture</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Node A (CPU/RAM + Local Disk)</div><div class="kb-diagram-note">──(네트워크)──</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Node B (CPU/RAM + Local Disk)</div><div class="kb-diagram-note">──(네트워크)── ──&gt;</div><div class="kb-diagram-node">Distributed Coordination (ZooKeeper)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Node C (CPU/RAM + Local Disk)</div><div class="kb-diagram-note">──(네트워크)──</div></div>
-<div class="kb-diagram-note">▲ 이점: 데이터가 위치한 노드에서 직접 연산 수행 (Data Locality), 락 경합 없음</div>
-</div>
-</div>
-
-
+[빅데이터: Shared-Nothing Architecture]
+[Node A (CPU/RAM + Local Disk)] ──(네트워크)──┐
+[Node B (CPU/RAM + Local Disk)] ──(네트워크)──┼──> [Distributed Coordination (ZooKeeper)]
+[Node C (CPU/RAM + Local Disk)] ──(네트워크)──┘
+ ▲ 이점: 데이터가 위치한 노드에서 직접 연산 수행 (Data Locality), 락 경합 없음
+```
 이 도식의 핵심은 '[데이터 지역성](/knowledge-base/studynote/14_data_engineering/01_infrastructure/019_data_locality/)([Data Locality](/knowledge-base/studynote/14_data_engineering/01_infrastructure/019_data_locality/))'이다. 빅데이터 아키텍처에서는 연산을 위해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 네트워크로 끌어오는 대신, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 저장된 노드(Local Disk)로 [연산 코드](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/159_opcode/)를 보내어 실행한다. 따라서 디스크가 분리되어 있어도 네트워크 병목을 최소화할 수 있다. 반면 Shared-Disk 구조는 노드가 추가될수록 중앙 스토리지의 I/O 병목과 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [락 경합](/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/)이 심화되어 확장성이 멈추게 된다.
 
 > 📢 **섹션 요약 비유**: Shared-Disk가 수십 명의 직원이 하나의 캐비닛을 같이 쓰느라 서로 줄을 서서 기다리는 구조라면, Shared-Nothing은 각 직원에게 전용 서랍장을 지급하여 [락 경합](/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/) 없이 동시에 일하게 만드는 구조입니다.
@@ -89,21 +81,19 @@ Shared-Nothing 아키텍처는 각 노드가 자신만의 CPU, 메모리, 디스
 
 빅데이터 아키텍처가 항상 전통적 RDBMS보다 우월한 것은 아니다. [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경의 필연적 한계인 [CAP](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) 정리([Consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/), [Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/), [Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) Tolerance)에 따라, 빅데이터 시스템은 네트워크 분할(P)을 견디고 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)(A)을 유지하기 위해 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)(C)을 어느 정도 희생(BASE 원칙)한다.
 
+```text
+이 매트릭스는 RDBMS와 빅데이터 시스템을 데이터의 무결성(일관성)과 확장성 측면에서 비교하여, 시스템 목적에 따른 데이터베이스 선택 기준을 제시한다.
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 매트릭스는 RDBMS와 빅데이터 시스템을 데이터의 무결성(일관성)과 확장성 측면에서 비교하여, 시스템 목적에 따른 데이터베이스 선택 기준을 제시한다.</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비교 항목</div><div class="kb-diagram-cell">전통적 데이터 (RDBMS)</div><div class="kb-diagram-cell">빅데이터 플랫폼 (NoSQL)</div><div class="kb-diagram-cell">실무 판단</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">철학</div><div class="kb-diagram-cell">ACID (무결성 최우선)</div><div class="kb-diagram-cell">BASE (가용성 최우선)</div><div class="kb-diagram-cell">데이터의 종류</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스키마</div><div class="kb-diagram-cell">고정 (DDL 변경 어려움)</div><div class="kb-diagram-cell">유연함 (Schema-less)</div><div class="kb-diagram-cell">기획 변경 빈도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">확장성</div><div class="kb-diagram-cell">Scale-Up 위주 (수천 TPS)</div><div class="kb-diagram-cell">Scale-Out 위주 (수백만)</div><div class="kb-diagram-cell">트래픽 규모</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">트랜잭션</div><div class="kb-diagram-cell">복잡한 다중 테이블 트랜잭</div><div class="kb-diagram-cell">단일 레코드 트랜잭션</div><div class="kb-diagram-cell">정산/결제 여부</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장애 대응</div><div class="kb-diagram-cell">Active-Standby Failover</div><div class="kb-diagram-cell">N-Way 복제 (Replication)</div><div class="kb-diagram-cell">다운타임 허용도</div></div>
-</div>
-</div>
-
-
+┌────────────┬──────────────────────────┬─────────────────────────┬──────────────┐
+│ 비교 항목  │ 전통적 데이터 (RDBMS)    │ 빅데이터 플랫폼 (NoSQL) │ 실무 판단    │
+├────────────┼──────────────────────────┼─────────────────────────┼──────────────┤
+│ 철학       │ ACID (무결성 최우선)     │ BASE (가용성 최우선)    │ 데이터의 종류│
+│ 스키마     │ 고정 (DDL 변경 어려움)   │ 유연함 (Schema-less)    │ 기획 변경 빈도
+│ 확장성     │ Scale-Up 위주 (수천 TPS) │ Scale-Out 위주 (수백만) │ 트래픽 규모  │
+│ 트랜잭션   │ 복잡한 다중 테이블 트랜잭│ 단일 레코드 트랜잭션    │ 정산/결제 여부
+│ 장애 대응  │ Active-Standby Failover  │ N-Way 복제 (Replication)│ 다운타임 허용도
+└────────────┴──────────────────────────┴─────────────────────────┴──────────────┘
+```
 이 표의 핵심은 '[일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)의 강도'와 '[처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)'의 트레이드오프다. 은행의 계좌 이체처럼 단 1원의 오차도 허용되지 않는 시스템은 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)이 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)되더라도 철저하게 락을 거는 RDBMS(ACID)가 필수적이다. 반면, SNS의 '좋아요' 수나 클릭스트림 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)처럼 몇 초 정도 업데이트가 늦거나 수치가 조금 틀려도 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 지장이 없고 트래픽이 폭증하는 시스템은 빅데이터 아키텍처(BASE)를 선택해야 장애 없이 버틸 수 있다.
 
 최근에는 두 세계의 장점을 결합하기 위한 시너지 시도들이 활발하다. [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 엔진 수준에서 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리를 지원하면서도 ACID를 보장하는 [NewSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/058_newsql_google_spanner_truetime_distributed_transaction/)(예: [CockroachDB](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/292_etl_process/), [TiDB](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/293_elt_process/))이 등장했으며, 클라우드 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 진영([Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/), [BigQuery](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/))에서는 RDBMS의 SQL 편의성과 빅데이터의 스케일아웃을 완벽히 융합하여 제공하고 있다.
@@ -116,23 +106,19 @@ Shared-Nothing 아키텍처는 각 노드가 자신만의 CPU, 메모리, 디스
 
 실무에서 [데이터 아키텍처](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/)를 설계할 때는 RDBMS와 빅데이터 저장소를 양자택일하는 것이 아니라, 워크로드의 특성에 따라 최적의 저장소를 혼용하는 <strong><a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/308_pgvector/">폴리글랏 퍼시스턴스</a>(<a href="/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/132_polyglot_persistence/">Polyglot Persistence</a>)</strong> [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 채택해야 한다. [마이크로서비스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))에서는 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 자신의 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에 맞는 DB를 선택한다.
 
+```text
+이 의사결정 트리는 신규 서비스 구축 시 데이터의 성격(트랜잭션, 로그, 검색)에 따라 RDBMS와 빅데이터 저장소(NoSQL, 검색엔진)를 어떻게 분배할지 결정하는 아키텍처 플로우다.
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 의사결정 트리는 신규 서비스 구축 시 데이터의 성격(트랜잭션, 로그, 검색)에 따라 RDBMS와 빅데이터 저장소(NoSQL, 검색엔진)를 어떻게 분배할지 결정하는 아키텍처 플로우다.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">신규 서비스 데이터 스토어 설계 플로우</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">(복잡한 조인과 100% 무결성이 필요한가? 예: 주문, 결제, 회원)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Yes ──&gt; RDBMS (MySQL, PostgreSQL) 할당</div>
-<div class="kb-diagram-note">──&gt; (단, 성능 분산을 위해 CQRS/Read Replica 적용)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">No &gt; (데이터의 형태가 비정형이며 쓰기량이 폭증하는가?)</div>
-<div class="kb-diagram-tree-item" style="--depth:8">Yes ──&gt; (실시간 로그/센서) ──&gt; NoSQL (Cassandra, MongoDB)</div>
-<div class="kb-diagram-tree-item" style="--depth:8">No ──&gt; (텍스트 전문 검색) ──&gt; Search Engine (Elasticsearch)</div>
-</div>
-</div>
-
-
+[신규 서비스 데이터 스토어 설계 플로우]
+           ↓
+(복잡한 조인과 100% 무결성이 필요한가? 예: 주문, 결제, 회원)
+   ├── Yes ──> RDBMS (MySQL, PostgreSQL) 할당
+   │              └──> (단, 성능 분산을 위해 CQRS/Read Replica 적용)
+   │
+   └── No ───> (데이터의 형태가 비정형이며 쓰기량이 폭증하는가?)
+                  ├── Yes ──> (실시간 로그/센서) ──> NoSQL (Cassandra, MongoDB)
+                  └── No  ──> (텍스트 전문 검색) ──> Search Engine (Elasticsearch)
+```
 이 흐름의 핵심은 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 분리다. 트래픽 폭증이 예상되는 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에 무리하게 RDBMS를 끼워 맞추면 전체 시스템이 다운된다. 반대로 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 정합성이 중요한 결제 시스템을 [Cassandra](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/) 같은 NoSQL로 구현하면, 애플리케이션 레벨에서 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 수동으로 관리하느라 코드가 비대해지고 정합성 버그가 쏟아진다.
 
 <strong>실무 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> (<a href="/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/161_anti_pattern/">Anti-pattern</a>)</strong>:
@@ -172,23 +158,21 @@ Shared-Nothing 아키텍처는 각 노드가 자신만의 CPU, 메모리, 디스
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">전통적 RDBMS (관계형 DB) — ACID, 정형 데이터</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">빅데이터 (Big Data) — 3V: Volume/Velocity/Variety</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NoSQL / 분산 파일 시스템 (HDFS)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">폴리글랏 퍼시스턴스 (Polyglot Persistence)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HTAP / 레이크하우스 (Lakehouse) — 통합 플랫폼</div></div>
-</div>
-</div>
-
-
+```text
+[전통적 RDBMS (관계형 DB) — ACID, 정형 데이터]
+    │
+    ▼
+[빅데이터 (Big Data) — 3V: Volume/Velocity/Variety]
+    │
+    ▼
+[NoSQL / 분산 파일 시스템 (HDFS)]
+    │
+    ▼
+[폴리글랏 퍼시스턴스 (Polyglot Persistence)]
+    │
+    ▼
+[HTAP / 레이크하우스 (Lakehouse) — 통합 플랫폼]
+```
 
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장 기술이 전통적 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 모델에서 빅데이터 생태계를 거쳐 [HTAP](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/294_oltp_vs_olap/) 통합 플랫폼으로 수렴하는 흐름이다.
 

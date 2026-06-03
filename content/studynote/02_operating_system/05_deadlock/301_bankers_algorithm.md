@@ -25,30 +25,33 @@ tags = ["studynote-operating-system"]
 
 **💡 비유**: 은행이 "지금 당신에게 이 금액을 대출해 줘도, 나머지 고객들의 대출 수요를 모두 충족하고 회수할 수 있는가?"를 확인하고 승인하는 것과 정확히 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">은행원 알고리즘 4개 자료구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">n = 프로세스 수, m = 자원 유형 수</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Available</div><div class="kb-diagram-node">m</div><div class="kb-diagram-note">: 각 자원 유형의 현재 사용 가능 인스턴스</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Max</div><div class="kb-diagram-node">n</div><div class="kb-diagram-node">m</div><div class="kb-diagram-note">: 각 프로세스의 최대 자원 요구량</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Allocation</div><div class="kb-diagram-node">n</div><div class="kb-diagram-node">m</div><div class="kb-diagram-note">: 각 프로세스에 현재 할당된 자원량</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Need</div><div class="kb-diagram-node">n</div><div class="kb-diagram-node">m</div><div class="kb-diagram-note">: 각 프로세스의 추가 필요량</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">관계: Need</div><div class="kb-diagram-node">i</div><div class="kb-diagram-node">j</div><div class="kb-diagram-note">= Max</div><div class="kb-diagram-node">i</div><div class="kb-diagram-node">j</div><div class="kb-diagram-note">- Allocation</div><div class="kb-diagram-node">i</div><div class="kb-diagram-node">j</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예시 (5 프로세스, 3 자원 유형 A,B,C):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Allocation Max Need Available</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A B C A B C A B C A B C</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P0: 0 1 0 7 5 3 7 4 3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P1: 2 0 0 3 2 2 1 2 2 3 3 2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P2: 3 0 2 9 0 2 6 0 0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P3: 2 1 1 2 2 2 0 1 1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P4: 0 0 2 4 3 3 4 3 1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">안전 순서: &lt;P1, P3, P4, P2, P0&gt; ← 존재하면 안전 상태</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│        은행원 알고리즘 4개 자료구조                          │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│  n = 프로세스 수,  m = 자원 유형 수                          │
+│                                                              │
+│  Available[m]      : 각 자원 유형의 현재 사용 가능 인스턴스  │
+│  Max[n][m]         : 각 프로세스의 최대 자원 요구량          │
+│  Allocation[n][m]  : 각 프로세스에 현재 할당된 자원량        │
+│  Need[n][m]        : 각 프로세스의 추가 필요량               │
+│                                                              │
+│  관계: Need[i][j] = Max[i][j] - Allocation[i][j]             │
+│                                                              │
+│  예시 (5 프로세스, 3 자원 유형 A,B,C):                       │
+│                                                              │
+│         Allocation    Max       Need     Available           │
+│           A  B  C     A  B  C   A  B  C   A  B  C            │
+│  P0:      0  1  0     7  5  3   7  4  3                      │
+│  P1:      2  0  0     3  2  2   1  2  2   3  3  2            │
+│  P2:      3  0  2     9  0  2   6  0  0                      │
+│  P3:      2  1  1     2  2  2   0  1  1                      │
+│  P4:      0  0  2     4  3  3   4  3  1                      │
+│                                                              │
+│  안전 순서: <P1, P3, P4, P2, P0> ← 존재하면 안전 상태        │
+└──────────────────────────────────────────────────────────────┘
+```
 
 **📢 섹션 요약 비유**: 은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 자원 배분의 사전 심사 시스템 — "지금 이 요청을 들어줘도 미래에 모두 회수할 수 있는가"를 계산하는 안전망입니다.
 
@@ -58,76 +61,74 @@ tags = ["studynote-operating-system"]
 
 ### [안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/298_safe_state/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
 
+```
+Safety Algorithm:
+①  Work = Available.copy()
+②  Finish[i] = false for all i
 
+③  반복:
+     i를 찾기: Finish[i] == false AND Need[i] ≤ Work
+     찾으면:
+       Work = Work + Allocation[i]  // 자원 반납 받음
+       Finish[i] = true
+     못 찾으면: 종료
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Safety Algorithm:</div>
-<div class="kb-diagram-note">① Work = Available.copy()</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">② Finish</div><div class="kb-diagram-node">i</div><div class="kb-diagram-note">= false for all i</div></div>
-<div class="kb-diagram-note">③ 반복:</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">i를 찾기: Finish</div><div class="kb-diagram-node">i</div><div class="kb-diagram-note">== false AND Need</div><div class="kb-diagram-node">i</div><div class="kb-diagram-note">≤ Work</div></div>
-<div class="kb-diagram-note">찾으면:</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Work = Work + Allocation</div><div class="kb-diagram-node">i</div><div class="kb-diagram-note">// 자원 반납 받음</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Finish</div><div class="kb-diagram-node">i</div><div class="kb-diagram-note">= true</div></div>
-<div class="kb-diagram-note">못 찾으면: 종료</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">④ Finish</div><div class="kb-diagram-node">i</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">안전 상태</div></div>
-<div class="kb-diagram-note">그렇지 않으면 → 불안전 상태</div>
-</div>
-</div>
-
-
+④  Finish[i] == true for all i → 안전 상태
+    그렇지 않으면 → 불안전 상태
+```
 
 ### 자원 요청 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Resource-Request [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))
 
+```
+프로세스 Pi가 Request[i] 요청 시:
 
+① Request[i] ≤ Need[i]?
+   아니면 → 오류 (최대 요구 초과)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-note">프로세스 Pi가 Request</div><div class="kb-diagram-node">i</div><div class="kb-diagram-note">요청 시:</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">① Request</div><div class="kb-diagram-node">i</div><div class="kb-diagram-note">≤ Need</div><div class="kb-diagram-node">i</div><div class="kb-diagram-note">?</div></div>
-<div class="kb-diagram-note">아니면 → 오류 (최대 요구 초과)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">② Request</div><div class="kb-diagram-node">i</div><div class="kb-diagram-note">≤ Available?</div></div>
-<div class="kb-diagram-note">아니면 → Pi를 대기 상태로 (자원 부족)</div>
-<div class="kb-diagram-note">③ 가정적 할당:</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Available = Available - Request</div><div class="kb-diagram-node">i</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Allocation</div><div class="kb-diagram-node">i</div><div class="kb-diagram-note">= Allocation</div><div class="kb-diagram-node">i</div><div class="kb-diagram-note">+ Request</div><div class="kb-diagram-node">i</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Need</div><div class="kb-diagram-node">i</div><div class="kb-diagram-note">= Need</div><div class="kb-diagram-node">i</div><div class="kb-diagram-note">- Request</div><div class="kb-diagram-node">i</div></div>
-<div class="kb-diagram-note">④ 안전 상태인가?</div>
-<div class="kb-diagram-note">안전 → 실제로 자원 할당 완료</div>
-<div class="kb-diagram-note">불안전 → 가상 할당 취소, Pi를 대기 상태로</div>
-</div>
-</div>
+② Request[i] ≤ Available?
+   아니면 → Pi를 대기 상태로 (자원 부족)
 
+③ 가정적 할당:
+   Available  = Available  - Request[i]
+   Allocation[i] = Allocation[i] + Request[i]
+   Need[i]    = Need[i]    - Request[i]
 
+④ 안전 상태인가?
+   안전  → 실제로 자원 할당 완료
+   불안전 → 가상 할당 취소, Pi를 대기 상태로
+```
 
 ### 안전 순서 탐색 과정 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">안전 순서 탐색 단계별 상세 예시</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">초기: Work=</div><div class="kb-diagram-node">3,3,2</div><div class="kb-diagram-note">, Finish=</div><div class="kb-diagram-node">F,F,F,F,F</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">단계1: Need</div><div class="kb-diagram-node">1</div><div class="kb-diagram-note">=</div><div class="kb-diagram-node">1,2,2</div><div class="kb-diagram-note">≤ Work=</div><div class="kb-diagram-node">3,3,2</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">P1 완료!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Work =</div><div class="kb-diagram-node">3,3,2</div><div class="kb-diagram-note">+</div><div class="kb-diagram-node">2,0,0</div><div class="kb-diagram-note">=</div><div class="kb-diagram-node">5,3,2</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Finish =</div><div class="kb-diagram-node">F,T,F,F,F</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">단계2: Need</div><div class="kb-diagram-node">3</div><div class="kb-diagram-note">=</div><div class="kb-diagram-node">0,1,1</div><div class="kb-diagram-note">≤ Work=</div><div class="kb-diagram-node">5,3,2</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">P3 완료!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Work =</div><div class="kb-diagram-node">5,3,2</div><div class="kb-diagram-note">+</div><div class="kb-diagram-node">2,1,1</div><div class="kb-diagram-note">=</div><div class="kb-diagram-node">7,4,3</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Finish =</div><div class="kb-diagram-node">F,T,F,T,F</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">단계3: Need</div><div class="kb-diagram-node">4</div><div class="kb-diagram-note">=</div><div class="kb-diagram-node">4,3,1</div><div class="kb-diagram-note">≤ Work=</div><div class="kb-diagram-node">7,4,3</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">P4 완료!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Work =</div><div class="kb-diagram-node">7,4,3</div><div class="kb-diagram-note">+</div><div class="kb-diagram-node">0,0,2</div><div class="kb-diagram-note">=</div><div class="kb-diagram-node">7,4,5</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Finish =</div><div class="kb-diagram-node">F,T,F,T,T</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">단계4: Need</div><div class="kb-diagram-node">2</div><div class="kb-diagram-note">=</div><div class="kb-diagram-node">6,0,0</div><div class="kb-diagram-note">≤ Work=</div><div class="kb-diagram-node">7,4,5</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">P2 완료!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Work =</div><div class="kb-diagram-node">7,4,5</div><div class="kb-diagram-note">+</div><div class="kb-diagram-node">3,0,2</div><div class="kb-diagram-note">=</div><div class="kb-diagram-node">10,4,7</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Finish =</div><div class="kb-diagram-node">F,T,T,T,T</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">단계5: Need</div><div class="kb-diagram-node">0</div><div class="kb-diagram-note">=</div><div class="kb-diagram-node">7,4,3</div><div class="kb-diagram-note">≤ Work=</div><div class="kb-diagram-node">10,4,7</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">P0 완료!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Finish =</div><div class="kb-diagram-node">T,T,T,T,T</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">안전 순서: P1,P3,P4,P2,P0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 결론: 안전 상태</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│      안전 순서 탐색 단계별 상세 예시                         │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│  초기: Work=[3,3,2], Finish=[F,F,F,F,F]                      │
+│                                                              │
+│  단계1: Need[1]=[1,2,2] ≤ Work=[3,3,2] → P1 완료!            │
+│         Work = [3,3,2] + [2,0,0] = [5,3,2]                   │
+│         Finish = [F,T,F,F,F]                                 │
+│                                                              │
+│  단계2: Need[3]=[0,1,1] ≤ Work=[5,3,2] → P3 완료!            │
+│         Work = [5,3,2] + [2,1,1] = [7,4,3]                   │
+│         Finish = [F,T,F,T,F]                                 │
+│                                                              │
+│  단계3: Need[4]=[4,3,1] ≤ Work=[7,4,3] → P4 완료!            │
+│         Work = [7,4,3] + [0,0,2] = [7,4,5]                   │
+│         Finish = [F,T,F,T,T]                                 │
+│                                                              │
+│  단계4: Need[2]=[6,0,0] ≤ Work=[7,4,5] → P2 완료!            │
+│         Work = [7,4,5] + [3,0,2] = [10,4,7]                  │
+│         Finish = [F,T,T,T,T]                                 │
+│                                                              │
+│  단계5: Need[0]=[7,4,3] ≤ Work=[10,4,7] → P0 완료!           │
+│         Finish = [T,T,T,T,T] → 안전 순서: P1,P3,P4,P2,P0     │
+│                                                              │
+│  ✅ 결론: 안전 상태                                          │
+└──────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 안전 순서 탐색은 욕심쟁이(Greedy) 방식으로 현재 가용 자원(Work)으로 완료 가능한 프로세스를 찾아 완료시키고 자원을 누적해가는 시뮬레이션이다. 시뮬레이션이 완전히 성공하면(Finish 모두 true) 시스템이 [안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/298_safe_state/)다. 자원 요청 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 먼저 가상으로 할당한 뒤 이 [안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/298_safe_state/) 시뮬레이션을 돌려본다 — 성공하면 실제 할당하고, 실패하면 취소한다.
 
@@ -139,25 +140,26 @@ tags = ["studynote-operating-system"]
 
 ### 은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 한계
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">은행원 알고리즘 한계 및 실무 대안</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">한계 1: 사전에 Max 정보가 필요</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 실제 OS에서 프로세스의 최대 자원 요구 예측 불가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">한계 2: 프로세스 수와 자원 수가 고정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 동적 생성/종료, 자원 추가 시 재계산 필요</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">한계 3: O(n²×m) 시간 복잡도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 수천 프로세스 환경에서 실시간 검사 비현실적</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실무 대안:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① 교착 예방 (Lock Ordering): 순환 대기 원천 차단</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② 타임아웃: 락 대기 시간 제한 후 롤백</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ 데이터베이스: 탐지 후 희생자 롤백</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│          은행원 알고리즘 한계 및 실무 대안                   │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│  한계 1: 사전에 Max 정보가 필요                              │
+│         → 실제 OS에서 프로세스의 최대 자원 요구 예측 불가    │
+│                                                              │
+│  한계 2: 프로세스 수와 자원 수가 고정                        │
+│         → 동적 생성/종료, 자원 추가 시 재계산 필요           │
+│                                                              │
+│  한계 3: O(n²×m) 시간 복잡도                                 │
+│         → 수천 프로세스 환경에서 실시간 검사 비현실적        │
+│                                                              │
+│  실무 대안:                                                  │
+│  ① 교착 예방 (Lock Ordering): 순환 대기 원천 차단            │
+│  ② 타임아웃: 락 대기 시간 제한 후 롤백                       │
+│  ③ 데이터베이스: 탐지 후 희생자 롤백                         │
+└──────────────────────────────────────────────────────────────┘
+```
 
 **[비교 해설]** 은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 이론적으로 완벽하지만 실무에서 전면 채택은 거의 없다. 대부분의 일반 목적 OS는 Ostrich [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(무시)을 채택하는 반면, 데이터베이스는 탐지+[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를, 실시간 OS는 예방(PCP)을 채택한다. 은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 자원 수와 프로세스 수가 제한적이고 사전 정보를 알 수 있는 임베디드·실시간 환경에서 실용적이다.
 
@@ -203,19 +205,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">단일 인스턴스 환경의 회피</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">다중 인스턴스 환경의 회피</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">은행원 알고리즘 자료구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">은행원 알고리즘 한계</div></div>
-</div>
-</div>
-
-
+```text
+[단일 인스턴스 환경의 회피]
+    │
+    ▼
+[다중 인스턴스 환경의 회피]
+    │
+    ├──▶ [은행원 알고리즘 자료구조]
+    └──▶ [은행원 알고리즘 한계]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

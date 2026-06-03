@@ -52,25 +52,19 @@ H(X) = -Σ_{x∈X} p(x)·log₂p(x)   [단위: bit]
 
 이진 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)변수 X ∈ {0, 1}, P(X=1) = p일 때:
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">H(p)</div>
-<div class="kb-diagram-note">1.0 │ *</div>
-<div class="kb-diagram-note">* *</div>
-<div class="kb-diagram-note">0.8 │ * *</div>
-<div class="kb-diagram-note">* *</div>
-<div class="kb-diagram-note">0.6 │* *</div>
-<div class="kb-diagram-note">*</div>
-<div class="kb-diagram-note">0.4 │ *</div>
-<div class="kb-diagram-note">0.2 │ *</div>
-<div class="kb-diagram-note">0 ►</div>
-<div class="kb-diagram-note">0 0.1 0.3 0.5 0.7 0.9 1.0 p</div>
-</div>
-</div>
-
-
+```
+H(p)
+1.0 │        *
+    │      *   *
+0.8 │    *       *
+    │  *           *
+0.6 │*               *
+    │                  *
+0.4 │                    *
+0.2 │                      *
+  0 └─────────────────────────►
+  0  0.1  0.3  0.5  0.7  0.9  1.0  p
+```
 
 p = 0.5일 때 H = 1 (최대), p → 0 또는 p → 1일 때 H → 0.
 
@@ -97,23 +91,20 @@ IG(A) = H(부모 노드) - Σ_v [|Sv|/|S| · H(Sv)]
 - ID3 (Iterative Dichotomiser 3) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 정보이득을 기준으로 분기 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 선택
 - C4.5는 분기 수가 많은 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 편향을 막기 위해 **이득 비율 (Gain Ratio)** 사용
 
+```
+분기 전:   [++++++----]     H = 1.0 bit
+           분기 속성 A
+          /             \
+[+++---]               [++--]
+H = 1.0                H = 1.0
+IG = 1.0 - (6/10·1.0 + 4/10·1.0) = 0.0   ← 정보이득 없음
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-note">분기 전:</div><div class="kb-diagram-node">++++++----</div><div class="kb-diagram-note">H = 1.0 bit</div></div>
-<div class="kb-diagram-note">분기 속성 A</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">+++---</div><div class="kb-diagram-node">++--</div></div>
-<div class="kb-diagram-note">H = 1.0 H = 1.0</div>
-<div class="kb-diagram-note">IG = 1.0 - (6/10·1.0 + 4/10·1.0) = 0.0 ← 정보이득 없음</div>
-<div class="kb-diagram-note">분기 속성 B</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">+++++</div><div class="kb-diagram-node">-----</div></div>
-<div class="kb-diagram-note">H = 0.0 H = 0.0</div>
-<div class="kb-diagram-note">IG = 1.0 - (5/10·0.0 + 5/10·0.0) = 1.0 ← 완벽 분리</div>
-</div>
-</div>
-
-
+분기 속성 B
+          /             \
+[+++++]               [-----]
+H = 0.0                H = 0.0
+IG = 1.0 - (5/10·0.0 + 5/10·0.0) = 1.0   ← 완벽 분리
+```
 
 📢 **섹션 요약 비유**: 정보이득은 "정렬 효과"와 같다 — 분기 후 양쪽이 더 순수하게 나뉠수록(정보이득 클수록) 더 좋은 분기 기준이다.
 
@@ -203,23 +194,21 @@ PP(X) = 2^{H(X)} = 2^{-1/N · Σlog₂p(xᵢ)}
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">섀넌 엔트로피 H(X)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">결합 엔트로피 H(X,Y)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">정보이득 IG</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">퍼플렉시티 PP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">최대 엔트로피 원리</div></div>
-</div>
-</div>
-
-
+```text
+[섀넌 엔트로피 H(X)]
+    │
+    ▼
+[결합 엔트로피 H(X,Y)]
+    │
+    ▼
+[정보이득 IG]
+    │
+    ▼
+[퍼플렉시티 PP]
+    │
+    ▼
+[최대 엔트로피 원리]
+```
 
 이 흐름도는 섀넌 엔트로피 H(X)에서 출발해 최대 엔트로피 원리까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

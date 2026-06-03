@@ -25,26 +25,28 @@ tags = ["studynote-operating-system"]
 
 **💡 비유**: 4거리 도로에서 4대의 차량이 각자 오른쪽 차선이 비어야 움직일 수 있다고 할 때, 각자 자기 차로를 점유한 채로 오른쪽 차량이 먼저 움직여 주길 대기하면 영원히 아무도 움직이지 못한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">교착 상태 고전 예시: 두 프로세스, 두 자원</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P1 보유: 자원 A P1 요청: 자원 B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P2 보유: 자원 B P2 요청: 자원 A</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">자원 A</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ ←─ P1 요청 실패</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↑ ↖</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P1 보유 P2 요청 (자원A)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">P1</div><div class="kb-diagram-node">P2</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">자원 B</div><div class="kb-diagram-note">/</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↑ P2 보유 ← /</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P1: {A 보유, B 대기} P2: {B 보유, A 대기}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 영구 대기 → 교착 상태!</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│          교착 상태 고전 예시: 두 프로세스, 두 자원           │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│    P1 보유: 자원 A    P1 요청: 자원 B                        │
+│    P2 보유: 자원 B    P2 요청: 자원 A                        │
+│                                                              │
+│         [자원 A]                                             │
+│         /       ←─ P1 요청 실패                              │
+│        ↑                  ↖                                  │
+│      P1 보유              P2 요청 (자원A)                    │
+│        \                        /                            │
+│         [P1] ────────────── [P2]                             │
+│                              ↑                               │
+│         [자원 B]            /                                │
+│         ↑ P2 보유  ←──────/                                  │
+│                                                              │
+│  P1: {A 보유, B 대기}  P2: {B 보유, A 대기}                  │
+│  → 영구 대기 → 교착 상태!                                    │
+└──────────────────────────────────────────────────────────────┘
+```
 
 **📢 섹션 요약 비유**: 교착 상태는 "네가 먼저 비켜주면 내가 갈게"를 서로 고집하다가 아무도 이동하지 못하는 상황입니다.
 
@@ -54,53 +56,59 @@ tags = ["studynote-operating-system"]
 
 ### 4가지 필요충분조건 (모두 동시에 성립해야 교착 발생)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">교착 상태 4가지 필요조건</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① 상호 배제 (Mutual Exclusion)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 자원은 한 번에 한 프로세스만 사용 가능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ e.g., 물리적 프린터, 뮤텍스 보호 데이터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② 점유 대기 (Hold-and-Wait)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 최소 하나의 자원을 보유한 채로 다른 자원을 대기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ e.g., DB 트랜잭션이 row lock 보유 중 다른 row 요청</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ 비선점 (No Preemption)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 프로세스가 보유 중인 자원을 강제로 빼앗을 수 없음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ e.g., 락은 보유 프로세스만 해제 가능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">④ 순환 대기 (Circular Wait)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ P1→P2→P3→P1 형태의 대기 순환이 존재</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ e.g., 자원 할당 그래프에 사이클 형성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⚠ 4개 중 1개만 없애도 교착 상태 발생 불가!</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│          교착 상태 4가지 필요조건                            │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│  ① 상호 배제 (Mutual Exclusion)                              │
+│     → 자원은 한 번에 한 프로세스만 사용 가능                 │
+│     → e.g., 물리적 프린터, 뮤텍스 보호 데이터                │
+│                                                              │
+│  ② 점유 대기 (Hold-and-Wait)                                 │
+│     → 최소 하나의 자원을 보유한 채로 다른 자원을 대기        │
+│     → e.g., DB 트랜잭션이 row lock 보유 중 다른 row 요청     │
+│                                                              │
+│  ③ 비선점 (No Preemption)                                    │
+│     → 프로세스가 보유 중인 자원을 강제로 빼앗을 수 없음      │
+│     → e.g., 락은 보유 프로세스만 해제 가능                   │
+│                                                              │
+│  ④ 순환 대기 (Circular Wait)                                 │
+│     → P1→P2→P3→P1 형태의 대기 순환이 존재                    │
+│     → e.g., 자원 할당 그래프에 사이클 형성                   │
+│                                                              │
+│  ⚠ 4개 중 1개만 없애도 교착 상태 발생 불가!                  │
+└──────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 4조건은 교착 상태의 필요충분조건이다 (단일 인스턴스 자원 환경). 예방 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 이 중 하나를 구조적으로 불가능하게 만드는 것이며, 각 조건별 예방 방법의 현실적 한계도 다르다. 특히 순환 대기는 자원 번호 순서화로 현실적 예방이 가능한 유일한 조건이다.
 
 ### [자원 할당 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/) ([Resource-Allocation Graph](/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/))
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자원 할당 그래프 — 교착 상태 표현</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">표기법:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">○ : 프로세스 (Pi) □ : 자원 유형 (Rj)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pi → Rj : 자원 요청 간선</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Rj → Pi : 자원 할당 간선</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">교착 상태 예:</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">R2</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">P2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">할당</div><div class="kb-diagram-cell">요청</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">R1</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">R3</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">──요청── P2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 사이클 존재: P1→R2→P2→R1→P3→R3→P2 ❌ 교착!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단일 인스턴스: 사이클 = 교착 상태</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다중 인스턴스: 사이클 ≠ 교착 상태 (필요조건일 뿐)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│        자원 할당 그래프 — 교착 상태 표현                     │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│  표기법:                                                     │
+│  ○ : 프로세스 (Pi)     □ : 자원 유형 (Rj)                    │
+│  Pi → Rj : 자원 요청 간선                                    │
+│  Rj → Pi : 자원 할당 간선                                    │
+│                                                              │
+│  교착 상태 예:                                               │
+│                                                              │
+│  P1 ──요청──▶ [R2] ──할당──▶ P2                              │
+│   ↑                               │                          │
+│   │ 할당                          │ 요청                     │
+│   │                               ▼                          │
+│  [R1] ◀──요청── P3 ◀──할당── [R3] ◀──요청── P2               │
+│                                                              │
+│  → 사이클 존재: P1→R2→P2→R1→P3→R3→P2 ❌ 교착!                │
+│                                                              │
+│  단일 인스턴스: 사이클 = 교착 상태                           │
+│  다중 인스턴스: 사이클 ≠ 교착 상태 (필요조건일 뿐)           │
+└──────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** [자원 할당 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/)는 교착 상태 분석의 시각적 도구다. 단일 인스턴스 자원(자원 유형 당 1개 인스턴스)에서는 사이클이 존재하면 교착 상태가 성립한다. 다중 인스턴스 자원에서는 사이클이 있어도 대기 중인 프로세스들의 자원 요청이 다른 방식으로 충족될 수 있으므로, 사이클은 교착의 필요 조건이지 충분 조건이 아니다.
 
@@ -112,19 +120,16 @@ tags = ["studynote-operating-system"]
 
 ### 교착 상태 처리 방법 3가지
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">방법</div><div class="kb-diagram-cell">전략</div><div class="kb-diagram-cell">비용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예방 (Prevention)</div><div class="kb-diagram-cell">4조건 중 1개 제거</div><div class="kb-diagram-cell">자원 이용률 저하</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">회피 (Avoidance)</div><div class="kb-diagram-cell">은행원 알고리즘</div><div class="kb-diagram-cell">사전 정보 필요, 오버헤드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">탐지+복구</div><div class="kb-diagram-cell">그래프 탐지+종료</div><div class="kb-diagram-cell">교착 발생 후 처리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">무시 (Ostrich)</div><div class="kb-diagram-cell">발생 시 재시작</div><div class="kb-diagram-cell">가장 낮은 오버헤드</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────┬──────────────────┬─────────────────────────┐
+│ 방법             │ 전략             │ 비용                    │
+├──────────────────┼──────────────────┼─────────────────────────┤
+│ 예방 (Prevention)│ 4조건 중 1개 제거│ 자원 이용률 저하        │
+│ 회피 (Avoidance) │ 은행원 알고리즘  │ 사전 정보 필요, 오버헤드│
+│ 탐지+복구        │ 그래프 탐지+종료 │ 교착 발생 후 처리       │
+│ 무시 (Ostrich)   │ 발생 시 재시작   │ 가장 낮은 오버헤드      │
+└──────────────────┴──────────────────┴─────────────────────────┘
+```
 
 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a>별 채택 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a>:</strong>
 - **Linux/Windows**: 대부분 Ostrich (무시). 사용자가 강제 종료 또는 재시작.
@@ -174,19 +179,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">읽기-쓰기 락 (Read-Write Lock)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">교착 상태 (Deadlock) 정의</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">교착 상태 발생 4가지 필요조건 (모두 만족해야 발생)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">상호 배제 (Mutual Exclusion)</div></div>
-</div>
-</div>
-
-
+```text
+[읽기-쓰기 락 (Read-Write Lock)]
+    │
+    ▼
+[교착 상태 (Deadlock) 정의]
+    │
+    ├──▶ [교착 상태 발생 4가지 필요조건 (모두 만족해야 발생)]
+    └──▶ [상호 배제 (Mutual Exclusion)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

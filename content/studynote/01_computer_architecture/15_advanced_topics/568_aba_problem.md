@@ -45,20 +45,21 @@ ABA 문제는 [락-프리](/knowledge-base/studynote/02_operating_system/04_sync
 
 다음 그림은 "값은 같아도 연결 구조는 달라질 수 있다"는 ABA의 본질을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Treiber 스택의 ABA: Top 값이 같아 보여도 노드 생애는 달라질 수 있다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T1 read: Top = A, next = B</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">A</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">B</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">C</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T2: pop A, pop B, push D, 재사용된 주소 A를 다시 push</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">A*</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">D</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T1 resumes: CAS(Top, A, B) 성공 -&gt; Top = B (이미 해제/재사용된 노드 가능)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ Treiber 스택의 ABA: Top 값이 같아 보여도 노드 생애는 달라질 수 있다         │
+├──────────────────────────────────────────────────────────────────────────────┤
+│ T1 read: Top = A, next = B                                                  │
+│                                                                              │
+│   Top ─▶ [A] ─▶ [B] ─▶ [C]                                                   │
+│                                                                              │
+│ T2: pop A, pop B, push D, 재사용된 주소 A를 다시 push                        │
+│                                                                              │
+│   Top ─▶ [A*] ─▶ [D]                                                         │
+│                                                                              │
+│ T1 resumes: CAS(Top, A, B) 성공  ->  Top = B (이미 해제/재사용된 노드 가능) │
+└──────────────────────────────────────────────────────────────────────────────┘
+```
 
 여기서 중요한 사실은 ABA가 단지 주소 재사용 버그가 아니라는 점이다. 주소가 재사용되지 않더라도, 상태 기계에서 중간 변화 이력이 중요하면 동일 값 복귀가 문제를 만들 수 있다. 그래서 해결도 단순 allocator 교체가 아니라, <strong>비교 대상과 메모리 생애 관리 모델을 함께 설계하는 일</strong>이 된다.
 
@@ -135,23 +136,21 @@ ABA 문제를 정확히 다루면 [락-프리](/knowledge-base/studynote/02_oper
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">CAS 기반 락-프리 자료구조</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Treiber Stack에서 ABA 문제 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">태그드 포인터 · DWCAS</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Hazard Pointer · EBR · RCU 같은 SMR</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">언어/런타임 통합 메모리 회수 · 더 넓은 원자 폭 지원</div>
-</div>
-</div>
-
-
+```text
+CAS 기반 락-프리 자료구조
+        │
+        ▼
+Treiber Stack에서 ABA 문제 인식
+        │
+        ▼
+태그드 포인터 · DWCAS
+        │
+        ▼
+Hazard Pointer · EBR · RCU 같은 SMR
+        │
+        ▼
+언어/런타임 통합 메모리 회수 · 더 넓은 원자 폭 지원
+```
 
 이 흐름은 [락-프리](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/) 구조가 단순 원자 명령에서 출발해, 결국 메모리 생애 전체를 다루는 체계적 안전 모델로 확장되는 과정을 보여 준다.
 

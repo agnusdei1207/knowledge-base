@@ -40,18 +40,20 @@ y = Σ c_i x_i
 
 여기서 `x_i[b]`는 각 입력의 b번째 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)다. 괄호 안쪽 합은 해당 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)들이 0/1로 어떤 조합을 이루느냐에 따라 정해지는 상수의 합이므로, 가능한 결과를 LUT에 저장할 수 있다. 실행 시에는 입력들의 같은 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 위치를 모아 주소를 만들고, LUT에서 부분합을 읽어 와 시프트 누산한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-note">x0</div><div class="kb-diagram-node">b</div><div class="kb-diagram-note">x1</div><div class="kb-diagram-node">b</div><div class="kb-diagram-note">x2</div><div class="kb-diagram-node">b</div><div class="kb-diagram-note">... xK-1</div><div class="kb-diagram-node">b</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">address bits</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LUT of precomputed sums</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">shift / accumulate over bit index b</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">output y</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│ x0[b] x1[b] x2[b] ... xK-1[b]  ->  address bits                           │
+│                                      │                                     │
+│                                      ▼                                     │
+│                           LUT of precomputed sums                          │
+│                                      │                                     │
+│                                      ▼                                     │
+│                         shift / accumulate over bit index b                │
+│                                      │                                     │
+│                                      ▼                                     │
+│                                     output y                               │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -139,25 +141,24 @@ DA를 채택할지 여부는 계수 고정성, 목표 샘플링 속도, [FPGA](/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">고정 계수 내적 문제</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">비트 직렬 분산 산술</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">파티셔닝 · OBC 기반 LUT 축소</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">비트 병렬 · 파이프라인 DA</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">LUT-less / 하이브리드 MAC-DA 구조</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">저정밀 AI · FPGA 가속기 응용</div>
-</div>
-</div>
-
-
+```text
+고정 계수 내적 문제
+        │
+        ▼
+비트 직렬 분산 산술
+        │
+        ▼
+파티셔닝 · OBC 기반 LUT 축소
+        │
+        ▼
+비트 병렬 · 파이프라인 DA
+        │
+        ▼
+LUT-less / 하이브리드 MAC-DA 구조
+        │
+        ▼
+저정밀 AI · FPGA 가속기 응용
+```
 
 이 흐름은 DA가 전통적 FIR 최적화 기법에서 출발해, 자원 제약형 가속기 전반으로 확장되는 과정을 보여 준다.
 

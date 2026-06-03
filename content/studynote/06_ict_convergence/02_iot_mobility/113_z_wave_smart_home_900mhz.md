@@ -20,21 +20,19 @@ tags = ["studynote-ict-convergence"]
 
 2.4GHz ISM 밴드는 Wi-Fi·[Zigbee](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/)·[BLE](/knowledge-base/studynote/03_network/12_iot_wpan_edge/607_ble_bluetooth_low_energy_iot/)·전자레인지가 동시에 사용하여 <strong>매우 혼잡</strong>하다. Z-Wave는 이 혼잡을 피해 900MHz(한국 920MHz)에서 단독으로 작동한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주파수 대역별 혼잡도 비교</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">900 MHz Z-Wave 단독 사용 간섭 거의 없음 ✅</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2.4 GHz Wi-Fi + Zigbee + BLE + 전자레인지 ──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">매우 혼잡 ⚠️</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5 GHz Wi-Fi 5/6 벽 관통 약함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">900MHz 장점: 벽 관통력 ↑, 커버리지 ↑, 간섭 ↓</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">900MHz 단점: 속도 100kbps (Zigbee 250kbps보다 느림)</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    주파수 대역별 혼잡도 비교                            │
+├───────────────────────────────────────────────────────┤
+│  900 MHz ─── Z-Wave 단독 사용 ─── 간섭 거의 없음 ✅  │
+│  2.4 GHz ─── Wi-Fi + Zigbee + BLE + 전자레인지 ──   │
+│              매우 혼잡 ⚠️                              │
+│  5 GHz ───── Wi-Fi 5/6 ─── 벽 관통 약함              │
+│                                                       │
+│  900MHz 장점: 벽 관통력 ↑, 커버리지 ↑, 간섭 ↓       │
+│  900MHz 단점: 속도 100kbps (Zigbee 250kbps보다 느림)  │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 2.4GHz는 서울 강남 도로(혼잡), Z-Wave의 900MHz는 새벽 시골 도로(한산)이다.
 
@@ -97,23 +95,21 @@ Z-Wave는 900MHz 서브 GHz의 <strong>저간섭·고관통력</strong>이라는
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Z-Wave 1세대 (2001, Zensys) — 900MHz 스마트 홈 시작</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Z-Wave Plus (Gen 5, 2013) — 거리·배터리 개선</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Silicon Labs 인수 (2018) — 칩 독점 체제</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Z-Wave Long Range (2020~) — 800m, 2000노드</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: Matter Bridge 통합 — Matter 생태계 편입</div></div>
-</div>
-</div>
-
-
+```text
+[Z-Wave 1세대 (2001, Zensys) — 900MHz 스마트 홈 시작]
+    │
+    ▼
+[Z-Wave Plus (Gen 5, 2013) — 거리·배터리 개선]
+    │
+    ▼
+[Silicon Labs 인수 (2018) — 칩 독점 체제]
+    │
+    ▼
+[Z-Wave Long Range (2020~) — 800m, 2000노드]
+    │
+    ▼
+[현재: Matter Bridge 통합 — Matter 생태계 편입]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. Z-Wave는 시골 도로(900MHz)를 혼자 달리는 <strong>자동차</strong>예요. 서울 도로(2.4GHz)처럼 막히지 않아요!

@@ -18,23 +18,20 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">API Gateway 핵심 기능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 라우팅: /api/orders → Order Service</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 인증: JWT 검증, OAuth2 토큰 검사</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Rate Limiting: 100 req/s/user</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 프로토콜 변환: REST → gRPC</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 응답 집계: 여러 서비스 응답 합치기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6. 로깅·모니터링: 요청 추적·메트릭</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">7. 캐싱: 반복 응답 캐시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">8. CORS: 크로스 도메인 허용</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    API Gateway 핵심 기능                              │
+├───────────────────────────────────────────────────────┤
+│  1. 라우팅: /api/orders → Order Service              │
+│  2. 인증: JWT 검증, OAuth2 토큰 검사                 │
+│  3. Rate Limiting: 100 req/s/user                    │
+│  4. 프로토콜 변환: REST → gRPC                       │
+│  5. 응답 집계: 여러 서비스 응답 합치기               │
+│  6. 로깅·모니터링: 요청 추적·메트릭                  │
+│  7. 캐싱: 반복 응답 캐시                              │
+│  8. CORS: 크로스 도메인 허용                          │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Gateway는 공항의 <strong>보안 검색대 + 게이트 안내 + 환전소</strong>를 합친 것이다.
 
@@ -91,23 +88,21 @@ tags = ["studynote-cloud-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">리버스 프록시 (Nginx, 2000s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">API Gateway (Netflix Zuul, 2013~)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Kong / Envoy (2015~) — 클라우드 네이티브</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">API Gateway + Service Mesh (2018~)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: AI Gateway — 토큰 사용량·비용 관리 (LLM API)</div></div>
-</div>
-</div>
-
-
+```text
+[리버스 프록시 (Nginx, 2000s)]
+    │
+    ▼
+[API Gateway (Netflix Zuul, 2013~)]
+    │
+    ▼
+[Kong / Envoy (2015~) — 클라우드 네이티브]
+    │
+    ▼
+[API Gateway + Service Mesh (2018~)]
+    │
+    ▼
+[현재: AI Gateway — 토큰 사용량·비용 관리 (LLM API)]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Gateway는 공항의 <strong>보안 검색대</strong>예요. 신분증([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/))을 확인하고 게이트([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))를 안내해요.

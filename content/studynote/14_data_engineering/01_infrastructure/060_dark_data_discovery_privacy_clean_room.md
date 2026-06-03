@@ -29,21 +29,15 @@ tags = ["studynote-data-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">음성 / 로그 / 이미지</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">NLP / OCR / STT</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">태깅 / 스키마화</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Data Catalog</div>
-</div>
-</div>
-
-
+```text
+음성 / 로그 / 이미지
+        ↓
+NLP / OCR / STT
+        ↓
+태깅 / 스키마화
+        ↓
+Data Catalog
+```
 
 | 구성 요소 | 역할 |
 | :-- | :-- |
@@ -115,45 +109,33 @@ B사 데이터 -- hash/token --/
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Dark Data</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Metadata / Catalog</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Privacy Clean Room</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Aggregated Insight</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Business Activation</div>
-</div>
-</div>
-
-
+```text
+Dark Data
+   ↓
+Metadata / Catalog
+   ↓
+Privacy Clean Room
+   ↓
+Aggregated Insight
+   ↓
+Business Activation
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">음성 / 로그 / 이미지</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">NLP / OCR / STT</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">카탈로그 / 메타데이터</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Clean Room</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">안전한 데이터 결합</div>
-</div>
-</div>
-
-
+```text
+음성 / 로그 / 이미지
+   ↓
+NLP / OCR / STT
+   ↓
+카탈로그 / 메타데이터
+   ↓
+Clean Room
+   ↓
+안전한 데이터 결합
+```
 
 ---
 

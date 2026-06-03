@@ -31,17 +31,11 @@ tags = ["studynote-devops"]
 
 [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 운영에는 트래픽 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)기, 신규 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/), 안정 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/), 지표 수집, 판정 게이트가 필요하다. [Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) Routing은 로드밸런서(LB, [Load Balancer](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/031_load_balancer/))나 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)([Service Mesh](/knowledge-base/studynote/03_network/16_data_center_cloud/828_service_mesh_microservice_communication_infrastructure/))에서 비율을 조절해, 95/5, 90/10처럼 단계적으로 트래픽을 넘긴다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">사용자 트래픽</div>
-<div class="kb-diagram-tree-item" style="--depth:1">95% ─&gt; Stable Version</div>
-<div class="kb-diagram-tree-item" style="--depth:1">5% ─&gt; Canary Version ─&gt; Metrics ─&gt; Promote / Rollback</div>
-</div>
-</div>
-
-
+```text
+사용자 트래픽
+   ├─ 95% ─> Stable Version
+   └─  5% ─> Canary Version ─> Metrics ─> Promote / Rollback
+```
 
 | 구성 요소 | 역할 |
 | --- | --- |
@@ -79,7 +73,7 @@ tags = ["studynote-devops"]
 실무에서는 대표성 있는 트래픽이 들어오는지, 지표가 노이즈에 묻히지 않는지, [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 기준이 숫자로 정의됐는지를 먼저 본다. 예를 들어 에러율 1% 초과, p95 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 20% 증가, 결제 성공률 하락 같은 조건을 임계값으로 잡고 자동 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)을 걸 수 있다.
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-1. [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)) 관점의 SLO가 정의되어 있는가?
+1. [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)) 관점의 SLO가 정의되어 있는가?
 2. [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/) / [Continuous Delivery](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/)) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인과 연결되어 있는가?
 3. Sticky [Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 때문에 트래픽 샘플이 왜곡되지 않는가?
 
@@ -113,25 +107,19 @@ tags = ["studynote-devops"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">코드 머지</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">배포 파이프라인</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">소량 트래픽 분기</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">지표 관찰 / 임계치 비교</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">승격 또는 롤백</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">비율 확대</div>
-</div>
-</div>
-
-
+```text
+코드 머지
+   ↓
+배포 파이프라인
+   ↓
+소량 트래픽 분기
+   ↓
+지표 관찰 / 임계치 비교
+   ↓
+승격 또는 롤백
+   ↓
+비율 확대
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

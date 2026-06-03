@@ -27,23 +27,22 @@ tags = ["enterprise_systems"]
 
 이 도식은 비즈니스 요구사항이 하위 IT 요소로 어떻게 전파되고 구체화되는지를 보여준다. 최상위 계층인 [비즈니스 아키텍처](/knowledge-base/studynote/12_it_management/03_ea_isp/103_ba_as_is_analysis/)([BA](/knowledge-base/studynote/12_it_management/03_ea_isp/103_ba_as_is_analysis/))에서 정의된 목표는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/))와 애플리케이션([AA](/knowledge-base/studynote/12_it_management/03_ea_isp/105_aa_as_is_analysis/))의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 설계를 거쳐 물리적 기술([TA](/knowledge-base/studynote/12_it_management/03_ea_isp/106_ta_as_is_analysis/))과 보안([SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/)) 인프라로 안착된다. 따라서 하위 계층의 어떠한 변경도 상위 계층의 비즈니스 목적을 위배해서는 안 된다는 추적성([Traceability](/knowledge-base/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/))이 강조된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Business Strategy &amp; Goals</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 추진</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">BA</div><div class="kb-diagram-note">Business Architecture (프로세스, 조직, 기능)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 요구</div><div class="kb-diagram-cell">▼ 요구</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DA</div><div class="kb-diagram-note">Data Arch.</div><div class="kb-diagram-node">AA</div><div class="kb-diagram-note">Application Arch.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(개념/논리/물리 DB)</div><div class="kb-diagram-cell">(서비스, 컴포넌트, 인터페이스)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 탑재 및 보호</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">TA</div><div class="kb-diagram-note">Technology Arch. (서버, 네트워크, 클라우드 등)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SA</div><div class="kb-diagram-note">Security Arch. (인증, 암호화, 접근통제)</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────┐
+│ [Business Strategy & Goals]                            │
+├────────────────────────────────────────────────────────┤
+│ ▼ 추진                                                 │
+│ [BA] Business Architecture (프로세스, 조직, 기능)      │
+├───────────────────────┬────────────────────────────────┤
+│ ▼ 요구               │ ▼ 요구                        │
+│ [DA] Data Arch.       │ [AA] Application Arch.         │
+│ (개념/논리/물리 DB)   │ (서비스, 컴포넌트, 인터페이스) │
+├───────────────────────┴────────────────────────────────┤
+│ ▼ 탑재 및 보호                                        │
+│ [TA] Technology Arch. (서버, 네트워크, 클라우드 등)    │
+│ [SA] Security Arch. (인증, 암호화, 접근통제)           │
+└────────────────────────────────────────────────────────┘
+```
 *해설: 이 계층 구조도는 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 간의 의존성과 수직적 정렬(Alignment) 상태를 보여준다. BA가 변화하면 DA와 AA가 반드시 영향을 받고, 이를 지원하기 위해 TA와 SA의 용량/[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 재조정되어야 한다. 실무에서는 상향식 도입([TA](/knowledge-base/studynote/12_it_management/03_ea_isp/106_ta_as_is_analysis/) 우선)보다 하향식([BA](/knowledge-base/studynote/12_it_management/03_ea_isp/103_ba_as_is_analysis/) 우선) 전개가 아키텍처 정합성 유지에 훨씬 유리하다.*
 
 📢 **섹션 요약 비유**: [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 구성요소는 초고층 빌딩을 짓는 것과 같습니다. BA가 건물의 용도(주거용/상업용)를 정하면, DA와 AA는 배관과 전기 회로도를 그리고, TA는 실제 사용할 철근과 콘크리트 자재를 결합하며, SA는 출입 통제 시스템과 화재 경보기를 설치하는 유기적 협업입니다.
@@ -64,23 +63,22 @@ EA를 구성하는 5대 핵심 [도메인](/knowledge-base/studynote/05_database
 
 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 구성요소 간의 작동 원리는 상호 연계 매트릭스(Cross-[Reference](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) Matrix)에 기반한다. 예를 들어 비즈니스 프로세스([BA](/knowledge-base/studynote/12_it_management/03_ea_isp/103_ba_as_is_analysis/))의 특정 활동(Activity)은 반드시 하나 이상의 애플리케이션([AA](/knowledge-base/studynote/12_it_management/03_ea_isp/105_aa_as_is_analysis/)) 기능에 의해 지원되어야 하며, 해당 애플리케이션은 특정 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔터티([DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/))를 C/R/U/D(Create, Read, Update, Delete) 한다. 이 연결 고리가 끊어진다면 해당 IT 시스템은 비즈니스 가치가 없거나, 비즈니스 프로세스가 수작업으로 방치되어 있다는 뜻이다.
 
+```text
+[연계 메커니즘: 프로세스 - 애플리케이션 - 데이터의 상호작용]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">연계 메커니즘: 프로세스 - 애플리케이션 - 데이터의 상호작용</div></div>
-<div class="kb-diagram-note">(BA) "주문 처리" 프로세스</div>
-<div class="kb-diagram-tree-item" style="--depth:3">지원 ─▶ (AA) "주문 관리 마이크로서비스"</div>
-<div class="kb-diagram-note">─ 접근 ─▶ (DA) "Order_Master" 테이블 (Insert)</div>
-<div class="kb-diagram-note">─ 접근 ─▶ (DA) "Item_Inventory" 테이블 (Update)</div>
-<div class="kb-diagram-note">▼ 실행</div>
-<div class="kb-diagram-tree-item" style="--depth:3">▶ (TA) AWS EKS 클러스터 (컨테이너 노드)</div>
-<div class="kb-diagram-note">▼ 보호</div>
-<div class="kb-diagram-note">(SA) mTLS 적용 및 WAF(웹 방화벽) 정책 통과</div>
-</div>
-</div>
-
-
+(BA) "주문 처리" 프로세스
+       │
+       ├─ 지원 ─▶ (AA) "주문 관리 마이크로서비스"
+       │                 │
+       │                 ├─ 접근 ─▶ (DA) "Order_Master" 테이블 (Insert)
+       │                 ├─ 접근 ─▶ (DA) "Item_Inventory" 테이블 (Update)
+       │                 │
+       │                 ▼ 실행
+       └────────▶ (TA) AWS EKS 클러스터 (컨테이너 노드)
+                         │
+                         ▼ 보호
+                  (SA) mTLS 적용 및 WAF(웹 방화벽) 정책 통과
+```
 *해설: 이 흐름도는 단일 비즈니스 이벤트("주문 처리")가 하위 아키텍처 전반을 어떻게 관통하는지를 나타낸다. 이러한 가시성이 확보되면, 특정 서버([TA](/knowledge-base/studynote/12_it_management/03_ea_isp/106_ta_as_is_analysis/))가 다운되었을 때 어떤 비즈니스 프로세스([BA](/knowledge-base/studynote/12_it_management/03_ea_isp/103_ba_as_is_analysis/))가 마비되는지 즉각적인 영향도 분석(Impact Analysis)이 가능해진다. 따라서 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 관리 시스템([EAMS](/knowledge-base/studynote/12_it_management/03_ea_isp/124_eams_ea_management_system/))에서는 이 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 맵핑이 핵심 자산이다.*
 
 📢 **섹션 요약 비유**: 각 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)의 연계는 인체의 신경망과 같습니다. 뇌([BA](/knowledge-base/studynote/12_it_management/03_ea_isp/103_ba_as_is_analysis/))에서 의사결정을 내리면 운동 신경([AA](/knowledge-base/studynote/12_it_management/03_ea_isp/105_aa_as_is_analysis/))이 근육([TA](/knowledge-base/studynote/12_it_management/03_ea_isp/106_ta_as_is_analysis/))을 움직여 뼈대([DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/))를 지지하며, 이 모든 과정은 백혈구와 면역 체계([SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/))의 지속적인 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 아래 안전하게 이루어집니다.
@@ -102,19 +100,16 @@ IT 경영 측면에서 과거의 [사일로](/knowledge-base/studynote/15_devops
 1. <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/">마이크로서비스 아키텍처</a>(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a>)와의 융합</strong>: AA는 모놀리식에서 잘게 쪼개진 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 집합으로 변하고, [DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/) 역시 '[Database per Service](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/311_database_per_service_pattern/)' 패턴을 적용하여 [폴리글랏 퍼시스턴스](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/308_pgvector/)([Polyglot Persistence](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/132_polyglot_persistence/))를 추구하게 된다. 이때 전체 정합성을 유지해주는 것이 [BA](/knowledge-base/studynote/12_it_management/03_ea_isp/103_ba_as_is_analysis/) 프로세스의 [바운디드 컨텍스트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/)([Bounded Context](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/)) 설계이다.
 2. <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/">클라우드 네이티브</a>(<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/">Cloud Native</a>)와의 융합</strong>: TA의 영역이 물리적 장비 구매에서 [IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/)([Infrastructure as Code](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/062_infrastructure_as_code/)) 기반의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 코드로 변환되며, [SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/) 역시 경계망 보안에서 신원 기반의 [제로 트러스트 구조](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1043_ztna_zero_trust_network_access_architecture/)로 통합된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EA 도메인</div><div class="kb-diagram-cell">전통적 아키텍처 (Legacy)</div><div class="kb-diagram-cell">최신 아키텍처 (Modern IT)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AA (앱)</div><div class="kb-diagram-cell">Monolithic, ERP 패키지</div><div class="kb-diagram-cell">MSA, Serverless, API G/W</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DA (데이터)</div><div class="kb-diagram-cell">Centralized RDBMS (Oracle)</div><div class="kb-diagram-cell">Data Lake, NoSQL 분산 DB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TA (인프라)</div><div class="kb-diagram-cell">On-Premise, Bare-metal</div><div class="kb-diagram-cell">Multi-Cloud, Kubernetes</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SA (보안)</div><div class="kb-diagram-cell">방화벽 기반 망분리 (경계)</div><div class="kb-diagram-cell">ZTNA, IAM, DevSecOps</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────┬───────────────────────────┬───────────────────────────┐
+│ EA 도메인     │ 전통적 아키텍처 (Legacy)  │ 최신 아키텍처 (Modern IT) │
+├───────────────┼───────────────────────────┼───────────────────────────┤
+│ AA (앱)       │ Monolithic, ERP 패키지    │ MSA, Serverless, API G/W  │
+│ DA (데이터)   │ Centralized RDBMS (Oracle)│ Data Lake, NoSQL 분산 DB  │
+│ TA (인프라)   │ On-Premise, Bare-metal    │ Multi-Cloud, Kubernetes   │
+│ SA (보안)     │ 방화벽 기반 망분리 (경계) │ ZTNA, IAM, DevSecOps      │
+└───────────────┴───────────────────────────┴───────────────────────────┘
+```
 *해설: 이 매트릭스는 기술 패러다임 변화에 따른 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 각 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)의 진화를 보여준다. 과거에는 [TA](/knowledge-base/studynote/12_it_management/03_ea_isp/106_ta_as_is_analysis/)(인프라) 도입이 수개월 걸렸으나 현재는 초 단위로 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/)된다. 따라서 아키텍처 관리의 중심축은 TA의 물리적 자산 관리에서 AA와 DA의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)/[데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)로 급격히 이동하고 있다.*
 
 📢 **섹션 요약 비유**: 과거의 시스템이 각자 자기 악기만 크게 연주하는 소음이 섞인 밴드였다면, [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 프레임워크는 지휘자([BA](/knowledge-base/studynote/12_it_management/03_ea_isp/103_ba_as_is_analysis/))의 악보([DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/), [AA](/knowledge-base/studynote/12_it_management/03_ea_isp/105_aa_as_is_analysis/))에 맞춰 모든 악기([TA](/knowledge-base/studynote/12_it_management/03_ea_isp/106_ta_as_is_analysis/))가 정확한 타이밍과 조율([SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/)) 속에 연주하는 거대한 오케스트라입니다.
@@ -129,24 +124,23 @@ IT 경영 측면에서 과거의 [사일로](/knowledge-base/studynote/15_devops
 2. <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/">As-Is</a> 분석의 늪(Analysis Paralysis) 주의</strong>: [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)([As-Is](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/))의 아키텍처를 파악하는 데 전체 예산의 80%를 소진하는 경우가 잦다. 실무에서는 To-Be (목표 아키텍처)의 핵심 트랜지션(Transition)에 영향을 주는 범위 내에서만 [As](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)-Is를 파악하고, 신규 도입되는 [TA](/knowledge-base/studynote/12_it_management/03_ea_isp/106_ta_as_is_analysis/)/AA에 집중하는 가치 중심 접근법이 요구된다.
 3. **거버넌스와 자동화 결합**: 시스템이 배포될 때마다 아키텍처 산출물이 수동 갱신된다면 100% [현행화](/knowledge-base/studynote/12_it_management/03_ea_isp/125_asis_update_ea_maintenance_synchronization/) 실패로 이어진다. [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에서 [인프라 코드](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/)([IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/))나 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 스웨거(Swagger) 문서가 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 저장소로 자동 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)되도록 [데이터옵스](/knowledge-base/studynote/14_data_engineering/04_mlops/196_dataops_dbt_ci_cd_data_testing/)([DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/324_dataops/)) 및 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)([DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)) 연계가 필수적이다.
 
+```text
+[EA 아키텍처 거버넌스 의사결정 트리]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">EA 아키텍처 거버넌스 의사결정 트리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">신규 IT 프로젝트 발의</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">BA 검토</div><div class="kb-diagram-note">기존 비즈니스 프로세스와 중복되는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">반려</div><div class="kb-diagram-note">기존 시스템 재사용 권고</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">AA/DA 검토</div><div class="kb-diagram-note">표준 API/데이터 모델을 준수하는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">설계 수정</div><div class="kb-diagram-note">전사 표준 체계로 재설계 지시</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TA/SA 검토</div><div class="kb-diagram-note">클라우드 인프라/보안 규정에 적합한가?</div></div>
-<div class="kb-diagram-tree-item" style="--depth:8">(No) ──▶ 망분리, 암호화 아키텍처 보강</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">아키텍처 위원회(ARB) 승인 및 구현</div></div>
-</div>
-</div>
-
-
+[신규 IT 프로젝트 발의]
+         │
+         ▼
+[BA 검토] 기존 비즈니스 프로세스와 중복되는가?
+   ├─ (Yes) ──▶ [반려] 기존 시스템 재사용 권고
+   │
+   └─ (No) ───▶ [AA/DA 검토] 표준 API/데이터 모델을 준수하는가?
+                   ├─ (No) ──▶ [설계 수정] 전사 표준 체계로 재설계 지시
+                   │
+                   └─ (Yes) ─▶ [TA/SA 검토] 클라우드 인프라/보안 규정에 적합한가?
+                                  ├─ (No) ──▶ 망분리, 암호화 아키텍처 보강
+                                  │
+                                  └─ (Yes) ─▶ [아키텍처 위원회(ARB) 승인 및 구현]
+```
 *해설: 이 플로우차트는 일선 기업의 [아키텍처 검토 위원회](/knowledge-base/studynote/12_it_management/03_ea_isp/123_arb_architecture_review_board/)(ARB, [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) [Review](/knowledge-base/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/) Board)가 IT 프로젝트를 통제하는 과정을 보여준다. 가장 큰 병목은 각 부서가 자신의 편의를 위해 전사 표준([DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/), [TA](/knowledge-base/studynote/12_it_management/03_ea_isp/106_ta_as_is_analysis/))을 우회하려 할 때 발생한다. 예외(Exception)를 무분별하게 허용하면 EA는 무너진다. 실무에서는 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)([Technical Debt](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/))를 지고 예외를 한시적 허용하되, 차기 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)에 표준화하는 조건부 승인 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 혼용한다.*
 
 📢 **섹션 요약 비유**: 아키텍처 관리는 정원 가꾸기와 같습니다. 처음 도면대로 완벽히 심어놓더라도, 잡초(비표준 IT)가 자라나고 가지(기능 확장)가 뻗어나가므로 주기적인 전지와 자동화된 스프링클러(거버넌스) 없이는 순식간에 난장판이 됩니다.
@@ -178,23 +172,21 @@ IT 경영 측면에서 과거의 [사일로](/knowledge-base/studynote/15_devops
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">비즈니스 아키텍처 (BA) — 전략·프로세스·조직 모델 정의</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 아키텍처 (DA) — 정보 자산·흐름·품질 기준 수립</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">애플리케이션 아키텍처 (AA) — 시스템 포트폴리오·통합 인터페이스 설계</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">기술 아키텍처 (TA) — 인프라·네트워크·플랫폼 표준 정의</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IT 거버넌스 (IT Governance) — ARB 통해 EA 준수 강제, 투자 통제</div></div>
-</div>
-</div>
-
-
+```text
+[비즈니스 아키텍처 (BA) — 전략·프로세스·조직 모델 정의]
+    │
+    ▼
+[데이터 아키텍처 (DA) — 정보 자산·흐름·품질 기준 수립]
+    │
+    ▼
+[애플리케이션 아키텍처 (AA) — 시스템 포트폴리오·통합 인터페이스 설계]
+    │
+    ▼
+[기술 아키텍처 (TA) — 인프라·네트워크·플랫폼 표준 정의]
+    │
+    ▼
+[IT 거버넌스 (IT Governance) — ARB 통해 EA 준수 강제, 투자 통제]
+```
 
 이 흐름은 비즈니스 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)에서 기술 인프라까지 4계층 아키텍처 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)이 정렬되고 거버넌스로 통제되는 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 구성 체계를 나타낸다.
 

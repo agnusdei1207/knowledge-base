@@ -23,16 +23,13 @@ tags = ["studynote-ai"]
 
 특히 [군집화](/knowledge-base/studynote/16_bigdata/05_analysis/105_clustering_analysis/), 회귀, 시계열, 혼합모형([GMM](/knowledge-base/studynote/10_ai/05_data_science_ml/360_gmm_em_algorithm/))처럼 후보 모델이 여러 개일 때, 단순 점수만 비교하면 파라미터 수가 많은 모델이 무조건 유리해진다. 정보 기준은 이런 편향을 보정한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Model Selection via Information Criteria</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Candidate model → Likelihood fit → Complexity penalty → Score</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                 Model Selection via Information Criteria      │
+├──────────────────────────────────────────────────────────────┤
+│ Candidate model → Likelihood fit → Complexity penalty → Score│
+└──────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 시험 점수만 보고 반을 편성하면 인원만 많은 반이 유리해진다. AIC/BIC는 학생 수가 많아질수록 생기는 "과밀 보정"이다.
 
@@ -49,17 +46,14 @@ tags = ["studynote-ai"]
 
 여기서 `k`는 파라미터 수, `n`은 샘플 수, `L`은 우도다. `n`이 커질수록 BIC의 패널티가 더 커지므로, 대규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서는 BIC가 더 보수적으로 동작한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AIC vs BIC Penalty Strength</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AIC: 2k → predictive / flexible</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BIC: k ln(n) → parsimonious / conservative</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                 AIC vs BIC Penalty Strength                  │
+├──────────────────────────────────────────────────────────────┤
+│ AIC:  2k              → predictive / flexible               │
+│ BIC:  k ln(n)         → parsimonious / conservative          │
+└──────────────────────────────────────────────────────────────┘
+```
 
 ### 후보 모델 비교 절차
 

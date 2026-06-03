@@ -18,22 +18,21 @@ tags = ["studynote-bigdata"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HDFS Federation + ViewFS 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라이언트 (ViewFS 설정 적용)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/user → viewfs://cluster1/user</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/data → viewfs://cluster2/data</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/tmp → viewfs://cluster1/tmp</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NameNode-1 (cluster1): /user, /tmp 담당</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NameNode-2 (cluster2): /data 담당</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DataNode 풀 (공유) — 실제 블록 저장</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│           HDFS Federation + ViewFS 구조                │
+├───────────────────────────────────────────────────────┤
+│ 클라이언트 (ViewFS 설정 적용)                           │
+│   /user  → viewfs://cluster1/user                      │
+│   /data  → viewfs://cluster2/data                      │
+│   /tmp   → viewfs://cluster1/tmp                       │
+│                ↓                                       │
+│  NameNode-1 (cluster1): /user, /tmp 담당               │
+│  NameNode-2 (cluster2): /data 담당                     │
+│                ↓                                       │
+│  DataNode 풀 (공유) — 실제 블록 저장                    │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: ViewFS는 여러 도서관([NameNode](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/))을 하나의 통합 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)로 보여주는 시스템이다. "컴퓨터 책은 A도서관, 역사 책은 B도서관"에 있지만, 독자는 하나의 검색창에서 모두 찾을 수 있다.
 
@@ -123,23 +122,21 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">단일 NameNode HDFS — 수억 파일 한계</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HDFS Federation — 네임스페이스 수평 분할</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ViewFS — 클라이언트 측 통합 마운트 뷰</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">RBF (Router-Based Federation) — 서버 측 통합 라우팅</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Ozone — 객체 스토리지 기반 무제한 확장</div></div>
-</div>
-</div>
-
-
+```text
+[단일 NameNode HDFS — 수억 파일 한계]
+    │
+    ▼
+[HDFS Federation — 네임스페이스 수평 분할]
+    │
+    ▼
+[ViewFS — 클라이언트 측 통합 마운트 뷰]
+    │
+    ▼
+[RBF (Router-Based Federation) — 서버 측 통합 라우팅]
+    │
+    ▼
+[Apache Ozone — 객체 스토리지 기반 무제한 확장]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

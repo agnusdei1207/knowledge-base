@@ -72,29 +72,31 @@ tags = ["studynote-operating-system"]
 
 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 A 노드에서 B 노드로 이사 갔을 때, 남겨진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 어떻게 데려올까? [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/">NUMA</a> Balancing</strong> 메커니즘이 작동한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AutoNUMA (NUMA Balancing) 동작 메커니즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황 1: 초기 상태 (원격 접근 발생)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 스레드는 Node 1에서 실행 중인데, 데이터(Page X)는 Node 0에 있음.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 스레드가 Page X를 읽을 때마다 UPI 버스를 타느라 성능이 저하됨.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황 2: 커널의 함정 설치 (PTE Scanning)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 커널 데몬(numad)이 주기적으로 Page X의 페이지 테이블 엔트리(PTE)에</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가짜로 'PROT_NONE (접근 불가)' 권한을 걸어버린다. (Unmapping)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황 3: 함정 발동 (NUMA Hinting Fault)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Node 1의 스레드가 Page X를 읽으려 시도함.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- 권한이 없으므로 하드웨어</div><div class="kb-diagram-node">Page Fault</div><div class="kb-diagram-note">트랩 발생!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황 4: 커널의 이동 결정 및 이사 (Migration)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 커널: "잡았다! Node 1에 있는 녀석이 Node 0의 Page X를 자주 쓰는군!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- 커널은 Page X를 Node 0에서 Node 1의 빈 메모리로</div><div class="kb-diagram-node">몰래 복사</div><div class="kb-diagram-note">한다.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 복사가 끝나면 PTE를 새로운 Node 1의 주소로 고치고 권한을 복구함.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">결과</div><div class="kb-diagram-note">이제 스레드는 Node 1에 있는 로컬 데이터를 읽으므로 속도가 빨라짐!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 AutoNUMA (NUMA Balancing) 동작 메커니즘            │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │  [상황 1: 초기 상태 (원격 접근 발생)]                                 │
+  │   - 스레드는 Node 1에서 실행 중인데, 데이터(Page X)는 Node 0에 있음.      │
+  │   - 스레드가 Page X를 읽을 때마다 UPI 버스를 타느라 성능이 저하됨.          │
+  │                                                                   │
+  │  [상황 2: 커널의 함정 설치 (PTE Scanning)]                           │
+  │   - 커널 데몬(numad)이 주기적으로 Page X의 페이지 테이블 엔트리(PTE)에     │
+  │     가짜로 'PROT_NONE (접근 불가)' 권한을 걸어버린다. (Unmapping)      │
+  │                                                                   │
+  │  [상황 3: 함정 발동 (NUMA Hinting Fault)]                           │
+  │   - Node 1의 스레드가 Page X를 읽으려 시도함.                         │
+  │   - 권한이 없으므로 하드웨어 [Page Fault] 트랩 발생!                  │
+  │                                                                   │
+  │  [상황 4: 커널의 이동 결정 및 이사 (Migration)]                       │
+  │   - 커널: "잡았다! Node 1에 있는 녀석이 Node 0의 Page X를 자주 쓰는군!"    │
+  │   - 커널은 Page X를 Node 0에서 Node 1의 빈 메모리로 [몰래 복사]한다.     │
+  │   - 복사가 끝나면 PTE를 새로운 Node 1의 주소로 고치고 권한을 복구함.       │
+  │                                                                   │
+  │  [결과] 이제 스레드는 Node 1에 있는 로컬 데이터를 읽으므로 속도가 빨라짐!      │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 백만 장이 넘는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 중 누가 어느 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 자주 쓰는지 일일이 감시할 CPU 여유가 없다. 그래서 고안한 천재적인 방법이 <strong>"함정(<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/">Trap</a>)"</strong>이다. [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)들을 슬쩍 '접근 불가'로 만들어 놓고, 누가 불만을 터뜨리는지([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)) 본다. 불만을 터뜨린 놈([스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))이 1번 동네에 사는데 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 0번 동네에 있으면, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 그 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 1번 동네로 옮겨주는 식이다. 이 작업을 백그라운드에서 아주 천천히 조심스럽게 진행하여 시스템 전체의 부하를 주지 않으면서 서서히 [데이터 지역성](/knowledge-base/studynote/14_data_engineering/01_infrastructure/019_data_locality/)(Locality)을 수렴시킨다.
 
@@ -136,26 +138,29 @@ tags = ["studynote-operating-system"]
 
 ### 의사결정 및 튜닝 플로우
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NUMA 아키텍처 메모리 튜닝 의사결정 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">멀티 소켓(2개 이상) 서버에서 고성능 애플리케이션 구동</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">애플리케이션이 엄청난 양의 메모리(100GB 이상)를 순차/랜덤하게 스캔하는가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(예: In-memory DB, ElasticSearch, 빅데이터 분석)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">numactl --interleave=all 설정 권장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(AutoNUMA 끄기: 커널이 쓸데없이 페이지 옮기느라</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 태우는 Thrashing 방지)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1개의 VM이나 프로세스가 1개 NUMA 노드 크기(예: 16코어, 64GB)에 쏙 들어가는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">numactl --cpunodebind=X --membind=X 강제 고정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(100% 로컬 메모리 적중률 확보, 극강의 성능 달성)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ──▶ OS 기본값(First-touch + AutoNUMA) 유지</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 NUMA 아키텍처 메모리 튜닝 의사결정 플로우                │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [멀티 소켓(2개 이상) 서버에서 고성능 애플리케이션 구동]                    │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      애플리케이션이 엄청난 양의 메모리(100GB 이상)를 순차/랜덤하게 스캔하는가?│
+  │      (예: In-memory DB, ElasticSearch, 빅데이터 분석)                 │
+  │          ├─ 예 ─────▶ [numactl --interleave=all 설정 권장]         │
+  │          │            (AutoNUMA 끄기: 커널이 쓸데없이 페이지 옮기느라 │
+  │          │             CPU 태우는 Thrashing 방지)                   │
+  │          └─ 아니오                                                │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      1개의 VM이나 프로세스가 1개 NUMA 노드 크기(예: 16코어, 64GB)에 쏙 들어가는가?│
+  │          ├─ 예 ─────▶ [numactl --cpunodebind=X --membind=X 강제 고정]│
+  │          │            (100% 로컬 메모리 적중률 확보, 극강의 성능 달성)   │
+  │          │                                                        │
+  │          └─ 아니오 ──▶ OS 기본값(First-touch + AutoNUMA) 유지      │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** "NUMA는 마법이 아니라 저주다"라는 말이 인프라 엔지니어들 사이에 있다. 잘 모르면 오히려 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 떨어진다. AutoNUMA는 완벽하지 않다. [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 이리저리 복사하느라 오히려 CPU 코어 하나를 100% 태우기도 한다([NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) Balancing Overhead). 그래서 고도의 엔터프라이즈 환경에서는 K8s 레벨에서 `Topology Manager`를 써서, 아예 처음 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 띄울 때부터 "너는 CPU도 Node 0번 것만 쓰고 램도 Node 0번, 랜카드([SR-IOV](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/497_sr_iov_pcie_mapping/))도 Node 0번에 꽂힌 것만 써!"라고 철저히 격리(Pinning)해 버리는 튜닝을 가장 선호한다.
 
@@ -199,19 +204,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">리눅스 시스템 콜 테이블 (sys_call_table) 확장 및 보안 훅 추가</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NUMA 인지형 메모리 할당기 커널 페이지 이동 정책 프레임워크 설계 (NUMA Aware Allocator Page Migration)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">프로세스 체크포인트/리스토어 (CRIU) 컨테이너 마이그레이션 도구 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">커널 메모리 컴팩션 (Compaction) 외부 단편화 런타임 제거 백그라운드 스레드 구조</div></div>
-</div>
-</div>
-
-
+```text
+[리눅스 시스템 콜 테이블 (sys_call_table) 확장 및 보안 훅 추가]
+    │
+    ▼
+[NUMA 인지형 메모리 할당기 커널 페이지 이동 정책 프레임워크 설계 (NUMA Aware Allocator Page Migration)]
+    │
+    ├──▶ [프로세스 체크포인트/리스토어 (CRIU) 컨테이너 마이그레이션 도구 구조]
+    └──▶ [커널 메모리 컴팩션 (Compaction) 외부 단편화 런타임 제거 백그라운드 스레드 구조]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

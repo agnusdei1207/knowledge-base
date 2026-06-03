@@ -42,17 +42,14 @@ $$\text{Inertia} = \sum_{k=1}^{K} \sum_{x \in C_k} \|x - \mu_k\|^2$$
 | [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/) | O(nKt) | O(n log n) | O(n²~n³) |
 | 대규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 가능 | 중간 | 어려움 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: K-Means는 "K개의 모임 장소를 정하고, 각자 가장 가까운 장소에 모인 뒤, 모인 사람들의 무게중심으로 장소를 이동"하는 것을 반복하는 과정이다.
 
@@ -62,45 +59,47 @@ $$\text{Inertia} = \sum_{k=1}^{K} \sum_{x \in C_k} \|x - \mu_k\|^2$$
 
 ### K-Means [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) EM 구조
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">K-Means EM (Expectation-Maximization) 구조</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 초기화: K개 중심점 μ_1,...,μ_K 무작위 선택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">E-Step (할당):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">각 포인트 x_i를 가장 가까운 중심점에 할당</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">c_i = argmin_k ‖x_i - μ_k‖²</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">M-Step (업데이트):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">각 클러스터의 중심점을 멤버 평균으로 재계산</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">μ_k = (1/</div><div class="kb-diagram-cell">C_k</div><div class="kb-diagram-cell">) · Σ_{x∈C_k} x</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수렴 판단: 중심점 변화 &lt; ε 또는 최대 반복?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Yes → 종료 / No → E-Step으로 반복</div></div>
-</div>
-</div>
-
-
+```
+  K-Means EM (Expectation-Maximization) 구조
+  ┌─────────────────────────────────────────────┐
+  │  1. 초기화: K개 중심점 μ_1,...,μ_K 무작위 선택│
+  └──────────────────────┬──────────────────────┘
+                         │
+  ┌──────────────────────▼──────────────────────┐
+  │  E-Step (할당):                             │
+  │  각 포인트 x_i를 가장 가까운 중심점에 할당  │
+  │  c_i = argmin_k ‖x_i - μ_k‖²               │
+  └──────────────────────┬──────────────────────┘
+                         │
+  ┌──────────────────────▼──────────────────────┐
+  │  M-Step (업데이트):                         │
+  │  각 클러스터의 중심점을 멤버 평균으로 재계산 │
+  │  μ_k = (1/|C_k|) · Σ_{x∈C_k} x             │
+  └──────────────────────┬──────────────────────┘
+                         │
+  ┌──────────────────────▼──────────────────────┐
+  │  수렴 판단: 중심점 변화 < ε 또는 최대 반복? │
+  │  Yes → 종료 / No → E-Step으로 반복          │
+  └─────────────────────────────────────────────┘
+```
 
 ### 엘보우 방법 (Elbow Method)으로 K 선택
 
+```
+  이너시아 (Inertia)
+      │
+  ────┤  ●
+      │   ╲
+      │    ●
+      │     ╲
+      │      ●  ← "엘보우" 지점 (K=4 최적)
+      │       ╲──────●────────●
+      │
+      └─────────────────────────── K
+          1   2   3   4   5   6
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이너시아 (Inertia)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">●</div>
-<div class="kb-diagram-note">╲</div>
-<div class="kb-diagram-note">●</div>
-<div class="kb-diagram-note">╲</div>
-<div class="kb-diagram-note">● ← "엘보우" 지점 (K=4 최적)</div>
-<div class="kb-diagram-note">╲ ● ●</div>
-<div class="kb-diagram-tree-item" style="--depth:3">K</div>
-<div class="kb-diagram-note">1 2 3 4 5 6</div>
-<div class="kb-diagram-note">엘보우 이후 이너시아 감소폭이 급격히 줄어드는 K가 최적</div>
-</div>
-</div>
-
-
+  엘보우 이후 이너시아 감소폭이 급격히 줄어드는 K가 최적
+```
 
 ### 실루엣 점수 ([Silhouette Score](/knowledge-base/studynote/06_ict_convergence/05_data_science/350_kmeans_elbow_silhouette/))
 
@@ -123,19 +122,16 @@ $$s(i) = \frac{b(i) - a(i)}{\max(a(i), b(i))}$$
 
 K-Means는 EM [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 하드(Hard) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)이고, [GMM](/knowledge-base/studynote/10_ai/05_data_science_ml/360_gmm_em_algorithm/)([Gaussian Mixture Model](/knowledge-base/studynote/14_data_engineering/02_math_mining/114_gaussian_mixture_model/))은 소프트(Soft) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">K-Means (Hard EM): GMM (Soft EM):</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">각 점은 하나의</div><div class="kb-diagram-cell">각 점은 여러 가우시안</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클러스터에만 속함</div><div class="kb-diagram-cell">분포에 확률적으로 속함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(0 또는 1 소속)</div><div class="kb-diagram-cell">(0~1 사이 확률 소속)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원형 등분산 클러스터</div><div class="kb-diagram-cell">타원형, 다양한 공분산</div></div>
-</div>
-</div>
-
-
+```
+  K-Means (Hard EM):           GMM (Soft EM):
+  ┌──────────────────────┐     ┌──────────────────────┐
+  │ 각 점은 하나의       │     │ 각 점은 여러 가우시안 │
+  │ 클러스터에만 속함     │     │ 분포에 확률적으로 속함│
+  │ (0 또는 1 소속)      │     │ (0~1 사이 확률 소속)  │
+  │                      │     │                      │
+  │ 원형 등분산 클러스터  │     │ 타원형, 다양한 공분산  │
+  └──────────────────────┘     └──────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: K-Means EM은 "반 배정 후 각 반의 교실 위치를 학생들의 집 위치 평균으로 이동"하는 과정이다. GMM은 "학생을 여러 반에 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적으로 소속"시켜 더 유연하게 그룹을 형성한다.
 
@@ -145,25 +141,25 @@ K-Means는 EM [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_bas
 
 ### K-Means의 한계와 대안
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">K-Means 한계:</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 구형 클러스터만 잘 찾음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 해결: DBSCAN, GMM, Spectral Clustering</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. K 사전 지정 필요</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 해결: 엘보우/실루엣, DBSCAN</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 초기 중심점에 민감 (지역 최적해)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 해결: K-Means++ 초기화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 이상값에 민감 (중심점 왜곡)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 해결: K-Medoids, 이상값 제거</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 스케일에 민감</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 해결: 표준화(StandardScaler) 전처리</div></div>
-</div>
-</div>
-
-
+```
+  K-Means 한계:
+  ┌──────────────────────────────────────────────┐
+  │ 1. 구형 클러스터만 잘 찾음                  │
+  │    → 해결: DBSCAN, GMM, Spectral Clustering  │
+  │                                              │
+  │ 2. K 사전 지정 필요                          │
+  │    → 해결: 엘보우/실루엣, DBSCAN             │
+  │                                              │
+  │ 3. 초기 중심점에 민감 (지역 최적해)          │
+  │    → 해결: K-Means++ 초기화                  │
+  │                                              │
+  │ 4. 이상값에 민감 (중심점 왜곡)               │
+  │    → 해결: K-Medoids, 이상값 제거            │
+  │                                              │
+  │ 5. 스케일에 민감                             │
+  │    → 해결: 표준화(StandardScaler) 전처리     │
+  └──────────────────────────────────────────────┘
+```
 
 ### K-Means++ [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화
 

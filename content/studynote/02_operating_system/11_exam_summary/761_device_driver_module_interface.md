@@ -34,26 +34,33 @@ tags = ["studynote-operating-system"]
 - **등장 배경**: 
   - 리눅스 진영이 모놀리식(Monolithic) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 속도를 유지하면서도, [마이크로커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/024_microkernel/)([Microkernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/024_microkernel/))의 유연함(동적 확장성)을 흡수하기 위해 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 인터페이스 아키텍처를 도입하여 오늘날 Plug-and-Play(플러그 앤 플레이) 시대의 근간이 되었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VFS와 디바이스 드라이버 간의 추상화 매커니즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">유저 공간 (User Space)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App: <code>write(fd, "hello", 5);</code> (마우스든 디스크든 똑같은 함수 호출)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">======</div><div class="kb-diagram-cell">================= (시스템 콜 장벽) =====================</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">커널 공간 (Kernel Space)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VFS (가상 파일 시스템) - "모든 하드웨어를 파일처럼 취급"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">fd가 어떤 장치인지 판별하여, 해당 드라이버의 함수 포인터로 연결해 줌.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▼</div><div class="kb-diagram-node">표준 인터페이스</div><div class="kb-diagram-connector">▼</div><div class="kb-diagram-node">표준 인터페이스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NVMe 드라이버</div><div class="kb-diagram-cell">그래픽 드라이버</div><div class="kb-diagram-cell">(LKM 모듈)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SSD에 전기 신호 쏨</div><div class="kb-diagram-cell">화면에 픽셀 쏨</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">======</div><div class="kb-diagram-cell">================= (하드웨어 장벽) =====================</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">삼성 SSD</div><div class="kb-diagram-node">NVIDIA 그래픽 카드</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │                 VFS와 디바이스 드라이버 간의 추상화 매커니즘          │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │   [ 유저 공간 (User Space) ]                                  │
+  │      App: `write(fd, "hello", 5);` (마우스든 디스크든 똑같은 함수 호출)│
+  │        │                                                    │
+  │  ======│================= (시스템 콜 장벽) =====================│
+  │        ▼                                                    │
+  │   [ 커널 공간 (Kernel Space) ]                                │
+  │   ┌───────────────────────────────────────────────────────┐ │
+  │   │ VFS (가상 파일 시스템) - "모든 하드웨어를 파일처럼 취급"          │ │
+  │   │ fd가 어떤 장치인지 판별하여, 해당 드라이버의 함수 포인터로 연결해 줌.│ │
+  │   └────┬────────────────────────────┬─────────────────────────┘ │
+  │        │                            │                       │
+  │        ▼ [표준 인터페이스]             ▼ [표준 인터페이스]       │
+  │   ┌────────────────┐           ┌────────────────┐         │
+  │   │ NVMe 드라이버   │           │ 그래픽 드라이버  │ (LKM 모듈)│
+  │   │ SSD에 전기 신호 쏨│           │ 화면에 픽셀 쏨   │         │
+  │   └────────┬───────┘           └───────┬────────┘         │
+  │        │                            │                       │
+  │  ======│================= (하드웨어 장벽) =====================│
+  │        ▼                            ▼                       │
+  │   [ 삼성 SSD ]                  [ NVIDIA 그래픽 카드 ]          │
+  └─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 아키텍처의 가장 위대한 발명품 중 하나가 이 '다형성(Polymorphism)' 인터페이스다. 응용 프로그램은 내가 지금 글씨를 쓰는 대상이 디스크인지, 모니터인지, 네트워크인지 알 필요조차 없다. 그저 VFS가 열어준 가상의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(예: `/dev/sda` 또는 `/dev/tty`)에 대고 `write()`만 때리면 끝난다. 중간에 끼어있는 디바이스 드라이버가 VFS의 추상적인 "Write" 명령을 받아, 제조사만 아는 극도로 복잡한 하드웨어 전기 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)([레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 제어)로 번역해 주는 총알받이 역할을 100% 수행하기 때문이다.
 
@@ -77,29 +84,33 @@ tags = ["studynote-operating-system"]
 
 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)(`*.ko`)이 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 꽂힐 때, 단순히 복사되는 게 아니라 "내 통역 함수들은 이거야"라고 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)([VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/))의 <strong>함수 포인터 테이블 (file_operations 구조체)</strong>에 자신의 주소를 등록하는(Hooking) 과정이 일어난다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동적 커널 모듈(LKM) 적재 및 함수 후킹 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 모듈 적재 명령어 실행 (<code># insmod my_mouse.ko</code>)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 모듈 초기화 함수 <code>module_init(my_init)</code> 실행</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▼</div><div class="kb-diagram-node">커널 내부 등록 (Register)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">커널의</div><div class="kb-diagram-node">문자 장치 관리 테이블</div><div class="kb-diagram-note">에 드라이버 등록</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Major 번호 = 10, Minor 번호 = 1 배정</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">file_operations 구조체 매핑</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">핵심!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- .read = my_mouse_read_func; (내가 짠 읽기 함수 주소 연결)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- .write = my_mouse_write_func; (내가 짠 쓰기 함수 주소 연결)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- .ioctl = my_mouse_ioctl_func;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 앱에서 호출 (<code>read(fd, buf, 10)</code>)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▼</div><div class="kb-diagram-node">VFS의 분기 처리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VFS: "어? 이 fd는 Major 10번 마우스 장치네? 아까 매핑해 둔</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell"><code>my_mouse_read_func</code>로 점프(Jump)시켜라!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 드라이버가 하드웨어 포트에서 좌표를 읽어와 앱에 전달 ◀</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 동적 커널 모듈(LKM) 적재 및 함수 후킹 구조             │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   1. 모듈 적재 명령어 실행 (`# insmod my_mouse.ko`)                   │
+  │        │                                                          │
+  │   2. 모듈 초기화 함수 `module_init(my_init)` 실행                     │
+  │        │                                                          │
+  │        ▼ [ 커널 내부 등록 (Register) ]                               │
+  │      커널의 [문자 장치 관리 테이블]에 드라이버 등록                         │
+  │      Major 번호 = 10,  Minor 번호 = 1 배정                            │
+  │                                                                   │
+  │      [ file_operations 구조체 매핑 ] ◀ 핵심!                       │
+  │      - .read  = my_mouse_read_func;   (내가 짠 읽기 함수 주소 연결)     │
+  │      - .write = my_mouse_write_func;  (내가 짠 쓰기 함수 주소 연결)     │
+  │      - .ioctl = my_mouse_ioctl_func;                              │
+  │                                                                   │
+  │   3. 앱에서 호출 (`read(fd, buf, 10)`)                               │
+  │        │                                                          │
+  │        ▼ [ VFS의 분기 처리 ]                                         │
+  │      VFS: "어? 이 fd는 Major 10번 마우스 장치네? 아까 매핑해 둔           │
+  │           `my_mouse_read_func`로 점프(Jump)시켜라!" ─────────┐     │
+  │                                                              │     │
+  │   4. 드라이버가 하드웨어 포트에서 좌표를 읽어와 앱에 전달 ◀────────────┘     │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이것이 C언어의 구조체와 함수 포인터(`*func()`)를 극한으로 활용한 객체 지향적(Object-Oriented) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 디자인이다. [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 올라가는 순간(insmod), [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 빈 테이블에 자신의 함수 주소를 슬쩍 끼워 넣는다. 이후 VFS는 껍데기만 보고 엑셀 표를 찾듯 테이블을 뒤져서 포인터가 가리키는 곳으로 실행 흐름을 넘겨준다. [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 제거할 때(`rmmod`)는 초기화 해제 함수(`module_exit`)가 불려 이 테이블의 연결 고리를 깔끔하게 끊어내고 메모리에서 사라진다. 재부팅 0초짜리 마법이다.
 
@@ -140,24 +151,27 @@ tags = ["studynote-operating-system"]
 2. **시나리오 — 운영 서버의 무중단 핫스왑 (Hot-Swapping) 디스크 교체**: 수만 명이 접속 중인 [SAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/) 스토리지 서버에서 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 디스크 하나가 불량(Bad Sector)이 났다. 서버 전원을 끄지 않고 물리적으로 하드 디스크를 뽑고 새 것을 꽂았다.
    - <strong>아키텍트 판단 (udev와 Hotplug <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a> 인터페이스)</strong>: 서버가 켜진 채로 물리적 장치가 꽂히면(Hotplug), 메인보드는 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 쏜다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 이 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 감지하고 사용자 영역의 데몬인 <strong>udev (Userspace Device <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/">Management</a>)</strong>에게 알림(Uevent)을 쏜다. udev는 기기의 제조사(Vendor ID)를 파악하고, 즉시 알맞은 스토리지 드라이버 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)(`scsi_mod` 등)을 `modprobe` 명령으로 동적 적재시킨 후, `/dev/sdb`라는 가상 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(Device Node)을 1초 만에 만들어낸다. [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 인터페이스가 없었다면 무중단 운영(High [Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)) 자체가 불가능했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">안전한 커널 모듈 배포 및 트러블슈팅 의사결정 트리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 새로운 커널 모듈(.ko) 배포 시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 명령: <code>insmod</code> 보다는 <code>modprobe</code> 사용 권장 (의존성 자동 해결)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 모듈이 뻗어서 시스템 콜이 무한 대기(D state)에 빠짐!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해당 드라이버를 <code>rmmod</code> 명령어로 빼려고 시도한다.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">rmmod가 "Device or resource busy"를 뱉으며 실패하는가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예 ▶ 🚨 치명적 상황! (모듈 참조 카운트 RefCount &gt; 0)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">어떤 프로세스가 아직 이 드라이버의 /dev 파일을 열고 있음.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell"><code>lsof</code>로 범인 프로세스를 찾아 강제 종료(kill) 후 제거.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ──▶ 정상 Unload 완료. 새 모듈로 패치 진행.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 안전한 커널 모듈 배포 및 트러블슈팅 의사결정 트리         │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [ 1. 새로운 커널 모듈(.ko) 배포 시 ]                                   │
+  │   - 명령: `insmod` 보다는 **`modprobe`** 사용 권장 (의존성 자동 해결)        │
+  │                 │                                                 │
+  │                 ▼                                                 │
+  │   [ 2. 모듈이 뻗어서 시스템 콜이 무한 대기(D state)에 빠짐! ]               │
+  │      해당 드라이버를 `rmmod` 명령어로 빼려고 시도한다.                      │
+  │                 │                                                 │
+  │                 ▼                                                 │
+  │      rmmod가 "Device or resource busy"를 뱉으며 실패하는가?               │
+  │          ├─ 예 ─────▶ 🚨 치명적 상황! (모듈 참조 카운트 RefCount > 0)    │
+  │          │             어떤 프로세스가 아직 이 드라이버의 /dev 파일을 열고 있음. │
+  │          │             `lsof`로 범인 프로세스를 찾아 강제 종료(kill) 후 제거.   │
+  │          │                                                        │
+  │          └─ 아니오 ──▶ 정상 Unload 완료. 새 모듈로 패치 진행.              │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 개발자들의 가장 큰 악몽은 "[모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 안 빠져서 결국 재부팅해야 하는" 상황이다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 메모리 오염을 막기 위해 누군가 이 드라이버 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)의 함수를 한 번이라도 쓰고 있으면([참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 카운트가 1 이상) 절대로 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 제거되지 않게 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 걸어둔다. 앱이 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)이나 디바이스 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 닫지 않고(close 누락) 죽어버리거나, 드라이버 내부에서 무한 루프에 빠져 [커널 패닉](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/) 직전이라면 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 제거는 거부되고 결국 물리적 리셋 버튼을 눌러야 하는 대참사가 일어난다. 시큐어 드라이버 코딩의 핵심은 꼼꼼한 자원 해제와 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 카운트 관리에 있다.
 
@@ -203,19 +217,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">슬랩 (Slab) 할당기 객체 캐싱</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">디바이스 드라이버 모듈 인터페이스 (Device Driver Module Interface)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">인터럽트 처리 상프/하프 메커니즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">루트킷 탐지 무결성 스캔</div></div>
-</div>
-</div>
-
-
+```text
+[슬랩 (Slab) 할당기 객체 캐싱]
+    │
+    ▼
+[디바이스 드라이버 모듈 인터페이스 (Device Driver Module Interface)]
+    │
+    ├──▶ [인터럽트 처리 상프/하프 메커니즘]
+    └──▶ [루트킷 탐지 무결성 스캔]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

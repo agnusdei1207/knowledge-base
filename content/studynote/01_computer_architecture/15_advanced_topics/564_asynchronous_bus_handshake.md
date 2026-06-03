@@ -43,22 +43,20 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 4-phase handshake에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 언제 유효해야 하는지까지 함께 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4-phase handshake: 데이터는 REQ 이전에 안정되고 ACK 동안 유지되어야 한다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) Sender : Data Stable, REQ ↑</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) Receiver : Data Sample, ACK ↑</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) Sender : REQ ↓ after observing ACK</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4) Receiver : ACK ↓, next transfer ready</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Data :</div><div class="kb-diagram-node">=========== valid ===========</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">REQ : ________/‾‾‾‾‾‾‾‾\_____________________</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ACK : ________________/‾‾‾‾‾‾\______________</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ 4-phase handshake: 데이터는 REQ 이전에 안정되고 ACK 동안 유지되어야 한다   │
+├──────────────────────────────────────────────────────────────────────────────┤
+│ 1) Sender   : Data Stable, REQ ↑                                            │
+│ 2) Receiver : Data Sample, ACK ↑                                            │
+│ 3) Sender   : REQ ↓ after observing ACK                                     │
+│ 4) Receiver : ACK ↓, next transfer ready                                    │
+│                                                                              │
+│ Data  : [=========== valid ===========]                                     │
+│ REQ   : ________/‾‾‾‾‾‾‾‾\_____________________                              │
+│ ACK   : ________________/‾‾‾‾‾‾\______________                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+```
 
 더 높은 효율이 필요하면 2-phase transition signaling처럼 에지 변화만으로 의미를 전달하는 방식도 쓸 수 있다. 하지만 구현 난이도는 4-phase보다 높아진다. 따라서 설계자는 안전성과 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 사이의 균형을 봐야 한다.
 
@@ -136,23 +134,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">고정 지연 기반 Strobe 제어</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">4-phase REQ / ACK 핸드셰이크</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">2-phase transition signaling</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Async FIFO · CDC bridge</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">GALS · 칩렛 경계 제어 프로토콜</div>
-</div>
-</div>
-
-
+```text
+고정 지연 기반 Strobe 제어
+        │
+        ▼
+4-phase REQ / ACK 핸드셰이크
+        │
+        ▼
+2-phase transition signaling
+        │
+        ▼
+Async FIFO · CDC bridge
+        │
+        ▼
+GALS · 칩렛 경계 제어 프로토콜
+```
 
 이 흐름은 비동기 통신이 단순한 주변장치 제어에서 출발해, 점차 클럭 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 경계와 이종 시스템 통합을 책임지는 구조적 기술로 발전했음을 보여 준다.
 

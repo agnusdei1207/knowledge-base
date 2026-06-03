@@ -25,21 +25,19 @@ tags = ["studynote-computer-architecture"]
 
 반대로 Programmed I/O가 없으면 아주 단순한 장치조차 제어를 위해 더 복잡한 하드웨어 지원이 필요해진다. 따라서 Programmed I/O는 낡은 방식이기보다, 모든 고급 I/O 기법의 출발점이 되는 최소 제어 모델로 이해하는 편이 정확하다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">왜 Programmed I/O가 단순한가: CPU가 직접 다 한다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 코드 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 제어 레지스터에 명령 기록</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 상태 레지스터 반복 확인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 데이터 레지스터 ↔ 메모리 복사</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장치 입장: "준비 신호만 바꾸면 된다"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시스템 입장: "대신 CPU가 계속 붙잡힌다"</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│      왜 Programmed I/O가 단순한가: CPU가 직접 다 한다       │
+├──────────────────────────────────────────────────────────────┤
+│ CPU 코드 실행                                                │
+│   ├─ 제어 레지스터에 명령 기록                              │
+│   ├─ 상태 레지스터 반복 확인                                │
+│   └─ 데이터 레지스터 ↔ 메모리 복사                          │
+│                                                              │
+│ 장치 입장: "준비 신호만 바꾸면 된다"                       │
+│ 시스템 입장: "대신 CPU가 계속 붙잡힌다"                    │
+└──────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: Programmed I/O는 선생님(CPU)이 학생(장치) 옆에 서서 숙제가 끝났는지 계속 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, 끝나면 공책까지 직접 교무실(메모리)로 옮기는 방식과 같다. 학생은 단순하지만 선생님 시간이 많이 든다.
 
@@ -59,37 +57,32 @@ Programmed I/O의 핵심 원리는 "장치 제어와 [데이터](/knowledge-base
 
 아래 흐름에서 중요한 점은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 장치에서 메모리로 바로 가지 못하고, CPU의 개입을 반드시 거친다는 사실이다. 이 구조 때문에 1바이트든 1블록이든 CPU는 최소한 상태 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 명령을 계속 실행해야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Programmed I/O 데이터 이동의 실제 경로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① CPU ── 명령 기록 ▶ 제어 레지스터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② CPU ◀─ 상태 읽기 상태 레지스터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ Ready가 될 때까지 ② 반복</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">④ 장치 데이터 ─▶ 데이터 레지스터 ─▶ CPU 레지스터 ─▶ 메모리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">병목: "장치 → 메모리"가 직통이 아니라</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"장치 → CPU → 메모리"로 우회한다</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│             Programmed I/O 데이터 이동의 실제 경로              │
+├──────────────────────────────────────────────────────────────────┤
+│ ① CPU ── 명령 기록 ───────────────▶ 제어 레지스터               │
+│ ② CPU ◀─ 상태 읽기 ─────────────── 상태 레지스터               │
+│ ③ Ready가 될 때까지 ② 반복                                      │
+│ ④ 장치 데이터 ─▶ 데이터 레지스터 ─▶ CPU 레지스터 ─▶ 메모리      │
+│                                                                  │
+│ 병목: "장치 → 메모리"가 직통이 아니라                           │
+│       "장치 → CPU → 메모리"로 우회한다                          │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 시간축으로 보면 Programmed I/O는 장치의 물리적 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 CPU의 [바쁜 대기](/knowledge-base/studynote/02_operating_system/04_synchronization/227_busy_waiting/)([Busy Waiting](/knowledge-base/studynote/02_operating_system/04_synchronization/227_busy_waiting/))로 바꾸는 방식이다. 예를 들어 느린 시리얼 장치를 읽을 때 장치는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 모으는 동안 수십~수백 마이크로초(us)가 걸릴 수 있는데, 그 시간 동안 CPU는 상태 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 반복 조회하며 유효한 계산 없이 사이클을 소비한다. 그래서 Programmed I/O는 "단순한 제어면 충분한가"에는 강하지만, "CPU 시간을 아껴야 하는가"라는 질문에는 약하다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간 구간</div><div class="kb-diagram-cell">장치 상태</div><div class="kb-diagram-cell">CPU 상태</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">t0</div><div class="kb-diagram-cell">명령 수신</div><div class="kb-diagram-cell">제어 레지스터 기록</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">t1 ~ t2</div><div class="kb-diagram-cell">내부 동작 수행</div><div class="kb-diagram-cell">상태 레지스터 반복 읽기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">t3</div><div class="kb-diagram-cell">Ready 비트 1로 전환</div><div class="kb-diagram-cell">데이터 읽기 수행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">t4</div><div class="kb-diagram-cell">다음 데이터 준비</div><div class="kb-diagram-cell">메모리에 저장 후 반복</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────┬──────────────────────┬──────────────────────────┐
+│ 시간 구간      │ 장치 상태             │ CPU 상태                 │
+├───────────────┼──────────────────────┼──────────────────────────┤
+│ t0            │ 명령 수신             │ 제어 레지스터 기록       │
+│ t1 ~ t2       │ 내부 동작 수행        │ 상태 레지스터 반복 읽기  │
+│ t3            │ Ready 비트 1로 전환   │ 데이터 읽기 수행         │
+│ t4            │ 다음 데이터 준비      │ 메모리에 저장 후 반복    │
+└───────────────┴──────────────────────┴──────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: Programmed I/O는 창고 직원(CPU)이 택배 도착 전광판([Status Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/167_status_register/))을 계속 쳐다보다가, 도착 표시가 뜨면 상자([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/))를 직접 들어 사무실(메모리)로 옮기는 일과 같다. 전광판 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)과 운반을 같은 사람이 다 한다.
 
@@ -112,20 +105,17 @@ Programmed I/O를 정확히 이해하려면 [폴링](/knowledge-base/studynote/0
 
 또한 Programmed I/O는 고립형 I/O (Isolated I/O, Port-Mapped I/O)와 메모리 맵 I/O (Memory-Mapped I/O) 모두 위에서 동작할 수 있다. 즉 주소 접근 방식은 달라도, "CPU가 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 직접 다루고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 직접 옮긴다"는 제어 철학은 동일하다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 관점에서도 부트 로더, [장치 드라이버](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/495_device_driver/) [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화, [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 기록 같은 단계는 여전히 Programmed I/O 성격을 띤다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">프로그램 제어 I/O</div>
-<div class="kb-diagram-tree-item" style="--depth:2">상태 확인 방식: 폴링 (Polling)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">알림 방식 개선: 인터럽트 (Interrupt)</div>
-<div class="kb-diagram-note">─ 데이터 이동은 여전히 CPU가 담당 가능</div>
-<div class="kb-diagram-tree-item" style="--depth:2">이동 주체 개선: DMA (Direct Memory Access)</div>
-<div class="kb-diagram-tree-item" style="--depth:6">제어 명령의 시작점은 CPU 레지스터 설정</div>
-</div>
-</div>
-
-
+```text
+프로그램 제어 I/O
+    │
+    ├─ 상태 확인 방식: 폴링 (Polling)
+    │
+    ├─ 알림 방식 개선: 인터럽트 (Interrupt)
+    │        └─ 데이터 이동은 여전히 CPU가 담당 가능
+    │
+    └─ 이동 주체 개선: DMA (Direct Memory Access)
+             └─ 제어 명령의 시작점은 CPU 레지스터 설정
+```
 
 - **📢 섹션 요약 비유**: Programmed I/O는 매장 점장(CPU)이 재고 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)과 물건 운반을 둘 다 하는 기본 운영 방식이다. [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)는 "재고 들어오면 직원이 불러주는 것"이고, DMA는 "지게차가 대신 옮겨주는 것"이어서 무엇을 바꿨는지 비교해야 차이가 선명해진다.
 
@@ -150,20 +140,21 @@ Programmed I/O를 정확히 이해하려면 [폴링](/knowledge-base/studynote/0
 - [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 없이 [상태 레지스터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/167_status_register/)만 무한 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)하는 코드
 - 장치 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화용 Programmed I/O와 대량 전송용 DMA의 역할을 구분하지 않는 설계
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Programmed I/O 채택 판단의 간단 기준</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터가 작고 드물다 ── Yes ─▶ 우선 고려 가능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">No</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU가 기다려도 괜찮다 ── Yes ─▶ 제한적 사용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">No</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Interrupt 또는 DMA로 전환</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│              Programmed I/O 채택 판단의 간단 기준           │
+├──────────────────────────────────────────────────────────────┤
+│ 데이터가 작고 드물다        ── Yes ─▶ 우선 고려 가능         │
+│                │                                             │
+│                No                                            │
+│                ▼                                             │
+│ CPU가 기다려도 괜찮다        ── Yes ─▶ 제한적 사용           │
+│                │                                             │
+│                No                                            │
+│                ▼                                             │
+│ Interrupt 또는 DMA로 전환                                   │
+└──────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: Programmed I/O는 손으로 서류를 직접 전달하는 방식이라, 서류 몇 장이면 가장 확실하다. 하지만 박스 단위 문서가 계속 오면 택배 시스템([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/), [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/))으로 바꾸지 않으면 사무실 전체가 전달 업무에만 묶인다.
 
@@ -194,22 +185,21 @@ Programmed I/O의 가장 큰 장점은 단순성, 예측 가능성, 그리고 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단순 레지스터 제어</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">프로그램 제어 I/O (Programmed I/O)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">상태 확인 구체화 ──▶ 폴링 (Polling)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">대기 방식 개선 ▶ 인터럽트 구동 I/O (Interrupt-driven I/O)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">데이터 이동 분리 ──▶ DMA (Direct Memory Access)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">채널 I/O · 고성능 스토리지 · 스마트 NIC</div>
-</div>
-</div>
-
-
+```text
+단순 레지스터 제어
+    │
+    ▼
+프로그램 제어 I/O (Programmed I/O)
+    │
+    ├─ 상태 확인 구체화 ──▶ 폴링 (Polling)
+    │
+    ├─ 대기 방식 개선 ────▶ 인터럽트 구동 I/O (Interrupt-driven I/O)
+    │
+    └─ 데이터 이동 분리 ──▶ DMA (Direct Memory Access)
+                             │
+                             ▼
+                     채널 I/O · 고성능 스토리지 · 스마트 NIC
+```
 
 이 흐름은 "CPU가 전부 수행"하는 출발점에서, 점차 대기와 이동 기능을 분리하여 시스템 효율을 높여 온 진화를 보여준다.
 

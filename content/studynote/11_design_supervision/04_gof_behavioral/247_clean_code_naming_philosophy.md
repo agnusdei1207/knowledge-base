@@ -41,50 +41,44 @@ int daysSinceLastModification;
 - 의도를 이름으로 표현하기 불가능한 정규식 패턴 설명
 - TODO: 임시 표시 (단, 추적 티켓 번호 병기)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Core Idea</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Expected Gain</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐    ┌──────────────┐    ┌──────────────┐
+│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
+└──────────────┘    └──────────────┘    └──────────────┘
+```
 
 - **📢 섹션 요약 비유**: "빨간 버튼 누르지 마시오" 대신 버튼 자체에 "비상정지"라고 쓰인 것이 더 믿을 수 있다 — 이름이 경고문보다 강력하다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
+```
+나쁨 ◀─────────────────────────────────────────▶ 좋음
+┌────────────┬──────────────┬──────────────────────────┐
+│  암호형    │  주석 의존형  │  자가 설명형             │
+├────────────┼──────────────┼──────────────────────────┤
+│  int d;    │  int d; //일 │  int daysSinceLastVisit; │
+│  void p(); │  // 처리     │  void processPayment();  │
+│  String s; │  // 주소문자 │  String customerAddress; │
+│  List l;   │  // 사용자목 │  List<User> activeUsers; │
+└────────────┴──────────────┴──────────────────────────┘
+```
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">나쁨 ◀ ▶ 좋음</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">암호형</div><div class="kb-diagram-cell">주석 의존형</div><div class="kb-diagram-cell">자가 설명형</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">int d;</div><div class="kb-diagram-cell">int d; //일</div><div class="kb-diagram-cell">int daysSinceLastVisit;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">void p();</div><div class="kb-diagram-cell">// 처리</div><div class="kb-diagram-cell">void processPayment();</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">String s;</div><div class="kb-diagram-cell">// 주소문자</div><div class="kb-diagram-cell">String customerAddress;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">List l;</div><div class="kb-diagram-cell">// 사용자목</div><div class="kb-diagram-cell">List&lt;User&gt; activeUsers;</div></div>
-</div>
-</div>
-
-
-
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">네이밍 추상화 계층</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">패키지/모듈 com.company.billing.invoice</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클래스 InvoiceGenerationService</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메서드 generateMonthlyInvoiceForCustomer()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">변수 customersWithUnpaidBalance</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상수 MAX_INVOICE_LINE_ITEMS = 500</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────┐
+│               네이밍 추상화 계층                    │
+├─────────────────────────────────────────────────────┤
+│  패키지/모듈   com.company.billing.invoice          │
+│    ↓                                                │
+│  클래스       InvoiceGenerationService              │
+│    ↓                                                │
+│  메서드       generateMonthlyInvoiceForCustomer()   │
+│    ↓                                                │
+│  변수         customersWithUnpaidBalance            │
+│    ↓                                                │
+│  상수         MAX_INVOICE_LINE_ITEMS = 500          │
+└─────────────────────────────────────────────────────┘
+```
 
 이름에 모든 정보를 넣는 것보다 클래스나 메서드의 맥락을 활용해 중복을 줄인다.
 
@@ -123,18 +117,12 @@ int daysSinceLastModification;
 ## Ⅳ. 실무 적용 및 기술사 판단
 [DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/) ([Domain-Driven Design](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/127_ddd_domain_driven_design/)) 의 [유비쿼터스 언어](/knowledge-base/studynote/04_software_engineering/04_testing_quality/220_ubiquitous_language_ddd_communication/) ([Ubiquitous Language](/knowledge-base/studynote/04_software_engineering/04_testing_quality/220_ubiquitous_language_ddd_communication/)) 개념을 네이밍에 적용하면, 비즈니스 팀과 개발팀이 동일한 용어를 사용해 소통 오류가 줄어든다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">비즈니스 용어 → 코드 반영</div>
-<div class="kb-diagram-note">"할인쿠폰 적용" → applyCoupon(Coupon coupon)</div>
-<div class="kb-diagram-note">"재고 소진" → isOutOfStock() / deplete(int qty)</div>
-<div class="kb-diagram-note">"결제 승인" → approvePayment(Payment payment)</div>
-</div>
-</div>
-
-
+```
+비즈니스 용어 → 코드 반영
+"할인쿠폰 적용" → applyCoupon(Coupon coupon)
+"재고 소진"     → isOutOfStock() / deplete(int qty)
+"결제 승인"     → approvePayment(Payment payment)
+```
 
 - [ ] 이름만 보고 어떤 값/동작인지 알 수 있는가?
 - [ ] 약어가 팀 전체에 공유된 약어인가?

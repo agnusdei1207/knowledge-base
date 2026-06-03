@@ -27,26 +27,26 @@ tags = ["studynote-operating-system"]
   2. **혁명 (Mark-and-Sweep)**: 뿌리(Root)부터 시작해 닿을 수 있는(Reachable) 객체만 '살아있다'고 색칠(Mark)하고, 색칠 안 된 건 모조리 쓰레기통에 쓸어버리는(Sweep) 방식이 대세(Java, JS 등)로 자리 잡음.
   3. <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">Compaction</a>)의 추가</strong>: 지우고 나니 힙 공간이 이빨 빠진 듯 너덜너덜해짐([외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)). 결국 남은 객체들을 한쪽 구석으로 좍 밀어붙이는 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 기술이 추가됨.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 누수(Leak) 발생과 가비지 컬렉션(GC)의 구원 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황: 함수 안에서 10MB짜리 몬스터 객체 생성 후 함수 종료</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ C언어의 재앙 (수동 관리 실패)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. <code>Monster* m = new Monster();</code> (힙에 10MB 할당)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 함수가 끝나서 포인터 변수 <code>m</code>이 스택에서 사라짐.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 힙(Heap)에 있는 10MB 몬스터는 이름표도 없이 우주 미아가 됨.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💥 결과: <code>delete</code>를 안 해서 이 10MB는 서버가 꺼질 때까지 영구 증발!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Java/JS의 구원 (GC 출동)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 똑같이 포인터가 사라져 10MB 몬스터가 우주 미아가 됨.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2. 백그라운드의</div><div class="kb-diagram-node">GC 청소 로봇</div><div class="kb-diagram-note">이 힙 공간을 레이더로 윙윙 훑음.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. "어? 이 10MB 몬스터를 가리키는 화살표(포인터)가 단 한 개도 없네?"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. "얘는 쓰레기(Garbage)다! 파괴 광선 발사!" (메모리 10MB 즉각 회수)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────┐
+│        메모리 누수(Leak) 발생과 가비지 컬렉션(GC)의 구원 시각화          │
+├──────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│ [ 상황: 함수 안에서 10MB짜리 몬스터 객체 생성 후 함수 종료 ]             │
+│                                                                          │
+│ ▶ C언어의 재앙 (수동 관리 실패)                                          │
+│   1. `Monster* m = new Monster();` (힙에 10MB 할당)                      │
+│   2. 함수가 끝나서 포인터 변수 `m`이 스택에서 사라짐.                    │
+│   3. 힙(Heap)에 있는 10MB 몬스터는 이름표도 없이 우주 미아가 됨.         │
+│   💥 결과: `delete`를 안 해서 이 10MB는 서버가 꺼질 때까지 영구 증발!    │
+│                                                                          │
+│ ▶ Java/JS의 구원 (GC 출동)                                               │
+│   1. 똑같이 포인터가 사라져 10MB 몬스터가 우주 미아가 됨.                │
+│   2. 백그라운드의 [ GC 청소 로봇 ]이 힙 공간을 레이더로 윙윙 훑음.       │
+│   3. "어? 이 10MB 몬스터를 가리키는 화살표(포인터)가 단 한 개도 없네?"   │
+│   4. "얘는 쓰레기(Garbage)다! 파괴 광선 발사!" (메모리 10MB 즉각 회수)   │
+└──────────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 이것이 바로 현대 개발자들이 C++보다 Java나 JS를 선호하는 절대적인 이유다. 메모리 반환을 개발자가 신경 쓰지 않아도 뒤에서 보이지 않는 천사가 묵묵히 똥을 치워준다. 이 강력한 자동화 덕분에 비즈니스 로직(웹 서버, 앱 개발)의 코딩 생산성이 과거와 비교할 수 없을 정도로 수직 상승했다.
 
 - **📢 섹션 요약 비유**: 놀이공원에서 내가 탄 카트에서 내리면, 내가 굳이 카트를 차고지(메모리 해제)로 끌고 갈 필요 없이 가만히 놔두기만 해도 1분 뒤에 놀이공원 직원이 알아서 수거(GC)해 가는 초호화 VIP 자동 수거 시스템입니다.
@@ -69,26 +69,26 @@ tags = ["studynote-operating-system"]
 
 순환 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)의 저주를 깨부수고 나타난 Java, V8(Node.js) 엔진의 심장이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mark-and-Sweep 알고리즘의 무자비한 2단계 청소</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전제 조건: Root(뿌리) 찾기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Root는 스택의 지역 변수나, 현재 살아있는 전역(Global) 변수들임.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1단계: Mark (색칠하기 - Reachability 탐색)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- GC가 Root부터 출발해서 화살표(참조)를 따라 그래프 탐색(DFS/BFS) 시작.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "Root -&gt; A -&gt; B" 연결되어 있네? A와 B에 파란색(Live) 페인트 칠함!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "어? C랑 D는 지들끼리 서로 가리키며(순환참조) 떨어져 있네?"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; Root에서 출발한 화살표가 닿지 않으므로 색칠을 안 함(색칠 실패).</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2단계: Sweep (쓸어 담기 - 무자비한 철퇴)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- GC가 힙 메모리 전체를 1번지부터 끝까지 싹 훑어내림.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "파란색 페인트가 안 묻은 놈(C, D)들은 모조리 쓰레기(Garbage)다!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- C와 D를 무참히 파괴하고 메모리를 빈 구멍(Free) 장부로 되돌림.</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────────────────┐
+│              Mark-and-Sweep 알고리즘의 무자비한 2단계 청소                │
+├───────────────────────────────────────────────────────────────────────────┤
+│                                                                           │
+│ [ 전제 조건: Root(뿌리) 찾기 ]                                            │
+│ Root는 스택의 지역 변수나, 현재 살아있는 전역(Global) 변수들임.           │
+│                                                                           │
+│ [ 1단계: Mark (색칠하기 - Reachability 탐색) ]                            │
+│   - GC가 Root부터 출발해서 화살표(참조)를 따라 그래프 탐색(DFS/BFS) 시작. │
+│   - "Root -> A -> B" 연결되어 있네? A와 B에 파란색(Live) 페인트 칠함!     │
+│   - "어? C랑 D는 지들끼리 서로 가리키며(순환참조) 떨어져 있네?"           │
+│     -> Root에서 출발한 화살표가 닿지 않으므로 색칠을 안 함(색칠 실패).    │
+│                                                                           │
+│ [ 2단계: Sweep (쓸어 담기 - 무자비한 철퇴) ]                              │
+│   - GC가 힙 메모리 전체를 1번지부터 끝까지 싹 훑어내림.                   │
+│   - "파란색 페인트가 안 묻은 놈(C, D)들은 모조리 쓰레기(Garbage)다!"      │
+│   - C와 D를 무참히 파괴하고 메모리를 빈 구멍(Free) 장부로 되돌림.         │
+└───────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 카운팅의 '순환 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)' 버그를 완벽하게 분쇄하는 천재적인 알고리즘이다. 지들끼리 백날 서로를 가리키며 카운트를 높여놔 봐야, 뿌리(Root)로부터 전기가 통하지 않는(닿지 않는) 고립된 섬이라면 Mark 단계에서 색칠을 받지 못해 Sweep 단계에서 예외 없이 쓸려나간다. 
 
@@ -122,18 +122,15 @@ GC의 가장 크고 어두운 그림자다.
 - **해결책**: GC가 빗자루질을 하는 수십 밀리초 ~ 수 초 동안, <strong>애플리케이션의 모든 사용자 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a>를 일시 정지(Stop) 시킨다.</strong> (세상을 멈춘다).
 - **체감**: 게임을 하는데 갑자기 캐릭터가 1초 동안 멈칫하더니 순간 이동한다? 웹 서버 버튼을 눌렀는데 평소 0.1초 걸리던 게 갑자기 3초가 걸린다? 십중팔구 백그라운드에서 이 STW 대청소가 돌고 간 흔적이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">알고리즘</div><div class="kb-diagram-cell">순환참조 버그</div><div class="kb-diagram-cell">STW 지연시간</div><div class="kb-diagram-cell">메모리 파편화 방어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ref Count</div><div class="kb-diagram-cell">☠️ 발생함</div><div class="kb-diagram-cell">🟢 없음 (실시간)</div><div class="kb-diagram-cell">❌ 못 막음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mark-Sweep</div><div class="kb-diagram-cell">🟢 완벽 방어</div><div class="kb-diagram-cell">🔴 보통 렉</div><div class="kb-diagram-cell">❌ 못 막음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mark-Compact</div><div class="kb-diagram-cell">🟢 완벽 방어</div><div class="kb-diagram-cell">☠️ 최악의 렉</div><div class="kb-diagram-cell">🟢 완벽 방어</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬─────────────────────────┐
+│ 알고리즘   │ 순환참조 버그│ STW 지연시간 │ 메모리 파편화 방어│
+├──────────┼────────────┼────────────┼─────────────────────────┤
+│ Ref Count│ ☠️ 발생함    │ 🟢 없음 (실시간)│ ❌ 못 막음       │
+│ Mark-Sweep│ 🟢 완벽 방어 │ 🔴 보통 렉    │ ❌ 못 막음        │
+│ Mark-Compact│🟢 완벽 방어 │ ☠️ 최악의 렉   │ 🟢 완벽 방어    │
+└──────────┴────────────┴────────────┴─────────────────────────┘
+```
 **[매트릭스 해설]** 완벽한 세상은 없다. 메모리 파편화를 막으려고 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)(Compact)을 추가했더니 시스템이 멈추는 STW 렉이 극악으로 치솟았다. 렉을 없애려고 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 카운팅을 쓰자니 순환 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)로 메모리가 질질 샜다. 현대 자바(Java) 진영은 이 STW 렉을 1밀리초 이하로 줄이기 위해 세대별(Generational) GC, ZGC, Shenandoah GC 등 수십조 원의 연구비가 투입된 기괴하고 엄청난 최적화 엔진들을 쏟아내고 있다.
 
 - **📢 섹션 요약 비유**: 식당 영업(유저 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))과 바닥 물청소(GC [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/))를 동시에 하면 손님들이 자빠지니까, 어쩔 수 없이 식당 영업을 "잠시 멈춤(STW)!" 하고 5분 동안 문 닫고 물청소를 싹 끝낸 뒤 다시 장사를 재개하는 고통스러운 딜레마입니다.
@@ -188,19 +185,15 @@ GC의 가장 크고 어두운 그림자다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">캐시 컬러링 (Cache Coloring) / 페이지 컬러링</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">가비지 컬렉션 (Garbage Collection) 기초</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">가상 메모리 (Virtual Memory) 개념</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">가상 주소 공간 (Virtual Address Space)</div></div>
-</div>
-</div>
-
-
+```text
+[캐시 컬러링 (Cache Coloring) / 페이지 컬러링]
+    │
+    ▼
+[가비지 컬렉션 (Garbage Collection) 기초]
+    │
+    ├──▶ [가상 메모리 (Virtual Memory) 개념]
+    └──▶ [가상 주소 공간 (Virtual Address Space)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

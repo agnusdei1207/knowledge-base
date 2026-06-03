@@ -29,21 +29,15 @@ tags = ["studynote-data-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Data</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Rank Transform</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Rank Differences</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Spearman ρ</div>
-</div>
-</div>
-
-
+```text
+Data
+  ↓
+Rank Transform
+  ↓
+Rank Differences
+  ↓
+Spearman ρ
+```
 
 | 항목 | 의미 |
 | :-- | :-- |
@@ -112,41 +106,29 @@ Spearman은 [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mi
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Rank</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Spearman ρ</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Monotonic Relationship</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Robust Analysis</div>
-</div>
-</div>
-
-
+```text
+Rank
+  ↓
+Spearman ρ
+  ↓
+Monotonic Relationship
+  ↓
+Robust Analysis
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Pearson</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Spearman</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Robust Statistics</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Nonparametric Analysis</div>
-</div>
-</div>
-
-
+```text
+Pearson
+  ↓
+Spearman
+  ↓
+Robust Statistics
+  ↓
+Nonparametric Analysis
+```
 
 ---
 

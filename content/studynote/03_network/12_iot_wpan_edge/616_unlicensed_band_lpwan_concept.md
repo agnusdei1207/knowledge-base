@@ -21,18 +21,14 @@ tags = ["studynote-network"]
 
 국가(전파관리소)에 주파수 사용료를 내지 않고, 출력 기준 등 정해진 규격만 지키면 <strong>누구나 공짜로 무선 기기를 만들어 통신할 수 있도록 허방된 주파수 대역</strong>입니다. (예: 와이파이가 쓰는 2.4GHz, 5GHz 등 ISM 대역). LPWAN은 전파 도달 거리를 극대화하기 위해 보통 1GHz 미만의 낮은 주파수 대역(Sub-1GHz, 한국은 주로 900MHz 대역)을 활용합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">LPWAN 개요</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">비면허 대역 LPWAN 분야</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">LoRa / LoRaWAN 표준</div></div>
-</div>
-</div>
-
-
+```text
+[LPWAN 개요]
+    │
+    ▼
+[비면허 대역 LPWAN 분야]
+    │
+    └──▶ [LoRa / LoRaWAN 표준]
+```
 
 - **📢 섹션 요약 비유**: 비면허 대역 [LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/) 분야는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -42,7 +38,7 @@ tags = ["studynote-network"]
 
 ### 1. 폭발적인 장점 (독립성과 가성비)
 - **사설망(Private Network) 구축 가능**: 이동통신사의 기지국 인프라에 의존할 필요가 없습니다. 농장 주인이 자기 산꼭대기에 게이트웨이 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 하나만 꽂아두면, 반경 수십 km 농장 전체를 커버하는 '나만의 무료 통신망'이 즉시 완성됩니다.
-- **통신비 제로**: 매월 내는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 요금이나 유심(USIM) 칩 유지비가 전혀 들지 않아, 센서 수백만 개를 깔아야 하는 [스마트 시티](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/171_smart_city_platform_architecture/), 거대 공장 등 B2B/B2G 환경에서적(압도적)인 비용 우위를 가집니다.
+- **통신비 제로**: 매월 내는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 요금이나 유심(USIM) 칩 유지비가 전혀 들지 않아, 센서 수백만 개를 깔아야 하는 [스마트 시티](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/171_smart_city_platform_architecture/), 거대 공장 등 B2B/B2G 환경에서압도적(압도적)인 비용 우위를 가집니다.
 - **초저전력 최적화**: 표준이 통신사 입맛에 얽매이지 않아 센서의 배터리를 최소 10년 이상 유지하도록 프로토콜을 극한으로 가볍게 만들 수 있습니다.
 
 ### 2. 치명적인 단점 (간섭과 보안)
@@ -50,18 +46,14 @@ tags = ["studynote-network"]
 - **낮은 전송 속도**: 100bps ~ 수 Kbps로 매우 느려, [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 원격 업데이트(FOTA) 등 약간 덩치가 큰 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송은 사실상 불가능합니다.
 - **지역별 법적 한계 (LBT 제약)**: 전파 독점을 막기 위해, 한 번 전파를 쏘고 나면 법적으로 일정 시간 동안 쉬어야 하는 의무(LBT: Listen Before Talk 또는 Duty Cycle 규제)가 있어 실시간 통제가 불가능에 가깝습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">LPWAN 개요</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">비면허 대역 LPWAN 분야</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">LoRa / LoRaWAN 표준</div></div>
-</div>
-</div>
-
-
+```text
+[LPWAN 개요]
+    │
+    ▼
+[비면허 대역 LPWAN 분야]
+    │
+    └──▶ [LoRa / LoRaWAN 표준]
+```
 
 - **📢 섹션 요약 비유**: 비면허 대역 [LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/) 분야의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -124,19 +116,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: LPWAN 개요</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 비면허 대역 LPWAN 분야</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: LoRa / LoRaWAN 표준</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율형 엣지 협업</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: LPWAN 개요]
+    │
+    ▼
+[현재 개념: 비면허 대역 LPWAN 분야]
+    │
+    ├──▶ [확장 A: LoRa / LoRaWAN 표준]
+    └──▶ [확장 B: 자율형 엣지 협업]
+```
 
 비면허 대역 [LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/) 분야는 [LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/) 개요에서 출발해 현재 메커니즘을 정교화하고, 이후 [LoRa](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/) / LoRaWAN 표준와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

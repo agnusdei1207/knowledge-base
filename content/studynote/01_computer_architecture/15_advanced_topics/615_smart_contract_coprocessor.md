@@ -33,29 +33,30 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 보조 코프로세서의 전형적 분업 구조를 나타낸다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Smart contract verification coprocessor: split rules and math</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Node CPU / VM Scheduler</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">gas / state / exception control</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Command Queue</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Data Mover</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Hash Engine</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Signature Engine</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">State Proof Engine</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Precompile Unit</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Verified Result Buffer</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Host commits state transition</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Smart contract verification coprocessor: split rules and math       │
+├──────────────────────────────────────────────────────────────────────┤
+│ [ Node CPU / VM Scheduler ]                                          │
+│        │ gas / state / exception control                             │
+│        ▼                                                             │
+│ [ Command Queue ] -> [ Data Mover ] -> [ Hash Engine ]               │
+│                                  │   [ Signature Engine ]            │
+│                                  │   [ State Proof Engine ]          │
+│                                  │   [ Precompile Unit ]             │
+│                                  ▼                                   │
+│                         [ Verified Result Buffer ]                   │
+│                                  │                                   │
+│                                  ▼                                   │
+│                     [ Host commits state transition ]                │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
-| 해시 엔진 (Hash Engine) | 케칵-256 (Keccak-256), SHA 계열 계산 가속 | [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)별 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/) 교체 가능성 고려 |
-| 서명 엔진 (Signature Engine) | [타원곡선](/knowledge-base/studynote/09_security/03_network_security/120_elliptic_curve_equation/) 디지털 서명 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Elliptic Curve [Digital Signature](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/) [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/), [ECDSA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/097_ecdsa_schnorr_signature_bitcoin/)), 보네-린-샤컴 서명 (Boneh-Lynn-Shacham, BLS) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 곡선 파라미터와 배치 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 지원 여부 중요 |
-| 상태 증명 엔진 ([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Proof Engine) | 머클 패트리샤 [트라이](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/087_trie/) (Merkle Patricia [Trie](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/066_trie/)) 경로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 불규칙 메모리 접근을 줄이는 캐시 구조 필요 |
+| 해시 엔진 (Hash 엔진) | 케칵-256 (Keccak-256), SHA 계열 계산 가속 | [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)별 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/) 교체 가능성 고려 |
+| 서명 엔진 (Signature 엔진) | [타원곡선](/knowledge-base/studynote/09_security/03_network_security/120_elliptic_curve_equation/) 디지털 서명 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Elliptic Curve [Digital Signature](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/) [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/), [ECDSA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/097_ecdsa_schnorr_signature_bitcoin/)), 보네-린-샤컴 서명 (Boneh-Lynn-Shacham, BLS) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 곡선 파라미터와 배치 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 지원 여부 중요 |
+| 상태 증명 엔진 ([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Proof 엔진) | 머클 패트리샤 [트라이](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/087_trie/) (Merkle Patricia [Trie](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/066_trie/)) 경로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 불규칙 메모리 접근을 줄이는 캐시 구조 필요 |
 | 프리컴파일 유닛 (Precompile Unit) | 자주 쓰는 암호 연산과 정수 연산 실행 | [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 업그레이드에 대비한 마이크로코드 경로 필요 |
 | [직접 메모리 접근](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/450_dma_direct_memory_access/) ([Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/), [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/)) 경로 | 호스트 메모리와 장치 버퍼 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 이득을 전송 오버헤드가 잡아먹지 않게 해야 함 |
 
@@ -127,23 +128,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 블록체인 노드</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">해시 · 서명 · 상태 증명 검증 병목</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">암호 프리컴파일 · 전용 검증 엔진</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">스마트 컨트랙트 검증 보조 코프로세서</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">롤업 시퀀서 · zkEVM · TEE 결합 노드</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 블록체인 노드
+    │
+    ▼
+해시 · 서명 · 상태 증명 검증 병목
+    │
+    ▼
+암호 프리컴파일 · 전용 검증 엔진
+    │
+    ▼
+스마트 컨트랙트 검증 보조 코프로세서
+    │
+    ▼
+롤업 시퀀서 · zkEVM · TEE 결합 노드
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

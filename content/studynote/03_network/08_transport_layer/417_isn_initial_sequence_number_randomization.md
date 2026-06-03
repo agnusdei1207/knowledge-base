@@ -26,18 +26,14 @@ tags = ["studynote-network"]
   - 고정 번호: 은행 이체 시 맨날 똑같은 비밀번호 "1234"를 씁니다. 해커가 어깨너머로 한 번만 보면 평생 내 계좌를 털 수 있습니다.
   - <strong>ISN (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/748_otp/">OTP</a>)</strong>: 이체를 시작할 때마다 내 [OTP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/748_otp/) 기계([운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/))가 <strong>"오늘은 948,102번부터 시작합시다!"</strong>라고 무작위 난수를 띄워 서버와 맞춥니다. 해커가 어제 훔쳐본 번호는 오늘 쓸모없는 쓰레기가 됩니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">TCP 3-Way Handshake</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ISN 무작위 할당 이유</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TCP 4-Way Handshake</div></div>
-</div>
-</div>
-
-
+```text
+[TCP 3-Way Handshake]
+    │
+    ▼
+[ISN 무작위 할당 이유]
+    │
+    └──▶ [TCP 4-Way Handshake]
+```
 
 - **📢 섹션 요약 비유**: ** ISN을 0번부터 시작하지 않는 것은 책을 읽을 때마다 **"매번 랜덤한 쪽수에서 이야기를 시작하는 암호 책"**을 쓰는 것과 같습니다. [스파이](/knowledge-base/studynote/04_software_engineering/11_testing_validation/461_spy_test_double/)(해커)가 몰래 "다음 장 내용은 이거야"라며 위조된 페이지를 끼워 넣으려 해도, 오늘 우리가 몇 쪽부터 읽기 시작했는지(ISN) 모르면 절대 위조 페이지를 끼워 넣을 수 없습니다.
 
@@ -61,23 +57,24 @@ tags = ["studynote-network"]
 - **만약 둘 다 0번부터 시작했다면**: 구글 서버는 이 낡은 유령 패킷을 "오! 오늘 보낸 1번 패킷이네!" 하고 화면에 띄워버려 화면이 깨진다.
 - **ISN 난수가 있다면**: 어제는 ISN이 `1000`이었고, 오늘은 ISN이 `50000`이다. 어제의 1001번 패킷이 오면 "뭐야 이 쓰레기 번호는? 내 윈도우 범위를 한참 벗어났네!"라며 OS가 귀신같이 튕겨내 버린다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ISN 기반 세션 방어 시나리오 (와이어샤크 뷰)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">해커 (가짜 출발지 IP 세팅)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">은행 서버</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해커의 추측: "아마 저기 대충 Seq=10 부터 시작했겠지? RST 던지자!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">해커가 쏜 가짜 패킷:</div><div class="kb-diagram-node">목적지 포트 443, Seq = 15, RST 켬!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">은행 서버의 뇌구조:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"음? IP는 우리 고객님인데... 이 자식 뜬금없이 번호를 15번을 불렀네?"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"우리가 지금 통신하고 있는 번호 대역(ISN 기반)은 3,450,111 인데?"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"야! 너 번호 틀렸어!! 가짜 놈이네! 쓰레기통으로 가라 (Drop)!!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ "32비트짜리 번호표 자체가 강력한 '일회용 패스워드' 역할을 수행한다!"</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                ISN 기반 세션 방어 시나리오 (와이어샤크 뷰)         │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 해커 (가짜 출발지 IP 세팅) ] ────▶ [ 은행 서버 ]              │
+ │                                                             │
+ │   해커의 추측: "아마 저기 대충 Seq=10 부터 시작했겠지? RST 던지자!" │
+ │   해커가 쏜 가짜 패킷: [ 목적지 포트 443, Seq = 15, RST 켬! ]     │
+ │                                                             │
+ │   은행 서버의 뇌구조:                                          │
+ │   "음? IP는 우리 고객님인데... 이 자식 뜬금없이 번호를 15번을 불렀네?" │
+ │   "우리가 지금 통신하고 있는 번호 대역(ISN 기반)은 3,450,111 인데?"│
+ │   "야! 너 번호 틀렸어!! 가짜 놈이네! 쓰레기통으로 가라 (Drop)!!"     │
+ │                                                             │
+ │   ▶ "32비트짜리 번호표 자체가 강력한 '일회용 패스워드' 역할을 수행한다!"│
+ └─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: ISN 무작위 할당 이유의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -130,19 +127,15 @@ ISN 무작위 할당 이유는 전송 계층을 이해할 때 핵심 축을 잡�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: TCP 3-Way Handshake</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: ISN 무작위 할당 이유</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: TCP 4-Way Handshake</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: TCP 3-Way Handshake]
+    │
+    ▼
+[현재 개념: ISN 무작위 할당 이유]
+    │
+    ├──▶ [확장 A: TCP 4-Way Handshake]
+    └──▶ [확장 B: 적응형 저지연 전송]
+```
 
 ISN 무작위 할당 이유는 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 3-Way Handshake에서 출발해 현재 메커니즘을 정교화하고, 이후 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 4-Way Handshake와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -18,22 +18,20 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Blameless Postmortem 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 장애 요약: 무엇이 언제 발생했는가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 영향: 사용자 수·다운타임·매출 손실</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 타임라인: 분 단위 이벤트 기록</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 근본 원인: 5 Whys 분석</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. Action Items: 재발 방지 조치 (담당자·기한)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6. 교훈: 잘한 점·개선할 점</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원칙: 사람이 아닌 시스템·프로세스를 개선한다</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    Blameless Postmortem 구조                          │
+├───────────────────────────────────────────────────────┤
+│  1. 장애 요약: 무엇이 언제 발생했는가               │
+│  2. 영향: 사용자 수·다운타임·매출 손실              │
+│  3. 타임라인: 분 단위 이벤트 기록                    │
+│  4. 근본 원인: 5 Whys 분석                           │
+│  5. Action Items: 재발 방지 조치 (담당자·기한)       │
+│  6. 교훈: 잘한 점·개선할 점                          │
+│                                                       │
+│  원칙: 사람이 아닌 시스템·프로세스를 개선한다        │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: Blameless Postmortem은 항공 사고 조사처럼 <strong>"조종사가 나쁘다"가 아니라 "계기판 설계가 혼동을 유발했다"</strong>를 찾는 것이다.
 
@@ -94,23 +92,21 @@ Blameless Postmortem은 <strong><a href="/knowledge-base/studynote/04_software_e
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">장애 → 범인 찾기 (전통, ~2010s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Blameless Postmortem (Google SRE, 2003~2016)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Postmortem 템플릿 표준화 (2018~)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">자동 Postmortem 생성 (Incident.io, 2022~)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: AI Postmortem — 로그 분석→근본 원인·Action 자동 추천</div></div>
-</div>
-</div>
-
-
+```text
+[장애 → 범인 찾기 (전통, ~2010s)]
+    │
+    ▼
+[Blameless Postmortem (Google SRE, 2003~2016)]
+    │
+    ▼
+[Postmortem 템플릿 표준화 (2018~)]
+    │
+    ▼
+[자동 Postmortem 생성 (Incident.io, 2022~)]
+    │
+    ▼
+[현재: AI Postmortem — 로그 분석→근본 원인·Action 자동 추천]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. Blameless Postmortem은 <strong>"누가 틀렸어?"가 아니라 "왜 틀렸어?"</strong>를 찾는 거예요.

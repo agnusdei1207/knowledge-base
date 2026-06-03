@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 DoT는 기존에 평문(Plaintext)으로 전송되던 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 질의(Query)와 응답(Response)을 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)(Transport Layer [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)) 프로토콜로 암호화하여 전송하는 국제 표준(RFC 7858)입니다. 
 인터넷 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 제공자([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/))나 중간자(Man-in-the-Middle)가 사용자의 웹 방문 기록을 도청하거나 조작하는 것을 방지하기 위해 도입되었습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DNSSEC</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DoT</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DoH</div></div>
-</div>
-</div>
-
-
+```text
+[DNSSEC]
+    │
+    ▼
+[DoT]
+    │
+    └──▶ [DoH]
+```
 
 - **📢 섹션 요약 비유**: DoT는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -47,18 +43,14 @@ DoT는 기존에 평문(Plaintext)으로 전송되던 [DNS](/knowledge-base/stud
 | **암호화 방식** | HTTPS와 동일하게 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 지향 종단간([End-to-End](/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/)) 암호화를 제공합니다. |
 | **목적** | <strong>프라이버시(Privacy) <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a></strong>가 최우선 목적입니다. (DNSSEC은 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 검증이 목적) |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DNSSEC</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DoT</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DoH</div></div>
-</div>
-</div>
-
-
+```text
+[DNSSEC]
+    │
+    ▼
+[DoT]
+    │
+    └──▶ [DoH]
+```
 
 - **📢 섹션 요약 비유**: DoT의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -117,19 +109,15 @@ DoT는 이름 해석과 네트워크 관리를 이해할 때 핵심 축을 잡�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: DNSSEC</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: DoT</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: DoH</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율 운영 네트워크</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: DNSSEC]
+    │
+    ▼
+[현재 개념: DoT]
+    │
+    ├──▶ [확장 A: DoH]
+    └──▶ [확장 B: 자율 운영 네트워크]
+```
 
 DoT는 DNSSEC에서 출발해 현재 메커니즘을 정교화하고, 이후 DoH와 자율 운영 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

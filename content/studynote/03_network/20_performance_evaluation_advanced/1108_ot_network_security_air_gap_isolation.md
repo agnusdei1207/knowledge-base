@@ -26,18 +26,14 @@ tags = ["studynote-network"]
   - <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a> (<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">Availability</a>)이 무조건 0순위</strong>입니다. 기밀이 털리든 말든, 돌아가는 용광로 밸브 시스템이 백신 업데이트하느라 '1초 정지(재부팅)'되는 순간 폭발 사고로 전 직원이 몰살당합니다. 
   - **딜레마**: 공장 기계는 윈도우 95, [XP](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/) 같은 구석기 OS를 20년째 안 끄고 그냥 돌립니다(패치/백신 설치 불가). 해커가 들어오면 100% 감염되는 걸 알면서도 끌 수가 없는 최악의 무방비 시한폭탄입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">산업용 이더넷 PROFINET 망</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">OT 망 분리 원단 통제</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OPC UA 자동화 프레임 표준 통신</div></div>
-</div>
-</div>
-
-
+```text
+[산업용 이더넷 PROFINET 망]
+    │
+    ▼
+[OT 망 분리 원단 통제]
+    │
+    └──▶ [OPC UA 자동화 프레임 표준 통신]
+```
 
 - **📢 섹션 요약 비유**: [OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/) 망 분리 원단 통제는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -68,18 +64,14 @@ tags = ["studynote-network"]
 - 인터넷을 다 끊어놔도, 협력 업체 직원이 들고 온 오염된 [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 1개가 스턱스넷처럼 공장 기계를 박살 냅니다.
 - **소독 키오스크**: 공장에 들어가려면 현관문에 있는 검역 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)(키오스크)에 USB를 꽂고 30개의 백신 엔진으로 영혼까지 털어 소독(포맷급)해야만 사내망에 꽂을 권한을 줍니다. 또한 기계의 [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 포트는 글루건(실리콘)으로 쏴서 아예 못 꽂게 막거나(물리적 통제), '인가된 1개의 [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/)'만 인식하는 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 제어([DLP](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/386_dlp/)) 솔루션을 떡칠합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">산업용 이더넷 PROFINET 망</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">OT 망 분리 원단 통제</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OPC UA 자동화 프레임 표준 통신</div></div>
-</div>
-</div>
-
-
+```text
+[산업용 이더넷 PROFINET 망]
+    │
+    ▼
+[OT 망 분리 원단 통제]
+    │
+    └──▶ [OPC UA 자동화 프레임 표준 통신]
+```
 
 - **📢 섹션 요약 비유**: 사무실 인터넷(IT망)이 정보 유출을 막는 <strong>'철저한 신분증 검사(<a href="/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/">기밀성</a>)'</strong>라면, 공장의 기계망(OT망)은 심장 수술실의 기계가 절대 1초도 멈추면 안 되는 <strong>'무정전 생명 유지 장치(<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a>)'</strong>입니다. 수술실 컴퓨터는 20년 된 구형이라 감기([바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/))에 걸리면 즉사합니다. 그래서 병원은 수술실과 바깥 로비를 두꺼운 철문([망분리](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/))으로 막았습니다(에어갭). 하지만 원장님이 로비에서 수술 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)를 보겠다며 철문에 구멍을 뚫었습니다. 해커가 로비로 들어와 이 구멍으로 독가스([랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/))를 뿌려 수술실을 다 죽입니다. 이 참사를 막기 위한 <strong>일방향 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/">다이오드</a> 장비</strong>는 수술실 벽 구멍에 <strong>'안에서 밖만 내다볼 수 있는 두꺼운 <a href="/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/">단방향</a> 투명 거울'</strong>을 설치한 것입니다. 원장님은 밖에서 수술 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 빛([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 일방향으로 전달받아 볼 수 있지만, 밖에서 안으로 독가스를 뿌리거나 말을 걸어도 벽에 튕겨 나와 1%도 수술실 안으로 역류하지 못하는 궁극의 물리학적 방수 격벽 시스템입니다.
 
@@ -137,19 +129,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 산업용 이더넷 PROFINET 망</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: OT 망 분리 원단 통제</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: OPC UA 자동화 프레임 표준 통신</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 산업용 이더넷 PROFINET 망]
+    │
+    ▼
+[현재 개념: OT 망 분리 원단 통제]
+    │
+    ├──▶ [확장 A: OPC UA 자동화 프레임 표준 통신]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 [OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/) 망 분리 원단 통제는 산업용 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) [PROFINET](/knowledge-base/studynote/09_security/18_iot_ot_physical/900_profinet/) 망에서 출발해 현재 메커니즘을 정교화하고, 이후 [OPC UA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/631_opc_ua_smart_factory_protocol/) 자동화 프레임 표준 통신와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

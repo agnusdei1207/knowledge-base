@@ -25,20 +25,18 @@ tags = ["studynote-computer-architecture"]
 
 가용성은 보통 연간 가동률과 허용 다운타임으로 설명한다. 숫자의 차이는 작아 보여도 운영 난이도는 기하급수적으로 올라간다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가용성 수준과 연간 허용 다운타임의 감각적 차이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가용성 수준</div><div class="kb-diagram-cell">연간 허용 다운타임</div><div class="kb-diagram-cell">체감 의미</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">99%</div><div class="kb-diagram-cell">약 3.65일</div><div class="kb-diagram-cell">가끔 멈춤</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">99.9%</div><div class="kb-diagram-cell">약 8.76시간</div><div class="kb-diagram-cell">월간 점검 허용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">99.99%</div><div class="kb-diagram-cell">약 52.6분</div><div class="kb-diagram-cell">무중단 운영 근접</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">99.999%</div><div class="kb-diagram-cell">약 5.26분</div><div class="kb-diagram-cell">미션 크리티컬</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│       가용성 수준과 연간 허용 다운타임의 감각적 차이        │
+├───────────────┬──────────────────────────────┬───────────────┤
+│ 가용성 수준   │ 연간 허용 다운타임           │ 체감 의미     │
+├───────────────┼──────────────────────────────┼───────────────┤
+│ 99%           │ 약 3.65일                    │ 가끔 멈춤     │
+│ 99.9%         │ 약 8.76시간                  │ 월간 점검 허용│
+│ 99.99%        │ 약 52.6분                    │ 무중단 운영 근접│
+│ 99.999%       │ 약 5.26분                    │ 미션 크리티컬 │
+└───────────────┴──────────────────────────────┴───────────────┘
+```
 
 즉 가용성은 "안 멈추는 시스템"이라는 추상 구호가 아니라, 허용 가능한 중단 시간을 얼마나 엄격하게 관리할 것인지에 대한 계약이자 설계 목표다. 여기서 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 협약인 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) ([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/))가 등장하며, 운영팀은 이 수치를 지키기 위해 구조적 대비를 해야 한다.
 
@@ -65,20 +63,23 @@ Availability = \frac{[MTBF](/knowledge-base/studynote/01_computer_architecture/1
 
 아래 그림은 가용성이 단순히 "서버 2대"의 문제가 아니라, 감지-판단-전환-[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)의 연쇄 메커니즘임을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고가용성 동작 흐름: 장애를 서비스 밖으로 숨기기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 요청</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">로드밸런서 (Load Balancer) ── Health Check ──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 주 서버 (Active) ── 장애 발생 ──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 예비 서버 (Standby) ◀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">세션 승계 · 재시도 · 서비스 지속</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│                고가용성 동작 흐름: 장애를 서비스 밖으로 숨기기    │
+├────────────────────────────────────────────────────────────────────┤
+│ 사용자 요청                                                        │
+│    │                                                               │
+│    ▼                                                               │
+│ 로드밸런서 (Load Balancer) ── Health Check ──┐                     │
+│    │                                         │                     │
+│    ├────────────▶ 주 서버 (Active) ── 장애 발생 ──┐               │
+│    │                                              │               │
+│    └────────────▶ 예비 서버 (Standby) ◀───────────┘               │
+│                               │                                    │
+│                               ▼                                    │
+│                     세션 승계 · 재시도 · 서비스 지속                │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조의 포인트는 장애를 없애는 것이 아니라, 사용자가 장애를 느끼기 전에 경로를 바꾸는 것이다. 따라서 가용성 설계에서는 장애 감지 주기, 상태 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 범위, 전환 시간, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 비용이 함께 고려되어야 한다. 빠른 전환만 보고 설계하면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어긋날 수 있고, [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)만 강조하면 전환 시간이 길어질 수 있다.
 
@@ -157,25 +158,24 @@ Availability = \frac{[MTBF](/knowledge-base/studynote/01_computer_architecture/1
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">고장 예방 중심 설계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">신뢰성 (Reliability) · MTBF</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">서비스성 (Serviceability) · MTTR</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">가용성 (Availability) · SPOF 제거</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">HA (High Availability) · Failover · Clustering</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">무중단 운영 · 자율 복구 · 지역 간 분산</div>
-</div>
-</div>
-
-
+```text
+고장 예방 중심 설계
+    │
+    ▼
+신뢰성 (Reliability) · MTBF
+    │
+    ▼
+서비스성 (Serviceability) · MTTR
+    │
+    ▼
+가용성 (Availability) · SPOF 제거
+    │
+    ▼
+HA (High Availability) · Failover · Clustering
+    │
+    ▼
+무중단 운영 · 자율 복구 · 지역 간 분산
+```
 
 이 흐름은 "안 고장 나는 부품"에서 출발해 "고장 나도 계속 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)하는 시스템"으로 발전하는 관점을 보여준다.
 

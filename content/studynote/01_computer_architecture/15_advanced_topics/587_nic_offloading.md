@@ -25,18 +25,16 @@ NIC [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_acceler
 
 이 그림은 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)이 없을 때 CPU가 어디에 시간을 쓰는지 요약한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Offload가 없으면 패킷마다 CPU가 여러 번 개입한다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Packet -&gt; Interrupt -&gt; Kernel Parse -&gt; Checksum -&gt; Segment/Merge</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; Application</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">패킷 수가 커질수록 CPU 시간의 상당 부분이 "네트워크 housekeeping"에 묶인다.</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│             Offload가 없으면 패킷마다 CPU가 여러 번 개입한다              │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Packet -> Interrupt -> Kernel Parse -> Checksum -> Segment/Merge          │
+│        -> Application                                                     │
+│                                                                            │
+│ 패킷 수가 커질수록 CPU 시간의 상당 부분이 "네트워크 housekeeping"에 묶인다.│
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 따라서 NIC [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)은 단순한 편의 기능이 아니다. 고속 네트워크 시대에 소프트웨어 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)만으로는 감당하기 어려운 per-packet 비용을 낮추는, 사실상 필수적인 시스템 균형 장치다.
 
@@ -58,22 +56,22 @@ NIC [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_acceler
 
 아래 그림은 NIC [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)이 송수신 경로에서 어디에 개입하는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NIC offload datapath: control on host, repetition on NIC</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">NIC Offload Engine</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ checksum / segmentation</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ receive merge</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ queue steering</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Wire</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">NIC Parser / Receive Queue</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">DMA -&gt; selected CPU core</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; Application</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│             NIC offload datapath: control on host, repetition on NIC      │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Application -> OS Stack -> DMA Descriptor Ring -> [NIC Offload Engine]    │
+│                                          │                                 │
+│                                          ├─ checksum / segmentation        │
+│                                          ├─ receive merge                  │
+│                                          └─ queue steering                 │
+│                                          ▼                                 │
+│                                         Wire                               │
+│                                                                            │
+│ Wire -> [NIC Parser / Receive Queue] -> DMA -> selected CPU core          │
+│                                         -> Application                     │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 여기서 중요한 것은 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)이 모두 같은 급이 아니라는 점이다. [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/), TSO, RSS는 비교적 <strong>비상태성 (<a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/">Stateless</a>)</strong> [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)이고, 연결 상태를 오래 기억하지 않는다. 반면 수신 병합이나 이후의 [TOE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/588_toe/) 같은 기능은 더 많은 상태 추적과 재조립을 요구하므로 구현과 운영 난도가 높아진다.
 
@@ -88,7 +86,7 @@ NIC [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_acceler
 | 구분 | 연결 상태 보유 | 대표 기능 | 강점 | 한계 |
 | :--- | :---: | :--- | :--- | :--- |
 | 비상태성 NIC [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) | 낮음 | [Checksum](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/) Offload, TSO, RSS | 범용적이고 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)와 충돌이 적음 | [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 전체 상태 부담은 여전히 호스트에 남음 |
-| [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 오프로드 엔진 ([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) Offload Engine, [TOE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/588_toe/)) | 높음 | 재전송, 순서 관리, [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 응답 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | CPU와 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 부담을 더 크게 줄임 | [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 복잡도, 가시성 저하, 유연성 감소 |
+| [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 오프로드 엔진 ([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) Offload 엔진, [TOE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/588_toe/)) | 높음 | 재전송, 순서 관리, [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 응답 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | CPU와 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 부담을 더 크게 줄임 | [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 복잡도, 가시성 저하, 유연성 감소 |
 | 원격 [직접 메모리 접근](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/450_dma_direct_memory_access/) (Remote [Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/), [RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/)) / SmartNIC / [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 장치 ([Data Processing Unit](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/229_dpu_ipu_infrastructure_accelerator_offloading/), [DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/)) | 경우에 따라 매우 높음 | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 우회, [가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/), 보안·스토리지 오프로드 | 매우 낮은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 높은 전문성 | 도입 비용과 운영 복잡도가 큼 |
 
 또 하나의 중요한 비교 대상은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 쪽 소프트웨어 보완 기능이다. 제네릭 수신 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) (Generic Receive Offload, GRO)은 LRO와 비슷한 효과를 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 쪽에서 내고, 제네릭 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) (Generic [Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) Offload, GSO)은 TSO가 없는 환경의 소프트웨어 보완재 역할을 한다. 즉 하드웨어 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)이 항상 절대 우위인 것은 아니고, 하드웨어와 소프트웨어가 어디서 분담할지의 문제에 가깝다.
@@ -145,29 +143,28 @@ NIC [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_acceler
 | [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) Offload (TSO) | 송신 측 대형 버퍼를 실제 전송 단위로 나누는 대표 기능이다. |
 | Large Receive Offload (LRO) / Generic Receive Offload (GRO) | 수신 측 병합을 하드웨어와 소프트웨어가 각각 맡는 대표 구조다. |
 | Receive Side Scaling (RSS) | 멀티큐 기반 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리로 단일 코어 병목을 줄인다. |
-| [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 오프로드 엔진 ([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) Offload Engine, [TOE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/588_toe/)) | 비상태성 NIC [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)이 상태성 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)으로 확장된 대표 사례다. |
+| [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 오프로드 엔진 ([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) Offload 엔진, [TOE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/588_toe/)) | 비상태성 NIC [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)이 상태성 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)으로 확장된 대표 사례다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">기본 NIC + DMA</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Checksum Offload</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">TSO · LRO · RSS</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">상태성 오프로딩 (TOE)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SmartNIC · DPU 기반 통합 오프로딩</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">프로그래머블 네트워크 / 보안 / 스토리지 데이터 경로</div>
-</div>
-</div>
-
-
+```text
+기본 NIC + DMA
+    │
+    ▼
+Checksum Offload
+    │
+    ▼
+TSO · LRO · RSS
+    │
+    ▼
+상태성 오프로딩 (TOE)
+    │
+    ▼
+SmartNIC · DPU 기반 통합 오프로딩
+    │
+    ▼
+프로그래머블 네트워크 / 보안 / 스토리지 데이터 경로
+```
 
 이 흐름은 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)이 작은 per-packet 최적화에서 출발해, 점차 연결 상태와 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로 전체를 맡는 방향으로 커졌음을 보여 준다.
 

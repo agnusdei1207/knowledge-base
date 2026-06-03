@@ -26,18 +26,14 @@ tags = ["studynote-network"]
   - **VCI (가상 채널)**: 우리 집 TV 셋톱박스에서 넷플릭스, 유튜브, [지상파](/knowledge-base/studynote/03_network/03_physical_layer_media/160_radio_propagation_ground_sky_space/) 방송을 동시에 볼 때 뚫어놓는 개별적인 <strong>"<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 빨대(실가닥)"</strong>들입니다.
   - **VPI (가상 경로)**: 이 가느다란 실가닥 수십 개를 고무줄로 한데 묶어서 통신사 국사까지 한 번에 보내기 위해 감싼 굵은 <strong>"전선 튜브(다발)"</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">ATM 동기화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">VPI / VCI</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">AAL</div></div>
-</div>
-</div>
-
-
+```text
+[ATM 동기화]
+    │
+    ▼
+[VPI / VCI]
+    │
+    └──▶ [AAL]
+```
 
 - **📢 섹션 요약 비유**: <strong> VPI/VCI는 우체국의 택배 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a> 시스템입니다. 개별 택배 상자(VCI)를 부산행이라는 </strong>"커다란 철제 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)(VPI)"** 안에 몽땅 때려 넣은 뒤, 중간 우편집중국들은 상자 주소는 안 보고 오직 컨베이어 벨트 위의 '[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)(VPI)'만 쿨하게 목적지별로 넘겨버립니다.
 
@@ -50,24 +46,25 @@ tags = ["studynote-network"]
 - <strong>VP <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> (코어 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>)</strong>: 백본망 한가운데 있는 대형 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)다. 이들은 셀 헤더의 VCI(채널) 번호는 아예 쳐다보지도 않는다. 오직 굵직한 VPI(경로) 번호만 보고 거대한 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 자체를 목적지 쪽으로 스위칭해 버린다. (처리 속도 극대화)
 - <strong>VC <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> (엣지 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>)</strong>: 통신사 망의 끝자락, 사용자 쪽에 붙은 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)다. 이들은 커다란 튜브(VPI)를 풀어서 그 안에 들어있는 개별 실가닥(VCI) 번호들을 꼼꼼히 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 각각의 사용자 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 쪽으로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)해 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VPI 다발(Bundle)을 이용한 스위칭 예시</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">사용자 A</div><div class="kb-diagram-note">── VCI 10 ──</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">사용자 B</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">VPI 5 번으로 묶음!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">사용자 C</div><div class="kb-diagram-note">── VCI 12 ── │</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ATM 코어 스위치</div><div class="kb-diagram-note">"오 VPI 5번이군! 무조건 광주 지사로 던져!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(VCI 번호가 뭔지는 까보지도 않음)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">광주 엣지 스위치</div><div class="kb-diagram-note">"도착했군. VPI 5 껍질 풀고 개별 VCI 배달!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">수신자 A</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">수신자 B</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">수신자 C</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                VPI 다발(Bundle)을 이용한 스위칭 예시              │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 사용자 A ] ── VCI 10 ──┐                                 │
+ │   [ 사용자 B ] ── VCI 11 ──┼──▶ [ VPI 5 번으로 묶음! ]          │
+ │   [ 사용자 C ] ── VCI 12 ──┘        │                       │
+ │                                     ▼                       │
+ │   [ ATM 코어 스위치 ] "오 VPI 5번이군! 무조건 광주 지사로 던져!"       │
+ │                     (VCI 번호가 뭔지는 까보지도 않음)             │
+ │                                     │                       │
+ │                                     ▼                       │
+ │   [ 광주 엣지 스위치 ] "도착했군. VPI 5 껍질 풀고 개별 VCI 배달!"     │
+ │                     ┌── VCI 10 ──▶ [ 수신자 A ]              │
+ │                     ├── VCI 11 ──▶ [ 수신자 B ]              │
+ │                     └── VCI 12 ──▶ [ 수신자 C ]              │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 2. 셀 헤더(5바이트)에서의 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 할당 (UNI vs NNI)
 VPI/VCI 번호를 담는 공간은 사용자와 통신사 사이(UNI)냐, 통신사 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)끼리(NNI)냐에 따라 미세하게 다르다.
@@ -130,19 +127,15 @@ VPI / VCI는 LAN/WAN과 2계층 장비를 이해할 때 핵심 축을 잡아 주
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: ATM 동기화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: VPI / VCI</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: AAL</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 캠퍼스 패브릭</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: ATM 동기화]
+    │
+    ▼
+[현재 개념: VPI / VCI]
+    │
+    ├──▶ [확장 A: AAL]
+    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
+```
 
 VPI / VCI는 [ATM](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)에서 출발해 현재 메커니즘을 정교화하고, 이후 AAL와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

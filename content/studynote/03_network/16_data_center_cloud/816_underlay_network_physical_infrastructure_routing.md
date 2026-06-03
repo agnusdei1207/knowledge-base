@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: 가상화된 오버레이망([VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/), [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) 등)을 떠받치기 위해, 서버, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/), 라우터, 광케이블 등으로 구성된 <strong>실제 눈에 보이고 손으로 만질 수 있는 물리적인 기저(바닥) 네트워크 인프라 구조</strong>를 의미합니다.
 - **철학**: "나(언더레이)는 내 머리 위로 지나가는 오버레이 터널 안에 무슨 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(서버 가상 IP)가 들었는지 1도 관심 없어. 나는 그저 **겉면에 적힌 도착지 주소(VTEP IP)만 보고 빛의 속도로 포워딩(전달)만 할 뿐이야!**"
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">오버레이 네트워크 논리 스위치 L2 확장 터…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">언더레이 네트워크 오버레이 터널을 품는 물리…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">VXLAN</div></div>
-</div>
-</div>
-
-
+```text
+[오버레이 네트워크 논리 스위치 L2 확장 터…]
+    │
+    ▼
+[언더레이 네트워크 오버레이 터널을 품는 물리…]
+    │
+    └──▶ [VXLAN]
+```
 
 - **📢 섹션 요약 비유**: 언더레이 네트워크 오버레이 터널을 품는 물리…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -55,18 +51,14 @@ tags = ["studynote-network"]
 - 802번, 804번 문서에서 배운 <strong>Spine-Leaf 2-Tier 구조와 <a href="/knowledge-base/studynote/03_network/16_data_center_cloud/804_ecmp_equal_cost_multi_path_routing_load_balancing/">ECMP</a> <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 통신</strong>이 바로 이 언더레이 네트워크를 구축하는 현대 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)의 절대적인 표준 설계도입니다.
 - 장애가 나거나 선이 끊어지면, [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)이 1초 만에 다른 우회 도로를 찾아내어 위에 떠 있는 오버레이 터널이 끊어진 줄도 모르게 밑구멍에서 수리를 끝내야 합니다(고가용성).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">오버레이 네트워크 논리 스위치 L2 확장 터…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">언더레이 네트워크 오버레이 터널을 품는 물리…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">VXLAN</div></div>
-</div>
-</div>
-
-
+```text
+[오버레이 네트워크 논리 스위치 L2 확장 터…]
+    │
+    ▼
+[언더레이 네트워크 오버레이 터널을 품는 물리…]
+    │
+    └──▶ [VXLAN]
+```
 
 - **📢 섹션 요약 비유**: 언더레이 네트워크 오버레이 터널을 품는 물리…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -127,19 +119,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 오버레이 네트워크 논리 스위치 L2 확장 터…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 언더레이 네트워크 오버레이 터널을 품는 물리…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: VXLAN</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 오버레이 네트워크 논리 스위치 L2 확장 터…]
+    │
+    ▼
+[현재 개념: 언더레이 네트워크 오버레이 터널을 품는 물리…]
+    │
+    ├──▶ [확장 A: VXLAN]
+    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
+```
 
 언더레이 네트워크 오버레이 터널을 품는 물리…는 [오버레이 네트워크](/knowledge-base/studynote/03_network/16_data_center_cloud/815_overlay_network_virtualization_l2_extension/) [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) L2 확장 터…에서 출발해 현재 메커니즘을 정교화하고, 이후 VXLAN와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

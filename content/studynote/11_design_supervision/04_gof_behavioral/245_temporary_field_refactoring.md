@@ -20,21 +20,20 @@ tags = ["studynote-design-supervision"]
 ## Ⅰ. 개요 및 필요성
 임시 필드 (Temporary Field) 는 객체의 전체 수명 동안 필요한 것이 아니라, 복잡한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 수행 시 임시로 필요한 데이터를 클래스 수준 필드로 선언하는 패턴이다. 매개변수 전달 대신 필드를 통해 '전역 변수처럼' 공유하는 구현 편의에서 발생한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">임시 필드 발생 시나리오</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 알고리즘이 여러 메서드로 분리될 때</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 중간 결과를 필드로 저장해 메서드 간 공유</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 성능 최적화 목적 캐시 필드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 계산 결과를 필드에 보관하나 무효화 조건 불명확</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 콜백이나 이벤트 핸들러를 위한 상태 저장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 처리 전/후만 유효한 컨텍스트 데이터</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────┐
+│  임시 필드 발생 시나리오                                │
+├─────────────────────────────────────────────────────────┤
+│  1. 알고리즘이 여러 메서드로 분리될 때                  │
+│     → 중간 결과를 필드로 저장해 메서드 간 공유          │
+│                                                         │
+│  2. 성능 최적화 목적 캐시 필드                          │
+│     → 계산 결과를 필드에 보관하나 무효화 조건 불명확    │
+│                                                         │
+│  3. 콜백이나 이벤트 핸들러를 위한 상태 저장             │
+│     → 처리 전/후만 유효한 컨텍스트 데이터              │
+└─────────────────────────────────────────────────────────┘
+```
 
 - **NullPointerException 위험**: 필드가 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)되지 않은 상태에서 메서드 호출 시 NPE 발생
 - **테스트 어려움**: 필드 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 순서에 따라 동작이 달라지는 순서 의존성 (Order Dependency)
@@ -45,44 +44,45 @@ tags = ["studynote-design-supervision"]
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">문제 있는 구조 — 임시 필드 사용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">class RouteCalculator {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">private Graph _graph; ← 임시 (calculateRoute</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">private Node _start; ← 임시 호출 중에만</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">private Node _end; ← 임시 유효)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">private List&lt;Node&gt; _path; ← 임시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">void calculateRoute(g, s, e) {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">_graph=g; _start=s; _end=e; // 설정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">_initializeNodes(); // _graph 사용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">_findPath(); // _start,_end 사용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">_optimizePath(); // _path 사용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-<div class="kb-diagram-note">↓ 처방: 메서드 객체화 (Replace Method with Method Object)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">class RouteCalculation { ← 계산 컨텍스트 클래스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">private final Graph graph; ← 생성자에서 설정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">private final Node start; ← (항상 유효)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">private final Node end;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">private List&lt;Node&gt; path; ← 계산 중 내부 상태</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RouteCalculation(g, s, e) { this.graph=g; ... }</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">List&lt;Node&gt; calculate() {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">initializeNodes(); findPath(); optimizePath();</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">return path;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">class RouteCalculator {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">List&lt;Node&gt; calculateRoute(g, s, e) {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">return new RouteCalculation(g,s,e).calculate();</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-</div>
-</div>
-
-
+```
+[ 문제 있는 구조 — 임시 필드 사용 ]
+┌────────────────────────────────────────────────────────┐
+│  class RouteCalculator {                               │
+│    private Graph   _graph;     ← 임시 (calculateRoute  │
+│    private Node    _start;     ← 임시  호출 중에만     │
+│    private Node    _end;       ← 임시  유효)           │
+│    private List<Node> _path;   ← 임시                  │
+│                                                        │
+│    void calculateRoute(g, s, e) {                      │
+│      _graph=g; _start=s; _end=e;  // 설정              │
+│      _initializeNodes();          // _graph 사용        │
+│      _findPath();                 // _start,_end 사용   │
+│      _optimizePath();             // _path 사용         │
+│    }                                                   │
+│  }                                                     │
+└────────────────────────────────────────────────────────┘
+          ↓ 처방: 메서드 객체화 (Replace Method with Method Object)
+┌────────────────────────────────────────────────────────┐
+│  class RouteCalculation {   ← 계산 컨텍스트 클래스     │
+│    private final Graph   graph;   ← 생성자에서 설정    │
+│    private final Node    start;   ← (항상 유효)        │
+│    private final Node    end;                          │
+│    private List<Node>    path;    ← 계산 중 내부 상태  │
+│                                                        │
+│    RouteCalculation(g, s, e) { this.graph=g; ... }     │
+│    List<Node> calculate() {                            │
+│      initializeNodes(); findPath(); optimizePath();    │
+│      return path;                                      │
+│    }                                                   │
+│  }                                                     │
+│                                                        │
+│  class RouteCalculator {                               │
+│    List<Node> calculateRoute(g, s, e) {                │
+│      return new RouteCalculation(g,s,e).calculate();   │
+│    }                                                   │
+│  }                                                     │
+└────────────────────────────────────────────────────────┘
+```
 
 | 임시 필드 유형 | 권장 처방 | 이유 |
 |:---|:---|:---|
@@ -105,19 +105,13 @@ tags = ["studynote-design-supervision"]
 
 임시 필드가 "이 객체가 유효하지 않은 상태"를 표현하는 경우, [널 객체 패턴](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/207_null_object_pattern/) ([Null Object Pattern](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/207_null_object_pattern/)) 또는 옵셔널 (Optional) 패턴으로 해결할 수 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">임시 필드 → null → NullPointerException</div>
-<div class="kb-diagram-note">↓ 처방</div>
-<div class="kb-diagram-note">임시 필드 → Optional&lt;T&gt; → 명시적 부재 처리</div>
-<div class="kb-diagram-note">또는</div>
-<div class="kb-diagram-note">→ NullObject (기본 행동 제공)</div>
-</div>
-</div>
-
-
+```
+임시 필드 → null → NullPointerException
+               ↓ 처방
+임시 필드 → Optional<T> → 명시적 부재 처리
+또는
+        → NullObject (기본 행동 제공)
+```
 
 - **📢 섹션 요약 비유**: 식당 예약 테이블에 "비어있음" 팻말을 정확히 세워두는 것 — null 팻말이 없으면 손님이 임의로 앉아버린다.
 

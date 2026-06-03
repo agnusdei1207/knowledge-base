@@ -32,25 +32,25 @@ XP의 창시자 켄트 벡(Kent Beck)은 이 벽을 부수기 위해 거대한 �
 ### 네이밍 컨벤션과 아키텍처 구조의 지배
 메타포는 단순히 회의 시간의 분위기를 부드럽게 하는 유머가 아니다. 시스템의 쇳덩어리(클래스, 변수) 구조 자체를 결정짓는 핵심 설계 나침반이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메타포(Metaphor)가 주도하는 아키텍처 설계 매핑 로직</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">해결해야 할 복잡한 시스템 (콜센터 라우팅 엔진)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 외계어 버리기: "큐(Queue) 대기열에서 가용 스레드에 할당" (X)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 메타포 선정 : "택시 승강장에서 손님을 배차하는 구조" (O)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">메타포 기반 코드 구조(Class) 매핑 체계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 대기 중인 고객 요청 ──▶ <code>Passenger</code> (승객) 객체</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 상담원 (Worker) ──▶ <code>Taxi</code> (택시) 객체</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 라우팅/스케줄러 큐 ──▶ <code>TaxiStand</code> (택시 승강장) 객체</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심 논리: "택시(상담원)가 승강장(라우터)에 들어오면 대기 중인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">승객(고객)을 태운다"는 메타포가 그대로 소스 코드 클래스 이름과</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메서드 흐름으로 직결되어 완벽한 시스템 모델링이 완료된다.</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────┐
+│           메타포(Metaphor)가 주도하는 아키텍처 설계 매핑 로직     │
+├────────────────────────────────────────────────────────┤
+│   [ 해결해야 할 복잡한 시스템 (콜센터 라우팅 엔진) ]              │
+│                                                        │
+│   1. 외계어 버리기: "큐(Queue) 대기열에서 가용 스레드에 할당" (X) │
+│   2. 메타포 선정  : "택시 승강장에서 손님을 배차하는 구조" (O)    │
+│                                                        │
+│   [ 메타포 기반 코드 구조(Class) 매핑 체계 ]                 │
+│    - 대기 중인 고객 요청 ──▶ `Passenger` (승객) 객체        │
+│    - 상담원 (Worker)    ──▶ `Taxi` (택시) 객체           │
+│    - 라우팅/스케줄러 큐 ──▶ `TaxiStand` (택시 승강장) 객체   │
+│                                                        │
+│ * 핵심 논리: "택시(상담원)가 승강장(라우터)에 들어오면 대기 중인   │
+│   승객(고객)을 태운다"는 메타포가 그대로 소스 코드 클래스 이름과 │
+│   메서드 흐름으로 직결되어 완벽한 시스템 모델링이 완료된다.      │
+└────────────────────────────────────────────────────────┘
+```
 
 이 메타포가 정립되면, 새로 입사한 주니어 개발자도 "아, `TaxiStand` 클래스에서 `passenger.board()`를 부르면 상담이 매칭되는구나"라며 전체 시스템의 뼈대를 5분 만에 머릿속에 렌더링할 수 있다.
 
@@ -109,23 +109,21 @@ XP의 창시자 켄트 벡(Kent Beck)은 이 벽을 부수기 위해 거대한 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">전통적 폭포수(Waterfall) 모델의 거대 아키텍처 문서화 집착</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">고객과 개발자 간의 외계어 장벽 및 소통 부재로 인한 요구사항 붕괴</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">eXtreme Programming (XP) 선언 및 소통 최우선(Communication) 가치 대두</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">아키텍처를 일상생활에 빗대는 메타포 (Metaphor) 실천법 확립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">도메인 주도 설계(DDD)의 유비쿼터스 언어(Ubiquitous Language) 및 네이밍 컨벤션 표준으로 진화</div>
-</div>
-</div>
-
-
+```text
+전통적 폭포수(Waterfall) 모델의 거대 아키텍처 문서화 집착
+    │
+    ▼
+고객과 개발자 간의 외계어 장벽 및 소통 부재로 인한 요구사항 붕괴
+    │
+    ▼
+eXtreme Programming (XP) 선언 및 소통 최우선(Communication) 가치 대두
+    │
+    ▼
+아키텍처를 일상생활에 빗대는 메타포 (Metaphor) 실천법 확립
+    │
+    ▼
+도메인 주도 설계(DDD)의 유비쿼터스 언어(Ubiquitous Language) 및 네이밍 컨벤션 표준으로 진화
+```
 
 이 흐름도는 "문서 중심의 소통 단절 → 비유를 통한 직관적 이해 돌파 → 개발 코드의 명명 규칙(Naming)과 시스템 모델링 철학으로의 고도화"를 보여주는 소프트웨어 설계 사상의 발전 궤적이다.
 

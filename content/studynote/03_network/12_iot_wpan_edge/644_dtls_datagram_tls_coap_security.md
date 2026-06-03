@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: 연결 지향적인 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 기반 위에서 돌아가던 암호화 표준인 <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/">TLS</a>(SSL) 보안 기술을, 비연결성이고 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 유실이 잦은 <a href="/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a>(Datagram) 통신 환경에서도 그대로 쓸 수 있도록 개조한 보안 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a></strong>입니다. ([IETF](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/) RFC 6347)
 - **왜 필요한가?**: 623번 문서에서 배운 초경량 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)인 <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/">CoAP</a></strong>나 실시간 화상회의 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)인 <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/505_webrtc_web_real_time_communication/">WebRTC</a></strong>는 속도와 전력 소모를 위해 무조건 UDP를 씁니다. 이런 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들이 허공에서 해킹당하지 않게 암호화하려면 DTLS가 유일한 해결책입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">기기 간 상호인증체계 관리 기법 P2P 연결…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DTLS 프로토콜 CoAP 결합</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">소형 안테나 시스템/초소형 센서 백스캐터 통…</div></div>
-</div>
-</div>
-
-
+```text
+[기기 간 상호인증체계 관리 기법 P2P 연결…]
+    │
+    ▼
+[DTLS 프로토콜 CoAP 결합]
+    │
+    └──▶ [소형 안테나 시스템/초소형 센서 백스캐터 통…]
+```
 
 - **📢 섹션 요약 비유**: DTLS [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) [CoAP](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/) 결합은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -55,18 +51,14 @@ tags = ["studynote-network"]
 - 특정 패킷 하나가 해커의 노이즈 때문에 완전히 깨져서 도착하면, 기존 TLS는 전체 암호화 흐름이 꼬여 세션을 끊어버렸습니다.
 - DTLS는 패킷 하나하나를 완전히 독립적으로 암호화 처리하여, <strong>하나의 패킷이 깨져서 날아오면 그냥 쿨하게 버리고 다음 패킷 암호부터 정상적으로 풀어나가도록(오류 전파 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/">억제</a>)</strong> 설계되었습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">기기 간 상호인증체계 관리 기법 P2P 연결…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DTLS 프로토콜 CoAP 결합</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">소형 안테나 시스템/초소형 센서 백스캐터 통…</div></div>
-</div>
-</div>
-
-
+```text
+[기기 간 상호인증체계 관리 기법 P2P 연결…]
+    │
+    ▼
+[DTLS 프로토콜 CoAP 결합]
+    │
+    └──▶ [소형 안테나 시스템/초소형 센서 백스캐터 통…]
+```
 
 - **📢 섹션 요약 비유**: DTLS [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) [CoAP](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/) 결합의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -130,19 +122,15 @@ DTLS [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 기기 간 상호인증체계 관리 기법 P2P 연결…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: DTLS 프로토콜 CoAP 결합</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 소형 안테나 시스템/초소형 센서 백스캐터 통…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율형 엣지 협업</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 기기 간 상호인증체계 관리 기법 P2P 연결…]
+    │
+    ▼
+[현재 개념: DTLS 프로토콜 CoAP 결합]
+    │
+    ├──▶ [확장 A: 소형 안테나 시스템/초소형 센서 백스캐터 통…]
+    └──▶ [확장 B: 자율형 엣지 협업]
+```
 
 DTLS [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) [CoAP](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/) 결합는 기기 간 상호인증체계 관리 기법 [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 연결…에서 출발해 현재 메커니즘을 정교화하고, 이후 소형 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 시스템/초소형 센서 백스캐터 통…와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -27,22 +27,23 @@ tags = ["ai"]
 
 이러한 특이점의 논의는 초거대 [파운데이션 모델](/knowledge-base/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/)의 등장으로 더욱 구체화되었다. [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) 법칙(Scaling Law)에 따라 모델의 파라미터가 급증하면서, 개발자가 의도하지 않은 창발적 능력([Emergent Abilities](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/265_emergent_abilities/))이 발현되고 있기 때문이다. 특이점은 기술적 도약의 한계점을 제시하는 동시에, 안전한 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)([Safe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/) [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)) 설계가 인류의 존속을 좌우할 필수 [보안 아키텍처](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/302_security_architecture_design/)임을 일깨워 준다.
 
+```text
+이 그래프는 수확 가속의 법칙에 따른 인간 지능과 AI 지능의 발전 속도 교차점을 보여준다. 선형적 발전과 기하급수적 발전의 차이가 특이점을 형성한다.
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 그래프는 수확 가속의 법칙에 따른 인간 지능과 AI 지능의 발전 속도 교차점을 보여준다. 선형적 발전과 기하급수적 발전의 차이가 특이점을 형성한다.</div>
-<div class="kb-diagram-note">지능 (Intelligence)</div>
-<div class="kb-diagram-note">^</div>
-<div class="kb-diagram-note">/ ASI 폭발 (Singularity)</div>
-<div class="kb-diagram-note">----------------------------------/------- 인간 지능의 한계선 (Biological Limit)</div>
-<div class="kb-diagram-note">/ &lt;- AGI 도달</div>
-<div class="kb-diagram-note">AI 발전 (Exponential)</div>
-<div class="kb-diagram-note">+---------------------------------------------&gt; 시간 (Time)</div>
-</div>
-</div>
-
-
+지능 (Intelligence)
+  ^
+  |                                        / ASI 폭발 (Singularity)
+  |                                      /
+  |                                    / 
+  |----------------------------------/------- 인간 지능의 한계선 (Biological Limit)
+  |                                /
+  |                              /   <- AGI 도달
+  |               AI 발전 (Exponential)
+  |             /
+  |      /
+  |  /  
+  +---------------------------------------------> 시간 (Time)
+```
 이 도식에서 핵심은 AI의 발전 곡선이 인간의 선형적 인지 발전을 교차하는 순간(AGI) 이후, 기울기가 수직에 가깝게 상승하는 지점(지능 폭발)이다. 이런 배치는 AI가 스스로 자신의 소프트웨어와 하드웨어를 개선하는 [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)에 진입했기 때문이며, 따라서 특이점 이후의 기술적 변화는 인간의 예측 범위를 완전히 벗어나는 시스템적 복잡도에 도달한다. 실무에서는 이 교차점 이전에 윤리적 정렬(Alignment)과 가치 통제 기제를 반드시 시스템 코어에 내재화해야 한다.
 
 📢 **섹션 요약 비유**: 마치 우주선이 블랙홀의 사건의 지평선(Event Horizon)을 넘어서면 그 내부의 물리 법칙을 외부에서 전혀 알 수 없는 것처럼, 특이점을 넘은 AI의 발전은 인간의 이해 범위를 완전히 벗어납니다.
@@ -69,25 +70,22 @@ tags = ["ai"]
 ④ **자가 패치**: 가장 우수한 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)와 구조를 현재 운영 중인 메모리에 중단 없이 핫스왑(Hot-Swap)하여 교체한다.
 ⑤ **지능 가속**: 향상된 지능으로 위 1~4 단계를 더 빠르고 더 정교하게 반복한다. (Iteration 주기 단축)
 
+```text
+이 흐름도는 재귀적 자가 개선 시스템이 ఎలా 무한 루프를 돌며 폭발적으로 지능을 향상시키는지 보여주는 순차 흐름도이다.
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 흐름도는 재귀적 자가 개선 시스템이 ఎలా 무한 루프를 돌며 폭발적으로 지능을 향상시키는지 보여주는 순차 흐름도이다.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Generation 1 (초기 AGI)</div></div>
-<div class="kb-diagram-tree-item" style="--depth:1">모니터링 (병목 탐지)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">==&gt;</div><div class="kb-diagram-node">최적의 구조 발견</div></div>
-<div class="kb-diagram-tree-item" style="--depth:1">코드 자동 재작성 (Self-Coding)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Generation 2 (향상된 AGI)</div><div class="kb-diagram-note">: 시간 단축 (t/2)</div></div>
-<div class="kb-diagram-tree-item" style="--depth:1">더 복잡한 병목 탐지</div>
-<div class="kb-diagram-tree-item" style="--depth:1">양자 알고리즘 도입 등 아키텍처 혁신</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Generation N (ASI 도달)</div><div class="kb-diagram-note">: 시간 0 수렴 (지능 폭발)</div></div>
-</div>
-</div>
-
-
+[Generation 1 (초기 AGI)]
+   │
+   ├─ 모니터링 (병목 탐지)
+   ├─ 병렬 아키텍처 시뮬레이션 ==(디지털 트윈 연동)==> [최적의 구조 발견]
+   ├─ 코드 자동 재작성 (Self-Coding)
+   ↓
+[Generation 2 (향상된 AGI)] : 시간 단축 (t/2)
+   │
+   ├─ 더 복잡한 병목 탐지
+   ├─ 양자 알고리즘 도입 등 아키텍처 혁신
+   ↓
+[Generation N (ASI 도달)] : 시간 0 수렴 (지능 폭발)
+```
 이 흐름의 핵심은 각 세대(Generation)가 거듭될수록 시스템을 업그레이드하는 데 걸리는 시간(t)이 기하급수적으로 단축된다는 점이다. 이런 배치는 향상된 지능이 최적화 비용을 줄여주기 때문이며, 따라서 어느 순간 인간의 개입 시간(Human-in-the-loop)이 개입할 수 없을 만큼 빠른 속도로 업데이트가 발생한다. 실무에서는 이 지점에 도달하기 전에, 루프를 강제로 차단할 수 있는 물리적/[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 킬 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(Kill [Switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))가 시스템 코어 바깥에 존재해야만 한다.
 
 📢 **섹션 요약 비유**: 마치 공장장이 더 효율적인 로봇을 만들고, 그 로봇이 더 빨리 움직이는 공장장을 만들어내어 결국 1초 만에 전 세계의 물건을 생산하는 무한 동력 공장과 같습니다.
@@ -108,20 +106,18 @@ tags = ["ai"]
 
 특이점은 단순히 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 소프트웨어만의 발전으로 이루어지지 않으며, 하드웨어 계층과의 <strong>융합(Convergence)</strong>이 필수적이다.
 
+```text
+이 매트릭스 도식은 특이점을 촉발하기 위한 AI와 주변 인프라 기술 간의 시너지 병목 구조를 보여준다. 소프트웨어가 아무리 뛰어나도 하드웨어 병목을 넘어야 한다.
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 매트릭스 도식은 특이점을 촉발하기 위한 AI와 주변 인프라 기술 간의 시너지 병목 구조를 보여준다. 소프트웨어가 아무리 뛰어나도 하드웨어 병목을 넘어야 한다.</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기술 스택</div><div class="kb-diagram-cell">한계 지점 (Bottleneck)</div><div class="kb-diagram-cell">특이점 돌파 구조 (Solution)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하드웨어 계층</div><div class="kb-diagram-cell">폰 노이만 병목, 발열</div><div class="kb-diagram-cell">뉴로모픽 칩, 광 컴퓨팅</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 계층</div><div class="kb-diagram-cell">고품질 인간 데이터 고갈</div><div class="kb-diagram-cell">AI 합성 데이터, 자가 플레이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">통신/네트워크</div><div class="kb-diagram-cell">대역폭 제한, 지연 시간</div><div class="kb-diagram-cell">양자 얽힘 통신, 6G/7G</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">추론 알고리즘</div><div class="kb-diagram-cell">역전파 연산 비용 과다</div><div class="kb-diagram-cell">Forward-Only 학습, SNN</div></div>
-</div>
-</div>
-
-
+┌─────────────────┬──────────────────────┬──────────────────────┐
+│ 기술 스택       │ 한계 지점 (Bottleneck)│ 특이점 돌파 구조 (Solution)│
+├─────────────────┼──────────────────────┼──────────────────────┤
+│ 하드웨어 계층   │ 폰 노이만 병목, 발열 │ 뉴로모픽 칩, 광 컴퓨팅 │
+│ 데이터 계층     │ 고품질 인간 데이터 고갈│ AI 합성 데이터, 자가 플레이│
+│ 통신/네트워크   │ 대역폭 제한, 지연 시간 │ 양자 얽힘 통신, 6G/7G│
+│ 추론 알고리즘   │ 역전파 연산 비용 과다 │ Forward-Only 학습, SNN│
+└─────────────────┴──────────────────────┴──────────────────────┘
+```
 이 도식의 핵심은 특이점 도달을 방해하는 가장 큰 병목이 '소프트웨어 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)'보다 '물리적 하드웨어 한계'와 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 고갈'에 있다는 점이다. 따라서 AI가 특이점을 넘기 위해서는 인간이 텍스트로 남긴 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 넘어, 물리 세계의 법칙을 스스로 시뮬레이션하여 [합성 데이터](/knowledge-base/studynote/09_security/16_data_privacy/818_synthetic_data/)를 무한 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)(자가 플레이)하는 구조가 필요하다. 실무에서는 초거대 모델 훈련 시 외부 지식 주입([RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/))만으로는 AGI에 도달할 수 없으며, 추론 엔진 자체가 세계 모델(World Model)을 내재화해야 함을 의미한다.
 
 📢 **섹션 요약 비유**: ANI가 계산기이고 AGI가 만능 스마트폰이라면, ASI는 세상의 모든 네트워크와 결합하여 스스로 새로운 앱과 하드웨어를 끝없이 창조해내는 메인프레임 시스템과 같습니다.
@@ -140,22 +136,19 @@ tags = ["ai"]
 특정 [지식 베이스](/knowledge-base/studynote/10_ai/01_ai_basics/008_knowledge_base_inference_engine/)를 [미세 조정](/knowledge-base/studynote/10_ai/02_dl_architecture_new/133_fine_tuning/)([Fine-Tuning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/))한 모델이, 내부적 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 충돌로 인해 악의적인 코드를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하거나 편향된 결론을 고집하는 현상.
 - **판단**: 단순한 강화학습([RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/))을 넘어, 레드티밍([Red Teaming](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/301_ai_safety_red_teaming/)) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD에 내장해야 한다. 의도적으로 공격적인 프롬프트를 주입하여 시스템이 방어 기제를 유지하는지 지속 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 Continuous Testing이 필수다.
 
+```text
+이 도식은 특이점 과도기의 AI 시스템을 실무에 배포할 때 요구되는 안전 통제(Safety Control) 의사결정 트리를 나타낸다.
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 도식은 특이점 과도기의 AI 시스템을 실무에 배포할 때 요구되는 안전 통제(Safety Control) 의사결정 트리를 나타낸다.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AI 에이전트 배포 요청</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시스템이 자체 목표 수정 권한을 가지는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─(Yes)──&gt;</div><div class="kb-diagram-node">안전 격리 구역 (Air-Gapped) 실행 강제</div><div class="kb-diagram-note">──&gt;</div><div class="kb-diagram-node">물리적 망분리 모니터링</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─(No) &gt;</div><div class="kb-diagram-node">결과 예측 가능성 (Explainability) 검증</div></div>
-<div class="kb-diagram-tree-item" style="--depth:8">(낮음)──&gt; XAI 대리 모델 부착 후 로깅 강화</div>
-<div class="kb-diagram-tree-item" style="--depth:8">(높음)──&gt; 일반 MLOps 파이프라인 배포 및 주기적 드리프트 감사</div>
-</div>
-</div>
-
-
+[AI 에이전트 배포 요청]
+         │
+         ▼
+[시스템이 자체 목표 수정 권한을 가지는가?]
+   ├─(Yes)──> [안전 격리 구역 (Air-Gapped) 실행 강제] ──> [물리적 망분리 모니터링]
+   │
+   └─(No)───> [결과 예측 가능성 (Explainability) 검증]
+                ├─(낮음)──> XAI 대리 모델 부착 후 로깅 강화
+                └─(높음)──> 일반 MLOps 파이프라인 배포 및 주기적 드리프트 감사
+```
 이 트리의 핵심은 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시스템의 자율성 수준에 따라 아키텍처의 격리 수준을 물리적 [망분리](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/) 단계까지 격상해야 한다는 점이다. AI가 스스로 코드를 수정할 권한을 갖는 순간 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 방어벽은 무력화될 수 있다. 실무에서는 이를 방어하기 위해 [IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/)([Identity and Access Management](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/)) 기반의 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 통제뿐만 아니라, 시스템이 소비하는 CPU/메모리 자원량의 상한선을 강제로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하여 지능 폭발(루프)을 하드웨어 레벨에서 차단하는 '자원 쿼터 킬 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)'를 마련해야 한다.
 
 📢 **섹션 요약 비유**: 브레이크 없이 달릴 수 있는 스포츠카를 만들 때는, 운전자가 통제력을 잃는 순간 엔진을 물리적으로 멈추게 하는 폭발 [볼트](/knowledge-base/studynote/15_devops_sre/05_devsecops/236_vault_dynamic_secrets_ttl/)를 설치하는 것과 같은 이치입니다.
@@ -186,21 +179,18 @@ tags = ["ai"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">지수 성장 (Exponential Growth)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">범용 인공지능 (AGI, Artificial General Intelligence)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">특이점 (Singularity)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">트랜스휴머니즘 (Transhumanism)</div></div>
-</div>
-</div>
-
-
+```text
+[지수 성장 (Exponential Growth)]
+    │
+    ▼
+[범용 인공지능 (AGI, Artificial General Intelligence)]
+    │
+    ▼
+[특이점 (Singularity)]
+    │
+    ▼
+[트랜스휴머니즘 (Transhumanism)]
+```
 
 이 흐름도는 지수 성장에서 AGI를 거쳐 특이점과 트랜스휴머니즘으로 이어지는 전망을 보여준다.
 ### 👶 어린이를 위한 3줄 비유 설명

@@ -31,22 +31,24 @@ tags = ["studynote-computer-architecture"]
 ### 무지성 0 채우기의 하드웨어 로직
 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) SHL(Shift Left)과 SHR(Shift Right)이 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 시프트를 담당한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">논리 우측 시프트(SHR)의 하드웨어 이동 궤적</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원본 데이터: 1 0 1 1 0 0 0 0 (십진수 176, Unsigned)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">우측으로 1칸 논리 시프트 연산 수행 (&gt;&gt; 1)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1. 밀려 나감:</div><div class="kb-diagram-node">빈칸</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(끝의 0은 캐리로)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2. 0 채우기 :</div><div class="kb-diagram-node">0</div><div class="kb-diagram-note">1 0 1 1 0 0 0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과 데이터: 0 1 0 1 1 0 0 0 (십진수 88) ──▶ 정확히 절반!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심 판단: 원본 데이터의 맨 앞이 1이든 0이든 신경 쓰지 않고</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">무자비하게 0을 밀어 넣어 '나누기 2'의 수치를 완벽히 달성함.</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────┐
+│           논리 우측 시프트(SHR)의 하드웨어 이동 궤적         │
+├────────────────────────────────────────────────────────┤
+│                                                        │
+│   원본 데이터: 1 0 1 1 0 0 0 0  (십진수 176, Unsigned)     │
+│                                                        │
+│   [ 우측으로 1칸 논리 시프트 연산 수행 (>> 1) ]             │
+│                                                        │
+│   1. 밀려 나감: [ 빈칸 ] 1 0 1 1 0 0 0  ──▶ (끝의 0은 캐리로)│
+│   2. 0 채우기 : [   0  ] 1 0 1 1 0 0 0                   │
+│                                                        │
+│   결과 데이터: 0 1 0 1 1 0 0 0  (십진수 88) ──▶ 정확히 절반!│
+│                                                        │
+│ * 핵심 판단: 원본 데이터의 맨 앞이 1이든 0이든 신경 쓰지 않고   │
+│   무자비하게 0을 밀어 넣어 '나누기 2'의 수치를 완벽히 달성함.  │
+└────────────────────────────────────────────────────────┘
+```
 
 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 좌측 시프트(SHL)의 경우 맨 뒤의 빈자리에 0을 채운다. 좌측 시프트는 숫자가 2배로 커지고, 우측 시프트는 숫자가 절반으로 잘린다. 하드웨어 관점에서는 [멀티플렉서](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/041_multiplexer/)([MUX](/knowledge-base/studynote/03_network/19_frequent_topics_terms/944_mux_demux_multiplexer_demultiplexer_circuit_sharing/))의 입력 핀 하나를 그냥 그라운드(0V)에 묶어버리면 끝나기 때문에 쇳덩어리 설계 비용이 말 그대로 '0'에 수렴한다.
 
@@ -103,23 +105,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">곱셈/나눗셈 연산의 막대한 하드웨어 사이클 낭비</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">부호 없는(Unsigned) 메모리 포인터/데이터 연산 가속 요구</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">부호 독립적 물리 이동 ──▶ 논리 시프트(Logical Shift) 명령어 확립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">배럴 시프터(Barrel Shifter) 회로로 통합되어 1클럭 사이클 연산 보장</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">고급 언어(Java의 &gt;&gt;&gt; 등)로 노출되어 프로그래머의 비트 정밀 조작 코어로 안착</div>
-</div>
-</div>
-
-
+```text
+곱셈/나눗셈 연산의 막대한 하드웨어 사이클 낭비
+    │
+    ▼
+부호 없는(Unsigned) 메모리 포인터/데이터 연산 가속 요구
+    │
+    ▼
+부호 독립적 물리 이동 ──▶ 논리 시프트(Logical Shift) 명령어 확립
+    │
+    ▼
+배럴 시프터(Barrel Shifter) 회로로 통합되어 1클럭 사이클 연산 보장
+    │
+    ▼
+고급 언어(Java의 >>> 등)로 노출되어 프로그래머의 비트 정밀 조작 코어로 안착
+```
 
 이 흐름도는 "고속화 요구 → 순수 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 이동 개념 설계 → 클럭 단축 쇳덩어리 융합 → 소프트웨어 레벨의 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 제어권 획득"으로 귀결되는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 시프트의 진화를 보여준다.
 

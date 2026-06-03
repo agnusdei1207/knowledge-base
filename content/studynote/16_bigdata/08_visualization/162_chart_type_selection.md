@@ -36,23 +36,25 @@ tags = ["studynote-bigdata"]
 
 ### [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이야기 유형별 차트 선택 체계
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">차트 선택 결정 트리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">무엇을 이야기할 것인가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비교</div><div class="kb-diagram-cell">추세</div><div class="kb-diagram-cell">비율</div><div class="kb-diagram-cell">분포</div><div class="kb-diagram-cell">상관</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Compare</div><div class="kb-diagram-cell">Trend</div><div class="kb-diagram-cell">Part-Whole</div><div class="kb-diagram-cell">Distribut.</div><div class="kb-diagram-cell">Correlat.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">막대 꺾은선 파이(≤5) 히스토그램 산점도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">그래프 그래프 도넛 박스플롯 버블차트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Bar) (Line) 트리맵 바이올린 히트맵</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">그룹형 Area 워터폴 능선 그림</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">누적형 Sparkline</div></div>
-</div>
-</div>
-
-
+```
+┌────────────────────────────────────────────────────────────┐
+│              차트 선택 결정 트리                            │
+├────────────────────────────────────────────────────────────┤
+│                                                            │
+│  무엇을 이야기할 것인가?                                    │
+│       │                                                    │
+│  ┌────┴────┬────────┬──────────┬──────────┬──────────┐    │
+│  │비교     │추세    │비율      │분포      │상관      │    │
+│  │Compare  │Trend   │Part-Whole│Distribut.│Correlat. │    │
+│  └────┬────┴─┬──────┴──┬───────┴──┬───────┴──┬───────┘    │
+│       │      │         │          │          │            │
+│      막대   꺾은선    파이(≤5)   히스토그램  산점도        │
+│      그래프  그래프   도넛      박스플롯   버블차트        │
+│      (Bar)  (Line)   트리맵    바이올린   히트맵          │
+│      그룹형 Area     워터폴    능선 그림               │
+│      누적형 Sparkline                                      │
+└────────────────────────────────────────────────────────────┘
+```
 
 ### 유형별 상세 차트 가이드
 
@@ -110,19 +112,16 @@ tags = ["studynote-bigdata"]
 
 상키 다이어그램은 <strong>노드(Node) 간 흐름의 양(<a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/001_bigdata_3v_5v/">Volume</a>)</strong>을 표시하는 특수 차트다:
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">방문</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">홈페이지</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">상품 목록</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">장바구니</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">결제 완료</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">이탈</div></div>
-</div>
-</div>
-
-
+```
+[방문] ─── 1000 ─→ [홈페이지]
+                        │
+               600 ─→ [상품 목록]
+                        │
+               300 ─→ [장바구니]
+                        │
+               150 ─→ [결제 완료]
+               150 ────→ [이탈]
+```
 
 - **선 두께**: 흐름의 양에 비례
 - 적용: 사용자 여정 분석, 에너지 흐름 (Sankey가 처음 개발한 증기 효율 분석), 물류 경로
@@ -204,23 +203,21 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">비교 차트</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">추세 차트</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">비율 차트</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">분포 차트</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상관 차트</div></div>
-</div>
-</div>
-
-
+```text
+[비교 차트]
+    │
+    ▼
+[추세 차트]
+    │
+    ▼
+[비율 차트]
+    │
+    ▼
+[분포 차트]
+    │
+    ▼
+[상관 차트]
+```
 
 이 흐름도는 비교 차트에서 출발해 Chartjunk까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

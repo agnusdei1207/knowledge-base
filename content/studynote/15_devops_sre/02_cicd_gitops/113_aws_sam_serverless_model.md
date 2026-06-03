@@ -20,27 +20,25 @@ tags = ["studynote-devops-sre"]
 
 CloudFormation으로 [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) + [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Gateway를 배포하려면 `AWS::Lambda::Function`, `AWS::Lambda::Permission`, `AWS::ApiGateway::RestApi`, `AWS::ApiGateway::Method` 등 <strong>5~10개 리소스를 각각 정의</strong>해야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CloudFormation vs SAM: 코드량 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CloudFormation 직접</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Lambda Function: 15줄</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Lambda Permission: 8줄</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">API Gateway RestApi: 10줄</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">API Gateway Method: 12줄</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">API Gateway Stage: 8줄</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IAM Role: 15줄</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">합계: ~68줄</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SAM</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AWS::Serverless::Function:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Handler, Runtime, Events(Api) → 10줄</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ SAM이 나머지를 CloudFormation으로 자동 변환</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    CloudFormation vs SAM: 코드량 비교                  │
+├───────────────────────────────────────────────────────┤
+│  [CloudFormation 직접]                                │
+│   Lambda Function:     15줄                           │
+│   Lambda Permission:    8줄                           │
+│   API Gateway RestApi: 10줄                           │
+│   API Gateway Method:  12줄                           │
+│   API Gateway Stage:    8줄                           │
+│   IAM Role:            15줄                           │
+│   합계: ~68줄                                         │
+│                                                       │
+│  [SAM]                                                │
+│   AWS::Serverless::Function:                          │
+│     Handler, Runtime, Events(Api) → 10줄              │
+│   → SAM이 나머지를 CloudFormation으로 자동 변환       │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: CloudFormation이 레시피의 모든 재료와 조리법을 일일이 적는 요리책이라면, SAM은 "카레 세트"라고만 쓰면 재료가 자동으로 준비되는 밀키트다.
 
@@ -120,23 +118,21 @@ SAM은 AWS의 공식 [서버리스](/knowledge-base/studynote/12_it_management/0
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">CloudFormation (2011) — AWS IaC 표준</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AWS SAM (2016) — 서버리스 전용 CF 확장</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SAM CLI (2018~) — 로컬 테스트·디버깅 지원</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SAM + CDK 통합 (2021~) — TypeScript로 SAM 템플릿 생성</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: SAM Accelerate — 핫 리로드, 빠른 개발 루프</div></div>
-</div>
-</div>
-
-
+```text
+[CloudFormation (2011) — AWS IaC 표준]
+    │
+    ▼
+[AWS SAM (2016) — 서버리스 전용 CF 확장]
+    │
+    ▼
+[SAM CLI (2018~) — 로컬 테스트·디버깅 지원]
+    │
+    ▼
+[SAM + CDK 통합 (2021~) — TypeScript로 SAM 템플릿 생성]
+    │
+    ▼
+[현재: SAM Accelerate — 핫 리로드, 빠른 개발 루프]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. CloudFormation은 레시피를 **재료부터 조리법까지 전부 적어야** 하는 두꺼운 요리책이에요.

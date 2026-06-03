@@ -26,17 +26,14 @@ tags = ["studynote-ai"]
 - <strong>혼합 <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/">정밀도</a> 지원</strong>: [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 저장은 FP16으로 하여 메모리를 아끼고, 연산 결과는 FP32로 누적하여 수치적 안정성 확보
 - **거대 모델 학습 가속**: [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 기반의 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 학습에 필수적인 고속 행렬 연산 자원 제공
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 일반 [CUDA](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/420_cuda/) 코어가 한 번에 한 칸씩 색칠하는 붓이라면, [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)는 도장을 찍듯이 한 번에 수십 칸의 행렬을 채워버리는 대형 스탬프와 같다.
 
@@ -53,20 +50,21 @@ tags = ["studynote-ai"]
 | **FP8 / INT8** | 더 낮은 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수의 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 지원 | 추론(Inference) 가속 및 메모리 점유 극단적 축소 |
 | <strong>Sparse <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/">Tensor Core</a></strong> | 값이 0인 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 건너뛰는 연산 가속 | 2:4 구조의 희소성(Sparsity)을 활용해 2배 속도 향상 |
 
+```text
+[ 텐서 코어 연산 메커니즘 (Mixed Precision) ]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">텐서 코어 연산 메커니즘 (Mixed Precision)</div></div>
-<div class="kb-diagram-note">Input A (FP16) x Input B (FP16) + Input C (FP32)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4x4 Matrix</div><div class="kb-diagram-cell">4x4 Matrix</div><div class="kb-diagram-cell">4x4 Matrix</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Tensor Core Unit</div><div class="kb-diagram-connector">◀</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Output D (FP32) ◀── 고정밀 누산 결과</div>
-</div>
-</div>
-
-
+   Input A (FP16)  x  Input B (FP16)  +  Input C (FP32)
+   ┌─────────────┐    ┌─────────────┐    ┌─────────────┐
+   │ 4x4 Matrix  │    │ 4x4 Matrix  │    │ 4x4 Matrix  │
+   └─────────────┘    └─────────────┘    └─────────────┘
+          │                  │                  │
+          └────────┬─────────┘                  │
+                   ▼                            │
+        [ Tensor Core Unit ] ◀──────────────────┘
+                   │
+                   ▼
+            Output D (FP32) ◀── 고정밀 누산 결과
+```
 
 - **📢 섹션 요약 비유**: [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)는 수학 문제를 풀 때 암산 대신 전용 계산기를 쓰는 것과 같다. 특히 '곱하기'와 '더하기'가 동시에 되는 마법의 계산기다.
 
@@ -105,7 +103,7 @@ tags = ["studynote-ai"]
 
 [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)는 소프트웨어 발전 속도를 하드웨어가 견인한 대표적인 사례다. 이 하드웨어적 혁신이 없었다면 현재의 수조 개 파라미터를 가진 LLM은 탄생할 수 없었을 것이다.
 
-앞으로는 [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)를 넘어 [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 전용 가속기([Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) Engine)가 탑재된 블랙웰(Blackwell) 아키텍처처럼, 특정 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에 완전히 종속된 전용 [ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/)(Application-Specific IC)의 성격이 더욱 강해질 것이다.
+앞으로는 [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)를 넘어 [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 전용 가속기([Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 엔진)가 탑재된 블랙웰(Blackwell) 아키텍처처럼, 특정 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에 완전히 종속된 전용 [ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/)(Application-Specific IC)의 성격이 더욱 강해질 것이다.
 
 - **📢 섹션 요약 비유**: [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)는 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)이라는 거대한 제국을 건설하기 위해 만들어진 가장 강력한 중장비다.
 
@@ -117,7 +115,7 @@ tags = ["studynote-ai"]
 |:---|:---|
 | Mixed [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) | 구현 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) / FP16과 FP32를 섞어 쓰는 효율적 학습 방식 |
 | TF32 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 타입 / FP32의 편리함과 [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 합친 중간 형태 |
-| [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) Engine | 진화 모델 / Hopper 이후 아키텍처에 적용된 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 특화 가속 기술 |
+| [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 엔진 | 진화 모델 / Hopper 이후 아키텍처에 적용된 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 특화 가속 기술 |
 | [Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) | 평가 지표 / 단위 시간당 처리할 수 있는 연산의 총량 |
 
 ### 📈 관련 키워드 및 발전 흐름도

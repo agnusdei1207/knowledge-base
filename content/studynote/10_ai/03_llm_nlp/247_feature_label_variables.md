@@ -12,7 +12,7 @@ tags = ["studynote-ai"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 독립 변수(Independent Variable) 또는 피처(Feature)는 모델의 입력이고, 종속 변수(Dependent Variable) 또는 라벨(Label)/타깃(Target)은 예측해야 할 출력이다.
-> 2. **가치**: 피처의 품질이 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 결정하며, 피처 공학([Feature Engineering](/knowledge-base/studynote/12_it_management/02_itsm_itil/081_feature_engineering/))은 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 지식을 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 모델에 주입하는 핵심 프로세스다.
+> 2. **가치**: 피처의 품질이 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 결정하며, 피처 공학([Feature 엔진ering](/knowledge-base/studynote/12_it_management/02_itsm_itil/081_feature_engineering/))은 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 지식을 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 모델에 주입하는 핵심 프로세스다.
 > 3. **판단 포인트**: [PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/)([Principal Component Analysis](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/), [주성분 분석](/knowledge-base/studynote/06_ict_convergence/05_data_science/338_pca_principal_component_analysis/))는 [차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/)([Dimensionality Reduction](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_dimensionality_reduction/))를 통해 불필요한 특성을 제거하면서 정보 손실을 최소화하는 대표적 피처 처리 기법이다.
 
 ---
@@ -40,17 +40,14 @@ tags = ["studynote-ai"]
 ### 1.3 입력 공간 (Input Space)
 피처 벡터 X = (x₁, x₂, ..., xₙ)가 존재하는 n차원 공간을 **입력 공간(Input Space)** 또는 <strong>특성 공간(Feature Space)</strong>이라 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 피처는 집을 설명하는 "스펙표"(방 수, 층수, 위치)이고, 라벨은 그 집의 "실제 매매가"다. 좋은 스펙표(피처)일수록 실제 가격(라벨)을 더 정확히 예측할 수 있다.
 
@@ -60,25 +57,26 @@ tags = ["studynote-ai"]
 
 ### 2.1 피처 처리 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인
 
+```
+┌─────────────────────────────────────────────────────────┐
+│                피처 처리 파이프라인                        │
+│                                                         │
+│  원시 데이터        피처 공학         모델 입력             │
+│  (Raw Data)    (Feature Eng.)    (Input Space)          │
+│                                                         │
+│  ┌──────────┐   ┌──────────────┐   ┌──────────────┐    │
+│  │나이: 25   │   │나이 정규화    │   │[0.3, 1, 0, 0,│    │
+│  │직업: 학생 │──▶│직업: 원-핫   │──▶│ 0.7, 50000]  │    │
+│  │수입: 50만 │   │수입: 로그변환 │   └──────────────┘    │
+│  └──────────┘   └──────────────┘        X 벡터          │
+│                                                         │
+│         ▼ 모델 학습/예측 ▼                               │
+│                                                         │
+│         ŷ = f(X) → 라벨 예측                            │
+└─────────────────────────────────────────────────────────┘
+```
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">피처 처리 파이프라인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원시 데이터 피처 공학 모델 입력</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Raw Data) (Feature Eng.) (Input Space)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">나이: 25</div><div class="kb-diagram-cell">나이 정규화</div><div class="kb-diagram-cell">[0.3, 1, 0, 0,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">직업: 학생</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">직업: 원-핫</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">0.7, 50000]</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수입: 50만</div><div class="kb-diagram-cell">수입: 로그변환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">X 벡터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 모델 학습/예측 ▼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ŷ = f(X) → 라벨 예측</div></div>
-</div>
-</div>
-
-
-
-### 2.2 피처 공학 ([Feature Engineering](/knowledge-base/studynote/12_it_management/02_itsm_itil/081_feature_engineering/)) 유형
+### 2.2 피처 공학 ([Feature 엔진ering](/knowledge-base/studynote/12_it_management/02_itsm_itil/081_feature_engineering/)) 유형
 
 | 유형 | 기법 | 예시 |
 |:---|:---|:---|
@@ -89,20 +87,14 @@ tags = ["studynote-ai"]
 
 ### 2.3 [PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) ([Principal Component Analysis](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/), [주성분 분석](/knowledge-base/studynote/06_ict_convergence/05_data_science/338_pca_principal_component_analysis/))
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">고차원 특성 공간 → 저차원 주성분 공간</div>
-<div class="kb-diagram-note">x₁ ── PC1 (분산 최대 방향)</div>
-<div class="kb-diagram-note">x₂ ── PCA 변환 ▶ PC2 (PC1에 직교)</div>
-<div class="kb-diagram-note">x₃ ── (선형 투영) PC3 ...</div>
-<div class="kb-diagram-note">xₙ ──</div>
-<div class="kb-diagram-note">n차원 k차원 (k &lt; n)</div>
-</div>
-</div>
-
-
+```
+      고차원 특성 공간         →        저차원 주성분 공간
+  x₁ ──┐                           PC1 (분산 최대 방향)
+  x₂ ──┤  PCA 변환   ────────▶     PC2 (PC1에 직교)
+  x₃ ──┤  (선형 투영)               PC3 ...
+  xₙ ──┘
+  n차원                             k차원 (k < n)
+```
 
 PCA는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이 최대가 되는 방향(주성분)으로 투영하여 차원을 줄이는 기법이다. 공분산 행렬(Covariance Matrix)의 고유벡터(Eigenvector)가 주성분이 된다.
 

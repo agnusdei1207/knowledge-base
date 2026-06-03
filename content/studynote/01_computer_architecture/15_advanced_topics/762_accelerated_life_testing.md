@@ -51,17 +51,17 @@ ALT의 절차는 보통 <strong>고장 메커니즘 <a href="/knowledge-base/stu
 
 아래 흐름은 ALT가 단순 가혹 시험이 아니라 <strong>물리 + 통계 + 환산</strong>의 결합임을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Use profile -&gt; Failure mechanism -&gt; Stress profile -&gt; Test data</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Weibull / lognormal fitting + AF</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Life estimate at use condition / confidence</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Use profile -> Failure mechanism -> Stress profile -> Test data    │
+│                                                     │              │
+│                                                     ▼              │
+│                        Weibull / lognormal fitting + AF            │
+│                                                     │              │
+│                                                     ▼              │
+│                 Life estimate at use condition / confidence        │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 실무에서는 보통 고장 시간을 Weibull 분포 같은 수명 분포에 적합시켜 B10 life, [MTTF](/knowledge-base/studynote/04_software_engineering/06_software_architecture/360_mttf/), 신뢰수준([Confidence](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) Level)을 함께 산출한다. 결국 좋은 ALT는 "빨리 고장 나게 했다"가 아니라, **"왜 그 고장이 실제 현장을 대표하는지 설명할 수 있다"** 에서 완성된다.
 
@@ -134,25 +134,24 @@ ALT의 가장 큰 효과는 긴 사용 수명을 <strong>제품 개발 일정 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">사용 조건(Mission Profile)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지배 고장 메커니즘 식별</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ALT 스트레스 설계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">AF 추정 · Weibull 적합</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">보증수명 · MTTF · 신뢰구간 산출</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">현장 고장 데이터 피드백</div>
-</div>
-</div>
-
-
+```text
+사용 조건(Mission Profile)
+    │
+    ▼
+지배 고장 메커니즘 식별
+    │
+    ▼
+ALT 스트레스 설계
+    │
+    ▼
+AF 추정 · Weibull 적합
+    │
+    ▼
+보증수명 · MTTF · 신뢰구간 산출
+    │
+    ▼
+현장 고장 데이터 피드백
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

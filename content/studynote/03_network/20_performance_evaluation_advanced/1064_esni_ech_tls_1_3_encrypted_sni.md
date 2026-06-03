@@ -23,18 +23,14 @@ tags = ["studynote-network"]
 - <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/688_sni_esni_ech_encrypted_client_hello/">SNI</a> (<a href="/knowledge-base/studynote/03_network/13_network_security_basics/688_sni_esni_ech_encrypted_client_hello/">Server Name Indication</a>)의 존재 이유</strong>: 클라우드 시대엔 IP 1대짜리 서버 안에 수천 개의 웹사이트(가상 호스팅)가 동시에 돌아갑니다. 내 브라우저는 서버에게 "나 IP 접속하긴 했는데, 네 안의 수천 개 사이트 중 `www.porn.com` 사이트랑 대화하고 싶어"라고 방문 목적지([SNI](/knowledge-base/studynote/03_network/13_network_security_basics/688_sni_esni_ech_encrypted_client_hello/) 확장 필드)를 꼭 짚어줘야 합니다.
 - <strong>치명적 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a></strong>: 암호 터널이 뚫리기 전 첫인사 단계이므로, 이 <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/688_sni_esni_ech_encrypted_client_hello/">SNI</a> 문자열은 암호화되지 않은 평문(Plaintext)</strong>으로 그냥 날아갑니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DoH / DoT</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ESNI</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">HTTP/3 QUIC 혼잡 윈도우 이식</div></div>
-</div>
-</div>
-
-
+```text
+[DoH / DoT]
+    │
+    ▼
+[ESNI]
+    │
+    └──▶ [HTTP/3 QUIC 혼잡 윈도우 이식]
+```
 
 - **📢 섹션 요약 비유**: ESNI는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -46,18 +42,14 @@ tags = ["studynote-network"]
 - 유저가 아무리 HTTPS로 암호화 통신을 하려 해도, 통신사(KT, SKT) 길목에 거대한 심층 패킷 감시(DPI) 장비를 세워두고, 지나가는 패킷의 첫인사([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/) Hello) 껍데기만 쏙쏙 까봅니다.
 - "어? [SNI](/knowledge-base/studynote/03_network/13_network_security_basics/688_sni_esni_ech_encrypted_client_hello/) 필드에 적힌 글자가 `warning.com`이네? 방통위 불법 블랙리스트다!" 하고 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 연결(RST 패킷 주입)을 그 자리에서 콱 끊어버려 접속을 100% 막아버린 전설적인 인터넷 검열망입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DoH / DoT</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ESNI</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">HTTP/3 QUIC 혼잡 윈도우 이식</div></div>
-</div>
-</div>
-
-
+```text
+[DoH / DoT]
+    │
+    ▼
+[ESNI]
+    │
+    └──▶ [HTTP/3 QUIC 혼잡 윈도우 이식]
+```
 
 - **📢 섹션 요약 비유**: ESNI의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -126,19 +118,15 @@ ESNI는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: DoH / DoT</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: ESNI</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: HTTP/3 QUIC 혼잡 윈도우 이식</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: DoH / DoT]
+    │
+    ▼
+[현재 개념: ESNI]
+    │
+    ├──▶ [확장 A: HTTP/3 QUIC 혼잡 윈도우 이식]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 ESNI는 [DoH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/520_doh_dns_over_https/) / DoT에서 출발해 현재 메커니즘을 정교화하고, 이후 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/3 [QUIC](/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/) [혼잡 윈도우](/knowledge-base/studynote/03_network/08_transport_layer/429_cwnd_congestion_window_concept/) 이식와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

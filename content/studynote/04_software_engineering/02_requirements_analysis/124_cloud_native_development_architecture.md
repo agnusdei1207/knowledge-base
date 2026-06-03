@@ -18,20 +18,18 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라우드 네이티브 4대 핵심</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 컨테이너 (Docker/containerd)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. MSA (마이크로서비스)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. CI/CD (지속적 통합·배포)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 선언적 API (K8s Desired State)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ DevOps 문화 + 관측성 + 서비스 메시</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    클라우드 네이티브 4대 핵심                          │
+├───────────────────────────────────────────────────────┤
+│  1. 컨테이너 (Docker/containerd)                      │
+│  2. MSA (마이크로서비스)                              │
+│  3. CI/CD (지속적 통합·배포)                          │
+│  4. 선언적 API (K8s Desired State)                    │
+│                                                       │
+│  + DevOps 문화 + 관측성 + 서비스 메시                 │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)는 처음부터 <strong>바다(클라우드)에서 살도록 진화한 물고기</strong>이고, [Lift](/knowledge-base/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/) & Shift는 육지 동물이 바다에 던져진 것이다.
 
@@ -89,23 +87,21 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">온프레미스 (전통, ~2010s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Lift &amp; Shift (IaaS, 2010~)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">클라우드 네이티브 (CNCF, 2015~) — 컨테이너+MSA+CI/CD</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">서비스 메시 + GitOps (2018~)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: Platform Engineering — 개발자 경험 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[온프레미스 (전통, ~2010s)]
+    │
+    ▼
+[Lift & Shift (IaaS, 2010~)]
+    │
+    ▼
+[클라우드 네이티브 (CNCF, 2015~) — 컨테이너+MSA+CI/CD]
+    │
+    ▼
+[서비스 메시 + GitOps (2018~)]
+    │
+    ▼
+[현재: Platform Engineering — 개발자 경험 최적화]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)는 처음부터 <strong>바다(클라우드)에서 살도록 태어난 물고기</strong>예요.

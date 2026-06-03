@@ -31,21 +31,15 @@ tags = ["studynote-network"]
 
 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)의 가장 기본은 선형 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)다. 전체 진폭 범위를 같은 크기의 계단으로 나누고, 들어온 값이 가장 가까운 계단으로 올라가거나 내려간다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">전압</div>
-<div class="kb-diagram-note">4.0 ● 3.8V → 4.0V</div>
-<div class="kb-diagram-note">3.0 ● 2.8V → 3.0V</div>
-<div class="kb-diagram-note">2.0 ● 2.2V → 2.0V</div>
-<div class="kb-diagram-note">1.0</div>
-<div class="kb-diagram-note">0.0</div>
-<div class="kb-diagram-note">00 01 10 11</div>
-</div>
-</div>
-
-
+```text
+전압
+ 4.0 ┤               ● 3.8V → 4.0V
+ 3.0 ┤        ● 2.8V → 3.0V
+ 2.0 ┤  ● 2.2V → 2.0V
+ 1.0 ┤
+ 0.0 └────────────────────────
+       00      01      10     11
+```
 
 | 항목 | 의미 |
 | :-- | :-- |
@@ -114,43 +108,31 @@ tags = ["studynote-network"]
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">표본화(Sampling)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">양자화(Quantization)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">부호화(Encoding)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">PCM / 코덱 / 전송</div>
-</div>
-</div>
-
-
+```text
+표본화(Sampling)
+   ↓
+양자화(Quantization)
+   ↓
+부호화(Encoding)
+   ↓
+PCM / 코덱 / 전송
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">아날로그 연속파</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">표본화</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">선형 양자화</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">비선형 양자화(μ-law / A-law)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">PCM 기반 음성 통신</div>
-</div>
-</div>
-
-
+```text
+아날로그 연속파
+   ↓
+표본화
+   ↓
+선형 양자화
+   ↓
+비선형 양자화(μ-law / A-law)
+   ↓
+PCM 기반 음성 통신
+```
 
 ---
 

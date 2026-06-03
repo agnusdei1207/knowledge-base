@@ -23,22 +23,18 @@ tags = ["bigdata"]
 
 [공공 빅데이터](/knowledge-base/studynote/16_bigdata/13_intro_trends/245_public_bigdata/)는 국가와 지방자치단체, 공공기관이 공공의 목적으로 수집한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 총칭한다. 과거 정부의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 기관 내부에 고립되어 행정 목적으로만 소모되었으나, 국가 자산으로서의 가치를 인정받으며 "공공데이터의 제공 및 이용 활성화에 관한 법률"에 의거해 적극적 개방 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 전환되었다. [데이터 경제](/knowledge-base/studynote/16_bigdata/01_intro/011_data_economy/) 시대에서 공공 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 민간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 보완하는 훌륭한 레퍼런스([Reference](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)) 역할을 수행한다. 기업 입장에서 날씨, 교통망, 지적도 같은 거시적 인프라 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 직접 수집하는 것은 천문학적 비용이 들기 때문에, [공공 빅데이터](/knowledge-base/studynote/16_bigdata/13_intro_trends/245_public_bigdata/)의 개방은 민간 스타트업의 진입 장벽을 낮추고 산업 전반의 인프라 효율성을 극대화하는 필수적 토대가 된다.
 
+```text
+이 도식은 데이터가 공공 기관 내부에 갇혀있던 폐쇄형 행정에서 민간과 융합되는 개방형 생태계로의 변화 배경을 보여준다.
 
+[폐쇄형 공공 행정 (과거)]
+[A 부처]  [B 지자체]  [C 기관]  ──(데이터 단절)──> 시민/기업 (중복 수집, 자원 낭비)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 도식은 데이터가 공공 기관 내부에 갇혀있던 폐쇄형 행정에서 민간과 융합되는 개방형 생태계로의 변화 배경을 보여준다.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">폐쇄형 공공 행정 (과거)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">A 부처</div><div class="kb-diagram-node">B 지자체</div><div class="kb-diagram-node">C 기관</div><div class="kb-diagram-note">──(데이터 단절)──&gt; 시민/기업 (중복 수집, 자원 낭비)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">개방형 공공 데이터 생태계 (현재)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">A 부처</div><div class="kb-diagram-node">B 지자체</div><div class="kb-diagram-node">C 기관</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(메타데이터 표준화)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">&gt;</div><div class="kb-diagram-node">공공데이터포털(Data.go.kr)</div><div class="kb-diagram-note">&lt; &gt;</div><div class="kb-diagram-node">민간 클라우드 / 기업 서비스 앱</div></div>
-<div class="kb-diagram-note">API 연동</div>
-</div>
-</div>
-
-
+[개방형 공공 데이터 생태계 (현재)]
+[A 부처]  [B 지자체]  [C 기관]
+   │          │          │ (메타데이터 표준화)
+   └────> [공공데이터포털(Data.go.kr)] <────> [민간 클라우드 / 기업 서비스 앱]
+                                       API 연동 
+```
 이 도식의 핵심은 수많은 공공 기관이 개별적으로 시민을 상대하지 않고 '공공데이터포털'이라는 단일 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)([Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/))를 거친다는 점이다. 이런 배치는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 표준화와 품질 거버넌스를 일관되게 적용하기 때문이며, 따라서 포털의 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)과 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 명세의 통일성이 국가 전체의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 인프라 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)에 지대한 영향을 준다. 실무에서는 이러한 통합을 위해 기관 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포맷(CSV, [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/))과 좌표계 등을 통일하는 사전 정제 작업이 필수적으로 선행되어야 한다.
 
 **📢 섹션 요약 비유**: 마치 정부가 국가 지도를 혼자서만 보던 시절을 끝내고, 누구나 길을 잃지 않도록 튼튼한 도로망(오픈 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))을 깔아 내비게이션 앱 회사들이 자유롭게 달릴 수 있게 해준 것과 같습니다.
@@ -59,20 +55,15 @@ tags = ["bigdata"]
 
 이 생태계의 기술적 성숙도를 가늠하는 기준이 바로 팀 버너스리([Tim](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/737_thermal_paste_tim/) Berners-Lee)가 제창한 <strong>5-Star 오픈데이터 원칙</strong>이다. 단순히 그림 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 올리는 것부터, 기계가 완벽히 이해하는 연결 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)까지 단계가 나뉜다.
 
+```text
+이 도식은 공공데이터의 품질과 활용도를 결정짓는 5단계 개방 수준 모델을 나타낸다.
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 도식은 공공데이터의 품질과 활용도를 결정짓는 5단계 개방 수준 모델을 나타낸다.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">★ (1-Star) :</div><div class="kb-diagram-node">PDF / 이미지</div><div class="kb-diagram-note">──&gt; 단순히 웹에 공개된 상태 (사람만 읽음, 기계 처리 불가)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">★★ (2-Star) :</div><div class="kb-diagram-node">Excel / xls</div><div class="kb-diagram-note">──&gt; 기계 판독 가능하나 특정 상용 소프트웨어 종속</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">★★★ (3-Star) :</div><div class="kb-diagram-node">CSV / JSON</div><div class="kb-diagram-note">──&gt; 비독점적 오픈 포맷 (진정한 오픈데이터의 시작)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">★★★★ (4-Star):</div><div class="kb-diagram-node">URI / RDF</div><div class="kb-diagram-note">──&gt; 데이터 요소에 고유 주소(URI) 부여, 글로벌 공유</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">★★★★★ (5-Star):</div><div class="kb-diagram-node">LOD / SPARQL</div><div class="kb-diagram-note">──&gt; 외부 데이터와 의미적으로 연결 (Linked Data)</div></div>
-</div>
-</div>
-
-
+★ (1-Star) : [PDF / 이미지] ──> 단순히 웹에 공개된 상태 (사람만 읽음, 기계 처리 불가)
+★★ (2-Star) : [Excel / xls] ──> 기계 판독 가능하나 특정 상용 소프트웨어 종속
+★★★ (3-Star) : [CSV / JSON] ──> 비독점적 오픈 포맷 (진정한 오픈데이터의 시작)
+★★★★ (4-Star): [URI / RDF] ──> 데이터 요소에 고유 주소(URI) 부여, 글로벌 공유
+★★★★★ (5-Star): [LOD / SPARQL] ──> 외부 데이터와 의미적으로 연결 (Linked Data)
+```
 이 흐름의 핵심은 우측으로 갈수록 사람의 개입 없이 기계 자동화가 가능해진다는 점이다. 이런 단계 배치는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 물리적 개방을 넘어 '시맨틱(의미론적) [상호운용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/287_interoperability_tactics/)'을 달성하기 때문이며, 따라서 3-Star 이상의 포맷 준수율이 공공데이터 활용의 실제 병목 지점으로 작용한다. 실무에서는 단순히 많은 건수를 개방하는 것보다, 기존 1-Star PDF 자료를 3-Star JSON으로 전환하는 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 개발에 집중해야 시스템 연계성이 살아난다.
 
 **📢 섹션 요약 비유**: 공공 문서를 종이 사진(1-Star)으로 주면 기업은 일일이 타자를 쳐야 하지만, 엑셀 형식(3-Star)으로 주면 복사-붙여넣기가 되고, 그물망(5-Star)으로 주면 로봇이 알아서 전 세계 정보를 찾아내 보고서를 쓰는 마법과 같습니다.
@@ -92,20 +83,16 @@ tags = ["bigdata"]
 
 [공공 빅데이터](/knowledge-base/studynote/16_bigdata/13_intro_trends/245_public_bigdata/)는 특히 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/">클라우드 컴퓨팅</a>(<a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/">Public Cloud</a>)</strong> 및 **GIS(지리정보시스템)** 영역과 극적인 융합을 이룬다. 공공데이터포털에 대규모 트래픽이 몰릴 때(예: 코로나19 공적 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)크 재고 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)), 기존 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) 인프라로는 접속 폭주를 견딜 수 없었다. 이로 인해 민간 클라우드 기반의 Auto-Scaling과 [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) 아키텍처가 공공 부문에 전면 도입되는 계기가 되었다.
 
+```text
+이 아키텍처 매트릭스는 대규모 트래픽 발생 시 공공 시스템의 인프라 전환과 트레이드오프를 보여준다.
 
+[과거: 온프레미스 단일 노드]
+Client(100만) => [L4] => [공공 Web/DB (온프레미스)] (트래픽 스파이크 시 무조건 다운)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 아키텍처 매트릭스는 대규모 트래픽 발생 시 공공 시스템의 인프라 전환과 트레이드오프를 보여준다.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">과거: 온프레미스 단일 노드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Client(100만) =&gt;</div><div class="kb-diagram-node">L4</div><div class="kb-diagram-note">=&gt;</div><div class="kb-diagram-node">공공 Web/DB (온프레미스)</div><div class="kb-diagram-note">(트래픽 스파이크 시 무조건 다운)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: 민간 클라우드 융합 연계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Client(100만) =&gt;</div><div class="kb-diagram-node">CDN (캐싱)</div><div class="kb-diagram-note">=&gt;</div><div class="kb-diagram-node">Cloud API Gateway</div><div class="kb-diagram-note">=&gt;</div><div class="kb-diagram-node">Auto-Scaling Worker</div><div class="kb-diagram-note">=&gt;</div><div class="kb-diagram-node">Read Replica DB</div></div>
-<div class="kb-diagram-note">▲ (반복 요청 90% 방어) ▲ (동적 스케일아웃)</div>
-</div>
-</div>
-
-
+[현재: 민간 클라우드 융합 연계]
+Client(100만) => [CDN (캐싱)] => [Cloud API Gateway] => [Auto-Scaling Worker] => [Read Replica DB]
+                     ▲ (반복 요청 90% 방어)                        ▲ (동적 스케일아웃)
+```
 클라우드 융합 아키텍처의 핵심은 민간 클라우드의 [탄력성](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/)과 엣지 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)([CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/))을 공공 영역 전방에 배치했다는 점이다. [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) 방식은 [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))을 극복하지 못하고 트래픽 변동에 무력하다. 반면 클라우드 융합 방식은 보안 심의 등 도입 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 다소 크지만 캐시 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)에 기반한 수평 확장성이 월등히 좋아, [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)크 재고 대란과 같은 전시 상황의 폭발적 트래픽 환경에서는 전체 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 기준으로 압도적으로 유리할 수 있다.
 
 **📢 섹션 요약 비유**: 평소에는 손님이 없는 동네 면사무소([온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/))에 갑자기 백만 명이 줄을 서면 마비되지만, 임시로 대형 운동장을 빌려 수백 개의 텐트(클라우드)를 치면 순식간에 일을 처리할 수 있는 것과 같습니다.
@@ -162,22 +149,17 @@ User 앱 => 민간 WAS => (빠른 조회) => [민간 Cache DB] (공공 장애와
 - **공공데이터 제공 및 이용 활성화에 관한 법률**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 개방의 근거 규정
 - <strong>W3C Linked <a href="/knowledge-base/studynote/11_design_supervision/01_audit_framework/060_open_data_public_api_standards/">Open Data</a></strong>: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 상호 연결성에 관한 글로벌 표준 가이드
 
+```text
+공공 데이터가 단순 정보 공유에서 지능형 서비스로 나아가는 진화 로드맵이다.
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">공공 데이터가 단순 정보 공유에서 지능형 서비스로 나아가는 진화 로드맵이다.</div>
-<div class="kb-diagram-note">Level 1: 파일 기반 개방 (CSV, PDF 다운로드 위주)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Level 2: Open API 고도화 (시스템 간 실시간 데이터 파이프 연동)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Level 3: 시맨틱 LOD 구축 (데이터 간 의미적 추론 및 연결망 완성)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Level 4: AI/LLM 융합 공공 서비스 (자연어 질의를 통한 데이터 자율 융합 및 분석)</div>
-</div>
-</div>
-
-
+Level 1: 파일 기반 개방 (CSV, PDF 다운로드 위주)
+  ↓
+Level 2: Open API 고도화 (시스템 간 실시간 데이터 파이프 연동)
+  ↓
+Level 3: 시맨틱 LOD 구축 (데이터 간 의미적 추론 및 연결망 완성)
+  ↓
+Level 4: AI/LLM 융합 공공 서비스 (자연어 질의를 통한 데이터 자율 융합 및 분석)
+```
 이 진화 과정의 핵심은 사용자의 기술적 진입 장벽이 기하급수적으로 낮아진다는 점이다. 이는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조의 복잡성을 기계가 내부적으로 흡수(LOD, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))하기 때문이며, 따라서 미래의 공공 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 가치는 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 양'이 아니라 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 간의 연결 맥락([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))'에 의해 결정될 것이다. 실무에서는 이러한 변화에 대응해 단순 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)뿐 아니라, 해당 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어떤 맥락에서 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되었는지([Data Lineage](/knowledge-base/studynote/12_it_management/05_security_compliance/214_data_lineage_tracking/)) 명시하는 온톨로지 설계 능력을 갖춰야 한다.
 
 **📢 섹션 요약 비유**: 흙길([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 다운로드)이 고속도로([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))가 되고, 내비게이션(LOD)이 생겨나더니, 결국에는 알아서 운전해 주는 자율주행 택시([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 공공 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))로 발전하여 누구나 쉽고 안전하게 목적지에 도달하는 미래와 같습니다.
@@ -193,23 +175,21 @@ User 앱 => 민간 WAS => (빠른 조회) => [민간 Cache DB] (공공 장애와
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">공공 데이터 개방 (Open Government Data) — 정부·공공기관 데이터 공개 정책</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">공공 빅데이터 (Public Big Data) — 행정·의료·교통 등 대규모 공공 데이터 활용</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">공공 데이터 포털 (Public Data Portal) — 표준 API로 데이터 접근성 향상</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 결합 (Data Linkage) — 이종 공공 데이터 연계로 새로운 인사이트 창출</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 바우처 / 데이터 거래소 — 공공·민간 데이터의 안전한 거래·활용 생태계</div></div>
-</div>
-</div>
-
-
+```text
+[공공 데이터 개방 (Open Government Data) — 정부·공공기관 데이터 공개 정책]
+    │
+    ▼
+[공공 빅데이터 (Public Big Data) — 행정·의료·교통 등 대규모 공공 데이터 활용]
+    │
+    ▼
+[공공 데이터 포털 (Public Data Portal) — 표준 API로 데이터 접근성 향상]
+    │
+    ▼
+[데이터 결합 (Data Linkage) — 이종 공공 데이터 연계로 새로운 인사이트 창출]
+    │
+    ▼
+[데이터 바우처 / 데이터 거래소 — 공공·민간 데이터의 안전한 거래·활용 생태계]
+```
 
 이 흐름은 공공 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 개방 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 확산되면서 대규모 [공공 빅데이터](/knowledge-base/studynote/16_bigdata/13_intro_trends/245_public_bigdata/)가 구축되고, 표준 API와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 결합을 통해 디지털 혁신의 원료로 활용되는 과정을 보여준다.
 

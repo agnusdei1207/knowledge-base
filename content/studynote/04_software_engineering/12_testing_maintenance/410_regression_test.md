@@ -29,17 +29,18 @@ tags = ["studynote-software-engineering"]
 
 다음은 회귀 테스트 (Regression T의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">회귀 테스트 (Regression T</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                  회귀 테스트 (Regression T                        │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
+│       │                    │                    │          │
+│       ▼                    ▼                    ▼          │
+│   요구 분석           설계·적용           품질 검증        │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램은 회귀 테스트 (Regression T가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 결과물을 산출하는 흐름을 보여준다.
 
@@ -53,21 +54,24 @@ tags = ["studynote-software-engineering"]
 
 회귀 테스트가 왜 필수적인지 이해하기 위해서는 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 어떻게 전파(Propagation)되는지 그 내부 메커니즘을 분석해야 한다. 
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소프트웨어 결함 전파 및 회귀(Regression) 메커니즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">모듈 A</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">모듈 A'</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(의존성)</div><div class="kb-diagram-cell">(의존성)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">모듈 B</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">모듈 B</div><div class="kb-diagram-note">(오류!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">모듈 C</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">모듈 C</div><div class="kb-diagram-note">(오류!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 현상: 모듈 A를 A'로 고쳤을 뿐인데, A의 출력값을 입력으로 받던</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B와 C가 연속적으로 다운되는 '파급 효과(Side Effect)' 발생</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          소프트웨어 결함 전파 및 회귀(Regression) 메커니즘        │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [모듈 A] (결함 발생) ──────(수정 작업)──────▶ [모듈 A']       │
+│      │                                        │             │
+│      │ (의존성)                                │ (의존성)      │
+│      ▼                                        ▼             │
+│   [모듈 B] (정상 동작) ───(기존 로직 유지)──▶ [모듈 B] (오류!)   │
+│      │                                        │             │
+│      ▼                                        ▼             │
+│   [모듈 C] (정상 동작) ───(기존 로직 유지)──▶ [모듈 C] (오류!)   │
+│                                                             │
+│   * 현상: 모듈 A를 A'로 고쳤을 뿐인데, A의 출력값을 입력으로 받던    │
+│           B와 C가 연속적으로 다운되는 '파급 효과(Side Effect)' 발생 │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]**
 위 다이어그램은 소프트웨어 시스템 내에서 발생할 수 있는 의존성 기반의 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 전파 과정을 시각화한 것이다. [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) A에 존재하던 논리적 오류를 수정하여 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) A'를 만들었다고 가정하자. [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) A를 개발한 개발자는 A'가 독립적으로 완벽하게 동작한다고 믿는다. 하지만 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) B와 C는 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) A가 뱉어내던 '잘못된(하지만 예측 가능했던) 출력값'에 은연중에 맞춰져(Coupled) 있었을 수 있다. A가 정확한 값을 내뿜기 시작하자, 오히려 B와 C는 처리 불능 상태에 빠지게 된다.
@@ -158,30 +162,28 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 회귀 테스트 (Regression Test)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 회귀 테스트 (Regression Test)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
 | [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 회귀 테스트 (Regression Test)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | 회귀 테스트 (Regression Test) 적용 결과는 QA 활동을 통해 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)되고 측정된다 |
 | [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 회귀 테스트 (Regression Test)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">회귀 테스트 (Regression Test) 개념 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 위기 (Software Crisis) 인식
+    │
+    ▼
+회귀 테스트 (Regression Test) 개념 정립
+    │
+    ▼
+표준화 및 방법론 체계화 (ISO, CMMI, Agile)
+    │
+    ▼
+클라우드 네이티브·AI 기반 확장 적용
+    │
+    ▼
+지속적 개선 및 DevOps·MLOps 통합
+```
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

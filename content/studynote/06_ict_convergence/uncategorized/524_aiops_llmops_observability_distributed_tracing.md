@@ -29,26 +29,24 @@ tags = ["studynote-ict-convergence"]
 
 ### [옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) 3원칙 구조
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">애플리케이션 (마이크로서비스)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">──</div><div class="kb-diagram-node">로그(Logs)</div><div class="kb-diagram-note">► Loki / Elasticsearch</div></div>
-<div class="kb-diagram-note">구조화 이벤트, 에러 스택</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">──</div><div class="kb-diagram-node">메트릭(Metrics)</div><div class="kb-diagram-note">──► Prometheus / Datadog</div></div>
-<div class="kb-diagram-note">CPU, RPS, 응답시간</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">──</div><div class="kb-diagram-node">트레이스(Traces)</div><div class="kb-diagram-note">──► Jaeger / Zipkin / Tempo</div></div>
-<div class="kb-diagram-note">요청 흐름, Span ID, TraceID</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OpenTelemetry</div><div class="kb-diagram-cell">← 통합 계측 표준</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Collector</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Grafana Dashboard (통합 시각화)</div>
-</div>
-</div>
-
-
+```
+  애플리케이션 (마이크로서비스)
+       │
+       ├──[로그(Logs)]────────► Loki / Elasticsearch
+       │   구조화 이벤트, 에러 스택  
+       ├──[메트릭(Metrics)]──► Prometheus / Datadog
+       │   CPU, RPS, 응답시간
+       └──[트레이스(Traces)]──► Jaeger / Zipkin / Tempo
+           요청 흐름, Span ID, TraceID
+                    │
+                    ▼
+         ┌─────────────────┐
+         │  OpenTelemetry  │   ← 통합 계측 표준
+         │  Collector      │
+         └────────┬────────┘
+                  ▼
+           Grafana Dashboard (통합 시각화)
+```
 
 | 구분 | [AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/099_aiops_chatbot_itsm_automation/) | [LLMOps](/knowledge-base/studynote/12_it_management/05_security_compliance/221_llmops_large_language_model_ops/) | [옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) |
 |:---|:---|:---|:---|

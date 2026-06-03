@@ -27,25 +27,23 @@ tags = ["database"]
 
 이처럼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)는 "[데이터 독립성](/knowledge-base/studynote/05_database/01_db_architecture_relational/004_data_independence/)([Data Independence](/knowledge-base/studynote/05_database/04_transactions_concurrency/504_data_independence/))" 중에서도 특히 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 구조와 물리적 저장 구조 간의 은닉([Information Hiding](/knowledge-base/studynote/04_software_engineering/04_testing_quality/199_information_hiding_encapsulation/))을 완벽히 구현하기 위해 필수적인 아키텍처 요소이다.
 
+```text
+[그림 1: 메타데이터 저장소의 권한별 격리 구조]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">그림 1: 메타데이터 저장소의 권한별 격리 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">일반 사용자 / DBA</div><div class="kb-diagram-note">(질의, 권한 요청)</div></div>
-<div class="kb-diagram-note">▼ (SELECT 허용)</div>
-<div class="kb-diagram-note">&lt;─ 시스템 카탈로그 (System Catalog)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 사전 (Data Dictionary)</div><div class="kb-diagram-cell">: 논리적 스키마, 뷰, 사용자 통계 등</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(사용자 접근 가능 영역)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">&lt;─</div><div class="kb-diagram-node">엄격한 접근 통제벽</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 디렉터리 (Data Directory)</div><div class="kb-diagram-cell">: 물리적 블록 주소, 시스템 내부 포인터,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(DBMS 시스템 전용 영역)</div><div class="kb-diagram-cell">B-Tree 노드 물리적 연결 정보 등</div></div>
-<div class="kb-diagram-note">▲ (내부 제어, DDL에 의한 자동 변경)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DBMS 내부 엔진 (Storage/Execution Engine)</div></div>
-</div>
-</div>
-
-
+[일반 사용자 / DBA] (질의, 권한 요청)
+        │
+        ▼ (SELECT 허용)
+┌──────────────────────────────────────┐  <─ 시스템 카탈로그 (System Catalog)
+│      데이터 사전 (Data Dictionary)   │     : 논리적 스키마, 뷰, 사용자 통계 등
+│      (사용자 접근 가능 영역)         │
+├──────────────────────────────────────┤  <─ [엄격한 접근 통제벽]
+│    데이터 디렉터리 (Data Directory)  │     : 물리적 블록 주소, 시스템 내부 포인터,
+│      (DBMS 시스템 전용 영역)         │       B-Tree 노드 물리적 연결 정보 등
+└──────────────────────────────────────┘
+        ▲ (내부 제어, DDL에 의한 자동 변경)
+        │
+[DBMS 내부 엔진 (Storage/Execution Engine)]
+```
 
 이 그림은 전체 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 저장소([시스템 카탈로그](/knowledge-base/studynote/05_database/01_db_architecture_relational/011_system_catalog/))가 권한과 접근 주체에 따라 어떻게 두 영역으로 쪼개지는지를 명확히 보여준다. 상단의 [데이터 사전](/knowledge-base/studynote/05_database/07_exam_summary/393_data_dictionary/)은 사용자를 위한 읽기 전용 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 영역인 반면, 하단의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)는 오직 [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) 엔진만이 배타적으로 읽고 쓰는 시스템 격리 구역이다. 이 구조를 통해 악의적이거나 실수로 인한 물리적 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 훼손 원천을 차단한다.
 
@@ -53,7 +51,7 @@ tags = ["database"]
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)는 [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) 내부의 스토리지 엔진(Storage Engine) 및 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 매니저([File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) System Manager)와 직접적으로 상호작용한다. 사용자가 [DDL](/knowledge-base/studynote/05_database/01_db_architecture_relational/020_ddl/)([Data Definition Language](/knowledge-base/studynote/05_database/01_db_architecture_relational/020_ddl/)) 연산을 수행하면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)가 백그라운드에서 조작된다.
+[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)는 [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) 내부의 스토리지 엔진(Storage 엔진) 및 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 매니저([File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) System Manager)와 직접적으로 상호작용한다. 사용자가 [DDL](/knowledge-base/studynote/05_database/01_db_architecture_relational/020_ddl/)([Data Definition Language](/knowledge-base/studynote/05_database/01_db_architecture_relational/020_ddl/)) 연산을 수행하면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)가 백그라운드에서 조작된다.
 
 | 구성 요소 | 역할 | 내부 동작 | [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)/제어 | 비유 |
 |:---|:---|:---|:---|:---|
@@ -65,25 +63,24 @@ tags = ["database"]
 
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)는 시스템이 구동([Mount](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/) / Open)될 때 가장 먼저 메모리에 로드되는 영역 중 하나이다. DBMS는 제어 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(Control [File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))을 읽어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)의 위치를 파악하고, 이를 통해 전체 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 1차적으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.
 
+```text
+[그림 2: DDL 실행 시 데이터 사전과 데이터 디렉터리의 동작 흐름도]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">그림 2: DDL 실행 시 데이터 사전과 데이터 디렉터리의 동작 흐름도</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">사용자</div><div class="kb-diagram-note">"CREATE TABLE EMP (ID INT);"</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DBMS 파서 &amp; 실행기</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ 1.</div><div class="kb-diagram-node">데이터 사전 (Data Dictionary)</div><div class="kb-diagram-note">접근</div></div>
-<div class="kb-diagram-note">: 'EMP' 테이블명 중복 여부 확인, 논리적 스키마(ID INT) 메타데이터 INSERT</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ 2.</div><div class="kb-diagram-node">스토리지 엔진 (Storage Engine)</div><div class="kb-diagram-note">호출</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 디렉터리 (Data Directory)</div><div class="kb-diagram-note">내부 동작</div></div>
-<div class="kb-diagram-note">: 빈 공간(Free Extent) 탐색 → 논리 테이블 'EMP'와 할당된 물리적 디스크 블록 주소 매핑</div>
-<div class="kb-diagram-note">: 내부 포인터 연결 정보 시스템만 은밀하게 갱신 (사용자 접근 불가)</div>
-</div>
-</div>
-
-
+[사용자] "CREATE TABLE EMP (ID INT);"
+   │
+   ▼
+[DBMS 파서 & 실행기]
+   │
+   ├─ 1. [데이터 사전 (Data Dictionary)] 접근
+   │     : 'EMP' 테이블명 중복 여부 확인, 논리적 스키마(ID INT) 메타데이터 INSERT
+   │
+   └─ 2. [스토리지 엔진 (Storage Engine)] 호출
+         │
+         ▼
+      [데이터 디렉터리 (Data Directory)] 내부 동작
+         : 빈 공간(Free Extent) 탐색 → 논리 테이블 'EMP'와 할당된 물리적 디스크 블록 주소 매핑
+         : 내부 포인터 연결 정보 시스템만 은밀하게 갱신 (사용자 접근 불가)
+```
 
 이 흐름도는 단순한 `CREATE TABLE` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 하나가 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 [데이터 사전](/knowledge-base/studynote/05_database/07_exam_summary/393_data_dictionary/)과 물리적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 양쪽에 어떻게 다르게 작용하는지를 보여준다. 핵심은 1번 작업([논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 등록)은 뷰를 통해 사용자가 조회할 수 있지만, 2번 작업(블록 할당 및 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/) 매핑)은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 내에서 완전히 캡슐화되어 은닉된다는 점이다. 이로 인해 물리적 디스크 구조가 변경되어도 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)는 영향을 받지 않는 '물리적 [데이터 독립성](/knowledge-base/studynote/05_database/01_db_architecture_relational/004_data_independence/)'이 달성된다.
 
@@ -102,21 +99,19 @@ tags = ["database"]
 
 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(OS)의 아키텍처와 융합해 보면, [데이터 사전](/knowledge-base/studynote/05_database/07_exam_summary/393_data_dictionary/)은 OS의 `/proc` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템이나 '작업 관리자([Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) Manager)'처럼 상태를 보여주는 사용자 모드(User Mode) 영역에 해당한다. 반면, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)는 OS의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)) 내 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)([Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/))이나 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 Inode 구조체처럼 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Mode)에서만 제어되는 코어 영역과 완벽히 대응된다.
 
+```text
+[그림 3: DBMS와 OS 메모리 보호 아키텍처의 유사성 비교]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">그림 3: DBMS와 OS 메모리 보호 아키텍처의 유사성 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DBMS 아키텍처</div><div class="kb-diagram-node">OS 아키텍처</div></div>
-<div class="kb-diagram-note">User/DBA 쿼리 허용 User Application 허용</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data Dictionary</div><div class="kb-diagram-cell">&lt;-----------------&gt;</div><div class="kb-diagram-cell">/proc, sysfs</div><div class="kb-diagram-cell">(상태 모니터링)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- - (격리벽) - -</div><div class="kb-diagram-cell">- (System Call)-</div><div class="kb-diagram-cell">(Mode Switch)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data Directory</div><div class="kb-diagram-cell">&lt;-----------------&gt;</div><div class="kb-diagram-cell">Kernel Memory</div><div class="kb-diagram-cell">(OS만 조작 가능)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(물리적 포인터)</div><div class="kb-diagram-cell">System Engine 독점</div><div class="kb-diagram-cell">(페이지 테이블 등)</div></div>
-</div>
-</div>
-
-
+   [DBMS 아키텍처]                           [OS 아키텍처]
+┌──────────────────┐ User/DBA 쿼리 허용  ┌──────────────────┐ User Application 허용
+│  Data Dictionary │ <-----------------> │  /proc, sysfs    │ (상태 모니터링)
+├──────────────────┤                     ├──────────────────┤
+│ - - (격리벽) - - │                     │ - (System Call)- │ (Mode Switch)
+├──────────────────┤                     ├──────────────────┤
+│  Data Directory  │ <-----------------> │  Kernel Memory   │ (OS만 조작 가능)
+│ (물리적 포인터)  │ System Engine 독점  │ (페이지 테이블 등)│
+└──────────────────┘                     └──────────────────┘
+```
 
 이 도식은 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 매커니즘이 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 메커니즘과 설계적으로 동일한 궤를 가지고 있음을 보여준다. 두 구조 모두 하위 레벨의 복잡한 물리적 제어를 은닉함으로써, 사용자 레벨의 응용 프로그램이 안전하고 일관된 인터페이스만을 사용하도록 강제한다. 따라서 시스템 엔지니어는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 손상을 OS [커널 패닉](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/)([Kernel Panic](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/))과 동급의 치명적 장애로 간주해야 한다.
 
@@ -134,26 +129,25 @@ tags = ["database"]
 - **상황**: 대규모 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)를 다른 스토리지 서버로 이관.
 - **판단**: `Export/Import` 도구([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Pump 등)는 [데이터 사전](/knowledge-base/studynote/05_database/07_exam_summary/393_data_dictionary/)을 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)하여 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 뽑아내는 반면, 스토리지 레벨의 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/)이나 RMAN 같은 툴은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)의 물리적 블록 구조까지 통째로 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)한다. 따라서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조각화([Fragmentation](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/))를 제거하고 싶다면 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 이관을, 다운타임을 최소화하고 시스템 상태를 그대로 덤프하고 싶다면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)가 포괄되는 물리적 이관을 선택해야 한다.
 
+```text
+[그림 4: 데이터베이스 장애 복구 판단 트리]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">그림 4: 데이터베이스 장애 복구 판단 트리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">장애 발생: 데이터 쿼리 실패</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">장애 원인이 메타데이터와 관련이 있는가?</div></div>
-<div class="kb-diagram-tree-item" style="--depth:1">아니오 ──&gt; (일반적인 트랜잭션 롤백, 데이터 Redo 적용)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">예</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">접근 불가 영역 판단</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ 데이터 사전(딕셔너리) 뷰 훼손 ──&gt;</div><div class="kb-diagram-node">논리적 손상</div><div class="kb-diagram-note">딕셔너리 뷰 재컴파일 스크립트 실행 (복구 용이)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ 데이터 디렉터리 블록 손상/Lost ──&gt;</div><div class="kb-diagram-node">물리적 치명상</div></div>
-<div class="kb-diagram-note">(시스템 인스턴스 Down 발생)</div>
-<div class="kb-diagram-note">(Full System Recovery 또는 Block Media Recovery 요망)</div>
-</div>
-</div>
-
-
+[장애 발생: 데이터 쿼리 실패]
+          │
+          ▼
+[장애 원인이 메타데이터와 관련이 있는가?]
+   ├─ 아니오 ──> (일반적인 트랜잭션 롤백, 데이터 Redo 적용)
+   │
+   └─ 예
+      ▼
+   [접근 불가 영역 판단]
+      ├─ 데이터 사전(딕셔너리) 뷰 훼손 ──> [논리적 손상] 딕셔너리 뷰 재컴파일 스크립트 실행 (복구 용이)
+      │
+      └─ 데이터 디렉터리 블록 손상/Lost ──> [물리적 치명상] 
+            │                                  ▼
+            │                         (시스템 인스턴스 Down 발생)
+            │                         (Full System Recovery 또는 Block Media Recovery 요망)
+```
 
 이 [의사결정 트리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/)는 장애의 양상에 따라 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 손상 부위를 진단하는 과정을 보여준다. [데이터 사전](/knowledge-base/studynote/05_database/07_exam_summary/393_data_dictionary/)의 뷰([View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))가 깨진 것은 껍데기가 벗겨진 것에 불과하여 스크립트로 재생성이 가능하지만, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)(물리적 포인터 블록)의 손상은 뼈대가 부러진 것이라 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 동원한 복잡한 미디어 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 필수적임을 시사한다. 
 
@@ -172,28 +166,26 @@ tags = ["database"]
 - [시스템 카탈로그](/knowledge-base/studynote/05_database/01_db_architecture_relational/011_system_catalog/) ([System Catalog](/knowledge-base/studynote/05_database/01_db_architecture_relational/011_system_catalog/)) | [데이터 사전](/knowledge-base/studynote/05_database/07_exam_summary/393_data_dictionary/)과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)를 모두 포함하는 [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) 최상위 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 집합체
 - [데이터 독립성](/knowledge-base/studynote/05_database/01_db_architecture_relational/004_data_independence/) ([Data Independence](/knowledge-base/studynote/05_database/04_transactions_concurrency/504_data_independence/)) | [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 구조나 물리적 저장소가 바뀌어도 응용 프로그램이 영향받지 않는 성질
 - [B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 구조 ([B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) [Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)가 물리적 디스크 주소(포인터)를 탐색할 때 활용하는 핵심 자료구조
-- 스토리지 엔진 (Storage Engine) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)의 명령을 받아 실제 디스크의 블록 I/O를 수행하는 [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) 하위 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) (예: InnoDB)
+- 스토리지 엔진 (Storage 엔진) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)의 명령을 받아 실제 디스크의 블록 I/O를 수행하는 [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) 하위 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) (예: InnoDB)
 - 블록 손상 (Block Corruption) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 물리적 정보가 깨져 DBMS가 해당 영역을 읽지 못하는 치명적 장애 상태
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 딕셔너리 (Data Dictionary) — DB 메타데이터의 중앙 저장소</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시스템 카탈로그 (System Catalog) — DBMS 내부 데이터 딕셔너리 구현체</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">메타데이터 관리 (Metadata Management) — 스키마·통계·권한 정보 통합 관리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 거버넌스 (Data Governance) — 정책 기반의 메타데이터 품질 관리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 카탈로그 (Data Catalog) — 비즈니스 맥락 추가, 데이터 검색·계보 제공</div></div>
-</div>
-</div>
-
-
+```text
+[데이터 딕셔너리 (Data Dictionary) — DB 메타데이터의 중앙 저장소]
+    │
+    ▼
+[시스템 카탈로그 (System Catalog) — DBMS 내부 데이터 딕셔너리 구현체]
+    │
+    ▼
+[메타데이터 관리 (Metadata Management) — 스키마·통계·권한 정보 통합 관리]
+    │
+    ▼
+[데이터 거버넌스 (Data Governance) — 정책 기반의 메타데이터 품질 관리]
+    │
+    ▼
+[데이터 카탈로그 (Data Catalog) — 비즈니스 맥락 추가, 데이터 검색·계보 제공]
+```
 
 이 흐름은 [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) 내부의 [시스템 카탈로그](/knowledge-base/studynote/05_database/01_db_architecture_relational/011_system_catalog/)([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 딕셔너리)가 기업 수준의 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/) 도구와 현대적 [데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)로 발전하는 과정을 보여준다.
 

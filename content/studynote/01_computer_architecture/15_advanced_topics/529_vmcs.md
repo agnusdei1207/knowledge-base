@@ -25,19 +25,20 @@ VMCS ([Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_ad
 
 이 그림은 VMCS가 왜 단순 저장 공간이 아니라 "상태 + [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)"을 묶은 장부인지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VMCS가 필요한 이유: 전환 정보와 통제 규칙을 한곳에 모음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Guest vCPU 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 상태만 저장하면 ▶ 다음 Exit 때 무엇을 잡을지 다시 계산</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ VMCS 사용 ▶ Guest 상태 · Host 상태 · Exit 조건을 즉시 참조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VM Entry / Exit를 하드웨어가 일관 처리</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│            VMCS가 필요한 이유: 전환 정보와 통제 규칙을 한곳에 모음         │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Guest vCPU 실행                                                            │
+│      │                                                                     │
+│      ├─ 상태만 저장하면 ─────▶ 다음 Exit 때 무엇을 잡을지 다시 계산        │
+│      │                                                                     │
+│      └─ VMCS 사용 ─────────▶ Guest 상태 · Host 상태 · Exit 조건을 즉시 참조│
+│                                     │                                      │
+│                                     ▼                                      │
+│                           VM Entry / Exit를 하드웨어가 일관 처리           │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 결국 VMCS의 필요성은 "가상 머신의 현재 상태를 기억한다"에 그치지 않는다. <strong>어떤 행위가 <a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a> 경계를 넘는지까지 하드웨어 수준에서 정의해 두는 것</strong>이 본질이다.
 
@@ -62,22 +63,21 @@ VMCS는 보통 4KB 정렬된 메모리 영역으로 준비되며, [하이퍼바�
 
 이 그림은 VMCS가 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Entry와 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Exit 양쪽에서 각각 어떤 역할을 하는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VMCS가 전환을 지휘하는 방식</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Guest-State</div><div class="kb-diagram-note">──</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Entry Control</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">VM Entry ─▶ VMX Non-Root 실행</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Exec Control</div><div class="kb-diagram-note">─ │</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 일반 경로 ▶ 계속 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 인터셉트 대상 ─▶ VM Exit</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Exit Info</div><div class="kb-diagram-connector">◀</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Exit Control</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Host-State</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">VMX Root 복귀 │</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                    VMCS가 전환을 지휘하는 방식                            │
+├────────────────────────────────────────────────────────────────────────────┤
+│ [Guest-State] ──┐                                                         │
+│ [Entry Control] ├─▶ VM Entry ─▶ VMX Non-Root 실행                         │
+│ [Exec Control] ─┘                          │                              │
+│                                            ├─ 일반 경로 ─────▶ 계속 실행  │
+│                                            │                              │
+│                                            └─ 인터셉트 대상 ─▶ VM Exit    │
+│                                                                  │         │
+│ [Exit Info] ◀─────────────────────────────────────────────────────┤         │
+│ [Exit Control] ─▶ [Host-State] ─▶ VMX Root 복귀                  │         │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 여기서 중요한 점은 VMCS가 "저장소"이면서 동시에 "분기표"라는 사실이다. Guest-State와 Host-State가 전환의 내용을 담당한다면, Execution Controls는 전환의 빈도를 좌우한다. 그래서 같은 VT-x 환경이라도 어떤 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)맵과 제어 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 켰느냐에 따라 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Exit 수가 크게 달라진다.
 
@@ -154,25 +154,24 @@ VMCS를 이해하려면 운영체제의 PCB ([Process](/knowledge-base/studynote
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 중심 문맥 저장</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">VMX Root / Non-Root 분리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">VMCS 기반 Guest-State · Host-State · Exit Reason 관리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">EPT · APICv · 비트맵 제어로 Exit 절감</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Shadow VMCS · 중첩 가상화 가속</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Confidential VM · 더 정교한 제어면 보호</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 중심 문맥 저장
+        │
+        ▼
+VMX Root / Non-Root 분리
+        │
+        ▼
+VMCS 기반 Guest-State · Host-State · Exit Reason 관리
+        │
+        ▼
+EPT · APICv · 비트맵 제어로 Exit 절감
+        │
+        ▼
+Shadow VMCS · 중첩 가상화 가속
+        │
+        ▼
+Confidential VM · 더 정교한 제어면 보호
+```
 
 이 흐름은 단순 상태 저장에서 출발해, 이제는 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 전환 규칙과 보안 경계까지 하드웨어가 더 많이 맡는 방향으로 발전했음을 보여 준다.
 

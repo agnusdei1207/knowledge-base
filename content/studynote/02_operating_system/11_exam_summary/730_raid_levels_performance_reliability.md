@@ -115,28 +115,32 @@ $0101 \oplus 1010 \oplus 0011 = \mathbf{1100}$ (죽었던 [데이터](/knowledge
 
 ### 의사결정 및 튜닝 플로우
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">엔터프라이즈 스토리지 RAID 아키텍처 선정 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">서버 구매 시 용도에 맞는 디스크 구성(RAID 레벨)을 설계해야 함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">절대 데이터가 날아가면 안 되면서, Write(쓰기)가 미친 듯이 일어나는가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(예: 금융권 DBMS, 초고속 결제 트랜잭션)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RAID 10 (1+0) 강제 선택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비용은 비싸지만 패리티 연산 페널티가 없어 IOPS 방어 완벽.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 (Read 위주거나, 데이터 유실이 큰 문제 없는 서버임)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버의 용도가 단순한 캐시(Cache), 휘발성 데이터 저장, 혹은 임시 렌더링인가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RAID 0 (스트라이핑) 선택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">성능과 용량 극대화. 죽으면 그냥 서버 버리고 다시 띄움.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 (대용량의 파일, 아카이빙, 백업 데이터를 영구 보관해야 함)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">RAID 6 (패리티 2개) 또는 RAID 50 선택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- RAID 5는 요즘 같은 10TB+ 디스크 시대에 리빌딩 중 2차 붕괴 위험이 높아</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">엔터프라이즈 표준에서 탈락했음을 유의할 것.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 엔터프라이즈 스토리지 RAID 아키텍처 선정 플로우             │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [서버 구매 시 용도에 맞는 디스크 구성(RAID 레벨)을 설계해야 함]              │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      절대 데이터가 날아가면 안 되면서, Write(쓰기)가 미친 듯이 일어나는가?      │
+  │      (예: 금융권 DBMS, 초고속 결제 트랜잭션)                            │
+  │          ├─ 예 ─────▶ [RAID 10 (1+0) 강제 선택]                      │
+  │          │            비용은 비싸지만 패리티 연산 페널티가 없어 IOPS 방어 완벽. │
+  │          └─ 아니오 (Read 위주거나, 데이터 유실이 큰 문제 없는 서버임)        │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      서버의 용도가 단순한 캐시(Cache), 휘발성 데이터 저장, 혹은 임시 렌더링인가?│
+  │          ├─ 예 ─────▶ [RAID 0 (스트라이핑) 선택]                      │
+  │          │            성능과 용량 극대화. 죽으면 그냥 서버 버리고 다시 띄움.     │
+  │          └─ 아니오 (대용량의 파일, 아카이빙, 백업 데이터를 영구 보관해야 함)  │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      [RAID 6 (패리티 2개) 또는 RAID 50 선택]                           │
+  │      - RAID 5는 요즘 같은 10TB+ 디스크 시대에 리빌딩 중 2차 붕괴 위험이 높아 │
+  │        엔터프라이즈 표준에서 탈락했음을 유의할 것.                          │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 클라우드 엔지니어가 베어메탈 서버를 세팅할 때 제일 처음 맞닥뜨리는 화면이 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) BIOS 화면이다. 이때 비용을 아끼겠다고 DB 서버를 [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 5로 묶는 순간 그 프로젝트는 오픈 첫날 DB I/O 병목으로 망하게 된다. 아키텍트는 하드웨어 비용(Disk $)과 소프트웨어 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)(TPS)의 환율을 계산하여 자본주의적인 최적의 밸런스를 맞춰야 한다.
 
@@ -179,19 +183,15 @@ $0101 \oplus 1010 \oplus 0011 = \mathbf{1100}$ (죽었던 [데이터](/knowledge
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SSTF 기아 현상 (가운데 편중)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">RAID 0, 1, 5, 6 성능 신뢰성 (RAID Levels Performance Reliability)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SSD FTL (Flash Translation Layer)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">가비지 컬렉션 블록 지우기</div></div>
-</div>
-</div>
-
-
+```text
+[SSTF 기아 현상 (가운데 편중)]
+    │
+    ▼
+[RAID 0, 1, 5, 6 성능 신뢰성 (RAID Levels Performance Reliability)]
+    │
+    ├──▶ [SSD FTL (Flash Translation Layer)]
+    └──▶ [가비지 컬렉션 블록 지우기]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

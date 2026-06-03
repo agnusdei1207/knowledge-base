@@ -38,22 +38,22 @@ GPT-3(2048 토큰) → GPT-4(8K/32K) → Claude 3.5(200K) → Gemini 1.5 Pro(1M)
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Long Context 해결 기법 비교</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RoPE 외삽 Sliding Window Mamba</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위치 인코딩</div><div class="kb-diagram-cell">국소 윈도우</div><div class="kb-diagram-cell">SSM</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스케일링</div><div class="kb-diagram-cell">(w 토큰)</div><div class="kb-diagram-cell">선형복잡</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NTK, YaRN</div><div class="kb-diagram-cell">+글로벌 토큰</div><div class="kb-diagram-cell">O(n)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">학습 없이</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│외삽 가능 │</div><div class="kb-diagram-node">tok</div><div class="kb-diagram-node">tok</div><div class="kb-diagram-note">... │ │상태벡터│</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">복잡도: O(n log n) O(n·w) O(n)</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────┐
+│          Long Context 해결 기법 비교                       │
+│                                                          │
+│  RoPE 외삽              Sliding Window           Mamba   │
+│  ┌────────────┐         ┌────────────────┐    ┌────────┐ │
+│  │위치 인코딩 │         │ 국소 윈도우     │    │ SSM    │ │
+│  │스케일링    │         │ (w 토큰)       │    │선형복잡│ │
+│  │NTK, YaRN  │         │+글로벌 토큰     │    │O(n)    │ │
+│  │학습 없이  │         │                │    │        │ │
+│  │외삽 가능  │         │ [tok][tok]...  │    │상태벡터│ │
+│  └────────────┘         └────────────────┘    └────────┘ │
+│                                                          │
+│  복잡도: O(n log n)       O(n·w)              O(n)       │
+└──────────────────────────────────────────────────────────┘
+```
 
 <strong>위치 인코딩 외삽(<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/300_positional_encoding/">Positional Encoding</a> Extrapolation)</strong>
 

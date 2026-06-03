@@ -17,7 +17,7 @@ tags = ["studynote-enterprise-systems"]
 
 ## Ⅰ. 개요 및 필요성
 
-ML 모델 개발에서 가장 많은 시간을 소비하는 단계는 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 엔지니어링([Feature Engineering](/knowledge-base/studynote/12_it_management/02_itsm_itil/081_feature_engineering/))이다.
+ML 모델 개발에서 가장 많은 시간을 소비하는 단계는 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 엔지니어링([Feature 엔진ering](/knowledge-base/studynote/12_it_management/02_itsm_itil/081_feature_engineering/))이다.
 각 팀이 동일한 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)를 독립적으로 구현하면, 학습 시 사용한 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 계산 로직과 서빙 시 계산 로직이 미묘하게 달라져 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 저하된다. 이를 [Training](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/)-Serving Skew라 한다.
 
 [Feature Store](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/) ([피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/))는 이 문제를 해결하기 위한 중앙화된 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 저장소·관리 플랫폼이다.
@@ -41,23 +41,30 @@ ML 모델 개발에서 가장 많은 시간을 소비하는 단계는 [피처](/
 
 ### [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램: [Feature Store](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/) 아키텍처
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">원천 데이터</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이벤트 로그</div><div class="kb-diagram-cell">RDB 거래</div><div class="kb-diagram-cell">사용자 프로필</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Feature Pipeline</div><div class="kb-diagram-cell">(Spark / Flink)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Offline Store</div><div class="kb-diagram-cell">Online Store</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(S3 / Hive)</div><div class="kb-diagram-cell">(Redis Cluster)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">학습 데이터 생성용</div><div class="kb-diagram-cell">서빙 시 &lt;10ms 조회</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ML Training</div><div class="kb-diagram-cell">Real-time Serving</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Batch)</div><div class="kb-diagram-cell">(API, &lt;100ms 응답)</div></div>
-</div>
-</div>
-
-
+```
+  원천 데이터
+  ┌──────────┐  ┌──────────┐  ┌──────────┐
+  │ 이벤트 로그│  │  RDB 거래  │  │ 사용자 프로필│
+  └────┬─────┘  └────┬─────┘  └────┬─────┘
+       └──────────────┼──────────────┘
+                      ▼
+            ┌─────────────────────┐
+            │  Feature Pipeline   │ (Spark / Flink)
+            └──────────┬──────────┘
+               ┌───────┴────────┐
+               ▼                ▼
+  ┌─────────────────────┐  ┌─────────────────────┐
+  │   Offline Store     │  │   Online Store      │
+  │  (S3 / Hive)        │  │  (Redis Cluster)    │
+  │  학습 데이터 생성용  │  │  서빙 시 <10ms 조회  │
+  └────────┬────────────┘  └────────┬────────────┘
+           │                        │
+           ▼                        ▼
+  ┌─────────────────┐    ┌───────────────────────┐
+  │  ML Training    │    │  Real-time Serving    │
+  │  (Batch)        │    │  (API, <100ms 응답)    │
+  └─────────────────┘    └───────────────────────┘
+```
 
 ### Feast vs Tecton vs Hopsworks
 
@@ -133,25 +140,23 @@ ML 모델 개발에서 가장 많은 시간을 소비하는 단계는 [피처](/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
+```
+실험실 ML 모델 - 프로덕션 배포 단절 문제
+    │
+    ▼
+수작업 피처 엔지니어링 반복 - 일관성 부재
+    │
+    ▼
+Feature Store 등장 - 피처 재사용·공유 플랫폼
+    │
+    ▼
+온라인(Redis)/오프라인(Hive) 이중 저장 구조
+    │
+    ▼
+MLOps 통합 - 피처→모델→서빙 자동화 파이프라인
+```
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">실험실 ML 모델 - 프로덕션 배포 단절 문제</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">수작업 피처 엔지니어링 반복 - 일관성 부재</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Feature Store 등장 - 피처 재사용·공유 플랫폼</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">온라인(Redis)/오프라인(Hive) 이중 저장 구조</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">MLOps 통합 - 피처→모델→서빙 자동화 파이프라인</div>
-</div>
-</div>
-
-
-
-> **키워드**: [Feature Store](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/), [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/), [Feature Engineering](/knowledge-base/studynote/12_it_management/02_itsm_itil/081_feature_engineering/), Online Store, Offline Store, Feast, [Training](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/)-Serving Skew
+> **키워드**: [Feature Store](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/), [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/), [Feature 엔진ering](/knowledge-base/studynote/12_it_management/02_itsm_itil/081_feature_engineering/), Online Store, Offline Store, Feast, [Training](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/)-Serving Skew
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

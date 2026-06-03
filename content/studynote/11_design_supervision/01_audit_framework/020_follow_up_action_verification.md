@@ -27,20 +27,14 @@ tags = ["design_supervision"]
 
 이 도식은 지적 사항이 실제 조치 완료로 이어지는 생명주기(Lifecycle)와 조치 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)의 병목 지점을 보여줍니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">실지 감사</div><div class="kb-diagram-node">사업자 조치</div><div class="kb-diagram-node">조치 결과 확인 (Follow-up)</div><div class="kb-diagram-node">최종 결과</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">지적 사항 발급 ──&gt; 코드/DB 수정 ──&gt; (제출) ──&gt; ① 조치 결과서 검토 ──(Pass)──&gt;</div><div class="kb-diagram-node">적합</div><div class="kb-diagram-note">(인수)</div></div>
-<div class="kb-diagram-note">(보고서 확정) 재테스트 수행 ② 실제 시스템 교차 검증</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">③ 회귀 결함 여부 확인 ──(Fail)──&gt;</div><div class="kb-diagram-node">부적합</div><div class="kb-diagram-note">(재조치)</div></div>
-<div class="kb-diagram-connector">▲</div>
-<div class="kb-diagram-note">형식적 조치 필터링 (병목 지점)</div>
-</div>
-</div>
-
-
+```text
+[실지 감사]        [사업자 조치]              [조치 결과 확인 (Follow-up)]      [최종 결과]
+지적 사항 발급 ──> 코드/DB 수정 ──> (제출) ──> ① 조치 결과서 검토 ──(Pass)──> [적합] (인수)
+(보고서 확정)      재테스트 수행               ② 실제 시스템 교차 검증     
+                                               ③ 회귀 결함 여부 확인 ──(Fail)──> [부적합] (재조치)
+                                                        ▲
+                                              형식적 조치 필터링 (병목 지점)
+```
 
 이 흐름의 핵심은 감리인이 사업자가 제출한 '문서(조치 결과서)'만 믿고 승인(Pass) 버튼을 누르지 않는다는 점입니다. 반드시 ②실제 시스템을 직접 조회하거나 패킷을 까보고, ③수정으로 인해 다른 기능이 망가지지 않았는지([회귀 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/))까지 교차 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 합니다. 이 지점이 뚫리면 감리의 존재 이유는 사라집니다.
 
@@ -60,26 +54,23 @@ tags = ["design_supervision"]
 
 이 다이어그램은 [형상 관리 저장소](/knowledge-base/studynote/11_design_supervision/01_audit_framework/070_configuration_management_git_ci_audit/)(Git)를 활용하여 시정 조치를 완벽하게 추적하고 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 현대적 조치 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 메커니즘을 보여줍니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">감리 지적</div><div class="kb-diagram-note">ID: AUDIT-01 "XSS 취약점 조치 필요"</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">사업자 (Developer)</div></div>
-<div class="kb-diagram-note">1. 소스 수정 (Filter 적용)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2. Git Commit: "Fix: XSS Vulnerability (Ref: AUDIT-01)" &gt;</div><div class="kb-diagram-node">Git Repository</div></div>
-<div class="kb-diagram-note">3. 조치 결과서 작성 (커밋 해시코드 첨부) (버전 N -&gt; N+1)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">감리원 (Auditor)</div></div>
-<div class="kb-diagram-note">1. 조치 결과서의 커밋 해시(Hash) 확인</div>
-<div class="kb-diagram-note">2. Git Diff 명령어 수행 &lt;</div>
-<div class="kb-diagram-tree-item" style="--depth:2">진짜 Filter 로직이 들어갔는지 소스코드 라인 바이 라인(Line-by-Line) 확인</div>
-<div class="kb-diagram-note">3. 테스트 서버 접속 후 공격 스크립트 주입 (재현 테스트)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">적합</div><div class="kb-diagram-note">판정</div></div>
-</div>
-</div>
-
-
+```text
+[감리 지적] ID: AUDIT-01 "XSS 취약점 조치 필요"
+     │
+     ▼
+[사업자 (Developer)]
+  1. 소스 수정 (Filter 적용)
+  2. Git Commit: "Fix: XSS Vulnerability (Ref: AUDIT-01)" ───> [Git Repository]
+  3. 조치 결과서 작성 (커밋 해시코드 첨부)                       (버전 N -> N+1)
+     │                                                               │
+     ▼                                                               │
+[감리원 (Auditor)]                                                   │
+  1. 조치 결과서의 커밋 해시(Hash) 확인                              │
+  2. Git Diff 명령어 수행 <──────────────────────────────────────────┘
+     -> 진짜 Filter 로직이 들어갔는지 소스코드 라인 바이 라인(Line-by-Line) 확인
+  3. 테스트 서버 접속 후 공격 스크립트 주입 (재현 테스트)
+  4. 방어 확인 시 -> [적합] 판정
+```
 
 이 동작 원리의 핵심은 지적 번호([AUDIT](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/)-01)와 소스코드의 변경 이력(Commit Log)이 강하게 결합([Coupling](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/))된다는 점입니다. 이런 배치는 사업자가 소스를 고치지도 않고 캡처 이미지만 조작하여 제출하는 행위를 원천 차단합니다. 실무에서는 [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/)([Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/))의 변경 이력을 추적하는 것이 조치 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)의 가장 확실하고 빠른 방법입니다.
 
@@ -118,24 +109,20 @@ tags = ["design_supervision"]
    - **상황**: 100개의 필수 조치 사항 중 98개는 완벽히 조치되었으나, 2개의 마이너한 UI/문구 오타가 미조치됨. 사업자는 내일이 오픈이라며 무조건 '전체 적합'을 찍어달라고 압박함.
    - **판단**: 감리인이 미조치 사항이 있음에도 거짓으로 '적합'을 줄 경우 법적 처벌(감리원 자격 취소)을 받을 수 있습니다. 이 경우, 해당 2건에 대해 "적합(단, 1주일 내 패치 배포 조건부)" 등의 임의적 판정을 내리는 것은 금물입니다. 있는 사실 그대로 <strong>"98건 적합, 2건 부적합"</strong>으로 명확히 끊고, 발주처 검수 위원회로 공을 넘겨 "비록 2건 미조치이나 오픈에는 지장이 없으므로 조건부 인수하겠다"는 발주자의 행정적 의사결정이 이루어지도록 역할을 분리해야 합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">시정 조치 결과 최종 판정 트리</div></div>
-<div class="kb-diagram-note">각 지적 사항별 조치 내역 접수</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">조치 결과가 당초 요구된 품질 수준을 충족하는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ (Yes) ──&gt;</div><div class="kb-diagram-node">다른 모듈에 사이드 이펙트를 유발하지 않았는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ (Yes) ──&gt; 판정:</div><div class="kb-diagram-node">적합</div><div class="kb-diagram-note">(문제 없음)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ (No) ──&gt; 판정:</div><div class="kb-diagram-node">부적합</div><div class="kb-diagram-note">(회귀 결함 발생, 원복 및 재조치 지시)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ (No) &gt;</div><div class="kb-diagram-node">대체 방안(Workaround)으로 목표 성능/보안이 확보되었는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ (Yes) ──&gt; 판정:</div><div class="kb-diagram-node">적합</div><div class="kb-diagram-note">(단, 대체 조치 내역 및 잔여 리스크 한계 명시)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ (No) ──&gt; 판정:</div><div class="kb-diagram-node">부적합</div><div class="kb-diagram-note">(핵심 요건 미달, 재조치 지시)</div></div>
-</div>
-</div>
-
-
+```text
+[시정 조치 결과 최종 판정 트리]
+각 지적 사항별 조치 내역 접수
+       │
+       ▼
+[조치 결과가 당초 요구된 품질 수준을 충족하는가?]
+  ├─ (Yes) ──> [다른 모듈에 사이드 이펙트를 유발하지 않았는가?]
+  │              ├─ (Yes) ──> 판정: [적합] (문제 없음)
+  │              └─ (No)  ──> 판정: [부적합] (회귀 결함 발생, 원복 및 재조치 지시)
+  │
+  └─ (No) ───> [대체 방안(Workaround)으로 목표 성능/보안이 확보되었는가?]
+                 ├─ (Yes) ──> 판정: [적합] (단, 대체 조치 내역 및 잔여 리스크 한계 명시)
+                 └─ (No)  ──> 판정: [부적합] (핵심 요건 미달, 재조치 지시)
+```
 
 이 의사결정 트리는 감리인이 시간 압박 속에서도 원칙(Principle)과 유연성(Flexibility)을 잃지 않고 공학적 판정을 내리도록 돕는 기준이 됩니다.
 
@@ -171,23 +158,21 @@ tags = ["design_supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">감리 수행 — 문제점·위험 항목 발굴</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">감리 보고서 — 필수 시정 조치(권고·통보) 목록 공식 확정</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시정 조치 이행 — 발주자·사업자 개선 적용</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">회귀 테스트 (Regression Testing) — 조치로 인한 부작용 검증</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">조치 결과 확인 (Follow-up Action Verification) — 감리 완료 및 기준선 갱신</div></div>
-</div>
-</div>
-
-
+```text
+[감리 수행 — 문제점·위험 항목 발굴]
+    │
+    ▼
+[감리 보고서 — 필수 시정 조치(권고·통보) 목록 공식 확정]
+    │
+    ▼
+[시정 조치 이행 — 발주자·사업자 개선 적용]
+    │
+    ▼
+[회귀 테스트 (Regression Testing) — 조치로 인한 부작용 검증]
+    │
+    ▼
+[조치 결과 확인 (Follow-up Action Verification) — 감리 완료 및 기준선 갱신]
+```
 [감리 보고서](/knowledge-base/studynote/11_design_supervision/01_audit_framework/018_audit_report/)에서 도출된 시정 조치 목록을 이행하고, [회귀 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/)로 부작용을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한 뒤 감리 완료를 공식 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 것이 표준 프로세스다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

@@ -23,22 +23,21 @@ A3C와 PPO는 [액터-크리틱](/knowledge-base/studynote/10_ai/02_dl_architect
 
 A3C는 2016년 DeepMind가 제안해, 여러 워커가 서로 다른 환경을 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 [탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)하며 중앙 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 비동기로 갱신하는 방식을 보였다. 이어 2017년 OpenAI가 제안한 PPO는 TRPO (Trust Region [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) Optimization)의 "[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 너무 멀리 움직이지 말라"는 아이디어를 더 단순한 1차 최적화 형태로 바꿔, 구현 난이도와 안정성의 균형을 크게 개선했다. 그래서 강화학습의 역사에서 A3C는 **확장성의 전환점**, PPO는 <strong>실용성의 전환점</strong>으로 자주 묶여 설명된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Why A3C and PPO mattered</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Policy Gradient</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ high variance</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ slow single-worker sampling</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Actor-Critic</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ better evaluation signal</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ but sampling bottleneck remains -&gt; A3C</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ but update instability remains -&gt; TRPO -&gt; PPO</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Why A3C and PPO mattered                                             │
+├──────────────────────────────────────────────────────────────────────┤
+│ Policy Gradient                                                      │
+│   ├─ high variance                                                   │
+│   └─ slow single-worker sampling                                     │
+│        │                                                             │
+│        ▼                                                             │
+│ Actor-Critic                                                         │
+│   ├─ better evaluation signal                                        │
+│   ├─ but sampling bottleneck remains  -> A3C                         │
+│   └─ but update instability remains -> TRPO -> PPO                   │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 즉 두 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 같은 가계도에 있지만 해결하는 pain point가 다르다. A3C는 "여러 명이 동시에 경험을 모으게 하자"는 답이고, PPO는 "[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 급발진하지 않게 안전벨트를 매자"는 답이다.
 
@@ -52,22 +51,21 @@ A3C의 핵심은 여러 워커가 각자 환경과 상호작용하면서 로컬 
 
 PPO의 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 모으는 방식보다 <strong>업데이트를 제한하는 목적 함수</strong>에 있다. 보통 rollout을 모은 뒤 어드밴티지 추정값을 계산하고, `r_t = π_new(a_t|s_t) / π_old(a_t|s_t)` 비율이 너무 커지거나 작아지면 `clip(r_t, 1-ε, 1+ε)`로 잘라낸다. 여기서 `ε`는 흔히 0.1~0.2 수준이며, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 한 번에 급격히 이동하는 것을 막는다. PPO는 여기에 가치 손실, [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 보너스, GAE (Generalized Advantage Estimation) 같은 보조 장치를 결합해 안정성을 높인다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A3C</div><div class="kb-diagram-cell">PPO</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">worker_1 -&gt; env -&gt; grad ----</div><div class="kb-diagram-cell">rollout with π_old</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">worker_2 -&gt; env -&gt; grad ---- -&gt; advantage estimate</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">worker_n -&gt; env -&gt; grad ----</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼</div><div class="kb-diagram-cell">ratio r_t = π_new / π_old</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">global parameters</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">sync local copy</div><div class="kb-diagram-cell">clipped objective + mini-batch epochs</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">solved bottleneck: sampling</div><div class="kb-diagram-cell">solved bottleneck: unstable updates</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────┬───────────────────────────────────────┐
+│ A3C                          │ PPO                                   │
+├──────────────────────────────┼───────────────────────────────────────┤
+│ worker_1 -> env -> grad ----┐│ rollout with π_old                    │
+│ worker_2 -> env -> grad ----┼┼-> advantage estimate                 │
+│ worker_n -> env -> grad ----┘│        │                              │
+│                │             │        ▼                              │
+│                ▼             │ ratio r_t = π_new / π_old             │
+│         global parameters    │        │                              │
+│                ▲             │        ▼                              │
+│         sync local copy      │ clipped objective + mini-batch epochs │
+│ solved bottleneck: sampling  │ solved bottleneck: unstable updates   │
+└──────────────────────────────┴───────────────────────────────────────┘
+```
 
 | 항목 | A3C | [PPO](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) |
 | :--- | :--- | :--- |
@@ -158,25 +156,25 @@ A3C와 PPO는 강화학습이 "느리고 불안정한 실험"에서 "확장 가�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">정책 경사법 (Policy Gradient)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">액터-크리틱 (Actor-Critic)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">병렬 경험 수집 문제 해결 ──▶ A3C</div>
-<div class="kb-diagram-tree-item" style="--depth:2">정책 급변 문제 해결</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">TRPO (Trust Region Policy Optimization)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">PPO (Proximal Policy Optimization)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">분산형 PPO · 로보틱스 · RLHF</div>
-</div>
-</div>
-
-
+```text
+정책 경사법 (Policy Gradient)
+    │
+    ▼
+액터-크리틱 (Actor-Critic)
+    │
+    ├─ 병렬 경험 수집 문제 해결 ──▶ A3C
+    │
+    └─ 정책 급변 문제 해결
+            │
+            ▼
+TRPO (Trust Region Policy Optimization)
+            │
+            ▼
+PPO (Proximal Policy Optimization)
+            │
+            ▼
+분산형 PPO · 로보틱스 · RLHF
+```
 
 이 흐름은 강화학습이 "평가 구조 확립 → [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 → 안정화 → 대규모 응용" 순으로 실용화된 과정을 요약한다.
 

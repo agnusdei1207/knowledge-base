@@ -32,24 +32,25 @@ CMOS는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_
 
 입력에 0(Low)이 들어오면 위의 PMOS가 켜지고 아래 NMOS가 꺼져 출력은 1(VDD)이 된다. 반대로 1(High)이 들어오면 PMOS가 꺼지고 NMOS가 켜져 출력은 0(GND)이 된다. 어느 경우든 VDD와 GND 사이의 길이 끊겨 있으므로 대기 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)가 흐르지 않는다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CMOS 인버터(NOT 게이트)의 완벽한 상보적 동작</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VDD (전원) VDD (전원)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▼</div><div class="kb-diagram-node">PMOS</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">PMOS</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─ (입력 0에 열림)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">❌ (전류 차단벽 형성)</div><div class="kb-diagram-cell">✅ (전류 통과)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 출력 (0) ▶ 출력 (1)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▼</div><div class="kb-diagram-node">NMOS</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">NMOS</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─ (입력 0에 닫힘)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ (전류 통과)</div><div class="kb-diagram-cell">❌ (전류 차단벽 형성)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GND (접지) GND (접지)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 입력이 1이든 0이든, 위나 아래 중 한 곳은 반드시 차단되므로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VDD에서 GND로 흐르는 정적 누설 전류(Static Current)는 0이다.</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           CMOS 인버터(NOT 게이트)의 완벽한 상보적 동작           │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│     VDD (전원)                        VDD (전원)               │
+│      │                                 │                     │
+│      ▼ [ PMOS ] ◀─ (입력 1에 닫힘)      ▼ [ PMOS ] ◀─ (입력 0에 열림)│
+│      │ ❌ (전류 차단벽 형성)             │ ✅ (전류 통과)          │
+│  ────┼──────────▶ 출력 (0)         ────┼──────────▶ 출력 (1)    │
+│      │                                 │                     │
+│      ▼ [ NMOS ] ◀─ (입력 1에 열림)      ▼ [ NMOS ] ◀─ (입력 0에 닫힘)│
+│      │ ✅ (전류 통과)                    │ ❌ (전류 차단벽 형성)   │
+│     GND (접지)                        GND (접지)               │
+│                                                              │
+│ * 입력이 1이든 0이든, 위나 아래 중 한 곳은 반드시 차단되므로     │
+│   VDD에서 GND로 흐르는 정적 누설 전류(Static Current)는 0이다.   │
+└──────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 윗문(PMOS)과 아랫문(NMOS)이 하나로 연결된 널뛰기다. 위가 열리면 아래가 막히고, 아래가 열리면 위가 막혀서 절대 위에서 아래로 다이렉트로 바람이 새지 않는다.
 
@@ -106,21 +107,18 @@ CMOS 아키텍처는 발열과 대기 [전력 소모](/knowledge-base/studynote/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">NMOS (N형 MOSFET) — 전류 흐름, 대기 전력 낭비</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CMOS (Complementary MOS) — PMOS+NMOS 상보 쌍, 대기 전력 0</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">FinFET (Fin Field-Effect Transistor) — 3D 게이트, 누설 전류 억제</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Beyond CMOS (GaN·그래핀·스핀트로닉스) — 양자 물리 기반 차세대 소자</div></div>
-</div>
-</div>
-
-
+```text
+[NMOS (N형 MOSFET) — 전류 흐름, 대기 전력 낭비]
+    │
+    ▼
+[CMOS (Complementary MOS) — PMOS+NMOS 상보 쌍, 대기 전력 0]
+    │
+    ▼
+[FinFET (Fin Field-Effect Transistor) — 3D 게이트, 누설 전류 억제]
+    │
+    ▼
+[Beyond CMOS (GaN·그래핀·스핀트로닉스) — 양자 물리 기반 차세대 소자]
+```
 CMOS는 NMOS와 PMOS를 쌍으로 묶어 대기 전력을 근본적으로 차단한 설계로, [FinFET](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/019_finfet/) 이후 Beyond CMOS 기술로 발전하고 있다.
 ### 👶 어린이를 위한 3줄 비유 설명
 

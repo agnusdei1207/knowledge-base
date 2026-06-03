@@ -36,26 +36,27 @@ tags = ["studynote-dataengineering"]
 | **가중 평균 지니 불순도** | 부모 노드를 분할한 후, 각 자식 노드의 크기 비율로 지니 불순도를 가중 평균함 | 분할 후의 전체적인 불순도 상태를 평가한다. |
 | **지니 이득 (Gini Gain)** | 분할 전 부모 불순도 - 분할 후 가중 평균 불순도 | 이 값이 가장 커지는 분할(질문)을 선택하여 노드를 쪼갠다. |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지니 불순도 기반의 의사결정 트리 분할 과정 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1.</div><div class="kb-diagram-node">부모 노드</div><div class="kb-diagram-note">100개 데이터 (고양이 50마리, 강아지 50마리)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 확률 0.5, 0.5 -&gt; Gini = 1 - (0.5^2 + 0.5^2) = 0.5</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;질문: "몸무게가 10kg 이상인가?"&gt;</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2.</div><div class="kb-diagram-node">자식 노드 A</div><div class="kb-diagram-note">40개 데이터</div><div class="kb-diagram-node">자식 노드 B</div><div class="kb-diagram-note">60개 데이터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고양이: 5, 강아지: 35 고양이: 45, 강아지: 15</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Gini = 1 - (1/8)^2 - (7/8)^2 Gini = 1 - (3/4)^2 - (1/4)^2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">= 0.218 = 0.375</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3.</div><div class="kb-diagram-node">가중 평균 지니 계산</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(40/100)*0.218 + (60/100)*0.375 = 0.3122</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">4.</div><div class="kb-diagram-node">지니 이득(Gain)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0.5 - 0.3122 = 0.1878 (이 값이 가장 큰 질문을 최종 선택!)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           지니 불순도 기반의 의사결정 트리 분할 과정 시각화          │
+├──────────────────────────────────────────────────────────────┤
+│ 1. [부모 노드] 100개 데이터 (고양이 50마리, 강아지 50마리)       │
+│    => 확률 0.5, 0.5 -> Gini = 1 - (0.5^2 + 0.5^2) = 0.5      │
+│        │                                                     │
+│        │ <질문: "몸무게가 10kg 이상인가?">                      │
+│        ▼                                                     │
+│ 2. [자식 노드 A] 40개 데이터        [자식 노드 B] 60개 데이터       │
+│    고양이: 5, 강아지: 35            고양이: 45, 강아지: 15          │
+│    Gini = 1 - (1/8)^2 - (7/8)^2    Gini = 1 - (3/4)^2 - (1/4)^2  │
+│         = 0.218                         = 0.375              │
+│                                                              │
+│ 3. [가중 평균 지니 계산]                                         │
+│    (40/100)*0.218 + (60/100)*0.375 = 0.3122                  │
+│                                                              │
+│ 4. [지니 이득(Gain)]                                            │
+│    0.5 - 0.3122 = 0.1878 (이 값이 가장 큰 질문을 최종 선택!)      │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램은 분할 기준이 어떻게 수학적으로 선택되는지 보여준다. 모델은 모든 가능한 질문(특성)과 기준값에 대해 이 가중 평균 지니 연산을 수백만 번 수행하며 트리 구조를 완성해 나간다. [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 연산이 없기 때문에 이 수백만 번의 반복이 CPU에서 엄청나게 빠르게 처리된다.
 
@@ -118,23 +119,21 @@ tags = ["studynote-dataengineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">정보 이론 (Information Theory - 불확실성의 측정)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">엔트로피와 정보 이득 (초기 ID3 알고리즘의 노드 분할 척도)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지니 불순도 (Gini Impurity - 로그 연산을 제거하여 계산 효율성을 극대화)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CART (Classification and Regression Trees) 알고리즘 (지니 기반 이진 분할 정립)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">앙상블 학습 (Random Forest, XGBoost 등에서 피처 평가 및 대규모 병렬 트리의 코어 연산으로 확장)</div>
-</div>
-</div>
-
-
+```text
+정보 이론 (Information Theory - 불확실성의 측정)
+    │
+    ▼
+엔트로피와 정보 이득 (초기 ID3 알고리즘의 노드 분할 척도)
+    │
+    ▼
+지니 불순도 (Gini Impurity - 로그 연산을 제거하여 계산 효율성을 극대화)
+    │
+    ▼
+CART (Classification and Regression Trees) 알고리즘 (지니 기반 이진 분할 정립)
+    │
+    ▼
+앙상블 학습 (Random Forest, XGBoost 등에서 피처 평가 및 대규모 병렬 트리의 코어 연산으로 확장)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

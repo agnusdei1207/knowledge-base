@@ -25,19 +25,22 @@ tags = ["studynote-database"]
 
 이 그림은 CBO가 단순 문법 해석기가 아니라, 통계와 비용 모델을 바탕으로 물리 경로를 정하는 의사결정기임을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CBO의 기본 역할: SQL을 비용 기반으로 해석</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SQL Text</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Parse / Rewrite ──▶ Statistics Check ──▶ Candidate Plans</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Selectivity / Cardinality Cost Compare</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Best Execution Plan</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                CBO의 기본 역할: SQL을 비용 기반으로 해석            │
+├──────────────────────────────────────────────────────────────────────┤
+│ SQL Text                                                            │
+│   │                                                                  │
+│   ▼                                                                  │
+│ Parse / Rewrite ──▶ Statistics Check ──▶ Candidate Plans             │
+│                                   │                 │                │
+│                                   ▼                 ▼                │
+│                         Selectivity / Cardinality   Cost Compare     │
+│                                                      │               │
+│                                                      ▼               │
+│                                               Best Execution Plan    │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 핵심은 CBO가 "[인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 있느냐"만 보는 것이 아니라, <strong>그 <a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a>를 타는 편이 정말 싼가</strong>를 따진다는 점이다. 그래서 현대 SQL 튜닝은 문법 암기보다 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)과 통계를 읽는 능력이 더 중요해졌다.
 
@@ -59,22 +62,24 @@ CBO는 보통 <strong>통계 수집 결과 <a href="/knowledge-base/studynote/05
 
 아래 그림은 하나의 SQL이 여러 후보 계획으로 갈라졌다가, 비용 비교를 통해 하나로 수렴하는 과정을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">후보 계획 생성과 비용 비교 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Query</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Rewrite</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Plan A: Index Range Scan + Nested Loop</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Plan B: Full Table Scan + Hash Join</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Plan C: Index Scan + Sort Merge Join</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ Cost Estimation</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Lowest Cost Plan</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                  후보 계획 생성과 비용 비교 흐름                    │
+├──────────────────────────────────────────────────────────────────────┤
+│ Query                                                                │
+│  │                                                                   │
+│  ▼                                                                   │
+│ Rewrite                                                               │
+│  ├─ Plan A: Index Range Scan + Nested Loop                           │
+│  ├─ Plan B: Full Table Scan + Hash Join                              │
+│  └─ Plan C: Index Scan + Sort Merge Join                             │
+│                 │        │        │                                   │
+│                 └────────┴────────┴──▶ Cost Estimation               │
+│                                         │                             │
+│                                         ▼                             │
+│                                   Lowest Cost Plan                    │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 예를 들어 주문 테이블 1,000만 건 중 100건만 찾는다면 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 범위 스캔이 유리할 수 있다. 반대로 300만 건을 읽어야 한다면, [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 따라가며 행마다 테이블 블록을 다시 찾는 랜덤 I/O가 오히려 더 무거워져 전체 테이블 스캔이 더 경제적일 수 있다. CBO의 핵심 원리는 바로 이런 <strong>손익분기점</strong>을 기계적으로 계산하는 데 있다.
 
@@ -153,23 +158,21 @@ CBO는 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">고정 규칙 기반 최적화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">RBO (Rule Based Optimizer)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">통계 수집 · 선택도 · 카디널리티</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CBO (Cost Based Optimizer)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">히스토그램 · 적응형 최적화 · 실행 중 재최적화</div>
-</div>
-</div>
-
-
+```text
+고정 규칙 기반 최적화
+    │
+    ▼
+RBO (Rule Based Optimizer)
+    │
+    ▼
+통계 수집 · 선택도 · 카디널리티
+    │
+    ▼
+CBO (Cost Based Optimizer)
+    │
+    ▼
+히스토그램 · 적응형 최적화 · 실행 중 재최적화
+```
 
 이 흐름은 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 최적화가 "규칙 암기"에서 "통계 기반 적응"으로 발전해 온 방향을 보여준다.
 

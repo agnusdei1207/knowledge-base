@@ -29,7 +29,7 @@ tags = ["studynote-operating-system"]
 
 ### 1.2 ACL의 해결책
 
-ACL은 <strong>"<a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>(Object)와/과에(각각)"</strong> 권한 목록을 저장한다:
+ACL은 <strong>"<a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>(Object)ご와/과에(각각)"</strong> 권한 목록을 저장한다:
 
 ```text
 [ 파일 A의 ACL ]
@@ -87,13 +87,13 @@ setfacl -m u:alice:rw /data/report.txt
 
 Windows 탐색기에서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 우클릭 → [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) → 보안 탭에서 보는 것이 바로 <strong>NTFS <a href="/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/">ACL</a></strong>이다.
 
-### 3.2 [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) 항의구조
+### 3.2 [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) 항목의구조
 
 ```text
 [ NTFS ACL 항목 ]
-Principal (사용자/그룹) | Access Type (허용/거부) | Permissions (권한)
-alice | Allow | Read, Write
-NETWORK SERVICE | Deny | Full Control
+ Principal (사용자/그룹) | Access Type (허용/거부) | Permissions (권한)
+ alice                    | Allow                   | Read, Write
+ NETWORK SERVICE          | Deny                    | Full Control
 ```
 
 - **📢 섹션 요약 비유**: 비슷해 보이는 공구를 나란히 놓고 언제 망치를 쓰고 언제 드라이버를 써야 하는지 구분하는 것과 같다.
@@ -129,19 +129,15 @@ NETWORK SERVICE | Deny | Full Control
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">전역 테이블 (Global Table) 방식 구현 (행렬 희소성 문제)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">접근 제어 목록 (ACL, Access Control List)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">자격 증명 리스트 (Capability List / Ticket)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">롤 기반 접근 제어 (RBAC, Role-Based Access Control)</div></div>
-</div>
-</div>
-
-
+```text
+[전역 테이블 (Global Table) 방식 구현 (행렬 희소성 문제)]
+    │
+    ▼
+[접근 제어 목록 (ACL, Access Control List)]
+    │
+    ├──▶ [자격 증명 리스트 (Capability List / Ticket)]
+    └──▶ [롤 기반 접근 제어 (RBAC, Role-Based Access Control)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

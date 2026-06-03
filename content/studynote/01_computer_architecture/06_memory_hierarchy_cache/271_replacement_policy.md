@@ -35,19 +35,19 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 교체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 실제로 개입하는 지점을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">교체 정책이 개입하는 순간: 빈칸이 없을 때 희생 블록을 고른다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 요청 ─▶ 태그 비교 ─▶ Miss 확인 ─▶ 빈 Way 존재? ── 예 ─▶ 적재</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ─▶ Victim 선택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최근성 · 빈도 · 삽입 위치 · 비용 고려</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기존 블록 축출 후 새 블록 적재</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ 교체 정책이 개입하는 순간: 빈칸이 없을 때 희생 블록을 고른다      │
+├────────────────────────────────────────────────────────────────────┤
+│ CPU 요청 ─▶ 태그 비교 ─▶ Miss 확인 ─▶ 빈 Way 존재? ── 예 ─▶ 적재   │
+│                                  │                                │
+│                                  └─ 아니오 ─▶ Victim 선택         │
+│                                                  │                │
+│                        최근성 · 빈도 · 삽입 위치 · 비용 고려       │
+│                                                  │                │
+│                                 기존 블록 축출 후 새 블록 적재     │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 핵심은 교체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 모든 접근에 대해 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 찾는 단계"가 아니라, **미스가 발생했고 빈 자리가 없을 때만** 본격적으로 개입한다는 점이다. 그러나 실제 하드웨어는 그 순간을 위해 평소에도 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 계속 갱신해야 한다. 예를 들어 [Least Recently Used](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) ([LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/))는 접근할 때마다 순서를 업데이트해야 하고, [Least Frequently Used](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/) ([LFU](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/))는 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 횟수를 관리해야 한다.
 
@@ -142,23 +142,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">직접 매핑의 단순 충돌</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">세트 연관 매핑 · 희생 블록 선택 필요</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">FIFO · LRU · LFU · Random</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">PLRU · Clock · 삽입 위치 조절</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">적응형 교체 정책 · workload 인식 캐시</div>
-</div>
-</div>
-
-
+```text
+직접 매핑의 단순 충돌
+    │
+    ▼
+세트 연관 매핑 · 희생 블록 선택 필요
+    │
+    ▼
+FIFO · LRU · LFU · Random
+    │
+    ▼
+PLRU · Clock · 삽입 위치 조절
+    │
+    ▼
+적응형 교체 정책 · workload 인식 캐시
+```
 
 이 흐름은 "고정 규칙"에서 출발해 "접근 패턴을 읽는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)"으로 발전하는 방향을 보여준다.
 

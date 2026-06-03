@@ -24,32 +24,40 @@ tags = ["studynote-operating-system"]
 
 Binder의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부 동작 구조와 메모리 맵 기반 [zero-copy](/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/) 메커니즘을 아키텍처 다이어그램으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 수 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">프로세스 A (송신)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 버퍼</div><div class="kb-diagram-cell">Binder 매핑 영역</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(송신 데이터)</div><div class="kb-diagram-cell">(mmap으로 할당된</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수신용 버퍼 공간)</div></div>
-<div class="kb-diagram-note">ioctl(BINDER_WRITE_TRANSACTION)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Binder 커널 드라이버</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 송신 버퍼의 데이터를 읽음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 수신자의 매핑 영역에 직접 복사 (1회 복사!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 수신자 프로세스에 대기 중인 스레드 깨움</div></div>
-<div class="kb-diagram-note">프로세스 B (수신)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Binder 매핑 영역</div><div class="kb-diagram-cell">스레드 풀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(커널이 복사한</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터가 이미 존재!)</div><div class="kb-diagram-cell">Worker 1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Worker 2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Worker 3</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 바로 읽기 가능</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">커널이 스레드를 깨움</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────── 프로세스 A (송신) ──────────────────────┐
+│                                                        │
+│  ┌─────────────┐     ┌──────────────────────┐          │
+│  │ 사용자 버퍼  │     │  Binder 매핑 영역     │        │
+│  │ (송신 데이터) │     │  (mmap으로 할당된     │       │
+│  │              │     │   수신용 버퍼 공간)    │       │
+│  └──────┬──────┘     └──────────┬───────────┘          │
+│         │                        │                     │
+└─────────┼────────────────────────┼─────────────────────┘
+          │ ioctl(BINDER_WRITE_TRANSACTION)
+          ▼
+┌────────────────────────────────────────────────────────┐
+│                   Binder 커널 드라이버                 │
+│                                                        │
+│  1. 송신 버퍼의 데이터를 읽음                          │
+│  2. 수신자의 매핑 영역에 직접 복사 (1회 복사!)         │
+│  3. 수신자 프로세스에 대기 중인 스레드 깨움            │
+│                                                        │
+└──────────────┬─────────────────────┬───────────────────┘
+               │                                         │
+               ▼                     ▼
+┌─────────────── 프로세스 B (수신) ──────────────────────┐
+│  ┌──────────────────────┐     ┌─────────────┐          │
+│  │  Binder 매핑 영역     │     │ 스레드 풀    │        │
+│  │  (커널이 복사한       │     │             │         │
+│  │   데이터가 이미 존재!) │     │  Worker 1   │        │
+│  └──────────┬───────────┘     │  Worker 2   │          │
+│             │                 │  Worker 3   │          │
+│             ▼                 └──────┬──────┘          │
+│     [데이터 바로 읽기 가능]           │                │
+│                            [커널이 스레드를 깨움]      │
+└────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 도식의 핵심은 Binder가 "미리 할당된 매핑 영역(Mapped Area)"을 활용하여 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서 수신자 버퍼로의 직접 복사를 수행한다는 점이다. 일반적인 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 기반 IPC는 (1) 송신자 버퍼에서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 버퍼로 복사하고, (2) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 버퍼에서 수신자 버퍼로 복사하는 2회 복사가 필요하다. 반면 Binder는 프로세스 B가 시작 시 `mmap()`으로 수신용 버퍼를 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 미리 할당해 둔다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 드라이버는 `ioctl()` 호출 시 송신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽어 프로세스 B의 미리 할당된 매핑 영역에 직접 쓴다. 따라서 복사는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)→수신자 단 1회만 발생한다. 또한 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 프로세스 B의 [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/)([Thread Pool](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/))에서 대기 중인 워커 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)(Worker [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))를 깨워서 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 처리하므로, 수신자 프로세스가 별도로 [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) 전용 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 관리할 필요가 없다.
 
@@ -70,31 +78,34 @@ Binder의 동작은 [트랜잭션](/knowledge-base/studynote/05_database/04_tran
 
 Binder의 단일 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [RPC](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/) 흐름을 타이밍 다이어그램으로 시각화할 수 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">클라이언트 (App) Binder 커널 서비스 (SystemServer)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── ioctl(BC_TRANSACTION)──▶</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 + 핸들 + 코드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 수신자 매핑 영역에</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 직접 복사</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀── BR_TRANSACTION_COMPLETE</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">송신 완료 확인</div><div class="kb-diagram-note">[수신자 스레드 풀에서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대기 스레드 깨움]</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── BR_TRANSACTION ▶</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">트랜잭션 데이터 전달</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">서비스 처리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">메서드 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀── BC_REPLY</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">결과 데이터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀── BR_REPLY</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">결과 수신</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">클라이언트 계속 실행</div><div class="kb-diagram-node">커널 대기 복귀</div><div class="kb-diagram-node">서비스 대기 복귀</div></div>
-</div>
-</div>
-
-
+```text
+  클라이언트 (App)              Binder 커널              서비스 (SystemServer)
+     │                           │                             │
+     ├── ioctl(BC_TRANSACTION)──▶│                             │
+     │  [데이터 + 핸들 + 코드]   │                             │
+     │                           │                             │
+     │                           ├── 수신자 매핑 영역에        │
+     │                           │   데이터 직접 복사          │
+     │                           │                             │
+     │◀── BR_TRANSACTION_COMPLETE│                             │
+     │  [송신 완료 확인]          │   [수신자 스레드 풀에서    │
+     │                           │    대기 스레드 깨움]        │
+     │                           │                             │
+     │                           ├── BR_TRANSACTION ───────▶   │
+     │                           │   [트랜잭션 데이터 전달]    │
+     │                           │                             │
+     │                           │                    [서비스 처리]
+     │                           │                    [메서드 실행]
+     │                           │                             │
+     │                           │◀── BC_REPLY ────────────────┤
+     │                           │   [결과 데이터]             │
+     │                           │                             │
+     │◀── BR_REPLY ──────────────┤                             │
+     │  [결과 수신]               │                            │
+     │                           │                             │
+     ▼                           ▼                          ▼
+  [클라이언트 계속 실행]     [커널 대기 복귀]       [서비스 대기 복귀]
+```
 
 **[다이어그램 해설]** 이 흐름도는 [Binder](/knowledge-base/studynote/02_operating_system/10_security/662_android_binder_ipc_thread_pool/) RPC의 전체 생명주기를 단일 `ioctl()` 호출 관점에서 보여준다. 핵심은 클라이언트가 `ioctl(BC_TRANSACTION)`을 호출하면, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 즉시 `BR_TRANSACTION_COMPLETE`를 반환하여 클라이언트를 블로킹 해제한다는 점이다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 비동기적으로 수신자 프로세스의 대기 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 깨우고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전달한다. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 처리를 완료하면 결과를 `BC_REPLY`로 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 반환하고, 클라이언트는 `BR_REPLY`로 최종 결과를 수신한다. 이 구조는 클라이언트가 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 처리 완료까지 블로킹되는 동기 호출(oneway=0)과, 결과를 기다리지 않는 비동기 호출(oneway=1)을 모두 지원한다. 특히 `BR_TRANSACTION_COMPLETE`의 조기 반환은 클라이언트의 대기 시간을 최소화하므로, UI [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)에서의 [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Jank)을 감소시키는 안드로이드의 핵심 최적화다.
 
@@ -116,29 +127,28 @@ Binder는 모바일 환경에 최적화된 IPC로, 데스크탑 IPC와 비교하
 
 [Binder](/knowledge-base/studynote/02_operating_system/10_security/662_android_binder_ipc_thread_pool/), [D-Bus](/knowledge-base/studynote/02_operating_system/02_process_thread/134_dbus/), 직통 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)의 메시지 경로와 복사 횟수를 비교할 수 있다.
 
+```text
+  [Binder: 1회 복사]
+  App ──ioctl()──▶ [Kernel: 송신 버퍼 읽고 수신자 매핑 영역에 직접 쓰기]
+                               │
+                         ▼
+                   SystemServer [매핑 영역에서 바로 읽기]
+                   복사: 1회, 홉: 1회 (커널 경유)
 
+  [D-Bus: 2회 복사]
+  App ──socket──▶ [dbus-daemon] ──socket──▶ Service
+                  ┌────────────┐
+                  │ 1차: App→  │
+                  │  Daemon    │
+                  │ 2차: Daemon│
+                  │  →Service  │
+                  └────────────┘
+                  복사: 2회, 홉: 2회 (데몬 경유)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Binder: 1회 복사</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Kernel: 송신 버퍼 읽고 수신자 매핑 영역에 직접 쓰기</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">SystemServer</div><div class="kb-diagram-node">매핑 영역에서 바로 읽기</div></div>
-<div class="kb-diagram-note">복사: 1회, 홉: 1회 (커널 경유)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">D-Bus: 2회 복사</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">dbus-daemon</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Service</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1차: App→</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Daemon</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2차: Daemon</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→Service</div></div>
-<div class="kb-diagram-note">복사: 2회, 홉: 2회 (데몬 경유)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Unix Socket: 1회 복사 + scm_right로 fd 전달 가능</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Kernel: skb 할당</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Service</div></div>
-<div class="kb-diagram-note">복사: 1회, 홉: 1회</div>
-</div>
-</div>
-
-
+  [Unix Socket: 1회 복사 + scm_right로 fd 전달 가능]
+  App ──sendmsg()──▶ [Kernel: skb 할당] ──▶ Service
+                     복사: 1회, 홉: 1회
+```
 
 **[다이어그램 해설]** 이 비교 도식은 Binder가 왜 "1회 복사"라고 주장하는지를 D-Bus와의 비교를 통해 명확히 보여준다. D-Bus는 사용자 공간 데몬을 경유하므로, App→데몬과 데몬→Service의 두 번 사용자-[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 경계를 넘어야 한다. 반면 Binder는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이므로 App이 `ioctl()`로 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 진입하면, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 Service의 미리 매핑된 버퍼에 직접 쓰고 Service의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 깨운다. [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 기반 IPC도 1회 복사이지만, Binder의 결정적 차이는 (1) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 수신자의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 자동으로 관리하고, (2) [Binder](/knowledge-base/studynote/02_operating_system/10_security/662_android_binder_ipc_thread_pool/) 객체 핸들을 통해 원격 객체 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)를 전달할 수 있다는 점이다. 이는 안드로이드의 AIDL (Android Interface Definition Language) 기반 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 프레임워크가 가능한 근간이다.
 
@@ -160,29 +170,27 @@ Binder는 안드로이드 애플리케이션 개발에서 [성능](/knowledge-ba
 
 아키텍트는 [Binder](/knowledge-base/studynote/02_operating_system/10_security/662_android_binder_ipc_thread_pool/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 문제 진단을 위한 체계적 접근이 필요하다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Binder 성능 문제 진단 트리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Binder 트랜잭션 지연이 5ms 이상인가?</div>
-<div class="kb-diagram-tree-item" style="--depth:4">아니오 ──▶ 정상 범위 (대부분의 경우)</div>
-<div class="kb-diagram-tree-item" style="--depth:4">예 ──▶ 전송 데이터 크기가 1MB 이상인가?</div>
-<div class="kb-diagram-tree-item" style="--depth:8">예 ──▶ zero-copy SharedMemory 전환</div>
-<div class="kb-diagram-note">또는 HIDL/AIDL의</div>
-<div class="kb-diagram-note">parcelable→stable AIDL 최적화</div>
-<div class="kb-diagram-tree-item" style="--depth:8">아니오 ──▶ 수신자 스레드가 블로킹 중인가?</div>
-<div class="kb-diagram-tree-item" style="--depth:8">예 ──▶ oneway (비동기) 전환</div>
-<div class="kb-diagram-note">또는 스레드 풀 크기 증가</div>
-<div class="kb-diagram-tree-item" style="--depth:8">아니오 ──▶ Binder 트랜잭션 빈도</div>
-<div class="kb-diagram-note">과다 (Thrashing)</div>
-<div class="kb-diagram-note">→ 배치(Batching) 처리</div>
-<div class="kb-diagram-note">또는 캐싱 도입</div>
-</div>
-</div>
-
-
+```text
+   [ Binder 성능 문제 진단 트리 ]
+                                     │
+                ▼
+     Binder 트랜잭션 지연이 5ms 이상인가?
+        ├── 아니오 ──▶ 정상 범위 (대부분의 경우)
+                                     │
+        └── 예 ──▶ 전송 데이터 크기가 1MB 이상인가?
+                      ├── 예 ──▶ zero-copy SharedMemory 전환
+                      │          또는 HIDL/AIDL의
+                      │          parcelable→stable AIDL 최적화
+                                     │
+                      └── 아니오 ──▶ 수신자 스레드가 블로킹 중인가?
+                                     ├── 예 ──▶ oneway (비동기) 전환
+                                     │          또는 스레드 풀 크기 증가
+                                     │
+                                     └── 아니오 ──▶ Binder 트랜잭션 빈도
+                                                    과다 (Thrashing)
+                                                    → 배치(Batching) 처리
+                                                    또는 캐싱 도입
+```
 
 **[다이어그램 해설]** 이 진단 트리는 [Binder](/knowledge-base/studynote/02_operating_system/10_security/662_android_binder_ipc_thread_pool/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 문제의 세 가지 근본 원인([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기, 수신자 블로킹, [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 빈도)을 체계적으로 좁혀나가는 방법을 제공한다. 안드로이드의 `Perfetto` 도구(이전 `systrace`)를 사용하면 [Binder](/knowledge-base/studynote/02_operating_system/10_security/662_android_binder_ipc_thread_pool/) [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)별로 소요 시간, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기, 대기 시간을 시각화할 수 있으므로, 이 진단 트리의 각 분기점을 정량적으로 판단할 수 있다. 특히 안드로이드 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 29) 이후 도입된 `ndk::AIBinder` API는 C/C++ 레벨에서 [Binder](/knowledge-base/studynote/02_operating_system/10_security/662_android_binder_ipc_thread_pool/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 직접 제어할 수 있으므로, 고성능 [HAL](/knowledge-base/studynote/02_operating_system/01_overview_architecture/070_hal/) 구현 시 적극 활용해야 한다.
 
@@ -231,19 +239,15 @@ Android 13 이후 Binder는 [Rust](/knowledge-base/studynote/04_software_enginee
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">D-Bus (Desktop Bus)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">안드로이드 바인더 (Android Binder)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">좀비 스레드 (Zombie Thread)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">멀티프로세스 아키텍처 (크롬 브라우저 등)</div></div>
-</div>
-</div>
-
-
+```text
+[D-Bus (Desktop Bus)]
+    │
+    ▼
+[안드로이드 바인더 (Android Binder)]
+    │
+    ├──▶ [좀비 스레드 (Zombie Thread)]
+    └──▶ [멀티프로세스 아키텍처 (크롬 브라우저 등)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

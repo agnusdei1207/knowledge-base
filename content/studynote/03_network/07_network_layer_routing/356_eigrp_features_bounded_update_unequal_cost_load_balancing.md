@@ -28,18 +28,14 @@ tags = ["studynote-network"]
   - **부분/제한적 업데이트**: 사내 게시판에 "오늘 점심 메뉴 바뀜"이라고 전체 공지(Flooding)를 때리지 않고, <strong>점심 메뉴가 바뀐 부서 사람들에게만 조용히 사내 메신저(Bounded)로 "제육볶음 대신 돈까스 나옴(Partial)"이라고 콕 집어 알려주는 세련된 사내 통신망</strong>입니다.
   - <strong>Unequal Cost 부하 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a></strong>: 짐 100개를 옮겨야 할 때, 10톤 트럭(1등 경로) 한 대만 혹사하고 5톤 트럭(2등 경로)은 주차장에 놀리는 게 아니라, <strong>"너는 2번 왕복할 때 얘는 1번 왕복하게 맞춰서, 둘이 동시에 짐을 나르자!"</strong>라고 기막히게 분배하는 물류 반장입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">EIGRP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">EIGRP 특징: 부분/바운디드 업데이트,…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OSPF</div></div>
-</div>
-</div>
-
-
+```text
+[EIGRP]
+    │
+    ▼
+[EIGRP 특징: 부분/바운디드 업데이트,…]
+    │
+    └──▶ [OSPF]
+```
 
 - **📢 섹션 요약 비유**: ** EIGRP의 이러한 특징들은 낭비를 극도로 혐오하는 **"짠돌이 구두쇠"**의 철학과 같습니다. 내 입([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)) 아프게 쓸데없는 말을 하지 않고, 놀고 있는 뒷방 늙은이(2등 경로)까지 알뜰하게 부려 먹어 트래픽 처리량을 한계치까지 쥐어짜 냅니다.
 
@@ -65,22 +61,21 @@ EIGRP의 진정한 마법이자 타 [프로토콜](/knowledge-base/studynote/03_
 - 라우터 왈: "이제부터 내 수첩에 적힌 2등 경로들 중에서, 점수가 30점보다 싼(좋은) 놈들은 전부 다 1등이랑 같이 패킷을 쏠 자격을 주마!"
 - 경로 2는 25점이므로 기준 점수 30점 안에 들어와서 <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/833_load_balancing_l4_l7_switch_traffic_distribution/">로드 밸런싱</a>에 합류</strong>하게 된다!
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Variance를 이용한 Unequal Cost 분산 도식</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">내 라우터</div><div class="kb-diagram-node">목적지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── (경로 A: 10점, 1등) ──▶ (패킷 5개 보냄) ──▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── (경로 B: 20점, 2등) ──▶ (패킷 2개 보냄) ──▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── (경로 C: 40점, 3등) ──▶ (탈락, 안 보냄) ──▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 설정: variance 2 (1등 점수 10 * 2 = 커트라인 20점)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 결과: 20점 이하인 A길과 B길을 모두 사용한다!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 분배: A가 B보다 2배 좋으니까, 라우터는 A쪽으로 트래픽을 2배 더 많이 쏜다!</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                Variance를 이용한 Unequal Cost 분산 도식           │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 내 라우터 ]                                     [ 목적지 ] │
+ │        │ ── (경로 A: 10점, 1등) ──▶ (패킷 5개 보냄) ──▶         │
+ │        │ ── (경로 B: 20점, 2등) ──▶ (패킷 2개 보냄) ──▶         │
+ │        └── (경로 C: 40점, 3등) ──▶ (탈락, 안 보냄)   ──▶         │
+ │                                                             │
+ │   * 설정: variance 2 (1등 점수 10 * 2 = 커트라인 20점)            │
+ │   * 결과: 20점 이하인 A길과 B길을 모두 사용한다!                    │
+ │   * 분배: A가 B보다 2배 좋으니까, 라우터는 A쪽으로 트래픽을 2배 더 많이 쏜다!│
+ └─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">Variance</a> 명령어는 사장님의 </strong>"성과급 융통성(커트라인 완화)"**입니다. 원래는 90점 맞은 1등 직원(Successor)에게만 보너스를 몰아주다가, 사장님이 `variance 1.5`를 때리면 "1등 점수(90점)의 1.5배 이내로 들어온 직원들(Feasible Successor)에게도 성적에 비례해서 보너스를 나눠줘라!"라며 놀고 있던 직원들을 열일하게 만듭니다.
 
@@ -138,19 +133,15 @@ EIGRP의 진정한 마법이자 타 [프로토콜](/knowledge-base/studynote/03_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: EIGRP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: EIGRP 특징: 부분/바운디드 업데이트,…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: OSPF</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: EIGRP]
+    │
+    ▼
+[현재 개념: EIGRP 특징: 부분/바운디드 업데이트,…]
+    │
+    ├──▶ [확장 A: OSPF]
+    └──▶ [확장 B: 의도 기반 라우팅]
+```
 
 [EIGRP](/knowledge-base/studynote/03_network/07_network_layer_routing/355_eigrp_enhanced_igrp_dual_algorithm/) 특징: 부분/바운디드 업데이트,…는 EIGRP에서 출발해 현재 메커니즘을 정교화하고, 이후 OSPF와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

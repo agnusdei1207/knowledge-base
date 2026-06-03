@@ -35,29 +35,29 @@ tags = ["studynote-data-engineering"]
 
 디퓨전 봇의 심장 뼈대는 "어떻게 모래를 붓고([Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/)), 어떻게 모래를 깎아내는가(Reverse)" 두 축의 십자 융합 수학 도해다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디퓨전(Diffusion) 모델의 파괴와 창조 2-Track 사이클 우주 텐트 도해 🚀</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">💣</div><div class="kb-diagram-node">1. Forward Process (순방향: 무지성 파괴 폭격 💥 / 학습 불필요)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 작전: 오리지널 고화질 사진에 매 틱(Step t)마다 가우시안 노이즈(모래)를 붓는다.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- X_0 (원본 개사진) ➔ X_1 ➔ X_2 ➔ ... ➔ X_1000 (100% 지지직 순수 노이즈)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 🌟 팩폭 룰: 이건 딥러닝 봇이 하는 게 아님 ㅋ 걍 수학 공식(Markov Chain)으로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스케줄 맞춰서 잉크 번지듯 100% 확정적(Deterministic)으로 뭉개버리는 작업 컷!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">🛡️ 아키텍트의 메스: U-Net 노이즈 예측 뇌 록온 ✨</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🎨</div><div class="kb-diagram-node">2. Reverse Process (역방향: Denoising 깎기 환생 창조 🚀 / 딥러닝 본체)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 작전: 100% 순수 노이즈 X_1000 화면 깡통을 U-Net 뇌 믹서기 봇한테 던져줌.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 봇 왈: "어? 이거 X_999 에서 X_1000 넘어올 때 [딱 1번 뿌려졌던 노이즈 찌끄레기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">패턴] 이 대충 요 모양일 듯 ㅋ (노이즈 ε 예측)"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- X_1000 화면에서 ➔ 그 예측한 노이즈 패턴 찌끄레기를 빼기(-) 수학 역산 쳐서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지워버림 ➔ X_999 로 한 스텝 맑아짐 복원 성공 ✨!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 이 미친 U-Net 지우개 뺑뺑이 노가다를 X_999 ➔ X_998 ➔ ... ➔ X_0 (완벽 복원)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">까지 1,000번 무한 루프 핑퐁 쳐 깎아내면 ➔ 백지에서 오리지널 개사진 창조 완료 쾅!!</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│          디퓨전(Diffusion) 모델의 파괴와 창조 2-Track 사이클 우주 텐트 도해 🚀 │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│ 💣 [ 1. Forward Process (순방향: 무지성 파괴 폭격 💥 / 학습 불필요) ]  │
+│   - 작전: 오리지널 고화질 사진에 매 틱(Step t)마다 가우시안 노이즈(모래)를 붓는다.│
+│   - X_0 (원본 개사진) ➔ X_1 ➔ X_2 ➔ ... ➔ X_1000 (100% 지지직 순수 노이즈)│
+│   - 🌟 팩폭 룰: 이건 딥러닝 봇이 하는 게 아님 ㅋ 걍 수학 공식(Markov Chain)으로 │
+│     스케줄 맞춰서 잉크 번지듯 100% 확정적(Deterministic)으로 뭉개버리는 작업 컷! │
+│                                                              │
+│        ======= [ 🛡️ 아키텍트의 메스: U-Net 노이즈 예측 뇌 록온 ✨ ] ========│
+│                                                              │
+│ 🎨 [ 2. Reverse Process (역방향: Denoising 깎기 환생 창조 🚀 / 딥러닝 본체) ]│
+│   - 작전: 100% 순수 노이즈 X_1000 화면 깡통을 U-Net 뇌 믹서기 봇한테 던져줌.   │
+│   - 봇 왈: "어? 이거 X_999 에서 X_1000 넘어올 때 [딱 1번 뿌려졌던 노이즈 찌끄레기 │
+│     패턴] 이 대충 요 모양일 듯 ㅋ (노이즈 ε 예측)"                       │
+│   - X_1000 화면에서 ➔ 그 예측한 노이즈 패턴 찌끄레기를 빼기(-) 수학 역산 쳐서 │
+│     지워버림 ➔ X_999 로 한 스텝 맑아짐 복원 성공 ✨!                  │
+│   - 이 미친 U-Net 지우개 뺑뺑이 노가다를 X_999 ➔ X_998 ➔ ... ➔ X_0 (완벽 복원)│
+│     까지 1,000번 무한 루프 핑퐁 쳐 깎아내면 ➔ 백지에서 오리지널 개사진 창조 완료 쾅!!│
+└──────────────────────────────────────────────────────────────┘
+```
 
 **[아키텍트의 피 터지는 한계 튜닝: 텍스트 주입 컨디셔닝 (Conditioning 십자 융합 ✨)]**
 "야 씨발 노이즈 깎아봤자 맨날 지 맘대로 개사진만 튀어나오면 어따 써? 내가 '고양이' 라고 치면 '고양이'로 깎아 줘야지 쾅!!"
@@ -148,23 +148,21 @@ tags = ["studynote-data-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">GAN (적대적 신경망) 도박 뺑뺑이 시대 💀 / 생성 봇 vs 판별 봇 1초 컷 무한 경쟁. 선명하긴 한데 가중치 0.1 틀어지면 뇌 정지 발광 춤추다 Loss 폭주 수직 폭파 타 죽고 ➔ 허구한 날 똑같은 짭얼굴 1개만 뱉는 모드 붕괴(Mode Collapse) 사일로 멸망 터짐 💥</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DDPM (디퓨전 모델 태동 강림) 🚀 / "야 둘이 싸우지 마 피곤해 쾅!! 걍 모래(노이즈) 부어서 파괴하고 ➔ 혼자 1,000번 역추적 지우개 깎기질 노가다 치며 복원하는 확률 통계 열역학 절대 안정성 수학 텐트 록온 쳐 쾅 ✨!!" (근데 픽셀 통째로 연산해서 개느려 뻗음 💀)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Latent Diffusion Model (LDM / Stable Diffusion 대관식) 🪓 / 아키텍트 분노 도끼 "무거운 픽셀 쇳덩이에서 뺑뺑이 돌리지 마 타죽어!! VAE 로 1/64 토막 압살 다이어트 압축 친 콩알만 한</div><div class="kb-diagram-node">잠재 공간 Latent Space</div><div class="kb-diagram-note">에서 광속 스키 타 🚀!" 방구석 RTX 3060 PC 로컬 오프라인 5초 컷 생성 우주 해방 혁명 달성 ✨</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">ControlNet &amp; LoRA 제어 통제 융합 쉴드 🛡️ / "디퓨전이 내 말 좆까고 지 맘대로 가챠 랜덤 뽑기 창작 튀네 미친 💥!" ➔ 뼈대 스케치 선 따서 강제 가드레일 가두는</div><div class="kb-diagram-node">컨트롤넷</div><div class="kb-diagram-note">+ 내 얼굴 사진 10장만 추가 튜닝해서 캐릭터 100% 영구 일관성 박제 락킹 치는</div><div class="kb-diagram-node">LoRA 미니 주사기</div><div class="kb-diagram-note">무적 생태계 대통일 쾅!!</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Video/3D Diffusion 및 Real-time LCM 시대 (현재) 🚀 / 사진 1장 깎는 걸 넘어 ➔ 시간(Time) 차원까지 엮은 3D 텐서 비디오 영상 디퓨전(Sora) 렌더링 우주 팽창 ➔ 그리고 1,000스텝 랙 병목을 4스텝 0.05초 실시간 광속 점프(LCM)로 압살 도륙 찢어버리며 진정한 메타버스 런타임 게임 그래픽 제로 딜레이 오토 렌더 엔진 심장부 코어 점령 완료 쾅!!</div>
-</div>
-</div>
-
-
+```text
+GAN (적대적 신경망) 도박 뺑뺑이 시대 💀 / 생성 봇 vs 판별 봇 1초 컷 무한 경쟁. 선명하긴 한데 가중치 0.1 틀어지면 뇌 정지 발광 춤추다 Loss 폭주 수직 폭파 타 죽고 ➔ 허구한 날 똑같은 짭얼굴 1개만 뱉는 모드 붕괴(Mode Collapse) 사일로 멸망 터짐 💥
+    │
+    ▼
+DDPM (디퓨전 모델 태동 강림) 🚀 / "야 둘이 싸우지 마 피곤해 쾅!! 걍 모래(노이즈) 부어서 파괴하고 ➔ 혼자 1,000번 역추적 지우개 깎기질 노가다 치며 복원하는 확률 통계 열역학 절대 안정성 수학 텐트 록온 쳐 쾅 ✨!!" (근데 픽셀 통째로 연산해서 개느려 뻗음 💀)
+    │
+    ▼
+Latent Diffusion Model (LDM / Stable Diffusion 대관식) 🪓 / 아키텍트 분노 도끼 "무거운 픽셀 쇳덩이에서 뺑뺑이 돌리지 마 타죽어!! VAE 로 1/64 토막 압살 다이어트 압축 친 콩알만 한 [잠재 공간 Latent Space] 에서 광속 스키 타 🚀!" 방구석 RTX 3060 PC 로컬 오프라인 5초 컷 생성 우주 해방 혁명 달성 ✨
+    │
+    ▼
+ControlNet & LoRA 제어 통제 융합 쉴드 🛡️ / "디퓨전이 내 말 좆까고 지 맘대로 가챠 랜덤 뽑기 창작 튀네 미친 💥!" ➔ 뼈대 스케치 선 따서 강제 가드레일 가두는 [컨트롤넷] + 내 얼굴 사진 10장만 추가 튜닝해서 캐릭터 100% 영구 일관성 박제 락킹 치는 [LoRA 미니 주사기] 무적 생태계 대통일 쾅!!
+    │
+    ▼
+Video/3D Diffusion 및 Real-time LCM 시대 (현재) 🚀 / 사진 1장 깎는 걸 넘어 ➔ 시간(Time) 차원까지 엮은 3D 텐서 비디오 영상 디퓨전(Sora) 렌더링 우주 팽창 ➔ 그리고 1,000스텝 랙 병목을 4스텝 0.05초 실시간 광속 점프(LCM)로 압살 도륙 찢어버리며 진정한 메타버스 런타임 게임 그래픽 제로 딜레이 오토 렌더 엔진 심장부 코어 점령 완료 쾅!!
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -23,22 +23,18 @@ tags = ["studynote-algorithm"]
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
+```text
+       [ 50 ] (Root)             <-- Property: Left < Root < Right
+       /    \
+     [30]   [70]                 [BST Architecture]
+     /  \    /  \                - Left Node  : Smaller than Parent
+   [20] [40][60][80]             - Right Node : Larger than Parent
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">50</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">Property: Left &lt; Root &lt; Right</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">30</div><div class="kb-diagram-node">70</div><div class="kb-diagram-node">BST Architecture</div></div>
-<div class="kb-diagram-note">/ \ / \ - Left Node : Smaller than Parent</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">20</div><div class="kb-diagram-node">40</div><div class="kb-diagram-node">60</div><div class="kb-diagram-node">80</div><div class="kb-diagram-note">- Right Node : Larger than Parent</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Search Process for '60'</div><div class="kb-diagram-node">In-order Traversal Result</div></div>
-<div class="kb-diagram-note">1. 60 &gt; 50 -&gt; Go Right 20 -&gt; 30 -&gt; 40 -&gt; 50 -&gt; 60 -&gt; 70 -&gt; 80</div>
-<div class="kb-diagram-note">2. 60 &lt; 70 -&gt; Go Left (Always Sorted in Ascending Order)</div>
-<div class="kb-diagram-note">3. Found 60!</div>
-</div>
-</div>
-
-
+   [Search Process for '60']     [In-order Traversal Result]
+   1. 60 > 50 -> Go Right        20 -> 30 -> 40 -> 50 -> 60 -> 70 -> 80
+   2. 60 < 70 -> Go Left         (Always Sorted in Ascending Order)
+   3. Found 60!
+```
 
 **핵심 메커니즘:**
 1. **탐색(Search):** 루트부터 시작하여 찾고자 하는 값이 현재 노드보다 작으면 왼쪽, 크면 오른쪽으로 이동한다.
@@ -77,23 +73,21 @@ BST는 구현이 매우 간단하여 프로토타입이나 소규모 [데이터]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선형 탐색(O(n))</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">이진 탐색(정렬 배열)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">BST — 좌/우 자식으로 분기</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AVL/Red-Black Tree — 균형 유지</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">B-Tree — 디스크 인덱스</div></div>
-</div>
-</div>
-
-
+```text
+[선형 탐색(O(n))]
+    │
+    ▼
+[이진 탐색(정렬 배열)]
+    │
+    ▼
+[BST — 좌/우 자식으로 분기]
+    │
+    ▼
+[AVL/Red-Black Tree — 균형 유지]
+    │
+    ▼
+[B-Tree — 디스크 인덱스]
+```
 
 BST는 [이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/)의 아이디어를 트리로 확장해 균형 트리와 B-트리로 발전한다.
 

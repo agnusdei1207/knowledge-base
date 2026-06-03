@@ -37,20 +37,20 @@ tags = ["studynote-computer-architecture"]
 | **지수 (Exponent)** | 11비트 | 수의 스케일(배율) 결정 | $[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^{-308}$ ~ $[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^{308}$ 범위 커버 |
 | **가수 (Mantissa)** | 52비트 | 실제 유효 숫자(디테일) 저장 | 10진수 기준 15~17자리 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 보존 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">배정밀도 (FP64) 비트 레이아웃 및 구성</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">63</div><div class="kb-diagram-node">62 &lt;--- 11 bits ---&gt; 52</div><div class="kb-diagram-node">51 &lt;---- 52 bits ----&gt; 0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">S</div><div class="kb-diagram-cell">지수부 (Exponent)</div><div class="kb-diagram-cell">가수부 (Mantissa)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부호 배율 결정 (크기) 유효 숫자 (정밀도)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 지수 편향 (Bias): 1023</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 실제 값: (-1)^S * 1.Mantissa * 2^(Exponent - 1023)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           배정밀도 (FP64) 비트 레이아웃 및 구성              │
+├──────────────────────────────────────────────────────────────┤
+│ [63]    [62 <--- 11 bits ---> 52]    [51 <---- 52 bits ----> 0]
+│ ┌──┐    ┌───────────────────────┐    ┌────────────────────────┐
+│ │ S│    │   지수부 (Exponent)   │    │    가수부 (Mantissa)   │
+│ └──┘    └───────────────────────┘    └────────────────────────┘
+│ 부호           배율 결정 (크기)             유효 숫자 (정밀도)  │
+│                                                              │
+│ * 지수 편향 (Bias): 1023                                     │
+│ * 실제 값: (-1)^S * 1.Mantissa * 2^(Exponent - 1023)         │
+└──────────────────────────────────────────────────────────────┘
+```
 
 FP64의 가수부는 숨겨진 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)(Hidden [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/))를 포함해 총 53비트의 연산을 수행한다. 이는 소수점 아래 15번째 자리까지의 미세한 변화도 놓치지 않고 덧셈기에 적립함을 의미한다. 반면 11비트의 지수부는 편향([Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/)) 값 1023을 사용하여 매우 작은 소수부터 우주적 크기의 정수까지 [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/) 없이 표현할 수 있게 해준다.
 
@@ -112,23 +112,21 @@ FP64의 가수부는 숨겨진 [비트](/knowledge-base/studynote/01_computer_ar
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">정수 연산 한계 돌파</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">FP32 (단정밀도) · IEEE 754 표준화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">잘림 오차 (Truncation Error) · 상쇄 오차 (Cancellation)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">FP64 (배정밀도) · 고성능 컴퓨팅 (HPC) 무결성 확보</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">최신 AI 가속기에서의 혼합 정밀도 (Mixed Precision) 연산</div>
-</div>
-</div>
-
-
+```text
+정수 연산 한계 돌파
+    │
+    ▼
+FP32 (단정밀도) · IEEE 754 표준화
+    │
+    ▼
+잘림 오차 (Truncation Error) · 상쇄 오차 (Cancellation)
+    │
+    ▼
+FP64 (배정밀도) · 고성능 컴퓨팅 (HPC) 무결성 확보
+    │
+    ▼
+최신 AI 가속기에서의 혼합 정밀도 (Mixed Precision) 연산
+```
 
 이 흐름도는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 표현 방식이 단순성에서 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)로, 그리고 최근에는 목적에 따라 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)를 혼합하여 효율을 극대화하는 방향으로 진화하고 있음을 보여준다.
 

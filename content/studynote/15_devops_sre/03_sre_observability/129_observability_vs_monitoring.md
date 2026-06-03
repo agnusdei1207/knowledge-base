@@ -18,22 +18,20 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3 Pillars of Observability</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Metrics</div><div class="kb-diagram-note">수치 지표 — CPU·메모리·요청 수</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ Prometheus, Grafana</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Logs</div><div class="kb-diagram-note">이벤트 기록 — 에러 메시지·스택트레이스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ Elasticsearch, Loki</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Traces</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">B→C 추적</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ Jaeger, Tempo</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OpenTelemetry: 3가지를 통합 수집하는 표준</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    3 Pillars of Observability                         │
+├───────────────────────────────────────────────────────┤
+│  [Metrics]  수치 지표 — CPU·메모리·요청 수           │
+│             → Prometheus, Grafana                     │
+│  [Logs]     이벤트 기록 — 에러 메시지·스택트레이스   │
+│             → Elasticsearch, Loki                     │
+│  [Traces]   요청 흐름 — 서비스 A→B→C 추적           │
+│             → Jaeger, Tempo                           │
+│                                                       │
+│  OpenTelemetry: 3가지를 통합 수집하는 표준           │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링은 체온계(예상 지표만 측정), [관측 가능성](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/)은 MRI(내부를 자유롭게 탐색)이다.
 
@@ -77,18 +75,12 @@ tags = ["studynote-devops-sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SNMP 모니터링 (2000s)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">ELK Stack (2012~)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">분산 트레이싱 (Zipkin/Jaeger, 2016~)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">OpenTelemetry (2019~) — 통합 표준</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: AIOps — AI가 3 Pillars 자동 상관 분석</div></div>
-</div>
-</div>
-
-
+```text
+[SNMP 모니터링 (2000s)] → [ELK Stack (2012~)]
+    → [분산 트레이싱 (Zipkin/Jaeger, 2016~)]
+    → [OpenTelemetry (2019~) — 통합 표준]
+    → [현재: AIOps — AI가 3 Pillars 자동 상관 분석]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링은 <strong>체온계</strong>예요. 열이 나는지(예상 문제)만 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해요.

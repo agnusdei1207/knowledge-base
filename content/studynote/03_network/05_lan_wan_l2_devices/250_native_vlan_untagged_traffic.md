@@ -24,18 +24,14 @@ tags = ["studynote-network"]
 
 - **💡 비유**: 고급 파티장(트렁크 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)) 입구에서, VIP 초대장([VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) 태그), 일반석 초대장([VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 20 태그)을 든 사람들은 척척 자기 자리로 안내됩니다. 그런데 갑자기 <strong>초대장이 없는 동네 꼬마(Untagged Frame)</strong>가 뛰어 들어왔습니다. 쫓아내지 않고 임시 보호소로 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 위해 만들어 둔 <strong>"대기실"이 바로 Native <a href="/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/">VLAN</a></strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">ISL</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Native VLAN</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">루프 문제</div></div>
-</div>
-</div>
-
-
+```text
+[ISL]
+    │
+    ▼
+[Native VLAN]
+    │
+    └──▶ [루프 문제]
+```
 
 - **📢 섹션 요약 비유**: ** Native VLAN은 여권을 들고 국경을 넘는 정상적인 여행객들 사이에서, **"여권(Tag)을 잃어버린 밀입국자들(Untagged)을 무조건 수용하는 특별 수용소"**입니다.
 
@@ -48,21 +44,22 @@ Native VLAN이 1번으로 [설정](/knowledge-base/studynote/15_devops_sre/01_cu
 - **송신 시 (Tx)**: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 내부에 있던 수많은 데이터가 트렁크를 타고 밖으로 나갈 때, [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 10번이나 20번 데이터는 802.1Q 태그를 달고 나간다. 하지만 <strong>Native <a href="/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/">VLAN</a> 1번 소속 데이터는 태그를 아예 붙이지 않은 채(Untagged) 맨몸으로 밖으로 쫓아낸다</strong>.
 - **수신 시 (Rx)**: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 트렁크를 통해 프레임을 받았는데, 태그가 붙어있으면 까보고 그 VLAN으로 포워딩한다. 만약 아무 태그도 없는 생얼(Untagged) 프레임이 들어오면 "넌 무조건 Native [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/)(1번) 소속이구나!"라고 판단하여 [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 1 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 쪽으로만 쏴준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Native VLAN의 송수신 처리 흐름</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스위치 A (Native VLAN = 1)</div><div class="kb-diagram-node">스위치 B (Native VLAN = 1)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VLAN 10 데이터 ──(Tag:10 달고 출발)──▶ 받고 VLAN 10으로 전달</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VLAN 20 데이터 ──(Tag:20 달고 출발)──▶ 받고 VLAN 20으로 전달</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VLAN 1 데이터 ──(Tag 없이 쌩얼 출발!)──▶ 받고 "태그 없네? VLAN 1!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 주의: 양쪽 스위치의 Native VLAN 번호가 1과 99처럼 서로 다르면</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"Native VLAN Mismatch" 에러가 뜨며 네트워크가 엉망진창 꼬이게 됨.</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                Native VLAN의 송수신 처리 흐름                  │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 스위치 A (Native VLAN = 1) ]        [ 스위치 B (Native VLAN = 1) ] │
+ │                                                             │
+ │   VLAN 10 데이터 ──(Tag:10 달고 출발)──▶  받고 VLAN 10으로 전달      │
+ │   VLAN 20 데이터 ──(Tag:20 달고 출발)──▶  받고 VLAN 20으로 전달      │
+ │                                                             │
+ │   VLAN 1 데이터 ──(Tag 없이 쌩얼 출발!)──▶  받고 "태그 없네? VLAN 1!"   │
+ │                                                             │
+ │   * 주의: 양쪽 스위치의 Native VLAN 번호가 1과 99처럼 서로 다르면       │
+ │     "Native VLAN Mismatch" 에러가 뜨며 네트워크가 엉망진창 꼬이게 됨. │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 2. [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 호핑 공격 (Double Tagging)과 보안 대책
 해커는 기본 Native VLAN이 `1`이라는 사실을 악용한다. 해커가 자신의 프레임에 꼬리표를 두 겹으로 붙이는 **이중 태깅(Double Tagging)** 공격을 시도한다. (바깥쪽 태그는 [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 1, 안쪽 태그는 공격 목표인 [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 20)
@@ -128,19 +125,15 @@ Native VLAN는 LAN/WAN과 2계층 장비를 이해할 때 핵심 축을 잡아 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: ISL</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: Native VLAN</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 루프 문제</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 캠퍼스 패브릭</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: ISL]
+    │
+    ▼
+[현재 개념: Native VLAN]
+    │
+    ├──▶ [확장 A: 루프 문제]
+    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
+```
 
 Native VLAN는 ISL에서 출발해 현재 메커니즘을 정교화하고, 이후 [루프 문제](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/251_looping_broadcast_storm/)와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

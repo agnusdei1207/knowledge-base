@@ -27,28 +27,28 @@ tags = ["studynote-operating-system"]
   2. **오버헤드의 격차**: 램 연결(수 마이크로초) vs 디스크 로드(수 밀리초). 만 배의 차이가 나는 이 두 작업을 하나의 '[Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)'라는 단어로 뭉뚱그리기엔 너무 달랐다.
   3. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a>링의 분리</strong>: 리눅스/윈도우 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 이를 철저히 구분하여 `minflt`(Minor)와 `majflt`(Major)라는 두 개의 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 변수로 나눠 서버 관리자에게 보고하는 감시 체계를 확립했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Minor Fault vs Major Fault의 뒷수습 동선(경로) 차이 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">💥 CPU가 없는 주소를 찔러 Page Fault 트랩 발생!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS가 VMA 장부를 쓱 훑어봄.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1번 경로: Minor Page Fault (Soft Fault) 🚀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS: "아! 네가 방금 malloc() 한 그 텅 빈 공간(익명) 찔렀구나?"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">"디스크 갈 필요 없이, 그냥 램에 있는</div><div class="kb-diagram-node">빈 4KB 프레임 하나</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">꺼내서 0으로 닦아줄게(ZFOD). 써라!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 찰나의 지연: 램 내부에서 포인터만 이어주고 끝남 (매우 빠름)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2번 경로: Major Page Fault (Hard Fault) 🐢</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">OS: "아... 네가 예전에 안 써서 내가</div><div class="kb-diagram-node">하드디스크 스왑</div><div class="kb-diagram-note">에 묻어둔</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">그 무거운 데이터를 지금 찔렀구나?"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS: "잠깐 넌 잠이나 자고 있어(Sleep). 내가 디스크 바늘 돌려서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">퍼 올게. (드르륵.. 드르륵.. 8ms 경과)"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">☠️ 끔찍한 지연: 디스크 I/O가 동반되어 시스템이 체감상 완전히 멈춤.</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│        Minor Fault vs Major Fault의 뒷수습 동선(경로) 차이 시각화       │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│ [ 💥 CPU가 없는 주소를 찔러 Page Fault 트랩 발생! ]                     │
+│ OS가 VMA 장부를 쓱 훑어봄.                                              │
+│                                                                         │
+│ ▶ 1번 경로: Minor Page Fault (Soft Fault) 🚀                            │
+│   OS: "아! 네가 방금 malloc() 한 그 텅 빈 공간(익명) 찔렀구나?"         │
+│       "디스크 갈 필요 없이, 그냥 램에 있는 [빈 4KB 프레임 하나]         │
+│        꺼내서 0으로 닦아줄게(ZFOD). 써라!"                              │
+│   ✅ 찰나의 지연: 램 내부에서 포인터만 이어주고 끝남 (매우 빠름)        │
+│                                                                         │
+│ ▶ 2번 경로: Major Page Fault (Hard Fault) 🐢                            │
+│   OS: "아... 네가 예전에 안 써서 내가 [하드디스크 스왑]에 묻어둔        │
+│        그 무거운 데이터를 지금 찔렀구나?"                               │
+│   OS: "잠깐 넌 잠이나 자고 있어(Sleep). 내가 디스크 바늘 돌려서         │
+│        퍼 올게. (드르륵.. 드르륵.. 8ms 경과)"                           │
+│   ☠️ 끔찍한 지연: 디스크 I/O가 동반되어 시스템이 체감상 완전히 멈춤.    │
+└─────────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 이 두 경로는 하늘과 땅 차이다. 특히 카카오톡 2개를 띄울 때, 두 번째 카톡이 공용 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)(`libc.so`)를 부르면 <strong>마이너 폴트</strong>가 터진다. 첫 번째 카톡이 이미 램에 올려놓은 `libc.so` 물리 주소를 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)에 화살표만 '쓱' 이어주면 되기 때문이다(디스크 갈 필요 없음). 마이너 폴트는 램의 공유(Sharing)와 절약을 실현하는 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 우아한 지휘봉이다.
 
 - **📢 섹션 요약 비유**: 마이너 폴트는 선생님이 "문제집 안 가져온 사람?" 했을 때 짝꿍과 같이 보라고 <strong>책상을 붙여주는(램 공유) 1초짜리 조치</strong>입니다. 메이저 폴트는 짝꿍도 책이 없어서 선생님이 "집(디스크)에 가서 책 가져와!"라고 밖으로 내쫓아버려서 <strong>1시간 동안 벌서는 끔찍한 벌칙</strong>입니다.
@@ -108,17 +108,14 @@ tags = ["studynote-operating-system"]
 - 만약 반대로 마이너는 100번인데, 메이저 폴트(`majflt/s`)가 초당 5,000번 찍힌다면?
   -> "큰일 났다. 램 16GB가 다 터져나가서 스왑 핑퐁([스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)) 치느라 디스크가 불타고 있다. 당장 앱 하나 죽이거나 램 32GB 꽂아야 서버가 산다."
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모니터링</div><div class="kb-diagram-cell">마이너 폭발 📈</div><div class="kb-diagram-cell">메이저 0 유지</div><div class="kb-diagram-cell">시스템 진단 결과</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">앱 부팅 시</div><div class="kb-diagram-cell">매우 정상</div><div class="kb-diagram-cell">매우 정상</div><div class="kb-diagram-cell">건강함 (Lazy 할당 중)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">앱 런타임</div><div class="kb-diagram-cell">메이저 폭발 📈</div><div class="kb-diagram-cell">마이너 무관</div><div class="kb-diagram-cell">☠️ 스래싱 (뇌사 직전)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬─────────────────────────────┐
+│ 모니터링   │ 마이너 폭발 📈│ 메이저 0 유지 │ 시스템 진단 결과    │
+├──────────┼────────────┼────────────┼─────────────────────────────┤
+│ 앱 부팅 시 │ 매우 정상   │ 매우 정상   │ 건강함 (Lazy 할당 중)   │
+│ 앱 런타임 │ 메이저 폭발 📈│ 마이너 무관  │ ☠️ 스래싱 (뇌사 직전) │
+└──────────┴────────────┴────────────┴─────────────────────────────┘
+```
 **[매트릭스 해설]** 폴트는 죄악이 아니다. 폴트가 아예 안 난다는 건 `malloc`을 한 번도 안 하는 멍청한 정적(Static) 프로그램이라는 뜻이다. 마이너 폴트는 현대 비동기/[동적 프로그래밍](/knowledge-base/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/) 언어(Java, Node.js)가 숨 쉬기 위해 당연히 치러야 할 호흡과 같다. 오직 메이저 폴트의 폭발만이 시스템 관리자가 총([OOM Killer](/knowledge-base/studynote/02_operating_system/07_virtual_memory/425_oom_killer_score/))을 빼 들어야 할 유일한 적색경보(Red Alert)다.
 
 - **📢 섹션 요약 비유**: 마이너 폴트는 숨을 쉴 때 살짝 헉헉대는 뜀박질(정상적인 고강도 운동)이지만, 메이저 폴트는 숨구멍이 막혀서 피를 토하는 응급 상황(질식)입니다. 심박수(폴트 횟수)가 높다고 무조건 병에 걸린 게 아니라, 뛰어서 높은 건지 숨막혀 높은 건지를 구분해야 명의(엔지니어)입니다.
@@ -172,19 +169,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">VMA (Virtual Memory Area) 구조체 (리눅스 커널 프로세스 주소 공간 매핑)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">마이너 페이지 폴트 (Minor Page Fault) vs 메이저 페이지 폴트 (Major Page Fault / 디스크 I/O 동반)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">수요 페이지 제로화 (Demand Zero Paging)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">더티 페이지 쓰기 (Dirty Page Writeback) 메커니즘 (pdflush / flusher 스레드)</div></div>
-</div>
-</div>
-
-
+```text
+[VMA (Virtual Memory Area) 구조체 (리눅스 커널 프로세스 주소 공간 매핑)]
+    │
+    ▼
+[마이너 페이지 폴트 (Minor Page Fault) vs 메이저 페이지 폴트 (Major Page Fault / 디스크 I/O 동반)]
+    │
+    ├──▶ [수요 페이지 제로화 (Demand Zero Paging)]
+    └──▶ [더티 페이지 쓰기 (Dirty Page Writeback) 메커니즘 (pdflush / flusher 스레드)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

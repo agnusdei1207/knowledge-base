@@ -26,18 +26,14 @@ tags = ["studynote-network"]
   3. [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) ([Serverless](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)/AWS [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/)) ➜ 아예 0.1초 만에 코드만 딱 실행되고 흔적도 없이 뒤지는 유령 같은 놈
 - OS 자체가 없거나 1초 만에 죽어버리는 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)/[서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 환경에서는 기존 무거운 백신을 설치할 시간조차 없습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DDoS 반사 증폭 원조</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">클라우스 보안 워크로드 CWPP 통제망</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">망분리 논리적 / 물리적 VDI 전이 모델</div></div>
-</div>
-</div>
-
-
+```text
+[DDoS 반사 증폭 원조]
+    │
+    ▼
+[클라우스 보안 워크로드 CWPP 통제망]
+    │
+    └──▶ [망분리 논리적 / 물리적 VDI 전이 모델]
+```
 
 - **📢 섹션 요약 비유**: 클라우스 보안 워크로드 [CWPP](/knowledge-base/studynote/15_devops_sre/05_devsecops/332_cwpp/) 통제망은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -48,18 +44,14 @@ tags = ["studynote-network"]
 - 가트너가 정의한 차세대 클라우드 심장부 보안 아키텍처입니다.
 - **개념**: [퍼블릭 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/)(AWS), [프라이빗 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/008_private_cloud/)(VMware), [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) 등 인프라의 종류나 <strong>워크로드의 형태(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a>, <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a>, <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/">서버리스</a>)에 절대 상관없이, 단일화된 1개의 대시보드에서 클라우드 내부의 런타임(실행 중인) 모든 어플리케이션 덩어리들의 악성 행위와 취약점을 완벽하게 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a> 있게 방어해 주는 통합 워크로드 보안 플랫폼</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DDoS 반사 증폭 원조</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">클라우스 보안 워크로드 CWPP 통제망</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">망분리 논리적 / 물리적 VDI 전이 모델</div></div>
-</div>
-</div>
-
-
+```text
+[DDoS 반사 증폭 원조]
+    │
+    ▼
+[클라우스 보안 워크로드 CWPP 통제망]
+    │
+    └──▶ [망분리 논리적 / 물리적 VDI 전이 모델]
+```
 
 - **📢 섹션 요약 비유**: 클라우스 보안 워크로드 [CWPP](/knowledge-base/studynote/15_devops_sre/05_devsecops/332_cwpp/) 통제망의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -131,19 +123,15 @@ CWPP의 가장 위대하고 어려운 기능입니다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: DDoS 반사 증폭 원조</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 클라우스 보안 워크로드 CWPP 통제망</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 망분리 논리적 / 물리적 VDI 전이 모델</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: DDoS 반사 증폭 원조]
+    │
+    ▼
+[현재 개념: 클라우스 보안 워크로드 CWPP 통제망]
+    │
+    ├──▶ [확장 A: 망분리 논리적 / 물리적 VDI 전이 모델]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 클라우스 보안 워크로드 [CWPP](/knowledge-base/studynote/15_devops_sre/05_devsecops/332_cwpp/) 통제망는 DDoS 반사 증폭 원조에서 출발해 현재 메커니즘을 정교화하고, 이후 [망분리](/knowledge-base/studynote/12_it_management/05_security_compliance/182_network_separation_model/) 논리적 / 물리적 [VDI](/knowledge-base/studynote/11_design_supervision/01_audit_framework/079_developer_cleanroom_vdi_security/) 전이 모델와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

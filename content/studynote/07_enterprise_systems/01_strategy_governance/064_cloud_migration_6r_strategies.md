@@ -29,21 +29,15 @@ tags = ["studynote-enterprise"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Legacy System</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">6R Decision</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Cloud Migration Plan</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Execution</div>
-</div>
-</div>
-
-
+```text
+Legacy System
+  ↓
+6R Decision
+  ↓
+Cloud Migration Plan
+  ↓
+Execution
+```
 
 | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 의미 |
 | :-- | :-- |
@@ -112,41 +106,29 @@ tags = ["studynote-enterprise"]
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Legacy System</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">6R Strategy</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Migration Plan</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Cloud Execution</div>
-</div>
-</div>
-
-
+```text
+Legacy System
+  ↓
+6R Strategy
+  ↓
+Migration Plan
+  ↓
+Cloud Execution
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Rehost</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Replatform / Refactor</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Repurchase / Retire / Retain</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Cloud Transformation</div>
-</div>
-</div>
-
-
+```text
+Rehost
+  ↓
+Replatform / Refactor
+  ↓
+Repurchase / Retire / Retain
+  ↓
+Cloud Transformation
+```
 
 ---
 

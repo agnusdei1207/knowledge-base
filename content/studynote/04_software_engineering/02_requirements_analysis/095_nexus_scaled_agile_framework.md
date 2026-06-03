@@ -37,23 +37,29 @@ tags = ["software_engineering"]
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/064_scrum_master_sm/">스크럼 마스터</a> (<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/421_streaming_multiprocessor/">SM</a>)</strong> | 넥서스 레벨의 통합 장애물(Impediment)과 조직적 의존성을 제거하는 리더 |
 | **NIT 팀원 구성** | 개별 3~9개의 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 팀에서 파견된 에이스 개발자들(대표자)이 모여 구성됨 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">넥서스 (Nexus) 프레임워크의 통합 의존성 해결 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">제품 백로그</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(단 1명의 PO가 전체 우선순위 통제)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 넥서스 통합팀 (NIT : Nexus Integration Team)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 구성: PO + SM + 각 팀 대표자 1명씩</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 임무: 코드 통합 인프라 관리, 팀 간 의존성/충돌 교통정리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(코드 제출)</div><div class="kb-diagram-cell">(의존성 해결)</div><div class="kb-diagram-cell">(CI/CD)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스크럼 팀 1</div><div class="kb-diagram-cell">스크럼 팀 2</div><div class="kb-diagram-cell">...</div><div class="kb-diagram-cell">스크럼 팀 N</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(본연의 코딩)</div><div class="kb-diagram-cell">(본연의 코딩)</div><div class="kb-diagram-cell">(본연의 코딩)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: N개의 팀이 개발해도, 매 스프린트마다 단 '1개의 통합 증분'만 나옴</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           넥서스 (Nexus) 프레임워크의 통합 의존성 해결 구조           │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│  [제품 백로그] ──▶  (단 1명의 PO가 전체 우선순위 통제)               │
+│         │                                                    │
+│         ▼                                                    │
+│  ┌────────────────────────────────────────────────────────┐  │
+│  │ 🌟 넥서스 통합팀 (NIT : Nexus Integration Team)           │  │
+│  │  - 구성: PO + SM + 각 팀 대표자 1명씩                      │  │
+│  │  - 임무: 코드 통합 인프라 관리, 팀 간 의존성/충돌 교통정리        │  │
+│  └────────────────────────────────────────────────────────┘  │
+│         ▲                    ▲                    ▲         │
+│         │ (코드 제출)          │ (의존성 해결)       │ (CI/CD)  │
+│  ┌────────────┐       ┌────────────┐       ┌────────────┐  │
+│  │ 스크럼 팀 1  │       │ 스크럼 팀 2  │  ...  │ 스크럼 팀 N  │  │
+│  │ (본연의 코딩) │       │ (본연의 코딩) │       │ (본연의 코딩) │  │
+│  └────────────┘       └────────────┘       └────────────┘  │
+│                                                              │
+│  결과: N개의 팀이 개발해도, 매 스프린트마다 단 '1개의 통합 증분'만 나옴 │
+└──────────────────────────────────────────────────────────────┘
+```
 
 NIT 팀원들은 자신들만의 특정 기능(예: 결제, 로그인)을 코딩하지 않는다. 그들은 개별 팀으로 돌아가 가이드를 전파하고, 전체 팀의 빌드가 깨졌을 때 소방수처럼 달려가 해결하는 기술 지원 및 [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) 네트워크의 중심 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)([Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/))로 동작한다.
 
@@ -100,7 +106,7 @@ NIT 팀원들은 자신들만의 특정 기능(예: 결제, 로그인)을 코딩
 
 결론적으로 넥서스는 조직이 성장하면서 단일 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/)의 한계에 부딪혔을 때 가장 직관적으로 확장할 수 있는 수단이다. "아무리 멋진 기능을 각자 짜와도, 하나로 합쳐서 돌려보지 않으면 쓰레기에 불과하다"는 소프트웨어 공학의 냉혹한 진리를 NIT라는 실체로 해결하는, 지극히 현실적이고 공학적인 [대규모 애자일](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/092_scaled_agile_frameworks_overview/)의 교과서이다.
 
-- **📢 섹션 요약 비유**: 넥서스는 100개의 조각으로 나뉜 퍼즐을 조립할 때, 무작정 가운데로 밀어 넣는 것이 아니라 '퍼즐 테두리를 먼저 맞추는 전담반'을 두어 모두가 헤매지 않고 빠르고 정확하게 큰 그림을 완성하게 만드는 현명한 조립법이다.
+- **📢 섹션 요약 비유**: 넥서스는 100개의 조각으로 나뉜 퍼즐을 조립할 때, 무작정 가운데로 밀어 넣는 것이 아니라 '퍼즐 테두리를 먼저 맞추는 전담반'을 두어 모두가 헤매지 않고 빠르고 정확하게 큰 그림을 완성하게 만드는 현명한 조입법이다.
 
 ---
 
@@ -115,23 +121,21 @@ NIT 팀원들은 자신들만의 특정 기능(예: 결제, 로그인)을 코딩
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단일 스크럼 (Scrum)의 소규모 고속 딜리버리 성공</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">제품 조직의 성장 (3~9개 스크럼 팀 형성)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">팀 간 코드 통합 지옥 (Integration Hell) 및 의존성 충돌 발생</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">의존성 해결 전담 부대의 신설 필요성 대두</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">넥서스 (Nexus) 프레임워크 도입 (NIT 및 넥서스 이벤트 샌드위치 적용)</div>
-</div>
-</div>
-
-
+```text
+단일 스크럼 (Scrum)의 소규모 고속 딜리버리 성공
+    │
+    ▼
+제품 조직의 성장 (3~9개 스크럼 팀 형성)
+    │
+    ▼
+팀 간 코드 통합 지옥 (Integration Hell) 및 의존성 충돌 발생
+    │
+    ▼
+의존성 해결 전담 부대의 신설 필요성 대두
+    │
+    ▼
+넥서스 (Nexus) 프레임워크 도입 (NIT 및 넥서스 이벤트 샌드위치 적용)
+```
 
 이 흐름도는 성공한 팀이 확장될 때 겪는 필연적인 소프트웨어 통합의 저주를, 어떻게 구조적인 전담팀 하나로 해결하며 [대규모 애자일](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/092_scaled_agile_frameworks_overview/)로 넘어가는지를 명확히 보여준다.
 

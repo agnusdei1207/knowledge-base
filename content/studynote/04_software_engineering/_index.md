@@ -1,5 +1,5 @@
 +++
-title = "04: 소프트웨어 공학 (Software Engineering)"
+title = "04: 소프트웨어 공학 (Software 엔진ering)"
 
 [extra]
 tags = ["studynote-software-engineering"]
@@ -8,9 +8,7 @@ tags = ["studynote-software-engineering"]
 > 🧸 **어린이를 위한 비유**
 > 건물을 지을 때 설계도를 그리고, 튼튼한지 검사하고, 사람들이 살기 좋게 인테리어를 하는 모든 과정을 말해요. 코딩만 하는 게 아니라, '고장 나지 않는 튼튼한 프로그램'을 체계적으로 만드는 방법을 배우는 곳이랍니다.
 
----
-
-# 도메인 04: 소프트웨어 공학 (Software Engineering)
+---# 도메인 04: 소프트웨어 공학 (Software 엔진ering)
 
 ## ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 복잡성(Complexity)과 비가시성(Invisibility)을 지닌 소프트웨어를 정해진 예산과 기간 내에 고품질로 개발, 유지보수하기 위한 공학적 원리, 방법론, 도구의 총체.
@@ -21,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ### Ⅰ. 개요 (Context & Background)
 1960년대, 하드웨어 성능이 급증하면서 요구되는 소프트웨어의 규모도 기하급수적으로 팽창했다. 그러나 주먹구구식 코딩 기예(Art)에 의존하던 당시의 방식은 잦은 납기 지연, 예산 초과, 끔찍한 버그를 초래하며 이른바 <strong>'소프트웨어 위기(Software Crisis)'</strong>를 촉발시켰다.
-<strong>소프트웨어 공학(Software Engineering)</strong>은 이 위기를 돌파하기 위해 탄생했다. 소프트웨어 개발을 벽돌을 쌓아 건물을 짓는 물리적 공학(Engineering)의 궤도로 끌어올리기 위해, 엄격한 프로세스(Process), 방법론(Methodologies), 정량적 품질 측정(Metrics)의 3대 요소를 도입했다. 오늘날의 소프트웨어 공학은 단순히 코드를 짜는 행위를 넘어, 고객의 모호한 비즈니스 요구를 정확히 추출(Requirements)하고, 변경에 유연한 아키텍처(Design)를 수립하며, 자동화된 검증(Testing)을 통해 시스템의 생명력을 연장하는 거대한 철학이다.
+<strong>소프트웨어 공학(Software 엔진ering)</strong>은 이 위기를 돌파하기 위해 탄생했다. 소프트웨어 개발을 벽돌을 쌓아 건물을 짓는 물리적 공학(엔진ering)의 궤도로 끌어올리기 위해, 엄격한 프로세스(Process), 방법론(Methodologies), 정량적 품질 측정(Metrics)의 3대 요소를 도입했다. 오늘날의 소프트웨어 공학은 단순히 코드를 짜는 행위를 넘어, 고객의 모호한 비즈니스 요구를 정확히 추출(Requirements)하고, 변경에 유연한 아키텍처(Design)를 수립하며, 자동화된 검증(Testing)을 통해 시스템의 생명력을 연장하는 거대한 철학이다.
 
 ---
 
@@ -41,34 +39,27 @@ tags = ["studynote-software-engineering"]
 #### 2. V-Model 테스트 아키텍처 및 애자일 스크럼(ASCII)
 #### 2. V-Model Testing Architecture & Agile Scrum (ASCII)
 전통적인 폭포수 기반의 검증 모델(V-Model)은 각 개발 단계가 테스트 단계와 정확히 1:1로 결착되는 완벽한 대칭 구조를 가진다.
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">V-Model Testing Architecture</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">V-모델 테스트 아키텍처</div></div>
-<div class="kb-diagram-note">(요구사항 분석 / Requirements) ---------------------------&gt; (인수 테스트 / Acceptance)</div>
-<div class="kb-diagram-note">(시스템 설계 / System Design) ------------------&gt; (시스템 테스트 / System Testing)</div>
-<div class="kb-diagram-note">(상세 설계 / Component Design) ----------&gt; (통합 테스트 / Integration)</div>
-<div class="kb-diagram-note">(단위 설계 / Unit Design) ----&gt; (단위 테스트 / Unit Testing)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">구현 / Implementation (Code)</div></div>
-</div>
-</div>
-
-
+```text
+    [ V-Model Testing Architecture ]
+    [ V-모델 테스트 아키텍처 ]
+    
+    (요구사항 분석 / Requirements) ---------------------------> (인수 테스트 / Acceptance)
+             \                                                /
+      (시스템 설계 / System Design) ------------------> (시스템 테스트 / System Testing)
+               \                                          /
+           (상세 설계 / Component Design) ----------> (통합 테스트 / Integration)
+                 \                                    /
+                  (단위 설계 / Unit Design) ----> (단위 테스트 / Unit Testing)
+                           \                  /
+                           [ 구현 / Implementation (Code) ]
+```
 최신의 애자일 스크럼(Scrum) 아키텍처는 위 V-Model을 1~4주 단위(Sprint)로 끊임없이 반복하여 점진적 가치를 창출한다.
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Agile Scrum Loop</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">애자일 스크럼 루프</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Product Backlog</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Sprint Backlog</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">2-Week Sprint (Daily Standup)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Shippable Product</div></div>
-<div class="kb-diagram-note">(제품 백로그) (스프린트 계획) (스프린트 백로그) (2주 스프린트 / 데일리 스탠드업) (검토) (출시 가능 제품)</div>
-</div>
-</div>
-
-
+```text
+    [ Agile Scrum Loop ]
+    [ 애자일 스크럼 루프 ]
+    [Product Backlog] -> (Sprint Planning) -> [Sprint Backlog] -> [ 2-Week Sprint (Daily Standup) ] -> (Review) -> [Shippable Product]
+    (제품 백로그)         (스프린트 계획)       (스프린트 백로그)     (2주 스프린트 / 데일리 스탠드업)   (검토)       (출시 가능 제품)
+```
 
 #### 3. 객체지향 설계 원칙 (SOLID) 및 응집도/결합도 수식화
 아키텍처의 품질을 결정하는 가장 중요한 원리는 <strong>"응집도(Cohesion)는 최대화하고, 결합도(Coupling)는 최소화하라"</strong>이다.
@@ -126,7 +117,7 @@ tags = ["studynote-software-engineering"]
 | **객체지향 리팩토링** | 코드 순환 복잡도(Cyclomatic Complexity) 감소로 유지보수 비용(TCO) **40% 절감** |
 
 **미래 전망 및 진화 방향**:
-소프트웨어 공학의 미래는 'AI-Augmented Engineering'으로 압살된다. 깃허브 코파일럿(Copilot)과 같은 생성형 AI가 단순 코딩(Implementation)을 완벽히 대체함에 따라, 개발자의 역할은 '요구사항을 정교한 프롬프트로 변환'하고 생성된 코드의 '아키텍처 정합성을 감리'하는 상위 레벨의 오케스트레이터로 격상될 것이다. 
+소프트웨어 공학의 미래는 'AI-Augmented 엔진ering'으로 압살된다. 깃허브 코파일럿(Copilot)과 같은 생성형 AI가 단순 코딩(Implementation)을 완벽히 대체함에 따라, 개발자의 역할은 '요구사항을 정교한 프롬프트로 변환'하고 생성된 코드의 '아키텍처 정합성을 감리'하는 상위 레벨의 오케스트레이터로 격상될 것이다. 
 
 **※ 참고 표준/가이드**:
 - ISO/IEC 25010: 소프트웨어 품질 평가(SQuaRE) 8대 주특성 국제 표준 (기능성, 신뢰성, 사용성, 효율성, 유지보수성 등).

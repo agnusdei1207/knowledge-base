@@ -35,29 +35,30 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">O-RAN 3분할 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Non-RT RIC</div><div class="kb-diagram-note">비실시간 제어 (&gt; 1초)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">rApp (Third-party 앱) / A1 인터페이스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A1 인터페이스</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Near-RT RIC</div><div class="kb-diagram-note">준실시간 제어 (10ms~1초)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">xApp (Third-party 앱) / E2 인터페이스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">E2 인터페이스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">O-CU (Central Unit)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- PDCP·RRC (L3·상위 L2)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- F1 인터페이스 (개방)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">O-DU (Distributed Unit)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- RLC·MAC·하위 PHY (하위 L2·상위 L1)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Fronthaul 인터페이스 (개방)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">O-RU (Remote Unit)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- RF·안테나·상위 PHY (하위 L1)</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────┐
+│               O-RAN 3분할 아키텍처                        │
+├──────────────────────────────────────────────────────────┤
+│  [Non-RT RIC]  비실시간 제어 (> 1초)                       │
+│  rApp (Third-party 앱) / A1 인터페이스                     │
+│        │ A1 인터페이스                                     │
+│  [Near-RT RIC]  준실시간 제어 (10ms~1초)                   │
+│  xApp (Third-party 앱) / E2 인터페이스                     │
+│        │ E2 인터페이스                                     │
+│  ┌─────────────────────────────────────────┐             │
+│  │  O-CU (Central Unit)                    │             │
+│  │  - PDCP·RRC (L3·상위 L2)               │             │
+│  │  - F1 인터페이스 (개방)                  │             │
+│  ├─────────────────────────────────────────┤             │
+│  │  O-DU (Distributed Unit)               │             │
+│  │  - RLC·MAC·하위 PHY (하위 L2·상위 L1)   │             │
+│  │  - Fronthaul 인터페이스 (개방)           │             │
+│  ├─────────────────────────────────────────┤             │
+│  │  O-RU (Remote Unit)                    │             │
+│  │  - RF·안테나·상위 PHY (하위 L1)          │             │
+│  └─────────────────────────────────────────┘             │
+└──────────────────────────────────────────────────────────┘
+```
 
 ### [O-RAN](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/) 핵심 구성 요소
 

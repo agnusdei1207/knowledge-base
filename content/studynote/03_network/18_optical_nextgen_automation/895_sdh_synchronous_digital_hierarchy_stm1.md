@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - SDH 이전에 쓰던 PDH 방식은 각 전화국 장비마다 '자체 시계(클럭)'를 썼습니다.
 - **문제점 (비동기화)**: 서울 전화국 시계와 대전 전화국 시계가 조금 달라서, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 도착할 때마다 포장 박스를 몽땅 다 뜯고 다시 묶어서(디멀티플렉싱) 시간을 맞춰줘야 했습니다. 중간에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 빼거나 넣을 때 장비가 미친 듯이 무거워지고 에러가 폭발했습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">OAM</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SDH</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SONET</div></div>
-</div>
-</div>
-
-
+```text
+[OAM]
+    │
+    ▼
+[SDH]
+    │
+    └──▶ [SONET]
+```
 
 - **📢 섹션 요약 비유**: SDH는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -44,18 +40,14 @@ tags = ["studynote-network"]
 - **개념**: ITU-T에서 제정한 국제 표준 광통신 전송 규격으로, 네트워크 상의 모든 통신 장비들의 <strong>타이밍(클럭)을 고도의 정밀한 마스터 시계(원자시계, GPS)에 완벽하게 일치시키는 '동기식(<a href="/knowledge-base/studynote/03_network/01_data_communication/010_동기식_비동기식_전송/">Synchronous</a>)' 방식</strong>을 통해, 여러 가닥의 저속 디지털 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)들을 묶어 거대한 고속 광케이블망(백본망)으로 쏘아 보내는 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)([Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)) 위계 체계입니다.
 - 주로 <strong>유럽과 한국</strong>을 비롯한 전 세계의 표준으로 채택되었습니다. (미국은 다음 896번 문서의 SONET을 씁니다.)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">OAM</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SDH</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SONET</div></div>
-</div>
-</div>
-
-
+```text
+[OAM]
+    │
+    ▼
+[SDH]
+    │
+    └──▶ [SONET]
+```
 
 - **📢 섹션 요약 비유**: SDH의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -123,19 +115,15 @@ SDH를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: OAM</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: SDH</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: SONET</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: OAM]
+    │
+    ▼
+[현재 개념: SDH]
+    │
+    ├──▶ [확장 A: SONET]
+    └──▶ [확장 B: 의미 기반 통신 최적화]
+```
 
 SDH는 OAM에서 출발해 현재 메커니즘을 정교화하고, 이후 SONET와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -18,20 +18,17 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GitOps Pull 방식 워크플로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 개발자: Git에 K8s manifest 수정 → PR</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 리뷰어: 변경 확인 → Approve → 머지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. ArgoCD/Flux: Git 변경 감지 (Pull)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 자동 Reconcile: 클러스터 상태 ← Git 선언 상태</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 드리프트 발생 시: 자동 복원 (Self-healing)</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    GitOps Pull 방식 워크플로                           │
+├───────────────────────────────────────────────────────┤
+│  1. 개발자: Git에 K8s manifest 수정 → PR              │
+│  2. 리뷰어: 변경 확인 → Approve → 머지               │
+│  3. ArgoCD/Flux: Git 변경 감지 (Pull)                │
+│  4. 자동 Reconcile: 클러스터 상태 ← Git 선언 상태    │
+│  5. 드리프트 발생 시: 자동 복원 (Self-healing)        │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: GitOps는 내비게이션(Git)이 목적지(선언 상태)를 설정하면, 자율주행차(ArgoCD)가 알아서 경로를 따라가고, 이탈(드리프트)하면 자동으로 복귀하는 시스템이다.
 
@@ -100,23 +97,21 @@ GitOps는 <strong><a href="/knowledge-base/studynote/04_software_engineering/11_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">수동 kubectl apply (2014~)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CI/CD Push 방식 (Jenkins+kubectl, 2016~)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">GitOps 개념 (Weaveworks, 2017) — Pull 방식 제안</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ArgoCD / Flux (2019~) — CNCF 채택</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: OpenGitOps 표준 — 4대 원칙 정립</div></div>
-</div>
-</div>
-
-
+```text
+[수동 kubectl apply (2014~)]
+    │
+    ▼
+[CI/CD Push 방식 (Jenkins+kubectl, 2016~)]
+    │
+    ▼
+[GitOps 개념 (Weaveworks, 2017) — Pull 방식 제안]
+    │
+    ▼
+[ArgoCD / Flux (2019~) — CNCF 채택]
+    │
+    ▼
+[현재: OpenGitOps 표준 — 4대 원칙 정립]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. GitOps는 <strong>설계도(Git)</strong>를 바꾸면 로봇이 알아서 건물(클러스터)을 **자동으로 고치는** 시스템이에요.

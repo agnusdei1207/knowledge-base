@@ -39,20 +39,20 @@ tags = ["studynote-enterprise"]
 
 아래 그림은 모델 향상이 단순 편집이 아니라, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 기반 진단과 TO-BE [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 연결된 순환 구조임을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모델 향상 흐름: 발견된 문제를 TO-BE와 검증으로 연결</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이벤트 로그 ─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 병목·루프·편차 분석 ─▶ 개선 가설 ─▶ TO-BE 모델</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기준 모델 ──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시뮬레이션·KPI 검증</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">운영 반영 또는 재설계 반복</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│        모델 향상 흐름: 발견된 문제를 TO-BE와 검증으로 연결       │
+├──────────────────────────────────────────────────────────────────┤
+│ 이벤트 로그 ─┐                                                   │
+│             ├─▶ 병목·루프·편차 분석 ─▶ 개선 가설 ─▶ TO-BE 모델    │
+│ 기준 모델 ──┘                                   │                │
+│                                                  ▼                │
+│                                   시뮬레이션·KPI 검증             │
+│                                                  │                │
+│                                                  ▼                │
+│                                   운영 반영 또는 재설계 반복      │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 실무에서는 세 가지 순서가 중요하다. 첫째, 병목이 발생한 활동 자체보다 그 앞뒤 대기열과 핸드오프 (Hand-off)를 본다. 둘째, 제거 가능한 단계와 반드시 남겨야 하는 통제 단계를 나눈다. 셋째, 자동화 후보는 처리시간뿐 아니라 오류율, 야간처리 필요성, 규정 준수 여부를 함께 평가한다.
 
@@ -124,24 +124,21 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">프로세스 발견 (Process Discovery)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">적합성 검사 (Conformance Checking)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">모델 향상 (Model Enhancement)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">수리 (Repair)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">확장 (Extension)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">시뮬레이션 (Simulation)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">TO-BE 정착 · 자동화 · 지속 개선</div>
-</div>
-</div>
-
-
+```text
+프로세스 발견 (Process Discovery)
+        │
+        ▼
+적합성 검사 (Conformance Checking)
+        │
+        ▼
+모델 향상 (Model Enhancement)
+   ├─ 수리 (Repair)
+   ├─ 확장 (Extension)
+   └─ 시뮬레이션 (Simulation)
+        │
+        ▼
+TO-BE 정착 · 자동화 · 지속 개선
+```
 
 이 흐름도는 "가시화 → 위반 분석 → 설계 변경 → [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) → 정착"의 개선 폐루프를 보여준다.
 

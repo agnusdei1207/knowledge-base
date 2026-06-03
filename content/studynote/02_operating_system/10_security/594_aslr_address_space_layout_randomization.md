@@ -25,29 +25,28 @@ tags = ["studynote-operating-system"]
 **필요성 및 등장 배경**
 과거의 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(예: 윈도우 [XP](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/) SP2 이전, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))에서는 동일한 프로그램을 여러 번 실행하더라도 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/), 힙, [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)가 항상 동일한 가상 주소에 매핑되었다. 해커는 자신의 시스템에서 해당 프로그램의 취약점을 분석해 [셸코드](/knowledge-base/studynote/02_operating_system/10_security/592_shellcode_injection/) 주소나 `libc.so` 내부의 `system()` 함수 주소를 알아낸 뒤, 그 고정된 주소를 공격 페이로드에 하드코딩하여 전 세계 모든 동일 시스템을 일격에 해킹할 수 있었다. (이를 "Return-to-libc" 공격이라 한다.)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ASLR 미적용 vs ASLR 적용 시의 메모리 매핑 비교도</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ASLR 미적용 (고정 주소)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실행 1차 실행 2차 해커의 관점</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">0x08048000</div><div class="kb-diagram-node">Code</div><div class="kb-diagram-note">0x08048000</div><div class="kb-diagram-node">Code</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">주소 고정</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">0x40000000</div><div class="kb-diagram-node">libc</div><div class="kb-diagram-note">0x40000000</div><div class="kb-diagram-node">libc</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">주소 고정</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">0x0804a000</div><div class="kb-diagram-node">Heap</div><div class="kb-diagram-note">0x0804a000</div><div class="kb-diagram-node">Heap</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">주소 고정</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">0xbffff000</div><div class="kb-diagram-node">Stack</div><div class="kb-diagram-note">0xbffff000</div><div class="kb-diagram-node">Stack</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">주소 고정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 해커: "system() 함수는 무조건 0x40001234에 있군!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ASLR 적용 (무작위 주소)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실행 1차 실행 2차 해커의 관점</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">0x56a42000</div><div class="kb-diagram-node">Code</div><div class="kb-diagram-note">0x51b8c000</div><div class="kb-diagram-node">Code</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">매번 변경</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">0x7f23a000</div><div class="kb-diagram-node">libc</div><div class="kb-diagram-note">0x7f99c000</div><div class="kb-diagram-node">libc</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">매번 변경</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">0x56a4b000</div><div class="kb-diagram-node">Heap</div><div class="kb-diagram-note">0x51b8e000</div><div class="kb-diagram-node">Heap</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">매번 변경</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">0x7fffbc00</div><div class="kb-diagram-node">Stack</div><div class="kb-diagram-note">0x7fffc800</div><div class="kb-diagram-node">Stack</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">매번 변경</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 해커: "주소가 계속 바뀌어서 어디로 점프해야 할지 모름!"</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│      ASLR 미적용 vs ASLR 적용 시의 메모리 매핑 비교도       │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  [ASLR 미적용 (고정 주소)]                                  │
+│  실행 1차            실행 2차             해커의 관점       │
+│  0x08048000 [Code]   0x08048000 [Code]    ← 주소 고정       │
+│  0x40000000 [libc]   0x40000000 [libc]    ← 주소 고정       │
+│  0x0804a000 [Heap]   0x0804a000 [Heap]    ← 주소 고정       │
+│  0xbffff000 [Stack]  0xbffff000 [Stack]   ← 주소 고정       │
+│  => 해커: "system() 함수는 무조건 0x40001234에 있군!"       │
+│                                                             │
+│  [ASLR 적용 (무작위 주소)]                                  │
+│  실행 1차            실행 2차             해커의 관점       │
+│  0x56a42000 [Code]   0x51b8c000 [Code]    ← 매번 변경       │
+│  0x7f23a000 [libc]   0x7f99c000 [libc]    ← 매번 변경       │
+│  0x56a4b000 [Heap]   0x51b8e000 [Heap]    ← 매번 변경       │
+│  0x7fffbc00 [Stack]  0x7fffc800 [Stack]   ← 매번 변경       │
+│  => 해커: "주소가 계속 바뀌어서 어디로 점프해야 할지 모름!" │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 비교도는 ASLR이 공격자의 예측 가능성을 어떻게 파괴하는지 명확하게 보여준다. ASLR이 없던 시절에는 메모리 레이아웃이 정적이어서 공격 페이로드(Payload)를 한 번만 잘 만들면 범용적으로 사용할 수 있었다. 하지만 ASLR이 적용된 환경에서는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))이 프로세스를 생성할 때(`execve` 시스템 콜 호출 시), [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/)([Memory Management Unit](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/284_mmu/))에 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)할 가상 주소의 Base offset(기준 주소)을 난수 발생기(Random Number Generator)를 통해 무작위로 밀어버린다(Shift). 결과적으로, 공격자가 [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)를 발생시키더라도 변조해야 할 정확한 리턴 주소(RET)를 알 수 없어 프로세스는 `Segmentation Fault`를 내고 죽어버린다.
 
@@ -72,27 +71,30 @@ ASLR의 보안 강도는 주소가 얼마나 '무작위'인가를 나타내는 [
 
 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 단위(주로 4KB = $2^{12}$ Bytes)로 메모리를 관리하므로, 시작 주소의 하위 12비트(0x000 ~ 0xFFF)는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 정렬([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Alignment)을 위해 무작위화할 수 없고 항상 고정된다. 따라서 32비트 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)와 64비트 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 [ASLR](/knowledge-base/studynote/02_operating_system/06_memory_management/374_aslr/) 방어력에는 극명한 차이가 존재한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">32비트 vs 64비트 시스템에서의 ASLR 엔트로피 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">32비트 메모리 주소 (32 Bits)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">커널 전용 (8b)</div><div class="kb-diagram-cell">무작위화 구역 (12b)</div><div class="kb-diagram-cell">페이지 오프셋</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고정</div><div class="kb-diagram-cell">(Entropy)</div><div class="kb-diagram-cell">하위 12b 고정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 난수화 가능 비트: 고작 8 ~ 12비트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 경우의 수: 2^8 ~ 2^12 = 256 ~ 4,096개</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 공격자가 Brute-Force로 몇 분 안에 돌파 가능!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">64비트 메모리 주소 (64 Bits, 48비트 가상 주소 사용)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">미사용</div><div class="kb-diagram-cell">무작위화 구역 (28 ~ 32b)</div><div class="kb-diagram-cell">페이지 오프셋</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(16b)</div><div class="kb-diagram-cell">(Entropy)</div><div class="kb-diagram-cell">하위 12b 고정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 난수화 가능 비트: 28 ~ 32비트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 경우의 수: 2^28 ~ 2^32 = 약 2.6억 ~ 40억 개</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; Brute-Force 공격 사실상 불가능!</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────┐
+│      32비트 vs 64비트 시스템에서의 ASLR 엔트로피 비교         │
+├───────────────────────────────────────────────────────────────┤
+│                                                               │
+│  [32비트 메모리 주소 (32 Bits)]                               │
+│  ┌───────────────┬───────────────────┬─────────────┐          │
+│  │ 커널 전용 (8b) │ 무작위화 구역 (12b)│ 페이지 오프셋│       │
+│  │ 고정          │ (Entropy)         │ 하위 12b 고정│         │
+│  └───────────────┴───────────────────┴─────────────┘          │
+│  => 난수화 가능 비트: 고작 8 ~ 12비트                         │
+│  => 경우의 수: 2^8 ~ 2^12 = 256 ~ 4,096개                     │
+│  => 공격자가 Brute-Force로 몇 분 안에 돌파 가능!              │
+│                                                               │
+│  [64비트 메모리 주소 (64 Bits, 48비트 가상 주소 사용)]        │
+│  ┌───────┬───────────────────────────┬─────────────┐          │
+│  │ 미사용 │ 무작위화 구역 (28 ~ 32b)  │ 페이지 오프셋│        │
+│  │ (16b) │ (Entropy)                 │ 하위 12b 고정│         │
+│  └───────┴───────────────────────────┴─────────────┘          │
+│  => 난수화 가능 비트: 28 ~ 32비트                             │
+│  => 경우의 수: 2^28 ~ 2^32 = 약 2.6억 ~ 40억 개               │
+│  => Brute-Force 공격 사실상 불가능!                           │
+└───────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 구조도는 왜 32비트 시스템에서 ASLR이 "반쪽짜리 방어막"에 불과한지를 수치적으로 증명한다. 32비트 OS에서는 유저 공간이 보통 3GB로 제한되고, [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 정렬 때문에 하위 12비트는 랜덤화할 수 없다. 결과적으로 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)나 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)이 가질 수 있는 시작 주소의 경우의 수([엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/))가 수천 개에 불과하다. 해커는 스크립트를 짜서 수천 번의 접속을 시도(Brute-forcing)하면 단 몇 분 만에 정확한 주소를 얻어낼 수 있다. 반면, 64비트 OS에서는 무작위화할 수 있는 여유 비트가 28비트 이상 확보되므로, 수십억 개의 경우의 수가 발생하여 무차별 대입 공격이 수학적·물리적으로 완전히 차단된다. 
 
@@ -115,30 +117,31 @@ ASLR의 보안 강도는 주소가 얼마나 '무작위'인가를 나타내는 [
 
 ASLR을 완벽히 뚫기 위해 해커들이 사용하는 가장 우아한 기법은 '오프셋(Offset)'을 이용한 베이스 주소 계산이다. `libc`와 같은 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)는 통째로 메모리에 로드되므로, 내부 함수들 간의 거리는 ASLR이 적용되어도 변하지 않는다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 릭(Memory Leak)을 통한 ASLR 무력화 (Base 도출)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">로컬 파일 분석 (고정된 Offset)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">libc.so 파일 내에서:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">printf()의 오프셋 = 0x050000</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">system()의 오프셋 = 0x040000</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">두 함수의 거리 차이 = 0x010000 (절대 불변)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">런타임 공격 시나리오 (Memory Leak 발생)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① 해커가 정보 유출 취약점(예: %x 포맷스트링)으로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">현재 메모리에 로드된 printf()의 주소를 빼냄.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유출된 주소 = 0x7f88a2050000</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② 해커의 실시간 수학 계산:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">libc Base 주소 = 0x7f88a2050000 - 0x050000</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">= 0x7f88a2000000</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ 타겟 system() 주소 도출:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">system() 주소 = libc Base (0x7f88a2000000) + 0x040000</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">= 0x7f88a2040000 ← ASLR 무력화 완료!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│      메모리 릭(Memory Leak)을 통한 ASLR 무력화 (Base 도출)  │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  [로컬 파일 분석 (고정된 Offset)]                           │
+│  libc.so 파일 내에서:                                       │
+│    printf()의 오프셋 = 0x050000                             │
+│    system()의 오프셋 = 0x040000                             │
+│    두 함수의 거리 차이 = 0x010000 (절대 불변)               │
+│                                                             │
+│  [런타임 공격 시나리오 (Memory Leak 발생)]                  │
+│  ① 해커가 정보 유출 취약점(예: %x 포맷스트링)으로           │
+│     현재 메모리에 로드된 printf()의 주소를 빼냄.            │
+│     유출된 주소 = 0x7f88a2050000                            │
+│                                                             │
+│  ② 해커의 실시간 수학 계산:                                 │
+│     libc Base 주소 = 0x7f88a2050000 - 0x050000              │
+│                    = 0x7f88a2000000                         │
+│                                                             │
+│  ③ 타겟 system() 주소 도출:                                 │
+│     system() 주소 = libc Base (0x7f88a2000000) + 0x040000   │
+│                   = 0x7f88a2040000  ← ASLR 무력화 완료!     │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** ASLR은 메모리의 "시작 주소(Base Address)"를 흔드는 기술이지, [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 내부 구조를 뒤섞는 기술이 아니다. 따라서 해커가 애플리케이션의 취약점을 통해 특정 함수(예: `printf`)의 런타임 메모리 주소를 단 한 개만 알아낼 수 있다면(메모리 릭), 해커는 로컬에서 분석해 둔 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)의 상대적 거리(Offset)를 이용하여 메모리 전체의 지도를 순식간에 재구성할 수 있다. 이 과정을 통해 ASLR의 무작위성은 완벽히 파훼되며, 알아낸 `system` 주소로 [ROP](/knowledge-base/studynote/02_operating_system/10_security/596_return_oriented_programming/) 페이로드를 조립하여 원격 코드 실행(RCE)을 달성한다. 이 때문에 현대 보안에서는 [버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/)(Write)뿐만 아니라, 메모리 내용 유출(Read) 취약점도 `Critical` 등급으로 취급된다.
 
@@ -200,19 +203,15 @@ ASLR을 완벽히 뚫기 위해 해커들이 사용하는 가장 우아한 기�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">버퍼 오버플로우 방어 하드웨어 기술 (NX Bit / Data Execution Prevention, DEP)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">가상 주소 공간 구조 무작위화 (ASLR)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">카나리 (Canary) / 스택 스매싱 가드 (Stack Smashing Protector)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ROP (Return-Oriented Programming) 기법</div></div>
-</div>
-</div>
-
-
+```text
+[버퍼 오버플로우 방어 하드웨어 기술 (NX Bit / Data Execution Prevention, DEP)]
+    │
+    ▼
+[가상 주소 공간 구조 무작위화 (ASLR)]
+    │
+    ├──▶ [카나리 (Canary) / 스택 스매싱 가드 (Stack Smashing Protector)]
+    └──▶ [ROP (Return-Oriented Programming) 기법]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

@@ -18,25 +18,22 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
+```text
+SYSGEN 필요성:
 
+  범용 OS 코드 ──→ SYSGEN ──→ 특정 환경 OS 이미지
+                  │
+                  ├─ CPU 아키텍처 선택 (x86/ARM/RISC-V)
+                  ├─ 메모리 크기 설정
+                  ├─ 디바이스 드라이버 선택
+                  ├─ 파일 시스템 선택
+                  └─ 네트워크 스택 구성
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">SYSGEN 필요성:</div>
-<div class="kb-diagram-note">범용 OS 코드 ──→ SYSGEN ──→ 특정 환경 OS 이미지</div>
-<div class="kb-diagram-tree-item" style="--depth:8">CPU 아키텍처 선택 (x86/ARM/RISC-V)</div>
-<div class="kb-diagram-tree-item" style="--depth:8">메모리 크기 설정</div>
-<div class="kb-diagram-tree-item" style="--depth:8">디바이스 드라이버 선택</div>
-<div class="kb-diagram-tree-item" style="--depth:8">파일 시스템 선택</div>
-<div class="kb-diagram-tree-item" style="--depth:8">네트워크 스택 구성</div>
-<div class="kb-diagram-note">Linux 커널 빌드 예시:</div>
-<div class="kb-diagram-note">make menuconfig → 옵션 선택 (수천 개)</div>
-<div class="kb-diagram-note">make -j8 → 병렬 빌드 (수십 분)</div>
-<div class="kb-diagram-note">make install → 설치</div>
-</div>
-</div>
-
-
+Linux 커널 빌드 예시:
+  make menuconfig  → 옵션 선택 (수천 개)
+  make -j8         → 병렬 빌드 (수십 분)
+  make install     → 설치
+```
 
 - **📢 섹션 요약 비유**: SYSGEN은 맞춤 양복 제작이다. 기성 옷(범용 OS) 대신 체형(하드웨어 환경)에 맞게 재단(컴파일·구성)하여 최적 핏([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·용량)의 맞춤 양복(최적화된 OS)을 만든다.
 
@@ -57,27 +54,25 @@ tags = ["studynote-operating-system"]
 
 ### Linux [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 구성 옵션 예시
 
+```text
+General Setup:
+  [*] Support for paging of anonymous memory (swap)
+  [*] System V IPC
 
+Processor type:
+  [X] Intel Core/Xeon (x86-64)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">General Setup:</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">*</div><div class="kb-diagram-note">Support for paging of anonymous memory (swap)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">*</div><div class="kb-diagram-note">System V IPC</div></div>
-<div class="kb-diagram-note">Processor type:</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">X</div><div class="kb-diagram-note">Intel Core/Xeon (x86-64)</div></div>
-<div class="kb-diagram-note">Memory Management:</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">*</div><div class="kb-diagram-note">Transparent Hugepage Support</div></div>
-<div class="kb-diagram-note">(4096) Default hugepage size in KB</div>
-<div class="kb-diagram-note">File Systems:</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">*</div><div class="kb-diagram-note">ext4 filesystem support</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">*</div><div class="kb-diagram-note">XFS filesystem support</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">NTFS3 filesystem support (비활성화)</div></div>
-<div class="kb-diagram-note">→ 필요 없는 드라이버 제외 → 빌드 시간↓, 이미지 크기↓</div>
-</div>
-</div>
+Memory Management:
+  [*] Transparent Hugepage Support
+  (4096) Default hugepage size in KB
 
+File Systems:
+  [*] ext4 filesystem support
+  [*] XFS filesystem support
+  [ ] NTFS3 filesystem support (비활성화)
 
+→ 필요 없는 드라이버 제외 → 빌드 시간↓, 이미지 크기↓
+```
 
 - **📢 섹션 요약 비유**: Linux make menuconfig는 스마트폰 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 앱이다. 수천 개 옵션 중 내 기기에 맞는 기능만 켜고, 불필요한 기능(안 쓰는 드라이버)은 꺼서 최적화된 시스템을 만든다.
 
@@ -115,19 +110,14 @@ Yocto Project (임베디드 Linux):
 
 ### 현대 SYSGEN: [Infrastructure as Code](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/062_infrastructure_as_code/)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">전통 SYSGEN → IaC (현대 SYSGEN)</div>
-<div class="kb-diagram-note">OS 커널 빌드 → Terraform 인프라 정의</div>
-<div class="kb-diagram-note">드라이버 설치 → Ansible 패키지 설치</div>
-<div class="kb-diagram-note">시스템 구성 → Helm Chart 앱 설정</div>
-<div class="kb-diagram-note">이미지 생성 → Packer VM/컨테이너 이미지</div>
-</div>
-</div>
-
-
+```text
+전통 SYSGEN      → IaC (현대 SYSGEN)
+──────────────────────────────────────
+OS 커널 빌드     → Terraform 인프라 정의
+드라이버 설치    → Ansible 패키지 설치
+시스템 구성      → Helm Chart 앱 설정
+이미지 생성      → Packer VM/컨테이너 이미지
+```
 
 - **📢 섹션 요약 비유**: IaC는 코드로 쓰는 SYSGEN 레시피다. 전통 SYSGEN이 수작업으로 OS를 구성했다면, IaC는 코드(레시피)로 인프라를 자동으로 구성하고 반복 재현할 수 있다.
 
@@ -159,23 +149,21 @@ unikernel이 SYSGEN의 극한이다. 특정 애플리케이션 하나만을 위�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">전통 SYSGEN — 메인프레임 OS 하드웨어별 빌드</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Linux make config — 오픈소스 커널 최적화 빌드</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Yocto/OpenEmbedded — 임베디드 전용 OS 생성</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Docker/OCI — 컨테이너 이미지 표준화 SYSGEN</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Unikernel — 단일 앱 전용 극한 최적화 OS</div></div>
-</div>
-</div>
-
-
+```text
+[전통 SYSGEN — 메인프레임 OS 하드웨어별 빌드]
+    │
+    ▼
+[Linux make config — 오픈소스 커널 최적화 빌드]
+    │
+    ▼
+[Yocto/OpenEmbedded — 임베디드 전용 OS 생성]
+    │
+    ▼
+[Docker/OCI — 컨테이너 이미지 표준화 SYSGEN]
+    │
+    ▼
+[Unikernel — 단일 앱 전용 극한 최적화 OS]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

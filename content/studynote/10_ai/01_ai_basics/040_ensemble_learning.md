@@ -45,32 +45,31 @@ tags = ["studynote-ai"]
 
 ## Ⅱ. [Bagging](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/) ([배깅](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/))
 
+```
+Bagging (Bootstrap Aggregating):
 
+원리:
+  1. 훈련 데이터에서 Bootstrap 샘플링 (복원 추출)
+  2. 각 샘플로 독립적인 모델 훈련
+  3. 예측: 분류=투표, 회귀=평균
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Bagging (Bootstrap Aggregating):</div>
-<div class="kb-diagram-note">원리:</div>
-<div class="kb-diagram-note">1. 훈련 데이터에서 Bootstrap 샘플링 (복원 추출)</div>
-<div class="kb-diagram-note">2. 각 샘플로 독립적인 모델 훈련</div>
-<div class="kb-diagram-note">3. 예측: 분류=투표, 회귀=평균</div>
-<div class="kb-diagram-note">특성:</div>
-<div class="kb-diagram-tree-item" style="--depth:1">모델들이 병렬(Parallel) 학습 -&gt; 빠름</div>
-<div class="kb-diagram-tree-item" style="--depth:1">분산(Variance) 감소 효과</div>
-<div class="kb-diagram-tree-item" style="--depth:1">과적합 방지에 효과적</div>
-<div class="kb-diagram-note">Random Forest (랜덤 포레스트):</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Bagging + 랜덤 특성 선택(Feature Subsampling)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">각 결정 트리가 랜덤 부분집합 특성 사용</div>
-<div class="kb-diagram-tree-item" style="--depth:1">-&gt; 트리 간 상관관계 감소 -&gt; 더 강한 앙상블</div>
-<div class="kb-diagram-note">특성 중요도 (Feature Importance) 제공:</div>
-<div class="kb-diagram-note">어떤 특성이 예측에 중요한지 측정 가능</div>
-<div class="kb-diagram-note">Bootstrap 샘플 특성:</div>
-<div class="kb-diagram-note">n개 데이터 복원 추출 -&gt; 평균 63.2% 포함</div>
-<div class="kb-diagram-note">나머지 36.8% = OOB(Out-of-Bag) 검증 데이터</div>
-</div>
-</div>
+특성:
+  - 모델들이 병렬(Parallel) 학습 -> 빠름
+  - 분산(Variance) 감소 효과
+  - 과적합 방지에 효과적
 
+Random Forest (랜덤 포레스트):
+  - Bagging + 랜덤 특성 선택(Feature Subsampling)
+  - 각 결정 트리가 랜덤 부분집합 특성 사용
+  - -> 트리 간 상관관계 감소 -> 더 강한 앙상블
 
+  특성 중요도 (Feature Importance) 제공:
+    어떤 특성이 예측에 중요한지 측정 가능
+    
+Bootstrap 샘플 특성:
+  n개 데이터 복원 추출 -> 평균 63.2% 포함
+  나머지 36.8% = OOB(Out-of-Bag) 검증 데이터
+```
 
 > 📢 **섹션 요약 비유**: [배깅](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/)은 여러 전문가에게 각기 다른 정보 부분집합을 보여주고 각자 판단 후 다수결 투표 — 각자 다른 측면을 보기 때문에 편향이 줄어듦.
 
@@ -115,32 +114,34 @@ CatBoost:
 
 ## Ⅳ. Stacking (스태킹)
 
+```
+Stacking (Stacked Generalization):
 
+원리:
+  1. 레이어 0 (Base Models):
+     이질적 알고리즘 복수 훈련
+     (RF, XGBoost, SVM, Neural Net 등)
+     
+  2. 레이어 1 (Meta Model):
+     Base 모델의 예측값을 새로운 특성으로 사용
+     메타 학습기(Logistic Regression 등) 훈련
+     
+  3. 최종 예측: 메타 모델 출력
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Stacking (Stacked Generalization):</div>
-<div class="kb-diagram-note">원리:</div>
-<div class="kb-diagram-note">1. 레이어 0 (Base Models):</div>
-<div class="kb-diagram-note">이질적 알고리즘 복수 훈련</div>
-<div class="kb-diagram-note">(RF, XGBoost, SVM, Neural Net 등)</div>
-<div class="kb-diagram-note">2. 레이어 1 (Meta Model):</div>
-<div class="kb-diagram-note">Base 모델의 예측값을 새로운 특성으로 사용</div>
-<div class="kb-diagram-note">메타 학습기(Logistic Regression 등) 훈련</div>
-<div class="kb-diagram-note">3. 최종 예측: 메타 모델 출력</div>
-<div class="kb-diagram-note">구조:</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">RF, XGB, SVM</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">예측값들</div></div>
-<div class="kb-diagram-note">메타 학습기 훈련</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">RF, XGB, SVM</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">예측값들</div></div>
-<div class="kb-diagram-note">메타 학습기 -&gt; 최종 예측</div>
-<div class="kb-diagram-note">특징:</div>
-<div class="kb-diagram-note">가장 강력하지만 복잡함</div>
-<div class="kb-diagram-note">과적합 위험: K-Fold 교차 검증으로 Base 예측 생성 필수</div>
-<div class="kb-diagram-note">Kaggle 최종 단계에서 자주 사용</div>
-</div>
-</div>
+구조:
+  훈련 데이터 -> [RF, XGB, SVM] -> 예측값들
+                                     |
+                               메타 학습기 훈련
+                                     |
+               테스트 데이터 -> [RF, XGB, SVM] -> 예측값들
+                                                    |
+                                               메타 학습기 -> 최종 예측
 
-
+특징:
+  가장 강력하지만 복잡함
+  과적합 위험: K-Fold 교차 검증으로 Base 예측 생성 필수
+  Kaggle 최종 단계에서 자주 사용
+```
 
 > 📢 **섹션 요약 비유**: 스태킹은 전문가 패널 토론 후 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)자가 종합 판단 — 각 분야 전문가(Base 모델) 의견을 MC(메타 모델)가 최종 정리.
 
@@ -148,34 +149,35 @@ CatBoost:
 
 ## Ⅴ. 실무 시나리오 — 신용 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 예측
 
+```
+금융 신용 리스크 예측 앙상블:
 
+문제: 대출 신청자 부도 예측 (이진 분류)
+데이터: 30만 건, 150개 특성
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">금융 신용 리스크 예측 앙상블:</div>
-<div class="kb-diagram-note">문제: 대출 신청자 부도 예측 (이진 분류)</div>
-<div class="kb-diagram-note">데이터: 30만 건, 150개 특성</div>
-<div class="kb-diagram-note">접근법:</div>
-<div class="kb-diagram-note">1단계: 단일 모델 기준선 (Baseline)</div>
-<div class="kb-diagram-note">Logistic Regression: AUC 0.78</div>
-<div class="kb-diagram-note">Decision Tree: AUC 0.72</div>
-<div class="kb-diagram-note">2단계: 앙상블 적용</div>
-<div class="kb-diagram-note">Random Forest (Bagging): AUC 0.86</div>
-<div class="kb-diagram-note">XGBoost (Boosting): AUC 0.88</div>
-<div class="kb-diagram-note">3단계: Stacking</div>
-<div class="kb-diagram-note">Base: RF + XGBoost + LightGBM + CatBoost</div>
-<div class="kb-diagram-note">Meta: Logistic Regression</div>
-<div class="kb-diagram-note">결과: AUC 0.91 (+6% 개선)</div>
-<div class="kb-diagram-note">특성 중요도 활용:</div>
-<div class="kb-diagram-note">XGBoost Feature Importance -&gt; 상위 20개 특성 선별</div>
-<div class="kb-diagram-note">해석 가능성 도구: SHAP 값으로 모델 설명</div>
-<div class="kb-diagram-note">모니터링:</div>
-<div class="kb-diagram-note">월별 모델 성능 추적</div>
-<div class="kb-diagram-note">Distribution Shift 감지 -&gt; 재학습 트리거</div>
-</div>
-</div>
+접근법:
 
+1단계: 단일 모델 기준선 (Baseline)
+  Logistic Regression: AUC 0.78
+  Decision Tree: AUC 0.72
 
+2단계: 앙상블 적용
+  Random Forest (Bagging): AUC 0.86
+  XGBoost (Boosting): AUC 0.88
+
+3단계: Stacking
+  Base: RF + XGBoost + LightGBM + CatBoost
+  Meta: Logistic Regression
+  결과: AUC 0.91 (+6% 개선)
+
+특성 중요도 활용:
+  XGBoost Feature Importance -> 상위 20개 특성 선별
+  해석 가능성 도구: SHAP 값으로 모델 설명
+
+모니터링:
+  월별 모델 성능 추적
+  Distribution Shift 감지 -> 재학습 트리거
+```
 
 > 📢 **섹션 요약 비유**: 신용 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/)은 여러 심사관의 종합 심사 — 한 심사관 판단보다 여럿의 합의가 대출 사고를 더 잘 예방한다.
 

@@ -99,39 +99,27 @@ Plaintext -> shift -> Ciphertext
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Plaintext</div>
-<div class="kb-diagram-note">↓ shift</div>
-<div class="kb-diagram-note">Caesar Cipher</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Ciphertext</div>
-</div>
-</div>
-
-
+```text
+Plaintext
+  ↓ shift
+Caesar Cipher
+  ↓
+Ciphertext
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Substitution Cipher</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Caesar Cipher</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Frequency Analysis</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Modern Cryptography</div>
-</div>
-</div>
-
-
+```text
+Substitution Cipher
+  ↓
+Caesar Cipher
+  ↓
+Frequency Analysis
+  ↓
+Modern Cryptography
+```
 
 ---
 

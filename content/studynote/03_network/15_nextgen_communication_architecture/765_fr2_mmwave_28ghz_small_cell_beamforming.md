@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - [3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) [5G NR](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/763_5g_nr_new_radio_scalable_numerology/) 표준의 두 번째 주파수 대역으로, <strong>24.25 GHz부터 52.6 GHz 사이의 극도로 높은 초고주파 대역</strong>을 의미합니다. (한국은 28 GHz 대역을 할당했었습니다.)
 - <strong><a href="/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/">밀리미터파</a>(<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/">mmWave</a>)</strong>: 전파의 파장 길이가 1mm ~ 10mm 정도로 매우 짧다고 해서 붙여진 이름입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">FR1 주파수</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">FR2 주파수</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NSA</div></div>
-</div>
-</div>
-
-
+```text
+[FR1 주파수]
+    │
+    ▼
+[FR2 주파수]
+    │
+    └──▶ [NSA]
+```
 
 - **📢 섹션 요약 비유**: FR2 주파수는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -50,18 +46,14 @@ tags = ["studynote-network"]
 - **경로 손실 (Path Loss)**: 허공을 날아가는 동안 공기 중의 산소와 수분에 에너지를 뺏겨 순식간에 소멸합니다. 기지국에서 100m~200m만 벗어나도 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 떨어집니다.
 - **회절성 제로 (장애물 붕괴)**: 건물 콘크리트 벽은 절대 못 뚫습니다. 심지어 길거리 나무의 나뭇잎, 비 오는 날씨, 사용자가 폰을 쥔 손가락에 가려져도 전파가 막혀 통신이 끊깁니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">FR1 주파수</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">FR2 주파수</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NSA</div></div>
-</div>
-</div>
-
-
+```text
+[FR1 주파수]
+    │
+    ▼
+[FR2 주파수]
+    │
+    └──▶ [NSA]
+```
 
 - **📢 섹션 요약 비유**: FR2 주파수의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -121,19 +113,15 @@ FR2 주파수는 차세대 통신 아키텍처를 이해할 때 핵심 축을 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: FR1 주파수</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: FR2 주파수</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: NSA</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 네트워크 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: FR1 주파수]
+    │
+    ▼
+[현재 개념: FR2 주파수]
+    │
+    ├──▶ [확장 A: NSA]
+    └──▶ [확장 B: AI 기반 네트워크 최적화]
+```
 
 FR2 주파수는 FR1 주파수에서 출발해 현재 메커니즘을 정교화하고, 이후 NSA와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

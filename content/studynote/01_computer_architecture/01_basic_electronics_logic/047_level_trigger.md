@@ -18,35 +18,36 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 레벨 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) 개요
 
+```
+레벨 트리거 vs 엣지 트리거:
 
+클록 신호:    _____|‾‾‾‾‾‾‾|_____
+레벨 High:          ↑↑↑↑↑
+                  이 구간 동안 활성
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">레벨 트리거 vs 엣지 트리거:</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클록 신호: _____</div><div class="kb-diagram-cell">‾‾‾‾‾‾‾</div><div class="kb-diagram-cell">_____</div></div>
-<div class="kb-diagram-note">레벨 High: ↑↑↑↑↑</div>
-<div class="kb-diagram-note">이 구간 동안 활성</div>
-<div class="kb-diagram-note">레벨 Low: ↓↓↓↓↓ ↓↓↓↓↓</div>
-<div class="kb-diagram-note">이 구간 동안 활성 (Active Low)</div>
-<div class="kb-diagram-note">레벨 트리거 특징:</div>
-<div class="kb-diagram-note">클록 High(또는 Low) 유지 구간 → 데이터 통과</div>
-<div class="kb-diagram-note">유지 구간 내 입력 변화 → 출력 반영</div>
-<div class="kb-diagram-note">엣지 트리거:</div>
-<div class="kb-diagram-note">상승 엣지(↑) 순간만 → 데이터 캡처</div>
-<div class="kb-diagram-note">이후 클록 상태와 무관 → 출력 고정</div>
-<div class="kb-diagram-note">래치 (Latch) = 레벨 트리거:</div>
-<div class="kb-diagram-note">SR-래치: 기본 레벨 트리거 소자</div>
-<div class="kb-diagram-note">D-래치: 단순화된 레벨 트리거</div>
-<div class="kb-diagram-note">플립플롭 (Flip-Flop) = 엣지 트리거:</div>
-<div class="kb-diagram-note">D-FF, JK-FF, T-FF</div>
-<div class="kb-diagram-note">마스터-슬레이브 구조로 엣지에만 반응</div>
-<div class="kb-diagram-note">실사용:</div>
-<div class="kb-diagram-note">래치: 비동기 회로, 멀티플렉서 제어</div>
-<div class="kb-diagram-note">플립플롭: 동기식 순차 회로 (CPU 레지스터 등)</div>
-</div>
-</div>
+레벨 Low:     ↓↓↓↓↓       ↓↓↓↓↓
+              이 구간 동안 활성 (Active Low)
 
+레벨 트리거 특징:
+  클록 High(또는 Low) 유지 구간 → 데이터 통과
+  유지 구간 내 입력 변화 → 출력 반영
+  
+엣지 트리거:
+  상승 엣지(↑) 순간만 → 데이터 캡처
+  이후 클록 상태와 무관 → 출력 고정
 
+래치 (Latch) = 레벨 트리거:
+  SR-래치: 기본 레벨 트리거 소자
+  D-래치: 단순화된 레벨 트리거
+
+플립플롭 (Flip-Flop) = 엣지 트리거:
+  D-FF, JK-FF, T-FF
+  마스터-슬레이브 구조로 엣지에만 반응
+
+실사용:
+  래치: 비동기 회로, 멀티플렉서 제어
+  플립플롭: 동기식 순차 회로 (CPU 레지스터 등)
+```
 
 > 📢 **섹션 요약 비유**: 레벨 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)는 열려 있는 문 — 문이 열려 있는(High) 동안 누구든 들어올 수 있어요. 엣지 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)는 문이 열리는 순간만 통과 가능!
 
@@ -54,41 +55,43 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. D-래치 동작
 
+```
+D-래치 (Level-Triggered D-Latch):
 
+구성: D 입력, Enable(EN/CLK), Q 출력, Q̄ 출력
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">D-래치 (Level-Triggered D-Latch):</div>
-<div class="kb-diagram-note">구성: D 입력, Enable(EN/CLK), Q 출력, Q̄ 출력</div>
-<div class="kb-diagram-note">진리표:</div>
-<div class="kb-diagram-note">EN=1 (High): Q = D (투명, 데이터 통과)</div>
-<div class="kb-diagram-note">EN=0 (Low): Q = 이전 값 유지 (래치)</div>
-<div class="kb-diagram-note">타이밍:</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CLK: __</div><div class="kb-diagram-cell">‾‾‾‾‾</div><div class="kb-diagram-cell">___</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">D: ___</div><div class="kb-diagram-cell">‾‾</div><div class="kb-diagram-cell">_______</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Q: ___</div><div class="kb-diagram-cell">‾‾</div><div class="kb-diagram-cell">_______ ← EN=1 동안 D 추적</div></div>
-<div class="kb-diagram-note">Q: ________|‾‾‾‾‾ ← EN=0 후 마지막 D 유지</div>
-<div class="kb-diagram-note">글리치 문제:</div>
-<div class="kb-diagram-note">EN=1 구간에 D가 여러 번 변하면</div>
-<div class="kb-diagram-note">Q도 따라서 여러 번 변함</div>
-<div class="kb-diagram-note">노이즈에 의한 D 변화 → Q 오염</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CLK: __</div><div class="kb-diagram-cell">‾‾‾‾‾‾‾‾</div><div class="kb-diagram-cell">___</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">D: _</div><div class="kb-diagram-cell">‾</div><div class="kb-diagram-cell">_</div><div class="kb-diagram-cell">‾‾</div><div class="kb-diagram-cell">______ (글리치 포함)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Q: _</div><div class="kb-diagram-cell">‾</div><div class="kb-diagram-cell">_</div><div class="kb-diagram-cell">‾‾</div><div class="kb-diagram-cell">______ ← 모든 변화 반영</div></div>
-<div class="kb-diagram-note">해결책:</div>
-<div class="kb-diagram-note">마스터-슬레이브 D-FF:</div>
-<div class="kb-diagram-note">두 개의 래치를 직렬 연결</div>
-<div class="kb-diagram-note">첫 번째(마스터): 반전 클록으로 동작</div>
-<div class="kb-diagram-note">두 번째(슬레이브): 정상 클록</div>
-<div class="kb-diagram-note">→ 클록 상승 엣지에만 데이터 캡처</div>
-<div class="kb-diagram-note">CMOS 구현:</div>
-<div class="kb-diagram-note">전송 게이트(CMOS Pass Gate):</div>
-<div class="kb-diagram-note">EN=1 → 게이트 개방 → D 통과</div>
-<div class="kb-diagram-note">EN=0 → 게이트 차단 → Q 유지</div>
-</div>
-</div>
+진리표:
+  EN=1 (High): Q = D (투명, 데이터 통과)
+  EN=0 (Low):  Q = 이전 값 유지 (래치)
 
+타이밍:
+        CLK: __|‾‾‾‾‾|___
+          D: ___|‾‾|_______
+          Q: ___|‾‾|_______  ← EN=1 동안 D 추적
+          Q: ________|‾‾‾‾‾  ← EN=0 후 마지막 D 유지
 
+글리치 문제:
+  EN=1 구간에 D가 여러 번 변하면
+  Q도 따라서 여러 번 변함
+  
+  노이즈에 의한 D 변화 → Q 오염
+  
+    CLK: __|‾‾‾‾‾‾‾‾|___
+      D: _|‾|_|‾‾|______ (글리치 포함)
+      Q: _|‾|_|‾‾|______  ← 모든 변화 반영
+
+해결책:
+  마스터-슬레이브 D-FF:
+  두 개의 래치를 직렬 연결
+  첫 번째(마스터): 반전 클록으로 동작
+  두 번째(슬레이브): 정상 클록
+  → 클록 상승 엣지에만 데이터 캡처
+
+CMOS 구현:
+  전송 게이트(CMOS Pass Gate):
+  EN=1 → 게이트 개방 → D 통과
+  EN=0 → 게이트 차단 → Q 유지
+```
 
 > 📢 **섹션 요약 비유**: D-래치의 글리치는 흔들리는 문 — 문이 열려 있는 동안(EN=1) 바람(노이즈)이 불면 Q가 흔들려요. 마스터-슬레이브(이중 문)로 안정화!
 
@@ -96,38 +99,40 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. SR-래치와 NOR/NAND
 
+```
+SR-래치 (SR-Latch):
 
+기본 NOR 게이트 SR-래치:
+  S (Set) + R (Reset) + Q + Q̄
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">SR-래치 (SR-Latch):</div>
-<div class="kb-diagram-note">기본 NOR 게이트 SR-래치:</div>
-<div class="kb-diagram-note">S (Set) + R (Reset) + Q + Q̄</div>
-<div class="kb-diagram-note">S=1, R=0: Q=1 (Set 상태)</div>
-<div class="kb-diagram-note">S=0, R=1: Q=0 (Reset 상태)</div>
-<div class="kb-diagram-note">S=0, R=0: Q=이전 값 (유지)</div>
-<div class="kb-diagram-note">S=1, R=1: 금지 상태 (Q=Q̄=0, 불확정)</div>
-<div class="kb-diagram-note">NAND 게이트 SR-래치:</div>
-<div class="kb-diagram-note">S̄=0, R̄=1: Q=1 (Active Low)</div>
-<div class="kb-diagram-note">S̄=1, R̄=0: Q=0</div>
-<div class="kb-diagram-note">S̄=1, R̄=1: Q=이전 값 유지</div>
-<div class="kb-diagram-note">S̄=0, R̄=0: 금지 상태</div>
-<div class="kb-diagram-note">Enable 추가 (Gated SR-Latch):</div>
-<div class="kb-diagram-note">EN=1: S, R 활성화 → 래치 동작</div>
-<div class="kb-diagram-note">EN=0: S, R 무시 → 상태 유지</div>
-<div class="kb-diagram-note">레벨 트리거 구현의 핵심</div>
-<div class="kb-diagram-note">D-래치로의 발전:</div>
-<div class="kb-diagram-note">SR-래치의 금지 상태(S=R=1) 제거</div>
-<div class="kb-diagram-note">D = S, D̄ = R 연결 → 항상 S≠R</div>
-<div class="kb-diagram-note">→ 단순화된 레벨 트리거 소자</div>
-<div class="kb-diagram-note">실제 응용:</div>
-<div class="kb-diagram-note">버튼 디바운싱 (Switch Debouncing):</div>
-<div class="kb-diagram-note">기계 버튼 접촉 시 노이즈 → SR 래치로 안정화</div>
-<div class="kb-diagram-note">SRAM 셀: 교차 결합 인버터 = 기본 래치 구조</div>
-</div>
-</div>
+  S=1, R=0: Q=1 (Set 상태)
+  S=0, R=1: Q=0 (Reset 상태)
+  S=0, R=0: Q=이전 값 (유지)
+  S=1, R=1: 금지 상태 (Q=Q̄=0, 불확정)
 
+NAND 게이트 SR-래치:
+  S̄=0, R̄=1: Q=1 (Active Low)
+  S̄=1, R̄=0: Q=0
+  S̄=1, R̄=1: Q=이전 값 유지
+  S̄=0, R̄=0: 금지 상태
 
+Enable 추가 (Gated SR-Latch):
+  EN=1: S, R 활성화 → 래치 동작
+  EN=0: S, R 무시 → 상태 유지
+  
+  레벨 트리거 구현의 핵심
+
+D-래치로의 발전:
+  SR-래치의 금지 상태(S=R=1) 제거
+  D = S, D̄ = R 연결 → 항상 S≠R
+  → 단순화된 레벨 트리거 소자
+
+실제 응용:
+  버튼 디바운싱 (Switch Debouncing):
+  기계 버튼 접촉 시 노이즈 → SR 래치로 안정화
+  
+  SRAM 셀: 교차 결합 인버터 = 기본 래치 구조
+```
 
 > 📢 **섹션 요약 비유**: SR-래치는 시소 — S 버튼(Set)으로 한쪽 올리기, R 버튼(Reset)으로 다른 쪽 올리기. 둘 다 동시 누르면 불안정(금지 상태). D-래치는 항상 반대쪽 자동 연결!
 
@@ -135,39 +140,43 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅳ. 타이밍 분석
 
+```
+레벨 트리거 타이밍 파라미터:
 
+셋업 시간 (tsu, Setup Time):
+  Enable 상승 엣지(또는 Enable 구간 시작) 전에
+  D 입력이 안정되어야 하는 최소 시간
+  
+  위반 시: 래치가 메타스테이블(Metastable) 상태
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">레벨 트리거 타이밍 파라미터:</div>
-<div class="kb-diagram-note">셋업 시간 (tsu, Setup Time):</div>
-<div class="kb-diagram-note">Enable 상승 엣지(또는 Enable 구간 시작) 전에</div>
-<div class="kb-diagram-note">D 입력이 안정되어야 하는 최소 시간</div>
-<div class="kb-diagram-note">위반 시: 래치가 메타스테이블(Metastable) 상태</div>
-<div class="kb-diagram-note">홀드 시간 (th, Hold Time):</div>
-<div class="kb-diagram-note">Enable 하강 엣지(또는 Enable 구간 종료) 후</div>
-<div class="kb-diagram-note">D 입력이 유지되어야 하는 최소 시간</div>
-<div class="kb-diagram-note">전파 지연 (tpd, Propagation Delay):</div>
-<div class="kb-diagram-note">D 변화 → Q 변화까지 소요 시간</div>
-<div class="kb-diagram-note">레벨 트리거: EN=1 동안 즉각 전파</div>
-<div class="kb-diagram-note">클록-Q 지연 (tCQ):</div>
-<div class="kb-diagram-note">Enable 상승/하강 → Q 안정화까지 시간</div>
-<div class="kb-diagram-note">레벨 트리거 타이밍 문제:</div>
-<div class="kb-diagram-note">윈도우 제약:</div>
-<div class="kb-diagram-note">EN=1 구간에 D가 변하면 언제든 Q 변화</div>
-<div class="kb-diagram-note">→ "정적 민감도(Static Sensitivity)"</div>
-<div class="kb-diagram-note">EN=1 구간 내 여러 번 변화 = 여러 번 캡처</div>
-<div class="kb-diagram-note">→ 의도치 않은 다중 샘플링</div>
-<div class="kb-diagram-note">시간 차용 (Time Borrowing):</div>
-<div class="kb-diagram-note">레벨 트리거 특유의 기법</div>
-<div class="kb-diagram-note">이전 사이클의 조합 논리 지연이</div>
-<div class="kb-diagram-note">다음 래치의 Enable 창으로 이어짐</div>
-<div class="kb-diagram-note">장점: 사이클 타이밍 유연성</div>
-<div class="kb-diagram-note">단점: 타이밍 분석 복잡</div>
-</div>
-</div>
+홀드 시간 (th, Hold Time):
+  Enable 하강 엣지(또는 Enable 구간 종료) 후
+  D 입력이 유지되어야 하는 최소 시간
 
+전파 지연 (tpd, Propagation Delay):
+  D 변화 → Q 변화까지 소요 시간
+  레벨 트리거: EN=1 동안 즉각 전파
+  
+클록-Q 지연 (tCQ):
+  Enable 상승/하강 → Q 안정화까지 시간
 
+레벨 트리거 타이밍 문제:
+
+윈도우 제약:
+  EN=1 구간에 D가 변하면 언제든 Q 변화
+  → "정적 민감도(Static Sensitivity)"
+  
+  EN=1 구간 내 여러 번 변화 = 여러 번 캡처
+  → 의도치 않은 다중 샘플링
+
+시간 차용 (Time Borrowing):
+  레벨 트리거 특유의 기법
+  이전 사이클의 조합 논리 지연이
+  다음 래치의 Enable 창으로 이어짐
+  
+  장점: 사이클 타이밍 유연성
+  단점: 타이밍 분석 복잡
+```
 
 > 📢 **섹션 요약 비유**: 셋업/홀드 시간은 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 탑승 규칙 — 출발(Enable 상승) 전에(셋업) 자리 잡고, 출발 후에도(홀드) 자리에 있어야. 어기면 혼돈(메타스테이블)!
 
@@ -175,43 +184,47 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅴ. 실무 시나리오 — [ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 캡처
 
+```
+ASIC 설계에서 레벨 트리거 활용:
 
+상황:
+  고속 ADC (Analog-to-Digital Converter) 인터페이스
+  ADC: 1GHz 클록, 12비트 출력
+  ASIC: 500MHz 도메인
+  
+  클록 도메인 교차 (CDC): 비동기 인터페이스 필요
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">ASIC 설계에서 레벨 트리거 활용:</div>
-<div class="kb-diagram-note">상황:</div>
-<div class="kb-diagram-note">고속 ADC (Analog-to-Digital Converter) 인터페이스</div>
-<div class="kb-diagram-note">ADC: 1GHz 클록, 12비트 출력</div>
-<div class="kb-diagram-note">ASIC: 500MHz 도메인</div>
-<div class="kb-diagram-note">클록 도메인 교차 (CDC): 비동기 인터페이스 필요</div>
-<div class="kb-diagram-note">설계 결정:</div>
-<div class="kb-diagram-note">ADC 출력 → D-래치 (레벨 트리거) → ASIC 내부</div>
-<div class="kb-diagram-note">이유:</div>
-<div class="kb-diagram-note">ADC 데이터 유효 구간(Enable 시간): 500ps</div>
-<div class="kb-diagram-note">ASIC 플립플롭 셋업 시간: 200ps</div>
-<div class="kb-diagram-note">레벨 트리거 래치:</div>
-<div class="kb-diagram-note">유효 구간 동안 데이터 투명하게 통과</div>
-<div class="kb-diagram-note">→ ASIC 플립플롭이 안정된 값 캡처</div>
-<div class="kb-diagram-note">타이밍 마진 계산:</div>
-<div class="kb-diagram-note">Data Valid Window: 500ps</div>
-<div class="kb-diagram-note">Latch tpd: 80ps</div>
-<div class="kb-diagram-note">FF 셋업 시간: 200ps</div>
-<div class="kb-diagram-note">마진: 500 - 80 - 200 = 220ps (충분)</div>
-<div class="kb-diagram-note">주의사항:</div>
-<div class="kb-diagram-note">래치 Enable 구간 최소화:</div>
-<div class="kb-diagram-note">글리치 위험 감소</div>
-<div class="kb-diagram-note">글리치 필터:</div>
-<div class="kb-diagram-note">Enable 신호에 RC 필터 + 히스테리시스</div>
-<div class="kb-diagram-note">→ 의도치 않은 짧은 Enable 펄스 제거</div>
-<div class="kb-diagram-note">결론:</div>
-<div class="kb-diagram-note">고속 인터페이스, 비동기 CDC에서 래치 유용</div>
-<div class="kb-diagram-note">동기식 설계 코어: 플립플롭 사용 원칙</div>
-<div class="kb-diagram-note">혼용 시: 정확한 타이밍 분석 필수</div>
-</div>
-</div>
+설계 결정:
+  ADC 출력 → D-래치 (레벨 트리거) → ASIC 내부
 
+이유:
+  ADC 데이터 유효 구간(Enable 시간): 500ps
+  ASIC 플립플롭 셋업 시간: 200ps
+  
+  레벨 트리거 래치:
+  유효 구간 동안 데이터 투명하게 통과
+  → ASIC 플립플롭이 안정된 값 캡처
 
+타이밍 마진 계산:
+  Data Valid Window: 500ps
+  Latch tpd: 80ps
+  FF 셋업 시간: 200ps
+  
+  마진: 500 - 80 - 200 = 220ps (충분)
+
+주의사항:
+  래치 Enable 구간 최소화:
+  글리치 위험 감소
+  
+  글리치 필터:
+  Enable 신호에 RC 필터 + 히스테리시스
+  → 의도치 않은 짧은 Enable 펄스 제거
+
+결론:
+  고속 인터페이스, 비동기 CDC에서 래치 유용
+  동기식 설계 코어: 플립플롭 사용 원칙
+  혼용 시: 정확한 타이밍 분석 필수
+```
 
 > 📢 **섹션 요약 비유**: [ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/) CDC에서 래치 — 두 다른 속도의 도로(클록 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)) 사이에 잠깐 열리는 게이트(레벨 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) 래치). 안전하게 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전달하는 교차로!
 

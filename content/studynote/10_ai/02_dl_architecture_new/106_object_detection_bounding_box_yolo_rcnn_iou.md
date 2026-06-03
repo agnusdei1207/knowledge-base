@@ -33,23 +33,25 @@ tags = ["studynote-ai"]
 
 가장 핵심적인 평가 지표는 예측한 박스가 정답과 얼마나 일치하는지를 따지는 `IoU (Intersection over Union)`다. 모델이 수많은 박스를 예측하면, `NMS (Non-Maximum Suppression)` [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 겹치는 박스 중 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 가장 높은 하나만 남기고 나머지를 지워버려 최종 결과를 확정한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">객체 탐지 구조 및 IoU (Intersection over Union)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 딥러닝 출력 (Dual Head)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">입력 이미지</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CNN 특징 추출</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">분류: "사람 (98%)"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">x:150, y:200, w:50</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. IoU 평가 (정답 박스와 예측 박스의 겹침 정도)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정답 박스 (A) 예측 박스 (B) IoU = 교집합 / 합집합</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">= (A ∩ B) / (A ∪ B)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──</div><div class="kb-diagram-cell">* IoU &gt; 0.5 이면 정답 인정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">교집합</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           [객체 탐지 구조 및 IoU (Intersection over Union)]  │
+├──────────────────────────────────────────────────────────────┤
+│ 1. 딥러닝 출력 (Dual Head)                                     │
+│ [입력 이미지] ─▶ [CNN 특징 추출] ┬─▶ 분류: "사람 (98%)"         │
+│                                 └─▶ 위치: [x:150, y:200, w:50] │
+│                                                              │
+│ 2. IoU 평가 (정답 박스와 예측 박스의 겹침 정도)                    │
+│                                                              │
+│   정답 박스 (A)      예측 박스 (B)         IoU = 교집합 / 합집합    │
+│   ┌──────┐         ┌──────┐             = (A ∩ B) / (A ∪ B)  │
+│   │      │         │      │                                  │
+│   │   ┌──┼─────────┤      │         * IoU > 0.5 이면 정답 인정  │
+│   │   │  │ 교집합  │      │                                  │
+│   └──┼──┘         │      │                                  │
+│      └────────────┘      │                                  │
+└──────────────────────────────────────────────────────────────┘
+```
 
 위 그림은 [객체 탐지](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/) 모델이 위치와 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)를 동시에 수행하며, 예측된 박스의 품질을 면적 비율(IoU)로 채점하는 방식을 보여준다.
 
@@ -110,23 +112,21 @@ CCTV나 드론 등 컴퓨팅 자원이 부족한 엣지 디바이스에서는 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이미지 분류 (Classification)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">2-Stage 탐지: R-CNN (Region-based CNN)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">속도 개선: Faster R-CNN (RPN 도입)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">1-Stage 혁명: YOLO (격자 기반 실시간 탐지)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">경량화 및 통합: YOLO 최신 버전, Vision Transformer 기반 탐지</div>
-</div>
-</div>
-
-
+```text
+이미지 분류 (Classification)
+    │
+    ▼
+2-Stage 탐지: R-CNN (Region-based CNN) 
+    │
+    ▼
+속도 개선: Faster R-CNN (RPN 도입)
+    │
+    ▼
+1-Stage 혁명: YOLO (격자 기반 실시간 탐지)
+    │
+    ▼
+경량화 및 통합: YOLO 최신 버전, Vision Transformer 기반 탐지
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

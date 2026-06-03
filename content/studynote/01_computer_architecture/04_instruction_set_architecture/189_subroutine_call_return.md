@@ -35,26 +35,27 @@ Call/Return의 핵심은 <strong><a href="/knowledge-base/studynote/01_computer_
 
 아래 그림은 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 기반 호출에서 주소가 어떻게 왕복하는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Call/Return의 기본 흐름: "다녀온 뒤 어디로 돌아올 것인가"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Caller 코드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0x100: LOAD R1, A</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0x104: CALL 0x500</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0x108: ADD R2, R3 ◀ ── Return이 복귀하면 여기서 재개</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Stack 메모리</div><div class="kb-diagram-cell">1) CALL 시 0x108 저장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0x108 ← Top of Stack</div><div class="kb-diagram-cell">◀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Callee 코드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0x500: PUSH FP / SAVE REGS / ...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">... 작업 수행 ...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0x520: RET POP 0x108 ▶ PC = 0x108</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│            Call/Return의 기본 흐름: "다녀온 뒤 어디로 돌아올 것인가"        │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Caller 코드                                                                │
+│ 0x100: LOAD R1, A                                                           │
+│ 0x104: CALL 0x500   ───────────────┐                                        │
+│ 0x108: ADD  R2, R3   ◀─────────────┼── Return이 복귀하면 여기서 재개         │
+│                                     │                                        │
+│ Stack 메모리                        │  1) CALL 시 0x108 저장                 │
+│ ┌──────────────────────────────┐    │                                        │
+│ │ ...                          │    │                                        │
+│ │ 0x108  ← Top of Stack        │◀───┘                                        │
+│ └──────────────────────────────┘                                             │
+│                                                                              │
+│ Callee 코드                                                                  │
+│ 0x500: PUSH FP / SAVE REGS / ...                                             │
+│        ... 작업 수행 ...                                                      │
+│ 0x520: RET ──────────────── POP 0x108 ───────────────▶ PC = 0x108            │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림이 말하는 핵심은 Return이 "목적지를 계산"하는 것이 아니라 <strong>미리 저장해 둔 복귀 주소를 꺼내는 것</strong>이라는 점이다. 따라서 Call/Return은 분기 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)이면서 동시에 상태 보존 메커니즘이기도 하다.
 
@@ -157,25 +158,24 @@ Call/Return이 정교하게 설계되면 프로그램은 거대한 일직선 나
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단순 분기 (Jump)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">서브루틴 호출 (Call) · 복귀 주소 (Return Address)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">스택 프레임 (Stack Frame) · 호출 규약 (Calling Convention)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">링크 레지스터 (Link Register) · leaf function 최적화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">복귀 주소 스택 (Return Address Stack, RAS) · 분기 예측</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">스택 보호 기법 · CFI (Control-Flow Integrity) · ROP 방어</div>
-</div>
-</div>
-
-
+```text
+단순 분기 (Jump)
+    │
+    ▼
+서브루틴 호출 (Call) · 복귀 주소 (Return Address)
+    │
+    ▼
+스택 프레임 (Stack Frame) · 호출 규약 (Calling Convention)
+    │
+    ▼
+링크 레지스터 (Link Register) · leaf function 최적화
+    │
+    ▼
+복귀 주소 스택 (Return Address Stack, RAS) · 분기 예측
+    │
+    ▼
+스택 보호 기법 · CFI (Control-Flow Integrity) · ROP 방어
+```
 
 이 흐름은 "단순 이동"에서 출발해 "구조적 호출", "[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화", "보안 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)"로 Call/Return 개념이 확장되는 과정을 보여준다.
 

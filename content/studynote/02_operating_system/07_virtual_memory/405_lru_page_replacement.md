@@ -27,27 +27,29 @@ tags = ["studynote-operating-system"]
   2. **시간 대칭성 가설**: "미래에 가장 늦게 쓰일 놈 = 과거에 가장 안 쓴 놈". 과거와 미래가 거울처럼 데칼코마니 대칭을 이룬다는 천재적 가설을 채택.
   3. **대성공과 오버헤드**: 시뮬레이션 결과 [OPT](/knowledge-base/studynote/02_operating_system/11_exam_summary/724_optimal_page_replacement_unrealizable/) 턱밑까지 폴트를 막아냈으나, "과거를 완벽하게 기억하는 데 드는 비용(CPU 낭비)"이 너무 커 실무 도입에 장벽을 맞았다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LRU 알고리즘의 동작 시각화 (스택 기반의 생명 연장 마술)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황: 램 프레임 3개 / 호출 순서: 1 -&gt; 2 -&gt; 3 -&gt; 1 -&gt; 4</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1. 초기 램 꽉 참</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">(최근)</div><div class="kb-diagram-node">3</div><div class="kb-diagram-note">-</div><div class="kb-diagram-node">2</div><div class="kb-diagram-note">-</div><div class="kb-diagram-node">1</div><div class="kb-diagram-note">(가장 안 씀: 쫓겨날 1순위)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2. 기적의 생명 연장: CPU가 '1'을 다시 불렀다! (Hit!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS: "어이구 1번 안 쓰는 놈인 줄 알았는데 방금 또 썼네? VIP로 모셔!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">(최근)</div><div class="kb-diagram-node">1</div><div class="kb-diagram-note">-</div><div class="kb-diagram-node">3</div><div class="kb-diagram-note">-</div><div class="kb-diagram-node">2</div><div class="kb-diagram-note">(가장 안 씀: 타겟이 2로 바뀜!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 3. 새로운 위기: CPU가 '4'를 불렀다! (Page Fault 터짐)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS: "누굴 죽일까... 1은 방금 썼고, 3도 아까 썼고, 2가 젤 오래 쉬었네!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">'2'를 처형하고 디스크로 날림! 그 자리에 4를 얹음.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">(최근)</div><div class="kb-diagram-node">4</div><div class="kb-diagram-note">-</div><div class="kb-diagram-node">1</div><div class="kb-diagram-note">-</div><div class="kb-diagram-node">3</div><div class="kb-diagram-note">(가장 안 씀: 이번엔 3이 타겟)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 결과: 만약 FIFO였다면 2번 스텝에서 1을 죽이고 1을 또 가져오는 미친 짓을</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">했겠지만, LRU는 방금 쓴 1을 살려내어 완벽하게 폴트를 방어함!</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────────────────┐
+│        LRU 알고리즘의 동작 시각화 (스택 기반의 생명 연장 마술)            │
+├───────────────────────────────────────────────────────────────────────────┤
+│                                                                           │
+│ [ 상황: 램 프레임 3개 / 호출 순서: 1 -> 2 -> 3 -> 1 -> 4 ]                │
+│                                                                           │
+│ ▶ 1. 초기 램 꽉 참                                                        │
+│   (최근) [ 3 ] - [ 2 ] - [ 1 ] (가장 안 씀: 쫓겨날 1순위)                 │
+│                                                                           │
+│ ▶ 2. 기적의 생명 연장: CPU가 '1'을 다시 불렀다! (Hit!)                    │
+│   OS: "어이구 1번 안 쓰는 놈인 줄 알았는데 방금 또 썼네? VIP로 모셔!"     │
+│   (최근) [ 1 ] - [ 3 ] - [ 2 ] (가장 안 씀: 타겟이 2로 바뀜!)             │
+│                                                                           │
+│ ▶ 3. 새로운 위기: CPU가 '4'를 불렀다! (Page Fault 터짐)                   │
+│   OS: "누굴 죽일까... 1은 방금 썼고, 3도 아까 썼고, 2가 젤 오래 쉬었네!"  │
+│   '2'를 처형하고 디스크로 날림! 그 자리에 4를 얹음.                       │
+│   (최근) [ 4 ] - [ 1 ] - [ 3 ] (가장 안 씀: 이번엔 3이 타겟)              │
+│                                                                           │
+│ ✅ 결과: 만약 FIFO였다면 2번 스텝에서 1을 죽이고 1을 또 가져오는 미친 짓을│
+│         했겠지만, LRU는 방금 쓴 1을 살려내어 완벽하게 폴트를 방어함!      │
+└───────────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** LRU의 핵심은 "순위의 역동성"이다. 한 번 램에 들어왔다고 끝이 아니다. 불릴([Reference](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)) 때마다 무조건 맨 앞줄(Top)로 새치기를 시켜준다. 이 쉼 없는 줄 세우기 덕분에 프로그램이 뺑글뺑글 도는 `while` 루프의 핵심 변수들은 영원히 쫓겨나지 않고 램의 1열을 독차지하게 되며, 시스템 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 극한으로 방어된다.
 
 - **📢 섹션 요약 비유**: 서재에 책을 3권만 꺼내둘 수 있습니다. 책을 볼 때마다 다 본 책을 서재의 맨 왼쪽 끝(가장 최근)으로 밀어놓습니다. 며칠 지나면 자연스럽게 오른쪽 끝에는 '가장 오랫동안 안 편 먼지 쌓인 책([LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) 타겟)'이 밀려나 있게 되고, 새 책이 필요할 때 고민 1도 없이 맨 오른쪽 책을 창고로 치워버리는 우아한 정리법입니다.
@@ -103,17 +105,14 @@ LRU가 위대한 또 다른 이유는, 아무리 램 프레임 개수를 늘려�
 - 방이 4장일 때 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) 큐: `[A, B, C, D]`
 - 방 크기가 커져도, 내가 소중하게 아끼는 상위 3등까지의 VIP(`A, B, C`)는 무조건 부분집합(Subset)으로 그대로 다 안고 간다. 그래서 램을 늘려주면 무조건 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 향상되는 우하향 폴트 곡선을 안정적으로 보장한다. 인프라 엔지니어가 믿고 램 증설 결재를 올릴 수 있는 든든한 빽이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">평가 지표</div><div class="kb-diagram-cell">늙은 코어 코드</div><div class="kb-diagram-cell">최신 잡다 코드</div><div class="kb-diagram-cell">램 증설 시 효과</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FIFO</div><div class="kb-diagram-cell">처참히 쫓겨남</div><div class="kb-diagram-cell">살아남아 낭비</div><div class="kb-diagram-cell">오히려 터질 수 있음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LRU</div><div class="kb-diagram-cell">영원히 생존</div><div class="kb-diagram-cell">금방 쫓겨남</div><div class="kb-diagram-cell">무조건 성능 향상</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬────────────────────────────┐
+│ 평가 지표  │ 늙은 코어 코드│ 최신 잡다 코드│ 램 증설 시 효과    │
+├──────────┼────────────┼────────────┼────────────────────────────┤
+│ FIFO     │ 처참히 쫓겨남 │ 살아남아 낭비 │ 오히려 터질 수 있음  │
+│ LRU      │ **영원히 생존**│ 금방 쫓겨남   │ **무조건 성능 향상**│
+└──────────┴────────────┴────────────┴────────────────────────────┘
+```
 **[매트릭스 해설]** [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 핵심 철학은 "많이 쓰는 놈을 우대하라(Locality)"다. FIFO는 늙었다고 우대하지 않아 망했고, [LFU](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/)(빈도)는 많이 썼다고 찌꺼기를 영원히 우대해서 망했다. LRU만이 오직 "지금 이 순간, 최근에 나를 찾아준 놈"만을 우대하여 변화무쌍한 프로그램의 페이즈 변환(Phase Transition)을 소름 끼치게 잘 따라간다.
 
 - **📢 섹션 요약 비유**: FIFO가 오래된 친구(핵심 코드)를 늙었다고 배신하는 쓰레기라면, LRU는 10년 된 친구라도 어제 연락 한 번([Hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/)) 했으면 내 마음속 1순위로 다시 올려주는 진정한 의리의 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)입니다.
@@ -168,19 +167,15 @@ LRU가 위대한 또 다른 이유는, 아무리 램 프레임 개수를 늘려�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">FIFO (First-In, First-Out) 교체</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LRU (Least Recently Used) 교체</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">LRU 근사 알고리즘 (LRU Approximation)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">2차 기회 알고리즘 (Second-Chance / Clock Algorithm)</div></div>
-</div>
-</div>
-
-
+```text
+[FIFO (First-In, First-Out) 교체]
+    │
+    ▼
+[LRU (Least Recently Used) 교체]
+    │
+    ├──▶ [LRU 근사 알고리즘 (LRU Approximation)]
+    └──▶ [2차 기회 알고리즘 (Second-Chance / Clock Algorithm)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

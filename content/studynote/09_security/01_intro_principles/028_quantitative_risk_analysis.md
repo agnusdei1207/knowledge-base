@@ -18,23 +18,23 @@ tags = ["studynote-security"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정량적 위험 분석 핵심 공식</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SLE (단일 예상 손실)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">= 자산 가치 (AV) × 노출 계수 (EF)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ALE (연간 기대 손실)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">= SLE × ARO (연간 발생 빈도)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예시: 서버 AV=10억, EF=50%, ARO=0.1 (10년에 1번)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SLE = 10억 × 0.5 = 5억</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ALE = 5억 × 0.1 = 5천만 원/년</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 5천만 원 이하 통제 비용이면 투자 가치 있음</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────┐
+│         정량적 위험 분석 핵심 공식                    │
+├──────────────────────────────────────────────────────┤
+│                                                       │
+│  SLE (단일 예상 손실)                                 │
+│    = 자산 가치 (AV) × 노출 계수 (EF)                  │
+│                                                       │
+│  ALE (연간 기대 손실)                                 │
+│    = SLE × ARO (연간 발생 빈도)                       │
+│                                                       │
+│  예시: 서버 AV=10억, EF=50%, ARO=0.1 (10년에 1번)     │
+│    SLE = 10억 × 0.5 = 5억                            │
+│    ALE = 5억 × 0.1 = 5천만 원/년                      │
+│    → 5천만 원 이하 통제 비용이면 투자 가치 있음        │
+└──────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 정량적 위험 분석은 보험 계리(Actuarial) 방법이다. 보험사가 "화재 발생 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) × 예상 피해액 = 연간 기대 손실"로 보험료를 계산하듯, 기업은 보안 위협의 연간 기대 손실을 계산해서 적정 보안 투자액을 결정한다.
 
@@ -119,23 +119,21 @@ ROSI = (5천만 - 1천만 - 2천만) / 2천만 = 100%
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">정성적 위험 분석 — High/Med/Low 분류</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">정량적 위험 분석 — ALE = SLE × ARO</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ROSI 계산 — 보안 투자 수익률 산정</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">몬테카를로 시뮬레이션 — 확률 분포 기반 분석</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AI 동적 위험 계량화 — 실시간 위협 인텔리전스 기반</div></div>
-</div>
-</div>
-
-
+```text
+[정성적 위험 분석 — High/Med/Low 분류]
+    │
+    ▼
+[정량적 위험 분석 — ALE = SLE × ARO]
+    │
+    ▼
+[ROSI 계산 — 보안 투자 수익률 산정]
+    │
+    ▼
+[몬테카를로 시뮬레이션 — 확률 분포 기반 분석]
+    │
+    ▼
+[AI 동적 위험 계량화 — 실시간 위협 인텔리전스 기반]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

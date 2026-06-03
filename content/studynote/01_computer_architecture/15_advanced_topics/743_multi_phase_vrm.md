@@ -44,20 +44,18 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 다상 구조가 단순 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)이 아니라, 시간차를 둔 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)이라는 점을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4-phase interleaving: split current, stagger switching</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">12V -&gt; Phase A -&gt; L_A --\</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">12V -&gt; Phase B -&gt; L_B ---+--&gt; Output capacitors --&gt; CPU Vcore</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">12V -&gt; Phase C -&gt; L_C ---+</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">12V -&gt; Phase D -&gt; L_D --/</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PWM timing: 0° 90° 180° 270°</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│           4-phase interleaving: split current, stagger switching          │
+├────────────────────────────────────────────────────────────────────────────┤
+│ 12V -> Phase A -> L_A --\                                                 │
+│ 12V -> Phase B -> L_B ---+--> Output capacitors --> CPU Vcore             │
+│ 12V -> Phase C -> L_C ---+                                                │
+│ 12V -> Phase D -> L_D --/                                                 │
+│                                                                            │
+│ PWM timing:   0°        90°        180°        270°                        │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 실무적으로는 저부하 효율도 중요하다. 페이즈를 많이 두면 고부하에는 유리하지만, 유휴 상태에서는 스위칭 손실이 오히려 늘 수 있다. 그래서 고급 컨트롤러는 낮은 부하에서 일부 페이즈를 끄는 페이즈 셰딩 기능을 사용해 효율을 유지한다.
 - **📢 섹션 요약 비유**: 물통을 한 사람이 한 번에 왕창 붓는 대신, 여러 사람이 순서를 정해 조금씩 이어 붓는 방식이다. 그러면 힘도 덜 들고 수면도 덜 흔들린다.
@@ -130,23 +128,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단일상 벅 VRM</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">인터리브드 다상 VRM</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">페이즈 더블러 · 팀드 전원부</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">페이즈 셰딩 · 디지털 전류 밸런싱</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">고밀도 스마트 파워 스테이지 기반 전원 아키텍처</div>
-</div>
-</div>
-
-
+```text
+단일상 벅 VRM
+        │
+        ▼
+인터리브드 다상 VRM
+        │
+        ▼
+페이즈 더블러 · 팀드 전원부
+        │
+        ▼
+페이즈 셰딩 · 디지털 전류 밸런싱
+        │
+        ▼
+고밀도 스마트 파워 스테이지 기반 전원 아키텍처
+```
 
 이 흐름은 전원부가 단순 강압 회로에서 출발해, 이제는 고전류와 저리플을 함께 관리하는 정교한 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 제어 시스템으로 발전했음을 보여 준다.
 

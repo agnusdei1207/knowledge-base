@@ -36,24 +36,29 @@ CBC 모드의 핵심은 이전 블록의 암호문과 현재 평문을 섞는 <s
 | **암호화 (Encryption)** | (현재 평문 $\oplus$ **이전 암호문**) $\rightarrow$ [암호화 알고리즘](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/504_cryptography_algorithms_aes_rsa_sha/) $\rightarrow$ 현재 암호문 출력 | <strong>불가 (<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/">직렬</a> 병목)</strong> |
 | **복호화 (Decryption)** | (현재 암호문 $\rightarrow$ 복호화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)) $\oplus$ **이전 암호문(파일에 이미 있음)** $\rightarrow$ 평문 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) | <strong>가능 (<a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 쾌속)</strong> |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CBC 모드의 암호화(직렬) vs 복호화(병렬) 비대칭 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">암호화: 앞 차가 가야 뒷 차가 감 (직렬 병목 ☠️)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IV 난수</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (앞의 결과가 만들어져서 넘어와야 함!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">평문 1</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">암호문 1 생성</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">평문 2</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">암호문 2 생성</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">복호화: 남을 안 기다리고 한 번에 처리 (병렬 쾌속 🚀)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">암호문 1</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">평문 1 복구</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">암호문 2</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">평문 2 복구</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 복호화 시엔 1번 암호문이 디스크에 이미 존재하므로 동시 작업 가능!</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           CBC 모드의 암호화(직렬) vs 복호화(병렬) 비대칭 구조     │
+├──────────────────────────────────────────────────────────────┤
+│ [ 암호화: 앞 차가 가야 뒷 차가 감 (직렬 병목 ☠️) ]                │
+│    IV 난수                                                   │
+│      │                                                       │
+│      ▼              (앞의 결과가 만들어져서 넘어와야 함!)       │
+│   [평문 1] ──▶ (AES) ──┬──▶ [암호문 1 생성]                    │
+│                        │                                     │
+│                        └────────┐                            │
+│                                 ▼                            │
+│   [평문 2] ─────────────(XOR)──▶ (AES) ──▶ [암호문 2 생성]      │
+│                                                              │
+│                                                              │
+│ [ 복호화: 남을 안 기다리고 한 번에 처리 (병렬 쾌속 🚀) ]          │
+│   [암호문 1] ──▶ (역 AES) ──(XOR: IV 난수 호출) ──▶ [평문 1 복구]  │
+│                                                              │
+│   [암호문 2] ──▶ (역 AES) ──(XOR: 1번 암호문 호출) ─▶ [평문 2 복구]  │
+│                                                              │
+│   * 복호화 시엔 1번 암호문이 디스크에 이미 존재하므로 동시 작업 가능!  │
+└──────────────────────────────────────────────────────────────┘
+```
 이 다이어그램이 보여주는 아키텍처의 가장 큰 약점은 암호화의 종속성이다. 2번 평문을 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 믹서기에 넣으려면 반드시 1번 암호문이 튀어나올 때까지 CPU가 손을 놓고 기다려야 한다.
 
 - **📢 섹션 요약 비유**: 도미노(CBC 암호화)를 세울 때는 앞 도미노가 무조건 넘어와야 뒷 도미노가 쓰러지는 순서([직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/))를 지켜야 해서 느리다. 하지만 바닥에 쓰러진 도미노를 다시 주워 담을 때(CBC 복호화)는 친구 10명이 동시에 10군데에서 막 주워 담아도 문제없어 엄청 빠르다.
@@ -84,7 +89,7 @@ CBC 모드는 [보안성](/knowledge-base/studynote/04_software_engineering/05_d
 2. <strong>레거시 시스템의 <a href="/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/">패딩</a> 오라클 방어</strong>: 낡은 시스템 때문에 어쩔 수 없이 CBC를 써야 한다면, 해커가 에러를 눈치채지 못하게 "[패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)이 틀렸을 때와 비밀번호가 틀렸을 때 똑같은 무반응(일반 오류)을 뱉도록" 에러 메시지를 완벽하게 숨기는 [Fail-Safe](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/459_fail_safe/) 방어 코딩을 강제해야 한다.
 3. **MAC-then-Encrypt 구조 탈피**: CBC 단독으로는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 중간에 변조되었는지([무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)) 확인할 길이 없다. 반드시 [HMAC](/knowledge-base/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/) 같은 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 코드를 함께 결합해 써야 하지만, 이마저도 설계가 까다로워 현대에는 암호화와 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)을 동시에 해주는 [AEAD](/knowledge-base/studynote/09_security/02_crypto/092_aead/)([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 암호화, 예: [GCM](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/))로 대체되었다.
 
-- **📢 섹션 요약 비유**: 10년 된 고물 트럭(CBC)을 굳이 고속도로에 올려야 한다면 짐칸 자물쇠([패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/))가 털리지 않게 두꺼운 철판으로 덮어 용접해야 하지만, 애초에 새로 차를 산다면 튼튼하고 빠른 최신형 스포츠카([GCM](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/))를 사는 것이 기술사의 올바른 판단이다.
+- **📢 섹션 요약 비유**: 10년 된 고물 트럭(CBC)을 굳이 고속도로에 올려야 한다면 짐칸 자물쇠([패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/))가 털리지 않게 두꺼운 철판으로 덮어 용접해야 하지만, 애초에 새로 차를 산다면 튼튼하고 빠른 최새로운 유형의 스포츠카([GCM](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/))를 사는 것이 기술사의 올바른 판단이다.
 
 ---
 
@@ -109,23 +114,21 @@ CBC 모드의 탄생은 초창기 암호학의 가장 큰 골칫거리였던 '[�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">ECB 모드 (단순 치환, 똑같은 평문 = 똑같은 암호문 ➔ 패턴 노출)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CBC 모드 (초기화 벡터 IV 도입, 블록 체이닝 ➔ 패턴 완벽 은닉)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">패딩 오라클 공격 발생 및 직렬 암호화 병목(느림) 문제 대두</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CTR 모드 (카운터 방식, 완벽한 병렬 처리 지원으로 속도 극대화)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">GCM 모드 (CTR 기반 병렬화 + 메시지 인증 MAC 결합 ➔ 최신 표준, TLS 1.3 채택)</div>
-</div>
-</div>
-
-
+```text
+ECB 모드 (단순 치환, 똑같은 평문 = 똑같은 암호문 ➔ 패턴 노출)
+    │
+    ▼
+CBC 모드 (초기화 벡터 IV 도입, 블록 체이닝 ➔ 패턴 완벽 은닉)
+    │
+    ▼
+패딩 오라클 공격 발생 및 직렬 암호화 병목(느림) 문제 대두
+    │
+    ▼
+CTR 모드 (카운터 방식, 완벽한 병렬 처리 지원으로 속도 극대화)
+    │
+    ▼
+GCM 모드 (CTR 기반 병렬화 + 메시지 인증 MAC 결합 ➔ 최신 표준, TLS 1.3 채택)
+```
 
 이 흐름도는 단순한 암호화에서 패턴을 지우려는 연쇄(Chain)로 진화했다가, 속도의 한계에 부딪혀 결국 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화([카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/))로 패러다임이 이동하는 과정을 명확히 보여준다.
 

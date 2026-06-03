@@ -47,17 +47,11 @@ DFD는 <strong><a href="/knowledge-base/studynote/04_software_engineering/06_sof
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DFD (DeMarco, 1978)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Yourdon DFD (1989)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">SSADM (영국 표준)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">UML Activity Diagram (대안)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: 정보처리기사 필수 + 레거시 분석 도구</div></div>
-</div>
-</div>
-
-
+```text
+[DFD (DeMarco, 1978)] → [Yourdon DFD (1989)]
+    → [SSADM (영국 표준)] → [UML Activity Diagram (대안)]
+    → [현재: 정보처리기사 필수 + 레거시 분석 도구]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. DFD는 <strong>지도</strong>예요. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 **어디서 어디로** 흐르는지 보여줘요.

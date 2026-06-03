@@ -21,18 +21,14 @@ tags = ["studynote-network"]
 
 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/)는 128비트(16바이트) 단위로만 데이터를 먹습니다. 실제 기가바이트 단위의 파일을 암호화하려면 128비트로 수없이 토막 내어 각각 암호화해야 합니다. 이때 <strong>이 여러 개의 블록들을 서로 어떻게 연결하여 암호화할지 결정하는 절차</strong>가 운영 모드입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SEED, ARIA, LEA</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">블록 암호 운영 모드, CFB, OFB, C…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">GCM 모드</div></div>
-</div>
-</div>
-
-
+```text
+[SEED, ARIA, LEA]
+    │
+    ▼
+[블록 암호 운영 모드, CFB, OFB, C…]
+    │
+    └──▶ [GCM 모드]
+```
 
 - **📢 섹션 요약 비유**: [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) 운영 모드, CFB, OFB, C…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -58,18 +54,14 @@ tags = ["studynote-network"]
 - **원리**: 1씩 증가하는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/">카운터</a> 숫자 (1, 2, 3...)</strong>를 암호화 기계에 집어넣어 난수를 뽑아낸 뒤, 그걸 평문에 덮어씌웁니다.
 - <strong>압도적 장점 (<a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 처리)</strong>: [CBC](/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/) 모드는 1번이 암호화가 끝날 때까지 2번이 기다려야 합니다(체인 구조). 하지만 [CTR](/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/) 모드는 1, 2, 3번 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)가 독립적이므로, <strong>CPU 코어 8개를 동원해 8개 블록을 동시에 <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>로 암호화/복호화해 버립니다.</strong> 미친듯한 고속 처리가 가능해 현대 인터넷([IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 등)에서 가장 사랑받는 모드입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SEED, ARIA, LEA</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">블록 암호 운영 모드, CFB, OFB, C…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">GCM 모드</div></div>
-</div>
-</div>
-
-
+```text
+[SEED, ARIA, LEA]
+    │
+    ▼
+[블록 암호 운영 모드, CFB, OFB, C…]
+    │
+    └──▶ [GCM 모드]
+```
 
 - **📢 섹션 요약 비유**: ECB는 매번 똑같은 물감(열쇠)으로 캔버스에 도장을 찍는 것입니다. 도장이 쌓이면 원래 무슨 그림(펭귄)이었는지 테두리가 드러납니다. CBC는 첫 번째 도장을 찍고, 그 찍힌 모양에 맞춰 두 번째 도장 모양을 비틀고(사슬 연결), 세 번째 도장을 또 비틀어 찍어 완벽한 무작위 패턴을 만듭니다. 하지만 앞사람이 찍을 때까지 뒷사람이 기다려야 합니다. CTR은 직원 100명이 각자 번호표([카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/))를 들고 100군데에서 한꺼번에 제각각의 패턴을 동시에 찍어내어 1초 만에 그림을 완벽히 은폐해버리는 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 시스템입니다.
 
@@ -127,19 +119,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: SEED, ARIA, LEA</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 블록 암호 운영 모드, CFB, OFB, C…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: GCM 모드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: SEED, ARIA, LEA]
+    │
+    ▼
+[현재 개념: 블록 암호 운영 모드, CFB, OFB, C…]
+    │
+    ├──▶ [확장 A: GCM 모드]
+    └──▶ [확장 B: 자동화된 신뢰 체계]
+```
 
 [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) 운영 모드, CFB, OFB, C…는 SEED, ARIA, LEA에서 출발해 현재 메커니즘을 정교화하고, 이후 [GCM](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/) 모드와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

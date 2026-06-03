@@ -44,25 +44,24 @@ tags = ["studynote-enterprise"]
 
 아래 그림은 비용 절감 기술이 "워크로드 특성"을 기준으로 어떻게 분기되는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cost optimization by workload profile</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Compute</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Steady + stateful -&gt; RI/SP + rightsizing</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Variable + stateless -&gt; autoscaling + spot</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Office-hour only -&gt; start/stop scheduling</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Rare event driven -&gt; serverless</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Storage</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hot data -&gt; standard / SSD tier</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Warm data -&gt; infrequent access tier</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cold archive -&gt; deep archive</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core rule: choose by interruption tolerance and response target</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Cost optimization by workload profile                                │
+├──────────────────────────────────────────────────────────────────────┤
+│ Compute                                                              │
+│   Steady + stateful        -> RI/SP + rightsizing                    │
+│   Variable + stateless     -> autoscaling + spot                     │
+│   Office-hour only         -> start/stop scheduling                  │
+│   Rare event driven        -> serverless                             │
+│                                                                      │
+│ Storage                                                              │
+│   Hot data                 -> standard / SSD tier                    │
+│   Warm data                -> infrequent access tier                 │
+│   Cold archive             -> deep archive                           │
+│                                                                      │
+│ Core rule: choose by interruption tolerance and response target      │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 핵심은 모든 기술이 모든 워크로드에 맞지 않는다는 점이다. 예를 들어 [스팟 인스턴스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/209_spot_instance_cloud_cost_optimization/)는 70~90% 수준의 비용 절감 여지가 있지만, 중단 허용성과 재시도 설계가 없으면 오히려 장애를 만든다. 반대로 야간 정지 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링은 가장 쉬운 전술이지만 24시간 고객 트래픽이 있는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에는 적용할 수 없다.
 
@@ -142,23 +141,21 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Lift-and-shift migration</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Idle resource discovery</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Rightsizing + scheduling</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Autoscaling + RI/SP + storage tiering</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Spot-aware / serverless cloud-native optimization</div>
-</div>
-</div>
-
-
+```text
+Lift-and-shift migration
+        │
+        ▼
+Idle resource discovery
+        │
+        ▼
+Rightsizing + scheduling
+        │
+        ▼
+Autoscaling + RI/SP + storage tiering
+        │
+        ▼
+Spot-aware / serverless cloud-native optimization
+```
 
 이 흐름은 단순 청소 수준의 절감에서, 워크로드 특성에 맞춘 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 최적화로 발전하는 과정을 보여준다.
 

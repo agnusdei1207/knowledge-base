@@ -22,17 +22,11 @@ tags = ["studynote-ai"]
 1957년 Rosenblatt의 [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)은 최초의 학습 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로, 신경망 이론의 시작점이다. [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)이 "반드시 학습된다"는 수학적 보장을 증명한 것이 [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/) 수렴 정리다.
 
 [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/) 규칙:
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">y = sign(w·x + b)</div>
-<div class="kb-diagram-note">오분류 시: w ← w + η·y_true·x</div>
-<div class="kb-diagram-note">b ← b + η·y_true</div>
-</div>
-</div>
-
-
+```
+y = sign(w·x + b)
+오분류 시: w ← w + η·y_true·x
+           b ← b + η·y_true
+```
 
 선형 분리 가능 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) → 반드시 수렴, 불가능 → 무한 루프
 
@@ -68,22 +62,20 @@ cos(θ) ≤ 1 이므로:
 최대 업데이트 횟수 T ≤ (R/γ)²
 ```
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2D 선형 분리 가능 예시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">● ●</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">● ● ← 클래스 +1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">┆ ← 결정 경계 (w·x + b = 0)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">○ ○ ← 클래스 -1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">○ ○</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마진 γ: 결정 경계에서 가장 가까운 점까지 거리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">γ가 클수록 수렴 빠름: T ≤ (R/γ)²</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────┐
+│  2D 선형 분리 가능 예시                               │
+│                                                      │
+│  ●  ●                                               │
+│  ●    ●   ← 클래스 +1                               │
+│        ┆  ←  결정 경계 (w·x + b = 0)                │
+│  ○    ○  ← 클래스 -1                               │
+│  ○  ○                                               │
+│                                                      │
+│  마진 γ: 결정 경계에서 가장 가까운 점까지 거리        │
+│  γ가 클수록 수렴 빠름: T ≤ (R/γ)²                   │
+└──────────────────────────────────────────────────────┘
+```
 
 | 개념 | 정의 | 수렴과의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
 |:---|:---|:---|

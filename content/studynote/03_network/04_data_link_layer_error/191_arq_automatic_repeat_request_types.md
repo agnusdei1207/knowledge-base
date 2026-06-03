@@ -25,18 +25,14 @@ tags = ["studynote-network"]
 2. <strong><a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/211_nak_negative_acknowledgement/">NAK</a> (Negative Acknowledge, 부정 응답)</strong>: 수신기가 "야! 방금 받은 거 깨져서 왔어. 버렸으니까 다시 쏴!"라고 에러를 통보하는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)입니다.
 3. <strong>타이머 (<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/">Timeout</a>)</strong>: 송신기는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏘고 나서 초시계를 켭니다. 만약 가던 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 아예 증발하거나 ACK가 오는 길에 사라지면, 송신기는 영원히 기다릴 수 없으므로 <strong>일정 시간(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/">Timeout</a>)이 지나면 "아, 못 받았구나" 하고 스스로 묻지도 따지지도 않고 똑같은 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 재전송</strong>합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">순방향 에러 수정</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">역방향 에러 수정 / 자동 재전송 요청</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">패리티 검사</div></div>
-</div>
-</div>
-
-
+```text
+[순방향 에러 수정]
+    │
+    ▼
+[역방향 에러 수정 / 자동 재전송 요청]
+    │
+    └──▶ [패리티 검사]
+```
 
 - **📢 섹션 요약 비유**: 역방향 에러 수정 / 자동 재전송 요청은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -64,18 +60,14 @@ tags = ["studynote-network"]
 > - **Go-Back-N**: 세트 메뉴 중 콜라 하나 엎질렀다고, 사장님이 햄버거랑 감튀까지 싹 다 쓰레기통에 버리고 세트 전체를 다시 만들어오는 비효율.
 > - **선택적 재전송**: 엎지른 '콜라 한 잔'만 주방에서 쏙 다시 가져다주는 가장 스마트한 식당.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">순방향 에러 수정</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">역방향 에러 수정 / 자동 재전송 요청</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">패리티 검사</div></div>
-</div>
-</div>
-
-
+```text
+[순방향 에러 수정]
+    │
+    ▼
+[역방향 에러 수정 / 자동 재전송 요청]
+    │
+    └──▶ [패리티 검사]
+```
 
 - **📢 섹션 요약 비유**: ** ARQ는 식당의 **'음식 재주문(컴플레인)'**입니다.
 
@@ -133,19 +125,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 순방향 에러 수정</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 역방향 에러 수정 / 자동 재전송 요청</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 패리티 검사</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고신뢰 저지연 링크 제어</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 순방향 에러 수정]
+    │
+    ▼
+[현재 개념: 역방향 에러 수정 / 자동 재전송 요청]
+    │
+    ├──▶ [확장 A: 패리티 검사]
+    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
+```
 
 역방향 에러 수정 / 자동 재전송 요청는 [순방향 에러 수정](/knowledge-base/studynote/03_network/04_data_link_layer_error/190_fec_forward_error_correction_hamming/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [패리티 검사](/knowledge-base/studynote/03_network/04_data_link_layer_error/192_parity_check_even_odd_block/)와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

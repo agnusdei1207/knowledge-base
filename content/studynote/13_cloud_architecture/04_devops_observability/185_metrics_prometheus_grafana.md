@@ -25,21 +25,20 @@ tags = ["studynote-cloud-architecture"]
 
 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)이 없으면 장애 감지는 대부분 사용자의 불만이나 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 검색 이후로 늦어진다. 반대로 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)이 잘 잡혀 있으면 요청량 급증, 오류율 상승, 포화도 증가를 몇 초에서 수십 초 안에 감지하고, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 목표 ([Service Level Objective](/knowledge-base/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/), [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)) 위반 가능성까지 미리 볼 수 있다. 즉 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)의 본질은 단순 기록이 아니라 <strong>빠른 감지와 비교 가능한 운영 기준</strong>을 제공하는 데 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Metrics answer the first operational question</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Raw events -&gt; aggregation by time window -&gt; time-series numbers</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">request started</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">request failed ----&gt; error_rate{service="checkout"}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">latency observed ----&gt; latency_p95{service="checkout"}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">cpu sampled ----&gt; cpu_usage{node="worker-a"}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">First question: "Is the system unhealthy right now?"</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Metrics answer the first operational question                     │
+├────────────────────────────────────────────────────────────────────┤
+│ Raw events -> aggregation by time window -> time-series numbers   │
+│                                                                    │
+│ request started                                                    │
+│ request failed    ----> error_rate{service="checkout"}             │
+│ latency observed  ----> latency_p95{service="checkout"}            │
+│ cpu sampled       ----> cpu_usage{node="worker-a"}                 │
+│                                                                    │
+│ First question: "Is the system unhealthy right now?"              │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)은 병원 응급실의 활력 징후 모니터와 같다. 환자의 모든 사연을 말해 주지는 않지만, 맥박과 산소포화도가 흔들리는 순간 위험을 가장 먼저 알려 준다.
 
@@ -51,25 +50,27 @@ Prometheus는 계측된 애플리케이션이나 익스포터 (Exporter)에서 `
 
 이 구조의 핵심은 "수집-저장-질의-시각화"가 느슨하게 분리된다는 점이다. 익스포터는 값을 노출하는 데만 집중하고, Prometheus는 스크레이프 주기와 라벨을 기준으로 저장하며, Grafana는 보기 좋은 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)를 만드는 데 집중한다. 그래서 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 설계는 도구 선택보다 먼저 <strong>무엇을 어떤 라벨로 얼마나 자주 수집할지</strong>를 정하는 일이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Prometheus metric pipeline</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App / Exporter</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ /metrics endpoint</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">scrape every 15s / 30s</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Prometheus Server</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ service discovery</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ TSDB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ recording rules</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ alert rules</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Grafana Alertmanager</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">dashboards route / group / page</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Prometheus metric pipeline                                        │
+├────────────────────────────────────────────────────────────────────┤
+│ App / Exporter                                                    │
+│   └─ /metrics endpoint                                            │
+│          ▲                                                        │
+│          │ scrape every 15s / 30s                                 │
+│          │                                                        │
+│ Prometheus Server                                                 │
+│   ├─ service discovery                                            │
+│   ├─ TSDB                                                         │
+│   ├─ recording rules                                              │
+│   └─ alert rules                                                  │
+│          │                           │                            │
+│          ├──────────────┬────────────┘                            │
+│          ▼              ▼                                         │
+│      Grafana       Alertmanager                                   │
+│   dashboards        route / group / page                          │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 | [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 유형 | 의미 | 잘 맞는 예시 | 설계 시 주의점 |
 | :--- | :--- | :--- | :--- |
@@ -158,25 +159,24 @@ Prometheus의 풀 모델도 [푸시 기반](/knowledge-base/studynote/15_devops_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">호스트 자원 모니터링</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">애플리케이션 메트릭 계측</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Prometheus 수집 · TSDB 저장</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Grafana 시각화 · Alertmanager 경보</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SLI / SLO · Error Budget 운영</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Thanos · Mimir 기반 장기 보존 · 멀티클러스터 확장</div>
-</div>
-</div>
-
-
+```text
+호스트 자원 모니터링
+    │
+    ▼
+애플리케이션 메트릭 계측
+    │
+    ▼
+Prometheus 수집 · TSDB 저장
+    │
+    ▼
+Grafana 시각화 · Alertmanager 경보
+    │
+    ▼
+SLI / SLO · Error Budget 운영
+    │
+    ▼
+Thanos · Mimir 기반 장기 보존 · 멀티클러스터 확장
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

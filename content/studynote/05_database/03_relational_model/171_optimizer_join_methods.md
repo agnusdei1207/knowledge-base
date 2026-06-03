@@ -27,20 +27,19 @@ tags = ["studynote-database"]
 
 이 그림은 하나의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 조인이 세 가지 전혀 다른 물리 경로로 바뀌는 이유를 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">One logical join, three very different physical executions</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SQL : A JOIN B ON A.key = B.key</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">few rows from A + index probe on B -&gt; Nested Loop Join</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">large equality join + enough memory -&gt; Hash Join</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">sorted inputs or order reuse available -&gt; Sort Merge Join</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">same result set, different I/O pattern, different total cost</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│      One logical join, three very different physical executions      │
+├──────────────────────────────────────────────────────────────────────┤
+│ SQL : A JOIN B ON A.key = B.key                                      │
+│                                                                      │
+│ few rows from A + index probe on B      -> Nested Loop Join          │
+│ large equality join + enough memory     -> Hash Join                 │
+│ sorted inputs or order reuse available  -> Sort Merge Join           │
+│                                                                      │
+│ same result set, different I/O pattern, different total cost         │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 결국 조인 방식은 결과의 정답을 바꾸지 않지만, 정답에 도달하는 <strong>시간과 자원 소비 구조</strong>를 바꾼다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 커질수록 이 차이는 "조금 느림"이 아니라 "즉시 완료 vs 장시간 대기" 수준으로 벌어진다.
 
@@ -66,19 +65,17 @@ tags = ["studynote-database"]
 
 아래 그림은 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)가 조인 방식을 고를 때 실제로 보는 분기 구조를 단순화한 것이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">How the optimizer reasons about a join</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">row estimate -&gt; join order -&gt; physical join method</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">small outer + index on inner -----------------&gt; Nested Loop Join</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">equality join + build side fits memory --------&gt; Hash Join</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">sorted streams / order reuse available --------&gt; Sort Merge Join</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                How the optimizer reasons about a join                │
+├──────────────────────────────────────────────────────────────────────┤
+│ row estimate -> join order -> physical join method                   │
+│                                                                      │
+│ small outer + index on inner  -----------------> Nested Loop Join    │
+│ equality join + build side fits memory --------> Hash Join           │
+│ sorted streams / order reuse available --------> Sort Merge Join     │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 핵심은 "좋은 조인 방식"이 따로 있는 것이 아니라, <strong>현재 입력 상태에 맞는 방식</strong>이 있다는 점이다. 그래서 조인 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)보다 먼저 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/), [기수](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/077_radix/)성, 분포도, 메모리 작업 영역이 왜 그렇게 보이는지를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 한다.
 
@@ -167,24 +164,22 @@ tags = ["studynote-database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Logical Join</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Cardinality / Selectivity Estimate</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Join Order Decision</div>
-<div class="kb-diagram-tree-item" style="--depth:2">small outer + index probe -&gt; Nested Loop Join</div>
-<div class="kb-diagram-tree-item" style="--depth:2">large equality + memory -&gt; Hash Join</div>
-<div class="kb-diagram-tree-item" style="--depth:2">sorted inputs + order use -&gt; Sort Merge Join</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Stable execution plan and join tuning</div>
-</div>
-</div>
-
-
+```text
+Logical Join
+    │
+    ▼
+Cardinality / Selectivity Estimate
+    │
+    ▼
+Join Order Decision
+    │
+    ├─ small outer + index probe -> Nested Loop Join
+    ├─ large equality + memory    -> Hash Join
+    └─ sorted inputs + order use  -> Sort Merge Join
+    │
+    ▼
+Stable execution plan and join tuning
+```
 
 이 흐름은 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 조인이 통계 기반 비용 판단을 거쳐 실제 물리 조인 방식으로 구체화되는 과정을 보여 준다.
 

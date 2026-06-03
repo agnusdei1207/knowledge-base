@@ -37,22 +37,21 @@ tags = ["studynote-security"]
 | **제2역상 저항성 (약한 충돌 저항성)** | $x$와 $H(x)$를 알 때 $H(x) = H(x')$인 가짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) $x'$ 찾기 불가 | 정상 계약서를 해시값이 같은 위조 계약서(금액 변경)로 바꿔치기하려는 공격 |
 | **충돌 저항성 (강한 충돌 저항성)** | $H(x_1) = H(x_2)$가 되는 무작위의 두 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) $(x_1, x_2)$ 쌍을 찾기 불가 | 백신 검증을 우회하기 위해 정상 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)과 해시값이 똑같은 악성코드를 미리 준비하는 공격 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해시 함수의 단방향성과 눈사태 효과 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">원본 데이터 입력</div><div class="kb-diagram-node">해시 함수 (SHA-256)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"Hello World" (믹서기 윙윙) ▶ 3A8B...9F2C</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1비트 변조 데이터 입력</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"Hello World." (믹서기 윙윙) ▶ Z9!P...1Q8@</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(마침표 추가) (결과가 완벽히 달라짐)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">역산 시도 (해커)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3A8B...9F2C (거꾸로 돌려!) ▶ 🚨 역산 절대 불가</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           해시 함수의 단방향성과 눈사태 효과 시각화          │
+├──────────────────────────────────────────────────────────────┤
+│ [ 원본 데이터 입력 ]                 [ 해시 함수 (SHA-256) ]   │
+│   "Hello World"    ───────(믹서기 윙윙)──────▶   3A8B...9F2C   │
+│                                                              │
+│ [ 1비트 변조 데이터 입력 ]                                     │
+│   "Hello World."   ───────(믹서기 윙윙)──────▶   Z9!P...1Q8@   │
+│    (마침표 추가)                           (결과가 완벽히 달라짐)│
+│                                                              │
+│ [ 역산 시도 (해커) ]                                           │
+│   3A8B...9F2C      ───────(거꾸로 돌려!)─────▶   🚨 역산 절대 불가 │
+└──────────────────────────────────────────────────────────────┘
+```
 
 단 1비트의 변화에도 결과물이 단 한 글자도 겹치지 않고 완전히 다른 쓰레기 값이 튀어나온다. 이를 통해 눈사태 효과 (Avalanche Effect)를 달성한다.
 
@@ -113,23 +112,21 @@ tags = ["studynote-security"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">비밀번호 평문 저장 및 통신 위조 위험 대두</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">암호학적 해시 알고리즘 등장 (MD5, SHA-1)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">무결성 보장 및 단방향 패스워드 저장 실현</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">컴퓨터 성능 향상으로 인한 해시 충돌 및 레인보우 테이블 공격 위협</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">안전한 해시 표준(SHA-256) 채택 및 솔트/키 스트레칭(Bcrypt) 적용 필수화</div>
-</div>
-</div>
-
-
+```text
+비밀번호 평문 저장 및 통신 위조 위험 대두
+    │
+    ▼
+암호학적 해시 알고리즘 등장 (MD5, SHA-1)
+    │
+    ▼
+무결성 보장 및 단방향 패스워드 저장 실현
+    │
+    ▼
+컴퓨터 성능 향상으로 인한 해시 충돌 및 레인보우 테이블 공격 위협
+    │
+    ▼
+안전한 해시 표준(SHA-256) 채택 및 솔트/키 스트레칭(Bcrypt) 적용 필수화
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

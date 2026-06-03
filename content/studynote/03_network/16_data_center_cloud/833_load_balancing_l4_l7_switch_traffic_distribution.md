@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: 인터넷에서 쏟아져 들어오는 막대한 트래픽 폭풍([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/) Requests)을, 뒤에 버티고 있는 여러 대의 서버 팜(Server Farm)이나 클라우드 인스턴스로 <strong>'부하(Load)가 한곳에 몰리지 않게 공평하고 똑똑하게 균형을 맞춰 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>(Balancing)시켜 주는 네트워크 통신 분배 기술'</strong>입니다. (시스템 무중단, 고가용성의 핵심)
 - **VIP (가상 IP)**: 사용자(클라이언트)는 서버 100대의 진짜 IP를 모릅니다. 오직 로드밸런서가 들고 있는 허공의 가짜 IP(VIP, Virtual IP) 하나로만 접속합니다. 로드밸런서가 이 패킷을 낚아채 진짜 서버 IP로 목적지를 바꿔치기([NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/))해서 던져줍니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">트래픽 섀도잉 및 카나리 배포 네트워킹 라우…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">로드 밸런싱</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">라운드 로빈</div></div>
-</div>
-</div>
-
-
+```text
+[트래픽 섀도잉 및 카나리 배포 네트워킹 라우…]
+    │
+    ▼
+[로드 밸런싱]
+    │
+    └──▶ [라운드 로빈]
+```
 
 - **📢 섹션 요약 비유**: 로드 밸런싱은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -56,18 +52,14 @@ tags = ["studynote-network"]
 - [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 입구에 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) <strong>대형 쇳덩어리 L4 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a></strong>를 방패막이로 세워 수천만 명의 트래픽을 큼직하게 1차로 박살 내어 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시킵니다. 
 - 그 L4 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 뒤에 수십 대의 똑똑한 소프트웨어 <strong>L7 라우터(Nginx, HAProxy 등)</strong>를 배열하여 세밀한 서비스별 분배(2차 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))를 융합하는 2단 콤보 전술을 사용합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">트래픽 섀도잉 및 카나리 배포 네트워킹 라우…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">로드 밸런싱</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">라운드 로빈</div></div>
-</div>
-</div>
-
-
+```text
+[트래픽 섀도잉 및 카나리 배포 네트워킹 라우…]
+    │
+    ▼
+[로드 밸런싱]
+    │
+    └──▶ [라운드 로빈]
+```
 
 - **📢 섹션 요약 비유**: <strong>L4 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a></strong>는 대형 공항의 '주차장 입구 안내요원'입니다. 들어오는 차(패킷)의 번호판(IP)만 보고, 창문 안은 들여다보지도 않은 채 "1번 구역으로 가세요~ 2번 구역으로 가세요~" 라며 차가 안 막히게 무작정 빈자리로 밀어 넣습니다(무식하지만 극강의 속도). 반면 <strong>L7 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a></strong>는 특급 호텔의 '도어맨(안내 컨시어지)'입니다. 손님이 오면 차 문을 열고 들어가 여권([쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/))과 방문 목적([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) URI)을 깐깐하게 물어봅니다. "아, 스파 예약 손님이시군요! 스파 전용 엘리베이터로 모시겠습니다. 앗, 식당 VIP 손님이시군요! 식당가로 안내하겠습니다!" 시간이 조금 더 걸리지만 손님의 목적(애플리케이션 내용)에 맞춰 100% 최적의 방으로 꽂아주는 천재적인 맞춤형 안내 시스템입니다.
 
@@ -139,19 +131,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 트래픽 섀도잉 및 카나리 배포 네트워킹 라우…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 로드 밸런싱</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 라운드 로빈</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 트래픽 섀도잉 및 카나리 배포 네트워킹 라우…]
+    │
+    ▼
+[현재 개념: 로드 밸런싱]
+    │
+    ├──▶ [확장 A: 라운드 로빈]
+    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
+```
 
 로드 밸런싱는 [트래픽 섀도잉](/knowledge-base/studynote/15_devops_sre/03_sre_observability/167_traffic_shadowing_sre_testing/) 및 [카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/) 네트워킹 라우…에서 출발해 현재 메커니즘을 정교화하고, 이후 [라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/)와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

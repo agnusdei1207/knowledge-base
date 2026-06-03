@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/">Ingress</a> (<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/">인그레스</a>, 인입 트래픽)</strong>: 외부 인터넷(클라이언트)에서 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 클러스터([데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)) **내부로 들어오는(Inbound)** 모든 트래픽을 말합니다.
 - <strong><a href="/knowledge-base/studynote/16_bigdata/09_platform/189_egress/">Egress</a> (이그레스, 유출 트래픽)</strong>: [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 클러스터 내부의 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))가 외부 인터넷(예: 구글 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), 외부 결제망)으로 **나가는(Outbound)** 모든 트래픽을 말합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Kube-Proxy 쿠버네티스 서비스 트래픽…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Ingress와 Egress 트래픽</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">서비스 메시</div></div>
-</div>
-</div>
-
-
+```text
+[Kube-Proxy 쿠버네티스 서비스 트래픽…]
+    │
+    ▼
+[Ingress와 Egress 트래픽]
+    │
+    └──▶ [서비스 메시]
+```
 
 - **📢 섹션 요약 비유**: Ingress와 [Egress](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/) 트래픽은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -52,18 +48,14 @@ tags = ["studynote-network"]
 - **대표적 제품**: <strong>Nginx <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/">Ingress</a> Controller</strong>가 전 세계를 제패한 압도적 1위이며, 이외에 HAProxy, Traefik, ALB(AWS 전용) 등이 쓰입니다.
 - **역할**: 외부에서 들어오는 거대한 트래픽 폭풍을 정문(Nginx)에서 다 얻어맞고, [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 헤더를 깐깐하게 뜯어본 뒤, 규칙에 맞춰 내부의 적절한 Kube-[Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)(826번)나 Pod들에게 패킷을 예쁘게 던져줍니다(Reverse [Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Kube-Proxy 쿠버네티스 서비스 트래픽…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Ingress와 Egress 트래픽</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">서비스 메시</div></div>
-</div>
-</div>
-
-
+```text
+[Kube-Proxy 쿠버네티스 서비스 트래픽…]
+    │
+    ▼
+[Ingress와 Egress 트래픽]
+    │
+    └──▶ [서비스 메시]
+```
 
 - **📢 섹션 요약 비유**: Ingress와 [Egress](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/) 트래픽의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -132,19 +124,15 @@ Ingress와 [Egress](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: Kube-Proxy 쿠버네티스 서비스 트래픽…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: Ingress와 Egress 트래픽</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 서비스 메시</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: Kube-Proxy 쿠버네티스 서비스 트래픽…]
+    │
+    ▼
+[현재 개념: Ingress와 Egress 트래픽]
+    │
+    ├──▶ [확장 A: 서비스 메시]
+    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
+```
 
 Ingress와 [Egress](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/) 트래픽는 Kube-[Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 트래픽…에서 출발해 현재 메커니즘을 정교화하고, 이후 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

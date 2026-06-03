@@ -18,22 +18,23 @@ tags = ["studynote-dataengineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DBSCAN 핵심 개념</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ε-이웃(ε-Neighborhood): 반경 ε 안의 데이터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core Point: ε 안에 MinPts개 이상 이웃이 있는 점</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Border Point: Core의 ε 안에 있지만 자신은 Core 아닌</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Noise: Core도 Border도 아닌 점 → 이상치!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Core</div><div class="kb-diagram-node">Core</div><div class="kb-diagram-node">Core</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">클러스터 1</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Border</div><div class="kb-diagram-node">Border</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· (Noise)</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    DBSCAN 핵심 개념                                   │
+├───────────────────────────────────────────────────────┤
+│  ε-이웃(ε-Neighborhood): 반경 ε 안의 데이터          │
+│                                                       │
+│  Core Point: ε 안에 MinPts개 이상 이웃이 있는 점      │
+│  Border Point: Core의 ε 안에 있지만 자신은 Core 아닌  │
+│  Noise: Core도 Border도 아닌 점 → 이상치!            │
+│                                                       │
+│  [Core]─────[Core]─────[Core]   ← 클러스터 1         │
+│    │                     │                             │
+│  [Border]             [Border]                        │
+│                                                       │
+│                  · (Noise)                             │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: DBSCAN은 사람이 모인 곳(밀도 높은 영역)을 "파티(클러스터)"로 인식하고, 혼자 떨어진 사람은 "방관자(노이즈)"로 분류하는 알고리즘이다.
 
@@ -96,23 +97,21 @@ DBSCAN은 K-Means가 실패하는 <strong>비구형·노이즈 혼재 <a href="/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">K-Means (1957) — 원형 클러스터, K 지정</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DBSCAN (1996, Ester &amp; Kriegel) — 밀도 기반, 노이즈 분리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">OPTICS (1999) — 가변 밀도 대응</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HDBSCAN (2013) — 계층적 밀도 기반, ε 자동</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: 딥 클러스터링 — Autoencoder + DBSCAN 결합</div></div>
-</div>
-</div>
-
-
+```text
+[K-Means (1957) — 원형 클러스터, K 지정]
+    │
+    ▼
+[DBSCAN (1996, Ester & Kriegel) — 밀도 기반, 노이즈 분리]
+    │
+    ▼
+[OPTICS (1999) — 가변 밀도 대응]
+    │
+    ▼
+[HDBSCAN (2013) — 계층적 밀도 기반, ε 자동]
+    │
+    ▼
+[현재: 딥 클러스터링 — Autoencoder + DBSCAN 결합]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. K-Means는 "3개 그룹으로 나눠!"라고 <strong>미리 정해</strong>야 해요.

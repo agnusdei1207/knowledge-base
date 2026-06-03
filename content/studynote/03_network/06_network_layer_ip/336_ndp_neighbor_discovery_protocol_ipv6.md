@@ -26,18 +26,14 @@ tags = ["studynote-network"]
   - <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/">IPv4</a> (<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/">ARP</a>)</strong>: 아파트 복도에서 **"105호 사는 사람 나와봐라!!"** 하고 소리치는 동네 방송. (모든 집이 문을 열어보고 아니면 닫아야 함).
   - <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/">IPv6</a> (NDP)</strong>: 아파트 게시판에 <strong>"끝자리가 5호인 사람들만 모이는 단톡방(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/">멀티캐스트</a>)"</strong>을 만들어 두고, 그 방에 들어가 "105호 분 계시나요?"라고 조용히 묻는 스마트폰 알림. (나머지 101, 102호 사람들은 알람조차 울리지 않아 편안히 잠을 잠).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">MLD</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NDP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">라우터 구조 판단</div></div>
-</div>
-</div>
-
-
+```text
+[MLD]
+    │
+    ▼
+[NDP]
+    │
+    └──▶ [라우터 구조 판단]
+```
 
 - **📢 섹션 요약 비유**: <strong> NDP는 흩어져 있던 주민센터(<a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/">DHCP</a>), 114 전화번호부(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/">ARP</a>), 파출소(충돌 검사) 업무를 </strong>"ICMPv6"**라는 하나의 거대한 스마트폰 통합 앱으로 합쳐버린 궁극의 전자정부 시스템입니다.
 
@@ -63,23 +59,26 @@ NDP는 크게 라우터와 소통하는 부분(RS/[RA](/knowledge-base/studynote
 - **NA (Neighbor Advertisement, Type 136)**: 김대리 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) ──▶ 내 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)
   - "저 부르셨어요? 제 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소는 `AA:BB:CC...` 입니다!" (조용히 유니캐스트로 대답함).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NDP를 통한 이웃 탐색(NS/NA) 시나리오</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">내 PC</div><div class="kb-diagram-node">김대리 PC</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(IP: ::10, MAC: AA) (IP: ::20, MAC: BB)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. "IP 끝자리 20번인 분, MAC 주소 좀!" (NS 발송)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">목적지 IP: 솔리시티드 멀티캐스트 (FF02::1:FFxx:xxxx)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(동네 다른 PC들은 듣고도 무시함)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. "저 여깄어요! MAC은 BB 입니다!" (NA 응답)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">목적지 IP: 내 PC의 유니캐스트 주소 (::10)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: 브로드캐스트의 소음 공해 없이 조용하고 우아하게 MAC 획득 성공!</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                NDP를 통한 이웃 탐색(NS/NA) 시나리오              │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 내 PC ]                                  [ 김대리 PC ]   │
+ │   (IP: ::10, MAC: AA)                     (IP: ::20, MAC: BB)│
+ │                                                             │
+ │   1. "IP 끝자리 20번인 분, MAC 주소 좀!" (NS 발송)               │
+ │   목적지 IP: 솔리시티드 멀티캐스트 (FF02::1:FFxx:xxxx)             │
+ │   ─────────────────────────────────────────▶           │
+ │               (동네 다른 PC들은 듣고도 무시함)                    │
+ │                                                             │
+ │   2. "저 여깄어요! MAC은 BB 입니다!" (NA 응답)                 │
+ │   목적지 IP: 내 PC의 유니캐스트 주소 (::10)                       │
+ │   ◀─────────────────────────────────────────            │
+ │                                                             │
+ │   ▶ 결과: 브로드캐스트의 소음 공해 없이 조용하고 우아하게 MAC 획득 성공!│
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 3. DAD (Duplicate Address [Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/) - IP 충돌 검사)
 내 컴퓨터가 스스로 IP를 만들었다. 남이 혹시 이 IP를 쓰고 있는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 한다.
@@ -142,19 +141,15 @@ NDP는 네트워크 계층과 IP를 이해할 때 핵심 축을 잡아 주는 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: MLD</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: NDP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 라우터 구조 판단</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 대규모 주소 자동화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: MLD]
+    │
+    ▼
+[현재 개념: NDP]
+    │
+    ├──▶ [확장 A: 라우터 구조 판단]
+    └──▶ [확장 B: 대규모 주소 자동화]
+```
 
 NDP는 MLD에서 출발해 현재 메커니즘을 정교화하고, 이후 [라우터 구조 판단](/knowledge-base/studynote/03_network/07_network_layer_routing/337_router_architecture_rib_fib_control_data_plane/)와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

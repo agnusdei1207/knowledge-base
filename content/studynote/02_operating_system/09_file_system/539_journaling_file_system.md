@@ -30,27 +30,32 @@ tags = ["studynote-operating-system"]
 - <strong>전체 디스크 스캔의 파멸과 저널링(일기장) 초광속 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> 메커니즘 뷰</strong>:
 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 갑작스러운 전원 차단(Blackout) 시 어떻게 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 방어력을 전개하는지 그 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 구조도를 까보면 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"하다가 죽어도 부활한다! 일기장(WAL) 영구 결속 마스킹 레이더!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">❌</div><div class="kb-diagram-node">옛날 ext2 파일시스템: 크래시 후 부팅 시 지옥의 전체 스캔 fsck 랙</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(전원 컷!) -&gt; OS 재부팅 빙결 -&gt; "어라 정상 종료 안 됐네? 디스크 다 뒤져봐!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1번 블록 스캔</div><div class="kb-diagram-note">...</div><div class="kb-diagram-node">50만번 블록</div><div class="kb-diagram-note">...</div><div class="kb-diagram-node">999만번 블록</div><div class="kb-diagram-note">── (10시간 소요 병목 프리징)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">✅</div><div class="kb-diagram-node">최신 ext4 저널링 (Journaling): 일기장 초압축 복구 스왑 다이브 결착</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">[</div><div class="kb-diagram-node">디스크 1 구석탱이: 📝 특수 저널(Journal) 로그 영역</div><div class="kb-diagram-connector">&lt;-</div><div class="kb-diagram-note">(먼저 여기에 기록 빔)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Tx 101: "A 파일 3번 블록 Data X로 수정할 거임 (Commit 완료)"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">[</div><div class="kb-diagram-node">디스크 2 본진: 💽 실제 파일 폴더 영역</div><div class="kb-diagram-connector">&lt;-</div><div class="kb-diagram-note">(그다음 진짜 본진 타격)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "A 파일 3번 블록 쓰기 시작..." ─ (이때 전기 쾅! 💀 끊김 크래시 폭발)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🔥</div><div class="kb-diagram-node">다음 날 서버 OS 재부팅 SRE 복구 발동 렌더!!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 커널: "어 비정상 종료네? 옛날처럼 전체 안 뒤져 ㅋ 저널 일기장만 딱 읽어 록!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 커널: "오호라 Tx 101 이놈이 A 파일 3번 블록 쓰다 말았군, 당장 거기만 복원 쏴!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=&gt;</div><div class="kb-diagram-node">단 2초 만에 복구(Recovery) 완료!</div><div class="kb-diagram-note">서버 광속 재가동 $O(1)$ 서비스 복귀 컷!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌──────────────────────────────────────────────────────────────────────────────────────┐
+  │                 "하다가 죽어도 부활한다! 일기장(WAL) 영구 결속 마스킹 레이더!"       │
+  ├──────────────────────────────────────────────────────────────────────────────────────┤
+  │                                                                                      │
+  │  ❌ [ 옛날 ext2 파일시스템: 크래시 후 부팅 시 지옥의 전체 스캔 fsck 랙 ]             │
+  │                                                                                      │
+  │     (전원 컷!) -> OS 재부팅 빙결 -> "어라 정상 종료 안 됐네? 디스크 다 뒤져봐!"      │
+  │     [1번 블록 스캔]...[50만번 블록]...[999만번 블록] ── (10시간 소요 병목 프리징)    │
+  │                                                                                      │
+  │  =========================▼===================================                       │
+  │                                                                                      │
+  │  ✅ [ 최신 ext4 저널링 (Journaling): 일기장 초압축 복구 스왑 다이브 결착 ]           │
+  │                                                                                      │
+  │     [[ 디스크 1 구석탱이: 📝 특수 저널(Journal) 로그 영역 ]] <- (먼저 여기에 기록 빔)│
+  │        - Tx 101: "A 파일 3번 블록 Data X로 수정할 거임 (Commit 완료)"                │
+  │                                                                                      │
+  │     [[ 디스크 2 본진: 💽 실제 파일 폴더 영역 ]]           <- (그다음 진짜 본진 타격) │
+  │        - "A 파일 3번 블록 쓰기 시작..." ─ (이때 전기 쾅! 💀 끊김 크래시 폭발)        │
+  │                                                                                      │
+  │     🔥 [다음 날 서버 OS 재부팅 SRE 복구 발동 렌더!!]                                 │
+  │      - 커널: "어 비정상 종료네? 옛날처럼 전체 안 뒤져 ㅋ 저널 일기장만 딱 읽어 록!"  │
+  │      - 커널: "오호라 Tx 101 이놈이 A 파일 3번 블록 쓰다 말았군, 당장 거기만 복원 쏴!"│
+  │      => [ 단 2초 만에 복구(Recovery) 완료! ] 서버 광속 재가동 $O(1)$ 서비스 복귀 컷! │
+  └──────────────────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 상단의 옛 구석기 `ext2` 모델은 크래시 발생 시 `fsck(File System Consistency Check)` 프로세스가 전체 디스크 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 구조를 처음부터 끝까지 수학적으로 교차 검증하는 극악의 연산량 $O(N)$ 병목 늪에 빠졌다. 
 하단의 **ext4 저널링** 메커니즘은 ACID [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 수호신을 장착하여, 본진 디스크를 건드리기 전 반드시 안전 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)(Journal 영역)에 자신의 작업 내역을 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) I/O(fsync 채찍, 이전 문서 538번 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/))로 강제 낙인시켜 둔다. 부팅 시 OS는 오직 이 조그만 저널 링 버퍼(Ring Buffer)만 순회 정독하여 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)이 깨진 지점을 핀포인트로 찾아내 롤포워드(Roll-forward) 혹은 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/))으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 고쳐내는 극한의 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 결착 방파제를 구축한다 증명 록백.
@@ -130,19 +135,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">동기화 I/O (O_SYNC / fsync)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">저널링 파일 시스템 (Journaling File System)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">메타데이터 저널링 vs 데이터 저널링 모드 (순서: 로그 기록 -&gt; 커밋 -&gt; 실제 파일시스템 반영)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">LFS (Log-structured File System)</div></div>
-</div>
-</div>
-
-
+```text
+[동기화 I/O (O_SYNC / fsync)]
+    │
+    ▼
+[저널링 파일 시스템 (Journaling File System)]
+    │
+    ├──▶ [메타데이터 저널링 vs 데이터 저널링 모드 (순서: 로그 기록 -> 커밋 -> 실제 파일시스템 반영)]
+    └──▶ [LFS (Log-structured File System)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

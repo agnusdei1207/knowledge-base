@@ -23,18 +23,14 @@ tags = ["studynote-network"]
 - 과거 인터넷 웹서핑 시절(외부망 ➜ 서버, North-South 트래픽)엔 이 구조가 좋았습니다.
 - **몰락 원인**: 빅데이터, [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/), 마이크로서비스가 터지면서 서버 1번이 서버 2번과 대화하는 <strong>내부망 트래픽(East-West 횡적 트래픽)이 전체의 80%를 차지</strong>하게 되었습니다. 액세스 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 물린 패킷이 윗동네 분배 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 거쳐 코어를 찍고 빙빙 돌아오느라 트래픽 병목([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/))과 심각한 딜레이가 터졌습니다. [STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/)([스패닝 트리](/knowledge-base/studynote/03_network/19_frequent_topics_terms/959_spanning_tree_protocol_stp_loop_avoidance/)) 때문에 절반의 선은 아예 차단되어 놀고 있었습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">EVPN-VXLAN BGP 컨트롤 플레인 전…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Spine-Leaf 대용량 클로스 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IBN 선행 AI 설계</div></div>
-</div>
-</div>
-
-
+```text
+[EVPN-VXLAN BGP 컨트롤 플레인 전…]
+    │
+    ▼
+[Spine-Leaf 대용량 클로스 구조]
+    │
+    └──▶ [IBN 선행 AI 설계]
+```
 
 - **📢 섹션 요약 비유**: Spine-Leaf 대용량 클로스 구조는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -44,18 +40,14 @@ tags = ["studynote-network"]
 
 - **개념**: 1950년대 찰스 클로스(Charles Clos)가 전화 교환망을 위해 고안한 '클로스 네트워크(Clos Network)' 구조를 현대 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 망에 부활시킨 <strong>2-Tier(2계층) 수평적 확장형 뼈대 구조</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">EVPN-VXLAN BGP 컨트롤 플레인 전…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Spine-Leaf 대용량 클로스 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IBN 선행 AI 설계</div></div>
-</div>
-</div>
-
-
+```text
+[EVPN-VXLAN BGP 컨트롤 플레인 전…]
+    │
+    ▼
+[Spine-Leaf 대용량 클로스 구조]
+    │
+    └──▶ [IBN 선행 AI 설계]
+```
 
 - **📢 섹션 요약 비유**: Spine-Leaf 대용량 클로스 구조의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -124,19 +116,15 @@ Spine-Leaf 대용량 클로스 구조는 [성능](/knowledge-base/studynote/04_s
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: EVPN-VXLAN BGP 컨트롤 플레인 전…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: Spine-Leaf 대용량 클로스 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: IBN 선행 AI 설계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: EVPN-VXLAN BGP 컨트롤 플레인 전…]
+    │
+    ▼
+[현재 개념: Spine-Leaf 대용량 클로스 구조]
+    │
+    ├──▶ [확장 A: IBN 선행 AI 설계]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 Spine-Leaf 대용량 클로스 구조는 EVPN-VXLAN [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 컨트롤 플레인 전…에서 출발해 현재 메커니즘을 정교화하고, 이후 [IBN](/knowledge-base/studynote/03_network/17_sdn_nfv/857_ibn_intent_based_networking_declarative_automation/) 선행 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 설계와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

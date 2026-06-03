@@ -43,25 +43,26 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 조건 분기 명령이 실제 목표 주소를 만드는 과정을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PC-relative branch target generation</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">instruction @ 0x1000 : BNE -12</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">instruction length : 4 bytes</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">step 1. fetch completes -&gt; PC points to next instruction</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PC = 0x1004</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">step 2. displacement field = -12</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">sign-extend(-12) = 0xFFFF FFF4</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">step 3. target = PC + displacement</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0x1004 + (-12) = 0x0FF8</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">taken -&gt; PC &lt;- 0x0FF8</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">not taken -&gt; continue with 0x1004</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ PC-relative branch target generation                              │
+├────────────────────────────────────────────────────────────────────┤
+│ instruction @ 0x1000 : BNE -12                                    │
+│ instruction length   : 4 bytes                                    │
+│                                                                    │
+│ step 1. fetch completes -> PC points to next instruction          │
+│         PC = 0x1004                                                │
+│                                                                    │
+│ step 2. displacement field = -12                                  │
+│         sign-extend(-12) = 0xFFFF FFF4                            │
+│                                                                    │
+│ step 3. target = PC + displacement                                │
+│         0x1004 + (-12) = 0x0FF8                                   │
+│                                                                    │
+│ taken     -> PC <- 0x0FF8                                         │
+│ not taken -> continue with 0x1004                                 │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 실질적 포인트는 세 가지다. 첫째, <strong>뒤로 가는 분기</strong>는 음수 변위로 표현된다. 둘째, 하드웨어는 이를 2의 보수 (Two's Complement) 값으로 받아 부호 확장해 덧셈한다. 셋째, 같은 명령 형식으로 앞쪽 분기와 뒤쪽 분기를 모두 처리할 수 있으므로 루프 구현이 매우 효율적이다.
 
@@ -141,22 +142,19 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">절대 주소 기반 분기</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">재배치와 적재 위치 변경 문제</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">PC + 변위 기반 상대 주소 계산</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ 짧은 분기 명령 · 코드 밀도 향상</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ PIC · 공유 라이브러리 · ASLR 대응</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ 범위 초과 시 veneer · trampoline 보완</div>
-</div>
-</div>
-
-
+```text
+절대 주소 기반 분기
+        │
+        ▼
+재배치와 적재 위치 변경 문제
+        │
+        ▼
+PC + 변위 기반 상대 주소 계산
+        │
+        ├──────────────▶ 짧은 분기 명령 · 코드 밀도 향상
+        ├──────────────▶ PIC · 공유 라이브러리 · ASLR 대응
+        └──────────────▶ 범위 초과 시 veneer · trampoline 보완
+```
 
 이 흐름도는 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 상대 주소 지정이 단순한 분기 기법을 넘어, 재배치 가능 코드와 현대 실행 보안 구조로 이어지는 흐름을 보여 준다.
 

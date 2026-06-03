@@ -21,20 +21,14 @@ tags = ["VotingClassifier", "ensemble learning", "hard voting", "scikit-learn", 
 
 ### 1.1 [보팅](/knowledge-base/studynote/10_ai/03_llm_nlp/258_voting_ensemble/) [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) 구조
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">입력 X</div>
-<div class="kb-diagram-tree-item" style="--depth:1">▶ 분류기 1 (예: 로지스틱 회귀) ─▶ 예측1</div>
-<div class="kb-diagram-tree-item" style="--depth:1">▶ 분류기 2 (예: Decision Tree) ─▶ 예측2</div>
-<div class="kb-diagram-tree-item" style="--depth:1">▶ 분류기 3 (예: SVM) ─▶ 예측3</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">보팅 집계 → 최종 예측</div>
-</div>
-</div>
-
-
+```
+입력 X
+  ├─▶ 분류기 1 (예: 로지스틱 회귀)  ─▶ 예측1
+  ├─▶ 분류기 2 (예: Decision Tree)  ─▶ 예측2
+  └─▶ 분류기 3 (예: SVM)            ─▶ 예측3
+                                          ↓
+                                    보팅 집계 → 최종 예측
+```
 
 ### 1.2 [보팅](/knowledge-base/studynote/10_ai/03_llm_nlp/258_voting_ensemble/)의 전제 조건
 
@@ -51,19 +45,14 @@ tags = ["VotingClassifier", "ensemble learning", "hard voting", "scikit-learn", 
 
 각 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기가 클래스 레이블을 예측 → 가장 많이 나온 클래스 선택 (다수결).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">예시 (3 클래스: A, B, C):</div>
-<div class="kb-diagram-note">분류기1: A</div>
-<div class="kb-diagram-note">분류기2: A</div>
-<div class="kb-diagram-note">분류기3: B</div>
-<div class="kb-diagram-note">결과: A (2표 다수결)</div>
-</div>
-</div>
-
-
+```
+예시 (3 클래스: A, B, C):
+분류기1: A
+분류기2: A
+분류기3: B
+─────────
+결과: A (2표 다수결)
+```
 
 ### 2.2 한계
 
@@ -80,20 +69,15 @@ tags = ["VotingClassifier", "ensemble learning", "hard voting", "scikit-learn", 
 
 각 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기의 클래스별 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 평균 → 가장 높은 평균 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 클래스 선택.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">예시:</div>
-<div class="kb-diagram-note">분류기1: P(A)=0.7, P(B)=0.3</div>
-<div class="kb-diagram-note">분류기2: P(A)=0.6, P(B)=0.4</div>
-<div class="kb-diagram-note">분류기3: P(A)=0.3, P(B)=0.7</div>
-<div class="kb-diagram-note">평균: P(A)=0.533, P(B)=0.467</div>
-<div class="kb-diagram-note">결과: A</div>
-</div>
-</div>
-
-
+```
+예시:
+분류기1: P(A)=0.7, P(B)=0.3
+분류기2: P(A)=0.6, P(B)=0.4
+분류기3: P(A)=0.3, P(B)=0.7
+─────────────────────────────
+평균:    P(A)=0.533, P(B)=0.467
+결과: A
+```
 
 ### 3.2 소프트 [보팅](/knowledge-base/studynote/10_ai/03_llm_nlp/258_voting_ensemble/)이 유리한 경우
 
@@ -115,17 +99,11 @@ clf = VotingClassifier(estimators=[...], voting='soft')
 
 ### 4.1 가중 하드 [보팅](/knowledge-base/studynote/10_ai/03_llm_nlp/258_voting_ensemble/)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">가중치: clf1=2, clf2=1, clf3=1</div>
-<div class="kb-diagram-note">clf1→A: 2표, clf2→A: 1표, clf3→B: 1표</div>
-<div class="kb-diagram-note">결과: A (3표 vs 1표)</div>
-</div>
-</div>
-
-
+```
+가중치: clf1=2, clf2=1, clf3=1
+clf1→A: 2표, clf2→A: 1표, clf3→B: 1표
+결과: A (3표 vs 1표)
+```
 
 ### 4.2 가중 소프트 [보팅](/knowledge-base/studynote/10_ai/03_llm_nlp/258_voting_ensemble/)
 
@@ -179,48 +157,36 @@ vc.fit(X_train, y_train)
 
 ## 📌 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">보팅 앙상블</div>
-<div class="kb-diagram-tree-item" style="--depth:0">하드 보팅 (다수결)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">소프트 보팅 (확률 평균)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">가중 보팅 (가중치 부여)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">관련 앙상블</div>
-<div class="kb-diagram-tree-item" style="--depth:2">배깅 (Bagging) — Bootstrap 샘플링</div>
-<div class="kb-diagram-tree-item" style="--depth:2">부스팅 (Boosting) — 순차 학습</div>
-<div class="kb-diagram-tree-item" style="--depth:2">스태킹 (Stacking) — 메타 학습기</div>
-</div>
-</div>
-
-
+```
+보팅 앙상블
+├── 하드 보팅 (다수결)
+├── 소프트 보팅 (확률 평균)
+├── 가중 보팅 (가중치 부여)
+└── 관련 앙상블
+    ├── 배깅 (Bagging) — Bootstrap 샘플링
+    ├── 부스팅 (Boosting) — 순차 학습
+    └── 스태킹 (Stacking) — 메타 학습기
+```
 
 ---
 
 ## 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단일 분류기 (1980s)</div>
-<div class="kb-diagram-note">분산 감소 필요</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">배깅/부스팅 (1990s) — 동질 앙상블</div>
-<div class="kb-diagram-note">이질 분류기 결합</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">보팅 앙상블 (하드/소프트, 2000s)</div>
-<div class="kb-diagram-note">확률 보정 필요</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">보정된 소프트 보팅 + 가중치 최적화</div>
-<div class="kb-diagram-note">딥러닝 분류기 통합</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">신경망 + 전통 ML 혼합 앙상블 (현재)</div>
-</div>
-</div>
-
-
+```
+단일 분류기 (1980s)
+     │  분산 감소 필요
+     ▼
+배깅/부스팅 (1990s) — 동질 앙상블
+     │  이질 분류기 결합
+     ▼
+보팅 앙상블 (하드/소프트, 2000s)
+     │  확률 보정 필요
+     ▼
+보정된 소프트 보팅 + 가중치 최적화
+     │  딥러닝 분류기 통합
+     ▼
+신경망 + 전통 ML 혼합 앙상블 (현재)
+```
 
 **핵심 키워드**: 하드 [보팅](/knowledge-base/studynote/10_ai/03_llm_nlp/258_voting_ensemble/), 소프트 [보팅](/knowledge-base/studynote/10_ai/03_llm_nlp/258_voting_ensemble/), 가중 [보팅](/knowledge-base/studynote/10_ai/03_llm_nlp/258_voting_ensemble/), VotingClassifier, [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 보정, 이질 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/)
 

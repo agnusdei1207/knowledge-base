@@ -26,26 +26,27 @@ P1과 P2가 서로 상대방 컴포넌트를 호출하는 `상호 의존성 주�
 
 **💡 비유**: 데드락 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)(OS)는 사고 날 때마다 에어백을 터트려 목숨을 살려주는 안전장치다. 하지만 매일 교차로에서 사고가 나고 매일 에어백이 터진다면? 타는 사람은 미친다([가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 하락). 결국 운전자가 내려서 그 교차로의 신호등 체계를 아예 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)시켜 고쳐놔야(코드 디버깅 및 패치) 에어백이 터질 일 자체가 영원히 사라진다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">스레드 덤프</div><div class="kb-diagram-note">에서 동기화 결함 범인 잡아내는 추리 과정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버가 멈췄다 (행, Hang). 개발자가 강제로 스레드 덤프 추출!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Thread-1의 검시관 기록지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 상태: BLOCKED (기절함)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 손에 쥔 것: locked &lt;0x00A&gt; (DB 락 A는 지가 꽉 쥐고 있음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 기다리는 것: waiting to lock &lt;0x00B&gt; (B를 달라고 조름)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Thread-2의 검시관 기록지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 상태: BLOCKED (기절함)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 손에 쥔 것: locked &lt;0x00B&gt; (DB 락 B는 지가 꽉 쥐고 있음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 기다리는 것: waiting to lock &lt;0x00A&gt; (A를 달라고 조름)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 발견 유레카!: "A를 쥐고 B를 패는 놈"과 "B를 쥐고 A를 패는 놈"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이 딱 마주쳤구나. 이것이 완벽한 데드락 사이클(환형 대기)!</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│         [스레드 덤프]에서 동기화 결함 범인 잡아내는 추리 과정    │
+├──────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  서버가 멈췄다 (행, Hang). 개발자가 강제로 스레드 덤프 추출!     │
+│                                                                  │
+│  [ Thread-1의 검시관 기록지 ]                                    │
+│  - 상태: BLOCKED (기절함)                                        │
+│  - 손에 쥔 것: locked <0x00A> (DB 락 A는 지가 꽉 쥐고 있음)      │
+│  - 기다리는 것: waiting to lock <0x00B> (B를 달라고 조름)        │
+│                                                                  │
+│  [ Thread-2의 검시관 기록지 ]                                    │
+│  - 상태: BLOCKED (기절함)                                        │
+│  - 손에 쥔 것: locked <0x00B> (DB 락 B는 지가 꽉 쥐고 있음)      │
+│  - 기다리는 것: waiting to lock <0x00A> (A를 달라고 조름)        │
+│                                                                  │
+│  ▶ 발견 유레카!: "A를 쥐고 B를 패는 놈"과 "B를 쥐고 A를 패는 놈" │
+│     이 딱 마주쳤구나. 이것이 완벽한 데드락 사이클(환형 대기)!    │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 **📢 섹션 요약 비유**: 이 기법은 의사(엔지니어)가 엑스레이([스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 덤프)를 쫙 찍어놓고 "여기 이 뼈([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 1)랑 저 뼈([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 2)가 서로 반대 방향으로 엇갈려 껴버렸네!" 하고 100% 확실한 X자 버그의 원점을 핀셋으로 집어내는 검시 과정입니다.
 
@@ -118,19 +119,15 @@ P1과 P2가 서로 상대방 컴포넌트를 호출하는 `상호 의존성 주�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">라이브락 (Livelock)과 교착 상태의 차이점</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">동기화 결함 (순환 의존성) 코드 레벨 디버깅 기법 (Synchronization Bug Debugging)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">락 오더링 (Lock Ordering) 다이나믹 검증 도구 (Lockdep in Linux)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">분산 시스템에서의 교착 상태 탐지</div></div>
-</div>
-</div>
-
-
+```text
+[라이브락 (Livelock)과 교착 상태의 차이점]
+    │
+    ▼
+[동기화 결함 (순환 의존성) 코드 레벨 디버깅 기법 (Synchronization Bug Debugging)]
+    │
+    ├──▶ [락 오더링 (Lock Ordering) 다이나믹 검증 도구 (Lockdep in Linux)]
+    └──▶ [분산 시스템에서의 교착 상태 탐지]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

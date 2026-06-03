@@ -28,23 +28,17 @@ tags = ["software_engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Waterfall</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">문서 중심 계획</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">작동하는 소프트웨어</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">짧은 피드백 루프</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">지속적 학습과 개선</div>
-</div>
-</div>
-
-
+```text
+Waterfall
+   ↓
+문서 중심 계획
+   ↓
+작동하는 소프트웨어
+   ↓
+짧은 피드백 루프
+   ↓
+지속적 학습과 개선
+```
 
 | 전통적 가치 | [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 가치 |
 | :-- | :-- |
@@ -110,43 +104,31 @@ tags = ["software_engineering"]
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Waterfall 문제</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Agile Manifesto</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Scrum / Kanban / XP</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">CI/CD</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">DevOps</div>
-</div>
-</div>
-
-
+```text
+Waterfall 문제
+   ↓
+Agile Manifesto
+   ↓
+Scrum / Kanban / XP
+   ↓
+CI/CD
+   ↓
+DevOps
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">중량급 개발</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">애자일 선언문</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">반복적/점진적 개발</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">지속적 통합/배포</div>
-</div>
-</div>
-
-
+```text
+중량급 개발
+   ↓
+애자일 선언문
+   ↓
+반복적/점진적 개발
+   ↓
+지속적 통합/배포
+```
 
 ---
 

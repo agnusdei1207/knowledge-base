@@ -29,26 +29,23 @@ tags = ["software_engineering"]
 
 다음은 계획 주도(Plan-Driven) 모델과 가치 주도(Value-Driven) [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 모델의 패러다임 차이를 보여주는 도식이다.
 
+```text
+[기존 폭포수: Plan-Driven]
+요구사항 고정 (Fixed)
+  │
+  ├─► [설계] ──► [구현] ──► [테스트] ──► [결과]
+                                           ▼
+일정과 자원은 가변적 (Estimated)           (고객이 원하는 것과 다름!)
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">기존 폭포수: Plan-Driven</div></div>
-<div class="kb-diagram-note">요구사항 고정 (Fixed)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─►</div><div class="kb-diagram-node">설계</div><div class="kb-diagram-note">──►</div><div class="kb-diagram-node">구현</div><div class="kb-diagram-note">──►</div><div class="kb-diagram-node">테스트</div><div class="kb-diagram-note">──►</div><div class="kb-diagram-node">결과</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">일정과 자원은 가변적 (Estimated) (고객이 원하는 것과 다름!)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">애자일: Value-Driven</div></div>
-<div class="kb-diagram-note">일정과 자원 고정 (Timeboxed, Sprint)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─►</div><div class="kb-diagram-node">Sprint 1</div><div class="kb-diagram-note">──► (작동하는 SW) ──► 피드백</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─►</div><div class="kb-diagram-node">Sprint 2</div><div class="kb-diagram-note">──► (기능 추가) ──► 피드백</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─►</div><div class="kb-diagram-node">Sprint 3</div><div class="kb-diagram-note">──► (방향 수정) ──► 피드백</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">요구사항은 가변적 (Estimated) (고객의 현재 니즈에 완벽 부합!)</div>
-</div>
-</div>
-
-
+[애자일: Value-Driven]
+일정과 자원 고정 (Timeboxed, Sprint)
+  │
+  ├─► [Sprint 1] ──► (작동하는 SW) ──► 피드백
+  ├─► [Sprint 2] ──► (기능 추가) ──► 피드백
+  └─► [Sprint 3] ──► (방향 수정) ──► 피드백
+                                           ▼
+요구사항은 가변적 (Estimated)              (고객의 현재 니즈에 완벽 부합!)
+```
 
 이 도식의 핵심은 '무엇을 고정하고 무엇을 유연하게 둘 것인가'의 차이다. 폭포수는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 요구사항을 신성불가침 영역으로 고정하고 맞추려다 보니 일정과 비용이 초과된다. 반면 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)은 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)라는 짧은 시간(일정)과 인력(비용)을 고정해두고, 그 제약 안에서 "지금 시점에 가장 가치 있는 요구사항이 무엇인가?"를 끊임없이 재평가한다. 따라서 개발 중간에 시장이 변하더라도 언제든 기민하게 방향([Pivot](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/))을 틀 수 있다.
 
@@ -70,24 +67,22 @@ tags = ["software_engineering"]
 
 아래 다이어그램은 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 프레임워크의 전체 흐름과 피드백 루프를 보여준다.
 
+```text
+[스크럼 프레임워크 동작 흐름도]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">스크럼 프레임워크 동작 흐름도</div></div>
-<div class="kb-diagram-note">(Product Owner) (Sprint Planning) (Development Team)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">제품 백로그</div><div class="kb-diagram-note">►</div><div class="kb-diagram-node">스프린트 백로그</div><div class="kb-diagram-note">►</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">우선순위가 높은 이번 스프린트(2주)에</div><div class="kb-diagram-node">Sprint</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 스토리들 할당된 작업 목록</div><div class="kb-diagram-cell">설계/개발/테스트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">24h</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Daily Scrum</div></div>
-<div class="kb-diagram-note">(Sprint Retrospective) (Sprint Review)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">회고: 프로세스 개선</div><div class="kb-diagram-note">◄</div><div class="kb-diagram-node">잠재적으로 출시 가능한 제품</div></div>
-<div class="kb-diagram-note">팀의 업무 방식 성찰 고객 시연 및 요구사항 피드백</div>
-</div>
-</div>
-
-
+(Product Owner)         (Sprint Planning)            (Development Team)
+[제품 백로그] ───────► [스프린트 백로그] ───────► ┌──────────────────┐
+ 우선순위가 높은          이번 스프린트(2주)에        │   [Sprint]       │
+ 사용자 스토리들          할당된 작업 목록            │  설계/개발/테스트│
+       ▲                                              │      ↑           │
+       │                                              │      │ 24h       │
+       │                                              │  [Daily Scrum]   │
+       │                                              └────────┬─────────┘
+       │                                                       │
+       │     (Sprint Retrospective)                    (Sprint Review)
+       └──────── [회고: 프로세스 개선] ◄──────── [잠재적으로 출시 가능한 제품]
+                 팀의 업무 방식 성찰             고객 시연 및 요구사항 피드백
+```
 
 이 구조도의 핵심은 <strong>피드백 루프가 이중으로 돌아간다는 점</strong>이다.
 1) <strong>제품 피드백 (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/070_sprint_review_demo/">Sprint Review</a>)</strong>: 고객과 PO가 완성된 소프트웨어를 시연해 보고, 요구사항([제품 백로그](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/066_product_backlog_grooming/))을 수정한다. 이는 '올바른 제품을 만들고 있는가([Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))'를 보장한다.
@@ -140,18 +135,13 @@ tags = ["software_engineering"]
 
 #### 2. 치명적 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/): "[Water-Scrum-Fall](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) (무늬만 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))"
 
+```text
+[Water-Scrum-Fall 안티패턴의 병목 시각화]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Water-Scrum-Fall 안티패턴의 병목 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">요구사항</div><div class="kb-diagram-connector">===&gt;</div><div class="kb-diagram-node">기획/디자인</div><div class="kb-diagram-connector">===&gt;</div><div class="kb-diagram-node">2주 단위 개발 (Scrum)</div><div class="kb-diagram-connector">===&gt;</div><div class="kb-diagram-node">QA 및 배포</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(수개월 소요) (수개월 소요)</div><div class="kb-diagram-cell">Sprint1</div><div class="kb-diagram-cell">Sprint2</div><div class="kb-diagram-cell">Sprint3</div><div class="kb-diagram-cell">(수개월 대기)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">병목!</div><div class="kb-diagram-cell">병목!</div></div>
-</div>
-</div>
-
-
+[요구사항] ===> [기획/디자인] ===> [ 2주 단위 개발 (Scrum) ] ===> [QA 및 배포]
+(수개월 소요)   (수개월 소요)      │Sprint1│Sprint2│Sprint3│    (수개월 대기)
+  병목!                            │       │       │       │       병목!
+```
 
 이 그림이 보여주는 가장 흔한 실패 사례의 핵심은, 개발팀 내부만 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)를 돌리고 전단(기획)과 후단(배포)은 여전히 폭포수 방식에 머물러 있는 상태다. 이 경우 개발자는 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/)의 압박과 잦은 요구사항 변경에 시달리지만, 실제 고객에게 가치가 전달되는 속도는 폭포수 때와 똑같이 느리다. 실무에서는 이러한 병목 지점을 파악하고, 비즈니스 부서부터 IT 운영 부서까지 전체 가치 스트림(Value [Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/))을 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)화해야 한다.
 
@@ -187,23 +177,21 @@ tags = ["software_engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">워터폴 (Waterfall) — 단계별 산출물 중심의 순차 개발</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">애자일 선언 (Agile Manifesto) — 변화 대응과 고객 협업의 가치 정립</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스크럼 (Scrum) — 스프린트로 반복 학습하는 프레임워크</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스케일드 애자일 (SAFe, Scaled Agile Framework) — 대규모 조직 확장</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">비즈니스 어질리티 (Business Agility) — AI 자동화로 빠른 의사결정</div></div>
-</div>
-</div>
-
-
+```text
+[워터폴 (Waterfall) — 단계별 산출물 중심의 순차 개발]
+    │
+    ▼
+[애자일 선언 (Agile Manifesto) — 변화 대응과 고객 협업의 가치 정립]
+    │
+    ▼
+[스크럼 (Scrum) — 스프린트로 반복 학습하는 프레임워크]
+    │
+    ▼
+[스케일드 애자일 (SAFe, Scaled Agile Framework) — 대규모 조직 확장]
+    │
+    ▼
+[비즈니스 어질리티 (Business Agility) — AI 자동화로 빠른 의사결정]
+```
 
 이 흐름은 순차 개발의 한계를 넘어 선언과 프레임워크로 민첩성을 체계화하고, 결국 기업 전체의 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 적응력으로 확장되는 진화를 보여준다.
 
@@ -218,7 +206,7 @@ tags = ["software_engineering"]
 
 **진행 상황**: 12 / 973
 
-← **이전**: [11. 클린룸 소프트웨어 공학 (Cleanroom Software Engineering) - 통계적 품질 제어](/knowledge-base/studynote/04_software_engineering/01_overview_principles/011_cleanroom_software_engineering/)
+← **이전**: [11. 클린룸 소프트웨어 공학 (Cleanroom Software 엔진ering) - 통계적 품질 제어](/knowledge-base/studynote/04_software_engineering/01_overview_principles/011_cleanroom_software_engineering/)
 **다음**: [13. ISO/IEC 12207 (소프트웨어 생명주기 공정 표준) - 기본, 지원, 조직 공정](/knowledge-base/studynote/04_software_engineering/01_overview_principles/013_iso_iec_12207/) →
 
 ---

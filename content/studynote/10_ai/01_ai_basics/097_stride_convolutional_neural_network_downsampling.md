@@ -34,21 +34,21 @@ tags = ["studynote-ai"]
 <strong>출력 <a href="/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/">특성 맵</a> 크기 계산 공식:</strong>
 $$ \text{Output Size} = \lfloor \frac{\text{Input} + 2 \times \text{[Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)} - \text{Filter}}{\text{Stride}} \rfloor + 1 $$
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Stride 1 vs Stride 2 의 스캔 방식 비교 (1D 예시)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">입력 데이터</div><div class="kb-diagram-note">1 2 3 4 5</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Stride = 1</div><div class="kb-diagram-note">─ ─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">필터 이동 1,2,3 -&gt; 2,3,4 -&gt; 3,4,5 (출력 크기: 3)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Stride = 2</div><div class="kb-diagram-note">─ ─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">필터 이동 1,2,3 ----------&gt; 3,4,5 (출력 크기: 2)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* Stride가 커지면 필터의 중첩(Overlap) 영역이 줄어듦</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│       Stride 1 vs Stride 2 의 스캔 방식 비교 (1D 예시)       │
+├──────────────────────────────────────────────────────────────┤
+│ [입력 데이터]  1   2   3   4   5                           │
+│                                                              │
+│ [Stride = 1] ┌─┴─┐                                           │
+│  필터 이동   1,2,3 -> 2,3,4 -> 3,4,5  (출력 크기: 3)         │
+│                                                              │
+│ [Stride = 2] ┌─┴─┐                                           │
+│  필터 이동   1,2,3 ----------> 3,4,5  (출력 크기: 2)         │
+│                                                              │
+│ * Stride가 커지면 필터의 중첩(Overlap) 영역이 줄어듦       │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램은 스트라이드의 크기에 따라 필터가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 건너뛰는 방식을 보여준다. `Stride=2`를 적용하면 가로와 세로 차원이 각각 1/2로 줄어들어 전체 [특성 맵](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/)의 면적(연산량)은 1/4로 극적으로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)된다.
 
@@ -111,23 +111,21 @@ $$ \text{Output Size} = \lfloor \frac{\text{Input} + 2 \times \text{[Padding](/k
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">합성곱 층 연산 기초 확립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">스트라이드 (Stride) · 필터 이동 보폭 제어</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">맥스 풀링 (Max Pooling) 대체 · Strided Convolution 활성화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">모바일 최적화 네트워크 (MobileNet 등) · 연산량 감소</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">확장 합성곱 (Dilated Convolution) · 해상도 유지하며 수용 영역 확장</div>
-</div>
-</div>
-
-
+```text
+합성곱 층 연산 기초 확립
+    │
+    ▼
+스트라이드 (Stride) · 필터 이동 보폭 제어
+    │
+    ▼
+맥스 풀링 (Max Pooling) 대체 · Strided Convolution 활성화
+    │
+    ▼
+모바일 최적화 네트워크 (MobileNet 등) · 연산량 감소
+    │
+    ▼
+확장 합성곱 (Dilated Convolution) · 해상도 유지하며 수용 영역 확장
+```
 
 이 흐름도는 "보폭 제어 → [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/) 대체 → 경량화 → 단점(해상도 저하) 보완"으로 이어지는 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 구조의 진화 과정을 보여준다.
 

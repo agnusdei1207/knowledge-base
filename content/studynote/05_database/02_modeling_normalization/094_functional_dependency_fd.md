@@ -37,23 +37,33 @@ tags = ["studynote-database"]
 | **부분 함수 종속 (Partial FD)** | 종속자 Y가 복합키 X의 일부에만 종속될 때 | [제2정규형](/knowledge-base/studynote/05_database/02_modeling_normalization/104_second_normal_form_2nf_full_fd/) ([2NF](/knowledge-base/studynote/05_database/02_modeling_normalization/104_second_normal_form_2nf_full_fd/)) 대상 |
 | **이행적 함수 종속 (Transitive FD)** | $X \rightarrow Y$ 이고 $Y \rightarrow Z$ 일 때 ($X \rightarrow Z$) | [제3정규형](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/) ([3NF](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/)) 대상 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">함수적 종속성 분석 다이어그램</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">복합 기본키</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">학번</div><div class="kb-diagram-cell">과목코드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(1) 완전 함수 종속: 복합키 전체에 종속</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">성적</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(2) 부분 함수 종속: 키의 일부에 종속</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">학번</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">학생이름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(3) 이행적 함수 종속: 다른 속성을 거쳐 종속</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">학번</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">지도교수</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">교수방 번호</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                  함수적 종속성 분석 다이어그램               │
+├──────────────────────────────────────────────────────────────┤
+│ [복합 기본키]                                                │
+│ ┌───────┐   ┌─────────┐                                      │
+│ │ 학번  │   │ 과목코드│                                      │
+│ └───┬───┘   └───┬─────┘                                      │
+│     │           │                                            │
+│     └─────┬─────┘                                            │
+│           │ (1) 완전 함수 종속: 복합키 전체에 종속           │
+│           ▼                                                  │
+│      ┌────┴────┐                                             │
+│      │  성적   │                                             │
+│      └─────────┘                                             │
+│                                                              │
+│ (2) 부분 함수 종속: 키의 일부에 종속                         │
+│ ┌───────┐        ┌─────────┐                                 │
+│ │ 학번  │───────▶│ 학생이름│                                 │
+│ └───────┘        └─────────┘                                 │
+│                                                              │
+│ (3) 이행적 함수 종속: 다른 속성을 거쳐 종속                  │
+│ ┌───────┐        ┌─────────┐        ┌─────────┐            │
+│ │ 학번  │───────▶│ 지도교수│───────▶│ 교수방 번호 │         │
+│ └───────┘        └─────────┘        └─────────┘            │
+└──────────────────────────────────────────────────────────────┘
+```
 
 위 다이어그램은 한 테이블 내에 혼재된 여러 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) 형태를 보여준다. (1) 완전 함수 종속은 올바른 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)지만, (2) 부분 함수 종속과 (3) 이행적 함수 종속은 중복을 유발하므로 테이블을 찢어서([정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)) 분리해야 한다.
 
@@ -118,23 +128,21 @@ tags = ["studynote-database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">정규화의 기초</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">함수적 종속성 (Functional Dependency)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">부분 함수 종속 (Partial FD) · 이행적 함수 종속 (Transitive FD)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">다치 종속성 (Multi-Valued Dependency) · 조인 종속성 (Join Dependency)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">데이터 무결성 확보 및 반정규화 (Denormalization) 타협</div>
-</div>
-</div>
-
-
+```text
+정규화의 기초
+    │
+    ▼
+함수적 종속성 (Functional Dependency)
+    │
+    ▼
+부분 함수 종속 (Partial FD) · 이행적 함수 종속 (Transitive FD)
+    │
+    ▼
+다치 종속성 (Multi-Valued Dependency) · 조인 종속성 (Join Dependency)
+    │
+    ▼
+데이터 무결성 확보 및 반정규화 (Denormalization) 타협
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

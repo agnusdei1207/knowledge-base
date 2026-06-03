@@ -24,61 +24,58 @@ tags = ["studynote-design-supervision"]
 - 점진적 기능 추가 과정에서 관련 변수가 늘어남
 - 복붙 (Copy-and-Paste) 개발로 동일 패턴이 여러 곳에 확산
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 클럼프 발생 위치</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 클래스 필드: 여러 필드가 항상 함께 변경됨</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예) User { String firstName; String lastName;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">String email; String phoneCountryCode;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">String phoneNumber; }</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 메서드 매개변수: 항상 같이 전달되는 인수 묶음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예) send(String host, int port, boolean ssl)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 반환값: 여러 관련 값을 배열이나 맵으로 반환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예) return new Object[]{lat, lng, altitude}</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────┐
+│  데이터 클럼프 발생 위치                             │
+├──────────────────────────────────────────────────────┤
+│  1. 클래스 필드: 여러 필드가 항상 함께 변경됨       │
+│     예) User { String firstName; String lastName;    │
+│              String email; String phoneCountryCode;  │
+│              String phoneNumber; }                   │
+├──────────────────────────────────────────────────────┤
+│  2. 메서드 매개변수: 항상 같이 전달되는 인수 묶음   │
+│     예) send(String host, int port, boolean ssl)     │
+├──────────────────────────────────────────────────────┤
+│  3. 반환값: 여러 관련 값을 배열이나 맵으로 반환     │
+│     예) return new Object[]{lat, lng, altitude}     │
+└──────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 항상 같이 다니는 친구들을 매번 이름 하나하나 불러 모으는 것보다 "농구팀"이라는 그룹 이름으로 부르는 게 효율적이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">변환 전 — 클럼프 산재</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">class Server {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">String host; int port; boolean ssl;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">class HttpClient {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">connect(String host, int port, boolean ssl) {}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ping (String host, int port, boolean ssl) {}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">retry (String host, int port, boolean ssl, n) {}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-<div class="kb-diagram-note">↓ 클래스 분리 (Extract Class) / 파라미터 객체화</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">class ConnectionEndpoint {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">final String host;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">final int port;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">final boolean ssl;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ConnectionEndpoint(host, port, ssl) { validate(); }</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">String toUri() { return (ssl?"https":"http")</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ "://" + host + ":" + port; }</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">class Server { ConnectionEndpoint endpoint; }</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">class HttpClient {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">connect(ConnectionEndpoint ep) {}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ping (ConnectionEndpoint ep) {}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">retry (ConnectionEndpoint ep, int n) {}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-</div>
-</div>
-
-
+```
+[ 변환 전 — 클럼프 산재 ]
+┌────────────────────────────────────────────────────────┐
+│  class Server {                                        │
+│    String host; int port; boolean ssl;                 │
+│  }                                                     │
+│  class HttpClient {                                    │
+│    connect(String host, int port, boolean ssl) {}      │
+│    ping   (String host, int port, boolean ssl) {}      │
+│    retry  (String host, int port, boolean ssl, n) {}   │
+│  }                                                     │
+└────────────────────────────────────────────────────────┘
+         ↓  클래스 분리 (Extract Class) / 파라미터 객체화
+┌────────────────────────────────────────────────────────┐
+│  class ConnectionEndpoint {                            │
+│    final String host;                                  │
+│    final int    port;                                  │
+│    final boolean ssl;                                  │
+│    ConnectionEndpoint(host, port, ssl) { validate(); } │
+│    String toUri() { return (ssl?"https":"http")        │
+│                     + "://" + host + ":" + port; }     │
+│  }                                                     │
+│  class Server { ConnectionEndpoint endpoint; }         │
+│  class HttpClient {                                    │
+│    connect(ConnectionEndpoint ep) {}                   │
+│    ping   (ConnectionEndpoint ep) {}                   │
+│    retry  (ConnectionEndpoint ep, int n) {}            │
+│  }                                                     │
+└────────────────────────────────────────────────────────┘
+```
 
 | 클럼프 위치 | 권장 처방 | 결과 |
 |:---|:---|:---|
@@ -88,17 +85,11 @@ tags = ["studynote-design-supervision"]
 
 클럼프를 클래스로 변환한 후, 관련 로직을 새 클래스로 이동시키면 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/">응집도</a> (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/">Cohesion</a>)</strong> 가 높아진다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">ConnectionEndpoint.isSecure() ← ssl 판단 로직 이전</div>
-<div class="kb-diagram-note">ConnectionEndpoint.toUri() ← URI 조합 로직 이전</div>
-<div class="kb-diagram-note">ConnectionEndpoint.validate() ← 포트 범위 검사 이전</div>
-</div>
-</div>
-
-
+```
+ConnectionEndpoint.isSecure()    ← ssl 판단 로직 이전
+ConnectionEndpoint.toUri()       ← URI 조합 로직 이전
+ConnectionEndpoint.validate()    ← 포트 범위 검사 이전
+```
 
 - **📢 섹션 요약 비유**: 흩어진 퍼즐 조각을 상자에 담고 나면, 상자 라벨을 붙이고 완성 그림 미리보기를 상자에 인쇄할 수 있다 — 그게 클럼프에 클래스를 만드는 일이다.
 

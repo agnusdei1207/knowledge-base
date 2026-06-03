@@ -35,20 +35,25 @@ tags = ["studynote-computer-architecture"]
 
 아래 흐름은 Fault Injection이 단순히 "깨뜨린다"가 아니라 <strong>주입기, 감지기, <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a>기, 판정기</strong>가 연결된 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 루프임을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Fault Injection verification loop</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Baseline workload</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Injector</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">bit flip / link down / power cut / delay</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Detector</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">ECC / watchdog / timeout / bus error log</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Recovery</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">retry / isolate / failover / reset</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Oracle</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">latency, error count, data integrity, state continuity</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                 Fault Injection verification loop                   │
+├──────────────────────────────────────────────────────────────────────┤
+│ Baseline workload                                                    │
+│      │                                                               │
+│      ▼                                                               │
+│ [Injector] ─▶ bit flip / link down / power cut / delay               │
+│      │                                                               │
+│      ▼                                                               │
+│ [Detector] ─▶ ECC / watchdog / timeout / bus error log              │
+│      │                                                               │
+│      ▼                                                               │
+│ [Recovery] ─▶ retry / isolate / failover / reset                     │
+│      │                                                               │
+│      ▼                                                               │
+│ [Oracle] ─▶ latency, error count, data integrity, state continuity   │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 주입 지점은 하드웨어, [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/), [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/), 네트워크, 저장장치 등 다양하다. 하드웨어 레벨에서는 전원 공급기 강하, 클럭 글리치, 핀 레벨 강제 값, 메모리 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 플립, 디스크 분리 등을 다룰 수 있다. 시스템 레벨에서는 드라이버 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/), 패킷 손실, 스토리지 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 프로세스 중단처럼 물리 장애를 논리적으로 모의한다.
 
@@ -67,7 +72,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-[결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 주입 테스트는 다른 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 기법과 겹쳐 보이지만 목적이 다르다. <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/447_stress_test/">스트레스 테스트</a></strong>는 한계 부하를 찾고, <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/758_burn_in_test/">번인</a> 테스트 (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/758_burn_in_test/">Burn-In</a> Test)</strong> 는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 불량을 조기에 드러내며, <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/">카오스 엔지니어링</a> (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/">Chaos Engineering</a>)</strong> 은 운영 환경 수준에서 시스템 전체의 회복탄력성을 본다. 반면 Fault Injection은 특정 fault model에 대해 <strong>예상한 <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a> 메커니즘이 정확히 동작하는가</strong>를 더 촘촘히 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.
+[결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 주입 테스트는 다른 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 기법과 겹쳐 보이지만 목적이 다르다. <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/447_stress_test/">스트레스 테스트</a></strong>는 한계 부하를 찾고, <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/758_burn_in_test/">번인</a> 테스트 (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/758_burn_in_test/">Burn-In</a> Test)</strong> 는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 불량을 조기에 드러내며, <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/">카오스 엔지니어링</a> (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/">Chaos 엔진ering</a>)</strong> 은 운영 환경 수준에서 시스템 전체의 회복탄력성을 본다. 반면 Fault Injection은 특정 fault model에 대해 <strong>예상한 <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a> 메커니즘이 정확히 동작하는가</strong>를 더 촘촘히 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.
 
 | 기법 | 질문 | 주된 장소 | 초점 |
 | :--- | :--- | :--- | :--- |
@@ -133,25 +138,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">현장 장애 이력 · FMEA</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">고장 모델 정의</div>
-<div class="kb-diagram-note">: bit flip · link loss · power drop · timeout</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">결함 주입 테스트 (Fault Injection Test)</div>
-<div class="kb-diagram-note">: inject → detect → recover → verify</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 설계 보강</div>
-<div class="kb-diagram-note">: ECC · watchdog · redundancy · retry policy</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 운영 확장</div>
-<div class="kb-diagram-note">: chaos engineering · game day · resilience drill</div>
-</div>
-</div>
-
-
+```text
+현장 장애 이력 · FMEA
+    │
+    ▼
+고장 모델 정의
+: bit flip · link loss · power drop · timeout
+    │
+    ▼
+결함 주입 테스트 (Fault Injection Test)
+: inject → detect → recover → verify
+    │
+    ├──▶ 설계 보강
+    │     : ECC · watchdog · redundancy · retry policy
+    │
+    └──▶ 운영 확장
+          : chaos engineering · game day · resilience drill
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -166,6 +169,6 @@ tags = ["studynote-computer-architecture"]
 **진행 상황**: 751 / 803
 
 ← **이전**: [749. 무정전 운영 (Non-Stop Operation) 아키텍처](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/749_non_stop_operation/)
-**다음**: [751. 카오스 엔지니어링 (Chaos Engineering) HW 모의](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/) →
+**다음**: [751. 카오스 엔지니어링 (Chaos 엔진ering) HW 모의](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/) →
 
 ---

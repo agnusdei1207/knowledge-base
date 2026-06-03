@@ -23,24 +23,22 @@ DTO는 원래 "말이 많은 원격 호출(chatty remote [call](/knowledge-base/
 
 오늘날 DTO의 의미는 더 넓어졌다. [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) ([Representational State Transfer](/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/)) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), 메시지 큐, [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/), 프런트엔드 백엔드 분리 구조에서는 원격 호출 횟수만큼이나 <strong>계약 형태를 별도로 관리하는 일</strong>이 중요하다. [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Entity를 그대로 외부에 노출하면 내부 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 변경이 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 깨짐으로 이어지고, 민감 정보나 불필요한 연관 객체가 함께 새어 나갈 수 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Why DTO was created</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Without DTO</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client -&gt; getName()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; getEmail()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; getRole()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; getAddress()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">= many remote round trips</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">With DTO</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client -&gt; getUserSummaryDTO()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">= one call, one shaped payload</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Why DTO was created                                                 │
+├──────────────────────────────────────────────────────────────────────┤
+│ Without DTO                                                         │
+│   Client -> getName()                                               │
+│          -> getEmail()                                              │
+│          -> getRole()                                               │
+│          -> getAddress()                                            │
+│   = many remote round trips                                         │
+│                                                                     │
+│ With DTO                                                            │
+│   Client -> getUserSummaryDTO()                                     │
+│   = one call, one shaped payload                                    │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 그래서 DTO의 필요성은 단순 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화를 넘어, <strong>경계 밖으로 내보낼 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 형태를 의도적으로 설계하는 것</strong>에 있다. 무엇을 실어 보낼지, 무엇을 숨길지, 어떤 이름과 형식으로 계약을 고정할지를 분리해 주는 도구가 바로 DTO다.
 
@@ -52,24 +50,25 @@ DTO는 원래 "말이 많은 원격 호출(chatty remote [call](/knowledge-base/
 
 DTO의 핵심 원리는 세 가지다. 첫째, **경계 전용성**: DTO는 경계를 넘을 때만 의미가 있다. 둘째, **무행동성**: 비즈니스 규칙을 담기보다 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 담는 데 집중한다. 셋째, **형태 분리**: 내부 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델과 외부 계약 모델을 분리해 각각 다른 변경 주기를 허용한다. 이 때문에 DTO는 보통 Controller, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) [Adapter](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/), Application [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 경계에서 생성되거나 변환된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DTO at a system boundary</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Request DTO</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Controller / API Adapter</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">map</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Application Service</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">uses</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Domain Entity / Value Object</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">map</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Response DTO / Integration DTO</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ DTO at a system boundary                                            │
+├──────────────────────────────────────────────────────────────────────┤
+│ Client                                                              │
+│   │ Request DTO                                                     │
+│   ▼                                                                 │
+│ Controller / API Adapter                                            │
+│   │ map                                                             │
+│   ▼                                                                 │
+│ Application Service                                                 │
+│   │ uses                                                            │
+│   ▼                                                                 │
+│ Domain Entity / Value Object                                        │
+│   │ map                                                             │
+│   ▼                                                                 │
+│ Response DTO / Integration DTO                                      │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 | DTO 유형 | 주 사용 위치 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -159,27 +158,26 @@ DTO를 올바르게 사용하면 [API](/knowledge-base/studynote/02_operating_sy
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">원격 호출 비용 문제</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DTO (Data Transfer Object)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">페이로드 집계</div>
-<div class="kb-diagram-tree-item" style="--depth:2">내부 모델 은닉</div>
-<div class="kb-diagram-tree-item" style="--depth:2">요청 / 응답 형태 분리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Mapper / Assembler</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">유스케이스별 DTO + 계약 버전 관리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">안티패턴 통제</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Entity 직접 노출 방지 / 빈혈 도메인 모델 방지</div>
-</div>
-</div>
-
-
+```text
+원격 호출 비용 문제
+    │
+    ▼
+DTO (Data Transfer Object)
+    │
+    ├─ 페이로드 집계
+    ├─ 내부 모델 은닉
+    └─ 요청 / 응답 형태 분리
+    │
+    ▼
+Mapper / Assembler
+    │
+    ▼
+유스케이스별 DTO + 계약 버전 관리
+    │
+    ▼
+안티패턴 통제
+    └─ Entity 직접 노출 방지 / 빈혈 도메인 모델 방지
+```
 
 이 흐름은 DTO가 단순 원격 호출 최적화에서 출발해, 현대 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 계약 관리와 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 통제까지 확장되는 과정을 보여 준다.
 

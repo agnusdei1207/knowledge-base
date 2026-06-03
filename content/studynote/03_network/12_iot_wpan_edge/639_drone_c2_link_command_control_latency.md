@@ -27,18 +27,14 @@ tags = ["studynote-network"]
    - 지상 조종사나 자율비행 서버가 드론에게 <strong>"왼쪽으로 꺾어! 고도 높여!"라는 비행 명령(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/">Command</a>)을 쏘고, 드론은 자신의 현재 배터리, GPS 좌표, 고도 상태(Telemetry)를 1초마다 보고하는 '생명줄'</strong>입니다. 
    - [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기는 몇 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 안 되지만, 이 전파가 0.5초라도 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))되거나 외부 해커에게 끊기면 드론이 빌딩에 박아버리는 대참사가 일어납니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">스마트 시티 센싱 시스템</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">드론 통신 지연시간 관리 및 보안 C2 링크</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">AIoT 모델 및 클라우드 AI 연결 지연…</div></div>
-</div>
-</div>
-
-
+```text
+[스마트 시티 센싱 시스템]
+    │
+    ▼
+[드론 통신 지연시간 관리 및 보안 C2 링크]
+    │
+    └──▶ [AIoT 모델 및 클라우드 AI 연결 지연…]
+```
 
 - **📢 섹션 요약 비유**: 드론 통신 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 관리 및 보안 [C2](/knowledge-base/studynote/09_security/15_malware_attack_vectors/746_c2/) 링크는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -57,18 +53,14 @@ tags = ["studynote-network"]
 - 가장 치명적인 위협은 해커가 가짜 [C2](/knowledge-base/studynote/09_security/15_malware_attack_vectors/746_c2/) 명령 전파를 쏴서 드론을 훔쳐 가거나([스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)), 아주 강한 방해 전파를 쏴서 조종 연결을 끊어버리는(재밍) 공격입니다.
 - **대응책**: 군용 무전기처럼 1초에 수천 번씩 주파수 차로를 마구 갈아타는 <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/955_fhss_frequency_hopping_spread_spectrum_bluetooth/">FHSS</a>(<a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/955_fhss_frequency_hopping_spread_spectrum_bluetooth/">주파수 도약</a>)</strong> 기술과 AES-256 수준의 군용 암호화를 [C2](/knowledge-base/studynote/09_security/15_malware_attack_vectors/746_c2/) 링크에 100% 의무 탑재해야 합니다. (연결이 끊기면 스스로 이륙 지점으로 되돌아오는 RTH 기능 기본 내장)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">스마트 시티 센싱 시스템</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">드론 통신 지연시간 관리 및 보안 C2 링크</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">AIoT 모델 및 클라우드 AI 연결 지연…</div></div>
-</div>
-</div>
-
-
+```text
+[스마트 시티 센싱 시스템]
+    │
+    ▼
+[드론 통신 지연시간 관리 및 보안 C2 링크]
+    │
+    └──▶ [AIoT 모델 및 클라우드 AI 연결 지연…]
+```
 
 - **📢 섹션 요약 비유**: 드론 통신 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 관리 및 보안 [C2](/knowledge-base/studynote/09_security/15_malware_attack_vectors/746_c2/) 링크의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -129,19 +121,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 스마트 시티 센싱 시스템</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 드론 통신 지연시간 관리 및 보안 C2 링크</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: AIoT 모델 및 클라우드 AI 연결 지연…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율형 엣지 협업</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 스마트 시티 센싱 시스템]
+    │
+    ▼
+[현재 개념: 드론 통신 지연시간 관리 및 보안 C2 링크]
+    │
+    ├──▶ [확장 A: AIoT 모델 및 클라우드 AI 연결 지연…]
+    └──▶ [확장 B: 자율형 엣지 협업]
+```
 
 드론 통신 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 관리 및 보안 [C2](/knowledge-base/studynote/09_security/15_malware_attack_vectors/746_c2/) 링크는 [스마트 시티](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/171_smart_city_platform_architecture/) 센싱 시스템에서 출발해 현재 메커니즘을 정교화하고, 이후 [AIoT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/640_aiot_ai_and_iot_edge_cloud_latency/) 모델 및 클라우드 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 연결 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)…와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

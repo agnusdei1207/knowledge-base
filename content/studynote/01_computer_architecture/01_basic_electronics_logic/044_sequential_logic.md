@@ -18,42 +18,43 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 순서 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 회로 개념
 
+```
+순서 논리 회로 (Sequential Logic Circuit):
 
+조합 논리 vs 순서 논리:
+  조합 논리: 출력 = f(현재 입력)
+    AND, OR, NAND, NOR, XOR
+    메모리 없음, 즉각 반응
+    
+  순서 논리: 출력 = f(현재 입력, 현재 상태)
+    상태(State) = 과거 입력의 기억
+    피드백 루프 포함
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">순서 논리 회로 (Sequential Logic Circuit):</div>
-<div class="kb-diagram-note">조합 논리 vs 순서 논리:</div>
-<div class="kb-diagram-note">조합 논리: 출력 = f(현재 입력)</div>
-<div class="kb-diagram-note">AND, OR, NAND, NOR, XOR</div>
-<div class="kb-diagram-note">메모리 없음, 즉각 반응</div>
-<div class="kb-diagram-note">순서 논리: 출력 = f(현재 입력, 현재 상태)</div>
-<div class="kb-diagram-note">상태(State) = 과거 입력의 기억</div>
-<div class="kb-diagram-note">피드백 루프 포함</div>
-<div class="kb-diagram-note">구조:</div>
-<div class="kb-diagram-note">입력(X) ──</div>
-<div class="kb-diagram-tree-item" style="--depth:6">▷ 조합 논리 회로 ──▷ 출력(Z)</div>
-<div class="kb-diagram-note">상태(Q) ──</div>
-<div class="kb-diagram-note">↑ │ (다음 상태)</div>
-<div class="kb-diagram-connector">↑</div>
-<div class="kb-diagram-note">기억 소자 (Flip-Flop / Latch)</div>
-<div class="kb-diagram-connector">↑</div>
-<div class="kb-diagram-note">클록 (CLK)</div>
-<div class="kb-diagram-note">클록 동기화:</div>
-<div class="kb-diagram-note">동기식 (Synchronous): CLK 엣지에서 상태 전환</div>
-<div class="kb-diagram-note">→ 설계 단순, 분석 명확</div>
-<div class="kb-diagram-note">→ 현대 디지털 시스템 표준</div>
-<div class="kb-diagram-note">비동기식 (Asynchronous): 클록 없이 이벤트 기반</div>
-<div class="kb-diagram-note">→ 빠른 반응, 설계 복잡</div>
-<div class="kb-diagram-note">→ Ripple Counter 등 특수 용도</div>
-<div class="kb-diagram-note">상태 다이어그램 (State Diagram):</div>
-<div class="kb-diagram-note">원(Circle) = 상태</div>
-<div class="kb-diagram-note">화살표(Arc) = 전환 (입력/출력)</div>
-<div class="kb-diagram-note">예: 신호등 FSM: RED → GREEN → YELLOW → RED</div>
-</div>
-</div>
+구조:
+  입력(X) ──┐
+             ├──▷ 조합 논리 회로 ──▷ 출력(Z)
+  상태(Q) ──┘         │
+      ↑               │ (다음 상태)
+      └───────────────┘
+              ↑
+           기억 소자 (Flip-Flop / Latch)
+              ↑
+           클록 (CLK)
 
+클록 동기화:
+  동기식 (Synchronous): CLK 엣지에서 상태 전환
+    → 설계 단순, 분석 명확
+    → 현대 디지털 시스템 표준
+    
+  비동기식 (Asynchronous): 클록 없이 이벤트 기반
+    → 빠른 반응, 설계 복잡
+    → Ripple Counter 등 특수 용도
 
+상태 다이어그램 (State Diagram):
+  원(Circle) = 상태
+  화살표(Arc) = 전환 (입력/출력)
+  예: 신호등 FSM: RED → GREEN → YELLOW → RED
+```
 
 > 📢 **섹션 요약 비유**: 순서 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)는 메모리 있는 계산 — 조합 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)가 "지금만 보는 사람"이라면, 순서 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)는 "전 상황도 기억하는 사람". 다음 행동이 과거에도 영향받아요.
 
@@ -61,45 +62,49 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/) 종류
 
+```
+플립플롭 (Flip-Flop):
 
+래치 (Latch) vs 플립플롭:
+  래치: 레벨(Level) 트리거 — CLK HIGH 동안 입력 반영
+  플립플롭: 에지(Edge) 트리거 — CLK 상승/하강 엣지만 반영
+  
+  현대: 플립플롭이 표준 (타이밍 제어 정확)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">플립플롭 (Flip-Flop):</div>
-<div class="kb-diagram-note">래치 (Latch) vs 플립플롭:</div>
-<div class="kb-diagram-note">래치: 레벨(Level) 트리거 — CLK HIGH 동안 입력 반영</div>
-<div class="kb-diagram-note">플립플롭: 에지(Edge) 트리거 — CLK 상승/하강 엣지만 반영</div>
-<div class="kb-diagram-note">현대: 플립플롭이 표준 (타이밍 제어 정확)</div>
-<div class="kb-diagram-note">1. SR 플립플롭 (Set-Reset):</div>
-<div class="kb-diagram-note">S=1, R=0 → Q=1 (Set)</div>
-<div class="kb-diagram-note">S=0, R=1 → Q=0 (Reset)</div>
-<div class="kb-diagram-note">S=0, R=0 → Q 유지 (Hold)</div>
-<div class="kb-diagram-note">S=1, R=1 → 금지 (Forbidden) ← 문제점</div>
-<div class="kb-diagram-note">2. D 플립플롭 (Data):</div>
-<div class="kb-diagram-note">가장 단순하고 널리 사용</div>
-<div class="kb-diagram-note">CLK 엣지에서 D 입력을 Q에 저장</div>
-<div class="kb-diagram-note">Q(t+1) = D</div>
-<div class="kb-diagram-note">용도: 레지스터, 시프트 레지스터</div>
-<div class="kb-diagram-note">3. JK 플립플롭:</div>
-<div class="kb-diagram-note">SR의 금지 상태를 해결</div>
-<div class="kb-diagram-note">J=K=1 → Toggle (반전)</div>
-<div class="kb-diagram-note">J=1, K=0 → Set</div>
-<div class="kb-diagram-note">J=0, K=1 → Reset</div>
-<div class="kb-diagram-note">J=0, K=0 → Hold</div>
-<div class="kb-diagram-note">Q(t+1) = J·Q̄ + K̄·Q</div>
-<div class="kb-diagram-note">4. T 플립플롭 (Toggle):</div>
-<div class="kb-diagram-note">T=1 → Toggle</div>
-<div class="kb-diagram-note">T=0 → Hold</div>
-<div class="kb-diagram-note">Q(t+1) = T⊕Q</div>
-<div class="kb-diagram-note">용도: 카운터 (T=1이면 매 CLK마다 반전)</div>
-<div class="kb-diagram-note">셋업/홀드 타임:</div>
-<div class="kb-diagram-note">셋업 타임 (tsu): CLK 엣지 전 입력 안정 유지 시간</div>
-<div class="kb-diagram-note">홀드 타임 (th): CLK 엣지 후 입력 안정 유지 시간</div>
-<div class="kb-diagram-note">위반 시: 메타스태빌리티 (Metastability) → 불확정 출력</div>
-</div>
-</div>
+1. SR 플립플롭 (Set-Reset):
+   S=1, R=0 → Q=1 (Set)
+   S=0, R=1 → Q=0 (Reset)
+   S=0, R=0 → Q 유지 (Hold)
+   S=1, R=1 → 금지 (Forbidden) ← 문제점
 
+2. D 플립플롭 (Data):
+   가장 단순하고 널리 사용
+   CLK 엣지에서 D 입력을 Q에 저장
+   Q(t+1) = D
+   
+   용도: 레지스터, 시프트 레지스터
 
+3. JK 플립플롭:
+   SR의 금지 상태를 해결
+   J=K=1 → Toggle (반전)
+   J=1, K=0 → Set
+   J=0, K=1 → Reset
+   J=0, K=0 → Hold
+   
+   Q(t+1) = J·Q̄ + K̄·Q
+
+4. T 플립플롭 (Toggle):
+   T=1 → Toggle
+   T=0 → Hold
+   Q(t+1) = T⊕Q
+   
+   용도: 카운터 (T=1이면 매 CLK마다 반전)
+
+셋업/홀드 타임:
+  셋업 타임 (tsu): CLK 엣지 전 입력 안정 유지 시간
+  홀드 타임 (th): CLK 엣지 후 입력 안정 유지 시간
+  위반 시: 메타스태빌리티 (Metastability) → 불확정 출력
+```
 
 > 📢 **섹션 요약 비유**: D/JK/T [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)은 메모리 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 종류 — D는 "그냥 저장", JK는 "더 많은 명령 수용", T는 "ON/OFF 토글". 클록이 울릴 때만 상태 바뀌는 엄격한 기억 소자.
 
@@ -107,44 +112,48 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 유한 상태 기계
 
+```
+유한 상태 기계 (FSM — Finite State Machine):
 
+Mealy vs Moore 머신:
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">유한 상태 기계 (FSM — Finite State Machine):</div>
-<div class="kb-diagram-note">Mealy vs Moore 머신:</div>
-<div class="kb-diagram-note">Moore 머신:</div>
-<div class="kb-diagram-note">출력 = f(현재 상태만)</div>
-<div class="kb-diagram-note">상태에만 의존</div>
-<div class="kb-diagram-note">장점: 출력 안정적 (클록 동기)</div>
-<div class="kb-diagram-note">Mealy 머신:</div>
-<div class="kb-diagram-note">출력 = f(현재 상태, 현재 입력)</div>
-<div class="kb-diagram-note">입력 변화에 즉각 반응</div>
-<div class="kb-diagram-note">장점: 상태 수 적을 수 있음</div>
-<div class="kb-diagram-note">FSM 설계 절차:</div>
-<div class="kb-diagram-note">1. 상태 정의 (State Definition)</div>
-<div class="kb-diagram-note">2. 상태 다이어그램 작성</div>
-<div class="kb-diagram-note">3. 상태 인코딩 (Binary, Gray Code, One-Hot)</div>
-<div class="kb-diagram-note">4. 여기 함수 도출 (D, JK, T 조합)</div>
-<div class="kb-diagram-note">5. 출력 함수 도출</div>
-<div class="kb-diagram-note">6. 논리 회로 구현</div>
-<div class="kb-diagram-note">신호등 FSM 예시 (Moore):</div>
-<div class="kb-diagram-note">상태: S0(RED), S1(GREEN), S2(YELLOW)</div>
-<div class="kb-diagram-note">입력: timer</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">timer=1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">timer=1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">timer=1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">S0</div></div>
-<div class="kb-diagram-note">출력:</div>
-<div class="kb-diagram-note">S0 → RED=1, GREEN=0, YELLOW=0</div>
-<div class="kb-diagram-note">S1 → RED=0, GREEN=1, YELLOW=0</div>
-<div class="kb-diagram-note">S2 → RED=0, GREEN=0, YELLOW=1</div>
-<div class="kb-diagram-note">실용 FSM 응용:</div>
-<div class="kb-diagram-note">프로토콜 파서: TCP 연결 상태 머신</div>
-<div class="kb-diagram-note">에러 처리: 자판기 동전 상태</div>
-<div class="kb-diagram-note">CPU 제어 유닛: 명령 페치/디코드/실행/쓰기</div>
-<div class="kb-diagram-note">통신: UART, I2C 프로토콜</div>
-</div>
-</div>
+  Moore 머신:
+    출력 = f(현재 상태만)
+    상태에만 의존
+    
+    장점: 출력 안정적 (클록 동기)
+    
+  Mealy 머신:
+    출력 = f(현재 상태, 현재 입력)
+    입력 변화에 즉각 반응
+    
+    장점: 상태 수 적을 수 있음
 
+FSM 설계 절차:
+  1. 상태 정의 (State Definition)
+  2. 상태 다이어그램 작성
+  3. 상태 인코딩 (Binary, Gray Code, One-Hot)
+  4. 여기 함수 도출 (D, JK, T 조합)
+  5. 출력 함수 도출
+  6. 논리 회로 구현
 
+신호등 FSM 예시 (Moore):
+  상태: S0(RED), S1(GREEN), S2(YELLOW)
+  입력: timer
+  
+  S0 →[timer=1]→ S1 →[timer=1]→ S2 →[timer=1]→ S0
+  
+  출력:
+  S0 → RED=1, GREEN=0, YELLOW=0
+  S1 → RED=0, GREEN=1, YELLOW=0
+  S2 → RED=0, GREEN=0, YELLOW=1
+
+실용 FSM 응용:
+  프로토콜 파서: TCP 연결 상태 머신
+  에러 처리: 자판기 동전 상태
+  CPU 제어 유닛: 명령 페치/디코드/실행/쓰기
+  통신: UART, I2C 프로토콜
+```
 
 > 📢 **섹션 요약 비유**: FSM은 게임 캐릭터 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) — "대기→공격→[후퇴](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/)→대기" 상태가 있고, 입력(플레이어 위치)에 따라 상태가 전환. 현재 상태만이 다음 행동을 결정해요.
 
@@ -152,45 +161,51 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅳ. [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)와 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)
 
+```
+카운터 (Counter):
 
+비동기 카운터 (Ripple Counter):
+  T 플립플롭 직렬 연결
+  각 FF의 Q 출력 → 다음 FF의 CLK
+  
+  장점: 구조 단순
+  단점: 전파 지연 (Ripple Delay) 누적
+        n비트 → n × tFF 지연
+  
+동기 카운터 (Synchronous Counter):
+  모든 FF가 공통 CLK 사용
+  장점: 빠름 (병렬 전환)
+  단점: 회로 복잡
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">카운터 (Counter):</div>
-<div class="kb-diagram-note">비동기 카운터 (Ripple Counter):</div>
-<div class="kb-diagram-note">T 플립플롭 직렬 연결</div>
-<div class="kb-diagram-note">각 FF의 Q 출력 → 다음 FF의 CLK</div>
-<div class="kb-diagram-note">장점: 구조 단순</div>
-<div class="kb-diagram-note">단점: 전파 지연 (Ripple Delay) 누적</div>
-<div class="kb-diagram-note">n비트 → n × tFF 지연</div>
-<div class="kb-diagram-note">동기 카운터 (Synchronous Counter):</div>
-<div class="kb-diagram-note">모든 FF가 공통 CLK 사용</div>
-<div class="kb-diagram-note">장점: 빠름 (병렬 전환)</div>
-<div class="kb-diagram-note">단점: 회로 복잡</div>
-<div class="kb-diagram-note">2비트 업 카운터 (D FF, 동기):</div>
-<div class="kb-diagram-note">현재 상태 Q1Q0 → 다음 상태</div>
-<div class="kb-diagram-note">00 → 01 → 10 → 11 → 00 (반복)</div>
-<div class="kb-diagram-note">D0 = Q0̄</div>
-<div class="kb-diagram-note">D1 = Q1⊕Q0</div>
-<div class="kb-diagram-note">분주기 (Frequency Divider):</div>
-<div class="kb-diagram-note">T FF T=1: 매 CLK마다 토글</div>
-<div class="kb-diagram-note">→ 출력 주파수 = CLK / 2</div>
-<div class="kb-diagram-note">n개 직렬: CLK / 2^n</div>
-<div class="kb-diagram-note">레지스터 (Register):</div>
-<div class="kb-diagram-note">병렬 레지스터: n개 D FF 공통 CLK</div>
-<div class="kb-diagram-note">n비트 데이터를 동시에 저장/출력</div>
-<div class="kb-diagram-note">시프트 레지스터 (Shift Register):</div>
-<div class="kb-diagram-note">직렬 연결: Q → 다음 D</div>
-<div class="kb-diagram-note">매 CLK마다 데이터가 한 칸씩 이동</div>
-<div class="kb-diagram-note">용도: 직렬↔병렬 변환, UART 송수신</div>
-<div class="kb-diagram-note">CRC 계산, 난수 생성 (LFSR)</div>
-<div class="kb-diagram-note">LFSR (Linear Feedback Shift Register):</div>
-<div class="kb-diagram-note">XOR 피드백 = 의사 난수 생성</div>
-<div class="kb-diagram-note">암호화, 테스트 패턴 생성</div>
-</div>
-</div>
+2비트 업 카운터 (D FF, 동기):
+  현재 상태 Q1Q0 → 다음 상태
+  00 → 01 → 10 → 11 → 00 (반복)
+  
+  D0 = Q0̄
+  D1 = Q1⊕Q0
 
+분주기 (Frequency Divider):
+  T FF T=1: 매 CLK마다 토글
+  → 출력 주파수 = CLK / 2
+  
+  n개 직렬: CLK / 2^n
 
+레지스터 (Register):
+
+  병렬 레지스터: n개 D FF 공통 CLK
+    n비트 데이터를 동시에 저장/출력
+    
+  시프트 레지스터 (Shift Register):
+    직렬 연결: Q → 다음 D
+    매 CLK마다 데이터가 한 칸씩 이동
+    
+    용도: 직렬↔병렬 변환, UART 송수신
+          CRC 계산, 난수 생성 (LFSR)
+    
+  LFSR (Linear Feedback Shift Register):
+    XOR 피드백 = 의사 난수 생성
+    암호화, 테스트 패턴 생성
+```
 
 > 📢 **섹션 요약 비유**: [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)와 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)는 탁상 달력 — [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)는 날짜를 하루씩 넘기는 것, [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)는 메모를 써두는 것. 시프트 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)는 컨베이어 벨트처럼 정보가 줄지어 이동.
 
@@ -198,44 +213,49 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅴ. 실무 시나리오 — CPU 파이프라인 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)
 
+```
+CPU 파이프라인 레지스터 (순서 논리 응용):
 
+5단계 파이프라인:
+  IF → ID → EX → MEM → WB
+  
+  각 단계 사이: 파이프라인 레지스터 (D FF 묶음)
+  
+  IF/ID 레지스터: 명령어 저장
+  ID/EX 레지스터: 피연산자, 제어 신호
+  EX/MEM 레지스터: ALU 결과
+  MEM/WB 레지스터: 메모리 읽기 결과
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">CPU 파이프라인 레지스터 (순서 논리 응용):</div>
-<div class="kb-diagram-note">5단계 파이프라인:</div>
-<div class="kb-diagram-note">IF → ID → EX → MEM → WB</div>
-<div class="kb-diagram-note">각 단계 사이: 파이프라인 레지스터 (D FF 묶음)</div>
-<div class="kb-diagram-note">IF/ID 레지스터: 명령어 저장</div>
-<div class="kb-diagram-note">ID/EX 레지스터: 피연산자, 제어 신호</div>
-<div class="kb-diagram-note">EX/MEM 레지스터: ALU 결과</div>
-<div class="kb-diagram-note">MEM/WB 레지스터: 메모리 읽기 결과</div>
-<div class="kb-diagram-note">타이밍 문제 — 셋업 타임:</div>
-<div class="kb-diagram-note">CLK 주기 = 단계 최대 지연 + 셋업 타임 + 클록 스큐</div>
-<div class="kb-diagram-note">예:</div>
-<div class="kb-diagram-note">EX 단계 (ALU): 3ns</div>
-<div class="kb-diagram-note">셋업 타임: 0.5ns</div>
-<div class="kb-diagram-note">클록 스큐: 0.1ns</div>
-<div class="kb-diagram-note">최소 CLK 주기 = 3 + 0.5 + 0.1 = 3.6ns</div>
-<div class="kb-diagram-note">최대 주파수 = 1 / 3.6ns ≈ 278MHz</div>
-<div class="kb-diagram-note">데이터 해저드와 스톨:</div>
-<div class="kb-diagram-note">1. 데이터 의존성 → 파이프라인 스톨</div>
-<div class="kb-diagram-note">NOP 삽입 (버블) = 낭비 사이클</div>
-<div class="kb-diagram-note">2. 전달(Forwarding)로 해결:</div>
-<div class="kb-diagram-note">EX/MEM 레지스터 값 → EX 단계 입력으로 직접 전달</div>
-<div class="kb-diagram-note">스톨 없이 의존성 해결</div>
-<div class="kb-diagram-note">브랜치 예측 실패:</div>
-<div class="kb-diagram-note">IF 단계에서 잘못된 명령어 패치</div>
-<div class="kb-diagram-note">예측 실패 시 IF/ID, ID/EX 레지스터 flush</div>
-<div class="kb-diagram-note">= 파이프라인 버블 (2~3 사이클 낭비)</div>
-<div class="kb-diagram-note">현대 CPU:</div>
-<div class="kb-diagram-note">Intel i9: 10+ 단계 파이프라인</div>
-<div class="kb-diagram-note">ARM Cortex-A78: 13단계</div>
-<div class="kb-diagram-note">각 단계 경계마다 순서 논리 레지스터 사용</div>
-</div>
-</div>
+타이밍 문제 — 셋업 타임:
 
+  CLK 주기 = 단계 최대 지연 + 셋업 타임 + 클록 스큐
+  
+  예:
+  EX 단계 (ALU): 3ns
+  셋업 타임: 0.5ns
+  클록 스큐: 0.1ns
+  
+  최소 CLK 주기 = 3 + 0.5 + 0.1 = 3.6ns
+  최대 주파수 = 1 / 3.6ns ≈ 278MHz
 
+데이터 해저드와 스톨:
+  1. 데이터 의존성 → 파이프라인 스톨
+     NOP 삽입 (버블) = 낭비 사이클
+     
+  2. 전달(Forwarding)로 해결:
+     EX/MEM 레지스터 값 → EX 단계 입력으로 직접 전달
+     스톨 없이 의존성 해결
+
+브랜치 예측 실패:
+  IF 단계에서 잘못된 명령어 패치
+  예측 실패 시 IF/ID, ID/EX 레지스터 flush
+  = 파이프라인 버블 (2~3 사이클 낭비)
+
+현대 CPU:
+  Intel i9: 10+ 단계 파이프라인
+  ARM Cortex-A78: 13단계
+  각 단계 경계마다 순서 논리 레지스터 사용
+```
 
 > 📢 **섹션 요약 비유**: CPU 파이프라인 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)는 공장 작업대 칸막이 — 각 작업자가 물건을 다음 칸으로 넘기려면 클록이 울릴 때까지 기다려야 해요. 칸막이([레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)) = D [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)의 집합.
 
@@ -265,34 +285,32 @@ tags = ["studynote-computer-architecture"]
 
 ## 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">래치 발명 (1918)</div></div>
-<div class="kb-diagram-note">SR 래치 (릴레이 기반)</div>
-<div class="kb-diagram-note">진공관 → 트랜지스터 래치</div>
-<div class="kb-diagram-note">v</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">플립플롭 체계화 (1950s)</div></div>
-<div class="kb-diagram-note">D/JK/T 플립플롭 설계 이론</div>
-<div class="kb-diagram-note">클록 동기식 설계 표준화</div>
-<div class="kb-diagram-note">v</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">VLSI 시대 (1980s)</div></div>
-<div class="kb-diagram-note">수백만 FF → CPU 레지스터 파일</div>
-<div class="kb-diagram-note">CMOS 구현, 저전력화</div>
-<div class="kb-diagram-note">v</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">파이프라인 CPU (1990s)</div></div>
-<div class="kb-diagram-note">파이프라인 레지스터 = 순서 논리 핵심</div>
-<div class="kb-diagram-note">Forwarding, Hazard Detection</div>
-<div class="kb-diagram-note">v</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: 고속 멀티코어</div></div>
-<div class="kb-diagram-note">수백만 개 D-FF in one chip</div>
-<div class="kb-diagram-note">GHz 클록, 딥 파이프라인</div>
-<div class="kb-diagram-note">저전력 클록 게이팅</div>
-</div>
-</div>
-
-
+```
+[래치 발명 (1918)]
+SR 래치 (릴레이 기반)
+진공관 → 트랜지스터 래치
+      |
+      v
+[플립플롭 체계화 (1950s)]
+D/JK/T 플립플롭 설계 이론
+클록 동기식 설계 표준화
+      |
+      v
+[VLSI 시대 (1980s)]
+수백만 FF → CPU 레지스터 파일
+CMOS 구현, 저전력화
+      |
+      v
+[파이프라인 CPU (1990s)]
+파이프라인 레지스터 = 순서 논리 핵심
+Forwarding, Hazard Detection
+      |
+      v
+[현재: 고속 멀티코어]
+수백만 개 D-FF in one chip
+GHz 클록, 딥 파이프라인
+저전력 클록 게이팅
+```
 
 ---
 

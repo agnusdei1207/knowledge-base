@@ -35,30 +35,33 @@ tags = ["studynote-operating-system"]
 - **등장 배경**: 
   - CPU 제조사(인텔)가 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 링(Ring 0 = [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/), Ring 3 = 유저)이라는 권한 분리 아키텍처를 도입하면서, 이 두 세계를 오가는 무거운 징검다리로서 `int 0x80` 또는 현대의 `syscall` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 탄생했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">듀얼 모드 (Dual Mode)와 시스템 콜의 경계선</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">유저 공간 (User Space) - Ring 3</div><div class="kb-diagram-note">- 권한 없음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App: C언어 <code>printf("Hello");</code> 호출</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 표준 라이브러리 (libc)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell"><code>write(fd, "Hello", 5)</code> 래퍼 함수 호출</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ CPU 레지스터에 시스템 콜 번호(예: 1번) 적재</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Trap (소프트웨어 인터럽트: 0x80 또는 syscall 발생) ⚠️ 병목</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ &lt;--- 문맥 교환 (권한 상승, 보안 검증)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">커널 공간 (Kernel Space) - Ring 0</div><div class="kb-diagram-note">- 절대 권력</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS: 시스템 콜 테이블(sys_call_table) 조회</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 1번에 해당하는 <code>sys_write()</code> 함수 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">드라이버: 하드 디스크나 모니터 VRAM에 물리적 출력 수행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 결과값(성공/실패)을 레지스터에 담고 복귀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IRET (인터럽트 복귀 명령) ⚠️ 병목</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ &lt;--- 문맥 교환 (권한 강등, 원래 코드 복귀)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유저 프로그램 마저 실행</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │                 듀얼 모드 (Dual Mode)와 시스템 콜의 경계선            │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │   [ 유저 공간 (User Space) - Ring 3 ] - 권한 없음               │
+  │     App: C언어 `printf("Hello");` 호출                        │
+  │         │                                                   │
+  │         ▼ 표준 라이브러리 (libc)                              │
+  │         `write(fd, "Hello", 5)` 래퍼 함수 호출                 │
+  │         │                                                   │
+  │         ▼ CPU 레지스터에 시스템 콜 번호(예: 1번) 적재            │
+  │ ─── Trap (소프트웨어 인터럽트: 0x80 또는 syscall 발생) ─────── ⚠️ 병목 │
+  │         ▼  <--- 문맥 교환 (권한 상승, 보안 검증)                   │
+  │                                                             │
+  │   [ 커널 공간 (Kernel Space) - Ring 0 ] - 절대 권력            │
+  │     OS: 시스템 콜 테이블(sys_call_table) 조회                 │
+  │         │                                                   │
+  │         ▼ 1번에 해당하는 `sys_write()` 함수 실행                │
+  │     드라이버: 하드 디스크나 모니터 VRAM에 물리적 출력 수행           │
+  │         │                                                   │
+  │         ▼ 결과값(성공/실패)을 레지스터에 담고 복귀                  │
+  │ ─── IRET (인터럽트 복귀 명령) ──────────────────────────────── ⚠️ 병목 │
+  │         ▼  <--- 문맥 교환 (권한 강등, 원래 코드 복귀)              │
+  │   유저 프로그램 마저 실행                                        │
+  └─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 그림은 단순히 함수 하나를 부르는 게 얼마나 거대한 벽을 넘는 일인지 보여준다. 같은 프로그램 안에서 `a + b`를 계산하는 [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/)([Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/))은 단 몇 클럭(나노초)이면 끝난다. 하지만 모니터에 글자를 띄우는 `write` 함수는 CPU의 하드웨어 특권 레벨을 뚫고 들어가는 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)([Trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/))를 발생시킨다. 이 붉은색 경계선(⚠️)을 넘을 때마다 CPU는 하던 일을 멈추고 보안 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/), 모드 스위칭을 단행하며 수백~수천 클럭(마이크로초)을 소모한다. 즉, 시스템 콜은 일반 [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/)보다 수십 배에서 수백 배 무거운 '초대형 통행료'를 지불하는 행위다.
 
@@ -83,24 +86,24 @@ tags = ["studynote-operating-system"]
 
 과거 `int 0x80` 방식의 느린 속도를 개선하기 위해, 인텔과 AMD는 하드웨어 칩 레벨에서 직행 터널을 뚫었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Legacy Interrupt vs Fast System Call 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1세대: int 0x80 (전통적 소프트웨어 인터럽트)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App ──▶ CPU 인터럽트 핀 발생 ──▶ IVT(벡터 테이블) 탐색 ──▶ 권한 검사</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 커널 스택 전환 ──▶ system_call 진입 (과정이 너무 길고 무거움)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2세대: syscall / sysenter (고속 직행로)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App ──▶ <code>syscall</code> 전용 어셈블리 명령어 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ CPU 내부의 특수 레지스터(MSR)에 미리 세팅된 주소로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">테이블 탐색 없이 단숨에 커널 진입점(Entry)으로 하드웨어 텔레포트!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: CPU 사이클 낭비가 1/3로 줄어듦 (약 300 클럭 -&gt; 100 클럭).</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하지만 여전히 "유저 데이터 복사"나 "캐시 오염" 문제는 남음.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 Legacy Interrupt vs Fast System Call 비교         │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [ 1세대: int 0x80 (전통적 소프트웨어 인터럽트) ]                    │
+  │   App ──▶ CPU 인터럽트 핀 발생 ──▶ IVT(벡터 테이블) 탐색 ──▶ 권한 검사 │
+  │       ──▶ 커널 스택 전환 ──▶ system_call 진입 (과정이 너무 길고 무거움)│
+  │                                                                   │
+  │   [ 2세대: syscall / sysenter (고속 직행로) ]                      │
+  │   App ──▶ `syscall` 전용 어셈블리 명령어 실행                        │
+  │       ──▶ CPU 내부의 특수 레지스터(MSR)에 미리 세팅된 주소로           │
+  │           테이블 탐색 없이 단숨에 커널 진입점(Entry)으로 하드웨어 텔레포트!│
+  │                                                                   │
+  │   결과: CPU 사이클 낭비가 1/3로 줄어듦 (약 300 클럭 -> 100 클럭).       │
+  │         하지만 여전히 "유저 데이터 복사"나 "캐시 오염" 문제는 남음.          │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 초창기 리눅스는 일반 하드웨어 에러(나눗셈 0 에러 등)를 처리하는 복잡한 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 테이블 게이트를 시스템 콜도 똑같이 탔다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 하락을 참지 못한 하드웨어 제조사가 `syscall`이라는 단일 목적의 "슈퍼패스" 어셈블리 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 CPU에 아예 박아버렸다. 이 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 치면 CPU는 묻지도 따지지도 않고 MSR(Model Specific [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/))에 저장된 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 주소로 통제권과 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)을 즉시 스위칭한다. 덕분에 최신 OS에서는 시스템 콜의 '직접 비용'은 크게 줄었다. 그러나 근본적인 메모리 벽(Copy from user)은 그대로다.
 
@@ -142,29 +145,34 @@ tags = ["studynote-operating-system"]
 2. <strong>시나리오 — 고빈도 트레이딩 및 <a href="/knowledge-base/studynote/09_security/03_network_security/272_packet_sniffing/">패킷 스니핑</a> 장비의 한계 돌파 (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/">DPDK</a>)</strong>: 초당 1,000만 개의 미세한 네트워크 패킷([UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/))을 처리해야 하는 방화벽이나 금융 거래 장비를 만들고 있다. [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) `recvfrom()` 시스템 콜을 천만 번 부르면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 스위칭 오버헤드만으로 시스템이 녹아내린다.
    - <strong>아키텍트 판단 (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">Kernel</a> Bypass 적용)</strong>: [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 시스템 콜과 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 네트워크 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)을 100% 버린다. 인텔의 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/">DPDK</a> (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Plane Development Kit)</strong> 프레임워크를 도입한다. 랜카드([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/))의 메모리 주소를 유저 공간(User Space)의 앱 메모리에 `mmap`으로 직접 매핑하고, 앱이 무한 루프([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/))를 돌며 랜카드에서 직접 패킷을 퍼올린다. 시스템 콜이 아예 0번 발생하므로, 마이크로초(µs) 단위의 극단적 초저지연을 달성한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시스템 콜 병목 회피를 위한 최신 아키텍처 (io_uring)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전통적 동기식 I/O</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App ──(read 시스템콜)──▶ 대기(Block) ──▶ 완료 후 ──(write)──▶ 대기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ I/O 1건당 시스템 콜 1번 호출. 문맥 교환 폭탄.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">차세대 비동기 I/O (리눅스 io_uring)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">유저 공간 (User)</div><div class="kb-diagram-node">공유 링 버퍼 (Shared Ring)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 명령어 투척</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Application ▶</div><div class="kb-diagram-cell">SQ (Submission Q)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(논블로킹)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 결과 회수 ▼ 폴링 감지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CQ (Completion Q)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">백그라운드 처리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">커널 공간 (Kernel) (OS 커널 워커 스레드)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ 결과: 유저 앱은 공유 메모리(큐)에 "파일 100개 읽어!"라고 메모리만 쓰고</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시스템 콜은 단 한 번도 안 부름! (Zero-Syscall). 극한의 성능 혁명.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 시스템 콜 병목 회피를 위한 최신 아키텍처 (io_uring)         │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [ 전통적 동기식 I/O ]                                              │
+  │   App ──(read 시스템콜)──▶ 대기(Block) ──▶ 완료 후 ──(write)──▶ 대기 │
+  │   ※ I/O 1건당 시스템 콜 1번 호출. 문맥 교환 폭탄.                         │
+  │                                                                   │
+  │   [ 차세대 비동기 I/O (리눅스 io_uring) ]                             │
+  │                                                                   │
+  │   유저 공간 (User)                 [ 공유 링 버퍼 (Shared Ring) ]  │
+  │   ┌────────────┐   1. 명령어 투척   ┌──────────────────┐          │
+  │   │ Application├───────────────▶│ SQ (Submission Q)│          │
+  │   │ (논블로킹)   │                  └────────┬─────────┘          │
+  │   └─────▲──────┘                           │                    │
+  │           │      3. 결과 회수                ▼ 폴링 감지            │
+  │           └───────────────────────┌──────────────────┐          │
+  │                                   │ CQ (Completion Q)│          │
+  │                                   └────────▲─────────┘          │
+  │                                            │ 백그라운드 처리        │
+  │   ─────────────────────────────────────────┼────────────────── │
+  │   커널 공간 (Kernel)                       (OS 커널 워커 스레드)      │
+  │                                                                   │
+  │   ※ 결과: 유저 앱은 공유 메모리(큐)에 "파일 100개 읽어!"라고 메모리만 쓰고    │
+  │      시스템 콜은 단 한 번도 안 부름! (Zero-Syscall). 극한의 성능 혁명.      │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이것이 2020년대 이후 리눅스 백엔드 아키텍처를 뒤흔들고 있는 `io_uring`의 본질이다. 그동안 시스템 콜 횟수를 줄이려고 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) [버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/) 같은 소프트웨어 꼼수를 썼다면, 이제는 OS 자체가 "유저와 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 사이에 아예 우체통(공유 링 버퍼)을 놔둘 테니, 문 두드리지(시스템 콜) 말고 거기 편지 넣어두면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 알아서 수거해서 처리해 줄게"라고 선언한 것이다. 이로 인해 시스템 콜을 호출할 때 필연적으로 발생하던 권한 스위칭, [멜트다운](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/482_meltdown/) 방어막([KPTI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/578_kpti/))의 오버헤드를 완벽하게 우회하면서도 보안을 유지하는 궁극의 타협점을 이뤄냈다.
 
@@ -210,19 +218,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">고아 좀비 프로세스 init 처리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시스템 콜 오버헤드 이유 (System Call Overhead Reasons)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">파일 지연 쓰기 (Delayed Write)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">저널링 파일 시스템 트랜잭션 로그</div></div>
-</div>
-</div>
-
-
+```text
+[고아 좀비 프로세스 init 처리]
+    │
+    ▼
+[시스템 콜 오버헤드 이유 (System Call Overhead Reasons)]
+    │
+    ├──▶ [파일 지연 쓰기 (Delayed Write)]
+    └──▶ [저널링 파일 시스템 트랜잭션 로그]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

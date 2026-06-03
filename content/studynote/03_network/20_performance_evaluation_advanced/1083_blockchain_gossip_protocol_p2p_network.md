@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **과거**: 카카오톡 서버 1대에 1만 명이 붙어있습니다. 철수가 메시지를 쏘면 서버 1대가 1만 명에게 브로드캐스트로 뿌립니다.
 - <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 시스템(<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/">블록체인</a>)의 재앙</strong>: 100만 대의 노드가 서로 평등하게 얽힌 [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/)([Peer-to-Peer](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/)) 망에서는 나를 이끌어 줄 중앙 서버가 아예 존재하지 않습니다. 브로드캐스트를 날리자니 트래픽이 폭발해서 네트워크가 죽어버립니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">웹쉘 탐지 프로토콜 파서</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">블록체인 가십 프로토콜 P2P 연결</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">다크 웹 Tor 통신 프로토콜 암호화층</div></div>
-</div>
-</div>
-
-
+```text
+[웹쉘 탐지 프로토콜 파서]
+    │
+    ▼
+[블록체인 가십 프로토콜 P2P 연결]
+    │
+    └──▶ [다크 웹 Tor 통신 프로토콜 암호화층]
+```
 
 - **📢 섹션 요약 비유**: [블록체인 가십 프로토콜](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/918_gossip_protocol_blockchain_epidemic_network/) [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 연결은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -44,18 +40,14 @@ tags = ["studynote-network"]
 - 일명 <strong>에피데믹 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>(Epidemic, 전염병 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>)</strong>이라고도 불립니다.
 - **개념**: 중앙 통제 없이, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)된 노드들이 <strong>주기적으로 무작위(Random) 이웃 노드를 몇 개 골라 자기가 가진 최신 정보(상태, 블록 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>)를 귓속말로 속닥거리며 교환함으로써, 바이러스가 퍼지듯 순식간에 네트워크 전체의 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 똑같이 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a>(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/">Eventual Consistency</a>)시키는 <a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/">P2P</a> 통신 기법</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">웹쉘 탐지 프로토콜 파서</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">블록체인 가십 프로토콜 P2P 연결</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">다크 웹 Tor 통신 프로토콜 암호화층</div></div>
-</div>
-</div>
-
-
+```text
+[웹쉘 탐지 프로토콜 파서]
+    │
+    ▼
+[블록체인 가십 프로토콜 P2P 연결]
+    │
+    └──▶ [다크 웹 Tor 통신 프로토콜 암호화층]
+```
 
 - **📢 섹션 요약 비유**: [블록체인 가십 프로토콜](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/918_gossip_protocol_blockchain_epidemic_network/) [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 연결의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -123,19 +115,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 웹쉘 탐지 프로토콜 파서</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 블록체인 가십 프로토콜 P2P 연결</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 다크 웹 Tor 통신 프로토콜 암호화층</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 웹쉘 탐지 프로토콜 파서]
+    │
+    ▼
+[현재 개념: 블록체인 가십 프로토콜 P2P 연결]
+    │
+    ├──▶ [확장 A: 다크 웹 Tor 통신 프로토콜 암호화층]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 [블록체인 가십 프로토콜](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/918_gossip_protocol_blockchain_epidemic_network/) [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 연결는 [웹쉘](/knowledge-base/studynote/03_network/14_network_security_threats/747_web_shell_file_upload_vulnerability/) 탐지 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 파서에서 출발해 현재 메커니즘을 정교화하고, 이후 다크 웹 Tor 통신 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 암호화층와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

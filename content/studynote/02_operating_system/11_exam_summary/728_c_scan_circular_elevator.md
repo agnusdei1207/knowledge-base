@@ -49,28 +49,32 @@ tags = ["studynote-operating-system"]
 현재 헤드 위치: **50번 ([진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 방향: 우측 $\rightarrow$ 199번 방향)**
 요청 큐: `[98, 183, 37, 122, 14, 124, 65, 67]`
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C-SCAN (단방향 회전) 알고리즘 이동 궤적 시뮬레이션</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">헤드 이동 방향: 무조건 우측(0 ──▶ 199)으로만 처리함!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 현재 위치: 50</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 50보다 큰 요청들을 오름차순으로 스윕(Sweep)하며 처리!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">50 ──▶ 65 ──▶ 67 ──▶ 98 ──▶ 122 ──▶ 124 ──▶ 183</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. SCAN과 마찬가지로 디스크의 끝(199)까지 계속 직진함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">183 ──▶ 199 (끝점 도달)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">199 도착! 역주행 처리 금지! 빛의 속도로 0번으로 복귀(Return)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 199에서 아무것도 처리하지 않고 0번 실린더로 점프!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">199 ──▶ 0 (이동 거리: 199)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">0 도착! 다시 우측으로 가면서 남은 요청을 처리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 0 ──▶ 14 ──▶ 37 (처리 완료)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">★ 총 이동 거리 (Total Head Movement):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(199 - 50) + (199 - 0) + (37 - 0) = 149 + 199 + 37 = 385</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 C-SCAN (단방향 회전) 알고리즘 이동 궤적 시뮬레이션       │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │  [ 헤드 이동 방향: 무조건 우측(0 ──▶ 199)으로만 처리함! ]                │
+  │                                                                   │
+  │   1. 현재 위치: 50                                                  │
+  │   2. 50보다 큰 요청들을 오름차순으로 스윕(Sweep)하며 처리!                │
+  │      50 ──▶ 65 ──▶ 67 ──▶ 98 ──▶ 122 ──▶ 124 ──▶ 183             │
+  │   3. SCAN과 마찬가지로 디스크의 끝(199)까지 계속 직진함.                  │
+  │      183 ──▶ 199 (끝점 도달)                                         │
+  │                                                                   │
+  │  [ 199 도착! 역주행 처리 금지! 빛의 속도로 0번으로 복귀(Return) ]          │
+  │                                                                   │
+  │   4. 199에서 **아무것도 처리하지 않고** 0번 실린더로 점프!                  │
+  │      199 ──▶ 0  (이동 거리: 199)                                    │
+  │                                                                   │
+  │  [ 0 도착! 다시 우측으로 가면서 남은 요청을 처리 ]                       │
+  │                                                                   │
+  │   5. 0 ──▶ 14 ──▶ 37 (처리 완료)                                   │
+  │                                                                   │
+  │  ★ 총 이동 거리 (Total Head Movement):                              │
+  │     (199 - 50) + (199 - 0) + (37 - 0) = 149 + 199 + 37 = **385** │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** C-SCAN의 총 이동 거리(385)는 일반 SCAN의 이동 거리(334)보다 훨씬 길다. 왜냐하면 199번에서 0번으로 "허공을 가르며 날아오는 시간(Return Time)"이 추가되었기 때문이다. 하지만 [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) 헤드가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽고 쓰면서 천천히 이동하는 속도에 비해, 그냥 빈 공간을 휙 하고 날아가는 복귀 속도는 하드웨어적으로 훨씬 빠르다. 즉, <strong>"약간의 이동 거리를 손해 보더라도, 모든 프로세스가 균등한 시간에 I/O를 보장받게 만들겠다"</strong>는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 강력한 공정성(Fairness) 철학이 반영된 것이다.
 
@@ -122,26 +126,28 @@ C-SCAN의 존재 이유는 오직 이 '편차([분산](/knowledge-base/studynote
 
 ### 의사결정 및 튜닝 플로우
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HDD 블록 I/O 스케줄러(Elevator) 선택 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">베어메탈 서버(하드디스크 탑재)에 대용량 애플리케이션 설치 및 튜닝</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해당 서버의 워크로드가 극단적인 실시간성(Soft Real-time)을 요구하는가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(예: 오디오 스트리밍, 예측 가능한 응답 시간이 필요한 결제 서버)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">C-SCAN / C-LOOK 기반의 스케줄러 선택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(리눅스 <code>deadline</code> 스케줄러: Read 요청에 엄격한</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">타임아웃 기한을 두어 C-SCAN 궤적 안에서 기아를 완벽 봉쇄)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 (전체 백업, 딥러닝 데이터 전처리, 하둡 등)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전체 시스템의 처리량(Throughput)과 대역폭 극대화가 우선인가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CFQ (Completely Fair Queuing) 또는 BFQ 스케줄러</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(프로세스별로 큐를 따로 두고, C-SCAN을 기본으로 하되 프로세스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">우선순위에 따라 I/O 타임 슬라이스를 분배하는 고도화 알고리즘)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 HDD 블록 I/O 스케줄러(Elevator) 선택 플로우             │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [베어메탈 서버(하드디스크 탑재)에 대용량 애플리케이션 설치 및 튜닝]            │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      해당 서버의 워크로드가 극단적인 실시간성(Soft Real-time)을 요구하는가?   │
+  │      (예: 오디오 스트리밍, 예측 가능한 응답 시간이 필요한 결제 서버)             │
+  │          ├─ 예 ─────▶ [C-SCAN / C-LOOK 기반의 스케줄러 선택]       │
+  │          │            (리눅스 `deadline` 스케줄러: Read 요청에 엄격한    │
+  │          │             타임아웃 기한을 두어 C-SCAN 궤적 안에서 기아를 완벽 봉쇄)│
+  │          └─ 아니오 (전체 백업, 딥러닝 데이터 전처리, 하둡 등)               │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      전체 시스템의 처리량(Throughput)과 대역폭 극대화가 우선인가?             │
+  │          ├──▶ [CFQ (Completely Fair Queuing) 또는 BFQ 스케줄러]     │
+  │          │    (프로세스별로 큐를 따로 두고, C-SCAN을 기본으로 하되 프로세스  │
+  │          │     우선순위에 따라 I/O 타임 슬라이스를 분배하는 고도화 알고리즘)  │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** C-SCAN은 순수하게 하드웨어의 '[탐색 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/)([Seek Time](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/))'을 줄이기 위한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다. 하지만 소프트웨어 개발자 입장에서는 "디스크가 얼마나 도는지"보다 "내 앱의 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)가 언제 끝나는지"가 중요하다. 그래서 현대 리눅스는 C-SCAN의 뼈대 위에, 각 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)(BIO)마다 마감 시간([Deadline](/knowledge-base/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/), 예: Read는 500ms)을 걸어두고 [C-SCAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/472_c_scan_scheduling/) 궤적을 그리다 마감 시간이 임박한 놈이 생기면 궤적을 꺾어서라도 먼저 처리해 주는 `mq-deadline`을 엔터프라이즈 DB 서버의 표준으로 삼고 있다.
 
@@ -183,19 +189,15 @@ C-SCAN의 존재 이유는 오직 이 '편차([분산](/knowledge-base/studynote
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">디스크 스케줄링 SCAN 엘리베이터</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">C-SCAN 단방향 회전 (C Scan Circular Elevator)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SSTF 기아 현상 (가운데 편중)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RAID 0, 1, 5, 6 성능 신뢰성</div></div>
-</div>
-</div>
-
-
+```text
+[디스크 스케줄링 SCAN 엘리베이터]
+    │
+    ▼
+[C-SCAN 단방향 회전 (C Scan Circular Elevator)]
+    │
+    ├──▶ [SSTF 기아 현상 (가운데 편중)]
+    └──▶ [RAID 0, 1, 5, 6 성능 신뢰성]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

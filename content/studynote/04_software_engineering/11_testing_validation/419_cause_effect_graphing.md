@@ -26,22 +26,23 @@ tags = ["studynote-software-engineering"]
 고작 한 문장이지만 `OR`, `AND`, `NOT`이 폭풍처럼 몰아칩니다. 이런 긴 글을 테스터가 눈으로 대충 읽고 테스트 엑셀([Decision Table](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/631_decision_table_logical_combination/))을 대뜸 짜려고 하면 100% [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 누락이나 중복이 생깁니다.  
 그래서 1970년대 베테랑 엔지니어들은 전자공학의 진리인 <strong>'디지털 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/027_logic_gates/">논리 게이트</a>(Logic Gate)'</strong>를 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) 테스팅에 차용합니다. 문장 속에 있는 조건(원인, Cause)들을 네모 상자로 두고, 최종 작동 결과(결과, Effect)를 동그라미 상자로 둔 다음, 그 사이를 `AND(∧)`, `OR(∨)` [다이오드](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/) 선으로 연결해 시각적인 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)도면으로 도식화해 버렸습니다. 이것이 바로 <strong>원인-결과 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a>(Cause-Effect Graphing)</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원인-결과 그래프 논리 게이트 맵핑 예시</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">원인 (Cause = 입력 조건)</div><div class="kb-diagram-node">결과 (Effect = 출력 동작)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cause 1: 카드 한도 초과 아님</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── AND(∧) ▶ Effect: 신용 결제 승인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cause 2: 결제 암호 일치</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cause 3: 현금성 계좌 이체 ▶ Effect: 즉시 공제 및 승인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">★ 이렇게 다이오드 선으로 묶어서 전자회로(Boolean)처럼 그려보면</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">꼬인 문구의 오류(스파게티 로직)가 단번에 투명해진다!</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                  원인-결과 그래프 논리 게이트 맵핑 예시               │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│  [ 원인 (Cause = 입력 조건) ]           [ 결과 (Effect = 출력 동작) ]│
+│                                                              │
+│  Cause 1: 카드 한도 초과 아님 ───┐                                │
+│                            ├── AND(∧) ────▶ Effect: 신용 결제 승인 │
+│  Cause 2: 결제 암호 일치    ───┘                                │
+│                                                              │
+│  Cause 3: 현금성 계좌 이체  ──────────────▶ Effect: 즉시 공제 및 승인 │
+│                                                              │
+│   ★ 이렇게 다이오드 선으로 묶어서 전자회로(Boolean)처럼 그려보면     │
+│      꼬인 문구의 오류(스파게티 로직)가 단번에 투명해진다!                 │
+└──────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 아무리 복잡한 설명서(이 선을 꼬고 저 선을 이으세요) 글귀라도, 그걸 천재 엔지니어가 칠판에 동그라미 2개랑 화살표로 "이 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 누르고 저거 합선되면 전구에 불 들어옴!" 하고 전개도면 하나(원인-결과 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/))로 쫙 펼쳐주는 그림 해석의 승리입니다.
 
@@ -143,30 +144,28 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 원인-결과 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Cause-Effect Graphing)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 원인-결과 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Cause-Effect Graphing)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
 | [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 원인-결과 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Cause-Effect Graphing)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | 원인-결과 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Cause-Effect Graphing) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
 | [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 원인-결과 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Cause-Effect Graphing)에서 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">원인-결과 그래프 (Cause-Effect Graphing) 개념 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 위기 (Software Crisis) 인식
+    │
+    ▼
+원인-결과 그래프 (Cause-Effect Graphing) 개념 정립
+    │
+    ▼
+표준화 및 방법론 체계화 (ISO, CMMI, Agile)
+    │
+    ▼
+클라우드 네이티브·AI 기반 확장 적용
+    │
+    ▼
+지속적 개선 및 DevOps·MLOps 통합
+```
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

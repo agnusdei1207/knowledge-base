@@ -26,18 +26,14 @@ tags = ["studynote-network"]
   - <strong>1:1 과외 (<a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a>)</strong>: 선생님이 학생과 눈을 맞추며 "이해했니?(ACK)" 묻고, 학생이 "아니요" 하면 다시 설명해 줍니다. 100명을 이렇게 가르치면 선생님은 죽습니다.
   - <strong>대형 마이크 연설 (<a href="/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a> <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/">멀티캐스트</a>)</strong>: 선생님이 운동장 단상에 서서 확성기로 떠듭니다. 학생이 1명이든 10만 명이든 선생님의 목 아픔(서버 부하)은 똑같습니다. 학생이 딴짓하다 한 단어를 놓쳐도 선생님은 절대 뒤로 돌아가서 다시 설명(재전송)해주지 않고 그냥 쭉 진도 나갑니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">UDP 헤더 구조</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">브로드캐스트 / 멀티캐스트 전송은 UDP만…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">실시간 전송, 오버헤드 최소화 목적</div></div>
-</div>
-</div>
-
-
+```text
+[UDP 헤더 구조]
+    │
+    ▼
+[브로드캐스트 / 멀티캐스트 전송은 UDP만…]
+    │
+    └──▶ [실시간 전송, 오버헤드 최소화 목적]
+```
 
 - **📢 섹션 요약 비유**: <strong> 브로드캐스트와 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/">멀티캐스트</a> 통신은 비행기에서 삐라(전단지)를 살포하는 </strong>"공중 투하 작전"**입니다. 비행기 조종사([UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/))는 그냥 하늘에서 수만 장을 툭 던질 뿐, 길바닥의 시민 1번이 전단지를 주웠는지, 바람에 날아갔는지(유실) 일일이 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 도장을 받으러 다니지 않습니다.
 
@@ -54,18 +50,14 @@ tags = ["studynote-network"]
 5. 서버는 자기가 보낸 트래픽이 아니라, 오히려 <strong>전국에서 되돌아오는 영수증 폭풍(ACK Implosion)에 두드려 맞고 디도스(DDoS) 급 트래픽 부하로 그 자리에서 즉사</strong>한다.
 이것이 TCP가 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)를 절대, 네버, 꿈도 꾸지 못하는 근본적인 수학적 한계다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">UDP 헤더 구조</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">브로드캐스트 / 멀티캐스트 전송은 UDP만…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">실시간 전송, 오버헤드 최소화 목적</div></div>
-</div>
-</div>
-
-
+```text
+[UDP 헤더 구조]
+    │
+    ▼
+[브로드캐스트 / 멀티캐스트 전송은 UDP만…]
+    │
+    └──▶ [실시간 전송, 오버헤드 최소화 목적]
+```
 
 - **📢 섹션 요약 비유**: 브로드캐스트 / [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 전송은 UDP만…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -92,25 +84,26 @@ tags = ["studynote-network"]
 - <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/">DHCP</a> (IP 자동 할당)</strong>: 내 폰이 "야 동네 공유기들 중에 남는 IP 있는 놈!" 하고 브로드캐스트([UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 67/68)로 소리쳐서 받아온다.
 - <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/">RIP</a> <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a></strong>: "동네 사람들! 내 지도 여기 있어!" 하고 30초마다 브로드캐스트나 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)로 냅다 던지는 바보 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 역시 가벼운 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/)(520번) 껍데기를 타고 움직인다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TCP(1:1) vs UDP(1:N)의 서버 부하 극단적 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황: 10GB짜리 영상을 10,000명에게 라이브 방송할 때</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* TCP (유니캐스트 1:1 방식)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 1만 명과 3-way Handshake를 1만 번 맺어야 함! (메모리 파괴)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 10GB 영상을 1만 번 복사해서 쏨. 총 전송량: 100,000 GB !!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 1만 명의 징징대는 재전송 요구(ACK)를 다 받아줘야 함. (서버 사망)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* UDP (멀티캐스트 1:N 방식)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Handshake 없음! 메모리 소모 0!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 10GB 영상 딱 1개만 스위치 허공에 던짐. (나머진 라우터가 복사함)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 피드백(ACK) 아예 차단! 서버는 던지고 퇴근. (서버 쾌적)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ "이 압도적인 연산량의 차이 때문에 다중 통신은 UDP의 영원한 독점이다."</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                TCP(1:1) vs UDP(1:N)의 서버 부하 극단적 비교      │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 상황: 10GB짜리 영상을 10,000명에게 라이브 방송할 때 ]               │
+ │                                                             │
+ │   * TCP (유니캐스트 1:1 방식)                                  │
+ │     - 1만 명과 3-way Handshake를 1만 번 맺어야 함! (메모리 파괴) │
+ │     - 10GB 영상을 1만 번 복사해서 쏨. 총 전송량: 100,000 GB !!    │
+ │     - 1만 명의 징징대는 재전송 요구(ACK)를 다 받아줘야 함. (서버 사망)│
+ │                                                             │
+ │   * UDP (멀티캐스트 1:N 방식)                                  │
+ │     - Handshake 없음! 메모리 소모 0!                          │
+ │     - 10GB 영상 딱 1개만 스위치 허공에 던짐. (나머진 라우터가 복사함) │
+ │     - 피드백(ACK) 아예 차단! 서버는 던지고 퇴근. (서버 쾌적)        │
+ │                                                             │
+ │   ▶ "이 압도적인 연산량의 차이 때문에 다중 통신은 UDP의 영원한 독점이다."│
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -141,19 +134,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: UDP 헤더 구조</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 브로드캐스트 / 멀티캐스트 전송은 UDP만…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 실시간 전송, 오버헤드 최소화 목적</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: UDP 헤더 구조]
+    │
+    ▼
+[현재 개념: 브로드캐스트 / 멀티캐스트 전송은 UDP만…]
+    │
+    ├──▶ [확장 A: 실시간 전송, 오버헤드 최소화 목적]
+    └──▶ [확장 B: 적응형 저지연 전송]
+```
 
 브로드캐스트 / [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 전송은 UDP만…는 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 헤더 구조에서 출발해 현재 메커니즘을 정교화하고, 이후 실시간 전송, 오버헤드 최소화 목적와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

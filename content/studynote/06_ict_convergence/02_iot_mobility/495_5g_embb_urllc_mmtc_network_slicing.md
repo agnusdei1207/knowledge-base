@@ -35,22 +35,26 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5G 네트워크 슬라이싱 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">물리 인프라</div><div class="kb-diagram-note">gNB(기지국) + 5G Core(5GC) 하드웨어</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">가상화 계층</div><div class="kb-diagram-note">NFV(네트워크 기능 가상화) / SDN</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">슬라이스 관리</div><div class="kb-diagram-note">NSSF(Network Slice Selection Function)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NSI-1 (eMBB 슬라이스)</div><div class="kb-diagram-cell">넷플릭스·통신사 서비스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NSI-2 (uRLLC 슬라이스)</div><div class="kb-diagram-cell">자율주행·원격 수술</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NSI-3 (mMTC 슬라이스)</div><div class="kb-diagram-cell">스마트시티·IoT 센서</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SLA 보장</div><div class="kb-diagram-note">각 슬라이스별 독립 QoS 보장</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────┐
+│           5G 네트워크 슬라이싱 아키텍처                    │
+├──────────────────────────────────────────────────────────┤
+│  [물리 인프라]  gNB(기지국) + 5G Core(5GC) 하드웨어        │
+│        │                                                 │
+│  [가상화 계층]  NFV(네트워크 기능 가상화) / SDN             │
+│        │                                                 │
+│  [슬라이스 관리]  NSSF(Network Slice Selection Function)  │
+│  ┌─────────────────────────────────────────────────┐    │
+│  │  NSI-1 (eMBB 슬라이스)   │ 넷플릭스·통신사 서비스  │    │
+│  ├─────────────────────────┤──────────────────────┤    │
+│  │  NSI-2 (uRLLC 슬라이스) │ 자율주행·원격 수술     │    │
+│  ├─────────────────────────┤──────────────────────┤    │
+│  │  NSI-3 (mMTC 슬라이스)  │ 스마트시티·IoT 센서    │    │
+│  └─────────────────────────┴──────────────────────┘    │
+│                                                          │
+│  [SLA 보장]  각 슬라이스별 독립 QoS 보장                   │
+└──────────────────────────────────────────────────────────┘
+```
 
 ### [네트워크 슬라이싱](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/) 핵심 개념
 

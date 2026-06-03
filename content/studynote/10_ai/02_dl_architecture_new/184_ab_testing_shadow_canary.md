@@ -35,24 +35,26 @@ tags = ["studynote-ai"]
 
 아래 그림은 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 런타임 배포의 단계별 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)을 요약한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Runtime rollout ladder</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User request</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Traffic router / feature parity check</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Champion model (v1) ----------------------&gt; user response</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Challenger model (v2)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Shadow : mirrored only, log output diff</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Canary : 1~5% real exposure, guardrail check</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ A/B test: randomized cohorts, KPI comparison</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Metrics: latency, error, unsafe rate, business conversion</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Gate : auto rollback / traffic promotion</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Runtime rollout ladder                                              │
+├──────────────────────────────────────────────────────────────────────┤
+│ User request                                                        │
+│      │                                                              │
+│      ▼                                                              │
+│  Traffic router / feature parity check                              │
+│      │                                                              │
+│      ├─ Champion model (v1) ----------------------> user response   │
+│      │                                                              │
+│      └─ Challenger model (v2)                                       │
+│           ├─ Shadow  : mirrored only, log output diff               │
+│           ├─ Canary  : 1~5% real exposure, guardrail check          │
+│           └─ A/B test: randomized cohorts, KPI comparison           │
+│                                                                      │
+│ Metrics: latency, error, unsafe rate, business conversion           │
+│ Gate   : auto rollback / traffic promotion                          │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 Shadow Deployment의 핵심은 요청 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)(Traffic Mirroring)다. 챌린저 모델은 실제 요청을 받지만 사용자에게 응답을 보내지 않는다. 이때 중요한 구현 규칙은 "비동기 fire-and-forget"이다. 즉 챔피언 응답이 준비되면 바로 사용자에게 보내고, 챌린저의 처리 시간은 사용자 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간에 영향을 주지 않도록 격리해야 한다. 또한 결제, 알림 발송, 캐시 갱신 같은 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 부작용은 섀도우 경로에서 차단하거나 샌드박스로 우회해야 한다.
 
@@ -146,26 +148,25 @@ Shadow Deployment의 핵심은 요청 [복제](/knowledge-base/studynote/14_data
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">오프라인 평가</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Shadow Deployment</div>
-<div class="kb-diagram-tree-item" style="--depth:2">출력 차이 분석</div>
-<div class="kb-diagram-tree-item" style="--depth:2">지연시간·안전성 검증</div>
-<div class="kb-diagram-tree-item" style="--depth:2">부작용 격리 확인</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Canary Rollout</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">A/B Testing</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Full Rollout 또는 Multi-Armed Bandit 최적화</div>
-</div>
-</div>
-
-
+```text
+오프라인 평가
+    │
+    ▼
+Shadow Deployment
+    │
+    ├─ 출력 차이 분석
+    ├─ 지연시간·안전성 검증
+    └─ 부작용 격리 확인
+    │
+    ▼
+Canary Rollout
+    │
+    ▼
+A/B Testing
+    │
+    ▼
+Full Rollout 또는 Multi-Armed Bandit 최적화
+```
 
 이 흐름은 "기술적으로 되는가"에서 시작해 "안전하게 노출할 수 있는가", 그리고 "사업적으로 이득인가"로 질문이 점점 바뀌는 과정을 보여 준다.
 

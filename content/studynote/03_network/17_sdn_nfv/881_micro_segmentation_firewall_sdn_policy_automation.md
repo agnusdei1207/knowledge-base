@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 과거 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)은 수동으로 `192.168.1.10 은 접속 허용` 이렇게 IP 주소를 기반으로 엑셀([ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/))에 타이핑을 쳐넣었습니다.
 - 클라우드에서는 트래픽이 몰리면 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)가 결제 앱 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))를 10초 만에 100개로 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)해 버립니다. IP 주소가 무작위로 100개가 쏟아지는데, [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 관리자는 새 IP를 알지 못해 100개의 결제 앱 트래픽이 모조리 차단되어 회사가 뻗어버리는 대참사가 일어납니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">오버레이 SDN과 언더레이 SDN</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">마이크로세그멘테이션 방화벽</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">화이트박스 OCP</div></div>
-</div>
-</div>
-
-
+```text
+[오버레이 SDN과 언더레이 SDN]
+    │
+    ▼
+[마이크로세그멘테이션 방화벽]
+    │
+    └──▶ [화이트박스 OCP]
+```
 
 - **📢 섹션 요약 비유**: 마이크로세그멘테이션 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -51,18 +47,14 @@ tags = ["studynote-network"]
 - 컨트롤러는 이 명령을 받아 기계어로 번역한 뒤, 전국의 1만 대 서버 밑바닥에 깔린 <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/">가상 스위치</a>(<a href="/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/">vSwitch</a>) 또는 랜카드(SmartNIC) <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 레벨(iptables/<a href="/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/">eBPF</a>)</strong>로 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 0.1초 만에 동기화하여 쫙 뿌립니다(중앙 연동 자동 배포).
 - **소름 돋는 결과**: 해커가 `[Role=Web]` 서버를 장악한 뒤, 바로 옆 랙(Rack)에 있는 `[HR_Data]` 서버로 해킹 패킷(횡적 확산, Lateral Movement)을 쏘려 합니다. 패킷이 랜선으로 밖으로 나가기도 전에, <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a> 엉덩이에 딱 붙어있는 <a href="/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/">가상 스위치</a> 룰에 목이 잘려 그 자리에서 즉사(Drop)해 버립니다.</strong> 중앙 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)(Appliance)까지 갈 필요도 없이 감염의 불씨를 발생 근원지에서 100% 밀봉해 버립니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">오버레이 SDN과 언더레이 SDN</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">마이크로세그멘테이션 방화벽</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">화이트박스 OCP</div></div>
-</div>
-</div>
-
-
+```text
+[오버레이 SDN과 언더레이 SDN]
+    │
+    ▼
+[마이크로세그멘테이션 방화벽]
+    │
+    └──▶ [화이트박스 OCP]
+```
 
 - **📢 섹션 요약 비유**: 마이크로세그멘테이션 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -124,19 +116,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 오버레이 SDN과 언더레이 SDN</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 마이크로세그멘테이션 방화벽</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 화이트박스 OCP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 프로그래머블 네트워크</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 오버레이 SDN과 언더레이 SDN]
+    │
+    ▼
+[현재 개념: 마이크로세그멘테이션 방화벽]
+    │
+    ├──▶ [확장 A: 화이트박스 OCP]
+    └──▶ [확장 B: 프로그래머블 네트워크]
+```
 
 마이크로세그멘테이션 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)는 오버레이 SDN과 언더레이 SDN에서 출발해 현재 메커니즘을 정교화하고, 이후 화이트박스 OCP와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

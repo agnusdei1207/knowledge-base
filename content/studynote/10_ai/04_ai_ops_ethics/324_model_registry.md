@@ -23,17 +23,14 @@ ML 팀이 매주 새 모델을 학습한다. 6개월 후 프로덕션에 문제�
 
 소프트웨어에 Git이 있듯, ML 모델에는 <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/166_model_registry_versioning_mlflow/">모델 레지스트리</a></strong>가 필요하다. 모든 학습 실험의 파라미터, [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/), 모델 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)별로 기록하고, 각 모델의 [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)(실험 중/[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 완료/프로덕션/아카이브)를 명확히 관리한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [모델 레지스트리](/knowledge-base/studynote/14_data_engineering/04_mlops/166_model_registry_versioning_mlflow/)는 ML 세계의 Git이다. 코드를 커밋·태그·브랜치로 관리하듯, ML 모델을 실험 번호·[버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 태그·배포 상태로 관리한다. 문제 발생 시 `git revert`처럼 모델을 이전 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)으로 즉시 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)할 수 있다.
 
@@ -41,32 +38,36 @@ ML 팀이 매주 새 모델을 학습한다. 6개월 후 프로덕션에 문제�
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모델 레지스트리 (Model Registry) 생명주기 관리 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실험 추적 → 모델 등록 → 상태 전환 → 배포 → 아카이브</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① 실험 추적 (Experiment Tracking):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">각 학습 실험 로그:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- run_id: exp-2024-0315-v3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 하이퍼파라미터: {lr: 0.001, batch: 64, epochs: 50}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 메트릭: {accuracy: 0.947, f1: 0.932, AUC: 0.981}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 데이터셋: train_data_v5, test_data_v2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 아티팩트: model.pkl, requirements.txt, feature_schema.json</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② 모델 상태 전환 (Stage Transitions):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">None → Staging → Production → Archived</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(신규) (검증중) (프로덕션) (아카이브)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Champion/Challenger 전략:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Production(Champion) 모델과 Staging(Challenger) 비교</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ Challenger 성능이 더 높으면 Promotion</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ 모델 패키지 (Model Package):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모델 코드 + 의존성(requirements.txt) + 특징 스키마 + 추론 로직</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ Docker 이미지로 패키징 → 어느 환경에서도 재현 가능</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│         모델 레지스트리 (Model Registry) 생명주기 관리 구조            │
+├──────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  실험 추적 → 모델 등록 → 상태 전환 → 배포 → 아카이브                  │
+│                                                                  │
+│  ① 실험 추적 (Experiment Tracking):                               │
+│  각 학습 실험 로그:                                                 │
+│  - run_id: exp-2024-0315-v3                                     │
+│  - 하이퍼파라미터: {lr: 0.001, batch: 64, epochs: 50}             │
+│  - 메트릭: {accuracy: 0.947, f1: 0.932, AUC: 0.981}             │
+│  - 데이터셋: train_data_v5, test_data_v2                          │
+│  - 아티팩트: model.pkl, requirements.txt, feature_schema.json   │
+│                                                                  │
+│  ② 모델 상태 전환 (Stage Transitions):                             │
+│  ┌────────────────────────────────────────────────────────┐     │
+│  │  None → Staging → Production → Archived               │     │
+│  │  (신규)  (검증중)   (프로덕션)    (아카이브)              │     │
+│  │                                                        │     │
+│  │  Champion/Challenger 전략:                              │     │
+│  │  Production(Champion) 모델과 Staging(Challenger) 비교   │     │
+│  │  → Challenger 성능이 더 높으면 Promotion                │     │
+│  └────────────────────────────────────────────────────────┘     │
+│                                                                  │
+│  ③ 모델 패키지 (Model Package):                                   │
+│  모델 코드 + 의존성(requirements.txt) + 특징 스키마 + 추론 로직     │
+│  → Docker 이미지로 패키징 → 어느 환경에서도 재현 가능                │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 | 상태 | 의미 | 전환 조건 |
 |:---|:---|:---|

@@ -31,18 +31,15 @@ Git은 브랜치를 싸게 만들 수 있으므로, [전략](/knowledge-base/stu
 
 대표 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 [GitFlow](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/053_gitflow/), [GitHub Flow](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/054_github_flow/), Trunk-Based Development다. 각각 릴리스 중심, 단순 배포 중심, 초단기 병합 중심으로 나뉜다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Branch Strategy Landscape</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GitFlow → develop / feature / release / hotfix</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GitHub Flow → main / feature</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Trunk-Based → main 중심 + short-lived branch + feature flag</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                Branch Strategy Landscape                    │
+├──────────────────────────────────────────────────────────────┤
+│ GitFlow → develop / feature / release / hotfix             │
+│ GitHub Flow → main / feature                                │
+│ Trunk-Based → main 중심 + short-lived branch + feature flag │
+└──────────────────────────────────────────────────────────────┘
+```
 
 | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 특징 | 적합한 환경 |
 | :--- | :--- | :--- |
@@ -118,21 +115,18 @@ Git은 브랜치를 싸게 만들 수 있으므로, [전략](/knowledge-base/stu
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단일 trunk 개발</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">GitFlow</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">GitHub Flow</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Trunk-Based + Feature Flag</div>
-</div>
-</div>
-
-
+```text
+단일 trunk 개발
+    │
+    ▼
+GitFlow
+    │
+    ▼
+GitHub Flow
+    │
+    ▼
+Trunk-Based + Feature Flag
+```
 
 이 흐름은 브랜치가 길고 무거운 구조에서 짧고 자동화된 구조로 진화한 과정을 보여준다.
 

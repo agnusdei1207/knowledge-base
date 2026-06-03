@@ -60,23 +60,22 @@ z = W·x + b  → 초평면의 위치를 원점에서 자유롭게 이동 가능
 
 ### 단일 뉴런 완전 구조
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단일 뉴런 연산 흐름</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">x₁ ──</div><div class="kb-diagram-node">w₁</div><div class="kb-diagram-note">──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">z = W·x + b y = f(z)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">x₂ ──</div><div class="kb-diagram-node">w₂</div><div class="kb-diagram-note">── ──► ──► ──► y</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Σ wᵢxᵢ + b</div><div class="kb-diagram-cell">f(z) 적용</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">x₃ ──</div><div class="kb-diagram-node">w₃</div><div class="kb-diagram-note">──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가중합 연산 활성화 함수 적용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(선형 변환) (비선형 변환)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">b</div><div class="kb-diagram-note">(편향 덧셈)</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────────────┐
+│                      단일 뉴런 연산 흐름                           │
+│                                                                  │
+│   x₁ ──[w₁]──┐                                                  │
+│               │      z = W·x + b         y = f(z)               │
+│   x₂ ──[w₂]──┼──► ┌──────────────┐  ──► ┌──────────────┐ ──► y │
+│               │    │ Σ wᵢxᵢ  + b  │      │  f(z) 적용   │      │
+│   x₃ ──[w₃]──┘    └──────────────┘      └──────────────┘      │
+│                           ↑                      ↑              │
+│                       가중합 연산           활성화 함수 적용       │
+│                       (선형 변환)           (비선형 변환)         │
+│                                                                  │
+│   [b] ──────────────────┘ (편향 덧셈)                            │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 ### 주요 [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/) 비교
 
@@ -90,45 +89,38 @@ z = W·x + b  → 초평면의 위치를 원점에서 자유롭게 이동 가능
 
 ### [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/) [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 비교 ([ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/))
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sigmoid ReLU Tanh</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1 ∞ / 1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0 0 / 0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/</div><div class="kb-diagram-cell">x</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-∞ -1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">포화 구간에서 양수 구간에서 (-1,1) 범위,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기울기≈0 기울기=1 중앙 집중형</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────┐
+│   Sigmoid           ReLU              Tanh               │
+│                                                          │
+│  1 ┤ ─────         ∞ ┤    /         1 ┤ ─────           │
+│    │/               │   /            │/                  │
+│  0 ┼──────         0 ┼───/          0 ┼──────           │
+│   /│               │  x             │ │                  │
+│    │             -∞ ┤              -1 ┤ ─────            │
+│                                                          │
+│  포화 구간에서       양수 구간에서      (-1,1) 범위,         │
+│  기울기≈0          기울기=1          중앙 집중형           │
+└──────────────────────────────────────────────────────────┘
+```
 
 ### 학습 가능 파라미터 (Learnable Parameter)
 
 신경망의 학습 = **가중치(W)와 편향(b)의 최적값 탐색**:
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">학습 전: W, b 무작위 초기화 (Xavier, He 초기화)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">순전파: y = f(Wx + b) 계산</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">손실 계산: L = loss(y, y_target)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">역전파: ∂L/∂W, ∂L/∂b 계산 (연쇄 법칙)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">갱신: W ← W - η·∂L/∂W, b ← b - η·∂L/∂b</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">반복 → 손실 최소화</div>
-</div>
-</div>
-
-
+```
+학습 전: W, b 무작위 초기화 (Xavier, He 초기화)
+   ↓
+순전파: y = f(Wx + b) 계산
+   ↓
+손실 계산: L = loss(y, y_target)
+   ↓
+역전파: ∂L/∂W, ∂L/∂b 계산 (연쇄 법칙)
+   ↓
+갱신: W ← W - η·∂L/∂W,  b ← b - η·∂L/∂b
+   ↓
+반복 → 손실 최소화
+```
 
 - **📢 섹션 요약 비유**: 가중치·편향·[활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)는 오케스트라의 세 요소 — 가중치는 각 악기의 볼륨 조절, 편향은 전체 음조 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)는 소리를 단순 선형이 아닌 복잡한 음악으로 변환하는 음향 효과기다.
 
@@ -178,19 +170,15 @@ z = W·x + b  → 초평면의 위치를 원점에서 자유롭게 이동 가능
 
 ### 학습 가능 파라미터 수 예시
 
+```
+MLP: 입력 784차원 → 은닉 256 → 은닉 128 → 출력 10
 
+층 1 파라미터: 784×256 + 256 = 200,960
+층 2 파라미터: 256×128 + 128 = 32,896
+층 3 파라미터: 128×10 + 10 = 1,290
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">MLP: 입력 784차원 → 은닉 256 → 은닉 128 → 출력 10</div>
-<div class="kb-diagram-note">층 1 파라미터: 784×256 + 256 = 200,960</div>
-<div class="kb-diagram-note">층 2 파라미터: 256×128 + 128 = 32,896</div>
-<div class="kb-diagram-note">층 3 파라미터: 128×10 + 10 = 1,290</div>
-<div class="kb-diagram-note">총 파라미터: 235,146개</div>
-</div>
-</div>
-
-
+총 파라미터: 235,146개
+```
 
 ### 기대효과 요약
 

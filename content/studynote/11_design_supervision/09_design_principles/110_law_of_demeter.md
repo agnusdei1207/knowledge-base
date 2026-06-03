@@ -17,17 +17,12 @@ tags = ["studynote-design-supervision"]
 ## Ⅰ. 개요 및 필요성
 최소 지식의 원칙은 "Don't talk to strangers"라는 문장으로 자주 요약된다. 한 객체가 다른 객체의 내부 구조를 지나치게 많이 알수록 작은 구조 변경도 여러 모듈에 연쇄 수정으로 번지기 때문이다. 대규모 시스템일수록 이런 구조 노출은 장애 전파와 [회귀 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/) 비용을 빠르게 키운다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">getOrder() getUser() getAddr()</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Order</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">User</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Address</div></div>
-<div class="kb-diagram-note">\___________________________ 구조를 많이 알수록 변경 파급 확대 ___________________________/</div>
-</div>
-</div>
-
-
+```text
+┌────────┐   getOrder()   ┌────────┐   getUser()    ┌────────┐   getAddr()    ┌────────┐
+│Client  │──────────────▶│Order   │───────────────▶│User    │───────────────▶│Address │
+└────────┘               └────────┘                └────────┘                └────────┘
+      \___________________________ 구조를 많이 알수록 변경 파급 확대 ___________________________/
+```
 
 따라서 이 원칙의 목적은 메서드 체이닝 자체를 금지하는 데 있지 않다. 핵심은 내부 데이터를 꺼내 와서 판단하게 만들지 말고, 책임을 가진 객체에게 일을 맡기도록 구조를 바꾸는 데 있다.
 - **📢 섹션 요약 비유**: 친구 서랍 속 지갑 속 카드까지 직접 꺼내 보면, 서랍 위치만 바뀌어도 다시 헤매게 됩니다.
@@ -35,17 +30,13 @@ tags = ["studynote-design-supervision"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 최소 지식의 원칙은 객체가 스스로 책임을 수행하도록 위임 경계를 세우는 방식으로 구현된다. 즉 묻고 꺼내 오는 구조보다, 메시지를 보내 일을 시키는 구조가 바람직하다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">pay() delegate</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Order</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">PaymentSvc</div></div>
-<div class="kb-diagram-tree-item" style="--depth:8">내부의 Customer·Address·Policy 접근은 Order 내부에 은닉</div>
-</div>
-</div>
-
-
+```text
+┌────────┐   pay()    ┌────────┐   delegate    ┌──────────┐
+│Client  │──────────▶│Order   │──────────────▶│PaymentSvc│
+└────────┘           └────────┘               └──────────┘
+                          │
+                          └── 내부의 Customer·Address·Policy 접근은 Order 내부에 은닉
+```
 
 | 허용되는 대화 상대 | 의미 | 예시 |
 | :--- | :--- | :--- |
@@ -94,23 +85,21 @@ tags = ["studynote-design-supervision"]
 - **느슨한 결합**: 변경 전파 범위를 줄이는 핵심 품질 속성이다.
 
 ### 📈 관련 키워드 및 발전 흐름도
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">객체 내부 구조 노출 증가</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Train Wreck 코드와 변경 파급 확대</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">최소 지식의 원칙·Tell, Don't Ask 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">위임과 캡슐화 강화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">느슨한 결합과 리팩터링 용이성 확보</div>
-</div>
-</div>
-
-
+```text
+객체 내부 구조 노출 증가
+    │
+    ▼
+Train Wreck 코드와 변경 파급 확대
+    │
+    ▼
+최소 지식의 원칙·Tell, Don't Ask 적용
+    │
+    ▼
+위임과 캡슐화 강화
+    │
+    ▼
+느슨한 결합과 리팩터링 용이성 확보
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 친구 가방 안에서 필통 안 연필까지 직접 찾으면 친구 물건 배치가 바뀔 때마다 다시 헤매요.

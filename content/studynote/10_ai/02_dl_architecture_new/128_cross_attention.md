@@ -18,21 +18,21 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cross-Attention 동작</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">인코더</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">인코더 출력 (K, V)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">디코더</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">디코더 상태 (Q)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cross-Attention:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Q("a"의 상태) × K(인코더 출력)^T → Attention Score</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ V(인코더 출력) 가중합 → "student" 예측</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심: Q는 디코더, K·V는 인코더에서 옴</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    Cross-Attention 동작                               │
+├───────────────────────────────────────────────────────┤
+│  [인코더] "나는 학생이다" → 인코더 출력 (K, V)       │
+│                                                       │
+│  [디코더] "I am a" → 디코더 상태 (Q)                 │
+│                                                       │
+│  Cross-Attention:                                     │
+│   Q("a"의 상태) × K(인코더 출력)^T → Attention Score │
+│   → V(인코더 출력) 가중합 → "student" 예측           │
+│                                                       │
+│  핵심: Q는 디코더, K·V는 인코더에서 옴               │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: Cross-Attention은 <strong>통역사</strong>이다. 화자([인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/))의 말을 듣고(K,V), 청자([디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/))가 이해하는 언어(Q)로 번역한다.
 
@@ -90,23 +90,21 @@ Cross-Attention은 <strong>서로 다른 모달리티·언어 간 정보를 전�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Attention (Bahdanau, 2014) — 최초 Cross-Attention</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Transformer (2017) — Self + Cross + Masked</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">T5 / BART (2019~2020) — 인코더-디코더 사전 학습</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Stable Diffusion (2022) — Cross-Attention으로 이미지 제어</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: 멀티모달 Cross-Attention — 이미지·텍스트·오디오 융합</div></div>
-</div>
-</div>
-
-
+```text
+[Attention (Bahdanau, 2014) — 최초 Cross-Attention]
+    │
+    ▼
+[Transformer (2017) — Self + Cross + Masked]
+    │
+    ▼
+[T5 / BART (2019~2020) — 인코더-디코더 사전 학습]
+    │
+    ▼
+[Stable Diffusion (2022) — Cross-Attention으로 이미지 제어]
+    │
+    ▼
+[현재: 멀티모달 Cross-Attention — 이미지·텍스트·오디오 융합]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. Cross-Attention은 <strong>통역사</strong>예요. 한국어([인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/))를 듣고 영어([디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/))로 번역해요.

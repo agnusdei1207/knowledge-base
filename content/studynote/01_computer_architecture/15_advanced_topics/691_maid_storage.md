@@ -35,19 +35,18 @@ MAID의 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_archit
 
 아래 그림은 기본적인 MAID 경로를 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MAID access flow</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client -&gt; Metadata index -&gt; Locate target disk</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; If sleeping: spin-up</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; If active : serve now</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Only a small disk set stays active</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                     MAID access flow                         │
+├──────────────────────────────────────────────────────────────┤
+│ Client -> Metadata index -> Locate target disk              │
+│                              │                               │
+│                              ├-> If sleeping: spin-up        │
+│                              └-> If active  : serve now      │
+│                                           │                  │
+│                           Only a small disk set stays active │
+└──────────────────────────────────────────────────────────────┘
+```
 
 일반적인 구성은 세 층으로 이해하면 쉽다. 첫째, [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 계층은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 위치와 상태를 기억한다. 둘째, 캐시 계층은 짧은 읽기와 쓰기를 흡수해 자는 디스크를 자주 깨우지 않게 한다. 셋째, 대용량 [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) 계층은 실제 본문 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 저장하지만, 대다수는 평소 standby 상태로 머문다.
 
@@ -134,23 +133,21 @@ MAID의 가장 큰 효과는 대규모 [HDD](/knowledge-base/studynote/02_operat
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Always-on RAID archive</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Per-disk spin-down</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">MAID selective wake-up</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Hybrid cache + MAID archive</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Object archive + deep archive integration</div>
-</div>
-</div>
-
-
+```text
+Always-on RAID archive
+          │
+          ▼
+Per-disk spin-down
+          │
+          ▼
+MAID selective wake-up
+          │
+          ▼
+Hybrid cache + MAID archive
+          │
+          ▼
+Object archive + deep archive integration
+```
 
 이 흐름은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 중심 디스크 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)이 전력 중심 아카이브 구조로 변해 가는 과정을 보여 준다.
 

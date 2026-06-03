@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: ETSI(유럽통신표준협회)가 정의한 [NFV](/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/) 아키텍처의 맨 우측에 위치하는 최상위 중앙 통제 시스템으로, <strong>모든 하드웨어 인프라 자원(<a href="/knowledge-base/studynote/03_network/17_sdn_nfv/867_nfvi_nfv_infrastructure_physical_virtual_resources/">NFVI</a>)과 소프트웨어 네트워크 앱(<a href="/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/">VNF</a>)들을 모니터링하고, 배포(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>), 연결, 삭제, 확장을 100% 자동으로 지휘하는 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/">오케스트레이션</a>(지휘) 및 관리 프레임워크</strong>입니다.
 - 통신사(SKT, KT)가 클라우드 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 망을 돌리기 위해 수천억 원을 주고 구축하는 운영의 핵심 심장입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">NFVI</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NFV MANO 프레임워크</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NFVO</div></div>
-</div>
-</div>
-
-
+```text
+[NFVI]
+    │
+    ▼
+[NFV MANO 프레임워크]
+    │
+    └──▶ [NFVO]
+```
 
 - **📢 섹션 요약 비유**: [NFV](/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/) MANO 프레임워크는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -56,18 +52,14 @@ MANO는 단일 프로그램이 아닙니다. 철저하게 계급이 나뉜 3명�
 - **역할**: 밑에 있는 VIM과 VNFM을 노예처럼 부리는 빅 픽처 설계자입니다.
 - "자, 내일 서울 콘서트 열리니까, [VIM](/knowledge-base/studynote/03_network/17_sdn_nfv/871_vim_virtualised_infrastructure_manager_openstack_k8s/) 너는 서울 서버에 빈방 10개 만들어! [VNFM](/knowledge-base/studynote/03_network/17_sdn_nfv/870_vnfm_vnf_manager_lifecycle_scaling_healing/) 너는 그 10개 방에 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 5개, [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 코어 라우터 5개 깔아! 그리고 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 끝나면 라우터로 트래픽 흘러가게 길([서비스 체이닝](/knowledge-base/studynote/03_network/17_sdn_nfv/872_service_chaining_sfc_vnf_traffic_steering/)) 뚫어놔!"라고 네트워크망 전체의 거시적인 숲을 그리고 지휘합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">NFVI</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NFV MANO 프레임워크</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NFVO</div></div>
-</div>
-</div>
-
-
+```text
+[NFVI]
+    │
+    ▼
+[NFV MANO 프레임워크]
+    │
+    └──▶ [NFVO]
+```
 
 - **📢 섹션 요약 비유**: [NFV](/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/) MANO 프레임워크의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -128,19 +120,15 @@ MANO는 단일 프로그램이 아닙니다. 철저하게 계급이 나뉜 3명�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: NFVI</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: NFV MANO 프레임워크</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: NFVO</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 프로그래머블 네트워크</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: NFVI]
+    │
+    ▼
+[현재 개념: NFV MANO 프레임워크]
+    │
+    ├──▶ [확장 A: NFVO]
+    └──▶ [확장 B: 프로그래머블 네트워크]
+```
 
 [NFV](/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/) MANO 프레임워크는 NFVI에서 출발해 현재 메커니즘을 정교화하고, 이후 NFVO와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

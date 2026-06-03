@@ -111,21 +111,18 @@ GitFlow는 안정적 릴리스와 명확한 협업 구조를 제공한다. 하�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">feature branch</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">develop</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">release</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">main / hotfix</div>
-</div>
-</div>
-
-
+```text
+feature branch
+    │
+    ▼
+develop
+    │
+    ▼
+release
+    │
+    ▼
+main / hotfix
+```
 
 이 흐름은 계획된 릴리스와 긴급 수정이 분리된 전통적 브랜치 운영을 보여준다.
 

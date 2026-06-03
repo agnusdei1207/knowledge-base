@@ -38,27 +38,30 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자율주행 센서 퓨전 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">센서 계층</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">카메라(객체 인식) + LiDAR(3D 거리) + Radar(속도/원거리)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ 초음파(근거리 주차)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 원시 데이터(Raw Data)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전처리 계층</div><div class="kb-diagram-note">점군 필터링, 이미지 보정, 노이즈 제거</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 센서 퓨전</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">퓨전 계층</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">칼만 필터(Kalman Filter) / 딥러닝 퓨전</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다중 센서 데이터 통합 → 통합 환경 인식</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ HD Map + 위치 추정(GNSS + SLAM)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">판단·계획 계층</div><div class="kb-diagram-note">경로 계획 / 행동 결정</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">제어 계층</div><div class="kb-diagram-note">조향·가속·제동 명령</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────┐
+│            자율주행 센서 퓨전 아키텍처                      │
+├──────────────────────────────────────────────────────────┤
+│  [센서 계층]                                               │
+│  카메라(객체 인식) + LiDAR(3D 거리) + Radar(속도/원거리)   │
+│                           + 초음파(근거리 주차)            │
+│     │                                                    │
+│     ▼  원시 데이터(Raw Data)                               │
+│  [전처리 계층]  점군 필터링, 이미지 보정, 노이즈 제거         │
+│     │                                                    │
+│     ▼  센서 퓨전                                           │
+│  [퓨전 계층]                                               │
+│  ┌──────────────────────────────────────────┐            │
+│  │ 칼만 필터(Kalman Filter) / 딥러닝 퓨전     │            │
+│  │ 다중 센서 데이터 통합 → 통합 환경 인식     │            │
+│  └──────────────────────────────────────────┘            │
+│     │                                                    │
+│     ▼  HD Map + 위치 추정(GNSS + SLAM)                    │
+│  [판단·계획 계층]  경로 계획 / 행동 결정                    │
+│     ▼                                                    │
+│  [제어 계층]  조향·가속·제동 명령                           │
+└──────────────────────────────────────────────────────────┘
+```
 
 ### 핵심 센서 특성 비교
 

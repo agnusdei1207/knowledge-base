@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: 회사가 일상적인 비즈니스 활동 중에 수집, 처리, 저장해 두었으나, 정작 <strong>분석이나 업무에 활용되지 않고 창고(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/492_nas_network_attached_storage/">NAS</a>, 클라우드, 직원들 노트북 구석)에 방치되어 쌓여있는 쓸모없는 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong>를 말합니다.
 - **위협**: 직원 노트북 D드라이브 구석에 처박힌 5년 전 '고객 DB 엑셀 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)'이 [다크 데이터](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_darkdata/)의 전형입니다. 관리자도 이런 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 있는지 모르기 때문에, 해커에게 털리거나 직원이 퇴사할 때 통째로 복사해서 나가도 전혀 눈치채지 못하는 치명적 뇌관이 됩니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">양자 난수 생성기</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">다크 데이터 / Data Loss Preve…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ISO 27001 네트워크 통제 및 개인정보…</div></div>
-</div>
-</div>
-
-
+```text
+[양자 난수 생성기]
+    │
+    ▼
+[다크 데이터 / Data Loss Preve…]
+    │
+    └──▶ [ISO 27001 네트워크 통제 및 개인정보…]
+```
 
 - **📢 섹션 요약 비유**: [다크 데이터](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_darkdata/) / [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Loss Preve…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -44,18 +40,14 @@ tags = ["studynote-network"]
 - **개념**: 앞서 말한 내부 직원의 고의적/실수적 기밀 유출이나, 숨겨진 [다크 데이터](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_darkdata/)가 외부로 빠져나가는 것을 감시하고 물리적으로 차단하기 위한 <strong>기업용 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/186_dlp_data_loss_prevention/">데이터 유출 방지</a> 통합 보안 시스템</strong>입니다.
 - [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이 외부(해커)에서 내부로 들어오는 문을 막는다면, DLP는 내부(직원)에서 외부(인터넷, [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/))로 나가는 것을 샅샅이 뒤지는 내부 보안 요원입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">양자 난수 생성기</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">다크 데이터 / Data Loss Preve…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ISO 27001 네트워크 통제 및 개인정보…</div></div>
-</div>
-</div>
-
-
+```text
+[양자 난수 생성기]
+    │
+    ▼
+[다크 데이터 / Data Loss Preve…]
+    │
+    └──▶ [ISO 27001 네트워크 통제 및 개인정보…]
+```
 
 - **📢 섹션 요약 비유**: [다크 데이터](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_darkdata/) / [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Loss Preve…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -121,19 +113,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 양자 난수 생성기</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 다크 데이터 / Data Loss Preve…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: ISO 27001 네트워크 통제 및 개인정보…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 양자 난수 생성기]
+    │
+    ▼
+[현재 개념: 다크 데이터 / Data Loss Preve…]
+    │
+    ├──▶ [확장 A: ISO 27001 네트워크 통제 및 개인정보…]
+    └──▶ [확장 B: 예측형 위협 대응]
+```
 
 [다크 데이터](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_darkdata/) / [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Loss Preve…는 [양자 난수 생성기](/knowledge-base/studynote/03_network/14_network_security_threats/748_qrng_quantum_random_number_generator/)에서 출발해 현재 메커니즘을 정교화하고, 이후 ISO 27001 네트워크 통제 및 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)…와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -19,16 +19,17 @@ tags = ["studynote-design-supervision"]
 
 PWA는 브라우저 기반이지만 설치형 앱처럼 동작할 수 있도록 웹 앱 매니페스트 (Web App Manifest), [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 워커, 캐시 저장소 (Cache Storage), [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) ([Indexed](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/181_indexed_addressing/) [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/), IndexedDB)를 활용한다. 핵심은 “오프라인에서도 모든 기능을 다 제공한다”가 아니라, 최소한의 화면과 주요 작업 흐름을 <strong>끊기지 않게 유지</strong>하는 데 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 실행</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">앱 셸 로드</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">서비스 워커 등록</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">캐시·로컬 저장소</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">온라인: 동기화</div><div class="kb-diagram-cell">오프라인: 로컬 제공</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┐   ┌──────────┐   ┌──────────────────┐   ┌────────────────┐
+│ 사용자 실행 │──▶│ 앱 셸 로드 │──▶│ 서비스 워커 등록 │──▶│ 캐시·로컬 저장소 │
+└──────────┘   └──────────┘   └─────────┬────────┘   └──────┬─────────┘
+                                         │                   │
+                          ┌──────────────┘                   └──────────────┐
+                          ▼                                                 ▼
+                  ┌────────────────┐                               ┌──────────────────┐
+                  │ 온라인: 동기화 │                               │ 오프라인: 로컬 제공 │
+                  └────────────────┘                               └──────────────────┘
+```
 
 기술사 답안에서는 PWA를 단순 모바일 웹 최적화가 아니라, 네트워크 불안정성을 흡수하는 프런트엔드 회복탄력성 설계로 정리하면 좋다. 감리 관점에서도 캐시 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 정책이 핵심 점검 대상이 된다.
 
@@ -37,17 +38,17 @@ PWA는 브라우저 기반이지만 설치형 앱처럼 동작할 수 있도록 
 ## Ⅱ. 아키텍처 및 핵심 원리
 [오프라인 우선](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/579_offline_first_pwa_service_worker/) PWA는 보통 앱 셸, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 워커, 로컬 저장소, [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 네 요소로 이해한다. 앱 셸은 화면의 뼈대를 빠르게 보여 주고, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 워커는 요청을 가로채 캐시 응답이나 네트워크 요청을 선택한다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 IndexedDB 등에 임시 저장하고, 연결이 회복되면 백그라운드 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) (Background Sync)나 재시도 로직으로 서버와 맞춘다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App Shell</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Service Worker</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Cache Storage</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">서버 API</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼</div><div class="kb-diagram-cell">Cache First</div><div class="kb-diagram-cell">Network First</div><div class="kb-diagram-cell">SWR</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IndexedDB</div><div class="kb-diagram-cell">재연결 시 동기화 ▶</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┐   ┌────────────────┐   ┌──────────────┐   ┌──────────┐
+│ App Shell│──▶│ Service Worker │──▶│ Cache Storage │──▶│ 서버 API │
+└────┬─────┘   └──────┬─────────┘   └──────────────┘   └──────────┘
+     │                │
+     │        ┌───────┼───────────────────────────────┐
+     ▼        │ Cache First │ Network First │ SWR     │
+┌──────────┐  └───────────────────────────────────────┘
+│ IndexedDB│────────────── 재연결 시 동기화 ───────────▶
+└──────────┘
+```
 
 | 구성 요소 | 핵심 역할 | 감리·기술사 포인트 |
 |:---|:---|:---|
@@ -107,23 +108,21 @@ PWA는 브라우저 기반이지만 설치형 앱처럼 동작할 수 있도록 
 | 캐시 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | Cache First, Network First, Stale-While-Revalidate 선택 기준 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">모바일 웹 사용 확대</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">앱 셸 · 서비스 워커 도입</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">오프라인 캐시 · 로컬 저장 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">재연결 동기화 · 충돌 관리 고도화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">설치형에 가까운 안정적 웹 경험 구현</div>
-</div>
-</div>
-
-
+```text
+모바일 웹 사용 확대
+        │
+        ▼
+앱 셸 · 서비스 워커 도입
+        │
+        ▼
+오프라인 캐시 · 로컬 저장 적용
+        │
+        ▼
+재연결 동기화 · 충돌 관리 고도화
+        │
+        ▼
+설치형에 가까운 안정적 웹 경험 구현
+```
 
 이 흐름은 단순 반응형 웹에서 출발해, 점차 네트워크 복원력과 로컬 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리까지 포함하는 방향으로 웹 앱이 진화해 왔음을 보여 준다.
 

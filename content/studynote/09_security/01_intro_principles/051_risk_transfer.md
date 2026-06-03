@@ -18,7 +18,7 @@ tags = ["studynote-security"]
 
 ## Ⅰ. 개요 및 필요성
 
-보안 장비([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/), [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/))를 아무리 떡칠해도 세상에 해킹 확률이 0%인 시스템은 존재하지 않는다. 아키텍트는 10억 원을 들여 1억 원짜리 자산을 지키는 오버엔지니어링(위험 감소)을 피해야 한다.
+보안 장비([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/), [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/))를 아무리 떡칠해도 세상에 해킹 확률이 0%인 시스템은 존재하지 않는다. 아키텍트는 10억 원을 들여 1억 원짜리 자산을 지키는 오버엔지니어링(위험 감소)을 피해야 한다. 
 
 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 매니지먼트에서 통제할 수 없거나 고치는 비용이 너무 비싸서 남겨진 위험을 '[잔여 위험](/knowledge-base/studynote/09_security/01_intro_principles/038_residual_risk/)'이라고 한다. 이 [잔여 위험](/knowledge-base/studynote/09_security/01_intro_principles/038_residual_risk/)이 터졌을 때 회사가 망하는 것을 막기 위해, 경영진은 "내가 매년 1천만 원(보험료)을 낼 테니, 혹시라도 해킹으로 100억 원어치 피해가 터지면 네가 다 물어내라!"고 제3자와 계약을 맺는다. 이것이 보안 통제([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Control)의 한계를 금융 및 비즈니스 계약으로 돌파한 가장 자본주의적인 방어 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), 위험 전가([Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Transfer)의 탄생이다.
 
@@ -31,24 +31,26 @@ tags = ["studynote-security"]
 ### [위험 대응 전략](/knowledge-base/studynote/09_security/01_intro_principles/033_risk_response_strategies/)([Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Treatment) 4대 매트릭스의 분기 로직
 위험 전가는 언제 쓰이는가? 위험의 '발생 가능성'과 '피해 규모(영향도)'의 2x2 매트릭스에서 결정된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위험 대응 거버넌스 4대 전략 (Risk Treatment Matrix)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">피해 규모 (Impact)</div><div class="kb-diagram-node">위험 수용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲</div><div class="kb-diagram-cell">(Acceptance)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">낮음</div><div class="kb-diagram-cell">무시하고 버팀 (볼펜 도난 수준)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ 높음 │ ★★</div><div class="kb-diagram-node">위험 전가 (Transfer)</div><div class="kb-diagram-note">★★</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보험 가입, 클라우드 아웃소싱으로 떠넘김</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">낮음 높음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀ 발생 가능성 (Probability)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">위험 회피 (Avoidance)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">사업 아예 철수</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">위험 감소 (Mitigation)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">방화벽 등 보안투자</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────┐
+│           위험 대응 거버넌스 4대 전략 (Risk Treatment Matrix) │
+├────────────────────────────────────────────────────────┤
+│                     │                                  │
+│   피해 규모 (Impact) │            [ 위험 수용 ]          │
+│          ▲          │            (Acceptance)        │
+│          │    낮음  │  무시하고 버팀 (볼펜 도난 수준)        │
+│          │          ├──────────────────────────────────┤
+│          │          │                                  │
+│          │    높음  │  ★★ [ 위험 전가 (Transfer) ] ★★ │
+│          │          │ 보험 가입, 클라우드 아웃소싱으로 떠넘김│
+│          └──────────┼──────────────────────────────────┤
+│                     │      낮음           높음         │
+│                     │ ◀───── 발생 가능성 (Probability) │
+│                                                        │
+│   [ 위험 회피 (Avoidance) ] : 가능성/피해 모두 큼 ──▶ 사업 아예 철수│
+│   [ 위험 감소 (Mitigation) ] : 시스템 해킹 방어 ──▶ 방화벽 등 보안투자│
+└────────────────────────────────────────────────────────┘
+```
 
 위험 전가는 <strong>"발생할 확률은 벼락 맞을 정도로 매우 낮지만, 한 번 터지면 회사 기둥뿌리가 뽑히는(피해 규모 매우 높음) 재앙"</strong>에 대한 가장 완벽한 수학적 정답이다. 지진으로 인한 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 붕괴나, [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/)로 인한 1,000억 원대 영업 손실이 전가의 핵심 타겟이다.
 
@@ -63,7 +65,7 @@ tags = ["studynote-security"]
 
 | 대응 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 철학 및 행동 | 아키텍처 및 재무적 조치 | 발생 시 결과 |
 |:---|:---|:---|:---|
-| <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/037_risk_acceptance/">위험 수용</a> (Accept)</strong> | "어쩔 수 없지. 터지면 우리가 몸으로 때우자." | 별도의 비용 투자 안 함 (경영진 사인 ) | 회사가 **재무적 타격 100% 독박** |
+| <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/037_risk_acceptance/">위험 수용</a> (Accept)</strong> | "어쩔 수 없지. 터지면 우리가 몸으로 때우자." | 별도의 비용 투자 안 함 (경영진 사인 필) | 회사가 **재무적 타격 100% 독박** |
 | **위험 전가 (Transfer)**| "터지면 죽는다. 남한테 돈 주고 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 넘기자." | [사이버 보험](/knowledge-base/studynote/09_security/20_extra_exam_prep/1027_cyber_insurance/) 가입, AWS 등 **클라우드로 인프라 위탁** | 회사의 <strong>재무적 타격은 방어</strong>됨 |
 
 자체 IDC(인터넷 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/))를 운영하던 회사가 디도스 방어 장비(DDoS Anti-sinkhole) 수십억 원 치를 사는 대신, 그냥 인프라를 AWS(아마존 클라우드)로 이관해 버리는 행위도 거대한 '위험 전가'의 일환이다. "네트워크 마비의 책임과 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)의 수고스러움을 AWS라는 거인에게 돈(클라우드 이용료)을 주고 떠넘긴 것"이다.
@@ -105,23 +107,21 @@ tags = ["studynote-security"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">정보 시스템의 복잡도 증가 및 제로데이 해킹 공격의 일상화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">기술적 보안 통제(방화벽 등) 비용 폭증 및 100% 방어의 불가능성 인지</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">잔여 위험(Residual Risk) 식별 및 위험 평가(Risk Assessment) 매트릭스 도출</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">발생 가능성은 낮으나 치명적 피해를 주는 위험 ──▶ 제3자에게 위험 전가(Transfer) 실행</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">사이버 보험 시장 폭발적 성장 및 클라우드(SaaS/IaaS) 기반의 인프라 책임 공유 모델(Shared Responsibility) 정착</div>
-</div>
-</div>
-
-
+```text
+정보 시스템의 복잡도 증가 및 제로데이 해킹 공격의 일상화
+    │
+    ▼
+기술적 보안 통제(방화벽 등) 비용 폭증 및 100% 방어의 불가능성 인지
+    │
+    ▼
+잔여 위험(Residual Risk) 식별 및 위험 평가(Risk Assessment) 매트릭스 도출
+    │
+    ▼
+발생 가능성은 낮으나 치명적 피해를 주는 위험 ──▶ 제3자에게 위험 전가(Transfer) 실행
+    │
+    ▼
+사이버 보험 시장 폭발적 성장 및 클라우드(SaaS/IaaS) 기반의 인프라 책임 공유 모델(Shared Responsibility) 정착
+```
 
 이 흐름도는 "기술적 방어의 한계 도달 → 재무적 충격에 대한 비즈니스 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 평가 → 보험/아웃소싱을 통한 재무적 방패(전가) 확보"로 귀결되는 정보보안 경영 거버넌스의 진화를 보여준다.
 

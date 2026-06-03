@@ -27,24 +27,29 @@ DLT는 원장을 <strong>여러 노드에 <a href="/knowledge-base/studynote/08_
 
 ### [DLT](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/919_dlt_distributed_ledger_technology_consensus_bottleneck/) [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DLT 분류</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블록체인(Blockchain)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">: 순차적 블록 연결, 해시 포인터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예) Bitcoin, Ethereum</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DAG(Directed Acyclic Graph)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">: 트랜잭션이 직접 서로 검증</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예) IOTA Tangle, Nano</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HashGraph</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">: 가십 프로토콜 + 가상 투표</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예) Hedera Hashgraph</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────┐
+│             DLT 분류                         │
+│                                             │
+│  ┌─────────────────────────────────────┐   │
+│  │  블록체인(Blockchain)               │   │
+│  │  : 순차적 블록 연결, 해시 포인터     │   │
+│  │  예) Bitcoin, Ethereum              │   │
+│  └─────────────────────────────────────┘   │
+│                                             │
+│  ┌─────────────────────────────────────┐   │
+│  │  DAG(Directed Acyclic Graph)        │   │
+│  │  : 트랜잭션이 직접 서로 검증        │   │
+│  │  예) IOTA Tangle, Nano              │   │
+│  └─────────────────────────────────────┘   │
+│                                             │
+│  ┌─────────────────────────────────────┐   │
+│  │  HashGraph                          │   │
+│  │  : 가십 프로토콜 + 가상 투표        │   │
+│  │  예) Hedera Hashgraph               │   │
+│  └─────────────────────────────────────┘   │
+└─────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: — "중앙 은행 금고 하나에 모든 돈 장부가 있는 것 vs 전국 지점 모두가 동일한 장부 사본을 갖는 것이다.
 

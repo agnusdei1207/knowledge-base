@@ -47,26 +47,27 @@ tags = ["studynote-ict-convergence"]
 
 ### [PBFT](/knowledge-base/studynote/06_ict_convergence/01_blockchain/013_pbft_practical_bft/) 3단계 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PBFT 합의 3단계 (뷰 v)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라이언트 리더(Primary) 복제 노드 R1 복제 노드 R2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──Request──►</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1</div><div class="kb-diagram-note">Pre-prepare │ │</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──Pre-prepare──►</div><div class="kb-diagram-cell">──Pre-prepare─►</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2</div><div class="kb-diagram-note">Prepare │ │</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◄──Prepare ►</div><div class="kb-diagram-cell">◄─Prepare ►</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(2f+1개 수신 후 진행)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3</div><div class="kb-diagram-note">Commit │ │</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◄──Commit ►</div><div class="kb-diagram-cell">◄─Commit ►</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(2f+1개 수신 후 실행)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◄ Reply</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────┐
+│                PBFT 합의 3단계 (뷰 v)                     │
+│                                                          │
+│  클라이언트  리더(Primary)    복제 노드 R1  복제 노드 R2  │
+│      │           │                │              │       │
+│      │──Request──►               │              │       │
+│      │           │                │              │       │
+│      │    [1] Pre-prepare         │              │       │
+│      │           │──Pre-prepare──►│──Pre-prepare─►       │
+│      │           │                │              │       │
+│      │    [2] Prepare             │              │       │
+│      │           │◄──Prepare─────►│◄─Prepare─────►       │
+│      │           │    (2f+1개 수신 후 진행)       │       │
+│      │    [3] Commit              │              │       │
+│      │           │◄──Commit──────►│◄─Commit──────►       │
+│      │           │    (2f+1개 수신 후 실행)       │       │
+│      │           │                │              │       │
+│      │◄──────────Reply────────────────────────────       │
+└──────────────────────────────────────────────────────────┘
+```
 
 ### 현대 [BFT](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/647_bft_verification/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 비교
 

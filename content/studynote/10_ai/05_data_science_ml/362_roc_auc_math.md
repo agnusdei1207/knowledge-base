@@ -21,17 +21,14 @@ tags = ["studynote-ai"]
 
 암 진단 AI에서 임계값(threshold)을 낮추면 모든 환자를 양성으로 예측해 [재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/)([Recall](/knowledge-base/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/)=TPR)은 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)0%지만 거짓 양성([FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/))도 폭발한다. 반대로 임계값을 높이면 확실한 케이스만 양성으로 예측해 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)([Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/))는 높지만 [재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/)이 낮아진다. 어떤 임계값이 최적인가? ROC 곡선은 임계값 전체 범위에서의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 한 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에 담아 모델의 고유 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 임계값 독립적으로 평가한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: ROC 곡선은 "암 진단 기준의 엄격도 조절 다이얼"이다. 다이얼을 느슨하게 하면 더 많은 환자를 잡지만(TPR↑) 정상인도 많이 걸린다(FPR↑). 다이얼을 조이면 정상인은 안 걸리지만 환자도 놓친다. ROC 곡선은 이 다이얼의 모든 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)에서의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지도다.
 
@@ -39,27 +36,28 @@ tags = ["studynote-ai"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TPR, FPR 수식 및 혼동 행렬 (Confusion Matrix)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예측 양성 예측 음성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실제 양성</div><div class="kb-diagram-cell">TP FN</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실제 음성</div><div class="kb-diagram-cell">FP TN</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TPR (True Positive Rate = Sensitivity = Recall):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TPR = TP / (TP + FN)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FPR (False Positive Rate = 1 - Specificity):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FPR = FP / (FP + TN)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ROC 공간: X축=FPR, Y축=TPR</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AUC = ∫₀¹ TPR(FPR) d(FPR)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">= P(score(pos) &gt; score(neg)) (Wilcoxon 통계량)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">임계값 변화 방향:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">낮게 → 우상단(FPR↑, TPR↑) / 높게 → 좌하단</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────┐
+│  TPR, FPR 수식 및 혼동 행렬 (Confusion Matrix)           │
+├──────────────────────────────────────────────────────────┤
+│                 예측 양성    예측 음성                    │
+│  실제 양성  │   TP          FN         │                 │
+│  실제 음성  │   FP          TN         │                 │
+│                                                          │
+│  TPR (True Positive Rate = Sensitivity = Recall):       │
+│  TPR = TP / (TP + FN)                                   │
+│                                                          │
+│  FPR (False Positive Rate = 1 - Specificity):           │
+│  FPR = FP / (FP + TN)                                   │
+│                                                          │
+│  ROC 공간: X축=FPR, Y축=TPR                             │
+│  AUC = ∫₀¹ TPR(FPR) d(FPR)                             │
+│  = P(score(pos) > score(neg))  (Wilcoxon 통계량)        │
+│                                                          │
+│  임계값 변화 방향:                                      │
+│  낮게 → 우상단(FPR↑, TPR↑) / 높게 → 좌하단            │
+└──────────────────────────────────────────────────────────┘
+```
 
 | 지표 | 수식 | AUC 적합성 |
 |:---|:---|:---|

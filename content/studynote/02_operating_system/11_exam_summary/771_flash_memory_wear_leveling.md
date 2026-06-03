@@ -36,27 +36,30 @@ tags = ["studynote-operating-system"]
 - **등장 배경**: 
   - 2000년대 후반 SSD가 대중화되면서 NAND 플래시의 MLC/TLC 적층 기술로 인해 셀당 수명이 기하급수적으로 짧아지자(10만 번 $\rightarrow$ 1천 번), 이를 소프트웨어 컨트롤러 기술력으로 상쇄하기 위해 [FTL](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/)([Flash Translation Layer](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/)) 내부에 도입되었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Wear Leveling (마모 평준화) 매커니즘의 매핑 원리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">운영체제 (OS)의 착각</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 파일 A 내용이 갱신됨. "논리 주소(LBA) 1번에 계속 덮어써라!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1차 쓰기: LBA 1 ──</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">FTL (SSD 컨트롤러 내부)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3차 쓰기: LBA 1 ── - 매핑 테이블 (LBA -&gt; 물리 블록 PBA)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SSD 물리적 낸드 플래시 (PBA)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1차 쓰기:</div><div class="kb-diagram-node">물리 블록 10</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">PBA 10 연결)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2차 쓰기: 물리 블록 10은 놔두고</div><div class="kb-diagram-node">물리 블록 45</div><div class="kb-diagram-note">에 기록!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(기존 블록 10은 '무효(Invalid)' 처리)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3차 쓰기: 또 다른 빈 공간인</div><div class="kb-diagram-node">물리 블록 88</div><div class="kb-diagram-note">에 기록!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: OS는 1번 자리만 3번 긁었다고 믿지만, 실제 SSD는 10번, 45번,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">88번 셀을 골고루 1번씩 사용하여 수명을 3배로 연장함! 🚀</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │                 Wear Leveling (마모 평준화) 매커니즘의 매핑 원리        │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │  [ 운영체제 (OS)의 착각 ]                                       │
+  │   - 파일 A 내용이 갱신됨. "논리 주소(LBA) 1번에 계속 덮어써라!"        │
+  │     1차 쓰기: LBA 1 ──┐                                       │
+  │     2차 쓰기: LBA 1 ──┼──▶ [ FTL (SSD 컨트롤러 내부) ]          │
+  │     3차 쓰기: LBA 1 ──┘      - 매핑 테이블 (LBA -> 물리 블록 PBA)   │
+  │                                │                             │
+  │  =============================│============================ │
+  │                               ▼                             │
+  │  [ SSD 물리적 낸드 플래시 (PBA) ]                              │
+  │                                                             │
+  │  1차 쓰기: [ 물리 블록 10 ] 에 기록 (LBA 1 -> PBA 10 연결)        │
+  │  2차 쓰기: 물리 블록 10은 놔두고 [ 물리 블록 45 ] 에 기록!             │
+  │          (기존 블록 10은 '무효(Invalid)' 처리)                   │
+  │  3차 쓰기: 또 다른 빈 공간인 [ 물리 블록 88 ] 에 기록!                 │
+  │                                                             │
+  │  ▶ 결과: OS는 1번 자리만 3번 긁었다고 믿지만, 실제 SSD는 10번, 45번,  │
+  │          88번 셀을 골고루 1번씩 사용하여 수명을 3배로 연장함! 🚀         │
+  └─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이것이 플래시 스토리지가 동작하는 근본적인 속임수다. [플래시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/)는 특성상 전자가 채워진 곳에 그냥 덮어쓰기(Overwrite)가 물리적으로 불가능하다. 무조건 블록 전체를 지우고(Erase) 다시 써야 하는데, 이 지우는 과정에서 셀이 타들어 간다. 그래서 FTL은 OS가 기존 LBA 1번에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 덮어쓰라고 명령하면, 그 명령을 씹고 항상 '완전히 새로운 빈 블록'인 PBA 45번을 찾아 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓴 뒤 매핑 포인터만 싹 바꿔치기한다(Out-of-place Update). 이 포인터 바꿔치기 덕분에 한 놈만 패는 OS의 고질병을 막고 100만 개의 블록을 골고루 폭행(Leveling)하는 예술적 평준화가 이루어진다.
 
@@ -79,25 +82,30 @@ tags = ["studynote-operating-system"]
 
 OS의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템과 순수 플래시 하드웨어 사이에 있는 "미니 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)([FTL](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/))"의 구조를 뜯어보면 웨어 레벨링이 어떻게 구현되는지 알 수 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SSD 컨트롤러 내부 FTL (Flash Translation Layer) 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">OS 파일 시스템 (ext4, NTFS)</div><div class="kb-diagram-note">── (LBA 논리 주소로 읽기/쓰기 명령)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">======</div><div class="kb-diagram-cell">====================== (NVMe / SATA 버스) ================</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SSD 컨트롤러 칩 (자체 ARM 코어 + 램 탑재)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Address Mapping Table (주소 변환기)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LBA 100 -&gt; PBA 500 (논리를 물리로 변환)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Wear Leveling Engine (마모 평준화 엔진) ◀ 핵심!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 모든 PBA 블록의 "Erase Count(지운 횟수)"를 모니터링 함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Garbage Collector (가비지 컬렉터)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 버려진 유효하지 않은 데이터 블록들을 모아서 싹 청소함.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▼</div><div class="kb-diagram-node">플래시 메모리 다이 (낸드 셀)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 SSD 컨트롤러 내부 FTL (Flash Translation Layer) 구조    │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [ OS 파일 시스템 (ext4, NTFS) ] ── (LBA 논리 주소로 읽기/쓰기 명령) │
+  │        │                                                          │
+  │  ======│====================== (NVMe / SATA 버스) ================│
+  │        ▼                                                          │
+  │   [ SSD 컨트롤러 칩 (자체 ARM 코어 + 램 탑재) ]                        │
+  │    ┌────────────────────────────────────────────────────────┐     │
+  │    │ 1. Address Mapping Table (주소 변환기)                  │     │
+  │    │    LBA 100 -> PBA 500 (논리를 물리로 변환)               │     │
+  │    ├────────────────────────────────────────────────────────┤     │
+  │    │ 2. Wear Leveling Engine (마모 평준화 엔진) ◀ 핵심!        │     │
+  │    │    - 모든 PBA 블록의 "Erase Count(지운 횟수)"를 모니터링 함.  │     │
+  │    ├────────────────────────────────────────────────────────┤     │
+  │    │ 3. Garbage Collector (가비지 컬렉터)                     │     │
+  │    │    - 버려진 유효하지 않은 데이터 블록들을 모아서 싹 청소함.         │     │
+  │    └────────────────────────────────────────────────────────┘     │
+  │        │                                                          │
+  │        ▼ [ 플래시 메모리 다이 (낸드 셀) ]                               │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 일반 하드디스크([HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/)) 컨트롤러는 멍청한 모터 제어기일 뿐이지만, [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 컨트롤러는 내부에 자체 CPU(주로 쿼드코어 ARM)와 거대한 램([DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/))을 탑재한 초정밀 컴퓨터다. 이 FTL이라는 미니 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 셀의 건강 상태(지운 횟수)를 엑셀 표처럼 다 기록하고 있다. 정적 웨어 레벨링이 돌 때면 백그라운드에서 "어? 1번 블록은 지운 횟수가 10번인데, 900번 블록은 5000번이나 지웠네? 1번 블록에 있는 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 900번 블록으로 강제로 이사 보내고, 1번 블록을 비워서 새로운 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 작업에 던져줘야지!"라는 극도로 지능적인 스와핑을 수행한다.
 
@@ -138,27 +146,31 @@ OS의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_
    - **원인 분석**: [마모 평준화](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/479_wear_leveling/)의 배신이다. OS가 `dd` 명령으로 "A [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 위치에 0을 7번 덮어써라"라고 지시했지만, [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 컨트롤러([FTL](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/478_ftl_flash_translation_layer/))는 수명 연장을 위해 똑같은 낸드 셀에 7번을 쓰지 않는다. 원본이 들어있던 물리 셀(PBA)은 고이 놔둔 채 '무효(Invalid)' 처리만 해두고, 계속 엉뚱한 새 셀들을 찾아다니며 0을 7번 써댄 것이다. 따라서 하드웨어 메모리 칩을 직접 떼어서 포렌식하면 원래 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 생생하게 살아있다.
    - <strong>아키텍트 판단 (<a href="/knowledge-base/studynote/09_security/04_endpoint_security/405_secure_erase/">Secure Erase</a> <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/">커맨드</a> 호출)</strong>: [플래시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/)에서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 덮어쓰기 삭제는 100% 무의미하다. 기밀을 파기하려면 반드시 하드웨어 컨트롤러에 꽂아 넣는 <strong><code>nvme format</code> <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a>나 <code>ATA Secure Erase</code> <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a></strong>를 전송해야 한다. 이 명령을 받으면 FTL은 매핑 테이블 전체를 암호학적으로 폐기하거나(Crypto Erase), 낸드 셀 전체에 고전압을 쏴서 동시에 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화해 버려 완벽한 물리적 파기를 보장한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">플래시 메모리(SSD) 수명 연장을 위한 아키텍트 점검 트리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SSD 기반의 고부하 시스템 인프라 구축 시 점검 사항</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS 마운트 시 <code>discard</code> (TRIM) 옵션을 활성화했는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">수명 경고</div><div class="kb-diagram-note">FTL이 쓰레기 데이터까지 평준화 이사시키느라</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디스크 수명 급감. 즉시 fstrim 크론탭 설정 필수!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예 ▶ 통과</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스토리지 파티셔닝 시 여유 공간(Unallocated)을 10~20% 남겨두었는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">성능 경고</div><div class="kb-diagram-note">디스크가 90% 찰 경우, 빈 블록을 찾지 못해</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Write Amplification 폭증 및 속도 1/10 토막 발생!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예 ▶ 통과 (자연스러운 Over-Provisioning 달성)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">로그 기록(SWAP 포함)이 디스크 한 곳을 집중 타격하는 아키텍처인가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예 ▶ RAM Disk(tmpfs)를 활용하여 디스크 로깅 우회 고려.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ──▶ 최종 SSD 인프라 배포 승인! 🚀</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 플래시 메모리(SSD) 수명 연장을 위한 아키텍트 점검 트리      │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [ SSD 기반의 고부하 시스템 인프라 구축 시 점검 사항 ]                     │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      OS 마운트 시 `discard` (TRIM) 옵션을 활성화했는가?                    │
+  │          ├─ 아니오 ──▶ 🚨 [수명 경고] FTL이 쓰레기 데이터까지 평준화 이사시키느라│
+  │          │             디스크 수명 급감. 즉시 fstrim 크론탭 설정 필수!        │
+  │          └─ 예 ─────▶ 통과                                        │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      스토리지 파티셔닝 시 여유 공간(Unallocated)을 10~20% 남겨두었는가?       │
+  │          ├─ 아니오 ──▶ 🚨 [성능 경고] 디스크가 90% 찰 경우, 빈 블록을 찾지 못해 │
+  │          │             Write Amplification 폭증 및 속도 1/10 토막 발생!  │
+  │          └─ 예 ─────▶ 통과 (자연스러운 Over-Provisioning 달성)       │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      로그 기록(SWAP 포함)이 디스크 한 곳을 집중 타격하는 아키텍처인가?           │
+  │          ├─ 예 ─────▶ RAM Disk(tmpfs)를 활용하여 디스크 로깅 우회 고려.    │
+  │          └─ 아니오 ──▶ 최종 SSD 인프라 배포 승인! 🚀                    │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 클라우드나 물리 서버에 SSD를 달고 HDD처럼 대충 포맷해서 쓰면 1년 안에 인프라 장애를 맞는다. 아키텍트는 SSD의 FTL이 어떻게 숨을 쉬는지 알아야 한다. TRIM은 FTL에게 어떤 짐을 버려도 되는지 알려주는 신호탄이고, [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 미할당(여백)은 FTL이 무거운 짐을 이리저리 옮길 때 숨통을 틔워주는 임시 작업 공간(오버 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/))이다. 꽉 찬 SSD가 유독 느려지는 이유는 빈 공간이 없어 이 평준화 작업과 가비지 컬렉션이 극악의 병목을 일으키기 때문이므로, 저장 공간의 80% 이상을 절대 채우지 않는 것이 불문율이다.
 
@@ -204,19 +216,15 @@ OS의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">역 페이지 테이블 전역 해시 매핑</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">플래시 메모리 마모 평준화 (Wear Leveling)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">다중 큐 SSD NVMe 프로토콜 장점</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">오브젝트 스토리지 메타데이터 분리</div></div>
-</div>
-</div>
-
-
+```text
+[역 페이지 테이블 전역 해시 매핑]
+    │
+    ▼
+[플래시 메모리 마모 평준화 (Wear Leveling)]
+    │
+    ├──▶ [다중 큐 SSD NVMe 프로토콜 장점]
+    └──▶ [오브젝트 스토리지 메타데이터 분리]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

@@ -18,18 +18,12 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Prometheus → Pull → 서비스 /metrics 엔드포인트</div>
-<div class="kb-diagram-note">→ TSDB 저장 → PromQL 조회</div>
-<div class="kb-diagram-note">→ Alertmanager → PagerDuty/Slack</div>
-<div class="kb-diagram-note">→ Grafana 대시보드 시각화</div>
-</div>
-</div>
-
-
+```text
+Prometheus → Pull → 서비스 /metrics 엔드포인트
+  → TSDB 저장 → PromQL 조회
+  → Alertmanager → PagerDuty/Slack
+  → Grafana 대시보드 시각화
+```
 
 - **📢 섹션 요약 비유**: Prometheus는 **체온계(수집)**, Grafana는 <strong>진료 차트(<a href="/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/">시각화</a>)</strong>, Alertmanager는 <strong>비상벨(알림)</strong>이다.
 
@@ -64,17 +58,11 @@ tags = ["studynote-devops-sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Nagios/Zabbix (2000s)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Prometheus (2012, SoundCloud)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">CNCF 졸업 (2018)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Grafana LGTM Stack (2020~)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: Mimir (장기 메트릭 저장) + Thanos (HA)</div></div>
-</div>
-</div>
-
-
+```text
+[Nagios/Zabbix (2000s)] → [Prometheus (2012, SoundCloud)]
+    → [CNCF 졸업 (2018)] → [Grafana LGTM Stack (2020~)]
+    → [현재: Mimir (장기 메트릭 저장) + Thanos (HA)]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. Prometheus는 <strong>체온계</strong>예요. 시스템의 <strong>건강 수치</strong>를 재요.

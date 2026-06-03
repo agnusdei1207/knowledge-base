@@ -18,18 +18,12 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">C-V2X 인터페이스:</div>
-<div class="kb-diagram-note">Uu: 차량 → 기지국 → 클라우드 (넓은 범위)</div>
-<div class="kb-diagram-note">PC5: 차량 ↔ 차량/인프라 (직접, 저지연)</div>
-<div class="kb-diagram-note">5G NR V2X: URLLC (1ms 이하 지연)</div>
-</div>
-</div>
-
-
+```text
+C-V2X 인터페이스:
+  Uu: 차량 → 기지국 → 클라우드 (넓은 범위)
+  PC5: 차량 ↔ 차량/인프라 (직접, 저지연)
+5G NR V2X: URLLC (1ms 이하 지연)
+```
 
 - **📢 섹션 요약 비유**: C-V2X는 <strong>스마트폰 + 워키토키 결합</strong>이다. 스마트폰(Uu, 넓은 범위)과 워키토키(PC5, [직접 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/120_direct_communication/))를 동시에 가진다.
 
@@ -53,17 +47,11 @@ C-V2X는 <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mo
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DSRC (2010)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">LTE-V2X (3GPP R14, 2017)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">5G NR V2X (R16, 2020)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: 6G V2X 연구 — 초저지연·AI 통합</div></div>
-</div>
-</div>
-
-
+```text
+[DSRC (2010)] → [LTE-V2X (3GPP R14, 2017)]
+    → [5G NR V2X (R16, 2020)]
+    → [현재: 6G V2X 연구 — 초저지연·AI 통합]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. C-V2X는 <strong>스마트폰+워키토키</strong>예요. 두 가지 방법으로 대화해요.

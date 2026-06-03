@@ -25,30 +25,36 @@ tags = ["studynote-operating-system"]
 **필요성 및 등장 배경**
 전통적인 소프트웨어 보안은 "OS가 정상적으로 부팅되었다"는 전제 위에서만 유효하다. 그러나 해커가 BIOS/[UEFI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/706_uefi/) [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)를 변조하거나, 디스크를 물리적으로 탈거하여 악의적 페이로드를 삽입한 뒤 재장착하거나, [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/)([Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/))를 지원하는 [Thunderbolt](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/360_thunderbolt/)/[PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 포트를 통해 메모리를 직접 덤프하는 공격은 OS 수준의 방어로는 탐지 자체가 불가능하다. 이러한 물리적·[펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 수준 공격 위협에 대응하기 위해, 부팅 최초 시점부터 하드웨어가 보증하는 신뢰 체인(Chain of Trust)을 확립하는 [TPM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/) 아키텍처가 필연적으로 등장하였다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소프트웨어 보안만으로는 막을 수 없는 물리적 공격 시나리오</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">공격 시나리오 1: 디스크 탈거 공격</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">①전원 OFF ②디스크 탈거</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">전원 차단</div><div class="kb-diagram-cell">▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해커의 장비에서 마운트 → 악성 커널 삽입</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 서버에 재장착 → 부팅 → 백도어 활성화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">공격 시나리오 2: DMA 메모리 덤프 공격</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Thunderbolt/</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버</div><div class="kb-diagram-cell">◀── PCIe DMA ──▶</div><div class="kb-diagram-cell">해커 장비</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">직접 메모리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">접근 가능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ OS 개입 없이 메모리의 암호키, 패스워드 읽기 가능</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">TPM 도입 후 해결 원리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TPM 칩이 부팅 단계별 해시(PCR)를 기록</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 변조 시 PCR 값 불일치 → 복호키 봉인 해제 거부</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 디스크가 변조되어도 데이터 접근 불가!</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────┐
+│  소프트웨어 보안만으로는 막을 수 없는 물리적 공격 시나리오      │
+├────────────────────────────────────────────────────────────────┤
+│                                                                │
+│  [공격 시나리오 1: 디스크 탈거 공격]                           │
+│  ┌──────┐   ①전원 OFF    ┌─────────┐   ②디스크 탈거          │
+│  │서버  │ ──────────────▶│전원 차단 │ ──────────────▶           │
+│  └──────┘                 └─────────┘                │          │
+│                                                      ▼          │
+│  ┌──────────────────────────────────────────────┐              │
+│  │  해커의 장비에서 마운트 → 악성 커널 삽입      │              │
+│  │  → 서버에 재장착 → 부팅 → 백도어 활성화      │              │
+│  └──────────────────────────────────────────────┘              │
+│                                                                │
+│  [공격 시나리오 2: DMA 메모리 덤프 공격]                       │
+│  ┌──────┐   Thunderbolt/   ┌───────────┐                      │
+│  │서버  │ ◀── PCIe DMA ──▶│해커 장비  │                      │
+│  └──────┘   직접 메모리     └───────────┘                      │
+│             접근 가능                                          │
+│   → OS 개입 없이 메모리의 암호키, 패스워드 읽기 가능           │
+│                                                                │
+│  [TPM 도입 후 해결 원리]                                       │
+│  ┌──────────────────────────────────────────────────┐          │
+│  │ TPM 칩이 부팅 단계별 해시(PCR)를 기록             │          │
+│  │ → 변조 시 PCR 값 불일치 → 복호키 봉인 해제 거부   │          │
+│  │ → 디스크가 변조되어도 데이터 접근 불가!            │          │
+│  └──────────────────────────────────────────────────┘          │
+└────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 구조도는 소프트웨어 보안의 근본적 한계를 명확히 보여준다. 디스크를 물리적으로 빼내어 악의적 코드를 심고 다시 장착하거나, [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/)([Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/)) 지원 포트를 통해 메모리를 직접 덤프하는 공격은 OS가 동작하지 않는 상태나 OS를 우회하는 경로에서 이루어지므로, OS 내부의 방화벽이나 백신 프로그램은 전혀 개입할 수 없다. TPM은 부팅 과정에서 각 단계의 해시값을 자신의 내부 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)(PCR)에 기록하므로, 부팅 환경이 조금이라도 변조되면 원래의 PCR 값과 달라져 복호키의 봉인(Sealing)이 해제되지 않아 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보호가 유지된다.
 
@@ -65,7 +71,7 @@ tags = ["studynote-operating-system"]
 | **비휘발성 메모리 (NVRAM)** | 영구 키 및 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 저장 | EK(Endorsement [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)), SRK(Storage Root [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)) 등 루트 키 저장 | 시민증 발급소의 원본 대장 |
 | <strong>플랫폼 구성 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/">레지스터</a> (PCR)</strong> | 부팅 단계별 해시값 누적 기록 | SHA-256 해시를 Extend 연산으로 누적 (초기값 0) | 출입증에 도장을 계속 찍는 구조 |
 | <strong><a href="/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/486_trng/">난수 생성기</a> (RNG)</strong> | [암호학](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/)적 안전 난수 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 하드웨어 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 소스 기반 [TRNG](/knowledge-base/studynote/02_operating_system/10_security/669_hardware_trng_kernel_entropy_pool/)(True Random Number Generator) | 주사위를 물리적으로 굴리는 것 |
-| **암호엔진 (Crypto Engine)** | [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/), [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/), [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 등 암호 연산 가속 | 키 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 서명, 암호화/복호화를 칩 내부에서 수행 | 안전 금고 안의 계산기 |
+| **암호엔진 (Crypto 엔진)** | [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/), [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/), [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 등 암호 연산 가속 | 키 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 서명, 암호화/복호화를 칩 내부에서 수행 | 안전 금고 안의 계산기 |
 | **PCR Extend 연산** | 기존 PCR값과 새 해시를 결합 | `PCR_new = SHA256(PCR_old ∥ SHA256(이벤트))` | 이전 도장 위에 새 도장 겹치기 |
 | **Sealing/Unsealing** | 특정 PCR 상태에서만 키 복호 허용 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 암호화할 때 PCR 값을 조건으로 묶어 저장 | "도장이 정확히 맞을 때만 열리는 금고" |
 
@@ -73,31 +79,37 @@ tags = ["studynote-operating-system"]
 
 TPM의 핵심 메커니즘은 <strong>신뢰 체인(Chain of Trust)</strong>을 통한 <strong>원격 증명(<a href="/knowledge-base/studynote/09_security/04_endpoint_security/396_remote_attestation/">Remote Attestation</a>)</strong>이다. 시스템이 켜지는 순간부터 BIOS/[UEFI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/706_uefi/) → [부트로더](/knowledge-base/studynote/02_operating_system/01_overview_architecture/029_bootloader/)([Bootloader](/knowledge-base/studynote/02_operating_system/01_overview_architecture/029_bootloader/)) → [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)) → initrd/시스템 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 순서로, 각 단계의 코드를 해시한 값을 TPM의 PCR [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 누적(Extend)한다. 이 값은 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 해시의 연속 결합이므로, 중간에 한 글자라도 변조되면 최종 PCR 값이 완전히 달라진다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TPM 기반 신뢰 체인 (Chain of Trust) 부팅 과정</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전원 ON</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① BIOS/UEFI 펌웨어 해시 측정</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ PCR</div><div class="kb-diagram-node">0</div><div class="kb-diagram-note">= Extend(0, SHA256(BIOS_Code))</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② 부트로더(GRUB) 해시 측정</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ PCR</div><div class="kb-diagram-node">4</div><div class="kb-diagram-note">= Extend(PCR</div><div class="kb-diagram-node">4</div><div class="kb-diagram-note">, SHA256(GRUB_Code))</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ OS 커널 이미지 해시 측정</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ PCR</div><div class="kb-diagram-node">4</div><div class="kb-diagram-note">= Extend(PCR</div><div class="kb-diagram-node">4</div><div class="kb-diagram-note">, SHA256(Kernel_Image))</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">④ initrd / 시스템 서비스 해시 측정</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ PCR</div><div class="kb-diagram-node">5</div><div class="kb-diagram-note">= Extend(PCR</div><div class="kb-diagram-node">5</div><div class="kb-diagram-note">, SHA256(Initrd_Image))</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">0~7</div><div class="kb-diagram-note">최종값 확정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 정상 부팅: PCR 값 = "ABC123..." (기준값과 일치)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ Unseal 성공 → 디스크 암호화 키(TPM-Sealed) 복호</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 정상 로그인 진행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 변조 감지: PCR 값 = "XZY789..." (기준값과 불일치)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ Unseal 거부 → 복호키 획득 불가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 디스크 암호화 유지 → "Warning: System Tampered!"</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────┐
+│        TPM 기반 신뢰 체인 (Chain of Trust) 부팅 과정            │
+├────────────────────────────────────────────────────────────────┤
+│                                                                │
+│  [전원 ON]                                                     │
+│     │                                                          │
+│     ▼                                                          │
+│  ① BIOS/UEFI 펌웨어 해시 측정                                 │
+│     │  PCR[0] = Extend(0, SHA256(BIOS_Code))                   │
+│     ▼                                                          │
+│  ② 부트로더(GRUB) 해시 측정                                    │
+│     │  PCR[4] = Extend(PCR[4], SHA256(GRUB_Code))              │
+│     ▼                                                          │
+│  ③ OS 커널 이미지 해시 측정                                    │
+│     │  PCR[4] = Extend(PCR[4], SHA256(Kernel_Image))           │
+│     ▼                                                          │
+│  ④ initrd / 시스템 서비스 해시 측정                            │
+│     │  PCR[5] = Extend(PCR[5], SHA256(Initrd_Image))           │
+│     ▼                                                          │
+│  ⑤ 부팅 완료 → PCR[0~7] 최종값 확정                           │
+│     │                                                          │
+│     ├── 정상 부팅: PCR 값 = "ABC123..." (기준값과 일치)        │
+│     │    → Unseal 성공 → 디스크 암호화 키(TPM-Sealed) 복호     │
+│     │    → 정상 로그인 진행                                    │
+│     │                                                          │
+│     └── 변조 감지: PCR 값 = "XZY789..." (기준값과 불일치)      │
+│          → Unseal 거부 → 복호키 획득 불가                      │
+│          → 디스크 암호화 유지 → "Warning: System Tampered!"    │
+└────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 다이어그램은 TPM이 부팅 과정 전체를 감시하는 메커니즘을 계단식으로 보여준다. 핵심은 PCR의 <strong>Extend 연산</strong>이다. 이 연산은 기존 PCR 값과 새 이벤트 해시를 결합하여 다시 해시하므로, 과거 어느 시점이든 변조가 발생하면 이후 모든 PCR 값이 연쇄적으로 변한다. 이를 통해 "현재 시스템이 신뢰할 수 있는 상태인가?"를 단 하나의 해시값 비교로 증명할 수 있다.
 
@@ -121,28 +133,29 @@ TPM의 핵심 메커니즘은 <strong>신뢰 체인(Chain of Trust)</strong>을 
 
 ### 소프트웨어 보안 vs 하드웨어 보안([TPM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/)) 비교
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소프트웨어 보안 vs 하드웨어 보안(TPM) 영역 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">공격 범위에 따른 방어 계층</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공격 유형</div><div class="kb-diagram-cell">SW 보안</div><div class="kb-diagram-cell">TPM 포함</div><div class="kb-diagram-cell">방어 방식</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">네트워크 침투</div><div class="kb-diagram-cell">✅</div><div class="kb-diagram-cell">-</div><div class="kb-diagram-cell">방화벽, IDS/IPS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">악성코드 감염</div><div class="kb-diagram-cell">✅</div><div class="kb-diagram-cell">-</div><div class="kb-diagram-cell">백신, EDR</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">권한 상승</div><div class="kb-diagram-cell">✅</div><div class="kb-diagram-cell">-</div><div class="kb-diagram-cell">ACL, SELinux</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디스크 탈거/변조</div><div class="kb-diagram-cell">❌</div><div class="kb-diagram-cell">✅</div><div class="kb-diagram-cell">PCR + Sealing</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">펌웨어 변조</div><div class="kb-diagram-cell">❌</div><div class="kb-diagram-cell">✅</div><div class="kb-diagram-cell">측정 부트(Measured</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Boot) + PCR</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DMA 공격</div><div class="kb-diagram-cell">❌</div><div class="kb-diagram-cell">✅</div><div class="kb-diagram-cell">IOMMU + TPM 연동</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">콜드 부트 공격</div><div class="kb-diagram-cell">❌</div><div class="kb-diagram-cell">✅</div><div class="kb-diagram-cell">메모리 암호화 + TPM</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">버스 스니핑</div><div class="kb-diagram-cell">❌</div><div class="kb-diagram-cell">✅</div><div class="kb-diagram-cell">칩 내부 키 보관</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ TPM은 OS가 무력화된 상태에서도 신뢰를 보증하는</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"마지막 보루(Last Line of Defense)" 역할을 수행한다.</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────┐
+│     소프트웨어 보안 vs 하드웨어 보안(TPM) 영역 비교             │
+├────────────────────────────────────────────────────────────────┤
+│                                                                │
+│  [공격 범위에 따른 방어 계층]                                  │
+│                                                                │
+│  공격 유형          │ SW 보안  │ TPM 포함 │ 방어 방식           │
+│  ──────────────────┼─────────┼─────────┼─────────────────── │
+│  네트워크 침투      │    ✅    │    -     │ 방화벽, IDS/IPS     │
+│  악성코드 감염      │    ✅    │    -     │ 백신, EDR           │
+│  권한 상승          │    ✅    │    -     │ ACL, SELinux        │
+│  디스크 탈거/변조   │    ❌    │    ✅    │ PCR + Sealing       │
+│  펌웨어 변조        │    ❌    │    ✅    │ 측정 부트(Measured  │
+│                     │         │         │   Boot) + PCR       │
+│  DMA 공격           │    ❌    │    ✅    │ IOMMU + TPM 연동    │
+│  콜드 부트 공격      │    ❌    │    ✅    │ 메모리 암호화 + TPM │
+│  버스 스니핑        │    ❌    │    ✅    │ 칩 내부 키 보관     │
+│                                                                │
+│  → TPM은 OS가 무력화된 상태에서도 신뢰를 보증하는               │
+│    "마지막 보루(Last Line of Defense)" 역할을 수행한다.         │
+└────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 표는 소프트웨어 보안과 하드웨어 보안([TPM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/))이 각각 방어할 수 있는 공격 범위를 명확히 구분한다. 소프트웨어 보안은 OS가 정상 동작하는 전제하에 네트워크 침투, 악성코드, [권한 상승](/knowledge-base/studynote/09_security/04_endpoint_security/356_privilege_escalation/) 등을 방어한다. 반면 디스크 탈거, [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 변조, [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 공격, 콜드 부트(Cold Boot) 공격 등은 OS의 통제 범위를 벗어나므로 TPM과 같은 [하드웨어 보안 모듈](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/475_hsm/)만이 방어할 수 있다.
 
@@ -169,25 +182,29 @@ TPM의 핵심 메커니즘은 <strong>신뢰 체인(Chain of Trust)</strong>을 
 - [TPM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/)(DTPM) 또는 fTPM([펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) [TPM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/))을 활용하여 OTA([Over-The-Air](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/523_iot_firmware_ota_security/)) 업데이트의 서명 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)과 설치 후 PCR 측정 수행.
 - 변조된 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)는 PCR 불일치로 감지 → 디바이스 비활성화 또는 [안전 모드](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/719_cpu_downclocking/)([Safe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/) Mode) 진입.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실무 의사결정: TPM 도입 여부 판단 흐름도</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시작</div><div class="kb-diagram-note">보호 대상 시스템의 물리적 접근 위험이 있는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">──</div><div class="kb-diagram-node">아니오</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">소프트웨어 보안만으로 충분 (TPM 불필요)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">──</div><div class="kb-diagram-node">예</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">디스크 암호화가 필요한가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">──</div><div class="kb-diagram-node">아니오</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">펌웨어 무결성 보증만 필요?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ ──</div><div class="kb-diagram-node">예</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">fTPM(펌웨어 TPM) 적합</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ ──</div><div class="kb-diagram-node">아니오</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">IOMMU + TCM 고려</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">──</div><div class="kb-diagram-node">예</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">물리적 키 추출 공격도 방어해야 하는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">──</div><div class="kb-diagram-node">아니오</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">fTPM + BitLocker/LUKS</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">──</div><div class="kb-diagram-node">예</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">Discrete TPM (dTPM) +</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FIPS 140-3 인증 칩셋 필요</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────┐
+│     실무 의사결정: TPM 도입 여부 판단 흐름도                   │
+├────────────────────────────────────────────────────────────────┤
+│                                                                │
+│  [시작] 보호 대상 시스템의 물리적 접근 위험이 있는가?          │
+│     │                                                          │
+│     ├── [아니오] → 소프트웨어 보안만으로 충분 (TPM 불필요)     │
+│     │                                                          │
+│     └── [예] → 디스크 암호화가 필요한가?                       │
+│              │                                                  │
+│              ├── [아니오] → 펌웨어 무결성 보증만 필요?          │
+│              │         │                                        │
+│              │         ├── [예] → fTPM(펌웨어 TPM) 적합        │
+│              │         └── [아니오] → IOMMU + TCM 고려          │
+│              │                                                  │
+│              └── [예] → 물리적 키 추출 공격도 방어해야 하는가? │
+│                       │                                         │
+│                       ├── [아니오] → fTPM + BitLocker/LUKS     │
+│                       └── [예] → Discrete TPM (dTPM) +          │
+│                                  FIPS 140-3 인증 칩셋 필요      │
+└────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 흐름도는 [TPM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/) 도입 여부를 실무적으로 판단하는 의사결정 트리다. 모든 시스템에 TPM이 필요한 것은 아니다. 클라우드의 관리형 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)나 물리적 접근이 통제된 사내망의 일반 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 서버는 소프트웨어 보안만으로 충분할 수 있다. 그러나 노트북, [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 디바이스, 클라우드 VM의 [기밀 컴퓨팅](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/795_confidential_computing/) 등 물리적 접근 위험이 있는 환경에서는 [TPM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/)(또는 vTPM) 도입이 필수적이다.
 
@@ -222,19 +239,15 @@ TPM의 핵심 메커니즘은 <strong>신뢰 체인(Chain of Trust)</strong>을 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">감사 (Auditing) 로깅 프레임워크 (Linux Auditd)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">물리적 보안 및 하드웨어 보안 모듈 (TPM, Trusted Platform Module)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">보안 부팅 (Secure Boot) 인증서 체인 로딩 검증</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">성능 모니터링 (Performance Monitoring) 및 튜닝 방법론</div></div>
-</div>
-</div>
-
-
+```text
+[감사 (Auditing) 로깅 프레임워크 (Linux Auditd)]
+    │
+    ▼
+[물리적 보안 및 하드웨어 보안 모듈 (TPM, Trusted Platform Module)]
+    │
+    ├──▶ [보안 부팅 (Secure Boot) 인증서 체인 로딩 검증]
+    └──▶ [성능 모니터링 (Performance Monitoring) 및 튜닝 방법론]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

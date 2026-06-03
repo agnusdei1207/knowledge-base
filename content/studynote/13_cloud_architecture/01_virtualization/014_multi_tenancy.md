@@ -25,23 +25,18 @@ tags = ["cloud_architecture"]
 
 아래 다이어그램은 전통적인 단독형(Single-Tenant)과 클라우드 네이티브의 다중 임대([Multi-Tenant](/knowledge-base/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/)) 구조의 본질적 차이를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">싱글 테넌시 (단독형 / 낭비 심화)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Customer A / 고객 A</div><div class="kb-diagram-note">──&gt;</div><div class="kb-diagram-node">App Instance A / 앱 인스턴스 A</div><div class="kb-diagram-note">──&gt;</div><div class="kb-diagram-node">Database A / DB A</div><div class="kb-diagram-note">(유휴 70%)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Customer B / 고객 B</div><div class="kb-diagram-note">──&gt;</div><div class="kb-diagram-node">App Instance B / 앱 인스턴스 B</div><div class="kb-diagram-note">──&gt;</div><div class="kb-diagram-node">Database B / DB B</div><div class="kb-diagram-note">(유휴 60%)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 단점: 고객 증가 시 인프라/관리 비용이 1:1로 선형적 폭발</div></div>
-<div class="kb-diagram-tree-item" style="--depth:0">멀티 테넌시 (SaaS형 / 자원 집약)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Customer A / 고객 A</div><div class="kb-diagram-note">─</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Customer B / 고객 B</div><div class="kb-diagram-note">─ ─&gt;</div><div class="kb-diagram-node">Shared App Instance / 공유 앱 인스턴스</div><div class="kb-diagram-note">──&gt;</div><div class="kb-diagram-node">Shared DB / 공유 DB</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Customer C / 고객 C</div><div class="kb-diagram-note">─ (하나의 코어 코드베이스) (Tenant ID 분리)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 장점: 자원 활용도 90% 이상, 1번의 배포로 모든 고객 즉시 업데이트</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────── 싱글 테넌시 (단독형 / 낭비 심화) ──────────────┐
+│ [Customer A / 고객 A] ──> [App Instance A / 앱 인스턴스 A] ──> [Database A / DB A] (유휴 70%) │
+│ [Customer B / 고객 B] ──> [App Instance B / 앱 인스턴스 B] ──> [Database B / DB B] (유휴 60%) │
+│ * 단점: 고객 증가 시 인프라/관리 비용이 1:1로 선형적 폭발           │
+├────────────── 멀티 테넌시 (SaaS형 / 자원 집약) ──────────────┤
+│ [Customer A / 고객 A] ─┐                                            │
+│ [Customer B / 고객 B] ─┼─> [Shared App Instance / 공유 앱 인스턴스] ──> [Shared DB / 공유 DB]  │
+│ [Customer C / 고객 C] ─┘   (하나의 코어 코드베이스)     (Tenant ID 분리)│
+│ * 장점: 자원 활용도 90% 이상, 1번의 배포로 모든 고객 즉시 업데이트     │
+└────────────────────────────────────────────────────────────┘
+```
 
 이 도식의 핵심은 '공유(Sharing)'와 '격리([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/))'의 역설적 결합이다. 물리적인 서버 대수는 하나로 줄였지만, 애플리케이션 내부적으로 각 요청이 어느 고객(Tenant)의 것인지 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)하는 엄격한 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 엔진이 추가되어야 한다. 실무에서는 이 구조 덕분에 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 기업의 영업 이익률(Gross Margin)이 80%를 넘을 수 있는 근본적인 재무적 동력이 확보된다.
 
@@ -65,23 +60,24 @@ tags = ["cloud_architecture"]
 
 아래 다이어그램은 Pool 기반 [멀티 테넌트](/knowledge-base/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/) 애플리케이션의 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 및 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조회 타이밍 흐름을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Client A / 클라이언트 A</div><div class="kb-diagram-node">API Gateway / API 게이트웨이</div><div class="kb-diagram-node">Shared DB / 공유 DB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. JWT (Tenant ID=A) 전송</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 토큰 검증 및 Context 주입</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Thread-Local 변수에 A 저장)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 비즈니스 로직</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. SQL 자동 변환 (ORM 가로채기)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SELECT * FROM Users</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WHERE tenant_id = 'A';</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 오직 A의 데이터만 반환</div><div class="kb-diagram-cell">&lt;</div></div>
-</div>
-</div>
-
-
+```text
+[Client A / 클라이언트 A]      [API Gateway / API 게이트웨이][Shared DB / 공유 DB]
+    │                               │                             │
+    │ 1. JWT (Tenant ID=A) 전송      │                             │
+    ├──────────────────────────────>│                             │
+    │                               │ 2. 토큰 검증 및 Context 주입 │
+    │                               │ (Thread-Local 변수에 A 저장) │
+    │                               ├─────────┐                   │
+    │                               │         │ 3. 비즈니스 로직   │
+    │                               │<────────┘                   │
+    │                               │ 4. SQL 자동 변환 (ORM 가로채기)│
+    │                               │ SELECT * FROM Users         │
+    │                               │  WHERE tenant_id = 'A';     │
+    │                               ├────────────────────────────>│
+    │                               │                             │
+    │ 5. 오직 A의 데이터만 반환        │<────────────────────────────┤
+    │<──────────────────────────────┤                             │
+```
 
 이 흐름의 가장 중요한 병목 및 통제 지점은 4번의 'SQL 자동 변환'이다. 개발자가 비즈니스 로직을 짤 때 일일이 `WHERE tenant_id = ?`를 넣게 하면 언젠가 반드시 누락하는 휴먼 에러가 발생한다. 실무에서는 Hibernate/JPA의 `@Filter`나 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 자체의 RLS(Row-Level [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)) 기능을 활용해, 프레임워크 단에서 강제로 Tenant ID [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 주입하는 횡단 관심사(AOP) 처리를 해야 한다.
 
@@ -124,23 +120,20 @@ tags = ["cloud_architecture"]
 
 아래는 신규 고객 가입 시 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 할당 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 결정하는 의사결정 트리이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">신규 B2B 고객사 가입 및 인프라 프로비저닝</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">금융, 국방 등 타 고객과의 데이터 1byte 혼재도 법적으로 거부하는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ (Yes) ──&gt;</div><div class="kb-diagram-node">Silo Model: 완전 격리된 전용 VPC 및 단독 RDS 할당</div></div>
-<div class="kb-diagram-note">(가장 비싼 엔터프라이즈 요금제 부과)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ (No) ──&gt;</div><div class="kb-diagram-node">표준 B2B 서비스 및 스타트업 고객인가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ (Yes) ──&gt;</div><div class="kb-diagram-node">Pool Model: 기존 공용 DB에 Tenant ID만 발급</div></div>
-<div class="kb-diagram-note">(DB에 Row 1줄 추가하는 것으로 0.1초 만에 가입 완료)</div>
-<div class="kb-diagram-tree-item" style="--depth:7">(고객의 데이터 용량이 너무 거대해 공용 DB 성능을 위협하는가?)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ (Yes) ──&gt;</div><div class="kb-diagram-node">Bridge Model: 공용 DB 내에 독립 스키마 생성</div></div>
-</div>
-</div>
-
-
+```text
+[신규 B2B 고객사 가입 및 인프라 프로비저닝]
+         │
+[금융, 국방 등 타 고객과의 데이터 1byte 혼재도 법적으로 거부하는가?]
+ ├─ (Yes) ──> [Silo Model: 완전 격리된 전용 VPC 및 단독 RDS 할당]
+ │             (가장 비싼 엔터프라이즈 요금제 부과)
+ │
+ └─ (No) ──> [표준 B2B 서비스 및 스타트업 고객인가?]
+              ├─ (Yes) ──> [Pool Model: 기존 공용 DB에 Tenant ID만 발급]
+              │             (DB에 Row 1줄 추가하는 것으로 0.1초 만에 가입 완료)
+              │
+              └─ (고객의 데이터 용량이 너무 거대해 공용 DB 성능을 위협하는가?)
+                           ├─ (Yes) ──> [Bridge Model: 공용 DB 내에 독립 스키마 생성]
+```
 
 이 구조는 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 플랫폼이 고객의 지불 능력과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 민감도에 따라 유연하게 인프라를 스위칭해야 함을 보여준다. 무조건적인 공용(Pool) 방식의 맹신은 초대형 고객의 수주 실패로 이어질 수 있으므로, 아키텍트는 언제든 단독망으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 마이그레이션해 줄 수 있는 스크립트 도구를 구비해야 한다.
 
@@ -175,23 +168,21 @@ tags = ["cloud_architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SaaS (Software as a Service) — 여러 고객에게 동일 서비스 제공 필요성</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">멀티 테넌시 (Multi-Tenancy) — 단일 인스턴스로 복수 고객 논리적 격리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">테넌트 격리 전략 — DB 분리/스키마 분리/행 수준 격리 트레이드오프</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">RBAC / ABAC — 테넌트별 권한 제어 및 데이터 접근 정책 관리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">쿠버네티스 멀티 테넌시 — 네임스페이스·NetworkPolicy·OPA로 클러스터 공유</div></div>
-</div>
-</div>
-
-
+```text
+[SaaS (Software as a Service) — 여러 고객에게 동일 서비스 제공 필요성]
+    │
+    ▼
+[멀티 테넌시 (Multi-Tenancy) — 단일 인스턴스로 복수 고객 논리적 격리]
+    │
+    ▼
+[테넌트 격리 전략 — DB 분리/스키마 분리/행 수준 격리 트레이드오프]
+    │
+    ▼
+[RBAC / ABAC — 테넌트별 권한 제어 및 데이터 접근 정책 관리]
+    │
+    ▼
+[쿠버네티스 멀티 테넌시 — 네임스페이스·NetworkPolicy·OPA로 클러스터 공유]
+```
 
 이 흐름은 SaaS의 비용 효율 필요성에서 멀티 테넌시 아키텍처로 발전하고, 격리 수준 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)·권한 관리를 거쳐 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 기반 인프라 수준까지 확장되는 클라우드 테넌트 관리 기술의 핵심 계보를 보여준다.
 

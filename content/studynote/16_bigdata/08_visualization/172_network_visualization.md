@@ -51,24 +51,29 @@ Insight:
 
 좋은 네트워크 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)는 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 바로 그린 결과"가 아니라, [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 모델링과 분석을 거친 뒤 시각 채널에 매핑한 결과다. 일반적인 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 엣지 목록 수집 → 노드/엣지 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 정리 → [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 지표 계산 → 레이아웃 배치 → 색·크기·두께 인코딩 → 인터랙션 추가 순서로 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Network visualization analysis pipeline</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">edge list / graph database</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">graph metrics</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- degree / betweenness / community</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">layout engine</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- force / hierarchical / circular / geographic</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">visual encoding</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- size, color, label, edge width</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">interaction</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- zoom, filter, highlight, drill-down</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│               Network visualization analysis pipeline             │
+├────────────────────────────────────────────────────────────────────┤
+│ edge list / graph database                                        │
+│        │                                                          │
+│        ▼                                                          │
+│ graph metrics                                                     │
+│  - degree / betweenness / community                               │
+│        │                                                          │
+│        ▼                                                          │
+│ layout engine                                                     │
+│  - force / hierarchical / circular / geographic                   │
+│        │                                                          │
+│        ▼                                                          │
+│ visual encoding                                                   │
+│  - size, color, label, edge width                                 │
+│        │                                                          │
+│        ▼                                                          │
+│ interaction                                                       │
+│  - zoom, filter, highlight, drill-down                            │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 | 시각 요소 | 무엇을 담기 좋은가 | 대표 지표 예시 |
 | :--- | :--- | :--- |
@@ -113,20 +118,17 @@ Insight:
 
 실무에서 가장 흔한 실패는 "원본 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)를 그대로 올리면 통찰이 나온다"는 기대다. 대규모 네트워크는 필터, 샘플링, 커뮤니티 집계, 라벨 축소가 먼저다. 특히 사기 거래, 보안 이벤트, 호출 토폴로지처럼 엣지가 많은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 저가치 엣지를 줄이지 않으면 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)가 분석 도구가 아니라 노이즈 발생기가 된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Practical layout selection flow</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">What is the main question?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ community / hub discovery -&gt; force-directed</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ dependency / call order -&gt; hierarchical</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ very dense relation map -&gt; matrix or aggregated clusters</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ geographic movement -&gt; geo layout + network overlay</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│                  Practical layout selection flow                  │
+├────────────────────────────────────────────────────────────────────┤
+│ What is the main question?                                        │
+│   ├─ community / hub discovery -> force-directed                  │
+│   ├─ dependency / call order  -> hierarchical                     │
+│   ├─ very dense relation map   -> matrix or aggregated clusters   │
+│   └─ geographic movement       -> geo layout + network overlay    │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 | 상황 | 권장 판단 | 이유 |
 | :--- | :--- | :--- |
@@ -182,23 +184,21 @@ Insight:
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Edge list / graph database</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Graph metrics (centrality, community, path)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Layout selection (force / hierarchical / matrix)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Visual encoding (size, color, label, width)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Interactive exploration and large-scale aggregation</div>
-</div>
-</div>
-
-
+```text
+Edge list / graph database
+    │
+    ▼
+Graph metrics (centrality, community, path)
+    │
+    ▼
+Layout selection (force / hierarchical / matrix)
+    │
+    ▼
+Visual encoding (size, color, label, width)
+    │
+    ▼
+Interactive exploration and large-scale aggregation
+```
 
 이 흐름은 네트워크 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)가 원시 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 곧바로 그림으로 바꾸는 것이 아니라, 분석과 요약 단계를 거쳐 의미 있는 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)로 완성되는 과정임을 보여준다.
 

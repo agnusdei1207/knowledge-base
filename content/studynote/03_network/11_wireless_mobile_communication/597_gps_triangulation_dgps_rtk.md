@@ -23,27 +23,31 @@ tags = ["studynote-network"]
 - **필요성**: 1990년대 노트북과 마우스, 키보드, 핸드폰 사이에는 거미줄처럼 USB나 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 케이블이 얽혀있었다. 와이파이(802.[11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/)) 칩셋은 너무 비싸고 크고 배터리를 미친 듯이 갉아먹어서 무선 마우스에 달 수 없었다. <strong>"반경 10m 내에서, 엄청 싸고, 엄청 작고, 전기를 거의 안 먹으면서도 주변의 무선 전화기나 전자레인지(2.4GHz) 간섭을 무시하고 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 안정적으로 주고받을 수 있는 케이블 대체용 무선 뼈대"</strong>가 절실했다. (에릭슨이 최초 개발).
 - **등장 배경**: ① 책상 위([WPAN](/knowledge-base/studynote/03_network/12_iot_wpan_edge/604_wpan_wireless_personal_area_network/), Wireless Personal Area Network) 디바이스들의 케이블리스(Cable-less) 요구 폭발 → ② 2.4GHz 혼잡 대역에서의 생존을 위한 초당 1,600번의 주파수 호핑([FHSS](/knowledge-base/studynote/03_network/19_frequent_topics_terms/955_fhss_frequency_hopping_spread_spectrum_bluetooth/)) 기술 탑재 → ③ 웨어러블(스마트워치)과 비콘([Beacon](/knowledge-base/studynote/03_network/12_iot_wpan_edge/608_beacon_technology_ibeacon_eddystone/)) 시장이 열리며 극단적 배터리 절약을 위한 [BLE](/knowledge-base/studynote/03_network/12_iot_wpan_edge/607_ble_bluetooth_low_energy_iot/)([Bluetooth](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 4.0) 규격의 극적인 풀체인지 도입.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">와이파이(시장통) vs 블루투스(피코넷 지휘) 아키텍처 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">과거 비교: Wi-Fi의 평등주의 (CSMA/CA)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(공유기, 폰, 노트북이 서로 "나 말할게!" "앗 겹쳤다 쉬자!" 눈치 게임)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 100명이 모이면 서로 눈치 보느라 아무도 통신 못 하고 멈춰버림 (충돌).</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">혁신: 블루투스 '피코넷(Piconet)'의 절대 독재 마스터 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">슬레이브 1 (마우스)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">마스터 (노트북)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">슬레이브 2 (키보드)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">슬레이브 3 (에어팟)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 폴링(Polling) 마법: 마스터(노트북)가 지휘봉을 쥐고 통제함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"야, 마우스! 지금 데이터 있어? 줘봐!" (마우스가 데이터 줌)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"키보드 넌 어때?" (키보드가 줌) "에어팟, 넌 듣기만 해!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 슬레이브들은 절대 마스터 허락 없이 자기들끼리 먼저 떠들지 못함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">충돌(Collision)이 0%로 완전히 소멸하는 기적의 교통정리 완성!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│             와이파이(시장통) vs 블루투스(피코넷 지휘) 아키텍처 시각화     │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [과거 비교: Wi-Fi의 평등주의 (CSMA/CA)]                       │
+│   (공유기, 폰, 노트북이 서로 "나 말할게!" "앗 겹쳤다 쉬자!" 눈치 게임)        │
+│   => 결과: 100명이 모이면 서로 눈치 보느라 아무도 통신 못 하고 멈춰버림 (충돌).│
+│                                                             │
+│   [혁신: 블루투스 '피코넷(Piconet)'의 절대 독재 마스터 구조]           │
+│                                                             │
+│                 ┌── (폴링) ─▶ [슬레이브 1 (마우스)]             │
+│                 │                                           │
+│   [마스터 (노트북)] ┼── (폴링) ─▶ [슬레이브 2 (키보드)]             │
+│                 │                                           │
+│                 └── (폴링) ─▶ [슬레이브 3 (에어팟)]              │
+│                                                             │
+│   * 폴링(Polling) 마법: 마스터(노트북)가 지휘봉을 쥐고 통제함.             │
+│     "야, 마우스! 지금 데이터 있어? 줘봐!" (마우스가 데이터 줌)            │
+│     "키보드 넌 어때?" (키보드가 줌) "에어팟, 넌 듣기만 해!"             │
+│                                                             │
+│   => 결과: 슬레이브들은 절대 마스터 허락 없이 자기들끼리 먼저 떠들지 못함.   │
+│            충돌(Collision)이 0%로 완전히 소멸하는 기적의 교통정리 완성!   │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 아키텍처의 근본 철학은 **마스터-슬레이브(Master-Slave)** 기반의 <strong>피코넷(Piconet)</strong>이다. 피코넷은 마스터 1대당 최대 7대의 슬레이브가 묶이는 하나의 작은 무선 우주다. 와이파이처럼 남의 눈치를 보는([CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)) 게 아니다. 노트북(마스터)은 자신이 관리하는 7대의 기기에게 0.001초 단위로 "너 말해, 이제 너 말해"라며 차례를 지시하는([TDD](/knowledge-base/studynote/12_it_management/04_sdlc_testing/164_tdd_test_driven_development/) [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 방식) 절대 독재자다. 슬레이브(에어팟)는 마스터가 말을 걸기 전까지는 절대 먼저 전파를 발사할 수 없다. 이 끔찍할 정도로 숨 막히는 통제력 덕분에, 책상 위에 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 기기 7대가 엉켜있어도 전파가 부딪혀([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/)) 깨지는 일이 100% 발생하지 않는다.
 
@@ -77,27 +81,28 @@ tags = ["studynote-network"]
 | **주파수 차선(채널) 수** | 79개의 1MHz 차선을 잘게 쪼개서 호핑 | <strong>40개의 2MHz 굵은 차선</strong>으로 줄여서 전파 충돌 방어력과 전송 효율을 2배 높임. |
 | <strong>페어링(연결) <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">지연 시간</a></strong>| 폰이 새 이어폰 잡고 연결(Handshake) 맺는 데 **약 1~3초 딜레이 (무거움)** | 근처에 가자마자 **0.003초 (3ms)** 만에 즉각 연결되어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 던지고 꺼짐 (가벼움 극한). |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BLE의 비콘(Beacon) 방송 및 GATT 프로필 아키텍처 시각화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* BLE 기기들은 귀찮게 페어링(비밀번호 쳤다 뺐다) 할 필요가 없다!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">애플 AirTag / 스타벅스 비콘 센서의 무지성 방송</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스타벅스 입구 비콘</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"나는 사이렌오더 15번 비콘이다! (내 MAC 주소 찰칵!)"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">====(페어링 없이 그냥 허공에 냅다 Broadcast 광고 때림 📡)====▶</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">내 주머니 속 스마트폰</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(길 가다가 무심코 비콘의 광고 신호를 귀로 주워 들음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">폰 앱: "어? 스벅 15번 비콘 전파 잡혔네! 고객님 매장 들어오셨군요!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(즉시 스타벅스 팝업 쿠폰 화면에 띄움 ☕️)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 아키텍처 결론: BLE의 'Advertising(광고)' 채널(37, 38, 39번) 3개를</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이용하면 기기 연결(Connection) 없이도 불특정 다수에게</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자신의 ID와 짤막한 센서값(온도, 위치)을 방송할 수 있다!</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────┐
+│               BLE의 비콘(Beacon) 방송 및 GATT 프로필 아키텍처 시각화   │
+├───────────────────────────────────────────────────────────────┤
+│   * BLE 기기들은 귀찮게 페어링(비밀번호 쳤다 뺐다) 할 필요가 없다!                 │
+│                                                               │
+│   [애플 AirTag / 스타벅스 비콘 센서의 무지성 방송]                       │
+│                                                               │
+│   [스타벅스 입구 비콘]                                               │
+│    "나는 사이렌오더 15번 비콘이다! (내 MAC 주소 찰칵!)"                    │
+│    ====(페어링 없이 그냥 허공에 냅다 Broadcast 광고 때림 📡)====▶         │
+│                                                               │
+│   [내 주머니 속 스마트폰]                                            │
+│   (길 가다가 무심코 비콘의 광고 신호를 귀로 주워 들음)                      │
+│   폰 앱: "어? 스벅 15번 비콘 전파 잡혔네! 고객님 매장 들어오셨군요!"           │
+│          (즉시 스타벅스 팝업 쿠폰 화면에 띄움 ☕️)                      │
+│                                                               │
+│   => 아키텍처 결론: BLE의 'Advertising(광고)' 채널(37, 38, 39번) 3개를 │
+│                   이용하면 기기 연결(Connection) 없이도 불특정 다수에게  │
+│                   자신의 ID와 짤막한 센서값(온도, 위치)을 방송할 수 있다!   │
+└───────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** BLE가 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 세상을 씹어먹은 궁극의 무기는 **연결(Connection) 없는 Broadcasting(광고)** 기술이다. 과거 클래식 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)는 무조건 내 폰 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 설정에 들어가서 [기기 찾기 -> 핀 번호 0000 입력 -> 연결됨] 이라는 고통스러운 3단계를 거쳐야만 통신이 됐다(Connection-Oriented). [BLE](/knowledge-base/studynote/03_network/12_iot_wpan_edge/607_ble_bluetooth_low_energy_iot/) 비콘([Beacon](/knowledge-base/studynote/03_network/12_iot_wpan_edge/608_beacon_technology_ibeacon_eddystone/))은 그냥 전봇대 위에서 "나 여기 있어!"라고 초당 10번씩 3개의 전용 광고 차선으로 무자비하게 방송만 쏜다. 길 가던 모든 사람의 폰이 이 소리를 주워듣고 위치 파악을 한다. 에어팟 뚜껑을 열었을 때 폰 화면에 배터리 잔량 팝업이 0.1초 만에 뜨는 것도 에어팟이 이 [BLE](/knowledge-base/studynote/03_network/12_iot_wpan_edge/607_ble_bluetooth_low_energy_iot/) 광고 패킷으로 폰에게 무지성 방송을 때렸기 때문이다. 완벽한 마찰 제로(Frictionless) UX 아키텍처의 승리다.
 
@@ -184,19 +189,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: HAPS</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 블루투스와 BLE</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: UWB</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 무선 자원 제어</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: HAPS]
+    │
+    ▼
+[현재 개념: 블루투스와 BLE]
+    │
+    ├──▶ [확장 A: UWB]
+    └──▶ [확장 B: 지능형 무선 자원 제어]
+```
 
 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)와 BLE는 HAPS에서 출발해 현재 메커니즘을 정교화하고, 이후 UWB와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

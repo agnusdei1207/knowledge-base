@@ -30,28 +30,33 @@ tags = ["studynote-network"]
   2. **모바일 네트워크의 한계**: 3G 시절, 100MB짜리 첨부파일 메일 10개가 오면 POP3는 접속 즉시 1GB를 다운받아 폰을 마비시켰다. 제목만 쏙 빼보고 필요할 때만 본문을 받아오는 똑똑한 부분 로딩(Partial Fetch) 기술이 절실했다.
   3. **스토리지 비용의 하락**: 메일을 사용자가 지울 때까지 서버가 수십 GB를 무한정 보관해 줘야 하는 IMAP의 치명적인 스토리지 비용 문제를 구글(Gmail) 등 클라우드 기업의 규모의 경제가 해결해 버렸다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IMAP4 아키텍처: 다중 기기 상태(State) 완벽 동기화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">📱 스마트폰</div><div class="kb-diagram-node">💻 회사 PC</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(IMAP 클라이언트) (IMAP 클라이언트)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 출근길 폰으로 메일 '읽음' 처리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Flag: \Seen 서버로 전송)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">🏢 IMAP 메일 서버</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">받은편지함 (INBOX)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ ✉️ 메일 1 (어제 온 메일)</div><div class="kb-diagram-node">상태: 읽음</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ ✉️ 메일 2 (방금 온 메일)</div><div class="kb-diagram-node">상태: 안읽음</div><div class="kb-diagram-note">➔ 폰 요청에 의해</div><div class="kb-diagram-node">읽음</div><div class="kb-diagram-note">변환!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 회사 출근 후 PC 켬</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(메일함 동기화 요청)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 결과: 회사 PC 화면에 어제 폰으로 읽었던 메일 2번이 똑같이 '읽음(회색)'</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">상태로 뜬다. 만약 PC에서</div><div class="kb-diagram-node">가족</div><div class="kb-diagram-note">폴더를 새로 만들면, 1초 뒤 스마트폰의</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">메일 앱에도 똑같이</div><div class="kb-diagram-node">가족</div><div class="kb-diagram-note">폴더가 생겨나는 마법의 상태 일치화!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          IMAP4 아키텍처: 다중 기기 상태(State) 완벽 동기화         │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│       [ 📱 스마트폰 ]               [ 💻 회사 PC ]            │
+│         (IMAP 클라이언트)               (IMAP 클라이언트)           │
+│             │                           │                   │
+│             │ 1. 출근길 폰으로 메일 '읽음' 처리│                   │
+│             │ (Flag: \Seen 서버로 전송)  │                   │
+│             ▼                           │                   │
+│ ┌─────────────────────────────────────────────────────────┐ │
+│ │                  [ 🏢 IMAP 메일 서버 ]                    │ │
+│ │                                                         │ │
+│ │  [ 받은편지함 (INBOX) ]                                   │ │
+│ │  ✉️ 메일 1 (어제 온 메일)  [상태: 읽음]                       │ │
+│ │  ✉️ 메일 2 (방금 온 메일)  [상태: 안읽음] ➔ 폰 요청에 의해 [읽음] 변환! │
+│ └─────────────────────────────────────────────────────────┘ │
+│                                         ▲                   │
+│                                         │ 2. 회사 출근 후 PC 켬│
+│                                         │ (메일함 동기화 요청)  │
+│                                                             │
+│ 🌟 결과: 회사 PC 화면에 어제 폰으로 읽었던 메일 2번이 똑같이 '읽음(회색)'│
+│ 상태로 뜬다. 만약 PC에서 [가족] 폴더를 새로 만들면, 1초 뒤 스마트폰의    │
+│ 메일 앱에도 똑같이 [가족] 폴더가 생겨나는 마법의 상태 일치화!          │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** IMAP 시스템의 심장인 '단일 진실의 원천(SSOT, Single Source of Truth)' 사상이다. IMAP 환경에서 스마트폰과 PC의 이메일 앱은 스스로 상태를 결정할 권한이 없는 멍청한 껍데기(Thin [Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/))에 불과하다. 사용자가 폴더를 만들거나, 메일을 지우거나, 읽음 표시를 하는 모든 행동은 즉시 IMAP `STORE` 명령어로 번역되어 서버로 날아간다. 서버의 DB(사서함)가 원본 상태를 업데이트하고, 이 변경 사항을 연결된 모든 기기에 쏴준다([동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)). 서버가 절대적인 기준점을 쥐고 있기 때문에 기기 파편화가 절대 발생하지 않는다.
 
@@ -98,18 +103,14 @@ IMAP이 모바일 네트워크(3G/4G) 시대의 제왕이 된 가장 강력한 �
 - <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> 및 스토리지 (Maildir vs Mbox)</strong>: 메일 서버 데몬(Dovecot 등)이 수만 명의 사용자가 10년 치 쌓아둔 메일(IMAP)을 관리할 때 겪는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)시스템 딜레마다. 메일함을 1개의 거대한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 묶어서 저장하는 구형 `mbox` 포맷을 쓰면, 한 명만 메일을 '읽음(\Seen)' 처리해도 거대한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 전체에 [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)(락)이 걸려 서버가 뻗는다. IMAP 환경에서는 메일 1통을 리눅스 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 1개로 쪼개어 저장하고 읽기/쓰기를 분산시키는 `Maildir` 아키텍처가 강제된다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)시스템의 I/O 튜닝 역량이 곧 메일 서버 성능의 99%를 좌우한다.
 - <strong>모바일 융합 (IMAP <a href="/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/">IDLE</a> 푸시 확장)</strong>: 스마트폰 배터리를 아끼기 위해 1분마다 서버에 "새 메일 왔어?" 묻는 바보 같은 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/))을 버리기 위해 <strong>IMAP <a href="/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/">IDLE</a></strong> (RFC 2177) 확장이 추가되었다. 이는 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)을 가늘게 열어둔 채 서버가 먼저 "새 메일 왔어!"라고 비동기적으로 쏴주는 구조로, 현대의 WebSocket이나 모바일 푸시 알림(FCM) 아키텍처 철학과 100% 닿아있는 통신 최적화의 산물이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">POP3</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IMAP4</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SMTPS, POP3S, IMAPS</div></div>
-</div>
-</div>
-
-
+```text
+[POP3]
+    │
+    ▼
+[IMAP4]
+    │
+    └──▶ [SMTPS, POP3S, IMAPS]
+```
 
 - **📢 섹션 요약 비유**: POP3는 넷플릭스 영화를 불법 다운로드 사이트에서 내 하드디스크에 통째로 다운받고 원본은 잊어버리는 낡은 MP4 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 방식입니다. IMAP은 넷플릭스 앱을 켜서 스트리밍(부분 다운로드)으로 보며 서버와 완벽하게 씽크(Sync)를 맞추는 최첨단 클라우드 서비스입니다.
 
@@ -137,27 +138,28 @@ IMAP4를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이
 2. **시나리오 — 메일 서버 마이그레이션 (Server-to-Server) 무중단 이관**: 회사가 자체 구축한 구형 리눅스 메일 서버에서 마이크로소프트 365(클라우드)로 1만 명의 메일 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 이사 가야 한다. 사용자들의 PC에 있는 낡은 Outlook [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(.pst)을 하나씩 USB로 뜨는 것은 1년이 걸려도 불가능한 재앙이다.
    - **판단**: IMAP의 궁극적 위대함인 **단일 진실 원천(SSOT)** 특성이 폭발하는 순간이다. 모든 사용자의 폴더 트리(Tree) 구조와 편지가 서버에 100% 저장되어 있으므로, 인프라 엔지니어는 `imapsync` 같은 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) CLI 툴을 쓴다. 이 툴이 양쪽 메일 서버에 동시에 Admin 계정으로 IMAP 연결을 맺고, A서버의 폴더와 읽음/별표 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)까지 통째로 빨아들여 B서버로 완벽하게 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) 복제해 버린다. 사용자들은 주말이 지나고 월요일에 출근하면 껍데기(접속 주소)만 바뀌었을 뿐, 내 폴더와 안 읽은 메일 숫자까지 그대로인 무결점 클라우드 마이그레이션의 기적을 체험하게 된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실무 아키텍처: IMAP 기반 클라우드 메일함 마이그레이션 자동화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">❌ 구시대 POP3 백업 (데이터 파편화의 비극)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">김대리 퇴사 시: "내 PC 하드에 있는 Outlook.pst 파일 USB로 떠서 줘!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➔ 파일 깨짐, 다른 직원이 검색 불가능, 회사 지식 자산 완벽히 소실 💥</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">✅ 모던 아키텍처: IMAPSync를 활용한 Server-to-Server 이관</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(A회사 자체 구형 메일 서버) (구글 G-Suite 클라우드)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">192.168.0.10 imap.gmail.com</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">받은편지함 1만통</div><div class="kb-diagram-note">TCP 993</div><div class="kb-diagram-node">받은편지함 (비어있음)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">프로젝트 폴더 5천통</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">프로젝트 폴더 복제!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">보낸편지함 3천통</div><div class="kb-diagram-note">(서버 간 직결)</div><div class="kb-diagram-node">보낸편지함 복제!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 판단: 클라이언트 PC를 거치지 않는다! 이관 툴이 양쪽 서버에 동시에</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">연결을 맺고, 왼쪽 서버의 폴더 구조와 읽음(Seen) 플래그 상태까지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">100% 완벽하게 오른쪽 클라우드 서버로 밀어 넣어버린다.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │      실무 아키텍처: IMAP 기반 클라우드 메일함 마이그레이션 자동화       │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │ [❌ 구시대 POP3 백업 (데이터 파편화의 비극)]                     │
+  │ 김대리 퇴사 시: "내 PC 하드에 있는 Outlook.pst 파일 USB로 떠서 줘!" │
+  │ ➔ 파일 깨짐, 다른 직원이 검색 불가능, 회사 지식 자산 완벽히 소실 💥  │
+  │                                                             │
+  │ [✅ 모던 아키텍처: IMAPSync를 활용한 Server-to-Server 이관]     │
+  │                                                             │
+  │ (A회사 자체 구형 메일 서버)                 (구글 G-Suite 클라우드)  │
+  │  192.168.0.10                          imap.gmail.com       │
+  │ [ 받은편지함 1만통 ]          TCP 993      [ 받은편지함 (비어있음) ]  │
+  │ [ 프로젝트 폴더 5천통 ]  ────(imapsync)──▶ [ 프로젝트 폴더 복제! ]  │
+  │ [ 보낸편지함 3천통 ]       (서버 간 직결)     [ 보낸편지함 복제! ]     │
+  │                                                             │
+  │ 🌟 판단: 클라이언트 PC를 거치지 않는다! 이관 툴이 양쪽 서버에 동시에    │
+  │    연결을 맺고, 왼쪽 서버의 폴더 구조와 읽음(Seen) 플래그 상태까지       │
+  │    100% 완벽하게 오른쪽 클라우드 서버로 밀어 넣어버린다.                │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 엔터프라이즈 인프라 담당자가 회사 메일 시스템을 클라우드로 이사 갈 때 쓰는 궁극의 무기다. 시스템의 '상태([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))'를 누가 통제할 것인가에 대한 답이다. 상태를 클라이언트가 쥐고 있던 [POP3](/knowledge-base/studynote/03_network/09_application_layer_web_email/489_pop3_post_office_protocol_v3/) 시절엔 PC가 망가지면 회사의 정보 자산이 함께 날아갔다. IMAP은 모든 상태를 서버 중앙 집중화(Server-centric)로 끌어올린 덕분에, 클라이언트는 그저 언제든 버리고 갈아 끼울 수 있는 '투명한 껍데기 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)(Thin [Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/))'로 전락했다. 
 
@@ -205,19 +207,15 @@ IMAP4를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: POP3</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: IMAP4</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: SMTPS, POP3S, IMAPS</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 애플리케이션 전달</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: POP3]
+    │
+    ▼
+[현재 개념: IMAP4]
+    │
+    ├──▶ [확장 A: SMTPS, POP3S, IMAPS]
+    └──▶ [확장 B: 지능형 애플리케이션 전달]
+```
 
 IMAP4는 POP3에서 출발해 현재 메커니즘을 정교화하고, 이후 SMTPS, POP3S, IMAPS와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

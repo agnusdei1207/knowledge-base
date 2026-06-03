@@ -31,26 +31,29 @@ tags = ["studynote-operating-system"]
 - <strong>물리 디스크를 4조각 내는 On-Disk <a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a> 포맷 레이아웃 다이어그램</strong>:
 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 디스크를 `ext4` 나 `NTFS` 로 포맷(Format)할 때 텅 빈 쓰레기 깡통을 어떻게 구획별로 칼질해 인프라를 짜는지 ASCII로 분해하면 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1개의 디스크 파티션(Volume)이 포맷될 때 생기는 4대 구획표</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">디스크 물리적 첫 섹터 0번지 출발 ──▶ 끝자리 바닥 1TB 지점</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1️⃣</div><div class="kb-diagram-node">부트 제어 블록 (Boot Control Block)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 윈도우 부팅, Linux GRUB 실행 코드가 파티션 최상단에 은신! 타격 로드.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2️⃣</div><div class="kb-diagram-node">볼륨 제어 블록 / 슈퍼블록 (Volume Control / Superblock)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "이 파티션은 1TB며, 블록 크기는 4KB고 빈 공간은 Array 5번에 있다!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3️⃣</div><div class="kb-diagram-node">디렉터리 구조 (Directory Structure)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "A 방에는 파일 B, 파일 C가 들어있다" (파일 이름과 ID 매핑 구조)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">4️⃣</div><div class="kb-diagram-node">FCB 장부 (File Control Block / 리눅스 Inode Table)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- (파일 인덱스표 1,000만 개 공간). "파일 C는 소유자 Root, 크기 1G"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">5️⃣</div><div class="kb-diagram-node">실제 데이터 블록들 (Data Blocks 광활한 빈 우주)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "영화.mp4", "보고서.docx" 의 알맹이 0101 데이터들이 우르르 채워짐.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌──────────────────────────────────────────────────────────────────────────────┐
+  │                 1개의 디스크 파티션(Volume)이 포맷될 때 생기는 4대 구획표    │
+  ├──────────────────────────────────────────────────────────────────────────────┤
+  │                                                                              │
+  │     [ 디스크 물리적 첫 섹터 0번지 출발 ──▶ 끝자리 바닥 1TB 지점 ]            │
+  │                                                                              │
+  │  1️⃣ [ 부트 제어 블록 (Boot Control Block) ]                                 │
+  │     - 윈도우 부팅, Linux GRUB 실행 코드가 파티션 최상단에 은신! 타격 로드.   │
+  │                                                                              │
+  │  2️⃣ [ 볼륨 제어 블록 / 슈퍼블록 (Volume Control / Superblock) ]             │
+  │     - "이 파티션은 1TB며, 블록 크기는 4KB고 빈 공간은 Array 5번에 있다!"     │
+  │                                                                              │
+  │  3️⃣ [ 디렉터리 구조 (Directory Structure) ]                                 │
+  │     - "A 방에는 파일 B, 파일 C가 들어있다" (파일 이름과 ID 매핑 구조)        │
+  │                                                                              │
+  │  4️⃣ [ FCB 장부 (File Control Block / 리눅스 Inode Table) ]                  │
+  │     - (파일 인덱스표 1,000만 개 공간). "파일 C는 소유자 Root, 크기 1G"       │
+  │                                                                              │
+  │  5️⃣ [ 실제 데이터 블록들 (Data Blocks 광활한 빈 우주) ]                     │
+  │     - "영화.mp4", "보고서.docx" 의 알맹이 0101 데이터들이 우르르 채워짐.     │
+  └──────────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 초보자들은 1TB 디스크를 사면 내가 1TB [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 빵빵하게 다 쓸 수 있을 거라 착각한다. 하지만 포맷(Format)을 누르는 순간 1~4번의 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)(장부표) I/O 집 주소가 미리 거대하게 선점 구축 타격을 당한다. 특히 4번의 `FCB(아이노드 테이블)` 구역은 나중에 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 1,000만 개가 생길 것에 대비해 디스크 용량의 1~2% 정도를 미리 깡통으로 뜯어내 장부 칸으로 낭비(Overhead 확보)해 둔다. 이것이 1TB 외장 하드를 샀는데 포맷하고 꽂아보면 내 컴퓨터에서는 왜 "사용 가능 용량: 931GB" 로 손해를 보는 증발 오차가 렌더되는지(물리 진폭 계산 1024 오차 외에도) 그 가장 강력한 구조적 뼈대 이유 중 하나다.
 
@@ -146,19 +149,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">VFS 객체</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">디스크 상의 구조 (On Disk Structures)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">메모리 내의 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">열린 파일 테이블 (Open File Table)</div></div>
-</div>
-</div>
-
-
+```text
+[VFS 객체]
+    │
+    ▼
+[디스크 상의 구조 (On Disk Structures)]
+    │
+    ├──▶ [메모리 내의 구조]
+    └──▶ [열린 파일 테이블 (Open File Table)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

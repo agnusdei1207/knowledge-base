@@ -29,23 +29,17 @@ tags = ["studynote-cloud"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">애플리케이션 + 라이브러리</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">컨테이너 이미지</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">컨테이너 런타임</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">호스트 OS 커널 공유</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">논리적 격리된 프로세스</div>
-</div>
-</div>
-
-
+```text
+애플리케이션 + 라이브러리
+        ↓
+컨테이너 이미지
+        ↓
+컨테이너 런타임
+        ↓
+호스트 OS 커널 공유
+        ↓
+논리적 격리된 프로세스
+```
 
 | 구성 요소 | 역할 |
 | :-- | :-- |
@@ -111,45 +105,33 @@ tags = ["studynote-cloud"]
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Image</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Container Runtime</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Namespace / cgroups</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Docker / Kubernetes</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Cloud Native</div>
-</div>
-</div>
-
-
+```text
+Image
+   ↓
+Container Runtime
+   ↓
+Namespace / cgroups
+   ↓
+Docker / Kubernetes
+   ↓
+Cloud Native
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">VM</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Linux Container</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Docker</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Kubernetes</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Cloud Native</div>
-</div>
-</div>
-
-
+```text
+VM
+   ↓
+Linux Container
+   ↓
+Docker
+   ↓
+Kubernetes
+   ↓
+Cloud Native
+```
 
 ---
 

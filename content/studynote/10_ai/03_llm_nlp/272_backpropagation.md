@@ -48,64 +48,63 @@ L = Loss(ŷ), ŷ = σ(z), z = Wx + b
 
 ### 역전파 전체 흐름 (3층 신경망 기준)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">역전파 (Backpropagation) 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">순전파 (저장된 값 활용):</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">W¹,b¹</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">ReLU</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">W²,b²</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">σ</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">ŷ → L</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">역전파 (출력→입력 방향):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">∂L/∂ŷ = -(y/ŷ) + (1-y)/(1-ŷ) ← 손실 기울기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">∂L/∂z² = ∂L/∂ŷ × σ'(z²) ← 활성화 역전파</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">∂L/∂W² = ∂L/∂z² × (a¹)ᵀ ← 가중치 기울기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">∂L/∂b² = ∂L/∂z² ← 편향 기울기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">∂L/∂a¹ = (W²)ᵀ × ∂L/∂z² ← 이전 층으로 기울기 전달</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">∂L/∂z¹ = ∂L/∂a¹ × ReLU'(z¹) ← 활성화 역전파</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">∂L/∂W¹ = ∂L/∂z¹ × xᵀ ← 가중치 기울기</div></div>
-</div>
-</div>
-
-
+```
+┌────────────────────────────────────────────────────────────────────┐
+│                  역전파 (Backpropagation) 흐름                      │
+│                                                                    │
+│  순전파 (저장된 값 활용):                                            │
+│  x → [W¹,b¹] → z¹ → [ReLU] → a¹ → [W²,b²] → z² → [σ] → ŷ → L  │
+│                                                                    │
+│  역전파 (출력→입력 방향):                                            │
+│                                                                    │
+│  ∂L/∂ŷ = -(y/ŷ) + (1-y)/(1-ŷ)    ← 손실 기울기                   │
+│      ↓                                                             │
+│  ∂L/∂z² = ∂L/∂ŷ × σ'(z²)         ← 활성화 역전파                 │
+│      ↓                                                             │
+│  ∂L/∂W² = ∂L/∂z² × (a¹)ᵀ         ← 가중치 기울기                  │
+│  ∂L/∂b² = ∂L/∂z²                  ← 편향 기울기                   │
+│      ↓                                                             │
+│  ∂L/∂a¹ = (W²)ᵀ × ∂L/∂z²         ← 이전 층으로 기울기 전달        │
+│      ↓                                                             │
+│  ∂L/∂z¹ = ∂L/∂a¹ × ReLU'(z¹)     ← 활성화 역전파                 │
+│      ↓                                                             │
+│  ∂L/∂W¹ = ∂L/∂z¹ × xᵀ            ← 가중치 기울기                  │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 ### 연쇄 법칙의 국소 기울기 (Local Gradient)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">연산 그래프에서의 국소 기울기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">곱셈 노드 (z = x × w):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">∂z/∂x = w (x의 국소 기울기 = w)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">∂z/∂w = x (w의 국소 기울기 = x)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">덧셈 노드 (z = x + b):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">∂z/∂x = 1 (기울기 그대로 통과)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">∂z/∂b = 1 (기울기 그대로 통과)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ReLU 노드:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">∂a/∂z = 1 (z &gt; 0) → 기울기 그대로 통과</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">∂a/∂z = 0 (z ≤ 0) → 기울기 차단 (죽은 ReLU)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">역전파 규칙: 위쪽에서 내려온 기울기 × 국소 기울기 = 하류 기울기</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────────────┐
+│            연산 그래프에서의 국소 기울기                            │
+│                                                                  │
+│  곱셈 노드 (z = x × w):                                          │
+│    ∂z/∂x = w  (x의 국소 기울기 = w)                              │
+│    ∂z/∂w = x  (w의 국소 기울기 = x)                              │
+│                                                                  │
+│  덧셈 노드 (z = x + b):                                          │
+│    ∂z/∂x = 1  (기울기 그대로 통과)                               │
+│    ∂z/∂b = 1  (기울기 그대로 통과)                               │
+│                                                                  │
+│  ReLU 노드:                                                      │
+│    ∂a/∂z = 1  (z > 0)   → 기울기 그대로 통과                     │
+│    ∂a/∂z = 0  (z ≤ 0)   → 기울기 차단 (죽은 ReLU)               │
+│                                                                  │
+│  역전파 규칙: 위쪽에서 내려온 기울기 × 국소 기울기 = 하류 기울기   │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 ### [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 갱신 ([경사 하강법](/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/))
 
+```
+가중치 갱신:
+  W ← W - η × ∂L/∂W
+  b ← b - η × ∂L/∂b
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">가중치 갱신:</div>
-<div class="kb-diagram-note">W ← W - η × ∂L/∂W</div>
-<div class="kb-diagram-note">b ← b - η × ∂L/∂b</div>
-<div class="kb-diagram-note">η (eta): 학습률 (Learning Rate)</div>
-<div class="kb-diagram-note">너무 크면 → 발산 (Divergence)</div>
-<div class="kb-diagram-note">너무 작으면 → 느린 수렴 (Slow Convergence)</div>
-</div>
-</div>
-
-
+  η (eta): 학습률 (Learning Rate)
+         너무 크면 → 발산 (Divergence)
+         너무 작으면 → 느린 수렴 (Slow Convergence)
+```
 
 ### [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) vs [기울기 폭발](/knowledge-base/studynote/10_ai/01_ai_basics/089_exploding_gradient_clipping/)
 
@@ -133,18 +132,12 @@ L = Loss(ŷ), ŷ = σ(z), z = Wx + b
 
 역전파는 자동 미분의 역방향 모드(Reverse Mode AD)다:
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">프레임워크별 구현:</div>
-<div class="kb-diagram-note">PyTorch: loss.backward() → 동적 계산 그래프 (Define-by-Run)</div>
-<div class="kb-diagram-note">TensorFlow: tape.gradient() → 정적 + 동적 (Eager Mode)</div>
-<div class="kb-diagram-note">JAX: jax.grad() → 함수형 자동 미분</div>
-</div>
-</div>
-
-
+```
+프레임워크별 구현:
+  PyTorch:     loss.backward()  → 동적 계산 그래프 (Define-by-Run)
+  TensorFlow:  tape.gradient()  → 정적 + 동적 (Eager Mode)
+  JAX:         jax.grad()       → 함수형 자동 미분
+```
 
 - **📢 섹션 요약 비유**: 자동 미분은 GPS 네비게이션 — 수학 공식으로 직접 길을 찾는(수치 미분) 대신, 이미 저장된 지도(연산 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/))를 따라 효율적으로 최적 경로(기울기)를 계산한다.
 
@@ -161,19 +154,13 @@ L = Loss(ŷ), ŷ = σ(z), z = Wx + b
 
 ### [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 갱신 최적화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">SGD (기본): W ← W - η·∂L/∂W</div>
-<div class="kb-diagram-note">Momentum: v ← βv - η·∂L/∂W, W ← W + v</div>
-<div class="kb-diagram-note">Adam: W ← W - η·m̂/(√v̂+ε)</div>
-<div class="kb-diagram-note">m̂: 1차 모멘트 편향 보정</div>
-<div class="kb-diagram-note">v̂: 2차 모멘트 편향 보정</div>
-</div>
-</div>
-
-
+```
+SGD (기본):     W ← W - η·∂L/∂W
+Momentum:       v ← βv - η·∂L/∂W,  W ← W + v
+Adam:           W ← W - η·m̂/(√v̂+ε)
+                m̂: 1차 모멘트 편향 보정
+                v̂: 2차 모멘트 편향 보정
+```
 
 | [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) | [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) 적응 | [모멘텀](/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/) | 추천 상황 |
 |:---|:---:|:---:|:---|

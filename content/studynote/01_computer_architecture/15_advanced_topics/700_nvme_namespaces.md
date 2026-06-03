@@ -43,20 +43,21 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 하나의 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 장치가 여러 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)로 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 분리되지만, 실제 하드웨어 자원은 여전히 공유한다는 점을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NVMe namespaces: multiple logical devices, one engine</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NVMe Controller / SSD</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Namespace 1</div><div class="kb-diagram-cell">Namespace 2</div><div class="kb-diagram-cell">Namespace 3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">boot volume</div><div class="kb-diagram-cell">database data</div><div class="kb-diagram-cell">tenant or log volume</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">small blocks</div><div class="kb-diagram-cell">tuned layout</div><div class="kb-diagram-cell">own policy / reservation</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Shared controller logic and flash pool</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│             NVMe namespaces: multiple logical devices, one engine    │
+├──────────────────────────────────────────────────────────────────────┤
+│                    NVMe Controller / SSD                             │
+│   ┌────────────────┬────────────────┬────────────────────────────┐   │
+│   │ Namespace 1    │ Namespace 2    │ Namespace 3                │   │
+│   │ boot volume    │ database data  │ tenant or log volume       │   │
+│   │ small blocks   │ tuned layout   │ own policy / reservation   │   │
+│   └────────────────┴────────────────┴────────────────────────────┘   │
+│                             │                                        │
+│                             ▼                                        │
+│                 Shared controller logic and flash pool               │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 즉 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)는 물리 디스크를 여러 개 만든 것이 아니라, <strong>한 장치 안에 여러 <a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a> 장치를 공식적으로 만들어 준 것</strong>이다. 그래서 분리는 강하지만, 장치 내부 채널과 플래시 자원은 완전히 독립적이지 않다.
 
@@ -128,24 +129,22 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단일 NVMe 장치 전체 노출</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">운영체제 파티션 기반 분할</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">NVMe 네임스페이스 (Namespaces)</div>
-<div class="kb-diagram-note">: 컨트롤러 수준 논리 장치 분리</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ SR-IOV (Single Root I/O Virtualization)</div>
-<div class="kb-diagram-note">: 테넌트별 직접 할당</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ZNS (Zoned Namespace) · NVMe over Fabrics 기반 확장</div>
-</div>
-</div>
-
-
+```text
+단일 NVMe 장치 전체 노출
+    │
+    ▼
+운영체제 파티션 기반 분할
+    │
+    ▼
+NVMe 네임스페이스 (Namespaces)
+    : 컨트롤러 수준 논리 장치 분리
+    │
+    ├──▶ SR-IOV (Single Root I/O Virtualization)
+    │     : 테넌트별 직접 할당
+    │
+    ▼
+ZNS (Zoned Namespace) · NVMe over Fabrics 기반 확장
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

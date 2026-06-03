@@ -32,22 +32,22 @@ tags = ["network"]
 
 TDMA 시스템은 시간을 통제하여 충돌을 막기 위해 단말기와 기지국 간의 정밀한 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)와 전송 주기 관리를 요구한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TDMA의 프레임, 버스트, 가드 타임 아키텍처</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User1</div><div class="kb-diagram-cell">Burst</div><div class="kb-diagram-cell">Burst</div><div class="kb-diagram-cell">Burst</div><div class="kb-diagram-cell">Burst</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──█── ──█── ──█── ──█── ▶ 시간(t)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ Guard Time (보호 시간)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">병목 지점</div><div class="kb-diagram-note">: 기지국에서 멀리 있는 단말기의 전파는 전파 지연</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Propagation Delay) 때문에 늦게 도착한다. 앞 슬롯의 꼬리가 뒤 슬롯을</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">덮치는 치명적 충돌을 막기 위해, 슬롯 사이에 '가드 타임'이라는 빈</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간 마진을 두어 안전거리를 확보한다.</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│            TDMA의 프레임, 버스트, 가드 타임 아키텍처           │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│       ┌─────┐    ┌─────┐    ┌─────┐    ┌─────┐               │
+│ User1 │Burst│    │Burst│    │Burst│    │Burst│               │
+│ ──────┴──█──┴────┴──█──┴────┴──█──┴────┴──█──┴──────▶ 시간(t)│
+│          ▲ Guard Time (보호 시간)                            │
+│                                                              │
+│ [병목 지점]: 기지국에서 멀리 있는 단말기의 전파는 전파 지연       │
+│ (Propagation Delay) 때문에 늦게 도착한다. 앞 슬롯의 꼬리가 뒤 슬롯을 │
+│ 덮치는 치명적 충돌을 막기 위해, 슬롯 사이에 '가드 타임'이라는 빈     │
+│ 시간 마진을 두어 안전거리를 확보한다.                              │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 구조도의 핵심은 아날로그 FDMA가 주파수 사이의 가드 밴드 ([Guard Band](/knowledge-base/studynote/03_network/19_frequent_topics_terms/946_guard_band_fdm_adjacent_channel_interference/))를 낭비했다면, TDMA는 슬롯 사이의 가드 타임 (Guard Time)을 소모한다는 점이다. 단말기는 음성 데이터를 임시 메모리에 쌓아두었다가 자신의 타임 슬롯이 도래하면 전력 앰프를 켜고 풀파워로 데이터를 쏘아 보내는(Burst) '스토어 앤 포워드' 방식으로 동작한다.
 
@@ -107,23 +107,21 @@ TDMA는 주파수를 독점하던 아날로그의 낭비를 거부하고, 시간
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">아날로그 주파수 독점 (FDMA)의 대역폭 낭비</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">디지털 음성 압축 및 시간 분할 도입 (TDMA)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">정밀 동기화 및 타이밍 보상 (Timing Advance) 제어</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">셀룰러 망에서의 CDMA/OFDMA로의 진화 (3G/4G)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">특수망 생존성 확보: 무전기(TETRA) 및 초저전력 IoT 센서망 정착</div>
-</div>
-</div>
-
-
+```text
+아날로그 주파수 독점 (FDMA)의 대역폭 낭비
+    │
+    ▼
+디지털 음성 압축 및 시간 분할 도입 (TDMA)
+    │
+    ▼
+정밀 동기화 및 타이밍 보상 (Timing Advance) 제어
+    │
+    ▼
+셀룰러 망에서의 CDMA/OFDMA로의 진화 (3G/4G)
+    │
+    ▼
+특수망 생존성 확보: 무전기(TETRA) 및 초저전력 IoT 센서망 정착
+```
 
 이 흐름도는 주파수 고갈을 막기 위한 TDMA의 등장부터, 정밀 시간 제어를 거쳐 현대의 저전력 특수망 생태계로 정착하는 과정을 보여준다.
 

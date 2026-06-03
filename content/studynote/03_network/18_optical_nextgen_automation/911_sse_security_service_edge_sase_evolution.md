@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 2019년 가트너가 창안한 <strong><a href="/knowledge-base/studynote/03_network/14_network_security_threats/740_sase_secure_access_service_edge_sdwan_cloud/">SASE</a> (Secure Access <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a> Edge)</strong>는 통신 핏줄인 <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/849_sd_wan_software_defined_wide_area_network/">네트워킹([SD-WAN</a>)]</strong>과 방패인 <strong><a href="/knowledge-base/studynote/03_network/14_network_security_threats/742_swg_secure_web_gateway/">보안([SWG</a>, <a href="/knowledge-base/studynote/03_network/14_network_security_threats/741_casb_cloud_access_security_broker/">CASB</a>, <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/339_ztna/">ZTNA</a>)]</strong>을 아예 하나의 몸통(단일 벤더 클라우드)으로 짬뽕 시켜 팔겠다는 이상적인 프레임워크였습니다.
 - **기업의 딜레마**: 현실 기업의 IT팀(네트워크망 관리)과 보안팀(해커 차단)은 권력 다툼을 하는 별개의 부서입니다. 네트워크팀은 이미 아리스타나 시스코 망을 몇백억 주고 깔아놔서 바꿀 생각이 없는데, 보안팀이 "[SASE](/knowledge-base/studynote/03_network/14_network_security_threats/740_sase_secure_access_service_edge_sdwan_cloud/) 하나로 다 합칩시다!" 하니까 반발이 터집니다. SASE라는 거대한 짬뽕 플랫폼을 통째로 도입하는 건 기업 입장에선 뼈와 살을 찢는 대공사였습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 코딩</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SSE</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IPFS</div></div>
-</div>
-</div>
-
-
+```text
+[네트워크 코딩]
+    │
+    ▼
+[SSE]
+    │
+    └──▶ [IPFS]
+```
 
 - **📢 섹션 요약 비유**: SSE는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -46,18 +42,14 @@ tags = ["studynote-network"]
 - **개념**: 기존 [SASE](/knowledge-base/studynote/03_network/14_network_security_threats/740_sase_secure_access_service_edge_sdwan_cloud/) 융합 모델에서 복잡한 '[전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/)/[SD-WAN](/knowledge-base/studynote/03_network/16_data_center_cloud/849_sd_wan_software_defined_wide_area_network/)(네트워크 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)) 인프라 통제 기능'을 가위로 싹 도려내어 배제하고, 오직 <strong>순수한 클라우드 기반의 보안 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a> <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a>) <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 및 통제 기능들(<a href="/knowledge-base/studynote/03_network/14_network_security_threats/742_swg_secure_web_gateway/">SWG</a>, <a href="/knowledge-base/studynote/03_network/14_network_security_threats/741_casb_cloud_access_security_broker/">CASB</a>, <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/339_ztna/">ZTNA</a> 등)만을 모듈화하여 독립적으로 제공하는 차세대 엣지 보안 프레임워크</strong>입니다.
 - **철학**: "길(네트워크 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))은 니네 회사 편한 거(VPN이든 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/)이든) 아무거나 타! 근데 그 길이 끝나는 종착지 톨게이트(Edge)에서는 무조건 이 <strong>'<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/481_sse_server_sent_events/">SSE</a> 엑스레이 검색대 클라우드'</strong>를 거쳐서 악성코드를 다 털고 회사망으로 들어가라!"
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 코딩</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SSE</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IPFS</div></div>
-</div>
-</div>
-
-
+```text
+[네트워크 코딩]
+    │
+    ▼
+[SSE]
+    │
+    └──▶ [IPFS]
+```
 
 - **📢 섹션 요약 비유**: SSE의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -116,19 +108,15 @@ SSE는 광통신·차세대·자동화를 이해할 때 핵심 축을 잡아 주
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 네트워크 코딩</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: SSE</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: IPFS</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 네트워크 코딩]
+    │
+    ▼
+[현재 개념: SSE]
+    │
+    ├──▶ [확장 A: IPFS]
+    └──▶ [확장 B: 의미 기반 통신 최적화]
+```
 
 SSE는 [네트워크 코딩](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/910_network_coding_algebraic_packet_combination/)에서 출발해 현재 메커니즘을 정교화하고, 이후 IPFS와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -35,21 +35,19 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 `A B + C *` 같은 후위 표기식이 어떻게 처리되는지를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스택 머신의 기본 실행 흐름: 위치 지정 대신 "순서"로 계산</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">명령어</div><div class="kb-diagram-cell">스택 상태</div><div class="kb-diagram-cell">동작 의미</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">PUSH A</div><div class="kb-diagram-node">A</div><div class="kb-diagram-note">A를 스택에 적재</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">PUSH B</div><div class="kb-diagram-node">A, B</div><div class="kb-diagram-note">B를 스택에 적재</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">ADD</div><div class="kb-diagram-node">A+B</div><div class="kb-diagram-note">B, A를 꺼내 더해 재적재</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">PUSH C</div><div class="kb-diagram-node">A+B, C</div><div class="kb-diagram-note">C를 스택에 적재</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">MUL</div><div class="kb-diagram-node">(A+B)×C</div><div class="kb-diagram-note">C, A+B를 꺼내 곱해 재적재</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│      스택 머신의 기본 실행 흐름: 위치 지정 대신 "순서"로 계산      │
+├───────────┬──────────────────────────────┬───────────────────────────┤
+│ 명령어    │ 스택 상태                     │ 동작 의미                  │
+├───────────┼──────────────────────────────┼───────────────────────────┤
+│ PUSH A    │ [A]                          │ A를 스택에 적재            │
+│ PUSH B    │ [A, B]                       │ B를 스택에 적재            │
+│ ADD       │ [A+B]                        │ B, A를 꺼내 더해 재적재    │
+│ PUSH C    │ [A+B, C]                     │ C를 스택에 적재            │
+│ MUL       │ [(A+B)×C]                    │ C, A+B를 꺼내 곱해 재적재  │
+└───────────┴──────────────────────────────┴───────────────────────────┘
+```
 
 이 모델에서 `ADD`나 `MUL`은 <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/191_0_address_instruction/">0-주소 명령어</a> (<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/191_0_address_instruction/">Zero-Address Instruction</a>)</strong> 로 동작한다. [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 안에는 목적지와 소스 주소가 없고, 하드웨어나 가상 머신이 "최상단 두 값을 사용한다"는 규칙을 알고 있다. 따라서 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 형식은 단순해지지만, 값을 원하는 순서로 미리 쌓아 두는 컴파일러 또는 해석기 역할이 중요해진다.
 
@@ -138,24 +136,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">수식 계산 단순화 요구</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">후위 표기법 (RPN, Reverse Polish Notation)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">스택 머신 (Stack Machine)</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ 0-주소 명령어 (Zero-Address Instruction)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">가상 머신 바이트코드 설계</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ JVM (Java Virtual Machine)</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ WebAssembly</div>
-</div>
-</div>
-
-
+```text
+수식 계산 단순화 요구
+        │
+        ▼
+후위 표기법 (RPN, Reverse Polish Notation)
+        │
+        ▼
+스택 머신 (Stack Machine)
+        │
+        ├──────────────▶ 0-주소 명령어 (Zero-Address Instruction)
+        │
+        ▼
+가상 머신 바이트코드 설계
+        │
+        ├──────────────▶ JVM (Java Virtual Machine)
+        └──────────────▶ WebAssembly
+```
 
 이 흐름은 "식 표현 단순화 → [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 기반 실행 → 주소 생략형 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) → 현대 바이트코드 활용"으로 이어지는 진화를 보여준다.
 

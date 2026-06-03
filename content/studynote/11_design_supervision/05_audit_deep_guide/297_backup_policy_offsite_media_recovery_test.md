@@ -20,21 +20,26 @@ tags = ["studynote-design-supervision"]
 ## Ⅰ. 개요 및 필요성
 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)정책 소산보관 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)테스트 감리는 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)([Backup](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)), 소산 보관(Offsite Storage), [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 테스트([Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) Test) 운영 체계를 대상으로 설계 기준과 운영 결과가 같은 방향으로 움직이는지 판단하는 감리 항목이다. 재해·[랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/)·[공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 장애가 빈번해지면서 문서형 계획보다 실제 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 운영이 중요해졌다. 특히 보존 주기가 기준선으로 정리되지 않으면 오프사이트 미디어는 사람 의존 절차로 흩어지고, 최종적으로 복원 훈련이 남지 않아 의사결정이 감각에 의존하게 된다. 훈련과 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 없으면 계획 문서가 있어도 실제 사고 시 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 멈춘다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구사항·위험 인식</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보존 주기 기준 수립</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오프사이트 미디어 설계 반영</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">복원 훈련 증적 확보</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────┐
+│ 요구사항·위험 인식 │
+└────────┬─────────┘
+         │
+         ▼
+┌──────────────────┐
+│ 보존 주기 기준 수립 │
+└────────┬─────────┘
+         │
+         ▼
+┌──────────────────┐
+│ 오프사이트 미디어 설계 반영 │
+└────────┬─────────┘
+         │
+         ▼
+┌──────────────────┐
+│ 복원 훈련 증적 확보 │
+└──────────────────┘
+```
 - **📢 섹션 요약 비유**: [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)정책 소산보관 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)테스트 감리는 설계도만 보는 검토가 아니라, 건물의 구조도와 실제 비상구 작동 여부를 함께 확인하는 점검과 같다.
 
 ---
@@ -48,16 +53,16 @@ tags = ["studynote-design-supervision"]
 | 실행 메커니즘 | 오프사이트 미디어를 설계, 구현, 운영 절차에 반영한다. | 사람 의존이 아닌 반복 가능한 구조가 중요하다. |
 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 증적 | 복원 훈련을 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 보고서, 테스트, 승인 이력으로 남긴다. | 재현 가능한 증적이 있어야 시정조치가 닫힌다. |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정책·표준 계층</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">구현·운영 계층</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모니터링·증적 계층</div><div class="kb-diagram-cell">시정조치·개선 계층</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────┐      ┌──────────────────┐
+│ 정책·표준 계층    │ ───▶ │ 구현·운영 계층    │
+└────────┬─────────┘      └────────┬─────────┘
+         │                           │
+         ▼                           ▼
+┌──────────────────┐ ◀──── ┌──────────────────┐
+│ 모니터링·증적 계층 │      │ 시정조치·개선 계층 │
+└──────────────────┘      └──────────────────┘
+```
 - **📢 섹션 요약 비유**: 보존 주기, 오프사이트 미디어, 복원 훈련은 따로 도는 바퀴가 아니라 서로 맞물린 톱니바퀴라서 하나라도 헛돌면 전체 통제가 무너진다.
 
 ---
@@ -111,6 +116,6 @@ tags = ["studynote-design-supervision"]
 **진행 상황**: 358 / 530
 
 ← **이전**: [296. 서드파티 API 타임아웃과 서킷브레이커 감리 (Third Party API Timeout and Circuit Breaker](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/296_third_party_api_timeout_circuit_breaker/)
-**다음**: [298. UAT 고객 서명 인수인계 감리 (UAT Customer Signoff Acceptance Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/298_uat_customer_signoff_acceptance/) →
+**다음**: [298. UAT 고객 서명 인수인계 감리 (UAT C고객 Signoff Acceptance Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/298_uat_customer_signoff_acceptance/) →
 
 ---

@@ -29,23 +29,17 @@ PASTA는 비즈니스 중심으로 시작해 위협과 공격 시나리오를 �
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Business Objectives</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Technical Scope</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Threat Analysis</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Attack Simulation</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Risk Management</div>
-</div>
-</div>
-
-
+```text
+Business Objectives
+  ↓
+Technical Scope
+  ↓
+Threat Analysis
+  ↓
+Attack Simulation
+  ↓
+Risk Management
+```
 
 | 단계 | 역할 |
 | :-- | :-- |
@@ -112,41 +106,29 @@ PASTA는 보안과 비즈니스를 연결해 더 현실적인 대응을 돕는�
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Business Goal</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">PASTA</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Attack Simulation</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Risk Response</div>
-</div>
-</div>
-
-
+```text
+Business Goal
+  ↓
+PASTA
+  ↓
+Attack Simulation
+  ↓
+Risk Response
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">STRIDE</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">DREAD</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">PASTA</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Risk-based Security</div>
-</div>
-</div>
-
-
+```text
+STRIDE
+  ↓
+DREAD
+  ↓
+PASTA
+  ↓
+Risk-based Security
+```
 
 ---
 

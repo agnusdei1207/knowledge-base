@@ -35,18 +35,15 @@ HASS의 핵심은 정상 사용 조건보다 강하지만 파괴 한계보다 �
 
 아래 그림은 HASS가 위치해야 할 영역을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HASS profile inside safe margin</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Field spec HASS zone ── Destruct limit</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">normal use</div><div class="kb-diagram-cell">catches weak assemblies</div><div class="kb-diagram-cell">never cross</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">proof of screen required</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                   HASS profile inside safe margin                   │
+├──────────────────────────────────────────────────────────────────────┤
+│ Field spec ───────┬──────── HASS zone ────────┬── Destruct limit    │
+│ normal use        │ catches weak assemblies   │ never cross         │
+│                   │ proof of screen required  │                     │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 실제 HASS 프로파일은 보통 다음 요소를 조합한다.
 
@@ -132,26 +129,25 @@ HASS가 잘 설계되면 출하 품질이 높아지고, 고객 현장의 [초기
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">설계 안정화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">HALT limits identified</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Proof of Screen</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">HASS (Highly Accelerated Stress Screen)</div>
-<div class="kb-diagram-note">: short-duration high-stress production screen</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ fallout analysis</div>
-<div class="kb-diagram-note">: solder · connector · assembly variation</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ outgoing quality improvement</div>
-<div class="kb-diagram-note">: fewer infant failures in the field</div>
-</div>
-</div>
-
-
+```text
+설계 안정화
+    │
+    ▼
+HALT limits identified
+    │
+    ▼
+Proof of Screen
+    │
+    ▼
+HASS (Highly Accelerated Stress Screen)
+    : short-duration high-stress production screen
+    │
+    ├──▶ fallout analysis
+    │     : solder · connector · assembly variation
+    │
+    └──▶ outgoing quality improvement
+          : fewer infant failures in the field
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

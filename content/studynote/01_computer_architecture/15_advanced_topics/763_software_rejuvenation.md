@@ -42,19 +42,16 @@ tags = ["studynote-computer-architecture"]
 
 실제 운영 흐름은 보통 <strong>모니터링 → <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/">트리거</a> 판단 → 트래픽 드레인 → 재시작/리부트 → 워밍업 → <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 재투입</strong>으로 이뤄진다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Monitor -&gt; Trigger -&gt; Drain -&gt; Rejuvenate -&gt; Warm-up -&gt; Rejoin</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ App restart</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Container / VM recycle</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ OS reboot</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ HW reboot</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Monitor -> Trigger -> Drain -> Rejuvenate -> Warm-up -> Rejoin    │
+│                  │                                                 │
+│                  ├─ App restart                                    │
+│                  ├─ Container / VM recycle                         │
+│                  ├─ OS reboot                                      │
+│                  └─ HW reboot                                      │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 여기서 HW 리부트는 단순한 "껐다 켠다"가 아니라, 소프트웨어 계층만으로는 제거되지 않는 상태를 비우는 가장 깊은 회춘 단계다. 예를 들어 사용자 프로세스 재시작으로는 해결되지 않는 [NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/) (Network Interface Card) [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 이상, [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) ([Peripheral Component Interconnect](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/355_pci/) Express) 장치 응답 불능, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 드라이버 누적 오류는 OS 재부팅이나 물리 노드 리셋이 필요할 수 있다. 다만 비용이 큰 만큼, 먼저 얕은 회춘으로 해결 가능한지 판단하는 것이 원칙이다.
 
@@ -132,25 +129,22 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">장기 실행 서비스</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">소프트웨어 노화 관측</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">임계치/예측 기반 회춘 트리거</div>
-<div class="kb-diagram-tree-item" style="--depth:2">프로세스 재시작</div>
-<div class="kb-diagram-tree-item" style="--depth:2">컨테이너·VM 교체</div>
-<div class="kb-diagram-tree-item" style="--depth:2">OS 재부팅</div>
-<div class="kb-diagram-tree-item" style="--depth:2">HW 리부트</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">롤링 운영 · 자가 치유(Self-healing) 인프라</div>
-</div>
-</div>
-
-
+```text
+장기 실행 서비스
+    │
+    ▼
+소프트웨어 노화 관측
+    │
+    ▼
+임계치/예측 기반 회춘 트리거
+    │
+    ├── 프로세스 재시작
+    ├── 컨테이너·VM 교체
+    ├── OS 재부팅
+    └── HW 리부트
+    ▼
+롤링 운영 · 자가 치유(Self-healing) 인프라
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

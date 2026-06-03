@@ -25,26 +25,29 @@ tags = ["studynote-network"]
 - **필요성**: 무선 전파는 빛이나 소리와 같아서 벽을 부수고 넘어가며, 주파수를 칼로 무 썰듯 완벽히 자를 수도 없다. 스마트폰 화면에 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 칸이 5개(만땅)가 떠도 인터넷이 지독하게 느린 이유는, 내 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)도 강하지만 밖에서 날아온 잡음(CCI/ACI 간섭)이 더 강해서 폰이 진짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 해독하지 못하고 폐기해 버리기 때문이다.
 - **등장 배경**: ① 가입자 수용을 위해 셀 반경을 줄이고 똑같은 주파수를 여기저기 쑤셔 넣기 시작(재사용) → ② CCI 폭증 현상 발생 → ③ 이를 피하려 주파수를 쪼갰으나 필터 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 한계로 옆 주파수끼리 싸우는 ACI 발생 → ④ 현대 RF(Radio Frequency) 공학의 간섭 최소화([Mitigation](/knowledge-base/studynote/09_security/12_identity_threat_advanced/605_golden_silver_ticket_mitigation/)) 튜닝 기법 정립.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CCI (동일 채널) vs ACI (인접 채널) 발생 원리 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CCI 발생 원리: 공간적 침범 (멀리서 날아오는 펀치)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">기지국 A</div><div class="kb-diagram-node">f1 사용</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">기지국 B 밑의 📱</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">거리가 멀어도 닿아버림! (B도 f1 사용 중)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 단말기(📱)는 A와 B의 주파수가 100% 똑같아서 구분할 수가 없어 미침.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ACI 발생 원리: 스펙트럼 누설 (옆 차선의 꼬리 물기)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주파수 강도</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">내 채널 f1</div><div class="kb-diagram-node">옆 사람 채널 f2 (출력이 너무 셈)</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/</div><div class="kb-diagram-cell">\ (침범!) ◀ 💥/</div><div class="kb-diagram-cell">\</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 주파수 대역</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 필터가 완벽한 직사각형이 아니라 종 모양이어서 꼬리가 내 구역을 덮침!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│             CCI (동일 채널) vs ACI (인접 채널) 발생 원리 시각화     │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [CCI 발생 원리: 공간적 침범 (멀리서 날아오는 펀치)]                  │
+│                                                             │
+│    기지국 A [f1 사용] ━━━━(전파가 너무 뻗어 나감)━━━━▶ 기지국 B 밑의 📱│
+│                         거리가 멀어도 닿아버림!      (B도 f1 사용 중)│
+│    => 단말기(📱)는 A와 B의 주파수가 100% 똑같아서 구분할 수가 없어 미침. │
+│                                                             │
+│   [ACI 발생 원리: 스펙트럼 누설 (옆 차선의 꼬리 물기)]                  │
+│                                                             │
+│    주파수 강도                                                 │
+│       ▲                                                     │
+│       │      [내 채널 f1]         [옆 사람 채널 f2 (출력이 너무 셈)]│
+│       │       ╭───╮              ╭───╮                     │
+│       │      / │   \  (침범!) ◀ 💥/ │   \                    │
+│       │     /  │    \_______/    │    \                   │
+│       └─────┴───┴──────┴───────┴───┴──────▶ 주파수 대역    │
+│    => 필터가 완벽한 직사각형이 아니라 종 모양이어서 꼬리가 내 구역을 덮침!   │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 두 간섭은 치료약이 완전히 다르다. <strong>CCI</strong>는 똑같은 주파수 대역이기 때문에 필터로 걸러낼 수 없다. 마치 두 명의 친구가 내 양쪽 귀에 대고 똑같은 목소리와 톤으로 다른 말을 하는 것과 같아 필터링이 불가능하다. 오직 한 친구를 멀리 쫓아내거나(재사용 거리 확보), 목소리를 낮추게 하거나(출력 제어), 확성기 방향을 돌리게(섹터 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)) 해야 해결된다. 반면 <strong>ACI</strong>는 옆 차선의 주파수다. 베이스 기타 소리가 너무 커서 내 바이올린 소리가 묻히는 것과 같다. 이 경우 베이스와 바이올린 사이에 주파수 완충 지대([Guard Band](/knowledge-base/studynote/03_network/19_frequent_topics_terms/946_guard_band_fdm_adjacent_channel_interference/))를 두거나, 기기 내부의 아날로그 필터(Bandpass Filter)를 엄청나게 정교하고 비싸게 깎아서 소리가 넘어오지 않게 칼같이 잘라내야 한다.
 
@@ -71,26 +74,27 @@ CCI를 없애는 가장 확실한 방법은, 같은 주파수를 재사용하는
 
 ACI는 기지국 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 각도로는 막을 수 없다. 이것은 폰 기기 내부의 아날로그 회로와 주파수 정책의 문제다. 특히 <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/092_근거리_원거리_문제_CDMA_전력제어/">근거리-원거리 문제</a>(<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/092_근거리_원거리_문제_CDMA_전력제어/">Near-Far Problem</a>)</strong>가 결합될 때 ACI는 치명적인 재앙으로 변한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">근거리-원거리 문제와 ACI의 치명적 결합 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황: 기지국(BS)이 스마트폰 A와 B의 업로드를 수신 중</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">스마트폰 A (가깝다, 10m)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Ch 1은 B꺼) (Ch 2 사용, 강한 출력)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Ch 2는 A꺼)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">스마트폰 B (멀다, 5km)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Ch 1 사용, 약한 출력)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">기지국 안의 필터 상황</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스마트폰 A(코앞)가 Ch 2로 뿜어내는 출력이 압도적으로 세서, 필터를 뚫고</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">옆 차선인 Ch 1 영역으로 전파가 미세하게 흘러넘침 (ACI 발생).</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 기지국은 멀리서 헐떡거리며 기어오는 B의 약한 Ch 1 신호를,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A가 내지르는 고막 터지는 소리(ACI 누설) 때문에 전혀 듣지 못함!</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────┐
+│               근거리-원거리 문제와 ACI의 치명적 결합 시각화           │
+├───────────────────────────────────────────────────────────────┤
+│                                                               │
+│   [상황: 기지국(BS)이 스마트폰 A와 B의 업로드를 수신 중]                 │
+│                                                               │
+│   기지국 (BS)  ◀─────(수신 중)─────  [스마트폰 A (가깝다, 10m)]    │
+│    │  (Ch 1은 B꺼)                          (Ch 2 사용, 강한 출력) │
+│    │  (Ch 2는 A꺼)                                                 │
+│    │                                                          │
+│    └◀────────────────────(수신 중)───────── [스마트폰 B (멀다, 5km)] │
+│                                             (Ch 1 사용, 약한 출력) │
+│                                                               │
+│   [기지국 안의 필터 상황]                                          │
+│   스마트폰 A(코앞)가 Ch 2로 뿜어내는 출력이 압도적으로 세서, 필터를 뚫고     │
+│   옆 차선인 Ch 1 영역으로 전파가 미세하게 흘러넘침 (ACI 발생).            │
+│   => 결과: 기지국은 멀리서 헐떡거리며 기어오는 B의 약한 Ch 1 신호를,         │
+│            A가 내지르는 고막 터지는 소리(ACI 누설) 때문에 전혀 듣지 못함!    │
+└───────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 기지국 바로 코앞에 있는 스마트폰 A가 전파를 뿜으면 그 파워가 너무 거대해서, 아무리 비싼 필터를 써도 옆 차선(채널)으로 꼬리가 새어 나간다(ACI). 이때 저 멀리 5km 밖에서 쏘는 스마트폰 B의 전파는 기지국에 도착할 때쯤 모기 소리만큼 작아져 있다. 결국 B의 본래 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)는 A가 뿜어낸 꼬리(잡음)에 완벽히 먹혀버려 통신이 끊긴다. 이 '[근거리-원거리 문제](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/092_근거리_원거리_문제_CDMA_전력제어/)'로 촉발되는 ACI를 막기 위한 조치가 필수적이다.
 
@@ -118,25 +122,28 @@ ACI는 기지국 [안테나](/knowledge-base/studynote/03_network/03_physical_la
 
 만약 CCI가 무서워서 똑같은 주파수 쓰는 기지국을 10km씩 뚝뚝 떨어뜨려 놓으면(K값 증가), 서울 시내에 기지국을 몇 개 못 세우니 가입자 수용량(Capacity)이 박살 난다. 만약 ACI가 무서워서 주파수 채널 사이의 빈 공간([Guard Band](/knowledge-base/studynote/03_network/19_frequent_topics_terms/946_guard_band_fdm_adjacent_channel_interference/))을 10MHz씩 벌려버리면, 비싼 돈 주고 산 주파수 대역의 30%를 공터로 낭비하게 된다. 통신망 아키텍트는 엑셀 파일과 시뮬레이터를 돌리며 간섭(I)이 에러를 일으키지 않는 아슬아슬한 임계점(Target SIR)까지만 방어벽을 세우고, 나머지 자원은 전부 트래픽 용량에 욱여넣는 곡예(Tuning)를 타야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4G/5G(OFDMA)의 직교성을 통한 ACI 파훼의 마법</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">과거: FDM 방식 (가드 밴드 필수)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ \ / \ / \ =&gt; 전파의 둥근 꼬리 때문에 부딪힘.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ Ch1\___/ Ch2\___/ Ch3\ =&gt; 그 사이에 엄청난 Guard Band 낭비!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: 4G/5G OFDMA 방식 (직교성 수학의 마법)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ \ / \ / \ / \ =&gt; 전파가 완벽히 겹쳐 있음!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ /</div><div class="kb-diagram-cell">\ /</div><div class="kb-diagram-cell">\ /</div><div class="kb-diagram-cell">\ \ =&gt; 그런데 ACI 간섭이 0에 수렴함! 왜?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 원리: Ch1 신호가 최고점(정점)을 찍는 그 찰나의 순간에,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ch2, Ch3 신호는 수학적으로 완벽히 0의 값을 지나가도록 꼬아버림.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이 수학적 90도 엇갈림을 '직교성(Orthogonal)'이라 함!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: Guard Band 낭비를 완전히 지워버려 주파수 효율 100% 폭발!</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────┐
+│               4G/5G(OFDMA)의 직교성을 통한 ACI 파훼의 마법         │
+├───────────────────────────────────────────────────────────────┤
+│                                                               │
+│   [과거: FDM 방식 (가드 밴드 필수)]                              │
+│      /\       /\       /\                                     │
+│     /  \     /  \     /  \    => 전파의 둥근 꼬리 때문에 부딪힘.     │
+│    / Ch1\___/ Ch2\___/ Ch3\   => 그 사이에 엄청난 Guard Band 낭비!  │
+│                                                               │
+│   [현재: 4G/5G OFDMA 방식 (직교성 수학의 마법)]                    │
+│        /\   /\   /\   /\                                      │
+│       /  \ /  \ /  \ /  \     => 전파가 완벽히 겹쳐 있음!           │
+│      /   /|\  /|\  /|\   \    => 그런데 ACI 간섭이 0에 수렴함! 왜?  │
+│     /  /  |  \ |  /  |  \  \                                  │
+│                                                               │
+│   => 원리: Ch1 신호가 최고점(정점)을 찍는 그 찰나의 순간에,              │
+│            Ch2, Ch3 신호는 수학적으로 완벽히 0의 값을 지나가도록 꼬아버림. │
+│            이 수학적 90도 엇갈림을 '직교성(Orthogonal)'이라 함!      │
+│   => 결과: Guard Band 낭비를 완전히 지워버려 주파수 효율 100% 폭발!     │
+└───────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 초창기 무선 통신에서는 ACI를 막을 유일한 방법이 텅 빈 땅([Guard Band](/knowledge-base/studynote/03_network/19_frequent_topics_terms/946_guard_band_fdm_adjacent_channel_interference/))을 버리는 것뿐이었다. 그러나 4G LTE를 기점으로 도입된 <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/">OFDMA</a>(직교 주파수 분할 <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/">다중 접속</a>)</strong> 기술은 인류 수학의 승리다. 수많은 주파수를 톱니바퀴처럼 촘촘하게 겹쳐(Overlap) 버리되, 파동(Sine파)의 성질을 이용해 하나의 파동 파워가 100%일 때 옆 파동의 파워는 무조건 0%가 되도록 정밀하게 계산해서 쏜다. 이 엇박자 타이밍 덕분에 전파들은 물리적으로 겹쳐있어도 상대방을 ACI로 공격하지 않는다. (단, [도플러 효과](/knowledge-base/studynote/03_network/03_physical_layer_media/169_doppler_effect_fast_fading/) 등으로 타이밍이 조금이라도 어긋나면 즉시 무시무시한 ACI 지옥으로 돌변하는 치명적 단점도 공존한다).
 
@@ -194,19 +201,15 @@ ACI는 기지국 [안테나](/knowledge-base/studynote/03_network/03_physical_la
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 주파수 재사용</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: Co-channel Interference…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 핸드오버 / 핸드오프 종류 개념</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 무선 자원 제어</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 주파수 재사용]
+    │
+    ▼
+[현재 개념: Co-channel Interference…]
+    │
+    ├──▶ [확장 A: 핸드오버 / 핸드오프 종류 개념]
+    └──▶ [확장 B: 지능형 무선 자원 제어]
+```
 
 Co-channel Interference…는 [주파수 재사용](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/554_frequency_reuse_cluster_capacity/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) / 핸드오프 종류 개념와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

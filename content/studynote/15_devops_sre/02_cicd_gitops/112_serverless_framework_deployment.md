@@ -20,23 +20,21 @@ tags = ["studynote-devops-sre"]
 
 FaaS는 서버 관리 없이 함수 단위로 코드를 실행하지만, 실제 배포 시에는 <strong><a href="/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/">IAM</a> <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>·<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/">API Gateway</a> 엔드포인트·DLQ(Dead Letter <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/">Queue</a>)·<a href="/knowledge-base/studynote/03_network/16_data_center_cloud/836_vpc_virtual_private_cloud_subnet_isolation/">VPC</a> <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a>·<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/">환경 변수</a></strong> 등 수십 가지 인프라를 구성해야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수동 배포 vs Serverless Framework 배포</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">수동 배포</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AWS 콘솔 → Lambda 생성 → IAM Role 설정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ API Gateway 연동 → CloudWatch 설정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ DLQ 연결 → 환경 변수 → (30분+)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Serverless Framework</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">serverless.yml 작성 → sls deploy → 끝!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모든 리소스가 CloudFormation으로 자동 생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(3분)</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    수동 배포 vs Serverless Framework 배포               │
+├───────────────────────────────────────────────────────┤
+│  [수동 배포]                                          │
+│   AWS 콘솔 → Lambda 생성 → IAM Role 설정             │
+│   → API Gateway 연동 → CloudWatch 설정               │
+│   → DLQ 연결 → 환경 변수 → (30분+)                   │
+│                                                       │
+│  [Serverless Framework]                               │
+│   serverless.yml 작성 → sls deploy → 끝!             │
+│   모든 리소스가 CloudFormation으로 자동 생성           │
+│   (3분)                                               │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 수동 배포는 레고 설명서 없이 100조각을 맞추는 것이고, [Serverless](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) Framework는 설명서(YAML) 대로 로봇이 자동으로 조립하는 것이다.
 
@@ -124,23 +122,21 @@ functions:
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">AWS Lambda 출시 (2014) — FaaS 개념 탄생</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Serverless Framework (2015) — FaaS IaC 자동화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AWS SAM (2016) — AWS 전용 FaaS 배포 도구</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SST (2021~) — TypeScript 네이티브, 핫 리로드</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: AI 기반 자동 튜닝 — 메모리·타임아웃 최적화 자동화</div></div>
-</div>
-</div>
-
-
+```text
+[AWS Lambda 출시 (2014) — FaaS 개념 탄생]
+    │
+    ▼
+[Serverless Framework (2015) — FaaS IaC 자동화]
+    │
+    ▼
+[AWS SAM (2016) — AWS 전용 FaaS 배포 도구]
+    │
+    ▼
+[SST (2021~) — TypeScript 네이티브, 핫 리로드]
+    │
+    ▼
+[현재: AI 기반 자동 튜닝 — 메모리·타임아웃 최적화 자동화]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 옛날에는 레고를 만들 때 <strong>설명서 없이 100조각</strong>을 혼자 맞춰야 했어요.

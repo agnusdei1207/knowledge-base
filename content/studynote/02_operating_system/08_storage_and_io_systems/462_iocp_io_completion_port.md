@@ -27,29 +27,31 @@ tags = ["studynote-operating-system"]
   2. <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">Thread</a> Pool의 딜레마</strong>: [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/)을 만들어도 I/O 블로킹에 걸리면 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)들이 다 잠들어서 병목이 터짐.
   3. **완벽한 비동기 I/O 큐**: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 깊숙한 곳에 I/O 완료 신호만 쌓아주는 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))를 뚫고, [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/)과 동기화시켜버리는 혁명을 이룩함.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IOCP (I/O Completion Port)의 무결점 파이프라인 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 비동기 I/O 요청 (Overlapped I/O)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 1만 명의 유저가 접속함. 서버는 "데이터 오면 버퍼 A에 담아"라고</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS 커널에 비동기 수령증을 1만 개 던져놓고 스레드는 딴일 하러 감!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. OS 커널과 DMA 하드웨어의 노가다 (Background)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 패킷 도착! ──▶ OS가 유저 앱 안 깨우고 혼자 램(버퍼 A)에 예쁘게 복사!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 복사 완료! ──▶ OS: "짐 다 담았다! IOCP 우체통에 완료 쪽지 투척!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3. 마법의 우체통 (IOCP Queue)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">완료 쪽지 1</div><div class="kb-diagram-node">완료 쪽지 2</div><div class="kb-diagram-node">완료 쪽지 3</div><div class="kb-diagram-note">쌓임...</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">4. 워커 스레드 (Worker Threads) - CPU 코어 개수만큼만 존재</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 스레드 1: (쪽지 1 낚아챔) "오, 버퍼 A에 짐 꽉 찼네! 비즈니스 로직 빵!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 스레드 2: (쪽지 2 낚아챔) "나도 버퍼 B 처리 빵!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 스레드 3, 4: (쉬지 않고 계속 쪽지 빼서 처리함)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 결과: 스레드가 단 4개뿐이라 컨텍스트 스위칭 0회! 램 낭비 0% !</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수만 명의 통신이 단 1초의 렉도 없이 완벽하게 처리됨.</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────────────────┐
+│        IOCP (I/O Completion Port)의 무결점 파이프라인 시각화              │
+├───────────────────────────────────────────────────────────────────────────┤
+│                                                                           │
+│ [ 1. 비동기 I/O 요청 (Overlapped I/O) ]                                   │
+│  - 1만 명의 유저가 접속함. 서버는 "데이터 오면 버퍼 A에 담아"라고         │
+│    OS 커널에 비동기 수령증을 1만 개 던져놓고 스레드는 딴일 하러 감!       │
+│                                                                           │
+│ [ 2. OS 커널과 DMA 하드웨어의 노가다 (Background) ]                       │
+│  - 패킷 도착! ──▶ OS가 유저 앱 안 깨우고 혼자 램(버퍼 A)에 예쁘게 복사!   │
+│  - 복사 완료! ──▶ OS: "짐 다 담았다! IOCP 우체통에 완료 쪽지 투척!"       │
+│                                                                           │
+│ [ 3. 마법의 우체통 (IOCP Queue) ]                                         │
+│  [ 완료 쪽지 1 ] [ 완료 쪽지 2 ] [ 완료 쪽지 3 ] 쌓임...                  │
+│                                                                           │
+│ [ 4. 워커 스레드 (Worker Threads) - CPU 코어 개수만큼만 존재 ]            │
+│  - 스레드 1: (쪽지 1 낚아챔) "오, 버퍼 A에 짐 꽉 찼네! 비즈니스 로직 빵!" │
+│  - 스레드 2: (쪽지 2 낚아챔) "나도 버퍼 B 처리 빵!"                       │
+│  - 스레드 3, 4: (쉬지 않고 계속 쪽지 빼서 처리함)                         │
+│                                                                           │
+│  ✅ 결과: 스레드가 단 4개뿐이라 컨텍스트 스위칭 0회! 램 낭비 0% !         │
+│          수만 명의 통신이 단 1초의 렉도 없이 완벽하게 처리됨.             │
+└───────────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 리눅스 `epoll`과 윈도우 `IOCP`의 가장 결정적 차이가 2번 스텝에 있다. `epoll`은 "야, 짐 도착했어" 까지만 알려주고, 결국 유저 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 무거운 램 복사(`read`)를 자기 손으로 낑낑대며 해야 한다([Synchronous](/knowledge-base/studynote/03_network/01_data_communication/010_동기식_비동기식_전송/) 렉 발생). 하지만 윈도우 IOCP는 OS가 "내([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))가 램에 짐 복사까지 다 끝내서 식탁에 얹어 놨어. 넌 숟가락만 들어"라고 하는 **100% 완벽한 진성 비동기(Asynchronous)** 구조다. 
 
 - **📢 섹션 요약 비유**: 리눅스의 epoll은 식당 진동벨입니다. 징징 울리면 내가 직접 카운터까지 걸어가서 무거운 쟁반을 들고 내 자리로 가져와야(read 메모리 복사) 합니다. 윈도우 IOCP는 최고급 호텔 룸서비스입니다. 요리사가 요리를 내 방 식탁 위에 쫙 다 세팅(메모리 복사 완료)해 주고 나서야 초인종(Completion)을 누릅니다. 나는 침대에서 일어나서 밥만 퍼먹으면 됩니다.
@@ -103,17 +105,14 @@ IOCP 큐 앞에 대기하는 [스레드](/knowledge-base/studynote/02_operating_
 - 윈도우 IOCP는 유저가 "버퍼 10만 개 줄 테니까, 여기에 10바이트씩 차곡차곡 담아서 꽉 차면 줘"라고 던져놓는다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 유저 모드 침범 없이 램에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 조용히 다 쌓아놓고 딱 1번만 "가져가" 하고 튕긴다.
 - 이 경이로운 <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/">Context Switch</a> 방어력</strong> 때문에 윈도우 서버가 비싸도, MMORPG 서버 개발자들은 "리눅스는 랙 걸려서 못 써먹는다"며 IOCP의 치맛자락을 수십 년간 쥐고 놔주지 않았다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">트래픽 유형</div><div class="kb-diagram-cell">패킷 크기</div><div class="kb-diagram-cell">epoll 오버헤드</div><div class="kb-diagram-cell">IOCP 오버헤드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">웹(HTTP)</div><div class="kb-diagram-cell">큼 (수 KB)</div><div class="kb-diagram-cell">견딜 만함 (양호)</div><div class="kb-diagram-cell">세팅비용이 더 큼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">게임 서버</div><div class="kb-diagram-cell">초미세 (10B)</div><div class="kb-diagram-cell">☠️ 시스템콜 터짐</div><div class="kb-diagram-cell">🚀 거의 제로(0)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬────────────────────────┐
+│ 트래픽 유형│ 패킷 크기   │ epoll 오버헤드 │ IOCP 오버헤드   │
+├──────────┼────────────┼────────────┼────────────────────────┤
+│ 웹(HTTP) │ 큼 (수 KB)  │ 견딜 만함 (양호)│ 세팅비용이 더 큼 │
+│ 게임 서버 │ 초미세 (10B)│ ☠️ 시스템콜 터짐│ 🚀 거의 제로(0) │
+└──────────┴────────────┴────────────┴────────────────────────┘
+```
 **[매트릭스 해설]** 리눅스가 웹(Web) 천하를 통일한 이유는 웹 요청은 크고 드물기 때문이다. 반면 게임의 이동 패킷은 작고 무수히 쏟아지기 때문에, OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 안에서 조용히 짐을 다 싸서 올려보내 주는 윈도우의 Proactor 모델이 물리적으로 압도할 수밖에 없었다. (물론 최근엔 리눅스도 `io_uring` 이라는 미친 무기를 들고나와 이 전세를 완전히 뒤집어버렸다. 다음 장에 서술).
 
 - **📢 섹션 요약 비유**: 100원짜리 동전(게임 패킷) 1만 개를 은행에 입금합니다. epoll 은행원은 손님이 동전 1개를 창구 구멍으로 밀어 넣을 때마다 도장 1만 번 찍어줍니다(시스템 콜 렉). IOCP 은행원은 아예 손님한테 돼지저금통을 주고 "여기 다 채워오면 도장 1번만 찍어줄게" 합니다. 동전 1만 개 입금 속도가 넘사벽으로 벌어집니다.
@@ -166,19 +165,15 @@ I/O 완료 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">비동기 I/O (Asynchronous I/O, AIO)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">I/O 완료 포트 (IOCP, I/O Completion Port)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">epoll / kqueue</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">io_uring</div></div>
-</div>
-</div>
-
-
+```text
+[비동기 I/O (Asynchronous I/O, AIO)]
+    │
+    ▼
+[I/O 완료 포트 (IOCP, I/O Completion Port)]
+    │
+    ├──▶ [epoll / kqueue]
+    └──▶ [io_uring]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

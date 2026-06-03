@@ -18,19 +18,13 @@ tags = ["studynote-enterprise-systems"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Hub 핵심 기능:</div>
-<div class="kb-diagram-note">Transformation: A포맷 → 정규모델 → B포맷</div>
-<div class="kb-diagram-note">Routing: 조건별 목적지 결정</div>
-<div class="kb-diagram-note">Orchestration: 다단계 프로세스 조합</div>
-<div class="kb-diagram-note">어댑터(Spoke): JDBC·REST·FTP·MQ 연결</div>
-</div>
-</div>
-
-
+```text
+Hub 핵심 기능:
+  Transformation: A포맷 → 정규모델 → B포맷
+  Routing: 조건별 목적지 결정
+  Orchestration: 다단계 프로세스 조합
+  어댑터(Spoke): JDBC·REST·FTP·MQ 연결
+```
 
 - **📢 섹션 요약 비유**: Hub는 <strong>번역 사무소</strong>이다. 각 나라(시스템)의 언어(포맷)를 공통어(정규 모델)로 번역하여 전달한다.
 
@@ -54,18 +48,12 @@ Hub의 정규 [데이터 모델](/knowledge-base/studynote/05_database/01_db_arc
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">P2P</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Hub-and-Spoke (2000s)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Canonical Data Model (표준화)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">ESB (분산 Hub, 2005~)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: iPaaS — 클라우드 Hub</div></div>
-</div>
-</div>
-
-
+```text
+[P2P] → [Hub-and-Spoke (2000s)]
+    → [Canonical Data Model (표준화)]
+    → [ESB (분산 Hub, 2005~)]
+    → [현재: iPaaS — 클라우드 Hub]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. Hub는 <strong>번역 사무소</strong>예요. 영어·한국어·일본어를 <strong>공통어로 번역</strong>해요.

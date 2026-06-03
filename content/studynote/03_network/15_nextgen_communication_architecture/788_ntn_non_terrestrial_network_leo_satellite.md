@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: 기존처럼 땅바닥(Terrestrial)에 설치한 기지국 철탑이 아니라, 지표면 위 10km의 대기권(무인기, 드론)부터 수백~수만 km 우주(인공위성)에 띄워 놓은 <strong>비행체나 위성을 하늘 위의 기지국(중계기)으로 삼아 지상과 통신하는 거대한 3차원 <a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/551_cellular_network_concept_reuse_handover/">이동통신망</a> 기술</strong>입니다. ([3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) Rel-17부터 표준화 시작)
 - **목적**: 6G의 목표인 "지구상 음영(먹통) 지역 0%, 하늘을 나는 [UAM](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/145_uam_urban_air_mobility_evtol/)(도심 항공 모빌리티) 완벽 통신 커버" 달성.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">지능형 반사 표면</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">비지상 네트워크망</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">디지털 트윈 네트워크 망</div></div>
-</div>
-</div>
-
-
+```text
+[지능형 반사 표면]
+    │
+    ▼
+[비지상 네트워크망]
+    │
+    └──▶ [디지털 트윈 네트워크 망]
+```
 
 - **📢 섹션 요약 비유**: [비지상 네트워크](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/154_ntn_non_terrestrial_network_6g/)망은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -51,18 +47,14 @@ NTN 열풍의 진짜 주인공입니다. (스타링크 모델)
 - <strong>저궤도(<a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/">LEO</a>) 혁명</strong>: 위성을 지구와 500km 거리로 아슬아슬하게 바짝 붙여 수천 개를 뿌립니다. 거리가 짧아지니 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)(Ping)이 20ms 이내로 줄어들어 지상의 광랜 속도와 맞먹게 됩니다.
 - 스마트폰의 일반 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 안테나가 지상 기지국 연결이 끊기는 순간(산속 조난 등), 하늘을 쳐다보며 직접 [LEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/) 위성과 빔포밍으로 다이렉트 통신(D2D)을 체결합니다. (아이폰 14의 위성 긴급 구조 원리)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">지능형 반사 표면</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">비지상 네트워크망</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">디지털 트윈 네트워크 망</div></div>
-</div>
-</div>
-
-
+```text
+[지능형 반사 표면]
+    │
+    ▼
+[비지상 네트워크망]
+    │
+    └──▶ [디지털 트윈 네트워크 망]
+```
 
 - **📢 섹션 요약 비유**: [비지상 네트워크](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/154_ntn_non_terrestrial_network_6g/)망의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -132,19 +124,15 @@ NTN 열풍의 진짜 주인공입니다. (스타링크 모델)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 지능형 반사 표면</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 비지상 네트워크망</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 디지털 트윈 네트워크 망</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 네트워크 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 지능형 반사 표면]
+    │
+    ▼
+[현재 개념: 비지상 네트워크망]
+    │
+    ├──▶ [확장 A: 디지털 트윈 네트워크 망]
+    └──▶ [확장 B: AI 기반 네트워크 최적화]
+```
 
 [비지상 네트워크](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/154_ntn_non_terrestrial_network_6g/)망는 [지능형 반사 표면](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/153_ris_reconfigurable_intelligent_surface/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 네트워크 망와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

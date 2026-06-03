@@ -37,23 +37,23 @@ tags = ["studynote-devops"]
 | **Pull 에이전트 (ArgoCD)** | 상태 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 및 배포 수행 | 클러스터 내부에서 실행되며, Git 저장소를 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/))하거나 [웹훅](/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/)([Webhook](/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/))으로 감지 |
 | **Reconciliation Loop** | 드리프트(Drift) 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) | Git 명세([Desired State](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/080_kube_controller_manager_desired_state/))와 [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)(Actual [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))를 지속 비교하여 불일치 시 자동 재조정 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pull-based GitOps 아키텍처 (보안 격리 구조)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">외부 환경</div><div class="kb-diagram-node">쿠버네티스 클러스터 내부</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 개발자 Commit</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Pull (변경 감지)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Git 저장소 (SSOT) ◀ ─ ArgoCD Controller</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Desired State)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* CI 서버는 Git만</div><div class="kb-diagram-cell">4. K8s API Apply</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">업데이트하고 배포 끝</div><div class="kb-diagram-cell">▼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실제 파드 (Actual State)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           Pull-based GitOps 아키텍처 (보안 격리 구조)        │
+├──────────────────────────────────────────────────────────────┤
+│ [외부 환경]                    │ [쿠버네티스 클러스터 내부]  │
+│                                │                             │
+│ 1. 개발자 Commit               │                             │
+│       │                        │   3. Pull (변경 감지)       │
+│       ▼                        │      ◀───────────┐          │
+│ 2. Git 저장소 (SSOT) ◀────────┼─ ArgoCD Controller │          │
+│    (Desired State)             │      │            │          │
+│                                │      ▼            │          │
+│    * CI 서버는 Git만           │   4. K8s API Apply │          │
+│      업데이트하고 배포 끝      │      ▼            │          │
+│                                │  실제 파드 (Actual State)    │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 루프 구조의 가장 큰 특징은 <strong>자동 치유(Auto-healing)</strong>다. 누군가 수동 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)로 클러스터 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 무단으로 변경하더라도, 에이전트가 즉각 이를 감지하고 Git에 선언된 원래 상태로 되돌려버린다.
 
@@ -115,28 +115,26 @@ Pull 방식은 애플리케이션 소스코드를 담은 'App Repo'와 배포 [�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">배포의 한계와 위험</div></div>
-<div class="kb-diagram-note">Push-based Deployment (외부 CI의 과도한 권한)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">보안 및 권한 분리 모델</div></div>
-<div class="kb-diagram-note">CI/CD 파이프라인 분리 (App Repo vs Config Repo)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">새로운 배포 패러다임</div></div>
-<div class="kb-diagram-note">Pull-based Deployment (클러스터 내부 통제)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">선언형 인프라의 완성</div></div>
-<div class="kb-diagram-note">GitOps 아키텍처 및 SSOT 확립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">자동화의 끝판왕</div></div>
-<div class="kb-diagram-note">Reconciliation Loop를 통한 Auto-healing (자동 복구)</div>
-</div>
-</div>
-
-
+```text
+[배포의 한계와 위험]
+Push-based Deployment (외부 CI의 과도한 권한)
+        │
+        ▼
+[보안 및 권한 분리 모델]
+CI/CD 파이프라인 분리 (App Repo vs Config Repo)
+        │
+        ▼
+[새로운 배포 패러다임]
+Pull-based Deployment (클러스터 내부 통제)
+        │
+        ▼
+[선언형 인프라의 완성]
+GitOps 아키텍처 및 SSOT 확립
+        │
+        ▼
+[자동화의 끝판왕]
+Reconciliation Loop를 통한 Auto-healing (자동 복구)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

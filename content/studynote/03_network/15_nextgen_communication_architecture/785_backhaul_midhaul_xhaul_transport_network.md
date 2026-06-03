@@ -24,18 +24,14 @@ tags = ["studynote-network"]
 2. <strong><a href="/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1010_midhaul_network_c_ran_fronthaul_du_cu/">미드홀</a> (<a href="/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1010_midhaul_network_c_ran_fronthaul_du_cu/">Midhaul</a>)</strong>: 동네 장비(DU) ➜ 시/도 거점 클라우드(CU). 
 3. <strong><a href="/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/">백홀</a> (<a href="/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/">Backhaul</a>)</strong>: 시/도 거점(CU) ➜ 서울 중앙 코어 서버([5GC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/768_5gc_5g_core_network_evolution/)/[EPC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/753_epc_evolved_packet_core_sgw_pgw/)). 가장 거대하고 굵은 대동맥.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">프론트홀</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">미드홀/백홀 전송계층망 코어 장거리 파장 라…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">6G 비전 네트워크 커버리지 입체망 스펙트럼…</div></div>
-</div>
-</div>
-
-
+```text
+[프론트홀]
+    │
+    ▼
+[미드홀/백홀 전송계층망 코어 장거리 파장 라…]
+    │
+    └──▶ [6G 비전 네트워크 커버리지 입체망 스펙트럼…]
+```
 
 - **📢 섹션 요약 비유**: [미드홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1010_midhaul_network_c_ran_fronthaul_du_cu/)/[백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/) 전송계층망 코어 장거리 파장 라…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -46,18 +42,14 @@ tags = ["studynote-network"]
 - **탄생 배경**: 옛날 4G 시절엔 기지국([BBU](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/688_bbu/))에서 코어망으로 한 번에 점프([백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/))했기 때문에 [미드홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1010_midhaul_network_c_ran_fronthaul_du_cu/)이라는 말이 없었습니다. 5G에서 기지국 두뇌를 DU와 CU로 쪼개는 3단 분리(783번)를 하면서 새로 생겨난 중간 허리 구간입니다.
 - **특징**: 전국 수백 개의 동네 DU(디지털 두뇌) 장비에서 압축된 패킷들을 모아, 광역 거점 전화국에 있는 거대 클라우드 서버(CU)로 모아주는 **중간 집선(Aggregation) 고속도로** 역할을 합니다. 100% [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 패킷(IP [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)) 망으로 구성됩니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">프론트홀</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">미드홀/백홀 전송계층망 코어 장거리 파장 라…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">6G 비전 네트워크 커버리지 입체망 스펙트럼…</div></div>
-</div>
-</div>
-
-
+```text
+[프론트홀]
+    │
+    ▼
+[미드홀/백홀 전송계층망 코어 장거리 파장 라…]
+    │
+    └──▶ [6G 비전 네트워크 커버리지 입체망 스펙트럼…]
+```
 
 - **📢 섹션 요약 비유**: [미드홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1010_midhaul_network_c_ran_fronthaul_du_cu/)/[백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/) 전송계층망 코어 장거리 파장 라…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -120,19 +112,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 프론트홀</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 미드홀/백홀 전송계층망 코어 장거리 파장 라…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 6G 비전 네트워크 커버리지 입체망 스펙트럼…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 네트워크 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 프론트홀]
+    │
+    ▼
+[현재 개념: 미드홀/백홀 전송계층망 코어 장거리 파장 라…]
+    │
+    ├──▶ [확장 A: 6G 비전 네트워크 커버리지 입체망 스펙트럼…]
+    └──▶ [확장 B: AI 기반 네트워크 최적화]
+```
 
 [미드홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1010_midhaul_network_c_ran_fronthaul_du_cu/)/[백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/) 전송계층망 코어 장거리 파장 라…는 [프론트홀](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 비전 네트워크 커버리지 입체망 스펙트럼…와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -18,18 +18,12 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">FGI 진행: 모더레이터 + 6~10명 참가자</div>
-<div class="kb-diagram-note">도입(5분) → 주제 토론(60분) → 정리(10분)</div>
-<div class="kb-diagram-note">녹음·녹화 → 전사(Transcript) → 코딩·분석</div>
-<div class="kb-diagram-note">→ 2~3회 반복하여 포화점 확인</div>
-</div>
-</div>
-
-
+```text
+FGI 진행: 모더레이터 + 6~10명 참가자
+  도입(5분) → 주제 토론(60분) → 정리(10분)
+  녹음·녹화 → 전사(Transcript) → 코딩·분석
+  → 2~3회 반복하여 포화점 확인
+```
 
 - **📢 섹션 요약 비유**: FGI는 <strong>토크쇼</strong>이다. MC(모더레이터)가 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)하고, 패널(참가자)이 서로 의견을 나누며 깊은 이야기가 나온다.
 
@@ -53,17 +47,11 @@ FGI는 <strong>사용자 인식·태도 파악의 핵심 정성 기법</strong>�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">비공식 그룹 토론</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">FGI (마케팅, 1950s)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">UX FGI (2005~)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">온라인 FGI (Zoom, 2020)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: AI FGI 분석 — 토론 자동 전사·감성 분석</div></div>
-</div>
-</div>
-
-
+```text
+[비공식 그룹 토론] → [FGI (마케팅, 1950s)]
+    → [UX FGI (2005~)] → [온라인 FGI (Zoom, 2020)]
+    → [현재: AI FGI 분석 — 토론 자동 전사·감성 분석]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. FGI는 <strong>토크쇼</strong>예요. MC가 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)하고 <strong>여러 사람이 의견</strong>을 나눠요.

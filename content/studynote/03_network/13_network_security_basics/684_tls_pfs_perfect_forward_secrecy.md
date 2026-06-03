@@ -23,18 +23,14 @@ tags = ["studynote-network"]
 - **문제점**: 암호화된 이 패킷은 오직 서버의 <strong>'마스터 개인키(<a href="/knowledge-base/studynote/09_security/03_network_security/110_rsa/">RSA</a> Private <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a>)'</strong> 하나로만 풀립니다. 즉, 오늘 만든 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)키든 3년 뒤에 만들 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)키든 모두 똑같은 '서버 개인키' 하나에 운명이 걸려 있습니다.
 - **해킹 시나리오**: 무서운 집념을 가진 해커는 10년 동안 지나다니는 모든 암호화 패킷을 복호화하지 못한 채 하드디스크에 저장만 해둡니다. 그러다 10년 뒤 늙은 서버가 해킹당해 **'마스터 개인키' 하나가 털리는 순간, 해커는 10년 치 저장해 둔 과거의 모든 패킷을 소급해서 모조리 복호화(해독)해 버립니다.**
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Cipher Suite 모델 표기방식 예시…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">TLS 전방향 안전성 보장 원리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TLS 1.3 업그레이드 변화와 0-RTT/…</div></div>
-</div>
-</div>
-
-
+```text
+[Cipher Suite 모델 표기방식 예시…]
+    │
+    ▼
+[TLS 전방향 안전성 보장 원리]
+    │
+    └──▶ [TLS 1.3 업그레이드 변화와 0-RTT/…]
+```
 
 - **📢 섹션 요약 비유**: [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 전방향 안전성 보장 원리는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -45,18 +41,14 @@ tags = ["studynote-network"]
 - **개념**: <strong>"서버의 마스터 개인키(장기 키)가 미래에 해커에게 털리더라도, 과거에 주고받았던 암호화된 통신 내용(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">세션</a>)은 절대 해독할 수 없어야 한다"</strong>는 완벽한 보안 특성을 말합니다.
 - (※ 이름이 좀 헷갈릴 수 있는데, [Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/)(앞으로/미래에) 키가 털리더라도 과거의 비밀은 완벽(Perfect)하게 지킨다는 뜻입니다.)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Cipher Suite 모델 표기방식 예시…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">TLS 전방향 안전성 보장 원리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TLS 1.3 업그레이드 변화와 0-RTT/…</div></div>
-</div>
-</div>
-
-
+```text
+[Cipher Suite 모델 표기방식 예시…]
+    │
+    ▼
+[TLS 전방향 안전성 보장 원리]
+    │
+    └──▶ [TLS 1.3 업그레이드 변화와 0-RTT/…]
+```
 
 - **📢 섹션 요약 비유**: [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 전방향 안전성 보장 원리의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -117,19 +109,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: Cipher Suite 모델 표기방식 예시…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: TLS 전방향 안전성 보장 원리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: TLS 1.3 업그레이드 변화와 0-RTT/…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: Cipher Suite 모델 표기방식 예시…]
+    │
+    ▼
+[현재 개념: TLS 전방향 안전성 보장 원리]
+    │
+    ├──▶ [확장 A: TLS 1.3 업그레이드 변화와 0-RTT/…]
+    └──▶ [확장 B: 자동화된 신뢰 체계]
+```
 
 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 전방향 안전성 보장 원리는 Cipher Suite 모델 표기방식 예시…에서 출발해 현재 메커니즘을 정교화하고, 이후 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3 업그레이드 변화와 0-RTT/…와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

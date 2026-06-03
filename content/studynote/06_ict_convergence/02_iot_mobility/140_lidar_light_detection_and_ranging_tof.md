@@ -18,17 +18,11 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">LiDAR 원리: 레이저 발사 → 반사 → 왕복 시간 × 빛의 속도 / 2 = 거리</div>
-<div class="kb-diagram-note">→ 초당 30만 포인트 → 3D 포인트 클라우드 생성</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">종류: 기계식(360° 회전)</div><div class="kb-diagram-cell">솔리드 스테이트(고정, 저비용)</div><div class="kb-diagram-cell">FMCW(차세대)</div></div>
-</div>
-</div>
-
-
+```text
+LiDAR 원리: 레이저 발사 → 반사 → 왕복 시간 × 빛의 속도 / 2 = 거리
+  → 초당 30만 포인트 → 3D 포인트 클라우드 생성
+종류: 기계식(360° 회전) | 솔리드 스테이트(고정, 저비용) | FMCW(차세대)
+```
 
 - **📢 섹션 요약 비유**: LiDAR는 <strong>박쥐의 초음파</strong>이다. 소리(레이저) 대신 빛을 쏘고 반사 시간으로 거리를 측정한다.
 
@@ -52,18 +46,12 @@ LiDAR는 <strong>자율주행·측량의 핵심 센서</strong>이며, 솔리드
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">기계식 LiDAR (Velodyne, 2007)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">자율주행 적용 (2015)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">솔리드 스테이트 (2020, 저비용)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">iPhone LiDAR (dToF, 2020)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: FMCW LiDAR — 속도+거리 동시 측정</div></div>
-</div>
-</div>
-
-
+```text
+[기계식 LiDAR (Velodyne, 2007)] → [자율주행 적용 (2015)]
+    → [솔리드 스테이트 (2020, 저비용)]
+    → [iPhone LiDAR (dToF, 2020)]
+    → [현재: FMCW LiDAR — 속도+거리 동시 측정]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. LiDAR는 <strong>박쥐의 초음파</strong>예요. 빛을 쏘고 <strong>돌아오는 시간</strong>으로 거리를 재요.

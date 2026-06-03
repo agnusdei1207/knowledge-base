@@ -27,22 +27,22 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 직접 사상이 왜 빠른지, 그리고 왜 같은 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)끼리 충돌하는지를 한 번에 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Direct Mapping: address decides one and only one cache line</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">32-bit address =</div><div class="kb-diagram-node">Tag 17b</div><div class="kb-diagram-node">Index 9b</div><div class="kb-diagram-node">Offset 6b</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ byte in 64B line</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">line 0..511</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">block 13 ─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">block 525 ─ ─ mod 512 = 13 ▶ cache line 13</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">block 1037 ─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">lookup flow: read line 13 ─▶ compare stored tag ─▶ hit or miss</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Direct Mapping: address decides one and only one cache line         │
+├──────────────────────────────────────────────────────────────────────┤
+│ 32-bit address = [ Tag 17b ][ Index 9b ][ Offset 6b ]               │
+│                               │            │                         │
+│                               │            └─ byte in 64B line       │
+│                               └────────────── line 0..511            │
+│                                                                      │
+│ block 13    ─┐                                                       │
+│ block 525   ─┼─ mod 512 = 13 ─────────────▶ cache line 13            │
+│ block 1037  ─┘                                                       │
+│                                                                      │
+│ lookup flow: read line 13 ─▶ compare stored tag ─▶ hit or miss       │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 핵심은 주소가 저장 위치를 먼저 결정하고, 태그 (Tag)는 그 위치의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 정말 원하는 블록인지 나중에 확인한다는 점이다. 그래서 직접 사상은 "찾는 비용"은 매우 낮지만, "같은 자리를 두고 경쟁하는 비용"은 높다.
 
@@ -153,26 +153,26 @@ B0 reaccess: miss, line 13 <= B0   (A0 evicted)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">메모리 계층 (Memory Hierarchy)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">캐시 메모리 (Cache Memory)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">캐시 사상 (Cache Mapping)</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ 직접 사상 (Direct Mapping)</div>
-<div class="kb-diagram-note">─ 장점: 짧은 hit time · 낮은 회로 복잡도</div>
-<div class="kb-diagram-note">─ 한계: 충돌 미스 · 스래싱</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">집합 연관 사상 (Set Associative Mapping)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">희생자 캐시 (Victim Cache) · 페이지 컬러링 · 주소 해싱</div>
-</div>
-</div>
-
-
+```text
+메모리 계층 (Memory Hierarchy)
+        │
+        ▼
+캐시 메모리 (Cache Memory)
+        │
+        ▼
+캐시 사상 (Cache Mapping)
+        │
+        ├─▶ 직접 사상 (Direct Mapping)
+        │        │
+        │        ├─ 장점: 짧은 hit time · 낮은 회로 복잡도
+        │        └─ 한계: 충돌 미스 · 스래싱
+        │
+        ▼
+집합 연관 사상 (Set Associative Mapping)
+        │
+        ▼
+희생자 캐시 (Victim Cache) · 페이지 컬러링 · 주소 해싱
+```
 
 이 흐름은 "단순 배정 → 충돌 노출 → 절충 구조 → 보완 기법"으로 발전한 캐시 설계의 사고 과정을 보여준다.
 

@@ -26,18 +26,14 @@ tags = ["studynote-network"]
   - **X.25**: 고속도로 톨게이트(라우터)마다 차를 세우고 면허증, 짐 검사를 다 한 뒤 통과시켜 주는 꽉 막힌 도로.
   - **프레임 릴레이**: 톨게이트에 하이패스를 설치하여 검사 없이 **무정차 통과(Relay)** 시키는 도로. 혹시 과속하거나 불량 차가 있으면 하이패스 카메라가 찍어서 통지서만 띡 날리고(끝단 처리), 도로 중간에서 길을 막지 않습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">다이얼업 다중화, X.25</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">프레임 릴레이</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">PVC / SVC</div></div>
-</div>
-</div>
-
-
+```text
+[다이얼업 다중화, X.25]
+    │
+    ▼
+[프레임 릴레이]
+    │
+    └──▶ [PVC / SVC]
+```
 
 - **📢 섹션 요약 비유**: ** 프레임 릴레이는 느리고 꼼꼼했던 우체국 시스템(X.25)에서 불필요한 **"수취 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)증 서명 절차(에러 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))"를 아예 없애버리고 배달 스피드에만 목숨을 건 로켓 배송 시스템**입니다.
 
@@ -55,21 +51,20 @@ tags = ["studynote-network"]
 예를 들어, 본사 라우터 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 1개에 지사 A로 가는 길(가상 회선 100번), 지사 B로 가는 길(가상 회선 200번)을 소프트웨어적으로 생성할 수 있다. 
 비싼 전용선을 지사마다 물리적으로 깔 필요 없이, 통신사 클라우드까지만 선 하나를 꽂으면 내부에서 통신사가 길을 갈라주므로 <strong>구축 비용이 파격적으로 절감</strong>되었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프레임 릴레이의 가상 회선(VC) 다중화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">통신사 프레임 릴레이 구름(Cloud)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">본사 라우터</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">지사 A</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물리적 선 1가닥</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">지사 B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 장점: 본사에서 지사 A, B용으로 선을 2개 깔 필요가 없다.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">선은 1개만 임대하고, 가상의 회선(VC)만 2개 뚫으면 된다.</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                프레임 릴레이의 가상 회선(VC) 다중화             │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │                          [ 통신사 프레임 릴레이 구름(Cloud) ] │
+ │   [ 본사 라우터 ] ────┬────▶ (가상 회선 A) ──────▶ [ 지사 A ] │
+ │   물리적 선 1가닥      │                                      │
+ │   (포트 1개)        └────▶ (가상 회선 B) ──────▶ [ 지사 B ] │
+ │                                                             │
+ │   * 장점: 본사에서 지사 A, B용으로 선을 2개 깔 필요가 없다.        │
+ │          선은 1개만 임대하고, 가상의 회선(VC)만 2개 뚫으면 된다.    │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 3. 통신 요금 체계의 혁신: [CIR](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/271_cir_fecn_becn_congestion_notification/) ([Committed Information Rate](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/271_cir_fecn_becn_congestion_notification/))
 전용선은 무조건 고정 요금이지만, 프레임 릴레이는 <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/271_cir_fecn_becn_congestion_notification/">CIR</a> (보장 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>)</strong>이라는 요금제를 도입했다.
@@ -133,19 +128,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 다이얼업 다중화, X.25</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 프레임 릴레이</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: PVC / SVC</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 캠퍼스 패브릭</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 다이얼업 다중화, X.25]
+    │
+    ▼
+[현재 개념: 프레임 릴레이]
+    │
+    ├──▶ [확장 A: PVC / SVC]
+    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
+```
 
 프레임 릴레이는 다이얼업 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/), X.25에서 출발해 현재 메커니즘을 정교화하고, 이후 [PVC](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/269_pvc_vs_svc_virtual_circuits/) / SVC와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

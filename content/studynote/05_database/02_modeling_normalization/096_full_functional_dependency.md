@@ -36,25 +36,25 @@ tags = ["database"]
 | **종속자 (Dependent)** | [결정자](/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/)의 값에 의해 유일한 값이 정해지는 일반 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) (예: `성적`) |
 | **완전 종속 조건** | `{학번, 과목코드} \rightarrow 성적` 성립, 단 `{학번} \rightarrow 성적`이나 `{과목코드} \rightarrow 성적`은 불성립 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">완전 함수적 종속 vs 부분 함수적 종속 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">복합키</div><div class="kb-diagram-node">일반 속성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">학번</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">완전 함수적 종속</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ ▶ 성적 (O)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">두 조건이 모두 필요함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">과목코드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">복합키의 일부</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부분 함수적 종속</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">학번</div><div class="kb-diagram-cell">▶ 학생이름 (X)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(제2정규화로 분리 대상)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           완전 함수적 종속 vs 부분 함수적 종속 비교          │
+├──────────────────────────────────────────────────────────────┤
+│ [복합키]                [일반 속성]                          │
+│ ┌─────────┐                                                  │
+│ │   학번  │──────────┐                                       │
+│ └─────────┘          │   완전 함수적 종속                    │
+│      +               ├──────────▶ 성적 (O)                 │
+│ ┌─────────┐          │   두 조건이 모두 필요함               │
+│ │과목코드 │──────────┘                                       │
+│ └─────────┘                                                  │
+│                                                              │
+│ [복합키의 일부]                                              │
+│ ┌─────────┐              부분 함수적 종속                    │
+│ │   학번  │─────────────────────────▶ 학생이름 (X)         │
+│ └─────────┘              (제2정규화로 분리 대상)             │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 그림은 완전 함수적 종속이 복합키 전체 집합에 의해 온전히 결정되는 반면, [부분 함수적 종속](/knowledge-base/studynote/05_database/02_modeling_normalization/097_partial_functional_dependency/)은 복합키의 일부에 의해 독립적으로 결정되는 치명적인 구조적 결함임을 보여준다.
 
@@ -117,23 +117,21 @@ tags = ["database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">제1정규형 (1NF) 달성 (원자값)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">함수 종속성 분석 (부분 함수적 종속 식별)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">테이블 분해 (제2정규형, 2NF 달성)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">완전 함수적 종속 (Full Functional Dependency) 확보</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">제3정규형 (3NF) 및 이행적 함수 종속 제거로 확장</div>
-</div>
-</div>
-
-
+```text
+제1정규형 (1NF) 달성 (원자값)
+    │
+    ▼
+함수 종속성 분석 (부분 함수적 종속 식별)
+    │
+    ▼
+테이블 분해 (제2정규형, 2NF 달성)
+    │
+    ▼
+완전 함수적 종속 (Full Functional Dependency) 확보
+    │
+    ▼
+제3정규형 (3NF) 및 이행적 함수 종속 제거로 확장
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

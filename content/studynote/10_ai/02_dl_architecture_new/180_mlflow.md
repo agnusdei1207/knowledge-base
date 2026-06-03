@@ -44,26 +44,28 @@ MLflow의 중심 구성은 Tracking, Projects, Models, Model Registry다. Tracki
 
 아래 그림은 일반적인 MLflow 흐름을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MLflow lifecycle</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Training code / notebook</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ log_param / log_metric / log_artifact</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MLflow Tracking Server</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Backend Store -&gt; run metadata, tags, metrics history</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Artifact Store -&gt; model file, plots, checkpoints</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Best run selected</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Model Registry</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ versioning</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ stage or alias promotion</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ approval / rollback history</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Serving pipeline / deployment</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ MLflow lifecycle                                                     │
+├──────────────────────────────────────────────────────────────────────┤
+│ Training code / notebook                                             │
+│   │                                                                  │
+│   ├─ log_param / log_metric / log_artifact                           │
+│   ▼                                                                  │
+│ MLflow Tracking Server                                               │
+│   ├─ Backend Store  -> run metadata, tags, metrics history           │
+│   └─ Artifact Store -> model file, plots, checkpoints                │
+│                                                                      │
+│ Best run selected                                                    │
+│   ▼                                                                  │
+│ Model Registry                                                       │
+│   ├─ versioning                                                      │
+│   ├─ stage or alias promotion                                        │
+│   └─ approval / rollback history                                     │
+│                                                                      │
+│ Serving pipeline / deployment                                        │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 핵심 원리는 "실험의 모든 변경점을 Run 단위로 기록하고, 배포 대상은 [Registry](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) 단위로 관리한다"는 분리다. Tracking은 수많은 시도를 빠르게 비교하게 해 주고, Registry는 그중 어떤 모델을 조직이 공식적으로 채택했는지 보여 준다. 그래서 MLflow는 연구용 노트와 운영용 등기부를 함께 제공하는 셈이다.
 
@@ -149,24 +151,22 @@ MLflow의 가장 큰 효과는 모델 개발을 "개인의 감"에서 "조직의
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Notebook-based ad hoc experiments</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Central experiment tracking</div>
-<div class="kb-diagram-tree-item" style="--depth:4">params / metrics / artifacts</div>
-<div class="kb-diagram-tree-item" style="--depth:4">code and environment capture</div>
-<div class="kb-diagram-tree-item" style="--depth:4">reproducible run history</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Model Registry and promotion governance</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Serving, monitoring, and retraining loops in MLOps</div>
-</div>
-</div>
-
-
+```text
+Notebook-based ad hoc experiments
+        │
+        ▼
+Central experiment tracking
+        │
+        ├─ params / metrics / artifacts
+        ├─ code and environment capture
+        └─ reproducible run history
+        │
+        ▼
+Model Registry and promotion governance
+        │
+        ▼
+Serving, monitoring, and retraining loops in MLOps
+```
 
 이 흐름은 MLflow가 단순 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 저장을 넘어, 모델 승인과 운영 연결의 기준점을 제공하는 방향으로 확장됨을 보여 준다.
 

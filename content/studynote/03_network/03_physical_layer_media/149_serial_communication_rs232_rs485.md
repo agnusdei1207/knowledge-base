@@ -30,25 +30,24 @@ tags = ["studynote-network"]
 
 RS 규격의 진화는 결국 '노이즈(Noise)'와의 전쟁이며, 이를 극복하기 위한 물리적 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 처리 아키텍처의 변태 과정이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RS-232 vs RS-422/485의 노이즈 극복 아키텍처 (차동 신호)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. RS-232의 단일 종단 (Single-ended) 방식 - 15m 붕괴</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- Tx (데이터선) : +10V (1) 전송 중</div><div class="kb-diagram-node">⚡노이즈 쿵!</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">+3V 수신 (0으로 에러!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- GND (접지선) : 0V 기준</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💥 뼈아픈 약점: 기준점(0V)은 가만히 있는데 데이터선 전압만 노이즈에 꺾여 파국.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. RS-422/485의 차동 신호 (Differential) 흑마법 - 1.2km 무적</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 두 가닥의 선(Tx+, Tx-)에 정확히 반대 위상 전압을 쏜다!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- Tx+ 선 : +5V 전송 중</div><div class="kb-diagram-node">⚡노이즈 +2V</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">+7V 수신</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- Tx- 선 : -5V 전송 중</div><div class="kb-diagram-node">⚡노이즈 +2V</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">-3V 수신</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 목적지 계산(차이): (Tx+ 수신) - (Tx- 수신) = (+7V) - (-3V) = +10V</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 결과: 노이즈 값(+2V)은 수학적으로 완벽히 상쇄 소멸! 순수 신호만 남음!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          RS-232 vs RS-422/485의 노이즈 극복 아키텍처 (차동 신호)         │
+├─────────────────────────────────────────────────────────────┤
+│ [ 1. RS-232의 단일 종단 (Single-ended) 방식 - 15m 붕괴 ]         │
+│   - Tx (데이터선) : +10V (1) 전송 중 ───[⚡노이즈 쿵!]───▶ +3V 수신 (0으로 에러!)│
+│   - GND (접지선) : 0V 기준                                    │
+│   💥 뼈아픈 약점: 기준점(0V)은 가만히 있는데 데이터선 전압만 노이즈에 꺾여 파국.│
+│                                                             │
+│ [ 2. RS-422/485의 차동 신호 (Differential) 흑마법 - 1.2km 무적 ] │
+│   - 두 가닥의 선(Tx+, Tx-)에 정확히 반대 위상 전압을 쏜다!            │
+│   - Tx+ 선 : +5V 전송 중 ───[⚡노이즈 +2V]───▶ +7V 수신           │
+│   - Tx- 선 : -5V 전송 중 ───[⚡노이즈 +2V]───▶ -3V 수신           │
+│                                                             │
+│   🌟 목적지 계산(차이): (Tx+ 수신) - (Tx- 수신) = (+7V) - (-3V) = +10V │
+│   ──▶ 결과: 노이즈 값(+2V)은 수학적으로 완벽히 상쇄 소멸! 순수 신호만 남음! │
+└─────────────────────────────────────────────────────────────┘
+```
 
 <strong>차동 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a> (Differential <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">Signal</a>)의 기적</strong>: RS-422와 RS-485는 그라운드(0V) 기준을 버렸다. 대신 플러스(+) 선과 마이너스(-) 선 꼬임선(Twisted Pair) 두 가닥에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 반대 위상으로 실어 보낸다. 외부에서 번개가 쳐 노이즈가 유입되어도 꼬여있는 두 선에 똑같은 양의 노이즈(+2V)가 더해진다. 수신 측 칩셋은 두 선의 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 빼버리므로(Difference), 유입된 노이즈는 수학적으로 완전히 상쇄(Cancellation)되어 0이 되고 순수한 원래 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 차이 값만 살아남는다. 이 흑마법 덕분에 노이즈 밭인 공장 한가운데를 1.2km나 관통할 수 있게 되었다.
 
@@ -114,23 +113,21 @@ RS-232, 422, 485로 이어지는 시리얼 인터페이스의 진화는 IT 인�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">병렬 통신 (Parallel) / 여러 선으로 빠르지만, 간섭 랙과 케이블 비용으로 장거리 전송 실패 💥</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">RS-232C 직렬(Serial) 통신 / 단일 종단(Single-ended) 방식으로 1:1 연결. 하지만 노이즈에 취약해 15m 족쇄</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">RS-422 탄생 / 꼬임선과 차동 신호(Differential) 융합. 노이즈를 상쇄시켜 1.2km 통신 거리를 확보 (1:N 단방향)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">RS-485 대혁명 / 차동 신호 + 멀티 드롭(Multi-drop) 장착. 단 2가닥으로 32대가 핑퐁 하는 N:N 반이중 네트워크 버스 구축 🚀</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Modbus, BACnet 등 산업용 IoT(IIoT) 상위 프로토콜의 표준 하단 뼈대로 영구 지배 안착</div>
-</div>
-</div>
-
-
+```text
+병렬 통신 (Parallel) / 여러 선으로 빠르지만, 간섭 랙과 케이블 비용으로 장거리 전송 실패 💥
+    │
+    ▼
+RS-232C 직렬(Serial) 통신 / 단일 종단(Single-ended) 방식으로 1:1 연결. 하지만 노이즈에 취약해 15m 족쇄
+    │
+    ▼
+RS-422 탄생 / 꼬임선과 차동 신호(Differential) 융합. 노이즈를 상쇄시켜 1.2km 통신 거리를 확보 (1:N 단방향)
+    │
+    ▼
+RS-485 대혁명 / 차동 신호 + 멀티 드롭(Multi-drop) 장착. 단 2가닥으로 32대가 핑퐁 하는 N:N 반이중 네트워크 버스 구축 🚀
+    │
+    ▼
+Modbus, BACnet 등 산업용 IoT(IIoT) 상위 프로토콜의 표준 하단 뼈대로 영구 지배 안착
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

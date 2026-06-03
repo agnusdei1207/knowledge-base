@@ -23,18 +23,14 @@ tags = ["studynote-network"]
 - **원리**: 폰이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏘기 전에 허공의 주파수를 스윽 들어보고(Listen), **어떤 공유기든 쏘고 있는 전파(에너지)가 감지되면 무조건 "아, 누가 쓰고 있네" 하고 통신을 포기하고 숨을 죽입니다(백오프 대기).**
 - **문제점 (OBSS 간섭)**: 백화점이나 아파트처럼 수백 대의 공유기가 벽을 두고 붙어있는 고밀도 환경에서는 재앙이 터집니다. 내 공유기가 바로 1미터 옆에 폰을 두고 있는데도, 벽 너머 옆집 30미터 밖의 공유기가 희미하게 쏘는 넷플릭스 전파를 듣고는 바보처럼 "누가 통신 중이군" 하며 통신을 안 해버립니다. (허공의 낭비, 동반 속도 폭락)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">3D MIMO 수직/수평 고차원 송수신 구조…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">BSS Coloring</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CP-OFDM</div></div>
-</div>
-</div>
-
-
+```text
+[3D MIMO 수직/수평 고차원 송수신 구조…]
+    │
+    ▼
+[BSS Coloring]
+    │
+    └──▶ [CP-OFDM]
+```
 
 - **📢 섹션 요약 비유**: [BSS](/knowledge-base/studynote/02_operating_system/02_process_thread/083_bss_segment/) Coloring는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -55,18 +51,14 @@ tags = ["studynote-network"]
   - "어? 이 전파는 도장이 '빨간색(옆집 공유기)'이네? 우리 집 공유기 도장은 '파란색'인데? 아, 이건 우리 집 트래픽이 아니구나! 저 멀리서 날아온 잡음(간섭 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))일 뿐이니까 <strong>완전히 무시하고, 내 파란색 전파 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 그냥 쏴버려!</strong>"
   - 옆집 전파가 날아다녀도, 서로 색깔이 다르면 동시에 전파를 쏴버립니다. 동 시간대 채널 활용 효율이 수십 배 뻥튀기됩니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">3D MIMO 수직/수평 고차원 송수신 구조…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">BSS Coloring</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CP-OFDM</div></div>
-</div>
-</div>
-
-
+```text
+[3D MIMO 수직/수평 고차원 송수신 구조…]
+    │
+    ▼
+[BSS Coloring]
+    │
+    └──▶ [CP-OFDM]
+```
 
 - **📢 섹션 요약 비유**: [BSS](/knowledge-base/studynote/02_operating_system/02_process_thread/083_bss_segment/) Coloring의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -126,19 +118,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 3D MIMO 수직/수평 고차원 송수신 구조…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: BSS Coloring</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: CP-OFDM</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 네트워크 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 3D MIMO 수직/수평 고차원 송수신 구조…]
+    │
+    ▼
+[현재 개념: BSS Coloring]
+    │
+    ├──▶ [확장 A: CP-OFDM]
+    └──▶ [확장 B: AI 기반 네트워크 최적화]
+```
 
 [BSS](/knowledge-base/studynote/02_operating_system/02_process_thread/083_bss_segment/) Coloring는 3D [MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/) 수직/수평 고차원 송수신 구조…에서 출발해 현재 메커니즘을 정교화하고, 이후 CP-OFDM와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

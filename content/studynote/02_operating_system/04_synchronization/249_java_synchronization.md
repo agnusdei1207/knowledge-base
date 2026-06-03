@@ -25,24 +25,25 @@ Java는 멀티스레드를 언어 설계의 핵심으로 채택한 최초의 주
 
 **💡 비유**: `synchronized`는 건물 정문의 보안 요원(진입 시 자동 체크), JUC는 정문 외에 비상구·VIP 입구·출입 시간 제한까지 갖춘 스마트 보안 시스템이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Java 동기화 계층 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">고수준</div><div class="kb-diagram-note">java.util.concurrent (JUC)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ReentrantLock, ReadWriteLock, Semaphore</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CountDownLatch, CyclicBarrier, Phaser</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ConcurrentHashMap, CopyOnWriteArrayList</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">중간</div><div class="kb-diagram-note">synchronized / wait / notify</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(모니터 기반 내장 동기화)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">저수준</div><div class="kb-diagram-note">Unsafe.compareAndSwap() (CAS 직접 접근)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">volatile 키워드 (메모리 가시성)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">하드웨어</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">OS Mutex → CPU 원자적 명령어</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────┐
+│        Java 동기화 계층 구조                             │
+├──────────────────────────────────────────────────────────┤
+│                                                          │
+│  [고수준]  java.util.concurrent (JUC)                    │
+│           ReentrantLock, ReadWriteLock, Semaphore        │
+│           CountDownLatch, CyclicBarrier, Phaser          │
+│           ConcurrentHashMap, CopyOnWriteArrayList        │
+│                          │                               │
+│  [중간]    synchronized / wait / notify                  │
+│           (모니터 기반 내장 동기화)                      │
+│                          │                               │
+│  [저수준]  Unsafe.compareAndSwap() (CAS 직접 접근)       │
+│           volatile 키워드 (메모리 가시성)                │
+│                          │                               │
+│  [하드웨어] JVM → OS Mutex → CPU 원자적 명령어           │
+└──────────────────────────────────────────────────────────┘
+```
 
 **📢 섹션 요약 비유**: Java [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 계층은 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)(기본 자물쇠)부터 정교한 전자 잠금 시스템(JUC)까지, 문제 복잡도에 맞춰 선택하는 도구 상자입니다.
 
@@ -98,24 +99,26 @@ class BoundedBuffer {
 }
 ```
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Java wait/notify 모니터 상태 전이</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Entry Set</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Owner Thread</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(lock 대기)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲</div><div class="kb-diagram-cell">wait() 호출</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Wait Set</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">notifyAll() (모니터 반환 후 조건 대기)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⚠ 핵심 규칙:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. wait()는 반드시 synchronized 블록 안에서 호출</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 깨어난 후 반드시 while 루프로 조건 재확인 (허위 기상)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. notify()는 임의 스레드 1개만 깨움 → notifyAll() 권장</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────┐
+│       Java wait/notify 모니터 상태 전이                       │
+├───────────────────────────────────────────────────────────────┤
+│                                                               │
+│  [Entry Set]   ──lock 경쟁 성공──▶  [Owner Thread]            │
+│  (lock 대기)                           │                      │
+│      ▲                                 │ wait() 호출          │
+│      │                                 ▼                      │
+│  notify()/    ◀── signal ────    [Wait Set]                   │
+│  notifyAll()                    (모니터 반환 후 조건 대기)    │
+│      │                                 │                      │
+│      └──────────────────────────────────┘                     │
+│                                                               │
+│  ⚠ 핵심 규칙:                                                 │
+│  1. wait()는 반드시 synchronized 블록 안에서 호출             │
+│  2. 깨어난 후 반드시 while 루프로 조건 재확인 (허위 기상)     │
+│  3. notify()는 임의 스레드 1개만 깨움 → notifyAll() 권장      │
+└───────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** wait()를 호출하면 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)(락)를 반환하고 Wait Set으로 이동한다. notify()/notifyAll()은 Wait Set의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 Entry Set으로 이동시키며, 다시 락 경쟁에 참여하게 한다. 이 때문에 깨어난 후에도 조건이 여전히 충족되지 않을 수 있으므로(다른 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 먼저 처리) while 루프 재확인이 필수다. notify() 대신 notifyAll()을 쓰는 이유는 notify()가 임의의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 1개만 깨우기 때문에, 잘못된 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 깨어나도 아무 일도 못하고 다시 wait()하는 시나리오에서 무한 대기가 발생할 수 있기 때문이다.
 
@@ -143,21 +146,18 @@ void produce(int item) throws InterruptedException {
 
 synchronized vs ReentrantLock 비교:
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기능</div><div class="kb-diagram-cell">synchronized</div><div class="kb-diagram-cell">ReentrantLock</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조건 변수 다중</div><div class="kb-diagram-cell">1개 (wait/notify)</div><div class="kb-diagram-cell">여러 개 (Condition)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">타임아웃 대기</div><div class="kb-diagram-cell">불가</div><div class="kb-diagram-cell">tryLock(timeout)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공정성</div><div class="kb-diagram-cell">비공정</div><div class="kb-diagram-cell">fair=true 옵션</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">락 상태 확인</div><div class="kb-diagram-cell">불가</div><div class="kb-diagram-cell">isLocked(), isHeldByCurrentThread()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인터럽트 가능 대기</div><div class="kb-diagram-cell">불가</div><div class="kb-diagram-cell">lockInterruptibly()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코드 안전성</div><div class="kb-diagram-cell">자동 해제</div><div class="kb-diagram-cell">try-finally 필수</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────┬──────────────────┬─────────────────────────────────────┐
+│ 기능                │ synchronized     │ ReentrantLock                       │
+├─────────────────────┼──────────────────┼─────────────────────────────────────┤
+│ 조건 변수 다중      │ 1개 (wait/notify)│ 여러 개 (Condition)                 │
+│ 타임아웃 대기       │ 불가             │ tryLock(timeout)                    │
+│ 공정성              │ 비공정           │ fair=true 옵션                      │
+│ 락 상태 확인        │ 불가             │ isLocked(), isHeldByCurrentThread() │
+│ 인터럽트 가능 대기  │ 불가             │ lockInterruptibly()                 │
+│ 코드 안전성         │ 자동 해제        │ try-finally 필수                    │
+└─────────────────────┴──────────────────┴─────────────────────────────────────┘
+```
 
 **📢 섹션 요약 비유**: synchronized는 문에 달린 단순한 자물쇠, ReentrantLock은 타이머·복수 열쇠·공정 대기 기능까지 갖춘 스마트 도어락입니다.
 
@@ -167,25 +167,26 @@ synchronized vs ReentrantLock 비교:
 
 ### JVM 내부 락 승격 메커니즘
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">JVM 모니터 락 상태 전이 (락 팽창)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Unlocked</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동일 스레드 반복 접근</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Biased Lock</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">편향 잠금: 헤더에 스레드 ID만 기록</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(CAS 없이 접근, 가장 빠름)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다른 스레드 경쟁 발생</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Thin Lock</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">경량 잠금: CAS로 스택의 락 레코드 시도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(OS 호출 없음, 짧은 경합에 적합)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스핀 실패(경합 심화)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Fat Lock</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">중량 잠금: OS Mutex 사용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(스레드 차단, 컨텍스트 스위칭 발생)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────┐
+│       JVM 모니터 락 상태 전이 (락 팽창)                  │
+├──────────────────────────────────────────────────────────┤
+│                                                          │
+│  [Unlocked]                                              │
+│      │ 동일 스레드 반복 접근                             │
+│      ▼                                                   │
+│  [Biased Lock] ← 편향 잠금: 헤더에 스레드 ID만 기록      │
+│  (CAS 없이 접근, 가장 빠름)                              │
+│      │ 다른 스레드 경쟁 발생                             │
+│      ▼                                                   │
+│  [Thin Lock] ← 경량 잠금: CAS로 스택의 락 레코드 시도    │
+│  (OS 호출 없음, 짧은 경합에 적합)                        │
+│      │ 스핀 실패(경합 심화)                              │
+│      ▼                                                   │
+│  [Fat Lock] ← 중량 잠금: OS Mutex 사용                   │
+│  (스레드 차단, 컨텍스트 스위칭 발생)                     │
+└──────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** JVM은 락 경쟁 수준에 따라 자동으로 락 구현을 승급시킨다. 단일 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 환경에서는 Biased Lock이 사실상 무비용으로 동작하고, 경쟁이 발생하면 [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) 기반 Thin Lock으로, 심한 경쟁에서는 OS Mutex로 전환된다. 개발자는 이 과정을 인식하지 않아도 되지만, 잦은 락 경쟁은 Thin→[Fat](/knowledge-base/studynote/02_operating_system/09_file_system/525_fat_file_allocation_table/) 전환으로 성능이 급락하므로 락 범위를 최소화해야 한다.
 
@@ -250,19 +251,15 @@ private volatile static Singleton instance;
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">식사하는 철학자 문제 (Dining-Philosophers Problem)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">자바 동기화 (Java Synchronization)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Pthreads 동기화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">윈도우 동기화</div></div>
-</div>
-</div>
-
-
+```text
+[식사하는 철학자 문제 (Dining-Philosophers Problem)]
+    │
+    ▼
+[자바 동기화 (Java Synchronization)]
+    │
+    ├──▶ [Pthreads 동기화]
+    └──▶ [윈도우 동기화]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

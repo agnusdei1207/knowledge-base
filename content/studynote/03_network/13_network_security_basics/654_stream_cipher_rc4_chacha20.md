@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - [대칭키 암호](/knowledge-base/studynote/09_security/02_crypto/076_symmetric_encryption/) 방식의 한 갈래로, 평문 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 한꺼번에 모아서 처리하지 않고, <strong>물 흐르듯이 1비트(또는 1바이트) 단위로 순차적으로 처리하며 암호화하는 기법</strong>입니다.
 - **원리**: 암호화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 짧은 비밀 키([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))를 씨앗(Seed) 삼아서, 무한히 긴 0과 1의 랜덤 난수열([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) [Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/))을 폭포수처럼 콸콸 만들어 냅니다. 흘러오는 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(평문)와 이 난수열(키 스트림)을 1:1로 겹쳐서 <strong>XOR(배타적 논리합) 연산</strong>만 톡 때려주면 1 나노초 만에 암호화가 끝납니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">대칭키 암호화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스트림 암호</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">블록 암호</div></div>
-</div>
-</div>
-
-
+```text
+[대칭키 암호화]
+    │
+    ▼
+[스트림 암호]
+    │
+    └──▶ [블록 암호]
+```
 
 - **📢 섹션 요약 비유**: 스트림 암호는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -44,18 +40,14 @@ tags = ["studynote-network"]
 - <strong>장점 (<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a>, 저메모리)</strong>: 단순히 숫자를 1:1로 비교하는 XOR 연산만 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 때문에 하드웨어(CPU) 부하가 거의 없고 처리 속도가 빛의 속도입니다. 버퍼(메모리)에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 모아둘 필요도 없습니다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 와이파이나 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 같은 실시간 무선 환경에 적합했습니다.
 - **단점 (재사용의 재앙)**: 같은 키 스트림(난수열)을 실수로 두 번 재사용하는 순간, 해커가 암호문을 XOR 연산으로 뒤집어 원본 비밀번호를 1초 만에 털어버릴 수 있는 끔찍한 수학적 약점이 존재합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">대칭키 암호화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스트림 암호</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">블록 암호</div></div>
-</div>
-</div>
-
-
+```text
+[대칭키 암호화]
+    │
+    ▼
+[스트림 암호]
+    │
+    └──▶ [블록 암호]
+```
 
 - **📢 섹션 요약 비유**: 스트림 암호의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -122,19 +114,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 대칭키 암호화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 스트림 암호</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 블록 암호</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 대칭키 암호화]
+    │
+    ▼
+[현재 개념: 스트림 암호]
+    │
+    ├──▶ [확장 A: 블록 암호]
+    └──▶ [확장 B: 자동화된 신뢰 체계]
+```
 
 스트림 암호는 [대칭키 암호화](/knowledge-base/studynote/03_network/13_network_security_basics/653_symmetric_key_cryptography_fast_speed/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/)와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

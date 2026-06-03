@@ -43,17 +43,15 @@ VAN은 이런 문제를 [초기](/knowledge-base/studynote/03_network/08_transpo
 
 아래 그림은 기업 간 EDI 연동의 대표 경로를 요약한 것이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B2B EDI flow: internal data -&gt; mapping -&gt; network -&gt; partner ERP</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ERP -&gt; B2B Gateway -&gt; EDI Message -&gt; VAN/AS2 -&gt; Partner Gateway</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Master Data ─ ─ Validation ─ Ack/Tracking ─</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ B2B EDI flow: internal data -> mapping -> network -> partner ERP    │
+├──────────────────────────────────────────────────────────────────────┤
+│ ERP -> B2B Gateway -> EDI Message -> VAN/AS2 -> Partner Gateway     │
+│  │            │                    │                │                │
+│  └─ Master Data ─┴─ Validation ───┴─ Ack/Tracking ─┘                │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 과정에서 [EAI](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/143_eai_enterprise_application_integration_hub/) ([Enterprise Application Integration](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/143_eai_enterprise_application_integration_hub/)) 엔진은 중요한 연결고리다. 외부 표준 문서와 내부 애플리케이션 포맷이 다르기 때문에, 게이트웨이는 단순 전달이 아니라 코드 변환, 필드 매핑, 오류 큐 적재, 재처리, [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링까지 담당한다. 즉 현대 EDI 운영의 핵심은 "문서를 보내는 것"보다 <strong>변환과 예외를 통제하는 것</strong>에 가깝다.
 
@@ -63,7 +61,7 @@ VAN은 이런 문제를 [초기](/knowledge-base/studynote/03_network/08_transpo
 
 ## Ⅲ. 비교 및 연결
 
-오늘날 기업 간 통합은 EDI/VAN만으로 설명되지 않는다. 대기업 제조망은 여전히 EDI를 강하게 쓰지만, 중소 파트너나 플랫폼 생태계에서는 AS2 직연결, Web-EDI, OpenAPI가 함께 쓰인다. 따라서 최신 관점은 "구형 대 신형"의 대체 구도가 아니라 <strong>거래 중요도와 파트너 성숙도에 따른 혼합 운용</strong>이다.
+오늘날 기업 간 통합은 EDI/VAN만으로 설명되지 않는다. 대기업 제조망은 여전히 EDI를 강하게 쓰지만, 중소 파트너나 플랫폼 생태계에서는 AS2 직연결, Web-EDI, OpenAPI가 함께 쓰인다. 따라서 최신 관점은 "구형 대 새로운 유형의"의 대체 구도가 아니라 <strong>거래 중요도와 파트너 성숙도에 따른 혼합 운용</strong>이다.
 
 | 항목 | EDI + VAN | AS2 직접 연동 | Web-EDI / OpenAPI |
 | :--- | :--- | :--- | :--- |
@@ -124,23 +122,21 @@ EDI와 VAN을 적절히 활용하면 거래 문서 처리 속도가 빨라지고
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">종이 문서 · 수기 입력</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">EDI (Electronic Data Interchange) 표준화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">VAN 중계망 · ACK 추적</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">EAI 기반 매핑 · 예외 처리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">AS2 · Web-EDI · OpenAPI 하이브리드</div>
-</div>
-</div>
-
-
+```text
+종이 문서 · 수기 입력
+    │
+    ▼
+EDI (Electronic Data Interchange) 표준화
+    │
+    ▼
+VAN 중계망 · ACK 추적
+    │
+    ▼
+EAI 기반 매핑 · 예외 처리
+    │
+    ▼
+AS2 · Web-EDI · OpenAPI 하이브리드
+```
 
 이 흐름은 "문서 표준화 → 안전한 전달 → 내부 변환 → 현대적 혼합 통합"으로 발전하는 과정을 보여준다.
 

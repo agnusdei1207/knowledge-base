@@ -23,25 +23,25 @@ tags = ["studynote-design-supervision"]
 
 실제 예: Java의 `Iterator`를 반환하는 `Collection.iterator()` 메서드는 팩터리 메서드 패턴의 대표 예시다. `ArrayList.iterator()`는 `ArrayList`의 내부 이터레이터를 반환하고, `LinkedList.iterator()`는 `LinkedList`의 내부 이터레이터를 반환한다. 클라이언트는 `Collection` 인터페이스를 통해 동일하게 사용한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">팩터리 메서드 패턴 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Creator (추상 클래스 / 인터페이스)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ createProduct(): Product ← 팩터리 메서드(추상)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ someOperation(): void {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Product p = createProduct(); // 팩터리 메서드 호출</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">p.doSomething();</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ConcreteCreatorA ConcreteCreatorB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ createProduct(): ProductA + createProduct(): ProductB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Product (인터페이스)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">← ProductA, ProductB가 구현</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│           팩터리 메서드 패턴 구조                             │
+├─────────────────────────────────────────────────────────────┤
+│  Creator (추상 클래스 / 인터페이스)                          │
+│  + createProduct(): Product  ← 팩터리 메서드(추상)          │
+│  + someOperation(): void {                                  │
+│      Product p = createProduct(); // 팩터리 메서드 호출      │
+│      p.doSomething();                                       │
+│  }                                                          │
+│       ▲                                                     │
+│  ┌────┴─────────────────────┐                               │
+│  ConcreteCreatorA          ConcreteCreatorB                 │
+│  + createProduct(): ProductA  + createProduct(): ProductB   │
+│                                                             │
+│  Product (인터페이스)                                        │
+│  ← ProductA, ProductB가 구현                                │
+└─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 피자 가게(Creator) 체인에서 각 지점(ConcreteCreator)이 자신의 레시피([Factory Method](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/))로 피자(Product)를 만들지만, 손님(클라이언트)은 어느 지점이든 '피자 주문'이라는 동일한 방식으로 주문한다.
 
@@ -58,19 +58,17 @@ tags = ["studynote-design-supervision"]
 | Creator | 팩터리 메서드 선언 | Collection, Dialog |
 | ConcreteCreator | 팩터리 메서드 구현 | ArrayList, WindowsDialog |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">팩터리 메서드 vs 추상 팩터리 메서드 차이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">팩터리 메서드: 단일 제품 생성 메서드를 서브클래스에 위임</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">추상 팩터리: 관련 제품군 생성 인터페이스를 제공</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">팩터리 메서드 → 상속(Inheritance) 활용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">추상 팩터리 → 구성(Composition) 활용</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│       팩터리 메서드 vs 추상 팩터리 메서드 차이              │
+├─────────────────────────────────────────────────────────────┤
+│  팩터리 메서드: 단일 제품 생성 메서드를 서브클래스에 위임   │
+│  추상 팩터리: 관련 제품군 생성 인터페이스를 제공            │
+│                                                             │
+│  팩터리 메서드 → 상속(Inheritance) 활용                    │
+│  추상 팩터리 → 구성(Composition) 활용                      │
+└─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 출판사(Creator)가 책(Product) 제작 방식을 규정하지만, 각 편집팀(ConcreteCreator)이 자신의 방식으로 특정 책(ConcreteProduct)을 제작한다.
 

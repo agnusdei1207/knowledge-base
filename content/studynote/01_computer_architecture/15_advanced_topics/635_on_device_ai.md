@@ -43,18 +43,17 @@ tags = ["studynote-computer-architecture"]
 
 다음 그림은 온디바이스 AI가 단순 추론 엔진이 아니라 "로컬 실행 파이프라인"임을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">On-device AI: execute locally, fall back to cloud only when necessary</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User input -&gt; App -&gt; Model Runtime -&gt; NPU/GPU/CPU -&gt; Result</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; Secure model store / local context</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; Optional cloud fallback / model update</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ On-device AI: execute locally, fall back to cloud only when necessary        │
+├──────────────────────────────────────────────────────────────────────────────┤
+│ User input -> App -> Model Runtime -> NPU/GPU/CPU -> Result                  │
+│                         │                                                    │
+│                         ├-> Secure model store / local context               │
+│                         │                                                    │
+│                         └-> Optional cloud fallback / model update           │
+└──────────────────────────────────────────────────────────────────────────────┘
+```
 
 핵심 원리는 "가벼운 것은 로컬에서, 무거운 것은 선택적으로 외부에서" 처리하는 분할 설계다. 예를 들어 호출어 감지, 사진 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/), 오타 교정, 소규모 번역은 로컬에서 처리하고, 긴 문서 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)이나 최신 지식 검색은 하이브리드 추론(Hybrid Inference)으로 넘길 수 있다. 따라서 온디바이스 AI의 본질은 모든 것을 로컬에 밀어 넣는 것이 아니라, 사용자의 체감 가치가 큰 부분을 로컬에 붙잡아 두는 데 있다.
 
@@ -124,25 +123,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Cloud assistant</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Edge inference</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">On-device runtime + NPU</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Local personalization · private context</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Hybrid AI (device + cloud)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Federated learning · personal AI agent</div>
-</div>
-</div>
-
-
+```text
+Cloud assistant
+    │
+    ▼
+Edge inference
+    │
+    ▼
+On-device runtime + NPU
+    │
+    ▼
+Local personalization · private context
+    │
+    ▼
+Hybrid AI (device + cloud)
+    │
+    ▼
+Federated learning · personal AI agent
+```
 
 이 흐름은 AI의 중심이 서버 한곳에서 사용자 기기 쪽으로 이동하면서, 실행 위치와 개인화 전략이 함께 바뀌는 과정을 보여준다.
 

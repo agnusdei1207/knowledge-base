@@ -25,18 +25,16 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 첫 패킷과 이후 패킷의 역할 분담이 어떻게 달라지는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">첫 패킷은 소프트웨어가 길을 정하고, 이후 패킷은 하드웨어가 직진한다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">First Packet: VM -&gt; Host vSwitch Classifier -&gt; Rule Install -&gt; NIC</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Later Packets: VM -&gt; NIC/DPU eSwitch Flow Table -&gt; Peer VM / Uplink</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심은 소프트웨어 스위치를 없애는 것이 아니라, 반복적인 전달만 하드웨어화하는 것이다.</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│           첫 패킷은 소프트웨어가 길을 정하고, 이후 패킷은 하드웨어가 직진한다         │
+├────────────────────────────────────────────────────────────────────────────┤
+│ First Packet:  VM -> Host vSwitch Classifier -> Rule Install -> NIC       │
+│ Later Packets: VM -> NIC/DPU eSwitch Flow Table -> Peer VM / Uplink       │
+│                                                                            │
+│ 핵심은 소프트웨어 스위치를 없애는 것이 아니라, 반복적인 전달만 하드웨어화하는 것이다. │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 즉 [vSwitch](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/) 오프로드는 SR-IOV처럼 소프트웨어 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 완전히 우회해 버리는 개념과 다르다. 중앙 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 가상 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 모델은 유지하되, 자주 반복되는 전달 규칙만 [NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/)/[DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) 안쪽으로 밀어 넣는 것이 본질이다.
 
@@ -60,19 +58,20 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 miss와 hit가 갈리는 실제 흐름을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">vSwitch 오프로드의 slow path / fast path</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">VM / VF</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Host OVS Classifier</div><div class="kb-diagram-note">---- install ----</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">--------------------------- hit ----------------------------&gt;</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NIC eSwitch</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Peer VF Uplink</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                   vSwitch 오프로드의 slow path / fast path                  │
+├────────────────────────────────────────────────────────────────────────────┤
+│ [VM / VF] ---- miss ----> [Host OVS Classifier] ---- install ----┐        │
+│     │                                                            │        │
+│     └--------------------------- hit ---------------------------->│        │
+│                                                                  ▼        │
+│                                                        [NIC eSwitch]      │
+│                                                          │        │        │
+│                                                          ▼        ▼        │
+│                                                     Peer VF    Uplink      │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 결국 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 "오프로드를 켰는가"보다 "얼마나 많은 패킷이 fast path에 머무는가"에 달려 있다. 규칙 설치가 느리거나, 지원하지 않는 action이 많아 miss가 자주 나면 하드웨어는 있어도 CPU 부하는 다시 올라간다.
 
@@ -149,23 +148,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Linux Bridge / 순수 소프트웨어 스위칭</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">OVS 기반 가상 스위치</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DPDK 기반 소프트웨어 fast path</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">NIC eSwitch 기반 vSwitch Offload</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DPU 기반 정책·서비스 통합 데이터 평면</div>
-</div>
-</div>
-
-
+```text
+Linux Bridge / 순수 소프트웨어 스위칭
+            │
+            ▼
+OVS 기반 가상 스위치
+            │
+            ▼
+DPDK 기반 소프트웨어 fast path
+            │
+            ▼
+NIC eSwitch 기반 vSwitch Offload
+            │
+            ▼
+DPU 기반 정책·서비스 통합 데이터 평면
+```
 
 이 흐름은 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 네트워크가 "호스트 CPU가 전부 처리하는 구조"에서 출발해, 이제는 제어는 호스트에 남기고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면만 [NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/)/DPU로 이동하는 방향으로 진화하고 있음을 보여 준다.
 

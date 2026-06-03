@@ -24,7 +24,7 @@ tags = ["studynote-ai"]
 
 | [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) | 범위 | 스케일링 전 영향 |
 |:---|:---|:---|
-| 나이 | 0 ~ 100 | 작은 값, 모델 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 영향 |
+| 나이 | 0 ~ 100 | 작은 값, 모델 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 영향 소 |
 | 연봉 | 2000만 ~ 1억 | 큰 값, 모델 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 지배 |
 | BMI | [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) ~ 40 | 중간 값 |
 
@@ -42,17 +42,14 @@ tags = ["studynote-ai"]
 | 결정 트리([Decision Tree](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/)) | ❌ 불필요 | 분기 기준이 절댓값 불변 |
 | [랜덤 포레스트](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/)([Random Forest](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/)) | ❌ 불필요 | 트리 기반 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 스케일링은 달리기 경주에서 모든 선수의 출발선을 같은 위치로 맞추는 것이다. 한 선수가 1미터를 달리고 다른 선수가 1킬로미터를 달리는 경주는 공정한 비교가 되지 않는다.
 
@@ -62,68 +59,50 @@ tags = ["studynote-ai"]
 
 ### 2.1 스케일링 기법 비교 도식
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스케일링 기법 비교</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원본 데이터 분포:</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">min</div><div class="kb-diagram-node">max</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이상치◀ ▶이상치</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1. 정규화 (Min-Max):</div><div class="kb-diagram-node">0, 1</div><div class="kb-diagram-note">범위로 압축</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">──</div><div class="kb-diagram-node">0</div><div class="kb-diagram-node">1</div><div class="kb-diagram-note">──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(이상치에 의해 전체 분포가 압축될 수 있음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 표준화 (Z-Score): 평균=0, 표준편차=1</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">-3</div><div class="kb-diagram-note">──</div><div class="kb-diagram-node">-2</div><div class="kb-diagram-note">──</div><div class="kb-diagram-node">-1</div><div class="kb-diagram-note">──</div><div class="kb-diagram-node">0</div><div class="kb-diagram-note">──</div><div class="kb-diagram-node">1</div><div class="kb-diagram-note">──</div><div class="kb-diagram-node">2</div><div class="kb-diagram-note">──</div><div class="kb-diagram-node">3</div><div class="kb-diagram-note">──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(이상치도 수치 변환되나 분포 형태는 유지)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 로버스트 스케일링: 중앙값, IQR 기준</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Q1</div><div class="kb-diagram-node">중앙값</div><div class="kb-diagram-node">Q3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(이상치에 강건, 중앙 분포 집중)</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────┐
+│              스케일링 기법 비교                            │
+│                                                         │
+│  원본 데이터 분포:                                         │
+│  ──────[min]─────────────────────[max]──────             │
+│   이상치◀                                    ▶이상치      │
+│                                                         │
+│  1. 정규화 (Min-Max): [0, 1] 범위로 압축                  │
+│  ──[0]────────────────────────────────[1]──             │
+│    (이상치에 의해 전체 분포가 압축될 수 있음)                │
+│                                                         │
+│  2. 표준화 (Z-Score): 평균=0, 표준편차=1                  │
+│  ────────[-3]──[-2]──[-1]──[0]──[1]──[2]──[3]──         │
+│    (이상치도 수치 변환되나 분포 형태는 유지)                 │
+│                                                         │
+│  3. 로버스트 스케일링: 중앙값, IQR 기준                     │
+│  ──────[Q1]───────[중앙값]───────[Q3]──────             │
+│    (이상치에 강건, 중앙 분포 집중)                          │
+└─────────────────────────────────────────────────────────┘
+```
 
 ### 2.2 각 기법의 수식과 특징
 
 #### [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) ([Min-Max](/knowledge-base/studynote/14_data_engineering/02_math_mining/078_data_scaling_normalization_min_max_standardization_z_score/) [Normalization](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/))
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">x' = (x - x_min) / (x_max - x_min)</div>
-<div class="kb-diagram-note">→ 결과: 0 ≤ x' ≤ 1</div>
-<div class="kb-diagram-note">→ 이상치 영향: 매우 큼 (이상치가 x_min 또는 x_max 결정)</div>
-</div>
-</div>
-
-
+```
+x' = (x - x_min) / (x_max - x_min)
+→ 결과: 0 ≤ x' ≤ 1
+→ 이상치 영향: 매우 큼 (이상치가 x_min 또는 x_max 결정)
+```
 
 #### 표준화 (Z-Score Standardization)
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">x' = (x - μ) / σ</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">0,1</div><div class="kb-diagram-note">범위 보장 없음)</div></div>
-<div class="kb-diagram-note">→ 이상치 영향: 중간 수준 (평균과 표준편차에 영향)</div>
-</div>
-</div>
-
-
+```
+x' = (x - μ) / σ
+→ 결과: 평균 0, 표준편차 1 (단, [0,1] 범위 보장 없음)
+→ 이상치 영향: 중간 수준 (평균과 표준편차에 영향)
+```
 
 #### 로버스트 스케일링 (Robust Scaling)
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">x' = (x - 중앙값(Median)) / IQR(사분위 범위)</div>
-<div class="kb-diagram-note">→ IQR = Q3 - Q1</div>
-<div class="kb-diagram-note">→ 이상치 영향: 가장 적음 (중앙값과 IQR은 이상치에 강건)</div>
-</div>
-</div>
-
-
+```
+x' = (x - 중앙값(Median)) / IQR(사분위 범위)
+→ IQR = Q3 - Q1
+→ 이상치 영향: 가장 적음 (중앙값과 IQR은 이상치에 강건)
+```
 
 ### 2.3 경사하강법과 스케일링 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
 
@@ -156,8 +135,8 @@ tags = ["studynote-ai"]
 ✅ 올바른 방법: train 데이터에만 fit → train/test 모두 transform
 
 이유: 테스트 데이터는 미래 데이터를 대표해야 하므로
-테스트 데이터의 통계(min, max, μ, σ)가 스케일링에 반영되면
-현실적이지 않은 스케일러가 만들어짐
+      테스트 데이터의 통계(min, max, μ, σ)가 스케일링에 반영되면
+      현실적이지 않은 스케일러가 만들어짐
 ```
 
 ### 3.3 [배치 정규화](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/) ([Batch Normalization](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/), BN)
@@ -175,44 +154,35 @@ tags = ["studynote-ai"]
 ### 4.1 SVM과 KNN에서 스케일링 중요성
 
 <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/262_knn/">KNN</a> (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/262_knn/">K-Nearest Neighbors</a>, K-최근접 이웃) 예시:</strong>
+```
+피처 A: 나이 (20~60)   피처 B: 연봉 (2000만~1억)
 
+샘플 X: (30세, 5000만원)
+샘플 Y: (35세, 5100만원)
+샘플 Z: (31세, 8000만원)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">피처 A: 나이 (20~60) 피처 B: 연봉 (2000만~1억)</div>
-<div class="kb-diagram-note">샘플 X: (30세, 5000만원)</div>
-<div class="kb-diagram-note">샘플 Y: (35세, 5100만원)</div>
-<div class="kb-diagram-note">샘플 Z: (31세, 8000만원)</div>
-<div class="kb-diagram-note">스케일링 없는 유클리드 거리:</div>
-<div class="kb-diagram-note">d(X,Y) = √((5)² + (100만)²) ≈ 100만 ← 나이 차이는 무의미</div>
-<div class="kb-diagram-note">d(X,Z) = √((1)² + (3000만)²) ≈ 3000만</div>
-<div class="kb-diagram-note">스케일링 후: 나이와 연봉이 동등하게 기여 → 정확한 이웃 탐색</div>
-</div>
-</div>
+스케일링 없는 유클리드 거리:
+d(X,Y) = √((5)² + (100만)²) ≈ 100만   ← 나이 차이는 무의미
+d(X,Z) = √((1)² + (3000만)²) ≈ 3000만
 
-
+스케일링 후: 나이와 연봉이 동등하게 기여 → 정확한 이웃 탐색
+```
 
 ### 4.2 스케일링 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 구성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">원시 데이터</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">결측치 처리</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">이상치 탐지 및 처리</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스케일링 기법 선택</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">이상치 여부, 알고리즘 유형 판단</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">train.fit → train/test.transform</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">모델 학습/예측</div></div>
-</div>
-</div>
-
-
+```
+[원시 데이터]
+     ↓
+[결측치 처리]
+     ↓
+[이상치 탐지 및 처리]
+     ↓
+[스케일링 기법 선택]  ← 이상치 여부, 알고리즘 유형 판단
+     ↓
+[train.fit → train/test.transform]
+     ↓
+[모델 학습/예측]
+```
 
 ### 4.3 기술사 핵심 판단 포인트
 - **트리 기반 모델(RandomForest, XGBoost)에 스케일링 불필요** — 분기 기준이 특성 스케일에 독립적

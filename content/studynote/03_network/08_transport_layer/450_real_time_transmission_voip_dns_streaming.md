@@ -26,18 +26,14 @@ tags = ["studynote-network"]
   - <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> (재전송)</strong>: 축구 중계를 보는데 손흥민 선수가 골을 넣기 직전 화면 1프레임이 깨졌습니다. TV는 화면을 5초간 멈춘 뒤, 방송국에 전화를 걸어 아까 깨진 1프레임 사진을 기어이 다시 받아와서 끼워 넣고 재생을 이어갑니다. (이미 현실에선 경기가 끝나 있습니다).
   - <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a> (실시간)</strong>: 화면이 1프레임 깨지면 픽셀이 살짝 모자이크처럼 찌그러질 뿐, 재전송받지 않고 곧바로 다음 1초 뒤의 최신 경기 장면을 멈춤 없이 그대로 보여줍니다. 시청자는 쾌적함을 느낍니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">브로드캐스트 / 멀티캐스트 전송은 UDP만…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">실시간 전송, 오버헤드 최소화 목적</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RTP</div></div>
-</div>
-</div>
-
-
+```text
+[브로드캐스트 / 멀티캐스트 전송은 UDP만…]
+    │
+    ▼
+[실시간 전송, 오버헤드 최소화 목적]
+    │
+    └──▶ [RTP]
+```
 
 - **📢 섹션 요약 비유**: <strong> 오버헤드 최소화란 마라톤 선수가 기록을 0.01초라도 단축하기 위해 짐가방(<a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/188_error_control_overview/">오류 제어</a>)과 안전 헬멧(<a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/">흐름 제어</a>)을 모조리 길바닥에 내던져버리고, </strong>오직 가장 가벼운 러닝화(8바이트 헤더) 하나만 신고 전력 질주하는 극강의 경량화 세팅**입니다.
 
@@ -59,25 +55,26 @@ UDP가 TCP를 찢어발기고 광속을 내는 원리다.
 - <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/">DNS</a> 질의 응답</strong>:
   - `naver.com`의 IP를 묻는 질문은 고작 몇십 바이트다. 이 짧은 단답형 핑퐁을 위해 TCP처럼 무거운 터널 공사를 하는 건 미친 짓이다. 가벼운 UDP로 "질문 툭 -> 대답 툭"으로 0.05초 만에 끝내는 게 가장 합리적이다. 
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">헤더 오버헤드(Overhead)의 극단적 대역폭 낭비 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황: 음성 통화로 1초에 "안녕" (20바이트) 이라는 단어를 50번 보낼 때</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* TCP를 쓸 경우 (배보다 배꼽이 큼):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 데이터 20B + TCP 헤더 20B + IP 헤더 20B = 60바이트.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 오버헤드 비율: 데이터(20)를 보내려고 쓰레기 포장지(40)를 씀.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 쓰레기 포장지가 전체의 66%를 차지함!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* UDP를 쓸 경우 (다이어트 성공):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 데이터 20B + UDP 헤더 8B + IP 헤더 20B = 48바이트.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 쓰레기 포장지가 전체의 58%로 확 줄어듦!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ "이 12바이트의 미세한 차이가, 동시 접속자 수만 명의 통화가 쏟아지는</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">통신사 장비에서는 기가바이트 급의 대역폭 낭비/절약을 결정짓는다!"</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                헤더 오버헤드(Overhead)의 극단적 대역폭 낭비 비교     │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 상황: 음성 통화로 1초에 "안녕" (20바이트) 이라는 단어를 50번 보낼 때 ]│
+ │                                                             │
+ │   * TCP를 쓸 경우 (배보다 배꼽이 큼):                            │
+ │     - 데이터 20B + TCP 헤더 20B + IP 헤더 20B = 60바이트.        │
+ │     - 오버헤드 비율: 데이터(20)를 보내려고 쓰레기 포장지(40)를 씀.     │
+ │     - 쓰레기 포장지가 전체의 66%를 차지함!                        │
+ │                                                             │
+ │   * UDP를 쓸 경우 (다이어트 성공):                               │
+ │     - 데이터 20B + UDP 헤더 8B + IP 헤더 20B = 48바이트.         │
+ │     - 쓰레기 포장지가 전체의 58%로 확 줄어듦!                       │
+ │                                                             │
+ │   ▶ "이 12바이트의 미세한 차이가, 동시 접속자 수만 명의 통화가 쏟아지는 │
+ │      통신사 장비에서는 기가바이트 급의 대역폭 낭비/절약을 결정짓는다!"   │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: <strong> UDP의 오버헤드 최소화는 과대 포장의 타파입니다. 지우개(음성 패킷) 하나를 시켰는데 거대한 뽁뽁이 상자 3겹(<a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> 헤더)으로 묶어서 보내면 쓰레기(오버헤드) 처리가 골치 아픕니다. UDP는 지우개를 그냥 </strong>"가벼운 종이봉투(8바이트)"**에 달랑 담아 던져서, 배송 차량에 수만 개의 지우개를 꽉꽉 채워 실을 수 있게 해주는 궁극의 공간 창출술입니다.
 
@@ -135,19 +132,15 @@ UDP가 TCP를 찢어발기고 광속을 내는 원리다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 브로드캐스트 / 멀티캐스트 전송은 UDP만…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 실시간 전송, 오버헤드 최소화 목적</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: RTP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 브로드캐스트 / 멀티캐스트 전송은 UDP만…]
+    │
+    ▼
+[현재 개념: 실시간 전송, 오버헤드 최소화 목적]
+    │
+    ├──▶ [확장 A: RTP]
+    └──▶ [확장 B: 적응형 저지연 전송]
+```
 
 실시간 전송, 오버헤드 최소화 목적는 브로드캐스트 / [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 전송은 UDP만…에서 출발해 현재 메커니즘을 정교화하고, 이후 RTP와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

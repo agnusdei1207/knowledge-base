@@ -45,20 +45,19 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 두 구조의 차이를 직관적으로 보여준다.
 
+```text
+[FC-AL: one shared loop]
 
+Host A ── Host B ── Storage A ── Storage B
+  ▲                                   │
+  └───────────────────────────────────┘
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">FC-AL: one shared loop</div></div>
-<div class="kb-diagram-note">Host A ── Host B ── Storage A ── Storage B</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">FC-SW: switched fabric</div></div>
-<div class="kb-diagram-note">Host A</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Host B</div><div class="kb-diagram-node">SAN Switch</div><div class="kb-diagram-note">Storage A</div></div>
-<div class="kb-diagram-note">Host C Storage B</div>
-</div>
-</div>
+[FC-SW: switched fabric]
 
-
+Host A ─────┐
+Host B ─────┼──── [ SAN Switch ] ──── Storage A
+Host C ─────┘                └────── Storage B
+```
 
 이 그림의 핵심은 케이블 개수보다 <strong>통신권이 공유되는지, 독립되는지</strong>다. 루프에서는 모두가 같은 회전목마를 함께 타고 차례를 기다리지만, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 패브릭에서는 각자가 자신의 차선과 교차로를 가진다.
 
@@ -68,7 +67,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-[FC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/)-AL과 [FC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/)-SW의 차이는 단순히 구형과 신형의 차이가 아니라, <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 모델과 장애 모델의 차이</strong>다. 이 둘을 비교하면 왜 현대 SAN에서 [FC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/)-SW가 기본값이 되었는지 명확해진다.
+[FC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/)-AL과 [FC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/)-SW의 차이는 단순히 구형과 새로운 유형의의 차이가 아니라, <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 모델과 장애 모델의 차이</strong>다. 이 둘을 비교하면 왜 현대 SAN에서 [FC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/)-SW가 기본값이 되었는지 명확해진다.
 
 | 비교 축 | [FC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/)-AL | [FC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/)-SW |
 | :--- | :--- | :--- |
@@ -128,23 +127,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Point-to-point direct attach</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">FC-AL shared loop</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">FC-SW switched fabric</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Dual-fabric high availability SAN</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Converged or hybrid storage networking</div>
-</div>
-</div>
-
-
+```text
+Point-to-point direct attach
+    │
+    ▼
+FC-AL shared loop
+    │
+    ▼
+FC-SW switched fabric
+    │
+    ▼
+Dual-fabric high availability SAN
+    │
+    ▼
+Converged or hybrid storage networking
+```
 
 이 흐름은 연결 구조가 단순 직결에서 공유 루프를 거쳐, 장애 격리와 확장을 중시하는 패브릭 중심 구조로 발전한 과정을 보여준다.
 

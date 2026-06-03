@@ -32,23 +32,28 @@ tags = ["studynote-design-supervision"]
 
 GoF가 정의한 전통적인 [빌더 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/380_builder_pattern_summary/)은 조립 지휘자(Director)와 실제 조립공([Builder](/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/))이 철저히 분리된 구조다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GoF 전통적 빌더 패턴의 아키텍처 (Director &amp; Builder)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Director</div><div class="kb-diagram-cell">o ▶</div><div class="kb-diagram-cell">Builder</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ Construct()</div><div class="kb-diagram-cell">+ BuildPartA()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+----------------+</div><div class="kb-diagram-cell">+ BuildPartB()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ GetResult()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ConcreteBuilder</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">+ BuildPartA()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ BuildPartB()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ GetResult()</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          GoF 전통적 빌더 패턴의 아키텍처 (Director & Builder)        │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│       +----------------+            +------------------+    │
+│       │   Director     │ o─────────▶│     Builder      │    │
+│       +----------------+            +------------------+    │
+│       │ + Construct()  │            │ + BuildPartA()   │    │
+│       +----------------+            │ + BuildPartB()   │    │
+│               │                     │ + GetResult()    │    │
+│               │                     +------------------+    │
+│               │                               ▲             │
+│               │                     +---------┴---------+   │
+│               │                     │  ConcreteBuilder  │   │
+│               │                     +-------------------+   │
+│               └────────────────────▶│ + BuildPartA()    │   │
+│                                     │ + BuildPartB()    │   │
+│                                     │ + GetResult()     │   │
+│                                     +-------------------+   │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **주요 역할**:
 1. <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/">Builder</a></strong>: 부품을 조립하기 위한 추상 인터페이스를 정의한다. (도면 역할)
@@ -117,23 +122,21 @@ GoF가 정의한 전통적인 [빌더 패턴](/knowledge-base/studynote/11_desig
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">텔레스코핑 생성자 (Telescoping Constructor) / 매개변수 조합별로 생성자를 수십 개 만듦 (코드 중복 지옥)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">자바빈즈 패턴 (JavaBeans Pattern) / 기본 생성자로 만들고 Setter로 값을 넣음 (불변성 깨짐, 런타임 붕괴 위험)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">GoF 빌더 패턴 (Builder Pattern) / Director와 Builder를 분리해 안전하게 단계별 조립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">이펙티브 자바 스타일 빌더 (Static Inner Class Builder) / Director 생략, 체이닝으로 심플하게 압축</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Lombok @Builder 어노테이션 / 어노테이션 하나로 빌더 코드를 컴파일 타임에 자동 생성 (현대 자바 생태계 표준화)</div>
-</div>
-</div>
-
-
+```text
+텔레스코핑 생성자 (Telescoping Constructor) / 매개변수 조합별로 생성자를 수십 개 만듦 (코드 중복 지옥)
+    │
+    ▼
+자바빈즈 패턴 (JavaBeans Pattern) / 기본 생성자로 만들고 Setter로 값을 넣음 (불변성 깨짐, 런타임 붕괴 위험)
+    │
+    ▼
+GoF 빌더 패턴 (Builder Pattern) / Director와 Builder를 분리해 안전하게 단계별 조립
+    │
+    ▼
+이펙티브 자바 스타일 빌더 (Static Inner Class Builder) / Director 생략, 체이닝으로 심플하게 압축
+    │
+    ▼
+Lombok @Builder 어노테이션 / 어노테이션 하나로 빌더 코드를 컴파일 타임에 자동 생성 (현대 자바 생태계 표준화)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

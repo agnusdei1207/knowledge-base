@@ -23,25 +23,25 @@ tags = ["bigdata"]
 
 이 그림은 데이터 분석의 성숙도 모델 (Gartner 기반)을 보여준다. 분석의 수준이 높아질수록 비즈니스 가치가 어떻게 상승하는지 시각화한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data Analytics Maturity Model</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Value ▲</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Prescriptive</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(처방 분석)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Predictive</div><div class="kb-diagram-note">/</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(예측 분석) /</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Diagnostic</div><div class="kb-diagram-note">/</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(진단 분석) /</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Descriptive</div><div class="kb-diagram-note">/</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(묘사 분석) /</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Difficulty / Complexity</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│              Data Analytics Maturity Model                  │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   Value ▲                                                   │
+│         │                                [Prescriptive]     │
+│         │                                (처방 분석)        │
+│         │                        [Predictive] /             │
+│         │                        (예측 분석) /              │
+│         │                [Diagnostic] /                     │
+│         │                (진단 분석) /                      │
+│         │        [Descriptive] /                            │
+│         │        (묘사 분석) /                              │
+│         └──────────────────────────────────▶                │
+│                   Difficulty / Complexity                   │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '질문의 변화'이다. "무슨 일이 일어났는가?"(Descriptive)에서 시작하여 "어떻게 하면 원하는 결과를 만들 수 있는가?"(Prescriptive)로 나아가는 과정이 빅데이터 분석의 궁극적 지향점이다. 실무에서는 이러한 상위 분석을 위해 데이터 사이언티스트뿐만 아니라 도메인 전문가와의 긴밀한 협업이 성공의 열쇠가 된다.
 
@@ -72,25 +72,27 @@ tags = ["bigdata"]
 
 이 구조도는 데이터 마이닝의 핵심 기법인 연관 규칙 분석 (Apriori 알고리즘)의 원리를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Association Rule: Apriori Logic</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Transaction Data</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T1: {Milk, Bread}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T2: {Milk, Diaper, Beer}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T3: {Milk, Bread, Diaper, Beer}</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Step 1: Support Check</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- {Milk, Diaper}: 2/3 (66%) -&gt; Frequent!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Step 2: Confidence Check</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Rule: {Diaper} =&gt; {Beer}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Conf = P(Beer</div><div class="kb-diagram-cell">Diaper) = 100% -&gt; Strong Rule!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* Result: 기저귀를 산 손님은 반드시 맥주를 산다!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Association Rule: Apriori Logic             │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Transaction Data ]                                      │
+│   T1: {Milk, Bread}                                         │
+│   T2: {Milk, Diaper, Beer}                                  │
+│   T3: {Milk, Bread, Diaper, Beer}                           │
+│                                                             │
+│   [ Step 1: Support Check ]                                 │
+│   - {Milk, Diaper}: 2/3 (66%) -> Frequent!                  │
+│                                                             │
+│   [ Step 2: Confidence Check ]                              │
+│   - Rule: {Diaper} => {Beer}                                │
+│   - Conf = P(Beer|Diaper) = 100% -> Strong Rule!            │
+│                                                             │
+│   * Result: 기저귀를 산 손님은 반드시 맥주를 산다!          │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '가지치기 (Pruning)'이다. 발생 빈도가 낮은 항목을 미리 제거하여 계산 복잡도를 획기적으로 줄이는 것이 알고리즘의 핵심이다. 실무에서는 이러한 연관 규칙을 통해 매장 진열 최적화나 추천 엔진의 기본 로직을 설계한다.
 
@@ -140,21 +142,21 @@ tags = ["bigdata"]
 
 이 도식은 데이터 분석 결과의 신뢰성을 확보하기 위한 '교차 검증' 판단 흐름을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모델 검증 의사결정 흐름</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">모델 학습</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">과적합 확인?</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">예</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(중지)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">아니오</div><div class="kb-diagram-connector">▼</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">정규화 기법 적용</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">K-폴드 교차 검증</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">F1-점수 / AUC 확인</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">허용 가능?</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">최종 성능 확인</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">예</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│               모델 검증 의사결정 흐름                       │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [모델 학습] ─────▶ [과적합 확인?] ───────▶ [예] ─────┐    │
+│          │                                     │ (중지)     │
+│       [아니오]                                 ▼            │
+│          │                          [정규화 기법 적용]      │
+│   [K-폴드 교차 검증] ───────▶ [F1-점수 / AUC 확인]        │
+│                                              │              │
+│   [허용 가능?] ◀─── [최종 성능 확인] ◀────── [예]       │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 기술사의 분석 판단은 의사의 진단과 같습니다. 환자의 증상(비즈니스 문제)을 듣고, 어떤 검사(분석 기법)를 할지 결정하며, 검사 결과가 오진(과적합)이 아닌지 끝까지 의심하고 확인하는 과정입니다.
 
@@ -165,7 +167,7 @@ tags = ["bigdata"]
 ### 지능형 분석의 정량적/정성적 가치
 
 1. **정량적 효과**: 마케팅 캠페인 타겟팅 정교화로 비용 대비 수익 (ROAS) 5배 향상, 불량률 20% 감소.
-2. **정성적 효과**: 조직의 '근거 기반 의사결정' 문화 확산, 고객에 대한 심층적 이해 (Customer 360) 달성.
+2. **정성적 효과**: 조직의 '근거 기반 의사결정' 문화 확산, 고객에 대한 심층적 이해 (C고객 360) 달성.
 
 ### 미래 전망: 가용성 있는 AI (XAI)와 분석 민주화
 
@@ -181,7 +183,7 @@ tags = ["bigdata"]
 - **Sentiment Analysis**: 텍스트의 감성 상태를 추출하는 기법
 - **F1-Score**: 정밀도와 재현율의 조화 평균, 모델 평가 지표
 - **Data Scientist**: 데이터 분석을 통해 비즈니스 가치를 만드는 전문가
-- **Feature Engineering**: 모델 성능 향상을 위해 원천 데이터를 가공하는 기술
+- **Feature 엔진ering**: 모델 성능 향상을 위해 원천 데이터를 가공하는 기술
 
 ### 👶 어린이를 위한 3줄 비유 설명
 - 빅데이터 분석은 우리 반 친구들이 어떤 아이스크림을 제일 좋아하는지 맞추는 수수께끼 놀이와 같아요.
@@ -190,20 +192,18 @@ tags = ["bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">OLAP (Online Analytical Processing) — 다차원 분석</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">데이터 마이닝 (Association, Clustering, Classification)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">A/B 테스트 — 가설 검증</div>
-<div class="kb-diagram-tree-item" style="--depth:2">기술 통계 → 예측 분석 → 처방 분석</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">머신러닝 통합 분석 (MLlib, scikit-learn)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">AutoML / 생성형 AI 기반 분석 자동화</div>
-</div>
-</div>
-
-
+```text
+OLAP (Online Analytical Processing) — 다차원 분석
+    │
+    ▼
+데이터 마이닝 (Association, Clustering, Classification)
+    │
+    ├─► A/B 테스트 — 가설 검증
+    ├─► 기술 통계 → 예측 분석 → 처방 분석
+    │
+    ▼
+머신러닝 통합 분석 (MLlib, scikit-learn)
+    │
+    ▼
+AutoML / 생성형 AI 기반 분석 자동화
+```

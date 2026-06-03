@@ -1,5 +1,5 @@
 +++
-title = "23. Photon Engine (Databricks) — 네이티브 벡터화 실행 엔진"
+title = "23. Photon 엔진 (Databricks) — 네이티브 벡터화 실행 엔진"
 date = 2026-04-29
 
 [taxonomies]
@@ -10,7 +10,7 @@ tags = ["studynote-bigdata"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: Photon Engine은 Databricks가 개발한 C++ 기반 네이티브 벡터화 실행 엔진(Vectorized Execution Engine)으로, Apache Spark의 JVM(Java [Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) 오버헤드를 제거하고 CPU [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) (Single [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Multiple [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 활용하여 SQL/[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)프레임 연산을 최대 12배 가속화한다.
+> 1. **본질**: Photon 엔진은 Databricks가 개발한 C++ 기반 네이티브 벡터화 실행 엔진(Vectorized Execution 엔진)으로, Apache Spark의 JVM(Java [Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) 오버헤드를 제거하고 CPU [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) (Single [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Multiple [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 활용하여 SQL/[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)프레임 연산을 최대 12배 가속화한다.
 > 2. **가치**: Photon은 Databricks Runtime에 투명하게 통합되어 기존 [Spark SQL](/knowledge-base/studynote/16_bigdata/03_spark/056_spark_sql/) 코드 변경 없이 I/O 집약적 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/)(Extract-Transform-Load), 대용량 집계(Aggregation), 조인([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/)) 연산의 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 대폭 향상시키고 [클라우드 컴퓨팅](/knowledge-base/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/) 비용을 절감한다.
 > 3. **판단 포인트**: Photon은 CPU 계산 집약적 연산(필터, 정렬, 해시 집계)에서 극적인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상을 보이지만, UDF (User-Defined Function, [사용자 정의 함수](/knowledge-base/studynote/05_database/03_relational_model/187_user_defined_function_udf/))나 Python 기반 연산은 여전히 JVM으로 [폴백](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/)되므로 Photon 이점을 극대화하려면 네이티브 SQL/DataFrame [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 사용이 필수다.
 
@@ -18,29 +18,29 @@ tags = ["studynote-bigdata"]
 
 ## Ⅰ. 개요 및 필요성
 
-Photon Engine은 Databricks가 2021년 공개한 C++ 네이티브 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 실행 엔진으로, Apache Spark의 기본 Tungsten 실행 엔진을 대체하는 Databricks Runtime의 핵심 가속화 구성 요소다.
+Photon 엔진은 Databricks가 2021년 공개한 C++ 네이티브 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 실행 엔진으로, Apache Spark의 기본 Tungsten 실행 엔진을 대체하는 Databricks Runtime의 핵심 가속화 구성 요소다.
 
 Spark는 JVM 위에서 실행되기 때문에 [가비지 컬렉션](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/)(GC, [Garbage Collection](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/)) 오버헤드, [JIT](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/)([Just-In-Time](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/)) 컴파일 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 객체 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)화 비용이 누적되어 CPU 효율이 저하된다. 특히 최신 클라우드 서버의 64코어 CPU와 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) SSD의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 JVM이 100% 활용하지 못하는 것이 핵심 문제였다. Photon은 C++로 직접 하드웨어를 제어하여 이 격차를 메운다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Spark JVM vs Photon 실행 경로 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">기존 Spark (Tungsten)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SQL/DF API → Catalyst 최적화 → JVM 바이트코드 생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ JVM 실행 (GC 부담, 객체 직렬화 오버헤드)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Photon Engine</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SQL/DF API → Catalyst 최적화 → Photon C++ 코드 생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ CPU SIMD 벡터 명령어 직접 실행 (GC 없음, 네이티브 성능)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">성능 향상:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 해시 집계: 최대 8배</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 정렬: 최대 4배</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 조인: 최대 12배</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│            Spark JVM vs Photon 실행 경로 비교                  │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│  [기존 Spark (Tungsten)]                                     │
+│  SQL/DF API → Catalyst 최적화 → JVM 바이트코드 생성           │
+│  → JVM 실행 (GC 부담, 객체 직렬화 오버헤드)                   │
+│                                                              │
+│  [Photon Engine]                                             │
+│  SQL/DF API → Catalyst 최적화 → Photon C++ 코드 생성          │
+│  → CPU SIMD 벡터 명령어 직접 실행 (GC 없음, 네이티브 성능)     │
+│                                                              │
+│  성능 향상:                                                   │
+│  ├─ 해시 집계: 최대 8배                                       │
+│  ├─ 정렬: 최대 4배                                            │
+│  └─ 조인: 최대 12배                                           │
+└──────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: JVM 위에서 Spark를 실행하는 것은 번역가(JVM)를 통해 지시하는 것이고, Photon은 현지어(C++)로 직접 말하는 것과 같다. 번역 과정이 없으니 지시가 즉각 전달되어 훨씬 빠르게 일한다.
 
@@ -57,20 +57,20 @@ Photon의 핵심은 컬럼형(Columnar) [배치 처리](/knowledge-base/studynot
 | **행 단위(Row-at-a-time)** | 1 행씩 처리 | 스칼라 연산 | 느림 |
 | **벡터화(Vectorized)** | 1024행 [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/) | [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) (AVX-512) | 최대 16배 빠름 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">벡터화 실행 vs 행 단위 실행</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">행 단위:</div><div class="kb-diagram-node">행1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">행2</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">행3</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(루프 오버헤드 × 행 수)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">벡터화:</div><div class="kb-diagram-node">행1,행2,...,행1024</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">SIMD 1번 연산</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(CPU 레지스터에 1024개 동시 처리)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AVX-512: 512비트 레지스터 = 8개 double 동시 처리</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────┐
+│              벡터화 실행 vs 행 단위 실행                   │
+├──────────────────────────────────────────────────────────┤
+│                                                          │
+│  행 단위:  [행1] → 연산 → [행2] → 연산 → [행3] → ...      │
+│            (루프 오버헤드 × 행 수)                         │
+│                                                          │
+│  벡터화:   [행1,행2,...,행1024] → SIMD 1번 연산           │
+│            (CPU 레지스터에 1024개 동시 처리)               │
+│                                                          │
+│  AVX-512: 512비트 레지스터 = 8개 double 동시 처리          │
+└──────────────────────────────────────────────────────────┘
+```
 
 ### Photon 지원 연산 vs [폴백](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/)
 
@@ -134,7 +134,7 @@ Photon은 [Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_del
 
 Photon은 Databricks [Lakehouse](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) 아키텍처의 핵심 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 레이어로, Unity Catalog와의 통합으로 보안 접근 제어([ABAC](/knowledge-base/studynote/09_security/11_iam_access_control/572_abac/))와 고성능 실행을 동시에 달성하는 방향으로 발전하고 있다. [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 진영의 Velox와 Apache Gluten 프로젝트가 유사한 C++ 네이티브 실행 가속을 Apache Spark에 이식하는 경쟁이 활발하다.
 
-- **📢 섹션 요약 비유**: Photon Engine은 스포츠카에 터보 엔진을 달아주는 것이다. 차의 겉모습([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))은 그대로지만, 내부 엔진(C++ 벡터화)이 바뀌면서 같은 연료([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))로 훨씬 빠르게 목적지에 도달한다.
+- **📢 섹션 요약 비유**: Photon 엔진은 스포츠카에 터보 엔진을 달아주는 것이다. 차의 겉모습([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))은 그대로지만, 내부 엔진(C++ 벡터화)이 바뀌면서 같은 연료([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))로 훨씬 빠르게 목적지에 도달한다.
 
 ---
 
@@ -150,28 +150,26 @@ Photon은 Databricks [Lakehouse](/knowledge-base/studynote/16_bigdata/07_data_la
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Spark Tungsten — JVM 기반 코드 생성, 부분 최적화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Arrow — 컬럼형 포맷, 언어 간 제로카피 교환</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Photon Engine (2021) — C++ 네이티브 벡터화 실행</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Delta Lake + Photon 통합 — I/O + CPU 동시 최적화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Velox / Apache Gluten — 오픈소스 생태계 C++ 실행 가속</div></div>
-</div>
-</div>
-
-
+```text
+[Apache Spark Tungsten — JVM 기반 코드 생성, 부분 최적화]
+    │
+    ▼
+[Apache Arrow — 컬럼형 포맷, 언어 간 제로카피 교환]
+    │
+    ▼
+[Photon Engine (2021) — C++ 네이티브 벡터화 실행]
+    │
+    ▼
+[Delta Lake + Photon 통합 — I/O + CPU 동시 최적화]
+    │
+    ▼
+[Velox / Apache Gluten — 오픈소스 생태계 C++ 실행 가속]
+```
 JVM 기반 Tungsten에서 컬럼형 Arrow, C++ Photon을 거쳐 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) Velox/Gluten으로 확장되는 빅데이터 실행 엔진 가속화의 흐름이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. Photon Engine은 자동차 엔진을 낡은 것에서 <strong>슈퍼카 엔진</strong>으로 바꿔주는 것과 같아요!
+1. Photon 엔진은 자동차 엔진을 낡은 것에서 <strong>슈퍼카 엔진</strong>으로 바꿔주는 것과 같아요!
 2. 자동차 겉모습(코드)은 그대로인데, 엔진만 바꿨더니 같은 길을 10배나 빠르게 달릴 수 있게 돼요.
 3. 덕분에 수억 개의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 처리하는 시간이 확 줄어들고, 클라우드 비용도 많이 절약할 수 있답니다!
 

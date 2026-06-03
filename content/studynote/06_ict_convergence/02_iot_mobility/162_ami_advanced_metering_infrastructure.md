@@ -35,17 +35,16 @@ AMI의 핵심은 현장 계량 [데이터](/knowledge-base/studynote/05_database
 
 아래 그림은 AMI의 기본 흐름을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AMI의 양방향 운영 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스마트 미터</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">DCU/RF Mesh</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">MDMS/운영센터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-- 원격 개폐 · 요금 신호 · 펌웨어 업데이트 · DR 제어 --</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                        AMI의 양방향 운영 구조                        │
+├──────────────────────────────────────────────────────────────────────┤
+│ [스마트 미터] --검침 데이터--> [DCU/RF Mesh] --WAN--> [MDMS/운영센터] │
+│      ▲                                                       │        │
+│      │                                                       │        │
+│      └-- 원격 개폐 · 요금 신호 · 펌웨어 업데이트 · DR 제어 --┘        │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조에서 중요한 점은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집만으로 끝나지 않는다는 것이다. MDMS는 수집된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 단순 저장하는 창고가 아니라, 이상 사용량 탐지, 누락 보정, 시간대별 과금, 정전 위치 추정 같은 운영 판단의 중심이 된다. 즉 AMI는 계량기 네트워크라기보다 <strong>센서 계층과 운영 계층을 연결하는 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 플랫폼</strong>에 가깝다.
 
@@ -131,23 +130,21 @@ AMI가 제대로 구축되면 검침 자동화 비용 절감뿐 아니라, 피�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">수동 검침</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">AMR (Automated Meter Reading)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">AMI (Advanced Metering Infrastructure)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">수요 반응 (DR) · 실시간 요금제</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">스마트 그리드 · 마이크로그리드 운영</div>
-</div>
-</div>
-
-
+```text
+수동 검침
+    │
+    ▼
+AMR (Automated Meter Reading)
+    │
+    ▼
+AMI (Advanced Metering Infrastructure)
+    │
+    ▼
+수요 반응 (DR) · 실시간 요금제
+    │
+    ▼
+스마트 그리드 · 마이크로그리드 운영
+```
 
 이 흐름은 "검침 자동화 → 양방향 운영 → 에너지 최적화"로 전력 정보 인프라가 진화하는 과정을 보여준다.
 

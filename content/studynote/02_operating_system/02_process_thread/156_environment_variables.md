@@ -27,35 +27,38 @@ tags = ["studynote-operating-system"]
 
 ### 2. 프로세스 메모리에서의 환경 변수
 
+```
+프로세스 메모리 레이아웃 상 환경 변수의 위치
 
+High Address
++---------------------------+
+|         Stack             |
+|   argv[0], argv[1], ...   |
+|   envp[0], envp[1], ...  | <-- 환경 변수 포인터 배열
+|   argc                     |
++---------------------------+
+|          |                |  Stack grows downward
+|          v                |
++---------------------------+
+|        Heap               |  Heap grows upward
++---------------------------+
+|       BSS                 |
+|       Data                |
+|       Text (Code)         |
++---------------------------+
+Low Address
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">프로세스 메모리 레이아웃 상 환경 변수의 위치</div>
-<div class="kb-diagram-note">High Address</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Stack</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">argv</div><div class="kb-diagram-node">0</div><div class="kb-diagram-note">, argv</div><div class="kb-diagram-node">1</div><div class="kb-diagram-note">, ...</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">envp</div><div class="kb-diagram-node">0</div><div class="kb-diagram-note">, envp</div><div class="kb-diagram-node">1</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">환경 변수 포인터 배열</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">argc</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Stack grows downward</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">v</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Heap</div><div class="kb-diagram-cell">Heap grows upward</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BSS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Text (Code)</div></div>
-<div class="kb-diagram-note">Low Address</div>
-<div class="kb-diagram-note">환경 변수 블록 (Environ Block):</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PATH=/usr/bin:/bin</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HOME=/home/user</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LANG=ko_KR.UTF-8</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LD_LIBRARY_PATH=/opt/lib</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SHELL=/bin/bash</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TERM=xterm-256color</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NULL (terminator)</div></div>
-</div>
-</div>
-
-
+환경 변수 블록 (Environ Block):
++--------------------------------------+
+| PATH=/usr/bin:/bin                   |
+| HOME=/home/user                      |
+| LANG=ko_KR.UTF-8                     |
+| LD_LIBRARY_PATH=/opt/lib             |
+| SHELL=/bin/bash                      |
+| TERM=xterm-256color                  |
+| NULL (terminator)                    |
++--------------------------------------+
+```
 
 > **비유**: 환경 변수는 프로세스라는 "가방" 주머니에 넣어둔 "메모 쪽지"들이다. 프로그램은 언제든 주머니에서 꺼내 읽을 수 있다.
 
@@ -156,27 +159,29 @@ int main() {
 }
 ```
 
+```
+환경 변수 API 동작 흐름
 
+[getenv("PATH")]
+    |
+    v
+environ 배열에서 "PATH="로 시작하는 항목 검색
+    |
+    v
+"PATH=/usr/bin:/bin"에서 '=' 이후 문자열 반환
+    |
+    v
+포인터 반환 (복사본 아님, 수정하면 안 됨)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">환경 변수 API 동작 흐름</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">getenv("PATH")</div></div>
-<div class="kb-diagram-note">v</div>
-<div class="kb-diagram-note">environ 배열에서 "PATH="로 시작하는 항목 검색</div>
-<div class="kb-diagram-note">v</div>
-<div class="kb-diagram-note">"PATH=/usr/bin:/bin"에서 '=' 이후 문자열 반환</div>
-<div class="kb-diagram-note">v</div>
-<div class="kb-diagram-note">포인터 반환 (복사본 아님, 수정하면 안 됨)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">setenv("KEY", "VALUE", 1)</div></div>
-<div class="kb-diagram-note">v</div>
-<div class="kb-diagram-note">environ 배열에서 "KEY=" 검색</div>
-<div class="kb-diagram-note">+-- 있고 overwrite=1 --&gt; 기존 항목 대체</div>
-<div class="kb-diagram-note">+-- 없음 --&gt; environ 배열 확장 후 새 항목 추가</div>
-</div>
-</div>
-
-
+[setenv("KEY", "VALUE", 1)]
+    |
+    v
+environ 배열에서 "KEY=" 검색
+    |
+    +-- 있고 overwrite=1 --> 기존 항목 대체
+    |
+    +-- 없음 --> environ 배열 확장 후 새 항목 추가
+```
 
 > **비유**: getenv()는 "전화번호부에서 이름 찾기", setenv()는 "전화번호부에 새 번호 등록하기"와 같다. putenv()는 "직접 전화번호부 책갈피에 메모지 꽂기"라서 메모지를 분실하면 번호도 사라진다.
 
@@ -218,24 +223,21 @@ environ:                            environ:
 | `execlp(file, arg...)` | 기존 환경 변수 유지 + PATH 검색 |
 | `execvp(file, argv)` | 기존 환경 변수 유지 + PATH 검색 |
 
+```
+exec() 계열의 환경 변수 처리
 
+[execl("/bin/ls", "ls", NULL)]
+    기존 environ 블록 그대로 유지
+    --> ls가 부모와 동일한 환경 변수로 실행됨
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">exec() 계열의 환경 변수 처리</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">execl("/bin/ls", "ls", NULL)</div></div>
-<div class="kb-diagram-note">기존 environ 블록 그대로 유지</div>
-<div class="kb-diagram-tree-item" style="--depth:2">ls가 부모와 동일한 환경 변수로 실행됨</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">execle("/bin/ls", "ls", NULL, new_envp)</div></div>
-<div class="kb-diagram-note">기존 environ 폐기</div>
-<div class="kb-diagram-tree-item" style="--depth:2">new_envp 배열이 새 environ이 됨</div>
-<div class="kb-diagram-tree-item" style="--depth:2">부모의 환경 변수 완전히 사라짐</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">execve("/bin/ls", argv, new_envp)</div></div>
-<div class="kb-diagram-note">execle와 동일 (배열 형식)</div>
-</div>
-</div>
+[execle("/bin/ls", "ls", NULL, new_envp)]
+    기존 environ 폐기
+    --> new_envp 배열이 새 environ이 됨
+    --> 부모의 환경 변수 완전히 사라짐
 
-
+[execve("/bin/ls", argv, new_envp)]
+    execle와 동일 (배열 형식)
+```
 
 > **비유**: fork()는 "부모의 레시피 노트를 복사해서 아이에게 주는 것"이고, execle()는 "아이가 자기만의 새 레시피 노트로 교체하는 것"이다.
 
@@ -273,25 +275,26 @@ LD_PRELOAD=/tmp/malicious.so /usr/bin/victim_program
 
 ### 3. 방어 수단
 
+```
+LD_PRELOAD 공격 방어 레이어
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">LD_PRELOAD 공격 방어 레이어</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. SUID/SGID 바이너리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; LD_PRELOAD 무시 (보안 설정)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. /etc/ld.so.preload (관리자 전용)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; 시스템 수준 preloading만 허용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. setenv("LD_PRELOAD", "", 1)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; 프로그램 시작 시 명시적 초기화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. Docker/Container 격리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; 호스트 환경 변수 격리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. Capabilities / SELinux</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; 라이브러리 로딩 권한 제한</div></div>
-</div>
-</div>
-
-
++------------------------------------------+
+| 1. SUID/SGID 바이너리                     |
+|    -> LD_PRELOAD 무시 (보안 설정)          |
++------------------------------------------+
+| 2. /etc/ld.so.preload (관리자 전용)       |
+|    -> 시스템 수준 preloading만 허용        |
++------------------------------------------+
+| 3. setenv("LD_PRELOAD", "", 1)           |
+|    -> 프로그램 시작 시 명시적 초기화        |
++------------------------------------------+
+| 4. Docker/Container 격리                  |
+|    -> 호스트 환경 변수 격리                |
++------------------------------------------+
+| 5. Capabilities / SELinux                 |
+|    -> 라이브러리 로딩 권한 제한            |
++------------------------------------------+
+```
 
 > **비유**: LD_PRELOAD 공격은 "수업 전에 선생님의 교과서를 가짜 교과서로 몰래 바꿔치기하는 것"이다. SUID는 "출입증을 확인하는 교실 문지기" 역할을 한다.
 
@@ -299,39 +302,33 @@ LD_PRELOAD=/tmp/malicious.so /usr/bin/victim_program
 
 ### [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">환경 변수 상속</div>
-<div class="kb-diagram-tree-item" style="--depth:0">기본 개념</div>
-<div class="kb-diagram-note">── 키-값(Key-Value) 쌍</div>
-<div class="kb-diagram-note">── 부모-자식 상속 (Inheritance)</div>
-<div class="kb-diagram-note">── environ 블록 (메모리의 Stack 영역)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">주요 환경 변수</div>
-<div class="kb-diagram-note">── PATH (실행 파일 검색 경로)</div>
-<div class="kb-diagram-note">── HOME (사용자 홈 디렉토리)</div>
-<div class="kb-diagram-note">── LANG (로케일 설정)</div>
-<div class="kb-diagram-note">── LD_LIBRARY_PATH (동적 라이브러리 경로)</div>
-<div class="kb-diagram-note">── LD_PRELOAD (사전 로드 라이브러리)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">C API</div>
-<div class="kb-diagram-note">── getenv() (조회)</div>
-<div class="kb-diagram-note">── setenv() (설정)</div>
-<div class="kb-diagram-note">── putenv() (포인터 직접 설정)</div>
-<div class="kb-diagram-note">── unsetenv() (제거)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">프로세스 생성 시 동작</div>
-<div class="kb-diagram-note">── fork() -&gt; 환경 변수 복사</div>
-<div class="kb-diagram-note">── exec() -&gt; 유지 또는 대체</div>
-<div class="kb-diagram-note">── execl/execv -&gt; 기존 환경 유지</div>
-<div class="kb-diagram-note">── execle/execve -&gt; 새 envp로 대체</div>
-<div class="kb-diagram-tree-item" style="--depth:0">보안</div>
-<div class="kb-diagram-tree-item" style="--depth:2">LD_PRELOAD 공격 (함수 가로채기)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">SUID/SGID 바이너리 안전</div>
-<div class="kb-diagram-tree-item" style="--depth:2">컨테이너 격리</div>
-</div>
-</div>
-
-
+```
+환경 변수 상속
+├── 기본 개념
+│   ├── 키-값(Key-Value) 쌍
+│   ├── 부모-자식 상속 (Inheritance)
+│   └── environ 블록 (메모리의 Stack 영역)
+├── 주요 환경 변수
+│   ├── PATH (실행 파일 검색 경로)
+│   ├── HOME (사용자 홈 디렉토리)
+│   ├── LANG (로케일 설정)
+│   ├── LD_LIBRARY_PATH (동적 라이브러리 경로)
+│   └── LD_PRELOAD (사전 로드 라이브러리)
+├── C API
+│   ├── getenv() (조회)
+│   ├── setenv() (설정)
+│   ├── putenv() (포인터 직접 설정)
+│   └── unsetenv() (제거)
+├── 프로세스 생성 시 동작
+│   ├── fork() -> 환경 변수 복사
+│   ├── exec() -> 유지 또는 대체
+│   ├── execl/execv -> 기존 환경 유지
+│   └── execle/execve -> 새 envp로 대체
+└── 보안
+    ├── LD_PRELOAD 공격 (함수 가로채기)
+    ├── SUID/SGID 바이너리 안전
+    └── 컨테이너 격리
+```
 
 ### 세 줄 설명 (어린이용)
 
@@ -365,19 +362,15 @@ LD_PRELOAD=/tmp/malicious.so /usr/bin/victim_program
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">동적 링킹 프로세스 (ld.so) 로딩 과정</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">환경 변수 (Environment Variables) 상속</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OOM (Out Of Memory) Killer 프로세스 종료 정책</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">oom_score_adj</div></div>
-</div>
-</div>
-
-
+```text
+[동적 링킹 프로세스 (ld.so) 로딩 과정]
+    │
+    ▼
+[환경 변수 (Environment Variables) 상속]
+    │
+    ├──▶ [OOM (Out Of Memory) Killer 프로세스 종료 정책]
+    └──▶ [oom_score_adj]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

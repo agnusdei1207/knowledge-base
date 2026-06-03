@@ -18,23 +18,24 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">API Gateway 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Client</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">api.example.com</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">API Gateway</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 인증 (JWT 검증)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Rate Limiting (100 req/s)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 라우팅 (/orders → Order Service)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 로깅·모니터링</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 응답 캐시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Order Svc Payment Svc User Svc</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    API Gateway 아키텍처                               │
+├───────────────────────────────────────────────────────┤
+│  [Client] → api.example.com                           │
+│                │                                      │
+│           [API Gateway]                               │
+│            ├── 인증 (JWT 검증)                        │
+│            ├── Rate Limiting (100 req/s)              │
+│            ├── 라우팅 (/orders → Order Service)      │
+│            ├── 로깅·모니터링                          │
+│            └── 응답 캐시                              │
+│                │                                      │
+│    ┌───────────┼───────────┐                          │
+│    ▼           ▼           ▼                          │
+│  Order Svc  Payment Svc  User Svc                    │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Gateway는 호텔 프런트 데스크다. 모든 손님(요청)이 프런트(Gateway)를 거치며, 프런트가 신분 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/))·방 배정([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/))·보안([Rate Limiting](/knowledge-base/studynote/09_security/05_web_app_security/520_rate_limiting/))을 처리한다.
 
@@ -93,23 +94,21 @@ tags = ["studynote-cloud-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">로드 밸런서 (L4/L7, 2000s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">API Gateway (Netflix Zuul, 2013~)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Kong / Envoy (2015~) — 클라우드 네이티브 Gateway</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">BFF Pattern (2016~) — 클라이언트별 Gateway</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: API Gateway + Service Mesh — 통합 네트워크 계층</div></div>
-</div>
-</div>
-
-
+```text
+[로드 밸런서 (L4/L7, 2000s)]
+    │
+    ▼
+[API Gateway (Netflix Zuul, 2013~)]
+    │
+    ▼
+[Kong / Envoy (2015~) — 클라우드 네이티브 Gateway]
+    │
+    ▼
+[BFF Pattern (2016~) — 클라이언트별 Gateway]
+    │
+    ▼
+[현재: API Gateway + Service Mesh — 통합 네트워크 계층]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Gateway는 호텔 <strong>프런트 데스크</strong>예요. 모든 손님이 프런트를 거쳐요.

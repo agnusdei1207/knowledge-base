@@ -99,41 +99,29 @@ Container Process
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Image</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Runtime</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Container</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Kubernetes</div>
-</div>
-</div>
-
-
+```text
+Image
+  ↓
+Runtime
+  ↓
+Container
+  ↓
+Kubernetes
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">OCI</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">containerd / CRI-O / runc</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Runtime</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Container Execution</div>
-</div>
-</div>
-
-
+```text
+OCI
+  ↓
+containerd / CRI-O / runc
+  ↓
+Runtime
+  ↓
+Container Execution
+```
 
 ---
 

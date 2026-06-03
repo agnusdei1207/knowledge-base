@@ -59,29 +59,34 @@ IBM이 개발하여 리눅스 [커널](/knowledge-base/studynote/02_operating_sy
 
 사용자가 쉘에서 `./my_program`을 실행했을 때 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부에서 벌어지는 일이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IMA 런타임 파일 무결성 검증 프로세스</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">User Space</div><div class="kb-diagram-note"><code>./my_program</code> 실행 요청</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Kernel Space (VFS &amp; Security Hook)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. LSM 훅 발생: VFS(가상 파일 시스템) 계층에서 파일 열기(Open) 시도 시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LSM(Linux Security Module)의 <code>bprm_check_security</code> 훅이 트리거됨.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. IMA 서브시스템 개입:</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- 커널이 my_program 파일의 전체 바이트를 읽어</div><div class="kb-diagram-node">SHA-256 해시</div><div class="kb-diagram-note">계산.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 서명 검증 (Appraisal):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 파일의 확장 속성(Extended Attribute, xattr)인 <code>security.ima</code> 에</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">미리 저장된 관리자의</div><div class="kb-diagram-node">디지털 서명</div><div class="kb-diagram-note">을 읽어옴.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 커널 내부의 공개키(System Keyring)로 서명을 복호화하여 원본 해시 확보.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 일치 여부 판단 (Decision):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 일치함 (해커가 안 건드림) ──▶ 프로그램 정상 실행 허용!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 불일치 (악성코드 감염) ──▶ 실행 즉각 차단 (EACCES 에러 반환)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">및 TPM 로그에 변조 사실 영구 박제!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 IMA 런타임 파일 무결성 검증 프로세스                   │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │  [User Space]       `./my_program` 실행 요청                       │
+  │                           │                                       │
+  │  =========================▼=======================================│
+  │  [Kernel Space (VFS & Security Hook)]                             │
+  │                                                                   │
+  │   1. LSM 훅 발생: VFS(가상 파일 시스템) 계층에서 파일 열기(Open) 시도 시    │
+  │      LSM(Linux Security Module)의 `bprm_check_security` 훅이 트리거됨.│
+  │                                                                   │
+  │   2. IMA 서브시스템 개입:                                            │
+  │      - 커널이 my_program 파일의 전체 바이트를 읽어 [ SHA-256 해시 ] 계산.│
+  │                                                                   │
+  │   3. 서명 검증 (Appraisal):                                         │
+  │      - 파일의 확장 속성(Extended Attribute, xattr)인 `security.ima` 에 │
+  │        미리 저장된 관리자의 [ 디지털 서명 ]을 읽어옴.                    │
+  │      - 커널 내부의 공개키(System Keyring)로 서명을 복호화하여 원본 해시 확보.│
+  │                                                                   │
+  │   4. 일치 여부 판단 (Decision):                                      │
+  │      ├─ 일치함 (해커가 안 건드림) ──▶ 프로그램 정상 실행 허용!             │
+  │      │                                                            │
+  │      └─ 불일치 (악성코드 감염)    ──▶ 실행 즉각 차단 (EACCES 에러 반환)    │
+  │                                     및 TPM 로그에 변조 사실 영구 박제!    │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 과정의 핵심은 <strong>"해커가 루트(Root) 권한을 가졌더라도 회피가 불가능하다"</strong>는 점이다. 해커가 웹 서버 취약점을 뚫고 루트 권한을 얻어 `my_program`의 코드를 악성 [백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/)로 바꿨다 치자. 해커가 바꾼 프로그램을 실행하려 하면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)(IMA)이 해시를 계산한다. 당연히 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 내용이 바뀌었으니 해시값이 틀려지고, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 실행을 차단한다. 해커가 "그럼 서명(xattr)도 내가 새로 조작해서 맞춰두면 되잖아?"라고 시도해도 소용없다. 서명을 만들려면 '관리자의 개인키(Private [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))'가 필요한데, 이 키는 오프라인 서버에 격리되어 있어 해커가 절대 훔칠 수 없기 때문이다. 완벽한 체크메이트다.
 
@@ -126,25 +131,28 @@ IBM이 개발하여 리눅스 [커널](/knowledge-base/studynote/02_operating_sy
 
 ### 의사결정 및 튜닝 플로우
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제로 트러스트 런타임 무결성 검증 아키텍처 설계 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">국방, 금융, 핵심 인프라 등 절대 무결성을 요구하는 시스템 구축</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시스템이 정적인 환경(업데이트가 적은 임베디드, 고정된 어플라이언스)인가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IMA / EVM (Appraisal Mode) 전면 적용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(모든 바이너리에 서명. 완벽한 실행 통제 가능)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 (CI/CD로 하루에도 수십 번씩 코드가 바뀌는 클라우드 환경)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동적인 컨테이너/클라우드 워크로드에서의 무결성 방안은?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">컨테이너 이미지 서명 (Cosign / Notary) 적용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(K8s Admission Controller가 서명된 이미지인지 검사)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">eBPF 기반 런타임 행위 감시 엔진 도입</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(실행 전 검사가 아니라, 실행 중의 비정상 시스템 콜 차단)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 제로 트러스트 런타임 무결성 검증 아키텍처 설계 플로우          │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [국방, 금융, 핵심 인프라 등 절대 무결성을 요구하는 시스템 구축]               │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      시스템이 정적인 환경(업데이트가 적은 임베디드, 고정된 어플라이언스)인가?     │
+  │          ├─ 예 ─────▶ [IMA / EVM (Appraisal Mode) 전면 적용]        │
+  │          │            (모든 바이너리에 서명. 완벽한 실행 통제 가능)          │
+  │          └─ 아니오 (CI/CD로 하루에도 수십 번씩 코드가 바뀌는 클라우드 환경)     │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      동적인 컨테이너/클라우드 워크로드에서의 무결성 방안은?                   │
+  │          ├─ 서명 기반 ─▶ [컨테이너 이미지 서명 (Cosign / Notary) 적용]  │
+  │          │             (K8s Admission Controller가 서명된 이미지인지 검사)│
+  │          │                                                        │
+  │          └─ 행위 기반 ─▶ [eBPF 기반 런타임 행위 감시 엔진 도입]           │
+  │                        (실행 전 검사가 아니라, 실행 중의 비정상 시스템 콜 차단)│
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** [제로 트러스트 아키텍처](/knowledge-base/studynote/12_it_management/05_security_compliance/184_zero_trust_architecture/) 설계의 가장 큰 적은 '[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하'와 '운영 마비'다. 시스템의 모든 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 접근을 해싱(Hashing)하는 것은 엄청난 CPU 연산을 동반한다. 기술사는 시스템의 특성을 파악하여, 변하지 않는 핵심 OS 바이너리 공간(RootFS)은 Read-Only [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/) + IMA로 철통 방어하고, 수시로 변하는 애플리케이션 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공간은 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/)) 모드로 풀어주는 정교한 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)) 분할 설계를 해야 한다.
 
@@ -168,7 +176,7 @@ IBM이 개발하여 리눅스 [커널](/knowledge-base/studynote/02_operating_sy
 
 ### 미래 전망
 - <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/">머신러닝</a> 기반 <a href="/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/">eBPF</a> 제로 트러스트</strong>: 현재의 서명(Signature) 기반 방어는 0-day(알려지지 않은) 취약점을 통해 합법적인 프로그램이 메모리 상에서 공격당하는([Fileless Attack](/knowledge-base/studynote/09_security/15_malware_attack_vectors/769_fileless_attack/)) 것은 막지 못한다. 차세대 런타임 방어망은 eBPF가 프로세스의 메모리 접근 패턴을 실시간으로 읽고, 노드 내부의 경량 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델이 "이 Nginx 프로세스의 행동은 평소와 99% 다르다"고 판별해 즉각 네트워크를 끊어버리는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 융합 제로 트러스트로 나아가고 있다.
-- <strong>DICE (Device <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/">Identifier</a> Composition Engine)</strong>: [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기의 폭발적 증가에 발맞춰, [TPM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/) 같은 비싼 보안 칩 없이도 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 칩셋([SoC](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/)) 설계 자체에 부팅 때부터 고유의 암호화 키를 파생시켜 나가며 런타임 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 하드웨어적으로 보증하는 DICE 표준이 엣지 컴퓨팅의 기본 요건이 되고 있다.
+- <strong>DICE (Device <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/">Identifier</a> Composition 엔진)</strong>: [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기의 폭발적 증가에 발맞춰, [TPM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/) 같은 비싼 보안 칩 없이도 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 칩셋([SoC](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/)) 설계 자체에 부팅 때부터 고유의 암호화 키를 파생시켜 나가며 런타임 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 하드웨어적으로 보증하는 DICE 표준이 엣지 컴퓨팅의 기본 요건이 되고 있다.
 
 ### 결론
 제로 트러스트 철학 하의 런타임 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)망 설계는 "[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(OS)가 스스로를 의심하게 만드는" 극단적인 철학의 산물이다. 네트워크 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이 무너지고, 아이디/패스워드가 유출되고, 심지어 최고 관리자(Root) 권한이 탈취된 최악의 잿더미 속에서도, [암호학](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/)과 해시 트리(Hash Tree)라는 수학적 진리에 기대어 시스템의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 마지막까지 사수하는 숭고한 아키텍처다. 클라우드와 에지 컴퓨팅이 모든 경계를 허무는 시대에, 신뢰(Trust)는 더 이상 주어지는 것이 아니라 실행되는 모든 순간(Runtime)마다 수학적으로 증명(Verify)되어야 하는 것이 되었다.
@@ -188,19 +196,15 @@ IBM이 개발하여 리눅스 [커널](/knowledge-base/studynote/02_operating_sy
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">보안 엔클레이브 (TrustZone, SGX)와 OS TEE (Trusted Execution Environment) 연동 구조</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">제로 트러스트(Zero Trust) 철학 하의 운영체제 레벨 런타임 무결성 검증망 설계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">부채널 공격 (Side-channel Attack, Meltdown/Spectre) 마이크로아키텍처 취약점 대응 소프트웨어 패치(KPTI, Retpoline)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">하드웨어 기반 무작위 난수 생성기 (TRNG) 커널 엔트로피 풀 주입 방식</div></div>
-</div>
-</div>
-
-
+```text
+[보안 엔클레이브 (TrustZone, SGX)와 OS TEE (Trusted Execution Environment) 연동 구조]
+    │
+    ▼
+[제로 트러스트(Zero Trust) 철학 하의 운영체제 레벨 런타임 무결성 검증망 설계]
+    │
+    ├──▶ [부채널 공격 (Side-channel Attack, Meltdown/Spectre) 마이크로아키텍처 취약점 대응 소프트웨어 패치(KPTI, Retpoline)]
+    └──▶ [하드웨어 기반 무작위 난수 생성기 (TRNG) 커널 엔트로피 풀 주입 방식]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

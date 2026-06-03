@@ -72,46 +72,42 @@ s_t   = ρ·s_{t-1} + (1-ρ)·(∇L)²
 
 ### [Adam](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/) ([Adaptive Moment Estimation](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/)) — [모멘텀](/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/) + RMSProp
 
+```
+m_t = β₁·m_{t-1} + (1-β₁)·∇L          ← 1차 모멘텀 (방향)
+v_t = β₂·v_{t-1} + (1-β₂)·(∇L)²       ← 2차 모멘텀 (크기)
 
+m̂_t = m_t / (1 - β₁ᵗ)                  ← 편향 보정 (Bias Correction)
+v̂_t = v_t / (1 - β₂ᵗ)                  ← 편향 보정
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">m_t = β₁·m_{t-1} + (1-β₁)·∇L ← 1차 모멘텀 (방향)</div>
-<div class="kb-diagram-note">v_t = β₂·v_{t-1} + (1-β₂)·(∇L)² ← 2차 모멘텀 (크기)</div>
-<div class="kb-diagram-note">m̂_t = m_t / (1 - β₁ᵗ) ← 편향 보정 (Bias Correction)</div>
-<div class="kb-diagram-note">v̂_t = v_t / (1 - β₂ᵗ) ← 편향 보정</div>
-<div class="kb-diagram-note">θ_t+1 = θ_t - η · m̂_t / (√v̂_t + ε)</div>
-</div>
-</div>
-
-
+θ_t+1 = θ_t - η · m̂_t / (√v̂_t + ε)
+```
 
 기본 하이퍼파라미터: η=0.001, β₁=0.9, β₂=0.999, ε=1e-8
 
 ### [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) 비교 다이어그램
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">손실 곡면 (Loss Landscape)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↘↘↘ SGD: 노이즈 많은 지그재그 경로 ↙↙</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↘ → 글로벌 최솟값</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모멘텀: 관성으로 진동 감소</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↘ →</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Adam: 적응적, 빠르고 안정적 수렴</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↘ → ★</div></div>
-<div class="kb-diagram-note">옵티마이저 성능 요약</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">옵티마이저</div><div class="kb-diagram-cell">수렴속도</div><div class="kb-diagram-cell">안정성</div><div class="kb-diagram-cell">메모리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SGD</div><div class="kb-diagram-cell">느림</div><div class="kb-diagram-cell">낮음</div><div class="kb-diagram-cell">낮음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SGD+Momentum</div><div class="kb-diagram-cell">중간</div><div class="kb-diagram-cell">중간</div><div class="kb-diagram-cell">낮음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RMSProp</div><div class="kb-diagram-cell">빠름</div><div class="kb-diagram-cell">중간</div><div class="kb-diagram-cell">중간</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Adam</div><div class="kb-diagram-cell">빠름</div><div class="kb-diagram-cell">높음</div><div class="kb-diagram-cell">높음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AdamW</div><div class="kb-diagram-cell">빠름</div><div class="kb-diagram-cell">최고</div><div class="kb-diagram-cell">높음</div></div>
-</div>
-</div>
-
-
+```
+손실 곡면 (Loss Landscape)
+     ┌─────────────────────────────────────────┐
+     │ ↘↘↘  SGD: 노이즈 많은 지그재그 경로  ↙↙ │
+     │  ↘──────────────────────────────→  글로벌 최솟값 │
+     │   모멘텀: 관성으로 진동 감소              │
+     │    ↘═══════════════════════→           │
+     │     Adam: 적응적, 빠르고 안정적 수렴     │
+     │      ↘━━━━━━━━━━━━━━━━━━━→ ★          │
+     └─────────────────────────────────────────┘
+     
+옵티마이저 성능 요약
+┌──────────────┬───────────┬───────────┬───────────┐
+│  옵티마이저  │  수렴속도 │  안정성   │  메모리   │
+├──────────────┼───────────┼───────────┼───────────┤
+│ SGD          │   느림    │   낮음    │   낮음    │
+│ SGD+Momentum │   중간    │   중간    │   낮음    │
+│ RMSProp      │   빠름    │   중간    │   중간    │
+│ Adam         │   빠름    │   높음    │   높음    │
+│ AdamW        │   빠름    │   최고    │   높음    │
+└──────────────┴───────────┴───────────┴───────────┘
+```
 
 📢 **섹션 요약 비유**: Adam은 경험 많은 등산가다. [모멘텀](/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/)으로 발걸음의 방향 관성을 유지하고(어디로 가던 중이었는지 기억), RMSProp으로 가파른 곳은 조심스럽게 평탄한 곳은 빠르게 걷는다. 두 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 동시에 쓰니 대부분의 지형에서 최적이다.
 
@@ -182,29 +178,23 @@ torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
 
 ### 최적화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 발전사
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Gradient Descent (1847)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">SGD (Stochastic GD) — 노이즈를 정규화 효과로 활용</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Momentum (1986) — Polyak, 관성 도입</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">AdaGrad (2011) — 적응 학습률 최초</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">RMSProp (2012) — Hinton, 이동 평균 도입</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Adam (2014) — Kingma &amp; Ba, 모멘텀+RMSProp</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">AdamW (2019) — Loshchilov, 가중치 감쇠 분리</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Lion (2023) — Google, 사인 기반 업데이트</div>
-</div>
-</div>
-
-
+```
+Gradient Descent (1847)
+      ↓
+SGD (Stochastic GD) — 노이즈를 정규화 효과로 활용
+      ↓
+Momentum (1986) — Polyak, 관성 도입
+      ↓
+AdaGrad (2011) — 적응 학습률 최초
+      ↓
+RMSProp (2012) — Hinton, 이동 평균 도입
+      ↓
+Adam (2014) — Kingma & Ba, 모멘텀+RMSProp
+      ↓
+AdamW (2019) — Loshchilov, 가중치 감쇠 분리
+      ↓
+Lion (2023) — Google, 사인 기반 업데이트
+```
 
 ### 기술사 시험 핵심 포인트
 
@@ -235,21 +225,18 @@ torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">BGD (Batch GD) → 느림</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SGD → Mini-Batch SGD: 속도 + 안정성 균형</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">모멘텀 → RMSprop → Adam (모멘텀 + 적응 학습률)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">AdamW · LAMB · 스케줄러 (Cosine · Warmup)</div>
-</div>
-</div>
-
-
+```text
+BGD (Batch GD) → 느림
+    │
+    ▼
+SGD → Mini-Batch SGD: 속도 + 안정성 균형
+    │
+    ▼
+모멘텀 → RMSprop → Adam (모멘텀 + 적응 학습률)
+    │
+    ▼
+AdamW · LAMB · 스케줄러 (Cosine · Warmup)
+```
 2. [Adam](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/) [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)는 "어디로 가던 중이었지?"([모멘텀](/knowledge-base/studynote/10_ai/03_llm_nlp/276_momentum_optimizer/))와 "이 길이 얼마나 가파르지?"(RMSProp)를 동시에 기억하는 똑똑한 탐험가야.
 3. [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) 스케줄링은 처음엔 천천히 주변을 살피고, 익숙해지면 빠르게 달리다가, 목적지 근처에서 다시 천천히 걷는 여행 계획이야.
 

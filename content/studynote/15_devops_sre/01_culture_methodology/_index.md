@@ -23,20 +23,20 @@ tags = ["devops_sre"]
 
 이 그림은 데브옵스의 핵심 철학인 <strong>CAMS 모델</strong>을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DevOps Core Philosophy: CAMS</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Culture</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">사람 중심, 신뢰와 존중, 공동 책임</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Automation</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">수작업 제거, CI/CD, IaC, 파이프라인</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Measurement</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">정량적 지표 (MTTR, 배포 빈도), 데이터</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Sharing</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">지식 공유, 열린 소통, 피드백 루프</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 자동화(A) 이전에 문화(C)가 먼저 바뀌어야 함</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 DevOps Core Philosophy: CAMS                │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Culture ] ─────▶ 사람 중심, 신뢰와 존중, 공동 책임      │
+│   [ Automation ] ──▶ 수작업 제거, CI/CD, IaC, 파이프라인    │
+│   [ Measurement ] ─▶ 정량적 지표 (MTTR, 배포 빈도), 데이터  │
+│   [ Sharing ] ─────▶ 지식 공유, 열린 소통, 피드백 루프      │
+│                                                             │
+│   * 핵심: 자동화(A) 이전에 문화(C)가 먼저 바뀌어야 함       │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '문화 (Culture)'이다. 제아무리 좋은 자동화 도구를 도입해도 개발자와 운영자가 서로 싸운다면 데브옵스는 실패한다. 실무에서는 비난하지 않는 문화 (Blameless Culture)와 실패를 학습의 기회로 삼는 태도가 데브옵스 성공의 80%를 결정한다.
 
@@ -80,18 +80,20 @@ tags = ["devops_sre"]
 
 이 구조도는 데브옵스가 추구하는 **'가치 스트림 (Value Stream)'** 최적화 개념을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Value Stream Mapping (VSM)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Idea</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Dev</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">QA</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Ops</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* Non-Value Adding Time (낭비): 대기 및 핸드오버 시간</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 목표: Lead Time(총 소요시간)을 줄여 가치 전달 가속화</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Value Stream Mapping (VSM)                  │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Idea ] ──▶ [ Dev ] ──(Wait)──▶ [ QA ] ──(Wait)──▶ [ Ops ] │
+│      │          │        ▲          │        ▲         │    │
+│      └──────────┴────────┼──────────┴────────┼─────────┘    │
+│                          │                  │               │
+│   * Non-Value Adding Time (낭비): 대기 및 핸드오버 시간     │
+│   * 목표: Lead Time(총 소요시간)을 줄여 가치 전달 가속화    │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '병목 (Bottleneck) 제거'이다. 개발이 1시간 걸려도 배포 대기 시간이 1주일이면 고객은 1주일 후에나 가치를 얻는다. 실무에서는 이 대기 시간을 자동화와 협업을 통해 분 단위로 줄이는 것이 데브옵스의 실질적인 목표이다.
 
@@ -134,21 +136,21 @@ tags = ["devops_sre"]
 
 이 도식은 기술사가 주도하는 '데브옵스 조직으로의 성숙도 이행' 단계를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DevOps Maturity &amp; Transformation Roadmap</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Step 1: Silos</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">벽이 있는 개발-운영</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Step 2: Shared</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">공통 도구 사용, 소통 시작</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Step 3: Hybrid</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">CI/CD 파이프라인 구축</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Step 4: Native</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">인프라 자동화, 셀프 서비스</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Step 5: Advanced</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">데이터 기반 자율 개선 (AIOps)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 기술사 역할: "문화를 강요하지 말고, 도구로 문화를 유도"</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│               DevOps Maturity & Transformation Roadmap      │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Step 1: Silos ]   ──▶ 벽이 있는 개발-운영               │
+│   [ Step 2: Shared ]  ──▶ 공통 도구 사용, 소통 시작         │
+│   [ Step 3: Hybrid ]  ──▶ CI/CD 파이프라인 구축             │
+│   [ Step 4: Native ]  ──▶ 인프라 자동화, 셀프 서비스        │
+│   [ Step 5: Advanced ] ──▶ 데이터 기반 자율 개선 (AIOps)    │
+│                                                             │
+│   * 기술사 역할: "문화를 강요하지 말고, 도구로 문화를 유도" │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 기술사의 데브옵스 판단은 '오케스트라 지휘자'의 역할과 같습니다. 지휘자는 직접 악기를 연주하지 않지만, 각 파트가 서로의 소리를 들으며 완벽한 화음을 내도록 분위기를 조성하고 템포를 조절하는 역할을 수행합니다.
 
@@ -163,7 +165,7 @@ tags = ["devops_sre"]
 
 ### 미래 전망: 플랫폼 엔지니어링과 NoOps
 
-향후 데브옵스는 개발자가 운영을 신경 쓰지 않아도 되는 <strong>플랫폼 엔지니어링 (Platform Engineering)</strong>으로 수렴할 것이다. 사내 개발자 플랫폼 (IDP)이 운영 지식을 추상화하여 제공함으로써 인지 부하를 최소화할 것이다. 또한 AI가 장애를 스스로 예측하고 치유하는 **NoOps** 시대가 열릴 것이다. 기술사는 자동화의 기술적 깊이를 넘어, 기술이 조직의 가치와 어떻게 결합되어 지속 가능한 성장을 이끄는지 설계하는 '디지털 문화 아키텍트'가 되어야 한다.
+향후 데브옵스는 개발자가 운영을 신경 쓰지 않아도 되는 <strong>플랫폼 엔지니어링 (Platform 엔진ering)</strong>으로 수렴할 것이다. 사내 개발자 플랫폼 (IDP)이 운영 지식을 추상화하여 제공함으로써 인지 부하를 최소화할 것이다. 또한 AI가 장애를 스스로 예측하고 치유하는 **NoOps** 시대가 열릴 것이다. 기술사는 자동화의 기술적 깊이를 넘어, 기술이 조직의 가치와 어떻게 결합되어 지속 가능한 성장을 이끄는지 설계하는 '디지털 문화 아키텍트'가 되어야 한다.
 
 📢 **섹션 요약 비유**: 미래의 데브옵스는 '자율주행 주방'과 같아질 것입니다. 셰프(개발자)가 요리(코드)에만 집중할 수 있도록 로봇(플랫폼)이 재료를 준비하고 설거지(운영)를 도맡아 하겠지만, 그 요리가 손님에게 어떤 기쁨(가치)을 줄지는 여전히 셰프의 몫입니다.
 

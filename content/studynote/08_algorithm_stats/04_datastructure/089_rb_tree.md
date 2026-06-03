@@ -39,43 +39,34 @@ Red-Black Tree 5가지 규칙:
 
 ### 삽입 후 규칙 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">새 노드 삽입 → 항상 Red로 삽입</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">규칙 4 위반? (Red-Red 연속)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">삼촌이 Red → 재색칠(Recoloring)</div>
-<div class="kb-diagram-note">부모·삼촌 → Black</div>
-<div class="kb-diagram-note">조부모 → Red</div>
-<div class="kb-diagram-note">(조부모로 이동하여 재확인)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">삼촌이 Black → 회전+재색칠</div>
-<div class="kb-diagram-note">LL/LR/RL/RR 케이스별 처리</div>
-</div>
-</div>
-
-
+```text
+새 노드 삽입 → 항상 Red로 삽입
+    │
+    ▼
+규칙 4 위반? (Red-Red 연속)
+    ├─ 삼촌이 Red → 재색칠(Recoloring)
+    │   부모·삼촌 → Black
+    │   조부모 → Red
+    │   (조부모로 이동하여 재확인)
+    │
+    └─ 삼촌이 Black → 회전+재색칠
+        LL/LR/RL/RR 케이스별 처리
+```
 
 ### C++ STL map 내부 구조
 
+```text
+std::map<key, value> 내부:
+  - Red-Black Tree 기반
+  - 삽입: O(log N)
+  - 검색: O(log N)
+  - 범위 조회: 중위 순회 O(K + log N)
+  - K개 반환 조회
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">std::map&lt;key, value&gt; 내부:</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Red-Black Tree 기반</div>
-<div class="kb-diagram-tree-item" style="--depth:1">삽입: O(log N)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">검색: O(log N)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">범위 조회: 중위 순회 O(K + log N)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">K개 반환 조회</div>
-<div class="kb-diagram-note">예: std::map.lower_bound(key)</div>
-<div class="kb-diagram-note">→ O(log N)으로 key 이상의 첫 값 검색</div>
-<div class="kb-diagram-note">→ 정렬된 데이터 범위 검색에 최적</div>
-</div>
-</div>
-
-
+예: std::map.lower_bound(key)
+    → O(log N)으로 key 이상의 첫 값 검색
+    → 정렬된 데이터 범위 검색에 최적
+```
 
 - **📢 섹션 요약 비유**: RB Tree 재색칠은 빨간불 연속 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등 수리다. 빨간불 두 개가 연속(Red-Red 위반)이면, 앞 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등을 초록(Black)으로 바꾸고 필요하면 교차로 구조(회전)도 변경한다.
 
@@ -154,23 +145,21 @@ Persistent Red-Black Tree는 함수형 프로그래밍에서 불변([Immutable](
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">BST — 이진 탐색, 최악 O(N)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AVL — 엄격 균형, 읽기 최적화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Red-Black — 유연 균형, 삽입/삭제 최적화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Linux CFS / STL / JVM — 표준 라이브러리 채택</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Persistent RB — 함수형 불변 자료 구조</div></div>
-</div>
-</div>
-
-
+```text
+[BST — 이진 탐색, 최악 O(N)]
+    │
+    ▼
+[AVL — 엄격 균형, 읽기 최적화]
+    │
+    ▼
+[Red-Black — 유연 균형, 삽입/삭제 최적화]
+    │
+    ▼
+[Linux CFS / STL / JVM — 표준 라이브러리 채택]
+    │
+    ▼
+[Persistent RB — 함수형 불변 자료 구조]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

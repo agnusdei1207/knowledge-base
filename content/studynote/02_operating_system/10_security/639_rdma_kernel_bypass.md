@@ -57,26 +57,29 @@ RDMA의 압도적 성능은 'OS를 철저히 배제'하는 것에서 나온다.
 
 애플리케이션이 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 거치지 않기 위해, RNIC 하드웨어와 직접 통신하는 '채널'을 큐 페어(QP)라고 부른다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RDMA Queue Pair (QP) 통신 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">서버 A (User Space)</div><div class="kb-diagram-node">서버 B (User Space)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Memory Region (메모리 등록) 1. Memory Region (메모리 등록)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(커널이 이 메모리가 스왑 아웃 안 되게 고정시킴 - Pinning)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Send Queue (SQ) ──(직접 H/W 제어)──▶ 2. Receive Queue (RQ)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Receive Queue (RQ) ◀──(직접 H/W 제어)── Send Queue (SQ)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=========================</div><div class="kb-diagram-node">OS Kernel Bypass</div><div class="kb-diagram-note">==================</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3.</div><div class="kb-diagram-node">RNIC (RDMA 랜카드)</div><div class="kb-diagram-note">3.</div><div class="kb-diagram-node">RNIC (RDMA 랜카드)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- H/W 엔진이 SQ의 명령을 읽음 - 패킷을 받아 B의 메모리에</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- A의 메모리에서 데이터를 직접 DMA(읽기) 직접 DMA (쓰기)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- RDMA 패킷(RoCE)으로 변환 후 전송</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Ethernet / IB 스위치</div><div class="kb-diagram-note">─</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 RDMA Queue Pair (QP) 통신 아키텍처                 │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │  [서버 A (User Space)]                        [서버 B (User Space)]  │
+  │                                                                   │
+  │  1. Memory Region (메모리 등록)             1. Memory Region (메모리 등록) │
+  │  (커널이 이 메모리가 스왑 아웃 안 되게 고정시킴 - Pinning)                  │
+  │                                                                   │
+  │  2. Send Queue (SQ) ──(직접 H/W 제어)──▶   2. Receive Queue (RQ) │
+  │     Receive Queue (RQ) ◀──(직접 H/W 제어)──   Send Queue (SQ)    │
+  │                                                                   │
+  │  ========================= [ OS Kernel Bypass ] ==================│
+  │                                                                   │
+  │  3. [RNIC (RDMA 랜카드)]                     3. [RNIC (RDMA 랜카드)]│
+  │      - H/W 엔진이 SQ의 명령을 읽음                 - 패킷을 받아 B의 메모리에 │
+  │      - A의 메모리에서 데이터를 직접 DMA(읽기)         직접 DMA (쓰기)      │
+  │      - RDMA 패킷(RoCE)으로 변환 후 전송                               │
+  │                │                                │                 │
+  │                └──────── [ Ethernet / IB 스위치] ─┘                 │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** RDMA 통신을 하려면 제일 먼저 애플리케이션이 "나 이 메모리(예: 1GB)를 통신에 쓸 거야"라고 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 신고(Memory Registration)해야 한다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 이 메모리 영역(MR)이 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)(Swap)으로 디스크에 쫓겨나지 않게 램에 고정(Pinning)시키고, 그 주소를 RNIC에 등록해 준다([IOMMU](/knowledge-base/studynote/02_operating_system/10_security/627_iommu_dma_isolation/) 연동). 이후 통신이 시작되면 OS는 아예 빠진다. 앱 A가 큐(SQ)에 "내 메모리 번지에 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 10MB를 B에게 보내"라는 작업(WQE)을 올리면, RNIC가 이를 낚아채서 A의 램에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 퍼내어 네트워크로 쏜다. 서버 B의 RNIC는 패킷을 받자마자 CPU를 깨우지 않고([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 없이), B의 메모리에 그 10MB를 다이렉트로 써버린다. 작업이 끝나면 완료 큐(CQ)에 도장만 찍어준다.
 
@@ -128,23 +131,27 @@ RDMA의 압도적 성능은 'OS를 철저히 배제'하는 것에서 나온다.
 
 ### 의사결정 및 튜닝 플로우
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">초고속/초저지연 네트워크 아키텍처 도입 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터센터 트래픽 대역폭 100Gbps 이상 도달, CPU I/O 병목 발생</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">애플리케이션 소스 코드(통신부)를 RDMA API(libibverbs)로 수정할 수 있는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RDMA (RoCEv2 / IB) 네이티브 도입 확정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 (기존 소켓 프로그램 유지 필수)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">레거시 지원을 위한 우회 가속 솔루션을 선택</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">OVS-DPDK</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">앱 수정 없이 가상 스위치만 가속 (VNF 용)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">VMA / SMC-R</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">커널의 소켓(Socket) API를 하이재킹하여</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">밑단에서 몰래 RDMA로 쏴주는 미들웨어 적용</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 초고속/초저지연 네트워크 아키텍처 도입 플로우              │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [데이터센터 트래픽 대역폭 100Gbps 이상 도달, CPU I/O 병목 발생]            │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      애플리케이션 소스 코드(통신부)를 RDMA API(libibverbs)로 수정할 수 있는가?│
+  │          ├─ 예 ─────▶ [RDMA (RoCEv2 / IB) 네이티브 도입 확정]          │
+  │          │                                                        │
+  │          └─ 아니오 (기존 소켓 프로그램 유지 필수)                          │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      레거시 지원을 위한 우회 가속 솔루션을 선택                           │
+  │          ├─ [OVS-DPDK] ──▶ 앱 수정 없이 가상 스위치만 가속 (VNF 용)        │
+  │          │                                                        │
+  │          └─ [VMA / SMC-R] ─▶ 커널의 소켓(Socket) API를 하이재킹하여      │
+  │                              밑단에서 몰래 RDMA로 쏴주는 미들웨어 적용       │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** RDMA의 가장 큰 단점은 <strong>"개발하기 미치도록 어렵다"</strong>는 것이다. 기존 개발자들이 숨 쉬듯 쓰던 버클리 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)([Socket](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/), `send()/recv()`) API를 버리고, 하드웨어 큐를 조작하는 `libibverbs`의 비동기 콜백 이벤트 지옥으로 코드를 다 다시 짜야 한다. 기술사는 개발팀의 역량과 인프라 장비(무손실 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 보유 여부)를 종합적으로 평가하여, 네이티브 RDMA를 쓸지, 아니면 코드 수정이 필요 없는 DPDK나 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 우회 미들웨어(SMC-R)를 쓸지 타협점을 찾아야 한다.
 
@@ -188,19 +195,15 @@ RDMA와 [커널](/knowledge-base/studynote/02_operating_system/01_overview_archi
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Btrfs 서브볼륨 및 압축/암호화 통합 커널 파일 시스템 동향</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">RDMA (Remote Direct Memory Access) 커널 바이패스 초고속 통신 체제</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">유니커널 (Unikernel) 커널 분할 오버헤드 극소화 구조체 망 보안 융합 (MirageOS)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">분산 OS 투명성 (Transparency: 위치, 마이그레이션, 복제, 병행 투명성 보장 구조)</div></div>
-</div>
-</div>
-
-
+```text
+[Btrfs 서브볼륨 및 압축/암호화 통합 커널 파일 시스템 동향]
+    │
+    ▼
+[RDMA (Remote Direct Memory Access) 커널 바이패스 초고속 통신 체제]
+    │
+    ├──▶ [유니커널 (Unikernel) 커널 분할 오버헤드 극소화 구조체 망 보안 융합 (MirageOS)]
+    └──▶ [분산 OS 투명성 (Transparency: 위치, 마이그레이션, 복제, 병행 투명성 보장 구조)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

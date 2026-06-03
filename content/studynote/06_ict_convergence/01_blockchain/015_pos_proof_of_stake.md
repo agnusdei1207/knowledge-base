@@ -24,22 +24,17 @@ tags = ["ict_convergence"]
 이러한 문제를 해결하기 위해 PoS는 보안의 닻을 현실의 '전기'에서 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 내부의 '자본(코인 지분)'으로 이동시켰습니다. 네트워크에 일정량의 코인을 담보로 잠가두는(Staking) 행위 자체가 시스템에 대한 믿음과 기여를 증명합니다. 지분이 많은 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)자일수록 네트워크 가치 하락 시 가장 큰 손해를 보므로, 스스로 장부를 훼손하는 악의적 공격을 할 동기가 없어진다는 암호경제학(Crypto-economics) 논리가 PoS의 철학적 기반입니다.
 
 PoW의 연산력 경쟁과 PoS의 지분 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 선출 방식의 구조적 차이를 시각화한 비교도입니다.
+```text
+[ PoW (작업 증명) 의 블록 생성 경쟁 ]
+ 🖥️ 채굴기 A (연산력 10) ───\  (무한 해시 루프)  /──> [1등 정답자 독식!]
+ 🖥️ 채굴기 B (연산력 50) ────> 엄청난 전기 소모 ─> (블록 보상)
+ 🖥️ 채굴기 C (연산력 10) ───/  (나머진 헛수고)
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">PoW (작업 증명) 의 블록 생성 경쟁</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🖥️ 채굴기 A (연산력 10) \ (무한 해시 루프) /──&gt;</div><div class="kb-diagram-node">1등 정답자 독식!</div></div>
-<div class="kb-diagram-note">🖥️ 채굴기 B (연산력 50) &gt; 엄청난 전기 소모 ─&gt; (블록 보상)</div>
-<div class="kb-diagram-note">🖥️ 채굴기 C (연산력 10) / (나머진 헛수고)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">PoS (지분 증명) 의 무작위 선출</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">💰 검증자 A (코인 10개) \ (선출 알고리즘) /──&gt;</div><div class="kb-diagram-node">A 선출 확률 10%</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">💰 검증자 B (코인 50개) &gt; 전력 낭비 없음 ─&gt;</div><div class="kb-diagram-node">B 선출 확률 50%</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">💰 검증자 C (코인 40개) / (가만히 대기) \──&gt;</div><div class="kb-diagram-node">C 선출 확률 40%</div></div>
-</div>
-</div>
-
-
+[ PoS (지분 증명) 의 무작위 선출 ]
+ 💰 검증자 A (코인 10개) ───\  (선출 알고리즘)   /──> [A 선출 확률 10%]
+ 💰 검증자 B (코인 50개) ────> 전력 낭비 없음 ─> [B 선출 확률 50%]
+ 💰 검증자 C (코인 40개) ───/  (가만히 대기)     \──> [C 선출 확률 40%]
+```
 이 도식의 핵심은 PoW가 한 명의 승자를 위해 나머지 99%의 컴퓨터가 무의미한 연산을 버려야 하는 제로섬 게임이라면, PoS는 지분 비율에 따라 시스템([VRF](/knowledge-base/studynote/03_network/07_network_layer_routing/371_vrf_virtual_routing_and_forwarding/) 같은 무작위 함수)이 블록 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자를 '평화롭게 콕 집어 선출'한다는 점입니다. 이런 배치는 노드들이 서로 연산 속도 경쟁을 할 필요를 원천 제거하여 에너지 효율을 극대화합니다. 실무에서는 투표권이 지분에 종속되므로 속도와 확장성이 획기적으로 개선되지만, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 코인 부자들이 계속해서 이자(보상)를 받아 더 부자가 되는 '빈익빈 부익부(Nothing at Stake의 파생)' 현상을 어떻게 알고리즘으로 분산시킬 것인지가 설계의 최대 난제가 됩니다.
 
 📢 **섹션 요약 비유**: 회사 회장님을 뽑을 때, 목소리가 가장 크고 힘이 센 사람(PoW 연산력)이 주먹다짐으로 회장을 차지하는 야만적 방법에서 벗어나, 회사 주식을 가장 많이 가진 주주(PoS 지분)가 지분 비율대로 추첨표를 받아 조용히 투표로 결정하는 세련된 주주총회로 바뀐 것과 같습니다.
@@ -57,20 +52,17 @@ PoS 합의 엔진은 단순히 코인을 많이 가진 자에게 권한을 주�
 | **Epoch & Slot** | 블록 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 주기와 라운드 관리 | 시간 단위를 쪼개어(Slot) 각 슬롯마다 한 명의 제안자를 미리 스케줄링 | 순번표 발급 |
 
 PoS의 보안 철학 중 가장 중요한 "방어 공격 메커니즘 (Slashing)"의 상태 전이도입니다.
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Validator 검증자</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">블록 확정</div><div class="kb-diagram-connector">==&gt;</div><div class="kb-diagram-node">블록 이자 보상(Reward) 획득</div></div>
-<div class="kb-diagram-note">(악의적 분기 시도)</div>
-<div class="kb-diagram-note">(동시에 2개 블록에 이중 서명)</div>
-<div class="kb-diagram-note">v</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시스템 감시(Watcher)가 적발 증명</div><div class="kb-diagram-connector">====&gt;</div><div class="kb-diagram-node">예치금(Stake) 막대한 규모 소각!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 강제 추방</div></div>
-</div>
-</div>
-
-
+```text
+[Validator 검증자] --(정상 검증 및 서명)--> [블록 확정] ==> [블록 이자 보상(Reward) 획득]
+        |
+   (악의적 분기 시도) 
+   (동시에 2개 블록에 이중 서명)
+        |
+        v
+[시스템 감시(Watcher)가 적발 증명] ===(Slashing 발동)====> [예치금(Stake) 막대한 규모 소각!]
+                                                          |
+                                                  [네트워크 강제 추방]
+```
 이 흐름의 핵심은 PoW는 공격자가 실패했을 때 잃는 것이 "공격에 쏟아부은 전기 요금"뿐이지만, PoS는 공격자의 원금(지분) 자체를 시스템이 즉각 소각해 버리는 치명적 비대칭 방어 메커니즘을 갖췄다는 점입니다. 이런 슬래싱(Slashing) 배치는 경제적 공격 비용을 상상 이상으로 폭증시킵니다. 공격자가 51%의 지분을 돈으로 사서 공격하려 해도, 공격이 성공해 네트워크 신뢰가 박살 나면 자신이 가진 51% 코인의 가치도 0원이 되므로 파멸적 자해 행위가 됩니다. 따라서 실무 운영자는 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 노드 서버가 단순 네트워크 오류로 꺼지는 것(가벼운 페널티)과 이중 서명 오류(무거운 몰수)를 엄격히 분리하여 인프라 이중화를 설계해야 합니다.
 
 📢 **섹션 요약 비유**: 음주 운전을 막기 위해 도로에 기름을 많이 쓰는 장갑차(PoW)만 다니게 하다가, 이제는 누구나 일반 차를 타되 1억 원의 보증금을 내게 하고(Staking), 만약 한 번이라도 신호를 위반하면 1억 원을 국가가 그 자리에서 압수해버리는(Slashing) 강력한 법치를 도입한 것과 같습니다.
@@ -80,20 +72,17 @@ PoS의 보안 철학 중 가장 중요한 "방어 공격 메커니즘 (Slashing)
 PoS는 그 효율성을 극대화하기 위해 여러 파생 알고리즘으로 발전했습니다. 특히 속도 향상에 초점을 맞춘 [위임 지분 증명](/knowledge-base/studynote/06_ict_convergence/01_blockchain/016_dpos_delegated_pos/)(DPoS)과의 비교가 기술사적 관점에서 중요합니다.
 
 순수 PoS와 DPoS의 합의 아키텍처와 탈중앙성 수준을 비교한 매트릭스입니다.
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비교 항목</div><div class="kb-diagram-cell">Proof of Stake (PoS)</div><div class="kb-diagram-cell">Delegated PoS (DPoS)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">합의 주체</div><div class="kb-diagram-cell">지분을 가진 모든 노드</div><div class="kb-diagram-cell">투표로 선출된 소수 대표자</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">참여 노드수</div><div class="kb-diagram-cell">수만 개 (예: 이더리움)</div><div class="kb-diagram-cell">21개~100개 내외 고정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">처리 속도</div><div class="kb-diagram-cell">보통 (수십~수백 TPS)</div><div class="kb-diagram-cell">극도로 빠름 (수천 TPS+)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">탈중앙성</div><div class="kb-diagram-cell">매우 높음</div><div class="kb-diagram-cell">낮음 (과두 정치화 우려)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대표 체인</div><div class="kb-diagram-cell">이더리움 2.0</div><div class="kb-diagram-cell">EOS, TRON</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────┬──────────────────────┬──────────────────────────┐
+│ 비교 항목 │ Proof of Stake (PoS) │ Delegated PoS (DPoS)     │
+├───────────┼──────────────────────┼──────────────────────────┤
+│ 합의 주체 │ 지분을 가진 모든 노드│ 투표로 선출된 소수 대표자│
+│ 참여 노드수│ 수만 개 (예: 이더리움)│ 21개~100개 내외 고정     │
+│ 처리 속도 │ 보통 (수십~수백 TPS) │ 극도로 빠름 (수천 TPS+)  │
+│ 탈중앙성  │ 매우 높음            │ 낮음 (과두 정치화 우려)  │
+│ 대표 체인 │ 이더리움 2.0         │ EOS, TRON                │
+└───────────┴──────────────────────┴──────────────────────────┘
+```
 A 방식(순수 PoS)은 누구나 32 ETH만 있으면 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)자가 될 수 있어 탈중앙성이 훌륭하게 보존되지만, 수십만 개의 노드가 메시지를 주고받아야 하므로 L1 레이어의 본질적 확장성(TPS)에는 한계가 남습니다. 반면 B 방식(DPoS)은 코인 보유자들이 대의원 선거를 치르듯 투표하여 단 21명의 대표자(Block Producer)만 국회로 보내고, 이 21명끼리만 합의를 진행합니다. 이는 통신 지연을 극단적으로 줄여 결제 속도를 비자카드 수준으로 끌어올리지만, 대표자들이 짬짜미(카르텔)를 형성하여 체인을 장악하는 치명적인 중앙화 딜레마를 초래합니다.
 
 📢 **섹션 요약 비유**: 순수 PoS가 국민 전체가 스마트폰으로 모든 법안에 직접 투표하는 완벽한 '직접 민주주의'라면, DPoS는 선거로 뽑힌 300명의 국회의원만 모여서 빠르게 법을 찍어내는 빠르지만 부패하기 쉬운 '간접 대의 민주주의'와 같습니다.
@@ -111,20 +100,17 @@ A 방식(순수 PoS)은 누구나 32 ETH만 있으면 [검증](/knowledge-base/s
    - **실무 해결책**: 특정 블록 높이마다 절대 과거로 롤백할 수 없는 '체크포인트(Checkpoint)'를 박아두는 파이널리티([Finality](/knowledge-base/studynote/06_ict_convergence/01_blockchain/065_consensus_finality_probabilistic_deterministic/)) 로직 구조를 구현해야 합니다.
 
 이러한 취약점을 막기 위한 이더리움 Casper의 체크포인트 확정 [의사결정 트리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/) 흐름입니다.
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">새로운 블록들 생성 진행</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">100개 블록 쌓임</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">체크포인트 도달 (Epoch 종료)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">검증자 위원회의 2/3 이상 투표?</div></div>
-<div class="kb-diagram-note">(Yes: 정족수 달성) (No: 합의 지연)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">블록 상태 영구 확정!</div><div class="kb-diagram-node">오프라인 노드 지분 지속 삭감</div></div>
-<div class="kb-diagram-note">=&gt; 이 시점 이전으로는 절대 롤백 불가! =&gt; (Inactivity Leak 발동)</div>
-<div class="kb-diagram-note">(Long Range Attack 원천 차단 완료)</div>
-</div>
-</div>
-
-
+```text
+[새로운 블록들 생성 진행] --> [100개 블록 쌓임] --> [체크포인트 도달 (Epoch 종료)]
+                                                     |
+                                         [검증자 위원회의 2/3 이상 투표?]
+                                          /                         \
+                          (Yes: 정족수 달성)                 (No: 합의 지연)
+                                 |                                |
+                        [블록 상태 영구 확정!]              [오프라인 노드 지분 지속 삭감]
+                  => 이 시점 이전으로는 절대 롤백 불가!      => (Inactivity Leak 발동)
+                  (Long Range Attack 원천 차단 완료)
+```
 이 의사결정 시각화의 핵심은 블록이 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되었다고 바로 믿는 것이 아니라, 수만 명의 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)자가 에포크(Epoch) 단위로 마침표(체크포인트)를 찍어야만 진정한 비가역성이 달성된다는 점입니다. 만약 장애로 인해 2/3 정족수를 채우지 못해 네트워크가 마비될 위기에 처하면, 시스템은 오프라인 상태인 노드들의 지분을 서서히 녹여버려(Inactivity Leak) 강제로 퇴출시키고 살아있는 노드들의 지분 비율을 높여 스스로 합의를 재가동하는 치유 능력을 발휘합니다. 실무 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 노드 운영자는 이 때문에 서버 다운타임을 제로에 가깝게 유지하는 클라우드 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) 설계가 필수적입니다.
 
 📢 **섹션 요약 비유**: 등산을 할 때 올라간 길을 잊어버리거나 헤매지 않도록, 특정 높이마다 바닥에 튼튼한 '철쇠 쐐기(체크포인트)'를 박고 로프를 묶어두어 실수로 미끄러져도 그 쐐기 밑으로는 절대 떨어지지 않게 안전망을 치는 것과 같습니다.
@@ -155,23 +141,21 @@ A 방식(순수 PoS)은 누구나 32 ETH만 있으면 [검증](/knowledge-base/s
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">PoW (Proof of Work) — 채굴 기반 합의, 높은 에너지 소비와 보안성</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">PoS (Proof of Stake) — 지분 예치 기반 검증, 에너지 99% 절감</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DPoS (Delegated Proof of Stake) — 대표 위임 투표, 합의 처리 속도 극대화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">이더리움 머지 (The Merge) — PoW→PoS 전환, 슬래싱으로 경제적 벌칙 강화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">리스테이킹 (Restaking) — PoS 지분을 다중 프로토콜 보안에 재활용하는 경제 혁신</div></div>
-</div>
-</div>
-
-
+```text
+[PoW (Proof of Work) — 채굴 기반 합의, 높은 에너지 소비와 보안성]
+    │
+    ▼
+[PoS (Proof of Stake) — 지분 예치 기반 검증, 에너지 99% 절감]
+    │
+    ▼
+[DPoS (Delegated Proof of Stake) — 대표 위임 투표, 합의 처리 속도 극대화]
+    │
+    ▼
+[이더리움 머지 (The Merge) — PoW→PoS 전환, 슬래싱으로 경제적 벌칙 강화]
+    │
+    ▼
+[리스테이킹 (Restaking) — PoS 지분을 다중 프로토콜 보안에 재활용하는 경제 혁신]
+```
 
 이 흐름은 에너지 집약적인 PoW에서 지분 예치 기반의 PoS로 전환되고, 대표 위임(DPoS)과 이더리움 머지라는 역사적 업그레이드로 구체화된 뒤, 예치 지분을 다중 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 보안에 재활용하는 리스테이킹 경제 혁신으로 진화하는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 합의 메커니즘의 핵심 계보를 보여준다.
 

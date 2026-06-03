@@ -30,21 +30,25 @@ tags = ["studynote-bigdata"]
 
 ### 시계열 분해 (Time Series Decomposition)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시계열 성분 분해</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원본 시계열 Y(t) = 추세 T(t) + 계절성 S(t) + 잔차 R(t)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T(t): 장기 추세 /</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">S(t): 계절성 /\/\/\/\/\/\/\/\/\/\/\/\/\/\</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">R(t): 잔차 ⌇⌇⌇⌇ (예측 불가능한 노이즈)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ADF 검정 (Augmented Dickey-Fuller Test) → 정상성 (Stationarity) 확인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비정상 → d차 차분 (Differencing) → 정상 시계열로 변환</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                    시계열 성분 분해                                   │
+├──────────────────────────────────────────────────────────────────────┤
+│                                                                      │
+│  원본 시계열 Y(t) = 추세 T(t) + 계절성 S(t) + 잔차 R(t)              │
+│                                                                      │
+│  ┌─────────────────────────────────────────────────────────────────┐ │
+│  │ T(t): 장기 추세        /──────────────────                     │ │
+│  │                      /                                         │ │
+│  │ S(t): 계절성   /\/\/\/\/\/\/\/\/\/\/\/\/\/\                     │ │
+│  │                                                                │ │
+│  │ R(t): 잔차    ⌇⌇⌇⌇ (예측 불가능한 노이즈)                       │ │
+│  └─────────────────────────────────────────────────────────────────┘ │
+│                                                                      │
+│  ADF 검정 (Augmented Dickey-Fuller Test) → 정상성 (Stationarity) 확인│
+│  비정상 → d차 차분 (Differencing) → 정상 시계열로 변환              │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 ### 주요 모델 비교
 
@@ -129,23 +133,21 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">시계열 데이터 (Time Series Data) — 시간 순서로 기록된 연속적 관측값</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">정상성 (Stationarity) — 평균·분산이 시간에 무관한 통계적 특성, 분석 전제 조건</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ARIMA (AutoRegressive Integrated Moving Average) — 전통적 선형 시계열 예측 모델</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LSTM / Transformer — 딥러닝 기반 비선형 장기 의존성 포착</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Prophet / NeuralProphet — 추세·계절성 분해 기반 실무 시계열 예측 프레임워크</div></div>
-</div>
-</div>
-
-
+```text
+[시계열 데이터 (Time Series Data) — 시간 순서로 기록된 연속적 관측값]
+    │
+    ▼
+[정상성 (Stationarity) — 평균·분산이 시간에 무관한 통계적 특성, 분석 전제 조건]
+    │
+    ▼
+[ARIMA (AutoRegressive Integrated Moving Average) — 전통적 선형 시계열 예측 모델]
+    │
+    ▼
+[LSTM / Transformer — 딥러닝 기반 비선형 장기 의존성 포착]
+    │
+    ▼
+[Prophet / NeuralProphet — 추세·계절성 분해 기반 실무 시계열 예측 프레임워크]
+```
 
 이 흐름은 시계열 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 정상성 확보에서 출발하여 [ARIMA](/knowledge-base/studynote/06_ict_convergence/05_data_science/342_arima_auto_regressive_integrated_moving_average/) 등 전통 모델을 거쳐 딥러닝 기반 예측 모델과 실용적 프레임워크로 발전하는 [시계열 분석](/knowledge-base/studynote/06_ict_convergence/05_data_science/341_time_series_ar_ma_arma/)의 진화 과정을 보여준다.
 

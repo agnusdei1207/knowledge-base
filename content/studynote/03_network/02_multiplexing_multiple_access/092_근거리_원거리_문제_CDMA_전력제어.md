@@ -33,27 +33,31 @@ tags = ["network"]
 
 [CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) 시스템은 개루프(Open Loop)와 폐루프(Closed Loop) 전력 제어라는 정밀한 이중 방어 아키텍처를 통해 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 레벨을 평탄화(Equalization)한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CDMA 폐루프 전력 제어 (Closed Loop Power Control)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">제어국 / 상위 계층</div><div class="kb-diagram-note">(Outer Loop: 타겟 품질 재설정)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(FER, BLER 기반으로 Target SIR 동적 변경)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">기지국 (Node B)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 단말기 신호 수신 및 SIR(신호 대 간섭비) 측정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 목표치(Target SIR)와 실시간 비교</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 전력 조절 명령 (TPC Bit) 생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Down-link) 초당 1,500회</div><div class="kb-diagram-cell">TPC Bit 전송 (0: 올림, 1: 내림)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">단말기 (UE)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 기지국 명령 수신</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 송신 전력을 ±1dB 단위로 즉각 증감 조정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Up-link) 평탄화된 출력으로 데이터 쏨</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">다시 기지국으로 피드백 순환 (Inner Loop)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│        CDMA 폐루프 전력 제어 (Closed Loop Power Control)       │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│       [제어국 / 상위 계층] (Outer Loop: 타겟 품질 재설정)          │
+│                │ (FER, BLER 기반으로 Target SIR 동적 변경)      │
+│                ▼                                             │
+│       [기지국 (Node B)] ─────────────────────────┐           │
+│       │ 1. 단말기 신호 수신 및 SIR(신호 대 간섭비) 측정│           │
+│       │ 2. 목표치(Target SIR)와 실시간 비교          │           │
+│       │ 3. 전력 조절 명령 (TPC Bit) 생성            │           │
+│       └────────────────┬─────────────────────────┘           │
+│                        │                                     │
+│ (Down-link) 초당 1,500회 │ TPC Bit 전송 (0: 올림, 1: 내림)      │
+│                        ▼                                     │
+│       [단말기 (UE)] ─────────────────────────────┐           │
+│       │ 1. 기지국 명령 수신                          │           │
+│       │ 2. 송신 전력을 ±1dB 단위로 즉각 증감 조정     │           │
+│       └────────────────┬─────────────────────────────┘           │
+│                        │ (Up-link) 평탄화된 출력으로 데이터 쏨  │
+│                        ▼                                     │
+│             [ 다시 기지국으로 피드백 순환 (Inner Loop) ]          │
+└──────────────────────────────────────────────────────────────┘
+```
 
 1. **개루프 전력 제어 (Open Loop)**: 단말기가 처음 전원을 켤 때 기지국 파일럿 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 측정하여 스스로 대략적인 송신 전력을 맞춘다. 오차가 커서 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 접속 충돌 방지에만 쓰인다.
 2. **내부 폐루프 (Inner Loop)**: 기지국이 단말기의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(SIR)를 측정해, 목표치보다 낮으면 "전력 올려([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Up)", 높으면 "내려(Down)"라는 1비트짜리 명령을 초당 1,500번([WCDMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/091_동기식_비동기식_CDMA_WCDMA/) 기준) 단말기에게 폭격하듯 쏜다. 이 극도로 빠른 피드백 속도만이 건물을 지날 때 발생하는 고속 레일리 [페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/)(Rayleigh [Fading](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/))의 진폭 요동을 억제할 수 있다.
@@ -112,25 +116,24 @@ CDMA가 초당 수천 번이나 되는 [TPC](/knowledge-base/studynote/01_comput
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">근거리 단말기의 강한 신호 송출</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">원거리 단말기 신호 차폐 (근거리-원거리 문제 발생)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">단말기 자체 판단 기반 전력 초기화 (개루프 전력 제어)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">기지국-단말기 간 1,500회/초 피드백 (내부 폐루프 전력 제어)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">FER 기반 타겟 품질 동적 재설정 (외부 폐루프 전력 제어)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">4G/5G OFDMA 셀 간 간섭 조정(Fractional Power Control)으로 진화</div>
-</div>
-</div>
-
-
+```text
+근거리 단말기의 강한 신호 송출
+    │
+    ▼
+원거리 단말기 신호 차폐 (근거리-원거리 문제 발생)
+    │
+    ▼
+단말기 자체 판단 기반 전력 초기화 (개루프 전력 제어)
+    │
+    ▼
+기지국-단말기 간 1,500회/초 피드백 (내부 폐루프 전력 제어)
+    │
+    ▼
+FER 기반 타겟 품질 동적 재설정 (외부 폐루프 전력 제어)
+    │
+    ▼
+4G/5G OFDMA 셀 간 간섭 조정(Fractional Power Control)으로 진화
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

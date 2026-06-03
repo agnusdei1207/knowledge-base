@@ -32,28 +32,36 @@ tags = ["studynote-network"]
 
 다음은 왜 일반 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)(L4)과 IPS만으로는 최신 웹 해킹을 막을 수 없는지 구조적 맹점을 시각화한 다이어그램이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일반 방화벽(FW) / IPS의 한계와 WAF의 L7 심층 검사 필요성</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">해커의 공격 패킷 (SQL Injection)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Source: 1.1.1.1, Dest: 10.0.0.1, Port: 443 (HTTPS)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Payload: <code>GET /login.php?user=' OR 1=1 -- HTTP/1.1</code></div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L4 네트워크 방화벽 (FW)</div><div class="kb-diagram-cell">▶ 검사: 목적지가 443번 포트인가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">결과:</div><div class="kb-diagram-node">✅ 정상 통과 (Permit)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">침입 방지 시스템 (IPS)</div><div class="kb-diagram-cell">▶ 검사: 네트워크 웜/DDoS 시그니처인가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">결과:</div><div class="kb-diagram-node">✅ 정상 통과 (Bypass)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⚠ 위험: 페이로드가 웹 애플리케이션의 취약점을 노리는 악성 구문</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이지만, 네트워크 통신 형태 자체는 너무나 정상적인 HTTP 규격임!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WAF (웹 애플리케이션 방화벽)</div><div class="kb-diagram-cell">▶ L7 페이로드 복호화 및 웹 문법 분석</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 검사: URL 파라미터에 SQL 특수문자 발견</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ 결과:</div><div class="kb-diagram-node">⛔ 공격 탐지 및 강제 차단 (Drop)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">웹 서버 및 DB (안전하게 보호됨)</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────┐
+│        일반 방화벽(FW) / IPS의 한계와 WAF의 L7 심층 검사 필요성       │
+├───────────────────────────────────────────────────────────────┤
+│                                                               │
+│ [해커의 공격 패킷 (SQL Injection)]                             │
+│   Source: 1.1.1.1, Dest: 10.0.0.1, Port: 443 (HTTPS)          │
+│   Payload: `GET /login.php?user=' OR 1=1 -- HTTP/1.1`         │
+│       │                                                       │
+│       ▼                                                       │
+│  ┌─────────────────────────┐                                  │
+│  │ L4 네트워크 방화벽 (FW)    │ ▶ 검사: 목적지가 443번 포트인가?       │
+│  └─────────┬───────────────┘    결과: [✅ 정상 통과 (Permit)]       │
+│       │                                                       │
+│       ▼                                                       │
+│  ┌─────────────────────────┐                                  │
+│  │ 침입 방지 시스템 (IPS)     │ ▶ 검사: 네트워크 웜/DDoS 시그니처인가? │
+│  └─────────┬───────────────┘    결과: [✅ 정상 통과 (Bypass)]       │
+│       │                                                       │
+│       │ ⚠ 위험: 페이로드가 웹 애플리케이션의 취약점을 노리는 악성 구문   │
+│       │ 이지만, 네트워크 통신 형태 자체는 너무나 정상적인 HTTP 규격임!  │
+│       ▼                                                       │
+│  ┌─────────────────────────┐                                  │
+│  │ WAF (웹 애플리케이션 방화벽)│ ▶ L7 페이로드 복호화 및 웹 문법 분석    │
+│  └─────────┬───────────────┘ ▶ 검사: URL 파라미터에 SQL 특수문자 발견│
+│       │                      결과: [⛔ 공격 탐지 및 강제 차단 (Drop)] │
+│       ▼                                                       │
+│  [웹 서버 및 DB (안전하게 보호됨)]                                  │
+└───────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 흐름도는 다계층 심층 방어([Defense in Depth](/knowledge-base/studynote/09_security/01_intro_principles/012_defense_in_depth/)) 아키텍처에서 WAF가 독보적인 지위를 갖는 이유를 보여준다. 최상단의 L4 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)은 IP와 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 기반의 규칙만 보므로 443 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 열려 있으면 패킷을 무사통과시킨다. 중간의 [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/) 역시 OS나 네트워크 취약점(예: [버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/)) 시그니처 위주로 탐지하므로, 사용자의 로그인 입력 폼을 통해 들어오는 정상적인 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 문법의 텍스트 조각(`' OR 1=1`)을 위험 요소로 인지하지 못한다. 결국 페이로드가 웹 서버의 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 처리 로직(SQL)을 파괴하려는 악의를 품고 있다는 사실은, [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 헤더와 URI 파라미터를 쪼개어(Parsing) 문자열 기반의 디코딩과 정규표현식 분석을 수행하는 [WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/)(가장 하단)만이 알아차릴 수 있다. WAF가 없다면 웹 서버는 사용자가 입력한 악성 문자열을 그대로 DB에 던져 넣어 전체 회원 정보가 유출되는 대참사를 겪게 된다.
 
@@ -69,8 +77,8 @@ tags = ["studynote-network"]
 |:---|:---|:---|:---|:---|
 | <strong>Reverse <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">Proxy</a> (리버스 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">프록시</a>)</strong> | 외부와 내부 사이의 통신 중계 및 격리 | 모든 클라이언트 요청을 대신 받아([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 종단) 검사 후 안전한 패킷만 웹 서버로 전달 | IP 은닉, 트래픽 [버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/) | 왕의 음식 기미상궁 |
 | <strong>SSL/<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/">TLS</a> Decryption (복호화)</strong> | 암호화된 트래픽 안의 악성코드 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 내부에 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 탑재하여 [HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/) 암호화를 풀고 평문 분석 수행 | 가시성 (Visibility) 확보 | 비밀 봉투 개봉 검사 |
-| **Parsing Engine (파서)** | [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 메시지의 구조화 분해 | 헤더, URI, [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/), 본문(POST [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 규격에 맞게 분해 및 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)([Normalization](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)) | 우회/인코딩 공격 방어 | 폭발물 뇌관 해체 |
-| <strong><a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/">Detection</a> Engine (탐지 엔진)</strong> | 보안 룰셋 및 행위 분석 엔진 기반 평가 | 시그니처 매칭, 정규표현식 검사, 애플리케이션 [프로파일링](/knowledge-base/studynote/02_operating_system/10_security/613_profiling_gprof/)(ML) 대조 | SQLi, [XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/), RFI 차단 핵심 | 지명수배자 얼굴 인식 |
+| **Parsing 엔진 (파서)** | [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 메시지의 구조화 분해 | 헤더, URI, [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/), 본문(POST [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 규격에 맞게 분해 및 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)([Normalization](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)) | 우회/인코딩 공격 방어 | 폭발물 뇌관 해체 |
+| <strong><a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/">Detection</a> 엔진 (탐지 엔진)</strong> | 보안 룰셋 및 행위 분석 엔진 기반 평가 | 시그니처 매칭, 정규표현식 검사, 애플리케이션 [프로파일링](/knowledge-base/studynote/02_operating_system/10_security/613_profiling_gprof/)(ML) 대조 | SQLi, [XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/), RFI 차단 핵심 | 지명수배자 얼굴 인식 |
 | <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/244_virtual_patching_waf/">Virtual Patching</a> (<a href="/knowledge-base/studynote/09_security/05_web_app_security/244_virtual_patching_waf/">가상 패치</a>)</strong> | 소스코드 수정 전 신속한 취약점 방어 | 특정 취약점(예: Log4j) 발표 시, 개발팀 패치 전 [WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/) 레벨에서 선제적 필터링 룰 적용 | 무중단 보안 운영 ([Zero-downtime](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/110_zero_downtime_db_schema_rollout/)) | 구멍난 댐에 임시 합판 대기 |
 
 ### WAF의 탐지 메커니즘과 동작 사이클
@@ -84,33 +92,40 @@ WAF는 단순히 문자열을 비교하는 것을 넘어, 해커들이 탐지를
 
 다음은 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 요청이 웹 서버로 전달되기 전 리버스 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 형태의 [WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/) 내부에서 어떠한 다단계 필터링(파이프라인)을 거치는지 보여주는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름도이다.
 
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│           WAF 내부의 L7 패킷 분석 및 다단계 방어 파이프라인            │
+├──────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  [사용자 HTTP/HTTPS Request] (예: POST /checkout HTTP/2)             │
+│       │                                                          │
+│       ▼ (SSL/TLS 복호화)                                           │
+│  ┌────────────────────────────────────────────────────────────┐  │
+│  │ WAF (Web Application Firewall)                             │  │
+│  │                                                            │  │
+│  │  1. HTTP Protocol Validation (규격 검증)                     │  │
+│  │     ├─ 비정상적인 HTTP 헤더 구조나 크기 오버플로우 차단             │  │
+│  │     ▼                                                      │  │
+│  │  2. Data Normalization (데이터 정규화 및 디코딩)               │  │
+│  │     ├─ URL 인코딩, Unicode 회피 기법 해독하여 원문 추출            │  │
+│  │     ▼                                                      │  │
+│  │  3. Rule Engine (다중 필터링 검사)                            │  │
+│  │     ├─ 블랙리스트 매칭 (SQLi, XSS 시그니처 대조)               │  │
+│  │     ├─ 화이트리스트 대조 (허용된 파라미터 타입/길이 검증)          │  │
+│  │     ├─ API Schema 검증 (Swagger/OpenAPI 정의와 일치하는가?)    │  │
+│  │     ▼                                                      │  │
+│  │  4. Threat Intelligence & Bot Management                   │  │
+│  │     ├─ 자동화된 봇(Scraper), 악성 IP 평판 확인 (CAPTCHA 발동)    │  │
+│  └────────────────┬───────────────────────────────┬───────────┘  │
+│                   │                               │              │
+│            [탐지 시 차단/로깅]                   [정상 판단]           │
+│                   ▼                               ▼              │
+│       (HTTP 403 Forbidden 응답 반환)         (Re-encryption 후 전달) │
+│           [클라이언트 차단 화면]                   [내부 웹 서버/API]     │
+└──────────────────────────────────────────────────────────────────┘
+```
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WAF 내부의 L7 패킷 분석 및 다단계 방어 파이프라인</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">사용자 HTTP/HTTPS Request</div><div class="kb-diagram-note">(예: POST /checkout HTTP/2)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (SSL/TLS 복호화)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WAF (Web Application Firewall)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. HTTP Protocol Validation (규격 검증)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 비정상적인 HTTP 헤더 구조나 크기 오버플로우 차단</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Data Normalization (데이터 정규화 및 디코딩)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ URL 인코딩, Unicode 회피 기법 해독하여 원문 추출</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Rule Engine (다중 필터링 검사)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 블랙리스트 매칭 (SQLi, XSS 시그니처 대조)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 화이트리스트 대조 (허용된 파라미터 타입/길이 검증)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ API Schema 검증 (Swagger/OpenAPI 정의와 일치하는가?)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. Threat Intelligence &amp; Bot Management</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 자동화된 봇(Scraper), 악성 IP 평판 확인 (CAPTCHA 발동)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">탐지 시 차단/로깅</div><div class="kb-diagram-node">정상 판단</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(HTTP 403 Forbidden 응답 반환) (Re-encryption 후 전달)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">클라이언트 차단 화면</div><div class="kb-diagram-node">내부 웹 서버/API</div></div>
-</div>
-</div>
-
-
-
-**[다이어그램 해설]** 이 아키텍처 흐름도는 WAF가 단순 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)보다 왜 막대한 컴퓨팅 파워(CPU)를 필요로 하는지 잘 설명해 준다. 암호화된 트래픽을 푸는 부하(SSL [Offloading](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/))부터 시작하여, 기형적인 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 규격을 솎아내고, 해커가 복잡하게 꼬아놓은 인코딩을 풀고 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)하는 전처리 과정이 수반된다. 본격적인 검사 단계(Rule Engine)에서는 단순히 문자열 매칭뿐만 아니라 현대 앱에 필수적인 [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) API의 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 구조([Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/))가 정상인지까지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다. 마지막으로, 문자열 상으로는 완벽히 정상적인 로그인 요청이지만 그것이 1초에 100번씩 시도되는 자동화 봇 공격이라면 이를 식별해 브라우저 챌린지(CAPTCHA)를 띄운다. 일련의 혹독한 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 파이프라인을 통과한 무결한 패킷만이 다시 내부 웹 서버로 배송되므로, 취약한 구형(Legacy) 코드 기반의 서버일지라도 앞단 WAF의 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 아래 안전하게 구동될 수 있다.
+**[다이어그램 해설]** 이 아키텍처 흐름도는 WAF가 단순 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)보다 왜 막대한 컴퓨팅 파워(CPU)를 필요로 하는지 잘 설명해 준다. 암호화된 트래픽을 푸는 부하(SSL [Offloading](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/))부터 시작하여, 기형적인 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 규격을 솎아내고, 해커가 복잡하게 꼬아놓은 인코딩을 풀고 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)하는 전처리 과정이 수반된다. 본격적인 검사 단계(Rule 엔진)에서는 단순히 문자열 매칭뿐만 아니라 현대 앱에 필수적인 [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) API의 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 구조([Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/))가 정상인지까지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다. 마지막으로, 문자열 상으로는 완벽히 정상적인 로그인 요청이지만 그것이 1초에 100번씩 시도되는 자동화 봇 공격이라면 이를 식별해 브라우저 챌린지(CAPTCHA)를 띄운다. 일련의 혹독한 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 파이프라인을 통과한 무결한 패킷만이 다시 내부 웹 서버로 배송되므로, 취약한 구형(Legacy) 코드 기반의 서버일지라도 앞단 WAF의 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 아래 안전하게 구동될 수 있다.
 
 - **📢 섹션 요약 비유**: 수입 농산물이 세관에 들어오면 단순히 포장지만 검사하는 게 아니라, 껍질을 벗겨(복호화) 현미경으로 살피고([정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)) 전염병 DB와 대조(블랙리스트)한 뒤 의심되면 격리 조치하는 철저한 다단계 방역 시스템과 같습니다.
 
@@ -129,23 +144,23 @@ WAF는 단순히 문자열을 비교하는 것을 넘어, 해커들이 탐지를
 
 글로벌 보안 단체 OWASP에서 정의하는 주요 웹 취약점들이 [WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/) 내부에서 구체적으로 어떻게 식별되고 차단되는지 비교한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공격 벡터 (OWASP)</div><div class="kb-diagram-cell">WAF의 심층 탐지 및 차단 기법 (Detection Logic)</div><div class="kb-diagram-cell">방어 후 실무 조치 제언</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Injection (SQL/OS)</div><div class="kb-diagram-cell">URI 파라미터/POST Body 내 SQL 예약어(<code>UNION</code>,</div><div class="kb-diagram-cell">소스코드에서 Prepared</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell"><code>SELECT</code>) 및 특수기호(<code>'</code>, <code>--</code>) 패턴 매칭 차단</div><div class="kb-diagram-cell">Statement(바인딩)로 근본 수정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">XSS (Cross-Site</div><div class="kb-diagram-cell">악의적 스크립트 실행 태그(<code>&lt;script&gt;</code>, <code>onerror</code>)</div><div class="kb-diagram-cell">애플리케이션 출력 값에 대한</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Scripting)</div><div class="kb-diagram-cell">및 자바스크립트 내장 함수 검사 차단</div><div class="kb-diagram-cell">HTML 인코딩(Sanitization) 적용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Broken Authentication</div><div class="kb-diagram-cell">단일 IP/세션의 임계치 초과 로그인 시도 차단,</div><div class="kb-diagram-cell">MFA(다중인증) 필수 도입 및</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Credential Stuffing)</div><div class="kb-diagram-cell">기계적 반복 입력 시 CAPTCHA 챌린지 강제 부여</div><div class="kb-diagram-cell">유출된 패스워드 재사용 방지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">API 보안 취약점</div><div class="kb-diagram-cell">API 요청이 사전 정의된 Swagger/JSON Schema 구조</div><div class="kb-diagram-cell">API 게이트웨이와 WAF를 연동해</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(BOLA, Mass Assignment)</div><div class="kb-diagram-cell">와 불일치 시(규격 외 파라미터 추가 등) 즉각 폐기</div><div class="kb-diagram-cell">페이로드 유효성 전수 검사</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────┬────────────────────────────────────────────┬────────────────────────────┐
+│ 공격 벡터 (OWASP)      │ WAF의 심층 탐지 및 차단 기법 (Detection Logic)   │ 방어 후 실무 조치 제언        │
+├────────────────────────┼────────────────────────────────────────────┼────────────────────────────┤
+│ Injection (SQL/OS)     │ URI 파라미터/POST Body 내 SQL 예약어(`UNION`, │ 소스코드에서 Prepared        │
+│                        │ `SELECT`) 및 특수기호(`'`, `--`) 패턴 매칭 차단  │ Statement(바인딩)로 근본 수정 │
+├────────────────────────┼────────────────────────────────────────────┼────────────────────────────┤
+│ XSS (Cross-Site        │ 악의적 스크립트 실행 태그(`<script>`, `onerror`) │ 애플리케이션 출력 값에 대한   │
+│ Scripting)             │ 및 자바스크립트 내장 함수 검사 차단              │ HTML 인코딩(Sanitization) 적용│
+├────────────────────────┼────────────────────────────────────────────┼────────────────────────────┤
+│ Broken Authentication  │ 단일 IP/세션의 임계치 초과 로그인 시도 차단,     │ MFA(다중인증) 필수 도입 및    │
+│ (Credential Stuffing)  │ 기계적 반복 입력 시 CAPTCHA 챌린지 강제 부여     │ 유출된 패스워드 재사용 방지    │
+├────────────────────────┼────────────────────────────────────────────┼────────────────────────────┤
+│ API 보안 취약점        │ API 요청이 사전 정의된 Swagger/JSON Schema 구조│ API 게이트웨이와 WAF를 연동해 │
+│ (BOLA, Mass Assignment)│ 와 불일치 시(규격 외 파라미터 추가 등) 즉각 폐기 │ 페이로드 유효성 전수 검사     │
+└────────────────────────┴────────────────────────────────────────────┴────────────────────────────┘
+```
 
 **[매트릭스 해설]** 이 표의 핵심은 "WAF는 강력한 방패지만, 만병통치약(Silver Bullet)은 아니다"라는 실무적 통찰이다. WAF는 SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/)을 훌륭하게 튕겨내지만, 공격 기법이 교묘해지면 패턴 매칭을 우회할 위험이 늘 존재한다. 따라서 WAF가 선봉에서 공격을 1차적으로 흡수하여 시간을 벌어주는([Virtual Patching](/knowledge-base/studynote/09_security/05_web_app_security/244_virtual_patching_waf/)) 동안, 백엔드 개발팀은 [시큐어 코딩](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/)([Secure Coding](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/)) 방법론에 입각해 소스코드 자체의 취약점을 영구적으로 제거(예: Prepared Statement 적용)하는 융합 방어체계가 돌아가야 한다. 더불어 최근 화두가 되는 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 공격(인가되지 않은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 대량 호출 등)은 텍스트 패턴이 아니라 로직의 결함이므로 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) [Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 기능이 탑재된 차세대 WAF의 역할이 더욱 중요해졌다.
 
@@ -163,29 +178,33 @@ WAF는 단순히 문자열을 비교하는 것을 넘어, 해커들이 탐지를
 
 실무에서 WAF를 신규 도입하고 기존 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 영향 없이 룰셋([정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))을 적용해 나가는 안전한 의사결정 라이프사이클은 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WAF 신규 도입 시 무중단 보안 정책(Rule) 튜닝 및 적용 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1단계: 모니터링/투명 모드 (Monitoring / Transparent Mode) 적용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- WAF를 실제 인프라에 올리되, 공격을 탐지해도 "차단(Block)하지 않고</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">로깅(Log)만 수행"하도록 최소 1~2주간 운영.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2단계: 오탐 (False Positive) 분석 및 화이트리스트 튜닝</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 로그 분석: 정상적인 결제 데이터(예: HTML 태그가 포함된 게시판 글)가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">XSS 공격으로 잘못 탐지되어 차단될 뻔한 내역 식별.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 조치: 예외 처리(Exception / Bypass) 규칙 등록 및 정규식 완화 튜닝</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3단계: 부분 차단 모드 (Blocking Mode - 보수적 룰 적용)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 오탐 가능성이 0%에 수렴하는 확실한 공격 시그니처(SQLi 기본 패턴,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디렉토리 순회 공격 등)에 대해서만 먼저 '차단(Drop)' 정책 활성화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">4단계: 완전 차단 모드 전환 및 능동적 방어 (Advanced Protection)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- ML 기반의 이상 행위 탐지, API 스키마 검증, Bot Management 등</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고급 기능을 순차적으로 활성화하며 정기적인 Red Teaming (모의해킹)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">을 통해 룰셋의 우회 가능성 점검.</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────────┐
+│            WAF 신규 도입 시 무중단 보안 정책(Rule) 튜닝 및 적용 플로우        │
+├───────────────────────────────────────────────────────────────────┤
+│                                                                   │
+│   [1단계: 모니터링/투명 모드 (Monitoring / Transparent Mode) 적용]      │
+│     - WAF를 실제 인프라에 올리되, 공격을 탐지해도 "차단(Block)하지 않고   │
+│       로깅(Log)만 수행"하도록 최소 1~2주간 운영.                           │
+│                │                                                  │
+│                ▼                                                  │
+│   [2단계: 오탐 (False Positive) 분석 및 화이트리스트 튜닝]                 │
+│     - 로그 분석: 정상적인 결제 데이터(예: HTML 태그가 포함된 게시판 글)가 │
+│       XSS 공격으로 잘못 탐지되어 차단될 뻔한 내역 식별.                   │
+│     - 조치: 예외 처리(Exception / Bypass) 규칙 등록 및 정규식 완화 튜닝 │
+│                │                                                  │
+│                ▼                                                  │
+│   [3단계: 부분 차단 모드 (Blocking Mode - 보수적 룰 적용)]               │
+│     - 오탐 가능성이 0%에 수렴하는 확실한 공격 시그니처(SQLi 기본 패턴,    │
+│       디렉토리 순회 공격 등)에 대해서만 먼저 '차단(Drop)' 정책 활성화       │
+│                │                                                  │
+│                ▼                                                  │
+│   [4단계: 완전 차단 모드 전환 및 능동적 방어 (Advanced Protection)]        │
+│     - ML 기반의 이상 행위 탐지, API 스키마 검증, Bot Management 등     │
+│       고급 기능을 순차적으로 활성화하며 정기적인 Red Teaming (모의해킹)  │
+│       을 통해 룰셋의 우회 가능성 점검.                                 │
+└───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 웹 환경은 너무나 복잡하고 방대하여, 제조사가 권장하는 [WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/) 룰을 무작정 차단 모드([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/))로 일괄 적용하면, 회사의 핵심 매출원인 결제 시스템이나 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) 게시판 등록이 갑자기 마비되는 재앙(대규모 오탐, False Positive)이 발생한다. 따라서 실무 보안 엔지니어는 반드시 "투명 모드(Log-only) → 오탐 튜닝 → 선별적 차단 → 완전 통제"라는 점진적 페이즈를 밟아야 한다. 이 과정은 인내심을 요구하지만, WAF가 비즈니스 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)을 파괴하지 않으면서도 해커의 침투 경로만을 외과 수술처럼 정교하게 잘라내는 "정밀 타격용 방패"로 거듭나기 위한 가장 중요하고 기술사적인 운영 판단 기준이 된다.
 
@@ -233,19 +252,15 @@ WAF는 단순히 문자열을 비교하는 것을 넘어, 해커들이 탐지를
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 방화벽</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: WAF</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: IDS / IPS 탐지 차단율</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 방화벽]
+    │
+    ▼
+[현재 개념: WAF]
+    │
+    ├──▶ [확장 A: IDS / IPS 탐지 차단율]
+    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
+```
 
 WAF는 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [IDS](/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/) / [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/) 탐지 차단율와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

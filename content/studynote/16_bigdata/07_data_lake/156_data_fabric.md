@@ -36,24 +36,38 @@ tags = ["studynote-bigdata"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data Fabric 아키텍처</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">온프레미스</div><div class="kb-diagram-cell">AWS S3</div><div class="kb-diagram-cell">Azure DL</div><div class="kb-diagram-cell">SaaS DB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Oracle</div><div class="kb-diagram-cell">Parquet</div><div class="kb-diagram-cell">Gen2</div><div class="kb-diagram-cell">Salesforce</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data Fabric 레이어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">능동적 메타데이터</div><div class="kb-diagram-cell">지식 그래프</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Active Metadata</div><div class="kb-diagram-cell">(Knowledge Graph)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AI 자동 수집)</div><div class="kb-diagram-cell">의미 관계 맵핑</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">통합 거버넌스</div><div class="kb-diagram-cell">데이터 가상화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(정책 엔진)</div><div class="kb-diagram-cell">(물리 이동 없음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소비자 (BI / ML / 앱)</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────────────┐
+│               Data Fabric 아키텍처                               │
+├──────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  ┌───────────┐  ┌───────────┐  ┌───────────┐  ┌────────────┐   │
+│  │ 온프레미스 │  │  AWS S3   │  │ Azure DL  │  │  SaaS DB   │   │
+│  │  Oracle   │  │  Parquet  │  │  Gen2     │  │ Salesforce │   │
+│  └─────┬─────┘  └─────┬─────┘  └─────┬─────┘  └─────┬──────┘   │
+│        │              │              │              │           │
+│        └──────────────┴──────────────┴──────────────┘           │
+│                              │                                   │
+│         ┌────────────────────▼──────────────────────┐           │
+│         │          Data Fabric 레이어                 │           │
+│         │                                           │           │
+│         │  ┌────────────────┐  ┌──────────────────┐ │           │
+│         │  │ 능동적 메타데이터│  │ 지식 그래프       │ │           │
+│         │  │ (Active Metadata│  │ (Knowledge Graph) │ │           │
+│         │  │  AI 자동 수집)  │  │ 의미 관계 맵핑    │ │           │
+│         │  └────────────────┘  └──────────────────┘ │           │
+│         │                                           │           │
+│         │  ┌────────────────┐  ┌──────────────────┐ │           │
+│         │  │ 통합 거버넌스   │  │ 데이터 가상화     │ │           │
+│         │  │ (정책 엔진)     │  │ (물리 이동 없음)  │ │           │
+│         │  └────────────────┘  └──────────────────┘ │           │
+│         └────────────────────────────────────────────┘           │
+│                              │                                   │
+│         ┌────────────────────▼──────────────────────┐           │
+│         │        소비자 (BI / ML / 앱)               │           │
+│         └───────────────────────────────────────────┘           │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 **핵심 기술 구성 요소**
 
@@ -147,23 +161,21 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 사일로 (Data Silo) — 부서별 분산 저장, 통합 활용 불가 문제</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ETL / ELT — 중앙 집중 복사·변환, 실시간성·유연성 한계</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 패브릭 (Data Fabric) — 메타데이터 지능으로 위치 무관 데이터 연결</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 메시 (Data Mesh) — 도메인 오너십 분산, 데이터 제품화 전략</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">지식 그래프 + AI 자동화 — 패브릭 기반 자동 데이터 발견·품질·거버넌스</div></div>
-</div>
-</div>
-
-
+```text
+[데이터 사일로 (Data Silo) — 부서별 분산 저장, 통합 활용 불가 문제]
+    │
+    ▼
+[ETL / ELT — 중앙 집중 복사·변환, 실시간성·유연성 한계]
+    │
+    ▼
+[데이터 패브릭 (Data Fabric) — 메타데이터 지능으로 위치 무관 데이터 연결]
+    │
+    ▼
+[데이터 메시 (Data Mesh) — 도메인 오너십 분산, 데이터 제품화 전략]
+    │
+    ▼
+[지식 그래프 + AI 자동화 — 패브릭 기반 자동 데이터 발견·품질·거버넌스]
+```
 
 이 흐름은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/) 문제를 ETL로 임시 해결하던 방식에서 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 지능 기반 패브릭으로 진화하고, [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 거버넌스([데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/))와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 자동화로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통합의 미래를 만들어가는 과정을 보여준다.
 

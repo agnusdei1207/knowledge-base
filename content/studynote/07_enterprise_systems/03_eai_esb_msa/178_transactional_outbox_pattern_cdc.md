@@ -25,22 +25,21 @@ tags = ["studynote-enterprise"]
 
 아래 그림은 아웃박스가 왜 필요한지 보여 주는 대표적인 실패 창을 요약한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Dual-write failure window</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) ORDER row commit ----X---- broker publish failed</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; local state exists, event missing</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) broker publish ----X---- ORDER rollback or app crash</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; event exists, local truth missing</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) Outbox pattern</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ORDER row + OUTBOX row committed together</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; relay may be delayed, but event intent is durable</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Dual-write failure window                                          │
+├────────────────────────────────────────────────────────────────────┤
+│ 1) ORDER row commit  ----X---- broker publish failed               │
+│    => local state exists, event missing                            │
+│                                                                    │
+│ 2) broker publish ----X---- ORDER rollback or app crash            │
+│    => event exists, local truth missing                            │
+│                                                                    │
+│ 3) Outbox pattern                                                   │
+│    ORDER row + OUTBOX row committed together                       │
+│    => relay may be delayed, but event intent is durable            │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 즉 아웃박스의 출발점은 "브로커 발행도 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)으로 묶자"가 아니라, <strong>브로커로 내보낼 사실을 먼저 내 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/">Database</a> 안에 안전하게 남기자</strong>는 것이다. 이 한 단계가 있어야 이후 재시도와 비동기 전달이 의미를 가진다.
 
@@ -65,21 +64,20 @@ tags = ["studynote-enterprise"]
 
 아래 그림은 Outbox + [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) 흐름을 한눈에 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Transactional outbox with CDC relay</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App transaction</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ INSERT business row</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ INSERT outbox(event_id, aggregate_id, payload)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ COMMIT</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Database commit log ─▶ CDC connector ─▶ Message broker ─▶ Consumer</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ atomic truth secured ─ retry / resume ─ idempotent</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Transactional outbox with CDC relay                                │
+├────────────────────────────────────────────────────────────────────┤
+│ App transaction                                                    │
+│   ├─ INSERT business row                                           │
+│   ├─ INSERT outbox(event_id, aggregate_id, payload)                │
+│   └─ COMMIT                                                        │
+│                                                                    │
+│ Database commit log ─▶ CDC connector ─▶ Message broker ─▶ Consumer │
+│         │                         │                   │             │
+│         └─ atomic truth secured   └─ retry / resume   └─ idempotent│
+└────────────────────────────────────────────────────────────────────┘
+```
 
 릴레이 방식은 크게 두 가지다. <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/">폴링</a> (<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/">Polling</a>)</strong> 은 주기적으로 `outbox` 테이블을 조회해 새 레코드를 가져가므로 구현이 쉽다. <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/">CDC</a></strong> 는 [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 읽어 변경을 감지하므로 조회 부하가 적고 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간도 짧다. 하지만 어떤 방식을 써도 핵심은 동일하다. <strong>정합성은 Outbox row가 커밋된 순간 확보되고, 릴레이는 그 사실을 전달하는 후속 단계</strong>다.
 
@@ -177,25 +175,25 @@ CREATE TABLE outbox (
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Business command accepted</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Local transaction: business row + outbox row</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Atomic commit in Database</div>
-<div class="kb-diagram-tree-item" style="--depth:4">Polling relay</div>
-<div class="kb-diagram-tree-item" style="--depth:4">CDC relay</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Message broker publish</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Idempotent consumer + eventual consistency</div>
-</div>
-</div>
-
-
+```text
+Business command accepted
+        │
+        ▼
+Local transaction: business row + outbox row
+        │
+        ▼
+Atomic commit in Database
+        │
+        ├──────────────► Polling relay
+        │
+        └──────────────► CDC relay
+                              │
+                              ▼
+                      Message broker publish
+                              │
+                              ▼
+                 Idempotent consumer + eventual consistency
+```
 
 이 흐름도는 "명령 수락 → 로컬 원자 커밋 → 릴레이 방식 선택 → 브로커 발행 → 소비자 멱등 처리"라는 아웃박스 패턴의 실제 운영 경로를 요약한다.
 

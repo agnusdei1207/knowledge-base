@@ -26,21 +26,19 @@ tags = ["studynote-computer-architecture"]
 
 예를 들어 4KB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 작은 객체가 많은 일반 응용 프로그램에 유리하다. 반면 수 GB 단위 버퍼를 오래 잡고 순차·반복 접근하는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)나 가상 머신은 2MB, 1GB Huge Page에서 훨씬 적은 주소 변환 오버헤드로 동작할 수 있다. 그래서 [페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/)는 메모리 효율과 변환 효율 사이의 고전적이면서도 여전히 중요한 절충점이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페이지 크기가 만드는 두 방향의 압력</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">작은 페이지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 장점: 빈 공간 낭비 감소</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 대가: 페이지 수 증가 → 페이지 테이블/TLB 부담 증가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">큰 페이지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 장점: 관리 항목 감소 → TLB reach 확대, page walk 감소</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 대가: 내부 단편화 증가, 세밀한 메모리 회수 어려움</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│          페이지 크기가 만드는 두 방향의 압력                 │
+├──────────────────────────────────────────────────────────────┤
+│ 작은 페이지                                                  │
+│  ├─ 장점: 빈 공간 낭비 감소                                  │
+│  └─ 대가: 페이지 수 증가 → 페이지 테이블/TLB 부담 증가       │
+│                                                              │
+│ 큰 페이지                                                    │
+│  ├─ 장점: 관리 항목 감소 → TLB reach 확대, page walk 감소    │
+│  └─ 대가: 내부 단편화 증가, 세밀한 메모리 회수 어려움        │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 그림은 [페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/)가 "메모리 낭비"와 "주소 변환 효율"을 서로 반대 방향으로 움직인다는 점을 보여준다. 따라서 [페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/) 논의는 저장 단위의 크기 문제가 아니라, 하드웨어와 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 어디에 비용을 지불할지 정하는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 문제다.
 
@@ -68,22 +66,20 @@ tags = ["studynote-computer-architecture"]
 
 다음 그림은 같은 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 용량에서 [페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/)가 바뀔 때 커버 범위와 워크 깊이가 어떻게 달라지는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">같은 64엔트리 TLB라도 페이지 크기에 따라 체감이 달라짐</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4KB 페이지: 64 × 4KB = 256KB ─▶ 세밀하지만 자주 미스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2MB 페이지: 64 × 2MB = 128MB ─▶ 대용량 버퍼에 유리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1GB 페이지: 64 × 1GB = 64GB ─▶ 매우 큰 연속 영역에 유리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">page walk depth 예시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4KB ─▶ PML4 ─▶ PDPT ─▶ PD ─▶ PT ─▶ Frame</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2MB ─▶ PML4 ─▶ PDPT ─▶ PD =====▶ Frame</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1GB ─▶ PML4 ─▶ PDPT =========▶ Frame</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│      같은 64엔트리 TLB라도 페이지 크기에 따라 체감이 달라짐    │
+├──────────────────────────────────────────────────────────────┤
+│ 4KB  페이지: 64 × 4KB  = 256KB   ─▶ 세밀하지만 자주 미스       │
+│ 2MB  페이지: 64 × 2MB  = 128MB   ─▶ 대용량 버퍼에 유리         │
+│ 1GB  페이지: 64 × 1GB  = 64GB    ─▶ 매우 큰 연속 영역에 유리   │
+│                                                              │
+│ page walk depth 예시                                         │
+│ 4KB  ─▶ PML4 ─▶ PDPT ─▶ PD ─▶ PT ─▶ Frame                    │
+│ 2MB  ─▶ PML4 ─▶ PDPT ─▶ PD =====▶ Frame                      │
+│ 1GB  ─▶ PML4 ─▶ PDPT =========▶ Frame                        │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 포인트는 "큰 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) miss를 줄이는 것"에서 끝나지 않는다는 점이다. [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 단계 자체를 덜 거치므로 미스가 났을 때의 벌점도 작아질 수 있다. 대신 이득이 큰 만큼 물리 메모리를 연속적으로 확보해야 하고, 사용량 변화가 잦은 워크로드에서는 낭비가 커질 수 있다.
 
@@ -170,25 +166,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">고정 크기 페이지 분할</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">페이지 테이블 (Page Table) · 내부 단편화 (Internal Fragmentation)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">TLB (Translation Lookaside Buffer) · page walk 비용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Huge Page (2MB, 1GB) · TLB reach 확대</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">THP (Transparent Huge Pages) · 혼합 페이지 크기 정책</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">워크로드 인지형 메모리 최적화</div>
-</div>
-</div>
-
-
+```text
+고정 크기 페이지 분할
+    │
+    ▼
+페이지 테이블 (Page Table) · 내부 단편화 (Internal Fragmentation)
+    │
+    ▼
+TLB (Translation Lookaside Buffer) · page walk 비용
+    │
+    ▼
+Huge Page (2MB, 1GB) · TLB reach 확대
+    │
+    ▼
+THP (Transparent Huge Pages) · 혼합 페이지 크기 정책
+    │
+    ▼
+워크로드 인지형 메모리 최적화
+```
 
 이 흐름은 "단순 분할 단위"였던 [페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/)가, 점차 주소 변환 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 함께 좌우하는 최적화 레버로 발전해 온 과정을 보여준다.
 

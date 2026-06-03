@@ -33,27 +33,26 @@ tags = ["studynote-ict-convergence"]
 
 Q-Learning은 텅 빈 수첩(Q-Table)을 들고, 새로운 경험을 할 때마다 공식을 통해 수첩의 빈칸을 조금씩 업데이트하는 루프(Loop)를 돈다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Q-Learning의 오프 폴리시 업데이트 파이프라인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Q-Table (컨닝 페이퍼) 초기화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 세로축: 모든 상태(S), 가로축: 모든 행동(A)의 거대한 표 만듦</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 처음엔 아무것도 모르니까 표 안의 점수를 싹 다 0으로 적어둠</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 엡실론 그리디 (ε-Greedy) 행동 선택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 탐험(Exploration): 가끔은 10% 확률로 미친 척하고 아무 데나 감</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 활용(Exploitation): 90% 확률로는 수첩에서 제일 점수 높은 곳 감</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. ⭐️ 뻔뻔한 Q값 업데이트 공식 (Off-Policy의 핵심!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- 수식: Q_new = Q_old + α *</div><div class="kb-diagram-node">R + γ * Max(Q_next) - Q_old</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 해석: "내가 다음 턴에 실제로 엉뚱한 짓을 하든 말든 상관없어!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">점수표를 적을 때만큼은, 다음 상태에서 내가 할 수 있는</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">행동 중 '가장 완벽한 1등 행동(Max)'을 했다고 상상하고</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">그 최고의 점수를 끌어와서 내 수첩에 적을 거야!"</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────┐
+│             [ Q-Learning의 오프 폴리시 업데이트 파이프라인 ]    │
+├────────────────────────────────────────────────────────┤
+│ 1. Q-Table (컨닝 페이퍼) 초기화                           │
+│    - 세로축: 모든 상태(S), 가로축: 모든 행동(A)의 거대한 표 만듦 │
+│    - 처음엔 아무것도 모르니까 표 안의 점수를 싹 다 0으로 적어둠   │
+│                                                        │
+│ 2. 엡실론 그리디 (ε-Greedy) 행동 선택                    │
+│    - 탐험(Exploration): 가끔은 10% 확률로 미친 척하고 아무 데나 감│
+│    - 활용(Exploitation): 90% 확률로는 수첩에서 제일 점수 높은 곳 감│
+│                                                        │
+│ 3. ⭐️ 뻔뻔한 Q값 업데이트 공식 (Off-Policy의 핵심!)        │
+│    - 수식: Q_new = Q_old + α * [ R + γ * Max(Q_next) - Q_old ]│
+│    - 해석: "내가 다음 턴에 실제로 엉뚱한 짓을 하든 말든 상관없어! │
+│            점수표를 적을 때만큼은, 다음 상태에서 내가 할 수 있는 │
+│            행동 중 '가장 완벽한 1등 행동(Max)'을 했다고 상상하고 │
+│            그 최고의 점수를 끌어와서 내 수첩에 적을 거야!"         │
+└────────────────────────────────────────────────────────┘
+```
 
 1. **시간 차 학습 (TD, Temporal Difference)**: 바둑을 한 판 다 끝내고 나서야 점수를 수정(몬테카를로 방식)하려면 속도가 너무 느리다. Q-Learning은 1칸 이동할 때마다 "방금 내 수첩의 점수"와 "이동한 뒤에 예측한 새로운 점수"의 '시간적 차이(TD Error)'를 즉시즉시 수정하여 학습 속도를 극한으로 끌어올렸다.
 2. <strong>오프 폴리시 (Off-<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">Policy</a>)</strong>: 내가 실제로 걷고 있는 엉망진창인 발걸음([탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)용 행동 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))과, 내 수첩에 적어두는 완벽한 정답지(업데이트 타겟 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))가 <strong>완전히 분리(Off)</strong>되어 있다는 뜻이다. 이 분리 덕분에 아무리 삽질을 하며 돌아다녀도, 수첩에는 항상 '가장 완벽한 1등 경로'만이 예쁘게 기록되는 기적이 일어난다.

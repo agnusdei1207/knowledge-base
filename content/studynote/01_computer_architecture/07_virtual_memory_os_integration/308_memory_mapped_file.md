@@ -25,21 +25,19 @@ tags = ["studynote-computer-architecture"]
 
 특히 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/), 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 로딩, [로그 분석](/knowledge-base/studynote/16_bigdata/05_analysis/119_log_analysis/), 이미지 처리처럼 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 일부분을 자주 건너뛰며 읽는 작업에서 효과가 크다. 반대로 작은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 잠깐 읽고 끝내는 단순 작업에서는 매핑 설정과 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 관리 비용이 오히려 더 비쌀 수 있다. 그래서 [메모리 맵 파일](/knowledge-base/studynote/02_operating_system/02_process_thread/131_mmap_ipc/)은 만능 입출력 기법이 아니라, <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">가상 메모리</a>의 강점을 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 시스템까지 확장하는 선택지</strong>로 이해해야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">왜 mmap이 필요한가: 복사 중심 I/O를 주소 중심 I/O로 전환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전통적 read()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디스크 ─▶ 페이지 캐시 ─▶ 사용자 버퍼 ─▶ 애플리케이션 해석</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(커널 관리) (한 번 더 복사)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 맵 파일</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디스크 ─▶ 페이지 캐시 ─▶ 가상 주소 공간에 매핑 ─▶ 애플리케이션 접근</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(커널 관리) (포인터처럼 참조)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────────────────┐
+│            왜 mmap이 필요한가: 복사 중심 I/O를 주소 중심 I/O로 전환         │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ 전통적 read()                                                               │
+│   디스크 ─▶ 페이지 캐시 ─▶ 사용자 버퍼 ─▶ 애플리케이션 해석                │
+│             (커널 관리)     (한 번 더 복사)                                 │
+│                                                                             │
+│ 메모리 맵 파일                                                              │
+│   디스크 ─▶ 페이지 캐시 ─▶ 가상 주소 공간에 매핑 ─▶ 애플리케이션 접근       │
+│             (커널 관리)       (포인터처럼 참조)                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 포인트는 "디스크가 RAM으로 바뀐다"가 아니라, 응용 프로그램이 <strong><a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> 캐시를 주소 공간의 일부처럼 바라보게 된다</strong>는 데 있다. 그래서 [메모리 맵 파일](/knowledge-base/studynote/02_operating_system/02_process_thread/131_mmap_ipc/)은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 기술이면서 동시에 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 기술이다.
 
@@ -55,26 +53,39 @@ tags = ["studynote-computer-architecture"]
 
 아래 다이어그램은 [메모리 맵 파일](/knowledge-base/studynote/02_operating_system/02_process_thread/131_mmap_ipc/)의 실제 처리 경로를 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 맵 파일의 처리 흐름: 매핑은 먼저, 적재는 나중</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Application</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ mmap(fd, offset, length)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Virtual Memory Area 생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Page Table에 "파일과 연결된 주소 범위" 등록</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">첫 접근(load/store)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ page present ▶ 바로 접근</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ page absent</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Page Fault</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS Kernel이 파일 오프셋 확인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Page Cache 적재 + Page Table 갱신</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">명령 재시작 후 메모리처럼 접근</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                 메모리 맵 파일의 처리 흐름: 매핑은 먼저, 적재는 나중         │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ Application                                                                  │
+│    │                                                                          │
+│    ├─ mmap(fd, offset, length)                                                │
+│    ▼                                                                          │
+│ Virtual Memory Area 생성                                                      │
+│    │                                                                          │
+│    ▼                                                                          │
+│ Page Table에 "파일과 연결된 주소 범위" 등록                                   │
+│    │                                                                          │
+│    ▼                                                                          │
+│ 첫 접근(load/store)                                                           │
+│    │                                                                          │
+│    ├─ page present ───────────────────────────────────────────────▶ 바로 접근  │
+│    │                                                                          │
+│    └─ page absent                                                             │
+│          │                                                                    │
+│          ▼                                                                    │
+│     Page Fault                                                                │
+│          │                                                                    │
+│          ▼                                                                    │
+│     OS Kernel이 파일 오프셋 확인                                               │
+│          │                                                                    │
+│          ▼                                                                    │
+│     Page Cache 적재 + Page Table 갱신                                          │
+│          │                                                                    │
+│          ▼                                                                    │
+│     명령 재시작 후 메모리처럼 접근                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
 
 | 구성 요소 | 역할 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)상 의미 |
 | :--- | :--- | :--- |
@@ -171,25 +182,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">파일 시스템 버퍼 I/O</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">페이지 캐시 (Page Cache) 공유</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">메모리 맵 파일 (Memory-Mapped File)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 요구 페이징 (Demand Paging)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 공유 매핑 · IPC (Inter-Process Communication)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">복사-쓰기 (Copy-on-Write) · 실행 파일 지연 로딩</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">대용량 데이터베이스 · 분석 엔진 · 고성능 파일 접근</div>
-</div>
-</div>
-
-
+```text
+파일 시스템 버퍼 I/O
+    │
+    ▼
+페이지 캐시 (Page Cache) 공유
+    │
+    ▼
+메모리 맵 파일 (Memory-Mapped File)
+    │
+    ├─▶ 요구 페이징 (Demand Paging)
+    │
+    ├─▶ 공유 매핑 · IPC (Inter-Process Communication)
+    │
+    ▼
+복사-쓰기 (Copy-on-Write) · 실행 파일 지연 로딩
+    │
+    ▼
+대용량 데이터베이스 · 분석 엔진 · 고성능 파일 접근
+```
 
 이 흐름은 단순 버퍼 기반 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 읽기에서 출발해, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 단위 주소 공간 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 통합하면서 고성능 공유와 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 적재로 확장되는 과정을 보여 준다.
 

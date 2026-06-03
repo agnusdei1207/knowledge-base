@@ -23,19 +23,16 @@ tags = ["studynote-computer-architecture"]
 
 이 현상이 중요한 이유는 파이프라인의 목표가 <strong>클럭마다 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 하나를 계속 투입하는 것</strong>이기 때문이다. 분기마다 멈추면 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수준 병렬성 ([Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)-Level Parallelism, ILP)의 효과가 줄고, 오예측마다 잘못 들어온 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 버리느라 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 떨어진다. 특히 분기 명령 비율이 15~25% 수준인 일반 코드에서는, 제어 해저드 대응이 약하면 산술 논리를 아무리 빨리 만들어도 전체 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 기대만큼 오르지 않는다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">왜 제어 해저드가 필요한가: "다음 줄"이 항상 다음 줄이 아님</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">순차 코드 가정 PC → PC+4 → PC+8 → PC+12</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분기 코드 실제 PC → 분기 판단 대기 ─ ─▶ PC+4 (분기 미실행)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ Target (분기 실행)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파이프라인 문제 판단 전에도 인출은 계속됨 → 잘못된 경로가 들어올 수 있음</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────┐
+│         왜 제어 해저드가 필요한가: "다음 줄"이 항상 다음 줄이 아님         │
+├──────────────────────────────────────────────────────────────────────────┤
+│ 순차 코드 가정      PC → PC+4 → PC+8 → PC+12                            │
+│ 분기 코드 실제      PC → 분기 판단 대기 ─┬─▶ PC+4  (분기 미실행)         │
+│                                         └─▶ Target (분기 실행)          │
+│ 파이프라인 문제      판단 전에도 인출은 계속됨 → 잘못된 경로가 들어올 수 있음 │
+└──────────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 핵심은 CPU (Central Processing Unit)가 게으르지 않아서 문제가 생기는 것이 아니라, **너무 성실하게 미리 가져오기 때문에** 문제가 생긴다는 점이다. 따라서 제어 해저드는 “분기 명령이 느리다”의 문제가 아니라, “분기 결과가 확정되기 전까지도 파이프라인을 유지하고 싶다”는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 욕심에서 생긴 구조적 비용으로 봐야 한다.
 
@@ -54,21 +51,20 @@ tags = ["studynote-computer-architecture"]
 | EX | 조건 비교, 목표 주소 계산 | 실제 분기 확정 시점 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) |
 | 이후 단계 | 잘못 들어온 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 제거 | 플러시 비용 확대 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분기 확정 시점이 늦을수록 잘못 들어온 명령어가 늘어남</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Clock</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">2</div><div class="kb-diagram-cell">3</div><div class="kb-diagram-cell">4</div><div class="kb-diagram-cell">5</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BNE</div><div class="kb-diagram-cell">IF</div><div class="kb-diagram-cell">ID</div><div class="kb-diagram-cell">EX*</div><div class="kb-diagram-cell">MEM</div><div class="kb-diagram-cell">WB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ADD</div><div class="kb-diagram-cell">IF</div><div class="kb-diagram-cell">ID</div><div class="kb-diagram-cell">flush</div><div class="kb-diagram-cell">-</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SUB</div><div class="kb-diagram-cell">IF</div><div class="kb-diagram-cell">flush</div><div class="kb-diagram-cell">-</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* EX에서 분기 여부 확정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 그 전까지 들어온 ADD, SUB는 잘못된 경로라면 제거 대상</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────┐
+│            분기 확정 시점이 늦을수록 잘못 들어온 명령어가 늘어남             │
+├────────┬────────────┬────────────┬────────────┬────────────┬────────────┤
+│ Clock  │     1      │     2      │     3      │     4      │     5      │
+├────────┼────────────┼────────────┼────────────┼────────────┼────────────┤
+│ BNE    │ IF         │ ID         │ EX*        │ MEM        │ WB         │
+│ ADD    │            │ IF         │ ID         │ flush      │ -          │
+│ SUB    │            │            │ IF         │ flush      │ -          │
+├────────┴────────────┴────────────┴────────────┴────────────┴────────────┤
+│ * EX에서 분기 여부 확정                                                   │
+│   → 그 전까지 들어온 ADD, SUB는 잘못된 경로라면 제거 대상                │
+└──────────────────────────────────────────────────────────────────────────┘
+```
 
 그래서 하드웨어는 두 방향으로 대응한다. 첫째, 비교기와 분기 목표 주소 계산기를 앞당겨 ID 단계에서 가능한 한 빨리 결과를 확정한다. 둘째, 그래도 남는 공백은 예측으로 메운다. 전자는 <strong>분기 패널티 자체를 줄이는 구조 개선</strong>이고, 후자는 <strong>남는 패널티를 평균적으로 덜 느끼게 만드는 운영 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>이다. 현대 프로세서는 둘 다 함께 쓴다.
 
@@ -142,25 +138,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단순 파이프라인 분기 대기</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">스톨 (Stall) · 파이프라인 플러시 (Pipeline Flush)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지연 분기 (Delayed Branch) · 조기 분기 판정</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">정적 분기 예측 (Static Branch Prediction)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">동적 분기 예측 (Dynamic Branch Prediction) · BTB</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">투기 실행 (Speculative Execution) · 하이브리드 예측기</div>
-</div>
-</div>
-
-
+```text
+단순 파이프라인 분기 대기
+        │
+        ▼
+스톨 (Stall) · 파이프라인 플러시 (Pipeline Flush)
+        │
+        ▼
+지연 분기 (Delayed Branch) · 조기 분기 판정
+        │
+        ▼
+정적 분기 예측 (Static Branch Prediction)
+        │
+        ▼
+동적 분기 예측 (Dynamic Branch Prediction) · BTB
+        │
+        ▼
+투기 실행 (Speculative Execution) · 하이브리드 예측기
+```
 
 이 흐름은 제어 해저드 대응이 단순 정지에서 출발해, 예측과 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/)을 결합한 적극적 실행 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로 발전해 왔음을 보여준다.
 

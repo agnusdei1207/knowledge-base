@@ -31,36 +31,41 @@ tags = ["studynote-network"]
   1. <strong>중앙 집권 텍스트(<code>hosts.txt</code>)의 물리적 한계 붕괴</strong>: 호스트 네임 등록이 수작업으로 이루어지던 시절, 미국 국방성(SRI-NIC) 서버 1대에 전 세계가 접속하다 뻗어버리는 [SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)([단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)) 문제를 타파해야 했다.
   2. <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 소유권의 위임(Decentralized Ownership)</strong>: 구글이 구글 서버 100대를 증설할 때마다 미국 중앙 센터에 "IP 좀 추가해주세요 ㅠㅠ" 결재(허락)를 맡는 건 말도 안 됐다. `.com` 서버가 "구글아 니 땅 떼어줄게(`google.com` SLD 위임)" 하고 권한(Authority)을 던져버리면, 그 뒤론 구글이 지 맘대로 IP 1만 개를 뗐다 붙였다 자치권(Autonomous)을 쥐고 흔들게 해줄 권력 분립 뼈대가 필요했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DNS 3단 계층의 위임(Delegation)과 꼬리물기 핑퐁 폭파 도해</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">👨‍💻</div><div class="kb-diagram-node">유저(철수)</div><div class="kb-diagram-note">: "브라우저 주소창에 <code>www.naver.com.</code> 엔터 쾅!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(※ 도메인 맨 끝에는 원래 눈에 안 보이는 숨겨진 진짜 대빵 루트 점(.) 이 있음!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">🌪️ 핑퐁 1차전: 절대 권력자 Root DNS 찌르기</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">👑</div><div class="kb-diagram-node">Root DNS Server (최상위 루트 <code>.</code>)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 철수 왈: "<code>www.naver.com.</code> IP 좀 주세요 굽신굽신 🙇‍♂️"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 루트 왈: "야 난 전 세계 80억 개 몰라 미친아! 근데 니 주소 꼬리가 <code>.com</code> 이네?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">내 수첩에 <code>.com</code> 관리하는 TLD 대빵 서버 IP(1.2.3.4) 있으니까 걔한테 가 쓩!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">🌪️ 핑퐁 2차전: 중간 보스 TLD DNS 찌르기</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🥇</div><div class="kb-diagram-node">TLD (Top-Level Domain) Server (<code>.com</code>)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 철수 왈: "형님 <code>www.naver.com.</code> IP 좀 ㅠㅠ"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- TLD 왈: "난 <code>.com</code> 밑에 붙은 회사 이름만 알아! <code>naver</code> 회사 전용 네임서버</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주소(5.6.7.8) 찍어줄 테니까 그쪽(SLD)으로 넘어가서 다시 물어봐 쓩!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">🌪️ 핑퐁 3차전: 진짜 주인 SLD DNS 찌르기</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🥈</div><div class="kb-diagram-node">SLD / Authoritative Server (<code>naver.com</code>)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 철수 왈: "아오 빡쳐 <code>www.naver.com.</code> IP 있냐?!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- SLD 왈: "오! <code>www</code> 서버? 그거 내 구역(Zone) 내 부하 맞지 ㅋ 엑셀 찾아봄.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">자 여깄다! 찐 IP 주소</div><div class="kb-diagram-node">223.130.195.95</div><div class="kb-diagram-note">!! 일루 통신 접속해서 띄워라 쾅!!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 아키텍트 극딜: 이것이 진정한 재귀적 질의(Recursive Query)의 꼬리 물기 예술이다.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Root 서버는 전 세계의 미친 1,000억 트래픽을 처맞지만 절대 죽지 않는다. 왜? 자기가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">직접 안 찾고 0.001초 만에 "난 몰라 얘한테 가!" 핑퐁(Delegation 짬처리)으로 쳐내버리기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">때문이다. 책임(Responsibility)의 3단 완벽 분할이 빚어낸 무결점 트래픽 소각로다!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │         DNS 3단 계층의 위임(Delegation)과 꼬리물기 핑퐁 폭파 도해 │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │ 👨‍💻 [ 유저(철수) ]: "브라우저 주소창에 `www.naver.com.` 엔터 쾅!"       │
+  │     (※ 도메인 맨 끝에는 원래 눈에 안 보이는 숨겨진 진짜 대빵 루트 점(.) 이 있음!)  │
+  │                                                             │
+  │        ======= [ 🌪️ 핑퐁 1차전: 절대 권력자 Root DNS 찌르기 ] ========│
+  │                                                             │
+  │ 👑 [ Root DNS Server (최상위 루트 `.`) ]                       │
+  │   - 철수 왈: "`www.naver.com.` IP 좀 주세요 굽신굽신 🙇‍♂️"           │
+  │   - 루트 왈: "야 난 전 세계 80억 개 몰라 미친아! 근데 니 주소 꼬리가 `.com` 이네? │
+  │     내 수첩에 `.com` 관리하는 TLD 대빵 서버 IP(1.2.3.4) 있으니까 걔한테 가 쓩!"│
+  │                                                             │
+  │        ======= [ 🌪️ 핑퐁 2차전: 중간 보스 TLD DNS 찌르기 ] ========  │
+  │                                                             │
+  │ 🥇 [ TLD (Top-Level Domain) Server (`.com`) ]              │
+  │   - 철수 왈: "형님 `www.naver.com.` IP 좀 ㅠㅠ"                   │
+  │   - TLD 왈: "난 `.com` 밑에 붙은 회사 이름만 알아! `naver` 회사 전용 네임서버 │
+  │     주소(5.6.7.8) 찍어줄 테니까 그쪽(SLD)으로 넘어가서 다시 물어봐 쓩!"       │
+  │                                                             │
+  │        ======= [ 🌪️ 핑퐁 3차전: 진짜 주인 SLD DNS 찌르기 ] ========  │
+  │                                                             │
+  │ 🥈 [ SLD / Authoritative Server (`naver.com`) ]            │
+  │   - 철수 왈: "아오 빡쳐 `www.naver.com.` IP 있냐?!"               │
+  │   - SLD 왈: "오! `www` 서버? 그거 내 구역(Zone) 내 부하 맞지 ㅋ 엑셀 찾아봄. │
+  │     자 여깄다! 찐 IP 주소 [223.130.195.95]!! 일루 통신 접속해서 띄워라 쾅!!"  │
+  │                                                             │
+  │ 🌟 아키텍트 극딜: 이것이 진정한 재귀적 질의(Recursive Query)의 꼬리 물기 예술이다.│
+  │   Root 서버는 전 세계의 미친 1,000억 트래픽을 처맞지만 절대 죽지 않는다. 왜? 자기가 │
+  │   직접 안 찾고 0.001초 만에 "난 몰라 얘한테 가!" 핑퐁(Delegation 짬처리)으로 쳐내버리기 │
+  │   때문이다. 책임(Responsibility)의 3단 완벽 분할이 빚어낸 무결점 트래픽 소각로다! │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** "DNS 그거 걍 8.8.8.8 치면 구글이 알아서 알려주는 거 아님?" 이라는 1차원적 코더의 뇌를 찢어발기는, 인터넷 인프라 계층 분할(Layering)의 성배 맵이다. 
 우리가 치는 `www.naver.com` 은 그냥 글씨 1덩어리가 아니라 뒤에서부터 읽는 <strong>3단계 조립 블록</strong>이다. 가장 맨 뒤의 숨겨진 점(`.`)은 전 세계 13대(A~M)뿐인 Root DNS가 지배한다. 그다음 `.com`(TLD)은 Verisign 같은 국제 기관이 돈 받고 판다. 마지막 `naver`(SLD)부터는 네이버가 직접 자기들 서버실에 네임서버 쇳덩이(Authoritative DNS)를 띄워놓고 자유롭게 조종한다. 이 하향식 위임([Top-down](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/402_top_down_integration/) Delegation) 트리 뼈대 덕분에, 구글이나 네이버가 10분마다 서버 IP 100개를 지들 맘대로 바꾸고([Auto Scaling](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/030_auto_scaling/)) 놀아도, 그 윗단 기관(TLD, Root)은 "아 놔 이 새끼들 IP 또 바꿨네 엑셀 갱신해라 ㅠ" 노가다를 1도 할 필요가 없는(권한과 책임의 100% 분리 단절) 완벽한 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)) 자치 생태계가 30년 전부터 굴러가고 있었던 것이다.
@@ -91,18 +96,14 @@ tags = ["studynote-network"]
   **파국 💥**: KT DNS는 뇌가 없다. "어? 내 메모리(캐시) 유효기간 아직 50분 남았네?" 영희가 물어볼 때마다 <strong>죽어버린 옛날 네이버 IP(불탄 서버)를 1시간 내내 계속 던져주며 엑스박스 404 접속 불가 지옥(<a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/272_ci_cache_poisoning_runner_ephemeral/">Cache Poisoning</a>/Stale <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> 붕괴)</strong>을 낳는다. 
   - **아키텍트 생존 튜닝**: "야! 네이버 너네같이 서버 밥 먹듯이 바꾸고 클라우드 오토 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)([Auto Scaling](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/030_auto_scaling/)) 돌리는 애들은, 하늘이 두 쪽 나도 SLD 존(Zone) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에서 <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/">TTL</a>(캐시 수명)을 [60초 (1분)]로 극단적으로 토막 내서 배포해라 쾅!!</strong>" 그래야 KT DNS 놈들이 1분마다 캐시를 찢어 버리고 "새 IP 바뀐 거 없어?" 라고 찐 장부(SLD)로 물어보러 오는 귀찮음(Re-query)을 유발하여 장애 전환(Fail-over) 타임 랙을 1분 안으로 틀어막을 수 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DASH</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DNS 계층적 분산 구조 (루트</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">재귀적 질의 vs 반복적 질의</div></div>
-</div>
-</div>
-
-
+```text
+[DASH]
+    │
+    ▼
+[DNS 계층적 분산 구조 (루트]
+    │
+    └──▶ [재귀적 질의 vs 반복적 질의]
+```
 
 - **📢 섹션 요약 비유**: DNS [TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/) 캐시는 빵집의 <strong>'오늘의 추천 메뉴 칠판'</strong>과 똑같습니다. 아침에 사장님(찐 SLD 장부)이 칠판(통신사 캐시)에 "오늘 메뉴 돈가스!" 적어놓았습니다. 알바생(Local DNS)은 손님이 올 때마다 사장님한테 안 물어보고 칠판만 보고 "돈가스 드세요!" 1초 만에 안내합니다(캐시 쾌속). 근데 낮 12시에 돈가스가 다 팔려(서버 변경) 품절됐습니다! 칠판([TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/) 유효기간 1일)을 안 지우면, 알바생은 하루 종일 손님한테 없는 돈가스를 시켜서 뺨을 맞습니다(접속 불가 파국 💥). 그래서 사장님이 칠판 귀퉁이에 빨간 글씨로 록온을 겁니다. <strong>"※ 주의: 이 메뉴판은 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/">1시간마다([TTL</a>=3600)] 지우고 나한테 다시 물어볼 것!"</strong> 이게 바로 죽은 서버로 트래픽이 가는 걸 막는 [TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/) 생명줄 튜닝입니다.
 
@@ -159,34 +160,36 @@ tags = ["studynote-network"]
    어? B 서버 3번 연속 핑 씹었네 뻗었음 확정 💀!! <strong>야 당장 DNS 장부판에서 B IP 찢어버리고, 남은 A(서울) 서버 IP 단 1개만 유저들한테 100% 싹 다 돌려 쏴버려 자동 우회(Fail-over <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">Routing</a>) 꺾어 쾅!!!</strong>" 
    DNS에 '서버의 생존(Health) 여부와 유저의 위치([Geo](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/593_geo_geostationary_earth_orbit_satellite/))'를 판단하는 L7 계층의 똑똑한 애플리케이션 뇌를 융합 이식하여, DNS를 단순 주소부를 넘어선 궁극의 글로벌 스케일 로드밸런서(L4 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 대체재)로 차원 승격시킨 클라우드 0순위 무결점 쉴드다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실무 아키텍처: DNS A 레코드와 CNAME의 꼬리물기 핑퐁 (CDN 융합) 도면</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🔍</div><div class="kb-diagram-node">상황 팩트</div><div class="kb-diagram-note">: 우리 쇼핑몰 도메인은 <code>shop.com</code>. 근데 이미지 트래픽이 너무 쩔어서</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">비싼 AWS EC2 안 쓰고, 앞단에</div><div class="kb-diagram-node">CloudFront(CDN) 캐시 방패</div><div class="kb-diagram-note">를 달아 우회 치려 함!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">💀</div><div class="kb-diagram-node">1차 파국 (A 레코드 무식한 IP 다이렉트 떡칠 💥)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- DNS 세팅: <code>www.shop.com</code> ➔ A Record</div><div class="kb-diagram-node">2.2.2.2 (CDN IP)</div><div class="kb-diagram-note">쾅!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 문제 터짐: CDN 벤더는 클라우드라 자기 맘대로 IP 주소(2.2.2.2 ➔ 3.3.3.3)를</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1시간마다 훅훅 바꿈(Dynamic IP). 내 DNS는 2.2.2.2 옛날 걸로 하드코딩돼서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1시간 뒤 접속 폭파 에러 404 터짐 💀 (정적 IP 매핑의 저주).</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">🛡️ 아키텍트의 메스: CNAME 꼬리물기 치환술 ✨</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🚀</div><div class="kb-diagram-node">2차 융합 (CNAME 레코드 별명 핑퐁 튜닝)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- DNS 세팅: <code>www.shop.com</code> ➔ CNAME</div><div class="kb-diagram-node"><code>d123.cloudfront.net</code></div><div class="kb-diagram-note">쾅!!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 유저 질문: "야 KT DNS야! <code>www.shop.com</code> IP 줘!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- KT DNS 왈: "어? 얜 IP가 없네? 대신 <code>d123.cloudfront.net</code> 이라는</div><div class="kb-diagram-node">별명</div><div class="kb-diagram-note">이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">적혀있어! 야 너 딴 데 가지 말고, 저 CloudFront CDN 회사 전용 DNS 서버한테</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다시 달려가서 걔한테 찐 IP 달라고 한 번 더 핑퐁 쳐서 물어봐 토스 쓩🚀!!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 아키텍트 극딜: CNAME은 "도메인을 다른 도메인으로 토스(Delegation)" 해버리는</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위대한 꼬리물기 마법이다. CDN 회사가 뒤에서 IP를 1만 번을 바꾸든 지랄을 하든, 나는</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">내 DNS에 그 회사 별명 주소(도메인) 1개만 띡 걸어놓고 1년 내내 쿨쿨 자면(신경 끔)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">된다! IP 변경의 유지보수 짬처리(Responsibility)를 상대방 인프라로 100% 떠넘겨</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라우드의 유동성(Volatility)을 완벽 방어하는 디커플링(Decoupling) 헌법이다.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │         실무 아키텍처: DNS A 레코드와 CNAME의 꼬리물기 핑퐁 (CDN 융합) 도면 │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │ 🔍 [ 상황 팩트 ]: 우리 쇼핑몰 도메인은 `shop.com`. 근데 이미지 트래픽이 너무 쩔어서│
+  │    비싼 AWS EC2 안 쓰고, 앞단에 [CloudFront(CDN) 캐시 방패]를 달아 우회 치려 함!  │
+  │                                                             │
+  │ 💀 [ 1차 파국 (A 레코드 무식한 IP 다이렉트 떡칠 💥) ]               │
+  │   - DNS 세팅: `www.shop.com` ➔ A Record [ 2.2.2.2 (CDN IP) ] 쾅! │
+  │   - 문제 터짐: CDN 벤더는 클라우드라 자기 맘대로 IP 주소(2.2.2.2 ➔ 3.3.3.3)를 │
+  │     1시간마다 훅훅 바꿈(Dynamic IP). 내 DNS는 2.2.2.2 옛날 걸로 하드코딩돼서 │
+  │     1시간 뒤 접속 폭파 에러 404 터짐 💀 (정적 IP 매핑의 저주).                 │
+  │                                                             │
+  │        ======= [ 🛡️ 아키텍트의 메스: CNAME 꼬리물기 치환술 ✨ ] ========│
+  │                                                             │
+  │ 🚀 [ 2차 융합 (CNAME 레코드 별명 핑퐁 튜닝) ]                      │
+  │   - DNS 세팅: `www.shop.com` ➔ CNAME [ `d123.cloudfront.net` ] 쾅!!│
+  │   - 유저 질문: "야 KT DNS야! `www.shop.com` IP 줘!"                  │
+  │   - KT DNS 왈: "어? 얜 IP가 없네? 대신 `d123.cloudfront.net` 이라는 [별명]이 │
+  │     적혀있어! 야 너 딴 데 가지 말고, 저 CloudFront CDN 회사 전용 DNS 서버한테 │
+  │     다시 달려가서 걔한테 찐 IP 달라고 한 번 더 핑퐁 쳐서 물어봐 토스 쓩🚀!!"       │
+  │                                                             │
+  │ 🌟 아키텍트 극딜: CNAME은 "도메인을 다른 도메인으로 토스(Delegation)" 해버리는 │
+  │   위대한 꼬리물기 마법이다. CDN 회사가 뒤에서 IP를 1만 번을 바꾸든 지랄을 하든, 나는 │
+  │   내 DNS에 그 회사 별명 주소(도메인) 1개만 띡 걸어놓고 1년 내내 쿨쿨 자면(신경 끔) │
+  │   된다! IP 변경의 유지보수 짬처리(Responsibility)를 상대방 인프라로 100% 떠넘겨 │
+  │   클라우드의 유동성(Volatility)을 완벽 방어하는 디커플링(Decoupling) 헌법이다.   │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** "A 레코드랑 CNAME이 뭐가 다름?" 신입 서버 개발자 면접 탈락 1순위 질문을 찢어버리는 DNS 레코드 맵핑 도해다. <strong>A 레코드</strong>는 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)과 `1.2.3.4` 라는 최종 목적지(IP 쇳덩이)를 다이렉트로 [일대일](/knowledge-base/studynote/02_operating_system/02_process_thread/099_one_to_one_model/) 용접시켜 버리는 강결합이다. 서버 IP가 고정된(Static) 옛날 방식엔 최고지만 클라우드 시대엔 독약이다. 
 반면 <strong>CNAME(Canonical Name)</strong>은 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에 다른 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)(별명) 껍데기를 씌워, DNS 질의를 한 번 더 튕겨(Redirect) 다른 놈한테 짬처리 토스(Delegation) 치는 소프트웨어적 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)([Abstraction](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)) 튜닝이다. 내 회사의 트래픽을 거대 공룡(AWS CloudFront, Cloudflare [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/))의 방패 우산 속으로 빨려 들어가게 숨길 때([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) 연동), 하늘이 두 쪽 나도 무조건 IP 하드코딩(A 레코드)을 찢어버리고 이 CNAME [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 토스 핑퐁으로 뼈대를 엮어야만 유지보수의 영원한 지옥(IP 변경 시 셧다운)에서 해방될 수 있다.
@@ -253,19 +256,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: DASH</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: DNS 계층적 분산 구조 (루트</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 재귀적 질의 vs 반복적 질의</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율 운영 네트워크</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: DASH]
+    │
+    ▼
+[현재 개념: DNS 계층적 분산 구조 (루트]
+    │
+    ├──▶ [확장 A: 재귀적 질의 vs 반복적 질의]
+    └──▶ [확장 B: 자율 운영 네트워크]
+```
 
 DNS 계층적 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 구조 (루트는 DASH에서 출발해 현재 메커니즘을 정교화하고, 이후 [재귀적 질의](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/512_recursive_iterative_dns_query/) vs 반복적 질의와 자율 운영 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

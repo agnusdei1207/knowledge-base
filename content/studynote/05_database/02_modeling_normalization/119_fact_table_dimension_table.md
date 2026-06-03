@@ -18,22 +18,22 @@ tags = ["studynote-database"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">팩트 테이블 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FACT_매출</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">날짜KEY</div><div class="kb-diagram-cell">상품KEY</div><div class="kb-diagram-cell">고객KEY</div><div class="kb-diagram-cell">매출액</div><div class="kb-diagram-cell">수량</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">20240101</div><div class="kb-diagram-cell">P001</div><div class="kb-diagram-cell">C100</div><div class="kb-diagram-cell">30000</div><div class="kb-diagram-cell">2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">20240101</div><div class="kb-diagram-cell">P002</div><div class="kb-diagram-cell">C101</div><div class="kb-diagram-cell">15000</div><div class="kb-diagram-cell">1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FK(날짜KEY) → DIM_날짜</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FK(상품KEY) → DIM_상품</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FK(고객KEY) → DIM_고객</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    팩트 테이블 구조                                    │
+├───────────────────────────────────────────────────────┤
+│  FACT_매출                                            │
+│  ┌─────────┬─────────┬─────────┬──────┬──────┐       │
+│  │ 날짜KEY  │ 상품KEY  │ 고객KEY  │ 매출액│ 수량 │       │
+│  ├─────────┼─────────┼─────────┼──────┼──────┤       │
+│  │ 20240101│ P001    │ C100    │30000 │  2   │       │
+│  │ 20240101│ P002    │ C101    │15000 │  1   │       │
+│  └─────────┴─────────┴─────────┴──────┴──────┘       │
+│  FK(날짜KEY) → DIM_날짜                               │
+│  FK(상품KEY) → DIM_상품                               │
+│  FK(고객KEY) → DIM_고객                               │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 팩트는 "무슨 일이 일어났는가(숫자)"이고, 디멘전은 "그 일의 맥락(누가·언제·어디서·무엇을)"이다.
 
@@ -98,23 +98,21 @@ tags = ["studynote-database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">ER 모델 3NF (OLTP)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Kimball 차원 모델링 (1996) — 팩트/디멘전 분리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SCD Type 2 (이력 보존 표준)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">클라우드 DW (BigQuery, 2010s) — 스타 스키마 최적화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: dbt + 팩트/디멘전 자동 생성</div></div>
-</div>
-</div>
-
-
+```text
+[ER 모델 3NF (OLTP)]
+    │
+    ▼
+[Kimball 차원 모델링 (1996) — 팩트/디멘전 분리]
+    │
+    ▼
+[SCD Type 2 (이력 보존 표준)]
+    │
+    ▼
+[클라우드 DW (BigQuery, 2010s) — 스타 스키마 최적화]
+    │
+    ▼
+[현재: dbt + 팩트/디멘전 자동 생성]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [팩트 테이블](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/210_fact_dimension_table_snowflake_schema/)은 "가게 매출 일지"예요. **얼마를 벌었는지** 숫자를 기록해요.
@@ -128,6 +126,6 @@ tags = ["studynote-database"]
 **진행 상황**: 119 / 600
 
 ← **이전**: [118. 차원 모델링 (Dimensional Modeling) - 스타 스키마·스노우플레이크·팩트/디멘전](/knowledge-base/studynote/05_database/02_modeling_normalization/118_dimensional_modeling_star_schema/)
-**다음**: [120. 데이터 역공학 (Data Reverse Engineering) - 기존 DB에서 ERD·모델 복원](/knowledge-base/studynote/05_database/02_modeling_normalization/120_data_reverse_engineering/) →
+**다음**: [120. 데이터 역공학 (Data Reverse 엔진ering) - 기존 DB에서 ERD·모델 복원](/knowledge-base/studynote/05_database/02_modeling_normalization/120_data_reverse_engineering/) →
 
 ---

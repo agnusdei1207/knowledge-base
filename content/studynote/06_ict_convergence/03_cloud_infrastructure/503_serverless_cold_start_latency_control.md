@@ -37,23 +37,19 @@ tags = ["studynote-ict-convergence"]
 
 <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/">콜드 스타트</a> vs 웜 스타트(Warm Start) 흐름</strong>:
 
+```
+[콜드 스타트 흐름]
+요청 → 컨테이너 생성 → 런타임 로드 → 의존성 로드 → 핸들러 실행
+       ↑ 수백ms~수 초 소요
 
+[웜 스타트 흐름]
+요청 → (이미 실행 중인 인스턴스) → 핸들러 실행
+       ↑ 수ms 소요
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">콜드 스타트 흐름</div></div>
-<div class="kb-diagram-note">요청 → 컨테이너 생성 → 런타임 로드 → 의존성 로드 → 핸들러 실행</div>
-<div class="kb-diagram-note">↑ 수백ms~수 초 소요</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">웜 스타트 흐름</div></div>
-<div class="kb-diagram-note">요청 → (이미 실행 중인 인스턴스) → 핸들러 실행</div>
-<div class="kb-diagram-note">↑ 수ms 소요</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">프로비저닝된 동시성 (Provisioned Concurrency)</div></div>
-<div class="kb-diagram-note">사전에 지정한 수의 인스턴스를 항상 웜(Warm) 상태로 유지</div>
-<div class="kb-diagram-note">→ 콜드 스타트 완전 제거, 비용 증가</div>
-</div>
-</div>
-
-
+[프로비저닝된 동시성 (Provisioned Concurrency)]
+사전에 지정한 수의 인스턴스를 항상 웜(Warm) 상태로 유지
+→ 콜드 스타트 완전 제거, 비용 증가
+```
 
 | 해결책 | 방법 | 효과 | 비용 |
 |:---|:---|:---|:---|

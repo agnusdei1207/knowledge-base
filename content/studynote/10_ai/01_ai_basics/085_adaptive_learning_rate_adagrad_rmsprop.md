@@ -109,25 +109,19 @@ SGD ([Stochastic Gradient Descent](/knowledge-base/studynote/14_data_engineering
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">손실 함수</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">그래디언트 계산</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">과거 그래디언트 누적</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">파라미터별 학습률 조정</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">가중치 업데이트</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">다음 반복</div>
-</div>
-</div>
-
-
+```text
+손실 함수
+   ↓
+그래디언트 계산
+   ↓
+과거 그래디언트 누적
+   ↓
+파라미터별 학습률 조정
+   ↓
+가중치 업데이트
+   ↓
+다음 반복
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -48,42 +48,43 @@ Amazon Kinesis는 스트리밍 [데이터](/knowledge-base/studynote/05_database
 
 ### 1. Kinesis [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Streams 구조
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kinesis Data Streams: "OrderEvents" 스트림</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Shard 1</div><div class="kb-diagram-cell">Shard 2</div><div class="kb-diagram-cell">Shard 3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1MB/s 쓰기</div><div class="kb-diagram-cell">1MB/s 쓰기</div><div class="kb-diagram-cell">1MB/s 쓰기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2MB/s 읽기</div><div class="kb-diagram-cell">2MB/s 읽기</div><div class="kb-diagram-cell">2MB/s 읽기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오프셋(시퀀스)</div><div class="kb-diagram-cell">오프셋(시퀀스)</div><div class="kb-diagram-cell">오프셋(시퀀스)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 보존: 24시간(기본) ~ 7일(확장) ~ 365일(장기)</div></div>
-<div class="kb-diagram-note">Lambda (서버리스) Kinesis Data Analytics</div>
-<div class="kb-diagram-note">(실시간 트리거) (Flink SQL/Java 처리)</div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────────┐
+│  Kinesis Data Streams: "OrderEvents" 스트림                  │
+│                                                              │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐       │
+│  │  Shard 1     │  │  Shard 2     │  │  Shard 3     │       │
+│  │              │  │              │  │              │       │
+│  │ 1MB/s 쓰기   │  │ 1MB/s 쓰기   │  │ 1MB/s 쓰기   │       │
+│  │ 2MB/s 읽기   │  │ 2MB/s 읽기   │  │ 2MB/s 읽기   │       │
+│  │ 오프셋(시퀀스)│  │ 오프셋(시퀀스)│  │ 오프셋(시퀀스)│      │
+│  └──────────────┘  └──────────────┘  └──────────────┘       │
+│                                                              │
+│  데이터 보존: 24시간(기본) ~ 7일(확장) ~ 365일(장기)          │
+└──────────────────────────────────────────────────────────────┘
+                 │                     │
+    ┌────────────┘                     └─────────────┐
+    ▼                                               ▼
+Lambda (서버리스)                          Kinesis Data Analytics
+(실시간 트리거)                             (Flink SQL/Java 처리)
+```
 
 ### 2. 샤드 용량 계산
 
+```
+필요 샤드 수 계산:
 
+쓰기 샤드 = 초당 레코드 수 / 1,000 또는 MB/s / 1MB
+읽기 샤드 = 소비자 수 × MB/s 소비량 / 2MB
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">필요 샤드 수 계산:</div>
-<div class="kb-diagram-note">쓰기 샤드 = 초당 레코드 수 / 1,000 또는 MB/s / 1MB</div>
-<div class="kb-diagram-note">읽기 샤드 = 소비자 수 × MB/s 소비량 / 2MB</div>
-<div class="kb-diagram-note">예시: 초당 5,000 레코드, 평균 레코드 크기 500 bytes</div>
-<div class="kb-diagram-note">→ 쓰기 처리량 = 5,000 × 500B = 2.5MB/s</div>
-<div class="kb-diagram-note">→ 쓰기 샤드 = ceil(2.5 / 1) = 3 샤드</div>
-<div class="kb-diagram-note">3개 Lambda 함수가 각각 1MB/s씩 소비한다면:</div>
-<div class="kb-diagram-note">→ 읽기 처리량 = 3 × 1MB = 3MB/s</div>
-<div class="kb-diagram-note">→ 읽기 샤드 = ceil(3 / 2) = 2 샤드 (쓰기가 더 많으므로 3 샤드 유지)</div>
-</div>
-</div>
+예시: 초당 5,000 레코드, 평균 레코드 크기 500 bytes
+  → 쓰기 처리량 = 5,000 × 500B = 2.5MB/s
+  → 쓰기 샤드 = ceil(2.5 / 1) = 3 샤드
 
-
+  3개 Lambda 함수가 각각 1MB/s씩 소비한다면:
+  → 읽기 처리량 = 3 × 1MB = 3MB/s
+  → 읽기 샤드 = ceil(3 / 2) = 2 샤드 (쓰기가 더 많으므로 3 샤드 유지)
+```
 
 ### 3. Kinesis vs [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 비교
 
@@ -109,20 +110,15 @@ Amazon Kinesis는 스트리밍 [데이터](/knowledge-base/studynote/05_database
 
 기본 Kinesis는 샤드당 2MB/s 읽기를 모든 Consumer가 공유한다. Enhanced Fan-Out(확장 팬아웃)은 각 Consumer가 샤드당 <strong>독립적으로 2MB/s</strong>를 가진다.
 
+```
+기본 모드 (Shared):
+  샤드 1: 2MB/s → Consumer A + Consumer B + Consumer C 공유 (~0.67MB/s 각각)
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">기본 모드 (Shared):</div>
-<div class="kb-diagram-note">샤드 1: 2MB/s → Consumer A + Consumer B + Consumer C 공유 (~0.67MB/s 각각)</div>
-<div class="kb-diagram-note">Enhanced Fan-Out:</div>
-<div class="kb-diagram-note">샤드 1 → Consumer A: 2MB/s (독립)</div>
-<div class="kb-diagram-note">→ Consumer B: 2MB/s (독립)</div>
-<div class="kb-diagram-note">→ Consumer C: 2MB/s (독립)</div>
-</div>
-</div>
-
-
+Enhanced Fan-Out:
+  샤드 1 → Consumer A: 2MB/s (독립)
+         → Consumer B: 2MB/s (독립)
+         → Consumer C: 2MB/s (독립)
+```
 
 ### 2. AWS [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 통합
 
@@ -195,23 +191,21 @@ Amazon Kinesis [Data](/knowledge-base/studynote/05_database/01_db_architecture_r
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">배치 수집 (Batch Ingestion) — 주기적 ETL 파이프라인, 높은 지연</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Amazon Kinesis Data Streams — 실시간 스트림 수집, 샤드 기반 병렬 처리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Kinesis Data Firehose — 무서버 스트림→S3/Redshift 자동 전달, 변환 내장</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Kinesis Data Analytics (Apache Flink) — SQL·Flink로 스트림 실시간 분석</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Lambda Architecture / Kappa Architecture — 배치+스트림 통합 또는 스트림 단일화 아키텍처</div></div>
-</div>
-</div>
-
-
+```text
+[배치 수집 (Batch Ingestion) — 주기적 ETL 파이프라인, 높은 지연]
+    │
+    ▼
+[Amazon Kinesis Data Streams — 실시간 스트림 수집, 샤드 기반 병렬 처리]
+    │
+    ▼
+[Kinesis Data Firehose — 무서버 스트림→S3/Redshift 자동 전달, 변환 내장]
+    │
+    ▼
+[Kinesis Data Analytics (Apache Flink) — SQL·Flink로 스트림 실시간 분석]
+    │
+    ▼
+[Lambda Architecture / Kappa Architecture — 배치+스트림 통합 또는 스트림 단일화 아키텍처]
+```
 이 흐름은 [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/)의 높은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 한계를 극복하기 위해 Amazon Kinesis가 실시간 스트림 수집의 관리형 표준으로 자리잡고, 저장·분석 레이어와 결합하여 엔드투엔드 실시간 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 아키텍처로 진화하는 스트리밍 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리의 계보를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

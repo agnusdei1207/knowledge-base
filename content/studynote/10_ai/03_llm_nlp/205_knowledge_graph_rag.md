@@ -25,17 +25,14 @@ tags = ["studynote-ai"]
 
 이 [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/) 병을 고치기 위해 인프라 아키텍트들은 "LLM의 뛰어난 말재주(언어 뇌)"에 "[지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/)라는 100% 팩트만 적힌 다이아몬드 뼈대([논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 뇌)"를 융합하는 <strong>뉴로-심볼릭 (Neuro-Symbolic) <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a></strong> 진영을 구축했다. [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/)는 AI가 헛소리를 하려는 순간 목줄을 쥐어 당기는 세상에서 가장 완벽하고 깐깐한 수학적 백과사전이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: LLM은 말솜씨가 기가 막힌 사기꾼(소설가)이다. 그럴싸하게 말을 지어내어 듣는 사람을 홀리지만, 팩트 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)을 안 한다. 반면 [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/)는 평생 도서관에 틀어박혀 수만 권의 족보를 외우고 "김 씨의 둘째 아들의 아내는 이 씨다"라고 100% 팩트 촌수만 꿰고 있는 깐깐한 역사 기록관이다. 이 둘을 합치면, 사기꾼의 유창한 언변에 깐깐한 기록관의 절대 팩트가 실리면서 우주 최고로 똑똑하고 듬직한 지식 백과사전 앵무새가 완성된다.
 
@@ -45,29 +42,28 @@ tags = ["studynote-ai"]
 
 [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/)는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 엑셀 표(테이블)가 아니라 **트리플(Triple, 3요소)** 구조인 `(Node, Edge, Node)`로 끝없이 연결해 나가는 거대한 온톨로지(Ontology) 우주다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지식 그래프 (Knowledge Graph) 구축과 GraphRAG 융합 파이프라인</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 지식 그래프 구축 (Information Extraction)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 수천만 장의 신문 기사, 기업 PDF 문서를 딥러닝(NER)이 읽음.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* "스티브 잡스는 1955년에 태어나 아이폰을 만들었다."</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">엣지: 창립했다</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(노드2: 애플)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">엣지: 만들었다</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(노드3: 아이폰)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* ─▶ 세상의 모든 지식을 이 거미줄 그래프 DB(Neo4j 등)에 쾅쾅 꽂아 넣음!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. GraphRAG 발동! (LLM과 지식 그래프의 영혼의 결합)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 유저 질문: "스티브 잡스가 만든 회사에서 나온 스마트폰이 뭐야?"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">*</div><div class="kb-diagram-node">스텝 A</div><div class="kb-diagram-note">: 그래프 DB가 거미줄 선(Edge)을 타고 0.01초 만에 추론함.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">아이폰!</div><div class="kb-diagram-note">(팩트 확보)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">*</div><div class="kb-diagram-node">스텝 B</div><div class="kb-diagram-note">: 뽑아낸 완벽한 거미줄 팩트를 프롬프트에 감싸서 LLM에 던져줌.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3. 안전한 답변 생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* LLM: "아, 주입된 팩트를 보니까 딴소리 못 하겠네. 스티브 잡스가 창립한</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">애플에서 만든 스마트폰은 '아이폰'입니다." (할루시네이션 0%)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           지식 그래프 (Knowledge Graph) 구축과 GraphRAG 융합 파이프라인 │
+├──────────────────────────────────────────────────────────────┤
+│  [1. 지식 그래프 구축 (Information Extraction)]                │
+│   * 수천만 장의 신문 기사, 기업 PDF 문서를 딥러닝(NER)이 읽음.          │
+│   * "스티브 잡스는 1955년에 태어나 아이폰을 만들었다."                 │
+│      ─▶ (노드1: 스티브 잡스) ──[엣지: 창립했다]──▶ (노드2: 애플)    │
+│      ─▶ (노드1: 애플) ──[엣지: 만들었다]──▶ (노드3: 아이폰)        │
+│   * ─▶ 세상의 모든 지식을 이 거미줄 그래프 DB(Neo4j 등)에 쾅쾅 꽂아 넣음! │
+│                                                              │
+│  [2. GraphRAG 발동! (LLM과 지식 그래프의 영혼의 결합)]            │
+│   * 유저 질문: "스티브 잡스가 만든 회사에서 나온 스마트폰이 뭐야?"          │
+│   * [스텝 A]: 그래프 DB가 거미줄 선(Edge)을 타고 0.01초 만에 추론함.     │
+│             잡스 ─(창립)─▶ 애플 ─(만듦)─▶ [아이폰!] (팩트 확보)     │
+│   * [스텝 B]: 뽑아낸 완벽한 거미줄 팩트를 프롬프트에 감싸서 LLM에 던져줌.   │
+│                                                              │
+│  [3. 안전한 답변 생성]                                           │
+│   * LLM: "아, 주입된 팩트를 보니까 딴소리 못 하겠네. 스티브 잡스가 창립한 │
+│           애플에서 만든 스마트폰은 '아이폰'입니다." (할루시네이션 0%)     │
+└──────────────────────────────────────────────────────────────┘
+```
 
 **핵심 원리 (온톨로지와 추론 능력)**:
 [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/)의 미친 점은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 저장만 하는 게 아니라, 자기가 알아서 <strong>'숨겨진 진실을 추론(Reasoning)'</strong>해 낸다는 것이다. 

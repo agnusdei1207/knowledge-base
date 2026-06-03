@@ -35,25 +35,21 @@ tags = ["studynote-data-engineering"]
 
 ### 1.3 자율주행 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 현실
 
+```
+실제 주행 데이터 수집 현황 (예시)
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">실제 주행 데이터 수집 현황 (예시)</div>
-<div class="kb-diagram-note">Waymo: 2,000만 마일 실제 주행 + 수십억 마일 시뮬레이션</div>
-<div class="kb-diagram-note">Tesla: 수억 마일 실제 주행 Autopilot 데이터 수집</div>
-<div class="kb-diagram-note">문제점:</div>
-<div class="kb-diagram-tree-item" style="--depth:1">일반 주행: 충분 (고속도로, 시내 정상 주행)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">코너 케이스: 매우 부족</div>
-<div class="kb-diagram-note">─ 역주행 차량 대응</div>
-<div class="kb-diagram-note">─ 악천후 + 공사 구간 + 보행자 조합</div>
-<div class="kb-diagram-note">─ 신호등 오작동</div>
-<div class="kb-diagram-note">─ 갑작스러운 장애물 등장</div>
-<div class="kb-diagram-tree-item" style="--depth:1">해결책: 시뮬레이터로 코너 케이스 무한 생성</div>
-</div>
-</div>
-
-
+Waymo: 2,000만 마일 실제 주행 + 수십억 마일 시뮬레이션
+Tesla: 수억 마일 실제 주행 Autopilot 데이터 수집
+       
+문제점:
+  ├─ 일반 주행: 충분 (고속도로, 시내 정상 주행)
+  ├─ 코너 케이스: 매우 부족
+  │   ├─ 역주행 차량 대응
+  │   ├─ 악천후 + 공사 구간 + 보행자 조합
+  │   ├─ 신호등 오작동
+  │   └─ 갑작스러운 장애물 등장
+  └─ 해결책: 시뮬레이터로 코너 케이스 무한 생성
+```
 
 📢 **섹션 요약 비유**: 모방 학습은 운전 교습소에서 교관(전문가)의 운전을 옆에서 관찰하며 배우는 것이다. 보상 점수 없이도 "저렇게 하면 되는구나"를 직접 보고 따라한다.
 
@@ -65,56 +61,58 @@ tags = ["studynote-data-engineering"]
 
 BC는 가장 단순한 모방 학습 방법으로, 전문가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 지도학습으로 직접 모방한다.
 
+```
+BC 학습 구조
 
+전문가 데이터셋 D = {(s₁,a₁), ..., (sₙ,aₙ)}
+  │
+  ▼
+지도학습: π_θ = argmin E_{(s,a)~D} [L(π_θ(s), a)]
+  │
+  ▼
+학습된 정책 π_θ 배포
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">BC 학습 구조</div>
-<div class="kb-diagram-note">전문가 데이터셋 D = {(s₁,a₁), ..., (sₙ,aₙ)}</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">지도학습: π_θ = argmin E_{(s,a)~D}</div><div class="kb-diagram-node">L(π_θ(s), a)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">학습된 정책 π_θ 배포</div>
-<div class="kb-diagram-note">BC 문제점: 분포 이탈 (Covariate Shift)</div>
-<div class="kb-diagram-note">전문가가 방문한 상태: S_expert</div>
-<div class="kb-diagram-note">학생 정책이 방문하는 상태: S_student</div>
-<div class="kb-diagram-note">학생의 작은 오류 → 새로운 상태 진입</div>
-<div class="kb-diagram-note">→ 훈련 분포(S_expert) 밖 → 더 큰 오류</div>
-<div class="kb-diagram-note">→ 오류 누적 (Compounding Error)</div>
-<div class="kb-diagram-note">예시:</div>
-<div class="kb-diagram-note">전문가: 항상 차선 중앙 유지</div>
-<div class="kb-diagram-note">학생: 0.1m 오른쪽으로 조금 이탈</div>
-<div class="kb-diagram-note">→ 차선 가장자리 상태 (훈련에 없음)</div>
-<div class="kb-diagram-note">→ 잘못된 스티어링 → 더 큰 이탈 → 충돌</div>
-</div>
-</div>
+BC 문제점: 분포 이탈 (Covariate Shift)
+─────────────────────────────────────
+전문가가 방문한 상태: S_expert
+학생 정책이 방문하는 상태: S_student
 
+학생의 작은 오류 → 새로운 상태 진입
+→ 훈련 분포(S_expert) 밖 → 더 큰 오류
+→ 오류 누적 (Compounding Error)
 
+예시:
+  전문가: 항상 차선 중앙 유지
+  학생: 0.1m 오른쪽으로 조금 이탈
+  → 차선 가장자리 상태 (훈련에 없음)
+  → 잘못된 스티어링 → 더 큰 이탈 → 충돌
+```
 
 ### 2.2 DAgger (Dataset Aggregation)
 
 DAgger는 Ross et al. (2011)이 제안한 BC의 분포 이탈 문제 해결 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
 
+```
+DAgger 반복 알고리즘
 
+초기화: D = {} (빈 데이터셋)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">DAgger 반복 알고리즘</div>
-<div class="kb-diagram-note">초기화: D = {} (빈 데이터셋)</div>
-<div class="kb-diagram-note">for 반복 t = 1, 2, ..., T:</div>
-<div class="kb-diagram-note">1. 현재 정책 π_t로 환경 실행</div>
-<div class="kb-diagram-note">→ 학생 정책이 방문하는 상태 S_t 수집</div>
-<div class="kb-diagram-note">2. 전문가에게 S_t 상태에서 올바른 행동 질의</div>
-<div class="kb-diagram-note">→ 전문가 레이블 a* = π_expert(s), ∀s ∈ S_t</div>
-<div class="kb-diagram-note">3. 새 데이터 추가: D = D ∪ {(s, a*) | s ∈ S_t}</div>
-<div class="kb-diagram-note">4. D에서 새 정책 π_{t+1} 학습</div>
-<div class="kb-diagram-note">결과: 학생이 방문하는 모든 상태에 전문가 레이블</div>
-<div class="kb-diagram-note">→ 분포 이탈 문제 해결!</div>
-<div class="kb-diagram-note">단점: 매 반복마다 전문가 개입 필요 (비용 높음)</div>
-</div>
-</div>
+for 반복 t = 1, 2, ..., T:
+  1. 현재 정책 π_t로 환경 실행
+     → 학생 정책이 방문하는 상태 S_t 수집
 
+  2. 전문가에게 S_t 상태에서 올바른 행동 질의
+     → 전문가 레이블 a* = π_expert(s), ∀s ∈ S_t
 
+  3. 새 데이터 추가: D = D ∪ {(s, a*) | s ∈ S_t}
+
+  4. D에서 새 정책 π_{t+1} 학습
+
+결과: 학생이 방문하는 모든 상태에 전문가 레이블
+     → 분포 이탈 문제 해결!
+
+단점: 매 반복마다 전문가 개입 필요 (비용 높음)
+```
 
 ### 2.3 모방 학습 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 비교
 
@@ -127,31 +125,37 @@ DAgger는 Ross et al. (2011)이 제안한 BC의 분포 이탈 문제 해결 [알
 
 ### 2.4 [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) ([Digital Twin](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)) 기반 시뮬레이션
 
+```
+자율주행 디지털 트윈 아키텍처
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">자율주행 디지털 트윈 아키텍처</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실제 세계 (Real World)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LiDAR, 카메라, GPS, HD 맵 → 3D 환경 재현</div></div>
-<div class="kb-diagram-note">3D 스캔/측정 데이터</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디지털 트윈 (시뮬레이터)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물리 엔진</div><div class="kb-diagram-cell">렌더링 엔진</div><div class="kb-diagram-cell">교통 흐름 모델</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(충돌, 마찰)</div><div class="kb-diagram-cell">(포토리얼)</div><div class="kb-diagram-cell">(차량, 보행자)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코너 케이스 자동 생성:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 폭우 + 야간 + 공사 구간</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 역주행 오토바이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 갑자기 뛰어드는 보행자</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 신호등 오작동 + 안개</div></div>
-<div class="kb-diagram-note">학습 데이터 (무한 생성)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AI 모델 학습</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모방 학습(BC/DAgger) + 강화학습 + 데이터 증강</div></div>
-</div>
-</div>
-
-
+┌────────────────────────────────────────────────────────────┐
+│              실제 세계 (Real World)                         │
+│                                                            │
+│  LiDAR, 카메라, GPS, HD 맵 → 3D 환경 재현                   │
+└────────────────────────────┬───────────────────────────────┘
+                             │ 3D 스캔/측정 데이터
+                             ▼
+┌────────────────────────────────────────────────────────────┐
+│            디지털 트윈 (시뮬레이터)                          │
+│                                                            │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────────┐ │
+│  │ 물리 엔진     │  │ 렌더링 엔진  │  │ 교통 흐름 모델   │ │
+│  │ (충돌, 마찰)  │  │ (포토리얼)   │  │ (차량, 보행자)   │ │
+│  └──────────────┘  └──────────────┘  └──────────────────┘ │
+│                                                            │
+│  코너 케이스 자동 생성:                                     │
+│  ├─ 폭우 + 야간 + 공사 구간                                 │
+│  ├─ 역주행 오토바이                                         │
+│  ├─ 갑자기 뛰어드는 보행자                                  │
+│  └─ 신호등 오작동 + 안개                                    │
+└────────────────────────────┬───────────────────────────────┘
+                             │ 학습 데이터 (무한 생성)
+                             ▼
+┌────────────────────────────────────────────────────────────┐
+│              AI 모델 학습                                    │
+│  모방 학습(BC/DAgger) + 강화학습 + 데이터 증강               │
+└────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: DAgger는 피아노 교습과 같다. 처음에는 악보(BC)로만 연습하다가, 실수하는 부분(분포 이탈)이 생기면 선생님(전문가)이 직접 시범을 보여준다(레이블링). 반복할수록 모든 어려운 부분에 대한 정확한 지도가 쌓인다.
 
@@ -163,34 +167,35 @@ DAgger는 Ross et al. (2011)이 제안한 BC의 분포 이탈 문제 해결 [알
 
 시뮬레이터에서 학습한 모델이 실제 환경에서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 저하되는 현상이다.
 
+```
+도메인 갭 발생 원인 및 해결책
 
+원인:
+  ├─ 렌더링 품질 차이 (텍스처, 조명)
+  ├─ 물리 시뮬레이션 오차 (마찰, 공기 저항)
+  ├─ 센서 노이즈 모델 부정확
+  └─ 교통 참여자 행동 모델 단순화
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">도메인 갭 발생 원인 및 해결책</div>
-<div class="kb-diagram-note">원인:</div>
-<div class="kb-diagram-tree-item" style="--depth:1">렌더링 품질 차이 (텍스처, 조명)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">물리 시뮬레이션 오차 (마찰, 공기 저항)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">센서 노이즈 모델 부정확</div>
-<div class="kb-diagram-tree-item" style="--depth:1">교통 참여자 행동 모델 단순화</div>
-<div class="kb-diagram-note">해결책:</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 도메인 랜덤화 (Domain Randomization)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시뮬레이터 파라미터를 랜덤하게 변경</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(텍스처, 조명, 물체 위치, 센서 노이즈)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 모델이 다양한 환경에 일반화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 포토리얼리스틱 렌더링 (Photorealistic Rendering)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NVIDIA DRIVE Sim, CARLA 고품질 렌더링</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 시뮬-현실 시각적 차이 최소화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 도메인 적응 (Domain Adaptation)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실제 도메인 소량 데이터 + 시뮬 대용량 데이터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ Transfer Learning으로 갭 보정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 현실 데이터 증강 (Real Data Augmentation)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실제 이미지 + 합성 객체 삽입 (Cut-Paste)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 코너 케이스 현실적 합성</div></div>
-</div>
-</div>
-
-
+해결책:
+┌──────────────────────────────────────────────────────┐
+│  1. 도메인 랜덤화 (Domain Randomization)              │
+│     시뮬레이터 파라미터를 랜덤하게 변경               │
+│     (텍스처, 조명, 물체 위치, 센서 노이즈)            │
+│     → 모델이 다양한 환경에 일반화                     │
+│                                                      │
+│  2. 포토리얼리스틱 렌더링 (Photorealistic Rendering)  │
+│     NVIDIA DRIVE Sim, CARLA 고품질 렌더링             │
+│     → 시뮬-현실 시각적 차이 최소화                    │
+│                                                      │
+│  3. 도메인 적응 (Domain Adaptation)                  │
+│     실제 도메인 소량 데이터 + 시뮬 대용량 데이터      │
+│     → Transfer Learning으로 갭 보정                  │
+│                                                      │
+│  4. 현실 데이터 증강 (Real Data Augmentation)        │
+│     실제 이미지 + 합성 객체 삽입 (Cut-Paste)          │
+│     → 코너 케이스 현실적 합성                         │
+└──────────────────────────────────────────────────────┘
+```
 
 ### 3.2 주요 자율주행 시뮬레이터 비교
 
@@ -205,29 +210,29 @@ DAgger는 Ross et al. (2011)이 제안한 BC의 분포 이탈 문제 해결 [알
 
 ### 3.3 [합성 데이터](/knowledge-base/studynote/09_security/16_data_privacy/818_synthetic_data/) ([Synthetic Data](/knowledge-base/studynote/09_security/16_data_privacy/818_synthetic_data/)) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
+```
+합성 데이터 생성 파이프라인
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">합성 데이터 생성 파이프라인</div>
-<div class="kb-diagram-note">실제 사고 데이터 수집</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">디지털 트윈 재현 (사고 상황 정확 복제)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">파라미터 변형 (무한 변형 생성)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">날씨: 맑음/비/눈/안개 × 시간대 4 × 강도 5 = 80가지</div>
-<div class="kb-diagram-tree-item" style="--depth:1">도로: 건식/습식/동결 × 경사도 5 = 15가지</div>
-<div class="kb-diagram-tree-item" style="--depth:1">교통: 차량 밀도 5 × 속도 5 = 25가지</div>
-<div class="kb-diagram-tree-item" style="--depth:1">코너케이스: 보행자 행동 10 × 차량 행동 10 = 100가지</div>
-<div class="kb-diagram-note">총: 약 3,000+ 변형 시나리오 자동 생성</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">AI 모델 학습 및 검증</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">실제 데이터로 도메인 적응 Fine-tuning</div>
-</div>
-</div>
-
-
+실제 사고 데이터 수집
+    │
+    ▼
+디지털 트윈 재현 (사고 상황 정확 복제)
+    │
+    ▼
+파라미터 변형 (무한 변형 생성)
+  ├─ 날씨: 맑음/비/눈/안개 × 시간대 4 × 강도 5 = 80가지
+  ├─ 도로: 건식/습식/동결 × 경사도 5 = 15가지
+  ├─ 교통: 차량 밀도 5 × 속도 5 = 25가지
+  └─ 코너케이스: 보행자 행동 10 × 차량 행동 10 = 100가지
+  
+  총: 약 3,000+ 변형 시나리오 자동 생성
+    │
+    ▼
+AI 모델 학습 및 검증
+    │
+    ▼
+실제 데이터로 도메인 적응 Fine-tuning
+```
 
 📢 **섹션 요약 비유**: [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 랜덤화는 운전 연습을 다양한 날씨와 도로 조건에서 하는 것과 같다. 항상 맑은 날 고속도로만 연습하면 빗길 좁은 골목에서 당황하지만, 다양한 조건에서 연습하면 어떤 상황에서도 대응할 수 있다.
 
@@ -237,33 +242,33 @@ DAgger는 Ross et al. (2011)이 제안한 BC의 분포 이탈 문제 해결 [알
 
 ### 4.1 자율주행 학습 파이프라인 설계
 
+```
+자율주행 AI 개발 파이프라인
 
+1. 실제 데이터 수집
+   ├─ Fleet 차량 데이터 수집 (정상 주행)
+   └─ 사고/위험 상황 레이블링
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">자율주행 AI 개발 파이프라인</div>
-<div class="kb-diagram-note">1. 실제 데이터 수집</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Fleet 차량 데이터 수집 (정상 주행)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">사고/위험 상황 레이블링</div>
-<div class="kb-diagram-note">2. 시뮬레이터 구축</div>
-<div class="kb-diagram-tree-item" style="--depth:1">디지털 트윈 환경 구성</div>
-<div class="kb-diagram-tree-item" style="--depth:1">코너 케이스 시나리오 설계</div>
-<div class="kb-diagram-tree-item" style="--depth:1">전문가 데모 데이터 생성</div>
-<div class="kb-diagram-note">3. 모방 학습</div>
-<div class="kb-diagram-tree-item" style="--depth:1">BC로 기본 정책 학습</div>
-<div class="kb-diagram-tree-item" style="--depth:1">DAgger로 분포 이탈 보완</div>
-<div class="kb-diagram-tree-item" style="--depth:1">GAIL/IRL로 정제</div>
-<div class="kb-diagram-note">4. 강화학습 Fine-tuning</div>
-<div class="kb-diagram-tree-item" style="--depth:1">시뮬레이터에서 RL로 최적화</div>
-<div class="kb-diagram-note">5. 도메인 적응</div>
-<div class="kb-diagram-tree-item" style="--depth:1">실제 데이터로 Transfer Learning</div>
-<div class="kb-diagram-note">6. 안전 검증</div>
-<div class="kb-diagram-tree-item" style="--depth:1">시뮬레이터 10억 마일 가상 주행</div>
-<div class="kb-diagram-tree-item" style="--depth:1">폐쇄 구간 실도로 테스트</div>
-</div>
-</div>
+2. 시뮬레이터 구축
+   ├─ 디지털 트윈 환경 구성
+   ├─ 코너 케이스 시나리오 설계
+   └─ 전문가 데모 데이터 생성
 
+3. 모방 학습
+   ├─ BC로 기본 정책 학습
+   ├─ DAgger로 분포 이탈 보완
+   └─ GAIL/IRL로 정제
 
+4. 강화학습 Fine-tuning
+   └─ 시뮬레이터에서 RL로 최적화
+
+5. 도메인 적응
+   └─ 실제 데이터로 Transfer Learning
+
+6. 안전 검증
+   ├─ 시뮬레이터 10억 마일 가상 주행
+   └─ 폐쇄 구간 실도로 테스트
+```
 
 ### 4.2 코너 케이스 (Corner Case) 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
 
@@ -318,26 +323,23 @@ HiL(하드웨어 통합 테스트)
 
 ### 5.2 자율주행 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 미래 방향
 
+```
+자율주행 AI 기술 발전
 
+현재 (2024, SAE Level 2~3):
+  ├─ 모방 학습 + RL 조합
+  ├─ 단일 도시 지오펜싱 운영
+  └─ 원격 모니터링 의존
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">자율주행 AI 기술 발전</div>
-<div class="kb-diagram-note">현재 (2024, SAE Level 2~3):</div>
-<div class="kb-diagram-tree-item" style="--depth:1">모방 학습 + RL 조합</div>
-<div class="kb-diagram-tree-item" style="--depth:1">단일 도시 지오펜싱 운영</div>
-<div class="kb-diagram-tree-item" style="--depth:1">원격 모니터링 의존</div>
-<div class="kb-diagram-note">단기 (2025~2027, SAE Level 4):</div>
-<div class="kb-diagram-tree-item" style="--depth:1">멀티모달 대형 모델 (카메라 + LiDAR + 언어)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">세계 모델(World Model) 기반 예측</div>
-<div class="kb-diagram-tree-item" style="--depth:1">도심 전역 운영</div>
-<div class="kb-diagram-note">장기 (2030+, SAE Level 5):</div>
-<div class="kb-diagram-tree-item" style="--depth:1">완전 자율 (모든 조건, 지역 제한 없음)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">V2X + 인프라 연계 협력 주행</div>
-</div>
-</div>
+단기 (2025~2027, SAE Level 4):
+  ├─ 멀티모달 대형 모델 (카메라 + LiDAR + 언어)
+  ├─ 세계 모델(World Model) 기반 예측
+  └─ 도심 전역 운영
 
-
+장기 (2030+, SAE Level 5):
+  ├─ 완전 자율 (모든 조건, 지역 제한 없음)
+  └─ V2X + 인프라 연계 협력 주행
+```
 
 ### 5.3 결론 요약
 
@@ -367,26 +369,23 @@ HiL(하드웨어 통합 테스트)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">규칙 기반 제어 (if-then 로직)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">모방 학습 (Imitation Learning)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">행동 복제 (Behavior Cloning): 전문가 시연 → 지도 학습</div>
-<div class="kb-diagram-tree-item" style="--depth:2">DAgger: 분포 불일치 보정 (반복 레이블링)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">IRL (Inverse RL): 보상 함수 역추론</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">시뮬레이터 · 디지털 트윈</div>
-<div class="kb-diagram-tree-item" style="--depth:2">CARLA · LGSVL · NVIDIA Isaac</div>
-<div class="kb-diagram-tree-item" style="--depth:2">합성 데이터 생성: 도메인 랜덤화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Sim-to-Real Transfer → 실차 배포 · V2X 통신</div>
-</div>
-</div>
-
-
+```text
+규칙 기반 제어 (if-then 로직)
+    │
+    ▼
+모방 학습 (Imitation Learning)
+    ├─► 행동 복제 (Behavior Cloning): 전문가 시연 → 지도 학습
+    ├─► DAgger: 분포 불일치 보정 (반복 레이블링)
+    └─► IRL (Inverse RL): 보상 함수 역추론
+    │
+    ▼
+시뮬레이터 · 디지털 트윈
+    ├─► CARLA · LGSVL · NVIDIA Isaac
+    └─► 합성 데이터 생성: 도메인 랜덤화
+    │
+    ▼
+Sim-to-Real Transfer → 실차 배포 · V2X 통신
+```
 2. DAgger는 피아노 학원에서 틀린 부분만 선생님이 다시 시범 보여주는 것이에요. 연습하다가 막히는 부분(분포 이탈)에 딱 맞는 가르침(전문가 레이블)이 쌓여요.
 3. [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 시뮬레이터는 자동차 게임 같아요. 게임에서는 충돌해도 다시 살아나기 때문에, 현실에서 절대 못 해볼 위험한 상황(역주행 차, 폭설)을 안전하게 연습할 수 있어요.
 

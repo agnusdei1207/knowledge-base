@@ -33,30 +33,37 @@ tags = ["studynote-operating-system"]
 - <strong>미리 읽기 파포인트 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/">캐싱</a> 예측 레이더와 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 방어선 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> 메커니즘 뷰</strong>:
 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 시간차 공격을 어떻게 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시에 투여하여 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) I/O 폭망을 방어하는지 그 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 구조도를 까보면 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"시간을 가불해 시공간을 초월하는 속도 랙 박살 캐시 무비 스왑!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1️⃣</div><div class="kb-diagram-node">미리 읽기 (Read-ahead 공격 부스트 형 예지 타격 렌더)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">앱(App 유저)</div><div class="kb-diagram-connector">→</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">[</div><div class="kb-diagram-node">OS 커널 레이더망 예지력 발동 판단 공간 지역성 빔</div><div class="kb-diagram-note">]</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 커널: "어? 너 이 자식 8번, 9번 읽더니 10번 찾네? (연속 패턴 감지 확정 록!)"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 커널: "모터야! 10번만 가져오지 말고 내친김에 11~20번 블록 다 훔쳐 카피와!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다 RAM 옥상 풀장 (Page Cache) 에 쫙 깔아버려 광개토 부스트!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과 앱: 1초 뒤 "11번 주라" -&gt; 0.00ms 커널이 캐시에서 즉각 $O(1)$ 꽂아버림 압도!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2️⃣</div><div class="kb-diagram-node">지연 쓰기 (Delayed Write 영혼의 방어 쉴드 몰아치기 록백 뷰)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">앱(App 유저)</div><div class="kb-diagram-connector">→</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">[</div><div class="kb-diagram-node">OS 커널 구라 사기꾼 (RAM 옥상 임시 접수 더티 페이지 데들락 방어)</div><div class="kb-diagram-note">]</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- 메모리 페이지 캐시 웅덩이: "알았어!(거짓말)</div><div class="kb-diagram-node">1번 페이지를 수정(Dirty) 표시</div><div class="kb-diagram-note">"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 앱에게 즉시 Return OK 리턴! CPU 병목 랙 전혀 안 걸림 극한의 이득 컷!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 실제 하드디스크 모터 말하기: "나 지금 돌지도 않고 다 쌩깠는데염?"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">30초 뒤 백그라운드 Pdflush(플러셔) 요정 출동 동기화 뭉침 렌더</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 봇: "야 옥상에 더러워진(Dirty) 애들 1번~10번 뭉쳐서 디스크 바닥에 함 쏘고 와"</div></div>
-</div>
-</div>
-
-
+```text
+  ┌──────────────────────────────────────────────────────────────────────────────────────┐
+  │                 "시간을 가불해 시공간을 초월하는 속도 랙 박살 캐시 무비 스왑!"       │
+  ├──────────────────────────────────────────────────────────────────────────────────────┤
+  │                                                                                      │
+  │  1️⃣ [ 미리 읽기 (Read-ahead 공격 부스트 형 예지 타격 렌더) ]                        │
+  │                                                                                      │
+  │     [ 앱(App 유저) ]  ---- "파일 10번 페이지 읽어줘 스왑 콜!" --->                   │
+  │                                                                                      │
+  │     [[ OS 커널 레이더망 예지력 발동 판단 공간 지역성 빔 ]]                           │
+  │      - 커널: "어? 너 이 자식 8번, 9번 읽더니 10번 찾네? (연속 패턴 감지 확정 록!)"   │
+  │      - 커널: "모터야! 10번만 가져오지 말고 내친김에 11~20번 블록 다 훔쳐 카피와!     │
+  │             다 RAM 옥상 풀장 (Page Cache) 에 쫙 깔아버려 광개토 부스트!"             │
+  │                                                                                      │
+  │   => 결과 앱: 1초 뒤 "11번 주라" -> 0.00ms 커널이 캐시에서 즉각 $O(1)$ 꽂아버림 압도!│
+  │                                                                                      │
+  │  =========================▼===================================                       │
+  │                                                                                      │
+  │  2️⃣ [ 지연 쓰기 (Delayed Write 영혼의 방어 쉴드 몰아치기 록백 뷰) ]                 │
+  │                                                                                      │
+  │     [ 앱(App 유저) ]  ---- "1번 페이지 수정! 빨리 구워라 빔!(write 콜)" --->         │
+  │                                                                                      │
+  │     [[ OS 커널 구라 사기꾼 (RAM 옥상 임시 접수 더티 페이지 데들락 방어) ]]           │
+  │      - 메모리 페이지 캐시 웅덩이: "알았어!(거짓말) [1번 페이지를 수정(Dirty) 표시]"  │
+  │      - 앱에게 즉시 Return OK 리턴! CPU 병목 랙 전혀 안 걸림 극한의 이득 컷!          │
+  │      - 실제 하드디스크 모터 말하기: "나 지금 돌지도 않고 다 쌩깠는데염?"                 │
+  │                                                                                      │
+  │     [ 30초 뒤 백그라운드 Pdflush(플러셔) 요정 출동 동기화 뭉침 렌더 ]                │
+  │      - 봇: "야 옥상에 더러워진(Dirty) 애들 1번~10번 뭉쳐서 디스크 바닥에 함 쏘고 와" │
+  └──────────────────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 상단 1️⃣ `Read-ahead` 메커니즘은 유저 앱이 영화(1GB짜리 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 스트리밍)를 볼 때 극한의 연속성 스루풋 캐시 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)([Hit Ratio](/knowledge-base/studynote/02_operating_system/06_memory_management/359_effective_access_time/) [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/)!)을 100%로 수렴하게 만드는 치트 무기다. 하드디스크가 한 번 회전할 때 트랙에 깔린 인접 블록 수십 개를 그냥 RAM으로 쓸어 올려오는 거시적 프리패치 다이브다. 
 하단 2️⃣ `Delayed-write` 메커니즘은 앱의 `write()` 시스템 콜 대기 레이턴시(Wait 시간)를 사실상 0으로 만들어버리는 버퍼 쉴드 장벽 뼈대다. 하지만 수정된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 실제 디스크에 착지하지 못하고 휘발성 메모리(RAM)에 머무는 "Dirty [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 체공 시간 불안정 늪" 이 생성되므로, 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 플러셔(pdflush 등) 봇 데몬 스레드가 5초 주기로 돌아다니면서 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)를 넘긴 더러운 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)들을 한방울의 디스크 모터 동력으로 병합 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)(Sync 빔!) 해주는 최후 방파제로 극강의 클러스터 조율 스왑을 실현한다 증명 록백.
@@ -140,19 +147,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">버퍼 캐시 (Buffer Cache) / 페이지 캐시 (Page Cache) 통합 아키텍처</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">미리 읽기 (Read-ahead) 및 지연 쓰기 (Delayed-write / Write-behind)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">동기화 I/O (O_SYNC / fsync)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">저널링 파일 시스템 (Journaling File System)</div></div>
-</div>
-</div>
-
-
+```text
+[버퍼 캐시 (Buffer Cache) / 페이지 캐시 (Page Cache) 통합 아키텍처]
+    │
+    ▼
+[미리 읽기 (Read-ahead) 및 지연 쓰기 (Delayed-write / Write-behind)]
+    │
+    ├──▶ [동기화 I/O (O_SYNC / fsync)]
+    └──▶ [저널링 파일 시스템 (Journaling File System)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

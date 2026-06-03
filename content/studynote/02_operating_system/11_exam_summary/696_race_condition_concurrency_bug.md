@@ -46,21 +46,19 @@ tags = ["studynote-operating-system"]
 
 왜 `count++` 하나 못해서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 깨질까? 프로그래머의 눈과 CPU의 눈이 다르기 때문이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">count++ 연산의 하드웨어 어셈블리 3단계 분할</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">C언어 코드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">count++; (개발자: "이건 1줄이니까 한 번에 실행되겠지?")</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CPU 어셈블리 기계어</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1. LOAD R1,</div><div class="kb-diagram-node">count</div><div class="kb-diagram-note">// 메모리에 있는 count 값을 레지스터 R1으로 가져옴</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. ADD R1, 1 // CPU 내부에서 R1 값에 1을 더함</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3. STORE R1,</div><div class="kb-diagram-node">count</div><div class="kb-diagram-note">// 더해진 R1 값을 다시 메모리 count에 덮어씀</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 count++ 연산의 하드웨어 어셈블리 3단계 분할            │
+  ├───────────────────────────────────────────────────────────────────┤
+  │  [C언어 코드]                                                      │
+  │   count++;    (개발자: "이건 1줄이니까 한 번에 실행되겠지?")             │
+  │                                                                   │
+  │  [CPU 어셈블리 기계어]                                               │
+  │   1. LOAD  R1, [count]  // 메모리에 있는 count 값을 레지스터 R1으로 가져옴│
+  │   2. ADD   R1, 1        // CPU 내부에서 R1 값에 1을 더함             │
+  │   3. STORE R1, [count]  // 더해진 R1 값을 다시 메모리 count에 덮어씀   │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **이 3단계는 한 묶음(Atomic)이 아니다.** 1번을 끝내고 2번으로 넘어가려는 찰나에, 타이머 인터럽트가 터져서 OS가 CPU를 뺏어갈 수 있다! 이것이 [경쟁 조건](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/)의 핵심이다.
 
@@ -70,27 +68,30 @@ tags = ["studynote-operating-system"]
 
 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A와 B가 동시에 `count++`를 실행하는 시나리오다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) `count = 10`. 정상이라면 12가 되어야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문맥 교환(Context Switch)의 절묘한 타이밍에 의한 파괴</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Thread A</div><div class="kb-diagram-node">Thread B</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1. LOAD R1,</div><div class="kb-diagram-node">count</div><div class="kb-diagram-note">(R1=10)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. ADD R1, 1 (R1=11)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">========= ⚡ (Context Switch! A 멈춤, B 시작) ⚡ ================</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3. LOAD R2,</div><div class="kb-diagram-node">count</div><div class="kb-diagram-note">(R2=10)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">★ B는 A가 아직 STORE를 안 해서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">옛날 값(10)을 읽어버림!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. ADD R2, 1 (R2=11)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">5. STORE R2,</div><div class="kb-diagram-node">count</div><div class="kb-diagram-note">(메모리=11)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">========= ⚡ (Context Switch! B 멈춤, A 재개) ⚡ ================</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">6. STORE R1,</div><div class="kb-diagram-node">count</div><div class="kb-diagram-note">(메모리=11)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">★ 최종 결과: count는 12가 아니라 11이 됨! (B가 더한 값이 A에 의해 덮어씌워져 날아감)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 문맥 교환(Context Switch)의 절묘한 타이밍에 의한 파괴    │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [ Thread A ]                           [ Thread B ]             │
+  │                                                                   │
+  │  1. LOAD R1, [count]  (R1=10)                                     │
+  │  2. ADD R1, 1         (R1=11)                                     │
+  │  ========= ⚡ (Context Switch! A 멈춤, B 시작) ⚡ ================│
+  │                                                                   │
+  │                                     3. LOAD R2, [count] (R2=10)   │
+  │                                        ★ B는 A가 아직 STORE를 안 해서 │
+  │                                        옛날 값(10)을 읽어버림!        │
+  │                                                                   │
+  │                                     4. ADD R2, 1        (R2=11)   │
+  │                                     5. STORE R2, [count] (메모리=11)│
+  │  ========= ⚡ (Context Switch! B 멈춤, A 재개) ⚡ ================│
+  │                                                                   │
+  │  6. STORE R1, [count] (메모리=11)                                   │
+  │                                                                   │
+  │  ★ 최종 결과: count는 12가 아니라 11이 됨! (B가 더한 값이 A에 의해 덮어씌워져 날아감)│
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이것을 <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/203_lost_update_concurrency_problem/">갱신 손실</a>(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/203_lost_update_concurrency_problem/">Lost Update</a>)</strong> 현상이라고 부른다. [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) B가 열심히 1을 더해서 11을 만들어 놨는데, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A가 깨어나서 "어? 내 수첩([레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/))에 11이라고 적혀 있네?" 하고 아무 생각 없이 11을 덮어써 버린 것이다. [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)들은 각자의 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)만 볼 뿐, 남이 메모리를 어떻게 바꿨는지는 알 길이 없기 때문에 발생하는 참사다.
 
@@ -135,26 +136,29 @@ tags = ["studynote-operating-system"]
 
 ### 의사결정 및 튜닝 플로우
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Race Condition (경쟁 조건) 회피 및 동기화 설계 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">멀티스레드 코드 리뷰: 전역 변수나 공유 컬렉션에 접근하는 로직 발견</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공유 데이터가 단순히 읽기(Read-only) 전용으로만 쓰이는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">아무 조치 불필요 (동기화 락 걸지 마라!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(데이터가 변하지 않으므로 레이스 컨디션 발생 확률 0%)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 (누군가는 반드시 데이터를 쓴다/수정한다)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단순한 카운트 증가/감소, 혹은 플래그(Boolean) 변경 작업인가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">하드웨어 Atomic 연산 (CAS) 클래스 사용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Java의 <code>AtomicInteger</code>, C++ <code>std::atomic</code>)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 락(Lock) 없이 하드웨어 명령어로 100% 방어!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ──▶ 여러 줄의 코드가 반드시 한 번에 실행되어야 하는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Mutex, ReentrantLock, synchronized 적용</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 Race Condition (경쟁 조건) 회피 및 동기화 설계 플로우        │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [멀티스레드 코드 리뷰: 전역 변수나 공유 컬렉션에 접근하는 로직 발견]             │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      공유 데이터가 단순히 읽기(Read-only) 전용으로만 쓰이는가?               │
+  │          ├─ 예 ─────▶ [아무 조치 불필요 (동기화 락 걸지 마라!)]          │
+  │          │            (데이터가 변하지 않으므로 레이스 컨디션 발생 확률 0%)  │
+  │          └─ 아니오 (누군가는 반드시 데이터를 쓴다/수정한다)                 │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      단순한 카운트 증가/감소, 혹은 플래그(Boolean) 변경 작업인가?            │
+  │          ├─ 예 ─────▶ [하드웨어 Atomic 연산 (CAS) 클래스 사용]         │
+  │          │            (Java의 `AtomicInteger`, C++ `std::atomic`) │
+  │          │            - 락(Lock) 없이 하드웨어 명령어로 100% 방어!       │
+  │          │                                                        │
+  │          └─ 아니오 ──▶ 여러 줄의 코드가 반드시 한 번에 실행되어야 하는가?    │
+  │                         [Mutex, ReentrantLock, synchronized 적용]  │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** "Race Condition이 무서우니 일단 `Lock`부터 걸고 보자"는 최악의 설계다. 완벽한 아키텍처는 변수를 '불변([Immutable](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/298_immutable/)) 객체'로 만들어 아예 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Write)를 막아버리거나, 하드웨어 단의 원자적 연산을 써서 소프트웨어 락의 병목을 회피하는 것이다.
 
@@ -197,19 +201,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">스레드 동기화 상호 배제</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">경쟁 조건 (Race Condition)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">임계 구역 3가지 요구조건</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Test-and-Set 연산 하드웨어</div></div>
-</div>
-</div>
-
-
+```text
+[스레드 동기화 상호 배제]
+    │
+    ▼
+[경쟁 조건 (Race Condition)]
+    │
+    ├──▶ [임계 구역 3가지 요구조건]
+    └──▶ [Test-and-Set 연산 하드웨어]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

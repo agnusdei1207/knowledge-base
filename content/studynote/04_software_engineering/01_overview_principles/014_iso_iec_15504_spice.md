@@ -29,22 +29,19 @@ tags = ["software_engineering"]
 
 아래 다이어그램은 SPICE가 왜 필요해졌는지, 심사의 목적 두 가지를 보여준다.
 
+```text
+[SPICE(ISO 15504)의 두 가지 활용 목적]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SPICE(ISO 15504)의 두 가지 활용 목적</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">평가/심사 기준</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">발주 조직</div><div class="kb-diagram-cell">&lt; (공급자 역량 파악) &gt;</div><div class="kb-diagram-cell">개발 조직</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Acquirer)</div><div class="kb-diagram-cell">목적 1: 능력 결정 (Capability)</div><div class="kb-diagram-cell">(Supplier)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하청업체가 엉망진창</div><div class="kb-diagram-cell">우리 회사의</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코드를 짤까 봐 불안함</div><div class="kb-diagram-cell">개발 속도가 왜 느리지?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">외주 계약 전 필터링</div><div class="kb-diagram-node">내부 프로세스 진단 및 개선</div></div>
-<div class="kb-diagram-note">(A-SPICE 레벨2 요구) 목적 2: 지속적 개선 (Improvement)</div>
-</div>
-</div>
-
-
+┌────────────┐               [평가/심사 기준]               ┌────────────┐
+│  발주 조직 │   <───── (공급자 역량 파악) ─────>  │  개발 조직 │
+│ (Acquirer) │       목적 1: 능력 결정 (Capability) │ (Supplier) │
+└─────┬──────┘                                        └──────┬─────┘
+      │ 하청업체가 엉망진창                                  │ 우리 회사의
+      │ 코드를 짤까 봐 불안함                                │ 개발 속도가 왜 느리지?
+      ▼                                                     ▼
+ [외주 계약 전 필터링]                                  [내부 프로세스 진단 및 개선]
+ (A-SPICE 레벨2 요구)                                목적 2: 지속적 개선 (Improvement)
+```
 
 이 흐름의 핵심은 SPICE가 단순히 '자랑용 자격증'이 아니라는 점이다. 공급자(개발사) 입장에서는 내부의 비효율과 병목을 찾아내는 메타인지의 도구이며, 발주자(자동차/항공기 제조사 등) 입장에서는 자사의 제품에 들어갈 소프트웨어 부품이 사람을 죽이지 않을 만큼 안전한 공정에서 만들어졌는지를 보증받는 생명선이다. 실무에서 특히 유럽 자동차 벤더(OEM)들은 하청업체에 A-[SPICE](/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/) 인증을 강제하고 있다.
 
@@ -72,25 +69,22 @@ tags = ["software_engineering"]
 
 이러한 2차원 구조는 아래와 같은 매트릭스로 시각화되어 심사에 사용된다.
 
+```text
+[ISO/IEC 15504 2차원 심사 모델 아키텍처]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">ISO/IEC 15504 2차원 심사 모델 아키텍처</div></div>
-<div class="kb-diagram-note">능력 차원 (How well) - 0~5 레벨</div>
-<div class="kb-diagram-note">L0 L1 L2 L3 L4 L5</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">프 형상관리</div><div class="kb-diagram-note">│ 완료 │ 완료 │ │ │ │ =&gt; 레벨 2</div></div>
-<div class="kb-diagram-note">[로</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">세 요구분석</div><div class="kb-diagram-note">│ 완료 │ 완료 │ 완료 │ │ │ =&gt; 레벨 3</div></div>
-<div class="kb-diagram-note">[스</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">차 코딩</div><div class="kb-diagram-note">│ 완료 │ │ │ │ │ =&gt; 레벨 1</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">원 테스트</div><div class="kb-diagram-note">│ 완료 │ 완료 │ │ │ │ =&gt; 레벨 2</div></div>
-<div class="kb-diagram-note">(What to do)</div>
-<div class="kb-diagram-note">(ISO 12207) 결과: 각 프로세스마다 독립적인 능력 레벨(Profile) 산출 가능</div>
-</div>
-</div>
-
-
+                        능력 차원 (How well) - 0~5 레벨
+                 L0       L1       L2       L3       L4       L5
+              ┌────────┬────────┬────────┬────────┬────────┬────────┐
+[프 형상관리] │        │  완료  │  완료  │        │        │        │ => 레벨 2
+[로          ├────────┼────────┼────────┼────────┼────────┼────────┤
+[세 요구분석] │        │  완료  │  완료  │  완료  │        │        │ => 레벨 3
+[스          ├────────┼────────┼────────┼────────┼────────┼────────┤
+[차 코딩    ] │        │  완료  │        │        │        │        │ => 레벨 1
+[원 테스트  ] │        │  완료  │  완료  │        │        │        │ => 레벨 2
+              └────────┴────────┴────────┴────────┴────────┴────────┘
+  (What to do) 
+  (ISO 12207)   결과: 각 프로세스마다 독립적인 능력 레벨(Profile) 산출 가능
+```
 
 이 매트릭스의 핵심은 <strong>프로세스별로 성숙도가 다를 수 있다는 현실을 반영</strong>했다는 점이다. 어떤 회사는 '요구 분석'은 기가 막히게 잘해서 레벨 3이지만, '코딩' 절차는 개발자 개인기라 레벨 1일 수 있다. SPICE는 조직 전체에 하나의 레벨을 퉁쳐서 부여하는 대신, 이렇게 각 프로세스별 능력 프로파일(Capability Profile)을 그려준다. 이를 통해 조직은 "우리가 형상 관리는 잘하는데 코딩 프로세스 관리가 약하구나"를 핀포인트로 식별하고 예산을 집중 투자할 수 있다. 
 
@@ -113,20 +107,15 @@ tags = ["software_engineering"]
 
 아래는 심사 체계의 접근 차이를 보여주는 비교 도식이다.
 
+```text
+[SPICE 심사 체계]
+ (12207 참조 모델) + (15504 평가 모델) ===> [ 자동차 분야의 Automotive SPICE 탄생! ]
+    (블록 교체 가능)     (고정된 척도)         아키텍처가 유연하여 타 도메인 이식에 최적
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SPICE 심사 체계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">===&gt;</div><div class="kb-diagram-node">자동차 분야의 Automotive SPICE 탄생!</div></div>
-<div class="kb-diagram-note">(블록 교체 가능) (고정된 척도) 아키텍처가 유연하여 타 도메인 이식에 최적</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CMMI 심사 체계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CMMI-DEV 모델 (목표+프랙티스 한 덩어리)</div><div class="kb-diagram-connector">===&gt;</div><div class="kb-diagram-note">"우리 회사는 CMMI 레벨 3 기업입니다!"</div></div>
-<div class="kb-diagram-note">(블록 교체 어려움) 평가 자체가 조직 전체의 등급화에 최적</div>
-</div>
-</div>
-
-
+[CMMI 심사 체계]
+ [ CMMI-DEV 모델 (목표+프랙티스 한 덩어리) ] ===> "우리 회사는 CMMI 레벨 3 기업입니다!"
+    (블록 교체 어려움)                         평가 자체가 조직 전체의 등급화에 최적
+```
 
 이 도식의 핵심은 SPICE의 <strong>플러그인(Plug-in) 구조</strong>가 가진 강력한 확장성이다. SPICE는 2차원 아키텍처 덕분에 세로축(능력 레벨 0~5) 평가 방식은 그대로 둔 채, 가로축(프로세스 목록)만 자동차 산업에 맞는 모델로 쏙 갈아끼우면 A-SPICE가 되고, 의료기기 모델로 끼우면 Medi SPICE가 된다. 반면 CMMI는 프로세스와 평가 목표가 하나로 강결합되어 있어 이러한 확장이 무겁다. 이 때문에 현대의 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 특화 품질 인증은 대부분 SPICE를 모태로 파생되고 있다.
 
@@ -145,19 +134,20 @@ tags = ["software_engineering"]
 
 #### 2. [SPICE](/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/) 기반 V-모델 매핑 (A-[SPICE](/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/) HIS [SCOPE](/knowledge-base/studynote/09_security/05_web_app_security/512_oauth_scope/) 예시)
 
+```text
+[A-SPICE V-모델 매핑도 (추적성 평가의 핵심)]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">A-SPICE V-모델 매핑도 (추적성 평가의 핵심)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시스템 요구분석</div><div class="kb-diagram-connector">========&gt;</div><div class="kb-diagram-node">시스템 적격성 테스팅</div><div class="kb-diagram-note">(SYS.5)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SW 요구분석</div><div class="kb-diagram-connector">========&gt;</div><div class="kb-diagram-node">SW 적격성 테스팅</div><div class="kb-diagram-note">(SWE.6)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SW 아키텍처 설계</div><div class="kb-diagram-connector">========&gt;</div><div class="kb-diagram-node">SW 통합 테스팅</div><div class="kb-diagram-note">(SWE.5)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SW 상세설계 및 단위</div><div class="kb-diagram-connector">========&gt;</div><div class="kb-diagram-node">SW 단위 테스팅</div><div class="kb-diagram-note">(SWE.4)</div></div>
-</div>
-</div>
-
-
+[시스템 요구분석] (SYS.2)  <========양방향 추적========> [시스템 적격성 테스팅] (SYS.5)
+       │                                                      ▲
+       ▼                                                      │
+[SW 요구분석] (SWE.1)      <========양방향 추적========> [SW 적격성 테스팅] (SWE.6)
+       │                                                      ▲
+       ▼                                                      │
+[SW 아키텍처 설계] (SWE.2) <========양방향 추적========> [SW 통합 테스팅] (SWE.5)
+       │                                                      ▲
+       ▼                                                      │
+[SW 상세설계 및 단위] (SWE.3)<======양방향 추적========> [SW 단위 테스팅] (SWE.4)
+```
 
 이 그림의 핵심은 실무 심사에서 가장 중요하게 보는 <strong>V-모델 좌우의 '<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a>'과 '추적성'</strong>이다. [SPICE](/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/) 심사(레벨 2 이상)를 통과하려면 개발 산출물이 우연히 나온 것이 아니라, 철저하게 상위 명세에 기반하여 설계되고, 그 명세를 정확히 검증하는 테스트가 1:1로 물려 있어야 한다. 실무 아키텍트는 이를 위해 Jira나 DOORS 같은 [ALM](/knowledge-base/studynote/04_software_engineering/06_software_architecture/390_application_lifecycle_management/)([Application Lifecycle Management](/knowledge-base/studynote/04_software_engineering/06_software_architecture/390_application_lifecycle_management/)) 도구를 활용하여 이슈 간의 링크 체인을 강제하는 파이프라인을 구축해야 한다.
 
@@ -193,23 +183,21 @@ tags = ["software_engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">소프트웨어 개발 프로세스 — 체계 없는 임시방편 관행의 품질 한계</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ISO/IEC 15504 SPICE — 프로세스 능력 수준 1~5단계 평가 체계</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CMMI (Capability Maturity Model Integration) — 조직 전반 프로세스 성숙도</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ISO/IEC 33000 시리즈 — SPICE 기반 최신 프로세스 평가 국제표준</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">자동화 프로세스 심사 (AI-assisted Assessment) — 측정 데이터 기반 연속 개선</div></div>
-</div>
-</div>
-
-
+```text
+[소프트웨어 개발 프로세스 — 체계 없는 임시방편 관행의 품질 한계]
+    │
+    ▼
+[ISO/IEC 15504 SPICE — 프로세스 능력 수준 1~5단계 평가 체계]
+    │
+    ▼
+[CMMI (Capability Maturity Model Integration) — 조직 전반 프로세스 성숙도]
+    │
+    ▼
+[ISO/IEC 33000 시리즈 — SPICE 기반 최신 프로세스 평가 국제표준]
+    │
+    ▼
+[자동화 프로세스 심사 (AI-assisted Assessment) — 측정 데이터 기반 연속 개선]
+```
 
 이 흐름은 비체계적 개발 관행에서 SPICE의 정량적 능력 수준 평가로 진화하고, [CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/)·ISO 33000으로 국제 표준화되며 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 연속 측정까지 발전하는 소프트웨어 프로세스 성숙도 개선의 계보를 보여준다.
 

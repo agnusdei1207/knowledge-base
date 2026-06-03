@@ -47,28 +47,27 @@ tags = ["studynote-security"]
 
 ## II. 잔여 위험 계산
 
+```
+위험 = 위협 × 취약성 × 자산 가치
 
+내재 위험 (Inherent Risk):
+  통제 없이 존재하는 원초적 위험
+  
+잔여 위험 (Residual Risk):
+  잔여 위험 = 내재 위험 × (1 - 통제 효과성)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">위험 = 위협 × 취약성 × 자산 가치</div>
-<div class="kb-diagram-note">내재 위험 (Inherent Risk):</div>
-<div class="kb-diagram-note">통제 없이 존재하는 원초적 위험</div>
-<div class="kb-diagram-note">잔여 위험 (Residual Risk):</div>
-<div class="kb-diagram-note">잔여 위험 = 내재 위험 × (1 - 통제 효과성)</div>
-<div class="kb-diagram-note">예시:</div>
-<div class="kb-diagram-note">내재 위험 점수: 100</div>
-<div class="kb-diagram-note">방화벽 + IDS 적용 (통제 효과성: 70%)</div>
-<div class="kb-diagram-note">잔여 위험 = 100 × (1 - 0.70) = 30</div>
-<div class="kb-diagram-note">위험 허용 한도 (Risk Appetite/Tolerance):</div>
-<div class="kb-diagram-note">수용 가능한 잔여 위험 수준</div>
-<div class="kb-diagram-note">경영진이 사전에 정의</div>
-<div class="kb-diagram-note">위험 허용 한도 &gt; 잔여 위험 -&gt; 수용 가능</div>
-<div class="kb-diagram-note">위험 허용 한도 &lt; 잔여 위험 -&gt; 추가 통제 필요</div>
-</div>
-</div>
+예시:
+  내재 위험 점수: 100
+  방화벽 + IDS 적용 (통제 효과성: 70%)
+  잔여 위험 = 100 × (1 - 0.70) = 30
 
-
+위험 허용 한도 (Risk Appetite/Tolerance):
+  수용 가능한 잔여 위험 수준
+  경영진이 사전에 정의
+  
+  위험 허용 한도 > 잔여 위험 -> 수용 가능
+  위험 허용 한도 < 잔여 위험 -> 추가 통제 필요
+```
 
 > 📢 **섹션 요약 비유**: 차보험은 운전 실력(통제)으로 사고 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 70% 감소 후 나머지 30% 위험에 대한 전가(보험) — 잔여 위험 관리의 현실.
 
@@ -109,29 +108,29 @@ ISMS-P에서:
 
 ## [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). 보안 통제의 효과성 한계
 
+```
+통제 효과성이 100%가 될 수 없는 이유:
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">통제 효과성이 100%가 될 수 없는 이유:</div>
-<div class="kb-diagram-note">1. 제로데이 취약점:</div>
-<div class="kb-diagram-note">알려지지 않은 취약점 -&gt; 통제 불가</div>
-<div class="kb-diagram-note">2. 내부자 위협:</div>
-<div class="kb-diagram-note">신뢰받은 내부자의 악의적 행동</div>
-<div class="kb-diagram-note">기술적 통제 우회 가능</div>
-<div class="kb-diagram-note">3. 사회공학(Social Engineering):</div>
-<div class="kb-diagram-note">피싱, 스피어피싱 -&gt; 사람이 약점</div>
-<div class="kb-diagram-note">4. 공급망 위험:</div>
-<div class="kb-diagram-note">서드파티 소프트웨어/라이브러리</div>
-<div class="kb-diagram-note">(SolarWinds, Log4j 사례)</div>
-<div class="kb-diagram-note">5. 설정 오류:</div>
-<div class="kb-diagram-note">클라우드 S3 퍼블릭 설정 실수 등</div>
-<div class="kb-diagram-tree-item" style="--depth:0">따라서 잔여 위험은 항상 존재</div>
-<div class="kb-diagram-tree-item" style="--depth:0">심층 방어(Defense in Depth) 전략으로 최소화</div>
-</div>
-</div>
-
-
+1. 제로데이 취약점:
+   알려지지 않은 취약점 -> 통제 불가
+   
+2. 내부자 위협:
+   신뢰받은 내부자의 악의적 행동
+   기술적 통제 우회 가능
+   
+3. 사회공학(Social Engineering):
+   피싱, 스피어피싱 -> 사람이 약점
+   
+4. 공급망 위험:
+   서드파티 소프트웨어/라이브러리
+   (SolarWinds, Log4j 사례)
+   
+5. 설정 오류:
+   클라우드 S3 퍼블릭 설정 실수 등
+   
+-> 따라서 잔여 위험은 항상 존재
+-> 심층 방어(Defense in Depth) 전략으로 최소화
+```
 
 > 📢 **섹션 요약 비유**: 아무리 잘 잠근 집도 내부에서 문 열어주는 사람(내부자)이나 모르는 열쇠([제로데이](/knowledge-base/studynote/09_security/15_malware_attack_vectors/761_zero_day/)) 앞에선 취약 — 통제는 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 줄일 뿐.
 
@@ -139,34 +138,31 @@ ISMS-P에서:
 
 ## V. 실무 시나리오 — 금융기관 패치 잔여 위험
 
+```
+상황:
+  금융기관 코어뱅킹 서버에 취약점 발견
+  CVE-2025-XXXX: CVSS 9.8 (Critical)
 
+완화 통제:
+  패치 적용: 즉시 불가 (3개월 테스트 필요)
+  -> 현재 적용 통제:
+     WAF 차단 규칙 추가 (효과 85%)
+     네트워크 분리 강화 (추가 효과 8%)
+  총 통제 효과성: 93%
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">상황:</div>
-<div class="kb-diagram-note">금융기관 코어뱅킹 서버에 취약점 발견</div>
-<div class="kb-diagram-note">CVE-2025-XXXX: CVSS 9.8 (Critical)</div>
-<div class="kb-diagram-note">완화 통제:</div>
-<div class="kb-diagram-note">패치 적용: 즉시 불가 (3개월 테스트 필요)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">현재 적용 통제:</div>
-<div class="kb-diagram-note">WAF 차단 규칙 추가 (효과 85%)</div>
-<div class="kb-diagram-note">네트워크 분리 강화 (추가 효과 8%)</div>
-<div class="kb-diagram-note">총 통제 효과성: 93%</div>
-<div class="kb-diagram-note">잔여 위험 계산:</div>
-<div class="kb-diagram-note">내재 위험: 95점</div>
-<div class="kb-diagram-note">잔여 위험: 95 × (1 - 0.93) = 6.65점</div>
-<div class="kb-diagram-note">허용 한도: 10점</div>
-<div class="kb-diagram-tree-item" style="--depth:1">허용 한도 내 -&gt; 수용 결정</div>
-<div class="kb-diagram-note">Risk Acceptance Form:</div>
-<div class="kb-diagram-note">위험: CVE-2025-XXXX</div>
-<div class="kb-diagram-note">잔여 위험: 6.65 / 10점 척도</div>
-<div class="kb-diagram-note">수용 이유: 패치 테스트 기간 불가피</div>
-<div class="kb-diagram-note">만료일: 3개월 후 패치 완료 시</div>
-<div class="kb-diagram-note">서명: CISO, IT 운영 팀장</div>
-</div>
-</div>
+잔여 위험 계산:
+  내재 위험: 95점
+  잔여 위험: 95 × (1 - 0.93) = 6.65점
+  허용 한도: 10점
+  -> 허용 한도 내 -> 수용 결정
 
-
+Risk Acceptance Form:
+  위험: CVE-2025-XXXX
+  잔여 위험: 6.65 / 10점 척도
+  수용 이유: 패치 테스트 기간 불가피
+  만료일: 3개월 후 패치 완료 시
+  서명: CISO, IT 운영 팀장
+```
 
 > 📢 **섹션 요약 비유**: 지금 당장 수술 못하니 약([WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/))으로 증상 관리하면서 3개월 후 수술(패치) 예약 — 잔여 위험을 알고 관리하는 것.
 

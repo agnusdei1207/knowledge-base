@@ -36,33 +36,39 @@ tags = ["studynote-bigdata"]
 
 ### [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 3계층 아키텍처
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메타데이터 3계층 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 비즈니스 메타데이터 (Business Metadata)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 비즈니스 용어 정의 (예: "활성 고객" = 최근 30일 로그인)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 데이터 소유자 정보 (Owner: CMO)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 사용 정책 (누가 어떤 목적으로 사용 가능)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 데이터 분류 (기밀/내부/공개)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• PII 플래그 (이 컬럼은 개인식별정보)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 기술 메타데이터 (Technical Metadata)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 스키마: 테이블명, 컬럼명, 데이터 타입</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 파티셔닝: 파티션 키, 파티션 수</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 인덱스: 인덱스 컬럼, 인덱스 유형</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 외래키: 참조 관계, 조인 경로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 파일 포맷: Parquet/ORC/CSV, 압축 코덱</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 운영 메타데이터 (Operational Metadata)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 마지막 업데이트 타임스탬프</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• ETL 잡 실행 이력 (성공/실패, 소요 시간)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 레코드 수 히스토리 (볼륨 추이)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 데이터 품질 점수 이력</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 데이터 계보 잡 정보 (어느 ETL이 생성했는지)</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────────┐
+│                  메타데이터 3계층 구조                        │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│  1. 비즈니스 메타데이터 (Business Metadata)                   │
+│  ┌────────────────────────────────────────────────────────┐  │
+│  │ • 비즈니스 용어 정의 (예: "활성 고객" = 최근 30일 로그인)│  │
+│  │ • 데이터 소유자 정보 (Owner: CMO)                       │  │
+│  │ • 사용 정책 (누가 어떤 목적으로 사용 가능)              │  │
+│  │ • 데이터 분류 (기밀/내부/공개)                          │  │
+│  │ • PII 플래그 (이 컬럼은 개인식별정보)                  │  │
+│  └────────────────────────────────────────────────────────┘  │
+│                                                              │
+│  2. 기술 메타데이터 (Technical Metadata)                      │
+│  ┌────────────────────────────────────────────────────────┐  │
+│  │ • 스키마: 테이블명, 컬럼명, 데이터 타입                 │  │
+│  │ • 파티셔닝: 파티션 키, 파티션 수                        │  │
+│  │ • 인덱스: 인덱스 컬럼, 인덱스 유형                      │  │
+│  │ • 외래키: 참조 관계, 조인 경로                          │  │
+│  │ • 파일 포맷: Parquet/ORC/CSV, 압축 코덱                 │  │
+│  └────────────────────────────────────────────────────────┘  │
+│                                                              │
+│  3. 운영 메타데이터 (Operational Metadata)                    │
+│  ┌────────────────────────────────────────────────────────┐  │
+│  │ • 마지막 업데이트 타임스탬프                            │  │
+│  │ • ETL 잡 실행 이력 (성공/실패, 소요 시간)               │  │
+│  │ • 레코드 수 히스토리 (볼륨 추이)                        │  │
+│  │ • 데이터 품질 점수 이력                                 │  │
+│  │ • 데이터 계보 잡 정보 (어느 ETL이 생성했는지)           │  │
+│  └────────────────────────────────────────────────────────┘  │
+└──────────────────────────────────────────────────────────────┘
+```
 
 ### [메타데이터 카탈로그](/knowledge-base/studynote/05_database/06_dw_olap_trends/342_metadata_catalog/) 도구 비교
 
@@ -108,25 +114,22 @@ tags = ["studynote-bigdata"]
 
 ### [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 수집 방식
 
+```
+소스 시스템 → 메타데이터 카탈로그
 
+방식 1: 푸시(Push) 기반
+  데이터 파이프라인이 실행 시 메타데이터를 카탈로그 API로 전송
+  예: OpenLineage → DataHub
+  장점: 실시간성 높음, 이벤트 기반
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소스 시스템 → 메타데이터 카탈로그</div>
-<div class="kb-diagram-note">방식 1: 푸시(Push) 기반</div>
-<div class="kb-diagram-note">데이터 파이프라인이 실행 시 메타데이터를 카탈로그 API로 전송</div>
-<div class="kb-diagram-note">예: OpenLineage → DataHub</div>
-<div class="kb-diagram-note">장점: 실시간성 높음, 이벤트 기반</div>
-<div class="kb-diagram-note">방식 2: 풀(Pull) 기반 크롤링</div>
-<div class="kb-diagram-note">카탈로그가 소스 시스템에 주기적으로 접속해 스키마·통계 수집</div>
-<div class="kb-diagram-note">예: DataHub Ingestion Framework → BigQuery, Snowflake 크롤링</div>
-<div class="kb-diagram-note">장점: 소스 시스템 변경 없음</div>
-<div class="kb-diagram-note">방식 3: 하이브리드</div>
-<div class="kb-diagram-note">중요 이벤트는 푸시, 스키마 변경 감지는 풀 크롤링</div>
-</div>
-</div>
+방식 2: 풀(Pull) 기반 크롤링
+  카탈로그가 소스 시스템에 주기적으로 접속해 스키마·통계 수집
+  예: DataHub Ingestion Framework → BigQuery, Snowflake 크롤링
+  장점: 소스 시스템 변경 없음
 
-
+방식 3: 하이브리드
+  중요 이벤트는 푸시, 스키마 변경 감지는 풀 크롤링
+```
 
 ### DataHub 아키텍처 특징
 
@@ -169,23 +172,21 @@ DataHub(LinkedIn [오픈소스](/knowledge-base/studynote/12_it_management/05_se
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">메타데이터 (Metadata) — 데이터의 의미·구조·출처·품질을 설명하는 데이터</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">메타데이터 관리 (Metadata Management) — 기술·비즈니스·운영 메타데이터 중앙 관리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 카탈로그 (Data Catalog) — 비즈니스 용어 사전 + 데이터 계보 + 검색 기능</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 계보 (Data Lineage) — 데이터의 출처·변환·흐름 추적으로 신뢰성 확보</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">능동형 메타데이터 (Active Metadata) — AI 기반 자동 태깅·추천·품질 모니터링</div></div>
-</div>
-</div>
-
-
+```text
+[메타데이터 (Metadata) — 데이터의 의미·구조·출처·품질을 설명하는 데이터]
+    │
+    ▼
+[메타데이터 관리 (Metadata Management) — 기술·비즈니스·운영 메타데이터 중앙 관리]
+    │
+    ▼
+[데이터 카탈로그 (Data Catalog) — 비즈니스 용어 사전 + 데이터 계보 + 검색 기능]
+    │
+    ▼
+[데이터 계보 (Data Lineage) — 데이터의 출처·변환·흐름 추적으로 신뢰성 확보]
+    │
+    ▼
+[능동형 메타데이터 (Active Metadata) — AI 기반 자동 태깅·추천·품질 모니터링]
+```
 
 이 흐름은 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 관리가 기술적 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 관리에서 비즈니스 의미와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계보를 포함한 [데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)로 발전하고, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 능동형 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 관리로 진화하는 과정을 보여준다.
 

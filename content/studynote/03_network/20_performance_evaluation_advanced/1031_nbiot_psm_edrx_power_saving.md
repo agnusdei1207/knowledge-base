@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: 3GPP가 주도하는 셀룰러(통신사) 기반의 저전력 장거리 통신망([LPWAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/)) 표준입니다. 기존 4G [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 망의 찌꺼기 주파수 대역(180kHz 폭)을 재활용하여 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기들을 연결합니다.
 - <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/283_lora_low_rank_adaptation/">로라</a>(<a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/">LoRa</a>)와의 차이점</strong>: [로라](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/283_lora_low_rank_adaptation/)는 기지국을 새로 세워야 하지만, NB-IoT는 <strong>전국에 이미 깔린 수십만 개의 촘촘한 <a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/">LTE</a> 기지국을 그대로 재활용(소프트웨어 업그레이드)</strong>하므로 지하 주차장 5층 벽도 뚫어버리는 극강의 커버리지(통신사 망 품질)를 자랑합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">시그폭스 협대역 통신</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NB-IoT 전력 최적화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">블루투스 LE</div></div>
-</div>
-</div>
-
-
+```text
+[시그폭스 협대역 통신]
+    │
+    ▼
+[NB-IoT 전력 최적화]
+    │
+    └──▶ [블루투스 LE]
+```
 
 - **📢 섹션 요약 비유**: [NB-IoT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/620_nbiot_narrowband_iot_lte_guardband/) 전력 최적화는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -54,18 +50,14 @@ PSM은 한 번 자면 한 달 동안 기지국이 센서에 명령을 못 내립
 - **기존 DRX (폰 방식)**: 스마트폰은 1초에 한 번씩 살짝살짝 눈을 떠서 기지국이 보낸 카톡([Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 알람)이 있는지 힐끗 쳐다봅니다(대기 [전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/) 심함).
 - <strong>eDRX (<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a> 방식)</strong>: 눈을 뜨는 주기를 극단적으로 늘려버립니다(extended). "야, 넌 1초 말고 **2시간에 딱 한 번만 0.01초 동안 눈을 떠서** 기지국 방송([페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 다시 자!" 기지국이 센서에 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 업데이트를 지시하고 싶으면, 센서가 2시간 뒤에 눈 뜰 때까지 기지국 버퍼에 메시지를 담아두고 기다려주는 인내심 스케줄링입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">시그폭스 협대역 통신</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NB-IoT 전력 최적화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">블루투스 LE</div></div>
-</div>
-</div>
-
-
+```text
+[시그폭스 협대역 통신]
+    │
+    ▼
+[NB-IoT 전력 최적화]
+    │
+    └──▶ [블루투스 LE]
+```
 
 - **📢 섹션 요약 비유**: [NB-IoT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/620_nbiot_narrowband_iot_lte_guardband/) 전력 최적화의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -128,19 +120,15 @@ PSM은 한 번 자면 한 달 동안 기지국이 센서에 명령을 못 내립
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 시그폭스 협대역 통신</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: NB-IoT 전력 최적화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 블루투스 LE</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 시그폭스 협대역 통신]
+    │
+    ▼
+[현재 개념: NB-IoT 전력 최적화]
+    │
+    ├──▶ [확장 A: 블루투스 LE]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 [NB-IoT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/620_nbiot_narrowband_iot_lte_guardband/) 전력 최적화는 [시그폭스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/1030_lpwan_sigfox/) 협대역 통신에서 출발해 현재 메커니즘을 정교화하고, 이후 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) LE와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

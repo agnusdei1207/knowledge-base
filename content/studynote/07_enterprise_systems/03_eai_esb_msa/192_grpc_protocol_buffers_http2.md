@@ -44,18 +44,18 @@ gRPC의 출발점은 인터페이스 정의 언어 (IDL, Interface Definition La
 
 이 그림은 gRPC가 계약에서 실행까지 어떻게 이어지는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">gRPC 호출 경로: 계약 -&gt; 스텁 -&gt; 바이너리 스트림 -&gt; 서비스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client App</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client Stub -&gt; Protobuf -&gt; HTTP/2 Stream -&gt; Server Stub -&gt; Service</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Response Metadata &lt;- Protobuf &lt;- Result</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ gRPC 호출 경로: 계약 -> 스텁 -> 바이너리 스트림 -> 서비스          │
+├──────────────────────────────────────────────────────────────────────┤
+│ Client App                                                          │
+│    │                                                                │
+│    ▼                                                                │
+│ Client Stub -> Protobuf -> HTTP/2 Stream -> Server Stub -> Service  │
+│    ▲                                                     │          │
+│    └──────────── Response Metadata <- Protobuf <- Result ┘          │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2는 하나의 연결에서 여러 스트림을 멀티플렉싱하고, 헤더 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)과 [흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/)를 제공한다. 여기에 [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) Buffers의 태그 기반 바이너리 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)화가 결합되면, 동일한 의미의 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지를 더 작은 크기와 더 적은 CPU 비용으로 전달할 수 있다. 또한 [deadline](/knowledge-base/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/), status [code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/), [metadata](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/), interceptor 같은 메커니즘이 함께 제공되어 단순 속도뿐 아니라 운영 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)도 확보한다.
 
@@ -126,23 +126,21 @@ gRPC를 잘 도입하면 [서비스](/knowledge-base/studynote/13_cloud_architec
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">RPC (Remote Procedure Call)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note"><code>.proto</code> 계약 정의</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Protocol Buffers 직렬화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">HTTP/2 멀티플렉싱 · 스트리밍</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">서비스 메시 · 게이트웨이 혼합 운용</div>
-</div>
-</div>
-
-
+```text
+RPC (Remote Procedure Call)
+    │
+    ▼
+`.proto` 계약 정의
+    │
+    ▼
+Protocol Buffers 직렬화
+    │
+    ▼
+HTTP/2 멀티플렉싱 · 스트리밍
+    │
+    ▼
+서비스 메시 · 게이트웨이 혼합 운용
+```
 
 이 흐름은 "원격 호출 개념 → 계약 정의 → 고속 전송 → 운영 계층 확장"으로 gRPC의 성숙 단계를 보여준다.
 

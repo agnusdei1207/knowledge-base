@@ -37,23 +37,25 @@ tags = ["enterprise_systems"]
 | **커스터마이징** | 비즈니스 특화 로직 반영 (High) | 표준 프로세스 수용 강제 (Low) |
 | <strong>유지보수(<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/">TCO</a>)</strong> | 내부 IT 조직이 전담 (고비용) | 구독료 지불, 벤더가 업데이트 (저비용) |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2-Tier ERP 데이터 동기화 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Tier 1: 본사 글로벌 ERP</div><div class="kb-diagram-note">(SAP S/4HANA, Oracle 등)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실적</div><div class="kb-diagram-cell">마스터 데이터 (품목, 고객, 환율 등) 하향 전파</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결산</div><div class="kb-diagram-cell">(MDM 통제)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상향</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ API / EAI / Batch 연동 계층</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tier 2</div><div class="kb-diagram-cell">Tier 2</div><div class="kb-diagram-cell">Tier 2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(A국 지사)</div><div class="kb-diagram-cell">(B국 지사)</div><div class="kb-diagram-cell">(C국 자회사</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SaaS ERP</div><div class="kb-diagram-cell">SaaS ERP</div><div class="kb-diagram-cell">SaaS ERP</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                    2-Tier ERP 데이터 동기화 아키텍처         │
+├──────────────────────────────────────────────────────────────┤
+│  [Tier 1: 본사 글로벌 ERP] (SAP S/4HANA, Oracle 등)          │
+│    ▲      │                                                  │
+│    │ 실적 │ 마스터 데이터 (품목, 고객, 환율 등) 하향 전파    │
+│    │ 결산 │ (MDM 통제)                                       │
+│    │ 상향 │                                                  │
+│    │      ▼                                                  │
+│ ┌─ API / EAI / Batch 연동 계층 ────────────────────────────┐ │
+│ │                                                            │ │
+│ │  ┌────────────┐   ┌────────────┐   ┌────────────┐        │ │
+│ │  │ Tier 2     │   │ Tier 2     │   │ Tier 2     │        │ │
+│ │  │ (A국 지사) │   │ (B국 지사) │   │ (C국 자회사│        │ │
+│ │  │ SaaS ERP   │   │ SaaS ERP   │   │ SaaS ERP   │        │ │
+│ │  └────────────┘   └────────────┘   └────────────┘        │ │
+└──────────────────────────────────────────────────────────────┘
+```
 이 아키텍처가 굴러가기 위한 필수 원리는 <strong><a href="/knowledge-base/studynote/05_database/07_exam_summary/539_mdm_master_data_management/">MDM</a> (Master <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/">Management</a>)</strong> 이다. 본사가 품목 코드나 고객 코드를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하여 지사로 뿌려주어야만, 나중에 지사들이 올려보낸 재무 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 본사에서 깨짐 없이 합산(Consolidation)할 수 있다.
 
 - **📢 섹션 요약 비유**: 프랜차이즈 본사(Tier 1)가 메뉴와 가격표([마스터 데이터](/knowledge-base/studynote/05_database/07_exam_summary/539_mdm_master_data_management/))를 정해서 내려보내면, 각국 가맹점(Tier 2)은 현지 POS기로 물건을 팔고 그날 저녁 매출액만 본사로 전송하는 시스템이다.
@@ -115,23 +117,21 @@ tags = ["enterprise_systems"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Single Instance ERP (단일 글로벌 롤아웃) · 막대한 TCO 및 지연</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SaaS ERP의 성숙 (보안, 현지 규제 자동화)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">2-Tier ERP Architecture (본사 코어 통제 + 지사 민첩성 확보)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Side-by-Side Extensibility (SaaS 코어는 건드리지 않고 외부 PaaS에서 확장 기능 개발)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Composable ERP / Postmodern ERP (비즈니스 모듈별로 다양한 SaaS를 조립하여 사용)</div>
-</div>
-</div>
-
-
+```text
+Single Instance ERP (단일 글로벌 롤아웃) · 막대한 TCO 및 지연
+    │
+    ▼
+SaaS ERP의 성숙 (보안, 현지 규제 자동화)
+    │
+    ▼
+2-Tier ERP Architecture (본사 코어 통제 + 지사 민첩성 확보)
+    │
+    ▼
+Side-by-Side Extensibility (SaaS 코어는 건드리지 않고 외부 PaaS에서 확장 기능 개발)
+    │
+    ▼
+Composable ERP / Postmodern ERP (비즈니스 모듈별로 다양한 SaaS를 조립하여 사용)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

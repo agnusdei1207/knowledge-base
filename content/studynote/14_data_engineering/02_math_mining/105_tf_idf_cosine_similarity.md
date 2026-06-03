@@ -21,7 +21,7 @@ tags = ["studynote-data-engineering"]
 
 자연어 처리(NLP)와 정보 검색 시스템에서 가장 큰 과제는 "비정형 텍스트를 어떻게 기계가 이해할 수 있는 숫자로 변환할 것인가(Vectorization)?"이다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에는 문서 내에 특정 단어가 몇 번 등장했는지 단순히 세는 `BoW (Bag-of-Words)` 방식이나 `Count Vector`를 사용했다.
 
-그러나 이 방식은 치명적인 문제가 있다. '은/는/이/가', '그리고', 'the', 'a' 같은 불용어(Stopwords)는 모든 문서에서 엄청나게 자주 등장하기 때문에 단순 카운트 방식에서는 가장 중요한 단어로 오해받는다. 반면, 특정 문서의 핵심을 찌르는 전문 용어는 빈도수가 낮아 무시된다. 이를 해결하기 위해 흔한 단어의 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)는 깎아내고 희소한 단어의 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)는 끌어올리는 `TF-IDF`가 등장했고, 이렇게 만들어진 문서 벡터들끼리 얼마나 비슷한지 방향성을 기준으로 측정하기 위해 `코사인 유사도`가 짝꿍으로 활용되기 시작했다.
+그러나 이 방식은 치명적인 문제가 있다. '은/이/가', '그리고', 'the', 'a' 같은 불용어(Stopwords)는 모든 문서에서 엄청나게 자주 등장하기 때문에 단순 카운트 방식에서는 가장 중요한 단어로 오해받는다. 반면, 특정 문서의 핵심을 찌르는 전문 용어는 빈도수가 낮아 무시된다. 이를 해결하기 위해 흔한 단어의 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)는 깎아내고 희소한 단어의 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)는 끌어올리는 `TF-IDF`가 등장했고, 이렇게 만들어진 문서 벡터들끼리 얼마나 비슷한지 방향성을 기준으로 측정하기 위해 `코사인 유사도`가 짝꿍으로 활용되기 시작했다.
 
 - **📢 섹션 요약 비유**: 단순 빈도수는 학생이 하루 종일 제일 많이 한 말("어", "음", "저기")을 그 학생의 특징이라고 착각하는 선생님과 같다. TF-IDF는 다른 반 애들은 안 쓰는데 이 학생만 유독 자주 쓰는 특별한 단어("양자역학")를 콕 집어내어 학생의 진짜 특징을 찾아내는 지능형 분석관이다.
 
@@ -37,25 +37,27 @@ TF-IDF는 두 가지 지표의 곱으로 계산되며, 생성된 [가중치](/kn
 
 이렇게 TF-IDF를 통해 문서가 벡터 공간의 좌표로 변환되면, 문서 A와 문서 B의 유사도는 두 벡터가 이루는 <strong>각도(Angle)</strong>를 측정하는 `코사인 유사도 (Cosine Similarity)`로 구한다. 
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문서 벡터화 및 코사인 유사도 산출 메커니즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">문서 A: "사과 바나나 사과"</div><div class="kb-diagram-node">문서 B: "바나나 포도"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. TF-IDF Vectorization (가중치 계산)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Vector A =</div><div class="kb-diagram-node">0.8(사과), 0.2(바나나), 0(포도)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Vector B =</div><div class="kb-diagram-node">0(사과), 0.5(바나나), 0.7(포도)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Cosine Similarity (방향성 측정: A·B /</div><div class="kb-diagram-cell">A</div><div class="kb-diagram-cell">B</div><div class="kb-diagram-cell">)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">y축(사과)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Vector A</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↗ 각도(θ)가 작을수록(cosθ ≒ 1) 유사도 높음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↙ ─ ─ ─ ─ ─ Vector B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ x축(포도)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│              문서 벡터화 및 코사인 유사도 산출 메커니즘          │
+├──────────────────────────────────────────────────────────────────┤
+│ [문서 A: "사과 바나나 사과"]          [문서 B: "바나나 포도"]        │
+│          │                                   │                   │
+│          ▼                                   ▼                   │
+│ 1. TF-IDF Vectorization (가중치 계산)                            │
+│    Vector A = [0.8(사과), 0.2(바나나), 0(포도)]                  │
+│    Vector B = [0(사과), 0.5(바나나), 0.7(포도)]                  │
+│          │                                                       │
+│          ▼                                                       │
+│ 2. Cosine Similarity (방향성 측정: A·B / |A||B|)                 │
+│         y축(사과)                                                │
+│         ▲                                                        │
+│         │   Vector A                                             │
+│         │  ↗     각도(θ)가 작을수록(cosθ ≒ 1) 유사도 높음          │
+│         │ ↙ ─ ─ ─ ─ ─ Vector B                                   │
+│         └──────────────────▶ x축(포도)                           │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 벡터의 크기(단어의 절대적 길이)가 달라도, 두 벡터가 가리키는 방향이 같으면 [코사인 유사도](/knowledge-base/studynote/06_ict_convergence/05_data_science/359_cosine_similarity/)는 1(완전 일치)에 가까워진다. 문서의 길이가 다르더라도 주제 분포가 비슷하면 유사하다고 판별할 수 있는 핵심 원리다.
 
@@ -122,25 +124,24 @@ TF-IDF와 [코사인 유사도](/knowledge-base/studynote/06_ict_convergence/05_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">문서 수치화의 초기 접근</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">단순 빈도 기반 모델 (Count Vector / Bag-of-Words)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">희소성 가중치 결합 (TF-IDF: 흔한 단어 패널티)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">거리 측정 도입 (Cosine Similarity: 문서 방향성 기반 매칭)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">길이 정규화 개선 (BM25: ElasticSearch 등 현대 검색의 표준)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">의미론적 임베딩 결합 (Word2Vec · BERT / Hybrid Search)</div>
-</div>
-</div>
-
-
+```text
+문서 수치화의 초기 접근
+    │
+    ▼
+단순 빈도 기반 모델 (Count Vector / Bag-of-Words)
+    │
+    ▼
+희소성 가중치 결합 (TF-IDF: 흔한 단어 패널티)
+    │
+    ▼
+거리 측정 도입 (Cosine Similarity: 문서 방향성 기반 매칭)
+    │
+    ▼
+길이 정규화 개선 (BM25: ElasticSearch 등 현대 검색의 표준)
+    │
+    ▼
+의미론적 임베딩 결합 (Word2Vec · BERT / Hybrid Search)
+```
 
 이 흐름도는 "단순 카운트 → 희소성 반영 → 방향성 측정 → 길이 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) → 의미 기반 융합"으로 텍스트 벡터화 기술이 진화해 온 과정을 한눈에 보여준다.
 

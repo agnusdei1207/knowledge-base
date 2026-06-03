@@ -30,24 +30,28 @@ tags = ["database"]
 
 이행적 종속은 $X \rightarrow Y$ 이고 $Y \rightarrow Z$ 일 때 (단, $Y$는 $X$에 종속되지만 $X$는 $Y$에 종속되지 않음), 논리적으로 $X \rightarrow Z$ 가 성립하는 구조다. 이 구조를 타파하기 위해 [3NF](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/) ([Third Normal Form](/knowledge-base/studynote/05_database/04_transactions_concurrency/528_third_normal_form/)) 분해가 일어난다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이행적 함수적 종속의 구조와 3NF 분해 원리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">분해 전: 이상 현상 발생</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결정</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">사번(X, PK)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">부서코드(Y)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">부서명(Z)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이행적 종속 ▲</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">분해 후: 3NF 적용 (테이블 분리)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사원 테이블 (Emp) 부서 테이블 (Dept)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사번(PK)</div><div class="kb-diagram-cell">부서코드(FK)</div><div class="kb-diagram-cell">조인</div><div class="kb-diagram-cell">부서코드(PK)</div><div class="kb-diagram-cell">부서명</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1001</div><div class="kb-diagram-cell">HR HR</div><div class="kb-diagram-cell">인사팀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1002</div><div class="kb-diagram-cell">IT</div><div class="kb-diagram-cell">IT</div><div class="kb-diagram-cell">전산팀</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           이행적 함수적 종속의 구조와 3NF 분해 원리          │
+├──────────────────────────────────────────────────────────────┤
+│ [분해 전: 이상 현상 발생]                                      │
+│                                                              │
+│       ┌─────────결정─────────┐                               │
+│       ▼                      │                               │
+│ [사번(X, PK)] ──▶ [부서코드(Y)] ──▶ [부서명(Z)]               │
+│       └──────────이행적 종속─────────▲                       │
+│                                                              │
+│ ──────────────────────────────────────────────────────────── │
+│ [분해 후: 3NF 적용 (테이블 분리)]                              │
+│                                                              │
+│  사원 테이블 (Emp)                 부서 테이블 (Dept)        │
+│ ┌───────────┬────────────┐      ┌────────────┬───────────┐ │
+│ │ 사번(PK)  │ 부서코드(FK)│  조인 │ 부서코드(PK) │ 부서명    │ │
+│ │ 1001      │ HR         ├──────┤ HR         │ 인사팀    │ │
+│ │ 1002      │ IT         │      │ IT         │ 전산팀    │ │
+│ └───────────┴────────────┘      └────────────┴───────────┘ │
+└──────────────────────────────────────────────────────────────┘
+```
 
 다이어그램에서 보듯, `부서명(Z)`은 오직 `부서코드(Y)`에만 종속되지만, 분해 전에는 하나의 테이블에 묶여 있어 중복 저장된다. [3NF](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/) 분해는 중간 [결정자](/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/)(Y)를 새로운 테이블의 [기본 키](/knowledge-base/studynote/05_database/02_modeling_normalization/070_primary_key_alternate_key/)(PK)로 삼고 종속자(Z)를 데려가 독립시키는 과정이다. 원래 테이블에는 중간 [결정자](/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/)(Y)만 [외래 키](/knowledge-base/studynote/05_database/02_modeling_normalization/072_foreign_key_fk/)(FK)로 남겨 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 일관성을 확보한다.
 
@@ -107,23 +111,21 @@ tags = ["database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">제1정규형 (1NF)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">제2정규형 (2NF) : 부분 함수적 종속 제거</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">이행적 함수적 종속 (Transitive Dependency) 진단</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">제3정규형 (3NF) : 이행적 함수적 종속 제거 (테이블 분리)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">BCNF (결정자 중 후보키가 아닌 속성 제거) 및 역정규화 판단</div>
-</div>
-</div>
-
-
+```text
+제1정규형 (1NF)
+    │
+    ▼
+제2정규형 (2NF) : 부분 함수적 종속 제거
+    │
+    ▼
+이행적 함수적 종속 (Transitive Dependency) 진단
+    │
+    ▼
+제3정규형 (3NF) : 이행적 함수적 종속 제거 (테이블 분리)
+    │
+    ▼
+BCNF (결정자 중 후보키가 아닌 속성 제거) 및 역정규화 판단
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

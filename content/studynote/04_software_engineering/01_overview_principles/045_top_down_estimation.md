@@ -18,80 +18,86 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 하향식 비용 산정 개요
 
+```
+소프트웨어 비용 산정 접근 방식:
 
+하향식 (Top-Down):
+  전체 → 세부
+  시스템 수준에서 시작
+  
+  입력: 비슷한 이전 프로젝트 규모
+        전문가 경험
+  출력: 전체 비용 추정 → 세부 분배
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 비용 산정 접근 방식:</div>
-<div class="kb-diagram-note">하향식 (Top-Down):</div>
-<div class="kb-diagram-note">전체 → 세부</div>
-<div class="kb-diagram-note">시스템 수준에서 시작</div>
-<div class="kb-diagram-note">입력: 비슷한 이전 프로젝트 규모</div>
-<div class="kb-diagram-note">전문가 경험</div>
-<div class="kb-diagram-note">출력: 전체 비용 추정 → 세부 분배</div>
-<div class="kb-diagram-note">상향식 (Bottom-Up):</div>
-<div class="kb-diagram-note">세부 → 전체</div>
-<div class="kb-diagram-note">개별 작업 단위 WBS에서 시작</div>
-<div class="kb-diagram-note">입력: 상세 작업 목록, 각 작업 견적</div>
-<div class="kb-diagram-note">출력: 합산 총 비용</div>
-<div class="kb-diagram-note">하향식 적합 시기:</div>
-<div class="kb-diagram-tree-item" style="--depth:0">초기 타당성 분석 (FS, Feasibility Study)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">예산 승인 요청</div>
-<div class="kb-diagram-tree-item" style="--depth:0">요구사항 정의 이전 단계</div>
-<div class="kb-diagram-note">하향식 한계:</div>
-<div class="kb-diagram-tree-item" style="--depth:0">세부 항목 누락 가능</div>
-<div class="kb-diagram-tree-item" style="--depth:0">가정(Assumption)에 의존</div>
-<div class="kb-diagram-tree-item" style="--depth:0">±50% 오차 범위 일반적</div>
-</div>
-</div>
+상향식 (Bottom-Up):
+  세부 → 전체
+  개별 작업 단위 WBS에서 시작
+  
+  입력: 상세 작업 목록, 각 작업 견적
+  출력: 합산 총 비용
 
+하향식 적합 시기:
+  - 초기 타당성 분석 (FS, Feasibility Study)
+  - 예산 승인 요청
+  - 요구사항 정의 이전 단계
+  
+하향식 한계:
+  - 세부 항목 누락 가능
+  - 가정(Assumption)에 의존
+  - ±50% 오차 범위 일반적
+```
 
-
-> 📢 **섹션 요약 비유**: 하향식 산정은 집 지을 때 예산 감잡기 — "비슷한 집 지을 때 5억 들었으니 이번도 4~6억?" 아직 설계도 없지만 빠르게 감()을 잡아요.
+> 📢 **섹션 요약 비유**: 하향식 산정은 집 지을 때 예산 감잡기 — "비슷한 집 지을 때 5억 들었으니 이번도 4~6억?" 아직 설계도 없지만 빠르게 감(感)을 잡아요.
 
 ---
 
 ## Ⅱ. 주요 하향식 기법
 
+```
+1. 전문가 감정 (Expert Judgment):
+   전문가 1~3명이 경험 기반 직관적 산정
+   
+   프로세스:
+   전문가A: 6개월, 전문가B: 8개월, 전문가C: 7개월
+   → 평균: 7개월 (또는 합의)
+   
+   장점: 빠름, 비용 없음
+   단점: 편향, 주관적, 재현 불가
 
+2. 델파이 기법 (Delphi Technique):
+   반복적 전문가 합의 방법 (Rand Corporation 개발)
+   
+   라운드 1: 전문가 5명 독립 추정 제출
+   → 조율자가 결과 집계 및 공유 (익명)
+   라운드 2: 결과 보고 후 재추정
+   → 극단값 제외 후 재집계
+   라운드 3: 수렴할 때까지 반복
+   → 최종 합의 도출
+   
+   장점: 전문가 의견 편향 감소 (그룹씽크 방지)
+   단점: 시간 소요
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">1. 전문가 감정 (Expert Judgment):</div>
-<div class="kb-diagram-note">전문가 1~3명이 경험 기반 직관적 산정</div>
-<div class="kb-diagram-note">프로세스:</div>
-<div class="kb-diagram-note">전문가A: 6개월, 전문가B: 8개월, 전문가C: 7개월</div>
-<div class="kb-diagram-note">→ 평균: 7개월 (또는 합의)</div>
-<div class="kb-diagram-note">장점: 빠름, 비용 없음</div>
-<div class="kb-diagram-note">단점: 편향, 주관적, 재현 불가</div>
-<div class="kb-diagram-note">2. 델파이 기법 (Delphi Technique):</div>
-<div class="kb-diagram-note">반복적 전문가 합의 방법 (Rand Corporation 개발)</div>
-<div class="kb-diagram-note">라운드 1: 전문가 5명 독립 추정 제출</div>
-<div class="kb-diagram-note">→ 조율자가 결과 집계 및 공유 (익명)</div>
-<div class="kb-diagram-note">라운드 2: 결과 보고 후 재추정</div>
-<div class="kb-diagram-note">→ 극단값 제외 후 재집계</div>
-<div class="kb-diagram-note">라운드 3: 수렴할 때까지 반복</div>
-<div class="kb-diagram-note">→ 최종 합의 도출</div>
-<div class="kb-diagram-note">장점: 전문가 의견 편향 감소 (그룹씽크 방지)</div>
-<div class="kb-diagram-note">단점: 시간 소요</div>
-<div class="kb-diagram-note">3. 유추 산정 (Analogous Estimation):</div>
-<div class="kb-diagram-note">유사 완료 프로젝트 데이터 기반</div>
-<div class="kb-diagram-note">이전 프로젝트: ERP 구축 1억, 6개월</div>
-<div class="kb-diagram-note">새 프로젝트: ERP + 모바일 추가</div>
-<div class="kb-diagram-note">→ 1.3배 규모 가정 → 1억3천만, 8개월</div>
-<div class="kb-diagram-note">성공 조건: 신뢰할 수 있는 과거 데이터</div>
-<div class="kb-diagram-note">4. 3점 추정 (Three-Point Estimation):</div>
-<div class="kb-diagram-note">낙관(O) / 최빈(M) / 비관(P) 3가지 추정</div>
-<div class="kb-diagram-note">PERT 공식:</div>
-<div class="kb-diagram-note">E = (O + 4M + P) / 6</div>
-<div class="kb-diagram-note">예: O=3개월, M=5개월, P=9개월</div>
-<div class="kb-diagram-note">E = (3 + 20 + 9) / 6 = 5.3개월</div>
-<div class="kb-diagram-note">표준편차: σ = (P - O) / 6 = 1개월</div>
-<div class="kb-diagram-note">95% 구간: 5.3 ± 2σ = 3.3 ~ 7.3개월</div>
-</div>
-</div>
-
-
+3. 유추 산정 (Analogous Estimation):
+   유사 완료 프로젝트 데이터 기반
+   
+   이전 프로젝트: ERP 구축 1억, 6개월
+   새 프로젝트: ERP + 모바일 추가
+   → 1.3배 규모 가정 → 1억3천만, 8개월
+   
+   성공 조건: 신뢰할 수 있는 과거 데이터
+   
+4. 3점 추정 (Three-Point Estimation):
+   낙관(O) / 최빈(M) / 비관(P) 3가지 추정
+   
+   PERT 공식:
+   E = (O + 4M + P) / 6
+   
+   예: O=3개월, M=5개월, P=9개월
+   E = (3 + 20 + 9) / 6 = 5.3개월
+   
+   표준편차: σ = (P - O) / 6 = 1개월
+   95% 구간: 5.3 ± 2σ = 3.3 ~ 7.3개월
+```
 
 > 📢 **섹션 요약 비유**: 하향식 기법들은 전문가 집단 지성 — 혼자의 감(전문가 감정), 여럿의 합의([델파이](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/214_delphi_method_expert_consensus_forecasting/)), 과거 비교(유추), 낙관/비관 평균(3점)으로 미래를 예측!
 
@@ -99,35 +105,35 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅲ. 하향식 vs 상향식
 
+```
+비교:
 
+항목          하향식             상향식
+시작점        전체 시스템        개별 작업 WBS
+산정 기반     전문가 경험, 유추  작업 목록, 도구
+소요 시간     빠름 (일~주)       느림 (주~월)
+정확도        낮음 (±30~50%)     높음 (±10~20%)
+적용 시기     프로젝트 초기      상세 계획 수립
+필요 정보     최소 (개념 수준)   최대 (상세 설계)
+위험          과소 추정 경향     작업 누락 위험
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">비교:</div>
-<div class="kb-diagram-note">항목 하향식 상향식</div>
-<div class="kb-diagram-note">시작점 전체 시스템 개별 작업 WBS</div>
-<div class="kb-diagram-note">산정 기반 전문가 경험, 유추 작업 목록, 도구</div>
-<div class="kb-diagram-note">소요 시간 빠름 (일~주) 느림 (주~월)</div>
-<div class="kb-diagram-note">정확도 낮음 (±30~50%) 높음 (±10~20%)</div>
-<div class="kb-diagram-note">적용 시기 프로젝트 초기 상세 계획 수립</div>
-<div class="kb-diagram-note">필요 정보 최소 (개념 수준) 최대 (상세 설계)</div>
-<div class="kb-diagram-note">위험 과소 추정 경향 작업 누락 위험</div>
-<div class="kb-diagram-note">이중 검증 (Dual Estimation):</div>
-<div class="kb-diagram-note">1단계: 하향식 (초기 예산 설정)</div>
-<div class="kb-diagram-note">2단계: 상향식 (상세 설계 후 검증)</div>
-<div class="kb-diagram-note">3단계: 차이 분석 → 조정</div>
-<div class="kb-diagram-note">하향식 vs 상향식 차이 &gt; 20% → 재검토 신호</div>
-<div class="kb-diagram-note">실무: PMI PMBOK에서 유사 산정(하향) + 상세 산정(상향) 병행 권장</div>
-<div class="kb-diagram-note">Cone of Uncertainty (불확실성 원뿔):</div>
-<div class="kb-diagram-note">프로젝트 초기: ±300% 오차 가능</div>
-<div class="kb-diagram-note">요구사항 확정: ±50%</div>
-<div class="kb-diagram-note">설계 완료: ±25%</div>
-<div class="kb-diagram-note">코딩 완료: ±10%</div>
-<div class="kb-diagram-note">하향식은 원뿔의 넓은 부분에서 사용</div>
-</div>
-</div>
+이중 검증 (Dual Estimation):
+  1단계: 하향식 (초기 예산 설정)
+  2단계: 상향식 (상세 설계 후 검증)
+  3단계: 차이 분석 → 조정
+  
+  하향식 vs 상향식 차이 > 20% → 재검토 신호
+  
+  실무: PMI PMBOK에서 유사 산정(하향) + 상세 산정(상향) 병행 권장
 
-
+Cone of Uncertainty (불확실성 원뿔):
+  프로젝트 초기: ±300% 오차 가능
+  요구사항 확정: ±50%
+  설계 완료: ±25%
+  코딩 완료: ±10%
+  
+  하향식은 원뿔의 넓은 부분에서 사용
+```
 
 > 📢 **섹션 요약 비유**: 하향식 vs 상향식은 항공편 예약 — 하향식은 "서울-뉴욕 비행기 대략 150만원?" 빠르게 가늠, 상향식은 항공료+숙박+식비 하나씩 더해서 정확히 계산!
 
@@ -135,39 +141,40 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅳ. 실무 적용 — 규모 대비 유추
 
+```
+기능점수 기반 유추 산정:
 
+1단계: 이전 프로젝트 데이터 수집
+  프로젝트 A: 150 FP, 6개월, 5명, 1.5억
+  → 생산성: 25 FP/인월
+  → 단가: 100만/FP
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">기능점수 기반 유추 산정:</div>
-<div class="kb-diagram-note">1단계: 이전 프로젝트 데이터 수집</div>
-<div class="kb-diagram-note">프로젝트 A: 150 FP, 6개월, 5명, 1.5억</div>
-<div class="kb-diagram-note">→ 생산성: 25 FP/인월</div>
-<div class="kb-diagram-note">→ 단가: 100만/FP</div>
-<div class="kb-diagram-note">2단계: 새 프로젝트 FP 추정</div>
-<div class="kb-diagram-note">새 프로젝트 개략 기능 분석</div>
-<div class="kb-diagram-note">→ 약 200 FP 예상</div>
-<div class="kb-diagram-note">3단계: 유추 계산</div>
-<div class="kb-diagram-note">노력 = 200 FP / 25 FP/인월 = 8 인월</div>
-<div class="kb-diagram-note">비용 = 200 FP × 100만/FP = 2억</div>
-<div class="kb-diagram-note">기간 = 8인월 / 4명 = 2개월</div>
-<div class="kb-diagram-note">PUTNAM 모델로 보정:</div>
-<div class="kb-diagram-note">td_min = (T_effort)^(1/3) 개월</div>
-<div class="kb-diagram-note">= 8^(1/3) = 2개월 (최소 기간)</div>
-<div class="kb-diagram-note">리스크 완충 (Contingency):</div>
-<div class="kb-diagram-note">불확실성 보정: × 1.2 (20% 완충)</div>
-<div class="kb-diagram-note">최종 예산: 2억 × 1.2 = 2.4억</div>
-<div class="kb-diagram-note">PMI 권고: 불확실성 수준별 완충</div>
-<div class="kb-diagram-note">높음: 20~30%, 보통: 10~20%, 낮음: 5~10%</div>
-<div class="kb-diagram-note">프리젠테이션:</div>
-<div class="kb-diagram-note">최악(Pessimistic): 3억, 12개월</div>
-<div class="kb-diagram-note">기대(Expected): 2.4억, 9개월</div>
-<div class="kb-diagram-note">최선(Optimistic): 2억, 7개월</div>
-<div class="kb-diagram-note">→ 의사결정자에게 범위로 제시</div>
-</div>
-</div>
+2단계: 새 프로젝트 FP 추정
+  새 프로젝트 개략 기능 분석
+  → 약 200 FP 예상
 
+3단계: 유추 계산
+  노력 = 200 FP / 25 FP/인월 = 8 인월
+  비용 = 200 FP × 100만/FP = 2억
+  기간 = 8인월 / 4명 = 2개월
+  
+  PUTNAM 모델로 보정:
+  td_min = (T_effort)^(1/3) 개월
+  = 8^(1/3) = 2개월 (최소 기간)
 
+리스크 완충 (Contingency):
+  불확실성 보정: × 1.2 (20% 완충)
+  최종 예산: 2억 × 1.2 = 2.4억
+  
+  PMI 권고: 불확실성 수준별 완충
+  높음: 20~30%, 보통: 10~20%, 낮음: 5~10%
+
+프리젠테이션:
+  최악(Pessimistic): 3억, 12개월
+  기대(Expected): 2.4억, 9개월
+  최선(Optimistic): 2억, 7개월
+  → 의사결정자에게 범위로 제시
+```
 
 > 📢 **섹션 요약 비유**: 유추 산정은 레시피 비례 조절 — 4인분 레시피로 6인분 만들려면 1.5배. 이전 프로젝트(레시피)에서 새 규모(인원) 비례로 예산(재료)을 계산!
 
@@ -175,42 +182,46 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅴ. 실무 시나리오 — 스타트업 [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/) 예산 산정
 
+```
+핀테크 스타트업 MVP 개발 예산 산정:
 
+배경:
+  초기 투자 요청 전 개발 비용 추정 필요
+  상세 요구사항 아직 미정의
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">핀테크 스타트업 MVP 개발 예산 산정:</div>
-<div class="kb-diagram-note">배경:</div>
-<div class="kb-diagram-note">초기 투자 요청 전 개발 비용 추정 필요</div>
-<div class="kb-diagram-note">상세 요구사항 아직 미정의</div>
-<div class="kb-diagram-note">하향식 산정 (델파이):</div>
-<div class="kb-diagram-note">라운드 1 전문가 추정:</div>
-<div class="kb-diagram-note">CTO A (스타트업 경험): 6천만원, 4개월</div>
-<div class="kb-diagram-note">개발팀장 B (핀테크 경험): 8천만원, 5개월</div>
-<div class="kb-diagram-note">PM C (유사 프로젝트 경험): 5천만원, 3개월</div>
-<div class="kb-diagram-note">→ 분산 큼 (3~5개월) → 라운드 2 진행</div>
-<div class="kb-diagram-note">라운드 2 (익명 공유 후):</div>
-<div class="kb-diagram-note">배경 공유: 결제 기능 + 사용자 관리 포함</div>
-<div class="kb-diagram-note">A: 7천만원, 4.5개월</div>
-<div class="kb-diagram-note">B: 7천만원, 5개월</div>
-<div class="kb-diagram-note">C: 6천만원, 4개월</div>
-<div class="kb-diagram-note">→ 수렴 → 합의: 6.5천만원, 4.5개월</div>
-<div class="kb-diagram-note">유추 검증:</div>
-<div class="kb-diagram-note">유사 핀테크 MVP (금결원 공개 사례):</div>
-<div class="kb-diagram-note">규모 비율 0.8 추정</div>
-<div class="kb-diagram-note">→ 8천만원 × 0.8 = 6.4천만원 ✓ 유사</div>
-<div class="kb-diagram-note">완충 적용:</div>
-<div class="kb-diagram-note">스타트업 불확실성 = 높음 → 25% 완충</div>
-<div class="kb-diagram-note">최종: 6.5천만 × 1.25 = 8천만원</div>
-<div class="kb-diagram-note">투자 제안서:</div>
-<div class="kb-diagram-note">개발비: 8천만원 (±30%)</div>
-<div class="kb-diagram-note">기간: 4~6개월</div>
-<div class="kb-diagram-note">가정: 외주 개발팀 5명 기준</div>
-<div class="kb-diagram-note">Phase 2 정밀 산정: WBS 작성 후 상향식 재검토</div>
-</div>
-</div>
+하향식 산정 (델파이):
 
+라운드 1 전문가 추정:
+  CTO A (스타트업 경험): 6천만원, 4개월
+  개발팀장 B (핀테크 경험): 8천만원, 5개월
+  PM C (유사 프로젝트 경험): 5천만원, 3개월
+  
+  → 분산 큼 (3~5개월) → 라운드 2 진행
 
+라운드 2 (익명 공유 후):
+  배경 공유: 결제 기능 + 사용자 관리 포함
+  A: 7천만원, 4.5개월
+  B: 7천만원, 5개월  
+  C: 6천만원, 4개월
+  
+  → 수렴 → 합의: 6.5천만원, 4.5개월
+
+유추 검증:
+  유사 핀테크 MVP (금결원 공개 사례):
+  규모 비율 0.8 추정
+  → 8천만원 × 0.8 = 6.4천만원 ✓ 유사
+  
+완충 적용:
+  스타트업 불확실성 = 높음 → 25% 완충
+  최종: 6.5천만 × 1.25 = 8천만원
+  
+투자 제안서:
+  개발비: 8천만원 (±30%)
+  기간: 4~6개월
+  가정: 외주 개발팀 5명 기준
+  
+  Phase 2 정밀 산정: WBS 작성 후 상향식 재검토
+```
 
 > 📢 **섹션 요약 비유**: 스타트업 [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/) 산정은 맛집 오픈 예산 — 인테리어·장비·인건비 정확히 모르지만 "비슷한 가게 개업에 1억 들었으니 1~1.2억" 투자자 설득에 충분!
 
@@ -221,19 +232,19 @@ tags = ["studynote-software-engineering"]
 ```
 하향식 비용 산정 (Top-Down)
 +-- 기법
-| +-- 전문가 감정
-| +-- 델파이 기법
-| +-- 유추 산정
-| +-- 3점 추정 (PERT)
+|   +-- 전문가 감정
+|   +-- 델파이 기법
+|   +-- 유추 산정
+|   +-- 3점 추정 (PERT)
 +-- 비교
-| +-- 상향식 (Bottom-Up)
-| +-- 이중 검증
+|   +-- 상향식 (Bottom-Up)
+|   +-- 이중 검증
 +-- 보정
-| +-- Cone of Uncertainty
-| +-- 완충(Contingency)
+|   +-- Cone of Uncertainty
+|   +-- 완충(Contingency)
 +-- 산출물
-+-- 범위 추정 (낙관/기대/비관)
-+-- 리스크 포함 예산
+    +-- 범위 추정 (낙관/기대/비관)
+    +-- 리스크 포함 예산
 ```
 
 ---
@@ -244,18 +255,18 @@ tags = ["studynote-software-engineering"]
 [초기 하향식 (1960~70s)]
 전문가 감정 중심
 경험적 산정
-|
-v
+      |
+      v
 [체계화 (1970~80s)]
 PERT (3점 추정)
 델파이 기법 소프트웨어 적용
-|
-v
+      |
+      v
 [모델 기반 (1980~90s)]
 COCOMO, 기능점수
 유추 산정의 정량화
-|
-v
+      |
+      v
 [애자일 시대 (2000s~)]
 스토리 포인트 상대 추정
 Planning Poker (델파이 변형)

@@ -41,24 +41,27 @@ tags = ["studynote-bigdata"]
 
 [제타바이트 시대](/knowledge-base/studynote/16_bigdata/01_intro/004_bigdata_necessity/)의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 폭발은 단일 요인이 아닌 <strong>'3대 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/">트리거</a>(Trigger)'</strong>가 상호 작용하여 발생한 아키텍처적 빅뱅입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">제타바이트(Zettabyte) 시대를 촉발한 3대 아키텍처 트리거</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1. 사람(Human)이 만드는 데이터:</div><div class="kb-diagram-node">Web 2.0 &amp; 모바일 생태계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 유튜브, 틱톡, 인스타그램 등 고용량 비정형 미디어 트래픽 폭증</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 스마트폰을 통한 24시간 끊임없는 연결과 디지털 족적 남김</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2. 기계(Machine)가 만드는 데이터:</div><div class="kb-diagram-node">IoT &amp; Edge Computing</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 자율주행차 1대가 하루에 생성하는 센서 데이터 약 4TB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 스마트 팩토리, 스마트 시티의 수백억 개 센서가 뿜어내는 로그</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3. 인공지능(AI)이 복제/생성하는 데이터:</div><div class="kb-diagram-node">Generative AI &amp; LLM</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- ChatGPT, Midjourney 등 생성 AI가 만들어내는 합성 데이터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 기계가 기계를 학습시키기 위해 만들어내는 2차 파생 데이터 폭발</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          [ 제타바이트(Zettabyte) 시대를 촉발한 3대 아키텍처 트리거 ]    │
+│                                                             │
+│  1. 사람(Human)이 만드는 데이터: [ Web 2.0 & 모바일 생태계 ]     │
+│     - 유튜브, 틱톡, 인스타그램 등 고용량 비정형 미디어 트래픽 폭증 │
+│     - 스마트폰을 통한 24시간 끊임없는 연결과 디지털 족적 남김     │
+│                                │                            │
+│ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─┼─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ │
+│                                ▼                            │
+│  2. 기계(Machine)가 만드는 데이터: [ IoT & Edge Computing ]     │
+│     - 자율주행차 1대가 하루에 생성하는 센서 데이터 약 4TB       │
+│     - 스마트 팩토리, 스마트 시티의 수백억 개 센서가 뿜어내는 로그 │
+│                                │                            │
+│ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─┼─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ │
+│                                ▼                            │
+│  3. 인공지능(AI)이 복제/생성하는 데이터: [ Generative AI & LLM ] │
+│     - ChatGPT, Midjourney 등 생성 AI가 만들어내는 합성 데이터   │
+│     - 기계가 기계를 학습시키기 위해 만들어내는 2차 파생 데이터 폭발│
+└─────────────────────────────────────────────────────────────┘
+```
 
 ### 1. [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)의 전면적 해체와 재구성
 제타바이트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 소화하기 위해 기존의 깔끔한 RDBMS [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)와 정형화된 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/)(Extract, Transform, Load) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 아키텍처는 해체되었습니다.
@@ -132,23 +135,21 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Mega→Giga→Tera→Peta (10^15) 규모 성장</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Exa (10^18) → Zetta (10^21) — ZB 시대 도래</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Scale-out 아키텍처 (Hadoop / NoSQL / 카산드라)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Cloud Native 무한 확장 (AWS S3 / GCP Cloud Storage)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Data Tiering (Hot/Warm/Cold) + Dark Data 거버넌스</div></div>
-</div>
-</div>
-
-
+```text
+[Mega→Giga→Tera→Peta (10^15) 규모 성장]
+    │
+    ▼
+[Exa (10^18) → Zetta (10^21) — ZB 시대 도래]
+    │
+    ▼
+[Scale-out 아키텍처 (Hadoop / NoSQL / 카산드라)]
+    │
+    ▼
+[Cloud Native 무한 확장 (AWS S3 / GCP Cloud Storage)]
+    │
+    ▼
+[Data Tiering (Hot/Warm/Cold) + Dark Data 거버넌스]
+```
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규모가 ZB 시대에 돌입하면서 단일 서버의 [Scale-up](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/) 한계를 Scale-out과 [Cloud Native](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/) 무한 스토리지로 돌파하고, 방치된 Dark Data의 거버넌스가 새로운 과제로 부상한다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

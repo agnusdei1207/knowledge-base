@@ -85,7 +85,7 @@ tags = ["studynote-bigdata"]
 4. DataFrame / Dataset — [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 기반, Catalyst 최적화, Type-[safe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/)
 5. [Spark SQL](/knowledge-base/studynote/16_bigdata/03_spark/056_spark_sql/) — SQL [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)로 DataFrame 처리, [Hive](/knowledge-base/studynote/05_database/04_transactions_concurrency/544_hive/) 메타스토어 연동
 6. [Catalyst Optimizer](/knowledge-base/studynote/16_bigdata/03_spark/057_catalyst_optimizer/) — [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) → 물리 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) 최적화
-7. [Tungsten Engine](/knowledge-base/studynote/16_bigdata/03_spark/058_tungsten_engine/) — CPU/메모리 최적화, Codegen, Off-[heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/) 메모리
+7. [Tungsten 엔진](/knowledge-base/studynote/16_bigdata/03_spark/058_tungsten_engine/) — CPU/메모리 최적화, Codegen, Off-[heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/) 메모리
 8. AQE (Adaptive Query Execution) — 런타임 통계 기반 자동 최적화 (Spark 3.0+)
 9. [Spark Streaming](/knowledge-base/studynote/16_bigdata/03_spark/060_spark_streaming_dstream/) ([DStream](/knowledge-base/studynote/16_bigdata/03_spark/060_spark_streaming_dstream/)) — 마이크로배치 스트리밍 (구세대)
 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/). [Structured Streaming](/knowledge-base/studynote/16_bigdata/03_spark/061_structured_streaming/) — DataFrame [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 스트리밍, 연속 처리, [Watermark](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/)
@@ -101,7 +101,7 @@ tags = ["studynote-bigdata"]
 20. [체크포인팅](/knowledge-base/studynote/16_bigdata/03_spark/071_checkpointing/) ([Checkpointing](/knowledge-base/studynote/16_bigdata/03_spark/071_checkpointing/)) — Lineage 단절, 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가속
 21. [Spark History Server](/knowledge-base/studynote/16_bigdata/03_spark/072_spark_history_server/) — 완료 작업 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 조회, UI
 22. [Delta Lake on Spark](/knowledge-base/studynote/16_bigdata/03_spark/073_delta_lake_on_spark/) — ACID [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/), MERGE INTO, 타임 트래블
-23. [Photon Engine](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) ([Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/)) — 네이티브 벡터화 Spark 실행 엔진
+23. [Photon 엔진](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/) ([Databricks](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/)) — 네이티브 벡터화 Spark 실행 엔진
 24. [Apache Spark](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/) 3.5+ 개선 — ANSI SQL 확대, Python [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 강화
 
 ---

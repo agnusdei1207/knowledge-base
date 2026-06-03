@@ -33,24 +33,26 @@ tags = ["studynote-devops-sre"]
 
 하지만 단 하나의 레이어라도 변경(무효화)되면, 그 밑에 있는 **모든 후속 레이어의 캐시는 연쇄적으로 박살(Invalidated)** 나며 전부 새로 빌드해야 한다. 따라서 "변화의 빈도가 낮은 것부터 높은 것 순서로" [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 정렬하는 것이 핵심 원리다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">효율적인 Dockerfile 캐시 최적화 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">명령어 순서</div><div class="kb-diagram-node">변경 빈도</div><div class="kb-diagram-node">캐시 재사용 여부</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. FROM ubuntu:20.04 (가장 안 변함) ──▶ ✅ 캐시 히트(Hit)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. COPY package.json (가끔 변함) ──▶ ✅ 캐시 히트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(라이브러리 목록만 먼저 복사)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. RUN npm install (종속성 다운) ──▶ ✅ 2번이 안 변했으므로 캐시 히트!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(가장 시간이 오래 걸리는 병목 구간 - 캐시 방어 성공!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. COPY . /app (매번 변함) ──▶ ❌ 캐시 미스(Miss)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(수시로 바뀌는 실제 앱 소스코드 복사)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">5. CMD</div><div class="kb-diagram-node">"npm", "start"</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">❌ 연쇄 캐시 미스</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────┐
+│              효율적인 Dockerfile 캐시 최적화 아키텍처           │
+├─────────────────────────────────────────────────────────────────┤
+│ [명령어 순서]             [변경 빈도]       [캐시 재사용 여부]  │
+│                                                                 │
+│ 1. FROM ubuntu:20.04    (가장 안 변함)  ──▶ ✅ 캐시 히트(Hit)   │
+│                                                                 │
+│ 2. COPY package.json    (가끔 변함)     ──▶ ✅ 캐시 히트        │
+│    (라이브러리 목록만 먼저 복사)                                │
+│                                                                 │
+│ 3. RUN npm install      (종속성 다운)   ──▶ ✅ 2번이 안 변했으므로 캐시 히트! │
+│    (가장 시간이 오래 걸리는 병목 구간 - 캐시 방어 성공!)        │
+│                                                                 │
+│ 4. COPY . /app          (매번 변함)     ──▶ ❌ 캐시 미스(Miss)  │
+│    (수시로 바뀌는 실제 앱 소스코드 복사)                        │
+│                                                                 │
+│ 5. CMD ["npm", "start"] (후속 레이어)   ──▶ ❌ 연쇄 캐시 미스   │
+└─────────────────────────────────────────────────────────────────┘
+```
 
 만약 4번의 `COPY . /app`(소스 전체 복사)을 2번 위치로 올린다면 어떻게 될까? 소스코드는 매번 바뀌므로, 그 아래에 있는 가장 무거운 3번 `npm install` 레이어가 매번 무효화되어 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 효과가 0이 된다. 이것이 레이어 정렬의 핵심 원리다.
 
@@ -113,25 +115,24 @@ tags = ["studynote-devops-sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">빌드 파이프라인의 가속 최적화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">단일 Monolithic 빌드 (매번 전체 컴파일, 극도의 비효율)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">로컬 패키지 캐싱 (npm, Maven 폴더 캐싱)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Docker Layer Caching (명령어 순서와 해시 기반 레이어 재사용)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Multi-stage Build (빌드 캐시 활용 + 최종 이미지 경량화 달성)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">분산 BuildKit &amp; Remote Cache (CI/CD 팜 전체의 지식 공유 및 병렬 빌드)</div>
-</div>
-</div>
-
-
+```text
+빌드 파이프라인의 가속 최적화
+    │
+    ▼
+단일 Monolithic 빌드 (매번 전체 컴파일, 극도의 비효율)
+    │
+    ▼
+로컬 패키지 캐싱 (npm, Maven 폴더 캐싱)
+    │
+    ▼
+Docker Layer Caching (명령어 순서와 해시 기반 레이어 재사용)
+    │
+    ▼
+Multi-stage Build (빌드 캐시 활용 + 최종 이미지 경량화 달성)
+    │
+    ▼
+분산 BuildKit & Remote Cache (CI/CD 팜 전체의 지식 공유 및 병렬 빌드)
+```
 
 이 흐름도는 "매번 처음부터 빌드 → 로컬 자원 재사용 → 레이어 구조화 → 이미지 다이어트 결합 → 클라우드 스케일의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 캐시 공유"로 이어지는 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화의 진화를 보여준다.
 

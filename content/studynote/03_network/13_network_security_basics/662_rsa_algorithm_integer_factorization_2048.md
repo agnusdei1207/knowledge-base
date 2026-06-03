@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 1977년 MIT의 세 학자(Ron **R**ivest, Adi **S**hamir, Leonard **A**dleman)의 이름 앞 글자를 따서 명명된 <strong>인류 역사상 가장 유명하고 전 세계적으로 가장 널리 쓰이는 비대칭키(공개키) <a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/504_cryptography_algorithms_aes_rsa_sha/">암호화 알고리즘</a></strong>입니다.
 - 인터넷 전자 상거래, 공인인증서([전자서명](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/)), SSL/[TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/)) 통신의 키 교환 등 모든 현대 보안의 근간이 되는 수학적 발명품입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">수학적 문제 기반</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">RSA 알고리즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ElGamal 및 DSA 시스템</div></div>
-</div>
-</div>
-
-
+```text
+[수학적 문제 기반]
+    │
+    ▼
+[RSA 알고리즘]
+    │
+    └──▶ [ElGamal 및 DSA 시스템]
+```
 
 - **📢 섹션 요약 비유**: [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -57,18 +53,14 @@ RSA는 앞선 661번 문서에서 배운 <strong>소인수분해 문제(Integer 
 3. <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/988_digital_signature/">전자 서명</a> (내가 진짜 작성자임을 증명할 때)</strong>
    - 반대로 내가 공지사항을 내 **개인키 $d$**로 암호화(도장)해서 올리면, 전 세계 누구나 내 '공개키($N, e$)'를 곱해보고 평문이 툭 튀어나오는 것을 보고 "아! 진짜 본인 개인키로 쓴 글 맞네!"라고 증명할 수 있습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">수학적 문제 기반</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">RSA 알고리즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ElGamal 및 DSA 시스템</div></div>
-</div>
-</div>
-
-
+```text
+[수학적 문제 기반]
+    │
+    ▼
+[RSA 알고리즘]
+    │
+    └──▶ [ElGamal 및 DSA 시스템]
+```
 
 - **📢 섹션 요약 비유**: [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -126,19 +118,15 @@ RSA는 앞선 661번 문서에서 배운 <strong>소인수분해 문제(Integer 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 수학적 문제 기반</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: RSA 알고리즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: ElGamal 및 DSA 시스템</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 수학적 문제 기반]
+    │
+    ▼
+[현재 개념: RSA 알고리즘]
+    │
+    ├──▶ [확장 A: ElGamal 및 DSA 시스템]
+    └──▶ [확장 B: 자동화된 신뢰 체계]
+```
 
 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)는 [수학적 문제 기반](/knowledge-base/studynote/03_network/13_network_security_basics/661_asymmetric_key_math_factorization_dlp/)에서 출발해 현재 메커니즘을 정교화하고, 이후 ElGamal 및 DSA 시스템와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

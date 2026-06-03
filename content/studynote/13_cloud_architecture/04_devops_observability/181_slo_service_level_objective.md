@@ -27,20 +27,18 @@ SLO가 필요한 이유는 메트릭만 많다고 운영이 명확해지지 않�
 
 아래 그림은 목표 없는 관측과 SLO 기반 운영의 차이를 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">목표 없는 운영 vs SLO 기반 운영</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메트릭만 있음: CPU 70%, p95 420ms, 오류율 0.3%</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 팀마다 해석이 달라 배포 판단이 흔들림</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SLO 있음: 로그인 성공률 99.95%, p95 300ms (30일)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 목표 이내 -&gt; 기능 배포 가능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 목표 이탈 -&gt; 안정화 우선, Error Budget 점검</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ 목표 없는 운영 vs SLO 기반 운영                               │
+├──────────────────────────────────────────────────────────────┤
+│ 메트릭만 있음: CPU 70%, p95 420ms, 오류율 0.3%              │
+│   └─ 팀마다 해석이 달라 배포 판단이 흔들림                  │
+│                                                              │
+│ SLO 있음: 로그인 성공률 99.95%, p95 300ms (30일)            │
+│   ├─ 목표 이내  -> 기능 배포 가능                            │
+│   └─ 목표 이탈  -> 안정화 우선, Error Budget 점검           │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 핵심은 SLO가 단순 보고서 숫자가 아니라, 변경 관리와 장애 대응의 기준점이라는 사실이다. 즉 SLO가 정의되는 순간부터 관측성은 모니터링을 넘어 운영 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 된다.
 
@@ -64,21 +62,23 @@ SLO는 보통 네 가지 요소로 설계된다. 첫째, 어떤 사용자 여정
 
 아래 흐름은 SLO가 측정값에서 운영 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 변하는 과정을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SLO가 운영 판단으로 바뀌는 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 요청</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SLI 계산: good / total, p95, freshness</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 30일 목표치 비교 ▶ SLO 달성 / 미달</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 허용 실패량 계산 ▶ Error Budget</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 잔여 충분 -&gt; 배포·실험 가능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 급감 중 -&gt; 변경 제한</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ SLO가 운영 판단으로 바뀌는 흐름                              │
+├──────────────────────────────────────────────────────────────┤
+│ 사용자 요청                                                  │
+│    │                                                         │
+│    ▼                                                         │
+│ SLI 계산: good / total, p95, freshness                       │
+│    │                                                         │
+│    ├─ 30일 목표치 비교 ───────▶ SLO 달성 / 미달              │
+│    │                                                         │
+│    └─ 허용 실패량 계산 ────▶ Error Budget                    │
+│                              │                               │
+│                              ├─ 잔여 충분 -> 배포·실험 가능  │
+│                              └─ 급감 중     -> 변경 제한     │
+└──────────────────────────────────────────────────────────────┘
+```
 
 실무에서는 Burn Rate도 함께 본다. Burn Rate는 Error Budget이 얼마나 빠르게 소진되는지 보는 속도 지표다. 같은 1% 오류율이라도 5분 안에 급격히 치솟는 장애와, 며칠 동안 천천히 악화되는 문제는 대응 방식이 다르므로 SLO는 반드시 시간축과 함께 운영되어야 한다.
 
@@ -138,7 +138,7 @@ SLO 숫자는 보기엔 비슷해 보여도 허용 실패량 차이는 매우 �
 
 ## Ⅴ. 기대효과 및 결론
 
-좋은 SLO는 조직 안에서 "충분히 안정적이다"를 같은 숫자로 말하게 만든다. 개발팀은 새 기능 배포가 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)에 미치는 영향을 이해하고, [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/))와 운영팀은 어느 문제를 먼저 고쳐야 하는지 우선순위를 세울 수 있다. 경영진 입장에서도 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 투자가 단순 비용이 아니라 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 방어와 고객 경험 보호라는 점을 설명하기 쉬워진다.
+좋은 SLO는 조직 안에서 "충분히 안정적이다"를 같은 숫자로 말하게 만든다. 개발팀은 새 기능 배포가 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)에 미치는 영향을 이해하고, [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/))와 운영팀은 어느 문제를 먼저 고쳐야 하는지 우선순위를 세울 수 있다. 경영진 입장에서도 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 투자가 단순 비용이 아니라 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 방어와 고객 경험 보호라는 점을 설명하기 쉬워진다.
 
 물론 SLO가 만능은 아니다. 잘못 정의된 [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) 위에 세운 SLO는 오히려 팀을 엉뚱한 숫자에 집착하게 만들 수 있고, 너무 많은 SLO는 관측 피로만 키운다. 그래서 핵심 사용자 여정을 대표하는 소수의 SLO와, 원인 분석을 위한 풍부한 진단 메트릭을 분리해서 가져가는 것이 중요하다.
 
@@ -158,29 +158,28 @@ SLO 숫자는 보기엔 비슷해 보여도 허용 실패량 차이는 매우 �
 | [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) ([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)) | 내부 SLO를 바탕으로 외부 계약으로 확장한 약속 |
 | [Synthetic Monitoring](/knowledge-base/studynote/15_devops_sre/03_sre_observability/164_synthetic_monitoring_dummy_client/) | 외부 사용자 관점 [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) 수집 수단 |
 | RED (Rate, Errors, Duration) Method | 요청량, 오류, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 중심 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) 설계 프레임 |
-| [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)) | SLO와 배포 속도를 함께 조정하는 운영 모델 |
+| [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)) | SLO와 배포 속도를 함께 조정하는 운영 모델 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">핵심 사용자 여정 정의</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SLI (Service Level Indicator) 계산</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SLO (Service Level Objective) 목표치 설정</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Error Budget · Burn Rate 운영</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">배포 정책 · 안정화 투자 의사결정</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SLA (Service Level Agreement) 및 고객 신뢰 관리</div>
-</div>
-</div>
-
-
+```text
+핵심 사용자 여정 정의
+    │
+    ▼
+SLI (Service Level Indicator) 계산
+    │
+    ▼
+SLO (Service Level Objective) 목표치 설정
+    │
+    ▼
+Error Budget · Burn Rate 운영
+    │
+    ▼
+배포 정책 · 안정화 투자 의사결정
+    │
+    ▼
+SLA (Service Level Agreement) 및 고객 신뢰 관리
+```
 
 이 흐름은 단순 관측 수치가 내부 운영 목표로 바뀌고, 다시 계약과 고객 신뢰 관리까지 확장되는 과정을 보여 준다.
 

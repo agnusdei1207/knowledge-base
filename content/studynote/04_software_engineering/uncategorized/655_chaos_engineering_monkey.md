@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/) ([Chaos Engineering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/))은 통제된 조건 하에서 시스템에 의도적인 장애(서버 종료, [네트워크 지연](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/), 리소스 고갈 등)를 주입하고, 시스템이 이를 어떻게 견뎌내고 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하는지 관찰함으로써 운영 환경에서의 복원력(Resilience)에 대한 확신을 구축하는 실험적 접근법이다. 이는 단순한 테스트가 아니라, 가설을 세우고 증명하는 과학적 실험이다.
+- **개념**: [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/) ([Chaos 엔진ering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/))은 통제된 조건 하에서 시스템에 의도적인 장애(서버 종료, [네트워크 지연](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/), 리소스 고갈 등)를 주입하고, 시스템이 이를 어떻게 견뎌내고 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하는지 관찰함으로써 운영 환경에서의 복원력(Resilience)에 대한 확신을 구축하는 실험적 접근법이다. 이는 단순한 테스트가 아니라, 가설을 세우고 증명하는 과학적 실험이다.
 
 - **필요성**: 현대의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템과 [마이크로서비스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))는 수십, 수백 개의 독립적인 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 네트워크를 통해 통신하는 복잡계(Complex System)다. 개발 환경에서 아무리 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)와 통합 테스트를 철저히 하더라도, 프로덕션 환경의 트래픽 급증, 네트워크 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/), 클라우드 리전 장애 같은 창발적(Emergent) [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)은 예측이 불가능하다. "장애는 피할 수 없다"는 전제하에, 큰 장애가 터지기 전에 작은 장애를 일으켜 백신을 맞는 과정이 필수적이 되었다.
 
@@ -31,26 +31,30 @@ tags = ["studynote-software-engineering"]
 
   전통적인 테스팅 환경과 [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)의 패러다임 차이를 시각화하면 다음과 같다. 예측 가능한 영역을 넘어선 미지의 영역을 어떻게 대비하는지가 핵심이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전통적 테스팅 vs 카오스 엔지니어링 패러다임 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">알려진 것 영역 (Known)</div><div class="kb-diagram-node">미지의 영역 (Unknown)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(단위 테스트) (카오스 엔지니어링)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">알려진 원인 → 알려진 결과 알려지지 않은 원인 → 미지의 결과</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Input</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Output</div><div class="kb-diagram-cell">결함 주입</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">시스템반응</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(x = 5)</div><div class="kb-diagram-cell">(y = 10)</div><div class="kb-diagram-cell">(서버Kill)</div><div class="kb-diagram-cell">관찰/학습</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 위치: 주로 Staging/Dev 환경 * 위치: Production (운영) 환경</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 목적: 코드의 로직 검증 * 목적: 시스템의 복원력 검증</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 상태: 정적이고 통제됨 * 상태: 동적이고 무작위함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장애 발생 시나리오:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 전통적 접근: "만약 DB가 다운되면 어떻게 하지? 코드로 테스트해보자."</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 카오스 접근: "지금 당장 운영 DB의 연결을 끊어보자. 정말 버티는지 보자."</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────┐
+  │         전통적 테스팅 vs 카오스 엔지니어링 패러다임 비교             │
+  ├───────────────────────────────────────────────────────────────┤
+  │                                                               │
+  │   [알려진 것 영역 (Known)]          [미지의 영역 (Unknown)]        │
+  │                                                               │
+  │        (단위 테스트)                        (카오스 엔지니어링)      │
+  │     알려진 원인 → 알려진 결과          알려지지 않은 원인 → 미지의 결과 │
+  │   ┌─────────┐      ┌─────────┐     ┌─────────┐      ┌─────────┐   │
+  │   │  Input  │─────▶│ Output  │     │결함 주입│─────▶│시스템반응│   │
+  │   │ (x = 5) │      │ (y = 10)│     │(서버Kill)│      │관찰/학습│   │
+  │   └─────────┘      └─────────┘     └─────────┘      └─────────┘   │
+  │                                                               │
+  │   * 위치: 주로 Staging/Dev 환경      * 위치: Production (운영) 환경 │
+  │   * 목적: 코드의 로직 검증             * 목적: 시스템의 복원력 검증       │
+  │   * 상태: 정적이고 통제됨             * 상태: 동적이고 무작위함         │
+  │                                                               │
+  │  =============================================================│
+  │  장애 발생 시나리오:                                              │
+  │  - 전통적 접근: "만약 DB가 다운되면 어떻게 하지? 코드로 테스트해보자."     │
+  │  - 카오스 접근: "지금 당장 운영 DB의 연결을 끊어보자. 정말 버티는지 보자." │
+  └───────────────────────────────────────────────────────────────┘
+```
 
   **[다이어그램 해설]** 전통적인 테스트는 개발자가 이미 알고 있는 실패 조건(Known-Unknowns)에 대해서만 Assert문을 작성한다. 그러나 클라우드 환경에서는 '우리가 무엇을 모르는지조차 모르는 상태(Unknown-Unknowns)'의 복합 장애가 빈번하다. 예를 들어 "A [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 B [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 풀을 고갈시키고, 결국 C [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 전체 장애로 이어지는" 나비효과는 코드 레벨 테스트로는 발견 불가능하다. [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)은 바로 이 미지의 영역 탐구를 위해, 통제된 모의 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 프로덕션 환경에 투척하여 시스템의 숨겨진 취약성(Hidden Vulnerabilities)을 들춰내는 과학적 탐구 과정이다.
 
@@ -144,30 +148,28 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/) [카오스 몽키](/knowledge-base/studynote/15_devops_sre/03_sre_observability/149_chaos_monkey_chaos_mesh/) 복원력의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/) [카오스 몽키](/knowledge-base/studynote/15_devops_sre/03_sre_observability/149_chaos_monkey_chaos_mesh/) 복원력의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
 | [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/) [카오스 몽키](/knowledge-base/studynote/15_devops_sre/03_sre_observability/149_chaos_monkey_chaos_mesh/) 복원력은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/) [카오스 몽키](/knowledge-base/studynote/15_devops_sre/03_sre_observability/149_chaos_monkey_chaos_mesh/) 복원력 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
 | [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/) [카오스 몽키](/knowledge-base/studynote/15_devops_sre/03_sre_observability/149_chaos_monkey_chaos_mesh/) 복원력에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">카오스 엔지니어링 카오스 몽키 복원력 개념 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 위기 (Software Crisis) 인식
+    │
+    ▼
+카오스 엔지니어링 카오스 몽키 복원력 개념 정립
+    │
+    ▼
+표준화 및 방법론 체계화 (ISO, CMMI, Agile)
+    │
+    ▼
+클라우드 네이티브·AI 기반 확장 적용
+    │
+    ▼
+지속적 개선 및 DevOps·MLOps 통합
+```
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

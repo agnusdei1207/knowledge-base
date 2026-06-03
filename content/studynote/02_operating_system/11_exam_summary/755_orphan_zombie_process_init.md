@@ -35,27 +35,28 @@ tags = ["studynote-operating-system"]
 - **등장 배경**: 
   - UNIX 설계자들은 부모-자식 간의 엄격한 동기화와 상태 전달을 위해 `wait()` 시스템 콜을 강제했다. 이 철학 때문에 좀비와 고아라는 기형적인 상태가 탄생했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고아(Orphan)와 좀비(Zombie) 발생 메커니즘 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 정상 종료 (Normal)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부모 (PID 10) wait() 대기 ▶ 자식 종료! Exit Code 수거 완료</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 자식 (PID 11) ──exit() (자식은 시스템에서 완전 소멸)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 좀비 프로세스 (Zombie)</div><div class="kb-diagram-note">- "죽었는데 묻히질 못함"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부모 (PID 10) 딴일 바쁨 (wait 안함)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">좀비 상태 (Z)</div><div class="kb-diagram-note">발생!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리는 비웠지만 PID는 점유 중!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3. 고아 프로세스 (Orphan)</div><div class="kb-diagram-note">- "부모가 먼저 죽음"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부모 (PID 10) ──exit() (먼저 죽음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 자식 (PID 11) ──(계속 실행 중) ─▶ 👶 고아 상태 발생!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">init 프로세스 (PID 1)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">(자동으로 입양됨)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(새 아빠가 주기적으로 wait()를 호출해 나중에 좀비 방지)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │                 고아(Orphan)와 좀비(Zombie) 발생 메커니즘 시각화 │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │  [ 1. 정상 종료 (Normal) ]                                    │
+  │  부모 (PID 10) ───wait() 대기───▶ 자식 종료! Exit Code 수거 완료 │
+  │    └── 자식 (PID 11) ──exit()───┘ (자식은 시스템에서 완전 소멸)    │
+  │                                                             │
+  │  [ 2. 좀비 프로세스 (Zombie) ] - "죽었는데 묻히질 못함"            │
+  │  부모 (PID 10) ───딴일 바쁨 (wait 안함) ────────────────────── │
+  │    └── 자식 (PID 11) ──exit()──▶ 🧟‍♂️ [좀비 상태 (Z)] 발생!      │
+  │                                   메모리는 비웠지만 PID는 점유 중!  │
+  │                                                             │
+  │  [ 3. 고아 프로세스 (Orphan) ] - "부모가 먼저 죽음"               │
+  │  부모 (PID 10) ──exit() (먼저 죽음)                             │
+  │    └── 자식 (PID 11) ──(계속 실행 중) ─▶ 👶 고아 상태 발생!       │
+  │                                       │                     │
+  │        [ init 프로세스 (PID 1) ] ◀──────┘ (자동으로 입양됨)     │
+  │        (새 아빠가 주기적으로 wait()를 호출해 나중에 좀비 방지)         │
+  └─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 그림은 생명 주기의 비정상적 분기를 명확히 보여준다. 좀비 상태(Z 상태)는 프로세스의 모든 메모리가 OS에 반납되었으나, 단지 PID(프로세스 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/))와 종료 코드만이 PCB에 남아있는 상태다. 좀비 하나하나는 자원을 거의 안 먹지만, 이게 수만 개가 쌓이면 OS가 발급할 수 있는 PID 번호가 고갈되어 새로운 프로그램을 아예 못 띄우는 시스템 마비가 온다. [고아 프로세스](/knowledge-base/studynote/02_operating_system/02_process_thread/110_orphan_process/)의 경우 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 즉각 개입하여 시스템의 루트인 `init(PID 1)`에게 입양시킨다. `init`은 세상에서 제일 성실한 부모라서 주기적으로 `wait()`를 호출해 주므로, 고아는 나중에 죽어도 좀비가 되지 않고 깔끔하게 성불(Reaping)한다.
 
@@ -80,23 +81,25 @@ tags = ["studynote-operating-system"]
 
 리눅스 백그라운드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(예: 웹 서버, DB)는 사용자의 터미널 창을 꺼도 안 죽고 계속 살아서 돌아야 한다. 이를 위해 개발자들은 일부러 <strong>'의도적인 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/110_orphan_process/">고아 프로세스</a>'</strong>를 만드는 기법을 사용한다. 이것이 데몬(Daemon) 생성의 핵심이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">의도적 고아를 이용한 데몬(Daemon) 프로세스 생성 기법</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 터미널에서 프로그램 실행 (부모 PID 100)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 부모가 <code>fork()</code> 호출하여 자식(PID 101) 생성</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">부모 PID 100</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 즉시 <code>exit()</code> 호출하고 죽음! ◀── 핵심 1. 의도적 자살</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">자식 PID 101</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 부모가 죽었으므로 '고아'가 됨. init(PID 1)에게 입양됨.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ <code>setsid()</code> 호출하여 터미널과의 연결 고리(세션) 끊음.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 🚀 완벽한 백그라운드 데몬(Daemon)으로 탈바꿈 성공!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 의도적 고아를 이용한 데몬(Daemon) 프로세스 생성 기법       │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   1. 터미널에서 프로그램 실행 (부모 PID 100)                             │
+  │         │                                                         │
+  │         ▼                                                         │
+  │   2. 부모가 `fork()` 호출하여 자식(PID 101) 생성                        │
+  │         │                                                         │
+  │         ├──▶ [ 부모 PID 100 ]                                       │
+  │         │       └─ 즉시 `exit()` 호출하고 죽음! ◀── 핵심 1. 의도적 자살  │
+  │         │                                                         │
+  │         └──▶ [ 자식 PID 101 ]                                       │
+  │                 └─ 부모가 죽었으므로 '고아'가 됨. init(PID 1)에게 입양됨.   │
+  │                 └─ `setsid()` 호출하여 터미널과의 연결 고리(세션) 끊음.     │
+  │                 └─ 🚀 완벽한 백그라운드 데몬(Daemon)으로 탈바꿈 성공!      │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 코딩 패턴은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 해킹에 가까운 우아한 우회 기법이다. [부모 프로세스](/knowledge-base/studynote/02_operating_system/02_process_thread/105_parent_child_process/)를 터미널에서 실행하면 터미널 창([세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/))에 종속된다. 부모가 자식을 낳고 자살해 버리면, 터미널은 "아, 명령어가 끝났구나" 하고 프롬프트(`$`)를 반환해 준다. 한편 남겨진 자식은 고아가 되어 터미널의 죽음(SIGHUP 시그널)과 무관해진다. 새 아빠인 `init` 프로세스의 품에 안긴 이 고아는 시스템이 꺼질 때까지 조용히 뒷단에서 묵묵히 제 할 일을 수행하는 '데몬'으로 환생하는 것이다.
 
@@ -137,27 +140,32 @@ tags = ["studynote-operating-system"]
    - **원인 분석**: 마스터(부모) 프로세스는 무식하게 워커(자식) 프로세스를 다 죽여버리면, 사용자가 다운로드 중이던 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 끊긴다.
    - **아키텍트 판단 (우아한 좀비 관리)**: 마스터는 자식들에게 "새로운 연결은 받지 말고, 지금 하던 일만 끝나면 스스로 죽어라"고 시그널을 보낸다. 그리고 마스터는 블로킹되지 않기 위해 주기적으로 `waitpid(WNOHANG)` 논블로킹 옵션으로 호출하여 좀비로 변한 자식들만 살짝살짝 수거해 간다. 모든 옛날 자식이 좀비가 되어 청소되면, 마스터는 새로운 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)으로 새 자식을 낳아 교체한다. (무중단 배포의 핵심 원리).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">안전한 프로세스 분기(Fork) 의사결정 트리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">부모 프로세스에서 자식 프로세스를 생성해야 한다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자식이 끝날 때까지 부모가 멈춰서 기다려야 하는가? (동기식)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node"><code>wait()</code> 호출 (간단하게 해결)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 (부모는 부모대로 바쁘게 다른 일을 계속 해야 한다)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자식이 끝난 성공/실패 결과(Exit Status)가 부모에게 중요한가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node"><code>SIGCHLD</code> 시그널 핸들러 등록</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(핸들러 안에서 비동기적으로 <code>waitpid</code> 호출)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 (자식이 죽든 말든 난 신경 끄고 싶다 - Fire &amp; Forget)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▼</div><div class="kb-diagram-node">아키텍트의 궁극의 우회로</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Double Fork (이중 포크) 기법 사용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부모 -&gt; 자식 생성 -&gt; 자식이 곧바로 손자 생성 후 즉시 자살.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(손자는 고아가 되어 init에게 가버리므로, 부모는 손자의 좀비 걱정 탈출!)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 안전한 프로세스 분기(Fork) 의사결정 트리                  │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [ 부모 프로세스에서 자식 프로세스를 생성해야 한다 ]                      │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      자식이 끝날 때까지 부모가 멈춰서 기다려야 하는가? (동기식)               │
+  │          ├─ 예 ─────▶ [ `wait()` 호출 (간단하게 해결) ]              │
+  │          │                                                        │
+  │          └─ 아니오 (부모는 부모대로 바쁘게 다른 일을 계속 해야 한다)           │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      자식이 끝난 성공/실패 결과(Exit Status)가 부모에게 중요한가?           │
+  │          ├─ 예 ─────▶ [ `SIGCHLD` 시그널 핸들러 등록 ]               │
+  │          │             (핸들러 안에서 비동기적으로 `waitpid` 호출)        │
+  │          │                                                        │
+  │          └─ 아니오 (자식이 죽든 말든 난 신경 끄고 싶다 - Fire & Forget)     │
+  │                │                                                  │
+  │                ▼ [아키텍트의 궁극의 우회로]                           │
+  │      [ Double Fork (이중 포크) 기법 사용 ]                           │
+  │      부모 -> 자식 생성 -> 자식이 곧바로 손자 생성 후 즉시 자살.              │
+  │      (손자는 고아가 되어 init에게 가버리므로, 부모는 손자의 좀비 걱정 탈출!)   │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 트리는 백엔드 개발자들의 C/C++ [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 프로그래밍 바이블이다. 자식의 결과가 궁금하지 않을 때 쓰는 '더블 포크(Double Fork)' 기술은 예술적이다. 부모가 자식을 낳고 자식이 손자를 낳게 한 뒤, 중간의 자식만 즉시 자살시킨다. 부모는 죽은 자기 자식에 대해 딱 한 번만 `wait` 해주면 끝이고, 진짜 무거운 일을 하는 '손자'는 부모를 잃은 고아가 되어 OS(init)의 관리를 받으며 완벽히 비동기적으로 일을 처리하게 된다. 좀비 생성을 구조적으로 막는 해커들의 전통적 기법이다.
 
@@ -203,19 +211,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">문맥 교환 비용 (레지스터 저장 복원)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">고아 좀비 프로세스 init 처리 (Orphan Zombie Process Init)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">시스템 콜 오버헤드 이유</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">파일 지연 쓰기 (Delayed Write)</div></div>
-</div>
-</div>
-
-
+```text
+[문맥 교환 비용 (레지스터 저장 복원)]
+    │
+    ▼
+[고아 좀비 프로세스 init 처리 (Orphan Zombie Process Init)]
+    │
+    ├──▶ [시스템 콜 오버헤드 이유]
+    └──▶ [파일 지연 쓰기 (Delayed Write)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

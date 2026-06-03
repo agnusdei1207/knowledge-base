@@ -83,17 +83,11 @@ def search(node, k):
 | Case 2       | 내부 노드의 키 삭제           | 전임자/후계자로 대체 후 삭제   |
 | Case 3       | 삭제 후 노드 [언더플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/)       | 형제에서 빌리거나(재분배) 병합 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">언더플로우 처리:</div>
-<div class="kb-diagram-note">형제에 여유 있음 → 재분배 (부모 키 내려오고 형제 키 올라감)</div>
-<div class="kb-diagram-note">형제도 최소 → 병합 (두 노드 + 부모 키 합체)</div>
-</div>
-</div>
-
-
+```
+언더플로우 처리:
+  형제에 여유 있음 → 재분배 (부모 키 내려오고 형제 키 올라감)
+  형제도 최소 → 병합 (두 노드 + 부모 키 합체)
+```
 
 📢 **섹션 요약 비유**: B-트리 삭제는 학급 합반 규칙이다 — 한 반 학생이 너무 적어지면([언더플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/)) 옆 반에서 한 명 빌리거나(재분배), 아예 두 반을 합반(병합)한다.
 
@@ -151,53 +145,46 @@ B-트리 높이: log₁₀₀(1,000,000) ≈ 3
 
 ## 📌 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">B-트리 (B-Tree)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">설계 목적</div>
-<div class="kb-diagram-note">── 디스크 I/O 최소화</div>
-<div class="kb-diagram-tree-item" style="--depth:0">핵심 연산</div>
-<div class="kb-diagram-note">── 탐색 O(log n)</div>
-<div class="kb-diagram-note">── 삽입 (노드 분할)</div>
-<div class="kb-diagram-note">── 삭제 (병합·재분배)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">변형</div>
-<div class="kb-diagram-note">── B+-트리 (리프 체인, DB 인덱스 표준)</div>
-<div class="kb-diagram-note">── B*-트리 (공간 효율화)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">실제 사용</div>
-<div class="kb-diagram-tree-item" style="--depth:2">DBMS 인덱스 (InnoDB B+ 트리)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">파일시스템 (NTFS, HFS+)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">키-값 스토어 (RocksDB)</div>
-</div>
-</div>
-
-
+```
+B-트리 (B-Tree)
+├── 설계 목적
+│   └── 디스크 I/O 최소화
+├── 핵심 연산
+│   ├── 탐색 O(log n)
+│   ├── 삽입 (노드 분할)
+│   └── 삭제 (병합·재분배)
+├── 변형
+│   ├── B+-트리 (리프 체인, DB 인덱스 표준)
+│   └── B*-트리 (공간 효율화)
+└── 실제 사용
+    ├── DBMS 인덱스 (InnoDB B+ 트리)
+    ├── 파일시스템 (NTFS, HFS+)
+    └── 키-값 스토어 (RocksDB)
+```
 
 ---
 
 ## 📈 관련 키워드 및 발전 흐름도
 
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                   B-트리 발전 흐름                               │
+├──────────────┬────────────────────┬─────────────────────────────┤
+│ 1972년       │ B-트리 논문        │ Bayer & McCreight, Boeing    │
+│ 1976년       │ B+-트리 제안       │ Knuth TAOCP, 리프 체인 추가  │
+│ 1980년대     │ DBMS 인덱스 표준화 │ Oracle·DB2 B+-트리 채택     │
+│ 2000년대     │ InnoDB B+-트리     │ MySQL InnoDB 클러스터 인덱스 │
+│ 2010년대     │ Fractal Tree·LSM  │ B-트리 대안 구조 등장        │
+│ 2020년대     │ NVMe 최적화 B-트리 │ SSD 특성 고려 설계           │
+└──────────────┴────────────────────┴─────────────────────────────┘
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B-트리 발전 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1972년</div><div class="kb-diagram-cell">B-트리 논문</div><div class="kb-diagram-cell">Bayer &amp; McCreight, Boeing</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1976년</div><div class="kb-diagram-cell">B+-트리 제안</div><div class="kb-diagram-cell">Knuth TAOCP, 리프 체인 추가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1980년대</div><div class="kb-diagram-cell">DBMS 인덱스 표준화</div><div class="kb-diagram-cell">Oracle·DB2 B+-트리 채택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2000년대</div><div class="kb-diagram-cell">InnoDB B+-트리</div><div class="kb-diagram-cell">MySQL InnoDB 클러스터 인덱스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2010년대</div><div class="kb-diagram-cell">Fractal Tree·LSM</div><div class="kb-diagram-cell">B-트리 대안 구조 등장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2020년대</div><div class="kb-diagram-cell">NVMe 최적화 B-트리</div><div class="kb-diagram-cell">SSD 특성 고려 설계</div></div>
-<div class="kb-diagram-note">핵심 키워드 연결:</div>
-<div class="kb-diagram-note">이진 탐색 트리 → B-트리(디스크 최적화) → B+-트리(리프 체인)</div>
-<div class="kb-diagram-note">메모리 최적 디스크 페이지 단위 범위 스캔 O(k)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">DBMS 인덱스 표준 → 클러스터 인덱스 → 실행 계획 최적화</div>
-</div>
-</div>
-
-
+핵심 키워드 연결:
+이진 탐색 트리 → B-트리(디스크 최적화) → B+-트리(리프 체인)
+      ↓                   ↓                       ↓
+  메모리 최적        디스크 페이지 단위      범위 스캔 O(k)
+      ↓
+  DBMS 인덱스 표준 → 클러스터 인덱스 → 실행 계획 최적화
+```
 
 ---
 

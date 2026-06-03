@@ -22,7 +22,7 @@ tags = ["studynote-computer-architecture"]
 그런데 학자들이 이 코드를 돌리다 보니, "야 이 미친 행렬 코드가 워드프로세서 같은 거 돌릴 땐 티도 안 나던 <strong>CPU의 진짜 밑바닥 수학 연산력(<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/">부동소수점</a>)과 메모리 랙(병목) 한계치를 가장 극악무도하게 쥐어짜서 까발려버리네 쾅?!</strong>" 
 이때부터 린팩은 단순한 계산기를 넘어 전 세계에서 제일 비싸고 무거운 슈퍼컴퓨터들의 근육(FPU [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))을 시험하는 <strong>'우주 최강의 가혹한 쇳덩이 벤치마크 체력장'</strong>으로 차원 도약 진화하게 되었다.
 
-- **📢 섹션 요약 비유**: 린팩 벤치마크는 <strong>'덤프트럭 1만 대 분량의 모래산(거대 행렬 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>)을 반대편으로 퍼 나르는 포크레인(슈퍼컴퓨터) 채굴 시험'</strong>과 100% 똑같습니다. 일반 벤치마크(SPEC)가 오토바이를 타고 복잡한 장애물 좁은 길을 도는 민첩성 테스트라면, 린팩은 걍 직진밖에 없는 넓은 고속도로에서 포크레인 바가지 크기(연산력)와 트럭의 무한 릴레이(메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))로 압도적인 100% 무식한 물리적 깡패 물량전 스피드([FLOPS](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/137_flops/))를 겨루는 웅장한 헤비급 매치입니다.
+- **📢 섹션 요약 비유**: 린팩 벤치마크는 <strong>'덤프트럭 1만 대 분량의 모래산(거대 행렬 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>)을 반대편으로 퍼 나르는 포크레인(슈퍼컴퓨터) 채굴 시험'</strong>과 100% 똑같습니다. 일반 벤치마크(SPEC)가 오토바이를 타고 복잡한 장애물 좁은 길을 도는 민첩성 테스트라면, 린팩은 걍 직진밖에 없는 넓은 고속도로에서 포크레인 바가지 크기(연산력)와 트럭의 무한 릴레이(메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))로 압도적인 100% 무식한 물리적 깡패 수량전 스피드([FLOPS](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/137_flops/))를 겨루는 웅장한 헤비급 매치입니다.
 
 ---
 
@@ -30,28 +30,30 @@ tags = ["studynote-computer-architecture"]
 
 수십 테라바이트(TB)의 거대 행렬을 1만 대의 컴퓨터가 어떻게 나눠 먹고 핑퐁(Communication)을 치는가.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HPL (High-Performance Linpack) 분산 슈퍼컴퓨팅 십자 융합 도해 🚀</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🧮</div><div class="kb-diagram-node">문제: 행렬 A 와 X 를 곱해서 B 를 만들어라! (Ax = B)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(데이터가 수 TB 라서 컴퓨터 1대 램(RAM)에는 절대 안 들어감 파국 💥!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1️⃣</div><div class="kb-diagram-node">분할 찢기 (Matrix Tiling)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 거대 행렬을 CPU L1/L2 캐시에 딱 들어맞는 크기로 '타일(Tile)' 조각으로 찢음!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2️⃣</div><div class="kb-diagram-node">MPI 통신 핑퐁 (Network Communication 쉴드 ✨)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 수만 대의 컴퓨터 노드(Node)에 이 타일들을 인피니밴드 네트워크로 뿌려 줌.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 🌟 팩폭 딜레마: 코어끼리 연산 중간 결과를 계속 서로 던지고 받아야 함!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">네트워크(스위치)가 구리면 핑 랙 터져서 CPU는 노는데 점수 떡락 뻗음 💀.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3️⃣</div><div class="kb-diagram-node">FMA 융합 타격 (Fused Multiply-Add)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- 모든 GPU/CPU 코어가 행렬을 씹어 먹으며 </div><div class="kb-diagram-node">곱하고 ➔ 더하기</div><div class="kb-diagram-note"> 연산을 1클럭에</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동시에 쳐 갈기는 하드웨어 융합 엔진(FMA) 풀가동 풀악셀 발동 쾅 🚀!!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🏆</div><div class="kb-diagram-node">최종 엑스레이 점수 산출</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- 1초당 이 짓거리를 몇 번 해치웠냐? ➔ </div><div class="kb-diagram-node">단위: TFLOPS, PFLOPS 록온</div><div class="kb-diagram-note"></div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│         HPL (High-Performance Linpack) 분산 슈퍼컴퓨팅 십자 융합 도해 🚀 │
+├────────────────────────────────────────────────────────────────────┤
+│                                                                    │
+│ 🧮 [ 문제: 행렬 A 와 X 를 곱해서 B 를 만들어라! (Ax = B) ]              │
+│   (데이터가 수 TB 라서 컴퓨터 1대 램(RAM)에는 절대 안 들어감 파국 💥!)     │
+│                                                                    │
+│ 1️⃣ [ 분할 찢기 (Matrix Tiling) ]                                    │
+│   - 거대 행렬을 CPU L1/L2 캐시에 딱 들어맞는 크기로 '타일(Tile)' 조각으로 찢음!│
+│                                                                    │
+│ 2️⃣ [ MPI 통신 핑퐁 (Network Communication 쉴드 ✨) ]                │
+│   - 수만 대의 컴퓨터 노드(Node)에 이 타일들을 인피니밴드 네트워크로 뿌려 줌.    │
+│   - 🌟 팩폭 딜레마: 코어끼리 연산 중간 결과를 계속 서로 던지고 받아야 함!        │
+│     네트워크(스위치)가 구리면 핑 랙 터져서 CPU는 노는데 점수 떡락 뻗음 💀.       │
+│                                                                    │
+│ 3️⃣ [ FMA 융합 타격 (Fused Multiply-Add) ]                           │
+│   - 모든 GPU/CPU 코어가 행렬을 씹어 먹으며 **[곱하고 ➔ 더하기]** 연산을 1클럭에 │
+│     동시에 쳐 갈기는 하드웨어 융합 엔진(FMA) 풀가동 풀악셀 발동 쾅 🚀!!         │
+│                                                                    │
+│ 🏆 [ 최종 엑스레이 점수 산출 ]                                         │
+│   - 1초당 이 짓거리를 몇 번 해치웠냐? ➔ **[단위: TFLOPS, PFLOPS 록온]**    │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 **[아키텍트의 피 터지는 메스: [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/) $O(N^3)$ 의 늪]**
 린팩의 가장 끔찍한 본질은 행렬 크기 $N$이 2배 커지면 연산 노가다량은 8배($2^3$)로 폭주한다는 점이다. 현대 HPL 벤치마크는 칩셋 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 한계까지 쥐어짜기 위해 $N$의 크기를 램(RAM)이 허용하는 최대치 수백만 단위로 끝없이 펌핑 시켜 던진다. 
@@ -102,7 +104,7 @@ tags = ["studynote-computer-architecture"]
 린팩(Linpack)은 컴퓨터를 단순한 '덧셈 계산기' 장난감에서 우주의 기상과 핵폭발을 시뮬레이션하는 <strong>'초정밀 과학 병기'</strong>로 차원 승격 도약시킨, 반세기 컴퓨터 아키텍처 발전사를 관통하는 가장 무자비한 수학적 철혈 심판관이다.
 
 매년 6월과 11월, 미국, 중국, 유럽 등 강대국들은 TOP500.org 랭킹에 국가의 자존심과 국운을 걸고 수조 원의 국방/과학 예산을 린팩 점수(EFLOPS) 스펙 올리기에 쏟아붓는다. 과거엔 CPU 깡클럭 펌핑으로 승부하던 쇳덩이 시대는 끝났다. 
-현대 린팩 점수의 헤게모니는 ➔ 1대의 천재 뇌가 아니라, 수십만 개의 작고 멍청한 코어(NVIDIA [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/))들을 미친 듯이 [인피니밴드](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 네트워크로 엮어서 무자비한 행렬 물량전(Parallel Processing) 십자 포화를 쏟아붓는 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 컴퓨팅 클러스터 대통일의 시대</strong>로 완벽히 권력이 이양 환승 완료되었다 🚀.
+현대 린팩 점수의 헤게모니는 ➔ 1대의 천재 뇌가 아니라, 수십만 개의 작고 멍청한 코어(NVIDIA [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/))들을 미친 듯이 [인피니밴드](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 네트워크로 엮어서 무자비한 행렬 수량전(Parallel Processing) 십자 포화를 쏟아붓는 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 컴퓨팅 클러스터 대통일의 시대</strong>로 완벽히 권력이 이양 환승 완료되었다 🚀.
 
 비록 "현실 세계의 듬성듬성한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 빵꾸를 반영하지 못한다"는 오만함의 비판(HPCG 라이벌 등장)에 뼈를 맞고 있지만!! 
 이 무식하고 거대한 행렬 나눗셈 방정식의 연산 뼈대야말로 ➔ 오늘날 인류의 세상을 지배 독식하고 있는 챗GPT, 거대 언어 모델([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))의 [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 텐서 딥러닝 훈련 심장 구조와 100% 소름 돋게 오차 없이 일치하는, 인류 지능 확장(AGI 제국)을 뒷받침하는 영원 불멸의 0순위 성배 측정기 척도로 타오를 것이다 ✨.
@@ -121,23 +123,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">초창기 덧셈 계산기 시대 / 걍 워드 치는 수준이다가 ➔ 기상청, 국방부 등 소수점 10자리 미적분 시뮬레이션 실수 연산(FPU) 쇳덩이 파워 요구 떡상 🚀</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Linpack 벤치마크 탄생 대관식 ✨ / "야 인공 잡쓰레기 코드 치워 쾅! 순수 수학 100% 꽉 찬 연립방정식(Dense Matrix) 거대 행렬 던져서 1초에 몇 번(FLOPS) 도륙 내는지 팩트 채점 쳐 쾅!"</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">HPL (High-Performance Linpack) &amp; 분산 클러스터 융합 🚀 / 컴퓨터 1대 스펙 맹신 찢어발김 ➔ "수만 대 컴퓨터 엮어 텐트 치고, 인피니밴드(네트워크) 핑퐁 랙까지 종합 엑스레이 스캔 쳐서 TOP500 국가 랭킹 세워 록온 쾅!"</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">HPCG 벤치마크 라이벌 등장 🛡️ / "린팩 씨발 꽉 찬 데이터만 푸니까 메모리 랙 1도 안 걸리지 뻥튀기 사기 컷 💥! 현실처럼 텅 빈(Sparse) 데이터 줘서 찐 메모리 병목 실력 까발려 팩폭 쳐!" (현재 투 트랙 융합 발표 중)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">LLM 딥러닝 텐서(Tensor) 시대 (현재) ✨ / 린팩 행렬 곱셈 뼈대가 AI 신경망 가중치 훈련(Matrix Multiply) 수학 수식 구조랑 100% 완벽 오차 없이 아다리 맞물려 일치 ➔ "린팩 최고봉 1등 머신 = 인류 최강 AI 브레인" 우주 대통일 진리 공식 록온 확정 완료 🚀</div>
-</div>
-</div>
-
-
+```text
+초창기 덧셈 계산기 시대 / 걍 워드 치는 수준이다가 ➔ 기상청, 국방부 등 소수점 10자리 미적분 시뮬레이션 실수 연산(FPU) 쇳덩이 파워 요구 떡상 🚀
+    │
+    ▼
+Linpack 벤치마크 탄생 대관식 ✨ / "야 인공 잡쓰레기 코드 치워 쾅! 순수 수학 100% 꽉 찬 연립방정식(Dense Matrix) 거대 행렬 던져서 1초에 몇 번(FLOPS) 도륙 내는지 팩트 채점 쳐 쾅!"
+    │
+    ▼
+HPL (High-Performance Linpack) & 분산 클러스터 융합 🚀 / 컴퓨터 1대 스펙 맹신 찢어발김 ➔ "수만 대 컴퓨터 엮어 텐트 치고, 인피니밴드(네트워크) 핑퐁 랙까지 종합 엑스레이 스캔 쳐서 TOP500 국가 랭킹 세워 록온 쾅!"
+    │
+    ▼
+HPCG 벤치마크 라이벌 등장 🛡️ / "린팩 씨발 꽉 찬 데이터만 푸니까 메모리 랙 1도 안 걸리지 뻥튀기 사기 컷 💥! 현실처럼 텅 빈(Sparse) 데이터 줘서 찐 메모리 병목 실력 까발려 팩폭 쳐!" (현재 투 트랙 융합 발표 중)
+    │
+    ▼
+LLM 딥러닝 텐서(Tensor) 시대 (현재) ✨ / 린팩 행렬 곱셈 뼈대가 AI 신경망 가중치 훈련(Matrix Multiply) 수학 수식 구조랑 100% 완벽 오차 없이 아다리 맞물려 일치 ➔ "린팩 최고봉 1등 머신 = 인류 최강 AI 브레인" 우주 대통일 진리 공식 록온 확정 완료 🚀
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

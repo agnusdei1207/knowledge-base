@@ -25,20 +25,19 @@ SRTF는 [SJF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/17
 
 아래 그림은 비선점형 SJF와 SRTF의 차이가 왜 중요한지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Why SRTF exists</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">time 0 1 8</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">SJF :</div><div class="kb-diagram-node">P1 running.........................</div><div class="kb-diagram-node">P2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">short P2 waits because P1 already owns CPU</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">SRTF :</div><div class="kb-diagram-node">P1</div><div class="kb-diagram-node">P2</div><div class="kb-diagram-node">P1.........................</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">at t=1, P2 arrives and preempts because 2 &lt; 7</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Why SRTF exists                                                    │
+├────────────────────────────────────────────────────────────────────┤
+│ time 0       1                              8                      │
+│                                                                    │
+│ SJF  : [P1 running.........................][P2]                   │
+│        short P2 waits because P1 already owns CPU                  │
+│                                                                    │
+│ SRTF : [P1][P2][P1.........................]                       │
+│        at t=1, P2 arrives and preempts because 2 < 7              │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 핵심은 SRTF가 단순히 "짧은 작업을 먼저 고른다"에서 끝나지 않고, <strong>상황이 바뀌는 순간 현재 선택을 뒤집을 수 있다</strong>는 데 있다. 그래서 이 알고리즘은 평균 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 줄이는 이론적 최적점으로 자주 등장한다.
 
@@ -65,20 +64,18 @@ SRTF의 판단식은 단순하다. Ready 상태 프로세스와 현재 Running �
 | P2 | 1 ms | 4 ms |
 | P3 | 2 ms | 2 ms |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SRTF timeline</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">time : 0 1 2 4 7 14</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">run :</div><div class="kb-diagram-cell">P1</div><div class="kb-diagram-cell">P2</div><div class="kb-diagram-cell">P3</div><div class="kb-diagram-cell">P2</div><div class="kb-diagram-cell">P1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">at t=1 : P2(4) arrives, P1 has 7 left -&gt; preempt P1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">at t=2 : P3(2) arrives, P2 has 3 left -&gt; preempt P2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">finish : P3 first, then P2, then P1</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ SRTF timeline                                                      │
+├────────────────────────────────────────────────────────────────────┤
+│ time : 0    1    2      4        7                14              │
+│ run  : | P1 | P2 |  P3  |   P2   |       P1       |               │
+│                                                                    │
+│ at t=1 : P2(4) arrives, P1 has 7 left -> preempt P1               │
+│ at t=2 : P3(2) arrives, P2 has 3 left -> preempt P2               │
+│ finish : P3 first, then P2, then P1                               │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 이때 대기 시간은 `P1 = 14 - 0 - 8 = 6 ms`, `P2 = 7 - 1 - 4 = 2 ms`, `P3 = 4 - 2 - 2 = 0 ms`가 되어 평균 2.67 ms가 된다. 같은 입력을 비선점형 SJF로 처리하면 `P1`이 먼저 8 ms를 다 쓰고 난 뒤 `P3`, `P2`가 실행되어 평균 대기 시간이 5.0 ms까지 늘어난다. 즉 SRTF는 짧은 작업을 더 빨리 배출해 전체 평균을 줄인다.
 
@@ -115,20 +112,17 @@ SRTF를 이해할 때 가장 중요한 비교축은 [SJF](/knowledge-base/studyn
 
 아래 흐름은 SRTF를 직접 쓰거나 유사 철학을 차용할지 판단하는 기준이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Should you use an SRTF-like policy?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">can remaining service time be estimated reasonably well?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ short-job latency is critical? -&gt; SRTF-like is useful</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ fairness is stricter? -&gt; add aging / fair-share control</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no -&gt; prefer CFS, MLFQ, or deadline-specific policies</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Should you use an SRTF-like policy?                               │
+├────────────────────────────────────────────────────────────────────┤
+│ can remaining service time be estimated reasonably well?          │
+│   ├─ yes                                                          │
+│   │   ├─ short-job latency is critical? -> SRTF-like is useful    │
+│   │   └─ fairness is stricter? -> add aging / fair-share control  │
+│   └─ no -> prefer CFS, MLFQ, or deadline-specific policies        │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 ### 실무 판단 기준
 
@@ -172,23 +166,22 @@ SRTF의 가장 큰 장점은 이론적으로 매우 강한 기준점을 제공�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">unknown future CPU burst</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">estimate service time</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">compare remaining time continuously</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SRTF preemption</div>
-<div class="kb-diagram-tree-item" style="--depth:5">▶ fast response for short jobs</div>
-<div class="kb-diagram-tree-item" style="--depth:5">▶ need starvation / context-switch control</div>
-</div>
-</div>
-
-
+```text
+unknown future CPU burst
+          │
+          ▼
+estimate service time
+          │
+          ▼
+compare remaining time continuously
+          │
+          ▼
+SRTF preemption
+          │
+          ├──────────────▶ fast response for short jobs
+          │
+          └──────────────▶ need starvation / context-switch control
+```
 
 이 흐름도는 SRTF가 "실행 시간 예측"에서 출발해 "남은 시간 비교"로 이어지고, 결국 응답성 향상과 공정성 보완이라는 두 갈래 판단으로 연결된다는 점을 보여 준다.
 

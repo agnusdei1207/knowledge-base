@@ -35,23 +35,23 @@ R-Squared는 전체 분산의 덩어리를 모델이 설명한 부분과 설명�
 - <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/316_ssr_vs_csr/">SSR</a> (Regression Sum of Squares)</strong>: 회귀 모델의 예측값이 평균에서 얼마나 떨어져 있는지를 나타내는 모델의 설명된 변동량.
 - <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/481_sse_server_sent_events/">SSE</a> (Sum of Squared Errors)</strong>: 실제값과 예측값의 차이로, 모델이 설명하지 못한 잔차(Error)의 변동량.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">R-Squared 분해 원리 (SST = SSR + SSE)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ Y (종속 변수)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">● (실제 데이터 포인트)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전체 변동(SST)</div><div class="kb-diagram-cell">◀─ 설명 못 한 오차 (SSE)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">／ ◼ ◀─ 회귀 모델 (예측값 Ŷ)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">／</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">／</div><div class="kb-diagram-cell">◀─ 모델이 설명한 부분 (SSR)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼─ ◀─ 평균선 (Ȳ)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ X</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          R-Squared 분해 원리 (SST = SSR + SSE)            │
+├─────────────────────────────────────────────────────────────┤
+│                 ▲ Y (종속 변수)                            │
+│                 │          ● (실제 데이터 포인트)          │
+│                 │          │                             │
+│ 전체 변동(SST)  │          │ ◀─ 설명 못 한 오차 (SSE)      │
+│                 │          ▼                             │
+│                 │       ／ ◼ ◀─ 회귀 모델 (예측값 Ŷ)     │
+│                 │    ／    │                             │
+│                 │ ／       │ ◀─ 모델이 설명한 부분 (SSR) │
+│                 ├──────────▼─ ◀─ 평균선 (Ȳ)              │
+│                 │                                        │
+│                 └────────────────────────────────────▶ X │
+└─────────────────────────────────────────────────────────────┘
+```
 
 결정 계수의 수식은 **$R^2 = \frac{[SSR](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/316_ssr_vs_csr/)}{SST} = 1 - \frac{[SSE](/knowledge-base/studynote/03_network/09_application_layer_web_email/481_sse_server_sent_events/)}{SST}$** 이다. 모델의 예측이 완벽하면 오차([SSE](/knowledge-base/studynote/03_network/09_application_layer_web_email/481_sse_server_sent_events/))가 0이 되어 $R^2$는 1이 되고, 모델이 단순히 평균값(Ȳ)으로만 예측한다면 SSR이 0이 되어 $R^2$는 0이 된다.
 
@@ -117,24 +117,18 @@ R-Squared는 전체 분산의 덩어리를 모델이 설명한 부분과 설명�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">절대 오차 측정 (MSE, RMSE)</div>
-<div class="kb-diagram-note">데이터 스케일 의존성 한계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">상대적 설명력 지표 (R-Squared)</div>
-<div class="kb-diagram-note">다중 변수 투입 시 과적합 발생 (맹목적 증가)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">패널티 적용 모델 (Adjusted R-Squared)</div>
-<div class="kb-diagram-note">비선형 모델 로지스틱 회귀 등으로의 확장</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">유사 결정 계수 (McFadden's Pseudo R-Squared)</div>
-</div>
-</div>
-
-
+```text
+절대 오차 측정 (MSE, RMSE)
+    │ 데이터 스케일 의존성 한계
+    ▼
+상대적 설명력 지표 (R-Squared)
+    │ 다중 변수 투입 시 과적합 발생 (맹목적 증가)
+    ▼
+패널티 적용 모델 (Adjusted R-Squared)
+    │ 비선형 모델 로지스틱 회귀 등으로의 확장
+    ▼
+유사 결정 계수 (McFadden's Pseudo R-Squared)
+```
 
 이 흐름도는 단순 오차 측정에서 시작하여 표준화된 설명력($R^2$)을 얻고, 다시 과적합을 방어(Adjusted $R^2$)하며 비선형 환경(Pseudo $R^2$)으로 확장되는 모델 평가 지표의 발전 과정을 보여준다.
 

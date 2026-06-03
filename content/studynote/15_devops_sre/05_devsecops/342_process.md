@@ -36,20 +36,19 @@ tags = ["studynote-devops-sre"]
 | [Object Storage](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/494_object_storage/) | 원천/정제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장 | 비용, 내구성, 확장성 |
 | Table Format | ACID, [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/), 진화 지원 | Delta/Iceberg/Hudi 선택 |
 | [Catalog](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)/Metastore | [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)와 권한 관리 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 검색성, 거버넌스 |
-| Compute Engine | SQL·[ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/)·ML 실행 | Spark, Trino, Flink 연계 |
+| Compute 엔진 | SQL·[ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/)·ML 실행 | Spark, Trino, Flink 연계 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">files metadata</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Object Store</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Table Format</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Catalog</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">batch / stream</div><div class="kb-diagram-cell">snapshots</div><div class="kb-diagram-cell">policy</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ETL / ML</div><div class="kb-diagram-cell">ACID Table</div><div class="kb-diagram-cell">BI / Query</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐   files    ┌──────────────┐   metadata   ┌──────────────┐
+│ Object Store │ ─────────▶ │ Table Format │ ───────────▶ │ Catalog      │
+└──────────────┘            └──────────────┘              └──────────────┘
+        │                           │                              │
+        │ batch / stream            │ snapshots                    │ policy
+        ▼                           ▼                              ▼
+┌──────────────┐            ┌──────────────┐              ┌──────────────┐
+│ ETL / ML     │            │ ACID Table   │              │ BI / Query    │
+└──────────────┘            └──────────────┘              └──────────────┘
+```
 
 핵심 원리는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 직접 읽는 대신 테이블 포맷이 관리하는 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/)과 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 통해 읽는 것이다. 그래서 [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/)는 “[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 덩어리”가 아니라 “[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 위에 올린 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리 운영체계”에 가깝다. 작은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 너무 많아지면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 급락하므로 [Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/), [Partitioning](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/), Z-[ordering](/knowledge-base/studynote/02_operating_system/04_synchronization/277_semaphore_ordering/) 같은 관리 작업이 필수다.
 
@@ -118,21 +117,18 @@ tags = ["studynote-devops-sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Data Lake</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Warehouse-grade Metadata</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ACID Table Format</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Lakehouse + BI/ML/DataOps Integration</div>
-</div>
-</div>
-
-
+```text
+Data Lake
+   │
+   ▼
+Warehouse-grade Metadata
+   │
+   ▼
+ACID Table Format
+   │
+   ▼
+Lakehouse + BI/ML/DataOps Integration
+```
 
 이 흐름은 “값싼 저장 → 강한 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) → [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 보장 → 통합 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼”으로 발전하는 방향을 보여준다.
 

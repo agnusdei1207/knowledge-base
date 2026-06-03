@@ -42,19 +42,17 @@ RSA의 핵심은 자원 디스어그리게이션이다. 연산 노드, 메모리
 | Rack manager | 자원 탐색·조합·회수 | [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 자동화, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 기반 스케줄링 |
 | [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) / Cooling plane | 랙 단위 전력과 냉각 관리 | 피크 전력, 열 밀도, 정비성 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A rack behaves like one composable computer</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Compute sleds ─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Memory shelf ── ─&gt; Rack fabric ──&gt; Composed logical node</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Flash shelf</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Rack manager controls composition</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ A rack behaves like one composable computer                 │
+├──────────────────────────────────────────────────────────────┤
+│ Compute sleds ─┐                                            │
+│ Memory shelf ──┼─> Rack fabric ──> Composed logical node    │
+│ Flash shelf ───┘                                            │
+│                    ▲                                        │
+│                    └── Rack manager controls composition    │
+└──────────────────────────────────────────────────────────────┘
+```
 
 실제 동작은 보통 다음 순서로 이뤄진다. 워크로드가 CPU 4개, 메모리 1TB, 플래시 20TB를 요청하면 랙 매니저가 비어 있는 자원을 선택하고, 패브릭 주소와 부트 정보를 묶어 하나의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 노드를 만들어 준다. 일이 끝나면 그 자원은 다시 해체되어 다른 조합으로 재사용된다. 이때 중요한 것은 컴퓨트와 데이터의 지역성이다. 같은 랙 안이라고 해도 로컬 메모리보다 멀 수 있으므로, 가장 뜨거운 경로는 여전히 가까운 자원에 둬야 한다.
 
@@ -125,23 +123,21 @@ RSA의 가장 큰 효과는 활용률 향상과 교체 주기 분리다. 서버�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">서버 단위 증설</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">블레이드 · 섀시 공유</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">자원 디스어그리게이션</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">RSA (랙 단위 조합)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CXL 기반 컴포저블 랙 인프라</div>
-</div>
-</div>
-
-
+```text
+서버 단위 증설
+    │
+    ▼
+블레이드 · 섀시 공유
+    │
+    ▼
+자원 디스어그리게이션
+    │
+    ▼
+RSA (랙 단위 조합)
+    │
+    ▼
+CXL 기반 컴포저블 랙 인프라
+```
 
 이 흐름은 장비 중심 운영에서 랙 전체를 하나의 조합형 시스템으로 보는 방향으로의 진화를 보여준다.
 

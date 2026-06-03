@@ -43,25 +43,31 @@ tags = ["studynote-design-supervision"]
 
 아래 그림은 마스터-워커의 실행 루프를 요약한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Master-Worker execution loop</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client submits large job</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Master</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- partition job</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- enqueue tasks</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- track state / timeout</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Task Queue</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Worker A Worker B Worker C</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ heartbeat / ack -&gt; Master</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ result / failure -&gt; Collector / retry</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Master aggregates and emits final result</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Master-Worker execution loop                                        │
+├──────────────────────────────────────────────────────────────────────┤
+│ Client submits large job                                            │
+│        │                                                            │
+│        ▼                                                            │
+│ Master                                                              │
+│  - partition job                                                    │
+│  - enqueue tasks                                                    │
+│  - track state / timeout                                            │
+│        │                                                            │
+│        ▼                                                            │
+│     Task Queue                                                      │
+│    ┌───────┬───────┬───────┐                                        │
+│    ▼       ▼       ▼                                               │
+│ Worker A Worker B Worker C                                         │
+│   │       │       │                                                 │
+│   ├─ heartbeat / ack -> Master                                     │
+│   └─ result / failure -> Collector / retry                         │
+│        │                                                            │
+│        ▼                                                            │
+│ Master aggregates and emits final result                            │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 핵심 원리는 세 가지다. 첫째, 작업 단위를 너무 크게 잡으면 특정 워커가 오래 붙잡아 두는 straggler가 생기고, 너무 잘게 쪼개면 스케줄링 오버헤드가 커진다. 둘째, 실패 재할당이 가능하려면 작업이 멱등적(Idempotent)이거나 중복 처리 방지 장치가 있어야 한다. 셋째, 워커를 단순하게 유지할수록 수평 확장과 교체가 쉬워진다.
 
@@ -145,26 +151,25 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">대량 작업 발생</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Job partitioning</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Master scheduling + Task Queue</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Worker execution</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Heartbeat / timeout detection</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Retry / reassignment</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Result aggregation</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Scale-Out + High Availability master 설계</div>
-</div>
-</div>
-
-
+```text
+대량 작업 발생
+    │
+    ▼
+Job partitioning
+    │
+    ▼
+Master scheduling + Task Queue
+    │
+    ├─ Worker execution
+    ├─ Heartbeat / timeout detection
+    └─ Retry / reassignment
+    │
+    ▼
+Result aggregation
+    │
+    ▼
+Scale-Out + High Availability master 설계
+```
 
 이 흐름은 마스터-워커가 단순 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 실행이 아니라, 분할·배분·감시·재시도를 포함한 운영형 패턴임을 보여 준다.
 

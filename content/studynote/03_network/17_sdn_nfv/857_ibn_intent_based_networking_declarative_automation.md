@@ -27,18 +27,14 @@ IBN을 이해하는 가장 완벽한 열쇠는 How(어떻게)와 What(무엇을)
   - 관리자는 오직 내가 원하는 최종 목적(의도, [Intent](/knowledge-base/studynote/06_ict_convergence/05_data_science/416_prompt_injection_semantic_routing/))만 툭 던집니다. **"웹 서버랑 DB 서버 통신은 무조건 암호화(보안)해."**
   - IBN 시스템 내의 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)([인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/))와 컴파일러가 이 한 줄을 찰떡같이 해석(번역)하여, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 100대의 환경 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 코드를 지가 알아서 다 짠 뒤 기계에 밀어 넣습니다(자동화).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">OpenFlow Flow Table</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IBN</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SDDC</div></div>
-</div>
-</div>
-
-
+```text
+[OpenFlow Flow Table]
+    │
+    ▼
+[IBN]
+    │
+    └──▶ [SDDC]
+```
 
 - **📢 섹션 요약 비유**: IBN는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -52,18 +48,14 @@ IBN을 이해하는 가장 완벽한 열쇠는 How(어떻게)와 What(무엇을)
 - 관리자가 인간의 언어나 단순한 마우스 클릭(비즈니스 룰)으로 의도를 던집니다. 
 - IBN의 중앙 뇌(소프트웨어)가 이 문장을 해부하여, "이걸 이루려면 시스코 라우터 3대와 주니퍼 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 2대의 어떤 세팅을 건드려야 하는가?"라는 수천 줄의 기계어 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)값([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))으로 AI가 번역합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">OpenFlow Flow Table</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IBN</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SDDC</div></div>
-</div>
-</div>
-
-
+```text
+[OpenFlow Flow Table]
+    │
+    ▼
+[IBN]
+    │
+    └──▶ [SDDC]
+```
 
 - **📢 섹션 요약 비유**: IBN의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -126,19 +118,15 @@ IBN는 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topi
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: OpenFlow Flow Table</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: IBN</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: SDDC</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 프로그래머블 네트워크</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: OpenFlow Flow Table]
+    │
+    ▼
+[현재 개념: IBN]
+    │
+    ├──▶ [확장 A: SDDC]
+    └──▶ [확장 B: 프로그래머블 네트워크]
+```
 
 IBN는 [OpenFlow](/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/) Flow Table에서 출발해 현재 메커니즘을 정교화하고, 이후 SDDC와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -1,5 +1,5 @@
 +++
-title = "29. 역공학 (Reverse Engineering)"
+title = "29. 역공학 (Reverse 엔진ering)"
 date = 2026-04-29
 
 [taxonomies]
@@ -10,7 +10,7 @@ tags = ["studynote-software-engineering"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 역공학([Reverse Engineering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/780_reverse_engineering/))은 완성된 시스템(바이너리, 하드웨어, 제품)을 분석하여 설계·원리·소스코드를 역으로 추출하는 활동이다. 소프트웨어 역공학은 디컴파일(Decompile), 디스어셈블(Disassemble), [동적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/332_dynamic_analysis/)으로 구현된다.
+> 1. **본질**: 역공학([Reverse 엔진ering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/780_reverse_engineering/))은 완성된 시스템(바이너리, 하드웨어, 제품)을 분석하여 설계·원리·소스코드를 역으로 추출하는 활동이다. 소프트웨어 역공학은 디컴파일(Decompile), 디스어셈블(Disassemble), [동적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/332_dynamic_analysis/)으로 구현된다.
 > 2. **가치**: 레거시 시스템 유지보수, 악성코드 분석, [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 개발, 보안 취약점 발견에 필수적이다. 특히 보안 분야에서 바이너리 분석은 취약점 발견과 악성코드 방어의 핵심 기술이다.
 > 3. **판단 포인트**: 역공학의 법적 경계가 중요하다. 저작권법·라이선스 조항(특히 EULA)에 따라 역공학이 금지될 수 있다. [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 목적·보안 연구·교육 목적은 허용 범위가 넓지만, 영업 비밀 탈취 목적은 민·형사 책임이 따른다.
 
@@ -18,23 +18,26 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소프트웨어 역공학 단계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">바이너리 (.exe/.dll/.so)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 디스어셈블 (Disassemble)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">어셈블리 코드 (x86/ARM 어셈블리)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 디컴파일 (Decompile, IDA Pro/Ghidra)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">의사코드 (Pseudo-C Code)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 동적 분석 (Dynamic Analysis, x64dbg/GDB)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">런타임 동작 파악 (메모리·API 호출·네트워크)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">설계 이해 / 취약점 발견 / 문서 복원</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────┐
+│            소프트웨어 역공학 단계                          │
+├──────────────────────────────────────────────────────────┤
+│                                                           │
+│  바이너리 (.exe/.dll/.so)                                 │
+│       │                                                   │
+│       ▼ 디스어셈블 (Disassemble)                          │
+│  어셈블리 코드 (x86/ARM 어셈블리)                         │
+│       │                                                   │
+│       ▼ 디컴파일 (Decompile, IDA Pro/Ghidra)              │
+│  의사코드 (Pseudo-C Code)                                 │
+│       │                                                   │
+│       ▼ 동적 분석 (Dynamic Analysis, x64dbg/GDB)          │
+│  런타임 동작 파악 (메모리·API 호출·네트워크)               │
+│       │                                                   │
+│       ▼                                                   │
+│  설계 이해 / 취약점 발견 / 문서 복원                       │
+└──────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 역공학은 완성된 케이크에서 레시피를 추출하는 것이다. 케이크(바이너리)를 맛보고 분해해서 재료·비율(소스코드·설계)을 역으로 파악한다.
 
@@ -105,7 +108,7 @@ tags = ["studynote-software-engineering"]
 | **보안 강화** | 취약점·악성코드 분석 |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/">호환성</a></strong> | 비문서화 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)·[프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 이해 |
 
-[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 역공학 도구([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)+디컴파일러)가 바이너리 분석의 생산성을 10배 이상 향상시키고 있다. 동시에 역공학 방지(Anti-[Reverse Engineering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/780_reverse_engineering/)) 기술([난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/), 패킹, VM-based [protection](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/))과의 군비 경쟁이 계속된다.
+[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 역공학 도구([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)+디컴파일러)가 바이너리 분석의 생산성을 10배 이상 향상시키고 있다. 동시에 역공학 방지(Anti-[Reverse 엔진ering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/780_reverse_engineering/)) 기술([난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/), 패킹, VM-based [protection](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/))과의 군비 경쟁이 계속된다.
 
 - **📢 섹션 요약 비유**: 역공학 vs [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)는 암호 해독 경쟁이다. 역공학자는 암호를 해독하고, 개발자는 더 복잡한 암호를 만든다. AI가 이 경쟁에서 점점 해독 속도를 높이고 있다.
 
@@ -123,23 +126,21 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">수동 역공학 — 어셈블리 직독, 고도 전문성 필요</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">정적 분석 도구 — IDA Pro, Ghidra 자동 분석</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">동적 분석 — 런타임 동작·메모리 실시간 관찰</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AI 지원 역공학 — LLM 기반 코드 설명·요약</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">완전 자동화 역공학 — ML 기반 취약점 자동 탐지</div></div>
-</div>
-</div>
-
-
+```text
+[수동 역공학 — 어셈블리 직독, 고도 전문성 필요]
+    │
+    ▼
+[정적 분석 도구 — IDA Pro, Ghidra 자동 분석]
+    │
+    ▼
+[동적 분석 — 런타임 동작·메모리 실시간 관찰]
+    │
+    ▼
+[AI 지원 역공학 — LLM 기반 코드 설명·요약]
+    │
+    ▼
+[완전 자동화 역공학 — ML 기반 취약점 자동 탐지]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

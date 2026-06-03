@@ -24,18 +24,14 @@ tags = ["studynote-network"]
 
 - **💡 비유**: 서울에서 부산까지 화물차를 몰고 가는데, 중간에 <strong>"높이 제한 3m"</strong>짜리 오래된 굴다리가 있습니다. 4m짜리 화물을 싣고 출발했다가 굴다리 앞에서 짐을 끄집어내려 쪼개고 있으면([단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)) 뒤차들이 다 밀립니다. PMTU는 출발 전 굴다리 높이를 미리 알아보고, <strong>처음부터 서울에서 짐을 3m 규격으로 맞춰서 화물차 2대에 나눠 싣고 출발</strong>하는 똑똑한 운송 전술입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">패킷 캡슐화, MTU</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">PMTU</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TTL</div></div>
-</div>
-</div>
-
-
+```text
+[패킷 캡슐화, MTU]
+    │
+    ▼
+[PMTU]
+    │
+    └──▶ [TTL]
+```
 
 - **📢 섹션 요약 비유**: <strong> PMTU Discovery는 동굴 탐험대가 사람이 통과할 수 있는 가장 좁은 구멍의 크기를 미리 레이저(DF 패킷)로 쏴서 측정한 뒤, </strong>가방 크기를 그 구멍에 딱 맞게 줄여 매고 들어가는 치밀한 사전 탐사 작업**입니다.
 
@@ -51,21 +47,23 @@ tags = ["studynote-network"]
 3. <strong>에러 반송 (<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/">ICMP</a>)</strong>: R2는 PC에게 [ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) 메시지(`Type 3, Code 4: Fragmentation Needed but DF set`)를 반송하며, 친절하게 "Next-Hop MTU is 1400"이라고 좁은 문의 크기를 알려준다.
 4. **크기 조절**: PC는 ICMP를 받고 "아! 1400이 한계구나" 깨닫고, 패킷을 1400바이트로 줄여서 `DF=1`을 붙여 다시 쏜다. 목적지까지 거절당하지 않고 도달하면, 1400을 Path MTU로 확정 짓고 계속 그 크기로 통신한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PMTU Discovery 메커니즘 (ICMP 핑퐁)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">내 PC</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">R1 (1500)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">R2 (1400)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"에잇 1500으로 줄여!" ◀ ICMP Error (MTU 1400)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(PC가 패킷 크기 조절)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">내 PC</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">R1 (1500)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">R2 (1400)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">통과!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">구글 서버</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                PMTU Discovery 메커니즘 (ICMP 핑퐁)             │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 내 PC ] ── 1500B (DF=1) ──▶ [ R1 (1500) ] ──▶ [ R2 (1400) ] │
+ │                                                          │  │
+ │   "에잇 1500으로 줄여!" ◀──── ICMP Error (MTU 1400) ───────┘  │
+ │   (PC가 패킷 크기 조절)                                          │
+ │                                                             │
+ │   [ 내 PC ] ── 1400B (DF=1) ──▶ [ R1 (1500) ] ──▶ [ R2 (1400) ] │
+ │                                                       통과! │
+ │                                                          ▼  │
+ │                                                 [ 구글 서버 ] │
+ │                                                             │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 2. 치명적 오류: PMTU 블랙홀 (Black Hole) 현상
 PMTU는 중간 라우터가 돌려보내 주는 <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/">ICMP</a> 에러 메시지</strong>에 100% 의존한다.
@@ -131,19 +129,15 @@ PMTU는 네트워크 계층과 IP를 이해할 때 핵심 축을 잡아 주는 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 패킷 캡슐화, MTU</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: PMTU</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: TTL</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 대규모 주소 자동화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 패킷 캡슐화, MTU]
+    │
+    ▼
+[현재 개념: PMTU]
+    │
+    ├──▶ [확장 A: TTL]
+    └──▶ [확장 B: 대규모 주소 자동화]
+```
 
 PMTU는 패킷 캡슐화, MTU에서 출발해 현재 메커니즘을 정교화하고, 이후 TTL와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -98,39 +98,27 @@ Primes remain
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Numbers</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Sieve</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Primes</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Number Theory</div>
-</div>
-</div>
-
-
+```text
+Numbers
+  ↓
+Sieve
+  ↓
+Primes
+  ↓
+Number Theory
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Prime Search</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Sieve</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Efficient Filtering</div>
-</div>
-</div>
-
-
+```text
+Prime Search
+  ↓
+Sieve
+  ↓
+Efficient Filtering
+```
 
 ---
 

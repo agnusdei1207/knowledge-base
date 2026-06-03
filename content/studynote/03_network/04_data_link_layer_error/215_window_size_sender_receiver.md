@@ -28,18 +28,14 @@ tags = ["studynote-network"]
    - "내가 순서가 뒤죽박죽으로 들어오더라도, 버리지 않고 임시로 내 메모리(버퍼)에 저장해 둘 수 있는 빈 공간의 크기"입니다.
    - 수신 윈도우가 1이면, 오직 순서에 딱 맞는 1개만 받아먹고 나머지는 다 버립니다(옹졸함). 수신 윈도우가 10이면, 10개가 섞여 들어와도 일단 뱃속에 다 품어줍니다(관대함).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">슬라이딩 윈도우 프로토콜 개념</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">윈도우 크기, 송신/수신 윈도우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">HDLC</div></div>
-</div>
-</div>
-
-
+```text
+[슬라이딩 윈도우 프로토콜 개념]
+    │
+    ▼
+[윈도우 크기, 송신/수신 윈도우]
+    │
+    └──▶ [HDLC]
+```
 
 - **📢 섹션 요약 비유**: [윈도우 크기](/knowledge-base/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/), 송신/수신 윈도우는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -55,18 +51,14 @@ tags = ["studynote-network"]
 | **Go-Back-N (GBN)** | **$N$** (여러 개) | **1** | 기관총처럼 쏘지만, 수신기는 까탈스러워서 순서 어긋나면 다 버림. (연대 책임 재전송). |
 | **Selective Repeat (SR)** | **$N$** (여러 개) | **$N$** (여러 개) | 쏘기도 많이 쏘고, 수신기도 넓은 아량으로 다 받아줌. 에러 난 것만 쏙 다시 받음. (가장 똑똑하고 복잡함). |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">슬라이딩 윈도우 프로토콜 개념</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">윈도우 크기, 송신/수신 윈도우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">HDLC</div></div>
-</div>
-</div>
-
-
+```text
+[슬라이딩 윈도우 프로토콜 개념]
+    │
+    ▼
+[윈도우 크기, 송신/수신 윈도우]
+    │
+    └──▶ [HDLC]
+```
 
 - **📢 섹션 요약 비유**: [윈도우 크기](/knowledge-base/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/), 송신/수신 윈도우의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -136,19 +128,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 슬라이딩 윈도우 프로토콜 개념</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 윈도우 크기, 송신/수신 윈도우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: HDLC</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고신뢰 저지연 링크 제어</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 슬라이딩 윈도우 프로토콜 개념]
+    │
+    ▼
+[현재 개념: 윈도우 크기, 송신/수신 윈도우]
+    │
+    ├──▶ [확장 A: HDLC]
+    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
+```
 
 [윈도우 크기](/knowledge-base/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/), 송신/수신 윈도우는 [슬라이딩 윈도우 프로토콜](/knowledge-base/studynote/03_network/04_data_link_layer_error/214_sliding_window_protocol/) 개념에서 출발해 현재 메커니즘을 정교화하고, 이후 HDLC와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

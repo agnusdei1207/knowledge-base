@@ -18,17 +18,11 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">공유 DB: 서비스 A·B·C → 같은 DB (커플링)</div>
-<div class="kb-diagram-note">DB per Service: A→DB_A, B→DB_B, C→DB_C (독립)</div>
-<div class="kb-diagram-note">서비스 간: API·이벤트로만 통신</div>
-</div>
-</div>
-
-
+```text
+공유 DB: 서비스 A·B·C → 같은 DB (커플링)
+DB per Service: A→DB_A, B→DB_B, C→DB_C (독립)
+  서비스 간: API·이벤트로만 통신
+```
 
 - **📢 섹션 요약 비유**: 공유 DB는 **공동 냉장고**(한 사람이 정리하면 다른 사람 물건이 밀려남), DB per Service는 **각자 냉장고**(독립 관리).
 
@@ -63,18 +57,12 @@ DB per Service는 <strong>MSA의 <a href="/knowledge-base/studynote/05_database/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">공유 DB (모노리스)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">DB per Service (MSA, 2014~)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Saga 패턴 (분산 트랜잭션)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">CQRS + Event Sourcing (2016~)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: 데이터 메시 — 도메인별 데이터 소유</div></div>
-</div>
-</div>
-
-
+```text
+[공유 DB (모노리스)] → [DB per Service (MSA, 2014~)]
+    → [Saga 패턴 (분산 트랜잭션)]
+    → [CQRS + Event Sourcing (2016~)]
+    → [현재: 데이터 메시 — 도메인별 데이터 소유]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 공유 DB는 <strong>공동 냉장고</strong>예요. 한 사람이 정리하면 **다른 사람 물건이 밀려나요**.

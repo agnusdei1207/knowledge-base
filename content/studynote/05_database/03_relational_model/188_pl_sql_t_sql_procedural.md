@@ -21,16 +21,13 @@ tags = ["studynote-database"]
 
 PL/SQL (Oracle), T-SQL (SQL Server)은 절차적 SQL 언어에 초점을 맞춘 개념이다. 대용량 질의에서는 같은 SQL도 접근 경로와 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)에 따라 비용이 크게 달라진다. 잘못 쓰면 Full Scan, 정렬, 랜덤 I/O가 한꺼번에 늘어난다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SQL text -&gt; Planner -&gt; Current concept -&gt; Latency</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Predicate -&gt; path choice -&gt; I/O cost</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ SQL text -> Planner -> Current concept -> Latency            │
+├──────────────────────────────────────────────────────────────┤
+│ Predicate -> path choice -> I/O cost                         │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 그림은 PL/SQL , T-SQL를 독립 기능이 아니라 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름에서 특정 통제 지점을 맡는 구조로 이해해야 한다는 점을 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여 준다.
 
@@ -49,16 +46,13 @@ PL/SQL , T-SQL는 결국 "언제 보고, 어디에서 적용하고, 무엇을 �
 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 영향 | PL/SQL , T-SQL는 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/), [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간, 운영 복잡도 중 적어도 하나에 직접 영향을 준다. | 이득과 비용을 같이 보지 않으면 과설계가 된다. |
 | 운영 주의 | `사용자 정의 함수`·`동적 SQL`과 경계를 혼동하면 적용 위치가 어긋난다. | 장애 시 관찰할 지표와 우회 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 미리 준비해야 한다. |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Parse -&gt; estimate -&gt; current concept -&gt; execute</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Plan quality -&gt; CPU/I/O balance -&gt; response</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ Parse -> estimate -> current concept -> execute              │
+├──────────────────────────────────────────────────────────────┤
+│ Plan quality -> CPU/I/O balance -> response                  │
+└──────────────────────────────────────────────────────────────┘
+```
 
 핵심은 PL/SQL , T-SQL를 단순 옵션이 아니라 입력 조건, 처리 순서, 결과 보장을 함께 묶는 설계 규칙으로 보는 것이다. 그래서 구현 전에 평가 시점·충돌 지점·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성을 먼저 정리해야 한다.
 
@@ -119,19 +113,15 @@ PL/SQL , T-SQL를 올바르게 적용하면 구조를 단순화하고, 정합성
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">사용자 정의 함수</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">PL/SQL , T-SQL</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">동적 SQL</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">바인드 변수</div></div>
-</div>
-</div>
-
-
+```text
+[사용자 정의 함수]
+    │
+    ▼
+[PL/SQL , T-SQL]
+    │
+    ├──▶ [동적 SQL]
+    └──▶ [바인드 변수]
+```
 
 [사용자 정의 함수](/knowledge-base/studynote/05_database/03_relational_model/187_user_defined_function_udf/)에서 출발한 논점이 PL/SQL , T-SQL에서 핵심 판단으로 모이고, 이후 동적 SQL·[바인드 변수](/knowledge-base/studynote/05_database/03_relational_model/190_bind_variable_soft_parsing/) 같은 확장 주제로 이어지는 흐름을 보여 준다.
 

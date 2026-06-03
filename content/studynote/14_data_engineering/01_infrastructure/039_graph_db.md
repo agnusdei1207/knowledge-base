@@ -18,34 +18,33 @@ tags = ["studynote-data-engineering"]
 
 ## I. [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 모델 기본
 
+```
+프로퍼티 그래프 (Property Graph):
 
+노드 (Node / Vertex):
+  엔티티 표현
+  라벨: (Person), (Movie), (Product)
+  속성: {name: "Alice", age: 30}
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">프로퍼티 그래프 (Property Graph):</div>
-<div class="kb-diagram-note">노드 (Node / Vertex):</div>
-<div class="kb-diagram-note">엔티티 표현</div>
-<div class="kb-diagram-note">라벨: (Person), (Movie), (Product)</div>
-<div class="kb-diagram-note">속성: {name: "Alice", age: 30}</div>
-<div class="kb-diagram-note">엣지 (Edge / Relationship):</div>
-<div class="kb-diagram-note">관계 표현 (방향 있음)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">유형: -</div><div class="kb-diagram-node">:KNOWS</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">:BOUGHT</div><div class="kb-diagram-connector">→</div></div>
-<div class="kb-diagram-note">속성: {since: "2020", weight: 0.8}</div>
-<div class="kb-diagram-note">예시:</div>
-<div class="kb-diagram-note">(Alice:Person {age:30})</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">-</div><div class="kb-diagram-node">:KNOWS {since:2020}</div><div class="kb-diagram-connector">→</div></div>
-<div class="kb-diagram-note">(Bob:Person {age:25})</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">-</div><div class="kb-diagram-node">:WORKS_AT</div><div class="kb-diagram-connector">→</div></div>
-<div class="kb-diagram-note">(Acme:Company {employees:500})</div>
-<div class="kb-diagram-note">관계형 DB 비교:</div>
-<div class="kb-diagram-note">관계형: 친구의 친구의 친구 = 3번 JOIN</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">그래프: MATCH (a)-</div><div class="kb-diagram-node">:KNOWS*3</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">(c) RETURN c</div></div>
-<div class="kb-diagram-note">JOIN 깊이 ↑ -&gt; 관계형 성능 급감</div>
-<div class="kb-diagram-note">그래프 탐색 -&gt; 깊이에 관계없이 일정</div>
-</div>
-</div>
+엣지 (Edge / Relationship):
+  관계 표현 (방향 있음)
+  유형: -[:KNOWS]->  -[:BOUGHT]->
+  속성: {since: "2020", weight: 0.8}
 
+예시:
+  (Alice:Person {age:30})
+    -[:KNOWS {since:2020}]->
+  (Bob:Person {age:25})
+    -[:WORKS_AT]->
+  (Acme:Company {employees:500})
 
+관계형 DB 비교:
+  관계형: 친구의 친구의 친구 = 3번 JOIN
+  그래프: MATCH (a)-[:KNOWS*3]->(c) RETURN c
+  
+  JOIN 깊이 ↑ -> 관계형 성능 급감
+  그래프 탐색 -> 깊이에 관계없이 일정
+```
 
 > 📢 **섹션 요약 비유**: [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 DB는 여러 층 계단 오르기([JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/)), [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) DB는 줄 따라가기(엣지 탐색) — [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)가 많을수록 줄 따라가기가 훨씬 빠름.
 
@@ -53,40 +52,39 @@ tags = ["studynote-data-engineering"]
 
 ## II. Cypher [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 언어
 
+```
+Cypher (Neo4j):
+  그래프 패턴을 ASCII 아트로 표현
+  
+기본 문법:
+  (노드) -[관계]-> (노드)
 
+MATCH: 패턴 검색
+  MATCH (p:Person {name: "Alice"})
+        -[:KNOWS]->
+        (friend:Person)
+  RETURN friend.name
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Cypher (Neo4j):</div>
-<div class="kb-diagram-note">그래프 패턴을 ASCII 아트로 표현</div>
-<div class="kb-diagram-note">기본 문법:</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">(노드) -</div><div class="kb-diagram-node">관계</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">(노드)</div></div>
-<div class="kb-diagram-note">MATCH: 패턴 검색</div>
-<div class="kb-diagram-note">MATCH (p:Person {name: "Alice"})</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">-</div><div class="kb-diagram-node">:KNOWS</div><div class="kb-diagram-connector">→</div></div>
-<div class="kb-diagram-note">(friend:Person)</div>
-<div class="kb-diagram-note">RETURN friend.name</div>
-<div class="kb-diagram-note">친구의 친구 찾기:</div>
-<div class="kb-diagram-note">MATCH (alice {name:"Alice"})</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">-</div><div class="kb-diagram-node">:KNOWS*2</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">(fof)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">WHERE NOT (alice)-</div><div class="kb-diagram-node">:KNOWS</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">(fof)</div></div>
-<div class="kb-diagram-note">RETURN fof.name</div>
-<div class="kb-diagram-note">최단 경로:</div>
-<div class="kb-diagram-note">MATCH path = shortestPath(</div>
-<div class="kb-diagram-note">(alice:Person {name:"Alice"})</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">-</div><div class="kb-diagram-node">:KNOWS*</div><div class="kb-diagram-connector">→</div></div>
-<div class="kb-diagram-note">(bob:Person {name:"Bob"})</div>
-<div class="kb-diagram-note">)</div>
-<div class="kb-diagram-note">RETURN length(path)</div>
-<div class="kb-diagram-note">Page Rank:</div>
-<div class="kb-diagram-note">CALL algo.pageRank('Person', 'KNOWS')</div>
-<div class="kb-diagram-note">YIELD nodeId, score</div>
-<div class="kb-diagram-note">RETURN algo.getNodeById(nodeId).name, score</div>
-<div class="kb-diagram-note">ORDER BY score DESC LIMIT 10</div>
-</div>
-</div>
+친구의 친구 찾기:
+  MATCH (alice {name:"Alice"})
+        -[:KNOWS*2]->(fof)
+  WHERE NOT (alice)-[:KNOWS]->(fof)
+  RETURN fof.name
 
+최단 경로:
+  MATCH path = shortestPath(
+    (alice:Person {name:"Alice"})
+    -[:KNOWS*]->
+    (bob:Person {name:"Bob"})
+  )
+  RETURN length(path)
 
+Page Rank:
+  CALL algo.pageRank('Person', 'KNOWS')
+  YIELD nodeId, score
+  RETURN algo.getNodeById(nodeId).name, score
+  ORDER BY score DESC LIMIT 10
+```
 
 > 📢 **섹션 요약 비유**: Cypher는 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)를 그림처럼 쓰는 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 언어 — `(나)-[친구]->(친구)` 이렇게 쓰면 "내 친구의 친구를 찾아라"는 뜻.
 
@@ -94,33 +92,31 @@ tags = ["studynote-data-engineering"]
 
 ## III. [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) DB 유스케이스
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">1. SNS 소셜 그래프:</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">(User)-</div><div class="kb-diagram-node">:FOLLOWS</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">(User)</div></div>
-<div class="kb-diagram-note">팔로워 추천, 영향력 분석</div>
-<div class="kb-diagram-note">예: Twitter 팔로우 그래프</div>
-<div class="kb-diagram-note">2. 추천 시스템:</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">(User)-</div><div class="kb-diagram-node">:BOUGHT</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">(Product)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">(User)-</div><div class="kb-diagram-node">:LIKES</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">(Product)</div></div>
-<div class="kb-diagram-note">협업 필터링 -&gt; "당신과 비슷한 사람이 산 것"</div>
-<div class="kb-diagram-note">3. 사기 탐지 (Fraud Detection):</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">(Account)-</div><div class="kb-diagram-node">:TRANSFER_TO</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">(Account)</div></div>
-<div class="kb-diagram-note">공통 기기/주소/패턴으로 사기 링 탐지</div>
-<div class="kb-diagram-note">링크 분석(Link Analysis): 공통 연결 노드 발견</div>
-<div class="kb-diagram-note">4. 지식 그래프 (Knowledge Graph):</div>
-<div class="kb-diagram-note">Google 지식 패널, Wikidata</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">(Entity)-</div><div class="kb-diagram-node">:IS_A</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">(Category)</div></div>
-<div class="kb-diagram-note">5. IT 인프라 의존성:</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">(Service)-</div><div class="kb-diagram-node">:DEPENDS_ON</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">(Database)</div></div>
-<div class="kb-diagram-note">장애 전파 경로 분석</div>
-<div class="kb-diagram-note">"어떤 서비스가 영향받는가?"</div>
-</div>
-</div>
-
-
+```
+1. SNS 소셜 그래프:
+   (User)-[:FOLLOWS]->(User)
+   팔로워 추천, 영향력 분석
+   예: Twitter 팔로우 그래프
+   
+2. 추천 시스템:
+   (User)-[:BOUGHT]->(Product)
+   (User)-[:LIKES]->(Product)
+   협업 필터링 -> "당신과 비슷한 사람이 산 것"
+   
+3. 사기 탐지 (Fraud Detection):
+   (Account)-[:TRANSFER_TO]->(Account)
+   공통 기기/주소/패턴으로 사기 링 탐지
+   링크 분석(Link Analysis): 공통 연결 노드 발견
+   
+4. 지식 그래프 (Knowledge Graph):
+   Google 지식 패널, Wikidata
+   (Entity)-[:IS_A]->(Category)
+   
+5. IT 인프라 의존성:
+   (Service)-[:DEPENDS_ON]->(Database)
+   장애 전파 경로 분석
+   "어떤 서비스가 영향받는가?"
+```
 
 > 📢 **섹션 요약 비유**: 사기 탐지에서 "동일 기기를 쓰는 계좌들" 연결 — [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)가 이상한 연결 패턴을 시각적으로 드러냄.
 
@@ -162,37 +158,36 @@ tags = ["studynote-data-engineering"]
 
 ## V. 실무 시나리오 — 사기 탐지 시스템
 
+```
+금융 사기 탐지:
 
+데이터 모델:
+  (Account)-[:TRANSFER {amount,time}]->(Account)
+  (Account)-[:USES]->(Device)
+  (Account)-[:LIVES_AT]->(Address)
+  
+사기 링 탐지 쿼리:
+  // 동일 기기를 공유하는 계좌 클러스터
+  MATCH (a1:Account)-[:USES]->(d:Device)
+        <-[:USES]-(a2:Account)
+  WHERE a1 <> a2
+  WITH d, collect(a1) + collect(a2) AS accounts
+  WHERE size(accounts) > 3
+  RETURN d.deviceId, accounts
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">금융 사기 탐지:</div>
-<div class="kb-diagram-note">데이터 모델:</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">(Account)-</div><div class="kb-diagram-node">:TRANSFER {amount,time}</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">(Account)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">(Account)-</div><div class="kb-diagram-node">:USES</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">(Device)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">(Account)-</div><div class="kb-diagram-node">:LIVES_AT</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">(Address)</div></div>
-<div class="kb-diagram-note">사기 링 탐지 쿼리:</div>
-<div class="kb-diagram-note">// 동일 기기를 공유하는 계좌 클러스터</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">MATCH (a1:Account)-</div><div class="kb-diagram-node">:USES</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">(d:Device)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">&lt;-</div><div class="kb-diagram-node">:USES</div><div class="kb-diagram-note">-(a2:Account)</div></div>
-<div class="kb-diagram-note">WHERE a1 &lt;&gt; a2</div>
-<div class="kb-diagram-note">WITH d, collect(a1) + collect(a2) AS accounts</div>
-<div class="kb-diagram-note">WHERE size(accounts) &gt; 3</div>
-<div class="kb-diagram-note">RETURN d.deviceId, accounts</div>
-<div class="kb-diagram-note">의심 패턴:</div>
-<div class="kb-diagram-note">기기 1개를 10개 계좌가 공유</div>
-<div class="kb-diagram-tree-item" style="--depth:1">10개 계좌가 서로 소액 이체 반복</div>
-<div class="kb-diagram-tree-item" style="--depth:1">자금 세탁 링(Money Laundering Ring) 의심</div>
-<div class="kb-diagram-note">결과:</div>
-<div class="kb-diagram-note">관계형 DB: 이 패턴 찾는 쿼리 = 5분 이상</div>
-<div class="kb-diagram-note">Neo4j: 동일 데이터 = 200ms</div>
-<div class="kb-diagram-note">실시간 처리:</div>
-<div class="kb-diagram-note">거래 발생 시 즉시 그래프 분석</div>
-<div class="kb-diagram-note">의심 패턴 발견 시 거래 보류</div>
-</div>
-</div>
+의심 패턴:
+  기기 1개를 10개 계좌가 공유
+  -> 10개 계좌가 서로 소액 이체 반복
+  -> 자금 세탁 링(Money Laundering Ring) 의심
 
-
+결과:
+  관계형 DB: 이 패턴 찾는 쿼리 = 5분 이상
+  Neo4j: 동일 데이터 = 200ms
+  
+실시간 처리:
+  거래 발생 시 즉시 그래프 분석
+  의심 패턴 발견 시 거래 보류
+```
 
 > 📢 **섹션 요약 비유**: 사기범들은 연결망으로 감추지만, [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) DB는 그 연결망 전체를 한 번에 보는 눈 — "공통 기기" 하나가 10개 계좌를 연결하는 패턴 즉시 발견.
 

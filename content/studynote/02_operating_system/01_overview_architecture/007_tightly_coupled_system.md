@@ -26,21 +26,26 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경**: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 컴퓨터는 단일 CPU 구조였으나, 연산량 증대에 따라 CPU [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상만으로는 한계에 부딪혔다. 이를 해결하기 위해 여러 CPU를 한 보드에 올리고 메모리를 공유하게 만든 것이 강결합 시스템의 시작이다. 이는 이후 [SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/) (Symmetric Multiprocessing) 기술로 정교화되며 현대 멀티코어 시대의 근간이 되었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">강결합 시스템 (Tightly Coupled) 기본 개념도</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Processor A</div><div class="kb-diagram-node">Processor B</div><div class="kb-diagram-node">Processor C</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">High-Speed Shared Bus</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Main</div><div class="kb-diagram-cell">I/O</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Memory</div><div class="kb-diagram-cell">Devices</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">특징</div><div class="kb-diagram-note">단일 주소 공간, 빠른 통신, 높은 하드웨어 밀도</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">한계</div><div class="kb-diagram-note">버스 포화(Saturation), 확장 시 하드웨어 복잡도 급증</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │           강결합 시스템 (Tightly Coupled) 기본 개념도       │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │   [Processor A]     [Processor B]     [Processor C]         │
+  │         │                 │                 │               │
+  │   ┌─────┴─────────────────┴─────────────────┴─────┐         │
+  │   │            High-Speed Shared Bus              │         │
+  │   └─────┬───────────────────────────────────┬─────┘         │
+  │         │                                   │               │
+  │   ┌─────┴─────┐                       ┌─────┴─────┐         │
+  │   │   Main    │                       │    I/O    │         │
+  │   │  Memory   │                       │  Devices  │         │
+  │   └───────────┘                       └───────────┘         │
+  │                                                             │
+  │  [특징] 단일 주소 공간, 빠른 통신, 높은 하드웨어 밀도       │
+  │  [한계] 버스 포화(Saturation), 확장 시 하드웨어 복잡도 급증 │
+  └─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 도식은 강결합 시스템의 가장 핵심적인 특징인 '공유 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)'와 '[공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)' 구조를 보여준다. 모든 프로세서는 단일 주소 공간(Single Address Space)을 가지며, 메모리의 특정 번지에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓰면 다른 프로세서가 즉시 그 값을 읽을 수 있다. 이는 소프트웨어적으로 [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) (Inter-Process Communication) 비용을 거의 0에 가깝게 만들지만, 물리적으로는 모든 프로세서의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 하나의 통로([Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))를 지나야 하므로 프로세서가 늘어날수록 통로를 차지하기 위한 중재(Arbitration) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 발생한다. 따라서 강결합 시스템은 확장성(Scalability)보다는 밀집된 고성능(High [Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))에 최적화된 설계이다.
 
@@ -66,22 +71,29 @@ tags = ["studynote-operating-system"]
 
 강결합 시스템에서 프로세서가 메모리에 접근할 때의 경로와, 각 프로세서가 가진 개별 캐시와 메인 메모리 간의 정합성을 맞추는 과정은 시스템 안정성의 핵심이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">강결합 시스템 메모리 접근 및 제어 흐름</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Proc 1</div><div class="kb-diagram-node">Proc 2</div><div class="kb-diagram-node">Proc 3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cache</div><div class="kb-diagram-cell">Cache</div><div class="kb-diagram-cell">Cache</div><div class="kb-diagram-cell">(Local)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">System Bus</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Memory Ctrl</div><div class="kb-diagram-cell">&lt;-- Cache Coherency Protocol</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Main Memory</div><div class="kb-diagram-cell">(Global Shared)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Proc 1이 캐시 수정 -&gt; 2. 일관성 신호 발생 -&gt; 3. 타 캐시 무효화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 버스 대기열 발생 시 Arbitrator가 순서 조정</div></div>
-</div>
-</div>
-
-
+```text
+ ┌───────────────────────────────────────────────────────────────────┐
+ │               강결합 시스템 메모리 접근 및 제어 흐름              │
+ ├───────────────────────────────────────────────────────────────────┤
+ │                                                                   │
+ │   [Proc 1]       [Proc 2]         [Proc 3]                        │
+ │   ┌──┴──┐        ┌──┴──┐          ┌──┴──┐                         │
+ │   │Cache│        │Cache│          │Cache│  (Local)                │
+ │   └──┬──┘        └──┬──┘          └──┬──┘                         │
+ │      │              │                │                            │
+ │  ────┴──────────────┴────────────────┴──── System Bus             │
+ │                     │                                             │
+ │              ┌──────┴──────┐                                      │
+ │              │ Memory Ctrl │  <-- Cache Coherency Protocol        │
+ │              └──────┬──────┘                                      │
+ │              ┌──────┴──────┐                                      │
+ │              │ Main Memory │  (Global Shared)                     │
+ │              └─────────────┘                                      │
+ │                                                                   │
+ │  1. Proc 1이 캐시 수정 -> 2. 일관성 신호 발생 -> 3. 타 캐시 무효화│
+ │  4. 버스 대기열 발생 시 Arbitrator가 순서 조정                    │
+ └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 강결합 시스템의 내부 동작은 '공유를 위한 투쟁'으로 요약된다. 각 프로세서(Proc 1~3)는 속도를 위해 지역 캐시(Local Cache)를 사용하지만, 최종 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 메인 메모리에 수렴해야 한다. 한 프로세서가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 변경하면 [시스템 버스](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/127_system_bus/)를 통해 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 바뀌었으니 너희 수첩(Cache)을 버려라'는 신호를 전파하는데, 이 과정이 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/)([Cache Coherence](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/)) 유지 단계이다. 프로세서 수가 많아질수록 이 무효화 신호와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 요청이 엉키게 되며, 이를 정돈하는 것이 메모리 컨트롤러와 [버스 중재](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/351_bus_arbitration/)기의 역할이다. 실무에서는 이 병목을 줄이기 위해 캐시 계층을 세분화하거나 읽기 전용 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 분리하는 전략을 사용한다.
 
@@ -91,20 +103,14 @@ tags = ["studynote-operating-system"]
 
 여러 프로세서가 동시에 메모리에 접근하려 할 때, 시스템은 하드웨어적으로 누구에게 먼저 길을 열어줄지 결정해야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">CPU 1 Request</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CPU 2 Request</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Arbitrator</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Bus Grant</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Memory</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CPU 3 Request</div></div>
-<div class="kb-diagram-note">(결정 기준)</div>
-<div class="kb-diagram-tree-item" style="--depth:8">Priority: 긴급 작업 우선</div>
-<div class="kb-diagram-tree-item" style="--depth:8">Fairness: 모두에게 기회 (Round Robin)</div>
-</div>
-</div>
-
-
+```text
+  [CPU 1 Request] ────┐
+  [CPU 2 Request] ────┼──▶ [ Arbitrator ] ──▶ [ Bus Grant ] ──▶ [Memory]
+  [CPU 3 Request] ────┘          │
+                                 │ (결정 기준)
+                                 ├─ Priority: 긴급 작업 우선
+                                 └─ Fairness: 모두에게 기회 (Round Robin)
+```
 
 **[다이어그램 해설]** 강결합 시스템의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 결정하는 숨은 주역은 중재기(Arbitrator)이다. 중재기는 하드웨어 게이트 수준에서 수 나노초(ns) 안에 의사결정을 내려야 한다. 만약 CPU 1이 계속해서 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 독점한다면 CPU 2와 3은 굶주림([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)) 상태에 빠져 시스템 전체의 반응성이 떨어진다. 따라서 실무적인 강결합 시스템 설계에서는 작업의 우선순위와 공정성을 적절히 배합한 중재 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 사용한다. 다이어그램에서 보듯, 요청(Request)이 집중되는 순간에 중재기가 승인(Grant) 신호를 어떻게 분배하느냐에 따라 시스템의 실시간(Real-time) 응답 속도가 결정된다.
 
@@ -181,23 +187,21 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">단일 프로세서 (Uniprocessor)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">밀결합 시스템 (Tightly Coupled System)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">공유 메모리 멀티프로세싱 (SMP)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">느슨한 결합 시스템 (Loosely Coupled System)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">분산 컴퓨팅 (Distributed Computing)</div></div>
-</div>
-</div>
-
-
+```text
+[단일 프로세서 (Uniprocessor)]
+    │
+    ▼
+[밀결합 시스템 (Tightly Coupled System)]
+    │
+    ▼
+[공유 메모리 멀티프로세싱 (SMP)]
+    │
+    ▼
+[느슨한 결합 시스템 (Loosely Coupled System)]
+    │
+    ▼
+[분산 컴퓨팅 (Distributed Computing)]
+```
 
 프로세서 결합 방식이 단일에서 밀결합·소결합을 거쳐 완전 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템으로 진화하는 흐름이다.
 

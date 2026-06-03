@@ -27,21 +27,19 @@ tags = ["studynote-enterprise"]
 
 아래 그림은 샤시가 왜 "중복 제거 이상의 의미"를 가지는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Without chassis vs with chassis</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Service A : biz + log + trace + config + health</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Service B : biz + log + trace + config + health</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Service C : biz + log + trace + config + health</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">With chassis :</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">shared chassis -&gt; log / metrics / tracing / config / health</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">each service -&gt; business capability only</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Without chassis vs with chassis                                   │
+├────────────────────────────────────────────────────────────────────┤
+│ Service A : biz + log + trace + config + health                   │
+│ Service B : biz + log + trace + config + health                   │
+│ Service C : biz + log + trace + config + health                   │
+│                                                                    │
+│ With chassis :                                                     │
+│   shared chassis -> log / metrics / tracing / config / health     │
+│   each service  -> business capability only                       │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조의 가치는 단순한 코드 절감이 아니다. 새 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 만들 때마다 같은 방식으로 관측과 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), 기본 보안을 확보할 수 있으므로, 운영팀 입장에서도 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수가 늘어도 관리 방식이 크게 흔들리지 않는다.
 
@@ -53,23 +51,24 @@ tags = ["studynote-enterprise"]
 
 샤시는 보통 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/), 스타터 패키지, 내부 프레임워크 형태로 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 프로세스 안에 포함된다. 그래서 요청 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/), 예외, 애플리케이션 생명주기에 직접 접근할 수 있다. 이 점이 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)나 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/)처럼 프로세스 밖에서 동작하는 방식과 가장 크게 다른 부분이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">In-process composition of a chassis</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Business endpoint / domain logic</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Chassis layer</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ bootstrapping &amp; dependency wiring</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ structured logging / metrics / trace context</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ config binding / secrets integration</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ resilience policy / client wrapper</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ health check / graceful shutdown</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Language runtime + framework + platform SDK</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ In-process composition of a chassis                               │
+├────────────────────────────────────────────────────────────────────┤
+│ Business endpoint / domain logic                                  │
+│        │                                                          │
+│        ▼                                                          │
+│ Chassis layer                                                     │
+│   ├─ bootstrapping & dependency wiring                            │
+│   ├─ structured logging / metrics / trace context                 │
+│   ├─ config binding / secrets integration                         │
+│   ├─ resilience policy / client wrapper                           │
+│   └─ health check / graceful shutdown                             │
+│        │                                                          │
+│        ▼                                                          │
+│ Language runtime + framework + platform SDK                       │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -115,24 +114,25 @@ tags = ["studynote-enterprise"]
 
 아래 흐름은 어떤 공통 기능을 샤시에 둘지 판단하는 기준을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Decide where a common concern should live</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Need request context / exception / framework hook?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Yes ─▶ Chassis</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ No</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Is it mostly network policy or traffic control?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Yes ─▶ Sidecar / Service Mesh</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ No</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Is it only for project creation once?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Yes ─▶ Template / Scaffold</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ No ─▶ Reconsider platform boundary</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Decide where a common concern should live                         │
+├────────────────────────────────────────────────────────────────────┤
+│ Need request context / exception / framework hook?                │
+│        ├─ Yes ─▶ Chassis                                           │
+│        └─ No                                                      │
+│             │                                                     │
+│             ▼                                                     │
+│ Is it mostly network policy or traffic control?                   │
+│        ├─ Yes ─▶ Sidecar / Service Mesh                           │
+│        └─ No                                                      │
+│             │                                                     │
+│             ▼                                                     │
+│ Is it only for project creation once?                             │
+│        ├─ Yes ─▶ Template / Scaffold                              │
+│        └─ No  ─▶ Reconsider platform boundary                     │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 ### 기술사 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -181,23 +181,20 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">서비스 수 증가</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">보일러플레이트 중복 · 운영 표준 불일치</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">마이크로서비스 샤시 (Microservice Chassis)</div>
-<div class="kb-diagram-tree-item" style="--depth:3">로깅 · 메트릭 · 분산 추적 표준화</div>
-<div class="kb-diagram-tree-item" style="--depth:3">설정 · 헬스 체크 · 예외 처리 공통화</div>
-<div class="kb-diagram-tree-item" style="--depth:3">서비스 부트스트랩 단축</div>
-<div class="kb-diagram-tree-item" style="--depth:3">사이드카 · 서비스 메시와 역할 분담</div>
-</div>
-</div>
-
-
+```text
+서비스 수 증가
+      │
+      ▼
+보일러플레이트 중복 · 운영 표준 불일치
+      │
+      ▼
+마이크로서비스 샤시 (Microservice Chassis)
+      │
+      ├──────────────► 로깅 · 메트릭 · 분산 추적 표준화
+      ├──────────────► 설정 · 헬스 체크 · 예외 처리 공통화
+      ├──────────────► 서비스 부트스트랩 단축
+      └──────────────► 사이드카 · 서비스 메시와 역할 분담
+```
 
 이 흐름은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수 증가가 공통 코드 표준화를 요구하고, 이후에는 샤시와 외부 플랫폼을 조합하는 방향으로 성숙해 가는 과정을 보여 준다.
 

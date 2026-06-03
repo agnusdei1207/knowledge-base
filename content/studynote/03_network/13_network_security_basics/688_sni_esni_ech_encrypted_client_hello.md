@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **문제점**: 옛날 웹 서버는 IP 주소 1개당 웹사이트 1개만 물려 있었습니다. 접속하면 그냥 그 사이트 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 던져주면 됐습니다. 하지만 클라우드 시대가 오며 IP 1개(서버 1대)에 `naver.com`, `daum.net`, `tistory.com` 등 수백 개의 웹사이트가 욱여넣어졌습니다.
 - **SNI의 등장 (확장 기능)**: 내 폰 브라우저가 서버 IP에 딱 접속했을 때, 서버 입장에서는 "얘가 내 안에 있는 100개 사이트 중 누구 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 보여달라는 거지?" 하고 헷갈립니다. 그래서 브라우저는 최초 접속 인사말([TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) [Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/) Hello) 패킷 안에 <strong>"나 <code>naver.com</code> 사이트에 접속하러 온 거야!"라고 콕 집어 명시하는 확장 필드(SNI)</strong>를 달아서 보내기 시작했습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">세션 재개 기능 구성</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SNI 개요 와 ESNI / ECH 검열 우…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">양자 내성 암호 체계 및 통신망 교환 표준</div></div>
-</div>
-</div>
-
-
+```text
+[세션 재개 기능 구성]
+    │
+    ▼
+[SNI 개요 와 ESNI / ECH 검열 우…]
+    │
+    └──▶ [양자 내성 암호 체계 및 통신망 교환 표준]
+```
 
 - **📢 섹션 요약 비유**: SNI 개요 와 [ESNI](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1064_esni_ech_tls_1_3_encrypted_sni/) / ECH 검열 우…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -44,18 +40,14 @@ tags = ["studynote-network"]
 - **치명적 한계**: [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 연결 시 진짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 암호화되지만, 이 최초의 인사말([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/) Hello) 패킷 안에 들어있는 <strong>SNI 주소(<code>naver.com</code>라는 글씨)만큼은 암호화되지 않고 평문(Cleartext)</strong>으로 허공을 날아갑니다.
 - **국가의 불법 사이트 차단 방식**: 한국 방통위나 중국 정부는 통신사([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/)) 인터넷 길목에 감시 장비를 달아놓고, 지나가는 패킷 겉면의 SNI 평문을 들여다봅니다. 거기에 `illegal-site.com`이라는 차단 명단 주소가 보이면, 가차 없이 연결을 끊어버리고 `Warning.or.kr` (경고창)로 튕겨버립니다. 이것이 유명한 <strong>'SNI 필터링 차단'</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">세션 재개 기능 구성</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SNI 개요 와 ESNI / ECH 검열 우…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">양자 내성 암호 체계 및 통신망 교환 표준</div></div>
-</div>
-</div>
-
-
+```text
+[세션 재개 기능 구성]
+    │
+    ▼
+[SNI 개요 와 ESNI / ECH 검열 우…]
+    │
+    └──▶ [양자 내성 암호 체계 및 통신망 교환 표준]
+```
 
 - **📢 섹션 요약 비유**: SNI 개요 와 [ESNI](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1064_esni_ech_tls_1_3_encrypted_sni/) / ECH 검열 우…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -117,19 +109,15 @@ SNI 개요 와 [ESNI](/knowledge-base/studynote/03_network/20_performance_evalua
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 세션 재개 기능 구성</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: SNI 개요 와 ESNI / ECH 검열 우…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 양자 내성 암호 체계 및 통신망 교환 표준</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 세션 재개 기능 구성]
+    │
+    ▼
+[현재 개념: SNI 개요 와 ESNI / ECH 검열 우…]
+    │
+    ├──▶ [확장 A: 양자 내성 암호 체계 및 통신망 교환 표준]
+    └──▶ [확장 B: 자동화된 신뢰 체계]
+```
 
 SNI 개요 와 [ESNI](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1064_esni_ech_tls_1_3_encrypted_sni/) / ECH 검열 우…는 [세션 재개](/knowledge-base/studynote/03_network/13_network_security_basics/687_tls_session_resumption_ticket/) 기능 구성에서 출발해 현재 메커니즘을 정교화하고, 이후 [양자 내성 암호](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/) 체계 및 통신망 교환 표준와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

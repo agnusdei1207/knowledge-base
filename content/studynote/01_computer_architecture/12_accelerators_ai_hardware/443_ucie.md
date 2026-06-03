@@ -25,24 +25,25 @@ UCIe (Universal [Chiplet](/knowledge-base/studynote/01_computer_architecture/14_
 
 [칩렛](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) 아키텍처는 이 문제를 분해로 해결한다. 연산 [칩렛](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/), I/O [칩렛](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/), 메모리 [칩렛](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/)을 각각 최적 공정에서 만들고 패키지 수준에서 다시 조립하면 된다. 다만 회사마다 배선 방식과 링크 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이 다르면 생태계가 파편화되므로, [칩렛](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) 산업에는 PCIe가 메인보드에서 했던 역할을 패키지 내부에서 수행할 표준이 필요했고 그 답이 UCIe다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Why UCIe appeared</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Monolithic die grows</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─&gt; yield drops</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─&gt; cost rises</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─&gt; one process must fit every block</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Split into chiplets</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─&gt; best process per block</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─&gt; smaller dies, better yield</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─&gt; need a common D2D link standard</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Result: UCIe</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Why UCIe appeared                                                   │
+├──────────────────────────────────────────────────────────────────────┤
+│ Monolithic die grows                                                │
+│      │                                                              │
+│      ├─> yield drops                                                │
+│      ├─> cost rises                                                 │
+│      └─> one process must fit every block                           │
+│                                                                     │
+│ Split into chiplets                                                 │
+│      │                                                              │
+│      ├─> best process per block                                     │
+│      ├─> smaller dies, better yield                                 │
+│      └─> need a common D2D link standard                            │
+│                                                                     │
+│ Result: UCIe                                                        │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 핵심은 UCIe가 “칩을 더 작게 만든다”가 아니라, <strong>쪼갠 뒤에도 하나처럼 쓰게 해 주는 연결 규칙</strong>이라는 점이다. 즉 [칩렛](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/)은 제조 전략이고, UCIe는 그 전략을 산업 생태계 수준으로 확장시키는 인터페이스 표준이다.
 
@@ -64,23 +65,23 @@ UCIe가 중요한 이유는 패키지 내부 통신 거리가 PCB (Printed Circu
 
 또한 UCIe는 패키징 기술과 강하게 결합된다. 유기 기판 기반의 일반 패키지에서도 쓸 수 있지만, 2.5D 인터포저나 3D 적층 구조와 결합할수록 더 촘촘한 연결과 높은 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 기대할 수 있다. 즉 UCIe는 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 규격이면서 동시에 Advanced Packaging의 공통 접착면 역할을 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">UCIe stack inside one package</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Compute Chiplet Memory / I/O Chiplet</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Protocol</div><div class="kb-diagram-cell">&lt; &gt;</div><div class="kb-diagram-cell">Protocol</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PCIe / CXL</div><div class="kb-diagram-cell">PCIe / CXL</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Adapter</div><div class="kb-diagram-cell">&lt; &gt;</div><div class="kb-diagram-cell">Adapter</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Retry / FC</div><div class="kb-diagram-cell">Retry / FC</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">UCIe PHY</div><div class="kb-diagram-cell">&lt;=== short ====&gt;</div><div class="kb-diagram-cell">UCIe PHY</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">reach</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">package substrate / interposer / bridge</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ UCIe stack inside one package                                       │
+├──────────────────────────────────────────────────────────────────────┤
+│ Compute Chiplet                     Memory / I/O Chiplet             │
+│ ┌────────────────┐                 ┌────────────────┐               │
+│ │ Protocol       │<───────────────>│ Protocol       │               │
+│ │ PCIe / CXL     │                 │ PCIe / CXL     │               │
+│ ├────────────────┤                 ├────────────────┤               │
+│ │ Adapter        │<───────────────>│ Adapter        │               │
+│ │ Retry / FC     │                 │ Retry / FC     │               │
+│ ├────────────────┤                 ├────────────────┤               │
+│ │ UCIe PHY       │<=== short ====> │ UCIe PHY       │               │
+│ └────────────────┘     reach       └────────────────┘               │
+│        package substrate / interposer / bridge                       │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조가 주는 의미는 명확하다. 소프트웨어가 보는 것은 여전히 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 장치나 [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) 메모리 장치인데, 실제 전기적 연결은 패키지 내부의 짧고 효율적인 UCIe 링크가 대신 담당한다. 즉 UCIe는 <strong>전기적 현실은 바꾸되, 논리적 사용성은 최대한 유지하는 표준</strong>이다.
 
@@ -159,24 +160,26 @@ UCIe의 가장 큰 효과는 [반도체](/knowledge-base/studynote/01_computer_a
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">모놀리식 칩의 대면적 한계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">칩렛 (Chiplet) 분리 설계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">UCIe (Universal Chiplet Interconnect Express)</div>
-<div class="kb-diagram-note">PCIe 프로토콜 매핑 CXL 프로토콜 매핑 Streaming D2D</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Advanced Packaging + 이기종 공정 통합</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">조립형 SoC / 패키지 수준 시스템 확장</div>
-</div>
-</div>
-
-
+```text
+모놀리식 칩의 대면적 한계
+        │
+        ▼
+칩렛 (Chiplet) 분리 설계
+        │
+        ▼
+UCIe (Universal Chiplet Interconnect Express)
+        │
+        ├───────────────┬────────────────┐
+        ▼               ▼                ▼
+PCIe 프로토콜 매핑   CXL 프로토콜 매핑   Streaming D2D
+        │               │                │
+        └───────────────┴────────────────┘
+                        ▼
+Advanced Packaging + 이기종 공정 통합
+                        │
+                        ▼
+조립형 SoC / 패키지 수준 시스템 확장
+```
 
 이 흐름은 “큰 칩의 한계 인식 → [칩렛](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) 분리 → 표준 연결 → 상위 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 수용 → 패키지 수준 시스템화”로 이어지는 진화 방향을 보여 준다.
 

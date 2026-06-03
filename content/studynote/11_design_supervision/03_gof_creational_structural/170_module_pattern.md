@@ -23,20 +23,17 @@ tags = ["studynote-design-supervision"]
 
 이 문제를 줄이기 위해 즉시 실행 함수 표현식 (IIFE, Immediately Invoked Function Expression)과 클로저를 이용한 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 패턴이 널리 쓰였다. 핵심은 단순하다. 함수 하나를 경계로 private 영역을 만든 뒤, 필요한 메서드만 객체 형태로 반환한다. 그러면 외부는 "무엇을 할 수 있는가"만 알고, "안에서 어떻게 처리하는가"는 몰라도 된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Global namespace vs module boundary</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">window.user</div><div class="kb-diagram-cell">AppModule</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">window.config</div><div class="kb-diagram-cell">─ private state</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">window.cache</div><div class="kb-diagram-cell">─ private helpers</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">name collision risk</div><div class="kb-diagram-cell">─ public API only</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">implementation exposed</div><div class="kb-diagram-cell">implementation hidden</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Global namespace vs module boundary                                  │
+├────────────────────────────┬─────────────────────────────────────────┤
+│ window.user                │ AppModule                              │
+│ window.config              │  ├─ private state                      │
+│ window.cache               │  ├─ private helpers                    │
+│ name collision risk        │  └─ public API only                    │
+│ implementation exposed     │ implementation hidden                  │
+└────────────────────────────┴─────────────────────────────────────────┘
+```
 
 즉 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 패턴은 "코드를 예쁘게 묶는 취향"이 아니라, <strong>전역 노출 비용을 줄이고 변경 영향을 통제하기 위한 경계 설계</strong>에서 출발했다.
 
@@ -74,21 +71,19 @@ const cartModule = (() => {
 | public [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) | 외부가 사용하는 진입점 | 이름과 계약을 안정적으로 유지해야 함 |
 | closure | private 상태 지속 | 함수가 끝난 뒤에도 상태가 유지되는 핵심 메커니즘 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Runtime structure of Module Pattern</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IIFE / factory execution</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ private state : data, cache, counters</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ private helpers : validate, normalise, format</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ return public API object</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client call ----▼------------------------------------------------</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">api.method() -&gt; closure -&gt; private state read/write -&gt; result</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Runtime structure of Module Pattern                                  │
+├──────────────────────────────────────────────────────────────────────┤
+│ IIFE / factory execution                                             │
+│   ├─ private state       : data, cache, counters                     │
+│   ├─ private helpers     : validate, normalise, format               │
+│   └─ return public API object                                        │
+│                 │                                                    │
+│ Client call ----▼------------------------------------------------┐   │
+│ api.method() -> closure -> private state read/write -> result    │   │
+└───────────────────────────────────────────────────────────────────┴───┘
+```
 
 여기서 자주 놓치는 사실이 하나 있다. IIFE 기반 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 패턴은 보통 <strong>한 번 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>된 싱글턴</strong>이다. 만약 사용자별 인스턴스를 여러 개 만들어야 한다면, [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 패턴보다 팩터리 함수나 클래스가 더 적합할 수 있다. 반대로 "애플리케이션 전체에서 하나만 있어야 하는 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), 캐시, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 채널"처럼 공유 상태가 자연스러운 경우에는 장점이 된다.
 
@@ -170,24 +165,23 @@ const cartModule = (() => {
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Global variables</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Namespace object</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Module Pattern (IIFE + Closure)</div>
-<div class="kb-diagram-tree-item" style="--depth:3">CommonJS / AMD / UMD</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ECMAScript Module</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Modern closure-based hooks and service wrappers</div>
-</div>
-</div>
-
-
+```text
+Global variables
+      │
+      ▼
+Namespace object
+      │
+      ▼
+Module Pattern (IIFE + Closure)
+      │
+      ├─ CommonJS / AMD / UMD
+      │
+      ▼
+ECMAScript Module
+      │
+      ▼
+Modern closure-based hooks and service wrappers
+```
 
 이 흐름은 전역 스크립트 시대의 충돌 문제를 줄이기 위해 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 패턴이 등장했고, 이후 언어 차원의 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 시스템으로 발전했음을 보여 준다.
 

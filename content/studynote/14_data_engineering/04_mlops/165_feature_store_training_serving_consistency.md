@@ -22,28 +22,29 @@ tags = ["studynote-data-engineering"]
 
 <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/">피처</a> 스토어 (Feature Store)</strong>는 ML 모델 개발 및 서빙에 사용되는 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)(특징 변수)를 중앙화하여 정의, 저장, 공유, 서빙하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼이다.
 
+```
+피처 스토어 없는 세상 (문제 상황)
+┌───────────────────────────────────────────────────────┐
+│  팀 A: "나이" 계산 = (오늘 날짜 - 생년월일) / 365      │
+│  팀 B: "나이" 계산 = (오늘 날짜 - 생년월일) / 365.25   │
+│  팀 C: "나이" 계산 = 가장 최근 설문 응답의 나이 입력    │
+│                                                       │
+│  → 같은 "나이" 피처가 팀마다 다르게 계산됨!            │
+│  → 훈련 시 A 방식, 서빙 시 B 방식 → 성능 저하!        │
+└───────────────────────────────────────────────────────┘
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">피처 스토어 없는 세상 (문제 상황)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">팀 A: "나이" 계산 = (오늘 날짜 - 생년월일) / 365</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">팀 B: "나이" 계산 = (오늘 날짜 - 생년월일) / 365.25</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">팀 C: "나이" 계산 = 가장 최근 설문 응답의 나이 입력</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 같은 "나이" 피처가 팀마다 다르게 계산됨!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 훈련 시 A 방식, 서빙 시 B 방식 → 성능 저하!</div></div>
-<div class="kb-diagram-note">피처 스토어 도입 후</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">피처 레지스트리:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">feature_name: "customer_age"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">definition: (current_date - birth_date) / 365</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">owner: data-platform-team</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">version: v2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 모든 팀이 동일한 "customer_age" 사용!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 훈련과 서빙 모두 동일 계산 로직 보장</div></div>
-</div>
-</div>
-
-
+피처 스토어 도입 후
+┌───────────────────────────────────────────────────────┐
+│  피처 레지스트리:                                      │
+│  feature_name: "customer_age"                         │
+│  definition: (current_date - birth_date) / 365        │
+│  owner: data-platform-team                            │
+│  version: v2                                          │
+│                                                       │
+│  → 모든 팀이 동일한 "customer_age" 사용!              │
+│  → 훈련과 서빙 모두 동일 계산 로직 보장               │
+└───────────────────────────────────────────────────────┘
+```
 
 ### 1.2 Training-Serving Skew 문제
 
@@ -64,32 +65,34 @@ tags = ["studynote-data-engineering"]
 
 ### 2.1 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 스토어 핵심 구성요소
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">피처 스토어 아키텍처</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 소스 피처 변환 저장소</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">배치</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data</div><div class="kb-diagram-cell">파이프라인</div><div class="kb-diagram-cell">오프라인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Warehouse</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">피처</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">스토어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(S3,</div><div class="kb-diagram-cell">변환</div><div class="kb-diagram-cell">(S3/GCS/</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BQ)</div><div class="kb-diagram-cell">(PySpark,</div><div class="kb-diagram-cell">Hive)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">dbt,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스트리밍</div><div class="kb-diagram-cell">Flink)</div><div class="kb-diagram-cell">배치 읽기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kafka</div><div class="kb-diagram-cell">파이프라인</div><div class="kb-diagram-cell">▼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(실시간)</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">온라인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스토어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Redis,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">피처 레지스트리</div><div class="kb-diagram-cell">DynamoDB)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">피처 이름, 정의, 버전, 오너, 태그</div><div class="kb-diagram-cell">실시간</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문서화, 재사용 검색</div><div class="kb-diagram-cell">읽기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">학습 서버 ← 오프라인 스토어 읽기</div><div class="kb-diagram-cell">추론 서버</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(배치 학습)</div><div class="kb-diagram-cell">(실시간)</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                      피처 스토어 아키텍처                        │
+├───────────────────────────────────────────────────────────────  ┤
+│                                                                 │
+│  데이터 소스                피처 변환           저장소           │
+│  ┌──────────┐  배치         ┌────────────┐    ┌────────────┐   │
+│  │ Data     │  파이프라인   │            │    │ 오프라인   │   │
+│  │ Warehouse│ ────────────→│  피처      │───→│ 스토어     │   │
+│  │ (S3,     │              │  변환      │    │ (S3/GCS/  │   │
+│  │  BQ)     │              │  (PySpark, │    │  Hive)    │   │
+│  └──────────┘              │  dbt,      │    └─────┬──────┘   │
+│  ┌──────────┐  스트리밍    │  Flink)    │          │ 배치 읽기│   │
+│  │ Kafka    │  파이프라인  │            │    ┌─────▼──────┐   │
+│  │ (실시간) │ ────────────→│            │───→│ 온라인     │   │
+│  └──────────┘              └────────────┘    │ 스토어     │   │
+│                                              │ (Redis,   │   │
+│  피처 레지스트리                              │  DynamoDB)│   │
+│  ┌──────────────────────────────────────┐   └─────┬──────┘   │
+│  │ 피처 이름, 정의, 버전, 오너, 태그    │         │ 실시간   │   │
+│  │ 문서화, 재사용 검색                  │         │ 읽기     │   │
+│  └──────────────────────────────────────┘         │          │
+│                                              ┌─────▼──────┐   │
+│  학습 서버 ←──── 오프라인 스토어 읽기        │ 추론 서버  │   │
+│  (배치 학습)                                 │ (실시간)   │   │
+│                                              └────────────┘   │
+└─────────────────────────────────────────────────────────────────┘
+```
 
 ### 2.2 오프라인 스토어 vs 온라인 스토어
 
@@ -106,51 +109,45 @@ tags = ["studynote-data-engineering"]
 
 가장 중요한 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 스토어 개념 중 하나인 <strong>Point-in-Time Correct 조인</strong>은 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 시 각 레이블 시점에서 실제로 사용 가능했던 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 값만 사용하도록 보장한다.
 
+```
+데이터 누수 (Data Leakage) 문제 예시:
 
+날짜:       2024-01-01  2024-01-10  2024-01-15
+이벤트:     신용카드     결제 실패    사기 레이블
+            발급                     확정
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">데이터 누수 (Data Leakage) 문제 예시:</div>
-<div class="kb-diagram-note">날짜: 2024-01-01 2024-01-10 2024-01-15</div>
-<div class="kb-diagram-note">이벤트: 신용카드 결제 실패 사기 레이블</div>
-<div class="kb-diagram-note">발급 확정</div>
-<div class="kb-diagram-note">잘못된 조인 (미래 데이터 사용):</div>
-<div class="kb-diagram-note">레이블(2024-01-15) ← 피처(2024-01-15 기준 계산)</div>
-<div class="kb-diagram-note">→ 사기 레이블 시점의 정보를 학습에 사용</div>
-<div class="kb-diagram-note">→ 훈련 정확도는 높지만 실제 배포 시 성능 급락!</div>
-<div class="kb-diagram-note">Point-in-Time Correct 조인:</div>
-<div class="kb-diagram-note">레이블(2024-01-15) ← 피처(2024-01-01 기준 계산)</div>
-<div class="kb-diagram-note">→ 신용카드 발급 시점의 정보만 사용</div>
-<div class="kb-diagram-note">→ 현실적이고 신뢰할 수 있는 모델 훈련</div>
-</div>
-</div>
+잘못된 조인 (미래 데이터 사용):
+  레이블(2024-01-15) ← 피처(2024-01-15 기준 계산)
+  → 사기 레이블 시점의 정보를 학습에 사용
+  → 훈련 정확도는 높지만 실제 배포 시 성능 급락!
 
+Point-in-Time Correct 조인:
+  레이블(2024-01-15) ← 피처(2024-01-01 기준 계산)
+  → 신용카드 발급 시점의 정보만 사용
+  → 현실적이고 신뢰할 수 있는 모델 훈련
+```
 
-
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Point-in-Time Correct 조인 구현 (Feast 예시):</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">entity_df = pd.DataFrame({</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">"customer_id":</div><div class="kb-diagram-node">1001, 1002, 1003</div><div class="kb-diagram-note">,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"event_timestamp": [</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"2024-01-01", # 이 시점의 피처값을 조인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"2024-01-05",</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"2024-01-10"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">]</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">})</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell"># Feast가 각 event_timestamp 이전의</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell"># 최신 피처 값만 자동으로 조인!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">training_df = store.get_historical_features(</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">entity_df=entity_df,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">features=["customer_stats:avg_spend",</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"customer_stats:login_count"]</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">).to_df()</div></div>
-</div>
-</div>
-
-
+```
+Point-in-Time Correct 조인 구현 (Feast 예시):
+┌──────────────────────────────────────────────────────────┐
+│  entity_df = pd.DataFrame({                              │
+│      "customer_id": [1001, 1002, 1003],                  │
+│      "event_timestamp": [                                │
+│          "2024-01-01",  # 이 시점의 피처값을 조인        │
+│          "2024-01-05",                                   │
+│          "2024-01-10"                                    │
+│      ]                                                   │
+│  })                                                      │
+│                                                          │
+│  # Feast가 각 event_timestamp 이전의                     │
+│  # 최신 피처 값만 자동으로 조인!                         │
+│  training_df = store.get_historical_features(            │
+│      entity_df=entity_df,                                │
+│      features=["customer_stats:avg_spend",               │
+│                "customer_stats:login_count"]             │
+│  ).to_df()                                               │
+└──────────────────────────────────────────────────────────┘
+```
 
 ### 2.4 주요 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 스토어 제품 비교
 
@@ -180,23 +177,18 @@ tags = ["studynote-data-engineering"]
 
 ### 3.2 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 공유 재사용 효과
 
+```
+피처 스토어 도입 전:
+  모델 A → 자체 피처 파이프라인 구축 (2주 소요)
+  모델 B → 자체 피처 파이프라인 구축 (3주 소요)
+  모델 C → 자체 피처 파이프라인 구축 (2주 소요)
+  총: 7주 + 중복 코드 + 버그 위험
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">피처 스토어 도입 전:</div>
-<div class="kb-diagram-note">모델 A → 자체 피처 파이프라인 구축 (2주 소요)</div>
-<div class="kb-diagram-note">모델 B → 자체 피처 파이프라인 구축 (3주 소요)</div>
-<div class="kb-diagram-note">모델 C → 자체 피처 파이프라인 구축 (2주 소요)</div>
-<div class="kb-diagram-note">총: 7주 + 중복 코드 + 버그 위험</div>
-<div class="kb-diagram-note">피처 스토어 도입 후:</div>
-<div class="kb-diagram-note">피처 "customer_age", "avg_spend", "login_freq" 등록 (1주)</div>
-<div class="kb-diagram-note">모델 A, B, C 모두 피처 스토어에서 가져다 사용 (1~2일)</div>
-<div class="kb-diagram-note">총: 1.5주 + 코드 재사용 + 일관성 보장</div>
-</div>
-</div>
-
-
+피처 스토어 도입 후:
+  피처 "customer_age", "avg_spend", "login_freq" 등록 (1주)
+  모델 A, B, C 모두 피처 스토어에서 가져다 사용 (1~2일)
+  총: 1.5주 + 코드 재사용 + 일관성 보장
+```
 
 ### 3.3 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 스토어의 한계와 보완
 
@@ -215,29 +207,27 @@ tags = ["studynote-data-engineering"]
 
 ### 4.1 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 스토어 도입 성숙도 모델
 
+```
+Level 1: 피처 파일 공유
+  → Google Drive나 S3에 CSV 파일 공유
+  → 버전 관리 없음, 검색 불가
 
+Level 2: 중앙화된 피처 테이블
+  → BigQuery/Redshift에 피처 테이블 생성
+  → 재사용 가능, 실시간 서빙 불가
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Level 1: 피처 파일 공유</div>
-<div class="kb-diagram-note">→ Google Drive나 S3에 CSV 파일 공유</div>
-<div class="kb-diagram-note">→ 버전 관리 없음, 검색 불가</div>
-<div class="kb-diagram-note">Level 2: 중앙화된 피처 테이블</div>
-<div class="kb-diagram-note">→ BigQuery/Redshift에 피처 테이블 생성</div>
-<div class="kb-diagram-note">→ 재사용 가능, 실시간 서빙 불가</div>
-<div class="kb-diagram-note">Level 3: 오프라인 피처 스토어</div>
-<div class="kb-diagram-note">→ Feast/Hopsworks 도입</div>
-<div class="kb-diagram-note">→ 버전 관리, PIT 조인, 배치 서빙</div>
-<div class="kb-diagram-note">Level 4: 온라인 + 오프라인 통합</div>
-<div class="kb-diagram-note">→ Redis 기반 온라인 스토어 추가</div>
-<div class="kb-diagram-note">→ 실시간 추론 ms 응답</div>
-<div class="kb-diagram-note">Level 5: 스트리밍 피처 스토어</div>
-<div class="kb-diagram-note">→ Flink/Kafka Streams로 실시간 피처 계산</div>
-<div class="kb-diagram-note">→ 진정한 실시간 피처 업데이트</div>
-</div>
-</div>
+Level 3: 오프라인 피처 스토어
+  → Feast/Hopsworks 도입
+  → 버전 관리, PIT 조인, 배치 서빙
 
+Level 4: 온라인 + 오프라인 통합
+  → Redis 기반 온라인 스토어 추가
+  → 실시간 추론 ms 응답
 
+Level 5: 스트리밍 피처 스토어
+  → Flink/Kafka Streams로 실시간 피처 계산
+  → 진정한 실시간 피처 업데이트
+```
 
 ### 4.2 기술사 시험 핵심 포인트
 
@@ -254,31 +244,31 @@ Training-Serving Skew는 훈련 시 Python PySpark로 계산한 [피처](/knowle
 
 ### 4.3 Feast 아키텍처 상세
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Feast 아키텍처</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① 피처 정의 (Python SDK)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">driver_stats = FeatureView(</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">name="driver_hourly_stats",</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">entities=</div><div class="kb-diagram-node">"driver_id"</div><div class="kb-diagram-note">,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ttl=timedelta(hours=2), # 온라인 스토어 TTL</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">schema=</div><div class="kb-diagram-node">Field(name="conv_rate", dtype=Float32)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② 오프라인 저장 (배치 머터리얼라이제이션)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">feast materialize 2024-01-01 2024-01-31</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ S3/BigQuery에 피처 저장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ 온라인 서빙 (실시간)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">store.get_online_features(</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">features=</div><div class="kb-diagram-node">"driver_hourly_stats:conv_rate"</div><div class="kb-diagram-note">,</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">entity_rows=</div><div class="kb-diagram-node">{"driver_id": 1001}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ Redis에서 ms 내 반환</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────────┐
+│                    Feast 아키텍처                             │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│  ① 피처 정의 (Python SDK)                                    │
+│  driver_stats = FeatureView(                                 │
+│      name="driver_hourly_stats",                             │
+│      entities=["driver_id"],                                 │
+│      ttl=timedelta(hours=2),  # 온라인 스토어 TTL            │
+│      schema=[Field(name="conv_rate", dtype=Float32)]         │
+│  )                                                           │
+│                                                              │
+│  ② 오프라인 저장 (배치 머터리얼라이제이션)                   │
+│  feast materialize 2024-01-01 2024-01-31                     │
+│  → S3/BigQuery에 피처 저장                                   │
+│                                                              │
+│  ③ 온라인 서빙 (실시간)                                      │
+│  store.get_online_features(                                  │
+│      features=["driver_hourly_stats:conv_rate"],             │
+│      entity_rows=[{"driver_id": 1001}]                       │
+│  )                                                           │
+│  → Redis에서 ms 내 반환                                      │
+└──────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 스토어 도입은 식당 주방에 재료 관리 시스템을 도입하는 것과 같다. 냉장고(오프라인 스토어)에는 모든 재료를 날짜별로 보관하고, 조리 직전 준비대(온라인 스토어)에는 오늘 가장 신선한 재료만 꺼내놓는다. 모든 요리사가 같은 재료 목록([피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/))을 보고 동일한 재료를 사용한다.
 
@@ -330,26 +320,24 @@ Training-Serving Skew는 훈련 시 Python PySpark로 계산한 [피처](/knowle
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">피처 중복 계산 · Training-Serving Skew 문제</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">피처 스토어 도입</div>
-<div class="kb-diagram-tree-item" style="--depth:2">피처 레지스트리: 정의 · 버전 · 오너 중앙 관리</div>
-<div class="kb-diagram-tree-item" style="--depth:2">오프라인 스토어 (S3/BQ): 배치 학습용</div>
-<div class="kb-diagram-tree-item" style="--depth:2">온라인 스토어 (Redis): 실시간 서빙용 (ms 응답)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Point-in-Time Correct 조인 → 데이터 누수 방지</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">스트리밍 피처 계산 (Flink/Kafka) → 실시간 피처 업데이트</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">피처 플랫폼: Feast · Tecton · Hopsworks · SageMaker FS</div>
-</div>
-</div>
-
-
+```text
+피처 중복 계산 · Training-Serving Skew 문제
+    │
+    ▼
+피처 스토어 도입
+    ├─► 피처 레지스트리: 정의 · 버전 · 오너 중앙 관리
+    ├─► 오프라인 스토어 (S3/BQ): 배치 학습용
+    └─► 온라인 스토어 (Redis): 실시간 서빙용 (ms 응답)
+    │
+    ▼
+Point-in-Time Correct 조인 → 데이터 누수 방지
+    │
+    ▼
+스트리밍 피처 계산 (Flink/Kafka) → 실시간 피처 업데이트
+    │
+    ▼
+피처 플랫폼: Feast · Tecton · Hopsworks · SageMaker FS
+```
 
 ---
 

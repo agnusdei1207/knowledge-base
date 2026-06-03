@@ -46,45 +46,41 @@ synchronized (lock) {
 }
 ```
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Producer Threads Consumer Threads</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">produce(item)</div><div class="kb-diagram-cell">consume()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Shared Buffer (BlockingQueue)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Guard: 가득 참</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">wait()</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Guard: 비어 있음</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">wait()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 조건 충족 시 notify()로 재개</div></div>
-</div>
-</div>
-
-
+```
+  Producer Threads            Consumer Threads
+        │                           │
+        │ produce(item)             │ consume()
+        ▼                           ▼
+  ┌─────────────────────────────────────────────┐
+  │       Shared Buffer (BlockingQueue)         │
+  │                                             │
+  │  [Guard: 가득 참] Producer → wait()         │
+  │  [Guard: 비어 있음] Consumer → wait()       │
+  │                                             │
+  │  → 조건 충족 시 notify()로 재개             │
+  └─────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 식당의 주문 대기표 — 테이블이 없을 때 손님(Consumer [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))이 쇼파에 앉아 기다린다. 직원이 "6번 테이블 준비됐습니다"라고 부를 때까지(notify) 무작정 서서 기다리지 않는다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
+```
+  [ Guarded Suspension 실행 흐름 ]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Guarded Suspension 실행 흐름</div></div>
-<div class="kb-diagram-note">Thread A (Consumer) Thread B (Producer)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">synchronized(lock)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">{</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">while(!condition) {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">lock.wait(); ►</div><div class="kb-diagram-cell">(Thread A → Wait Set)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// 조건 충족 시 실행</div><div class="kb-diagram-cell">synchronized(lock) {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">doWork();</div><div class="kb-diagram-cell">setCondition(true);</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div><div class="kb-diagram-cell">lock.notifyAll(); ──► Thread A 재개</div></div>
-<div class="kb-diagram-note">}</div>
-</div>
-</div>
-
-
+  Thread A (Consumer)                Thread B (Producer)
+       │                                    │
+       │ synchronized(lock)                 │
+       │ {                                  │
+       │   while(!condition) {              │
+       │     lock.wait();    ──────────────►│  (Thread A → Wait Set)
+       │   }                                │
+       │   // 조건 충족 시 실행             │  synchronized(lock) {
+       │   doWork();                        │    setCondition(true);
+       │ }                                  │    lock.notifyAll(); ──►  Thread A 재개
+                                            │  }
+```
 
 ```java
 // Java LinkedBlockingQueue 핵심 구현 (단순화)
@@ -116,26 +112,25 @@ public class SimpleBlockingQueue<T> {
 }
 ```
 
+```
+  Java `synchronized` + `wait/notify`  ←→  Condition Variable
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Java <code>synchronized</code> + <code>wait/notify</code> ←→ Condition Variable</div>
-<div class="kb-diagram-note">ReentrantLock 기반 (더 정교한 제어):</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Lock lock = new ReentrantLock();</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Condition notEmpty = lock.newCondition();</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Condition notFull = lock.newCondition();</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">put():</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">while (isFull) notFull.await(); ← wait</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">notEmpty.signal(); ← notify</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">take():</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">while (isEmpty) notEmpty.await(); ← wait</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">notFull.signal(); ← notify</div></div>
-<div class="kb-diagram-note">→ 생산자/소비자 조건을 별도로 관리 가능</div>
-</div>
-</div>
-
-
+  ReentrantLock 기반 (더 정교한 제어):
+  ┌──────────────────────────────────────────────┐
+  │  Lock lock = new ReentrantLock();            │
+  │  Condition notEmpty = lock.newCondition();   │
+  │  Condition notFull  = lock.newCondition();   │
+  │                                              │
+  │  put():                                      │
+  │    while (isFull)  notFull.await();  ← wait  │
+  │    notEmpty.signal();                ← notify│
+  │                                              │
+  │  take():                                     │
+  │    while (isEmpty) notEmpty.await(); ← wait  │
+  │    notFull.signal();                 ← notify│
+  └──────────────────────────────────────────────┘
+  → 생산자/소비자 조건을 별도로 관리 가능
+```
 
 | 항목 | 설명 | 포인트 |
 |:---|:---|:---|
@@ -155,26 +150,24 @@ public class SimpleBlockingQueue<T> {
 | **Timed Waiting** | 0% (대기 중) | [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) or notify | 중간 | 외부 이벤트 대기 |
 | <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/">Polling</a> with sleep</strong> | 낮음 | sleep 주기 | 낮음 | 단순 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) |
 
+```
+  데드락 발생 시나리오:
+  - Thread A: lock1 점유, lock2 대기
+  - Thread B: lock2 점유, lock1 대기
+  → 영원히 서로를 기다림 = 데드락
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">데드락 발생 시나리오:</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Thread A: lock1 점유, lock2 대기</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Thread B: lock2 점유, lock1 대기</div>
-<div class="kb-diagram-note">→ 영원히 서로를 기다림 = 데드락</div>
-<div class="kb-diagram-note">Guarded Suspension에서의 주의:</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">❌ 위험: notifyAll() 누락</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 생산자가 아이템 추가 후 알리지 않으면</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소비자가 영원히 대기 = 잠재적 데드락</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 안전: while + notifyAll 패턴</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ if 대신 while: spurious wakeup 방지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ notifyAll: 모든 대기 스레드 깨움</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 타임아웃: wait(5000) 최대 5초 대기</div></div>
-</div>
-</div>
-
-
+  Guarded Suspension에서의 주의:
+  ┌────────────────────────────────────────────────┐
+  │  ❌ 위험: notifyAll() 누락                     │
+  │    → 생산자가 아이템 추가 후 알리지 않으면     │
+  │       소비자가 영원히 대기 = 잠재적 데드락     │
+  │                                                │
+  │  ✅ 안전: while + notifyAll 패턴               │
+  │    → if 대신 while: spurious wakeup 방지       │
+  │    → notifyAll: 모든 대기 스레드 깨움          │
+  │    → 타임아웃: wait(5000) 최대 5초 대기        │
+  └────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 경비원(Guard) 근무교대 — 교대 인원이 도착할 때까지 자리를 비우지 않고 기다린다(suspend). 교대 인원이 오면(notify) 임무를 넘기고 자리를 뜬다.
 

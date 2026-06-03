@@ -10,7 +10,7 @@ tags = ["studynote-devops-sre"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) (Mean Time to Recover/Repair, 평균 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간)은 시스템 장애 발생부터 정상 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)까지 걸린 평균 시간으로, [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)([Site Reliability Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/))의 4대 [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 중 "복원력([Reliability](/knowledge-base/studynote/04_software_engineering/06_software_architecture/345_reliability_security/))"을 측정하는 핵심 지표다.
+> 1. **본질**: [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) (Mean Time to Recover/Repair, 평균 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간)은 시스템 장애 발생부터 정상 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)까지 걸린 평균 시간으로, [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)([Site Reliability 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/))의 4대 [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 중 "복원력([Reliability](/knowledge-base/studynote/04_software_engineering/06_software_architecture/345_reliability_security/))"을 측정하는 핵심 지표다.
 > 2. **가치**: MTTR은 단순히 빠른 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)만을 의미하지 않는다. 장애 탐지([Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/)) → 대응(Response) → 원인 파악(Diagnosis) → [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)([Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))의 4단계 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 전체를 최적화해야 낮출 수 있다. 어느 한 단계의 병목이 전체 MTTR을 지배한다.
 > 3. **판단 포인트**: MTTR이 낮다고 무조건 좋은 것은 아니다. 빠른 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 위해 원인 파악을 건너뛰면 재발 빈도([MTBF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/) 단축)가 높아진다. 이상적인 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 팀은 "빠른 일시 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/)) + 철저한 사후 분석(Post-mortem)"을 병행하여 MTTR과 [MTBF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/) 모두 개선한다.
 
@@ -18,19 +18,19 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MTTR 4단계 파이프라인</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">장애 발생 ──&gt;</div><div class="kb-diagram-node">1. 탐지</div><div class="kb-diagram-note">──&gt;</div><div class="kb-diagram-node">2. 대응</div><div class="kb-diagram-note">──&gt;</div><div class="kb-diagram-node">3. 진단</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">──&gt;</div><div class="kb-diagram-node">4. 복구</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MTTR = 탐지 시간 + 대응 시간 + 진단 시간 + 복구 시간</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">목표: 각 단계를 자동화하여 MTTR을 시간 → 분 → 초로 단축</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────┐
+│              MTTR 4단계 파이프라인                       │
+├────────────────────────────────────────────────────────┤
+│                                                         │
+│  장애 발생 ──> [1. 탐지] ──> [2. 대응] ──> [3. 진단]     │
+│                                         ──> [4. 복구]   │
+│                                                         │
+│  MTTR = 탐지 시간 + 대응 시간 + 진단 시간 + 복구 시간    │
+│                                                         │
+│  목표: 각 단계를 자동화하여 MTTR을 시간 → 분 → 초로 단축 │
+└────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: MTTR은 화재 진압 시간이다. 화재 감지기(탐지) → 소방차 출동(대응) → 불 위치 파악(진단) → 진화([복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))의 4단계. 어느 한 단계가 느리면 전체 피해가 커진다.
 
@@ -119,23 +119,21 @@ MTTF (Mean Time to Failure)  : 최초 가동 ~ 첫 장애까지
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">수동 장애 대응 — 장시간 MTTR, 사람 의존</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">모니터링 도구 — APM, ELK, Prometheus 도입</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DORA 메트릭 체계화 — MTTR 정량 측정 시작</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">자동화 런북 — PagerDuty + Runbook 자동 실행</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AIOps — AI 이상 탐지 + 자동 복구 파이프라인</div></div>
-</div>
-</div>
-
-
+```text
+[수동 장애 대응 — 장시간 MTTR, 사람 의존]
+    │
+    ▼
+[모니터링 도구 — APM, ELK, Prometheus 도입]
+    │
+    ▼
+[DORA 메트릭 체계화 — MTTR 정량 측정 시작]
+    │
+    ▼
+[자동화 런북 — PagerDuty + Runbook 자동 실행]
+    │
+    ▼
+[AIOps — AI 이상 탐지 + 자동 복구 파이프라인]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

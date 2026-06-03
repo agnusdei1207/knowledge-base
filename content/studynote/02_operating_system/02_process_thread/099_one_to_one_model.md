@@ -31,21 +31,27 @@ tags = ["studynote-operating-system"]
 
 일대일 모델의 핵심 원리는 스케줄링의 주도권이 전적으로 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 있다는 점이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일대일 (One-to-One) 스레드 모델 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">사용자 공간 (User Space)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ULT 1</div><div class="kb-diagram-cell">ULT 2</div><div class="kb-diagram-cell">ULT 3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1:1 매핑</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">KLT 1</div><div class="kb-diagram-cell">KLT 2</div><div class="kb-diagram-cell">KLT 3</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">커널 공간 (Kernel Space)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Core 0</div><div class="kb-diagram-node">Core 1</div><div class="kb-diagram-node">Core 2</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           일대일 (One-to-One) 스레드 모델 아키텍처           │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│  [사용자 공간 (User Space)]                                  │
+│   ┌───────┐      ┌───────┐      ┌───────┐                    │
+│   │ ULT 1 │      │ ULT 2 │      │ ULT 3 │                    │
+│   └───┬───┘      └───┬───┘      └───┬───┘                    │
+│       │ 1:1 매핑     │              │                        │
+│ ──────┼──────────────┼──────────────┼─────────────────────── │
+│       ▼              ▼              ▼                        │
+│   ┌───────┐      ┌───────┐      ┌───────┐                    │
+│   │ KLT 1 │      │ KLT 2 │      │ KLT 3 │                    │
+│   └───┬───┘      └───┬───┘      └───┬───┘                    │
+│  [커널 공간 (Kernel Space)]                                  │
+│       │              │              │                        │
+│       ▼              ▼              ▼                        │
+│  [ Core 0 ]     [ Core 1 ]     [ Core 2 ]                    │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 구조에서 [사용자 수준 스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/096_user_level_thread/) (ULT, [User-Level Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/096_user_level_thread/))는 공유 라이브러리의 개입 없이 즉시 독립적인 KLT와 직결된다. 각 KLT는 자신만의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 제어 블록 (TCB, [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) Control Block)과 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)을 유지하며, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 스케줄러에 의해 개별적으로 코어에 할당된다. 
 문제는 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 라이프사이클이다. 사용자 공간에서 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하거나 제거할 때마다 하드웨어 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)([Trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/))을 통해 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공간으로 진입(Mode [Switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))해야 하며, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리 할당과 큐 등록 등 값비싼 오버헤드가 발생한다.
@@ -107,23 +113,21 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단일 스레드 프로세스 (동시성 없음)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">다대일 모델 (Many-to-One) · 사용자 수준 동시성 (블로킹 시 정지)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">일대일 모델 (One-to-One) · 커널 수준 병렬성 (완벽 격리, 무거운 오버헤드)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">스레드 풀 (Thread Pool) · KLT 재사용을 통한 생성 오버헤드 회피</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">이벤트 구동 &amp; 코루틴 (Goroutine 등) · C10K 극복을 위한 현대적 비동기 진화</div>
-</div>
-</div>
-
-
+```text
+단일 스레드 프로세스 (동시성 없음)
+    │
+    ▼
+다대일 모델 (Many-to-One) · 사용자 수준 동시성 (블로킹 시 정지)
+    │
+    ▼
+일대일 모델 (One-to-One) · 커널 수준 병렬성 (완벽 격리, 무거운 오버헤드)
+    │
+    ▼
+스레드 풀 (Thread Pool) · KLT 재사용을 통한 생성 오버헤드 회피
+    │
+    ▼
+이벤트 구동 & 코루틴 (Goroutine 등) · C10K 극복을 위한 현대적 비동기 진화
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

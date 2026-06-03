@@ -71,25 +71,26 @@ tags = ["studynote-operating-system"]
   - "메모리 값이 내가 예상한 옛날 값과 똑같으면 새 값으로 덮어쓰고, 다르면 실패해라."
   - 현대의 모든 [Lock-free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/) 자료구조(Java의 `AtomicInteger` 등)를 지탱하는 가장 위대한 하드웨어 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Test-And-Set (TAS) 하드웨어 명령어를 이용한 스핀락 구현</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">공유 변수: lock = 0 (0이면 열림, 1이면 잠김)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">프로세스 A 진입 시도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">while ( TestAndSet(&amp;lock) == 1 ) {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// 뺑뺑이 (Spinning) ─▶ 누군가 잠갔으면 계속 헛돎</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// ─▶ A가 들어가는 순간 TestAndSet이 lock을 1로 바꿔버림!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">임계 구역 (Critical Section) 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Bank_Account += 50;</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">퇴장 구역</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">lock = 0; // 락 풀기 (이제 밖에서 헛돌던 B가 들어올 수 있음)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────────────┐
+  │         Test-And-Set (TAS) 하드웨어 명령어를 이용한 스핀락 구현     │
+  ├─────────────────────────────────────────────────────────────────────┤
+  │                                                                     │
+  │   [공유 변수: lock = 0 (0이면 열림, 1이면 잠김)]                    │
+  │                                                                     │
+  │   [ 프로세스 A 진입 시도 ]                                          │
+  │   while ( TestAndSet(&lock) == 1 ) {                                │
+  │       // 뺑뺑이 (Spinning) ─▶ 누군가 잠갔으면 계속 헛돎             │
+  │   }                                                                 │
+  │   // ─▶ A가 들어가는 순간 TestAndSet이 lock을 1로 바꿔버림!         │
+  │                                                                     │
+  │   [ 임계 구역 (Critical Section) 실행 ]                             │
+  │   Bank_Account += 50;                                               │
+  │                                                                     │
+  │   [ 퇴장 구역 ]                                                     │
+  │   lock = 0;  // 락 풀기 (이제 밖에서 헛돌던 B가 들어올 수 있음)     │
+  └─────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** `TestAndSet`이 단순한 소프트웨어 함수였다면, "0인지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 -> 1로 바꾸는" 그 찰나의 순간에 B가 끼어들어 A와 B가 동시에 방에 들어가는 대형 사고가 터진다. 하지만 이 명령은 CPU 실리콘 칩 레벨에서 락을 걸고 실행하므로 절대로 쪼개지지 않는다. 이것이 모든 상위 동기화 도구(뮤텍스, [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/))가 기반을 두고 있는 절대 흔들리지 않는 하드웨어 주춧돌이다.
 
 - **📢 섹션 요약 비유**: 방 문을 잠글 때, 문고리를 돌리고([확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)) 자물쇠를 거는(잠금) 두 가지 동작을 인간이 하면 그 1초 사이에 도둑이 문을 밀고 들어올 수 있습니다. CPU의 원자적 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 이 두 동작을 0.00001초 만에 틈새 없이 한 번에 쾅 닫아버리는 최첨단 도어록입니다.
@@ -126,27 +127,28 @@ tags = ["studynote-operating-system"]
 2. <strong>Java / C#의 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a> (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/">Monitor</a>) 락과 Synchronized</strong>: 개발자가 매번 뮤텍스와 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)를 수동으로 `lock()`, `unlock()` 하다가 까먹고 락을 안 풀어서 서버가 뻗는 사고가 속출했다.
    - **아키텍처 혁신**: 언어 차원에서 아예 클래스나 객체 껍데기에 동기화 박스를 씌워버렸다. Java의 `synchronized` 키워드를 메서드에 붙이면, JVM이 알아서 내부적으로 뮤텍스([Monitor](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))를 걸고 메서드가 끝날 때 무조건 예외 없이 풀어준다. 개발자의 실수를 컴파일러가 원천 차단하는 가장 우아한 상위 레벨 동기화 도구다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고동시성(High-Concurrency) 백엔드의 동기화 객체 튜닝 트리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">요구사항: 초당 100만 건의 캐시 Hit 수치(Counter)를 올려야 함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 동기화 도구 선택</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 일반 Mutex 적용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: 스레드 1만 개가 수치 올리려다 모조리 Sleep 상태로 빠짐.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 장애: Context Switch만 초당 100만 번 발생, CPU 100% 마비.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. Spinlock 적용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: Sleep은 안 하지만 100코어가 루프 돌며 CPU 사이클 태움.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 장애: 쓸데없는 발열 폭발 및 전력 낭비.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3. Lock-free 자료구조 (CAS: Compare-And-Swap) 적용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ (Java의 AtomicInteger.incrementAndGet() 활용)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: OS 커널 락을 1도 쓰지 않고, 하드웨어 명령어 1줄로 돌파.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 성능: 락(Lock) 경합 0%. 초당 100만 건 무지연(Zero-Delay) 통과!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────────────┐
+  │     고동시성(High-Concurrency) 백엔드의 동기화 객체 튜닝 트리       │
+  ├─────────────────────────────────────────────────────────────────────┤
+  │                                                                     │
+  │   [요구사항: 초당 100만 건의 캐시 Hit 수치(Counter)를 올려야 함]    │
+  │                │                                                    │
+  │                ▼ 동기화 도구 선택                                   │
+  │   [ 1. 일반 Mutex 적용 ]                                            │
+  │     ▶ 결과: 스레드 1만 개가 수치 올리려다 모조리 Sleep 상태로 빠짐. │
+  │     ▶ 장애: Context Switch만 초당 100만 번 발생, CPU 100% 마비.     │
+  │                                                                     │
+  │   [ 2. Spinlock 적용 ]                                              │
+  │     ▶ 결과: Sleep은 안 하지만 100코어가 루프 돌며 CPU 사이클 태움.  │
+  │     ▶ 장애: 쓸데없는 발열 폭발 및 전력 낭비.                        │
+  │                                                                     │
+  │   [ 3. Lock-free 자료구조 (CAS: Compare-And-Swap) 적용 ]            │
+  │     ▶ (Java의 AtomicInteger.incrementAndGet() 활용)                 │
+  │     ▶ 결과: OS 커널 락을 1도 쓰지 않고, 하드웨어 명령어 1줄로 돌파. │
+  │     ▶ 성능: 락(Lock) 경합 0%. 초당 100만 건 무지연(Zero-Delay) 통과!│
+  └─────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 동기화의 궁극적인 지향점은 <strong>"동기화를 하지 않는 것(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/">Lock-free</a>)"</strong>이다. 락을 건다는 것 자체가 시스템의 병렬성(Parallelism)을 포기하고 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)([Serial](/knowledge-base/studynote/03_network/01_data_communication/009_직렬_전송_vs_병렬_전송/))로 줄을 세운다는 뜻이다. 현대 백엔드 아키텍트는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서 어떻게든 공유 자원을 잘게 쪼개어(Thread-Local Storage 등) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)끼리 부딪히지 않게 설계하거나, 충돌이 나도 OS 락을 부르지 않는 [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/)([Lock-free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/)) 알고리즘으로 동기화 병목을 폭파시킨다.
 
 - **📢 섹션 요약 비유**: 차가 엉키는 교차로(공유 자원)에 신호등(뮤텍스)을 세워 통제하는 것도 좋지만, 최고의 설계는 돈을 더 들여서 아예 입체 교차로([Lock-free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/), Thread-Local)를 지어버려 차들이 서로 만날 일 자체를 없애버려 신호등조차 필요 없게 만드는 것입니다.
@@ -177,19 +179,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">리눅스 CFS (Completely Fair Scheduler)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">동기화 (Synchronization) 메커니즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">윈도우 스케줄링</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">동적 우선순위 승급 (Priority Boost)</div></div>
-</div>
-</div>
-
-
+```text
+[리눅스 CFS (Completely Fair Scheduler)]
+    │
+    ▼
+[동기화 (Synchronization) 메커니즘]
+    │
+    ├──▶ [윈도우 스케줄링]
+    └──▶ [동적 우선순위 승급 (Priority Boost)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

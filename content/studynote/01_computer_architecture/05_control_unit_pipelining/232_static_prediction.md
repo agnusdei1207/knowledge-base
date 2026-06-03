@@ -40,26 +40,27 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 정적 예측이 파이프라인 초반에서 어떤 결정을 내리는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정적 분기 예측의 위치: 분기 확정 전, 먼저 경로를 고른다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IF (Instruction Fetch)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 분기 아님 ▶ 순차 주소 인출</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 분기 명령 발견</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 규칙 1: Always Not Taken ▶ PC + 4 인출</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 규칙 2: Always Taken ▶ Branch Target 인출</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 규칙 3: BTFN</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 뒤로 점프(루프) ▶ Taken 예측</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 앞으로 점프(조건 예외) ▶ Not Taken 예측</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EX (Execute)에서 실제 조건 계산</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예측 성공 ▶ 파이프라인 유지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예측 실패 ▶ 잘못 가져온 명령 Flush</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────┐
+│          정적 분기 예측의 위치: 분기 확정 전, 먼저 경로를 고른다         │
+├──────────────────────────────────────────────────────────────────────────┤
+│ IF (Instruction Fetch)                                                  │
+│   │                                                                      │
+│   ├─ 분기 아님 ───────────────────────────────▶ 순차 주소 인출            │
+│   │                                                                      │
+│   └─ 분기 명령 발견                                                      │
+│         │                                                                │
+│         ├─ 규칙 1: Always Not Taken ─────────▶ PC + 4 인출               │
+│         ├─ 규칙 2: Always Taken ─────────────▶ Branch Target 인출        │
+│         └─ 규칙 3: BTFN                                                  │
+│                ├─ 뒤로 점프(루프) ───────────▶ Taken 예측                │
+│                └─ 앞으로 점프(조건 예외) ────▶ Not Taken 예측            │
+│                                                                          │
+│ EX (Execute)에서 실제 조건 계산                                          │
+│   ├─ 예측 성공 ─────────────────────────────▶ 파이프라인 유지            │
+│   └─ 예측 실패 ─────────────────────────────▶ 잘못 가져온 명령 Flush     │
+└──────────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조에서 중요한 점은 정적 예측이 <strong>정확도보다 결정 시점</strong>으로 가치를 만든다는 사실이다. 예측 정확도가 100%가 아니더라도, 매번 기다리는 것보다 평균 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 좋아질 수 있다. 특히 BTFN은 반복문이 뒤로 점프하고, 오류 처리나 희귀 조건은 앞으로 빠지는 코드 배치 관례를 이용하므로 추가 저장장치 없이도 비교적 높은 적중률을 낸다. 반대로 분기 패턴이 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 따라 계속 바뀌는 경우에는 고정 규칙이 현실을 따라가지 못한다.
 
@@ -81,7 +82,7 @@ tags = ["studynote-computer-architecture"]
 
 정적 예측은 컴파일러 최적화와도 강하게 연결된다. 예를 들어 PGO (Profile-Guided Optimization)는 실제 실행 통계를 바탕으로 자주 가는 경로를 fall-through 경로로 배치해, "Not Taken" 예측이 맞을 가능성을 높인다. 또한 likely/unlikely [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)는 프로그래머의 의도를 기계어 배치에 반영해 정적 예측과 명령 캐시 효율을 함께 개선한다. 따라서 정적 예측은 하드웨어만의 기법이 아니라, <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/">ISA</a> (<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/">Instruction Set Architecture</a>)·컴파일러·코드 배치</strong>가 만나는 경계 기술이다.
 
-- **📢 섹션 요약 비유**: 정적 예측이 여행 책자의 "보통 이 코스로 갑니다"라면, 동적 예측은 실시간 교통앱이 지난 10분의 막힘을 보고 우회로를 다시 계산하는 방식이다.
+- **📢 섹션 요약 비유**: 정적 예측이 여행 책자의 "보통 이 코스로 갑니다"라면, 동적 예측은 실시간 교통앱이 지난 10분의 병목을 보고 우회로를 다시 계산하는 방식이다.
 
 ---
 
@@ -130,23 +131,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">분기 명령으로 인한 파이프라인 정지</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">정적 분기 예측 (Always Taken / Always Not Taken)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">BTFN (Backward Taken, Forward Not Taken)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">컴파일러 힌트 · PGO (Profile-Guided Optimization)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">동적 분기 예측 · 하이브리드 분기 예측</div>
-</div>
-</div>
-
-
+```text
+분기 명령으로 인한 파이프라인 정지
+    │
+    ▼
+정적 분기 예측 (Always Taken / Always Not Taken)
+    │
+    ▼
+BTFN (Backward Taken, Forward Not Taken)
+    │
+    ▼
+컴파일러 힌트 · PGO (Profile-Guided Optimization)
+    │
+    ▼
+동적 분기 예측 · 하이브리드 분기 예측
+```
 
 이 흐름은 "기다림 회피 → 규칙 정교화 → 소프트웨어 협력 → 학습형 예측"으로 분기 처리 기술이 발전해 온 방향을 보여준다.
 

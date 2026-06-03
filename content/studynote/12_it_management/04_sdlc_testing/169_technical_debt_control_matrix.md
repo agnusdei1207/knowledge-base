@@ -33,20 +33,26 @@ tags = ["studynote-it-management"]
 
 다음 그림은 부채를 발견해 대응 정책으로 연결하는 기본 흐름을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Technical Debt Control Matrix: 탐지 → 분류 → 우선순위 → 상환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정적 분석 / 리뷰 / 장애 회고 / 보안 점검</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부채 항목 등록 (Debt Register)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">영향도 ─ ─ 변경 빈도 ─ ─ 실패 위험 ─ ─ 상환 비용 평가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">통제 매트릭스 분류</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">즉시 상환</div><div class="kb-diagram-cell">계획 상환</div><div class="kb-diagram-cell">관찰 유지</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────┐
+│       Technical Debt Control Matrix: 탐지 → 분류 → 우선순위 → 상환      │
+├──────────────────────────────────────────────────────────────────────────┤
+│  정적 분석 / 리뷰 / 장애 회고 / 보안 점검                               │
+│                     │                                                    │
+│                     ▼                                                    │
+│            부채 항목 등록 (Debt Register)                                │
+│                     │                                                    │
+│                     ▼                                                    │
+│   영향도 ─┬─ 변경 빈도 ─┬─ 실패 위험 ─┬─ 상환 비용 평가                  │
+│           │             │             │                                   │
+│           └─────────────┴─────────────┴──────────────┐                    │
+│                                                      ▼                    │
+│                          통제 매트릭스 분류                               │
+│           ┌──────────────┬──────────────┬──────────────┐                 │
+│           │ 즉시 상환     │ 계획 상환     │ 관찰 유지     │                 │
+│           └──────────────┴──────────────┴──────────────┘                 │
+└──────────────────────────────────────────────────────────────────────────┘
+```
 
 대표적인 매트릭스 예시는 다음과 같이 정리할 수 있다.
 
@@ -133,22 +139,19 @@ tags = ["studynote-it-management"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">기술 부채 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">부채 등록부 (Debt Register)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">통제 매트릭스 (영향도 · 변경 빈도 · 위험 · 비용)</div>
-<div class="kb-diagram-tree-item" style="--depth:3">▶ 즉시 상환</div>
-<div class="kb-diagram-tree-item" style="--depth:3">▶ 계획 상환</div>
-<div class="kb-diagram-tree-item" style="--depth:3">▶ 관찰 유지</div>
-</div>
-</div>
-
-
+```text
+기술 부채 인식
+      │
+      ▼
+부채 등록부 (Debt Register)
+      │
+      ▼
+통제 매트릭스 (영향도 · 변경 빈도 · 위험 · 비용)
+      │
+      ├─▶ 즉시 상환
+      ├─▶ 계획 상환
+      └─▶ 관찰 유지
+```
 
 이 흐름은 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)를 "막연한 품질 이슈"에서 "우선순위가 있는 관리 대상"으로 전환하는 운영 절차를 압축해 보여준다.
 

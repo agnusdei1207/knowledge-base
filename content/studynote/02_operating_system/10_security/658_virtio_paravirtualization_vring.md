@@ -59,32 +59,36 @@ Virtio는 명확하게 역할을 분담하는 3개의 계층으로 이루어져 
 
 패킷이 Guest에서 Host로 전송되는(TX) 과정이다. 핵심은 '메모리 카피 최소화'와 '[VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Exit 방지'다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Virtio I/O 패킷 전송 (TX) 메커니즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Guest OS (가상머신)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. App이 네트워크 패킷 10개를 보냄.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Frontend (virtio-net): 패킷을 메모리에 두고, 그 '주소(Descriptor)'를</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Available Ring</div><div class="kb-diagram-note">(보낼 목록)에 10개 쭉 적음.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Kick (VM Exit 발생)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">====================</div><div class="kb-diagram-node">공유 메모리 (Vring)</div><div class="kb-diagram-note">=================│=======</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Descriptor Table (실제 패킷 데이터의 주소록)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Available Ring (Guest가 채워 넣는 작업 지시 큐)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Used Ring (Host가 작업 끝내고 결과 적어두는 큐) ▼</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Host OS / 하이퍼바이저</div></div>
-<div class="kb-diagram-note">4. Backend (vhost-net): Kick을 받고 깨어남. ◀</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">5.</div><div class="kb-diagram-node">Available Ring</div><div class="kb-diagram-note">을 확인해 보니 패킷 10개의 주소가 있음.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6. 공유 메모리를 직접 읽어 물리 랜카드(pNIC)로 전송.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">7. 전송 완료 후,</div><div class="kb-diagram-node">Used Ring</div><div class="kb-diagram-note">에 "10개 다 보냈음" 이라고 적음.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Interrupt 주입</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Guest OS (가상머신)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">9. 인터럽트를 받고 깨어나서</div><div class="kb-diagram-node">Used Ring</div><div class="kb-diagram-connector">◀</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 Virtio I/O 패킷 전송 (TX) 메커니즘                  │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │  [Guest OS (가상머신)]                                              │
+  │   1. App이 네트워크 패킷 10개를 보냄.                                 │
+  │   2. Frontend (virtio-net): 패킷을 메모리에 두고, 그 '주소(Descriptor)'를 │
+  │                             [Available Ring] (보낼 목록)에 10개 쭉 적음.│
+  │                                                                   │
+  │   3. "Host야, 물건 놨다!" ──▶ [ Kick (VM Exit 발생) ] ──────┐       │
+  │                                                           │       │
+  │  ==================== [공유 메모리 (Vring)] =================│=======│
+  │   - Descriptor Table (실제 패킷 데이터의 주소록)                │       │
+  │   - Available Ring (Guest가 채워 넣는 작업 지시 큐)            │       │
+  │   - Used Ring (Host가 작업 끝내고 결과 적어두는 큐)             ▼       │
+  │  =========================================================│=======│
+  │                                                           │       │
+  │  [Host OS / 하이퍼바이저]                                        │       │
+  │   4. Backend (vhost-net): Kick을 받고 깨어남.                 ◀──────┘
+  │   5. [Available Ring]을 확인해 보니 패킷 10개의 주소가 있음.              │
+  │   6. 공유 메모리를 직접 읽어 물리 랜카드(pNIC)로 전송.                    │
+  │                                                                   │
+  │   7. 전송 완료 후, [Used Ring]에 "10개 다 보냈음" 이라고 적음.           │
+  │   8. "Guest야, 다 보냈다!" ──▶ [ Interrupt 주입 ] ─────────┐       │
+  │                                                           │       │
+  │  [Guest OS (가상머신)]                                      │       │
+  │   9. 인터럽트를 받고 깨어나서 [Used Ring]을 확인하고 메모리 해제. ◀──────┘
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 옛날에는 패킷 10개를 보낼 때, [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 값을 쓸 때마다 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Exit가 발생해 총 수십 번의 멈춤이 있었다. Virtio는 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/">배치 처리</a>(<a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/389_bulk_insert_batching_optimization/">Batching</a>)</strong>를 한다. 10개의 패킷 주소를 메모리(Vring)에 조용히 다 적을 때까지는 Host를 부르지 않는다. 다 적은 뒤 딱 1번만 `Kick`을 날려 Host를 부른다([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Exit 1회). 그러면 Host는 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)에 있는 주소를 보고 패킷을 꺼내간다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 복사(Memory Copy)도 발생하지 않으며, 알림 횟수도 획기적으로 줄어들어 엄청난 속도 향상을 이룬다.
 
@@ -134,25 +138,28 @@ Virtio는 명확하게 역할을 분담하는 3개의 계층으로 이루어져 
 
 ### 의사결정 및 튜닝 플로우
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가상화 환경의 스토리지/네트워크 I/O 튜닝 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">가상머신 프로비저닝 시 디바이스 버스(Bus) 타입 설정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">레거시 OS (예: Windows XP, 오래된 CentOS 5) 구동이 필수인가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IDE / e1000 에뮬레이션 모드 사용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(성능을 포기하고 호환성만 보장. 드라이버 불필요)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 (최신 리눅스 커널 또는 Windows Server 2012+)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디스크 스토리지 I/O 성능 극대화 (10만 IOPS 이상) 가 필요한가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Virtio-SCSI 기반 멀티큐(Multi-queue) 활성화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(디스크 1개당 큐를 여러 개 뚫어 vCPU 여러 개가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동시에 I/O를 날리도록 병렬성 극대화)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ──▶ 일반 Virtio-blk 사용 (기본 반가상화 볼륨)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 가상화 환경의 스토리지/네트워크 I/O 튜닝 플로우            │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [가상머신 프로비저닝 시 디바이스 버스(Bus) 타입 설정]                    │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      레거시 OS (예: Windows XP, 오래된 CentOS 5) 구동이 필수인가?         │
+  │          ├─ 예 ─────▶ [IDE / e1000 에뮬레이션 모드 사용]              │
+  │          │            (성능을 포기하고 호환성만 보장. 드라이버 불필요)      │
+  │          └─ 아니오 (최신 리눅스 커널 또는 Windows Server 2012+)        │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      디스크 스토리지 I/O 성능 극대화 (10만 IOPS 이상) 가 필요한가?           │
+  │          ├─ 예 ─────▶ [Virtio-SCSI 기반 멀티큐(Multi-queue) 활성화]   │
+  │          │            (디스크 1개당 큐를 여러 개 뚫어 vCPU 여러 개가      │
+  │          │             동시에 I/O를 날리도록 병렬성 극대화)             │
+  │          │                                                        │
+  │          └─ 아니오 ──▶ 일반 Virtio-blk 사용 (기본 반가상화 볼륨)       │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** Virtio가 빠르긴 하지만, 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))가 1개뿐이면 코어가 64개인 거대 VM에서는 스레드들이 서로 Vring에 패킷을 넣으려고 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 경합을 벌이며 병목이 생긴다. 이를 해결하기 위해 최근에는 <strong>Virtio Multi-<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/">Queue</a> (MQ)</strong> 기능이 도입되었다. 가상 랜카드(vNIC) 하나에 vCPU 개수만큼 큐를 여러 개 뚫어주어(vhost 스레드도 코어별로 생성됨), [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) I/O 처리의 궁극을 이끌어내는 것이 클라우드 아키텍트의 필수 튜닝이다.
 
@@ -196,19 +203,15 @@ Virtio는 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtual
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">가상화 I/O 패스스루 (Passthrough) VFIO 프레임워크</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Virtio</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">클라우드 게스트 OS (Cloud-init 기반 부트스트랩 인스턴스 자동 초기화 스크립트)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">커널 덤프 (Kdump) 시스템 크래시 원인 분석 커널 구조</div></div>
-</div>
-</div>
-
-
+```text
+[가상화 I/O 패스스루 (Passthrough) VFIO 프레임워크]
+    │
+    ▼
+[Virtio]
+    │
+    ├──▶ [클라우드 게스트 OS (Cloud-init 기반 부트스트랩 인스턴스 자동 초기화 스크립트)]
+    └──▶ [커널 덤프 (Kdump) 시스템 크래시 원인 분석 커널 구조]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

@@ -19,17 +19,14 @@ tags = ["studynote-design-supervision"]
 
 감리와 기술사 관점에서 이 주제가 중요한 이유는 조직이 흔히 개발 생산성과 운영 품질을 따로 보고하기 때문이다. 그러나 배포가 느리면 가치 실현도 늦어지고, 반대로 자주 배포하더라도 실패율이 높으면 운영 위험이 커진다. 따라서 [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 지표는 개발, 테스트, 형상관리, 승인, 운영 배포를 하나의 가치 흐름으로 묶어 판단하게 해 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 변화</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">백로그</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">개발·커밋</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">빌드·테스트</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">운영 배포</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">고객 가치</div></div>
-<div class="kb-diagram-tree-item" style="--depth:8">리드 타임</div>
-<div class="kb-diagram-note">배포 빈도 = 일정 기간 내 운영 반영 횟수</div>
-</div>
-</div>
-
-
+```text
+┌──────────┐   ┌──────────┐   ┌──────────┐   ┌────────────┐   ┌──────────┐   ┌──────────┐
+│ 요구 변화 │──▶│ 백로그   │──▶│ 개발·커밋 │──▶│ 빌드·테스트 │──▶│ 운영 배포 │──▶│ 고객 가치 │
+└──────────┘   └──────────┘   └──────────┘   └─────┬──────┘   └────┬─────┘   └──────────┘
+                                                    │                │
+                                                    └── 리드 타임 ───┘
+                                   배포 빈도 = 일정 기간 내 운영 반영 횟수
+```
 
 즉 DORA는 팀의 속도를 재촉하는 채찍이 아니라, 병목과 대기 시간을 드러내는 진단 장비다. 기술사 답안에서는 “속도 측정”보다 “전달 체계 전체의 흐름 최적화”라는 표현이 더 적절하다.
 
@@ -38,17 +35,14 @@ tags = ["studynote-design-supervision"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)과 배포 빈도는 깃 (Git) 커밋 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 빌드 파이프라인, 배포 이력, 운영 승인 기록 같은 여러 증거를 연결해 계산한다. 따라서 지표의 핵심은 산식 자체보다 <strong>측정 경계의 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a></strong>이다. 예를 들어 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) 시작점을 개발 착수로 잡을지, 주 브랜치 병합으로 잡을지, 커밋으로 잡을지 먼저 합의해야 하며, 배포 빈도 역시 운영 반영만 셀지 시험 환경 배포까지 셀지 구분해야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Git Commit/PR</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">CI 파이프라인</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">배포 로그</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">운영 반영 기록</div></div>
-<div class="kb-diagram-tree-item" style="--depth:3">리드 타임 산정 구간</div>
-<div class="kb-diagram-tree-item" style="--depth:8">기간별 배포 빈도 집계</div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐   ┌──────────────┐   ┌────────────┐   ┌──────────────┐
+│ Git Commit/PR│──▶│ CI 파이프라인 │──▶│ 배포 로그   │──▶│ 운영 반영 기록 │
+└──────┬───────┘   └──────┬───────┘   └─────┬──────┘   └──────┬───────┘
+       │                  │                 │                 │
+       └────────────── 리드 타임 산정 구간 ────────────────┘
+                                                     └── 기간별 배포 빈도 집계
+```
 
 | 측정 축 | 핵심 의미 | 감리·기술사 포인트 |
 |:---|:---|:---|
@@ -70,7 +64,7 @@ tags = ["studynote-design-supervision"]
 | 한계 | 시작·종료 지점 정의가 엇갈릴 수 있다 | 무의미한 잦은 배포로 왜곡될 수 있다 | 고객 가치 전달 속도는 잘 드러나지 않는다 |
 | 함께 볼 지표 | 대기 시간, 승인 절차, 자동화율 | 변경 실패율, [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 건수 | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 협약 ([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/), [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)), [기능점수](/knowledge-base/studynote/04_software_engineering/uncategorized/673_function_point_ilf_eif/) |
 
-또한 이 지표는 가치 흐름 맵 ([Value Stream Mapping](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/088_value_stream_mapping_vsm/)), 사이트 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 공학 ([Site Reliability Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/), [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)), [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) ([DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)) 문화와 자연스럽게 연결된다. 시험에서는 “왜 느린가”를 절차 병목, 승인 체계, 테스트 자동화 수준과 묶어 서술하면 답안의 밀도가 높아진다.
+또한 이 지표는 가치 흐름 맵 ([Value Stream Mapping](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/088_value_stream_mapping_vsm/)), 사이트 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 공학 ([Site Reliability 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/), [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)), [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) ([DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)) 문화와 자연스럽게 연결된다. 시험에서는 “왜 느린가”를 절차 병목, 승인 체계, 테스트 자동화 수준과 묶어 서술하면 답안의 밀도가 높아진다.
 
 - **📢 섹션 요약 비유**: 공부 시간을 오래 앉아 있었다고 실력이 바로 오르지 않듯, 많이 일했다는 숫자와 실제 결과가 빨리 나온다는 숫자는 서로 다른 이야기다.
 
@@ -108,23 +102,21 @@ tags = ["studynote-design-supervision"]
 | 가치 흐름 맵 | 대기 시간과 병목을 시각화하는 분석 도구 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">형상관리·배포 이력 수집</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">리드 타임·배포 빈도 측정</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">병목 구간 식별</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">자동화·작은 배치 배포 확대</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">빠른 가치 전달 · 안정적 운영 개선</div>
-</div>
-</div>
-
-
+```text
+형상관리·배포 이력 수집
+          │
+          ▼
+리드 타임·배포 빈도 측정
+          │
+          ▼
+병목 구간 식별
+          │
+          ▼
+자동화·작은 배치 배포 확대
+          │
+          ▼
+빠른 가치 전달 · 안정적 운영 개선
+```
 
 이 흐름은 지표 수집이 목적이 아니라, 병목을 찾아 자동화와 운영 복원력을 높이는 개선 루프로 이어져야 함을 보여 준다.
 

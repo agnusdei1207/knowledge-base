@@ -23,18 +23,14 @@ tags = ["studynote-network"]
 - **국가의 검열**: 유저가 불법 사이트에 들어가려 할 때, 통신사([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/))는 유저의 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 패킷을 중간에 까보고 "어? 불법 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)이네?" 하고 가짜 IP 주소(경찰청 Warning.or.kr)를 던져주어 강제 차단시켰습니다. ([DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) [SNI](/knowledge-base/studynote/03_network/13_network_security_basics/688_sni_esni_ech_encrypted_client_hello/) 차단, SNI는 다음 1064번에서 설명)
 - 1062번 DNSSEC을 켜도 주소가 안 바뀔 뿐이지, 남이 내 질문 내용을 훔쳐보는 것(스니핑)은 못 막았습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DNSSEC 존</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DoH / DoT</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ESNI</div></div>
-</div>
-</div>
-
-
+```text
+[DNSSEC 존]
+    │
+    ▼
+[DoH / DoT]
+    │
+    └──▶ [ESNI]
+```
 
 - **📢 섹션 요약 비유**: [DoH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/520_doh_dns_over_https/) / DoT는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -54,18 +50,14 @@ tags = ["studynote-network"]
 - <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a></strong>: 유튜브, 네이버 들어갈 때 쓰는 <strong>443 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a></strong>를 똑같이 씁니다.
 - **스텔스 기능 (검열 무력화)**: 크롬(Chrome)이나 파이어폭스 브라우저가 이 방식을 씁니다. 통신사(검열기)가 패킷을 까봐도 이게 네이버 뉴스를 보는 평범한 웹 트래픽([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/))인지, 아니면 불법 사이트 주소를 물어보는 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 질문([DoH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/520_doh_dns_over_https/))인지 절대 구분할 수가 없습니다. 443 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 아예 다 차단하면 국가 전체의 인터넷이 죽어버리기 때문에 정부의 검열을 가장 빡치게 만드는 궁극의 우회/암호화 기술입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DNSSEC 존</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DoH / DoT</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ESNI</div></div>
-</div>
-</div>
-
-
+```text
+[DNSSEC 존]
+    │
+    ▼
+[DoH / DoT]
+    │
+    └──▶ [ESNI]
+```
 
 - **📢 섹션 요약 비유**: [DoH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/520_doh_dns_over_https/) / DoT의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -130,19 +122,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: DNSSEC 존</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: DoH / DoT</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: ESNI</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: DNSSEC 존]
+    │
+    ▼
+[현재 개념: DoH / DoT]
+    │
+    ├──▶ [확장 A: ESNI]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 [DoH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/520_doh_dns_over_https/) / DoT는 [DNSSEC](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/518_dnssec_dns_security_extensions/) 존에서 출발해 현재 메커니즘을 정교화하고, 이후 ESNI와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -41,24 +41,30 @@ tags = ["studynote-security"]
 
 *(※ $P_i$: 평문 블록, $C_i$: 암호문 블록, $E_K$: 키 K로 암호화, $\oplus$: 배타적 논리합(XOR))*
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CBC 모드 vs CTR 모드 암호화 흐름 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CBC 모드: 직렬 연결 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IV(초기화 벡터)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">암호기(E)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">암호기(E)</div><div class="kb-diagram-connector">▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">평문(P1) 평문(P2)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CTR 모드: 병렬 카운터 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Nonce+1 Nonce+2</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">암호기(E)</div><div class="kb-diagram-node">암호기(E)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(XOR) (C1) (XOR) (C2)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">평문(P1) 평문(P2)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                  CBC 모드 vs CTR 모드 암호화 흐름 비교       │
+├──────────────────────────────────────────────────────────────┤
+│ [CBC 모드: 직렬 연결 구조]                                   │
+│  IV(초기화 벡터)                                             │
+│   │                                                          │
+│   ▼        ┌─────┐                 ┌─────┐                   │
+│ (XOR) ─▶ [암호기(E)] ──(C1)─▶ (XOR) ─▶ [암호기(E)] ──(C2)─▶  │
+│   ▲                          ▲                               │
+│ 평문(P1)                   평문(P2)                          │
+│                                                              │
+│ [CTR 모드: 병렬 카운터 구조]                                 │
+│  Nonce+1                    Nonce+2                          │
+│   │                          │                               │
+│   ▼                          ▼                               │
+│ [암호기(E)]                [암호기(E)]                       │
+│   │                          │                               │
+│   ▼                          ▼                               │
+│ (XOR) ───────────(C1)      (XOR) ──────────(C2)              │
+│   ▲                          ▲                               │
+│ 평문(P1)                   평문(P2)                          │
+└──────────────────────────────────────────────────────────────┘
+```
 위 다이어그램에서 보듯, CBC는 앞 블록의 결과($C_1$)가 나와야만 다음 블록($P_2$)의 암호화를 시작할 수 있어 <strong>속도 병목(<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/">직렬</a> 병목)</strong>이 발생 단점이 있다. 반면 CTR은 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 값만 알면 모든 블록을 <strong>동시(<a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>)</strong>에 암호화할 수 있다.
 
 - **📢 섹션 요약 비유**: [CBC](/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/) 모드는 앞사람이 바통을 넘겨줘야 뛸 수 있는 '이어달리기'이고, [CTR](/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/) 모드는 각자 자기 번호표([카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/))를 들고 동시에 출발하는 '100m 달리기'다.
@@ -122,29 +128,30 @@ tags = ["studynote-security"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">평문 독립 암호화 (패턴 노출 취약점)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ECB (Electronic Codebook) 배제</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">블록 체이닝 도입 (패턴 은닉, IV 사용)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ CBC (Cipher Block Chaining) : 직렬 처리, 패딩 필요 (과거 표준)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ CFB, OFB : 스트림 암호화 방식으로 변환, 패딩 불필요</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">병렬 처리 요구 증가 및 Nonce / Counter 도입</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CTR (Counter) : 완전 병렬 암호화, 오류 전파 없음</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">기밀성과 무결성 동시 보장 요구</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">AEAD (Authenticated Encryption with Associated Data) ─▶ GCM, CCM 모드로 발전 (현대 표준)</div>
-</div>
-</div>
-
-
+```text
+평문 독립 암호화 (패턴 노출 취약점)
+    │
+    ▼
+ECB (Electronic Codebook) 배제
+    │
+    ▼
+블록 체이닝 도입 (패턴 은닉, IV 사용)
+    │
+    ├─▶ CBC (Cipher Block Chaining) : 직렬 처리, 패딩 필요 (과거 표준)
+    └─▶ CFB, OFB : 스트림 암호화 방식으로 변환, 패딩 불필요
+             │
+             ▼
+병렬 처리 요구 증가 및 Nonce / Counter 도입
+             │
+             ▼
+CTR (Counter) : 완전 병렬 암호화, 오류 전파 없음
+             │
+             ▼
+기밀성과 무결성 동시 보장 요구
+             │
+             ▼
+AEAD (Authenticated Encryption with Associated Data) ─▶ GCM, CCM 모드로 발전 (현대 표준)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -39,24 +39,30 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 루트 컴플렉스가 어떤 경로를 만들고 어디에서 병목이 생길 수 있는지를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Root Complex가 호스트와 PCIe 트리를 연결하는 방식</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU Cores</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Memory Controller / DRAM</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DMA Return Path</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Root Complex</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Host Bridge</div><div class="kb-diagram-cell">Address Decode</div><div class="kb-diagram-cell">Interrupts</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Root Port 0 Root Port 1 Root Port 2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GPU x16 NVMe SSD x4 PCH / Switch ── ── USB / SATA / NIC</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Extra M.2 Slots</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심 판단: CPU 직결 포트는 저지연·전용 대역폭, PCH 경유 포트는 상위 링크 공유</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│            Root Complex가 호스트와 PCIe 트리를 연결하는 방식             │
+├────────────────────────────────────────────────────────────────────────────┤
+│ CPU Cores                                                                  │
+│    │                                                                       │
+│    ▼                                                                       │
+│ Memory Controller / DRAM                                                   │
+│    ▲                                                                       │
+│    │ DMA Return Path                                                       │
+│    │                                                                       │
+│ ┌──────────────── Root Complex ────────────────┐                           │
+│ │ Host Bridge   │ Address Decode │ Interrupts │                           │
+│ └───────┬───────────────┬───────────────┬──────┘                           │
+│         │               │               │                                  │
+│   Root Port 0     Root Port 1     Root Port 2                              │
+│      │                │               │                                    │
+│      ▼                ▼               ▼                                    │
+│   GPU x16         NVMe SSD x4      PCH / Switch ──┬── USB / SATA / NIC     │
+│                                                    └── Extra M.2 Slots      │
+│                                                                            │
+│ 핵심 판단: CPU 직결 포트는 저지연·전용 대역폭, PCH 경유 포트는 상위 링크 공유 │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 | 구성 요소 | 역할 | 설계에서 보는 포인트 |
 | :-- | :-- | :-- |
@@ -143,26 +149,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">공유 버스 / 노스브리지 중심 구조</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CPU 내부 통합 루트 컴플렉스</div>
-<div class="kb-diagram-note">(장치 탐색 · MMIO · DMA 중재)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CPU 직결 PCIe 레인 + PCH 확장 구조</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">NVMe SSD · GPU · 고속 NIC의 대량 병렬 연결</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">IOMMU · SR-IOV · P2P 최적화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CXL 기반 가속기 · 메모리 확장 허브</div>
-</div>
-</div>
-
-
+```text
+공유 버스 / 노스브리지 중심 구조
+    │
+    ▼
+CPU 내부 통합 루트 컴플렉스
+(장치 탐색 · MMIO · DMA 중재)
+    │
+    ▼
+CPU 직결 PCIe 레인 + PCH 확장 구조
+    │
+    ▼
+NVMe SSD · GPU · 고속 NIC의 대량 병렬 연결
+    │
+    ▼
+IOMMU · SR-IOV · P2P 최적화
+    │
+    ▼
+CXL 기반 가속기 · 메모리 확장 허브
+```
 
 이 흐름은 "칩셋 [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) 시대 → CPU 통합 호스트 관문 → 대량 고속 장치 연결 → [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)·가속기 확장"으로 루트 컴플렉스의 의미가 커지는 과정을 보여준다.
 

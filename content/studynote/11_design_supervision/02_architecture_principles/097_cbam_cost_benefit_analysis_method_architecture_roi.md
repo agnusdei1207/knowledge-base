@@ -40,18 +40,17 @@ $$ \text{[ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy
 | **비용 (Cost)** | 라이선스, 개발비, 인프라 구축 등 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 구현에 필요한 총 비용 | SI 견적, 과거 프로젝트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 산정 |
 | <strong><a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a> (<a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">Risk</a>)</strong> | 해당 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 제시간에 구현되지 않거나 실패할 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) | 기술적 난이도, 외주 업체의 역량 평가 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CBAM 평가 메커니즘 흐름도</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">아키텍처 전략</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">이해관계자 투표</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">효용 점수 (B) 도출</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">비용 산정 팀</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">예상 비용 (C) 도출</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; ROI 산출: (B) / (C) ──▶ 가장 높은 ROI의 전략을 최종 채택</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                  CBAM 평가 메커니즘 흐름도                   │
+├──────────────────────────────────────────────────────────────┤
+│ [아키텍처 전략] ──▶ [이해관계자 투표] ──▶ 효용 점수 (B) 도출 │
+│       │                                                      │
+│       └──────────▶ [비용 산정 팀] ────▶ 예상 비용 (C) 도출 │
+│                                                              │
+│  => ROI 산출: (B) / (C) ──▶ 가장 높은 ROI의 전략을 최종 채택  │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램은 설계 도면이 어떻게 경제적 숫자로 변환되는지 보여준다. 효용 점수가 아무리 높아도 분모인 비용(C)이 천문학적이라면 해당 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 ROI는 급락하여 탈락한다.
 
@@ -113,23 +112,21 @@ CBAM을 적용하면 엔지니어의 막연한 기술적 주장에 브레이크�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 아키텍처 평가 (SAAM) · 초기 시나리오 평가</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ATAM (Architecture Trade-off Analysis Method) · 품질 속성 간의 기술적 타협</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CBAM (Cost Benefit Analysis Method) · 경제성 및 ROI 중심 확장 평가</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">애자일 아키텍처 런웨이 (Architectural Runway) · 지속적 투자 가치 평가 결합</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 FinOps (Cloud Financial Operations) · 실시간 클라우드 아키텍처 비용 최적화</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 아키텍처 평가 (SAAM) · 초기 시나리오 평가
+    │
+    ▼
+ATAM (Architecture Trade-off Analysis Method) · 품질 속성 간의 기술적 타협
+    │
+    ▼
+CBAM (Cost Benefit Analysis Method) · 경제성 및 ROI 중심 확장 평가
+    │
+    ▼
+애자일 아키텍처 런웨이 (Architectural Runway) · 지속적 투자 가치 평가 결합
+    │
+    ▼
+클라우드 FinOps (Cloud Financial Operations) · 실시간 클라우드 아키텍처 비용 최적화
+```
 
 이 흐름도는 "단순 시나리오 → 기술적 타협 → 경제적 타협 → 실시간 비용 최적화"로 이어지는 아키텍처 평가 기법의 진화를 보여준다.
 

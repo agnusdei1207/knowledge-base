@@ -27,18 +27,14 @@ tags = ["studynote-network"]
   - **Level 2 (L2) 라우터**: 성남버스터미널에서 서울, 부산을 잇는 **"고속버스 기사님"**. 전국 터미널 위치(고속도로망)는 다 외우지만, 성남시 뒷골목이 어떻게 생겼는지는 전혀 알 바 아님.
   - **L1/L2 라우터**: 시내버스와 고속버스가 만나는 <strong>"종합 <a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">버스</a> 터미널"</strong>. 이 녀석만이 동네 사람을 전국구로 쏴주고, 전국에서 온 사람을 동네로 꽂아준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">IS-IS</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">L1/L2 라우터, L1/L2 Area 체계…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">BGP</div></div>
-</div>
-</div>
-
-
+```text
+[IS-IS]
+    │
+    ▼
+[L1/L2 라우터, L1/L2 Area 체계…]
+    │
+    └──▶ [BGP]
+```
 
 - **📢 섹션 요약 비유**: ** IS-IS의 L1/L2 체계는 철저한 **"지방 자치와 중앙 정부의 분리"**입니다. 지방 라우터(L1)는 자기 동네 민원만 처리하고 모르는 건 도지사(L1/L2)에게 밀어 올리며, 중앙 정부(L2)는 도지사들이 올린 굵직한 보고서만 보고 전국 예산을 짭니다.
 
@@ -57,24 +53,26 @@ tags = ["studynote-network"]
 - <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/">OSPF</a></strong>: 한 라우터의 1번 팔은 Area 0에, 2번 팔은 Area 1에 둔다. 즉, **"Area의 경계선이 라우터의 배꼽(내부)을 관통한다."** 라우터 하나가 두 동네에 소속된다.
 - <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/363_is_is_intermediate_system_clnp_telecom/">IS-IS</a></strong>: 한 라우터는 무조건 **하나의 Area(예: Area 49.0001)에 통째로 소속된다.** Area가 다른 두 라우터(L1/L2)가 서로 L2 랜선으로 손을 꽉 맞잡았을 때, <strong>"그 두 라우터 사이에 허공에 떠 있는 랜선(Link)"</strong>이 바로 두 동네를 가르는 국경선이 된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OSPF vs IS-IS Area 경계선 차이 도식</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">OSPF 방식 (라우터 분할)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Area 1</div><div class="kb-diagram-node">Area 0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">라우터A (팔1) ABR (팔2) 라우터B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(경계선이 ABR 몸통 한가운데를 쪼갬!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IS-IS 방식 (링크 분할)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Area 1의 땅</div><div class="kb-diagram-node">Area 2의 땅</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">라우터A L1/L2 라우터</div><div class="kb-diagram-cell">L1/L2 라우터 라우터B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(경계선이 라우터와 라우터 사이 랜선을 쪼갬!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ "IS-IS는 라우터가 온전히 자기 동네 소속감을 가지므로 관리가 편하다"</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                OSPF vs IS-IS Area 경계선 차이 도식               │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ OSPF 방식 (라우터 분할) ]                                   │
+ │       [Area 1]          [Area 0]                            │
+ │   라우터A ─── (팔1) ABR (팔2) ─── 라우터B                      │
+ │                  ▲                                          │
+ │               (경계선이 ABR 몸통 한가운데를 쪼갬!)                 │
+ │                                                             │
+ │   [ IS-IS 방식 (링크 분할) ]                                   │
+ │        [Area 1의 땅]       |       [Area 2의 땅]              │
+ │   라우터A ──── L1/L2 라우터  |  L1/L2 라우터 ──── 라우터B          │
+ │                            ▲                                │
+ │               (경계선이 라우터와 라우터 사이 랜선을 쪼갬!)           │
+ │                                                             │
+ │   ▶ "IS-IS는 라우터가 온전히 자기 동네 소속감을 가지므로 관리가 편하다"│
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 3. 디폴트 라우트(Default Route)의 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
 - L1 라우터는 다른 Area(부산, 광주)로 가는 지도를 아예 외우지 않는다.
@@ -137,19 +135,15 @@ L1/L2 라우터, L1/L2 Area 체계…는 [라우팅](/knowledge-base/studynote/0
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: IS-IS</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: L1/L2 라우터, L1/L2 Area 체계…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: BGP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: IS-IS]
+    │
+    ▼
+[현재 개념: L1/L2 라우터, L1/L2 Area 체계…]
+    │
+    ├──▶ [확장 A: BGP]
+    └──▶ [확장 B: 의도 기반 라우팅]
+```
 
 L1/L2 라우터, L1/L2 Area 체계…는 IS-IS에서 출발해 현재 메커니즘을 정교화하고, 이후 BGP와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

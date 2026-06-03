@@ -12,7 +12,7 @@ tags = ["studynote-computer-architecture"]
 ## 핵심 인사이트 (3줄 요약)
 
 - **본질**: Sign-Magnitude 표현은 [MSB](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/080_msb/) ([Most Significant Bit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/080_msb/))를 부호로 두고 나머지를 절댓값으로 두는 가장 직관적인 이진수 표현이다.
-- **가치**: 사람 눈에는 이해하기 쉽고 IEEE (Institute of Electrical and Electronics Engineers) 754 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/)의 부호 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)와도 닮았지만, 정수 연산에서는 두 개의 0 때문에 불리하다.
+- **가치**: 사람 눈에는 이해하기 쉽고 IEEE (Institute of Electrical and Electronics 엔진ers) 754 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/)의 부호 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)와도 닮았지만, 정수 연산에서는 두 개의 0 때문에 불리하다.
 - **판단 포인트**: 덧셈 회로 단순화가 가능한 2의 보수 (Two's Complement)가 정수 시스템의 표준이며, Sign-Magnitude는 역사와 개념 이해용으로 보는 것이 맞다.
 
 ---
@@ -38,17 +38,14 @@ tags = ["studynote-computer-architecture"]
 
 Sign-Magnitude의 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 구조는 단순하다. 맨 앞 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)는 부호, 나머지는 크기다. 이 구조는 절댓값 추출이 쉽고, 숫자의 방향과 크기를 시각적으로 분리할 수 있다. 그러나 연산 시에는 부호를 먼저 보고, 그다음 절댓값을 비교해야 하므로 하드웨어 로직이 복잡해진다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">S</div><div class="kb-diagram-cell">b2</div><div class="kb-diagram-cell">b1</div><div class="kb-diagram-cell">b0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">+5</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">-5</div></div>
-</div>
-</div>
-
-
+```text
+┌────┬─────┬─────┬─────┐
+│ S  │ b2  │ b1  │ b0  │
+├────┼─────┼─────┼─────┤
+│ 0  │ 1   │ 0   │ 1   │  +5
+│ 1  │ 1   │ 0   │ 1   │  -5
+└────┴─────┴─────┴─────┘
+```
 
 덧셈 규칙도 2의 보수보다 복잡하다.
 
@@ -56,18 +53,13 @@ Sign-Magnitude의 [비트](/knowledge-base/studynote/01_computer_architecture/02
 2. 두 수의 부호가 다르면 절댓값을 비교한 뒤 큰 절댓값에서 작은 절댓값을 빼고, 큰 쪽의 부호를 유지한다.
 3. 결과가 0이면 +0으로 정규화해야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">같은 부호? ── 예 ──▶ 절댓값 덧셈 ──▶ 부호 유지</div>
-<div class="kb-diagram-note">아니오</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">절댓값 비교 ──▶ 큰 값 - 작은 값 ──▶ 큰 쪽 부호 유지</div>
-</div>
-</div>
-
-
+```text
+같은 부호? ── 예 ──▶ 절댓값 덧셈 ──▶ 부호 유지
+     │
+     아니오
+     ▼
+절댓값 비교 ──▶ 큰 값 - 작은 값 ──▶ 큰 쪽 부호 유지
+```
 
 이 과정은 덧셈 하나를 위해 여러 비교와 분기가 필요하다는 뜻이다. 정수 [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) ([Arithmetic Logic Unit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/))가 단순해지기 어렵고, 결과적으로 속도와 면적에서 손해를 본다.
 
@@ -125,25 +117,22 @@ Sign-Magnitude의 장점은 직관성이다. 부호와 절댓값을 분리해 �
 | Sign-Magnitude | 부호/절댓값 분리 표현 |
 | One's Complement | 중간 단계의 음수 표현 |
 | Two's Complement | 정수 연산 표준 |
-| IEEE (Institute of Electrical and Electronics Engineers) 754 | [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 부호 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) |
+| IEEE (Institute of Electrical and Electronics 엔진ers) 754 | [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 부호 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Sign-Magnitude</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">One's Complement</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Two's Complement</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">IEEE 754 부동소수점의 부호 비트</div>
-</div>
-</div>
-
-
+```text
+Sign-Magnitude
+    │
+    ▼
+One's Complement
+    │
+    ▼
+Two's Complement
+    │
+    ▼
+IEEE 754 부동소수점의 부호 비트
+```
 
 이 흐름은 "직관성 → 중간 단계 → 회로 단순화 → 표준화"로 표현 방식이 진화한 과정을 보여준다.
 

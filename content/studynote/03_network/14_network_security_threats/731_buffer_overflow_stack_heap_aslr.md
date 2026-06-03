@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: 프로그램이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 저장하기 위해 할당받은 임시 메모리 공간(버퍼)의 크기보다, <strong>더 큰 용량의 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 강제로 입력하여 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 버퍼의 경계를 넘쳐흐르게(<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/">Overflow</a>) 만드는 해킹 기법</strong>입니다.
 - 넘쳐흐른 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 바로 인접해 있는 메모리 영역(다른 변수나, 다음에 실행할 프로그램 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 주소 등)을 덮어써 버려 프로그램의 실행 흐름을 완전히 조작합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">APT (Advanced Persistent…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">버퍼 오버플로우 공격</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">제로 데이 공격</div></div>
-</div>
-</div>
-
-
+```text
+[APT (Advanced Persistent…]
+    │
+    ▼
+[버퍼 오버플로우 공격]
+    │
+    └──▶ [제로 데이 공격]
+```
 
 - **📢 섹션 요약 비유**: [버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/) 공격은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -52,18 +48,14 @@ tags = ["studynote-network"]
 - <strong>힙(<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/">Heap</a>)</strong>: 사용자가 동적으로 크기를 늘렸다 줄였다 할 수 있는 자유로운 메모리 공간입니다.
 - [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)처럼 복귀 주소가 바로 옆에 있진 않지만, 동적 메모리 구조([Linked List](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) 등)를 관리하는 포인터를 덮어써서 시스템을 혼란에 빠뜨려 프로그램(웹 서버 등)을 기절시키는 [DoS](/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/) 공격에 주로 쓰입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">APT (Advanced Persistent…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">버퍼 오버플로우 공격</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">제로 데이 공격</div></div>
-</div>
-</div>
-
-
+```text
+[APT (Advanced Persistent…]
+    │
+    ▼
+[버퍼 오버플로우 공격]
+    │
+    └──▶ [제로 데이 공격]
+```
 
 - **📢 섹션 요약 비유**: [버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/) 공격의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -132,19 +124,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: APT (Advanced Persistent…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 버퍼 오버플로우 공격</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 제로 데이 공격</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: APT (Advanced Persistent…]
+    │
+    ▼
+[현재 개념: 버퍼 오버플로우 공격]
+    │
+    ├──▶ [확장 A: 제로 데이 공격]
+    └──▶ [확장 B: 예측형 위협 대응]
+```
 
 [버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/) 공격는 [APT](/knowledge-base/studynote/09_security/15_malware_attack_vectors/748_apt/) (Advanced Persistent…에서 출발해 현재 메커니즘을 정교화하고, 이후 [제로 데이](/knowledge-base/studynote/02_operating_system/10_security/597_zero_day_exploit/) 공격와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

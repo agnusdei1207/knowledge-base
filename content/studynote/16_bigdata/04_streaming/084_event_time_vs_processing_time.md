@@ -55,26 +55,25 @@ tags = ["studynote-bigdata"]
 
 ### 1. 이벤트 시간 vs 처리 시간 집계 차이
 
+```
+이벤트 스트림 (도착 순서):
+──────────────────────────────────────────────────────────
+시간축(시스템):  10:00   10:05   10:10   10:15   10:20
+                  │       │       │       │       │
+이벤트(처리시간): [A]     [C]     [B]              [D]
+이벤트 시간:      A=10:00 C=10:08 B=10:03         D=10:18
+                  ↑       ↑       ↑
+                  도착                 20초 지연 후 도착
 
+[처리 시간 기준 10분 윈도우]
+  윈도우 1 (10:00~10:10): A, C, B
+  윈도우 2 (10:10~10:20): D
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이벤트 스트림 (도착 순서):</div>
-<div class="kb-diagram-note">시간축(시스템): 10:00 10:05 10:10 10:15 10:20</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">이벤트(처리시간):</div><div class="kb-diagram-node">A</div><div class="kb-diagram-node">C</div><div class="kb-diagram-node">B</div><div class="kb-diagram-node">D</div></div>
-<div class="kb-diagram-note">이벤트 시간: A=10:00 C=10:08 B=10:03 D=10:18</div>
-<div class="kb-diagram-note">도착 20초 지연 후 도착</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">처리 시간 기준 10분 윈도우</div></div>
-<div class="kb-diagram-note">윈도우 1 (10:00~10:10): A, C, B</div>
-<div class="kb-diagram-note">윈도우 2 (10:10~10:20): D</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">이벤트 시간 기준 10분 윈도우</div></div>
-<div class="kb-diagram-note">윈도우 1 (10:00~10:10): A, B, C (B는 10:03에 발생)</div>
-<div class="kb-diagram-note">윈도우 2 (10:10~10:20): D</div>
-<div class="kb-diagram-note">→ 더 정확! (B가 올바른 윈도우에 포함됨)</div>
-</div>
-</div>
-
-
+[이벤트 시간 기준 10분 윈도우]
+  윈도우 1 (10:00~10:10): A, B, C (B는 10:03에 발생)
+  윈도우 2 (10:10~10:20): D
+  → 더 정확! (B가 올바른 윈도우에 포함됨)
+```
 
 ### 2. 처리 시간 사용법 (Flink)
 
@@ -210,23 +209,21 @@ DataStream<Event> lateEvents = main.getSideOutput(lateTag);  // 늦은 이벤트
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">스트림 데이터 수집</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">처리 시간(Processing Time)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">이벤트 시간(Event Time)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">워터마크(Watermark)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">지연 데이터 처리</div></div>
-</div>
-</div>
-
-
+```text
+[스트림 데이터 수집]
+    │
+    ▼
+[처리 시간(Processing Time)]
+    │
+    ▼
+[이벤트 시간(Event Time)]
+    │
+    ▼
+[워터마크(Watermark)]
+    │
+    ▼
+[지연 데이터 처리]
+```
 
 [스트림 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/229_stream_processing_kafka_flink/)는 처리 시간에서 이벤트 시간과 [워터마크](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/) 중심으로 발전했다.
 

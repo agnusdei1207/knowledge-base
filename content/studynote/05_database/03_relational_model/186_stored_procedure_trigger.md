@@ -37,25 +37,27 @@ tags = ["studynote-database"]
 
 아래 그림은 프로시저와 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 가까이에서 어떻게 다른 방식으로 개입하는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DB-side program flow</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Application -&gt; CALL proc_transfer(10000)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Stored Procedure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ validate account / balance</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ update source and target rows</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ insert ledger history</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ COMMIT or ROLLBACK</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">INSERT / UPDATE / DELETE on table</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Trigger</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ BEFORE : normalize / reject bad data</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ AFTER : audit log / derived update</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ DB-side program flow                                               │
+├────────────────────────────────────────────────────────────────────┤
+│ Application -> CALL proc_transfer(10000)                           │
+│                 │                                                  │
+│                 ▼                                                  │
+│            Stored Procedure                                        │
+│            ├─ validate account / balance                           │
+│            ├─ update source and target rows                        │
+│            ├─ insert ledger history                                │
+│            └─ COMMIT or ROLLBACK                                   │
+│                                                                    │
+│ INSERT / UPDATE / DELETE on table                                  │
+│                 │                                                  │
+│                 ▼                                                  │
+│            Trigger                                                 │
+│            ├─ BEFORE : normalize / reject bad data                 │
+│            └─ AFTER  : audit log / derived update                  │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 | 구분 | 스토어드 프로시저 | [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) |
 | :--- | :--- | :--- |
@@ -144,25 +146,22 @@ tags = ["studynote-database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">반복 SQL과 공통 규칙 증가</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">스토어드 프로시저 (Stored Procedure)</div>
-<div class="kb-diagram-tree-item" style="--depth:4">트랜잭션 절차 묶음</div>
-<div class="kb-diagram-tree-item" style="--depth:4">권한 캡슐화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">트리거 (Trigger)</div>
-<div class="kb-diagram-tree-item" style="--depth:4">BEFORE / AFTER 자동화</div>
-<div class="kb-diagram-tree-item" style="--depth:4">감사 로그 · 무결성 보조</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CDC · 이벤트 기반 후처리 분리</div>
-</div>
-</div>
-
-
+```text
+반복 SQL과 공통 규칙 증가
+        │
+        ▼
+스토어드 프로시저 (Stored Procedure)
+        │
+        ├──────────────► 트랜잭션 절차 묶음
+        ├──────────────► 권한 캡슐화
+        ▼
+트리거 (Trigger)
+        │
+        ├──────────────► BEFORE / AFTER 자동화
+        ├──────────────► 감사 로그 · 무결성 보조
+        ▼
+CDC · 이벤트 기반 후처리 분리
+```
 
 이 흐름은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 근접 로직이 재사용에서 자동화로 확장되고, 이후에는 더 느슨한 이벤트 기반 구조와 역할을 나누는 방향으로 성숙해 간다는 점을 보여 준다.
 

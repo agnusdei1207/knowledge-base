@@ -18,18 +18,12 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">LLM 학습 파이프라인:</div>
-<div class="kb-diagram-note">1. Pre-training: 대규모 텍스트 → 다음 토큰 예측 (수개월, 수천 GPU)</div>
-<div class="kb-diagram-note">2. Instruction Tuning: 지시-응답 쌍 학습 → 지시 따르기 능력</div>
-<div class="kb-diagram-note">3. RLHF: 인간 선호 피드백 → 유해 출력 억제 → 정렬(Alignment)</div>
-</div>
-</div>
-
-
+```text
+LLM 학습 파이프라인:
+  1. Pre-training: 대규모 텍스트 → 다음 토큰 예측 (수개월, 수천 GPU)
+  2. Instruction Tuning: 지시-응답 쌍 학습 → 지시 따르기 능력
+  3. RLHF: 인간 선호 피드백 → 유해 출력 억제 → 정렬(Alignment)
+```
 
 - **📢 섹션 요약 비유**: LLM은 <strong>대학 교육(Pre-<a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/">training</a>) → 직무 교육(IT) → 사회생활 매너(<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/">RLHF</a>)</strong>의 3단계로 완성된다.
 
@@ -53,18 +47,12 @@ LLM은 <strong>Pre-<a href="/knowledge-base/studynote/04_software_engineering/09
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">GPT-1 (117M, 2018)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">GPT-3 (175B, 2020)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">InstructGPT/ChatGPT (RLHF, 2022)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">GPT-4 (MoE, 2023)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">LLaMA (오픈소스)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: GPT-5 · Claude · Gemini — 멀티모달+추론</div></div>
-</div>
-</div>
-
-
+```text
+[GPT-1 (117M, 2018)] → [GPT-3 (175B, 2020)]
+    → [InstructGPT/ChatGPT (RLHF, 2022)]
+    → [GPT-4 (MoE, 2023)] → [LLaMA (오픈소스)]
+    → [현재: GPT-5 · Claude · Gemini — 멀티모달+추론]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. LLM은 <strong>엄청 많은 책을 읽은 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a></strong>예요. 수십억 문장을 읽었어요.

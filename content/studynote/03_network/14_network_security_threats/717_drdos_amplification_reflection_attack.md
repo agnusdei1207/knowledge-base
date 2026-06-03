@@ -21,18 +21,14 @@ tags = ["studynote-network"]
 
 해커가 직접 타겟 서버(피해자)에게 트래픽을 쏘지 않고, 정상적으로 운영되는 제3의 인터넷 서버들([DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/), [NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/) 등)을 <strong>'반사경(Reflector)'</strong>이자 <strong>'확성기(Amplifier)'</strong>로 악용하여 피해자에게 엄청난 트래픽 폭탄을 쏟아붓게 만드는 최신/최악의 디도스 기법입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">UDP Flood 리소스 고갈 유도 / Nu…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">반사 증폭 공격</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NTP 증폭</div></div>
-</div>
-</div>
-
-
+```text
+[UDP Flood 리소스 고갈 유도 / Nu…]
+    │
+    ▼
+[반사 증폭 공격]
+    │
+    └──▶ [NTP 증폭]
+```
 
 - **📢 섹션 요약 비유**: 반사 증폭 공격은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -49,18 +45,14 @@ tags = ["studynote-network"]
 - 해커가 고작 <strong>60바이트</strong>짜리 가벼운 질문 패킷을 보내면, 속은 정상 서버는 <strong>3,000바이트(50배 증폭)</strong>짜리 거대한 응답 패킷 박스를 피해자에게 던집니다.
 - 해커가 자기 노트북으로 1Gbps 트래픽을 쏘면, 반사 서버를 거쳐 피해자에게 도달할 때는 무려 50Gbps 짜리 쓰나미가 되어 서버를 완전히 박살 냅니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">UDP Flood 리소스 고갈 유도 / Nu…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">반사 증폭 공격</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NTP 증폭</div></div>
-</div>
-</div>
-
-
+```text
+[UDP Flood 리소스 고갈 유도 / Nu…]
+    │
+    ▼
+[반사 증폭 공격]
+    │
+    └──▶ [NTP 증폭]
+```
 
 - **📢 섹션 요약 비유**: 반사 증폭 공격의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -118,19 +110,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: UDP Flood 리소스 고갈 유도 / Nu…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 반사 증폭 공격</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: NTP 증폭</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: UDP Flood 리소스 고갈 유도 / Nu…]
+    │
+    ▼
+[현재 개념: 반사 증폭 공격]
+    │
+    ├──▶ [확장 A: NTP 증폭]
+    └──▶ [확장 B: 예측형 위협 대응]
+```
 
 반사 증폭 공격는 [UDP Flood](/knowledge-base/studynote/09_security/03_network_security/256_udp_flood/) 리소스 고갈 유도 / Nu…에서 출발해 현재 메커니즘을 정교화하고, 이후 [NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/) 증폭와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -32,18 +32,13 @@ IaC의 핵심 가치는 인프라의 "재현 가능성"과 "검토 가능성"이
 
 ### [Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/) 동작 흐름
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">.tf 파일 작성 terraform plan terraform apply</div>
-<div class="kb-diagram-note">(HCL 코드) → (변경 계획 미리보기) → (실제 인프라 생성·변경)</div>
-<div class="kb-diagram-note">Git 저장소 콘솔에 변경 diff terraform.tfstate</div>
-<div class="kb-diagram-note">(버전 관리) 출력, 검토 가능 (현재 상태 기록)</div>
-</div>
-</div>
-
-
+```
+.tf 파일 작성       terraform plan        terraform apply
+(HCL 코드)   →   (변경 계획 미리보기)  →  (실제 인프라 생성·변경)
+     ↓                   ↓                       ↓
+  Git 저장소        콘솔에 변경 diff        terraform.tfstate
+  (버전 관리)        출력, 검토 가능         (현재 상태 기록)
+```
 
 | 개념 | 설명 |
 |:---|:---|
@@ -122,21 +117,17 @@ IaC를 도입하면 인프라 변경 리드타임이 주 단위에서 분 단위
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">수동 콘솔 클릭 (재현 불가, 드리프트)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">IaC: 인프라를 코드로 선언 (Terraform · Pulumi · CDK)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">terraform plan → apply → state 관리</div>
-<div class="kb-diagram-tree-item" style="--depth:2">버전 관리: Git + PR 리뷰 + CI 검증</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Policy as Code (OPA · Sentinel) → GitOps 연동</div>
-</div>
-</div>
-
-
+```text
+수동 콘솔 클릭 (재현 불가, 드리프트)
+    │
+    ▼
+IaC: 인프라를 코드로 선언 (Terraform · Pulumi · CDK)
+    ├─► terraform plan → apply → state 관리
+    └─► 버전 관리: Git + PR 리뷰 + CI 검증
+    │
+    ▼
+Policy as Code (OPA · Sentinel) → GitOps 연동
+```
 2. 예전에는 손으로 하나하나 클릭해서 서버를 만들었지만, 이제는 코드로 한 번에 뚝딱 만들어요.
 3. 설명서(코드)가 있으면 실수로 성이 무너져도 똑같이 다시 만들 수 있어서 걱정이 없어요!
 

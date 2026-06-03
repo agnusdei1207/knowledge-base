@@ -37,20 +37,23 @@ tags = ["software_engineering"]
 
 이 도식은 시스템이 어떻게 하위 CI로 분할되는지, 그리고 각 레벨에서 어떤 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)가 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)되는지를 보여준다. 최상위 시스템에서 시작해 기능 블록, 개별 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)로 이어지는 트리 구조를 이해하는 것이 핵심이다.
 
+```text
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">System Level (Level 0 / 레벨 0)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">System-100-v1.0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Subsystem (Level 1 / 레벨 1)</div><div class="kb-diagram-cell">Subsystem (Level 1 / 레벨 1)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CI-WEB-200-v1.1</div><div class="kb-diagram-node">CI-DB-300-v1.0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Module</div><div class="kb-diagram-cell">Module</div><div class="kb-diagram-cell">Config</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">M-201</div><div class="kb-diagram-node">M-202</div><div class="kb-diagram-node">C-301</div></div>
-</div>
-</div>
-
-
+┌────────────────────────────────────────────────────────────┐
+│                  System Level (Level 0 / 레벨 0)                    │
+│                  [System-100-v1.0]                         │
+└────────┬──────────────────────────────────────────┬────────┘
+         ↓                                          ↓
+┌─────────────────────┐                    ┌─────────────────────┐
+│ Subsystem (Level 1 / 레벨 1) │                    │ Subsystem (Level 1 / 레벨 1) │
+│  [CI-WEB-200-v1.1]  │                    │  [CI-DB-300-v1.0]   │
+└────┬───────────┬────┘                    └─────────┬───────────┘
+     ↓           ↓                                   ↓
+┌─────────┐ ┌─────────┐                         ┌─────────┐
+│ Module  │ │ Module  │                         │ Config  │
+│ [M-201] │ │ [M-202] │                         │ [C-301] │
+└─────────┘ └─────────┘                         └─────────┘
+```
 
 이 흐름의 핵심은 분할의 깊이(Granularity)를 결정하는 것이다. [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 트리를 너무 깊게 구성하면 관리 오버헤드가 급증하고, 너무 얕게 구성하면 변경 시 영향도를 정확히 파악하기 어렵다. 따라서 각 계층에서 관리해야 하는 정보의 성격에 맞춰 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 기준을 수립해야 한다.
 
@@ -78,19 +81,16 @@ tags = ["software_engineering"]
 
 다음 매트릭스는 거친 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)([Coarse-grained](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/398_coarse_grained_multithreading/))과 세밀한 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)([Fine-grained](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/399_fine_grained_multithreading/)) 방식의 아키텍처적 트레이드오프를 보여준다. [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 입도는 시스템의 관리 비용과 직결된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비교 항목</div><div class="kb-diagram-cell">거친 식별 (Coarse)</div><div class="kb-diagram-cell">세밀한 식별 (Fine)</div><div class="kb-diagram-cell">판단 포인트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CI 단위</div><div class="kb-diagram-cell">서브시스템 단위 통관리</div><div class="kb-diagram-cell">개별 소스파일/클래스 단위</div><div class="kb-diagram-cell">변경의 빈도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">관리 비용</div><div class="kb-diagram-cell">낮음 (항목 수 적음)</div><div class="kb-diagram-cell">높음 (항목 수 많음)</div><div class="kb-diagram-cell">팀의 규모/역량</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">추적성</div><div class="kb-diagram-cell">약함 (내부 변경 파악 난해)</div><div class="kb-diagram-cell">강함 (정밀한 의존성 파악)</div><div class="kb-diagram-cell">결함 추적 난이도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">적합 환경</div><div class="kb-diagram-cell">단일(Monolith) 레거시</div><div class="kb-diagram-cell">MSA, 컴포넌트 기반(CBD)</div><div class="kb-diagram-cell">시스템 아키텍처</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬──────────────────────────┬──────────────────────────┬────────────────┐
+│ 비교 항목│ 거친 식별 (Coarse)       │ 세밀한 식별 (Fine)       │ 판단 포인트    │
+├──────────┼──────────────────────────┼──────────────────────────┼────────────────┤
+│ CI 단위  │ 서브시스템 단위 통관리   │ 개별 소스파일/클래스 단위│ 변경의 빈도    │
+│ 관리 비용│ 낮음 (항목 수 적음)      │ 높음 (항목 수 많음)      │ 팀의 규모/역량 │
+│ 추적성   │ 약함 (내부 변경 파악 난해)│ 강함 (정밀한 의존성 파악)│ 결함 추적 난이도│
+│ 적합 환경│ 단일(Monolith) 레거시    │ MSA, 컴포넌트 기반(CBD)  │ 시스템 아키텍처│
+└──────────┴──────────────────────────┴──────────────────────────┴────────────────┘
+```
 
 거친 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 방식은 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 도입 비용이 적지만, 단일 패키지 내부에서 발생하는 세부적인 충돌을 방지하기 어렵다. 반면 세밀한 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 방식은 단건 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 관리 오버헤드가 다소 크지만, 의존성 격리와 수평 확장성이 뛰어나기 때문에 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 환경처럼 독립적 배포가 잦은 구조에서는 전체 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 기준으로 유리하다.
 
@@ -108,26 +108,23 @@ tags = ["software_engineering"]
 
 이 의사결정 트리는 실무 프로젝트에서 특정 산출물을 CI로 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)할지 말지를 판단하는 기준을 제시한다. 
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">산출물 발생</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">변경 가능성이 있는가?</div><div class="kb-diagram-note">──(No)──&gt; 식별 제외 (단순 보관)</div></div>
-<div class="kb-diagram-note">(Yes)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">다른 모듈과 의존성을 가지는가?</div><div class="kb-diagram-note">──(No)──&gt; 단일 문서로 관리</div></div>
-<div class="kb-diagram-note">(Yes)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">독립적으로 테스트 및 배포가 가능한가?</div><div class="kb-diagram-note">──(No)──&gt; 상위 CI에 병합 관리</div></div>
-<div class="kb-diagram-note">(Yes)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">독립 CI로 식별 및 베이스라인 부여</div></div>
-</div>
-</div>
-
-
+```text
+[산출물 발생]
+   ↓
+[변경 가능성이 있는가?] ──(No)──> 식별 제외 (단순 보관)
+   │
+ (Yes)
+   ↓
+[다른 모듈과 의존성을 가지는가?] ──(No)──> 단일 문서로 관리
+   │
+ (Yes)
+   ↓
+[독립적으로 테스트 및 배포가 가능한가?] ──(No)──> 상위 CI에 병합 관리
+   │
+ (Yes)
+   ↓
+[독립 CI로 식별 및 베이스라인 부여]
+```
 
 이 흐름의 핵심은 변경 가능성과 독립 배포 가능성 단계가 판단의 중심에 위치한다는 점이다. 따라서 불필요한 산출물(예: 임시 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/), 컴파일 중간 생성물)은 [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) 항목에서 즉시 배제되며, 시스템 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하(형상 DB 오버헤드)를 방지할 수 있다. 실무에서는 이 지점의 독립성을 지속적으로 점검해야 한다.
 
@@ -165,23 +162,21 @@ tags = ["software_engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">CI (형상 항목 — Configuration Item) 식별 및 명명</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">기준선 (Baseline) 설정 — 특정 시점 승인 버전 묶음</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">형상 통제 (Configuration Control) — CCB 변경 승인</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">형상 기록/보고 (Configuration Status Accounting)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">형상 감사 (Configuration Audit) — 기능/물리 감사</div></div>
-</div>
-</div>
-
-
+```text
+[CI (형상 항목 — Configuration Item) 식별 및 명명]
+    │
+    ▼
+[기준선 (Baseline) 설정 — 특정 시점 승인 버전 묶음]
+    │
+    ▼
+[형상 통제 (Configuration Control) — CCB 변경 승인]
+    │
+    ▼
+[형상 기록/보고 (Configuration Status Accounting)]
+    │
+    ▼
+[형상 감사 (Configuration Audit) — 기능/물리 감사]
+```
 SCM의 4대 활동은 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)→[기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)→통제→기록→[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)의 흐름으로 이어지며, [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)이 첫 단추로 모든 변경 추적성과 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 가능성의 기반이 된다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

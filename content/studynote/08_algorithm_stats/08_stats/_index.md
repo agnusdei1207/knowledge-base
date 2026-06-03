@@ -89,21 +89,16 @@ y = β₀ + β₁x + ε
 
 ### 상관관계 vs. 인과관계
 
+```text
+상관관계 (Correlation): r ∈ [-1, 1]
+  r = 1: 완전 양의 상관
+  r = 0: 상관 없음
+  r = -1: 완전 음의 상관
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-note">상관관계 (Correlation): r ∈</div><div class="kb-diagram-node">-1, 1</div></div>
-<div class="kb-diagram-note">r = 1: 완전 양의 상관</div>
-<div class="kb-diagram-note">r = 0: 상관 없음</div>
-<div class="kb-diagram-note">r = -1: 완전 음의 상관</div>
-<div class="kb-diagram-note">⚠ 상관 ≠ 인과</div>
-<div class="kb-diagram-note">예시: 아이스크림 판매량 ↑ → 익사 사고 ↑</div>
-<div class="kb-diagram-note">실제 원인: 더운 날씨 (교란 변수, Confounding Variable)</div>
-</div>
-</div>
-
-
+⚠ 상관 ≠ 인과
+예시: 아이스크림 판매량 ↑ → 익사 사고 ↑
+실제 원인: 더운 날씨 (교란 변수, Confounding Variable)
+```
 
 - **📢 섹션 요약 비유**: 상관관계와 인과관계의 혼동은 **'닭이 울면 해가 뜬다'** 는 오류와 같습니다. 닭 울음과 일출은 상관이 있지만, 닭이 해를 뜨게 만드는 것은 아닙니다.
 
@@ -139,23 +134,21 @@ y = β₀ + β₁x + ε
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">기술통계 (평균·분산·분포)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">추론통계 (가설 검정·신뢰구간·p-value)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">회귀 분석 (선형·로지스틱·다항) → 머신러닝 모델</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">베이즈 통계 (사후 분포·MCMC) → 베이즈 딥러닝</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">인과 추론 (Causal Inference) — 상관 넘어 인과 분석</div>
-</div>
-</div>
-
-
+```text
+기술통계 (평균·분산·분포)
+    │
+    ▼
+추론통계 (가설 검정·신뢰구간·p-value)
+    │
+    ▼
+회귀 분석 (선형·로지스틱·다항) → 머신러닝 모델
+    │
+    ▼
+베이즈 통계 (사후 분포·MCMC) → 베이즈 딥러닝
+    │
+    ▼
+인과 추론 (Causal Inference) — 상관 넘어 인과 분석
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

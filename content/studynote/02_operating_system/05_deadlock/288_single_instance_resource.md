@@ -25,25 +25,27 @@ tags = ["studynote-operating-system"]
 
 **💡 비유**: 화장실 변기가 단 한 칸뿐인 식당. 내가 안에 들어가 문을 잠그면, 밖에서 기다리는 사람은 내가 나오기 전까진 지구상 어떤 방법을 써도 절대 볼일을 볼 수 없는 완벽히 꽉 막힌(결정적) 외나무다리.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단일 인스턴스 환경에서의 완벽한 교착 증명</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시나리오</div><div class="kb-diagram-note">프린터 1대(R1), 스캐너 1대(R2)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(점유) (요청, 0개 남음)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">R1 (•)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(요청, 0개 남음) (점유)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">R2 (•)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">P2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과 해석:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. P1이 R2를 기다리나, R2는 단 1개뿐이고 P2가 쥐고 있음.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. P2 역시 R1을 기다리나, R1도 1개뿐이고 P1이 쥐고 있음.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 바깥에서 지원군(여분 자원)이 투입될 가능성 0% !</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 사이클 = 교착상태 (절대적 공식)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│         단일 인스턴스 환경에서의 완벽한 교착 증명            │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│  [시나리오] 프린터 1대(R1), 스캐너 1대(R2)                   │
+│                                                              │
+│        (점유)                   (요청, 0개 남음)             │
+│  P1 ──────────▶ [ R1 (•) ] ──────────┐                       │
+│   ▲                                    │                     │
+│   │                                    ▼                     │
+│   │ (요청, 0개 남음)               (점유)                    │
+│   └────────── [ R2 (•) ] ◀────────── P2                      │
+│                                                              │
+│  결과 해석:                                                  │
+│  1. P1이 R2를 기다리나, R2는 단 1개뿐이고 P2가 쥐고 있음.    │
+│  2. P2 역시 R1을 기다리나, R1도 1개뿐이고 P1이 쥐고 있음.    │
+│  → 바깥에서 지원군(여분 자원)이 투입될 가능성 0% !           │
+│  → 사이클 = 교착상태 (절대적 공식)                           │
+└──────────────────────────────────────────────────────────────┘
+```
 
 **📢 섹션 요약 비유**: 단일 인스턴스 사이클은 여분 열쇠가 없는 밀실 탈출 게임 — 서로 방 열쇠를 상대방 방에 숨겨둔 채 문을 잠갔다면, 외부 도우미가 없는 한 절대 나올 수 없는 상태입니다.
 
@@ -112,19 +114,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">자원 할당 그래프 (Resource-Allocation Graph)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">단일 인스턴스 자원 환경 (Single Instance Resource)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">다중 인스턴스 자원 환경</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">교착 상태 처리 방법 3가지</div></div>
-</div>
-</div>
-
-
+```text
+[자원 할당 그래프 (Resource-Allocation Graph)]
+    │
+    ▼
+[단일 인스턴스 자원 환경 (Single Instance Resource)]
+    │
+    ├──▶ [다중 인스턴스 자원 환경]
+    └──▶ [교착 상태 처리 방법 3가지]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

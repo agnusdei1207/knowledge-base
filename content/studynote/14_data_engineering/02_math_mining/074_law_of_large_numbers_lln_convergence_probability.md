@@ -29,17 +29,11 @@ tags = ["studynote-data-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Samples ↑</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Sample Mean → Expected Value</div>
-</div>
-</div>
-
-
+```text
+Samples ↑
+  ↓
+Sample Mean → Expected Value
+```
 
 | 개념 | 의미 |
 | :-- | :-- |
@@ -106,37 +100,25 @@ LLN은 장기 평균의 안정성을 보여 준다.
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Samples</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">LLN</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Expected Value</div>
-</div>
-</div>
-
-
+```text
+Samples
+  ↓
+LLN
+  ↓
+Expected Value
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Probability</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">LLN</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Convergence</div>
-</div>
-</div>
-
-
+```text
+Probability
+  ↓
+LLN
+  ↓
+Convergence
+```
 
 ---
 

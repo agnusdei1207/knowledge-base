@@ -24,30 +24,35 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경**: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 운영체제의 프로세스 간 통신은 주로 직접 통신 방식으로 설계되었다. Brinch Hansen의 RC [4000](/knowledge-base/studynote/02_operating_system/09_file_system/548_special_permissions_setuid/) 시스템과 최초의 UNIX [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)([Pipe](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/))가 부모-자식 프로세스 간의 직접 통신 모델을 제공하였고, 이는 이후 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)([Socket](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)) 기반의 네트워크 통신으로 자연스럽게 발전하였다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">직접 통신의 두 가지 모드: 대칭식 vs 비대칭식</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">대칭식 직접 통신 (Symmetric)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">send(Q, message)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Process P</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Process Q</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">send(P, message)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">양방향 통신이 가능하며, P와 Q 모두 서로를 식별자로 지정하여 전송</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">send(receiver_id, message) / receive(sender_id, message)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">비대칭식 직접 통신 (Asymmetric)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">send(Q, message)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Process P</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Process Q</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Sender)</div><div class="kb-diagram-cell">(Receiver)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">receive(id, message)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단방향 통신. 송신자만 수신자를 지정. 수신자는 임의의 송신자로부터 수신</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">send(receiver_id, message) / receive(id, message)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* id: 수신자가 receive() 시 자신의 식별자를 명시하지 않거나,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">특정 송신자로부터의 메시지만 수신하도록 필터링 가능</div></div>
-</div>
-</div>
-
-
+```text
+  ┌──────────────────────────────────────────────────────────────────────────┐
+  │          직접 통신의 두 가지 모드: 대칭식 vs 비대칭식                    │
+  ├──────────────────────────────────────────────────────────────────────────┤
+  │                                                                          │
+  │  [대칭식 직접 통신 (Symmetric)]                                          │
+  │  ┌──────────┐   send(Q, message)   ┌──────────┐                          │
+  │  │ Process P │─────────────────────▶│ Process Q │                        │
+  │  │           │◀─────────────────────│           │                        │
+  │  └──────────┘   send(P, message)   └──────────┘                          │
+  │                                                                          │
+  │  양방향 통신이 가능하며, P와 Q 모두 서로를 식별자로 지정하여 전송        │
+  │  send(receiver_id, message) / receive(sender_id, message)                │
+  │                                                                          │
+  │  ─────────────────────────────────────────────────────────────           │
+  │                                                                          │
+  │  [비대칭식 직접 통신 (Asymmetric)]                                       │
+  │  ┌──────────┐   send(Q, message)   ┌──────────┐                          │
+  │  │ Process P │─────────────────────▶│ Process Q │                        │
+  │  │ (Sender)  │                     │(Receiver) │                         │
+  │  └──────────┘                     └──────────┘                           │
+  │                                  receive(id, message)                    │
+  │  단방향 통신. 송신자만 수신자를 지정. 수신자는 임의의 송신자로부터 수신  │
+  │  send(receiver_id, message) / receive(id, message)                       │
+  │                                                                          │
+  │  * id: 수신자가 receive() 시 자신의 식별자를 명시하지 않거나,            │
+  │    특정 송신자로부터의 메시지만 수신하도록 필터링 가능                   │
+  └──────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 대칭식(Symmetric) 직접 통신에서는 통신의 양쪽 프로세스가 서로의 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)(ID)를 알고 있으며, 양방향으로 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지를 주고받을 수 있다. `send(P, msg)`는 "프로세스 P에게 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지를 보내라"라는 의미이며, `receive(Q, msg)`는 "프로세스 Q로부터 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지를 받아라"라는 의미다. 반면 비대칭식(Asymmetric)에서는 송신자만 수신자의 ID를 지정하며, 수신자는 특정 송신자를 지정하지 않고 `receive(id, msg)` 형태로 호출하여 큐에 대기 중인 임의의 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지를 수신한다. 비대칭식은 클라이언트-서버 모델에서 클라이언트가 서버에게 요청을 보내는 전형적인 패턴과 일치한다.
 
@@ -68,27 +73,36 @@ tags = ["studynote-operating-system"]
 | <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/">포트 번호</a> (<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">Port</a>)</strong> | 네트워크 주소 + [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 조합 | 네트워크 투명성 | [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 충돌 관리 필요 | `connect(IP:Port)` |
 | <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 디스크립터 (FD)</strong> | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 관리하는 정수 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) | 표준 I/O와 통일 | 프로세스 간 FD 전달 복잡 | UNIX [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [Socket](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">직접 통신의 식별자 변경 문제와 해결: PID → 이름 바인딩</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">문제: PID 기반 직접 통신의 취약성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Process A send(PID=1024, "Hello") Process B (PID=1024)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Process B 종료 후 재시작 → PID=2048로 변경!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Process A send(PID=1024, "Hello") ??? (PID=1024 없음)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">에러: ESRCH</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"그런 프로세스 없음"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">해결: 이름 기반 직접 통신</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Process A send("db_service", msg)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Name Service</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Process B 등록</div><div class="kb-diagram-cell">"db_service"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">register("db_service", PID=2048) ▶</div><div class="kb-diagram-cell">→ PID:2048</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* PID가 바뀌어도 이름("db_service")으로 항상 올바른 프로세스 식별</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────────────┐
+  │        직접 통신의 식별자 변경 문제와 해결: PID → 이름 바인딩       │
+  ├─────────────────────────────────────────────────────────────────────┤
+  │                                                                     │
+  │  [문제: PID 기반 직접 통신의 취약성]                                │
+  │                                                                     │
+  │  Process A     send(PID=1024, "Hello")     Process B (PID=1024)     │
+  │  ───────────────────────────────────────────────────────────────    │
+  │  Process B 종료 후 재시작 → PID=2048로 변경!                        │
+  │                                                                     │
+  │  Process A     send(PID=1024, "Hello")     ??? (PID=1024 없음)      │
+  │                                                ▼                    │
+  │                                           [에러: ESRCH]             │
+  │                                           "그런 프로세스 없음"      │
+  │                                                                     │
+  │  ─────────────────────────────────────────────────────────────      │
+  │                                                                     │
+  │  [해결: 이름 기반 직접 통신]                                        │
+  │                                                                     │
+  │  Process A     send("db_service", msg)   ┌──────────────────┐       │
+  │  ──────────────────────────────────────▶  │ Name Service     │      │
+  │                                           │ ┌──────────────┐ │      │
+  │  Process B 등록                         │ │"db_service"  │ │        │
+  │  register("db_service", PID=2048) ────▶  │ │  → PID:2048 │ │        │
+  │                                           │ └──────────────┘ │      │
+  │                                           └──────────────────┘      │
+  │  * PID가 바뀌어도 이름("db_service")으로 항상 올바른 프로세스 식별  │
+  └─────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** PID 기반 직접 통신의 가장 치명적인 문제는 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)의 일시성(Ephemerality)이다. PID는 운영체제가 [프로세스 생성](/knowledge-base/studynote/02_operating_system/02_process_thread/104_process_creation/) 시 할당하며, [프로세스 종료](/knowledge-base/studynote/02_operating_system/02_process_thread/107_process_termination/) 후 재시작되면 일반적으로 다른 PID를 받는다. 송신자가 이전 PID를 하드코딩하면, 수신자가 재시작된 후에는 통신이 불가능해진다. 이를 해결하기 위해 이름 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(Name [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))를 도입하여, 프로세스가 의미 있는 이름(예: "db_service")을 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 등록하고 송신자는 이름을 통해 간접적으로 프로세스를 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)하는 방식이 사용된다. [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 통신에서 `/tmp/db_service.sock`과 같은 UNIX [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [Socket](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 경로나, [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP에서 `localhost:5432`와 같은 IP:[Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 조합이 이 이름 바인딩의 실무적 구현이다.
 
@@ -167,19 +181,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">메시지 전달 (Message Passing) 방식</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">직접 통신 (Direct Communication)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">간접 통신 (Indirect Communication)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">동기식 통신 (Blocking) vs 비동기식 통신 (Non-blocking)</div></div>
-</div>
-</div>
-
-
+```text
+[메시지 전달 (Message Passing) 방식]
+    │
+    ▼
+[직접 통신 (Direct Communication)]
+    │
+    ├──▶ [간접 통신 (Indirect Communication)]
+    └──▶ [동기식 통신 (Blocking) vs 비동기식 통신 (Non-blocking)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

@@ -22,23 +22,26 @@ tags = ["hadoop", "studynote-bigdata"]
 
 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 2.0 이후 아키텍처는 스토리지, 연산, 자원 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링의 철저한 계층 분리를 달성했습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Apache Hadoop Ecosystem</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MapReduce (MR)</div><div class="kb-diagram-cell">Apache Spark</div><div class="kb-diagram-cell">Hive</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Data Processing)</div><div class="kb-diagram-cell">(In-Memory Engine)</div><div class="kb-diagram-cell">(SQL DW)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+---------v-----------------------v-------------------v-----+</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">YARN (Yet Another Resource Negotiator)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Resource Management)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+---------------------------------v-------------------------+</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HDFS (Hadoop Distributed File System)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Distributed Storage)</div></div>
-</div>
-</div>
-
-
+```text
++-----------------------------------------------------------------+
+|                      Apache Hadoop Ecosystem                    |
+|                                                                 |
+|  +--------------------+  +--------------------+  +-----------+  |
+|  |   MapReduce (MR)   |  |   Apache Spark     |  |   Hive    |  |
+|  | (Data Processing)  |  | (In-Memory Engine) |  | (SQL DW)  |  |
+|  +---------+----------+  +---------+----------+  +-----+-----+  |
+|            |                       |                   |        |
+|  +---------v-----------------------v-------------------v-----+  |
+|  |           YARN (Yet Another Resource Negotiator)          |  |
+|  |                   (Resource Management)                   |  |
+|  +---------------------------------+-------------------------+  |
+|                                    |                            |
+|  +---------------------------------v-------------------------+  |
+|  |           HDFS (Hadoop Distributed File System)           |  |
+|  |                   (Distributed Storage)                   |  |
+|  +-----------------------------------------------------------+  |
++-----------------------------------------------------------------+
+```
 
 1. <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/">HDFS</a> (<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/203_hadoop_hdfs_block_replication_fault_tolerance/">Hadoop Distributed File System</a>)</strong>: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 128MB 블록 단위로 쪼개어 수많은 워커 노드에 3벌씩 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 저장하여 디스크 고장에 대비한 [결함 허용](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/296_fault_tolerance_architecture/)([Fault Tolerance](/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/))을 달성합니다.
 2. <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/">YARN</a> (자원 협상가)</strong>: [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 클러스터 내 CPU와 메모리 자원을 누가 얼마나 쓸지 할당하고 통제하는 클러스터 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 역할을 합니다.
@@ -67,21 +70,18 @@ tags = ["hadoop", "studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">HDFS</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MapReduce</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">YARN</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Hive/Spark</div></div>
-</div>
-</div>
-
-
+```text
+[HDFS]
+    │
+    ▼
+[MapReduce]
+    │
+    ▼
+[YARN]
+    │
+    ▼
+[Hive/Spark]
+```
 
 이 흐름도는 선행 개념이 현재 개념으로 응축되고, 다시 확장 개념으로 이어지는 순서를 보여준다.
 

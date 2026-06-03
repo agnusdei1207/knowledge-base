@@ -39,20 +39,18 @@ tags = ["studynote-ict-convergence"]
 
 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/">멀티 클라우드</a> 관리 계층</strong>:
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Management Plane (관리 계층)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FinOps Dashboard</div><div class="kb-diagram-cell">Security CSPM</div><div class="kb-diagram-cell">Policy Engine</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Abstraction Layer (추상화 계층)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Terraform(IaC)</div><div class="kb-diagram-cell">Kubernetes</div><div class="kb-diagram-cell">Service Mesh(Istio)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AWS</div><div class="kb-diagram-cell">Azure</div><div class="kb-diagram-cell">GCP</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EC2/S3/RDS</div><div class="kb-diagram-cell">VM/Blob/CosmDB</div><div class="kb-diagram-cell">GCE/GCS/BigQuery</div></div>
-</div>
-</div>
-
-
+```
+┌────────────────────────────────────────────────────────────┐
+│              Management Plane (관리 계층)                   │
+│  FinOps Dashboard │ Security CSPM │ Policy Engine          │
+├────────────────────────────────────────────────────────────┤
+│  Abstraction Layer (추상화 계층)                            │
+│  Terraform(IaC) │ Kubernetes │ Service Mesh(Istio)         │
+├──────────────┬──────────────────┬──────────────────────────┤
+│    AWS       │      Azure       │         GCP              │
+│  EC2/S3/RDS  │  VM/Blob/CosmDB  │  GCE/GCS/BigQuery        │
+└──────────────┴──────────────────┴──────────────────────────┘
+```
 
 | [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) 유형 | 원인 | 회피 기술 |
 |:---|:---|:---|

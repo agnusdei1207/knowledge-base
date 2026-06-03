@@ -25,20 +25,18 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 왜 장부가 필요한지, 그리고 어떤 종류의 낭비를 줄이는지를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Broadcast vs Directory Message Scope</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Snooping</div><div class="kb-diagram-cell">Directory-based</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core0 write X</div><div class="kb-diagram-cell">Core0 write X</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ broadcast to all cores</div><div class="kb-diagram-cell">─ ask Home Node for sharers</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core1..Core127 all snoop</div><div class="kb-diagram-cell">Home Node -&gt; Core5, Core9 only</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ most messages irrelevant</div><div class="kb-diagram-cell">─ only real holders invalidate</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                Broadcast vs Directory Message Scope                  │
+├───────────────────────────────┬──────────────────────────────────────┤
+│ Snooping                      │ Directory-based                      │
+├───────────────────────────────┼──────────────────────────────────────┤
+│ Core0 write X                 │ Core0 write X                        │
+│   └─ broadcast to all cores   │   └─ ask Home Node for sharers       │
+│ Core1..Core127 all snoop      │ Home Node -> Core5, Core9 only       │
+│   └─ most messages irrelevant │   └─ only real holders invalidate    │
+└───────────────────────────────┴──────────────────────────────────────┘
+```
 
 이 차이는 단순히 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 수 절감 이상의 의미를 가진다. 스누핑은 참여자가 늘수록 모든 코어가 비용을 함께 부담하지만, [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)는 실제 공유 관계가 희소할수록 더 큰 이득을 본다. 따라서 대규모 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 시스템에서 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 기법이 아니라 생존 조건에 가깝다.
 
@@ -61,21 +59,18 @@ tags = ["studynote-computer-architecture"]
 
 다음 그림은 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 업그레이드(write upgrade)에서 홈 노드가 어떤 순서로 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지를 중개하는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Write Permission Flow in Directory</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Requester(Core0) -&gt; Home Node : GetM(X)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Home Node -&gt; Sharer(Core5): Invalidate(X)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Home Node -&gt; Sharer(Core9): Invalidate(X)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sharer(Core5) -&gt; Home Node : Done</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sharer(Core9) -&gt; Home Node : Done</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Home Node -&gt; Core0 : Grant Modified</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                 Write Permission Flow in Directory                   │
+├──────────────────────────────────────────────────────────────────────┤
+│ Requester(Core0) -> Home Node : GetM(X)                             │
+│ Home Node      -> Sharer(Core5): Invalidate(X)                      │
+│ Home Node      -> Sharer(Core9): Invalidate(X)                      │
+│ Sharer(Core5)  -> Home Node : Done                                  │
+│ Sharer(Core9)  -> Home Node : Done                                  │
+│ Home Node      -> Core0      : Grant Modified                       │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조 덕분에 전체 네트워크가 무작정 흔들리지는 않지만, 요청이 홈 노드를 한 번 거쳐야 하므로 홉 수(hop count)가 늘어난다. 또한 코어 수만큼 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 두는 풀 [비트 벡터](/knowledge-base/studynote/02_operating_system/09_file_system/533_bit_vector_bitmap/)(full [bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) vector) 방식은 단순하지만 저장 비용이 크다. 그래서 실제 시스템은 제한 포인터(limited pointer), 거친 벡터(coarse vector), 계층형 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 같은 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 구조를 사용해 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 비용을 줄인다.
 
@@ -153,23 +148,22 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">공유 버스 기반 일관성</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">스누핑 프로토콜 (Snooping Protocol)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">디렉터리 기반 프로토콜 (Directory-based Protocol)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ ccNUMA (cache-coherent Non-Uniform Memory Access)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 제한 포인터 / 계층형 디렉터리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">분산 디렉터리 · many-core · 패킷 기반 인터커넥트</div>
-</div>
-</div>
-
-
+```text
+공유 버스 기반 일관성
+    │
+    ▼
+스누핑 프로토콜 (Snooping Protocol)
+    │
+    ▼
+디렉터리 기반 프로토콜 (Directory-based Protocol)
+    │
+    ├─▶ ccNUMA (cache-coherent Non-Uniform Memory Access)
+    │
+    ├─▶ 제한 포인터 / 계층형 디렉터리
+    │
+    ▼
+분산 디렉터리 · many-core · 패킷 기반 인터커넥트
+```
 
 이 흐름은 "전역 방송"에서 "[메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 기반 지정 전달"로, 다시 "[메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 자체의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)"으로 진화하는 방향을 보여준다.
 

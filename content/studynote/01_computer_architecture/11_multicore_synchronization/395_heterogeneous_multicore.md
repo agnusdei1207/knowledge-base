@@ -43,21 +43,22 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 이기종 멀티코어에서 “무슨 일을 어디에 보낼지”와 “공유 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어디를 지나가는지”를 함께 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Heterogeneous Multi-core: workload-aware execution path</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Light / background work ▶ E-Core cluster</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Latency-sensitive thread ▶ P-Core cluster</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Vector / graphics / AI ▶ GPU / NPU accelerator</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Shared LLC / Interconnect</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cache Coherence / Memory Ctrl</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS Scheduler + HW Hints + DVFS coordination</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│        Heterogeneous Multi-core: workload-aware execution path      │
+├──────────────────────────────────────────────────────────────────────┤
+│ Light / background work  ───────────────▶  E-Core cluster           │
+│ Latency-sensitive thread ───────────────▶  P-Core cluster           │
+│ Vector / graphics / AI   ───────────────▶  GPU / NPU accelerator    │
+│                                                                      │
+│                  ┌────────────────────────────────┐                  │
+│                  │ Shared LLC / Interconnect      │                  │
+│                  │ Cache Coherence / Memory Ctrl  │                  │
+│                  └────────────────────────────────┘                  │
+│                                                                      │
+│          OS Scheduler + HW Hints + DVFS coordination                 │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 핵심은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 코어와 효율 코어가 단순히 “빠른 코어 / 느린 코어”의 관계가 아니라는 점이다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 코어는 짧은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간과 높은 버스트 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)에 유리하고, 효율 코어는 긴 시간 지속되는 경량 작업을 적은 전력으로 처리하는 데 유리하다. 따라서 같은 10ms 작업이라도 사용자 입력을 즉시 처리해야 하는 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 P-Core로, 백그라운드 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 E-Core로 보내는 편이 시스템 전체 품질에 더 낫다.
 
@@ -138,26 +139,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단일 코어 고클럭 경쟁</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">전력 장벽 (Power Wall) · 열 장벽 (Thermal Wall)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">동종 멀티코어 (Homogeneous Multi-core)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">이기종 멀티코어 (Heterogeneous Multi-core)</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ big.LITTLE 아키텍처</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ P-Core / E-Core 하이브리드 CPU</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ GPU · NPU · DSP 오프로딩</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">통합 메모리 · 칩렛 · 도메인 특화 가속기 SoC</div>
-</div>
-</div>
-
-
+```text
+단일 코어 고클럭 경쟁
+        │
+        ▼
+전력 장벽 (Power Wall) · 열 장벽 (Thermal Wall)
+        │
+        ▼
+동종 멀티코어 (Homogeneous Multi-core)
+        │
+        ▼
+이기종 멀티코어 (Heterogeneous Multi-core)
+        │
+        ├──▶ big.LITTLE 아키텍처
+        ├──▶ P-Core / E-Core 하이브리드 CPU
+        ├──▶ GPU · NPU · DSP 오프로딩
+        ▼
+통합 메모리 · 칩렛 · 도메인 특화 가속기 SoC
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

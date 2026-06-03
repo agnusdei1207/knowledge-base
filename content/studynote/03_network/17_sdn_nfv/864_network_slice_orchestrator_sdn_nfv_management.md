@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 슬라이싱(가상 독립망) 하나를 찍어내려면(Instantiation), 기지국(RAN) ➜ 중간 광통신망(Transport) ➜ 코어망 서버(Core) 세 구간의 장비를 모조리 건드려야 합니다.
 - **과거의 절망**: 기지국은 에릭슨 장비, 광통신망은 시스코 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/), 코어망은 삼성 장비를 씁니다. 관리자가 3개 회사의 장비에 일일이 로그인해 기계어(CLI)로 세팅을 치려면 1개의 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/)를 만드는 데 몇 주가 걸리고 에러가 납니다. 클라우드의 의미가 없습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SDN 컨트롤러 스플릿 브레인 방어 및 분산…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 슬라이스 오케스트레이터</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NFV</div></div>
-</div>
-</div>
-
-
+```text
+[SDN 컨트롤러 스플릿 브레인 방어 및 분산…]
+    │
+    ▼
+[네트워크 슬라이스 오케스트레이터]
+    │
+    └──▶ [NFV]
+```
 
 - **📢 섹션 요약 비유**: 네트워크 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/) 오케스트레이터는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -43,18 +39,14 @@ tags = ["studynote-network"]
 
 - **개념**: <strong>"어떤 품질(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/">QoS</a>)과 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>을 가진 <a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/">슬라이스</a>를 만들어라!"라는 비즈니스 주문(<a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/416_prompt_injection_semantic_routing/">Intent</a>)을 받아, 서로 다른 수백 대의 제조사 장비(RAN, 전송, 코어)들을 위에서 하나로 통합 통제하고, 자동화된 소프트웨어 명령으로 1초 만에 종단 간(<a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/265_e2e_end_to_ui_selenium/">E2E</a>) 가상 파이프를 찍어내고 관리하는 '최상위 글로벌 지휘/배포 통제 시스템'</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SDN 컨트롤러 스플릿 브레인 방어 및 분산…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 슬라이스 오케스트레이터</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NFV</div></div>
-</div>
-</div>
-
-
+```text
+[SDN 컨트롤러 스플릿 브레인 방어 및 분산…]
+    │
+    ▼
+[네트워크 슬라이스 오케스트레이터]
+    │
+    └──▶ [NFV]
+```
 
 - **📢 섹션 요약 비유**: 네트워크 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/) 오케스트레이터의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -122,19 +114,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: SDN 컨트롤러 스플릿 브레인 방어 및 분산…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 네트워크 슬라이스 오케스트레이터</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: NFV</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 프로그래머블 네트워크</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: SDN 컨트롤러 스플릿 브레인 방어 및 분산…]
+    │
+    ▼
+[현재 개념: 네트워크 슬라이스 오케스트레이터]
+    │
+    ├──▶ [확장 A: NFV]
+    └──▶ [확장 B: 프로그래머블 네트워크]
+```
 
 네트워크 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/) 오케스트레이터는 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 컨트롤러 [스플릿 브레인](/knowledge-base/studynote/14_data_engineering/04_mlops/190_split_brain_zookeeper_fencing_quorum/) 방어 및 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)…에서 출발해 현재 메커니즘을 정교화하고, 이후 NFV와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

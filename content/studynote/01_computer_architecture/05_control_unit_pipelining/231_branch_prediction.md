@@ -47,25 +47,27 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 분기 예측이 파이프라인 프론트엔드에서 어떻게 개입하는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분기 예측의 기본 흐름: 인출 전에 다음 PC를 먼저 정한다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">현재 PC</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ BTB (Branch Target Buffer) ▶ 타겟 주소 후보</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ BHT (Branch History Table) ▶ Taken / Not Taken 예측</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 순차 주소 (PC + 4)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예측기 선택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Taken 예측 ▶ BTB가 준 타겟 주소로 Fetch</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Not Taken 예측 ▶ 순차 주소로 Fetch</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이후 EX (Execute) 단계에서 실제 분기 결과 확인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예측 성공 ▶ 파이프라인 계속 진행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예측 실패 ▶ Flush + 올바른 PC 재시작 + 학습</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│         분기 예측의 기본 흐름: 인출 전에 다음 PC를 먼저 정한다            │
+├────────────────────────────────────────────────────────────────────────────┤
+│ 현재 PC                                                                    │
+│   │                                                                         │
+│   ├─▶ BTB (Branch Target Buffer) ──────▶ 타겟 주소 후보                    │
+│   │                                                                         │
+│   ├─▶ BHT (Branch History Table) ─────▶ Taken / Not Taken 예측             │
+│   │                                                                         │
+│   └────────────────────────────────────▶ 순차 주소 (PC + 4)                │
+│                                                                             │
+│ 예측기 선택                                                                  │
+│   ├─ Taken 예측     ─────────────────▶ BTB가 준 타겟 주소로 Fetch           │
+│   └─ Not Taken 예측 ─────────────────▶ 순차 주소로 Fetch                    │
+│                                                                             │
+│ 이후 EX (Execute) 단계에서 실제 분기 결과 확인                              │
+│   ├─ 예측 성공  ─────────────────────▶ 파이프라인 계속 진행                 │
+│   └─ 예측 실패  ─────────────────────▶ Flush + 올바른 PC 재시작 + 학습      │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 실무에서 널리 쓰이는 기본 메커니즘은 2비트 포화 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)다. 상태는 강한 Taken, 약한 Taken, 약한 Not Taken, 강한 Not Taken 네 단계로 두고, 결과가 한 번 틀렸다고 즉시 반대편으로 넘어가지 않게 만든다. 그래서 반복문처럼 대부분 Taken이고 마지막 한 번만 Not Taken인 패턴에서 높은 효율을 낸다. 이것이 1비트 예측기보다 2비트 예측기가 오래 살아남은 이유다.
 
@@ -141,25 +143,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">분기 결과 대기</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">정적 분기 예측 (Static Prediction)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">동적 분기 예측 (Dynamic Prediction)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ BHT (Branch History Table) · 2비트 포화 카운터</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ BTB (Branch Target Buffer) · RAS (Return Address Stack)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">하이브리드 예측기 (Hybrid Predictor)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">추측 실행 (Speculative Execution) · 보안 완화 설계</div>
-</div>
-</div>
-
-
+```text
+분기 결과 대기
+    │
+    ▼
+정적 분기 예측 (Static Prediction)
+    │
+    ▼
+동적 분기 예측 (Dynamic Prediction)
+    │
+    ├─▶ BHT (Branch History Table) · 2비트 포화 카운터
+    │
+    ├─▶ BTB (Branch Target Buffer) · RAS (Return Address Stack)
+    │
+    ▼
+하이브리드 예측기 (Hybrid Predictor)
+    │
+    ▼
+추측 실행 (Speculative Execution) · 보안 완화 설계
+```
 
 이 흐름은 분기 처리 기술이 <strong>대기 회피 → 학습 기반 예측 → 프론트엔드 통합 → 보안 고려</strong>로 확장되는 방향을 보여준다.
 

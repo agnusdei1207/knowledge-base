@@ -31,30 +31,34 @@ ZTA는 이 전제를 뒤집는다. 내부냐 외부냐가 아니라, 지금 이 
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-NIST (National Institute of Standards and Technology) [SP](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/) 800-207 기준으로 보면 ZTA의 중심은 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 결정과 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 집행의 분리다. 실제 접근을 허용하거나 차단하는 지점은 PEP이고, 그 결정을 내리는 두뇌는 PDP다. PDP 내부에는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 엔진 PE ([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) Engine)와 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 관리자 PA ([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) Administrator)가 있고, 이들은 [IdP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/) ([Identity Provider](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/)), 기기 상태, 위협 인텔리전스, [데이터 분류](/knowledge-base/studynote/09_security/16_data_privacy/808_data_classification/), [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 이력 같은 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 받아 판단한다.
+NIST (National Institute of Standards and Technology) [SP](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/) 800-207 기준으로 보면 ZTA의 중심은 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 결정과 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 집행의 분리다. 실제 접근을 허용하거나 차단하는 지점은 PEP이고, 그 결정을 내리는 두뇌는 PDP다. PDP 내부에는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 엔진 PE ([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 엔진)와 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 관리자 PA ([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) Administrator)가 있고, 이들은 [IdP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/) ([Identity Provider](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/)), 기기 상태, 위협 인텔리전스, [데이터 분류](/knowledge-base/studynote/09_security/16_data_privacy/808_data_classification/), [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 이력 같은 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 받아 판단한다.
 
 아래 그림은 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)의 의사결정 루프를 요약한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Zero Trust decision loop</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Subject: user + device + workload</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">request</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PEP (Policy Enforcement Point)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ask decision</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PDP (Policy Decision Point)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ PE (Policy Engine): risk / context evaluation</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ PA (Policy Administrator): token / session issue</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">signals</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IdP + MFA</div><div class="kb-diagram-cell">device posture</div><div class="kb-diagram-cell">threat intel</div><div class="kb-diagram-cell">data sensitivity</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">allow / deny / step-up auth / short-lived session</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">resource-specific access + continuous re-evaluation</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Zero Trust decision loop                                            │
+├──────────────────────────────────────────────────────────────────────┤
+│ Subject: user + device + workload                                   │
+│        │ request                                                    │
+│        ▼                                                            │
+│ PEP (Policy Enforcement Point)                                      │
+│        │ ask decision                                               │
+│        ▼                                                            │
+│ PDP (Policy Decision Point)                                         │
+│   ├─ PE (Policy Engine): risk / context evaluation                  │
+│   └─ PA (Policy Administrator): token / session issue               │
+│        ▲                                                            │
+│        │ signals                                                    │
+│ IdP + MFA | device posture | threat intel | data sensitivity        │
+│        │                                                            │
+│        ▼                                                            │
+│ allow / deny / step-up auth / short-lived session                   │
+│        │                                                            │
+│        ▼                                                            │
+│ resource-specific access + continuous re-evaluation                 │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 여기서 중요한 것은 "로그인 한 번으로 끝나지 않는다"는 점이다. [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 중에도 기기 보안 상태가 나빠지거나, 위치가 급변하거나, 이상 행위가 감지되면 접근을 다시 평가할 수 있어야 한다. 그래서 ZTA는 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)([Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/))뿐 아니라 권한 부여([Authorization](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)), 세분화([Micro-Segmentation](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/059_micro_segmentation_east_west_traffic/)), [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 수명 관리, 지속 관찰(Telemetry)을 한 묶음으로 본다.
 
@@ -62,7 +66,7 @@ NIST (National Institute of Standards and Technology) [SP](/knowledge-base/study
 | :--- | :--- | :--- |
 | PEP ([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) Enforcement Point) | 접근 허용·차단을 실제 집행 | [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/), 게이트웨이, 에이전트 등 배치 위치가 중요 |
 | PDP ([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) Decision Point) | 접근 여부를 판단 | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 일관성과 응답 속도 확보 필요 |
-| PE ([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) Engine) | [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 위험 평가 | 정적 규칙 + 동적 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 결합 |
+| PE ([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 엔진) | [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 위험 평가 | 정적 규칙 + 동적 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 결합 |
 | PA ([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) Administrator) | [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)·토큰 생성과 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 적용 | 짧은 수명 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/), 즉시 철회 지원 |
 | Device Posture | 기기 패치·[EDR](/knowledge-base/studynote/09_security/04_endpoint_security/325_edr/) (Endpoint [Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/) and Response) 상태 반영 | 미준수 기기 격리 |
 | [Micro-Segmentation](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/059_micro_segmentation_east_west_traffic/) | 자산 단위 세분화 | 내부 진입 후 측면 이동 최소화 |
@@ -154,25 +158,24 @@ ZTA를 강하게 만드는 핵심 문장은 "최소 권한([Least Privilege](/kn
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">경계 기반 보안</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">원격근무 · SaaS · 클라우드 확산</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">내부망 과신의 한계 노출</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">MFA + Device Posture + Least Privilege</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">PEP / PDP 기반 Zero Trust Architecture</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ZTNA + Micro-Segmentation + Continuous Telemetry</div>
-</div>
-</div>
-
-
+```text
+경계 기반 보안
+    │
+    ▼
+원격근무 · SaaS · 클라우드 확산
+    │
+    ▼
+내부망 과신의 한계 노출
+    │
+    ▼
+MFA + Device Posture + Least Privilege
+    │
+    ▼
+PEP / PDP 기반 Zero Trust Architecture
+    │
+    ▼
+ZTNA + Micro-Segmentation + Continuous Telemetry
+```
 
 이 흐름은 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)가 단순한 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 강화가 아니라, 경계 중심 신뢰 모델을 요청 중심 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 모델로 바꾸는 과정임을 보여 준다.
 

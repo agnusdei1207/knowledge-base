@@ -18,30 +18,29 @@ tags = ["studynote-network"]
 
 ## Ⅰ. AMI와 연속 0 문제
 
+```
+AMI (Alternate Mark Inversion) 코딩:
+  1 → +V 또는 -V (교대 극성)
+  0 → 0V (무전압)
 
+문제점: 연속 0 데이터:
+  입력:  0 0 0 0 0 0 0 0
+  AMI:   0 0 0 0 0 0 0 0 (계속 0V)
+  
+  수신측: 클럭 동기화 실패!
+  이유: 전이(Transition)가 없으면 클럭 복원 불가
+  
+  T1/E1 회선: 클럭이 데이터에서 추출됨
+  → 연속 0 = 동기 신호 없음 = 데이터 손실
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">AMI (Alternate Mark Inversion) 코딩:</div>
-<div class="kb-diagram-note">1 → +V 또는 -V (교대 극성)</div>
-<div class="kb-diagram-note">0 → 0V (무전압)</div>
-<div class="kb-diagram-note">문제점: 연속 0 데이터:</div>
-<div class="kb-diagram-note">입력: 0 0 0 0 0 0 0 0</div>
-<div class="kb-diagram-note">AMI: 0 0 0 0 0 0 0 0 (계속 0V)</div>
-<div class="kb-diagram-note">수신측: 클럭 동기화 실패!</div>
-<div class="kb-diagram-note">이유: 전이(Transition)가 없으면 클럭 복원 불가</div>
-<div class="kb-diagram-note">T1/E1 회선: 클럭이 데이터에서 추출됨</div>
-<div class="kb-diagram-note">→ 연속 0 = 동기 신호 없음 = 데이터 손실</div>
-<div class="kb-diagram-note">최소 1 밀도 요구사항:</div>
-<div class="kb-diagram-note">T1: 15개 0 이상 연속 금지 (기존 규칙)</div>
-<div class="kb-diagram-note">B8ZS 적용 후: 8개 0마다 강제 대체</div>
-<div class="kb-diagram-note">스크램블링(Scrambling)의 역할:</div>
-<div class="kb-diagram-note">의도적으로 AMI 규칙을 위반(Violation)시켜</div>
-<div class="kb-diagram-note">수신측이 "이건 원래 0이 아니라 0 대체 패턴"임을 인지</div>
-</div>
-</div>
+최소 1 밀도 요구사항:
+  T1: 15개 0 이상 연속 금지 (기존 규칙)
+  B8ZS 적용 후: 8개 0마다 강제 대체
 
-
+스크램블링(Scrambling)의 역할:
+  의도적으로 AMI 규칙을 위반(Violation)시켜
+  수신측이 "이건 원래 0이 아니라 0 대체 패턴"임을 인지
+```
 
 > 📢 **섹션 요약 비유**: 연속 0 문제는 모스 부호에서 긴 침묵 — 너무 오래 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 없으면 "통화 종료인지 0인지" 판단 불가. B8ZS는 "나 살아있어요!" [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 주기적으로 삽입.
 
@@ -49,36 +48,38 @@ tags = ["studynote-network"]
 
 ## Ⅱ. B8ZS (Bipolar with 8-Zero Substitution)
 
+```
+B8ZS 규칙:
+  연속 8개 0 → 특수 8비트 패턴으로 대체
+  
+  마지막 1의 극성에 따라:
 
+  마지막 1이 + 극성:
+    000 +V -V 0 -V +V
+    (위치:  4  5      7  8 에서 Violation)
+    
+  마지막 1이 - 극성:
+    000 -V +V 0 +V -V
+    (위치:  4  5      7  8 에서 Violation)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">B8ZS 규칙:</div>
-<div class="kb-diagram-note">연속 8개 0 → 특수 8비트 패턴으로 대체</div>
-<div class="kb-diagram-note">마지막 1의 극성에 따라:</div>
-<div class="kb-diagram-note">마지막 1이 + 극성:</div>
-<div class="kb-diagram-note">000 +V -V 0 -V +V</div>
-<div class="kb-diagram-note">(위치: 4 5 7 8 에서 Violation)</div>
-<div class="kb-diagram-note">마지막 1이 - 극성:</div>
-<div class="kb-diagram-note">000 -V +V 0 +V -V</div>
-<div class="kb-diagram-note">(위치: 4 5 7 8 에서 Violation)</div>
-<div class="kb-diagram-note">위반(Violation) 탐지:</div>
-<div class="kb-diagram-note">V: 이전 1과 같은 극성 (AMI 위반)</div>
-<div class="kb-diagram-note">B: 이전 1과 다른 극성 (정상 AMI)</div>
-<div class="kb-diagram-note">패턴: B-0-0-V-B-0-V-B (8비트)</div>
-<div class="kb-diagram-note">수신측: V 패턴 탐지 → 원래 8개 0으로 복원</div>
-<div class="kb-diagram-note">예시:</div>
-<div class="kb-diagram-note">입력: 1 0 0 0 0 0 0 0 0</div>
-<div class="kb-diagram-note">AMI: +V 0 0 0 0 0 0 0 0 (동기 손실!)</div>
-<div class="kb-diagram-note">B8ZS: +V 0 0 0 +V -V 0 -V +V (V=+V, -V 포함)</div>
-<div class="kb-diagram-note">수신측: 두 번의 Violation(+V→+V) 탐지 → 00000000으로 복원</div>
-<div class="kb-diagram-note">사용처:</div>
-<div class="kb-diagram-note">T1 (북미): 1.544Mbps, DS1 신호</div>
-<div class="kb-diagram-note">ISDN PRI (북미): T1 기반</div>
-</div>
-</div>
+위반(Violation) 탐지:
+  V: 이전 1과 같은 극성 (AMI 위반)
+  B: 이전 1과 다른 극성 (정상 AMI)
+  
+  패턴: B-0-0-V-B-0-V-B (8비트)
+  수신측: V 패턴 탐지 → 원래 8개 0으로 복원
 
+예시:
+  입력:  1  0  0  0  0  0  0  0  0
+  AMI:  +V  0  0  0  0  0  0  0  0   (동기 손실!)
+  B8ZS: +V  0  0  0 +V -V  0 -V +V  (V=+V, -V 포함)
+  
+  수신측: 두 번의 Violation(+V→+V) 탐지 → 00000000으로 복원
 
+사용처:
+  T1 (북미): 1.544Mbps, DS1 신호
+  ISDN PRI (북미): T1 기반
+```
 
 > 📢 **섹션 요약 비유**: B8ZS는 "0 대역에 비밀 서명" — 8개 0 대신 독특한 서명 패턴을 넣고, 받는 쪽은 서명을 보고 "이건 진짜 0 8개"임을 알아챔.
 
@@ -86,38 +87,38 @@ tags = ["studynote-network"]
 
 ## Ⅲ. HDB3 (High-Density Bipolar 3)
 
+```
+HDB3 규칙:
+  연속 4개 0 → 특수 4비트 패턴으로 대체
+  이전 대체 이후 1의 개수에 따라 결정
 
+패턴 선택 규칙:
+  이전 1 개수가 홀수 → 000V (B=0이므로 B 생략)
+  이전 1 개수가 짝수 → B00V (B = Balancing bit)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">HDB3 규칙:</div>
-<div class="kb-diagram-note">연속 4개 0 → 특수 4비트 패턴으로 대체</div>
-<div class="kb-diagram-note">이전 대체 이후 1의 개수에 따라 결정</div>
-<div class="kb-diagram-note">패턴 선택 규칙:</div>
-<div class="kb-diagram-note">이전 1 개수가 홀수 → 000V (B=0이므로 B 생략)</div>
-<div class="kb-diagram-note">이전 1 개수가 짝수 → B00V (B = Balancing bit)</div>
-<div class="kb-diagram-note">목적:</div>
-<div class="kb-diagram-note">AMI 기본 규칙: 누적 극성 합 = 0 유지 (DC 균형)</div>
-<div class="kb-diagram-note">V만 있으면 DC 오프셋 발생 가능</div>
-<div class="kb-diagram-note">B(Balancing bit)로 DC 균형 유지</div>
-<div class="kb-diagram-note">예시 (이전 1 개수 짝수):</div>
-<div class="kb-diagram-note">입력: 0 0 0 0</div>
-<div class="kb-diagram-note">HDB3: +V 0 0 -V (직전 1이 +면 B=+V, V=-V)</div>
-<div class="kb-diagram-note">수신측: -V 다음 +V = Violation → 0000으로 복원</div>
-<div class="kb-diagram-note">예시 (이전 1 개수 홀수):</div>
-<div class="kb-diagram-note">입력: 0 0 0 0</div>
-<div class="kb-diagram-note">HDB3: 0 0 0 +V (직전 1이 +면 V=+V)</div>
-<div class="kb-diagram-note">수신측 복원:</div>
-<div class="kb-diagram-note">Violation(V) 탐지 → 해당 위치 포함 4개를 0000으로 교체</div>
-<div class="kb-diagram-note">B bit도 제거</div>
-<div class="kb-diagram-note">사용처:</div>
-<div class="kb-diagram-note">E1 (유럽): 2.048Mbps</div>
-<div class="kb-diagram-note">ISDN PRI (유럽): E1 기반</div>
-<div class="kb-diagram-note">G.703 표준 (ITU-T)</div>
-</div>
-</div>
+목적:
+  AMI 기본 규칙: 누적 극성 합 = 0 유지 (DC 균형)
+  V만 있으면 DC 오프셋 발생 가능
+  B(Balancing bit)로 DC 균형 유지
 
+예시 (이전 1 개수 짝수):
+  입력:  0  0  0  0
+  HDB3: +V  0  0  -V   (직전 1이 +면 B=+V, V=-V)
+  수신측: -V 다음 +V = Violation → 0000으로 복원
 
+예시 (이전 1 개수 홀수):
+  입력:  0  0  0  0
+  HDB3:  0  0  0  +V   (직전 1이 +면 V=+V)
+
+수신측 복원:
+  Violation(V) 탐지 → 해당 위치 포함 4개를 0000으로 교체
+  B bit도 제거
+
+사용처:
+  E1 (유럽): 2.048Mbps
+  ISDN PRI (유럽): E1 기반
+  G.703 표준 (ITU-T)
+```
 
 > 📢 **섹션 요약 비유**: HDB3은 4개 0에 규칙적 경보 태그 부착 — 짝수/홀수 상황에 따라 다른 태그를 달아 수신측이 원래 0으로 복원.
 
@@ -125,32 +126,30 @@ tags = ["studynote-network"]
 
 ## Ⅳ. B8ZS vs HDB3 비교
 
+```
+비교표:
 
+항목              | B8ZS                  | HDB3
+------------------+-----------------------+---------------------
+적용 표준         | T1 (북미, 1.544Mbps)  | E1 (유럽, 2.048Mbps)
+대체 단위         | 8개 0                 | 4개 0
+패턴              | 000+-0-+ 또는 000-+0+- | 000V 또는 B00V
+Violation 수      | 2개                   | 1개
+DC 균형           | V 2개로 자동 균형     | B bit로 균형 유지
+표준              | ANSI T1.403           | ITU-T G.703
+복잡도            | 단순                  | 약간 복잡 (짝홀 판단)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">비교표:</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">항목</div><div class="kb-diagram-cell">B8ZS</div><div class="kb-diagram-cell">HDB3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">적용 표준</div><div class="kb-diagram-cell">T1 (북미, 1.544Mbps)</div><div class="kb-diagram-cell">E1 (유럽, 2.048Mbps)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대체 단위</div><div class="kb-diagram-cell">8개 0</div><div class="kb-diagram-cell">4개 0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">패턴</div><div class="kb-diagram-cell">000+-0-+ 또는 000-+0+-</div><div class="kb-diagram-cell">000V 또는 B00V</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Violation 수</div><div class="kb-diagram-cell">2개</div><div class="kb-diagram-cell">1개</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DC 균형</div><div class="kb-diagram-cell">V 2개로 자동 균형</div><div class="kb-diagram-cell">B bit로 균형 유지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">표준</div><div class="kb-diagram-cell">ANSI T1.403</div><div class="kb-diagram-cell">ITU-T G.703</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">복잡도</div><div class="kb-diagram-cell">단순</div><div class="kb-diagram-cell">약간 복잡 (짝홀 판단)</div></div>
-<div class="kb-diagram-note">공통점:</div>
-<div class="kb-diagram-note">AMI 기반 (교대 극성)</div>
-<div class="kb-diagram-note">수신측 역변환(Descrambling) 가능</div>
-<div class="kb-diagram-note">DC 성분 제거 (변압기 결합 가능)</div>
-<div class="kb-diagram-note">클럭 복원 가능</div>
-<div class="kb-diagram-note">한계:</div>
-<div class="kb-diagram-note">두 방식 모두 '0' 입력에만 대응</div>
-<div class="kb-diagram-note">랜덤 데이터: 충분히 빈번한 1이 보장되면 불필요</div>
-<div class="kb-diagram-note">더 현대적인 해결책: 스크램블러 (PRBS 기반)</div>
-</div>
-</div>
+공통점:
+  AMI 기반 (교대 극성)
+  수신측 역변환(Descrambling) 가능
+  DC 성분 제거 (변압기 결합 가능)
+  클럭 복원 가능
 
-
+한계:
+  두 방식 모두 '0' 입력에만 대응
+  랜덤 데이터: 충분히 빈번한 1이 보장되면 불필요
+  더 현대적인 해결책: 스크램블러 (PRBS 기반)
+```
 
 > 📢 **섹션 요약 비유**: B8ZS vs HDB3은 미국식 vs 유럽식 철자 — 같은 문제를 각자 표준대로 해결, 둘 다 맞지만 혼용 불가.
 
@@ -223,33 +222,32 @@ B8ZS / HDB3 스크램블링
 
 ## 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">전신/전화 회선 (1870s~)</div></div>
-<div class="kb-diagram-note">극성 전신, 전압 기반 신호 전송</div>
-<div class="kb-diagram-note">v</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">PCM 디지털 전화 (1960s)</div></div>
-<div class="kb-diagram-note">AMI 코딩 도입, T1 개발 (Bell Labs)</div>
-<div class="kb-diagram-note">v</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">B8ZS 표준화 (1983)</div></div>
-<div class="kb-diagram-note">T1/D4 → ESF+B8ZS 업그레이드</div>
-<div class="kb-diagram-note">ANSI T1.403</div>
-<div class="kb-diagram-note">v</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">E1/HDB3 (1980s, ITU-T G.703)</div></div>
-<div class="kb-diagram-note">유럽 디지털 전화망 표준</div>
-<div class="kb-diagram-note">v</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ISDN/PRI (1990s)</div></div>
-<div class="kb-diagram-note">T1/E1 기반 디지털 음성+데이터</div>
-<div class="kb-diagram-note">v</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: IP화 진행</div></div>
-<div class="kb-diagram-note">TDM(T1/E1) → IP 대체 (SIP, VoIP)</div>
-<div class="kb-diagram-note">레거시 T1/E1: 금융권/공공기관 잔존</div>
-</div>
-</div>
-
-
+```
+[전신/전화 회선 (1870s~)]
+극성 전신, 전압 기반 신호 전송
+      |
+      v
+[PCM 디지털 전화 (1960s)]
+AMI 코딩 도입, T1 개발 (Bell Labs)
+      |
+      v
+[B8ZS 표준화 (1983)]
+T1/D4 → ESF+B8ZS 업그레이드
+ANSI T1.403
+      |
+      v
+[E1/HDB3 (1980s, ITU-T G.703)]
+유럽 디지털 전화망 표준
+      |
+      v
+[ISDN/PRI (1990s)]
+T1/E1 기반 디지털 음성+데이터
+      |
+      v
+[현재: IP화 진행]
+TDM(T1/E1) → IP 대체 (SIP, VoIP)
+레거시 T1/E1: 금융권/공공기관 잔존
+```
 
 ---
 

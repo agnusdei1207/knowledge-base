@@ -41,20 +41,24 @@ IT 감리는 보통 계획 수립, 기준 대비 점검, 결과 보고, 시정 �
 
 아래 다이어그램은 감리가 한 번의 검사보다 반복적 통제 루프에 가깝다는 점을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IT Audit closed-loop</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Plan criteria -&gt; scope / risk / artifacts</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Review evidence -&gt; requirements / design / code / operations</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Report findings -&gt; mandatory / recommended</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Correct actions -&gt; owner / due date / proof</div></div>
-<div class="kb-diagram-note">re-check and close</div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ IT Audit closed-loop                                              │
+├────────────────────────────────────────────────────────────────────┤
+│ Plan criteria  -> scope / risk / artifacts                        │
+│       │                                                            │
+│       ▼                                                            │
+│ Review evidence -> requirements / design / code / operations      │
+│       │                                                            │
+│       ▼                                                            │
+│ Report findings -> mandatory / recommended                        │
+│       │                                                            │
+│       ▼                                                            │
+│ Correct actions -> owner / due date / proof                       │
+│       │                                                            │
+│       └───────────── re-check and close ──────────────────────────┘
+└────────────────────────────────────────────────────────────────────┘
+```
 
 감리의 실제 힘은 마지막 단계에 있다. 문제를 적어 두는 것만으로는 품질이 올라가지 않으며, 시정 조치 여부를 다시 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 통제가 된다. 그래서 감리는 보고서 행사보다 훨씬 운영적인 활동이다.
 
@@ -124,23 +128,21 @@ IT 감리는 QA (Quality Assurance), 내부 통제, 컴플라이언스 점검과
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Project Governance Need</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Independent Review</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Effectiveness · Efficiency · Security</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Corrective Action and Re-check</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Risk-controlled Operations</div>
-</div>
-</div>
-
-
+```text
+Project Governance Need
+    │
+    ▼
+Independent Review
+    │
+    ▼
+Effectiveness · Efficiency · Security
+    │
+    ▼
+Corrective Action and Re-check
+    │
+    ▼
+Risk-controlled Operations
+```
 
 이 흐름은 감리가 요구사항 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)에서 출발해 운영 안정성과 위험 통제로 이어지는 관리 체계임을 요약한다.
 

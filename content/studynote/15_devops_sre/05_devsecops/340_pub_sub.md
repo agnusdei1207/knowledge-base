@@ -29,28 +29,30 @@ LinkedIn이 2011년 내부 [데이터 파이프라인](/knowledge-base/studynote
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kafka 토픽 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Topic: "order-events"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">| Partition 0:</div><div class="kb-diagram-node">Offset 0</div><div class="kb-diagram-node">Offset 1</div><div class="kb-diagram-node">Offset 2</div><div class="kb-diagram-note">... |</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">| Partition 1:</div><div class="kb-diagram-node">Offset 0</div><div class="kb-diagram-node">Offset 1</div><div class="kb-diagram-node">Offset 2</div><div class="kb-diagram-note">... |</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">| Partition 2:</div><div class="kb-diagram-node">Offset 0</div><div class="kb-diagram-node">Offset 1</div><div class="kb-diagram-node">Offset 2</div><div class="kb-diagram-note">... |</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Consumer Group A:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Consumer 1 -&gt; Partition 0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Consumer 2 -&gt; Partition 1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Consumer 3 -&gt; Partition 2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(각 Consumer가 독립적 Offset 추적)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ISR (In-Sync Replica):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Leader: Broker 1 &lt;- Producer 기록</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Follower: Broker 2, 3 (Leader 복제)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ISR = {Broker 1, 2, 3} -&gt; min.insync.replicas=2 -&gt; 기록 OK</div></div>
-</div>
-</div>
-
-
+```text
++----------------------------------------------------------------+
+|                    Kafka 토픽 구조                              |
++----------------------------------------------------------------+
+|                                                                |
+|  Topic: "order-events"                                         |
+|  +-----------------------------------------------------------+ |
+|  |  Partition 0: [Offset 0][Offset 1][Offset 2]...           | |
+|  |  Partition 1: [Offset 0][Offset 1][Offset 2]...           | |
+|  |  Partition 2: [Offset 0][Offset 1][Offset 2]...           | |
+|  +-----------------------------------------------------------+ |
+|                                                                |
+|  Consumer Group A:                                             |
+|  Consumer 1 -> Partition 0                                     |
+|  Consumer 2 -> Partition 1                                     |
+|  Consumer 3 -> Partition 2                                     |
+|  (각 Consumer가 독립적 Offset 추적)                             |
+|                                                                |
+|  ISR (In-Sync Replica):                                        |
+|  Leader: Broker 1 <- Producer 기록                             |
+|  Follower: Broker 2, 3 (Leader 복제)                           |
+|  ISR = {Broker 1, 2, 3} -> min.insync.replicas=2 -> 기록 OK   |
++----------------------------------------------------------------+
+```
 
 | 개념 | 설명 |
 |:---|:---|
@@ -122,19 +124,14 @@ LinkedIn이 2011년 내부 [데이터 파이프라인](/knowledge-base/studynote
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">전통 메시지 큐 Kafka 등장 현대 이벤트 스트리밍</div>
-<div class="kb-diagram-note">RabbitMQ/ActiveMQ -&gt; LinkedIn Kafka 오픈소스 -&gt; Kafka Streams API</div>
-<div class="kb-diagram-note">소비 후 삭제 Topic-Partition-Offset Schema Registry</div>
-<div class="kb-diagram-note">단순 작업 큐 ISR 내구성 보장 Kafka Connect</div>
-<div class="kb-diagram-note">Consumer Group 병렬화 서버리스 Kafka (Confluent)</div>
-</div>
-</div>
-
-
+```text
+전통 메시지 큐            Kafka 등장                   현대 이벤트 스트리밍
+------------------   --------------------------   ------------------------
+RabbitMQ/ActiveMQ  ->  LinkedIn Kafka 오픈소스    ->  Kafka Streams API
+소비 후 삭제             Topic-Partition-Offset        Schema Registry
+단순 작업 큐              ISR 내구성 보장               Kafka Connect
+                          Consumer Group 병렬화          서버리스 Kafka (Confluent)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -23,24 +23,23 @@ tags = ["studynote-design-supervision"]
 
 조건 분기로 구현하면: `if (level == "basic") { ... } else if (level == "tech") { ... }` — 새 레벨 추가 시 기존 코드를 수정해야 한다. [책임 연쇄 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/395_process/)은 각 핸들러가 독립적으로 처리 여부를 결정하고 다음 핸들러로 위임한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">책임 연쇄 패턴 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client → Handler (인터페이스)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- next: Handler</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ setNext(h: Handler): Handler</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ handle(request): void</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Handler A → Handler B → Handler C → null</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(처리 or 다음으로) (처리 or 다음으로)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">request → A가 처리? Yes→결과, No→B로 전달</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ B가 처리? Yes→결과, No→C로 전달</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ C가 처리? Yes→결과, No→처리 안 됨</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          책임 연쇄 패턴 구조                                  │
+├─────────────────────────────────────────────────────────────┤
+│  Client → Handler (인터페이스)                              │
+│           - next: Handler                                   │
+│           + setNext(h: Handler): Handler                    │
+│           + handle(request): void                           │
+│                ▲                                            │
+│  Handler A → Handler B → Handler C → null                   │
+│  (처리 or 다음으로)       (처리 or 다음으로)                 │
+│                                                             │
+│  request → A가 처리? Yes→결과, No→B로 전달                  │
+│              → B가 처리? Yes→결과, No→C로 전달              │
+│                → C가 처리? Yes→결과, No→처리 안 됨          │
+└─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 민원(요청)이 동사무소 창구(Handler A) → 구청(Handler B) → 시청(Handler C)을 거쳐 처리된다. 민원인은 누가 처리할지 알 필요 없다.
 
@@ -56,21 +55,20 @@ tags = ["studynote-design-supervision"]
 | 파이프라인 | 모든 핸들러를 통과, 각각 처리 | 서블릿 필터 체인 |
 | 분기 체인 | 조건에 따라 다른 체인으로 분기 | 복잡한 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서블릿 필터 체인 동작</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Request → AuthFilter → LogFilter → CorsFilter → Servlet</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AuthFilter.doFilter(req, res, chain) {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">if (!authenticated) { res.sendError(401); return; }</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">chain.doFilter(req, res); // 다음 필터로 전달</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Response ← AuthFilter ← LogFilter ← CorsFilter ← Servlet</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│       서블릿 필터 체인 동작                                   │
+├─────────────────────────────────────────────────────────────┤
+│  Request → AuthFilter → LogFilter → CorsFilter → Servlet    │
+│                                                             │
+│  AuthFilter.doFilter(req, res, chain) {                     │
+│    if (!authenticated) { res.sendError(401); return; }      │
+│    chain.doFilter(req, res);  // 다음 필터로 전달            │
+│  }                                                          │
+│                                                             │
+│  Response ← AuthFilter ← LogFilter ← CorsFilter ← Servlet  │
+└─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 공항 보안 검색([Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/) Filter) → 신분증 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)([Authorization](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) Filter) → 짐 검사(CORS Filter)를 모두 통과해야 탑승(Servlet)할 수 있다.
 

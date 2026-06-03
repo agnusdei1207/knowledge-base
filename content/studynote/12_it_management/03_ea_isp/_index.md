@@ -23,20 +23,23 @@ EA 및 ISP가 필요한 이유는 세 가지이다. 첫째, <strong>전략과 �
 
 이 그림은 EA의 4대 구성 요소인 <strong>BA-DA-AA-TA</strong>의 계층 구조를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Enterprise Architecture Layers</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Business Arch (BA)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">업무 프로세스, 조직, 전략</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Data Arch (DA)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">데이터 모델, 표준화, 공유</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">App Arch (AA)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">소프트웨어 컴포넌트, 서비스</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Tech Arch (TA)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">HW, 네트워크, 클라우드, 보안</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 상위 계층의 결정이 하위 계층의 요구사항을 정의함</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Enterprise Architecture Layers              │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Business Arch (BA) ] ──▶ 업무 프로세스, 조직, 전략      │
+│          │                                                  │
+│   [ Data Arch (DA) ]     ──▶ 데이터 모델, 표준화, 공유      │
+│          │                                                  │
+│   [ App Arch (AA) ]      ──▶ 소프트웨어 컴포넌트, 서비스    │
+│          │                                                  │
+│   [ Tech Arch (TA) ]     ──▶ HW, 네트워크, 클라우드, 보안   │
+│                                                             │
+│   * 핵심: 상위 계층의 결정이 하위 계층의 요구사항을 정의함  │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '계층적 정렬'이다. 비즈니스 프로세스 (BA)가 바뀌면 그에 필요한 데이터 (DA)와 기능 (AA), 그리고 이를 뒷받침할 인프라 (TA)가 연쇄적으로 변해야 한다. 실무에서는 이러한 변화를 관리하기 위해 <strong>EAMS (EA 관리 시스템)</strong>를 통해 상시 업데이트 체계를 구축한다.
 
@@ -72,20 +75,22 @@ EA를 체계적으로 기술하기 위한 표준 도구들이다.
 
 이 구조도는 ISP를 통해 도출된 <strong>'To-Be 로드맵'</strong>의 예시를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Digital Transformation Roadmap</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Year 1: Foundation</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">데이터 표준화, 클라우드 이전</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Year 2: Innovation</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">전사 ERP 통합, 빅데이터 플랫폼</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Year 3: Intelligence</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">AI 기반 지능형 의사결정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 실무 가이드: 과제 선정 시 '전략적 중요도'와 '실행 용이성'</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">매트릭스를 통해 우선순위 (Priority) 결정</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Digital Transformation Roadmap              │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Year 1: Foundation ] ──▶ 데이터 표준화, 클라우드 이전   │
+│          │                                                  │
+│   [ Year 2: Innovation ] ──▶ 전사 ERP 통합, 빅데이터 플랫폼 │
+│          │                                                  │
+│   [ Year 3: Intelligence ] ──▶ AI 기반 지능형 의사결정      │
+│                                                             │
+│   * 실무 가이드: 과제 선정 시 '전략적 중요도'와 '실행 용이성'│
+│     매트릭스를 통해 우선순위 (Priority) 결정                │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '단계적 실행'이다. 모든 것을 한꺼번에 바꿀 수는 없다. 기술사는 인프라의 체력을 먼저 다지고 그 위에 혁신을 얹는 현실적인 실행 경로를 설계해야 한다.
 
@@ -128,22 +133,24 @@ EA를 체계적으로 기술하기 위한 표준 도구들이다.
 
 이 도식은 기술사가 EA를 활용하여 <strong>'Impact Analysis (영향도 분석)'</strong>를 수행하는 과정을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EA Impact Analysis Traceability</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Change: New Tax Law</div><div class="kb-diagram-note">(비즈니스 규칙 변경)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (BA Map)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Process: Accounting Calculation</div><div class="kb-diagram-note">(영향 받는 업무)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (DA/AA Map)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Data: Tax_Rate</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Module: Billing_Engine</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 기술사 제언: 아키텍처 맵이 살아있어야 변경 시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">어디를 고쳐야 할지 1초 만에 알 수 있음 (Agility)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│               EA Impact Analysis Traceability               │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Change: New Tax Law ] (비즈니스 규칙 변경)              │
+│          │                                                  │
+│          ▼ (BA Map)                                         │
+│   [ Process: Accounting Calculation ] (영향 받는 업무)      │
+│          │                                                  │
+│          ▼ (DA/AA Map)                                      │
+│   [ Data: Tax_Rate ] ──▶ [ Module: Billing_Engine ]         │
+│                                                             │
+│   * 기술사 제언: 아키텍처 맵이 살아있어야 변경 시           │
+│     어디를 고쳐야 할지 1초 만에 알 수 있음 (Agility)        │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 기술사의 EA 판단은 '오케스트라 지휘자의 악보 분석'과 같습니다. 악보(EA)를 보고 연주자(부서별 시스템)들이 불협화음(중복/충돌)을 내지 않게 조율하고, 곡의 분위기(비즈니스 목표)에 맞춰 전체 소리를 조절하는 전문가입니다.
 

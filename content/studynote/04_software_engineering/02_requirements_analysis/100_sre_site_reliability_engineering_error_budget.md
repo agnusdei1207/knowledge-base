@@ -1,5 +1,5 @@
 +++
-title = "100. SRE (Site Reliability Engineering) - 구글의 운영 방식, 에러 예산"
+title = "100. SRE (Site Reliability 엔진ering) - 구글의 운영 방식, 에러 예산"
 
 [taxonomies]
 tags = ["software_engineering"]
@@ -10,7 +10,7 @@ tags = ["software_engineering"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: SRE (Site [Reliability](/knowledge-base/studynote/04_software_engineering/06_software_architecture/345_reliability_security/) Engineering)는 구글이 고안한 운영 철학으로, 시스템 운영(Ops) 업무를 매뉴얼 작업이 아닌 소프트웨어 엔지니어링 코드(자동화) 기반으로 해결하는 접근법이다.
+> 1. **본질**: SRE (Site [Reliability](/knowledge-base/studynote/04_software_engineering/06_software_architecture/345_reliability_security/) 엔진ering)는 구글이 고안한 운영 철학으로, 시스템 운영(Ops) 업무를 매뉴얼 작업이 아닌 소프트웨어 엔지니어링 코드(자동화) 기반으로 해결하는 접근법이다.
 > 2. **가치**: 완벽한 100% 무결점 시스템은 환상에 불과하다는 점을 인정하고, [에러 예산](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) ([Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/))이라는 합법적 장애 허용 시간을 부여하여 '안정성'과 '빠른 배포(혁신)' 사이의 균형을 수학적으로 조율한다.
 > 3. **판단 포인트**: [에러 예산](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)이 소진되면 즉시 신기능 배포를 중단(코드 프리즈)하고 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 작업에 올인해야 한다는 강력한 강제 조항이 없다면, SRE는 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) ([DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/))의 허울 좋은 이름 바꾸기에 불과하게 된다.
 
@@ -38,21 +38,23 @@ SRE의 아키텍처적 근간은 완벽함을 포기하고, 측정 가능한 [�
 
 SRE 팀은 SLO를 99.9%로 합의함으로써, 한 달 중 약 <strong>43분의 합법적 장애 시간</strong>을 얻어낸다. 이 43분이 바로 개발과 운영의 저울추 역할을 하는 혁명의 도구, <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/">에러 예산</a> (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/">Error Budget</a>)</strong>이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">에러 예산 (Error Budget)을 통한 배포 의사결정 프로세스</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">이달의 총 에러 예산: 43분 (목표 SLO 99.9% 기준)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발팀: "새로운 기능을 배포하고 싶습니다!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">현재까지 깎아먹은 장애 시간이 43분을 초과했는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">아니오 (잔여 예산 20분)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">"배포 승인!" (속도 혁신 지속)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">예 (예산 전액 소진)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">"배포 강제 올스톱! (코드 프리즈)"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">신뢰성 버그 수정에 전력투구!</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           에러 예산 (Error Budget)을 통한 배포 의사결정 프로세스    │
+├──────────────────────────────────────────────────────────────┤
+│ [ 이달의 총 에러 예산: 43분 (목표 SLO 99.9% 기준) ]             │
+│                                                              │
+│ 개발팀: "새로운 기능을 배포하고 싶습니다!"                     │
+│   │                                                          │
+│   ▼                                                          │
+│ 현재까지 깎아먹은 장애 시간이 43분을 초과했는가?                 │
+│                                                              │
+│ ├─▶ [아니오 (잔여 예산 20분)] ──▶ "배포 승인!" (속도 혁신 지속) │
+│ │                                                          │
+│ └─▶ [예 (예산 전액 소진)] ──────▶ "배포 강제 올스톱! (코드 프리즈)"│
+│                                  신뢰성 버그 수정에 전력투구! │
+└──────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [에러 예산](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)은 부모님이 아이에게 준 '한 달 지각 허용 쿠폰(43분)'과 같다. 쿠폰이 남아있을 때는 아이(개발팀)가 아침에 늦잠을 자며 아슬아슬하게 뛰어가는 모험(배포)을 할 수 있지만, 쿠폰을 다 쓰는 순간 무조건 일찍 일어나 모범생(시스템 안정성 올인) 모드로 전환해야 하는 철저한 타협 시스템이다.
 
@@ -62,7 +64,7 @@ SRE 팀은 SLO를 99.9%로 합의함으로써, 한 달 중 약 <strong>43분의 
 
 SRE는 IT 운영 방법론의 패러다임을 바꾼 기점이다. 전통적 IT 운영과 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/), 그리고 SRE를 비교하면 명확한 경계가 드러난다.
 
-| 비교 기준 | 전통적 IT 운영 ([ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/)) | [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) ([DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)) | SRE (Site [Reliability](/knowledge-base/studynote/04_software_engineering/06_software_architecture/345_reliability_security/) Engineering) |
+| 비교 기준 | 전통적 IT 운영 ([ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/)) | [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) ([DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)) | SRE (Site [Reliability](/knowledge-base/studynote/04_software_engineering/06_software_architecture/345_reliability_security/) 엔진ering) |
 | :--- | :--- | :--- | :--- |
 | **주요 철학** | 장애는 무조건 막아야 한다 | 개발과 운영은 협력해야 한다 | 장애는 발생하며, 코드로 관리해야 한다 |
 | **배포의 기준** | 길고 복잡한 승인 위원회 ([CAB](/knowledge-base/studynote/12_it_management/02_itsm_itil/080_cab/)) | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인 지속 배포 | [에러 예산](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) ([Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)) 잔여량 기준 |
@@ -105,23 +107,21 @@ SRE와 [에러 예산](/knowledge-base/studynote/04_software_engineering/02_requ
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">전통적 ITIL / 시스템 관리자 (SysAdmin) · 매뉴얼 작업, 수동 복구</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">데브옵스 (DevOps) · 개발과 운영의 문화적 융합 및 CI/CD 확산</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SRE (Site Reliability Engineering) · 운영을 소프트웨어 엔지니어링으로 코딩화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SLI / SLO / SLA 도입 · 100% 완벽 포기 및 타협점 설정</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">에러 예산 (Error Budget) · 데이터 기반의 배포 스로틀링(Throttling) 및 신뢰성 통제</div>
-</div>
-</div>
-
-
+```text
+전통적 ITIL / 시스템 관리자 (SysAdmin) · 매뉴얼 작업, 수동 복구
+    │
+    ▼
+데브옵스 (DevOps) · 개발과 운영의 문화적 융합 및 CI/CD 확산
+    │
+    ▼
+SRE (Site Reliability Engineering) · 운영을 소프트웨어 엔지니어링으로 코딩화
+    │
+    ▼
+SLI / SLO / SLA 도입 · 100% 완벽 포기 및 타협점 설정
+    │
+    ▼
+에러 예산 (Error Budget) · 데이터 기반의 배포 스로틀링(Throttling) 및 신뢰성 통제
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

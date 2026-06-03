@@ -57,18 +57,12 @@ DoD (전체 공통): 코드 리뷰 완료, 단위 테스트 80%+, CI 통과, 배
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">비공식 완료 기준 (~2005)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">DoD 표준화 (Scrum Guide, 2010)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">AC + DoD 분리 (2015~)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">BDD로 AC 자동화 (2018~)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: AI AC 생성 — 요구사항→AC 자동 변환</div></div>
-</div>
-</div>
-
-
+```text
+[비공식 완료 기준 (~2005)] → [DoD 표준화 (Scrum Guide, 2010)]
+    → [AC + DoD 분리 (2015~)]
+    → [BDD로 AC 자동화 (2018~)]
+    → [현재: AI AC 생성 — 요구사항→AC 자동 변환]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. AC는 <strong>요리 레시피(맛 조건)</strong>예요. "이 케이크는 딸기맛이어야 해!"
@@ -82,6 +76,6 @@ DoD (전체 공통): 코드 리뷰 완료, 단위 테스트 80%+, CI 통과, 배
 **진행 상황**: 130 / 973
 
 ← **이전**: [129. Spike (스파이크) - Agile 기술 불확실성 해소 탐구](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/)
-**다음**: [131. 요구사항 공학 (Requirements Engineering) - 체계적 요구 수집·분석·관리](/knowledge-base/studynote/04_software_engineering/03_design_architecture/131_requirements_engineering/) →
+**다음**: [131. 요구사항 공학 (Requirements 엔진ering) - 체계적 요구 수집·분석·관리](/knowledge-base/studynote/04_software_engineering/03_design_architecture/131_requirements_engineering/) →
 
 ---

@@ -33,30 +33,31 @@ tags = ["studynote-operating-system"]
 - **등장 배경**: 
   - 1980년대 초 BSD UNIX 및 Mach 운영체제에서 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)([Virtual Memory](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)) 기술이 성숙하면서, [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 단위의 권한 제어 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)([Trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/))을 활용하여 COW가 최초로 도입되었고 현대 OS [프로세스 생성](/knowledge-base/studynote/02_operating_system/02_process_thread/104_process_creation/)의 표준이 되었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전통적 fork() vs COW 기반 fork()의 메모리 상태 차이</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전통적 fork() - 복사 폭탄</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부모 프로세스 가상 메모리 물리 메모리 (RAM)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Page A</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">물리 Page A</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Page B</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">물리 Page B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자식 프로세스 (방금 생성됨)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Page A'</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">물리 Page A'</div><div class="kb-diagram-note">(CPU가 100% 복사)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Page B'</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">물리 Page B'</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">COW 기반 fork() - 게으른 공유</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부모 가상 메모리 물리 메모리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Page A</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">물리 Page A</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Page B</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">물리 Page B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자식 프로세스</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Page A'</div><div class="kb-diagram-note">(Read-Only) ── │</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Page B'</div><div class="kb-diagram-note">(Read-Only)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ fork() 순간: 복사 0건! 페이지 테이블 포인터만 연결하고 R/O로 잠금.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │                 전통적 fork() vs COW 기반 fork()의 메모리 상태 차이   │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │  [ 전통적 fork() - 복사 폭탄 ]                                 │
+  │   부모 프로세스 가상 메모리              물리 메모리 (RAM)        │
+  │   [ Page A ] ───────────────▶ [ 물리 Page A ]            │
+  │   [ Page B ] ───────────────▶ [ 물리 Page B ]            │
+  │                                                            │
+  │   자식 프로세스 (방금 생성됨)                                   │
+  │   [ Page A' ] ──────────────▶ [ 물리 Page A' ] (CPU가 100% 복사) │
+  │   [ Page B' ] ──────────────▶ [ 물리 Page B' ]            │
+  │                                                             │
+  │  [ COW 기반 fork() - 게으른 공유 ]                             │
+  │   부모 가상 메모리                       물리 메모리              │
+  │   [ Page A ] (Read-Only) ──┐    ┌─▶ [ 물리 Page A ]       │
+  │   [ Page B ] (Read-Only) ──│────│─▶ [ 물리 Page B ]       │
+  │                            │    │                        │
+  │   자식 프로세스                │    │                        │
+  │   [ Page A'] (Read-Only) ──┘    │                        │
+  │   [ Page B'] (Read-Only) ───────┘                        │
+  │   ※ fork() 순간: 복사 0건! 페이지 테이블 포인터만 연결하고 R/O로 잠금. │
+  └─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 전통적 `fork()`는 [프로세스 생성](/knowledge-base/studynote/02_operating_system/02_process_thread/104_process_creation/) 시점에 부모가 쓰던 모든 메모리 공간을 자식의 공간으로 물리적으로 복사해 내는 무거운 작업이었다. 반면 [COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) 환경에서 `fork()`가 호출되면 OS는 새로운 물리 메모리를 할당하지 않는다. 대신 자식의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블이 부모의 물리 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 똑같이 가리키도록 포인터만 복사한다. 가장 중요한 핵심은, 공유된 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)들의 권한을 부모와 자식 양쪽 모두 `Read-Only(읽기 전용)`로 강등([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))시켜 버린다는 점이다. 이는 누군가 감히 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 고치려 할 때 하드웨어 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)([Trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/))을 유발하기 위한 치밀한 함정이다.
 
@@ -70,30 +71,33 @@ tags = ["studynote-operating-system"]
 
 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 체계에서 "읽기 전용"으로 잠긴 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 "쓰려고" 하면 CPU의 [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/)([Memory Management Unit](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/284_mmu/))는 즉각 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)([Protection](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) Fault) [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 발생시킨다. 운영체제는 이 에러를 기가 막히게 활용한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">COW (Copy-On-Write) 작동 시퀀스 (Page Fault 처리)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상태: 부모와 자식이 '물리 Page A'를 읽기 전용으로 공유 중</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 자식 프로세스의 쓰기 시도 (Write)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Child App: <code>data_array</div><div class="kb-diagram-node">0</div><div class="kb-diagram-note">= 99;</code> (Page A 영역 수정 시도)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 하드웨어 트랩 발생 (Hardware Trap)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MMU: "잠깐! 이 페이지는 Read-Only로 잠겨있어! 너 권한 없어!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; OS로 제어권이 넘어감 (Page Fault Interrupt)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. OS의 영리한 판단 (Fault Handler)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS: "아, 이거 진짜 권한 위반이 아니라 내가 COW 하려고 일부러 걸어둔 거네?"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 물리적 복사 (Copy) 및 권한 복구</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS: ① 빈 물리 메모리 공간(새로운 물리 Page A')을 하나 찾아온다.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② 기존 '물리 Page A'의 내용을 '물리 Page A''로 복사한다.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ 자식의 페이지 테이블이 새 '물리 Page A''를 가리키게 바꾼다.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">④ 부모와 자식 양쪽의 페이지 권한을 다시 <code>Read/Write</code>로 열어준다.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 재실행 (Resume)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">자식 프로세스는 자신이 멈췄던 줄도 모르고 <code>data_array</div><div class="kb-diagram-node">0</div><div class="kb-diagram-note">= 99;</code> 성공!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 COW (Copy-On-Write) 작동 시퀀스 (Page Fault 처리)       │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [상태: 부모와 자식이 '물리 Page A'를 읽기 전용으로 공유 중]                  │
+  │                                                                   │
+  │   1. 자식 프로세스의 쓰기 시도 (Write)                                   │
+  │      Child App: `data_array[0] = 99;` (Page A 영역 수정 시도)         │
+  │                                                                   │
+  │   2. 하드웨어 트랩 발생 (Hardware Trap)                                │
+  │      MMU: "잠깐! 이 페이지는 Read-Only로 잠겨있어! 너 권한 없어!"            │
+  │      -> OS로 제어권이 넘어감 (Page Fault Interrupt)                    │
+  │                                                                   │
+  │   3. OS의 영리한 판단 (Fault Handler)                                 │
+  │      OS: "아, 이거 진짜 권한 위반이 아니라 내가 COW 하려고 일부러 걸어둔 거네?"   │
+  │                                                                   │
+  │   4. 물리적 복사 (Copy) 및 권한 복구                                    │
+  │      OS: ① 빈 물리 메모리 공간(새로운 물리 Page A')을 하나 찾아온다.         │
+  │          ② 기존 '물리 Page A'의 내용을 '물리 Page A''로 복사한다.         │
+  │          ③ 자식의 페이지 테이블이 새 '물리 Page A''를 가리키게 바꾼다.      │
+  │          ④ 부모와 자식 양쪽의 페이지 권한을 다시 `Read/Write`로 열어준다.   │
+  │                                                                   │
+  │   5. 재실행 (Resume)                                                 │
+  │      자식 프로세스는 자신이 멈췄던 줄도 모르고 `data_array[0] = 99;` 성공!   │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 시퀀스는 OS 역사상 가장 아름다운 눈속임이다. `fork()` 직후 부모나 자식 중 어느 한쪽이라도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수정하려고 하면, CPU MMU가 즉각 하드웨어 에러([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/))를 뿜어낸다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 폴트 핸들러는 이 에러가 악의적 해킹인지, 아니면 자기가 설정한 [COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) 때문인지 판별한다. [COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) 때문이라면, 그때서야 비로소 딱 4KB(1페이지) 크기만큼만 메모리를 새로 할당해서 복사해 준 뒤, 권한을 R/W로 풀어주고 프로그램을 다시 실행시킨다. 프로세스는 자신이 찰나의 순간 잠들었다가 복사본을 배정받았다는 사실조차 모른 채 자연스럽게 작업을 이어간다. 
 
@@ -141,25 +145,27 @@ OS는 특정 물리 [페이지](/knowledge-base/studynote/01_computer_architectu
    - **원인 분석**: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 [COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) 로직과 멀티스레드 캐시 플러시 타이밍 사이에 레이스 컨디션([Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/))이 존재했다. 해커가 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 수십 개를 돌려 "[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 시도 $\rightarrow$ [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) $\rightarrow$ 카피본 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)" 과정의 아주 미세한 틈(Gap)을 노려, 카피본에 써야 할 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 원본(Read-Only) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 물리 주소에 직접 써버리는 데 성공한 것이다.
    - **아키텍트 판단**: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 메모리 관리(VMM) 서브시스템이 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)([Concurrency](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/266_other_transparency/)) 제어에 실패할 때 얼마나 파괴적인지 보여주는 사례다. 기술사는 운영하는 인프라의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 버전을 지속 모니터링하고 0-day 수준의 대응 패치([Live Patching](/knowledge-base/studynote/02_operating_system/01_overview_architecture/068_live_patching/)) 정책을 수립해야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">COW의 딜레마: 성능 최적화 vs 최악의 병목 (의사결정)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">fork() 기반 애플리케이션 (예: Redis, Nginx Worker) 설계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자식 프로세스가 생성된 직후, 부모나 자식 쪽에서 대량의 Write가 발생하는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">COW 성능 극대화 구간!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(단지 읽기만 하거나, 즉시 exec()로 탈출하는 경우)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">🚨 거대한 물리적 Copy 폭풍(Storm) 발생 위험</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▼</div><div class="kb-diagram-node">아키텍트의 대응책</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 애플리케이션 레벨: 쓰기 트래픽이 적은 유휴 시간(Idle)에만 fork() 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 시스템 레벨 : 투명한 거대 페이지 (THP, Huge Pages) 비활성화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(※ THP가 켜져 있으면, 단 1바이트를 수정해도 4KB가 아닌 2MB를 통째로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">COW 복사해야 하므로 지연(Latency Stall)이 500배 이상 폭증함)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 COW의 딜레마: 성능 최적화 vs 최악의 병목 (의사결정)           │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [ fork() 기반 애플리케이션 (예: Redis, Nginx Worker) 설계 ]              │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      자식 프로세스가 생성된 직후, 부모나 자식 쪽에서 대량의 Write가 발생하는가?   │
+  │          ├─ 아니오 ──▶ [ COW 성능 극대화 구간! ]                       │
+  │          │             (단지 읽기만 하거나, 즉시 exec()로 탈출하는 경우)      │
+  │          │                                                        │
+  │          └─ 예 ─────▶ [ 🚨 거대한 물리적 Copy 폭풍(Storm) 발생 위험 ]    │
+  │                │                                                  │
+  │                ▼ [아키텍트의 대응책]                                   │
+  │      1. 애플리케이션 레벨: 쓰기 트래픽이 적은 유휴 시간(Idle)에만 fork() 실행  │
+  │      2. 시스템 레벨   : 투명한 거대 페이지 (THP, Huge Pages) 비활성화       │
+  │         (※ THP가 켜져 있으면, 단 1바이트를 수정해도 4KB가 아닌 2MB를 통째로  │
+  │          COW 복사해야 하므로 지연(Latency Stall)이 500배 이상 폭증함)         │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 초보 개발자는 COW가 모든 메모리 복사 오버헤드를 없애주는 마법 지팡이인 줄 안다. 하지만 아키텍트는 "[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)가 발생하는 순간 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)된 청구서가 날아온다"는 사실을 꿰뚫고 있어야 한다. 특히 리눅스의 Transparent [Huge Pages](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/) (THP, 2MB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)) 환경에서 COW가 터지면, 1바이트 변수 하나 바꿨을 뿐인데 2MB를 통째로 램에서 램으로 복사하느라 수 밀리초의 프리징(Freezing)이 발생한다. DB 서버 엔지니어들이 묻지도 따지지도 않고 THP를 끄는 이유가 바로 이 COW와의 악연 때문이다.
 
@@ -205,19 +211,15 @@ OS는 특정 물리 [페이지](/knowledge-base/studynote/01_computer_architectu
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">메모리 매핑 파일 (mmap)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">쓰기 시 복사 (COW)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SMP 캐시 일관성 폴스 셰어링</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">인터럽트 구동 입출력</div></div>
-</div>
-</div>
-
-
+```text
+[메모리 매핑 파일 (mmap)]
+    │
+    ▼
+[쓰기 시 복사 (COW)]
+    │
+    ├──▶ [SMP 캐시 일관성 폴스 셰어링]
+    └──▶ [인터럽트 구동 입출력]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

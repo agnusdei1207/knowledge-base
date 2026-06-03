@@ -23,18 +23,16 @@ tags = ["studynote-ai"]
 
 ISO/IEC 42001은 이런 질문에 대해 조직 차원의 관리 체계를 요구한다. 즉, 개발자 한 명의 선의나 특정 프로젝트 문서에 맡기지 않고, 경영층 책임, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 운영 통제, [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링, 개선 루프를 표준화한다. AI를 계속 쓰는 조직이라면 결국 "기술"뿐 아니라 "체계"가 필요하다는 문제의식에서 나온 표준이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AI 통제의 대상이 모델 하나에서 조직 전체로 확대됨</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정책/거버넌스 ─ ─ 데이터 관리 ─ ─ 모델 개발/운영 ─ ─ 모니터링</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">책임/역할</div><div class="kb-diagram-cell">편향/품질</div><div class="kb-diagram-cell">배포/변경관리</div><div class="kb-diagram-cell">개선</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심: AI를 제품이 아니라 관리 시스템으로 본다</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│         AI 통제의 대상이 모델 하나에서 조직 전체로 확대됨     │
+├──────────────────────────────────────────────────────────────┤
+│ 정책/거버넌스 ─┬─ 데이터 관리 ─┬─ 모델 개발/운영 ─┬─ 모니터링 │
+│ 책임/역할      │   편향/품질    │   배포/변경관리   │   개선     │
+│                └─────────────────────────────────────────────┘
+│ 핵심: AI를 제품이 아니라 관리 시스템으로 본다                 │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 핵심은 통제가 모델 학습 시점에서 끝나지 않는다는 점이다. 기획, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집, 외부 조달, 운영, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/), 개선까지 이어지는 전 주기가 관리 대상이다. 따라서 ISO/IEC 42001은 기술 문서보다 경영 시스템 문서에 가깝다.
 
@@ -56,19 +54,16 @@ ISO 계열 경영시스템 표준과 마찬가지로 ISO/IEC 42001은 [PDCA](/kn
 
 실제 표준 문언은 ISO 공통 구조를 따르므로, 조직은 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 사용 목적과 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)하고, 그에 맞는 통제를 설계해야 한다. 예를 들어 고위험 채용 AI라면 편향 평가와 설명 가능성이 중요하고, [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)형 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)라면 프롬프트 악용, [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/) ([Hallucination](/knowledge-base/studynote/12_it_management/05_security_compliance/345_llm_foundation_model_hallucination/)), [저작권](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/583_ai_code_license_security_threats/), [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 유출이 핵심 통제 포인트가 된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ISO/IEC 42001의 관리 루프</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Plan : AI 목적, 범위, 위험, 통제 목표 정의</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Do : 데이터/모델/운영 프로세스 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Check : 성과 측정, 내부 감사, 사고/편향 모니터링</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Act : 시정 조치, 재학습, 정책 개선</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│              ISO/IEC 42001의 관리 루프                       │
+├──────────────────────────────────────────────────────────────┤
+│ Plan  : AI 목적, 범위, 위험, 통제 목표 정의                  │
+│ Do    : 데이터/모델/운영 프로세스 실행                       │
+│ Check : 성과 측정, 내부 감사, 사고/편향 모니터링             │
+│ Act   : 시정 조치, 재학습, 정책 개선                         │
+└──────────────────────────────────────────────────────────────┘
+```
 
 핵심은 "표준이 모델을 대신 평가해 주는 것"이 아니라 "조직이 스스로 위험을 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)하고 증빙 가능한 통제를 갖추게 하는 것"이다. 그래서 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 승인 이력, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 출처, 모델 카드, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 결과, [사고 대응](/knowledge-base/studynote/09_security/01_intro_principles/009_incident_response/) 프로세스 같은 흔적이 중요해진다.
 

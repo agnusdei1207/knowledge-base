@@ -23,20 +23,18 @@ More than Moore는 무어의 법칙이 약속하던 단순 미세화의 효율�
 
 이 변화가 중요한 이유는 실제 제품 가치가 더 이상 연산 블록 하나로 결정되지 않기 때문이다. [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 가속기, 모바일 애플리케이션 프로세서, 차량용 제어기 모두 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/), 무선 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/), 센서 인터페이스, 전력 관리까지 함께 최적화되어야 경쟁력이 생긴다. More than Moore는 바로 그 "시스템 완성도"를 높이는 방법론이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">why shrinking alone is not enough</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">physical wall : leakage, variability, interconnect delay</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">power wall : heat density, cooling limit, dark silicon</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">economic wall : mask cost, lithography cost, yield risk</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">answer: integrate best-fit dies, memory, sensors, power blocks</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">at package / system level</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────────┐
+│ why shrinking alone is not enough                                   │
+├─────────────────────────────────────────────────────────────────────┤
+│ physical wall  : leakage, variability, interconnect delay           │
+│ power wall     : heat density, cooling limit, dark silicon          │
+│ economic wall  : mask cost, lithography cost, yield risk            │
+├─────────────────────────────────────────────────────────────────────┤
+│ answer: integrate best-fit dies, memory, sensors, power blocks      │
+│         at package / system level                                   │
+└─────────────────────────────────────────────────────────────────────┘
+```
 
 즉 More than Moore는 무어의 법칙이 끝났다는 선언이 아니라, 성장의 단위를 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 수에서 시스템 가치로 바꾸는 선언에 가깝다. 같은 칩 면적 경쟁이 아니라 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동, 기능 결합, [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 유연성까지 포함하는 더 넓은 경쟁이 시작된 것이다.
 
@@ -54,19 +52,18 @@ More than Moore의 핵심 원리는 기능별 최적 공정과 최적 배치를 
 | More than Moore | 더 잘 묶을 수 있는가? | [칩렛](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/), 2.5D/3D 패키징, [시스템 온 패키지](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/535_system_in_package/) ([SiP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/535_system_in_package/), [System in Package](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/535_system_in_package/)) | 패키지 열·[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)·테스트 복잡도 |
 | Beyond Moore | 아예 다른 물리로 바꿀 수 있는가? | 양자, 뉴로모픽, 광컴퓨팅 | 생태계와 상용화 시점 불확실 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">package-level heterogeneous integration</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Logic die 3nm</div><div class="kb-diagram-node">Accel die 4nm</div><div class="kb-diagram-node">Wireless die 28nm</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Silicon Interposer / Substrate</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HBM stack</div><div class="kb-diagram-node">Power die 55nm</div><div class="kb-diagram-node">Sensor / Photonics</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">goal: best-fit process + shorter data path + one system package</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────────┐
+│ package-level heterogeneous integration                             │
+├─────────────────────────────────────────────────────────────────────┤
+│ [Logic die 3nm] [Accel die 4nm] [Wireless die 28nm]                │
+│            \             |              /                           │
+│             └──── Silicon Interposer / Substrate ────┘             │
+│        [HBM stack] [Power die 55nm] [Sensor / Photonics]           │
+├─────────────────────────────────────────────────────────────────────┤
+│ goal: best-fit process + shorter data path + one system package    │
+└─────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조가 주는 핵심 이점은 세 가지다. 첫째, 기능마다 가장 알맞은 공정을 선택해 비용과 수율을 개선할 수 있다. 둘째, 메모리와 가속기를 물리적으로 더 가깝게 붙여 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 에너지를 줄일 수 있다. 셋째, 같은 기본 타일을 조합해 여러 제품군을 빠르게 파생할 수 있어 시장 대응 속도가 빨라진다.
 
@@ -137,22 +134,19 @@ More than Moore는 무어의 법칙이 약해진 이후에도 [성능](/knowledg
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Moore's Law + Dennard Scaling</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Physical Wall · Power Wall · Economic Wall</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">More than Moore = package-level system integration</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ Chiplet · SiP</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ 2.5D / 3D + HBM</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ Photonics · Sensor · Power integration</div>
-</div>
-</div>
-
-
+```text
+Moore's Law + Dennard Scaling
+        │
+        ▼
+Physical Wall · Power Wall · Economic Wall
+        │
+        ▼
+More than Moore = package-level system integration
+        │
+        ├────────▶ Chiplet · SiP
+        ├────────▶ 2.5D / 3D + HBM
+        └────────▶ Photonics · Sensor · Power integration
+```
 
 이 흐름은 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 진보의 중심이 "[트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 수 증가"에서 "시스템 가치 증가"로 옮겨 가는 과정을 압축해 보여 준다.
 

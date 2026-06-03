@@ -43,22 +43,27 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 메모리 MCA가 "오류를 발견하는 회로"가 아니라 "오류를 운영 가능한 사건으로 바꾸는 전달선"임을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 MCA의 오류 전달 경로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DIMM 비트 뒤집힘</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ECC 검사/신드롬 계산</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 교정 가능(CE) ▶ 데이터 수정 + CE 카운트 기록</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 교정 불가(UE) ▶ 주소/상태를 MCA Bank에 기록</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 포이즈닝 가능 ─▶ 페이지 격리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 즉시 치명적 ─▶ MCE (#MC)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS: 로그 · 프로세스 종료 · 오프라인 · 패닉</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                    메모리 MCA의 오류 전달 경로                      │
+├──────────────────────────────────────────────────────────────────────┤
+│ DIMM 비트 뒤집힘                                                    │
+│     │                                                               │
+│     ▼                                                               │
+│ ECC 검사/신드롬 계산                                                │
+│     │                                                               │
+│     ├── 교정 가능(CE) ─────────▶ 데이터 수정 + CE 카운트 기록       │
+│     │                                                               │
+│     └── 교정 불가(UE) ─────────▶ 주소/상태를 MCA Bank에 기록        │
+│                                      │                               │
+│                                      ├── 포이즈닝 가능 ─▶ 페이지 격리│
+│                                      │                               │
+│                                      └── 즉시 치명적 ─▶ MCE (#MC)    │
+│                                                              │        │
+│                                                              ▼        │
+│                            OS: 로그 · 프로세스 종료 · 오프라인 · 패닉│
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 메모리 MCA의 핵심은 "에러 자체를 없애는 기술"이 아니라, <strong>에러를 정밀하게 설명해 더 똑똑한 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 결정을 가능하게 하는 인터페이스</strong>라는 점이다. 그래서 같은 메모리 오류라도 어떤 주소에서 났고, CPU [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)가 손상되었는지, 이미 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 소비되었는지에 따라 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 대응이 달라진다.
 
@@ -131,23 +136,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">패리티 검사</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ECC 메모리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">MCA (오류 주소·심각도 구조화)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">EDAC · rasdaemon 기반 가시화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Page Offlining · 예지 정비 · 대규모 RAS 자동화</div>
-</div>
-</div>
-
-
+```text
+패리티 검사
+    │
+    ▼
+ECC 메모리
+    │
+    ▼
+MCA (오류 주소·심각도 구조화)
+    │
+    ▼
+EDAC · rasdaemon 기반 가시화
+    │
+    ▼
+Page Offlining · 예지 정비 · 대규모 RAS 자동화
+```
 
 이 흐름은 "단순 탐지"에서 시작해 "정교한 보고"와 "운영 자동화"로 메모리 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 전략이 확장되는 과정을 보여준다.
 

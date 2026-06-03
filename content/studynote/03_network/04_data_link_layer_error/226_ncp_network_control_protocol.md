@@ -25,18 +25,14 @@ tags = ["studynote-network"]
 
 - **💡 비유**: 고속도로(물리적 링크)가 깔리고 톨게이트 요금 정산([LCP](/knowledge-base/studynote/03_network/04_data_link_layer_error/225_lcp_link_control_protocol/)/[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/))이 끝났다고 차가 달릴 수 있는 것은 아닙니다. NCP는 각 차량에 <strong>"차량 번호판(IP 주소)"을 발급하고 "내비게이션 경로(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a>)"를 세팅</strong>해 주어 차가 올바르게 주행할 수 있게 해주는 차량 등록 사업소와 같습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">LCP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NCP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">PAP</div></div>
-</div>
-</div>
-
-
+```text
+[LCP]
+    │
+    ▼
+[NCP]
+    │
+    └──▶ [PAP]
+```
 
 - **📢 섹션 요약 비유**: <strong> NCP는 아파트 입주 시 계약(<a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/225_lcp_link_control_protocol/">LCP</a>)을 마친 후, 실제로 전구에 불이 들어오게 하려고 </strong>"전기/수도/[가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)(IP, [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/))를 개통하는 마지막 행정 절차"**입니다.
 
@@ -46,18 +42,14 @@ tags = ["studynote-network"]
 
 NCP는 프레임 단위의 전달, 오류 검출, 재전송 제어를 다루는 축라는 관점에서 이해해야 한다. LCP와 [PAP](/knowledge-base/studynote/03_network/04_data_link_layer_error/227_pap_password_authentication_protocol/) 사이의 연결점으로 놓고 보면 개념의 역할이 더 분명해진다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">LCP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NCP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">PAP</div></div>
-</div>
-</div>
-
-
+```text
+[LCP]
+    │
+    ▼
+[NCP]
+    │
+    └──▶ [PAP]
+```
 
 - **📢 섹션 요약 비유**: NCP의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -70,23 +62,24 @@ NCP는 프레임 단위의 전달, 오류 검출, 재전송 제어를 다루는 
 2. <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a> 단계 (선택)</strong>: [PAP](/knowledge-base/studynote/03_network/04_data_link_layer_error/227_pap_password_authentication_protocol/), [CHAP](/knowledge-base/studynote/03_network/04_data_link_layer_error/228_chap_challenge_handshake_authentication_protocol/) 등을 통한 사용자 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/).
 3. <strong>NCP (Network Control <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">Protocol</a>)</strong>: 네트워크 계층 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) (IP 주소 등 할당). 이 단계가 성공해야 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)그램이 교환된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PPP 연결 상태 천이도</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Dead</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Establish</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(LCP 협상 진행)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Authenticate</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(인증 실패)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ ▼ (인증 성공 또는 인증 없음)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Terminate</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Network</div><div class="kb-diagram-note">(NCP 협상 진행)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (IPCP 등 NCP 설정 완료)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Open</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">실제 IP 데이터 전송 상태!</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                     PPP 연결 상태 천이도                    │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [Dead] ────(물리적 연결)───▶ [Establish]                  │
+ │                                    │  (LCP 협상 진행)       │
+ │                                    ▼                        │
+ │  ┌─────────────── [Authenticate] ◀─┘                        │
+ │  │ (인증 실패)        │                                     │
+ │  ▼                    ▼ (인증 성공 또는 인증 없음)          │
+ │ [Terminate] ◀────── [Network]  (NCP 협상 진행)              │
+ │                       │                                     │
+ │                       ▼ (IPCP 등 NCP 설정 완료)             │
+ │                     [Open]  ◀─── 실제 IP 데이터 전송 상태!  │
+ │                                                             │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 2. IPCP (IP Control [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)) 동작 방식
 가장 대표적인 NCP인 IPCP(RFC 1332)의 주요 기능은 다음과 같다.
@@ -138,19 +131,15 @@ NCP는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rela
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: LCP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: NCP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: PAP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고신뢰 저지연 링크 제어</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: LCP]
+    │
+    ▼
+[현재 개념: NCP]
+    │
+    ├──▶ [확장 A: PAP]
+    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
+```
 
 NCP는 LCP에서 출발해 현재 메커니즘을 정교화하고, 이후 PAP와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -20,23 +20,24 @@ tags = ["studynote-software-engineering"]
 
 모놀리스 시대에는 서버 1대의 CPU·메모리만 보면 됐다. MSA에서는 100개 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 그물망처럼 호출하므로, "어디가 느린지" 찾는 것 자체가 난제다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Monitoring vs Observability</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Monitoring</div><div class="kb-diagram-node">Observability</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"CPU 80% 넘으면 알림" "왜 느린지 추론"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Known Unknowns 감시 Unknown Unknowns 진단</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대시보드 기반 탐색적 질의(Ad-hoc)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3대 신호 (Three Pillars):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Metrics</div><div class="kb-diagram-cell">Logs</div><div class="kb-diagram-cell">Traces</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(수치)</div><div class="kb-diagram-cell">(이벤트)</div><div class="kb-diagram-cell">(경로)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Correlation (상관 연결)</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│       Monitoring vs Observability                      │
+├───────────────────────────────────────────────────────┤
+│  [Monitoring]                [Observability]           │
+│   "CPU 80% 넘으면 알림"      "왜 느린지 추론"          │
+│   Known Unknowns 감시        Unknown Unknowns 진단    │
+│   대시보드 기반               탐색적 질의(Ad-hoc)      │
+│                                                       │
+│  3대 신호 (Three Pillars):                            │
+│   ┌─────────┐  ┌─────────┐  ┌─────────┐              │
+│   │ Metrics │  │  Logs   │  │ Traces  │              │
+│   │ (수치)  │  │(이벤트) │  │(경로)   │              │
+│   └────┬────┘  └────┬────┘  └────┬────┘              │
+│        └────────────┼────────────┘                    │
+│              Correlation (상관 연결)                   │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 모니터링은 체온계(38도 넘으면 알림), 관측 가능성은 MRI(왜 열이 나는지 내부를 투시)다.
 
@@ -108,23 +109,21 @@ Observability는 [AI](/knowledge-base/studynote/04_software_engineering/03_desig
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">서버 모니터링 (Nagios, 2000s) — 단일 서버 CPU/메모리 감시</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">로그 중앙화 (ELK, 2010s) — 분산 로그 수집·검색</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">분산 트레이싱 (Zipkin·Jaeger, 2015~) — MSA 요청 경로 추적</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">OpenTelemetry 통합 (2019~) — Metrics·Logs·Traces 단일 SDK</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: AI Ops — 이상 탐지·근본 원인 자동 추론·자동 복구</div></div>
-</div>
-</div>
-
-
+```text
+[서버 모니터링 (Nagios, 2000s) — 단일 서버 CPU/메모리 감시]
+    │
+    ▼
+[로그 중앙화 (ELK, 2010s) — 분산 로그 수집·검색]
+    │
+    ▼
+[분산 트레이싱 (Zipkin·Jaeger, 2015~) — MSA 요청 경로 추적]
+    │
+    ▼
+[OpenTelemetry 통합 (2019~) — Metrics·Logs·Traces 단일 SDK]
+    │
+    ▼
+[현재: AI Ops — 이상 탐지·근본 원인 자동 추론·자동 복구]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. <strong>체온계(Monitoring)</strong>는 "열이 났다!"만 알려주지만, <strong>MRI(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/">Observability</a>)</strong>는 "어디가 아픈지" 속까지 보여줘요.

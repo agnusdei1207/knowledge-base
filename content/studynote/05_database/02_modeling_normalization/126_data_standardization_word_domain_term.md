@@ -18,21 +18,19 @@ tags = ["studynote-database"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 표준화 체계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">단어(Word)</div><div class="kb-diagram-note">고객, 번호, 일자, 금액, 코드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">도메인(Domain)</div><div class="kb-diagram-note">번호=VARCHAR(10), 금액=DECIMAL(15,2)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">용어(Term)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">CUST_NO</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주문일자 = 주문+일자 → ORD_DT</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">컬럼명</div><div class="kb-diagram-note">표준 용어의 물리명 자동 도출</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 사전: 모든 표준 단어·도메인·용어 등록</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    데이터 표준화 체계                                 │
+├───────────────────────────────────────────────────────┤
+│  [단어(Word)]    고객, 번호, 일자, 금액, 코드        │
+│  [도메인(Domain)] 번호=VARCHAR(10), 금액=DECIMAL(15,2)│
+│  [용어(Term)]    고객번호 = 고객+번호 → CUST_NO      │
+│                  주문일자 = 주문+일자 → ORD_DT        │
+│  [컬럼명]        표준 용어의 물리명 자동 도출         │
+│                                                       │
+│  데이터 사전: 모든 표준 단어·도메인·용어 등록        │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 표준화는 전국 도로의 <strong>표지판을 통일</strong>하는 것이다. 같은 도로가 지역마다 다른 이름이면 내비게이션([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통합)이 불가능하다.
 
@@ -92,23 +90,21 @@ tags = ["studynote-database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">비표준 (시스템별 독자 명칭, ~2000s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 표준화 (DA, 2005~) — 단어·도메인·용어</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 사전 시스템 (2010s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 카탈로그 + 표준 연동 (2018~)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: AI 표준 추천 — 자동 단어 매핑·동의어 식별</div></div>
-</div>
-</div>
-
-
+```text
+[비표준 (시스템별 독자 명칭, ~2000s)]
+    │
+    ▼
+[데이터 표준화 (DA, 2005~) — 단어·도메인·용어]
+    │
+    ▼
+[데이터 사전 시스템 (2010s)]
+    │
+    ▼
+[데이터 카탈로그 + 표준 연동 (2018~)]
+    │
+    ▼
+[현재: AI 표준 추천 — 자동 단어 매핑·동의어 식별]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 표준화는 전국 도로의 <strong>표지판을 통일</strong>하는 거예요.
@@ -122,6 +118,6 @@ tags = ["studynote-database"]
 **진행 상황**: 126 / 600
 
 ← **이전**: [125. 메타데이터 관리 시스템 (MMS) - 데이터에 대한 데이터 관리](/knowledge-base/studynote/05_database/02_modeling_normalization/125_metadata_management_system_mms/)
-**다음**: [127. 정보공학 방법론 (IE, Information Engineering) - 데이터 중심 시스템 개발](/knowledge-base/studynote/05_database/02_modeling_normalization/127_information_engineering_methodology_ie/) →
+**다음**: [127. 정보공학 방법론 (IE, Information 엔진ering) - 데이터 중심 시스템 개발](/knowledge-base/studynote/05_database/02_modeling_normalization/127_information_engineering_methodology_ie/) →
 
 ---

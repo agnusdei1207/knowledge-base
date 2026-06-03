@@ -105,28 +105,28 @@ tags = ["studynote-operating-system"]
    - **문제**: 풀 스캔 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) `SELECT * FROM BIG_TABLE`을 때리면, 클럭 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 바늘이 휙 돌면서 기존 단골 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들의 R [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 다 0으로 깎고, 스캔된 쓰레기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 램을 가득 채워버린다 (캐시 오염, Cache Pollution).
    - **실무 조치**: 최신 DB 엔진은 단순 클럭을 넘어 <strong>Midpoint Insertion <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/">LRU</a></strong> 방식을 쓴다. 새로 들어온 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 큐의 맨 앞(Top)이 아니라 중간(Midpoint)에 꽂는다. 그리고 1초 뒤에 "다시 한번" 조회가 일어나야만 진짜 VIP석(Top)으로 올려준다. 풀 스캔으로 한 번 스치고 지나가는 쓰레기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들은 중간에 꽂혔다가 바로 꼬리로 밀려나서 버려지게 만드는 극강의 실무 튜닝이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 과부하(OOM) 방어 시 아키텍트의 교체 정책 우회 전략</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">요구사항: 10GB 짜리 머신러닝(ML) 모델을 메모리에 상주시켜야 함</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">❌ 주니어의 배포 (OS 클럭 알고리즘에 운명을 맡김)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 모델을 RAM에 로드하고 예측 API 서빙 시작.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 결과: 밤사이에 다른 로그 수집 데몬이 램을 쓰면서, OS의</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시곗바늘(kswapd)이 내 ML 모델의 절반을 디스크로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스왑-아웃 시켜버림. 아침에 첫 API 응답 10초 걸림!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">✅ 시니어 아키텍트의 배포 (mlock 시스템 콜 활용)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 코드에 <code>mlock(모델 주소, 10GB)</code> 함수를 명시적으로 호출.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 효과: OS 커널에게 "내 메모리엔 절대 시곗바늘(클럭) 대지 마!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">라고 철창(Pinning)을 쳐버림.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 결과: 서버 램이 꽉 차면 다른 데몬이 OOM으로 죽을지언정,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">내 ML 모델은 1년 내내 램에 100% 락인(Lock-in)되어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">극강의 0.01초 API 지연 시간을 영구 방어함.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │     메모리 과부하(OOM) 방어 시 아키텍트의 교체 정책 우회 전략     │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [요구사항: 10GB 짜리 머신러닝(ML) 모델을 메모리에 상주시켜야 함]│
+  │                                                                   │
+  │   [ ❌ 주니어의 배포 (OS 클럭 알고리즘에 운명을 맡김) ]           │
+  │     - 모델을 RAM에 로드하고 예측 API 서빙 시작.                   │
+  │     - 결과: 밤사이에 다른 로그 수집 데몬이 램을 쓰면서, OS의      │
+  │             시곗바늘(kswapd)이 내 ML 모델의 절반을 디스크로       │
+  │             스왑-아웃 시켜버림. 아침에 첫 API 응답 10초 걸림!     │
+  │                                                                   │
+  │   [ ✅ 시니어 아키텍트의 배포 (mlock 시스템 콜 활용) ]            │
+  │     - 코드에 `mlock(모델 주소, 10GB)` 함수를 명시적으로 호출.     │
+  │     - 효과: OS 커널에게 "내 메모리엔 절대 시곗바늘(클럭) 대지 마!"│
+  │             라고 철창(Pinning)을 쳐버림.                          │
+  │     - 결과: 서버 램이 꽉 차면 다른 데몬이 OOM으로 죽을지언정,     │
+  │             내 ML 모델은 1년 내내 램에 100% 락인(Lock-in)되어     │
+  │             극강의 0.01초 API 지연 시간을 영구 방어함.            │
+  └───────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** "OS가 알아서 최적으로 교체해 주겠지"라는 믿음은 일반 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 사용자에게나 통하는 말이다. 1초의 지연도 허용하지 않는 백엔드 인프라에서는, 중요한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(코어 캐시, ML 모델, 핫 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))가 클럭 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 희생양이 되지 않도록 <strong>메모리 락킹(Memory <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/213_locking_mechanism_concurrency_control/">Locking</a>)</strong>을 통해 OS의 오지랖을 물리적으로 박살 내는 것이 아키텍트의 기본 소양이다.
 
 - **📢 섹션 요약 비유**: 백화점 청소부(클럭 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))는 폐점 후 오랫동안 안 만진 물건(R=0)은 다 버립니다. 중요한 프로젝트 서류를 책상 위에 올려두면 다음 날 청소부가 쓰레기인 줄 알고 버립니다([스왑 아웃](/knowledge-base/studynote/02_operating_system/06_memory_management/336_swap_out_in/)). 절대 버려지면 안 되는 서류는 청소부가 못 건드리게 유리관(`mlock`)을 씌워두어야 안전합니다.
@@ -157,19 +157,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">티켓 락 (Ticket Lock)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">클럭 알고리즘 (Clock Algorithm / NUR)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">낙관적 병행성 제어 (Optimistic Concurrency Control)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">비관적 병행성 제어 (Pessimistic Concurrency Control)</div></div>
-</div>
-</div>
-
-
+```text
+[티켓 락 (Ticket Lock)]
+    │
+    ▼
+[클럭 알고리즘 (Clock Algorithm / NUR)]
+    │
+    ├──▶ [낙관적 병행성 제어 (Optimistic Concurrency Control)]
+    └──▶ [비관적 병행성 제어 (Pessimistic Concurrency Control)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

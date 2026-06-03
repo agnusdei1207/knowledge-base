@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 코어 네트워크([5GC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/768_5gc_5g_core_network_evolution/))의 제어 평면(Control Plane)에서, <strong>가입자의 네트워크 접속 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>(Access)과 단말기의 실시간 위치 추적 및 기지국 간 <a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/">핸드오버</a>(Mobility)만을 전문적으로 전담하는 소프트웨어 기능(NF) 블록</strong>입니다.
 - **역사적 매칭**: 4G LTE의 중앙 제어 두뇌였던 <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/754_mme_mobility_management_entity/">MME</a>(754번 문서)를 정확히 반으로 쪼갰을 때, '위치 및 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a> 관리 파트'를 그대로 물려받은 5G의 적통 후계자</strong>입니다. (나머지 반쪽인 '인터넷 길 뚫기([세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/))' 파트는 다음 문서인 SMF에게 완전히 넘겨주었습니다.)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SBA</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AMF</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SMF</div></div>
-</div>
-</div>
-
-
+```text
+[SBA]
+    │
+    ▼
+[AMF]
+    │
+    └──▶ [SMF]
+```
 
 - **📢 섹션 요약 비유**: AMF는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -50,18 +46,14 @@ tags = ["studynote-network"]
 - <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/">Paging</a> (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/">페이징</a> 호출)</strong>: [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 폰은 배터리를 아끼려고 쉴 새 없이 화면을 끄고 잠([Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) 모드)을 잡니다. AMF는 이 자는 폰이 어느 동네(Registration Area)에 있는지 엑셀에 꼬박꼬박 적어둡니다. 카톡 데이터가 밀려오면, AMF가 그 동네 기지국 수십 개에 냅다 방송([Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/))을 때려 폰을 흔들어 깨웁니다.
 - <strong><a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/">Handover</a> (<a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/">핸드오버</a> 통제)</strong>: KTX를 타고 강남 기지국에서 수원 기지국, 부산 기지국으로 전파의 바통을 휙휙 넘길 때, 이 릴레이가 단 1ms라도 어긋나서 통신이 끊기지 않도록 뒤에서 "넘겨! 받아!"라고 스위칭 싸인을 조율하는 관제탑 역할을 합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SBA</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AMF</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SMF</div></div>
-</div>
-</div>
-
-
+```text
+[SBA]
+    │
+    ▼
+[AMF]
+    │
+    └──▶ [SMF]
+```
 
 - **📢 섹션 요약 비유**: AMF의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -124,19 +116,15 @@ AMF는 차세대 통신 아키텍처를 이해할 때 핵심 축을 잡아 주�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: SBA</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: AMF</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: SMF</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 네트워크 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: SBA]
+    │
+    ▼
+[현재 개념: AMF]
+    │
+    ├──▶ [확장 A: SMF]
+    └──▶ [확장 B: AI 기반 네트워크 최적화]
+```
 
 AMF는 SBA에서 출발해 현재 메커니즘을 정교화하고, 이후 SMF와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

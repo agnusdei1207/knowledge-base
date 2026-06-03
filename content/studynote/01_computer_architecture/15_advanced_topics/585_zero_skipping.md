@@ -25,18 +25,16 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 왜 0도 "공짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)"가 아닌지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0도 일반 값처럼 끝까지 흘려 보내면 결과는 단순해도 비용은 그대로 든다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Memory -&gt; Interconnect -&gt; Register File -&gt; MAC Array -&gt; Writeback</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0 0 0 0 0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수학적 정보량은 거의 없지만, 이동·판독·스위칭 전력은 이미 소비된다.</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│  0도 일반 값처럼 끝까지 흘려 보내면 결과는 단순해도 비용은 그대로 든다      │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Memory -> Interconnect -> Register File -> MAC Array -> Writeback         │
+│   0            0                0               0              0           │
+│                                                                            │
+│ 수학적 정보량은 거의 없지만, 이동·판독·스위칭 전력은 이미 소비된다.        │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 따라서 zero-skipping의 핵심은 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)률을 높이는 데만 있지 않다. 더 중요한 목표는 <strong>유효하지 않은 값이 하드웨어 자원을 점유하는 시간 자체를 줄이는 것</strong>이다. 이 관점이 있어야 왜 메모리와 연산 파이프라인 양쪽에서 동시에 zero-skipping을 고민하는지 이해할 수 있다.
 
@@ -57,20 +55,22 @@ zero-skipping은 보통 두 지점에서 구현된다. 첫째는 <strong>저장�
 
 아래 그림은 zero-skipping이 단순 [비교기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/043_comparator/) 하나가 아니라, <strong>감지 → 표시 → 스케줄링 → 회로 비활성화</strong>의 연속 구조임을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Zero-skipping data path: detect -&gt; mark -&gt; schedule</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Input Value / Cache Line</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Zero Detector</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Z-bit / Mask</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Sparse Scheduler</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ all-zero block -------------- ─ lane gate</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ non-zero data -----------------------------------&gt; ─ real issue</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Accumulator / Writeback</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│            Zero-skipping data path: detect -> mark -> schedule            │
+├────────────────────────────────────────────────────────────────────────────┤
+│ [Input Value / Cache Line]                                                │
+│          │                                                                │
+│          ▼                                                                │
+│ [Zero Detector] ---> [Z-bit / Mask] ---> [Sparse Scheduler]              │
+│      │                               │                    │               │
+│      ├─ all-zero block --------------┘                    ├─ lane gate    │
+│      └─ non-zero data ----------------------------------->└─ real issue   │
+│                                                             │             │
+│                                                             ▼             │
+│                                                   [Accumulator / Writeback]│
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 여기서 중요한 것은 감지 입도다. 원소 단위로 건너뛰면 가장 공격적이지만, [비교기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/043_comparator/)와 선택기 수가 많아진다. 반대로 블록 단위로만 건너뛰면 회로는 단순하지만, 블록 안에 0이 아닌 값이 조금만 섞여 있어도 전체 블록을 그대로 처리해야 한다. 그래서 실제 설계는 원소·벡터 lane·타일 중 어디까지를 "한 번에 0으로 볼 것인가"를 워크로드에 맞춰 정한다.
 
@@ -147,25 +147,24 @@ zero-skipping이 잘 맞아떨어지면 얻는 이득은 분명하다. 첫째, 0
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">밀집 데이터 실행</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">가지치기 · ReLU로 zero 증가</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">압축 포맷 · 마스크 메타데이터</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Zero Detector · Z-bit · lane skipping</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">구조적 희소성 기반 가속기</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">적응형 sparsity-aware 메모리/연산 공동 최적화</div>
-</div>
-</div>
-
-
+```text
+밀집 데이터 실행
+    │
+    ▼
+가지치기 · ReLU로 zero 증가
+    │
+    ▼
+압축 포맷 · 마스크 메타데이터
+    │
+    ▼
+Zero Detector · Z-bit · lane skipping
+    │
+    ▼
+구조적 희소성 기반 가속기
+    │
+    ▼
+적응형 sparsity-aware 메모리/연산 공동 최적화
+```
 
 이 흐름은 단순한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)에서 출발해, 이제는 메모리와 실행기 모두가 zero를 이해하고 행동을 바꾸는 방향으로 최적화가 확장되고 있음을 보여 준다.
 

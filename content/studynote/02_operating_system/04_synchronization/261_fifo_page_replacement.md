@@ -24,26 +24,24 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경**: [요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)([Demand Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/))이 처음 도입될 당시, 가장 구현하기 쉬운 FIFO가 당연히 첫 번째 해결책으로 쓰였다. 하지만 이 방식이 시스템 성능을 오히려 깎아 먹는 기현상(모순)이 발견되면서, 학자들은 FIFO를 버리고 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/)([Least Recently Used](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/)) 같은 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 빈도 기반 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 찾게 되었다.
 
+```text
+  [FIFO 페이지 교체 알고리즘의 동작 메커니즘]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">FIFO 페이지 교체 알고리즘의 동작 메커니즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">초기 상태: 빈 프레임 3개 존재</div></div>
-<div class="kb-diagram-note">페이지 요청 순서: 1 ─▶ 2 ─▶ 3 ─▶ 4 ─▶ 1 ─▶ 2</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">메모리 큐 상태 변화 (들어온 순서대로 정렬)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1 요청:</div><div class="kb-diagram-node">1</div><div class="kb-diagram-note">(Hit 실패, 폴트 발생)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2 요청:</div><div class="kb-diagram-node">1, 2</div><div class="kb-diagram-note">(폴트)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3 요청:</div><div class="kb-diagram-node">1, 2, 3</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">🚨 메모리 꽉 참!</div></div>
-<div class="kb-diagram-note">4 요청: 큐 맨 앞의 '1'을 버리고 '4'를 뒤에 넣음</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2, 3, 4</div><div class="kb-diagram-note">(폴트)</div></div>
-<div class="kb-diagram-note">1 요청: 어라? 방금 버린 '1'을 또 부르네?</div>
-<div class="kb-diagram-note">큐 맨 앞의 '2'를 버리고 '1'을 뒤에 넣음</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3, 4, 1</div><div class="kb-diagram-note">(폴트)</div></div>
-</div>
-</div>
-
-
+  [ 초기 상태: 빈 프레임 3개 존재 ]
+  페이지 요청 순서: 1 ─▶ 2 ─▶ 3 ─▶ 4 ─▶ 1 ─▶ 2
+  
+  [ 메모리 큐 상태 변화 (들어온 순서대로 정렬) ]
+  1 요청: [ 1 ] (Hit 실패, 폴트 발생)
+  2 요청: [ 1, 2 ] (폴트)
+  3 요청: [ 1, 2, 3 ] (폴트) ──▶ 🚨 메모리 꽉 참!
+  
+  4 요청: 큐 맨 앞의 '1'을 버리고 '4'를 뒤에 넣음
+         [ 2, 3, 4 ] (폴트)
+         
+  1 요청: 어라? 방금 버린 '1'을 또 부르네? 
+         큐 맨 앞의 '2'를 버리고 '1'을 뒤에 넣음
+         [ 3, 4, 1 ] (폴트)
+```
 **[다이어그램 해설]** FIFO의 한계가 명확히 드러나는 순간이다. 1번 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 가장 먼저 들어왔을 뿐이지, 프로그램 내내 계속 쓰이는 '핵심 전역 변수'일 수도 있다. 그런데 단지 늙었다는 이유 하나만으로 쫓아냈다가, 1초 뒤에 다시 부르면서 디스크를 또 긁게 만드는([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)) 최악의 비효율을 보여준다.
 
 - **📢 섹션 요약 비유**: 냉장고가 꽉 찼을 때 무조건 "가장 오래된 반찬"부터 버리는 규칙입니다. 그런데 그 가장 오래된 반찬이 매일 조금씩 꺼내 먹는 '김치'라면? 김치를 버렸다가 다음날 또 김치를 사 와야 하는 바보 같은 짓을 반복하게 됩니다.
@@ -69,23 +67,23 @@ tags = ["studynote-operating-system"]
 1, 2, 3, 4 들어감 (폴트 4번) ─▶ 1, 2는 이미 있으니 [Hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/)! (오 좋네?) ─▶ 5 들어오며 1 쫓아냄 (폴트) ─▶ 1 들어오며 2 쫓아냄 (폴트) ─▶ 2 들어오며 3 쫓아냄 (폴트) ─▶ 3 들어오며 4 쫓아냄 (폴트) ─▶ 4 들어오며 5 쫓아냄 (폴트) ─▶ ...
 <strong>결과: <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/">페이지 폴트</a> 총 10회 발생 🚨</strong>
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Belady's Anomaly (벨라디의 모순) 성능 그래프 시각화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페이지 폴트 횟수</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">15</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">10</div><div class="kb-diagram-cell">● (Frame 3일 때 폴트 9회)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↘</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">● 🚨 (Frame 4일 때 폴트 10회! 역주행!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5</div><div class="kb-diagram-cell">↘</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">● (Frame 5일 때 폴트 5회)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1 2 3 4 5 6 (할당된 프레임 수)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌────────────────────────────────────────────────────────────────────┐
+  │         Belady's Anomaly (벨라디의 모순) 성능 그래프 시각화        │
+  ├────────────────────────────────────────────────────────────────────┤
+  │                                                                    │
+  │   페이지 폴트 횟수                                                 │
+  │      15 │                                                          │
+  │         │                                                          │
+  │      10 │       ● (Frame 3일 때 폴트 9회)                          │
+  │         │          ↘                                               │
+  │         │             ● 🚨 (Frame 4일 때 폴트 10회! 역주행!)       │
+  │       5 │                ↘                                         │
+  │         │                   ● (Frame 5일 때 폴트 5회)              │
+  │         └───────────────────────────────────────────               │
+  │             1    2    3    4    5    6  (할당된 프레임 수)         │
+  └────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 이 그래프는 하드웨어 엔지니어들을 멘붕에 빠뜨렸다. 비싼 돈 주고 RAM 4GB에서 8GB로 늘렸는데, 윈도우가 더 버벅대는 현상이 수리적으로 증명된 것이다. 이 모순이 증명된 직후, 순수 FIFO [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 모든 범용 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)에서 영구 퇴출당했다.
 
 - **📢 섹션 요약 비유**: 작은 책상(프레임 3)에서 공부할 때는 짐을 자주 치워서 오히려 나름의 사이클이 맞았는데, 책상을 큰 걸로(프레임 4) 바꿔줬더니 안 치우고 버티다가 꼭 필요할 때 책상 위가 다 꼬여버려서 물건 찾는 데 시간이 더 오래 걸리는 현상과 같습니다.
@@ -128,25 +126,25 @@ LRU나 OPT는 이른바 <strong><a href="/knowledge-base/studynote/08_algorithm_
    - **결과**: 홈페이지 메인 배너(가장 중요한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 3일 전에 들어왔다는 이유만으로 캐시에서 밀려나 버려, 메인 트래픽이 고스란히 백엔드 DB를 강타([Cache Stampede](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/296_star_schema/))하며 DB가 다운된다.
    - **실무 규칙**: 비즈니스 캐시를 설계할 때는 무조건 LRU나 LFU를 기본값으로 깔고 가야지, 절대 선입선출(FIFO)의 함정에 빠지면 안 된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리/캐시 교체 알고리즘 설계 시 아키텍트의 Trade-off 트리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">요구사항: 초당 1,000만 건 조회되는 고속 캐시 시스템 구축</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 허용 가능한 연산 오버헤드는?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">극도로 낮아야 함 (하드웨어/커널 레벨의 속도)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 순수 LRU는 포인터 스위칭 비용 때문에 절대 불가.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 대안: FIFO 뼈대 + Second Chance(Clock) 적용!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(속도는 FIFO급, 히트율은 LRU급의 미친 가성비)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">어느 정도 오버헤드 감수 가능 (애플리케이션 레벨)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 순수 LRU (LinkedHashMap 등) 적용.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 대안: Redis, Caffeine 캐시처럼 백그라운드 스레드가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비동기로 LRU를 정리하는 현대적 캐시 프레임워크 도입.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────────────┐
+  │     메모리/캐시 교체 알고리즘 설계 시 아키텍트의 Trade-off 트리     │
+  ├─────────────────────────────────────────────────────────────────────┤
+  │                                                                     │
+  │   [요구사항: 초당 1,000만 건 조회되는 고속 캐시 시스템 구축]        │
+  │                │                                                    │
+  │                ▼ 허용 가능한 연산 오버헤드는?                       │
+  │      [ 극도로 낮아야 함 (하드웨어/커널 레벨의 속도) ]               │
+  │       ├─▶ 순수 LRU는 포인터 스위칭 비용 때문에 절대 불가.           │
+  │       └─▶ 대안: FIFO 뼈대 + Second Chance(Clock) 적용!              │
+  │                 (속도는 FIFO급, 히트율은 LRU급의 미친 가성비)       │
+  │                                                                     │
+  │      [ 어느 정도 오버헤드 감수 가능 (애플리케이션 레벨) ]           │
+  │       ├─▶ 순수 LRU (LinkedHashMap 등) 적용.                         │
+  │       └─▶ 대안: Redis, Caffeine 캐시처럼 백그라운드 스레드가        │
+  │                 비동기로 LRU를 정리하는 현대적 캐시 프레임워크 도입.│
+  └─────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** FIFO는 그 자체로는 쓰레기지만, <strong>"순회(Iteration) 비용이 완벽한 O(1)"</strong>이라는 흉내 낼 수 없는 물리적 장점을 가지고 있다. 실무 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 엔지니어들은 이 FIFO의 O(1) 순회 능력 위에 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/)([참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/))을 얹어서 완벽한 하이브리드 엔진을 창조해 냈다. 단점을 버리지 않고 뼈대로 쓴 통찰력의 승리다.
 
 - **📢 섹션 요약 비유**: FIFO(선착순 해고)는 잔인하지만 인사팀(OS)이 평가서 안 봐도 되니 일처리가 빠릅니다. [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/)(성과제 해고)는 완벽하지만 매일 실적 평가하느라 회사가 안 돌아갑니다. 현대 시스템은 "선착순으로 해고하되, 최근 1주일간 지각 안 한 사람([Reference](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/)=1)은 한 번만 봐주는" 가장 현실적이고 빠르며 공정한 타협안을 쓰고 있습니다.
@@ -177,19 +175,15 @@ FIFO 기반의 변형 [알고리즘](/knowledge-base/studynote/08_algorithm_stat
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">ABA 문제 해결책</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">FIFO (First-In, First-Out) 페이지 교체</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">양방향 랑데부 (Rendezvous)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">티켓 락 (Ticket Lock)</div></div>
-</div>
-</div>
-
-
+```text
+[ABA 문제 해결책]
+    │
+    ▼
+[FIFO (First-In, First-Out) 페이지 교체]
+    │
+    ├──▶ [양방향 랑데부 (Rendezvous)]
+    └──▶ [티켓 락 (Ticket Lock)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

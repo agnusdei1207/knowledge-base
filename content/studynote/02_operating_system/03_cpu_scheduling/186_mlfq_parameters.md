@@ -25,20 +25,21 @@ tags = ["studynote-operating-system"]
 
 아래 그림은 MLFQ가 사실상 다섯 개 안팎의 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 손잡이 위에서 움직인다는 점을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MLFQ의 핵심 조정 손잡이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">신규 작업 진입 위치 : Q0 ? Q1 ?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Q0</div><div class="kb-diagram-node">RR, q=8ms</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RR, q=16ms</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">promotion / boost Q2</div><div class="kb-diagram-node">FCFS or q=32ms</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조정 항목: queue count / per-queue policy / demotion /</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">promotion / initial placement</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                 MLFQ의 핵심 조정 손잡이                    │
+├──────────────────────────────────────────────────────────────┤
+│ 신규 작업 진입 위치 : Q0 ? Q1 ?                             │
+│                                                              │
+│ Q0 [RR, q=8ms]  ── demote rule ──▶  Q1 [RR, q=16ms]         │
+│   ▲                         ▲                    │            │
+│   │                         │                    ▼            │
+│   └────── promotion / boost ┴───────  Q2 [FCFS or q=32ms]   │
+│                                                              │
+│ 조정 항목: queue count / per-queue policy / demotion /      │
+│           promotion / initial placement                      │
+└──────────────────────────────────────────────────────────────┘
+```
 
 중요한 점은 어느 하나의 값만 좋다고 해서 전체가 좋아지지 않는다는 사실이다. 큐 개수와 퀀텀, 부스트 주기, 진입 규칙은 서로 묶여 작동하며, 하나를 바꾸면 다른 값도 다시 맞춰야 한다.
 
@@ -62,21 +63,19 @@ tags = ["studynote-operating-system"]
 
 아래 예시는 파라미터가 실제 실행 패턴을 어떻게 바꾸는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파라미터에 따른 프로세스 이동 예시 (q=8/16/32ms)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">t=0 P1(new) in Q0, P2(new) in Q0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">t=8 P1 quantum expire → Q1 demote</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">t=12 P2 blocks for I/O → stays near Q0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">t=24 P1 quantum expire → Q2 demote</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">t=200 global boost → P1, P2 모두 Q0로 승급</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 짧은 I/O 작업은 위에 남고, 긴 CPU 작업은 아래로 내려감</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│       파라미터에 따른 프로세스 이동 예시 (q=8/16/32ms)      │
+├──────────────────────────────────────────────────────────────┤
+│ t=0      P1(new) in Q0, P2(new) in Q0                       │
+│ t=8      P1 quantum expire  → Q1 demote                     │
+│ t=12     P2 blocks for I/O   → stays near Q0                │
+│ t=24     P1 quantum expire  → Q2 demote                     │
+│ t=200    global boost       → P1, P2 모두 Q0로 승급         │
+│                                                              │
+│ 결과: 짧은 I/O 작업은 위에 남고, 긴 CPU 작업은 아래로 내려감 │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 메커니즘 덕분에 MLFQ는 실행 시간을 미리 몰라도 어느 정도 SJF에 가까운 효과를 낸다. 대신 그 효과는 파라미터가 적절할 때만 유지되며, 값이 흔들리면 공정성과 응답성이 동시에 무너질 수 있다.
 
@@ -150,23 +149,21 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">고정 우선순위 · RR</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">다단계 큐 (Multilevel Queue)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">다단계 피드백 큐 (MLFQ)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">boost · aging · gaming 방지</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">공정성 중심 스케줄러 (예: CFS)</div>
-</div>
-</div>
-
-
+```text
+고정 우선순위 · RR
+    │
+    ▼
+다단계 큐 (Multilevel Queue)
+    │
+    ▼
+다단계 피드백 큐 (MLFQ)
+    │
+    ▼
+boost · aging · gaming 방지
+    │
+    ▼
+공정성 중심 스케줄러 (예: CFS)
+```
 
 이 흐름은 단순한 고정 우선순위에서 출발해, 피드백 기반 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)와 기아 방지 규칙을 거쳐 현대적 공정성 모델로 확장되는 경로를 보여 준다.
 

@@ -39,24 +39,29 @@ LeSS의 뼈대는 철저하고 완벽한 단일화 구조인 '1-1-1 아키텍처
    - 팀마다 시작 날짜를 중구난방으로 운영하지 않는다. 1초의 오차도 없이 8개 팀이 동시에 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 출발 총성을 듣는다.
    - 끝나면 다 같이 멈추고 하나의 거대한 '통합된 제품 증가분 (Increment)'을 함께 시연하고 검토(리뷰)한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LeSS 의 완벽한 1-1-1 단일화 아키텍처 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1 Product Owner (PO)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(전체 우선순위 결정)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1 Product Backlog (마스터)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(일감을 팀별로 배분)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Team 1 Backlog</div><div class="kb-diagram-node">Team 2 Backlog</div><div class="kb-diagram-node">Team 8 Backlog</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1 Common Sprint</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(모든 팀이 동시에 시작하고 종료)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1 Integrated Increment</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(통합된 단 하나의 거대한 제품 완성)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           LeSS 의 완벽한 1-1-1 단일화 아키텍처 구조               │
+├──────────────────────────────────────────────────────────────┤
+│               [ 1 Product Owner (PO) ]                       │
+│                         │ (전체 우선순위 결정)                     │
+│                         ▼                                    │
+│             [ 1 Product Backlog (마스터) ]                     │
+│                         │ (일감을 팀별로 배분)                     │
+│         ┌───────────────┼───────────────┐                  │
+│         ▼               ▼               ▼                  │
+│   [Team 1 Backlog] [Team 2 Backlog] [Team 8 Backlog]         │
+│         │               │               │                  │
+│         └───────────────┼───────────────┘                  │
+│                         ▼                                    │
+│                [ 1 Common Sprint ]                           │
+│              (모든 팀이 동시에 시작하고 종료)                       │
+│                         │                                    │
+│                         ▼                                    │
+│             [ 1 Integrated Increment ]                       │
+│              (통합된 단 하나의 거대한 제품 완성)                     │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램은 각 팀이 물리적으로 찢어져 코드를 짜더라도, 지시를 내리는 뇌(PO)와 통합되어 나오는 결과물(Increment)은 철저하게 한 몸처럼 맞물려 돌아가는 LeSS의 이상적인 뼈대를 보여준다.
 
@@ -117,23 +122,21 @@ LeSS는 [대규모 애자일](/knowledge-base/studynote/04_software_engineering/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단일 애자일 (Scrum 1개 팀, 10명 내외)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">대형 프로젝트 확장 요구 (50명 이상) 및 팀 간 의존성 문제 발생</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">대규모 확장 체제 분기: 관료적 통제 강화 (SAFe) vs 룰 단순화 극대화 (LeSS)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">1-1-1 구조 확립 (1 PO, 1 Backlog, 1 Sprint)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">스프린트 계획 1부/2부 분업 체계 (Sprint Planning 1 &amp; 2) 및 동기화 구현</div>
-</div>
-</div>
-
-
+```text
+단일 애자일 (Scrum 1개 팀, 10명 내외)
+    │
+    ▼
+대형 프로젝트 확장 요구 (50명 이상) 및 팀 간 의존성 문제 발생
+    │
+    ▼
+대규모 확장 체제 분기: 관료적 통제 강화 (SAFe) vs 룰 단순화 극대화 (LeSS)
+    │
+    ▼
+1-1-1 구조 확립 (1 PO, 1 Backlog, 1 Sprint)
+    │
+    ▼
+스프린트 계획 1부/2부 분업 체계 (Sprint Planning 1 & 2) 및 동기화 구현
+```
 
 이 흐름도는 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 팀이 규모를 키워야 할 때 통제를 늘릴 것인가 룰을 깎아낼 것인가의 기로에서 미니멀리즘으로 뻗어나간 LeSS의 방향성을 보여준다.
 

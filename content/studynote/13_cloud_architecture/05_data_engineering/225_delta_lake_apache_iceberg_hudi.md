@@ -22,25 +22,22 @@ S3 같은 [오브젝트 스토리지](/knowledge-base/studynote/02_operating_sys
 
 **오픈 테이블 포맷이 해결하는 문제:**
 
+```
+[오브젝트 스토리지 기본 문제]
+Writer-1 ──▶ S3/data/ ◀── Writer-2  (동시 쓰기 충돌)
+파이프라인 실패 후 S3에 불완전 Parquet 파일 잔류
+스키마 변경 시 이전 파일과 호환성 깨짐
+어제 실행 결과 재현 불가 (타임트래블 없음)
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">오브젝트 스토리지 기본 문제</div></div>
-<div class="kb-diagram-note">Writer-1 ──▶ S3/data/ ◀── Writer-2 (동시 쓰기 충돌)</div>
-<div class="kb-diagram-note">파이프라인 실패 후 S3에 불완전 Parquet 파일 잔류</div>
-<div class="kb-diagram-note">스키마 변경 시 이전 파일과 호환성 깨짐</div>
-<div class="kb-diagram-note">어제 실행 결과 재현 불가 (타임트래블 없음)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">오픈 테이블 포맷 도입 후</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">S3 Parquet 파일들</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ 트랜잭션 로그(_delta_log/)</div><div class="kb-diagram-cell">← Delta Lake</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ 메타데이터 파일(metadata/)</div><div class="kb-diagram-cell">← Iceberg</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ 타임라인 로그(.hoodie/)</div><div class="kb-diagram-cell">← Hudi</div></div>
-<div class="kb-diagram-note">↑ "이 레이어가 있으면 DB처럼 동작"</div>
-</div>
-</div>
-
-
+[오픈 테이블 포맷 도입 후]
+┌──────────────────────────────────┐
+│   S3 Parquet 파일들              │
+│     + 트랜잭션 로그(_delta_log/) │  ← Delta Lake
+│     + 메타데이터 파일(metadata/) │  ← Iceberg
+│     + 타임라인 로그(.hoodie/)    │  ← Hudi
+└──────────────────────────────────┘
+       ↑ "이 레이어가 있으면 DB처럼 동작"
+```
 
 📢 **섹션 요약 비유**: S3는 창고이고, 오픈 테이블 포맷은 창고에 설치한 재고 관리 시스템([ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/))이다. 창고 자체는 변하지 않지만, ERP가 있으면 어떤 물건이 언제 들어오고 나갔는지 추적하고, 실수로 잘못 입고된 물건을 되돌릴 수 있다.
 
@@ -50,25 +47,22 @@ S3 같은 [오브젝트 스토리지](/knowledge-base/studynote/02_operating_sys
 
 ### [Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/) 아키텍처
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Delta Lake 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">S3 버킷: s3://bucket/tables/orders/</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── _delta_log/</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 00000000000000000000.json ← 버전 0 (CREATE)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 00000000000000000001.json ← 버전 1 (INSERT)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 00000000000000000002.json ← 버전 2 (UPDATE)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 00000000000000000010.checkpoint.parquet</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── part-00000-xxx.snappy.parquet ← 실제 데이터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── part-00001-xxx.snappy.parquet</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── part-00002-xxx.snappy.parquet</div></div>
-<div class="kb-diagram-note">↑ Delta Log가 ACID 트랜잭션 구현의 핵심</div>
-</div>
-</div>
-
-
+```
+┌────────────────────────────────────────────────────┐
+│               Delta Lake 구조                       │
+│                                                    │
+│  S3 버킷: s3://bucket/tables/orders/               │
+│  ├── _delta_log/                                   │
+│  │   ├── 00000000000000000000.json  ← 버전 0 (CREATE)│
+│  │   ├── 00000000000000000001.json  ← 버전 1 (INSERT)│
+│  │   ├── 00000000000000000002.json  ← 버전 2 (UPDATE)│
+│  │   └── 00000000000000000010.checkpoint.parquet  │
+│  ├── part-00000-xxx.snappy.parquet  ← 실제 데이터  │
+│  ├── part-00001-xxx.snappy.parquet                 │
+│  └── part-00002-xxx.snappy.parquet                 │
+└────────────────────────────────────────────────────┘
+         ↑ Delta Log가 ACID 트랜잭션 구현의 핵심
+```
 
 ### 핵심 기능 상세
 
@@ -83,21 +77,16 @@ S3 같은 [오브젝트 스토리지](/knowledge-base/studynote/02_operating_sys
 
 ### Delta vs Iceberg vs Hudi 아키텍처 비교
 
+```
+[Delta Lake]          [Apache Iceberg]       [Apache Hudi]
+_delta_log/           metadata/              .hoodie/
+├─ 버전별 JSON        ├─ v1.metadata.json    ├─ 타임라인 파일
+│  커밋 로그          ├─ snap-xxx.avro       ├─ .commit
+│  (추가/삭제 파일)   │  (스냅샷)             ├─ .deltacommit
+└─ checkpoint        └─ manifest-xxx.avro   └─ .replacecommit
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Delta Lake</div><div class="kb-diagram-node">Apache Iceberg</div><div class="kb-diagram-node">Apache Hudi</div></div>
-<div class="kb-diagram-note">_delta_log/ metadata/ .hoodie/</div>
-<div class="kb-diagram-tree-item" style="--depth:0">버전별 JSON ─ v1.metadata.json ─ 타임라인 파일</div>
-<div class="kb-diagram-note">커밋 로그 ─ snap-xxx.avro ─ .commit</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(추가/삭제 파일)</div><div class="kb-diagram-cell">(스냅샷) ─ .deltacommit</div></div>
-<div class="kb-diagram-tree-item" style="--depth:0">checkpoint ─ manifest-xxx.avro ─ .replacecommit</div>
-<div class="kb-diagram-note">특화: Databricks 통합 특화: 멀티엔진 범용 특화: Upsert/CDC</div>
-</div>
-</div>
-
-
+특화: Databricks 통합  특화: 멀티엔진 범용    특화: Upsert/CDC
+```
 
 📢 **섹션 요약 비유**: Delta Log는 은행 거래 내역서와 같다. 계좌 잔액(현재 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))만 보는 게 아니라, 모든 거래 이력(Delta Log)이 있으니 언제든 특정 시점 잔액(타임트래블)을 재현할 수 있다.
 
@@ -211,20 +200,15 @@ WHEN NOT MATCHED THEN INSERT *;
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Parquet/ORC 파일 (메타데이터 부재)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">오픈 테이블 포맷: 메타데이터 레이어 추가</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Delta Lake: Databricks 주도 · Unity Catalog</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Apache Iceberg: Netflix 주도 · 벤더 중립</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Apache Hudi: Uber 주도 · CDC 최적화</div>
-</div>
-</div>
-
-
+```text
+Parquet/ORC 파일 (메타데이터 부재)
+    │
+    ▼
+오픈 테이블 포맷: 메타데이터 레이어 추가
+    ├─► Delta Lake: Databricks 주도 · Unity Catalog
+    ├─► Apache Iceberg: Netflix 주도 · 벤더 중립
+    └─► Apache Hudi: Uber 주도 · CDC 최적화
+```
 2. Delta Lake는 다이어리(일기장), Iceberg는 여러 도서관에서 읽을 수 있는 표준 교과서, Hudi는 실시간으로 내용이 바뀌는 뉴스 게시판과 같다.
 3. ACID는 은행 통장 잔액처럼 믿을 수 있어야 하는 규칙이다. 내가 1만원을 출금할 때 다른 사람도 동시에 1만원을 출금해서 잔액이 마이너스가 되는 일이 없도록 보호한다.
 

@@ -18,21 +18,21 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">과소적합 vs 적정 적합 vs 과적합</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">과소적합 적정 적합 과적합</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Underfitting) (Just Right) (Overfitting)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">훈련 오차: 높음 훈련 오차: 낮음 훈련 오차: 매우↓</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">검증 오차: 높음 검증 오차: 낮음 검증 오차: 높음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">선형 모델로 중간 복잡도 10차 다항식으로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">복잡한 패턴 학습 곡선 학습 노이즈까지 학습</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────┐
+│        과소적합 vs 적정 적합 vs 과적합                       │
+├────────────────────────────────────────────────────────────┤
+│                                                            │
+│  과소적합               적정 적합            과적합          │
+│  (Underfitting)        (Just Right)        (Overfitting)   │
+│                                                            │
+│  훈련 오차: 높음        훈련 오차: 낮음      훈련 오차: 매우↓ │
+│  검증 오차: 높음        검증 오차: 낮음      검증 오차: 높음  │
+│                                                            │
+│  선형 모델로           중간 복잡도          10차 다항식으로  │
+│  복잡한 패턴 학습      곡선 학습            노이즈까지 학습   │
+└────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 과소적합은 5문제 연습하고 100문제 시험보는 것(준비 부족), 과적합은 교과서 문제 답을 다 외웠지만 새 문제는 못 푸는 것(암기 과잉)이다. 진정한 학습은 원리를 이해해서 새 문제도 풀 수 있어야 한다.
 
@@ -42,20 +42,15 @@ tags = ["studynote-ai"]
 
 ### 학습 곡선 ([Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) Curve) 진단
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">과소적합: 과적합:</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오차</div><div class="kb-diagram-cell">오차</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">훈련 오차</div><div class="kb-diagram-cell">훈련 오차</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">검증 오차</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(두 선이 높게 수렴)</div><div class="kb-diagram-cell">검증 오차</div></div>
-<div class="kb-diagram-note">훈련 데이터 크기 훈련 데이터 크기</div>
-</div>
-</div>
-
-
+```text
+과소적합:                     과적합:
+오차│                         오차│
+   │─────── 훈련 오차          │   ────── 훈련 오차
+   │─────── 검증 오차          │
+   │(두 선이 높게 수렴)         │  ──────── 검증 오차
+   └──────────────────         └──────────────────
+     훈련 데이터 크기              훈련 데이터 크기
+```
 
 ### [과적합 방지 기법](/knowledge-base/studynote/10_ai/03_llm_nlp/278_regularization_overview/)
 
@@ -106,23 +101,20 @@ data_augmentation = tf.keras.Sequential([
 
 ### 체계적 진단 및 처방 프로세스
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">1. 베이스라인 모델 훈련</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">2. 학습 곡선 분석</div>
-<div class="kb-diagram-note">과소적합? → 모델 복잡도↑, 피처 엔지니어링, 에포크↑</div>
-<div class="kb-diagram-note">과적합? → 정규화, 드롭아웃, 데이터 증강, 조기 종료</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">3. 교차 검증(K-Fold)으로 일반화 성능 검증</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">4. 테스트 세트로 최종 평가 (딱 한 번만)</div>
-</div>
-</div>
-
-
+```text
+1. 베이스라인 모델 훈련
+       │
+       ▼
+2. 학습 곡선 분석
+   과소적합? → 모델 복잡도↑, 피처 엔지니어링, 에포크↑
+   과적합? → 정규화, 드롭아웃, 데이터 증강, 조기 종료
+       │
+       ▼
+3. 교차 검증(K-Fold)으로 일반화 성능 검증
+       │
+       ▼
+4. 테스트 세트로 최종 평가 (딱 한 번만)
+```
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - 테스트 세트로 반복 평가하며 모델을 튜닝하는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)("테스트 세트 누수"). 테스트 세트는 모델 개발이 완전히 끝난 후 최종 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 측정하는 데 딱 한 번만 사용해야 한다. 반복 사용하면 테스트 세트에 대한 암묵적 과적합이 발생한다.
@@ -157,23 +149,21 @@ data_augmentation = tf.keras.Sequential([
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">과소적합 — 모델 너무 단순, 패턴 포착 실패</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">과적합 — 모델 너무 복잡, 노이즈까지 학습</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">정규화/드롭아웃/조기 종료 — 과적합 방지</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">교차 검증 — 일반화 성능 객관적 측정</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전이학습 — 사전 훈련으로 과소적합 방지</div></div>
-</div>
-</div>
-
-
+```text
+[과소적합 — 모델 너무 단순, 패턴 포착 실패]
+    │
+    ▼
+[과적합 — 모델 너무 복잡, 노이즈까지 학습]
+    │
+    ▼
+[정규화/드롭아웃/조기 종료 — 과적합 방지]
+    │
+    ▼
+[교차 검증 — 일반화 성능 객관적 측정]
+    │
+    ▼
+[전이학습 — 사전 훈련으로 과소적합 방지]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

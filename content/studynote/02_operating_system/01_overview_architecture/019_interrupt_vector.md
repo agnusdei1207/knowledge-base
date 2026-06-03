@@ -31,25 +31,30 @@ tags = ["studynote-operating-system"]
 
   [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 신호가 벡터 번호를 통해 실제 메모리 주소로 변환되는 매핑 과정을 시각화하면 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인터럽트 벡터 매핑 메커니즘 (Mapping)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">외부 장치</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">인터럽트 신호 + 벡터 번호(N)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CPU</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 내부 동작:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 현재 PC 저장</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2. 점프 주소 계산 =</div><div class="kb-diagram-node">IVT 시작 주소</div><div class="kb-diagram-note">+ (N * 엔트리 크기)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 해당 주소에서 실제 ISR 주소 읽기 ▼</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">메모리 상의 인터럽트 벡터 테이블 (IVT)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Index</div><div class="kb-diagram-cell">ISR 주소 (Pointer)</div><div class="kb-diagram-cell">실제 ISR 코드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ISR 0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">...</div><div class="kb-diagram-cell">...</div><div class="kb-diagram-cell">...</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ISR N</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────────┐
+  │            인터럽트 벡터 매핑 메커니즘 (Mapping)                │
+  ├─────────────────────────────────────────────────────────────────┤
+  │                                                                 │
+  │ [외부 장치] ──▶ [인터럽트 신호 + 벡터 번호(N)] ──▶ [CPU]        │
+  │                                                    │            │
+  │   CPU 내부 동작:                                    │           │
+  │    1. 현재 PC 저장                                  │           │
+  │    2. 점프 주소 계산 = [IVT 시작 주소] + (N * 엔트리 크기)      │
+  │    3. 해당 주소에서 실제 ISR 주소 읽기                ▼         │
+  │                                                                 │
+  │ [메모리 상의 인터럽트 벡터 테이블 (IVT)]                        │
+  │ ┌───────┬───────────────────────────┐      ┌──────────────┐     │
+  │ │ Index │      ISR 주소 (Pointer)   │      │ 실제 ISR 코드  │   │
+  │ ├───────┼───────────────────────────┤      ├──────────────┤     │
+  │ │   0   │ 0x1000 (Divide by Zero) ──┼─────▶│ [ISR 0]      │     │
+  │ ├───────┼───────────────────────────┤      ├──────────────┤     │
+  │ │  ...  │           ...             │      │ ...          │     │
+  │ ├───────┼───────────────────────────┤      ├──────────────┤     │
+  │ │   N   │ 0x5000 (Keyboard IRQ)   ──┼─────▶│ [ISR N]      │     │
+  │ └───────┴───────────────────────────┘      └──────────────┘     │
+  └─────────────────────────────────────────────────────────────────┘
+```
 
   **[다이어그램 해설]** 이 도식은 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 벡터가 어떻게 '간접 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)'를 통해 유연성을 확보하는지 보여준다. 하드웨어 장치(또는 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) 명령)가 'N'이라는 번호를 던지면, CPU는 메모리에 위치한 테이블의 N번째 칸을 들여다본다. 그 칸에 적힌 '0x5000'이라는 값이 바로 우리가 실행해야 할 함수의 실제 위치다. 만약 운영체제가 ISR의 위치를 바꾸고 싶다면, 테이블의 값만 갱신하면 된다. 하드웨어 설계를 바꿀 필요 없이 소프트웨어적으로 처리 로직을 완전히 교체할 수 있다는 것이 벡터 테이블의 가장 큰 아키텍처적 이점이다.
 
@@ -70,45 +75,53 @@ tags = ["studynote-operating-system"]
 - <strong>IDT (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">Interrupt</a> Descriptor Table) 엔트리 구조 (x86 기준)</strong>:
   현대적인 시스템의 벡터 테이블은 단순한 '주소' 이상의 정보를 담고 있다. 보안을 위해 호출자의 권한을 체크하고, 어떤 스택을 사용할지 결정하는 복합적인 '서술자 (Descriptor)' 구조를 갖는다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인터럽트 게이트 서술자 (Gate Descriptor)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">63 48 47 46 45 44 40 39 32</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Offset 31:16</div><div class="kb-diagram-cell">P</div><div class="kb-diagram-cell">DPL</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">Type</div><div class="kb-diagram-cell">Reserved</div><div class="kb-diagram-cell">(상위 32비트)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">31 16 15 0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Segment Sel</div><div class="kb-diagram-cell">Offset 15:0</div><div class="kb-diagram-cell">(하위 32비트)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* P (Present): 유효한 엔트리인가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* DPL (Descriptor Privilege Level): 접근 가능한 최소 권한</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* Offset: 실제 ISR 함수 주소 (분할 저장됨)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────────┐
+  │           인터럽트 게이트 서술자 (Gate Descriptor)              │
+  ├─────────────────────────────────────────────────────────────────┤
+  │                                                                 │
+  │ 63            48 47 46 45 44    40 39         32                │
+  │ ┌──────────────┬─┬───┬─┬───────┬──────────────┐                 │
+  │ │ Offset 31:16 │P│DPL│0│ Type  │ Reserved     │ (상위 32비트)   │
+  │ └──────────────┴─┴───┴─┴───────┴──────────────┘                 │
+  │ 31            16 15           0                                 │
+  │ ┌──────────────┬──────────────┐                                 │
+  │ │ Segment Sel  │ Offset 15:0  │               (하위 32비트)     │
+  │ └──────────────┴──────────────┘                                 │
+  │                                                                 │
+  │ * P (Present): 유효한 엔트리인가?                               │
+  │ * DPL (Descriptor Privilege Level): 접근 가능한 최소 권한       │
+  │ * Offset: 실제 ISR 함수 주소 (분할 저장됨)                      │
+  └─────────────────────────────────────────────────────────────────┘
+```
 
   **[다이어그램 해설]** 단순히 32비트나 64비트 주소 하나만 적어놓지 않는 이유는 '보안' 때문이다. 만약 사용자 프로세스가 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)을 통해 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)로 들어오려 할 때, `DPL` 필드를 검사하여 호출자의 권한이 적절한지 하드웨어가 먼저 판단한다. 권한이 낮은 프로세스가 치명적인 예외 핸들러를 강제로 호출하는 것을 막는 방어선이다. 또한 `Type` 필드를 통해 이것이 '[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 게이트'인지 '[트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) 게이트'인지 구분한다. [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 게이트를 통과하면 CPU는 자동으로 다른 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 들어오지 못하게 플래그를 끄지만, [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) 게이트는 이를 유지한다. 벡터 테이블의 엔트리 하나가 단순한 포인터를 넘어 '보안 검문소' 역할을 수행하는 셈이다.
 
 - <strong>심층 동작 메커니즘 (IDTR <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/">레지스터</a>)</strong>:
   메모리 어딘가에 흩어져 있는 벡터 테이블을 CPU가 찾기 위해서는 그 기준 주소를 알고 있어야 한다. 이를 위해 `IDTR (Interrupt Descriptor Table Register)`이라는 특수 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)가 존재하며, 운영체제는 부팅 시 `LIDT (Load IDT)` 명령을 통해 테이블의 위치와 크기를 CPU에 각인시킨다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IDTR 레지스터와 메모리 참조 관계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CPU 내부 IDTR</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Base Address (64bit)</div><div class="kb-diagram-cell">Limit (16bit)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▼</div><div class="kb-diagram-node">메모리 시작점</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Vector 0 Descriptor</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Vector 1 Descriptor</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀── CPU는 하드웨어적으로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">...</div><div class="kb-diagram-cell">이 위치를 계속 주시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 보안: IDTR 값은 커널 모드에서만 수정 가능 (Privileged Inst)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌──────────────────────────────────────────────────────────────────┐
+  │              IDTR 레지스터와 메모리 참조 관계                    │
+  ├──────────────────────────────────────────────────────────────────┤
+  │                                                                  │
+  │  [CPU 내부 IDTR]                                                 │
+  │  ┌──────────────────────┬────────────────────┐                   │
+  │  │ Base Address (64bit) │ Limit (16bit)      │                   │
+  │  └──────────┬───────────┴────────────────────┘                   │
+  │             │                                                    │
+  │             ▼ [메모리 시작점]                                    │
+  │             ┌──────────────────────┐                             │
+  │             │ Vector 0 Descriptor  │                             │
+  │             ├──────────────────────┤                             │
+  │             │ Vector 1 Descriptor  │                             │
+  │             ├──────────────────────┤  ◀── CPU는 하드웨어적으로   │
+  │             │        ...           │      이 위치를 계속 주시    │
+  │             └──────────────────────┘                             │
+  │                                                                  │
+  │ * 보안: IDTR 값은 커널 모드에서만 수정 가능 (Privileged Inst)    │
+  └──────────────────────────────────────────────────────────────────┘
+```
 
   **[다이어그램 해설]** CPU는 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 번호 'N'이 들어오면, 내부 `IDTR` [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)의 `Base Address`에 `N * 엔트리 크기`를 더해 메모리 위치를 즉시 계산해낸다. 이 과정은 하드웨어 유닛이 직접 수행하므로 소프트웨어의 개입이 전혀 없으며, 매우 빠른 속도로 처리된다. `Limit` 필드는 테이블의 경계를 정의하여, 잘못된 번호가 들어왔을 때 메모리 밖을 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)하지 않도록 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)한다. 실무적으로 [커널 패닉](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/) ([Kernel Panic](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/)) 상황 중 'IDT 리밋 위반'은 운영체제가 이 하이브리드 포인터 구조를 제대로 설정하지 못했을 때 발생하는 아주 기초적이면서도 치명적인 오류다.
 
@@ -130,20 +143,22 @@ tags = ["studynote-operating-system"]
 
   벡터 테이블은 시스템의 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) ([Virtualization](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/)) 단계에서 더욱 복잡해진다. [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) ([Hypervisor](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/))는 게스트 OS가 하드웨어 벡터 테이블을 직접 건드리지 못하게 하고, 중간에서 가상 벡터 테이블을 통해 신호를 중계한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가상화 환경에서의 인터럽트 벡터 중계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">하드웨어</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Host IDT</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Hypervisor</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▼</div><div class="kb-diagram-node">Injection</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Guest OS (VM)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Guest IDT</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ISR</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 이슈: 가상화 오버헤드의 주범은 '인터럽트 엑싯(Exit)'</div></div>
-</div>
-</div>
-
-
+```text
+  ┌──────────────────────────────────────────────────────────────────┐
+  │            가상화 환경에서의 인터럽트 벡터 중계                  │
+  ├──────────────────────────────────────────────────────────────────┤
+  │                                                                  │
+  │ [하드웨어] ──▶ [Host IDT] ──▶ [Hypervisor]                       │
+  │                                     │                            │
+  │                                     ▼ [Injection]                │
+  │                          ┌─────────────────────────┐             │
+  │                          │    Guest OS (VM)        │             │
+  │                          │  [Guest IDT] ──▶ [ISR]  │             │
+  │                          └─────────────────────────┘             │
+  │                                                                  │
+  │ * 이슈: 가상화 오버헤드의 주범은 '인터럽트 엑싯(Exit)'           │
+  └──────────────────────────────────────────────────────────────────┘
+```
 
   **[다이어그램 해설]** 가상 머신 안에서 돌아가는 윈도우나 리눅스는 자신들이 진짜 하드웨어의 벡터 테이블을 관리한다고 착각한다. 하지만 실제로는 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 관리하는 '그림자 테이블 (Shadow Table)'을 보고 있는 것이다. [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 발생하면 하드웨어는 일단 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)의 벡터 테이블로 제어권을 넘기고, [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)는 어느 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)([Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))으로 보낼지 결정한 뒤 해당 VM의 가상 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 컨트롤러에 신호를 주입([Injection](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/))한다. 이 이중 매핑 구조 때문에 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 환경에서의 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 레이턴시는 네이티브 대비 클 수밖에 없으며, 이를 줄이기 위해 `Intel VT-x` 같은 하드웨어 가속 기술이 벡터 테이블 처리를 직접 돕기도 한다.
 
@@ -160,21 +175,20 @@ tags = ["studynote-operating-system"]
 
   리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서 하드웨어 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)와 벡터 번호를 연결하고 디버깅하는 실무 과정은 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인터럽트 벡터 디버깅 및 분석 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1.</div><div class="kb-diagram-node">번호 확인</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">cat /proc/interrupts 로 벡터/IRQ 매핑 확인</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2.</div><div class="kb-diagram-node">핸들러 추적</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">커널 소스에서 request_irq() 호출 지점 검색</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3.</div><div class="kb-diagram-node">IDT 상태 조회</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">디버거(kgdb)로 IDTR 주소의 메모리 덤프</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">4.</div><div class="kb-diagram-node">충돌 감지</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">특정 벡터에 여러 장치가 등록(Sharing)되었나?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">5.</div><div class="kb-diagram-node">성능 튜닝</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">빈번한 벡터의 ISR 실행 시간 측정 및 최적화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 실무 팁: 벡터 공유는 성능 저하의 주범이므로 가급적 피할 것</div></div>
-</div>
-</div>
-
-
+```text
+  ┌────────────────────────────────────────────────────────────────────┐
+  │            인터럽트 벡터 디버깅 및 분석 플로우                     │
+  ├────────────────────────────────────────────────────────────────────┤
+  │                                                                    │
+  │ 1. [번호 확인] ──▶ cat /proc/interrupts 로 벡터/IRQ 매핑 확인      │
+  │ 2. [핸들러 추적] ──▶ 커널 소스에서 request_irq() 호출 지점 검색    │
+  │ 3. [IDT 상태 조회] ──▶ 디버거(kgdb)로 IDTR 주소의 메모리 덤프      │
+  │ 4. [충돌 감지] ──▶ 특정 벡터에 여러 장치가 등록(Sharing)되었나?    │
+  │ 5. [성능 튜닝] ──▶ 빈번한 벡터의 ISR 실행 시간 측정 및 최적화      │
+  │                                                                    │
+  │ * 실무 팁: 벡터 공유는 성능 저하의 주범이므로 가급적 피할 것       │
+  └────────────────────────────────────────────────────────────────────┘
+```
 
   **[다이어그램 해설]** 엔지니어는 시스템 부하가 높을 때 단순히 "CPU 점유율이 높다"고 말해서는 안 된다. 구체적으로 "네트워크 카드가 사용하는 벡터 45번의 ISR이 코어 0번에서 너무 오래 머물고 있다"는 식으로 벡터 중심의 분석이 가능해야 한다. 리눅스의 `/proc/interrupts`는 하드웨어 벡터와 소프트웨어 핸들러의 매핑 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 보여주는 거울과 같다. 기술사적 판단으로 볼 때, 벡터 테이블은 시스템의 '신경절'이며, 이 신경망이 엉키거나(공유) 오염(후킹)되는 것을 막는 것이 안정적인 서버 운영의 기초 체력이다.
 
@@ -205,21 +219,18 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">인터럽트 발생 (HW/SW) — 현재 실행 흐름 중단</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">인터럽트 벡터 테이블 (IVT) 조회 — 번호로 ISR 주소 참조</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ISR (Interrupt Service Routine) 실행 — 장치별 처리 코드</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">컨텍스트 복원 — PC/레지스터 복구 후 원래 실행 재개</div></div>
-</div>
-</div>
-
-
+```text
+[인터럽트 발생 (HW/SW) — 현재 실행 흐름 중단]
+    │
+    ▼
+[인터럽트 벡터 테이블 (IVT) 조회 — 번호로 ISR 주소 참조]
+    │
+    ▼
+[ISR (Interrupt Service Routine) 실행 — 장치별 처리 코드]
+    │
+    ▼
+[컨텍스트 복원 — PC/레지스터 복구 후 원래 실행 재개]
+```
 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 벡터 테이블은 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 번호를 [ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/) 주소로 변환하는 색인으로, CPU가 빠르게 올바른 처리 루틴으로 점프하게 해준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

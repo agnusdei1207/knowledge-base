@@ -18,7 +18,7 @@ tags = ["algorithm_stats"]
 
 그래프는 정점과 간선의 집합으로 표현되는 수학적 구조다. 정점은 객체를, 간선은 객체 간 관계를 나타낸다. 그래프 탐색은 이러한 그래프에서 특정 정점을 찾거나, 두 정점 간 경로를 구하는 알고리즘을 다룬다.
 
-그래프는 다양한 형태로 나타난다. 간선의 방향성 여부에 따라 무향 그래프와 그래프로 나뉘며, 가중치에 따라 분류된다. 소셜 네트워크의 친구 관계처럼 관계가 대칭적이면 무향 그래프, 팔로잉 관계처럼 한 방향만 존재하면 그래프다.
+그래프는 다양한 형태로 나타난다. 간선의 방향성 여부에 따라 무향 그래프와유향 그래프로 나뉘며, 가중치유무에 따라 분류된다. 소셜 네트워크의 친구 관계처럼 관계가 대칭적이면 무향 그래프, 팔로잉 관계처럼 한 방향만 존재하면유향 그래프다.
 
 ### 왜 그래프 탐색이 중요한가
 
@@ -28,26 +28,21 @@ tags = ["algorithm_stats"]
 
 ### 그래프 탐색 발전 과정
 
+```
+[그래프 탐색 알고리즘 발전사]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">그래프 탐색 알고리즘 발전사</div></div>
-<div class="kb-diagram-note">1736년: 쾨니히스베르크의 다리 문제 - 오일러의 그래프 이론 태동</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">1874년: BFS (너비 우선 탐색) 개념 형성</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">1957년: 다익스트라 알고리즘 발표 (단일 출발점 최단 경로)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">1960년대: DFS (깊이 우선 탐색) - 미로 탐색, 위상 정렬</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">1974년: A* 알고리즘 - 휴리스틱 기반 최단 경로 탐색</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">1990년대~현재: 페이지랭크, 실시간 라우팅, 분산 그래프 처리</div>
-</div>
-</div>
-
-
+1736년: 쾨니히스베르크의 다리 문제 - 오일러의 그래프 이론 태동
+  ↓
+1874년: BFS (너비 우선 탐색) 개념 형성
+  ↓
+1957년: 다익스트라 알고리즘 발표 (단일 출발점 최단 경로)
+  ↓
+1960년대: DFS (깊이 우선 탐색) - 미로 탐색, 위상 정렬
+  ↓
+1974년: A* 알고리즘 - 휴리스틱 기반 최단 경로 탐색
+  ↓
+1990년대~현재: 페이지랭크, 실시간 라우팅, 분산 그래프 처리
+```
 
 **[다이어그램 해설]** 그래프 알고리즘의 역사는 수학의 오래된 문제에서 시작하여 현대 컴퓨터 과학의 핵심 도구로 발전했다. 오일러는 쾨니히스베르크 문제를 해결하며 그래프 이론의 기반을 놓았고, 이후 BFS, DFS, 다익스트라, A* 등 다양한 탐색 알고리즘이 등장했다. 현재는 웹 분석, 기계 학습, 분산 시스템 등 다양한 분야에서 그래프 알고리즘이 핵심 역할을 하고 있다.
 
@@ -63,32 +58,36 @@ tags = ["algorithm_stats"]
 
 그래프를 컴퓨터에서 표현하는 방식은 두 가지가 대표적이며, 각각 시간 복잡도와 공간 복잡도에서 트레이드오프가 있다. 희소 그래프(간선이 적은 그래프)에서는 인접 목록이, 밀집 그래프(간선이 많은 그래프)에서는 인접 행렬이 유리하다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">그래프 표현 방식 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">인접 행렬 (Adjacency Matrix)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A B C D</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A 0 1 1 0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B 1 0 0 1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C 1 0 0 1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">D 0 1 1 0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공간: O(V제곱) - 정점 수 많으면 불필요한 공간 소모</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">간선 확인: O(1) - 행렬 접근이므로 즉시 확인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인접 정점 탐색: O(V) - 한 행의 모든 원소 확인 필요</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">인접 목록 (Adjacency List)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">B, C</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">A, D</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">A, D</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">B, C</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공간: O(V + E) - 실제 간선 수에 비례</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">간선 확인: O(deg(V)) - 정점의 차수만큼만 확인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">희소 그래프에 적합</div></div>
-</div>
-</div>
-
-
+```
+┌────────────────────────────────────────────────────────────────┐
+│              그래프 표현 방식 비교                                │
+├────────────────────────────────────────────────────────────────┤
+│                                                                │
+│  [인접 행렬 (Adjacency Matrix)]                                │
+│  ─────────────────────────                                    │
+│        A   B   C   D                                          │
+│     A  0   1   1   0                                           │
+│     B  1   0   0   1                                           │
+│     C  1   0   0   1                                           │
+│     D  0   1   1   0                                           │
+│                                                                │
+│  공간: O(V제곱) - 정점 수 많으면 불필요한 공간 소모                │
+│  간선 확인: O(1) - 행렬 접근이므로 즉시 확인                     │
+│  인접 정점 탐색: O(V) - 한 행의 모든 원소 확인 필요              │
+│                                                                │
+│  [인접 목록 (Adjacency List)]                                  │
+│  ─────────────────────────                                    │
+│     A → [B, C]                                                 │
+│     B → [A, D]                                                 │
+│     C → [A, D]                                                 │
+│     D → [B, C]                                                 │
+│                                                                │
+│  공간: O(V + E) - 실제 간선 수에 비례                           │
+│  간선 확인: O(deg(V)) - 정점의 차수만큼만 확인                    │
+│  희소 그래프에 적합                                             │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 인접 행렬은 두 정점 사이의 간선 존재 여부를 O(1)에 확인할 수 있지만, 모든 정점 쌍을 저장하므로 공간 효율이 떨어진다. 반면 인접 목록은 실제 존재하는 간선만 저장하므로 희소 그래프에서 공간 효율이 높다. 현실의 대부분의 그래프(소셜 네트워크, 웹)는 희소 그래프에 속하므로, 인접 목록이 일반적으로 더 선호된다. 그러나 밀집 그래프에서는 인접 행렬의 O(1) 간선 확인이 유리할 수 있다.
 
@@ -96,40 +95,48 @@ tags = ["algorithm_stats"]
 
 너비 우선 탐색은 그래프에서 가까운 정점부터 순서대로 방문하는 탐색 알고리즘이다. FIFO 큐를 사용하여 현재 수준의 모든 정점을 방문한 후에야 다음 수준으로 진행한다.
 
+```
+[BFS 동작 과정]
 
+  예시 그래프:
+        A
+       / \
+      B   C
+     /|\   \
+    D E F   G
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">BFS 동작 과정</div></div>
-<div class="kb-diagram-note">예시 그래프:</div>
-<div class="kb-diagram-note">A</div>
-<div class="kb-diagram-note">B C</div>
-<div class="kb-diagram-note">D E F G</div>
-<div class="kb-diagram-note">BFS 방문 순서: A → B → C → D → E → F → G</div>
-<div class="kb-diagram-note">단계별 진행:</div>
-<div class="kb-diagram-note">시작: A를 큐에 삽입, 방문 표시</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">큐:</div><div class="kb-diagram-node">A</div></div>
-<div class="kb-diagram-note">1단계: A를 꺼냄, 이웃 B, C를 큐에 삽입</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">큐:</div><div class="kb-diagram-node">B, C</div></div>
-<div class="kb-diagram-note">방문: A</div>
-<div class="kb-diagram-note">2단계: B를 꺼냄, 이웃 D, E, F를 큐에 삽입</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">큐:</div><div class="kb-diagram-node">C, D, E, F</div></div>
-<div class="kb-diagram-note">방문: A, B</div>
-<div class="kb-diagram-note">3단계: C를 꺼냄, 이웃 G를 큐에 삽입</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">큐:</div><div class="kb-diagram-node">D, E, F, G</div></div>
-<div class="kb-diagram-note">방문: A, B, C</div>
-<div class="kb-diagram-note">4단계~: D, E, F, G 순서로 꺼냄</div>
-<div class="kb-diagram-note">큐: []</div>
-<div class="kb-diagram-note">방문: A, B, C, D, E, F, G</div>
-<div class="kb-diagram-note">레벨별 정리:</div>
-<div class="kb-diagram-note">Level 0: A</div>
-<div class="kb-diagram-note">Level 1: B, C</div>
-<div class="kb-diagram-note">Level 2: D, E, F, G</div>
-<div class="kb-diagram-note">※ BFS는 항상 레벨 순서로 방문 → 최단 경로 보장</div>
-</div>
-</div>
+  BFS 방문 순서: A → B → C → D → E → F → G
 
+  단계별 진행:
+  ─────────────────────────────
 
+  시작: A를 큐에 삽입, 방문 표시
+  큐: [A]
+
+  1단계: A를 꺼냄, 이웃 B, C를 큐에 삽입
+  큐: [B, C]
+  방문: A
+
+  2단계: B를 꺼냄, 이웃 D, E, F를 큐에 삽입
+  큐: [C, D, E, F]
+  방문: A, B
+
+  3단계: C를 꺼냄, 이웃 G를 큐에 삽입
+  큐: [D, E, F, G]
+  방문: A, B, C
+
+  4단계~: D, E, F, G 순서로 꺼냄
+  큐: []
+  방문: A, B, C, D, E, F, G
+
+  레벨별 정리:
+  ─────────────────────────────
+  Level 0: A
+  Level 1: B, C
+  Level 2: D, E, F, G
+
+  ※ BFS는 항상 레벨 순서로 방문 → 최단 경로 보장
+```
 
 **[다이어그램 해설]** 너비 우선 탐색의 핵심 특성은 가까운 정점부터 순서대로 방문한다는 점이다. 이 때문에 너비 우선 탐색은 두 정점 사이의 최단 경로(간선 수 기준)를 보장한다. 예를 들어 소셜 네트워크에서 "친구의 친구" 레벨을 단계별로 탐색할 때 너비 우선 탐색이 사용된다. 시간 복잡도는 O(V + E)이며, 공간 복잡도는 최악의 경우 O(V)이다. 너비 우선 탐색은 큐 자료구조를 사용하므로 FIFO 순서로 방문하게 된다.
 
@@ -137,35 +144,41 @@ tags = ["algorithm_stats"]
 
 깊이 우선 탐색은 그래프의 한 경로를 끝까지 탐색한 후, 막히면 돌아와서 다른 경로를 시도하는 탐색 알고리즘이다. LIFO 스택(또는 재귀)을 사용하여 구현된다.
 
+```
+[DFS 동작 과정]
 
+  예시 그래프:
+        A
+       / \
+      B   C
+     /|\   \
+    D E F   G
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DFS 동작 과정</div></div>
-<div class="kb-diagram-note">예시 그래프:</div>
-<div class="kb-diagram-note">A</div>
-<div class="kb-diagram-note">B C</div>
-<div class="kb-diagram-note">D E F G</div>
-<div class="kb-diagram-note">DFS 방문 순서: A → B → D → E → F → C → G (경로에 따라 다를 수 있음)</div>
-<div class="kb-diagram-note">단계별 진행 (스택 사용):</div>
-<div class="kb-diagram-note">시작: A를 스택에 삽입</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">스택:</div><div class="kb-diagram-node">A</div></div>
-<div class="kb-diagram-note">1단계: A를 꺼냄, 이웃 B, C를 스택에 삽입 (C를 먼저: LIFO)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">스택:</div><div class="kb-diagram-node">C, B</div></div>
-<div class="kb-diagram-note">방문: A</div>
-<div class="kb-diagram-note">2단계: C를 꺼냄, 이웃 G를 스택에 삽입</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">스택:</div><div class="kb-diagram-node">G, B</div></div>
-<div class="kb-diagram-note">방문: A, C</div>
-<div class="kb-diagram-note">3단계: G를 꺼냄, 이웃 없음</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">스택:</div><div class="kb-diagram-node">B</div></div>
-<div class="kb-diagram-note">방문: A, C, G</div>
-<div class="kb-diagram-note">4단계: B를 꺼냄, 이웃 D, E, F를 스택에 삽입</div>
-<div class="kb-diagram-note">...</div>
-<div class="kb-diagram-note">백트래킹: 더 이상 방문할 정점이 없으면 이전 정점으로 돌아감</div>
-</div>
-</div>
+  DFS 방문 순서: A → B → D → E → F → C → G (경로에 따라 다를 수 있음)
 
+  단계별 진행 (스택 사용):
+  ─────────────────────────────
 
+  시작: A를 스택에 삽입
+  스택: [A]
+
+  1단계: A를 꺼냄, 이웃 B, C를 스택에 삽입 (C를 먼저: LIFO)
+  스택: [C, B]
+  방문: A
+
+  2단계: C를 꺼냄, 이웃 G를 스택에 삽입
+  스택: [G, B]
+  방문: A, C
+
+  3단계: G를 꺼냄, 이웃 없음
+  스택: [B]
+  방문: A, C, G
+
+  4단계: B를 꺼냄, 이웃 D, E, F를 스택에 삽입
+  ...
+
+  백트래킹: 더 이상 방문할 정점이 없으면 이전 정점으로 돌아감
+```
 
 **[다이어그램 해설]** 깊이 우선 탐색의 핵심은 한 길을 깊이 파고들다가 막히면 백트래킹하여 다른 경로를 시도한다는 점이다. 이 특성 때문에 깊이 우선 탐색은 모든 경로를 탐색해야 하는 문제(미로 찾기, 조합 생성), 위상 정렬, 사이클 검출 등에 적합하다. 시간 복잡도는 너비 우선 탐색과 동일하게 O(V + E)이지만, 공간 복잡도는 호출 스택 깊이만큼 O(V)가 될 수 있다. 재귀 구현 시 주의할 점은 최대 재귀 깊이 제한이 있는 언어로 큰 그래프에서는 명시적 스택을 사용해야 한다는 것이다.
 
@@ -173,41 +186,47 @@ tags = ["algorithm_stats"]
 
 다익스트라 알고리즘은 가중 그래프에서 단일 출발점에서 다른 모든 정점까지의 최단 경로를 구하는 알고리즘이다. 음수 가중치가 없는 한 방향 또는 무방향 그래프에서 작동한다.
 
+```
+[다익스트라 알고리즘 동작]
 
+  예시 그래프 (가중치):
+        A(0)
+       /|\
+      4| 2\
+    D( ) B( )C
+    /\   |  /\
+   1  2  1 3  1
+  /\     |     /\
+ E( )   F( )   G( )
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">다익스트라 알고리즘 동작</div></div>
-<div class="kb-diagram-note">예시 그래프 (가중치):</div>
-<div class="kb-diagram-note">A(0)</div>
-<div class="kb-diagram-note">4| 2\</div>
-<div class="kb-diagram-note">D( ) B( )C</div>
-<div class="kb-diagram-note">1 2 1 3 1</div>
-<div class="kb-diagram-note">E( ) F( ) G( )</div>
-<div class="kb-diagram-note">단계별 진행:</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">초기: 시작점 A만 결정, 거리</div><div class="kb-diagram-node">A</div><div class="kb-diagram-note">= 0, 나머지 ∞</div></div>
-<div class="kb-diagram-note">1단계: A에서 갈 수 있는 정점 거리 갱신</div>
-<div class="kb-diagram-tree-item" style="--depth:0">B: min(∞, 0+4) = 4</div>
-<div class="kb-diagram-tree-item" style="--depth:0">C: min(∞, 0+2) = 2</div>
-<div class="kb-diagram-tree-item" style="--depth:0">D: min(∞, 0+∞) = ∞ (직접 연결 없음)</div>
-<div class="kb-diagram-note">최단 거리 정점: C (거리 2)</div>
-<div class="kb-diagram-note">2단계: C를 확정, C에서 갈 수 있는 정점 거리 갱신</div>
-<div class="kb-diagram-tree-item" style="--depth:0">B: min(4, 2+4) = 4 (변화 없음)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">D: min(∞, 2+3) = 5</div>
-<div class="kb-diagram-note">최단 거리 정점: B (거리 4)</div>
-<div class="kb-diagram-note">3단계: B (거리 4)를 확정</div>
-<div class="kb-diagram-tree-item" style="--depth:0">D: min(5, 4+1) = 5 (변화 없음)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">F: min(∞, 4+2) = 6</div>
-<div class="kb-diagram-note">계속 진행...</div>
-<div class="kb-diagram-note">최종 결과:</div>
-<div class="kb-diagram-note">A → B: 거리 4, 경로 A-C-B</div>
-<div class="kb-diagram-note">A → C: 거리 2, 경로 A-C</div>
-<div class="kb-diagram-note">A → D: 거리 5, 경로 A-C-D 또는 A-C-B-D</div>
-<div class="kb-diagram-note">A → F: 거리 6, 경로 A-C-B-F</div>
-</div>
-</div>
+  단계별 진행:
+  ─────────────────────────────
 
+  초기: 시작점 A만 결정, 거리[A] = 0, 나머지 ∞
 
+  1단계: A에서 갈 수 있는 정점 거리 갱신
+    - B: min(∞, 0+4) = 4
+    - C: min(∞, 0+2) = 2
+    - D: min(∞, 0+∞) = ∞ (직접 연결 없음)
+    최단 거리 정점: C (거리 2)
+
+  2단계: C를 확정, C에서 갈 수 있는 정점 거리 갱신
+    - B: min(4, 2+4) = 4 (변화 없음)
+    - D: min(∞, 2+3) = 5
+    최단 거리 정점: B (거리 4)
+
+  3단계: B (거리 4)를 확정
+    - D: min(5, 4+1) = 5 (변화 없음)
+    - F: min(∞, 4+2) = 6
+
+  계속 진행...
+
+  최종 결과:
+    A → B: 거리 4, 경로 A-C-B
+    A → C: 거리 2, 경로 A-C
+    A → D: 거리 5, 경로 A-C-D 또는 A-C-B-D
+    A → F: 거리 6, 경로 A-C-B-F
+```
 
 **[다이어그램 해설]** 다익스트라의 핵심은 "출발점에서 가장 가까운 미방문 정점부터 순서대로 확정한다"는 것이다. 이 탐욕 전략이 작동하는 이유는, 더 짧은 경로를 통해 확정된 정점에 도달하는 것은 불가능하기 때문이다.우선순위 큐를 사용하면 매 단계에서 최소 거리 정점을 O(log V)에 추출할 수 있어 전체 시간 복잡도는 O(E log V)가 된다. 음수 가중치가 있으면 작동하지 않으며, 이 경우 벨만-포드 알고리즘을 사용해야 한다.
 
@@ -227,22 +246,22 @@ tags = ["algorithm_stats"]
 
 ### 비교 2: 최단 경로 알고리즘 비교
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최단 경로 알고리즘 선택 매트릭스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상황</div><div class="kb-diagram-cell">추천 알고리즘</div><div class="kb-diagram-cell">이유</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가중치 없음, 최단 경로 (간선 수)</div><div class="kb-diagram-cell">너비 우선 탐색</div><div class="kb-diagram-cell">O(V+E)로 최적</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">음수 가중치 없음, 가중 경로</div><div class="kb-diagram-cell">다익스트라</div><div class="kb-diagram-cell">탐욕으로 효율</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">음수 가중치 있음</div><div class="kb-diagram-cell">벨만-포드</div><div class="kb-diagram-cell">음수 처리 가능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모든 정점 쌍 간 최단 경로</div><div class="kb-diagram-cell">플로이드-워샬</div><div class="kb-diagram-cell">동적 계획법 기반</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">희소 그래프, 단일 출발점</div><div class="kb-diagram-cell">다익스트라 (힙)</div><div class="kb-diagram-cell">E log V 효율</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">휴리스틱 사용 가능</div><div class="kb-diagram-cell">A*</div><div class="kb-diagram-cell">목표 향해 탐색</div></div>
-</div>
-</div>
-
-
+```
+┌────────────────────────────────────────────────────────────────┐
+│             최단 경로 알고리즘 선택 매트릭스                        │
+├────────────────────────────────────────────────────────────────┤
+│                                                                │
+│  상황                         │ 추천 알고리즘    │ 이유        │
+│  ─────────────────────────────┼────────────────┼─────────────  │
+│  가중치 없음, 최단 경로 (간선 수)│ 너비 우선 탐색            │ O(V+E)로 최적│
+│  음수 가중치 없음, 가중 경로    │ 다익스트라      │ 탐욕으로 효율│
+│  음수 가중치 있음               │ 벨만-포드        │ 음수 처리 가능│
+│  모든 정점 쌍 간 최단 경로      │ 플로이드-워샬  │ 동적 계획법 기반      │
+│  희소 그래프, 단일 출발점       │ 다익스트라 (힙)   │ E log V 효율 │
+│  휴리스틱 사용 가능            │ A*              │ 목표 향해 탐색│
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 알고리즘 선택은 문제의 특성에 따라 달라진다. 가중치가 없으면 너비 우선 탐색이 가장 효율적이고, 가중치가 있으면 다익스트라를 사용한다. A*는 목표 지점까지의 추정 거리를 휴리스틱으로 사용하여 다익스트라보다 빠르게 탐색할 수 있지만, 휴리스틱이 admissable해야 함(실제 거리보다 작거나 같음)을 보장해야 한다.
 
@@ -250,22 +269,20 @@ tags = ["algorithm_stats"]
 
 다익스트라 알고리즘은 OSPF (Open Shortest Path First) 라우팅 프로토콜의 핵심이다. 각 라우터는 자신과 연결된 네트워크를 그래프의 정점으로, 링크 비용을 가중치로 하여 다익스트라를 실행하고, 이를 통해 전체 네트워크에서 최단 경로를 결정한다.
 
+```
+[OSPF 라우팅에서 다익스트라 활용]
 
+  네트워크 토폴로지:
+    R1 ──4── R2
+    │        │
+    2        1
+    │        │
+    R3 ──3── R4
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">OSPF 라우팅에서 다익스트라 활용</div></div>
-<div class="kb-diagram-note">네트워크 토폴로지:</div>
-<div class="kb-diagram-note">R1 ──4── R2</div>
-<div class="kb-diagram-note">2 1</div>
-<div class="kb-diagram-note">R3 ──3── R4</div>
-<div class="kb-diagram-note">R1의 라우팅 테이블 생성 과정:</div>
-<div class="kb-diagram-tree-item" style="--depth:0">R1에서 모든 라우터까지의 최단 거리 계산</div>
-<div class="kb-diagram-tree-item" style="--depth:0">각 목적지까지의 다음 홉 결정</div>
-</div>
-</div>
-
-
+  R1의 라우팅 테이블 생성 과정:
+  - R1에서 모든 라우터까지의 최단 거리 계산
+  - 각 목적지까지의 다음 홉 결정
+```
 
 **[다이어그램 해설]** OSPF에서 각 라우터는 동일한 네트워크 그래프에 대해 독립적으로 다익스트라를 실행한다. 링크 상태가 변경되면 LSA (링크 상태 알림)를 통해 모든 라우터에 알리고, 각 라우터는 업데이트된 토폴로지로 라우팅 테이블을 재계산한다. 이것은 분산 시스템에서의 일관성 문제와 연결되며, 라우팅 프로토콜의 수렴 시간이 네트워크 전체에 영향을 미친다.
 
@@ -282,16 +299,16 @@ tags = ["algorithm_stats"]
 ```
 [A* 알고리즘 동작]
 
-f(n) = g(n) + h(n)
-g(n): 출발점에서 현재 정점까지의 실제 거리
-h(n): 현재 정점에서 목표점까지의 추정 거리 (휴리스틱)
+  f(n) = g(n) + h(n)
+  g(n): 출발점에서 현재 정점까지의 실제 거리
+  h(n): 현재 정점에서 목표점까지의 추정 거리 (휴리스틱)
 
-예시: 서울에서 부산까지
-- g(n): 서울에서 현재까지 온 실제 거리
-- h(n): 현재 위치에서 부산까지 직선 거리
-- f(n): 총 예상 거리
+  예시: 서울에서 부산까지
+  - g(n): 서울에서 현재까지 온 실제 거리
+  - h(n): 현재 위치에서 부산까지 직선 거리
+  - f(n): 총 예상 거리
 
-휴리스틱이 admissable하면 A*는 최적 경로를 보장한다.
+  휴리스틱이 admissable하면 A*는 최적 경로를 보장한다.
 ```
 
 **[다이어그램 해설]** A*의 핵심은 휴리스틱 함수 h(n)이다. h(n)이 0이면 다익스트라와 동일하고, h(n)이 정확하면 탐색 없이 바로 목표에 도달한다. 그러나 h(n)이 실제보다 크면 최적성을 보장할 수 없고, h(n)이 음수이면 작동하지 않는다. 내비게이션에서는 GPS 좌표 기반의 직선 거리가 일반적으로 사용된다.
@@ -324,11 +341,11 @@ h(n): 현재 정점에서 목표점까지의 추정 거리 (휴리스틱)
 |:---|:---|:---|
 | **정량** | 너비 우선 탐색 vs 무작위 탐색: 100만 정점 그래프 | 수시간에서 수초 |
 | **정량** | A* vs 다익스트라 (휴리스틱 적합시) | 탐색 범위 50% 이상 감소 |
-| **정성** | 네비게이션 시스템 응답 속도 향상 | 핵심 |
+| **정성** | 네비게이션 시스템 응답 속도 향상 |용호체험 핵심 |
 
 ### 미래 전망
 
-그래프 알고리즘의 미래는 크게 세 가지 방향으로 전개되고 있다. 첫째, 대규모 그래프 처리를 위한 분산 알고리즘이 연구되고 있다. 둘째, 지식 그래프와 그래프 신경망에서 그래프 알고리즘과 기계 학습의 융합이하고 있다. 셋째, 양자 컴퓨팅에서의 그래프 알고리즘 최적화가 활발히 연구되고 있다.
+그래프 알고리즘의 미래는 크게 세 가지 방향으로 전개되고 있다. 첫째, 대규모 그래프 처리를 위한 분산 알고리즘이 연구되고 있다. 둘째, 지식 그래프와 그래프 신경망에서 그래프 알고리즘과 기계 학습의 융합이가속하고 있다. 셋째, 양자 컴퓨팅에서의 그래프 알고리즘 최적화가 활발히 연구되고 있다.
 
 ### 관련 표준
 
@@ -354,31 +371,28 @@ h(n): 현재 정점에서 목표점까지의 추정 거리 (휴리스틱)
 
 1. 그래프 탐색은 미로 찾기와 같아요. 너비 우선 탐색은 한 번에 같은 거리의 길들을 모두 확인하고, 깊이 우선 탐색은 한 길을 끝까지 가보다가 막히면 돌아와서 다른 길을 봐요.
 
-2. 다익스트라 알고리즘은 각 교차로마다 지금까지 가장 짧은 거리를 표시하면서까지 가장 짧은 길을 찾아가는 거예요.
+2. 다익스트라 알고리즘은 각 교차로마다 지금까지 가장 짧은 거리를 표시하면서목적지까지 가장 짧은 길을 찾아가는 거예요.
 
 3. 그런데 길에 톨게이트 비용(가중치)이 있으면 더 똑똑하게 계산해야 해요. 그냥 가까워 보이는 길이 오히려 톨게이트가 많아서 더 멀 수 있거든요!
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">그래프 표현: 인접 행렬 / 인접 리스트</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">탐색 기본</div>
-<div class="kb-diagram-tree-item" style="--depth:0">BFS (너비 우선): 최단 경로 (비가중)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">DFS (깊이 우선): 사이클 탐지, 위상 정렬</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">최단 경로</div>
-<div class="kb-diagram-tree-item" style="--depth:0">다익스트라 O(E log V) — 비음수 가중치</div>
-<div class="kb-diagram-tree-item" style="--depth:0">벨만-포드 O(VE) — 음수 가중치 허용</div>
-<div class="kb-diagram-tree-item" style="--depth:0">플로이드-워셜 O(V³) — 모든 쌍 최단 경로</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">최소 신장 트리</div>
-<div class="kb-diagram-tree-item" style="--depth:0">크루스칼 (Kruskal) — 유니온-파인드</div>
-<div class="kb-diagram-tree-item" style="--depth:0">프림 (Prim) — 우선순위 큐</div>
-</div>
-</div>
-
-
+```text
+그래프 표현: 인접 행렬 / 인접 리스트
+    │
+    ▼
+탐색 기본
+    ├─► BFS (너비 우선): 최단 경로 (비가중)
+    └─► DFS (깊이 우선): 사이클 탐지, 위상 정렬
+    │
+    ▼
+최단 경로
+    ├─► 다익스트라 O(E log V) — 비음수 가중치
+    ├─► 벨만-포드 O(VE) — 음수 가중치 허용
+    └─► 플로이드-워셜 O(V³) — 모든 쌍 최단 경로
+    │
+    ▼
+최소 신장 트리
+    ├─► 크루스칼 (Kruskal) — 유니온-파인드
+    └─► 프림 (Prim) — 우선순위 큐
+```

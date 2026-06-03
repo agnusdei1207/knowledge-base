@@ -50,26 +50,27 @@ InfluxDB는 시계열 전용 TSDB ([Time-Series Database](/knowledge-base/studyn
 
 ### [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보존 계층 ([Retention](/knowledge-base/studynote/05_database/04_transactions_concurrency/515_mvcc/) Tier)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">실시간 수집 (초당 수천 포인트)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tier 1: Raw (1초 해상도)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보관: 30일 스토리지: 100% 용도: 실시간 모니터링·알람</div></div>
-<div class="kb-diagram-note">Continuous Query: MEAN(value) 1분</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tier 2: 1분 롤업</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보관: 1년 스토리지: 1.7% 용도: 일간 트렌드·용량 계획</div></div>
-<div class="kb-diagram-note">Continuous Query: MEAN(value) 1시간</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tier 3: 1시간 롤업</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보관: 5년+ 스토리지: 0.03% 용도: 연간 리포트·장기 분석</div></div>
-</div>
-</div>
-
-
+```
+  실시간 수집 (초당 수천 포인트)
+        │
+        ▼
+  ┌──────────────────────────────────────────────────────────────┐
+  │  Tier 1: Raw (1초 해상도)                                    │
+  │  보관: 30일  스토리지: 100%  용도: 실시간 모니터링·알람       │
+  └───────────────────────────┬──────────────────────────────────┘
+                              │ Continuous Query: MEAN(value) 1분
+                              ▼
+  ┌──────────────────────────────────────────────────────────────┐
+  │  Tier 2: 1분 롤업                                            │
+  │  보관: 1년   스토리지: 1.7%  용도: 일간 트렌드·용량 계획     │
+  └───────────────────────────┬──────────────────────────────────┘
+                              │ Continuous Query: MEAN(value) 1시간
+                              ▼
+  ┌──────────────────────────────────────────────────────────────┐
+  │  Tier 3: 1시간 롤업                                          │
+  │  보관: 5년+  스토리지: 0.03%  용도: 연간 리포트·장기 분석    │
+  └──────────────────────────────────────────────────────────────┘
+```
 
 ### TSM 스토리지 엔진 (Time-Structured Merge Tree)
 
@@ -134,28 +135,26 @@ InfluxDB는 LSM (Log-Structured Merge Tree) 변형인 TSM 엔진을 사용한다
 | [InfluxDB](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/255_time_series_rollup_retention_compression/) | 플랫폼 | 시계열 전용 TSDB |
 | [Retention](/knowledge-base/studynote/05_database/04_transactions_concurrency/515_mvcc/) [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) | 핵심 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보관 기간 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) |
 | Continuous Query | 핵심 기능 | 자동 집계·[롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/) |
-| TSM Engine | 저장 엔진 | 시계열 최적화 저장 구조 |
+| TSM 엔진 | 저장 엔진 | 시계열 최적화 저장 구조 |
 | Tag vs Field | 설계 원칙 | [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 폭발 방지 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">RDB 시계열 저장 - 쓰기 병목·스토리지 폭증</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">시계열 DB 전용 (InfluxDB, Prometheus) 등장</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">고해상도 실시간 데이터 → 시간 경과 후 용량 문제</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Downsampling - 집계 함수로 해상도 단계적 축소</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Retention Policy + CQ (Continuous Query) 자동화</div>
-</div>
-</div>
-
-
+```
+RDB 시계열 저장 - 쓰기 병목·스토리지 폭증
+    │
+    ▼
+시계열 DB 전용 (InfluxDB, Prometheus) 등장
+    │
+    ▼
+고해상도 실시간 데이터 → 시간 경과 후 용량 문제
+    │
+    ▼
+Downsampling - 집계 함수로 해상도 단계적 축소
+    │
+    ▼
+Retention Policy + CQ (Continuous Query) 자동화
+```
 
 > **키워드**: [InfluxDB](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/255_time_series_rollup_retention_compression/), [Time Series DB](/knowledge-base/studynote/16_bigdata/06_nosql/135_time_series_db/), Downsampling, [Retention](/knowledge-base/studynote/05_database/04_transactions_concurrency/515_mvcc/) [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), Continuous Query, [Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/), Telegraf, Flux
 

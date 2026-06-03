@@ -23,22 +23,24 @@ tags = ["studynote-computer-architecture"]
 
 이 구조가 중요해진 배경은 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 컴퓨터와 [다중 프로세서](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/375_multiprocessor/) 시스템에서 통신 지연이 전체 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 갉아먹었기 때문이다. 연산 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 빨라져도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 교환이 느리면 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성의 이점이 줄어들고, 특히 노드 수가 커질수록 병목이 더 심해진다. 하이퍼큐브는 이런 문제에 대해 "노드를 늘릴수록 주소 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)만 하나 더 쓰자"는 방식으로 확장 규칙을 단순화했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">차원 증가에 따른 하이퍼큐브 확장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0차원: 0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1차원: 0 ─ 1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2차원: 00 ─ 01</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">10 ─ 11</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3차원: 앞면 000 ─ 001 뒷면 100 ─ 101</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">010 ─ 011 110 ─ 111</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ 앞면/뒷면 대응 노드가 추가 링크로 연결</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ 차원 증가에 따른 하이퍼큐브 확장                            │
+├──────────────────────────────────────────────────────────────┤
+│ 0차원: 0                                                    │
+│                                                              │
+│ 1차원: 0 ─ 1                                                │
+│                                                              │
+│ 2차원: 00 ─ 01                                              │
+│         │    │                                               │
+│         10 ─ 11                                              │
+│                                                              │
+│ 3차원: 앞면 000 ─ 001     뒷면 100 ─ 101                    │
+│              │     │              │     │                    │
+│             010 ─ 011            110 ─ 111                  │
+│         + 앞면/뒷면 대응 노드가 추가 링크로 연결            │
+└──────────────────────────────────────────────────────────────┘
+```
 
 핵심은 차원이 커질수록 구조가 복잡해지는 것이 아니라, 동일한 연결 규칙이 재귀적으로 반복된다는 점이다. 그래서 하이퍼큐브는 단순한 도형 설명을 넘어, 대규모 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 시스템에서 확장성과 대칭성을 함께 확보하려는 설계 철학으로 이해해야 한다.
 
@@ -60,21 +62,20 @@ tags = ["studynote-computer-architecture"]
 
 하이퍼큐브의 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)은 복잡한 [전역 테이블](/knowledge-base/studynote/02_operating_system/10_security/574_global_table/) 없이도 가능하다. 출발지와 목적지 주소를 비교해 서로 다른 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 위치를 하나씩 뒤집어 가면 항상 최단 경로로 이동할 수 있는데, 이를 보통 E-cube [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 또는 차원 순서 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)이라고 본다. 이때 두 주소의 차이는 배타적 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)합 (XOR, Exclusive OR)으로 즉시 계산할 수 있으며, 1의 개수 자체가 곧 필요한 홉 수가 된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">E-cube 라우팅 예시: 출발지 0000 → 목적지 1011</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">배타적 논리합(XOR) 결과: 1011 → 다른 비트는 1, 3, 4번째 자리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0000</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 1번째 비트 뒤집기 → 1000</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 3번째 비트 뒤집기 → 1010</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 4번째 비트 뒤집기 → 1011</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서로 다른 비트 수 = 3 → 최단 경로 길이도 3홉</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ E-cube 라우팅 예시: 출발지 0000 → 목적지 1011               │
+├──────────────────────────────────────────────────────────────┤
+│ 배타적 논리합(XOR) 결과: 1011 → 다른 비트는 1, 3, 4번째 자리│
+│                                                              │
+│ 0000                                                         │
+│  └─ 1번째 비트 뒤집기 → 1000                                │
+│       └─ 3번째 비트 뒤집기 → 1010                           │
+│            └─ 4번째 비트 뒤집기 → 1011                      │
+│                                                              │
+│ 서로 다른 비트 수 = 3  → 최단 경로 길이도 3홉               │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 구조의 장점은 라우터가 "어느 방향으로 갈지"를 계산하기 쉽다는 데 있다. 반면 차원이 증가하면 모든 노드의 링크 수와 커넥터 수가 같이 늘어나므로, [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로는 우아하지만 물리적으로는 점점 부담이 커진다. 즉 하이퍼큐브의 핵심 원리는 짧은 경로를 위해 차원을 사는 구조라고 정리할 수 있다.
 
@@ -125,21 +126,19 @@ tags = ["studynote-computer-architecture"]
 - 단계적 증설과 유지보수가 중요한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터형 인프라
 - [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 수 증가에 따른 비용 상승이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 이득보다 큰 경우
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하이퍼큐브 채택 판단 축</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">통신 지연 민감도 높음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Yes → 검토 가치 큼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물리 포트/배선 예산 충분함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단계적 증설 필요 큼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Yes → 회피 우세</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">평면 배선 단순성이 중요함</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ 하이퍼큐브 채택 판단 축                                      │
+├──────────────────────────────────────────────────────────────┤
+│ 통신 지연 민감도 높음 ───────────────┐                       │
+│                                       ├─ Yes → 검토 가치 큼 │
+│ 물리 포트/배선 예산 충분함 ───────────┘                       │
+│                                                              │
+│ 단계적 증설 필요 큼 ────────────────┐                         │
+│                                       ├─ Yes → 회피 우세     │
+│ 평면 배선 단순성이 중요함 ───────────┘                         │
+└──────────────────────────────────────────────────────────────┘
+```
 
 기술사 관점에서는 하이퍼큐브의 장점만 적는 답안보다, "[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 확장성은 뛰어나나 물리적 구현성이 낮아 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)·[토러스](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/390_torus/)·[다단 연결망](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/392_multistage_interconnection_network/)으로 대체되는 경우가 많다"는 판단을 함께 적어야 완성도가 높다. 즉 하이퍼큐브는 이상적인 거리 특성과 현실적인 배선 비용 사이의 대표적 트레이드오프 사례다.
 
@@ -172,25 +171,26 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">선형 배열 · 버스 기반 연결</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">메시 (Mesh) · 토러스 (Torus)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">하이퍼큐브 (Hypercube)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">비트 기반 최단 경로 라우팅</div>
-<div class="kb-diagram-note">E-cube 라우팅 · 해밍 거리 기반 탐색</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">다단 연결망 (MIN, Multistage Interconnection Network)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">분산 해시 테이블 (DHT) · 오버레이 네트워크</div>
-</div>
-</div>
-
-
+```text
+선형 배열 · 버스 기반 연결
+    │
+    ▼
+메시 (Mesh) · 토러스 (Torus)
+    │
+    ▼
+하이퍼큐브 (Hypercube)
+    │
+    ├─ 비트 기반 최단 경로 라우팅
+    │        │
+    │        ▼
+    │   E-cube 라우팅 · 해밍 거리 기반 탐색
+    │
+    ▼
+다단 연결망 (MIN, Multistage Interconnection Network)
+    │
+    ▼
+분산 해시 테이블 (DHT) · 오버레이 네트워크
+```
 
 이 흐름은 물리 토폴로지의 발전이 단순한 배선 문제가 아니라, 주소 체계와 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 철학의 진화로 이어졌음을 보여준다.
 

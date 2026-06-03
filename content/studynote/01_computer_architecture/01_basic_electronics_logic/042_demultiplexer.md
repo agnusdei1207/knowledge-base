@@ -18,36 +18,35 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. DEMUX 기본 개념
 
+```
+디멀티플렉서 (Demultiplexer, DEMUX):
+  입력(D) 1개 → 출력(Y) 여러 개 중 1개로 분배
+  선택 신호(S)로 출력 경로 결정
+  
+MUX vs DEMUX:
+  MUX: 여러 입력 → 1개 출력 (선택)
+  DEMUX: 1개 입력 → 여러 출력 중 1개 (분배)
+  
+1:4 DEMUX 진리표:
+  S1 S0 | Y3 Y2 Y1 Y0
+  ------+---------------
+   0  0 |  0  0  0  D
+   0  1 |  0  0  D  0
+   1  0 |  0  D  0  0
+   1  1 |  D  0  0  0
 
+1:4 DEMUX 부울 식:
+  Y0 = D · NOT(S1) · NOT(S0)
+  Y1 = D · NOT(S1) · S0
+  Y2 = D · S1 · NOT(S0)
+  Y3 = D · S1 · S0
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">디멀티플렉서 (Demultiplexer, DEMUX):</div>
-<div class="kb-diagram-note">입력(D) 1개 → 출력(Y) 여러 개 중 1개로 분배</div>
-<div class="kb-diagram-note">선택 신호(S)로 출력 경로 결정</div>
-<div class="kb-diagram-note">MUX vs DEMUX:</div>
-<div class="kb-diagram-note">MUX: 여러 입력 → 1개 출력 (선택)</div>
-<div class="kb-diagram-note">DEMUX: 1개 입력 → 여러 출력 중 1개 (분배)</div>
-<div class="kb-diagram-note">1:4 DEMUX 진리표:</div>
-<div class="kb-diagram-note">S1 S0 | Y3 Y2 Y1 Y0</div>
-<div class="kb-diagram-note">0 0 | 0 0 0 D</div>
-<div class="kb-diagram-note">0 1 | 0 0 D 0</div>
-<div class="kb-diagram-note">1 0 | 0 D 0 0</div>
-<div class="kb-diagram-note">1 1 | D 0 0 0</div>
-<div class="kb-diagram-note">1:4 DEMUX 부울 식:</div>
-<div class="kb-diagram-note">Y0 = D · NOT(S1) · NOT(S0)</div>
-<div class="kb-diagram-note">Y1 = D · NOT(S1) · S0</div>
-<div class="kb-diagram-note">Y2 = D · S1 · NOT(S0)</div>
-<div class="kb-diagram-note">Y3 = D · S1 · S0</div>
-<div class="kb-diagram-note">1:2^n DEMUX:</div>
-<div class="kb-diagram-note">n개 선택 신호 → 2^n개 출력</div>
-<div class="kb-diagram-note">1:2 DEMUX: 선택 1개, 출력 2개</div>
-<div class="kb-diagram-note">1:4 DEMUX: 선택 2개, 출력 4개</div>
-<div class="kb-diagram-note">1:8 DEMUX: 선택 3개, 출력 8개</div>
-</div>
-</div>
-
-
+1:2^n DEMUX:
+  n개 선택 신호 → 2^n개 출력
+  1:2 DEMUX: 선택 1개, 출력 2개
+  1:4 DEMUX: 선택 2개, 출력 4개
+  1:8 DEMUX: 선택 3개, 출력 8개
+```
 
 > 📢 **섹션 요약 비유**: DEMUX는 철도 분기기 — 한 선로(입력)에서 여러 방향(출력) 중 전환기(선택 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))가 가리키는 방향으로 기차([신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))를 보낸다.
 
@@ -55,34 +54,37 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. DEMUX 회로 구조
 
+```
+1:4 DEMUX 게이트 회로:
 
+  D ──┬─────────────────────────────────────────
+      │         AND                              
+      ├──→ S1' · S0' · D ──→ Y0
+      │         AND
+      ├──→ S1' · S0  · D ──→ Y1
+      │         AND
+      ├──→ S1  · S0' · D ──→ Y2
+      │         AND
+      └──→ S1  · S0  · D ──→ Y3
+  
+  S0 ──┬── NOT(S0') ──┬
+        │              │
+        └──────────────┘
+  S1 ──┬── NOT(S1') ──┬
+        │              │
+        └──────────────┘
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">1:4 DEMUX 게이트 회로:</div>
-<div class="kb-diagram-note">D ──</div>
-<div class="kb-diagram-note">AND</div>
-<div class="kb-diagram-tree-item" style="--depth:3">→ S1' · S0' · D ──→ Y0</div>
-<div class="kb-diagram-note">AND</div>
-<div class="kb-diagram-tree-item" style="--depth:3">→ S1' · S0 · D ──→ Y1</div>
-<div class="kb-diagram-note">AND</div>
-<div class="kb-diagram-tree-item" style="--depth:3">→ S1 · S0' · D ──→ Y2</div>
-<div class="kb-diagram-note">AND</div>
-<div class="kb-diagram-tree-item" style="--depth:3">→ S1 · S0 · D ──→ Y3</div>
-<div class="kb-diagram-note">S0 ── ── NOT(S0') ──</div>
-<div class="kb-diagram-note">S1 ── ── NOT(S1') ──</div>
-<div class="kb-diagram-note">디코더와 DEMUX 관계:</div>
-<div class="kb-diagram-note">디코더: n 입력 → 2^n 출력 (활성 출력 1개)</div>
-<div class="kb-diagram-note">DEMUX: 디코더 + Enable(D 입력) 결합</div>
-<div class="kb-diagram-note">구현: 2-to-4 디코더 + D를 Enable로 연결</div>
-<div class="kb-diagram-note">= 1:4 DEMUX</div>
-<div class="kb-diagram-note">DEMUX 확장:</div>
-<div class="kb-diagram-note">1:8 DEMUX = 두 개의 1:4 DEMUX + 선택 신호 1개</div>
-<div class="kb-diagram-note">계층적 구조로 대형 DEMUX 구현 가능</div>
-</div>
-</div>
-
-
+디코더와 DEMUX 관계:
+  디코더: n 입력 → 2^n 출력 (활성 출력 1개)
+  DEMUX: 디코더 + Enable(D 입력) 결합
+  
+  구현: 2-to-4 디코더 + D를 Enable로 연결
+  = 1:4 DEMUX
+  
+DEMUX 확장:
+  1:8 DEMUX = 두 개의 1:4 DEMUX + 선택 신호 1개
+  계층적 구조로 대형 DEMUX 구현 가능
+```
 
 > 📢 **섹션 요약 비유**: DEMUX 회로는 4-AND 게이트 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) — 입력(D)과 선택 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 조합에서 딱 하나의 AND만 활성화되어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 통과.
 
@@ -90,33 +92,32 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. [MUX](/knowledge-base/studynote/03_network/19_frequent_topics_terms/944_mux_demux_multiplexer_demultiplexer_circuit_sharing/)-DEMUX 시스템 연동
 
+```
+MUX-DEMUX 통신 시스템:
 
+시분할 다중화 (TDM):
+  송신측:   I0 ─┐
+            I1 ─┤ MUX ──[단일 채널]──→ DEMUX ─┬→ O0
+            I2 ─┤                              ├→ O1
+            I3 ─┘                              ├→ O2
+                                               └→ O3
+  
+  MUX 선택 신호 = DEMUX 선택 신호 (동기화)
+  동일한 클록으로 순서대로 전환
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">MUX-DEMUX 통신 시스템:</div>
-<div class="kb-diagram-note">시분할 다중화 (TDM):</div>
-<div class="kb-diagram-note">송신측: I0 ─</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">I1 ─ MUX ──</div><div class="kb-diagram-node">단일 채널</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">DEMUX ─ → O0</div></div>
-<div class="kb-diagram-note">I2 ─ → O1</div>
-<div class="kb-diagram-note">I3 ─ → O2</div>
-<div class="kb-diagram-tree-item" style="--depth:8">→ O3</div>
-<div class="kb-diagram-note">MUX 선택 신호 = DEMUX 선택 신호 (동기화)</div>
-<div class="kb-diagram-note">동일한 클록으로 순서대로 전환</div>
-<div class="kb-diagram-note">메모리 주소 디코딩:</div>
-<div class="kb-diagram-note">CPU 주소 버스 → DEMUX → 각 메모리 칩 CS 신호</div>
-<div class="kb-diagram-note">주소 상위 비트로 메모리 블록 선택</div>
-<div class="kb-diagram-note">예: A15-A14 = 00 → RAM 0 선택</div>
-<div class="kb-diagram-note">= 01 → RAM 1 선택</div>
-<div class="kb-diagram-note">= 10 → ROM 선택</div>
-<div class="kb-diagram-note">= 11 → I/O 장치 선택</div>
-<div class="kb-diagram-note">디지털 통신 역다중화:</div>
-<div class="kb-diagram-note">광섬유 단일 채널 → DEMUX → 여러 수신자</div>
-<div class="kb-diagram-note">DWDM (파장분할다중화) 역다중화</div>
-</div>
-</div>
+메모리 주소 디코딩:
+  CPU 주소 버스 → DEMUX → 각 메모리 칩 CS 신호
+  주소 상위 비트로 메모리 블록 선택
+  
+  예: A15-A14 = 00 → RAM 0 선택
+              = 01 → RAM 1 선택
+              = 10 → ROM 선택
+              = 11 → I/O 장치 선택
 
-
+디지털 통신 역다중화:
+  광섬유 단일 채널 → DEMUX → 여러 수신자
+  DWDM (파장분할다중화) 역다중화
+```
 
 > 📢 **섹션 요약 비유**: [MUX](/knowledge-base/studynote/03_network/19_frequent_topics_terms/944_mux_demux_multiplexer_demultiplexer_circuit_sharing/)-DEMUX 쌍은 전화 교환기 — 여러 통화를 하나의 선로로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)([MUX](/knowledge-base/studynote/03_network/19_frequent_topics_terms/944_mux_demux_multiplexer_demultiplexer_circuit_sharing/)) 전송 후, 수신 측에서 다시 분리(DEMUX).
 
@@ -124,29 +125,30 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅳ. DEMUX 응용: 함수 구현
 
+```
+DEMUX를 이용한 논리함수 구현:
 
+모든 2^n 입력 조합에 대응하는 최소항(Minterm) 생성
+→ 출력을 OR 게이트로 조합하면 임의 함수 구현
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">DEMUX를 이용한 논리함수 구현:</div>
-<div class="kb-diagram-note">모든 2^n 입력 조합에 대응하는 최소항(Minterm) 생성</div>
-<div class="kb-diagram-note">→ 출력을 OR 게이트로 조합하면 임의 함수 구현</div>
-<div class="kb-diagram-note">예: F(A, B) = A'B + AB' (XOR)</div>
-<div class="kb-diagram-note">1:4 DEMUX + OR 게이트:</div>
-<div class="kb-diagram-note">A → S1, B → S0, D = 1</div>
-<div class="kb-diagram-note">Y0 = m0(A=0,B=0) = A'B' → 0</div>
-<div class="kb-diagram-note">Y1 = m1(A=0,B=1) = A'B → 1 ─</div>
-<div class="kb-diagram-note">Y2 = m2(A=1,B=0) = AB' → 1 ─ OR → F = XOR</div>
-<div class="kb-diagram-note">Y3 = m3(A=1,B=1) = AB → 0</div>
-<div class="kb-diagram-note">F = Y1 + Y2 = A'B + AB' = A XOR B ✓</div>
-<div class="kb-diagram-note">장점:</div>
-<div class="kb-diagram-note">최소항 생성기 역할</div>
-<div class="kb-diagram-note">임의 논리함수를 디코더/DEMUX + OR로 구현</div>
-<div class="kb-diagram-note">PLA (Programmable Logic Array)의 기반 원리</div>
-</div>
-</div>
+예: F(A, B) = A'B + AB' (XOR)
 
+  1:4 DEMUX + OR 게이트:
+  
+  A → S1, B → S0, D = 1
+  
+  Y0 = m0(A=0,B=0) = A'B' → 0
+  Y1 = m1(A=0,B=1) = A'B  → 1 ─┐
+  Y2 = m2(A=1,B=0) = AB'  → 1 ─┤ OR → F = XOR
+  Y3 = m3(A=1,B=1) = AB   → 0  │
+                                │
+  F = Y1 + Y2 = A'B + AB' = A XOR B ✓
 
+장점:
+  최소항 생성기 역할
+  임의 논리함수를 디코더/DEMUX + OR로 구현
+  PLA (Programmable Logic Array)의 기반 원리
+```
 
 > 📢 **섹션 요약 비유**: DEMUX+OR로 함수 구현은 [진리표](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/024_truth_table/) 직접 읽기 — 원하는 행(최소항)의 출력을 OR로 묶으면 어떤 함수든 만들 수 있다.
 

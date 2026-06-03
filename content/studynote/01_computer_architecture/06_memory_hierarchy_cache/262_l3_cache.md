@@ -25,21 +25,22 @@ L3 캐시 (Level 3 Cache)는 CPU (Central Processing Unit) 칩 내부에서 여�
 
 아래 그림은 L3 캐시가 "코어별 개인 공간"과 "외부 메모리" 사이에서 어떤 위치를 차지하는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 계층에서 L3 캐시의 위치와 역할</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core 0 Core 1 Core 2 Core 3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ L1 ─ L1 ─ L1 ─ L1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ L2 ─ L2 ─ L2 ─ L2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공유 L3 캐시 영역</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마지막 레벨 캐시 (LLC, Last Level Cache)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 컨트롤러 → DRAM → 저장장치</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                  메모리 계층에서 L3 캐시의 위치와 역할                    │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Core 0        Core 1        Core 2        Core 3                          │
+│  ├─ L1         ├─ L1         ├─ L1         ├─ L1                           │
+│  └─ L2         └─ L2         └─ L2         └─ L2                           │
+│      │            │            │            │                              │
+│      └────────────┴────────────┴────────────┘                              │
+│                           공유 L3 캐시 영역                               │
+│                마지막 레벨 캐시 (LLC, Last Level Cache)                  │
+│                                  │                                         │
+│                                  ▼                                         │
+│                      메모리 컨트롤러 → DRAM → 저장장치                     │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 핵심은 L3 캐시가 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 직접 가장 빠르게 처리하는 계층이 아니라, <strong>메인 메모리로 떨어질 뻔한 요청을 최대한 칩 내부에서 끝내는 계층</strong>이라는 점이다. 따라서 L3가 없거나 너무 작으면 코어 수가 늘어도 연산기보다 메모리 대기 시간이 병목이 된다.
 
@@ -63,23 +64,21 @@ L3 캐시의 핵심 원리는 세 가지로 요약된다. 첫째, L2 미스가 �
 
 아래 그림은 L3 캐시가 단순 저장소가 아니라, [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/)와 인터커넥트를 통해 요청을 분산하고 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 정보를 중개하는 구조임을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L3 캐시의 슬라이스 기반 동작 개념</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core 0 ─</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Slice 0</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Slice 1</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Slice 2</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Slice 3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 데이터 저장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 태그/상태 관리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 일관성 추적 후 DRAM 전달</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                    L3 캐시의 슬라이스 기반 동작 개념                      │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Core 0 ─┐                                                                  │
+│ Core 1 ─┼──▶ On-Chip Interconnect ──▶ [Slice 0]                            │
+│ Core 2 ─┼──▶   (Ring / Mesh)      ──▶ [Slice 1]                            │
+│ Core 3 ─┘                         ──▶ [Slice 2]                            │
+│                                         [Slice 3]                          │
+│                                              │                             │
+│                                              ├─ 데이터 저장                │
+│                                              ├─ 태그/상태 관리             │
+│                                              └─ 일관성 추적 후 DRAM 전달   │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 여기서 중요한 트레이드오프는 명확하다. L3 캐시를 크게 만들면 용량 미스는 줄지만, 물리적 면적 증가와 배선 길이 증가로 접근 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 늘 수 있다. 반대로 L3를 지나치게 작게 만들면 L2 미스를 충분히 흡수하지 못해 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) 트래픽이 증가한다. 그래서 서버용 프로세서는 대용량 L3를 선호하고, 모바일 프로세서는 전력과 면적을 고려해 더 공격적으로 크기를 조정한다.
 
@@ -157,22 +156,21 @@ L3 캐시를 제대로 이해하려면 L2 캐시와 [DRAM](/knowledge-base/study
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">참조 지역성 (Locality of Reference)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">L1 / L2 캐시로 개인 작업셋 가속</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">L3 캐시 (Level 3 Cache) / LLC (Last Level Cache)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 캐시 일관성 (Cache Coherence) 중개</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ NUMA (Non-Uniform Memory Access) / 칩렛 배치 최적화</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 3D V-Cache · CAT (Cache Allocation Technology) · QoS 제어</div>
-</div>
-</div>
-
-
+```text
+참조 지역성 (Locality of Reference)
+    │
+    ▼
+L1 / L2 캐시로 개인 작업셋 가속
+    │
+    ▼
+L3 캐시 (Level 3 Cache) / LLC (Last Level Cache)
+    │
+    ├─▶ 캐시 일관성 (Cache Coherence) 중개
+    │
+    ├─▶ NUMA (Non-Uniform Memory Access) / 칩렛 배치 최적화
+    │
+    └─▶ 3D V-Cache · CAT (Cache Allocation Technology) · QoS 제어
+```
 
 이 흐름은 캐시 개념이 단순한 속도 향상에서 출발해, 멀티코어 공유 구조와 자원 제어 기술로 확장되는 과정을 보여준다.
 

@@ -25,27 +25,30 @@ tags = ["studynote-operating-system"]
 - <strong>개별 장부(<a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a> 블록)와 흩어진 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a> 토폴로지 다이어그램</strong>:
 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 이름표에서 `인덱스 블록 위치=19번` 이란 정보 하나만 들고 어떻게 5개의 파편화된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 긁어오는지 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 레이어로 까보면 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"장부만 읽으면 너희들 위치 다 뽀록나!" 인덱스 색인 아크 뷰</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1️⃣</div><div class="kb-diagram-node">디렉터리 이름 장부 캡슐</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 파일명: <code>index_demo.txt</code></div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 장부 록 위치 : ▶▶▶ 19번 블록으로 가봐 ◀── (장부 위치 1개만 기억)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2️⃣</div><div class="kb-diagram-node">실제 물리 하드디스크 체제 - 19번지 (전용 장부 구역 도착)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">[</div><div class="kb-diagram-node">19번 색인(Index) 장부 전용 블록 내부</div><div class="kb-diagram-note">]</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 0번 논리 위치 데이터 ──▶ 9번 철판으로 쏴라!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 1번 데이터 조각 ──▶ 16번 철판으로 직행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 2번 데이터 조각 ──▶ 1번 방! (순서 역행 상관없음 스왑)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 3번 데이터 ──▶ 10번 방</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 4번 데이터 ──▶ 25번 철판으로 쏴라 끝. (EOF)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; "야! 나 3번째 데이터 (논리 2번 칸)로 점프할래 다이렉트 타격!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 커널: "19번 장부 3번째 줄 읽어. 아하 1번 철판 방이네? 그쪽으로 모터 점프 쾅!"</div></div>
-</div>
-</div>
-
-
+```text
+  ┌──────────────────────────────────────────────────────────────────────────────────┐
+  │                 "장부만 읽으면 너희들 위치 다 뽀록나!" 인덱스 색인 아크 뷰       │
+  ├──────────────────────────────────────────────────────────────────────────────────┤
+  │                                                                                  │
+  │  1️⃣ [ 디렉터리 이름 장부 캡슐 ]                                                 │
+  │     - 파일명: `index_demo.txt`                                                   │
+  │     - 장부 록 위치 : ▶▶▶ 19번 블록으로 가봐 ◀── (장부 위치 1개만 기억)           │
+  │                                                                                  │
+  │  =========================▼===================================                   │
+  │                                                                                  │
+  │  2️⃣ [ 실제 물리 하드디스크 체제 - 19번지 (전용 장부 구역 도착) ]                │
+  │                                                                                  │
+  │     [[ 19번 색인(Index) 장부 전용 블록 내부 ]]                                   │
+  │     ┌─ 0번 논리 위치 데이터 ──▶  9번 철판으로 쏴라!                              │
+  │     ├─ 1번 데이터 조각      ──▶ 16번 철판으로 직행                               │
+  │     ├─ 2번 데이터 조각      ──▶  1번 방! (순서 역행 상관없음 스왑)               │
+  │     ├─ 3번 데이터           ──▶ 10번 방                                          │
+  │     └─ 4번 데이터           ──▶ 25번 철판으로 쏴라 끝. (EOF)                     │
+  │                                                                                  │
+  │  => "야! 나 3번째 데이터 (논리 2번 칸)로 점프할래 다이렉트 타격!"                │
+  │  => 커널: "19번 장부 3번째 줄 읽어. 아하 1번 철판 방이네? 그쪽으로 모터 점프 쾅!"│
+  └──────────────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 디 [Directory](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 맵에는 딱 하나, '이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 주소록(색인 블록)이 디스크 몇 번지에 처박혀 있는지' 만 적어둔다. 즉 무조건 이 19번 블록을 1회 읽는 선행 I/O 모터 오버헤드가 발생한다(단점). 대신 일단 저 19번 장부 블록을 메모리에 캐싱해 띄우고 나면, 1번째 조각(9번 방)을 읽든 5번째 조각(25번 방)을 읽든 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 좌표를 즉석에서 덧셈 맵핑하여 목표 위치에 다이렉트 랜덤 액세스 궤도 폭격을 날려 꽂아버릴 수 있다. [연속 할당](/knowledge-base/studynote/02_operating_system/09_file_system/523_contiguous_allocation/)급 속도 부스트를 내면서도, 디스크의 이빨 빠진 공간([단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 늪)을 흩뿌려진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 1, [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/), 16번 방으로 우당탕 다 주워 먹고 결속하는 두 마리 토끼 우주 타결 렌더를 종착 시킨 셈이다.
 
@@ -139,19 +142,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">FAT (File Allocation Table)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">색인 할당 (Indexed Allocation)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">색인 블록 크기 한계 해결</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">유닉스 i-node (Index Node) 매커니즘</div></div>
-</div>
-</div>
-
-
+```text
+[FAT (File Allocation Table)]
+    │
+    ▼
+[색인 할당 (Indexed Allocation)]
+    │
+    ├──▶ [색인 블록 크기 한계 해결]
+    └──▶ [유닉스 i-node (Index Node) 매커니즘]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

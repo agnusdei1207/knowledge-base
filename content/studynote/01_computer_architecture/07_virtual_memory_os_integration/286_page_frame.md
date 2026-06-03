@@ -25,21 +25,20 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 왜 페이지와 프레임의 <strong>동일 크기</strong>가 핵심인지 보여준다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 전체 프로그램을 한 덩어리로 적재하지 않고, 페이지별로 흩어진 프레임에 배치한 뒤 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) ([Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/))로만 연결한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Same-sized blocks make noncontiguous allocation work</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Virtual Memory</div><div class="kb-diagram-cell">Physical Memory</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Page 0 ▶</div><div class="kb-diagram-cell">Frame 12</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Page 1 ▶</div><div class="kb-diagram-cell">Frame 03</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Page 2 ▶</div><div class="kb-diagram-cell">Frame 19</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Page 3 ▶</div><div class="kb-diagram-cell">Frame 07</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">rule: page size = frame size</div><div class="kb-diagram-cell">result: any free frame can be used</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│        Same-sized blocks make noncontiguous allocation work         │
+├───────────────────────────────┬──────────────────────────────────────┤
+│ Virtual Memory                │ Physical Memory                      │
+│                               │                                      │
+│ Page 0  ────────────────────▶ │ Frame 12                             │
+│ Page 1  ────────────────────▶ │ Frame 03                             │
+│ Page 2  ────────────────────▶ │ Frame 19                             │
+│ Page 3  ────────────────────▶ │ Frame 07                             │
+│                               │                                      │
+│ rule: page size = frame size  │ result: any free frame can be used   │
+└───────────────────────────────┴──────────────────────────────────────┘
+```
 
 핵심은 페이지가 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 의미 단위"가 아니라 "옮기기 쉬운 규격 단위"라는 점이다. 프레임도 마찬가지로 실제 RAM의 내용을 설명하는 개념이 아니라, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 할당·회수·교체하기 위한 관리 단위다. 따라서 페이지와 프레임을 이해하면 뒤이어 나오는 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/), [페이지 부재](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/), 교체 알고리즘의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)가 자연스럽게 이어진다.
 
@@ -63,21 +62,25 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 주소 변환에서 페이지와 프레임이 어떻게 맞물리는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Address translation with equal-size blocks</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Virtual Address</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VPN (page number)</div><div class="kb-diagram-cell">Offset within page</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Page Table / TLB lookup</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">replace VPN with PFN</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Physical Address</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PFN (frame number)</div><div class="kb-diagram-cell">Same offset as above</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                 Address translation with equal-size blocks           │
+├──────────────────────────────────────────────────────────────────────┤
+│ Virtual Address                                                      │
+│ ┌───────────────────────┬──────────────────────────────────────────┐ │
+│ │   VPN (page number)   │          Offset within page             │ │
+│ └───────────────────────┴──────────────────────────────────────────┘ │
+│              │                                                       │
+│              ▼                                                       │
+│        Page Table / TLB lookup                                       │
+│              │  replace VPN with PFN                                 │
+│              ▼                                                       │
+│ Physical Address                                                     │
+│ ┌───────────────────────┬──────────────────────────────────────────┐ │
+│ │   PFN (frame number)  │         Same offset as above            │ │
+│ └───────────────────────┴──────────────────────────────────────────┘ │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조는 왜 빠른가를 이해해야 한다. [페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/)와 프레임 크기가 다르면 블록 내부 위치까지 다시 계산하거나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쪼개어 적재해야 하므로 매핑이 복잡해진다. 하지만 크기가 같으면 변환은 단순 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 교체가 되고, 하드웨어는 이를 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 캐시와 결합해 거의 한 번의 테이블 조회처럼 처리한다.
 
@@ -158,27 +161,28 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">연속 메모리 할당</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">외부 단편화 (External Fragmentation) 문제</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">페이징 (Paging)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">페이지 (Page): 가상 메모리 조각</div>
-<div class="kb-diagram-tree-item" style="--depth:2">프레임 (Frame): 물리 메모리 조각</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">페이지 테이블 (Page Table) · MMU (Memory Management Unit)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">TLB (Translation Lookaside Buffer) · Huge Page</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">페이지 부재 (Page Fault) · 교체 알고리즘 (Replacement Policy)</div>
-</div>
-</div>
-
-
+```text
+연속 메모리 할당
+    │
+    ▼
+외부 단편화 (External Fragmentation) 문제
+    │
+    ▼
+페이징 (Paging)
+    │
+    ├── 페이지 (Page): 가상 메모리 조각
+    │
+    └── 프레임 (Frame): 물리 메모리 조각
+             │
+             ▼
+페이지 테이블 (Page Table) · MMU (Memory Management Unit)
+             │
+             ▼
+TLB (Translation Lookaside Buffer) · Huge Page
+             │
+             ▼
+페이지 부재 (Page Fault) · 교체 알고리즘 (Replacement Policy)
+```
 
 이 흐름은 "[단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 해결 → 고정 크기 매핑 → 주소 변환 가속 → 부족 시 교체"로 이어지는 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 사고 흐름을 보여준다.
 

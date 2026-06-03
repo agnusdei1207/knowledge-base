@@ -25,18 +25,14 @@ tags = ["studynote-network"]
 2. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> <a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/971_hol_blocking_head_of_line_tcp_http_delay/">HOL Blocking</a> (971번 문서)</strong>: 패킷 1개 유실되면 뒤에 멀쩡히 도착한 100개 패킷도 폰 화면에 못 뜨고 무한 대기합니다.
 3. **망 전환 시 통신 끊김**: 폰 들고 지하철 타다 와이파이 ➜ LTE로 바뀌면 IP 주소가 바뀝니다. TCP는 IP가 바뀌면 무조건 터널이 끊어진 걸로 간주해, 아까 그 3번 인사를 처음부터 다시 시작합니다(유튜브 끊김 현상).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">홀오브라인 블로킹</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">QUIC</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">HTTP/2 멀티플렉싱</div></div>
-</div>
-</div>
-
-
+```text
+[홀오브라인 블로킹]
+    │
+    ▼
+[QUIC]
+    │
+    └──▶ [HTTP/2 멀티플렉싱]
+```
 
 - **📢 섹션 요약 비유**: QUIC는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -60,18 +56,14 @@ tags = ["studynote-network"]
 - TCP는 IP가 바뀌면 연결이 찢어집니다. 
 - QUIC은 패킷에 IP 주소가 아니라 <strong>고유한 'Connection ID(연결 여권 번호)'</strong>를 박아 쏩니다. IP가 100번 바뀌어도 네이버 서버는 "어? 너 아까 걔구나?" 하고 신분을 알아채서 단 1초의 끊김도 없이 유튜브 영상을 부드럽게 이어서(Seamless) 쏴줍니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">홀오브라인 블로킹</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">QUIC</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">HTTP/2 멀티플렉싱</div></div>
-</div>
-</div>
-
-
+```text
+[홀오브라인 블로킹]
+    │
+    ▼
+[QUIC]
+    │
+    └──▶ [HTTP/2 멀티플렉싱]
+```
 
 - **📢 섹션 요약 비유**: QUIC의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -131,19 +123,15 @@ QUIC는 빈출 주제와 용어를 이해할 때 핵심 축을 잡아 주는 개
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 홀오브라인 블로킹</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: QUIC</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: HTTP/2 멀티플렉싱</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 홀오브라인 블로킹]
+    │
+    ▼
+[현재 개념: QUIC]
+    │
+    ├──▶ [확장 A: HTTP/2 멀티플렉싱]
+    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
+```
 
 QUIC는 [홀오브라인 블로킹](/knowledge-base/studynote/03_network/19_frequent_topics_terms/971_hol_blocking_head_of_line_tcp_http_delay/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 멀티플렉싱와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

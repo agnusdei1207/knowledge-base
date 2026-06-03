@@ -18,18 +18,12 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Grafana = 다중 데이터 소스 → 통합 대시보드</div>
-<div class="kb-diagram-note">Prometheus (메트릭) + Loki (로그) + Tempo (트레이스)</div>
-<div class="kb-diagram-note">→ 하나의 대시보드에서 상관 분석</div>
-<div class="kb-diagram-note">→ 알림 → PagerDuty/Slack</div>
-</div>
-</div>
-
-
+```text
+Grafana = 다중 데이터 소스 → 통합 대시보드
+  Prometheus (메트릭) + Loki (로그) + Tempo (트레이스)
+  → 하나의 대시보드에서 상관 분석
+  → 알림 → PagerDuty/Slack
+```
 
 - **📢 섹션 요약 비유**: Grafana는 <strong>병원 종합 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a></strong>이다. 심전도·혈압·체온을 **한 화면에서** 동시에 본다.
 
@@ -53,17 +47,11 @@ Grafana는 <strong><a href="/knowledge-base/studynote/04_software_engineering/02
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Kibana (ELK, 2012)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Grafana (2014, Torkel Ödegaard)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Grafana Labs (2015~)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">LGTM Stack (2020~)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: Grafana 11 — Scenes·App Platform</div></div>
-</div>
-</div>
-
-
+```text
+[Kibana (ELK, 2012)] → [Grafana (2014, Torkel Ödegaard)]
+    → [Grafana Labs (2015~)] → [LGTM Stack (2020~)]
+    → [현재: Grafana 11 — Scenes·App Platform]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. Grafana는 <strong>병원 종합 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a></strong>예요. 심전도·혈압·체온을 **한 화면에서** 봐요.

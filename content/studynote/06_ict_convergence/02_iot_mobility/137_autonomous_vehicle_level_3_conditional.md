@@ -18,18 +18,12 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">L3: ODD 내 시스템 완전 제어 (Hands-free, Eyes-off)</div>
-<div class="kb-diagram-note">→ 한계 인식 시: Takeover Request (10초+)</div>
-<div class="kb-diagram-note">→ 운전자 무응답 시: Fallback (감속·정차)</div>
-<div class="kb-diagram-note">→ 법적 책임: 시스템 (ODD 내)</div>
-</div>
-</div>
-
-
+```text
+L3: ODD 내 시스템 완전 제어 (Hands-free, Eyes-off)
+  → 한계 인식 시: Takeover Request (10초+)
+  → 운전자 무응답 시: Fallback (감속·정차)
+  → 법적 책임: 시스템 (ODD 내)
+```
 
 - **📢 섹션 요약 비유**: L3는 <strong>특정 구간 대리운전</strong>이다. 정해진 구간에서만 맡기고, 구간 끝나면 운전자가 받는다.
 
@@ -53,18 +47,12 @@ L3는 <strong>자율주행 책임 전환의 분기점</strong>이며, ODD 정의
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">L2 ADAS (2015)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">L3 Mercedes Drive Pilot (2023)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">L3 Honda SENSING Elite (2021)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">L3 ODD 확대 (고속도로→도심)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: L3→L4 전환 연구</div></div>
-</div>
-</div>
-
-
+```text
+[L2 ADAS (2015)] → [L3 Mercedes Drive Pilot (2023)]
+    → [L3 Honda SENSING Elite (2021)]
+    → [L3 ODD 확대 (고속도로→도심)]
+    → [현재: L3→L4 전환 연구]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. L3는 <strong>특정 구간 대리운전</strong>이에요. 고속도로에서만 AI가 운전해요.

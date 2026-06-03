@@ -38,30 +38,32 @@ tags = ["studynote-bigdata"]
 
 ### 비식별화 기법 스펙트럼
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">← 높은 개인정보 보호 │ 낮은 데이터 유용성</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Suppression</div><div class="kb-diagram-note">필드 전체 삭제</div></div>
-<div class="kb-diagram-note">주민번호 컬럼 제거 │ ○ 완전 보호, ✗ 정보 완전 손실</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Full Masking</div><div class="kb-diagram-note">전체 치환 (***로 대체)</div></div>
-<div class="kb-diagram-note">010-****-**** │ ○ 완전 보호, ✗ 패턴 정보 손실</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Partial Masking</div><div class="kb-diagram-note">일부만 표시</div></div>
-<div class="kb-diagram-note">851231-******* │ ○ 높은 보호, △ 일부 정보 유지</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Pseudonymization</div><div class="kb-diagram-note">일관된 가상 값으로 대체</div></div>
-<div class="kb-diagram-note">가역적 가명화 │ ○ 중간 보호, ○ 관계 분석 가능</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Generalization</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">범위로 일반화</div></div>
-<div class="kb-diagram-note">32세 → 30-39세 │ △ 중간 보호, ○ 통계 분석 가능</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Aggregation</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">그룹 통계</div></div>
-<div class="kb-diagram-note">평균·합계·비율 │ △ 낮은 보호, ○ 집계 분석 가능</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Noise Addition</div><div class="kb-diagram-note">수치에 랜덤 노이즈 추가</div></div>
-<div class="kb-diagram-note">연봉+/- 랜덤값 │ △ 낮은 보호, ○ 분포 유지</div>
-<div class="kb-diagram-note">← 낮은 개인정보 보호 │ 높은 데이터 유용성</div>
-</div>
-</div>
-
-
+```
+← 높은 개인정보 보호 │ 낮은 데이터 유용성 ─────────────────────────────
+                     │
+  [Suppression]       │  필드 전체 삭제
+  주민번호 컬럼 제거  │  ○ 완전 보호, ✗ 정보 완전 손실
+                     │
+  [Full Masking]      │  전체 치환 (***로 대체)
+  010-****-****       │  ○ 완전 보호, ✗ 패턴 정보 손실
+                     │
+  [Partial Masking]   │  일부만 표시
+  851231-*******      │  ○ 높은 보호, △ 일부 정보 유지
+                     │
+  [Pseudonymization]  │  일관된 가상 값으로 대체
+  가역적 가명화       │  ○ 중간 보호, ○ 관계 분석 가능
+                     │
+  [Generalization]    │  특정 → 범위로 일반화
+  32세 → 30-39세     │  △ 중간 보호, ○ 통계 분석 가능
+                     │
+  [Aggregation]       │  개인 → 그룹 통계
+  평균·합계·비율      │  △ 낮은 보호, ○ 집계 분석 가능
+                     │
+  [Noise Addition]    │  수치에 랜덤 노이즈 추가
+  연봉+/- 랜덤값     │  △ 낮은 보호, ○ 분포 유지
+                     │
+← 낮은 개인정보 보호  │ 높은 데이터 유용성 ─────────────────────────────
+```
 
 ### 프라이버시 모델 3종
 
@@ -84,19 +86,13 @@ k=3 예시:
 
 **정의**: 준식별자 그룹 내 민감 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)(Sensitive [Attribute](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))이 적어도 l개의 서로 다른 값을 가짐
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">l=2 예시:</div>
-<div class="kb-diagram-note">나이 성별 병명 (민감속성)</div>
-<div class="kb-diagram-note">30-39 M 고혈압 ← l=2: 고혈압/당뇨 2가지 → ✓</div>
-<div class="kb-diagram-note">30-39 M 당뇨병</div>
-<div class="kb-diagram-note">30-39 M 고혈압</div>
-</div>
-</div>
-
-
+```
+l=2 예시:
+나이   성별  병명 (민감속성)
+30-39  M    고혈압   ← l=2: 고혈압/당뇨 2가지 → ✓
+30-39  M    당뇨병
+30-39  M    고혈압
+```
 
 #### [t-근접성](/knowledge-base/studynote/09_security/16_data_privacy/816_t_closeness/) ([t-Closeness](/knowledge-base/studynote/09_security/16_data_privacy/816_t_closeness/))
 
@@ -189,23 +185,21 @@ k=3 예시:
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">개인정보 (PII, Personally Identifiable Information) — 식별 가능한 원본 데이터</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">비식별화 (De-identification) — 직접 식별자 제거 / 간접 식별자 가공</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">마스킹 (Masking) / 가명처리 (Pseudonymization) / 집계화 (Aggregation)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">차분 프라이버시 (Differential Privacy) — 통계 노이즈 추가, 수학적 보장</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">프라이버시 강화 기술 (PET, Privacy-Enhancing Technology) — 합성 데이터·연합학습</div></div>
-</div>
-</div>
-
-
+```text
+[개인정보 (PII, Personally Identifiable Information) — 식별 가능한 원본 데이터]
+    │
+    ▼
+[비식별화 (De-identification) — 직접 식별자 제거 / 간접 식별자 가공]
+    │
+    ▼
+[마스킹 (Masking) / 가명처리 (Pseudonymization) / 집계화 (Aggregation)]
+    │
+    ▼
+[차분 프라이버시 (Differential Privacy) — 통계 노이즈 추가, 수학적 보장]
+    │
+    ▼
+[프라이버시 강화 기술 (PET, Privacy-Enhancing Technology) — 합성 데이터·연합학습]
+```
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 비식별화는 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)킹·가명처리·집계화의 기법을 결합하여 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)를 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하고, [차분 프라이버시](/knowledge-base/studynote/10_ai/05_data_science_ml/396_differential_privacy/)와 PET로 발전하며 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 활용과 프라이버시 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)를 동시에 달성한다.
 ### 👶 어린이를 위한 3줄 비유 설명
 

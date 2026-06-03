@@ -110,24 +110,21 @@ CPM:
 
 ## [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). 몬테카를로 시뮬레이션 응용
 
+```
+PERT 한계:
+  임계 경로만 분석 -> 비임계 경로의 불확실성 무시
+  분포를 정규분포로 가정 -> 실제와 다를 수 있음
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">PERT 한계:</div>
-<div class="kb-diagram-note">임계 경로만 분석 -&gt; 비임계 경로의 불확실성 무시</div>
-<div class="kb-diagram-note">분포를 정규분포로 가정 -&gt; 실제와 다를 수 있음</div>
-<div class="kb-diagram-note">몬테카를로 시뮬레이션:</div>
-<div class="kb-diagram-note">각 작업 기간을 분포에서 무작위 샘플링</div>
-<div class="kb-diagram-note">전체 프로젝트 기간 계산</div>
-<div class="kb-diagram-note">10,000번 반복 -&gt; 히스토그램으로 완료 분포 도출</div>
-<div class="kb-diagram-note">결과: "30일 내 완료 확률 80%, 35일 내 99%" 같은</div>
-<div class="kb-diagram-note">정밀 확률 도출</div>
-<div class="kb-diagram-note">도구: Oracle Primavera Risk Analysis, @RISK</div>
-</div>
-</div>
-
-
+몬테카를로 시뮬레이션:
+  각 작업 기간을 분포에서 무작위 샘플링
+  전체 프로젝트 기간 계산
+  10,000번 반복 -> 히스토그램으로 완료 분포 도출
+  
+  결과: "30일 내 완료 확률 80%, 35일 내 99%" 같은
+        정밀 확률 도출
+  
+  도구: Oracle Primavera Risk Analysis, @RISK
+```
 
 > 📢 **섹션 요약 비유**: PERT는 한 가지 경우의 수 계산, 몬테카를로는 1만 가지 상황을 시뮬레이션해서 가장 현실적인 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포를 찾는 것.
 
@@ -135,29 +132,26 @@ CPM:
 
 ## V. 실무 시나리오 — 소프트웨어 출시 [PERT](/knowledge-base/studynote/12_it_management/04_sdlc_testing/151_pert_three_point_estimation/)
 
+```
+스타트업 신제품 개발 PERT:
 
+작업별 3점 추정:
+  요구사항 (o=1, m=2, p=3주): TE=2.0, σ=0.33
+  설계 (o=2, m=4, p=12주):    TE=4.67, σ=1.67
+  개발 (o=6, m=10, p=20주):   TE=10.67, σ=2.33
+  테스트 (o=2, m=4, p=6주):   TE=4.0, σ=0.67
+  출시 (o=1, m=2, p=3주):     TE=2.0, σ=0.33
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">스타트업 신제품 개발 PERT:</div>
-<div class="kb-diagram-note">작업별 3점 추정:</div>
-<div class="kb-diagram-note">요구사항 (o=1, m=2, p=3주): TE=2.0, σ=0.33</div>
-<div class="kb-diagram-note">설계 (o=2, m=4, p=12주): TE=4.67, σ=1.67</div>
-<div class="kb-diagram-note">개발 (o=6, m=10, p=20주): TE=10.67, σ=2.33</div>
-<div class="kb-diagram-note">테스트 (o=2, m=4, p=6주): TE=4.0, σ=0.67</div>
-<div class="kb-diagram-note">출시 (o=1, m=2, p=3주): TE=2.0, σ=0.33</div>
-<div class="kb-diagram-note">임계 경로 합계:</div>
-<div class="kb-diagram-note">TE = 2.0+4.67+10.67+4.0+2.0 = 23.34주</div>
-<div class="kb-diagram-note">σ² = 0.11+2.79+5.43+0.45+0.11 = 8.89</div>
-<div class="kb-diagram-note">σ = √8.89 = 2.98주</div>
-<div class="kb-diagram-note">완료 확률:</div>
-<div class="kb-diagram-note">24주: Z=(24-23.34)/2.98=0.22 -&gt; 59%</div>
-<div class="kb-diagram-note">28주: Z=(28-23.34)/2.98=1.56 -&gt; 94%</div>
-<div class="kb-diagram-tree-item" style="--depth:1">VC에게 "28주 출시 94% 확률"로 제안!</div>
-</div>
-</div>
+임계 경로 합계:
+  TE = 2.0+4.67+10.67+4.0+2.0 = 23.34주
+  σ² = 0.11+2.79+5.43+0.45+0.11 = 8.89
+  σ = √8.89 = 2.98주
 
-
+완료 확률:
+  24주: Z=(24-23.34)/2.98=0.22 -> 59%
+  28주: Z=(28-23.34)/2.98=1.56 -> 94%
+  -> VC에게 "28주 출시 94% 확률"로 제안!
+```
 
 > 📢 **섹션 요약 비유**: 투자자에게 "개발 기간 6개월"이 아니라 "6.5개월에 94% [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)로 완료"라고 말할 수 있다 — 훨씬 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 높은 일정 제시.
 

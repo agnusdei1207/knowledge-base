@@ -31,16 +31,11 @@ tags = ["studynote-design-supervision"]
 
 감리에서 쓰는 증거는 한 가지가 아니다. 보통은 문서, 관찰, 면담, 테스트를 함께 본다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">문서 검토 ── 관찰 ── 면담 ── 직접 테스트</div>
-<div class="kb-diagram-tree-item" style="--depth:2">신뢰도와 재현성 비교</div>
-</div>
-</div>
-
-
+```text
+문서 검토 ── 관찰 ── 면담 ── 직접 테스트
+    │            │        │           │
+    └──────────── 신뢰도와 재현성 비교 ────────────┘
+```
 
 - **문서**: 정책서, 설계서, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 승인 기록
 - **관찰**: 현장 화면, 절차 수행, 운영 모습
@@ -100,21 +95,15 @@ tags = ["studynote-design-supervision"]
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">감리 의견</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">문서 / 관찰 / 면담 / 테스트</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">원본성 / 무결성 / 재현성</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">객관적 결론</div>
-</div>
-</div>
-
-
+```text
+감리 의견
+   ↓
+문서 / 관찰 / 면담 / 테스트
+   ↓
+원본성 / 무결성 / 재현성
+   ↓
+객관적 결론
+```
 
 ---
 

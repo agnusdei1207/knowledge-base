@@ -35,21 +35,22 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 인라인 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)의 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 분기와 읽기 복원 경로를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Inline compression path</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Logical block</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Compressibility Test</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Bypass</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Compressibility Test</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Compressor</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; data shrinks</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; map metadata</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Decompressor</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">host</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│ Inline compression path                                         │
+├──────────────────────────────────────────────────────────────────┤
+│ Logical block                                                   │
+│     │                                                           │
+│     ├-> [Compressibility Test] -> low  -> [Bypass]             │
+│     │                                                           │
+│     └-> [Compressibility Test] -> high -> [Compressor]         │
+│                                           │                    │
+│                                           ├-> data shrinks      │
+│                                           └-> map metadata      │
+│                                                                   │
+│ Read path: media block + metadata -> [Decompressor] -> host      │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 이때 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)가 매우 중요하다. [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 후에는 물리 블록 길이가 가변적이므로, [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 주소와 실제 저장 위치를 정확히 매핑해야 한다. 읽기 시에는 이 정보를 바탕으로 필요한 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 블록만 가져와 복원해야 하므로, [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 엔진뿐 아니라 주소 변환 테이블의 설계가 함께 좋아야 한다.
 
@@ -119,27 +120,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">파일 단위 수동 압축</div>
-<div class="kb-diagram-note">투명성 요구 증가</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">사후 압축</div>
-<div class="kb-diagram-note">즉시 절감 요구</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">인라인 압축</div>
-<div class="kb-diagram-note">지연 시간 최적화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">빠른 알고리즘 + 우회 정책</div>
-<div class="kb-diagram-note">경로 가속</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">가속기 기반 적응형 압축 저장</div>
-</div>
-</div>
-
-
+```text
+파일 단위 수동 압축
+    │  투명성 요구 증가
+    ▼
+사후 압축
+    │  즉시 절감 요구
+    ▼
+인라인 압축
+    │  지연 시간 최적화
+    ▼
+빠른 알고리즘 + 우회 정책
+    │  경로 가속
+    ▼
+가속기 기반 적응형 압축 저장
+```
 
 이 흐름은 “사용자 주도 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) → 배치 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) → 실시간 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) → [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 최적화 → [하드웨어 보조](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/527_hardware_assisted_virtualization/) 자동화”로 이어지는 발전 방향을 보여준다.
 

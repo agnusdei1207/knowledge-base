@@ -35,22 +35,21 @@ UWB의 핵심 원리는 비행 시간 (ToF, Time of Flight) 측정이다. 송신
 
 아래 그림은 대표적인 UWB 거리 측정 흐름을 요약한 것이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">UWB 양방향 거리 측정 개념</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Initiator (Phone/Tag) Responder (Car/Anchor)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">t1: Poll ---------------------------&gt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;--------- t2,t3: Response</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">t4: Final ---------------------------&gt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Round-trip time - device reply delay = propagation time</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">distance ≈ c × ToF / 2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Multiple anchors + AoA/TDoA =&gt; 2D/3D position estimation</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│                UWB 양방향 거리 측정 개념                           │
+├────────────────────────────────────────────────────────────────────┤
+│ Initiator (Phone/Tag)                    Responder (Car/Anchor)    │
+│   t1: Poll  --------------------------->                           │
+│                               <---------  t2,t3: Response          │
+│   t4: Final --------------------------->                           │
+│                                                                    │
+│ Round-trip time - device reply delay = propagation time            │
+│ distance ≈ c × ToF / 2                                             │
+│                                                                    │
+│ Multiple anchors + AoA/TDoA => 2D/3D position estimation           │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 핵심은 UWB가 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 세기보다 <strong>시간 정보</strong>를 더 중요한 판단 근거로 삼는다는 점이다. 넓은 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 덕분에 시간 해상도가 높아지고, 반사파가 많아도 첫 도착 경로를 구분하기 쉬워진다. 그래서 복잡한 실내 환경에서도 BLE보다 안정적인 정밀 측정이 가능하다.
 
@@ -131,24 +130,22 @@ UWB의 기대효과는 명확하다. 실내에서도 높은 거리 [정밀도](/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">RSSI 기반 근접 추정</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Wi-Fi RTT · BLE 비콘</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">UWB 정밀 거리 측정</div>
-<div class="kb-diagram-tree-item" style="--depth:2">TWR</div>
-<div class="kb-diagram-tree-item" style="--depth:2">AoA / TDoA</div>
-<div class="kb-diagram-tree-item" style="--depth:2">센티미터급 위치 추정</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">디지털 키 · 스마트 태그 · 산업용 RTLS</div>
-</div>
-</div>
-
-
+```text
+RSSI 기반 근접 추정
+    │
+    ▼
+Wi-Fi RTT · BLE 비콘
+    │
+    ▼
+UWB 정밀 거리 측정
+    │
+    ├─ TWR
+    ├─ AoA / TDoA
+    └─ 센티미터급 위치 추정
+    │
+    ▼
+디지털 키 · 스마트 태그 · 산업용 RTLS
+```
 
 이 흐름도는 근접 추정 기술이 단순 연결성에서 정밀 위치 인식과 보안 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 중심으로 확장되는 흐름을 보여준다.
 

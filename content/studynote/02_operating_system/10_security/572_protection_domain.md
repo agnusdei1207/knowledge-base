@@ -71,7 +71,7 @@ tags = ["studynote-operating-system"]
 | 구분 | 전통 리눅스 | Android |
 |:---|:---|:---|
 | <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 단위</strong> | 사용자(UID) 단위 | 애플리케이션 단위 |
-| **격리 수준** | (조잡) | **앱마다 고유 UID + 샌드박스** |
+| **격리 수준** |조조 (조잡) | **앱마다 고유 UID + 샌드박스** |
 
 ### 3.2 Android 앱 [샌드박싱](/knowledge-base/studynote/02_operating_system/10_security/602_sandboxing_kernel_wrapper/)의 원리
 
@@ -117,19 +117,15 @@ Android는 Linux [커널](/knowledge-base/studynote/02_operating_system/01_overv
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">보호 (Protection) vs 보안 (Security)의 개념 차이</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">보호 도메인 (Protection Domain)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">접근 제어 행렬 (Access Matrix)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">전역 테이블 (Global Table) 방식 구현 (행렬 희소성 문제)</div></div>
-</div>
-</div>
-
-
+```text
+[보호 (Protection) vs 보안 (Security)의 개념 차이]
+    │
+    ▼
+[보호 도메인 (Protection Domain)]
+    │
+    ├──▶ [접근 제어 행렬 (Access Matrix)]
+    └──▶ [전역 테이블 (Global Table) 방식 구현 (행렬 희소성 문제)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 
@@ -137,7 +133,7 @@ Android는 Linux [커널](/knowledge-base/studynote/02_operating_system/01_overv
 
 1. <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a> <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a></strong>은 놀이공원의 <strong>"입장 팔찌"</strong>와 같다. 어떤 색 팔찌를 받았느냐에 따라 탈 수 있는 놀이기구가 결정된다.
 
-2. <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 전환</strong>은 놀이공원에서 <strong>"직급증가표"</strong>를 받는 것과 같다. 일반 손님(일반 사용자)이(일반 프로세스)이고, 점장(관리자)이의 표를 받으면 더 많은 놀이기구를 탈 수 있다.
+2. <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 전환</strong>은 놀이공원에서 <strong>"직급증가표"</strong>를 받는 것과 같다. 일반 손님(일반 사용자)이적원공(일반 프로세스)이고, 점장(관리자)이의 표를 받으면 더 많은 놀이기구를 탈 수 있다.
 
 3. <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 격리</strong>는 놀이기구 관리자가 <strong>"내 영역 외에는 출입 금지"</strong>인 것과 같다. 다른 색 팔찌를 가진 사람이 관리자의 놀이기구에 가려 하면, 문지기가 "여기는 출입 불가"라며 막는다.
 

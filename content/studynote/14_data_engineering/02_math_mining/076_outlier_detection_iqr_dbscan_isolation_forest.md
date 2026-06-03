@@ -23,19 +23,15 @@ tags = ["studynote-data-engineering"]
 
 문제는 이상치가 항상 나쁜 것이 아니라는 점이다. 임금 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서는 100억 원이 오류일 수 있지만, 신용카드 사기 탐지에서는 그 1건이 가장 중요한 사건일 수 있다. 따라서 "삭제할지, 살릴지"가 탐지 자체만큼 중요하다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">데이터 분포</div>
-<div class="kb-diagram-tree-item" style="--depth:2">정상 밀집 구간</div>
-<div class="kb-diagram-tree-item" style="--depth:2">외딴 점 / 희귀 패턴</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">이상치 탐지 및 처리</div>
-</div>
-</div>
-
-
+```text
+데이터 분포
+    │
+    ├─ 정상 밀집 구간
+    └─ 외딴 점 / 희귀 패턴
+            │
+            ▼
+    이상치 탐지 및 처리
+```
 
 이 구조는 단순히 "튀는 값"을 찾는 게 아니라, 그 값을 어떻게 해석할지 결정하는 과정이다.
 
@@ -61,17 +57,12 @@ IQR의 일반적 경계는 다음과 같다.
 상한 = Q3 + 1.5 × IQR
 ```
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">정상 구간 정상 구간</div>
-<div class="kb-diagram-note">하한 상한</div>
-<div class="kb-diagram-note">이상치 이상치</div>
-</div>
-</div>
-
-
+```text
+정상 구간 ──────┬───────────────┬────── 정상 구간
+                 │               │
+               하한            상한
+                이상치         이상치
+```
 
 DBSCAN은 `eps`와 `min_samples`가 중요하고, [Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/) Forest는 `contamination`이 결과를 크게 좌우한다. 즉, 방법마다 "정답 파라미터"가 아니라 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 맞는 감도"를 찾는 작업이 필요하다.
 
@@ -140,21 +131,18 @@ IQR과 Z-score는 통계적 규칙이 명확하고 설명하기 쉽다. 반면 D
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">통계 기반 탐지(IQR, Z-score)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">밀도 기반(DBSCAN)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">트리 기반(Isolation Forest)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">이상 탐지 + 사기/장애 모니터링</div>
-</div>
-</div>
-
-
+```text
+통계 기반 탐지(IQR, Z-score)
+    │
+    ▼
+밀도 기반(DBSCAN)
+    │
+    ▼
+트리 기반(Isolation Forest)
+    │
+    ▼
+이상 탐지 + 사기/장애 모니터링
+```
 
 이 흐름은 단순한 경계선 찾기에서 다차원 이상 징후 탐지로 확장된 과정을 보여준다. 앞으로는 [이상치 탐지](/knowledge-base/studynote/10_ai/05_data_science_ml/397_outlier_mahalanobis/)와 원인 추적이 함께 묶여 더 자동화될 것이다.
 

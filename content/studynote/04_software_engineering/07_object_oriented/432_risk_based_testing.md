@@ -19,22 +19,22 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 기반 테스팅은 소프트웨어의 잠재적 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)(스크)이 발생할 가능성과 그 영향을 분석하여, [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)가 높은 영역부터테스트하는 전략이다.테스트 자원(time, budget,리소스)이 제한된 상황에서 가장 효과적인 테스트를 위해 필요하다.
+- **개념**: [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 기반 테스팅은 소프트웨어의 잠재적 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)(リ스크)이 발생할 가능성과 그 영향을 분석하여, [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)가 높은 영역부터テスト하는 전략이다.テスト 자원(time, budget,인력자원)이 제한된 상황에서 가장 효과적인 테스트를 위해 필요하다.
 
-- **필요성**: 모든 것을 테스트하는 것은하다. 따라서 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)가 높은 영역([결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 발생할 확률이 높고, 가 큰 영역)을적으로테스트하여, [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)으로 인한를 최소화해야 한다. 이는테스트의과의을 가능하게 한다.
+- **필요성**: 모든 것을 테스트하는 것은불가능하다. 따라서 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)가 높은 영역([결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 발생할 확률이 높고, 영향도가 큰 영역)을중점적으로テスト하여, [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)으로 인한피해를 최소화해야 한다. 이는テスト의효솔성과효과성의량립을 가능하게 한다.
 
 - <strong><a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a> 분석 차원</strong>:
-- <strong>발생 가능성(<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">Probability</a>)</strong>: [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 발생할 가능성 (높음/중간/낮음)
-- **영향도(Impact)**: [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 발생 시 영향도 (치명적/중대/경미)
+  - <strong>발생 가능성(<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">Probability</a>)</strong>: [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 발생할 가능성 (높음/중간/낮음)
+  - **영향도(Impact)**: [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 발생 시 영향도 (치명적/중대/경미)
 
-- **비유**: [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 기반 테스팅은 <strong>'의사 진단 순서'</strong>와/과 같다。의사가모두의을/를에 검사할 수 없듯이, 의사는 의([리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/))을 분석하여 가장한(높은 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 영역)를 먼저 치료한다. 소프트웨어에서도 마찬가지로 가장 영향이 큰 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)부터 먼저 테스트하여문제을/를방지해야 한다.
+- **비유**: [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 기반 테스팅은 <strong>'의사 진단 순서결정'</strong>와/과 같다. 의사가すべ고의환자를동시에상しく 검사할 수 없듯이, 의사는 환자의증상([리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/))을 분석하여 가장긴급한환자(높은 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 영역)를 먼저 치료한다. 소프트웨어에서도 마찬가지로 가장 영향이 큰 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)부터 먼저 테스트하여문제를방지해야 한다.
 
 - **등장 배경 및 발전 과정**:
-1. **1990년대**: [소프트웨어 품질](/knowledge-base/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/) 관리에서 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 기반 접근법 도입
-2. **2000년대**: [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 개발에서 릴리스 결정 도구로 활용
-3. **현재**: 테스트 기획 단계에서 필수적인 활동으로 정착
+  1. **1990년대**: [소프트웨어 품질](/knowledge-base/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/) 관리에서 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 기반 접근법 도입
+  2. **2000년대**: [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 개발에서 릴리스 결정 도구로 활용
+  3. **현재**: 테스트 기획 단계에서 필수적인 활동으로 정착
 
-- **섹션 요약 비유**: [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 기반 테스팅은 <strong>'antinfiltration 시스템 중요 구역 방어'</strong>와/과 같다。국가 중요 시설에서모두의 를 동시에 방어할 수 없기에, 가장 위험한 경로( [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/))를 분석하여 해당에 방어 자원을 집중한다. 소프트웨어에서도 마찬가지로 가장 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 있을lympics할 곳을 분석하여적으로테스트해야 한다.
+- **섹션 요약 비유**: [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 기반 테스팅은 <strong>'antinfiltration 시스템 중요 구역 방어'</strong>와/과 같다. 국가 중요 시설에서すべ고의 출입구를 동시에 방어할 수 없기에, 가장 위험한입침 경로(고い [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/))를 분석하여 해당지구에 방어 자원을 집중한다. 소프트웨어에서도 마찬가지로 가장 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 있을lympics영향할 곳을 분석하여중점적으로テスト해야 한다.
 
 ---
 
@@ -42,17 +42,18 @@ tags = ["studynote-software-engineering"]
 
 다음은 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 기반 테스팅 (Risk-bas의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">리스크 기반 테스팅 (Risk-bas</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                  리스크 기반 테스팅 (Risk-bas                        │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
+│       │                    │                    │          │
+│       ▼                    ▼                    ▼          │
+│   요구 분석           설계·적용           품질 검증        │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램은 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 기반 테스팅 (Risk-bas가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -142,30 +143,28 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 기반 테스팅 (Risk-based Testing)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 기반 테스팅 (Risk-based Testing)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
 | [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 기반 테스팅 (Risk-based Testing)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 기반 테스팅 (Risk-based Testing) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
 | [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 기반 테스팅 (Risk-based Testing)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">리스크 기반 테스팅 (Risk-based Testing) 개념 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 위기 (Software Crisis) 인식
+    │
+    ▼
+리스크 기반 테스팅 (Risk-based Testing) 개념 정립
+    │
+    ▼
+표준화 및 방법론 체계화 (ISO, CMMI, Agile)
+    │
+    ▼
+클라우드 네이티브·AI 기반 확장 적용
+    │
+    ▼
+지속적 개선 및 DevOps·MLOps 통합
+```
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

@@ -18,25 +18,25 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LSTM 게이트별 정보 흐름</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Forget Gate</div><div class="kb-diagram-note">f_t = σ(W_f ·</div><div class="kb-diagram-node">h_{t-1}, x_t</div><div class="kb-diagram-note">+ b_f)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ C_{t-1}에서 얼마나 삭제할지 결정 (0~1)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Input Gate</div><div class="kb-diagram-note">i_t = σ(W_i ·</div><div class="kb-diagram-node">h_{t-1}, x_t</div><div class="kb-diagram-note">+ b_i)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 새 정보 C̃_t를 얼마나 추가할지 결정 (0~1)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">C̃_t = tanh(W_c ·</div><div class="kb-diagram-node">h_{t-1}, x_t</div><div class="kb-diagram-note">+ b_c)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Cell State Update</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C_t = f_t ⊙ C_{t-1} + i_t ⊙ C̃_t</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Output Gate</div><div class="kb-diagram-note">o_t = σ(W_o ·</div><div class="kb-diagram-node">h_{t-1}, x_t</div><div class="kb-diagram-note">+ b_o)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ Cell State에서 얼마나 출력할지 결정 (0~1)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">h_t = o_t ⊙ tanh(C_t)</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    LSTM 게이트별 정보 흐름                             │
+├───────────────────────────────────────────────────────┤
+│  [Forget Gate] f_t = σ(W_f · [h_{t-1}, x_t] + b_f)  │
+│  → C_{t-1}에서 얼마나 삭제할지 결정 (0~1)            │
+│                                                       │
+│  [Input Gate]  i_t = σ(W_i · [h_{t-1}, x_t] + b_i)   │
+│  → 새 정보 C̃_t를 얼마나 추가할지 결정 (0~1)        │
+│  C̃_t = tanh(W_c · [h_{t-1}, x_t] + b_c)            │
+│                                                       │
+│  [Cell State Update]                                  │
+│  C_t = f_t ⊙ C_{t-1} + i_t ⊙ C̃_t                  │
+│                                                       │
+│  [Output Gate] o_t = σ(W_o · [h_{t-1}, x_t] + b_o)   │
+│  → Cell State에서 얼마나 출력할지 결정 (0~1)          │
+│  h_t = o_t ⊙ tanh(C_t)                              │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 각 게이트는 댐의 수문이다. Forget은 하류 방류(삭제), Input은 상류 유입(추가), Output은 발전기(출력)에 보내는 물의 양을 조절한다.
 
@@ -99,23 +99,21 @@ tags = ["studynote-ai"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">LSTM 원본 (1997) — Forget Gate 없음, Input+Output만</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Forget Gate 추가 (2000, Gers) — 기억 삭제 기능</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Peephole Connection (2002) — C_{t-1} 직접 참조</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">GRU (2014) — 3 Gate → 2 Gate 간소화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: xLSTM (2024) — Exponential Gate + sLSTM + mLSTM</div></div>
-</div>
-</div>
-
-
+```text
+[LSTM 원본 (1997) — Forget Gate 없음, Input+Output만]
+    │
+    ▼
+[Forget Gate 추가 (2000, Gers) — 기억 삭제 기능]
+    │
+    ▼
+[Peephole Connection (2002) — C_{t-1} 직접 참조]
+    │
+    ▼
+[GRU (2014) — 3 Gate → 2 Gate 간소화]
+    │
+    ▼
+[현재: xLSTM (2024) — Exponential Gate + sLSTM + mLSTM]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. LSTM의 게이트는 <strong>수도꼭지 3개</strong>예요. 하나는 오래된 물(기억)을 빼고, 하나는 새 물을 넣고, 하나는 필요한 만큼만 내보내요.

@@ -36,25 +36,27 @@ Databricks가 2020년 논문에서 제시한 레이크하우스 패러다임은 
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">레이크하우스 (Lakehouse) 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">소스 시스템</div><div class="kb-diagram-node">DB CDC</div><div class="kb-diagram-node">이벤트 스트림</div><div class="kb-diagram-node">파일/API</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">객체 스토리지 (S3 / ADLS Gen2 / GCS)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오픈 테이블 포맷 (Delta / Iceberg / Hudi)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">_delta_log/ ──▶ 트랜잭션 로그 (ACID 보장)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Parquet 파일 ──▶ 컬럼형 데이터 (쿼리 성능)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">컴퓨팅 엔진 계층</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Spark</div><div class="kb-diagram-node">Trino/Presto</div><div class="kb-diagram-node">Flink</div><div class="kb-diagram-node">Databricks SQL</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BI / 리포팅</div><div class="kb-diagram-cell">데이터 과학 / ML</div><div class="kb-diagram-cell">실시간 스트리밍</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Power BI,</div><div class="kb-diagram-cell">(MLflow, Jupyter)</div><div class="kb-diagram-cell">(Flink, Kafka)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tableau)</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────────────┐
+│               레이크하우스 (Lakehouse) 아키텍처                  │
+├──────────────────────────┬──────────────────────────────────────┤
+│  소스 시스템              │  [DB CDC] [이벤트 스트림] [파일/API]  │
+├──────────────────────────┴──────────────────────────────────────┤
+│                객체 스토리지 (S3 / ADLS Gen2 / GCS)              │
+│   ┌──────────────────────────────────────────────────────────┐  │
+│   │            오픈 테이블 포맷 (Delta / Iceberg / Hudi)       │  │
+│   │  _delta_log/  ──▶  트랜잭션 로그 (ACID 보장)              │  │
+│   │  Parquet 파일 ──▶  컬럼형 데이터 (쿼리 성능)              │  │
+│   └──────────────────────────────────────────────────────────┘  │
+├─────────────────────────────────────────────────────────────────┤
+│                   컴퓨팅 엔진 계층                               │
+│  [Apache Spark] [Trino/Presto] [Flink] [Databricks SQL]         │
+├──────────────────┬───────────────────┬──────────────────────────┤
+│  BI / 리포팅     │  데이터 과학 / ML  │  실시간 스트리밍         │
+│  (Power BI,     │  (MLflow, Jupyter) │  (Flink, Kafka)          │
+│   Tableau)      │                   │                          │
+└──────────────────┴───────────────────┴──────────────────────────┘
+```
 
 **핵심 구성 요소 비교**
 
@@ -145,27 +147,27 @@ Databricks가 2020년 논문에서 제시한 레이크하우스 패러다임은 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">:---</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Delta Lake</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Iceberg</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Medallion Architecture</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Unity Catalog</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MLflow</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Data Mesh</div></div>
-</div>
-</div>
-
-
+```text
+[:---]
+    │
+    ▼
+[Delta Lake]
+    │
+    ▼
+[Apache Iceberg]
+    │
+    ▼
+[Medallion Architecture]
+    │
+    ▼
+[Unity Catalog]
+    │
+    ▼
+[MLflow]
+    │
+    ▼
+[Data Mesh]
+```
 
 이 흐름도는 :---에서 출발해 MLflow까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

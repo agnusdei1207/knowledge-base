@@ -27,28 +27,33 @@ tags = ["studynote-operating-system"]
   2. <strong>재진입 코드(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/148_reentrant_code/">Reentrant Code</a>)의 등장</strong>: 개발자들이 프로그램의 '[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))' 부분과 '변수/[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))' 부분을 엄격히 분리해서 컴파일하기 시작했다. 코드는 절대 변하지 않는 순수 기계어(Pure [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))로 작성되었다.
   3. <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/">페이징</a>의 활용</strong>: OS는 이 변하지 않는 코드 조각들만 핀셋으로 집어 하나의 프레임에 올린 뒤, 수천 개의 프로세스가 이 프레임을 가리키게 하는 마법을 부렸다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페이징 시스템에서의 공유 페이지(Shared Page) 매핑 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">프로세스 P1 (유저 A의 크롬)</div><div class="kb-diagram-node">프로세스 P2 (유저 B의 크롬)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P1의 페이지 테이블 P2의 페이지 테이블</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Page</div><div class="kb-diagram-cell">Frame</div><div class="kb-diagram-cell">Page</div><div class="kb-diagram-cell">Frame</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0(Ed)</div><div class="kb-diagram-cell">3</div><div class="kb-diagram-cell">──</div><div class="kb-diagram-cell">0(Ed)</div><div class="kb-diagram-cell">3</div><div class="kb-diagram-cell">(공유!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1(Ed)</div><div class="kb-diagram-cell">4</div><div class="kb-diagram-cell">── ──</div><div class="kb-diagram-cell">1(Ed)</div><div class="kb-diagram-cell">4</div><div class="kb-diagram-cell">(공유!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2(Ed)</div><div class="kb-diagram-cell">6</div><div class="kb-diagram-cell">── ── ──</div><div class="kb-diagram-cell">2(Ed)</div><div class="kb-diagram-cell">6</div><div class="kb-diagram-cell">(공유!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3(D1)</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">─</div><div class="kb-diagram-cell">3(D2)</div><div class="kb-diagram-cell">8</div><div class="kb-diagram-cell">(독립됨)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">물리 메모리 (RAM)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Fr 0</div><div class="kb-diagram-cell">Fr 1</div><div class="kb-diagram-cell">Fr 2</div><div class="kb-diagram-cell">Fr 3</div><div class="kb-diagram-cell">Fr 4</div><div class="kb-diagram-cell">Fr 5</div><div class="kb-diagram-cell">Fr 6</div><div class="kb-diagram-cell">Fr 7</div><div class="kb-diagram-cell">Fr 8</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(빈)</div><div class="kb-diagram-cell">Data</div><div class="kb-diagram-cell">(빈)</div><div class="kb-diagram-cell">Ed 1</div><div class="kb-diagram-cell">Ed 2</div><div class="kb-diagram-cell">(빈)</div><div class="kb-diagram-cell">Ed 3</div><div class="kb-diagram-cell">(빈)</div><div class="kb-diagram-cell">Data</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(P1)</div><div class="kb-diagram-cell">(공유)</div><div class="kb-diagram-cell">(공유)</div><div class="kb-diagram-cell">(공유)</div><div class="kb-diagram-cell">(P2)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* Ed: Editor 코드 (읽기 전용, 재진입 가능)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* Data: 사용자 개별 데이터 (읽기/쓰기 가능, 각각 독립적 프레임 할당)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────┐
+│        페이징 시스템에서의 공유 페이지(Shared Page) 매핑 구조            │
+├──────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│ [ 프로세스 P1 (유저 A의 크롬) ]     [ 프로세스 P2 (유저 B의 크롬) ]      │
+│  P1의 페이지 테이블                  P2의 페이지 테이블                  │
+│ ┌──────┬───────┐                ┌──────┬───────┐                         │
+│ │ Page │ Frame │                │ Page │ Frame │                         │
+│ ├──────┼───────┤                ├──────┼───────┤                         │
+│ │ 0(Ed)│   3   │──┐    ┌────────│ 0(Ed)│   3   │ (공유!)                 │
+│ │ 1(Ed)│   4   │──┼────┼──┐     │ 1(Ed)│   4   │ (공유!)                 │
+│ │ 2(Ed)│   6   │──┼────┼──┼──┐  │ 2(Ed)│   6   │ (공유!)                 │
+│ │ 3(D1)│   1   │─┐│    │  │  │  │ 3(D2)│   8   │ (독립됨)                │
+│ └──────┴───────┘ ││    │  │  │  └──────┴───────┘                         │
+│                  ││    │  │  │                                           │
+│                  ▼▼    ▼  ▼  ▼                                           │
+│ [ 물리 메모리 (RAM) ]                                                    │
+│ ┌─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┬─────┐                  │
+│ │ Fr 0│Fr 1 │ Fr 2│Fr 3 │Fr 4 │ Fr 5│Fr 6 │ Fr 7│Fr 8 │                  │
+│ │ (빈) │ Data│ (빈) │ Ed 1│ Ed 2│ (빈) │ Ed 3│ (빈) │ Data│              │
+│ │     │ (P1)│     │(공유)│(공유)│     │(공유)│     │ (P2)│               │
+│ └─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┴─────┘                  │
+│ * Ed: Editor 코드 (읽기 전용, 재진입 가능)                               │
+│ * Data: 사용자 개별 데이터 (읽기/쓰기 가능, 각각 독립적 프레임 할당)     │
+└──────────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** P1과 P2는 모두 크롬 브라우저다. [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/)의 0, 1, 2번 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 크롬의 핵심 실행 코드(Ed)다. OS는 두 프로세스의 테이블에서 이 코드 영역이 모두 똑같은 물리 프레임 `[3, 4, 6]`을 가리키도록 연결한다. 하지만 3번 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))는 유저가 검색창에 입력한 글자나 로컬 상태값이므로 절대 공유하면 안 된다. 그래서 P1의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 프레임 `1`에, P2의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 프레임 `8`에 완전히 격리해서 매핑해 둔다.
 
 - **📢 섹션 요약 비유**: 게임방에서 10명이 똑같은 게임을 할 때, 게임 설치 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(공유 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))은 중앙 서버 1대(물리 메모리)에만 깔아두고 모니터로 화면만 공유받되, 각자의 게임 세이브 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(개별 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))만 자기들 [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/)(독립 프레임)에 따로 저장하는 완벽한 분리형 시스템입니다.
@@ -97,17 +102,14 @@ tags = ["studynote-operating-system"]
 - 그리고 100개 앱의 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)에 `libc.so`의 500개 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 프레임 번호를 스터브([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/))를 통해 모두 똑같이 매핑해 준다.
 - 이로 인해 시스템 전체의 메모리 낭비가 테라바이트 수준으로 절약된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">환경</div><div class="kb-diagram-cell">라이브러리 적재</div><div class="kb-diagram-cell">물리 메모리 소비</div><div class="kb-diagram-cell">페이지 테이블 세팅</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정적 링킹</div><div class="kb-diagram-cell">앱마다 통째로 복사</div><div class="kb-diagram-cell">2MB × 100 = 200MB</div><div class="kb-diagram-cell">각자 다른 프레임 매핑</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동적/페이징</div><div class="kb-diagram-cell">램에 딱 1번 로드</div><div class="kb-diagram-cell">2MB × 1 = 2MB</div><div class="kb-diagram-cell">100명이 같은 프레임 가리킴</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬──────────────────────────────────────────┐
+│ 환경       │ 라이브러리 적재│ 물리 메모리 소비│ 페이지 테이블 세팅            │
+├──────────┼────────────┼────────────┼──────────────────────────────────────────┤
+│ 정적 링킹  │ 앱마다 통째로 복사│ 2MB × 100 = 200MB│ 각자 다른 프레임 매핑     │
+│ 동적/페이징│ 램에 딱 1번 로드│ 2MB × 1 = 2MB  │ 100명이 **같은 프레임** 가리킴│
+└──────────┴────────────┴────────────┴──────────────────────────────────────────┘
+```
 **[매트릭스 해설]** 공유 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 동적 링킹([Dynamic Linking](/knowledge-base/studynote/02_operating_system/06_memory_management/332_dynamic_linking/))을 하드웨어 레벨에서 완성시켜주는 핵심 톱니바퀴다. 소프트웨어가 외부 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 동적으로 연결하겠다고 포인터를 넘기면, 하드웨어([페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 유닛)가 다른 앱이 쓰고 있는 프레임 주소를 똑같이 쏴주어 이 거대한 절약 시스템을 완성한다.
 
 - **📢 섹션 요약 비유**: 수백 명의 요리사가 각자 주방에 똑같은 공용 전자레인지(printf)를 돈 주고 들이는 것(정적 링킹)이 아니라, 복도에 있는 업소용 대형 전자레인지 하나([공유 라이브러리](/knowledge-base/studynote/02_operating_system/06_memory_management/333_shared_library/))를 모두가 자기 주방 문 열고 나가서 같이 쓰는(공유 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)) 구조입니다.
@@ -159,19 +161,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">페이징의 메모리 보호</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">페이징에서의 공유 페이지 (Shared Pages)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TLB (Translation Look-aside Buffer)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TLB 적중 (TLB Hit) / TLB 미스 (TLB Miss)</div></div>
-</div>
-</div>
-
-
+```text
+[페이징의 메모리 보호]
+    │
+    ▼
+[페이징에서의 공유 페이지 (Shared Pages)]
+    │
+    ├──▶ [TLB (Translation Look-aside Buffer)]
+    └──▶ [TLB 적중 (TLB Hit) / TLB 미스 (TLB Miss)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

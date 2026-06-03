@@ -36,20 +36,22 @@ tags = ["database"]
 | **부분 함수 종속 (Partial FD)** | 종속자 Y가 기본키 X의 전체가 아닌 일부에만 종속되는 상태. | `{학번, 과목} → 학생이름`<br>(학생이름은 학번에만 종속됨) | [제2정규형](/knowledge-base/studynote/05_database/02_modeling_normalization/104_second_normal_form_2nf_full_fd/)([2NF](/knowledge-base/studynote/05_database/02_modeling_normalization/104_second_normal_form_2nf_full_fd/))의 제거 대상 |
 | **이행적 함수 종속 (Transitive FD)** | $X \rightarrow Y$ 이고 $Y \rightarrow Z$ 일 때, $X \rightarrow Z$가 성립하는 연쇄적 종속 상태. | `학번 → 학과`, `학과 → 학과장`<br>(학번 → 학과장) | [제3정규형](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/)([3NF](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/))의 제거 대상 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">함수적 종속성의 3가지 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1</div><div class="kb-diagram-note">완전 함수 종속</div><div class="kb-diagram-node">2</div><div class="kb-diagram-note">부분 함수 종속</div><div class="kb-diagram-node">3</div><div class="kb-diagram-note">이행적 함수 종속</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">X1 X2 X1 X2 X</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ ▼</div><div class="kb-diagram-cell">Y</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Y Y (X1에만 종속)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Z</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                  함수적 종속성의 3가지 구조                  │
+├──────────────────────────────────────────────────────────────┤
+│ [1] 완전 함수 종속         [2] 부분 함수 종속         [3] 이행적 함수 종속         │
+│   ┌──────┴──────┐          ┌──────┴──────┐          ┌─────────────┐        │
+│   │             │          │             │          │             │        │
+│   X1            X2         X1            X2         X             │        │
+│   └──────┬──────┘          │             │          │             │        │
+│          │                 │             │          ▼             │        │
+│          ▼                 ▼             │          Y ────────────┘        │
+│          Y                 Y (X1에만 종속)│          │                      │
+│                            └─────────────┘          ▼                      │
+│                                                     Z                      │
+└──────────────────────────────────────────────────────────────┘
+```
 
 다이어그램에서 보듯, 부분 함수 종속과 이행적 함수 종속은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 훼손하는 우회 경로를 만든다. 이 우회 경로를 끊고 독립된 테이블로 분리하는 과정이 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)다.
 
@@ -113,23 +115,21 @@ tags = ["database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">비정규 릴레이션 (데이터 중복 및 이상 현상)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">부분 함수 종속 (Partial FD) 식별 및 제거</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">제2정규형 (2NF) 달성</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">이행적 함수 종속 (Transitive FD) 식별 및 제거</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">제3정규형 (3NF) 및 BCNF 달성 (모든 결정자가 후보키)</div>
-</div>
-</div>
-
-
+```text
+비정규 릴레이션 (데이터 중복 및 이상 현상)
+    │
+    ▼
+부분 함수 종속 (Partial FD) 식별 및 제거
+    │
+    ▼
+제2정규형 (2NF) 달성
+    │
+    ▼
+이행적 함수 종속 (Transitive FD) 식별 및 제거
+    │
+    ▼
+제3정규형 (3NF) 및 BCNF 달성 (모든 결정자가 후보키)
+```
 
 이 흐름도는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 덩어리 속에서 나쁜 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)을 차례대로 솎아내어 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 높은 구조로 진화하는 과정을 보여준다.
 

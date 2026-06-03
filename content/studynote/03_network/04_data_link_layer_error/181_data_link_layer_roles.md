@@ -25,21 +25,22 @@ tags = ["studynote-network"]
 
 아래 그림은 물리 계층의 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 흐름 위에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층이 어떤 질서를 덧입히는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">What the data link layer adds</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">network packet</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">frame =</div><div class="kb-diagram-node">header | payload | trailer/FCS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; error check</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">--------------------&gt; data unit</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">--------------------------------&gt; control info</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">physical bits on one link</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ What the data link layer adds                                     │
+├────────────────────────────────────────────────────────────────────┤
+│ network packet                                                     │
+│      │                                                             │
+│      ▼                                                             │
+│ frame = [header | payload | trailer/FCS]                           │
+│      │       │            │                 │                       │
+│      │       │            │                 └-> error check        │
+│      │       │            └--------------------> data unit         │
+│      │       └--------------------------------> control info       │
+│      ▼                                                             │
+│ physical bits on one link                                          │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 포인트는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층이 단지 헤더를 붙이는 수준이 아니라, <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> 스트림에 경계·제어·<a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 의미를 부여한다</strong>는 점이다. 덕분에 상위 계층은 매번 전기 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 상태를 직접 걱정하지 않고도, 이웃 노드까지의 전달을 비교적 안정된 단위로 다룰 수 있다.
 
@@ -76,22 +77,22 @@ tags = ["studynote-network"]
 
 다음 그림은 네 역할이 실제 프레임 전달 과정에 어떻게 겹쳐 들어가는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Link-level delivery on one hop</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sender Receiver</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">packet</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">framing</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">line control grants send</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">transmit bits</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; add header/trailer/FCS ▼</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">error check by CRC</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">flow check by window/buffer</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ACK/NAK if needed</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Link-level delivery on one hop                                    │
+├────────────────────────────────────────────────────────────────────┤
+│ Sender                                      Receiver                │
+│   packet                                                         │
+│    │                                                              │
+│    ▼                                                              │
+│ [framing] -> [line control grants send] -> transmit bits          │
+│    │                                         │                     │
+│    └-> add header/trailer/FCS                ▼                     │
+│                                      [error check by CRC]         │
+│                                      [flow check by window/buffer]│
+│                                      [ACK/NAK if needed]          │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 즉 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층은 단일 기능이 아니라, <strong>경계 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a> + 사용 순서 + 속도 조절 + 신뢰 보정</strong>의 묶음이다. 이 네 축을 한 번에 이해해야 뒤이어 등장하는 [LLC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/744_load_line_calibration/) (Logical Link Control), [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) ([Media](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) [Access Control](/knowledge-base/studynote/02_operating_system/09_file_system/547_access_control_rwx/)), [HDLC](/knowledge-base/studynote/03_network/04_data_link_layer_error/216_hdlc_high_level_data_link_control/), [ARQ](/knowledge-base/studynote/03_network/19_frequent_topics_terms/949_arq_automatic_repeat_request_go_back_n_selective/) 등의 세부 주제가 자연스럽게 이어진다.
 
@@ -130,21 +131,18 @@ tags = ["studynote-network"]
 
 아래 결정 흐름은 링크 특성에 따라 어떤 역할을 더 두껍게 설계할지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Choosing link-layer emphasis</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">medium is shared?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes -&gt; strong line control / MAC arbitration</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ error rate is high? -&gt; stronger error control / retries</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ receiver buffer small? -&gt; tighter flow control</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ latency critical and clean link? -&gt; keep link thin</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Choosing link-layer emphasis                                      │
+├────────────────────────────────────────────────────────────────────┤
+│ medium is shared?                                                 │
+│   ├─ yes -> strong line control / MAC arbitration                 │
+│   └─ no                                                           │
+│       ├─ error rate is high? -> stronger error control / retries  │
+│       ├─ receiver buffer small? -> tighter flow control           │
+│       └─ latency critical and clean link? -> keep link thin       │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
@@ -184,25 +182,24 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">비트 스트림만으로는 해석 불가</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">프레이밍으로 경계 설정</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">회선 제어로 전송 질서 부여</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">흐름 제어로 송수신 속도 조정</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">오류 제어로 로컬 신뢰성 보강</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">LLC · MAC · HDLC · PPP 등 세부 프로토콜로 확장</div>
-</div>
-</div>
-
-
+```text
+비트 스트림만으로는 해석 불가
+        │
+        ▼
+프레이밍으로 경계 설정
+        │
+        ▼
+회선 제어로 전송 질서 부여
+        │
+        ▼
+흐름 제어로 송수신 속도 조정
+        │
+        ▼
+오류 제어로 로컬 신뢰성 보강
+        │
+        ▼
+LLC · MAC · HDLC · PPP 등 세부 프로토콜로 확장
+```
 
 이 흐름도는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층의 네 역할이 각각 따로 존재하는 것이 아니라, 링크 단위 통신 품질을 단계적으로 완성해 가는 구조임을 보여 준다.
 

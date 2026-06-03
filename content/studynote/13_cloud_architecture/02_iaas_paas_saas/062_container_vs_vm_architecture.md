@@ -110,46 +110,35 @@ VM은 보안과 호환성의 바닥을 맡고, [컨테이너](/knowledge-base/st
 
 ## 관련 개념 맵
 
+```text
+Hypervisor
+  ↓
+Virtual Machine
+  ↓
+Guest OS
+  ↓
+Workload Isolation
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Hypervisor</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Virtual Machine</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Guest OS</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Workload Isolation</div>
-<div class="kb-diagram-note">Namespace + cgroups</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Container</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Kubernetes / CI-CD</div>
-</div>
-</div>
-
-
+Namespace + cgroups
+  ↓
+Container
+  ↓
+Kubernetes / CI-CD
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Bare Metal</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Virtualization</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Containerization</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">MicroVM / Serverless</div>
-</div>
-</div>
-
-
+```text
+Bare Metal
+  ↓
+Virtualization
+  ↓
+Containerization
+  ↓
+MicroVM / Serverless
+```
 
 ---
 

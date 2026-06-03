@@ -31,21 +31,27 @@ P(A|B) = P(A∩B) / P(B),   단 P(B) > 0
 
 조건부 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)은 표본공간을 <strong>B로 축소</strong>한 후, 그 안에서 A가 차지하는 비율이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원래 표본공간 Ω</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A</div><div class="kb-diagram-cell">A∩B</div><div class="kb-diagram-cell">B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(A만)</div><div class="kb-diagram-cell">(교집합)</div><div class="kb-diagram-cell">(B만)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B가 주어졌을 때: 표본공간이 B로 축소됨</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">축소된 공간 B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A∩B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P(A</div><div class="kb-diagram-cell">B) = 넓이(A∩B) / 넓이(B)</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────┐
+│  원래 표본공간 Ω                                  │
+│  ┌────────────────────────┐                      │
+│  │                        │                      │
+│  │    A    │ A∩B │   B    │                      │
+│  │ (A만)   │(교집합)│(B만) │                      │
+│  │         │      │       │                      │
+│  └────────────────────────┘                      │
+│                                                  │
+│  B가 주어졌을 때: 표본공간이 B로 축소됨           │
+│                                                  │
+│  ┌──────────────────┐                            │
+│  │ 축소된 공간 B     │                            │
+│  │   │  A∩B  │      │                            │
+│  │   └───────┘      │                            │
+│  └──────────────────┘                            │
+│                                                  │
+│  P(A|B) = 넓이(A∩B) / 넓이(B)                   │
+└──────────────────────────────────────────────────┘
+```
 
 **예시**: 주사위를 던져 짝수(B)가 나왔을 때, 6이 나올 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)(A)?
 ```
@@ -105,26 +111,22 @@ P(나는 밥을 먹었다)
 
 수형도 (Tree Diagram) 는 여러 단계로 이어지는 조건부 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 직관적으로 표현한다.
 
+```
+                    ┌─── P(A₁∩B₁) = 0.6×0.9 = 0.54
+          ┌─ B₁(0.9)┤
+          │          └─── P(A₁∩B̄₁) = 0.6×0.1 = 0.06
+    A₁(0.6)
+   /        \         ┌─── P(A₁∩B₂) 계산 오류 방지 위해
+  /           \       │    별도 가지로 표현
+ /             \
+시작            ┌─ B₁(0.4)┐
+   \            │          └─ P(A₂∩B₁) = 0.4×0.4 = 0.16
+    A₂(0.4)────┤
+                └─ B̄₁(0.6)──── P(A₂∩B̄₁) = 0.4×0.6 = 0.24
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">P(A₁∩B₁) = 0.6×0.9 = 0.54</div>
-<div class="kb-diagram-note">─ B₁(0.9)</div>
-<div class="kb-diagram-note">P(A₁∩B̄₁) = 0.6×0.1 = 0.06</div>
-<div class="kb-diagram-note">A₁(0.6)</div>
-<div class="kb-diagram-note">/ \ P(A₁∩B₂) 계산 오류 방지 위해</div>
-<div class="kb-diagram-note">/ \ │ 별도 가지로 표현</div>
-<div class="kb-diagram-note">시작 ─ B₁(0.4)</div>
-<div class="kb-diagram-note">\ │ ─ P(A₂∩B₁) = 0.4×0.4 = 0.16</div>
-<div class="kb-diagram-note">A₂(0.4)</div>
-<div class="kb-diagram-tree-item" style="--depth:8">B̄₁(0.6) P(A₂∩B̄₁) = 0.4×0.6 = 0.24</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P(B₁) = P(B₁</div><div class="kb-diagram-cell">A₁)·P(A₁) + P(B₁</div><div class="kb-diagram-cell">A₂)·P(A₂)</div></div>
-<div class="kb-diagram-note">= 0.9×0.6 + 0.4×0.4 = 0.54+0.16 = 0.70</div>
-</div>
-</div>
-
-
+P(B₁) = P(B₁|A₁)·P(A₁) + P(B₁|A₂)·P(A₂)
+      = 0.9×0.6 + 0.4×0.4 = 0.54+0.16 = 0.70
+```
 
 📢 **섹션 요약 비유**: 수형도는 "가능한 모든 길"을 나뭇가지처럼 펼쳐 놓고, 각 분기점에서 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 곱해가는 지도다.
 
@@ -178,22 +180,18 @@ P(amount > 100K | region = 'Seoul')
 
 **검사자 오류 (Prosecutor's Fallacy)** 는 P(증거|무죄) 와 P(무죄|증거) 를 동일시하는 논리적 오류다.
 
+```
+범죄 현장 혈액형 일치 확률:
+  P(혈액형 일치 | 무고한 사람) = 0.1   (10%의 사람이 같은 혈액형)
 
+검사의 잘못된 주장:
+  "혈액형이 일치하므로 무죄 확률은 10%다"
+  → P(무죄 | 혈액형 일치) = 0.1 ← 완전히 다른 확률!
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">범죄 현장 혈액형 일치 확률:</div>
-<div class="kb-diagram-note">P(혈액형 일치 | 무고한 사람) = 0.1 (10%의 사람이 같은 혈액형)</div>
-<div class="kb-diagram-note">검사의 잘못된 주장:</div>
-<div class="kb-diagram-note">"혈액형이 일치하므로 무죄 확률은 10%다"</div>
-<div class="kb-diagram-note">→ P(무죄 | 혈액형 일치) = 0.1 ← 완전히 다른 확률!</div>
-<div class="kb-diagram-note">베이즈 정리로 올바른 계산:</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P(무죄</div><div class="kb-diagram-cell">증거) = P(증거</div><div class="kb-diagram-cell">무죄) · P(무죄) / P(증거)</div></div>
-<div class="kb-diagram-note">→ 유죄 추정(Prior)과 증거의 특이성(Likelihood)을 모두 고려해야 함</div>
-</div>
-</div>
-
-
+베이즈 정리로 올바른 계산:
+  P(무죄 | 증거) = P(증거 | 무죄) · P(무죄) / P(증거)
+  → 유죄 추정(Prior)과 증거의 특이성(Likelihood)을 모두 고려해야 함
+```
 
 <strong>조건부 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a> vs 결합 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a> vs 주변 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a> 비교</strong>:
 
@@ -222,25 +220,24 @@ P(amount > 100K | region = 'Seoul')
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">:---</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">조건부 확률</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">연쇄 법칙</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">조건부 독립</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">선택도 추정</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">검사자 오류</div></div>
-</div>
-</div>
-
-
+```text
+[:---]
+    │
+    ▼
+[조건부 확률]
+    │
+    ▼
+[연쇄 법칙]
+    │
+    ▼
+[조건부 독립]
+    │
+    ▼
+[선택도 추정]
+    │
+    ▼
+[검사자 오류]
+```
 
 이 흐름도는 :---에서 출발해 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 추정까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

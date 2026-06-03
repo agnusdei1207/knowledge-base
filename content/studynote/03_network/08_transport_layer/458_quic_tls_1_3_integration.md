@@ -26,18 +26,14 @@ tags = ["studynote-network"]
   - <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> + <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/">TLS</a> 1.2 (과거)</strong>: 1차 면접(인사팀 - [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)) 통과 후 집에 갔다가, 다음 주에 다시 와서 2차 면접(임원진 - [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/))을 봅니다. 시간 낭비가 큽니다.
   - <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/">QUIC</a> + <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/">TLS</a> 1.3 (현재)</strong>: 인사팀장과 임원이 한 방에 같이 앉아있는 <strong>"원스톱 통합 면접"</strong>입니다. 이력서(첫 번째 패킷)를 밀어 넣자마자 인사 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)(연결)과 임원 질문(암호 키 교환)이 10초 만에 동시에 끝나고 바로 합격 통보가 나옵니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">QUIC 연결 마이그레이션</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">TLS 1.3 기본 내장</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">FEC 기능 선택적 포함</div></div>
-</div>
-</div>
-
-
+```text
+[QUIC 연결 마이그레이션]
+    │
+    ▼
+[TLS 1.3 기본 내장]
+    │
+    └──▶ [FEC 기능 선택적 포함]
+```
 
 - **📢 섹션 요약 비유**: <strong> QUIC에 내장된 <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/">TLS</a> 1.3은 놀이공원 입구의 </strong>"티켓 + 소지품 동시 검사대"**입니다. 예전엔 티켓을 내고([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 접속) 10m를 더 걸어가서 가방 검사([TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 암호화 협상)를 따로 받아 줄이 길었지만, 지금은 입장 게이트 하나에서 두 가지를 0.1초 만에 스캔하고 들여보내 엄청난 입장 속도를 자랑합니다.
 
@@ -59,28 +55,28 @@ QUIC이 처음 방문한 서버(구글)와 암호화 터널을 뚫는 과정이�
 3. 구글 서버는 "어? 아까 걔네? 암호 풀리네! 오케이 로고 옛다!" 하고 즉시 던져준다. 
 4. <strong>대기 시간(<a href="/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/">RTT</a>) 0초</strong>. 클릭하자마자 화면이 팝업되는 모바일 쾌적함의 정점이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TCP/TLS 1.2 vs QUIC/TLS 1.3 체감 시간 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">기존 방식 (TCP + TLS 1.2) - 총 3 RTT 소모</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라이언트 ──▶ SYN (TCP 인사)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀── SYN-ACK</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ ACK (TCP 완료) + Client Hello (TLS 인사)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀── Server Hello (인증서 던져줌)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ Client Key Exchange (암호키 조율)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀── Finished (암호화 터널 뚫림!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ GET /index.html (비로소 진짜 데이터 요구 ㅠㅠ)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">QUIC 방식 (UDP + TLS 1.3) - 단 1 RTT 소모</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라이언트 ──▶ QUIC 인사 + TLS Client Hello + 내 암호키 조각!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀── QUIC 확인 + TLS Server Hello + 완벽한 터널 뚫림!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ GET /index.html (데이터 내놔!!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ "왕복 2번(약 100~200ms)의 허송세월을 잘라내버린 기적의 다이어트!"</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                TCP/TLS 1.2 vs QUIC/TLS 1.3 체감 시간 비교          │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 기존 방식 (TCP + TLS 1.2) - 총 3 RTT 소모 ]                 │
+ │   클라이언트 ──▶ SYN (TCP 인사)                               │
+ │            ◀── SYN-ACK                                      │
+ │            ──▶ ACK (TCP 완료) + Client Hello (TLS 인사)      │
+ │            ◀── Server Hello (인증서 던져줌)                  │
+ │            ──▶ Client Key Exchange (암호키 조율)             │
+ │            ◀── Finished (암호화 터널 뚫림!)                   │
+ │            ──▶ GET /index.html (비로소 진짜 데이터 요구 ㅠㅠ)    │
+ │                                                             │
+ │   [ QUIC 방식 (UDP + TLS 1.3) - 단 1 RTT 소모 ]                 │
+ │   클라이언트 ──▶ QUIC 인사 + TLS Client Hello + 내 암호키 조각!   │
+ │            ◀── QUIC 확인 + TLS Server Hello + 완벽한 터널 뚫림! │
+ │            ──▶ GET /index.html (데이터 내놔!!)               │
+ │                                                             │
+ │   ▶ "왕복 2번(약 100~200ms)의 허송세월을 잘라내버린 기적의 다이어트!" │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 3. 통신사([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/))들의 절망: 페이로드의 완전한 암호화
 앞서 배운 것처럼, QUIC은 겉면의 8바이트 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 깡통([포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/))만 빼고 <strong>그 안에 들어있는 모든 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>(심지어 ACK 번호표, 윈도우 사이즈, 패킷 번호까지!)를 100% <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/">TLS</a> 1.3으로 흑색 잉크 칠(암호화)</strong>해 버린다.
@@ -143,19 +139,15 @@ QUIC이 처음 방문한 서버(구글)와 암호화 터널을 뚫는 과정이�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: QUIC 연결 마이그레이션</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: TLS 1.3 기본 내장</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: FEC 기능 선택적 포함</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: QUIC 연결 마이그레이션]
+    │
+    ▼
+[현재 개념: TLS 1.3 기본 내장]
+    │
+    ├──▶ [확장 A: FEC 기능 선택적 포함]
+    └──▶ [확장 B: 적응형 저지연 전송]
+```
 
 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3 기본 내장는 [QUIC](/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/) 연결 마이그레이션에서 출발해 현재 메커니즘을 정교화하고, 이후 FEC 기능 선택적 포함와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

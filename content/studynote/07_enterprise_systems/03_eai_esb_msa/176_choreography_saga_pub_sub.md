@@ -27,21 +27,21 @@ tags = ["studynote-enterprise"]
 
 아래 그림은 중앙 조정자 없이 이벤트만으로 주문 흐름이 이어지는 모습을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Choreography Saga by domain events</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Order Service -- OrderCreated ---&gt; Event Bus</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─&gt; Payment Service</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ PaymentApproved ------&gt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─&gt; Inventory Service</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ StockReserved --------&gt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">No central conductor; each service reacts to business events</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Choreography Saga by domain events                                │
+├────────────────────────────────────────────────────────────────────┤
+│ Order Service  -- OrderCreated ---> Event Bus                     │
+│                                  │                                │
+│                                  ├─> Payment Service              │
+│                                  │      └─ PaymentApproved ------>│
+│                                  │                                │
+│                                  └─> Inventory Service            │
+│                                         └─ StockReserved -------->│
+│                                                                    │
+│ No central conductor; each service reacts to business events      │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 따라서 [코레오그래피 사가](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/553_choreography_saga_event_driven/)의 필요성은 "비동기라서 멋있다"가 아니다. <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 간 직접 의존을 줄이면서도, <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>된 업무를 끝까지 이어 갈 수 있는 자율 협업 규칙</strong>이 필요하기 때문에 등장한다.
 
@@ -63,21 +63,23 @@ tags = ["studynote-enterprise"]
 
 실행 흐름은 보통 다음과 같다. 주문 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 `OrderCreated`를 저장하고 아웃박스에 함께 기록한다. 릴레이 프로세스가 이를 [이벤트 버스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/539_event_bus_stream_processing/)로 발행하면, 결제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 이벤트를 읽고 결제를 승인한 뒤 `PaymentApproved`를 다시 발행한다. 재고 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 이 이벤트를 구독해 재고를 예약하고, 이어 배송 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 출고를 준비한다. 어느 단계에서 실패하면 `PaymentFailed`, `StockRejected` 같은 실패 이벤트가 발행되고, 앞선 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)들은 이를 보고 취소나 해제를 수행한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Forward flow and compensation</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Order database commit + Outbox(OrderCreated)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Event Bus</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─&gt; Payment Service -&gt; PaymentApproved</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─&gt; Payment Service -&gt; PaymentFailed</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─&gt; OrderCancelled</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">InventoryReleased</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Forward flow and compensation                                      │
+├────────────────────────────────────────────────────────────────────┤
+│ Order database commit + Outbox(OrderCreated)                       │
+│                  │                                                 │
+│                  ▼                                                 │
+│               Event Bus                                            │
+│                  │                                                 │
+│                  ├─> Payment Service -> PaymentApproved            │
+│                  │                                                 │
+│                  └─> Payment Service -> PaymentFailed              │
+│                                         │                          │
+│                                         └─> OrderCancelled         │
+│                                             InventoryReleased      │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 중요한 점은 보상이 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) ROLLBACK이 아니라는 사실이다. 이미 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 로컬 커밋은 끝났으므로, 실패가 나면 반대 의미의 새 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 실행해 상태를 상쇄해야 한다. 따라서 [코레오그래피 사가](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/553_choreography_saga_event_driven/)의 설계 핵심은 "성공 이벤트 설계"만이 아니라 <strong>실패 이벤트와 보상 경로를 업무적으로 모델링하는 것</strong>이다.
 
@@ -162,26 +164,25 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Business command accepted</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Local transaction + outbox write</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Publish to event bus</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Subscriber local transaction</div>
-<div class="kb-diagram-tree-item" style="--depth:4">failure event -&gt; compensation chain</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Next domain event</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Eventual consistency reached</div>
-</div>
-</div>
-
-
+```text
+Business command accepted
+        │
+        ▼
+Local transaction + outbox write
+        │
+        ▼
+Publish to event bus
+        │
+        ▼
+Subscriber local transaction
+        │
+        ├──────────────► failure event -> compensation chain
+        ▼
+Next domain event
+        │
+        ▼
+Eventual consistency reached
+```
 
 이 흐름도는 "업무 요청 수락 → 로컬 커밋 → 이벤트 발행 → 다음 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 반응 → 실패 시 보상 → 최종 상태 수렴"이라는 [코레오그래피 사가](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/553_choreography_saga_event_driven/)의 전형적 리듬을 보여 준다.
 

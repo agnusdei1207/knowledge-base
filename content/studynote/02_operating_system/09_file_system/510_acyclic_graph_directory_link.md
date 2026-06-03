@@ -25,26 +25,33 @@ tags = ["studynote-operating-system"]
 - <strong>고립된 Tree vs 다중 부모 융합 비순환 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a> 락백 다이어그램</strong>:
 운영체제가 이 얽힌 폴더 구조 링크 빔을 어떻게 구현(Link)하는지 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)으로 분해하면 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파일의 완전 공유(Share) : 다중 경로와 단일 인스턴스 융합</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">고전적 Tree 트리 (부모는 하나뿐! 배타적 소유 고립)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Alice 폴더</div><div class="kb-diagram-node">Bob 폴더</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell"><code>team_report.docx</code> (Bob은 Alice 방 파일 접근 불가 벽 ㅠㅠ)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">비순환 그래프 통달 (Acyclic Graph) : 매직 포인터 다중 공유의 탄생</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Alice 폴더</div><div class="kb-diagram-node">Bob 폴더</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(경로 문 1) (경로 문 2 : 심볼릭 링크 화살표 생성!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">단 1개의 진짜 파일 본체 (Inode #1004)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">====</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell"><code>최종_보고서_진짜_마지막.docx</code></div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 💡 기적 완성: Alice 가 /Alice/report 로 열고 수정해도 무결 동기화,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Bob 이 /Bob/my_report 로 열고 수정해도 완벽하게 같은 내용이 즉시 실시간 동기화.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디스크 용량은 단 1개 파일 분량만 소모 체제 유지 스로틀.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌────────────────────────────────────────────────────────────────────────────────────┐
+  │                 파일의 완전 공유(Share) : 다중 경로와 단일 인스턴스 융합           │
+  ├────────────────────────────────────────────────────────────────────────────────────┤
+  │                                                                                    │
+  │  [ 고전적 Tree 트리 (부모는 하나뿐! 배타적 소유 고립) ]                            │
+  │                                                                                    │
+  │     [Alice 폴더]                 [Bob 폴더]                                        │
+  │         |                              │                                           │
+  │   `team_report.docx`      (Bob은 Alice 방 파일 접근 불가 벽 ㅠㅠ)                  │
+  │                                                                                    │
+  │  =============================================================                     │
+  │                                                                                    │
+  │  [ 비순환 그래프 통달 (Acyclic Graph) : 매직 포인터 다중 공유의 탄생 ]             │
+  │                                                                                    │
+  │     [Alice 폴더]                 [Bob 폴더]                                        │
+  │         |                              |                                           │
+  │     (경로 문 1)                    (경로 문 2 : 심볼릭 링크 화살표 생성!)          │
+  │          \                            /                                            │
+  │           ======▶ [ 단 1개의 진짜 파일 본체 (Inode #1004) ] ◀====                  │
+  │                   `최종_보고서_진짜_마지막.docx`                                   │
+  │                                                                                    │
+  │  => 💡 기적 완성: Alice 가 /Alice/report 로 열고 수정해도 무결 동기화,             │
+  │     Bob 이 /Bob/my_report 로 열고 수정해도 완벽하게 같은 내용이 즉시 실시간 동기화.│
+  │     디스크 용량은 단 1개 파일 분량만 소모 체제 유지 스로틀.                        │
+  └────────────────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 일반 트리를 자료구조 "[그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)([Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/) 망 구조)" 로 진화시키는 핵심 이정표 마법은 **바로가기 링크(Link 숏컷)** 다. 이제 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 두 개의 서로 다른 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 장부(심볼 테이블)가 똑같이 1개의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 주소(`Inode 1004번`)를 찍고 있는 엽기적인 행각 다중 포인팅을 허락 용인한다. 이로써 `공유 폴더` 나 `공용 실행파일 라이브러리` 라는 개념이 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 서버에 폭발적으로 창조 번식하여 윈도우의 `C:\Windows\System32\dll` 공용 DLL 묶음 공유 라이브러리가 전 우주 앱에 동시 다발적으로 투영될 수 있었다.
 
@@ -129,19 +136,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">절대 경로 (Absolute Path) / 상대 경로 (Relative Path)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">비순환 그래프 디렉터리 (Acyclic Graph Directory)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">하드 링크 (Hard Link)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">심볼릭 링크 (Symbolic Link / Soft Link)</div></div>
-</div>
-</div>
-
-
+```text
+[절대 경로 (Absolute Path) / 상대 경로 (Relative Path)]
+    │
+    ▼
+[비순환 그래프 디렉터리 (Acyclic Graph Directory)]
+    │
+    ├──▶ [하드 링크 (Hard Link)]
+    └──▶ [심볼릭 링크 (Symbolic Link / Soft Link)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

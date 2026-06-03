@@ -36,24 +36,25 @@ tags = ["studynote-ict-convergence"]
 | <strong><a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/571_wlan_bss_ess_structure/">WLAN</a> (Local Area)</strong> | 100m 내외 | 매우 높음 (Gbps급) | 높음 (상시 전원 권장) | Wi-Fi (IEEE 802.[11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/)) |
 | <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/109_lpwan_low_power_wide_area_network/">LPWAN</a> (Wide Area)</strong> | 10km 이상 | 매우 낮음 (수 kbps) | 극도로 낮음 (10년 배터리) | [LoRa](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/), [Sigfox](/knowledge-base/studynote/03_network/12_iot_wpan_edge/1030_lpwan_sigfox/), [NB-IoT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/620_nbiot_narrowband_iot_lte_guardband/) |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IoT 무선 통신망의 거리와 속도 트레이드오프(Trade-off)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전송 속도 (Data Rate)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">WLAN</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Wi-Fi (고화질 영상 스트리밍) - 전원 플러그 필수!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">WPAN</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Bluetooth, Zigbee (스마트홈, 웨어러블)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LPWAN</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LoRa, NB-IoT (가로등, 미터기)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(10m) (100m) (10km)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전송 거리 (Range)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           IoT 무선 통신망의 거리와 속도 트레이드오프(Trade-off)        │
+├──────────────────────────────────────────────────────────────┤
+│  전송 속도 (Data Rate)                                        │
+│    ▲                                                         │
+│    │  [WLAN]                                                 │
+│    │  Wi-Fi (고화질 영상 스트리밍) - 전원 플러그 필수!              │
+│    │                                                         │
+│    │       [WPAN]                                            │
+│    │       Bluetooth, Zigbee (스마트홈, 웨어러블)               │
+│    │                                                         │
+│    │                               [LPWAN]                   │
+│    │                               LoRa, NB-IoT (가로등, 미터기)│
+│    └───────────────────────────────────────────────────────▶ │
+│      (10m)                 (100m)                  (10km)    │
+│                                                  전송 거리 (Range)│
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '속도'와 '거리'를 동시에 만족하면서 '초저전력'까지 달성하는 마법의 통신망은 물리학적으로 존재하지 않는다는 점이다. LPWAN은 배터리를 아끼고 10km를 날아가기 위해 속도를 포기(하루에 10바이트만 전송)했고, WLAN은 Gbps급 속도를 위해 상시 전원을 요구한다.
 
@@ -117,23 +118,21 @@ tags = ["studynote-ict-convergence"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">유선 LAN 시대 (물리적 케이블의 한계)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">WLAN (Wi-Fi)의 보급 (노트북/스마트폰 등 고속/상시전원 기기의 무선화 달성)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">WPAN (Bluetooth/Zigbee)의 등장 (웨어러블/스마트홈 등 근거리 저전력 개인화 기기 연결)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">IoT 폭발과 전력 한계 직면 (야외, 산속, 지하의 수백만 개 센서는 기존 망으로 커버 불가)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">LPWAN (LoRa, NB-IoT) 혁명 (초광역, 초저전력, 저비용 기반의 진정한 만물인터넷 인프라 완성)</div>
-</div>
-</div>
-
-
+```text
+유선 LAN 시대 (물리적 케이블의 한계)
+    │
+    ▼
+WLAN (Wi-Fi)의 보급 (노트북/스마트폰 등 고속/상시전원 기기의 무선화 달성)
+    │
+    ▼
+WPAN (Bluetooth/Zigbee)의 등장 (웨어러블/스마트홈 등 근거리 저전력 개인화 기기 연결)
+    │
+    ▼
+IoT 폭발과 전력 한계 직면 (야외, 산속, 지하의 수백만 개 센서는 기존 망으로 커버 불가)
+    │
+    ▼
+LPWAN (LoRa, NB-IoT) 혁명 (초광역, 초저전력, 저비용 기반의 진정한 만물인터넷 인프라 완성)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -24,20 +24,15 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경**: 과거 일괄 처리 (Batch) 시스템에서 작업 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))을 높이기 위해 SJF를 썼으나, 불만([기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))이 폭증하자 이를 해결할 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 필요했다. 고정된 우선순위 대신 런타임에 동적으로 점수가 변하는(Dynamic Priority) 최초의 수식적 시도 중 하나로 역사에 등장했다.
 
+```text
+  [HRN 알고리즘의 응답 비율(Response Ratio) 가치 평가 철학]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">HRN 알고리즘의 응답 비율(Response Ratio) 가치 평가 철학</div></div>
-<div class="kb-diagram-note">SJF의 잣대: "너 덩치(실행 시간)가 얼마나 작아?" (오직 크기만 봄)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">HRN의 잣대: "너 덩치 대비 얼마나 오래 억울하게 기다렸어?" (시간의 흐름 반영)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">우선순위 결정 = "나의 불만도(대기 시간)"와 "내 본래 덩치(서비스 시간)"의 비율</div>
-</div>
-</div>
-
-
+   SJF의 잣대: "너 덩치(실행 시간)가 얼마나 작아?" (오직 크기만 봄)
+                     ▼
+   HRN의 잣대: "너 덩치 대비 얼마나 오래 억울하게 기다렸어?" (시간의 흐름 반영)
+                     ▼
+   우선순위 결정 = "나의 불만도(대기 시간)"와 "내 본래 덩치(서비스 시간)"의 비율 
+```
 **[다이어그램 해설]** HRN의 핵심은 프로세스를 절대적인 크기만으로 차별하지 않고, 그 프로세스가 겪은 '억울한 시간'을 점수에 합산해 준다는 것이다. 이는 고정 우선순위 스케줄링에서 기아를 막기 위해 임의로 점수를 올려주던 '[에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/)([Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/))' 기법을 아예 단일 수학 공식 하나로 우아하게 통합해 낸 것이다.
 
 - **📢 섹션 요약 비유**: 오직 성적(짧은 실행 시간) 순으로 밥을 주던 비인간적인 학교([SJF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/))에서, 성적뿐만 아니라 "얼마나 오래 굶었는가(대기 시간)"를 합산 점수로 매겨 밥을 배급하는 아주 민주적이고 공정한(HRN) 급식 시스템으로 진화한 것입니다.
@@ -64,25 +59,26 @@ tags = ["studynote-operating-system"]
 - P2: [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 시간 20ms, 현재 대기 시간 30ms
 - P3: [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 시간 2ms, 현재 대기 시간 2ms
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HRN 응답 비율 공식을 통한 다음 CPU 독점자 결정 시뮬레이션</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스케줄러 판단 시점: P1 작업 막 종료 시점</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ P2(무거운 놈)의 응답 비율 계산</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ratio = (대기 30 + 서비스 20) / 서비스 20 = 50 / 20 = 2.5</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ P3(가벼운 놈)의 응답 비율 계산</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ratio = (대기 2 + 서비스 2) / 서비스 2 = 4 / 2 = 2.0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 스케줄러의 최종 결정:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비록 P3가 2ms로 압도적으로 짧은 작업이지만(SJF라면 무조건 P3 선택),</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P2가 30ms라는 긴 시간을 억울하게 대기했기 때문에 응답 비율이(2.5)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">더 높게 산출된다. 따라서 무거운 P2가 승리하여 다음 CPU를 잡는다!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(기아 상태의 완벽한 수리적 구제)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌──────────────────────────────────────────────────────────────────────┐
+  │         HRN 응답 비율 공식을 통한 다음 CPU 독점자 결정 시뮬레이션    │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │                                                                      │
+  │  [스케줄러 판단 시점: P1 작업 막 종료 시점]                          │
+  │                                                                      │
+  │  ▶ P2(무거운 놈)의 응답 비율 계산                                    │
+  │     Ratio = (대기 30 + 서비스 20) / 서비스 20 = 50 / 20 = 2.5        │
+  │                                                                      │
+  │  ▶ P3(가벼운 놈)의 응답 비율 계산                                    │
+  │     Ratio = (대기 2 + 서비스 2) / 서비스 2 = 4 / 2 = 2.0             │
+  │                                                                      │
+  │  ✅ 스케줄러의 최종 결정:                                            │
+  │  비록 P3가 2ms로 압도적으로 짧은 작업이지만(SJF라면 무조건 P3 선택), │
+  │  P2가 30ms라는 긴 시간을 억울하게 대기했기 때문에 응답 비율이(2.5)   │
+  │  더 높게 산출된다. 따라서 무거운 P2가 승리하여 다음 CPU를 잡는다!    │
+  │  (기아 상태의 완벽한 수리적 구제)                                    │
+  └──────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 이 수식이 작동하는 원리는 기가 막히게 아름답다. [SJF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/) 환경이었다면 2ms짜리 P3가 먼저 튀어나갔을 테고, P2는 뒤이어 [P4](/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/), P5 같은 가벼운 놈들이 계속 들어오면 영원히 굶어 죽었을 것이다. 하지만 HRN 공식이 P2의 30ms라는 눈물 젖은 '대기 시간'에 엄청난 가산점([Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/))을 부여하여 정당하게 1등석으로 끌어올린 것이다.
 
 - **📢 섹션 요약 비유**: 이 공식은 철저한 평등주의 저울입니다. 본래 덩치가 큰 코끼리([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 시간 김)는 무거워서 우선순위 저울이 잘 안 올라가지만, 계속 기다리면서 억울함이라는 돌덩이(대기 시간)를 수십 개 얹어주면 언젠가는 깃털(가벼운 프로세스)을 휙 날려버리고 저울이 올라가게 됩니다.
@@ -97,7 +93,7 @@ tags = ["studynote-operating-system"]
 
 | 진화 단계 | [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 최우선 판단 잣대 | 치명적 단점 | 비고 |
 |:---:|:---|:---|:---|:---|
-| 1세대 | <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/">FCFS</a></strong> | "누가 제일 먼저 왔어?" | <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/174_convoy_effect/">호위 효과</a></strong> (긴 놈 뒤에 줄줄이 막힘) | 공평하지만 무능함 |
+| 1세대 | <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/">FCFS</a></strong> | "누가 제일 먼저 왔어?" | <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/174_convoy_effect/">호위 효과</a></strong> (긴 놈 뒤에 줄줄이 병목) | 공평하지만 무능함 |
 | 2세대 | <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/">SJF</a></strong> | "누가 제일 빨리 끝나?" | <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/">기아 상태</a></strong> (긴 놈은 영원히 굶음) | 똑똑하지만 잔인함 |
 | 3세대 | **HRN** | <strong>"도착순(대기) + 끝나는 순(<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>) 둘 다 합쳐서 계산해!"</strong> | 매번 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 수학 연산을 해야 하는 **오버헤드** | 똑똑하고 공평하나 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 무거움 |
 
@@ -115,27 +111,27 @@ HRN이 완벽해 보이지만 메인스트림 [운영체제](/knowledge-base/stu
 1. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 메시지 큐 (<a href="/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/">Kafka</a>)의 컨슈머 우선순위 방어</strong>: 일반 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서는 CPU 부담 때문에 HRN 공식을 쓰지 않지만, 애플리케이션 레벨의 유저 공간(User Space) 큐 매니징에서는 매우 유용하게 쓰인다. 메시지 큐에 무거운 작업 페이로드(100MB 이미지 리사이징)와 가벼운 페이로드(텍스트 알림)가 섞여 들어올 때, 워커 프로세스가 다음 작업을 꺼내는 로직(Poll)에 HRN 수식을 적용하면 가벼운 알림을 먼저 쳐내면서도 거대 이미지 작업이 큐에서 버려져([Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/)/Drop) 영구 미아가 되는 장애를 우아하게 막을 수 있다.
 2. <strong>스케줄링 공정성 지표(Fairness <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/">Metric</a>)로서의 활용</strong>: 시스템 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 [프로파일링](/knowledge-base/studynote/02_operating_system/10_security/613_profiling_gprof/)([Profiling](/knowledge-base/studynote/02_operating_system/10_security/613_profiling_gprof/))할 때 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 분석가들은 HRN의 'Response Ratio' 공식을 시스템 건강도(Health Check) 측정의 척도로 쓴다. 만약 시스템에 돌고 있는 여러 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)들 중 이 비율이 극도로 높은(대기 시간이 너무 길어 분자가 팽창한) 프로세스가 탐지된다면, 이는 현재 시스템의 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)(CFS 파라미터 등) 튜닝이 완전히 박살나 누군가 기아에 시달리고 있다는 적색경보(Red [Flag](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/))로 판단하고 튜닝에 들어간다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가상 실행 시간(vruntime) 철학의 시조로서의 HRN 모델 분석</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1970년대 HRN 모델</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Ratio = (대기한 시간 + 실행할 시간) / 실행할 시간</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 핵심: 실행 시간(덩치) 대비 대기 시간을 억울함(점수)으로 환산.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(문제: 실행할 시간을 완벽히 알 수 없어 구현 불가)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2000년대 이후 리눅스 CFS (Completely Fair Scheduler)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ vruntime = (실제 CPU 쓴 시간) * (우선순위 가중치)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 핵심: 미래의 덩치를 찍어 맞추는 걸 포기! 대신 철저히 팩트인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"지금까지 CPU를 쓴 시간"이 적은 놈(억울한 놈)을 트리 맨</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">왼쪽에 꽂아 무조건 먼저 선점시킴.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💡 결론: 미래 예측(HRN)의 한계를 과거 기록(CFS vruntime)으로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">치환했을 뿐, "적게 일하고 오래 기다린 약자"를 끌어올려</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기아를 막는다는 대원칙 철학은 100% 동일하게 계승됨.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌────────────────────────────────────────────────────────────────────┐
+  │     가상 실행 시간(vruntime) 철학의 시조로서의 HRN 모델 분석       │
+  ├────────────────────────────────────────────────────────────────────┤
+  │                                                                    │
+  │   [ 1970년대 HRN 모델 ]                                            │
+  │   ▶ Ratio = (대기한 시간 + 실행할 시간) / 실행할 시간              │
+  │   ▶ 핵심: 실행 시간(덩치) 대비 대기 시간을 억울함(점수)으로 환산.  │
+  │        (문제: 실행할 시간을 완벽히 알 수 없어 구현 불가)           │
+  │                                                                    │
+  │   [ 2000년대 이후 리눅스 CFS (Completely Fair Scheduler) ]         │
+  │   ▶ vruntime = (실제 CPU 쓴 시간) * (우선순위 가중치)              │
+  │   ▶ 핵심: 미래의 덩치를 찍어 맞추는 걸 포기! 대신 철저히 팩트인    │
+  │          "지금까지 CPU를 쓴 시간"이 적은 놈(억울한 놈)을 트리 맨   │
+  │          왼쪽에 꽂아 무조건 먼저 선점시킴.                         │
+  │                                                                    │
+  │   💡 결론: 미래 예측(HRN)의 한계를 과거 기록(CFS vruntime)으로     │
+  │          치환했을 뿐, "적게 일하고 오래 기다린 약자"를 끌어올려    │
+  │          기아를 막는다는 대원칙 철학은 100% 동일하게 계승됨.       │
+  └────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 컴퓨터 과학의 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 버려지는 것이 아니라 진화한다. HRN 공식의 가장 큰 약점은 SJF처럼 `S(서비스 시간)`를 사전에 미리 알아야 한다는 "예측 불가의 벽"이었다. 현대의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 해커들은 HRN의 완벽한 억울함 해소 철학을 가져오되, 미래의 `S` 값 대신 과거의 실제 사용 시간이라는 확정적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(`vruntime`)로 치환하여 CFS라는 궁극의 선점형 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)를 탄생시켰다. HRN은 죽어서 CFS라는 거대한 유산을 남긴 셈이다.
 
 - **📢 섹션 요약 비유**: HRN은 "네가 미래에 할 일이 작고 기다린 시간이 길면 무조건 도와줄게"라는 이상주의였다면, 현대 시스템은 "미래는 모르겠고, 여태 네가 일 못 하고 불쌍하게 굶은 게 팩트면(vruntime 적으면) 우선적으로 밥 줄게"라는 완벽한 현실주의 복지로 진화했습니다.
@@ -165,19 +161,15 @@ HRN [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_al
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">MLFQ 파라미터</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HRN (Highest Response Ratio Next) 스케줄링</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">보장 스케줄링 (Guaranteed Scheduling)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">복권 스케줄링 (Lottery Scheduling)</div></div>
-</div>
-</div>
-
-
+```text
+[MLFQ 파라미터]
+    │
+    ▼
+[HRN (Highest Response Ratio Next) 스케줄링]
+    │
+    ├──▶ [보장 스케줄링 (Guaranteed Scheduling)]
+    └──▶ [복권 스케줄링 (Lottery Scheduling)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

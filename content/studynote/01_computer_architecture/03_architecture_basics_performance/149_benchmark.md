@@ -30,26 +30,27 @@ tags = ["studynote-computer-architecture"]
 
 수많은 테스트 결과가 특정 꼼수에 왜곡되지 않도록 '기하 평균'으로 점수를 도출해 내는 수학적 공정성 방어 원리가 핵심이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">벤치마크 종합 점수 요약의 아키텍처: 편식 방지 채점 로직 (SPEC)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시험 항목 3가지: 정수 연산, 소수점 연산, 메모리 탐색</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">❌ 산술 평균 (Arithmetic Mean) ──▶ 하드웨어 꼼수에 완벽히 뚫림!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 컴퓨터 A: 정수 100점, 소수점 100점, 메모리 10점 ──▶ 평균 70점</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 컴퓨터 B: 정수 10점, 소수점 10점, 메모리 190점 ──▶ 평균 70점</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 결과: B 컴퓨터는 연산은 깡통인데 메모리 하나 꼼수로 올려 70점 동점!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 기하 평균 (Geometric Mean) ──▶ 아키텍처 밸런스 측정의 제왕</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 공식: (점수1 × 점수2 × 점수3)^(1/3)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 컴퓨터 A 기하평균: (100 × 100 × 10)^(1/3) = 약 46.4점</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 컴퓨터 B 기하평균: (10 × 10 × 190)^(1/3) = 약 26.6점</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 결과: 밸런스가 박살 난 꼼수 칩 B의 점수를 지옥으로 쳐박아버리고,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모든 부품이 골고루 우수한 진짜 명품 칩 A가 압도적 우승을 차지함!</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────┐
+│         벤치마크 종합 점수 요약의 아키텍처: 편식 방지 채점 로직 (SPEC)          │
+├────────────────────────────────────────────────────────────────────────┤
+│                                                                        │
+│  [ 시험 항목 3가지: 정수 연산, 소수점 연산, 메모리 탐색 ]                       │
+│                                                                        │
+│  ❌ 산술 평균 (Arithmetic Mean) ──▶ 하드웨어 꼼수에 완벽히 뚫림!              │
+│     * 컴퓨터 A: 정수 100점, 소수점 100점, 메모리 10점 ──▶ 평균 70점           │
+│     * 컴퓨터 B: 정수 10점,  소수점 10점,  메모리 190점 ──▶ 평균 70점           │
+│     ──▶ 결과: B 컴퓨터는 연산은 깡통인데 메모리 하나 꼼수로 올려 70점 동점!       │
+│                                                                        │
+│  ✅ 기하 평균 (Geometric Mean) ──▶ 아키텍처 밸런스 측정의 제왕                │
+│     * 공식: (점수1 × 점수2 × 점수3)^(1/3)                                │
+│     * 컴퓨터 A 기하평균: (100 × 100 × 10)^(1/3) = 약 46.4점              │
+│     * 컴퓨터 B 기하평균: (10 × 10 × 190)^(1/3) = 약 26.6점               │
+│                                                                        │
+│     ──▶ 결과: 밸런스가 박살 난 꼼수 칩 B의 점수를 지옥으로 쳐박아버리고,            │
+│         모든 부품이 골고루 우수한 진짜 명품 칩 A가 압도적 우승을 차지함!           │
+└────────────────────────────────────────────────────────────────────────┘
+```
 
 어떤 제조사가 [벤치마크 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/450_benchmark_test/) 코드 중 덧셈 하나만 미친 듯이 잘하게 회로를 기형적으로 짰을 때, 산술 평균을 쓰면 그 과목 하나로 전체 점수를 하드캐리하게 된다. 아키텍트들은 이를 막기 위해 <strong>기하 평균 (Geometric Mean)</strong>을 표준으로 도입했다. 단 하나의 테스트 과목이라도 바닥을 기면 최종 점수가 통째로 박살 나게 되므로, 모든 파이프라인에서 골고루 우수한 칩만이 벤치마크 1위를 차지할 수 있다.
 
@@ -110,23 +111,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">과거의 뻥튀기 마케팅 (클럭 주파수 / 메가헤르츠 신화)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">MIPS / FLOPS (깡성능 지표) 도입 / 하지만 실무 체감 속도를 대변하지 못함</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SPEC 벤치마크의 탄생 (응용 벤치마크) / 현실의 헤비급 컴파일러 코드를 통째로 돌려 실전 측정</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">기하 평균 (Geometric Mean) 채점 도입 / 꼼수 칩셋의 과목 편식 어뷰징 차단 및 밸런스 강제</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">모바일 / 클라우드 시대의 매크로 벤치마크 (TPS, IOPS 기반 극한 스트레스 지속 성능 테스트로 진화)</div>
-</div>
-</div>
-
-
+```text
+과거의 뻥튀기 마케팅 (클럭 주파수 / 메가헤르츠 신화)
+    │
+    ▼
+MIPS / FLOPS (깡성능 지표) 도입 / 하지만 실무 체감 속도를 대변하지 못함
+    │
+    ▼
+SPEC 벤치마크의 탄생 (응용 벤치마크) / 현실의 헤비급 컴파일러 코드를 통째로 돌려 실전 측정
+    │
+    ▼
+기하 평균 (Geometric Mean) 채점 도입 / 꼼수 칩셋의 과목 편식 어뷰징 차단 및 밸런스 강제
+    │
+    ▼
+모바일 / 클라우드 시대의 매크로 벤치마크 (TPS, IOPS 기반 극한 스트레스 지속 성능 테스트로 진화)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -35,25 +35,32 @@ Netflix는 수백 PB 규모의 테이블 운영 경험에서 이 한계를 극�
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Apache Iceberg 메타데이터 트리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Catalog</div><div class="kb-diagram-note">(Hive / REST / AWS Glue / Nessie)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Table Metadata</div><div class="kb-diagram-note">(metadata.json)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스키마 / 파티션 스펙 / 스냅샷 목록</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Snapshot</div><div class="kb-diagram-note">(커밋 시점 스냅샷)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Manifest List</div><div class="kb-diagram-note">(*.avro)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파티션 범위 요약</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Manifest File</div><div class="kb-diagram-node">Manifest File</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(데이터 파일 목록, (추가/삭제 델타)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">컬럼 통계 포함)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">part-001.parquet part-002.parquet</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────────────┐
+│                 Apache Iceberg 메타데이터 트리                    │
+├──────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  [Catalog]  (Hive / REST / AWS Glue / Nessie)                   │
+│       │                                                          │
+│       └─▶  [Table Metadata]  (metadata.json)                    │
+│                  │   스키마 / 파티션 스펙 / 스냅샷 목록          │
+│                  │                                               │
+│                  └─▶  [Snapshot]  (커밋 시점 스냅샷)             │
+│                            │                                     │
+│                            └─▶  [Manifest List]  (*.avro)       │
+│                                       │  파티션 범위 요약        │
+│                                       │                          │
+│                            ┌──────────┴──────────┐              │
+│                            ▼                     ▼              │
+│                    [Manifest File]        [Manifest File]        │
+│                    (데이터 파일 목록,      (추가/삭제 델타)        │
+│                     컬럼 통계 포함)                              │
+│                            │                                     │
+│                    ┌───────┴────────┐                            │
+│                    ▼               ▼                             │
+│              part-001.parquet  part-002.parquet                  │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 **핵심 기능 요약**
 
@@ -140,21 +147,18 @@ Apache Iceberg는 2024년 이후 AWS Athena, [Snowflake](/knowledge-base/studyno
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 레이크 (Data Lake)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">테이블 포맷 (Table Format)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Iceberg (Apache Iceberg)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">타임 트래블 (Time Travel)</div></div>
-</div>
-</div>
-
-
+```text
+[데이터 레이크 (Data Lake)]
+    │
+    ▼
+[테이블 포맷 (Table Format)]
+    │
+    ▼
+[Apache Iceberg (Apache Iceberg)]
+    │
+    ▼
+[타임 트래블 (Time Travel)]
+```
 
 이 흐름도는 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)를 테이블 포맷으로 다듬고 Apache Iceberg의 타임 트래블로 확장되는 흐름을 보여준다.
 ### 👶 어린이를 위한 3줄 비유 설명

@@ -107,21 +107,18 @@ Data Files + Metadata Log → Table Snapshot → Query Engine
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">파일 기반 레이크</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">메타데이터/커밋 로그</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">오픈 테이블 포맷</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">레이크하우스 / ACID / 타임 트래블</div>
-</div>
-</div>
-
-
+```text
+파일 기반 레이크
+    │
+    ▼
+메타데이터/커밋 로그
+    │
+    ▼
+오픈 테이블 포맷
+    │
+    ▼
+레이크하우스 / ACID / 타임 트래블
+```
 
 이 흐름은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 레이크를 테이블형 운영 체계로 진화시키는 과정을 보여준다.
 

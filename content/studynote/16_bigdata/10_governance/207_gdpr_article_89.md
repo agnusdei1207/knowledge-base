@@ -40,33 +40,39 @@ Article 89는 이 충돌을 해결한다: <strong>공익·연구·통계 목적�
 
 ### [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) Article 89 조항 구조
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GDPR Article 89 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Article 89(1): 공통 조건</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">적용 목적:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 공익 기록 보존 (Archiving in public interest)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 과학적·역사적 연구 (Scientific/Historical research)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 통계 목적 (Statistical purposes)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">필수 보호조치:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 가명처리 적용 (데이터 주체 추가 식별 방지)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 데이터 최소화 (목적 달성에 필요한 최소한)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 적절한 기술적·관리적 보호조치</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Article 89(2): 회원국 권리 제한 허용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">과학·역사 연구, 통계 목적의 경우:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 열람권(Art.15) 일부 제한 가능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 정정권(Art.16) 일부 제한 가능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 처리 제한권(Art.18) 일부 제한 가능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 이의 제기권(Art.21) 일부 제한 가능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Article 89(3): 공익 기록 목적 권리 제한</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공익 기록 목적의 경우:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 삭제권(Art.17) 제한 가능</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────────┐
+│                   GDPR Article 89 구조                       │
+├──────────────────────────────────────────────────────────────┤
+│  Article 89(1): 공통 조건                                    │
+│  ┌────────────────────────────────────────────────────────┐  │
+│  │ 적용 목적:                                              │  │
+│  │ • 공익 기록 보존 (Archiving in public interest)        │  │
+│  │ • 과학적·역사적 연구 (Scientific/Historical research) │  │
+│  │ • 통계 목적 (Statistical purposes)                     │  │
+│  │                                                        │  │
+│  │ 필수 보호조치:                                          │  │
+│  │ • 가명처리 적용 (데이터 주체 추가 식별 방지)           │  │
+│  │ • 데이터 최소화 (목적 달성에 필요한 최소한)            │  │
+│  │ • 적절한 기술적·관리적 보호조치                        │  │
+│  └────────────────────────────────────────────────────────┘  │
+├──────────────────────────────────────────────────────────────┤
+│  Article 89(2): 회원국 권리 제한 허용                        │
+│  ┌────────────────────────────────────────────────────────┐  │
+│  │ 과학·역사 연구, 통계 목적의 경우:                      │  │
+│  │ • 열람권(Art.15) 일부 제한 가능                        │  │
+│  │ • 정정권(Art.16) 일부 제한 가능                        │  │
+│  │ • 처리 제한권(Art.18) 일부 제한 가능                   │  │
+│  │ • 이의 제기권(Art.21) 일부 제한 가능                   │  │
+│  └────────────────────────────────────────────────────────┘  │
+├──────────────────────────────────────────────────────────────┤
+│  Article 89(3): 공익 기록 목적 권리 제한                     │
+│  ┌────────────────────────────────────────────────────────┐  │
+│  │ 공익 기록 목적의 경우:                                  │  │
+│  │ • 삭제권(Art.17) 제한 가능                             │  │
+│  └────────────────────────────────────────────────────────┘  │
+└──────────────────────────────────────────────────────────────┘
+```
 
 ### 연구 목적 처리의 합법성 조건
 
@@ -185,25 +191,24 @@ Article 36: <strong>고위험 처리(High-<a href="/knowledge-base/studynote/11_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">일반 GDPR 규제 — 개인정보 처리 제한, 목적 외 이용 금지</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">GDPR Article 89 특례 — 과학적 연구·통계·공익 목적 처리 허용, 안전장치 조건</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">가명 처리 (Pseudonymization) — 식별자 분리·암호화로 재식별 위험 최소화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">차분 프라이버시 (Differential Privacy) — 쿼리 결과에 수학적 노이즈 추가, 개인 기여 비식별</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">연합 학습 (Federated Learning) — 데이터 이동 없이 모델 파라미터만 공유</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">동형 암호 (Homomorphic Encryption) — 암호화 상태 연산, 복호화 없는 분석</div></div>
-</div>
-</div>
-
-
+```text
+[일반 GDPR 규제 — 개인정보 처리 제한, 목적 외 이용 금지]
+    │
+    ▼
+[GDPR Article 89 특례 — 과학적 연구·통계·공익 목적 처리 허용, 안전장치 조건]
+    │
+    ▼
+[가명 처리 (Pseudonymization) — 식별자 분리·암호화로 재식별 위험 최소화]
+    │
+    ▼
+[차분 프라이버시 (Differential Privacy) — 쿼리 결과에 수학적 노이즈 추가, 개인 기여 비식별]
+    │
+    ▼
+[연합 학습 (Federated Learning) — 데이터 이동 없이 모델 파라미터만 공유]
+    │
+    ▼
+[동형 암호 (Homomorphic Encryption) — 암호화 상태 연산, 복호화 없는 분석]
+```
 이 흐름은 엄격한 [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) 규제 속에서 연구·통계 목적의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 활용을 허용하는 Article 89 특례를 기반으로, 가명 처리·[차분 프라이버시](/knowledge-base/studynote/10_ai/05_data_science_ml/396_differential_privacy/)·[연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)·[동형 암호](/knowledge-base/studynote/09_security/20_extra_exam_prep/1019_homomorphic_encryption/)로 발전하는 프라이버시 보존 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석 기술의 진화를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

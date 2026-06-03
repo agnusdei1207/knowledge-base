@@ -27,27 +27,30 @@ tags = ["studynote-operating-system"]
   2. **랜덤 액세스(Random I/O)의 재앙**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스나 다중 프로세스가 뜨면서, 디스크 요청 주소가 1, 999, 2 로 극단적으로 널뛰기 시작함.
   3. **효율성의 붕괴**: 공평하긴 한데, 바늘이 널뛰기하느라 디스크 전체가 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) 급 렉에 빠져 서버가 뻗는 사태가 속출하며 퇴출 위기를 맞음.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FCFS 디스크 스케줄링의 끔찍한 동선(바늘 이동) 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">큐에 쌓인 요청 순서 (트랙 번호)</div><div class="kb-diagram-note">: 98, 183, 37, 122, 14, 124</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">디스크 바늘(Head)의 현재 위치</div><div class="kb-diagram-note">: 53번 트랙</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 바늘의 실제 이동 경로 (들어온 순서 그대로 직진!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">14 37 53 98 122 124 183</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│</div><div class="kb-diagram-node">시작</div><div class="kb-diagram-note">│ │ │</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶①</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶②</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ ▶④</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⑤ ▶⑥</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💥 총 헤드 이동 거리 연산:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">53-98</div><div class="kb-diagram-cell">+</div><div class="kb-diagram-cell">98-183</div><div class="kb-diagram-cell">+</div><div class="kb-diagram-cell">183-37</div><div class="kb-diagram-cell">+</div><div class="kb-diagram-cell">37-122</div><div class="kb-diagram-cell">+</div><div class="kb-diagram-cell">122-14</div><div class="kb-diagram-cell">+</div><div class="kb-diagram-cell">14-124</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">= 45 + 85 + 146 + 85 + 108 + 110 = 💥 총 579 트랙 이동!</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│        FCFS 디스크 스케줄링의 끔찍한 동선(바늘 이동) 시각화        │
+├────────────────────────────────────────────────────────────────────┤
+│                                                                    │
+│ [ 큐에 쌓인 요청 순서 (트랙 번호) ]:  98, 183, 37, 122, 14, 124    │
+│ [ 디스크 바늘(Head)의 현재 위치 ]: 53번 트랙                       │
+│                                                                    │
+│ ▶ 바늘의 실제 이동 경로 (들어온 순서 그대로 직진!)                 │
+│                                                                    │
+│   14   37     53     98    122 124        183                      │
+│   │    │      [시작]  │      │  │          │                       │
+│   │    │       └──────▶①    │  │          │                        │
+│   │    │              └─────────────────▶②                         │
+│   │    │◀───────────────────────────────────┘                      │
+│   │    ③───────────────────▶④  │                                   │
+│   │◀─────────────────────────┘  │                                  │
+│   ⑤──────────────────────────────▶⑥                                │
+│                                                                    │
+│ 💥 총 헤드 이동 거리 연산:                                         │
+│ |53-98| + |98-183| + |183-37| + |37-122| + |122-14| + |14-124|     │
+│ = 45 + 85 + 146 + 85 + 108 + 110 = 💥 총 579 트랙 이동!            │
+└────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 이 지그재그(Z-zag) 궤적을 보라. 183번에서 37번으로 디스크 끝과 끝을 풀스윙으로 되돌아오는 저 146트랙 이동 구간은, 디스크 쇳덩어리가 비명을 지르며 10밀리초 이상의 지옥 같은 Seek 딜레이를 뿜어내는 마의 구간이다. 바늘을 한쪽으로 쓱 밀면서(14->37->98->122->124->183) 훑었으면 200 이동 거리로 끝날 일을, 순서를 지키겠다는 아집 하나 때문에 <strong>3배가 넘는 600 가까운 동선 낭비(Overhead)</strong>를 저지르고 말았다. 기계 공학적 관점에선 최악의 테러다.
 
 - **📢 섹션 요약 비유**: 엘리베이터에 탔는데 버튼 눌린 순서대로만 움직입니다. 1층에서 탄 사람이 10층을 누르고, 나중에 탄 사람이 2층을 누르면 엘리베이터가 10층까지 쭉 올라갔다가 다시 2층으로 곤두박질치는 기괴한 놀이기구가 됩니다. 엘리베이터 모터(모터 수명)가 일주일 만에 타서 고장 나 버릴 겁니다.
@@ -95,17 +98,14 @@ FCFS가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_
 하지만 FCFS는 그냥 큐에 집어넣고(Push), 앞에서부터 빼면([Pop](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/120_pop_point_of_production/)) 끝이다. [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/) **$O(1)$**이다.
 운영체제의 가장 큰 미덕 중 하나인 "CPU를 디스크 관리에 낭비하지 않는다"는 원칙 하나만큼은 우주에서 가장 완벽하게 지켜낸 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">평가 지표</div><div class="kb-diagram-cell">디스크 바늘 동선</div><div class="kb-diagram-cell">CPU 연산 낭비</div><div class="kb-diagram-cell">특정 앱 굶어 죽음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FCFS</div><div class="kb-diagram-cell">☠️ 최악 널뛰기</div><div class="kb-diagram-cell">🚀 0% (완벽)</div><div class="kb-diagram-cell">🟢 절대 없음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최적화 로직</div><div class="kb-diagram-cell">🟢 가장 짧음</div><div class="kb-diagram-cell">🔴 정렬 렉 심함</div><div class="kb-diagram-cell">☠️ 구석 앱 굶음</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬─────────────────────────────┐
+│ 평가 지표  │ 디스크 바늘 동선│ CPU 연산 낭비  │ 특정 앱 굶어 죽음│
+├──────────┼────────────┼────────────┼─────────────────────────────┤
+│ FCFS     │ ☠️ 최악 널뛰기 │ 🚀 0% (완벽) │ 🟢 절대 없음          │
+│ 최적화 로직│ 🟢 가장 짧음  │ 🔴 정렬 렉 심함 │ ☠️ 구석 앱 굶음   │
+└──────────┴────────────┴────────────┴─────────────────────────────┘
+```
 **[매트릭스 해설]** FCFS는 철저하게 기계([HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/))를 굴려서 CPU(소프트웨어)를 쉬게 하는 사상이다. 하지만 모터 달린 기계가 움직이는 8ms의 물리적 시간은 CPU가 연산하는 나노초 스피드를 도저히 이길 수 없었다. 결국 컴퓨터 공학은 "CPU가 조금 힘들게 수학(정렬)을 풀더라도, 기계식 바늘의 움직임([Seek Time](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/))을 단 1mm라도 깎아내는 것"이 시스템 전체로 보면 1,000배 이득이라는 쓰라린 교훈을 얻고 FCFS를 버렸다.
 
 - **📢 섹션 요약 비유**: 택배 동선([스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)) 짜는 데 머리를 1시간(CPU 연산) 쓰느니, 뇌를 비우고 순서대로 액셀을 밟는 게([FCFS](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/)) 빠를 거라고 생각했습니다. 막상 해보니 길에서 10시간(디스크 렉)을 버렸습니다. 차라리 책상에 앉아 1시간 빡세게 머리 굴려서 동선을 짠 뒤([SSTF](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/470_sstf_disk_scheduling/)/SCAN), 3시간 만에 배달을 다 끝내는 게 진짜 현명한 노동이라는 걸 깨달은 역사입니다.
@@ -158,19 +158,15 @@ FCFS가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">디스크 스케줄링 (Disk Scheduling) 목적</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">FCFS (First-Come, First-Served) 스케줄링</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SSTF (Shortest Seek Time First)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SCAN 스케줄링 (엘리베이터 알고리즘)</div></div>
-</div>
-</div>
-
-
+```text
+[디스크 스케줄링 (Disk Scheduling) 목적]
+    │
+    ▼
+[FCFS (First-Come, First-Served) 스케줄링]
+    │
+    ├──▶ [SSTF (Shortest Seek Time First)]
+    └──▶ [SCAN 스케줄링 (엘리베이터 알고리즘)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

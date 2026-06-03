@@ -1,5 +1,5 @@
 +++
-title = "109. 고객 획득 비용 (CAC, Customer Acquisition Cost) - LTV > CAC 공식과 그로스 해킹"
+title = "109. 고객 획득 비용 (CAC, C고객 Acquisition Cost) - LTV > CAC 공식과 그로스 해킹"
 date = 2026-04-19
 
 [taxonomies]
@@ -10,7 +10,7 @@ tags = ["studynote-enterprise-systems"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: CAC([Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) [Acquisition](/knowledge-base/studynote/12_it_management/01_governance_strategy/042_aarrr_funnel/) Cost)는 특정 기간 동안 투입한 <strong>총 마케팅·영업 비용을 해당 기간 신규 고객 수로 나눈 값</strong>으로, 고객 1명을 획득하는 데 드는 평균 비용이다.
+> 1. **본질**: CAC([C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) [Acquisition](/knowledge-base/studynote/12_it_management/01_governance_strategy/042_aarrr_funnel/) Cost)는 특정 기간 동안 투입한 <strong>총 마케팅·영업 비용을 해당 기간 신규 고객 수로 나눈 값</strong>으로, 고객 1명을 획득하는 데 드는 평균 비용이다.
 > 2. **가치**: [LTV](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/108_ltv_life_time_value/)([고객 생애 가치](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/108_ltv_life_time_value/))와의 비율 `LTV > 3×CAC`가 <strong>벤처 투자·사업 존속 여부를 결정하는 절대 공식</strong>이며, 이 비율이 역전되면 매출이 늘수록 적자가 심화되는 구조적 함정에 빠진다.
 > 3. **판단 포인트**: CAC 절감의 핵심은 바이럴/추천(Referral) 엔진 설계와 오가닉 유입(SEO·콘텐츠 마케팅) 비중 확대이며, 유료 광고(Paid) 의존도가 높을수록 CAC 상승 압력이 가중된다.
 
@@ -20,22 +20,23 @@ tags = ["studynote-enterprise-systems"]
 
 디지털 플랫폼 경제에서 고객 획득은 가장 비싼 투자 항목이다. 인스타 광고, TV CF, 가입 쿠폰 등 마케팅 비용이 폭증하는 가운데, "이 돈을 쏟아부어 데려온 고객 1명이 평생 벌어줄 돈([LTV](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/108_ltv_life_time_value/))이 데려오는 비용(CAC)보다 큰가?"라는 질문이 사업 모델의 생사를 가른다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CAC 계산과 LTV/CAC 비율 판단 프레임워크</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CAC = 총 마케팅·영업 비용 ÷ 신규 고객 수</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">예시</div><div class="kb-diagram-note">1월: 광고 5천만 + 쿠폰 5천만 = 1억 원</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">신규 결제 고객 2,000명</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CAC = 1억 / 2,000 = 5만 원/명</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LTV &lt; CAC → 매출↑ = 적자↑ (지옥행)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LTV = CAC → 손익분기 (위험)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LTV &gt; 3×CAC → ★ 황금 비율 (VC 투자 유치)</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────┐
+│         CAC 계산과 LTV/CAC 비율 판단 프레임워크            │
+├───────────────────────────────────────────────────────────┤
+│  CAC = 총 마케팅·영업 비용 ÷ 신규 고객 수                 │
+│                                                           │
+│  [예시] 1월: 광고 5천만 + 쿠폰 5천만 = 1억 원             │
+│         신규 결제 고객 2,000명                             │
+│         CAC = 1억 / 2,000 = 5만 원/명                     │
+│                                                           │
+│  ┌─────────────────────────────────────────────────┐      │
+│  │  LTV < CAC    →  매출↑ = 적자↑  (지옥행)       │      │
+│  │  LTV = CAC    →  손익분기 (위험)                │      │
+│  │  LTV > 3×CAC  →  ★ 황금 비율 (VC 투자 유치)   │      │
+│  └─────────────────────────────────────────────────┘      │
+└───────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 떡밥 1만 원(CAC)을 뿌려 3천 원짜리 피라미([LTV](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/108_ltv_life_time_value/))를 낚는 어부는 당장 그물질을 멈춰야 한다. 떡밥 5만 원에 50만 원짜리 황금 거위를 낚을 수 있다면 은행 빚을 져서라도 떡밥을 뿌리는 것이 IT 비즈니스의 룰이다.
 
@@ -109,21 +110,18 @@ CAC와 LTV의 [관계](/knowledge-base/studynote/05_database/02_modeling_normali
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">전통 마케팅 (TV/신문) — 측정 불가능한 브랜드 광고</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">디지털 마케팅 (2000s) — CPC·CPA로 채널별 CAC 측정 가능</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">그로스 해킹 (2010s) — 바이럴 엔진·A/B 테스트로 CAC 최적화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: AI 기반 마테크 — 예측 LTV 기반 실시간 CAC 입찰 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[전통 마케팅 (TV/신문) — 측정 불가능한 브랜드 광고]
+    │
+    ▼
+[디지털 마케팅 (2000s) — CPC·CPA로 채널별 CAC 측정 가능]
+    │
+    ▼
+[그로스 해킹 (2010s) — 바이럴 엔진·A/B 테스트로 CAC 최적화]
+    │
+    ▼
+[현재: AI 기반 마테크 — 예측 LTV 기반 실시간 CAC 입찰 최적화]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. CAC는 새 친구(고객)를 사귀려고 <strong>과자(광고비)</strong>를 얼마나 나눠줘야 하는지를 세는 거예요.

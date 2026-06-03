@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - DRDoS나 대규모 볼류메트릭(Volumetric) 디도스 공격은 패킷의 덩치가 수십~수백 기가비트(Gbps)에 달합니다. 
 - 기업이 수천만 원을 주고 산 [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/)(침입 방지 시스템) 장비는 기껏해야 10Gbps 정도만 처리할 수 있습니다. 해커의 공격이 100Gbps로 쏟아지면, [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/) 장비를 검사하기도 전에 인터넷 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 제공자([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/), 예: KT)에서 기업으로 들어오는 <strong>물리적인 랜선 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>) 자체가 꽉 차버려 병목(Choke point)</strong>이 발생해 결국 서버가 마비됩니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Memcached 증폭 서버 공격 방어 미흡</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DRDoS 스크러빙 센터 완화 트래픽 정제…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">트래픽 혼잡공격 유도 및 캡챠 적용</div></div>
-</div>
-</div>
-
-
+```text
+[Memcached 증폭 서버 공격 방어 미흡]
+    │
+    ▼
+[DRDoS 스크러빙 센터 완화 트래픽 정제…]
+    │
+    └──▶ [트래픽 혼잡공격 유도 및 캡챠 적용]
+```
 
 - **📢 섹션 요약 비유**: DRDoS [스크러빙 센터](/knowledge-base/studynote/09_security/03_network_security/250_scrubbing_center/) 완화 트래픽 정제…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -44,18 +40,14 @@ tags = ["studynote-network"]
 - **개념**: <strong>DDoS 공격이 발생했을 때, 타겟으로 쏟아지는 엄청난 양의 트래픽을 기업 내부망이 아닌 외부의 거대한 클라우드 대피소로 강제로 돌려(우회), 그곳에서 쓰레기 악성 트래픽을 깨끗하게 씻어내고(Scrubbing) 오직 정상적인 트래픽만 걸러서 다시 기업 서버로 보내주는 디도스 완화(<a href="/knowledge-base/studynote/09_security/12_identity_threat_advanced/605_golden_silver_ticket_mitigation/">Mitigation</a>) 전용 아키텍처</strong>입니다.
 - **제공자**: 주로 전 세계적인 네트워크망을 가진 Akamai, Cloudflare, Imperva 같은 글로벌 [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) 업체나 KT, SKT 같은 대형 통신사([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/))가 제공합니다. (Anti-DDoS [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Memcached 증폭 서버 공격 방어 미흡</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DRDoS 스크러빙 센터 완화 트래픽 정제…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">트래픽 혼잡공격 유도 및 캡챠 적용</div></div>
-</div>
-</div>
-
-
+```text
+[Memcached 증폭 서버 공격 방어 미흡]
+    │
+    ▼
+[DRDoS 스크러빙 센터 완화 트래픽 정제…]
+    │
+    └──▶ [트래픽 혼잡공격 유도 및 캡챠 적용]
+```
 
 - **📢 섹션 요약 비유**: DRDoS [스크러빙 센터](/knowledge-base/studynote/09_security/03_network_security/250_scrubbing_center/) 완화 트래픽 정제…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -121,19 +113,15 @@ DRDoS [스크러빙 센터](/knowledge-base/studynote/09_security/03_network_sec
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: Memcached 증폭 서버 공격 방어 미흡</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: DRDoS 스크러빙 센터 완화 트래픽 정제…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 트래픽 혼잡공격 유도 및 캡챠 적용</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: Memcached 증폭 서버 공격 방어 미흡]
+    │
+    ▼
+[현재 개념: DRDoS 스크러빙 센터 완화 트래픽 정제…]
+    │
+    ├──▶ [확장 A: 트래픽 혼잡공격 유도 및 캡챠 적용]
+    └──▶ [확장 B: 예측형 위협 대응]
+```
 
 DRDoS [스크러빙 센터](/knowledge-base/studynote/09_security/03_network_security/250_scrubbing_center/) 완화 트래픽 정제…는 Memcached 증폭 서버 공격 방어 미흡에서 출발해 현재 메커니즘을 정교화하고, 이후 [트래픽 혼잡공격](/knowledge-base/studynote/03_network/14_network_security_threats/722_slowloris_http_get_delay_attack/) 유도 및 캡챠 적용와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

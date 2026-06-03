@@ -27,18 +27,15 @@ tags = ["studynote-bigdata"]
 
 아래 그림은 전용 클러스터와 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 분석의 비용 구조 차이를 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Provisioned vs serverless analytics</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Provisioned cluster : fixed nodes alive 24x7</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Serverless query : compute appears only when query arrives</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Result : lower idle cost, but query efficiency matters</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────┐
+│ Provisioned vs serverless analytics                                     │
+├──────────────────────────────────────────────────────────────────────────┤
+│ Provisioned cluster : fixed nodes alive 24x7                            │
+│ Serverless query   : compute appears only when query arrives            │
+│ Result             : lower idle cost, but query efficiency matters      │
+└──────────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 핵심은 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)가 무조건 싸다는 뜻이 아니라, 유휴 비용을 줄이는 대신 개별 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)의 비효율이 바로 과금으로 드러난다는 점이다.
 
@@ -61,17 +58,15 @@ tags = ["studynote-bigdata"]
 
 아래 구조는 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 빅데이터 엔진의 공통 흐름을 요약한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Serverless query path</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SQL -&gt; planner -&gt; catalog -&gt; ephemeral compute -&gt; storage scan</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ partition metadata ─ result + cost record</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────┐
+│ Serverless query path                                                   │
+├──────────────────────────────────────────────────────────────────────────┤
+│ SQL -> planner -> catalog -> ephemeral compute -> storage scan         │
+│                    │                         │                           │
+│                    └─ partition metadata     └─ result + cost record    │
+└──────────────────────────────────────────────────────────────────────────┘
+```
 
 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별 특징은 과금 단위와 강한 사용 시나리오에서 갈린다.
 
@@ -171,24 +166,22 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Managed cluster analytics</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Serverless query engine</div>
-<div class="kb-diagram-tree-item" style="--depth:2">scan-based pricing</div>
-<div class="kb-diagram-tree-item" style="--depth:2">slot / RPU pricing</div>
-<div class="kb-diagram-tree-item" style="--depth:2">lakehouse metadata optimization</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">FinOps and governance guardrails</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Open table formats and intelligent query optimization</div>
-</div>
-</div>
-
-
+```text
+Managed cluster analytics
+    │
+    ▼
+Serverless query engine
+    │
+    ├─ scan-based pricing
+    ├─ slot / RPU pricing
+    └─ lakehouse metadata optimization
+    │
+    ▼
+FinOps and governance guardrails
+    │
+    ▼
+Open table formats and intelligent query optimization
+```
 
 이 흐름은 클러스터 관리 중심 분석이 온디맨드 계산 모델로 이동하고, 이후 비용 통제와 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 최적화가 핵심 경쟁력으로 부상하는 과정을 보여 준다.
 

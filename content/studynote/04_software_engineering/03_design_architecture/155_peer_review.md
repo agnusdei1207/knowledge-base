@@ -38,37 +38,39 @@ tags = ["studynote-software-engineering"]
 "아니 씨발 동료가 내 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 보고 수다 떠는 게 어떻게 K8s 시스템을 구원함 ㅋ?" 
 [동료 검토](/knowledge-base/studynote/12_it_management/04_sdlc_testing/163_peer_review/)가 조직의 성숙도에 따라 빙의 진화하는 3대 아키텍처 스펙트럼 십자 도해다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동료 검토(Peer Review) 3대 폼팩터 진화 스위칭 록온 맵 도해 🚀</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">☕</div><div class="kb-diagram-node">1단계: 숄더 서핑 (Shoulder Surfing 어깨너머 오지랖 구경 텐트)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 작전: 좆소 원시적 방식. 코딩하다 막히면 의자 바퀴 굴려 옆자리 시니어 선배한테 감.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "선배님 잠시만 화면 좀..." ➔ 선배가 내 어깨너머로 쓱 쳐다봄 (10초 컷 스캔).</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 팩폭 💥: 속도는 광속인데, 회의록 로그 찌끄레기 기록이 1도 안 남아서 나중에</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">똑같은 버그 또 터지면 "내가 언제 그렇게 짜랬냐?" 네 탓 핑퐁 오리발 사일로 멸망 💀.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">🪓 아키텍트의 메스: 동시 타격 십자 융합 수술 ✨</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">👯</div><div class="kb-diagram-node">2단계: 페어 프로그래밍 (Pair Programming 실시간 영혼 동기화 록온 🚀)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 작전: 1개 컴퓨터에 의자 2개 붙여서 인간 2명이 나란히 찰싹 본드 용접 락 박고 앉음!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 🧑‍💻 Driver(운전수): 미친 듯이 맹인 타자 코딩 노가다 키보드 풀악셀 밟음!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 👨‍💻 Navigator(훈수충 뇌): 옆에서 팔짱 끼고 모니터만 노려보며 0.1초 단위로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"야 거기 Null 예외 빵꾸 났네 방폭문 쳐 쾅!" 실시간(Real-time) 잔소리 폭격!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 🌟 아키텍트 극딜: 코딩과 리뷰가 시공간의 딜레이 0초 없이 100% 동시 일체화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">합성(Composition)되어 쏟아지는 익스트림 프로그래밍(XP)의 가장 폭력적인 궁극기!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">☁️ 클라우드 대관식: 시공간 절단 텔레포트 텐트 🚀</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">💻</div><div class="kb-diagram-node">3단계: 코드 리뷰 / Pull Request (PR 비동기 메타버스 해방 제국 ✨)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 작전: 시니어 선배 퇴근해서 집에 감 ㅋ 난 새벽 3시에 코딩 100줄 끝내서 깃허브</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(GitHub) 서버 허공 구름 위로 패킷 툭 던져 밀어 올림(Push 핑퐁 🚀).</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 슬랙(Slack) 알림 띠링 ➔ "야 100줄짜리 PR 떴다 엑스레이 스캔 쳐라 쾅!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 선배는 다음 날 아침 똥 싸면서 스마트폰으로 내 코드 변경점(Diff) 스윽 까보고 ➔</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">빨간펜 코멘트(Comment) 댓글 폭격 타격 팩폭 린치를 갈겨 빠꾸 튕겨내 차단 컷!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 🌟 결론: 인간이 서로 얼굴 1번 평생 안 보고도 100% 비동기(Async) 로 완벽 무결점</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코드 검열 쉴드 통치를 이룩해 내는 글로벌 오픈소스 생태계 절대 표준 헌법 록온 쾅!!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          동료 검토(Peer Review) 3대 폼팩터 진화 스위칭 록온 맵 도해 🚀 │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ ☕ [ 1단계: 숄더 서핑 (Shoulder Surfing 어깨너머 오지랖 구경 텐트) ] │
+│   - 작전: 좆소 원시적 방식. 코딩하다 막히면 의자 바퀴 굴려 옆자리 시니어 선배한테 감.│
+│   - "선배님 잠시만 화면 좀..." ➔ 선배가 내 어깨너머로 쓱 쳐다봄 (10초 컷 스캔).  │
+│   - 팩폭 💥: 속도는 광속인데, 회의록 로그 찌끄레기 기록이 1도 안 남아서 나중에  │
+│     똑같은 버그 또 터지면 "내가 언제 그렇게 짜랬냐?" 네 탓 핑퐁 오리발 사일로 멸망 💀.│
+│                                                             │
+│        ======= [ 🪓 아키텍트의 메스: 동시 타격 십자 융합 수술 ✨ ] ========│
+│                                                             │
+│ 👯 [ 2단계: 페어 프로그래밍 (Pair Programming 실시간 영혼 동기화 록온 🚀) ]│
+│   - 작전: 1개 컴퓨터에 의자 2개 붙여서 인간 2명이 나란히 찰싹 본드 용접 락 박고 앉음!│
+│   - 🧑‍💻 Driver(운전수): 미친 듯이 맹인 타자 코딩 노가다 키보드 풀악셀 밟음!   │
+│   - 👨‍💻 Navigator(훈수충 뇌): 옆에서 팔짱 끼고 모니터만 노려보며 0.1초 단위로  │
+│     "야 거기 Null 예외 빵꾸 났네 방폭문 쳐 쾅!" 실시간(Real-time) 잔소리 폭격!│
+│   - 🌟 아키텍트 극딜: 코딩과 리뷰가 시공간의 딜레이 0초 없이 100% 동시 일체화    │
+│     합성(Composition)되어 쏟아지는 익스트림 프로그래밍(XP)의 가장 폭력적인 궁극기!│
+│                                                             │
+│        ======= [ ☁️ 클라우드 대관식: 시공간 절단 텔레포트 텐트 🚀 ] ========│
+│                                                             │
+│ 💻 [ 3단계: 코드 리뷰 / Pull Request (PR 비동기 메타버스 해방 제국 ✨) ]│
+│   - 작전: 시니어 선배 퇴근해서 집에 감 ㅋ 난 새벽 3시에 코딩 100줄 끝내서 깃허브 │
+│     (GitHub) 서버 허공 구름 위로 패킷 툭 던져 밀어 올림(Push 핑퐁 🚀).      │
+│   - 슬랙(Slack) 알림 띠링 ➔ "야 100줄짜리 PR 떴다 엑스레이 스캔 쳐라 쾅!"  │
+│   - 선배는 다음 날 아침 똥 싸면서 스마트폰으로 내 코드 변경점(Diff) 스윽 까보고 ➔ │
+│     빨간펜 코멘트(Comment) 댓글 폭격 타격 팩폭 린치를 갈겨 빠꾸 튕겨내 차단 컷!│
+│   - 🌟 결론: 인간이 서로 얼굴 1번 평생 안 보고도 100% 비동기(Async) 로 완벽 무결점│
+│     코드 검열 쉴드 통치를 이룩해 내는 글로벌 오픈소스 생태계 절대 표준 헌법 록온 쾅!!│
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[아키텍트의 피 터지는 메스: 에고리스 프로그래밍 (Egoless Programming 멘탈 락킹 텐트 ✨)]**
 "야 시니어 씨발롬아 왜 내 완벽한 예술 코드에 빨간 줄 죽죽 긋고 훈수질 팩폭 때림? 나 나갈래 사표 던짐 쾅 💥!" 
@@ -161,23 +163,21 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">야만의 독고다이 골방 사일로(Silo) 코딩 시대 💀 / 기획서 도면 던져주면 코더 혼자 골방 쳐박혀 1년 내내 입 닫고 나 홀로 뇌피셜 타자 쳐 쇳덩이 굳혀버림 ➔ 오픈 런칭 전날 실서버 까보니 고객 니즈랑 100% 엇나가 딴판 쓰레기 앱 렌더링 튀어나와 반품 뚝배기 쳐 맞고 100억 적자 소송 재작업(Rework) 타임아웃 야근 뻗어 회사 부도 파산 멸망 폭사 💥 💀</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">정적 검증(Static Verification) 리뷰 방폭문 텐트 대관식 강림 ✨ / 보엠 아키텍트 분노 도끼 🪓 "야 씨발 서버 컴파일 올리고 런타임 에러 디버깅 삽질 랙 타임 치지 마 쾅!! 당장 코딩 1줄 타자 치기 1초 직전에! 한글 기획서 도면 종이 1장 책상 한가운데 까발려 올려놓고 ➔ 팀원 10명 집단 지성 눈깔 엑스레이 스캐너로 논리 모순 예외 빈틈 빵꾸 뇌관부터 펜으로 찍찍 그어 조기 사전 0원 컷 스나이퍼 사살 척살 록온 쳐 메워 방어 쾅!!"</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">워크쓰루(Walkthrough) &amp; 인스펙션(Inspection) 스펙트럼 십자 분할 찢기 🚀 / 작성자가 빔 띄워 주도 발표하며 입 터는 가벼운 좆목질 대안 우회 모색 친목 교육(Training)용 워크쓰루(결함 은폐 발견 맹점 폭사 💥 집단 사고 위험 내포 ㅋ) ➔ 찢어 밸런스 맞춰 쾅! ➔ 작성자 아가리 테이프 묵비권 락 박고 훈련된 제3자 전문가 감리 스나이퍼들이</div><div class="kb-diagram-node">체크리스트 📝</div><div class="kb-diagram-note">칼날 잣대 하나만 딱 들고 문서 1줄 1줄 피 터지게 도륙 팩폭 무자비 린치 재판 때려 고치는 차가운 군대식 '인스펙션' 십자 하이브리드 방폭문 록온 체제 대통일 쾅!</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Agile 클라우드 동료 검토 (Peer Review) &amp; Pull Request (PR) 융합 특이점 진화 ✨ / 무거운 회의실 10명 철야 합숙 꼰대 인스펙션/오프라인 워크쓰루 싹 다 불태워 찢어 폐기 소각 랙 오버헤드 척살 치고! ➔ 걍 코더가 지라 티켓 1개(100줄 나노 조각) 짧게 쳐서 깃허브 웹 허공 날리면 ➔ 동료 시니어 에이스들이 똥 싸면서 스마트폰으로 비동기(Async) 코멘트 폭격 스캔 적발 팩폭 날려 핑퐁 쾌속 훈수 두고 승인 컷(Approve) 치는 초경량 마이크로 스피드 우주 텔레포트 지식 동기화 생존 쉴드망 구축 완료 🚀</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DevOps CI/CD 파이프라인 자가 호흡 오토 렌더링 검열 제국 (현재) / 깃허브 코드 푸시(Push) 갈기는 0.001초 찰나에 ➔ 소나큐브(SonarQube 자동화 기계 봇) 가 0순위 정적 검증 스캔 1초 컷 치고 오타 보안 빵꾸 휴먼 에러를 입구 컷 오토 압살 사살 컷 튕겨냄 ➔ 살아남은 무결점 코드만 인간에게 패스 ➔ 인간 동료는 단순 눈알 노가다를 100% 봇한테 오프로딩(Off-load) 짬처리 증발 시켜버리고 오.직. 아키텍처 비즈니스 하이레벨 논리 설계 팩트 결함만 핀셋 집중 저격 타격 크로스 심사 토론해 버리는 우주 최강 무결점 0.1초 자동화 융합 품질 게이트 텐트 대통일 완료 쾅 🚀!!!</div>
-</div>
-</div>
-
-
+```text
+야만의 독고다이 골방 사일로(Silo) 코딩 시대 💀 / 기획서 도면 던져주면 코더 혼자 골방 쳐박혀 1년 내내 입 닫고 나 홀로 뇌피셜 타자 쳐 쇳덩이 굳혀버림 ➔ 오픈 런칭 전날 실서버 까보니 고객 니즈랑 100% 엇나가 딴판 쓰레기 앱 렌더링 튀어나와 반품 뚝배기 쳐 맞고 100억 적자 소송 재작업(Rework) 타임아웃 야근 뻗어 회사 부도 파산 멸망 폭사 💥 💀
+    │
+    ▼
+정적 검증(Static Verification) 리뷰 방폭문 텐트 대관식 강림 ✨ / 보엠 아키텍트 분노 도끼 🪓 "야 씨발 서버 컴파일 올리고 런타임 에러 디버깅 삽질 랙 타임 치지 마 쾅!! 당장 코딩 1줄 타자 치기 1초 직전에! 한글 기획서 도면 종이 1장 책상 한가운데 까발려 올려놓고 ➔ 팀원 10명 집단 지성 눈깔 엑스레이 스캐너로 논리 모순 예외 빈틈 빵꾸 뇌관부터 펜으로 찍찍 그어 조기 사전 0원 컷 스나이퍼 사살 척살 록온 쳐 메워 방어 쾅!!"
+    │
+    ▼
+워크쓰루(Walkthrough) & 인스펙션(Inspection) 스펙트럼 십자 분할 찢기 🚀 / 작성자가 빔 띄워 주도 발표하며 입 터는 가벼운 좆목질 대안 우회 모색 친목 교육(Training)용 워크쓰루(결함 은폐 발견 맹점 폭사 💥 집단 사고 위험 내포 ㅋ) ➔ 찢어 밸런스 맞춰 쾅! ➔ 작성자 아가리 테이프 묵비권 락 박고 훈련된 제3자 전문가 감리 스나이퍼들이 [체크리스트 📝] 칼날 잣대 하나만 딱 들고 문서 1줄 1줄 피 터지게 도륙 팩폭 무자비 린치 재판 때려 고치는 차가운 군대식 '인스펙션' 십자 하이브리드 방폭문 록온 체제 대통일 쾅!
+    │
+    ▼
+Agile 클라우드 동료 검토 (Peer Review) & Pull Request (PR) 융합 특이점 진화 ✨ / 무거운 회의실 10명 철야 합숙 꼰대 인스펙션/오프라인 워크쓰루 싹 다 불태워 찢어 폐기 소각 랙 오버헤드 척살 치고! ➔ 걍 코더가 지라 티켓 1개(100줄 나노 조각) 짧게 쳐서 깃허브 웹 허공 날리면 ➔ 동료 시니어 에이스들이 똥 싸면서 스마트폰으로 비동기(Async) 코멘트 폭격 스캔 적발 팩폭 날려 핑퐁 쾌속 훈수 두고 승인 컷(Approve) 치는 초경량 마이크로 스피드 우주 텔레포트 지식 동기화 생존 쉴드망 구축 완료 🚀
+    │
+    ▼
+DevOps CI/CD 파이프라인 자가 호흡 오토 렌더링 검열 제국 (현재) / 깃허브 코드 푸시(Push) 갈기는 0.001초 찰나에 ➔ 소나큐브(SonarQube 자동화 기계 봇) 가 0순위 정적 검증 스캔 1초 컷 치고 오타 보안 빵꾸 휴먼 에러를 입구 컷 오토 압살 사살 컷 튕겨냄 ➔ 살아남은 무결점 코드만 인간에게 패스 ➔ 인간 동료는 단순 눈알 노가다를 100% 봇한테 오프로딩(Off-load) 짬처리 증발 시켜버리고 오.직. 아키텍처 비즈니스 하이레벨 논리 설계 팩트 결함만 핀셋 집중 저격 타격 크로스 심사 토론해 버리는 우주 최강 무결점 0.1초 자동화 융합 품질 게이트 텐트 대통일 완료 쾅 🚀!!!
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

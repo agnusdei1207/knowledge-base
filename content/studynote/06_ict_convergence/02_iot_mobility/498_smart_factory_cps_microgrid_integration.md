@@ -42,27 +42,28 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스마트 팩토리 통합 아키텍처 (CPS + 에너지)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">경영 계층</div><div class="kb-diagram-note">ERP(전사자원관리) / 디지털 트윈 대시보드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OPC UA (기업-현장 데이터 표준 교환)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">운영 계층</div><div class="kb-diagram-note">MES(제조실행시스템) / SCADA</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TSN(결정론적 이더넷) / 산업용 이더넷</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">제어 계층</div><div class="kb-diagram-note">PLC·DCS·로봇 컨트롤러</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OPC UA (필드 수준)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현장 계층</div><div class="kb-diagram-note">센서·액추에이터·AGV·로봇</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CPS 계층</div><div class="kb-diagram-note">사이버-물리 실시간 연동 (디지털 트윈 동기화)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">에너지 계층</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마이크로그리드(Microgrid)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">태양광(PV) + ESS(배터리) + 계통 연계(Grid-tie)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EMS(Energy Management System)으로 자동 최적화</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────┐
+│        스마트 팩토리 통합 아키텍처 (CPS + 에너지)           │
+├──────────────────────────────────────────────────────────┤
+│  [경영 계층]  ERP(전사자원관리) / 디지털 트윈 대시보드       │
+│        │  OPC UA (기업-현장 데이터 표준 교환)               │
+│  [운영 계층]  MES(제조실행시스템) / SCADA                  │
+│        │  TSN(결정론적 이더넷) / 산업용 이더넷              │
+│  [제어 계층]  PLC·DCS·로봇 컨트롤러                        │
+│        │  OPC UA (필드 수준)                              │
+│  [현장 계층]  센서·액추에이터·AGV·로봇                     │
+│                                                          │
+│  [CPS 계층]  사이버-물리 실시간 연동 (디지털 트윈 동기화)    │
+│                                                          │
+│  [에너지 계층]                                            │
+│  ┌────────────────────────────────────────────────┐     │
+│  │ 마이크로그리드(Microgrid)                        │     │
+│  │ 태양광(PV) + ESS(배터리) + 계통 연계(Grid-tie)  │     │
+│  │ EMS(Energy Management System)으로 자동 최적화   │     │
+│  └────────────────────────────────────────────────┘     │
+└──────────────────────────────────────────────────────────┘
+```
 
 ### 핵심 기술 비교
 

@@ -30,17 +30,14 @@ tags = ["studynote-ai"]
 | 지시 무시 | "3줄 요약" 을 20줄 출력 | 형식 준수 응답 선호 |
 | 지나친 동의 | 틀린 전제에 동조 | 사실 기반 반박 학습 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) 없는 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 은 "박학다식하지만 눈치 없는 천재"다. 질문에 뭐든 대답하지만, 상황과 예의를 모른다. [RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) 는 이 천재에게 "사회 교육"을 시키는 과정이다.
 
@@ -50,23 +47,22 @@ tags = ["studynote-ai"]
 
 ### [RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) 3단계 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RLHF 전체 파이프라인</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Step 1</div><div class="kb-diagram-node">Step 2</div><div class="kb-diagram-node">Step 3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SFT 지도</div><div class="kb-diagram-cell">Reward Model</div><div class="kb-diagram-cell">PPO 강화학습</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">미세조정</div><div class="kb-diagram-cell">학습</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사전학습 LLM</div><div class="kb-diagram-cell">동일 프롬프트에</div><div class="kb-diagram-cell">SFT 모델 = 초기 정책</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+</div><div class="kb-diagram-cell">2개 응답 생성</div><div class="kb-diagram-cell">보상 모델로 점수 계산</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인간 작성</div><div class="kb-diagram-cell">사람이 선호 선택</div><div class="kb-diagram-cell">PPO 로 정책 업데이트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예시 대화</div><div class="kb-diagram-cell">순위 학습</div><div class="kb-diagram-cell">KL 패널티 적용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SFT 모델</div><div class="kb-diagram-cell">Reward Model</div><div class="kb-diagram-cell">정렬된 LLM (RL Model)</div></div>
-</div>
-</div>
-
-
+```
+  ┌──────────────────────────────────────────────────────────────┐
+  │                   RLHF 전체 파이프라인                       │
+  ├──────────────┬──────────────────┬────────────────────────────┤
+  │  [Step 1]    │    [Step 2]      │       [Step 3]             │
+  │  SFT 지도    │  Reward Model    │     PPO 강화학습            │
+  │  미세조정    │  학습            │                            │
+  ├──────────────┼──────────────────┼────────────────────────────┤
+  │ 사전학습 LLM │ 동일 프롬프트에  │  SFT 모델 = 초기 정책      │
+  │    +         │ 2개 응답 생성    │  보상 모델로 점수 계산      │
+  │ 인간 작성    │ 사람이 선호 선택 │  PPO 로 정책 업데이트       │
+  │ 예시 대화    │ 순위 학습        │  KL 패널티 적용             │
+  │    ↓         │      ↓           │      ↓                     │
+  │  SFT 모델    │  Reward Model    │   정렬된 LLM (RL Model)    │
+  └──────────────┴──────────────────┴────────────────────────────┘
+```
 
 ### 보상 모델 ([Reward Model](/knowledge-base/studynote/10_ai/05_data_science_ml/403_rlhf_reward_model/)) 학습
 

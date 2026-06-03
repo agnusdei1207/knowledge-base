@@ -23,21 +23,24 @@ tags = ["operating_system"]
 
 이 그림은 프로세스의 메모리 구조를 보여준다. 각 프로세스가 운영체제로부터 할당받는 독립적인 주소 공간을 시각화한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Process Memory Layout (Address Space)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Stack</div><div class="kb-diagram-note">(Local Variables, Return Address)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (Grows Downward)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Heap</div><div class="kb-diagram-note">(Dynamic Allocation - malloc, new)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ (Grows Upward)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">BSS / Data</div><div class="kb-diagram-note">(Global, Static Variables)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Code / Text</div><div class="kb-diagram-note">(Machine Instructions - Read Only)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Process Memory Layout (Address Space)       │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Stack ] (Local Variables, Return Address)               │
+│       │                                                     │
+│       ▼ (Grows Downward)                                    │
+│                                                             │
+│   [ Heap ] (Dynamic Allocation - malloc, new)               │
+│       ▲ (Grows Upward)                                      │
+│       │                                                     │
+│   [ BSS / Data ] (Global, Static Variables)                 │
+│                                                             │
+│   [ Code / Text ] (Machine Instructions - Read Only)        │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '격리 (Isolation)'이다. 각 프로세스는 자신만의 독립된 메모리 공간을 가지므로, 한 프로세스가 잘못된 주소를 참조하여 오류를 내더라도 다른 프로세스나 커널에 영향을 주지 않는다. 실무에서는 이러한 격리가 보안의 기초가 되지만, 프로세스 간 데이터 교환이 필요할 때는 IPC라는 복잡한 절차를 거쳐야 하는 트레이드오프가 발생한다.
 
@@ -58,20 +61,21 @@ tags = ["operating_system"]
 
 이 구조도는 컨텍스트 스위칭 시 발생하는 오버헤드와 상태 변화를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Context Switching Mechanism</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Process A</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Interrupt/Syscall</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Save to PCB_A</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Running)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Process B</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Load from PCB_B</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Scheduler</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Running)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* Overhead: CPU는 실제 업무를 하지 않고 관리 작업만 수행함</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Context Switching Mechanism                 │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Process A ] ──▶ [ Interrupt/Syscall ] ──▶ [ Save to PCB_A ] │
+│        (Running)                                     │      │
+│                                                      ▼      │
+│   [ Process B ] ◀── [ Load from PCB_B ]  ◀── [ Scheduler ]  │
+│        (Running)                                            │
+│                                                             │
+│   * Overhead: CPU는 실제 업무를 하지 않고 관리 작업만 수행함 │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '오버헤드 (Overhead)'이다. 컨텍스트 스위칭이 너무 빈번하면 CPU가 실제 연산보다 관리 작업에 더 많은 시간을 쓰게 되어 시스템 성능이 저하된다. 실무에서는 스레드를 사용하여 주소 공간을 공유함으로써 이 오버헤드를 줄이거나, 스케줄링 주기를 최적화한다.
 
@@ -125,19 +129,21 @@ tags = ["operating_system"]
 
 이 도식은 부모 프로세스가 자식 프로세스를 생성하는 복제 (Fork) 메커니즘을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">fork() &amp; Copy-on-Write (COW)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Parent (PID 100)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Child (PID 101)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Shared Read-only Memory)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Allocate New Page</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Separate</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- COW: 쓰기가 발생할 때만 실제 메모리를 복사하여 효율성 제고</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 fork() & Copy-on-Write (COW)                │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Parent (PID 100) ] ──▶ fork() ──▶ [ Child (PID 101) ]   │
+│          │                                     │            │
+│          └─────────── (Shared Read-only Memory) ──────────┘   │
+│                                                              │
+│   * Write Event! ──▶ [ Allocate New Page ] ──▶ [ Separate ]  │
+│                                                              │
+│   - COW: 쓰기가 발생할 때만 실제 메모리를 복사하여 효율성 제고 │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 기술사의 설계 판단은 '공장 레이아웃'을 짜는 것과 같아, 위험한 작업(보안/안정성)은 별도 건물(프로세스)로 격리하고, 협업이 잦은 작업(속도)은 한 공간(스레드)에 배치하여 효율을 극대화하는 안목이 필요합니다.
 

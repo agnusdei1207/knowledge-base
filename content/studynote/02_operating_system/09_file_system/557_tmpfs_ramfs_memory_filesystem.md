@@ -30,26 +30,32 @@ tags = ["studynote-operating-system"]
 - <strong>ext4 (Disk) vs tmpfs (RAM) I/O <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 읽기/<a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> 통치 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a> 뷰</strong>:
 유저가 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) `$ touch /tmp/테스트.txt` 를 쳤을 때, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어떻게 무거운 디스크를 피해 메모리 파도 위를 서핑하는지 그 렌더 체계를 까보면 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"하드디스크 쇳덩이는 너무 무겁다! 우리는 구름(RAM) 위에서 논다!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🚨</div><div class="kb-diagram-node">사용자 앱 : $ echo "Hello" &gt; /경로/테스트.txt  스왑 요청 빔!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">✅</div><div class="kb-diagram-node">커널 VFS (Virtual File System 추상화 껍데기 록백)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; "유저야 이 파일, 어디 디렉터리(/)에 꽂았니?"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(왼쪽 경로망) (오른쪽 마법 경로망)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/home/user/테스트.txt /tmp/테스트.txt (여긴 tmpfs 마운트점!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🔥</div><div class="kb-diagram-node">EXT4 (디스크 추락 지옥 늪)</div><div class="kb-diagram-node">✨ tmpfs (초광속 RAM 천국 렌더)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(저널링 일기장 씀) (VFS Page Cache 에 데이터 던짐 끝!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Block I/O 요청 생성)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">물리적 쇳덩어리 SSD 철판 타격!</div><div class="kb-diagram-note">[</div><div class="kb-diagram-node">DRAM (메인 메모리) 반도체</div><div class="kb-diagram-note">]</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; 쾅쾅 구워! (1ms 랙!) -&gt; 번쩍 장착 완료 (1ns 컷 부스트!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(디스크 헤드 모터 1도 안 돌림 통달)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌──────────────────────────────────────────────────────────────────────────────────┐
+  │                 "하드디스크 쇳덩이는 너무 무겁다! 우리는 구름(RAM) 위에서 논다!" │
+  ├──────────────────────────────────────────────────────────────────────────────────┤
+  │                                                                                  │
+  │  🚨 [ 사용자 앱 : $ echo "Hello" > /경로/테스트.txt  스왑 요청 빔! ]             │
+  │                                                                                  │
+  │  =========================▼===================================                   │
+  │                                                                                  │
+  │  ✅ [ 커널 VFS (Virtual File System 추상화 껍데기 록백) ]                        │
+  │     => "유저야 이 파일, 어디 디렉터리(/)에 꽂았니?"                              │
+  │                                                                                  │
+  │    (왼쪽 경로망)                  (오른쪽 마법 경로망)                           │
+  │   /home/user/테스트.txt          /tmp/테스트.txt (여긴 tmpfs 마운트점!)          │
+  │        │                             │                                           │
+  │  ======▼===========================▼==========================                   │
+  │                                                                                  │
+  │  🔥 [ EXT4 (디스크 추락 지옥 늪) ]     [ ✨ tmpfs (초광속 RAM 천국 렌더) ]       │
+  │    (저널링 일기장 씀)                 (VFS Page Cache 에 데이터 던짐 끝!)        │
+  │    (Block I/O 요청 생성)                     │                                   │
+  │          │                                 ▼                                     │
+  │    [ 물리적 쇳덩어리 SSD 철판 타격! ]        [[ DRAM (메인 메모리) 반도체 ]]     │
+  │      -> 쾅쾅 구워! (1ms 랙!)           -> 번쩍 장착 완료 (1ns 컷 부스트!)        │
+  │                                       (디스크 헤드 모터 1도 안 돌림 통달)        │
+  └──────────────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 클라우드 서버의 속도 치트키 아키텍처다. 사용자는 `ext4`든 `tmpfs`든 터미널에서 구별할 수 없고 똑같은 `표준 파일 함수(open, write)` 를 쓴다(VFS의 완벽한 튜리링 투명 마장). 왼쪽 ext4 경로는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 하드웨어 블록 레이어(Block Layer)까지 질질 끌고 가 엘리베이터 스케줄러를 거쳐 디스크 전극에 박아 넣는 무거운 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인(Overhead)을 치른다. 오른쪽 `tmpfs` 경로는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache 536장) 단계에서 딱 멈춘 채, 물리 디스크로 내려가는 통로(Flusher 더티 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 다운) 자체의 끈을 가위로 잘라버린다(No Sync To Disk 스왑). 즉 영원히 더티(Dirty) 상태의 메모리로만 둥둥 떠서 $O(1)$ 비율의 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 폭주를 보장한다 도출.
 
@@ -62,7 +68,7 @@ tags = ["studynote-operating-system"]
 ### 1. 트레이드오프 전선 종결: 구식 ramfs 의 무지성 폭주 vs 똑똑한 tmpfs 의 스왑 진화 뷰
 RAM을 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템으로 쓸 때 발생하는 치명적인 공포 메모리 학살전을 두 형제가 풀어낸 차이 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/).
 
-| RAM 블록 아키텍처 뷰 | 구식 `ramfs` (무장 해제 통제 상실 고장 늪) | ✨ 신형 `tmpfs` (안전띠 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 융합 록백) |
+| RAM 블록 아키텍처 뷰 | 구식 `ramfs` (무장 해제 통제 상실 고장 늪) | ✨ 새로운 유형의 `tmpfs` (안전띠 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 융합 록백) |
 |:---|:---|:---|
 | **메모리(RAM) 용량 한계 (Limit 스왑)** | **크기 제한(Max Size)을 무조건 뚫고 계속 우주 밖으로 폭주팽창(Grow) 가능.** | [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/) 시킬 때 **"넌 1GB까지만 RAM 써!" 라고 사이즈 한도 용량 상한선(Limit 빔)** 통제 장착. |
 | <strong>치명적 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">OOM</a> 발생 데들락 (서버 파단 랙)</strong> | 해커가 `ramfs` 에 100GB 거대 영화를 던지면? 한도초과로 <strong>서버 전체 RAM이 올-킬 오링 나며 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">OOM</a> 에러 동반 서버 셧다운 사형.</strong> | 1GB 넘으면 `Disk Full` 뱉으며 <strong>스스로 멈춰서 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 타 프로세스 RAM을 무결 방어.</strong> |
@@ -129,19 +135,15 @@ RAM을 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">삭제된 파일 복구 (Undelete) 및 포렌식 디스크 이미지 카빙(Carving) 원리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">임시 파일 시스템 (tmpfs / ramfs)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">가상 장치 파일 시스템 (sysfs, procfs)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">파일 시스템 일관성 검사 (fsck / chkdsk)</div></div>
-</div>
-</div>
-
-
+```text
+[삭제된 파일 복구 (Undelete) 및 포렌식 디스크 이미지 카빙(Carving) 원리]
+    │
+    ▼
+[임시 파일 시스템 (tmpfs / ramfs)]
+    │
+    ├──▶ [가상 장치 파일 시스템 (sysfs, procfs)]
+    └──▶ [파일 시스템 일관성 검사 (fsck / chkdsk)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

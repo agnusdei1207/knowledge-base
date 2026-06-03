@@ -31,25 +31,34 @@ tags = ["studynote-operating-system"]
   - 1988년 모리스 웜(Morris [Worm](/knowledge-base/studynote/02_operating_system/10_security/590_worm/))이 `fingerd`의 `gets()` [버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/)를 악용해 인터넷을 마비시키면서 세상에 알려졌다.
   - 1996년 Aleph One이 발표한 "Smashing The [Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) For Fun And Profit" 문서는 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/) 공격을 체계적으로 공식화하여 보안 업계에 엄청난 파장을 일으켰다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 스택 오버플로우 발생 원리도</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">정상적인 스택 프레임 구조</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">낮은 주소 방향으로 자람)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">함수의 매개변수 (Arguments)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">리턴 주소 (Return Address / EIP)</div><div class="kb-diagram-cell">◀ 핵심 타겟</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이전 프레임 포인터 (Saved EBP)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ 지역 변수 버퍼 (예: char buffer</div><div class="kb-diagram-node">8</div><div class="kb-diagram-note">) │</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">공격자가 16바이트 이상의 데이터를 입력할 경우</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">함수의 매개변수 (Arguments)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">해커의 주소</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">오버플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">해커의 데이터</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">오버플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">해커의 데이터</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">지역 변수</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │                 메모리 스택 오버플로우 발생 원리도                   │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │   [정상적인 스택 프레임 구조] (높은 주소 -> 낮은 주소 방향으로 자람) │
+  │   ──────────────────────────────────────────────            │
+  │   │ 함수의 매개변수 (Arguments)                     │            │
+  │   ├────────────────────────────────────────────┤            │
+  │   │ 리턴 주소 (Return Address / EIP)            │ ◀ 핵심 타겟 │
+  │   ├────────────────────────────────────────────┤            │
+  │   │ 이전 프레임 포인터 (Saved EBP)                 │            │
+  │   ├────────────────────────────────────────────┤            │
+  │   │ 지역 변수 버퍼 (예: char buffer[8])           │            │
+  │   ──────────────────────────────────────────────            │
+  │                                                             │
+  │   [공격자가 16바이트 이상의 데이터를 입력할 경우]                   │
+  │   ──────────────────────────────────────────────            │
+  │   │ 함수의 매개변수 (Arguments)                     │            │
+  │   ├────────────────────────────────────────────┤            │
+  │   │ [해커의 주소] (리턴 주소가 덮어씌워짐!)           │ ◀ 오버플로우│
+  │   ├────────────────────────────────────────────┤            │
+  │   │ [해커의 데이터] (AAAA...)                    │ ◀ 오버플로우│
+  │   ├────────────────────────────────────────────┤            │
+  │   │ [해커의 데이터] (AAAA...)                    │ ◀ 지역 변수 │
+  │   ──────────────────────────────────────────────            │
+  └─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 인텔 x86 아키텍처에서 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)은 높은 주소에서 낮은 주소로 성장(Grow down)하지만, 버퍼에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓸 때는 낮은 주소에서 높은 주소 방향으로(Grow up) 기록된다. 이 엇갈린 방향성이 비극의 원인이다. 8바이트 버퍼에 "AAAAAAAAAAAAAAAA"(16바이트)를 입력하면, 8바이트는 정상적으로 버퍼에 들어가지만 나머지 8바이트는 위쪽(높은 주소)에 위치한 Saved EBP와 리턴 주소(Return Address)를 무자비하게 덮어쓴다. 함수가 `ret` (Return) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 실행할 때 CPU는 오염된 리턴 주소를 꺼내서 그곳으로 점프(EIP 변경)해 버린다.
 
@@ -72,23 +81,27 @@ tags = ["studynote-operating-system"]
 
 ### 공격 파이프라인 (Execution Flow)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">버퍼 오버플로우 페이로드 주입 및 실행 시퀀스</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">메모리 상의 공격 페이로드 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">낮은 주소 높은 주소</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">버퍼 시작</div><div class="kb-diagram-node">리턴 주소</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NOP Sled</div><div class="kb-diagram-cell">Shellcode</div><div class="kb-diagram-cell">Dummy</div><div class="kb-diagram-cell">조작된 RET</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(\x90\x90...)</div><div class="kb-diagram-cell">(/bin/sh 실행 기계어)</div><div class="kb-diagram-cell">(AAAA)</div><div class="kb-diagram-cell">0xbffff...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① CPU가 조작된 RET를 읽고 NOP Sled 어딘가로 점프함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② NOP(\x90)은 아무 동작도 안 하므로 CPU는 계속 다음 명령어로 미끄러짐</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ 미끄러지다가 쉘코드를 만나면 쉘코드를 강제 실행함 (해커가 시스템 장악!)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 버퍼 오버플로우 페이로드 주입 및 실행 시퀀스              │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │  [메모리 상의 공격 페이로드 구조]                                        │
+  │                                                                   │
+  │  낮은 주소                                                높은 주소 │
+  │  [버퍼 시작] ────────────────────────────────────────── [리턴 주소] │
+  │  ┌───────────────┬──────────────────────────┬────────┬──────────┐ │
+  │  │ NOP Sled      │ Shellcode                │ Dummy  │ 조작된 RET │ │
+  │  │ (\x90\x90...) │ (/bin/sh 실행 기계어)      │ (AAAA) │ 0xbffff... │ │
+  │  └───────────────┴──────────────────────────┴────────┴──────────┘ │
+  │      ▲                                                    │       │
+  │      │ ① CPU가 조작된 RET를 읽고 NOP Sled 어딘가로 점프함            │       │
+  │      └────────────────────────────────────────────────────┘       │
+  │                                                                   │
+  │  ② NOP(\x90)은 아무 동작도 안 하므로 CPU는 계속 다음 명령어로 미끄러짐       │
+  │  ③ 미끄러지다가 쉘코드를 만나면 쉘코드를 강제 실행함 (해커가 시스템 장악!)     │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 해커는 취약한 애플리케이션에 페이로드를 전송한다. 페이로드의 끝부분에는 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)의 특정 주소(NOP Sled의 중간쯤)를 가리키는 4바이트 주소(RET)가 들어있다. 버퍼가 넘치면서 이 주소가 정상 리턴 주소를 덮어쓴다. 취약한 함수가 종료될 때, CPU는 자기가 해커의 주소로 점프한다는 사실도 모른 채 EIP([명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 포인터)를 해당 주소로 바꾼다. CPU가 착지한 곳에는 NOP(`0x90`)이 깔려있어 미끄러지듯 쉘코드에 도달하고, 루트 쉘(Root [Shell](/knowledge-base/studynote/02_operating_system/01_overview_architecture/044_shell/))이 뜨면서 서버는 해커의 손에 넘어간다.
 
@@ -128,24 +141,27 @@ tags = ["studynote-operating-system"]
 2. <strong>시나리오 — <a href="/knowledge-base/studynote/02_operating_system/10_security/596_return_oriented_programming/">ROP</a> (<a href="/knowledge-base/studynote/02_operating_system/10_security/596_return_oriented_programming/">Return-Oriented Programming</a>) 공격 대응</strong>: 서버에 ASLR과 [DEP](/knowledge-base/studynote/09_security/04_endpoint_security/336_dep/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 기법이 모두 켜져 있음에도 불구하고 해커가 [공유 라이브러리](/knowledge-base/studynote/02_operating_system/06_memory_management/333_shared_library/)(libc) 내부에 이미 존재하는 코드 조각(Gadget)들의 끝부분(`ret`)만을 체인처럼 엮어 `system("/bin/sh")`를 실행시키는 고급 우회 공격([ROP](/knowledge-base/studynote/02_operating_system/10_security/596_return_oriented_programming/))을 성공시켰다.
    - <strong>아키텍트 판단 (컴파일러 및 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 방어 강화)</strong>: ROP를 막기 위해서는 제어 흐름 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) (CFI, [Control Flow](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/186_control_flow_instructions/) [Integrity](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)) 기술을 도입해야 한다. 최신 컴파일러(Clang/GCC)의 CFI 옵션을 켜서, [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/)이나 리턴 시 사전에 컴파일러가 정의한 유효한 흐름([Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/104_graph/)) 밖으로 벗어나는 비정상적인 간접 점프([Indirect](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/) Jump)를 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 탐지하고 프로세스를 강제 종료하도록 설정한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">안전한 C 프로그래밍 (Secure Coding) 의사결정 트리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">문자열 처리/메모리 복사 함수 선택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력 데이터의 길이를 사전에 명확히 알 수 있는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">메모리 복사 함수 허용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell"><code>memcpy()</code> 사용 (단, 길이는 목적지 버퍼 이하로 강제)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 (사용자 입력, 네트워크 패킷 등)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용 중인 라이브러리가 길이 제한(Boundary Check)을 지원하는가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 지원함: <code>strncpy()</code>, <code>snprintf()</code>, <code>fgets()</code> 필수 사용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 안함: 즉시 금지! (<code>gets</code>, <code>strcpy</code>, <code>strcat</code>, <code>scanf</code>)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ 최후의 방어: 컴파일 시 <code>-fstack-protector</code> (Canary) 옵션 활성화 필수</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 안전한 C 프로그래밍 (Secure Coding) 의사결정 트리         │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [문자열 처리/메모리 복사 함수 선택]                                    │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      입력 데이터의 길이를 사전에 명확히 알 수 있는가?                       │
+  │          ├─ 예 ─────▶ [메모리 복사 함수 허용]                        │
+  │          │            `memcpy()` 사용 (단, 길이는 목적지 버퍼 이하로 강제) │
+  │          └─ 아니오 (사용자 입력, 네트워크 패킷 등)                      │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      사용 중인 라이브러리가 길이 제한(Boundary Check)을 지원하는가?          │
+  │          ├──▶ 지원함: `strncpy()`, `snprintf()`, `fgets()` 필수 사용 │
+  │          └──▶ 안함:  즉시 금지! (`gets`, `strcpy`, `strcat`, `scanf`)  │
+  │                                                                   │
+  │   ※ 최후의 방어: 컴파일 시 `-fstack-protector` (Canary) 옵션 활성화 필수 │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 의사결정 트리는 개발자가 소스 코드를 작성할 때 반드시 거쳐야 하는 보안 게이트다. "위험 함수를 쓰지 마라"는 선언적 가이드보다, "사용자 입력은 무조건 길이를 자르는 버전을 써라"는 구체적 규칙이 필요하다. 또한, 사람이 하는 실수를 커버하기 위해 빌드 파이프라인([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD)에 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 프로텍터 플래그를 강제로 삽입하여 개발자가 빼먹더라도 컴파일러가 카나리아를 심도록 아키텍처를 강제해야 한다.
 
@@ -191,19 +207,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">보호 도메인 최소 권한 원칙</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">버퍼 오버플로우 공격 스택 (Buffer Overflow Attack Stack)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스푸핑, 백도어 악성코드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">가상화 하이퍼바이저</div></div>
-</div>
-</div>
-
-
+```text
+[보호 도메인 최소 권한 원칙]
+    │
+    ▼
+[버퍼 오버플로우 공격 스택 (Buffer Overflow Attack Stack)]
+    │
+    ├──▶ [스푸핑, 백도어 악성코드]
+    └──▶ [가상화 하이퍼바이저]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

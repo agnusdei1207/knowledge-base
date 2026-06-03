@@ -32,24 +32,29 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GPU 메모리 계층</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HBM(High Bandwidth Memory)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TSV TSV</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DRAM_1</div><div class="kb-diagram-cell">DRAM_2</div><div class="kb-diagram-cell">DRAM_3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Die</div><div class="kb-diagram-cell">Die</div><div class="kb-diagram-cell">Die</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수직 적층(3D Stacking)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대역폭: 2~4 TB/s</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SM(Streaming Multiprocessor)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">텐서 코어(Tensor Core)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FP16/BF16/INT8 행렬 곱 가속</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────┐
+│                GPU 메모리 계층                   │
+│                                                 │
+│  ┌─────────────────────────────────────────┐    │
+│  │           HBM(High Bandwidth Memory)    │    │
+│  │  ┌──────┐ TSV  ┌──────┐ TSV  ┌──────┐ │    │
+│  │  │DRAM_1│──────│DRAM_2│──────│DRAM_3│ │    │
+│  │  │ Die  │      │ Die  │      │ Die  │ │    │
+│  │  └──────┘      └──────┘      └──────┘ │    │
+│  │        수직 적층(3D Stacking)           │    │
+│  │        대역폭: 2~4 TB/s               │    │
+│  └─────────────────────────────────────────┘    │
+│                      │                          │
+│  ┌───────────────────▼──────────────────────┐   │
+│  │           SM(Streaming Multiprocessor)   │   │
+│  │  ┌──────────────────────────────────┐   │   │
+│  │  │     텐서 코어(Tensor Core)        │   │   │
+│  │  │  FP16/BF16/INT8 행렬 곱 가속     │   │   │
+│  │  └──────────────────────────────────┘   │   │
+│  └──────────────────────────────────────────┘   │
+└─────────────────────────────────────────────────┘
+```
 
 <strong><a href="/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/">HBM</a> 구조</strong>
 - [TSV](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/496_tsv/)(Through-Silicon Via, 실리콘 관통 비아)로 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) 다이(Die)를 수직 적층

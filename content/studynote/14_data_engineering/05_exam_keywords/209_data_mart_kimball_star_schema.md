@@ -42,37 +42,39 @@ tags = ["studynote-data-engineering"]
 
 ### [스타 스키마](/knowledge-base/studynote/05_database/06_dw_olap_trends/334_star_schema/) ([Star Schema](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/296_star_schema/)) 구조
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DimDate (날짜)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">date_key (PK)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">year, month</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">quarter, day</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DimCustomer</div><div class="kb-diagram-cell">DimProduct</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(고객 차원)</div><div class="kb-diagram-cell">(제품 차원)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">customer_key</div><div class="kb-diagram-cell">product_key</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">customer_name</div><div class="kb-diagram-cell">product_name</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">city, region</div><div class="kb-diagram-cell">▼</div><div class="kb-diagram-cell">category</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">segment</div><div class="kb-diagram-cell">FactSales</div><div class="kb-diagram-cell">brand, price</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(판매 팩트)</div></div>
-<div class="kb-diagram-note">date_key(FK)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">cust_key(FK)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">prod_key(FK)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">store_key(FK</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">sales_amt</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">quantity</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">discount</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DimStore</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(매장 차원)</div></div>
-<div class="kb-diagram-tree-item" style="--depth:5">store_key</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">store_name</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">city, region</div></div>
-</div>
-</div>
-
-
+```
+                    ┌─────────────────┐
+                    │  DimDate (날짜)  │
+                    │  date_key (PK)  │
+                    │  year, month    │
+                    │  quarter, day   │
+                    └────────┬────────┘
+                             │
+┌───────────────┐            │             ┌────────────────┐
+│ DimCustomer   │            │             │  DimProduct    │
+│ (고객 차원)    │            │             │  (제품 차원)   │
+│ customer_key  ├────────────┤             │  product_key   │
+│ customer_name │            │             │  product_name  │
+│ city, region  │     ┌──────▼──────┐      │  category      │
+│ segment       │     │FactSales    │      │  brand, price  │
+└───────────────┘     │ (판매 팩트)  │      └────────────────┘
+          ┌───────────┤ date_key(FK)├──────────────┐
+          │           │ cust_key(FK)│               │
+          │           │ prod_key(FK)│               │
+          │           │ store_key(FK│               │
+          │           │ sales_amt   │               │
+          │           │ quantity    │               │
+          │           │ discount    │               │
+          │           └─────────────┘               │
+          │                   │                     │
+          │           ┌───────▼───────┐             │
+          │           │  DimStore     │             │
+          │           │  (매장 차원)  │             │
+          └───────────┤  store_key    ├─────────────┘
+                      │  store_name   │
+                      │  city, region │
+                      └───────────────┘
+```
 
 ### 마트 유형 비교
 
@@ -86,7 +88,7 @@ tags = ["studynote-data-engineering"]
 
 여러 마트에서 <strong>동일한 <a href="/knowledge-base/studynote/07_enterprise_systems/05_data_bi/273_dimension_table_analysis_perspective/">차원 테이블</a>을 공유</strong>하여 부서 간 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 확보:
 - 날짜 차원(Date Dimension): 모든 마트에서 동일한 날짜 기준 사용
-- 고객 차원([Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) Dimension): 판매 마트·[CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) 마트·[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 마트 공유
+- 고객 차원([C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) Dimension): 판매 마트·[CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) 마트·[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 마트 공유
 
 📢 **섹션 요약 비유**: [스타 스키마](/knowledge-base/studynote/05_database/06_dw_olap_trends/334_star_schema/)는 <strong>별자리 지도</strong>와 같다. 중앙의 팩트(별)를 여러 차원(행성)이 둘러싸는 구조로, 각 행성이 분석의 관점이 된다.
 
@@ -171,23 +173,20 @@ tags = ["studynote-data-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">OLTP (운영 시스템)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Data Warehouse (전사 통합 저장소)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Data Mart (부서별 서브셋)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">종속형: DW에서 추출 (Top-Down, Inmon)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">독립형: 직접 구축 (Bottom-Up, Kimball)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Star Schema · Kimball 차원 모델링</div>
-</div>
-</div>
-
-
+```text
+OLTP (운영 시스템)
+    │
+    ▼
+Data Warehouse (전사 통합 저장소)
+    │
+    ▼
+Data Mart (부서별 서브셋)
+    ├─► 종속형: DW에서 추출 (Top-Down, Inmon)
+    └─► 독립형: 직접 구축 (Bottom-Up, Kimball)
+    │
+    ▼
+Star Schema · Kimball 차원 모델링
+```
 2. [스타 스키마](/knowledge-base/studynote/05_database/06_dw_olap_trends/334_star_schema/)는 <strong>별 모양 조직도</strong>야. 가운데 별(팩트)이 "우리가 분석할 것"이고, 주변 행성들(차원)이 "어떤 각도에서 볼지"를 나타내.
 3. 같은 날짜 기준을 모든 반이 쓰면 <strong>"이번 달"이 다 같은 의미</strong>가 돼. 그게 콘포밍 차원이야.
 

@@ -25,23 +25,31 @@ tags = ["studynote-enterprise-systems"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라우드 네이티브 DW 아키텍처 (Snowflake 예시)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스토리지 레이어 (분리된 오브젝트 스토리지)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">S3 / GCS / Azure Blob — 컬럼 기반 압축 저장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">컴퓨팅 레이어 (독립 Virtual Warehouse)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BI 클러스터</div><div class="kb-diagram-cell">ETL 클러스터</div><div class="kb-diagram-cell">DS 클러스터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Tableau용)</div><div class="kb-diagram-cell">(Fivetran용)</div><div class="kb-diagram-cell">(Python용)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↕ 독립 확장 ↕ 독립 확장 ↕ 독립 확장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라우드 서비스 레이어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메타데이터 관리</div><div class="kb-diagram-cell">쿼리 최적화</div><div class="kb-diagram-cell">보안</div><div class="kb-diagram-cell">과금 추적</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────────┐
+│           클라우드 네이티브 DW 아키텍처 (Snowflake 예시)      │
+│                                                             │
+│  ┌────────────────────────────────────────────────────┐    │
+│  │           스토리지 레이어 (분리된 오브젝트 스토리지)  │    │
+│  │    S3 / GCS / Azure Blob — 컬럼 기반 압축 저장      │    │
+│  └──────────────────────────┬─────────────────────────┘    │
+│                              │                              │
+│  ┌───────────────────────────▼──────────────────────────┐  │
+│  │           컴퓨팅 레이어 (독립 Virtual Warehouse)       │  │
+│  │                                                       │  │
+│  │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐   │  │
+│  │  │ BI 클러스터  │  │ ETL 클러스터│  │ DS 클러스터 │   │  │
+│  │  │ (Tableau용) │  │ (Fivetran용)│  │ (Python용)  │   │  │
+│  │  └─────────────┘  └─────────────┘  └─────────────┘   │  │
+│  │     ↕ 독립 확장      ↕ 독립 확장     ↕ 독립 확장     │  │
+│  └───────────────────────────────────────────────────────┘  │
+│                                                             │
+│  ┌────────────────────────────────────────────────────┐    │
+│  │              클라우드 서비스 레이어                   │    │
+│  │  메타데이터 관리 | 쿼리 최적화 | 보안 | 과금 추적    │    │
+│  └────────────────────────────────────────────────────┘    │
+└─────────────────────────────────────────────────────────────┘
+```
 
 ### 3대 클라우드 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 비교
 
@@ -115,23 +123,21 @@ tags = ["studynote-enterprise-systems"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">온프레미스 MPP DW (Teradata, Netezza)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Hadoop 기반 분산 처리 (HDFS + Hive)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 DW 1세대 (Redshift - 컬럼 스토어)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">스토리지·컴퓨팅 분리 DW (Snowflake, BigQuery)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">서버리스·멀티클러스터·Zero-Copy Clone 진화</div>
-</div>
-</div>
-
-
+```
+온프레미스 MPP DW (Teradata, Netezza)
+    │
+    ▼
+Hadoop 기반 분산 처리 (HDFS + Hive)
+    │
+    ▼
+클라우드 DW 1세대 (Redshift - 컬럼 스토어)
+    │
+    ▼
+스토리지·컴퓨팅 분리 DW (Snowflake, BigQuery)
+    │
+    ▼
+서버리스·멀티클러스터·Zero-Copy Clone 진화
+```
 
 > **키워드**: [Cloud Native](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/) [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/), [Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/), [BigQuery](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/), Redshift, MPP, [Storage-Compute Separation](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/391_storage_compute_separation/), [Serverless](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)
 

@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: IBM이 개발하고 현재 OASIS 표준으로 관리되는, [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 기반의 <strong>초경량 발행-구독(Publish-Subscribe) 기반의 메시징 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a></strong>입니다. (통신 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/): 1883)
 - **목적**: 대역폭이 극도로 제한되고 연결이 툭하면 끊기는 열악한 무선 네트워크 환경([M2M](/knowledge-base/studynote/03_network/12_iot_wpan_edge/602_m2m_machine_to_machine_telemetry/), [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/))에서, 배터리를 아끼면서 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 있게 메시지를 주고받기 위해 탄생했습니다. (HTTP의 무거운 헤더를 걷어낸 초경량 포장지)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">LTE-M</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MQTT</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CoAP</div></div>
-</div>
-</div>
-
-
+```text
+[LTE-M]
+    │
+    ▼
+[MQTT]
+    │
+    └──▶ [CoAP]
+```
 
 - **📢 섹션 요약 비유**: MQTT는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -47,18 +43,14 @@ tags = ["studynote-network"]
 2. **Publisher (발행자 / 센서)**: 온도계(센서)는 `Seoul/Gangnam/Temp`라는 '주제(Topic)' 팻말을 붙여 브로커에게 현재 온도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(24도)를 휙 던지고(Publish) 바로 잠에 듭니다.
 3. **Subscriber (구독자 / 스마트폰 앱)**: 사용자는 브로커에게 "나는 `Seoul/Gangnam/Temp` 주제의 편지만 챙겨서 보내줘"라고 구독(Subscribe) 신청을 해둡니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">LTE-M</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MQTT</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CoAP</div></div>
-</div>
-</div>
-
-
+```text
+[LTE-M]
+    │
+    ▼
+[MQTT]
+    │
+    └──▶ [CoAP]
+```
 
 - **📢 섹션 요약 비유**: MQTT의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -117,19 +109,15 @@ MQTT는 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_i
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: LTE-M</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: MQTT</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: CoAP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율형 엣지 협업</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: LTE-M]
+    │
+    ▼
+[현재 개념: MQTT]
+    │
+    ├──▶ [확장 A: CoAP]
+    └──▶ [확장 B: 자율형 엣지 협업]
+```
 
 MQTT는 LTE-M에서 출발해 현재 메커니즘을 정교화하고, 이후 CoAP와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

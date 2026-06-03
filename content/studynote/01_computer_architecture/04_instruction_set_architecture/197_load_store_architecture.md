@@ -35,24 +35,25 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 동일한 계산을 로드/스토어 방식으로 처리할 때, 어느 단계에서 메모리를 만나고 어느 단계에서 순수 연산이 일어나는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">로드/스토어 아키텍처의 실행 분리: 메모리 접근과 연산 분업</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">목표: C = A + B</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1) LOAD R1,</div><div class="kb-diagram-node">A</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">메모리에서 A를 읽어 R1에 적재</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2) LOAD R2,</div><div class="kb-diagram-node">B</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">메모리에서 B를 읽어 R2에 적재</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) ADD R3, R1, R2 ─▶ ALU가 레지스터 R1, R2만 사용해 계산</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">4) STORE</div><div class="kb-diagram-node">C</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">계산 결과 R3를 메모리 C에 저장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분리 효과</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 경로</div><div class="kb-diagram-cell">연산 경로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LOAD/STORE</div><div class="kb-diagram-cell">ADD/SUB/AND</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주소 계산</div><div class="kb-diagram-cell">레지스터 연산</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│        로드/스토어 아키텍처의 실행 분리: 메모리 접근과 연산 분업     │
+├──────────────────────────────────────────────────────────────────────┤
+│ 목표: C = A + B                                                     │
+│                                                                      │
+│ 1) LOAD  R1, [A]   ──▶ 메모리에서 A를 읽어 R1에 적재                │
+│ 2) LOAD  R2, [B]   ──▶ 메모리에서 B를 읽어 R2에 적재                │
+│ 3) ADD   R3, R1, R2 ─▶ ALU가 레지스터 R1, R2만 사용해 계산          │
+│ 4) STORE [C], R3   ──▶ 계산 결과 R3를 메모리 C에 저장               │
+│                                                                      │
+│ 분리 효과                                                            │
+│  ┌──────────────┐        ┌──────────────┐                            │
+│  │ 메모리 경로  │        │ 연산 경로    │                            │
+│  │ LOAD/STORE   │        │ ADD/SUB/AND  │                            │
+│  │ 주소 계산    │        │ 레지스터 연산 │                            │
+│  └──────────────┘        └──────────────┘                            │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조가 중요한 이유는 파이프라인 단계별 책임이 선명해지기 때문이다. [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 인출과 해독 뒤에 메모리 접근이 필요한 명령만 LSU를 거치고, 일반 연산은 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)과 [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) 안에서 빠르게 끝난다. 덕분에 하드웨어는 포워딩 (Forwarding), [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) (Out-of-Order Execution, OoO), 로드/스토어 큐 같은 기법을 체계적으로 붙일 수 있다.
 
@@ -85,21 +86,19 @@ tags = ["studynote-computer-architecture"]
 
 특히 현대 x86도 내부적으로는 복잡한 [CISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/196_cisc/) 명령을 잘게 쪼개 마이크로 연산으로 바꿔 실행한다. 이는 외부 ISA는 달라도, <strong>고성능 실행 엔진 내부는 결국 로드/스토어에 가까운 분해된 형태를 선호한다</strong>는 뜻이다. 따라서 로드/스토어는 특정 진영의 문법이 아니라, 현대 고성능 프로세서가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 얻는 방향을 보여주는 기준선으로 볼 수 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">복합 명령 축소</div>
-<div class="kb-diagram-tree-item" style="--depth:2">CISC 외부 명령 ─▶ 내부 마이크로 연산 분해</div>
-<div class="kb-diagram-tree-item" style="--depth:2">RISC 명령 ─▶ 처음부터 Load/Store 분리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">파이프라인 예측 가능성 향상</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">슈퍼스칼라·OoO 확장 용이</div>
-</div>
-</div>
-
-
+```text
+복합 명령 축소
+    │
+    ├─ CISC 외부 명령 ─▶ 내부 마이크로 연산 분해
+    │
+    └─ RISC 명령      ─▶ 처음부터 Load/Store 분리
+                          │
+                          ▼
+                파이프라인 예측 가능성 향상
+                          │
+                          ▼
+                 슈퍼스칼라·OoO 확장 용이
+```
 
 - **📢 섹션 요약 비유**: 한 사람이 운전도 하고 짐도 싣고 계산도 하는 가게보다, 배송·정산·조립을 역할별로 나눈 가게가 커질수록 유리하다. 처음엔 번거로워 보여도 규모가 커질수록 분업의 이익이 커진다.
 
@@ -151,26 +150,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">누산기·메모리 직접 연산 중심 구조</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">레지스터 활용 확대</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">로드/스토어 아키텍처 정착</div>
-<div class="kb-diagram-tree-item" style="--depth:2">파이프라인 최적화</div>
-<div class="kb-diagram-tree-item" style="--depth:2">슈퍼스칼라 확장</div>
-<div class="kb-diagram-tree-item" style="--depth:2">비순차 실행 (OoO)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ARM (Advanced RISC Machine) · MIPS (Microprocessor without Interlocked Pipeline Stages) · RISC-V (Reduced Instruction Set Computer Five)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">압축 명령어 · 정교한 컴파일러 · 메모리 모델 고도화</div>
-</div>
-</div>
-
-
+```text
+누산기·메모리 직접 연산 중심 구조
+    │
+    ▼
+레지스터 활용 확대
+    │
+    ▼
+로드/스토어 아키텍처 정착
+    │
+    ├─ 파이프라인 최적화
+    ├─ 슈퍼스칼라 확장
+    ├─ 비순차 실행 (OoO)
+    ▼
+ARM (Advanced RISC Machine) · MIPS (Microprocessor without Interlocked Pipeline Stages) · RISC-V (Reduced Instruction Set Computer Five)
+    │
+    ▼
+압축 명령어 · 정교한 컴파일러 · 메모리 모델 고도화
+```
 
 이 흐름은 "메모리를 직접 만지는 편의성"에서 "[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 실행을 위한 구조적 분리"로 중심축이 이동한 과정을 보여준다.
 

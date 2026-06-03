@@ -18,26 +18,25 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Toil vs 엔지니어링</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Toil — 제거 대상</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수동 서버 재시작</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">반복 인증서 갱신</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수동 트래픽 이동</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">반복 에러 확인·리포트</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">엔지니어링 — 투자 대상</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자동화 스크립트 개발</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">관측성 대시보드 구축</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">셀프힐링 시스템 구축</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">용량 계획 도구 개발</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SRE 원칙: Toil &lt; 50%</div><div class="kb-diagram-cell">엔지니어링 &gt; 50%</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    Toil vs 엔지니어링                                 │
+├───────────────────────────────────────────────────────┤
+│  [Toil — 제거 대상]                                   │
+│   수동 서버 재시작                                    │
+│   반복 인증서 갱신                                    │
+│   수동 트래픽 이동                                    │
+│   반복 에러 확인·리포트                               │
+│                                                       │
+│  [엔지니어링 — 투자 대상]                             │
+│   자동화 스크립트 개발                                │
+│   관측성 대시보드 구축                                │
+│   셀프힐링 시스템 구축                                │
+│   용량 계획 도구 개발                                 │
+│                                                       │
+│  SRE 원칙: Toil < 50% | 엔지니어링 > 50%            │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: Toil은 매일 손빨래하는 것이고, 엔지니어링은 세탁기를 만드는 것이다. 세탁기를 만들면 빨래([Toil](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)) 시간이 영구히 사라진다.
 
@@ -96,23 +95,21 @@ tags = ["studynote-devops-sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">수동 운영 (전통 Ops, 100% Toil)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스크립트 자동화 (Bash/Python, 2000s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SRE Toil 정의 (Google, 2003~2016)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IaC + CI/CD (자동화 인프라, 2015~)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: AIOps — AI가 Toil을 자동 감지·자동화</div></div>
-</div>
-</div>
-
-
+```text
+[수동 운영 (전통 Ops, 100% Toil)]
+    │
+    ▼
+[스크립트 자동화 (Bash/Python, 2000s)]
+    │
+    ▼
+[SRE Toil 정의 (Google, 2003~2016)]
+    │
+    ▼
+[IaC + CI/CD (자동화 인프라, 2015~)]
+    │
+    ▼
+[현재: AIOps — AI가 Toil을 자동 감지·자동화]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. Toil은 매일 <strong>손빨래</strong>하는 거예요. 힘들고 반복돼요.

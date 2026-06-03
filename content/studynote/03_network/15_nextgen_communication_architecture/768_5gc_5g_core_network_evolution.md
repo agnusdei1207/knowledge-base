@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - [3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) Release 15에서 정의된, 오직 <strong><a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a> <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/150_5g_sa_standalone_architecture/">Standalone</a> (<a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/">SA</a>, 단독 모드) 망에서만 진정한 힘을 발휘하는 5세대의 심장부이자 백본(Backbone) 시스템</strong>입니다.
 - 기존 4G 코어망인 EPC를 폐기하고, 아예 처음부터 <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/">클라우드 네이티브</a>(Cloud-Native), <a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a>(<a href="/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/">NFV</a>/<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/">SDN</a>), <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 처리</strong>에 완벽하게 최적화되도록 밑바닥부터 새로 설계한 혁명적인 아키텍처입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SA 풀 전환 클라우드 네이티브 슬라이싱 전…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">5GC</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SBA</div></div>
-</div>
-</div>
-
-
+```text
+[SA 풀 전환 클라우드 네이티브 슬라이싱 전…]
+    │
+    ▼
+[5GC]
+    │
+    └──▶ [SBA]
+```
 
 - **📢 섹션 요약 비유**: 5GC는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -61,18 +57,14 @@ tags = ["studynote-network"]
 - <strong>[4G] <a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/755_hss_home_subscriber_server/">HSS</a> (가입자 DB) ➜ [5GC] UDM + AUSF 로 분화</strong>
   - 단순 주민등록부에서, 인증키 발급소(AUSF)와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장소(UDM)로 더 쪼개져 클라우드 DB 관리에 최적화되었습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SA 풀 전환 클라우드 네이티브 슬라이싱 전…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">5GC</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SBA</div></div>
-</div>
-</div>
-
-
+```text
+[SA 풀 전환 클라우드 네이티브 슬라이싱 전…]
+    │
+    ▼
+[5GC]
+    │
+    └──▶ [SBA]
+```
 
 - **📢 섹션 요약 비유**: 5GC의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -133,19 +125,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: SA 풀 전환 클라우드 네이티브 슬라이싱 전…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 5GC</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: SBA</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 네트워크 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: SA 풀 전환 클라우드 네이티브 슬라이싱 전…]
+    │
+    ▼
+[현재 개념: 5GC]
+    │
+    ├──▶ [확장 A: SBA]
+    └──▶ [확장 B: AI 기반 네트워크 최적화]
+```
 
 5GC는 [SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/) 풀 전환 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 슬라이싱 전…에서 출발해 현재 메커니즘을 정교화하고, 이후 SBA와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

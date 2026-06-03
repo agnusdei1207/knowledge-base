@@ -35,26 +35,26 @@ NIST는 인터넷 생태계의 다양성을 위해 투트랙 전략을 꺼내 �
 1. <strong>NTRU 격자의 고밀도 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a> 방어막</strong>: 딜리슘이 구조가 단순한 LWE(오차 수반 학습) 방정식을 써서 행렬(표)을 무식하게 크게 그렸다면, 팔콘은 <strong>NTRU</strong>라는 촘촘하게 맞물린 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 환(Ring) 뼈대를 썼다. 밀도가 매우 높아, 적은 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수(작은 크기)로도 딜리슘과 똑같은 방탄 조끼(양자 방어력) 맷집을 뽑아낸다.
 2. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/07_numerical/126_fft/">FFT</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/07_numerical/126_fft/">고속 푸리에 변환</a>) 엔진의 찰나 연산</strong>: 오디오 주파수 분석이나 통신 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 처리에 쓰이는 공학 공식인 '푸리에 변환([FFT](/knowledge-base/studynote/08_algorithm_stats/07_numerical/126_fft/))'을 [암호학](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/) 가우스 샘플링 과정에 끌고 들어왔다. 이 복잡한 [FFT](/knowledge-base/studynote/08_algorithm_stats/07_numerical/126_fft/) 엔진을 돌리면 끔찍하게 큰 차원의 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 곱셈 과정을 순식간에 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해서 가볍게 뚫어버린다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PQC 서명 3대장의 십자 융합 특성 (크기와 복잡성의 트레이드오프) 시각화 도해</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">🚀 ML-DSA (Dilithium) - 대규모 클라우드 범용 황제</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 공개키 + 서명 크기: 약 3,700 Byte (미친 덤프트럭 🐘)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 개발 난이도: "정수(Integer) 계산만 써서 구현 쉬움 ㅋ 초보도 짬."</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 포지션: 덩치 커도 상관없는 구글 서버, PC, 최신 웹 브라우저의 100% 장악 메인 무기.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">🏎️ FN-DSA (Falcon) - 좁은 골목길 다이어트 대장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 공개키 + 서명 크기: 약 1,500 Byte (과거 RSA급 초박형! 🪶)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 개발 난이도: "지옥 ☠️ 실수(Float) 부동소수점 수학 계산하다 CPU 반올림 꼬여서 미침."</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 포지션: 코딩하기 토 나오지만, 좁아터진 스마트 카드 칩셋, IoT 통신망의 유일한 구원 투수.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">🛡️ SLH-DSA (SPHINCS+) - 무지성 콘크리트 플랜 B 방패</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 공개키 + 서명 크기: 약 17,000 Byte (건물만 한 괴물 크기 🦖)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 포지션: 만약 미래 수학자가 격자 암호를 다 깨부수면, 마지막으로 대피할 해시(Hash) 벙커.</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────────┐
+│           PQC 서명 3대장의 십자 융합 특성 (크기와 복잡성의 트레이드오프) 시각화 도해   │
+├────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                │
+│ [ 🚀 ML-DSA (Dilithium) - 대규모 클라우드 범용 황제 ]                              │
+│   - 공개키 + 서명 크기: 약 3,700 Byte (미친 덤프트럭 🐘)                            │
+│   - 개발 난이도: "정수(Integer) 계산만 써서 구현 쉬움 ㅋ 초보도 짬."               │
+│   - 포지션: 덩치 커도 상관없는 구글 서버, PC, 최신 웹 브라우저의 100% 장악 메인 무기.  │
+│                                                                                │
+│ [ 🏎️ FN-DSA (Falcon) - 좁은 골목길 다이어트 대장 ]                                │
+│   - 공개키 + 서명 크기: 약 1,500 Byte (과거 RSA급 초박형! 🪶)                      │
+│   - 개발 난이도: "지옥 ☠️ 실수(Float) 부동소수점 수학 계산하다 CPU 반올림 꼬여서 미침."│
+│   - 포지션: 코딩하기 토 나오지만, 좁아터진 스마트 카드 칩셋, IoT 통신망의 유일한 구원 투수.│
+│                                                                                │
+│ [ 🛡️ SLH-DSA (SPHINCS+) - 무지성 콘크리트 플랜 B 방패 ]                          │
+│   - 공개키 + 서명 크기: 약 17,000 Byte (건물만 한 괴물 크기 🦖)                      │
+│   - 포지션: 만약 미래 수학자가 격자 암호를 다 깨부수면, 마지막으로 대피할 해시(Hash) 벙커.│
+└────────────────────────────────────────────────────────────────────────────────┘
+```
 
 위의 다이어그램에서 보듯, 팔콘의 공개키와 서명을 합친 크기(약 1.5KB 이내)는 과거 우리가 쓰던 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/)-2048 서명의 덩치와 거의 맞먹을 정도로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)된 기적의 수치다. 과거 네트워크 장비들의 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 뼈대를 교체하지 않고도 양자 내성 시대에 안착할 수 있는 최고의 [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)([Bridge](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)) 호환성을 제공한다.
 
@@ -85,14 +85,14 @@ NIST는 인터넷 생태계의 다양성을 위해 투트랙 전략을 꺼내 �
 
 ### 실무 판단 시나리오
 1. <strong>군사용 무인 드론(UAV) <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/">펌웨어</a> OTA(<a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/523_iot_firmware_ota_security/">Over-The-Air</a>) 무선 업데이트 망 방어</strong>: 수백 킬로미터 상공의 군사용 드론 100대 군단에게 작전 소프트웨어 패치 파일을 쏜다. [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)로 무장한 적군 해커가 가짜 악성코드 패치를 섞어 가로챌 수 있으니 무조건 [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) 양자 서명 도장을 꽝 찍어 보내야 한다.
-- **판단**: 드론의 초장거리 무선 통신망([로라](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/283_lora_low_rank_adaptation/) [LoRa](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/) 깡통망 등)은 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 파이프가 바닥을 기어 다닌다. 여기에 딜리슘 3KB짜리 뚱뚱한 서명을 던지면 허공에서 패킷이 쪼개지다 분실(Drop)되어 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 업데이트가 수십 분 걸리거나 끊겨버려 드론이 깡통 추락한다.
-**아키텍트 팩폭 결단 🛡️**: "야!! 드론 통신 파이프에 딜리슘 쳐넣지 마 터져!! 즉시 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">FALCON FN-DSA [압축</a> 핀셋 서명]</strong>으로 660바이트 다이어트 컷해서 날려 쾅!!" 드론이 단 한 번의 끊김 없이 광속으로 가벼운 도장을 수신해 위변조 검사(Verify)를 완료하고 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 패치를 수행하는 우주 방어 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 생존망의 융합 승리다.
-2. <strong>금융권 IC <a href="/knowledge-base/studynote/09_security/12_identity_threat_advanced/607_smart_card/">스마트 카드</a> 칩의 물리적 메모리 한계 돌파</strong>: 신용카드나 여권에 박혀있는 금색 IC 칩 내부 보안 요소(Secure Element)는 메모리 공간(RAM)이 고작 1~2KB밖에 안 되는 극도의 빈민촌이다. 딜리슘([ML-DSA](/knowledge-base/studynote/09_security/03_network_security/147_crystals_dilithium_ml_dsa/)) 공개키를 이 칩에 밀어 넣으려고 하면 "Memory Out of Bounds" 파국 에러를 뿜으며 아예 칩에 들어가 지지가 않는다. 과거 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 2048비트 크기에 완벽하게 최적화 설계되어 굳어버린 구형 하드웨어 쇳덩이의 한계다.
-- **판단**: 얇은 키 사이즈 1.5KB를 달성한 팔콘만이 이 좁고 척박한 [스마트 카드](/knowledge-base/studynote/09_security/12_identity_threat_advanced/607_smart_card/) 칩셋 구멍 속으로 온전히 들어갈 자격표를 갖춘 유일한 [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) 규격이다. 하드웨어의 재설계 비용 수천억 원을 세이브해 주는 강력한 스텔스 마이그레이션 백신이다.
+   - **판단**: 드론의 초장거리 무선 통신망([로라](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/283_lora_low_rank_adaptation/) [LoRa](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/) 깡통망 등)은 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 파이프가 바닥을 기어 다닌다. 여기에 딜리슘 3KB짜리 뚱뚱한 서명을 던지면 허공에서 패킷이 쪼개지다 분실(Drop)되어 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 업데이트가 수십 분 걸리거나 끊겨버려 드론이 깡통 추락한다. 
+   **아키텍트 팩폭 결단 🛡️**: "야!! 드론 통신 파이프에 딜리슘 쳐넣지 마 터져!! 즉시 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">FALCON FN-DSA [압축</a> 핀셋 서명]</strong>으로 660바이트 다이어트 컷해서 날려 쾅!!" 드론이 단 한 번의 끊김 없이 광속으로 가벼운 도장을 수신해 위변조 검사(Verify)를 완료하고 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 패치를 수행하는 우주 방어 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 생존망의 융합 승리다.
+2. <strong>금융권 IC <a href="/knowledge-base/studynote/09_security/12_identity_threat_advanced/607_smart_card/">스마트 카드</a> 칩의 물리적 메모리 한계 돌파</strong>: 신용카드나 여권에 박혀있는 금색 IC 칩 내부 보안 요소(Secure Element)는 메모리 공간(RAM)이 고작 1~2KB밖에 안 되는 극도의 빈민촌이다. 딜리슘([ML-DSA](/knowledge-base/studynote/09_security/03_network_security/147_crystals_dilithium_ml_dsa/)) 공개키를 이 칩에 밀어 넣으려고 하면 "Memory Out of Bounds" 파국 에러를 뿜으며 아예 칩에 들어가 지지가 않는다. 과거 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 2048비트 크기에 완벽하게 최적화 설계되어 굳어버린 구형 하드웨어 쇳덩이의 한계다. 
+   - **판단**: 얇은 키 사이즈 1.5KB를 달성한 팔콘만이 이 좁고 척박한 [스마트 카드](/knowledge-base/studynote/09_security/12_identity_threat_advanced/607_smart_card/) 칩셋 구멍 속으로 온전히 들어갈 자격표를 갖춘 유일한 [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) 규격이다. 하드웨어의 재설계 비용 수천억 원을 세이브해 주는 강력한 스텔스 마이그레이션 백신이다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **일반 웹 백엔드 서버(WAS) 환경에 용량 아끼겠다고 무지성 팔콘 도입(오버엔지니어링 늪)**: 돈 많은 은행의 최신 AWS 클라우드 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/). 트래픽 빵빵하게 도는 넓은 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 파이프에서, 주니어 개발자가 "오 팔콘이 용량 젤 작아서 빠르대여 ㅋ" 라며 서버 인증서를 딜리슘 대신 FN-DSA(팔콘)로 떡칠했다.
-**대재앙 발동 💥**: 팔콘의 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) [FFT](/knowledge-base/studynote/08_algorithm_stats/07_numerical/126_fft/) 복잡한 서명 수학 계산을 돌리느라, 넓은 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)은 텅텅 비어 노는데 정작 은행 WAS 서버의 CPU 연산 코어가 피를 토하며 병목 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 뻗어버렸다. 넉넉한 인프라에서 괜히 구현 복잡도 높은 핀셋 툴을 쓰다가 시스템 CPU를 셀프 연쇄 폭파시킨 무지한 소탐대실()의 교과서적 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다. 클라우드는 닥치고 범용 대장 '딜리슘'이 진리다.
+- **일반 웹 백엔드 서버(WAS) 환경에 용량 아끼겠다고 무지성 팔콘 도입(오버엔지니어링 늪)**: 돈 많은 은행의 최신 AWS 클라우드 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/). 트래픽 빵빵하게 도는 넓은 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 파이프에서, 주니어 개발자가 "오 팔콘이 용량 젤 작아서 빠르대여 ㅋ" 라며 서버 인증서를 딜리슘 대신 FN-DSA(팔콘)로 떡칠했다. 
+  **대재앙 발동 💥**: 팔콘의 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) [FFT](/knowledge-base/studynote/08_algorithm_stats/07_numerical/126_fft/) 복잡한 서명 수학 계산을 돌리느라, 넓은 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)은 텅텅 비어 노는데 정작 은행 WAS 서버의 CPU 연산 코어가 피를 토하며 병목 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 뻗어버렸다. 넉넉한 인프라에서 괜히 구현 복잡도 높은 핀셋 툴을 쓰다가 시스템 CPU를 셀프 연쇄 폭파시킨 무지한 소탐대실(小貪大失)의 교과서적 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다. 클라우드는 닥치고 범용 대장 '딜리슘'이 진리다.
 
 - **📢 섹션 요약 비유**: 은행 클라우드 서버(엄청 넓은 8차선 고속도로)에서 팔콘 오토바이를 타는 짓은 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)입니다. 길도 뻥뻥 뚫렸는데 굳이 복잡한 오토바이 엔진을 돌리다 퍼질 필요 없이, 그냥 튼튼하고 만들기 쉬운 딜리슘 덤프트럭을 쌩쌩 굴리는 게 최곱니다. 팔콘 오토바이는 진짜 좁아터진 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 드론 골목길([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 가뭄 지대)에 배달 갈 때만 아껴뒀다 꺼내는 필살기입니다.
 
@@ -119,27 +119,25 @@ NIST는 인터넷 생태계의 다양성을 위해 투트랙 전략을 꺼내 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">RSA-2048 전자서명 / 서명 크기가 256바이트로 작고 얇아 IoT 스마트 카드 생태계 평정</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">쇼어 알고리즘 (Shor's Algorithm)의 양자 컴퓨터 위협 대두 / RSA/ECC 100% 멸망 사형 선고</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NIST PQC 공모전 양자 내성 서명 격돌</div></div>
-<div class="kb-diagram-note">후보 1: Dilithium (딜리슘) ─▶ 튼튼하지만 크기가 2.4KB 폭증 🐘 (네트워크 병목 붕괴)</div>
-<div class="kb-diagram-note">후보 2: FALCON (팔콘) ─▶ FFT 수학 다이어트로 RSA급 초소형 660바이트 달성 🪶</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2024년 NIST 투트랙 최종 표준 채택 확정</div></div>
-<div class="kb-diagram-note">범용 1대장: ML-DSA (Dilithium 딜리슘) 표준 확정</div>
-<div class="kb-diagram-note">니치 마켓 구원 투수: FN-DSA (Falcon 팔콘) 표준 확정</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드망(딜리슘)과 엣지/IoT 소형 센서망(팔콘)의 거대한 투트랙 하이브리드 PQC 생태계 안착</div>
-</div>
-</div>
-
-
+```text
+RSA-2048 전자서명 / 서명 크기가 256바이트로 작고 얇아 IoT 스마트 카드 생태계 평정
+    │
+    ▼
+쇼어 알고리즘 (Shor's Algorithm)의 양자 컴퓨터 위협 대두 / RSA/ECC 100% 멸망 사형 선고
+    │
+    ▼
+[NIST PQC 공모전 양자 내성 서명 격돌]
+ 후보 1: Dilithium (딜리슘) ─▶ 튼튼하지만 크기가 2.4KB 폭증 🐘 (네트워크 병목 붕괴)
+ 후보 2: FALCON (팔콘)      ─▶ FFT 수학 다이어트로 RSA급 초소형 660바이트 달성 🪶
+    │
+    ▼
+[2024년 NIST 투트랙 최종 표준 채택 확정]
+ 범용 1대장: ML-DSA (Dilithium 딜리슘) 표준 확정
+ 니치 마켓 구원 투수: FN-DSA (Falcon 팔콘) 표준 확정
+    │
+    ▼
+클라우드망(딜리슘)과 엣지/IoT 소형 센서망(팔콘)의 거대한 투트랙 하이브리드 PQC 생태계 안착
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

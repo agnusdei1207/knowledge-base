@@ -30,25 +30,27 @@ tags = ["studynote-data-engineering"]
 
 수식으로는 $D_M(x) = \sqrt{(x - \mu)^T S^{-1} (x - \mu)}$ 로 표현된다. (여기서 $x$는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 벡터, $\mu$는 평균 벡터, $S$는 공분산 행렬이다.)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유클리드 거리와 마할라노비스 거리의 결정적 차이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Y 변수</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ * B (Outlier)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ (타원형 데이터 분포)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ * A (Normal)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Center)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ X 변수</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">분석</div><div class="kb-diagram-note">중심으로부터의 절대적인 직선 거리: B &lt; A</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하지만 실제 분포를 고려하면 A는 정상 범주, B는 완전한 이상치다.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마할라노비스 거리는 $S^{-1}$ (공분산 역행렬)을 통해 타원을 원으로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">찌그러트려 보정(Whitening)하므로 올바르게 판단할 수 있다.</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│        유클리드 거리와 마할라노비스 거리의 결정적 차이              │
+├──────────────────────────────────────────────────────────────┤
+│ Y 변수                                                       │
+│  ▲                                      * B (Outlier)        │
+│  │                                                           │
+│  │                    / (타원형 데이터 분포)                    │
+│  │                  /                                        │
+│  │                /             * A (Normal)                 │
+│  │          (Center)                                         │
+│  │            /                                              │
+│  │          /                                                │
+│  └─────────────────────────────────────────────────────▶ X 변수 │
+│                                                              │
+│ [분석] 중심으로부터의 절대적인 직선 거리: B < A                │
+│ 하지만 실제 분포를 고려하면 A는 정상 범주, B는 완전한 이상치다.      │
+│ 마할라노비스 거리는 $S^{-1}$ (공분산 역행렬)을 통해 타원을 원으로   │
+│ 찌그러트려 보정(Whitening)하므로 올바르게 판단할 수 있다.           │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 과정은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 가진 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)의 크기로 축을 나누어주는 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)(Standardization)를 수행함과 동시에, 축이 틀어져 있는(상관관계) 것을 회전시켜 독립적인 상태로 펴주는 역할을 한다. 결과적으로 타원형 분포를 완벽한 구형으로 변환한 뒤 거리를 재는 것과 같다.
 
@@ -104,25 +106,22 @@ tags = ["studynote-data-engineering"]
 | **카이제곱 분포 (Chi-Square Distribution)** | 정규 분포를 따르는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 마할라노비스 거리 제곱 값은 통계적으로 카이제곱 분포를 따름 ([이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/) 임계값 설정에 활용) |
 
 ### 📈 관련 키워드 및 발전 흐름도
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">유클리드 거리 (Euclidean Distance)</div>
-<div class="kb-diagram-note">(직선 최단 거리, 상관성 무시)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">표준화 유클리드 거리 (Standardized Euclidean)</div>
-<div class="kb-diagram-note">(변수 간 단위 차이 분산 보정)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">마할라노비스 거리 (Mahalanobis Distance)</div>
-<div class="kb-diagram-note">(공분산 행렬 반영, 타원형 분포 보정)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">다차원 이상치 탐지 및 패턴 분류</div>
-<div class="kb-diagram-note">(FDS, 불량 탐지 시스템 고도화)</div>
-</div>
-</div>
-
-
+```text
+유클리드 거리 (Euclidean Distance)
+(직선 최단 거리, 상관성 무시)
+    │
+    ▼
+표준화 유클리드 거리 (Standardized Euclidean)
+(변수 간 단위 차이 분산 보정)
+    │
+    ▼
+마할라노비스 거리 (Mahalanobis Distance)
+(공분산 행렬 반영, 타원형 분포 보정)
+    │
+    ▼
+다차원 이상치 탐지 및 패턴 분류
+(FDS, 불량 탐지 시스템 고도화)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 하늘을 나는 새가 우리 집에서 친구 집까지 일직선으로 날아가는 길이를 '유클리드 거리'라고 해요.

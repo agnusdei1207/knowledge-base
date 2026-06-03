@@ -25,22 +25,26 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 2-주소 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 핵심인 "왼쪽 [피연산자](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/) 덮어쓰기"를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2-주소 명령어의 기본 의미: 왼쪽을 읽고, 다시 왼쪽에 씀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">명령어: ADD R1, R2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">연산 전</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">R1 = 10 R2 = 20</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ALU (Arithmetic Logic Unit)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">연산 후</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">R1 = 30 R2 = 20</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심: 결과는 새 레지스터가 아니라 기존 R1 자리를 덮어쓴다.</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│      2-주소 명령어의 기본 의미: 왼쪽을 읽고, 다시 왼쪽에 씀 │
+├──────────────────────────────────────────────────────────────┤
+│ 명령어: ADD R1, R2                                          │
+│                                                              │
+│ 연산 전                                                     │
+│   R1 = 10          R2 = 20                                  │
+│      │                │                                     │
+│      └──────┐  ┌──────┘                                     │
+│             ▼  ▼                                            │
+│         ALU (Arithmetic Logic Unit)                         │
+│             │                                               │
+│             ▼                                               │
+│ 연산 후                                                     │
+│   R1 = 30          R2 = 20                                  │
+│                                                              │
+│ 핵심: 결과는 새 레지스터가 아니라 기존 R1 자리를 덮어쓴다.  │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 구조는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 자체는 짧게 만들지만, 나중에 원래 `R1` 값이 다시 필요하면 그 전에 `MOV` (Move) 같은 복사 명령을 넣어야 한다. 그래서 2-주소 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 "한 줄은 짧지만, 프로그램 전체 줄 수는 늘 수 있는" 절충안으로 이해해야 한다.
 
@@ -60,22 +64,21 @@ tags = ["studynote-computer-architecture"]
 
 실제 실행 흐름은 단순해 보이지만, 소프트웨어 관점에서는 제약이 크다. 예를 들어 `Y = (A + B) * C`를 계산할 때 3-주소 구조라면 중간 결과를 새 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 자연스럽게 둘 수 있지만, 2-주소 구조에서는 덮어쓰기 때문에 중간 복사 전략이 중요해진다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2-주소 명령어로 수식을 풀 때 생기는 복사 부담</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">목표 식: Y = (A + B) * C</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) MOV R1, A ── R1에 A 복사</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) ADD R1, B ── R1 = R1 + B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) MUL R1, C ── R1 = R1 * C</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4) MOV Y, R1 ── 결과 저장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3-주소였다면 중간 결과를 새 목적지에 둘 수 있지만,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2-주소는 덮어쓰기 때문에 사전 복사와 사후 저장이 잦아진다.</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│      2-주소 명령어로 수식을 풀 때 생기는 복사 부담          │
+├──────────────────────────────────────────────────────────────┤
+│ 목표 식: Y = (A + B) * C                                    │
+│                                                              │
+│ 1) MOV R1, A      ── R1에 A 복사                            │
+│ 2) ADD R1, B      ── R1 = R1 + B                            │
+│ 3) MUL R1, C      ── R1 = R1 * C                            │
+│ 4) MOV Y, R1      ── 결과 저장                              │
+│                                                              │
+│ 3-주소였다면 중간 결과를 새 목적지에 둘 수 있지만,          │
+│ 2-주소는 덮어쓰기 때문에 사전 복사와 사후 저장이 잦아진다.  │
+└──────────────────────────────────────────────────────────────┘
+```
 
 그래서 2-주소 아키텍처의 평가는 단순히 "주소가 2개다"로 끝나지 않는다. <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 한 개의 폭은 줄지만, 원본 보존 비용이 프로그램 전체로 흩어지는 구조</strong>라는 점이 핵심이다. 특히 메모리 [피연산자](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/)를 허용하는 [CISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/196_cisc/) (Complex [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Set Computer) 계열에서는 `ADD R1, [MEM]` 같은 형태로 이 오버헤드를 일부 줄이기도 했다.
 
@@ -148,25 +151,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">누산기 중심 1-주소 명령어</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">범용 레지스터 도입</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">2-주소 명령어 확산</div>
-<div class="kb-diagram-tree-item" style="--depth:6">▶ 코드 밀도 향상</div>
-<div class="kb-diagram-tree-item" style="--depth:6">▶ 파괴적 대입 문제 발생</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">레지스터 리네이밍 · 마이크로-연산 분해</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">내부 실행의 3-주소화 · 벡터 확장 비파괴 연산 강화</div>
-</div>
-</div>
-
-
+```text
+누산기 중심 1-주소 명령어
+            │
+            ▼
+범용 레지스터 도입
+            │
+            ▼
+2-주소 명령어 확산
+            │
+            ├─▶ 코드 밀도 향상
+            │
+            └─▶ 파괴적 대입 문제 발생
+                       │
+                       ▼
+레지스터 리네이밍 · 마이크로-연산 분해
+                       │
+                       ▼
+내부 실행의 3-주소화 · 벡터 확장 비파괴 연산 강화
+```
 
 이 흐름은 "병목 해소 → 절충 채택 → 부작용 노출 → 내부 보완"이라는 진화를 보여준다.
 

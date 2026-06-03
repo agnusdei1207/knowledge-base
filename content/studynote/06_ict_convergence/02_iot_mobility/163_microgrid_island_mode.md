@@ -44,22 +44,21 @@ tags = ["studynote-ict-convergence"]
 
 아래 그림은 평상시와 아일랜드 모드 전환 시 흐름을 함께 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마이크로그리드의 평상시/비상시 전환 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Utility Grid ── PCC ── Local Bus ── Critical Loads</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Non-Critical Loads</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ DER: Solar / Fuel Cell / Generator</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ ESS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ EMS / Microgrid Controller</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Fault Detected → PCC Open → ESS Fast Support → Load Shedding</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ DER Rebalance → Stable Island Mode</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                 마이크로그리드의 평상시/비상시 전환 구조            │
+├──────────────────────────────────────────────────────────────────────┤
+│ Utility Grid ── PCC ── Local Bus ── Critical Loads                  │
+│                    │            └─ Non-Critical Loads               │
+│                    │                                                 │
+│                    ├─ DER: Solar / Fuel Cell / Generator            │
+│                    ├─ ESS                                            │
+│                    └─ EMS / Microgrid Controller                     │
+│                                                                      │
+│ Fault Detected → PCC Open → ESS Fast Support → Load Shedding        │
+│               → DER Rebalance → Stable Island Mode                  │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 아일랜드 모드의 기술적 핵심은 전환 순간의 불안정을 버티는 것이다. 상위 계통은 원래 거대한 관성원 역할을 하므로, 분리 직후에는 주파수와 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 흔들리기 쉽다. 이때 ESS와 인버터 기반 전원이 먼저 빠르게 응답하고, 필요하면 비중요 부하를 차단해 수급 균형을 맞춘다. 이후에는 드룹 제어 (Droop Control), 2차 제어, 블랙스타트 (Black Start) 절차가 연계되어 장시간 독립 운전을 뒷받침한다.
 
@@ -85,7 +84,7 @@ tags = ["studynote-ict-convergence"]
 
 따라서 마이크로그리드는 단순 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 발전 개념이 아니라, <strong>전력공학·제어공학·통신·<a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a>계전이 만나는 융합 아키텍처</strong>로 이해해야 한다.
 
-- **📢 섹션 요약 비유**: 계통 연계 모드가 본사 창고와 수시로 물건을 주고받는 지점이라면, 아일랜드 모드는 본사와 연락이 끊겨도 지점 창고 물량만으로 우선 고객을 응대해야 하는 비상 운영 체계와 같다.
+- **📢 섹션 요약 비유**: 계통 연계 모드가 본사 창고와 수시로 물건을 주고받는 지점이라면, 아일랜드 모드는 본사와 연락이 끊겨도 지점 창고 수량만으로 우선 고객을 응대해야 하는 비상 운영 체계와 같다.
 
 ---
 
@@ -138,23 +137,21 @@ tags = ["studynote-ict-convergence"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">중앙집중 전력망</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">스마트 그리드 (계측 · 통신 · 제어)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">마이크로그리드</div>
-<div class="kb-diagram-tree-item" style="--depth:2">계통 연계 모드</div>
-<div class="kb-diagram-tree-item" style="--depth:2">아일랜드 모드</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ESS · V2G · 자율 에너지 운영</div>
-</div>
-</div>
-
-
+```text
+중앙집중 전력망
+    │
+    ▼
+스마트 그리드 (계측 · 통신 · 제어)
+    │
+    ▼
+마이크로그리드
+    │
+    ├─ 계통 연계 모드
+    └─ 아일랜드 모드
+            │
+            ▼
+ESS · V2G · 자율 에너지 운영
+```
 
 이 흐름은 "대규모 송전 중심 → 지능형 전력망 → 지역 자립형 전력망 → 독립 운전 고도화"로 이어지는 발전 경로를 보여준다.
 

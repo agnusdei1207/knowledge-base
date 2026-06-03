@@ -41,20 +41,17 @@ tags = ["studynote-computer-architecture"]
 
 ### 1. 셀 레벨 코딩 구조
 
+```text
+전압 레벨 수에 따른 1셀당 비트 수 및 트레이드오프
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">전압 레벨 수에 따른 1셀당 비트 수 및 트레이드오프</div>
-<div class="kb-diagram-note">SLC (Single Level Cell) MLC (Multi Level Cell) TLC/QLC</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전압 2단계 → 1bit</div><div class="kb-diagram-cell">전압 4단계 → 2bit</div><div class="kb-diagram-cell">8/16단계 → 3/4bit</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수명: 100K P/E</div><div class="kb-diagram-cell">수명: 10K P/E</div><div class="kb-diagram-cell">수명: 1K~3K P/E</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">속도: 빠름</div><div class="kb-diagram-cell">속도: 중간</div><div class="kb-diagram-cell">속도: 느림</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">용량: 적음</div><div class="kb-diagram-cell">용량: 중간</div><div class="kb-diagram-cell">용량: 최대</div></div>
-</div>
-</div>
-
-
+  SLC (Single Level Cell)   MLC (Multi Level Cell)   TLC/QLC
+  ┌────────────────────┐    ┌──────────────────────┐  ┌────────────────┐
+  │  전압 2단계 → 1bit  │    │  전압 4단계 → 2bit   │  │ 8/16단계 → 3/4bit│
+  │  수명: 100K P/E     │    │  수명:   10K P/E     │  │ 수명: 1K~3K P/E │
+  │  속도: 빠름          │    │  속도:   중간        │  │ 속도: 느림      │
+  │  용량: 적음          │    │  용량:   중간        │  │ 용량: 최대      │
+  └────────────────────┘    └──────────────────────┘  └────────────────┘
+```
 
 같은 면적의 칩에 더 많은 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 구겨 넣기 위해 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 레벨을 세분화한다. [SLC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/597_slc_caching/)(Single Level Cell)는 셀당 1비트, MLC(Multi Level Cell)는 2비트, TLC(Triple Level Cell)는 3비트, QLC(Quad Level Cell)는 4비트를 저장한다. [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수가 늘수록 용량은 늘지만, [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 판별 오류 가능성 증가로 속도·수명이 감소한다.
 
@@ -62,22 +59,18 @@ tags = ["studynote-computer-architecture"]
 
 평면 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)은 20nm 이하에서 인접 셀 간 전기 누설([Crosstalk](/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/))과 제조 수율 문제로 한계를 맞았다. 해결책은 **수직 적층(3D V-NAND)** 이었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">2D NAND (평면) 3D V-NAND (수직 적층)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓</div><div class="kb-diagram-cell">Layer 256</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(셀이 미세할수록 간섭↑)</div><div class="kb-diagram-cell">Layer 255</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">···</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">한계: ~20nm 이하 붕괴</div><div class="kb-diagram-cell">Layer 2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Layer 1 (기판)</div></div>
-<div class="kb-diagram-note">동일 면적, 셀 간격 ↓ 수직 구멍(Channel Hole)으로</div>
-<div class="kb-diagram-note">→ 크로스톡(Crosstalk) ↑ 셀을 관통 연결 → 간섭↓, 수명↑</div>
-</div>
-</div>
-
-
+```text
+2D NAND (평면)                      3D V-NAND (수직 적층)
+┌──────────────────────┐            ┌────────────────────────┐
+│ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓ ▓  │            │ Layer 256              │
+│ (셀이 미세할수록 간섭↑) │            │ Layer 255              │
+│                      │            │ ···                    │
+│  한계: ~20nm 이하 붕괴 │            │ Layer 2                │
+└──────────────────────┘            │ Layer 1 (기판)          │
+                                    └────────────────────────┘
+  동일 면적, 셀 간격 ↓                 수직 구멍(Channel Hole)으로
+  → 크로스톡(Crosstalk) ↑            셀을 관통 연결 → 간섭↓, 수명↑
+```
 
 삼성전자가 2013년 처음 상용화한 V-NAND는 셀을 24층부터 시작해 현재 200층 이상으로 쌓으며 집적도를 유지하고 있다. 황의 법칙의 수직 연장이다.
 
@@ -155,23 +148,22 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">디지털 멀티미디어 폭발 → 낸드 플래시 수요 급증</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">황의 법칙 (Hwang's Law) — 1년 2배 집적도 성장</div>
-<div class="kb-diagram-tree-item" style="--depth:2">SLC → MLC → TLC → QLC (셀 다중화)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">2D 공정 미세화 → 20nm 물리 한계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">3D V-NAND (Vertical NAND) 수직 적층</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">200층+ 적층 / PLC 연구 / SCM 융합</div>
-</div>
-</div>
-
-
+```text
+디지털 멀티미디어 폭발 → 낸드 플래시 수요 급증
+    │
+    ▼
+황의 법칙 (Hwang's Law) — 1년 2배 집적도 성장
+    │
+    ├─► SLC → MLC → TLC → QLC (셀 다중화)
+    │
+    └─► 2D 공정 미세화 → 20nm 물리 한계
+              │
+              ▼
+        3D V-NAND (Vertical NAND) 수직 적층
+              │
+              ▼
+        200층+ 적층 / PLC 연구 / SCM 융합
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

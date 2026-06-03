@@ -25,19 +25,17 @@ tags = ["studynote-design-supervision"]
 
 즉 프론트 컨트롤러의 필요성은 "요청을 한곳으로 모으면 멋있다"가 아니라, <strong>분산된 진입점이 만드는 중복·누락·불일치를 구조적으로 제거하는 것</strong>에 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Why a single entry point is needed</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/login ─▶ LoginServlet ─▶ auth / log / error format duplicated</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/order ─▶ OrderServlet ─▶ auth / log / error format duplicated</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/admin ─▶ AdminServlet ─▶ auth / log / error format duplicated</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">all requests ─▶ Front Controller ─▶ common policy ─▶ target handler</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Why a single entry point is needed                                   │
+├──────────────────────────────────────────────────────────────────────┤
+│ /login ─▶ LoginServlet ─▶ auth / log / error format duplicated       │
+│ /order ─▶ OrderServlet ─▶ auth / log / error format duplicated       │
+│ /admin ─▶ AdminServlet ─▶ auth / log / error format duplicated       │
+│                                                                      │
+│ all requests ─▶ Front Controller ─▶ common policy ─▶ target handler  │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 프론트 컨트롤러는 건물마다 따로 경비를 두는 대신, 중앙 로비에서 방문증 확인과 안내를 한 번에 처리하는 안내 데스크와 같다.
 
@@ -58,25 +56,24 @@ tags = ["studynote-design-supervision"]
 
 대표 사례인 Spring MVC ([Model-View-Controller](/knowledge-base/studynote/11_design_supervision/06_exam_summary/405_mvc_m_v_c/))에서는 DispatcherServlet이 프론트 컨트롤러를 맡는다. 요청이 들어오면 HandlerMapping이 어떤 컨트롤러를 쓸지 결정하고, HandlerAdapter가 호출을 표준화하며, Interceptor가 전후 처리를 감싼다. 이후 ViewResolver나 HttpMessageConverter가 최종 응답을 만든다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Front Controller request flow</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">request</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Front Controller</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ HandlerMapping -&gt; choose handler</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Interceptor preHandle -&gt; auth / trace / policy</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ HandlerAdapter -&gt; invoke controller</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Interceptor postHandle-&gt; enrich model</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ ExceptionResolver -&gt; normalize error response</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ ViewResolver / MessageConverter -&gt; HTML / JSON / file</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Response</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Front Controller request flow                                        │
+├──────────────────────────────────────────────────────────────────────┤
+│ Client                                                               │
+│   │ request                                                          │
+│   ▼                                                                  │
+│ Front Controller                                                     │
+│   ├─ HandlerMapping        -> choose handler                         │
+│   ├─ Interceptor preHandle -> auth / trace / policy                  │
+│   ├─ HandlerAdapter        -> invoke controller                      │
+│   ├─ Interceptor postHandle-> enrich model                           │
+│   ├─ ExceptionResolver     -> normalize error response               │
+│   └─ ViewResolver / MessageConverter -> HTML / JSON / file           │
+│   ▼                                                                  │
+│ Response                                                             │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조의 핵심은 모든 요청을 중앙에서 통제하되, 세부 동작은 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 객체들로 분해해 두는 것이다. 그래야 프론트 컨트롤러가 병목이 아니라 <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>의 접점</strong>이 된다. 반대로 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 비즈니스 판단, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근까지 한 클래스에 몰리면 단일 진입점이 아니라 단일 실패 지점으로 변한다.
 
@@ -157,26 +154,24 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">개별 Servlet / Page Controller</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">공통 처리 중복 증가</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Front Controller 도입</div>
-<div class="kb-diagram-tree-item" style="--depth:2">단일 진입점</div>
-<div class="kb-diagram-tree-item" style="--depth:2">중앙 라우팅</div>
-<div class="kb-diagram-tree-item" style="--depth:2">공통 정책 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Filter / Interceptor / Exception Resolver 확장</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">MVC 프레임워크 표준화</div>
-</div>
-</div>
-
-
+```text
+개별 Servlet / Page Controller
+    │
+    ▼
+공통 처리 중복 증가
+    │
+    ▼
+Front Controller 도입
+    ├─ 단일 진입점
+    ├─ 중앙 라우팅
+    └─ 공통 정책 적용
+    │
+    ▼
+Filter / Interceptor / Exception Resolver 확장
+    │
+    ▼
+MVC 프레임워크 표준화
+```
 
 이 흐름은 웹 애플리케이션이 개별 진입점 중심 구조에서 출발해, 공통 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)을 중앙화한 프레임워크 중심 구조로 성숙하는 과정을 보여 준다.
 

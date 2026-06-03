@@ -54,19 +54,13 @@ tags = ["studynote-security"]
 
 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/) 통제는 세 단계를 거친다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">보이는 경고</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">행동의 위험 인식</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">시도 포기 또는 지연</div>
-</div>
-</div>
-
-
+```text
+보이는 경고
+    ↓
+행동의 위험 인식
+    ↓
+시도 포기 또는 지연
+```
 
 핵심은 가시성(Visibility)과 책임성(Accountability)이다. 공격자가 "이 행동이 나중에 특정될 수 있다"고 생각하면, 단순한 충동이나 실험성 위반은 줄어든다.
 
@@ -103,21 +97,15 @@ tags = ["studynote-security"]
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">보이는 경고</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">심리적 부담</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">행동 포기</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">예방 / 탐지 / 보완 통제와 결합</div>
-</div>
-</div>
-
-
+```text
+보이는 경고
+   ↓
+심리적 부담
+   ↓
+행동 포기
+   ↓
+예방 / 탐지 / 보완 통제와 결합
+```
 
 ---
 

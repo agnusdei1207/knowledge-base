@@ -23,20 +23,23 @@ tags = ["operating_system"]
 
 이 그림은 운영체제의 전체 지식 체계를 시험 관점에서 구조화한 것이다. 하드웨어 추상화부터 응용 서비스 지원까지의 논리적 흐름을 시각화한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">운영체제(OS) 시험 핵심 지식 체계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">가상화/클라우드</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">최신 커널</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">보안</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(K8s, Docker) (eBPF, io_uring) (Dual Mode)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">자원 관리</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">병행 제어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Memory, FS) (Sync, Deadlock)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">실행 관리</div><div class="kb-diagram-note">(Process, Scheduling)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│             운영체제(OS) 시험 핵심 지식 체계                 │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│       [ 가상화/클라우드 ] ◀─────▶ [ 최신 커널 ] ◀─────▶ [ 보안 ] │
+│       (K8s, Docker)        (eBPF, io_uring)   (Dual Mode)   │
+│             ▲                     ▲                 ▲       │
+│             └───────┬─────────────┴────────┬────────┘       │
+│                     │                      │                │
+│               [ 자원 관리 ] ◀──────▶ [ 병행 제어 ]           │
+│               (Memory, FS)         (Sync, Deadlock)         │
+│                                                             │
+│               [ 실행 관리 ] (Process, Scheduling)           │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '계층적 종속성'이다. 프로세스 관리를 이해하지 못하면 스케줄링을 논할 수 없고, 메모리 관리의 페이징 원리를 모르면 컨테이너의 격리 수준을 설명할 수 없다. 실무에서는 이러한 모든 레이어가 유기적으로 맞물려 돌아가므로, 기술사는 각 레이어 간의 인터페이스와 파급 효과를 꿰뚫어 보아야 한다.
 
@@ -88,20 +91,25 @@ tags = ["operating_system"]
 
 이 구조도는 유저 모드와 커널 모드의 보안 경계와 시스템 콜 처리 흐름을 보여준다.
 
+```text
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Secure Mode Transition Flow</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">User Application  / 사용자 애플리케이션</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">------- ------- (Software Interrupt / syscall) ----------</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">System Call Interface  / 시스템 호출 인터페이스</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Kernel Mode  / 커널 모드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Resource Protection  / 리소스 보호</div><div class="kb-diagram-node">Task Execution  / 작업 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Check Permissions) (Hardware Access)</div></div>
-</div>
-</div>
-
-
+┌─────────────────────────────────────────────────────────────┐
+│                 Secure Mode Transition Flow                 │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ User Application  / 사용자 애플리케이션]                                      │
+│          │                                                  │
+│   -------┼------- (Software Interrupt / syscall) ----------  │
+│          ▼                                                  │
+│   [ System Call Interface  / 시스템 호출 인터페이스] ──▶ [ Kernel Mode  / 커널 모드]             │
+│                                         │                   │
+│          ┌──────────────────────────────┴──────┐            │
+│          ▼                                     ▼            │
+│   [ Resource Protection  / 리소스 보호]               [ Task Execution  / 작업 실행]  │
+│   (Check Permissions)                   (Hardware Access)   │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 성능과 안정성의 균형을 잡는 것은 줄타기와 같습니다. 한쪽으로 너무 치우치면 떨어지기(시스템 마비) 때문에, 데이터와 이론이라는 양팔 저울을 잘 활용해야 합니다.
 
@@ -119,19 +127,20 @@ tags = ["operating_system"]
 
 이 도식은 교착 상태 (Deadlock) 발생 시 기술사가 내려야 할 판단 트리를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Deadlock Recovery Decision Tree</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Deadlock Detected!</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Can we Rollback?</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">YES</div><div class="kb-diagram-note">──</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NO</div><div class="kb-diagram-connector">▼</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Checkpoint Restore</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Select Victim Process</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Least Cost?</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Kill &amp; Free</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│               Deadlock Recovery Decision Tree                │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [Deadlock Detected!] ──▶ [Can we Rollback?] ──▶ [YES] ──┐ │
+│          │                                         │      │
+│        [NO]                                        ▼      │
+│          │                                [Checkpoint Restore]│
+│          ▼                                                │
+│   [Select Victim Process] ──▶ [Least Cost?] ──▶ [Kill & Free]│
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 기술사의 진단은 'CSI 과학 수사'와 같습니다. 시스템이 남긴 흔적(로그, 메트릭)을 추적하여 범인(병목/오류의 근본 원인)을 찾아내고, 다시는 같은 범죄가 일어나지 않도록 성벽(아키텍처)을 보수하는 일입니다.
 

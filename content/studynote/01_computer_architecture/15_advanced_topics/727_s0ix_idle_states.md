@@ -35,20 +35,17 @@ S0ix 진입은 한 부품의 의사결정으로 끝나지 않는다. CPU 코어�
 
 아래 그림은 S0ix residency에 필요한 플랫폼 합의를 단순화한 것이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Conditions for S0ix residency</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cores -&gt; deep idle</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Package -&gt; clocks / fabric gated</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DRAM -&gt; self-refresh retained</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Devices -&gt; low-power D-state or wake-capable only</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PMC -&gt; all green? then enter S0ix</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                     Conditions for S0ix residency                    │
+├──────────────────────────────────────────────────────────────────────┤
+│ Cores    -> deep idle                                                │
+│ Package  -> clocks / fabric gated                                    │
+│ DRAM     -> self-refresh retained                                    │
+│ Devices  -> low-power D-state or wake-capable only                   │
+│ PMC      -> all green? then enter S0ix                               │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 실제 진입 조건을 구성 요소별로 나누면 다음과 같다.
 
@@ -136,25 +133,24 @@ S0ix가 잘 구현되면 플랫폼은 화면이 꺼진 동안 수십~수백 밀�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Runtime idle inside S0</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Core / package deep idle</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Device D-state reduction</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">PMC-coordinated S0ix residency</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Wake by GPIO / timer / network event</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Short service burst and return to idle</div>
-</div>
-</div>
-
-
+```text
+Runtime idle inside S0
+    │
+    ▼
+Core / package deep idle
+    │
+    ▼
+Device D-state reduction
+    │
+    ▼
+PMC-coordinated S0ix residency
+    │
+    ▼
+Wake by GPIO / timer / network event
+    │
+    ▼
+Short service burst and return to idle
+```
 
 이 흐름은 S0ix가 단발성 sleep state가 아니라, S0 안에서 반복적으로 누적되는 저전력 residency라는 점을 보여 준다.
 

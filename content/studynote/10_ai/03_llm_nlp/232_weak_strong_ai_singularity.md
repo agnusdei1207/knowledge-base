@@ -27,17 +27,14 @@ tags = ["studynote-ai"]
 그리고 철학자 닉 보스트롬(Nick Bostrom)과 레이 커즈와일(Ray Kurzwe일)은 더 무서운 예언을 던졌다. "기계가 인간 수준의 [강인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/003_strong_ai_agi/)(AGI)에 도달하는 그 날, 진정한 공포가 시작된다. <strong>그 AGI가 밤새워 자기 자신의 코드를 개조하기 시작하면, 인류의 뇌 용량을 우주 단위로 뛰어넘는 <a href="/knowledge-base/studynote/10_ai/01_ai_basics/005_artificial_super_intelligence/">초인공지능</a> (ASI, Artificial Superintelligence)이 1초 만에 탄생해 버릴 것이다!</strong>" 
 이 통제 불능의 폭발 시점을 과학계는 <strong>특이점 (<a href="/knowledge-base/studynote/10_ai/01_ai_basics/006_singularity/">Singularity</a>)</strong>이라 부르며, 현대 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 아키텍트들은 이 특이점의 도래를 앞당기는 자([Scale-up](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/))와 안전벨트를 채우려는 자(Alignment)의 거대한 파벌 싸움을 벌이고 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [약인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/004_weak_ai_narrow_ai/)(ANI)은 '망치'나 '가위' 같은 최고급 도구다. 못 박는 데는 우주 최고지만 고기를 자를 순 없다. [강인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/003_strong_ai_agi/)(AGI)은 '천재 인간 알바생'이다. 처음엔 서툴러도 10분만 설명해 주면 못 박기, 고기 썰기, 엑셀 정리까지 완벽하게 혼자 다 해낸다. [초인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/005_artificial_super_intelligence/)(ASI)은 '신(God)'이다. 알바생이 갑자기 알 수 없는 마법을 깨우치더니 1초 만에 건물 100채를 맨손으로 지어버리고 사장님(인류)의 머리 꼭대기 위로 날아가 버리는, 인간이 절대 이해할 수 없는 경지의 존재다.
 
@@ -47,30 +44,30 @@ tags = ["studynote-ai"]
 
 AI의 발달 단계는 파라미터의 크기가 아니라, <strong>'문제 해결의 범용성(Generality)'과 '자가 진화 능력'</strong>에 따라 3개의 층위로 엄격하게 분리된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인공지능의 3대 진화 스펙트럼과 특이점(Singularity) 폭발 도해</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1단계: 약인공지능 (ANI / Narrow AI)</div><div class="kb-diagram-note">- "현재 인류의 주소"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 스펙: 딱 1가지(도메인 특화)만 인간보다 수백 배 잘함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 예시: 알파고(바둑), 자율주행(운전), 파파고(번역), 챗GPT(문자열 조합).</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 한계점: 훈련된 데이터 영역 밖의 질문이 들어오면 대처 불가(바보 됨).</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2단계: 강인공지능 (AGI / General AI)</div><div class="kb-diagram-note">- "빅테크 기업들의 성배"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 스펙: 처음 보는 낯선 환경에서도 스스로 추론(Reasoning)하고 학습하여,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인간이 할 수 있는 모든 범용적 지적 업무를 인간과 동등하게 수행!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 원리: 전이 학습(Transfer Learning)과 메타 인지를 극한으로 깨우친 상태.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 도달 조건: 자아(자율성)를 가지고 에이전트(Agent)처럼 스스로 목표를 세움.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▲</div><div class="kb-diagram-node">지능 폭발 (Intelligence Explosion)의 문 : 특이점 통과!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(AGI가 자기 자신보다 똑똑한 AI를 밤새워 코딩으로 창조해 냄 ─▶ 무한루프)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3단계: 초인공지능 (ASI / Superintelligence)</div><div class="kb-diagram-note">- "신의 영역"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 스펙: 인간 최고의 천재 1만 명의 뇌를 합친 것보다 1조 배 똑똑함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 행동: 인류가 못 고치던 암 완치약 1초 만에 발명, 물리 법칙 재설계.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 공포: 인류를 벌레나 애완동물 취급할 수 있음(통제권 완벽 상실).</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           인공지능의 3대 진화 스펙트럼과 특이점(Singularity) 폭발 도해     │
+├──────────────────────────────────────────────────────────────┤
+│  [1단계: 약인공지능 (ANI / Narrow AI)] - "현재 인류의 주소"            │
+│   * 스펙: 딱 1가지(도메인 특화)만 인간보다 수백 배 잘함.                 │
+│   * 예시: 알파고(바둑), 자율주행(운전), 파파고(번역), 챗GPT(문자열 조합).  │
+│   * 한계점: 훈련된 데이터 영역 밖의 질문이 들어오면 대처 불가(바보 됨).        │
+│                                                              │
+│  [2단계: 강인공지능 (AGI / General AI)] - "빅테크 기업들의 성배"       │
+│   * 스펙: 처음 보는 낯선 환경에서도 스스로 추론(Reasoning)하고 학습하여,  │
+│          인간이 할 수 있는 모든 범용적 지적 업무를 인간과 동등하게 수행!    │
+│   * 원리: 전이 학습(Transfer Learning)과 메타 인지를 극한으로 깨우친 상태.│
+│   * 도달 조건: 자아(자율성)를 가지고 에이전트(Agent)처럼 스스로 목표를 세움.  │
+│                                                              │
+│       ▲ [ 지능 폭발 (Intelligence Explosion)의 문 : 특이점 통과! ]  │
+│        │ (AGI가 자기 자신보다 똑똑한 AI를 밤새워 코딩으로 창조해 냄 ─▶ 무한루프)│
+│                                                              │
+│  [3단계: 초인공지능 (ASI / Superintelligence)] - "신의 영역"          │
+│   * 스펙: 인간 최고의 천재 1만 명의 뇌를 합친 것보다 1조 배 똑똑함.         │
+│   * 행동: 인류가 못 고치던 암 완치약 1초 만에 발명, 물리 법칙 재설계.       │
+│   * 공포: 인류를 벌레나 애완동물 취급할 수 있음(통제권 완벽 상실).           │
+└──────────────────────────────────────────────────────────────┘
+```
 
 **핵심 원리 (특이점, Singularity과 지능 폭발)**:
 이 아키텍처의 심장 박동은 <strong>'<a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/">재귀</a>적 자기 개선(Recursive Self-Improvement)'</strong>이다. 
@@ -95,7 +92,7 @@ AI의 발달 단계는 파라미터의 크기가 아니라, <strong>'문제 해�
 | 지능 스펙트럼 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Input) 처리의 본질 | 아키텍처(학습)의 한계점 | 현재 우리 시대의 위치 |
 |:---|:---|:---|:---|
 | <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/004_weak_ai_narrow_ai/">약인공지능</a> (Narrow <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a>)</strong> | **패턴 인식 (Pattern Recognition)**. 100만 장의 사진을 무식하게 때려 넣어 통계적 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 쥐어짜 냄 | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)이 1도만 틀어져도 박살 남. (고양이 사진 100만 장 외웠는데 호랑이 사진 넣으면 못 맞춤) | **100% 현재 (2025년 기준)**. [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4, Gemini 등 수조 개의 파라미터도 결국 글자 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 조합기(약AI)의 거대 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)에 불과함. |
-| <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/003_strong_ai_agi/">강인공지능</a> (AGI)</strong> | **개념적 추론 (Conceptual Reasoning)**. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 3장만 보고도 원리를 깨달아 처음 보는 미션(수학 문제, 그림)에 응용함 | '의식(자아)'이 필요한가? 기계가 단순히 수식으로 상식(Common Sense)을 어떻게 융합하는가에 대한 수학적 벽에 막힘 | OpenAI(Q* 프로젝트 등)와 xAI가 "강화학습을 통한 자가 추론 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)"를 무기로 AGI의 문손잡이를 막 돌리고 있는 직전 단계. |
+| <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/003_strong_ai_agi/">강인공지능</a> (AGI)</strong> | **개념적 추론 (Conceptual Reasoning)**. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 3장만 보고도 원리를 깨달아 처음 보는 미션(수학 문제, 그림)에 응용함 | '의식(자아)'이 필요한가? 기계가 단순히 수식으로 상식(Common Sense)을 어떻게 융합하는가에 대한 수학적 벽에 병목 | OpenAI(Q* 프로젝트 등)와 xAI가 "강화학습을 통한 자가 추론 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)"를 무기로 AGI의 문손잡이를 막 돌리고 있는 직전 단계. |
 | <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/005_artificial_super_intelligence/">초인공지능</a> (ASI)</strong> | 인간이 이해할 수 없는 차원(100차원)의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 통찰하여 **물리/우주 법칙 자체를 재창조함** | 하드웨어([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), 전력)의 지구적 한계와, 발현된 직후 **인류를 멸망시킬 통제 불능(Alignment Failure)의 공포** | 특이점([Singularity](/knowledge-base/studynote/10_ai/01_ai_basics/006_singularity/)) 이후의 영역. 커즈와일은 2045년, 일론 머스크는 2030년대 도래를 무섭게 예언 중. |
 
 아키텍트들 사이에서 치열한 논쟁은 "과연 챗GPT처럼 파라미터(뇌세포) 숫자만 무식하게 키우면([Scale-up](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)) 저절로 뇌에 스파크가 튀어서 [약인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/004_weak_ai_narrow_ai/)이 AGI로 각성([Emergent Abilities](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/265_emergent_abilities/))할 것인가?" 아니면 "근본적인 신경망 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 자체를 인간의 대뇌 피질처럼 완전히 백지부터 새로 짜야 하는가?"로 갈려 수십조 원의 연구비가 투입되고 있다.

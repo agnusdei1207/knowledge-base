@@ -24,24 +24,23 @@ tags = ["studynote-software-engineering"]
 
 이 꼬여버린 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)의 실타래를 가장 확실하게 푸는 블랙박스 테스터의 도구가 바로 <strong>의사 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/631_decision_table_logical_combination/">결정 테이블</a>(<a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/631_decision_table_logical_combination/">Decision Table</a>)</strong>입니다. 눈에 보이지 않는 `if` 중첩 코드를 투명한 표(Table)로 끄집어내어, 조건들의 교차로를 하나하나 짚어볼 수 있게 만드는 완전무결한 지도입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">의사 결정 테이블의 시각적 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">조건 (Conditions)</div><div class="kb-diagram-note">Rule 1 | Rule 2 | Rule 3 | Rule 4</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C1: 골드 회원인가?</div><div class="kb-diagram-cell">T</div><div class="kb-diagram-cell">T</div><div class="kb-diagram-cell">F</div><div class="kb-diagram-cell">F</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C2: 일요일인가?</div><div class="kb-diagram-cell">T</div><div class="kb-diagram-cell">F</div><div class="kb-diagram-cell">T</div><div class="kb-diagram-cell">F</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">동작 (Actions)</div><div class="kb-diagram-note">| | |</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A1: 20% 추가 할인 적용</div><div class="kb-diagram-cell">X</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A2: 5% 포인트만 적립</div><div class="kb-diagram-cell">X</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A3: 평일 일반 요금 징수</div><div class="kb-diagram-cell">X</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A4: 주말 일반 요금 징수</div><div class="kb-diagram-cell">X</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ Rule 1~4의 각 세로줄이 바로 하나의 독립된 "테스트 케이스"가 됨.</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                  의사 결정 테이블의 시각적 구조                 │
+├──────────────────────────────────────────────────────────────┤
+│ [조건 (Conditions)]        | Rule 1 | Rule 2 | Rule 3 | Rule 4 |  
+│ C1: 골드 회원인가?         |    T   |    T   |    F   |    F   |  
+│ C2: 일요일인가?            |    T   |    F   |    T   |    F   |  
+│ ─────────────────────────┼────────┼────────┼────────┼────────┤
+│ [동작 (Actions)]           |        |        |        |        |
+│ A1: 20% 추가 할인 적용      |    X   |        |        |        |
+│ A2: 5% 포인트만 적립        |        |    X   |        |        |
+│ A3: 평일 일반 요금 징수      |        |        |        |    X   |
+│ A4: 주말 일반 요금 징수      |        |        |    X   |        |
+│                                                              │
+│ ※ Rule 1~4의 각 세로줄이 바로 하나의 독립된 "테스트 케이스"가 됨.    │
+└──────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 수백 개의 갈래길로 나뉘는 꼬불꼬불한 미로(비즈니스 로직)를 헤매는 대신, 천장 유리를 뜯고 위에서 내려다보며 도화지에 바둑판처럼 지도를 그려놓고, 안 가본 블록이 어딘지 네임펜으로 하나씩 칠해가는 완벽한 완전 정복 맵핑입니다.
 
@@ -101,7 +100,7 @@ tags = ["studynote-software-engineering"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 현업에서 의사 [결정 테이블](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/631_decision_table_logical_combination/)이 빛을 발하는 가장 극적인 순간은, <strong>아무도 모르는 10년 된 레거시(Legacy) 코드를 파악할 때</strong>입니다.
-퇴사한 개발자가 남긴 `if (a && b) { if (c || d) { ... } }`가 난무하는 지옥의 1000줄짜리 코드를 보고 누구도 건드리지 못할 때, QA 또는 분석가가 이 코드를 한 줄씩 읽어가며 엑셀에 의사 [결정 테이블](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/631_decision_table_logical_combination/)로 [역공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/)([Reverse Engineering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/780_reverse_engineering/))하여 그려냅니다.
+퇴사한 개발자가 남긴 `if (a && b) { if (c || d) { ... } }`가 난무하는 지옥의 1000줄짜리 코드를 보고 누구도 건드리지 못할 때, QA 또는 분석가가 이 코드를 한 줄씩 읽어가며 엑셀에 의사 [결정 테이블](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/631_decision_table_logical_combination/)로 [역공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/)([Reverse 엔진ering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/780_reverse_engineering/))하여 그려냅니다.
 
 그려보면 충격적인 사실을 발견합니다. "어? 개발자가 Rule 7번(T-F-T 조합)에 대해서는 `else`문 처리를 안 해놨네?" 
 의사 [결정 테이블](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/631_decision_table_logical_combination/)은 이처럼 소스코드가 놓치고 있는 예외 상황이나 기획자가 요구사항 정의서에 아예 적지도 않은 맹점(Missing Requirements)을 수학적으로 고발해 내는 가장 날카로운 정적 검토([Static Testing](/knowledge-base/studynote/04_software_engineering/11_testing_validation/430_static_testing/)) 무기가 됩니다.
@@ -135,30 +134,28 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 의사 [결정 테이블](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/631_decision_table_logical_combination/) ([Decision Table](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/631_decision_table_logical_combination/))의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 의사 [결정 테이블](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/631_decision_table_logical_combination/) ([Decision Table](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/631_decision_table_logical_combination/))의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
 | [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 의사 [결정 테이블](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/631_decision_table_logical_combination/) ([Decision Table](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/631_decision_table_logical_combination/))은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | 의사 [결정 테이블](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/631_decision_table_logical_combination/) ([Decision Table](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/631_decision_table_logical_combination/)) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
 | [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 의사 [결정 테이블](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/631_decision_table_logical_combination/) ([Decision Table](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/631_decision_table_logical_combination/))에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">의사 결정 테이블 (Decision Table) 개념 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 위기 (Software Crisis) 인식
+    │
+    ▼
+의사 결정 테이블 (Decision Table) 개념 정립
+    │
+    ▼
+표준화 및 방법론 체계화 (ISO, CMMI, Agile)
+    │
+    ▼
+클라우드 네이티브·AI 기반 확장 적용
+    │
+    ▼
+지속적 개선 및 DevOps·MLOps 통합
+```
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

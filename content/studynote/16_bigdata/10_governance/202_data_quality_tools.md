@@ -36,26 +36,24 @@ tags = ["studynote-bigdata"]
 
 ### 3대 DQ 도구 비교
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 품질 도구 3종 비교</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Great Expectations</div><div class="kb-diagram-cell">AWS Deequ</div><div class="kb-diagram-cell">Soda Core</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">언어: Python</div><div class="kb-diagram-cell">언어: Scala/Python</div><div class="kb-diagram-cell">언어: YAML (SodaCL)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실행: Pandas/</div><div class="kb-diagram-cell">실행: Apache Spark</div><div class="kb-diagram-cell">실행: 20+ 데이터소스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SQLAlchemy</div><div class="kb-diagram-cell">(분산처리)</div><div class="kb-diagram-cell">커넥터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">접근: 코드 정의</div><div class="kb-diagram-cell">접근: 제약 검증</div><div class="kb-diagram-cell">접근: 선언형 YAML</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">강점: 표현력,</div><div class="kb-diagram-cell">강점: 대규모 데이터,</div><div class="kb-diagram-cell">강점: 비기술자 친화,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">풍부한 기대값</div><div class="kb-diagram-cell">Spark 네이티브</div><div class="kb-diagram-cell">클라우드 통합</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">출력: Data Docs</div><div class="kb-diagram-cell">출력: 메트릭 저장소</div><div class="kb-diagram-cell">출력: Soda Cloud 대시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(HTML 문서)</div><div class="kb-diagram-cell">(S3/JDBC)</div><div class="kb-diagram-cell">보드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">통합: Airflow,</div><div class="kb-diagram-cell">통합: EMR, Databricks</div><div class="kb-diagram-cell">통합: dbt, Airflow,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">dbt, Prefect</div><div class="kb-diagram-cell">Glue</div><div class="kb-diagram-cell">GitHub Actions</div></div>
-</div>
-</div>
-
-
+```
+┌────────────────────────────────────────────────────────────────┐
+│                  데이터 품질 도구 3종 비교                      │
+├──────────────────┬─────────────────────┬───────────────────────┤
+│ Great Expectations│    AWS Deequ        │     Soda Core         │
+├──────────────────┼─────────────────────┼───────────────────────┤
+│ 언어: Python     │ 언어: Scala/Python  │ 언어: YAML (SodaCL)   │
+│ 실행: Pandas/    │ 실행: Apache Spark  │ 실행: 20+ 데이터소스  │
+│       SQLAlchemy │ (분산처리)          │  커넥터               │
+│ 접근: 코드 정의  │ 접근: 제약 검증     │ 접근: 선언형 YAML     │
+│ 강점: 표현력,    │ 강점: 대규모 데이터,│ 강점: 비기술자 친화,  │
+│  풍부한 기대값   │  Spark 네이티브     │  클라우드 통합        │
+│ 출력: Data Docs  │ 출력: 메트릭 저장소 │ 출력: Soda Cloud 대시 │
+│  (HTML 문서)     │  (S3/JDBC)          │  보드                 │
+│ 통합: Airflow,   │ 통합: EMR, Databricks│통합: dbt, Airflow,    │
+│  dbt, Prefect    │  Glue               │  GitHub Actions       │
+└──────────────────┴─────────────────────┴───────────────────────┘
+```
 
 ### Great Expectations 핵심 개념
 
@@ -118,23 +116,21 @@ val verificationResult = VerificationSuite()
 
 ### [DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/324_dataops/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에서의 위치
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 소스</div></div>
-<div class="kb-diagram-note">▼ ← Great Expectations (원본 데이터 품질 체크)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Extract</div></div>
-<div class="kb-diagram-note">▼ ← Deequ (대규모 변환 중 제약 검증)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Transform</div></div>
-<div class="kb-diagram-note">▼ ← Soda Core (적재 후 목적지 데이터 검증)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Load/Publish</div></div>
-<div class="kb-diagram-note">▼ ← Monte Carlo (프로덕션 데이터 이상 감지 상시 모니터링)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Analytics/ML</div></div>
-</div>
-</div>
-
-
+```
+[데이터 소스]
+     │
+     ▼ ← Great Expectations (원본 데이터 품질 체크)
+[Extract]
+     │
+     ▼ ← Deequ (대규모 변환 중 제약 검증)
+[Transform]
+     │
+     ▼ ← Soda Core (적재 후 목적지 데이터 검증)
+[Load/Publish]
+     │
+     ▼ ← Monte Carlo (프로덕션 데이터 이상 감지 상시 모니터링)
+[Analytics/ML]
+```
 
 **📢 섹션 요약 비유**: 세 도구의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)는 **공항 보안 검색대** 같다. 탑승권 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(추출 전 체크), 수하물 X-ray(변환 중 체크), 탑승 게이트(적재 후 체크) — 여러 단계 방어선이 있어야 문제가 최종 목적지까지 전달되지 않는다.
 
@@ -217,23 +213,21 @@ DQ 도구는 <strong><a href="/knowledge-base/studynote/12_it_management/01_gove
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 프로파일링 (Data Profiling) — 현황 파악</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 정제 (Data Cleansing) — 오류 수정</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 품질 규칙 (Data Quality Rule) — 자동 검증</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 관측 가능성 (Data Observability) — 실시간 모니터링</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 품질 SLA (Data Quality SLA) — 비즈니스 계약</div></div>
-</div>
-</div>
-
-
+```text
+[데이터 프로파일링 (Data Profiling) — 현황 파악]
+    │
+    ▼
+[데이터 정제 (Data Cleansing) — 오류 수정]
+    │
+    ▼
+[데이터 품질 규칙 (Data Quality Rule) — 자동 검증]
+    │
+    ▼
+[데이터 관측 가능성 (Data Observability) — 실시간 모니터링]
+    │
+    ▼
+[데이터 품질 SLA (Data Quality SLA) — 비즈니스 계약]
+```
 
 이 흐름은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 먼저 [프로파일링](/knowledge-base/studynote/02_operating_system/10_security/613_profiling_gprof/)해 상태를 파악하고, 정제·규칙·[관측 가능성](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/)으로 관리한 뒤 품질 SLA로 비즈니스 약속까지 연결하는 과정을 보여준다.
 

@@ -25,17 +25,14 @@ tags = ["studynote-ai"]
 - **랜덤 서치**: 무작위 탐색 → 이전 결과 활용 없음
 - **베이지안 최적화 (BO)**: 대리 모델(Surrogate Model)로 목적 함수를 근사하며 효율적 탐색
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [그리드 서치](/knowledge-base/studynote/10_ai/03_llm_nlp/251_grid_search_random_search/)는 "지도의 모든 칸을 탐색", 랜덤 서치는 "지도를 무작위로 탐색", TPE는 "이미 찾은 보물 근처를 집중 탐색"이다.
 
@@ -57,36 +54,30 @@ Expected Improvement: EI(x) = E[max(f(x)-f*, 0)]
 
 표준 GP (Gaussian [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/)) BO와 달리, TPE는 p(x|y)를 모델링:
 
+```
+y* = 좋은 성능의 임계값 (예: 상위 γ=25%)
 
+l(x) = p(x | y < y*)  ← 좋은 하이퍼파라미터 분포
+g(x) = p(x | y ≥ y*)  ← 나쁜 하이퍼파라미터 분포
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">y* = 좋은 성능의 임계값 (예: 상위 γ=25%)</div>
-<div class="kb-diagram-note">l(x) = p(x | y &lt; y*) ← 좋은 하이퍼파라미터 분포</div>
-<div class="kb-diagram-note">g(x) = p(x | y ≥ y*) ← 나쁜 하이퍼파라미터 분포</div>
-<div class="kb-diagram-note">획득 함수: EI(x) ∝ l(x) / g(x)</div>
-<div class="kb-diagram-note">→ l(x)가 높고 g(x)가 낮은 x를 다음 탐색점으로 선택</div>
-</div>
-</div>
+획득 함수: EI(x) ∝ l(x) / g(x)
+→ l(x)가 높고 g(x)가 낮은 x를 다음 탐색점으로 선택
+```
 
-
-
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TPE 반복 사이클</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 초기 랜덤 탐색 (n_startup = 20)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 결과를 y* 기준으로 l(x), g(x) 분리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. l(x)/g(x) 최대화 → 다음 하이퍼파라미터 제안</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 모델 학습 및 평가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. l(x), g(x) 업데이트 → 반복</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">l(x): KDE(좋은 샘플) g(x): KDE(나쁜 샘플)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">KDE = Kernel Density Estimation</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────┐
+│  TPE 반복 사이클                                      │
+│                                                      │
+│  1. 초기 랜덤 탐색 (n_startup = 20)                   │
+│  2. 결과를 y* 기준으로 l(x), g(x) 분리               │
+│  3. l(x)/g(x) 최대화 → 다음 하이퍼파라미터 제안       │
+│  4. 모델 학습 및 평가                                 │
+│  5. l(x), g(x) 업데이트 → 반복                       │
+│                                                      │
+│  l(x): KDE(좋은 샘플)   g(x): KDE(나쁜 샘플)         │
+│  KDE = Kernel Density Estimation                     │
+└──────────────────────────────────────────────────────┘
+```
 
 | 방법 | 대리 모델 | 복잡도 | 조건부 탐색 | 고차원 |
 |:---|:---|:---|:---|:---|
@@ -97,18 +88,12 @@ Expected Improvement: EI(x) = E[max(f(x)-f*, 0)]
 
 ### Tree-structured의 의미
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">하이퍼파라미터가 조건부 관계를 가질 때:</div>
-<div class="kb-diagram-note">모델 = "트리" → {max_depth, min_samples}</div>
-<div class="kb-diagram-note">모델 = "SVM" → {C, kernel, gamma}</div>
-<div class="kb-diagram-note">TPE는 이 조건부 구조를 트리 형태로 모델링</div>
-</div>
-</div>
-
-
+```
+하이퍼파라미터가 조건부 관계를 가질 때:
+  모델 = "트리" → {max_depth, min_samples}
+  모델 = "SVM"  → {C, kernel, gamma}
+TPE는 이 조건부 구조를 트리 형태로 모델링
+```
 
 - **📢 섹션 요약 비유**: TPE는 "이미 금이 나온 광산 지역(l(x))에 집중 채굴하되, 별로였던 지역(g(x))은 피하는" 경험적 광산 탐사 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
 

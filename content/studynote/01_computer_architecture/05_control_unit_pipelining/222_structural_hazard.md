@@ -42,23 +42,22 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 단일 메모리를 쓸 때 가장 자주 소개되는 구조적 해저드를 보여준다. 한 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 MEM 단계에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽고, 뒤의 다른 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 같은 클럭에 IF 단계에서 다음 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 가져오려 한다. 메모리 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 하나라면 둘 중 하나는 대기해야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단일 메모리에서 발생하는 구조적 해저드의 시간 충돌</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cycle 1 2 3 4 5 6</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">I1</div><div class="kb-diagram-node">IF</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">ID</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">EX</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">MEM</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">WB</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">I2</div><div class="kb-diagram-node">IF</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">ID</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">EX</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">MEM</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">WB</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">I3</div><div class="kb-diagram-node">IF</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">ID</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">EX</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">MEM</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">I4</div><div class="kb-diagram-node">IF ?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ I1은 데이터 접근 필요 (MEM)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ I4는 명령어 인출 필요 (IF)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 메모리 포트가 1개이면 I4는 Stall, 메모리 포트가 2개면 동시 진행</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│        단일 메모리에서 발생하는 구조적 해저드의 시간 충돌                 │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Cycle    1        2        3        4        5        6                   │
+│ I1     [ IF ] → [ ID ] → [ EX ] → [ MEM] → [ WB ]                         │
+│ I2              [ IF ] → [ ID ] → [ EX ] → [ MEM] → [ WB ]                │
+│ I3                       [ IF ] → [ ID ] → [ EX ] → [ MEM]                 │
+│ I4                                [ IF ? ]                                 │
+│                                    │                                       │
+│                                    ├─ I1은 데이터 접근 필요 (MEM)          │
+│                                    └─ I4는 명령어 인출 필요 (IF)           │
+│                                                                            │
+│ 결과: 메모리 포트가 1개이면 I4는 Stall, 메모리 포트가 2개면 동시 진행      │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 이 문제를 수식으로 보면, 실제 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 `실효 CPI = 이상적 CPI + 구조적 스톨 빈도`로 표현할 수 있다. 즉 구조적 해저드가 잦을수록 클럭 주파수가 높아도 체감 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)은 줄어든다. 그래서 현대 프로세서는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 캐시와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 캐시를 분리하고, [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 여러 읽기 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 두며, 자주 쓰는 실행 유닛을 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 배치해 충돌을 줄인다.
 
@@ -135,25 +134,22 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단일 실행 경로</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">파이프라인 도입</div>
-<div class="kb-diagram-tree-item" style="--depth:2">자원 동시 요구 증가</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">구조적 해저드 (Structural Hazard)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">자원 복제: ALU · 캐시 · 포트 확장</div>
-<div class="kb-diagram-tree-item" style="--depth:2">자원 분리: Harvard Architecture · 메모리 뱅킹</div>
-<div class="kb-diagram-tree-item" style="--depth:2">자원 중재: Stall · Arbiter</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">슈퍼스칼라 · 비순차 실행에서의 정교한 자원 스케줄링</div>
-</div>
-</div>
-
-
+```text
+단일 실행 경로
+    │
+    ▼
+파이프라인 도입
+    │
+    ├─ 자원 동시 요구 증가
+    ▼
+구조적 해저드 (Structural Hazard)
+    │
+    ├─ 자원 복제: ALU · 캐시 · 포트 확장
+    ├─ 자원 분리: Harvard Architecture · 메모리 뱅킹
+    └─ 자원 중재: Stall · Arbiter
+    ▼
+슈퍼스칼라 · 비순차 실행에서의 정교한 자원 스케줄링
+```
 
 이 흐름은 파이프라인이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 높이는 동시에 자원 경쟁을 드러내고, 이후 아키텍처가 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)·분리·중재 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로 진화해 왔음을 보여준다.
 

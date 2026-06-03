@@ -20,22 +20,18 @@ tags = ["studynote-bigdata"]
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 스파크 셔플은 **Sort-based Shuffle** 방식을 기본으로 하며, 효율적인 리소스 활용을 위해 다양한 최적화 기술이 적용된다.
 
+```text
+[ Spark Shuffle Process / 스파크 셔플 프로세스 ]
 
+  [ Stage 1: Map ]           [ Network / Disk ]          [ Stage 2: Reduce ]
+  Partition A --(Shuffle Write)--> [ Local Disk ] --(Fetch)--> [ Partition X ]
+  Partition B --(Shuffle Write)--> [ Local Disk ] --(Fetch)--> [ Partition Y ]
+  Partition C --(Shuffle Write)--> [ Local Disk ] --(Fetch)--> [ Partition Z ]
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Spark Shuffle Process / 스파크 셔플 프로세스</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Stage 1: Map</div><div class="kb-diagram-node">Network / Disk</div><div class="kb-diagram-node">Stage 2: Reduce</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Local Disk</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Partition X</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Local Disk</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Partition Y</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Local Disk</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Partition Z</div></div>
-<div class="kb-diagram-note">1. Shuffle Write: Map tasks sort and write output to local disk files.</div>
-<div class="kb-diagram-note">2. Shuffle Fetch: Reduce tasks read data from multiple remote nodes via HTTP.</div>
-<div class="kb-diagram-note">3. Bottleneck: Heavy Disk I/O, Network Congestion, Memory Pressure.</div>
-</div>
-</div>
-
-
+1. Shuffle Write: Map tasks sort and write output to local disk files.
+2. Shuffle Fetch: Reduce tasks read data from multiple remote nodes via HTTP.
+3. Bottleneck: Heavy Disk I/O, Network Congestion, Memory Pressure.
+```
 
 - **AQE (Adaptive Query Execution):** 실행 중 수집된 통계를 바탕으로 셔플 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수를 자동으로 조절하거나, 셔플 조인을 브로드캐스트 조인으로 런타임에 변경한다.
 - **Shuffle Partitions 관리:** `spark.sql.shuffle.partitions`의 기본값(200)을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규모에 맞게 조정해야 한다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 작으면 오버헤드가 크고, 너무 크면 [가비지 컬렉션](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/)(GC) 문제가 발생한다.
@@ -66,23 +62,21 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">스파크 RDD 와이드 의존성 (Wide Dependency) — 셔플 발생 원인, 파티션 간 데이터 이동</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">셔플 (Shuffle) — groupBy·join 시 네트워크를 통한 데이터 재분배, 성능 병목의 핵심</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AQE (Adaptive Query Execution) — 런타임 통계 기반 셔플 파티션 수 동적 최적화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">브로드캐스트 조인 (Broadcast Join) — 작은 테이블을 모든 노드에 복제하여 셔플 전체 제거</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 스큐 처리 (Skew Handling) — 편향 파티션 분할·솔팅으로 불균형 셔플 해소</div></div>
-</div>
-</div>
-
-
+```text
+[스파크 RDD 와이드 의존성 (Wide Dependency) — 셔플 발생 원인, 파티션 간 데이터 이동]
+    │
+    ▼
+[셔플 (Shuffle) — groupBy·join 시 네트워크를 통한 데이터 재분배, 성능 병목의 핵심]
+    │
+    ▼
+[AQE (Adaptive Query Execution) — 런타임 통계 기반 셔플 파티션 수 동적 최적화]
+    │
+    ▼
+[브로드캐스트 조인 (Broadcast Join) — 작은 테이블을 모든 노드에 복제하여 셔플 전체 제거]
+    │
+    ▼
+[데이터 스큐 처리 (Skew Handling) — 편향 파티션 분할·솔팅으로 불균형 셔플 해소]
+```
 
 이 흐름은 스파크에서 셔플이 와이드 의존성으로 발생하는 원리를 이해하고, AQE의 동적 최적화→브로드캐스트 조인으로 셔플 자체를 제거하거나 최소화하며, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스큐 처리로 불균형 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)까지 해소하는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화의 핵심 계보를 보여준다.
 

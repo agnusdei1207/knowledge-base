@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: 868번 MANO 프레임워크의 중간 관리자 계층으로, 가상 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/), 가상 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 코어([AMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/770_amf_access_mobility_management_function/)) 등 <strong>1개 또는 동일한 종류의 여러 개 <a href="/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/">VNF</a>(Virtual Network Function) 인스턴스들의 탄생부터 소멸까지의 '생명주기(Lifecycle)'를 현장에서 직접 1:1로 밀착 관리하는 전담 소프트웨어 매니저</strong>입니다.
 - **존재 양식**: VNF를 만든 회사(시스코, 에릭슨 등)마다 "우리 회사 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) VNF는 우리가 제일 잘 아니까, 관리 매니저(VNFM)도 우리 걸 써라!"라며 세트로 묶어서 팔거나(특화 VNFM), 모든 회사의 VNF를 다 관리해 주는 범용(Generic) VNFM을 씁니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">NFVO</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">VNFM</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">VIM (Virtualised Infrast…</div></div>
-</div>
-</div>
-
-
+```text
+[NFVO]
+    │
+    ▼
+[VNFM]
+    │
+    └──▶ [VIM (Virtualised Infrast…]
+```
 
 - **📢 섹션 요약 비유**: VNFM는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -58,18 +54,14 @@ tags = ["studynote-network"]
 ### 4. 종료 및 삭제 (Termination)
 - 사업이 끝나서 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이 필요 없어지면, 라이선스를 회수하고 서버에서 흔적도 없이 삭제하여 서버 메모리를 땅 소장([VIM](/knowledge-base/studynote/03_network/17_sdn_nfv/871_vim_virtualised_infrastructure_manager_openstack_k8s/))에게 고스란히 반납합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">NFVO</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">VNFM</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">VIM (Virtualised Infrast…</div></div>
-</div>
-</div>
-
-
+```text
+[NFVO]
+    │
+    ▼
+[VNFM]
+    │
+    └──▶ [VIM (Virtualised Infrast…]
+```
 
 - **📢 섹션 요약 비유**: VNFM의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -130,19 +122,15 @@ VNFM는 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_top
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: NFVO</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: VNFM</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: VIM (Virtualised Infrast…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 프로그래머블 네트워크</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: NFVO]
+    │
+    ▼
+[현재 개념: VNFM]
+    │
+    ├──▶ [확장 A: VIM (Virtualised Infrast…]
+    └──▶ [확장 B: 프로그래머블 네트워크]
+```
 
 VNFM는 NFVO에서 출발해 현재 메커니즘을 정교화하고, 이후 [VIM](/knowledge-base/studynote/03_network/17_sdn_nfv/871_vim_virtualised_infrastructure_manager_openstack_k8s/) (Virtualised Infrast…와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

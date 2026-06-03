@@ -24,18 +24,14 @@ tags = ["studynote-network"]
 
 - **💡 비유**: BPDU는 마피아 조직([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 네트워크)의 두목을 뽑기 위한 <strong>"명함 교환식"</strong>과 같습니다. 2초마다 조직원들끼리 명함을 돌리며 서로의 '전투력(우선순위 값)'을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 서열을 유지합니다. 만약 두목이 20초(Max Age) 동안 명함을 돌리지 않으면 "두목이 경찰에 잡혀갔다(선로 끊어짐)!"라고 판단하고 새로운 두목 선거를 엽니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">스패닝 트리 프로토콜</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">BPDU</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">루트 브리지, 루트 포트, 지정 포트, 차단…</div></div>
-</div>
-</div>
-
-
+```text
+[스패닝 트리 프로토콜]
+    │
+    ▼
+[BPDU]
+    │
+    └──▶ [루트 브리지, 루트 포트, 지정 포트, 차단…]
+```
 
 - **📢 섹션 요약 비유**: <strong> BPDU는 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>들끼리만 사용하는 </strong>"암호가 걸린 무전기 채널"**입니다. 이 무전으로 선거 유세를 하고 대열(Tree)을 유지하며, 일반 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)(사용자 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))는 이 무전 채널을 전혀 듣지 못합니다.
 
@@ -52,22 +48,23 @@ tags = ["studynote-network"]
 2. **TCN BPDU (Topology Change Notification)**:
    - 비상 연락망이다. 쫄따구 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 꽂혀 있던 선이 갑자기 툭 빠지거나 끊어지면(토폴로지 변화), 쫄따구가 대장을 향해 "대장님! 큰일 났습니다! 선이 하나 끊어졌습니다!"라고 위로 쏘아 올리는 긴급 경보다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Configuration BPDU의 핵심 내용물</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Root ID : 이 마을 대장님의 ID (우선순위 + 대장 MAC)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cost : 대장님 집까지 가는 데 드는 거리(비용) 누적값</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Bridge ID: 이 명함을 뿌린 내 ID (우선순위 + 내 MAC)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Port ID : 이 명함이 뿜어져 나간 내 포트 번호</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Timers : Hello Time(2초), Max Age(20초) 등 규정시간</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 선거 원칙: 스위치는 남의 BPDU를 받으면 자기 정보와 비교하여,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상대방이 나보다 숫자가 작으면 무릎을 꿇고, 내가 작으면 이긴다!</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                Configuration BPDU의 핵심 내용물               │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   ┌─────────────────────────────────────────────────────┐   │
+ │   │ Root ID  : 이 마을 대장님의 ID (우선순위 + 대장 MAC)       │   │
+ │   │ Cost     : 대장님 집까지 가는 데 드는 거리(비용) 누적값     │   │
+ │   │ Bridge ID: 이 명함을 뿌린 내 ID (우선순위 + 내 MAC)        │   │
+ │   │ Port ID  : 이 명함이 뿜어져 나간 내 포트 번호             │   │
+ │   │ Timers   : Hello Time(2초), Max Age(20초) 등 규정시간    │   │
+ │   └─────────────────────────────────────────────────────┘   │
+ │                                                             │
+ │   * 선거 원칙: 스위치는 남의 BPDU를 받으면 자기 정보와 비교하여,    │
+ │     상대방이 나보다 숫자가 작으면 무릎을 꿇고, 내가 작으면 이긴다!   │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 2. BPDU와 토폴로지 변경의 폭풍 (TCN 발생 시)
 1. 말단 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 죽으면 TCN BPDU를 뿌린다.
@@ -127,19 +124,15 @@ BPDU는 LAN/WAN과 2계층 장비를 이해할 때 핵심 축을 잡아 주는 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 스패닝 트리 프로토콜</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: BPDU</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 루트 브리지, 루트 포트, 지정 포트, 차단…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 캠퍼스 패브릭</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 스패닝 트리 프로토콜]
+    │
+    ▼
+[현재 개념: BPDU]
+    │
+    ├──▶ [확장 A: 루트 브리지, 루트 포트, 지정 포트, 차단…]
+    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
+```
 
 BPDU는 [스패닝 트리 프로토콜](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/253_spanning_tree_protocol_stp_ieee_802_1d/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [루트 브리지](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/255_root_bridge_rp_dp_bp/), 루트 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), 지정 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), 차단…와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

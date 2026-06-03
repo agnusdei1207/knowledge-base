@@ -21,18 +21,14 @@ tags = ["studynote-network"]
 
 유선 랜(LAN)은 도둑이 내 컴퓨터에 물리적으로 선을 꽂아야만 해킹할 수 있지만, 무선 랜은 공유기 전파 반경(수십 미터) 안에만 있으면 누구나 공기 중에 떠다니는 패킷을 수집(Sniffing)할 수 있습니다. 따라서 <strong>무선 링크 구간의 강력한 암호화(Encryption)</strong>와 올바른 사용자만 접속하게 하는 <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>(<a href="/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/">Authentication</a>)</strong>이 필수적입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">11be</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">무선 LAN 보안 진화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">WEP</div></div>
-</div>
-</div>
-
-
+```text
+[11be]
+    │
+    ▼
+[무선 LAN 보안 진화]
+    │
+    └──▶ [WEP]
+```
 
 - **📢 섹션 요약 비유**: 무선 LAN 보안 진화는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -63,18 +59,14 @@ tags = ["studynote-network"]
 > - <strong><a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/581_wpa_tkip_802_1x_eap/">WPA</a></strong>: 자물쇠는 그대로지만, 문을 열 때마다 비밀번호가 '1234', '5678'로 매번 자동으로 바뀌게(TKIP) 만들었습니다.
 > - <strong><a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/582_wpa2_aes_ccmp_personal_enterprise/">WPA2</a></strong>: 자물쇠 자체를 아예 폭탄이 터져도 안 부서지는 티타늄 군사용 특수 자물쇠([AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/))로 교체해 버렸습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">11be</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">무선 LAN 보안 진화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">WEP</div></div>
-</div>
-</div>
-
-
+```text
+[11be]
+    │
+    ▼
+[무선 LAN 보안 진화]
+    │
+    └──▶ [WEP]
+```
 
 - **📢 섹션 요약 비유**: 무선 LAN 보안 진화의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -132,19 +124,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 11be</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 무선 LAN 보안 진화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: WEP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 무선 자원 제어</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 11be]
+    │
+    ▼
+[현재 개념: 무선 LAN 보안 진화]
+    │
+    ├──▶ [확장 A: WEP]
+    └──▶ [확장 B: 지능형 무선 자원 제어]
+```
 
 무선 LAN 보안 진화는 11be에서 출발해 현재 메커니즘을 정교화하고, 이후 WEP와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

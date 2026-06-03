@@ -25,22 +25,21 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 왜 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/)-oF가 단순한 원격 디스크가 아니라, <strong>고성능의 공유화</strong>를 위한 기술인지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DAS 한계와 NVMe-oF의 등장 배경</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">구분</div><div class="kb-diagram-cell">서버 내부 NVMe</div><div class="kb-diagram-cell">기존 네트워크 스토리지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">성능</div><div class="kb-diagram-cell">매우 높음</div><div class="kb-diagram-cell">상대적으로 낮음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자원 활용</div><div class="kb-diagram-cell">서버별 고립</div><div class="kb-diagram-cell">공유 가능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">병목</div><div class="kb-diagram-cell">용량 파편화</div><div class="kb-diagram-cell">프로토콜/CPU 오버헤드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터센터 요구</div><div class="kb-diagram-cell">공유 + 저지연 동시 충족</div><div class="kb-diagram-cell">둘 중 하나만 만족</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">NVMe 명령 체계 유지 + 패브릭 확장 = NVMe-oF</div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                 DAS 한계와 NVMe-oF의 등장 배경                            │
+├───────────────────────┬────────────────────────┬───────────────────────────┤
+│ 구분                  │ 서버 내부 NVMe         │ 기존 네트워크 스토리지    │
+├───────────────────────┼────────────────────────┼───────────────────────────┤
+│ 성능                  │ 매우 높음              │ 상대적으로 낮음            │
+│ 자원 활용             │ 서버별 고립            │ 공유 가능                  │
+│ 병목                  │ 용량 파편화            │ 프로토콜/CPU 오버헤드      │
+│ 데이터센터 요구       │ 공유 + 저지연 동시 충족│ 둘 중 하나만 만족          │
+└───────────────────────┴────────────────────────┴───────────────────────────┘
+                │
+                ▼
+      NVMe 명령 체계 유지 + 패브릭 확장 = NVMe-oF
+```
 
 핵심은 "원격화"보다 "NVMe의 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 구조를 유지한 채 공유화한다"는 점이다. 그래서 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/)-oF는 단순 [NAS](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/492_nas_network_attached_storage/) ([Network Attached Storage](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/492_nas_network_attached_storage/))의 고속판이 아니라, 분리형 인프라에서 로컬급 I/O 경험을 재현하려는 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 설계 철학에 가깝다.
 
@@ -61,21 +60,23 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/)-oF가 "블록 명령 전달"을 어떻게 짧은 경로로 처리하는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NVMe-oF 데이터 경로와 병목 위치</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Application</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Host NVMe Driver ──▶ Submission Queue ──▶ Fabric Transport</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ RDMA/RoCE : 커널 개입 최소화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ FC-NVMe : 전용 SAN 활용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ NVMe/TCP : 범용성 높음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Target Controller ──▶ Completion Queue ──▶ Namespace ──▶ NVMe SSD</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                    NVMe-oF 데이터 경로와 병목 위치                         │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Application                                                                │
+│      │                                                                     │
+│      ▼                                                                     │
+│ Host NVMe Driver ──▶ Submission Queue ──▶ Fabric Transport                 │
+│                                           │                                │
+│                                           ├─ RDMA/RoCE : 커널 개입 최소화  │
+│                                           ├─ FC-NVMe   : 전용 SAN 활용     │
+│                                           └─ NVMe/TCP  : 범용성 높음       │
+│                                                                    │       │
+│                                                                    ▼       │
+│ Target Controller ──▶ Completion Queue ──▶ Namespace ──▶ NVMe SSD          │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 두 가지에서 나온다. 첫째, NVMe의 다중 큐 구조를 유지하므로 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) I/O에서 락 경합과 큐 병목이 줄어든다. 둘째, RDMA를 쓰는 전송 방식은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 우회와 제로 카피 ([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) Copy)에 가까운 전송이 가능해 CPU 개입을 줄인다. 다만 모든 환경이 RDMA에 적합한 것은 아니므로, 오늘날에는 운영 편의성을 위해 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/)/TCP도 많이 채택된다.
 
@@ -166,24 +167,22 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">SCSI 기반 공유 스토리지</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">로컬 NVMe (Non-Volatile Memory Express)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">NVMe-oF (NVMe over Fabrics)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ FC-NVMe (Fibre Channel NVMe)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ NVMe/RoCE (RDMA over Converged Ethernet)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ NVMe/TCP (NVMe over TCP)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">디스애그리게이션 · 컴포저블 인프라 · 디스크리스 서버</div>
-</div>
-</div>
-
-
+```text
+SCSI 기반 공유 스토리지
+    │
+    ▼
+로컬 NVMe (Non-Volatile Memory Express)
+    │
+    ▼
+NVMe-oF (NVMe over Fabrics)
+    │
+    ├─▶ FC-NVMe (Fibre Channel NVMe)
+    ├─▶ NVMe/RoCE (RDMA over Converged Ethernet)
+    └─▶ NVMe/TCP (NVMe over TCP)
+    │
+    ▼
+디스애그리게이션 · 컴포저블 인프라 · 디스크리스 서버
+```
 
 이 흐름은 저장장치가 "개별 서버 부품"에서 "공유 가능한 네트워크 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 자원"으로 진화하는 방향을 보여준다.
 

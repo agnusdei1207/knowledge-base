@@ -29,25 +29,19 @@ tags = ["studynote-it-management"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Business Understanding</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Data Understanding</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Data Preparation</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Modeling</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Evaluation</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Deployment</div>
-</div>
-</div>
-
-
+```text
+Business Understanding
+  ↓
+Data Understanding
+  ↓
+Data Preparation
+  ↓
+Modeling
+  ↓
+Evaluation
+  ↓
+Deployment
+```
 
 | 프레임워크 | 핵심 단계 | 특징 |
 | :-- | :-- | :-- |
@@ -116,41 +110,29 @@ tags = ["studynote-it-management"]
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Business Problem</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Data Mining Framework</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Modeling / Evaluation</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Deployment / Monitoring</div>
-</div>
-</div>
-
-
+```text
+Business Problem
+  ↓
+Data Mining Framework
+  ↓
+Modeling / Evaluation
+  ↓
+Deployment / Monitoring
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">KDD</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">CRISP-DM</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">SEMMA</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">DataOps / MLOps</div>
-</div>
-</div>
-
-
+```text
+KDD
+  ↓
+CRISP-DM
+  ↓
+SEMMA
+  ↓
+DataOps / MLOps
+```
 
 ---
 

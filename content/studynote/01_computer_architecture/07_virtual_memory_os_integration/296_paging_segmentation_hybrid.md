@@ -35,22 +35,29 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 혼용 구조가 왜 "[보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)는 세그먼트에서, 배치는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)에서"라고 불리는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">혼용 주소 변환: 논리 구획과 물리 배치를 분리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">논리 주소 =</div><div class="kb-diagram-node">Segment s | Page p | Offset d</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Segment Table</div><div class="kb-diagram-node">s</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Limit / Permission / Page Table Base</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ s 또는 d가 범위·권한 위반 ▶ Fault</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Page Table</div><div class="kb-diagram-node">p</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Frame Number / Present / Dirty / Accessed</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">물리 주소 =</div><div class="kb-diagram-node">Frame Number | Offset d</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                 혼용 주소 변환: 논리 구획과 물리 배치를 분리                 │
+├──────────────────────────────────────────────────────────────────────────────┤
+│ 논리 주소 = [ Segment s | Page p | Offset d ]                               │
+│        │                                                                     │
+│        ▼                                                                     │
+│   Segment Table[s]                                                           │
+│   ┌──────────────────────────────────────────────┐                            │
+│   │ Limit / Permission / Page Table Base         │                            │
+│   └──────────────────────────────────────────────┘                            │
+│        │                                                                     │
+│        ├─ s 또는 d가 범위·권한 위반 ───────────────▶ Fault                    │
+│        ▼                                                                     │
+│   Page Table[p]                                                              │
+│   ┌──────────────────────────────────────────────┐                            │
+│   │ Frame Number / Present / Dirty / Accessed    │                            │
+│   └──────────────────────────────────────────────┘                            │
+│        │                                                                     │
+│        ▼                                                                     │
+│ 물리 주소 = [ Frame Number | Offset d ]                                      │
+└──────────────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조에서 [세그먼트 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/365_segment_table/)은 "이 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 구역이 존재하는가, 접근 권한이 맞는가"를 확인하는 앞단 관문이고, [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)은 "이 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 지금 어떤 프레임에 올라와 있는가"를 찾는 뒷단 매핑표다. 따라서 세그먼트는 의미와 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)의 단위이고, [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 배치와 교체의 단위다. 이 역할 분리가 혼용 구조의 핵심이다.
 
@@ -137,27 +144,29 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">연속 메모리 할당</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">세그멘테이션 (Segmentation)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 보호·공유의 직관성 확보</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 외부 단편화 증가</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">페이징 (Paging)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">페이징과 세그멘테이션 혼용</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 논리 구역 보호 + 페이지 기반 배치</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 주소 변환 복잡도 증가</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">현대 다단계 페이징 중심 구조</div>
-</div>
-</div>
-
-
+```text
+연속 메모리 할당
+    │
+    ▼
+세그멘테이션 (Segmentation)
+    │
+    ├──▶ 보호·공유의 직관성 확보
+    │
+    └──▶ 외부 단편화 증가
+              │
+              ▼
+페이징 (Paging)
+    │
+    ▼
+페이징과 세그멘테이션 혼용
+    │
+    ├──▶ 논리 구역 보호 + 페이지 기반 배치
+    │
+    └──▶ 주소 변환 복잡도 증가
+              │
+              ▼
+현대 다단계 페이징 중심 구조
+```
 
 이 흐름은 메모리 관리가 "사람이 이해하기 쉬운 구조"와 "기계가 관리하기 쉬운 구조" 사이에서 어떻게 절충해 왔는지를 보여 준다.
 

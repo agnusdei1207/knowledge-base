@@ -37,35 +37,42 @@ CEO 승인의 정보보안 [정책](/knowledge-base/studynote/10_ai/02_dl_archit
 - **표준(Standard)**: "모든 고객 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-256 이상으로 암호화한다" — 숫잣값이 박힌 강제 규격
 - **지침(Guideline)**: "AWS 환경에서는 [KMS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/127_kms_knowledge_management_system/) ([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))를 활용한 서버 측 암호화를 권장한다" — 특정 환경의 구현 가이드
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정보보안 거버넌스 문서 계층 (Governance Hierarchy)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Lv.1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정책 (Policy)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· WHY / WHAT — 경영진 의지 표명</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· "고객 데이터를 안전하게 보호한다"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· 강제성: 절대 강제 / 변경 주기: 3~5년</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Lv.2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">표준 (Standard)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· HOW MUCH — 정량적 기술 규격</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· "AES-256, TLS 1.3 이상 사용 필수"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· 강제성: 강제 / 변경 주기: 1~2년</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Lv.3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지침 (Guideline)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· HOW TO — 환경별 구현 권고</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· "AWS KMS로 서버 측 암호화 권장"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· 강제성: 권고 / 변경 주기: 수시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Lv.4</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">절차 (Procedure)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· STEP BY STEP — 클릭 단위 매뉴얼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· "콘솔 → KMS → 키 생성 → 버킷에 적용"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· 강제성: 해당 업무 담당자 준수</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│   정보보안 거버넌스 문서 계층 (Governance Hierarchy)      │
+├───────────────────────────────────────────────────────┤
+│  Lv.1  ┌─────────────────────────────────────────┐   │
+│        │  정책 (Policy)                           │   │
+│        │  · WHY / WHAT — 경영진 의지 표명          │   │
+│        │  · "고객 데이터를 안전하게 보호한다"        │   │
+│        │  · 강제성: 절대 강제 / 변경 주기: 3~5년    │   │
+│        └─────────────────────────────────────────┘   │
+│                          │                            │
+│                          ▼                            │
+│  Lv.2  ┌─────────────────────────────────────────┐   │
+│        │  표준 (Standard)                         │   │
+│        │  · HOW MUCH — 정량적 기술 규격             │   │
+│        │  · "AES-256, TLS 1.3 이상 사용 필수"     │   │
+│        │  · 강제성: 강제 / 변경 주기: 1~2년         │   │
+│        └─────────────────────────────────────────┘   │
+│                          │                            │
+│                          ▼                            │
+│  Lv.3  ┌─────────────────────────────────────────┐   │
+│        │  지침 (Guideline)                        │   │
+│        │  · HOW TO — 환경별 구현 권고               │   │
+│        │  · "AWS KMS로 서버 측 암호화 권장"         │   │
+│        │  · 강제성: 권고 / 변경 주기: 수시           │   │
+│        └─────────────────────────────────────────┘   │
+│                          │                            │
+│                          ▼                            │
+│  Lv.4  ┌─────────────────────────────────────────┐   │
+│        │  절차 (Procedure)                        │   │
+│        │  · STEP BY STEP — 클릭 단위 매뉴얼         │   │
+│        │  · "콘솔 → KMS → 키 생성 → 버킷에 적용"   │   │
+│        │  · 강제성: 해당 업무 담당자 준수             │   │
+│        └─────────────────────────────────────────┘   │
+└───────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 "국군은 최강의 무기로 나라를 지킨다"는 장군의 훈시라면, 표준은 "소총은 K2로 통일하고 탄약은 5.56mm를 쓴다"는 보급창의 강제 규격이고, 지침은 "우기에는 총기 방청유를 매일 바르길 권장한다"는 고참 분대장의 조언이다. 조언을 안 들어도 영창은 안 가지만, 표준 탄약 외의 탄을 넣으면 즉시 징계다.
 
@@ -87,24 +94,31 @@ CEO 승인의 정보보안 [정책](/knowledge-base/studynote/10_ai/02_dl_archit
 
 현대의 [CISO](/knowledge-base/studynote/12_it_management/05_security_compliance/173_ciso_role_and_responsibility/) (Chief Information [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Officer) 조직은 종이 표준 문서를 <strong>코드(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a>)</strong> 형태로 변환해 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인에 통합한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Policy-as-Code 자동화 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">보안 표준 문서</div><div class="kb-diagram-node">OPA Rego 코드 변환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"TLS 1.2 이하 deny if tls_version &lt; 1.3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용 금지" ▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발자 코드 Push</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위반 탐지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Git Push</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">OPA / CSPM 자동 검사</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">통과</div><div class="kb-diagram-cell">위반</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">배포 승인</div><div class="kb-diagram-cell">빌드 차단 +</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">담당자 자동 알림</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────┐
+│            Policy-as-Code 자동화 아키텍처                    │
+├────────────────────────────────────────────────────────────┤
+│                                                            │
+│  [보안 표준 문서]       [OPA Rego 코드 변환]                 │
+│  "TLS 1.2 이하          deny if tls_version < 1.3          │
+│   사용 금지"             ─────────────────────▶            │
+│                                                            │
+│  개발자 코드 Push                                           │
+│        │                                                   │
+│        ▼                                                   │
+│  ┌────────────┐  위반 탐지  ┌──────────────────────────┐  │
+│  │ Git Push   │ ──────────▶│  OPA / CSPM 자동 검사     │  │
+│  └────────────┘            └──────────┬───────────────┘  │
+│                                        │                   │
+│                          통과          │ 위반               │
+│                           │           │                   │
+│                           ▼           ▼                   │
+│                     ┌──────────┐ ┌─────────────────────┐  │
+│                     │ 배포 승인 │ │ 빌드 차단 +          │  │
+│                     └──────────┘ │ 담당자 자동 알림      │  │
+│                                  └─────────────────────┘  │
+└────────────────────────────────────────────────────────────┘
+```
 
 주요 도구:
 - <strong><a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/">OPA</a> (<a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/">Open Policy Agent</a>)</strong>: Rego 언어 기반 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 엔진, [인프라 코드](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)
@@ -212,24 +226,23 @@ NIST [NVD](/knowledge-base/studynote/09_security/13_secops_ir_forensics/651_nvd/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">보안 정책 (Policy) — 경영진 의지 선언</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">보안 표준 (Standard) — 정량적 강제 규격 정립</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">보안 지침 (Guideline) — 환경별 권고</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Policy-as-Code — 표준의 코드화 (OPA/Rego/Sentinel)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CSPM / DevSecOps — CI/CD 파이프라인 자동 검증</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AI 기반 스마트 표준 거버넌스 — 자동 개정·매핑</div></div>
-</div>
-</div>
-
-
+```text
+[보안 정책 (Policy) — 경영진 의지 선언]
+            │
+            ▼
+[보안 표준 (Standard) — 정량적 강제 규격 정립]
+            │
+            ├─── [보안 지침 (Guideline) — 환경별 권고]
+            │
+            ▼
+[Policy-as-Code — 표준의 코드화 (OPA/Rego/Sentinel)]
+            │
+            ▼
+[CSPM / DevSecOps — CI/CD 파이프라인 자동 검증]
+            │
+            ▼
+[AI 기반 스마트 표준 거버넌스 — 자동 개정·매핑]
+```
 
 추상적 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) → 정량 표준 → 코드 변환 → 자동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)의 진화 경로는 보안이 "사후 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)"에서 "개발 내재화"로 이동하는 DevSecOps의 핵심 축이다.
 

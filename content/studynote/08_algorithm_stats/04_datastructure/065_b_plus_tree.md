@@ -20,18 +20,14 @@ tags = ["studynote-algorithm"]
 - **핵심 차이:** B-트리는 모든 노드에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 담지만, B+트리는 오직 리프 노드에만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 담고 내부 노드에는 키 값만 복사하여 배치함.
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">B+Tree Architecture</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">20 | 40</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">Index Set (Internal Node, Pointer Only)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">10|15</div><div class="kb-diagram-node">25|30</div><div class="kb-diagram-node">45|50</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">Leaf Nodes (Actual Data)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">D1-&gt;D2</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">D3-&gt;D4</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">D5-&gt;D6</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">Sequence Set (Linked List Connection)</div></div>
-</div>
-</div>
-
-
+```text
+[ B+Tree Architecture ]
+         [ 20 | 40 ]           <-- Index Set (Internal Node, Pointer Only)
+        /     |      \
+ [10|15]   [25|30]   [45|50]   <-- Leaf Nodes (Actual Data)
+   |          |          |
+ [D1->D2]-->[D3->D4]-->[D5->D6] <-- Sequence Set (Linked List Connection)
+```
 - <strong><a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a> 노드(<a href="/knowledge-base/studynote/02_operating_system/09_file_system/528_unix_inode_mechanism/">Index Node</a>):</strong> 자식 노드를 찾아가기 위한 가이드 역할만 수행. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 없음.
 - **리프 노드(Leaf Node):** 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(또는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 레코드 주소)가 저장되며, 다음 리프 노드를 가리키는 포인터가 있어 수평적 이동이 가능함.
 - <strong>범위 <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a>(Range Query):</strong> 시작 키를 찾은 후 리프 노드 레벨에서 옆으로 쭉 이동하며 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽음 ($O(\log n + k)$, $k$는 범위 내 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수).
@@ -58,23 +54,21 @@ tags = ["studynote-algorithm"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">이진 탐색 트리 (BST) — 탐색 O(log N), 불균형 시 O(N) 성능 저하</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">B-트리 (B-Tree) — 다중 분기로 디스크 I/O 최소화, 내부 노드 데이터 보유</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">B+ 트리 (B+ Tree) — 데이터 리프 집중, 리프 연결 리스트로 범위 쿼리 최적화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DBMS 클러스터드 인덱스 (Clustered Index) — B+ 트리 기반 물리 정렬 저장</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LSM 트리 (Log-Structured Merge Tree) — B+ 트리 대안, 쓰기 집약 NoSQL 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[이진 탐색 트리 (BST) — 탐색 O(log N), 불균형 시 O(N) 성능 저하]
+    │
+    ▼
+[B-트리 (B-Tree) — 다중 분기로 디스크 I/O 최소화, 내부 노드 데이터 보유]
+    │
+    ▼
+[B+ 트리 (B+ Tree) — 데이터 리프 집중, 리프 연결 리스트로 범위 쿼리 최적화]
+    │
+    ▼
+[DBMS 클러스터드 인덱스 (Clustered Index) — B+ 트리 기반 물리 정렬 저장]
+    │
+    ▼
+[LSM 트리 (Log-Structured Merge Tree) — B+ 트리 대안, 쓰기 집약 NoSQL 최적화]
+```
 
 이 흐름은 [이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/) 트리의 불균형 문제를 B-트리가 해결하고, B+ 트리가 범위 탐색을 최적화하여 [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 표준이 된 뒤, [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 집약 환경을 위한 LSM 트리로 진화하는 과정을 보여준다.
 

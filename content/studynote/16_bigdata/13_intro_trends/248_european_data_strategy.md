@@ -46,28 +46,29 @@ tags = ["studynote-bigdata"]
 
 ## II. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공간 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Spaces) 아키텍처
 
+```
+데이터 공간 핵심 원칙:
+  데이터 제공자가 데이터를 직접 보유
+  (중앙 저장소 없음!)
+  
+  IDS (International Data Spaces) 커넥터:
+    제공자 측 커넥터 <-> 소비자 측 커넥터
+    P2P 암호화 채널로 데이터 교환
+    사용 정책(Usage Policy)이 데이터에 내장
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">데이터 공간 핵심 원칙:</div>
-<div class="kb-diagram-note">데이터 제공자가 데이터를 직접 보유</div>
-<div class="kb-diagram-note">(중앙 저장소 없음!)</div>
-<div class="kb-diagram-note">IDS (International Data Spaces) 커넥터:</div>
-<div class="kb-diagram-note">제공자 측 커넥터 &lt;-&gt; 소비자 측 커넥터</div>
-<div class="kb-diagram-note">P2P 암호화 채널로 데이터 교환</div>
-<div class="kb-diagram-note">사용 정책(Usage Policy)이 데이터에 내장</div>
-<div class="kb-diagram-note">구조:</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 제공자</div><div class="kb-diagram-cell">데이터 소비자</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(예: 자동차 제조)</div><div class="kb-diagram-cell">(예: 보험사)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IDS Connector</div><div class="kb-diagram-cell">&lt;---&gt;</div><div class="kb-diagram-cell">IDS Connector</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ Usage Policy</div><div class="kb-diagram-cell">+ 동의 및 계약</div></div>
-<div class="kb-diagram-note">GAIA-X 연합 인프라</div>
-<div class="kb-diagram-note">(신뢰 레이어 + 카탈로그)</div>
-</div>
-</div>
-
-
+구조:
+  +------------------+     +------------------+
+  | 데이터 제공자     |     | 데이터 소비자     |
+  | (예: 자동차 제조) |     | (예: 보험사)      |
+  |  IDS Connector  |<--->|  IDS Connector  |
+  | + Usage Policy  |     | + 동의 및 계약   |
+  +------------------+     +------------------+
+           |                        |
+           +----------+-------------+
+                      |
+               GAIA-X 연합 인프라
+               (신뢰 레이어 + 카탈로그)
+```
 
 > 📢 **섹션 요약 비유**: 물건은 집에 두고, 서로 신뢰 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)된 우편 시스템으로만 교환하는 것 — 중앙 창고가 없어서 한 곳에 독점이나 침해가 생기지 않는다.
 
@@ -131,26 +132,22 @@ EU 데이터 전략 9대 데이터 공간:
 
 ## V. 실무 시나리오 — CATENA-X (자동차 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/))
 
+```
+문제:
+  자동차 1대는 3만여 개 부품 + 수백 개 공급업체
+  탄소 발자국 추적, 배터리 이력 관리 필요 (EU 배터리 규정)
 
+CATENA-X 솔루션:
+  각 공급업체가 자체 데이터 보유 (IDS 커넥터)
+  완성차 업체(BMW, VW)는 필요 시 요청
+  배터리 디지털 여권: 원산지 -> 제조 -> 재활용까지 추적
+  탄소 발자국 증명: 공급망 전체 CO2 계산
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">문제:</div>
-<div class="kb-diagram-note">자동차 1대는 3만여 개 부품 + 수백 개 공급업체</div>
-<div class="kb-diagram-note">탄소 발자국 추적, 배터리 이력 관리 필요 (EU 배터리 규정)</div>
-<div class="kb-diagram-note">CATENA-X 솔루션:</div>
-<div class="kb-diagram-note">각 공급업체가 자체 데이터 보유 (IDS 커넥터)</div>
-<div class="kb-diagram-note">완성차 업체(BMW, VW)는 필요 시 요청</div>
-<div class="kb-diagram-note">배터리 디지털 여권: 원산지 -&gt; 제조 -&gt; 재활용까지 추적</div>
-<div class="kb-diagram-note">탄소 발자국 증명: 공급망 전체 CO2 계산</div>
-<div class="kb-diagram-note">기술 스택:</div>
-<div class="kb-diagram-note">Eclipse Dataspace Components (EDC)</div>
-<div class="kb-diagram-note">IDS 커넥터 구현체</div>
-<div class="kb-diagram-note">GAIA-X 신뢰 레이어</div>
-</div>
-</div>
-
-
+기술 스택:
+  Eclipse Dataspace Components (EDC)
+  IDS 커넥터 구현체
+  GAIA-X 신뢰 레이어
+```
 
 > 📢 **섹션 요약 비유**: 자동차 한 대의 "탄소 여권" — 어디서 채굴된 배터리, 어느 공장에서 만든 부품인지 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 전체가 투명하게 추적되는 것.
 

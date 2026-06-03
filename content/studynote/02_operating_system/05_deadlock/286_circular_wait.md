@@ -26,22 +26,25 @@ tags = ["studynote-operating-system"]
 
 **💡 비유**: 길게 늘어선 도로 정체 구간. 일직선 정체는 맨 앞차가 빠지면 결국 해소된다. 하지만 차량들이 교차로 네 방향에서 꼬리를 물고 들어가 완벽한 □(정사각형) 링 모양으로 멈추면(Gridlock), 아무리 기다려도 어느 한 차도 먼저 나갈 수 없는 순환 대기에 빠진다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">순환 대기 조건의 무한 루프 형성 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">점유</div><div class="kb-diagram-node">요청</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P1 ▶ R1 ── P1 ▶ R2 (B점유)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(사이클 형성: P1 → R2 → P2 → R1 → P1)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대기 선형(직선) 모델 (데드락 ❌)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P1 → R1 → P2 → R2 (마지막 P2는 요청할 다른 목표가 없음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 언젠가 P2가 R2 완료 시 반납, 그 뒤 선형 연결 풀림.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위상 기하학적 의미: 사이클 차수가 1이상 존재.</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│         순환 대기 조건의 무한 루프 형성 구조                 │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│        [점유]                               [요청]           │
+│  P1 ──────────▶ R1 ──┐              P1 ───▶ R2 (B점유)       │
+│   ▲                  │               │                       │
+│   │                  │               │                       │
+│   └──────────────────┘               └───────────────────▼   │
+│  (사이클 형성: P1 → R2 → P2 → R1 → P1)                       │
+│                                                              │
+│  대기 선형(직선) 모델 (데드락 ❌)                            │
+│  P1 → R1 → P2 → R2 (마지막 P2는 요청할 다른 목표가 없음)     │
+│  → 언젠가 P2가 R2 완료 시 반납, 그 뒤 선형 연결 풀림.        │
+│                                                              │
+│  위상 기하학적 의미: 사이클 차수가 1이상 존재.               │
+└──────────────────────────────────────────────────────────────┘
+```
 
 **📢 섹션 요약 비유**: 순환 대기는 우물 속에 빠진 세 사람 — 1번이 2번 발목을 잡고, 2번은 3번 발목을 잡고, 3번이 다시 1번 목말을 타고 있는 황당한 고리 구조. 아무도 혼자 손을 못 푸는 영원한 늪입니다.
 
@@ -53,25 +56,25 @@ tags = ["studynote-operating-system"]
 
 4조건을 찢어버릴 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)들 중에 <strong>가장 소프트웨어적으로 현실성 있는 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>이 바로 "순환 대기를 파괴하는 것"이다. 이는 자원에 넘버링 위계(Hierarchy [Ordering](/knowledge-base/studynote/02_operating_system/04_synchronization/277_semaphore_ordering/))를 가해서 강제적인 오름차순(Ascending order) 요청만 허락하면 된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Lock Hierarchy (락 순서화)를 통한 억제 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 모든 글로벌 자원에 고유 ID (오름차순) 발급</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">R1(ID:10), R2(ID:20), R3(ID:30)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 프로세스의 획득 룰:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"항상 번호표가 낮은 자원부터 먼저 요청해라"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"내가 번호 20을 잡았으면, 절대로 10을 요청할 수 없다"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시나리오 우회 도출:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스레드 A: 10 잡고 20 요청 (✅ 합법)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스레드 B: 20 잡고 10 요청 (❌ 불법 접근, OS 레벨 코드 거절)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ B는 반드시 10을 먼저 쥐어야 20에 접근 가능하게끔 강제화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 원형 형성 가능성 = 0% 완전히 깨짐!</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────┐
+│         Lock Hierarchy (락 순서화)를 통한 억제 구조           │
+├───────────────────────────────────────────────────────────────┤
+│                                                               │
+│  1. 모든 글로벌 자원에 고유 ID (오름차순) 발급                │
+│     R1(ID:10), R2(ID:20), R3(ID:30)                           │
+│                                                               │
+│  2. 프로세스의 획득 룰:                                       │
+│     "항상 번호표가 낮은 자원부터 먼저 요청해라"               │
+│     "내가 번호 20을 잡았으면, 절대로 10을 요청할 수 없다"     │
+│                                                               │
+│  시나리오 우회 도출:                                          │
+│  스레드 A: 10 잡고 20 요청 (✅ 합법)                          │
+│  스레드 B: 20 잡고 10 요청 (❌ 불법 접근, OS 레벨 코드 거절)  │
+│  → B는 반드시 10을 먼저 쥐어야 20에 접근 가능하게끔 강제화    │
+│  → 원형 형성 가능성 = 0% 완전히 깨짐!                         │
+└───────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) Order 제약은 다중 락을 디자인할 때의 불문율이다. 무작위 요청 시 터지던 P1(1잡고 2기다림)과 P2(2잡고 1기다림)가 사라지고, 둘 다 (1부터 잡고 2잡음)로 통일되니, 처음부터 1번을 선점한 녀석이 스무스하게 끝내고 반납할 수 있다.
 
@@ -131,19 +134,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">비선점 (No Preemption)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">순환 대기 (Circular Wait)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">자원 할당 그래프 (Resource-Allocation Graph)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">단일 인스턴스 자원 환경</div></div>
-</div>
-</div>
-
-
+```text
+[비선점 (No Preemption)]
+    │
+    ▼
+[순환 대기 (Circular Wait)]
+    │
+    ├──▶ [자원 할당 그래프 (Resource-Allocation Graph)]
+    └──▶ [단일 인스턴스 자원 환경]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

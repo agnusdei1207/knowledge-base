@@ -25,20 +25,15 @@ tags = ["studynote-network"]
 
 다음은 평행선 구조와 동축 구조의 전자기장 방사 차이를 보여주는 비교도이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">평행 2선 케이블 (Twin-lead)</div><div class="kb-diagram-node">동축 케이블 (Coaxial)</div></div>
-<div class="kb-diagram-note">+ 신호 - 신호</div>
-<div class="kb-diagram-note">(●) &lt;-----&gt; (●) (●) &lt;--- 중심 도체 (+ 신호)</div>
-<div class="kb-diagram-note">\ / | (전기장이 절연체 내에 갇힘)</div>
-<div class="kb-diagram-note">\ / (○) &lt;--- 외부 도체 (- 신호, 쉴드)</div>
-<div class="kb-diagram-note">(( 전자기파 방사 )) 외부 방사 차단 (노이즈 Free)</div>
-</div>
-</div>
-
-
+```text
+[평행 2선 케이블 (Twin-lead)]       [동축 케이블 (Coaxial)]
+    + 신호        - 신호
+    (●)  <----->  (●)               (●) <--- 중심 도체 (+ 신호)
+     \           /                   |   (전기장이 절연체 내에 갇힘)
+      \         /                   (○) <--- 외부 도체 (- 신호, 쉴드)
+       \       /                     |
+   ((  전자기파 방사  ))             외부 방사 차단 (노이즈 Free)
+```
 *이 그림의 핵심은 평행선은 두 선 사이에 형성된 전자기장이 밖으로 새어 나가 간섭을 일으키는 반면, 동축 케이블은 외부 [도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/008_conductor/)가 내부 [도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/008_conductor/)를 완전히 둘러싸 전기장을 완벽하게 차폐(Shielding)한다는 점이다. 이런 구조적 배치는 고주파 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)의 손실을 극적으로 줄여주며, 따라서 장거리 전송과 높은 [신호 대 잡음비](/knowledge-base/studynote/03_network/01_data_communication/024_신호_대_잡음비/)([SNR](/knowledge-base/studynote/03_network/01_data_communication/024_신호_대_잡음비/)) 성능에 직접적인 영향을 준다. 실무에서는 외부 [도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/008_conductor/)가 접지(Ground) 역할을 겸하므로 끝단에서의 완벽한 커넥터 결착과 접지 처리가 안 되면 오히려 노이즈의 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 되는 부작용이 있다.*
 
 - **📢 섹션 요약 비유**: 야외에서 소리를 지르면 소리가 사방으로 퍼져 멀리 안 들리지만(평행선), 긴 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)(외부 [도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/008_conductor/)) 속에서 소리를 지르면 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 밖으로 소리가 새지 않아 아주 멀리까지 뚜렷하게 들리는(동축 케이블) 것과 같습니다.
@@ -59,23 +54,18 @@ tags = ["studynote-network"]
 이러한 케이블을 장비와 연결하는 핵심 부품이 **BNC (Bayonet Neill-Concelman)** 커넥터이다.
 다음은 동축 케이블의 절단면과 BNC 커넥터의 결합 메커니즘을 나타낸 구조도이다.
 
+```text
+[동축 케이블 내부 구조]
+=========================[피복 (Jacket)]
+  =======================[외부 도체 편조 (Braid Shield)]
+    =====================[절연체 (Dielectric)]
+      -------------------[내부 구리선 (Center Core)]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">동축 케이블 내부 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=========================</div><div class="kb-diagram-node">피복 (Jacket)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======================</div><div class="kb-diagram-node">외부 도체 편조 (Braid Shield)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=====================</div><div class="kb-diagram-node">절연체 (Dielectric)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">-------------------</div><div class="kb-diagram-node">내부 구리선 (Center Core)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">BNC 커넥터 결착 방식: Bayonet (총검) 마운트</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">케이블 단</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">BNC 수 커넥터</div><div class="kb-diagram-connector">====&gt;</div><div class="kb-diagram-node">BNC 암 커넥터 (장비 측)</div></div>
-<div class="kb-diagram-note">(핀 돌출부) (걸쇠 핀 홈)</div>
-<div class="kb-diagram-note">"Push &amp; Twist (누르고 돌림)"</div>
-</div>
-</div>
-
-
+[BNC 커넥터 결착 방식: Bayonet (총검) 마운트]
+[케이블 단] ──(+)──▶ [BNC 수 커넥터]  ====>  [BNC 암 커넥터 (장비 측)]
+                   (핀 돌출부)                (걸쇠 핀 홈)
+                                    "Push & Twist (누르고 돌림)"
+```
 *이 구조도의 핵심은 BNC 커넥터가 단순히 선을 맞닿게 하는 것을 넘어, 플러그를 꽂고 비틀어 잠그는 총검(Bayonet) 방식을 통해 외부 충격이나 진동에도 절대 빠지지 않는 견고한 결합을 보장한다는 점이다. 이런 배치는 전기적 접촉 불량으로 인한 [임피던스](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/) 미스매칭(반사파 발생)을 원천 차단하기 때문이며, 따라서 방송국 장비나 이동 잦은 산업용 장비의 안정성에 지대한 영향을 준다. 실무에서는 케이블 가공 시 중심 [도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/008_conductor/)의 길이를 정확히 재단하지 않으면 커넥터 핀이 손상되어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 단절된다.*
 
 <strong>특성 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/">임피던스</a> (Characteristic <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/">Impedance</a>)</strong>
@@ -110,23 +100,23 @@ UTP는 비용이 저렴하지만 거리 제한(100m)이 치명적이다. 동축 
 
 다음은 영상 관제([CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/)) 시스템 구축 시 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 선택을 위한 운영 의사결정 트리이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">영상/데이터 전송 요구사항 분석</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">UTP 케이블 + IP 카메라 구축 (PoE 활용)</div></div>
-<div class="kb-diagram-note">No</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">장거리 전송 및 예산 조건</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">동축 케이블(RG-59/RG-6) + HD-SDI 아날로그 카메라</div></div>
-<div class="kb-diagram-note">No (거리가 500m 이상이거나 초고대역폭 필요)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">광케이블(Fiber) 및 광 컨버터 포설로 전환</div></div>
-</div>
-</div>
-
-
+```text
+[영상/데이터 전송 요구사항 분석]
+            │
+            ├─▶ (카메라와 NVR(녹화기) 거리가 100m 이내인가?) ── Yes ──▶ [UTP 케이블 + IP 카메라 구축 (PoE 활용)]
+            │
+            No
+            │
+            ▼
+[장거리 전송 및 예산 조건]
+            │
+            ├─▶ (거리가 300m 수준이며 IP 장비 교체 예산이 부족한가?) ── Yes ──▶ [동축 케이블(RG-59/RG-6) + HD-SDI 아날로그 카메라]
+            │
+            No (거리가 500m 이상이거나 초고대역폭 필요)
+            │
+            ▼
+     [광케이블(Fiber) 및 광 컨버터 포설로 전환]
+```
 *이 흐름의 핵심은 동축 케이블이 과거의 레거시(Legacy) 기술로 치부될 수 있으나, IP 기반 [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 네트워크가 100m 거리 제한에 걸리는 현장에서는 추가적인 리피터 스위치나 광컨버터 없이 직결할 수 있는 가성비 높은 대안이 된다는 점이다. 실무에서는 아파트나 대형 공장의 구형 아날로그 선로(동축)를 걷어내는 공사비가 너무 크기 때문에, 선로를 유지한 채 양단 장비만 바꾸어 HD급 영상을 전송하는 EoC ([Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) over Coax) 기술을 적용하는 것이 비용 효율적이다.*
 
 <strong>실무 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> (치명적 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a> 사례)</strong>
@@ -155,7 +145,7 @@ UTP는 비용이 저렴하지만 거리 제한(100m)이 치명적이다. 동축 
 **미래 전망**
 신규 구축되는 건물에서는 점차 [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/)(Cat 6a 이상)와 광케이블로 전면 대체되는 추세이지만, 전 세계에 이미 깔려 있는 천문학적 규모의 동축 케이블 인프라는 쉽게 버려지지 않는다. 케이블 TV망은 DOCSIS([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Over Cable [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Interface [Specification](/knowledge-base/studynote/04_software_engineering/03_design_architecture/148_requirements_specification_formal_informal/)) 프로토콜을 고도화하여 동축 케이블 하나로 수 Gbps의 양방향 인터넷을 제공하며 생명력을 연장하고 있다. 동축 케이블은 완전한 FTTH(Fiber to the Home) 시대가 오기 전까지 광통신과 융합된 '라스트 마일'의 든든한 가교 역할을 수행할 것이다.
 
-- **📢 섹션 요약 비유**: 최신식 스마트폰(광통신)이 나와도, 여전히 집안 한구석에서 튼튼하고 잔고장 없이 묵묵히 제 몫을 다하는 유선 전화기(동축 케이블)처럼 그 가치를 이어가고 있습니다.
+- **📢 섹션 요약 비유**: 최정보 스마트폰(광통신)이 나와도, 여전히 집안 한구석에서 튼튼하고 잔고장 없이 묵묵히 제 몫을 다하는 유선 전화기(동축 케이블)처럼 그 가치를 이어가고 있습니다.
 
 ---
 
@@ -171,19 +161,15 @@ UTP는 비용이 저렴하지만 거리 제한(100m)이 치명적이다. 동축 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: UTP 카테고리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 동축 케이블</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 광섬유 케이블</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고속 광전송 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: UTP 카테고리]
+    │
+    ▼
+[현재 개념: 동축 케이블]
+    │
+    ├──▶ [확장 A: 광섬유 케이블]
+    └──▶ [확장 B: 고속 광전송 최적화]
+```
 
 동축 케이블는 [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 카테고리에서 출발해 현재 메커니즘을 정교화하고, 이후 [광섬유 케이블](/knowledge-base/studynote/03_network/03_physical_layer_media/128_optical_fiber_cable/)와 고속 광전송 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -43,22 +43,24 @@ tags = ["studynote-algorithm"]
 
 아래 그림은 분할과 병합이 어떻게 맞물리는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Merge Sort: split first, merge later</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">38 27 43 03 09 82 10 14</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">38 27 43 03</div><div class="kb-diagram-node">09 82 10 14</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">38 27</div><div class="kb-diagram-node">43 03</div><div class="kb-diagram-node">09 82</div><div class="kb-diagram-node">10 14</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">merge upward:</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">27 38</div><div class="kb-diagram-node">03 43</div><div class="kb-diagram-node">09 82</div><div class="kb-diagram-node">10 14</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">03 27 38 43</div><div class="kb-diagram-node">09 10 14 82</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">03 09 10 14 27 38 43 82</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│                 Merge Sort: split first, merge later               │
+├────────────────────────────────────────────────────────────────────┤
+│ [38 27 43 03 09 82 10 14]                                          │
+│          ├───────────────┬───────────────┤                         │
+│      [38 27 43 03]   [09 82 10 14]                                │
+│        ├──────┬──────┤   ├──────┬──────┤                          │
+│      [38 27][43 03] [09 82][10 14]                                │
+│                                                                    │
+│ merge upward:                                                      │
+│ [27 38] [03 43] [09 82] [10 14]                                   │
+│      └──────┬──────┘   └──────┬──────┘                            │
+│      [03 27 38 43]      [09 10 14 82]                             │
+│               └──────────────┬──────────────┘                     │
+│           [03 09 10 14 27 38 43 82]                               │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 병합 단계의 핵심은 두 포인터 비교다. 왼쪽 정렬 구간과 오른쪽 정렬 구간의 맨 앞 원소를 비교해 더 작은 값을 임시 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)에 넣고, 그쪽 포인터만 한 칸 전진한다. 이 작업을 반복하면 두 정렬 구간을 `O(n)`에 합칠 수 있다. 따라서 전체 [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/)는 `T(n) = 2T(n/2) + O(n)` 이 되고, 마스터 정리 (Master Theorem) 에 의해 `O(n log n)`이 된다.
 
@@ -141,23 +143,21 @@ tags = ["studynote-algorithm"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Quadratic comparison sorts</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Divide and Conquer idea</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Merge Sort with stable O(n log n)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">External multi-way merge for large files</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Timsort and parallel merge based optimizations</div>
-</div>
-</div>
-
-
+```text
+Quadratic comparison sorts
+         │
+         ▼
+Divide and Conquer idea
+         │
+         ▼
+Merge Sort with stable O(n log n)
+         │
+         ▼
+External multi-way merge for large files
+         │
+         ▼
+Timsort and parallel merge based optimizations
+```
 
 이 흐름은 "단순 비교 정렬의 한계 → [분할 정복](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/) → 안정적 병합 정렬 → 대용량·하이브리드 정렬로의 확장"을 보여 준다.
 

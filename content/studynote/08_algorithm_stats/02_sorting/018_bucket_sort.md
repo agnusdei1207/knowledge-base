@@ -42,34 +42,34 @@ tags = ["studynote-algorithm"]
 
 ### [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 — 버킷 분배 과정
 
+```
+입력: [0.78, 0.17, 0.39, 0.26, 0.72, 0.94, 0.21, 0.12, 0.23, 0.68]
+n=10, 버킷 범위: [0, 0.1), [0.1, 0.2), ..., [0.9, 1.0)
 
+분배 단계:
+┌────────┬─────────────────────────┐
+│ Bucket │ Elements                │
+├────────┼─────────────────────────┤
+│  [0]   │ (비어있음)               │
+│  [1]   │ 0.17, 0.12              │
+│  [2]   │ 0.26, 0.21, 0.23        │
+│  [3]   │ 0.39                    │
+│  [4]   │ (비어있음)               │
+│  [5]   │ (비어있음)               │
+│  [6]   │ 0.68                    │
+│  [7]   │ 0.78, 0.72              │
+│  [8]   │ (비어있음)               │
+│  [9]   │ 0.94                    │
+└────────┴─────────────────────────┘
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-note">입력:</div><div class="kb-diagram-node">0.78, 0.17, 0.39, 0.26, 0.72, 0.94, 0.21, 0.12, 0.23, 0.68</div></div>
-<div class="kb-diagram-note">n=10, 버킷 범위: [0, 0.1), [0.1, 0.2), ..., [0.9, 1.0)</div>
-<div class="kb-diagram-note">분배 단계:</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Bucket</div><div class="kb-diagram-cell">Elements</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">0</div><div class="kb-diagram-note">(비어있음)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1</div><div class="kb-diagram-note">0.17, 0.12</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2</div><div class="kb-diagram-note">0.26, 0.21, 0.23</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3</div><div class="kb-diagram-note">0.39</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">4</div><div class="kb-diagram-note">(비어있음)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">5</div><div class="kb-diagram-note">(비어있음)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">6</div><div class="kb-diagram-note">0.68</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">7</div><div class="kb-diagram-note">0.78, 0.72</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">8</div><div class="kb-diagram-note">(비어있음)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">9</div><div class="kb-diagram-note">0.94</div></div>
-<div class="kb-diagram-note">각 버킷 내부 정렬:</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1</div><div class="kb-diagram-note">:</div><div class="kb-diagram-node">0.12, 0.17</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2</div><div class="kb-diagram-note">:</div><div class="kb-diagram-node">0.21, 0.23, 0.26</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">7</div><div class="kb-diagram-note">:</div><div class="kb-diagram-node">0.72, 0.78</div></div>
-<div class="kb-diagram-note">수집:</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">0.12, 0.17, 0.21, 0.23, 0.26, 0.39, 0.68, 0.72, 0.78, 0.94</div><div class="kb-diagram-note">✅</div></div>
-</div>
-</div>
+각 버킷 내부 정렬:
+  [1]: [0.12, 0.17]
+  [2]: [0.21, 0.23, 0.26]
+  [7]: [0.72, 0.78]
 
-
+수집:
+[0.12, 0.17, 0.21, 0.23, 0.26, 0.39, 0.68, 0.72, 0.78, 0.94] ✅
+```
 
 ### 시간/[공간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/)
 
@@ -83,19 +83,14 @@ tags = ["studynote-algorithm"]
 
 ### 평균 복잡도 유도
 
+```
+n개 원소, n개 버킷 → 각 버킷 기대 원소 수 = 1
+삽입 정렬 비용: O(1²) = O(1) per bucket
+전체: O(n·1) = O(n)
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">n개 원소, n개 버킷 → 각 버킷 기대 원소 수 = 1</div>
-<div class="kb-diagram-note">삽입 정렬 비용: O(1²) = O(1) per bucket</div>
-<div class="kb-diagram-note">전체: O(n·1) = O(n)</div>
-<div class="kb-diagram-note">분포가 편중되면:</div>
-<div class="kb-diagram-note">최악의 경우 한 버킷에 모든 원소 → O(n²) 삽입 정렬</div>
-</div>
-</div>
-
-
+분포가 편중되면:
+최악의 경우 한 버킷에 모든 원소 → O(n²) 삽입 정렬
+```
 
 📢 **섹션 요약 비유**: 버킷 정렬의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 파티 참석자 배분과 같다. 10개 테이블에 100명이 고르게 앉으면 각 테이블은 10명만 관리하면 되지만, 모두가 테이블 1에 몰리면 그 테이블은 100명을 혼자 감당해야 한다.
 
@@ -140,19 +135,16 @@ tags = ["studynote-algorithm"]
 
 ### [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 방지 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">버킷 정렬 성능 저하 방지 체크리스트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 분포 분석 먼저: 히스토그램으로 편중 확인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 버킷 수 조정: 너무 적으면 편중, 너무 많으면 오버헤드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 내부 정렬 선택: 소규모 버킷 → 삽입 정렬 최적</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 적응형 버킷: 분포에 따라 버킷 크기 가변 설정</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────┐
+│  버킷 정렬 성능 저하 방지 체크리스트                  │
+│                                                      │
+│  1. 분포 분석 먼저: 히스토그램으로 편중 확인          │
+│  2. 버킷 수 조정: 너무 적으면 편중, 너무 많으면 오버헤드│
+│  3. 내부 정렬 선택: 소규모 버킷 → 삽입 정렬 최적     │
+│  4. 적응형 버킷: 분포에 따라 버킷 크기 가변 설정      │
+└──────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 버킷 정렬의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 관리는 물의 수압 조절과 같다. [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)(버킷)가 균등하게 설계되어야 물이 고르게 흐른다. 한쪽이 막히면([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 편중) 전체 시스템이 비효율적이 된다.
 
@@ -187,23 +179,21 @@ tags = ["studynote-algorithm"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">비교 기반 정렬 (Comparison Sort) — 최선 O(n log n) 하한 한계</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">계수 정렬 (Counting Sort) — 정수 범위 제한 시 O(n) 달성</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">버킷 정렬 (Bucket Sort) — 균등 분포 데이터를 구간 버킷으로 분산</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">기수 정렬 (Radix Sort) — 자릿수 단위 안정 정렬로 O(kn) 달성</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">병렬 분산 정렬 (Parallel Sort) — 대용량 빅데이터 환경에서 파티션 기반 병렬 처리</div></div>
-</div>
-</div>
-
-
+```text
+[비교 기반 정렬 (Comparison Sort) — 최선 O(n log n) 하한 한계]
+    │
+    ▼
+[계수 정렬 (Counting Sort) — 정수 범위 제한 시 O(n) 달성]
+    │
+    ▼
+[버킷 정렬 (Bucket Sort) — 균등 분포 데이터를 구간 버킷으로 분산]
+    │
+    ▼
+[기수 정렬 (Radix Sort) — 자릿수 단위 안정 정렬로 O(kn) 달성]
+    │
+    ▼
+[병렬 분산 정렬 (Parallel Sort) — 대용량 빅데이터 환경에서 파티션 기반 병렬 처리]
+```
 
 이 흐름은 비교 기반 정렬의 한계를 분배 기반 선형 시간 정렬이 극복하며 발전하는 정렬 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 계보를 나타낸다.
 

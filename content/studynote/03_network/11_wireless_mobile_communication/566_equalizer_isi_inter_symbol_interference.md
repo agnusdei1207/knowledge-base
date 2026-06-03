@@ -23,25 +23,27 @@ tags = ["studynote-network"]
 - **필요성**: 사람이 1초에 1단어씩 천천히 말하면 동굴에서 메아리가 쳐도 다음 단어를 알아들을 수 있다. 하지만 1초에 1,000단어씩 랩을 하면, 앞 단어의 메아리가 다음 단어와 뒤섞여 전체가 웅웅거리는 끔찍한 소음(ISI)이 된다. 고속 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통신일수록 펄스 폭이 극단적으로 좁아지므로, 메아리 꼬리에 의해 앞 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 뒤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 충돌하는 현상을 제거하지 않으면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수신 자체가 불가능하다.
 - **등장 배경**: ① 도심 환경의 다중경로([Multipath](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/500_multipath_io/))로 인한 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 확산(Delay Spread) 심화 → ② 고속 디지털 통신의 심볼 지속 시간(Symbol Duration)이 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 확산 시간보다 짧아지는 역전 현상 발생(ISI 폭발) → ③ 채널의 왜곡을 실시간으로 추적하여 반대로 깎아내는 적응형 등화기(Adaptive Equalizer) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 발명.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지연 확산에 의한 ISI 발생과 등화기의 복원 원리 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">송신단의 원래 신호: 뾰족하고 날씬함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 '1' 데이터 '0' 데이터 '1'</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▅ ▅ ▅</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">무선 채널 통과 후: 메아리에 의해 뚱뚱해진 파형 (지연 확산)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 '1'의 꼬리가 길어져 다음 시간(데이터 '0') 공간을 침범함!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ ─ ─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ \ / \ / \ &lt;─ (서로 겹쳐서 뭉개짐 = ISI)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">수신단 등화기 (Equalizer) 통과 후: 역필터 깎아내기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">등화기 로직: "현재 시간의 신호에서, 1초 전 놈이 남긴 꼬리만큼을 빼버리자!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▅ ▅ ▅ &lt;─ (날씬하게 다시 복원됨!)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│             지연 확산에 의한 ISI 발생과 등화기의 복원 원리 시각화      │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [송신단의 원래 신호: 뾰족하고 날씬함]                           │
+│   데이터 '1'    데이터 '0'    데이터 '1'                         │
+│     │             │             │                          │
+│     ▅             ▅             ▅                          │
+│                                                             │
+│   [무선 채널 통과 후: 메아리에 의해 뚱뚱해진 파형 (지연 확산)]          │
+│   데이터 '1'의 꼬리가 길어져 다음 시간(데이터 '0') 공간을 침범함!        │
+│     ╭─╮         ╭─╮         ╭─╮                          │
+│    /   \━━━━━━━/   \━━━━━━━/   \   <─ (서로 겹쳐서 뭉개짐 = ISI)│
+│                                                             │
+│   [수신단 등화기 (Equalizer) 통과 후: 역필터 깎아내기]               │
+│   등화기 로직: "현재 시간의 신호에서, 1초 전 놈이 남긴 꼬리만큼을 빼버리자!" │
+│     │             │             │                          │
+│     ▅             ▅             ▅   <─ (날씬하게 다시 복원됨!) │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 통신에서 1과 0을 쏘는 것을 펄스(Pulse)라 한다. 허공(무선 채널)을 날아가며 건물에 부딪히면 펄스는 원래보다 시간 축으로 쭉 늘어나게 된다(시간 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 확산). 고속 통신에서는 펄스와 펄스 사이의 간격이 엄청나게 좁기 때문에, 늘어난 앞 펄스의 꼬리가 뒤 펄스의 머리를 덮쳐버린다. 이를 심볼 간 간섭(ISI)이라 부른다. 폰 안의 [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/)(등화기)은 훈련 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)([Training](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/) Sequence)를 미리 받아보고 이 동네의 메아리가 얼마나 꼬리가 긴지 수학적으로 파악(채널 추정)한 다음, 톱(역함수 필터)을 들고 현재 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)에서 과거 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)의 꼬리만큼의 강도를 싹둑 잘라내어 원래의 깨끗한 기둥 모양으로 복구해 낸다.
 
@@ -63,25 +65,37 @@ tags = ["studynote-network"]
 
 DFE(Decision Feedback Equalizer)는 현재 수신되는 파동을 두 개의 거름망(Filter)으로 처리한다. 하나는 앞으로 들어올 전파를 걸러주는 전방 필터(Feed-Forward)이고, 다른 하나는 방금 내가 판독을 끝낸 확실한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다시 뒤로 돌려보내는 후방 필터(Feedback)다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결정 송환 등화기 (DFE)의 블록 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">수신된 더러운 신호 $Y_k$</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Feed-Forward Filter</div><div class="kb-diagram-cell">(미래의 꼬리 제거 시도)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ ◀ (ISI 빼기 연산)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">덧셈기</div><div class="kb-diagram-note">── ➖ ──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Decision (이건 '1'이다!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">최종 복원 데이터 $X_k$</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Feedback Filter</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(결정된 1이 만들 꼬리를 계산)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 로직: "방금 앞글자가 '1'이었지? 1이라는 놈은 0.1ms 뒤에 이만큼의 꼬리(잡음)를</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">만든다는 걸 내가 알아! 그러니까 지금 들어오는 글자에서 그 꼬리값을 싹둑 빼자!"</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────┐
+│               결정 송환 등화기 (DFE)의 블록 아키텍처              │
+├───────────────────────────────────────────────────────────────┤
+│                                                               │
+│                     [수신된 더러운 신호 $Y_k$]                     │
+│                             │                                 │
+│                             ▼                                 │
+│                 ┌───────────────────────┐                     │
+│                 │ Feed-Forward Filter   │ (미래의 꼬리 제거 시도) │
+│                 └───────────┬───────────┘                     │
+│                             │                                 │
+│                             ▼      ◀────────(ISI 빼기 연산)     │
+│                         [ 덧셈기 ]  ── ➖ ──┐                    │
+│                             │             │                    │
+│                             ▼             │                    │
+│                 ┌───────────────────────┐ │                    │
+│                 │ Decision (이건 '1'이다!) │ │                    │
+│                 └───────────┬───────────┘ │                    │
+│                             │             │                    │
+│                    [최종 복원 데이터 $X_k$]   │                    │
+│                             │             │                    │
+│                             └─────────────▼─────────────────┐  │
+│                                       │ Feedback Filter │  │
+│                                       └─────────────────┘  │
+│                                     (결정된 1이 만들 꼬리를 계산) │
+│                                                               │
+│   => 로직: "방금 앞글자가 '1'이었지? 1이라는 놈은 0.1ms 뒤에 이만큼의 꼬리(잡음)를│
+│            만든다는 걸 내가 알아! 그러니까 지금 들어오는 글자에서 그 꼬리값을 싹둑 빼자!"│
+└───────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 선형 등화기(ZF)는 눈감고 무식하게 더러운 물을 필터에 붓고 짜내는 방식이다. 반면 DFE는 '지능형'이다. 방금 전 0.001초에 수신기가 "이 파동은 완벽한 1이다!"라고 결정을(Decision) 내렸다면, 수신기는 "1이라는 파동이 남기는 메아리의 크기"를 아주 정확하게 알 수 있다. 그래서 그 방금 전의 1이라는 확신 찬 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 피드백(Feedback)으로 돌려, 지금 들어오고 있는 현재 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)에서 그 꼬리의 찌꺼기를 아주 정밀한 덧셈기(➖)로 걷어낸다. 노이즈를 증폭시키는 부작용 없이 순수하게 메아리(ISI)만 제거하는 극강의 통신 복원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
 
@@ -103,26 +117,27 @@ DFE(Decision Feedback Equalizer)는 현재 수신되는 파동을 두 개의 거
 
 스마트폰의 속도가 1Gbps에 달하는 4G/[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 시대에, 앞 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 꼬리(ISI)는 수십 개의 뒷 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들을 연쇄적으로 덮쳐버린다. 이걸 시간 영역 등화기(Time-[Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) DFE)로 깎아내려면 단말기 칩셋([AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/))이 발열로 녹아내린다. 아키텍트들은 "시간 축에서 복잡한 회선 필터를 돌리지 말고, 파동을 주파수 축으로 보내서 그냥 산수 나눗셈 한 번으로 끝내자"는 기적의 수학 <strong>FDE(Frequency <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">Domain</a> Equalizer)</strong>를 찾아냈고, 이것이 4G/5G의 절대 표준인 OFDMA의 핵심이 되었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간 영역의 복잡함 vs 주파수 영역 등화기(FDE)의 위대함</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시간 영역(Time Domain)에서의 ISI 제거 ─▶ 끔찍한 컨볼루션(Convolution)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수신 신호 Y(t) = 원본 X(t) * 채널 왜곡 H(t)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">복원 공식: X(t)를 찾으려면 엄청나게 복잡한</div><div class="kb-diagram-node">컨볼루션 역적분</div><div class="kb-diagram-note">을 수만 번 해야 함!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">혁신: 퓨리에 변환(FFT)을 통한 주파수 영역(Freq Domain)으로의 도약</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수신 신호 Y(f) = 원본 X(f) × 채널 왜곡 H(f) (단순한 곱하기로 변함!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">FDE (Frequency Domain Equalization) 복원 로직</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Y(f) (수신된 뚱뚱한 주파수 덩어리)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원본 X(f) =</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">H(f) (채널이 왜곡시킨 만큼 그냥 나누기!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 시간 축에서는 미분/적분을 수천 번 해야 했던 지옥의 꼬리 자르기가,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주파수 축으로 오니까 초등학생도 하는 '나눗셈 한 번'으로 끝나버림!</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────┐
+│               시간 영역의 복잡함 vs 주파수 영역 등화기(FDE)의 위대함  │
+├───────────────────────────────────────────────────────────────┤
+│                                                               │
+│   [시간 영역(Time Domain)에서의 ISI 제거 ─▶ 끔찍한 컨볼루션(Convolution)] │
+│   수신 신호 Y(t) = 원본 X(t) * 채널 왜곡 H(t)                       │
+│   복원 공식: X(t)를 찾으려면 엄청나게 복잡한 [컨볼루션 역적분]을 수만 번 해야 함! │
+│                                                               │
+│   [혁신: 퓨리에 변환(FFT)을 통한 주파수 영역(Freq Domain)으로의 도약]    │
+│   수신 신호 Y(f) = 원본 X(f) × 채널 왜곡 H(f) (단순한 곱하기로 변함!)    │
+│                                                               │
+│   [FDE (Frequency Domain Equalization) 복원 로직]             │
+│                 Y(f)   (수신된 뚱뚱한 주파수 덩어리)                 │
+│   원본 X(f) =  ──────                                        │
+│                 H(f)   (채널이 왜곡시킨 만큼 그냥 나누기!)           │
+│                                                               │
+│   => 결과: 시간 축에서는 미분/적분을 수천 번 해야 했던 지옥의 꼬리 자르기가, │
+│            주파수 축으로 오니까 초등학생도 하는 '나눗셈 한 번'으로 끝나버림!   │
+└───────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이것이 바로 수학적 퓨리에 변환([FFT](/knowledge-base/studynote/08_algorithm_stats/07_numerical/126_fft/))이 세상을 바꾼 장면이다. 시간 축에서는 앞글자의 꼬리가 뒷글자를 덮치는 징그러운 얼룩([Convolution](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/))이지만, 이걸 [FFT](/knowledge-base/studynote/08_algorithm_stats/07_numerical/126_fft/) 칩셋을 통과시켜 주파수 그래프로 바꿔버리면 그냥 특정 주파수의 높이가 낮아지거나 높아진 단순한 곱셈(Multiplication) 결과물로 바뀐다. 수신기는 "어? 800MHz 주파수가 빌딩에 부딪혀서 힘이 절반(0.5)으로 깎였네? 그럼 나눗셈으로 0.5를 나눠버려라(즉, 2배로 뻥튀기해라)!"라고 단 한 번의 나눗셈 스케줄링으로 원래의 파동 X(f)를 완벽하게 복원해 낸다. CPU 연산량이 기하급수적으로 줄어들어 기가비트급 속도가 모바일 기기에서 가능해진 것이다.
 
@@ -180,19 +195,15 @@ DFE(Decision Feedback Equalizer)는 현재 수신되는 파동을 두 개의 거
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 레이크 수신기</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 등화기</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 스마트 안테나</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 무선 자원 제어</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 레이크 수신기]
+    │
+    ▼
+[현재 개념: 등화기]
+    │
+    ├──▶ [확장 A: 스마트 안테나]
+    └──▶ [확장 B: 지능형 무선 자원 제어]
+```
 
 등화기는 [레이크 수신기](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/565_rake_receiver_multipath_fading_cdma/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [스마트 안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/177_smart_antenna_phased_array/)와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

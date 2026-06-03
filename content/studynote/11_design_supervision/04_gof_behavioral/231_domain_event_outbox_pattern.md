@@ -31,43 +31,43 @@ tags = ["studynote-design-supervision"]
 | Outbox 패턴 | ✅ | 없음 | At-least-once (최소 1회) |
 | [Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/) 패턴 단독 | 부분적 | 있음 | 가능 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Core Idea</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Expected Gain</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐    ┌──────────────┐    ┌──────────────┐
+│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
+└──────────────┘    └──────────────┘    └──────────────┘
+```
 
 - **📢 섹션 요약 비유**: 편지를 바로 우체통에 넣는 대신 먼저 수신함에 보관해 두고, 우편배달부가 정해진 시간에 가져가는 것과 같다. 편지(이벤트)는 절대 잃어버리지 않는다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Business Transaction</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Domain Model</div><div class="kb-diagram-cell">──저장──▶</div><div class="kb-diagram-cell">Business Table (DB)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(비즈니스 객체)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──저장──▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Outbox Table (DB)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">id / event_type</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">payload / status</div></div>
-<div class="kb-diagram-note">COMMIT 동시 반영</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Relay / CDC (Debezium 등)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">미발행 row 폴링 or 변경 로그 캡처</div></div>
-<div class="kb-diagram-note">publish</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Message Broker (Kafka/RabbitMQ)</div></div>
-<div class="kb-diagram-note">consume</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Consumer Service B</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────┐
+│                  Business Transaction                    │
+│  ┌───────────────┐          ┌────────────────────────┐   │
+│  │  Domain Model │ ──저장──▶│  Business Table (DB)   │   │
+│  │  (비즈니스 객체)│          └────────────────────────┘   │
+│  │               │ ──저장──▶┌────────────────────────┐   │
+│  └───────────────┘          │  Outbox Table (DB)     │   │
+│                             │  id / event_type       │   │
+│                             │  payload / status      │   │
+│                             └────────────┬───────────┘   │
+└──────────────────────────────────────────┼───────────────┘
+                                           │ COMMIT 동시 반영
+                     ┌─────────────────────▼──────────────┐
+                     │     Relay / CDC (Debezium 등)       │
+                     │  미발행 row 폴링 or 변경 로그 캡처    │
+                     └─────────────────────┬──────────────┘
+                                           │ publish
+                     ┌─────────────────────▼──────────────┐
+                     │     Message Broker (Kafka/RabbitMQ) │
+                     └─────────────────────┬──────────────┘
+                                           │ consume
+                     ┌─────────────────────▼──────────────┐
+                     │         Consumer Service B          │
+                     └────────────────────────────────────┘
+```
 
 ```sql
 CREATE TABLE outbox_events (

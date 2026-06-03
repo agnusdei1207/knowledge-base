@@ -60,24 +60,26 @@ tags = ["studynote-operating-system"]
 
 피터슨은 `flag`(의사 표현)와 `turn`(양보) 변수를 결합하여 이 문제를 뚫어냈다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">피터슨 알고리즘의 진행(Progress) 보장 시뮬레이션</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">[ 공유 변수: flag</div><div class="kb-diagram-node">0</div><div class="kb-diagram-note">=F, flag</div><div class="kb-diagram-node">1</div><div class="kb-diagram-note">=F, turn=0 ]</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상황: P0은 들어가고 싶고, P1은 관심 없음(나머지 구역에 있음)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">P0 의 진입 시도</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1. flag</div><div class="kb-diagram-node">0</div><div class="kb-diagram-note">= true; (P0: "나 들어갈래!")</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. turn = 1; (P0: "근데 P1 너도 갈 거면 먼저 가")</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3. while (flag</div><div class="kb-diagram-node">1</div><div class="kb-diagram-note">== true &amp;&amp; turn == 1) 확인</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">1</div><div class="kb-diagram-note">은 false 상태임.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ while문 조건이 (false &amp;&amp; true) 이므로 즉시 깨짐 (탈출!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. P0 즉시 임계 구역 진입 완료! ✅ (진행 조건 100% 만족)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌──────────────────────────────────────────────────────────────────────┐
+  │         피터슨 알고리즘의 진행(Progress) 보장 시뮬레이션             │
+  ├──────────────────────────────────────────────────────────────────────┤
+  │                                                                      │
+  │   [ 공유 변수: flag[0]=F, flag[1]=F, turn=0 ]                        │
+  │                                                                      │
+  │   상황: P0은 들어가고 싶고, P1은 관심 없음(나머지 구역에 있음)       │
+  │                                                                      │
+  │   [ P0 의 진입 시도 ]                                                │
+  │   1. flag[0] = true;  (P0: "나 들어갈래!")                           │
+  │   2. turn = 1;        (P0: "근데 P1 너도 갈 거면 먼저 가")           │
+  │                                                                      │
+  │   3. while (flag[1] == true && turn == 1) 확인                       │
+  │      ▶ P1은 관심이 없으므로 flag[1]은 false 상태임.                  │
+  │      ▶ while문 조건이 (false && true) 이므로 즉시 깨짐 (탈출!)       │
+  │                                                                      │
+  │   4. P0 즉시 임계 구역 진입 완료! ✅ (진행 조건 100% 만족)           │
+  └──────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 앞선 교대(Strict Alternation) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 실패를 완벽히 극복했다. P1이 화장실 갈 생각이 없으면(`flag[1] == false`), P0은 `turn`이 1이든 0이든 상관없이 무사통과한다. 즉, **"관심 없는 놈이 남의 발목을 잡지 못하게"** 설계된 완벽한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
 
 - **📢 섹션 요약 비유**: P0과 P1이 문 앞에서 마주쳤을 때 "먼저 가시죠(turn)"라고 양보합니다. 그런데 P1이 "아, 저 화장실 안 가요([flag](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)=false)"라고 하면, P0은 예의 차릴 필요 없이 그냥 문 열고 들어가면 됩니다. 불필요한 양보로 인한 무한 대기가 사라졌습니다.
@@ -116,27 +118,29 @@ OS 설계의 핵심은 이 두 극단적인 목표 사이에서 <strong>안전(S
    - **재앙**: 서버 A는 영원히 락 해제(`unlock()`) 신호를 보내지 못한다. 방은 사실상 비었는데 서버 B와 C는 영원히 기다린다. 진행(Progress) 조건이 외부 요인에 의해 파괴된 것이다.
    - **아키텍트 조치**: [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 락을 설계할 때는 <strong>반드시 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/">TTL</a> (Time-To-Live, 만료 시간)</strong>을 세팅해야 한다. "서버 A가 5초 동안 락을 안 풀면, A가 죽은 걸로 간주하고 락을 강제로 부숴라!"라고 설정해야만 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서의 데드락을 막고 시스템 진행(Progress)을 복구시킬 수 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">교착 상태(Deadlock) 회피를 통한 시스템 진행(Progress) 보장 트리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">요구사항: 스레드들이 자원 A와 자원 B의 락을 동시에 잡아야 함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 락 획득 순서 설계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스레드 1은 A ─▶ B 순서로 락을 잡고, 스레드 2는 B ─▶ A 순서로 잡는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">예 (교차 획득)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 🚨 시스템 진행 정지 (Deadlock 확정)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1번은 A를 쥐고 B대기, 2번은 B를 쥐고 A대기.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 해결 불가. 타임아웃 걸고 프로세스 강제 킬 해야 함.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">아니오 (순서 강제 정렬)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ ✅ 시스템 진행(Progress) 보장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모든 스레드가 무조건 A ─▶ B 순서로만 락을 잡게</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">아키텍처 코딩 컨벤션으로 강제함. (Lock Hierarchy)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 순환 대기(Circular Wait)가 원천 차단됨.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────────┐
+  │     교착 상태(Deadlock) 회피를 통한 시스템 진행(Progress) 보장 트리   │
+  ├───────────────────────────────────────────────────────────────────────┤
+  │                                                                       │
+  │   [요구사항: 스레드들이 자원 A와 자원 B의 락을 동시에 잡아야 함]      │
+  │                │                                                      │
+  │                ▼ 락 획득 순서 설계                                    │
+  │   스레드 1은 A ─▶ B 순서로 락을 잡고, 스레드 2는 B ─▶ A 순서로 잡는가?│
+  │          ├─ [예 (교차 획득)]                                          │
+  │          │      │                                                     │
+  │          │      ▼ 🚨 시스템 진행 정지 (Deadlock 확정)                 │
+  │          │  1번은 A를 쥐고 B대기, 2번은 B를 쥐고 A대기.               │
+  │          │  ▶ 해결 불가. 타임아웃 걸고 프로세스 강제 킬 해야 함.      │
+  │          │                                                            │
+  │          └─ [아니오 (순서 강제 정렬)]                                 │
+  │                 │                                                     │
+  │                 ▼ ✅ 시스템 진행(Progress) 보장                       │
+  │             모든 스레드가 무조건 A ─▶ B 순서로만 락을 잡게            │
+  │             아키텍처 코딩 컨벤션으로 강제함. (Lock Hierarchy)         │
+  │             ▶ 순환 대기(Circular Wait)가 원천 차단됨.                 │
+  └───────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** "진행(Progress)"을 잃어버리는 가장 흔한 개발자의 실수가 락의 획득 순서([Lock Ordering](/knowledge-base/studynote/02_operating_system/05_deadlock/317_lockdep_lock_ordering/))를 꼬아버리는 것이다. 데드락이 터지는 순간 시스템의 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))은 영구적으로 0이 된다. 이를 막기 위해 C++나 Java 시니어 개발자들은 여러 개의 락을 잡을 때 메모리 주소값 순서 등 "무조건 한 방향으로만 락을 획득한다"는 룰을 세워 진행 조건을 철통방어한다.
 
 - **📢 섹션 요약 비유**: 골목길에서 양쪽 차가 빵빵거리며 서로 안 비키는 상황(데드락, 진행 불가)을 막으려면, 법으로 "무조건 남쪽에서 오는 차가 먼저 통과한다"라는 서열([Lock Ordering](/knowledge-base/studynote/02_operating_system/05_deadlock/317_lockdep_lock_ordering/))을 강제해 줘야 도로에 차가 원활하게 흐릅니다.
@@ -167,19 +171,15 @@ OS 설계의 핵심은 이 두 극단적인 목표 사이에서 <strong>안전(S
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">태스크 스케줄링의 캐시 일관성 (Cache Coherence) 문제</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">진행 (Progress)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">코-스케줄링 (Co-scheduling / Gang Scheduling)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">컨테이너 스케줄링 (cgroups cpu.shares, cpu.cfs_quota_us)</div></div>
-</div>
-</div>
-
-
+```text
+[태스크 스케줄링의 캐시 일관성 (Cache Coherence) 문제]
+    │
+    ▼
+[진행 (Progress)]
+    │
+    ├──▶ [코-스케줄링 (Co-scheduling / Gang Scheduling)]
+    └──▶ [컨테이너 스케줄링 (cgroups cpu.shares, cpu.cfs_quota_us)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

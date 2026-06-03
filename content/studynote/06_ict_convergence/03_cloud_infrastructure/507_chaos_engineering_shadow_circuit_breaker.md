@@ -1,5 +1,5 @@
 +++
-title = "507. 카오스 엔지니어링, 섀도 배포, 서킷 브레이커 (Chaos Engineering Shadow Deployment Circuit Breaker)"
+title = "507. 카오스 엔지니어링, 섀도 배포, 서킷 브레이커 (Chaos 엔진ering Shadow Deployment Circuit Breaker)"
 date = 2026-05-09
 
 [taxonomies]
@@ -12,7 +12,7 @@ tags = ["studynote-ict-convergence"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 클라우드 복원력(Resilience) 기술은 "장애가 일어나지 않을 것"을 가정하는 대신 "장애는 반드시 일어난다"를 전제로, 사전에 시스템을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하고 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)한다.
-> 2. **가치**: [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)([Chaos Engineering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/))은 프로덕션에서 의도적 장애를 주입하여 숨겨진 취약점을 미리 발견하고, [섀도 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/118_shadow_deployment_traffic_mirroring/)([Shadow Deployment](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/118_shadow_deployment_traffic_mirroring/))는 실제 사용자 영향 없이 새 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.
+> 2. **가치**: [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)([Chaos 엔진ering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/))은 프로덕션에서 의도적 장애를 주입하여 숨겨진 취약점을 미리 발견하고, [섀도 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/118_shadow_deployment_traffic_mirroring/)([Shadow Deployment](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/118_shadow_deployment_traffic_mirroring/))는 실제 사용자 영향 없이 새 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.
 > 3. **판단 포인트**: [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/)([Circuit Breaker](/knowledge-base/studynote/12_it_management/05_security_compliance/304_circuit_breaker/))의 Open 상태 임계값 설정이 너무 민감하면 정상 요청도 차단되고, 너무 느슨하면 장애 전파를 막지 못한다.
 
 ---
@@ -34,25 +34,27 @@ tags = ["studynote-ict-convergence"]
 
 <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/">서킷 브레이커</a> 상태 전환</strong>:
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">실패율 &lt; 임계값 실패율 ≥ 임계값</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실패율 초과</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CLOSED</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">OPEN</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(정상)</div><div class="kb-diagram-cell">(즉시 거부)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">성공률 회복 타임아웃 경과</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HALF-OPEN</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(소수 허용)</div></div>
-</div>
-</div>
-
-
+```
+          실패율 < 임계값           실패율 ≥ 임계값
+┌──────────────────────────────────────────────────────┐
+│                                                      │
+│  ┌─────────┐  실패율 초과  ┌──────────┐              │
+│  │ CLOSED  │────────────→ │  OPEN    │              │
+│  │ (정상)  │              │ (즉시 거부)│              │
+│  └─────────┘              └──────────┘              │
+│       ↑                        │                    │
+│  성공률 회복                  타임아웃 경과           │
+│       │                        ↓                    │
+│       └──────────────── ┌────────────┐              │
+│                         │ HALF-OPEN  │              │
+│                         │ (소수 허용) │              │
+│                         └────────────┘              │
+└──────────────────────────────────────────────────────┘
+```
 
 | 기술 | 목적 | 적용 시점 | 트래픽 영향 |
 |:---|:---|:---|:---|
-| [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/) ([Chaos Engineering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)) | 약점 사전 발견 | 정기적 실험 | 의도적 장애 주입 |
+| [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/) ([Chaos 엔진ering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)) | 약점 사전 발견 | 정기적 실험 | 의도적 장애 주입 |
 | [섀도 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/118_shadow_deployment_traffic_mirroring/) ([Shadow Deployment](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/118_shadow_deployment_traffic_mirroring/)) | 새 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/) | 배포 전 | 없음 ([미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)) |
 | [카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/) ([Canary Deployment](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/)) | 점진적 트래픽 전환 | 배포 중 | 소수 사용자만 |
 | [블루-그린 배포](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/194_blue_green_deployment_strategy/) ([Blue-Green Deployment](/knowledge-base/studynote/12_it_management/05_security_compliance/304_process/)) | 순간 전환, 빠른 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) | 배포 시 | 전체 or 0 |

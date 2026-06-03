@@ -27,23 +27,24 @@ DVFS가 없다면 시스템은 보통 최악 조건에 맞춘 고정 [전압](/k
 
 아래 그림은 왜 DVFS가 필요한지, 즉 "부하는 계속 변하는데 고정 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)으로 버티면 낭비가 누적된다"는 점을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">변동 부하 시대에 고정 전력 설계가 낳는 낭비</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간 흐름 ▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실제 부하 ▁▂▁▃▂▁▅▆▂▁▇▃▁▂▁</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">필요 성능 저 저 중 저 고 중 저</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고정 고클럭 ███████████████████████████████████</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고정 고전압 ███████████████████████████████████</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DVFS 적용 ▃▃▂▄▃▂▆▇▃▂█▄▂▃▂</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실제 전력 필요한 구간에서만 상승, 나머지는 낮춤</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과 성능은 유지하면서 평균 전력·발열·배터리 소모 감소</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                변동 부하 시대에 고정 전력 설계가 낳는 낭비           │
+├──────────────────────────────────────────────────────────────────────┤
+│ 시간 흐름 ───────────────────────────────────────────────────────▶   │
+│                                                                      │
+│ 실제 부하      ▁▂▁▃▂▁▅▆▂▁▇▃▁▂▁                                      │
+│ 필요 성능      저  저  중  저  고  중  저                           │
+│                                                                      │
+│ 고정 고클럭    ███████████████████████████████████                  │
+│ 고정 고전압    ███████████████████████████████████                  │
+│                                                                      │
+│ DVFS 적용      ▃▃▂▄▃▂▆▇▃▂█▄▂▃▂                                      │
+│ 실제 전력      필요한 구간에서만 상승, 나머지는 낮춤                 │
+│                                                                      │
+│ 결과           성능은 유지하면서 평균 전력·발열·배터리 소모 감소     │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 핵심은 프로세서의 수요가 시간에 따라 크게 흔들린다는 점이다. 따라서 전력 관리의 질문은 "최대 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 낼 수 있는가"만이 아니라, "대부분의 시간에 얼마나 덜 낭비하는가"로 바뀐다.
 
@@ -67,24 +68,29 @@ DVFS의 핵심은 [전압](/knowledge-base/studynote/01_computer_architecture/01
 
 실제 전환 순서도 중요하다. <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>을 올릴 때는 먼저 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/">전압</a>을 올리고 나서 주파수를 올려야</strong> 타이밍 위반이 없다. 반대로 <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>을 낮출 때는 먼저 주파수를 낮추고 나서 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/">전압</a>을 내리는</strong> 순서가 안전하다. 이 순서를 어기면 짧은 순간이라도 회로가 감당할 수 없는 조합이 되어 오류가 날 수 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DVFS 제어 루프와 안전한 전환 순서</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1</div><div class="kb-diagram-note">상태 관측</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용률 · IPC · 온도 · 전력 예산 · 배터리 상태</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2</div><div class="kb-diagram-note">정책 결정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"지금은 P2면 충분한가, P0까지 올려야 하는가?"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3</div><div class="kb-diagram-note">하드웨어 적용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">성능 상승: 전압 ↑ ──안정화──▶ 주파수 ↑</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">성능 하강: 주파수 ↓ ──안정화──▶ 전압 ↓</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">4</div><div class="kb-diagram-note">검증</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">타이밍 성립 · 온도 허용 범위 · 전력 한도 충족 확인</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                    DVFS 제어 루프와 안전한 전환 순서                 │
+├──────────────────────────────────────────────────────────────────────┤
+│ [1] 상태 관측                                                        │
+│  사용률 · IPC · 온도 · 전력 예산 · 배터리 상태                       │
+│                 │                                                    │
+│                 ▼                                                    │
+│ [2] 정책 결정                                                        │
+│  "지금은 P2면 충분한가, P0까지 올려야 하는가?"                       │
+│                 │                                                    │
+│                 ▼                                                    │
+│ [3] 하드웨어 적용                                                    │
+│  ┌──────────────────────────────────────────────────────────────┐    │
+│  │ 성능 상승:  전압 ↑  ──안정화──▶  주파수 ↑                    │    │
+│  │ 성능 하강:  주파수 ↓ ──안정화──▶  전압 ↓                    │    │
+│  └──────────────────────────────────────────────────────────────┘    │
+│                 │                                                    │
+│                 ▼                                                    │
+│ [4] 검증                                                             │
+│  타이밍 성립 · 온도 허용 범위 · 전력 한도 충족 확인                  │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 예를 들어 1.0V·3.2GHz 상태에서 0.8V·1.8GHz 상태로 내려가면, 주파수 감소와 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 감소가 함께 작용해 [동적 전력](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/467_dynamic_power/)이 크게 줄어든다. 반대로 3.2GHz를 유지한 채 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)만 무리하게 낮추면, 임계 경로가 [클럭 주기](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/133_clock_cycle_time/) 안에 계산을 끝내지 못해 오류 가능성이 커진다. 그래서 DVFS는 "낮추는 기술"이 아니라 <strong>검증된 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/">전압</a>-주파수 쌍을 고르는 기술</strong> 이다.
 
@@ -112,19 +118,20 @@ DVFS를 정확히 이해하려면 다른 저전력 기법과의 경계를 분명
 
 또한 DVFS는 [서멀 스로틀링](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/473_thermal_throttling/) ([Thermal Throttling](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/473_thermal_throttling/))과도 다르다. DVFS는 **예방적 최적화** 에 가깝고, [서멀 스로틀링](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/473_thermal_throttling/)은 온도 한계를 넘지 않기 위한 <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a> 동작</strong> 이다. 설계가 좋으면 DVFS가 먼저 평균 발열을 낮춰 스로틀링이 덜 발생하게 만들고, 설계가 나쁘면 결국 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 메커니즘이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 강제로 깎는다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">저전력 기법의 역할 분담과 시간 축</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">짧은 유휴 중간 부하 변화 긴 유휴</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 클럭 게이팅 ── DVFS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"토글만 멈춤"</div><div class="kb-diagram-cell">"세기를 조절"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전력 게이팅 "완전 차단"</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                 저전력 기법의 역할 분담과 시간 축                     │
+├──────────────────────────────────────────────────────────────────────┤
+│ 짧은 유휴                   중간 부하 변화                   긴 유휴 │
+│    │                              │                              │   │
+│    ├── 클럭 게이팅               ├── DVFS                        │   │
+│    │   "토글만 멈춤"             │   "세기를 조절"               │   │
+│    │                              │                              │   │
+│    └──────────────────────────────┴───────────────┐              │   │
+│                                                   ▼              ▼   │
+│                                           전력 게이팅        "완전 차단"│
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 결국 DVFS는 단독 해법이 아니라, [클럭 게이팅](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/470_clock_gating/)·[전력 게이팅](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/471_power_gating/)·서멀 관리 사이에서 **중간 층의 조율자** 역할을 한다. 이 위치를 이해해야 시험에서도 "왜 DVFS만으로는 부족한가"를 설명할 수 있다.
 
@@ -189,24 +196,24 @@ DVFS의 가장 큰 효과는 평균 전력 절감만이 아니다. 발열을 낮
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">동적 전력 문제 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">전압-주파수 결합 이해</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DVFS (Dynamic Voltage and Frequency Scaling)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ P-State 기반 운영체제 정책</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 클럭 게이팅과 결합한 세밀한 저전력 제어</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 전력 게이팅과 결합한 장기 유휴 관리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">코어별·도메인별 적응형 전력 관리</div>
-</div>
-</div>
-
-
+```text
+동적 전력 문제 인식
+    │
+    ▼
+전압-주파수 결합 이해
+    │
+    ▼
+DVFS (Dynamic Voltage and Frequency Scaling)
+    │
+    ├──▶ P-State 기반 운영체제 정책
+    │
+    ├──▶ 클럭 게이팅과 결합한 세밀한 저전력 제어
+    │
+    ├──▶ 전력 게이팅과 결합한 장기 유휴 관리
+    │
+    ▼
+코어별·도메인별 적응형 전력 관리
+```
 
 이 흐름은 "전력을 덜 쓰자"는 요구가, 단순 저클럭에서 출발해 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)-주파수 연동 제어와 계층형 전력 관리로 발전해 온 방향을 보여준다.
 

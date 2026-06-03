@@ -85,21 +85,15 @@ DX가 좋아지면 속도뿐 아니라 품질도 좋아진다. 하지만 도구�
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">개발자 마찰</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">DX</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">IDP / 골든 패스</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">몰입 / 생산성 향상</div>
-</div>
-</div>
-
-
+```text
+개발자 마찰
+   ↓
+DX
+   ↓
+IDP / 골든 패스
+   ↓
+몰입 / 생산성 향상
+```
 
 ---
 

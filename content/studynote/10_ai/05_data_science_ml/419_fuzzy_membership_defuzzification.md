@@ -23,18 +23,16 @@ tags = ["studynote-ai"]
 
 핵심은 "이 값이 집합에 얼마나 속하는가"를 0과 1 사이 연속값으로 표현하는 것이다. 그래서 퍼지 제어는 센서 값이 조금 흔들려도 급격히 튀지 않고, 사람이 쓰는 규칙을 시스템에 옮기기 쉽다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Crisp vs Fuzzy: 경계를 자를 것인가, 완만하게 볼 것인가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Crisp set : 24.9도 = 차갑다, 25.1도 = 따뜻하다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Fuzzy set : 25도는 차갑다 0.3, 적당하다 0.8, 따뜻하다 0.2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심: 애매함을 수치화해 규칙으로 다룬다</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│            Crisp vs Fuzzy: 경계를 자를 것인가, 완만하게 볼 것인가 │
+├──────────────────────────────────────────────────────────────┤
+│ Crisp set : 24.9도 = 차갑다, 25.1도 = 따뜻하다                │
+│ Fuzzy set : 25도는 차갑다 0.3, 적당하다 0.8, 따뜻하다 0.2     │
+│                                                              │
+│ 핵심: 애매함을 수치화해 규칙으로 다룬다                       │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 핵심은 퍼지가 "모호해서 대충"가 아니라는 점이다. 오히려 애매한 판단을 정량화해, 경계 부근에서 더 부드럽고 설명 가능한 의사결정을 하려는 접근이다.
 
@@ -60,19 +58,16 @@ $$
 y^* = \frac{\int y \cdot \mu(y) \, dy}{\int \mu(y) \, dy}
 $$
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">퍼지 시스템의 3단계 처리 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력값</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─&gt; 퍼지화: "차갑다 0.2, 적당하다 0.7, 덥다 0.4"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─&gt; 규칙 추론: 여러 IF-THEN 규칙 결합</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─&gt; 디퍼지피케이션: 최종 제어값 63% 출력</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│              퍼지 시스템의 3단계 처리 흐름                   │
+├──────────────────────────────────────────────────────────────┤
+│ 입력값                                                       │
+│   └─> 퍼지화: "차갑다 0.2, 적당하다 0.7, 덥다 0.4"           │
+│         └─> 규칙 추론: 여러 IF-THEN 규칙 결합               │
+│               └─> 디퍼지피케이션: 최종 제어값 63% 출력      │
+└──────────────────────────────────────────────────────────────┘
+```
 
 연산자도 중요하다. Mamdani 계열에서는 보통 AND에 `min`, OR에 `max`를 쓰고, 여러 규칙의 결과를 결합한 뒤 최종 출력으로 변환한다. 즉, 퍼지 시스템은 애매한 언어 판단을 수치 규칙망으로 옮긴 <strong>설명 가능한 비선형 제어기</strong>라고 볼 수 있다.
 

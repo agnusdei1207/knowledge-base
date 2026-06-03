@@ -32,26 +32,31 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HashiCorp Vault 동적 시크릿 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">애플리케이션 (Pod/Lambda)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Vault에 인증 (AppRole / K8s SA)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HashiCorp Vault</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Auth Engine</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Secrets Engine</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Audit Log</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 동적 자격증명 발급 (TTL=1h)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PostgreSQL</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(임시 계정 자동 생성)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. TTL 만료 시 자동 삭제</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">감사 로그 (누가, 언제, 어떤 시크릿 요청했는지)</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────┐
+│           HashiCorp Vault 동적 시크릿 흐름           │
+├────────────────────────────────────────────────────┤
+│                                                    │
+│  애플리케이션 (Pod/Lambda)                           │
+│       │  1. Vault에 인증 (AppRole / K8s SA)         │
+│       ▼                                            │
+│  ┌─────────────────────┐                           │
+│  │  HashiCorp Vault     │                          │
+│  │  - Auth Engine       │                          │
+│  │  - Secrets Engine    │                          │
+│  │  - Audit Log         │                          │
+│  └──────────┬──────────┘                           │
+│             │  2. 동적 자격증명 발급 (TTL=1h)         │
+│             ▼                                      │
+│  ┌───────────────────────┐                         │
+│  │  PostgreSQL           │                         │
+│  │  (임시 계정 자동 생성) │                          │
+│  └───────────────────────┘                         │
+│             │  3. TTL 만료 시 자동 삭제              │
+│             ▼                                      │
+│  감사 로그 (누가, 언제, 어떤 시크릿 요청했는지)         │
+└────────────────────────────────────────────────────┘
+```
 
 | 방식 | [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) 수명 | 탈취 시 위험 | [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) |
 |:---|:---|:---|:---|
@@ -92,7 +97,7 @@ tags = ["studynote-devops-sre"]
 ### [Vault](/knowledge-base/studynote/09_security/11_iam_access_control/567_vault/) 핵심 개념
 
 - **Auth Method**: AppRole([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간), K8s [ServiceAccount](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/101_serviceaccount_rbac_kubernetes_authorization/), [LDAP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/543_ldap_lightweight_directory_access_protocol/)(사람) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)
-- **Secrets Engine**: KV ([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)-Value), [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/), [PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) ([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 발급), AWS ([IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/) 자격증명)
+- **Secrets 엔진**: KV ([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)-Value), [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/), [PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/) ([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 발급), AWS ([IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/) 자격증명)
 - <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">Policy</a></strong>: HCL (HashiCorp Configuration Language) 기반 세밀한 접근 제어
 
 > 📢 **섹션 요약 비유**: 동적 [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/)은 유효기간이 지나면 자동으로 잠기는 자물쇠다. 훔쳐도 시간이 지나면 쓸모없어진다.
@@ -121,19 +126,14 @@ tags = ["studynote-devops-sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">하드코딩 시대 환경변수 시대 동적 시크릿 시대</div>
-<div class="kb-diagram-note">API 키 소스 코드 삽입 → .env 파일, CI 변수 → HashiCorp Vault</div>
-<div class="kb-diagram-note">Git 유출 사고 컨테이너 인스펙션 위험 동적 시크릿 TTL</div>
-<div class="kb-diagram-note">수동 로테이션 수동 로테이션 자동 로테이션/폐기</div>
-<div class="kb-diagram-note">Secret Scanning CI</div>
-</div>
-</div>
-
-
+```text
+하드코딩 시대             환경변수 시대             동적 시크릿 시대
+──────────────────   ──────────────────────   ─────────────────────────
+API 키 소스 코드 삽입 → .env 파일, CI 변수  →  HashiCorp Vault
+Git 유출 사고           컨테이너 인스펙션 위험     동적 시크릿 TTL
+수동 로테이션           수동 로테이션              자동 로테이션/폐기
+                                               Secret Scanning CI
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

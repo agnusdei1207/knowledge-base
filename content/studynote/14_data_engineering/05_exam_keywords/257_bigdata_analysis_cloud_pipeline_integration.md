@@ -45,39 +45,52 @@ tags = ["studynote-data-engineering"]
 
 ### 2.1 클라우드 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼 통합 아키텍처
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">현대 클라우드 데이터 플랫폼 통합 아키텍처</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 수집 계층 (Ingestion Layer)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">배치: AWS Glue / GCP Dataflow / Azure Data Factory</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스트림: Kafka / AWS Kinesis / GCP Pub/Sub</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 저장 계층 (Storage Layer)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오브젝트: S3 / GCS / Azure Blob (원시 데이터 레이크)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">테이블: Delta Lake / Apache Iceberg / Apache Hudi</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(ACID, 타임트래블, 스키마 진화 지원)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 처리 계층 (Processing Layer)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">배치: Apache Spark / AWS EMR / Dataproc</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스트림: Apache Flink / Spark Streaming</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">변환: dbt(Data Build Tool) SQL 기반 ELT</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 분석 계층 (Analytics Layer)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SQL: BigQuery / Snowflake / Redshift / Azure Synapse</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ML: SageMaker / Vertex AI / Azure ML</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시각화: Tableau / Looker / Power BI</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 서빙 계층 (Serving Layer)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">API: REST/GraphQL 데이터 API</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">캐시: Redis / DynamoDB (실시간 피처 서빙)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대시보드: 비즈니스 인텔리전스(BI) 시스템</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">횡단 관심사 (Cross-cutting Concerns)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 카탈로그 (Data Catalog): Apache Atlas / Datahub</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 계보 (Data Lineage): OpenLineage / Marquez</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 품질 (Data Quality): Great Expectations / Soda</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보안·접근 제어: Apache Ranger / AWS Lake Formation</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────────────┐
+│         현대 클라우드 데이터 플랫폼 통합 아키텍처                 │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  ┌──────────────────────────────────────────────────────────┐   │
+│  │  1. 수집 계층 (Ingestion Layer)                           │   │
+│  │  배치: AWS Glue / GCP Dataflow / Azure Data Factory      │   │
+│  │  스트림: Kafka / AWS Kinesis / GCP Pub/Sub               │   │
+│  └──────────────────────────┬───────────────────────────────┘   │
+│                             │                                   │
+│  ┌──────────────────────────▼───────────────────────────────┐   │
+│  │  2. 저장 계층 (Storage Layer)                             │   │
+│  │  오브젝트: S3 / GCS / Azure Blob (원시 데이터 레이크)    │   │
+│  │  테이블: Delta Lake / Apache Iceberg / Apache Hudi       │   │
+│  │  (ACID, 타임트래블, 스키마 진화 지원)                     │   │
+│  └──────────────────────────┬───────────────────────────────┘   │
+│                             │                                   │
+│  ┌──────────────────────────▼───────────────────────────────┐   │
+│  │  3. 처리 계층 (Processing Layer)                          │   │
+│  │  배치: Apache Spark / AWS EMR / Dataproc                 │   │
+│  │  스트림: Apache Flink / Spark Streaming                   │   │
+│  │  변환: dbt(Data Build Tool) SQL 기반 ELT                  │   │
+│  └──────────────────────────┬───────────────────────────────┘   │
+│                             │                                   │
+│  ┌──────────────────────────▼───────────────────────────────┐   │
+│  │  4. 분석 계층 (Analytics Layer)                           │   │
+│  │  SQL: BigQuery / Snowflake / Redshift / Azure Synapse    │   │
+│  │  ML: SageMaker / Vertex AI / Azure ML                    │   │
+│  │  시각화: Tableau / Looker / Power BI                      │   │
+│  └──────────────────────────┬───────────────────────────────┘   │
+│                             │                                   │
+│  ┌──────────────────────────▼───────────────────────────────┐   │
+│  │  5. 서빙 계층 (Serving Layer)                             │   │
+│  │  API: REST/GraphQL 데이터 API                             │   │
+│  │  캐시: Redis / DynamoDB (실시간 피처 서빙)               │   │
+│  │  대시보드: 비즈니스 인텔리전스(BI) 시스템                  │   │
+│  └──────────────────────────────────────────────────────────┘   │
+│                                                                  │
+│  ═══ 횡단 관심사 (Cross-cutting Concerns) ═══                    │
+│  데이터 카탈로그 (Data Catalog): Apache Atlas / Datahub          │
+│  데이터 계보 (Data Lineage): OpenLineage / Marquez              │
+│  데이터 품질 (Data Quality): Great Expectations / Soda          │
+│  보안·접근 제어: Apache Ranger / AWS Lake Formation             │
+└─────────────────────────────────────────────────────────────────┘
+```
 
 ### 2.2 AWS vs GCP vs Azure [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 비교
 
@@ -99,24 +112,22 @@ tags = ["studynote-data-engineering"]
 
 ### 3.1 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)([Data Governance](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)) 삼각 구도
 
+```
+           데이터 거버넌스 (Data Governance)
+                      /\
+                     /  \
+                    /    \
+                   /      \
+        데이터 품질  ──────  데이터 계보
+       (Data Quality)      (Data Lineage)
+       Great Expectations   OpenLineage
+       Soda / Monte Carlo   Apache Atlas
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">데이터 거버넌스 (Data Governance)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">데이터 품질 데이터 계보</div>
-<div class="kb-diagram-note">(Data Quality) (Data Lineage)</div>
-<div class="kb-diagram-note">Great Expectations OpenLineage</div>
-<div class="kb-diagram-note">Soda / Monte Carlo Apache Atlas</div>
-<div class="kb-diagram-note">데이터 카탈로그 (Data Catalog): 세 요소의 허브</div>
-<div class="kb-diagram-note">→ 어디 있는지 (Data Discovery)</div>
-<div class="kb-diagram-note">→ 어디서 왔는지 (Lineage)</div>
-<div class="kb-diagram-note">→ 얼마나 신뢰할 수 있는지 (Quality Score)</div>
-</div>
-</div>
-
-
+데이터 카탈로그 (Data Catalog): 세 요소의 허브
+→ 어디 있는지 (Data Discovery)
+→ 어디서 왔는지 (Lineage)
+→ 얼마나 신뢰할 수 있는지 (Quality Score)
+```
 
 ### 3.2 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계보([Data Lineage](/knowledge-base/studynote/12_it_management/05_security_compliance/214_data_lineage_tracking/)) 추적 레벨
 
@@ -200,23 +211,19 @@ tags = ["studynote-data-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">온프레미스 Hadoop 클러스터</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 데이터 플랫폼</div>
-<div class="kb-diagram-tree-item" style="--depth:2">수집: Kafka · Kinesis · Pub/Sub</div>
-<div class="kb-diagram-tree-item" style="--depth:2">저장: S3 · GCS · ADLS (Lakehouse)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">처리: Spark · Flink · Dataflow</div>
-<div class="kb-diagram-tree-item" style="--depth:2">분석: BigQuery · Snowflake · Redshift</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">통합 파이프라인: Airflow · dbt · MLOps 연동</div>
-</div>
-</div>
-
-
+```text
+온프레미스 Hadoop 클러스터
+    │
+    ▼
+클라우드 데이터 플랫폼
+    ├─► 수집: Kafka · Kinesis · Pub/Sub
+    ├─► 저장: S3 · GCS · ADLS (Lakehouse)
+    ├─► 처리: Spark · Flink · Dataflow
+    └─► 분석: BigQuery · Snowflake · Redshift
+    │
+    ▼
+통합 파이프라인: Airflow · dbt · MLOps 연동
+```
 2. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계보는 "이 책이 어떤 원고에서 만들어졌고, 누가 편집했는지" 기록하는 출판 이력이에요—어디서 왔는지 모르는 책은 믿기 어려워요.
 3. [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)는 도서관 규칙이에요. 책을 무단으로 바꾸면 안 되고, 개인 정보가 담긴 책은 특별히 잠가두고, 불량 책은 자동으로 골라내는 시스템이에요.
 

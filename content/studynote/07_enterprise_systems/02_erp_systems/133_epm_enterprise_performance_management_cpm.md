@@ -18,17 +18,11 @@ tags = ["studynote-enterprise-systems"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">EPM 순환: 전략 → 계획(예산) → 실행 → 모니터링(KPI) → 분석 → 조정</div>
-<div class="kb-diagram-note">ERP: 운영 데이터 (거래, 재고)</div>
-<div class="kb-diagram-note">EPM: 경영 데이터 (예산, 성과, 예측)</div>
-</div>
-</div>
-
-
+```text
+EPM 순환: 전략 → 계획(예산) → 실행 → 모니터링(KPI) → 분석 → 조정
+  ERP: 운영 데이터 (거래, 재고)
+  EPM: 경영 데이터 (예산, 성과, 예측)
+```
 
 - **📢 섹션 요약 비유**: ERP는 **계기판(현재 속도·연료)**, EPM은 <strong>내비게이션(목적지까지 경로·도착 예측)</strong>이다.
 
@@ -63,18 +57,12 @@ EPM은 <strong><a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_s
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Excel 기반 예산 (2000s)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Oracle Hyperion (2005~)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">클라우드 EPM (Anaplan, 2015~)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">xP&amp;A (확장 계획, 2020~)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: AI EPM — 예측·시나리오 자동 생성</div></div>
-</div>
-</div>
-
-
+```text
+[Excel 기반 예산 (2000s)] → [Oracle Hyperion (2005~)]
+    → [클라우드 EPM (Anaplan, 2015~)]
+    → [xP&A (확장 계획, 2020~)]
+    → [현재: AI EPM — 예측·시나리오 자동 생성]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. ERP는 **계기판**(지금 속도·연료)이에요. EPM은 **내비게이션**(목적지 경로)이에요.

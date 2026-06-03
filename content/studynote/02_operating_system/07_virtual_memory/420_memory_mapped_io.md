@@ -27,27 +27,26 @@ tags = ["studynote-operating-system"]
   2. <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/">RISC</a>(ARM, <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/201_mips/">MIPS</a>)의 미니멀리즘</strong>: "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 갯수 늘리지 마! 그냥 `Load/Store` 메모리 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 2개로 통일하고 I/O도 다 메모리 주소로 퉁쳐버려!"라며 MMIO를 전면 도입.
   3. **대통합**: 결국 그래픽카드나 PCI-E 장비들이 기가바이트 단위의 고속 통신을 요구하자, 고집 피우던 인텔 x86마저도 결국 PCI-E 공간을 모두 MMIO로 덮어버리며 천하 통일이 이루어졌다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PMIO(과거) vs MMIO(현재)의 물리적 주소 공간 맵핑 시각화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1. Port-Mapped I/O (인텔 구형 방식)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">물리 RAM 공간 (4GB)</div><div class="kb-diagram-node">I/O 전용 포트 공간 (64KB)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- RAM 주소: 0x00 ~ 0xFF - 랜카드 포트: 0x10</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- 명령어: MOV eax,</div><div class="kb-diagram-node">0x00</div><div class="kb-diagram-note">- 명령어: IN eax, 0x10</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💥 단점: 공간이 좁고(64KB), 전용 명령어를 써야 해서 확장이 막힘.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2. Memory-Mapped I/O (현대 PCI-e 방식 대세)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">통합된 거대한 물리 주소 공간 (예: 64GB)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0x0000 ~ 0x8000: 진짜 물리 램(RAM) 꽂혀있는 곳</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">0x8001 ~ 0x9000:</div><div class="kb-diagram-node">그래픽 카드 VRAM이 직통 매핑된 웜홀!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">0x9001 ~ 0x9500:</div><div class="kb-diagram-node">사운드 카드 볼륨 조절 레지스터 웜홀!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 장점: CPU가 0x8001 번지에 메모리 쓰듯 <code>MOV</code> 명령어로 1만 쓰면,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">그 전기가 램으로 안 가고 그래픽 카드로 꽂히며 화면이 바뀜!</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│        PMIO(과거) vs MMIO(현재)의 물리적 주소 공간 맵핑 시각화       │
+├──────────────────────────────────────────────────────────────────────┤
+│                                                                      │
+│ ▶ 1. Port-Mapped I/O (인텔 구형 방식)                                │
+│   [ 물리 RAM 공간 (4GB) ]       [ I/O 전용 포트 공간 (64KB) ]        │
+│   - RAM 주소: 0x00 ~ 0xFF     - 랜카드 포트: 0x10                    │
+│   - 명령어: MOV eax, [0x00]   - 명령어: IN eax, 0x10                 │
+│   💥 단점: 공간이 좁고(64KB), 전용 명령어를 써야 해서 확장이 막힘.   │
+│                                                                      │
+│ ▶ 2. Memory-Mapped I/O (현대 PCI-e 방식 대세)                        │
+│   [ 통합된 거대한 물리 주소 공간 (예: 64GB) ]                        │
+│   0x0000 ~ 0x8000: 진짜 물리 램(RAM) 꽂혀있는 곳                     │
+│   0x8001 ~ 0x9000: [ 그래픽 카드 VRAM이 직통 매핑된 웜홀! ]          │
+│   0x9001 ~ 0x9500: [ 사운드 카드 볼륨 조절 레지스터 웜홀! ]          │
+│   ✅ 장점: CPU가 0x8001 번지에 메모리 쓰듯 `MOV` 명령어로 1만 쓰면,  │
+│            그 전기가 램으로 안 가고 그래픽 카드로 꽂히며 화면이 바뀜!│
+└──────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 이것이 C언어로 하드웨어를 지배할 수 있는 절대적인 마법의 원리다. 리눅스 디바이스 드라이버 개발자는 납땜 인두기를 들지 않는다. 그저 OS가 알려준 가상 주소 `0xE0001000`에 포인터를 선언하고 `*ptr = 1`을 넣는다. 그러면 하드웨어 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)([Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)) 제어기가 그 주소가 MMIO 구역임을 눈치채고, 램(DDR4)으로 가던 길을 꺾어서 PCI-Express 슬롯에 꽂힌 랜카드 칩셋으로 전기 신호를 날려 칩을 깨워버린다.
 
 - **📢 섹션 요약 비유**: 옛날엔 은행 업무 보려면 은행 창구(I/O [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))에 가서 전용 서류(`IN/OUT` 명령)를 써야 했습니다. MMIO는 아예 내 스마트폰 바탕화면(메모리 주소 공간)에 뱅킹 앱 아이콘(매핑)을 깔아버린 겁니다. 창구에 안 가고 평소 폰 쓰듯 앱을 터치(메모리 Write)만 하면 실제 은행 서버(하드웨어)로 명령이 직빵으로 꽂히는 혁명입니다.
@@ -151,19 +150,15 @@ CPU가 주소를 뱉었을 때, 이게 진짜 램으로 갈지 그래픽 카드�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">파일 I/O를 메모리 접근으로 변환, 버퍼 캐시 활용, 프로세스 간 공유 메모리로 사용 가능</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">메모리 맵 I/O (Memory-Mapped I/O)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">커널 메모리 할당의 특징</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">페이지 고정 (Page Pinning / Locking)</div></div>
-</div>
-</div>
-
-
+```text
+[파일 I/O를 메모리 접근으로 변환, 버퍼 캐시 활용, 프로세스 간 공유 메모리로 사용 가능]
+    │
+    ▼
+[메모리 맵 I/O (Memory-Mapped I/O)]
+    │
+    ├──▶ [커널 메모리 할당의 특징]
+    └──▶ [페이지 고정 (Page Pinning / Locking)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

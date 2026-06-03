@@ -27,21 +27,17 @@ tags = ["studynote-cloud-architecture"]
 - **속도**: [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)·변환 없이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 즉시 저장하여 수집 파이프라인 단순화
 - **비용**: 원시 [Parquet](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/)/[JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 S3 같은 저비용 [오브젝트 스토리지](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/494_object_storage/)에 보관
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">전통 DW (Schema-on-Write) 데이터 레이크 (Schema-on-Read)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소스 데이터</div><div class="kb-diagram-cell">소스 데이터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↓ ETL 변환</div><div class="kb-diagram-cell">↓ 원시 그대로 저장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↓ 스키마 검증</div><div class="kb-diagram-cell">S3/ADLS (Parquet/JSON/CSV)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↓ 정제·로드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">구조화 테이블</div><div class="kb-diagram-cell">읽을 때 ──▶ Spark/Athena가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(빠른 쿼리)</div><div class="kb-diagram-cell">스키마 해석</div></div>
-</div>
-</div>
-
-
+```
+전통 DW (Schema-on-Write)          데이터 레이크 (Schema-on-Read)
+┌────────────────────────┐          ┌──────────────────────────────┐
+│  소스 데이터             │          │  소스 데이터                   │
+│   ↓ ETL 변환            │          │   ↓ 원시 그대로 저장            │
+│   ↓ 스키마 검증          │          │  S3/ADLS (Parquet/JSON/CSV)  │
+│   ↓ 정제·로드            │          │                              │
+│  구조화 테이블            │          │  읽을 때 ──▶ Spark/Athena가   │
+│  (빠른 쿼리)             │          │             스키마 해석         │
+└────────────────────────┘          └──────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: [Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/)-on-Read는 박물관 수장고와 같다. 유물을 발굴하면 바로 저장하고, 나중에 역사학자·고고학자·미술사가가 각자의 시각으로 의미를 부여하는 것처럼, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 일단 원형 그대로 보존하고 필요할 때 해석한다.
 
@@ -51,27 +47,30 @@ tags = ["studynote-cloud-architecture"]
 
 ### [Schema-on-Read](/knowledge-base/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/) [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/) 아키텍처
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 수집 계층</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IoT/로그/DB CDC/API ──▶ Kafka/Kinesis ──▶ S3 (원시 적재)</div></div>
-<div class="kb-diagram-note">원시 파일 (JSON/CSV/Parquet)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">레이크 스토리지 (Zone 구조)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Bronze Zone</div><div class="kb-diagram-cell">Silver Zone</div><div class="kb-diagram-cell">Gold Zone</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(원시 원본)</div><div class="kb-diagram-cell">(정제·조인)</div><div class="kb-diagram-cell">(집계·분석 전용)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스키마 없음</div><div class="kb-diagram-cell">스키마 추론</div><div class="kb-diagram-cell">스키마 확정</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">쿼리/분석 계층 (스키마 부여)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Apache Spark 스키마 추론(inferSchema) / 명시적 StructType</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AWS Athena CREATE EXTERNAL TABLE (on S3)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Presto/Trino 연방 쿼리, 런타임 스키마 적용</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                        데이터 수집 계층                           │
+│  IoT/로그/DB CDC/API  ──▶  Kafka/Kinesis  ──▶  S3 (원시 적재)  │
+└────────────────────────────────┬────────────────────────────────┘
+                                 │ 원시 파일 (JSON/CSV/Parquet)
+                                 ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                    레이크 스토리지 (Zone 구조)                     │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────────────┐  │
+│  │  Bronze Zone │  │  Silver Zone │  │     Gold Zone        │  │
+│  │  (원시 원본)  │  │  (정제·조인)  │  │  (집계·분석 전용)    │  │
+│  │  스키마 없음  │  │  스키마 추론  │  │  스키마 확정         │  │
+│  └──────────────┘  └──────────────┘  └──────────────────────┘  │
+└────────────────────────────────┬────────────────────────────────┘
+                                 │
+                                 ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                    쿼리/분석 계층 (스키마 부여)                    │
+│  Apache Spark ─── 스키마 추론(inferSchema) / 명시적 StructType  │
+│  AWS Athena   ─── CREATE EXTERNAL TABLE (on S3)                │
+│  Presto/Trino ─── 연방 쿼리, 런타임 스키마 적용                   │
+└─────────────────────────────────────────────────────────────────┘
+```
 
 ### 핵심 기술 구성 요소
 
@@ -121,44 +120,33 @@ tags = ["studynote-cloud-architecture"]
 
 [Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/)-on-Read의 가장 큰 위험은 <strong>거버넌스 부재</strong>다. 아무 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)나 쏟아부으면 "무엇이 어디에 있는지 아무도 모르는" [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 늪이 된다.
 
+```
+[위험] 데이터 스왐프 징후
+- 카탈로그 없이 파일만 S3에 쌓임
+- 데이터 오너십 불명확
+- 동일 데이터의 중복·버전 혼재
+- PII(개인식별정보) 위치 파악 불가
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">위험</div><div class="kb-diagram-note">데이터 스왐프 징후</div></div>
-<div class="kb-diagram-tree-item" style="--depth:0">카탈로그 없이 파일만 S3에 쌓임</div>
-<div class="kb-diagram-tree-item" style="--depth:0">데이터 오너십 불명확</div>
-<div class="kb-diagram-tree-item" style="--depth:0">동일 데이터의 중복·버전 혼재</div>
-<div class="kb-diagram-tree-item" style="--depth:0">PII(개인식별정보) 위치 파악 불가</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">해결</div><div class="kb-diagram-note">거버넌스 4대 원칙</div></div>
-<div class="kb-diagram-note">1. 메타데이터 자동 크롤링 (Glue Crawler)</div>
-<div class="kb-diagram-note">2. 데이터 카탈로그 태깅 (분류/민감도/오너)</div>
-<div class="kb-diagram-note">3. Zone 분리 (Bronze → Silver → Gold)</div>
-<div class="kb-diagram-note">4. 데이터 품질 규칙 자동화 (Great Expectations, dbt tests)</div>
-</div>
-</div>
-
-
+[해결] 거버넌스 4대 원칙
+1. 메타데이터 자동 크롤링 (Glue Crawler)
+2. 데이터 카탈로그 태깅 (분류/민감도/오너)
+3. Zone 분리 (Bronze → Silver → Gold)
+4. 데이터 품질 규칙 자동화 (Great Expectations, dbt tests)
+```
 
 ### 실무 시나리오: 전자상거래 [클릭스트림 분석](/knowledge-base/studynote/16_bigdata/05_analysis/120_clickstream_analysis/)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">사용자 행동 로그 (100GB/일, JSON 비정형)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Kinesis Data Firehose → S3 Bronze (원시 저장, 15분 파티셔닝)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">AWS Glue ETL Job (야간) → S3 Silver (Parquet 변환, 파티션 키: date/category)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Athena 쿼리 → 상품별 전환율 분석 (스키마: 읽을 때 Parquet 컬럼 파악)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">SageMaker (ML) → 추천 모델 학습 (Bronze 원시 피처 활용)</div>
-</div>
-</div>
-
-
+```
+사용자 행동 로그 (100GB/일, JSON 비정형)
+        ↓
+Kinesis Data Firehose → S3 Bronze (원시 저장, 15분 파티셔닝)
+        ↓
+AWS Glue ETL Job (야간) → S3 Silver (Parquet 변환, 파티션 키: date/category)
+        ↓
+Athena 쿼리 → 상품별 전환율 분석 (스키마: 읽을 때 Parquet 컬럼 파악)
+        ↓
+SageMaker (ML) → 추천 모델 학습 (Bronze 원시 피처 활용)
+```
 
 **기술사 핵심 판단**: [Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/)-on-Read는 "먼저 수집, 나중 결정"의 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이므로, <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/">데이터 레이크</a> 도입 시 반드시 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/">데이터 카탈로그</a>와 Zone <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a>을 동시 설계</strong>해야 실패하지 않는다.
 
@@ -206,21 +194,17 @@ tags = ["studynote-cloud-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Schema-on-Write: 저장 전 스키마 강제 (DW)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Schema-on-Read: 저장 시 원시 형태 → 읽을 때 스키마 적용</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Data Lake: S3 + Parquet/JSON</div>
-<div class="kb-diagram-tree-item" style="--depth:2">유연성 ↑ · 분석 속도 ↓ (트레이드오프)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Lakehouse: 두 방식의 장점 통합</div>
-</div>
-</div>
-
-
+```text
+Schema-on-Write: 저장 전 스키마 강제 (DW)
+    │
+    ▼
+Schema-on-Read: 저장 시 원시 형태 → 읽을 때 스키마 적용
+    ├─► Data Lake: S3 + Parquet/JSON
+    └─► 유연성 ↑ · 분석 속도 ↓ (트레이드오프)
+    │
+    ▼
+Lakehouse: 두 방식의 장점 통합
+```
 2. 마치 레고 블록을 일단 다 사두고, 만들고 싶은 게 생겼을 때 조립하는 것처럼, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 일단 쌓아두고 분석할 때 모양을 만든다.
 3. [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)는 아무거나 다 넣는 큰 수납함인데, 어디에 무엇이 있는지 적어두는 메모([카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/))가 없으면 아무것도 못 찾는 수납함이 된다.
 

@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: 주파수가 0.1 [THz](/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/) ~ [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) [THz](/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/) (100GHz ~ [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000GHz) 사이, 파장의 길이가 0.03mm ~ 3mm 수준인 극초고주파 전자기파입니다.
 - **물리학적 위치**: 우리가 쓰는 라디오 전파([마이크로파](/knowledge-base/studynote/03_network/03_physical_layer_media/154_radio_wave_classification/))의 끝자락과, 적외선(빛)의 시작점 그 중간 경계선에 낀 <strong>'빛과 전파의 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/638_mutation_testing_test_case_verification/">돌연변이</a> 혼종'</strong>입니다. (전파처럼 벽을 뚫으면서, 빛처럼 엄청난 직진성 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 가집니다.)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">밀리미터파 전파 감쇠</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">테라헤르츠 대역</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">자유 공간 광통신</div></div>
-</div>
-</div>
-
-
+```text
+[밀리미터파 전파 감쇠]
+    │
+    ▼
+[테라헤르츠 대역]
+    │
+    └──▶ [자유 공간 광통신]
+```
 
 - **📢 섹션 요약 비유**: [테라헤르츠](/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/) 대역은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -47,18 +43,14 @@ tags = ["studynote-network"]
 2. <strong>나노 스케일 초소형 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">안테나</a></strong>:
    - 파장이 너무 짧아서 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 크기도 머리카락 굵기(수 mm)로 작아집니다. 옷의 단추나 스마트 안경 테두리에 수백 개의 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)([Massive MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/))을 현미경 스케일로 박아 넣을 수 있어 입는 통신 기기를 완성합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">밀리미터파 전파 감쇠</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">테라헤르츠 대역</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">자유 공간 광통신</div></div>
-</div>
-</div>
-
-
+```text
+[밀리미터파 전파 감쇠]
+    │
+    ▼
+[테라헤르츠 대역]
+    │
+    └──▶ [자유 공간 광통신]
+```
 
 - **📢 섹션 요약 비유**: [테라헤르츠](/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/) 대역의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -123,19 +115,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 밀리미터파 전파 감쇠</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 테라헤르츠 대역</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 자유 공간 광통신</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 밀리미터파 전파 감쇠]
+    │
+    ▼
+[현재 개념: 테라헤르츠 대역]
+    │
+    ├──▶ [확장 A: 자유 공간 광통신]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 [테라헤르츠](/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/) 대역는 [밀리미터파](/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/) 전파 감쇠에서 출발해 현재 메커니즘을 정교화하고, 이후 [자유 공간 광통신](/knowledge-base/studynote/03_network/03_physical_layer_media/136_fso_free_space_optics_laser/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

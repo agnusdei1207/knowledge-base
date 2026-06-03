@@ -25,22 +25,21 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 "상태를 어떻게 표현하느냐"가 왜 계산 방식의 차이를 만드는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고전 비트와 큐비트의 상태 표현 차이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고전 비트 (Bit)</div><div class="kb-diagram-cell">큐비트 (Qubit)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1비트 = 0 또는 1</div><div class="kb-diagram-cell">1큐비트 = α</div><div class="kb-diagram-cell">0⟩ + β</div><div class="kb-diagram-cell">1⟩</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(단,</div><div class="kb-diagram-cell">α</div><div class="kb-diagram-cell">² +</div><div class="kb-diagram-cell">β</div><div class="kb-diagram-cell">² = 1)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2비트 = 00 / 01 / 10 / 11 중 하나</div><div class="kb-diagram-cell">2큐비트 = 네 기저 상태의 선형 결합</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">α</div><div class="kb-diagram-cell">00⟩+β</div><div class="kb-diagram-cell">01⟩+γ</div><div class="kb-diagram-cell">10⟩+δ</div><div class="kb-diagram-cell">11⟩</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">계산 중에도 한 상태만 유지</div><div class="kb-diagram-cell">계산 중에는 여러 진폭이 함께 진화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">측정 = 현재 값 읽기</div><div class="kb-diagram-cell">측정 = 확률 분포가 한 결과로 붕괴</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                고전 비트와 큐비트의 상태 표현 차이                         │
+├────────────────────────────────────────────────────────────────────────────┤
+│ 고전 비트 (Bit)                    │ 큐비트 (Qubit)                       │
+│                                    │                                      │
+│ 1비트 = 0 또는 1                   │ 1큐비트 = α|0⟩ + β|1⟩               │
+│                                    │ (단, |α|² + |β|² = 1)               │
+│ 2비트 = 00 / 01 / 10 / 11 중 하나  │ 2큐비트 = 네 기저 상태의 선형 결합   │
+│                                    │ α|00⟩+β|01⟩+γ|10⟩+δ|11⟩            │
+│                                    │                                      │
+│ 계산 중에도 한 상태만 유지         │ 계산 중에는 여러 진폭이 함께 진화    │
+│ 측정 = 현재 값 읽기                │ 측정 = 확률 분포가 한 결과로 붕괴    │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 핵심은 "2ⁿ개 상태를 동시에 다 해본다"는 단순 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 비유가 아니라, 양자 상태 전체를 하나의 파동처럼 조작해 원하는 해가 관측될 가능성을 키운다는 점이다. 그래서 양자 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 하드웨어보다도 상태 준비, 위상 제어, 측정 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 본질이 된다.
 
@@ -62,24 +61,29 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 실제 [양자 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/)이 왜 "[큐비트](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/) 칩 하나"가 아니라 거대한 지원 시스템과 함께 움직이는지를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">양자 컴퓨터의 계층형 실행 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 알고리즘</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고전 호스트 (Classical Host)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 회로 생성, 파라미터 최적화, 결과 후처리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제어 전자부 (Control Electronics)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 마이크로파/레이저 펄스 생성, 캘리브레이션</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">QPU (Quantum Processing Unit)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 단일/이중 큐비트 게이트, 얽힘, 측정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">환경 계층</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 희석 냉각기, 진공, 자기 차폐</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                    양자 컴퓨터의 계층형 실행 구조                          │
+├────────────────────────────────────────────────────────────────────────────┤
+│ 사용자 알고리즘                                                            │
+│   │                                                                        │
+│   ▼                                                                        │
+│ 고전 호스트 (Classical Host)                                               │
+│ - 회로 생성, 파라미터 최적화, 결과 후처리                                  │
+│   │                                                                        │
+│   ▼                                                                        │
+│ 제어 전자부 (Control Electronics)                                          │
+│ - 마이크로파/레이저 펄스 생성, 캘리브레이션                                │
+│   │                                                                        │
+│   ▼                                                                        │
+│ QPU (Quantum Processing Unit)                                              │
+│ - 단일/이중 큐비트 게이트, 얽힘, 측정                                      │
+│   │                                                                        │
+│   ▼                                                                        │
+│ 환경 계층                                                                  │
+│ - 희석 냉각기, 진공, 자기 차폐                                             │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 양자 계산의 핵심 원리는 세 가지로 정리할 수 있다. 첫째, 중첩 ([Superposition](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/219_quantum_superposition_qubit/))은 하나의 [큐비트](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/)를 0과 1의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 진폭 조합으로 준비해 상태공간 표현력을 키운다. 둘째, 얽힘 ([Entanglement](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/220_quantum_entanglement/))은 여러 [큐비트](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/)를 분리된 개체가 아니라 하나의 결합된 상태로 만들어, 고전적 상관관계보다 훨씬 풍부한 상태 구조를 만든다. 셋째, 간섭 (Interference)은 정답 후보의 진폭은 증폭하고 오답 후보의 진폭은 상쇄해 측정 시 유리한 결과가 나오도록 회로를 설계하게 한다.
 
@@ -164,25 +168,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">고전 계산 한계 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">큐비트 (Qubit) · 중첩 (Superposition)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">얽힘 (Entanglement) · 양자 게이트 (Quantum Gate)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">NISQ (Noisy Intermediate-Scale Quantum) 하이브리드 계산</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">양자 오류 정정 (Quantum Error Correction)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">FTQC (Fault-Tolerant Quantum Computing) · PQC 전환 가속</div>
-</div>
-</div>
-
-
+```text
+고전 계산 한계 인식
+    │
+    ▼
+큐비트 (Qubit) · 중첩 (Superposition)
+    │
+    ▼
+얽힘 (Entanglement) · 양자 게이트 (Quantum Gate)
+    │
+    ▼
+NISQ (Noisy Intermediate-Scale Quantum) 하이브리드 계산
+    │
+    ▼
+양자 오류 정정 (Quantum Error Correction)
+    │
+    ▼
+FTQC (Fault-Tolerant Quantum Computing) · PQC 전환 가속
+```
 
 이 흐름은 "새로운 상태 표현 → 제어 메커니즘 → 현실 제약 → 오류 극복 → 산업 영향"으로 [양자 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/)의 발전 단계를 묶어 보여준다.
 

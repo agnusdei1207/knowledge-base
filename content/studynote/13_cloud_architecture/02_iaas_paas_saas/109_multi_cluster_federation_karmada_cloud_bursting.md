@@ -20,22 +20,21 @@ tags = ["studynote-cloud-architecture"]
 
 단일 K8s 클러스터는 공식 권고 최대 5,000 노드다. 이를 넘기면 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Server의 Watch/List 트래픽이 폭주하여 마스터가 과부하된다. 또한 1개 클러스터에 모든 워크로드를 집중하면 [etcd](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/078_etcd_distributed_key_value_store/) 장애·네트워크 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 시 <strong>폭발 반경(Blast <a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/541_radius_remote_authentication_aaa/">Radius</a>)</strong>이 전체 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 확대된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">싱글 클러스터 vs 멀티 클러스터 연합 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">싱글 클러스터</div><div class="kb-diagram-node">멀티 클러스터 + Federation</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Master 1</div><div class="kb-diagram-cell">Federation CP</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5000노드</div><div class="kb-diagram-cell">(중앙 사령부)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전체서비스</div><div class="kb-diagram-cell">── ──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장애 시 100% 마비 ▼ ▼ ▼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서울500 도쿄500 AWS500</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장애 시 1/3만 영향</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│     싱글 클러스터 vs 멀티 클러스터 연합 비교            │
+├───────────────────────────────────────────────────────┤
+│  [싱글 클러스터]           [멀티 클러스터 + Federation] │
+│  ┌──────────┐             ┌──────────────────┐        │
+│  │ Master 1 │             │ Federation CP    │        │
+│  │ 5000노드 │             │ (중앙 사령부)     │        │
+│  │ 전체서비스│             └──┬─────┬─────┬──┘        │
+│  └──────────┘                │     │     │            │
+│  장애 시 100% 마비          ▼     ▼     ▼            │
+│                          서울500 도쿄500 AWS500       │
+│                          장애 시 1/3만 영향           │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 5,000개 마을을 황제 1명이 다스리면 황제 과로사 시 제국 멸망. 10개 주로 쪼개고 영주를 세우면 서울 영주가 쓰러져도 부산·도쿄는 무사하다.
 
@@ -109,21 +108,18 @@ Karmada는 [CNCF](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/19
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">싱글 K8s 클러스터 (2015~) — 5,000 노드 한계</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Kubefed v1/v2 (2018~) — 실패, 복잡한 CRD 문법</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Karmada (2021~) — K8s API 100% 호환, CNCF 프로젝트</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: OCM + Karmada + 위성 Edge K3s — 전지구 멀티 클러스터</div></div>
-</div>
-</div>
-
-
+```text
+[싱글 K8s 클러스터 (2015~) — 5,000 노드 한계]
+    │
+    ▼
+[Kubefed v1/v2 (2018~) — 실패, 복잡한 CRD 문법]
+    │
+    ▼
+[Karmada (2021~) — K8s API 100% 호환, CNCF 프로젝트]
+    │
+    ▼
+[현재: OCM + Karmada + 위성 Edge K3s — 전지구 멀티 클러스터]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 한 교실(클러스터)에 학생 5,000명을 넣으면 선생님(마스터)이 힘들어 쓰러져요.

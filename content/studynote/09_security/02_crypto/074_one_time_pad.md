@@ -100,37 +100,25 @@ OTP는 암호학의 기준점을 제시한다.
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Plaintext</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">OTP</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Ciphertext</div>
-</div>
-</div>
-
-
+```text
+Plaintext
+  ↓
+OTP
+  ↓
+Ciphertext
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Perfect Secrecy</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">One-Time Pad</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Key Management</div>
-</div>
-</div>
-
-
+```text
+Perfect Secrecy
+  ↓
+One-Time Pad
+  ↓
+Key Management
+```
 
 ---
 

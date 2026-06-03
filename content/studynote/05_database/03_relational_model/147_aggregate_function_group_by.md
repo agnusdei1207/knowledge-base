@@ -46,28 +46,29 @@ tags = ["studynote-database"]
 
 ### 2. GROUP BY와 HAVING의 처리 순서
 
+```text
+SQL 실행 논리 순서 (집계 관련)
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">SQL 실행 논리 순서 (집계 관련)</div>
-<div class="kb-diagram-note">① FROM — 테이블 읽기</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">② WHERE — 행 단위 필터 (집계 전!)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">③ GROUP BY — 그룹 단위 묶기</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">④ 집계 함수 — SUM, AVG, MAX 등 계산</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">⑤ HAVING — 그룹 단위 필터 (집계 후!)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">⑥ SELECT — 출력 열 선택</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">⑦ ORDER BY — 정렬</div>
-</div>
-</div>
-
-
+  ① FROM        — 테이블 읽기
+  │
+  ▼
+  ② WHERE       — 행 단위 필터 (집계 전!)
+  │
+  ▼
+  ③ GROUP BY    — 그룹 단위 묶기
+  │
+  ▼
+  ④ 집계 함수   — SUM, AVG, MAX 등 계산
+  │
+  ▼
+  ⑤ HAVING     — 그룹 단위 필터 (집계 후!)
+  │
+  ▼
+  ⑥ SELECT     — 출력 열 선택
+  │
+  ▼
+  ⑦ ORDER BY   — 정렬
+```
 
 **핵심 판단**: 집계 결과(SUM, COUNT 등)를 조건으로 필터링하려면 반드시 `HAVING`을 써야 한다. `WHERE` 절에서는 집계 함수를 쓸 수 없다.
 
@@ -172,25 +173,25 @@ FROM   employees;
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단순 SELECT 조회 (개별 행)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">집계 함수 SUM / AVG / MAX / MIN / COUNT</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">GROUP BY — 그룹별 집계</div>
-<div class="kb-diagram-tree-item" style="--depth:2">HAVING — 집계 후 필터링</div>
-<div class="kb-diagram-tree-item" style="--depth:2">윈도우 함수 OVER (PARTITION BY) — 행 유지 집계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Materialized View / ROLLUP / CUBE — 사전 집계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">OLAP 엔진 / 컬럼 스토어 / 데이터 웨어하우스</div>
-</div>
-</div>
-
-
+```text
+단순 SELECT 조회 (개별 행)
+    │
+    ▼
+집계 함수 SUM / AVG / MAX / MIN / COUNT
+    │
+    ▼
+GROUP BY — 그룹별 집계
+    │
+    ├─► HAVING — 집계 후 필터링
+    │
+    ├─► 윈도우 함수 OVER (PARTITION BY) — 행 유지 집계
+    │
+    ▼
+Materialized View / ROLLUP / CUBE — 사전 집계
+    │
+    ▼
+OLAP 엔진 / 컬럼 스토어 / 데이터 웨어하우스
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

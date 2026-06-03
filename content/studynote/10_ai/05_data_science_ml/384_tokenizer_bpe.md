@@ -29,17 +29,14 @@ tags = ["studynote-ai"]
 
 BPE는 원래 [데이터 압축](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/159_compression/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이었으나, Sennrich et al. (2016)이 NMT (Neural Machine Translation)에 도입했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: BPE는 "자주 등장하는 레고 블록 조합을 새로운 블록으로 묶어 보관하는 것"이다. 자주 쓰는 단어 조각은 하나의 토큰으로 만들어 효율화한다.
 
@@ -49,40 +46,33 @@ BPE는 원래 [데이터 압축](/knowledge-base/studynote/08_algorithm_stats/09
 
 ### BPE 학습 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
 
+```
+1. 초기화: 모든 단어를 문자 단위로 분리 + 단어 끝 표시 </w>
+   "low"  → l o w </w>
+   "lower"→ l o w e r </w>
+   "newer"→ n e w e r </w>
 
+2. 빈도 계산: 인접 문자 쌍의 등장 빈도 계산
+   (l,o): 3회,  (o,w): 3회,  (e,r): 2회, ...
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">1. 초기화: 모든 단어를 문자 단위로 분리 + 단어 끝 표시 &lt;/w&gt;</div>
-<div class="kb-diagram-note">"low" → l o w &lt;/w&gt;</div>
-<div class="kb-diagram-note">"lower"→ l o w e r &lt;/w&gt;</div>
-<div class="kb-diagram-note">"newer"→ n e w e r &lt;/w&gt;</div>
-<div class="kb-diagram-note">2. 빈도 계산: 인접 문자 쌍의 등장 빈도 계산</div>
-<div class="kb-diagram-note">(l,o): 3회, (o,w): 3회, (e,r): 2회, ...</div>
-<div class="kb-diagram-note">3. 가장 빈도 높은 쌍 병합:</div>
-<div class="kb-diagram-note">병합 1: (l,o) → "lo"</div>
-<div class="kb-diagram-note">병합 2: (lo,w) → "low"</div>
-<div class="kb-diagram-note">병합 3: (e,r) → "er"</div>
-<div class="kb-diagram-note">...</div>
-<div class="kb-diagram-note">4. 목표 어휘 크기에 도달할 때까지 반복</div>
-</div>
-</div>
+3. 가장 빈도 높은 쌍 병합:
+   병합 1: (l,o) → "lo"
+   병합 2: (lo,w) → "low"
+   병합 3: (e,r) → "er"
+   ...
 
+4. 목표 어휘 크기에 도달할 때까지 반복
+```
 
-
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">초기: l o w &lt;/w&gt; / l o w e r &lt;/w&gt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">병합1: lo w &lt;/w&gt; / lo w e r &lt;/w&gt; (+lo)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">병합2: low &lt;/w&gt; / low e r &lt;/w&gt; (+low)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">병합3: low &lt;/w&gt; / low er &lt;/w&gt; (+er)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과 어휘: {l, o, w, e, r, &lt;/w&gt;, lo, low, er, ...}</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────┐
+│  초기:  l o w </w>  /  l o w e r </w>                │
+│  병합1: lo w </w>   /  lo w e r </w>   (+lo)         │
+│  병합2: low </w>    /  low e r </w>    (+low)         │
+│  병합3: low </w>    /  low er </w>     (+er)          │
+│  결과 어휘: {l, o, w, e, r, </w>, lo, low, er, ...}  │
+└──────────────────────────────────────────────────────┘
+```
 
 ### BPE 인코딩 (적용)
 

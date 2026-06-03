@@ -27,23 +27,22 @@ tags = ["studynote-operating-system"]
   2. **정적 재배치 (Static Relocation)**: 적재 시점에 주소를 변환하는 방식([Load Time Binding](/knowledge-base/studynote/02_operating_system/06_memory_management/326_load_time_binding/))이 등장했으나, 실행 중에 메모리 위치를 이동([Swapping](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/) 등)할 수 없는 문제가 여전했다.
   3. **동적 재배치 (Dynamic Relocation)의 도입**: MMU와 베이스 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 하드웨어가 도입되면서, 프로그램은 실행 중에도 물리 메모리의 어느 위치로든 자유롭게 이동할 수 있게 되었고, CPU는 단지 [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/)만 다루면 되도록 추상화되었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">베이스 레지스터가 없는 환경 vs 있는 환경의 차이</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">베이스 레지스터가 없는 절대 주소 환경</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">컴파일된 코드: JMP 5000 (무조건 물리 5000번지로 이동)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문제점: 5000번지에 다른 프로그램이 있으면 실행 불가!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">베이스 레지스터를 활용한 동적 재배치 환경</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">컴파일된 코드: JMP 100 (논리 주소 100번지로 이동)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">베이스 레지스터 값: 14000 (운영체제가 문맥 교환 시 설정)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MMU의 변환: 100 (논리) + 14000 (베이스) = 14100 (물리)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장점: 프로세스는 자신이 0번지부터 시작한다고 착각함!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────┐
+│     베이스 레지스터가 없는 환경 vs 있는 환경의 차이             │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│ [베이스 레지스터가 없는 절대 주소 환경]                         │
+│ 컴파일된 코드: JMP 5000 (무조건 물리 5000번지로 이동)           │
+│ 문제점: 5000번지에 다른 프로그램이 있으면 실행 불가!            │
+│                                                                 │
+│ [베이스 레지스터를 활용한 동적 재배치 환경]                     │
+│ 컴파일된 코드: JMP 100 (논리 주소 100번지로 이동)               │
+│ 베이스 레지스터 값: 14000 (운영체제가 문맥 교환 시 설정)        │
+│ MMU의 변환: 100 (논리) + 14000 (베이스) = 14100 (물리)          │
+│ 장점: 프로세스는 자신이 0번지부터 시작한다고 착각함!            │
+└─────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 이 다이어그램은 베이스 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)의 도입이 [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) 환경에서 왜 필수적인지를 보여준다. 베이스 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)가 없다면 컴파일된 바이너리는 고정된 위치에 종속되어 재사용성과 메모리 배치 유연성이 떨어진다. 반면, 베이스 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 통해 덧셈 연산을 하드웨어로 수행하면, 소프트웨어 변경 없이 프로세스를 메모리의 어느 공간이든 빈 곳에 적재하여 실행할 수 있다.
 
 - **📢 섹션 요약 비유**: 이사 갈 때마다 주소를 일일이 새로 외우는 대신, 우체국에 '새 주소 기준점'만 등록해두면 이전 주소로 온 편지도 알아서 새집으로 배달해주는 <strong>주소 이전 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a></strong>와 같습니다.
@@ -68,26 +67,34 @@ tags = ["studynote-operating-system"]
 
 CPU가 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 실행하며 [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/)를 발생시키면, 이 주소는 즉시 MMU로 전달된다. [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) 내부의 베이스 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)(또는 재배치 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/))가 가진 값과 [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/)가 하드웨어 가산기에 의해 즉각적으로 더해져 최종 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/)가 완성된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">베이스 레지스터 기반 동적 주소 변환</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CPU (Central Processing Unit)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 논리 주소 (예: 346)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MMU</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">베이스 레지스터 ──▶</div><div class="kb-diagram-cell">가산기 (+)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(예: 14000)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 물리 주소 (예: 14346)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물리 메모리 (Physical Memory)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ 14000:</div><div class="kb-diagram-node">프로세스 A 시작</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">...</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ 14346:</div><div class="kb-diagram-node">요청된 데이터 또는 명령어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">...</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│              베이스 레지스터 기반 동적 주소 변환                   │
+├────────────────────────────────────────────────────────────────────┤
+│                                                                    │
+│                   [ CPU (Central Processing Unit) ]                │
+│                               │                                    │
+│                               ▼ 논리 주소 (예: 346)                │
+│  ┌────────────────────────────┼────────────────────────────┐       │
+│  │ MMU                        │                            │       │
+│  │                            ▼                            │       │
+│  │                     ┌────────────┐                      │       │
+│  │     베이스 레지스터 ──▶│  가산기 (+)  │                      │  │
+│  │  (예: 14000)        └────────────┘                      │       │
+│  │                            │                            │       │
+│  └────────────────────────────┼────────────────────────────┘       │
+│                               ▼ 물리 주소 (예: 14346)              │
+│                               │                                    │
+│             ┌─────────────────▼─────────────────┐                  │
+│             │ 물리 메모리 (Physical Memory)       │                │
+│             │                                   │                  │
+│             │ 14000: [프로세스 A 시작]          │                  │
+│             │        ...                        │                  │
+│             │ 14346: [요청된 데이터 또는 명령어]│                  │
+│             │        ...                        │                  │
+│             └───────────────────────────────────┘                  │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 구조도의 핵심은 주소 변환이 순수하게 '하드웨어' 영역([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))에서 이루어진다는 점이다. 소프트웨어([운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/))가 매번 주소를 더한다면 엄청난 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 오버헤드가 발생하지만, [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) 내의 가산기(Adder)를 통해 메모리 접근마다 1클럭 사이클 내에 실시간 변환이 완료된다. CPU는 14000번지의 존재를 전혀 모르며, 오직 346번지에 접근한다고 생각한다. 이는 프로세스 간 완벽한 공간적 격리를 달성하는 첫걸음이다.
 
@@ -125,18 +132,15 @@ CPU가 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruc
 | **메모리 할당 방식** | [연속 메모리 할당](/knowledge-base/studynote/02_operating_system/06_memory_management/338_contiguous_memory_allocation/) ([Contiguous Allocation](/knowledge-base/studynote/02_operating_system/09_file_system/523_contiguous_allocation/)) | [비연속 메모리 할당](/knowledge-base/studynote/02_operating_system/06_memory_management/350_non_contiguous_memory_allocation/) (Non-[contiguous Allocation](/knowledge-base/studynote/02_operating_system/09_file_system/523_contiguous_allocation/)) |
 | **주소 변환 방식** | 단순 덧셈 연산 1회 | [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 번호 매핑 및 오프셋 결합 (테이블 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 발생) |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">항목</div><div class="kb-diagram-cell">베이스 레지스터 (연속 할당)</div><div class="kb-diagram-cell">PTBR (페이징 기반 할당)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지연</div><div class="kb-diagram-cell">극도로 낮음 (단순 덧셈)</div><div class="kb-diagram-cell">메모리 참조 1회 추가 (TLB 필요)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">확장성</div><div class="kb-diagram-cell">외부 단편화 문제로 최악</div><div class="kb-diagram-cell">물리 메모리 파편화 완벽 해결</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일관성</div><div class="kb-diagram-cell">메모리 통째로 스와핑 필요</div><div class="kb-diagram-cell">페이지 단위 스와핑으로 효율적</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬─────────────────────────┬───────────────────────────────────┐
+│ 항목     │ 베이스 레지스터 (연속 할당)│ PTBR (페이징 기반 할당)        │
+├──────────┼─────────────────────────┼───────────────────────────────────┤
+│ 지연     │ 극도로 낮음 (단순 덧셈)    │ 메모리 참조 1회 추가 (TLB 필요)│
+│ 확장성   │ 외부 단편화 문제로 최악    │ 물리 메모리 파편화 완벽 해결   │
+│ 일관성   │ 메모리 통째로 스와핑 필요  │ 페이지 단위 스와핑으로 효율적  │
+└──────────┴─────────────────────────┴───────────────────────────────────┘
+```
 **[매트릭스 해설]** [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)의 베이스 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 방식은 하드웨어 연산이 단순하여 속도는 가장 빠르지만, 프로세스 전체가 메모리의 연속된 공간에 있어야 하므로 메모리 파편화([외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)) 문제가 극심했다. 반면, 현대의 PTBR은 메모리 접근을 한 번 더 해야 하는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)적 부담(TLB를 통해 극복)을 감수하더라도, 프로세스를 조각내어 물리 메모리 곳곳에 흩뿌려 배치할 수 있는 압도적인 공간 관리 효율성(확장성)을 제공한다.
 
 - **📢 섹션 요약 비유**: 옛날엔 식당을 통째로 빌려야만 행사([연속 할당](/knowledge-base/studynote/02_operating_system/09_file_system/523_contiguous_allocation/))를 할 수 있었다면, 지금은 빈 좌석 번호가 적힌 장부([페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/))를 들고 흩어져 앉아도 행사를 진행할 수 있게 진화한 것입니다.
@@ -157,22 +161,20 @@ CPU가 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruc
    - 베이스 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)만으로는 메모리 "[보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)([Protection](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/))"를 완벽하게 달성할 수 없다.
    - **해결책**: 반드시 프로세스의 크기를 명시하는 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/330_limit_register/">한계 레지스터</a> (<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/330_limit_register/">Limit Register</a>)</strong>를 함께 아키텍처에 포함시켜야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">CPU 논리 주소 요청</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">논리 주소 &lt; 한계 레지스터?</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Traps to OS (Addressing Error/Segfault)</div></div>
-<div class="kb-diagram-note">(Yes)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">논리 주소 + 베이스 레지스터</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">물리 메모리 접근 승인</div></div>
-</div>
-</div>
-
-
+```text
+[CPU 논리 주소 요청]
+        │
+        ▼
+[논리 주소 < 한계 레지스터?] ──(No)──▶ [Traps to OS (Addressing Error/Segfault)]
+        │
+      (Yes)
+        │
+        ▼
+[논리 주소 + 베이스 레지스터]
+        │
+        ▼
+[물리 메모리 접근 승인]
+```
 **[흐름도 해설]** 이 플로우는 실무 시스템에서 메모리 격리를 구현하는 필수적인 방어 로직이다. 주소를 더하기 전에 먼저 [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/)가 프로그램의 합법적인 크기([한계 레지스터](/knowledge-base/studynote/02_operating_system/06_memory_management/330_limit_register/))를 벗어나지 않았는지 검사한다. 이 조건문 분기 하나가 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 레벨의 샌드박싱과 보안 격리를 보장하는 물리적 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 역할을 하며, 이를 위반하면 즉시 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) 폴트([Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) Fault) 인터럽트가 발생해 프로세스가 강제 종료된다.
 
 ### 특권 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) (Privileged [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)) 제어
@@ -213,19 +215,15 @@ CPU가 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruc
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">MMU (Memory-Management Unit)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">베이스 레지스터 (Base/Relocation Register)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">한계 레지스터 (Limit Register)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">동적 적재 (Dynamic Loading)</div></div>
-</div>
-</div>
-
-
+```text
+[MMU (Memory-Management Unit)]
+    │
+    ▼
+[베이스 레지스터 (Base/Relocation Register)]
+    │
+    ├──▶ [한계 레지스터 (Limit Register)]
+    └──▶ [동적 적재 (Dynamic Loading)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

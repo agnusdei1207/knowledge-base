@@ -18,20 +18,14 @@ tags = ["studynote-database"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">ROW_NUMBER() OVER (PARTITION BY dept ORDER BY sal DESC)</div>
-<div class="kb-diagram-note">→ 부서별로 급여 높은 순 번호</div>
-<div class="kb-diagram-note">SUM(sal) OVER (PARTITION BY dept)</div>
-<div class="kb-diagram-note">→ 부서별 전체 합계 (정렬 없음)</div>
-<div class="kb-diagram-note">SUM(sal) OVER (PARTITION BY dept ORDER BY id)</div>
-<div class="kb-diagram-note">→ 부서별 누적 합계 (정렬 있음)</div>
-</div>
-</div>
-
-
+```text
+ROW_NUMBER() OVER (PARTITION BY dept ORDER BY sal DESC)
+  → 부서별로 급여 높은 순 번호
+SUM(sal) OVER (PARTITION BY dept)
+  → 부서별 전체 합계 (정렬 없음)
+SUM(sal) OVER (PARTITION BY dept ORDER BY id)
+  → 부서별 누적 합계 (정렬 있음)
+```
 
 - **📢 섹션 요약 비유**: [PARTITION](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) BY는 **반 나누기**, ORDER BY는 <strong>석차 정하기</strong>이다. 반(부서)별로 석차(순위)를 매긴다.
 
@@ -55,17 +49,11 @@ tags = ["studynote-database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">GROUP BY (그룹 축소)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">PARTITION BY (행 유지)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">ORDER BY + Frame (세밀 제어)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: Named Window (SQL:2019)</div></div>
-</div>
-</div>
-
-
+```text
+[GROUP BY (그룹 축소)] → [PARTITION BY (행 유지)]
+    → [ORDER BY + Frame (세밀 제어)]
+    → [현재: Named Window (SQL:2019)]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [PARTITION](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) BY는 <strong>반 나누기</strong>예요. "1반, 2반, 3반"으로 나눠요.

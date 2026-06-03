@@ -19,44 +19,49 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**:
-- 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 기본 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 킬러는 메모리가 1바이트도 남지 않은 <strong>100% 고갈(파산) 상태</strong>가 되어야만 몽둥이를 빼든다. 이 과정에서 시스템은 수 초간 완전히 얼어붙는다(Hang).
-- 안드로이드 <strong>LMK (Low Memory Killer)</strong>는 파산하기 전에, 램 잔여량이 20%, 15%, [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 단위의 "경계선(Threshold)" 밑으로 떨어질 때마다 단계적으로 개입하여 미리 정해둔 우선순위(ADJ 점수)가 높은 앱들을 부드럽게 죽여 나가는 스마트 예방 시스템이다.
+- **개념**: 
+  - 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 기본 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 킬러는 메모리가 1바이트도 남지 않은 <strong>100% 고갈(파산) 상태</strong>가 되어야만 몽둥이를 빼든다. 이 과정에서 시스템은 수 초간 완전히 얼어붙는다(Hang).
+  - 안드로이드 <strong>LMK (Low Memory Killer)</strong>는 파산하기 전에, 램 잔여량이 20%, 15%, [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 단위의 "경계선(Threshold)" 밑으로 떨어질 때마다 단계적으로 개입하여 미리 정해둔 우선순위(ADJ 점수)가 높은 앱들을 부드럽게 죽여 나가는 스마트 예방 시스템이다.
 
-- **필요성(문제의식)**:
-- 안드로이드 스마트폰은 초창기에 램이 512MB, 1GB밖에 안 됐다. 게다가 [플래시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/)(eMMC)의 수명과 속도 문제 때문에 하드디스크처럼 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)(Swap)를 쓸 수도 없었다.
-- 사용자는 카톡을 하다가, 유튜브를 보고, 다시 게임을 켠다. 앱들은 자기가 종료된 줄 알지만 안드로이드는 다음 실행 속도를 위해 이들을 뒤에 "캐시" 상태로 얼려둔 채 램을 갉아먹게 놔둔다.
-- 게임(무거운 앱)을 켜는 순간, 램 500MB가 한방에 필요하다. 스왑 공간도 없는데 일반 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 킬러가 돌면 게임이 멈추거나 폰이 재부팅된다.
-- **해결책**: "사용자 눈에 안 띄게, 램이 부족할 기미가 보이면 뒤에서 자고 있는 카톡이나 오래된 앱부터 미리미리 목을 쳐서(Kill) 게임이 쓸 넓은 램 500MB를 미리 비워두자!"
+- **필요성(문제의식)**: 
+  - 안드로이드 스마트폰은 초창기에 램이 512MB, 1GB밖에 안 됐다. 게다가 [플래시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/)(eMMC)의 수명과 속도 문제 때문에 하드디스크처럼 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)(Swap)를 쓸 수도 없었다.
+  - 사용자는 카톡을 하다가, 유튜브를 보고, 다시 게임을 켠다. 앱들은 자기가 종료된 줄 알지만 안드로이드는 다음 실행 속도를 위해 이들을 뒤에 "캐시" 상태로 얼려둔 채 램을 갉아먹게 놔둔다.
+  - 게임(무거운 앱)을 켜는 순간, 램 500MB가 한방에 필요하다. 스왑 공간도 없는데 일반 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 킬러가 돌면 게임이 멈추거나 폰이 재부팅된다.
+  - **해결책**: "사용자 눈에 안 띄게, 램이 부족할 기미가 보이면 뒤에서 자고 있는 카톡이나 오래된 앱부터 미리미리 목을 쳐서(Kill) 게임이 쓸 넓은 램 500MB를 미리 비워두자!"
 
-- <strong>일반 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">OOM</a> 킬러</strong>: 비행기 연료가 100% 바닥나서 엔진이 꺼지기 직전 1초에, 가장 무거운 짐 하나를 버리고 간신히 불시착을 면하는 무식한 생존법.
-- **안드로이드 LMK**: 비행기 연료 게이지가 30% 남았을 때 불필요한 의자를 버리고, 20% 남았을 때 승객 수하물을 버리고, [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 남았을 때 기내식을 버리는 식으로 미리미리 무게를 줄여 추락의 공포 자체를 느끼지 못하게 하는 꼼꼼한 기장.
+  - <strong>일반 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">OOM</a> 킬러</strong>: 비행기 연료가 100% 바닥나서 엔진이 꺼지기 직전 1초에, 가장 무거운 짐 하나를 버리고 간신히 불시착을 면하는 무식한 생존법.
+  - **안드로이드 LMK**: 비행기 연료 게이지가 30% 남았을 때 불필요한 의자를 버리고, 20% 남았을 때 승객 수하물을 버리고, [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 남았을 때 기내식을 버리는 식으로 미리미리 무게를 줄여 추락의 공포 자체를 느끼지 못하게 하는 꼼꼼한 기장.
 
-- **등장 배경**:
-- 안드로이드 프로젝트 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/), 구글 엔지니어들이 데스크톱용 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 모바일의 극악한 메모리 환경을 견디지 못하는 것을 보고 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 소스를 뜯어고쳐 LMK 모듈을 쑤셔 넣었다. 이후 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 바깥(유저 스페이스) 데몬인 `lmkd`로 진화하며 현대 안드로이드 램 관리의 핵심이 되었다.
+- **등장 배경**: 
+  - 안드로이드 프로젝트 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/), 구글 엔지니어들이 데스크톱용 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 모바일의 극악한 메모리 환경을 견디지 못하는 것을 보고 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 소스를 뜯어고쳐 LMK 모듈을 쑤셔 넣었다. 이후 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 바깥(유저 스페이스) 데몬인 `lmkd`로 진화하며 현대 안드로이드 램 관리의 핵심이 되었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">안드로이드 LMK의 단계적 암살(Kill) 메커니즘 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스마트폰 전체 RAM: 8GB</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">메모리 잔여량 📉</div><div class="kb-diagram-node">LMK 트리거 및 희생자 선정 타겟</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(안전) 2GB 남음 ──▶ 아무 일 없음. 평화로운 상태.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">1단계 타격</div><div class="kb-diagram-note">: 빈 앱 (Empty App) 사살</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(이미 다 끝났는데 찌꺼기만 남은 앱들 강제 종료)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">2단계 타격</div><div class="kb-diagram-note">: 캐시된 앱 (Cached App) 사살</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(어제 쓰다 홈버튼 누르고 백그라운드에 쌓인 앱들)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">3단계 타격</div><div class="kb-diagram-note">: 서비스 앱 (Service App) 사살</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(음악 재생 등 뒤에서 몰래 도는 앱들까지 쳐냄)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">4단계 타격</div><div class="kb-diagram-note">: 보여지는 앱 (Visible App) 사살</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(화면에 떠 있는 게임을 제외한 모든 앱 몰살)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Foreground App</div><div class="kb-diagram-note">을 살리기 위해,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">뒤에 숨어있는 앱들을 등급별로 썰어버리며 램을 지속적으로 상납함.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │                 안드로이드 LMK의 단계적 암살(Kill) 메커니즘 시각화      │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │   [ 스마트폰 전체 RAM: 8GB ]                                   │
+  │                                                             │
+  │   메모리 잔여량 📉          [ LMK 트리거 및 희생자 선정 타겟 ]        │
+  │   ───────────────────────────────────────────────────────   │
+  │   (안전) 2GB 남음 ──▶ 아무 일 없음. 평화로운 상태.                   │
+  │                                                             │
+  │   (경고) 1GB 남음 ──▶ ⚡ [ 1단계 타격 ]: 빈 앱 (Empty App) 사살     │
+  │                        (이미 다 끝났는데 찌꺼기만 남은 앱들 강제 종료)  │
+  │                                                             │
+  │   (위험) 500MB 남음 ─▶ ⚡ [ 2단계 타격 ]: 캐시된 앱 (Cached App) 사살│
+  │                        (어제 쓰다 홈버튼 누르고 백그라운드에 쌓인 앱들) │
+  │                                                             │
+  │   (심각) 200MB 남음 ─▶ ⚡ [ 3단계 타격 ]: 서비스 앱 (Service App) 사살│
+  │                        (음악 재생 등 뒤에서 몰래 도는 앱들까지 쳐냄)   │
+  │                                                             │
+  │   (최악) 50MB 남음 ──▶ 🚨 [ 4단계 타격 ]: 보여지는 앱 (Visible App) 사살│
+  │                        (화면에 떠 있는 게임을 제외한 모든 앱 몰살)     │
+  │                                                             │
+  │  ▶ 결과: 현재 손가락으로 터치 중인 [Foreground App]을 살리기 위해,      │
+  │          뒤에 숨어있는 앱들을 등급별로 썰어버리며 램을 지속적으로 상납함.      │
+  └─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 안드로이드의 메모리 관리는 '계급 사회'다. 유저와 상호작용하는 앱(Foreground)은 성골 귀족이고, 한 달 전에 쓰다 놔둔 앱(Cached)은 언제든 죽여도 되는 천민이다. 이 계급을 바탕으로 안드로이드는 잔여 메모리가 특정 선([Watermark](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/))을 넘을 때마다 해당 선에 배정된 천민 계급부터 학살을 시작한다. 사용자가 무거운 게임(Genshin 등)을 켜면 메모리가 500MB, 200MB 훅훅 떨어지는데, 이때 LMK가 뒤에서 캐시된 앱과 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 앱들을 0.1초 만에 연속으로 수십 개씩 도륙(SIGKILL)내며 램을 확보해 준다. 덕분에 게임은 단 1초의 버벅임 없이 실행될 수 있다. 나중에 홈 화면으로 돌아가서 어제 쓰던 앱을 다시 켰을 때 처음 로고부터 다시 로딩된다면(리프레시 현상), 그건 그 앱이 어제 이 LMK의 칼날에 암살당했기 때문이다.
 
@@ -81,27 +86,28 @@ LMK가 "누구를 죽일지" 결정하는 유일한 기준표다. 안드로이�
 
 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 안드로이드는 이 킬러 로직을 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 소스 한가운데 박아버렸다. 하지만 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)단에서 복잡한 정책을 돌리려니 오버헤드가 크고 구글이 맘대로 로직을 튜닝하기 힘들었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">안드로이드 9(Pie) 이후의 차세대 lmkd (User-space) 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 메모리 압박 감지 (Kernel PSI)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">리눅스 커널의 PSI (Pressure Stall Information) 모니터가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"어! RAM이 모자라서 CPU가 스와핑 대기하느라 10% 지연되고 있어!" 라고 탐지.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (이벤트 알람 발송)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">========================= (커널/유저 경계) ==========================</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 유저 스페이스 lmkd (Low Memory Killer Daemon)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- AMS(안드로이드 프레임워크)가 준 <code>OOM_ADJ</code> 점수표(생사부)를 들고 있음.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 알람을 받자마자, 점수표에서 점수가 가장 높은 999점(캐시 앱)부터 찾음.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (사형 선고)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3. SIGKILL (-9) 발송 및 메모리 회수</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 타겟 앱의 프로세스를 강제 사살.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 회수된 수백 MB의 램이 즉시 Foreground(게임) 앱으로 흘러 들어감. 🚀</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 안드로이드 9(Pie) 이후의 차세대 lmkd (User-space) 구조 │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [ 1. 메모리 압박 감지 (Kernel PSI) ]                                │
+  │   리눅스 커널의 PSI (Pressure Stall Information) 모니터가                │
+  │   "어! RAM이 모자라서 CPU가 스와핑 대기하느라 10% 지연되고 있어!" 라고 탐지.  │
+  │                 │                                                 │
+  │                 ▼ (이벤트 알람 발송)                                  │
+  │  ========================= (커널/유저 경계) ========================== │
+  │                 │                                                 │
+  │   [ 2. 유저 스페이스 lmkd (Low Memory Killer Daemon) ]              │
+  │   - AMS(안드로이드 프레임워크)가 준 `OOM_ADJ` 점수표(생사부)를 들고 있음.  │
+  │   - 알람을 받자마자, 점수표에서 점수가 가장 높은 999점(캐시 앱)부터 찾음.    │
+  │                 │                                                 │
+  │                 ▼ (사형 선고)                                       │
+  │   [ 3. SIGKILL (-9) 발송 및 메모리 회수 ]                              │
+  │   - 타겟 앱의 프로세스를 강제 사살.                                     │
+  │   - 회수된 수백 MB의 램이 즉시 Foreground(게임) 앱으로 흘러 들어감. 🚀     │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이것이 안드로이드 메모리 아키텍처의 거대한 전환점이다. 옛날엔 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 직접 죽였다면, 이제 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 단순히 "지금 메모리 숨 막혀요(PSI)"라고 알람만 울린다. 진짜 살생부 엑셀 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 들고 다니며 누구 목을 칠지 결정하는 '사형 집행인' 역할은 완전히 유저 영역(User Space)의 독립된 C/C++ 데몬인 `lmkd`로 빠져나왔다. 이렇게 역할을 분리함으로써 구글은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 소스를 수정하지 않고도 기기 제조사(삼성, 샤오미)마다 램 용량(4GB, 12GB 등)에 맞춰 킬러의 성향(잔인하게 죽일지, 버틸지)을 정밀하게 튜닝할 수 있게 되었다.
 
@@ -136,34 +142,37 @@ LMK가 "누구를 죽일지" 결정하는 유일한 기준표다. 안드로이�
 ### 실무 시나리오 및 운영 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 1. **시나리오 — 내가 만든 앱이 홈 화면만 가면 귀신같이 죽는 현상 (리프레시 지옥)**: 안드로이드 앱 개발자가 이미지 캐싱과 동영상 데이터를 엄청나게 올려두는 무거운 앱을 만들었다. 사용자가 카톡에 답장하려고 홈버튼을 누르고 나갔다가 10초 뒤에 돌아왔는데, 앱이 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화면부터 다시 로딩된다.
-- **원인 분석**: 앱이 화면(Foreground)에서 내려가는 순간, AMS는 이 앱의 ADJ 점수를 신(0)에서 천민(900대)으로 수직 강등시킨다. 이때 이 앱이 램을 무식하게 많이(예: 1GB) 먹고 있었다면, LMK 입장에서는 "와, 저 천민 하나만 죽이면 램 1GB를 한 방에 털 수 있네!"라며 가장 최우선 타겟(Best Victim)으로 삼고 즉각 쳐 죽인 것이다.
-- **아키텍트 판단 (메모리 다이어트 및 콜백 대응)**: 안드로이드 개발의 철칙은 "화면에서 내려갈 때 짐을 버려라"다. 앱은 `onTrimMemory()` 콜백을 무조건 구현하여, OS가 "메모리 모자란데 죽기 싫으면 짐 좀 버려"라고 경고를 날릴 때 즉각 Bitmap 이미지 캐시와 비트맵 풀을 `null`로 날려버려 램 다이어트를 해야 한다. 앱을 가볍게 만들면 LMK는 굳이 가벼운 놈을 죽여봤자 얻을 게 없으므로 암살 명단에서 뒤로 미뤄주어 생존 확률이 극적으로 올라간다.
+   - **원인 분석**: 앱이 화면(Foreground)에서 내려가는 순간, AMS는 이 앱의 ADJ 점수를 신(0)에서 천민(900대)으로 수직 강등시킨다. 이때 이 앱이 램을 무식하게 많이(예: 1GB) 먹고 있었다면, LMK 입장에서는 "와, 저 천민 하나만 죽이면 램 1GB를 한 방에 털 수 있네!"라며 가장 최우선 타겟(Best Victim)으로 삼고 즉각 쳐 죽인 것이다.
+   - **아키텍트 판단 (메모리 다이어트 및 콜백 대응)**: 안드로이드 개발의 철칙은 "화면에서 내려갈 때 짐을 버려라"다. 앱은 `onTrimMemory()` 콜백을 무조건 구현하여, OS가 "메모리 모자란데 죽기 싫으면 짐 좀 버려"라고 경고를 날릴 때 즉각 Bitmap 이미지 캐시와 비트맵 풀을 `null`로 날려버려 램 다이어트를 해야 한다. 앱을 가볍게 만들면 LMK는 굳이 가벼운 놈을 죽여봤자 얻을 게 없으므로 암살 명단에서 뒤로 미뤄주어 생존 확률이 극적으로 올라간다.
 
 2. **시나리오 — 음악 플레이어 앱이 중간에 픽픽 끊기며 죽는 장애**: 화면을 끄고 음악을 듣거나 GPS 만보기를 켜고 걷고 있는데, 30분쯤 지나면 자꾸 앱이 죽어서 음악이 꺼진다.
-- **원인 분석**: 개발자가 이 작업을 일반 쓰레드나 일반 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)(Activity)에 묶어놓고 화면을 껐다. 화면이 꺼진 앱은 'Cached App(노비 계급)'으로 추락하므로, 유저가 다른 카메라 앱을 켜는 순간 LMK가 즉시 학살해 버린 것이다.
-- <strong>아키텍트 판단 (Foreground <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a> 승격)</strong>: 음악 재생, GPS 추적 같은 작업은 안드로이드 시스템의 룰에 맞춰 <strong>Foreground <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a> (포그라운드 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>)</strong>라는 특수 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)로 분리하여 실행해야 한다. 이 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 상단 노티피케이션 바에 강제로 알림을 띄우는 조건으로, 시스템에게 "나 뒤에 숨어있지만 사용자에게 아주 중요한 일을 하고 있어!"라고 어필한다. 이 순간 AMS는 앱의 ADJ 점수를 귀족 급(보이는 앱 수준)으로 끌어올려 주어, 웬만한 메모리 부족 사태에도 LMK가 절대 건드리지 못하는 철갑 방패를 얻게 된다.
+   - **원인 분석**: 개발자가 이 작업을 일반 쓰레드나 일반 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)(Activity)에 묶어놓고 화면을 껐다. 화면이 꺼진 앱은 'Cached App(노비 계급)'으로 추락하므로, 유저가 다른 카메라 앱을 켜는 순간 LMK가 즉시 학살해 버린 것이다.
+   - <strong>아키텍트 판단 (Foreground <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a> 승격)</strong>: 음악 재생, GPS 추적 같은 작업은 안드로이드 시스템의 룰에 맞춰 <strong>Foreground <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a> (포그라운드 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>)</strong>라는 특수 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)로 분리하여 실행해야 한다. 이 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 상단 노티피케이션 바에 강제로 알림을 띄우는 조건으로, 시스템에게 "나 뒤에 숨어있지만 사용자에게 아주 중요한 일을 하고 있어!"라고 어필한다. 이 순간 AMS는 앱의 ADJ 점수를 귀족 급(보이는 앱 수준)으로 끌어올려 주어, 웬만한 메모리 부족 사태에도 LMK가 절대 건드리지 못하는 철갑 방패를 얻게 된다.
 
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 안드로이드 앱 생존(LMK 회피)을 위한 아키텍처 생명주기       │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [ 📱 내 앱이 백그라운드로 내려갔을 때 생존하는 법 ]                      │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      앱이 보이지 않을 때도 음악 재생/위치 추적을 계속해야 하는가?            │
+  │          ├─ 예 ─────▶ [ Foreground Service 적용 ]                 │
+  │          │             (상단바 알림 띄우고 ADJ 점수 올려서 깡패 생존 보장)  │
+  │          └─ 아니오 (단순히 화면에서 사라진 일반 앱임)                     │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      `onTrimMemory(TRIM_MEMORY_UI_HIDDEN)` 콜백 신호가 커널에서 날아옴! │
+  │          ├─ 무시함 ──▶ 🚨 [ OOM 킬러의 1순위 먹잇감 등극 ]             │
+  │          │             (무거운 캐시를 쥐고 있다가 램 용량 강탈 목적으로 사살됨)│
+  │          │                                                        │
+  │          └─ 비움 ───▶ 🟢 [ 이미지 캐시와 불필요한 메모리 즉각 해제(null) ] │
+  │                        (몸집을 깃털처럼 줄여서 LMK 눈에 안 띄게 숨어 생존 연장)│
+  └───────────────────────────────────────────────────────────────────┘
+```
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">안드로이드 앱 생존(LMK 회피)을 위한 아키텍처 생명주기</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">📱 내 앱이 백그라운드로 내려갔을 때 생존하는 법</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">앱이 보이지 않을 때도 음악 재생/위치 추적을 계속해야 하는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Foreground Service 적용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(상단바 알림 띄우고 ADJ 점수 올려서 깡패 생존 보장)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 (단순히 화면에서 사라진 일반 앱임)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell"><code>onTrimMemory(TRIM_MEMORY_UI_HIDDEN)</code> 콜백 신호가 커널에서 날아옴!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OOM 킬러의 1순위 먹잇감 등극</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(무거운 캐시를 쥐고 있다가 램 용량 강탈 목적으로 사살됨)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">이미지 캐시와 불필요한 메모리 즉각 해제(null)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(몸집을 깃털처럼 줄여서 LMK 눈에 안 띄게 숨어 생존 연장)</div></div>
-</div>
-</div>
-
-
-
-**[다이어그램 해설]** 안드로이드 개발자는 절대 메모리가 무한하다고 생각하면 안 된다. "내 앱만 소중하다"며 메모리를 물고 늘어지는 악덕 앱은 OS(LMK)의 가차 없는 철퇴를 맞고 유저에게 "최적화 개판인 앱"으로 별점 테러를 받게 된다. 훌륭한 아키텍처는 운영체제와 대화(Callback)하는 앱이다. OS가 힘들다고 SOS 신호를 보낼 때 스스로 캐시를 비워주는 '양보의 미덕'을 코딩하는 것만이 멀티태스킹의 리프레시(재시작) 지옥에서 내 앱을 살려내는 유일한 정도()다.
+**[다이어그램 해설]** 안드로이드 개발자는 절대 메모리가 무한하다고 생각하면 안 된다. "내 앱만 소중하다"며 메모리를 물고 늘어지는 악덕 앱은 OS(LMK)의 가차 없는 철퇴를 맞고 유저에게 "최적화 개판인 앱"으로 별점 테러를 받게 된다. 훌륭한 아키텍처는 운영체제와 대화(Callback)하는 앱이다. OS가 힘들다고 SOS 신호를 보낼 때 스스로 캐시를 비워주는 '양보의 미덕'을 코딩하는 것만이 멀티태스킹의 리프레시(재시작) 지옥에서 내 앱을 살려내는 유일한 정도(正道)다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/">Task</a> Killer (메모리 정리 앱)의 맹신</strong>: 사용자들이 램을 확보하겠다고 시중에 떠도는 '램 정리 앱([Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) Killer)'을 깔아서 수시로 로켓 버튼을 눌러 강제 청소를 하는 행위. 안드로이드는 "빈 램(Free RAM)은 낭비되는 램이다"라는 철학을 가진다. 빈 램에 앱들을 올려둬야(Cached) 다음 실행이 1초 만에 끝난다. 정리 앱이 억지로 다 쳐 죽여서 램을 비워놓으면, 사용자가 카톡을 다시 켤 때마다 CPU가 [플래시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/)(eMMC)에서 무거운 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 전체를 100% 다시 퍼 올려야 하므로, 램은 비어있을지언정 <strong>배터리 소모가 극심해지고 스마트폰 속도가 오히려 반토막</strong>이 나는 끔찍한 역효과가 난다. 안드로이드의 메모리 관리는 LMK라는 최고 권위자에게 100% 맡겨두는 게 정답이다.
@@ -207,19 +216,15 @@ LMK가 "누구를 죽일지" 결정하는 유일한 기준표다. 안드로이�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">cgroups 메모리, CPU 자원 제한 격리 컨테이너</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">안드로이드 LMK (Low Memory Killer) 작동</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">iOS 앱 샌드박싱 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">라이브 패칭 (Kpatch) 커널 정지 없는 보안</div></div>
-</div>
-</div>
-
-
+```text
+[cgroups 메모리, CPU 자원 제한 격리 컨테이너]
+    │
+    ▼
+[안드로이드 LMK (Low Memory Killer) 작동]
+    │
+    ├──▶ [iOS 앱 샌드박싱 구조]
+    └──▶ [라이브 패칭 (Kpatch) 커널 정지 없는 보안]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

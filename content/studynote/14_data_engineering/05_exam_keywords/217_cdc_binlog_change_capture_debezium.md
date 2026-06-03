@@ -29,23 +29,18 @@ tags = ["studynote-data-engineering"]
 
 ### 1.2 CDC가 해결하는 문제
 
+```
+레거시 방식 (전체 복사):
+  소스 DB ──[매시간 전체 SELECT]──► DW / 타겟 시스템
+  - 100만 건 테이블에서 변경된 100건 찾기 위해 100만 건 스캔
+  - 잦은 배치로 DB 부하 급증
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">레거시 방식 (전체 복사):</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">소스 DB ──</div><div class="kb-diagram-node">매시간 전체 SELECT</div><div class="kb-diagram-note">──► DW / 타겟 시스템</div></div>
-<div class="kb-diagram-tree-item" style="--depth:1">100만 건 테이블에서 변경된 100건 찾기 위해 100만 건 스캔</div>
-<div class="kb-diagram-tree-item" style="--depth:1">잦은 배치로 DB 부하 급증</div>
-<div class="kb-diagram-note">CDC 방식 (로그 기반):</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">소스 DB ──</div><div class="kb-diagram-node">변경된 100건만 캡처</div><div class="kb-diagram-note">──► Kafka ──► DW / 타겟</div></div>
-<div class="kb-diagram-tree-item" style="--depth:1">DB 복제 로그에서 변경 이벤트만 읽음</div>
-<div class="kb-diagram-tree-item" style="--depth:1">소스 DB에 추가 부하 없음</div>
-<div class="kb-diagram-tree-item" style="--depth:1">실시간 (수 초 이내)</div>
-</div>
-</div>
-
-
+CDC 방식 (로그 기반):
+  소스 DB ──[변경된 100건만 캡처]──► Kafka ──► DW / 타겟
+  - DB 복제 로그에서 변경 이벤트만 읽음
+  - 소스 DB에 추가 부하 없음
+  - 실시간 (수 초 이내)
+```
 
 📢 **섹션 요약 비유**: CDC는 '전화 요금 명세서'다 — 한 달 전화 기록 전체를 다시 보내는 게 아니라, 오늘 새로 발생한 통화 내역만 실시간으로 알려주는 것이다.
 
@@ -65,23 +60,17 @@ tags = ["studynote-data-engineering"]
 
 MySQL의 Binlog(Binary Log)는 MySQL [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)([Replication](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/))를 위해 모든 변경 사항을 기록하는 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">MySQL 서버</div>
-<div class="kb-diagram-tree-item" style="--depth:0">InnoDB 스토리지</div>
-<div class="kb-diagram-note">── 실제 데이터 변경</div>
-<div class="kb-diagram-tree-item" style="--depth:0">Binlog (Binary Log)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">ROW 이벤트: 행 수준 변경 상세 기록</div>
-<div class="kb-diagram-note">INSERT: 새 행의 모든 컬럼값</div>
-<div class="kb-diagram-note">UPDATE: 이전 행값(before) + 이후 행값(after)</div>
-<div class="kb-diagram-note">DELETE: 삭제된 행의 모든 컬럼값</div>
-<div class="kb-diagram-tree-item" style="--depth:2">이진 형식으로 순서 기록</div>
-</div>
-</div>
-
-
+```
+MySQL 서버
+├── InnoDB 스토리지
+│   └── 실제 데이터 변경
+└── Binlog (Binary Log)
+    ├── ROW 이벤트: 행 수준 변경 상세 기록
+    │   INSERT: 새 행의 모든 컬럼값
+    │   UPDATE: 이전 행값(before) + 이후 행값(after)
+    │   DELETE: 삭제된 행의 모든 컬럼값
+    └── 이진 형식으로 순서 기록
+```
 
 <strong>Binlog 형식 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>:
 ```sql
@@ -94,43 +83,45 @@ SET GLOBAL binlog_row_image = 'FULL';  -- 변경 전후 전체 컬럼 기록
 
 PostgreSQL은 WAL(Write-Ahead Log)을 통해 모든 변경을 기록한다. CDC는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)(Logical [Replication](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)) 슬롯을 통해 WAL을 읽는다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">PostgreSQL 서버</div>
-<div class="kb-diagram-tree-item" style="--depth:0">WAL (Write-Ahead Log)</div>
-<div class="kb-diagram-note">── 모든 변경 작업의 순서 기록</div>
-<div class="kb-diagram-tree-item" style="--depth:0">논리 복제 슬롯 (Logical Replication Slot)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Debezium이 이 슬롯을 통해 변경 스트림 구독</div>
-</div>
-</div>
-
-
+```
+PostgreSQL 서버
+├── WAL (Write-Ahead Log)
+│   └── 모든 변경 작업의 순서 기록
+└── 논리 복제 슬롯 (Logical Replication Slot)
+    └── Debezium이 이 슬롯을 통해 변경 스트림 구독
+```
 
 ### 2.4 Debezium + [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) CDC 파이프라인
 
 Debezium은 Red Hat이 개발한 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) CDC 플랫폼으로, [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) Connect Source Connector로 동작한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CDC 파이프라인 전체 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MySQL/PgSQL</div><div class="kb-diagram-cell">Kafka Connect</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소스 DB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Debezium Source Connector</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Binlog/WAL</div><div class="kb-diagram-cell">►</div><div class="kb-diagram-cell">DB변경 → Kafka 이벤트 변환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Apache Kafka</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">토픽: dbserver.mydb.orders</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">{ op: "u", before: {...},</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">after: {...}, ts_ms: ... }</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DW (Snowflake)</div><div class="kb-diagram-cell">Elasticsearch</div><div class="kb-diagram-cell">캐시 DB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Sink Connector)</div><div class="kb-diagram-cell">(검색 인덱스)</div><div class="kb-diagram-cell">(Redis)</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────────┐
+│                 CDC 파이프라인 전체 흐름                       │
+│                                                             │
+│  ┌──────────────┐    ┌───────────────────────────────────┐  │
+│  │ MySQL/PgSQL  │    │        Kafka Connect               │  │
+│  │  소스 DB     │    │  ┌─────────────────────────────┐  │  │
+│  │              │    │  │   Debezium Source Connector  │  │  │
+│  │  Binlog/WAL  │───►│  │  DB변경 → Kafka 이벤트 변환  │  │  │
+│  │              │    │  └─────────────────────────────┘  │  │
+│  └──────────────┘    └───────────────────┬───────────────┘  │
+│                                          │                  │
+│                       ┌──────────────────▼──────────────┐   │
+│                       │         Apache Kafka             │   │
+│                       │  토픽: dbserver.mydb.orders      │   │
+│                       │  { op: "u", before: {...},       │   │
+│                       │    after: {...}, ts_ms: ... }    │   │
+│                       └──────────────────┬──────────────┘   │
+│                                          │                  │
+│              ┌───────────────────────────┼──────────────┐   │
+│              ▼                           ▼              ▼   │
+│  ┌──────────────────┐  ┌──────────────────┐  ┌───────────┐ │
+│  │  DW (Snowflake)  │  │  Elasticsearch   │  │  캐시 DB  │ │
+│  │  (Sink Connector)│  │  (검색 인덱스)   │  │  (Redis)  │ │
+│  └──────────────────┘  └──────────────────┘  └───────────┘ │
+└─────────────────────────────────────────────────────────────┘
+```
 
 ### 2.5 Debezium 이벤트 구조
 
@@ -253,23 +244,20 @@ Debezium은 Red Hat이 개발한 [오픈소스](/knowledge-base/studynote/12_it_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">배치 ETL (주기적 전체 복사)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CDC: 변경분만 실시간 캡처</div>
-<div class="kb-diagram-tree-item" style="--depth:2">로그 기반: MySQL Binlog · PostgreSQL WAL</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Debezium: Kafka Connect 기반 CDC 커넥터</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Outbox 패턴: 트랜잭션 보장 이벤트 발행</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">실시간 OLTP → OLAP 동기화 · 캐시 무효화</div>
-</div>
-</div>
-
-
+```text
+배치 ETL (주기적 전체 복사)
+    │
+    ▼
+CDC: 변경분만 실시간 캡처
+    ├─► 로그 기반: MySQL Binlog · PostgreSQL WAL
+    └─► Debezium: Kafka Connect 기반 CDC 커넥터
+    │
+    ▼
+Outbox 패턴: 트랜잭션 보장 이벤트 발행
+    │
+    ▼
+실시간 OLTP → OLAP 동기화 · 캐시 무효화
+```
 2. MySQL Binlog는 도서관의 '대출 기록지'야 — 어떤 책이 언제 누가 빌려갔고, 반납됐는지 순서대로 적혀 있어.
 3. Debezium은 이 기록지를 읽어서 Kafka라는 방송 시스템으로 변환하는 '방송 번역사'야 — 그러면 여러 시스템이 동시에 소식을 들을 수 있어!
 

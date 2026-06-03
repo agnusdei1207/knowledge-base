@@ -25,19 +25,20 @@ tags = ["studynote-ict"]
 
 아래 그림은 스마트 팩토리가 단순 설비 자동화가 아니라, 수요와 현장 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 연결해 공정을 다시 조정하는 구조임을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스마트 팩토리의 기본 가치: 보는 공장에서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스스로 조정하는 공장으로 전환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Customer Demand</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Production Plan ──▶ Shop Floor Execution ──▶ Sensor Data</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Quality / Maintenance / Energy Analysis ──▶ Feedback Control</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                스마트 팩토리의 기본 가치: 보는 공장에서              │
+│                    스스로 조정하는 공장으로 전환                     │
+├──────────────────────────────────────────────────────────────────────┤
+│ Customer Demand                                                      │
+│      │                                                               │
+│      ▼                                                               │
+│ Production Plan ──▶ Shop Floor Execution ──▶ Sensor Data             │
+│      ▲                                   │                           │
+│      │                                   ▼                           │
+│ Quality / Maintenance / Energy Analysis ──▶ Feedback Control         │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 즉 스마트 팩토리는 "기계가 자동으로 움직이는 공장"이 아니라, "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 근거로 공정이 지속적으로 최적화되는 공장"으로 이해하는 것이 정확하다.
 
@@ -59,17 +60,16 @@ tags = ["studynote-ict"]
 
 핵심 원리는 `감지 → 연결 → 분석 → 제어`의 반복이다. 설비 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 산업용 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/), [OPC UA](/knowledge-base/studynote/03_network/12_iot_wpan_edge/631_opc_ua_smart_factory_protocol/) (Open Platform Communications Unified [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/)), 프라이빗 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 같은 네트워크를 통해 엣지 또는 중앙 플랫폼으로 모인다. 여기서 AI가 불량 가능성, 설비 이상, 작업 우선순위를 분석하고, 그 결과가 다시 작업지시나 설비 파라미터 조정으로 이어진다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스마트 팩토리의 폐루프 운영 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">센서/설비</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">PLC·SCADA</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MES/Edge</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">AI 분석</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">액추에이터</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">제어 명령</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">작업지시 조정</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">예측·최적화</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                 스마트 팩토리의 폐루프 운영 구조                    │
+├──────────────────────────────────────────────────────────────────────┤
+│ [센서/설비] ─▶ [PLC·SCADA] ─▶ [MES/Edge] ─▶ [AI 분석]                │
+│     ▲              │               │              │                  │
+│     │              ▼               ▼              ▼                  │
+│ [액추에이터] ◀─ [제어 명령] ◀─ [작업지시 조정] ◀─ [예측·최적화]      │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조에서 가장 중요한 것은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 시간성과 의미를 맞추는 일이다. 설비 이벤트가 1초 늦게 들어오거나, 설비마다 코드 체계가 다르면 분석은 있어도 제어로 이어지지 않는다. 그래서 스마트 팩토리 구축은 단순한 대시보드 설치가 아니라, <strong>현장 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 표준화와 제어 가능한 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/">피드백 루프</a> 설계</strong>를 포함한다.
 
@@ -151,26 +151,25 @@ tags = ["studynote-ict"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">설비 자동화 (Factory Automation)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SCADA · MES 기반 공정 가시화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">사물인터넷 (IoT, Internet of Things) · 엣지 데이터 수집</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">스마트 팩토리 (Smart Factory)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">예지보전</div>
-<div class="kb-diagram-tree-item" style="--depth:2">디지털 트윈</div>
-<div class="kb-diagram-tree-item" style="--depth:2">CPS 기반 자율 제어</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">자율형 제조 · 에너지 최적화 · 공급망 연계</div>
-</div>
-</div>
-
-
+```text
+설비 자동화 (Factory Automation)
+    │
+    ▼
+SCADA · MES 기반 공정 가시화
+    │
+    ▼
+사물인터넷 (IoT, Internet of Things) · 엣지 데이터 수집
+    │
+    ▼
+스마트 팩토리 (Smart Factory)
+    │
+    ├─ 예지보전
+    ├─ 디지털 트윈
+    └─ CPS 기반 자율 제어
+    │
+    ▼
+자율형 제조 · 에너지 최적화 · 공급망 연계
+```
 
 이 흐름은 제조 혁신이 단순 자동화에서, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 최적화와 자율 운영으로 확장되는 방향을 보여 준다.
 

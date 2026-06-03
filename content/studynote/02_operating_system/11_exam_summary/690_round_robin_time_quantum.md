@@ -115,23 +115,25 @@ RR이 공평하고 [응답 시간](/knowledge-base/studynote/01_computer_archite
 
 ### 의사결정 및 튜닝 플로우
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">타임 퀀텀(q) 및 스케줄링 HZ 파라미터 튜닝 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">리눅스 커널 빌드 시 HZ(초당 타이머 인터럽트 횟수) 값 설정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버가 초저지연(Low Latency)을 요구하는 데스크탑이나 게임 서버인가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">HZ=1000 설정 (q = 1ms)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(응답 시간을 극한으로 당김. 대신 CPU 낭비(배터리 광탈) 감수)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 (웹 서버, DB 서버, 일반적인 백엔드 인프라)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버가 파일 I/O 나 대규모 연산을 묵직하게 처리해야 하는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">HZ=100 (q = 10ms) 또는 HZ=250 설정 (디폴트)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Context Switch 오버헤드를 10배 줄이고, 캐시 핫(Hot) 유지)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 타임 퀀텀(q) 및 스케줄링 HZ 파라미터 튜닝 플로우           │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [리눅스 커널 빌드 시 HZ(초당 타이머 인터럽트 횟수) 값 설정]                 │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      서버가 초저지연(Low Latency)을 요구하는 데스크탑이나 게임 서버인가?        │
+  │          ├─ 예 ─────▶ [HZ=1000 설정 (q = 1ms)]                     │
+  │          │            (응답 시간을 극한으로 당김. 대신 CPU 낭비(배터리 광탈) 감수)│
+  │          └─ 아니오 (웹 서버, DB 서버, 일반적인 백엔드 인프라)               │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      서버가 파일 I/O 나 대규모 연산을 묵직하게 처리해야 하는가?               │
+  │          ├─ 예 ─────▶ [HZ=100 (q = 10ms) 또는 HZ=250 설정 (디폴트)] │
+  │          │            (Context Switch 오버헤드를 10배 줄이고, 캐시 핫(Hot) 유지)│
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 클라우드 인프라 엔지니어가 `sysctl`이나 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 파라미터에서 가장 많이 건드리는 것이 이 퀀텀(Quantum)과 관계된 값이다. RR이 모든 스케줄링의 뼈대이긴 하나, 퀀텀이 너무 짧으면 서버가 일은 안 하고 스위칭만 하는 좀비가 되고, 너무 길면 사용자들의 "서버가 랙 걸려요"라는 불만이 폭주하는 지옥의 시소가 된다.
 
@@ -174,19 +176,15 @@ RR이 공평하고 [응답 시간](/knowledge-base/studynote/01_computer_archite
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SJF 기아 (Starvation) 발생</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">라운드 로빈 시간 할당량 (Quantum)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">다단계 피드백 큐 (MLFQ) 천이</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">HRN 대기 시간 공식</div></div>
-</div>
-</div>
-
-
+```text
+[SJF 기아 (Starvation) 발생]
+    │
+    ▼
+[라운드 로빈 시간 할당량 (Quantum)]
+    │
+    ├──▶ [다단계 피드백 큐 (MLFQ) 천이]
+    └──▶ [HRN 대기 시간 공식]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

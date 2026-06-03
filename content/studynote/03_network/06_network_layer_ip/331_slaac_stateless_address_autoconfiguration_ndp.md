@@ -26,18 +26,14 @@ tags = ["studynote-network"]
   - <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/">DHCP</a> (Stateful)</strong>: 동사무소 직원이 줄 서 있는 시민들에게 <strong>"당신은 101동 101호 쓰세요, 당신은 102호 쓰세요"</strong>라며 일일이 배정하고 장부에 기록하는 방식.
   - <strong>SLAAC (<a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/">Stateless</a>)</strong>: 시민이 아파트에 입주하자마자 자기 지문([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소)을 이용해 <strong>스스로 '가9z8'이라는 랜덤 호수</strong>를 문패에 파놓고, 경비실에 "아저씨, 여기 아파트 이름(Prefix)이 뭐예요?"라고 물어서 <strong>"자이 아파트"</strong>란 답을 들은 뒤, 최종적으로 자기 집 주소를 <strong>"자이 아파트 가9z8호"</strong>로 완성하는 방식. 경비 아저씨는 장부에 아무것도 안 적습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">EUI-64</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SLAAC 무상태 주소 자동 설정</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IPv4-IPv6 전환 기술: 듀얼 스택,…</div></div>
-</div>
-</div>
-
-
+```text
+[EUI-64]
+    │
+    ▼
+[SLAAC 무상태 주소 자동 설정]
+    │
+    └──▶ [IPv4-IPv6 전환 기술: 듀얼 스택,…]
+```
 
 - **📢 섹션 요약 비유**: ** SLAAC은 공산국가의 철저한 **"배급제([DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/))"** 시스템에서 벗어나, 각자가 자기가 쓸 주소를 알아서 만들어 쓰는 완벽한 **"자유 시장 경제(자급자족)"** 시스템으로의 진화입니다.
 
@@ -61,22 +57,26 @@ tags = ["studynote-network"]
 - PC는 라우터가 던져준 앞자리 `2001:db8:acad:1::`에다가 자기가 1단계에서 깎아놓은 뒷자리(인터페이스 ID)를 레고 블록처럼 풀로 딱 이어 붙인다.
 - 0.1초 만에 전 세계에서 유일한 <strong>128비트 글로벌 유니캐스트 주소(공인 IP)가 완성</strong>되고, 즉시 유튜브를 볼 수 있게 된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NDP(RS/RA)를 통한 SLAAC 조립 마법</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스마트폰</div><div class="kb-diagram-node">라우터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(내 MAC으로 만든 뒷자리: 1234:5678:9abc:def0)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. "공인 IP 만들게 앞자리 좀 주소!" (RS 발송)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. "오냐, 우리 동네는 2001:abcd:0001:0002 란다" (RA 발송)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 스마트폰 왈: "앞자리 받았으니 합체!!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">앞 64비트</div><div class="kb-diagram-note">2001:abcd:0001:0002 :</div><div class="kb-diagram-node">뒤 64비트</div><div class="kb-diagram-note">1234:5678:9abc:def0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: DHCP 서버가 없어도 완벽한 공인 IP가 세팅되었다.</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                NDP(RS/RA)를 통한 SLAAC 조립 마법               │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 스마트폰 ]                                 [ 라우터 ]      │
+ │     │ (내 MAC으로 만든 뒷자리: 1234:5678:9abc:def0)           │
+ │     │                                                       │
+ │     │ 1. "공인 IP 만들게 앞자리 좀 주소!" (RS 발송)               │
+ │     ├─────────────────────────────────────────▶           │
+ │     │                                                       │
+ │     │ 2. "오냐, 우리 동네는 2001:abcd:0001:0002 란다" (RA 발송) │
+ │     ◀─────────────────────────────────────────┤           │
+ │                                                             │
+ │   3. 스마트폰 왈: "앞자리 받았으니 합체!!"                       │
+ │      [앞 64비트] 2001:abcd:0001:0002 : [뒤 64비트] 1234:5678:9abc:def0 │
+ │                                                             │
+ │   ▶ 결과: DHCP 서버가 없어도 완벽한 공인 IP가 세팅되었다.           │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 5. SLAAC의 한계 ([DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 문제)
 SLAAC은 IP 주소와 기본 게이트웨이는 완벽하게 잡아주지만, 치명적인 단점이 하나 있었다. 바로 <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/">DNS</a> 서버 주소를 안 알려준다는 것</strong>이다. (라우터가 뿌리는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [RA](/knowledge-base/studynote/09_security/03_network_security/161_ra_registration_authority/) 규격에 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 칸이 없었다).
@@ -138,19 +138,15 @@ SLAAC 무상태 주소 자동 설정은 네트워크 계층과 IP를 이해할 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: EUI-64</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: SLAAC 무상태 주소 자동 설정</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: IPv4-IPv6 전환 기술: 듀얼 스택,…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 대규모 주소 자동화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: EUI-64]
+    │
+    ▼
+[현재 개념: SLAAC 무상태 주소 자동 설정]
+    │
+    ├──▶ [확장 A: IPv4-IPv6 전환 기술: 듀얼 스택,…]
+    └──▶ [확장 B: 대규모 주소 자동화]
+```
 
 SLAAC 무상태 주소 자동 설정는 EUI-64에서 출발해 현재 메커니즘을 정교화하고, 이후 [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/)-[IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 전환 기술: 듀얼 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/),…와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

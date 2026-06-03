@@ -23,21 +23,23 @@ tags = ["data_engineering"]
 
 이 그림은 원천 데이터가 인프라 내부로 유입되는 현대적인 수집 레이어 구조를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data Ingestion &amp; Infrastructure Layers</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Data Sources</div><div class="kb-diagram-node">Ingestion Layer</div><div class="kb-diagram-node">Data Lake</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RDBMS (MySQL)</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">CDC / Sqoop</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Bronze</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App Logs</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Kafka/Fluentd</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">(Raw Data)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">External API</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Airbyte</div><div class="kb-diagram-cell">──▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 1. Pull/Push 방식의 적절한 선택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 데이터 유실 방지 (At-least-once) 보장</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Data Ingestion & Infrastructure Layers      │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Data Sources ]        [ Ingestion Layer ]    [ Data Lake ]      │
+│   ┌──────────────┐        ┌──────────────┐       ┌────────────┐     │
+│   │ RDBMS (MySQL)│ ──▶    │ CDC / Sqoop  │ ──▶   │ Bronze     │     │
+│   │ App Logs     │ ──▶    │ Kafka/Fluentd│ ──▶   │ (Raw Data) │     │
+│   │ External API │ ──▶    │ Airbyte      │ ──▶   │            │     │
+│   └──────────────┘        └──────────────┘       └─────┬──────┘     │
+│                                                        │            │
+│   * 핵심: 1. Pull/Push 방식의 적절한 선택              │            │
+│           2. 데이터 유실 방지 (At-least-once) 보장     │            │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '데이터 신선도 (Freshness)'와 '부하 분리'이다. 운영 DB에서 데이터를 직접 긁어오는 대신 로그를 읽거나 (CDC), 스트림으로 쏘아주는 (Kafka) 방식을 사용하여 서비스에 지장을 주지 않으면서도 데이터를 수집한다. 실무에서는 이 수집 단계에서 데이터의 <strong>계보 (Lineage)</strong>를 기록하여 데이터의 출처를 명확히 하는 것이 거버넌스의 시작이다.
 
@@ -69,21 +71,22 @@ tags = ["data_engineering"]
 
 이 구조도는 데이터 레이크의 표준인 <strong>Medallion Architecture</strong>를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Medallion Architecture (Data Flow)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Bronze</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Silver</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Gold</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Raw Data) (Filtered) (Aggregated)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 원본 보존 - 결측치 처리 - 비즈니스 요약</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 스키마 미적용 - 데이터 표준화 - BI/Report용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 늪(Swamp) 방지 - 조인 및 정제 - AI 피처링</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 각 단계를 거칠수록 데이터의 신뢰도와 가치가 상승</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Medallion Architecture (Data Flow)          │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Bronze ] ──────────▶ [ Silver ] ──────────▶ [ Gold ]    │
+│   (Raw Data)             (Filtered)             (Aggregated)│
+│                                                             │
+│   - 원본 보존            - 결측치 처리          - 비즈니스 요약│
+│   - 스키마 미적용        - 데이터 표준화        - BI/Report용  │
+│   - 늪(Swamp) 방지       - 조인 및 정제         - AI 피처링    │
+│                                                             │
+│   * 핵심: 각 단계를 거칠수록 데이터의 신뢰도와 가치가 상승  │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '단계적 정제'이다. 한 번에 분석용 데이터를 만들려 하지 않고, 원본을 보존(Bronze)한 뒤 공통 규격으로 다듬고(Silver), 최종적으로 비즈니스 목적에 맞게 요약(Gold)한다. 실무에서는 이 과정을 자동화하는 **오케스트레이션 (Airflow)** 툴과의 연동이 인프라 운영의 핵심이다.
 
@@ -124,20 +127,22 @@ tags = ["data_engineering"]
 
 이 도식은 데이터 인프라의 '고가용성 (HA) 및 결함 허용' 설계를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Fault-Tolerant Data Pipeline Design</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Source</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Agent</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Kafka Cluster (3 Nodes)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Buffer)</div><div class="kb-diagram-cell">(Replication)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Secondary Agent</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Backup Storage</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: "데이터 유실은 곧 신뢰의 붕괴"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 체크: Checkpoint 및 Offset 관리의 정합성 확인</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│               Fault-Tolerant Data Pipeline Design           │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Source ] ──▶ [ Agent ] ──▶ [ Kafka Cluster (3 Nodes) ]  │
+│                    │ (Buffer)         │ (Replication)       │
+│          ┌─────────┴──────────────────┴────────┐            │
+│          ▼                                     ▼            │
+│   [ Secondary Agent ] ◀─── (Failover) ───▶ [ Backup Storage ]│
+│                                                             │
+│   * 핵심: "데이터 유실은 곧 신뢰의 붕괴"                    │
+│   * 체크: Checkpoint 및 Offset 관리의 정합성 확인           │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 기술사의 인프라 설계는 '철도망 설계'와 같습니다. 기차(데이터)가 얼마나 많이 오는지 보고 선로(대역폭)를 깔고, 기차가 탈선(장애)했을 때를 대비해 우회로(이중화)를 만들며, 모든 기차가 중앙 통제실(거버넌스)의 지시를 따르게 하는 마스터 플랜입니다.
 
@@ -173,26 +178,25 @@ tags = ["data_engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">데이터 소스 (RDBMS · 로그 · API · IoT)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">수집 (Ingestion)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">배치: Sqoop · Airbyte · dbt</div>
-<div class="kb-diagram-tree-item" style="--depth:2">스트리밍: Kafka · Kinesis · Pub/Sub</div>
-<div class="kb-diagram-tree-item" style="--depth:2">CDC: Debezium · AWS DMS (Binlog 기반)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">저장: 데이터 레이크 (S3/HDFS) + Medallion (Bronze→Silver→Gold)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">파일 포맷: Parquet (컬럼나) · Avro (스키마 내장)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">테이블 포맷: Delta Lake · Apache Iceberg · Hudi</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">오케스트레이션: Airflow · Dagster · Prefect</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">데이터 메시 · Serverless 인프라 · DataOps (미래)</div>
-</div>
-</div>
-
-
+```text
+데이터 소스 (RDBMS · 로그 · API · IoT)
+    │
+    ▼
+수집 (Ingestion)
+    ├─► 배치: Sqoop · Airbyte · dbt
+    ├─► 스트리밍: Kafka · Kinesis · Pub/Sub
+    └─► CDC: Debezium · AWS DMS (Binlog 기반)
+    │
+    ▼
+저장: 데이터 레이크 (S3/HDFS) + Medallion (Bronze→Silver→Gold)
+    │
+    ├─► 파일 포맷: Parquet (컬럼나) · Avro (스키마 내장)
+    └─► 테이블 포맷: Delta Lake · Apache Iceberg · Hudi
+    │
+    ▼
+오케스트레이션: Airflow · Dagster · Prefect
+    │
+    ▼
+데이터 메시 · Serverless 인프라 · DataOps (미래)
+```
 

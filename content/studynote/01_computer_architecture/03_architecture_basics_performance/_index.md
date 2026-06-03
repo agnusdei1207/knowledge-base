@@ -23,21 +23,25 @@ tags = ["computer_architecture"]
 
 이 그림은 컴퓨터 시스템의 기본 구성과 성능에 영향을 미치는 핵심 지표들의 관계를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Computer Performance Components</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CPU Time</div><div class="kb-diagram-note">=</div><div class="kb-diagram-node">Instruction Count</div><div class="kb-diagram-note">x</div><div class="kb-diagram-node">CPI</div><div class="kb-diagram-note">x</div><div class="kb-diagram-node">Cycle Time</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(전체 실행 시간) (알고리즘/ISA) (아키텍처 설계) (반도체 공정)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">The Performance Triangle (Balance)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Power (전력) &lt;──▶ Performance (성능)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↖ ↗</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cost (비용)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│              Computer Performance Components                │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ CPU Time ] = [ Instruction Count ] x [ CPI ] x [ Cycle Time ] │
+│          │                │               │            │    │
+│          ▼                ▼               ▼            ▼    │
+│   (전체 실행 시간)   (알고리즘/ISA)   (아키텍처 설계) (반도체 공정)│
+│                                                             │
+│   ┌─────────────────────────────────────────────────────┐   │
+│   │          The Performance Triangle (Balance)         │   │
+│   │      Power (전력) <──▶ Performance (성능)           │   │
+│   │               ↖      ↗                             │   │
+│   │                 Cost (비용)                         │   │
+│   └─────────────────────────────────────────────────────┘   │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '성능 공식'이다. 전체 실행 시간 (CPU Time)을 줄이기 위해서는 명령어 수를 줄이거나, 명령어 당 클럭 수 (CPI)를 낮추거나, 클럭 속도 (Cycle Time)를 높여야 한다. 실무에서는 이 세 가지 요소가 서로 얽혀 있어 (예: 클럭을 높이면 CPI가 올라갈 수 있음), 이를 조율하는 것이 아키텍트의 핵심 역량이다.
 
@@ -69,20 +73,23 @@ tags = ["computer_architecture"]
 
 이 구조도는 성능 분석을 위한 벤치마크 테스트의 표준 체계를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Performance Benchmarking Layers</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Real Applications</div><div class="kb-diagram-note">(Compiler, DB, Browser)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Synthetic Benchmarks</div><div class="kb-diagram-note">(SPECint, SPECfp)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Kernel Benchmarks</div><div class="kb-diagram-note">(Linpack, Sieve)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Micro-benchmarks</div><div class="kb-diagram-note">(Dhrystone, Whetstone)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 실무 가이드: 실제 워크로드와 유사한 벤치마크 선택이 필수</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Performance Benchmarking Layers             │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Real Applications ] (Compiler, DB, Browser)             │
+│          ▲                                                  │
+│   [ Synthetic Benchmarks ] (SPECint, SPECfp)                │
+│          ▲                                                  │
+│   [ Kernel Benchmarks ] (Linpack, Sieve)                    │
+│          ▲                                                  │
+│   [ Micro-benchmarks ] (Dhrystone, Whetstone)               │
+│                                                             │
+│   * 실무 가이드: 실제 워크로드와 유사한 벤치마크 선택이 필수 │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '신뢰도'이다. 단순한 산술 연산 성능 (Dhrystone)만으로는 실제 사용자가 느끼는 웹 브라우징 속도를 예측할 수 없다. 실무에서는 실제 서비스 환경과 가장 유사한 **Application Benchmark** 결과를 바탕으로 시스템 도입을 결정한다.
 
@@ -126,19 +133,21 @@ tags = ["computer_architecture"]
 
 이 도식은 성능 분석을 통한 하드웨어 용량 산정 프로세스를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Capacity Planning &amp; Performance Tuning</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Profile Workload</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Identify Bottleneck</div><div class="kb-diagram-note">──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲</div><div class="kb-diagram-cell">(CPU/Mem/IO)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Apply Amdahl's Law</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Cost-Benefit Analysis</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Decision: Scale-up / Scale-out / Code Refactoring</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│               Capacity Planning & Performance Tuning        │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Profile Workload ] ──▶ [ Identify Bottleneck ] ──┐      │
+│          ▲                        │ (CPU/Mem/IO)     │      │
+│          └────────────────────────┴──────────────────┘      │
+│                                     │                       │
+│   [ Apply Amdahl's Law ] ──▶ [ Cost-Benefit Analysis ]      │
+│                                     │                       │
+│   [ Decision: Scale-up / Scale-out / Code Refactoring ]     │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 기술사의 성능 분석은 '병목 현상 해결사'와 같습니다. 도로 전체를 넓히는 데 돈을 쓰기보다, 사고가 잦은 상습 정체 구간(Bottleneck)만 골라내어 입체 교차로를 만드는 것이 가장 똑똑한 해결책임을 알고 있는 전문가입니다.
 

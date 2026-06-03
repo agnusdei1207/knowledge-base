@@ -18,24 +18,21 @@ tags = ["studynote-enterprise"]
 
 ## Ⅰ. BCG 매트릭스 4개 영역
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">시장 성장률 (Market Growth Rate)</div>
-<div class="kb-diagram-note">높음 낮음</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상대</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시장</div><div class="kb-diagram-cell">★ Star</div><div class="kb-diagram-cell">Cash Cow 💰</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">점유율</div><div class="kb-diagram-cell">(고성장·강점)</div><div class="kb-diagram-cell">(저성장·강점)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">높음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상대</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시장</div><div class="kb-diagram-cell">Question Mark</div><div class="kb-diagram-cell">Dog 🐕</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">점유율</div><div class="kb-diagram-cell">(고성장·약점)</div><div class="kb-diagram-cell">(저성장·약점)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">낮음</div></div>
-</div>
-</div>
-
-
+```
+         시장 성장률 (Market Growth Rate)
+         높음            낮음
+         ┌───────────────┬──────────────┐
+상대     │               │              │
+시장     │  ★ Star       │ Cash Cow 💰  │
+점유율   │  (고성장·강점)  │ (저성장·강점) │
+높음     │               │              │
+         ├───────────────┼──────────────┤
+상대     │               │              │
+시장     │  Question Mark│   Dog 🐕     │
+점유율   │  (고성장·약점) │ (저성장·약점) │
+낮음     │               │              │
+         └───────────────┴──────────────┘
+```
 
 ### 각 영역 특성 및 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
@@ -52,19 +49,16 @@ tags = ["studynote-enterprise"]
 
 ## Ⅱ. BCG 매트릭스 실제 적용 — IT 기업 예시
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">삼성전자 사업부 (가상 예시):</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Star</div><div class="kb-diagram-cell">Cash Cow</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AI 반도체·HBM</div><div class="kb-diagram-cell">메모리(D-RAM) 주력</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Question Mark</div><div class="kb-diagram-cell">Dog</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자율주행 센서</div><div class="kb-diagram-cell">PC용 기계식 HDD</div></div>
-</div>
-</div>
-
-
+```
+삼성전자 사업부 (가상 예시):
+  ┌────────────────────┬─────────────────────┐
+  │ Star               │ Cash Cow            │
+  │ AI 반도체·HBM      │ 메모리(D-RAM) 주력  │
+  ├────────────────────┼─────────────────────┤
+  │ Question Mark      │ Dog                 │
+  │ 자율주행 센서       │ PC용 기계식 HDD     │
+  └────────────────────┴─────────────────────┘
+```
 
 **분석 절차**:
 1. 각 사업부 매출·성장률·시장 점유율 계산
@@ -109,23 +103,18 @@ Ansoff 성장 전략 매트릭스:
 
 ## Ⅴ. 디지털 시대 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오 관리 변화
 
+```
+전통 BCG 한계:
+  고정된 시장 경계 → 디지털 플랫폼으로 경계 붕괴
+  2년 주기 검토 → 월 단위 시장 변화 → 분기 검토 필요
+  물리적 자산 중심 → 데이터·네트워크 효과 중심
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">전통 BCG 한계:</div>
-<div class="kb-diagram-note">고정된 시장 경계 → 디지털 플랫폼으로 경계 붕괴</div>
-<div class="kb-diagram-note">2년 주기 검토 → 월 단위 시장 변화 → 분기 검토 필요</div>
-<div class="kb-diagram-note">물리적 자산 중심 → 데이터·네트워크 효과 중심</div>
-<div class="kb-diagram-note">현대 포트폴리오 관리 보완:</div>
-<div class="kb-diagram-note">① Three Horizons 모델:</div>
-<div class="kb-diagram-note">Horizon 1 (현재 핵심 사업, Cash Cow)</div>
-<div class="kb-diagram-note">Horizon 2 (성장 사업, Star)</div>
-<div class="kb-diagram-note">Horizon 3 (미래 혁신, Question Mark)</div>
-</div>
-</div>
-
-
+현대 포트폴리오 관리 보완:
+  ① Three Horizons 모델:
+     Horizon 1 (현재 핵심 사업, Cash Cow)
+     Horizon 2 (성장 사업, Star)
+     Horizon 3 (미래 혁신, Question Mark)
+```
 
 📢 **섹션 요약 비유**: Three Horizons는 농업 사이클이다 — H1은 지금 수확하는 밭, H2는 자라는 중인 밭, H3는 이제 씨를 뿌리는 밭으로 항상 세 단계를 함께 관리한다.
 
@@ -133,52 +122,45 @@ Ansoff 성장 전략 매트릭스:
 
 ## 📌 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">BCG 매트릭스 / 포트폴리오 전략</div>
-<div class="kb-diagram-tree-item" style="--depth:0">BCG 매트릭스 4분면</div>
-<div class="kb-diagram-note">── Star (고성장·강점)</div>
-<div class="kb-diagram-note">── Cash Cow (저성장·강점)</div>
-<div class="kb-diagram-note">── Question Mark (고성장·약점)</div>
-<div class="kb-diagram-note">── Dog (저성장·약점)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">보완 프레임워크</div>
-<div class="kb-diagram-note">── GE-McKinsey 매트릭스 (9셀)</div>
-<div class="kb-diagram-note">── Ansoff 매트릭스 (성장 전략)</div>
-<div class="kb-diagram-note">── Three Horizons 모델</div>
-<div class="kb-diagram-tree-item" style="--depth:0">연계 전략 도구</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Porter 5 Forces (산업 매력도)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">SWOT → TOWS 전략</div>
-</div>
-</div>
-
-
+```
+BCG 매트릭스 / 포트폴리오 전략
+├── BCG 매트릭스 4분면
+│   ├── Star (고성장·강점)
+│   ├── Cash Cow (저성장·강점)
+│   ├── Question Mark (고성장·약점)
+│   └── Dog (저성장·약점)
+├── 보완 프레임워크
+│   ├── GE-McKinsey 매트릭스 (9셀)
+│   ├── Ansoff 매트릭스 (성장 전략)
+│   └── Three Horizons 모델
+└── 연계 전략 도구
+    ├── Porter 5 Forces (산업 매력도)
+    └── SWOT → TOWS 전략
+```
 
 ---
 
 ## 📈 관련 키워드 및 발전 흐름도
 
+```
+┌─────────────────────────────────────────────────────────────────┐
+│              BCG 매트릭스 발전 흐름                              │
+├──────────────┬────────────────────┬─────────────────────────────┤
+│ 1970년       │ BCG 매트릭스 개발  │ Bruce Henderson, BCG 컨설팅  │
+│ 1971년       │ GE-McKinsey 매트릭스 │ GE 사업부 전략 분석 도구   │
+│ 1957년       │ Ansoff 매트릭스    │ Igor Ansoff, 성장 전략 모델  │
+│ 2000년대     │ Three Horizons     │ McKinsey 장기 성장 프레임워크│
+│ 2010년대     │ 디지털 포트폴리오  │ 플랫폼·데이터 기반 전략      │
+│ 2020년대     │ AI 포트폴리오      │ AI 사업부 전략 분류 적용      │
+└──────────────┴────────────────────┴─────────────────────────────┘
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BCG 매트릭스 발전 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1970년</div><div class="kb-diagram-cell">BCG 매트릭스 개발</div><div class="kb-diagram-cell">Bruce Henderson, BCG 컨설팅</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1971년</div><div class="kb-diagram-cell">GE-McKinsey 매트릭스</div><div class="kb-diagram-cell">GE 사업부 전략 분석 도구</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1957년</div><div class="kb-diagram-cell">Ansoff 매트릭스</div><div class="kb-diagram-cell">Igor Ansoff, 성장 전략 모델</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2000년대</div><div class="kb-diagram-cell">Three Horizons</div><div class="kb-diagram-cell">McKinsey 장기 성장 프레임워크</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2010년대</div><div class="kb-diagram-cell">디지털 포트폴리오</div><div class="kb-diagram-cell">플랫폼·데이터 기반 전략</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2020년대</div><div class="kb-diagram-cell">AI 포트폴리오</div><div class="kb-diagram-cell">AI 사업부 전략 분류 적용</div></div>
-<div class="kb-diagram-note">핵심 키워드 연결:</div>
-<div class="kb-diagram-note">BCG 4분면 → 포트폴리오 현금 흐름 → 투자 배분 결정</div>
-<div class="kb-diagram-note">Star/QM 투자 Cash Cow 수확 Dog 철수</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Ansoff 성장 전략 + Three Horizons → 동적 포트폴리오</div>
-</div>
-</div>
-
-
+핵심 키워드 연결:
+BCG 4분면 → 포트폴리오 현금 흐름 → 투자 배분 결정
+    ↓               ↓                    ↓
+Star/QM 투자    Cash Cow 수확      Dog 철수
+    ↓
+Ansoff 성장 전략 + Three Horizons → 동적 포트폴리오
+```
 
 ---
 

@@ -37,18 +37,17 @@ HPA는 내부적으로 제어 루프 (Control Loop)를 돌며 보통 15초 단�
 | 목표 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) (Target [Metric](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)) | [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)을 발동시키는 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) (예: CPU 70%) | 기준이 되는 분모(`requests`) 명시 필요 |
 | [레플리카셋](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/086_replicaset_kubernetes_controller_self_healing/) ([ReplicaSet](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/086_replicaset_kubernetes_controller_self_healing/)) / [디플로이먼트](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/) | 실제 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)의 개수를 관리하고 증감 실행 | 상태가 없는 ([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)) 워크로드 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HPA 제어 루프: 15초 주기의 메트릭 평가 및 조정</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">파드 부하 증가</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Metrics Server 수집</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">HPA 수식 계산</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(목표 레플리카 = 현재 레플리카 × 현재 메트릭 / 목표 메트릭)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">부하 분산 안정화</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Deployment/ReplicaSet 개수 갱신</div><div class="kb-diagram-connector">◀</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           HPA 제어 루프: 15초 주기의 메트릭 평가 및 조정        │
+├──────────────────────────────────────────────────────────────┤
+│ [파드 부하 증가] ─▶ [Metrics Server 수집] ─▶ [HPA 수식 계산]  │
+│                                                     │        │
+│    (목표 레플리카 = 현재 레플리카 × 현재 메트릭 / 목표 메트릭)    │
+│                                                     │        │
+│ [부하 분산 안정화] ◀─ [Deployment/ReplicaSet 개수 갱신] ◀───┘
+└──────────────────────────────────────────────────────────────┘
+```
 
 HPA는 "목표 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 수 = 올림(현재 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 수 * (현재 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) / 목표 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)))"이라는 수학적 공식을 통해 몇 개의 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 추가로 필요한지 도출한다. `requests` 값이 없으면 HPA는 기준점을 잡지 못해 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)을 멈추게 된다.
 
@@ -110,23 +109,21 @@ HPA를 올바르게 구성하면 운영자는 트래픽 폭주로 인한 새벽 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">메트릭 서버 (Metrics Server) 수집</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">HPA (Horizontal Pod Autoscaler)의 CPU/RAM 기반 스케일링</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">스케일 인 플래핑 (Flapping) 방지 및 쿨다운 튜닝</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">KEDA (Kubernetes Event-driven Autoscaling) 커스텀 메트릭</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CA (Cluster Autoscaler)와의 유기적 연동 (서버 자동 증설)</div>
-</div>
-</div>
-
-
+```text
+메트릭 서버 (Metrics Server) 수집
+    │
+    ▼
+HPA (Horizontal Pod Autoscaler)의 CPU/RAM 기반 스케일링
+    │
+    ▼
+스케일 인 플래핑 (Flapping) 방지 및 쿨다운 튜닝
+    │
+    ▼
+KEDA (Kubernetes Event-driven Autoscaling) 커스텀 메트릭
+    │
+    ▼
+CA (Cluster Autoscaler)와의 유기적 연동 (서버 자동 증설)
+```
 
 이 흐름도는 "상태 측정 → 기본 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) → 안정성 확보 → 비즈니스 지표 확장 → 물리 인프라 확장"으로 개념이 진화하는 과정을 보여준다.
 

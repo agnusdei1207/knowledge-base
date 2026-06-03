@@ -29,24 +29,28 @@ GNN은 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GNN + 벡터 DB 기반 추천 시스템 아키텍처</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오프라인 학습 파이프라인 (배치)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자-아이템 그래프 구성 (클릭, 구매, 평점 → 엣지)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GNN 학습 (LightGCN, GraphSAGE)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 각 노드(사용자·아이템)에 대해 이웃 임베딩 집계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">임베딩 벡터 생성 (사용자: 128d, 아이템: 128d)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">벡터 DB 저장 (Milvus/Pinecone: HNSW 인덱스 구축)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">온라인 서빙 파이프라인 (실시간)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 요청 → 사용자 임베딩 조회 → ANN 검색 → Top-K 아이템 반환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">응답: 수백ms → 재랭킹 (Business Rule 필터) → 최종 추천 리스트</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────────────┐
+│          GNN + 벡터 DB 기반 추천 시스템 아키텍처                    │
+├──────────────────────────────────────────────────────────────────┤
+│  오프라인 학습 파이프라인 (배치)                                     │
+│  사용자-아이템 그래프 구성 (클릭, 구매, 평점 → 엣지)                 │
+│    │                                                              │
+│    ▼                                                              │
+│  GNN 학습 (LightGCN, GraphSAGE)                                  │
+│  └─ 각 노드(사용자·아이템)에 대해 이웃 임베딩 집계                   │
+│    │                                                              │
+│    ▼                                                              │
+│  임베딩 벡터 생성 (사용자: 128d, 아이템: 128d)                      │
+│    │                                                              │
+│    ▼                                                              │
+│  벡터 DB 저장 (Milvus/Pinecone: HNSW 인덱스 구축)                  │
+│                                                                  │
+│  온라인 서빙 파이프라인 (실시간)                                     │
+│  사용자 요청 → 사용자 임베딩 조회 → ANN 검색 → Top-K 아이템 반환    │
+│  응답: 수백ms → 재랭킹 (Business Rule 필터) → 최종 추천 리스트      │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 | [GNN](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/) 모델          | 특성                              | 추천 적합성                   |
 |:---------------|:----------------------------------|:-----------------------------|
@@ -118,25 +122,24 @@ GNN은 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">협업 필터링 (User-Item 행렬)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">행렬 인수분해 (MF, SVD) → 임베딩 학습</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">딥러닝 추천 (NCF, DeepFM)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">GNN 추천 (LightGCN, PinSage, NGCF)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">벡터 DB (Milvus, Pinecone) + ANN 실시간 서빙</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">LLM + 벡터 DB: RAG (Retrieval-Augmented Generation) 추천</div>
-</div>
-</div>
-
-
+```
+협업 필터링 (User-Item 행렬)
+    │
+    ▼
+행렬 인수분해 (MF, SVD) → 임베딩 학습
+    │
+    ▼
+딥러닝 추천 (NCF, DeepFM)
+    │
+    ▼
+GNN 추천 (LightGCN, PinSage, NGCF)
+    │
+    ▼
+벡터 DB (Milvus, Pinecone) + ANN 실시간 서빙
+    │
+    ▼
+LLM + 벡터 DB: RAG (Retrieval-Augmented Generation) 추천
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

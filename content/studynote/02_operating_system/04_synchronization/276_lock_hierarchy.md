@@ -51,26 +51,26 @@ tags = ["studynote-operating-system"]
 - [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 1은 아무 방해 없이 B 락을 잡고, 송금을 끝내고, A와 B 락을 모두 풀어준다.
 - 그제야 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 2가 A 락을 잡고 정상적으로 작업을 시작한다. **데드락 완전 소멸!**
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Lock Hierarchy를 통한 데드락 원천 봉쇄 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">❌</div><div class="kb-diagram-node">락 순서가 없을 때 (데드락 쾅!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Lock A</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Lock B</div><div class="kb-diagram-note">필요</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Lock B</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Lock A</div><div class="kb-diagram-note">필요</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">*(서로 꼬리 물기, 시스템 마비)*</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🛡️</div><div class="kb-diagram-node">락 계층화 적용 후 (항상 고유번호가 작은 놈부터 잡을 것!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* A번호=1, B번호=2</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Lock A (1번)</div><div class="kb-diagram-note">획득 성공!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Lock A (1번)</div><div class="kb-diagram-note">요청!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; "앗 스레드1이 쓰고 있네? 조용히 밖에서 기다리자..."</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Lock B (2번)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">송금 완료!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Lock A</div><div class="kb-diagram-note">,</div><div class="kb-diagram-node">Lock B</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">송금 완료!</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│           Lock Hierarchy를 통한 데드락 원천 봉쇄 시각화                    │
+├────────────────────────────────────────────────────────────────────────────┤
+│                                                                            │
+│ ❌ [ 락 순서가 없을 때 (데드락 쾅!) ]                                      │
+│   스레드 1 (A->B) :  [Lock A] 꽉 쥠  ──(기다림)──▶ [Lock B] 필요           │
+│   스레드 2 (B->A) :  [Lock B] 꽉 쥠  ──(기다림)──▶ [Lock A] 필요           │
+│   *(서로 꼬리 물기, 시스템 마비)*                                          │
+│                                                                            │
+│ 🛡️ [ 락 계층화 적용 후 (항상 고유번호가 작은 놈부터 잡을 것!) ]            │
+│   * A번호=1, B번호=2                                                       │
+│   스레드 1 (A->B) :  [Lock A (1번)] 획득 성공!                             │
+│   스레드 2 (B->A) :  나도 무조건 1번부터 잡아야해! [Lock A (1번)] 요청!    │
+│                    -> "앗 스레드1이 쓰고 있네? 조용히 밖에서 기다리자..."  │
+│                                                                            │
+│   스레드 1 (A->B) :  [Lock B (2번)] 마저 획득 성공 -> 송금 완료!           │
+│   스레드 2 (B->A) :  드디어 [Lock A], [Lock B] 획득 성공 -> 송금 완료!     │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 데드락은 '내가 자원을 쥔 상태에서 남의 자원을 뺏으려 할 때' 터진다. 순서화 규칙을 강제하면, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 2는 자신의 자원(B)을 아예 손에 쥐기도 전에(점유 전) 남의 자원(A) 문 앞에서 차단당한다. 구조적으로 '[점유 대기](/knowledge-base/studynote/02_operating_system/04_synchronization/231_hold_and_wait/)([Hold and Wait](/knowledge-base/studynote/02_operating_system/05_deadlock/284_hold_and_wait/))' 상태가 환형으로 엮이는 고리를 수학적으로 싹둑 끊어버린 것이다.
 
@@ -130,19 +130,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">락 경합 (Lock Contention) 모니터링 도구</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데드락 회피를 위한 Lock Hierarchy (락 순서화)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">세마포어를 이용한 순서 제어 (Ordering)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">이진 세마포어 vs 뮤텍스 차이 (소유권 유무)</div></div>
-</div>
-</div>
-
-
+```text
+[락 경합 (Lock Contention) 모니터링 도구]
+    │
+    ▼
+[데드락 회피를 위한 Lock Hierarchy (락 순서화)]
+    │
+    ├──▶ [세마포어를 이용한 순서 제어 (Ordering)]
+    └──▶ [이진 세마포어 vs 뮤텍스 차이 (소유권 유무)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

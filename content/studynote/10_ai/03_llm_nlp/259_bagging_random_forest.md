@@ -35,17 +35,14 @@ tags = ["studynote-ai"]
 | 계산 비용 | 낮음 | 높음 ([병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 가능) |
 | 과적합 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/) | 낮음 | 높음 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 배깅은 "여론조사를 여러 번 해서 평균을 내는 것"이다. 한 번의 조사(단일 트리)는 오차가 크지만, 수백 번의 독립 조사(배깅)를 평균 내면 훨씬 안정적인 결과가 나온다.
 
@@ -55,24 +52,27 @@ tags = ["studynote-ai"]
 
 ### 배깅 전체 흐름
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">원본 훈련 데이터 (n개 샘플)</div>
-<div class="kb-diagram-note">복원 추출 (Bootstrap Sampling)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">각 부트스트랩 샘플: n개</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(약 63.2% 고유 샘플 포함)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">D_1</div><div class="kb-diagram-cell">D_2</div><div class="kb-diagram-cell">D_B</div><div class="kb-diagram-cell">···</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">h_1</div><div class="kb-diagram-cell">h_2</div><div class="kb-diagram-cell">h_B</div><div class="kb-diagram-cell">···</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Tree)</div><div class="kb-diagram-cell">(Tree)</div><div class="kb-diagram-cell">(Tree)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">집계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분류: 다수결 / 회귀: 평균</div></div>
-<div class="kb-diagram-note">최종 예측</div>
-</div>
-</div>
-
-
+```
+  원본 훈련 데이터 (n개 샘플)
+         │
+         │  복원 추출 (Bootstrap Sampling)
+  ┌──────┼──────────────────────────────┐
+  │      │    각 부트스트랩 샘플: n개   │
+  │      │    (약 63.2% 고유 샘플 포함) │
+  │  ┌───▼───┐ ┌───────┐ ┌───────┐     │
+  │  │ D_1   │ │  D_2  │ │  D_B  │ ··· │
+  │  └───┬───┘ └───┬───┘ └───┬───┘     │
+  │      │         │         │         │
+  │  ┌───▼───┐ ┌───▼───┐ ┌───▼───┐     │
+  │  │ h_1   │ │  h_2  │ │  h_B  │ ··· │
+  │  │ (Tree)│ │ (Tree)│ │ (Tree)│     │
+  │  └───┬───┘ └───┬───┘ └───┬───┘     │
+  │      └─────────┴─────────┘         │
+  │               집계                  │
+  │   분류: 다수결 / 회귀: 평균         │
+  └─────────────────────────────────────┘
+              최종 예측
+```
 
 ### 부트스트랩 샘플링의 특성
 
@@ -84,22 +84,19 @@ n개 샘플에서 복원 추출로 n개를 뽑으면:
 
 [랜덤 포레스트](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/)는 배깅에 <strong>특성 무작위 선택(Random Feature Subspace)</strong>을 추가한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">각 트리의 노드 분할 시:</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전체 특성 수: p개</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">무작위 선택 특성 수:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분류: √p (예: 100개 중 10개)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">회귀: p/3 (예: 100개 중 33개)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 트리 간 상관관계 ↓</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 다양성 ↑</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 앙상블 효과 극대화</div></div>
-</div>
-</div>
-
-
+```
+  각 트리의 노드 분할 시:
+  ┌────────────────────────────────────────┐
+  │ 전체 특성 수: p개                      │
+  │ 무작위 선택 특성 수:                   │
+  │   분류: √p  (예: 100개 중 10개)        │
+  │   회귀: p/3 (예: 100개 중 33개)        │
+  │                                        │
+  │ → 트리 간 상관관계 ↓                   │
+  │ → 다양성 ↑                             │
+  │ → 앙상블 효과 극대화                   │
+  └────────────────────────────────────────┘
+```
 
 | 하이퍼파라미터 | 설명 | 기본값 |
 |:---|:---|:---|
@@ -132,20 +129,16 @@ n개 샘플에서 복원 추출로 n개를 뽑으면:
 
 Random Forest는 각 특성이 불순도(Gini, [Entropy](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)) 감소에 기여한 평균 양을 특성 중요도로 제공한다. 이는 특성 선택(Feature [Selection](/knowledge-base/studynote/10_ai/01_ai_basics/022_mcts_four_stages/))에 활용된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">특성 중요도 예시 (신용 평가):</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">월 소득 ████████ 0.32</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">신용 기간 ██████ 0.24</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부채 비율 █████ 0.20</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">직업 유형 ████ 0.16</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">나이 ██ 0.08</div></div>
-</div>
-</div>
-
-
+```
+  특성 중요도 예시 (신용 평가):
+  ┌──────────────────────────┐
+  │ 월 소득     ████████ 0.32│
+  │ 신용 기간   ██████   0.24│
+  │ 부채 비율   █████    0.20│
+  │ 직업 유형   ████     0.16│
+  │ 나이        ██       0.08│
+  └──────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: Bagging은 "같은 교과서로 공부했지만 서로 다른 부분을 집중한 학생들"이고, Random Forest는 거기에 "각 학생이 랜덤으로 고른 과목만 시험 보는" 규칙을 추가한 것이다.
 

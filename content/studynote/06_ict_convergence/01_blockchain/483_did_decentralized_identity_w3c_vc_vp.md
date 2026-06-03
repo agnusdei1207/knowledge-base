@@ -36,26 +36,25 @@ SSI(Self-Sovereign Identity) 원칙:
 
 ### [DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) 시스템 전체 흐름
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DID/VC/VP 신뢰 삼각형</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Issuer (발급자)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예: 대학교, 정부, 병원</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VC 발급 (서명+메타데이터)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Holder (보유자) ←→ DID 지갑 (Wallet)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예: 개인 사용자 DID Document 저장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VP 생성 (필요한 속성만 선택)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Verifier (검증자)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예: 취업 회사, 공항</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① VP의 서명 검증</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ ② DID Registry에서 공개키 조회</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DID Registry (블록체인 / 분산 저장)</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────┐
+│            DID/VC/VP 신뢰 삼각형                          │
+│                                                          │
+│  Issuer (발급자)                                         │
+│  예: 대학교, 정부, 병원                                   │
+│       │ VC 발급 (서명+메타데이터)                         │
+│       ▼                                                  │
+│  Holder (보유자) ←→ DID 지갑 (Wallet)                    │
+│  예: 개인 사용자       DID Document 저장                   │
+│       │ VP 생성 (필요한 속성만 선택)                      │
+│       ▼                                                  │
+│  Verifier (검증자)                                       │
+│  예: 취업 회사, 공항                                      │
+│       │ ① VP의 서명 검증                                 │
+│       ▼ ② DID Registry에서 공개키 조회                   │
+│  DID Registry (블록체인 / 분산 저장)                      │
+└──────────────────────────────────────────────────────────┘
+```
 
 ### 핵심 구성 요소 비교
 

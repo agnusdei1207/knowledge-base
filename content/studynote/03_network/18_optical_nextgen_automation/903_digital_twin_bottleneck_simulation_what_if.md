@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: 물리적인 통신 장비(언더레이)와 가상 터널(오버레이)이 얽힌 복잡한 네트워크 토폴로지(Topology)를, 소프트웨어 가상 공간(메타 공간)에 100% 동일한 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)(수학 모델) 구조로 실시간 동기화하여 띄워놓는 기술입니다.
 - **목적**: 과거의 수동적인 모니터링(NMS)을 넘어, 이 쌍둥이 메타 공간 안에서 <strong>'미래의 트래픽 폭주나 장비 장애'를 사전에 인위적으로 주입(시뮬레이션)해 봄으로써, 그 파급 효과(Impact)와 병목(<a href="/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/">Bottleneck</a>) 구간을 미리 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>하기 위함입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">자율-구동 네트워크</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">디지털 트윈 병목 검증</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">퍼시스턴트 토폴로지 관리</div></div>
-</div>
-</div>
-
-
+```text
+[자율-구동 네트워크]
+    │
+    ▼
+[디지털 트윈 병목 검증]
+    │
+    └──▶ [퍼시스턴트 토폴로지 관리]
+```
 
 - **📢 섹션 요약 비유**: [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 병목 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -44,18 +40,14 @@ tags = ["studynote-network"]
 - 진짜 라우터가 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블을 업데이트하면, 가상 공간의 쌍둥이 라우터도 0.01초 만에 텔레메트리(879번) 기술을 통해 그 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 테이블을 고스란히 내려받아 자신의 배 속 구조를 똑같이 바꿉니다. 
 - 현실의 선이 뽑히면 가상 공간의 선도 똑같이 끊어집니다. (이 완벽한 동기화가 깨지면 시뮬레이션 결과가 쓰레기가 됩니다.)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">자율-구동 네트워크</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">디지털 트윈 병목 검증</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">퍼시스턴트 토폴로지 관리</div></div>
-</div>
-</div>
-
-
+```text
+[자율-구동 네트워크]
+    │
+    ▼
+[디지털 트윈 병목 검증]
+    │
+    └──▶ [퍼시스턴트 토폴로지 관리]
+```
 
 - **📢 섹션 요약 비유**: [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 병목 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -120,19 +112,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 자율-구동 네트워크</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 디지털 트윈 병목 검증</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 퍼시스턴트 토폴로지 관리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 자율-구동 네트워크]
+    │
+    ▼
+[현재 개념: 디지털 트윈 병목 검증]
+    │
+    ├──▶ [확장 A: 퍼시스턴트 토폴로지 관리]
+    └──▶ [확장 B: 의미 기반 통신 최적화]
+```
 
 [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 병목 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)는 [자율-구동 네트워크](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/902_adn_autonomous_driving_network_level5_zero_touch/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [퍼시스턴트 토폴로지](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/904_persistent_topology_graph_db_cloud_mapping/) 관리와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

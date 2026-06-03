@@ -32,22 +32,20 @@ tags = ["network"]
 
 MU-MIMO의 핵심 원리는 송신 측([AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/))에서 [빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/) ([Beamforming](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/))과 고도의 프리코딩 (Precoding) 연산을 수행하여 각 단말 간의 간섭을 완전히 분리하는 데 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SU-MIMO의 시분할 처리 vs MU-MIMO의 널링(Nulling) 전송</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. SU-MIMO 구조 (Time Slot 분할 순차 전송)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AP 4x4</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">UE A (2x2)</div><div class="kb-diagram-note">(AP 안테나 2개 낭비, B 대기)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AP 4x4</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">UE B (1x1)</div><div class="kb-diagram-note">(AP 안테나 3개 낭비, A 대기)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. MU-MIMO 구조 (Zero-Forcing 기반 동시 전송)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AP 4x4</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">UE A (2x2)</div><div class="kb-diagram-note">(단, B방향 간섭은 0이 되게 억제)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">UE B (1x1)</div><div class="kb-diagram-note">(단, A방향 간섭은 0이 되게 억제)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">UE C (1x1)</div><div class="kb-diagram-note">(모든 안테나 100% 활용)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           SU-MIMO의 시분할 처리 vs MU-MIMO의 널링(Nulling) 전송         │
+├──────────────────────────────────────────────────────────────┤
+│ 1. SU-MIMO 구조 (Time Slot 분할 순차 전송)                    │
+│    [AP 4x4] ─(스트림1,2)─▶ [UE A (2x2)] (AP 안테나 2개 낭비, B 대기)  │
+│    [AP 4x4] ─(스트림3)──▶ [UE B (1x1)] (AP 안테나 3개 낭비, A 대기)  │
+│                                                              │
+│ 2. MU-MIMO 구조 (Zero-Forcing 기반 동시 전송)                  │
+│    [AP 4x4] ─(빔 A)─────▶ [UE A (2x2)] (단, B방향 간섭은 0이 되게 억제)│
+│             ─(빔 B)─────▶ [UE B (1x1)] (단, A방향 간섭은 0이 되게 억제)│
+│             ─(빔 C)─────▶ [UE C (1x1)] (모든 안테나 100% 활용)      │
+└──────────────────────────────────────────────────────────────┘
+```
 
 AP가 여러 사용자에게 빔을 쏠 때, A를 향해 쏜 전파가 B에게 닿으면 심각한 잡음(간섭)이 된다. 이를 막기 위해 AP는 사운딩(Sounding) 과정을 거쳐 단말로부터 [CSI](/knowledge-base/studynote/12_it_management/02_itsm_itil/068_csi/) (Channel [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Information)를 수집한다. 그리고 수학적인 제로포싱 (Zero-Forcing, ZF) 행렬 연산을 통해 A에게 가는 신호가 B의 위치에서는 진폭이 정반대가 되어 완벽히 상쇄(Nulling)되도록 전파를 꺾어서 쏜다. 단말은 복잡한 간섭 제거 없이 자기 신호만 쏙 뽑아먹는다.
 
@@ -107,23 +105,21 @@ SU-MIMO의 한계를 뛰어넘은 MU-MIMO는 제한된 주파수를 추가 구�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단일 안테나 무선 통신 (SISO)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">다중 안테나 도입 및 SU-MIMO (안테나 배열을 통한 개인 피크 속도 향상)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">빔포밍 (Beamforming) 및 CSI 피드백 정교화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">MU-MIMO (공간 찢기를 통한 동시 접속 처리, AP 자원 효율 100%)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Massive MIMO (5G 안테나 대량화) 및 OFDMA 융합 (Wi-Fi 6)</div>
-</div>
-</div>
-
-
+```text
+단일 안테나 무선 통신 (SISO)
+    │
+    ▼
+다중 안테나 도입 및 SU-MIMO (안테나 배열을 통한 개인 피크 속도 향상)
+    │
+    ▼
+빔포밍 (Beamforming) 및 CSI 피드백 정교화
+    │
+    ▼
+MU-MIMO (공간 찢기를 통한 동시 접속 처리, AP 자원 효율 100%)
+    │
+    ▼
+Massive MIMO (5G 안테나 대량화) 및 OFDMA 융합 (Wi-Fi 6)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

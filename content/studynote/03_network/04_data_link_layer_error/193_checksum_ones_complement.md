@@ -25,18 +25,14 @@ tags = ["studynote-network"]
 
 이것이 검사합의 본질입니다. 단, 실제 컴퓨터는 십진수가 아니라 16비트(또는 8비트) 이진수로 이 더하기 연산을 수행합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">패리티 검사</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">검사합</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CRC</div></div>
-</div>
-</div>
-
-
+```text
+[패리티 검사]
+    │
+    ▼
+[검사합]
+    │
+    └──▶ [CRC]
+```
 
 - **📢 섹션 요약 비유**: 검사합은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -57,18 +53,14 @@ tags = ["studynote-network"]
 2. 에러 없이 무사히 도착했다면, <strong>이 덧셈의 최종 결과는 무조건 모든 자리가 <code>1</code> (<code>1111111111111111</code>)</strong>이 나오게 수학적으로 설계되어 있습니다.
 3. 만약 1이 아닌 0이 단 한 자리라도 섞여 있다면 "에러 났네!" 하고 패킷을 폐기합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">패리티 검사</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">검사합</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CRC</div></div>
-</div>
-</div>
-
-
+```text
+[패리티 검사]
+    │
+    ▼
+[검사합]
+    │
+    └──▶ [CRC]
+```
 
 - **📢 섹션 요약 비유**: 검사합의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -129,19 +121,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 패리티 검사</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 검사합</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: CRC</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고신뢰 저지연 링크 제어</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 패리티 검사]
+    │
+    ▼
+[현재 개념: 검사합]
+    │
+    ├──▶ [확장 A: CRC]
+    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
+```
 
 검사합는 [패리티 검사](/knowledge-base/studynote/03_network/04_data_link_layer_error/192_parity_check_even_odd_block/)에서 출발해 현재 메커니즘을 정교화하고, 이후 CRC와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -35,23 +35,30 @@ FinOps는 클라우드 환경에서 발생하는 변동적이고 예측 불가�
 | **2. 자원 최적화** | Optimize | 자원 낭비를 줄이고 가장 효율적인 단가 모델로 조정 | Right-Sizing, 예약 인스턴스 (RI), 스팟 |
 | **3. 운영 및 문화** | Operate | 비용 인식을 기술 조직의 일상적 프로세스로 내재화 | 비용 [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/) 자동화, 거버넌스 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FinOps 3단계 순환 라이프사이클</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">비용 할당</div><div class="kb-diagram-node">구매 할인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">누가 썼는지 태그 달기 약정 할인 (RI) 구매</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Inform</div><div class="kb-diagram-cell">◀ 반복 ▶</div><div class="kb-diagram-cell">2. Optimize</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(정보 투명화)</div><div class="kb-diagram-cell">(자원/단가 최적화)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Operate</div><div class="kb-diagram-cell">◀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(자동화 및 문화)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인프라 오토스케일링 및 이상 탐지 방어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심 동력: 개발자(Dev), 운영자(Ops), 재무/경영진(Fin)의 단일 팀 협업</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                  FinOps 3단계 순환 라이프사이클                    │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│       [비용 할당]                               [구매 할인]         │
+│     누가 썼는지 태그 달기                         약정 할인 (RI) 구매    │
+│        ▲   │                              ▲   │                │
+│        │   ▼                              │   ▼                │
+│   ┌─────────────┐                        ┌─────────────┐         │
+│   │ 1. Inform   │ ◀────────반복────────▶ │ 2. Optimize │         │
+│   │ (정보 투명화)  │                        │ (자원/단가 최적화)│         │
+│   └─────────────┘                        └─────────────┘         │
+│             ▲                                ▼                │
+│             │                                │                 │
+│             │         ┌─────────────┐        │                 │
+│             └──────── │ 3. Operate  │ ◀──────┘                 │
+│                       │ (자동화 및 문화)│                          │
+│                       └─────────────┘                          │
+│                    인프라 오토스케일링 및 이상 탐지 방어                  │
+│                                                              │
+│ * 핵심 동력: 개발자(Dev), 운영자(Ops), 재무/경영진(Fin)의 단일 팀 협업  │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 사이클에서 가장 중요한 첫 단추는 <strong>태깅 (Tagging)</strong>이다. 클라우드에 띄워진 수백 개의 가상 서버 리소스에 "프로젝트: A, 담당자: 김개발, 환경: Dev"라는 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 강제로 부착하지 않으면, 영수증에 나온 총비용이 회사의 핵심 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(Production)에서 나온 것인지 잊혀진 좀비 서버(Zombie)에서 발생한 것인지 알 길이 없다. 투명성(Inform)이 100% 확보되어야만 서버의 스펙을 절반으로 줄일지(Right-Sizing)에 대한 구체적인 공학적 최적화(Optimize) 결정을 내릴 수 있다.
 
@@ -115,21 +122,18 @@ FinOps는 과거 전산실 시대의 고전적인 "예산 삭감(Cost Cutting)" 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">IT Cost Cutting (온프레미스 시대의 무조건적 하향식 하드웨어 예산 삭감)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Cloud Migration (종량제 요금 도입과 관리 부재로 인한 통제 불능의 요금 폭탄 경험)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">FinOps (DevOps와 Finance의 융합, 태깅 및 라이트사이징 기반 자원 최적화)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Unit Economics &amp; AI FinOps (AI 기반 이상 요금 탐지 및 1달러당 비즈니스 가치 단위 최적화 극대화)</div>
-</div>
-</div>
-
-
+```text
+IT Cost Cutting (온프레미스 시대의 무조건적 하향식 하드웨어 예산 삭감)
+    │
+    ▼
+Cloud Migration (종량제 요금 도입과 관리 부재로 인한 통제 불능의 요금 폭탄 경험)
+    │
+    ▼
+FinOps (DevOps와 Finance의 융합, 태깅 및 라이트사이징 기반 자원 최적화)
+    │
+    ▼
+Unit Economics & AI FinOps (AI 기반 이상 요금 탐지 및 1달러당 비즈니스 가치 단위 최적화 극대화)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

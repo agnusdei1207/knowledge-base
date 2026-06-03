@@ -27,19 +27,16 @@ tags = ["enterprise_systems"]
 
 이 매트릭스 구조의 가장 큰 의의는 상위 계층의 추상적 개념이 하위 계층으로 내려갈수록 물리적이고 구체적인 제약사항으로 어떻게 형상화되는지 투명하게 보여준다는 점이다. 즉, 시스템이 실패했을 때 코드가 잘못된 것인지, 설계가 잘못된 것인지, 애초에 비즈니스 목표 정의가 잘못된 것인지를 체계적으로 역추적할 수 있는 척추 역할을 창출한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">잭맨 프레임워크의 문제 해결 철학</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현업 부서/경영진</div><div class="kb-diagram-note">"고객 이탈을 막기 위해 실시간 추천 기능을 넣자!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(추상적 목표, 파편화된 요구사항)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">간극/혼란 발생</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">데이터는 어디서? 알고리즘은? 서버 부하는?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IT 부서/개발자</div><div class="kb-diagram-note">"NoSQL DB에 캐시를 붙여 API 응답을 50ms로 맞추자!"</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────── [잭맨 프레임워크의 문제 해결 철학] ─────────────────┐
+│ [현업 부서/경영진] "고객 이탈을 막기 위해 실시간 추천 기능을 넣자!"│
+│         │ (추상적 목표, 파편화된 요구사항)                         │
+│         ▼                                                          │
+│ [간극/혼란 발생] ──▶ 데이터는 어디서? 알고리즘은? 서버 부하는?   │
+│         ▼                                                          │
+│ [IT 부서/개발자] "NoSQL DB에 캐시를 붙여 API 응답을 50ms로 맞추자!"│
+└────────────────────────────────────────────────────────────────────┘
+```
 *해설: 이 다이어그램은 [잭맨 프레임워크](/knowledge-base/studynote/12_it_management/03_ea_isp/112_zachman_framework/)가 등장하기 전의 전형적인 '소통 단절' 현상을 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)한 것이다. 경영진(Planner/Owner)과 개발자([Builder](/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/)) 사이에는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 매개체가 없기 때문에, 요구사항은 시스템에 제대로 반영되지 못하거나 엉뚱한 결과물로 산출된다. [잭맨 프레임워크](/knowledge-base/studynote/12_it_management/03_ea_isp/112_zachman_framework/)는 이 중간 간극을 메우기 위해 Designer 관점의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 모델을 강제한다.*
 
 📢 **섹션 요약 비유**: [잭맨 프레임워크](/knowledge-base/studynote/12_it_management/03_ea_isp/112_zachman_framework/)는 하나의 건물을 짓기 위한 '다양한 맞춤형 도면 모음집'과 같습니다. 건축주에게는 멋진 완성 예상도를, 전기 기사에게는 배관망 도면을, 시공업자에게는 시멘트 배합 비율표를 주면서도 이 모두가 결국 '하나의 집'을 가리키도록 체계적으로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)한 서랍장입니다.
@@ -67,25 +64,26 @@ tags = ["enterprise_systems"]
 5. **When (Time)**: 언제 어떤 순서로 사건이 발생하는가? (이벤트 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/), [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링 주기)
 6. **Why (Motivation)**: 이 시스템이 왜 필요한가? (비즈니스 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/), 규칙)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">관점(Row) \</div><div class="kb-diagram-cell">What</div><div class="kb-diagram-cell">How</div><div class="kb-diagram-cell">Where</div><div class="kb-diagram-cell">Who</div><div class="kb-diagram-cell">When</div><div class="kb-diagram-cell">Why</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6하원칙(Col)</div><div class="kb-diagram-cell">(Data)</div><div class="kb-diagram-cell">(Func)</div><div class="kb-diagram-cell">(Network)</div><div class="kb-diagram-cell">(People)</div><div class="kb-diagram-cell">(Time)</div><div class="kb-diagram-cell">(Motiv)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Planner</div><div class="kb-diagram-cell">주 데이터</div><div class="kb-diagram-cell">핵심업무</div><div class="kb-diagram-cell">사업위치</div><div class="kb-diagram-cell">핵심부서</div><div class="kb-diagram-cell">일정/주기</div><div class="kb-diagram-cell">사업목표</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Owner</div><div class="kb-diagram-cell">비즈니스</div><div class="kb-diagram-cell">프로세스</div><div class="kb-diagram-cell">물류망/</div><div class="kb-diagram-cell">조직도/</div><div class="kb-diagram-cell">이벤트</div><div class="kb-diagram-cell">비즈니스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개념ERD</div><div class="kb-diagram-cell">흐름도</div><div class="kb-diagram-cell">분산모델</div><div class="kb-diagram-cell">역할(R&amp;R)</div><div class="kb-diagram-cell">응답시간</div><div class="kb-diagram-cell">계획/규정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Designer</div><div class="kb-diagram-cell">논리ERD</div><div class="kb-diagram-cell">앱/아키</div><div class="kb-diagram-cell">분산아키</div><div class="kb-diagram-cell">UI/접근</div><div class="kb-diagram-cell">상태전이</div><div class="kb-diagram-cell">비즈니스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(정규화)</div><div class="kb-diagram-cell">텍처구조</div><div class="kb-diagram-cell">텍처/망</div><div class="kb-diagram-cell">권한(ACL)</div><div class="kb-diagram-cell">타이밍도</div><div class="kb-diagram-cell">룰 엔진</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. Builder</div><div class="kb-diagram-cell">물리DB</div><div class="kb-diagram-cell">시스템</div><div class="kb-diagram-cell">시스템/</div><div class="kb-diagram-cell">보안/인증</div><div class="kb-diagram-cell">제어/</div><div class="kb-diagram-cell">기술표준</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스키마</div><div class="kb-diagram-cell">설계도</div><div class="kb-diagram-cell">HW노드</div><div class="kb-diagram-cell">아키텍처</div><div class="kb-diagram-cell">통신주기</div><div class="kb-diagram-cell">제약사항</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. Implement</div><div class="kb-diagram-cell">DDL/</div><div class="kb-diagram-cell">소스코드</div><div class="kb-diagram-cell">서브넷/</div><div class="kb-diagram-cell">IAM/AD</div><div class="kb-diagram-cell">스케줄러</div><div class="kb-diagram-cell">알고리즘</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">테이블</div><div class="kb-diagram-cell">클래스</div><div class="kb-diagram-cell">IP할당</div><div class="kb-diagram-cell">계정할당</div><div class="kb-diagram-cell">인터럽트</div><div class="kb-diagram-cell">코드규칙</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────┬─────────┬─────────┬──────────┬──────────┬─────────┬─────────┐
+│ 관점(Row) \  │ What    │ How     │ Where    │ Who      │ When    │ Why     │
+│ 6하원칙(Col) │ (Data)  │ (Func)  │ (Network)│ (People) │ (Time)  │ (Motiv) │
+├──────────────┼─────────┼─────────┼──────────┼──────────┼─────────┼─────────┤
+│ 1. Planner   │ 주 데이터│ 핵심업무│ 사업위치 │ 핵심부서 │ 일정/주기│ 사업목표│
+├──────────────┼─────────┼─────────┼──────────┼──────────┼─────────┼─────────┤
+│ 2. Owner     │ 비즈니스│ 프로세스│ 물류망/  │ 조직도/  │ 이벤트  │ 비즈니스│
+│              │ 개념ERD │ 흐름도  │ 분산모델 │ 역할(R&R)│ 응답시간│ 계획/규정│
+├──────────────┼─────────┼─────────┼──────────┼──────────┼─────────┼─────────┤
+│ 3. Designer  │ 논리ERD │ 앱/아키 │ 분산아키 │ UI/접근  │ 상태전이│ 비즈니스│
+│              │ (정규화)│ 텍처구조│ 텍처/망  │ 권한(ACL)│ 타이밍도│ 룰 엔진 │
+├──────────────┼─────────┼─────────┼──────────┼──────────┼─────────┼─────────┤
+│ 4. Builder   │ 물리DB  │ 시스템  │ 시스템/  │ 보안/인증│ 제어/   │ 기술표준│
+│              │ 스키마  │ 설계도  │ HW노드   │ 아키텍처 │ 통신주기│ 제약사항│
+├──────────────┼─────────┼─────────┼──────────┼──────────┼─────────┼─────────┤
+│ 5. Implement │ DDL/    │ 소스코드│ 서브넷/  │ IAM/AD   │ 스케줄러│ 알고리즘│
+│              │ 테이블  │ 클래스  │ IP할당   │ 계정할당 │ 인터럽트│ 코드규칙│
+└──────────────┴─────────┴─────────┴──────────┴──────────┴─────────┴─────────┘
+```
 *해설: 이 6x6 매트릭스의 핵심 규칙은 각 셀이 고유해야 한다는 점(Mutually Exclusive)과 36개 셀을 모두 합치면 기업의 전체 아키텍처가 빠짐없이 묘사된다는 점(Collectively Exhaustive)이다. 또한, 각 열(Column)은 하위 행으로 내려갈수록 기본 개념은 변하지 않되 표현의 구체성과 도구만 달라지는 수직적 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)(Vertical Integration)을 유지해야 한다.*
 
 📢 **섹션 요약 비유**: 잭맨 매트릭스는 대형 도서관의 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 라벨과 같습니다. '역사([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 책' 중에서 '전문가([Builder](/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/))용' 책을 찾고 싶다면 정확히 특정 서랍(셀)을 열면 됩니다. 지식은 중복되지 않고, 필요한 정보는 누락 없이 완벽한 체계 속에 정리됩니다.
@@ -105,23 +103,19 @@ tags = ["enterprise_systems"]
 
 실무적으로 이 둘은 <strong>최고의 시너지</strong>를 낸다. TOGAF의 [ADM](/knowledge-base/studynote/03_network/01_data_communication/066_적응형_델타_변조_ADM/) 프로세스를 따라 단계별로 프로젝트를 수행하면서, 도출된 산출물 문서([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Artifacts)들을 저장하고 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 때는 [잭맨 프레임워크](/knowledge-base/studynote/12_it_management/03_ea_isp/112_zachman_framework/)의 특정 셀에 매핑([Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/))하는 방식을 취한다.
 
-또한 최신 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) 관점에서도 잭맨의 철학은 유효하다. [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)) 기반의 [도메인 주도 설계](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/)([DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/))를 수행할 때, [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(엔터티), Function([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)), Network([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 통신망)는 완벽히 잭맨의 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 열(Column) 철학과 일치하며, 이를 누가(권한), 언제([이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)) [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)하는지 분석하는 기본 틀로 작용한다.
+또한 최신 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) 관점에서도 잭맨의 철학은 유효하다. [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)) 기반의 [도메인 주도 설계](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/)([DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/))를 수행할 때, [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(엔터티), Function([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)), Network([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 통신망)는 완벽히 잭맨의 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 열(Column) 철학과 일치하며, 이를 누가(권한), 언제([이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)) [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)하는지 분석하는 기본 틀로 작용한다.
 
+```text
+[프레임워크 간 융합 시너지 맵]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">프레임워크 간 융합 시너지 맵</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">TOGAF ADM</div><div class="kb-diagram-note">(행동/프로세스)</div><div class="kb-diagram-node">Zachman Framework</div><div class="kb-diagram-note">(저장/분류)</div></div>
-<div class="kb-diagram-note">Phase B: 비즈니스 아키텍처 ▶ Row 1~2, 전체 Column 채우기</div>
-<div class="kb-diagram-note">Phase C: 데이터/앱 아키텍처 ─▶ Row 3 (Designer) 영역 산출물 저장</div>
-<div class="kb-diagram-note">Phase D: 기술 아키텍처 ▶ Row 4 (Builder) 물리 구조 매핑</div>
-<div class="kb-diagram-note">▼ 검증 ▼ 정합성 확인</div>
-<div class="kb-diagram-note">"다음 단계로 넘어갈 수 있는가?" ◀── "셀에 빈칸이나 모순(모호성)이 없는가?"</div>
-</div>
-</div>
-
-
+  [TOGAF ADM] (행동/프로세스)      [Zachman Framework] (저장/분류)
+  Phase B: 비즈니스 아키텍처 ───▶ Row 1~2, 전체 Column 채우기
+  Phase C: 데이터/앱 아키텍처 ─▶ Row 3 (Designer) 영역 산출물 저장
+  Phase D: 기술 아키텍처 ──────▶ Row 4 (Builder) 물리 구조 매핑
+         │                               │
+         ▼ 검증                          ▼ 정합성 확인
+  "다음 단계로 넘어갈 수 있는가?" ◀── "셀에 빈칸이나 모순(모호성)이 없는가?"
+```
 *해설: 이 흐름은 동적인 프로세스([TOGAF](/knowledge-base/studynote/12_it_management/03_ea_isp/113_togaf/))와 정적인 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계([Zachman](/knowledge-base/studynote/12_it_management/05_security_compliance/243_zachman_framework_matrix/))가 어떻게 상호작용하는지 보여준다. 행동이 결과를 낳고, [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계가 그 결과를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)함으로써 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 생명주기가 단단해진다. 특히 시스템 변경 시, 잭맨 매트릭스의 한 셀이 바뀌면 같은 행의 다른 열(수평적 영향)과 위아래 행(수직적 영향)을 추적해 영향도 분석(Impact Analysis)을 완벽하게 수행할 수 있다.*
 
 📢 **섹션 요약 비유**: [잭맨 프레임워크](/knowledge-base/studynote/12_it_management/03_ea_isp/112_zachman_framework/)가 벽장(정리 정돈 체계)이라면, TOGAF는 그 벽장에 물건을 순서대로 넣고 빼는 사용 매뉴얼(행동 강령)입니다. 벽장만 있으면 물건을 어떻게 넣을지 막막하고, 매뉴얼만 있으면 넣을 공간이 없어 지저분해집니다. 둘은 필연적 짝꿍입니다.
@@ -138,23 +132,20 @@ tags = ["enterprise_systems"]
    - *단점*: [메타데이터 관리 시스템](/knowledge-base/studynote/05_database/02_modeling_normalization/125_metadata_management_system_mms/)([EAMS](/knowledge-base/studynote/12_it_management/03_ea_isp/124_eams_ea_management_system/)) 없이 수기로 Excel/Visio 관리는 불가능에 가까움.
 3. <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 주의</strong>: 하나의 산출물(예: 복합 시스템 다이어그램)을 매트릭스의 여러 셀에 동시에 걸쳐 넣는 행위는 [잭맨 프레임워크](/knowledge-base/studynote/12_it_management/03_ea_isp/112_zachman_framework/)의 가장 큰 원칙인 '상호 배타성([MECE](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/215_mece_mutually_exclusive_collectively_exhaustive_issue_tree/))'을 위반하는 치명적 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다. 한 문서는 반드시 단 하나의 관점과 하우(How/What 등)에만 속하도록 [원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/)([Atomicity](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/))을 쪼개야 한다.
 
+```text
+[실무 의사결정 트리: 잭맨 프레임워크 도입 전략]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">실무 의사결정 트리: 잭맨 프레임워크 도입 전략</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">프로젝트 특성 분석</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">규모/복잡도 검토</div><div class="kb-diagram-note">레거시를 전면 개편하는 대규모 차세대 시스템인가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">규제/보안 검토</div><div class="kb-diagram-note">금융/공공 등 완벽한 추적성과 감사가 필요한가?</div></div>
-<div class="kb-diagram-note">─ (Yes) ─▶ 잭맨 36개 셀 전면 도입 (도구 자동화 EAMS 필수)</div>
-<div class="kb-diagram-note">─ (No) ──▶ Designer/Builder(3,4행) 중심의 핵심 셀만 약식 도입</div>
-<div class="kb-diagram-tree-item" style="--depth:1">(No) ▶ 단일 MSA 서비스 구축이나 애자일 소규모 피처 개발인가?</div>
-<div class="kb-diagram-tree-item" style="--depth:8">▶ 잭맨 구조 대신 빠른 배포 중심의 CI/CD 문서화 대체 (도입 보류)</div>
-</div>
-</div>
-
-
+[프로젝트 특성 분석]
+         │
+         ▼
+[규모/복잡도 검토] 레거시를 전면 개편하는 대규모 차세대 시스템인가?
+   ├─ (Yes) ──▶ [규제/보안 검토] 금융/공공 등 완벽한 추적성과 감사가 필요한가?
+   │              ├─ (Yes) ─▶ 잭맨 36개 셀 전면 도입 (도구 자동화 EAMS 필수)
+   │              └─ (No) ──▶ Designer/Builder(3,4행) 중심의 핵심 셀만 약식 도입
+   │
+   └─ (No) ───▶ 단일 MSA 서비스 구축이나 애자일 소규모 피처 개발인가?
+                  └─▶ 잭맨 구조 대신 빠른 배포 중심의 CI/CD 문서화 대체 (도입 보류)
+```
 *해설: 이 트리는 모든 프로젝트에 [잭맨 프레임워크](/knowledge-base/studynote/12_it_management/03_ea_isp/112_zachman_framework/)가 적합하지 않음을 시사한다. 복잡도와 규제 요구가 극도로 높을 때 그 진가를 발휘하지만, 속도가 생명인 가벼운 프로젝트에서는 과도한 문서화 오버헤드가 배포 병목으로 작용한다. 상황에 따른 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 뺄셈이 기술사적 실무 역량이다.*
 
 📢 **섹션 요약 비유**: 잭맨 매트릭스는 대형 여객기 조종석의 수백 개 버튼과 같습니다. 여객기를 정밀 통제할 때는 이 버튼이 모두 필요하지만, 가벼운 드론을 띄울 때 이 조종석을 통째로 뜯어오면 무게 때문에 날지도 못하게 됩니다.
@@ -171,7 +162,7 @@ tags = ["enterprise_systems"]
 | **추적성** | 장애 및 요구사항 변경 시 영향도 분석(Impact Analysis) 시간 단축 | 수직/수평적 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 매핑 덕분 |
 | **표준화** | [전사 아키텍처](/knowledge-base/studynote/12_it_management/05_security_compliance/242_ea_architecture_planning/) 산출물의 누락/중복 [Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) 달성 ([MECE](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/215_mece_mutually_exclusive_collectively_exhaustive_issue_tree/)) | 시스템 통합([EAI](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/143_eai_enterprise_application_integration_hub/)) 및 M&A 시 진가 발휘 |
 
-미래의 [잭맨 프레임워크](/knowledge-base/studynote/12_it_management/03_ea_isp/112_zachman_framework/)는 수동 문서 작성이 아닌, AI와 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 기반의 코드/[로그 분석](/knowledge-base/studynote/16_bigdata/05_analysis/119_log_analysis/)을 통해 아키텍처 셀들이 자동으로 [역공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/)([Reverse Engineering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/780_reverse_engineering/))되어 실시간으로 채워지는 형태로 진화할 것이다. 또한, [TOGAF](/knowledge-base/studynote/12_it_management/03_ea_isp/113_togaf/), FEAF 등 국가 및 글로벌 표준들이 모두 잭맨의 6하 원칙 온톨로지 사상에 빚을 지고 있으므로, 복잡한 시스템의 본질을 분해하고 해석하는 프레임워크로서의 지위는 영구적일 것이다.
+미래의 [잭맨 프레임워크](/knowledge-base/studynote/12_it_management/03_ea_isp/112_zachman_framework/)는 수동 문서 작성이 아닌, AI와 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 기반의 코드/[로그 분석](/knowledge-base/studynote/16_bigdata/05_analysis/119_log_analysis/)을 통해 아키텍처 셀들이 자동으로 [역공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/029_reverse_engineering/)([Reverse 엔진ering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/780_reverse_engineering/))되어 실시간으로 채워지는 형태로 진화할 것이다. 또한, [TOGAF](/knowledge-base/studynote/12_it_management/03_ea_isp/113_togaf/), FEAF 등 국가 및 글로벌 표준들이 모두 잭맨의 6하 원칙 온톨로지 사상에 빚을 지고 있으므로, 복잡한 시스템의 본질을 분해하고 해석하는 프레임워크로서의 지위는 영구적일 것이다.
 
 📢 **섹션 요약 비유**: 유클리드 기하학이 수천 년간 수학의 뼈대가 된 것처럼, [잭맨 프레임워크](/knowledge-base/studynote/12_it_management/03_ea_isp/112_zachman_framework/)는 IT 시스템이 아무리 클라우드와 AI로 발전하더라도 "누가, 왜, 어떻게 이 시스템을 만들었는가"를 묻는 가장 근본적이고 영원한 기업 정보화의 나침반입니다.
 
@@ -186,23 +177,21 @@ tags = ["enterprise_systems"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">잭맨 프레임워크 (Zachman Framework) — 1987년 6×6 매트릭스</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전사 아키텍처 (EA, Enterprise Architecture) — 조직 전체 구조를 정립</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">TOGAF (The Open Group Architecture Framework) — 실행 방법론과 거버넌스 제공</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">연방 엔터프라이즈 아키텍처 (FEAF, Federal Enterprise Architecture) — 정부 표준</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AI 기반 역공학 (AI-driven Reverse Engineering) — 시스템을 자동 분석해 아키텍처 추출</div></div>
-</div>
-</div>
-
-
+```text
+[잭맨 프레임워크 (Zachman Framework) — 1987년 6×6 매트릭스]
+    │
+    ▼
+[전사 아키텍처 (EA, Enterprise Architecture) — 조직 전체 구조를 정립]
+    │
+    ▼
+[TOGAF (The Open Group Architecture Framework) — 실행 방법론과 거버넌스 제공]
+    │
+    ▼
+[연방 엔터프라이즈 아키텍처 (FEAF, Federal Enterprise Architecture) — 정부 표준]
+    │
+    ▼
+[AI 기반 역공학 (AI-driven Reverse Engineering) — 시스템을 자동 분석해 아키텍처 추출]
+```
 
 이 흐름은 6×6 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)표로 시작한 [전사 아키텍처](/knowledge-base/studynote/12_it_management/05_security_compliance/242_ea_architecture_planning/)가 실행 방법론과 정부 표준을 거쳐, AI가 시스템 구조를 자동으로 역추적하는 단계로 이어지는 발전을 보여준다.
 

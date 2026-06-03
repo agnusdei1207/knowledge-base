@@ -27,17 +27,14 @@ tags = ["studynote-ai"]
 이 완벽한 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)로 '[디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)'이 탄생했지만, 첫 배포는 처참하게 망했다. 가상 세계에서 100점짜리 운전을 하던 AI를 현실 자동차에 꽂았더니 10초 만에 벽을 박았다. 가상 세계의 아스팔트 바닥 마찰계수와 현실 도로의 비 오는 아스팔트 마찰계수가 달랐기 때문이다. **(Sim-to-Real Gap 현상)**
 결국 가상 세계의 그래픽을 아무리 예쁘게 깎아봤자, 두 세계 간의 <strong>물리적 오차를 맞춰주는 실시간 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a> 보정(Calibration)</strong> 인프라가 없으면 [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)은 그저 비싼 3D 게임일 뿐이라는 사실을 깨달았다. 진짜 싸움은 렌더링이 아니라 '오차 통제망'에서 시작되었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)의 Sim-to-Real Gap은 '스크린 골프'와 '실제 필드'의 차이다. 스크린 골프(가상 트윈)에서 바람의 세기와 잔디의 느낌을 현실과 똑같이 세팅(Calibration)해 두지 않으면, 스크린에서 타이거 우즈처럼 치던 사람도 실제 잔디(현실)에 나가면 헛스윙을 한다. [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)의 핵심은 그래픽이 얼마나 화려한가가 아니라, 스크린 안의 바람(물리 파라미터)이 실제 필드에 부는 바람과 100% 똑같이 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)되어 있느냐에 있다.
 
@@ -47,30 +44,30 @@ tags = ["studynote-ai"]
 
 완벽한 [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)을 유지하려면 현실 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 가상 세계를 고치고, 가상의 예측이 현실을 제어하는 무한 <strong>폐쇄 루프(Closed-Loop) 아키텍처</strong>가 쉴 새 없이 돌아가야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디지털 트윈의 물리 동기화 &amp; 실시간 보정(Calibration) 루프 도해</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. Data Ingestion (현실에서 가상으로 텔레파시 쏘기)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 현실(Physical): 공장 로봇 팔 관절에 달린 센서 1,000개가 초당 100번씩</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">현재의 온도, 모터의 마찰력, 진동 데이터를 쏨.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 브로커망(Kafka): 이 미친 데이터 폭우를 받아내어 가상 세계로 스트리밍.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. Continuous Calibration (오차 잡기 &amp; 가상 물리엔진 튜닝)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 가상 세계(Twin)의 AI: "어? 내 시뮬레이션에서는 로봇이 1초 만에 돌았는데,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">현실 센서 보니까 기름때가 껴서 1.2초가 걸리네?"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 마법 발동 (보정): 가상 세계가 자기 자신의 '마찰력 파라미터' 수치를 즉시 높여</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">현실과 똑같이 1.2초가 걸리도록 스스로 뇌(물리엔진)를 고침!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3. Simulation &amp; Optimization (미래 예측 테스트)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 튜닝 끝난 가상 세계: "현실이랑 100% 동기화 끝! 자 이제 속도를 5배 올려볼까?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(가상에서 1만 번 돌려봄) 오! 모터 안 터지고 완벽해!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">4. Actuation (가상의 정답을 현실로 다운로드)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 가상(Twin) ─▶ 현실(Physical): 가상에서 찾은 최적의 제어 파라미터를</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">현실 로봇 팔에 무선(OTA)으로 복사 덮어쓰기! (공장 셧다운 없이 수율 폭발!)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           디지털 트윈의 물리 동기화 & 실시간 보정(Calibration) 루프 도해  │
+├──────────────────────────────────────────────────────────────┤
+│  [1. Data Ingestion (현실에서 가상으로 텔레파시 쏘기)]               │
+│   * 현실(Physical): 공장 로봇 팔 관절에 달린 센서 1,000개가 초당 100번씩   │
+│                   현재의 온도, 모터의 마찰력, 진동 데이터를 쏨.            │
+│   * 브로커망(Kafka): 이 미친 데이터 폭우를 받아내어 가상 세계로 스트리밍.     │
+│                                                              │
+│  [2. Continuous Calibration (오차 잡기 & 가상 물리엔진 튜닝)]        │
+│   * 가상 세계(Twin)의 AI: "어? 내 시뮬레이션에서는 로봇이 1초 만에 돌았는데,  │
+│                         현실 센서 보니까 기름때가 껴서 1.2초가 걸리네?"    │
+│   * 마법 발동 (보정): 가상 세계가 자기 자신의 '마찰력 파라미터' 수치를 즉시 높여 │
+│                    현실과 똑같이 1.2초가 걸리도록 스스로 뇌(물리엔진)를 고침! │
+│                                                              │
+│  [3. Simulation & Optimization (미래 예측 테스트)]                │
+│   * 튜닝 끝난 가상 세계: "현실이랑 100% 동기화 끝! 자 이제 속도를 5배 올려볼까? │
+│                        (가상에서 1만 번 돌려봄) 오! 모터 안 터지고 완벽해!"│
+│                                                              │
+│  [4. Actuation (가상의 정답을 현실로 다운로드)]                      │
+│   * 가상(Twin) ─▶ 현실(Physical): 가상에서 찾은 최적의 제어 파라미터를   │
+│     현실 로봇 팔에 무선(OTA)으로 복사 덮어쓰기! (공장 셧다운 없이 수율 폭발!)  │
+└──────────────────────────────────────────────────────────────┘
+```
 
 **핵심 원리 (칼만 필터와 베이지안 최적화 기반 보정)**:
 가상과 현실의 오차를 맞추는 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)(Calibration)는 단순한 덧셈 뺄셈이 아니다. 현실의 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에는 수많은 노이즈(전파 간섭, 튀는 값)가 섞여 있다. 이 쓰레기 센서 값을 가상 세계에 그대로 입력하면 트윈 모델이 망가진다. 

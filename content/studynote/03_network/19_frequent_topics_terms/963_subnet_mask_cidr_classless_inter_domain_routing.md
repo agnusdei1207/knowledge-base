@@ -24,18 +24,14 @@ tags = ["studynote-network"]
   2. **호스트 ID (집 주소)**: "나는 삼성동 10번지 컴퓨터야"
 - 이 긴 숫자 중 도대체 <strong>"어디서부터 어디까지가 동네 주소이고, 어디부터가 집 주소냐?"</strong>를 끊어주는(가위질) 도구가 바로 <strong>서브넷 마스크(Subnet Mask)</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">BGP AS-Path</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">서브넷 마스크 / CIDR</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IPv6 헤더 압축 / SLAAC</div></div>
-</div>
-</div>
-
-
+```text
+[BGP AS-Path]
+    │
+    ▼
+[서브넷 마스크 / CIDR]
+    │
+    └──▶ [IPv6 헤더 압축 / SLAAC]
+```
 
 - **📢 섹션 요약 비유**: 서브넷 마스크 / CIDR는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -49,18 +45,14 @@ tags = ["studynote-network"]
   - **규칙**: 마스크의 <strong><code>1</code>이 덮여있는 부분은 "건드리지 마! 동네 주소(Network)야!"</strong> 이고, <strong><code>0</code>이 덮여있는 부분은 "내 맘대로 컴퓨터 꽂아서 쓰는 집 주소(Host)야!"</strong>라는 선 긋기 룰입니다. 
   - 이를 통해 큰 덩어리의 네트워크를 작은 부서별(영업팀, 인사팀) 네트워크(Subnet)로 잘게 쪼개어 [브로드캐스트 스톰](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1097_broadcast_storm_switching_loop_stp/)(소음)을 완벽히 차단합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">BGP AS-Path</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">서브넷 마스크 / CIDR</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IPv6 헤더 압축 / SLAAC</div></div>
-</div>
-</div>
-
-
+```text
+[BGP AS-Path]
+    │
+    ▼
+[서브넷 마스크 / CIDR]
+    │
+    └──▶ [IPv6 헤더 압축 / SLAAC]
+```
 
 - **📢 섹션 요약 비유**: 서브넷 마스크 / CIDR의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -134,19 +126,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: BGP AS-Path</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 서브넷 마스크 / CIDR</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: IPv6 헤더 압축 / SLAAC</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: BGP AS-Path]
+    │
+    ▼
+[현재 개념: 서브넷 마스크 / CIDR]
+    │
+    ├──▶ [확장 A: IPv6 헤더 압축 / SLAAC]
+    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
+```
 
 서브넷 마스크 / CIDR는 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) AS-Path에서 출발해 현재 메커니즘을 정교화하고, 이후 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 헤더 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) / SLAAC와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -20,25 +20,24 @@ tags = ["studynote-enterprise-systems"]
 
 운영 CRM은 "어제 김 고객이 장바구니에 신발을 담았다"는 사실을 기록한다. 분석 CRM은 "김 고객처럼 30대 남성이 장바구니에 담고 3일 내 결제 안 하면 이탈 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 72%"라는 <strong>패턴(통찰)</strong>을 추출한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">운영 CRM → 분석 CRM 선순환 루프</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">운영 CRM (손발)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">행동 데이터 수집</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">DW/Data Lake</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주문·클릭·상담 기록</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분석 CRM (두뇌)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AI 마이닝</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">세분화·이탈예측·추천</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">캠페인/영업 자동화</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">인사이트 피드백</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"이 고객에게 15% 쿠폰"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">운영 CRM에 자동 적용 ▼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">성과 측정 → 모델 개선</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│      운영 CRM → 분석 CRM 선순환 루프                   │
+├───────────────────────────────────────────────────────┤
+│  운영 CRM (손발)                                      │
+│   [행동 데이터 수집]  ─────▶  DW/Data Lake            │
+│   주문·클릭·상담 기록                │                 │
+│                                      ▼                 │
+│                              분석 CRM (두뇌)           │
+│                              [AI 마이닝]               │
+│                              세분화·이탈예측·추천      │
+│                                      │                 │
+│   [캠페인/영업 자동화]  ◀─────  인사이트 피드백        │
+│   "이 고객에게 15% 쿠폰"            │                 │
+│   운영 CRM에 자동 적용               ▼                 │
+│                              성과 측정 → 모델 개선     │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 운영 CRM이 범죄 현장(고객 접점)에서 증거([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 수집하는 형사라면, 분석 CRM은 증거를 분석하여 "다음 범행(이탈) 장소를 예측"하는 프로파일러([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))다.
 
@@ -113,21 +112,18 @@ tags = ["studynote-enterprise-systems"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">엑셀 기반 고객 분석 (1990s) — 수동 RFM 분류</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 웨어하우스 + OLAP (2000s) — 다차원 큐브 분석</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ML 기반 예측 (2010s) — XGBoost 이탈 예측, 추천 엔진</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: GenAI + CRM — 자연어 질의 분석, AI 에이전트 자동 캠페인</div></div>
-</div>
-</div>
-
-
+```text
+[엑셀 기반 고객 분석 (1990s) — 수동 RFM 분류]
+    │
+    ▼
+[데이터 웨어하우스 + OLAP (2000s) — 다차원 큐브 분석]
+    │
+    ▼
+[ML 기반 예측 (2010s) — XGBoost 이탈 예측, 추천 엔진]
+    │
+    ▼
+[현재: GenAI + CRM — 자연어 질의 분석, AI 에이전트 자동 캠페인]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 운영 CRM이 "오늘 어떤 손님이 왔고 뭘 샀는지" 기록하는 일기장이라면,

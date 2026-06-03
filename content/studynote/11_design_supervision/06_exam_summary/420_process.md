@@ -33,16 +33,12 @@ tags = ["studynote-design-supervision"]
 
 [페어와이즈](/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/)·직교배열 기반 축소는 무작정 케이스를 줄이는 작업이 아니다. 먼저 테스트 대상을 **요인(Factor)** 과 **수준(Level)** 으로 분해하고, 그다음 상호작용을 커버하는 최소 세트를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한 뒤, 마지막으로 업무상 금지 조합과 고위험 예외를 보정한다. 즉 “모델링 → 조합 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) → 위험 보완”의 3단계가 핵심이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요인·수준 식별</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Pairwise / OA 생성</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">제약 반영·보정 케이스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Browser, Role…</div><div class="kb-diagram-cell">2-way 균형 커버</div><div class="kb-diagram-cell">금지 조합·고위험 추가</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────┐    ┌──────────────────┐    ┌────────────────────┐
+│ 요인·수준 식별   │──▶│ Pairwise / OA 생성 │──▶│ 제약 반영·보정 케이스 │
+│ Browser, Role… │    │ 2-way 균형 커버    │    │ 금지 조합·고위험 추가 │
+└─────────────────┘    └──────────────────┘    └────────────────────┘
+```
 
 | 핵심 요소 | 설명 | 기술사 포인트 |
 | :--- | :--- | :--- |
@@ -122,23 +118,21 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">동등 분할 · 경계값 분석</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">입력 요인·수준 모델링</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">페어와이즈 (2-way) 조합 축소</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">직교 배열 (OA) 기반 균형 설계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">제약 처리 · 고위험 조합 보강 · t-way 확장</div>
-</div>
-</div>
-
-
+```text
+동등 분할 · 경계값 분석
+        │
+        ▼
+입력 요인·수준 모델링
+        │
+        ▼
+페어와이즈 (2-way) 조합 축소
+        │
+        ▼
+직교 배열 (OA) 기반 균형 설계
+        │
+        ▼
+제약 처리 · 고위험 조합 보강 · t-way 확장
+```
 
 이 흐름은 [블랙박스 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/412_black_box_testing/) 기초 기법에서 시작해, 조합 폭발을 줄이고, 다시 위험 기반 보완으로 확장되는 실무 적용 순서를 보여 준다.
 

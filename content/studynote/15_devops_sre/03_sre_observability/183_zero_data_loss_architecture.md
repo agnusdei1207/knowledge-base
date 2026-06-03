@@ -25,17 +25,14 @@ tags = ["studynote-devops-sre"]
 
 아래 그림은 같은 장애라도 ACK 시점에 따라 결과가 완전히 달라짐을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ACK timing defines data loss</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Early ACK path : write -&gt; primary ACK -&gt; primary crash -&gt; lost</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Safe ACK path : write -&gt; quorum durable -&gt; ACK -&gt; crash -&gt; safe</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ ACK timing defines data loss                                       │
+├────────────────────────────────────────────────────────────────────┤
+│ Early ACK path : write -> primary ACK -> primary crash -> lost    │
+│ Safe ACK path  : write -> quorum durable -> ACK -> crash -> safe  │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 또한 [RPO](/knowledge-base/studynote/12_it_management/05_security_compliance/177_rpo_recovery_point_objective/)=0은 [Recovery Time Objective](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/) ([RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/)) = 0과 다르다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 잃지 않아도 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 전환이 느리면 고객 체감 중단은 여전히 크다. 따라서 [Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Loss는 "무손실"과 "빠른 전환"을 분리해 설계하되, 우선순위는 <strong>잃지 않는 ACK 규칙</strong>에 둬야 한다.
 
@@ -58,19 +55,17 @@ tags = ["studynote-devops-sre"]
 
 아래 경로는 "무손실 ACK"가 어떤 순서를 따라야 하는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Zero Data Loss write path</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client -&gt; API -&gt; WAL append -&gt; quorum fsync -&gt; commit index</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; ACK to client</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; replicated outbox / CDC feed</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; failover candidate eligible</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Zero Data Loss write path                                          │
+├────────────────────────────────────────────────────────────────────┤
+│ Client -> API -> WAL append -> quorum fsync -> commit index       │
+│                                 │                                  │
+│                                 ├-> ACK to client                 │
+│                                 ├-> replicated outbox / CDC feed  │
+│                                 └-> failover candidate eligible   │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조의 핵심은 "리더가 기록했다"가 아니라 "페일오버 후에도 살아남는 상태로 기록되었다"는 점이다. 예를 들어 3노드 합의라면 보통 2노드 이상이 내구성 있게 기록한 뒤에만 커밋 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 올라간다. 이 원리가 있어야 리더 장애 후 새 리더가 커밋된 마지막 상태를 그대로 이어받을 수 있다.
 
@@ -155,25 +150,24 @@ tags = ["studynote-devops-sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">로컬 커밋 중심 저장</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">WAL 기반 내구성 확보</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Quorum 복제 · 동기 ACK</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Failover / Fencing / Replay</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Outbox · CDC · End-to-End 무손실</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">고객 신뢰 기반의 Zero Data Loss 운영</div>
-</div>
-</div>
-
-
+```text
+로컬 커밋 중심 저장
+    │
+    ▼
+WAL 기반 내구성 확보
+    │
+    ▼
+Quorum 복제 · 동기 ACK
+    │
+    ▼
+Failover / Fencing / Replay
+    │
+    ▼
+Outbox · CDC · End-to-End 무손실
+    │
+    ▼
+고객 신뢰 기반의 Zero Data Loss 운영
+```
 
 이 흐름은 단일 노드 내구성에서 시작해, 다중 노드 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)와 하류 이벤트 정합성까지 확장되어야 비로소 "무손실"이 완성된다는 점을 보여 준다.
 
@@ -190,6 +184,6 @@ tags = ["studynote-devops-sre"]
 **진행 상황**: 183 / 373
 
 ← **이전**: [182. 상태 페이지 (Status Page) - 대외 공개 SLA 운영](/knowledge-base/studynote/15_devops_sre/03_sre_observability/182_status_page_public_sla/)
-**다음**: [184. 재해 복구 훈련과 카오스 엔지니어링 융합 (Disaster Recovery + Chaos Engineering)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/184_dr_chaos_engineering_fusion/) →
+**다음**: [184. 재해 복구 훈련과 카오스 엔지니어링 융합 (Disaster Recovery + Chaos 엔진ering)](/knowledge-base/studynote/15_devops_sre/03_sre_observability/184_dr_chaos_engineering_fusion/) →
 
 ---

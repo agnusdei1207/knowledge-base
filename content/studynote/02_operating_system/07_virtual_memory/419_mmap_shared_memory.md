@@ -27,25 +27,27 @@ tags = ["studynote-operating-system"]
   2. **Memory Mapped 꼼수**: 어차피 mmap으로 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 램에 올리면, 두 앱이 같은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 [mmap](/knowledge-base/studynote/02_operating_system/11_exam_summary/749_memory_mapped_file_mmap/) 했을 때 램을 중복으로 올리지 않고 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 화살표만 같이 쓰게(공유) 해주는 OS의 성질을 악용(?)하기 시작.
   3. **표준화**: 결국 이것이 POSIX [Shared Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) (`shm_open`, `mmap`) 표준으로 굳어지며 현존하는 가장 빠르고 폭력적인 서버 내 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 완성되었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고전적 파이프/소켓 vs mmap 공유 메모리의 구조적 차이 시각화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1. 소켓/파이프 (우체부 배달 방식 - 오버헤드 최악)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">프로세스 A 램</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OS 커널 버퍼</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">프로세스 B 램</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─(복사)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⚠ 단점: 1GB 보낼 때 램에서 복사가 2번 일어나 2GB 트래픽 발생!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2. mmap 공유 메모리 (벽 허물고 공용 냉장고 쓰기 - 초고속)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">프로세스 A</div><div class="kb-diagram-note">의 가상 주소 0x1000 ──</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">물리 RAM의 Page Cache (공유 공간)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">프로세스 B</div><div class="kb-diagram-note">의 가상 주소 0x8000 ──</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">✅ 장점: 복사(Copy) 0회! A가 <code>p</div><div class="kb-diagram-node">0</div><div class="kb-diagram-note">=1</code> 적는 순간 B도 즉시 읽음!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">커널의 개입(System Call)조차 아예 없는 다이렉트 통신.</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│        고전적 파이프/소켓 vs mmap 공유 메모리의 구조적 차이 시각화 │
+├────────────────────────────────────────────────────────────────────┤
+│                                                                    │
+│ ▶ 1. 소켓/파이프 (우체부 배달 방식 - 오버헤드 최악)                │
+│  [ 프로세스 A 램 ]  ──(복사)─▶ [ OS 커널 버퍼 ]                    │
+│                                 │                                  │
+│  [ 프로세스 B 램 ]  ◀─(복사)─── ┘                                  │
+│  ⚠ 단점: 1GB 보낼 때 램에서 복사가 2번 일어나 2GB 트래픽 발생!     │
+│                                                                    │
+│ ▶ 2. mmap 공유 메모리 (벽 허물고 공용 냉장고 쓰기 - 초고속)        │
+│  [ 프로세스 A ] 의 가상 주소 0x1000 ──┐                            │
+│                                     ▼                              │
+│                      [ 물리 RAM의 Page Cache (공유 공간) ]         │
+│                                     ▲                              │
+│  [ 프로세스 B ] 의 가상 주소 0x8000 ──┘                            │
+│  ✅ 장점: 복사(Copy) 0회! A가 `p[0]=1` 적는 순간 B도 즉시 읽음!    │
+│          커널의 개입(System Call)조차 아예 없는 다이렉트 통신.     │
+└────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 이 그림은 리눅스 시스템에서 가장 가슴 웅장해지는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝의 정점이다. A와 B는 각자 자기 우주([가상 주소 공간](/knowledge-base/studynote/02_operating_system/07_virtual_memory/382_virtual_address_space/))에 있으면서 주소도 서로 다르지만(`0x1000` vs `0x8000`), MMU가 물리적으로 같은 램 프레임을 바라보게 해줌으로써 완벽한 텔레파시가 성립된다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드로 진입하는 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))이 발생하지 않는다는 것이 가장 큰 축복이다.
 
 - **📢 섹션 요약 비유**: 회사에서 옆 부서로 100기가짜리 기획서를 보낼 때, 메일에 첨부파일(복사)로 보내면 사내 망이 터지고([파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 통신), 아예 구글 드라이브([공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/))에 올려놓고 링크만 슬쩍 넘기면 0.1초 만에 서로 동시에 문서를 수정하고 읽어댈 수 있는 기적의 협업 툴입니다.
@@ -101,17 +103,14 @@ tags = ["studynote-operating-system"]
 - [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)([Socket](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/))이나 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)([Pipe](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/))는 OS가 알아서 일렬로 세워서([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 넘겨주지만, [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)는 그런 게 없다.
 - 따라서 mmap을 쓰는 개발자는 무조건 <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/">세마포어</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/">Semaphore</a>)</strong>나 <strong>뮤텍스(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/">Mutex</a>)</strong> 락을 양쪽 앱에 걸어두고, "내가 밥 먹을 땐 넌 손대지 마!"를 하드코어하게 어셈블리 레벨로 짜야만 한다. 삐끗하면 데드락([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))에 걸려 서버 두 대가 영원히 멈추는 저주를 받게 된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최적화 옵션</div><div class="kb-diagram-cell">속도 (Speed)</div><div class="kb-diagram-cell">안정성 (Safety)</div><div class="kb-diagram-cell">구현 난이도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파이프(Pipe)</div><div class="kb-diagram-cell">🐢 기어감</div><div class="kb-diagram-cell">🟢 100% 안전</div><div class="kb-diagram-cell">쉬움 (OS가 다 해줌)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">mmap 공유</div><div class="kb-diagram-cell">🚀 램 스피드</div><div class="kb-diagram-cell">☠️ 툭하면 깨짐</div><div class="kb-diagram-cell">최상 (락/세마포어 필수)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬───────────────────────────────┐
+│ 최적화 옵션│ 속도 (Speed) │ 안정성 (Safety)│ 구현 난이도           │
+├──────────┼────────────┼────────────┼───────────────────────────────┤
+│ 파이프(Pipe)│ 🐢 기어감    │ 🟢 100% 안전  │ 쉬움 (OS가 다 해줌)   │
+│ mmap 공유 │ 🚀 램 스피드 │ ☠️ 툭하면 깨짐 │ 최상 (락/세마포어 필수)│
+└──────────┴────────────┴────────────┴───────────────────────────────┘
+```
 **[매트릭스 해설]** "큰 힘에는 큰 책임이 따른다." [mmap](/knowledge-base/studynote/02_operating_system/11_exam_summary/749_memory_mapped_file_mmap/) [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 프로그래머에게 선사한 가장 강력한 엑스칼리버지만, 조금만 잘못 휘두르면 자기 다리를 썰어버리는 무서운 칼이다. 그래서 HFT(금융 초고빈도 매매)나 언리얼 게임 엔진 커어 렌더링 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인처럼 "1나노초에 목숨 거는 0.1%의 천재 개발자들"의 영역으로 남아있다.
 
 - **📢 섹션 요약 비유**: [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)/[파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)는 놀이공원 회전목마입니다. 줄 서는 건 1시간(느림)이지만 직원이 알아서 벨트 매주고 안전하게 돌려줍니다. [mmap](/knowledge-base/studynote/02_operating_system/11_exam_summary/749_memory_mapped_file_mmap/) [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)는 F1 레이싱카입니다. 속도는 300km/h지만, 내가 브레이크([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/)) 타이밍을 0.1초라도 놓치면 벽에 들이박고 즉사([Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/))하는 피 말리는 운전 실력이 필요합니다.
@@ -167,19 +166,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">메모리 매핑 파일 (Memory-Mapped Files, mmap)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">파일 I/O를 메모리 접근으로 변환, 버퍼 캐시 활용, 프로세스 간 공유 메모리로 사용 가능 (mmap Shared Memory)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">메모리 맵 I/O (Memory-Mapped I/O)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">커널 메모리 할당의 특징</div></div>
-</div>
-</div>
-
-
+```text
+[메모리 매핑 파일 (Memory-Mapped Files, mmap)]
+    │
+    ▼
+[파일 I/O를 메모리 접근으로 변환, 버퍼 캐시 활용, 프로세스 간 공유 메모리로 사용 가능 (mmap Shared Memory)]
+    │
+    ├──▶ [메모리 맵 I/O (Memory-Mapped I/O)]
+    └──▶ [커널 메모리 할당의 특징]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

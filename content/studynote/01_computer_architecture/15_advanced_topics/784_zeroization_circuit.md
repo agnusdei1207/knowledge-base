@@ -43,20 +43,24 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 zeroization 경로의 전형적인 구성을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Zeroization path: detect, isolate, then erase</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tamper Sensors / Authorized Zeroize Command</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Always-On Tamper Controller</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Reg/SRAM Cache/Buffers Backup RAM NVM key slots / wrap key</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">clear scrub/reset clear erase or invalidate</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tamper latch Reboot lockout</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                  Zeroization path: detect, isolate, then erase            │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Tamper Sensors / Authorized Zeroize Command                               │
+│                 │                                                         │
+│                 ▼                                                         │
+│        Always-On Tamper Controller                                        │
+│                 │                                                         │
+│       ┌─────────┼───────────┬───────────────┐                             │
+│       ▼         ▼           ▼               ▼                             │
+│   Reg/SRAM   Cache/Buffers  Backup RAM   NVM key slots / wrap key        │
+│   clear      scrub/reset    clear        erase or invalidate             │
+│       └───────────────┬───────────────┬────────────────┘                  │
+│                       ▼               ▼                                    │
+│                 Tamper latch     Reboot lockout                           │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 여기서 중요한 것은 속도와 범위다. 센서가 울린 뒤 수 밀리초 이상 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)되면 프로빙이나 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 캡처에 시간을 줄 수 있고, 일부 저장소만 지우면 다른 복사본이 남아 공격 가치가 유지된다. 그래서 고신뢰 장치는 "비밀이 어디에 몇 번 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)되는지"를 아키텍처 단계에서부터 줄이고, zeroize 경로도 그 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 경로를 따라 설계한다.
 
@@ -129,25 +133,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">탬퍼 감지</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Always-on controller</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ Reg/SRAM clear</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ Cache/DMA scrub</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ Backup RAM erase</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ NVM crypto erase / slot invalidate</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Tamper latch · reboot lockout</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">안전한 재프로비저닝</div>
-</div>
-</div>
-
-
+```text
+탬퍼 감지
+    │
+    ▼
+Always-on controller
+    │
+    ├──▶ Reg/SRAM clear
+    ├──▶ Cache/DMA scrub
+    ├──▶ Backup RAM erase
+    └──▶ NVM crypto erase / slot invalidate
+    │
+    ▼
+Tamper latch · reboot lockout
+    │
+    ▼
+안전한 재프로비저닝
+```
 
 이 흐름은 단순 삭제가 아니라, 감지부터 lockout과 재등록까지 이어지는 zeroization 수명주기를 보여 준다.
 

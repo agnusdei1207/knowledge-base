@@ -35,23 +35,27 @@ tags = ["studynote-computer-architecture"]
 
 아래 흐름은 프리패치가 단순한 "선행 메모리 읽기"가 아니라, <strong>예측 → 필터링 → 발행 → 적절한 캐시로 채우기</strong>의 연쇄 판단이라는 점을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Prefetch pipeline: predict early, fill before demand</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Load PC/Addr</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Trigger</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Pattern Table</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Filter/Throttle</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">MSHR/Queue</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ duplicate? drop</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ bus busy? hold</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ page edge? limit</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">next-line / stride / stream</div><div class="kb-diagram-node">DRAM / L3</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">L2 / L1 / Prefetch Buffer</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">later demand arrives -&gt; cache hit</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────┐
+│ Prefetch pipeline: predict early, fill before demand                    │
+├──────────────────────────────────────────────────────────────────────────┤
+│ Load PC/Addr                                                            │
+│     │                                                                    │
+│     ▼                                                                    │
+│ [Trigger] -> [Pattern Table] -> [Filter/Throttle] -> [MSHR/Queue]       │
+│                 │                      │                     │            │
+│                 │                      ├─ duplicate? drop    │            │
+│                 │                      ├─ bus busy? hold      │            │
+│                 │                      └─ page edge? limit   │            │
+│                 ▼                                            ▼            │
+│         next-line / stride / stream                    [DRAM / L3]       │
+│                                                             │            │
+│                                                             ▼            │
+│                                             [L2 / L1 / Prefetch Buffer]  │
+│                                                             │            │
+│                                     later demand arrives -> cache hit    │
+└──────────────────────────────────────────────────────────────────────────┘
+```
 
 | 방식 | 예측 근거 | 강점 | 취약점 |
 | :-- | :-- | :-- | :-- |
@@ -122,25 +126,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">공간 지역성 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">다음 라인 프리패치</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">스트라이드 프리패치</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">스트림·상관 프리패치</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">피드백 기반 스로틀링</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">협력형·ML 프리패치</div>
-</div>
-</div>
-
-
+```text
+공간 지역성 인식
+    │
+    ▼
+다음 라인 프리패치
+    │
+    ▼
+스트라이드 프리패치
+    │
+    ▼
+스트림·상관 프리패치
+    │
+    ▼
+피드백 기반 스로틀링
+    │
+    ▼
+협력형·ML 프리패치
+```
 
 이 흐름은 "단순한 순차 예측 → 규칙 학습 → 복합 패턴 학습 → 적응형 제어"로 프리패처가 진화하는 방향을 보여준다.
 

@@ -40,36 +40,41 @@ tags = ["studynote-design-supervision"]
 "아니 씨발 폴더 새끼가 어떻게 지 뱃속 자식들을 알아서 지워 줌 ㅋ?" 
 [컴포지트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/)의 심장, 그루핑([Grouping](/knowledge-base/studynote/02_operating_system/09_file_system/535_grouping_counting_free_space/))과 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)(Recursive) 호출 릴레이 핑퐁의 십자 엑스레이 스캔 도해다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">컴포지트(Composite) 패턴 트리 십자 융합 재귀(Recursive) 록온 도해 🚀</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">👨‍💻</div><div class="kb-diagram-node">Client (우리 클라이언트 봇)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "야 나 니 뱃속에 파일 1개 들었는지 1억 개 들었는지 알 빠 좆까 관심 없어 ㅋ!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">걍 내가 <code>component.delete()</code> 대문 1번 찌를 테니까 다 뒈져 쾅!!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (오직 인터페이스만 찌름 무결점 다이렉트 핑!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 Component (공통 껍데기 인터페이스)</div><div class="kb-diagram-cell">◀── 이놈이 우주 대통일 0순위 성배 ✨</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ delete()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── (상속/구현 락킹)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🍃 Leaf (단일 객체 쪼가리)</div><div class="kb-diagram-cell">📂 Composite (거대 복합 쇳덩이)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(예: File 파일 1개)</div><div class="kb-diagram-cell">(예: Folder 폴더 텐트)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">핵심 핏줄 🩸</div><div class="kb-diagram-note">지 뱃속에 자식들을 무한 리스트 포인터로 품음!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"내 파일 1개 삭제 완료 ㅋ"</div><div class="kb-diagram-cell">+ add(Component c)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div><div class="kb-diagram-cell">+ delete() {</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">마법 핑퐁 ✨</div><div class="kb-diagram-note">지 뱃속 자식들 1만 개 다 꺼내서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">c.delete()</div><div class="kb-diagram-cell">릴레이 오토 무지성 연쇄 사살 빔 발사 쾅 🚀!!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"내 폴더 껍데기도 삭제 컷 ㅋ"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 아키텍트 극딜: "봐라 미친아 쾅!! 폴더(<code>Composite</code>) 뱃속 리스트 안에 들어가는 놈들</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">타입(Type)이 뭐냐? <code>File</code>이냐? 아니 좆까 ➔ 무조건 공통 대문 껍데기인 <code></div><div class="kb-diagram-node">Component</div><div class="kb-diagram-note"></code></div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">타입으로 은닉 업캐스팅 시켜서 쑤셔 박아 품어버렸잖아(다형성 Polymorphism 록온 🚀)!!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">그러니까 폴더 뱃속에 파일(Leaf)이 들어오든 또 다른 하위 폴더(Composite)가 들어오든</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1바이트 에러 충돌 없이 100% 무결점 흡수 짬처리 호환 연쇄 뻗음이 성립하는 특이점이다 쾅!"</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          컴포지트(Composite) 패턴 트리 십자 융합 재귀(Recursive) 록온 도해 🚀 │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ 👨‍💻 [ Client (우리 클라이언트 봇) ]                           │
+│   - "야 나 니 뱃속에 파일 1개 들었는지 1억 개 들었는지 알 빠 좆까 관심 없어 ㅋ!│
+│      걍 내가 `component.delete()` 대문 1번 찌를 테니까 다 뒈져 쾅!!"     │
+│            │                                                │
+│            ▼ (오직 인터페이스만 찌름 무결점 다이렉트 핑!)              │
+│ ┌────────────────────────┐                                  │
+│ │ 🌟 Component (공통 껍데기 인터페이스)│ ◀── 이놈이 우주 대통일 0순위 성배 ✨│
+│ │ + delete()             │                                  │
+│ └────────────────────────┘                                  │
+│            ▲                                                │
+│            ├── (상속/구현 락킹)                              │
+│            │                                                │
+│ ┌──────────┴─────────────┐      ┌──────────┴─────────────┐ │
+│ │ 🍃 Leaf (단일 객체 쪼가리)   │      │ 📂 Composite (거대 복합 쇳덩이)│ │
+│ │ (예: File 파일 1개)        │      │ (예: Folder 폴더 텐트)       │ │
+│ │ + delete() {           │      │ - children: List<Component>│ ◀─ [핵심 핏줄 🩸] 지 뱃속에 자식들을 무한 리스트 포인터로 품음!
+│ │   "내 파일 1개 삭제 완료 ㅋ" │      │ + add(Component c)       │ │
+│ │ }                      │      │ + delete() {             │ │
+│ └────────────────────────┘      │   for(Component c : children) │ ◀─ [마법 핑퐁 ✨] 지 뱃속 자식들 1만 개 다 꺼내서
+│                                   │     c.delete()           │ 릴레이 오토 무지성 연쇄 사살 빔 발사 쾅 🚀!!
+│                                   │   }                      │ │
+│                                   │   "내 폴더 껍데기도 삭제 컷 ㅋ" │ │
+│                                   └────────────────────────┘ │
+│ 🌟 아키텍트 극딜: "봐라 미친아 쾅!! 폴더(`Composite`) 뱃속 리스트 안에 들어가는 놈들 │
+│   타입(Type)이 뭐냐? `File`이냐? 아니 좆까 ➔ 무조건 공통 대문 껍데기인 `[Component]` │
+│   타입으로 은닉 업캐스팅 시켜서 쑤셔 박아 품어버렸잖아(다형성 Polymorphism 록온 🚀)!! │
+│   그러니까 폴더 뱃속에 파일(Leaf)이 들어오든 또 다른 하위 폴더(Composite)가 들어오든 │
+│   1바이트 에러 충돌 없이 100% 무결점 흡수 짬처리 호환 연쇄 뻗음이 성립하는 특이점이다 쾅!"│
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[아키텍트의 피 터지는 메스: 1타 쌍피 프랙탈 (Fractal) 우주 팽창 🚀]**
 [컴포지트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/)의 가장 소름 돋는 무서움은 <strong>'내가 나 자신을 다시 포함하는 마트료시카 무한 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/">재귀</a>'</strong> 구조에 있다. 
@@ -149,23 +154,21 @@ GoF 대장들조차 멱살 잡고 싸웠던 2대장 트레이드오프 피바람
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">무지성 if-else 타입 체크 (Type Checking) 스파게티 지옥 시대 💀 / "파일 지울 땐 <code>deleteFile()</code> 치고, 폴더 지울 땐 배열 풀어서 <code>deleteFolder()</code> 따로 쳐 ㅋ" ➔ 내일 압축 파일(.zip) 규격 새로 나오면 소스 1만 줄 조건문 다 뜯어고쳐 연쇄 살인 컴파일 타임아웃 뻗음 셧다운 멸망 동반 타죽음 폭사 💥 터짐</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">GoF 아키텍트 분노 도끼 척살 🪓 / "야 씨발 단일 객체(Leaf)랑 복합 객체(Composite) 쇳덩이 차별 대우 찢어발겨 쾅!!! 하늘이 찢어져도</div><div class="kb-diagram-node">Component 대문 껍데기 ✨</div><div class="kb-diagram-note">1개 허공 파놓고 둘 다 무.조.건 똑같이 100% 동일 상속 덮어쓰기 빙의 록온 쳐버려 쾅 🚀!!"</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Composite Pattern 마트료시카 대관식 강림 🚀 / 유저는 걍 껍데기 대문 1개만 <code>delete()</code> 다이렉트 핑퐁 찌름 ➔ 뱃속 폴더 대장 봇이 알아서 자식 1만 명한테 재귀 릴레이(Recursive Call) 폭격 텔레파시 쏴서 오토 짬처리 오프로딩 100% 무결점 스텔스 동시 소각 완료 ✨!!</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">투명성(Transparency) vs 안전성(Safety) 트레이드오프 파국 논쟁 💀 / 파일 새끼한테 없는 <code>add()</code> 버튼 뚫어줬다 런타임 Exception 뿜고 뻗는 딜레마 도래 ➔ 아키텍트 결단 🪓: "야 뻗더라도 유저가 분기문(if) 안 치고 편하게 꿀 빠는</div><div class="kb-diagram-node">투명성 대통일 텐트 쉴드 🚀</div><div class="kb-diagram-note">쪽으로 자본 올인 베팅 풀악셀 스위칭 록온 쳐 쾅!"</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">프론트엔드 React VDOM / K8s Terraform 클라우드 엣지 인프라 대통일 (현재) ✨ / 컴포지트 패턴 뼈대 영혼이 ➔ 쪼꼬만 &lt;Button&gt; 조각과 거대 &lt;App&gt; 화면 쇳덩이를 똑같은 1개의 <code>Component</code> 추상 껍데기로 100% 퉁쳐버려 ➔ 렌더(render) 핑 1방에 화면 전체 10만 개 노드를 오토 재귀 동기화 쾌속 펌핑 스케일 아웃 쳐버리는 21세기 제로 터치(Zero-Touch) 렌더링 제국 엔진 코어로 영구 완벽 빙의 환생 달성 쾅 🚀!!!</div>
-</div>
-</div>
-
-
+```text
+무지성 if-else 타입 체크 (Type Checking) 스파게티 지옥 시대 💀 / "파일 지울 땐 `deleteFile()` 치고, 폴더 지울 땐 배열 풀어서 `deleteFolder()` 따로 쳐 ㅋ" ➔ 내일 압축 파일(.zip) 규격 새로 나오면 소스 1만 줄 조건문 다 뜯어고쳐 연쇄 살인 컴파일 타임아웃 뻗음 셧다운 멸망 동반 타죽음 폭사 💥 터짐
+    │
+    ▼
+GoF 아키텍트 분노 도끼 척살 🪓 / "야 씨발 단일 객체(Leaf)랑 복합 객체(Composite) 쇳덩이 차별 대우 찢어발겨 쾅!!! 하늘이 찢어져도 [Component 대문 껍데기 ✨] 1개 허공 파놓고 둘 다 무.조.건 똑같이 100% 동일 상속 덮어쓰기 빙의 록온 쳐버려 쾅 🚀!!"
+    │
+    ▼
+Composite Pattern 마트료시카 대관식 강림 🚀 / 유저는 걍 껍데기 대문 1개만 `delete()` 다이렉트 핑퐁 찌름 ➔ 뱃속 폴더 대장 봇이 알아서 자식 1만 명한테 재귀 릴레이(Recursive Call) 폭격 텔레파시 쏴서 오토 짬처리 오프로딩 100% 무결점 스텔스 동시 소각 완료 ✨!!
+    │
+    ▼
+투명성(Transparency) vs 안전성(Safety) 트레이드오프 파국 논쟁 💀 / 파일 새끼한테 없는 `add()` 버튼 뚫어줬다 런타임 Exception 뿜고 뻗는 딜레마 도래 ➔ 아키텍트 결단 🪓: "야 뻗더라도 유저가 분기문(if) 안 치고 편하게 꿀 빠는 [투명성 대통일 텐트 쉴드 🚀] 쪽으로 자본 올인 베팅 풀악셀 스위칭 록온 쳐 쾅!"
+    │
+    ▼
+프론트엔드 React VDOM / K8s Terraform 클라우드 엣지 인프라 대통일 (현재) ✨ / 컴포지트 패턴 뼈대 영혼이 ➔ 쪼꼬만 <Button> 조각과 거대 <App> 화면 쇳덩이를 똑같은 1개의 `Component` 추상 껍데기로 100% 퉁쳐버려 ➔ 렌더(render) 핑 1방에 화면 전체 10만 개 노드를 오토 재귀 동기화 쾌속 펌핑 스케일 아웃 쳐버리는 21세기 제로 터치(Zero-Touch) 렌더링 제국 엔진 코어로 영구 완벽 빙의 환생 달성 쾅 🚀!!!
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -1,5 +1,5 @@
 +++
-title = "305. 프롬프트 엔지니어링 (Prompt Engineering)"
+title = "305. 프롬프트 엔지니어링 (Prompt 엔진ering)"
 date = 2026-05-09
 
 [taxonomies]
@@ -11,7 +11,7 @@ tags = ["studynote-ai"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [프롬프트 엔지니어링](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/149_prompt_engineering_cot_few_shot/) ([Prompt Engineering](/knowledge-base/studynote/12_it_management/05_security_compliance/224_prompt_engineering_guideline/))은 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) ([Large Language Model](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))의 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 변경하지 않고, 입력 텍스트(프롬프트)의 구조·형식·예시를 정교하게 설계하여 원하는 출력을 이끌어내는 기술로, "모델이 아닌 질문을 최적화하는" 패러다임이다.
+> 1. **본질**: [프롬프트 엔지니어링](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/149_prompt_engineering_cot_few_shot/) ([Prompt 엔진ering](/knowledge-base/studynote/12_it_management/05_security_compliance/224_prompt_engineering_guideline/))은 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) ([Large Language Model](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))의 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 변경하지 않고, 입력 텍스트(프롬프트)의 구조·형식·예시를 정교하게 설계하여 원하는 출력을 이끌어내는 기술로, "모델이 아닌 질문을 최적화하는" 패러다임이다.
 > 2. **가치**: [파인 튜닝](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/) 없이 제로샷([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)-Shot)·퓨샷(Few-Shot)·체인 오브 소트([CoT](/knowledge-base/studynote/10_ai/02_dl_architecture_new/146_chain_of_thought_cot/), [Chain-of-Thought](/knowledge-base/studynote/10_ai/02_dl_architecture_new/146_chain_of_thought_cot/)) 등의 프롬프트 기법으로 복잡한 추론·[분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)·[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)를 수행하여, 개발 비용과 시간을 거의 0으로 줄이는 혁신적 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 활용 방식이다.
 > 3. **판단 포인트**: [프롬프트 엔지니어링](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/149_prompt_engineering_cot_few_shot/)의 한계는 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 창([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Window) 크기 내에서만 효과를 발휘하며, 복잡한 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 전문성이나 지속적 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 필요한 경우 [파인 튜닝](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/)이나 RAG와 병행해야 한다.
 
@@ -23,17 +23,14 @@ tags = ["studynote-ai"]
 
 "프롬프트(Prompt)"는 단순히 질문이 아니다. 역할 지정, 맥락 제공, 예시 삽입, 출력 형식 명시, 사고 단계 안내 등 다양한 요소를 체계적으로 구성한 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 입력이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [프롬프트 엔지니어링](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/149_prompt_engineering_cot_few_shot/)은 천재 신입 직원에게 업무 지시하는 기술이다. "고객 불만 처리해줘(나쁜 프롬프트)"보다 "당신은 10년 경력의 CS 팀장입니다. 다음 고객 불만 사례를 분석하고, 해결책 3가지를 번호 목록으로 작성하세요(좋은 프롬프트)"가 훨씬 좋은 결과를 낸다. 같은 천재라도 지시 방법에 따라 결과가 천지차이다.
 
@@ -41,35 +38,36 @@ tags = ["studynote-ai"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주요 프롬프트 엔지니어링 기법 비교</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① 제로샷 (Zero-Shot):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"다음 리뷰의 감성을 긍정/부정으로 분류하세요: '이 제품은 최악이에요'"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 예시 없이 태스크 설명만으로 수행. 간단한 태스크에 적합</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② 퓨샷 (Few-Shot):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"리뷰 감성 분류:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력: '배송이 빠르고 좋아요' → 출력: 긍정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력: '품질이 너무 나빠요' → 출력: 부정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력: '이 제품은 최악이에요' → 출력: ???"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 2~10개 예시(샷)로 태스크 패턴 학습. 정확도 크게 향상</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ 체인 오브 소트 (CoT, Chain-of-Thought):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"철수가 사과 5개를 가지고 있다가 3개를 먹고, 2개를 받았다면?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">생각하는 단계:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) 먹기 전: 5개</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) 3개 먹음: 5-3=2개</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) 2개 받음: 2+2=4개</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">따라서 답은 4개입니다."</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 중간 추론 단계를 명시해 복잡한 수학·논리 문제 정확도 대폭 향상</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">④ 역할 부여 (Role Playing):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"당신은 20년 경력의 의대 교수입니다. 다음 증상을 분석하세요..."</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 페르소나 설정으로 전문성과 출력 스타일 조정</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│         주요 프롬프트 엔지니어링 기법 비교                             │
+├──────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  ① 제로샷 (Zero-Shot):                                            │
+│  "다음 리뷰의 감성을 긍정/부정으로 분류하세요: '이 제품은 최악이에요'"     │
+│  → 예시 없이 태스크 설명만으로 수행. 간단한 태스크에 적합               │
+│                                                                  │
+│  ② 퓨샷 (Few-Shot):                                               │
+│  "리뷰 감성 분류:                                                   │
+│   입력: '배송이 빠르고 좋아요' → 출력: 긍정                           │
+│   입력: '품질이 너무 나빠요' → 출력: 부정                             │
+│   입력: '이 제품은 최악이에요' → 출력: ???"                          │
+│  → 2~10개 예시(샷)로 태스크 패턴 학습. 정확도 크게 향상               │
+│                                                                  │
+│  ③ 체인 오브 소트 (CoT, Chain-of-Thought):                         │
+│  "철수가 사과 5개를 가지고 있다가 3개를 먹고, 2개를 받았다면?            │
+│   생각하는 단계:                                                    │
+│   1) 먹기 전: 5개                                                  │
+│   2) 3개 먹음: 5-3=2개                                             │
+│   3) 2개 받음: 2+2=4개                                             │
+│   따라서 답은 4개입니다."                                            │
+│  → 중간 추론 단계를 명시해 복잡한 수학·논리 문제 정확도 대폭 향상         │
+│                                                                  │
+│  ④ 역할 부여 (Role Playing):                                       │
+│  "당신은 20년 경력의 의대 교수입니다. 다음 증상을 분석하세요..."         │
+│  → 페르소나 설정으로 전문성과 출력 스타일 조정                         │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 | 기법 | 입력 예시 수 | 특징 | 적합 상황 |
 |:---|:---|:---|:---|

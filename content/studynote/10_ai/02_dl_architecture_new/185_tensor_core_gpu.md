@@ -33,21 +33,25 @@ tags = ["studynote-ai"]
 
 [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)는 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 바깥에 따로 붙은 장치가 아니라, [SM](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/421_streaming_multiprocessor/) 내부에서 워프 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)와 함께 동작하는 연산 경로다. 워프는 보통 32개 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 한 묶음으로 움직이며, MMA 명령을 통해 행렬 조각(Fragment)을 [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)에 공급한다. 입력 타일은 글로벌 메모리에서 L2 캐시([Level 2 Cache](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/261_l2_cache/))와 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)([Shared Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/))를 거쳐 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)로 올라오고, [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)는 이를 곱한 뒤 더 높은 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)의 [누산기](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/161_accumulator/)로 모아 결과 타일을 만든다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tensor Core path inside one SM</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Global Memory -&gt; L2 Cache -&gt; Shared Memory</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Warp fragment load</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">mma.sync</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tensor Core MMA : A × B + C</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FP32 / higher-precision accumulate</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Registers -&gt; output tile store</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Tensor Core path inside one SM                                      │
+├──────────────────────────────────────────────────────────────────────┤
+│ Global Memory -> L2 Cache -> Shared Memory                          │
+│                                   │                                 │
+│                                   ▼                                 │
+│                           Warp fragment load                        │
+│                                   │ mma.sync                        │
+│                                   ▼                                 │
+│                    Tensor Core MMA : A × B + C                      │
+│                                   │                                 │
+│                                   ▼                                 │
+│                 FP32 / higher-precision accumulate                  │
+│                                   │                                 │
+│                                   ▼                                 │
+│                      Registers -> output tile store                 │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 경로가 중요한 이유는 [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)가 단순히 "빠른 곱셈기"가 아니라, 메모리 계층과 워프 실행 모델을 전제로 최적화된 행렬 엔진이기 때문이다. 따라서 연산량이 충분히 크고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 타일 형태로 잘 공급될 때 진가를 발휘한다. 반대로 메모리 접근이 불규칙하거나, 행렬 크기가 너무 작거나, 조건 분기가 많은 코드는 [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)의 장점을 거의 살리지 못한다.
 
@@ -76,7 +80,7 @@ tags = ["studynote-ai"]
 | [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | FP32, INT 등 범용 처리 | FP16, BF16, TF32, FP8 등 혼합 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 친화적 | 속도와 정확도의 균형점이 달라진다 |
 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 한계 | 범용성은 높지만 연산 밀도는 낮음 | 높은 [FLOPS](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/137_flops/), 그러나 메모리 병목에 민감 | 코어 수보다 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공급 설계가 중요해진다 |
 
-세대별 연결도 중요하다. Volta는 FP16 중심의 1세대 [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)를 대중화했고, Ampere는 TF32와 BF16 지원으로 기존 FP32 코드의 진입 장벽을 낮췄으며, Hopper는 FP8과 [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) Engine을 통해 초거대 모델 학습·추론 최적화에 더 특화되었다. 즉 [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)의 진화는 단순한 속도 증가가 아니라, <strong>개발자가 <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/">텐서 코어</a> 경로에 쉽게 올라탈 수 있도록 소프트웨어와 <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/">정밀도</a> 체계를 함께 바꾼 역사</strong>다.
+세대별 연결도 중요하다. Volta는 FP16 중심의 1세대 [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)를 대중화했고, Ampere는 TF32와 BF16 지원으로 기존 FP32 코드의 진입 장벽을 낮췄으며, Hopper는 FP8과 [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 엔진을 통해 초거대 모델 학습·추론 최적화에 더 특화되었다. 즉 [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)의 진화는 단순한 속도 증가가 아니라, <strong>개발자가 <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/">텐서 코어</a> 경로에 쉽게 올라탈 수 있도록 소프트웨어와 <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/">정밀도</a> 체계를 함께 바꾼 역사</strong>다.
 
 이 때문에 프레임워크 계층도 함께 봐야 한다. PyTorch, TensorFlow, cuBLAS, cuDNN, CUTLASS는 모두 "연산을 [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/) 친화적인 타일과 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)로 바꾸는 번역기" 역할을 한다. 하드웨어와 소프트웨어가 따로가 아니라, [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)이 [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)를 실질적으로 열어 준다는 점이 중요하다.
 
@@ -137,25 +141,24 @@ tags = ["studynote-ai"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">범용 GPU 병렬 연산</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">딥러닝의 GEMM · 합성곱 병목</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Volta Tensor Core</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Mixed Precision (FP16, BF16, TF32)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Hopper FP8 · Transformer Engine</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">대규모 학습 · 고효율 추론 최적화</div>
-</div>
-</div>
-
-
+```text
+범용 GPU 병렬 연산
+    │
+    ▼
+딥러닝의 GEMM · 합성곱 병목
+    │
+    ▼
+Volta Tensor Core
+    │
+    ▼
+Mixed Precision (FP16, BF16, TF32)
+    │
+    ▼
+Hopper FP8 · Transformer Engine
+    │
+    ▼
+대규모 학습 · 고효율 추론 최적화
+```
 
 이 흐름은 [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)가 단순한 회로 추가가 아니라, [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 모델 규모의 진화를 함께 이끈 기술임을 보여 준다.
 

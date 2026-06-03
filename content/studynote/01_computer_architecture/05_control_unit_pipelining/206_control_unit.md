@@ -35,23 +35,23 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 제어 유닛이 "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 해석"을 "배선 제어"로 바꾸는 전체 흐름을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제어 유닛의 입력-판단-출력 흐름</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">입력</div><div class="kb-diagram-node">해독/판단</div><div class="kb-diagram-node">출력</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IR Opcode ──▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상태 플래그</div><div class="kb-diagram-cell">ALU</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사이클 단계 ─</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">명령어 디코더</div><div class="kb-diagram-cell">── ──▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인터럽트 ──</div><div class="kb-diagram-cell">상태/타이밍 판단 로직</div><div class="kb-diagram-cell">── 제어 신호 ▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ ▼ ▼</div><div class="kb-diagram-cell">우선순위/예외 처리</div><div class="kb-diagram-cell">── ──▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조건 조합 ─▶</div><div class="kb-diagram-cell">(분기, 스톨, 인터럽트 반영)</div><div class="kb-diagram-cell">MEM</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PC</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                제어 유닛의 입력-판단-출력 흐름                              │
+├──────────────────────────────────────────────────────────────────────────────┤
+│ [입력]                 [해독/판단]                    [출력]                 │
+│ IR Opcode ───────┐                                                     ┌──▶ │
+│ 상태 플래그 ───┐ │   ┌──────────────────────────────┐                  │ALU │
+│ 사이클 단계 ─┐ │ └──▶│ 명령어 디코더               │──┐               └──▶ │
+│ 인터럽트 ──┐ │ │     │ 상태/타이밍 판단 로직       │  ├── 제어 신호 ─────▶ │
+│            ▼ ▼ ▼     │ 우선순위/예외 처리           │──┘               ┌──▶ │
+│          조건 조합 ─▶│ (분기, 스톨, 인터럽트 반영)  │                  │MEM │
+│                    └──────────────────────────────┘                  └──▶ │
+│                                                                         ┌▶ │
+│                                                                         │PC│
+│                                                                         └▶ │
+└──────────────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조에서 핵심은 제어 유닛이 직접 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 계산하지 않는다는 점이다. 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 [데이터패스](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/205_datapath/)가 움직이고, 제어 유닛은 어느 경로를 열고 닫을지만 결정한다. 그래서 제어 유닛 설계 품질은 "연산 능력"보다 "올바른 순간에 올바른 스위치를 켜는 능력"으로 평가된다. 파이프라인 환경에서는 단계별로 필요한 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 다르기 때문에, 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 한 번에 다 뿌리는 것이 아니라 각 단계에 맞춰 분배하고 파이프라인 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)와 함께 전달한다.
 
@@ -138,21 +138,20 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">명령어 해독 필요</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">제어 유닛 (Control Unit)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 하드와이어드 제어</div>
-<div class="kb-diagram-note">─▶ 고속 파이프라인 · 저전력 RISC</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 마이크로프로그래밍 제어</div>
-<div class="kb-diagram-tree-item" style="--depth:6">▶ 복잡한 ISA · 마이크로코드 패치 · μOps 번역</div>
-</div>
-</div>
-
-
+```text
+명령어 해독 필요
+    │
+    ▼
+제어 유닛 (Control Unit)
+    │
+    ├─▶ 하드와이어드 제어
+    │       │
+    │       └─▶ 고속 파이프라인 · 저전력 RISC
+    │
+    └─▶ 마이크로프로그래밍 제어
+            │
+            └─▶ 복잡한 ISA · 마이크로코드 패치 · μOps 번역
+```
 
 이 흐름은 제어 유닛이 단순한 해독기에서 출발해, 속도 중심 경로와 유연성 중심 경로로 분화한 뒤 현대 프로세서에서는 다시 하이브리드 형태로 수렴하는 과정을 보여준다.
 

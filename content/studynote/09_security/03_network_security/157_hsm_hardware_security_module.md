@@ -33,26 +33,27 @@ HSM의 구조는 안전한 키 저장, 암호 연산 엔진, [접근 통제](/kn
 
 아래 그림은 일반 서버 보관 방식과 [HSM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/475_hsm/) 기반 방식을 비교한 것이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소프트웨어 키 보관 vs HSM 보호 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">일반 서버 방식</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App ─▶ OS ─▶ 메모리/RAM에 키 적재 ─▶ 암호 연산</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 침해 시 키 노출 가능</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HSM 방식</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App ─▶ HSM API 요청 ─▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보안 경계(Secure Boundary)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 키 저장소</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 암호 연산 엔진</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 접근 정책 · 감사 로그</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 변조 감지 · Zeroization</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 서명값/암호문만 반환</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────┐
+│              소프트웨어 키 보관 vs HSM 보호 구조             │
+├────────────────────────────────────────────────────────────────┤
+│ [일반 서버 방식]                                              │
+│ App ─▶ OS ─▶ 메모리/RAM에 키 적재 ─▶ 암호 연산                │
+│                     ▲                                         │
+│                     └─ 침해 시 키 노출 가능                   │
+│                                                                │
+│ [HSM 방식]                                                     │
+│ App ─▶ HSM API 요청 ─▶ ┌──────────────────────────────┐        │
+│                        │ 보안 경계(Secure Boundary)   │        │
+│                        │ ├─ 키 저장소                │        │
+│                        │ ├─ 암호 연산 엔진           │        │
+│                        │ ├─ 접근 정책 · 감사 로그    │        │
+│                        │ └─ 변조 감지 · Zeroization  │        │
+│                        └──────────────────────────────┘        │
+│                                      │                         │
+│                                      └─ 서명값/암호문만 반환   │
+└────────────────────────────────────────────────────────────────┘
+```
 
 HSM은 단순 가속기가 아니라 <strong>보안 경계 장치</strong>다. 장비 내부에는 [난수 생성기](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/486_trng/), 키 계층 관리, 권한 분리, 다중 승인 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 검증이 포함될 수 있다. 또한 FIPS (Federal Information Processing Standards) 140-3 같은 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 체계에서는 물리적 변조 탐지와 키 삭제([Zeroization](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/784_zeroization_circuit/)) 요구사항을 검증한다. 즉 HSM의 핵심은 연산 속도보다, <strong>키 사용 통제를 하드웨어 경계로 강제한다는 점</strong>에 있다.
 
@@ -132,24 +133,22 @@ HSM의 가장 큰 효과는 암호키 [보호](/knowledge-base/studynote/02_oper
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 키 파일 보관</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">키 노출 위험 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">HSM 기반 물리적 키 보호</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ PKI · 결제 · 코드 서명</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 감사 · 역할 분리 · 컴플라이언스</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 클라우드 HSM · KMS 연계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">중앙 신뢰 루트 강화</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 키 파일 보관
+    │
+    ▼
+키 노출 위험 인식
+    │
+    ▼
+HSM 기반 물리적 키 보호
+    │
+    ├─▶ PKI · 결제 · 코드 서명
+    ├─▶ 감사 · 역할 분리 · 컴플라이언스
+    └─▶ 클라우드 HSM · KMS 연계
+    │
+    ▼
+중앙 신뢰 루트 강화
+```
 
 이 흐름도는 보안 설계가 "강한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 선택"을 넘어, 키를 어디에 두고 어떻게 통제할 것인가로 발전해 온 방향을 보여준다.
 

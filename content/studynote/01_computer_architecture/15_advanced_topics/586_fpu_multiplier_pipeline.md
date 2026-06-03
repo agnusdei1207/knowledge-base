@@ -19,24 +19,22 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-[부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 곱셈은 겉보기와 달리 단순한 "[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 곱셈"이 아니다. 국제 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 표준인 [IEEE 754](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/088_ieee_754/) (Institute of Electrical and Electronics Engineers Standard 754)에 맞추려면 두 입력을 부호, 지수, 가수부 (Significand)로 나눈 뒤, 부호 결합, 지수 보정, 가수 곱셈, [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/), 반올림, 예외 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) 갱신까지 순서대로 처리해야 한다. 즉 한 번의 연산 안에 이미 여러 개의 하위 연산기가 겹쳐 들어 있다.
+[부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 곱셈은 겉보기와 달리 단순한 "[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 곱셈"이 아니다. 국제 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 표준인 [IEEE 754](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/088_ieee_754/) (Institute of Electrical and Electronics 엔진ers Standard 754)에 맞추려면 두 입력을 부호, 지수, 가수부 (Significand)로 나눈 뒤, 부호 결합, 지수 보정, 가수 곱셈, [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/), 반올림, 예외 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) 갱신까지 순서대로 처리해야 한다. 즉 한 번의 연산 안에 이미 여러 개의 하위 연산기가 겹쳐 들어 있다.
 
 이 모든 일을 한 사이클에 몰아넣으면 임계 경로가 너무 길어져 전체 코어 클럭이 크게 낮아진다. 반대로 파이프라인으로 분할하면 각 단계가 맡는 조합 논리가 짧아져 목표 주파수를 맞추기 쉬워지고, 여러 곱셈을 겹쳐 흘려보낼 수 있다. 그래서 현대 FPU 설계는 "곱셈 하나를 얼마나 빨리 끝내느냐"보다 <strong>곱셈 스트림을 얼마나 끊기지 않게 흘리느냐</strong>를 더 중요하게 본다.
 
 이 그림은 왜 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 곱셈이 자연스럽게 파이프라인 구조를 요구하는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">한 번의 부동소수점 곱셈 안에 들어 있는 실제 일</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Unpack -&gt; Sign combine -&gt; Exponent add -&gt; Significand multiply</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; Normalize -&gt; Round -&gt; Exception flag</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이 모든 단계를 한 사이클에 몰면 클럭이 내려가고, 나누면 throughput이 산다.</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│  한 번의 부동소수점 곱셈 안에 들어 있는 실제 일                           │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Unpack -> Sign combine -> Exponent add -> Significand multiply           │
+│        -> Normalize -> Round -> Exception flag                           │
+│                                                                            │
+│ 이 모든 단계를 한 사이클에 몰면 클럭이 내려가고, 나누면 throughput이 산다. │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 따라서 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 곱셈기 파이프라인은 단순한 회로 분업이 아니라, 수학적 엄밀함을 실리콘 타이밍 제약에 맞게 재배치한 구조라고 보는 편이 정확하다.
 
@@ -58,22 +56,21 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 5단 파이프라인이 어떻게 채워지고, 왜 latency보다 throughput이 중요해지는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Floating-Point multiplier pipeline: after fill, one result per cycle</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">S1 Unpack -&gt; S2 Partial Product -&gt; S3 Reduce -&gt; S4 Normalize -&gt; S5 Pack</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cycle n : A:S1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cycle n+1 : A:S2 B:S1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cycle n+2 : A:S3 B:S2 C:S1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cycle n+3 : A:S4 B:S3 C:S2 D:S1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cycle n+4 : A:S5 B:S4 C:S3 D:S2 E:S1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파이프라인이 찬 뒤에는 매 사이클 결과 1개가 가능하다.</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│   Floating-Point multiplier pipeline: after fill, one result per cycle    │
+├────────────────────────────────────────────────────────────────────────────┤
+│ S1 Unpack -> S2 Partial Product -> S3 Reduce -> S4 Normalize -> S5 Pack   │
+│                                                                            │
+│ Cycle n    : A:S1                                                          │
+│ Cycle n+1  : A:S2   B:S1                                                   │
+│ Cycle n+2  : A:S3   B:S2   C:S1                                            │
+│ Cycle n+3  : A:S4   B:S3   C:S2   D:S1                                     │
+│ Cycle n+4  : A:S5   B:S4   C:S3   D:S2   E:S1                              │
+│                                                                            │
+│ 파이프라인이 찬 뒤에는 매 사이클 결과 1개가 가능하다.                      │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 실제 구현에서는 곱셈부보다 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)와 반올림이 더 까다로운 경우도 많다. 특히 선행 영 검출기 (Leading [Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) Detector)와 배럴 시프터는 지연과 배선 부담이 크고, 반올림 모드가 여러 개면 마지막 단계 제어가 무거워진다. 그래서 좋은 설계는 단순히 곱셈 트리만 빠르게 만드는 것이 아니라, 후단 포장 단계까지 균형 있게 잘라낸 설계다.
 
@@ -150,25 +147,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">정수 곱셈기 고속화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">IEEE 754 부동소수점 곱셈기</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Booth Encoding · Wallace/Dadda Reduction</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">정규화 · 반올림 · 예외 처리 파이프라인 정교화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">FMA · SIMD 벡터 부동소수점 유닛</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">혼합 정밀도 기반 텐서 파이프라인</div>
-</div>
-</div>
-
-
+```text
+정수 곱셈기 고속화
+    │
+    ▼
+IEEE 754 부동소수점 곱셈기
+    │
+    ▼
+Booth Encoding · Wallace/Dadda Reduction
+    │
+    ▼
+정규화 · 반올림 · 예외 처리 파이프라인 정교화
+    │
+    ▼
+FMA · SIMD 벡터 부동소수점 유닛
+    │
+    ▼
+혼합 정밀도 기반 텐서 파이프라인
+```
 
 이 흐름은 단순한 곱셈 가속이 점차 표준 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/), 벡터화, 혼합 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)까지 품는 계산 밀도 경쟁으로 확장되었음을 보여 준다.
 

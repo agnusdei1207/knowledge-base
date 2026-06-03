@@ -28,21 +28,15 @@ tags = ["enterprise_systems"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Source Systems</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Master Data Hub</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Golden Record</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">SSOT</div>
-</div>
-</div>
-
-
+```text
+Source Systems
+  ↓
+Master Data Hub
+  ↓
+Golden Record
+  ↓
+SSOT
+```
 
 | 요소 | 의미 |
 | :-- | :-- |
@@ -66,7 +60,7 @@ MDM은 중복을 제거하고 규칙에 따라 하나의 정본을 만든다. �
 
 | 대상 | 예 |
 | :-- | :-- |
-| [Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) | 고객 |
+| [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) | 고객 |
 | Product | 제품 |
 | Org | 조직 |
 
@@ -111,41 +105,29 @@ MDM은 고객/제품/조직 정보를 통합해 업무 [일관성](/knowledge-ba
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Master Data</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">MDM</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Golden Record</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">SSOT</div>
-</div>
-</div>
-
-
+```text
+Master Data
+  ↓
+MDM
+  ↓
+Golden Record
+  ↓
+SSOT
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Master Data</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">MDM</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Data Quality</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">SSOT</div>
-</div>
-</div>
-
-
+```text
+Master Data
+  ↓
+MDM
+  ↓
+Data Quality
+  ↓
+SSOT
+```
 
 ---
 

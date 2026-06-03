@@ -25,22 +25,18 @@ tags = ["security"]
 
 💡 **비유하자면**, 병원에서 의사(높은 권한)라고 해서 모든 환자의 진료 기록을 볼 수 있는 것이 아니라, 오직 자신이 직접 진찰하고 수술을 담당하는 환자의 기록만 볼 수 있도록 제한하는 것과 같습니다.
 
+```text
+[기존 계층형 인가 모델의 한계와 알 필요성 원칙의 도입]
 
+(기존: 인가 등급만 적용된 경우)
+[CTO / Top Secret 인가자] ──> 프로젝트 A 기밀 + 프로젝트 B 기밀 + 인사 기록 (전체 열람 가능)
+                               ▲ 프로젝트 B와 무관해도 열람 가능 (유출 리스크 폭발)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">기존 계층형 인가 모델의 한계와 알 필요성 원칙의 도입</div></div>
-<div class="kb-diagram-note">(기존: 인가 등급만 적용된 경우)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CTO / Top Secret 인가자</div><div class="kb-diagram-note">──&gt; 프로젝트 A 기밀 + 프로젝트 B 기밀 + 인사 기록 (전체 열람 가능)</div></div>
-<div class="kb-diagram-note">▲ 프로젝트 B와 무관해도 열람 가능 (유출 리스크 폭발)</div>
-<div class="kb-diagram-note">(개선: 인가 등급 + 알 필요성 적용)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CTO / Top Secret 인가자</div><div class="kb-diagram-note">──&gt;</div><div class="kb-diagram-node">접근 제어 검증</div><div class="kb-diagram-note">──&gt; 오직</div><div class="kb-diagram-node">프로젝트 A 기밀</div><div class="kb-diagram-note">(참여 중)</div></div>
-<div class="kb-diagram-note">(Task: Project A) ─X 프로젝트 B 기밀 (미참여)</div>
-<div class="kb-diagram-tree-item" style="--depth:8">X 인사 기록 (인사팀 전용)</div>
-</div>
-</div>
-
-
+(개선: 인가 등급 + 알 필요성 적용)
+[CTO / Top Secret 인가자] ──> [접근 제어 검증] ──> 오직 [프로젝트 A 기밀] (참여 중)
+                              (Task: Project A)  ├─X 프로젝트 B 기밀 (미참여)
+                                                 └─X 인사 기록 (인사팀 전용)
+```
 
 이 흐름도는 단순한 수직적 신뢰(Trust)가 어떻게 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 노출면을 불필요하게 넓히는지를 보여준다. 이러한 알 필요성 부재는 계정 탈취나 악의적 내부자로 인한 '대규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 덤프(Mass [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Dump)' 공격에 무방비 상태를 제공하기 때문이며, 따라서 [접근 통제](/knowledge-base/studynote/04_software_engineering/06_software_architecture/387_access_control_pattern/)는 반드시 사용자의 현재 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)(업무 범위)와 교집합을 이루어야 한다. 실무에서는 이를 구현하기 위해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 세밀한 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)와 라벨링이 선행되어야 한다.
 
@@ -59,23 +55,21 @@ tags = ["security"]
 | **Categories (Compartments)** | 정보의 수평적 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 프로젝트명, 부서, 특정 태스크명 할당 | Need-to-Know의 핵심 제어값 | 프로젝트 전용 폴더 |
 | **Access Decision** | 최종 접근 허용 여부 판별 | (Clearance ≥ [Classification](/knowledge-base/studynote/12_it_management/03_ea_isp/107_classification/)) AND (Subject Category ⊇ Object Category) | [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/), [ABAC](/knowledge-base/studynote/09_security/11_iam_access_control/572_abac/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 엔진 | 보안 요원의 검문 교집합 |
 
+```text
+[MAC 환경에서의 알 필요성(Need-to-Know) 판별 알고리즘]
 
+사용자 U: { 등급: Top Secret, 카테고리: [Project_A, Finance] }
+문서   D: { 등급: Secret,     카테고리: [Project_A, Project_B] }
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">MAC 환경에서의 알 필요성(Need-to-Know) 판별 알고리즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">사용자 U: { 등급: Top Secret, 카테고리:</div><div class="kb-diagram-node">Project_A, Finance</div><div class="kb-diagram-note">}</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">문서 D: { 등급: Secret, 카테고리:</div><div class="kb-diagram-node">Project_A, Project_B</div><div class="kb-diagram-note">}</div></div>
-<div class="kb-diagram-note">1단계: 등급 검증 (Clearance Check)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">PASS</div></div>
-<div class="kb-diagram-note">2단계: 알 필요성 검증 (Category Intersection Check)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">U의 카테고리(</div><div class="kb-diagram-node">Project_A, Finance</div><div class="kb-diagram-note">) ⊇ D의 카테고리(</div><div class="kb-diagram-node">Project_A, Project_B</div><div class="kb-diagram-note">) ?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">FAIL</div><div class="kb-diagram-note">(사용자는 Project_B에 대한 Need-to-Know가 없음)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">결론: 사용자는 상위 등급임에도 불구하고 알 필요성이 부족하여 문서 D에</div><div class="kb-diagram-node">접근 불가</div></div>
-</div>
-</div>
+1단계: 등급 검증 (Clearance Check)
+       U의 등급(Top Secret) ≥ D의 등급(Secret) ? ---> [PASS]
 
+2단계: 알 필요성 검증 (Category Intersection Check)
+       U의 카테고리([Project_A, Finance]) ⊇ D의 카테고리([Project_A, Project_B]) ? 
+       ---> [FAIL] (사용자는 Project_B에 대한 Need-to-Know가 없음)
 
+결론: 사용자는 상위 등급임에도 불구하고 알 필요성이 부족하여 문서 D에 [접근 불가]
+```
 
 이 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 로직의 핵심은 접근 승인이 수직적 권한(등급)과 수평적 권한(카테고리)의 완벽한 부분집합을 요구한다는 점이다. 이런 배치는 특정 프로젝트의 정보가 다른 부서나 관련 없는 임원에게 노출되는 것을 수학적으로 차단하기 때문이며, 따라서 공격자가 관리자 계정을 탈취하더라도 그 관리자가 소속된 카테고리 이외의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 암호학적/논리적으로 격리된다. 실무에서는 이 논리를 구현하기 위해 모든 문서 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 시 필수적으로 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)(라벨)를 태깅하도록 시스템을 구성해야 한다.
 
@@ -96,24 +90,20 @@ tags = ["security"]
 | **주요 적용 기술** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 라벨링, [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/), [DRM](/knowledge-base/studynote/12_it_management/03_ea_isp/119_drm_data_reference_model_standard/), Compartmentalization | [RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/), [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 제한(sudo 제어), [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 차단 | [데이터 중심](/knowledge-base/studynote/04_software_engineering/06_software_architecture/383_data_centric_architecture/) 보안 vs 시스템/인프라 중심 보안 |
 | **방어 시너지** | 정보 유출 및 [스파이](/knowledge-base/studynote/04_software_engineering/11_testing_validation/461_spy_test_double/) 행위 방어 | [권한 상승](/knowledge-base/studynote/09_security/04_endpoint_security/356_privilege_escalation/) 및 시스템 파괴 차단 | 두 원칙이 동시에 적용되어야 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 완성 |
 
+```text
+[알 필요성과 최소 권한의 교차 적용 매트릭스]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">알 필요성과 최소 권한의 교차 적용 매트릭스</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 접근 범위 (Need-to-Know)</div></div>
-<div class="kb-diagram-note">넓음 ◀ ▶ 좁음</div>
-<div class="kb-diagram-note">넓음</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">[시스템</div><div class="kb-diagram-cell">가장 취약한 상태</div><div class="kb-diagram-cell">데이터는 안전하나</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">액션</div><div class="kb-diagram-cell">(Super User / Admin)</div><div class="kb-diagram-cell">시스템 파괴 위험 존재</div></div>
-<div class="kb-diagram-note">권한 │</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">(PoLP)│ │ 시스템은 안전하나</div><div class="kb-diagram-node">가장 안전한 상태</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">좁음</div><div class="kb-diagram-cell">데이터 대량 유출 위험</div><div class="kb-diagram-cell">특정 데이터만 조회,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(조회 전용 막강 권한)</div><div class="kb-diagram-cell">특정 작업만 가능</div></div>
-</div>
-</div>
-
-
+                      [ 데이터 접근 범위 (Need-to-Know) ]
+                   넓음 ◀───────────────────────────▶ 좁음
+       넓음 ┌────────────────────────┬────────────────────────┐
+[시스템│    │  가장 취약한 상태      │  데이터는 안전하나     │
+ 액션  │    │  (Super User / Admin)  │  시스템 파괴 위험 존재 │
+ 권한  │    ├────────────────────────┼────────────────────────┤
+ (PoLP)│    │  시스템은 안전하나     │  [가장 안전한 상태]    │
+       좁음 │  데이터 대량 유출 위험 │  특정 데이터만 조회,   │
+            │  (조회 전용 막강 권한) │  특정 작업만 가능      │
+            └────────────────────────┴────────────────────────┘
+```
 
 이 매트릭스는 [보안 아키텍처](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/302_security_architecture_design/) 설계 시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Read)와 기능(Execute)을 분리해서 통제해야 함을 시사한다. 많은 기업이 [RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/)(최소 권한)만 적용하여 '조회 권한(Read-Only)'을 넓게 부여하는 실수를 저지르는데, 이는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유출 관점에서는 최악의 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다. 알 필요성 원칙이 결여된 최소 권한은 내부망의 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)을 전혀 보장하지 못한다. 반면 두 원칙을 결합하면 사용자는 오직 '자신의 프로젝트 문서'만 '읽기 전용'으로 여는 가장 안전한 상태에 도달한다.
 
@@ -134,22 +124,20 @@ tags = ["security"]
 - **과도한 구획화에 따른 섀도우 IT**: 정보 접근이 너무 까다로우면, 직원들이 협업을 위해 규정을 우회하여 USB로 파일을 전달하거나 개인 카카오톡, 구글 드라이브로 문서를 공유하는 섀도우 IT([Shadow IT](/knowledge-base/studynote/12_it_management/01_governance_strategy/049_shadow_it/))가 폭발적으로 증가한다.
 - <strong><a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a>(<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/107_classification/">Classification</a>) 실패</strong>: 알 필요성은 문서와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 '정확하게 태깅(Tagging)'되어 있다는 전제하에 작동한다. 사용자가 모든 문서를 귀찮아서 '일반' 등급으로 저장해버리면 알 필요성 통제 메커니즘 자체가 무용지물이 된다.
 
+```text
+[실무적인 알 필요성(NtK) 기반 데이터 접근 승인 플로우]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">실무적인 알 필요성(NtK) 기반 데이터 접근 승인 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">사용자 요청</div><div class="kb-diagram-note">──&gt; 데이터 접근 (문서 'Project_X_Architecture.pdf')</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">컨텍스트 수집</div><div class="kb-diagram-note">──&gt; 1. 사용자 부서/직무 (Identity)</div></div>
-<div class="kb-diagram-note">2. 사용자의 현재 할당된 프로젝트 목록 (HR/Jira 연동)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">정책 엔진 평가</div><div class="kb-diagram-note">──&gt;</div><div class="kb-diagram-node">문서 메타데이터: Tag=Project_X</div><div class="kb-diagram-note">와 교집합 비교</div></div>
-<div class="kb-diagram-note">(ABAC/DRM)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">──&gt; 교집합 있음 (NtK 충족) ──&gt;</div><div class="kb-diagram-node">일시적 열람 허용 (DRM 암호화)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">──&gt; 교집합 없음 (NtK 미달) ──&gt;</div><div class="kb-diagram-node">접근 차단 및 데이터 소유자에게 승인 요청 워크플로우 트리거</div></div>
-</div>
-</div>
-
-
+[사용자 요청] ──> 데이터 접근 (문서 'Project_X_Architecture.pdf')
+                  │
+[컨텍스트 수집] ──> 1. 사용자 부서/직무 (Identity)
+                  2. 사용자의 현재 할당된 프로젝트 목록 (HR/Jira 연동)
+                  │
+[정책 엔진 평가] ──> [문서 메타데이터: Tag=Project_X] 와 교집합 비교
+  (ABAC/DRM)      │
+                  ├──> 교집합 있음 (NtK 충족) ──> [일시적 열람 허용 (DRM 암호화)]
+                  │
+                  └──> 교집합 없음 (NtK 미달) ──> [접근 차단 및 데이터 소유자에게 승인 요청 워크플로우 트리거]
+```
 
 이 플로우의 핵심은 알 필요성 검증을 정적인 권한 테이블이 아니라, Jira나 인사 시스템과 연동하여 동적인 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반으로 평가한다는 점이다. 이러한 배치는 직원이 새로운 프로젝트에 투입되거나 빠질 때마다 수동으로 권한을 넣고 빼는 관리적 오버헤드를 제거하기 때문이며, 따라서 보안성과 협업의 민첩성을 동시에 달성할 수 있다. 실무에서는 접근 거부 시 즉각적인 예외 승인(Request Access) 플로우를 연동하여 업무 마비를 방지해야 한다.
 
@@ -183,23 +171,21 @@ tags = ["security"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">최소 권한 원칙 (Least Privilege) — 꼭 필요한 권한만 부여하는 보안 설계 철학</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">알 필요성 원칙 (Need-to-Know) — 업무 수행에 필요한 정보만 접근 허용</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">강제적 접근 통제 (MAC) — 보안 등급 기반 자동 접근 제한 정책</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">제로 트러스트 (Zero Trust) — 내부 네트워크도 신뢰하지 않는 지속 검증 모델</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">마이크로 세그멘테이션 (Micro-Segmentation) — 워크로드 단위의 세밀한 접근 통제</div></div>
-</div>
-</div>
-
-
+```text
+[최소 권한 원칙 (Least Privilege) — 꼭 필요한 권한만 부여하는 보안 설계 철학]
+    │
+    ▼
+[알 필요성 원칙 (Need-to-Know) — 업무 수행에 필요한 정보만 접근 허용]
+    │
+    ▼
+[강제적 접근 통제 (MAC) — 보안 등급 기반 자동 접근 제한 정책]
+    │
+    ▼
+[제로 트러스트 (Zero Trust) — 내부 네트워크도 신뢰하지 않는 지속 검증 모델]
+    │
+    ▼
+[마이크로 세그멘테이션 (Micro-Segmentation) — 워크로드 단위의 세밀한 접근 통제]
+```
 
 이 흐름은 [최소 권한 원칙](/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/)에서 출발한 알 필요성 원칙이 강제적 [접근 통제](/knowledge-base/studynote/04_software_engineering/06_software_architecture/387_access_control_pattern/)로 구체화되고, [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 모델과 마이크로 세그멘테이션으로 현대 [보안 아키텍처](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/302_security_architecture_design/)에 적용되는 과정을 보여준다.
 

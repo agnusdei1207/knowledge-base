@@ -25,18 +25,16 @@ CPU 바운드 프로세스는 실행 구간 대부분을 계산에 쓰는 프로
 
 이 그림은 CPU 바운드 프로세스의 시간 사용 패턴을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 바운드의 시간 패턴: 오래 계산하고 가끔만 기다린다</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">CPU Bound :</div><div class="kb-diagram-node">████████████████</div><div class="kb-diagram-node">▒</div><div class="kb-diagram-node">██████████████</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">I/O Bound :</div><div class="kb-diagram-node">██</div><div class="kb-diagram-node">▒▒▒▒▒▒▒▒▒▒</div><div class="kb-diagram-node">██</div><div class="kb-diagram-node">▒▒▒▒▒▒▒▒▒▒▒</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">█ = CPU Burst ▒ = I/O Wait</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│       CPU 바운드의 시간 패턴: 오래 계산하고 가끔만 기다린다     │
+├──────────────────────────────────────────────────────────────┤
+│ CPU Bound : [████████████████] [▒] [██████████████]          │
+│ I/O Bound : [██] [▒▒▒▒▒▒▒▒▒▒] [██] [▒▒▒▒▒▒▒▒▒▒▒]             │
+│                                                              │
+│ █ = CPU Burst     ▒ = I/O Wait                               │
+└──────────────────────────────────────────────────────────────┘
+```
 
 그림의 요점은 CPU 사용률이 높다는 사실 자체보다, 한 번 실행되면 꽤 오랫동안 같은 코어와 캐시를 활용한다는 점이다. 그래서 CPU 바운드 작업은 짧은 응답보다 긴 계산 구간의 연속성이 더 중요하다.
 
@@ -57,19 +55,17 @@ CPU 바운드 프로세스는 보통 `Ready → Running → Ready`를 반복하�
 
 이 그림은 왜 퀀텀 길이가 CPU 바운드 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)에 직접 영향을 주는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">퀀텀 선택의 딜레마: 너무 짧아도, 너무 길어도 문제</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">짧은 퀀텀 :</div><div class="kb-diagram-node">Run</div><div class="kb-diagram-node">Switch</div><div class="kb-diagram-node">Run</div><div class="kb-diagram-node">Switch</div><div class="kb-diagram-node">Run</div><div class="kb-diagram-node">Switch</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ cache warm-up 반복, 처리량 손실</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">긴 퀀텀 :</div><div class="kb-diagram-node">Run──────────────────────────────</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 처리량 유리, 그러나 대화형 응답 지연 가능</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│     퀀텀 선택의 딜레마: 너무 짧아도, 너무 길어도 문제           │
+├──────────────────────────────────────────────────────────────┤
+│ 짧은 퀀텀 : [Run][Switch][Run][Switch][Run][Switch]          │
+│              └─ cache warm-up 반복, 처리량 손실               │
+│                                                              │
+│ 긴 퀀텀   : [Run──────────────────────────────]               │
+│              └─ 처리량 유리, 그러나 대화형 응답 지연 가능      │
+└──────────────────────────────────────────────────────────────┘
+```
 
 현대 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 이 딜레마를 정적 우선순위 하나로 풀지 않는다. [다단계 피드백 큐](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/) (Multilevel Feedback [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/), [MLFQ](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/))는 CPU를 오래 쓰는 작업을 아래 큐로 내리되 긴 실행 시간을 보장하고, [완전 공정 스케줄러](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/202_cfs_completely_fair_scheduler/) (Completely Fair Scheduler, CFS)는 [가상 실행 시간](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/203_virtual_runtime_vruntime/) (virtual runtime)을 기준으로 공정성을 회복한다. 결국 핵심은 CPU 바운드 작업을 "벌주는 것"이 아니라, 전체 시스템 안에서 적절한 실행 폭을 배정하는 것이다.
 
@@ -140,20 +136,16 @@ CPU 바운드 프로세스를 정확히 이해하면 스케줄링을 단순한 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">CPU Burst / I/O Burst 구분</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CPU 바운드 프로세스 식별</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 긴 실행 구간 보장</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ cache locality / CPU affinity 최적화</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ node isolation / batch scheduling 확장</div>
-</div>
-</div>
-
-
+```text
+CPU Burst / I/O Burst 구분
+    │
+    ▼
+CPU 바운드 프로세스 식별
+    │
+    ├─▶ 긴 실행 구간 보장
+    ├─▶ cache locality / CPU affinity 최적화
+    └─▶ node isolation / batch scheduling 확장
+```
 
 이 흐름도는 CPU 바운드 개념이 단순 분류를 넘어, [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 인프라 격리 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로 이어지는 과정을 보여준다.
 

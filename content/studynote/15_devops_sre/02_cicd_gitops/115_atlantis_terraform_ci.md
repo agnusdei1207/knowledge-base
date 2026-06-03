@@ -18,23 +18,20 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Atlantis PR 기반 워크플로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 개발자: main.tf 수정 → PR 생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Atlantis Bot: 자동 terraform plan 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ PR 코멘트에 Plan 결과 표시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"1 to add, 0 to change, 0 to destroy"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 리뷰어: Plan 결과 확인 → Approve</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 개발자: "atlantis apply" 코멘트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. Atlantis Bot: terraform apply 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 성공 결과 코멘트 + PR 머지</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    Atlantis PR 기반 워크플로                           │
+├───────────────────────────────────────────────────────┤
+│  1. 개발자: main.tf 수정 → PR 생성                   │
+│  2. Atlantis Bot: 자동 terraform plan 실행            │
+│     → PR 코멘트에 Plan 결과 표시                      │
+│     "1 to add, 0 to change, 0 to destroy"            │
+│  3. 리뷰어: Plan 결과 확인 → Approve                 │
+│  4. 개발자: "atlantis apply" 코멘트                   │
+│  5. Atlantis Bot: terraform apply 실행                │
+│     → 성공 결과 코멘트 + PR 머지                      │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: Atlantis는 인프라 변경의 <strong>4-eyes 원칙(이중 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a>)</strong>을 자동화한 것이다. 혼자 몰래 서버를 바꿀 수 없고, 반드시 [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 리뷰를 거쳐야 한다.
 
@@ -110,23 +107,21 @@ Atlantis는 [GitOps](/knowledge-base/studynote/04_software_engineering/02_requir
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">로컬 terraform apply (2014~) — 개인 실행, 감사 불가</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Atlantis (2017, Hootsuite) — PR 기반 자동 Plan/Apply</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Terraform Cloud (2019~) — HashiCorp SaaS</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Spacelift / env0 (2020~) — IaC CI SaaS 경쟁</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: Atlantis + OPA/Conftest — 정책 검증 통합</div></div>
-</div>
-</div>
-
-
+```text
+[로컬 terraform apply (2014~) — 개인 실행, 감사 불가]
+    │
+    ▼
+[Atlantis (2017, Hootsuite) — PR 기반 자동 Plan/Apply]
+    │
+    ▼
+[Terraform Cloud (2019~) — HashiCorp SaaS]
+    │
+    ▼
+[Spacelift / env0 (2020~) — IaC CI SaaS 경쟁]
+    │
+    ▼
+[현재: Atlantis + OPA/Conftest — 정책 검증 통합]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 옛날에는 레고(인프라)를 **혼자 몰래 바꿀 수** 있었어요 → 실수해도 아무도 몰라요.

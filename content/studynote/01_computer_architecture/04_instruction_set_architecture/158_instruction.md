@@ -42,21 +42,21 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 명령어 한 줄이 실제 실행 경로에서 어떻게 해석되는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">instruction flow: bits become control signals</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PC (Program Counter)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Instruction Memory ──▶ Instruction Register ──▶ Decoder</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">register select ──▶ Register File</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ALU op code ──▶ ALU</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">memory control ──▶ Load / Store Unit</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">branch target ──▶ PC update logic</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                 instruction flow: bits become control signals             │
+├────────────────────────────────────────────────────────────────────────────┤
+│ PC (Program Counter)                                                      │
+│      │                                                                    │
+│      ▼                                                                    │
+│ Instruction Memory ──▶ Instruction Register ──▶ Decoder                   │
+│                                                     │                     │
+│                        ┌──────── register select ───┼──▶ Register File    │
+│                        ├──────── ALU op code ──────┼──▶ ALU               │
+│                        ├──────── memory control ───┼──▶ Load / Store Unit │
+│                        └──────── branch target ────┼──▶ PC update logic   │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 핵심은 명령어가 단순한 숫자가 아니라 <strong>제어 신호를 생성하는 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>된 설계도</strong>라는 점이다. 명령어가 메모리에서 인출되면 디코더가 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 필드를 해석하고, 그 결과 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 읽기, [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) ([Arithmetic Logic Unit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/)) 연산, 메모리 접근, [프로그램 카운터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 갱신이 연쇄적으로 일어난다. 그래서 [명령어 형식](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/170_instruction_format/)이 단순하면 디코드가 빨라지고, 복잡하면 한 번의 명령이 더 많은 일을 하더라도 전단부 병목이 커질 수 있다.
 
@@ -128,22 +128,20 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">저장 프로그램 방식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">명령어 (Instruction)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Opcode · Operand · 주소 지정 방식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">명령어 사이클 (Fetch → Decode → Execute → Write-back)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">파이프라인 · 마이크로 연산 · SIMD 확장</div>
-</div>
-</div>
-
-
+```text
+저장 프로그램 방식
+    │
+    ▼
+명령어 (Instruction)
+    │
+    ├── Opcode · Operand · 주소 지정 방식
+    │
+    ▼
+명령어 사이클 (Fetch → Decode → Execute → Write-back)
+    │
+    ▼
+파이프라인 · 마이크로 연산 · SIMD 확장
+```
 
 이 흐름은 명령어가 단순한 이진 코드가 아니라, 프로그램 저장 방식에서 출발해 실행 경로와 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화로 확장되는 중심 개념임을 보여준다.
 

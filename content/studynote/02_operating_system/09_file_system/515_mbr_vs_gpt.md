@@ -27,28 +27,30 @@ tags = ["studynote-operating-system"]
 - <strong>MBR 한계 봉착 vs <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/">GPT</a> 확장 I/O <a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">백업</a> 생태계 다이어그램</strong>:
 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 부트로더가 디스크의 맨 앞 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)를 읽어내는 두 구조의 물리적 배치를 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)으로 분해해 비교하면 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부팅과 파티션 인식의 2대 장부 아크 : MBR vs GPT</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">구시대 유물: MBR (크기: 512 Byte 단일 섹터 취약 타임 폭탄)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Boot Code 446B (여기에 OS 부트 프로그램 GRUB 탑재)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Partition Table 64B (16B × 4개 파티션 한계 제약 늪)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">매직 시그니처 2B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀ 뒤에 2TB 넘어가는 I/O 공간 인식 불가 파탄!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현대 우주 스펙: GPT (크기 넉넉, CRC 검증 장착, 끝단 복사본 무장)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LBA 0 : 보호용 MBR 가짜 표 (옛날 놈들 착각하라고 던져줌 호환)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LBA 1 : Primary GPT Header (나 여깄다! 64bit 주소 록백)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LBA 2~33 : 128개의 파티션 Entry 상세 주소 텍스트표</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">---------------------</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">실제 C/D 드라이브 데이터 10TB 파티션 구간 무한 확장 스로틀</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">---------------------</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">뒷면 끝 LBA : Backup GPT Header (나 앞 장부 깨지면 부활! 무결)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────────────────────────┐
+  │                 부팅과 파티션 인식의 2대 장부 아크 : MBR vs GPT                 │
+  ├─────────────────────────────────────────────────────────────────────────────────┤
+  │                                                                                 │
+  │  [ 구시대 유물: MBR (크기: 512 Byte 단일 섹터 취약 타임 폭탄) ]                 │
+  │     ┌─▶ [ Boot Code 446B (여기에 OS 부트 프로그램 GRUB 탑재) ]                  │
+  │     │   [ Partition Table 64B (16B × 4개 파티션 한계 제약 늪) ]                 │
+  │     │   [ 매직 시그니처 2B ]                                                    │
+  │     └───────────────────────────────◀ 뒤에 2TB 넘어가는 I/O 공간 인식 불가 파탄!│
+  │                                                                                 │
+  │  =============================================================                  │
+  │                                                                                 │
+  │  [ 현대 우주 스펙: GPT (크기 넉넉, CRC 검증 장착, 끝단 복사본 무장) ]           │
+  │                                                                                 │
+  │     [ LBA 0 : 보호용 MBR 가짜 표 (옛날 놈들 착각하라고 던져줌 호환) ]           │
+  │     [ LBA 1 : Primary GPT Header (나 여깄다! 64bit 주소 록백) ]                 │
+  │     [ LBA 2~33 : 128개의 파티션 Entry 상세 주소 텍스트표 ]                      │
+  │     [ --------------------- ]                                                   │
+  │     [  실제 C/D 드라이브 데이터 10TB 파티션 구간 무한 확장 스로틀 ]             │
+  │     [ --------------------- ]                                                   │
+  │     [ 뒷면 끝 LBA : Backup GPT Header (나 앞 장부 깨지면 부활! 무결) ]          │
+  └─────────────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** MBR은 너무 가혹했다. 디스크의 맨 앞부분에 4개의 칸(주 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 4개)밖에 없어서, 유저가 D, E, F, G, H 드라이브를 계속 파고 싶을 때 "확장 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)(Extended) + [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)(Logical)" 이라는 지저분한 우회 꼼수 편법을 써야 간신히 분할 공간을 늘렸다. 게다가 디스크 앞단 512바이트 표가 배드 섹터로 흠집이 나면 C 드라이브 전체 인식 자체가 엑박으로 날아간다(Single Point of Failure 재앙). 반면 GPT는 디스크의 끝단(Secondary [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/))에 완벽한 거울 미러(Mirror [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/))를 심어두고, 헤더 자체에 CRC32 해시 체크섬을 매달아서 "내 장부에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 오염 났어 부팅 중지 로드!" 라며 스스로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하는 자가 진단 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 방탄 스펙을 자랑한다.
 
@@ -74,7 +76,7 @@ GPT는 너무 최신 규격이기 때문에, 만약 아주아주 옛날 윈도�
 - **Protective MBR (방어막 생태 껍데기 위장 렌더)**: 
   이를 방어막 치기 위해 [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) 설계자([UEFI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/706_uefi/) 포럼)는 천재적인 트릭을 심었다. [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) 디스크 맨 앞 0번지(LBA 0)에, <strong>"가짜 껍데기 MBR 표 (타입: <code>0xEE</code> 쓰레기 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 꽉 참)"</strong> 를 마치 방검조끼처럼 구형 구조로 일부러 덧씌워 적어놓은 것이다! 
   - 구형 S/W가 달려들어서 읽으면? "앗, 이 디스크는 `0xEE` 이란 알 수 없는 시스템으로 디스크 전체가 꽉 차 있네? 헉! 건드리지 말고 비켜야지 접근 거부 록!" 라며 속아 넘어가 도망을 친다([보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 마스킹). 
-  - 신형 [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) 대응 OS(윈도우 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) 등)가 오면? 가짜 MBR을 발견하곤 씩 웃으며 무시 스킵 패스해 버리고, 그 바로 뒤 1번지에 있는 "진짜 64비트 [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) 헤더 보스" 를 읽어내 광활한 디스크 엑사바이트 우주 I/O 성능을 통달 개벽시키는 완전무결 호환 하위 전방위 방호 시스템(Backward [Compatibility](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/))을 이뤄낸다!
+  - 새로운 유형의 [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) 대응 OS(윈도우 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) 등)가 오면? 가짜 MBR을 발견하곤 씩 웃으며 무시 스킵 패스해 버리고, 그 바로 뒤 1번지에 있는 "진짜 64비트 [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) 헤더 보스" 를 읽어내 광활한 디스크 엑사바이트 우주 I/O 성능을 통달 개벽시키는 완전무결 호환 하위 전방위 방호 시스템(Backward [Compatibility](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/))을 이뤄낸다!
 
 - **📢 섹션 요약 비유**: 이 Protective MBR (가짜 껍데기 위장술 방어막) 구조는, 외계인 우주선 앞마당에 <strong>"폐가/출입금지 철조망 팻말 옛날 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">버전</a>"</strong> 을 걸어둔 기막힌 우회 교란 전술입니다!! 시대에 뒤떨어진 옛날 사람(구형 MBR 프로그램)이 지나가다가 그 철조망(가짜 표)을 보고 "아휴 여긴 꽉 찬 쓰레기 밭이네 안 건드려 패스!" 하고 돌아서게 만들죠. 하지만 최신 요원(현대 윈도우 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))은 그 팻말 뒤 바위(LBA 1번지)를 스윽 열어서 진정한 지하 외계인 우주 기지([GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) 64비트 메인 장부)로 엘리베이터 타고 슈웅 접속 점프하는 보안 렌더 트릭과 100% 흡사 파생입니다!
 
@@ -136,19 +138,15 @@ MBR (Master Boot Record) vs [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethi
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">파티션 (Partition) / 슬라이스 / 볼륨 (Volume)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MBR (Master Boot Record) vs GPT (GUID Partition Table)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">마운트 (Mount) 메커니즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">VFS (Virtual File System)</div></div>
-</div>
-</div>
-
-
+```text
+[파티션 (Partition) / 슬라이스 / 볼륨 (Volume)]
+    │
+    ▼
+[MBR (Master Boot Record) vs GPT (GUID Partition Table)]
+    │
+    ├──▶ [마운트 (Mount) 메커니즘]
+    └──▶ [VFS (Virtual File System)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

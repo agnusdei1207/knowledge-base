@@ -43,22 +43,23 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 OTA에서 "다운로드"와 "부팅 승인"이 왜 분리되어야 하는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">안전한 OTA 전환 경로: 새 이미지는 검증과 첫 부팅 확인을 통과해야만 승격된다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Active Slot A ── 현재 정상 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Network Rx ─▶ Staging Slot B ─▶ Hash / Signature Verify ─▶ Boot Metadata</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ fail ▶ keep A</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ pass ─▶ boot_pending ▶ reboot</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">first boot health check</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">success ▶ confirm B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">failure/timeout ▶ rollback A</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ 안전한 OTA 전환 경로: 새 이미지는 검증과 첫 부팅 확인을 통과해야만 승격된다 │
+├──────────────────────────────────────────────────────────────────────────────┤
+│ Active Slot A ── 현재 정상 실행                                             │
+│                                                                              │
+│ Network Rx ─▶ Staging Slot B ─▶ Hash / Signature Verify ─▶ Boot Metadata     │
+│                                │                                │            │
+│                                ├─ fail ────────────────────────▶ keep A      │
+│                                └─ pass ─▶ boot_pending ────────▶ reboot      │
+│                                                                  │            │
+│                                           first boot health check │            │
+│                                                                  ▼            │
+│                                            success ───────────▶ confirm B     │
+│                                            failure/timeout ────▶ rollback A   │
+└──────────────────────────────────────────────────────────────────────────────┘
+```
 
 핵심은 "새 이미지를 썼다"와 "새 이미지가 장치를 안전하게 살렸다"를 다른 상태로 취급하는 것이다. 특히 플래시 지우기 단위가 4KB, 64KB처럼 거칠면 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 한 비트만 잘못 써도 부팅 선택이 꼬일 수 있으므로, 상태 플래그는 별도 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 영역에 두고 업데이트 순서를 엄격히 정해야 한다. 또한 단조 증가 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 카운터를 두지 않으면 서명된 구버전 이미지를 다시 올리는 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 공격을 막기 어렵다.
 
@@ -137,25 +138,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">공장 수동 플래싱</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">단일 슬롯 부트로더 업데이트</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">네트워크 OTA 다운로드</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Secure Boot + A/B 슬롯 + Rollback Protection</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Delta / Streaming OTA + Health Check Commit</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">원격 증명 기반 Fleet 정책 업데이트</div>
-</div>
-</div>
-
-
+```text
+공장 수동 플래싱
+        │
+        ▼
+단일 슬롯 부트로더 업데이트
+        │
+        ▼
+네트워크 OTA 다운로드
+        │
+        ▼
+Secure Boot + A/B 슬롯 + Rollback Protection
+        │
+        ▼
+Delta / Streaming OTA + Health Check Commit
+        │
+        ▼
+원격 증명 기반 Fleet 정책 업데이트
+```
 
 이 흐름은 "현장 교체" 중심이던 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 관리가, 점차 "원격 배포"를 넘어 "원격에서도 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능한 신뢰된 배포"로 진화하는 과정을 보여 준다.
 

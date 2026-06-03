@@ -24,18 +24,14 @@ tags = ["studynote-network"]
 하지만 기업에서 사용하는 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/)(예: T1 1.544Mbps 회선)은 처음부터 끝까지 <strong>디지털 회선</strong>입니다. 그럼 [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/)이 필요 없을까요? 
 라우터나 컴퓨터 내부에서 쓰는 디지털 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(유니폴라, 단극성)는 약해서 수 킬로미터 밖으로 보내면 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 죽어버립니다. 이를 통신사 국사까지 <strong>장거리로 쏠 수 있는 강력한 통신용 디지털 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a>(바이폴라, 양극성)로 변환해 주는 장비</strong>가 바로 DSU/CSU입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">케이블 배선: 다이렉트 케이블 vs 크로스오…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DSU / CSU</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">모뎀</div></div>
-</div>
-</div>
-
-
+```text
+[케이블 배선: 다이렉트 케이블 vs 크로스오…]
+    │
+    ▼
+[DSU / CSU]
+    │
+    └──▶ [모뎀]
+```
 
 - **📢 섹션 요약 비유**: DSU / CSU는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -57,18 +53,14 @@ tags = ["studynote-network"]
 - 외부 선로에서 낙뢰나 과전압이 들어오면 차단하여 내부 라우터를 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)합니다.
 - T1 회선(1.544Mbps)은 24개의 채널(DS0, 64Kbps)로 쪼개져 있는데, 이 채널들을 묶고 나누는([프레이밍](/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/)) 역할을 수행합니다. 루프백(Loopback) 테스트 기능이 있어 회선 어디가 끊어졌는지 점검할 수 있습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">케이블 배선: 다이렉트 케이블 vs 크로스오…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DSU / CSU</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">모뎀</div></div>
-</div>
-</div>
-
-
+```text
+[케이블 배선: 다이렉트 케이블 vs 크로스오…]
+    │
+    ▼
+[DSU / CSU]
+    │
+    └──▶ [모뎀]
+```
 
 - **📢 섹션 요약 비유**: DSU / CSU의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -129,19 +121,15 @@ DSU / CSU는 물리 계층과 전송 [매체](/knowledge-base/studynote/03_netwo
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 케이블 배선: 다이렉트 케이블 vs 크로스오…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: DSU / CSU</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 모뎀</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고속 광전송 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 케이블 배선: 다이렉트 케이블 vs 크로스오…]
+    │
+    ▼
+[현재 개념: DSU / CSU]
+    │
+    ├──▶ [확장 A: 모뎀]
+    └──▶ [확장 B: 고속 광전송 최적화]
+```
 
 DSU / CSU는 케이블 배선: 다이렉트 케이블 vs 크로스오…에서 출발해 현재 메커니즘을 정교화하고, 이후 [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/)와 고속 광전송 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

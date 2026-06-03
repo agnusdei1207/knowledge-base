@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)(비트코인, 이더리움)에는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 총괄하는 중앙 서버(네이버, 카카오)가 1개도 존재하지 않습니다. (100% P2P망)
 - **플러딩(Flooding)의 재앙**: 내가 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)(송금 기록)을 발생시킬 때, 내 컴퓨터가 온 동네방네 10만 대에게 동시에 "야 나 송금했어!"라고 방송(Broadcast)을 때리면 어떻게 될까요? 10만 대가 서로에게 소리를 지르며 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 0.1초 만에 폭발(Broadcast Storm)해 전 세계 인터넷이 뻗어버립니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">비트토렌트 초크/언초크 리치 통신 대역폭 인…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">블록체인 가십 프로토콜</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DLT</div></div>
-</div>
-</div>
-
-
+```text
+[비트토렌트 초크/언초크 리치 통신 대역폭 인…]
+    │
+    ▼
+[블록체인 가십 프로토콜]
+    │
+    └──▶ [DLT]
+```
 
 - **📢 섹션 요약 비유**: [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 가십 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -44,18 +40,14 @@ tags = ["studynote-network"]
 - **개념**: 질병([바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/))이 전염되거나 사람들 사이에 소문이 퍼지는 방식을 수학적으로 모델링한 [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 네트워크의 핵심 메시지 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 통신 메커니즘입니다. 
 - 노드(컴퓨터)가 새로운 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 받으면, 전체 망에 방송하지 않고 오직 <strong>자신과 연결된 무작위(Random)의 이웃 노드 딱 몇 명(예: 3~8명)에게만 속삭이듯 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 전달(Push/Pull)하여 망 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 병목을 100% 회피하면서도 기하급수적(Exponential) 속도로 전체 망의 상태(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a>)를 100% 일치시키는 마법</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">비트토렌트 초크/언초크 리치 통신 대역폭 인…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">블록체인 가십 프로토콜</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DLT</div></div>
-</div>
-</div>
-
-
+```text
+[비트토렌트 초크/언초크 리치 통신 대역폭 인…]
+    │
+    ▼
+[블록체인 가십 프로토콜]
+    │
+    └──▶ [DLT]
+```
 
 - **📢 섹션 요약 비유**: [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 가십 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -123,19 +115,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 비트토렌트 초크/언초크 리치 통신 대역폭 인…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 블록체인 가십 프로토콜</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: DLT</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 비트토렌트 초크/언초크 리치 통신 대역폭 인…]
+    │
+    ▼
+[현재 개념: 블록체인 가십 프로토콜]
+    │
+    ├──▶ [확장 A: DLT]
+    └──▶ [확장 B: 의미 기반 통신 최적화]
+```
 
 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 가십 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)는 [비트토렌트](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/917_bittorrent_choke_unchoke_p2p_incentive_algorithm/) 초크/언초크 리치 통신 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 인…에서 출발해 현재 메커니즘을 정교화하고, 이후 DLT와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

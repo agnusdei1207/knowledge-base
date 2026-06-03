@@ -25,22 +25,16 @@ tags = ["data_engineering"]
 결국 이 방대한 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 버리지 않고 저비용으로 적재([Data Lake](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/))한 뒤, [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))을 통해 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)(Feature)와 문맥을 추출하여 비즈니스 가치로 변환해야 하는 근본적인 필요성이 현대 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 아키텍처를 추동했다.
 
 [데이터 종류별 의미 추출 난이도와 잠재 가치 (문제 배경도)]
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">정형 데이터</div><div class="kb-diagram-node">비정형 데이터</div><div class="kb-diagram-note">(텍스트, 이미지, 음성)</div></div>
-<div class="kb-diagram-note">(RDB 테이블) (자연어 리뷰 "배송은 느렸지만 제품은 예뻐요")</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(기계가 뜻을 알 수 없음)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SQL 쿼리</div><div class="kb-diagram-connector">↓</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AI / 딥러닝 모델 개입 필수</div><div class="kb-diagram-note">=&gt; (NLP, Computer Vision)</div></div>
-<div class="kb-diagram-note">↓ │ (문맥, 감정, 객체 추출 연산)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">명시적 수치/통계</div><div class="kb-diagram-node">암묵적 인사이트 / 추론 모델링</div><div class="kb-diagram-note">=&gt; (추천, 예측 등 고부가가치 창출)</div></div>
-<div class="kb-diagram-note">(가치 한계치 존재) (무한한 잠재적 비즈니스 가치 보유)</div>
-</div>
-</div>
-
-
+```text
+[정형 데이터]              [비정형 데이터] (텍스트, 이미지, 음성)
+(RDB 테이블)               (자연어 리뷰 "배송은 느렸지만 제품은 예뻐요")
+     │                          │ (기계가 뜻을 알 수 없음)
+ [SQL 쿼리]                     ↓
+     │                  [AI / 딥러닝 모델 개입 필수] => (NLP, Computer Vision)
+     ↓                          │ (문맥, 감정, 객체 추출 연산)
+[명시적 수치/통계]         [암묵적 인사이트 / 추론 모델링] => (추천, 예측 등 고부가가치 창출)
+ (가치 한계치 존재)          (무한한 잠재적 비즈니스 가치 보유)
+```
 이 도식은 기존 시스템이 비정형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다루지 못한 이유와, 현재 왜 비정형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 중요한지 대조하여 보여준다. 정형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 쿼리만 던지면 바로 답이 나오지만 창출할 수 있는 통찰의 깊이가 제한적이다. 반면 비정형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 중간에 무거운 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 연산 모델이 개입해야만 비로소 의미를 추출할 수 있는 병목이 존재하지만, 성공 시 '고객 감정 분석' 등 차원이 다른 고부가가치를 낳는다.
 
 📢 **섹션 요약 비유**: 비정형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 해독법을 모를 때는 자리만 차지하는 수천 권의 '외계어 마법서([다크 데이터](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_darkdata/))' 같았지만, 딥러닝이라는 '번역 안경'이 발명되면서 세상의 모든 지식을 담은 보물창고로 돌변했습니다.
@@ -56,25 +50,19 @@ tags = ["data_engineering"]
 | <strong>벡터 DB (<a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/151_vector_database_embedding_ann_search/">Vector DB</a>)</strong> | 변환된 벡터 좌표를 저장하고 고속 검색 | [ANN](/knowledge-base/studynote/05_database/06_dw_olap_trends/350_ann/) ([Approximate Nearest Neighbor](/knowledge-base/studynote/05_database/06_dw_olap_trends/351_hnsw/)), [HNSW](/knowledge-base/studynote/05_database/06_dw_olap_trends/351_hnsw/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 기반 거리 계산([코사인 유사도](/knowledge-base/studynote/06_ict_convergence/05_data_science/359_cosine_similarity/)) 검색 | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 검색 및 [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) ([검색 증강 생성](/knowledge-base/studynote/12_it_management/05_security_compliance/222_rag_retrieval_augmented_generation/))의 핵심 |
 
 [비정형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 수집부터 벡터 변환, 검색까지의 전체 파이프라인 흐름도]
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 원시 비정형 데이터 유입</div><div class="kb-diagram-note">: 기업 PDF 매뉴얼, 고객 음성 파일</div></div>
-<div class="kb-diagram-note">↓ (무제한 적재: ELT 사상)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. Data Lake (AWS S3)</div><div class="kb-diagram-note">: URI 기반 단순 객체(Object) 저장 (메타데이터 부착)</div></div>
-<div class="kb-diagram-note">↓ (배치/스트리밍 AI 파이프라인 트리거)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3. Deep Learning Embedding 변환 연산</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">LLM, 음성 -&gt; STT 후 LLM)</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">0.12, -0.45, 0.88, ... 768차원 벡터 데이터 도출</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">4. Vector Database 저장 및 검색 인덱싱</div><div class="kb-diagram-note">(Milvus, Pinecone)</div></div>
-<div class="kb-diagram-note">↓ (사용자 "에러 해결법 찾아줘" 자연어 질의 발생)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">5. 코사인 유사도 연산을 통한 가장 의미가 비슷한 비정형 원본 매칭 및 반환</div></div>
-</div>
-</div>
-
-
+```text
+[1. 원시 비정형 데이터 유입] : 기업 PDF 매뉴얼, 고객 음성 파일
+        ↓ (무제한 적재: ELT 사상)
+[2. Data Lake (AWS S3)] : URI 기반 단순 객체(Object) 저장 (메타데이터 부착)
+        ↓ (배치/스트리밍 AI 파이프라인 트리거)
+[3. Deep Learning Embedding 변환 연산] (텍스트 -> LLM, 음성 -> STT 후 LLM)
+        ↓
+  [ 0.12, -0.45, 0.88, ... 768차원 벡터 데이터 도출 ]
+        ↓
+[4. Vector Database 저장 및 검색 인덱싱] (Milvus, Pinecone)
+        ↓ (사용자 "에러 해결법 찾아줘" 자연어 질의 발생)
+[5. 코사인 유사도 연산을 통한 가장 의미가 비슷한 비정형 원본 매칭 및 반환]
+```
 이 흐름의 핵심은 "비정형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 어떻게 검색할 것인가"라는 난제를 푸는 과정이다. 비정형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 `WHERE name = 'Kim'` 같은 일치 검색이 불가능하다. 따라서 중간의 신경망(Deep [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/)) 파이프라인이 텍스트나 이미지를 수학적 좌표(벡터)로 변환해 벡터 DB에 넣는다. 이후 사용자가 질문을 하면, 그 질의 역시 벡터로 변환되어 '좌표 공간 상에서 가장 거리가 가까운(의미가 유사한) 문서'를 수학적으로 찾아내어 원본 S3 링크를 반환하는 구조다. 이 과정에서 엄청난 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 연산 부하가 발생한다.
 
 📢 **섹션 요약 비유**: 비정형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 검색은 도서관에 무작위로 쌓인 수만 권의 책([데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/))을 사서([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))가 미리 전부 읽고 내용의 분위기와 주제에 따라 거대한 우주 지도의 좌표(벡터 변환)를 찍어두어, 비슷한 내용의 책끼리 모여있게 만드는 마법과 같습니다.
@@ -113,21 +101,15 @@ tags = ["data_engineering"]
    - **판단**: S3 Intelligent-Tiering과 같은 정책을 활성화하여 90일 이상 접근하지 않은 비정형 객체는 딥 아카이브(Glacier) 계층으로 자동 이관시키는 ILM(Information [Lifecycle Management](/knowledge-base/studynote/09_security/18_iot_ot_physical/927_medical_device_lifecycle/)) 룰을 설계 단계에서 확정해야 한다.
 
 [비정형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 안전한 활용을 위한 거버넌스 운영 플로우]
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">비정형 원본 (이미지/텍스트)</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">PII 비식별화 파이프라인 (AI 검출기)</div><div class="kb-diagram-note">──(실패/예외)──&gt;</div><div class="kb-diagram-node">격리 큐 (보안팀 수동 검토)</div></div>
-<div class="kb-diagram-note">↓ (마스킹 완료)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">메타데이터 태깅 (날짜/분류 키)</div><div class="kb-diagram-note">=&gt; (동시에 Data Catalog DB에 인덱스 등록)</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Data Lake (Gold Zone) 적재</div><div class="kb-diagram-note">=&gt; (이후 100일 경과 시 Cold Storage로 자동 하강)</div></div>
-</div>
-</div>
-
-
+```text
+[비정형 원본 (이미지/텍스트)] 
+       ↓
+[PII 비식별화 파이프라인 (AI 검출기)] ──(실패/예외)──> [격리 큐 (보안팀 수동 검토)]
+       ↓ (마스킹 완료)
+[메타데이터 태깅 (날짜/분류 키)] => (동시에 Data Catalog DB에 인덱스 등록)
+       ↓
+[Data Lake (Gold Zone) 적재] => (이후 100일 경과 시 Cold Storage로 자동 하강)
+```
 이 의사결정 트리는 방치되기 쉬운 비정형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 기업의 통제 하에 두기 위한 실무적 가이드라인이다. 비정형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 유연성을 핑계로 보안과 메타 관리를 방치하면 대형 컴플라이언스 위반이나 인프라 비용 폭탄을 맞게 된다. 따라서 저장소 앞단에 필수적인 가드레일(마스킹, 태깅)을 두어 품질을 담보해야 한다.
 
 📢 **섹션 요약 비유**: 비정형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 모으는 것은 블랙박스를 창고에 쌓는 것과 같습니다. 상자 겉면에 최소한 '언제 어디서 온 상자'인지 견출지([메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/))를 붙이고, 안에 폭발물([개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/))이 없는지 엑스레이(PII 검사)를 통과시킨 후에만 입고시켜야 창고가 마비되지 않습니다.
@@ -154,23 +136,21 @@ tags = ["data_engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 레이크 (Data Lake)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">객체 스토리지 (Object Storage)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">임베딩 (Embedding)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">벡터 데이터베이스 (Vector DB)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">다크 데이터 (Dark Data)</div></div>
-</div>
-</div>
-
-
+```text
+[데이터 레이크 (Data Lake)]
+    │
+    ▼
+[객체 스토리지 (Object Storage)]
+    │
+    ▼
+[임베딩 (Embedding)]
+    │
+    ▼
+[벡터 데이터베이스 (Vector DB)]
+    │
+    ▼
+[다크 데이터 (Dark Data)]
+```
 
 이 흐름도는 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/) ([Data Lake](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/))에서 출발해 [다크 데이터](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_darkdata/) ([Dark Data](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_darkdata/))까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

@@ -30,26 +30,29 @@ tags = ["studynote-network"]
 
 5G에서 정의한 3대 핵심 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 시나리오를 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/) 관점에서 살펴보면 왜 논리적 분리가 필요한지 명확해진다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5G 종단간(E2E) 네트워크 슬라이싱 논리적 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Physical Infrastructure: RAN + Transport + Core</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가상화/분리</div><div class="kb-diagram-cell">가상화/분리</div><div class="kb-diagram-cell">가상화/분리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Slice 1: eMBB (Enhanced Mobile Broadband)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 스마트폰 4K/8K 스트리밍, AR/VR</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 특징: 대역폭(Bandwidth) 극대화, 코어망 중심 트래픽 라우팅</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Slice 2: URLLC (Ultra-Reliable Low-Latency Communication)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 자율주행차, 원격 로봇 수술, 스마트 팩토리 제어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 특징: MEC(엣지 컴퓨팅) 근접 배치, 재전송 최소화, 1ms 이하 지연</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Slice 3: mMTC (massive Machine Type Communication)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 스마트 시티, 수백만 개 IoT 센서, 원격 검침</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 특징: 가벼운 코어 기능, 신호 처리 효율화, 연결 수 극대화 구성</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────┐
+  │            5G 종단간(E2E) 네트워크 슬라이싱 논리적 구조             │
+  ├───────────────────────────────────────────────────────────────┤
+  │                                                               │
+  │  [Physical Infrastructure: RAN + Transport + Core]            │
+  │  ───────────────────────────────────────────────────────────  │
+  │      ▲                ▲                     ▲                 │
+  │      │ 가상화/분리      │ 가상화/분리           │ 가상화/분리       │
+  │                                                               │
+  │  [Slice 1: eMBB (Enhanced Mobile Broadband)]                  │
+  │   ▶ 스마트폰 4K/8K 스트리밍, AR/VR                             │
+  │   ▶ 특징: 대역폭(Bandwidth) 극대화, 코어망 중심 트래픽 라우팅         │
+  │                                                               │
+  │  [Slice 2: URLLC (Ultra-Reliable Low-Latency Communication)]  │
+  │   ▶ 자율주행차, 원격 로봇 수술, 스마트 팩토리 제어                 │
+  │   ▶ 특징: MEC(엣지 컴퓨팅) 근접 배치, 재전송 최소화, 1ms 이하 지연     │
+  │                                                               │
+  │  [Slice 3: mMTC (massive Machine Type Communication)]         │
+  │   ▶ 스마트 시티, 수백만 개 IoT 센서, 원격 검침                     │
+  │   ▶ 특징: 가벼운 코어 기능, 신호 처리 효율화, 연결 수 극대화 구성      │
+  └───────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 그림은 단일 물리 인프라(회색 바닥) 위에 성격이 전혀 다른 3개의 독립된 가상망이 구축된 모습을 보여준다. [eMBB](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/760_embb_enhanced_mobile_broadband_vr_ar/) [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/)는 막대한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전송해야 하므로 코어망의 UPF (User Plane Function) [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)) 확보가 핵심이다. 반면 [URLLC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/) [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/)는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 양은 적지만 절대 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 없어야 하므로 물리적으로 사용자와 가장 가까운 엣지 서버([MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/))에 코어 기능을 전진 배치하여 물리적 거리를 줄인다. [mMTC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/762_mmtc_massive_machine_type_communications/) [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/)는 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)도 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)도 중요하지 않지만 엄청난 수의 기기가 동시에 보내는 작은 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)들을 처리해야 하므로 [AMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/770_amf_access_mobility_management_function/) (Access and [Mobility Management](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/561_mobility_management_hlr_vlr_paging/) Function) 같은 제어 평면의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 처리 능력이 튜닝된다. 이처럼 요구되는 기능과 구조가 상이하기 때문에 논리적으로 망을 완전히 분리하는 것이다.
 
@@ -71,25 +74,33 @@ tags = ["studynote-network"]
 
 이러한 관리 시스템들이 계층적으로 상호작용하여 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/)를 만들어내는 과정은 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3GPP 기반 네트워크 슬라이스 오케스트레이션 흐름도</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">고객 포털 / BSS/OSS</div><div class="kb-diagram-note">──(요구사항: 자율주행용 저지연 슬라이스 생성)─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CSMF (Service Management)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"SLA: 1ms 지연, 가용성 99.999% → 슬라이스 청사진 번역"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지시 (Blueprint 전달)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NSMF (Network Slice Management)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전체 인스턴스(NSI) 조율, E2E 자원 할당 및 SLA 모니터링 체계 가동</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (RAN 요구) ▼ (Core 요구) ▼ (Trans 요구)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RAN NSSMF</div><div class="kb-diagram-cell">Core NSSMF</div><div class="kb-diagram-cell">Trans NSSMF</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기지국 PRB</div><div class="kb-diagram-cell">UPF/AMF VNF</div><div class="kb-diagram-cell">SDN 플로우</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">격리 할당</div><div class="kb-diagram-cell">엣지 생성</div><div class="kb-diagram-cell">경로 예약</div></div>
-</div>
-</div>
-
-
+```text
+  ┌──────────────────────────────────────────────────────────────────┐
+  │           3GPP 기반 네트워크 슬라이스 오케스트레이션 흐름도            │
+  ├──────────────────────────────────────────────────────────────────┤
+  │                                                                  │
+  │   [고객 포털 / BSS/OSS] ──(요구사항: 자율주행용 저지연 슬라이스 생성)─┐ │
+  │                                                                  │
+  │                                                                ▼    │
+  │   ┌──────────────────────────────────────────────────────┐   │
+  │   │  CSMF (Service Management)                           │   │
+  │   │  "SLA: 1ms 지연, 가용성 99.999% → 슬라이스 청사진 번역"         │   │
+  │   └───────────────────────────┬──────────────────────────┘   │
+  │                               │ 지시 (Blueprint 전달)              │
+  │                               ▼                                  │
+  │   ┌──────────────────────────────────────────────────────┐   │
+  │   │  NSMF (Network Slice Management)                     │   │
+  │   │  전체 인스턴스(NSI) 조율, E2E 자원 할당 및 SLA 모니터링 체계 가동 │   │
+  │   └─────┬──────────────────────┬──────────────────────┬─────┘   │
+  │          │                      │                      │          │
+  │          ▼ (RAN 요구)            ▼ (Core 요구)           ▼ (Trans 요구) │
+  │   ┌────────────┐        ┌──────────────┐        ┌─────────────┐   │
+  │   │ RAN NSSMF  │        │ Core NSSMF │        │ Trans NSSMF │   │
+  │   │ 기지국 PRB  │        │ UPF/AMF VNF│        │ SDN 플로우  │   │
+  │   │ 격리 할당   │        │ 엣지 생성   │        │ 경로 예약   │   │
+  │   └────────────┘        └──────────────┘        └─────────────┘   │
+  └──────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 흐름도는 제로 터치 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/)(Zero-touch [Provisioning](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/))의 핵심이다. 기업 고객이 포털에서 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 요구사항([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/))을 입력하면, 최상위 CSMF가 이를 네트워크 파라미터로 번역한다. 중간 관리자인 NSMF는 이를 받아 [E2E](/knowledge-base/studynote/15_devops_sre/05_devsecops/265_e2e_end_to_ui_selenium/) [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/)를 구성하기 위해 각 영역의 하위 관리자인 NSSMF들에게 구체적인 명령을 내린다. 무선망(RAN) NSSMF는 기지국의 물리적 주파수 자원(PRB)을 쪼개어 할당하고, 코어망(Core) NSSMF는 [NFV](/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/) 인프라 위에 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)된 코어 노드(UPF 등)를 엣지에 배포하며, 전송망(Transport) NSSMF는 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 컨트롤러를 통해 해당 트래픽이 통과할 라우터들의 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 예약한다. 이 모든 과정이 소프트웨어적으로 자동화되어 수분 내에 새로운 전용망이 뚝딱 탄생하게 되며, 이것이 NaaS (Network [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))의 실체다.
 
@@ -108,23 +119,29 @@ tags = ["studynote-network"]
 
 [네트워크 슬라이싱](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/)을 단순히 "[QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/)(우선순위 제어)의 진화형"으로 오해하기 쉬우나, 아키텍처적 근본이 완전히 다르다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기존 QoS vs 5G 네트워크 슬라이싱 자원 격리 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">기존 QoS (Quality of Service) 기반 4G 트래픽 제어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단일 파이프(Single Pipe) 내에서 패킷 우선순위(Priority)만 부여</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고우선순위(VoLTE) ▷▷▷▷▷ (병목 발생 시 간섭 위험)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">저우선순위(Data) ▶▶▶ ▼</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">5G 네트워크 슬라이싱 (Network Slicing)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소프트웨어로 완전히 독립된 가상의 전용 파이프(Virtual Pipe) 생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Slice A (URLLC) ▷▷▷▷▷▷▷▷▷▷ (상호 독립, 간섭 없음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Slice B (eMBB) ▶▶▶▶▶▶▶▶▶▶</div></div>
-</div>
-</div>
-
-
+```text
+  ┌──────────────────────────────────────────────────────────────┐
+  │             기존 QoS vs 5G 네트워크 슬라이싱 자원 격리 구조         │
+  ├──────────────────────────────────────────────────────────────┤
+  │                                                              │
+  │  [기존 QoS (Quality of Service) 기반 4G 트래픽 제어]             │
+  │   단일 파이프(Single Pipe) 내에서 패킷 우선순위(Priority)만 부여     │
+  │                                                              │
+  │   ┌──────────────────────────────────────────────────────┐   │
+  │   │ 고우선순위(VoLTE) ▷▷▷▷▷       (병목 발생 시 간섭 위험)      │   │
+  │   │ 저우선순위(Data)  ▶▶▶               ▼                     │   │
+  │   └──────────────────────────────────────────────────────┘   │
+  │                                                              │
+  │  [5G 네트워크 슬라이싱 (Network Slicing)]                        │
+  │   소프트웨어로 완전히 독립된 가상의 전용 파이프(Virtual Pipe) 생성    │
+  │                                                              │
+  │   ┌──────────────────────────────────────────────────────┐   │
+  │   │ Slice A (URLLC) ▷▷▷▷▷▷▷▷▷▷ (상호 독립, 간섭 없음)       │   │
+  │   ├──────────────────────────────────────────────────────┤   │
+  │   │ Slice B (eMBB)  ▶▶▶▶▶▶▶▶▶▶                             │   │
+  │   └──────────────────────────────────────────────────────┘   │
+  └──────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 기존 [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/)(예: [DiffServ](/knowledge-base/studynote/03_network/07_network_layer_routing/390_diffserv_differentiated_services_dscp_phb/)) 모델은 하나의 굵은 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 안에서 중요 패킷에 딱지를 붙여(Marking) 라우터가 큐에서 먼저 꺼내 보내는 방식이다. 평소에는 문제가 없지만 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 전체 용량을 초과하는 심각한 트래픽 폭주나 장비 마비 상황이 오면 고우선순위 패킷조차 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이나 드랍을 피할 수 없다 (결국 같은 길을 쓰고 있기 때문). 반면 [네트워크 슬라이싱](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/)은 SDN과 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 기술을 이용해 자원 자체를 컴퓨팅 레벨과 링크 레벨에서 물리적 장벽 수준으로 격리한다. [Slice](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/) B에 아무리 엄청난 DDoS 공격이 쏟아져 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 고갈되더라도, 컴퓨팅 자원과 경로가 분리된 [Slice](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/) A의 자율주행 트래픽은 1ms의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 변화도 없이 안전하게 전송된다.
 
@@ -191,19 +208,15 @@ VPN이 [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: IDS / IPS 탐지 차단율</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 네트워크 슬라이싱</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: NFV 기반 가상화 VNF</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: IDS / IPS 탐지 차단율]
+    │
+    ▼
+[현재 개념: 네트워크 슬라이싱]
+    │
+    ├──▶ [확장 A: NFV 기반 가상화 VNF]
+    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
+```
 
 [네트워크 슬라이싱](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/)는 [IDS](/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/) / [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/) 탐지 차단율에서 출발해 현재 메커니즘을 정교화하고, 이후 [NFV](/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/) 기반 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) VNF와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -26,18 +26,14 @@ tags = ["studynote-network"]
   - [거리 벡터](/knowledge-base/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/)가 남이 완성해 놓은 퍼즐 그림을 말로만 전해 듣는 것이라면, 링크 상태는 **동네 사람들 1,000명이 자기가 가진 퍼즐 조각(LSA)을 테이블 중앙에 모조리 쏟아붓습니다(Flooding)**. 
   - 모든 사람이 각자 조각을 맞춰서 똑같은 '동네 전체 풍경 그림(토폴로지 DB)'을 완성한 뒤, 자기 위치에서 부산까지 가는 최적의 펜 선([다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))을 쭉 그어버립니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">거리 벡터 라우팅 알고리즘</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">링크 상태 라우팅 알고리즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">거리 벡터 라우팅 루프 방지</div></div>
-</div>
-</div>
-
-
+```text
+[거리 벡터 라우팅 알고리즘]
+    │
+    ▼
+[링크 상태 라우팅 알고리즘]
+    │
+    └──▶ [거리 벡터 라우팅 루프 방지]
+```
 
 - **📢 섹션 요약 비유**: ** 링크 상태는 내 머리 위에 개인용 **"정찰 드론"**을 띄워 도시 전체의 교통 상황을 CCTV로 한눈에 굽어보면서(토폴로지 공유), 막힌 길을 피해 가장 쾌적한 도로를 내 머리로 직접 계산해 내는([SPF](/knowledge-base/studynote/03_network/09_application_layer_web_email/495_spf_sender_policy_framework/)) 완벽한 자율 주행 시스템입니다.
 
@@ -60,23 +56,23 @@ tags = ["studynote-network"]
 - 라우터는 자기 자신을 나무의 뿌리(Root)로 삼고, [다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)([Dijkstra](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)) 수학 공식을 팽팽 돌려 <strong>가장 코스트(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 점수)가 싼 길만 남기고 나머지 잔가지를 다 쳐내 버린다</strong>.
 - 이렇게 예쁘게 깎아낸 소나무 모양의 뼈대를 <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/495_spf_sender_policy_framework/">SPF</a> Tree (<a href="/knowledge-base/studynote/05_database/07_exam_summary/547_graph_shortest_path_db_mapping/">Shortest Path</a> First Tree)</strong>라고 부른다. 라우터는 이 트리 정보 중 알맹이만 쏙 빼서 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블(RIB)에 최종 등재한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">링크 상태 (OSPF) 라우터의 3단계 뇌 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 이웃 정보 모음 (Neighbor Table)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"내 옆에 라우터 A, 라우터 B가 살고 있군. (Hello 교환)"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 전체 지도 완성 (LSDB - Topology Table)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"아하, 전국에 라우터 50대가 이런 링크(선로)들로 거미줄처럼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다 엮여 있구나! 지형도 100% 파악 완료!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 내 입장의 최적 길 깎기 (Routing Table - RIB)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"다익스트라 도끼질 퍽! 퍽! 잔가지 다 쳐냄.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결론: Z망 갈 땐 B로 주는 게 대역폭 점수(Cost) 제일 싸네!"</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                링크 상태 (OSPF) 라우터의 3단계 뇌 구조             │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   1. 이웃 정보 모음 (Neighbor Table)                           │
+ │      "내 옆에 라우터 A, 라우터 B가 살고 있군. (Hello 교환)"          │
+ │                                                             │
+ │   2. 전체 지도 완성 (LSDB - Topology Table)                   │
+ │      "아하, 전국에 라우터 50대가 이런 링크(선로)들로 거미줄처럼         │
+ │       다 엮여 있구나! 지형도 100% 파악 완료!"                    │
+ │                                                             │
+ │   3. 내 입장의 최적 길 깎기 (Routing Table - RIB)                │
+ │      "다익스트라 도끼질 퍽! 퍽! 잔가지 다 쳐냄.                     │
+ │       결론: Z망 갈 땐 B로 주는 게 대역폭 점수(Cost) 제일 싸네!"      │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 4. 이벤트 기반 갱신 (Event-driven Update)의 위력
 - RIP처럼 30초마다 수첩 전체를 복사해서 뿌리는 미친 짓([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비)을 하지 않는다.
@@ -139,19 +135,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 거리 벡터 라우팅 알고리즘</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 링크 상태 라우팅 알고리즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 거리 벡터 라우팅 루프 방지</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 거리 벡터 라우팅 알고리즘]
+    │
+    ▼
+[현재 개념: 링크 상태 라우팅 알고리즘]
+    │
+    ├──▶ [확장 A: 거리 벡터 라우팅 루프 방지]
+    └──▶ [확장 B: 의도 기반 라우팅]
+```
 
 링크 상태 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)는 [거리 벡터](/knowledge-base/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [거리 벡터](/knowledge-base/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 루프 방지와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

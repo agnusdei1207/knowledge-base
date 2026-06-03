@@ -18,18 +18,12 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">주문 서비스 → "주문 생성" 이벤트 발행</div>
-<div class="kb-diagram-note">결제 서비스 ← 구독 → 결제 처리 → "결제 완료" 이벤트 발행</div>
-<div class="kb-diagram-note">배송 서비스 ← 구독 → 배송 시작</div>
-<div class="kb-diagram-note">실패 시: "결제 실패" 이벤트 → 주문 서비스 → 보상(주문 취소)</div>
-</div>
-</div>
-
-
+```text
+주문 서비스 → "주문 생성" 이벤트 발행
+결제 서비스 ← 구독 → 결제 처리 → "결제 완료" 이벤트 발행
+배송 서비스 ← 구독 → 배송 시작
+실패 시: "결제 실패" 이벤트 → 주문 서비스 → 보상(주문 취소)
+```
 
 - **📢 섹션 요약 비유**: Choreography는 <strong>재즈 즉흥 연주</strong>이다. 지휘자 없이 각 연주자가 서로의 소리를 듣고 자율적으로 연주한다.
 
@@ -53,18 +47,12 @@ Choreography는 <strong>소규모 MSA의 <a href="/knowledge-base/studynote/05_d
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">2PC (모노리스)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Choreography Saga (MSA, 2014~)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Kafka 이벤트 기반 (2016~)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Orchestration 대안 (Temporal, 2020~)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: 하이브리드 — Choreography + Orchestration 혼합</div></div>
-</div>
-</div>
-
-
+```text
+[2PC (모노리스)] → [Choreography Saga (MSA, 2014~)]
+    → [Kafka 이벤트 기반 (2016~)]
+    → [Orchestration 대안 (Temporal, 2020~)]
+    → [현재: 하이브리드 — Choreography + Orchestration 혼합]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. Choreography는 <strong>재즈 즉흥</strong>이에요. 지휘자 없이 **서로 듣고 맞춰** 연주해요.

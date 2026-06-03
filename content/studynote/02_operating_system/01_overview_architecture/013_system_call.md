@@ -31,22 +31,24 @@ tags = ["studynote-operating-system"]
 - <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> 다이어그램: 사용자-<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 인터페이스 계층 구조</strong>
 이 도식은 사용자 애플리케이션이 표준 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 거쳐 시스템 호출 인터페이스에 도달하고, 최종적으로 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 접근하는 계층적 흐름을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User Application (User Mode)</div></div>
-<div class="kb-diagram-note">▼ (API Call: e.g., printf)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Standard Library (e.g., libc, Win32)</div></div>
-<div class="kb-diagram-note">▼ (System Call: e.g., write)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SYSTEM CALL INTERFACE</div><div class="kb-diagram-note">— Trap / Mode Switch (Bit=0)</div></div>
-<div class="kb-diagram-note">▼ (Kernel Entry)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS Kernel (Kernel Mode)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">FS</div><div class="kb-diagram-node">Net</div><div class="kb-diagram-node">Process</div><div class="kb-diagram-node">Memory</div><div class="kb-diagram-node">I/O Driver</div></div>
-</div>
-</div>
-
-
+```text
+  ┌────────────────────────────────────────────────────────┐
+  │              User Application (User Mode)              │
+  └──────────────────────────┬─────────────────────────────┘
+                             ▼ (API Call: e.g., printf)
+  ┌────────────────────────────────────────────────────────┐
+  │           Standard Library (e.g., libc, Win32)         │
+  └──────────────────────────┬─────────────────────────────┘
+                             ▼ (System Call: e.g., write)
+  ┌────────────────────────────────────────────────────────┐
+  │ [SYSTEM CALL INTERFACE] — Trap / Mode Switch (Bit=0)   │
+  └──────────────────────────┬─────────────────────────────┘
+                             ▼ (Kernel Entry)
+  ┌────────────────────────────────────────────────────────┐
+  │              OS Kernel (Kernel Mode)                   │
+  │  [FS] [Net] [Process] [Memory] [I/O Driver]            │
+  └────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 대부분의 프로그래머는 시스템 호출을 직접 호출하기보다 `libc`와 같은 표준 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 함수를 사용한다. 예를 들어 `printf()`를 호출하면 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 내부에서 최종적으로 `write()`라는 시스템 호출을 발생시킨다. 시스템 호출 인터페이스는 이 요청을 받아 하드웨어 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)을 유도하고, CPU 모드 비트를 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드로 전환시킨 후 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부의 해당 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 루틴으로 제어권을 넘긴다. 이러한 계층 구조는 애플리케이션이 하드웨어의 세부 사항을 몰라도 일관된 방식으로 자원을 사용할 수 있게 하며, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 모든 요청을 중앙에서 검증할 수 있는 강력한 보안 경계를 형성한다.
 
@@ -69,21 +71,17 @@ tags = ["studynote-operating-system"]
 - <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> 구조 다이어그램: 매개변수 전달의 3가지 방식</strong>
 시스템 호출 시 사용자 영역의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)로 넘기는 세 가지 주요 기법([레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/), [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/), 블록/테이블)을 시각화하여 비교한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">A. Register</div><div class="kb-diagram-node">B. Stack</div><div class="kb-diagram-node">C. Block/Table</div></div>
-<div class="kb-diagram-note">CPU Regs User Stack Memory Block</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EAX: #5</div><div class="kb-diagram-cell">Param 3</div><div class="kb-diagram-cell">Param 1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EBX: Arg1</div><div class="kb-diagram-cell">Param 2</div><div class="kb-diagram-cell">Param 2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ECX: Arg2</div><div class="kb-diagram-cell">Param 1</div><div class="kb-diagram-cell">Param 3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Address</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Kernel</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">── (EBX)</div></div>
-</div>
-</div>
-
-
+```text
+ [A. Register]          [B. Stack]               [C. Block/Table]
+  CPU Regs               User Stack               Memory Block
+ ┌──────────┐           ┌──────────┐             ┌──────────┐
+ │ EAX: #5  │           │ Param 3  │             │ Param 1  │
+ │ EBX: Arg1│           │ Param 2  │             │ Param 2  │
+ │ ECX: Arg2│           │ Param 1  │             │ Param 3  │
+ └────┬─────┘           └────┬─────┘             └────┬─────┘
+      │                      │         Address              │
+      └──────▶ [ Kernel ] ◀──┴───────────(EBX)──────────────┘
+```
 
 **[다이어그램 해설]** 시스템 호출은 [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/)과 유사하지만 모드가 바뀌므로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 넘기는 방식이 독특하다. ① <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/">레지스터</a> 방식</strong>은 가장 빠르지만 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 개수만큼만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보낼 수 있어 단순한 호출에 쓰인다. ② <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a> 방식</strong>은 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)가 사용자 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쌓고 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 이를 읽어가는 방식으로, 매개변수 개수에 제한이 없지만 메모리 접근 오버헤드가 있다. ③ <strong>블록/테이블 방식</strong>은 대량의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 메모리의 특정 블록에 저장하고, 그 시작 주소값만 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 담아 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 넘기는 방식이다. 현대의 리눅스나 윈도우는 효율성을 위해 주로 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 방식을 기본으로 하되, 복잡한 구조체는 블록 방식을 혼용하여 최적의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 도출한다. 이 메커니즘은 사용자-[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 간의 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규약'을 형성한다.
 
@@ -126,21 +124,16 @@ syscall          ; 커널 모드 진입 (Trap 발생)
 - <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> 비교 다이어그램: 동기 vs 비동기 시스템 호출 (<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/464_io_uring/">io_uring</a>)</strong>
 기존의 차단형([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)) 시스템 호출과 최신 리눅스의 비동기 방식인 `io_uring`의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 차이 원리를 시각화한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Sync System Call</div><div class="kb-diagram-node">Async io_uring</div></div>
-<div class="kb-diagram-note">User Space Kernel Space User Space Kernel Space</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Call ──▶ Trap</div><div class="kb-diagram-cell">1. Push to SQ ──▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Wait</div><div class="kb-diagram-cell">2. Kernel Polling</div></div>
-<div class="kb-diagram-note">2. Ret ◀── Mode │ 3. Pop from CQ ◀─</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Switch</div></div>
-<div class="kb-diagram-note">(N번 반복 시 N번 전환) (한 번의 전환으로 Batch 처리)</div>
-</div>
-</div>
-
-
+```text
+[Sync System Call]                  [Async io_uring]
+ User Space   Kernel Space           User Space   Kernel Space
+     │             │                     │             │
+  1. Call ──▶ Trap │                  1. Push to SQ ──▶│
+     │        Wait │                     │             │ 2. Kernel Polling
+  2. Ret  ◀── Mode │                  3. Pop from CQ ◀─┤
+     │       Switch│                     │             │
+ (N번 반복 시 N번 전환)                 (한 번의 전환으로 Batch 처리)
+```
 
 **[다이어그램 해설]** 전통적인 시스템 호출은 한 번 부를 때마다 모드 전환 오버헤드가 발생한다. 특히 고성능 네트워크 서버처럼 초당 수백만 번의 I/O가 발생하는 경우, 이 전환 비용이 CPU의 30% 이상을 점유하기도 한다. 리눅스의 `io_uring`은 이를 해결하기 위해 사용자 공간과 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공간이 공유하는 원형 큐 (Ring Buffer)를 사용한다. 애플리케이션은 제출 큐 (SQ)에 요청을 쌓아두고 딱 한 번만 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 깨운다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 큐를 비동기적으로 처리한 후 완료 큐 (CQ)에 결과를 담는다. 결과적으로 수천 개의 시스템 호출을 단 한 번의 모드 전환으로 처리할 수 있어, 시스템 전체 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))이 비약적으로 향상된다.
 
@@ -168,18 +161,15 @@ syscall          ; 커널 모드 진입 (Trap 발생)
 - <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> 운영 플로우: strace를 이용한 장애 진단 흐름</strong>
 시스템 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 시 `strace`를 통해 병목 지점을 찾아내는 실무적인 분석 단계를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Start Trace</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Filter Syscalls</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Analyze Latency</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Identify Bottleneck</div></div>
-<div class="kb-diagram-note">strace -p PID -e trace=open,read -T (Time Spent) read() takes 2s!</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Action: Check Disk I/O</div></div>
-</div>
-</div>
-
-
+```text
+ [Start Trace] ──▶ [Filter Syscalls] ──▶ [Analyze Latency] ──▶ [Identify Bottleneck]
+      │                 │                     │                      │
+      ▼                 ▼                     ▼                      ▼
+  strace -p PID     -e trace=open,read     -T (Time Spent)       read() takes 2s!
+                                                                     │
+                                                                     ▼
+                                                         [Action: Check Disk I/O]
+```
 
 **[다이어그램 해설]** 실무에서 프로세스가 '먹통'이 되었을 때, `strace`를 붙여보면 현재 어떤 시스템 호출에서 멈춰 있는지 즉시 알 수 있다. 예를 들어 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 읽기 명령인 `read()`에서 2초 이상 대기가 발생한다면, 이는 애플리케이션 로직의 문제가 아니라 하위 디스크 드라이버나 [네트워크 파일 시스템](/knowledge-base/studynote/02_operating_system/11_exam_summary/774_nfs_stateless_network_file_system/) ([NFS](/knowledge-base/studynote/02_operating_system/09_file_system/543_nfs_network_file_system/))의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 문제임을 확신할 수 있다. 기술사는 이러한 도구를 활용해 문제의 원인이 사용자 영역(User Space)에 있는지 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 영역([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Space)에 있는지 명확히 구분하여 해결 전략을 수립해야 한다.
 
@@ -223,23 +213,21 @@ syscall          ; 커널 모드 진입 (Trap 발생)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">사용자 프로그램 (User Program) — 서비스 요청 발생</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시스템 콜 (System Call) — 소프트웨어 인터럽트로 커널 진입점 호출</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">커널 모드 전환 (Kernel Mode Switch) — CPU 특권 수준 변경, 컨텍스트 저장</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">커널 서비스 처리 (OS Kernel Service) — 파일 I/O, 메모리 할당, 프로세스 관리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">사용자 모드 복귀 (Return to User Mode) — 결과값 반환, 컨텍스트 복원</div></div>
-</div>
-</div>
-
-
+```text
+[사용자 프로그램 (User Program) — 서비스 요청 발생]
+    │
+    ▼
+[시스템 콜 (System Call) — 소프트웨어 인터럽트로 커널 진입점 호출]
+    │
+    ▼
+[커널 모드 전환 (Kernel Mode Switch) — CPU 특권 수준 변경, 컨텍스트 저장]
+    │
+    ▼
+[커널 서비스 처리 (OS Kernel Service) — 파일 I/O, 메모리 할당, 프로세스 관리]
+    │
+    ▼
+[사용자 모드 복귀 (Return to User Mode) — 결과값 반환, 컨텍스트 복원]
+```
 
 이 흐름은 사용자 프로그램이 소프트웨어 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 통해 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 자원을 안전하게 요청하고, 처리 결과를 받아 복귀하는 시스템 콜의 수명 주기를 보여준다.
 

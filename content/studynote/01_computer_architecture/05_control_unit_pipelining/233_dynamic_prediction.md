@@ -41,39 +41,37 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 프론트엔드에서 예측이 생성되고, 뒤에서 실제 결과로 다시 학습되는 흐름을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동적 분기 예측의 폐루프: 예측하고, 틀리면 배우고, 맞으면 강화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IF (Instruction Fetch)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PC ──▶ BHT / GHR 조회 ──▶ 방향 예측 ── ─ Not Taken ─▶ PC + 4</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Taken ─▶ BTB target</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ID / EX</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조건 계산 및 실제 분기 결과 확정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예측 성공 ▶ 추측 경로 유지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예측 실패 ▶ Flush + 올바른 PC 재시작</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Commit / Update</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실제 결과를 BHT, GHR, 선택기에 반영하여 다음 예측 정확도 개선</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────┐
+│            동적 분기 예측의 폐루프: 예측하고, 틀리면 배우고, 맞으면 강화     │
+├──────────────────────────────────────────────────────────────────────────┤
+│ IF (Instruction Fetch)                                                   │
+│   PC ──▶ BHT / GHR 조회 ──▶ 방향 예측 ──┬─ Not Taken ─▶ PC + 4           │
+│                                         └─ Taken     ─▶ BTB target       │
+│                                                                          │
+│ ID / EX                                                                  │
+│   조건 계산 및 실제 분기 결과 확정                                       │
+│        │                                                                 │
+│        ├─ 예측 성공 ───────────────▶ 추측 경로 유지                      │
+│        └─ 예측 실패 ───────────────▶ Flush + 올바른 PC 재시작            │
+│                                                                          │
+│ Commit / Update                                                          │
+│   실제 결과를 BHT, GHR, 선택기에 반영하여 다음 예측 정확도 개선          │
+└──────────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조에서 2비트 포화 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)가 널리 쓰이는 이유는 단순하면서도 루프 패턴에 강하기 때문이다. 1비트 방식은 "지난번 결과"만 기억하므로, 반복문이 9번 Taken 후 마지막 1번 Not Taken이 나오는 전형적 루프에서 종료 직후와 재진입 직전에 연속으로 틀리기 쉽다. 반면 2비트 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)는 Strongly Taken, Weakly Taken, Weakly Not Taken, Strongly Not Taken의 네 상태를 두어 <strong>두 번 연속 반대 결과가 나와야 예측 방향을 완전히 바꾸는 관성</strong>을 준다. 덕분에 일시적 예외와 구조적 패턴을 구분할 수 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2비트 포화 카운터: 예측 방향에 관성을 부여</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">00 Strongly NT ──▶ 01 Weakly NT ──▶ 10 Weakly T ──▶ 11 Strongly T</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">actual NT actual NT actual NT</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">actual T ▶ actual T ▶ actual T ─▶</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│          2비트 포화 카운터: 예측 방향에 관성을 부여           │
+├──────────────────────────────────────────────────────────────┤
+│ 00 Strongly NT ──▶ 01 Weakly NT ──▶ 10 Weakly T ──▶ 11 Strongly T │
+│        ▲                    ▲                    ▲               │
+│        └──── actual NT ─────┴──── actual NT ─────┴──── actual NT │
+│        ───── actual T ─────▶──── actual T ─────▶──── actual T ─▶ │
+└──────────────────────────────────────────────────────────────┘
+```
 
 결국 동적 예측기의 핵심 원리는 두 문장으로 정리된다. 첫째, **인출 단계에서는 가장 빨리 답을 내야 한다.** 둘째, **실행 단계에서는 실제 결과를 바탕으로 즉시 학습해야 한다.** 정확도가 높아도 접근 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 길면 프론트엔드가 느려지고, 반대로 아주 빠르기만 하고 학습력이 약하면 깊은 파이프라인에서 Flush 손실을 줄이지 못한다.
 
@@ -148,23 +146,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">정적 분기 예측</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">1비트 / 2비트 BHT (Branch History Table)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Local / Global 2레벨 예측기</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Tournament Predictor + BTB (Branch Target Buffer)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Perceptron Predictor · 보안 대응형 하이브리드 예측기</div>
-</div>
-</div>
-
-
+```text
+정적 분기 예측
+    │
+    ▼
+1비트 / 2비트 BHT (Branch History Table)
+    │
+    ▼
+Local / Global 2레벨 예측기
+    │
+    ▼
+Tournament Predictor + BTB (Branch Target Buffer)
+    │
+    ▼
+Perceptron Predictor · 보안 대응형 하이브리드 예측기
+```
 
 이 흐름은 분기 처리 기술이 "고정 규칙 → 단순 학습 → 상관관계 학습 → 복합 선택 → 장기 패턴과 보안 고려"로 진화해 온 방향을 보여준다.
 

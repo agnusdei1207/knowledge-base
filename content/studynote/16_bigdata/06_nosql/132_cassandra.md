@@ -40,52 +40,53 @@ tags = ["studynote-bigdata"]
 
 ### [일관된 해싱](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/283_reference_pattern/) ([Consistent Hashing](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/244_consistent_hashing_ring_distribution/)) [토큰 링](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/281_token_ring_ieee_802_5_token_bus_ieee_802_4/)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cassandra 토큰 링 (Token Ring)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">토큰 범위: -2^63 ~ +2^63 (가상 노드 vnodes 사용 시 세분화)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Node A (tokens: 0~25)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">╱ ╲</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Node E ● RF=3 예시: ● Node B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(76~100)</div><div class="kb-diagram-cell">key "user:1"</div><div class="kb-diagram-cell">(26~50)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ hash → 42</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ Node B, C, D</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Node D ● ● Node C</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(51~75) ╲ ╱ (26~50 이후)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(시계 방향으로 RF개 노드)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Vnodes(가상 노드): 각 물리 노드가 여러 토큰 범위를 담당</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 노드 추가/제거 시 부하 분산 자동화</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│         Cassandra 토큰 링 (Token Ring)                        │
+│                                                              │
+│  토큰 범위: -2^63 ~ +2^63 (가상 노드 vnodes 사용 시 세분화)     │
+│                                                              │
+│               Node A (tokens: 0~25)                          │
+│              ╱                    ╲                          │
+│  Node E    ●    RF=3 예시:          ●   Node B               │
+│ (76~100)   │    key "user:1"        │   (26~50)              │
+│            │    → hash → 42        │                         │
+│            │    → Node B, C, D     │                         │
+│  Node D  ●                           ●  Node C               │
+│  (51~75)    ╲                    ╱   (26~50 이후)             │
+│              (시계 방향으로 RF개 노드)                          │
+│                                                              │
+│  Vnodes(가상 노드): 각 물리 노드가 여러 토큰 범위를 담당        │
+│  → 노드 추가/제거 시 부하 분산 자동화                          │
+└──────────────────────────────────────────────────────────────┘
+```
 
 ### 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 경로 상세
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cassandra 쓰기 경로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client → 코디네이터 노드 → 복제 노드들</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">각 복제 노드에서:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Commit Log 기록 (내구성, Sequential I/O)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. MemTable 업데이트 (인메모리 정렬 구조)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. MemTable 임계값 도달 → SSTable Flush</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. Bloom Filter, Index Summary 업데이트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cassandra 읽기 경로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client → 코디네이터 → 복제 노드 중 1개(or QUORUM)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">복제 노드에서:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. MemTable 검색 (최신 데이터)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Bloom Filter 확인 (SSTable에 키 존재 여부 빠른 확인)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Key Cache → Row Cache 확인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. SSTable 검색 (최신순, 병합 필요 시 Read Repair)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────┐
+│                  Cassandra 쓰기 경로                       │
+│                                                          │
+│  Client → 코디네이터 노드 → 복제 노드들                     │
+│                                                          │
+│  각 복제 노드에서:                                         │
+│  1. Commit Log 기록 (내구성, Sequential I/O)              │
+│  2. MemTable 업데이트 (인메모리 정렬 구조)                  │
+│  3. MemTable 임계값 도달 → SSTable Flush                  │
+│  4. Bloom Filter, Index Summary 업데이트                  │
+│                                                          │
+│  ┌─────────────────────────────────────────────────┐    │
+│                  Cassandra 읽기 경로                 │    │
+│  └─────────────────────────────────────────────────┘    │
+│  Client → 코디네이터 → 복제 노드 중 1개(or QUORUM)        │
+│                                                          │
+│  복제 노드에서:                                           │
+│  1. MemTable 검색 (최신 데이터)                           │
+│  2. Bloom Filter 확인 (SSTable에 키 존재 여부 빠른 확인)    │
+│  3. Key Cache → Row Cache 확인                           │
+│  4. SSTable 검색 (최신순, 병합 필요 시 Read Repair)        │
+└──────────────────────────────────────────────────────────┘
+```
 
 ### CQL ([Cassandra](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/) Query Language) [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/)
 
@@ -112,22 +113,18 @@ LIMIT 1000;
 
 ### RF ([Replication Factor](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/))와 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 수식
 
+```text
+N = 노드 수 (RF = 복제 수)
+W = 쓰기 확인 노드 수
+R = 읽기 확인 노드 수
 
+강한 일관성 조건: W + R > N
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">N = 노드 수 (RF = 복제 수)</div>
-<div class="kb-diagram-note">W = 쓰기 확인 노드 수</div>
-<div class="kb-diagram-note">R = 읽기 확인 노드 수</div>
-<div class="kb-diagram-note">강한 일관성 조건: W + R &gt; N</div>
-<div class="kb-diagram-note">예시 (RF=3):</div>
-<div class="kb-diagram-note">W=2, R=2 → 2+2=4 &gt; 3 → 강한 일관성 ✓ (QUORUM+QUORUM)</div>
-<div class="kb-diagram-note">W=1, R=1 → 1+1=2 &lt; 3 → 결과적 일관성 (ONE+ONE)</div>
-<div class="kb-diagram-note">W=3, R=1 → 3+1=4 &gt; 3 → 강한 일관성 ✓ (ALL+ONE)</div>
-</div>
-</div>
-
-
+예시 (RF=3):
+  W=2, R=2 → 2+2=4 > 3 → 강한 일관성 ✓ (QUORUM+QUORUM)
+  W=1, R=1 → 1+1=2 < 3 → 결과적 일관성 (ONE+ONE)
+  W=3, R=1 → 3+1=4 > 3 → 강한 일관성 ✓ (ALL+ONE)
+```
 
 📢 **섹션 요약 비유**
 > Cassandra의 QUORUM [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)는 "3명의 증인 중 2명이 서명하면 계약 성립"과 같다. 1명이 자리를 비워도 나머지 2명으로 계약을 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)할 수 있고, 읽을 때도 2명에게 물어 최신 서명을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하면 충분히 신뢰할 수 있다.
@@ -149,22 +146,19 @@ LIMIT 1000;
 
 ### [Cassandra](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/) [Anti-Patterns](/knowledge-base/studynote/11_design_supervision/06_exam_summary/403_architecture/) (피해야 할 패턴)
 
+```text
+❌ 1. ALLOW FILTERING 사용
+   → 파티션 키 없는 전체 스캔 → 클러스터 전체 부하
 
+❌ 2. 매우 큰 파티션 (>100MB)
+   → 읽기 타임아웃, GC 압박, 핫 노드
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">❌ 1. ALLOW FILTERING 사용</div>
-<div class="kb-diagram-note">→ 파티션 키 없는 전체 스캔 → 클러스터 전체 부하</div>
-<div class="kb-diagram-note">❌ 2. 매우 큰 파티션 (&gt;100MB)</div>
-<div class="kb-diagram-note">→ 읽기 타임아웃, GC 압박, 핫 노드</div>
-<div class="kb-diagram-note">❌ 3. 무한 증가 컬렉션 (Set/List/Map)</div>
-<div class="kb-diagram-note">→ 단일 파티션에 수백만 아이템 → 대형 파티션과 동일 문제</div>
-<div class="kb-diagram-note">❌ 4. 높은 삭제 비율 + 낮은 TTL</div>
-<div class="kb-diagram-note">→ Tombstone 폭발 → 읽기 성능 급락</div>
-</div>
-</div>
+❌ 3. 무한 증가 컬렉션 (Set/List/Map)
+   → 단일 파티션에 수백만 아이템 → 대형 파티션과 동일 문제
 
-
+❌ 4. 높은 삭제 비율 + 낮은 TTL
+   → Tombstone 폭발 → 읽기 성능 급락
+```
 
 📢 **섹션 요약 비유**
 > Cassandra와 HBase의 차이는 자율 관리 아파트 단지([Cassandra](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/))와 관리사무소가 있는 아파트([HBase](/knowledge-base/studynote/05_database/04_transactions_concurrency/543_hbase/))의 차이다. 자율 관리는 관리사무소가 없어도 주민들이 자체적으로 운영하지만, 관리사무소가 있으면 더 강력한 규칙(강한 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)) 적용이 가능하다.
@@ -175,23 +169,19 @@ LIMIT 1000;
 
 ### [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 센터 인식 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
+```text
+NetworkTopologyStrategy 사용 (멀티 DC):
 
+CREATE KEYSPACE myapp
+WITH replication = {
+  'class': 'NetworkTopologyStrategy',
+  'dc_seoul': 3,    -- 서울 DC에 3개 복제본
+  'dc_busan': 2     -- 부산 DR에 2개 복제본
+};
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">NetworkTopologyStrategy 사용 (멀티 DC):</div>
-<div class="kb-diagram-note">CREATE KEYSPACE myapp</div>
-<div class="kb-diagram-note">WITH replication = {</div>
-<div class="kb-diagram-note">'class': 'NetworkTopologyStrategy',</div>
-<div class="kb-diagram-note">'dc_seoul': 3, -- 서울 DC에 3개 복제본</div>
-<div class="kb-diagram-note">'dc_busan': 2 -- 부산 DR에 2개 복제본</div>
-<div class="kb-diagram-note">};</div>
-<div class="kb-diagram-note">LOCAL_QUORUM: 서울 DC 내에서만 QUORUM → 네트워크 지연 최소화</div>
-<div class="kb-diagram-note">EACH_QUORUM: 모든 DC에서 QUORUM → 최고 일관성 (느림)</div>
-</div>
-</div>
-
-
+LOCAL_QUORUM: 서울 DC 내에서만 QUORUM → 네트워크 지연 최소화
+EACH_QUORUM: 모든 DC에서 QUORUM → 최고 일관성 (느림)
+```
 
 ### 운영 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -241,25 +231,24 @@ Cassandra는 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_en
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">관계형 DB (RDBMS) — 스키마 고정, 수직 확장 한계</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NoSQL — 유연한 스키마, 수평 확장 지향</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Cassandra — 분산 와이드 컬럼 스토어, 고가용성 설계</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Consistent Hashing — 노드 추가 시 최소 리밸런싱 데이터 분산</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">쓰기 최적화 (Write-Optimized) — LSM 트리 기반 고처리량 쓰기</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">멀티 마스터 복제 (Multi-Master) — 전역 분산 액티브-액티브 구성</div></div>
-</div>
-</div>
-
-
+```text
+[관계형 DB (RDBMS) — 스키마 고정, 수직 확장 한계]
+    │
+    ▼
+[NoSQL — 유연한 스키마, 수평 확장 지향]
+    │
+    ▼
+[Cassandra — 분산 와이드 컬럼 스토어, 고가용성 설계]
+    │
+    ▼
+[Consistent Hashing — 노드 추가 시 최소 리밸런싱 데이터 분산]
+    │
+    ▼
+[쓰기 최적화 (Write-Optimized) — LSM 트리 기반 고처리량 쓰기]
+    │
+    ▼
+[멀티 마스터 복제 (Multi-Master) — 전역 분산 액티브-액티브 구성]
+```
 Cassandra는 단일 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터 RDBMS의 확장 한계를 극복하기 위해 설계된 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 와이드 컬럼 스토어로, [멀티 마스터 복제](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/272_multi_master_replication/)와 LSM 트리로 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 실현한다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

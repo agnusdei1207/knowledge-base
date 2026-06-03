@@ -18,23 +18,19 @@ tags = ["studynote-it-management"]
 
 ## I. [ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_itil/) [변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/) 체계에서의 [ECAB](/knowledge-base/studynote/12_it_management/02_itsm_itil/081_feature_engineering/) 위치
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">변경 관리 체계</div>
-<div class="kb-diagram-note">+-- 표준 변경 (Standard Change)</div>
-<div class="kb-diagram-note">사전 승인, 낮은 위험, 절차 자동화</div>
-<div class="kb-diagram-note">+-- 일반 변경 (Normal Change)</div>
-<div class="kb-diagram-note">CAB 심의 -&gt; 변경 관리자 승인</div>
-<div class="kb-diagram-note">(긴급 아님, 일정 계획 가능)</div>
-<div class="kb-diagram-note">+-- 긴급 변경 (Emergency Change)</div>
-<div class="kb-diagram-note">ECAB 소집 -&gt; 빠른 승인 -&gt; 즉시 구현</div>
-<div class="kb-diagram-note">사후: PIR (Post-Implementation Review)</div>
-</div>
-</div>
-
-
+```
+변경 관리 체계
++-- 표준 변경 (Standard Change)
+|   사전 승인, 낮은 위험, 절차 자동화
+|
++-- 일반 변경 (Normal Change)
+|   CAB 심의 -> 변경 관리자 승인
+|   (긴급 아님, 일정 계획 가능)
+|
++-- 긴급 변경 (Emergency Change)
+    ECAB 소집 -> 빠른 승인 -> 즉시 구현
+    사후: PIR (Post-Implementation Review)
+```
 
 | 변경 유형    | 승인 주체    | 소요 시간  | 문서화   |
 |------------|------------|----------|---------|
@@ -104,20 +100,15 @@ PIR (Post-Implementation Review)
 
 ## [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). 긴급 변경 vs 무단 변경 구분
 
+```
+긴급 변경 (Legitimate):
+  ECAB 승인 -> 구현 -> PIR -> CMDB 등록
+  위험을 알고 제어된 상태에서 빠른 실행
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">긴급 변경 (Legitimate):</div>
-<div class="kb-diagram-note">ECAB 승인 -&gt; 구현 -&gt; PIR -&gt; CMDB 등록</div>
-<div class="kb-diagram-note">위험을 알고 제어된 상태에서 빠른 실행</div>
-<div class="kb-diagram-note">무단 변경 (Unauthorized Change):</div>
-<div class="kb-diagram-note">승인 없이 구현 -&gt; 감지 시 감사 추적</div>
-<div class="kb-diagram-note">인시던트의 주요 원인 (ITIL 통계: ~80%)</div>
-</div>
-</div>
-
-
+무단 변경 (Unauthorized Change):
+  승인 없이 구현 -> 감지 시 감사 추적
+  인시던트의 주요 원인 (ITIL 통계: ~80%)
+```
 
 | 구분       | 긴급 변경               | 무단 변경          |
 |-----------|-------------------------|--------------------|
@@ -148,29 +139,23 @@ PIR (Post-Implementation Review)
 
 ## 📌 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">ECAB (Emergency Change Advisory Board)</div>
-<div class="kb-diagram-note">+-- 상위 체계: ITIL 변경 관리</div>
-<div class="kb-diagram-note">+-- CAB (정기 변경 심의)</div>
-<div class="kb-diagram-note">+-- ECAB (긴급 변경 심의)</div>
-<div class="kb-diagram-note">+-- 프로세스</div>
-<div class="kb-diagram-note">+-- RFC -&gt; ECAB 승인 -&gt; 구현 -&gt; PIR</div>
-<div class="kb-diagram-note">+-- 관련 개념</div>
-<div class="kb-diagram-note">+-- PIR (Post-Implementation Review)</div>
-<div class="kb-diagram-note">+-- CMDB (구성 관리 DB)</div>
-<div class="kb-diagram-note">+-- RFC (Request For Change)</div>
-<div class="kb-diagram-note">+-- Rollback Plan</div>
-<div class="kb-diagram-note">+-- 목적</div>
-<div class="kb-diagram-note">+-- 속도 vs 통제 균형</div>
-<div class="kb-diagram-note">+-- 무단 변경 방지</div>
-<div class="kb-diagram-note">+-- 감사 추적 보장</div>
-</div>
-</div>
-
-
+```
+ECAB (Emergency Change Advisory Board)
++-- 상위 체계: ITIL 변경 관리
+|   +-- CAB (정기 변경 심의)
+|   +-- ECAB (긴급 변경 심의)
++-- 프로세스
+|   +-- RFC -> ECAB 승인 -> 구현 -> PIR
++-- 관련 개념
+|   +-- PIR (Post-Implementation Review)
+|   +-- CMDB (구성 관리 DB)
+|   +-- RFC (Request For Change)
+|   +-- Rollback Plan
++-- 목적
+    +-- 속도 vs 통제 균형
+    +-- 무단 변경 방지
+    +-- 감사 추적 보장
+```
 
 ---
 

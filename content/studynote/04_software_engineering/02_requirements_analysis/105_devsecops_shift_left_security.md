@@ -29,23 +29,25 @@ tags = ["software_engineering"]
 
 [Shift-Left](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/) Security는 사람의 수동 점검 대신, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인의 각 단계마다(왼쪽부터 차례대로) 보안 스캐닝 봇을 내재화(Built-in)하여 작동한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DevSecOps 파이프라인의 Shift-Left 보안 통합 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Left: 개발 초기</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Right: 배포</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Plan ▶ Code ▶ Build ▶ Test ▶ Deploy ▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(위협 모델링) (IDE 플러그인) (SCA/SAST) (DAST/IAST) (CSPM)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">보안</div><div class="kb-diagram-node">보안</div><div class="kb-diagram-node">보안</div><div class="kb-diagram-node">보안</div><div class="kb-diagram-node">보안</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기획 시 코딩 중 빌드 시 테스트 시 운영 시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보안 리뷰 빨간줄 경고 오픈소스/코드 취약점 런타임 공격 모니터링</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자동 스캔 시뮬레이션</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 취약점이 오른쪽(Deploy)으로 흘러가기 전에 왼쪽에서 차단</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│          DevSecOps 파이프라인의 Shift-Left 보안 통합 구조    │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│ [Left: 개발 초기] ◀─────────────────────────▶ [Right: 배포]  │
+│                                                              │
+│   Plan ────▶ Code ────▶ Build ────▶ Test ────▶ Deploy ────▶│
+│                                                              │
+│  (위협 모델링) (IDE 플러그인)  (SCA/SAST)   (DAST/IAST) (CSPM)│
+│    │          │           │           │           │          │
+│  [보안] ─── [보안] ──── [보안] ──── [보안] ──── [보안]      │
+│  기획 시      코딩 중       빌드 시       테스트 시     운영 시      │
+│  보안 리뷰    빨간줄 경고   오픈소스/코드 취약점 런타임 공격 모니터링     │
+│                             자동 스캔     시뮬레이션                │
+│                                                              │
+│ * 핵심: 취약점이 오른쪽(Deploy)으로 흘러가기 전에 왼쪽에서 차단 │
+└──────────────────────────────────────────────────────────────┘
+```
 
 1. **IDE 내장 검사**: 개발자가 코드를 작성하는 즉시 하드코딩된 패스워드나 민감 정보를 감지하여 에디터 내 플러그인이 보안 위반을 경고한다.
 2. <strong><a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/">SAST</a> (Static Application <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a> Testing)</strong>: 코드를 깃허브 등에 Commit/Push 하는 순간, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 서버가 깨어나 소스 코드의 문맥을 정적으로 분석하여 SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/), [XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/) 등의 로직 결함을 1분 만에 찾아낸다.
@@ -106,23 +108,21 @@ DevSecOps와 [Shift-Left](/knowledge-base/studynote/15_devops_sre/05_devsecops/2
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Siloed Security (폭포수 모델, 개발 완료 후 수동 보안 점검 ──▶ 병목 발생)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DevOps (개발과 운영의 자동화 융합, 여전히 보안은 릴리스 직전에 방치됨)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Shift-Left Security (보안 점검을 기획 및 코딩 등 파이프라인 좌측으로 이동)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DevSecOps (CI/CD 전 구간에 걸친 SAST/DAST/SCA 자동화 봇 내재화)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Cloud Native Security (컨테이너 이미지, IaC 설정까지 모두 좌측에서 스캔)</div>
-</div>
-</div>
-
-
+```text
+Siloed Security (폭포수 모델, 개발 완료 후 수동 보안 점검 ──▶ 병목 발생)
+    │
+    ▼
+DevOps (개발과 운영의 자동화 융합, 여전히 보안은 릴리스 직전에 방치됨)
+    │
+    ▼
+Shift-Left Security (보안 점검을 기획 및 코딩 등 파이프라인 좌측으로 이동)
+    │
+    ▼
+DevSecOps (CI/CD 전 구간에 걸친 SAST/DAST/SCA 자동화 봇 내재화)
+    │
+    ▼
+Cloud Native Security (컨테이너 이미지, IaC 설정까지 모두 좌측에서 스캔)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

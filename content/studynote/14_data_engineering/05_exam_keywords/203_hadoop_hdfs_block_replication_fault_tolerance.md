@@ -32,19 +32,15 @@ tags = ["studynote-data-engineering"]
 
 HDFS는 "고가 하드웨어를 믿지 말라"는 철학에서 출발한다. 수천 대의 범용(Commodity) 서버를 묶어, 어느 서버가 장애를 일으켜도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 손실되지 않도록 설계되었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">HDFS 설계 원칙</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원칙 1: 하드웨어 장애는 예외가 아니라 정상 상황이다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원칙 2: 대용량 파일 순차 접근에 최적화 (스트리밍 읽기)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원칙 3: Write-Once-Read-Many (쓰기 1회, 읽기 다수)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원칙 4: 범용 하드웨어로 구성 (저비용 Scale-Out)</div></div>
-</div>
-</div>
-
-
+```
+HDFS 설계 원칙
+┌────────────────────────────────────────────────────────┐
+│  원칙 1: 하드웨어 장애는 예외가 아니라 정상 상황이다    │
+│  원칙 2: 대용량 파일 순차 접근에 최적화 (스트리밍 읽기) │
+│  원칙 3: Write-Once-Read-Many (쓰기 1회, 읽기 다수)     │
+│  원칙 4: 범용 하드웨어로 구성 (저비용 Scale-Out)        │
+└────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: HDFS는 "클라우드 이전 시대의 구글 드라이브"다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 하나를 3군데 복사해서 저장하기 때문에, 내 컴퓨터가 고장나도 다른 컴퓨터에서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 찾을 수 있다.
 
@@ -56,30 +52,36 @@ HDFS는 "고가 하드웨어를 믿지 말라"는 철학에서 출발한다. 수
 
 HDFS는 마스터-슬레이브(Master-Slave) 아키텍처를 따른다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">HDFS 전체 아키텍처</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라이언트</div></div>
-<div class="kb-diagram-note">① 파일 위치 요청</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NameNode (1대)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 파일 시스템 네임스페이스 (트리 구조)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 파일 ↔ 블록 매핑 (메모리 내 유지)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 블록 ↔ DataNode 위치 매핑 (FsImage + EditLog)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② 블록 위치 응답</div><div class="kb-diagram-cell">하트비트/블록 리포트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Secondary NameNode</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(체크포인팅 전용)</div></div>
-<div class="kb-diagram-note">▼ ③ 직접 데이터 접근</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DataNode 클러스터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DataNode1</div><div class="kb-diagram-cell">DataNode2</div><div class="kb-diagram-cell">DataNode3</div><div class="kb-diagram-cell">DataNode4</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Blk A1</div><div class="kb-diagram-cell">Blk A2</div><div class="kb-diagram-cell">Blk A3</div><div class="kb-diagram-cell">Blk B1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Blk C1</div><div class="kb-diagram-cell">Blk B2</div><div class="kb-diagram-cell">Blk C2</div><div class="kb-diagram-cell">Blk B3</div></div>
-</div>
-</div>
-
-
+```
+HDFS 전체 아키텍처
+┌────────────────────────────────────────────────────────────┐
+│                         클라이언트                          │
+└───────────────────────────┬────────────────────────────────┘
+                            │ ① 파일 위치 요청
+                            ▼
+┌──────────────────────────────────────────────────────────┐
+│                      NameNode (1대)                       │
+│  - 파일 시스템 네임스페이스 (트리 구조)                    │
+│  - 파일 ↔ 블록 매핑 (메모리 내 유지)                      │
+│  - 블록 ↔ DataNode 위치 매핑 (FsImage + EditLog)          │
+└───────┬──────────────────────┬───────────────────────────┘
+        │ ② 블록 위치 응답     │ 하트비트/블록 리포트
+        │                      ▼
+        │          ┌─────────────────────┐
+        │          │ Secondary NameNode  │
+        │          │ (체크포인팅 전용)    │
+        │          └─────────────────────┘
+        │
+        ▼ ③ 직접 데이터 접근
+┌───────────────────────────────────────────────────────────┐
+│                     DataNode 클러스터                      │
+│  ┌─────────┐   ┌─────────┐   ┌─────────┐   ┌─────────┐  │
+│  │DataNode1│   │DataNode2│   │DataNode3│   │DataNode4│  │
+│  │ Blk A1  │   │ Blk A2  │   │ Blk A3  │   │ Blk B1  │  │
+│  │ Blk C1  │   │ Blk B2  │   │ Blk C2  │   │ Blk B3  │  │
+│  └─────────┘   └─────────┘   └─────────┘   └─────────┘  │
+└───────────────────────────────────────────────────────────┘
+```
 
 | [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) | 역할 | 핵심 특성 |
 |:---|:---|:---|
@@ -92,20 +94,19 @@ HDFS는 마스터-슬레이브(Master-Slave) 아키텍처를 따른다.
 
 HDFS는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 **128MB** (기본값) 블록으로 분할하여 저장한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">파일 → 블록 분할 예시</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파일: movie.mp4 (384MB)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블록 A</div><div class="kb-diagram-cell">블록 B</div><div class="kb-diagram-cell">블록 C</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">128MB</div><div class="kb-diagram-cell">128MB</div><div class="kb-diagram-cell">128MB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">복제 ×3</div><div class="kb-diagram-cell">복제 ×3</div><div class="kb-diagram-cell">복제 ×3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DN1,DN2,DN3 DN2,DN3,DN4 DN1,DN3,DN4</div></div>
-</div>
-</div>
-
-
+```
+파일 → 블록 분할 예시
+┌─────────────────────────────────────────────────────────┐
+│  파일: movie.mp4 (384MB)                                 │
+│                                                         │
+│  ┌──────────────┐ ┌──────────────┐ ┌──────────────┐     │
+│  │  블록 A       │ │  블록 B       │ │  블록 C       │     │
+│  │  128MB        │ │  128MB        │ │  128MB        │     │
+│  └──────┬───────┘ └──────┬───────┘ └──────┬───────┘     │
+│         │ 복제 ×3        │ 복제 ×3        │ 복제 ×3      │
+│  DN1,DN2,DN3       DN2,DN3,DN4       DN1,DN3,DN4        │
+└─────────────────────────────────────────────────────────┘
+```
 
 | 블록 크기 | 이유 | 트레이드오프 |
 |:---|:---|:---|
@@ -117,21 +118,20 @@ HDFS는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/50
 
 HDFS의 기본 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 계수([Replication Factor](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/))는 3이며, [랙 인지](/knowledge-base/studynote/14_data_engineering/01_infrastructure/017_rack_awareness/)([Rack Awareness](/knowledge-base/studynote/14_data_engineering/01_infrastructure/017_rack_awareness/)) 정책으로 배치한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">랙 인지 복제 배치 정책</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터센터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Rack 1 Rack 2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DataNode1 ←── 복제본 1 (첫번째)</div><div class="kb-diagram-cell">DataNode3 ←── 복제본 3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DataNode2 ←── 복제본 2 (같은 랙)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정책: 2개는 같은 랙, 1개는 다른 랙</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 랙 내 스위치 장애 시에도 다른 랙 복제본으로 서비스 가능</div></div>
-</div>
-</div>
-
-
+```
+랙 인지 복제 배치 정책
+┌─────────────────────────────────────────────────────────────┐
+│  데이터센터                                                   │
+│                                                             │
+│  ┌──────────── Rack 1 ────────────┐  ┌─── Rack 2 ────────┐  │
+│  │  DataNode1 ←── 복제본 1 (첫번째)│  │  DataNode3 ←── 복제본 3│  │
+│  │  DataNode2 ←── 복제본 2 (같은 랙)│  │                   │  │
+│  └─────────────────────────────────┘  └───────────────────┘  │
+│                                                             │
+│  정책: 2개는 같은 랙, 1개는 다른 랙                          │
+│  → 랙 내 스위치 장애 시에도 다른 랙 복제본으로 서비스 가능    │
+└─────────────────────────────────────────────────────────────┘
+```
 
 | [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 배치 | 이유 |
 |:---|:---|
@@ -158,20 +158,17 @@ HDFS의 기본 [복제](/knowledge-base/studynote/14_data_engineering/01_infrast
 
 MapReduce는 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 컴퓨팅으로 이동"시키는 대신 "컴퓨팅을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 이동"시키는 [데이터 지역성](/knowledge-base/studynote/14_data_engineering/01_infrastructure/019_data_locality/) 원칙을 따른다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">데이터 지역성 원칙</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전통 방식 (데이터 → 컴퓨팅):</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">DataNode ──</div><div class="kb-diagram-node">네트워크</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">중앙 처리 서버 (병목 발생)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MapReduce 방식 (컴퓨팅 → 데이터):</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">DataNode ──</div><div class="kb-diagram-node">로컬 실행</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Map Task 직접 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">네트워크 전송 없음 → 처리 속도 대폭 향상</div></div>
-</div>
-</div>
-
-
+```
+데이터 지역성 원칙
+┌─────────────────────────────────────────────────────────┐
+│  전통 방식 (데이터 → 컴퓨팅):                            │
+│  DataNode ──[네트워크]──▶ 중앙 처리 서버 (병목 발생)     │
+│                                                         │
+│  MapReduce 방식 (컴퓨팅 → 데이터):                       │
+│  DataNode ──[로컬 실행]──▶ Map Task 직접 실행            │
+│  네트워크 전송 없음 → 처리 속도 대폭 향상                 │
+└─────────────────────────────────────────────────────────┘
+```
 
 | 지역성 레벨 | 설명 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) |
 |:---|:---|:---|
@@ -207,23 +204,20 @@ MapReduce는 "[데이터](/knowledge-base/studynote/05_database/01_db_architectu
 
 HDFS의 가장 큰 실무 문제 중 하나는 수백만 개의 소규모 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이다. 각 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)마다 최소 1개의 블록 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)가 [NameNode](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/) 메모리를 차지하기 때문이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소규모 파일 문제</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1KB 파일 1,000만 개 저장 시:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ NameNode 메모리: 약 150 bytes × 10,000,000 = 1.5GB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 실제 데이터: 10GB (전체의 6.7%)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ NameNode 메모리가 데이터보다 더 빨리 소진됨!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해결책:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- HAR (Hadoop Archive): 소규모 파일 묶음 저장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- SequenceFile: 키-값 쌍으로 소규모 파일 병합</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- S3 + Parquet: 소규모 파일을 컬럼형으로 병합 저장</div></div>
-</div>
-</div>
-
-
+```
+소규모 파일 문제
+┌─────────────────────────────────────────────────────────┐
+│  1KB 파일 1,000만 개 저장 시:                            │
+│  → NameNode 메모리: 약 150 bytes × 10,000,000 = 1.5GB   │
+│  → 실제 데이터: 10GB (전체의 6.7%)                       │
+│  → NameNode 메모리가 데이터보다 더 빨리 소진됨!           │
+│                                                         │
+│  해결책:                                                 │
+│  - HAR (Hadoop Archive): 소규모 파일 묶음 저장           │
+│  - SequenceFile: 키-값 쌍으로 소규모 파일 병합           │
+│  - S3 + Parquet: 소규모 파일을 컬럼형으로 병합 저장      │
+└─────────────────────────────────────────────────────────┘
+```
 
 ### 기술사 논술 핵심 포인트
 
@@ -280,24 +274,21 @@ HDFS는 빅데이터 [분산](/knowledge-base/studynote/08_algorithm_stats/08_st
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단일 디스크 저장 → 용량 · 내구성 한계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">HDFS (Hadoop Distributed File System)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">블록 분할 (128MB) + 3중 복제 (Replication Factor)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">NameNode: 메타데이터 관리 (파일→블록 맵)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">DataNode: 실제 블록 저장</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Hadoop 2.x: HA NameNode · Federation</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 오브젝트 스토리지: S3 · GCS (HDFS 대체)</div>
-</div>
-</div>
-
-
+```text
+단일 디스크 저장 → 용량 · 내구성 한계
+    │
+    ▼
+HDFS (Hadoop Distributed File System)
+    ├─► 블록 분할 (128MB) + 3중 복제 (Replication Factor)
+    ├─► NameNode: 메타데이터 관리 (파일→블록 맵)
+    └─► DataNode: 실제 블록 저장
+    │
+    ▼
+Hadoop 2.x: HA NameNode · Federation
+    │
+    ▼
+클라우드 오브젝트 스토리지: S3 · GCS (HDFS 대체)
+```
 2. 블록마다 3개씩 복사본을 만들어두기 때문에, 컴퓨터 한 대가 고장나도 다른 곳에서 레고 조각을 꺼낼 수 있어요.
 3. NameNode는 "어떤 컴퓨터에 어떤 레고 조각이 있는지 기억하는 목록 책"이고, DataNode는 "실제로 레고를 보관하는 창고"예요.
 

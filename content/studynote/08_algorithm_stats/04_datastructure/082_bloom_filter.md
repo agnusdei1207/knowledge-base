@@ -18,22 +18,22 @@ tags = ["studynote-algorithm-stats"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블룸 필터 동작 원리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">삽입: hash1("apple")=3, hash2("apple")=7, hash3("apple")=11</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">비트 배열:</div><div class="kb-diagram-node">0,0,0,1,0,0,0,1,0,0,0,1,0,0,0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조회: hash1("apple")=3 → 비트1? ✅</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">hash2("apple")=7 → 비트1? ✅</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">hash3("apple")=11 → 비트1? ✅ → "있을 수 있음"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">False Positive: "banana"의 해시가 우연히 모두 1 → 오탐</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">False Negative: 절대 불가 (삽입된 원소 = 모든 비트 1)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────┐
+│               블룸 필터 동작 원리                        │
+├─────────────────────────────────────────────────────────┤
+│                                                          │
+│  삽입: hash1("apple")=3, hash2("apple")=7, hash3("apple")=11│
+│  비트 배열: [0,0,0,1,0,0,0,1,0,0,0,1,0,0,0]             │
+│                                                          │
+│  조회: hash1("apple")=3 → 비트1? ✅                      │
+│        hash2("apple")=7 → 비트1? ✅                      │
+│        hash3("apple")=11 → 비트1? ✅  → "있을 수 있음"  │
+│                                                          │
+│  False Positive: "banana"의 해시가 우연히 모두 1 → 오탐  │
+│  False Negative: 절대 불가 (삽입된 원소 = 모든 비트 1)   │
+└─────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [블룸 필터](/knowledge-base/studynote/12_it_management/02_itsm_itil/061_bloomfilter/)는 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 스탬프 시스템이다. 도서관 카드에 책 대출 이력을 여러 개의 작은 스탬프로 표시한다. 스탬프가 모두 찍혀 있으면 빌렸을 수도 있고(False Positive 가능), 하나라도 없으면 절대 빌리지 않은 것이다(False Negative 없음).
 
@@ -52,17 +52,11 @@ tags = ["studynote-algorithm-stats"]
 
 ### 변형 자료구조
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Counting Bloom Filter: 비트 → 카운터 → 삭제 가능</div>
-<div class="kb-diagram-note">Scalable Bloom Filter: 자동 확장, 고정 FPR 유지</div>
-<div class="kb-diagram-note">Cuckoo Filter: 삭제 지원 + FPR ≈ Bloom</div>
-</div>
-</div>
-
-
+```text
+Counting Bloom Filter:  비트 → 카운터 → 삭제 가능
+Scalable Bloom Filter:  자동 확장, 고정 FPR 유지
+Cuckoo Filter:          삭제 지원 + FPR ≈ Bloom
+```
 
 - **📢 섹션 요약 비유**: [블룸 필터](/knowledge-base/studynote/12_it_management/02_itsm_itil/061_bloomfilter/) 파라미터는 체(Sieve)의 구멍 크기다. 구멍이 작을수록(m↑) 불순물이 잘 걸러지지만 체가 커진다. 구멍 수가 많을수록(k↑) 더 정확하지만 처리 시간이 늘어난다.
 
@@ -85,19 +79,13 @@ tags = ["studynote-algorithm-stats"]
 
 ### 실제 사용 사례
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Chrome Safe Browsing → 악성 URL 블룸 필터 (로컬 조회 후 서버 확인)</div>
-<div class="kb-diagram-note">Cassandra/HBase → SSTable 조회 전 블룸 필터로 불필요 디스크 I/O 제거</div>
-<div class="kb-diagram-note">Redis → RedisBloom 모듈, 캐시 미스 방지</div>
-<div class="kb-diagram-note">Akamai CDN → 원타임 URL 캐싱 여부 판단</div>
-<div class="kb-diagram-note">비트코인 → 경량 클라이언트 트랜잭션 필터링</div>
-</div>
-</div>
-
-
+```text
+Chrome Safe Browsing   → 악성 URL 블룸 필터 (로컬 조회 후 서버 확인)
+Cassandra/HBase        → SSTable 조회 전 블룸 필터로 불필요 디스크 I/O 제거
+Redis                  → RedisBloom 모듈, 캐시 미스 방지
+Akamai CDN             → 원타임 URL 캐싱 여부 판단
+비트코인               → 경량 클라이언트 트랜잭션 필터링
+```
 
 - **📢 섹션 요약 비유**: [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [블룸 필터](/knowledge-base/studynote/12_it_management/02_itsm_itil/061_bloomfilter/)는 사서의 기억이다. "이 책 있어요?"라고 물을 때 사서가 빠르게 "없어요"라고 하면 서가를 뒤질 필요가 없다. "있을 수도 있어요"라고 하면 그때 서가를 뒤진다.
 
@@ -129,23 +117,21 @@ tags = ["studynote-algorithm-stats"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">기본 블룸 필터 — 비트 배열 + k개 해시 함수</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Counting Bloom Filter — 삭제 지원</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Scalable Bloom Filter — 자동 확장</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Cuckoo Filter — 삭제 + 공간 효율 개선</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">XOR Filter / Ribbon Filter — 차세대 초고효율 멤버십 필터</div></div>
-</div>
-</div>
-
-
+```text
+[기본 블룸 필터 — 비트 배열 + k개 해시 함수]
+    │
+    ▼
+[Counting Bloom Filter — 삭제 지원]
+    │
+    ▼
+[Scalable Bloom Filter — 자동 확장]
+    │
+    ▼
+[Cuckoo Filter — 삭제 + 공간 효율 개선]
+    │
+    ▼
+[XOR Filter / Ribbon Filter — 차세대 초고효율 멤버십 필터]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

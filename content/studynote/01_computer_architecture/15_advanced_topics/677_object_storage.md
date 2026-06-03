@@ -39,20 +39,22 @@ tags = ["studynote-computer-architecture"]
 | 게이트웨이 | 읽기·[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 요청을 수신 | [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 검사, 요청 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 수행 |
 | 저장 노드 | 실제 객체 본문 저장 | [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/), [삭제 코딩](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/681_erasure_coding/), 지역 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)으로 내구성 확보 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ read / write / delete over HTTP</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">API Gateway -&gt; Auth / Policy -&gt; Metadata / Object ID</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Placement decision</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Storage Node A Storage Node B Storage Node C</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">replica / shard replica / shard replica / shard</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────┐
+│ Client                                                                  │
+│   │                                                                      │
+│   ├─ read / write / delete over HTTP                                     │
+│   ▼                                                                      │
+│ API Gateway -> Auth / Policy -> Metadata / Object ID                     │
+│                                     │                                    │
+│                                     └─ Placement decision                │
+│                                              │                           │
+│                        ┌─────────────────────┼─────────────────────┐     │
+│                        ▼                     ▼                     ▼     │
+│                  Storage Node A        Storage Node B        Storage Node C│
+│                  replica / shard       replica / shard       replica / shard│
+└──────────────────────────────────────────────────────────────────────────┘
+```
 
 중요한 점은 [오브젝트 스토리지](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/494_object_storage/)가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템처럼 “[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 중간 4킬로바이트만 덮어쓰기”를 기본 전제로 삼지 않는다는 것이다. 객체를 수정할 때는 새 객체 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 만들거나 전체 객체를 다시 써야 하는 경우가 많다. 대신 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리, 지역 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/), 보존 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 수명주기 이동 같은 운영 기능을 매우 크게 확장할 수 있어 클라우드 규모에서 강점을 보인다.
 
@@ -135,23 +137,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">블록 / 파일 중심 저장</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">경로 기반 네임스페이스의 확장 한계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">객체 ID + 메타데이터 기반 저장</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Amazon S3 (Simple Storage Service)형 클라우드 오브젝트 스토리지</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">백업 / 데이터 레이크 / 글로벌 콘텐츠 저장의 기본 계층</div>
-</div>
-</div>
-
-
+```text
+블록 / 파일 중심 저장
+        │
+        ▼
+경로 기반 네임스페이스의 확장 한계
+        │
+        ▼
+객체 ID + 메타데이터 기반 저장
+        │
+        ▼
+Amazon S3 (Simple Storage Service)형 클라우드 오브젝트 스토리지
+        │
+        ▼
+백업 / 데이터 레이크 / 글로벌 콘텐츠 저장의 기본 계층
+```
 
 이 흐름은 저장장치의 관심사가 “어디에 놓였는가”에서 “어떤 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 의미를 가진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)인가”로 이동해 왔음을 보여준다.
 

@@ -30,20 +30,20 @@ tags = ["studynote-computer-architecture"]
 
 다이오드의 핵심은 P형(정공 다수)과 N형(전자 다수) [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/)의 경계에 생기는 텅 빈 절연 구역, 즉 <strong>공핍층 (Depletion Region)</strong>이다. 순방향 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 가하면 장벽이 허물어져 전류가 흐르고, 역방향 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 가하면 공핍층이 두꺼워져 절연 상태가 된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">교류를 직류로 바꾸는 브리지 정류 (Bridge Rectification)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">입력파형: 교류 AC</div><div class="kb-diagram-node">출력파형: 맥동 직류 DC</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ \ ──▶ 다이오드 4개 ──▶ / \ / \</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ \ 브리지 통과 ──/ \/ \──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 교차 결합된 다이오드가 마이너스 주기(-)의 전류를 위로 꺾어올려</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모두 같은 방향(+)으로만 흐르게 강제 통제한다.</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           교류를 직류로 바꾸는 브리지 정류 (Bridge Rectification)│
+├──────────────────────────────────────────────────────────────┤
+│  [입력파형: 교류 AC]                 [출력파형: 맥동 직류 DC]     │
+│       /\                                 /\    /\            │
+│      /  \        ──▶ 다이오드 4개 ──▶     /  \  /  \           │
+│  ───/────\───          브리지 통과      ──/────\/────\──       │
+│           \  /                                               │
+│            \/                                                │
+│ * 교차 결합된 다이오드가 마이너스 주기(-)의 전류를 위로 꺾어올려  │
+│   모두 같은 방향(+)으로만 흐르게 강제 통제한다.                  │
+└──────────────────────────────────────────────────────────────┘
+```
 
 순방향으로 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 인가하더라도 약 0.7V의 <strong>문턱 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/">전압</a> (Threshold <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/">Voltage</a>, Vf)</strong>을 넘겨야 전류가 흐른다. 역방향으로 너무 강한 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 걸면 항복(Breakdown) 현상이 일어나 다이오드가 타버리지만, 이를 역이용해 칩셋을 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하는 기술도 있다.
 
@@ -103,23 +103,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">PN 접합 (PN Junction) — 불순물 도핑으로 정류 특성 생성</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">정류 다이오드 (Rectifier Diode) — AC → DC 변환</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">제너 다이오드 (Zener Diode) — 역방향 항복으로 정전압 보호</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">쇼트키 다이오드 (Schottky Diode) — 낮은 Vf·빠른 스위칭으로 고주파 응용</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SiC / GaN 화합물 다이오드 — 고전압·고온 전기차 인버터 환경 대응</div></div>
-</div>
-</div>
-
-
+```text
+[PN 접합 (PN Junction) — 불순물 도핑으로 정류 특성 생성]
+    │
+    ▼
+[정류 다이오드 (Rectifier Diode) — AC → DC 변환]
+    │
+    ▼
+[제너 다이오드 (Zener Diode) — 역방향 항복으로 정전압 보호]
+    │
+    ▼
+[쇼트키 다이오드 (Schottky Diode) — 낮은 Vf·빠른 스위칭으로 고주파 응용]
+    │
+    ▼
+[SiC / GaN 화합물 다이오드 — 고전압·고온 전기차 인버터 환경 대응]
+```
 
 이 흐름은 단순 정류 소자에서 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)·고속·고내압 전용 소자로 분화하는 다이오드 진화 계보를 나타낸다.
 

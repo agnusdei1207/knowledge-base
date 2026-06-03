@@ -33,20 +33,15 @@ tags = ["studynote-data-engineering"]
 
 Flink는 배치(Batch)를 유한한 스트림(Bounded [Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/)), 실시간을 무한한 스트림(Unbounded [Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/))으로 통일하여 하나의 엔진으로 처리한다.
 
+```
+무한 스트림 (Unbounded Stream):
+  Kafka ──► [Flink] ──► 실시간 대시보드
+  이벤트가 끊임없이 흘러옴
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">무한 스트림 (Unbounded Stream):</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Kafka ──►</div><div class="kb-diagram-node">Flink</div><div class="kb-diagram-note">──► 실시간 대시보드</div></div>
-<div class="kb-diagram-note">이벤트가 끊임없이 흘러옴</div>
-<div class="kb-diagram-note">유한 스트림 (Bounded Stream = 배치):</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">HDFS 파일 ──►</div><div class="kb-diagram-node">Flink</div><div class="kb-diagram-note">──► 배치 집계 결과</div></div>
-<div class="kb-diagram-note">데이터가 시작과 끝이 있음</div>
-</div>
-</div>
-
-
+유한 스트림 (Bounded Stream = 배치):
+  HDFS 파일 ──► [Flink] ──► 배치 집계 결과
+  데이터가 시작과 끝이 있음
+```
 
 📢 **섹션 요약 비유**: Flink는 강(스트림)을 흐르는 물방울 하나하나를 즉시 처리하는 물레방아다 — Spark는 물을 일정량 모아서 한꺼번에 처리하는 물탱크 방식이고, Flink는 방울이 오는 순간 바로 돌아간다.
 
@@ -56,23 +51,26 @@ Flink는 배치(Batch)를 유한한 스트림(Bounded [Stream](/knowledge-base/s
 
 ### 2.1 Flink 아키텍처
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Flink 클러스터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">JobManager</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 잡 스케줄링 (Job Scheduling)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 체크포인트 조율 (Checkpoint Coordination)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 장애 복구 (Fault Recovery)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">태스크 배분</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TaskManager</div><div class="kb-diagram-cell">TaskManager</div><div class="kb-diagram-cell">TaskManager</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Slot 1~N</div><div class="kb-diagram-cell">Slot 1~N</div><div class="kb-diagram-cell">Slot 1~N</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실제 처리</div><div class="kb-diagram-cell">실제 처리</div><div class="kb-diagram-cell">실제 처리</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    Flink 클러스터                             │
+│                                                             │
+│  ┌─────────────────────────────────────────────────────┐   │
+│  │             JobManager                               │   │
+│  │  - 잡 스케줄링 (Job Scheduling)                      │   │
+│  │  - 체크포인트 조율 (Checkpoint Coordination)         │   │
+│  │  - 장애 복구 (Fault Recovery)                        │   │
+│  └──────────────────────┬──────────────────────────────┘   │
+│                          │ 태스크 배분                        │
+│    ┌─────────────────────┼─────────────────────────────┐    │
+│    ▼                     ▼                             ▼    │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐     │
+│  │ TaskManager  │  │ TaskManager  │  │ TaskManager  │     │
+│  │  Slot 1~N    │  │  Slot 1~N    │  │  Slot 1~N    │     │
+│  │  실제 처리   │  │  실제 처리   │  │  실제 처리   │     │
+│  └──────────────┘  └──────────────┘  └──────────────┘     │
+└─────────────────────────────────────────────────────────────┘
+```
 
 ### 2.2 시간 개념 3종
 
@@ -84,41 +82,39 @@ Flink는 이벤트 시간 처리에서 3가지 시간 개념을 엄격히 구분
 | **수집 시간 (Ingestion Time)** | Flink 소스가 이벤트를 수신한 시각 | 중간 정확도 |
 | **처리 시간 (Processing Time)** | Flink 연산자가 처리하는 시각 | 빠르지만 부정확 |
 
+```
+실제 시나리오 (이벤트 시간 역전):
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">실제 시나리오 (이벤트 시간 역전):</div>
-<div class="kb-diagram-note">이벤트 발생: 10:00:01 10:00:02 10:00:03 10:00:04</div>
-<div class="kb-diagram-note">네트워크 지연: 정상 지연2초 정상 지연5초</div>
-<div class="kb-diagram-note">Flink 도착: 10:00:01 10:00:03 10:00:03 10:00:09</div>
-<div class="kb-diagram-note">순서 역전! 늦게 도착!</div>
-</div>
-</div>
-
-
+이벤트 발생:   10:00:01  10:00:02  10:00:03  10:00:04
+                │         │         │         │
+네트워크 지연:  정상      지연2초   정상      지연5초
+                │         │         │         │
+Flink 도착:    10:00:01  10:00:03  10:00:03  10:00:09
+                                   ↑          ↑
+                               순서 역전!  늦게 도착!
+```
 
 ### 2.3 [워터마크](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/) ([Watermark](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/)) 메커니즘
 
 [워터마크](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/)([Watermark](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/))는 "이 시각 이전의 이벤트는 모두 도착했다고 간주한다"는 시간 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)다.
 
+```
+Watermark = max(event_time_seen) - max_out_of_orderness
 
+예: max_out_of_orderness = 5초 설정 시
+이벤트 도착: 10:00:10
+워터마크   : 10:00:05
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Watermark = max(event_time_seen) - max_out_of_orderness</div>
-<div class="kb-diagram-note">예: max_out_of_orderness = 5초 설정 시</div>
-<div class="kb-diagram-note">이벤트 도착: 10:00:10</div>
-<div class="kb-diagram-note">워터마크 : 10:00:05</div>
-<div class="kb-diagram-note">→ 10:00:05 이전 이벤트는 더 이상 기다리지 않고 윈도우 닫음</div>
-<div class="kb-diagram-note">→ 10:00:05 이후 늦게 도착하는 이벤트는 '지연 데이터'로 처리</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이벤트 스트림: ●●●●●●●●●●●●●●●●●●●●●●●●●</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">워터마크: WM ►</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WM 통과 → 이전 윈도우 닫힘</div></div>
-</div>
-</div>
+→ 10:00:05 이전 이벤트는 더 이상 기다리지 않고 윈도우 닫음
+→ 10:00:05 이후 늦게 도착하는 이벤트는 '지연 데이터'로 처리
 
-
+┌─────────────────────────────────────────────────────────┐
+│  이벤트 스트림:  ●●●●●●●●●●●●●●●●●●●●●●●●●           │
+│  워터마크:       ─────────────WM──────────────►         │
+│                              ↑                          │
+│                         WM 통과 → 이전 윈도우 닫힘       │
+└─────────────────────────────────────────────────────────┘
+```
 
 ### 2.4 윈도우 유형 3종
 
@@ -128,24 +124,20 @@ Flink는 이벤트 시간 처리에서 3가지 시간 개념을 엄격히 구분
 | **슬라이딩 윈도우 (Sliding Window)** | 고정 크기, 슬라이드 간격 | 1분 집계, 30초마다 갱신 |
 | <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">세션</a> 윈도우 (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">Session</a> Window)</strong> | 비활성 구간으로 경계 결정 | 사용자 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 분석 |
 
+```
+텀블링 (Tumbling):
+[──1분──][──1분──][──1분──]
 
+슬라이딩 (Sliding, 1분 크기, 30초 슬라이드):
+[────1분────]
+      [────1분────]
+            [────1분────]
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">텀블링 (Tumbling):</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">──1분──</div><div class="kb-diagram-node">──1분──</div><div class="kb-diagram-node">──1분──</div></div>
-<div class="kb-diagram-note">슬라이딩 (Sliding, 1분 크기, 30초 슬라이드):</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">────1분────</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">────1분────</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">────1분────</div></div>
-<div class="kb-diagram-note">세션 (Session, 비활성 30초):</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">──활동──</div><div class="kb-diagram-node">───활동───</div><div class="kb-diagram-node">──활동──</div></div>
-<div class="kb-diagram-note">30초 30초</div>
-<div class="kb-diagram-note">갭(Gap) 갭(Gap)</div>
-</div>
-</div>
-
-
+세션 (Session, 비활성 30초):
+[──활동──]  [───활동───]  [──활동──]
+         30초           30초
+         갭(Gap)        갭(Gap)
+```
 
 📢 **섹션 요약 비유**: [워터마크](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/)는 '마감 시간 알림'이다 — "지금부터 이 시간 이전 데이터는 기다리지 않겠습니다"라는 선언으로, 늦은 학생을 하염없이 기다리지 않고 시험을 시작하게 해준다.
 
@@ -242,24 +234,21 @@ Flink는 상태([State](/knowledge-base/studynote/04_software_engineering/05_dev
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">배치 처리 (MapReduce · Spark)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">마이크로 배치 (Spark Structured Streaming)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">네이티브 스트리밍: Apache Flink</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Event Time + Watermark: 지연 이벤트 허용</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Window: Tumbling · Sliding · Session</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Exactly-Once: Checkpoint + 2PC Sink</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Flink SQL · Table API → 통합 배치/스트리밍</div>
-</div>
-</div>
-
-
+```text
+배치 처리 (MapReduce · Spark)
+    │
+    ▼
+마이크로 배치 (Spark Structured Streaming)
+    │
+    ▼
+네이티브 스트리밍: Apache Flink
+    ├─► Event Time + Watermark: 지연 이벤트 허용
+    ├─► Window: Tumbling · Sliding · Session
+    └─► Exactly-Once: Checkpoint + 2PC Sink
+    │
+    ▼
+Flink SQL · Table API → 통합 배치/스트리밍
+```
 2. [워터마크](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/)는 "이 날짜 전 편지는 다 도착했겠지"라고 판단하는 기준이야 — 그래야 늦게 도착하는 편지를 하염없이 기다리지 않아도 되거든.
 3. 텀블링 윈도우는 '10분마다 정리하는 서랍', [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 윈도우는 '손님이 없으면 문 닫는 가게' — 어떻게 묶어서 볼지 결정하는 방법이야.
 

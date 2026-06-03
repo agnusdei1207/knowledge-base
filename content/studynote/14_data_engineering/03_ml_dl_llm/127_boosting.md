@@ -18,21 +18,19 @@ tags = ["studynote-dataengineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Boosting 동작 원리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Round 1: 모델₁ 학습 → 오분류 샘플 가중치↑</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Round 2: 모델₂ 학습 (가중치 높은 샘플 집중)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Round 3: 모델₃ 학습 (이전 오류 집중 보정)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Round N: 모델ₙ 학습</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최종: 모든 모델의 가중 합 → 강한 학습기</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    Boosting 동작 원리                                 │
+├───────────────────────────────────────────────────────┤
+│  Round 1: 모델₁ 학습 → 오분류 샘플 가중치↑          │
+│  Round 2: 모델₂ 학습 (가중치 높은 샘플 집중)         │
+│  Round 3: 모델₃ 학습 (이전 오류 집중 보정)           │
+│  ...                                                  │
+│  Round N: 모델ₙ 학습                                 │
+│                                                       │
+│  최종: 모든 모델의 가중 합 → 강한 학습기             │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: Boosting은 <strong>틀린 문제만 반복 연습</strong>하는 공부법이다. 1회차에서 틀린 문제를 2회차에서 집중적으로 풀면 점수가 올라간다.
 
@@ -96,23 +94,21 @@ Boosting은 <strong><a href="/knowledge-base/studynote/14_data_engineering/01_in
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">AdaBoost (Freund &amp; Schapire, 1997)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Gradient Boosting (Friedman, 2001)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">XGBoost (Chen, 2014) — Kaggle 혁명</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LightGBM (MS, 2017) / CatBoost (Yandex, 2017)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: TabNet / AutoML — 딥러닝 vs 부스팅 융합</div></div>
-</div>
-</div>
-
-
+```text
+[AdaBoost (Freund & Schapire, 1997)]
+    │
+    ▼
+[Gradient Boosting (Friedman, 2001)]
+    │
+    ▼
+[XGBoost (Chen, 2014) — Kaggle 혁명]
+    │
+    ▼
+[LightGBM (MS, 2017) / CatBoost (Yandex, 2017)]
+    │
+    ▼
+[현재: TabNet / AutoML — 딥러닝 vs 부스팅 융합]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. Boosting은 <strong>틀린 문제만 반복 연습</strong>하는 공부법이에요.

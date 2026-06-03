@@ -23,18 +23,16 @@ tags = ["studynote-data-engineering"]
 
 실무에서 필요한 설명은 보통 두 층위로 나뉜다. 하나는 <strong>이 한 건의 예측이 왜 이렇게 나왔는가</strong>라는 국소 설명이고, 다른 하나는 <strong>전체적으로 어떤 변수가 자주 영향을 미치는가</strong>라는 전역 설명이다. LIME과 SHAP이 자주 언급되는 이유도 이 두 질문을 가장 실용적으로 다루는 대표 기법이기 때문이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">같은 예측이라도 설명은 두 층위에서 필요하다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력 특징 ──▶ 블랙박스 모델 ──▶ "대출 거절"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Local : 이 신청자는 왜 거절되었는가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Global : 전체적으로 어떤 특징이 자주 작용?</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│             같은 예측이라도 설명은 두 층위에서 필요하다            │
+├────────────────────────────────────────────────────────────────────┤
+│ 입력 특징 ──▶ 블랙박스 모델 ──▶ "대출 거절"                        │
+│                    │                                               │
+│                    ├─ Local  : 이 신청자는 왜 거절되었는가?        │
+│                    └─ Global : 전체적으로 어떤 특징이 자주 작용?  │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 설명이 없으면 모델 개선도 어렵다. [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 누수 (Feature Leakage), 편향된 대리 변수, 특정 구간에서의 예측 불안정은 점수만 보고는 발견하기 힘들다. 반대로 설명을 보면 "모델이 신용 점수보다 우편번호를 과도하게 본다"처럼 설계상 위험을 더 빨리 찾아낼 수 있다.
 
@@ -46,22 +44,20 @@ tags = ["studynote-data-engineering"]
 
 LIME과 SHAP은 모두 "원래 모델을 직접 뜯어보지 못하더라도 예측 주변의 기여도를 추정한다"는 점에서는 비슷하지만, 계산 철학은 다르다. LIME은 특정 샘플 주변을 흔들어 보고 그 근방에서 잘 맞는 단순 대리 모델을 학습한다. 반면 SHAP은 기준점 대비 예측값이 얼마나 올라갔는지를 각 특징이 공정하게 나눠 가진다고 보고, 게임이론의 Shapley Value를 사용해 기여도를 분배한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LIME vs SHAP 계산 관점</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LIME</div><div class="kb-diagram-cell">SHAP</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">target sample x0 선택</div><div class="kb-diagram-cell">target sample x0 선택</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">주변 데이터 perturbation │ 기준 예측값 E</div><div class="kb-diagram-node">f(X)</div><div class="kb-diagram-note">계산</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원모델 예측값 질의</div><div class="kb-diagram-cell">feature coalition 기여도 추정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">거리 가까울수록 가중치 증가</div><div class="kb-diagram-cell">φ1 + φ2 + ... + φn 분해</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">선형 surrogate 적합 │ E</div><div class="kb-diagram-node">f(X)</div><div class="kb-diagram-note">+ Σφi = f(x)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">국소 계수로 설명</div><div class="kb-diagram-cell">각 feature 기여도 합으로 설명</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│                     LIME vs SHAP 계산 관점                         │
+├───────────────────────────────┬────────────────────────────────────┤
+│ LIME                          │ SHAP                               │
+├───────────────────────────────┼────────────────────────────────────┤
+│ target sample x0 선택         │ target sample x0 선택              │
+│ 주변 데이터 perturbation      │ 기준 예측값 E[f(X)] 계산           │
+│ 원모델 예측값 질의            │ feature coalition 기여도 추정      │
+│ 거리 가까울수록 가중치 증가   │ φ1 + φ2 + ... + φn 분해            │
+│ 선형 surrogate 적합           │ E[f(X)] + Σφi = f(x)               │
+│ 국소 계수로 설명              │ 각 feature 기여도 합으로 설명      │
+└───────────────────────────────┴────────────────────────────────────┘
+```
 
 | 기법 | 핵심 아이디어 | 잘하는 질문 | 장점 | 주의점 |
 | :--- | :--- | :--- | :--- | :--- |
@@ -153,23 +149,19 @@ LIME과 SHAP을 적절히 사용하면 모델은 단순한 예측기에서 설�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">블랙박스 모델 고도화</div>
-<div class="kb-diagram-tree-item" style="--depth:2">문제: 높은 정확도, 낮은 해석 가능성</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">설명 가능한 AI (XAI)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">LIME : 국소 대리 모델</div>
-<div class="kb-diagram-tree-item" style="--depth:2">SHAP : 기여도 분해</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Global Importance / PDP</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">모델 디버깅 · 규제 대응 · 편향 점검 · Human-in-the-Loop 운영</div>
-</div>
-</div>
-
-
+```text
+블랙박스 모델 고도화
+    │
+    ├─ 문제: 높은 정확도, 낮은 해석 가능성
+    ▼
+설명 가능한 AI (XAI)
+    │
+    ├─ LIME  : 국소 대리 모델
+    ├─ SHAP  : 기여도 분해
+    └─ Global Importance / PDP
+    ▼
+모델 디버깅 · 규제 대응 · 편향 점검 · Human-in-the-Loop 운영
+```
 
 이 흐름은 모델 운영의 관심사가 "정확도 향상"에서 "설명 가능성과 책임 있는 사용"까지 확장되는 과정을 보여준다.
 

@@ -30,21 +30,25 @@ tags = ["studynote-design-supervision"]
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">보안성</a> (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a>)</strong> | 공격 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/), 공격 탐지, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) | [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)([Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/)), [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)([Authorization](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)), 암호화, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) |
 | <strong>수정 용이성 (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/284_modifiability_tactics/">Modifiability</a>)</strong> | [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) 감소, [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/) 증가 | 인터페이스 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/), 런타임 [의존성 주입](/knowledge-base/studynote/04_software_engineering/06_software_architecture/337_dependency_injection/)([DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/190_enterprise_di_framework_lifecycle/)), [단일 책임 원칙](/knowledge-base/studynote/11_design_supervision/06_exam_summary/355_process/) 적용 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Architecture Tactics : Stimulus-Response Mechanism</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">자극 (Stimulus)</div><div class="kb-diagram-node">응답 (Response)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 서버 A의 전원 장애 - 서버 B로 트래픽 전환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 해커의 비정상 패킷 유입 - 침입 차단 및 로그</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">아키텍처 전술 제어부</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 가용성 전술 : Heartbeat 모니터링, Redundancy</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 보안성 전술 : IDS/IPS 침입 탐지 룰 적용</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│       Architecture Tactics : Stimulus-Response Mechanism    │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ 자극 (Stimulus) ]                 [ 응답 (Response) ]   │
+│   - 서버 A의 전원 장애                - 서버 B로 트래픽 전환│
+│   - 해커의 비정상 패킷 유입           - 침입 차단 및 로그   │
+│          │                                   ▲              │
+│          │                                   │              │
+│          ▼                                   │              │
+│   ┌─────────────────────────────────────────────────────┐   │
+│   │               [ 아키텍처 전술 제어부 ]              │   │
+│   │                                                     │   │
+│   │  - 가용성 전술 : Heartbeat 모니터링, Redundancy     │   │
+│   │  - 보안성 전술 : IDS/IPS 침입 탐지 룰 적용          │   │
+│   └─────────────────────────────────────────────────────┘   │
+└─────────────────────────────────────────────────────────────┘
+```
 위 다이어그램은 외부의 자극이 시스템에 [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)될 때, 아키텍처 내부에 내장된 전술들이 이를 감지하고 적절한 응답을 만들어내어 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 유지하는 메커니즘을 보여준다. 단일 전술들이 모여서 하나의 거대한 '아키텍처 패턴(예: 클러스터링 패턴)'을 이룬다.
 
 - **📢 섹션 요약 비유**: 건물에 화재(자극)가 발생했을 때 연기를 감지하는 화재경보기([결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 탐지 전술)와 물을 뿌리는 스프링클러([결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 전술)가 동작하여 사람들의 대피 시간(응답)을 확보하는 소방 시스템과 같다.
@@ -73,7 +77,7 @@ tags = ["studynote-design-supervision"]
 
 ### Ⅴ. 기대효과 및 결론
 아키텍처 전술은 막연한 비즈니스 목표와 구체적인 엔지니어링 구현 사이를 이어주는 다리 역할을 한다. 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)별 전술을 숙지하면, 설계 과정에서 "어떤 기법을 조합할 것인가"를 체계적으로 결정할 수 있다.
-미래의 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 환경에서는 Auto-Scaling([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 전술)이나 [Chaos Engineering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)([가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 전술)처럼 전술의 형태가 플랫폼 종속적으로 진화하고 있으나, 특정 자극에 대응하여 품질을 유지한다는 전술의 본질적 철학은 변함없이 시스템 설계의 근간으로 작용한다.
+미래의 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 환경에서는 Auto-Scaling([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 전술)이나 [Chaos 엔진ering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)([가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 전술)처럼 전술의 형태가 플랫폼 종속적으로 진화하고 있으나, 특정 자극에 대응하여 품질을 유지한다는 전술의 본질적 철학은 변함없이 시스템 설계의 근간으로 작용한다.
 
 - **📢 섹션 요약 비유**: 뛰어난 의사는 "건강해지세요"라고 말하지 않고, "나트륨을 줄이고(전술 A), 매일 30분 걸으세요(전술 B)"라고 처방한다. 아키텍처 전술은 튼튼한 소프트웨어를 만들기 위한 정확하고 구체적인 처방전이다.
 
@@ -84,21 +88,18 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">비기능 요구사항 정의 (품질 속성)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">아키텍처 전술 (Tactics) 선택 · 자극과 응답 메커니즘 설계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">아키텍처 패턴 (Patterns) 구성 · 여러 전술의 복합적 템플릿화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ATAM 평가 및 상충점 (Trade-off) 조율</div>
-</div>
-</div>
-
-
+```text
+비기능 요구사항 정의 (품질 속성)
+    │
+    ▼
+아키텍처 전술 (Tactics) 선택 · 자극과 응답 메커니즘 설계
+    │
+    ▼
+아키텍처 패턴 (Patterns) 구성 · 여러 전술의 복합적 템플릿화
+    │
+    ▼
+ATAM 평가 및 상충점 (Trade-off) 조율
+```
 
 이 흐름도는 목표 설정에서 시작해 구체적 전술 선택을 거쳐 완성된 패턴을 형성하고, 최종적으로 평가를 통해 조율하는 아키텍처 설계 과정을 보여준다.
 

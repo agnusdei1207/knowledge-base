@@ -20,23 +20,22 @@ tags = ["studynote-bigdata"]
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 Broadcast Join은 <strong>작은 테이블의 수집(Collect)</strong>과 **전체 배포(Broadcast)** 과정을 거친다.
 
+```text
+[ Broadcast Join Architecture / 브로드캐스트 조인 아키텍처 ]
 
+    [ Driver ] --(Collect 小 Table)--> [ Local Memory ]
+        |
+        +----(Broadcast to all nodes)----> [ Executor 1 ] [ Executor 2 ] ...
+                                                 |              |
+                                           (Local Join)    (Local Join)
+                                                 |              |
+                                           [ Big Data A ]  [ Big Data B ]
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Broadcast Join Architecture / 브로드캐스트 조인 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Driver</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Local Memory</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Executor 1</div><div class="kb-diagram-node">Executor 2</div><div class="kb-diagram-note">...</div></div>
-<div class="kb-diagram-note">(Local Join) (Local Join)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Big Data A</div><div class="kb-diagram-node">Big Data B</div></div>
-<div class="kb-diagram-note">1. Collect: Driver fetches the small table from executors.</div>
-<div class="kb-diagram-note">2. Broadcast: Driver pushes the small table to every executor using BitTorrent-like protocol.</div>
-<div class="kb-diagram-note">3. Execution: Each executor performs a hash join locally with its portion of big data.</div>
-<div class="kb-diagram-note">4. Advantage: No Shuffle for the big table.</div>
-</div>
-</div>
-
-
+1. Collect: Driver fetches the small table from executors.
+2. Broadcast: Driver pushes the small table to every executor using BitTorrent-like protocol.
+3. Execution: Each executor performs a hash join locally with its portion of big data.
+4. Advantage: No Shuffle for the big table.
+```
 
 - <strong>임계값 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a>:</strong> `spark.sql.autoBroadcastJoinThreshold` (기본값 10MB) 이하의 테이블은 자동으로 브로드캐스트 조인 대상이 된다.
 - **작동 조건:** 한쪽 테이블이 드라이버와 각 익스큐터의 메모리에 충분히 들어갈 수 있을 만큼 작아야 한다. 너무 크면 `OutOfMemory(OOM)` 오류가 발생할 수 있다.
@@ -65,25 +64,24 @@ Broadcast Join은 '[데이터](/knowledge-base/studynote/05_database/01_db_archi
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">셔플 해시 조인 (Shuffle Hash Join) — 양쪽 테이블 전체 셔플, 네트워크 비용 O(N+M)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">소트 병합 조인 (Sort-Merge Join) — 정렬 후 병합, 대용량 대용량 조인 기본 전략</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">브로드캐스트 조인 (Broadcast Join) — 소규모 테이블 전 노드 복사, 셔플 제로</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">버킷 조인 (Bucket Join) — 사전 버킷팅으로 셔플 없이 로컬 조인, 반복 조인 최적화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AQE (Adaptive Query Execution) — 런타임 통계 기반 동적 조인 전략 전환</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DPP (Dynamic Partition Pruning) — 브로드캐스트 필터로 대규모 테이블 파티션 제거</div></div>
-</div>
-</div>
-
-
+```text
+[셔플 해시 조인 (Shuffle Hash Join) — 양쪽 테이블 전체 셔플, 네트워크 비용 O(N+M)]
+    │
+    ▼
+[소트 병합 조인 (Sort-Merge Join) — 정렬 후 병합, 대용량 대용량 조인 기본 전략]
+    │
+    ▼
+[브로드캐스트 조인 (Broadcast Join) — 소규모 테이블 전 노드 복사, 셔플 제로]
+    │
+    ▼
+[버킷 조인 (Bucket Join) — 사전 버킷팅으로 셔플 없이 로컬 조인, 반복 조인 최적화]
+    │
+    ▼
+[AQE (Adaptive Query Execution) — 런타임 통계 기반 동적 조인 전략 전환]
+    │
+    ▼
+[DPP (Dynamic Partition Pruning) — 브로드캐스트 필터로 대규모 테이블 파티션 제거]
+```
 이 흐름은 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조인의 네트워크 셔플 비용을 줄이기 위해 브로드캐스트 조인이 도입되고, 런타임 적응형 실행과 동적 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 제거로 진화하는 [Spark SQL](/knowledge-base/studynote/16_bigdata/03_spark/056_spark_sql/) 최적화 기법의 발전을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

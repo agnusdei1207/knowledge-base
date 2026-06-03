@@ -37,28 +37,31 @@ LLM의 사전 학습(Pretraining)은 웹·책·코드 등 방대한 텍스트에
 
 ### 1. [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 개발 3단계
 
+```text
+LLM 정렬 파이프라인
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">LLM 정렬 파이프라인</div>
-<div class="kb-diagram-note">① 사전 학습 (Pretraining)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대규모 텍스트 코퍼스 (1T+ 토큰)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">목표: 다음 토큰 예측 (Language Modeling)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 베이스 모델 (Base Model) — 텍스트 자동완성</div></div>
-<div class="kb-diagram-note">② 인스트럭션 튜닝 (Instruction Tuning / SFT)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">포맷:</div><div class="kb-diagram-node">Instruction</div><div class="kb-diagram-note">+</div><div class="kb-diagram-node">Input</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Output</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터: 수천~수만 개 (고품질 인간 작성 응답)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 지시 따르기 모델 (Instruction-Following Model)</div></div>
-<div class="kb-diagram-note">③ RLHF (Reinforcement Learning from Human Feedback)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Step 1: 여러 응답 생성 → 사람 평가자가 순위 매김</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Step 2: 보상 모델(Reward Model) 학습 — 선호 예측</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Step 3: PPO 강화학습으로 LLM 정책 최적화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 유용하고 해롭지 않은 응답 (HHH: Helpful, Harmless, Honest)</div></div>
-</div>
-</div>
-
-
+  ① 사전 학습 (Pretraining)
+  ┌────────────────────────────────────────────────────────┐
+  │  대규모 텍스트 코퍼스 (1T+ 토큰)                         │
+  │  목표: 다음 토큰 예측 (Language Modeling)                │
+  │  결과: 베이스 모델 (Base Model) — 텍스트 자동완성         │
+  └────────────────────────────────────────────────────────┘
+              │
+  ② 인스트럭션 튜닝 (Instruction Tuning / SFT)
+  ┌────────────────────────────────────────────────────────┐
+  │  포맷: [Instruction] + [Input] → [Output]              │
+  │  데이터: 수천~수만 개 (고품질 인간 작성 응답)              │
+  │  결과: 지시 따르기 모델 (Instruction-Following Model)   │
+  └────────────────────────────────────────────────────────┘
+              │
+  ③ RLHF (Reinforcement Learning from Human Feedback)
+  ┌────────────────────────────────────────────────────────┐
+  │  Step 1: 여러 응답 생성 → 사람 평가자가 순위 매김         │
+  │  Step 2: 보상 모델(Reward Model) 학습 — 선호 예측        │
+  │  Step 3: PPO 강화학습으로 LLM 정책 최적화               │
+  │  결과: 유용하고 해롭지 않은 응답 (HHH: Helpful, Harmless, Honest) │
+  └────────────────────────────────────────────────────────┘
+```
 
 ### 2. 인스트럭션 튜닝 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 형식
 
@@ -72,24 +75,23 @@ LLM의 사전 학습(Pretraining)은 웹·책·코드 등 방대한 텍스트에
 
 ### 3. [RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) 보상 모델 학습 과정
 
+```text
+사람 피드백 수집 → 보상 모델 학습 → PPO 최적화
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">사람 피드백 수집 → 보상 모델 학습 → PPO 최적화</div>
-<div class="kb-diagram-note">동일 프롬프트 → LLM이 응답 A, B, C 생성</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">사람 평가자: A &gt; C &gt; B (선호 순위)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">보상 모델 (RM): "A는 높은 점수, B는 낮은 점수" 학습</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">PPO 알고리즘: RM 점수를 보상으로 LLM 정책 업데이트</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">결과: 사람이 선호하는 응답을 더 자주 생성</div>
-</div>
-</div>
-
-
+  동일 프롬프트 → LLM이 응답 A, B, C 생성
+       │
+       ▼
+  사람 평가자: A > C > B (선호 순위)
+       │
+       ▼
+  보상 모델 (RM): "A는 높은 점수, B는 낮은 점수" 학습
+       │
+       ▼
+  PPO 알고리즘: RM 점수를 보상으로 LLM 정책 업데이트
+       │
+       ▼
+  결과: 사람이 선호하는 응답을 더 자주 생성
+```
 
 - **📢 섹션 요약 비유**: RLHF는 **'강아지 훈련'** 과 같습니다. 강아지([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))가 여러 행동을 보여주면, 훈련사(사람 평가자)가 좋은 행동에 간식(높은 보상)을 주고, 나쁜 행동은 무시합니다. 강아지는 간식을 더 많이 받는 행동을 반복하게 됩니다.
 
@@ -171,25 +173,24 @@ LLM의 사전 학습(Pretraining)은 웹·책·코드 등 방대한 텍스트에
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">LLM 사전 학습 (Pretraining) — 텍스트 자동완성</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SFT (인스트럭션 튜닝) — Instruction-Output 파인튜닝</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">RLHF — 사람 피드백 → 보상 모델 → PPO 강화학습</div>
-<div class="kb-diagram-tree-item" style="--depth:2">DPO (Direct Preference Optimization) — 단순화</div>
-<div class="kb-diagram-tree-item" style="--depth:2">RLAIF (AI 피드백 강화학습)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">HHH 정렬 (Helpful, Harmless, Honest)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Self-Play / 자율 정렬 (미래)</div>
-</div>
-</div>
-
-
+```text
+LLM 사전 학습 (Pretraining) — 텍스트 자동완성
+    │
+    ▼
+SFT (인스트럭션 튜닝) — Instruction-Output 파인튜닝
+    │
+    ▼
+RLHF — 사람 피드백 → 보상 모델 → PPO 강화학습
+    │
+    ├─► DPO (Direct Preference Optimization) — 단순화
+    ├─► RLAIF (AI 피드백 강화학습)
+    │
+    ▼
+HHH 정렬 (Helpful, Harmless, Honest)
+    │
+    ▼
+Self-Play / 자율 정렬 (미래)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

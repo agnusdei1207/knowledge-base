@@ -20,25 +20,21 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 인프라 환경에서 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 기반의 네트워크와 호스트들이 통신 단절 없이 자연스럽게 통합되고 마이그레이션(Migration)되도록 돕는 기술 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 3가지.
-- **필요성**: 내 폰이 최신형이라 IPv6를 할당받았다 치자. 하지만 내가 접속해야 할 한국의 공공기관 웹사이트는 아직도 20년 전 세팅된 [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 서버다. 내 폰이 IPv6로 패킷을 쏘면 공공기관 앞의 낡은 라우터는 "이게 무슨 외계어야?"라며 패킷을 버린다. 이처럼 신구() 문명이 충돌하는 상황에서 통신 단절을 막을 완충 지대가 필수적이었다.
+- **필요성**: 내 폰이 최새로운 유형의이라 IPv6를 할당받았다 치자. 하지만 내가 접속해야 할 한국의 공공기관 웹사이트는 아직도 20년 전 세팅된 [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 서버다. 내 폰이 IPv6로 패킷을 쏘면 공공기관 앞의 낡은 라우터는 "이게 무슨 외계어야?"라며 패킷을 버린다. 이처럼 신구(新舊) 문명이 충돌하는 상황에서 통신 단절을 막을 완충 지대가 필수적이었다.
 
-- **💡 비유**:
-- <strong>듀얼 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a></strong>: 한국어([IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/))와 영어([IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/))를 완벽히 구사하는 <strong>"통역사 출신 엘리트"</strong>입니다. 한국인에겐 한국어로, 미국인에겐 영어로 말합니다.
-- <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/">터널링</a> (6to4)</strong>: 미국에서 영국으로 영어 편지([IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/))를 보내려는데, 중간 우체국이 한국([IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/))입니다. 편지 겉봉투에 한글로 "영국행"이라고 적어([IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 포장) 한국 우체국을 무사통과시킨 뒤, 영국 우체국에 도착하면 겉봉투를 찢고 영어 편지를 읽게 하는 <strong>"이중 포장법"</strong>입니다.
-- **주소 변환 (NAT64)**: 영어밖에 모르는 미국인([IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/))과 한국어밖에 모르는 한국인([IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/)) 사이에 진짜 <strong>"동시통역사(공유기/<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/">NAT</a>)"</strong>를 세워두고 실시간으로 말을 번역해 주는 방식입니다.
+- **💡 비유**: 
+  - <strong>듀얼 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a></strong>: 한국어([IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/))와 영어([IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/))를 완벽히 구사하는 <strong>"통역사 출신 엘리트"</strong>입니다. 한국인에겐 한국어로, 미국인에겐 영어로 말합니다.
+  - <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/">터널링</a> (6to4)</strong>: 미국에서 영국으로 영어 편지([IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/))를 보내려는데, 중간 우체국이 한국([IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/))입니다. 편지 겉봉투에 한글로 "영국행"이라고 적어([IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 포장) 한국 우체국을 무사통과시킨 뒤, 영국 우체국에 도착하면 겉봉투를 찢고 영어 편지를 읽게 하는 <strong>"이중 포장법"</strong>입니다.
+  - **주소 변환 (NAT64)**: 영어밖에 모르는 미국인([IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/))과 한국어밖에 모르는 한국인([IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/)) 사이에 진짜 <strong>"동시통역사(공유기/<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/">NAT</a>)"</strong>를 세워두고 실시간으로 말을 번역해 주는 방식입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SLAAC 무상태 주소 자동 설정</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IPv4-IPv6 전환 기술: 듀얼 스택,…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IGMP</div></div>
-</div>
-</div>
-
-
+```text
+[SLAAC 무상태 주소 자동 설정]
+    │
+    ▼
+[IPv4-IPv6 전환 기술: 듀얼 스택,…]
+    │
+    └──▶ [IGMP]
+```
 
 - **📢 섹션 요약 비유**: ** IPv4에서 IPv6로의 전환은, 온 나라 사람들이 우측통행([IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/))을 하다가 좌측통행([IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/))으로 법을 바꾸는 것과 같습니다. 한 번에 바꿀 수 없으니 도로를 두 개 깔거나(듀얼 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)), 우측통행 도로 한가운데 고가도로를 짓거나([터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/)), 교차로에 교통정리 요원(NAT64)을 배치하는 눈물겨운 공존의 역사입니다.
 
@@ -47,7 +43,7 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### 1. 듀얼 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) (Dual [Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)) - 가장 확실한 병행
-운영체제의 네트워크 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 탭에 들어가 보면 [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 칸과 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 칸이 위아래로 둘 다 있다.
+운영체제의 네트워크 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 탭에 들어가 보면 [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 칸과 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 칸이 위아래로 둘 다 있다. 
 - **동작**: 브라우저에 `www.google.com`을 친다. [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버에 "구글 IP 좀 줘!"라고 묻는다. [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버가 [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 주소(A 레코드)와 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 주소(AAAA 레코드)를 둘 다 돌려준다.
 - **판단**: 똑똑한 내 PC의 OS는 "오, 나도 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 켤 줄 아는데 구글도 IPv6를 지원하네? 그럼 더 빠른 IPv6로 접속해야지!"라며 IPv6로 통신을 시작한다. 만약 상대가 [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 주소만 주면 알아서 IPv4로 통신한다.
 - **장점/단점**: 가장 깔끔하지만, 라우터나 PC가 두 가지 언어를 모두 처리해야 하므로 자원(CPU, 메모리) 소모가 크고, 여전히 [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 주소가 필요하다는(고갈 문제 미해결) 한계가 있다.
@@ -56,23 +52,23 @@ tags = ["studynote-network"]
 IPv6를 쓰는 본사와 지사 사이에, 통신사가 깔아둔 낡은 [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 라우터 망만 존재할 때 쓴다.
 - **동작 (캡슐화)**: 본사 라우터가 128비트 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 패킷을 딱 받으면, 이걸 32비트짜리 평범한 <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/">IPv4</a> 패킷 봉투 안에 쏙 집어넣어 밀봉(Encapsulation)</strong>해버린다. ([프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 번호 41번 사용).
 - 중간의 낡은 통신사 라우터들은 이 봉투 안에 미래 기술([IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/))이 들었는지 꿈에도 모른 채, 그저 겉면에 적힌 [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 주소만 보고 부산 지사까지 평범하게 포워딩해 준다.
-- **종류**:
-- **6to4**: [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 주소를 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 주소 안에 교묘하게 우겨넣어 자동으로 터널을 뚫어주는 방식. (2002::/16 대역 사용)
-- **ISATAP**: 사내망 인트라넷 내부에서 [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 라우터들 사이를 건너갈 때 쓰는 또 다른 자동 [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) 기술.
+- **종류**: 
+  - **6to4**: [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 주소를 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 주소 안에 교묘하게 우겨넣어 자동으로 터널을 뚫어주는 방식. (2002::/16 대역 사용)
+  - **ISATAP**: 사내망 인트라넷 내부에서 [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 라우터들 사이를 건너갈 때 쓰는 또 다른 자동 [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) 기술.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6to4 터널링(Tunneling) 캡슐화 마법</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IPv6 본사</div><div class="kb-diagram-node">통신사 IPv4 라우터들</div><div class="kb-diagram-node">IPv6 지사</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">V6 패킷</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IPv4 헤더 | V6 패킷</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">V6 패킷</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(포장해라!) (V4인 척 위장하여 무사 통과) (껍질 벗겨!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: 낡은 통신사 망(V4)을 1원도 안 들이고 V6 전용선처럼 사용함.</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                6to4 터널링(Tunneling) 캡슐화 마법              │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ IPv6 본사 ]       [ 통신사 IPv4 라우터들 ]       [ IPv6 지사 ] │
+ │                                                             │
+ │   [ V6 패킷 ] ──▶ [ IPv4 헤더 | V6 패킷 ] ──▶ [ V6 패킷 ]   │
+ │   (포장해라!)      (V4인 척 위장하여 무사 통과)     (껍질 벗겨!)    │
+ │                                                             │
+ │   ▶ 결과: 낡은 통신사 망(V4)을 1원도 안 들이고 V6 전용선처럼 사용함. │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 3. 변환 기술 (Translation: NAT64 / DNS64)
 두 기기가 듀얼 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)도 안 되고, [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/)을 할 상황도 아닌 완전 남남일 때, 중간의 [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 장비가 패킷의 내용물을 완전히 번역해 주는 기술이다.
@@ -135,19 +131,15 @@ IPv6를 쓰는 본사와 지사 사이에, 통신사가 깔아둔 낡은 [IPv4](
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: SLAAC 무상태 주소 자동 설정</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: IPv4-IPv6 전환 기술: 듀얼 스택,…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: IGMP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 대규모 주소 자동화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: SLAAC 무상태 주소 자동 설정]
+    │
+    ▼
+[현재 개념: IPv4-IPv6 전환 기술: 듀얼 스택,…]
+    │
+    ├──▶ [확장 A: IGMP]
+    └──▶ [확장 B: 대규모 주소 자동화]
+```
 
 [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/)-[IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 전환 기술: 듀얼 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/),…는 [SLAAC](/knowledge-base/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/) 무상태 주소 자동 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)에서 출발해 현재 메커니즘을 정교화하고, 이후 IGMP와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

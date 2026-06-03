@@ -24,22 +24,21 @@ tags = ["studynote-bigdata"]
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)는 수집(Ingest), 저장(Store), 가공([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/)), 소비(Consume)의 4단계 아키텍처를 가진다.
 
+```text
+[ Data Lake Architecture / 데이터 레이크 아키텍처 ]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Data Lake Architecture / 데이터 레이크 아키텍처</div></div>
-<div class="kb-diagram-note">Sources (Log, IoT, DB) Data Lake (S3, HDFS) Analysis &amp; ML</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Structured</div><div class="kb-diagram-note">| Landing / Raw Zone | | BI Dashboards</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Semi-structured</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">(Schema-on-Read) | ----&gt; | (Tableau, PBI)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Unstructured</div><div class="kb-diagram-note">+-----------+-----------+ +---------+---------+</div></div>
-<div class="kb-diagram-note">v v</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Curated / Gold Zone</div><div class="kb-diagram-cell">----&gt;</div><div class="kb-diagram-cell">Machine Learning</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Processed Data)</div><div class="kb-diagram-cell">(PyTorch, Spark)</div></div>
-</div>
-</div>
-
-
+    Sources (Log, IoT, DB)         Data Lake (S3, HDFS)            Analysis & ML
+    +-------------------+       +-----------------------+       +-------------------+
+    | [Structured]      |       |  Landing / Raw Zone   |       |   BI Dashboards   |
+    | [Semi-structured] | ----> |  (Schema-on-Read)     | ----> |   (Tableau, PBI)  |
+    | [Unstructured]    |       +-----------+-----------+       +---------+---------+
+    +---------+---------+                   |                             |
+                                            v                             v
+                                +-----------+-----------+       +---------+---------+
+                                |  Curated / Gold Zone  | ----> |  Machine Learning |
+                                |  (Processed Data)     |       |  (PyTorch, Spark) |
+                                +-----------------------+       +-------------------+
+```
 
 1. <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/">스키마 온 리드</a> (<a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/">Schema-on-Read</a>)</strong>: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽을 때 구조를 부여한다. (유연성 극대화)
 2. **비용 효율성**: 범용 x86 서버나 저가형 객체 스토리지를 사용하여 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 대비 약 1/[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) 이하의 비용으로 저장 가능하다.
@@ -79,21 +78,18 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Data Warehouse</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Data Lake</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Schema-on-Read</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Lakehouse</div></div>
-</div>
-</div>
-
-
+```text
+[Data Warehouse]
+    │
+    ▼
+[Data Lake]
+    │
+    ▼
+[Schema-on-Read]
+    │
+    ▼
+[Lakehouse]
+```
 
 이 흐름도는 선행 개념이 현재 개념으로 응축되고, 다시 확장 개념으로 이어지는 순서를 보여준다.
 

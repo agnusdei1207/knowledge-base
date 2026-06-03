@@ -31,20 +31,19 @@ tags = ["studynote-cloud-architecture"]
 
 노드 어피니티는 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 명세(Spec)에 작성되며, [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 이를 읽고 노드의 라벨과 연산자(`In`, `NotIn`, `Exists` 등)를 통해 조건을 평가한다. 가장 중요한 것은 조건의 '강도(Strength)'와 '실행 중 변경 시 처리 방법(Execution phase)'이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Node Affinity: 스케줄러의 노드 필터링 및 점수화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">파드 생성 요청</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Kube-Scheduler</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Required (강제 필터링)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 조건 불일치 노드는 후보에서 제외 ◀──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Preferred (선호도 점수화) ▼</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">최고 점수 노드 선택</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│         Node Affinity: 스케줄러의 노드 필터링 및 점수화      │
+├──────────────────────────────────────────────────────────────┤
+│ [파드 생성 요청] ─▶ API Server ─▶ [Kube-Scheduler]          │
+│                                           │                  │
+│  1. Required (강제 필터링)                │                  │
+│     - 조건 불일치 노드는 후보에서 제외 ◀──┘                  │
+│                                           │                  │
+│  2. Preferred (선호도 점수화)             ▼                  │
+│     - 통과된 노드들에 가중치 합산 ───▶ [최고 점수 노드 선택] │
+└──────────────────────────────────────────────────────────────┘
+```
 
 1. **강제 조건 (Required)**: `requiredDuringSchedulingIgnoredDuringExecution`
    - 스케줄링 시점에 **반드시** 만족해야 한다. 조건을 만족하는 노드가 없으면 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)는 스케줄링되지 않는다(Pending).
@@ -107,23 +106,21 @@ tags = ["studynote-cloud-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">NodeSelector (단순 라벨 매칭)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Node Affinity (연산자, 강제/선호 조건 도입)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Taint &amp; Toleration (노드 차원의 방어선 구축)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Pod Affinity / Anti-Affinity (파드 간 결합/분리 규칙 확장)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Custom Scheduler / Descheduler (동적 스케줄링 및 재배치 최적화)</div>
-</div>
-</div>
-
-
+```text
+NodeSelector (단순 라벨 매칭)
+    │
+    ▼
+Node Affinity (연산자, 강제/선호 조건 도입)
+    │
+    ▼
+Taint & Toleration (노드 차원의 방어선 구축)
+    │
+    ▼
+Pod Affinity / Anti-Affinity (파드 간 결합/분리 규칙 확장)
+    │
+    ▼
+Custom Scheduler / Descheduler (동적 스케줄링 및 재배치 최적화)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

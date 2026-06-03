@@ -29,19 +29,13 @@ p-value는 현재 데이터가 H0와 얼마나 잘 맞는지 보는 값이다.
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">H0</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">p-value</div>
-<div class="kb-diagram-note">↓ compare with α</div>
-<div class="kb-diagram-note">Decision</div>
-</div>
-</div>
-
-
+```text
+H0
+  ↓
+p-value
+  ↓ compare with α
+Decision
+```
 
 | 항목 | 의미 |
 | :-- | :-- |
@@ -109,41 +103,29 @@ p-value는 현재 데이터가 H0와 얼마나 잘 맞는지 보는 값이다.
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">H0</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">α</div>
-<div class="kb-diagram-note">↓ compare</div>
-<div class="kb-diagram-note">p-value</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Decision</div>
-</div>
-</div>
-
-
+```text
+H0
+  ↓
+α
+  ↓ compare
+p-value
+  ↓
+Decision
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Hypothesis Testing</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Alpha</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">p-value</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Statistical Decision</div>
-</div>
-</div>
-
-
+```text
+Hypothesis Testing
+  ↓
+Alpha
+  ↓
+p-value
+  ↓
+Statistical Decision
+```
 
 ---
 

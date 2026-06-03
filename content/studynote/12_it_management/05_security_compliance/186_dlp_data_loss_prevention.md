@@ -35,24 +35,27 @@ DLP는 보통 엔드포인트, 네트워크, 스토리지의 세 채널에서 �
 
 아래 그림은 DLP의 3채널 구조를 요약한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DLP 3채널 통제 아키텍처</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Endpoint DLP Network DLP Storage DLP</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PC / Laptop</div><div class="kb-diagram-cell">Mail / Web</div><div class="kb-diagram-cell">File / DB /</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- USB copy</div><div class="kb-diagram-cell">Proxy / SWG</div><div class="kb-diagram-cell">NAS Scanner</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Print</div><div class="kb-diagram-cell">- SMTP/HTTP</div><div class="kb-diagram-cell">- At-rest scan</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Clipboard</div><div class="kb-diagram-cell">- TLS inspect</div><div class="kb-diagram-cell">- Tag/Encrypt</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Policy Engine / Classification Engine</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ RegEx / Dictionary / Fingerprint / OCR / ML</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Allow / Block / Quarantine / Encrypt</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Incident Log / Ticket / SIEM 연동</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                          DLP 3채널 통제 아키텍처                            │
+├──────────────────────────────────────────────────────────────────────────────┤
+│  Endpoint DLP              Network DLP                Storage DLP           │
+│  ┌───────────────┐         ┌───────────────┐          ┌───────────────┐    │
+│  │ PC / Laptop   │         │ Mail / Web    │          │ File / DB /    │    │
+│  │ - USB copy    │         │ Proxy / SWG   │          │ NAS Scanner    │    │
+│  │ - Print       │         │ - SMTP/HTTP   │          │ - At-rest scan │    │
+│  │ - Clipboard   │         │ - TLS inspect │          │ - Tag/Encrypt  │    │
+│  └──────┬────────┘         └──────┬────────┘          └──────┬────────┘    │
+│         │                           │                          │             │
+│         └──────────────┬────────────┴──────────────┬───────────┘             │
+│                        ▼                           ▼                         │
+│               [Policy Engine / Classification Engine]                       │
+│                        │                                                     │
+│                        ├─ RegEx / Dictionary / Fingerprint / OCR / ML       │
+│                        ├─ Allow / Block / Quarantine / Encrypt              │
+│                        └─ Incident Log / Ticket / SIEM 연동                 │
+└──────────────────────────────────────────────────────────────────────────────┘
+```
 
 | [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 기술 | 설명 | 주의점 |
 | :--- | :--- | :--- |
@@ -134,23 +137,22 @@ DLP의 기대효과는 세 가지다. 첫째, [데이터](/knowledge-base/studyn
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">경계 보안 중심 방어</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">데이터 분류 · 정규식 기반 DLP</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Endpoint / Network / Storage DLP</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ CASB · SaaS 가시성</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ OCR · ML 기반 문맥 식별</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SSE / Zero Trust 기반 데이터 중심 보호</div>
-</div>
-</div>
-
-
+```text
+경계 보안 중심 방어
+    │
+    ▼
+데이터 분류 · 정규식 기반 DLP
+    │
+    ▼
+Endpoint / Network / Storage DLP
+    │
+    ├──────────────▶ CASB · SaaS 가시성
+    │
+    └──────────────▶ OCR · ML 기반 문맥 식별
+                           │
+                           ▼
+                 SSE / Zero Trust 기반 데이터 중심 보호
+```
 
 이 흐름은 “네트워크 경계 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 내용 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) → 클라우드·문맥 기반 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)”로 통제가 진화하는 방향을 보여준다.
 

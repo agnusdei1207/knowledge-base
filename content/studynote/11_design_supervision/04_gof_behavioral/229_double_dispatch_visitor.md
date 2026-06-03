@@ -38,60 +38,54 @@ renderer.render(shape);     // 컴파일 타임 타입: Shape → render(Shape) 
 
 **문제**: 인수 타입에 대한 런타임 다형성이 필요한데, Java 오버로딩은 컴파일 타임에 결정된다.
 
+```
+1번 디스패치: shape.accept(visitor)
+  → shape의 런타임 타입(Circle)이 Circle::accept를 호출
 
+2번 디스패치: visitor.visit(this)
+  → this의 컴파일 타입이 Circle → visitor.visit(Circle)을 호출
+  → 이 시점의 this는 확실히 Circle 타입 → 오버로딩 정확히 해결!
+```
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">1번 디스패치: shape.accept(visitor)</div>
-<div class="kb-diagram-note">→ shape의 런타임 타입(Circle)이 Circle::accept를 호출</div>
-<div class="kb-diagram-note">2번 디스패치: visitor.visit(this)</div>
-<div class="kb-diagram-note">→ this의 컴파일 타입이 Circle → visitor.visit(Circle)을 호출</div>
-<div class="kb-diagram-note">→ 이 시점의 this는 확실히 Circle 타입 → 오버로딩 정확히 해결!</div>
-</div>
-</div>
-
-
-
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Core Idea</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Expected Gain</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐    ┌──────────────┐    ┌──────────────┐
+│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
+└──────────────┘    └──────────────┘    └──────────────┘
+```
 
 - **📢 섹션 요약 비유**: 더블 디스패치는 두 번의 악수로 신원을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 것 — "나는 Circle이에요(1번 디스패치: accept)" → "그럼 Circle용 처리를 할게요(2번 디스패치: visit(Circle))"
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Visitor Pattern 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;&lt;interface&gt;&gt; &lt;&lt;interface&gt;&gt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Element Visitor</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+accept(v:V)</div><div class="kb-diagram-cell">+visit(c:Circle): void</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+visit(s:Square): void</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+visit(t:Triangle): void</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Circle Square DrawVisitor AreaVisitor</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">accept</div><div class="kb-diagram-cell">accept</div><div class="kb-diagram-cell">visit(c)</div><div class="kb-diagram-cell">visit(c)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(v){</div><div class="kb-diagram-cell">(v){</div><div class="kb-diagram-cell">visit(s)</div><div class="kb-diagram-cell">visit(s)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">v.visit</div><div class="kb-diagram-cell">v.visit</div><div class="kb-diagram-cell">visit(t)</div><div class="kb-diagram-cell">visit(t)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(this)</div><div class="kb-diagram-cell">(this)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div><div class="kb-diagram-cell">}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">호출 흐름:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">shape.accept(drawVisitor)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">1번 디스패치: shape 타입</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">2번 디스패치: this=Circle</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Circle 특화 처리</div></div>
-</div>
-</div>
-
-
+```
+┌────────────────────────────────────────────────────────────────┐
+│                    Visitor Pattern 구조                        │
+│                                                                │
+│  <<interface>>          <<interface>>                         │
+│  Element                Visitor                               │
+│  ┌──────────────┐       ┌────────────────────────┐            │
+│  │ +accept(v:V) │       │ +visit(c:Circle): void  │           │
+│  └──────┬───────┘       │ +visit(s:Square): void  │           │
+│         │               │ +visit(t:Triangle): void│           │
+│    ┌────┴────┐          └──────────┬──────────────┘           │
+│    │         │                ┌────┴────┐                     │
+│  Circle   Square          DrawVisitor  AreaVisitor            │
+│  ┌──────┐ ┌──────┐        ┌─────────┐ ┌─────────┐            │
+│  │accept│ │accept│        │visit(c) │ │visit(c) │            │
+│  │(v){  │ │(v){  │        │visit(s) │ │visit(s) │            │
+│  │ v.visit│ │ v.visit│     │visit(t) │ │visit(t) │            │
+│  │ (this)│ │ (this)│      └─────────┘ └─────────┘            │
+│  │}     │ │}     │                                            │
+│  └──────┘ └──────┘                                            │
+│                                                                │
+│  호출 흐름:                                                     │
+│  shape.accept(drawVisitor)                                     │
+│    → Circle::accept(drawVisitor)  [1번 디스패치: shape 타입]   │
+│    → drawVisitor.visit(this)      [2번 디스패치: this=Circle]  │
+│    → DrawVisitor::visit(Circle)   [Circle 특화 처리]           │
+└────────────────────────────────────────────────────────────────┘
+```
 
 ```java
 // Element 인터페이스

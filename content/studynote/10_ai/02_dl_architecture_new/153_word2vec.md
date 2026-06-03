@@ -35,31 +35,32 @@ tags = ["studynote-ai"]
 
 Word2Vec은 수백 층의 딥러닝 뚱땡이가 아니다. 오직 은닉층(Hidden Layer)이 딱 1개뿐인 극강 초경량 얕은 신경망(Shallow Neural Network) 쾌속 엔진이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Word2Vec의 심장: 2대 코어 아키텍처 (CBOW vs Skip-gram 십자 융합)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">📝 타겟 문장 예시</div><div class="kb-diagram-note">: "The quick brown</div><div class="kb-diagram-node">fox</div><div class="kb-diagram-note">jumps over the lazy dog"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🟩</div><div class="kb-diagram-node">1. CBOW (Continuous Bag of Words) ➔ 주변에서 중앙 때려 맞추기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 작전: 반 친구들 얼굴을 쭉 보고, 오늘 빈자리에 누가 결석했는지 핀셋 맞추기!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 입력(Input) : brown, jumps, over (주변 단어들)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">은닉층 뇌 🧠 믹서기 윙윙~</div><div class="kb-diagram-connector">▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 예측(Output): fox (중심 단어 1방 컷 맞추기!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 🌟 특징: 여러 주변 놈들이 합심해서 예측하니까 연산 속도가 쾌속 존나 빠름 🚀.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">🪓 진짜 우주 1타 깡패 아키텍처 스위칭 록온 ✨</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🟥</div><div class="kb-diagram-node">2. Skip-gram ➔ 중앙 1명 보고 주변 놈들 싹 다 맞추기 텐트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 작전: 결석한 1명(중심) 이름표 딱 보고, 걔랑 친한 친구들(주변) 누군지 유추!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 입력(Input) : fox (중심 단어)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">은닉층 뇌 🧠 믹서기 윙윙~</div><div class="kb-diagram-connector">▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 예측(Output): brown, jumps, over (주변 단어 여러 개 싹 다 도출 쾅!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 🌟 팩폭 특징: 중심 단어 1개가 여러 번 학습 채찍질 기회를 쳐맞기 때문에!!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">미세한 뉘앙스와 10년에 1번 나오는</div><div class="kb-diagram-node">희귀 단어(Rare Word) 예측 정확도</div><div class="kb-diagram-note">에서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CBOW를 우주 끝까지 압살 척살해버리는 궁극의 메인 뼈대 아키텍처다 🚀.</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           Word2Vec의 심장: 2대 코어 아키텍처 (CBOW vs Skip-gram 십자 융합) │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│  [ 📝 타겟 문장 예시 ]: "The quick brown [fox] jumps over the lazy dog" │
+│                                                              │
+│ 🟩 [ 1. CBOW (Continuous Bag of Words) ➔ 주변에서 중앙 때려 맞추기 ] │
+│   - 작전: 반 친구들 얼굴을 쭉 보고, 오늘 빈자리에 누가 결석했는지 핀셋 맞추기!  │
+│   - 입력(Input) : brown, jumps, over (주변 단어들)                  │
+│   - ──▶ [ 은닉층 뇌 🧠 믹서기 윙윙~ ] ──▶                        │
+│   - 예측(Output): **fox** (중심 단어 1방 컷 맞추기!)                   │
+│   - 🌟 특징: 여러 주변 놈들이 합심해서 예측하니까 연산 속도가 쾌속 존나 빠름 🚀. │
+│                                                              │
+│        ======= [ 🪓 진짜 우주 1타 깡패 아키텍처 스위칭 록온 ✨ ] ======== │
+│                                                              │
+│ 🟥 [ 2. Skip-gram ➔ 중앙 1명 보고 주변 놈들 싹 다 맞추기 텐트 ]          │
+│   - 작전: 결석한 1명(중심) 이름표 딱 보고, 걔랑 친한 친구들(주변) 누군지 유추!  │
+│   - 입력(Input) : **fox** (중심 단어)                               │
+│   - ──▶ [ 은닉층 뇌 🧠 믹서기 윙윙~ ] ──▶                        │
+│   - 예측(Output): brown, jumps, over (주변 단어 여러 개 싹 다 도출 쾅!)│
+│   - 🌟 팩폭 특징: 중심 단어 1개가 여러 번 학습 채찍질 기회를 쳐맞기 때문에!!  │
+│     미세한 뉘앙스와 10년에 1번 나오는 [희귀 단어(Rare Word) 예측 정확도] 에서 │
+│     CBOW를 우주 끝까지 압살 척살해버리는 궁극의 메인 뼈대 아키텍처다 🚀.      │
+└──────────────────────────────────────────────────────────────┘
+```
 
 <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/">아키텍트의 피 터지는 한계 튜닝: 네거티브 샘플링 (Negative [Sampling</a> ✨)]</strong>
 "야 씨발 단어 1개 예측하려고 출력층([Softmax](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/))에서 10만 개 전체 단어 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 10만 번 다 계산하면 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 용광로 뻗어 타 죽어 쾅 💀!!!" 
@@ -134,23 +135,21 @@ Word2Vec은 "단어의 뜻은 국어사전 텍스트 글씨가 아니라, 100차
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">원-핫 인코딩 (One-Hot) &amp; 희소 행렬 (Sparse Matrix) 시대 💀 / 단어 사전 개수 10만 개면 배열 10만 칸 뚫어놓음. 메모리 램 오버헤드 타죽고 ➔ 단어끼리 뜻 비슷한지 유사도 각도 계산이 1도 성립 안 되는 맹인 뻗음 스파게티 파국 💥</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Word2Vec 대관식 (2013년 구글 강림) 🚀 / "야 빈칸 10만 개 0 떡칠 다 찢어 폐기 소각 쳐 쾅!! 단어를 300칸 꽉 찬 소수점 실수 배열(Dense Vector)로 압축 찌부러뜨리고 ➔ 문맥(Context) 비슷한 놈들끼리 우주 지도 공간 좌표계에 자석처럼 찰싹 달라붙게 묶어 융합 락킹 쳐 쾅 ✨!!"</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">FastText (페이스북 스나이퍼) 십자 보완 🛡️ / Word2Vec은 지가 학습 안 한 모르는 단어(오타 '사꽈') 들어오면 404 에러 뻗음 💀 ➔ "야 단어 전체 통째로 쑤시지 말고 글자를</div><div class="kb-diagram-node">사+과</div><div class="kb-diagram-note">쪼개 파편화(Subword) 넣어서 처음 보는 오타 단어도 조합 유추 방어 록온 생존 쳐라 쾅!"</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">문맥 기반 동적 임베딩 (ELMo, BERT 텐트) 진화 ✨ / 다의어 멍청이(정적 임베딩) 맹점 한계 도달 ➔ 어텐션(Attention) 빔 쏴서 앞뒤 문장 통째로 맥락 파악해 좌표 실시간 동적 매핑 쳐주는 진짜 지능형 차원 텔레포트 록온 쾅!</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">LLM 파라미터 1조 개 초지능 (현재) 🚀 / Word2Vec이 발명한 네거티브 샘플링과 임베딩 텐서 밀집 쇳덩이 수학 연산의 DNA 영혼을 100% 완벽히 흡수 빙의 계승하여 ➔ 지구 인류의 모든 책 언어를 1개의 거대 N차원 블랙홀 우주 공간으로 다 쑤셔 박아 통제 번역해 내는 21세기 초거대 AGI 제국 대통일 완료 쾅!!</div>
-</div>
-</div>
-
-
+```text
+원-핫 인코딩 (One-Hot) & 희소 행렬 (Sparse Matrix) 시대 💀 / 단어 사전 개수 10만 개면 배열 10만 칸 뚫어놓음. 메모리 램 오버헤드 타죽고 ➔ 단어끼리 뜻 비슷한지 유사도 각도 계산이 1도 성립 안 되는 맹인 뻗음 스파게티 파국 💥
+    │
+    ▼
+Word2Vec 대관식 (2013년 구글 강림) 🚀 / "야 빈칸 10만 개 0 떡칠 다 찢어 폐기 소각 쳐 쾅!! 단어를 300칸 꽉 찬 소수점 실수 배열(Dense Vector)로 압축 찌부러뜨리고 ➔ 문맥(Context) 비슷한 놈들끼리 우주 지도 공간 좌표계에 자석처럼 찰싹 달라붙게 묶어 융합 락킹 쳐 쾅 ✨!!"
+    │
+    ▼
+FastText (페이스북 스나이퍼) 십자 보완 🛡️ / Word2Vec은 지가 학습 안 한 모르는 단어(오타 '사꽈') 들어오면 404 에러 뻗음 💀 ➔ "야 단어 전체 통째로 쑤시지 말고 글자를 [사+과] 쪼개 파편화(Subword) 넣어서 처음 보는 오타 단어도 조합 유추 방어 록온 생존 쳐라 쾅!"
+    │
+    ▼
+문맥 기반 동적 임베딩 (ELMo, BERT 텐트) 진화 ✨ / 다의어 멍청이(정적 임베딩) 맹점 한계 도달 ➔ 어텐션(Attention) 빔 쏴서 앞뒤 문장 통째로 맥락 파악해 좌표 실시간 동적 매핑 쳐주는 진짜 지능형 차원 텔레포트 록온 쾅!
+    │
+    ▼
+LLM 파라미터 1조 개 초지능 (현재) 🚀 / Word2Vec이 발명한 네거티브 샘플링과 임베딩 텐서 밀집 쇳덩이 수학 연산의 DNA 영혼을 100% 완벽히 흡수 빙의 계승하여 ➔ 지구 인류의 모든 책 언어를 1개의 거대 N차원 블랙홀 우주 공간으로 다 쑤셔 박아 통제 번역해 내는 21세기 초거대 AGI 제국 대통일 완료 쾅!!
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

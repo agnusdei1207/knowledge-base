@@ -21,32 +21,33 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: FTR은 "형식적(Formal)"이라는 단어가 의미하듯, 정해진 절차, 역할(Reviewer, Author, [Moderator](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/760_inspection_moderator_formal_review/)), 진입 기준(Entry Criteria), 종착 기준(Exit Criteria)이 존재하는 <strong>조직적·체계적 검토 프로세스</strong>이다. 단순히 문서를 읽고 피드백을 주는 것이 아니라, 사전 준비, 회의, 후속 조치까지 전 과정이 구조화되어 있다.
 
-- **필요성**: 소프트웨어 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)은 늦게 발견할수록 수정 비용이 기하급수적으로 증가한다([결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 수정 비용 곡선). 설계 단계에서 발견하면 1 비용으로 수정 가능하지만, 운영 단계에서 발견하면 100배 이상의 비용이 든다. FTR은 이러한 비용 곡선의 왼쪽Shift([Shift-Left](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/))을하는 핵심 활동이다.
+- **필요성**: 소프트웨어 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)은 늦게 발견할수록 수정 비용이 기하급수적으로 증가한다([결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 수정 비용 곡선). 설계 단계에서 발견하면 1단위적 비용으로 수정 가능하지만, 운영 단계에서 발견하면 100배 이상의 비용이 든다. FTR은 이러한 비용 곡선의 왼쪽Shift([Shift-Left](/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/))을실현하는 핵심 활동이다.
 
-- **💡 비유**: FTR은 <strong>'영화 개봉 전 시사회(시사회)'</strong>와 같다. 일반 관객이 영화를 본 후 의견을 말하면 편파적일 수 있지만, 영화 평론가, 연출 전문가, 기술 전문가 등 다양한 분야의 전문가가 체계적으로 영화를 분석하고 문제점을critically 지적한다. 그 결과, 대중에게 노출되기 전에문제을/를수정할 수 있다.
+- **💡 비유**: FTR은 <strong>'영화 개봉 전 시사회(시사회)'</strong>와 같다. 일반 관객이 영화를 본 후 의견을 말하면 편파적일 수 있지만, 영화 평론가, 연출 전문가, 기술 전문가 등 다양한 분야의 전문가가 체계적으로 영화를 분석하고 문제점을critically 지적한다. 그 결과, 대중에게 노출되기 전에문제점을수정할 수 있다.
 
 - **등장 배경 및 발전 과정**:
-1. **1970년대 IBM 연구**: Mills, Baker, Dyer가 체계적 [인스펙션](/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/)(Inspection) 절차 도입
-2. **1980년대 IEEE 표준화**: IEEE 1028가 공식적 검토 절차 표준으로 제정
-3. **현재**: 애자일에서도 팀 내 리뷰([Pair Programming](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/074_pair_programming_driver_navigator/), [Code Review](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/))로 환원되어 활용
+  1. **1970년대 IBM 연구**: Mills, Baker, Dyer가 체계적 [인스펙션](/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/)(Inspection) 절차 도입
+  2. **1980년대 IEEE 표준화**: IEEE 1028가 공식적 검토 절차 표준으로 제정
+  3. **현재**: 애자일에서도 팀 내 리뷰([Pair Programming](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/074_pair_programming_driver_navigator/), [Code Review](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/))로 환원되어 활용
 
-- **📢 섹션 요약 비유**: FTR은 <strong>'식품 위생 검사'</strong>와 같다. 식품이 시장에 나오기 전에 위생 전문가가 제조 과정, 원료, 보관 상태를 체계적으로 검사하여문제 즉 시정케 하여, 소비자(사용자)가 문제가 있는 식품을 할을 원천 차단하는이다.
+- **📢 섹션 요약 비유**: FTR은 <strong>'식품 위생 검사'</strong>와 같다. 식품이 시장에 나오기 전에 위생 전문가가 제조 과정, 원료, 보관 상태를 체계적으로 검사하여문제시 즉시 시정케 하여, 소비자(사용자)가 문제가 있는 식품을 접할가능성을 원천 차단하는원리이다.
 
 ---
 
 다음은 [정형 기술 검토](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/647_ftr_formal_technical_review_inspection_walkthrough/) ([FTR](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/647_ftr_formal_technical_review_inspection_walkthrough/), Forma의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정형 기술 검토 (FTR, Forma</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                  정형 기술 검토 (FTR, Forma                        │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
+│       │                    │                    │          │
+│       ▼                    ▼                    ▼          │
+│   요구 분석           설계·적용           품질 검증        │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램은 [정형 기술 검토](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/647_ftr_formal_technical_review_inspection_walkthrough/) ([FTR](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/647_ftr_formal_technical_review_inspection_walkthrough/), Forma가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -136,30 +137,28 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | [정형 기술 검토](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/647_ftr_formal_technical_review_inspection_walkthrough/) ([FTR](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/647_ftr_formal_technical_review_inspection_walkthrough/), Formal Technical [Review](/knowledge-base/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/)) 의 지침의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | [정형 기술 검토](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/647_ftr_formal_technical_review_inspection_walkthrough/) ([FTR](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/647_ftr_formal_technical_review_inspection_walkthrough/), Formal Technical [Review](/knowledge-base/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/)) 의 지침의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
 | [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | [정형 기술 검토](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/647_ftr_formal_technical_review_inspection_walkthrough/) ([FTR](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/647_ftr_formal_technical_review_inspection_walkthrough/), Formal Technical [Review](/knowledge-base/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/)) 의 지침은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | [정형 기술 검토](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/647_ftr_formal_technical_review_inspection_walkthrough/) ([FTR](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/647_ftr_formal_technical_review_inspection_walkthrough/), Formal Technical [Review](/knowledge-base/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/)) 의 지침 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
 | [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | [정형 기술 검토](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/647_ftr_formal_technical_review_inspection_walkthrough/) ([FTR](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/647_ftr_formal_technical_review_inspection_walkthrough/), Formal Technical [Review](/knowledge-base/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/)) 의 지침에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">정형 기술 검토 (FTR, Formal Technical Review) 의 지침 개념 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 위기 (Software Crisis) 인식
+    │
+    ▼
+정형 기술 검토 (FTR, Formal Technical Review) 의 지침 개념 정립
+    │
+    ▼
+표준화 및 방법론 체계화 (ISO, CMMI, Agile)
+    │
+    ▼
+클라우드 네이티브·AI 기반 확장 적용
+    │
+    ▼
+지속적 개선 및 DevOps·MLOps 통합
+```
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

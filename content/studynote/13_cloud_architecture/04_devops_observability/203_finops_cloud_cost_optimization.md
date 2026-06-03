@@ -33,21 +33,21 @@ FinOps의 핵심 원칙: "사용한 만큼 지불(Pay-per-use)의 가변비용 �
 
 ### [FinOps](/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops/) 라이프사이클 3단계
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FinOps 라이프사이클</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. INFORM</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">2.OPTIMIZE</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">3. OPERATE</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비용 가시화</div><div class="kb-diagram-cell">최적화</div><div class="kb-diagram-cell">지속 관리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 태깅</div><div class="kb-diagram-cell">- RI 구매</div><div class="kb-diagram-cell">- 예산</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 대시보드</div><div class="kb-diagram-cell">- 스팟</div><div class="kb-diagram-cell">- 이상 감지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 팀별</div><div class="kb-diagram-cell">- 사이징</div><div class="kb-diagram-cell">- 주기 검토</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">할당</div><div class="kb-diagram-cell">- 정책</div><div class="kb-diagram-cell">- 문화</div></div>
-</div>
-</div>
-
-
+```
+  ┌──────────────────────────────────────────────────────┐
+  │                FinOps 라이프사이클                     │
+  │                                                      │
+  │   ┌──────────┐    ┌──────────┐    ┌──────────┐      │
+  │   │ 1. INFORM │───→│2.OPTIMIZE│───→│3. OPERATE│      │
+  │   │           │    │          │    │          │      │
+  │   │ 비용 가시화│    │ 최적화   │    │ 지속 관리 │      │
+  │   │ - 태깅    │    │ - RI 구매│    │ - 예산    │      │
+  │   │ - 대시보드│    │ - 스팟   │    │ - 이상 감지│     │
+  │   │ - 팀별    │    │ - 사이징 │    │ - 주기 검토│     │
+  │   │   할당    │    │ - 정책   │    │ - 문화    │      │
+  │   └──────────┘    └──────────┘    └──────────┘      │
+  └──────────────────────────────────────────────────────┘
+```
 
 ### 단계별 핵심 활동
 
@@ -59,27 +59,21 @@ FinOps의 핵심 원칙: "사용한 만큼 지불(Pay-per-use)의 가변비용 �
 
 ### [클라우드 비용 최적화](/knowledge-base/studynote/07_enterprise_systems/08_cloud_finops/227_cloud_cost_optimization/) 기법 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">비용 최적화 기법</div>
-<div class="kb-diagram-tree-item" style="--depth:1">즉시 가능 (0~1개월)</div>
-<div class="kb-diagram-note">── 미사용 인스턴스·볼륨 삭제 (Idle/Zombie Resources)</div>
-<div class="kb-diagram-note">── 개발/테스트 환경 야간·주말 자동 셧다운</div>
-<div class="kb-diagram-note">── 과다 프로비저닝 인스턴스 다운사이징</div>
-<div class="kb-diagram-tree-item" style="--depth:1">단기 (1~3개월)</div>
-<div class="kb-diagram-note">── Reserved Instance(RI) / Savings Plans 구매</div>
-<div class="kb-diagram-note">── Spot Instance 활용 (배치 워크로드)</div>
-<div class="kb-diagram-note">── 스토리지 계층화 (S3 IA / Glacier)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">장기 (3개월~)</div>
-<div class="kb-diagram-tree-item" style="--depth:3">아키텍처 최적화 (서버리스 전환)</div>
-<div class="kb-diagram-tree-item" style="--depth:3">멀티 클라우드 비용 비교·이전</div>
-<div class="kb-diagram-tree-item" style="--depth:3">FinOps 문화 내재화</div>
-</div>
-</div>
-
-
+```
+  비용 최적화 기법
+  ├── 즉시 가능 (0~1개월)
+  │   ├── 미사용 인스턴스·볼륨 삭제 (Idle/Zombie Resources)
+  │   ├── 개발/테스트 환경 야간·주말 자동 셧다운
+  │   └── 과다 프로비저닝 인스턴스 다운사이징
+  ├── 단기 (1~3개월)
+  │   ├── Reserved Instance(RI) / Savings Plans 구매
+  │   ├── Spot Instance 활용 (배치 워크로드)
+  │   └── 스토리지 계층화 (S3 IA / Glacier)
+  └── 장기 (3개월~)
+      ├── 아키텍처 최적화 (서버리스 전환)
+      ├── 멀티 클라우드 비용 비교·이전
+      └── FinOps 문화 내재화
+```
 
 📢 **섹션 요약 비유**: 비용 최적화 기법의 3단계는 집 에너지 절약과 같다. 즉시: 안 쓰는 방 전등 끄기. 단기: 전기 계약을 심야 전기로 바꾸기. 장기: 단열재 시공하고 태양광 패널 설치하기.
 
@@ -117,7 +111,7 @@ AutoShutdown:   true (야간 자동 셧다운 대상)
 
 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops/">FinOps</a> 조직 구조 (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops/">FinOps</a> Foundation 모델)</strong>:
 - <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops/">FinOps</a> Practitioner</strong>: 비용 최적화를 조율하는 중앙 팀
-- **Engineering Teams**: 비용을 생성하는 팀, 비용 의식 교육 필요
+- **엔진ering Teams**: 비용을 생성하는 팀, 비용 의식 교육 필요
 - **Finance Team**: 예산 계획·예측·차지백(chargeback) 관리
 - **Business Stakeholders**: [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/) 관점의 클라우드 투자 의사결정
 
@@ -184,22 +178,18 @@ FinOps는 "클라우드 청구서를 줄이는 것"이 아니라 "클라우드 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">클라우드 비용 급증 (통제 불가)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">FinOps: Inform → Optimize → Operate 사이클</div>
-<div class="kb-diagram-tree-item" style="--depth:2">비용 가시성: 태깅 · 차지백 · 쇼백</div>
-<div class="kb-diagram-tree-item" style="--depth:2">최적화: RI · Spot · 오토스케일링 · 라이트사이징</div>
-<div class="kb-diagram-tree-item" style="--depth:2">거버넌스: 예산 알림 · 정책 자동화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Unit Economics: 비용 / 사용자 · 트랜잭션 기반 측정</div>
-</div>
-</div>
-
-
+```text
+클라우드 비용 급증 (통제 불가)
+    │
+    ▼
+FinOps: Inform → Optimize → Operate 사이클
+    ├─► 비용 가시성: 태깅 · 차지백 · 쇼백
+    ├─► 최적화: RI · Spot · 오토스케일링 · 라이트사이징
+    └─► 거버넌스: 예산 알림 · 정책 자동화
+    │
+    ▼
+Unit Economics: 비용 / 사용자 · 트랜잭션 기반 측정
+```
 2. 먼저 어디서 돈이 나가는지 보고(Inform), 안 쓰는 장치 끄고(Optimize), 매달 계속 확인하는(Operate) 3단계야.
 3. 빠르게 개발하면서도 비용 낭비 없이 지내는 게 목표야. 빠르다고 무조건 돈을 많이 써야 하는 건 아니니까!
 

@@ -18,7 +18,7 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-[할루시네이션](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/)([Hallucination](/knowledge-base/studynote/12_it_management/05_security_compliance/345_llm_foundation_model_hallucination/)) 방어 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 통계적 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 기계인 LLM에 사실적 제약(Grounding)이라는 목줄을 채워 거짓말을 하지 못하게 묶어두는 일련의 아키텍처 기법들이다. LLM은 과거 학습된 텍스트의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포를 바탕으로 '다음에 올 가장 자연스러운 단어'를 예측(Generate)할 뿐, 그 문장이 진실인지 팩트 체크를 하는 검색 엔진(Search Engine)이 아니기 때문에 필연적으로 [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/)이 터진다.
+[할루시네이션](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/251_hallucination_rag_augmented_retrieval_vector_db/)([Hallucination](/knowledge-base/studynote/12_it_management/05_security_compliance/345_llm_foundation_model_hallucination/)) 방어 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 통계적 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 기계인 LLM에 사실적 제약(Grounding)이라는 목줄을 채워 거짓말을 하지 못하게 묶어두는 일련의 아키텍처 기법들이다. LLM은 과거 학습된 텍스트의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포를 바탕으로 '다음에 올 가장 자연스러운 단어'를 예측(Generate)할 뿐, 그 문장이 진실인지 팩트 체크를 하는 검색 엔진(Search 엔진)이 아니기 때문에 필연적으로 [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/)이 터진다.
 
 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)형 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시대가 도래하면서, 챗봇이 고객에게 잘못된 환불 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 당당히 안내하거나 없는 판례를 지어내 제출하게 만드는 사건들이 폭발했다. LLM의 뛰어난 '유창함(Fluency)'이 사람들의 뇌를 속여 '진실'로 맹신하게 만드는 현상이다. 따라서 기업이 AI를 실무 인프라에 도입하려면, 이 똑똑한 앵무새가 선을 넘지 못하게 가두는 다층적인 방어벽 설계가 필수 헌법으로 자리 잡았다.
 
@@ -30,27 +30,28 @@ tags = ["studynote-ai"]
 
 [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/)을 완벽히 소각하는 단일 기술은 존재하지 않는다. 시스템의 입력부터 출력까지 전 구간에 걸쳐 방어 레이어를 겹겹이 두르는 <strong>심층 방어 (<a href="/knowledge-base/studynote/09_security/01_intro_principles/012_defense_in_depth/">Defense in Depth</a>)</strong> 십자 아키텍처가 동원된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LLM 할루시네이션 방어 파이프라인: 4중 심층 방어 (Defense in Depth)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1️⃣</div><div class="kb-diagram-node">데이터 레이어 (RAG) - 팩트 주입 생존막</div><div class="kb-diagram-note">🛡️</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 모델 뇌에 의존 금지! 사내 벡터 DB에서 진짜 문서(Fact)를 먼저 검색해옴.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 프롬프트 멱살 잡기: "이 문서 내용 안에서만 대답해! 없으면 모른다고 해 쾅!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2️⃣</div><div class="kb-diagram-node">프롬프트 레이어 (Guardrails) - 룰 강제 주입</div><div class="kb-diagram-note">🚧</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 시스템 프롬프트 레벨에서 페르소나와 제약 조건을 강제로 하드코딩 록온.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- NeMo Guardrails 같은 툴로 "정치/해킹 질문 들어오면 무조건 차단 컷!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3️⃣</div><div class="kb-diagram-node">모델 레이어 (RLHF / Fine-tuning) - 체질 개선 세뇌</div><div class="kb-diagram-note">🧠</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "모릅니다"라고 안전하게 대답하면 당근(보상)을 주고, 소설을 쓰면 채찍(감점).</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 정렬(Alignment) 훈련을 통해 거짓말을 거부하는 체질로 모델 뇌세포 개조.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">4️⃣</div><div class="kb-diagram-node">UI/UX 및 후처리 레이어 (Fact Checking) - 마지막 검문소</div><div class="kb-diagram-note">👁️</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- LLM이 뱉은 답변을 사용자에게 주기 전, NLI(자연어 추론) 봇이 한 번 더 검증.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- 화면에 무조건</div><div class="kb-diagram-node">출처 링크 1, 2</div><div class="kb-diagram-note">를 박아 넣어 인간이 최종 팩트 체크하게 만듦.</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│        LLM 할루시네이션 방어 파이프라인: 4중 심층 방어 (Defense in Depth) │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  1️⃣ [ 데이터 레이어 (RAG) - 팩트 주입 생존막 ] 🛡️                 │
+│     - 모델 뇌에 의존 금지! 사내 벡터 DB에서 진짜 문서(Fact)를 먼저 검색해옴. │
+│     - 프롬프트 멱살 잡기: "이 문서 내용 안에서만 대답해! 없으면 모른다고 해 쾅!"│
+│                                                             │
+│  2️⃣ [ 프롬프트 레이어 (Guardrails) - 룰 강제 주입 ] 🚧              │
+│     - 시스템 프롬프트 레벨에서 페르소나와 제약 조건을 강제로 하드코딩 록온. │
+│     - NeMo Guardrails 같은 툴로 "정치/해킹 질문 들어오면 무조건 차단 컷!" │
+│                                                             │
+│  3️⃣ [ 모델 레이어 (RLHF / Fine-tuning) - 체질 개선 세뇌 ] 🧠        │
+│     - "모릅니다"라고 안전하게 대답하면 당근(보상)을 주고, 소설을 쓰면 채찍(감점). │
+│     - 정렬(Alignment) 훈련을 통해 거짓말을 거부하는 체질로 모델 뇌세포 개조. │
+│                                                             │
+│  4️⃣ [ UI/UX 및 후처리 레이어 (Fact Checking) - 마지막 검문소 ] 👁️    │
+│     - LLM이 뱉은 답변을 사용자에게 주기 전, NLI(자연어 추론) 봇이 한 번 더 검증. │
+│     - 화면에 무조건 [출처 링크 1, 2]를 박아 넣어 인간이 최종 팩트 체크하게 만듦.│
+└─────────────────────────────────────────────────────────────┘
+```
 
 <strong>핵심 튜닝 파라미터: 온도(<a href="/knowledge-base/studynote/10_ai/05_data_science_ml/386_llm_temperature/">Temperature</a>) 제어</strong>
 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) API를 호출할 때 `Temperature` 값을 0([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/))에 가깝게 깎아버리는 것이 0순위 방어다. 온도가 높으면(1.0) AI는 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 낮은 단어들도 섞어 쓰며 창의적인 소설([환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/))을 쓰지만, 온도가 0이면 가장 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 높고 뻔한, 즉 팩트에 가장 가까운 보수적인 단어만 무조건 선택하게 되어 기계적인 팩트 전달 봇으로 변신한다.
@@ -120,23 +121,21 @@ tags = ["studynote-ai"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">LLM (GPT, Llama) 모델의 파라미터 거대화 / 문장 유창성(Fluency)은 우주 폭발했으나, 팩트 제어 불가능</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">할루시네이션 (Hallucination) 재앙 대폭발 / 가짜 판례, 잘못된 의료 지식을 뻔뻔하게 내뱉어 소송 파국 💥</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">RLHF (인간 피드백 정렬) 도입 / "모르면 모른다고 해"라고 모델 뇌에 안전성(Alignment) 체질 개선 주입</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">RAG (검색 증강 생성) 아키텍처 대세화 / 외부 팩트 문서 강제 주입으로 B2B 엔터프라이즈 무결점 생존망 달성 🚀</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">가드레일 (Guardrails) &amp; 에이전트 자가 검증 (Agentic Self-Refine) / 인간 통제 없이 AI 스스로 팩트 체크와 모순을 크로스 검열하여 100% 락킹 쳐버리는 미래 방어 진화</div>
-</div>
-</div>
-
-
+```text
+LLM (GPT, Llama) 모델의 파라미터 거대화 / 문장 유창성(Fluency)은 우주 폭발했으나, 팩트 제어 불가능
+    │
+    ▼
+할루시네이션 (Hallucination) 재앙 대폭발 / 가짜 판례, 잘못된 의료 지식을 뻔뻔하게 내뱉어 소송 파국 💥
+    │
+    ▼
+RLHF (인간 피드백 정렬) 도입 / "모르면 모른다고 해"라고 모델 뇌에 안전성(Alignment) 체질 개선 주입
+    │
+    ▼
+RAG (검색 증강 생성) 아키텍처 대세화 / 외부 팩트 문서 강제 주입으로 B2B 엔터프라이즈 무결점 생존망 달성 🚀
+    │
+    ▼
+가드레일 (Guardrails) & 에이전트 자가 검증 (Agentic Self-Refine) / 인간 통제 없이 AI 스스로 팩트 체크와 모순을 크로스 검열하여 100% 락킹 쳐버리는 미래 방어 진화
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

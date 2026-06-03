@@ -20,18 +20,19 @@ tags = ["studynote-design-supervision"]
 ## Ⅰ. 개요 및 필요성
 마틴 파울러 (Martin Fowler) 는 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)의 정의에 "외부에서 관찰 가능한 동작 (Observable Behavior) 을 바꾸지 않으면서 내부 구조를 개선하는 것"이라 명시한다. 이 전제를 <strong>자동으로 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>하는 수단이 바로 자동화 테스트 (Automated Test) 다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TDD 레드-그린-리팩터 사이클</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RED GREEN REFACTOR</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실패</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">성공</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">내부 구조 개선</div><div class="kb-diagram-cell">──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">테스트</div><div class="kb-diagram-cell">테스트</div><div class="kb-diagram-cell">동작 변경 없음</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────┐
+│           TDD 레드-그린-리팩터 사이클            │
+│                                                  │
+│    RED          GREEN         REFACTOR           │
+│  ┌──────┐     ┌──────┐     ┌──────────────┐     │
+│  │실패  │ ──▶ │성공  │ ──▶ │내부 구조 개선 │ ──┐ │
+│  │테스트│     │테스트│     │동작 변경 없음 │   │ │
+│  └──────┘     └──────┘     └──────────────┘   │ │
+│                                    ▲           │ │
+│                                    └───────────┘ │
+└──────────────────────────────────────────────────┘
+```
 
 - **기존 동작 파괴**: 코드 이동·변환 과정에서 의도치 않은 버그 도입
 - **회귀 (Regression)**: 수정 이전에 정상 동작하던 기능이 이후 중단
@@ -42,19 +43,16 @@ tags = ["studynote-design-supervision"]
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-connector">▲</div>
-<div class="kb-diagram-note">/E2E\ ← 종단 간 테스트 (느림, 비용 큼)</div>
-<div class="kb-diagram-note">/ 통합 \ ← 통합 테스트 (Integration Test)</div>
-<div class="kb-diagram-note">/ 단위 테스트\ ← Unit Test (빠름, 비용 적음) ★ 리팩토링 주력</div>
-<div class="kb-diagram-note">▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔</div>
-</div>
-</div>
-
-
+```
+              ▲
+             /E2E\       ← 종단 간 테스트 (느림, 비용 큼)
+            /─────\
+           / 통합  \     ← 통합 테스트 (Integration Test)
+          /─────────\
+         / 단위 테스트\  ← Unit Test (빠름, 비용 적음) ★ 리팩토링 주력
+        /─────────────\
+        ▔▔▔▔▔▔▔▔▔▔▔▔▔▔▔
+```
 
 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) 안전망의 주력은 <strong><a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/">단위 테스트</a> (<a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/">Unit Test</a>)</strong> 다. 빠른 [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/) ([Feedback Loop](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)) 를 제공해 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) 직후 즉시 결과를 확인한다.
 
@@ -66,21 +64,19 @@ tags = ["studynote-design-supervision"]
 
 [테스트 더블](/knowledge-base/studynote/12_it_management/05_security_compliance/367_test_double_isolation/) ([Test Double](/knowledge-base/studynote/04_software_engineering/11_testing_validation/458_test_double/)) 은 의존 객체를 대체해 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)의 독립성을 보장한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">테스트 더블 유형</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유형</div><div class="kb-diagram-cell">역할</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Stub</div><div class="kb-diagram-cell">고정 응답 반환 (상태 검증)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mock</div><div class="kb-diagram-cell">호출 기대 검증 (행동 검증)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Fake</div><div class="kb-diagram-cell">실제 동작하는 경량 대체</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Spy</div><div class="kb-diagram-cell">실제 동작 + 호출 기록</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Dummy</div><div class="kb-diagram-cell">파라미터 채우기용 (미사용)</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────┐
+│               테스트 더블 유형                   │
+├──────────────┬───────────────────────────────────┤
+│  유형        │  역할                             │
+├──────────────┼───────────────────────────────────┤
+│  Stub        │ 고정 응답 반환 (상태 검증)        │
+│  Mock        │ 호출 기대 검증 (행동 검증)        │
+│  Fake        │ 실제 동작하는 경량 대체           │
+│  Spy         │ 실제 동작 + 호출 기록             │
+│  Dummy       │ 파라미터 채우기용 (미사용)        │
+└──────────────┴───────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 항공기 시뮬레이터로 연습하면 실제 비행기를 추락시키지 않고 조종 실력을 기를 수 있다 — [테스트 더블](/knowledge-base/studynote/12_it_management/05_security_compliance/367_test_double_isolation/)이 바로 그 시뮬레이터다.
 
@@ -94,25 +90,24 @@ tags = ["studynote-design-supervision"]
 | 레거시 커버리지 추가 | 구현 후 작성 | 느림 | 중간 | 레거시 시스템 |
 | 탐색적 테스트 (Exploratory Test) | 수동 | 매우 느림 | 낮음 | 엣지케이스 발굴 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">안전한 리팩토링 워크플로우</div></div>
-<div class="kb-diagram-note">기존 코드</div>
-<div class="kb-diagram-tree-item" style="--depth:1">테스트 커버리지 확인 (&lt; 70%?)</div>
-<div class="kb-diagram-note">─ Yes ──▶ 테스트 먼저 추가 ──</div>
-<div class="kb-diagram-note">─ No</div>
-<div class="kb-diagram-tree-item" style="--depth:1">스멜 식별 (Code Smell Detection)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">리팩토링 기법 선택</div>
-<div class="kb-diagram-tree-item" style="--depth:1">소규모 변경 + 즉시 테스트 실행 (빨간불?)</div>
-<div class="kb-diagram-note">─ 실패 ──▶ 즉시 롤백 (Revert)</div>
-<div class="kb-diagram-note">─ 성공 ──▶ 다음 단계</div>
-<div class="kb-diagram-tree-item" style="--depth:1">커밋 (Commit) → 반복</div>
-</div>
-</div>
-
-
+```
+[ 안전한 리팩토링 워크플로우 ]
+기존 코드
+  │
+  ├─ 테스트 커버리지 확인 (< 70%?)
+  │     ├─ Yes ──▶ 테스트 먼저 추가 ──┐
+  │     └─ No  ──────────────────────┤
+  │                                  ↓
+  ├─ 스멜 식별 (Code Smell Detection)
+  │
+  ├─ 리팩토링 기법 선택
+  │
+  ├─ 소규모 변경 + 즉시 테스트 실행 (빨간불?)
+  │     ├─ 실패 ──▶ 즉시 롤백 (Revert)
+  │     └─ 성공 ──▶ 다음 단계
+  │
+  └─ 커밋 (Commit) → 반복
+```
 
 - **📢 섹션 요약 비유**: 등산할 때 발을 딛을 때마다 발판을 확인하는 것처럼, [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)도 작은 변경마다 테스트로 확인한다.
 
@@ -128,19 +123,14 @@ tags = ["studynote-design-supervision"]
 
 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)) 파이프라인에 테스트를 통합하면 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) 후 자동으로 안전망이 작동한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">개발자 커밋 → CI 파이프라인 자동 실행</div>
-<div class="kb-diagram-tree-item" style="--depth:1">단위 테스트 실행 (&lt; 5분 목표)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">통합 테스트 실행</div>
-<div class="kb-diagram-tree-item" style="--depth:1">코드 커버리지 리포트 생성</div>
-<div class="kb-diagram-tree-item" style="--depth:1">실패 시 Slack/이메일 알림</div>
-</div>
-</div>
-
-
+```
+개발자 커밋 → CI 파이프라인 자동 실행
+  │
+  ├─ 단위 테스트 실행 (< 5분 목표)
+  ├─ 통합 테스트 실행
+  ├─ 코드 커버리지 리포트 생성
+  └─ 실패 시 Slack/이메일 알림
+```
 
 - <strong>지속적 <a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/">리팩토링</a> (Continuous <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/078_refactoring_code_smells/">Refactoring</a>)</strong>: 스프린트마다 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 제거 시간을 스케줄링
 - **보이 스카우트 규칙 (Boy Scout Rule)**: "캠프장을 발견했을 때보다 더 깨끗하게 떠나라" — 건드린 코드는 반드시 개선

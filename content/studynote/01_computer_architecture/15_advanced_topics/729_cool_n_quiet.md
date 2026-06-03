@@ -45,21 +45,28 @@ Cool'n'Quiet의 핵심 경로는 <strong><a href="/knowledge-base/studynote/02_o
 
 아래 그림은 Cool'n'Quiet가 소음을 직접 제어하는 것이 아니라, 전력과 열을 낮춘 결과로 팬이 조용해지는 구조를 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cool'n'Quiet control path: lower load, lower V/f, lower RPM</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Light workload detected by OS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ACPI P-state request: P0 -&gt; P1 / P2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU lowers multiplier and VID</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VRM supplies lower core voltage</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Dynamic power falls: P ≈ C × V² × f</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Package temperature falls -&gt; fan controller lowers RPM</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│      Cool'n'Quiet control path: lower load, lower V/f, lower RPM    │
+├──────────────────────────────────────────────────────────────────────┤
+│ Light workload detected by OS                                        │
+│        │                                                             │
+│        ▼                                                             │
+│ ACPI P-state request: P0 -> P1 / P2                                  │
+│        │                                                             │
+│        ▼                                                             │
+│ CPU lowers multiplier and VID                                        │
+│        │                                                             │
+│        ▼                                                             │
+│ VRM supplies lower core voltage                                      │
+│        │                                                             │
+│        ▼                                                             │
+│ Dynamic power falls: P ≈ C × V² × f                                  │
+│        │                                                             │
+│        ▼                                                             │
+│ Package temperature falls -> fan controller lowers RPM               │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 과정에서 전환 지연이 0은 아니므로, 시스템은 너무 자주 상태를 바꾸지 않도록 히스테리시스나 샘플링 주기를 둔다. 즉 Cool'n'Quiet는 단순 스위치가 아니라, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 소음을 함께 관리하는 <strong>제어 루프</strong>로 이해해야 한다.
 
@@ -135,27 +142,26 @@ Cool'n'Quiet의 직접 효과는 경부하 전력 절감이고, 간접 효과는
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">고정 클럭 데스크톱 CPU 시대</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">모바일 DVFS 실험: PowerNow! · SpeedStep</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ACPI P-State 표준화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Cool'n'Quiet</div>
-<div class="kb-diagram-note">: 데스크톱 경부하 전력 절감 + 정숙성 향상</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">하드웨어 자율 제어 강화</div>
-<div class="kb-diagram-note">: CPPC · HWP · 센서 기반 제어</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Precision Boost · 플랫폼 단위 전력 최적화</div>
-</div>
-</div>
-
-
+```text
+고정 클럭 데스크톱 CPU 시대
+    │
+    ▼
+모바일 DVFS 실험: PowerNow! · SpeedStep
+    │
+    ▼
+ACPI P-State 표준화
+    │
+    ▼
+Cool'n'Quiet
+: 데스크톱 경부하 전력 절감 + 정숙성 향상
+    │
+    ▼
+하드웨어 자율 제어 강화
+: CPPC · HWP · 센서 기반 제어
+    │
+    ▼
+Precision Boost · 플랫폼 단위 전력 최적화
+```
 
 이 흐름은 "단순 절전 → 데스크톱 정숙성 → 센서 기반 자율 제어"로 전력 관리가 진화한 과정을 보여 준다.
 

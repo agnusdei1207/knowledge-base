@@ -24,18 +24,14 @@ tags = ["studynote-network"]
 
 - **💡 비유**: 공항 수하물 컨베이어 벨트(트렁크 선로)에 서울행, 부산행, 제주행 짐들이 섞여서 돌아갑니다. 수하물을 구별하기 위해 각 가방 손잡이에 <strong>"바코드 꼬리표(802.1Q Tag)"</strong>를 매달아 놓는 것과 같습니다. 최종 목적지 공항에 도착하면 직원은 이 꼬리표를 떼어내고(Untag) 승객에게 짐을 돌려줍니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">가상 랜</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IEEE 802.1Q</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">접근 포트 / 트렁크 포트</div></div>
-</div>
-</div>
-
-
+```text
+[가상 랜]
+    │
+    ▼
+[IEEE 802.1Q]
+    │
+    └──▶ [접근 포트 / 트렁크 포트]
+```
 
 - **📢 섹션 요약 비유**: ** 802.1Q 태깅은 수많은 사람들이 섞여서 지나가는 하나의 긴 통로(트렁크)에서, 서로 소속을 헷갈리지 않게 **"빨간색([VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)), 파란색([VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 20) 이름표(Tag)를 목에 걸어주는 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)([Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)) 시스템"**입니다.
 
@@ -47,23 +43,29 @@ tags = ["studynote-network"]
 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임의 앞부분은 `[목적지 MAC] - [출발지 MAC] - [Type] - [Data]` 순으로 되어 있다. 802.1Q [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 프레임을 밖으로 쏠 때, <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">출발지 [MAC</a>]과 [Type] 사이를 강제로 벌리고 4바이트(32비트)의 태그를 삽입</strong>한다.
 - 태그가 삽입되면서 원래 있던 FCS(에러 검출 코드) 값은 틀려지므로, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 FCS 값을 새롭게 다시 계산하여 맨 꼬리에 덮어쓴다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IEEE 802.1Q 프레임 태깅 구조 도식</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">일반 이더넷 프레임 (Untagged)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">목적지MAC</div><div class="kb-diagram-cell">출발지MAC</div><div class="kb-diagram-cell">Type</div><div class="kb-diagram-cell">Payload (IP 패킷)</div><div class="kb-diagram-cell">FCS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ 여기를 벌리고 끼워 넣음</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">802.1Q 태그 이더넷 프레임 (Tagged)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">목적지MAC</div><div class="kb-diagram-cell">출발지MAC</div><div class="kb-diagram-cell">802.1Q</div><div class="kb-diagram-cell">Type</div><div class="kb-diagram-cell">Payload (IP)</div><div class="kb-diagram-cell">New</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TAG(4B</div><div class="kb-diagram-cell">FCS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 4바이트(32비트)의 내부 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">TPID(16) | TCI(16)</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                IEEE 802.1Q 프레임 태깅 구조 도식               │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 일반 이더넷 프레임 (Untagged) ]                            │
+ │   ┌────────┬────────┬───────┬──────────────────────┬─────┐  │
+ │   │목적지MAC│출발지MAC │ Type  │   Payload (IP 패킷)   │ FCS │  │
+ │   └────────┴────────┴───────┴──────────────────────┴─────┘  │
+ │                       ▲ 여기를 벌리고 끼워 넣음               │
+ │                                                             │
+ │   [ 802.1Q 태그 이더넷 프레임 (Tagged) ]                       │
+ │   ┌────────┬────────┬───────┬───────┬──────────────┬─────┐  │
+ │   │목적지MAC│출발지MAC │ 802.1Q│ Type  │ Payload (IP) │ New │  │
+ │   │        │        │ TAG(4B│       │              │ FCS │  │
+ │   └────────┴────────┴───────┴───────┴──────────────┴─────┘  │
+ │                      │       │                              │
+ │                      └── ┬ ──┘                              │
+ │                           ▼ 4바이트(32비트)의 내부 구조         │
+ │                      [ TPID(16) | TCI(16) ]                 │
+ │                                                             │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 2. 4바이트(32비트) 태그의 내부 구조
 태그는 크게 2바이트의 <strong>TPID</strong>와 2바이트의 <strong>TCI</strong>로 나뉜다.
@@ -132,19 +134,15 @@ IEEE 802.1Q는 LAN/WAN과 2계층 장비를 이해할 때 핵심 축을 잡아 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 가상 랜</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: IEEE 802.1Q</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 접근 포트 / 트렁크 포트</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 캠퍼스 패브릭</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 가상 랜]
+    │
+    ▼
+[현재 개념: IEEE 802.1Q]
+    │
+    ├──▶ [확장 A: 접근 포트 / 트렁크 포트]
+    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
+```
 
 IEEE 802.1Q는 [가상 랜](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/245_vlan_virtual_lan_broadcast_control/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [접근 포트](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/247_access_port_vs_trunk_port/) / 트렁크 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

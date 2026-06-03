@@ -25,20 +25,19 @@ tags = ["studynote-computer-architecture"]
 
 이 구조가 없으면 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 기계는 같은 덧셈을 위해 두 개 이상의 주소 필드와 더 복잡한 해독 회로를 가져야 한다. 반대로 1-주소 형식을 쓰면 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 짧아지고 제어는 쉬워지지만, 모든 중간 결과를 [AC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/) 하나에 몰아넣어야 해서 프로그램 실행 흐름이 쉽게 막힌다. 그래서 1-주소 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 "단순성의 이득"과 "병목의 대가"를 동시에 보여주는 교육용 핵심 사례다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1-주소 명령어의 기본 약속: 주소 1개 + AC 암묵 사용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">명령어: ADD X</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해석 1: X가 가리키는 메모리 값을 읽는다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해석 2: ALU (Arithmetic Logic Unit)가 AC와 더한다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해석 3: 결과를 다시 AC에 저장한다</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">←</div><div class="kb-diagram-node">X</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│        1-주소 명령어의 기본 약속: 주소 1개 + AC 암묵 사용     │
+├──────────────────────────────────────────────────────────────┤
+│ 명령어: ADD X                                                │
+│                                                              │
+│ 해석 1: X가 가리키는 메모리 값을 읽는다                      │
+│ 해석 2: ALU (Arithmetic Logic Unit)가 AC와 더한다            │
+│ 해석 3: 결과를 다시 AC에 저장한다                            │
+│                                                              │
+│ 최종 의미: AC ← AC + M[X]                                    │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 핵심은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 안에 주소가 하나만 있어도 실제로는 "읽기 대상"과 "연산 중심"이 둘 다 존재한다는 점이다. 다만 둘 중 하나를 명시하지 않고 AC로 고정함으로써 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 길이를 줄인 것이다.
 
@@ -62,20 +61,18 @@ tags = ["studynote-computer-architecture"]
 
 예를 들어 `Y = (A + B) × C`를 계산하려면 보통 아래와 같은 흐름이 필요하다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1-주소 명령어로 식 계산하기: AC가 비워지고 채워지는 순서</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">A</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">B</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">C</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Y</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">AC</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">특징: 중간 결과는 늘 AC에만 머문다</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│     1-주소 명령어로 식 계산하기: AC가 비워지고 채워지는 순서  │
+├──────────────────────────────────────────────────────────────┤
+│ 1. LOAD A    → AC ← M[A]                                     │
+│ 2. ADD  B    → AC ← AC + M[B]                                │
+│ 3. MUL  C    → AC ← AC × M[C]                                │
+│ 4. STORE Y   → M[Y] ← AC                                     │
+│                                                              │
+│ 특징: 중간 결과는 늘 AC에만 머문다                           │
+└──────────────────────────────────────────────────────────────┘
+```
 
 겉보기에는 단순하지만, 식이 조금만 복잡해져도 문제가 커진다. 예를 들어 `Y = (A + B) × (C + D)`라면 왼쪽 부분식을 계산한 뒤 AC를 비우기 전에 메모리에 저장해야 한다. 즉 AC가 하나뿐이라 동시 보관이 불가능하고, 중간값을 자주 `STORE`했다가 다시 `LOAD`해야 한다.
 
@@ -106,19 +103,16 @@ tags = ["studynote-computer-architecture"]
 
 또한 1-주소 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) ([Instruction Set Architecture](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/)) 설계에서 "코드 밀도"와 "실행 유연성"의 교환관계를 보여준다. 주소가 적으면 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수를 아낄 수 있지만, 숨겨진 상태가 많아져 컴파일러와 프로그래머가 더 많은 순서를 신경 써야 한다. 이 때문에 현대 범용 CPU에서는 중심 구조로 밀려났지만, 제어 명령이나 단항 연산처럼 원래 [피연산자](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/)가 하나뿐인 명령에서는 그 정신이 여전히 남아 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주소 수가 늘수록 바뀌는 것: 단순성에서 병렬성으로 이동</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0-주소 → 스택 꼭대기 사용 → 코드 짧음, 순서 의존 큼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1-주소 → AC 고정 사용 → 구조 단순, AC 병목 큼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2-주소 → 두 레지스터 활용 → 절충형</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3-주소 → 입력/출력 분리 가능 → 표현력·병렬성 우수</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│      주소 수가 늘수록 바뀌는 것: 단순성에서 병렬성으로 이동    │
+├──────────────────────────────────────────────────────────────┤
+│ 0-주소  →  스택 꼭대기 사용       → 코드 짧음, 순서 의존 큼     │
+│ 1-주소  →  AC 고정 사용           → 구조 단순, AC 병목 큼       │
+│ 2-주소  →  두 레지스터 활용       → 절충형                     │
+│ 3-주소  →  입력/출력 분리 가능     → 표현력·병렬성 우수         │
+└──────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 1-주소 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 책상 하나로 공부하는 학생과 같다. 공간은 적게 쓰지만 책, 노트, 문제집을 동시에 펴 놓기 어렵다. 반대로 큰 책상은 비싸지만 여러 작업을 한꺼번에 펼쳐 둘 수 있다.
 
@@ -177,25 +171,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">초기 하드웨어 자원 제약</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">누산기 중심 기계 (Accumulator Machine)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">1-주소 명령어 (One-Address Instruction)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 장점: 짧은 포맷 · 단순한 제어</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 한계: AC 병목 · 메모리 왕복 증가</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">다중 레지스터 기반 2/3-주소 구조 확산</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">현대 ISA의 단항 연산 · 분기 명령 형식으로 부분 계승</div>
-</div>
-</div>
-
-
+```text
+초기 하드웨어 자원 제약
+    │
+    ▼
+누산기 중심 기계 (Accumulator Machine)
+    │
+    ▼
+1-주소 명령어 (One-Address Instruction)
+    │
+    ├─▶ 장점: 짧은 포맷 · 단순한 제어
+    │
+    └─▶ 한계: AC 병목 · 메모리 왕복 증가
+            │
+            ▼
+다중 레지스터 기반 2/3-주소 구조 확산
+            │
+            ▼
+현대 ISA의 단항 연산 · 분기 명령 형식으로 부분 계승
+```
 
 이 흐름은 1-주소 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 단순히 사라진 개념이 아니라, 하드웨어 제약에서 출발해 현대 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 설계의 일부로 변형 계승된 역사적 단계임을 보여 준다.
 

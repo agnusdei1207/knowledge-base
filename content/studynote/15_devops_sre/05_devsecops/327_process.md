@@ -31,22 +31,29 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SCA 스캔 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">package.json / pom.xml / requirements.txt</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SCA 도구</div><div class="kb-diagram-cell">(Trivy, Snyk, OWASP</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">의존성 그래프 분석</div><div class="kb-diagram-cell">Dependency-Check)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CVE 취약점 조회 라이선스 분류</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(NVD, GitHub Advisory) (MIT, Apache, GPL, AGPL)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위험도 점수화 라이선스 컴플라이언스 판단</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(CVSS v3 + Reachability) (허용/검토 필요/금지)</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────┐
+│                SCA 스캔 흐름                             │
+├────────────────────────────────────────────────────────┤
+│                                                        │
+│  package.json / pom.xml / requirements.txt             │
+│          │                                             │
+│          ▼                                             │
+│  ┌────────────────────┐                                │
+│  │  SCA 도구           │  (Trivy, Snyk, OWASP          │
+│  │  의존성 그래프 분석  │   Dependency-Check)           │
+│  └──────────┬─────────┘                                │
+│             │                                          │
+│    ┌────────┴───────────────┐                          │
+│    ▼                        ▼                          │
+│  CVE 취약점 조회         라이선스 분류                   │
+│  (NVD, GitHub Advisory)  (MIT, Apache, GPL, AGPL)      │
+│    │                        │                          │
+│    ▼                        ▼                          │
+│  위험도 점수화           라이선스 컴플라이언스 판단       │
+│  (CVSS v3 + Reachability)  (허용/검토 필요/금지)        │
+└────────────────────────────────────────────────────────┘
+```
 
 라이선스 위험도 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/):
 
@@ -120,19 +127,14 @@ SCA의 본질은 <strong>"내가 사용하는 것을 아는 것"</strong>이다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">오픈소스 무관리 시대 SCA 등장 공급망 보안 시대</div>
-<div class="kb-diagram-note">의존성 수동 관리 → OWASP Dependency-Check → SBOM 의무화 (EO 14028)</div>
-<div class="kb-diagram-note">CVE 수동 확인 Snyk, Trivy 등장 Reachability 분석</div>
-<div class="kb-diagram-note">Log4Shell 대응 혼란 CI 통합 스캔 AI 기반 취약점 예측</div>
-<div class="kb-diagram-note">라이선스 컴플라이언스 도구 CNAPP 내 SCA 통합</div>
-</div>
-</div>
-
-
+```text
+오픈소스 무관리 시대        SCA 등장                    공급망 보안 시대
+──────────────────   ──────────────────────────   ────────────────────────
+의존성 수동 관리    →  OWASP Dependency-Check   →  SBOM 의무화 (EO 14028)
+CVE 수동 확인           Snyk, Trivy 등장              Reachability 분석
+Log4Shell 대응 혼란      CI 통합 스캔                 AI 기반 취약점 예측
+                          라이선스 컴플라이언스 도구     CNAPP 내 SCA 통합
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

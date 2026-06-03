@@ -26,18 +26,14 @@ tags = ["studynote-network"]
   - **과거 (패스트 스위칭)**: 손님이 처음 "부산 가는 햄버거 세트"를 주문하면 그때 주방장(CPU)이 레시피를 뒤져서 세트를 구성해 줍니다. 두 번째 손님부터는 만들어둔 세트를 바로 내줍니다. 하지만 손님이 수만 명이고 메뉴가 다 다르면 주방장은 과로사합니다.
   - **현대 (CEF)**: 주방장(CPU)은 아침에 출근하자마자 메뉴판(RIB)에 있는 <strong>"모든 햄버거 세트를 수만 개 미리 다 만들어서 쇼케이스(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/">FIB</a> 하드웨어)에 진열"</strong>해 둡니다. 손님(패킷)이 주문하면 알바생([ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/) 칩)이 쇼케이스에서 1초 만에 꺼내줍니다. 주방장은 낮잠을 잡니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">라우터 구조 판단</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CEF 물리적 포워딩 / 하드웨어 스위칭</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">라우팅 개요</div></div>
-</div>
-</div>
-
-
+```text
+[라우터 구조 판단]
+    │
+    ▼
+[CEF 물리적 포워딩 / 하드웨어 스위칭]
+    │
+    └──▶ [라우팅 개요]
+```
 
 - **📢 섹션 요약 비유**: <strong> CEF는 전투기가 출격(패킷 인입)하기 전에, 비행기에 필요한 모든 미사일 장착, 연료 주입, 목적지 좌표 입력(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/">FIB</a>, 인접 테이블)을 </strong>격납고에서 100% 세팅 완료시켜, 출격 명령이 떨어지자마자 버튼 하나로 튕겨 나갈 수 있게 한 완벽한 사전 준비 시스템**입니다.
 
@@ -59,25 +55,28 @@ CEF의 놀라운 속도는 CPU가 만들어 낸 RIB([라우팅](/knowledge-base/
 - CEF는 부팅 시 아예 <strong>"3번 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>로 나가는 놈들은 헤더 껍데기를 요렇게(미리 알아둔 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> 주소로) 포장해라!"라는 'L2 헤더 포장지 완성본'을 수만 개 미리 프린트해 둔다.</strong>
 - 이것이 <strong>인접 테이블</strong>이다. 패킷이 FIB를 타고 3번 출구로 딱 나오면, 미리 프린트된 인접 테이블의 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 포장지를 풀로 철썩 붙여서 빛의 속도로 밖으로 차버린다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CEF (Cisco Express Forwarding) 원리 요약</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">준비 단계 (사전 계산)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">FIB</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">포트 3)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">인접 테이블</div><div class="kb-diagram-note">(미리 만들어둔 L2 헤더)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">실전 단계 (패킷 인입 시 CPU 개입 0%)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 패킷(목적지 8.8.8.8)이 입력 포트로 들어옴!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (하드웨어 ASIC 칩이 즉시 낚아챔)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">FIB 검색</div><div class="kb-diagram-note">"8.8.8.8은 3번 포트로 가야 하네!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (스위칭 패브릭 이동)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">인접 테이블 검색</div><div class="kb-diagram-note">"3번 포트니까 미리 만들어둔 AA:BB MAC 껍데기 씌워!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (빛의 속도로 출력 포트로 튕겨나감)</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                CEF (Cisco Express Forwarding) 원리 요약        │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 준비 단계 (사전 계산) ]                                       │
+ │   1. 라우팅 테이블 (RIB) ───(컴파일)──▶ [ FIB ] (목적지 IP -> 포트 3) │
+ │   2. ARP 테이블 (MAC) ────(컴파일)──▶ [ 인접 테이블 ] (미리 만들어둔 L2 헤더)│
+ │                                                             │
+ │   [ 실전 단계 (패킷 인입 시 CPU 개입 0%) ]                         │
+ │   * 패킷(목적지 8.8.8.8)이 입력 포트로 들어옴!                         │
+ │     │                                                       │
+ │     ▼ (하드웨어 ASIC 칩이 즉시 낚아챔)                            │
+ │   [ FIB 검색 ] "8.8.8.8은 3번 포트로 가야 하네!"                   │
+ │     │                                                       │
+ │     ▼ (스위칭 패브릭 이동)                                       │
+ │   [ 인접 테이블 검색 ] "3번 포트니까 미리 만들어둔 AA:BB MAC 껍데기 씌워!" │
+ │     │                                                       │
+ │     ▼ (빛의 속도로 출력 포트로 튕겨나감)                              │
+ │                                                             │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: ** CEF는 패스트푸드점의 **"드라이브 스루(Drive-Thru)"**입니다. 손님이 주문(패킷 인입)하자마자 햄버거를 굽는(CPU 연산) 것이 아니라, 이미 뒤에 완성된 햄버거([FIB](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/))에 미리 출력해 둔 영수증(인접 테이블)을 붙여 창구에서 1초 만에 바로 던져주는 궁극의 공장형 스위칭입니다.
 
@@ -135,19 +134,15 @@ CEF 물리적 포워딩 / 하드웨어 스위칭은 [라우팅](/knowledge-base/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 라우터 구조 판단</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: CEF 물리적 포워딩 / 하드웨어 스위칭</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 라우팅 개요</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 라우터 구조 판단]
+    │
+    ▼
+[현재 개념: CEF 물리적 포워딩 / 하드웨어 스위칭]
+    │
+    ├──▶ [확장 A: 라우팅 개요]
+    └──▶ [확장 B: 의도 기반 라우팅]
+```
 
 CEF 물리적 포워딩 / 하드웨어 스위칭는 [라우터 구조 판단](/knowledge-base/studynote/03_network/07_network_layer_routing/337_router_architecture_rib_fib_control_data_plane/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 개요와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

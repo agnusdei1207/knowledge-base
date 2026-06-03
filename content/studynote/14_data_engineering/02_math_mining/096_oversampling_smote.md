@@ -38,23 +38,22 @@ SMOTE는 다수 클래스는 건드리지 않고, 소수 클래스의 [데이터
 | <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a> 부여</strong> | 무작위로 하나의 이웃 $X_j$ 선택 후 차이 계산 | 벡터 차이 $\Delta = X_j - X_i$ 도출 |
 | <strong>합성 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong> | 0과 1 사이 난수 $\[lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/)$를 곱해 더하기 | $X_{[new](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)} = X_i + \[lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) \times (X_j - X_i)$ 선형 보간 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SMOTE 데이터 합성 메커니즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">다수 클래스 밀집 구역</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A (원본)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">＼ (벡터 차이)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">＼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">★ (새로 합성된 데이터: X_new)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">＼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B (K-NN 이웃)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ ★는 A와 B를 잇는 가상의 선분 위 어딘가에 무작위로 생성됨</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                  SMOTE 데이터 합성 메커니즘                 │
+├──────────────────────────────────────────────────────────────┤
+│               [다수 클래스 밀집 구역]                        │
+│                                                              │
+│       A (원본)                                              │
+│         ＼ (벡터 차이)                                       │
+│          ＼                                                  │
+│           ★ (새로 합성된 데이터: X_new)                     │
+│            ＼                                                │
+│              B (K-NN 이웃)                                   │
+│                                                              │
+│  ※ ★는 A와 B를 잇는 가상의 선분 위 어딘가에 무작위로 생성됨 │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 과정은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 기존 공간 밖으로 튀어나가지 않으면서도, 소수 클래스가 차지하는 결정 영역([Volume](/knowledge-base/studynote/14_data_engineering/01_infrastructure/001_bigdata_3v_5v/))을 넓혀주는 효과를 낸다. 모델은 특정 점이 아니라 넓은 덩어리로서 소수 클래스의 특징을 학습하게 된다.
 
@@ -72,7 +71,7 @@ SMOTE는 다수 클래스는 건드리지 않고, 소수 클래스의 [데이터
 | **주요 장점** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 줄어 학습 속도 향상 | 정보 유실 방지 | 일반화 [성능 우수](/knowledge-base/studynote/05_database/07_exam_summary/484_elt_extract_load_transform/), 과적합 위험 낮음 |
 | **치명적 단점** | **정보 유실** (중요한 패턴이 지워짐) | **과적합** (같은 값만 맹목적 암기) | <strong>노이즈 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong> (경계선 침범 가능성) |
 
-SMOTE는 다수 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 클래스의 정보 유실이 없고 과적합을 막는다는 점에서 뛰어나지만, 다수 클래스와 소수 클래스가 겹치는 경계선(Borderline) 지역에서 합성 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 만들 경우 오히려 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 모델을 헷갈리게 만드는 노이즈를 유발할 수 있다.
+SMOTE는 다수 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 클래스의 정보 유실이 없고 과적합을 막는다는 점에서 뛰어나지만, 다수 클래스와 소수 클래스가 겹치는 경계선(Borderline) 지역에서 합성 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 만들 경우 오히려 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 모델을 헷갈리게 만드는 노이즈를 유발할 수 있다. 
 
 - **📢 섹션 요약 비유**: 언더샘플링이 시끄러운 사람들을 내쫓아 조용히 만드는 것이고, 오버샘플링이 목소리 작은 사람에게 확성기를 주는 것이라면, SMOTE는 목소리 작은 사람들과 성향이 비슷한 지지자를 새로 모셔 오는 것이다.
 
@@ -83,13 +82,13 @@ SMOTE는 다수 [데이터](/knowledge-base/studynote/05_database/01_db_architec
 [SMOTE](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/231_smote_oversampling_class_imbalance_augmentation/) 적용 시 실무에서 가장 많이 실패하는 지점과 이를 해결하기 위한 기술적 판단 기준은 다음과 같다.
 
 1. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 누수 (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Leakage) 차단</strong>:
-- ([안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)) 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 세트에 먼저 SMOTE를 돌린 뒤, Train과 Test를 8:2로 나눈다. 이렇게 되면 Train에 쓰인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 거의 똑같은 보간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 Test에 섞여 들어가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 100%에 가깝게 과대 포장된다.
-- (정상패턴) 반드시 먼저 Train/Test를 분리하고, <strong>Train <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>에만 SMOTE를 적용</strong>하여 학습시킨 뒤 오염되지 않은 원본 Test [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 평가해야 한다.
+   - ([안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)) 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 세트에 먼저 SMOTE를 돌린 뒤, Train과 Test를 8:2로 나눈다. 이렇게 되면 Train에 쓰인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 거의 똑같은 보간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 Test에 섞여 들어가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 100%에 가깝게 과대 포장된다.
+   - (정상패턴) 반드시 먼저 Train/Test를 분리하고, <strong>Train <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>에만 SMOTE를 적용</strong>하여 학습시킨 뒤 오염되지 않은 원본 Test [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 평가해야 한다.
 2. <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/231_smote_oversampling_class_imbalance_augmentation/">SMOTE</a>-Tomek 결합 (하이브리드 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a>)</strong>:
-- SMOTE가 다수 클래스 진영 깊숙한 곳에 노이즈를 만들 수 있다.
-- 따라서 SMOTE로 우선 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 불린 다음, 다른 클래스끼리 너무 가까이 붙어있는 쌍(Tomek Links)을 찾아내 지워버리는 언더샘플링 기법을 혼합 적용하면 경계선이 아주 깨끗해진다.
+   - SMOTE가 다수 클래스 진영 깊숙한 곳에 노이즈를 만들 수 있다.
+   - 따라서 SMOTE로 우선 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 불린 다음, 다른 클래스끼리 너무 가까이 붙어있는 쌍(Tomek Links)을 찾아내 지워버리는 언더샘플링 기법을 혼합 적용하면 경계선이 아주 깨끗해진다.
 3. **변형 모델의 채택**:
-- 경계 구분이 어려운 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)라면 경계선 주변 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 증강하는 <strong>Borderline-<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/231_smote_oversampling_class_imbalance_augmentation/">SMOTE</a></strong>를 적용하여 모델의 판별 능력을 집중적으로 높인다.
+   - 경계 구분이 어려운 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)라면 경계선 주변 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 증강하는 <strong>Borderline-<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/231_smote_oversampling_class_imbalance_augmentation/">SMOTE</a></strong>를 적용하여 모델의 판별 능력을 집중적으로 높인다.
 
 - **📢 섹션 요약 비유**: 수능 모의고사(Train)는 변형 문제를 만들어 연습하더라도, 실제 수능 시험장(Test)에서는 절대 변형 문제를 유출해 풀게 해서는 안 되는 것과 같은 이치다.
 
@@ -116,23 +115,21 @@ SMOTE를 통해 [데이터](/knowledge-base/studynote/05_database/01_db_architec
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">클래스 불균형 (Class Imbalance) 발생</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">단순 복사 (Random Over-sampling) 및 과적합 부작용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SMOTE (선형 보간을 통한 가상 데이터 합성)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Borderline-SMOTE / ADASYN (경계선 및 밀도 기반 개선)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SMOTE-Tomek (오버샘플링과 언더샘플링의 하이브리드 결합)</div>
-</div>
-</div>
-
-
+```text
+클래스 불균형 (Class Imbalance) 발생
+    │
+    ▼
+단순 복사 (Random Over-sampling) 및 과적합 부작용
+    │
+    ▼
+SMOTE (선형 보간을 통한 가상 데이터 합성)
+    │
+    ▼
+Borderline-SMOTE / ADASYN (경계선 및 밀도 기반 개선)
+    │
+    ▼
+SMOTE-Tomek (오버샘플링과 언더샘플링의 하이브리드 결합)
+```
 
 이 흐름도는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 증강 방식이 단순한 양적 확장에서 "품질 개선 → 경계선 정밀 타격 → 노이즈 제거 융합"으로 정교해지는 과정을 보여준다.
 

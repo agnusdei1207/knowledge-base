@@ -18,21 +18,19 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">롤링 업데이트 과정 (Replicas=4)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Step 0:</div><div class="kb-diagram-node">v1</div><div class="kb-diagram-node">v1</div><div class="kb-diagram-node">v1</div><div class="kb-diagram-node">v1</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">100% v1</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Step 1:</div><div class="kb-diagram-node">v1</div><div class="kb-diagram-node">v1</div><div class="kb-diagram-node">v1</div><div class="kb-diagram-node">v2</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">v2 1개 추가, v1 1개 종료</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Step 2:</div><div class="kb-diagram-node">v1</div><div class="kb-diagram-node">v1</div><div class="kb-diagram-node">v2</div><div class="kb-diagram-node">v2</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">50/50</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Step 3:</div><div class="kb-diagram-node">v1</div><div class="kb-diagram-node">v2</div><div class="kb-diagram-node">v2</div><div class="kb-diagram-node">v2</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Step 4:</div><div class="kb-diagram-node">v2</div><div class="kb-diagram-node">v2</div><div class="kb-diagram-node">v2</div><div class="kb-diagram-node">v2</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">100% v2 완료</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">특징: 신·구 공존 → 하위 호환성 필수!</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    롤링 업데이트 과정 (Replicas=4)                     │
+├───────────────────────────────────────────────────────┤
+│  Step 0: [v1][v1][v1][v1]  ← 100% v1                │
+│  Step 1: [v1][v1][v1][v2]  ← v2 1개 추가, v1 1개 종료│
+│  Step 2: [v1][v1][v2][v2]  ← 50/50                   │
+│  Step 3: [v1][v2][v2][v2]                            │
+│  Step 4: [v2][v2][v2][v2]  ← 100% v2 완료            │
+│                                                       │
+│  특징: 신·구 공존 → 하위 호환성 필수!                 │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 놀이공원 관람차의 좌석을 하나씩 교체하는 것이다. 운행([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))을 멈추지 않고 한 칸씩 새 좌석으로 바꾼다.
 
@@ -101,23 +99,21 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">수동 재기동 배포 (다운타임 발생)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">롤링 업데이트 (K8s 기본, 2014~) — 무중단, 순차 교체</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">블루/그린 (2010s) — 100% 전환, 즉시 롤백</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">카나리 (2015~) — 1%→100% 점진 확대</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: Progressive Delivery — 롤링+카나리+ACA 통합</div></div>
-</div>
-</div>
-
-
+```text
+[수동 재기동 배포 (다운타임 발생)]
+    │
+    ▼
+[롤링 업데이트 (K8s 기본, 2014~) — 무중단, 순차 교체]
+    │
+    ▼
+[블루/그린 (2010s) — 100% 전환, 즉시 롤백]
+    │
+    ▼
+[카나리 (2015~) — 1%→100% 점진 확대]
+    │
+    ▼
+[현재: Progressive Delivery — 롤링+카나리+ACA 통합]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 롤링 업데이트는 놀이공원 관람차의 **좌석을 하나씩 새 것으로 바꾸는** 거예요.

@@ -18,20 +18,20 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Water-Scrum-Fall 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Water</div><div class="kb-diagram-note">— 요구사항: 6개월 전 확정, 변경 불가</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Scrum</div><div class="kb-diagram-note">— 개발: 2주 스프린트, 데일리 스크럼</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Fall</div><div class="kb-diagram-note">— 배포: 3개월 릴리스, 수동 QA, 승인 절차</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문제: 개발만 Agile, 전후는 Waterfall</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ Agile 이점 소멸, 개발팀만 고통</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    Water-Scrum-Fall 구조                              │
+├───────────────────────────────────────────────────────┤
+│  [Water] — 요구사항: 6개월 전 확정, 변경 불가        │
+│     ↓                                                 │
+│  [Scrum] — 개발: 2주 스프린트, 데일리 스크럼          │
+│     ↓                                                 │
+│  [Fall]  — 배포: 3개월 릴리스, 수동 QA, 승인 절차    │
+│                                                       │
+│  문제: 개발만 Agile, 전후는 Waterfall                │
+│  → Agile 이점 소멸, 개발팀만 고통                    │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: Water-[Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/)-Fall은 <strong>고속도로(<a href="/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/">Scrum</a>) 양쪽에 비포장 도로(Water·Fall)</strong>를 붙인 것이다. 고속도로에서 빨라도 비포장에서 막히면 의미 없다.
 
@@ -90,23 +90,21 @@ Water-[Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/65
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Waterfall (전통, ~2000s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Agile 도입 시도 (2001~) — Scrum만 적용</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Water-Scrum-Fall (안티패턴 인식, 2010~)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DevOps + CI/CD (2015~) — Fall 해소</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: 전체 흐름 Agile — Discovery → Dev → Deploy 통합</div></div>
-</div>
-</div>
-
-
+```text
+[Waterfall (전통, ~2000s)]
+    │
+    ▼
+[Agile 도입 시도 (2001~) — Scrum만 적용]
+    │
+    ▼
+[Water-Scrum-Fall (안티패턴 인식, 2010~)]
+    │
+    ▼
+[DevOps + CI/CD (2015~) — Fall 해소]
+    │
+    ▼
+[현재: 전체 흐름 Agile — Discovery → Dev → Deploy 통합]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. Water-[Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/)-Fall은 <strong>고속도로 양쪽에 비포장 도로</strong>를 붙인 거예요.

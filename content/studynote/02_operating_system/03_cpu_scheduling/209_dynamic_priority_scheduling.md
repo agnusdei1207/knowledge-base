@@ -63,23 +63,22 @@ tags = ["studynote-operating-system"]
 
 현대 OS는 이 동적인 점수를 1차원 배열이 아닌 <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/">다단계 피드백 큐</a> (<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/">MLFQ</a>, Multilevel Feedback <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/">Queue</a>)</strong>라는 3차원 엘리베이터로 구현했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Windows / UNIX 계열의 동적 우선순위 승/강등 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">VIP 큐 (Priority 0~9)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">── (I/O 완료 시 즉각 Boost 됨)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ CPU를 너무 많이 쓰면?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">중간 큐 (Priority 10~19)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 또 타임 퀀텀을 꽉 채워 쓰면?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">바닥 큐 (Priority 20~29)</div><div class="kb-diagram-note">── (오래 굶으면 Aging 되어 ─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위로 다시 끌어올려짐)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🚨 주의: 이 모든 이동이 프로그램의 코드 수정 없이, 오직</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"런타임에 커널이 몰래 점수를 매겨서" 실시간으로 일어남. ◀</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────────────┐
+  │         Windows / UNIX 계열의 동적 우선순위 승/강등 아키텍처        │
+  ├─────────────────────────────────────────────────────────────────────┤
+  │                                                                     │
+  │   [ VIP 큐 (Priority 0~9) ]  ◀── (I/O 완료 시 즉각 Boost 됨)        │
+  │        ▼ CPU를 너무 많이 쓰면?                                      │
+  │   [ 중간 큐 (Priority 10~19) ]                                      │
+  │        ▼ 또 타임 퀀텀을 꽉 채워 쓰면?                               │
+  │   [ 바닥 큐 (Priority 20~29) ] ── (오래 굶으면 Aging 되어 ─┐        │
+  │                                   위로 다시 끌어올려짐)   │         │
+  │                                                      │              │
+  │   🚨 주의: 이 모든 이동이 프로그램의 코드 수정 없이, 오직        │  │
+  │      "런타임에 커널이 몰래 점수를 매겨서" 실시간으로 일어남. ◀───┘  │
+  └─────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 동적 우선순위의 핵심은 '자동 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기(Auto-Sorter)'다. [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 프로세스를 직접 실행해 보기 전에는 이 녀석이 착한지 나쁜지 모른다. 일단 실행시켜 보고 행동하는 꼬라지(I/O 양보 vs CPU 독점)를 평가하여, 그에 걸맞은 층수(큐)로 계속 이사(Migration)를 시키는 것이 동적 스케줄링의 진수다.
 
 - **📢 섹션 요약 비유**: 처음 게임에 가입하면 일단 '실버 등급(기본 순위)'을 줍니다. 그런데 매너 게임을 하고 남을 도와주면(I/O 양보) 시스템이 실시간으로 '다이아 등급(보너스)'으로 승급시키고, 반대로 욕설을 하고 잠수를 타면(CPU 독점) '브론즈 등급(페널티)'으로 강등시키는 자동 평판 시스템입니다.
@@ -117,28 +116,30 @@ tags = ["studynote-operating-system"]
 2. **리눅스 CFS (Completely Fair Scheduler)의 가상 시간(vruntime)**: 현대 리눅스는 "동적"이라는 말조차 버렸다. 복잡하게 점수를 더하고 빼는 짓([휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/))을 그만두었다.
    - **아키텍처 혁명**: 프로세스가 실행된 물리적 시간에 가중치를 곱한 <strong><code>vruntime</code></strong> 단 하나만 기록한다. 1초에 수백 번씩 이 `vruntime` 값들이 앞서거니 뒤서거니 하며 [레드-블랙 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/063_red_black_tree/)(RB-Tree) 안에서 동적으로 자리를 바꾼다. 즉, CFS는 "우선순위를 조작하는 것"이 아니라, "시간이 흐르는 속도 자체를 동적으로 비틀어버리는" 궁극의 상대성 이론 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부하에 따른 백엔드 API 스레드의 동적 스케줄링 간섭 해결 트리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">장애 현상: Nginx 워커가 1시간 주기로 발생하는 백업 배치 때문에 멈춤</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 운영체제 동적 튜닝(Renice) 개입</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단순히 백업 프로세스의 Nice 값을 +19(최하)로 낮추면 해결되는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">예</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 스케줄러가 알아서 백업을 쩌리로 취급함. 해결 완료.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">아니오 (여전히 버벅임!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (근본 원인 분석)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"아! 백업 프로세스가 디스크 I/O를 일으킬 때마다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스케줄러가 '오 I/O 바운드네!'라고 착각하고</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동적 보너스(Boost)를 퍼줘서 다시 기어올라왔구나!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▼</div><div class="kb-diagram-node">실무 아키텍트의 철퇴 조치</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Cgroups 쿼터를 써서 물리적으로 코어 타임을 박살냄.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. ionice 명령어로 디스크 I/O 우선순위마저 최하로 강등!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌────────────────────────────────────────────────────────────────────────┐
+  │     부하에 따른 백엔드 API 스레드의 동적 스케줄링 간섭 해결 트리       │
+  ├────────────────────────────────────────────────────────────────────────┤
+  │                                                                        │
+  │   [장애 현상: Nginx 워커가 1시간 주기로 발생하는 백업 배치 때문에 멈춤]│
+  │                │                                                       │
+  │                ▼ 운영체제 동적 튜닝(Renice) 개입                       │
+  │   단순히 백업 프로세스의 Nice 값을 +19(최하)로 낮추면 해결되는가?      │
+  │          ├─ [예]                                                       │
+  │          │   ▶ 스케줄러가 알아서 백업을 쩌리로 취급함. 해결 완료.      │
+  │          │                                                             │
+  │          └─ [아니오 (여전히 버벅임!)]                                  │
+  │                 │                                                      │
+  │                 ▼ (근본 원인 분석)                                     │
+  │             "아! 백업 프로세스가 디스크 I/O를 일으킬 때마다            │
+  │              스케줄러가 '오 I/O 바운드네!'라고 착각하고                │
+  │              동적 보너스(Boost)를 퍼줘서 다시 기어올라왔구나!"         │
+  │                 │                                                      │
+  │                 ▼ [실무 아키텍트의 철퇴 조치]                          │
+  │             1. Cgroups 쿼터를 써서 물리적으로 코어 타임을 박살냄.      │
+  │             2. ionice 명령어로 디스크 I/O 우선순위마저 최하로 강등!    │
+  └────────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 동적 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 무서운 점은 '오뚝이' 같다는 것이다. 개발자가 아무리 권력을 낮춰놔도, 그 프로세스가 I/O 대기(Sleep)를 하는 순간 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 동적 보너스 시스템이 발동해 권력을 원상 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시켜 상위 큐로 밀어 올린다. 이를 막기 위해서는 CPU 스케줄링뿐만 아니라 I/O 스케줄링 지분까지 묶어버리는 [Cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) 같은 하드코어한 격리([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/)) 기술이 필수적이다.
 
 - **📢 섹션 요약 비유**: 벌을 주려고 꼴찌 반(우선순위 19)으로 전학 보냈는데, 이놈이 엎드려 잠만 자니까(I/O Sleep) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 선생님이 "아이고 우리 불쌍한 애, 잠만 자서 밥도 못 먹었네!"라며 다시 1등 반으로 강제 전학(Boost) 시켜버리는 환장할 노릇입니다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 오지랖(동적 튜닝)을 완벽히 이해해야 서버를 통제할 수 있습니다.
@@ -168,19 +169,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">비례 배분 스케줄링 (Proportionate Share Scheduling)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">POSIX 스케줄링 API (Dynamic Priority Scheduling)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">리눅스 O(1) 스케줄러</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">리눅스 CFS (Completely Fair Scheduler)</div></div>
-</div>
-</div>
-
-
+```text
+[비례 배분 스케줄링 (Proportionate Share Scheduling)]
+    │
+    ▼
+[POSIX 스케줄링 API (Dynamic Priority Scheduling)]
+    │
+    ├──▶ [리눅스 O(1) 스케줄러]
+    └──▶ [리눅스 CFS (Completely Fair Scheduler)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

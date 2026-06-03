@@ -26,18 +26,14 @@ tags = ["studynote-network"]
   - <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a></strong>: 기차 1칸에 짐을 다 때려 넣습니다. 중간 철로가 하나 망가지면 기차 전체가 서서 수리될 때까지 모두가 멍때립니다([HOL](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/) 병목).
   - **QUIC**: 드론 수십 대([다중 스트림](/knowledge-base/studynote/02_operating_system/09_file_system/560_multi_stream_file_fork_ads/))를 띄워 짐을 각각 싣고 날아갑니다. 드론 1대가 새에 맞아서 추락(패킷 유실)해도, 나머지 드론들은 아무 상관 없이 하늘을 날아 목적지에 짐을 내려놓습니다([HOL](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/) 타파).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">XTP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">QUIC</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">QUIC 전송</div></div>
-</div>
-</div>
-
-
+```text
+[XTP]
+    │
+    ▼
+[QUIC]
+    │
+    └──▶ [QUIC 전송]
+```
 
 - **📢 섹션 요약 비유**: <strong> QUIC의 0-<a href="/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/">RTT</a> 핸드셰이크는 단골 카페의 </strong>"문 열고 들어오면서 동시에 '늘 먹던 걸로' 외치기"**입니다. 처음 온 손님([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/))이 인사하고, 메뉴 묻고, 결제하는 과정(3번 핑퐁)을 전부 스킵하고 문지방을 넘자마자 아메리카노([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 손에 쥐는 압도적인 속도 단축입니다.
 
@@ -64,23 +60,23 @@ tags = ["studynote-network"]
 - **TCP의 한계**: [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 터널 안에서 A차(텍스트), B차(사진), C차(영상)가 달린다. A차가 바다에 빠졌다(유실). TCP는 "무조건 도착 순서를 보장해야 한다!"는 강박증 때문에 A차가 복구되어 도착할 때까지 뒤에 무사히 도착한 B, C차의 문을 안 열어주고 버퍼에 가둬버렸다([Head-of-Line](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/) [Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)). 결국 텍스트 하나 유실됐다고 사진과 영상까지 모조리 멈춰버렸다.
 - **QUIC의 혁명**: QUIC은 터널 안에 <strong>완전히 독립적인 차선(<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/">Stream</a> ID)</strong> 수백 개를 분리했다. A차가 1번 차선에서 빠져 죽어도, 2번 차선(B차), 3번 차선(C차)은 1번 차선의 사고와 1도 상관없이 독고다이로 달려서 브라우저 화면에 즉각 사진과 영상을 띄워준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TCP vs QUIC의 HOL Blocking 병목 차이 도식</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">구형 TCP 터널 (1차선 직렬)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">A(유실!) | B(도착) | C(도착)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">브라우저 버퍼 갇힘</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 브라우저: "야! A 복구될 때까지 B랑 C는 화면에 못 띄워! 대기해!!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">최신 QUIC 터널 (다중 차선 병렬)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">A(유실!)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">브라우저: "A는 재전송 대기..."</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">B(도착!)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">브라우저: "오 B 왔네? 화면에 띄워!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">C(도착!)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">브라우저: "오 C 왔네? 화면에 띄워!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ "1개의 파일이 깨져도 나머지 웹페이지는 쾌적하게 렌더링된다!"</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                TCP vs QUIC의 HOL Blocking 병목 차이 도식         │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 구형 TCP 터널 (1차선 직렬) ]                               │
+ │   서버 ─▶ [ A(유실!) | B(도착) | C(도착) ] ─▶ 브라우저 버퍼 갇힘 │
+ │   ▶ 브라우저: "야! A 복구될 때까지 B랑 C는 화면에 못 띄워! 대기해!!" │
+ │                                                             │
+ │   [ 최신 QUIC 터널 (다중 차선 병렬) ]                          │
+ │   서버 ─▶ 1차선: [ A(유실!) ] ──▶ 브라우저: "A는 재전송 대기..."   │
+ │   서버 ─▶ 2차선: [ B(도착!) ] ──▶ 브라우저: "오 B 왔네? 화면에 띄워!"│
+ │   서버 ─▶ 3차선: [ C(도착!) ] ──▶ 브라우저: "오 C 왔네? 화면에 띄워!"│
+ │                                                             │
+ │   ▶ "1개의 파일이 깨져도 나머지 웹페이지는 쾌적하게 렌더링된다!"        │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 3. Connection ID (모바일 IP 변경 방어)
 이것도 미친 기능이다. 내 폰이 와이파이를 쓰다가 엘리베이터를 타서 LTE로 IP가 바뀌었다.
@@ -143,19 +139,15 @@ QUIC는 전송 계층을 이해할 때 핵심 축을 잡아 주는 개념이다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: XTP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: QUIC</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: QUIC 전송</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: XTP]
+    │
+    ▼
+[현재 개념: QUIC]
+    │
+    ├──▶ [확장 A: QUIC 전송]
+    └──▶ [확장 B: 적응형 저지연 전송]
+```
 
 QUIC는 XTP에서 출발해 현재 메커니즘을 정교화하고, 이후 QUIC 전송와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

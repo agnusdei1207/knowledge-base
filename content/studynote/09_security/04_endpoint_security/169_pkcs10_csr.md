@@ -43,25 +43,23 @@ PKCS#[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_system
 
 아래 그림은 CSR [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 흐름을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PKCS#10 CSR generation and validation</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Applicant system</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) Generate key pair</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) Build CertificationRequestInfo</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Subject DN</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- SubjectPublicKeyInfo</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Attributes (SAN, extension requests)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) Sign request with private key</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4) Send CSR to CA / RA</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CA / RA side</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Verify signature -&gt; verify identity/domain -&gt; issue certificate</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                 PKCS#10 CSR generation and validation               │
+├──────────────────────────────────────────────────────────────────────┤
+│ Applicant system                                                    │
+│   1) Generate key pair                                              │
+│   2) Build CertificationRequestInfo                                 │
+│      - Subject DN                                                   │
+│      - SubjectPublicKeyInfo                                         │
+│      - Attributes (SAN, extension requests)                         │
+│   3) Sign request with private key                                  │
+│   4) Send CSR to CA / RA                                            │
+│                                                                     │
+│ CA / RA side                                                        │
+│   Verify signature -> verify identity/domain -> issue certificate   │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 여기서 중요한 점은 CSR 안에 인증서가 들어 있는 것이 아니라는 사실이다. CSR은 아직 CA의 서명을 받지 않은 요청서이며, CA는 이 요청서를 검토한 뒤 별도의 X.509 인증서를 발급한다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 형식은 보통 개인 정보 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 메일 (PEM, Privacy-Enhanced Mail) 인코딩의 `-----BEGIN CERTIFICATE REQUEST-----` 형태나, DER (Distinguished Encoding Rules) 바이너리 형태로 저장된다.
 
@@ -144,26 +142,25 @@ PKCS#10을 표준대로 사용하면 다양한 CA와 도구가 상호 운용 가
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">키 쌍 생성</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">PKCS#10 CSR 작성</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Subject DN</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Public Key</div>
-<div class="kb-diagram-tree-item" style="--depth:2">SAN / Attributes + Signature</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CA / RA 검증</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">X.509 인증서 발급</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">배포 · 갱신 · 자동화 (ACME / PKCS#12 / TLS 운영)</div>
-</div>
-</div>
-
-
+```text
+키 쌍 생성
+    │
+    ▼
+PKCS#10 CSR 작성
+    │
+    ├─ Subject DN
+    ├─ Public Key
+    └─ SAN / Attributes + Signature
+    │
+    ▼
+CA / RA 검증
+    │
+    ▼
+X.509 인증서 발급
+    │
+    ▼
+배포 · 갱신 · 자동화 (ACME / PKCS#12 / TLS 운영)
+```
 
 이 흐름은 인증서 운영이 키 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)에서 시작해, 요청·[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)·발급·배포 자동화로 이어지는 전체 수명주기를 보여 준다.
 

@@ -1,5 +1,5 @@
 +++
-title = "121. SRE 철학 (Site Reliability Engineering Philosophy) - 신뢰성 엔지니어링의 핵심 원칙"
+title = "121. SRE 철학 (Site Reliability 엔진ering Philosophy) - 신뢰성 엔지니어링의 핵심 원칙"
 date = 2026-04-19
 
 [taxonomies]
@@ -10,7 +10,7 @@ tags = ["studynote-devops-sre"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)([Site Reliability Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/))는 Google이 정립한 <strong>소프트웨어 엔지니어링으로 운영 문제를 해결</strong>하는 철학이며, "운영을 소프트웨어 문제로 다루겠다"는 원칙 아래 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/">SLI</a>/<a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/">SLO</a>/<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/">Error Budget</a></strong>으로 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 정량 관리한다.
+> 1. **본질**: [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)([Site Reliability 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/))는 Google이 정립한 <strong>소프트웨어 엔지니어링으로 운영 문제를 해결</strong>하는 철학이며, "운영을 소프트웨어 문제로 다루겠다"는 원칙 아래 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/">SLI</a>/<a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/">SLO</a>/<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/">Error Budget</a></strong>으로 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 정량 관리한다.
 > 2. **가치**: 전통 Ops는 "장애 없이 100% 가용"을 목표로 하지만, SRE는 <strong>"100%는 잘못된 목표"</strong>라고 선언하고, [Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)(허용 가능 장애 시간)을 활용하여 <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a>과 혁신 속도의 균형</strong>을 유지한다.
 > 3. **판단 포인트**: [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)(측정 지표)→[SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)(목표 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/))→[Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)(남은 여유)→[SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)(계약)의 계층 구조를 이해하고, Error Budget이 소진되면 <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/">피처</a> 개발을 중단하고 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a> 개선에 집중</strong>하는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 핵심이다.
 
@@ -18,24 +18,24 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SRE 핵심 계층</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SLI (Service Level Indicator)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 측정: 요청 성공률, p99 레이턴시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SLO (Service Level Objective)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 목표: 성공률 ≥ 99.9% (30일 기준)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Error Budget = 100% - SLO = 0.1%</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 30일 × 0.1% = 43.2분의 장애 허용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 43.2분 소진 → 피처 개발 중단, 안정화 집중!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SLA (Service Level Agreement)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 고객과의 계약 (SLO 미달 시 크레딧/위약금)</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    SRE 핵심 계층                                      │
+├───────────────────────────────────────────────────────┤
+│  SLI (Service Level Indicator)                        │
+│   → 측정: 요청 성공률, p99 레이턴시                   │
+│                                                       │
+│  SLO (Service Level Objective)                        │
+│   → 목표: 성공률 ≥ 99.9% (30일 기준)                │
+│                                                       │
+│  Error Budget = 100% - SLO = 0.1%                     │
+│   → 30일 × 0.1% = 43.2분의 장애 허용                │
+│   → 43.2분 소진 → 피처 개발 중단, 안정화 집중!       │
+│                                                       │
+│  SLA (Service Level Agreement)                        │
+│   → 고객과의 계약 (SLO 미달 시 크레딧/위약금)        │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: Error Budget은 매월 주어지는 <strong>용돈(43분)</strong>이다. 장애가 나면 용돈이 줄고, 다 쓰면 <strong>새 장난감(<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/">피처</a>) 구매 금지(개발 중단)</strong>, 안정화에 집중해야 한다.
 
@@ -73,7 +73,7 @@ tags = ["studynote-devops-sre"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 핵심 도서
-- <strong>"<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">Site Reliability Engineering</a>"</strong> (Google, 2016): [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 바이블.
+- <strong>"<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">Site Reliability 엔진ering</a>"</strong> (Google, 2016): [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 바이블.
 - <strong>"The Site <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/345_reliability_security/">Reliability</a> Workbook"</strong> (2018): 실무 가이드.
 
 ---
@@ -96,23 +96,21 @@ SRE는 <strong>"완벽한 <a href="/knowledge-base/studynote/01_computer_archite
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">전통 운영 (NOC, 100% 가용 목표, ~2000s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DevOps 문화 (2009~) — Dev+Ops 협업</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SRE (Google, 2003→2016 공개) — SLI/SLO/Error Budget</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Platform Engineering (2022~) — SRE + 내부 개발자 플랫폼</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: AIOps + SRE — AI 기반 자동 인시던트 대응</div></div>
-</div>
-</div>
-
-
+```text
+[전통 운영 (NOC, 100% 가용 목표, ~2000s)]
+    │
+    ▼
+[DevOps 문화 (2009~) — Dev+Ops 협업]
+    │
+    ▼
+[SRE (Google, 2003→2016 공개) — SLI/SLO/Error Budget]
+    │
+    ▼
+[Platform Engineering (2022~) — SRE + 내부 개발자 플랫폼]
+    │
+    ▼
+[현재: AIOps + SRE — AI 기반 자동 인시던트 대응]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. SRE는 <strong>용돈(<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/">Error Budget</a>)</strong>을 매달 받는 거예요. 장애가 나면 용돈이 줄어요.

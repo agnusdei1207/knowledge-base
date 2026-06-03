@@ -48,18 +48,16 @@ $$
 
 아래 그림은 SLA를 높이는 두 축이 무엇인지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Availability grows by reducing failures and shrinking repair</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Better components / cooling / monitoring ▶ MTBF ↑</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Redundancy / failover / hot-swap / automation ▶ MTTR ↓</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Result: more uptime under the same business service</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────┐
+│          Availability grows by reducing failures and shrinking repair    │
+├──────────────────────────────────────────────────────────────────────────┤
+│ Better components / cooling / monitoring  ───────────────▶  MTBF ↑       │
+│ Redundancy / failover / hot-swap / automation ───────────▶  MTTR ↓       │
+│                                                                          │
+│ Result: more uptime under the same business service                      │
+└──────────────────────────────────────────────────────────────────────────┘
+```
 
 하드웨어 아키텍처 관점에서는 보통 세 층으로 접근한다. 첫째, 서버 내부에서 전원공급장치·팬·디스크를 N+1 구조로 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)한다. 둘째, 서버 단위를 넘어 클러스터와 가상 IP 절체로 노드 장애를 숨긴다. 셋째, [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 단위로는 멀티 AZ ([Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) Zone) 또는 원격 [재해 복구](/knowledge-base/studynote/04_software_engineering/06_software_architecture/379_dr_architecture/) 센터를 두어 건물 장애까지 흡수한다. 높은 SLA는 결국 <strong>부품 → 시스템 → 사이트</strong>의 다층 방어로 만들어진다.
 
@@ -126,23 +124,21 @@ SLA를 기준으로 시스템을 설계하면 장애 대응이 감각이 아니�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단일 서버 안정성 확보</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">부품 이중화 (PSU / NIC / RAID)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클러스터 기반 자동 절체</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">멀티 AZ · 원격 재해 복구</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">예지 정비 · 자동화 기반 고가용성 운영</div>
-</div>
-</div>
-
-
+```text
+단일 서버 안정성 확보
+    │
+    ▼
+부품 이중화 (PSU / NIC / RAID)
+    │
+    ▼
+클러스터 기반 자동 절체
+    │
+    ▼
+멀티 AZ · 원격 재해 복구
+    │
+    ▼
+예지 정비 · 자동화 기반 고가용성 운영
+```
 
 이 흐름은 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 설계가 "튼튼한 서버"에서 "장애를 숨기는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 구조"로 확장되는 과정을 보여준다.
 

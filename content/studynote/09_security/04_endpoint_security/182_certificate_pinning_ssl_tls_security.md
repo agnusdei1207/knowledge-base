@@ -1,5 +1,5 @@
 +++
-title = "182. 인증서 핀닝 (Certificate Pinning) — 인증서 목록 하드코딩"
+title = "182. 인증서 핀닝 (Certificate Pinning) — 이지 인증서 목록 하드코딩"
 date = 2026-05-06
 
 [taxonomies]
@@ -41,27 +41,28 @@ tags = ["studynote-security"]
 
 아래 그림은 핀닝이 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 핸드셰이크를 대체하는 것이 아니라, 마지막 신뢰 결정을 더 좁게 만드는 계층이라는 점을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TLS session with certificate pinning</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client App</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ClientHello / ServerHello</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Server certificate chain</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 1) OS / library validation</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- trusted CA chain</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- validity period</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- hostname match</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 2) App pin validation</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- leaf cert hash or SPKI hash</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- compare with primary / backup pins</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">match ─ ─ allow secure session</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">mismatch reject connection and raise alert</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ TLS session with certificate pinning                                │
+├──────────────────────────────────────────────────────────────────────┤
+│ Client App                                                          │
+│   │ ClientHello / ServerHello                                       │
+│   ▼                                                                 │
+│ Server certificate chain                                            │
+│   │                                                                 │
+│   ├─ 1) OS / library validation                                     │
+│   │      - trusted CA chain                                         │
+│   │      - validity period                                          │
+│   │      - hostname match                                           │
+│   │                                                                 │
+│   └─ 2) App pin validation                                          │
+│          - leaf cert hash or SPKI hash                              │
+│          - compare with primary / backup pins                       │
+│                │                                                    │
+│         match ─┴─ allow secure session                              │
+│      mismatch ─── reject connection and raise alert                 │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 여기서 중요한 설계 포인트는 두 가지다. 첫째, 핀은 한 개만 두지 말고 최소 2개 이상 둬야 한다. 현재 운영 키와 다음 교체 키를 함께 넣어 두어야 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 갱신 시 전체 앱이 동시에 멈추는 일을 피할 수 있다. 둘째, 핀닝은 서버 진위를 더 좁게 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 것이지, 앱 위변조나 메모리 후킹을 자동으로 막아 주는 기술은 아니다. 따라서 모바일 앱에서는 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/), 루팅·탈옥 탐지, 후킹 탐지와 함께 설계해야 실효성이 높아진다.
 
@@ -145,27 +146,26 @@ tags = ["studynote-security"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">공개 CA 신뢰 기반 TLS</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">운영체제 체인 검증</div>
-<div class="kb-diagram-tree-item" style="--depth:0">악성 Root CA 설치</div>
-<div class="kb-diagram-tree-item" style="--depth:0">오발급 인증서</div>
-<div class="kb-diagram-tree-item" style="--depth:0">프록시형 MITM 위험</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Pinset(인증서 / SPKI / backup key) 추가 검증</div>
-<div class="kb-diagram-tree-item" style="--depth:0">mismatch -&gt; 연결 차단</div>
-<div class="kb-diagram-tree-item" style="--depth:0">key rotation -&gt; backup pin 필요</div>
-<div class="kb-diagram-tree-item" style="--depth:0">app hardening -&gt; 우회 저항성 강화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">모바일 고신뢰 채널 설계</div>
-</div>
-</div>
-
-
+```text
+공개 CA 신뢰 기반 TLS
+    │
+    ▼
+운영체제 체인 검증
+    │
+    ├─ 악성 Root CA 설치
+    ├─ 오발급 인증서
+    └─ 프록시형 MITM 위험
+    │
+    ▼
+Pinset(인증서 / SPKI / backup key) 추가 검증
+    │
+    ├─ mismatch -> 연결 차단
+    ├─ key rotation -> backup pin 필요
+    └─ app hardening -> 우회 저항성 강화
+    │
+    ▼
+모바일 고신뢰 채널 설계
+```
 
 이 흐름은 핀닝이 TLS를 대체하는 기술이 아니라, 공개 PKI의 넓은 신뢰를 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별로 다시 좁혀 가는 보완 계층임을 보여 준다.
 

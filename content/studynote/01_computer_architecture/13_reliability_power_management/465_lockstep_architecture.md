@@ -35,21 +35,31 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 듀얼 락스텝 (Dual Lockstep)의 대표 흐름을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">듀얼 락스텝 동작 흐름: 실행과 동시에 검증</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동일 입력(명령어·데이터·인터럽트)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core A</div><div class="kb-diagram-cell">Core B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">same clock</div><div class="kb-diagram-cell">same clock</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">same state</div><div class="kb-diagram-cell">same state</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Comparator</div><div class="kb-diagram-cell">레지스터·버스·예외 신호 비교</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Match: 정상 진행 Mismatch: Fault/NMI/Fail-Safe</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                듀얼 락스텝 동작 흐름: 실행과 동시에 검증            │
+├──────────────────────────────────────────────────────────────────────┤
+│ 동일 입력(명령어·데이터·인터럽트)                                   │
+│                  │                                                   │
+│        ┌─────────┴─────────┐                                         │
+│        ▼                   ▼                                         │
+│  ┌─────────────┐     ┌─────────────┐                                 │
+│  │ Core A      │     │ Core B      │                                 │
+│  │ same clock  │     │ same clock  │                                 │
+│  │ same state  │     │ same state  │                                 │
+│  └──────┬──────┘     └──────┬──────┘                                 │
+│         │                   │                                        │
+│         └─────────┬─────────┘                                        │
+│                   ▼                                                  │
+│           ┌─────────────────┐                                        │
+│           │ Comparator      │  레지스터·버스·예외 신호 비교          │
+│           └──────┬──────────┘                                        │
+│                  │                                                   │
+│        ┌─────────┴─────────┐                                         │
+│        ▼                   ▼                                         │
+│   Match: 정상 진행     Mismatch: Fault/NMI/Fail-Safe                 │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 포인트는 락스텝이 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 코어를 나중에 깨우는 구조가 아니라, <strong>주 코어와 그림자 코어가 이미 함께 실행 중</strong>이라는 점이다. 따라서 오류는 장애 후 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 단계가 아니라 실행 단계에서 검출된다.
 
@@ -139,30 +149,27 @@ TMR과의 비교도 중요하다. 듀얼 락스텝은 결과가 다르면 "문�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단일 코어 실행</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">오류 검출 한계 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">이중화 (Dual Redundancy)</div>
-<div class="kb-diagram-note">─ 장애 후 절체 중심</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">락스텝 (Lockstep) 비교 실행</div>
-<div class="kb-diagram-note">─ CPU 연산 오류 즉시 검출</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">TMR (Triple Modular Redundancy)</div>
-<div class="kb-diagram-note">─ 다수결 기반 오류 은닉</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ECC · Watchdog Timer · Fail-Safe 결합</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">기능 안전 중심 하이브리드 진단 아키텍처</div>
-</div>
-</div>
-
-
+```text
+단일 코어 실행
+    │
+    ▼
+오류 검출 한계 인식
+    │
+    ▼
+이중화 (Dual Redundancy)
+    │   └─ 장애 후 절체 중심
+    ▼
+락스텝 (Lockstep) 비교 실행
+    │   └─ CPU 연산 오류 즉시 검출
+    ▼
+TMR (Triple Modular Redundancy)
+    │   └─ 다수결 기반 오류 은닉
+    ▼
+ECC · Watchdog Timer · Fail-Safe 결합
+    │
+    ▼
+기능 안전 중심 하이브리드 진단 아키텍처
+```
 
 이 흐름은 단순 예비 자원 확보에서 시작해, 실행 결과 비교와 다중 진단 계층을 더하는 방향으로 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 설계가 진화함을 보여준다.
 

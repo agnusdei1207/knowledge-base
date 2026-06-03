@@ -27,29 +27,29 @@ tags = ["studynote-operating-system"]
   2. **하드웨어의 페널티 부과**: ARM이나 구형 [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/) 칩셋은 아예 정렬되지 않은 주소(Unaligned Access)를 찌르면 하드웨어 예외(Exception)를 터뜨려 앱을 죽여버림.
   3. <strong>OS <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/349_slab_allocator/">슬랩 할당기</a>의 진화</strong>: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 객체를 찍어낼 때 아예 내부적으로 빈 공간([Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/))을 팍팍 넣어가며 캐시 라인(64바이트)의 배수에 시작 주소를 강제 고정하는 룰을 박아넣음.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비정렬(Unaligned) 매핑 vs 캐시 정렬(Aligned) 매핑 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황: 32바이트 객체 A를 가상 메모리에 매핑할 때 (캐시라인 64B)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1. 최악의 가상 메모리 배치 (공간 절약에 눈먼 비정렬 매핑)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">가상 주소 0x00:</div><div class="kb-diagram-node">다른 쓰레기 변수들 50 바이트 꽉 채움</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">가상 주소 0x32:</div><div class="kb-diagram-node">객체 A의 앞부분 14 바이트</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─ (첫번째 캐시라인 끝)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">--------------------- ( 64 Byte 물리적 경계선 ) -----------------</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">가상 주소 0x40:</div><div class="kb-diagram-node">객체 A의 뒷부분 18 바이트</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─ (두번째 캐시라인 시작)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💥 CPU 고통: 객체 A 하나 읽으려 캐시 라인 2개 분량을 RAM에서 퍼와야 함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2. 캐시 친화적 배치 (Cache-aligned Mapping)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">가상 주소 0x00:</div><div class="kb-diagram-node">다른 쓰레기 변수들 50 바이트</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">가상 주소 0x32:</div><div class="kb-diagram-node">▒ 14바이트 텅 빈 패딩 (버림) ▒</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">--------------------- ( 64 Byte 물리적 경계선 ) -----------------</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">가상 주소 0x40:</div><div class="kb-diagram-node">객체 A 전체 32 바이트 쏙 들어감!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ CPU 쾌감: 객체 A가 캐시 라인 경계선에 딱 맞춰 시작하므로,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RAM 1번 긁기(1클럭)로 모든 데이터를 완벽히 가져옴.</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│        비정렬(Unaligned) 매핑 vs 캐시 정렬(Aligned) 매핑 시각화         │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│ [ 상황: 32바이트 객체 A를 가상 메모리에 매핑할 때 (캐시라인 64B) ]      │
+│                                                                         │
+│ ▶ 1. 최악의 가상 메모리 배치 (공간 절약에 눈먼 비정렬 매핑)             │
+│ 가상 주소 0x00: [ 다른 쓰레기 변수들 50 바이트 꽉 채움 ]                │
+│ 가상 주소 0x32: [ 객체 A의 앞부분 14 바이트 ] ◀─ (첫번째 캐시라인 끝)   │
+│ --------------------- ( 64 Byte 물리적 경계선 ) -----------------       │
+│ 가상 주소 0x40: [ 객체 A의 뒷부분 18 바이트 ] ◀─ (두번째 캐시라인 시작) │
+│ 💥 CPU 고통: 객체 A 하나 읽으려 캐시 라인 2개 분량을 RAM에서 퍼와야 함. │
+│                                                                         │
+│ ▶ 2. 캐시 친화적 배치 (Cache-aligned Mapping)                           │
+│ 가상 주소 0x00: [ 다른 쓰레기 변수들 50 바이트 ]                        │
+│ 가상 주소 0x32: [ ▒ 14바이트 텅 빈 패딩 (버림) ▒ ]                      │
+│ --------------------- ( 64 Byte 물리적 경계선 ) -----------------       │
+│ 가상 주소 0x40: [ 객체 A 전체 32 바이트 쏙 들어감! ]                    │
+│ ✅ CPU 쾌감: 객체 A가 캐시 라인 경계선에 딱 맞춰 시작하므로,            │
+│            RAM 1번 긁기(1클럭)로 모든 데이터를 완벽히 가져옴.           │
+└─────────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 가상 주소 공간은 0번지부터 1바이트 단위로 무한히 펼쳐진 것처럼 보이지만, 이 환상에 취해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 아무렇게나 이어 붙이면(Pack) 캐시 미스의 지옥에 빠진다. OS(malloc 등 할당기)는 공간(14바이트 [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/))을 기꺼이 희생해서라도, 객체의 시작 주소가 `0x00`, `0x40`, `0x80` 등 마법의 숫자(64의 배수)에 강제 안착하도록 뒤에서 몰래 주소를 띄워버린다.
 
 - **📢 섹션 요약 비유**: 영화관(캐시 라인)에 4인용 의자가 일렬로 쭉 있습니다. 우리 4명 가족([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 객체)이 늦게 들어갔는데, 앞줄 오른쪽 끝에 빈자리 2개, 뒷줄 왼쪽 끝에 빈자리 2개가 남았습니다. 멍청한 안내원(비정렬)은 우리 가족을 두 줄에 찢어서 앉힙니다(대화 불가 렉). 센스 있는 안내원(캐시 친화적 OS)은 앞자리 2개를 그냥 공석([패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/))으로 버려두고, 뒷줄 4자리에 우리 가족을 쫙 붙여서 한 방에 앉혀줍니다.
@@ -100,18 +100,15 @@ tags = ["studynote-operating-system"]
 - 빈방이 모자라서 프레임을 줄 때, 기왕이면 CPU L2 캐시의 1번 방, 2번 방, 3번 방에 골고루 안착할 수 있도록 <strong>가상 주소와 물리 주소의 <a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a> 비트가 어긋나지 않게 짝지어(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/379_cache_coloring/">Cache Coloring</a>) 매핑해 주는 흑마술</strong>이 융합된다.
 - 이를 통해 아무리 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)상에서 10GB짜리 거대 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 훑고 지나가더라도, 물리 캐시의 1번 방만 터져나가는 불상사를 막고 16-way 캐시 전역을 알뜰하게 써먹는다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최적화 레벨</div><div class="kb-diagram-cell">해결하려는 병목</div><div class="kb-diagram-cell">주입하는 낭비공간</div><div class="kb-diagram-cell">궁극적 목표</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">패딩(Padding)</div><div class="kb-diagram-cell">Cache Split 렉</div><div class="kb-diagram-cell">수 바이트 (Byte)</div><div class="kb-diagram-cell">1번만 램 접근하기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">슬랩 정렬</div><div class="kb-diagram-cell">False Sharing</div><div class="kb-diagram-cell">수십 바이트(Byte)</div><div class="kb-diagram-cell">코어 간 간섭 차단</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페이지 정렬</div><div class="kb-diagram-cell">TLB/캐시 충돌</div><div class="kb-diagram-cell">수 메가바이트(MB)</div><div class="kb-diagram-cell">램 전체 매핑 효율 극강</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬────────────────────────────────────┐
+│ 최적화 레벨│ 해결하려는 병목│ 주입하는 낭비공간│ 궁극적 목표            │
+├──────────┼────────────┼────────────┼────────────────────────────────────┤
+│ 패딩(Padding)│ Cache Split 렉 │ 수 바이트 (Byte) │ 1번만 램 접근하기    │
+│ 슬랩 정렬 │ False Sharing│ 수십 바이트(Byte)│ 코어 간 간섭 차단         │
+│ 페이지 정렬│ TLB/캐시 충돌  │ 수 메가바이트(MB) │ 램 전체 매핑 효율 극강│
+└──────────┴────────────┴────────────┴────────────────────────────────────┘
+```
 **[매트릭스 해설]** 컴퓨터 아키텍처는 공간을 제물로 바쳐 시간을 소환하는 거대한 연금술이다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)와 컴파일러는 이 연금술의 레시피(Alignment Rule)를 하드코딩해 두었고, 평범한 개발자는 이를 모른 채 변수를 선언하지만 백그라운드에서는 램을 숭숭 비워가며 캐시 라인 규격을 맞춰주는 눈물겨운 공사가 매 초마다 벌어지고 있다.
 
 - **📢 섹션 요약 비유**: 수화물([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 비행기(캐시)에 실을 때 빈틈없이 마구잡이로 구겨 넣으면(Packed) 짐은 많이 싣지만 내릴 때 내 짐 찾느라 반나절이 걸립니다. 하지만 빈 공간이 텅텅 비어도 딱 규격화된 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 박스(Aligned)에 넣어서 실으면, 지게차가 1초 만에 박스째로 푹 퍼서 내릴 수 있는 화물 규격화의 기적입니다.
@@ -179,19 +176,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">NUMA 환경의 가상 메모리 스케줄링 (NUMA 노드 별 페이지 할당 / numactl)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">캐시 친화적 가상 메모리 관리 배치 (Cache Friendly Virtual Memory)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">VMA (Virtual Memory Area) 구조체 (리눅스 커널 프로세스 주소 공간 매핑)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">마이너 페이지 폴트 (Minor Page Fault) vs 메이저 페이지 폴트 (Major Page Fault / 디스크 I/O 동반)</div></div>
-</div>
-</div>
-
-
+```text
+[NUMA 환경의 가상 메모리 스케줄링 (NUMA 노드 별 페이지 할당 / numactl)]
+    │
+    ▼
+[캐시 친화적 가상 메모리 관리 배치 (Cache Friendly Virtual Memory)]
+    │
+    ├──▶ [VMA (Virtual Memory Area) 구조체 (리눅스 커널 프로세스 주소 공간 매핑)]
+    └──▶ [마이너 페이지 폴트 (Minor Page Fault) vs 메이저 페이지 폴트 (Major Page Fault / 디스크 I/O 동반)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

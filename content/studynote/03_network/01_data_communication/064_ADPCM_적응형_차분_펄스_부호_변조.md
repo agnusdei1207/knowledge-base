@@ -30,25 +30,19 @@ DPCM은 차이값을 보내 효율적이지만, [신호](/knowledge-base/studyno
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Input</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Predictor</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Subtractor</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Adaptive Quantizer</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Encoder</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Feedback + Step-size Control</div>
-</div>
-</div>
-
-
+```text
+Input
+  ↓
+Predictor
+  ↓
+Subtractor
+  ↓
+Adaptive Quantizer
+  ↓
+Encoder
+  ↓
+Feedback + Step-size Control
+```
 
 | 구성 요소 | 역할 |
 | :-- | :-- |
@@ -118,41 +112,29 @@ ADPCM은 제한된 대역폭에서 음성 품질을 유지하기 위한 실용�
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">PCM</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">DPCM</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">ADPCM</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Adaptive Quantization</div>
-</div>
-</div>
-
-
+```text
+PCM
+  ↓
+DPCM
+  ↓
+ADPCM
+  ↓
+Adaptive Quantization
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">DPCM Limitations</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Adaptive Quantization</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">ADPCM</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Speech Codec</div>
-</div>
-</div>
-
-
+```text
+DPCM Limitations
+  ↓
+Adaptive Quantization
+  ↓
+ADPCM
+  ↓
+Speech Codec
+```
 
 ---
 

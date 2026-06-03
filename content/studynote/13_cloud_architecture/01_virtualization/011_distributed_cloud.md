@@ -27,24 +27,22 @@ tags = ["cloud_architecture"]
 
 아래 다이어그램은 기존 하이브리드 아키텍처의 파편화 한계와 [분산 클라우드](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/242_distributed_cloud_edge_computing_aws_outposts/)의 통합적 구조를 비교하여 왜 이 기술이 필요한지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">기존 하이브리드 클라우드의 한계</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Public Cloud / 퍼블릭 클라우드</div><div class="kb-diagram-node">On-Premise / Edge</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AWS Console &lt;--?--&gt; VMware / 자체 인프라 관리 도구</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(관리 주체: CSP) (관리 주체: 고객사 IT팀)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 한계: 일관된 배포 파이프라인 부재, 보안 정책 파편화, 이기종 스택</div></div>
-<div class="kb-diagram-tree-item" style="--depth:0">분산 클라우드의 통일된 제어 평면</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CSP Central Control Plane / CSP 중앙 제어 평면</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(예: AWS Outposts, GCP Anthos, Azure Arc)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Public Region / 퍼블릭 리전</div><div class="kb-diagram-node">Local/Edge Zone</div><div class="kb-diagram-node">On-Premise / 온프레미스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(동일 API, 동일 IAM, 동일 K8s 클러스터로 완벽한 논리적 통합)</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────── 기존 하이브리드 클라우드의 한계 ────────────────┐
+│ [Public Cloud / 퍼블릭 클라우드]           [On-Premise / Edge]             │
+│ AWS Console      <--?--> VMware / 자체 인프라 관리 도구         │
+│ (관리 주체: CSP)          (관리 주체: 고객사 IT팀)              │
+│  * 한계: 일관된 배포 파이프라인 부재, 보안 정책 파편화, 이기종 스택  │
+├───────────────── 분산 클라우드의 통일된 제어 평면 ───────────────┤
+│                     [CSP Central Control Plane / CSP 중앙 제어 평면]          │
+│                 (예: AWS Outposts, GCP Anthos, Azure Arc)│
+│                              │                           │
+│      +───────────────────────+──────────────────────+    │
+│      ↓                       ↓                      ↓    │
+│ [Public Region / 퍼블릭 리전]     [Local/Edge Zone]       [On-Premise / 온프레미스] │
+│ (동일 API, 동일 IAM, 동일 K8s 클러스터로 완벽한 논리적 통합)      │
+└──────────────────────────────────────────────────────────┘
+```
 
 이 도식의 핵심은 관리 주체와 제어 인터페이스의 일원화 여부이다. 기존 하이브리드 구조는 두 개의 이질적인 시스템을 네트워크로 이어 붙인 형태라 보안 사각지대가 생겼다. [분산 클라우드](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/242_distributed_cloud_edge_computing_aws_outposts/)는 CSP의 제어 평면이 고객사의 물리적 공간까지 거미줄처럼 확장되어 동일한 API와 콘솔로 리소스를 투명하게 관리한다. 실무에서는 이러한 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)이 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인의 단일화를 가능하게 하여 소프트웨어 배포 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)을 극적으로 단축시킨다.
 
@@ -70,25 +68,24 @@ tags = ["cloud_architecture"]
 
 아래 다이어그램은 [분산 클라우드](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/242_distributed_cloud_edge_computing_aws_outposts/) 환경에서 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)와 실제 트래픽이 어떻게 분리되어 처리되는지 흐름을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">CSP Central Region (Public Cloud)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Policy &amp; Config YAML (GitOps Repo)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Global Control Plane &amp; Identity (IAM)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Tether: mTLS Sync)</div></div>
-<div class="kb-diagram-note">↓ 제어 신호 (Control Plane) ↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Customer On-Premise / 온프레미스</div><div class="kb-diagram-node">Telco 5G Edge / 통신사 5G 엣지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Local Agent</div><div class="kb-diagram-cell">&lt;--Sync--</div><div class="kb-diagram-cell">Local Agent</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">K8s Cluster</div><div class="kb-diagram-cell">K8s Cluster</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GPU / Storage</div><div class="kb-diagram-cell">AI Inference</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 흐름 (Data Plane)</div><div class="kb-diagram-cell">초저지연 데이터</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Factory IoT Data / 공장 IoT 데이터</div><div class="kb-diagram-node">Autonomous Car / 자율주행차</div></div>
-</div>
-</div>
-
-
+```text
+[CSP Central Region (Public Cloud)]
+ ┌─────────────────────────────────────────────┐
+ │ 1. Policy & Config YAML (GitOps Repo)       │
+ │ 2. Global Control Plane & Identity (IAM)    │
+ └───────┬──────────────────────────────┬──────┘
+         │ (Tether: mTLS Sync)          │
+         ↓ 제어 신호 (Control Plane)      ↓
+[Customer On-Premise / 온프레미스]            [Telco 5G Edge / 통신사 5G 엣지]
+ ┌───────────────┐              ┌───────────────┐
+ │ Local Agent   │<--Sync--     │ Local Agent   │
+ │ K8s Cluster   │              │ K8s Cluster   │
+ │ GPU / Storage │              │ AI Inference  │
+ └───────┬───────┘              └───────┬───────┘
+         │ 데이터 흐름 (Data Plane)       │ 초저지연 데이터
+         ▼                              ▼
+   [Factory IoT Data / 공장 IoT 데이터]             [Autonomous Car / 자율주행차]
+```
 
 이 그림의 핵심은 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(Tether)와 실제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 트래픽([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane)의 완벽한 물리적·논리적 분리이다. 중앙 리전은 배포 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 보안 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서만 내려보낼 뿐, 공장 로봇이나 자율주행차에서 발생하는 대용량 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 외부 네트워크를 타지 않고 로컬에서 즉시 분석 및 소멸된다. 따라서 해저 케이블 장애로 중앙망과 연결이 끊기더라도 생존성(Local Survivability)을 보장하며, 무엇보다 클라우드로 내보내는 막대한 아웃바운드([Egress](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/)) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 요금을 원천 차단한다.
 
@@ -132,22 +129,19 @@ tags = ["cloud_architecture"]
 
 아래는 신규 워크로드 발생 시 [분산 클라우드](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/242_distributed_cloud_edge_computing_aws_outposts/) 배치를 결정하는 판단 트리이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">신규 워크로드 아키텍처 설계 요청</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터의 국외 반출 금지 등 강력한 보안 규제가 존재하는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ (Yes) ──&gt;</div><div class="kb-diagram-node">On-Premise 전용 분산 노드 (Outposts) 배치 결정</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ (No) ──&gt;</div><div class="kb-diagram-node">초저지연(5ms 이하) 응답 속도가 생명인 서비스인가? (자율주행, 원격수술)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ (Yes) ──&gt;</div><div class="kb-diagram-node">5G 통신사 연계 Edge 노드 (Wavelength) 배치 결정</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ (No) ──&gt;</div><div class="kb-diagram-node">대용량 원시 데이터의 아웃바운드 전송망 요금이 매우 비싼가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ (Yes) ──&gt;</div><div class="kb-diagram-node">Local Zone 수준 분산 노드에 배치</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ (No) ──&gt;</div><div class="kb-diagram-node">중앙 Public Region 기본 배치 (가장 저렴)</div></div>
-</div>
-</div>
-
-
+```text
+[신규 워크로드 아키텍처 설계 요청]
+         │
+[데이터의 국외 반출 금지 등 강력한 보안 규제가 존재하는가?]
+ ├─ (Yes) ──> [On-Premise 전용 분산 노드 (Outposts) 배치 결정]
+ │
+ └─ (No) ──> [초저지연(5ms 이하) 응답 속도가 생명인 서비스인가? (자율주행, 원격수술)]
+              ├─ (Yes) ──> [5G 통신사 연계 Edge 노드 (Wavelength) 배치 결정]
+              │
+              └─ (No) ──> [대용량 원시 데이터의 아웃바운드 전송망 요금이 매우 비싼가?]
+                           ├─ (Yes) ──> [Local Zone 수준 분산 노드에 배치]
+                           └─ (No)  ──> [중앙 Public Region 기본 배치 (가장 저렴)]
+```
 
 이 의사결정 트리는 [분산 클라우드](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/242_distributed_cloud_edge_computing_aws_outposts/)가 무조건적인 정답이 아니라, 철저하게 규제와 레이턴시의 임계치를 넘어설 때만 사용하는 프리미엄 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)임을 보여준다. 따라서 실무 아키텍트는 엣지와 중앙 중 어디에 애플리케이션을 둘지 결정할 때 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 락인 비용을 반드시 정량 계산해야 한다.
 
@@ -181,23 +175,21 @@ tags = ["cloud_architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">퍼블릭 클라우드 (Public Cloud) — 중앙 집중형 리소스 제공</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">하이브리드 클라우드 (Hybrid Cloud) — 온프레미스와 퍼블릭 클라우드 연계</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">멀티 클라우드 (Multi-Cloud) — 복수 CSP 동시 사용으로 벤더 종속 탈피</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">분산 클라우드 (Distributed Cloud) — 에지 위치까지 클라우드 서비스 분산 배포</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">엣지 컴퓨팅 (Edge Computing) — 물리적 근접성으로 지연 최소화·데이터 현지 처리</div></div>
-</div>
-</div>
-
-
+```text
+[퍼블릭 클라우드 (Public Cloud) — 중앙 집중형 리소스 제공]
+    │
+    ▼
+[하이브리드 클라우드 (Hybrid Cloud) — 온프레미스와 퍼블릭 클라우드 연계]
+    │
+    ▼
+[멀티 클라우드 (Multi-Cloud) — 복수 CSP 동시 사용으로 벤더 종속 탈피]
+    │
+    ▼
+[분산 클라우드 (Distributed Cloud) — 에지 위치까지 클라우드 서비스 분산 배포]
+    │
+    ▼
+[엣지 컴퓨팅 (Edge Computing) — 물리적 근접성으로 지연 최소화·데이터 현지 처리]
+```
 
 이 흐름은 중앙 집중형 [퍼블릭 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/)에서 에지까지 클라우드 인프라가 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)·확장되는 아키텍처 진화를 나타낸다.
 

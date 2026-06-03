@@ -103,41 +103,29 @@ Git Flow는 릴리스 기준이 분명한 팀에서 안정성을 높여 준다. 
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">feature</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">develop</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">release</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">main / hotfix</div>
-</div>
-</div>
-
-
+```text
+feature
+  ↓
+develop
+  ↓
+release
+  ↓
+main / hotfix
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Branching Strategy</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Git Flow</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Release Management</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">CI/CD</div>
-</div>
-</div>
-
-
+```text
+Branching Strategy
+  ↓
+Git Flow
+  ↓
+Release Management
+  ↓
+CI/CD
+```
 
 ---
 

@@ -36,21 +36,20 @@ tags = ["studynote-ict-convergence"]
 
 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>별 위협 수준</strong>:
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">양자 위협 분류</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공개키 암호 (비대칭키) 대칭키 암호</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RSA-2048/4096</div><div class="kb-diagram-cell">AES-128</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ECC P-256/P-384</div><div class="kb-diagram-cell">→ 그로버: 64비트 수준</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 쇼어: 완전 붕괴</div><div class="kb-diagram-cell">AES-256</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(다항 시간 공격)</div><div class="kb-diagram-cell">→ 그로버: 128비트 수준</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해결: PQC 표준으로 교체 해결: 키 길이 2배 (AES-256 유지)</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────────┐
+│              양자 위협 분류                                   │
+│                                                             │
+│  공개키 암호 (비대칭키)        대칭키 암호                    │
+│  ┌──────────────────────┐   ┌──────────────────────┐       │
+│  │ RSA-2048/4096        │   │ AES-128              │       │
+│  │ ECC P-256/P-384      │   │ → 그로버: 64비트 수준  │       │
+│  │ → 쇼어: 완전 붕괴     │   │ AES-256              │       │
+│  │   (다항 시간 공격)    │   │ → 그로버: 128비트 수준 │       │
+│  └──────────────────────┘   └──────────────────────┘       │
+│  해결: PQC 표준으로 교체      해결: 키 길이 2배 (AES-256 유지)│
+└─────────────────────────────────────────────────────────────┘
+```
 
 | 항목 | 내용 |
 |:---|:---|
@@ -135,7 +134,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 508 / 552
 
-← **이전**: [507. 카오스 엔지니어링, 섀도 배포, 서킷 브레이커 (Chaos Engineering Shadow Deployment Circuit](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/507_chaos_engineering_shadow_circuit_breaker/)
+← **이전**: [507. 카오스 엔지니어링, 섀도 배포, 서킷 브레이커 (Chaos 엔진ering Shadow Deployment Circuit](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/507_chaos_engineering_shadow_circuit_breaker/)
 **다음**: [509. CXL, 칩렛, 메모리 풀링, UCIe (CXL Chiplet Memory Pooling UCIe)](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/509_cxl_chiplet_memory_pooling_ucie/) →
 
 ---

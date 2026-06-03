@@ -30,28 +30,37 @@ tags = ["studynote-operating-system"]
 - <strong>i-node <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> 마스크 기반 권한 환산(chmod) <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> 폭주 메커니즘 뷰</strong>:
 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 권한 `rwxr-xr-- (754)` 가 대체 CPU 내부에서 어떻게 숫자로 변환 스위칭되어 접근 허가를 때리는지 그 렌더를 까보면 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"컴퓨터는 r, w, x 알파벳을 모른다! 비트(Bit) 0과 1로 압살시켜 쏴!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🚨</div><div class="kb-diagram-node">유저: "명령어 chmod 754 일기장.txt" 발포 록백!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">✅</div><div class="kb-diagram-node">OS 커널 (i-node 12번 블록 내부 메타 9-Bit 권한 스위치 조작 기전)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">대상계급</div><div class="kb-diagram-note">소유자(User) | 내팀(Group) | 다른놈(Other) |</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">알파벳 매핑</div><div class="kb-diagram-note">r w x | r - x | r - - |</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">이진 비트</div><div class="kb-diagram-note">1 1 1 | 1 0 1 | 1 0 0 | 빔!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">8진수 가중치</div><div class="kb-diagram-note">(4 + 2 + 1) | (4 + 0 + 1) | (4 + 0 + 0) | 포팅!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">최종 허가값</div><div class="kb-diagram-note">7 | 5 | 4 |</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🔥</div><div class="kb-diagram-node">파일 열기(Open System Call) 접근 방패 타격 발동!!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 접속자 C가 "일기장.txt 내용 좀 보자(r 요청)!" 시스템 콜 빔</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 커널봇: "너 주인장(U) 아니네? 통과."</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 커널봇: "너 주인장이랑 같은 팀(G) 아니네? 통과."</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- 커널봇: "그럼 넌 잡놈(O)이네! Other 권한 비트 확인:</div><div class="kb-diagram-node">1 0 0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오! 첫 번째 자리(r)가 1이다! 읽기 파이프 문 열어줘!!"</div></div>
-</div>
-</div>
-
-
+```text
+  ┌────────────────────────────────────────────────────────────────────────────────────┐
+  │                 "컴퓨터는 r, w, x 알파벳을 모른다! 비트(Bit) 0과 1로 압살시켜 쏴!" │
+  ├────────────────────────────────────────────────────────────────────────────────────┤
+  │                                                                                    │
+  │  🚨 [ 유저: "명령어 chmod 754 일기장.txt" 발포 록백! ]                             │
+  │                                                                                    │
+  │  =========================▼===================================                     │
+  │                                                                                    │
+  │  ✅ [ OS 커널 (i-node 12번 블록 내부 메타 9-Bit 권한 스위치 조작 기전) ]           │
+  │                                                                                    │
+  │   [ 대상계급 ]   | 소유자(User) |  내팀(Group) | 다른놈(Other) |                   │
+  │               -----------------------------------------                            │
+  │   [ 알파벳 매핑 ] |   r  w  x   |   r  -  x   |   r  -  -   |                      │
+  │   [ 이진 비트 ] |   1  1  1   |   1  0  1   |   1  0  0   | 빔!                    │
+  │               -----------------------------------------                            │
+  │   [ 8진수 가중치] | (4 + 2 + 1) | (4 + 0 + 1) | (4 + 0 + 0) | 포팅!                │
+  │               -----------------------------------------                            │
+  │   [ 최종 허가값 ] |      7       |      5      |      4      |                     │
+  │                                                                                    │
+  │  =========================▼===================================                     │
+  │                                                                                    │
+  │  🔥 [ 파일 열기(Open System Call) 접근 방패 타격 발동!! ]                          │
+  │                                                                                    │
+  │      - 접속자 C가 "일기장.txt 내용 좀 보자(r 요청)!" 시스템 콜 빔                  │
+  │      - 커널봇: "너 주인장(U) 아니네? 통과."                                        │
+  │      - 커널봇: "너 주인장이랑 같은 팀(G) 아니네? 통과."                            │
+  │      - 커널봇: "그럼 넌 잡놈(O)이네! Other 권한 비트 확인: [ 1 0 0 ]               │
+  │                오! 첫 번째 자리(r)가 1이다! 읽기 파이프 문 열어줘!!"               │
+  └────────────────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** U-G-O의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 검사는 무조건 왼쪽부터 폭포수처럼 떨어지는 순차적 검문소 계급장(Sequential Matching 스왑) 도축이다. 만약 내가 그 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 소유자(U)인데, 소유자 권한은 `--- (0)` 이고 타인(O) 권한은 `rwx (7)` 라면? 나는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 주인임에도 불구하고 첫 번째 문(U) 검문소에서 내 신분증(소유자)이 일치하므로 바로 U의 권한(0)을 적용받아 쫓겨난다("어? 난 주인인데 남들(O) 다 보는 내 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 내가 못 보네? Permission Denied" 기현상 오버헤드). 이것이 이 체계의 잔혹하고 기계적인 거시 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 매스킹([Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) Masking 검사 록) 아크 구조다.
 
@@ -130,19 +139,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 중복 제거 (Data Deduplication) 파일 시스템 기능</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">파일 시스템 접근 제어 (Access Control)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SetUID (4000), SetGID (2000), Sticky Bit (1000) 특수 권한</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ACL (Access Control List) 확장을 통한 세밀한 사용자별 파일 권한 통제</div></div>
-</div>
-</div>
-
-
+```text
+[데이터 중복 제거 (Data Deduplication) 파일 시스템 기능]
+    │
+    ▼
+[파일 시스템 접근 제어 (Access Control)]
+    │
+    ├──▶ [SetUID (4000), SetGID (2000), Sticky Bit (1000) 특수 권한]
+    └──▶ [ACL (Access Control List) 확장을 통한 세밀한 사용자별 파일 권한 통제]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

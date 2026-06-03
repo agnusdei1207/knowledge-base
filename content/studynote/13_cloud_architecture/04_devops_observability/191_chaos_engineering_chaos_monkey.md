@@ -1,5 +1,5 @@
 +++
-title = "191. 카오스 엔지니어링 (Chaos Engineering)"
+title = "191. 카오스 엔지니어링 (Chaos 엔진ering)"
 date = 2026-04-21
 
 [taxonomies]
@@ -44,43 +44,39 @@ tags = ["studynote-cloud-architecture"]
 
 ### 장애 주입 유형
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">카오스 실험 장애 주입 유형</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인프라 장애</div><div class="kb-diagram-cell">EC2 인스턴스 종료, Pod Kill, 노드 격리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">네트워크 장애</div><div class="kb-diagram-cell">지연(Latency) 주입, 패킷 손실, DNS 실패</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">리소스 고갈</div><div class="kb-diagram-cell">CPU 포화(100%), 메모리 소진, 디스크 가득 채움</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">의존성 장애</div><div class="kb-diagram-cell">DB 연결 차단, 외부 API 타임아웃, 캐시 비우기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">애플리케이션</div><div class="kb-diagram-cell">예외(Exception) 주입, 프로세스 스로틀링</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────────────┐
+│                   카오스 실험 장애 주입 유형                       │
+├──────────────────┬───────────────────────────────────────────────┤
+│ 인프라 장애       │ EC2 인스턴스 종료, Pod Kill, 노드 격리          │
+│ 네트워크 장애     │ 지연(Latency) 주입, 패킷 손실, DNS 실패         │
+│ 리소스 고갈      │ CPU 포화(100%), 메모리 소진, 디스크 가득 채움    │
+│ 의존성 장애      │ DB 연결 차단, 외부 API 타임아웃, 캐시 비우기     │
+│ 애플리케이션     │ 예외(Exception) 주입, 프로세스 스로틀링          │
+└──────────────────┴───────────────────────────────────────────────┘
+```
 
 ### 넷플릭스 Simian Army 구조
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">프로덕션 클러스터</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Chaos Monkey (인스턴스 Kill)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Chaos Gorilla (AZ 비활성화)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Chaos Kong (리전 Failover)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Latency Monkey (지연 주입)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Doctor Monkey (성능 이상 감지)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">결과 → Steady State 유지 여부 자동 판정</div></div>
-<div class="kb-diagram-note">유지 ─ ─ 이탈 → 취약점 리포트 → 개선</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">신뢰도 누적 및 실험 자동화 반복</div></div>
-</div>
-</div>
-
-
+```
+  [프로덕션 클러스터]
+        │
+        ▼
+  ┌────────────────────────────────────────────┐
+  │            Chaos Monkey (인스턴스 Kill)     │
+  │            Chaos Gorilla (AZ 비활성화)      │
+  │            Chaos Kong (리전 Failover)       │
+  │            Latency Monkey (지연 주입)       │
+  │            Doctor Monkey (성능 이상 감지)   │
+  └────────────────────────────────────────────┘
+        │
+        ▼
+  [결과 → Steady State 유지 여부 자동 판정]
+        │
+  유지 ─┼─ 이탈 → 취약점 리포트 → 개선
+        ▼
+  [신뢰도 누적 및 실험 자동화 반복]
+```
 
 📢 **섹션 요약 비유**: 카오스 도구들은 마치 비행 시뮬레이터의 고장 시나리오 버튼과 같다. 조종사는 시뮬레이터에서 엔진 2개 동시 꺼짐을 연습하고, 그래야 실전에서 손이 먼저 움직인다.
 
@@ -175,22 +171,18 @@ spec:
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">장애 대응: 사후 대응 (Reactive)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Chaos Engineering: 사전 실험 (Proactive)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Chaos Monkey: Netflix 오리진</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Litmus · Chaos Mesh: K8s 네이티브</div>
-<div class="kb-diagram-tree-item" style="--depth:2">GameDay: 조직 차원 모의 훈련</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Steady State 가설 → 실험 → 관찰 → 개선</div>
-</div>
-</div>
-
-
+```text
+장애 대응: 사후 대응 (Reactive)
+    │
+    ▼
+Chaos Engineering: 사전 실험 (Proactive)
+    ├─► Chaos Monkey: Netflix 오리진
+    ├─► Litmus · Chaos Mesh: K8s 네이티브
+    └─► GameDay: 조직 차원 모의 훈련
+    │
+    ▼
+Steady State 가설 → 실험 → 관찰 → 개선
+```
 2. 만약 한 조각 없어도 탑이 안 무너지면 "이 탑은 튼튼해!"라고 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한 거야.
 3. 이렇게 미리미리 약한 곳을 찾아서 고치면, 갑자기 진짜 고장 났을 때도 괜찮아.
 

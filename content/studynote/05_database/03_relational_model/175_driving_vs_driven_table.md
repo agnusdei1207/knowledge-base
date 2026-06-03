@@ -25,19 +25,17 @@ tags = ["studynote-database"]
 
 아래 그림은 조인 비용이 왜 드라이빙 집합의 행 수에 민감한지를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해서 보여 준다. 핵심은 드리븐 비용이 한 번이 아니라 <strong>드라이빙 행 수만큼 곱해진다</strong>는 점이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Join cost is multiplied by outer rows</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">driving rows = 5 -&gt; driven lookup repeated 5 times</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">driving rows = 500 -&gt; driven lookup repeated 500 times</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">driving rows = 50,000 -&gt; driven lookup repeated 50,000 times</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">rough cost ≒ access(driving) + rows(driving) x lookup(driven)</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Join cost is multiplied by outer rows                             │
+├────────────────────────────────────────────────────────────────────┤
+│ driving rows = 5      -> driven lookup repeated      5 times      │
+│ driving rows = 500    -> driven lookup repeated    500 times      │
+│ driving rows = 50,000 -> driven lookup repeated 50,000 times      │
+│                                                                    │
+│ rough cost ≒ access(driving) + rows(driving) x lookup(driven)      │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 따라서 드라이빙 테이블의 본질은 "먼저 읽는 테이블"이라는 문장으로 끝나지 않는다. 더 정확히는 <strong>조인 반복 횟수를 결정하는 제어 손잡이</strong>라고 이해해야 한다. 이 관점을 잡아야 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)을 읽을 때 왜 어떤 테이블이 먼저 잡혔는지 해석할 수 있다.
 
@@ -58,21 +56,20 @@ tags = ["studynote-database"]
 
 아래 구조는 "작게 줄인 뒤 반복 접근한다"는 [중첩 루프 조인](/knowledge-base/studynote/05_database/03_relational_model/172_nl_join_nested_loop/)의 핵심 원리를 보여 준다. 좋은 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)은 드라이빙에서 이미 행 수를 최대한 줄여 놓고, 드리븐은 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)로 짧게 찌른다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Nested Loop Join execution</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Driving access: CUSTOMER where grade = 'VIP' -&gt; 120 rows</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ row 1 -&gt; ORDERS(customer_id) index lookup</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ row 2 -&gt; ORDERS(customer_id) index lookup</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ row 3 -&gt; ORDERS(customer_id) index lookup</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ row 120 -&gt; ORDERS(customer_id) index lookup</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Good plan = small filtered outer + fast inner access</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Nested Loop Join execution                                         │
+├────────────────────────────────────────────────────────────────────┤
+│ Driving access: CUSTOMER where grade = 'VIP' -> 120 rows           │
+│      │                                                             │
+│      ├─ row 1   -> ORDERS(customer_id) index lookup                │
+│      ├─ row 2   -> ORDERS(customer_id) index lookup                │
+│      ├─ row 3   -> ORDERS(customer_id) index lookup                │
+│      └─ row 120 -> ORDERS(customer_id) index lookup                │
+│                                                                    │
+│ Good plan = small filtered outer + fast inner access               │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 중요한 오해 하나는 "원래 작은 테이블이 무조건 드라이빙"이라는 생각이다. 실제로는 <strong>기본 테이블 크기보다 필터 후 결과 건수</strong>가 더 중요하다. 예를 들어 주문 테이블이 5억 건이라도 `order_date = today` 조건으로 3,000건만 남는다면, 고객 테이블 1,000만 건보다 오히려 주문 쪽이 더 좋은 드라이빙이 될 수 있다.
 
@@ -157,25 +154,24 @@ tags = ["studynote-database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">조건 선택도 파악</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">필터 후 기수성 추정</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">드라이빙 테이블 선택</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">드리븐 액세스 경로 결정</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">조인 반복 횟수 최소화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">조인 순서 / 힌트 / 해시 조인 대안 검토</div>
-</div>
-</div>
-
-
+```text
+조건 선택도 파악
+        │
+        ▼
+필터 후 기수성 추정
+        │
+        ▼
+드라이빙 테이블 선택
+        │
+        ▼
+드리븐 액세스 경로 결정
+        │
+        ▼
+조인 반복 횟수 최소화
+        │
+        ▼
+조인 순서 / 힌트 / 해시 조인 대안 검토
+```
 
 이 흐름은 "조건 분석 → 남는 행 수 추정 → 드라이빙 선택 → 드리븐 탐색 최적화 → 전체 조인 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 확정"으로 이어지는 튜닝 사고 순서를 보여 준다.
 

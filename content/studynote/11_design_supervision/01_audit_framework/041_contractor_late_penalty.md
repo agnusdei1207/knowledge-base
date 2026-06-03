@@ -166,37 +166,39 @@ DQM (Data Quality Management) 체계:
 
 ## Ⅴ. 실무 시나리오 — 공공 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 진단
 
+```
+A 기관 고객 DB 품질 진단 사례:
 
+배경:
+  고객 데이터 300만 건
+  CRM·ERP·포털 3개 시스템 통합 운영
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">A 기관 고객 DB 품질 진단 사례:</div>
-<div class="kb-diagram-note">배경:</div>
-<div class="kb-diagram-note">고객 데이터 300만 건</div>
-<div class="kb-diagram-note">CRM·ERP·포털 3개 시스템 통합 운영</div>
-<div class="kb-diagram-note">진단 결과:</div>
-<div class="kb-diagram-note">완전성:</div>
-<div class="kb-diagram-note">휴대폰 번호: 23% NULL → 문제</div>
-<div class="kb-diagram-note">이메일: 41% NULL → 문제</div>
-<div class="kb-diagram-note">생년월일: 3% NULL → 양호</div>
-<div class="kb-diagram-note">유효성:</div>
-<div class="kb-diagram-note">전화번호 형식 오류: 15,000건 (0.5%)</div>
-<div class="kb-diagram-note">우편번호 자릿수 오류: 3,400건</div>
-<div class="kb-diagram-note">일관성:</div>
-<div class="kb-diagram-note">CRM vs ERP 주소 불일치: 8.7%</div>
-<div class="kb-diagram-note">고객 상태코드 시스템 간 불일치: 1.2%</div>
-<div class="kb-diagram-note">정확성:</div>
-<div class="kb-diagram-note">랜덤 샘플 500건 현실 대조: 오류율 4.2%</div>
-<div class="kb-diagram-note">적시성:</div>
-<div class="kb-diagram-note">고객 정보 갱신 지연 1년 이상: 12%</div>
-<div class="kb-diagram-note">개선 결과 (3개월 후):</div>
-<div class="kb-diagram-note">휴대폰 NULL: 23% → 8%</div>
-<div class="kb-diagram-note">시스템 간 불일치: 8.7% → 1.3%</div>
-<div class="kb-diagram-note">주요 지표 전반 50%+ 개선</div>
-</div>
-</div>
+진단 결과:
 
+완전성:
+  휴대폰 번호: 23% NULL → 문제
+  이메일: 41% NULL → 문제
+  생년월일: 3% NULL → 양호
 
+유효성:
+  전화번호 형식 오류: 15,000건 (0.5%)
+  우편번호 자릿수 오류: 3,400건
+
+일관성:
+  CRM vs ERP 주소 불일치: 8.7%
+  고객 상태코드 시스템 간 불일치: 1.2%
+
+정확성:
+  랜덤 샘플 500건 현실 대조: 오류율 4.2%
+
+적시성:
+  고객 정보 갱신 지연 1년 이상: 12%
+
+개선 결과 (3개월 후):
+  휴대폰 NULL: 23% → 8%
+  시스템 간 불일치: 8.7% → 1.3%
+  주요 지표 전반 50%+ 개선
+```
 
 > 📢 **섹션 요약 비유**: 공공 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 진단은 우편물 주소 정확도 검사 — NULL(주소 없음), 형식 오류(번지 없음), 불일치(시스템마다 다른 주소)를 모두 체크.
 
@@ -204,26 +206,20 @@ DQM (Data Quality Management) 체계:
 
 ## 📌 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">데이터 품질 진단</div>
-<div class="kb-diagram-note">+-- 6대 지표</div>
-<div class="kb-diagram-note">+-- 완전성, 유효성, 일관성</div>
-<div class="kb-diagram-note">+-- 정확성, 적시성, 보안성</div>
-<div class="kb-diagram-note">+-- 프로세스</div>
-<div class="kb-diagram-note">+-- 범위정의→프로파일링→측정→원인분석→개선→모니터링</div>
-<div class="kb-diagram-note">+-- DQM 체계</div>
-<div class="kb-diagram-note">+-- 데이터 오너십</div>
-<div class="kb-diagram-note">+-- 데이터 거버넌스</div>
-<div class="kb-diagram-note">+-- 도구</div>
-<div class="kb-diagram-note">+-- Great Expectations, Apache Griffin</div>
-<div class="kb-diagram-note">+-- Informatica DQ, AWS Glue DataBrew</div>
-</div>
-</div>
-
-
+```
+데이터 품질 진단
++-- 6대 지표
+|   +-- 완전성, 유효성, 일관성
+|   +-- 정확성, 적시성, 보안성
++-- 프로세스
+|   +-- 범위정의→프로파일링→측정→원인분석→개선→모니터링
++-- DQM 체계
+|   +-- 데이터 오너십
+|   +-- 데이터 거버넌스
++-- 도구
+|   +-- Great Expectations, Apache Griffin
+|   +-- Informatica DQ, AWS Glue DataBrew
+```
 
 ---
 

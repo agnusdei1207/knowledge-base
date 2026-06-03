@@ -20,24 +20,22 @@ tags = ["studynote-database"]
 
 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)의 이상적 세계에서는 "모든 사실을 한 곳에만 저장"하지만, 현실의 수천만 건 주문 테이블에서 고객명을 보여주려면 고객 테이블과 조인해야 한다. 이 조인이 매 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호출마다 반복되면 DB가 지친다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정규화 vs 역정규화 트레이드오프</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">정규화 (3NF)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주문(주문ID, 고객ID, 금액)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고객(고객ID, 이름, 주소)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 고객명 조회 시 JOIN 필요 → 느림</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 이름 변경 시 고객 테이블 1곳만 수정 → 무결성 ✅</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">역정규화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주문(주문ID, 고객ID, 고객명, 금액) ← 중복 추가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ JOIN 없이 바로 조회 → 빠름 ✅</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 이름 변경 시 주문+고객 둘 다 수정 → 위험 ⚠️</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│      정규화 vs 역정규화 트레이드오프                    │
+├───────────────────────────────────────────────────────┤
+│  [정규화 (3NF)]                                       │
+│   주문(주문ID, 고객ID, 금액)                           │
+│   고객(고객ID, 이름, 주소)                             │
+│   → 고객명 조회 시 JOIN 필요 → 느림                   │
+│   → 이름 변경 시 고객 테이블 1곳만 수정 → 무결성 ✅   │
+│                                                       │
+│  [역정규화]                                           │
+│   주문(주문ID, 고객ID, 고객명, 금액) ← 중복 추가      │
+│   → JOIN 없이 바로 조회 → 빠름 ✅                     │
+│   → 이름 변경 시 주문+고객 둘 다 수정 → 위험 ⚠️      │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)는 도서관에서 책을 1권만 보관하는 것(깨끗), 역정규화는 자주 보는 책을 교실마다 복사본을 두는 것(빠르지만 수정 시 전부 교체해야 함)이다.
 
@@ -114,23 +112,21 @@ tags = ["studynote-database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">정규화 이론 확립 (Codd, 1970s) — 무결성 중심 설계</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">OLTP 성능 이슈 대두 (1990s) — 대용량 조인 병목</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">역정규화 실무 패턴 정립 — 중복 컬럼·파생 컬럼·테이블 병합</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DW/OLAP Star Schema (2000s) — 분석 환경 전면 역정규화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: Materialized View + CQRS — 정규화(쓰기)와 역정규화(읽기) 분리</div></div>
-</div>
-</div>
-
-
+```text
+[정규화 이론 확립 (Codd, 1970s) — 무결성 중심 설계]
+    │
+    ▼
+[OLTP 성능 이슈 대두 (1990s) — 대용량 조인 병목]
+    │
+    ▼
+[역정규화 실무 패턴 정립 — 중복 컬럼·파생 컬럼·테이블 병합]
+    │
+    ▼
+[DW/OLAP Star Schema (2000s) — 분석 환경 전면 역정규화]
+    │
+    ▼
+[현재: Materialized View + CQRS — 정규화(쓰기)와 역정규화(읽기) 분리]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 도서관([정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/))에 책이 1권만 있으면 깨끗하지만, 빌리려면 **도서관까지 가야 해서** 시간이 오래 걸려요.

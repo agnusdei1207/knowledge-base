@@ -38,24 +38,20 @@ tags = ["studynote-ict-convergence"]
 
 ### [행렬 분해](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/161_matrix_decomposition/) ([Matrix Factorization](/knowledge-base/studynote/06_ict_convergence/05_data_science/348_matrix_factorization/))
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">사용자-아이템 평점 행렬 R (희소 행렬)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">아이템1 아이템2 아이템3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유저1 5 ? 3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유저2 ? 4 ?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유저3 2 ? 5</div></div>
-<div class="kb-diagram-note">↓ 행렬 분해 (k 잠재 요인)</div>
-<div class="kb-diagram-note">R ≈ P × Qᵀ</div>
-<div class="kb-diagram-note">P: 유저 잠재 행렬 (n×k)</div>
-<div class="kb-diagram-note">Q: 아이템 잠재 행렬 (m×k)</div>
-<div class="kb-diagram-note">목표: ?로 표시된 빈 셀 예측</div>
-</div>
-</div>
-
-
+```
+사용자-아이템 평점 행렬 R (희소 행렬)
+┌─────────────────────────────────┐
+│     아이템1  아이템2  아이템3   │
+│ 유저1  5       ?       3        │
+│ 유저2  ?       4       ?        │
+│ 유저3  2       ?       5        │
+└─────────────────────────────────┘
+         ↓ 행렬 분해 (k 잠재 요인)
+    R ≈ P × Qᵀ
+    P: 유저 잠재 행렬 (n×k)
+    Q: 아이템 잠재 행렬 (m×k)
+    목표: ?로 표시된 빈 셀 예측
+```
 
 - <strong>SGD (<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/241_optimizer_sgd_minibatch_adam_momentum_adaptive/">Stochastic Gradient Descent</a>)</strong>: 관측된 평점 오차를 최소화하며 P, Q 학습.
 - <strong>ALS (<a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/349_svd_als_recommendation/">Alternating Least Squares</a>)</strong>: P 고정 후 Q 최적화, Q 고정 후 P 최적화를 반복 — [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리에 적합 ([Spark MLlib](/knowledge-base/studynote/16_bigdata/03_spark/062_spark_mllib/)).

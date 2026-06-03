@@ -48,17 +48,11 @@ LoRA는 <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Full Fine-tuning (비용↑)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Adapter (2019)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">LoRA (Microsoft, 2021)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">QLoRA (2023)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">DoRA (2024)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: LoRA+ — 학습률 분리</div></div>
-</div>
-</div>
-
-
+```text
+[Full Fine-tuning (비용↑)] → [Adapter (2019)]
+    → [LoRA (Microsoft, 2021)] → [QLoRA (2023)]
+    → [DoRA (2024)] → [현재: LoRA+ — 학습률 분리]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. LoRA는 <strong>교과서에 포스트잇</strong>을 붙이는 거예요. 교과서는 안 바꿔요.

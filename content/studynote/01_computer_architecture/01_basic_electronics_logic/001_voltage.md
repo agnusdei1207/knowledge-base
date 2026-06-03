@@ -24,19 +24,18 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 전압이 왜 "차이"의 개념인지, 그리고 왜 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)와 구분해서 봐야 하는지를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전압의 본질: 에너지 높이 차가 흐름을 만든다</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">높은 전위</div><div class="kb-diagram-node">VDD</div><div class="kb-diagram-note">낮은 전위</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">+</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">-</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"밀어주는 기준" = 전압</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실제 흐름 = 전류</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│          전압의 본질: 에너지 높이 차가 흐름을 만든다         │
+├──────────────────────────────────────────────────────────────┤
+│  높은 전위 (VDD)                                낮은 전위    │
+│     [ + ] ───────────── 전위차 ─────────────▶ [ - ]         │
+│        │                                              │      │
+│        └──── "밀어주는 기준" = 전압                    │      │
+│                                                       ▼      │
+│                                          실제 흐름 = 전류    │
+└──────────────────────────────────────────────────────────────┘
+```
 
 여기서 핵심은 전압과 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)를 같은 것으로 보면 안 된다는 점이다. 전압은 흐름의 원인이고, [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)는 그 결과다. 컴퓨터 아키텍처에서 전압은 더 나아가 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 레벨, 센스 앰프 (Sense Amplifier)의 판독 기준, 메모리 셀 보존 여유 같은 설계 판단으로 이어진다.
 
@@ -57,20 +56,18 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 실제 시스템에서 전압이 전달되는 길과, 어디서 문제가 생기는지를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전압 전달 경로와 설계 병목 지점</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PSU ─▶ VRM ─▶ Package ─▶ On-chip Power Grid ─▶ Transistor</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 스위칭</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ IR Drop / Noise</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 핀/패키지 임피던스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 부하 급변 시 응답 속도</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────┐
+│              전압 전달 경로와 설계 병목 지점                  │
+├────────────────────────────────────────────────────────────────┤
+│ PSU ─▶ VRM ─▶ Package ─▶ On-chip Power Grid ─▶ Transistor     │
+│          │         │                │                  │       │
+│          │         │                │                  └─ 스위칭│
+│          │         │                └─ IR Drop / Noise         │
+│          │         └─ 핀/패키지 임피던스                      │
+│          └─ 부하 급변 시 응답 속도                            │
+└────────────────────────────────────────────────────────────────┘
+```
 
 전압이 아키텍처에서 특히 중요한 이유는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 전력이 동시에 걸려 있기 때문이다. [동적 전력](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/467_dynamic_power/)은 대략 `P_dynamic ≈ α x C x V^2 x f`에 비례하므로, 전압을 조금만 높여도 소비전력이 빠르게 증가한다. 반대로 전압을 낮추면 전력은 줄지만 게이트 지연이 늘고, 타이밍 위반 위험이 커진다.
 
@@ -106,21 +103,19 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 전압 관련 의사결정이 어떤 순서로 이뤄져야 하는지를 요약한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전압 판단 흐름: 성능보다 먼저 조건 확인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">목표 주파수 충족 필요?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예 ─▶ 현재 전압에서 타이밍 여유 충분한가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예 ─▶ 전압 유지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ─▶ 전압 상향 또는 경로 최적화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ─▶ 전압/주파수 하향으로 전력 절감</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">추가 확인: 열 한계, IR Drop, 도메인 경계, 레벨 시프터</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│            전압 판단 흐름: 성능보다 먼저 조건 확인           │
+├──────────────────────────────────────────────────────────────┤
+│ 목표 주파수 충족 필요?                                       │
+│   ├─ 예 ─▶ 현재 전압에서 타이밍 여유 충분한가?              │
+│   │          ├─ 예 ─▶ 전압 유지                              │
+│   │          └─ 아니오 ─▶ 전압 상향 또는 경로 최적화         │
+│   └─ 아니오 ─▶ 전압/주파수 하향으로 전력 절감                │
+│                                                              │
+│ 추가 확인: 열 한계, IR Drop, 도메인 경계, 레벨 시프터       │
+└──────────────────────────────────────────────────────────────┘
+```
 
 ### 기술사 답안에서 잡아야 할 판단 포인트
 
@@ -164,21 +159,18 @@ tags = ["studynote-computer-architecture"]
 | [DVFS](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/469_dvfs/) (Dynamic Voltage and Frequency Scaling) | 전압과 주파수를 함께 조절해 전력/[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 균형을 맞추는 기법 |
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">전류 (Current)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">저항 (Resistance)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">클럭 (Clock)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">VRM (Voltage Regulator Module)</div></div>
-</div>
-</div>
-
-
+```text
+[전류 (Current)]
+    │
+    ▼
+[저항 (Resistance)]
+    │
+    ▼
+[클럭 (Clock)]
+    │
+    ▼
+[VRM (Voltage Regulator Module)]
+```
 
 이 흐름도는 선행 개념이 현재 개념으로 응축되고, 다시 확장 개념으로 이어지는 순서를 보여준다.
 ### 👶 어린이를 위한 3줄 비유 설명

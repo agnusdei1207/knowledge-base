@@ -23,20 +23,25 @@ GoF 패턴이 객체지향의 기본 문법이라면, 심화 패턴은 현대의
 
 이 그림은 아키텍처 설계 시 패턴과 안티패턴이 미치는 장기적 영향을 비교한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Design Debt and Quality Over Time</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">System Quality ▲</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Standard Patterns (Sustainable)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ Anti-patterns (Technical Debt)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Project Timeline</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* Anti-pattern: 초기엔 빠르나 나중엔 수정 불가능해짐</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Design Debt and Quality Over Time           │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   System Quality ▲                                          │
+│                  │      Standard Patterns (Sustainable)     │
+│                  │     /                                    │
+│                  │    /                                     │
+│                  │   /                                      │
+│                  │  /                                       │
+│                  │ /   Anti-patterns (Technical Debt)       │
+│                  └──────────────────────────────────▶       │
+│                          Project Timeline                   │
+│                                                             │
+│   * Anti-pattern: 초기엔 빠르나 나중엔 수정 불가능해짐     │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '생산성의 역전'이다. 안티패턴은 당장의 개발 속도를 높여주지만, 결국은 시스템을 거대한 진흙탕 (Big Ball of Mud)으로 만든다. 기술사는 개발 초기 단계에서 이러한 징후를 포착하고 정석적인 패턴으로의 리팩토링을 강제해야 한다.
 
@@ -69,20 +74,21 @@ GoF 패턴이 객체지향의 기본 문법이라면, 심화 패턴은 현대의
 
 이 구조도는 **CQRS (Command Query Responsibility Segregation)** 패턴의 논리적 구성을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CQRS: Optimizing Read and Write</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Client</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Write DB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Sync)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Read DB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 효과: 1. 복잡한 조회 쿼리가 쓰기 성능을 저해하지 않음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 읽기 전용 DB는 인덱스를 자유롭게 최적화 가능</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 CQRS: Optimizing Read and Write             │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Client ] ───── (Command: Create/Update) ────▶ [ Write DB ] │
+│       │                                             │ (Sync)│
+│       │                                             ▼       │
+│       └─────────── (Query: Read Only) ──────────▶ [ Read DB ]  │
+│                                                             │
+│   * 효과: 1. 복잡한 조회 쿼리가 쓰기 성능을 저해하지 않음   │
+│           2. 읽기 전용 DB는 인덱스를 자유롭게 최적화 가능   │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '최적화의 분리'이다. 쓰기 작업은 정규화된 DB에서 안전하게 처리하고, 읽기 작업은 반정규화된 고속 조회 DB에서 처리한다. 실무에서는 이 두 DB 사이의 데이터 동기화 지연 (Lag)을 비즈니스적으로 수용하는 아키텍처적 결단이 필요하다.
 
@@ -123,20 +129,23 @@ GoF 패턴이 객체지향의 기본 문법이라면, 심화 패턴은 현대의
 
 이 도식은 기술사가 안티패턴을 리팩토링하는 '설계 정화 프로세스'를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Refactoring Anti-patterns Workflow</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. Symptom Check</div><div class="kb-diagram-note">: 코드 수정 시 사이드 이펙트 발생</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. Pattern Match</div><div class="kb-diagram-note">: 'God Class' 또는 'Spaghetti' 식별</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3. Decoupling</div><div class="kb-diagram-note">: 인터페이스 추출 및 책임 분리 (SRP)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">4. Pattern Apply</div><div class="kb-diagram-note">: 복잡도에 맞는 적정 패턴 도입</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">5. Verification</div><div class="kb-diagram-note">: 순환 복잡도 및 테스트 커버리지 확인</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│               Refactoring Anti-patterns Workflow            │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ 1. Symptom Check ] : 코드 수정 시 사이드 이펙트 발생    │
+│          │                                                  │
+│   [ 2. Pattern Match ] : 'God Class' 또는 'Spaghetti' 식별 │
+│          │                                                  │
+│   [ 3. Decoupling ] : 인터페이스 추출 및 책임 분리 (SRP)    │
+│          │                                                  │
+│   [ 4. Pattern Apply ] : 복잡도에 맞는 적정 패턴 도입       │
+│          │                                                  │
+│   [ 5. Verification ] : 순환 복잡도 및 테스트 커버리지 확인 │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 기술사의 패턴 판단은 '정밀 수술'과 같습니다. 무작정 째고 보는(무분별한 패턴 적용) 게 아니라, 병의 원인(안티패턴)을 정확히 진단하고 가장 적절한 도구(심화 패턴)를 써서 건강한 몸(유연한 아키텍처)을 되찾아주는 과정입니다.
 

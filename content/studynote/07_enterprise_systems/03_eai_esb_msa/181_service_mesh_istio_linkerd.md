@@ -25,18 +25,16 @@ tags = ["studynote-enterprise"]
 
 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)는 이 문제를 "모든 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 옆에 통신 전담 대리인 하나씩을 붙인다"는 방식으로 풀어낸다. 아래 그림은 코드 안에 네트워크 책임이 박혀 있는 구조와 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) 구조의 차이를 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Before mesh vs with mesh</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">before : app A</div><div class="kb-diagram-node">retry</div><div class="kb-diagram-node">security</div><div class="kb-diagram-node">metrics</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">auth</div><div class="kb-diagram-node">timeout</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">after : app A -&gt; proxy A == policy + identity ==&gt; proxy B -&gt; app B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">effect : traffic logic leaves business binaries</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Before mesh vs with mesh                                           │
+├────────────────────────────────────────────────────────────────────┤
+│ before : app A [retry][security][metrics] -> app B [auth][timeout] │
+│ after  : app A -> proxy A == policy + identity ==> proxy B -> app B │
+│                                                                    │
+│ effect : traffic logic leaves business binaries                    │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 여기서 [mTLS](/knowledge-base/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/) (mutual Transport Layer [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 통신을 상호 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)과 암호화로 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하는 대표 기능이다. 중요한 것은 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)가 비즈니스 기능을 대체하지 않는다는 점이다. [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 규칙은 애플리케이션에 남고, 공통 통신 제어만 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) 계층으로 이동한다.
 
@@ -48,18 +46,17 @@ tags = ["studynote-enterprise"]
 
 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)는 보통 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플레인 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane)과 컨트롤 플레인 (Control Plane)으로 나뉜다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플레인은 실제 패킷과 요청을 처리하는 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 집합이고, 컨트롤 플레인은 그 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)들에게 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 텔레메트리 구성을 배포하는 중앙 관리 계층이다. 애플리케이션 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 옆의 [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)가 대표적인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플레인 형태다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Service mesh control loop</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">platform team -&gt; control plane -&gt; policy / cert / route config</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App A -&gt; proxy A == secure traffic ==&gt; proxy B -&gt; App B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">metrics / traces / logs ── ─&gt; observability</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Service mesh control loop                                          │
+├────────────────────────────────────────────────────────────────────┤
+│ platform team -> control plane -> policy / cert / route config     │
+│                                    │                               │
+│ App A -> proxy A == secure traffic ==> proxy B -> App B            │
+│               │                                   │                │
+│               └──────── metrics / traces / logs ──┴─> observability │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조에서 애플리케이션은 보통 로컬 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)에만 요청을 보내고, [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)끼리 실제 네트워크 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 수행한다. 컨트롤 플레인은 "A에서 B로 가는 요청 중 5%만 새 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)으로 보낸다", "모든 내부 통신은 mTLS를 사용한다", "특정 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 초당 요청 수를 제한한다" 같은 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 중앙에서 배포한다. 그래서 애플리케이션을 재배포하지 않고도 통신 규칙을 바꿀 수 있다.
 
@@ -154,23 +151,20 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">서비스 수 증가 · 통신 정책 중복</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">사이드카 프록시 도입</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">컨트롤 플레인 기반 중앙 정책 배포</div>
-<div class="kb-diagram-tree-item" style="--depth:4">mTLS · 서비스 신원 관리</div>
-<div class="kb-diagram-tree-item" style="--depth:4">재시도 · 타임아웃 · 카나리 라우팅</div>
-<div class="kb-diagram-tree-item" style="--depth:4">메트릭 · 로그 · 트레이스 수집</div>
-<div class="kb-diagram-tree-item" style="--depth:4">Istio 또는 Linkerd 운영 전략 선택</div>
-</div>
-</div>
-
-
+```text
+서비스 수 증가 · 통신 정책 중복
+        │
+        ▼
+사이드카 프록시 도입
+        │
+        ▼
+컨트롤 플레인 기반 중앙 정책 배포
+        │
+        ├──────────────► mTLS · 서비스 신원 관리
+        ├──────────────► 재시도 · 타임아웃 · 카나리 라우팅
+        ├──────────────► 메트릭 · 로그 · 트레이스 수집
+        └──────────────► Istio 또는 Linkerd 운영 전략 선택
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

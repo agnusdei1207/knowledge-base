@@ -19,16 +19,13 @@ tags = ["studynote-design-supervision"]
 
 즉 랜딩 존은 단순한 클라우드 계정 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 템플릿이 아니라, 네트워크 분리, 접근 권한, [로그 수집](/knowledge-base/studynote/09_security/13_secops_ir_forensics/626_log_collection/), 암호화, 태깅, 비용 배부, [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 기준을 미리 설계한 운영 기반이다. 여기에 하이브리드 거버넌스가 더해지면 퍼블릭 클라우드와 [프라이빗 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/008_private_cloud/), [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) 시스템까지 같은 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 체계 아래에서 관리할 수 있게 된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">규제·보안 요구</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">표준 랜딩 존 설계</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">계정·구독 생성</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">워크로드 배치</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">운영 감사</div></div>
-<div class="kb-diagram-tree-item" style="--depth:8">온프레미스·멀티클라우드 공통 정책</div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐   ┌────────────────┐   ┌──────────────┐   ┌────────────┐   ┌──────────┐
+│ 규제·보안 요구 │──▶│ 표준 랜딩 존 설계 │──▶│ 계정·구독 생성 │──▶│ 워크로드 배치 │──▶│ 운영 감사 │
+└──────────────┘   └────────┬───────┘   └──────────────┘   └─────┬──────┘   └──────────┘
+                             │                                     │
+                             └──── 온프레미스·멀티클라우드 공통 정책 ────┘
+```
 
 감리와 기술사 관점에서는 “누가 어떤 기준으로 자원을 열고, 누가 어떤 증거로 운영 적정성을 설명하는가”를 구조화하는 문제가 핵심이다. 따라서 랜딩 존은 구축 산출물이면서 동시에 통제의 시작점이다.
 
@@ -37,19 +34,19 @@ tags = ["studynote-design-supervision"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 하이브리드 거버넌스의 핵심은 중앙 표준과 현업 자율성의 균형이다. 중앙 조직은 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)·접근관리, 네트워크 경계, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)와 보안 기준, 비용 태그, [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 같은 공통 가드레일을 정의하고, 각 제품팀은 그 틀 안에서 빠르게 자원을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)해 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)한다. 이때 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 문서로만 존재하면 drift가 발생하므로 IaC와 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 자동 검증이 필수다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">중앙 거버넌스 계층</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IAM · Network · Logging</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Policy as Code · Cost Tag</div></div>
-<div class="kb-diagram-note">AWS 랜딩 존 Azure 랜딩 존 온프레미스 존</div>
-<div class="kb-diagram-tree-item" style="--depth:4">공통 감사·보안·운영 기준</div>
-</div>
-</div>
-
-
+```text
+                ┌──────────────────────────────┐
+                │ 중앙 거버넌스 계층           │
+                │ IAM · Network · Logging      │
+                │ Policy as Code · Cost Tag    │
+                └────────────┬─────────────────┘
+                             │
+        ┌────────────────────┼────────────────────┐
+        ▼                    ▼                    ▼
+   AWS 랜딩 존          Azure 랜딩 존        온프레미스 존
+        │                    │                    │
+        └────────── 공통 감사·보안·운영 기준 ──────────┘
+```
 
 | 거버넌스 축 | 핵심 구성 | 감리·기술사 포인트 |
 |:---|:---|:---|
@@ -109,23 +106,21 @@ tags = ["studynote-design-supervision"]
 | [CSPM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/780_cspm_cloud_security_posture_management/) | 클라우드 구성 상태를 지속적으로 점검하는 운영 보완 도구 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">클라우드 확산 · 자산 증가</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">표준 랜딩 존 정의</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">IaC · 정책 자동화 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">하이브리드 통합 거버넌스 확장</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">민첩한 배치 · 일관된 보안 · 비용 통제 확보</div>
-</div>
-</div>
-
-
+```text
+클라우드 확산 · 자산 증가
+            │
+            ▼
+표준 랜딩 존 정의
+            │
+            ▼
+IaC · 정책 자동화 적용
+            │
+            ▼
+하이브리드 통합 거버넌스 확장
+            │
+            ▼
+민첩한 배치 · 일관된 보안 · 비용 통제 확보
+```
 
 이 흐름은 클라우드 표준화가 계정 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)으로 끝나는 일이 아니라, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 자동화와 운영 증적 통합으로 진화해야 함을 보여 준다.
 

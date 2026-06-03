@@ -29,53 +29,54 @@ tags = ["studynote-design-supervision"]
 - 이벤트 큐에서 배치로 메시지가 쏟아질 때
 - [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 일시에 전송할 때
 
+```
+입력 (불규칙 버스트):
+  ┌───────────────────────────────────────────────────┐
+  │ 시각 | 요청 수                                     │
+  │ 0s   | 1,000 (폭발적 버스트)                       │
+  │ 1s   | 0                                          │
+  │ 2s   | 500 (또 버스트)                             │
+  └───────────────────────────────────────────────────┘
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">입력 (불규칙 버스트):</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시각</div><div class="kb-diagram-cell">요청 수</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0s</div><div class="kb-diagram-cell">1,000 (폭발적 버스트)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1s</div><div class="kb-diagram-cell">0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2s</div><div class="kb-diagram-cell">500 (또 버스트)</div></div>
-<div class="kb-diagram-note">출력 (일정 속도):</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시각</div><div class="kb-diagram-cell">처리 수</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0s</div><div class="kb-diagram-cell">100 (버킷에서 일정 속도로 새어나옴)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1s</div><div class="kb-diagram-cell">100</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2s</div><div class="kb-diagram-cell">100</div></div>
-<div class="kb-diagram-note">→ 버스트가 버킷(큐)에 흡수되고 일정 속도로 처리</div>
-<div class="kb-diagram-note">→ 버킷 넘치면(overflow) 초과 패킷/요청 드롭</div>
-</div>
-</div>
-
-
+출력 (일정 속도):
+  ┌───────────────────────────────────────────────────┐
+  │ 시각 | 처리 수                                     │
+  │ 0s   | 100 (버킷에서 일정 속도로 새어나옴)           │
+  │ 1s   | 100                                        │
+  │ 2s   | 100                                        │
+  └───────────────────────────────────────────────────┘
+  → 버스트가 버킷(큐)에 흡수되고 일정 속도로 처리
+  → 버킷 넘치면(overflow) 초과 패킷/요청 드롭
+```
 
 - **📢 섹션 요약 비유**: 리키 버킷은 구멍 뚫린 양동이 — 폭우(버스트 트래픽)가 쏟아져도 양동이가 물을 받아두고, 구멍(출력)은 항상 일정한 속도로만 물(트래픽)을 내보낸다. 양동이가 넘치면 물(패킷)은 버려진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Leaky Bucket Algorithm</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력 (불규칙 트래픽):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▓▓▓▓▓▓▓▓▓ ▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▓ 버스트 ▓</div><div class="kb-diagram-cell">Bucket (큐/버퍼)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▓ 트래픽 ▓</div><div class="kb-diagram-cell">← 버킷 초과</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">▓▓▓▓▓▓▓▓▓</div><div class="kb-diagram-node">요청</div><div class="kb-diagram-node">요청</div><div class="kb-diagram-node">요청</div><div class="kb-diagram-note">DROP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">요청</div><div class="kb-diagram-node">요청</div><div class="kb-diagram-node">요청</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단순 트래픽:</div><div class="kb-diagram-cell">capacity = B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▓ 정상 ▓ ▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▓▓▓▓▓▓▓</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일정 속도 R req/s</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다운스트림 서버</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(일정 부하 보장)</div></div>
-</div>
-</div>
-
-
+```
+┌────────────────────────────────────────────────────────────────┐
+│                  Leaky Bucket Algorithm                        │
+│                                                                │
+│  입력 (불규칙 트래픽):                                           │
+│  ▓▓▓▓▓▓▓▓▓ ──────────▶ ┌────────────────────┐                 │
+│  ▓ 버스트 ▓              │   Bucket (큐/버퍼)  │                 │
+│  ▓ 트래픽 ▓              │                    │  ← 버킷 초과     │
+│  ▓▓▓▓▓▓▓▓▓              │  [요청][요청][요청] │    DROP          │
+│                          │  [요청][요청][요청] │                 │
+│  단순 트래픽:             │  capacity = B      │                 │
+│  ▓ 정상 ▓  ─────────────▶│                    │                 │
+│  ▓▓▓▓▓▓▓              └──────────┬───────────┘                 │
+│                                  │                             │
+│                          일정 속도 R req/s                      │
+│                                  │                             │
+│                                  ▼                             │
+│                         ┌─────────────────┐                    │
+│                         │ 다운스트림 서버   │                    │
+│                         │ (일정 부하 보장) │                    │
+│                         └─────────────────┘                    │
+└────────────────────────────────────────────────────────────────┘
+```
 
 ```python
 class LeakyBucket:
@@ -102,22 +103,17 @@ class LeakyBucket:
         self.last_leak = now
 ```
 
+```
+네트워크 QoS 계층:
+  1. Traffic Classification (분류)
+  2. Traffic Policing (토큰 버킷/리키 버킷으로 초과 트래픽 드롭)
+  3. Traffic Shaping  ← 리키 버킷 활용 (버스트 평활화 후 전달)
+  4. Scheduling (우선순위 큐 기반 처리)
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">네트워크 QoS 계층:</div>
-<div class="kb-diagram-note">1. Traffic Classification (분류)</div>
-<div class="kb-diagram-note">2. Traffic Policing (토큰 버킷/리키 버킷으로 초과 트래픽 드롭)</div>
-<div class="kb-diagram-note">3. Traffic Shaping ← 리키 버킷 활용 (버스트 평활화 후 전달)</div>
-<div class="kb-diagram-note">4. Scheduling (우선순위 큐 기반 처리)</div>
-<div class="kb-diagram-note">리키 버킷의 QoS 역할:</div>
-<div class="kb-diagram-note">CBR (Constant Bit Rate, 일정 비트율) 보장 → 음성/영상 스트리밍</div>
-<div class="kb-diagram-note">버스트 제거 → 혼잡(Congestion) 방지</div>
-</div>
-</div>
-
-
+리키 버킷의 QoS 역할:
+  CBR (Constant Bit Rate, 일정 비트율) 보장 → 음성/영상 스트리밍
+  버스트 제거 → 혼잡(Congestion) 방지
+```
 
 | 항목 | 설명 | 포인트 |
 |:---|:---|:---|
@@ -174,20 +170,15 @@ http {
 - `nodelay`: 큐잉된 요청을 즉시 처리 (토큰 버킷과 유사한 동작)
 - `nodelay` 없음: 큐잉된 요청을 rate에 맞춰 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 처리 (순수 리키 버킷)
 
+```
+Kafka Consumer 속도 제어:
+  Producer → Kafka Topic (버킷 역할)
+            → Consumer (일정 속도 = max.poll.records + 처리 스레드 수)
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Kafka Consumer 속도 제어:</div>
-<div class="kb-diagram-note">Producer → Kafka Topic (버킷 역할)</div>
-<div class="kb-diagram-note">→ Consumer (일정 속도 = max.poll.records + 처리 스레드 수)</div>
-<div class="kb-diagram-note">버킷 역할: Kafka Topic의 파티션</div>
-<div class="kb-diagram-note">누출 속도: Consumer의 처리 처리량 (rps)</div>
-<div class="kb-diagram-note">오버플로우: Retention 정책 (오래된 메시지 삭제)</div>
-</div>
-</div>
-
-
+  버킷 역할: Kafka Topic의 파티션
+  누출 속도: Consumer의 처리 처리량 (rps)
+  오버플로우: Retention 정책 (오래된 메시지 삭제)
+```
 
 | 요구사항 | 선택 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 이유 |
 |:---|:---|:---|

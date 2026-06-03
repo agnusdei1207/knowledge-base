@@ -26,21 +26,18 @@ tags = ["ict_convergence"]
 이 혁신적인 기술이 등장하게 된 근본적인 배경은 1세대 [합의 알고리즘](/knowledge-base/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/)(PoW)이 야기한 심각한 자원 낭비와 중앙화 문제 때문이다. 비트코인의 PoW는 막대한 [전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/)와 특정 [ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/) 채굴기 공장의 독점을 초래했다. 이에 대한 대안으로 [지분 증명](/knowledge-base/studynote/06_ict_convergence/01_blockchain/015_pos_proof_of_stake/)(PoS)이 등장했으나, 이는 결국 '돈(지분)이 많은 자가 권력을 갖는' 자본의 중앙화를 낳았다. PoST는 우리 주변에 흔히 버려져 있는 잉여 자원인 '하드 디스크 용량'을 합의의 도구로 전환하여 전력 낭비를 없애고, 일반인도 쉽게 네트워크에 참여할 수 있는 진정한 의미의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)형 에코시스템을 구축하기 위해 설계되었다.
 
 이 그림은 기존 PoW 방식과 PoST 방식의 자원 활용 메커니즘 차이를 직관적으로 보여준다.
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">PoW (작업 증명): 연산 중심, 전력 소모 극대화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ASIC / GPU 가동 ====(막대한 전기 낭비)====&gt; 해시 정답 도출</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ CPU 연산을 계속 돌려야만 정답을 찾을 수 있음</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">PoST (공간/시간 증명): 스토리지 중심, 친환경 유지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">빈 HDD 공간에 ====(초기 1회 Plotting)====&gt; 빙고판 저장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 유지 시간 ====(VDF 지연 함수)====&gt; 당첨 여부 확인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ 이후 대기 모드에서 전력 소모 없이 공간만 제공</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────┐
+│ [PoW (작업 증명): 연산 중심, 전력 소모 극대화]         │
+│  ASIC / GPU 가동 ====(막대한 전기 낭비)====> 해시 정답 도출│
+│  ※ CPU 연산을 계속 돌려야만 정답을 찾을 수 있음       │
+├────────────────────────────────────────────────────────┤
+│ [PoST (공간/시간 증명): 스토리지 중심, 친환경 유지]    │
+│  빈 HDD 공간에 ====(초기 1회 Plotting)====> 빙고판 저장 │
+│  데이터 유지 시간 ====(VDF 지연 함수)====> 당첨 여부 확인│
+│  ※ 이후 대기 모드에서 전력 소모 없이 공간만 제공      │
+└────────────────────────────────────────────────────────┘
+```
 이 도식의 핵심은 소모되는 자원의 성질이 '동적인 전기(연산)'에서 '정적인 디스크(공간)'로 변환되었다는 점이다. 이런 배치는 네트워크 유지에 필요한 에너지를 기하급수적으로 줄이기 때문이며, 따라서 시스템은 친환경적(Green) 요건을 완벽히 만족한다. 실무에서는 누구나 집에 있는 남는 하드디스크를 연결(Farming)하기만 하면 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)자로 참여할 수 있어, 네트워크의 노드 수가 폭발적으로 증가하여 진정한 의미의 [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/)를 이룰 수 있게 된다.
 
 📢 **섹션 요약 비유**: 매번 정답을 찾기 위해 하루 종일 땀 흘리며 달리기(PoW)를 하는 대신, 미리 거대한 빙고판(하드디스크 공간)을 그려두고 가만히 앉아서 번호가 불릴 때 내 빙고판에 정답이 있는지만 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(PoST)하는 친환경적이고 평화로운 빙고 게임과 같습니다.
@@ -61,46 +58,40 @@ PoST 아키텍처는 크게 빈 공간을 [암호학](/knowledge-base/studynote/
 
 PoST의 가장 중요한 난제는 "공격자가 디스크 공간을 실제로 할당하지 않고, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 순간에만 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) CPU로 임시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 만들어내어 공간을 가진 척 속이는 행위(Grinding Attack)"를 막는 것이다. 이를 위해 VDF([검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능한 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 함수)가 결합된다.
 
+```text
+[PoST 블록 생성 및 암호학적 검증 순차 흐름도]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">PoST 블록 생성 및 암호학적 검증 순차 흐름도</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 챌린지 발생</div><div class="kb-diagram-note">(이전 블록의 해시값)</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Farmer들의 Space 증명 (Proof of Space)</div></div>
-<div class="kb-diagram-tree-item" style="--depth:0">Farmer A (1TB) : 내 하드디스크에 정답과 90% 일치하는 값 있음!</div>
-<div class="kb-diagram-tree-item" style="--depth:0">Farmer B (10TB) : 나는 정답과 99% 일치하는 값 있음! (당첨 확률 높음)</div>
-<div class="kb-diagram-note">↓ (가장 우수한 증명을 네트워크에 제출)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Timelord의 Time 증명 (Proof of Time - VDF)</div></div>
-<div class="kb-diagram-tree-item" style="--depth:0">VDF 연산 시작: "B의 증명이 유효한지 10초 동안 순차 연산 강제 수행"</div>
-<div class="kb-diagram-note">(※ 병렬 처리 불가, 무조건 시간 지연 발생)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">최종 블록 확정</div><div class="kb-diagram-note">=&gt; Farmer B가 블록 생성 및 코인 보상 획득</div></div>
-</div>
-</div>
-
-
+[네트워크 챌린지 발생] (이전 블록의 해시값)
+         │
+         ↓
+[Farmer들의 Space 증명 (Proof of Space)]
+ ├─ Farmer A (1TB) : 내 하드디스크에 정답과 90% 일치하는 값 있음!
+ ├─ Farmer B (10TB) : 나는 정답과 99% 일치하는 값 있음! (당첨 확률 높음)
+         │
+         ↓ (가장 우수한 증명을 네트워크에 제출)
+[Timelord의 Time 증명 (Proof of Time - VDF)]
+ └─ VDF 연산 시작: "B의 증명이 유효한지 10초 동안 순차 연산 강제 수행"
+         │ (※ 병렬 처리 불가, 무조건 시간 지연 발생)
+         ↓
+[최종 블록 확정] => Farmer B가 블록 생성 및 코인 보상 획득
+```
 이 흐름의 핵심은 공간 증명과 시간 증명이 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)로 연결되어 상호 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 수행한다는 점이다. 이런 배치는 압도적인 CPU 성능을 가진 공격자라 할지라도 VDF의 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 연산 시간(Time)을 압축할 수 없고, 결국 꼼수 없이 거대한 저장 공간(Space)을 실제로 구비해야만 승리할 수 있도록 강제하기 때문이며, 따라서 시스템은 순수하게 디스크 용량에 비례하여 [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/)된 보안을 유지한다. 실무에서는 VDF 연산을 전담하는 Timelord 노드는 고성능 연산이 필요하지만, 일반 Farmer 노드들은 저전력으로 수확만 수행하므로 전체 생태계의 전력 효율이 극대화된다.
 
 공간 증명의 효율은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어떻게 디스크에 레이아웃 되는지에 달려 있다.
 
+```text
+[디스크 Plotting 메모리/디스크 레이아웃 상태]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">디스크 Plotting 메모리/디스크 레이아웃 상태</div></div>
-<div class="kb-diagram-note">HDD / SSD</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Plot 1 (100GB)</div><div class="kb-diagram-cell">Plot 2 (100GB)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─Table 1 (해시)</div><div class="kb-diagram-cell">─Table 1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─Table 2 (포인터</div><div class="kb-diagram-cell">─...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─...</div><div class="kb-diagram-cell">─Table 7 (최종 해시)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ 초기 Plotting 시 CPU/RAM을 많이 쓰지만,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">완료 후 Farming 시에는 단순 Read만 수행</div></div>
-</div>
-</div>
-
-
+┌─────────────── HDD / SSD ───────────────┐
+│ Plot 1 (100GB)  │ Plot 2 (100GB)        │
+│ ┌─Table 1 (해시)│ ┌─Table 1             │
+│ ├─Table 2 (포인터│ ├─...                 │
+│ └─...           │ └─Table 7 (최종 해시) │
+│                                         │
+│ ※ 초기 Plotting 시 CPU/RAM을 많이 쓰지만,│
+│    완료 후 Farming 시에는 단순 Read만 수행│
+└─────────────────────────────────────────┘
+```
 이 그림은 한 번 디스크에 Plot이 기록되고 나면, 이후 유지보수에는 최소한의 자원만 소모됨을 보여준다. 이 도식에서 핵심은 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 작업(Write)이 일회성으로 끝난다는 점이다. 따라서 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 SSD로 빠르게 Plot을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한 후 [전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/)가 적고 용량이 큰 저렴한 HDD로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 옮겨 장기 보관(Farming)하는 아키텍처가 실무적으로 가장 효율적이고 보편적인 참여 방식이 된다.
 
 📢 **섹션 요약 비유**: 복권(Plot)을 인쇄할 때는 프린터(CPU)가 힘들게 돌아가지만, 한 번 복권을 찍어서 창고([HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/))에 쌓아두면, 매주 추첨 방송 때 내 창고에 당첨 번호가 있는지만 가벼운 손전등(Read)으로 비춰보며 당첨금을 타가는 친환경 복권 시스템과 같습니다.
@@ -121,21 +112,20 @@ PoST는 [합의 알고리즘](/knowledge-base/studynote/06_ict_convergence/01_bl
 
 PoST는 PoW의 "자원 소모를 통한 보안 증명"이라는 철학을 계승하면서도, 그 자원을 무한 소모되는 '전기'에서 재사용 가능한 '디스크 공간'으로 치환했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">합의 자원과 진입 장벽 매트릭스</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">진입 장벽 높음</div><div class="kb-diagram-note">(자본/특수 장비 필요)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲</div><div class="kb-diagram-cell">PoS (대량 토큰 필요)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PoW (ASIC 채굴기)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">진입 장벽 낮음</div><div class="kb-diagram-note">PoST (남는 하드디스크)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(잉여 자원 활용)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">소모성 자원 (전기)</div><div class="kb-diagram-node">비소모성 고정 자원 (공간)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────── [합의 자원과 진입 장벽 매트릭스] ───────────┐
+│                                                        │
+│  [진입 장벽 높음]      (자본/특수 장비 필요)           │
+│         ▲                    │ PoS (대량 토큰 필요)    │
+│         │ PoW (ASIC 채굴기)  │                         │
+│ ────────┼────────────────────┼──────────────────────── │
+│         │                    │                         │
+│  [진입 장벽 낮음]            │ PoST (남는 하드디스크)  │
+│      (잉여 자원 활용)        │                         │
+│         └────────────────────┴──────────────────────── │
+│         [소모성 자원 (전기)]    [비소모성 고정 자원 (공간)]│
+└────────────────────────────────────────────────────────┘
+```
 이 매트릭스의 핵심은 일반 대중이 네트워크 합의에 참여하기 위한 진입 장벽이 가장 낮은 곳이 우측 하단(PoST)이라는 점이다. PoW는 고가의 특수 채굴기가 필요하고 전기료 감당이 어려우며, PoS는 수천만 원어치의 코인을 사전에 보유해야 한다. 반면 PoST는 누구나 집에 있는 PC의 남는 하드디스크 공간만 있으면 즉시 네트워크의 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)자로 기여할 수 있어, 가장 이상적인 '완전한 [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/)' 철학에 부합한다.
 
 📢 **섹션 요약 비유**: 부자들만 살 수 있는 비싼 입장권(PoS)이나 기름 먹는 특수 스포츠카(PoW)가 없어도, 누구나 집에 남는 텅 빈 창고(디스크)만 네트워크에 빌려주면 주주로 인정받는 진정한 공유 경제 플랫폼입니다.
@@ -159,20 +149,15 @@ PoST는 PoW의 "자원 소모를 통한 보안 증명"이라는 철학을 계승
 <strong>3. <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> (치명적 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a> 사례)</strong>
 - **단기 보상 목적으로 인한 e-Waste (전자 폐기물) 양산**: PoST가 전력을 아끼는 친환경 기술이라고 홍보되지만, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 수익을 극대화하려는 사용자들이 저가형 SSD를 대량으로 사들여 무리하게 Plotting을 돌리다 수주 만에 디스크를 고장 내어 대량의 하드웨어 폐기물을 발생시키는 현상.
 
+```text
+[PoST 하드웨어 소모 병목 시각화 (안티패턴)]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">PoST 하드웨어 소모 병목 시각화 (안티패턴)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">일반 SSD 구매</div><div class="kb-diagram-note">=&gt;</div><div class="kb-diagram-node">무한 Plotting (Write 폭주) 수행</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SSD 수명(TBW) 급속 고갈 및 디스크 파괴</div></div>
-<div class="kb-diagram-note">↓ (단기 수익은 얻었으나 장비 교체 비용 발생)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전자 폐기물(e-Waste) 급증</div><div class="kb-diagram-note">=&gt; 🚨 '친환경'이라는 본래 철학 훼손</div></div>
-</div>
-</div>
-
-
+[일반 SSD 구매] => [무한 Plotting (Write 폭주) 수행]
+       ↓
+[SSD 수명(TBW) 급속 고갈 및 디스크 파괴]
+       ↓ (단기 수익은 얻었으나 장비 교체 비용 발생)
+[전자 폐기물(e-Waste) 급증] => 🚨 '친환경'이라는 본래 철학 훼손
+```
 이 그림은 소프트웨어적 [합의 알고리즘](/knowledge-base/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/)이 하드웨어 인프라에 미치는 물리적 부작용을 경고한다. 이 도식에서 핵심은 Plotting과 Farming의 하드웨어 요구사항이 완전히 다르다는 점이다. 따라서 실무 운영자는 Plotting 전용 RAM Disk나 엔터프라이즈급 SSD로 단기 부하를 흡수하고, 장기 보관(Farming)은 저전력 대용량 [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) 클러스터로 분리하는 계층화된 스토리지 아키텍처([Storage Tiering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/674_storage_tiering/))를 반드시 설계해야만 투자 대비 수익([ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/012_roi_return_on_investment/))과 인프라 안정성을 지킬 수 있다.
 
 📢 **섹션 요약 비유**: 전기를 아끼려고 연비 좋은 친환경 화물차(PoST)를 샀는데, 과적을 너무 심하게 해서 한 달 만에 타이어와 엔진([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))이 다 망가져 버려 결국 더 큰 손해([안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/))를 보는 상황을 피하도록 화물을 잘 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)해야 합니다.
@@ -205,23 +190,21 @@ PoST는 PoW의 "자원 소모를 통한 보안 증명"이라는 철학을 계승
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">PoW (Proof of Work) — CPU/GPU 연산 경쟁, 막대한 에너지 소비</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">PoS (Proof of Stake) — 토큰 지분 증명, 에너지 절약</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">PoSpace (Proof of Space) — 디스크 공간 사전 플로팅, I/O 기반</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">PoST (Proof of Space and Time) — 공간 + VDF 시간 증명, Chia Network</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">VDF (Verifiable Delay Function) — 검증 가능한 지연 함수, 선행 조건 방지</div></div>
-</div>
-</div>
-
-
+```text
+[PoW (Proof of Work) — CPU/GPU 연산 경쟁, 막대한 에너지 소비]
+    │
+    ▼
+[PoS (Proof of Stake) — 토큰 지분 증명, 에너지 절약]
+    │
+    ▼
+[PoSpace (Proof of Space) — 디스크 공간 사전 플로팅, I/O 기반]
+    │
+    ▼
+[PoST (Proof of Space and Time) — 공간 + VDF 시간 증명, Chia Network]
+    │
+    ▼
+[VDF (Verifiable Delay Function) — 검증 가능한 지연 함수, 선행 조건 방지]
+```
 PoST는 디스크 공간(Space)을 사전 확보하고 VDF로 시간 경과를 증명하여, PoW의 에너지 낭비 없이 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 합의를 달성한다.
 ### 👶 어린이를 위한 3줄 비유 설명
 1. **개념**: 어려운 수학 문제를 땀 뻘뻘 흘리며 풀어야 선물을 주는 방식 대신, 내 방에 남는 큰 빈 상자를 오랫동안 잘 보관하기만 해도 선물을 주는 친환경 방식이에요.

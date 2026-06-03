@@ -27,28 +27,36 @@ tags = ["studynote-operating-system"]
   2. <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a>(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">Abstraction</a>)의 도입</strong>: OS가 "이제부터 너희 기계들은 내 5가지 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 룰([버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/), [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 등) 밑으로 들어와라"라고 통일 규격을 선포.
   3. <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 극한 방어</strong>: 장비 속도가 미친 듯이 올라가며([NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 등), [버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/)과 스케줄링의 튜닝이 서버 전체 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)(TPS)을 좌우하는 1순위 병목 지점으로 격상됨.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I/O 서브시스템이 제공하는 5대 코어 서비스 파이프라인 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">유저 앱</div><div class="kb-diagram-note"><code>write(data)</code> 호출</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">I/O 서브시스템</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1️⃣ 캐싱 (Caching): "이거 아까 복사해둔 데이터네? 디스크 갈</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">필요 없이 램에서 바로 복붙해!" (초고속 패스)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2️⃣ 버퍼링 (Buffering): "디스크 속도 느리니까 일단 램 10MB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">통에 꽉 찰 때까지 모아둬!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3️⃣ 스풀링 (Spooling): (프린터의 경우) "프린터 1대인데 10명이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">출력 눌렀네? 디스크에 줄 세워놔!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4️⃣ I/O 스케줄링: "요청이 중구난방이네? 디스크 바늘 동선 낭비</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">없게 엘리베이터식으로 번호순 정렬해!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5️⃣ 오류 처리: "앗, 디스크 배드 섹터다! 3번 다시 읽어보고</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">안되면 앱한테 I/O Error 에러 코드 던져!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">하드웨어 (디바이스 드라이버 -&gt; 기계 컨트롤러)</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│        I/O 서브시스템이 제공하는 5대 코어 서비스 파이프라인 시각화 │
+├────────────────────────────────────────────────────────────────────┤
+│                                                                    │
+│ [ 유저 앱 ] `write(data)` 호출                                     │
+│      │                                                             │
+│      ▼                                                             │
+│ ┌────────────────── [ I/O 서브시스템 ] ─────────────────┐          │
+│ │                                                       │          │
+│ │ 1️⃣ 캐싱 (Caching): "이거 아까 복사해둔 데이터네? 디스크 갈  │   │
+│ │                   필요 없이 램에서 바로 복붙해!" (초고속 패스)│  │
+│ │                                                       │          │
+│ │ 2️⃣ 버퍼링 (Buffering): "디스크 속도 느리니까 일단 램 10MB  │    │
+│ │                      통에 꽉 찰 때까지 모아둬!"        │         │
+│ │                                                       │          │
+│ │ 3️⃣ 스풀링 (Spooling): (프린터의 경우) "프린터 1대인데 10명이 │  │
+│ │                      출력 눌렀네? 디스크에 줄 세워놔!"  │        │
+│ │                                                       │          │
+│ │ 4️⃣ I/O 스케줄링: "요청이 중구난방이네? 디스크 바늘 동선 낭비  │ │
+│ │                 없게 엘리베이터식으로 번호순 정렬해!"    │       │
+│ │                                                       │          │
+│ │ 5️⃣ 오류 처리: "앗, 디스크 배드 섹터다! 3번 다시 읽어보고    │   │
+│ │               안되면 앱한테 I/O Error 에러 코드 던져!" │         │
+│ └───────────────────────────────────────────────────────┘          │
+│      │                                                             │
+│      ▼                                                             │
+│ [ 하드웨어 (디바이스 드라이버 -> 기계 컨트롤러) ]                  │
+└────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** I/O 서브시스템은 철저한 <strong>"<a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>(Delay)과 방파제"</strong>의 아키텍처다. 유저의 요청을 하드웨어에 다이렉트로 꽂는 것은 0.01%의 특수 상황([Direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/) I/O)뿐이다. 나머지 99.9%는 이 서브시스템의 늪에서 [버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/)되고, 정렬되고, [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)되며 하드웨어가 가장 편안하게 소화할 수 있는 형태로 씹어 먹기 좋게 가공된 뒤에야 쇠덩어리(기계)로 던져진다.
 
 - **📢 섹션 요약 비유**: 우체국(I/O 서브시스템)입니다. 편지([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 넣는 즉시 배달원(하드웨어)이 오토바이를 타고 출발하면 기름값이 거덜 납니다. 우체국은 편지를 지역별로 묶고([버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/)), 같은 동네 배달은 동선을 짜주고(스케줄링), 주소가 틀리면 반송 딱지를 붙여(오류 처리) 우체부의 헛고생을 0으로 만들어주는 완벽한 물류 통제 센터입니다.
@@ -103,18 +111,15 @@ I/O 서브시스템이 유저 앱에게 통신을 허락하는 4가지 패러다
 - <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>의 수호</strong>: I/O 서브시스템 내의 SCSI/[NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 드라이버는 에러가 나면 유저 모르게 <strong>하드웨어적으로 3번~5번 재시도(Retry)</strong>를 때린다. 그래도 안 되면 아예 그 배드 섹터를 예비용 섹터(Spare Sector)로 하드웨어 리매핑(Remapping) 처리해서 살려내 버린다. 
 - 이 지독한 재시도 늪 덕분에 윈도우 블루스크린 빈도가 99% 줄어들었지만, 반대로 "디스크가 맛이 가면 앱이 에러도 안 뱉고 수 분간 무한 대기(Uninterruptible Sleep, `D` [state](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))에 빠져버리는" 좀비 서버 현상을 낳는 양날의 검이 되었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최적화 레이어</div><div class="kb-diagram-cell">주요 기술</div><div class="kb-diagram-cell">해결하는 문제</div><div class="kb-diagram-cell">맹점(Risk)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스케줄링</div><div class="kb-diagram-cell">CFQ / Noop</div><div class="kb-diagram-cell">바늘 헛돌기 방지</div><div class="kb-diagram-cell">SSD에 쓰면 역효과</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">버퍼 / 캐시</div><div class="kb-diagram-cell">Page Cache</div><div class="kb-diagram-cell">램/디스크 속도차</div><div class="kb-diagram-cell">💥정전 시 데이터 증발</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오류 처리</div><div class="kb-diagram-cell">SCSI Retry</div><div class="kb-diagram-cell">디스크 잔고장</div><div class="kb-diagram-cell">☠️ D-State 좀비 렉</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬─────────────────────────────┐
+│ 최적화 레이어│ 주요 기술    │ 해결하는 문제 │ 맹점(Risk)         │
+├──────────┼────────────┼────────────┼─────────────────────────────┤
+│ 스케줄링  │ CFQ / Noop │ 바늘 헛돌기 방지│ SSD에 쓰면 역효과     │
+│ 버퍼 / 캐시│ Page Cache │ 램/디스크 속도차│ 💥정전 시 데이터 증발│
+│ 오류 처리  │ SCSI Retry │ 디스크 잔고장  │ ☠️ D-State 좀비 렉    │
+└──────────┴────────────┴────────────┴─────────────────────────────┘
+```
 **[매트릭스 해설]** I/O 서브시스템의 모든 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 "사용자에게 에러 팝업을 띄우지 않겠다"는 강박관념에서 비롯되었다. 하지만 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 너무 과잉보호를 한 나머지, 진짜 하드웨어가 죽었을 때 앱이 즉각 반응(Fail-fast)하지 못하고 OS 단에서 멱살이 잡혀 서버가 통째로 동면(Hang)에 빠지는 현대 클라우드 장애의 주범이 되기도 한다.
 
 - **📢 섹션 요약 비유**: 식당 종업원(I/O 서브시스템)이 손님(앱)을 너무 아낍니다. 요리에 머리카락이 나오면 손님한테 말 안 하고 주방 가서 3번 다시 만들어 옵니다(오류 처리). 손님은 에러를 못 봐서 좋지만, 밥이 1시간째 안 나오는데 취소도 못 하고 식당에 갇혀버리는(D 상태 블로킹) 부작용을 겪게 됩니다.
@@ -172,19 +177,15 @@ I/O 서브시스템의 [커널](/knowledge-base/studynote/02_operating_system/01
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DMA 산란-수집 (Scatter-Gather)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">I/O 서브시스템의 커널 서비스 (I/O Subsystem Kernel Services)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">버퍼링 (Buffering)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">이중 버퍼링 (Double Buffering)</div></div>
-</div>
-</div>
-
-
+```text
+[DMA 산란-수집 (Scatter-Gather)]
+    │
+    ▼
+[I/O 서브시스템의 커널 서비스 (I/O Subsystem Kernel Services)]
+    │
+    ├──▶ [버퍼링 (Buffering)]
+    └──▶ [이중 버퍼링 (Double Buffering)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

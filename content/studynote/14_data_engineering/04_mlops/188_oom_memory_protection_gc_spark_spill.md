@@ -21,43 +21,36 @@ tags = ["studynote-data-engineering"]
 
 ### 1.1 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 발생 원인 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">OOM 원인 트리:</div>
-<div class="kb-diagram-note">OOM (Out of Memory)</div>
-<div class="kb-diagram-note">메모리 누수 과다 데이터 비효율 파티셔닝</div>
-<div class="kb-diagram-note">(Memory Leak) (Data Volume) (Bad Partitioning)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">클로저 참조 ─ 큰 스테이지 ─ 소수 파티션</div>
-<div class="kb-diagram-tree-item" style="--depth:1">정적 변수 누적 ─ 넓은 조인 ─ 데이터 스큐</div>
-<div class="kb-diagram-tree-item" style="--depth:1">브로드캐스트 남용 ─ 집계 과부하 ─ 잘못된 캐싱</div>
-<div class="kb-diagram-tree-item" style="--depth:1">DataFrame 캐시 미해제 ─ UDF 비효율 ─ 넓은 윈도우 함수</div>
-</div>
-</div>
-
-
+```
+OOM 원인 트리:
+                    OOM (Out of Memory)
+                         │
+         ┌───────────────┼───────────────┐
+    메모리 누수         과다 데이터      비효율 파티셔닝
+    (Memory Leak)       (Data Volume)    (Bad Partitioning)
+         │                   │                  │
+  ├─ 클로저 참조        ├─ 큰 스테이지     ├─ 소수 파티션
+  ├─ 정적 변수 누적     ├─ 넓은 조인      ├─ 데이터 스큐
+  ├─ 브로드캐스트 남용   ├─ 집계 과부하    ├─ 잘못된 캐싱
+  └─ DataFrame 캐시 미해제└─ UDF 비효율   └─ 넓은 윈도우 함수
+```
 
 ### 1.2 Spark [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 발생 시 에러 패턴
 
+```
+Executor OOM:
+  ERROR Executor: Exception in task
+  java.lang.OutOfMemoryError: Java heap space
+  → 파티션 크기 과다, 집계 메모리 부족
 
+Driver OOM:
+  java.lang.OutOfMemoryError: GC overhead limit exceeded
+  → collect() / toPandas() 로 드라이버에 과다 데이터 수집
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Executor OOM:</div>
-<div class="kb-diagram-note">ERROR Executor: Exception in task</div>
-<div class="kb-diagram-note">java.lang.OutOfMemoryError: Java heap space</div>
-<div class="kb-diagram-note">→ 파티션 크기 과다, 집계 메모리 부족</div>
-<div class="kb-diagram-note">Driver OOM:</div>
-<div class="kb-diagram-note">java.lang.OutOfMemoryError: GC overhead limit exceeded</div>
-<div class="kb-diagram-note">→ collect() / toPandas() 로 드라이버에 과다 데이터 수집</div>
-<div class="kb-diagram-note">GC 관련:</div>
-<div class="kb-diagram-note">WARN GCTimeRatio: JVM is spending too much time in GC</div>
-<div class="kb-diagram-note">→ 실제 OOM 전 단계 경고, 즉시 대응 필요</div>
-</div>
-</div>
-
-
+GC 관련:
+  WARN GCTimeRatio: JVM is spending too much time in GC
+  → 실제 OOM 전 단계 경고, 즉시 대응 필요
+```
 
 📢 **섹션 요약 비유**: OOM은 마치 너무 많은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 책상(메모리) 위에 올려놓아 더 이상 공간이 없어 작업을 멈추는 것과 같다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 서랍(디스크, Spill)에 잠깐 넣거나, 불필요한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 버리는(GC) 것이 해결책이다.
 
@@ -67,51 +60,53 @@ tags = ["studynote-data-engineering"]
 
 ### 2.1 Spark 메모리 모델 (Unified Memory Model)
 
+```
+┌──────────────────────────────────────────────────────────┐
+│                Spark Executor JVM 메모리 구조              │
+│                                                           │
+│  총 Executor 메모리 (spark.executor.memory = 4g 예시)     │
+│  ┌─────────────────────────────────────────────────────┐ │
+│  │  Reserved Memory (300MB) - JVM 내부 사용            │ │
+│  ├─────────────────────────────────────────────────────┤ │
+│  │  User Memory (40% × (4g-300MB) ≈ 1.5g)             │ │
+│  │  - UDF 데이터, 사용자 자료구조                        │ │
+│  ├─────────────────────────────────────────────────────┤ │
+│  │  Spark Memory (60% × (4g-300MB) ≈ 2.2g)            │ │
+│  │  ┌─────────────────────────────────────────────┐   │ │
+│  │  │ Storage Memory (초기 50%, 동적 조정 가능)     │   │ │
+│  │  │ - cache(), persist() 데이터                  │   │ │
+│  │  ├─────────────────────────────────────────────┤   │ │
+│  │  │ Execution Memory (초기 50%, 동적 조정 가능)  │   │ │
+│  │  │ - 셔플(Shuffle), 정렬(Sort), 조인(Join)      │   │ │
+│  │  │ - 부족 시 → Spill to Disk                   │   │ │
+│  │  └─────────────────────────────────────────────┘   │ │
+│  └─────────────────────────────────────────────────────┘ │
+└──────────────────────────────────────────────────────────┘
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Spark Executor JVM 메모리 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">총 Executor 메모리 (spark.executor.memory = 4g 예시)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Reserved Memory (300MB) - JVM 내부 사용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User Memory (40% × (4g-300MB) ≈ 1.5g)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- UDF 데이터, 사용자 자료구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Spark Memory (60% × (4g-300MB) ≈ 2.2g)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Storage Memory (초기 50%, 동적 조정 가능)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- cache(), persist() 데이터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Execution Memory (초기 50%, 동적 조정 가능)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 셔플(Shuffle), 정렬(Sort), 조인(Join)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 부족 시 → Spill to Disk</div></div>
-<div class="kb-diagram-note">핵심 파라미터:</div>
-<div class="kb-diagram-note">spark.memory.fraction = 0.6 (Spark Memory 비율)</div>
-<div class="kb-diagram-note">spark.memory.storageFraction = 0.5 (Storage/Execution 초기 비율)</div>
-<div class="kb-diagram-note">spark.executor.memory = 4g (총 Executor 메모리)</div>
-<div class="kb-diagram-note">spark.executor.memoryOverhead = 0.1 (오프힙 overhead 비율)</div>
-</div>
-</div>
-
-
+핵심 파라미터:
+  spark.memory.fraction          = 0.6 (Spark Memory 비율)
+  spark.memory.storageFraction   = 0.5 (Storage/Execution 초기 비율)
+  spark.executor.memory          = 4g  (총 Executor 메모리)
+  spark.executor.memoryOverhead  = 0.1 (오프힙 overhead 비율)
+```
 
 ### 2.2 Tungsten 엔진 (Off-Heap 메모리)
 
+```
+Tungsten (Code Generation + Off-Heap):
 
+  On-Heap 방식 (JVM 객체):
+    DataFrame Row → Java Object → GC 압력 증가
+    객체 헤더 오버헤드: 각 Row에 16~32 바이트 추가
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Tungsten (Code Generation + Off-Heap):</div>
-<div class="kb-diagram-note">On-Heap 방식 (JVM 객체):</div>
-<div class="kb-diagram-note">DataFrame Row → Java Object → GC 압력 증가</div>
-<div class="kb-diagram-note">객체 헤더 오버헤드: 각 Row에 16~32 바이트 추가</div>
-<div class="kb-diagram-note">Off-Heap 방식 (Tungsten):</div>
-<div class="kb-diagram-note">DataFrame Row → Binary 인코딩 → 직접 메모리 주소 접근</div>
-<div class="kb-diagram-note">→ GC 대상 아님, 캐시 친화적, 30~40% 성능 향상</div>
-<div class="kb-diagram-note">활성화:</div>
-<div class="kb-diagram-note">spark.memory.offHeap.enabled = true</div>
-<div class="kb-diagram-note">spark.memory.offHeap.size = 2g</div>
-</div>
-</div>
+  Off-Heap 방식 (Tungsten):
+    DataFrame Row → Binary 인코딩 → 직접 메모리 주소 접근
+    → GC 대상 아님, 캐시 친화적, 30~40% 성능 향상
 
-
+  활성화:
+    spark.memory.offHeap.enabled = true
+    spark.memory.offHeap.size = 2g
+```
 
 ### 2.3 JVM GC [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 비교
 
@@ -134,27 +129,30 @@ G1GC Spark 최적화 설정:
 
 ### 2.4 Spill to Disk (디스크 스필) 메커니즘
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Spill to Disk 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">집계/정렬/조인 연산 시작</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Execution Memory 사용 시작</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 한도 80% 도달?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">No</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">계속 진행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Yes</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">현재 버퍼를 로컬 디스크에 Spill 파일로 직렬화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ spark.local.dir 경로 (빠른 SSD 권장)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 해제 → 나머지 처리 계속</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모든 Spill 파일 + 메모리 결과 → 최종 머지</div></div>
-<div class="kb-diagram-note">Spill 발생 확인:</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Spark UI → Stage → Shuffle Spill (Memory/Disk)</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────┐
+│                   Spill to Disk 흐름                       │
+│                                                           │
+│  집계/정렬/조인 연산 시작                                   │
+│       ↓                                                  │
+│  Execution Memory 사용 시작                               │
+│       ↓                                                  │
+│  메모리 한도 80% 도달?                                    │
+│  ┌──── No ────┐                                          │
+│  │  계속 진행  │                                          │
+│  └────────────┘                                          │
+│  ┌──── Yes ───┐                                          │
+│  │  현재 버퍼를 로컬 디스크에 Spill 파일로 직렬화          │ │
+│  │  → spark.local.dir 경로 (빠른 SSD 권장)               │ │
+│  │  메모리 해제 → 나머지 처리 계속                         │ │
+│  └────────────┘                                          │
+│       ↓                                                  │
+│  모든 Spill 파일 + 메모리 결과 → 최종 머지               │
+│                                                           │
+│  Spill 발생 확인:
+│  Spark UI → Stage → Shuffle Spill (Memory/Disk)         │
+└──────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: Spill to Disk는 마치 책상(메모리)이 가득 차면 임시로 서랍(디스크)에 넣어두고 작업을 계속하는 것이다. 서랍에서 꺼내는 것(디스크 I/O)이 느려 성능은 저하되지만 OOM으로 작업이 실패하는 것보다는 낫다.
 
@@ -164,57 +162,53 @@ G1GC Spark 최적화 설정:
 
 ### 3.1 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스큐 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Skew) vs 균등 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)
 
+```
+데이터 스큐 예시:
+  파티션별 레코드 수:
+  P0: 100만 개 ← 스큐 (특정 키 집중)
+  P1: 1만 개
+  P2: 5만 개
+  P3: 8천 개
 
+  → P0 태스크만 OOM, 나머지는 유휴
+  → 전체 스테이지는 가장 느린 P0 기다림
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">데이터 스큐 예시:</div>
-<div class="kb-diagram-note">파티션별 레코드 수:</div>
-<div class="kb-diagram-note">P0: 100만 개 ← 스큐 (특정 키 집중)</div>
-<div class="kb-diagram-note">P1: 1만 개</div>
-<div class="kb-diagram-note">P2: 5만 개</div>
-<div class="kb-diagram-note">P3: 8천 개</div>
-<div class="kb-diagram-note">→ P0 태스크만 OOM, 나머지는 유휴</div>
-<div class="kb-diagram-note">→ 전체 스테이지는 가장 느린 P0 기다림</div>
-<div class="kb-diagram-note">스큐 해결 방법:</div>
-<div class="kb-diagram-note">1. 솔트(Salt) 키 기법:</div>
-<div class="kb-diagram-note">스큐 키에 무작위 접미사 추가 (key + "_0", "_1", ...)</div>
-<div class="kb-diagram-note">→ 인위적으로 파티션 분산</div>
-<div class="kb-diagram-note">2. 브로드캐스트 조인 (작은 테이블 &lt; 10MB):</div>
-<div class="kb-diagram-note">spark.sql.autoBroadcastJoinThreshold = 10MB</div>
-<div class="kb-diagram-note">→ 셔플 없이 전 파티션에 복사</div>
-<div class="kb-diagram-note">3. 버킷팅 (Bucketing):</div>
-<div class="kb-diagram-note">파티션 키 사전 정렬 + 저장</div>
-<div class="kb-diagram-note">→ 셔플 단계 자체를 제거</div>
-<div class="kb-diagram-note">4. 적응형 쿼리 실행 (AQE, Adaptive Query Execution):</div>
-<div class="kb-diagram-note">spark.sql.adaptive.enabled = true</div>
-<div class="kb-diagram-note">→ 런타임 스큐 파티션 자동 분할</div>
-</div>
-</div>
+스큐 해결 방법:
+  1. 솔트(Salt) 키 기법:
+     스큐 키에 무작위 접미사 추가 (key + "_0", "_1", ...)
+     → 인위적으로 파티션 분산
 
+  2. 브로드캐스트 조인 (작은 테이블 < 10MB):
+     spark.sql.autoBroadcastJoinThreshold = 10MB
+     → 셔플 없이 전 파티션에 복사
 
+  3. 버킷팅 (Bucketing):
+     파티션 키 사전 정렬 + 저장
+     → 셔플 단계 자체를 제거
+
+  4. 적응형 쿼리 실행 (AQE, Adaptive Query Execution):
+     spark.sql.adaptive.enabled = true
+     → 런타임 스큐 파티션 자동 분할
+```
 
 ### 3.2 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 방지 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 설계
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">파티션 크기 권장 기준:</div>
-<div class="kb-diagram-note">최적 파티션 크기: 100~200 MB</div>
-<div class="kb-diagram-note">파티션 수 계산:</div>
-<div class="kb-diagram-note">데이터 크기 / 목표 파티션 크기 = 필요 파티션 수</div>
-<div class="kb-diagram-note">100GB / 128MB = ~800개 파티션</div>
-<div class="kb-diagram-note">설정:</div>
-<div class="kb-diagram-note">spark.sql.shuffle.partitions = 800 (셔플 후 파티션 수)</div>
-<div class="kb-diagram-note">df.repartition(800) (명시적 파티셔닝)</div>
-<div class="kb-diagram-note">주의:</div>
-<div class="kb-diagram-note">파티션 수 너무 적음 → OOM (큰 파티션)</div>
-<div class="kb-diagram-note">파티션 수 너무 많음 → 오버헤드 (작은 파티션, 스케줄링 비용)</div>
-</div>
-</div>
-
-
+```
+파티션 크기 권장 기준:
+  최적 파티션 크기: 100~200 MB
+  
+  파티션 수 계산:
+    데이터 크기 / 목표 파티션 크기 = 필요 파티션 수
+    100GB / 128MB = ~800개 파티션
+    
+  설정:
+    spark.sql.shuffle.partitions = 800  (셔플 후 파티션 수)
+    df.repartition(800)                 (명시적 파티셔닝)
+    
+  주의:
+    파티션 수 너무 적음 → OOM (큰 파티션)
+    파티션 수 너무 많음 → 오버헤드 (작은 파티션, 스케줄링 비용)
+```
 
 ### 3.3 메모리 최적화 기법 비교
 
@@ -236,31 +230,28 @@ G1GC Spark 최적화 설정:
 
 ### 4.1 Spark [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 디버깅 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
+```
+단계별 OOM 진단 프로세스:
 
+  1단계: Spark UI 확인
+  ├─ Stage 탭 → Shuffle Spill (Memory/Disk) 크기 확인
+  ├─ Executor 탭 → GC Time (20% 초과 시 GC 튜닝 필요)
+  └─ Tasks 탭 → 태스크별 실행 시간 불균형 (스큐 확인)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단계별 OOM 진단 프로세스:</div>
-<div class="kb-diagram-note">1단계: Spark UI 확인</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Stage 탭 → Shuffle Spill (Memory/Disk) 크기 확인</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Executor 탭 → GC Time (20% 초과 시 GC 튜닝 필요)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Tasks 탭 → 태스크별 실행 시간 불균형 (스큐 확인)</div>
-<div class="kb-diagram-note">2단계: 로그 분석</div>
-<div class="kb-diagram-tree-item" style="--depth:1">"java.lang.OutOfMemoryError: Java heap space"</div>
-<div class="kb-diagram-note">→ spark.executor.memory 증가 or 파티션 수 증가</div>
-<div class="kb-diagram-tree-item" style="--depth:1">"GC overhead limit exceeded"</div>
-<div class="kb-diagram-note">→ G1GC 파라미터 튜닝 or 메모리 증가</div>
-<div class="kb-diagram-tree-item" style="--depth:1">"Container killed by YARN for exceeding memory limits"</div>
-<div class="kb-diagram-note">→ spark.executor.memoryOverhead 증가 (기본 10%)</div>
-<div class="kb-diagram-note">3단계: 코드 최적화</div>
-<div class="kb-diagram-tree-item" style="--depth:1">collect() / toPandas() 대용량 호출 제거</div>
-<div class="kb-diagram-tree-item" style="--depth:1">불필요한 cache() / persist() 해제 (.unpersist())</div>
-<div class="kb-diagram-tree-item" style="--depth:1">UDF 대신 내장 함수 (SQL 함수) 사용</div>
-<div class="kb-diagram-tree-item" style="--depth:1">넓은 스키마 → 필요 컬럼만 select()</div>
-</div>
-</div>
+  2단계: 로그 분석
+  ├─ "java.lang.OutOfMemoryError: Java heap space"
+  │   → spark.executor.memory 증가 or 파티션 수 증가
+  ├─ "GC overhead limit exceeded"
+  │   → G1GC 파라미터 튜닝 or 메모리 증가
+  └─ "Container killed by YARN for exceeding memory limits"
+      → spark.executor.memoryOverhead 증가 (기본 10%)
 
-
+  3단계: 코드 최적화
+  ├─ collect() / toPandas() 대용량 호출 제거
+  ├─ 불필요한 cache() / persist() 해제 (.unpersist())
+  ├─ UDF 대신 내장 함수 (SQL 함수) 사용
+  └─ 넓은 스키마 → 필요 컬럼만 select()
+```
 
 ### 4.2 Spark 메모리 파라미터 튜닝 가이드
 
@@ -319,28 +310,27 @@ Spark OOM 방지 설계 시 필수 언급:
 
 ### 5.2 메모리 최적화 [의사결정 트리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Spark OOM 해결 의사결정 트리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OOM 발생</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Driver OOM? → collect/toPandas 제거 → 해결</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↓ No</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Executor OOM?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GC Time &gt; 20%? → G1GC/ZGC 튜닝 → 개선 확인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↓ No</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스큐 파티션? → AQE/Salt 키 → 균등화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↓ No</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파티션 크기 &gt; 200MB? → 파티션 수 증가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↓ No</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">캐시 미해제? → unpersist() 추가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↓ No</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 파라미터 증가 (executor.memory)</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────┐
+│          Spark OOM 해결 의사결정 트리                   │
+│                                                      │
+│  OOM 발생                                            │
+│       ↓                                              │
+│  Driver OOM? → collect/toPandas 제거 → 해결          │
+│       ↓ No                                           │
+│  Executor OOM?                                       │
+│       ↓                                              │
+│  GC Time > 20%? → G1GC/ZGC 튜닝 → 개선 확인         │
+│       ↓ No                                           │
+│  스큐 파티션? → AQE/Salt 키 → 균등화                 │
+│       ↓ No                                           │
+│  파티션 크기 > 200MB? → 파티션 수 증가              │
+│       ↓ No                                           │
+│  캐시 미해제? → unpersist() 추가                     │
+│       ↓ No                                           │
+│  메모리 파라미터 증가 (executor.memory)              │
+└──────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: Spark [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 최적화 [의사결정 트리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/)는 마치 건강 검진 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)와 같다. 혈압(GC Time)이 높으면 약(GC 튜닝)을 쓰고, 허리([파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 균형)가 나쁘면 자세를 고치고, 그래도 안 되면 더 큰 침대(메모리)를 사용한다.
 
@@ -367,27 +357,24 @@ Spark OOM 방지 설계 시 필수 언급:
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">OOM (Out of Memory) 발생</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">원인 진단</div>
-<div class="kb-diagram-tree-item" style="--depth:2">JVM: 힙 부족 · GC 오버헤드 · 메모리 누수</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Spark: Executor 메모리 · Shuffle 스필 · 데이터 스큐</div>
-<div class="kb-diagram-tree-item" style="--depth:2">GPU: VRAM 부족 · 배치 크기 과다</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">방어 전략</div>
-<div class="kb-diagram-tree-item" style="--depth:2">GC 튜닝 (G1GC · ZGC) · 힙 조정</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Spark: 파티션 수 증가 · Spill to Disk · AQE</div>
-<div class="kb-diagram-tree-item" style="--depth:2">GPU: Mixed Precision · Gradient Checkpointing</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">프로액티브 모니터링 → OOM 사전 경보 · 자동 스케일링</div>
-</div>
-</div>
-
-
+```text
+OOM (Out of Memory) 발생
+    │
+    ▼
+원인 진단
+    ├─► JVM: 힙 부족 · GC 오버헤드 · 메모리 누수
+    ├─► Spark: Executor 메모리 · Shuffle 스필 · 데이터 스큐
+    └─► GPU: VRAM 부족 · 배치 크기 과다
+    │
+    ▼
+방어 전략
+    ├─► GC 튜닝 (G1GC · ZGC) · 힙 조정
+    ├─► Spark: 파티션 수 증가 · Spill to Disk · AQE
+    └─► GPU: Mixed Precision · Gradient Checkpointing
+    │
+    ▼
+프로액티브 모니터링 → OOM 사전 경보 · 자동 스케일링
+```
 2. <strong>GC(쓰레기 수거)</strong>는 마치 수업 중에 가끔 선생님이 "이제 필요 없는 노트 버려라!"라고 하는 것처럼, 컴퓨터가 사용이 끝난 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 자동으로 치워서 공간을 만드는 작업이에요—너무 자주 하면 수업이 멈추니 조절이 중요해요.
 3. <strong>Spill to Disk</strong>는 책상이 가득 찼을 때 당장 쓰지 않는 책을 임시로 사물함(디스크)에 넣어두는 것처럼, 메모리가 부족하면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 디스크에 잠깐 저장하고 나중에 다시 꺼내 작업을 계속하는 방법이에요.
 

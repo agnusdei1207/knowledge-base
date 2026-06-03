@@ -20,26 +20,24 @@ tags = ["studynote-bigdata"]
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 Storm은 영구적으로 실행되는 토폴로지(Topology) 아키텍처를 기반으로 합니다.
 
+```text
+[ Apache Storm Topology: Spout & Bolt ]
 
+   (Data Source)         (Processing Unit)        (Storage/Output)
+   -------------        -------------------      ------------------
+   [   Spout   ] ---->  [     Bolt 1      ] ----> [   Final DB     ]
+   (Data Ingest)        (Filtering/Logic)        [ (Result Store) ]
+       |                       |
+       |                [     Bolt 2      ]
+       +--------------> (Aggregation/Joins)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Storm Topology: Spout &amp; Bolt</div></div>
-<div class="kb-diagram-note">(Data Source) (Processing Unit) (Storage/Output)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Spout</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Bolt 1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Final DB</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">(Data Ingest) (Filtering/Logic)</div><div class="kb-diagram-node">(Result Store)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Bolt 2</div></div>
-<div class="kb-diagram-note">+--------------&gt; (Aggregation/Joins)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Core Components</div></div>
-<div class="kb-diagram-note">1. Spout: 외부 소스(Kafka, Twitter 등)에서 데이터를 읽어 튜플 스트림 생성.</div>
-<div class="kb-diagram-note">2. Bolt: 실제 비즈니스 로직(필터링, 조인, DB 저장 등)을 수행하는 연산 노드.</div>
-<div class="kb-diagram-note">3. Tuple: 스톰에서 처리되는 데이터의 기본 단위 (List of Values).</div>
-<div class="kb-diagram-note">4. Nimbus: 마스터 노드로 코드 배포 및 작업 할당 관리.</div>
-<div class="kb-diagram-note">5. Supervisor: 실제 작업을 수행하는 워커 프로세스 관리 노드.</div>
-</div>
-</div>
-
-
+[ Core Components ]
+1. Spout: 외부 소스(Kafka, Twitter 등)에서 데이터를 읽어 튜플 스트림 생성.
+2. Bolt: 실제 비즈니스 로직(필터링, 조인, DB 저장 등)을 수행하는 연산 노드.
+3. Tuple: 스톰에서 처리되는 데이터의 기본 단위 (List of Values).
+4. Nimbus: 마스터 노드로 코드 배포 및 작업 할당 관리.
+5. Supervisor: 실제 작업을 수행하는 워커 프로세스 관리 노드.
+```
 
 **핵심 원리:**
 1. <strong>스트림 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/535_grouping_counting_free_space/">그룹화</a>(<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/">Stream</a> Groupings):</strong> [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Tuple)를 어떤 Bolt로 보낼지 결정하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)(Shuffle, Fields, All [grouping](/knowledge-base/studynote/02_operating_system/09_file_system/535_grouping_counting_free_space/) 등).
@@ -70,23 +68,21 @@ Apache Storm은 실시간 [분산](/knowledge-base/studynote/08_algorithm_stats/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Spout (데이터 소스 — Kafka · 파일 · API)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스트림 (Stream) — 무한 데이터 튜플 흐름</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Bolt (처리·변환·집계 — 필터·조인·집계)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">토폴로지 (Topology) — Spout + Bolt 유향 그래프</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Flink / Spark Structured Streaming — 후계 진화</div></div>
-</div>
-</div>
-
-
+```text
+[Spout (데이터 소스 — Kafka · 파일 · API)]
+    │
+    ▼
+[스트림 (Stream) — 무한 데이터 튜플 흐름]
+    │
+    ▼
+[Bolt (처리·변환·집계 — 필터·조인·집계)]
+    │
+    ▼
+[토폴로지 (Topology) — Spout + Bolt 유향 그래프]
+    │
+    ▼
+[Apache Flink / Spark Structured Streaming — 후계 진화]
+```
 Spout가 수집한 스트림이 Bolt 체인을 거쳐 처리되는 토폴로지 모델로 실시간 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리의 원형을 정립하고, Flink와 Spark Streaming으로 계승·발전된 흐름이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

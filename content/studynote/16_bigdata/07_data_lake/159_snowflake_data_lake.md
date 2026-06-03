@@ -35,26 +35,39 @@ Snowflake는 2012년 Amazon Redshift를 대체할 완전 [클라우드 네이티
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Snowflake 레이크하우스 아키텍처</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">외부 객체 스토리지 (S3 / ADLS Gen2 / GCS)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Parquet / Iceberg 형식 파일</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">External Table</div><div class="kb-diagram-cell">Snowflake-Managed</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(메타데이터만)</div><div class="kb-diagram-cell">Iceberg Table</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스키마 정의,</div><div class="kb-diagram-cell">(Snowflake가 카탈로그</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">직접 파일 읽기</div><div class="kb-diagram-cell">관리, 외부 엔진도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">읽기 가능)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Virtual Warehouse (컴퓨팅, 독립 스케일)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">XSmall</div><div class="kb-diagram-cell">Large</div><div class="kb-diagram-cell">Snowpark (Python/</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(SQL 분석)</div><div class="kb-diagram-cell">(ETL)</div><div class="kb-diagram-cell">Java/Scala 실행)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cloud Services Layer (메타데이터·쿼리 최적화)</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────────────┐
+│               Snowflake 레이크하우스 아키텍처                     │
+├──────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  ┌────────────────────────────────────────────────────────┐     │
+│  │         외부 객체 스토리지 (S3 / ADLS Gen2 / GCS)        │     │
+│  │         Parquet / Iceberg 형식 파일                      │     │
+│  └──────────────────┬─────────────────────────────────────┘     │
+│                     │                                           │
+│           ┌─────────┴─────────┐                                 │
+│           │                   │                                 │
+│  ┌────────▼───────┐  ┌────────▼────────────┐                   │
+│  │ External Table │  │ Snowflake-Managed    │                   │
+│  │ (메타데이터만)  │  │ Iceberg Table       │                   │
+│  │ 스키마 정의,   │  │ (Snowflake가 카탈로그│                   │
+│  │ 직접 파일 읽기 │  │  관리, 외부 엔진도   │                   │
+│  └────────────────┘  │  읽기 가능)          │                   │
+│                      └────────────────────┘                    │
+│                                                                  │
+│  ┌────────────────────────────────────────────────────────┐     │
+│  │          Virtual Warehouse (컴퓨팅, 독립 스케일)          │     │
+│  │  ┌──────────┐  ┌──────────┐  ┌──────────────────────┐  │     │
+│  │  │ XSmall   │  │  Large   │  │  Snowpark (Python/   │  │     │
+│  │  │ (SQL 분석)│  │  (ETL)   │  │  Java/Scala 실행)    │  │     │
+│  │  └──────────┘  └──────────┘  └──────────────────────┘  │     │
+│  └────────────────────────────────────────────────────────┘     │
+│                                                                  │
+│  ┌────────────────────────────────────────────────────────┐     │
+│  │          Cloud Services Layer (메타데이터·쿼리 최적화)    │     │
+│  └────────────────────────────────────────────────────────┘     │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 **External Table vs Iceberg Table vs Internal Table**
 
@@ -145,25 +158,24 @@ Snowflake는 SQL 네이티브 강점을 유지하면서 [레이크하우스](/kn
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">기존 데이터 웨어하우스 (DW) — 정형 데이터 전용, 비용 높음, 비정형 처리 불가</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 레이크 (Data Lake) — 원시 데이터 모든 형식 저장, 스키마 온 리드</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Snowflake External Table — S3/GCS 오브젝트 스토리지를 Snowflake에서 SQL 조회</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Iceberg 통합 — 오픈 테이블 포맷, ACID 트랜잭션·타임 트래블 지원</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 레이크하우스 (Data Lakehouse) — DW 성능 + 데이터 레이크 유연성 통합</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 메시 (Data Mesh) — 도메인별 분산 소유권, Snowflake Data Sharing 연동</div></div>
-</div>
-</div>
-
-
+```text
+[기존 데이터 웨어하우스 (DW) — 정형 데이터 전용, 비용 높음, 비정형 처리 불가]
+    │
+    ▼
+[데이터 레이크 (Data Lake) — 원시 데이터 모든 형식 저장, 스키마 온 리드]
+    │
+    ▼
+[Snowflake External Table — S3/GCS 오브젝트 스토리지를 Snowflake에서 SQL 조회]
+    │
+    ▼
+[Apache Iceberg 통합 — 오픈 테이블 포맷, ACID 트랜잭션·타임 트래블 지원]
+    │
+    ▼
+[데이터 레이크하우스 (Data Lakehouse) — DW 성능 + 데이터 레이크 유연성 통합]
+    │
+    ▼
+[데이터 메시 (Data Mesh) — 도메인별 분산 소유권, Snowflake Data Sharing 연동]
+```
 이 흐름은 [정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/002_structured_data/) 전용 DW의 한계를 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)로 극복하고, Snowflake의 외부 테이블·Iceberg 통합을 통해 [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) 아키텍처로 수렴하며, [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/) 패러다임과 결합하는 현대 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼의 진화를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

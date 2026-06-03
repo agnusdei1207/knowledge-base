@@ -43,19 +43,17 @@ RTM의 핵심 원리는 모든 요구사항에 고유한 [식별자](/knowledge-
 
 아래 그림은 RTM이 왜 누락과 과잉 구현을 동시에 잡아낼 수 있는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RTM links intent to delivery evidence</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">REQ-001 ─▶ SRS-2.3 ─▶ Design-D07 ─▶ PR-142 ─▶ TC-019 Pass</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">REQ-002 ─▶ SRS-2.4 ─▶ Design-D09 ─▶ PR-155 ─▶ TC-021 Pass</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">REQ-003 ─▶ SRS-2.7 ─▶ GAP ─▶ GAP ─▶ GAP</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">backward trace checks whether code/test exists without REQ ID</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                    RTM links intent to delivery evidence                  │
+├────────────────────────────────────────────────────────────────────────────┤
+│ REQ-001 ─▶ SRS-2.3 ─▶ Design-D07 ─▶ PR-142 ─▶ TC-019 Pass                │
+│ REQ-002 ─▶ SRS-2.4 ─▶ Design-D09 ─▶ PR-155 ─▶ TC-021 Pass                │
+│ REQ-003 ─▶ SRS-2.7 ─▶    GAP     ─▶   GAP   ─▶    GAP                    │
+│    ▲                                                                      │
+│    └──── backward trace checks whether code/test exists without REQ ID    │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 정방향으로 보면 어떤 요구가 어디까지 구현되었는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 수 있고, 역방향으로 보면 근거 없는 코드나 테스트를 찾을 수 있다. 그래서 RTM은 표 하나로 끝나는 문서가 아니라, [요구사항 관리](/knowledge-base/studynote/04_software_engineering/03_design_architecture/158_requirements_management_change_control/)·[형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)·테스트 관리의 접점을 묶는 구조라고 봐야 한다.
 
@@ -123,23 +121,21 @@ RTM을 제대로 운영하면 요구사항 누락 방지, 변경 영향 분석, 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">요구사항 도출</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SRS (Software Requirements Specification) · Requirement ID 부여</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">RTM (Requirements Traceability Matrix)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">설계 · 코드 · 테스트 링크 연결</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">변경 영향 분석 · 품질 보증 · 감사 대응 자동화</div>
-</div>
-</div>
-
-
+```text
+요구사항 도출
+    │
+    ▼
+SRS (Software Requirements Specification) · Requirement ID 부여
+    │
+    ▼
+RTM (Requirements Traceability Matrix)
+    │
+    ▼
+설계 · 코드 · 테스트 링크 연결
+    │
+    ▼
+변경 영향 분석 · 품질 보증 · 감사 대응 자동화
+```
 
 이 흐름은 RTM이 단일 문서가 아니라, 요구사항을 개발과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)까지 끌고 가는 연결 사슬의 중심에 있음을 보여준다.
 

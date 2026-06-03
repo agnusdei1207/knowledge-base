@@ -39,18 +39,15 @@ spec:
         averageUtilization: 60
 ```
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HPA 제어 루프</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">metrics-server ──▶ HPA Controller ──▶ ReplicaSet</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(CPU 80%)</div><div class="kb-diagram-cell">(3 → 5)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">60% 목표 초과</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────┐
+│                    HPA 제어 루프                    │
+│                                                     │
+│  metrics-server ──▶ HPA Controller ──▶ ReplicaSet  │
+│       (CPU 80%)          │               (3 → 5)   │
+│                    [60% 목표 초과]                   │
+└─────────────────────────────────────────────────────┘
+```
 
 > 📢 **Ⅰ 섹션 요약 비유**
 > HPA는 계산원이 부족하면 더 불러오는 매장 관리자다 — 줄이 길어지면 창구를 늘린다.
@@ -61,19 +58,17 @@ spec:
 
 CA는 Pending 상태인 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 감지해 클라우드 Node Group에 노드를 추가하거나, 유휴 노드를 종료한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CA 동작 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pod Pending ──▶ CA 감지 ──▶ Cloud API 호출</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(노드 +1)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 노드 등록 ──▶ Pod 배치</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Idle Node ──▶ CA 감지 ──▶ 파드 이동 ──▶ 삭제</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────┐
+│               CA 동작 흐름                       │
+│                                                  │
+│  Pod Pending ──▶ CA 감지 ──▶ Cloud API 호출     │
+│                              (노드 +1)           │
+│                 ──▶ 노드 등록 ──▶ Pod 배치       │
+│                                                  │
+│  Idle Node ──▶ CA 감지 ──▶ 파드 이동 ──▶ 삭제  │
+└──────────────────────────────────────────────────┘
+```
 
 조건:
 - 추가: [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) 불가 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 존재
@@ -86,21 +81,18 @@ CA는 Pending 상태인 [파드](/knowledge-base/studynote/13_cloud_architecture
 
 ## Ⅲ. [HPA](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/) + [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 연동 흐름
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">트래픽 급증</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">HPA: 파드 수 증가 (Pending 발생 가능)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CA: Pending 파드 감지 → 노드 추가</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">파드 정상 배치 → 서비스 안정화</div>
-</div>
-</div>
-
-
+```
+트래픽 급증
+   │
+   ▼
+HPA: 파드 수 증가 (Pending 발생 가능)
+   │
+   ▼
+CA: Pending 파드 감지 → 노드 추가
+   │
+   ▼
+파드 정상 배치 → 서비스 안정화
+```
 
 **스케일 다운 안전 메커니즘**:
 - [HPA](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/): `--horizontal-pod-autoscaler-downscale-stabilization`(기본 5분)
@@ -141,19 +133,13 @@ VPA는 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saa
 
 ### 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Autoscaling</div>
-<div class="kb-diagram-tree-item" style="--depth:2">HPA → 파드 수 조정 (metrics-server 기반)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">CA → 노드 수 조정 (Pending 파드 감지)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">VPA → 리소스 크기 조정</div>
-<div class="kb-diagram-tree-item" style="--depth:2">KEDA → 이벤트/큐 기반 고급 오토스케일링</div>
-</div>
-</div>
-
-
+```
+Autoscaling
+    ├── HPA → 파드 수 조정 (metrics-server 기반)
+    ├── CA  → 노드 수 조정 (Pending 파드 감지)
+    ├── VPA → 리소스 크기 조정
+    └── KEDA → 이벤트/큐 기반 고급 오토스케일링
+```
 
 > 🧒 **어린이 비유**
 > HPA는 바쁠 때 친구를 더 부르는 것, CA는 그 친구들이 앉을 의자를 구해오는 것, VPA는 한 친구에게 더 힘센 도구를 주는 거예요.

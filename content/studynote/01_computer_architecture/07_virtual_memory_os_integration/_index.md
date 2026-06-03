@@ -23,20 +23,24 @@ tags = ["computer_architecture"]
 
 이 그림은 가상 주소(VA)가 하드웨어를 거쳐 물리 주소(PA)로 변환되는 전체 경로를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Address Translation Pipeline</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CPU</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Virtual Address</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TLB (Cache)</div><div class="kb-diagram-note">──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (TLB Miss) ▼ (Hit!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MMU: Page Table Walk</div><div class="kb-diagram-node">Return PA</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Main Memory (Page Table)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* Page Fault 발생 시 -&gt; OS Kernel로 제어권 이양 (Trap)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Address Translation Pipeline                │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ CPU ] ──▶ [ Virtual Address ] ──▶ [ TLB (Cache) ] ──┐   │
+│                                         │               │   │
+│          ┌──────────────────────────────┴──────┐        │   │
+│          ▼ (TLB Miss)                          ▼ (Hit!) │   │
+│   [ MMU: Page Table Walk ]              [ Return PA ] ◀─┘   │
+│          │                                     ▲            │
+│          ▼                                     │            │
+│   [ Main Memory (Page Table) ] ────────────────┘            │
+│                                                             │
+│   * Page Fault 발생 시 -> OS Kernel로 제어권 이양 (Trap)    │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 'TLB의 존재'이다. 대부분의 주소 변환은 TLB 히트를 통해 단 몇 사이클 내에 종료된다. 실무에서는 컨텍스트 스위칭 시 이 TLB를 비워야 (Flush) 하는 비용이 발생하며, 이를 최적화하기 위해 <strong>ASID (Address Space Identifier)</strong>를 부여하는 기술이 사용된다.
 
@@ -58,19 +62,22 @@ tags = ["computer_architecture"]
 
 이 구조도는 2단계 페이지 테이블의 논리적 구조를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Two-Level Page Table Structure</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Virtual Address</div><div class="kb-diagram-note">:</div><div class="kb-diagram-node">Outer p1</div><div class="kb-diagram-node">Inner p2</div><div class="kb-diagram-node">Offset</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Outer Page Table</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Inner Page Table</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Frame</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 장점: 메모리 절약 (Sparse 주소 공간에 최적화)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 단점: 메모리 접근 횟수 증가 (성능 하락 -&gt; TLB로 보완)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Two-Level Page Table Structure              │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Virtual Address ] : [ Outer p1 ] [ Inner p2 ] [ Offset ]│
+│                                │          │                 │
+│          ┌─────────────────────┘          │                 │
+│          ▼                                ▼                 │
+│   [ Outer Page Table ] ──▶ [ Inner Page Table ] ──▶ [ Frame ]│
+│                                                             │
+│   * 장점: 메모리 절약 (Sparse 주소 공간에 최적화)           │
+│   * 단점: 메모리 접근 횟수 증가 (성능 하락 -> TLB로 보완)   │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '공간 절약'이다. 64비트 시스템에서는 4단계 이상의 페이지 테이블이 사용되기도 한다. 실무에서는 이 단계가 깊어질수록 주소 변환 페널티가 커지므로, TLB 히트율 관리가 시스템 성능의 생명선이 된다.
 
@@ -119,20 +126,21 @@ tags = ["computer_architecture"]
 
 이 도식은 Huge Pages 사용 시 주소 변환 단계의 간소화를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Standard vs Huge Pages Efficiency</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Standard (4KB)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">4KB Frame</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(TLB 1개당 4KB 커버)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Huge Page (2MB)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">2MB Frame</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(TLB 1개당 2MB 커버, 변환 단계 1회 감소!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 실무 효과: DB 서버 등 대규모 메모리 사용 시 성능 10~15% ↑</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│               Standard vs Huge Pages Efficiency             │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Standard (4KB) ] : L1 -> L2 -> L3 -> L4 -> [4KB Frame]  │
+│   (TLB 1개당 4KB 커버)                                      │
+│                                                             │
+│   [ Huge Page (2MB) ] : L1 -> L2 -> L3 -> [2MB Frame]       │
+│   (TLB 1개당 2MB 커버, 변환 단계 1회 감소!)                 │
+│                                                             │
+│   * 실무 효과: DB 서버 등 대규모 메모리 사용 시 성능 10~15% ↑│
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 기술사의 튜닝은 '지도의 축척 조절'과 같습니다. 마을 지도(4KB)를 수천 장 들고 다니는 것보다, 광역 지도(Huge Pages) 한 장으로 길을 찾는 것이 훨씬 효율적임을 꿰뚫어 보는 통찰이 필요합니다.
 

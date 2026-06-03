@@ -25,18 +25,20 @@ x86 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_prote
 
 아래 그림은 x86 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 모드가 "권한의 동심원"으로 시스템을 나눈다는 점을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ring 3 : User Applications</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ring 2 : Optional System Services</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ring 1 : Optional Drivers / OS Extensions</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ring 0 : Kernel / Core Privilege</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ Ring 3 : User Applications                                  │
+│   ┌──────────────────────────────────────────────────────┐   │
+│   │ Ring 2 : Optional System Services                   │   │
+│   │   ┌──────────────────────────────────────────────┐   │   │
+│   │   │ Ring 1 : Optional Drivers / OS Extensions   │   │   │
+│   │   │   ┌──────────────────────────────────────┐   │   │   │
+│   │   │   │ Ring 0 : Kernel / Core Privilege     │   │   │   │
+│   │   │   └──────────────────────────────────────┘   │   │   │
+│   │   └──────────────────────────────────────────────┘   │   │
+│   └──────────────────────────────────────────────────────┘   │
+└──────────────────────────────────────────────────────────────┘
+```
 
 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 모드의 핵심은 단순 분리가 아니다. CPU가 각 접근마다 현재 권한을 확인하고, 허용되지 않은 시도는 예외로 끊어낸다는 점이 중요하다. 덕분에 앱은 앱답게, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)답게 행동하도록 강제된다.
 
@@ -60,19 +62,19 @@ x86 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_prote
 
 접근 흐름은 아래처럼 요약할 수 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User Code (Ring 3)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ allowed memory access ▶ page + privilege check</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ system call / interrupt ▶ gate via IDT/TSS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ forbidden privileged op ──▶ fault / trap</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kernel Code (Ring 0) handles request or exception</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ User Code (Ring 3)                                          │
+│      │                                                      │
+│      ├─ allowed memory access ─────▶ page + privilege check │
+│      │                                                      │
+│      ├─ system call / interrupt ───▶ gate via IDT/TSS       │
+│      │                                                      │
+│      └─ forbidden privileged op ──▶ fault / trap            │
+│                                                             │
+│ Kernel Code (Ring 0) handles request or exception           │
+└──────────────────────────────────────────────────────────────┘
+```
 
 즉 x86 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 모드는 "[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)만 높은 권한을 가진다"는 문장 하나로 끝나지 않는다. 어떤 명령, 어떤 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/), 어떤 진입 경로가 허용되는지까지 CPU가 세밀하게 본다.
 
@@ -152,23 +154,21 @@ x86 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_prote
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">8086 리얼 모드</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">80286 보호 모드 · Ring 0~3</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">80386 페이징 · 가상 메모리 강화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">64비트 롱 모드 · NX · 현대 커널 보호</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">VMX / 하이퍼바이저 · 더 깊어진 권한 계층</div>
-</div>
-</div>
-
-
+```text
+8086 리얼 모드
+    │
+    ▼
+80286 보호 모드 · Ring 0~3
+    │
+    ▼
+80386 페이징 · 가상 메모리 강화
+    │
+    ▼
+64비트 롱 모드 · NX · 현대 커널 보호
+    │
+    ▼
+VMX / 하이퍼바이저 · 더 깊어진 권한 계층
+```
 
 이 흐름은 x86 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)가 단순 메모리 차단에서 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)와 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 전체를 떠받치는 계층형 모델로 발전한 과정을 보여준다.
 

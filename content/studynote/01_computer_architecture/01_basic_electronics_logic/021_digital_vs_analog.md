@@ -32,24 +32,24 @@ tags = ["studynote-computer-architecture"]
 
 디지털 아키텍트는 칩을 설계할 때 "3.5V에서 5V 사이에 들어오는 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)은 무조건 '1'로 취급한다"라고 허용 범위를 설정한다. 따라서 5V로 출발한 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 전선을 타다 노이즈를 맞아 3.8V로 너덜너덜해져도 시스템은 이를 완벽한 '1'로 복원(Regeneration)해 다음 회로로 넘긴다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디지털 시스템의 생명줄: 노이즈 마진 (Noise Margin)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">완벽한 1 (High) 영역</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">~찌그러짐~</div><div class="kb-diagram-cell">V_ih (약 3.5V 이상)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3.5V --+---------+-- ◀── 노이즈 마진 (이 안의 찌그러짐은 무시)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🚫 절대 사용 금지 (금지 영역)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1.5V --+---------+-- ◀-------------------------------+</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">~찌그러짐~</div><div class="kb-diagram-cell">V_il (약 1.5V 이하)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">완벽한 0 (Low) 영역</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 5V로 보낸 신호가 노이즈를 맞아 4V로 도착해도,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">V_ih(3.5V)보다 높기 때문에 시스템은 완벽한 '1'로 복원해 낸다.</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           디지털 시스템의 생명줄: 노이즈 마진 (Noise Margin) │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│   5.0V ┬  +---------+   ◀── [ 완벽한 1 (High) 영역 ]          │
+│        │  | ~찌그러짐~|         V_ih (약 3.5V 이상)           │
+│   3.5V ┼--+---------+-- ◀── 노이즈 마진 (이 안의 찌그러짐은 무시) │
+│        │                 +-------------------------------+   │
+│        │                 | 🚫 절대 사용 금지 (금지 영역) |   │
+│   1.5V ┼--+---------+-- ◀-------------------------------+   │
+│        │  | ~찌그러짐~|         V_il (약 1.5V 이하)           │
+│   0.0V ┴  +---------+   ◀── [ 완벽한 0 (Low) 영역 ]           │
+│                                                              │
+│ * 5V로 보낸 신호가 노이즈를 맞아 4V로 도착해도,                │
+│   V_ih(3.5V)보다 높기 때문에 시스템은 완벽한 '1'로 복원해 낸다.  │
+└──────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 선생님이 90점부터 100점까지는 무조건 똑같은 'A등급'을 주기로 약속(노이즈 마진)한 것과 같다. 학생이 컨디션(노이즈) 탓에 92점을 받아도 똑같은 'A등급' 도장을 찍어 실수를 완벽히 덮어준다.
 
@@ -107,23 +107,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">연속 신호 (아날로그 — Analog)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">샘플링·양자화 (Sampling &amp; Quantization) — ADC</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">이진 신호 (디지털 — Digital) — 노이즈 마진으로 복원</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DAC — 다시 아날로그 파형으로 복원</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">아날로그 AI 가속기 (Analog In-Memory Computing) — 미래 융합</div></div>
-</div>
-</div>
-
-
+```text
+[연속 신호 (아날로그 — Analog)]
+    │
+    ▼
+[샘플링·양자화 (Sampling & Quantization) — ADC]
+    │
+    ▼
+[이진 신호 (디지털 — Digital) — 노이즈 마진으로 복원]
+    │
+    ▼
+[DAC — 다시 아날로그 파형으로 복원]
+    │
+    ▼
+[아날로그 AI 가속기 (Analog In-Memory Computing) — 미래 융합]
+```
 자연계의 연속 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 ADC로 이산 비트스트림으로 변환하고 노이즈 마진이 디지털 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 보장하며, 에너지 효율을 위한 아날로그 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 가속기로 다시 융합하는 나선형 진화 흐름이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

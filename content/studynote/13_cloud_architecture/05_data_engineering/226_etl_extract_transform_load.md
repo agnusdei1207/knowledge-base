@@ -20,25 +20,20 @@ tags = ["studynote-cloud-architecture"]
 
 ETL은 1990년대 [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 구축의 황금 표준으로 자리잡았다. 기업의 다양한 운영 DB([ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/), [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/), 제조 시스템)는 각기 다른 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)·코드 체계·인코딩을 사용하므로, 이를 단일 DW에 통합하려면 <strong>중간 변환 단계가 필수</strong>였다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">ETL 흐름</div></div>
-<div class="kb-diagram-note">Extract Load</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소스 DB</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">ETL 서버</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">DW/Target</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Oracle</div><div class="kb-diagram-cell">(Staging Area)</div><div class="kb-diagram-cell">Redshift</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SAP ERP</div><div class="kb-diagram-cell">Snowflake</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MySQL</div><div class="kb-diagram-cell">① 타입 변환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">플랫파일</div><div class="kb-diagram-cell">② NULL 처리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ 코드 매핑</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">④ 중복 제거</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⑤ 비즈니스 규칙</div></div>
-<div class="kb-diagram-note">변환 서버가 병목</div>
-</div>
-</div>
-
-
+```
+[ETL 흐름]
+┌──────────┐   Extract   ┌──────────────────┐   Load   ┌──────────┐
+│ 소스 DB   │ ──────────▶│   ETL 서버        │ ────────▶│ DW/Target│
+│ Oracle   │            │   (Staging Area)  │          │ Redshift │
+│ SAP ERP  │            │                  │          │ Snowflake│
+│ MySQL    │            │  ① 타입 변환       │          └──────────┘
+│ 플랫파일  │            │  ② NULL 처리      │
+└──────────┘            │  ③ 코드 매핑      │
+                        │  ④ 중복 제거      │
+                        │  ⑤ 비즈니스 규칙  │
+                        └──────────────────┘
+                           변환 서버가 병목
+```
 
 **필요성:**
 - 이기종 DB의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통합 ([Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/) + MySQL + Flat [File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))
@@ -54,34 +49,39 @@ ETL은 1990년대 [데이터 웨어하우스](/knowledge-base/studynote/12_it_ma
 
 ### [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 단계별 상세
 
+```
+[Extract (추출)]
+┌──────────────────────────────────────────────┐
+│ 방법:                                         │
+│  - Full Extract: 전체 테이블 복사 (초기 적재)  │
+│  - Incremental: 변경분만 (타임스탬프/CDC)      │
+│                                              │
+│ 도전:                                         │
+│  - 소스 DB 부하 최소화 (야간 배치 선호)         │
+│  - 데이터 일관성 (스냅샷 시점 통일)             │
+└──────────────────────────────────────────────┘
 
+[Transform (변환)]
+┌──────────────────────────────────────────────┐
+│  스테이징 영역 (ETL 서버 메모리/디스크)          │
+│  ┌─────────────┬─────────────────────────┐   │
+│  │ 데이터 품질  │ 중복 제거, NULL 대체      │   │
+│  │ 타입 변환   │ YYYYMMDD → DATE           │   │
+│  │ 코드 매핑   │ '01' → '활성'             │   │
+│  │ 집계 계산   │ 일별 매출 합산             │   │
+│  │ 비즈니스 룰 │ 순매출 계산               │   │
+│  └─────────────┴─────────────────────────┘   │
+└──────────────────────────────────────────────┘
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Extract (추출)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">방법:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Full Extract: 전체 테이블 복사 (초기 적재)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Incremental: 변경분만 (타임스탬프/CDC)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">도전:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 소스 DB 부하 최소화 (야간 배치 선호)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 데이터 일관성 (스냅샷 시점 통일)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Transform (변환)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스테이징 영역 (ETL 서버 메모리/디스크)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 품질</div><div class="kb-diagram-cell">중복 제거, NULL 대체</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">타입 변환</div><div class="kb-diagram-cell">YYYYMMDD → DATE</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코드 매핑</div><div class="kb-diagram-cell">'01' → '활성'</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">집계 계산</div><div class="kb-diagram-cell">일별 매출 합산</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비즈니스 룰</div><div class="kb-diagram-cell">순매출 계산</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Load (적재)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Full Load: 기존 데이터 삭제 후 전체 재적재</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Incremental Load: 신규/변경분만 UPSERT</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Slowly Changing Dimension (SCD):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Type 1: 덮어쓰기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Type 2: 이력 보존 (유효기간 컬럼 관리)</div></div>
-</div>
-</div>
-
-
+[Load (적재)]
+┌──────────────────────────────────────────────┐
+│  Full Load: 기존 데이터 삭제 후 전체 재적재      │
+│  Incremental Load: 신규/변경분만 UPSERT         │
+│  Slowly Changing Dimension (SCD):             │
+│    - Type 1: 덮어쓰기                          │
+│    - Type 2: 이력 보존 (유효기간 컬럼 관리)      │
+└──────────────────────────────────────────────┘
+```
 
 ### 주요 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 도구
 
@@ -193,19 +193,15 @@ ETL은 1990년대 [데이터 웨어하우스](/knowledge-base/studynote/12_it_ma
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">ETL: Extract → Transform → Load (DW 외부에서 변환)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ELT: Extract → Load → Transform (DW 내부에서 변환)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">실시간 ETL: Kafka + Flink/Spark Streaming + CDC</div>
-</div>
-</div>
-
-
+```text
+ETL: Extract → Transform → Load (DW 외부에서 변환)
+    │
+    ▼
+ELT: Extract → Load → Transform (DW 내부에서 변환)
+    │
+    ▼
+실시간 ETL: Kafka + Flink/Spark Streaming + CDC
+```
 2. 식탁에는 항상 깨끗이 손질된 음식만 올라오지만, 주방이 작으면 손님이 몰릴 때 음식이 늦게 나오는 것처럼, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 많아지면 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 서버가 느려질 수 있다.
 3. ELT는 재료를 일단 식탁 위([DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/))에 가져다 놓고, 먹을 사람이 직접 손질하는 방식이다. 주방이 필요 없지만, 식탁이 커야([DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 좋아야) 한다.
 

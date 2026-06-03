@@ -25,20 +25,21 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 왜 "조금의 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 오버헤드"가 "큰 계층 이동 비용"보다 유리할 수 있는지를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">압축이 필요한 이유: 로컬 DRAM을 넘기면 비용이 급증</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Working Set = 96 GB, Physical DRAM = 64 GB</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">비압축</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">swap / 원격 메모리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ page fault, I/O, 수백 ns ~ ms 비용</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">압축</div><div class="kb-diagram-note">64 GB DRAM × 1.5 압축률 ≈ 논리 96 GB 수용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 메타데이터 조회 + 해제 지연 수십 ns</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│            압축이 필요한 이유: 로컬 DRAM을 넘기면 비용이 급증              │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Working Set = 96 GB, Physical DRAM = 64 GB                                │
+│                                                                            │
+│ [비압축] 64 GB DRAM ── 초과 32 GB ──▶ swap / 원격 메모리                   │
+│                                  │                                         │
+│                                  └─ page fault, I/O, 수백 ns ~ ms 비용     │
+│                                                                            │
+│ [압축]   64 GB DRAM × 1.5 압축률 ≈ 논리 96 GB 수용                         │
+│                                  │                                         │
+│                                  └─ 메타데이터 조회 + 해제 지연 수십 ns     │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 물론 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 1.5배로 잘 접히는 것은 아니다. 그러나 0 값이 많은 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/), 유사한 [포인터 배열](/knowledge-base/studynote/05_database/07_exam_summary/423_non_clustered_index/), 희소 행렬처럼 규칙성이 높은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 효과가 커서 로컬 메모리에 더 오래 남을 수 있다. 반대로 이미 암호화되었거나 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 효과가 작으므로, 결국 메인 메모리 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)의 핵심은 "무엇을 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)할지"를 똑똑하게 고르는 일이다.
 
@@ -68,21 +69,24 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 경로와 읽기 경로가 어디서 추가 비용을 내는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메인 메모리 압축 경로: 빠른 경로와 느린 경로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LLC Miss / Writeback</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Compression Engine</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Metadata: size / slot</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">No ▼</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Compressed DRAM Region</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Read Request</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Metadata Lookup</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Fetch 16/32/48/64B</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Decompress</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">64B Line 반환</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                메인 메모리 압축 경로: 빠른 경로와 느린 경로                │
+├────────────────────────────────────────────────────────────────────────────┤
+│ LLC Miss / Writeback                                                      │
+│        │                                                                  │
+│        ▼                                                                  │
+│ [Compression Engine] ── 압축 가능? ──┬─ Yes ─▶ [Metadata: size / slot]    │
+│        │                             │                    │                │
+│        └────────────── No ───────────┘                    ▼                │
+│                                                  [Compressed DRAM Region]  │
+│                                                                            │
+│ Read Request ──────────────────────────────────────────────────────────────│
+│        │                                                                   │
+│        ▼                                                                   │
+│ [Metadata Lookup] → [Fetch 16/32/48/64B] → [Decompress] → [64B Line 반환]  │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 여기서 어려운 지점은 가변 길이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리다. 64B 캐시라인이 어떤 것은 16B로 줄고 어떤 것은 64B 그대로 남으면, 단순한 `주소 = base + offset` 계산이 깨진다. 그래서 메인 메모리 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)은 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)률만 보는 기술이 아니라, <strong>빠른 위치 결정과 낮은 단편화를 함께 달성하는 주소 관리 기술</strong>이기도 하다. 일반적으로 유효 용량은 `물리 용량 × 평균 압축률 - 메타데이터 및 여유 공간`으로 생각할 수 있다.
 
@@ -160,25 +164,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">DRAM 증설 중심 메모리 운영</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">메모리 벽 (Memory Wall) · 스왑 병목</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">운영체제 기반 페이지 압축</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">저지연 캐시라인 압축 (BDI · FPC)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">LCP · 메타데이터 최적화 · compaction 제어</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">NUMA / CXL 연계 정책형 메인 메모리 압축</div>
-</div>
-</div>
-
-
+```text
+DRAM 증설 중심 메모리 운영
+        │
+        ▼
+메모리 벽 (Memory Wall) · 스왑 병목
+        │
+        ▼
+운영체제 기반 페이지 압축
+        │
+        ▼
+저지연 캐시라인 압축 (BDI · FPC)
+        │
+        ▼
+LCP · 메타데이터 최적화 · compaction 제어
+        │
+        ▼
+NUMA / CXL 연계 정책형 메인 메모리 압축
+```
 
 이 흐름은 "부족하면 내보내는 메모리 관리"에서 출발해, "먼저 로컬에서 더 작게 담아 보자"는 방향으로 진화한 과정을 보여 준다.
 

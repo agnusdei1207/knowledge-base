@@ -22,22 +22,19 @@ tags = ["studynote-operating-system"]
 
 ### PCB([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/300_process/) Control Block) 내 컨텍스트 정보
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PCB (Process Control Block)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PID (프로세스 ID)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로세스 상태 (Running/Ready/...)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로그램 카운터 (PC, 다음 명령 주소)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 레지스터 (AX, BX, SP, BP...)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 관리 정보 (페이지 테이블 등)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I/O 상태 정보 (열린 파일 목록)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스케줄링 정보 (우선순위, CPU 사용량)</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────┐
+│           PCB (Process Control Block)│
+├──────────────────────────────────────┤
+│  PID (프로세스 ID)                   │
+│  프로세스 상태 (Running/Ready/...)   │
+│  프로그램 카운터 (PC, 다음 명령 주소) │
+│  CPU 레지스터 (AX, BX, SP, BP...)   │
+│  메모리 관리 정보 (페이지 테이블 등) │
+│  I/O 상태 정보 (열린 파일 목록)      │
+│  스케줄링 정보 (우선순위, CPU 사용량)│
+└──────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 컨텍스트는 책갈피와 메모이다 — 책을 덮을 때(CPU에서 내려올 때) 몇 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)인지, 어떤 내용까지 읽었는지 모두 적어둔다.
 
@@ -45,21 +42,15 @@ tags = ["studynote-operating-system"]
 
 ## Ⅱ. [컨텍스트 스위칭](/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/) 과정
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">프로세스 A 실행 중</div>
-<div class="kb-diagram-note">↓ 인터럽트 / 타임 퀀텀 만료</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">PCB_A에 저장</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2</div><div class="kb-diagram-note">PCB_A를 레디 큐에 이동</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3</div><div class="kb-diagram-note">스케줄러: 다음 프로세스 B 선택</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">4</div><div class="kb-diagram-note">PCB_B에서 레지스터 복원</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">5</div><div class="kb-diagram-note">프로세스 B 실행 재개</div></div>
-</div>
-</div>
-
-
+```
+프로세스 A 실행 중
+    ↓ 인터럽트 / 타임 퀀텀 만료
+[1] 현재 CPU 레지스터 → PCB_A에 저장
+[2] PCB_A를 레디 큐에 이동
+[3] 스케줄러: 다음 프로세스 B 선택
+[4] PCB_B에서 레지스터 복원
+[5] 프로세스 B 실행 재개
+```
 
 ### [컨텍스트 스위칭](/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/) [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)
 
@@ -115,17 +106,11 @@ x86-64 기준 컨텍스트 스위칭 비용:
 
 ### [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) vs 사용자 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">커널 스레드: OS가 관리 → 시스템 콜 필요, 진짜 병렬성</div>
-<div class="kb-diagram-note">사용자 스레드: 라이브러리 관리 → 빠른 전환, OS에 불투명</div>
-<div class="kb-diagram-note">(Go goroutine, Python greenlet)</div>
-</div>
-</div>
-
-
+```
+커널 스레드: OS가 관리 → 시스템 콜 필요, 진짜 병렬성
+사용자 스레드: 라이브러리 관리 → 빠른 전환, OS에 불투명
+               (Go goroutine, Python greenlet)
+```
 
 📢 **섹션 요약 비유**: 프로세스 스위칭은 다른 나라 여행, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 스위칭은 같은 호텔 방 이동이다 — 여행은 여권·환전([TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 플러시)이 필요하지만 방 이동은 열쇠만 바꾼다.
 
@@ -154,56 +139,49 @@ x86-64 기준 컨텍스트 스위칭 비용:
 
 ## 📌 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">컨텍스트 (Context)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">PCB (Process Control Block)</div>
-<div class="kb-diagram-note">── CPU 레지스터 상태</div>
-<div class="kb-diagram-note">── 프로그램 카운터 (PC)</div>
-<div class="kb-diagram-note">── 메모리 매핑 정보</div>
-<div class="kb-diagram-tree-item" style="--depth:0">컨텍스트 스위칭</div>
-<div class="kb-diagram-note">── 트리거: 타임 퀀텀·I/O·인터럽트</div>
-<div class="kb-diagram-note">── 프로세스 vs 스레드 비용 차이</div>
-<div class="kb-diagram-note">── TLB 플러시 오버헤드</div>
-<div class="kb-diagram-tree-item" style="--depth:0">최적화</div>
-<div class="kb-diagram-note">── CPU 핀닝 (Affinity)</div>
-<div class="kb-diagram-note">── 코루틴 (유저 스페이스 스위칭)</div>
-<div class="kb-diagram-note">── 비동기 I/O (async/await)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">관련 개념</div>
-<div class="kb-diagram-tree-item" style="--depth:2">스케줄링 알고리즘</div>
-<div class="kb-diagram-tree-item" style="--depth:2">인터럽트 처리</div>
-<div class="kb-diagram-tree-item" style="--depth:2">시스템 콜 (커널 모드 전환)</div>
-</div>
-</div>
-
-
+```
+컨텍스트 (Context)
+├── PCB (Process Control Block)
+│   ├── CPU 레지스터 상태
+│   ├── 프로그램 카운터 (PC)
+│   └── 메모리 매핑 정보
+├── 컨텍스트 스위칭
+│   ├── 트리거: 타임 퀀텀·I/O·인터럽트
+│   ├── 프로세스 vs 스레드 비용 차이
+│   └── TLB 플러시 오버헤드
+├── 최적화
+│   ├── CPU 핀닝 (Affinity)
+│   ├── 코루틴 (유저 스페이스 스위칭)
+│   └── 비동기 I/O (async/await)
+└── 관련 개념
+    ├── 스케줄링 알고리즘
+    ├── 인터럽트 처리
+    └── 시스템 콜 (커널 모드 전환)
+```
 
 ---
 
 ## 📈 관련 키워드 및 발전 흐름도
 
+```
+┌─────────────────────────────────────────────────────────────────┐
+│             컨텍스트 스위칭 발전 흐름                            │
+├──────────────┬────────────────────┬─────────────────────────────┤
+│ 1960년대     │ 협력적 멀티태스킹  │ 프로세스 자발적 CPU 반납     │
+│ 1970년대     │ 선점형 스케줄링    │ 타이머 인터럽트 기반 스위칭  │
+│ 1990년대     │ 스레드 개념 도입   │ 경량 컨텍스트 스위칭         │
+│ 2000년대     │ SMP·멀티코어       │ 코어별 독립 스케줄러         │
+│ 2010년대     │ 코루틴·Go goroutine │ 유저 스페이스 협력적 스위칭 │
+│ 2020년대     │ async/await 표준화  │ I/O 없는 컨텍스트 전환 최소화│
+└──────────────┴────────────────────┴─────────────────────────────┘
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">컨텍스트 스위칭 발전 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1960년대</div><div class="kb-diagram-cell">협력적 멀티태스킹</div><div class="kb-diagram-cell">프로세스 자발적 CPU 반납</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1970년대</div><div class="kb-diagram-cell">선점형 스케줄링</div><div class="kb-diagram-cell">타이머 인터럽트 기반 스위칭</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1990년대</div><div class="kb-diagram-cell">스레드 개념 도입</div><div class="kb-diagram-cell">경량 컨텍스트 스위칭</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2000년대</div><div class="kb-diagram-cell">SMP·멀티코어</div><div class="kb-diagram-cell">코어별 독립 스케줄러</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2010년대</div><div class="kb-diagram-cell">코루틴·Go goroutine</div><div class="kb-diagram-cell">유저 스페이스 협력적 스위칭</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2020년대</div><div class="kb-diagram-cell">async/await 표준화</div><div class="kb-diagram-cell">I/O 없는 컨텍스트 전환 최소화</div></div>
-<div class="kb-diagram-note">핵심 키워드 연결:</div>
-<div class="kb-diagram-note">PCB → 컨텍스트 저장/복원 → 스케줄러 → 멀티태스킹</div>
-<div class="kb-diagram-note">레지스터 TLB 플러시 우선순위 큐</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">프로세스 &gt; 스레드 &gt; 코루틴 &gt; async (비용 감소 방향)</div>
-</div>
-</div>
-
-
+핵심 키워드 연결:
+PCB → 컨텍스트 저장/복원 → 스케줄러 → 멀티태스킹
+  ↓          ↓                  ↓
+레지스터   TLB 플러시        우선순위 큐
+  ↓
+프로세스 > 스레드 > 코루틴 > async (비용 감소 방향)
+```
 
 ---
 

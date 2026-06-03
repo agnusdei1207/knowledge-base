@@ -36,20 +36,20 @@ tags = ["studynote-data-engineering"]
 | <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/">정밀도</a> (<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/">Precision</a>)</strong> | $TP / (TP + [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/))$ | 모델이 긍정이라고 한 것 중 <strong>진짜 긍정</strong>의 비율 | 감소 ([FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 증가) | 증가 ([FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 감소) |
 | <strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/">재현율</a> (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/">Recall</a>)</strong> | $TP / (TP + FN)$ | 실제 긍정인 것들 중 모델이 <strong>찾아낸 긍정</strong>의 비율 | 증가 (FN 감소) | 감소 (FN 증가) |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">임계값 이동에 따른 예측 결과의 변화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0.0 0.3 0.5 0.7 1.0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Threshold=0.3 Threshold=0.5 Threshold=0.7</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(관대한 긍정판정) (기본 설정) (엄격한 긍정판정)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">임계값 0.3</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">0.3 이상 모두 Positive 판정 (Recall 증가)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">임계값 0.7</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">0.7 이상만 확실히 Positive 판정(Precision증가)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│            임계값 이동에 따른 예측 결과의 변화                │
+├──────────────────────────────────────────────────────────────┤
+│ 0.0          0.3          0.5          0.7          1.0  │
+│ ├─────────────┼────────────┼────────────┼─────────────┤  │
+│               ▲            ▲            ▲                │
+│       Threshold=0.3    Threshold=0.5  Threshold=0.7      │
+│      (관대한 긍정판정)    (기본 설정)    (엄격한 긍정판정)   │
+│                                                              │
+│ [임계값 0.3] -> 0.3 이상 모두 Positive 판정 (Recall 증가)  │
+│ [임계값 0.7] -> 0.7 이상만 확실히 Positive 판정(Precision증가)│
+└──────────────────────────────────────────────────────────────┘
+```
 
 임계값을 낮추면 모델은 매우 긍정 판정을 남발하게 된다. 진짜 긍정(TP)을 많이 찾아서 [재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/)은 오르지만, 가짜 긍정([FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/))도 늘어나 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)는 박살 난다. 반대로 임계값을 높이면 모델은 "확실할 때만" 긍정이라고 말한다. 이 경우 가짜 긍정([FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/))은 줄어 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)는 오르지만, 조금 애매한 진짜 긍정을 모두 음성(FN)으로 놓치게 되어 [재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/)이 떨어진다.
 
@@ -112,23 +112,21 @@ tags = ["studynote-data-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">오차 행렬 (Confusion Matrix)의 이해</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">정밀도 (Precision) vs 재현율 (Recall) 도출</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">결정 임계값 (Threshold)의 변동에 따른 트레이드오프 발생</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">PR Curve 및 F1 Score를 활용한 균형점 탐색</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Cost-sensitive Learning (비즈니스 리스크 기반 동적 임계값 적용)</div>
-</div>
-</div>
-
-
+```text
+오차 행렬 (Confusion Matrix)의 이해
+    │
+    ▼
+정밀도 (Precision) vs 재현율 (Recall) 도출
+    │
+    ▼
+결정 임계값 (Threshold)의 변동에 따른 트레이드오프 발생
+    │
+    ▼
+PR Curve 및 F1 Score를 활용한 균형점 탐색
+    │
+    ▼
+Cost-sensitive Learning (비즈니스 리스크 기반 동적 임계값 적용)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

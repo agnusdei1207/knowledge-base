@@ -28,25 +28,19 @@ PO가 없으면 백로그는 [이해관계자](/knowledge-base/studynote/04_soft
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Stakeholders</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Product Vision</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Product Backlog</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Priority / Acceptance Criteria</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Development Team</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Feedback</div>
-</div>
-</div>
-
-
+```text
+Stakeholders
+  ↓
+Product Vision
+  ↓
+Product Backlog
+  ↓
+Priority / Acceptance Criteria
+  ↓
+Development Team
+  ↓
+Feedback
+```
 
 | 역할 | 핵심 책임 |
 | :-- | :-- |
@@ -111,41 +105,29 @@ PO가 제대로 작동하면 팀은 덜 흔들리고, [스프린트](/knowledge-
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Stakeholders</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Product Owner</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Product Backlog</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Sprint / Increment</div>
-</div>
-</div>
-
-
+```text
+Stakeholders
+  ↓
+Product Owner
+  ↓
+Product Backlog
+  ↓
+Sprint / Increment
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">요구사항 수집</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">우선순위 결정</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">백로그 관리</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">가치 중심 제품 운영</div>
-</div>
-</div>
-
-
+```text
+요구사항 수집
+  ↓
+우선순위 결정
+  ↓
+백로그 관리
+  ↓
+가치 중심 제품 운영
+```
 
 ---
 

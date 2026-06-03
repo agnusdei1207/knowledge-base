@@ -23,25 +23,24 @@ GUI 애플리케이션에서 버튼·체크박스·텍스트필드가 서로 직
 
 실세계 예시: ① 항공 관제탑([Mediator](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/))이 모든 항공기([컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/))의 통신을 중재, ② 채팅방([Mediator](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/))이 모든 참여자([컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/))의 메시지를 중계, ③ MVC의 Controller가 View와 Model 간의 [중재자](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/), ④ .NET MediatR 라이브러리가 [커맨드](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/)·[쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 처리를 중재.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">미디에이터 패턴 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Before (N:N 결합) After (미디에이터)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A ←──→ B A → Mediator → B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A ←──→ C B → Mediator → C</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B ←──→ C C → Mediator → A</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(모두 직접 참조) (미디에이터만 참조)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mediator (인터페이스)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ notify(sender: Colleague, event: String): void</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ConcreteMediator</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- colleagues: List&lt;Colleague&gt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ notify(sender, event) { // 중재 로직 }</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          미디에이터 패턴 구조                                  │
+├─────────────────────────────────────────────────────────────┤
+│  Before (N:N 결합)          After (미디에이터)               │
+│  A ←──→ B                   A → Mediator → B               │
+│  A ←──→ C                   B → Mediator → C               │
+│  B ←──→ C                   C → Mediator → A               │
+│  (모두 직접 참조)            (미디에이터만 참조)              │
+│                                                             │
+│  Mediator (인터페이스)                                       │
+│  + notify(sender: Colleague, event: String): void           │
+│       ▲                                                     │
+│  ConcreteMediator                                           │
+│  - colleagues: List<Colleague>                              │
+│  + notify(sender, event) { // 중재 로직 }                   │
+└─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 항공 관제탑([Mediator](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/))이 모든 항공기([컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/))의 통신을 중재한다. 항공기들이 서로 [직접 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/120_direct_communication/)하면 충돌 위험이 있다.
 
@@ -58,19 +57,19 @@ GUI 애플리케이션에서 버튼·체크박스·텍스트필드가 서로 직
 | 채팅방 | 참여자 간 메시지 중계 | ChatRoom 객체 |
 | EventBus | 느슨한 이벤트 중재 | Spring ApplicationEventPublisher |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MediatR CQRS 미디에이터 동작</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Controller → IMediator.Send(CreateOrderCommand)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mediator → CreateOrderCommandHandler.Handle(command)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Result → Controller (Handler가 처리 결과 반환)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Controller는 Handler를 직접 알지 못함</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│       MediatR CQRS 미디에이터 동작                           │
+├─────────────────────────────────────────────────────────────┤
+│  Controller → IMediator.Send(CreateOrderCommand)            │
+│       ↓                                                     │
+│  Mediator → CreateOrderCommandHandler.Handle(command)       │
+│       ↓                                                     │
+│  Result → Controller (Handler가 처리 결과 반환)             │
+│                                                             │
+│  Controller는 Handler를 직접 알지 못함                       │
+└─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 부동산 중개사([Mediator](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/))가 매수자(Controller)와 매도자(Handler)를 중재한다. 매수자는 매도자를 직접 알 필요 없다.
 

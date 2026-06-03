@@ -27,33 +27,35 @@ tags = ["studynote-operating-system"]
   2. **Dirty State의 지옥**: 하드를 꽉 채우고(더티 상태) 1KB짜리 자잘한 랜덤 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 갈겼더니 갑자기 속도가 플로피디스크 수준으로 처박히는 프리징(Freeze) 사태가 전 세계를 덮침.
   3. **Intel의 정식 명명**: 인텔 연구원들이 2008년 이 내부 삽질 현상을 'Write Amplification'이라 명명하며, 스토리지 아키텍처 설계의 제1 타도 대상으로 규정함.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">쓰기 증폭(WAF)이 지수함수적으로 뻥튀기되는 참사의 런타임 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전제 조건: 1개 블록은 4개 페이지로 구성. 현재 블록 꽉 참.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블록 A 블록 B</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">💀 (쓰레기)</div><div class="kb-diagram-node">텅 빈 방 1</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">🟢 유효함 1</div><div class="kb-diagram-node">텅 빈 방 2</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">🟢 유효함 2</div><div class="kb-diagram-node">텅 빈 방 3</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">🟢 유효함 3</div><div class="kb-diagram-node">텅 빈 방 4</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1. OS의 얌전한 요청 (Host Write = 딱 1장)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS: "야 SSD야, 4KB짜리 새 데이터(New) 딱 1장만 빈방에 넣어줘!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2. 가비지 컬렉션의 대학살 (Write Amplification 폭주)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- SSD: "아놔, 빈 블록이 없네! 블록 A 쓰레기 1개 있는 거 비워야겠다!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- (내부 노가다 1): 블록 A의 🟢 유효한 놈 3장을 몽땅 블록 B로 복사!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(이것만 벌써 내부 쓰기 3장 발생 💦)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- (내부 노가다 2): 블록 A 전체에 20V 전기 쏴서 폭파 (Erase)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- (내부 노가다 3): 블록 B의 마지막 4번째 빈칸에 OS가 시킨 'New' 씀.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💥 참혹한 스코어보드 결산:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- OS가 명령한 쓰기 양: 4KB (1장)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- SSD가 칩셋에 진짜로 지진 횟수: 4KB * 4장 = 16KB 쓰기 강행 ☠️</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=&gt; WAF 증폭률 = 16KB / 4KB =</div><div class="kb-diagram-node">4.0 배 폭발!</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────┐
+│        쓰기 증폭(WAF)이 지수함수적으로 뻥튀기되는 참사의 런타임 시각화 │
+├────────────────────────────────────────────────────────────────────────┤
+│                                                                        │
+│ [ 전제 조건: 1개 블록은 4개 페이지로 구성. 현재 블록 꽉 참. ]          │
+│ ┌─── 블록 A ───┐     ┌─── 블록 B ───┐                                  │
+│ │ [ 💀 (쓰레기) ] │     │ [ 텅 빈 방 1 ] │                             │
+│ │ [ 🟢 유효함 1 ] │     │ [ 텅 빈 방 2 ] │                             │
+│ │ [ 🟢 유효함 2 ] │     │ [ 텅 빈 방 3 ] │                             │
+│ │ [ 🟢 유효함 3 ] │     │ [ 텅 빈 방 4 ] │                             │
+│ └───────────────────┘     └───────────────────┘                        │
+│                                                                        │
+│ ▶ 1. OS의 얌전한 요청 (Host Write = 딱 1장)                            │
+│    OS: "야 SSD야, 4KB짜리 새 데이터(New) 딱 1장만 빈방에 넣어줘!"      │
+│                                                                        │
+│ ▶ 2. 가비지 컬렉션의 대학살 (Write Amplification 폭주)                 │
+│    - SSD: "아놔, 빈 블록이 없네! 블록 A 쓰레기 1개 있는 거 비워야겠다!"│
+│    - (내부 노가다 1): 블록 A의 🟢 유효한 놈 3장을 몽땅 블록 B로 복사!  │
+│                     (이것만 벌써 내부 쓰기 3장 발생 💦)                │
+│    - (내부 노가다 2): 블록 A 전체에 20V 전기 쏴서 폭파 (Erase)         │
+│    - (내부 노가다 3): 블록 B의 마지막 4번째 빈칸에 OS가 시킨 'New' 씀. │
+│                                                                        │
+│ 💥 참혹한 스코어보드 결산:                                             │
+│    - OS가 명령한 쓰기 양: 4KB (1장)                                    │
+│    - SSD가 칩셋에 진짜로 지진 횟수: 4KB * 4장 = 16KB 쓰기 강행 ☠️      │
+│    => WAF 증폭률 = 16KB / 4KB = [ 4.0 배 폭발! ]                       │
+└────────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 고작 1장의 빈 공간(4KB)을 만들기 위해, 아무 잘못 없는 멀쩡한 3장의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)까지 강제로 옆방으로 멱살 잡혀 이사(Copy) 가야 하는 것이 SSD의 피할 수 없는 태생적 굴레(Erase Block 단위의 거대함)다. 저 이사 가는 과정 하나하나가 모두 트랜지스터의 수명을 깎아 먹는 물리적 Write 타격이다. 빈 공간이 적으면 적을수록 이사 가야 할 멀쩡한 놈들이 많아져 WAF가 10배, 20배로 기형적으로 치솟게 된다.
 
 - **📢 섹션 요약 비유**: 냉장고([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))가 90% 꽉 차 있습니다. 빈칸을 만들려면 썩은 우유(쓰레기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 1개를 버려야 하는데, 우유가 10단짜리 반찬 탑(블록) 맨 밑에 깔려 있습니다. 나는 고작 썩은 우유 1개를 버리고 싶을 뿐인데, 그 위에 쌓인 멀쩡한 반찬통 9개(유효 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 옆 테이블(새 블록)로 하나하나 힘겹게 옮겨 쌓고 나서야(내부 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 9배 낭비) 우유를 버릴 수 있는 최악의 피로도 증폭 현상입니다.
@@ -114,17 +116,14 @@ WAF를 높여서 SSD를 벽돌로 만드는 3대장 원인이다.
 - 1초 뒤 OS가 또 다른 4KB를 쓴다. 이번엔 아까 쓴 16KB 귀퉁이 옆에 덮어써야 하는데? 낸드는 덮어쓰기가 안 되니 그 16KB를 통째로 새 16KB 방으로 이사시키고 빈칸에 4KB를 추가해야 한다(Read-Modify-Write).
 - **소프트웨어와 하드웨어의 규격 엇박자** 때문에, 고작 4KB 쓰자고 16KB를 통째로 복사하는 미친 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 증폭([WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/) 4배)이 숨 쉬듯 터진다. 이것을 막기 위해 파티션의 4KB 경계선(Alignment)을 칼같이 맞추는 것은 실무 튜닝의 기초 중의 기초다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소프트웨어 패턴</div><div class="kb-diagram-cell">하드웨어 규격</div><div class="kb-diagram-cell">FTL의 GC 스트레스</div><div class="kb-diagram-cell">SSD의 수명 체감</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">무작위 1KB 쓰기</div><div class="kb-diagram-cell">16KB Page</div><div class="kb-diagram-cell">☠️ 우주 최고 (폭발)</div><div class="kb-diagram-cell">6개월 컷 (요절)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">순차 2MB 쓰기</div><div class="kb-diagram-cell">2MB Block</div><div class="kb-diagram-cell">🚀 제로 (쾌적)</div><div class="kb-diagram-cell">10년 컷 (불로장생)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬────────────────────────────────┐
+│ 소프트웨어 패턴│ 하드웨어 규격 │ FTL의 GC 스트레스│ SSD의 수명 체감 │
+├──────────┼────────────┼────────────┼────────────────────────────────┤
+│ 무작위 1KB 쓰기│ 16KB Page  │ ☠️ 우주 최고 (폭발)│ 6개월 컷 (요절)  │
+│ 순차 2MB 쓰기 │ 2MB Block  │ 🚀 제로 (쾌적)  │ 10년 컷 (불로장생)   │
+└──────────┴────────────┴────────────┴────────────────────────────────┘
+```
 **[매트릭스 해설]** SSD는 HDD보다 1000배 빠르지만 100배 예민한 개복치다. 소프트웨어 개발자가 하드웨어의 이 "Erase Block" 구조를 무시하고 1바이트씩 쪼아서 코딩을 하면, 그 코드는 고객 회사의 서버 SSD를 몇 달 만에 숯덩이로 만들어버리는 악성 해킹 코드([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 킬러)와 다를 바 없게 된다.
 
 - **📢 섹션 요약 비유**: 두부([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)) 한 모가 있습니다. 내가 작은 스푼(1KB 무작위 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/))으로 두부 한가운데만 한 숟갈 딱 파먹으려 하면, 두부 전체가 바스러져서 남은 두부마저 쓰레기가 되어 다 버려야 합니다([쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 증폭). 두부는 무조건 칼로 한 모를 통째로 썰어서 크게 크게 요리(2MB 순차 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/))해야 낭비되는 부스러기 없이 완벽하게 먹을 수 있습니다.
@@ -181,19 +180,15 @@ WAF를 높여서 SSD를 벽돌로 만드는 3대장 원인이다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">마모 평준화 (Wear Leveling)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">쓰기 증폭 (Write Amplification) 현상</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TRIM 명령어</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NVMe (Non-Volatile Memory Express)</div></div>
-</div>
-</div>
-
-
+```text
+[마모 평준화 (Wear Leveling)]
+    │
+    ▼
+[쓰기 증폭 (Write Amplification) 현상]
+    │
+    ├──▶ [TRIM 명령어]
+    └──▶ [NVMe (Non-Volatile Memory Express)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

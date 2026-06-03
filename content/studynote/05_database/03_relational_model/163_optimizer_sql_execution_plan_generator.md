@@ -25,18 +25,19 @@ tags = ["studynote-database"]
 
 즉 옵티마이저가 없다면 개발자가 SQL 문장 순서에 사실상 물리 경로까지 책임져야 한다. 이는 선언형 언어의 장점을 무너뜨리고, 같은 비즈니스 로직도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)량 변화에 따라 계속 재작성해야 하는 구조를 만든다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">옵티마이저의 역할: SQL을 물리 실행 경로로 번역하는 과정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SQL Text</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Parse Tree ──▶ Logical Rewrite ──▶ Candidate Plans ──▶ Best Plan</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Statistics / Cost Model Executor</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│        옵티마이저의 역할: SQL을 물리 실행 경로로 번역하는 과정       │
+├──────────────────────────────────────────────────────────────────────┤
+│ SQL Text                                                            │
+│   │                                                                  │
+│   ▼                                                                  │
+│ Parse Tree ──▶ Logical Rewrite ──▶ Candidate Plans ──▶ Best Plan     │
+│                                   ▲                 │                │
+│                                   │                 ▼                │
+│                            Statistics / Cost Model  Executor         │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 핵심은 옵티마이저가 단순 문법 검사기가 아니라, <strong>통계와 비용 모델을 바탕으로 여러 후보 중 하나를 선택하는 계획 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>기</strong>라는 점이다. 그래서 SQL 튜닝은 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 문장만 보는 작업이 아니라, [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)이 왜 그렇게 나왔는지를 읽는 작업이 된다.
 
@@ -58,22 +59,25 @@ tags = ["studynote-database"]
 
 아래 그림은 후보 계획이 어떻게 갈라지고 다시 하나로 수렴하는지를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">후보 계획 생성과 비용 평가의 내부 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SQL</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Rewrite</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Plan A: Index Range Scan + Nested Loop</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Plan B: Full Scan + Hash Join</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Plan C: Index Scan + Sort Merge Join</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ Cost Estimation</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Lowest Cost Plan</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                 후보 계획 생성과 비용 평가의 내부 흐름              │
+├──────────────────────────────────────────────────────────────────────┤
+│ SQL                                                                  │
+│  │                                                                   │
+│  ▼                                                                   │
+│ Rewrite                                                               │
+│  │                                                                   │
+│  ├─ Plan A: Index Range Scan + Nested Loop                           │
+│  ├─ Plan B: Full Scan + Hash Join                                    │
+│  └─ Plan C: Index Scan + Sort Merge Join                             │
+│                 │        │        │                                   │
+│                 └────────┴────────┴──▶ Cost Estimation               │
+│                                         │                             │
+│                                         ▼                             │
+│                                   Lowest Cost Plan                    │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 비용 계산의 핵심 재료는 통계 정보다. 테이블 건수, 특정 값의 분포, [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 깊이, 히스토그램 (Histogram) 같은 정보가 있어야 "이 조건은 전체의 1%만 읽는지, 40%를 읽는지"를 가늠할 수 있다. 예를 들어 조회 대상이 전체의 1%라면 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 범위 스캔이 유리할 수 있지만, 30%를 읽는다면 순차적으로 밀어 읽는 풀 스캔이 오히려 더 저렴해질 수 있다.
 
@@ -151,23 +155,21 @@ tags = ["studynote-database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">선언형 SQL</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">논리 재작성 (Rewrite)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">실행 계획 (Execution Plan) 생성</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">RBO → CBO</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">통계 정보 · 히스토그램 · 적응형 최적화</div>
-</div>
-</div>
-
-
+```text
+선언형 SQL
+    │
+    ▼
+논리 재작성 (Rewrite)
+    │
+    ▼
+실행 계획 (Execution Plan) 생성
+    │
+    ▼
+RBO → CBO
+    │
+    ▼
+통계 정보 · 히스토그램 · 적응형 최적화
+```
 
 이 흐름은 "문장 해석 → 계획 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) → 비용 기반 판단 → 지능화"로 발전하는 옵티마이저의 진화를 보여준다.
 

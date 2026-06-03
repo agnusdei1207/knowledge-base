@@ -25,16 +25,13 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 제어 루프에서 타이머가 맡는 역할을 요약한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sample -&gt; Compute -&gt; Actuate -&gt; Wait Next Deadline</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">------------ Timer Event -----------</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│ Sample -> Compute -> Actuate -> Wait Next Deadline                        │
+│      ▲                                    │                                │
+│      └------------ Timer Event -----------┘                                │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 따라서 실시간 타이머의 필요성은 "시간 측정" 그 자체보다, <strong>시스템 전체를 같은 박자에 맞춰 움직이게 만드는 것</strong>에 있다. [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/), 모터 제어, 센서 샘플링, 슬립 복귀 모두 이 박자를 공유한다.
 
@@ -48,17 +45,13 @@ tags = ["studynote-computer-architecture"]
 
 타이머 이벤트는 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 요청 (IRQ), [인터럽트 서비스 루틴](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/) ([ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/)), [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) ([Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/)), PWM (Pulse Width Modulation), 워치독 리셋으로 이어질 수 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Clock Source -&gt; Prescaler -&gt; Counter -&gt; Compare/Capture</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; IRQ / DMA / PWM</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; Overflow / Periodic Tick / Watchdog</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│ Clock Source -> Prescaler -> Counter -> Compare/Capture                    │
+│                                     -> IRQ / DMA / PWM                     │
+│                                     -> Overflow / Periodic Tick / Watchdog │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 핵심 설계식은 비교적 단순하다.
 
@@ -158,23 +151,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단순 delay loop</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">주기 하드웨어 타이머 + 시스템 틱</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Capture/Compare · PWM · Watchdog 통합</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">High-resolution one-shot timer · tickless scheduling</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">분산 시간 동기 · 가상화 timer · 공통 SoC timebase</div>
-</div>
-</div>
-
-
+```text
+단순 delay loop
+        │
+        ▼
+주기 하드웨어 타이머 + 시스템 틱
+        │
+        ▼
+Capture/Compare · PWM · Watchdog 통합
+        │
+        ▼
+High-resolution one-shot timer · tickless scheduling
+        │
+        ▼
+분산 시간 동기 · 가상화 timer · 공통 SoC timebase
+```
 
 이 흐름은 타이머가 단순 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)에서 출발해, 이제는 시스템 전체의 시간 질서를 조율하는 기반 인프라로 확장되고 있음을 보여 준다.
 

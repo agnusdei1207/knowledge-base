@@ -35,21 +35,28 @@ FMEA의 기본 흐름은 <strong>기능 정의 → 고장 모드 <a href="/knowl
 
 아래 그림은 FMEA가 부품 이름 나열이 아니라, <strong>기능에서 시작해 영향과 조치로 내려가는 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/143_structured_analysis_dfd_dd_minispec/">구조적 분석</a></strong>임을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FMEA reasoning pipeline</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Function</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Failure mode</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Local effect ─▶ next higher effect ─▶ system effect</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Current controls / detectability</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Severity × Occurrence × Detection</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Action, owner, due date, re-score</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                      FMEA reasoning pipeline                        │
+├──────────────────────────────────────────────────────────────────────┤
+│ Function                                                            │
+│    │                                                                 │
+│    ▼                                                                 │
+│ Failure mode                                                         │
+│    │                                                                 │
+│    ▼                                                                 │
+│ Local effect ─▶ next higher effect ─▶ system effect                  │
+│    │                                                                 │
+│    ▼                                                                 │
+│ Current controls / detectability                                     │
+│    │                                                                 │
+│    ▼                                                                 │
+│ Severity × Occurrence × Detection                                    │
+│    │                                                                 │
+│    ▼                                                                 │
+│ Action, owner, due date, re-score                                    │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 예를 들어 서버 플랫폼을 분석한다면 아래처럼 쓸 수 있다.
 
@@ -134,27 +141,26 @@ FMEA를 잘 수행하면 설계 변경 비용이 가장 싼 시점에 위험을 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">요구사항 · 기능 정의</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">FMEA (Failure Mode and Effects Analysis)</div>
-<div class="kb-diagram-note">: failure mode · effect · cause · control</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">우선순위 결정</div>
-<div class="kb-diagram-note">: RPN / severity / action priority</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 설계 보강</div>
-<div class="kb-diagram-note">: ECC · redundancy · hot swap · watchdog</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 정량 분석 확장</div>
-<div class="kb-diagram-note">: FTA · RBD</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 실험 검증</div>
-<div class="kb-diagram-note">: fault injection test · burn-in test</div>
-</div>
-</div>
-
-
+```text
+요구사항 · 기능 정의
+    │
+    ▼
+FMEA (Failure Mode and Effects Analysis)
+: failure mode · effect · cause · control
+    │
+    ▼
+우선순위 결정
+: RPN / severity / action priority
+    │
+    ├──▶ 설계 보강
+    │     : ECC · redundancy · hot swap · watchdog
+    │
+    ├──▶ 정량 분석 확장
+    │     : FTA · RBD
+    │
+    └──▶ 실험 검증
+          : fault injection test · burn-in test
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -168,7 +174,7 @@ FMEA를 잘 수행하면 설계 변경 비용이 가장 싼 시점에 위험을 
 
 **진행 상황**: 753 / 803
 
-← **이전**: [751. 카오스 엔지니어링 (Chaos Engineering) HW 모의](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)
+← **이전**: [751. 카오스 엔지니어링 (Chaos 엔진ering) HW 모의](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)
 **다음**: [753. FTA (Fault Tree Analysis)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/753_fta/) →
 
 ---

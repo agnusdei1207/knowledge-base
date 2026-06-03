@@ -36,24 +36,22 @@ tags = ["studynote-bigdata"]
 
 ### [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 3법 구성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">한국 데이터 3법 (2020.08)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개인정보보호법</div><div class="kb-diagram-cell">신용정보법</div><div class="kb-diagram-cell">정보통신망법</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(PIPA)</div><div class="kb-diagram-cell">(Credit Info Act)</div><div class="kb-diagram-cell">(Network Act)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 가명정보 개념</div><div class="kb-diagram-cell">• 개인신용정보</div><div class="kb-diagram-cell">• 온라인 서비스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">법제화</div><div class="kb-diagram-cell">가명처리 허용</div><div class="kb-diagram-cell">개인정보 규정을</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 결합 전문기관</div><div class="kb-diagram-cell">• 금융 빅데이터</div><div class="kb-diagram-cell">개인정보보호법으로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프레임워크</div><div class="kb-diagram-cell">분석 허용</div><div class="kb-diagram-cell">통합 이관</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• PIPC 신설</div><div class="kb-diagram-cell">• 마이데이터</div><div class="kb-diagram-cell">• 규제 일원화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(개인정보보호</div><div class="kb-diagram-cell">(본인신용정보관리)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위원회)</div><div class="kb-diagram-cell">제도 도입</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                    한국 데이터 3법 (2020.08)                     │
+├──────────────────┬──────────────────────┬────────────────────────┤
+│  개인정보보호법  │    신용정보법        │   정보통신망법         │
+│  (PIPA)         │  (Credit Info Act)   │  (Network Act)         │
+├──────────────────┼──────────────────────┼────────────────────────┤
+│ • 가명정보 개념  │ • 개인신용정보       │ • 온라인 서비스        │
+│   법제화         │   가명처리 허용      │   개인정보 규정을      │
+│ • 결합 전문기관  │ • 금융 빅데이터      │   개인정보보호법으로   │
+│   프레임워크     │   분석 허용          │   통합 이관            │
+│ • PIPC 신설      │ • 마이데이터         │ • 규제 일원화          │
+│   (개인정보보호  │   (본인신용정보관리) │                        │
+│    위원회)       │   제도 도입          │                        │
+└──────────────────┴──────────────────────┴────────────────────────┘
+```
 
 ### 가명처리 특례 활용 조건
 
@@ -68,26 +66,26 @@ tags = ["studynote-bigdata"]
 
 ### 결합 전문기관 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 결합 프로세스
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">기관 A (병원) 기관 B (보험사)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가명처리된 진료 데이터</div><div class="kb-diagram-cell">가명처리된 청구 데이터</div></div>
-<div class="kb-diagram-note">각각 전송</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결합 전문기관</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(PIPC 지정)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 두 데이터셋 결합</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 결합 키 삭제</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 추가 가명처리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">결합된 가명 데이터셋</div>
-<div class="kb-diagram-note">(기관 A, B 모두에게 제공)</div>
-</div>
-</div>
-
-
+```
+기관 A (병원)             기관 B (보험사)
+    │                           │
+    │ 가명처리된 진료 데이터    │ 가명처리된 청구 데이터
+    │                           │
+    └───────────┬───────────────┘
+                │ 각각 전송
+                ▼
+    ┌───────────────────────────┐
+    │   결합 전문기관           │
+    │   (PIPC 지정)             │
+    │  - 두 데이터셋 결합       │
+    │  - 결합 키 삭제           │
+    │  - 추가 가명처리          │
+    └───────────────────────────┘
+                │
+                ▼
+    결합된 가명 데이터셋
+    (기관 A, B 모두에게 제공)
+```
 
 **📢 섹션 요약 비유**: 결합 전문기관은 <strong>공증인</strong>과 같다. 두 사람(기관)이 서로의 비밀([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 직접 교환하기 불안할 때, 신뢰할 수 있는 공증인이 중간에서 안전하게 결합해준다.
 
@@ -173,23 +171,21 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">개인정보 원칙 (PIPA / GDPR) — 정보주체 동의 기반, 목적 외 활용 금지</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 3법 개정 (2020) — 가명정보 개념 신설, 연구·통계·공익 목적 활용 허용</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">가명 처리 (Pseudonymization) — 식별자 제거·치환 후 추가 정보 없이 재식별 불가</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">결합 전문기관 — 국가 지정 기관을 통한 안전한 가명 데이터 결합·분석</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">차분 프라이버시 / 합성 데이터 — 수학적 프라이버시 보장 강화, 차세대 빅데이터 특례 기술</div></div>
-</div>
-</div>
-
-
+```text
+[개인정보 원칙 (PIPA / GDPR) — 정보주체 동의 기반, 목적 외 활용 금지]
+    │
+    ▼
+[데이터 3법 개정 (2020) — 가명정보 개념 신설, 연구·통계·공익 목적 활용 허용]
+    │
+    ▼
+[가명 처리 (Pseudonymization) — 식별자 제거·치환 후 추가 정보 없이 재식별 불가]
+    │
+    ▼
+[결합 전문기관 — 국가 지정 기관을 통한 안전한 가명 데이터 결합·분석]
+    │
+    ▼
+[차분 프라이버시 / 합성 데이터 — 수학적 프라이버시 보장 강화, 차세대 빅데이터 특례 기술]
+```
 이 흐름은 원칙적으로 동의 없는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 활용을 금지하던 규제 체계가 빅데이터·[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시대의 공익적 활용 요건을 수용하여 가명정보 특례를 도입하고, 기술적 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 수준을 [차분 프라이버시](/knowledge-base/studynote/10_ai/05_data_science_ml/396_differential_privacy/)로 강화하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 법제와 기술의 공진화를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

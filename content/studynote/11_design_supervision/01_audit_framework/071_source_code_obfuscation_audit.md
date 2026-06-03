@@ -101,41 +101,29 @@ Hard to Reverse Engineer
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Source Code</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Obfuscation</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Reverse Engineering Resistance</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Mobile Security</div>
-</div>
-</div>
-
-
+```text
+Source Code
+  ↓
+Obfuscation
+  ↓
+Reverse Engineering Resistance
+  ↓
+Mobile Security
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Obfuscation</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Anti-Reversing</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Mobile Security</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Secure Coding</div>
-</div>
-</div>
-
-
+```text
+Obfuscation
+  ↓
+Anti-Reversing
+  ↓
+Mobile Security
+  ↓
+Secure Coding
+```
 
 ---
 

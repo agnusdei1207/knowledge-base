@@ -78,34 +78,36 @@ MVP 유형 비교:
 
 ## Ⅲ. BML 루프와 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)
 
+```
+Build-Measure-Learn 루프:
 
+  [아이디어]
+       |
+       v
+  [BUILD: MVP 제작]  <- 최소 시간/비용
+       |
+       v
+  [MEASURE: 측정]    <- 핵심 지표(Metric)
+       |
+       v
+  [LEARN: 학습]      <- 가설 검증
+       |
+       +--가설 확인--> [PERSEVERE: 방향 유지]
+       |                     |
+       +--가설 반증--> [PIVOT: 방향 전환]
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Build-Measure-Learn 루프:</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">아이디어</div></div>
-<div class="kb-diagram-note">v</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">BUILD: MVP 제작</div><div class="kb-diagram-connector">&lt;-</div><div class="kb-diagram-note">최소 시간/비용</div></div>
-<div class="kb-diagram-note">v</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MEASURE: 측정</div><div class="kb-diagram-connector">&lt;-</div><div class="kb-diagram-note">핵심 지표(Metric)</div></div>
-<div class="kb-diagram-note">v</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LEARN: 학습</div><div class="kb-diagram-connector">&lt;-</div><div class="kb-diagram-note">가설 검증</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">PERSEVERE: 방향 유지</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">PIVOT: 방향 전환</div></div>
-<div class="kb-diagram-note">피벗 유형:</div>
-<div class="kb-diagram-note">줌인 피벗: 하나의 기능이 핵심으로 부상</div>
-<div class="kb-diagram-note">줌아웃 피벗: 단일 기능이 전체 제품으로 확장</div>
-<div class="kb-diagram-note">고객 세그먼트 피벗: 다른 고객군 타겟 변경</div>
-<div class="kb-diagram-note">채널 피벗: 유통 채널 변경</div>
-<div class="kb-diagram-note">기술 피벗: 동일 목표, 다른 기술로</div>
-<div class="kb-diagram-note">사례:</div>
-<div class="kb-diagram-note">Instagram: 위치 기반 게임 앱 -&gt; 사진 공유 앱 피벗</div>
-<div class="kb-diagram-note">Twitter: 팟캐스트 플랫폼 -&gt; 단문 메시지 피벗</div>
-<div class="kb-diagram-note">Slack: 게임 회사 내부 채팅 툴 -&gt; B2B SaaS</div>
-</div>
-</div>
+피벗 유형:
+  줌인 피벗: 하나의 기능이 핵심으로 부상
+  줌아웃 피벗: 단일 기능이 전체 제품으로 확장
+  고객 세그먼트 피벗: 다른 고객군 타겟 변경
+  채널 피벗: 유통 채널 변경
+  기술 피벗: 동일 목표, 다른 기술로
 
-
+사례:
+  Instagram: 위치 기반 게임 앱 -> 사진 공유 앱 피벗
+  Twitter: 팟캐스트 플랫폼 -> 단문 메시지 피벗
+  Slack: 게임 회사 내부 채팅 툴 -> B2B SaaS
+```
 
 > 📢 **섹션 요약 비유**: BML 루프는 과학 실험 — 가설 세우고(Build) → 실험하고(Measure) → 결과 분석(Learn) → 가설 수정 반복.
 

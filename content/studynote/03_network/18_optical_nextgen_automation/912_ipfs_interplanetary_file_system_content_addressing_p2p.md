@@ -24,18 +24,14 @@ tags = ["studynote-network"]
   - 중앙 서버(판교)가 디도스를 맞거나 파산해 서버 코드를 뽑으면, 전 세계 모든 사람이 그 사진을 잃어버립니다(단일 고장점 [SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)). 
   - 만약 해커가 서버 안의 원본 사진을 야한 사진으로 몰래 바꿔치기해도 주소(URL)는 그대로이기 때문에 접속자는 속아 넘어갑니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">에지 보안 SASE 진화 모델 SSE</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IPFS</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">V2I 노변 기지국 RSU 교통 관제 시스템…</div></div>
-</div>
-</div>
-
-
+```text
+[에지 보안 SASE 진화 모델 SSE]
+    │
+    ▼
+[IPFS]
+    │
+    └──▶ [V2I 노변 기지국 RSU 교통 관제 시스템…]
+```
 
 - **📢 섹션 요약 비유**: IPFS는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -46,18 +42,14 @@ tags = ["studynote-network"]
 - **개념**: [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) Labs가 창안한 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 프로토콜로, 전 세계의 모든 수백만 대의 컴퓨터들을 거대한 하나의 <strong><a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/">P2P</a>(<a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/">Peer-to-Peer</a>, 토렌트 방식) <a href="/knowledge-base/studynote/02_operating_system/09_file_system/553_distributed_file_system/">분산 파일 시스템</a> 스토리지망</strong>으로 묶어버리는 [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/)(Decentralized) 웹 기술입니다.
 - **이름의 의미**: "행성 간 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템". 지구가 망하고 화성에 가서 접속해도 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 사라지지 않는, 우주 끝까지 가는 궁극의 영구 보존 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 웹을 지향한다는 미친 스케일의 철학입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">에지 보안 SASE 진화 모델 SSE</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IPFS</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">V2I 노변 기지국 RSU 교통 관제 시스템…</div></div>
-</div>
-</div>
-
-
+```text
+[에지 보안 SASE 진화 모델 SSE]
+    │
+    ▼
+[IPFS]
+    │
+    └──▶ [V2I 노변 기지국 RSU 교통 관제 시스템…]
+```
 
 - **📢 섹션 요약 비유**: IPFS의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -121,19 +113,15 @@ IPFS는 광통신·차세대·자동화를 이해할 때 핵심 축을 잡아 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 에지 보안 SASE 진화 모델 SSE</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: IPFS</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: V2I 노변 기지국 RSU 교통 관제 시스템…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 에지 보안 SASE 진화 모델 SSE]
+    │
+    ▼
+[현재 개념: IPFS]
+    │
+    ├──▶ [확장 A: V2I 노변 기지국 RSU 교통 관제 시스템…]
+    └──▶ [확장 B: 의미 기반 통신 최적화]
+```
 
 IPFS는 에지 보안 [SASE](/knowledge-base/studynote/03_network/14_network_security_threats/740_sase_secure_access_service_edge_sdwan_cloud/) 진화 모델 SSE에서 출발해 현재 메커니즘을 정교화하고, 이후 V2I 노변 기지국 [RSU](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/913_v2i_rsu_road_side_unit_mec_autonomous_driving/) 교통 관제 시스템…와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -23,28 +23,28 @@ tags = ["studynote-network"]
 - **필요성**: GPS는 하늘이 뚫려있어야 작동하므로 실내 주차장이나 코엑스 지하 상가로 들어가는 순간 100% 먹통이 된다. 이를 대체하려 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 비콘([Beacon](/knowledge-base/studynote/03_network/12_iot_wpan_edge/608_beacon_technology_ibeacon_eddystone/))을 썼더니, 전파 세기(RSSI)로만 거리를 재서 오차가 3~5미터로 널뛰기를 했다. 자동차 문을 열려고 다가갈 때 폰이 1미터 앞인지 5미터 밖인지 구분을 못 하니 차 문이 제멋대로 열리고 해킹당했다. <strong>"지하 주차장에서도 내 폰이 차 문짝 '10센티미터 앞'에 있다는 사실을, 해커가 절대 훔칠 수 없는 물리 법칙 수준의 오차 없는 레이저 자(Ruler)처럼 재어주는 무선 나침반"</strong>이 절실했다.
 - **등장 배경**: ① 군사 목적의 땅속 지뢰 탐지 및 투과 레이더 기술의 민간 상용화(FCC 승인) → ② [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)([BLE](/knowledge-base/studynote/03_network/12_iot_wpan_edge/607_ble_bluetooth_low_energy_iot/)) RSSI 거리 측정의 오차 한계 및 릴레이 해킹 취약성 부각 → ③ Apple(U1 칩) 및 NXP 등의 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 공룡들이 스마트폰에 [UWB](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/160_uwb_ultra_wideband/) 칩을 기본 탑재하며 '초정밀 [공간 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/232_spatial_computing_digital_twin/)' 생태계 폭발적 확장.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블루투스(연속파) vs UWB(나노초 펄스)의 '다중 경로' 극복 시각화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 실내(방 안)에서는 전파가 벽에 맞고 튕겨서(반사파) 여러 개로 들어온다!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">과거의 절망: 블루투스 / Wi-Fi (연속된 파동)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">송신기 ─(물결파~)─▶ 진짜 직진 전파 \ (파동이 겹쳐서 거대한 쓰레기 파동 됨)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──(벽 맞고 튕김)─▶ 반사파(가짜) / ─▶ 💥 수신기: "언제 도착한겨? 5m 오차!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 문제점: 파동이 뭉툭하고 뚱뚱해서 진짜 전파와 벽 맞고 늦게 온 가짜 전파가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서로 섞여버려, 거리를 잴 때 3~5미터의 엄청난 오차가 발생함.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">혁신: UWB (Ultra-Wideband) - 나노초 임펄스(Impulse) 바늘 펄스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">송신기 ─(바늘 쾅!)─▶ 진짜 바늘 펄스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(0.001초 뒤)</div><div class="kb-diagram-cell">─▶ 🛡️ 수신기: "아! 첫 번째 바늘이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──(벽 튕김)─▶ 가짜 반사 펄스</div><div class="kb-diagram-cell">진짜다! 거리 10.3cm 완벽!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 펄스가 바늘처럼 너무 짧고 뾰족해서(2 나노초), 뒤늦게 벽 맞고 도착한</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가짜 반사파와 절대 섞이지 않는다! 첫 번째 도착한 바늘만 딱 잡아내서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">빛의 속도로 곱해버리니 오차가 5cm 단위로 압축되는 정밀도의 기적!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│             블루투스(연속파) vs UWB(나노초 펄스)의 '다중 경로' 극복 시각화 │
+├─────────────────────────────────────────────────────────────┤
+│   * 실내(방 안)에서는 전파가 벽에 맞고 튕겨서(반사파) 여러 개로 들어온다!       │
+│                                                             │
+│   [과거의 절망: 블루투스 / Wi-Fi (연속된 파동)]                   │
+│   송신기 ─(물결파~)─▶ 진짜 직진 전파   \  (파동이 겹쳐서 거대한 쓰레기 파동 됨)│
+│       └──(벽 맞고 튕김)─▶ 반사파(가짜) / ─▶ 💥 수신기: "언제 도착한겨? 5m 오차!"│
+│   => 문제점: 파동이 뭉툭하고 뚱뚱해서 진짜 전파와 벽 맞고 늦게 온 가짜 전파가  │
+│            서로 섞여버려, 거리를 잴 때 3~5미터의 엄청난 오차가 발생함.      │
+│                                                             │
+│   [혁신: UWB (Ultra-Wideband) - 나노초 임펄스(Impulse) 바늘 펄스] │
+│                                                             │
+│   송신기 ─(바늘 쾅!)─▶ 진짜 바늘 펄스  │                               │
+│                   (0.001초 뒤)      │ ─▶ 🛡️ 수신기: "아! 첫 번째 바늘이 │
+│       └──(벽 튕김)─▶ 가짜 반사 펄스  │      진짜다! 거리 10.3cm 완벽!"  │
+│   => 결과: 펄스가 바늘처럼 너무 짧고 뾰족해서(2 나노초), 뒤늦게 벽 맞고 도착한 │
+│            가짜 반사파와 절대 섞이지 않는다! 첫 번째 도착한 바늘만 딱 잡아내서 │
+│            빛의 속도로 곱해버리니 오차가 5cm 단위로 압축되는 정밀도의 기적!  │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** [UWB](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/160_uwb_ultra_wideband/) 아키텍처가 "무선 줄자"라 불리며 센티미터(cm) 오차를 내는 근본적인 이유는 주파수에 실린 <strong>'펄스 폭(Width)'</strong>에 있다. 기존 통신파는 파동이 길어서 건물 안에서 반사파([Multipath](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/500_multipath_io/))들과 뒤엉키면 파동이 무너져 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 도착 시간을 잴 수가 없었다(간섭). UWB는 무려 500MHz [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 한 방에 써서 수학적 퓨리에 변환(역비례)을 통해 시간축에서 <strong>어마어마하게 짧은(2ns) 뾰족한 임펄스(바늘)</strong>를 만들어 쏜다. 바늘이 너무 짧아 허공에서 튕겨 온 반사파 바늘들과 아예 겹치지 않고 틈(시간차)이 생긴다. 수신기는 제일 먼저 도착한 첫 번째 바늘(Line of Sight)이 도착한 찰나의 시간(Time of Flight)을 나노초 단위로 측정하여 거리를 1cm 단위로 칼같이 끊어버린다.
 
@@ -83,27 +83,27 @@ GPS가 죽는 코엑스 지하 주차장이나 물류 창고에서, 어떤 무�
 | **보안(해킹 방어)** | 해커가 소리 증폭기 달면 100% 털림 (릴레이 공격에 취약) | 보안용 아님 (위치만 잡음) | 우주 물리 법칙(빛의 속도 딜레이)으로 **릴레이 해킹 100% 차단(Secure)** |
 | **단점 및 매몰 비용** | 1개 1만 원. 싸서 수천 개 뿌릴 수 있음 (가성비 최강). | 공유기 인프라 재활용 (추가 돈 안 듦). | <strong>칩셋이 비쌈. 내 폰과 상대방 기기 양쪽에 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/160_uwb_ultra_wideband/">UWB</a> 전용 하드웨어 칩이 2개 다 달려있어야만 작동함 (생태계 확장의 족쇄).</strong> |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">UWB의 공간 인지 (Spatial Awareness) 방향 찾기 융합 시각화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* UWB는 앞뒤 거리(10cm)만 아는 게 아니다. 각도(AoA)를 재어 3D 지도를 그린다!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">내 폰 (iPhone U1 칩 탑재) 안에 달린 3개의 UWB 미니 안테나</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">안테나 1 (왼쪽)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Apple AirTag</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">안테나 3 (오른쪽)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">공학적 위상차(Phase Difference) 계산의 기적</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">폰의 컴퓨터: "에어태그가 쏜 펄스가 안테나 1번보다 안테나 3번에 0.0000001초</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">빨리 닿았어! 그 말은 에어태그가 내 폰 기준으로 정면이 아니라</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오른쪽 34도 틀어진 허공에 떠 있다는 뜻이네!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과 (증강현실 AR 융합): 스마트폰 화면의 카메라를 켜면, 거실 허공의 3D</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">좌표 위에 "소파 밑 오른쪽 45도 방향, 35cm 앞"이라는 완벽한</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">화살표 팝업을 AR로 띄워 소파 밑의 열쇠고리를 정확히 찾아냄!</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────┐
+│               UWB의 공간 인지 (Spatial Awareness) 방향 찾기 융합 시각화│
+├───────────────────────────────────────────────────────────────┤
+│   * UWB는 앞뒤 거리(10cm)만 아는 게 아니다. 각도(AoA)를 재어 3D 지도를 그린다! │
+│                                                               │
+│   [내 폰 (iPhone U1 칩 탑재) 안에 달린 3개의 UWB 미니 안테나]            │
+│       안테나 1 (왼쪽)                                              │
+│       안테나 2 (가운데)  ◀======= (레이저 바늘 펄스 날아옴) ======= [Apple AirTag]│
+│       안테나 3 (오른쪽)                                             │
+│                                                               │
+│   [공학적 위상차(Phase Difference) 계산의 기적]                      │
+│   폰의 컴퓨터: "에어태그가 쏜 펄스가 안테나 1번보다 안테나 3번에 0.0000001초  │
+│               빨리 닿았어! 그 말은 에어태그가 내 폰 기준으로 정면이 아니라     │
+│               오른쪽 34도 틀어진 허공에 떠 있다는 뜻이네!"                 │
+│                                                               │
+│   => 결과 (증강현실 AR 융합): 스마트폰 화면의 카메라를 켜면, 거실 허공의 3D   │
+│               좌표 위에 "소파 밑 오른쪽 45도 방향, 35cm 앞"이라는 완벽한     │
+│               화살표 팝업을 AR로 띄워 소파 밑의 열쇠고리를 정확히 찾아냄!    │
+└───────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이것이 단순한 거리 측정기였던 UWB를 마법으로 만든 **AoA (Angle of Arrival, 도래각)** 아키텍처다. 최신 폰 안에는 [UWB](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/160_uwb_ultra_wideband/) [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 한 개가 아니라 3~4개가 모여 있다. 에어태그가 펄스를 쏘면, 이 3개의 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)에 펄스가 닿는 아주아주 미세한 시간차(위상차)가 발생한다. 폰은 이 삼각함수 시차를 역추적해서 "얘가 내 정면이 아니라 오른쪽 45도 각도에 있구나!"라는 벡터(방향) 정보를 1cm 단위로 뽑아낸다. 거리(ToF) + 방향(AoA)이 결합되며, 폰이 주변 사물들의 위치를 3차원(3D) 공간상에서 정확히 인지하는 <strong>공간 인식(Spatial Awareness)</strong>의 진정한 눈(Eye)이 열린 것이다.
 
@@ -191,19 +191,15 @@ UWB를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: GPS 삼각 측량 / 오차 개선 기법</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: UWB</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 무선 충전 전송 원리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 무선 자원 제어</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: GPS 삼각 측량 / 오차 개선 기법]
+    │
+    ▼
+[현재 개념: UWB]
+    │
+    ├──▶ [확장 A: 무선 충전 전송 원리]
+    └──▶ [확장 B: 지능형 무선 자원 제어]
+```
 
 UWB는 GPS 삼각 측량 / 오차 개선 기법에서 출발해 현재 메커니즘을 정교화하고, 이후 무선 충전 전송 원리와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

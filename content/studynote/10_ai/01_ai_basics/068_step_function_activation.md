@@ -28,19 +28,13 @@ tags = ["ai"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Input</div>
-<div class="kb-diagram-note">↓ threshold</div>
-<div class="kb-diagram-note">Step Function</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">0 or 1</div>
-</div>
-</div>
-
-
+```text
+Input
+  ↓ threshold
+Step Function
+  ↓
+0 or 1
+```
 
 | 특징 | 의미 |
 | :-- | :-- |
@@ -108,41 +102,29 @@ tags = ["ai"]
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Threshold</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Step Function</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Perceptron</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Activation Function</div>
-</div>
-</div>
-
-
+```text
+Threshold
+  ↓
+Step Function
+  ↓
+Perceptron
+  ↓
+Activation Function
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Step Function</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Perceptron</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Sigmoid</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">ReLU</div>
-</div>
-</div>
-
-
+```text
+Step Function
+  ↓
+Perceptron
+  ↓
+Sigmoid
+  ↓
+ReLU
+```
 
 ---
 

@@ -23,22 +23,20 @@ tags = ["studynote-network"]
 이를 방어하기 위해 도선 외부를 알루미늄 포일(은박)이나 구리 편조망(그물망)으로 한 겹 더 감싼 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)가 바로 차폐 꼬임 쌍선, 즉 [STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/)(Shielded Twisted Pair)와 [FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/)(Foil Twisted Pair)다. 차폐막은 외부 노이즈 파동을 반사시키거나 흡수하여 밖으로 빼냄으로써 페어 내부로 노이즈가 침투하는 것을 물리적으로 봉쇄한다. 또한 초고대역폭(10Gbps 이상) 환경에서 케이블 다발 간에 발생하는 에일리언 [누화](/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/)(AXT)를 완벽히 격리하기 위한 하이엔드 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 배선(Cat.6a, Cat.7 이상)의 필수 인프라로 격상되고 있다.
 
 다음 다이어그램은 강력한 외부 노이즈 환경에서 UTP와 차폐 케이블([STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/)/[FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/))의 방어 메커니즘 차이를 직관적으로 대비하여 보여준다.
+```text
+[극한의 모터 노이즈 환경]
 
+  UTP (차폐 없음) 구조: 
+  (((초강력 고주파 노이즈))) ──> (피복 투과) ──> 꼬임 상쇄 한계 돌파 ──> 💥 패킷 손실/CRC 에러 발생
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">극한의 모터 노이즈 환경</div></div>
-<div class="kb-diagram-note">UTP (차폐 없음) 구조:</div>
-<div class="kb-diagram-note">(((초강력 고주파 노이즈))) ──&gt; (피복 투과) ──&gt; 꼬임 상쇄 한계 돌파 ──&gt; 💥 패킷 손실/CRC 에러 발생</div>
-<div class="kb-diagram-note">FTP/STP (금속 차폐) 구조:</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">(((초강력 고주파 노이즈))) ──&gt;</div><div class="kb-diagram-node">금속 차폐막(Shield)</div><div class="kb-diagram-note">에서 1차 차단(반사/흡수)</div></div>
-<div class="kb-diagram-note">▼ (Drain Wire / 접지선)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">땅(Ground)으로 노이즈 전류 배출</div></div>
-<div class="kb-diagram-note">(차폐막 내부) ─&gt; 구리 페어는 0% 간섭 청정 구역 유지 ──&gt; ✅ 완벽한 전송</div>
-</div>
-</div>
-
-
+  FTP/STP (금속 차폐) 구조:
+  (((초강력 고주파 노이즈))) ──> [금속 차폐막(Shield)]에서 1차 차단(반사/흡수)
+                                          │ 
+                                          ▼ (Drain Wire / 접지선)
+                                     [ 땅(Ground)으로 노이즈 전류 배출 ]
+                                          │
+                            (차폐막 내부) └─> 구리 페어는 0% 간섭 청정 구역 유지 ──> ✅ 완벽한 전송
+```
 이 메커니즘의 핵심은 <strong>"물리적 방벽과 배출구의 결합"</strong>이다. UTP가 몸으로 노이즈를 맞으면서 맷집과 계산(차동신호)으로 견디는 방식이라면, 차폐 케이블은 아예 파동이 뚫고 들어오지 못하게 금속 방패(Shield)를 세운다. 그리고 그 방패에 부딪혀 흡수된 전자기 에너지는 배수구 역할인 접지선(Drain Wire)을 타고 땅으로 빠져나가 소멸된다. 따라서 차폐 케이블은 방패막과 배출로(접지)가 1세트로 동작할 때만 무적의 방어력을 발휘한다.
 
 - **📢 섹션 요약 비유**: 폭우(노이즈)가 쏟아질 때 UTP는 젖어가면서 튼튼한 체력으로 비를 맞고 뛰는 사람이라면, [STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/)/FTP는 우산(차폐막)을 쓰고 빗물을 우산살 끝(접지선)으로 흘려보내 속옷 하나 젖지 않고 유유히 걸어가는 완벽한 방어 구조입니다.
@@ -64,22 +62,19 @@ tags = ["studynote-network"]
 초고성능 네트워크에서 차폐 구조가 가장 진가를 발휘하는 부분은 다발로 묶인 케이블 간 간섭인 **에일리언 크로스토크(AXT)의 원천 봉쇄** 메커니즘이다.
 
 아래 메모리/버퍼 관점 대신, 트렁크 트레이(Trunk Tray)에 포설된 케이블 단면 구조의 전자기파 격리 상태를 시각화한 상태 비교도를 살펴본다.
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">데이터센터 10Gbps 케이블 다발 (Trunking) 단면도</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">UTP 다발 구조</div><div class="kb-diagram-node">F/UTP 차폐 다발 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">(A) ↔간섭↔ (B)</div><div class="kb-diagram-node">F(A)</div><div class="kb-diagram-node">F(B)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↕ 에일리언 ↕ 격리벽 격리벽</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">(C) ↔크로스↔ (D)</div><div class="kb-diagram-node">F(C)</div><div class="kb-diagram-node">F(D)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* UTP: 인접 케이블의 전자기파가 뚫고 들어와 서로 충돌</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* F/UTP: 겉면에 감싸진 알루미늄 포일(F)이 방벽이 됨</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 에일리언 노이즈 에너지 100% 반사/접지</div></div>
-</div>
-</div>
-
-
+```text
+┌─── 데이터센터 10Gbps 케이블 다발 (Trunking) 단면도 ───┐
+│                                                      │
+│ [ UTP 다발 구조 ]         [ F/UTP 차폐 다발 구조 ]   │
+│  (A) ↔간섭↔ (B)            [F(A)]      [F(B)]       │
+│   ↕ 에일리언 ↕             격리벽      격리벽       │
+│  (C) ↔크로스↔ (D)            [F(C)]      [F(D)]       │
+│                                                      │
+│ * UTP: 인접 케이블의 전자기파가 뚫고 들어와 서로 충돌 │
+│ * F/UTP: 겉면에 감싸진 알루미늄 포일(F)이 방벽이 됨  │
+│          => 에일리언 노이즈 에너지 100% 반사/접지    │
+└──────────────────────────────────────────────────────┘
+```
 이 단면도의 핵심은 내부 꼬임 설계(격벽 등)만으로는 케이블 '바깥'에서 인접한 다른 케이블이 내뿜는 노이즈를 막을 수 없다는 물리적 한계를 보여준다. 10Gbps 고주파 통신 시 100가닥 이상의 케이블이 랙(Rack)에 빽빽하게 묶이면, 이웃 케이블에서 넘어오는 에일리언 [누화](/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/)(AXT)가 임계점을 초과한다. 이때 F/[UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 이상의 차폐막(Foil)을 두른 케이블들은 서로 간의 전자기장을 격리하는 완벽한 룸(Room)을 형성하여, 케이블 밀집도가 수백 가닥에 달해도 개별 패킷의 노이즈 바닥(Noise Floor)을 깨끗하게 유지해 낸다.
 
 - **📢 섹션 요약 비유**: 수백 명의 사람이 큰 체육관에 모여 통화할 때([UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 다발), 서로 목소리가 섞여 아무것도 안 들리는 아수라장이 되지만, 각자에게 얇은 방음 유리 부스(Foil 차폐막)를 씌워주면 아무리 밀집해도 깨끗하게 통화할 수 있는 것과 같은 격리 아키텍처입니다.
@@ -118,22 +113,19 @@ UTP는 양단이 전기적으로 고립되어 있어 대충 꽂아도 선로 성
    - **결과**: 케이블 포일이 흡수한 노이즈가 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 금속 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 통해 땅으로 배출되어야 하는데, 플라스틱 커넥터가 [절연체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/010_insulator/) 역할을 하여 노이즈가 배출구 앞에서 갇힘(접지 단절). 결국 노이즈 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 역효과 발생. 반드시 전체가 쇠로 감싸진 전용 쉴드 플러그(Shielded Plug)를 결선해야 한다.
 
 이러한 치명적 함정을 피하기 위해 실무 인프라 도입 시 밟아야 할 의사결정 트리를 도식화한다.
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">고노이즈 환경 / 10G 네트워크 구축 검토</div></div>
-<div class="kb-diagram-note">▼ (판단 1. 전원 공급 필요성)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">해당 단말(CCTV, AP)에 PoE 전원 공급이 필수인가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ No ──&gt;</div><div class="kb-diagram-node">광섬유(Optical) 무조건 선택</div><div class="kb-diagram-note">(노이즈, 접지 이슈 100% 영구 해방)</div></div>
-<div class="kb-diagram-tree-item" style="--depth:1">Yes ─&gt; (판단 2. 건축물 접지 상태)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">양단의 통신 장비 랙(Rack)이 공통 접지로 완벽히 묶여 있는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ No ──&gt;</div><div class="kb-diagram-node">UTP Cat.6/6a 적용</div><div class="kb-diagram-note">(차폐 안테나 부작용 회피, 꼬임 능력에 의존)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ Yes ─&gt;</div><div class="kb-diagram-node">F/UTP 또는 S/FTP 도입</div><div class="kb-diagram-note">(완벽한 차폐와 접지 연동으로 무결성 달성)</div></div>
-</div>
-</div>
-
-
+```text
+[고노이즈 환경 / 10G 네트워크 구축 검토]
+    │
+    ▼ (판단 1. 전원 공급 필요성)
+[해당 단말(CCTV, AP)에 PoE 전원 공급이 필수인가?]
+   ├─ No ──> [광섬유(Optical) 무조건 선택] (노이즈, 접지 이슈 100% 영구 해방)
+   │
+   └─ Yes ─> (판단 2. 건축물 접지 상태)
+       [양단의 통신 장비 랙(Rack)이 공통 접지로 완벽히 묶여 있는가?]
+           ├─ No ──> [UTP Cat.6/6a 적용] (차폐 안테나 부작용 회피, 꼬임 능력에 의존)
+           │
+           └─ Yes ─> [F/UTP 또는 S/FTP 도입] (완벽한 차폐와 접지 연동으로 무결성 달성)
+```
 이 판단 로직의 핵심은, 산업 현장이나 고속망에서 "최고 스펙 선로([STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/))"가 항상 무적의 답이 되지는 않는다는 것이다. 접지 설비가 낙후된 노후 공장 환경에서 설익은 지식으로 STP를 포설하는 것은 시한폭탄을 심는 것과 같다. 기술사는 전체 빌딩의 등전위 접지 체계를 완벽히 검증한 뒤에만 차폐 케이블 아키텍처를 승인해야 한다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -171,19 +163,15 @@ UTP는 양단이 전기적으로 고립되어 있어 대충 꽂아도 선로 성
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: UTP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: STP / FTP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: UTP 카테고리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고속 광전송 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: UTP]
+    │
+    ▼
+[현재 개념: STP / FTP]
+    │
+    ├──▶ [확장 A: UTP 카테고리]
+    └──▶ [확장 B: 고속 광전송 최적화]
+```
 
 [STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/) / FTP는 UTP에서 출발해 현재 메커니즘을 정교화하고, 이후 [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 카테고리와 고속 광전송 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

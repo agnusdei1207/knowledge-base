@@ -24,42 +24,35 @@ tags = ["studynote-bigdata"]
 
 ### 1. 생성형 AI + 빅데이터 융합
 
+```text
+Text-to-SQL / 자연어 데이터 분석
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Text-to-SQL / 자연어 데이터 분석</div>
-<div class="kb-diagram-note">사용자: "지난 달 매출이 가장 높은 지역 3곳을 알려줘"</div>
-<div class="kb-diagram-note">▼ LLM (GPT-4, Gemini, Claude)</div>
-<div class="kb-diagram-note">SQL 생성: SELECT region, SUM(sales) ... ORDER BY DESC LIMIT 3</div>
-<div class="kb-diagram-note">▼ 데이터 웨어하우스 실행</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">결과:</div><div class="kb-diagram-node">서울: 15억, 부산: 8억, 인천: 5억</div></div>
-<div class="kb-diagram-note">▼ LLM 자연어 요약</div>
-<div class="kb-diagram-note">"지난 달 서울이 15억으로 1위..."</div>
-</div>
-</div>
-
-
+  사용자: "지난 달 매출이 가장 높은 지역 3곳을 알려줘"
+      │
+      ▼ LLM (GPT-4, Gemini, Claude)
+  SQL 생성: SELECT region, SUM(sales) ... ORDER BY DESC LIMIT 3
+      │
+      ▼ 데이터 웨어하우스 실행
+  결과: [서울: 15억, 부산: 8억, 인천: 5억]
+      │
+      ▼ LLM 자연어 요약
+  "지난 달 서울이 15억으로 1위..."
+```
 
 **영향**: SQL 없이도 데이터 분석 가능 → 비개발자의 데이터 접근성 혁신. BI 도구에 LLM 통합이 가속화(Looker Studio AI, Tableau Pulse 등).
 
 ### 2. 데이터 메시 (Data Mesh)
 
+```text
+전통 중앙 집중 vs. 데이터 메시
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">전통 중앙 집중 vs. 데이터 메시</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">중앙 집중</div><div class="kb-diagram-node">데이터 메시</div></div>
-<div class="kb-diagram-note">데이터 팀 (병목) 주문팀 주문 데이터 (소유)</div>
-<div class="kb-diagram-note">↑ ↑ ↑ 배송팀 배송 데이터 (소유)</div>
-<div class="kb-diagram-note">영업 물류 재무 결제팀 결제 데이터 (소유)</div>
-<div class="kb-diagram-note">팀 팀 팀 ↓</div>
-<div class="kb-diagram-note">셀프서비스 인프라 (공통)</div>
-</div>
-</div>
-
-
+  [중앙 집중]                    [데이터 메시]
+  데이터 팀 (병목)               주문팀 ──── 주문 데이터 (소유)
+  ↑    ↑    ↑                   배송팀 ──── 배송 데이터 (소유)
+  영업  물류  재무                결제팀 ──── 결제 데이터 (소유)
+  팀   팀   팀                       ↓
+                                셀프서비스 인프라 (공통)
+```
 
 **4대 원칙**: ① 도메인 소유권, ② 데이터 as a 제품, ③ 셀프서비스 인프라, ④ 연합 거버넌스.
 
@@ -142,27 +135,27 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">빅데이터 1.0 (Hadoop, 수집·저장 중심)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">빅데이터 2.0 (Spark, 처리 고속화)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">빅데이터 3.0 (레이크하우스, 배치+스트리밍 통합)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">데이터 메시 (도메인 분산 소유권)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Zero-ETL (파이프라인 단순화)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">빅데이터 4.0 (AI-Native, LLM 통합)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Text-to-SQL / 자연어 분석</div>
-<div class="kb-diagram-tree-item" style="--depth:2">AI 에이전트 기반 파이프라인 자동화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">데이터 민주화 (모든 구성원이 데이터 분석가)</div>
-</div>
-</div>
-
-
+```text
+빅데이터 1.0 (Hadoop, 수집·저장 중심)
+    │
+    ▼
+빅데이터 2.0 (Spark, 처리 고속화)
+    │
+    ▼
+빅데이터 3.0 (레이크하우스, 배치+스트리밍 통합)
+    │
+    ├─► 데이터 메시 (도메인 분산 소유권)
+    ├─► Zero-ETL (파이프라인 단순화)
+    │
+    ▼
+빅데이터 4.0 (AI-Native, LLM 통합)
+    │
+    ├─► Text-to-SQL / 자연어 분석
+    ├─► AI 에이전트 기반 파이프라인 자동화
+    │
+    ▼
+데이터 민주화 (모든 구성원이 데이터 분석가)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -24,18 +24,14 @@ tags = ["studynote-network"]
   - 기존 바코드를 무선 RFID 칩에 구겨 넣기 위해 진화한 <strong>'전 세계 모든 사물의 고유한 주민등록번호'</strong>입니다.
   - "농심 신라면"이라는 껍데기가 아니라, <strong>"2026년 3월 1일 안양공장 3번 레인에서 생산된 신라면 박스의 45번 라면 낱개"</strong>까지 지구상의 모든 물건 1개 1개를 유일하게 추적 식별할 수 있는 거대한 64비트~96비트 숫자 체계입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">RFID 충돌 방지 알고리즘</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">EPCglobal 망 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ONS 구조</div></div>
-</div>
-</div>
-
-
+```text
+[RFID 충돌 방지 알고리즘]
+    │
+    ▼
+[EPCglobal 망 아키텍처]
+    │
+    └──▶ [ONS 구조]
+```
 
 - **📢 섹션 요약 비유**: EPCglobal 망 아키텍처는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -59,18 +55,14 @@ EPCglobal 기구는 이 미친 [EPC](/knowledge-base/studynote/03_network/15_nex
   - "이 신발은 1월에 베트남에서 생산됨 ➜ 2월에 부산항 세관 통과함 ➜ 3월에 이마트 창고 입고됨"
   - 물건이 태어나서 유통되는 모든 과정의 족적(이벤트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 실시간으로 이 클라우드 서버에 블랙박스처럼 기록되고 조회됩니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">RFID 충돌 방지 알고리즘</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">EPCglobal 망 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ONS 구조</div></div>
-</div>
-</div>
-
-
+```text
+[RFID 충돌 방지 알고리즘]
+    │
+    ▼
+[EPCglobal 망 아키텍처]
+    │
+    └──▶ [ONS 구조]
+```
 
 - **📢 섹션 요약 비유**: EPCglobal 망 아키텍처의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -132,19 +124,15 @@ EPCglobal 망 아키텍처는 [성능](/knowledge-base/studynote/04_software_eng
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: RFID 충돌 방지 알고리즘</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: EPCglobal 망 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: ONS 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: RFID 충돌 방지 알고리즘]
+    │
+    ▼
+[현재 개념: EPCglobal 망 아키텍처]
+    │
+    ├──▶ [확장 A: ONS 구조]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 EPCglobal 망 아키텍처는 RFID 충돌 방지 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [ONS](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1037_ons_object_name_service_rfid_dns/) 구조와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

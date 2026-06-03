@@ -25,20 +25,17 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 같은 [피연산자](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/) 필드가 모드에 따라 완전히 다른 뜻을 갖는다는 점을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Same operand field, different meaning</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LOAD R1, X</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">immediate -&gt; R1 &lt;- X</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">EA</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">X</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">EA</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PC-relative -&gt; EA &lt;- PC + X -&gt; branch/data target</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Same operand field, different meaning                             │
+├────────────────────────────────────────────────────────────────────┤
+│ LOAD R1, X                                                        │
+│   immediate    -> R1 <- X                                         │
+│   direct       -> EA <- X       -> R1 <- M[EA]                    │
+│   reg indirect -> EA <- R[X]    -> R1 <- M[EA]                    │
+│   PC-relative  -> EA <- PC + X  -> branch/data target             │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 핵심은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 곧바로 "주소"가 아니라는 점이다. CPU는 opcode만 읽는 것이 아니라, 그 뒤에 붙은 mode 정보까지 함께 해석해 비로소 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 위치나 즉시값의 의미를 확정한다. 따라서 주소 지정 방식은 메모리 접근 문법이면서 동시에 [명령어 형식](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/170_instruction_format/) 설계의 핵심 축이다.
 
@@ -64,18 +61,16 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 현대 파이프라인에서 주소 계산이 어디에 위치하는지를 요약한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Address generation in a modern pipeline</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">instruction -&gt; mode decode -&gt; operand select -&gt; AGU -&gt; EA</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; data cache</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; imm/reg bypass</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Address generation in a modern pipeline                           │
+├────────────────────────────────────────────────────────────────────┤
+│ instruction -> mode decode -> operand select -> AGU -> EA         │
+│                                  │                  │             │
+│                                  │                  └-> data cache │
+│                                  └-> imm/reg bypass               │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 즉시값과 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [피연산자](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/)는 AGU를 거치지 않고 곧바로 실행 단계로 들어간다. 반면 메모리 [피연산자](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/)는 mode decode 결과에 따라 [base register](/knowledge-base/studynote/02_operating_system/06_memory_management/329_base_register/), [index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) [register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/), displacement를 조합해 EA를 만든 뒤 캐시와 메모리 계층으로 전달된다. 이 과정이 늦어지면 load-use stall, branch target [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), fetch 경계 복잡도가 생기므로 주소 모드 설계는 단순 문법이 아니라 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 설계 문제이기도 하다.
 
@@ -107,20 +102,17 @@ tags = ["studynote-computer-architecture"]
 
 실무에서는 접근 패턴에 맞는 주소 지정 방식 선택이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 이식성을 좌우한다. 상수는 즉시값으로 두는 것이 가장 싸고, 반복문 내부의 핵심 변수는 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 오래 머물수록 좋다. [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)·구조체는 베이스+변위 또는 스케일 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 활용해야 하며, 공유 라이브러리와 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 재배치를 고려하는 코드는 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 상대 주소 지정을 우선 사용해야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Access-pattern driven mode choice</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">constant? -&gt; immediate</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">hot local value? -&gt; register</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">array/struct? -&gt; base + offset / scaled index</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">relocatable code?-&gt; PC-relative</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">pointer chain? -&gt; reg indirect, but watch cache stalls</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Access-pattern driven mode choice                                 │
+├────────────────────────────────────────────────────────────────────┤
+│ constant?        -> immediate                                     │
+│ hot local value? -> register                                      │
+│ array/struct?    -> base + offset / scaled index                  │
+│ relocatable code?-> PC-relative                                   │
+│ pointer chain?   -> reg indirect, but watch cache stalls          │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 ### 실무 판단 기준
 
@@ -166,24 +158,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">operand field</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">mode decode</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ immediate / register</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ EA generation</div>
-<div class="kb-diagram-tree-item" style="--depth:8">base + displacement</div>
-<div class="kb-diagram-tree-item" style="--depth:8">index / scale</div>
-<div class="kb-diagram-tree-item" style="--depth:8">PC-relative</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">load/store · branch · position-independent code</div>
-</div>
-</div>
-
-
+```text
+operand field
+    │
+    ▼
+mode decode
+    │
+    ├──────────────▶ immediate / register
+    │
+    └──────────────▶ EA generation
+                         │
+                         ├─ base + displacement
+                         ├─ index / scale
+                         └─ PC-relative
+                              │
+                              ▼
+                   load/store · branch · position-independent code
+```
 
 이 흐름도는 주소 지정 방식이 단순 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)표가 아니라, [operand](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/) 해석에서 실제 메모리 접근과 코드 재배치까지 이어지는 실행 경로임을 보여준다.
 

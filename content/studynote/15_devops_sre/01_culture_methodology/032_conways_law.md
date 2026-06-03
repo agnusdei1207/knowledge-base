@@ -21,19 +21,14 @@ tags = ["studynote-devops"]
 > *"Any organization that designs a system will produce a design whose structure is a copy of the organization's communication structure."*
 > — Mel Conway, 1967
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">조직 구조 → 시스템 아키텍처</div>
-<div class="kb-diagram-note">팀 A (DB) → DB 레이어</div>
-<div class="kb-diagram-note">팀 B (백엔드) → API 서버</div>
-<div class="kb-diagram-note">팀 C (프론트엔드) → UI 레이어</div>
-<div class="kb-diagram-note">팀 D (인프라) → 인프라 레이어</div>
-</div>
-</div>
-
-
+```
+조직 구조         →    시스템 아키텍처
+──────────────────────────────────────
+팀 A (DB)          →    DB 레이어
+팀 B (백엔드)      →    API 서버
+팀 C (프론트엔드)  →    UI 레이어
+팀 D (인프라)      →    인프라 레이어
+```
 
 ### 왜 발생하는가?
 
@@ -49,34 +44,22 @@ tags = ["studynote-devops"]
 
 ### 사례 1 — 모놀리식 → [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 실패
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">기존 조직: 단일 개발팀 (모놀리식 아키텍처)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">마이크로서비스 도입 시도 (팀 구조 변경 없음)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">결과: "분산 모놀리식" — 서비스는 분리됐지만</div>
-<div class="kb-diagram-note">팀이 같아 경계가 없고, 배포도 함께 진행</div>
-</div>
-</div>
-
-
+```
+기존 조직: 단일 개발팀 (모놀리식 아키텍처)
+     ↓
+마이크로서비스 도입 시도 (팀 구조 변경 없음)
+     ↓
+결과: "분산 모놀리식" — 서비스는 분리됐지만
+     팀이 같아 경계가 없고, 배포도 함께 진행
+```
 
 ### 사례 2 — Amazon Two-Pizza Rule
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">팀 크기: 피자 두 판으로 먹일 수 있는 인원 (6~10명)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">자체 소유 서비스 → 독립 배포 → 마이크로서비스 아키텍처</div>
-</div>
-</div>
-
-
+```
+팀 크기: 피자 두 판으로 먹일 수 있는 인원 (6~10명)
+   ↓
+자체 소유 서비스 → 독립 배포 → 마이크로서비스 아키텍처
+```
 
 - 팀이 작아야 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)도 작고 독립적이 된다
 
@@ -88,23 +71,17 @@ tags = ["studynote-devops"]
 
 역 콘웨이 기동(Inverse Conway Maneuver)은 <strong>원하는 시스템 아키텍처를 먼저 정의하고, 그 아키텍처를 자연스럽게 만들어낼 수 있는 팀 구조로 조직을 재편</strong>하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">원하는 아키텍처 결정 (마이크로서비스)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">서비스 경계 정의 (도메인 주도 설계, DDD)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">팀을 서비스 경계에 맞게 재구성</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">각 팀이 독립적으로 자기 서비스 소유·배포</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">시스템 아키텍처가 자연스럽게 마이크로서비스가 됨</div>
-</div>
-</div>
-
-
+```
+원하는 아키텍처 결정 (마이크로서비스)
+     ↓
+서비스 경계 정의 (도메인 주도 설계, DDD)
+     ↓
+팀을 서비스 경계에 맞게 재구성
+     ↓
+각 팀이 독립적으로 자기 서비스 소유·배포
+     ↓
+시스템 아키텍처가 자연스럽게 마이크로서비스가 됨
+```
 
 📢 **섹션 요약 비유**: 역 콘웨이 기동은 선수 포지션에 맞게 팀을 짜는 것이다 — 포워드 공격 전술(아키텍처)을 먼저 결정하고, 그 포지션에 맞는 선수(팀원)를 배치한다.
 
@@ -137,33 +114,24 @@ Facilitating: 지식 전수 (한시적)
 
 ### 조직 [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)([Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)) 문제
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-note">개발팀</div><div class="kb-diagram-node">Dev</div><div class="kb-diagram-note">벽 운영팀</div><div class="kb-diagram-node">Ops</div></div>
-<div class="kb-diagram-note">코드 배포 요청 배포 거부/지연</div>
-<div class="kb-diagram-note">"운영이 막는다" "개발이 불안정하다"</div>
-</div>
-</div>
-
-
+```
+개발팀 [Dev] ─────── 벽 ─────── 운영팀 [Ops]
+   │                                   │
+ 코드 배포 요청                 배포 거부/지연
+   │                                   │
+ "운영이 막는다"               "개발이 불안정하다"
+```
 
 ### DevOps로 해결
 
+```
+Before (콘웨이 법칙 폐해):
+  Dev팀 → Ops팀 → 배포 → SRE팀 (각각 다른 도구·문화)
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Before (콘웨이 법칙 폐해):</div>
-<div class="kb-diagram-note">Dev팀 → Ops팀 → 배포 → SRE팀 (각각 다른 도구·문화)</div>
-<div class="kb-diagram-note">After (역 콘웨이 기동):</div>
-<div class="kb-diagram-note">풀스택 Product Team (Dev+Ops+QA 통합)</div>
-<div class="kb-diagram-note">→ You Build It, You Run It (아마존 원칙)</div>
-</div>
-</div>
-
-
+After (역 콘웨이 기동):
+  풀스택 Product Team (Dev+Ops+QA 통합)
+  → You Build It, You Run It (아마존 원칙)
+```
 
 📢 **섹션 요약 비유**: DevOps는 요리사가 직접 홀 서빙도 하는 구조다 — 요리(개발)와 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(운영)를 한 팀이 담당하면 음식이 맛없으면 본인도 직접 고객 불만을 듣게 된다.
 
@@ -171,56 +139,49 @@ Facilitating: 지식 전수 (한시적)
 
 ## 📌 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">콘웨이의 법칙 (Conway's Law)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">핵심 주장</div>
-<div class="kb-diagram-note">── 조직 커뮤니케이션 구조 = 시스템 아키텍처</div>
-<div class="kb-diagram-tree-item" style="--depth:0">활용 전략</div>
-<div class="kb-diagram-note">── 역 콘웨이 기동 (Inverse Conway Maneuver)</div>
-<div class="kb-diagram-note">── DDD (Domain-Driven Design) 경계 설정</div>
-<div class="kb-diagram-tree-item" style="--depth:0">조직 설계 프레임워크</div>
-<div class="kb-diagram-note">── Team Topologies</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Stream-aligned Team</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Platform Team</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Enabling Team</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── Complicated-Subsystem Team</div></div>
-<div class="kb-diagram-note">── Spotify 모델 (Squad·Tribe·Chapter·Guild)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">연관 개념</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Two-Pizza Rule (Amazon)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">DevOps / SRE</div>
-<div class="kb-diagram-tree-item" style="--depth:2">마이크로서비스 아키텍처</div>
-</div>
-</div>
-
-
+```
+콘웨이의 법칙 (Conway's Law)
+├── 핵심 주장
+│   └── 조직 커뮤니케이션 구조 = 시스템 아키텍처
+├── 활용 전략
+│   ├── 역 콘웨이 기동 (Inverse Conway Maneuver)
+│   └── DDD (Domain-Driven Design) 경계 설정
+├── 조직 설계 프레임워크
+│   ├── Team Topologies
+│   │   ├── Stream-aligned Team
+│   │   ├── Platform Team
+│   │   ├── Enabling Team
+│   │   └── Complicated-Subsystem Team
+│   └── Spotify 모델 (Squad·Tribe·Chapter·Guild)
+└── 연관 개념
+    ├── Two-Pizza Rule (Amazon)
+    ├── DevOps / SRE
+    └── 마이크로서비스 아키텍처
+```
 
 ---
 
 ## 📈 관련 키워드 및 발전 흐름도
 
+```
+┌─────────────────────────────────────────────────────────────────┐
+│              콘웨이의 법칙 발전 흐름                             │
+├──────────────┬────────────────────┬─────────────────────────────┤
+│ 1967년       │ Conway 논문 발표   │ "How Do Committees Invent?"  │
+│ 2000년대     │ 마이크로서비스 등장 │ 콘웨이 법칙 재조명           │
+│ 2010년       │ Thoughtworks 검증  │ 역 콘웨이 기동 개념화        │
+│ 2014년       │ Spotify 모델 공개  │ 팀 설계 실전 사례            │
+│ 2019년       │ Team Topologies 책  │ 체계적 팀 위상 설계          │
+│ 2020년대     │ Platform Engineering│ 내부 개발자 플랫폼 표준화   │
+└──────────────┴────────────────────┴─────────────────────────────┘
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">콘웨이의 법칙 발전 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1967년</div><div class="kb-diagram-cell">Conway 논문 발표</div><div class="kb-diagram-cell">"How Do Committees Invent?"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2000년대</div><div class="kb-diagram-cell">마이크로서비스 등장</div><div class="kb-diagram-cell">콘웨이 법칙 재조명</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2010년</div><div class="kb-diagram-cell">Thoughtworks 검증</div><div class="kb-diagram-cell">역 콘웨이 기동 개념화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2014년</div><div class="kb-diagram-cell">Spotify 모델 공개</div><div class="kb-diagram-cell">팀 설계 실전 사례</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2019년</div><div class="kb-diagram-cell">Team Topologies 책</div><div class="kb-diagram-cell">체계적 팀 위상 설계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2020년대</div><div class="kb-diagram-cell">Platform Engineering</div><div class="kb-diagram-cell">내부 개발자 플랫폼 표준화</div></div>
-<div class="kb-diagram-note">핵심 키워드 연결:</div>
-<div class="kb-diagram-note">조직 구조 → 콘웨이 법칙 → 시스템 아키텍처 미러링</div>
-<div class="kb-diagram-note">팀 설계 → 역 콘웨이 → MSA 자연스러운 구현</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Team Topologies → Platform Engineering → 인지 부하 최소화</div>
-</div>
-</div>
-
-
+핵심 키워드 연결:
+조직 구조 → 콘웨이 법칙 → 시스템 아키텍처 미러링
+    ↓              ↓
+팀 설계 → 역 콘웨이 → MSA 자연스러운 구현
+    ↓
+Team Topologies → Platform Engineering → 인지 부하 최소화
+```
 
 ---
 

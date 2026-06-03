@@ -25,19 +25,19 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 평균 온도와 국소 핫스팟이 왜 다른 판단 기준인지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">패키지 평균은 안전해 보여도, 국소 핫스팟은 이미 한계에 닿을 수 있다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Package Avg = 78℃</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Core0 94℃</div><div class="kb-diagram-node">Core1 76℃</div><div class="kb-diagram-node">Cache 79℃</div><div class="kb-diagram-node">Core2 71℃</div><div class="kb-diagram-node">Fabric 74℃</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Hot Spot -&gt; timing margin down -&gt; leakage up -&gt; early throttling</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">평균값만 보면 "정상"이지만, 제어는 가장 뜨거운 지점을 기준으로 결정된다.</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│      패키지 평균은 안전해 보여도, 국소 핫스팟은 이미 한계에 닿을 수 있다      │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Package Avg = 78℃                                                          │
+│                                                                            │
+│ [Core0 94℃] [Core1 76℃] [Cache 79℃] [Core2 71℃] [Fabric 74℃]              │
+│     ▲                                                                      │
+│     └─ Hot Spot -> timing margin down -> leakage up -> early throttling    │
+│                                                                            │
+│ 평균값만 보면 "정상"이지만, 제어는 가장 뜨거운 지점을 기준으로 결정된다.   │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 큰 교실의 평균 온도가 시원해도 창가 한쪽만 햇빛을 정통으로 받으면 그 자리에 앉은 학생은 먼저 지친다. 칩도 전체 평균보다 "제일 더운 자리"가 문제를 만든다.
 
@@ -59,20 +59,21 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 열이 어떻게 한 지점에서 시작해 칩 전체 제약으로 번지는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">온도 불균형의 생성 경로: 전력 집중 -&gt; 핫스팟 -&gt; 열 결합 -&gt; 제어 압박</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Workload Concentration</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">High-Power Block -&gt; Local ΔT Up -&gt; Leakage Up -&gt; More Heat</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Neighbor Core / NoC Heat-Up -&gt; Margin Down</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Sensor Delay -&gt; Late DVFS / Throttle</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결국 "한 블록의 열"이 아니라 "칩 전체 배치 문제"로 바뀐다.</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│      온도 불균형의 생성 경로: 전력 집중 -> 핫스팟 -> 열 결합 -> 제어 압박      │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Workload Concentration                                                     │
+│      │                                                                      │
+│      ▼                                                                      │
+│ High-Power Block -> Local ΔT Up -> Leakage Up -> More Heat                 │
+│      │                    │                                                  │
+│      │                    ├─ Neighbor Core / NoC Heat-Up -> Margin Down     │
+│      │                    └─ Sensor Delay -> Late DVFS / Throttle           │
+│      ▼                                                                      │
+│ 결국 "한 블록의 열"이 아니라 "칩 전체 배치 문제"로 바뀐다.                 │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 한 냄비의 국이 한쪽만 세게 끓으면 그 부분이 먼저 넘치고, 옆 재료까지 함께 익어 버린다. 열은 한 점에서 시작해 주변까지 연쇄적으로 영향을 준다.
 
@@ -146,25 +147,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Dennard Scaling 종료</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">멀티코어 확산 + 국소 핫스팟 문제</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">온칩 센서 · DTM · Thermal-Aware Scheduling</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DVFS · Migration · Power Gating</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Dark Silicon · Heterogeneous Accelerator</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Chiplet / 3D 적층의 열-배치 공동 설계</div>
-</div>
-</div>
-
-
+```text
+Dennard Scaling 종료
+        │
+        ▼
+멀티코어 확산 + 국소 핫스팟 문제
+        │
+        ▼
+온칩 센서 · DTM · Thermal-Aware Scheduling
+        │
+        ▼
+DVFS · Migration · Power Gating
+        │
+        ▼
+Dark Silicon · Heterogeneous Accelerator
+        │
+        ▼
+Chiplet / 3D 적층의 열-배치 공동 설계
+```
 
 이 흐름은 열 문제가 단순 냉각 이슈에서 출발해, 이제는 자원 활성화 전략과 배치 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)까지 결정하는 아키텍처 핵심 제약으로 커졌음을 보여 준다.
 

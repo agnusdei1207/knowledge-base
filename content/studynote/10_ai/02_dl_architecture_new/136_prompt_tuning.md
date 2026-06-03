@@ -18,17 +18,11 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Hard Prompt: 사람이 작성한 텍스트 프롬프트</div>
-<div class="kb-diagram-note">Soft Prompt: 학습 가능한 연속 벡터 (임베딩 공간)</div>
-<div class="kb-diagram-note">모델 동결 → 프롬프트 벡터만 학습 → 파라미터 &lt;0.01%</div>
-</div>
-</div>
-
-
+```text
+Hard Prompt: 사람이 작성한 텍스트 프롬프트
+Soft Prompt: 학습 가능한 연속 벡터 (임베딩 공간)
+  모델 동결 → 프롬프트 벡터만 학습 → 파라미터 <0.01%
+```
 
 - **📢 섹션 요약 비유**: Prompt Tuning은 **자물쇠(모델)는 그대로 두고 열쇠(프롬프트)만 만드는** 것이다.
 
@@ -52,17 +46,11 @@ Prompt Tuning은 <strong>다작업 서빙에 최적</strong>이며, 대규모 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Hard Prompt Engineering (2020)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Prefix Tuning (2021)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Prompt Tuning (2021, Google)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">P-Tuning v2 (2022)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: LoRA+Prompt 하이브리드</div></div>
-</div>
-</div>
-
-
+```text
+[Hard Prompt Engineering (2020)]
+    → [Prefix Tuning (2021)] → [Prompt Tuning (2021, Google)]
+    → [P-Tuning v2 (2022)] → [현재: LoRA+Prompt 하이브리드]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. Prompt Tuning은 <strong>자물쇠(<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a>)는 그대로 두고 열쇠(프롬프트)만 만드는</strong> 거예요.

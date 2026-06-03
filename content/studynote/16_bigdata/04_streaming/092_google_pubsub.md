@@ -21,21 +21,17 @@ tags = ["studynote-bigdata"]
 
 ### 1. Pub/Sub 기본 개념
 
+```
+발행자 (Publisher)  →  토픽 (Topic)  →  구독 (Subscription)  →  구독자 (Subscriber)
 
+메시지 흐름:
+  Publisher A ───→ topic: "orders" ───→ subscription: "order-processor" ───→ Consumer
+                                     └──→ subscription: "audit-log"      ───→ Consumer
+                                     └──→ subscription: "analytics"       ───→ Consumer
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">발행자 (Publisher) → 토픽 (Topic) → 구독 (Subscription) → 구독자 (Subscriber)</div>
-<div class="kb-diagram-note">메시지 흐름:</div>
-<div class="kb-diagram-note">Publisher A → topic: "orders" → subscription: "order-processor" → Consumer</div>
-<div class="kb-diagram-tree-item" style="--depth:8">→ subscription: "audit-log" → Consumer</div>
-<div class="kb-diagram-tree-item" style="--depth:8">→ subscription: "analytics" → Consumer</div>
-<div class="kb-diagram-note">→ 하나의 토픽에서 여러 구독(Subscription)으로 팬아웃(Fan-Out) 지원</div>
-<div class="kb-diagram-note">→ 각 Subscription은 독립적으로 메시지를 처리</div>
-</div>
-</div>
-
-
+→ 하나의 토픽에서 여러 구독(Subscription)으로 팬아웃(Fan-Out) 지원
+→ 각 Subscription은 독립적으로 메시지를 처리
+```
 
 ### 2. Pub/Sub vs [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) vs Kinesis
 
@@ -57,19 +53,18 @@ tags = ["studynote-bigdata"]
 
 ### 1. Pub/Sub 내부 아키텍처
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Google Pub/Sub 글로벌 인프라</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Publisher ──→ Frontend 서버 (수신) ──→ 메시지 스토리지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(전 세계 복제)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">구독자가 Pull: Subscriber ←── Pull API ←── 구독 레이어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Push 모드: 구독 레이어 HTTP/gRPC 푸시 ──→ 엔드포인트</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────────┐
+│  Google Pub/Sub 글로벌 인프라                                │
+│                                                             │
+│  Publisher ──→ Frontend 서버 (수신) ──→ 메시지 스토리지      │
+│                                         (전 세계 복제)       │
+│                                              │              │
+│                                              ▼              │
+│  구독자가 Pull:  Subscriber ←── Pull API ←── 구독 레이어    │
+│  Push 모드:      구독 레이어 ──── HTTP/gRPC 푸시 ──→ 엔드포인트│
+└─────────────────────────────────────────────────────────────┘
+```
 
 ### 2. Push vs Pull 모드
 
@@ -119,19 +114,14 @@ future = publisher.publish(
 
 Pub/Sub는 Apache Beam 기반의 GCP Dataflow (구글 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)플로)와 함께 사용할 때 Exactly-Once 처리가 가능하다.
 
+```
+Pub/Sub → Dataflow (Apache Beam) → BigQuery / GCS / Bigtable
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Pub/Sub → Dataflow (Apache Beam) → BigQuery / GCS / Bigtable</div>
-<div class="kb-diagram-note">특징:</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Dataflow가 Pub/Sub 오프셋을 관리하여 Exactly-Once 보장</div>
-<div class="kb-diagram-tree-item" style="--depth:1">자동 스케일링: 메시지 양에 따라 워커 자동 증감</div>
-<div class="kb-diagram-tree-item" style="--depth:1">통합 모니터링: Cloud Monitoring</div>
-</div>
-</div>
-
-
+특징:
+  - Dataflow가 Pub/Sub 오프셋을 관리하여 Exactly-Once 보장
+  - 자동 스케일링: 메시지 양에 따라 워커 자동 증감
+  - 통합 모니터링: Cloud Monitoring
+```
 
 ### 2. Pub/Sub Lite vs Pub/Sub
 
@@ -159,20 +149,15 @@ Pub/Sub는 Apache Beam 기반의 GCP Dataflow (구글 [데이터](/knowledge-bas
 
 ### 2. Exactly-Once 보장 방법
 
+```
+방법 1: Dataflow 파이프라인 사용
+  Pub/Sub → Dataflow → BigQuery
+  Dataflow가 checkpoint 기반으로 Exactly-Once 보장
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">방법 1: Dataflow 파이프라인 사용</div>
-<div class="kb-diagram-note">Pub/Sub → Dataflow → BigQuery</div>
-<div class="kb-diagram-note">Dataflow가 checkpoint 기반으로 Exactly-Once 보장</div>
-<div class="kb-diagram-note">방법 2: 멱등적 Consumer</div>
-<div class="kb-diagram-note">Consumer에서 message_id 기반 중복 처리 방지</div>
-<div class="kb-diagram-note">Cloud Spanner/Firestore에 처리 이력 저장</div>
-</div>
-</div>
-
-
+방법 2: 멱등적 Consumer
+  Consumer에서 message_id 기반 중복 처리 방지
+  Cloud Spanner/Firestore에 처리 이력 저장
+```
 
 **📢 섹션 요약 비유**
 > Pub/Sub의 [DLT](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/919_dlt_distributed_ledger_technology_consensus_bottleneck/)(Dead Letter Topic)는 "반품 창고"와 같다. 처리 실패한 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지(반품 물건)를 무한히 재시도하지 않고 별도 창고([DLT](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/919_dlt_distributed_ledger_technology_consensus_bottleneck/))에 모아 나중에 수동으로 처리한다.
@@ -210,25 +195,24 @@ Google Pub/Sub는 GCP 생태계에서 <strong>운영 부담이 최소화된 완�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">전통 메시지 큐 (MQ, Message Queue) — FIFO 브로커, 단일 소비자, 확장성 제한</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">발행-구독 패턴 (Pub/Sub Pattern) — 토픽 기반 다수 구독자 분리, 비동기 이벤트</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Google Pub/Sub — 글로벌 분산 관리형 메시지 서비스, 99.99% SLA, 자동 확장</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Kafka — 오프셋 기반 영속 로그, 스트림 재처리 지원, 자체 운영 필요</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Dataflow (Apache Beam) — Pub/Sub 연동 서버리스 스트림 처리, 자동 파이프라인</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">BigQuery Streaming Insert — Pub/Sub→Dataflow→BigQuery 실시간 분석 파이프라인</div></div>
-</div>
-</div>
-
-
+```text
+[전통 메시지 큐 (MQ, Message Queue) — FIFO 브로커, 단일 소비자, 확장성 제한]
+    │
+    ▼
+[발행-구독 패턴 (Pub/Sub Pattern) — 토픽 기반 다수 구독자 분리, 비동기 이벤트]
+    │
+    ▼
+[Google Pub/Sub — 글로벌 분산 관리형 메시지 서비스, 99.99% SLA, 자동 확장]
+    │
+    ▼
+[Apache Kafka — 오프셋 기반 영속 로그, 스트림 재처리 지원, 자체 운영 필요]
+    │
+    ▼
+[Dataflow (Apache Beam) — Pub/Sub 연동 서버리스 스트림 처리, 자동 파이프라인]
+    │
+    ▼
+[BigQuery Streaming Insert — Pub/Sub→Dataflow→BigQuery 실시간 분석 파이프라인]
+```
 이 흐름은 전통 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 큐의 확장성 한계를 Pub/Sub 패턴으로 극복하고, GCP 관리형 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)와 [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) [스트림 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/229_stream_processing_kafka_flink/)로 연결되는 실시간 이벤트 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 아키텍처의 발전을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

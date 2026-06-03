@@ -1,5 +1,5 @@
 +++
-title = "199. 플랫폼 엔지니어링 (Platform Engineering)"
+title = "199. 플랫폼 엔지니어링 (Platform 엔진ering)"
 date = 2026-04-21
 
 [taxonomies]
@@ -33,25 +33,27 @@ Gartner는 2023년 [플랫폼 엔지니어링](/knowledge-base/studynote/04_soft
 
 ### [플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/) 조직 구조
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Product Teams (개발자)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">팀 A: 검색서비스 팀 B: 결제서비스 팀 C: 추천</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"새 서비스 배포해줘" "DB 필요해" "모니터링 켜줘"</div></div>
-<div class="kb-diagram-note">IDP (Internal Developer Platform)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Platform Team (플랫폼 팀)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">셀프서비스</div><div class="kb-diagram-cell">골든 패스</div><div class="kb-diagram-cell">템플릿</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인프라 프로비</div><div class="kb-diagram-cell">CI/CD 파이프</div><div class="kb-diagram-cell">보안 기본값</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DB, 캐시 생성</div><div class="kb-diagram-cell">라인 자동화</div><div class="kb-diagram-cell">(Security</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">by Default)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기반 인프라: K8s, Terraform, Vault, Prometheus, Jaeger</div></div>
-</div>
-</div>
-
-
+```
+  ┌───────────────────────────────────────────────────────┐
+  │               Product Teams (개발자)                    │
+  │   팀 A: 검색서비스    팀 B: 결제서비스    팀 C: 추천    │
+  │      ↓                    ↓                  ↓         │
+  │   "새 서비스 배포해줘"  "DB 필요해"    "모니터링 켜줘" │
+  └───────────────────┬───────────────────────────────────┘
+                      │  IDP (Internal Developer Platform)
+                      ▼
+  ┌───────────────────────────────────────────────────────┐
+  │              Platform Team (플랫폼 팀)                  │
+  │                                                        │
+  │  ┌──────────────┐ ┌──────────────┐ ┌──────────────┐  │
+  │  │ 셀프서비스    │ │  골든 패스   │ │  템플릿      │  │
+  │  │ 인프라 프로비 │ │  CI/CD 파이프│ │  보안 기본값 │  │
+  │  │ DB, 캐시 생성 │ │  라인 자동화 │ │  (Security   │  │
+  │  └──────────────┘ └──────────────┘ │  by Default) │  │
+  │                                    └──────────────┘  │
+  │  기반 인프라: K8s, Terraform, Vault, Prometheus, Jaeger│
+  └───────────────────────────────────────────────────────┘
+```
 
 ### 골든 패스 (Golden Path) 개념
 
@@ -70,7 +72,7 @@ Gartner는 2023년 [플랫폼 엔지니어링](/knowledge-base/studynote/04_soft
 
 ### [플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/) vs 기존 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)
 
-| 항목 | 기존 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) | [Platform Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/) |
+| 항목 | 기존 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) | [Platform 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/) |
 |:---|:---|:---|
 | 책임 구조 | "You Build It, You Run It" 전체 | 플랫폼 팀이 인프라 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 제공 |
 | 개발자 역할 | 인프라+코드 모두 | 비즈니스 로직 집중 |
@@ -100,21 +102,15 @@ Gartner는 2023년 [플랫폼 엔지니어링](/knowledge-base/studynote/04_soft
 - 핵심 원칙: 플랫폼 팀은 개발자의 <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/">인지 부하</a>를 능동적으로 줄여야</strong> 한다
 
 **성숙도 단계**:
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Level 1: 스크립트 모음 (ad-hoc)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Level 2: CI/CD 파이프라인 표준화</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Level 3: IDP 셀프서비스 포털 (티켓 없이 직접 사용)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Level 4: 완전 자동화된 골든 패스 + 개발자 경험(DX) 측정</div>
-</div>
-</div>
-
-
+```
+Level 1: 스크립트 모음 (ad-hoc)
+    ↓
+Level 2: CI/CD 파이프라인 표준화
+    ↓
+Level 3: IDP 셀프서비스 포털 (티켓 없이 직접 사용)
+    ↓
+Level 4: 완전 자동화된 골든 패스 + 개발자 경험(DX) 측정
+```
 
 **기술사 판단 포인트**:
 - 플랫폼 팀의 KPI는 "플랫폼 채택률(Adoption Rate)", "[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 소요 시간", "개발자 만족도(NPS)"다.
@@ -157,21 +153,17 @@ Gartner는 2023년 [플랫폼 엔지니어링](/knowledge-base/studynote/04_soft
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">각 팀이 개별 인프라 구축 (중복 · 비효율)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Platform Engineering: 내부 개발자 플랫폼(IDP) 구축</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Golden Path: 표준화된 워크플로</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Self-Service: 개발자 자율 프로비저닝</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Backstage · Port · Humanitec → IDP 도구</div>
-</div>
-</div>
-
-
+```text
+각 팀이 개별 인프라 구축 (중복 · 비효율)
+    │
+    ▼
+Platform Engineering: 내부 개발자 플랫폼(IDP) 구축
+    ├─► Golden Path: 표준화된 워크플로
+    └─► Self-Service: 개발자 자율 프로비저닝
+    │
+    ▼
+Backstage · Port · Humanitec → IDP 도구
+```
 2. 학생(개발자)은 공부(비즈니스 로직 개발)에만 집중하고, 조리사(플랫폼 팀)가 밥(인프라)을 책임져.
 3. 만약 특별한 음식이 먹고 싶다면(커스텀 인프라) 직접 만들 수 있지만, 대부분은 급식만으로 충분해.
 

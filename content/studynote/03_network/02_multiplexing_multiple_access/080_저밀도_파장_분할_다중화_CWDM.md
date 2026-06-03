@@ -31,24 +31,23 @@ tags = ["studynote-network"]
 ### 비냉각 레이저(Uncooled Laser)와 20nm 스페이싱의 결합
 CWDM의 물리적 설계 사상은 '[정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)의 완화'를 통한 쇳덩어리(하드웨어) 비용의 제거다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CWDM 파장 간격 및 시스템 아키텍처 다이어그램</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">파장(Wavelength) 스펙트럼 대역</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">채널 1 (1270nm) ▶ 여백 (20nm) ── (파장이 흔들려도 OK)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">채널 2 (1290nm) ▶ 여백 (20nm)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">채널 18 (1610nm) ▶ 여백 (20nm)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">하드웨어적 이점 (비냉각 레이저)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 온도 제어 모듈(TEC) 불필요 ──▶ 전력 소모 극감</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 광 필터(Filter)의 정밀도 하락 ──▶ 부품 단가 10배 하락</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- EDFA (광증폭기) 사용 불가 ──▶ 전송 거리 약 80km 제한</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────┐
+│           CWDM 파장 간격 및 시스템 아키텍처 다이어그램       │
+├────────────────────────────────────────────────────────┤
+│   [ 파장(Wavelength) 스펙트럼 대역 ]                    │
+│                                                        │
+│   채널 1 (1270nm)  ────▶ 여백 (20nm) ── (파장이 흔들려도 OK)│
+│   채널 2 (1290nm)  ────▶ 여백 (20nm)                    │
+│   ...                                                  │
+│   채널 18 (1610nm) ────▶ 여백 (20nm)                    │
+│                                                        │
+│   [ 하드웨어적 이점 (비냉각 레이저) ]                     │
+│    - 온도 제어 모듈(TEC) 불필요 ──▶ 전력 소모 극감       │
+│    - 광 필터(Filter)의 정밀도 하락 ──▶ 부품 단가 10배 하락 │
+│    - EDFA (광증폭기) 사용 불가 ──▶ 전송 거리 약 80km 제한  │
+└────────────────────────────────────────────────────────┘
+```
 
 ITU-T 표준에 따르면 CWDM은 1270nm부터 1610nm까지의 엄청나게 넓은 빛의 스펙트럼을 통째로 사용한다. 빛의 색깔을 마구잡이로 넓게 쓰다 보니, 장거리 증폭기인 EDFA(1550nm 대역만 좁게 증폭함)를 쓸 수 없어 80km 이상 쏘면 빛이 약해져 소멸(Attenuation)해 버린다. 즉, 장거리를 쿨하게 포기하고 가격을 취한 것이다.
 
@@ -109,23 +108,21 @@ CWDM 기술은 완벽함([정밀도](/knowledge-base/studynote/14_data_engineeri
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">WDM 통신망 도입 이후, 초정밀 DWDM 장비의 천문학적 비용 장벽 직면</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">단거리/도심망(MAN)에서의 저비용 다중화 솔루션 요구 대두</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">레이저 온도 제어(Cooling) 제거 및 파장 간격(Spacing)을 20nm로 대폭 확대</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CWDM (Coarse WDM) 표준안 확립 (저렴한 Uncooled 레이저와 단순 필터 융합)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">5G 프론트홀(Fronthaul) 기지국 연결 및 기업의 자가망(Dark Fiber) 구축의 절대 표준으로 안착</div>
-</div>
-</div>
-
-
+```text
+WDM 통신망 도입 이후, 초정밀 DWDM 장비의 천문학적 비용 장벽 직면
+    │
+    ▼
+단거리/도심망(MAN)에서의 저비용 다중화 솔루션 요구 대두
+    │
+    ▼
+레이저 온도 제어(Cooling) 제거 및 파장 간격(Spacing)을 20nm로 대폭 확대
+    │
+    ▼
+CWDM (Coarse WDM) 표준안 확립 (저렴한 Uncooled 레이저와 단순 필터 융합)
+    │
+    ▼
+5G 프론트홀(Fronthaul) 기지국 연결 및 기업의 자가망(Dark Fiber) 구축의 절대 표준으로 안착
+```
 
 이 흐름도는 "고비용의 장벽 → 하드웨어 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 완화를 통한 비용 혁신 → 단거리 통신망 인프라의 폭발적 확산"이라는 가성비 중심의 통신망 설계 진화를 보여준다.
 

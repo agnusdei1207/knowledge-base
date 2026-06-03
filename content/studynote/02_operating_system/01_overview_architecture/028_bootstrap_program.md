@@ -18,21 +18,22 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">현대 부팅 시퀀스 (UEFI 기준)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전원 ON</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">UEFI 펌웨어 실행 (ROM)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↓ POST (Power-On Self Test) — 하드웨어 초기화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EFI Boot Manager → Boot Loader (GRUB2/Windows Boot)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS 커널 로드 (initramfs/init.sys)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">커널 초기화 → systemd/init 실행 → 사용자 서비스</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────┐
+│             현대 부팅 시퀀스 (UEFI 기준)               │
+├────────────────────────────────────────────────────────┤
+│ 전원 ON                                                │
+│   ↓                                                   │
+│ UEFI 펌웨어 실행 (ROM)                                 │
+│   ↓ POST (Power-On Self Test) — 하드웨어 초기화        │
+│   ↓                                                   │
+│ EFI Boot Manager → Boot Loader (GRUB2/Windows Boot)   │
+│   ↓                                                   │
+│ OS 커널 로드 (initramfs/init.sys)                      │
+│   ↓                                                   │
+│ 커널 초기화 → systemd/init 실행 → 사용자 서비스        │
+└────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 부트스트랩은 공장 가동 시작이다. 전기가 들어오면(전원 ON) 제일 먼저 중앙 제어실(BIOS/[UEFI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/706_uefi/))이 깨어나서 모든 기계(하드웨어)를 점검하고, 설계도(OS)를 가져와 공장을 완전히 가동시킨다.
 
@@ -115,23 +116,21 @@ UEFI Secure Boot:
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">ROM BIOS — 16비트 레거시 부팅</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">UEFI — 64비트, GPT, Secure Boot 현대 부팅</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">PXE / 네트워크 부팅 — 디스크 없는 서버</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">컨테이너 Cold Start — 밀리초 부팅 목표</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스냅샷 복원 / 유니커널 — 초경량 즉시 시작</div></div>
-</div>
-</div>
-
-
+```text
+[ROM BIOS — 16비트 레거시 부팅]
+    │
+    ▼
+[UEFI — 64비트, GPT, Secure Boot 현대 부팅]
+    │
+    ▼
+[PXE / 네트워크 부팅 — 디스크 없는 서버]
+    │
+    ▼
+[컨테이너 Cold Start — 밀리초 부팅 목표]
+    │
+    ▼
+[스냅샷 복원 / 유니커널 — 초경량 즉시 시작]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

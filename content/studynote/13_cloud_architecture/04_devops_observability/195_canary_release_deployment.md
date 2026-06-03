@@ -33,24 +33,21 @@ tags = ["studynote-cloud-architecture"]
 
 ### [카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/) 트래픽 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 흐름
 
+```
+배포 시작:
+  ┌──────────────┐    95%    ┌──────────────┐
+  │   LB / Proxy │──────────→│  v1 (Stable) │
+  │              │     5%    └──────────────┘
+  │              │──────────→│  v2 (Canary) │  ← 에러율 모니터링
+  └──────────────┘           └──────────────┘
 
+관찰 기간 (에러율 < 임계치):
+  → 가중치 5% → 20% → 50% → 100% 순차 증가
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">배포 시작:</div>
-<div class="kb-diagram-note">95%</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LB / Proxy</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">v1 (Stable)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5%</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">v2 (Canary)</div><div class="kb-diagram-cell">← 에러율 모니터링</div></div>
-<div class="kb-diagram-note">관찰 기간 (에러율 &lt; 임계치):</div>
-<div class="kb-diagram-note">→ 가중치 5% → 20% → 50% → 100% 순차 증가</div>
-<div class="kb-diagram-note">에러율 초과 감지:</div>
-<div class="kb-diagram-note">→ 카나리 가중치 즉시 0% 설정 (롤백 완료)</div>
-<div class="kb-diagram-note">→ 알림 발송 및 장애 리포트</div>
-</div>
-</div>
-
-
+에러율 초과 감지:
+  → 카나리 가중치 즉시 0% 설정 (롤백 완료)
+  → 알림 발송 및 장애 리포트
+```
 
 ### [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) 성공/실패 판정 지표
 
@@ -124,20 +121,14 @@ spec:
 <strong>Progressive Delivery (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/099_continuous_deployment_cd/">지속적 배포</a> 진화)</strong>:
 [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) + 자동 분석 = Progressive Delivery. 에러율이 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)를 넘으면 자동 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/), 넘지 않으면 자동 승급하는 완전 자동화 배포 파이프라인을 구성한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Argo Rollouts + Prometheus 통합</div></div>
-<div class="kb-diagram-note">배포 시작 → 5% 카나리 설정</div>
-<div class="kb-diagram-note">→ Prometheus 에러율 쿼리 실행</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">5m</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">판정</div></div>
-<div class="kb-diagram-note">Pass → 20% 증가</div>
-<div class="kb-diagram-note">Fail → 자동 롤백 + PagerDuty 알림</div>
-</div>
-</div>
-
-
+```
+[Argo Rollouts + Prometheus 통합]
+배포 시작 → 5% 카나리 설정
+    → Prometheus 에러율 쿼리 실행
+    → rate(http_errors[5m]) < 0.01  ← 판정
+       Pass → 20% 증가
+       Fail → 자동 롤백 + PagerDuty 알림
+```
 
 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/">Istio</a> <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/">서비스 메시</a> 활용</strong>:
 ```yaml
@@ -197,21 +188,17 @@ spec:
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">전체 배포 (All-or-Nothing, 위험 ↑)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Canary: 1% → 5% → 25% → 100% 점진 확대</div>
-<div class="kb-diagram-tree-item" style="--depth:2">판단 기준: 에러율 · 지연시간 · 비즈니스 메트릭</div>
-<div class="kb-diagram-tree-item" style="--depth:2">자동 롤백: 임계치 초과 시 즉시 복원</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Argo Rollouts · Flagger → 자동 카나리 분석</div>
-</div>
-</div>
-
-
+```text
+전체 배포 (All-or-Nothing, 위험 ↑)
+    │
+    ▼
+Canary: 1% → 5% → 25% → 100% 점진 확대
+    ├─► 판단 기준: 에러율 · 지연시간 · 비즈니스 메트릭
+    └─► 자동 롤백: 임계치 초과 시 즉시 복원
+    │
+    ▼
+Argo Rollouts · Flagger → 자동 카나리 분석
+```
 2. 몇 명이 타봐서 안전하면 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 높여서 점점 더 많은 친구가 탈 수 있게 해.
 3. 만약 그 친구들이 다쳤다면? 즉시 멈추고 고치면 돼. 5명이 다친 것과 500명이 다친 것은 엄청 다르니까!
 

@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 2000년대 후반, 해시의 제왕이던 SHA-1이 박살 나는 것을 본 NIST(미국 표준기술연구소)는 패닉에 빠졌습니다. 현재 쓰는 SHA-2도 언젠가 수학적 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)(길이 연장 공격)이 밝혀져 뚫릴지 모른다는 끔찍한 공포가 덮쳤습니다.
 - 이에 NIST는 전 세계 암호학자들에게 <strong>"SHA-2와 수학적 구조가 완벽하게 다르게 생긴, 뚫리지 않는 차세대 해시 함수를 만들어 와라!"</strong>라는 공모전을 열었고, 2012년 유럽 팀이 만든 <strong><a href="/knowledge-base/studynote/09_security/02_crypto/101_sha_3/">Keccak</a>(케착)</strong> 알고리즘이 우승하며 SHA-3라는 영광스러운 칭호를 받게 되었습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SHA-2 패밀리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SHA-3 패밀리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">솔트 첨가 패스워드 해시 체계</div></div>
-</div>
-</div>
-
-
+```text
+[SHA-2 패밀리]
+    │
+    ▼
+[SHA-3 패밀리]
+    │
+    └──▶ [솔트 첨가 패스워드 해시 체계]
+```
 
 - **📢 섹션 요약 비유**: [SHA-3](/knowledge-base/studynote/09_security/02_crypto/101_sha_3/) 패밀리는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -52,18 +48,14 @@ tags = ["studynote-network"]
 ### 2. 스펀지 구조의 극강의 방어력
 - 기존 SHA-2를 위협하던 해커들의 가장 무서운 필살기인 <strong>'길이 연장 공격(Length Extension Attack)'</strong>을 스펀지 구조의 수학적 성질 덕분에 구조적으로 원천 완벽히 차단해 버렸습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SHA-2 패밀리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SHA-3 패밀리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">솔트 첨가 패스워드 해시 체계</div></div>
-</div>
-</div>
-
-
+```text
+[SHA-2 패밀리]
+    │
+    ▼
+[SHA-3 패밀리]
+    │
+    └──▶ [솔트 첨가 패스워드 해시 체계]
+```
 
 - **📢 섹션 요약 비유**: [SHA-3](/knowledge-base/studynote/09_security/02_crypto/101_sha_3/) 패밀리의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -119,19 +111,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: SHA-2 패밀리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: SHA-3 패밀리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 솔트 첨가 패스워드 해시 체계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: SHA-2 패밀리]
+    │
+    ▼
+[현재 개념: SHA-3 패밀리]
+    │
+    ├──▶ [확장 A: 솔트 첨가 패스워드 해시 체계]
+    └──▶ [확장 B: 자동화된 신뢰 체계]
+```
 
 [SHA-3](/knowledge-base/studynote/09_security/02_crypto/101_sha_3/) 패밀리는 SHA-2 패밀리에서 출발해 현재 메커니즘을 정교화하고, 이후 [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/) 첨가 패스워드 해시 체계와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

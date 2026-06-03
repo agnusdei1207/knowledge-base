@@ -21,18 +21,14 @@ tags = ["studynote-network"]
 
 > **핵심 인사이트**: 스마트폰이 허공에 무선 전파를 쏘면 그 전파는 우주 끝까지 가지 않는다. 천장에 달린 하얀색 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 박스(AP)가 전파를 받아 유선 인터넷 케이블로 변환해 줘야 비로소 전 세계망과 연결된다. 그리고 이 수많은 AP들을 뒤에서 하나로 묶어주는 튼튼한 핏줄이 바로 DS(분배 시스템)다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">무선 LAN 구조 분산: BSS, ESS</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AP / DS</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">11 b/g/a/n 표준 세대 발전</div></div>
-</div>
-</div>
-
-
+```text
+[무선 LAN 구조 분산: BSS, ESS]
+    │
+    ▼
+[AP / DS]
+    │
+    └──▶ [11 b/g/a/n 표준 세대 발전]
+```
 
 - **📢 섹션 요약 비유**: AP / DS는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -57,18 +53,14 @@ tags = ["studynote-network"]
 - 스마트폰이 AP1 구역에서 AP2 구역으로 걸어갈 때 끊김 없이 통신하려면, 두 AP가 서로 "이 고객이 내 쪽에서 네 쪽으로 넘어갔다"라고 정보를 교환해야 합니다. 이 정보 교환 통로가 바로 DS입니다.
 - 만약 AP1에 접속한 노트북이 AP2에 접속한 프린터로 문서를 보낸다면, 전파가 직접 날아가는 것이 아니라 <strong>[노트북 → 무선 → AP1 → 유선(DS) → AP2 → 무선 → 프린터]</strong>의 경로를 타게 됩니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">무선 LAN 구조 분산: BSS, ESS</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AP / DS</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">11 b/g/a/n 표준 세대 발전</div></div>
-</div>
-</div>
-
-
+```text
+[무선 LAN 구조 분산: BSS, ESS]
+    │
+    ▼
+[AP / DS]
+    │
+    └──▶ [11 b/g/a/n 표준 세대 발전]
+```
 
 - **📢 섹션 요약 비유**: AP(Access Point)는 무선 전파라는 '배'를 타고 온 화물을 내려서 트럭에 옮겨 싣는 '항구([Bridge](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/))'입니다. 그리고 항구들을 하나로 연결해 전국 어디로든 트럭이 달리게 해주는 '거대한 고속도로망'이 바로 DS(Distribution System)입니다.
 
@@ -126,19 +118,15 @@ AP / DS는 무선·이동통신을 이해할 때 핵심 축을 잡아 주는 개
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 무선 LAN 구조 분산: BSS, ESS</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: AP / DS</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 11 b/g/a/n 표준 세대 발전</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 무선 자원 제어</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 무선 LAN 구조 분산: BSS, ESS]
+    │
+    ▼
+[현재 개념: AP / DS]
+    │
+    ├──▶ [확장 A: 11 b/g/a/n 표준 세대 발전]
+    └──▶ [확장 B: 지능형 무선 자원 제어]
+```
 
 AP / DS는 무선 LAN 구조 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/): [BSS](/knowledge-base/studynote/02_operating_system/02_process_thread/083_bss_segment/), ESS에서 출발해 현재 메커니즘을 정교화하고, 이후 [11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/) b/g/a/n 표준 세대 발전와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

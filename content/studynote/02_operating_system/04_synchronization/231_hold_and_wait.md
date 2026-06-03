@@ -24,24 +24,20 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경**: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [멀티태스킹](/knowledge-base/studynote/02_operating_system/11_exam_summary/675_multitasking_terminology_preemptive/) OS에서 CD-ROM과 테이프 드라이브를 동시에 써야 하는 프로그램들이 테이프를 쥔 채 CD를 기다리며 메인프레임을 얼려버렸다. 학자들은 이 "잡고 뻗대기"가 데드락의 필수 조건임을 깨닫고, 이를 시스템 차원에서 금지하는 예방(Prevention) 기법들을 연구하기 시작했다.
 
+```text
+  [점유 대기(Hold and Wait)로 인한 시스템 마비 시뮬레이션]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">점유 대기(Hold and Wait)로 인한 시스템 마비 시뮬레이션</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스레드 A</div><div class="kb-diagram-node">스레드 B</div></div>
-<div class="kb-diagram-note">1. lock(Mutex_1); 획득 (Hold) 1. lock(Mutex_2); 획득 (Hold)</div>
-<div class="kb-diagram-note">2. ... (1번 자원 사용 중) 2. ... (2번 자원 사용 중)</div>
-<div class="kb-diagram-note">3. lock(Mutex_2); 요청 (Wait) 3. lock(Mutex_1); 요청 (Wait)</div>
-<div class="kb-diagram-note">▶ Mutex_2는 B가 쥐고 있으므로 대기 ▶ Mutex_1은 A가 쥐고 있으므로 대기</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🚨</div><div class="kb-diagram-node">결과 ─▶ Deadlock 터짐</div></div>
-<div class="kb-diagram-tree-item" style="--depth:1">A는 Mutex_1을 '점유(Hold)'한 채로 Mutex_2를 '대기(Wait)'한다.</div>
-<div class="kb-diagram-tree-item" style="--depth:1">B는 Mutex_2를 '점유(Hold)'한 채로 Mutex_1을 '대기(Wait)'한다.</div>
-<div class="kb-diagram-tree-item" style="--depth:1">&gt; 서로 쥐고 안 놔주면서 남의 것만 달라고 하는 전형적인 '알박기'다.</div>
-</div>
-</div>
-
-
+  [ 스레드 A ]                                      [ 스레드 B ]
+  1. lock(Mutex_1); 획득 (Hold)                      1. lock(Mutex_2); 획득 (Hold)
+  2. ... (1번 자원 사용 중)                            2. ... (2번 자원 사용 중)
+  3. lock(Mutex_2); 요청 (Wait)                      3. lock(Mutex_1); 요청 (Wait)
+     ▶ Mutex_2는 B가 쥐고 있으므로 대기                   ▶ Mutex_1은 A가 쥐고 있으므로 대기
+     
+  🚨 [결과 ─▶ Deadlock 터짐]
+  - A는 Mutex_1을 '점유(Hold)'한 채로 Mutex_2를 '대기(Wait)'한다.
+  - B는 Mutex_2를 '점유(Hold)'한 채로 Mutex_1을 '대기(Wait)'한다.
+  >> 서로 쥐고 안 놔주면서 남의 것만 달라고 하는 전형적인 '알박기'다.
+```
 **[다이어그램 해설]** 만약 A가 Mutex_1을 잡고, 볼일을 다 본 뒤 Mutex_1을 "풀고(Unlock)" Mutex_2를 잡으려 했다면 데드락은 발생하지 않는다. 즉, 데드락은 1개의 자원을 쓸 때는 절대 발생하지 않으며, 반드시 <strong>'내 손에 이미 쥔 게 있는 상태'</strong>에서 <strong>'남의 것을 탐할 때'</strong>만 발생한다는 진리를 보여준다.
 
 - **📢 섹션 요약 비유**: 원숭이 사냥법과 같습니다. 호리병 안에 땅콩을 넣어두면 원숭이가 손을 넣어 땅콩을 쥡니다(Hold). 땅콩을 쥔 주먹은 호리병 입구보다 커서 빠지지 않습니다. 사냥꾼이 다가올 때(Wait) 원숭이가 살려면 땅콩을 놓으면 되지만, 탐욕 때문에 절대 손을 펴지 않고 죽음을 맞이합니다.
@@ -112,34 +108,34 @@ tags = ["studynote-operating-system"]
    - **문제**: A서버 락 쥐고 B서버 락 쥐려다([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 점유 대기) 네트워크 끊기면 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 데드락이 터져 회사가 망한다.
    - **아키텍처 결단**: MSA에서는 OS 수준의 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 쥐고 기다리는 멍청한 짓(점유 대기)을 아예 법으로 금지한다. 일단 A에서 락 없이 주문을 확정(Commit) 치고, 메시지 큐([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/))를 날린다. 결제 서버(B)가 실패하면? 다시 A로 "방금 거 취소해!"라는 [보상 트랜잭션](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/551_compensating_transaction_logical_rollback/)(Compensation) 메시지를 날려서 논리적으로 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)시킨다. (이것이 락 없이 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)을 맞추는 [Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/) 패턴의 본질이다).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발자의 'Hold and Wait(점유 대기)' 타파를 위한 실무 리팩토링</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">❌ Bad Code: 데드락 폭탄</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">synchronized(AccountA) { // 1. A 쥐고 (Hold)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">synchronized(AccountB) { // 2. B 대기 (Wait)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A.withdraw(10); B.deposit(10);</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">✅ Good Code 1: 글로벌 락(Global Lock)으로 묶어버림</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">synchronized(Bank_Global_Lock) {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// 락을 1개로 합쳤으므로 Hold &amp; Wait 개념 자체 소멸</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A.withdraw(10); B.deposit(10);</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">} ▶ 단점: 병목 생김. 성능 저하.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">🚀 Best Code 2: Lock Ordering (순서 강제)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Account first = A.id &lt; B.id ? A : B;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Account second = A.id &lt; B.id ? B : A;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">synchronized(first) { // 무조건 ID 낮은 놈 먼저 락!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">synchronized(second) {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A.withdraw(10); B.deposit(10);</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">} ▶ 장점: Hold &amp; Wait는 유지하되, 순환 대기를 박살내어 성능/안전 100%</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────────────────┐
+  │     개발자의 'Hold and Wait(점유 대기)' 타파를 위한 실무 리팩토링       │
+  ├─────────────────────────────────────────────────────────────────────────┤
+  │                                                                         │
+  │   [ ❌ Bad Code: 데드락 폭탄 ]                                          │
+  │   synchronized(AccountA) {    // 1. A 쥐고 (Hold)                       │
+  │       synchronized(AccountB) { // 2. B 대기 (Wait)                      │
+  │           A.withdraw(10); B.deposit(10);                                │
+  │       }                                                                 │
+  │   }                                                                     │
+  │                                                                         │
+  │   [ ✅ Good Code 1: 글로벌 락(Global Lock)으로 묶어버림 ]               │
+  │   synchronized(Bank_Global_Lock) {                                      │
+  │       // 락을 1개로 합쳤으므로 Hold & Wait 개념 자체 소멸               │
+  │       A.withdraw(10); B.deposit(10);                                    │
+  │   }  ▶ 단점: 병목 생김. 성능 저하.                                      │
+  │                                                                         │
+  │   [ 🚀 Best Code 2: Lock Ordering (순서 강제) ]                         │
+  │   Account first = A.id < B.id ? A : B;                                  │
+  │   Account second = A.id < B.id ? B : A;                                 │
+  │   synchronized(first) {       // 무조건 ID 낮은 놈 먼저 락!             │
+  │       synchronized(second) {                                            │
+  │           A.withdraw(10); B.deposit(10);                                │
+  │       }                                                                 │
+  │   }  ▶ 장점: Hold & Wait는 유지하되, 순환 대기를 박살내어 성능/안전 100%│
+  └─────────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** "점유 대기" 자체를 박살 내는 것은 실무에서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 하락(글로벌 락 등)을 부르기 때문에 너무 가혹하다. 최고 수준의 엔지니어는 굳이 2번 조건을 깨지 않고 살려두면서([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 유지), 4번 조건인 [순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/)([Lock Ordering](/knowledge-base/studynote/02_operating_system/05_deadlock/317_lockdep_lock_ordering/))를 깨부숨으로써 데드락의 폭탄 스위치를 제거하는 우아한 타협을 이끌어낸다.
 
 - **📢 섹션 요약 비유**: 이기심(점유 대기)을 없애려고 모든 재산을 국가가 몰수하는 것(글로벌 락)은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 박살납니다. 이기심을 인정하되, "무조건 나이 순서대로만([Lock Ordering](/knowledge-base/studynote/02_operating_system/05_deadlock/317_lockdep_lock_ordering/)) 욕심을 부릴 수 있다"는 질서만 잡아주면 자본주의([병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리)의 장점을 살리면서도 데드락을 막을 수 있습니다.
@@ -170,19 +166,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">원자적 변수 (Atomic Variable)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">점유 대기 (Hold and Wait)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">acquire() / release() 함수</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스핀락 (Spinlock)</div></div>
-</div>
-</div>
-
-
+```text
+[원자적 변수 (Atomic Variable)]
+    │
+    ▼
+[점유 대기 (Hold and Wait)]
+    │
+    ├──▶ [acquire() / release() 함수]
+    └──▶ [스핀락 (Spinlock)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

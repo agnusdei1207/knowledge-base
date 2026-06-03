@@ -22,24 +22,22 @@ tags = ["studynote-network"]
 광섬유를 통과하는 빛은 거리가 멀어질수록 [산란](/knowledge-base/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/)과 흡수에 의해 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 강도가 떨어지는 감쇠(Attenuation)를 겪는다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 광통신에서는 일정 거리(약 40~50km)마다 광 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 전기 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)로 바꾸어 증폭한 뒤 다시 광 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)로 변환하는 <strong>O-E-O(Optical-Electrical-Optical) 리피터</strong>를 사용했다. 하지만 이 방식은 통신 속도가 10G, 100G로 빨라질 때마다 고가의 전자 칩셋을 전부 교체해야 했고, 여러 파장을 쏘는 WDM 환경에서는 파장 개수만큼 장비를 달아야 하는 치명적인 경제적/구조적 병목에 직면했다.
 이 문제를 혁명적으로 해결한 것이 빛을 빛 상태 그대로 증폭하는 <strong>광증폭기(Optical Amplifier)</strong>다. 특히 에르븀(Erbium) 이온을 이용한 EDFA가 상용화되면서, 속도나 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 포맷에 구애받지 않고 유리관 안의 모든 파장을 한 번의 펌핑으로 동시에 증폭하는 시대가 열렸다. 이는 전 세계를 거미줄처럼 잇는 해저 케이블 인프라가 폭발적으로 성장할 수 있었던 근본적인 물리 계층의 혁신이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 도식은 기존 O-E-O 중계기 방식과 광 직접 증폭 방식의 구조적 병목 차이를 시각화한다.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">O-E-O 리피터 vs 광증폭기(EDFA) 아키텍처 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 기존 O-E-O (병목 구간 발생)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">광신호 전기신호 광신호</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">O/E 변환</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">증폭</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">E/O 변환</div><div class="kb-diagram-connector">▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(파장 N개면 변환기 N개 필요. 속도 종속성 있음)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 광증폭기 적용 (투명성 확보)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">약한 빛 펌프 레이저 강한 빛</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">EDFA 모듈 (모든 파장 일괄 광증폭)</div><div class="kb-diagram-connector">▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(속도, 포맷에 상관없이 빛 덩어리를 통째로 복사 증폭)</div></div>
-</div>
-</div>
-
-
+```text
+이 도식은 기존 O-E-O 중계기 방식과 광 직접 증폭 방식의 구조적 병목 차이를 시각화한다.
+┌──────────────────────────────────────────────────────────────┐
+│ [O-E-O 리피터 vs 광증폭기(EDFA) 아키텍처 비교]               │
+│                                                              │
+│ [1. 기존 O-E-O (병목 구간 발생)]                             │
+│       광신호  ┌───────┐ 전기신호 ┌───────┐  광신호           │
+│ ──WDM──▶ [ O/E 변환 ] ────▶ [ 증폭 ] ────▶ [ E/O 변환 ] ─▶│
+│ (파장 N개면 변환기 N개 필요. 속도 종속성 있음)               │
+│                                                              │
+│ [2. 광증폭기 적용 (투명성 확보)]                             │
+│       약한 빛              펌프 레이저               강한 빛 │
+│ ──WDM──▶ [ EDFA 모듈 (모든 파장 일괄 광증폭) ] ────────▶│
+│ (속도, 포맷에 상관없이 빛 덩어리를 통째로 복사 증폭)         │
+└──────────────────────────────────────────────────────────────┘
+```
 이 그림의 핵심은 O-E-O 중계기가 '톨게이트에서 차를 한 대씩 세워 확인하고 다시 보내는 구조'라면, 광증폭기는 '고속도로를 달리는 모든 차 뒤에서 한 번에 강한 바람을 쏘아 속도를 높여주는 프리패스 구조'라는 점이다. 따라서 WDM 기술이 파장을 100개로 늘려도 중간 광증폭기는 아무런 업그레이드 없이 그대로 역할을 수행할 수 있는 투명성(Transparency)을 제공한다.
 
 - **📢 섹션 요약 비유**: 스피커 소리가 작아졌을 때 노래를 악보로 받아 적은 뒤 다시 마이크로 부르는 것(O-E-O)이 아니라, 그냥 마이크 선에 앰프를 달아 원래 목소리 그대로 볼륨만 빵빵하게 키우는(광증폭기) 직관적 원리와 같습니다.
@@ -56,23 +54,21 @@ tags = ["studynote-network"]
 | <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/">SOA</a></strong> ([Semiconductor](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) Optical Amplifier) | [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 활성층 / 전자-정공 재결합 유도 방출 | [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) (Electric [Current](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)) 주입 | 1310nm 등 광범위 커버 | 초소형 보조 배터리 |
 | **라만 증폭기** (Raman Amplifier) | 일반 전송용 실리카 광섬유 자체 / 유도 라만 [산란](/knowledge-base/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/) | [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)보다 약 100nm 짧은 고출력 레이저 펌핑 | 파장 대역 제약 없음 | 선로 자체의 부양력 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 도식은 EDFA 내부의 에너지 준위 천이와 펌프 레이저를 통한 유도 방출 아키텍처를 보여준다.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">EDFA(Erbium-Doped Fiber Amplifier) 동작 원리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 펌핑(Pumping): 980nm 레이저가 이온을 높은 준위로 들뜸</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">준위 3</div><div class="kb-diagram-note">(빠른 붕괴)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2. 준안정 상태:</div><div class="kb-diagram-node">준위 2</div><div class="kb-diagram-note">●──●──●──● (이온 대기)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↓ 유도 방출</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3. 증폭 ──</div><div class="kb-diagram-node">입사 신호파장 1550nm</div><div class="kb-diagram-note">──&gt; ~~~~&gt; ~~~~&gt; ──증폭된 신호</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↓ (빛 복사)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">준위 1</div><div class="kb-diagram-note">바닥 상태</div></div>
-</div>
-</div>
-
-
+```text
+이 도식은 EDFA 내부의 에너지 준위 천이와 펌프 레이저를 통한 유도 방출 아키텍처를 보여준다.
+┌────────────────────────────────────────────────────────┐
+│ [EDFA(Erbium-Doped Fiber Amplifier) 동작 원리]         │
+│                                                        │
+│ 1. 펌핑(Pumping): 980nm 레이저가 이온을 높은 준위로 들뜸 │
+│      [준위 3] ─────────────────── (빠른 붕괴)            │
+│                 ↑                   ↓                 │
+│ 2. 준안정 상태: [준위 2] ─────────●──●──●──● (이온 대기)│
+│                                      ↓ 유도 방출      │
+│ 3. 증폭 ──[입사 신호파장 1550nm]──>  ~~~~> ~~~~> ──증폭된 신호
+│                                      ↓ (빛 복사)      │
+│      [준위 1] ──────────────────────────────── 바닥 상태│
+└────────────────────────────────────────────────────────┘
+```
 이 흐름의 핵심은 외부 펌프 레이저가 에르븀 이온들을 높은 에너지 상태(준위 2)에 강제로 가둬두고 대기시키다가, 1550nm의 통신 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 빛이 스쳐 지나가면 이온들이 자극을 받아 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)와 완전히 동일한 파장과 위상을 가진 쌍둥이 빛을 토해내며(유도 방출) 빛의 군단이 눈덩이처럼 불어난다는 것이다. 따라서 노이즈(자연 방출) 통제와 펌핑 효율이 설계의 생명이다.
 
 - **📢 섹션 요약 비유**: 물을 미리 높은 댐(준위 2)에 가득 채워두고 대기하다가, 작은 조각배(통신 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))가 지나갈 때 수문을 활짝 열어 거대한 물살(유도방출 빛)로 배를 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/)으로 밀어붙이는 거대한 댐 시스템과 같습니다.
@@ -91,24 +87,25 @@ tags = ["studynote-network"]
 | **크기 및 집적성** | 큼 (수십 미터 광섬유 말림) | 분산형 (케이블 전체 사용) | 초소형 (칩셋 집적 가능) |
 | **실무 적용 포지션**| 백본망 중계기 (가장 대중적) | 해저망 무중계 구간 장거리 보조 | 수신단 전단 칩셋, [PON](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/284_pon_passive_optical_network_vs_aon_active/) 인프라 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 매트릭스는 장거리 WDM 선로에서 EDFA와 라만 증폭기가 어떻게 하이브리드로 결합하여 시너지를 내는지 구조적 차이를 보여준다.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">집중형(EDFA) vs 분산형(Raman) 증폭 분포</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">신호 강도</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▲</div><div class="kb-diagram-node">집중형 EDFA</div><div class="kb-diagram-note">(특정 노드에서 한방에!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">\ 감쇠</div><div class="kb-diagram-cell">\</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">\----......----/</div><div class="kb-diagram-cell">\----......</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EDFA</div><div class="kb-diagram-cell">EDFA</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 거리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">분산형 Raman</div><div class="kb-diagram-note">(선로 전체가 증폭기화)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">\~~~~~~~/ \~~~~~~~/</div></div>
-</div>
-</div>
-
-
+```text
+이 매트릭스는 장거리 WDM 선로에서 EDFA와 라만 증폭기가 어떻게 하이브리드로 결합하여 시너지를 내는지 구조적 차이를 보여준다.
+┌────────────────────────────────────────────────────────┐
+│ [집중형(EDFA) vs 분산형(Raman) 증폭 분포]              │
+│                                                        │
+│ 신호 강도                                              │
+│   ▲               [집중형 EDFA] (특정 노드에서 한방에!)│
+│   │   |\                 |\                            │
+│   │   | \      감쇠      | \                           │
+│   │   |  \----......----/|  \----......                │
+│   │   | EDFA            | EDFA                         │
+│   ├─────────────────────────────────────────────────▶ 거리 │
+│   │                                                    │
+│   │              [분산형 Raman] (선로 전체가 증폭기화) │
+│   │    \~~~~~~~/          \~~~~~~~/                    │
+│   │     \     /            \     /                     │
+│   │      \___/              \___/                      │
+└────────────────────────────────────────────────────────┘
+```
 이 비교도의 핵심은 EDFA가 특정 장비 노드 안에서 국지적으로 급격히 증폭(집중형)하는 반면, 라만 증폭기는 수십 킬로미터의 전송 케이블 전체에 강력한 펌프 빔을 역방향으로 쏘아 선로 자체를 은은한 증폭 매질로 탈바꿈(분산형)시킨다는 점이다. 실무 최상위 아키텍처에서는 두 기술을 직렬로 결합하여 광신호 대 잡음비(OSNR)를 극대화한다.
 
 - **📢 섹션 요약 비유**: EDFA가 중간 휴게소에서 에너지 드링크를 원샷하여 체력을 단숨에 채우는 것이라면, 라만 증폭기는 마라톤 코스 바닥 전체에 무빙워크를 깔아 서서히 체력 소모를 덜어주는 베이스 보조 장치입니다.
@@ -122,22 +119,20 @@ tags = ["studynote-network"]
 - **실무 시나리오**: 200km 이상의 무중계 [광전송망](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/893_otn_optical_transport_network_g709_fec_container/) 설계. 송신 직후 빛을 최대 출력으로 쏘아 올리는 **Booster Amplifier(부스터)**, 중간에 감쇠된 빛을 노이즈 없이 적절히 들어 올리는 **In-Line Amplifier(인라인)**, 수신기 직전에서 미약한 빛을 판독 가능한 수준으로 세밀하게 키우는 **Pre-Amplifier(프리앰프)** 세 단계로 EDFA를 배치해야 한다.
 - <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>: 부스터 증폭기 출력을 무조건 최대로 설정하는 설계. 광섬유 내로 과도한 에너지(보통 15~20dBm 이상)가 집중되면 유리 매질의 비선형(Non-linear) 현상인 자기 위상 변조(SPM), 교차 위상 변조(XPM)가 폭발하여 펄스가 산산조각 난다. 증폭은 단순히 볼륨을 키우는 것이 아니라, 비선형 한계선과 노이즈 플로어 사이의 아슬아슬한 줄타기다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 도식은 장거리 통신망에서 세 가지 광증폭기(Booster, In-Line, Pre)의 토폴로지상 배치 전략을 보여준다.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">장거리 전송로의 광증폭기 3단계 역할 배치</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">송신기 Tx</div><div class="kb-diagram-note">=&gt;</div><div class="kb-diagram-node">Booster</div><div class="kb-diagram-connector">========&gt;</div><div class="kb-diagram-node">In-Line</div><div class="kb-diagram-connector">========&gt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">강한 출력을 광섬유로 노이즈 억제하며 증폭</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(포화 출력 극대화) (1단/2단 구조 혼합)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">========&gt;</div><div class="kb-diagram-node">Pre-Amp</div><div class="kb-diagram-connector">========&gt;</div><div class="kb-diagram-node">수신기 Rx</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">미약한 신호를 저잡음으로 끌어올림</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(잡음 지수 NF 최소화가 핵심)</div></div>
-</div>
-</div>
-
-
+```text
+이 도식은 장거리 통신망에서 세 가지 광증폭기(Booster, In-Line, Pre)의 토폴로지상 배치 전략을 보여준다.
+┌──────────────────────────────────────────────────────────────┐
+│ [장거리 전송로의 광증폭기 3단계 역할 배치]                   │
+│                                                              │
+│ [송신기 Tx] => [ Booster ] ========> [ In-Line ] ========>   │
+│              강한 출력을 광섬유로     노이즈 억제하며 증폭   │
+│              (포화 출력 극대화)       (1단/2단 구조 혼합)    │
+│                                                              │
+│ ========> [ Pre-Amp ] ========> [수신기 Rx]                  │
+│     미약한 신호를 저잡음으로 끌어올림                        │
+│     (잡음 지수 NF 최소화가 핵심)                             │
+└──────────────────────────────────────────────────────────────┘
+```
 이 흐름도의 요지는 똑같은 EDFA 장비라 하더라도 토폴로지상 위치에 따라 튜닝 포인트가 전혀 다르다는 점이다. 송신단은 파워(출력)가 생명이고 수신단은 깨끗함(저잡음)이 생명이다. 장비 교체 시 부스터용 앰프를 수신단 전단에 꽂는 실수를 범하면 노이즈 증폭으로 인해 통신 에러가 급증하게 된다.
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
@@ -170,19 +165,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 분산</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 광증폭기</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 광전송 용어</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고속 광전송 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 분산]
+    │
+    ▼
+[현재 개념: 광증폭기]
+    │
+    ├──▶ [확장 A: 광전송 용어]
+    └──▶ [확장 B: 고속 광전송 최적화]
+```
 
 광증폭기는 분산에서 출발해 현재 메커니즘을 정교화하고, 이후 광전송 용어와 고속 광전송 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

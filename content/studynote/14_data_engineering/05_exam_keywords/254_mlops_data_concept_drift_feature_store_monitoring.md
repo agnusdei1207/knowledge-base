@@ -22,23 +22,25 @@ tags = ["studynote-data-engineering"]
 
 구글 논문 "Hidden [Technical Debt](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) in Machine [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) Systems"에 따르면, ML 시스템에서 실제 ML 코드의 비중은 전체의 5% 미만이다. 나머지 95%는 인프라·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·모니터링·서빙 코드다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">ML 시스템 구성 요소:</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 수집</div><div class="kb-diagram-cell">서빙</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파이프라인</div><div class="kb-diagram-cell">인프라</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ML 코드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(5%)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">피처 추출</div><div class="kb-diagram-cell">모니터링</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">변환</div><div class="kb-diagram-cell">알람</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 검증</div><div class="kb-diagram-cell">구성 관리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↑ 나머지 95%: MLOps가 관리하는 영역</div></div>
-</div>
-</div>
-
-
+```
+ML 시스템 구성 요소:
+┌─────────────────────────────────────────────────────┐
+│                                                     │
+│  ┌─────────┐                          ┌──────────┐  │
+│  │데이터 수집│  ┌──────────┐          │  서빙   │  │
+│  │ 파이프라인│  │          │          │  인프라  │  │
+│  └─────────┘  │  ML 코드  │          └──────────┘  │
+│  ┌─────────┐  │  (5%)    │          ┌──────────┐  │
+│  │피처 추출 │  │          │          │  모니터링 │  │
+│  │ 변환    │  └──────────┘          │  알람    │  │
+│  └─────────┘                        └──────────┘  │
+│  ┌─────────┐                        ┌──────────┐  │
+│  │데이터 검증│                        │ 구성 관리 │  │
+│  └─────────┘                        └──────────┘  │
+│                                                     │
+│  ↑ 나머지 95%: MLOps가 관리하는 영역                 │
+└─────────────────────────────────────────────────────┘
+```
 
 ### 1.2 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 성숙도 레벨(Maturity Level)
 
@@ -56,25 +58,26 @@ tags = ["studynote-data-engineering"]
 
 ### 2.1 [데이터 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/)([Data Drift](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/)) vs [컨셉 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/164_concept_drift_target_mapping_change/)([Concept Drift](/knowledge-base/studynote/14_data_engineering/04_mlops/164_concept_drift_target_mapping_change/))
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">드리프트 유형 비교</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 드리프트</div><div class="kb-diagram-cell">컨셉 드리프트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Data Drift)</div><div class="kb-diagram-cell">(Concept Drift)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력 데이터 X의</div><div class="kb-diagram-cell">입력-출력 관계 P(Y</div><div class="kb-diagram-cell">X) 변화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분포 P(X) 변화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예시: 이커머스 사이트</div><div class="kb-diagram-cell">예시: 코로나 전후 소비 패턴 변화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 신규 고객층 유입</div><div class="kb-diagram-cell">- 같은 X(나이·소득)지만</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 연령대 분포 변화</div><div class="kb-diagram-cell">구매 행동 Y가 달라짐</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">탐지: KL발산,</div><div class="kb-diagram-cell">탐지: 모델 성능 지표</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PSI(Population</div><div class="kb-diagram-cell">(정확도·F1) 저하 모니터링</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Stability Index)</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────────────┐
+│               드리프트 유형 비교                                  │
+├───────────────────────┬─────────────────────────────────────────┤
+│   데이터 드리프트      │          컨셉 드리프트                   │
+│   (Data Drift)        │          (Concept Drift)                │
+├───────────────────────┼─────────────────────────────────────────┤
+│                       │                                         │
+│  입력 데이터 X의       │  입력-출력 관계 P(Y|X) 변화             │
+│  분포 P(X) 변화        │                                         │
+│                       │                                         │
+│  예시: 이커머스 사이트  │  예시: 코로나 전후 소비 패턴 변화       │
+│  - 신규 고객층 유입    │  - 같은 X(나이·소득)지만               │
+│  - 연령대 분포 변화    │    구매 행동 Y가 달라짐                 │
+│                       │                                         │
+│  탐지: KL발산,         │  탐지: 모델 성능 지표                   │
+│       PSI(Population  │       (정확도·F1) 저하 모니터링          │
+│       Stability Index)│                                         │
+└───────────────────────┴─────────────────────────────────────────┘
+```
 
 ### 2.2 드리프트 탐지 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
 
@@ -89,26 +92,36 @@ PSI 해석 기준: PSI < 0.1 (안정), 0.1~0.2 (경고), > 0.2 (재훈련 필요
 
 ### 2.3 [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)([Feature Store](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)) 아키텍처
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">피처 스토어 (Feature Store)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 소스 피처 변환 파이프라인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원시</div><div class="kb-diagram-cell">배치</div><div class="kb-diagram-cell">피처 엔지니어링</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터</div><div class="kb-diagram-cell">─►</div><div class="kb-diagram-cell">ETL</div><div class="kb-diagram-cell">►</div><div class="kb-diagram-cell">(Feature Engineering</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Spark/Flink)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오프라인 스토어</div><div class="kb-diagram-cell">온라인 스토어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Offline Store)</div><div class="kb-diagram-cell">(Online Store)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">S3/Hive</div><div class="kb-diagram-cell">Redis/DynamoDB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(배치 학습용)</div><div class="kb-diagram-cell">(실시간 서빙용)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">피처 레지스트리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Feature Registry</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메타데이터·버전)</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                  피처 스토어 (Feature Store)                     │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  데이터 소스                피처 변환 파이프라인                   │
+│  ┌────────┐  ┌──────┐    ┌─────────────────────┐               │
+│  │ 원시   │  │ 배치 │    │  피처 엔지니어링      │               │
+│  │ 데이터  │─►│ ETL  │───►│  (Feature Engineering│               │
+│  └────────┘  └──────┘    │   Spark/Flink)       │               │
+│                           └──────────┬──────────┘               │
+│                                      │                           │
+│                    ┌─────────────────┴──────────────┐           │
+│                    │                                │           │
+│            ┌───────▼──────┐              ┌──────────▼──────┐   │
+│            │  오프라인 스토어 │              │  온라인 스토어   │   │
+│            │ (Offline Store)│              │ (Online Store)  │   │
+│            │  S3/Hive      │              │  Redis/DynamoDB │   │
+│            │  (배치 학습용) │              │  (실시간 서빙용) │   │
+│            └──────────────┘              └────────────────┘   │
+│                    │                              │             │
+│                    └──────────┬───────────────────┘             │
+│                               │                                 │
+│                       ┌───────▼───────┐                         │
+│                       │  피처 레지스트리│                         │
+│                       │ (Feature Registry│                        │
+│                       │  메타데이터·버전)│                        │
+│                       └───────────────┘                         │
+└─────────────────────────────────────────────────────────────────┘
+```
 
 ### 2.4 ML 플랫폼 비교
 
@@ -151,24 +164,22 @@ PSI 해석 기준: PSI < 0.1 (안정), 0.1~0.2 (경고), > 0.2 (재훈련 필요
 
 ### 4.1 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 구현 로드맵
 
+```
+1단계 (즉시): 실험 추적 (MLflow Tracking)
+  → 모든 실험의 파라미터·지표·아티팩트 자동 기록
 
+2단계 (1~3개월): 모델 레지스트리 (Model Registry)
+  → 스테이징/프로덕션 모델 버전 관리
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">1단계 (즉시): 실험 추적 (MLflow Tracking)</div>
-<div class="kb-diagram-note">→ 모든 실험의 파라미터·지표·아티팩트 자동 기록</div>
-<div class="kb-diagram-note">2단계 (1~3개월): 모델 레지스트리 (Model Registry)</div>
-<div class="kb-diagram-note">→ 스테이징/프로덕션 모델 버전 관리</div>
-<div class="kb-diagram-note">3단계 (3~6개월): 모니터링 대시보드</div>
-<div class="kb-diagram-note">→ Prometheus + Grafana로 드리프트·성능 시각화</div>
-<div class="kb-diagram-note">4단계 (6~12개월): 자동 재훈련 파이프라인</div>
-<div class="kb-diagram-note">→ 드리프트 탐지 → 재훈련 → 검증 → 자동 배포</div>
-<div class="kb-diagram-note">5단계 (완성): 피처 스토어 구축</div>
-<div class="kb-diagram-note">→ Feast/Tecton으로 피처 재사용·버전 관리</div>
-</div>
-</div>
+3단계 (3~6개월): 모니터링 대시보드
+  → Prometheus + Grafana로 드리프트·성능 시각화
 
+4단계 (6~12개월): 자동 재훈련 파이프라인
+  → 드리프트 탐지 → 재훈련 → 검증 → 자동 배포
 
+5단계 (완성): 피처 스토어 구축
+  → Feast/Tecton으로 피처 재사용·버전 관리
+```
 
 ### 4.2 기술사 논술 핵심 포인트
 
@@ -176,7 +187,7 @@ PSI 해석 기준: PSI < 0.1 (안정), 0.1~0.2 (경고), > 0.2 (재훈련 필요
 - <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/575_shadow_deployment_traffic_mirroring/">섀도우 배포</a>(<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/118_shadow_deployment_traffic_mirroring/">Shadow Deployment</a>)</strong>: 새 모델을 실 트래픽에 그대로 노출하지 않고 복사본으로 테스트
 - <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/">카나리 배포</a>(<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/">Canary Deployment</a>)</strong>: 5% 트래픽에만 새 모델 적용 후 점진 확대
 
-📢 **섹션 요약 비유**: MLOps는 항공기 정비 시스템이다. 비행기(ML 모델)는 한 번 만들어 출고하면 끝이 아니라, 지속적 점검(모니터링), 부품 교체(재훈련), 신형 모델로의 점진적 전환([카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/))이 필수적이다. 정비 없는 항공기는 언젠가 추락한다.
+📢 **섹션 요약 비유**: MLOps는 항공기 정비 시스템이다. 비행기(ML 모델)는 한 번 만들어 출고하면 끝이 아니라, 지속적 점검(모니터링), 부품 교체(재훈련), 새로운 유형의 모델로의 점진적 전환([카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/))이 필수적이다. 정비 없는 항공기는 언젠가 추락한다.
 
 ---
 
@@ -218,22 +229,18 @@ MLOps는 ML을 연구 프로젝트에서 신뢰할 수 있는 비즈니스 인�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">수동 ML 실험 (노트북 기반)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">MLOps: CI/CD/CT → 모델 자동 학습·배포·모니터링</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Data Drift · Concept Drift 탐지</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Feature Store: 피처 재사용 · 일관성</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Model Registry · A/B Test · Canary</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">LLMOps · AIOps: 차세대 운영 자동화</div>
-</div>
-</div>
-
-
+```text
+수동 ML 실험 (노트북 기반)
+    │
+    ▼
+MLOps: CI/CD/CT → 모델 자동 학습·배포·모니터링
+    ├─► Data Drift · Concept Drift 탐지
+    ├─► Feature Store: 피처 재사용 · 일관성
+    └─► Model Registry · A/B Test · Canary
+    │
+    ▼
+LLMOps · AIOps: 차세대 운영 자동화
+```
 2. [데이터 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/)는 "환자가 바뀌었는데 옛날 처방전을 그대로 쓰는 것"이고, [컨셉 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/164_concept_drift_target_mapping_change/)는 "환자는 같은데 병의 특성이 바뀐 것"이에요—둘 다 새 처방(재훈련)이 필요해요.
 3. [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)는 학교 공용 실험실 재료 창고예요. 모든 반이 같은 재료를 따로 준비하는 낭비 없이 한 곳에서 꺼내 쓰니까 시간이 훨씬 절약돼요.
 

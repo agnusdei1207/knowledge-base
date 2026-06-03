@@ -30,20 +30,15 @@ tags = ["studynote-enterprise"]
 
 제로 카피 [클론](/knowledge-base/studynote/02_operating_system/02_process_thread/149_clone_system_call/)은 <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/">CoW</a> (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/">Copy-on-Write</a>)</strong> 메커니즘을 기반으로 동작한다. [클론](/knowledge-base/studynote/02_operating_system/02_process_thread/149_clone_system_call/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 직후에는 원본과 [클론](/knowledge-base/studynote/02_operating_system/02_process_thread/149_clone_system_call/)이 동일한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록을 공유하며, [클론](/knowledge-base/studynote/02_operating_system/02_process_thread/149_clone_system_call/)에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수정이 발생할 때만 해당 변경분을 새로운 블록에 기록한다.
 
+```text
+[초기 상태]
+원본 DB 메타데이터 ───▶ [물리 데이터 블록 A, B, C] ◀─── 클론 DB 메타데이터
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">초기 상태</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">물리 데이터 블록 A, B, C</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">클론 DB 메타데이터</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">클론 수정 발생 (블록 B를 B-1로 수정)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">물리 데이터 블록 A, B, C</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">블록 A</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">블록 B-1</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">블록 C</div></div>
-<div class="kb-diagram-note">(수정된 부분만 생성)</div>
-</div>
-</div>
-
-
+[클론 수정 발생 (블록 B를 B-1로 수정)]
+원본 DB 메타데이터 ───▶ [물리 데이터 블록 A, B, C]
+클론 DB 메타데이터 ───▶ [블록 A] ──▶ [블록 B-1] ──▶ [블록 C]
+                                      (수정된 부분만 생성)
+```
 
 | 구성 요소 | 역할 | 특징 |
 |:---|:---|:---|
@@ -107,23 +102,21 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">전통 DW 데이터 복사 - 시간·비용 비효율</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">백업/스냅샷 방식 (물리적 복사 오버헤드)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Copy-on-Write 메타데이터 포인터 기법 등장</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Snowflake Zero-Copy Clone - 즉각·비용 제로</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">개발/테스트/프로덕션 격리 환경 즉시 생성</div>
-</div>
-</div>
-
-
+```
+전통 DW 데이터 복사 - 시간·비용 비효율
+    │
+    ▼
+백업/스냅샷 방식 (물리적 복사 오버헤드)
+    │
+    ▼
+Copy-on-Write 메타데이터 포인터 기법 등장
+    │
+    ▼
+Snowflake Zero-Copy Clone - 즉각·비용 제로
+    │
+    ▼
+개발/테스트/프로덕션 격리 환경 즉시 생성
+```
 
 > **키워드**: [Zero-Copy Cloning](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/265_zero_copy_cloning_database_metadata/), [Copy-on-Write](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/), [Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/), [Metadata](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) Pointer, [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/), Time Travel
 

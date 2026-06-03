@@ -25,23 +25,20 @@ tags = ["studynote-network"]
 *알로하 기반 충돌 한계와 예약 방식의 패러다임 전환 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)*
 이 도식은 대용량 패킷이 충돌할 때 발생하는 낭비 시간과, 예약을 통해 이 낭비를 회피하는 구조적 차이를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Pure/Slotted ALOHA: 긴 데이터 프레임 직접 경쟁</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Node A:</div><div class="kb-diagram-node">============== 대용량 패킷 A ==============</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Node B:</div><div class="kb-diagram-node">===== 대용량 패킷 B =====</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 거대한 패킷이 물리적으로 파괴됨 (막대한 시간 낭비)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Reservation Access: 미니 슬롯 예약 후 데이터 전송</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">프레임:</div><div class="kb-diagram-node">예약 슬롯 구간</div><div class="kb-diagram-node">보장된 데이터 슬롯 구간</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Node A:</div><div class="kb-diagram-node">예약A</div><div class="kb-diagram-node">============== 패킷 A ==============</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Node B:</div><div class="kb-diagram-node">예약B</div><div class="kb-diagram-node">===== 패킷 B =====</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Node C:</div><div class="kb-diagram-node">예약C</div><div class="kb-diagram-note">(A와 충돌) =&gt; C는 아주 짧은 예약 슬롯만 낭비하고 물러남</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────┐
+│ [Pure/Slotted ALOHA: 긴 데이터 프레임 직접 경쟁]       │
+│ Node A: [============== 대용량 패킷 A ==============]  │
+│ Node B:              [===== 대용량 패킷 B =====]       │
+│ 결과: 거대한 패킷이 물리적으로 파괴됨 (막대한 시간 낭비)│
+├────────────────────────────────────────────────────────┤
+│ [Reservation Access: 미니 슬롯 예약 후 데이터 전송]    │
+│ 프레임: [예약 슬롯 구간] │ [보장된 데이터 슬롯 구간]   │
+│ Node A: [예약A]          │ [============== 패킷 A ==============]
+│ Node B:        [예약B]   │                       [===== 패킷 B =====]
+│ Node C: [예약C] (A와 충돌) => C는 아주 짧은 예약 슬롯만 낭비하고 물러남
+└────────────────────────────────────────────────────────┘
+```
 *해설*: 이 그림의 핵심은 예약 방식이 충돌의 비용을 '대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 패킷 크기'에서 '초소형 예약 프레임 크기'로 대폭 축소시켰다는 점이다. 이런 배치는 경쟁은 불가피하되 실패의 대가를 최소화하겠다는 목적 때문이며, 결과적으로 A와 B가 무사히 예약을 통과하면 뒤이은 긴 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 구간에서는 어떠한 간섭도 없이 안정적으로 트래픽을 밀어 넣을 수 있게 된다. 실무에서는 전송해야 할 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 크기가 클수록 예약 오버헤드를 상쇄하고 압도적인 효율을 발휘한다.
 
 - **📢 섹션 요약 비유**: 인기 있는 식당에서 줄을 서지 않고 일단 요리부터 주문하는 것이 알로하라면, 예약 방식은 미리 작은 번호표(예약 슬롯)를 뽑기 위해 가벼운 몸싸움을 한 뒤, 번호가 불리면 넓은 VIP석([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 슬롯)에서 방해받지 않고 식사하는 것과 같습니다.
@@ -62,20 +59,18 @@ tags = ["studynote-network"]
 *명시적 예약 제어 메커니즘의 시간축 동작 프레임워크*
 이 도식은 한 개의 대형 슈퍼 프레임 내에서 예약 구간과 전송 구간이 어떻게 교대하며 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링을 완성하는지 타이밍 흐름을 묘사한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">슈퍼 프레임 (Super Frame) 주기</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">단계1</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">Mini-Slot 1</div><div class="kb-diagram-node">Mini-Slot 2</div><div class="kb-diagram-note">...</div><div class="kb-diagram-node">Mini-Slot N</div><div class="kb-diagram-note">(예약 경쟁 구간)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ A노드 예약 ─ B,C 충돌 ─ D노드 예약</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">단계2</div><div class="kb-diagram-note">─ 중앙 기지국: "A노드는 데이터 슬롯 1번, D노드는 2번 써라!" (스케줄 발표)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">단계3</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">Data Slot 1 (A 독점)</div><div class="kb-diagram-node">Data Slot 2 (D 독점)</div><div class="kb-diagram-note">&gt;</div></div>
-<div class="kb-diagram-note">(충돌 제로, 100% 무결성 보장) (충돌 제로 보장)</div>
-</div>
-</div>
-
-
+```text
+       ┌────────── 슈퍼 프레임 (Super Frame) 주기 ──────────┐
+       │                                                    │
+[단계1]├─ [Mini-Slot 1] [Mini-Slot 2] ... [Mini-Slot N] ────┤ (예약 경쟁 구간)
+       │    └─ A노드 예약   └─ B,C 충돌       └─ D노드 예약 │
+       │                                                    │
+[단계2]├─ 중앙 기지국: "A노드는 데이터 슬롯 1번, D노드는 2번 써라!" (스케줄 발표)
+       │                                                    │
+[단계3]├─ [Data Slot 1 (A 독점)] ────────── [Data Slot 2 (D 독점)] ───>
+       │  (충돌 제로, 100% 무결성 보장)         (충돌 제로 보장)        
+└──────┴────────────────────────────────────────────────────┘
+```
 *해설*: 이 도식의 핵심은 시간 자원이 경쟁 구간(Contention)과 비경쟁 보장 구간(Contention-Free)으로 엄격히 분리되어 동작한다는 점이다. A와 D는 예약 슬롯에서 성공했기 때문에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 슬롯에서는 안심하고 고속 전송이 가능하다. 반면 B와 C는 예약 미니 슬롯 구간에서 충돌했으므로 예약에 실패했고, 다음 슈퍼 프레임 주기가 올 때까지 백오프하며 기다려야 한다. 이런 구조적 배치는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 슬롯 구간에서 대기 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 없는 완벽한 채널 활용을 가능하게 하므로 망 전체의 안정성 지표를 비약적으로 상승시킨다.
 
 동작 프로세스는 명확하다.
@@ -95,20 +90,17 @@ tags = ["studynote-network"]
 *[MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 패러다임 비교 매트릭스*
 이 도식은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통신망에서 트래픽 부하에 따라 채택되는 대표적인 채널 제어 기법의 한계와 예약 방식의 위치를 해석한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">평가 지표</div><div class="kb-diagram-cell">Pure/Slot ALOHA</div><div class="kb-diagram-cell">TDMA (고정 분할)</div><div class="kb-diagram-cell">Reservation MAC</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">철학</div><div class="kb-diagram-cell">선착순 무작위</div><div class="kb-diagram-cell">공평한 고정 분배</div><div class="kb-diagram-cell">경쟁 후 지정할당</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부하가 적을때 지연시간 매우 짧음</div><div class="kb-diagram-cell">매우 길다 (낭비)</div><div class="kb-diagram-cell">중간 (예약 대기)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부하가 많을때 치명적 충돌 붕괴</div><div class="kb-diagram-cell">안정적 통신 보장</div><div class="kb-diagram-cell">안정적 고효율</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주 사용처</div><div class="kb-diagram-cell">가벼운 초기 접속</div><div class="kb-diagram-cell">음성, 정기 통신</div><div class="kb-diagram-cell">대용량/변동 트래픽</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대역 낭비</div><div class="kb-diagram-cell">충돌로 인한 버림</div><div class="kb-diagram-cell">빈 슬롯 유휴 낭비</div><div class="kb-diagram-cell">제어/예약 패킷비용</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬─────────────────┬─────────────────┬─────────────────┐
+│ 평가 지표│ Pure/Slot ALOHA │ TDMA (고정 분할)│ Reservation MAC │
+├──────────┼─────────────────┼─────────────────┼─────────────────┤
+│ 철학     │ 선착순 무작위   │ 공평한 고정 분배│ 경쟁 후 지정할당│
+│ 부하가 적을때 지연시간 매우 짧음 │ 매우 길다 (낭비)│ 중간 (예약 대기)│
+│ 부하가 많을때 치명적 충돌 붕괴   │ 안정적 통신 보장│ 안정적 고효율   │
+│ 주 사용처│ 가벼운 초기 접속│ 음성, 정기 통신 │ 대용량/변동 트래픽│
+│ 대역 낭비│ 충돌로 인한 버림│ 빈 슬롯 유휴 낭비│ 제어/예약 패킷비용│
+└──────────┴─────────────────┴─────────────────┴─────────────────┘
+```
 *해설*: 이 표의 핵심은 예약 방식이 트래픽의 동적 변화에 가장 유연하게 대처하는 동적 할당 구조라는 점이다. TDMA는 아무도 통신하지 않아도 차선을 비워두어 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 낭비하고, ALOHA는 차선이 터질 듯 트래픽이 몰리면 차가 다 부서져버린다. 예약 방식은 차선을 가변적으로 운영하여, 차가 없을 때는 대기 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(예약 절차 소요)이 약간 거슬릴 수 있으나, 혼잡할 때는 철저한 차로 배정을 통해 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 효율을 80% 근처까지 수렴시키는 최고의 방어력을 뽐낸다.
 
 과목 융합 관점: 이 원리는 무선 랜(IEEE 802.[11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/))의 <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/">CSMA</a>/CA에서 RTS/CTS <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a></strong>로 직결된다. RTS(Request to Send)와 CTS(Clear to Send)라는 짧은 제어 프레임이 바로 이 '예약 슬롯'의 역할을 수행하며, 충돌 위험이 높은 은닉 노드(Hidden Node) 환경에서 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 프레임이 안전하게 전파될 수 있는 채널 점유 기간(NAV)을 보장해준다.
@@ -124,23 +116,20 @@ tags = ["studynote-network"]
 *예약 매커니즘 실무 적용 [의사결정 트리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/)*
 이 도식은 네트워크 엔지니어가 망의 페이로드 크기와 환경에 따라 예약 방식 적용 여부를 판단하는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 구조를 나타낸다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">요구사항: 다수 노드의 매체 공유 및 대용량 데이터 병합 환경</div></div>
-<div class="kb-diagram-tree-item" style="--depth:4">1회 전송 시 데이터(페이로드) 크기가 매우 작은가? (ex. 10바이트 센서)</div>
-<div class="kb-diagram-note">─ (Yes) ─&gt; 예약하지 말고 그냥 Random Access (ALOHA 등) 전송!</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(이유: 예약 패킷 오버헤드가 배보다 배꼽이 됨)</div></div>
-<div class="kb-diagram-note">─ (No) ─&gt; 대용량 파일 전송, 영상 스트리밍인가?</div>
-<div class="kb-diagram-note">─&gt; 전파 지연(Propagation Delay)이 매우 큰가? (위성망 등)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ (Yes) ─&gt; DAMA (Demand Assignment) 채택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(위성 왕복 지연을 고려해 여러 슬롯 묶음 예약)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ (No) ─&gt; Wi-Fi RTS/CTS 기반 암묵적/동적 예약 통제</div></div>
-</div>
-</div>
-
-
+```text
+[요구사항: 다수 노드의 매체 공유 및 대용량 데이터 병합 환경]
+         │
+         ├─> 1회 전송 시 데이터(페이로드) 크기가 매우 작은가? (ex. 10바이트 센서)
+         │    ├─ (Yes) ─> 예약하지 말고 그냥 Random Access (ALOHA 등) 전송! 
+         │    │           (이유: 예약 패킷 오버헤드가 배보다 배꼽이 됨)
+         │    │
+         │    └─ (No)  ─> 대용량 파일 전송, 영상 스트리밍인가?
+         │                 │
+         │                 ├─> 전파 지연(Propagation Delay)이 매우 큰가? (위성망 등)
+         │                 │    ├─ (Yes) ─> DAMA (Demand Assignment) 채택
+         │                 │    │           (위성 왕복 지연을 고려해 여러 슬롯 묶음 예약)
+         │                 │    └─ (No)  ─> Wi-Fi RTS/CTS 기반 암묵적/동적 예약 통제
+```
 *해설*: 이 흐름의 핵심은 '배보다 배꼽이 더 큰가'를 판단하는 것이다. 예약 방식의 치명적 단점은 예약을 잡기 위해 소모하는 Mini-slot 시간 오버헤드다. 만약 보내야 할 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 고작 수 바이트짜리 센서 온도 값이라면, 예약을 하느라 소모하는 통신 비용과 시간이 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 비용을 초과하게 된다. 반면, 수십 메가바이트의 영상 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏘아야 하는 실무 환경에서는 전송 중 충돌 시 버려지는 기회비용이 천문학적이므로, 1~2초의 예약 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 걸리더라도 무조건 예약을 잡고 안전하게 쏘는 것이 전체 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)) 관점에서 압도적으로 이득이다.
 
 <strong>실무 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 및 실패 시나리오</strong>:
@@ -183,19 +172,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: Slotted ALOHA</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 예약 방식 접속</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 폴링 접속</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 자원 스케줄링</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: Slotted ALOHA]
+    │
+    ▼
+[현재 개념: 예약 방식 접속]
+    │
+    ├──▶ [확장 A: 폴링 접속]
+    └──▶ [확장 B: 지능형 자원 스케줄링]
+```
 
 예약 방식 접속는 Slotted ALOHA에서 출발해 현재 메커니즘을 정교화하고, 이후 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 접속와 지능형 자원 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

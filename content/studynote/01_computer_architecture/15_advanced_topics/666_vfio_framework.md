@@ -42,28 +42,26 @@ VFIO 구조의 중심에는 세 가지가 있다. 첫째는 장치를 격리 가
 
 아래 그림은 VFIO의 제어 경로와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로를 함께 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">User process</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">QEMU / DPDK app</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ ioctl to VFIO</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ mmap register region</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ eventfd for interrupt</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">VFIO core</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">group check -&gt; container attach -&gt; IOMMU map</div></div>
-<div class="kb-diagram-note">programs translation</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">IOMMU</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">device DMA allowed only for mapped pages</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Physical PCIe device</div>
-</div>
-</div>
-
-
+```text
+┌──────────────────── User process ────────────────────┐
+│ QEMU / DPDK app                                      │
+│  ├─ ioctl to VFIO                                    │
+│  ├─ mmap register region                             │
+│  └─ eventfd for interrupt                            │
+└──────────────────────────┬───────────────────────────┘
+                           │
+                           ▼
+┌──────────────────────── VFIO core ───────────────────┐
+│ group check -> container attach -> IOMMU map        │
+└──────────────────────────┬───────────────────────────┘
+                           │ programs translation
+                           ▼
+┌───────────────────────── IOMMU ──────────────────────┐
+│ device DMA allowed only for mapped pages             │
+└──────────────────────────┬───────────────────────────┘
+                           ▼
+                    Physical PCIe device
+```
 
 동작은 다음과 같다. 먼저 사용자가 장치를 열면 VFIO는 그 장치가 속한 [IOMMU](/knowledge-base/studynote/02_operating_system/10_security/627_iommu_dma_isolation/) group 전체가 안전하게 분리되었는지 확인한다. 이어서 프로그램이 사용할 메모리 버퍼를 IOMMU에 등록하면, 장치는 오직 그 범위에 대해서만 DMA를 수행할 수 있다. 장치의 BAR (Base Address [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/)) 영역은 `mmap`으로 사용자 공간에 노출될 수 있지만, 이것도 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 허용한 범위 안에서만 가능하다. [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)는 `eventfd`를 통해 사용자 공간으로 전달되어, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 드라이버 없이도 완료 통지를 받을 수 있다.
 
@@ -140,23 +138,21 @@ VFIO 프레임워크의 가장 큰 효과는 [성능](/knowledge-base/studynote/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단순 사용자 공간 장치 제어</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Legacy passthrough / UIO</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">VFIO + IOMMU group</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SR-IOV VF 할당</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">고성능 패스스루 + 장치 상태 관리 고도화</div>
-</div>
-</div>
-
-
+```text
+단순 사용자 공간 장치 제어
+    │
+    ▼
+Legacy passthrough / UIO
+    │
+    ▼
+VFIO + IOMMU group
+    │
+    ▼
+SR-IOV VF 할당
+    │
+    ▼
+고성능 패스스루 + 장치 상태 관리 고도화
+```
 
 이 흐름은 "직접 제어 욕구 → 안전한 격리 → 하드웨어 분할 → 운영 정교화"로 VFIO 생태계가 발전하는 방향을 보여준다.
 

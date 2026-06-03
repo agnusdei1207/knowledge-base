@@ -43,19 +43,19 @@ tolerations:
 | PreferNoSchedule | 가급적 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) 안 함(소프트)              |
 | NoExecute        | 기존 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)도 축출(Evict)                  |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kubernetes Scheduler</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Node-A</div><div class="kb-diagram-node">Taint: gpu=true:NoSchedule</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pod-X (Toleration: gpu=true:NoSchedule)</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">✅ 배치 허용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pod-Y (Toleration 없음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ ❌ 스케줄 거부</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────┐
+│              Kubernetes Scheduler               │
+│                                                 │
+│  Node-A  [Taint: gpu=true:NoSchedule]          │
+│  ┌──────────────────────────────────────────┐  │
+│  │  Pod-X (Toleration: gpu=true:NoSchedule) │──▶│ ✅ 배치 허용 │
+│  └──────────────────────────────────────────┘  │
+│                                                 │
+│  Pod-Y (Toleration 없음)                        │
+│  ──────────────────────────────────────────▶ ❌ 스케줄 거부 │
+└─────────────────────────────────────────────────┘
+```
 
 > 📢 **Ⅰ 섹션 요약 비유**
 > Taint는 "[관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)자 외 출입금지" 푯말, Toleration은 "출입증"이다.
@@ -133,19 +133,13 @@ Kubernetes가 기본 자동 추가하는 Toleration:
 
 ### 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Taint/Toleration</div>
-<div class="kb-diagram-tree-item" style="--depth:2">NoSchedule → 신규 파드 배치 제어</div>
-<div class="kb-diagram-tree-item" style="--depth:2">NoExecute → 기존 파드 축출 + tolerationSeconds</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Node Affinity (보완: 파드 주도 선택)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Pod Disruption Budget (PDB) → 축출 안전 제어</div>
-</div>
-</div>
-
-
+```
+Taint/Toleration
+    ├── NoSchedule → 신규 파드 배치 제어
+    ├── NoExecute  → 기존 파드 축출 + tolerationSeconds
+    ├── Node Affinity (보완: 파드 주도 선택)
+    └── Pod Disruption Budget (PDB) → 축출 안전 제어
+```
 
 > 🧒 **어린이 비유**
 > 노드는 놀이터, Taint는 "이 미끄럼틀은 헬멧 착용자만!"이라는 안내판이고, Toleration은 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 들고 있는 헬멧이에요.

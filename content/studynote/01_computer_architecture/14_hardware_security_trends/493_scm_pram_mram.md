@@ -23,21 +23,19 @@ tags = ["studynote-computer-architecture"]
 
 SCM이 필요한 이유는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 비용이 연산 비용 못지않게 커졌기 때문이다. [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/), 부팅 코드, 산업용 제어 장치의 상태 정보처럼 "즉시 읽어야 하지만 남아 있어야 하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)"는 SSD로 가면 느리고, DRAM에만 두면 장애 시 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 부담이 커진다. 그래서 SCM은 단순히 새 메모리 소자가 아니라, 메모리 계층 자체를 다시 나누는 시도라고 보는 편이 정확하다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 계층의 빈칸: 빠른 휘발성과 느린 비휘발성 사이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SRAM / Register</div><div class="kb-diagram-cell">&lt; 1 ns</div><div class="kb-diagram-cell">매우 작음</div><div class="kb-diagram-cell">휘발성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DRAM</div><div class="kb-diagram-cell">수십 ns</div><div class="kb-diagram-cell">중간</div><div class="kb-diagram-cell">휘발성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SCM</div><div class="kb-diagram-cell">수십 ns ~ 수 μs</div><div class="kb-diagram-cell">중간~큼</div><div class="kb-diagram-cell">비휘발성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NAND Flash</div><div class="kb-diagram-cell">수십 ~ 수백 μs</div><div class="kb-diagram-cell">큼</div><div class="kb-diagram-cell">비휘발성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SSD / HDD</div><div class="kb-diagram-cell">ms 이상</div><div class="kb-diagram-cell">매우 큼</div><div class="kb-diagram-cell">비휘발성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심 질문: "DRAM보다 저렴하고, NAND보다 바로 읽기 쉬운 층이 필요한가?"</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                 메모리 계층의 빈칸: 빠른 휘발성과 느린 비휘발성 사이          │
+├────────────────────────────────────────────────────────────────────────────┤
+│ SRAM / Register   │ < 1 ns             │ 매우 작음 │ 휘발성                 │
+│ DRAM              │ 수십 ns            │ 중간      │ 휘발성                 │
+│ SCM               │ 수십 ns ~ 수 μs    │ 중간~큼   │ 비휘발성               │
+│ NAND Flash        │ 수십 ~ 수백 μs     │ 큼        │ 비휘발성               │
+│ SSD / HDD         │ ms 이상            │ 매우 큼   │ 비휘발성               │
+├────────────────────────────────────────────────────────────────────────────┤
+│ 핵심 질문: "DRAM보다 저렴하고, NAND보다 바로 읽기 쉬운 층이 필요한가?"        │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 핵심은 SCM이 기존 메모리를 완전히 밀어내는 존재가 아니라, 성능과 [영속성](/knowledge-base/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/)의 단층을 메우는 완충층이라는 점이다. 따라서 SCM을 이해할 때는 "더 빠른 저장장치"가 아니라 "메모리 계층 재편 도구"로 기억하는 것이 맞다.
 
@@ -57,21 +55,22 @@ PRAM은 상변화 물질의 결정질/비정질 상태 차이를 이용하고, M
 | MRAM | MTJ의 평행/반평행 자화 상태 저장 | 빠른 속도, 높은 내구성, 즉시 기동 | 셀 면적과 비용 부담 | 임베디드 NVM, 캐시 보조, 보안 소자 |
 | ReRAM | [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)으로 필라멘트 형성/절단 | 고집적, 아날로그 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 표현 가능 | 셀 변동성과 forming 제어 | 고밀도 NVM, 뉴로모픽·인메모리 연산 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3대 SCM 계열의 상태 저장 방식</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PRAM MRAM ReRAM</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">열 펄스 인가</div><div class="kb-diagram-cell">스핀 전류 인가</div><div class="kb-diagram-cell">전압 인가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상변화층 전환</div><div class="kb-diagram-cell">MTJ 자화 전환</div><div class="kb-diagram-cell">필라멘트 생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결정질 ↔ 비정질</div><div class="kb-diagram-cell">평행 ↔ 반평행</div><div class="kb-diagram-cell">형성 ↔ 절단</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">저항 차로 0/1 저장</div><div class="kb-diagram-cell">저항 차로 0/1 저장</div><div class="kb-diagram-cell">저항 차로 저장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공통점: 읽기는 작은 센스 전류, 쓰기는 상태를 바꾸는 펄스가 담당한다</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                      3대 SCM 계열의 상태 저장 방식                          │
+├────────────────────────────────────────────────────────────────────────────┤
+│ PRAM                         MRAM                          ReRAM           │
+│ ┌────────────────────┐      ┌────────────────────┐       ┌──────────────┐ │
+│ │ 열 펄스 인가       │      │ 스핀 전류 인가     │       │ 전압 인가     │ │
+│ │        │           │      │        │           │       │      │       │ │
+│ │ 상변화층 전환      │      │ MTJ 자화 전환      │       │ 필라멘트 생성 │ │
+│ │ 결정질 ↔ 비정질    │      │ 평행 ↔ 반평행      │       │ 형성 ↔ 절단   │ │
+│ │        │           │      │        │           │       │      │       │ │
+│ │ 저항 차로 0/1 저장 │      │ 저항 차로 0/1 저장 │       │ 저항 차로 저장│ │
+│ └────────────────────┘      └────────────────────┘       └──────────────┘ │
+│ 공통점: 읽기는 작은 센스 전류, 쓰기는 상태를 바꾸는 펄스가 담당한다          │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 결국 SCM의 핵심은 "정보를 저장하는 물리 현상을 리프레시 없는 상태로 바꿔 놓는 것"이다. 이 덕분에 저전력 대기와 [영속성](/knowledge-base/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/)을 얻지만, 동시에 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 열화·변동성·공정 복잡도 같은 새로운 설계 과제를 안게 된다.
 
@@ -147,24 +146,22 @@ SCM이 성숙하면 시스템은 더 짧은 재기동 시간, 낮은 대기 전�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">DRAM 중심 주기억장치</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">NAND 플래시 중심 저장장치</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SCM (Storage Class Memory) 필요성 대두</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ PRAM (상변화 기반 영속성)</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ MRAM (자기저항 기반 고내구성)</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ ReRAM (필라멘트 기반 고집적)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Persistent Memory · Embedded NVM · In-Memory Computing</div>
-</div>
-</div>
-
-
+```text
+DRAM 중심 주기억장치
+        │
+        ▼
+NAND 플래시 중심 저장장치
+        │
+        ▼
+SCM (Storage Class Memory) 필요성 대두
+        │
+        ├────────▶ PRAM (상변화 기반 영속성)
+        ├────────▶ MRAM (자기저항 기반 고내구성)
+        └────────▶ ReRAM (필라멘트 기반 고집적)
+        │
+        ▼
+Persistent Memory · Embedded NVM · In-Memory Computing
+```
 
 이 흐름은 메모리 계층의 단절을 메우려는 요구가 서로 다른 물리 원리의 [SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) 계열로 분화되고, 다시 시스템·임베디드·[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 응용으로 확장되는 과정을 보여 준다.
 

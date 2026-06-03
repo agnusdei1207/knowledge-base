@@ -24,18 +24,14 @@ tags = ["studynote-network"]
 
 - **💡 비유**: RIPv2가 <strong>"가솔린차 엔진(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/">IPv4</a> 처리)"</strong>이라면, RIPng는 엔진 원리나 미션(15 홉 제한, 30초 룰)은 똑같은데 연료통만 <strong>"전기 배터리(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/">IPv6</a> 처리)"</strong>로 쓱 교체해서 구형 차대(프레임)에 얹은 <strong>"레트로 전기차(<a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/">EV</a>) 개조 모델"</strong>과 같습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">RIPv1 vs RIPv2</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">RIPng</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IGRP</div></div>
-</div>
-</div>
-
-
+```text
+[RIPv1 vs RIPv2]
+    │
+    ▼
+[RIPng]
+    │
+    └──▶ [IGRP]
+```
 
 - **📢 섹션 요약 비유**: ** RIPng는 할아버지([RIPv1](/knowledge-base/studynote/03_network/07_network_layer_routing/352_ripv1_classful_vs_ripv2_classless_vlsm/))가 입던 낡은 양복을 손자(RIPng)가 물려받아 입은 격입니다. 옷감의 재질은 최신 나일론([IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/))으로 싹 다 바꿨지만, 바지통이나 재킷 디자인([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))은 80년대 스타일 그대로인 묘한 하이브리드 옷입니다.
 
@@ -56,23 +52,23 @@ RIPng가 엽서를 보낼 때, 출발지 IP 주소로 자기의 어마어마하�
 - 대신 IPv6의 특권인 <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/329_ipv6_link_local_fe80_site_local/">링크 로컬 주소</a>(<code>FE80::xxxx</code>)</strong>를 출발지로 박아서 보낸다.
 - 이유: 어차피 [거리 벡터](/knowledge-base/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)은 "내 바로 옆 라우터"랑만 대화하면 된다. 굳이 인터넷으로 나갈 진짜 공인 IP를 들먹일 필요 없이, 랜선 꽂자마자 자동 생성되는 `FE80` 내선 번호끼리만 지도를 쑥덕쑥덕 교환하는 게 가장 빠르고 안정적이기 때문이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RIPv2 vs RIPng 핵심 차이점 1분 요약</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">항목</div><div class="kb-diagram-node">RIPv2 (IPv4용)</div><div class="kb-diagram-node">RIPng (IPv6용)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대역폭 기준 IPv4 서브넷 마스크 IPv6 프리픽스(Prefix)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최대 홉 제한 15 (16은 죽음) 15 (16은 죽음) ◀ 동일!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">업데이트 주기 30초 마다 30초 마다 ◀ 동일!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전송 포트 UDP 520 UDP 521</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">목적지 주소 224.0.0.9 FF02::9</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자체 암호화 MD5 지원 미지원 (IPv6 IPsec 믿음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ "이름만 Next Generation이지, 뼈대는 완벽히 고전적인 RIP다!"</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                RIPv2 vs RIPng 핵심 차이점 1분 요약              │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 항목 ]         [ RIPv2 (IPv4용) ]      [ RIPng (IPv6용) ] │
+ │   --------------------------------------------------------- │
+ │   대역폭 기준       IPv4 서브넷 마스크        IPv6 프리픽스(Prefix)  │
+ │   최대 홉 제한      15 (16은 죽음)          15 (16은 죽음) ◀ 동일!  │
+ │   업데이트 주기     30초 마다               30초 마다    ◀ 동일!  │
+ │   전송 포트         UDP 520               UDP 521               │
+ │   목적지 주소       224.0.0.9             FF02::9               │
+ │   자체 암호화       MD5 지원               미지원 (IPv6 IPsec 믿음)│
+ │                                                             │
+ │   ▶ "이름만 Next Generation이지, 뼈대는 완벽히 고전적인 RIP다!"      │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: RIPng의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -102,7 +98,7 @@ RIPng를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: ** RIPng는 동사무소에 서류를 낼 때, 양식 포맷([알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))은 1980년대 낡은 종이 서식 그대로 쓰면서, 겉봉투만 최신형 친환경 봉투([IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/))로 갈아 끼워 제출하는 약간은 우스꽝스러운 행정 서류입니다.
+- **📢 섹션 요약 비유**: ** RIPng는 동사무소에 서류를 낼 때, 양식 포맷([알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))은 1980년대 낡은 종이 서식 그대로 쓰면서, 겉봉투만 최새로운 유형의 친환경 봉투([IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/))로 갈아 끼워 제출하는 약간은 우스꽝스러운 행정 서류입니다.
 
 ---
 
@@ -125,19 +121,15 @@ RIPng는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routi
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: RIPv1 vs RIPv2</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: RIPng</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: IGRP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: RIPv1 vs RIPv2]
+    │
+    ▼
+[현재 개념: RIPng]
+    │
+    ├──▶ [확장 A: IGRP]
+    └──▶ [확장 B: 의도 기반 라우팅]
+```
 
 RIPng는 [RIPv1](/knowledge-base/studynote/03_network/07_network_layer_routing/352_ripv1_classful_vs_ripv2_classless_vlsm/) vs RIPv2에서 출발해 현재 메커니즘을 정교화하고, 이후 IGRP와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

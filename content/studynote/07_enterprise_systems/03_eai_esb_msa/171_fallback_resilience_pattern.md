@@ -27,19 +27,18 @@ tags = ["studynote-enterprise"]
 
 아래 그림은 원래 경로와 폴백 경로가 어디서 갈리는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Primary path and fallback path split</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User -&gt; Product API -&gt; Recommendation service</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ success -&gt; personalized list</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ fail/open breaker -&gt; cached popular list</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">goal: keep the page usable without pretending the dependency is fine</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                 Primary path and fallback path split                 │
+├──────────────────────────────────────────────────────────────────────┤
+│ User -> Product API -> Recommendation service                        │
+│                         │                                            │
+│                         ├─ success -> personalized list              │
+│                         └─ fail/open breaker -> cached popular list  │
+│                                                                      │
+│ goal: keep the page usable without pretending the dependency is fine │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 핵심은 "정상 응답처럼 보이게 속이는 것"이 아니라, <strong>사용 가능한 최소 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 수준을 유지하는 것</strong>이다. 그래서 폴백 응답은 가능한 한 출처와 한계를 분명히 가져야 한다.
 
@@ -64,20 +63,18 @@ tags = ["studynote-enterprise"]
 
 아래 그림은 실패 감지에서 폴백 응답까지의 전형적인 흐름을 요약한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Timeout and circuit breaker decide when fallback runs</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">request -&gt; timeout -&gt; retry?(limited) -&gt; circuit breaker -&gt; fallback</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ cache</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ default</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ secondary</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ feature off</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│        Timeout and circuit breaker decide when fallback runs         │
+├──────────────────────────────────────────────────────────────────────┤
+│ request -> timeout -> retry?(limited) -> circuit breaker -> fallback │
+│                                                        │             │
+│                                                        ├─ cache      │
+│                                                        ├─ default    │
+│                                                        ├─ secondary  │
+│                                                        └─ feature off│
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 즉 폴백은 장애 회피 그 자체가 아니라, 이미 실패가 감지된 후 <strong>사용자와 시스템에 가장 덜 위험한 응답 형태로 착지시키는 기술</strong>이다.
 
@@ -164,21 +161,18 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Remote call failure</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Timeout / Retry / Circuit Breaker</div>
-<div class="kb-diagram-tree-item" style="--depth:2">safe read path -&gt; cache / default / secondary source</div>
-<div class="kb-diagram-tree-item" style="--depth:2">unsafe write -&gt; fail fast / compensation flow</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Graceful degradation with observability</div>
-</div>
-</div>
-
-
+```text
+Remote call failure
+    │
+    ▼
+Timeout / Retry / Circuit Breaker
+    │
+    ├─ safe read path  -> cache / default / secondary source
+    └─ unsafe write    -> fail fast / compensation flow
+    │
+    ▼
+Graceful degradation with observability
+```
 
 이 흐름은 원격 호출 장애가 발생했을 때 폴백이 어디에 들어가고, 어떤 경우에는 오히려 쓰지 말아야 하는지를 보여 준다.
 

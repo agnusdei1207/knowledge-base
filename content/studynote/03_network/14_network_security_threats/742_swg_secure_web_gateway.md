@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: 사내 직원의 PC와 외부 인터넷 웹 사이트([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/[HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/)) 사이에 위치하여, 직원이 접속하려는 <strong>웹 트래픽의 유해성을 실시간으로 검사하고, 기업의 보안 정책에 어긋나는 유해 사이트 접속이나 악성 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 다운로드를 원천 차단하는 특화된 보안 프레임워크 장비</strong>입니다.
 - **포지션**: [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)(FW)이 '어떤 통신 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 막을까'를 고민한다면, SWG는 '이 웹페이지 URL과 다운받는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 악성인가?'를 심층 분석(L7)하는 웹 전용 보디가드입니다. ([SASE](/knowledge-base/studynote/03_network/14_network_security_threats/740_sase_secure_access_service_edge_sdwan_cloud/) 아키텍처의 필수 구성 요소)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">CASB</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SWG</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CSPM / CWPP 보안 설정 모니터링 관…</div></div>
-</div>
-</div>
-
-
+```text
+[CASB]
+    │
+    ▼
+[SWG]
+    │
+    └──▶ [CSPM / CWPP 보안 설정 모니터링 관…]
+```
 
 - **📢 섹션 요약 비유**: SWG는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -44,18 +40,14 @@ tags = ["studynote-network"]
 - **구조적 설계**: SWG의 근본 뼈대는 <strong>'포워드 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">프록시</a>(<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/">Forward</a> <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">Proxy</a>)'</strong>입니다. 직원이 네이버에 접속하려고 브라우저를 켜면, 패킷은 네이버로 직행하지 않고 무조건 SWG 장비 안으로 들어갑니다.
 - <strong>투명 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">프록시</a>(Transparent)</strong>: 직원들은 자기 PC에 따로 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) IP [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 하지 않아도, 라우터가 웹 트래픽(80, 443번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))을 강제로 SWG 쪽으로 꺾어버립니다(Redirect). 직원은 투명 인간이 중간에 서 있는 줄도 모르고 자연스럽게 인터넷을 쓰게 됩니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">CASB</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SWG</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CSPM / CWPP 보안 설정 모니터링 관…</div></div>
-</div>
-</div>
-
-
+```text
+[CASB]
+    │
+    ▼
+[SWG]
+    │
+    └──▶ [CSPM / CWPP 보안 설정 모니터링 관…]
+```
 
 - **📢 섹션 요약 비유**: SWG의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -118,19 +110,15 @@ SWG는 [네트워크 보안](/knowledge-base/studynote/03_network/20_performance
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: CASB</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: SWG</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: CSPM / CWPP 보안 설정 모니터링 관…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: CASB]
+    │
+    ▼
+[현재 개념: SWG]
+    │
+    ├──▶ [확장 A: CSPM / CWPP 보안 설정 모니터링 관…]
+    └──▶ [확장 B: 예측형 위협 대응]
+```
 
 SWG는 CASB에서 출발해 현재 메커니즘을 정교화하고, 이후 [CSPM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/780_cspm_cloud_security_posture_management/) / [CWPP](/knowledge-base/studynote/15_devops_sre/05_devsecops/332_cwpp/) 보안 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 모니터링 관…와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

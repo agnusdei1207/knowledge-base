@@ -21,15 +21,11 @@ tags = ["studynote-bigdata"]
 
 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 포맷 경쟁 ([Apache Iceberg](/knowledge-base/studynote/16_bigdata/07_data_lake/148_apache_iceberg/) 사실상 표준화 움직임)은 빅데이터 환경에서 포맷 표준화을 실제 문서, 시스템, 운영 흐름에 연결하는 문제를 다룬다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 환경이 빠르게 바뀌어도 기준이 없으면 선택 기준이 흔들리고, 결국 비용과 품질이 같이 흔들린다. 그래서 이 주제는 최신 흐름을 따라가는 이야기이면서 동시에, 무엇을 기준으로 선택할지 정리하는 구조다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">목표/전략</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">운영/통제</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">지표/개선</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐   ┌──────────────┐   ┌──────────────┐
+│ 목표/전략        │──▶│ 운영/통제        │──▶│ 지표/개선        │
+└──────────────┘   └──────────────┘   └──────────────┘
+```
 
 - **📢 섹션 요약 비유**: 조타실처럼, 시작점이 정해져야 다음 단계도 흔들리지 않는다.
 
@@ -45,15 +41,11 @@ tags = ["studynote-bigdata"]
 | 운영/통제 | 처리/[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 절차와 자동화가 연결되어야 한다 |
 | 지표/개선 | 결과/증거 | 기록이 남아야 재현과 추적이 된다 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">목표/전략</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">운영/통제</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">지표/개선</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐   ┌──────────────┐   ┌──────────────┐
+│ 목표/전략        │──▶│ 운영/통제        │──▶│ 지표/개선        │
+└──────────────┘   └──────────────┘   └──────────────┘
+```
 
 Apache Iceberg와 오픈 포맷은 이 흐름을 보강하는 대표 축이다. 하나는 기술 발전 방향이고, 다른 하나는 실제 운영 방식이다. 둘을 같이 봐야 과도한 단순화도, 과도한 복잡화도 피할 수 있다.
 
@@ -116,23 +108,21 @@ Apache Iceberg와 오픈 포맷은 이 흐름을 보강하는 대표 축이다. 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Hive Metastore — 파티션 열거 병목</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Iceberg — 오픈 테이블 포맷 표준</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스냅샷 / 타임 트래블 (Time Travel)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">멀티 엔진 접근 (Multi-Engine) — Spark / Flink / Trino</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">오픈 데이터 레이크하우스 생태계 (Open Lakehouse)</div></div>
-</div>
-</div>
-
-
+```text
+[Hive Metastore — 파티션 열거 병목]
+    │
+    ▼
+[Apache Iceberg — 오픈 테이블 포맷 표준]
+    │
+    ▼
+[스냅샷 / 타임 트래블 (Time Travel)]
+    │
+    ▼
+[멀티 엔진 접근 (Multi-Engine) — Spark / Flink / Trino]
+    │
+    ▼
+[오픈 데이터 레이크하우스 생태계 (Open Lakehouse)]
+```
 
 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/) 포맷 기술이 Hive의 한계를 극복하고 Iceberg를 중심으로 멀티 엔진 개방형 생태계로 수렴하는 흐름이다.
 

@@ -44,24 +44,28 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 FHE용 모듈러 곱셈기가 왜 "큰 곱셈기 1개"보다 "많은 lane + 감소 + 메모리" 구조로 설계되는지를 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FHE 모듈러 곱셈기: 큰 수를 잘게 나눠 여러 lane에서 동시에 처리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ciphertext Coefficients</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RNS Split ──▶ Lane 0 (q0) ──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Lane 1 (q1) ── ──▶ Mod Multiply ─▶ Mod Reduce ─▶ NTT / iNTT</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Lane 2 (q2) ──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Lane N (qN) ──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Rescale / Relinearize / Key Switching</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Next Ciphertext Stage</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">병목 포인트: reduction latency · memory bandwidth · lane utilization</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│       FHE 모듈러 곱셈기: 큰 수를 잘게 나눠 여러 lane에서 동시에 처리       │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Ciphertext Coefficients                                                    │
+│        │                                                                   │
+│        ▼                                                                   │
+│ RNS Split ──▶ Lane 0 (q0) ──┐                                              │
+│             Lane 1 (q1) ──┼──▶ Mod Multiply ─▶ Mod Reduce ─▶ NTT / iNTT    │
+│             Lane 2 (q2) ──┤                         │                        │
+│             ...           ├─────────────────────────┘                        │
+│             Lane N (qN) ──┘                                                  │
+│                                      │                                       │
+│                                      ▼                                       │
+│                       Rescale / Relinearize / Key Switching                  │
+│                                      │                                       │
+│                                      ▼                                       │
+│                            Next Ciphertext Stage                             │
+│                                                                            │
+│ 병목 포인트: reduction latency · memory bandwidth · lane utilization        │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 핵심은 모듈러 감소를 "진짜 나눗셈"으로 하지 않는다는 점이다. FHE에서는 같은 모듈러스 집합에 대해 반복 계산이 많으므로, 미리 준비한 상수와 시프트·곱셈 조합으로 감소를 처리하는 것이 훨씬 효율적이다. 또한 NTT와 곱셈기를 가깝게 배치하면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 외부 메모리까지 내보내지 않고 바로 다음 스테이지로 전달할 수 있어, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 전력을 함께 줄일 수 있다.
 
@@ -143,25 +147,24 @@ FHE용 대규모 모듈러 곱셈기가 성숙하면, 지금까지 "가능하지
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">큰 정수 모듈러 산술</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">잔여수계 (RNS) 기반 분해</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">병렬 모듈러 곱셈 + Montgomery / Barrett 감소</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">NTT 결합형 FHE 산술 파이프라인</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">재선형화 · 부트스트래핑 통합 가속</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">암호화된 AI 추론 · 프라이버시 데이터 처리</div>
-</div>
-</div>
-
-
+```text
+큰 정수 모듈러 산술
+        │
+        ▼
+잔여수계 (RNS) 기반 분해
+        │
+        ▼
+병렬 모듈러 곱셈 + Montgomery / Barrett 감소
+        │
+        ▼
+NTT 결합형 FHE 산술 파이프라인
+        │
+        ▼
+재선형화 · 부트스트래핑 통합 가속
+        │
+        ▼
+암호화된 AI 추론 · 프라이버시 데이터 처리
+```
 
 이 흐름은 단순한 큰 수 연산에서 출발해, FHE 전용 파이프라인과 실제 프라이버시 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 인프라로 확장되는 과정을 보여 준다.
 

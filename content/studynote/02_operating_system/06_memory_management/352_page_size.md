@@ -27,24 +27,23 @@ tags = ["studynote-operating-system"]
   2. **현대 (4KB 표준)**: 램 용량이 기가바이트(GB) 시대로 넘어오면서 낭비 좀 하는 건 괜찮아졌다. 대신 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 장부가 너무 뚱뚱해져서 램을 다 파먹는 현상을 막고, 디스크 섹터 크기(4KB)와 규격을 통일해 I/O 성능을 극대화하기 위해 4KB로 상향 고정되었다.
   3. <strong>미래 (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/">Huge Page</a> 도입)</strong>: 빅데이터와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시대가 도래하며 4KB조차 너무 잘다는 불만이 DB 진영에서 터져 나왔다. 오라클이나 MySQL 등은 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 캐시 미스를 줄이기 위해 2MB, 1GB짜리 초거대 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 혼용하기 시작했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페이지 크기(Page Size) 결정 시의 양방향 트레이드오프</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">페이지 크기를 작게 할 때 (예: 512 Byte)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➕ 장점: 프로그램 덩치에 촘촘하게 맞춰 할당. (내부 단편화 최소화)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➖ 단점: 1GB짜리 앱을 위해 200만 개의 조각이 생김.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페이지 테이블(장부) 크기가 폭발하여 램을 엄청나게 잡아먹음!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">페이지 크기를 크게 할 때 (예: 4 MB)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➕ 장점: 1GB 앱을 단 250개 조각으로 끝냄. (페이지 테이블 초소형화)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">한 번에 큼직하게 디스크(Swap)로 퍼 나르니 I/O 효율 압도적.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➖ 단점: 50KB짜리 작은 앱한테도 4MB를 떼어줘야 함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하나당 3.95MB의 여백이 썩어버리는 끔찍한 내부 단편화 발생!</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────────────┐
+│        페이지 크기(Page Size) 결정 시의 양방향 트레이드오프           │
+├───────────────────────────────────────────────────────────────────────┤
+│                                                                       │
+│ [ 페이지 크기를 작게 할 때 (예: 512 Byte) ]                           │
+│  ➕ 장점: 프로그램 덩치에 촘촘하게 맞춰 할당. (내부 단편화 최소화)    │
+│  ➖ 단점: 1GB짜리 앱을 위해 200만 개의 조각이 생김.                   │
+│         페이지 테이블(장부) 크기가 폭발하여 램을 엄청나게 잡아먹음!   │
+│                                                                       │
+│ [ 페이지 크기를 크게 할 때 (예: 4 MB) ]                               │
+│  ➕ 장점: 1GB 앱을 단 250개 조각으로 끝냄. (페이지 테이블 초소형화)   │
+│         한 번에 큼직하게 디스크(Swap)로 퍼 나르니 I/O 효율 압도적.    │
+│  ➖ 단점: 50KB짜리 작은 앱한테도 4MB를 떼어줘야 함.                   │
+│         하나당 3.95MB의 여백이 썩어버리는 끔찍한 내부 단편화 발생!    │
+└───────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 이 시소 게임에서 완벽한 승자는 없다. 공학자들은 수십 년간의 시뮬레이션을 통해, 프로세스의 평균적인 크기 성장세와 물리 메모리의 가격 하락 곡선을 교차시켜 <strong>"4096 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/">바이트</a> (4KB)"</strong>라는 마법의 타협 숫자를 찾아냈고, 이는 현재 전 세계 모든 범용 x86, ARM 아키텍처의 절대 표준이 되었다.
 
 - **📢 섹션 요약 비유**: 약국에서 약을 처방할 때, 가루약으로 너무 잘게 갈아주면(작은 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)) 삼키기는 좋지만 포장지([페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/))가 수백 장 낭비되고, 알약을 야구공만 하게 만들면(큰 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)) 포장지는 한 장이면 되지만 목구멍에 걸려(내부 낭비) 고생하는 것과 같은 극단적 선택의 조율입니다.
@@ -70,23 +69,22 @@ tags = ["studynote-operating-system"]
 - 즉, 디스크를 한 번 긁을 때 1KB를 퍼오나 4KB를 퍼오나 걸리는 시간은 사실상 똑같다.
 - 따라서 한 번 헤더를 움직였을 때 최대한 많은 양(큰 덩어리)을 퍼오는 것이 무조건 이득이다. 이 I/O 관점에서도 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 크기는 큰 것이 압도적으로 유리하다. ([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 시대가 오면서 이 갭이 줄긴 했지만, I/O 블록 사이즈 4KB는 여전히 스토리지의 국룰이다.)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페이지 크기 증가 추세에 대한 4가지 역학 관계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">⬇ 페이지 크기를 줄이면</div><div class="kb-diagram-node">⬆ 페이지 크기를 늘리면</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 내부 단편화: 감소 (이득) 1. 내부 단편화: 증가 (손실)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 테이블 크기: 증가 (손실) 2. 테이블 크기: 감소 (이득)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 디스크 I/O: 매우 비효율적 3. 디스크 I/O: 매우 효율적</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. TLB 적중률: 감소 (자주 교체) 4. TLB 적중률: 증가 (한 번에 넓게)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 최종 결론 (역사적 방향성): 메모리(RAM) 용량이 폭발적으로 저렴해지면서,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">내부 단편화(공간 낭비)를 조금 감수하더라도 테이블 크기와 속도(I/O, TLB)를</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">극대화하기 위해 페이지 크기를 계속 "키우는(Up-size)" 방향으로 진화 중.</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│              페이지 크기 증가 추세에 대한 4가지 역학 관계                  │
+├────────────────────────────────────────────────────────────────────────────┤
+│                                                                            │
+│ [ ⬇ 페이지 크기를 줄이면 ]          [ ⬆ 페이지 크기를 늘리면 ]             │
+│  1. 내부 단편화: 감소 (이득)           1. 내부 단편화: 증가 (손실)         │
+│  2. 테이블 크기: 증가 (손실)           2. 테이블 크기: 감소 (이득)         │
+│  3. 디스크 I/O: 매우 비효율적          3. 디스크 I/O: 매우 효율적          │
+│  4. TLB 적중률: 감소 (자주 교체)       4. TLB 적중률: 증가 (한 번에 넓게)  │
+│                                                                            │
+│ ▶ 최종 결론 (역사적 방향성): 메모리(RAM) 용량이 폭발적으로 저렴해지면서,   │
+│ 내부 단편화(공간 낭비)를 조금 감수하더라도 테이블 크기와 속도(I/O, TLB)를  │
+│ 극대화하기 위해 페이지 크기를 계속 "키우는(Up-size)" 방향으로 진화 중.     │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 컴퓨터 아키텍처의 패러다임이 '공간 절약'에서 '시간(속도) 극대화'로 넘어갔음을 보여준다. 1GB 램 시절에는 4MB가 아까웠지만, 64GB 램 시대에는 4MB 낭비는 티도 안 난다. 반면 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 미스(캐시 실패)로 인한 속도 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 CPU 클럭이 수 GHz로 빨라지면서 절대 용납할 수 없는 최악의 병목이 되었다.
 
@@ -110,17 +108,14 @@ tags = ["studynote-operating-system"]
 - <strong>2MB <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> × 64 엔트리</strong> = TLB가 커버하는 메모리 범위가 <strong>128MB</strong>로 뻥튀기된다!
 - 이것이 빅데이터 서버들이 미친 듯이 [Huge Page](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/)(2MB) 옵션을 켜려고 안달이 난 진짜 이유다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페이지 크기</div><div class="kb-diagram-cell">TLB 커버리지</div><div class="kb-diagram-cell">내부 단편화</div><div class="kb-diagram-cell">불필요 데이터 로드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4 KB (표준)</div><div class="kb-diagram-cell">너무 좁음</div><div class="kb-diagram-cell">매우 작음</div><div class="kb-diagram-cell">거의 없음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2 MB (거대)</div><div class="kb-diagram-cell">극강의 넓이</div><div class="kb-diagram-cell">매우 큼</div><div class="kb-diagram-cell">심하게 발생</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬────────────────────────┐
+│ 페이지 크기│ TLB 커버리지│ 내부 단편화  │ 불필요 데이터 로드│
+├──────────┼────────────┼────────────┼────────────────────────┤
+│ 4 KB (표준)│ 너무 좁음   │ 매우 작음   │ 거의 없음          │
+│ 2 MB (거대)│ 극강의 넓이 │ 매우 큼    │ 심하게 발생         │
+└──────────┴────────────┴────────────┴────────────────────────┘
+```
 **[매트릭스 해설]** [거대 페이지](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/)([Huge Page](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/))는 양날의 검이다. 거대한 DB [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 순차적으로 긁어모을 때 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 미스를 0으로 만들어주는 갓옵션이지만, 카카오톡 같은 자잘한 앱 수백 개를 띄운 데스크탑에 적용하면 빈 공간 낭비와 찌꺼기 로딩 때문에 서버가 터져버린다.
 
 - **📢 섹션 요약 비유**: 그물을 작게 짜서(작은 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)) 던지면 딱 원하는 물고기만 잡히지만 그물질을 수천 번 해야 하고, 그물을 축구장만 하게 짜서(큰 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)) 던지면 한 번에 다 잡히지만 원치 않는 쓰레기(불필요 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))까지 다 끌려 올라와 배가 가라앉을 수 있는 딜레마입니다.
@@ -172,19 +167,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">페이징 (Paging)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">페이지 크기 (Page Size)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">페이지 테이블 (Page Table)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">PTBR (Page-Table Base Register) / PTLR (Page-Table Length Register)</div></div>
-</div>
-</div>
-
-
+```text
+[페이징 (Paging)]
+    │
+    ▼
+[페이지 크기 (Page Size)]
+    │
+    ├──▶ [페이지 테이블 (Page Table)]
+    └──▶ [PTBR (Page-Table Base Register) / PTLR (Page-Table Length Register)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

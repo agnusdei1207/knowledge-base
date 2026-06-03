@@ -44,21 +44,27 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 뉴로모픽 칩이 "메모리에서 값을 꺼내 연산기로 보내는 구조"보다 "발화 이벤트가 연결망을 따라 퍼지는 구조"에 가깝다는 점을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">뉴로모픽 처리 흐름: 저장과 계산이 가까운 이벤트 경로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">센서 이벤트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스파이크 스파이크</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">뉴런 코어 A</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">뉴런 코어 B</div><div class="kb-diagram-cell">▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시냅스 메모리</div><div class="kb-diagram-cell">시냅스 메모리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가중치 참조 및 국소 업데이트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">특징: 데이터 블록 전체 이동보다, "발생한 이벤트"만 주소 기반 전달</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│        뉴로모픽 처리 흐름: 저장과 계산이 가까운 이벤트 경로       │
+├────────────────────────────────────────────────────────────────────┤
+│  센서 이벤트                                                      │
+│      │                                                            │
+│      ▼                                                            │
+│  ┌──────────┐      스파이크      ┌──────────┐      스파이크       │
+│  │ 뉴런 코어 A│ ───────────────▶ │ 뉴런 코어 B│ ───────────────▶   │
+│  └────┬─────┘                    └────┬─────┘                    │
+│       │                               │                           │
+│       ▼                               ▼                           │
+│  ┌──────────┐                    ┌──────────┐                    │
+│  │시냅스 메모리│                    │시냅스 메모리│                    │
+│  └──────────┘                    └──────────┘                    │
+│       ▲                               ▲                           │
+│       └───── 가중치 참조 및 국소 업데이트 ─────┘                  │
+│                                                                    │
+│  특징: 데이터 블록 전체 이동보다, "발생한 이벤트"만 주소 기반 전달 │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조에서 전력 효율이 높은 이유는 두 가지다. 첫째, 이벤트가 없으면 많은 회로가 유휴 상태를 유지한다. 둘째, 전체 프레임이나 대형 텐서를 매번 옮기지 않고 필요한 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)만 전달하므로 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 부담이 줄어든다. 특히 DVS (Dynamic Vision Sensor) 같은 이벤트 센서와 결합하면, 입력 자체가 이미 [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/) 형태이기 때문에 변환 비용도 낮다.
 
@@ -137,25 +143,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">폰 노이만 병목 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">메모리 월 (Memory Wall) · 데이터 이동 전력 문제</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">이벤트 기반 처리 · 스파이크 표현</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">스파이킹 신경망 (SNN) · 뉴로모픽 코어</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">이벤트 센서 (DVS) · 엣지 초저전력 시스템</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">온칩 학습 · CIM (Computing-In-Memory) 융합</div>
-</div>
-</div>
-
-
+```text
+폰 노이만 병목 인식
+        │
+        ▼
+메모리 월 (Memory Wall) · 데이터 이동 전력 문제
+        │
+        ▼
+이벤트 기반 처리 · 스파이크 표현
+        │
+        ▼
+스파이킹 신경망 (SNN) · 뉴로모픽 코어
+        │
+        ▼
+이벤트 센서 (DVS) · 엣지 초저전력 시스템
+        │
+        ▼
+온칩 학습 · CIM (Computing-In-Memory) 융합
+```
 
 이 흐름은 "병목 인식 → 표현 방식 변화 → 하드웨어 특화 → 센서 결합 → 미래 통합"으로 발전하는 축을 보여준다.
 

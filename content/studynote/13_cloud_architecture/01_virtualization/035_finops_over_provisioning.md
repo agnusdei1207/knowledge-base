@@ -142,31 +142,25 @@ AWS Auto Scaling 예시:
 
 ## 📌 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">FinOps / 오버 프로비저닝 최적화</div>
-<div class="kb-diagram-note">+-- 원인 분석</div>
-<div class="kb-diagram-note">+-- 오버 프로비저닝 (사양 과다)</div>
-<div class="kb-diagram-note">+-- 유휴 리소스 (미사용)</div>
-<div class="kb-diagram-note">+-- 스토리지 낭비</div>
-<div class="kb-diagram-note">+-- 최적화 수단</div>
-<div class="kb-diagram-note">+-- Right-sizing (AWS Compute Optimizer)</div>
-<div class="kb-diagram-note">+-- Reserved Instance / Savings Plans</div>
-<div class="kb-diagram-note">+-- 오토스케일링</div>
-<div class="kb-diagram-note">+-- 스팟/프리엠티블 인스턴스</div>
-<div class="kb-diagram-note">+-- FinOps 프레임워크</div>
-<div class="kb-diagram-note">+-- Inform -&gt; Optimize -&gt; Operate</div>
-<div class="kb-diagram-note">+-- 태깅, 비용 할당, 팀 책임</div>
-<div class="kb-diagram-note">+-- 도구</div>
-<div class="kb-diagram-note">+-- AWS Cost Explorer / Compute Optimizer</div>
-<div class="kb-diagram-note">+-- Azure Advisor / Cost Management</div>
-<div class="kb-diagram-note">+-- Infracost (IaC 비용 분석)</div>
-</div>
-</div>
-
-
+```
+FinOps / 오버 프로비저닝 최적화
++-- 원인 분석
+|   +-- 오버 프로비저닝 (사양 과다)
+|   +-- 유휴 리소스 (미사용)
+|   +-- 스토리지 낭비
++-- 최적화 수단
+|   +-- Right-sizing (AWS Compute Optimizer)
+|   +-- Reserved Instance / Savings Plans
+|   +-- 오토스케일링
+|   +-- 스팟/프리엠티블 인스턴스
++-- FinOps 프레임워크
+|   +-- Inform -> Optimize -> Operate
+|   +-- 태깅, 비용 할당, 팀 책임
++-- 도구
+    +-- AWS Cost Explorer / Compute Optimizer
+    +-- Azure Advisor / Cost Management
+    +-- Infracost (IaC 비용 분석)
+```
 
 ---
 

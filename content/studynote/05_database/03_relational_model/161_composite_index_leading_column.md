@@ -35,24 +35,24 @@ tags = ["studynote-database"]
 
 아래 그림은 선행 컬럼 규칙이 왜 중요한지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결합 인덱스의 정렬 순서와 선행 컬럼 규칙</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Index definition: (department, grade, hire_date)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">department='영업'</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ grade='대리'</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ hire_date BETWEEN '2026-01-01' AND '2026-01-31'</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; 앞에서 뒤로 순서대로 좁혀 가는 Range Scan 가능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">grade='대리' only</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; department 경계가 없어 여러 묶음을 동시에 뒤져야 함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심: 뒤 컬럼이 아무리 선택도가 높아도, 앞 컬럼이 빠지면</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">탐색 시작점이 흐려진다</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│           결합 인덱스의 정렬 순서와 선행 컬럼 규칙                 │
+├────────────────────────────────────────────────────────────────────┤
+│ Index definition: (department, grade, hire_date)                  │
+│                                                                    │
+│ department='영업'                                                  │
+│    └─ grade='대리'                                                 │
+│        └─ hire_date BETWEEN '2026-01-01' AND '2026-01-31'         │
+│           -> 앞에서 뒤로 순서대로 좁혀 가는 Range Scan 가능        │
+│                                                                    │
+│ grade='대리' only                                                   │
+│    -> department 경계가 없어 여러 묶음을 동시에 뒤져야 함          │
+│                                                                    │
+│ 핵심: 뒤 컬럼이 아무리 선택도가 높아도, 앞 컬럼이 빠지면            │
+│      탐색 시작점이 흐려진다                                         │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조 때문에 컬럼 순서는 보통 **동등 조건을 먼저, 범위 조건을 뒤로** 배치하는 것이 유리하다. `=` 조건은 탐색 범위를 강하게 줄여 주지만, `BETWEEN`, `<`, `LIKE 'A%'` 같은 범위 조건은 그 시점부터 스캔 구간을 넓힌다. 그래서 범위 조건 컬럼이 너무 앞에 오면 뒤 컬럼의 정밀한 탐색 효과가 약해질 수 있다.
 
@@ -137,23 +137,21 @@ tags = ["studynote-database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단일 컬럼 검색 최적화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">결합 인덱스 (Composite Index)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">선행 컬럼 (Leading Column) · Range Scan</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ORDER BY 최적화 · 커버링 인덱스</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">실행 계획 기반 인덱스 튜닝</div>
-</div>
-</div>
-
-
+```text
+단일 컬럼 검색 최적화
+    │
+    ▼
+결합 인덱스 (Composite Index)
+    │
+    ▼
+선행 컬럼 (Leading Column) · Range Scan
+    │
+    ▼
+ORDER BY 최적화 · 커버링 인덱스
+    │
+    ▼
+실행 계획 기반 인덱스 튜닝
+```
 
 이 흐름은 "단일 검색 → 다중 조건 → 순서 규칙 → 추가 최적화 → 운영 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)"으로 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 이해가 확장되는 과정을 보여준다.
 

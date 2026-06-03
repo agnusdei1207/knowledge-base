@@ -31,16 +31,11 @@ tags = ["studynote-computer-architecture"]
 
 각 [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)의 출력이 다음 [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)의 입력으로 연결된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">FF0</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">FF1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">FF2</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">FF3</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">SO</div></div>
-<div class="kb-diagram-note">같은 CLK가 모두에 동시에 들어감</div>
-</div>
-</div>
-
-
+```text
+SI -> [FF0] -> [FF1] -> [FF2] -> [FF3] -> SO
+          ↑       ↑       ↑       ↑
+        같은 CLK가 모두에 동시에 들어감
+```
 
 클록이 한 번 오면 모든 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 동시에 한 칸씩 이동한다. 이 단순한 구조가 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 처리를 가능하게 한다.
 
@@ -97,21 +92,15 @@ tags = ["studynote-computer-architecture"]
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">플립플롭</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">직렬 연결</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">비트 이동</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">통신 / LFSR / Barrel Shifter</div>
-</div>
-</div>
-
-
+```text
+플립플롭
+   ↓
+직렬 연결
+   ↓
+비트 이동
+   ↓
+통신 / LFSR / Barrel Shifter
+```
 
 ---
 

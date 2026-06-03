@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/))나 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)의 모든 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 제어(Kube-Proxy, [Calico](/knowledge-base/studynote/03_network/16_data_center_cloud/824_calico_bgp_routing_cni_network_policy/) 등)는 리눅스의 고전적인 도구인 <strong>iptables</strong>에 전적으로 의존해 왔습니다.
 - **문제점 폭발 (O(N)의 저주)**: iptables는 규칙이 많아질수록 위에서 아래로 순서대로 무식하게 스캔을 때립니다. [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 노드에 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 5,000개가 넘어가면, 패킷이 길을 찾느라 iptables 장부를 뒤적이는 데만 엄청난 CPU 자원을 갉아먹어 트래픽이 꽉 막혀버리는 재앙([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 떡락)이 벌어졌습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Calico</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Cilium</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Kube-Proxy 쿠버네티스 서비스 트래픽…</div></div>
-</div>
-</div>
-
-
+```text
+[Calico]
+    │
+    ▼
+[Cilium]
+    │
+    └──▶ [Kube-Proxy 쿠버네티스 서비스 트래픽…]
+```
 
 - **📢 섹션 요약 비유**: Cilium는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -44,18 +40,14 @@ tags = ["studynote-network"]
 - **개념**: 이 구닥다리 iptables를 완전히 도려내고, 그 자리에 <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/">eBPF</a>(extended <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/069_ebpf/">Berkeley Packet Filter</a>)</strong>라는 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 최신 흑마법을 쑤셔 넣어 만든 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 차세대 [CNI](/knowledge-base/studynote/03_network/16_data_center_cloud/822_cni_container_network_interface_kubernetes/) 네트워킹 & 보안 프레임워크입니다.
 - **eBPF란? (661번 복습)**: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 핵심 코드를 뜯어고치거나 리부팅하지 않고도, 내가 짠 커스텀 C언어 프로그램(미니 앱)을 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 심장부([운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 밑바닥)에 안전하게 찔러넣어 빛의 속도로 실행시킬 수 있는 마법의 샌드박스 기술입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Calico</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Cilium</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Kube-Proxy 쿠버네티스 서비스 트래픽…</div></div>
-</div>
-</div>
-
-
+```text
+[Calico]
+    │
+    ▼
+[Cilium]
+    │
+    └──▶ [Kube-Proxy 쿠버네티스 서비스 트래픽…]
+```
 
 - **📢 섹션 요약 비유**: Cilium의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -126,19 +118,15 @@ Cilium는 데이터센터와 클라우드 네트워크를 이해할 때 핵심 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: Calico</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: Cilium</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: Kube-Proxy 쿠버네티스 서비스 트래픽…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: Calico]
+    │
+    ▼
+[현재 개념: Cilium]
+    │
+    ├──▶ [확장 A: Kube-Proxy 쿠버네티스 서비스 트래픽…]
+    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
+```
 
 Cilium는 Calico에서 출발해 현재 메커니즘을 정교화하고, 이후 Kube-Proxy [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 트래픽…와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

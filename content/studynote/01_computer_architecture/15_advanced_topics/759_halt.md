@@ -35,18 +35,16 @@ HALT는 보통 소수의 시제품에 대해 스트레스를 단계적으로 높
 
 아래 그림은 HALT가 찾고자 하는 설계 마진의 구조를 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HALT margin discovery ladder</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Spec limit ──▶ Operational limit ──▶ Destruct limit</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">promised use function stops permanent damage begins</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Goal: find weak link and push both limits outward by redesign</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                     HALT margin discovery ladder                    │
+├──────────────────────────────────────────────────────────────────────┤
+│ Spec limit ──▶ Operational limit ──▶ Destruct limit                 │
+│ promised use    function stops        permanent damage begins       │
+│                                                                    │
+│ Goal: find weak link and push both limits outward by redesign      │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 HALT에서 자주 쓰는 자극과 그 목적은 다음과 같다.
 
@@ -131,24 +129,22 @@ HALT의 가장 큰 효과는 설계 약점을 필드 장애보다 훨씬 앞에�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">설계 가설 · FMEA</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">HALT (Highly Accelerated Life Test)</div>
-<div class="kb-diagram-note">: step stress · vibration · combined environment</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ weak link discovery</div>
-<div class="kb-diagram-note">: connector · solder joint · thermal path</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ redesign</div>
-<div class="kb-diagram-note">: mechanical reinforcement · derating · cooling fix</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ production transition</div>
-<div class="kb-diagram-note">: qualification · HASS profile definition</div>
-</div>
-</div>
-
-
+```text
+설계 가설 · FMEA
+    │
+    ▼
+HALT (Highly Accelerated Life Test)
+    : step stress · vibration · combined environment
+    │
+    ├──▶ weak link discovery
+    │     : connector · solder joint · thermal path
+    │
+    ├──▶ redesign
+    │     : mechanical reinforcement · derating · cooling fix
+    │
+    └──▶ production transition
+          : qualification · HASS profile definition
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

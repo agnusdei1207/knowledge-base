@@ -35,26 +35,27 @@ NIST는 2016년 [PQC](/knowledge-base/studynote/12_it_management/05_security_com
 
 ### 1. 격자(Lattice) 기반 보안의 기초
 
+```text
+격자(Lattice) 수학 개념
 
+  격자: n차원 공간에서 기저 벡터의 정수 선형 결합으로 이루어진 점의 집합
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">격자(Lattice) 수학 개념</div>
-<div class="kb-diagram-note">격자: n차원 공간에서 기저 벡터의 정수 선형 결합으로 이루어진 점의 집합</div>
-<div class="kb-diagram-note">기저 벡터</div>
-<div class="kb-diagram-note">b1 = (1, 0) b2 = (0, 1)</div>
-<div class="kb-diagram-note">격자 점: 모든 a·b1 + b·b2 (a, b ∈ 정수)</div>
-<div class="kb-diagram-note">어려운 문제:</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SVP (Shortest Vector Problem):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">격자에서 가장 짧은 벡터 찾기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 고차원일수록 고전+양자 컴퓨터도 어려움</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LWE (Learning With Errors):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">선형 방정식에 노이즈를 추가 → 역산 불가능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ Dilithium의 보안 기반</div></div>
-</div>
-</div>
+  기저 벡터
+  b1 = (1, 0)   b2 = (0, 1)
 
+  격자 점: 모든 a·b1 + b·b2 (a, b ∈ 정수)
 
+  어려운 문제:
+  ┌──────────────────────────────────────────────┐
+  │ SVP (Shortest Vector Problem):               │
+  │ 격자에서 가장 짧은 벡터 찾기                  │
+  │ → 고차원일수록 고전+양자 컴퓨터도 어려움       │
+  │                                              │
+  │ LWE (Learning With Errors):                  │
+  │ 선형 방정식에 노이즈를 추가 → 역산 불가능      │
+  │ → Dilithium의 보안 기반                       │
+  └──────────────────────────────────────────────┘
+```
 
 CRYSTALS-Dilithium은 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">Module</a>-LWE(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">Module</a> <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/">Learning</a> With Errors)</strong> 와 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">Module</a>-SIS(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">Module</a> Short Integer Solution)</strong> 문제의 어려움에 기반한다.
 
@@ -70,22 +71,19 @@ CRYSTALS-Dilithium은 <strong><a href="/knowledge-base/studynote/04_software_eng
 
 ### 3. Dilithium 서명 흐름
 
+```text
+키 생성: (공개키 pk, 비밀키 sk) ← KeyGen()
+          │
+          │  sk: 랜덤 행렬 + 작은 다항식 벡터
+          │  pk: 행렬 A와 t = A·s1 + s2 (s1, s2 작은 벡터)
 
+서명:     σ ← Sign(sk, 메시지 M)
+          │  반복: 랜덤 y 생성 → w = A·y → c = H(pk, M, w) → z = y + c·s1
+          │  조건: z, r0 = w - c·s2 의 크기가 임계값 이내이면 서명 완성
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">키 생성: (공개키 pk, 비밀키 sk) ← KeyGen()</div>
-<div class="kb-diagram-note">sk: 랜덤 행렬 + 작은 다항식 벡터</div>
-<div class="kb-diagram-note">pk: 행렬 A와 t = A·s1 + s2 (s1, s2 작은 벡터)</div>
-<div class="kb-diagram-note">서명: σ ← Sign(sk, 메시지 M)</div>
-<div class="kb-diagram-note">반복: 랜덤 y 생성 → w = A·y → c = H(pk, M, w) → z = y + c·s1</div>
-<div class="kb-diagram-note">조건: z, r0 = w - c·s2 의 크기가 임계값 이내이면 서명 완성</div>
-<div class="kb-diagram-note">검증: Verify(pk, M, σ)</div>
-<div class="kb-diagram-note">z 크기 확인 + w' = A·z - c·t 재계산 → H(pk, M, w') == c?</div>
-</div>
-</div>
-
-
+검증:     Verify(pk, M, σ)
+          │  z 크기 확인 + w' = A·z - c·t 재계산 → H(pk, M, w') == c?
+```
 
 - **📢 섹션 요약 비유**: Dilithium 서명은 **'노이즈가 섞인 수학 퍼즐에 비밀열쇠로 도장 찍기'** 입니다. 도장(서명)을 찍으려면 비밀열쇠가 있어야 하고, 노이즈가 섞인 답이 올바른 범위 안에 들어오는지 확인합니다. [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)도 노이즈 퍼즐은 못 풀어냅니다.
 
@@ -162,26 +160,25 @@ ML-DSA는 "더 좋은 서명이 아니라, 살아남기 위한 필수 서명"이
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">RSA / ECDSA (고전 암호 디지털 서명)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">양자 컴퓨터 위협 → Shor 알고리즘 → RSA/ECDSA 파괴 가능</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">NIST PQC 표준화 공모 (2016~2024)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─► ML-DSA (Dilithium) — 격자 기반 서명</div><div class="kb-diagram-node">FIPS 204</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─► SLH-DSA (SPHINCS+) — 해시 기반 서명</div><div class="kb-diagram-node">FIPS 205</div></div>
-<div class="kb-diagram-tree-item" style="--depth:2">FN-DSA (FALCON) — 격자(NTRU) 기반 서명</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">하이브리드 전환 (ECDSA + ML-DSA 병행)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">완전 PQC 전환 — TLS, PKI, 코드 서명, IoT</div>
-</div>
-</div>
-
-
+```text
+RSA / ECDSA (고전 암호 디지털 서명)
+    │
+    ▼
+양자 컴퓨터 위협 → Shor 알고리즘 → RSA/ECDSA 파괴 가능
+    │
+    ▼
+NIST PQC 표준화 공모 (2016~2024)
+    │
+    ├─► ML-DSA (Dilithium) — 격자 기반 서명 [FIPS 204]
+    ├─► SLH-DSA (SPHINCS+) — 해시 기반 서명 [FIPS 205]
+    └─► FN-DSA (FALCON) — 격자(NTRU) 기반 서명
+    │
+    ▼
+하이브리드 전환 (ECDSA + ML-DSA 병행)
+    │
+    ▼
+완전 PQC 전환 — TLS, PKI, 코드 서명, IoT
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

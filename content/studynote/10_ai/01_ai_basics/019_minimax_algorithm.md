@@ -25,19 +25,18 @@ tags = ["ai"]
 
 이 도식은 한 턴이 지날 때마다 주도권이 MAX(나)와 MIN(상대)으로 번갈아 바뀌며 트리 구조가 어떻게 확장되는지를 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)한 것이다.
 
+```text
+[적대적 게임의 상태 공간 트리 한계]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">적대적 게임의 상태 공간 트리 한계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MAX 턴 (나의 현재 상태)</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">1개 노드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MIN 턴(상대)</div><div class="kb-diagram-node">MIN 턴(상대)</div><div class="kb-diagram-node">MIN 턴(상대)</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">평균 b개의 파생 수</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MAX</div><div class="kb-diagram-node">MAX</div><div class="kb-diagram-note">.. .. .. .. .. .. .. ..</div><div class="kb-diagram-node">MAX</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">b^2 개 파생 수</div></div>
-<div class="kb-diagram-note">(시간이 지남에 따라 O(b^d)로 경우의 수 우주 폭발)</div>
-</div>
-</div>
-
-
+              [MAX 턴 (나의 현재 상태)]      <-- 1개 노드
+             /           |           \
+           /             |             \
+ [MIN 턴(상대)]  [MIN 턴(상대)]  [MIN 턴(상대)] <-- 평균 b개의 파생 수
+     / | \         / | \         / | \
+    /  |  \       /  |  \       /  |  \
+[MAX] [MAX] ..  .. .. .. ..   .. .. .. [MAX] <-- b^2 개 파생 수
+(시간이 지남에 따라 O(b^d)로 경우의 수 우주 폭발)
+```
 
 이 흐름의 핵심은 한 단계(Depth)를 내려갈 때마다 탐색해야 할 노드가 분기 계수(Branching Factor, b)만큼 기하급수적으로 증식한다는 점이다. 체스의 경우 b가 약 35에 달하며, 게임 종료까지 깊이(d)가 100수에 이른다. 100% 완전한 결과를 보장하는 수학적 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)임에도 불구하고, 끝까지 탐색하는 것은 지구상의 어떤 컴퓨터로도 불가능하다는 것이 실무 도입의 가장 큰 딜레마이다.
 
@@ -57,19 +56,20 @@ tags = ["ai"]
 
 다음은 깊이 2에서 멈춘 뒤 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) 점수를 바탕으로 [미니맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/239_minimax_alpha_beta_pruning/) 값이 어떻게 상단으로 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 결합되는지를 보여주는 구체적인 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)도이다.
 
+```text
+[미니맥스 값 역전파 계산 메커니즘]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">미니맥스 값 역전파 계산 메커니즘</div></div>
-<div class="kb-diagram-note">(MAX: 3) ◄ (나의 턴: 큰 값 3 선택)</div>
-<div class="kb-diagram-note">(MIN: 3) (MIN: 2) ◄ (상대 턴: 각각 가장 작은 값 선택)</div>
-<div class="kb-diagram-note">(3) (9) (2) (8) ◄ (단말 노드: 게임 평가 점수 반환)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">── 단말에서 평가된 점수들이 위로 올라감</div>
-</div>
-</div>
-
-
+          (MAX: 3) ◄──────────────────── (나의 턴: 큰 값 3 선택)
+           /   \
+          /     \
+         /       \
+  (MIN: 3)       (MIN: 2) ◄───────────── (상대 턴: 각각 가장 작은 값 선택)
+   /   \          /    \
+  /     \        /      \
+(3)     (9)    (2)      (8) ◄─────────── (단말 노드: 게임 평가 점수 반환)
+ ▲       ▲      ▲        ▲
+ └───────┴──────┴────────┴── 단말에서 평가된 점수들이 위로 올라감
+```
 
 이 구조도의 핵심은 최하단의 숫자 9와 8처럼 매우 매력적으로 보이는 큰 보상이 있음에도 불구하고, 상대방(MIN)이 절대 그 길을 허락하지 않을 것임을 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 예측한다는 점이다. 상대가 (3)과 (2)라는 최악의 수로 방어할 것을 전제하기 때문에, 나는 결국 오른쪽의 (2) 루트 대신, 차악을 피할 수 있는 왼쪽의 (3) 루트를 최종 선택(MAX: 3)하게 된다. 이것이 최악의 상황 속에서 최고의 이익을 보전하는 '안전 제일주의' [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)이다.
 
@@ -102,21 +102,16 @@ tags = ["ai"]
 - <strong>수평선 효과 (Horizon Effect) <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>: 깊이 제한 바로 다음 턴(Depth = 6)에 여왕을 뺏기는 치명적 손실이 있는데, AI가 깊이 5까지만 보고 [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)가 유리하다고 착각하는 치명적 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/).
 - **실무 해결책**: 수평선 효과를 막기 위해, 국지전(기물 교환 등)이 격렬하게 일어나는 노드에서는 깊이 제한을 일시적으로 풀어 끝까지 계산하게 하는 '정지 탐색(Quiescence Search)'을 반드시 추가로 연계해야 한다.
 
+```text
+[실무 의사결정 트리: 깊이 제한에 따른 연산 시간 붕괴 통제]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">실무 의사결정 트리: 깊이 제한에 따른 연산 시간 붕괴 통제</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 게임 턴 진입</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">알파-베타 가지치기 적용 O</div><div class="kb-diagram-note">──► 탐색 속도 2배 이상 향상</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">시간 제한(예: 3초) 임박?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">Yes</div><div class="kb-diagram-note">──► 현재까지 계산된 최선의 수 즉시 반환 (Iterative Deepening)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">No</div><div class="kb-diagram-note">──► 깊이를 1 더 늘려서 재탐색 시도</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">알파-베타 가지치기 적용 X</div><div class="kb-diagram-note">──► (도입 금지, OOM 발생 위험 극대화)</div></div>
-</div>
-</div>
-
-
+[현재 게임 턴 진입]
+ ├─ [알파-베타 가지치기 적용 O] ──► 탐색 속도 2배 이상 향상
+ │   └─ [시간 제한(예: 3초) 임박?]
+ │       ├─ [Yes] ──► 현재까지 계산된 최선의 수 즉시 반환 (Iterative Deepening)
+ │       └─ [No]  ──► 깊이를 1 더 늘려서 재탐색 시도
+ └─ [알파-베타 가지치기 적용 X] ──► (도입 금지, OOM 발생 위험 극대화)
+```
 
 이 [의사결정 트리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/)는 실무 엔진이 어떻게 제한된 시간 안에 "가장 그럴싸한 정답"을 내놓는지 보여준다. [미니맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/239_minimax_alpha_beta_pruning/)의 심장부에 반복적 깊이 심화(Iterative Deepening) 타이머를 달아두지 않으면, 유저가 AI의 턴을 기다리다 지쳐 게임을 꺼버리는 운영 실패가 발생한다.
 
@@ -142,23 +137,21 @@ tags = ["ai"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">게임 트리 (Game Tree) — 가능한 모든 수를 나열한 탐색 공간</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">미니맥스 (Minimax) — MAX·MIN 교대로 최선 수 선택</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">알파-베타 가지치기 (Alpha-Beta Pruning) — 불필요 분기 제거, 깊이 2배 확장</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MCTS (Monte Carlo Tree Search) — 무작위 시뮬레이션으로 방대한 탐색 공간 근사</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AlphaGo/AlphaZero — MCTS + 심층 강화학습으로 인간 초월</div></div>
-</div>
-</div>
-
-
+```text
+[게임 트리 (Game Tree) — 가능한 모든 수를 나열한 탐색 공간]
+    │
+    ▼
+[미니맥스 (Minimax) — MAX·MIN 교대로 최선 수 선택]
+    │
+    ▼
+[알파-베타 가지치기 (Alpha-Beta Pruning) — 불필요 분기 제거, 깊이 2배 확장]
+    │
+    ▼
+[MCTS (Monte Carlo Tree Search) — 무작위 시뮬레이션으로 방대한 탐색 공간 근사]
+    │
+    ▼
+[AlphaGo/AlphaZero — MCTS + 심층 강화학습으로 인간 초월]
+```
 [미니맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/239_minimax_alpha_beta_pruning/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 게임 트리의 모든 경우를 평가하는 기반이 되고, [알파-베타 가지치기](/knowledge-base/studynote/10_ai/01_ai_basics/020_alpha_beta_pruning/)와 MCTS로 발전해 현대 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 게임 플레이의 토대가 되었다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

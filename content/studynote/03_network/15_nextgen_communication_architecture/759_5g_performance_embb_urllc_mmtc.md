@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - ITU(국제전기통신연합)에서 정의한 5세대 이동통신 규격(IMT-2020)으로, [3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) Release 15부터 표준화가 시작된 차세대 무선 네트워크 통신망입니다.
 - **철학의 전환**: 모바일 인터넷 시대(4G)를 넘어, 전 산업(의료, 자율주행, [스마트 팩토리](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/))의 신경망 역할을 하는 B2B 인프라(4차 산업혁명의 핏줄)로 포지셔닝했습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">VoLTE</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">5G 통신 성능 목표 3대 특징 기능적 체계…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">eMBB AR/VR 기술 지원 파급 체계 지…</div></div>
-</div>
-</div>
-
-
+```text
+[VoLTE]
+    │
+    ▼
+[5G 통신 성능 목표 3대 특징 기능적 체계…]
+    │
+    └──▶ [eMBB AR/VR 기술 지원 파급 체계 지…]
+```
 
 - **📢 섹션 요약 비유**: [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 통신 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 목표 3대 특징 기능적 체계…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -55,18 +51,14 @@ tags = ["studynote-network"]
 - **핵심 기술**: [MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/)([모바일 엣지 컴퓨팅](/knowledge-base/studynote/03_network/12_iot_wpan_edge/999_mec_mobile_edge_computing/)), 유선 [TSN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/546_tsn_hardware/) 망 연동, 짧은 TTI 전송.
 - <strong>응용 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a></strong>: 자율주행차의 급브레이크 회피 제어([V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/)), 원격 로봇 수술(의사의 손놀림이 지구 반대편 로봇팔에 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 없이 전달), [스마트 팩토리](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/) 제어.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">VoLTE</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">5G 통신 성능 목표 3대 특징 기능적 체계…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">eMBB AR/VR 기술 지원 파급 체계 지…</div></div>
-</div>
-</div>
-
-
+```text
+[VoLTE]
+    │
+    ▼
+[5G 통신 성능 목표 3대 특징 기능적 체계…]
+    │
+    └──▶ [eMBB AR/VR 기술 지원 파급 체계 지…]
+```
 
 - **📢 섹션 요약 비유**: [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 통신 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 목표 3대 특징 기능적 체계…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -128,19 +120,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: VoLTE</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 5G 통신 성능 목표 3대 특징 기능적 체계…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: eMBB AR/VR 기술 지원 파급 체계 지…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 네트워크 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: VoLTE]
+    │
+    ▼
+[현재 개념: 5G 통신 성능 목표 3대 특징 기능적 체계…]
+    │
+    ├──▶ [확장 A: eMBB AR/VR 기술 지원 파급 체계 지…]
+    └──▶ [확장 B: AI 기반 네트워크 최적화]
+```
 
 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 통신 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 목표 3대 특징 기능적 체계…는 VoLTE에서 출발해 현재 메커니즘을 정교화하고, 이후 [eMBB](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/760_embb_enhanced_mobile_broadband_vr_ar/) AR/VR 기술 지원 파급 체계 지…와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

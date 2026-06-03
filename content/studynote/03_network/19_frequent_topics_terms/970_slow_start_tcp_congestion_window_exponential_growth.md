@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 969번 문서에서 [혼잡 윈도우](/knowledge-base/studynote/03_network/08_transport_layer/429_cwnd_congestion_window_concept/)(CWND)가 고속도로 체증을 막는 '송신 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/) 창문'이라고 배웠습니다.
 - **딜레마**: 연결을 방금 막 맺은 첫 순간, 내 컴퓨터는 저 멀리 미국 넷플릭스 서버까지 이어지는 중간 도로망의 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 한계(혼잡도)를 전혀 모릅니다. 그래서 처음부터 CWND 크기를 무작정 크게 잡는 건 미친 짓(자폭)입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">혼잡 윈도우</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">슬로우 스타트</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">홀오브라인 블로킹</div></div>
-</div>
-</div>
-
-
+```text
+[혼잡 윈도우]
+    │
+    ▼
+[슬로우 스타트]
+    │
+    └──▶ [홀오브라인 블로킹]
+```
 
 - **📢 섹션 요약 비유**: [슬로우 스타트](/knowledge-base/studynote/03_network/08_transport_layer/430_slow_start_exponential_growth_cwnd/)는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -52,18 +48,14 @@ tags = ["studynote-network"]
 4. 영희가 2, 3번에 대한 답장(ACK 2개)을 줍니다.
 5. **지수 증가 (CWND = 4 ➜ 8 ➜ 16 ➜ 32)**: 답장(ACK)을 받을 때마다 CWND에 +1을 더해주기 때문에, 왕복 한 턴([RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/))이 돌 때마다 윈도우 크기가 $1 \to 2 \to 4 \to 8 \to 16$ 으로 무시무시한 기하급수적(Exponential) 곱빼기 폭발을 일으킵니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">혼잡 윈도우</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">슬로우 스타트</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">홀오브라인 블로킹</div></div>
-</div>
-</div>
-
-
+```text
+[혼잡 윈도우]
+    │
+    ▼
+[슬로우 스타트]
+    │
+    └──▶ [홀오브라인 블로킹]
+```
 
 - **📢 섹션 요약 비유**: [슬로우 스타트](/knowledge-base/studynote/03_network/08_transport_layer/430_slow_start_exponential_growth_cwnd/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -129,19 +121,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 혼잡 윈도우</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 슬로우 스타트</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 홀오브라인 블로킹</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 혼잡 윈도우]
+    │
+    ▼
+[현재 개념: 슬로우 스타트]
+    │
+    ├──▶ [확장 A: 홀오브라인 블로킹]
+    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
+```
 
 [슬로우 스타트](/knowledge-base/studynote/03_network/08_transport_layer/430_slow_start_exponential_growth_cwnd/)는 [혼잡 윈도우](/knowledge-base/studynote/03_network/08_transport_layer/429_cwnd_congestion_window_concept/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [홀오브라인 블로킹](/knowledge-base/studynote/03_network/19_frequent_topics_terms/971_hol_blocking_head_of_line_tcp_http_delay/)와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

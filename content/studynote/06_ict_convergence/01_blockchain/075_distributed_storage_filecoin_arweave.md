@@ -22,17 +22,12 @@ tags = ["ict_convergence"]
 
 [IPFS](/knowledge-base/studynote/06_ict_convergence/01_blockchain/055_ipfs_interplanetary_file_system/) ([InterPlanetary File System](/knowledge-base/studynote/06_ict_convergence/01_blockchain/055_ipfs_interplanetary_file_system/)) 계열의 content addressing은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 이름 대신 해시를 쓰게 만들고, 그 위에서 Filecoin과 Arweave는 서로 다른 경제 모델을 얹는다. 하나는 시장형 저장소이고, 다른 하나는 장기 보관형 저장소다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Client -&gt; Hash / Content Address -&gt; Storage Network -&gt; Proof -&gt; Retrieval</div>
-<div class="kb-diagram-tree-item" style="--depth:5">Filecoin market ─ Arweave archive</div>
-<div class="kb-diagram-tree-item" style="--depth:5">encryption first</div>
-</div>
-</div>
-
-
+```text
+Client -> Hash / Content Address -> Storage Network -> Proof -> Retrieval
+           │                         │                │
+           ├─ Filecoin market        └─ Arweave archive
+           └─ encryption first
+```
 
 핵심은 저장을 믿는 것이 아니라, 저장을 증명하게 만드는 데 있다.
 
@@ -110,23 +105,21 @@ Filecoin과 Arweave의 차이는 "가격"과 "보존 기간"에 있다. Filecoin
 
 ### 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">upload</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">content hash</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">replicate / store</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">proof</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">retrieval</div>
-</div>
-</div>
-
-
+```text
+upload
+  │
+  ▼
+content hash
+  │
+  ▼
+replicate / store
+  │
+  ▼
+proof
+  │
+  ▼
+retrieval
+```
 
 ### 어린이를 위한 3줄 비유 설명
 

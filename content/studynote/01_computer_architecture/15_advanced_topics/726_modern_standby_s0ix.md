@@ -33,20 +33,20 @@ tags = ["studynote-computer-architecture"]
 
 Modern Standby [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)은 "화면이 꺼진 뒤 가능한 한 오래 idle에 머물고, 꼭 필요할 때만 짧게 active로 튀어 오르는" 반복 구조다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 먼저 앱과 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), 드라이버를 저전력 동작에 맞게 정리(quiesce)하고, 하드웨어는 네트워크·오디오·저장장치 같은 구성 요소를 각각 가능한 낮은 전력 상태로 보낸다. 그다음 플랫폼은 S0 Low [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) [Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/), 즉 S0 내부의 깊은 유휴로 진입한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Modern Standby screen-off session</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Lid close / Power key</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Quiesce apps</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">S0 low power idle</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Short active burst</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">^</div></div>
-<div class="kb-diagram-note">── timer / net / wake event</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">repeat until screen on ▶</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                Modern Standby screen-off session                    │
+├──────────────────────────────────────────────────────────────────────┤
+│ Lid close / Power key                                               │
+│        │                                                            │
+│        ▼                                                            │
+│   [Quiesce apps] -> [S0 low power idle] -> [Short active burst]     │
+│                              ^                  │                    │
+│                              └── timer / net / wake event ──────────┘
+│        │                                                            │
+│        └──────────────────── repeat until screen on ───────────────▶ │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조에서 각 구성 요소의 역할은 다음과 같다.
 
@@ -136,25 +136,25 @@ Modern Standby가 잘 구현되면 사용자는 스마트폰처럼 자연스러�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Connected Standby</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Modern Standby</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">App / driver quiesce for screen-off</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">S0 low power idle residency</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ short activator bursts</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ connected or disconnected policy</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Instant-on resume experience</div>
-</div>
-</div>
-
-
+```text
+Connected Standby
+    │
+    ▼
+Modern Standby
+    │
+    ▼
+App / driver quiesce for screen-off
+    │
+    ▼
+S0 low power idle residency
+    │
+    ├──▶ short activator bursts
+    │
+    ├──▶ connected or disconnected policy
+    │
+    ▼
+Instant-on resume experience
+```
 
 이 흐름은 Modern Standby가 단순한 sleep state가 아니라, 화면 꺼짐 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 전체를 관리하는 운영 모델로 발전한 과정을 보여 준다.
 

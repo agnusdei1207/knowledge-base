@@ -21,18 +21,14 @@ tags = ["studynote-network"]
 
 - VPN을 쓰면 내 패킷 내용물은 숨겨지지만, 결국 [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) 서버 로그를 뒤지거나 입구와 출구의 트래픽 흐름(Timing)을 대조하면 "A가 VPN을 거쳐 B 사이트로 갔네"라는 <strong>통신 경로(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/">메타데이터</a>)</strong>가 털립니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">블록체인 가십 프로토콜 P2P 연결</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">다크 웹 Tor 통신 프로토콜 암호화층</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IPsec IKEv2 터널 협상</div></div>
-</div>
-</div>
-
-
+```text
+[블록체인 가십 프로토콜 P2P 연결]
+    │
+    ▼
+[다크 웹 Tor 통신 프로토콜 암호화층]
+    │
+    └──▶ [IPsec IKEv2 터널 협상]
+```
 
 - **📢 섹션 요약 비유**: 다크 웹 Tor 통신 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 암호화층은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -42,18 +38,14 @@ tags = ["studynote-network"]
 
 - **개념**: 미국 해군 연구소(NRL)가 스파이들의 통신을 숨기기 위해 개발한 <strong>'어니언 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a>(Onion <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">Routing</a>)' 기술을 기반으로, 전 세계 자원봉사자들의 컴퓨터(릴레이 노드)를 징검다리 삼아 패킷을 수차례 암호화/우회시켜 송신자와 수신자의 IP 추적을 완벽하게 끊어버리는 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/">오픈소스</a> 익명 네트워크</strong>입니다. (우리가 흔히 말하는 다크 웹의 고속도로)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">블록체인 가십 프로토콜 P2P 연결</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">다크 웹 Tor 통신 프로토콜 암호화층</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IPsec IKEv2 터널 협상</div></div>
-</div>
-</div>
-
-
+```text
+[블록체인 가십 프로토콜 P2P 연결]
+    │
+    ▼
+[다크 웹 Tor 통신 프로토콜 암호화층]
+    │
+    └──▶ [IPsec IKEv2 터널 협상]
+```
 
 - **📢 섹션 요약 비유**: 다크 웹 Tor 통신 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 암호화층의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -126,19 +118,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 블록체인 가십 프로토콜 P2P 연결</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 다크 웹 Tor 통신 프로토콜 암호화층</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: IPsec IKEv2 터널 협상</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 블록체인 가십 프로토콜 P2P 연결]
+    │
+    ▼
+[현재 개념: 다크 웹 Tor 통신 프로토콜 암호화층]
+    │
+    ├──▶ [확장 A: IPsec IKEv2 터널 협상]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 다크 웹 Tor 통신 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 암호화층는 [블록체인 가십 프로토콜](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/918_gossip_protocol_blockchain_epidemic_network/) [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 연결에서 출발해 현재 메커니즘을 정교화하고, 이후 [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) [IKEv2](/knowledge-base/studynote/09_security/03_network_security/280_ikev2/) 터널 협상와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

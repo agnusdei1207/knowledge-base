@@ -47,18 +47,12 @@ RNN은 <strong>시퀀스 처리의 기초 아키텍처</strong>이며, [LSTM](/k
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Vanilla RNN (1986)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">LSTM (1997)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">GRU (2014)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Seq2Seq + Attention (2014)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Transformer (2017) — RNN 대체</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: Mamba/RWKV — RNN 르네상스 (선형)</div></div>
-</div>
-</div>
-
-
+```text
+[Vanilla RNN (1986)] → [LSTM (1997)] → [GRU (2014)]
+    → [Seq2Seq + Attention (2014)]
+    → [Transformer (2017) — RNN 대체]
+    → [현재: Mamba/RWKV — RNN 르네상스 (선형)]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. RNN은 **일기장을 읽는** 것이에요. 어제 일기(은닉 상태)를 참고해서 <strong>오늘을 이해</strong>해요.

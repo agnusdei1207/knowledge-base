@@ -25,31 +25,36 @@ tags = ["studynote-operating-system"]
 - **[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 회선 구조의 진화 (물리 핀 공유 -> 메모리 메시지 아키텍처)**:
 CPU와 장치가 묶이는 통신 트리 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)가 어떻게 찢겨지고 가상화되었는지 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램으로 시각 체계화하면 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인터럽트 전달 아키텍처의 혁명적 진화 스택도</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">과거: Legacy IRQ 물리 핀 공유체제 (Interrupt Sharing 체증)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(IRQ 10번 구리 핀)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">랜카드 ▶</div><div class="kb-diagram-cell">😱 CPU 0번 (독박 코어)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* CPU는 전기가 오면 통역 드라이버 두 개를</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">그래픽 칩 모두 깨워서 "누가 불렀어?" 루프검사 해야함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(처리속도 개판망, 코어 확장불가)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현대: MSI-X (Message Signaled Interrupts) 메모리 편지 배포</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최신 PCIe</div><div class="kb-diagram-cell">──(이더넷 패킷처럼 메모리에 번호 씀)─▶ CPU 메모리 컨트롤러</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">100G 칩</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(큐가 여러개 있음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Queue0 ── (MSI-X 메시지 0x01번) ──▶ 😎 CPU 코어 0 전담</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Queue1 ── (MSI-X 메시지 0x02번) ──▶ 😎 CPU 코어 1 전담</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Queue2 ── (MSI-X 메시지 0x03번) ──▶ 😎 CPU 코어 2 전담</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 특성: 물리적 핀 0개! 장치가 CPU 특정 메모리 번지에 '값'을 쏘는 순간,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메인보드 APIC 칩이 이를 가로채 다이렉트로 할당된 여러 CPU 코어로 방출!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(수천 개의 인터럽트를 분산 생성하여 SMP 다중 코어 대통합 혁명 이음)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌────────────────────────────────────────────────────────────────────────────────┐
+  │                 인터럽트 전달 아키텍처의 혁명적 진화 스택도                    │
+  ├────────────────────────────────────────────────────────────────────────────────┤
+  │                                                                                │
+  │  [ 과거: Legacy IRQ 물리 핀 공유체제 (Interrupt Sharing 체증) ]                │
+  │     ┌─────────┐   (IRQ 10번 구리 핀)    ┌──────────────────────────┐           │
+  │     │ 랜카드   ├───────────┬────────▶│ 😱 CPU 0번 (독박 코어)    │             │
+  │     └─────────┘           │          └──────────────────────────┘              │
+  │     ┌─────────┐           │     * CPU는 전기가 오면 통역 드라이버 두 개를      │
+  │     │ 그래픽 칩├───────────┘       모두 깨워서 "누가 불렀어?" 루프검사 해야함. │
+  │     └─────────┘                      (처리속도 개판망, 코어 확장불가)          │
+  │                                                                                │
+  │  =============================================================                 │
+  │                                                                                │
+  │  [ 현대: MSI-X (Message Signaled Interrupts) 메모리 편지 배포 ]                │
+  │     ┌─────────┐                                                                │
+  │     │ 최신 PCIe│ ──(이더넷 패킷처럼 메모리에 번호 씀)─▶ CPU 메모리 컨트롤러    │
+  │     │ 100G 칩 │                                                                │
+  │     │ (큐가 여러개 있음)                                                       │
+  │     │  ├─ Queue0 ── (MSI-X 메시지 0x01번) ──▶ 😎 CPU 코어 0 전담               │
+  │     │  ├─ Queue1 ── (MSI-X 메시지 0x02번) ──▶ 😎 CPU 코어 1 전담               │
+  │     │  └─ Queue2 ── (MSI-X 메시지 0x03번) ──▶ 😎 CPU 코어 2 전담               │
+  │     └─────────┘                                                                │
+  │                                                                                │
+  │  * 특성: 물리적 핀 0개! 장치가 CPU 특정 메모리 번지에 '값'을 쏘는 순간,        │
+  │         메인보드 APIC 칩이 이를 가로채 다이렉트로 할당된 여러 CPU 코어로 방출! │
+  │         (수천 개의 인터럽트를 분산 생성하여 SMP 다중 코어 대통합 혁명 이음)    │
+  └────────────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 고전적인 방식은 "전선" 이라는 하드웨어 매체에 갇혀있어 확장성(Scalability)이 완전히 1차원적으로 붕괴해있었다. [MSI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/)-X는 그걸 소프트웨어적인 "메모리 맵 변수(Memory Mapped I/O 주소 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/))" 구조로 변환했다. [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 위에 타고 있는 머신이 특정 주소(`0xFEE00000`)에 값을 패킷 데이터로 "Write" 쏴버린다. 그러면 이 메인보드 길목을 지키고 있던 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 매니저(IOAPIC 등)가 이를 낚아채 "어? 랜카드 [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) 2번에서 쏜 메시지네? 이건 OS가 CPU 3번 깨우라고 설정해뒀지!" 하고 지정된 코어의 잠을 다이렉트로 깨운다. 이 무결점 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 덕에 수백 개의 CPU 코어가 달린 서버에서 통신 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 분배가 퍼즐처럼 끼워 맞춰 가능해진 것이다.
 
@@ -74,7 +79,7 @@ CPU와 장치가 묶이는 통신 트리 [파이프](/knowledge-base/studynote/0
 - **RSS (Receive Side Scaling)**: 랜카드 칩셋이 패킷을 쭉 빨아들이면 헤더 해시를 까보고 "아 이건 IP A대역, 이건 B대역이네" 라며 16개의 바구니([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))에 고르게 패킷을 팍팍 나누어 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 담는다.
 - <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/">MSI</a>-X 합체 어피니티 (<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/">SMP</a> <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/">Affinity</a>)</strong>: 16개 바구니가 다 찼다는 알림([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))을 CPU 0번 코어 혼자 16번 두드려 맞으면 CPU 0은 부서져 뻗고 1~15번 코어는 놀고먹는 "독박 병목" 참사가 뜬다. 이때 OS는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/">MSI</a>-X 를 이용해 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/">Queue</a> 1번 알림은 코어 1번에만 꽂고, <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/">Queue</a> 2번 알림은 코어 2번에만 꽂히게 철저하게 IRQ 1:1 맵핑 록(IRQ <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/">Affinity</a>)</strong>을 가닥 잡아준다. 이 궁극의 조화 덕분에 초당 천만 단위 트래픽이 쏟아져도 서버 코어 16개가 고르게 땀을 흘리며 방어하는 무적의 스웜 결합 서빙 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이 달성 이룩된다.
 
-- **📢 섹션 요약 비유**: 이 놀라운 매핑 구조는, 마트 계산대에 컨베이어 벨트([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))가 16개 뚫려있는데, 벨트마다 "가득 찼어!" 라고 울리는 파란 버튼([MSI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/)-X)이 있고, 이 알림이 캐셔 1명(단일 CPU)의 뚝배기 이마를 계속 치는 게 아니라, 벨트마다 계산원(멀티 코어)을 정확히 1명씩 전담 배치해서 자기 앞 알람(IRQ 바인딩)만 듣고 퍼붓는 물량을 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 통쾌 방어하는(멀티 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 다수확) 시스템과 본질적으로 같습니다!
+- **📢 섹션 요약 비유**: 이 놀라운 매핑 구조는, 마트 계산대에 컨베이어 벨트([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))가 16개 뚫려있는데, 벨트마다 "가득 찼어!" 라고 울리는 파란 버튼([MSI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/561_msi/)-X)이 있고, 이 알림이 캐셔 1명(단일 CPU)의 뚝배기 이마를 계속 치는 게 아니라, 벨트마다 계산원(멀티 코어)을 정확히 1명씩 전담 배치해서 자기 앞 알람(IRQ 바인딩)만 듣고 퍼붓는 수량을 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 통쾌 방어하는(멀티 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 다수확) 시스템과 본질적으로 같습니다!
 
 ---
 
@@ -132,19 +137,15 @@ CPU와 장치가 묶이는 통신 트리 [파이프](/knowledge-base/studynote/0
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">장치 드라이버 (Device Driver) 커널 인터페이스 구현</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">인터럽트 공유 (Interrupt Sharing) 및 MSI/MSI-X (Message Signaled Interrupts)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SR-IOV (Single Root I/O Virtualization)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">컴퓨테이셔널 스토리지 (Computational Storage / Smart SSD)</div></div>
-</div>
-</div>
-
-
+```text
+[장치 드라이버 (Device Driver) 커널 인터페이스 구현]
+    │
+    ▼
+[인터럽트 공유 (Interrupt Sharing) 및 MSI/MSI-X (Message Signaled Interrupts)]
+    │
+    ├──▶ [SR-IOV (Single Root I/O Virtualization)]
+    └──▶ [컴퓨테이셔널 스토리지 (Computational Storage / Smart SSD)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

@@ -37,30 +37,32 @@ tags = ["studynote-network"]
   1. <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/516_dns_zone_transfer_tcp_53/">Zone Transfer</a>(장부 <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a>) <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a> 통제의 딜레마</strong>: 메인 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/)(Primary) 1대가 뻗으면 다 죽으니까 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)(Secondary) 3대를 세워뒀다. 근데 3대 놈들이 시도 때도 없이 메인 장부를 100만 번 긁어가며 디도스 공격(오버헤드 랙) 뻗음 터트리니까 ➔ "야 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 새끼들아! 닥치고 3시간에 1번(Refresh)만 와서 장부 복사해가 락 쾅!" 룰을 통제할 타이머 쇳덩이가 필요해 SOA가 탄생했다.
   2. <strong>클라우드 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>(Auth)의 탈 물리화 (<a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/242_shift_left_sdlc/">Shift-Left</a>)</strong>: 구글이 내 서버 소유주인지 팩트 체크하려면, 옛날엔 내 서버 디스크(물리) 루트에 `google.html` 암호 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 FTP로 땀 뻘뻘 흘리며 올려야 했다. 귀찮고 서버 오토 스케일링으로 날아가면 지옥 💀. ➔ "야 걍 물리 서버 안 건드리고, 클라우드 허공 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) L7 단말 <strong>[TXT 메모장]</strong>에만 암호 텍스트 1줄 쑤셔 박아 증명 끝내자 쾌속 꿀 ㅋ!" 0.1초 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 혁명이 도래했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SOA (Start of Authority) 헌법 장부 해부 엑스레이 타격 도면 🪓</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">👑</div><div class="kb-diagram-node">도메인 <code>shop.com</code> 0순위 마스터 SOA 레코드 팩폭 스캔</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell"><code>@ IN SOA ns1.gabia.com. admin.shop.com. (</code></div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">⏱️ 백업 봇(Secondary) 통치 시계 태엽 락킹</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell"><code>2026040301 ; Serial (버전 번호. 이거 안 올리면 백업 봇 복사 안함 컷!)</code></div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell"><code>10800 ; Refresh (3시간마다 백업 봇이 와서 새 장부 있나 찔러봄)</code></div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell"><code>3600 ; Retry (메인 서버 죽었으면 1시간 뒤에 다시 찔러 재시도)</code></div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell"><code>604800 ; Expire (1주일 동안 메인 뻗어있으면 백업 봇도 걍 파업 소각)</code></div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell"><code>86400 ) ; Minimum TTL (유저한테 '나 못 찾겠어 404' 에러 캐시 먹임)</code></div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 아키텍트 극딜: "야 이 코더들아 Serial(시리얼) 번호 눈깔로 100번 스캔 쳐 쾅!!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">메인 장부에 A 레코드 100개 새로 추가(Update)해 놓고, 저 위에 1번</div><div class="kb-diagram-node">Serial 번호</div><div class="kb-diagram-note">를</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+1 안 올리고 걍 저장 버튼 누르고 퇴근 꿀 빤 놈 나와 당장 찢어버려 쾅!!!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">백업 DNS(Secondary) 기계 봇 새끼들은 내용물은 1바이트도 안 읽어!! 오.직 저 껍데기</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Serial 숫자만 딱 비교해서</div><div class="kb-diagram-node">어? 어제랑 숫자 똑같네 ㅋ 업데이트 안 됐나 보네 복사 안해 퉤!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동기화(Zone Transfer) 스톱 락킹 뻗음 쳐버린다 💀!! 메인 서버랑 백업 서버 장부</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 불일치 스파게티 타임아웃 파국을 막으려면 하늘이 찢어져도 Serial 갱신 엄수다 쓩!"</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │         SOA (Start of Authority) 헌법 장부 해부 엑스레이 타격 도면 🪓 │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │ 👑 [ 도메인 `shop.com` 0순위 마스터 SOA 레코드 팩폭 스캔 ]         │
+  │                                                             │
+  │   `@   IN   SOA   ns1.gabia.com. admin.shop.com. (`        │
+  │                                                             │
+  │        ======= [ ⏱️ 백업 봇(Secondary) 통치 시계 태엽 락킹 ] ======== │
+  │                                                             │
+  │       `2026040301  ; Serial (버전 번호. 이거 안 올리면 백업 봇 복사 안함 컷!)` │
+  │       `10800       ; Refresh (3시간마다 백업 봇이 와서 새 장부 있나 찔러봄)`   │
+  │       `3600        ; Retry (메인 서버 죽었으면 1시간 뒤에 다시 찔러 재시도)`     │
+  │       `604800      ; Expire (1주일 동안 메인 뻗어있으면 백업 봇도 걍 파업 소각)`│
+  │       `86400 )     ; Minimum TTL (유저한테 '나 못 찾겠어 404' 에러 캐시 먹임)`│
+  │                                                             │
+  │ 🌟 아키텍트 극딜: "야 이 코더들아 Serial(시리얼) 번호 눈깔로 100번 스캔 쳐 쾅!! │
+  │   메인 장부에 A 레코드 100개 새로 추가(Update)해 놓고, 저 위에 1번 [Serial 번호]를 │
+  │   +1 안 올리고 걍 저장 버튼 누르고 퇴근 꿀 빤 놈 나와 당장 찢어버려 쾅!!!         │
+  │   백업 DNS(Secondary) 기계 봇 새끼들은 내용물은 1바이트도 안 읽어!! 오.직 저 껍데기  │
+  │   Serial 숫자만 딱 비교해서 [어? 어제랑 숫자 똑같네 ㅋ 업데이트 안 됐나 보네 복사 안해 퉤!]│
+  │   동기화(Zone Transfer) 스톱 락킹 뻗음 쳐버린다 💀!! 메인 서버랑 백업 서버 장부   │
+  │   데이터 불일치 스파게티 타임아웃 파국을 막으려면 하늘이 찢어져도 Serial 갱신 엄수다 쓩!"│
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** "[SOA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/) 레코드 옵션 존나 많은데 뭐 건드려야 함 ㅠ?" AWS Route53 기본값에 뇌피셜 손대다 뻗는 주니어의 대가리를 부수는 팩폭 타이머 도면이다. 
 SOA는 철저하게 <strong>'메인 서버(Primary)와 꼬봉 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">백업</a> 서버(Secondary) 간의 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a>(<a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">Replication</a>) <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/">스케줄</a>링 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a> 헌법'</strong>이다. 
@@ -103,18 +105,14 @@ SOA는 철저하게 <strong>'메인 서버(Primary)와 꼬봉 <a href="/knowledg
   '형님 나 아까 Serial [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 100번] 장부까지 훔쳐 갔음. 지금 형님 장부 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)이 105번이네?! ➔ 야 10만 줄 다 주지 마 무거워 터져! 딱 101번부터 105번까지 [수정된 변경 델타(Delta Δ) 차이값] 이빨 조각 5줄 텍스트 찌끄레기 엑기스만 가위로 핀셋 오려 적출해서 0.01초 컷으로 던져 다이렉트 꼽아 쓩🚀!!!'** 
   [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 통신 트래픽 사이즈를 1/1만 토막 극한의 수직 다이어트 압살 증발 소각시켜 버리고!! ➔ 거북이 3시간 랙(Refresh) 주기를 ➔ 1분 컷 초광속 실시간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)(Real-time Sync) 생태계로 펌핑 진화 차원 승격시켜 낸, [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 아키텍처 생존 0순위 성배 통치술이다 쾅!!
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DNS 레코드</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DNS 레코드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">영역 전송</div></div>
-</div>
-</div>
-
-
+```text
+[DNS 레코드]
+    │
+    ▼
+[DNS 레코드]
+    │
+    └──▶ [영역 전송]
+```
 
 - **📢 섹션 요약 비유**: AXFR(통짜)와 IXFR(델타)의 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 랙 차이는, <strong>'1,000페이지 백과사전 오타 1글자 수정 후 복사하기'</strong>와 100% 똑같습니다. 바보 조교(AXFR 통짜 복사)는 백과사전 500페이지에 오타 1글자 났다고 ➔ 1,000장 책 전체를 새로 제본소 가서 다시 싹 다 쌩으로 인쇄(통트래픽 복사 노가다 💥)해서 나눠줍니다(시간 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 뻗음 돈 파산 💀). 천재 조교(IXFR 델타 복사 아키텍트) 록온 🚀!! **"야 닥쳐 책 버리지 마 스톱 락 쾅!! 걍 [500페이지 3번째 줄 단어 1개] 고친 그 '포스트잇 메모지 1장(Delta 차이값 엑기스 핀셋 타격)' 만 0.1초 컷 프린트 복사해서 조원들한테 휙 던져 쾅!! 조원들은 각자 자기 책 500페이지에 그 스티커 딱 1개 덮어쓰기 덧붙여 찰칵(Patch 융합) 세팅 완료 컷!!"** [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)([Replication](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)) 오버헤드 통신망 병목을 O(1) 초광속 스피드 압살 돌파 펌핑 쳐버리는 기적의 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 튜닝 룰입니다.
 
@@ -233,19 +231,15 @@ SOA는 철저하게 <strong>'메인 서버(Primary)와 꼬봉 <a href="/knowledg
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: DNS 레코드</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: DNS 레코드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 영역 전송</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율 운영 네트워크</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: DNS 레코드]
+    │
+    ▼
+[현재 개념: DNS 레코드]
+    │
+    ├──▶ [확장 A: 영역 전송]
+    └──▶ [확장 B: 자율 운영 네트워크]
+```
 
 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 레코드는 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 레코드에서 출발해 현재 메커니즘을 정교화하고, 이후 [영역 전송](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/516_dns_zone_transfer_tcp_53/)와 자율 운영 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

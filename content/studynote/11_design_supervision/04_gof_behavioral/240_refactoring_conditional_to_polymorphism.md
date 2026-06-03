@@ -47,53 +47,56 @@ double getDeliveryDays(String orderType) {
 }
 ```
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Core Idea</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Expected Gain</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐    ┌──────────────┐    ┌──────────────┐
+│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
+└──────────────┘    └──────────────┘    └──────────────┘
+```
 
 - **📢 섹션 요약 비유**: 매번 직원 유형(정규직/알바/계약직)을 물어보고 처우를 결정하는 것보다, 각 유형이 자신의 처우 계산법을 직접 알고 있는 게 훨씬 효율적이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
+```
+[리팩토링 전: 조건문 분기]
+┌──────────────────────────────────────────────────────────┐
+│  OrderService                                            │
+│                                                          │
+│  getShippingCost(type)                                   │
+│    if EXPRESS  → 10%                                     │
+│    if STANDARD → 5%          ← 새 타입 추가 시           │
+│    if ECONOMY  → 2%            여기를 수정해야 함 (OCP 위반)│
+│                                                          │
+│  getDeliveryDays(type)                                   │
+│    if EXPRESS  → 1일         ← 여기도 수정해야 함!        │
+│    if STANDARD → 3일                                     │
+│    if ECONOMY  → 7일                                     │
+└──────────────────────────────────────────────────────────┘
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">리팩토링 전: 조건문 분기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OrderService</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">getShippingCost(type)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">if EXPRESS → 10%</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">if STANDARD → 5% ← 새 타입 추가 시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">if ECONOMY → 2% 여기를 수정해야 함 (OCP 위반)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">getDeliveryDays(type)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">if EXPRESS → 1일 ← 여기도 수정해야 함!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">if STANDARD → 3일</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">if ECONOMY → 7일</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">리팩토링 후: 다형성 기반</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;&lt;interface&gt;&gt; ShippingStrategy</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ getShippingCost(): double</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ getDeliveryDays(): int</div></div>
-<div class="kb-diagram-note">implements</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Express</div><div class="kb-diagram-cell">Standard</div><div class="kb-diagram-cell">Economy</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Shipping</div><div class="kb-diagram-cell">Shipping</div><div class="kb-diagram-cell">Shipping</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">cost: 10%</div><div class="kb-diagram-cell">cost: 5%</div><div class="kb-diagram-cell">cost: 2%</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">days: 1</div><div class="kb-diagram-cell">days: 3</div><div class="kb-diagram-cell">days: 7</div></div>
-<div class="kb-diagram-connector">▲</div>
-<div class="kb-diagram-note">새 타입 추가 시</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SameDay Shipping</div><div class="kb-diagram-cell">← 클래스만 추가!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">cost: 20%</div><div class="kb-diagram-cell">기존 코드 수정 없음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">days: 0</div></div>
-</div>
-</div>
-
-
+[리팩토링 후: 다형성 기반]
+┌────────────────────────────────────────────────────────────┐
+│  <<interface>> ShippingStrategy                            │
+│  + getShippingCost(): double                               │
+│  + getDeliveryDays(): int                                  │
+└───────────────────────┬────────────────────────────────────┘
+                        │ implements
+          ┌─────────────┼──────────────────┐
+          ▼             ▼                  ▼
+┌──────────────┐ ┌──────────────┐ ┌──────────────────┐
+│  Express     │ │  Standard    │ │  Economy         │
+│  Shipping    │ │  Shipping    │ │  Shipping        │
+│  cost: 10%   │ │  cost: 5%    │ │  cost: 2%        │
+│  days: 1     │ │  days: 3     │ │  days: 7         │
+└──────────────┘ └──────────────┘ └──────────────────┘
+                                          ▲
+                                          │ 새 타입 추가 시
+                               ┌──────────────────────┐
+                               │  SameDay Shipping    │ ← 클래스만 추가!
+                               │  cost: 20%           │   기존 코드 수정 없음
+                               │  days: 0             │
+                               └──────────────────────┘
+```
 
 ```java
 // 전략 인터페이스
@@ -144,18 +147,13 @@ public class Order {
 | Extract Method | 긴 메서드 분리 | 메서드가 너무 길 때 |
 | [Introduce Parameter Object](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/242_introduce_parameter_object/) | 매개변수 묶기 | 매개변수가 3개 이상 반복 |
 
+```
+Before (OCP 위반):
+  신규 타입 추가 → 기존 switch 문 수정 → 기존 코드 변경 → 회귀 버그 위험
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Before (OCP 위반):</div>
-<div class="kb-diagram-note">신규 타입 추가 → 기존 switch 문 수정 → 기존 코드 변경 → 회귀 버그 위험</div>
-<div class="kb-diagram-note">After (OCP 준수):</div>
-<div class="kb-diagram-note">신규 타입 추가 → 새 클래스 추가 → 기존 코드 무변경 → 안전</div>
-</div>
-</div>
-
-
+After (OCP 준수):
+  신규 타입 추가 → 새 클래스 추가 → 기존 코드 무변경 → 안전
+```
 
 - **📢 섹션 요약 비유**: 조건문은 새 메뉴를 추가할 때마다 주방 레이아웃을 바꾸는 것이고, 다형성은 새 요리사를 고용하는 것이다. 주방은 그대로, 메뉴만 늘어난다.
 

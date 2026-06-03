@@ -60,17 +60,11 @@ JOIN은 <strong><a href="/knowledge-base/studynote/05_database/02_modeling_norma
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Cartesian Product (이론)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">INNER/OUTER JOIN (SQL-92)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Lateral Join (SQL:2003)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Hash Join 최적화 (2010s)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: Adaptive Join — DB가 런타임에 최적 알고리즘 선택</div></div>
-</div>
-</div>
-
-
+```text
+[Cartesian Product (이론)] → [INNER/OUTER JOIN (SQL-92)]
+    → [Lateral Join (SQL:2003)] → [Hash Join 최적화 (2010s)]
+    → [현재: Adaptive Join — DB가 런타임에 최적 알고리즘 선택]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. INNER JOIN은 **양쪽 모두 참석한 사람만** 명단에 남겨요.

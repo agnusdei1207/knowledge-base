@@ -41,21 +41,20 @@ ERP의 핵심은 [모듈](/knowledge-base/studynote/04_software_engineering/04_t
 
 아래 흐름은 ERP가 "주문 입력" 하나를 여러 부서의 동시 작업으로 바꾸는 방식을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ERP integrated flow</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sales Order</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─&gt; SD : order / delivery plan</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─&gt; MM : ATP check / inventory update</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─&gt; PP : production requirement if stock is short</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─&gt; FI : receivable / revenue posting</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Shared master data: item, customer, supplier, account, org</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ ERP integrated flow                                          │
+├──────────────────────────────────────────────────────────────┤
+│ Sales Order                                                  │
+│      │                                                       │
+│      ├─> SD : order / delivery plan                          │
+│      ├─> MM : ATP check / inventory update                   │
+│      ├─> PP : production requirement if stock is short       │
+│      └─> FI : receivable / revenue posting                   │
+│                                                              │
+│ Shared master data: item, customer, supplier, account, org   │
+└──────────────────────────────────────────────────────────────┘
+```
 
 즉 ERP는 화면을 합치는 것이 아니라, <strong>거래의 파급 효과를 같은 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/">데이터 모델</a> 안에서 연쇄적으로 처리</strong>하는 구조다. 이 때문에 인터페이스보다 [마스터 데이터](/knowledge-base/studynote/05_database/07_exam_summary/539_mdm_master_data_management/) 설계와 코드 체계가 더 중요하다.
 
@@ -74,7 +73,7 @@ ERP의 경계는 "기능별 개별 시스템"과 "외부까지 확장된 통합 
 | 강점 | 도입 범위가 작음 | 내부 통제와 정합성 우수 | 민첩성, 확장성 우수 |
 | 약점 | 불일치·중복 입력 | 구축 비용·변화관리 부담 | 통합 거버넌스가 복잡 |
 
-ERP는 [MRP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/082_mrp_material_requirements_planning/)·[MRP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/082_mrp_material_requirements_planning/) II에서 출발해 [SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) ([Supply Chain](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)), [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) ([Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) [Relationship](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)), [MES](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/119_mes_manufacturing_execution_system/) ([Manufacturing Execution System](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/119_mes_manufacturing_execution_system/))와 연결되며 확장되었다. 따라서 ERP를 기억할 때는 "모든 기능을 한 제품에 넣는다"보다, <strong>기업 내부의 기준 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>와 프로세스를 중심에 둔다</strong>는 관점이 더 중요하다.
+ERP는 [MRP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/082_mrp_material_requirements_planning/)·[MRP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/082_mrp_material_requirements_planning/) II에서 출발해 [SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) ([Supply Chain](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)), [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) ([C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) [Relationship](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)), [MES](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/119_mes_manufacturing_execution_system/) ([Manufacturing Execution System](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/119_mes_manufacturing_execution_system/))와 연결되며 확장되었다. 따라서 ERP를 기억할 때는 "모든 기능을 한 제품에 넣는다"보다, <strong>기업 내부의 기준 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>와 프로세스를 중심에 둔다</strong>는 관점이 더 중요하다.
 
 - **📢 섹션 요약 비유**: 개별 시스템은 각자 악보를 들고 연주하는 소규모 팀이고, ERP는 한 지휘자 아래 총보를 보는 오케스트라에 가깝다. 확장형 ERP는 여기에 외부 합창단까지 붙인 형태다.
 
@@ -117,28 +116,26 @@ ERP가 제대로 정착되면 결산 속도, 재고 정확도, 납기 예측력,
 | :--- | :--- |
 | [MRP II](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/083_mrp_2_manufacturing_resource_planning/) ([Manufacturing Resource Planning](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/083_mrp_2_manufacturing_resource_planning/)) | ERP의 제조 중심 전신 |
 | [SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) ([Supply Chain](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)) | ERP를 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 외부로 확장 |
-| [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) ([Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) [Relationship](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)) | 고객 접점 정보를 ERP와 연계 |
+| [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) ([C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) [Relationship](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)) | 고객 접점 정보를 ERP와 연계 |
 | [MES](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/119_mes_manufacturing_execution_system/) ([Manufacturing Execution System](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/119_mes_manufacturing_execution_system/)) | 현장 실행 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 ERP와 연결 |
 | SoD (Segregation of Duties) | ERP 권한 통제의 핵심 원칙 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">MRP</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">MRP II</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ERP</div>
-<div class="kb-diagram-tree-item" style="--depth:1">SCM / CRM / MES integration</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Cloud ERP / Composable ERP / Intelligent ERP</div>
-</div>
-</div>
-
-
+```text
+MRP
+  │
+  ▼
+MRP II
+  │
+  ▼
+ERP
+  │
+  ├─> SCM / CRM / MES integration
+  │
+  ▼
+Cloud ERP / Composable ERP / Intelligent ERP
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

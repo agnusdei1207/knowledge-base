@@ -52,19 +52,16 @@ C = B · log₂(1 + S/N)   [bits/s]
 
 ### 채널 모델 다이어그램
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">신호 X 수신 신호 Y</div>
-<div class="kb-diagram-note">+잡음 N(0,σ²)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">송신기</div><div class="kb-diagram-cell">►</div><div class="kb-diagram-cell">수신기</div></div>
-<div class="kb-diagram-note">P(X) 최적화 I(X;Y) 계산</div>
-<div class="kb-diagram-note">C = max I(X;Y)</div>
-</div>
-</div>
-
-
+```
+       신호 X                   수신 신호 Y
+   ┌──────────┐   +잡음 N(0,σ²)   ┌──────────┐
+   │  송신기   │─────────────────►│  수신기   │
+   └──────────┘                   └──────────┘
+         │                              │
+    P(X) 최적화                   I(X;Y) 계산
+    ─────────────────────────────────────
+    C = max I(X;Y)
+```
 
 ### 주요 채널 모델 비교
 
@@ -76,54 +73,43 @@ C = B · log₂(1 + S/N)   [bits/s]
 
 <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/">BSC</a> (Binary Symmetric Channel, 이진 대칭 채널)</strong>:
 
+```
+  0 ────(1-p)──► 0
+    ╲─────p────► 1
 
+  1 ────(1-p)──► 1
+    ╲─────p────► 0
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">0 (1-p)──► 0</div>
-<div class="kb-diagram-note">╲ p ► 1</div>
-<div class="kb-diagram-note">1 (1-p)──► 1</div>
-<div class="kb-diagram-note">╲ p ► 0</div>
-<div class="kb-diagram-note">C_BSC = 1 - H_b(p) 여기서 H_b(p) = -p·log₂p - (1-p)·log₂(1-p)</div>
-</div>
-</div>
-
-
+C_BSC = 1 - H_b(p)   여기서 H_b(p) = -p·log₂p - (1-p)·log₂(1-p)
+```
 
 <strong><a href="/knowledge-base/studynote/09_security/15_malware_attack_vectors/755_bec/">BEC</a> (Binary Erasure Channel, 이진 소거 채널)</strong>:
 
+```
+  0 ──(1-ε)──► 0
+    ╲──(ε)───► ? (소거)
 
+  1 ──(1-ε)──► 1
+    ╲──(ε)───► ? (소거)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">0 ──(1-ε)──► 0</div>
-<div class="kb-diagram-note">╲──(ε) ► ? (소거)</div>
-<div class="kb-diagram-note">1 ──(1-ε)──► 1</div>
-<div class="kb-diagram-note">╲──(ε) ► ? (소거)</div>
-<div class="kb-diagram-note">C_BEC = 1 - ε</div>
-</div>
-</div>
-
-
+C_BEC = 1 - ε
+```
 
 BEC는 [LDPC](/knowledge-base/studynote/03_network/04_data_link_layer_error/203_ldpc_low_density_parity_check/), [폴라 코드](/knowledge-base/studynote/03_network/04_data_link_layer_error/204_polar_code_5g_control_channel/) 설계에 핵심 채널 모델.
 
 ### [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) vs SNR의 트레이드오프
 
+```
+용량 C [bits/s]
+   ▲
+   │        ─ ─ ─ ─ ─   (SNR ↑)
+   │      ─ ─ ─ ─ ─
+   │    ─ ─ ─ ─ ─         B 증가: 선형 이득
+   │  ─ ─ ─ ─
+   └────────────────────► 대역폭 B [Hz]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-note">용량 C</div><div class="kb-diagram-node">bits/s</div></div>
-<div class="kb-diagram-connector">▲</div>
-<div class="kb-diagram-note">─ ─ ─ ─ ─ (SNR ↑)</div>
-<div class="kb-diagram-note">─ ─ ─ ─ ─ B 증가: 선형 이득</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">► 대역폭 B</div><div class="kb-diagram-node">Hz</div></div>
-<div class="kb-diagram-note">SNR 증가: 로그 이득 (수확 체감)</div>
-</div>
-</div>
-
-
+SNR 증가: 로그 이득 (수확 체감)
+```
 
 - B를 2배로 → C도 약 2배 (선형 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/))
 - SNR을 2배로 → C는 1 [bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) 증가 ([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/))
@@ -218,21 +204,18 @@ Massive MIMO 32×32 = 최대 32개 스트림:
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">신호대잡음비 (SNR, Signal-to-Noise Ratio)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">섀넌 용량 (Shannon Capacity)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">채널 부호화 (Channel Coding)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">오류 정정 (Error Correction)</div></div>
-</div>
-</div>
-
-
+```text
+[신호대잡음비 (SNR, Signal-to-Noise Ratio)]
+    │
+    ▼
+[섀넌 용량 (Shannon Capacity)]
+    │
+    ▼
+[채널 부호화 (Channel Coding)]
+    │
+    ▼
+[오류 정정 (Error Correction)]
+```
 
 이 흐름도는 잡음 환경에서 섀넌 용량과 채널 부호화, 오류 정정으로 발전하는 흐름을 보여준다.
 ### 👶 어린이를 위한 3줄 비유 설명

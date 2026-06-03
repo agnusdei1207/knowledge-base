@@ -43,20 +43,19 @@ SPACE는 DORA의 보완재다. DORA가 파이프라인 속도·안정성에 집�
 
 ### SPACE 지표 구조도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SPACE 프레임워크</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개인 수준</div><div class="kb-diagram-cell">S: 만족도(직무 만족, 번아웃)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P: 성과(코드 품질, 영향)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">팀 수준</div><div class="kb-diagram-cell">A: 활동(PR, 커밋, 리뷰)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C: 소통(협업 효율, 응답 속도)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시스템 수준</div><div class="kb-diagram-cell">E: 효율(파이프라인 속도, 흐름 효율성)</div></div>
-</div>
-</div>
-
-
+```
+  ┌────────────────────────────────────────────────────────────┐
+  │                  SPACE 프레임워크                            │
+  ├────────────────┬───────────────────────────────────────────┤
+  │  개인 수준     │  S: 만족도(직무 만족, 번아웃)               │
+  │               │  P: 성과(코드 품질, 영향)                    │
+  ├────────────────┼───────────────────────────────────────────┤
+  │  팀 수준       │  A: 활동(PR, 커밋, 리뷰)                    │
+  │               │  C: 소통(협업 효율, 응답 속도)               │
+  ├────────────────┼───────────────────────────────────────────┤
+  │  시스템 수준   │  E: 효율(파이프라인 속도, 흐름 효율성)        │
+  └────────────────┴───────────────────────────────────────────┘
+```
 
 ### 측정 방법: 세 가지 접근
 
@@ -99,23 +98,19 @@ SPACE는 DORA의 보완재다. DORA가 파이프라인 속도·안정성에 집�
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **SPACE 지표 선택 가이드**:
+```
+Step 1: 조직의 핵심 고통점 파악
+  - 번아웃이 심한가? → S(만족도) 집중
+  - 배포가 느린가? → E(효율) 집중
+  - 코드 품질 문제가 있는가? → P(성과) 집중
 
+Step 2: 각 차원에서 1~2개 지표 선택
+  - 너무 많은 지표는 오히려 혼란 유발
+  - 수집 가능한 지표로 한정
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Step 1: 조직의 핵심 고통점 파악</div>
-<div class="kb-diagram-tree-item" style="--depth:1">번아웃이 심한가? → S(만족도) 집중</div>
-<div class="kb-diagram-tree-item" style="--depth:1">배포가 느린가? → E(효율) 집중</div>
-<div class="kb-diagram-tree-item" style="--depth:1">코드 품질 문제가 있는가? → P(성과) 집중</div>
-<div class="kb-diagram-note">Step 2: 각 차원에서 1~2개 지표 선택</div>
-<div class="kb-diagram-tree-item" style="--depth:1">너무 많은 지표는 오히려 혼란 유발</div>
-<div class="kb-diagram-tree-item" style="--depth:1">수집 가능한 지표로 한정</div>
-<div class="kb-diagram-note">Step 3: 설문 + 자동화 데이터 결합</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Activity(A)는 자동화로, Satisfaction(S)는 설문으로</div>
-</div>
-</div>
-
-
+Step 3: 설문 + 자동화 데이터 결합
+  - Activity(A)는 자동화로, Satisfaction(S)는 설문으로
+```
 
 <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/058_dx_developer_experience/">개발자 경험</a>(<a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/726_platform_engineering_idp_dx/">DX</a>) 개선 사례</strong>:
 - Microsoft: 빌드 시간 30분 → 5분 단축으로 E(효율) 대폭 개선
@@ -163,22 +158,17 @@ SPACE는 "개발자를 숫자로 환원하지 말라"는 메시지를 담고 있
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">생산성 = 코드 줄 수? (단일 지표의 함정)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SPACE Framework: 5차원 생산성 측정</div>
-<div class="kb-diagram-tree-item" style="--depth:2">S: Satisfaction (만족도)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">P: Performance (성과)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">A: Activity (활동량)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">C: Communication (협업 품질)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">E: Efficiency (효율성 · 흐름 상태)</div>
-</div>
-</div>
-
-
+```text
+생산성 = 코드 줄 수? (단일 지표의 함정)
+    │
+    ▼
+SPACE Framework: 5차원 생산성 측정
+    ├─► S: Satisfaction (만족도)
+    ├─► P: Performance (성과)
+    ├─► A: Activity (활동량)
+    ├─► C: Communication (협업 품질)
+    └─► E: Efficiency (효율성 · 흐름 상태)
+```
 2. 성적이 좋아도 학교가 싫으면 언젠가 그만두게 되니까, 행복하게 공부하는 환경을 만드는 게 더 중요해.
 3. 커밋 수(숙제 수)만 많이 강요하면 졸리면서도 억지로 하게 돼서 품질이 떨어지는 것처럼, 단순한 숫자만 보면 안 돼.
 

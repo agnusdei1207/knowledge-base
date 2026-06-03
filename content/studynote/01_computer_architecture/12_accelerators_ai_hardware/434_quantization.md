@@ -25,20 +25,18 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 양자화가 단순 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)이 아니라, "같은 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 폭과 같은 메모리로 몇 개의 값을 운반할 수 있는가"를 바꾸는 구조적 선택임을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">같은 32-bit 버스라도 표현 방식에 따라 운반량이 달라짐</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">표현 형식</div><div class="kb-diagram-cell">32-bit 버스 1회 전송</div><div class="kb-diagram-cell">상대 저장 크기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FP32</div><div class="kb-diagram-cell">1개 값</div><div class="kb-diagram-cell">1x</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FP16</div><div class="kb-diagram-cell">2개 값</div><div class="kb-diagram-cell">1/2x</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">INT8</div><div class="kb-diagram-cell">4개 값</div><div class="kb-diagram-cell">1/4x</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">INT4</div><div class="kb-diagram-cell">8개 값</div><div class="kb-diagram-cell">1/8x</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│      같은 32-bit 버스라도 표현 방식에 따라 운반량이 달라짐   │
+├───────────────┬──────────────────────┬───────────────────────┤
+│ 표현 형식     │ 32-bit 버스 1회 전송  │ 상대 저장 크기         │
+├───────────────┼──────────────────────┼───────────────────────┤
+│ FP32          │ 1개 값                │ 1x                    │
+│ FP16          │ 2개 값                │ 1/2x                  │
+│ INT8          │ 4개 값                │ 1/4x                  │
+│ INT4          │ 8개 값                │ 1/8x                  │
+└───────────────┴──────────────────────┴───────────────────────┘
+```
 
 즉 양자화는 "숫자를 대충 만든다"는 의미보다 "같은 하드웨어가 한 번에 처리할 수 있는 정보량을 늘린다"는 의미로 이해해야 한다. 정확도 손실은 부작용이지만, 메모리와 전력 절감은 구조적으로 확정되는 이득이다.
 
@@ -54,21 +52,19 @@ tags = ["studynote-computer-architecture"]
 
 하드웨어 입장에서는 입력과 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 정수로 바꾼 뒤, 정수 곱셈-누산만 빠르게 수행하고 마지막에 필요할 때만 다시 실수 영역으로 복원하는 흐름이 중요하다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">quantize INT MAC</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FP32 입력</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">INT8 입력</div><div class="kb-diagram-cell">▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">INT32 누산</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FP32 가중치</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">INT8 가중치</div><div class="kb-diagram-cell">▶</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">dequantize</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FP16/FP32</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────┐   quantize    ┌────────────┐   INT MAC    ┌────────────┐
+│ FP32 입력   │ ───────────▶ │ INT8 입력   │ ───────────▶ │            │
+├────────────┤               ├────────────┤              │ INT32 누산 │
+│ FP32 가중치 │ ───────────▶ │ INT8 가중치 │ ───────────▶ │            │
+└────────────┘               └────────────┘              └─────┬──────┘
+                                                                 │
+                                                                 ▼
+                                                          ┌────────────┐
+                                                          │ dequantize │
+                                                          │ FP16/FP32  │
+                                                          └────────────┘
+```
 
 이 그림에서 중요한 지점은 두 가지다. 첫째, 곱셈은 가벼운 정수 회로에서 처리되므로 [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/) ([Tensor Core](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)), 신경망 처리 장치 ([Neural Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/), [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/)), 텐서 처리 장치 ([Tensor Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/425_tpu/), [TPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/425_tpu/)) 같은 가속기가 높은 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)도를 확보하기 쉽다. 둘째, 누산은 보통 더 넓은 INT32 (32-bit Integer)나 FP16/FP32로 받아 오차가 누적되어 폭발하는 것을 막는다.
 
@@ -171,23 +167,21 @@ FP16 또는 BF16은 학습과 추론 모두에 널리 쓰이며, 동적 범위�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">FP32 중심 추론</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">FP16 · BF16 저정밀 연산 확산</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">INT8 양자화 + 정수 가속기 표준화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">INT4 가중치 양자화 · LLM 경량화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">FP8 · 양자화 친화형 모델 · 하드웨어/소프트웨어 공동 설계</div>
-</div>
-</div>
-
-
+```text
+FP32 중심 추론
+    │
+    ▼
+FP16 · BF16 저정밀 연산 확산
+    │
+    ▼
+INT8 양자화 + 정수 가속기 표준화
+    │
+    ▼
+INT4 가중치 양자화 · LLM 경량화
+    │
+    ▼
+FP8 · 양자화 친화형 모델 · 하드웨어/소프트웨어 공동 설계
+```
 
 이 흐름은 "[정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 절감 → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 절감 → 가속기 최적화 → 모델 구조 공동 설계"로 진화하는 방향을 보여준다.
 

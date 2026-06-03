@@ -30,24 +30,24 @@ tags = ["studynote-computer-architecture"]
 
 정규화는 하드웨어 연산기의 구조를 단순화할 뿐 아니라, '숨겨진 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) (Hidden [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/))'라는 천재적인 메모 최적화를 가능하게 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정규화 연산 및 숨겨진 비트 (Hidden Bit) 원리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">입력된 날것의 이진수</div><div class="kb-diagram-note">0.001101 × 2^0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1단계: 정규화 (Normalization)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">맨 앞에 '1'이 올 때까지 소수점을 오른쪽으로 3칸 이동</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 1.101 × 2^-3 (소수점을 3칸 밀고 지수를 -3으로 조정)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2단계: 숨겨진 비트 (Hidden Bit) 트릭 적용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이진수에서는 0이 아니면 무조건 1이므로, 앞의 '1.'은 생략!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 메모리에 저장되는 실제 가수 (Mantissa): 101</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">최종 메모리 저장 상태</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부호(1bit)</div><div class="kb-diagram-cell">지수부 (Exponent, -3)</div><div class="kb-diagram-cell">가수부 (Mantissa, 10100…)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           정규화 연산 및 숨겨진 비트 (Hidden Bit) 원리             │
+├──────────────────────────────────────────────────────────────┤
+│ [입력된 날것의 이진수]   0.001101 × 2^0                          │
+│                                                              │
+│ 1단계: 정규화 (Normalization)                                   │
+│        맨 앞에 '1'이 올 때까지 소수점을 오른쪽으로 3칸 이동         │
+│        ──▶ 1.101 × 2^-3 (소수점을 3칸 밀고 지수를 -3으로 조정)      │
+│                                                              │
+│ 2단계: 숨겨진 비트 (Hidden Bit) 트릭 적용                          │
+│        이진수에서는 0이 아니면 무조건 1이므로, 앞의 '1.'은 생략!     │
+│        ──▶ 메모리에 저장되는 실제 가수 (Mantissa): 101           │
+│                                                              │
+│ [최종 메모리 저장 상태]                                          │
+│ 부호(1bit) │ 지수부 (Exponent, -3) │ 가수부 (Mantissa, 10100…)│
+└──────────────────────────────────────────────────────────────┘
+```
 
 이진수 시스템에서 정규화를 거쳐 맨 앞이 0이 아니게 만들었다면 그 자리는 100% 확률로 `1`이다. [IEEE 754](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/088_ieee_754/) 설계자들은 이 뻔한 `1`을 비싼 칩 메모리(RAM)에 저장하지 않고 과감히 생략했다. 연산 장치 (FPU, [Floating Point](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) Unit)가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽어 들일 때 하드웨어 회로가 앞에 `1.`을 자동으로 복원하여 계산한다. 이 트릭 덕분에 [단정밀도](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/089_single_precision/) (FP32)는 물리적으로 23비트의 가수를 가지지만, [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로는 24비트의 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 해상도를 공짜로 얻게 된다.
 
@@ -105,23 +105,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">부동소수점 표기의 파편화 (Floating Point 혼란)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">정규화 (Normalization) 도입 · 강제 규격화 (1.xxx)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">숨겨진 비트 (Hidden Bit) 적용 · 정밀도 1비트 향상</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">가드 비트 (Guard Bit) 및 얼라인먼트 (Alignment) · 덧셈 오차 보정</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">비정규화 수 (Subnormal) 예외 처리 · FTZ (Flush-To-Zero) 최적화</div>
-</div>
-</div>
-
-
+```text
+부동소수점 표기의 파편화 (Floating Point 혼란)
+    │
+    ▼
+정규화 (Normalization) 도입 · 강제 규격화 (1.xxx)
+    │
+    ▼
+숨겨진 비트 (Hidden Bit) 적용 · 정밀도 1비트 향상
+    │
+    ▼
+가드 비트 (Guard Bit) 및 얼라인먼트 (Alignment) · 덧셈 오차 보정
+    │
+    ▼
+비정규화 수 (Subnormal) 예외 처리 · FTZ (Flush-To-Zero) 최적화
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

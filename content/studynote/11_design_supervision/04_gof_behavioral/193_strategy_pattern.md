@@ -23,24 +23,24 @@ tags = ["studynote-design-supervision"]
 
 [전략 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/)은 각 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 독립적인 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 클래스로 캡슐화한다. `PaymentStrategy` 인터페이스를 `CreditCardStrategy`, `KakaoPayStrategy`, `TossPayStrategy`가 구현하고, [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)만 교체하면 된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전략 패턴 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Context</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- strategy: Strategy</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ setStrategy(s: Strategy)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ executeStrategy()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(위임)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Strategy (인터페이스)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ execute(data): Result</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ConcreteStrategyA ConcreteStrategyB ConcreteStrategyC</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(알고리즘 A) (알고리즘 B) (알고리즘 C)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│            전략 패턴 구조                                    │
+├─────────────────────────────────────────────────────────────┤
+│  Context                                                    │
+│  - strategy: Strategy                                       │
+│  + setStrategy(s: Strategy)                                 │
+│  + executeStrategy()                                        │
+│       │ (위임)                                              │
+│       ▼                                                     │
+│  Strategy (인터페이스)                                       │
+│  + execute(data): Result                                    │
+│       ▲                                                     │
+│  ┌────┴──────────────────────────┐                          │
+│  ConcreteStrategyA   ConcreteStrategyB   ConcreteStrategyC  │
+│  (알고리즘 A)       (알고리즘 B)       (알고리즘 C)         │
+└─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 내비게이션([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))이 경로 탐색 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))을 교체하듯, '최단 경로', '최소 요금', '고속도로 우선' [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 런타임에 선택한다.
 
@@ -57,25 +57,24 @@ Java에서 [전략 패턴](/knowledge-base/studynote/11_design_supervision/06_ex
 | [람다](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) | ([data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) -> result | 간결, 단순 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)에 적합 |
 | 메서드 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) | ClassName::method | 최간결 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스프링에서 전략 패턴 활용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// 인터페이스 (Strategy)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">interface PaymentStrategy {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PaymentResult pay(amount: Money);</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// 스프링 DI로 전략 주입</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">@Service class OrderService {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OrderService(PaymentStrategy paymentStrategy) { ... }</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// 런타임 전략 교체: Map&lt;String, PaymentStrategy&gt;로 관리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">paymentStrategies.get(paymentType).pay(amount);</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│       스프링에서 전략 패턴 활용                              │
+├─────────────────────────────────────────────────────────────┤
+│  // 인터페이스 (Strategy)                                   │
+│  interface PaymentStrategy {                                │
+│    PaymentResult pay(amount: Money);                        │
+│  }                                                          │
+│                                                             │
+│  // 스프링 DI로 전략 주입                                   │
+│  @Service class OrderService {                              │
+│    OrderService(PaymentStrategy paymentStrategy) { ... }    │
+│  }                                                          │
+│                                                             │
+│  // 런타임 전략 교체: Map<String, PaymentStrategy>로 관리   │
+│  paymentStrategies.get(paymentType).pay(amount);            │
+└─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 스마트폰([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))이 통신 방식([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))으로 WiFi, [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/), 5G를 런타임에 교체하듯, [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 인터페이스만 알고 구체 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 모른다.
 

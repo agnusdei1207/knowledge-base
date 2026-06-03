@@ -45,25 +45,31 @@ Ray의 중심은 Head Node, Global Control Store, Worker, Object Store, Remote [
 
 아래 그림은 실제 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에서 Spark와 Ray가 어떻게 이어지는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hybrid AI pipeline: Spark + Ray</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Raw logs / data lake</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Spark cluster</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Driver -&gt; DAG stages -&gt; Executors -&gt; shuffle / join / aggregate</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Feature table / parquet / feature store</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ray cluster</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Head node -&gt; remote tasks / actors -&gt; GPU workers</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ distributed training</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ hyperparameter tuning</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ reinforcement learning simulators</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Model checkpoints / serving artifacts</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Hybrid AI pipeline: Spark + Ray                                     │
+├──────────────────────────────────────────────────────────────────────┤
+│ Raw logs / data lake                                                 │
+│        │                                                             │
+│        ▼                                                             │
+│ Spark cluster                                                        │
+│   Driver -> DAG stages -> Executors -> shuffle / join / aggregate    │
+│        │                                                             │
+│        ▼                                                             │
+│ Feature table / parquet / feature store                              │
+│        │                                                             │
+│        ▼                                                             │
+│ Ray cluster                                                          │
+│   Head node -> remote tasks / actors -> GPU workers                  │
+│        │                                                             │
+│        ├─ distributed training                                       │
+│        ├─ hyperparameter tuning                                      │
+│        └─ reinforcement learning simulators                          │
+│        │                                                             │
+│        ▼                                                             │
+│ Model checkpoints / serving artifacts                                │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 핵심은 비용을 없애는 것이 아니라, 병목 위치를 바꾸는 데 있다. Spark는 디스크 기반 일괄 처리보다 메모리 기반 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리로 이동하면서 속도를 높였지만, 큰 조인과 셔플에서 네트워크 병목이 생긴다. Ray는 Python 코드의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 표현력을 크게 높였지만, 객체 크기와 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링 단위를 잘못 잡으면 오히려 오버헤드가 커진다. 따라서 두 프레임워크 모두 "노드를 많이 쓰면 무조건 빠르다"가 아니라, <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a>·객체·통신 경계를 어떻게 자르느냐</strong>가 성패를 가른다.
 
@@ -148,24 +154,22 @@ Spark와 Ray를 적절히 조합하면 단일 서버 한계를 넘어서는 [AI]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단일 서버 한계(CPU / RAM / GPU)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Scale-Out 클러스터 구성</div>
-<div class="kb-diagram-tree-item" style="--depth:2">대용량 정형 데이터 -&gt; Spark ETL / SQL / shuffle</div>
-<div class="kb-diagram-tree-item" style="--depth:2">피처 생성 -&gt; parquet / feature store</div>
-<div class="kb-diagram-tree-item" style="--depth:2">분산 실험 / 학습 -&gt; Ray task / actor / GPU scheduling</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">하이브리드 AI 파이프라인</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">대규모 전처리 + 분산 학습 + 튜닝 + 서빙</div>
-</div>
-</div>
-
-
+```text
+단일 서버 한계(CPU / RAM / GPU)
+    │
+    ▼
+Scale-Out 클러스터 구성
+    │
+    ├─ 대용량 정형 데이터 -> Spark ETL / SQL / shuffle
+    ├─ 피처 생성 -> parquet / feature store
+    └─ 분산 실험 / 학습 -> Ray task / actor / GPU scheduling
+    │
+    ▼
+하이브리드 AI 파이프라인
+    │
+    ▼
+대규모 전처리 + 분산 학습 + 튜닝 + 서빙
+```
 
 이 흐름은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 인프라가 단순히 "컴퓨터를 많이 쓰는 것"이 아니라, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)과 실행 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)을 서로 다른 엔진으로 나누어 최적화하는 과정임을 보여 준다.
 

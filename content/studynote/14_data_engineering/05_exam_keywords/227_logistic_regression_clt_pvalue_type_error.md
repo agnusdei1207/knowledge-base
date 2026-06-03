@@ -35,26 +35,24 @@ tags = ["studynote-data-engineering"]
 
 ### 2-1. 로지스틱 회귀 수식
 
+```
+시그모이드 함수 (Sigmoid Function):
 
+         1
+P(Y=1|x) = ─────────────────────
+            1 + e^(-(β₀+β₁x))
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">시그모이드 함수 (Sigmoid Function):</div>
-<div class="kb-diagram-note">1</div>
-<div class="kb-diagram-note">P(Y=1|x) =</div>
-<div class="kb-diagram-note">1 + e^(-(β₀+β₁x))</div>
-<div class="kb-diagram-note">출력: 0 ~ 1 사이의 확률값</div>
-<div class="kb-diagram-note">로짓 (Logit) 변환:</div>
-<div class="kb-diagram-note">P</div>
-<div class="kb-diagram-note">log ( ) = β₀ + β₁x₁ + β₂x₂ + ... + βₙxₙ</div>
-<div class="kb-diagram-note">1 - P</div>
-<div class="kb-diagram-note">오즈비 (Odds Ratio, OR): e^βᵢ</div>
-<div class="kb-diagram-note">β₁ = 0.5라면 OR = e^0.5 ≈ 1.65</div>
-<div class="kb-diagram-note">→ x₁이 1 증가할 때 오즈가 1.65배 증가</div>
-</div>
-</div>
+출력: 0 ~ 1 사이의 확률값
 
+로짓 (Logit) 변환:
+           P
+log (────────) = β₀ + β₁x₁ + β₂x₂ + ... + βₙxₙ
+         1 - P
 
+오즈비 (Odds Ratio, OR): e^βᵢ
+β₁ = 0.5라면 OR = e^0.5 ≈ 1.65
+→ x₁이 1 증가할 때 오즈가 1.65배 증가
+```
 
 ### 2-2. [MLE](/knowledge-base/studynote/08_algorithm_stats/08_stats/143_mle/) (Maximum Likelihood Estimation, 우도 최대화)
 
@@ -74,19 +72,16 @@ L(β) = Σ[yᵢ log P(xᵢ) + (1-yᵢ) log(1 - P(xᵢ))]
 
 가설검정의 수학적 기반이다.
 
+```
+CLT 핵심 명제:
+─────────────────────────────────────────────────────────────────
+모집단이 어떤 분포를 따르더라도,
+표본 크기 n이 충분히 크면(보통 n ≥ 30),
+표본 평균의 분포는 정규분포 N(μ, σ²/n)에 수렴한다.
+─────────────────────────────────────────────────────────────────
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">CLT 핵심 명제:</div>
-<div class="kb-diagram-note">모집단이 어떤 분포를 따르더라도,</div>
-<div class="kb-diagram-note">표본 크기 n이 충분히 크면(보통 n ≥ 30),</div>
-<div class="kb-diagram-note">표본 평균의 분포는 정규분포 N(μ, σ²/n)에 수렴한다.</div>
-<div class="kb-diagram-note">의의: 모집단 분포를 몰라도 표본 통계량으로 모수를 추정 가능</div>
-</div>
-</div>
-
-
+의의: 모집단 분포를 몰라도 표본 통계량으로 모수를 추정 가능
+```
 
 ### 2-4. [p-value](/knowledge-base/studynote/06_ict_convergence/05_data_science/337_p_value_significance/) 정확한 해석
 
@@ -109,24 +104,20 @@ p = 0.03 ≠ "연구 결과가 재현될 확률이 97%"
 
 ### 2-5. 1종 오류 vs 2종 오류
 
+```
+                 실제 현실
+              H₀ 참    H₁ 참(H₀ 거짓)
+검정  │H₀ 기각│1종 오류 (α)│ 올바른 검출 (검정력, 1-β)│
+결과  │H₀ 채택│올바른 채택  │ 2종 오류 (β)            │
 
+1종 오류 (Type I Error, 거짓 양성, False Positive):
+ → 실제로 효과 없는데 있다고 판단 (경보 오발령)
+ → α = 유의수준 (보통 0.05)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">실제 현실</div>
-<div class="kb-diagram-note">H₀ 참 H₁ 참(H₀ 거짓)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">검정</div><div class="kb-diagram-cell">H₀ 기각</div><div class="kb-diagram-cell">1종 오류 (α)</div><div class="kb-diagram-cell">올바른 검출 (검정력, 1-β)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과</div><div class="kb-diagram-cell">H₀ 채택</div><div class="kb-diagram-cell">올바른 채택</div><div class="kb-diagram-cell">2종 오류 (β)</div></div>
-<div class="kb-diagram-note">1종 오류 (Type I Error, 거짓 양성, False Positive):</div>
-<div class="kb-diagram-note">→ 실제로 효과 없는데 있다고 판단 (경보 오발령)</div>
-<div class="kb-diagram-note">→ α = 유의수준 (보통 0.05)</div>
-<div class="kb-diagram-note">2종 오류 (Type II Error, 거짓 음성, False Negative):</div>
-<div class="kb-diagram-note">→ 실제로 효과 있는데 없다고 판단 (탐지 실패)</div>
-<div class="kb-diagram-note">→ β = 오류율, 검정력(Power) = 1 - β</div>
-</div>
-</div>
-
-
+2종 오류 (Type II Error, 거짓 음성, False Negative):
+ → 실제로 효과 있는데 없다고 판단 (탐지 실패)
+ → β = 오류율, 검정력(Power) = 1 - β
+```
 
 | 상황 | 더 위험한 오류 | 이유 |
 |:---|:---|:---|
@@ -152,40 +143,31 @@ p = 0.03 ≠ "연구 결과가 재현될 확률이 97%"
 
 ### 3-2. 통계적 유의성의 한계 (p-hacking 문제)
 
+```
+p-hacking (p-해킹) 시나리오:
+────────────────────────────────────────────────────
+1. 20개 가설을 동시에 검정 (α=0.05 각각 적용)
+2. 기대 거짓 양성 수 = 20 × 0.05 = 1개
+3. "우연히" 1개 유의한 결과 → 이것만 발표
+→ 이것이 재현 불가 연구(Replication Crisis)의 원인
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">p-hacking (p-해킹) 시나리오:</div>
-<div class="kb-diagram-note">1. 20개 가설을 동시에 검정 (α=0.05 각각 적용)</div>
-<div class="kb-diagram-note">2. 기대 거짓 양성 수 = 20 × 0.05 = 1개</div>
-<div class="kb-diagram-note">3. "우연히" 1개 유의한 결과 → 이것만 발표</div>
-<div class="kb-diagram-note">→ 이것이 재현 불가 연구(Replication Crisis)의 원인</div>
-<div class="kb-diagram-note">해결책:</div>
-<div class="kb-diagram-tree-item" style="--depth:0">Bonferroni 보정: α를 검정 수로 나눔 (α/k)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">FDR (False Discovery Rate) 통제: Benjamini-Hochberg</div>
-<div class="kb-diagram-tree-item" style="--depth:0">사전 등록(Pre-registration): 가설 먼저 공개</div>
-</div>
-</div>
-
-
+해결책:
+- Bonferroni 보정: α를 검정 수로 나눔 (α/k)
+- FDR (False Discovery Rate) 통제: Benjamini-Hochberg
+- 사전 등록(Pre-registration): 가설 먼저 공개
+```
 
 ### 3-3. 검정력 (Statistical [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/)) 설계
 
+```
+Power = 1 - β = P(H₀ 기각 | H₁ 참)
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Power = 1 - β = P(H₀ 기각 | H₁ 참)</div>
-<div class="kb-diagram-note">검정력 높이는 방법:</div>
-<div class="kb-diagram-note">① 표본 크기(n) 증가 ← 가장 직접적</div>
-<div class="kb-diagram-note">② 유의수준(α) 증가 ← 1종 오류 증가 트레이드오프</div>
-<div class="kb-diagram-note">③ 효과 크기 증가 ← 통제 불가</div>
-<div class="kb-diagram-note">④ 측정 오차 감소 ← 실험 설계 개선</div>
-</div>
-</div>
-
-
+검정력 높이는 방법:
+① 표본 크기(n) 증가    ← 가장 직접적
+② 유의수준(α) 증가     ← 1종 오류 증가 트레이드오프
+③ 효과 크기 증가       ← 통제 불가
+④ 측정 오차 감소       ← 실험 설계 개선
+```
 
 📢 **섹션 요약 비유**: p-value는 "법정에서 알리바이가 없다는 것"이지, "범인이라는 증명"이 아니다. p < 0.05는 단지 "이 결과는 우연으로 설명하기 어렵다"는 뜻이다.
 
@@ -195,25 +177,25 @@ p = 0.03 ≠ "연구 결과가 재현될 확률이 97%"
 
 ### 4-1. 신용 대출 부도 예측 시나리오
 
+```
+[목표] 고객 특성으로 대출 부도 여부 예측
 
+[특성] 소득(X₁), 대출 금액(X₂), 신용 등급(X₃), 고용 형태(X₄)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">목표</div><div class="kb-diagram-note">고객 특성으로 대출 부도 여부 예측</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">특성</div><div class="kb-diagram-note">소득(X₁), 대출 금액(X₂), 신용 등급(X₃), 고용 형태(X₄)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">로지스틱 회귀 결과</div></div>
-<div class="kb-diagram-note">변수 계수(β) OR(e^β) p-value</div>
-<div class="kb-diagram-note">소득 -0.8 0.45 &lt; 0.001 ← 소득 높을수록 부도 낮음</div>
-<div class="kb-diagram-note">대출 금액 0.5 1.65 &lt; 0.001 ← 대출 클수록 부도 높음</div>
-<div class="kb-diagram-note">신용 등급 -1.2 0.30 &lt; 0.001</div>
-<div class="kb-diagram-note">고용(비정규) 0.9 2.46 0.023</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">임계값(Threshold) 설정</div></div>
-<div class="kb-diagram-note">P ≥ 0.3 → 대출 거절 (낮은 임계값: 2종 오류 감소, 1종 오류 증가)</div>
-<div class="kb-diagram-note">→ 금융기관은 대출 손실(2종 오류) 방지 우선</div>
-</div>
-</div>
+[로지스틱 회귀 결과]
+────────────────────────────────────────────────
+변수       계수(β)   OR(e^β)   p-value
+────────────────────────────────────────────────
+소득        -0.8      0.45    < 0.001  ← 소득 높을수록 부도 낮음
+대출 금액    0.5      1.65    < 0.001  ← 대출 클수록 부도 높음
+신용 등급   -1.2      0.30    < 0.001
+고용(비정규) 0.9      2.46     0.023
+────────────────────────────────────────────────
 
-
+[임계값(Threshold) 설정]
+P ≥ 0.3 → 대출 거절 (낮은 임계값: 2종 오류 감소, 1종 오류 증가)
+→ 금융기관은 대출 손실(2종 오류) 방지 우선
+```
 
 ### 4-2. ROC 커브 (Receiver Operating Characteristic Curve)와 AUC
 
@@ -271,23 +253,20 @@ AUC (Area Under Curve) = 0.5 (랜덤) ~ 1.0 (완벽)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">선형 회귀 (연속값 예측)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">로지스틱 회귀: Sigmoid → 확률 출력 (이진 분류)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">CLT (중심극한정리) · 정규분포 가정</div>
-<div class="kb-diagram-tree-item" style="--depth:2">p-value · 1종/2종 오류 · 임계값 결정</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">다중 분류: Softmax 회귀 · One-vs-Rest</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">비선형: SVM · 트리 계열 · 딥러닝</div>
-</div>
-</div>
-
-
+```text
+선형 회귀 (연속값 예측)
+    │
+    ▼
+로지스틱 회귀: Sigmoid → 확률 출력 (이진 분류)
+    ├─► CLT (중심극한정리) · 정규분포 가정
+    └─► p-value · 1종/2종 오류 · 임계값 결정
+    │
+    ▼
+다중 분류: Softmax 회귀 · One-vs-Rest
+    │
+    ▼
+비선형: SVM · 트리 계열 · 딥러닝
+```
 2. p-value는 "이 실험 결과가 그냥 운으로 나올 가능성"인데, 이 가능성이 5%보다 작으면 "이건 진짜 효과가 있다"고 판단한다.
 3. 1종 오류는 "정상인을 환자라고 부르는 실수"이고, 2종 오류는 "환자를 정상이라고 놓치는 실수"인데, 어느 실수가 더 위험한지는 상황마다 다르다.
 

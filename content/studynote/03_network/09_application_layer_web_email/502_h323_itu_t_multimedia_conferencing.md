@@ -29,30 +29,32 @@ tags = ["studynote-network"]
   1. **ISDN의 황혼과 IP의 부상**: 기존의 전화선 화상 회의 표준이었던 H.320(ISDN 기반)을, 폭발적으로 성장하는 LAN/IP 망([이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/))에서도 돌아가게 하려는 ITU-T의 생존([Pivot](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/).
   2. **벤더 파편화 방지**: 마이크로소프트의 넷미팅(NetMeeting) 등 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 소프트웨어들이 이 표준을 탑재하며 90년대 후반 화상 통신의 실질적 글로벌 스탠다드로 군림했었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">H.323의 거대한 '우산(Umbrella)' 아키텍처: 통신사식 빡빡한 융합 망</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🏢</div><div class="kb-diagram-node">H.323 망의 4대 핵심 노드 (인프라 뼈대)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Terminal (단말): 화상 회의 PC, IP 전화기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Gateway (게이트웨이): IP 망과 옛날 구리선(PSTN) 전화를 이어주는 통역사</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Gatekeeper (게이트키퍼) 🌟 (H.323의 뇌): 통화 승인, 대역폭 관리,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전화번호(Alias)를 IP 주소로 바꿔주는 절대 권력의 통제 센터!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. MCU (다점 제어 장치): 3명 이상이 화상 회의할 때 영상을 섞어주는 중앙 믹서</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">통화 연결을 위한 지옥의 3단계 복잡한 핑퐁</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">📞</div><div class="kb-diagram-node">터미널 A</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">터미널 B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1️⃣ H.225 (RAS): "게이트키퍼님, 저 전화 걸어두 돼요? IP 좀 찾아주세요!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2️⃣ H.225 (Call Setup): "A야 나 전화 걸게! 띠르릉~ (Q.931 ISDN 룰 차용)"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3️⃣ H.245 (Control): "우리 오디오는 G.711 쓰고, 비디오는 H.261 쓰자!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 아키텍트 분석: H.323은 전화 연결 한 번 하려면 프로토콜이 3개(RAS, Call Setup,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">H.245)나 쪼개져서 미친 듯이 핑퐁을 쳐야 한다. 그것도 인간이 못 읽는 이진수(ASN.1)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">덩어리로. 보안과 통제(통신사 마인드)는 완벽하지만, 인터넷의 가벼운 철학과는</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">너무나도 동떨어진 무거운 '결합도(Tightly Coupled)'의 극치였다.</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          H.323의 거대한 '우산(Umbrella)' 아키텍처: 통신사식 빡빡한 융합 망   │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ 🏢 [ H.323 망의 4대 핵심 노드 (인프라 뼈대) ]                      │
+│                                                             │
+│  1. Terminal (단말): 화상 회의 PC, IP 전화기                      │
+│  2. Gateway (게이트웨이): IP 망과 옛날 구리선(PSTN) 전화를 이어주는 통역사 │
+│  3. Gatekeeper (게이트키퍼) 🌟 (H.323의 뇌): 통화 승인, 대역폭 관리, │
+│     전화번호(Alias)를 IP 주소로 바꿔주는 절대 권력의 통제 센터!          │
+│  4. MCU (다점 제어 장치): 3명 이상이 화상 회의할 때 영상을 섞어주는 중앙 믹서│
+│                                                             │
+│        ======= [ 통화 연결을 위한 지옥의 3단계 복잡한 핑퐁 ] ========   │
+│                                                             │
+│ 📞 [ 터미널 A ] ─────────────────────────────────────────▶ [ 터미널 B ] │
+│   1️⃣ H.225 (RAS): "게이트키퍼님, 저 전화 걸어두 돼요? IP 좀 찾아주세요!"    │
+│   2️⃣ H.225 (Call Setup): "A야 나 전화 걸게! 띠르릉~ (Q.931 ISDN 룰 차용)"│
+│   3️⃣ H.245 (Control): "우리 오디오는 G.711 쓰고, 비디오는 H.261 쓰자!"   │
+│                                                             │
+│ 🌟 아키텍트 분석: H.323은 전화 연결 한 번 하려면 프로토콜이 3개(RAS, Call Setup,│
+│   H.245)나 쪼개져서 미친 듯이 핑퐁을 쳐야 한다. 그것도 인간이 못 읽는 이진수(ASN.1)│
+│   덩어리로. 보안과 통제(통신사 마인드)는 완벽하지만, 인터넷의 가벼운 철학과는 │
+│   너무나도 동떨어진 무거운 '결합도(Tightly Coupled)'의 극치였다.           │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** "H.323이 왜 SIP한테 져서 망했나요?"라는 질문의 해답이 담긴 아키텍처다. SIP는 `INVITE` 메시지 텍스트 1장 안에 "나랑 통화할래? + 내 마이크 스펙은 이거야([SDP](/knowledge-base/studynote/09_security/01_intro_principles/048_sdp/))"를 한방에 섞어서 가볍게 던진다(1-Round Trip). 반면 H.323은 전화국의 꼰대 마인드를 버리지 못해, 전화 걸고(H.225), 상대방이 받으면 그제야 마이크 성능을 깐깐하게 조율(H.245)하는 지루한 핑퐁(Multiple Round Trips)을 강요했다. 이 무거운 연결 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)([Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) Setup [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))과 이진수 떡칠 코드는 인터넷 시대의 개발자들에게 환영받지 못하는 재앙이었다.
 
@@ -81,18 +83,14 @@ H.323의 숨통을 끊어버린 기술적 패착이다.
 - **문제점**: H.323은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 포장할 때 `BER(Basic Encoding Rules)` 이라는 이진(Binary) 규칙을 써서 `01011100` 형태의 기계어로 패킷을 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해버렸다. 옛날 구리선 시절엔 인터넷 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 좁았으니 1바이트라도 아끼려고 이렇게 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하는 게 '착한 공학'이었다.
 - **시대의 변화**: 2000년대 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 인터넷이 깔렸다. 텍스트 몇 글자 더 쓴다고 망이 터지지 않게 되었다. 개발자들은 와이어샤크(Wireshark)로 패킷을 까봤을 때 영어로 `INVITE` 라고 훤히 보이는 SIP에 환호했다. H.323은 에러가 터지면 패킷이 0과 1로 뭉개져 있어 해독기를 돌리지 않으면 디버깅이 아예 불가능했다. <strong>개발 용이성(Developer Experience, <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/726_platform_engineering_idp_dx/">DX</a>)의 참패</strong>였다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SIP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">H.323</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IP PBX</div></div>
-</div>
-</div>
-
-
+```text
+[SIP]
+    │
+    ▼
+[H.323]
+    │
+    └──▶ [IP PBX]
+```
 
 - **📢 섹션 요약 비유**: H.323은 친구한테 쪽지를 보낼 때, 종이를 아끼려고 글씨를 암호화된 <strong>'모스 부호(이진수)'</strong>로 꾹꾹 눌러 써서 보냅니다. 배달부가 보기엔 가벼워서 좋지만, 친구가 쪽지를 받으면 암호 해독 책을 펴놓고 끙끙대며 번역(디코딩)해야 합니다(무거운 파싱 부하). SIP는 그냥 시원한 A4 용지에 <strong>'한글 텍스트'</strong>로 "안녕!"이라고 써서 보냅니다. 종이는 좀 무겁지만, 누구나 직관적으로 읽고 1초 만에 이해할 수 있죠(디버깅의 승리).
 
@@ -114,7 +112,7 @@ H.323의 숨통을 끊어버린 기술적 패착이다.
 ### 과목 융합 관점
 
 - <strong>네트워크 공학 (<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/384_nat_t_ipsec_nat_traversal_udp_4500/">NAT Traversal</a> - <a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a> 통과의 저주)</strong>: SIP도 공유기([NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/))를 통과할 때 [SDP](/knowledge-base/studynote/09_security/01_intro_principles/048_sdp/) 속 사설 IP 때문에 고통받지만, H.323은 그 고통의 레벨이 우주급이다. H.323은 통신할 때 1개의 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)만 쓰지 않는다. [Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) Setup용 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(1720), H.245용 동적 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), RAS용 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 등, 전화를 한 통 걸면 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)에 '임의의 구멍([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))'을 미친 듯이 여러 개 뚫어재껴야 한다. 회사 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 담당자(보안팀)가 제일 극혐하는 구조다. 결국 H.323을 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 너머로 쓰려면, [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)(Router) 자체가 H.323 패킷의 이진수 속살까지 까보고 동적으로 구멍을 뚫어주는 영리한 <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/310_alg_application_layer_gateway_nat_traversal/">ALG</a> (<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/310_alg_application_layer_gateway_nat_traversal/">Application Layer Gateway</a>)</strong> 기능을 하드웨어 레벨에서 비싼 돈을 주고 탑재해야만 했다. (인프라 비용의 떡상 원인).
-- **클라우드와 엔터프라이즈 (레거시 마이그레이션 딜레마)**: 2020년대 지금, H.323을 새로 구축하는 회사는 지구상에 존재하지 않는다. 하지만 거대한 금융권 본사나 정부 청사의 구석에는 아직도 10년 전 10억을 주고 산 낡은 시스코/폴리콤 H.323 화상 회의 장비(MCU) 쇳덩이가 돌아가고 있다. IT 아키텍트는 이걸 버릴 수 없다. 그래서 최신형 웹 기반 줌(Zoom)이나 마이크로소프트 팀즈(Teams) 클라우드를 도입할 때, 이 낡은 H.323 쇳덩이 방과 클라우드 화상 방을 하나로 엮어주는 <strong>'Cloud Video Interop (CVI) 게이트웨이'</strong>라는 융합 통역기를 중간에 세팅해야 하는 레거시 빚 청산(Tech Debt) 야근을 운명적으로 겪게 된다.
+- **클라우드와 엔터프라이즈 (레거시 마이그레이션 딜레마)**: 2020년대 지금, H.323을 새로 구축하는 회사는 지구상에 존재하지 않는다. 하지만 거대한 금융권 본사나 정부 청사의 구석에는 아직도 10년 전 10억을 주고 산 낡은 시스코/폴리콤 H.323 화상 회의 장비(MCU) 쇳덩이가 돌아가고 있다. IT 아키텍트는 이걸 버릴 수 없다. 그래서 최새로운 유형의 웹 기반 줌(Zoom)이나 마이크로소프트 팀즈(Teams) 클라우드를 도입할 때, 이 낡은 H.323 쇳덩이 방과 클라우드 화상 방을 하나로 엮어주는 <strong>'Cloud Video Interop (CVI) 게이트웨이'</strong>라는 융합 통역기를 중간에 세팅해야 하는 레거시 빚 청산(Tech Debt) 야근을 운명적으로 겪게 된다.
 
 - **📢 섹션 요약 비유**: H.323 화상 회의 장비는 집에 놔둔 거대한 <strong>'LP판 전축 세트'</strong>와 같습니다. 소리(품질)도 좋고 뭔가 기계적으로 완벽해 보이지만, 요즘 유행하는 스마트폰 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 이어폰([SIP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/535_system_in_package/), [WebRTC](/knowledge-base/studynote/03_network/09_application_layer_web_email/505_webrtc_web_real_time_communication/))이랑은 절대 연결이 안 됩니다. 아빠는 전축이 아까워서 못 버리고(레거시), 결국 중간에 비싼 변환 젠더(게이트웨이)를 주렁주렁 달아서 억지로 스마트폰 음악을 틀고 있는 웃픈 상황이 연출되는 겁니다.
 
@@ -122,36 +120,39 @@ H.323의 숨통을 끊어버린 기술적 패착이다.
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-1. **시나리오 — 구형 H.323 인프라와 신형 SIP망 간의 CVI (Cloud Video Interop) 융합 브릿징**: 대기업 본사. 임원 회의실엔 15년 된 5,000만 원짜리 폴리콤(Polycom) H.323 화상 장비가 벽에 박혀있다. 그런데 재택근무하는 직원들은 노트북에서 MS 팀즈(Teams - [SIP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/535_system_in_package/)/[WebRTC](/knowledge-base/studynote/03_network/09_application_layer_web_email/505_webrtc_web_real_time_communication/) 기반)를 쓴다. 내일 당장 사장님이 임원 회의실에서 재택 직원 100명과 화상 회의를 하겠다고 통보했다. 장비끼리 언어가 달라 연결이 안 된다.
+1. **시나리오 — 구형 H.323 인프라와 새로운 유형의 SIP망 간의 CVI (Cloud Video Interop) 융합 브릿징**: 대기업 본사. 임원 회의실엔 15년 된 5,000만 원짜리 폴리콤(Polycom) H.323 화상 장비가 벽에 박혀있다. 그런데 재택근무하는 직원들은 노트북에서 MS 팀즈(Teams - [SIP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/535_system_in_package/)/[WebRTC](/knowledge-base/studynote/03_network/09_application_layer_web_email/505_webrtc_web_real_time_communication/) 기반)를 쓴다. 내일 당장 사장님이 임원 회의실에서 재택 직원 100명과 화상 회의를 하겠다고 통보했다. 장비끼리 언어가 달라 연결이 안 된다.
    - **판단**: 전 세계 엔터프라이즈 화상 망 관리자가 겪는 가장 끔찍한 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 파편화 장애다. H.323 장비는 절대 스스로 팀즈 클라우드로 붙지 못한다. 실무 아키텍트는 펙시프(Pexip)나 시스코([Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/)) 같은 벤더가 파는 <strong>CVI(Cloud Video Interop) 게이트웨이 구독권(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/">SaaS</a>)</strong>을 긴급하게 뚫어야 한다. 
    임원실 H.323 장비가 `12345@teams.b2b.com` 이라는 가상 IP로 전화를 걸면(Dial-in), 펙시프 게이트웨이가 중간에서 무거운 H.323 이진수 신호를 받아, 가벼운 [SIP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/535_system_in_package/)/[WebRTC](/knowledge-base/studynote/03_network/09_application_layer_web_email/505_webrtc_web_real_time_communication/) 텍스트 껍데기로 0.1초 만에 통역(Transcoding)하여 MS 팀즈 서버로 패킷을 꽂아주는 '우아한 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 세탁(Translation)'이 가동되어야 사장님의 분노를 막을 수 있다.
 
 2. **시나리오 — ISDN 유선망 철거와 미디어 게이트웨이(Voice Gateway)의 존버**: 구형 공공기관. 아직도 외부에서 걸려 오는 민원 전화망이 E1/T1(ISDN 구리선) 규격의 H.323 기반 전화 교환기(PBX)에 물려 있다. 망을 100% 최신 All-IP [SIP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/535_system_in_package/) 망으로 갈아엎는 프로젝트를 수주했다.
    - **판단**: "H.323 쓰레기니까 내일 당장 끄고 버리세요!"라고 하면 전화가 끊겨 기관이 마비된다(빅뱅 배포의 자살). 1단계로, 기존 KT 국선(ISDN)과 신규 내부 [SIP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/535_system_in_package/) 서버 사이에 **미디어 게이트웨이(Voice Gateway)** 장비를 샌드위치처럼 끼워 넣어야 한다. 외부에서 아날로그 음성(`Q.931/G.711`)이 들어오면 게이트웨이가 이걸 IP 패킷(`SIP/RTP`)으로 깎아서 내부망으로 토스해 준다(Soft Landing). 2단계로 KT 구리선을 100% 인터넷 선([SIP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/535_system_in_package/) Trunk)으로 개통받은 날, 비로소 구형 H.323 PBX 장비의 전원 플러그를 뽑아 영원한 무덤으로 보내는 2-Step [스트랭글러 피그](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/310_strangler_fig_pattern/)([Strangler Fig](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/310_strangler_fig_pattern/)) 이관 패턴이 정석이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실무 아키텍처: 왜 H.323은 방화벽(Firewall) 관리자의 주적이 되었나?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">🏢 회사 내부망 (H.323 단말)</div><div class="kb-diagram-node">🌍 인터넷 (외부 거래처)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 통화 시작! (1720 포트로 똑똑) ▶ (방화벽: "ㅇㅋ 1720은 열어줄게")</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 협상 시작 (H.245) ◀──▶ (문제 터짐💥) ◀──▶ "포트 31055번 새로 열자!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 음성/영상(RTP) ◀──▶ (대환장💥💥) ◀──▶ "포트 40001번, 40002번 열자!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🛡️</div><div class="kb-diagram-node">일반 방화벽의 멘붕</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "아니, 처음에 1720 포트 하나만 쓴다며? 왜 통화 중에 지들끼리 이진수(ASN.1)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">패킷 속에서 지들 맘대로 임의의 포트(Random Port) 10개를 뚫자고 합의함?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">난 보안장비라 그런 거 몰라! 싹 다 차단(Drop) 쾅!!" ➔ (화상 화면 안 뜸)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">🌟 아키텍트의 구원: H.323 ALG 하드웨어 가속</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🤖</div><div class="kb-diagram-node">ALG (Application Layer Gateway) 탑재 방화벽</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 방화벽이 그냥 길만 뚫어주는 게 아니라, H.323 이진수 패킷을 핀셋으로 까봄!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "오! 패킷 내용 보니까 얘네 40001번 포트 쓰기로 방금 합의했네?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">내가 눈치껏 40001번 방화벽 구멍을 스르륵 동적으로 열어줄게(Pinholing)!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- ➔ (비로소 화면이 터짐. 하지만 방화벽 CPU 리소스는 걸레짝이 됨 💀)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │         실무 아키텍처: 왜 H.323은 방화벽(Firewall) 관리자의 주적이 되었나? │
+  ├─────────────────────────────────────────────────────────────┤
+  │ [ 🏢 회사 내부망 (H.323 단말) ]               [ 🌍 인터넷 (외부 거래처) ]  │
+  │                                                             │
+  │ 1. 통화 시작! (1720 포트로 똑똑) ─────────▶ (방화벽: "ㅇㅋ 1720은 열어줄게") │
+  │                                                             │
+  │ 2. 협상 시작 (H.245) ◀──▶ (문제 터짐💥)  ◀──▶ "포트 31055번 새로 열자!"│
+  │                                                             │
+  │ 3. 음성/영상(RTP) ◀──▶ (대환장💥💥) ◀──▶ "포트 40001번, 40002번 열자!"│
+  │                                                             │
+  │ 🛡️ [ 일반 방화벽의 멘붕 ]                                         │
+  │   - "아니, 처음에 1720 포트 하나만 쓴다며? 왜 통화 중에 지들끼리 이진수(ASN.1)│
+  │     패킷 속에서 지들 맘대로 임의의 포트(Random Port) 10개를 뚫자고 합의함? │
+  │     난 보안장비라 그런 거 몰라! 싹 다 차단(Drop) 쾅!!" ➔ (화상 화면 안 뜸)  │
+  │                                                             │
+  │        ======= [ 🌟 아키텍트의 구원: H.323 ALG 하드웨어 가속 ] ======== │
+  │                                                             │
+  │ 🤖 [ ALG (Application Layer Gateway) 탑재 방화벽 ]              │
+  │   - 방화벽이 그냥 길만 뚫어주는 게 아니라, H.323 이진수 패킷을 핀셋으로 까봄!│
+  │   - "오! 패킷 내용 보니까 얘네 40001번 포트 쓰기로 방금 합의했네? │
+  │     내가 눈치껏 40001번 방화벽 구멍을 스르륵 동적으로 열어줄게(Pinholing)!"  │
+  │   - ➔ (비로소 화면이 터짐. 하지만 방화벽 CPU 리소스는 걸레짝이 됨 💀)       │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** VoIP 망 구축 시 가장 많이 겪는 'One-way Audio(한쪽 목소리만 들림)'나 '화면 안 뜸' 에러의 근본 원인을 해부한 도면이다. H.323은 시그널링(제어)과 미디어([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))의 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 번호를 통화할 때마다 난수(Random)로 찢어서 쓴다. 일반 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)(L4)은 IP와 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)만 본다. 패킷 '내용물(L7)' 안에 적혀있는 "우리 40001번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 쓰자"라는 이진수 약속을 읽지 못하고 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 막아버린다. 그래서 H.323 망을 칠 때는 반드시 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)을 7계층(L7)까지 다 까볼 수 있는 스마트한 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)([ALG](/knowledge-base/studynote/03_network/06_network_layer_ip/310_alg_application_layer_gateway_nat_traversal/)/SBC)으로 비싸게 세팅해야 하는 극악의 유지보수 비용([TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/)) 증가를 낳았다.
 
@@ -199,19 +200,15 @@ H.323의 숨통을 끊어버린 기술적 패착이다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: SIP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: H.323</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: IP PBX</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 애플리케이션 전달</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: SIP]
+    │
+    ▼
+[현재 개념: H.323]
+    │
+    ├──▶ [확장 A: IP PBX]
+    └──▶ [확장 B: 지능형 애플리케이션 전달]
+```
 
 H.323는 SIP에서 출발해 현재 메커니즘을 정교화하고, 이후 IP PBX와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

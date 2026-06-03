@@ -31,25 +31,19 @@ tags = ["studynote-ict-convergence"]
 
 Fabric의 체인코드는 클라이언트 요청을 받아 상태를 조회하고, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능한 결과를 만들어 낸다. 실행은 보통 [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 안에서 이루어져 노드와 분리된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Client</div>
-<div class="kb-diagram-note">↓ proposal</div>
-<div class="kb-diagram-note">Endorsing Peer</div>
-<div class="kb-diagram-note">↓ simulate</div>
-<div class="kb-diagram-note">Chaincode</div>
-<div class="kb-diagram-note">↓ endorsement</div>
-<div class="kb-diagram-note">Ordering Service</div>
-<div class="kb-diagram-note">↓ block</div>
-<div class="kb-diagram-note">Committing Peers</div>
-<div class="kb-diagram-tree-item" style="--depth:1">World State</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Ledger</div>
-</div>
-</div>
-
-
+```text
+Client
+  ↓ proposal
+Endorsing Peer
+  ↓ simulate
+Chaincode
+  ↓ endorsement
+Ordering Service
+  ↓ block
+Committing Peers
+  ├─ World State
+  └─ Ledger
+```
 
 | 구성 요소 | 역할 |
 | :-- | :-- |
@@ -120,43 +114,31 @@ Fabric은 World State와 Ledger를 분리한다. World State는 현재 값, Ledg
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">비즈니스 규칙</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">체인코드(Chaincode)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Endorsement Policy</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">World State / Ledger</div>
-</div>
-</div>
-
-
+```text
+비즈니스 규칙
+   ↓
+체인코드(Chaincode)
+   ↓
+Endorsement Policy
+   ↓
+World State / Ledger
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">스마트 컨트랙트</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Hyperledger Fabric</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">체인코드 설치/승인/커밋</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">분산 원장 상태 갱신</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">감사 가능한 업무 자동화</div>
-</div>
-</div>
-
-
+```text
+스마트 컨트랙트
+   ↓
+Hyperledger Fabric
+   ↓
+체인코드 설치/승인/커밋
+   ↓
+분산 원장 상태 갱신
+   ↓
+감사 가능한 업무 자동화
+```
 
 ---
 

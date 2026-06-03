@@ -35,30 +35,29 @@ tags = ["studynote-operating-system"]
 - **등장 배경**: 
   - 인텔이 기존 BIOS의 한계를 부수기 위해 만든 EFI(나중의 [UEFI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/706_uefi/)) 규격의 일부로 제정되었다. 디스크 대용량화의 압박으로 인해 윈도우 8 / 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 2.6 시절부터 MBR을 빠르게 대체하기 시작했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MBR과 GPT의 디스크 레이아웃(Layout) 구조 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MBR (Master Boot Record) 레이아웃</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">LBA 0:</div><div class="kb-diagram-node">부트 코드 (446B) | 파티션 테이블 (64B) | 서명 (2B)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">LBA 1~:</div><div class="kb-diagram-node">파티션 1 (C:)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">파티션 2 (D:)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">파티션 3 (확장 파티션)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">논리 드라이브 쪼개기 꼼수 사용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ 2TB 이상 공간은 인식 불가! (버려짐)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">GPT (GUID Partition Table) 레이아웃</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">LBA 0:</div><div class="kb-diagram-node">Protective MBR</div><div class="kb-diagram-note">(구형 OS가 디스크 덮어쓰는 것 방지용 가짜 MBR)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">LBA 1:</div><div class="kb-diagram-node">GPT 헤더 (Primary)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">LBA 2~33:</div><div class="kb-diagram-node">파티션 엔트리 (128개 지원)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">LBA 34~:</div><div class="kb-diagram-node">파티션 1 (C:)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">파티션 2 (D:)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">...</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">LBA End-33:</div><div class="kb-diagram-node">파티션 엔트리 복사본 (Secondary/Backup)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">LBA End:</div><div class="kb-diagram-node">GPT 헤더 복사본</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">디스크 맨 끝에 백업본 존재! 완벽한 복원력</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │                 MBR과 GPT의 디스크 레이아웃(Layout) 구조 비교         │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │  [ MBR (Master Boot Record) 레이아웃 ]                        │
+  │   LBA 0: [ 부트 코드 (446B) | 파티션 테이블 (64B) | 서명 (2B) ]     │
+  │   LBA 1~: [ 파티션 1 (C:) ]                                   │
+  │           [ 파티션 2 (D:) ]                                   │
+  │           [ 파티션 3 (확장 파티션) ] -> 논리 드라이브 쪼개기 꼼수 사용│
+  │   ※ 2TB 이상 공간은 인식 불가! (버려짐)                          │
+  │                                                             │
+  │  [ GPT (GUID Partition Table) 레이아웃 ]                      │
+  │   LBA 0: [ Protective MBR ] (구형 OS가 디스크 덮어쓰는 것 방지용 가짜 MBR)│
+  │   LBA 1: [ GPT 헤더 (Primary) ]                             │
+  │   LBA 2~33: [ 파티션 엔트리 (128개 지원) ]                      │
+  │   LBA 34~: [ 파티션 1 (C:) ]                                  │
+  │            [ 파티션 2 (D:) ]                                  │
+  │            ...                                              │
+  │   LBA End-33: [ 파티션 엔트리 복사본 (Secondary/Backup) ]       │
+  │   LBA End: [ GPT 헤더 복사본 ] ◀ 디스크 맨 끝에 백업본 존재! 완벽한 복원력│
+  └─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** MBR은 0번 섹터(512바이트)라는 극도로 좁은 단칸방에 부팅 코드와 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 정보를 다 때려 박은 기형적 구조다. [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 1개당 16바이트만 할당되어 딱 4개의 주 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)만 만들 수 있었다. 반면 GPT는 공간을 시원시원하게 쓴다. LBA 1번부터 33번까지 무려 32개의 블록을 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 명부로 써서 128개의 방을 만든다. 가장 훌륭한 점은 다이어그램 맨 밑의 "[백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)본(Secondary)"이다. MBR은 0번 섹터가 물리적으로 긁히면 디스크 전체가 증발하지만, GPT는 디스크 맨 끝단에 테이블을 똑같이 복사해 두어 앞쪽이 깨져도 뒤에서 1초 만에 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)(Self-Healing)하는 강력한 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) [탄력성](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/)(Resilience)을 지녔다.
 
@@ -120,27 +119,32 @@ MBR과 GPT는 단순한 용량 차이를 넘어, 컴퓨터가 처음 켜지는 �
 2. **시나리오 — Protective MBR의 함정**: 엔지니어가 8TB 디스크를 GPT로 포맷해서 쓰다가, 실수로 낡은 윈도우 [XP](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/) 설치 CD를 넣고 부팅했다. 구형 OS가 "어? [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 테이블이 없네?"라며 디스크를 초기화하려 들까 봐 식은땀을 흘렸다.
    - <strong>아키텍트 판단 (하위 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/">호환성</a> 방어막)</strong>: 다행히 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 날아가지 않았다. [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) 아키텍처는 LBA 0번 위치에 <strong>'Protective <a href="/knowledge-base/studynote/02_operating_system/09_file_system/515_mbr_vs_gpt/">MBR</a> (방어용 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/515_mbr_vs_gpt/">MBR</a>)'</strong>이라는 가짜 장부를 심어둔다. 낡은 유틸리티나 구형 OS가 이 디스크를 쳐다보면, 가짜 MBR이 "이 디스크 전체(8TB)는 꽉 찬 알 수 없는 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)(Type 0xEE) 하나로 되어 있으니 건드리지 마!"라고 거짓말을 한다. 구형 툴은 꽉 찼다는 말에 쫄아서 덮어쓰기를 포기하므로, GPT의 진짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 완벽하게 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)된다. 천재적인 하위 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 꼼수다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버 스토리지 파티션 규격 선택을 위한 의사결정 트리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">새로운 물리 디스크 또는 클라우드 블록 스토리지를 붙였다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디스크의 총 용량이 2TB (테라바이트) 를 초과하는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">무조건 GPT (GUID Partition Table) 채택!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(MBR 선택 시 나머지 용량 영구 증발)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">한 디스크를 5개 이상의 파티션으로 쪼갤 계획이 있는가? (예: Docker 풀)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">GPT 채택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(MBR은 논리 드라이브 꼼수를 써야 해서 마운트 꼬임 위험)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">구형 레거시 장비(Legacy BIOS 전용 보드)의 부팅용(OS 설치) 디스크인가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">어쩔 수 없이 MBR (Master Boot Record) 채택</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">모든 현대 시스템은 GPT를 기본값(Default)으로!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 서버 스토리지 파티션 규격 선택을 위한 의사결정 트리         │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [ 새로운 물리 디스크 또는 클라우드 블록 스토리지를 붙였다 ]               │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      디스크의 총 용량이 2TB (테라바이트) 를 초과하는가?                     │
+  │          ├─ 예 ─────▶ [ 무조건 GPT (GUID Partition Table) 채택! ]  │
+  │          │             (MBR 선택 시 나머지 용량 영구 증발)                │
+  │          └─ 아니오                                                │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      한 디스크를 5개 이상의 파티션으로 쪼갤 계획이 있는가? (예: Docker 풀)      │
+  │          ├─ 예 ─────▶ [ GPT 채택 ]                                │
+  │          │             (MBR은 논리 드라이브 꼼수를 써야 해서 마운트 꼬임 위험)│
+  │          └─ 아니오                                                │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      구형 레거시 장비(Legacy BIOS 전용 보드)의 부팅용(OS 설치) 디스크인가?    │
+  │          ├─ 예 ─────▶ [ 어쩔 수 없이 MBR (Master Boot Record) 채택 ]│
+  │          │                                                        │
+  │          └─ 아니오 ──▶ [ 모든 현대 시스템은 GPT를 기본값(Default)으로! ]│
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 인프라 아키텍트에게 2TB는 마지노선(Threshold)이다. 요즘 시대에 MBR을 고집할 이유는 "10년 전 박물관에 가야 할 서버 보드를 부팅시킬 때"뿐이다. 클라우드의 시대, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스케일이 페타바이트를 논하는 시대에는 GPT가 공기와 같은 표준이다. 특히 리눅스의 LVM([논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 볼륨 매니저)을 올릴 때 밑바탕의 피지컬 볼륨([PV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/153_pv_planned_value/)) [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)을 짤 때 반드시 GPT를 써두어야 나중에 디스크 용량을 무중단으로 확장(Extend)할 때 LBA 주소 제한에 걸려 서버를 밀어야 하는 최악의 사태를 막을 수 있다.
 
@@ -186,19 +190,15 @@ MBR과 GPT는 단순한 용량 차이를 넘어, 컴퓨터가 처음 켜지는 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 파일 시스템 (NFS) 무상태 (Stateless)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">파티션 MBR GPT 크기 제한 (Partition MBR GPT Size Limit)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">클라우드 컴퓨팅 OS 자원 풀링</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OOM 킬러 메모리 보호 정책</div></div>
-</div>
-</div>
-
-
+```text
+[네트워크 파일 시스템 (NFS) 무상태 (Stateless)]
+    │
+    ▼
+[파티션 MBR GPT 크기 제한 (Partition MBR GPT Size Limit)]
+    │
+    ├──▶ [클라우드 컴퓨팅 OS 자원 풀링]
+    └──▶ [OOM 킬러 메모리 보호 정책]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

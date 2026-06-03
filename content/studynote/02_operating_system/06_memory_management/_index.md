@@ -23,19 +23,23 @@ CPU가 연산을 수행하기 위해서는 실행할 코드와 데이터가 반�
 
 이 그림은 논리 주소가 MMU (Memory Management Unit)를 통해 물리 주소로 변환되는 과정을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Address Translation Mechanism</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CPU</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Logical Address</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MMU</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Physical Address</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Relocation</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Register</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Main Memory</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Address Translation Mechanism               │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ CPU ] ──▶ [ Logical Address ] ──▶ [ MMU ] ──▶ [ Physical Address ]│
+│                                         │                   │
+│                                   ┌─────┴─────┐             │
+│                                   │ Relocation│             │
+│                                   │ Register  │             │
+│                                   └───────────┘             │
+│                                         │                   │
+│                                         ▼                   │
+│                                   [ Main Memory ]           │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 'MMU'라는 하드웨어 장치이다. 소프트웨어가 아닌 하드웨어 레벨에서 주소 변환이 이루어져야 연산 속도를 보장할 수 있다. 실무에서는 프로세스가 로드될 때마다 재배치 (Relocation)가 가능하도록 동적 바인딩 (Dynamic Binding)을 지원하는 것이 아키텍처의 유연성을 결정한다.
 
@@ -66,19 +70,23 @@ CPU가 연산을 수행하기 위해서는 실행할 코드와 데이터가 반�
 
 이 구조도는 페이지 테이블을 이용한 주소 변환 원리를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Paging &amp; Page Table Structure</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Logical Address</div><div class="kb-diagram-note">:</div><div class="kb-diagram-node">Page # (p)</div><div class="kb-diagram-node">Offset (d)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Page Table</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Frame # (f)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Physical Address</div><div class="kb-diagram-note">:</div><div class="kb-diagram-node">Frame # (f)</div><div class="kb-diagram-node">Offset (d)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Paging & Page Table Structure               │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Logical Address ] :  [ Page # (p) ] | [ Offset (d) ]    │
+│                                │                            │
+│                                ▼                            │
+│                        [ Page Table ]                       │
+│                        ┌────────────┐                       │
+│                        │ p | Frame #│ ──▶ [ Frame # (f) ]   │
+│                        └────────────┘            │          │
+│                                                  ▼          │
+│   [ Physical Address ] : [ Frame # (f) ] | [ Offset (d) ]   │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '페이지 테이블'이다. 이를 통해 프로세스는 논리적으로는 연속되어 보이지만 물리적으로는 흩어져 존재할 수 있다. 실무에서는 페이지 테이블 자체가 너무 커지는 문제를 해결하기 위해 <strong>다단계 페이지 테이블 (Multi-level Paging)</strong>이나 **TLB (Translation Lookaside Buffer)** 캐시를 사용하여 성능을 최적화한다.
 
@@ -118,20 +126,23 @@ CPU가 연산을 수행하기 위해서는 실행할 코드와 데이터가 반�
 
 이 도식은 메모리 압박 상황에서 OS가 수행하는 동적 메모리 회수 과정을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Memory Reclamation Workflow</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">High Memory Pressure</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Page Cache Reclaim</div><div class="kb-diagram-note">──</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">──</div><div class="kb-diagram-node">Fail to Free</div><div class="kb-diagram-connector">◀</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Swap-out Inactive Pages</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Check Watermark</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OOM Killer Invoked</div><div class="kb-diagram-connector">◀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Select &amp; Kill Process)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│               Memory Reclamation Workflow                   │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ High Memory Pressure ] ──▶ [ Page Cache Reclaim ] ──┐   │
+│                                                         │   │
+│   ┌── [ Fail to Free ] ◀────────────────────────────────┘   │
+│   │          │                                              │
+│   │          ▼                                              │
+│   │   [ Swap-out Inactive Pages ] ──▶ [ Check Watermark ]   │
+│   │                                          │              │
+│   └──▶ [ OOM Killer Invoked ] ◀──────────────┘              │
+│          (Select & Kill Process)                            │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 기술사의 메모리 관리는 '호텔 객실 배정'과 같습니다. 단체 손님(프로그램)을 받을 때 방을 어떻게 쪼개어 줄지 결정하고, 방이 모자라면 잠시 로비(디스크)에서 기다리게 하거나, 최악의 경우 체크아웃(OOM Killer)을 시키는 결단력이 필요합니다.
 

@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 아키텍처의 허리(중간)에 위치하며, 밑바닥에 깔린 물리/[가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/)([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane)들을 통합 지휘하고, 위쪽에 있는 비즈니스 앱(App)들에게 네트워크의 모든 정보를 제공하는 <strong>중앙 집중형 두뇌 소프트웨어(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a>, NOS)</strong>입니다.
 - **대표적 컨트롤러 제품**: ONOS, OpenDaylight (ODL), 상용으로는 [Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/) ACI, VMware NSX 등이 있습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SDN 데이터 평면</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SDN 제어 평면</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">사우스바운드 인터페이스</div></div>
-</div>
-</div>
-
-
+```text
+[SDN 데이터 평면]
+    │
+    ▼
+[SDN 제어 평면]
+    │
+    └──▶ [사우스바운드 인터페이스]
+```
 
 - **📢 섹션 요약 비유**: [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 제어 평면은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -53,18 +49,14 @@ tags = ["studynote-network"]
 - 위층(응용 계층)의 앱 개발자가 "부산 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 1번 닫아!"라고 물리적인 명령을 내릴 필요가 없습니다. 
 - 컨트롤러는 복잡한 쇳덩어리 기계들의 차이를 감춰버립니다. 앱 개발자가 "비디오 트래픽 우선 처리해!"라고 추상적으로 명령(의도)만 내리면, 컨트롤러가 알아서 부산이든 서울이든 기계에 맞는 언어로 번역해서 지시를 내립니다. (네트워크의 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 역할)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SDN 데이터 평면</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SDN 제어 평면</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">사우스바운드 인터페이스</div></div>
-</div>
-</div>
-
-
+```text
+[SDN 데이터 평면]
+    │
+    ▼
+[SDN 제어 평면]
+    │
+    └──▶ [사우스바운드 인터페이스]
+```
 
 - **📢 섹션 요약 비유**: [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 제어 평면의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -125,19 +117,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: SDN 데이터 평면</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: SDN 제어 평면</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 사우스바운드 인터페이스</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 프로그래머블 네트워크</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: SDN 데이터 평면]
+    │
+    ▼
+[현재 개념: SDN 제어 평면]
+    │
+    ├──▶ [확장 A: 사우스바운드 인터페이스]
+    └──▶ [확장 B: 프로그래머블 네트워크]
+```
 
 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 제어 평면는 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면에서 출발해 현재 메커니즘을 정교화하고, 이후 [사우스바운드 인터페이스](/knowledge-base/studynote/03_network/17_sdn_nfv/853_southbound_interface_api_controller_switch/)와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

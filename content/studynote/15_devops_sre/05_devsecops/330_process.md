@@ -29,24 +29,23 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마이크로 세그멘테이션 구조 (K8s)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">기존 - 플랫 네트워크</div><div class="kb-diagram-node">마이크로 세그멘테이션</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pod A &lt;-----------&gt; Pod B Pod A</div><div class="kb-diagram-cell">Pod B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pod C &lt;-----------&gt; Pod D -------+-------</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(모든 Pod 간 통신 허용) Pod C</div><div class="kb-diagram-cell">Pod D</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(정책으로 격리)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cilium eBPF 정책 구조:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L3: IP/CIDR 기반 허용/차단</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L4: 포트/프로토콜 필터링</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L7: HTTP 메서드/경로 필터링 (GET /api/v1만 허용 등)</div></div>
-</div>
-</div>
-
-
+```text
++-----------------------------------------------------------+
+|          마이크로 세그멘테이션 구조 (K8s)                  |
++-----------------------------------------------------------+
+|                                                           |
+|  [기존 - 플랫 네트워크]        [마이크로 세그멘테이션]      |
+|  Pod A <-----------> Pod B     Pod A  |  Pod B            |
+|  Pod C <-----------> Pod D     -------+-------            |
+|  (모든 Pod 간 통신 허용)        Pod C  |  Pod D            |
+|                                (정책으로 격리)             |
+|                                                           |
+|  Cilium eBPF 정책 구조:                                    |
+|  L3: IP/CIDR 기반 허용/차단                                |
+|  L4: 포트/프로토콜 필터링                                   |
+|  L7: HTTP 메서드/경로 필터링 (GET /api/v1만 허용 등)        |
++-----------------------------------------------------------+
+```
 
 | 기술 | 레이어 | 특징 |
 |:---|:---|:---|
@@ -117,19 +116,14 @@ tags = ["studynote-devops-sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">경계 보안 시대 Zero Trust 등장 현대 마이크로 세그멘테이션</div>
-<div class="kb-diagram-note">방화벽 중심 경계 -&gt; NIST Zero Trust 프레임워크 -&gt; eBPF 기반 고성능 정책</div>
-<div class="kb-diagram-note">내부는 안전 가정 Forrester Zero Trust 모델 Cilium + Hubble</div>
-<div class="kb-diagram-note">VPN 원격 접근 NetworkPolicy (K8s) 서비스 메시 통합</div>
-<div class="kb-diagram-note">ZTNA 솔루션 등장 AI 기반 트래픽 이상 탐지</div>
-</div>
-</div>
-
-
+```text
+경계 보안 시대              Zero Trust 등장              현대 마이크로 세그멘테이션
+------------------   --------------------------   ------------------------
+방화벽 중심 경계     ->  NIST Zero Trust 프레임워크  ->  eBPF 기반 고성능 정책
+내부는 안전 가정         Forrester Zero Trust 모델      Cilium + Hubble
+VPN 원격 접근            NetworkPolicy (K8s)            서비스 메시 통합
+                          ZTNA 솔루션 등장               AI 기반 트래픽 이상 탐지
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

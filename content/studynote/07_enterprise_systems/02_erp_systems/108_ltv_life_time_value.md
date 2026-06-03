@@ -37,24 +37,24 @@ LTV는 단일 공식이라기보다는, 회사가 수익을 창출하는 세 가
 | **고객 수명 (Lifetime)** | $\frac{1}{\text{이탈률(Churn Rate)}}$. 한 번 가입 후 이탈 전까지 유지되는 기간 | 맞춤형 [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) 캠페인, 포인트 적립 혜택 등으로 구독 해지 버튼을 누르지 않게 막는다. |
 | **고객 획득/유지 비용** | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 마케팅 비용(CAC) 및 매달 고객 관리에 들어가는 원가 | 자동화된 마케팅 툴 도입, 구전 효과(바이럴) 유도로 확보 단가를 낮춘다. |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LTV (고객 생애 가치) 산출 메커니즘과 CRM 방어 로직</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LTV = (월 평균 마진 2만 원) × (예상 유지 기간 36개월) = 72만 원</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시간의 흐름에 따른 고객의 누적 가치 창출</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가입(1개월 차) ▶ 12개월 차 ▶ 36개월 차 (이탈)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+2만 원 +24만 원 누적 +72만 원 완성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">★ CRM 부서의 핵심 미션 (수명 연장):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">만약 12개월 차에 고객이 "나 이제 탈퇴할래" 하고 이탈(Churn)해 버리면,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LTV는 24만 원에서 영구 정지됨 (48만 원의 잠재 손실 발생!).</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 탈퇴하려는 순간 "반값 할인 쿠폰"을 던져서 36개월까지 멱살 잡고</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">끌고 가는 것이 가장 확실한 LTV 상승 원리.</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           LTV (고객 생애 가치) 산출 메커니즘과 CRM 방어 로직         │
+├──────────────────────────────────────────────────────────────┤
+│ LTV = (월 평균 마진 2만 원) × (예상 유지 기간 36개월) = 72만 원    │
+│                                                              │
+│ [시간의 흐름에 따른 고객의 누적 가치 창출]                          │
+│                                                              │
+│ 가입(1개월 차) ──────────▶ 12개월 차 ──────────▶ 36개월 차 (이탈)│
+│ +2만 원                    +24만 원 누적           +72만 원 완성 │
+│                                                              │
+│ ★ CRM 부서의 핵심 미션 (수명 연장):                              │
+│ 만약 12개월 차에 고객이 "나 이제 탈퇴할래" 하고 이탈(Churn)해 버리면,│
+│ LTV는 24만 원에서 영구 정지됨 (48만 원의 잠재 손실 발생!).          │
+│ => 탈퇴하려는 순간 "반값 할인 쿠폰"을 던져서 36개월까지 멱살 잡고    │
+│    끌고 가는 것이 가장 확실한 LTV 상승 원리.                     │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램은 LTV가 덧셈이 아니라 '월 마진'과 '유지 개월 수'의 곱셈이라는 사실을 시사한다. 이탈률(Churn Rate)을 1%만 줄여도 분모가 작아지면서 고객의 평균 수명이 획기적으로 길어지므로, 신규 고객 창출보다 이탈 방지가 수십 배는 더 수익성이 높다는 수학적 진리가 증명된다.
 
@@ -64,7 +64,7 @@ LTV는 단일 공식이라기보다는, 회사가 수익을 창출하는 세 가
 
 ## Ⅲ. 비교 및 연결
 
-기업의 재무 건전성은 LTV와 짝꿍 지표인 CAC([Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) [Acquisition](/knowledge-base/studynote/12_it_management/01_governance_strategy/042_aarrr_funnel/) Cost, [고객 획득 비용](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/109_cac_customer_acquisition_cost/))의 저울질로 판가름 난다.
+기업의 재무 건전성은 LTV와 짝꿍 지표인 CAC([C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) [Acquisition](/knowledge-base/studynote/12_it_management/01_governance_strategy/042_aarrr_funnel/) Cost, [고객 획득 비용](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/109_cac_customer_acquisition_cost/))의 저울질로 판가름 난다.
 
 | 비교 지표 | LTV (고객 생애 가치) | CAC ([고객 획득 비용](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/109_cac_customer_acquisition_cost/)) |
 | :--- | :--- | :--- |
@@ -109,30 +109,28 @@ LTV를 경영의 핵심 나침반으로 채택하면, 회사의 [전략](/knowle
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| <strong>CAC (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/">Customer</a> <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/042_aarrr_funnel/">Acquisition</a> Cost)</strong> | 고객 한 명을 획득하는 데 드는 마케팅 비용으로, LTV와 항상 쌍으로 비교되어 기업의 흑자/적자 구조를 판가름하는 저울의 반대편 추. |
+| <strong>CAC (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/">C고객</a> <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/042_aarrr_funnel/">Acquisition</a> Cost)</strong> | 고객 한 명을 획득하는 데 드는 마케팅 비용으로, LTV와 항상 쌍으로 비교되어 기업의 흑자/적자 구조를 판가름하는 저울의 반대편 추. |
 | **Churn Rate (이탈률)** | 기존 고객이 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 구독을 해지하거나 떠나는 비율로, 이 숫자가 높아질수록 LTV의 핵심 축인 '고객 수명'이 깎여나가 치명상을 입힘. |
 | <strong><a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/">CRM</a> (고객 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a> 관리)</strong> | 이탈률을 방어하고 업셀링을 유도하여 1인당 LTV를 극대화하기 위해 실행하는 IT 인프라 및 마케팅 오토메이션 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/). |
 | **코호트 분석 (Cohort Analysis)** | 가입 시기나 특성이 같은 집단끼리 묶어, 어느 집단의 LTV가 가장 우수한지(어느 마케팅 채널이 황금어장인지) 추적하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석 기법. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">전통적 오프라인 유통 상거래 (단발성, 1회 구매 매출 중심)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">구독 경제 (Subscription) 및 클라우드(SaaS) 비즈니스 모델 도래</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">고객 유지(Retention)의 중요성 부각 및 이탈(Churn) 방어의 필요성 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">LTV (고객 생애 가치) 개념 도입 (고객 1명의 미래 누적 이익 정량화)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">LTV : CAC 비율을 기반으로 한 그로스 해킹(Growth Hacking) 및 마케팅 예산 통제 체계 완성</div>
-</div>
-</div>
-
-
+```text
+전통적 오프라인 유통 상거래 (단발성, 1회 구매 매출 중심)
+    │
+    ▼
+구독 경제 (Subscription) 및 클라우드(SaaS) 비즈니스 모델 도래
+    │
+    ▼
+고객 유지(Retention)의 중요성 부각 및 이탈(Churn) 방어의 필요성 인식
+    │
+    ▼
+LTV (고객 생애 가치) 개념 도입 (고객 1명의 미래 누적 이익 정량화)
+    │
+    ▼
+LTV : CAC 비율을 기반으로 한 그로스 해킹(Growth Hacking) 및 마케팅 예산 통제 체계 완성
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -146,7 +144,7 @@ LTV를 경영의 핵심 나침반으로 채택하면, 회사의 [전략](/knowle
 
 **진행 상황**: 108 / 482
 
-← **이전**: [107. CRM (Customer Relationship Management, 고객 관계 관리) - 신규 고객 획득 및 기존 고객 유지/충성도](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/)
-**다음**: [109. 고객 획득 비용 (CAC, Customer Acquisition Cost) - LTV > CAC 공식과 그로스 해킹](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/109_cac_customer_acquisition_cost/) →
+← **이전**: [107. CRM (C고객 Relationship Management, 고객 관계 관리) - 신규 고객 획득 및 기존 고객 유지/충성도](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/)
+**다음**: [109. 고객 획득 비용 (CAC, C고객 Acquisition Cost) - LTV > CAC 공식과 그로스 해킹](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/109_cac_customer_acquisition_cost/) →
 
 ---

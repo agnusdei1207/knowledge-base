@@ -30,27 +30,27 @@ tags = ["studynote-software-engineering"]
 
 명세의 강도(Rigor) 스펙트럼은 자연어에서 수학으로 갈수록 모호성은 사라지지만 작성 난이도가 극악으로 치솟는다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비정형(Informal) 명세 vs 정형(Formal) 명세 비교 예시</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 비정형 명세 (Informal / 자연어 기반)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구사항: "사용자가 비밀번호를 5회 이상 틀리면, 계정을 잠가야 한다."</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💥 위험성: 읽는 사람의 상상력에 따라 버그가 탄생하는 모호성(Ambiguity) 늪.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 반정형 명세 (Semi-Formal / UML, 도식화, 결정표)</div><div class="kb-diagram-note">🌟 실무 타협점</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구사항: 의사결정표 (Decision Table) 포맷</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IF (연속_실패 &gt;= 5) AND (상태 == 정상) THEN 잠금=TRUE, 해제=NOW+30m;</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3. 정형 명세 (Formal / 수학적, 논리식 기반)</div><div class="kb-diagram-note">🚀 우주/의료 레벨</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구사항: Z-Language 등 이산수학과 집합론 기호 사용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">State: Lock = { TRUE, FALSE }, failCount ∈ ℕ</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Init: failCount = 0, Lock = FALSE</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Inv: (failCount ≥ 5) ⇒ (Lock = TRUE)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🛡️ 강점: 컴퓨터 검증 도구(Model Checker)에 넣으면 설계 모순 0% 증명!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          비정형(Informal) 명세 vs 정형(Formal) 명세 비교 예시       │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ [ 1. 비정형 명세 (Informal / 자연어 기반) ]                       │
+│ 요구사항: "사용자가 비밀번호를 5회 이상 틀리면, 계정을 잠가야 한다."        │
+│ 💥 위험성: 읽는 사람의 상상력에 따라 버그가 탄생하는 모호성(Ambiguity) 늪.   │
+│                                                             │
+│ [ 2. 반정형 명세 (Semi-Formal / UML, 도식화, 결정표) ] 🌟 실무 타협점│
+│ 요구사항: 의사결정표 (Decision Table) 포맷                       │
+│ IF (연속_실패 >= 5) AND (상태 == 정상) THEN 잠금=TRUE, 해제=NOW+30m;│
+│                                                             │
+│ [ 3. 정형 명세 (Formal / 수학적, 논리식 기반) ] 🚀 우주/의료 레벨 │
+│ 요구사항: Z-Language 등 이산수학과 집합론 기호 사용                 │
+│ State: Lock = { TRUE, FALSE }, failCount ∈ ℕ                  │
+│ Init: failCount = 0, Lock = FALSE                             │
+│ Inv: (failCount ≥ 5) ⇒ (Lock = TRUE)                           │
+│ 🛡️ 강점: 컴퓨터 검증 도구(Model Checker)에 넣으면 설계 모순 0% 증명!     │
+└─────────────────────────────────────────────────────────────┘
+```
 
 1번 비정형 명세는 현업(고객)이 읽기 훌륭하지만, 문서 100페이지가 넘어가면 앞뒤가 안 맞는 모순(Contradiction)이 무수히 발생한다. 3번 정형 명세는 이를 수학의 명제로 치환한다. 인간이 읽기는 지옥 같지만, 모델 체커(Model Checker)에 돌리면 로직 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 코딩 전에 컴파일 에러처럼 완벽하게 잡아낸다. 2번 반정형 명세는 이 둘을 타협하여 그림([UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/))의 문법으로 모호성을 통제하는 현실적인 중간 지대다.
 
@@ -113,23 +113,21 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">비정형 명세 (Informal) / 100% 자연어 의존, 모호성 폭발 및 해석의 충돌</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">구조적 명세 도구 / DFD (자료흐름도), DD (자료사전), Mini-Spec (의사결정표) 도입</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">정형 기법 (Formal Methods) 태동 / Z-Language, VDM 등 수학적 증명 (상업 시장 실패)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">객체지향 UML (Unified Modeling Language) / 반정형 시각화 모델링으로 실무 평정</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">BDD 기반 실행 가능한 명세 (Executable Specification) / 명세서가 곧 자동화 테스트 코드!</div>
-</div>
-</div>
-
-
+```text
+비정형 명세 (Informal) / 100% 자연어 의존, 모호성 폭발 및 해석의 충돌
+    │
+    ▼
+구조적 명세 도구 / DFD (자료흐름도), DD (자료사전), Mini-Spec (의사결정표) 도입
+    │
+    ▼
+정형 기법 (Formal Methods) 태동 / Z-Language, VDM 등 수학적 증명 (상업 시장 실패)
+    │
+    ▼
+객체지향 UML (Unified Modeling Language) / 반정형 시각화 모델링으로 실무 평정
+    │
+    ▼
+BDD 기반 실행 가능한 명세 (Executable Specification) / 명세서가 곧 자동화 테스트 코드!
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -33,24 +33,28 @@ tags = ["studynote-cloud-architecture"]
 
 ### 다크 론칭 요청 처리 흐름
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">클라이언트 요청</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">API Gateway / Feature Proxy</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(동기, 사용자에게 반환)</div><div class="kb-diagram-cell">(비동기, 결과 버림/로깅)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기존 서비스</div><div class="kb-diagram-cell">신규 서비스(Dark)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(v1)</div><div class="kb-diagram-cell">(v2)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">사용자에게 응답</div><div class="kb-diagram-node">결과를 Metrics/Log에만 기록</div></div>
-<div class="kb-diagram-tree-item" style="--depth:8">응답 시간</div>
-<div class="kb-diagram-tree-item" style="--depth:8">에러 여부</div>
-<div class="kb-diagram-tree-item" style="--depth:8">v1과 결과 비교</div>
-</div>
-</div>
-
-
+```
+  클라이언트 요청
+       │
+       ▼
+  ┌─────────────────────────────────────────────────────┐
+  │               API Gateway / Feature Proxy            │
+  └──────────────────────┬──────────────────────────────┘
+                         │
+         ┌───────────────┴───────────────┐
+         │ (동기, 사용자에게 반환)         │ (비동기, 결과 버림/로깅)
+         ▼                               ▼
+  ┌──────────────┐               ┌──────────────────┐
+  │  기존 서비스  │               │  신규 서비스(Dark) │
+  │  (v1)        │               │  (v2)             │
+  └──────┬───────┘               └────────┬─────────┘
+         │                                │
+         ▼                                ▼
+  [사용자에게 응답]              [결과를 Metrics/Log에만 기록]
+                                 - 응답 시간
+                                 - 에러 여부
+                                 - v1과 결과 비교
+```
 
 ### 다크 론칭 vs [섀도우 배포](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/575_shadow_deployment_traffic_mirroring/) 차이점
 
@@ -168,21 +172,17 @@ def dark_execute():
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Shadow Traffic: 실제 트래픽을 새 버전에 복제</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Dark Launching: 사용자 모르게 신버전 동작 검증</div>
-<div class="kb-diagram-tree-item" style="--depth:2">응답은 폐기 (사용자에게 전달 안 됨)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">성능·정확성 비교: 기존 vs 신규</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">확인 완료 → Canary → 전체 전환</div>
-</div>
-</div>
-
-
+```text
+Shadow Traffic: 실제 트래픽을 새 버전에 복제
+    │
+    ▼
+Dark Launching: 사용자 모르게 신버전 동작 검증
+    ├─► 응답은 폐기 (사용자에게 전달 안 됨)
+    └─► 성능·정확성 비교: 기존 vs 신규
+    │
+    ▼
+확인 완료 → Canary → 전체 전환
+```
 2. 친구에게는 기존 계산기 답을 알려주고, 새 계산기 결과는 선생님 수첩에만 적어둬.
 3. 수첩에 틀린 답이 없고 속도도 빠르다는 걸 확인하면, 그때서야 친구에게 새 계산기를 공개해.
 

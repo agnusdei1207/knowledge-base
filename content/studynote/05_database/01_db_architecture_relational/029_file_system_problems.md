@@ -18,25 +18,26 @@ tags = ["studynote-database"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파일 시스템 5대 문제</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 데이터 중복성 (Data Redundancy)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 같은 고객 정보가 주문파일·배송파일·결제파일에 반복</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 데이터 불일치 (Data Inconsistency)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 한 파일 고객 주소 변경 시 다른 파일은 미반영</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 데이터 종속성 (Data Dependency)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 파일 구조 변경 시 모든 프로그램 수정 필요</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 무결성 제약 없음 (No Integrity Constraints)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 잘못된 값(음수 나이, 존재하지 않는 외래 키) 저장 가능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 동시성·보안 부재 (No Concurrency/Security)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 여러 사용자 동시 수정 → 데이터 손상</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────┐
+│         파일 시스템 5대 문제                               │
+├──────────────────────────────────────────────────────────┤
+│  1. 데이터 중복성 (Data Redundancy)                       │
+│     → 같은 고객 정보가 주문파일·배송파일·결제파일에 반복  │
+│                                                           │
+│  2. 데이터 불일치 (Data Inconsistency)                    │
+│     → 한 파일 고객 주소 변경 시 다른 파일은 미반영        │
+│                                                           │
+│  3. 데이터 종속성 (Data Dependency)                       │
+│     → 파일 구조 변경 시 모든 프로그램 수정 필요           │
+│                                                           │
+│  4. 무결성 제약 없음 (No Integrity Constraints)           │
+│     → 잘못된 값(음수 나이, 존재하지 않는 외래 키) 저장 가능│
+│                                                           │
+│  5. 동시성·보안 부재 (No Concurrency/Security)           │
+│     → 여러 사용자 동시 수정 → 데이터 손상                │
+└──────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 문제는 포스트잇 관리 방식이다. 각 부서가 각자 포스트잇([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))에 고객 정보를 적으면 중복·불일치·분실이 발생한다. DB는 모든 부서가 공유하는 화이트보드(중앙 관리)다.
 
@@ -57,18 +58,13 @@ tags = ["studynote-database"]
 
 ### [데이터 독립성](/knowledge-base/studynote/05_database/01_db_architecture_relational/004_data_independence/)
 
+```text
+물리적 독립성: 저장 구조 변경 → 논리 스키마 불변
+  (예: HDD → SSD 마이그레이션, 파티셔닝)
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">물리적 독립성: 저장 구조 변경 → 논리 스키마 불변</div>
-<div class="kb-diagram-note">(예: HDD → SSD 마이그레이션, 파티셔닝)</div>
-<div class="kb-diagram-note">논리적 독립성: 논리 스키마 변경 → 응용 프로그램 불변</div>
-<div class="kb-diagram-note">(예: 테이블 컬럼 추가 시 기존 앱 수정 불필요)</div>
-</div>
-</div>
-
-
+논리적 독립성: 논리 스키마 변경 → 응용 프로그램 불변
+  (예: 테이블 컬럼 추가 시 기존 앱 수정 불필요)
+```
 
 - **📢 섹션 요약 비유**: [데이터 독립성](/knowledge-base/studynote/05_database/01_db_architecture_relational/004_data_independence/)은 건물 리모델링과 같다. 건물 내부(물리 저장)를 바꿔도 주소([논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/))는 유지되고, 방 배치([논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/))를 바꿔도 입주자(앱)는 계속 거주한다.
 
@@ -92,25 +88,21 @@ tags = ["studynote-database"]
 
 ### 현대에도 반복되는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 문제 패턴
 
+```text
+마이크로서비스 로컬 파일 저장:
+  서비스 A: /data/users.json
+  서비스 B: /data/users.json (별도 복사본)
+  → 중복·불일치 재발 → 이벤트 소싱/공유 DB 필요
 
+CSV 기반 데이터 교환:
+  각 팀이 Excel/CSV로 데이터 공유
+  → 버전 불일치, 무결성 미보장
+  → 데이터 허브/API 기반 교환으로 전환 필요
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">마이크로서비스 로컬 파일 저장:</div>
-<div class="kb-diagram-note">서비스 A: /data/users.json</div>
-<div class="kb-diagram-note">서비스 B: /data/users.json (별도 복사본)</div>
-<div class="kb-diagram-note">→ 중복·불일치 재발 → 이벤트 소싱/공유 DB 필요</div>
-<div class="kb-diagram-note">CSV 기반 데이터 교환:</div>
-<div class="kb-diagram-note">각 팀이 Excel/CSV로 데이터 공유</div>
-<div class="kb-diagram-note">→ 버전 불일치, 무결성 미보장</div>
-<div class="kb-diagram-note">→ 데이터 허브/API 기반 교환으로 전환 필요</div>
-<div class="kb-diagram-note">로그 파일 기반 상태 관리:</div>
-<div class="kb-diagram-note">앱 상태를 로그 파일에 저장</div>
-<div class="kb-diagram-note">→ 동시 접근 충돌, 일관성 보장 불가</div>
-</div>
-</div>
-
-
+로그 파일 기반 상태 관리:
+  앱 상태를 로그 파일에 저장
+  → 동시 접근 충돌, 일관성 보장 불가
+```
 
 - **📢 섹션 요약 비유**: [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 로컬 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 부서별 포스트잇의 현대판이다. 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 자신의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 관리하면, 50년 전 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템이 겪었던 중복·불일치 문제가 그대로 재발한다.
 
@@ -142,23 +134,21 @@ tags = ["studynote-database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">파일 시스템 — 데이터 중복·불일치·종속성 5대 문제</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">RDBMS — 정규화·ACID·SQL로 파일 시스템 문제 해결</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">분산 DB — CAP 정리, 일관성·가용성 트레이드오프</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NoSQL — 스키마 유연성, 수평 확장</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">레이크하우스 — 파일 형식(Parquet)+ACID(Delta/Iceberg) 통합</div></div>
-</div>
-</div>
-
-
+```text
+[파일 시스템 — 데이터 중복·불일치·종속성 5대 문제]
+    │
+    ▼
+[RDBMS — 정규화·ACID·SQL로 파일 시스템 문제 해결]
+    │
+    ▼
+[분산 DB — CAP 정리, 일관성·가용성 트레이드오프]
+    │
+    ▼
+[NoSQL — 스키마 유연성, 수평 확장]
+    │
+    ▼
+[레이크하우스 — 파일 형식(Parquet)+ACID(Delta/Iceberg) 통합]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

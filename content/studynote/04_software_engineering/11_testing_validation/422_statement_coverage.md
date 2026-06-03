@@ -24,31 +24,30 @@ tags = ["studynote-software-engineering"]
 명칭 그대로 "내가 테스트를 구동하며 서버를 휘젓고 다녔더니, 작성된 프로그램 소스 코드 전체 **100줄 중에서 80줄이 최소 한 번 이상 전기가 통과(실행)되었어!** 그럼 구문 커버리지는 80%네!" 라고 판정하는 기법입니다.
 너무나 상식적인 논리입니다. 만약 치명적인 버그가 95번째 줄에 숨어있는데, 모든 테스트를 다 돌려도 95번째 줄이 단 한 번도 실행되지 않았다면(미커버) 그 버그는 폭탄 돌리기처럼 릴리즈 날 프로덕션 환경으로 흘러 들어가 고객의 모니터에서 화려하게 터지게 됩니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">구문 커버리지 100% 달성의 맹점 매직</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">원시 코드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1: int func(int x) {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2: int result = 0;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3: if (x &gt; 10) {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4: result = x / 0; // 앗! 0으로 나누기 치명적 에러 폭탄!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5: }</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6: return result;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">7: }</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">구문 커버리지 테스터의 도전</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">테스트 케이스 1: x = 15 입력!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; 실행 흐름: 1 -&gt; 2 -&gt; 3 -&gt; 4 (폭탄 터짐! 버그 잡음!) -&gt; 6</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; 평가: 모든 문장(1,2,3,4,5,6)이 다 실행됨. 커버리지 100%! 합격!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">그러나 맹점!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">만약 4번 줄이 정상 코드라면? x=15만 넣고 100%라고 퇴근하면,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">나중에 고객이 x=-5 를 넣었을 때 4번 줄 패스하고 else 없는 상황에</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대해 프로그램이 메모리 죽는 예외는 전혀 캐치 못하는 허술함!</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                  구문 커버리지 100% 달성의 맹점 매직                │
+├──────────────────────────────────────────────────────────────┤
+│ [원시 코드]                                                    │
+│  1: int func(int x) {                                        │
+│  2:     int result = 0;                                      │
+│  3:     if (x > 10) {                                        │
+│  4:         result = x / 0;  // 앗! 0으로 나누기 치명적 에러 폭탄! │
+│  5:     }                                                    │
+│  6:     return result;                                       │
+│  7: }                                                        │
+│                                                              │
+│ [구문 커버리지 테스터의 도전]                                    │
+│   테스트 케이스 1: x = 15 입력!                                 │
+│   -> 실행 흐름: 1 -> 2 -> 3 -> 4 (폭탄 터짐! 버그 잡음!) -> 6    │
+│   -> 평가: 모든 문장(1,2,3,4,5,6)이 다 실행됨. 커버리지 100%! 합격! │
+│                                                              │
+│ [그러나 맹점!]                                                 │
+│   만약 4번 줄이 정상 코드라면? x=15만 넣고 100%라고 퇴근하면,        │
+│   나중에 고객이 x=-5 를 넣었을 때 4번 줄 패스하고 else 없는 상황에    │
+│   대해 프로그램이 메모리 죽는 예외는 전혀 캐치 못하는 허술함!          │
+└──────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 수영장에 물을 뿌려 바닥 타일을 모두 한 번씩은 적셔보는 가장 1차원적인 청소입니다. 모든 타일이 젖었으니 청소 100%를 달성했다고 우기지만, 사실 타일이 박살 난 깊은 구석의 배수구 구멍(분기 조건의 이면)은 확인도 안 한 기초 청약일 뿐입니다.
 
@@ -139,30 +138,28 @@ $$ 구문 커버리지(SC) = \frac{실행된 구문(Statement)의 수}{전체 �
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 구문 커버리지 (Statement Coverage)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 구문 커버리지 (Statement Coverage)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
 | [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 구문 커버리지 (Statement Coverage)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | 구문 커버리지 (Statement Coverage) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
 | [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 구문 커버리지 (Statement Coverage)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">구문 커버리지 (Statement Coverage) 개념 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 위기 (Software Crisis) 인식
+    │
+    ▼
+구문 커버리지 (Statement Coverage) 개념 정립
+    │
+    ▼
+표준화 및 방법론 체계화 (ISO, CMMI, Agile)
+    │
+    ▼
+클라우드 네이티브·AI 기반 확장 적용
+    │
+    ▼
+지속적 개선 및 DevOps·MLOps 통합
+```
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

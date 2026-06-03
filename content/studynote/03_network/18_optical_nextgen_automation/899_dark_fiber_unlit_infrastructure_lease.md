@@ -21,18 +21,14 @@ tags = ["studynote-network"]
 
 - **개념**: 통신 사업자([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/))나 케이블 매설 업체가 미래의 트래픽 수요 증가를 대비해 땅속에 선제적으로 매설해 두었으나, <strong>현재 빛 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a>(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>)를 쏘지 않고 연결 단자만 방치해 둔 '가동되지 않는(Dark) 잉여 상태의 물리적 예비 광섬유(Fiber)' 자산 인프라</strong>입니다. (Unlit Fiber라고도 합니다.)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">NG-PON2 표준 광통신 파장 동적 분할…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">다크 파이버</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">무선 광통신 대기권 전송 FSO 기상 조건…</div></div>
-</div>
-</div>
-
-
+```text
+[NG-PON2 표준 광통신 파장 동적 분할…]
+    │
+    ▼
+[다크 파이버]
+    │
+    └──▶ [무선 광통신 대기권 전송 FSO 기상 조건…]
+```
 
 - **📢 섹션 요약 비유**: 다크 파이버는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -54,18 +50,14 @@ tags = ["studynote-network"]
 ### 3. 완벽한 물리적 보안 보장
 - 빈 유리관을 우리 회사 장비 두 대가 양 끝에서 독점하고 쏘는 것이므로, 통신사의 중앙 라우터나 다른 회사의 트래픽과 1%도 섞일 일이 없습니다. 해커가 중간에서 스니핑(가로채기) 할 수 없는 물리적으로 가장 완벽한 100% 에어갭 보안 전용선이 완성됩니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">NG-PON2 표준 광통신 파장 동적 분할…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">다크 파이버</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">무선 광통신 대기권 전송 FSO 기상 조건…</div></div>
-</div>
-</div>
-
-
+```text
+[NG-PON2 표준 광통신 파장 동적 분할…]
+    │
+    ▼
+[다크 파이버]
+    │
+    └──▶ [무선 광통신 대기권 전송 FSO 기상 조건…]
+```
 
 - **📢 섹션 요약 비유**: 다크 파이버의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -128,19 +120,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: NG-PON2 표준 광통신 파장 동적 분할…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 다크 파이버</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 무선 광통신 대기권 전송 FSO 기상 조건…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: NG-PON2 표준 광통신 파장 동적 분할…]
+    │
+    ▼
+[현재 개념: 다크 파이버]
+    │
+    ├──▶ [확장 A: 무선 광통신 대기권 전송 FSO 기상 조건…]
+    └──▶ [확장 B: 의미 기반 통신 최적화]
+```
 
 다크 파이버는 NG-PON2 표준 광통신 파장 동적 분할…에서 출발해 현재 메커니즘을 정교화하고, 이후 [무선 광통신](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/900_fso_free_space_optics_hybrid_rf_backup/) 대기권 전송 [FSO](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/900_fso_free_space_optics_hybrid_rf_backup/) 기상 조건…와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

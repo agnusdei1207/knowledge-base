@@ -44,23 +44,27 @@ tags = ["studynote-operating-system"]
    - 이때 임시로 끄적여두었던 변경 사항들을 모두 쓰레기통에 버리고, 시스템 상태를 <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a>이 시작되기 바로 직전의 완벽한 상태로 되돌린다(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/">Rollback</a>)</strong>.
    - 사용자 입장에서는 아예 아무 일도 일어나지 않았던 것과 똑같아진다. (All or <strong>Nothing</strong>의 Nothing 달성)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원자적 트랜잭션의 생명주기와 All or Nothing 제어 흐름</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">트랜잭션 시작 (Begin)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">연산 1 수행 ──▶ (로그에 기록, 실제 데이터는 변경 안 함)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 💣 에러 발생! (시스템 다운 등)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Abort 발동</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(로그 폐기, 롤백) ──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (모두 성공 시) ▼</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">트랜잭션 완료 (Commit)</div><div class="kb-diagram-node">원상 복구</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(로그를 실제 데이터에 덮어씀) (Nothing)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(All)</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────┐
+│           원자적 트랜잭션의 생명주기와 All or Nothing 제어 흐름        │
+├────────────────────────────────────────────────────────────────────────┤
+│                                                                        │
+│ [ 트랜잭션 시작 (Begin) ]                                              │
+│         │                                                              │
+│         ▼                                                              │
+│    연산 1 수행 ──▶ (로그에 기록, 실제 데이터는 변경 안 함)             │
+│         │                                                              │
+│         ▼          💣 에러 발생! (시스템 다운 등)                      │
+│    연산 2 수행 ─────▶ [ Abort 발동 ] ──▶ (로그 폐기, 롤백) ──┐         │
+│         │                                                │             │
+│         ▼ (모두 성공 시)                                     ▼         │
+│ [ 트랜잭션 완료 (Commit) ]                              [ 원상 복구 ]  │
+│         │                                                │             │
+│         ▼                                                ▼             │
+│  (로그를 실제 데이터에 덮어씀)                           (Nothing)     │
+│       (All)                                                            │
+└────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 핵심은 "작업을 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 공간([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 등)에서 미리 연습해 본 뒤, 완벽하게 성공할 확신이 들 때만 진짜 데이터에 덮어쓰는 것"이다. 에러가 나면 그냥 연습장을 찢어버리면 그만이다. 이것이 원자성을 보장하는 가장 고전적이면서도 완벽한 기법인 '[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 기반 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)([Log-based Recovery](/knowledge-base/studynote/05_database/04_transactions_concurrency/237_log_based_recovery_redo_undo_records/))'의 원리다.
 
@@ -108,19 +112,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">비관적 병행성 제어 (Pessimistic Concurrency Control)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">원자적 트랜잭션 (Atomic Transaction) 개념</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">소프트웨어 트랜잭셔널 메모리 (STM)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">하드웨어 트랜잭셔널 메모리 (HTM</div></div>
-</div>
-</div>
-
-
+```text
+[비관적 병행성 제어 (Pessimistic Concurrency Control)]
+    │
+    ▼
+[원자적 트랜잭션 (Atomic Transaction) 개념]
+    │
+    ├──▶ [소프트웨어 트랜잭셔널 메모리 (STM)]
+    └──▶ [하드웨어 트랜잭셔널 메모리 (HTM]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

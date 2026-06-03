@@ -31,19 +31,17 @@ tags = ["studynote-ict-convergence"]
 
 ### [동형 암호](/knowledge-base/studynote/09_security/20_extra_exam_prep/1019_homomorphic_encryption/)(HE) 동작 구조
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-note">평문 m ──</div><div class="kb-diagram-node">HE 암호화</div><div class="kb-diagram-note">──&gt; 암호문 c</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라우드 연산 서버</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Enc(m₁) ⊕ Enc(m₂) = Enc(m₁+m₂)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(원문 비노출)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">암호문 결과 ──</div><div class="kb-diagram-node">HE 복호화</div><div class="kb-diagram-note">──&gt; 평문 결과</div></div>
-</div>
-</div>
-
-
+```
+평문 m ──[HE 암호화]──> 암호문 c
+                              │
+                         ┌────▼────────────────────────┐
+                         │   클라우드 연산 서버          │
+                         │   Enc(m₁) ⊕ Enc(m₂) = Enc(m₁+m₂) │
+                         │   (원문 비노출)               │
+                         └────────────┬────────────────┘
+                                      │
+암호문 결과 ──[HE 복호화]──> 평문 결과
+```
 
 | 방식 | 특징 | 표준 구현 |
 |:---:|:---|:---|

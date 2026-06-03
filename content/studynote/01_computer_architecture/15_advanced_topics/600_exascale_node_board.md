@@ -25,20 +25,20 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 엑사스케일 노드 보드가 왜 단순 메인보드와 다른지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Exascale node board is a balanced compute cell</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Host CPU</div><div class="kb-diagram-note">---- control ----</div><div class="kb-diagram-node">GPU 0</div><div class="kb-diagram-node">GPU 1</div><div class="kb-diagram-node">GPU N</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Host Memory</div><div class="kb-diagram-node">HBM</div><div class="kb-diagram-node">HBM</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">\____________________ intra-node fabric ____________________/</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Network Adapter</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">inter-node network</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">power delivery + liquid cooling everywhere</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                 Exascale node board is a balanced compute cell            │
+├────────────────────────────────────────────────────────────────────────────┤
+│ [Host CPU] ---- control ---- [GPU 0] [GPU 1] [GPU N]                   │
+│     │                                │              │                      │
+│ [Host Memory]                      [HBM]          [HBM]                    │
+│        \____________________ intra-node fabric ____________________/       │
+│                                      │                                     │
+│                              [Network Adapter] -> inter-node network       │
+│                                      │                                     │
+│                     power delivery + liquid cooling everywhere             │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 즉 엑사스케일 노드 보드는 연산기 집합이 아니라, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 막히지 않고 열이 치솟지 않도록 설계된 고밀도 연산 세포다. 이 셀이 균형을 잃으면, 노드를 아무리 많이 쌓아도 엑사스케일급 효율은 나오기 어렵다.
 
@@ -63,20 +63,19 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 연산 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로와 열·전력 경로가 동시에 설계되어야 함을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Compute path and heat path must both close</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data Path:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU -&gt; accelerator kernels -&gt; HBM -&gt; NIC -&gt; cluster fabric</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Power / Thermal Path:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PSU -&gt; VRM -&gt; chips -&gt; cold plate -&gt; liquid loop -&gt; facility cooling</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">If either path saturates, sustained science throughput collapses.</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                Compute path and heat path must both close                 │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Data Path:                                                                 │
+│   CPU -> accelerator kernels -> HBM -> NIC -> cluster fabric             │
+│                                                                            │
+│ Power / Thermal Path:                                                      │
+│   PSU -> VRM -> chips -> cold plate -> liquid loop -> facility cooling   │
+│                                                                            │
+│ If either path saturates, sustained science throughput collapses.         │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 그래서 엑사스케일 노드 보드의 핵심 원리는 더 많은 연산기가 아니라, 연산기·메모리·네트워크·냉각을 동시에 닫는 설계라고 정리하는 것이 정확하다. 하나라도 따라오지 못하면 나머지 세 요소의 투자 효과도 크게 줄어든다.
 
@@ -156,25 +155,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">CPU 중심 페타스케일 노드</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">GPU 가속 노드</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">HBM + 전용 intra-node link</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Direct Liquid Cooling + 200Gb/s급 노드 간 패브릭</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Exascale Node Board</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Chiplet · CXL capacity tier · photonic interconnect</div>
-</div>
-</div>
-
-
+```text
+CPU 중심 페타스케일 노드
+   │
+   ▼
+GPU 가속 노드
+   │
+   ▼
+HBM + 전용 intra-node link
+   │
+   ▼
+Direct Liquid Cooling + 200Gb/s급 노드 간 패브릭
+   │
+   ▼
+Exascale Node Board
+   │
+   ▼
+Chiplet · CXL capacity tier · photonic interconnect
+```
 
 이 흐름은 슈퍼컴퓨터 노드가 단순 CPU 보드에서 출발해, 이제는 메모리·가속기·냉각·네트워크가 동등한 비중을 갖는 고밀도 시스템 셀로 진화했음을 보여 준다.
 

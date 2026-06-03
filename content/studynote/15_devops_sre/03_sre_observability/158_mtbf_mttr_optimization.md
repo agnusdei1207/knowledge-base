@@ -12,7 +12,7 @@ tags = ["studynote-devops-sre"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [MTBF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/) ([Mean Time Between Failures](/knowledge-base/studynote/04_software_engineering/06_software_architecture/358_mtbf/), 평균 고장 간격)는 장애가 얼마나 드물게 일어나는지를, [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) ([Mean Time To Repair](/knowledge-base/studynote/04_software_engineering/06_software_architecture/359_mttr/) or Restore, 평균 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간)는 장애가 났을 때 얼마나 빨리 정상화하는지를 보여 주며, 두 값의 조합이 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)을 결정한다.
-> 2. **가치**: 현대 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/))는 장애를 완전히 없애는 것보다, 탐지·대응·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간을 줄여 사용자 영향 시간을 최소화하는 편이 더 현실적이고 투자 대비 효과가 크다고 본다.
+> 2. **가치**: 현대 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/))는 장애를 완전히 없애는 것보다, 탐지·대응·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간을 줄여 사용자 영향 시간을 최소화하는 편이 더 현실적이고 투자 대비 효과가 크다고 본다.
 > 3. **판단 포인트**: MTTR은 하나의 시간이 아니라 탐지, 인지, 진단, 완화, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 단계의 합이므로, 병목 구간을 계측하지 않으면 "[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 빨리하자"는 구호만 남고 실제 개선은 일어나지 않는다.
 
 ---
@@ -35,21 +35,21 @@ tags = ["studynote-devops-sre"]
 
 아래 그림은 장애 한 번이 발생했을 때 MTTR이 어떻게 여러 단계로 쪼개지는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장애 수명주기와 MTBF / MTTR 관계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정상 운영 구간 --------------------------- 장애 ------------------</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;------------- MTBF ---------------------&gt;</div><div class="kb-diagram-cell">&lt;------ MTTR -------&gt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">탐지 인지 진단 완화 복구</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MTTD MTTA 복구 작업</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MTTD = Mean Time To Detect MTTA = Mean Time To Acknowledge</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MTTR = 위 단계 전체의 누적 시간</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│                 장애 수명주기와 MTBF / MTTR 관계                  │
+├────────────────────────────────────────────────────────────────────┤
+│ 정상 운영 구간 --------------------------- 장애 ------------------ │
+│<------------- MTBF --------------------->|<------ MTTR ------->| │
+│                                          │                      │ │
+│                                      탐지  인지  진단  완화  복구 │ │
+│                                      |----|----|----|----|----| │ │
+│                                      MTTD MTTA      복구 작업    │ │
+│                                                                    │
+│ MTTD = Mean Time To Detect      MTTA = Mean Time To Acknowledge    │
+│ MTTR = 위 단계 전체의 누적 시간                                   │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 핵심은 MTTR이 단순히 "수리 시간"이 아니라는 점이다. 실제 현장에서는 장애를 늦게 발견하는 시간이 가장 길 수도 있고, 담당자 호출은 빨라도 원인 진단이 느릴 수도 있다. 즉 [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) 최적화는 평균값 하나를 낮추는 일이 아니라, 각 단계의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 쪼개서 제거하는 일이다.
 
@@ -141,26 +141,23 @@ tags = ["studynote-devops-sre"]
 | [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) ([Service Level Objective](/knowledge-base/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/)) | 허용 가능한 장애 시간과 [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/) 목표를 정하는 기준 |
 | 에러 버짓 ([Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)) | [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 목표에서 허용된 실패 예산으로, 운영 의사결정과 연결됨 |
 | 페일오버 ([Failover](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/300_failover_architecture/)) | 장애 시 대체 경로로 빠르게 전환해 MTTR을 줄이는 수단 |
-| [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/) ([Chaos Engineering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)) | 실제 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 체계가 작동하는지 사전에 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 훈련 방식 |
+| [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/) ([Chaos 엔진ering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)) | 실제 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 체계가 작동하는지 사전에 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 훈련 방식 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">가용성 목표(SLO)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">장애 측정 체계 수립</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ MTBF (Mean Time Between Failures)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ MTTR (Mean Time To Repair or Restore)</div>
-<div class="kb-diagram-tree-item" style="--depth:6">▶ MTTD / MTTA / 진단 / 복구 단계 분해</div>
-<div class="kb-diagram-tree-item" style="--depth:6">▶ 관측성 · 온콜 · 런북 · 자동 복구</div>
-<div class="kb-diagram-tree-item" style="--depth:6">▶ 페일오버 · 카오스 엔지니어링 · AIOps</div>
-</div>
-</div>
-
-
+```text
+가용성 목표(SLO)
+    │
+    ▼
+장애 측정 체계 수립
+    │
+    ├─▶ MTBF (Mean Time Between Failures)
+    └─▶ MTTR (Mean Time To Repair or Restore)
+            │
+            ├─▶ MTTD / MTTA / 진단 / 복구 단계 분해
+            ├─▶ 관측성 · 온콜 · 런북 · 자동 복구
+            └─▶ 페일오버 · 카오스 엔지니어링 · AIOps
+```
 
 이 흐름은 "[가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 목표 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) → 장애 측정 → 단계별 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 최적화 → 자동화 확장"으로 이어지는 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 운영 성숙 단계를 보여준다.
 

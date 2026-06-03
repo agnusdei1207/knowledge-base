@@ -23,24 +23,27 @@ tags = ["studynote-network"]
 - **필요성**: 해저 광케이블(Submarine Cable)은 빠르지만, 배가 침몰하거나 상어가 물어뜯으면 한 국가의 인터넷이 통째로 날아간다([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)). 지상의 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기지국은 산골짜기나 사막에는 수익이 안 나서 깔 수가 없다. 비행기나 유람선 위에서는 기지국 전파가 닿지도 않는다. <strong>"지형지물, 국경, 물리적 케이블의 제약 없이 지구 반대편까지 가장 안전하고 넓게 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 뿌릴 수 있는 우주 기지국"</strong>이 통신 주권과 생존을 위해 필수 불가결했다.
 - **등장 배경**: ① 군사 목적 및 대륙 간 대용량 통신(TV 방송 등)을 위한 광역 인프라 요구 → ② 적도 상공 36,000km에 위성을 띄우면 지구 자전 속도와 같아져 위성이 고정된 것처럼 보이는 정지 궤도([GEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/593_geo_geostationary_earth_orbit_satellite/)) 이론의 현실화 → ③ 최근 일론 머스크의 스타링크(Starlink)로 대변되는 저궤도([LEO](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/)) [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 군집 위성 시대 개막.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위성 통신의 3대 핵심 아키텍처: 업링크, 트랜스폰더, 다운링크 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">우주 정거장 (위성, Satellite)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">📡 2. 트랜스폰더 (Transponder, 중계기) 작동!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"받은 신호(6GHz)를 4GHz로 변환하고 파워를 1만 배 뻥튀기!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(업링크)</div><div class="kb-diagram-cell">(다운링크)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">송신 지구국 (지구 🇰🇷)</div><div class="kb-diagram-cell">수신 지구국 (지구 🇺🇸)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. "야! 신호 쏜다!"</div><div class="kb-diagram-cell">3. "오케이 잘 받았음!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 왜 업링크(올라가는 길)와 다운링크(내려오는 길)의 주파수가 다를까?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 쏘는 전파와 내려오는 전파가 똑같은 주파수면 위성 안테나에서 꽝! 부딪혀서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">간섭(하울링)이 터지기 때문! (항상 업링크 주파수가 다운링크보다 높다!)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│             위성 통신의 3대 핵심 아키텍처: 업링크, 트랜스폰더, 다운링크 시각화│
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [우주 정거장 (위성, Satellite)]                               │
+│       ┌───────────────────────────────────────┐            │
+│       │ 📡 2. 트랜스폰더 (Transponder, 중계기) 작동!│            │
+│       │ "받은 신호(6GHz)를 4GHz로 변환하고 파워를 1만 배 뻥튀기!" │            │
+│       └───────────▲───────────────────────────▼───────────┘            │
+│                   │ (업링크)                │ (다운링크)     │
+│       ┌───────────┴───────────┐ ┌───────────┴───────────┐      │
+│       │ 송신 지구국 (지구 🇰🇷)   │ │ 수신 지구국 (지구 🇺🇸)   │      │
+│       │ 1. "야! 신호 쏜다!"     │ │ 3. "오케이 잘 받았음!"   │      │
+│       └───────────────────────┘ └───────────────────────┘      │
+│                                                             │
+│   * 왜 업링크(올라가는 길)와 다운링크(내려오는 길)의 주파수가 다를까?          │
+│   => 쏘는 전파와 내려오는 전파가 똑같은 주파수면 위성 안테나에서 꽝! 부딪혀서  │
+│      간섭(하울링)이 터지기 때문! (항상 업링크 주파수가 다운링크보다 높다!)   │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 위성 통신 아키텍처의 가장 중요한 뇌(Brain)는 위성 뱃속에 들어있는 <strong>트랜스폰더(Transponder)</strong>다. 지상에서 쏜 전파가 우주를 날아가면 에너지가 거의 0에 수렴할 만큼 미약해진다. 트랜스폰더는 이 죽어가는 파동을 받아 쓰레기 잡음(Noise)을 깎아내고, 다시 우주에서 지구로 쏠 수 있도록 파워를 엄청나게 뻥튀기(Amplification)하는 마법의 앰프다. 또한 올라가는 전파(Uplink)와 내려오는 전파(Downlink)가 공중에서 부딪혀 섞이는 걸 막기 위해, 위성 내부에서 주파수의 색깔(대역)을 억지로 바꿔서 쏴준다(Frequency Translation). 보통 뚫고 올라가는 힘이 더 많이 필요하므로 높은 주파수를 업링크에 쓴다 (예: C-Band 6GHz 업링크 / 4GHz 다운링크).
 
@@ -75,28 +78,29 @@ tags = ["studynote-network"]
 | <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/089_시분할_다중접속_TDMA/">TDMA</a> (시간 쪼개기)</strong> | 주파수 전체 통로를 하나로 둔 뒤, "1초는 한국 쏘고, 2초는 일본 쏘고, 3초는 중국 쏴!"라고 시간표(Slot)를 줌. | 남이 안 쓰는 빈 시간을 뺏어 쓸 수 있어 <strong>디지털 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 전송 효율 극대화.</strong> | 1초마다 번갈아 쏘려면 지구국과 위성 간의 <strong>시간 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a>(타이밍)를 맞추는 게 지옥임.</strong> |
 | <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/">CDMA</a> (코드 섞기)</strong> | 시간, 주파수 다 무시하고 그냥 수천 명이 동시에 냅다 빔을 쏨. 대신 자기들만 아는 '암호 코드(직교 코드)'를 섞어 쏴서, 위성이 코드별로 분리(필터링)해 냄. | 다른 전파 간섭(재밍)과 도청에 미친 듯이 강함. 누가 언제 쏘든 상관없어 유연성 최고. **군사 위성망(GPS) 특화.** | 위성 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)에서 전파를 분리해 내는 수학 연산 칩셋이 미친 듯이 비싸고 복잡함. (근거리 원거리 문제 발생). |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위성의 치명적 약점: 빗방울 감쇠(Rain Fade) 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">맑은 날: 쌩쌩한 위성 인터넷</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">지붕 위 접시 안테나</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 파장이 짧아서(약 2cm) 직진성이 좋고 1Gbps 속도로 빵빵하게 꽂힘!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">비 오는 날: Rain Attenuation (비의 저주) 발생 ⛈️</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">접시 안테나 (먹통)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 공학적 비극: 빗방울의 크기(약 1~2cm)와 Ku 밴드 전파의 파장 길이(2cm)가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서로 딱 맞아떨어지는 순간, 전파가 빗방울을 뚫지 못하고</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">빗방울을 데우는 데 에너지를 다 뺏기며 흡수(공진)되어 버림!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">아키텍처적 방어막 (Adaptive Modulation)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위성: "어? 비 와서 신호가 자꾸 깨지네? QAM 압축률(64-QAM)을 풀고,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가장 무식하지만 단단한 맷집의 BPSK(1비트 전송)로 빔의 성질을 바꿔!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 비가 오면 인터넷 속도는 1/6로 떨어지지만, 카톡 텍스트 하나라도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">어떻게든 지상으로 살려 보내기 위한 눈물겨운 변조 방식의 타협 발동!</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────┐
+│               위성의 치명적 약점: 빗방울 감쇠(Rain Fade) 시각화        │
+├───────────────────────────────────────────────────────────────┤
+│                                                               │
+│   [맑은 날: 쌩쌩한 위성 인터넷]                                     │
+│   위성 (Ku 밴드, 14GHz) ───(레이저 빔 ⚡️)───▶ [지붕 위 접시 안테나]│
+│   => 파장이 짧아서(약 2cm) 직진성이 좋고 1Gbps 속도로 빵빵하게 꽂힘!      │
+│                                                               │
+│   [비 오는 날: Rain Attenuation (비의 저주) 발생 ⛈️]               │
+│   위성 ───(레이저 빔 ⚡️)───▶ 💧빗방울💧 ──X──▶ [접시 안테나 (먹통)] │
+│                                                               │
+│   * 공학적 비극: 빗방울의 크기(약 1~2cm)와 Ku 밴드 전파의 파장 길이(2cm)가 │
+│                서로 딱 맞아떨어지는 순간, 전파가 빗방울을 뚫지 못하고     │
+│                빗방울을 데우는 데 에너지를 다 뺏기며 흡수(공진)되어 버림! │
+│                                                               │
+│   [아키텍처적 방어막 (Adaptive Modulation)]                        │
+│   위성: "어? 비 와서 신호가 자꾸 깨지네? QAM 압축률(64-QAM)을 풀고,      │
+│         가장 무식하지만 단단한 맷집의 BPSK(1비트 전송)로 빔의 성질을 바꿔!"│
+│   => 결과: 비가 오면 인터넷 속도는 1/6로 떨어지지만, 카톡 텍스트 하나라도  │
+│            어떻게든 지상으로 살려 보내기 위한 눈물겨운 변조 방식의 타협 발동!│
+└───────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 위성 통신 엔지니어가 가장 두려워하는 것이 바로 날씨(Rain Fade)다. L 밴드나 C 밴드는 파장이 커서(축구공만 해서) 빗방울(구슬 크기)을 그냥 밀고 지나간다. 하지만 속도를 높이기 위해 채택한 Ku/Ka 밴드는 파장 길이가 빗방울 크기와 거의 똑같아서, 파동이 빗방울을 만나는 순간 산란되거나 수분에 에너지를 완전히 흡수당한다. 이를 극복하기 위해 비가 올 때는 지상국과 위성이 **ACM (적응형 변조 및 코딩)** 기술을 발동하여, 고속 변조(QAM)를 풀고 가장 저속이지만 튼튼한 QPSK 등으로 변조 방식을 실시간으로 기어 변속하듯 바꿔치기하며 통신의 끈을 놓지 않는다.
 
@@ -169,19 +173,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: C-V2X</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 위성 통신 특징</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 정지 궤도 위성</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 무선 자원 제어</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: C-V2X]
+    │
+    ▼
+[현재 개념: 위성 통신 특징]
+    │
+    ├──▶ [확장 A: 정지 궤도 위성]
+    └──▶ [확장 B: 지능형 무선 자원 제어]
+```
 
 위성 통신 특징는 C-V2X에서 출발해 현재 메커니즘을 정교화하고, 이후 [정지 궤도 위성](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/593_geo_geostationary_earth_orbit_satellite/)와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

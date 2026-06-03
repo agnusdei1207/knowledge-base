@@ -797,7 +797,7 @@ tags = ["studynote-computer-architecture"]
 748. [과열 보호](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/748_otp/) ([OTP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/748_otp/), Over [Temperature](/knowledge-base/studynote/10_ai/05_data_science_ml/386_llm_temperature/) [Protection](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/))
 749. [무정전 운영](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/749_non_stop_operation/) ([Non-Stop Operation](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/749_non_stop_operation/)) 아키텍처
 750. [결함 주입 테스트](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/750_fault_injection_test/) ([Fault Injection Test](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/750_fault_injection_test/))
-751. [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/) ([Chaos Engineering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)) HW 모의
+751. [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/) ([Chaos 엔진ering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)) HW 모의
 752. [FMEA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/752_fmea/) (Failure Mode and Effects Analysis)
 753. [FTA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/753_fta/) ([Fault Tree Analysis](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/753_fta/))
 754. [신뢰성 블록 다이어그램](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/754_rbd/) ([RBD](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/754_rbd/))
@@ -826,7 +826,7 @@ tags = ["studynote-computer-architecture"]
 777. Evict+Time 기법
 778. 전력 분석 공격 - DPA ([Differential Power Analysis](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/778_dpa_resistant_logic/))
 779. 전자기 분석 공격 - EMA
-780. [물리적 분해 분석](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/780_reverse_engineering/) ([Reverse Engineering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/780_reverse_engineering/))
+780. [물리적 분해 분석](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/780_reverse_engineering/) ([Reverse 엔진ering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/780_reverse_engineering/))
 781. [FIB](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/) ([Focused Ion Beam](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/)) 수정
 782. [디캡핑](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/782_decapping_probing/) ([Decapping](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/782_decapping_probing/)) 및 프로빙 (Probing)
 783. [안티 탬퍼](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/783_anti_tamper_mesh/) ([Anti-Tamper](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/783_anti_tamper_mesh/)) [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)/쉴드

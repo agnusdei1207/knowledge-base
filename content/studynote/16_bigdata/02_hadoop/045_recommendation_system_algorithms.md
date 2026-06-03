@@ -22,24 +22,24 @@ tags = ["studynote-bigdata"]
 
 개인화 없이는 수백만 개의 상품·영화·노래 중에서 사용자가 원하는 것을 스스로 찾아야 한다. 이는 정보 과부하(Information Overload)로 이어지고, 사용자는 불만족 후 이탈한다. [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)은 이 탐색 비용을 대신 부담함으로써 플랫폼의 체류 시간(Engagement)과 전환율(Conversion)을 극적으로 향상시킨다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">추천 시스템 3대 알고리즘 유형</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 협업 필터링 (CF)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"나와 비슷한 사용자가 좋아한 것을 추천"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ User-Based CF, Item-Based CF, Matrix Factorization</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 콘텐츠 기반 필터링 (CBF)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"내가 좋아한 것과 비슷한 속성의 아이템을 추천"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ TF-IDF, 코사인 유사도, 아이템 프로필</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 하이브리드 (Hybrid)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CF + CBF 혼합으로 각 방식의 단점 보완</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Netflix Prize 우승 모델, 딥러닝 Two-Tower 모델</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────┐
+│            추천 시스템 3대 알고리즘 유형                       │
+├────────────────────────────────────────────────────────────┤
+│                                                            │
+│  1. 협업 필터링 (CF)                                        │
+│     "나와 비슷한 사용자가 좋아한 것을 추천"                   │
+│     └─ User-Based CF, Item-Based CF, Matrix Factorization  │
+│                                                            │
+│  2. 콘텐츠 기반 필터링 (CBF)                                 │
+│     "내가 좋아한 것과 비슷한 속성의 아이템을 추천"             │
+│     └─ TF-IDF, 코사인 유사도, 아이템 프로필                   │
+│                                                            │
+│  3. 하이브리드 (Hybrid)                                     │
+│     CF + CBF 혼합으로 각 방식의 단점 보완                    │
+│     └─ Netflix Prize 우승 모델, 딥러닝 Two-Tower 모델         │
+└────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)은 도서관 사서와 같다. "당신이 읽은 책들을 보니, 이런 책들도 좋아하실 것 같아요"라고 개인 맞춤으로 골라주는 지식 큐레이터다.
 
@@ -49,21 +49,20 @@ tags = ["studynote-bigdata"]
 
 ### [협업 필터링](/knowledge-base/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/) 핵심: [행렬 분해](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/161_matrix_decomposition/) ([Matrix Factorization](/knowledge-base/studynote/06_ict_convergence/05_data_science/348_matrix_factorization/))
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자-아이템 행렬과 잠재 요인 분해</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원래 행렬 (희소): 분해 후:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A B C D User Matrix × Item Matrix</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">User1 5 ? 3 ?</div><div class="kb-diagram-node">잠재 요인 k개</div><div class="kb-diagram-note">으로 압축</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User2 ? 4 ? 5</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User3 2 ? ? 3 SVD / ALS / SGD로 최적화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"?"를 예측 → 높은 예측값 = 추천</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────┐
+│          사용자-아이템 행렬과 잠재 요인 분해                 │
+├──────────────────────────────────────────────────────────┤
+│                                                          │
+│  원래 행렬 (희소):          분해 후:                        │
+│         A  B  C  D          User Matrix × Item Matrix   │
+│  User1  5  ?  3  ?          [잠재 요인 k개]으로 압축       │
+│  User2  ?  4  ?  5                                       │
+│  User3  2  ?  ?  3          SVD / ALS / SGD로 최적화      │
+│                                                          │
+│  "?"를 예측 → 높은 예측값 = 추천                            │
+└──────────────────────────────────────────────────────────┘
+```
 
 | [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 특징 | 강점 | 한계 |
 |:---|:---|:---|:---|
@@ -140,23 +139,21 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">콘텐츠 기반 필터링 — 아이템 속성 유사도</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">협업 필터링 (User/Item CF) — 사용자 행동 유사도</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">행렬 분해 (ALS/SVD) — 잠재 요인 추출, 빅데이터 확장</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">딥러닝 추천 (NCF, Two-Tower, BERT4Rec) — 비선형 패턴</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LLM 기반 대화형 추천 — 자연어 맥락 이해 추천</div></div>
-</div>
-</div>
-
-
+```text
+[콘텐츠 기반 필터링 — 아이템 속성 유사도]
+    │
+    ▼
+[협업 필터링 (User/Item CF) — 사용자 행동 유사도]
+    │
+    ▼
+[행렬 분해 (ALS/SVD) — 잠재 요인 추출, 빅데이터 확장]
+    │
+    ▼
+[딥러닝 추천 (NCF, Two-Tower, BERT4Rec) — 비선형 패턴]
+    │
+    ▼
+[LLM 기반 대화형 추천 — 자연어 맥락 이해 추천]
+```
 콘텐츠 기반에서 [협업 필터링](/knowledge-base/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/), [행렬 분해](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/161_matrix_decomposition/), 딥러닝을 거쳐 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 대화형 추천으로 진화하는 [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)의 발전 흐름이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

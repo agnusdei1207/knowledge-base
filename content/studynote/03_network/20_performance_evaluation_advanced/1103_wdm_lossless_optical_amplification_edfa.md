@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 광섬유는 세상에서 제일 투명한 유리지만, 100km를 지나가면 불순물(레일리 [산란](/knowledge-base/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/)) 등에 의해 빛의 에너지가 99% 사라져 칠흑같이 어두워집니다.
 - **O-E-O 변환의 악몽**: 옛날에는 희미해진 빛(Optical)을 기계가 받아서 전기(Electrical)로 바꾸고 0과 1을 증폭시킨 다음 다시 빛(Optical)으로 쐈습니다. 속도 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(병목)이 엄청났고 기계가 비싸서 바닷속에 깔 수가 없었습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">광섬유 싱글모드 다중모드</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">WDM 무손실 광 증폭</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">O-RAN 프론트홀 개방 사양</div></div>
-</div>
-</div>
-
-
+```text
+[광섬유 싱글모드 다중모드]
+    │
+    ▼
+[WDM 무손실 광 증폭]
+    │
+    └──▶ [O-RAN 프론트홀 개방 사양]
+```
 
 - **📢 섹션 요약 비유**: WDM 무손실 광 증폭은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -43,18 +39,14 @@ tags = ["studynote-network"]
 
 - **개념**: O-E-O 변환(전기 변환) 과정 따위는 완전히 생략하고, <strong>희미해진 빛의 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a> 자체를 물리적인 상태 그대로 에너지만 뻥튀기(증폭) 시켜서 다시 100km를 날려 보내는 순수 광학 펌핑 장치</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">광섬유 싱글모드 다중모드</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">WDM 무손실 광 증폭</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">O-RAN 프론트홀 개방 사양</div></div>
-</div>
-</div>
-
-
+```text
+[광섬유 싱글모드 다중모드]
+    │
+    ▼
+[WDM 무손실 광 증폭]
+    │
+    └──▶ [O-RAN 프론트홀 개방 사양]
+```
 
 - **📢 섹션 요약 비유**: WDM 무손실 광 증폭의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -122,19 +114,15 @@ WDM 무손실 광 증폭을 볼 때는 앞뒤 개념과의 경계를 함께 봐�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 광섬유 싱글모드 다중모드</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: WDM 무손실 광 증폭</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: O-RAN 프론트홀 개방 사양</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 광섬유 싱글모드 다중모드]
+    │
+    ▼
+[현재 개념: WDM 무손실 광 증폭]
+    │
+    ├──▶ [확장 A: O-RAN 프론트홀 개방 사양]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 WDM 무손실 광 증폭는 [광섬유 싱글모드 다중모드](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1102_optical_fiber_single_mode_multi_mode/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [O-RAN](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/) [프론트홀](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/) 개방 사양와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

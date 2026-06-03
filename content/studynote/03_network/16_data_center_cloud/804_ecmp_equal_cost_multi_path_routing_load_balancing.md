@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: 라우터가 특정 목적지(IP 주소)로 데이터를 보낼 때, [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블 상에 <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a>(Cost, 거리나 비용)가 완전히 똑같은 여러 개의 최적 경로(Multi-Path)가 존재할 경우, 그 여러 개의 경로를 하나도 버리지 않고 동시에 사용하여 트래픽을 <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>로 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 전송(부하 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>)하는 네트워크 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a> 기술</strong>입니다.
 - **적용**: [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/), [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 같은 L3(네트워크 계층) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)에서 기본적으로 지원하는 강력한 부하 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)([Load Balancing](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/196_hard_soft_real_time/)) 알고리즘입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">오버서브스크립션 비율 설계 개념 분산망 대역</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ECMP 스파인-리프 병렬 라우팅 경로 활성…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Clos 네트워크</div></div>
-</div>
-</div>
-
-
+```text
+[오버서브스크립션 비율 설계 개념 분산망 대역]
+    │
+    ▼
+[ECMP 스파인-리프 병렬 라우팅 경로 활성…]
+    │
+    └──▶ [Clos 네트워크]
+```
 
 - **📢 섹션 요약 비유**: ECMP 스파인-리프 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 경로 활성…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -51,18 +47,14 @@ tags = ["studynote-network"]
 - 1번 Leaf [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 위에 있는 4개의 Spine [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)와 연결되어 있습니다. 4개의 Spine [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 거쳐 2번 Leaf로 가는 거리는 1-Hop으로 완벽하게 똑같습니다(Equal-Cost).
 - **동작**: 1번 Leaf는 4개의 선을 하나도 끊지 않고(Active-Active), 트래픽을 해시 알고리즘으로 쪼개서 <strong>4개의 Spine <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> 구멍으로 동시에 25%씩 미친 듯이 뿜어냅니다.</strong> 대역폭이 40Gbps에서 순식간에 160Gbps로 4배 뻥튀기됩니다. Spine [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 사서 꽂을수록 대역폭이 무한 확장([Scale-out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/))됩니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">오버서브스크립션 비율 설계 개념 분산망 대역</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ECMP 스파인-리프 병렬 라우팅 경로 활성…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Clos 네트워크</div></div>
-</div>
-</div>
-
-
+```text
+[오버서브스크립션 비율 설계 개념 분산망 대역]
+    │
+    ▼
+[ECMP 스파인-리프 병렬 라우팅 경로 활성…]
+    │
+    └──▶ [Clos 네트워크]
+```
 
 - **📢 섹션 요약 비유**: ECMP 스파인-리프 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 경로 활성…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -128,19 +120,15 @@ ECMP 스파인-리프 [병렬](/knowledge-base/studynote/05_database/07_exam_sum
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 오버서브스크립션 비율 설계 개념 분산망 대역</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: ECMP 스파인-리프 병렬 라우팅 경로 활성…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: Clos 네트워크</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 오버서브스크립션 비율 설계 개념 분산망 대역]
+    │
+    ▼
+[현재 개념: ECMP 스파인-리프 병렬 라우팅 경로 활성…]
+    │
+    ├──▶ [확장 A: Clos 네트워크]
+    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
+```
 
 ECMP 스파인-리프 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 경로 활성…는 [오버서브스크립션 비율](/knowledge-base/studynote/03_network/16_data_center_cloud/803_oversubscription_ratio_data_center_bandwidth/) 설계 개념 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)망 대역에서 출발해 현재 메커니즘을 정교화하고, 이후 Clos 네트워크와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

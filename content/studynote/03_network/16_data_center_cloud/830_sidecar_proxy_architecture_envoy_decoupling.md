@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)) 및 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 환경에서, 메인 애플리케이션이 들어있는 주(Main) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 전혀 수정하지 않은 채, <strong>메인 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a>와 완벽하게 동일한 생명주기(Lifecycle, 같이 태어나고 같이 죽음)를 공유하는 보조(<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/546_sidecar_proxy_pattern/">Sidecar</a>) <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a>를 바로 옆에 딱 붙여서 띄워, 네트워크 통신/보안/로깅 등의 인프라 궂은일을 전담하여 대행(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">Proxy</a>)하게 만드는 소프트웨어 설계 패턴</strong>입니다.
 - [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)에서는 이 2개의 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)(메인 + 사이드카)를 하나로 묶어서 하나의 <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/">포드</a>(<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/">Pod</a>)</strong>라는 캡슐 안에 구겨 넣는 방식으로 완벽히 구현합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Istio</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">사이드카</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">mTLS 마이크로서비스 간 신뢰 통신 양방향…</div></div>
-</div>
-</div>
-
-
+```text
+[Istio]
+    │
+    ▼
+[사이드카]
+    │
+    └──▶ [mTLS 마이크로서비스 간 신뢰 통신 양방향…]
+```
 
 - **📢 섹션 요약 비유**: 사이드카는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -47,18 +43,14 @@ tags = ["studynote-network"]
   - 메인 앱은 자바든 파이썬이든 C++이든 전혀 상관없습니다. 메인 앱은 "나 지금 통신 끊길까 봐 쫄리니까 암호화해서 재전송 로직 넣어줘" 같은 건 신경 아예 끄고, **그냥 "내 바로 옆자리(localhost) 80번 포트에 있는 놈한테 던지면 알아서 가겠지" 하고 무지성으로 데이터를 평문으로 툭 던집니다.**
   - 옆에 찰싹 붙어 대기하던 <strong>사이드카 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">프록시</a>(Envoy 등, C++ 언어로 만들어짐)</strong>가 이 데이터를 날름 받아먹습니다. 그리고 지가 알아서 100% 빡센 [HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/) 암호화를 걸고, 외부 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 길을 찾고, 끊기면 3번 재전송하는 등 생쇼를 다 한 뒤에 저 멀리 타겟 서버로 날려 보냅니다. 메인 코드가 인프라 잡일에서 영원히 해방(Decoupling)되는 마법입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Istio</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">사이드카</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">mTLS 마이크로서비스 간 신뢰 통신 양방향…</div></div>
-</div>
-</div>
-
-
+```text
+[Istio]
+    │
+    ▼
+[사이드카]
+    │
+    └──▶ [mTLS 마이크로서비스 간 신뢰 통신 양방향…]
+```
 
 - **📢 섹션 요약 비유**: 사이드카의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -121,19 +113,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: Istio</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 사이드카</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: mTLS 마이크로서비스 간 신뢰 통신 양방향…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: Istio]
+    │
+    ▼
+[현재 개념: 사이드카]
+    │
+    ├──▶ [확장 A: mTLS 마이크로서비스 간 신뢰 통신 양방향…]
+    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
+```
 
 사이드카는 Istio에서 출발해 현재 메커니즘을 정교화하고, 이후 [mTLS](/knowledge-base/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/) [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 간 신뢰 통신 양방향…와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

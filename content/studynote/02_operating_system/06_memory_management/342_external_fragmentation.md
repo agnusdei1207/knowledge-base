@@ -27,24 +27,28 @@ tags = ["studynote-operating-system"]
   2. **새로운 프로세스의 진입**: 그 자리에 10MB짜리 프로세스가 들어오면 5MB가 남는다. 이 5MB 구멍 옆에는 사용 중인 블록이 버티고 있어 합쳐지지 못한다.
   3. **재앙의 누적**: 이 과정이 수천 번 반복되면 메모리는 1KB, 3MB 식의 미세한 쓰레기 조각들로 가득 찬다. 결국 빈 램은 많은데 "메모리가 부족합니다"라는 에러를 뱉는 모순적 사태가 벌어진다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">외부 단편화(External Fragmentation)의 딜레마 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 물리 메모리 상태: 프로세스 교체 반복 후</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P1</div><div class="kb-diagram-cell">▒ 빈공간 ▒</div><div class="kb-diagram-cell">P2</div><div class="kb-diagram-cell">▒빈공간▒</div><div class="kb-diagram-cell">P3</div><div class="kb-diagram-cell">▒ 빈공간 ▒</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">30M</div><div class="kb-diagram-cell">15MB</div><div class="kb-diagram-cell">20M</div><div class="kb-diagram-cell">10MB</div><div class="kb-diagram-cell">10M</div><div class="kb-diagram-cell">15MB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 남은 빈 공간의 총합 = 15 + 10 + 15 = 40MB</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">새 프로세스 요청</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로세스 P4가 30MB의 공간을 요구하며 메모리에 올라오려 함.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">OS의 판정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"전체 40MB가 비어있지만, 가장 큰 연속된 구멍이 15MB밖에 없군."</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"P4 너는 들어갈 수 없다. 실행 거부 (Allocation Failed)!"</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│        외부 단편화(External Fragmentation)의 딜레마 시각화           │
+├──────────────────────────────────────────────────────────────────────┤
+│                                                                      │
+│ [ 현재 물리 메모리 상태: 프로세스 교체 반복 후 ]                     │
+│                                                                      │
+│ ┌─────┬──────────┬─────┬─────────┬─────┬──────────┐                  │
+│ │ P1  │ ▒ 빈공간 ▒ │ P2  │ ▒빈공간▒ │ P3  │ ▒ 빈공간 ▒ │             │
+│ │ 30M │   15MB   │ 20M │  10MB   │ 10M │   15MB   │                  │
+│ └─────┴──────────┴─────┴─────────┴─────┴──────────┘                  │
+│                                                                      │
+│ ▶ 남은 빈 공간의 총합 = 15 + 10 + 15 = 40MB                          │
+│                                                                      │
+│ [ 새 프로세스 요청 ]                                                 │
+│ 프로세스 P4가 30MB의 공간을 요구하며 메모리에 올라오려 함.           │
+│                                                                      │
+│ [ OS의 판정 ]                                                        │
+│ "전체 40MB가 비어있지만, 가장 큰 연속된 구멍이 15MB밖에 없군."       │
+│ "P4 너는 들어갈 수 없다. 실행 거부 (Allocation Failed)!"             │
+└──────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 이 현상의 핵심은 '연속성(Contiguous)'에 대한 강박이다. 과거의 메모리 관리 기법이나 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)은 프로세스가 메모리상에 한 덩어리(또는 큰 의미 단위)로 이어져 있어야 한다는 물리적 제약이 있었다. 전체 면적(Total Free Memory)이 아무리 넓어도, 그것이 조각나 있으면 무용지물이 되는 현상, 이것이 컴퓨터 공학을 수십 년간 괴롭힌 외부 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)다.
 
 - **📢 섹션 요약 비유**: 하드디스크에 영화를 다운받으려는데, 남은 용량은 10GB지만 디스크 곳곳에 100MB씩 흩어져 있어서 2GB짜리 통짜 영화 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 저장할 수 없다고 에러가 나는 뼈아픈 상황입니다.
@@ -69,24 +73,25 @@ tags = ["studynote-operating-system"]
 
 외부 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)가 한계치에 다다르면, OS는 극약 처방인 '메모리 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)'을 실행한다. 이 아키텍처는 모든 흩어진 빈 공간을 메모리 끝으로 모아 하나의 '거대한 구멍(Big Hole)'으로 만드는 수집 연산이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">외부 단편화의 물리적 해결책: 압축 (Compaction)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">압축 전 (Before Compaction)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">P1 10M</div><div class="kb-diagram-node">빈 5M</div><div class="kb-diagram-node">P2 20M</div><div class="kb-diagram-node">빈 10M</div><div class="kb-diagram-node">P3 15M</div><div class="kb-diagram-node">빈 5M</div><div class="kb-diagram-note">(파편화 극심)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↓↓↓ OS가 흩어진 프로세스를 복사하여 한쪽 벽으로 밀어버림 ↓↓↓</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">압축 후 (After Compaction)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">P1 10M</div><div class="kb-diagram-node">P2 20M</div><div class="kb-diagram-node">P3 15M</div><div class="kb-diagram-node">▒▒▒▒ 합쳐진 거대 빈 공간 20M ▒▒▒▒</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⚠ 압축의 치명적 대가 (Overhead)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 20M(P2)와 15M(P3)의 데이터를 물리적으로 복사(Memory Copy)해야 함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 이사 간 프로세스의 Base 레지스터 주소를 모두 재계산해서 바꿔줘야 함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 이 과정 동안 CPU는 다른 일(사용자 프로그램)을 멈춰야 함 (System Stop)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────┐
+│              외부 단편화의 물리적 해결책: 압축 (Compaction)              │
+├──────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│ [ 압축 전 (Before Compaction) ]                                          │
+│ [P1 10M][빈 5M][P2 20M][빈 10M][P3 15M][빈 5M] (파편화 극심)             │
+│                                                                          │
+│     ↓↓↓ OS가 흩어진 프로세스를 복사하여 한쪽 벽으로 밀어버림 ↓↓↓         │
+│                                                                          │
+│ [ 압축 후 (After Compaction) ]                                           │
+│ [P1 10M][P2 20M][P3 15M][ ▒▒▒▒ 합쳐진 거대 빈 공간 20M ▒▒▒▒ ]            │
+│                                                                          │
+│ ⚠ 압축의 치명적 대가 (Overhead)                                          │
+│ 1. 20M(P2)와 15M(P3)의 데이터를 물리적으로 복사(Memory Copy)해야 함      │
+│ 2. 이사 간 프로세스의 Base 레지스터 주소를 모두 재계산해서 바꿔줘야 함   │
+│ 3. 이 과정 동안 CPU는 다른 일(사용자 프로그램)을 멈춰야 함 (System Stop) │
+└──────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)은 논리적으로 완벽한 해결책이다. 흩어진 5M, 10M, 5M 구멍이 합쳐져 20M의 온전한 덩어리가 되었으니 새 프로세스를 올릴 수 있다. 하지만 기가바이트(GB) 단위의 현대 메모리에서 이 작업을 수행하면 메모리 복사 대역폭을 모두 소모하여 시스템이 수 초간 완전히 멈추는 프리즈(Freeze) 현상이 발생한다. 즉, '해결책의 비용이 문제 자체보다 커지는' 모순에 부딪힌다. (Windows 하드디스크의 '디스크 조각 모음'이 이와 동일한 원리다)
 
@@ -121,17 +126,14 @@ tags = ["studynote-operating-system"]
 3. <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/">세그멘테이션</a> (<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/">Segmentation</a>)</strong>: 코드는 연속되게 의미 단위로 찢음. 여전히 크기가 제각각이라 외부 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 발생 → 버려
 4. <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/">페이징</a> (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/">Paging</a>)</strong>: 메모리를 무조건 4KB로 찢어서 흩뿌림. <strong>외부 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/">단편화</a> 0% 달성</strong>. (마지막 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)에서 [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/) 미세 발생) → **현대 OS의 최종 승리자**
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">아키텍처</div><div class="kb-diagram-cell">공간 연속성</div><div class="kb-diagram-cell">외부 단편화</div><div class="kb-diagram-cell">내부 단편화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가변 분할</div><div class="kb-diagram-cell">강제함</div><div class="kb-diagram-cell">☠️ 치명적</div><div class="kb-diagram-cell">발생 안 함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페이징</div><div class="kb-diagram-cell">완전히 찢음</div><div class="kb-diagram-cell">🟢 발생 안함</div><div class="kb-diagram-cell">🟡 미세 발생</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬────────────────────┐
+│ 아키텍처   │ 공간 연속성  │ 외부 단편화  │ 내부 단편화  │
+├──────────┼────────────┼────────────┼────────────────────┤
+│ 가변 분할  │ 강제함      │ ☠️ 치명적   │ 발생 안 함     │
+│ 페이징     │ 완전히 찢음  │ 🟢 발생 안함 │ 🟡 미세 발생 │
+└──────────┴────────────┴────────────┴────────────────────┘
+```
 **[매트릭스 해설]** 컴퓨터 과학은 딜레마 상황에서 더 싼 비용을 선택하는 학문이다. 외부 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)를 해결하기 위해 치러야 할 '메모리 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)([Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/))' 비용은 시스템 멈춤이라는 끔찍한 결과를 낳았다. 반면 [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)는 기껏해야 4KB당 2KB를 버리는 푼돈 수준이다. 인류는 "그냥 메모리를 아주 잘게 조각내어([페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)) 아무 빈 곳에나 뿌리고 외부 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)를 멸종시키자. 내부 낭비 조금 생기는 건 램을 하나 더 사서 꽂는 게 싸다"라는 결론에 도달했다.
 
 - **📢 섹션 요약 비유**: 큰 종이에서 원하는 모양을 계속 오려내다 보면 결국 종이 전체가 너덜너덜해져서(외부 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)) 못 쓰게 되는데, 아예 처음부터 색종이를 정사각형 모자이크 타일([페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/))로 만들어 조립하면 버리는 종이가 없어지는 원리입니다.
@@ -187,19 +189,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">내부 단편화 (Internal Fragmentation)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">외부 단편화 (External Fragmentation)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">동적 메모리 할당 문제 (가변 분할 배치 알고리즘)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">최초 적합 (First-Fit)</div></div>
-</div>
-</div>
-
-
+```text
+[내부 단편화 (Internal Fragmentation)]
+    │
+    ▼
+[외부 단편화 (External Fragmentation)]
+    │
+    ├──▶ [동적 메모리 할당 문제 (가변 분할 배치 알고리즘)]
+    └──▶ [최초 적합 (First-Fit)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

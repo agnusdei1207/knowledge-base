@@ -22,24 +22,23 @@ tags = ["hadoop", "studynote-bigdata"]
 
 HDFS는 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터-워커(Master-Worker) 아키텍처로 작동하며, [네임노드](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/)와 다수의 [데이터노드](/knowledge-base/studynote/14_data_engineering/01_infrastructure/015_datanode/)로 구성됩니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NameNode</div><div class="kb-diagram-cell">DataNode 1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Master Node)</div><div class="kb-diagram-cell">(Worker Node)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Namespace/Meta</div><div class="kb-diagram-cell">&lt;-- Heart --&gt;</div><div class="kb-diagram-cell">- Block A (128MB)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Block Map</div><div class="kb-diagram-cell">beat</div><div class="kb-diagram-cell">- Block B (128MB)</div></div>
-<div class="kb-diagram-note">Read/Write Request</div>
-<div class="kb-diagram-note">v</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client</div><div class="kb-diagram-cell">DataNode 2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Application)</div><div class="kb-diagram-cell">&lt;===========&gt;</div><div class="kb-diagram-cell">(Worker Node)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- File splitting</div><div class="kb-diagram-cell">Data Flow</div><div class="kb-diagram-cell">- Block A (Replica)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+-------------------+</div><div class="kb-diagram-cell">- Block C (128MB)</div></div>
-</div>
-</div>
-
-
+```text
++-------------------+             +-----------------------+
+|    NameNode       |             |      DataNode 1       |
+|  (Master Node)    |             |  (Worker Node)        |
+| - Namespace/Meta  |<-- Heart -->| - Block A (128MB)     |
+| - Block Map       |    beat     | - Block B (128MB)     |
++---------+---------+             +-----------------------+
+          |
+          | Read/Write Request
+          v
++-------------------+             +-----------------------+
+|     Client        |             |      DataNode 2       |
+| (Application)     |<===========>|  (Worker Node)        |
+| - File splitting  |  Data Flow  | - Block A (Replica)   |
++-------------------+             | - Block C (128MB)     |
+                                  +-----------------------+
+```
 
 1. **블록(Block) 분할 (기본 128MB)**: 리눅스 기본 블록(4KB)보다 수만 배 거대한 사이즈. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [탐색 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/)([Seek Time](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/)) 비중을 줄이고 디스크 전송 속도에 연산 속도를 맞추기 위해 거대하게 설계되었습니다.
 2. <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a> 계수 (<a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">Replication Factor</a> 3)</strong>: 원본 블록 A가 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되면, 동일 랙의 다른 노드에 1벌, 전혀 다른 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 전원을 쓰는 랙의 노드에 1벌을 복사([Rack Awareness](/knowledge-base/studynote/14_data_engineering/01_infrastructure/017_rack_awareness/))하여 화재나 정전에도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보존합니다.
@@ -68,19 +67,15 @@ HDFS는 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_re
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 빅데이터 인프라, 분산 파일 시스템</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">핵심 기술: 네임노드(NameNode), 데이터노드(DataNode), 블록 128MB, 3중 복제</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">확장 및 응용: 작은 파일 문제(Small File Problem), 랙 인지(Rack Awareness), AWS S3</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 빅데이터 인프라, 분산 파일 시스템]
+    │
+    ▼
+[핵심 기술: 네임노드(NameNode), 데이터노드(DataNode), 블록 128MB, 3중 복제]
+    │
+    ▼
+[확장 및 응용: 작은 파일 문제(Small File Problem), 랙 인지(Rack Awareness), AWS S3]
+```
 
 이 흐름도는 선행 개념: 빅데이터 인프라, [분산 파일 시스템](/knowledge-base/studynote/02_operating_system/09_file_system/553_distributed_file_system/)에서 출발해 확장 및 응용: 작은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 문제([Small File Problem](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/269_small_file_problem_data_lakehouse/)), [랙 인지](/knowledge-base/studynote/14_data_engineering/01_infrastructure/017_rack_awareness/)([Rack Awareness](/knowledge-base/studynote/14_data_engineering/01_infrastructure/017_rack_awareness/)), AWS S3까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

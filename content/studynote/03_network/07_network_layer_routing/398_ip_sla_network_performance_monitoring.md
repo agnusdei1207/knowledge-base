@@ -26,18 +26,14 @@ tags = ["studynote-network"]
   - 내 눈앞의 갱도(물리적 링크)가 아무리 멀쩡해 보여도, 저 멀리 갱도 끝에서 독가스(L3 장애)가 새어 나오면 광부(라우터)는 눈치채지 못하고 죽습니다.
   - 광부는 카나리아(IP [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) Ping)를 계속 새장 안에 두고 관찰합니다. 만약 카나리아가 찍! 하고 죽어버리면(Ping Fail), 광부는 눈앞의 길이 멀쩡해도 즉시 발길을 돌려 <strong>비상 탈출구(<a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">백업</a> <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a>)</strong>로 대피하여 생명을 구합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">GLBP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IP SLA</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Anycast 라우팅 (BGP Anycast</div></div>
-</div>
-</div>
-
-
+```text
+[GLBP]
+    │
+    ▼
+[IP SLA]
+    │
+    └──▶ [Anycast 라우팅 (BGP Anycast]
+```
 
 - **📢 섹션 요약 비유**: ** IP SLA는 자율 주행 자동차 전방의 **"레이더/라이다 센서"**입니다. 차가 눈감고 달리다가 벽에 부딪혀야(Link Down) 멈추는 게 아니라, 레이더 전파(탐지 패킷)를 계속 쏴서 앞 도로가 막혔는지 미리 파악하고 스티어링 휠을 돌릴 수 있게 해주는 고도의 센서 기술입니다.
 
@@ -52,18 +48,14 @@ tags = ["studynote-network"]
 - 임무: `구글 DNS(8.8.8.8)`를 향해 5초마다 한 번씩 [ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) Echo(Ping)를 쏜다.
 - 조건: 2초 안에 대답이 안 오면 [Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/)(실패)으로 간주한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">GLBP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IP SLA</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Anycast 라우팅 (BGP Anycast</div></div>
-</div>
-</div>
-
-
+```text
+[GLBP]
+    │
+    ▼
+[IP SLA]
+    │
+    └──▶ [Anycast 라우팅 (BGP Anycast]
+```
 
 - **📢 섹션 요약 비유**: IP SLA의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -82,26 +74,27 @@ tags = ["studynote-network"]
 - <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">백업</a> 룰</strong>: `ip route 0.0.0.0 0.0.0.0 [LG IP] 200`
   - (해석: AD 200점짜리 플로팅 스태틱(Floating Static) 예비 길이다. 평소엔 죽어있다).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IP SLA + Track 기반 무중단 페일오버(Failover) 시나리오</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">평소 상태 (정상)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- SLA 센서: 구글 핑 성공! ──▶ Track 1: UP 상태!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 라우팅 테이블: 메인 KT 선로 유지 (AD 1점이라 LG선은 무시됨).</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">KT 통신사 외부 5km 지점 포크레인 단절 발생!!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- SLA 센서: 구글 핑 타임아웃! (3번 연속 실패)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Track 1 상태 변경: DOWN! (불 꺼짐)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">기적의 오토 페일오버 발동</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 라우터 왈: "트랙 1 불 꺼졌네? 메인 KT 룰 라우팅 테이블에서 삭제해!!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 라우터 왈: "어? 1등 길 삭제되니까 뒤에 숨어있던 AD 200점짜리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LG 백업 길이 위로 둥둥 떠오르네(플로팅)? LG로 쏴라!!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: 라우터 물리 링크는 켜져 있는데도 귀신같이 우회로로 자동 전환됨.</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                IP SLA + Track 기반 무중단 페일오버(Failover) 시나리오 │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 평소 상태 (정상) ]                                          │
+ │   - SLA 센서: 구글 핑 성공! ──▶ Track 1: UP 상태!              │
+ │   - 라우팅 테이블: 메인 KT 선로 유지 (AD 1점이라 LG선은 무시됨).      │
+ │                                                             │
+ │   [ KT 통신사 외부 5km 지점 포크레인 단절 발생!! ]                  │
+ │   - SLA 센서: 구글 핑 타임아웃! (3번 연속 실패)                  │
+ │   - Track 1 상태 변경: DOWN! (불 꺼짐)                        │
+ │                                                             │
+ │   [ 기적의 오토 페일오버 발동 ]                                   │
+ │   - 라우터 왈: "트랙 1 불 꺼졌네? 메인 KT 룰 라우팅 테이블에서 삭제해!!" │
+ │   - 라우터 왈: "어? 1등 길 삭제되니까 뒤에 숨어있던 AD 200점짜리       │
+ │               LG 백업 길이 위로 둥둥 떠오르네(플로팅)? LG로 쏴라!!"   │
+ │                                                             │
+ │   ▶ 결과: 라우터 물리 링크는 켜져 있는데도 귀신같이 우회로로 자동 전환됨. │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 4. 진단 도구로써의 가치 (Voice Jitter 등)
 IP SLA는 단순 핑뿐만 아니라 훨씬 고차원적인 진단을 할 수 있다.
@@ -150,19 +143,15 @@ IP SLA는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_rout
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: GLBP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: IP SLA</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: Anycast 라우팅 (BGP Anycast</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: GLBP]
+    │
+    ▼
+[현재 개념: IP SLA]
+    │
+    ├──▶ [확장 A: Anycast 라우팅 (BGP Anycast]
+    └──▶ [확장 B: 의도 기반 라우팅]
+```
 
 IP SLA는 GLBP에서 출발해 현재 메커니즘을 정교화하고, 이후 Anycast [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) ([BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) Anycast와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

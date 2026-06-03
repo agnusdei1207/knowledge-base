@@ -45,35 +45,34 @@ NP 의미:
 
 ## Ⅱ. NP 클래스 예시
 
+```
+NP에 속하는 대표 문제들:
 
+1. 부분합 문제 (Subset Sum):
+   S = {3, 1, 1, 2, 5}에서 합이 9인 부분집합?
+   검증: 주어진 부분집합의 합 계산 O(n) -> 빠름
+   해결: 모든 부분집합 탐색 O(2^n) -> 느림
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">NP에 속하는 대표 문제들:</div>
-<div class="kb-diagram-note">1. 부분합 문제 (Subset Sum):</div>
-<div class="kb-diagram-note">S = {3, 1, 1, 2, 5}에서 합이 9인 부분집합?</div>
-<div class="kb-diagram-note">검증: 주어진 부분집합의 합 계산 O(n) -&gt; 빠름</div>
-<div class="kb-diagram-note">해결: 모든 부분집합 탐색 O(2^n) -&gt; 느림</div>
-<div class="kb-diagram-note">2. 3-SAT:</div>
-<div class="kb-diagram-note">(x1 OR x2 OR -x3) AND (-x1 OR x3) AND ...</div>
-<div class="kb-diagram-note">변수 할당이 주어지면 검증: O(n) -&gt; 빠름</div>
-<div class="kb-diagram-note">모든 할당 탐색: O(2^n) -&gt; 느림</div>
-<div class="kb-diagram-note">3. 해밀턴 경로 (Hamiltonian Path):</div>
-<div class="kb-diagram-note">그래프에서 모든 정점을 정확히 한 번 방문하는 경로</div>
-<div class="kb-diagram-note">경로 주어지면 검증: O(V) -&gt; 빠름</div>
-<div class="kb-diagram-note">경로 찾기: 아직 다항 시간 알고리즘 없음</div>
-<div class="kb-diagram-note">4. 정수 인수분해:</div>
-<div class="kb-diagram-note">n = p × q 인 p, q 찾기</div>
-<div class="kb-diagram-note">검증: p × q = n 확인 O(log n)</div>
-<div class="kb-diagram-note">해결: 가장 빠른 알고리즘도 준지수 시간</div>
-<div class="kb-diagram-note">(RSA 암호 기반)</div>
-<div class="kb-diagram-note">중요:</div>
-<div class="kb-diagram-note">P ⊆ NP: P의 모든 문제는 NP에도 속함</div>
-<div class="kb-diagram-note">P의 해답 -&gt; 검증도 당연히 빠름</div>
-</div>
-</div>
+2. 3-SAT:
+   (x1 OR x2 OR -x3) AND (-x1 OR x3) AND ...
+   변수 할당이 주어지면 검증: O(n) -> 빠름
+   모든 할당 탐색: O(2^n) -> 느림
 
+3. 해밀턴 경로 (Hamiltonian Path):
+   그래프에서 모든 정점을 정확히 한 번 방문하는 경로
+   경로 주어지면 검증: O(V) -> 빠름
+   경로 찾기: 아직 다항 시간 알고리즘 없음
 
+4. 정수 인수분해:
+   n = p × q 인 p, q 찾기
+   검증: p × q = n 확인 O(log n)
+   해결: 가장 빠른 알고리즘도 준지수 시간
+   (RSA 암호 기반)
+
+중요:
+  P ⊆ NP: P의 모든 문제는 NP에도 속함
+  P의 해답 -> 검증도 당연히 빠름
+```
 
 > 📢 **섹션 요약 비유**: NP 문제는 정답이 쪽지로 주어지면 맞는지 바로 확인할 수 있는 난해한 퍼즐 — 스도쿠 완성본 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 쉽지만 처음 풀기는 어렵다.
 
@@ -81,33 +80,33 @@ NP 의미:
 
 ## Ⅲ. [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)자(Verifier) 관점
 
+```
+NP의 검증자 정의 (형식화):
 
+언어 L이 NP에 속함 <->
+  다항 시간 검증자 V(x, c)가 존재하여:
+  
+  x ∈ L -> 적절한 증거 c가 존재: V(x, c) = 1
+  x ∉ L -> 어떤 c에 대해서도: V(x, c) = 0
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">NP의 검증자 정의 (형식화):</div>
-<div class="kb-diagram-note">언어 L이 NP에 속함 &lt;-&gt;</div>
-<div class="kb-diagram-note">다항 시간 검증자 V(x, c)가 존재하여:</div>
-<div class="kb-diagram-note">x ∈ L -&gt; 적절한 증거 c가 존재: V(x, c) = 1</div>
-<div class="kb-diagram-note">x ∉ L -&gt; 어떤 c에 대해서도: V(x, c) = 0</div>
-<div class="kb-diagram-note">x: 입력 문자열</div>
-<div class="kb-diagram-note">c: 증거 (Certificate, Witness)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">c</div><div class="kb-diagram-cell">≤ poly(</div><div class="kb-diagram-cell">x</div><div class="kb-diagram-cell">): 증거 크기도 다항식 제한</div></div>
-<div class="kb-diagram-note">예시: 부분합 검증자</div>
-<div class="kb-diagram-note">입력: S = {3,1,1,2,5}, 목표 합 = 9</div>
-<div class="kb-diagram-note">증거: c = {3, 1, 5}</div>
-<div class="kb-diagram-note">검증: 3+1+5 = 9 -&gt; V(x, c) = 1</div>
-<div class="kb-diagram-note">증거 없이 검증 불가:</div>
-<div class="kb-diagram-note">증거가 주어지지 않으면 -&gt; P 알고리즘으로 해결해야</div>
-<div class="kb-diagram-note">증거 없이도 빠른 해결 = P에 속함</div>
-<div class="kb-diagram-note">핵심 통찰:</div>
-<div class="kb-diagram-note">P: 증거 없이도 빠르게 해결</div>
-<div class="kb-diagram-note">NP: 증거가 주어지면 빠르게 검증</div>
-<div class="kb-diagram-note">P = NP?: 검증이 쉬우면 해결도 쉬운가?</div>
-</div>
-</div>
+x: 입력 문자열
+c: 증거 (Certificate, Witness)
+|c| ≤ poly(|x|): 증거 크기도 다항식 제한
 
+예시: 부분합 검증자
+  입력: S = {3,1,1,2,5}, 목표 합 = 9
+  증거: c = {3, 1, 5}
+  검증: 3+1+5 = 9 -> V(x, c) = 1
 
+증거 없이 검증 불가:
+  증거가 주어지지 않으면 -> P 알고리즘으로 해결해야
+  증거 없이도 빠른 해결 = P에 속함
+  
+핵심 통찰:
+  P: 증거 없이도 빠르게 해결
+  NP: 증거가 주어지면 빠르게 검증
+  P = NP?: 검증이 쉬우면 해결도 쉬운가?
+```
 
 > 📢 **섹션 요약 비유**: NP [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)자는 선생님의 채점 — 학생이 답(증거)을 쓰면 선생님이 빠르게 채점([검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))하지만, 선생님도 처음에 문제를 푸는 건 어렵다.
 
@@ -115,31 +114,30 @@ NP 의미:
 
 ## Ⅳ. P vs NP vs co-NP
 
+```
+복잡도 클래스 관계:
 
+P:  쉽게 풀기 (다항 시간 결정론적 해결)
+NP: 쉽게 검증하기 (다항 시간 증거 검증)
+co-NP: "아니오" 답에 쉬운 증거가 있는 문제
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">복잡도 클래스 관계:</div>
-<div class="kb-diagram-note">P: 쉽게 풀기 (다항 시간 결정론적 해결)</div>
-<div class="kb-diagram-note">NP: 쉽게 검증하기 (다항 시간 증거 검증)</div>
-<div class="kb-diagram-note">co-NP: "아니오" 답에 쉬운 증거가 있는 문제</div>
-<div class="kb-diagram-note">예시:</div>
-<div class="kb-diagram-note">NP 문제: "이 그래프에 해밀턴 경로가 있나?"</div>
-<div class="kb-diagram-note">증거: 있다면 경로 보여주면 됨 (YES 증거 쉬움)</div>
-<div class="kb-diagram-note">co-NP 문제: "이 그래프에 해밀턴 경로가 없나?"</div>
-<div class="kb-diagram-note">증거: 없음을 증명하기가 어려움 (NO 증거 어려움)</div>
-<div class="kb-diagram-note">알려진 사실:</div>
-<div class="kb-diagram-note">P ⊆ NP ∩ co-NP</div>
-<div class="kb-diagram-note">NP ≠ co-NP 추정 (미증명)</div>
-<div class="kb-diagram-note">P = NP -&gt; P = NP = co-NP</div>
-<div class="kb-diagram-note">소수 판별:</div>
-<div class="kb-diagram-note">PRIMES ∈ NP ∩ co-NP (AKS 전에도 알려짐)</div>
-<div class="kb-diagram-note">AKS로 PRIMES ∈ P 증명</div>
-<div class="kb-diagram-tree-item" style="--depth:1">NP ∩ co-NP의 일부가 P에 포함됨</div>
-</div>
-</div>
+예시:
+  NP 문제: "이 그래프에 해밀턴 경로가 있나?"
+    증거: 있다면 경로 보여주면 됨 (YES 증거 쉬움)
+    
+  co-NP 문제: "이 그래프에 해밀턴 경로가 없나?"
+    증거: 없음을 증명하기가 어려움 (NO 증거 어려움)
 
+알려진 사실:
+  P ⊆ NP ∩ co-NP
+  NP ≠ co-NP 추정 (미증명)
+  P = NP -> P = NP = co-NP
 
+소수 판별:
+  PRIMES ∈ NP ∩ co-NP (AKS 전에도 알려짐)
+  AKS로 PRIMES ∈ P 증명
+  -> NP ∩ co-NP의 일부가 P에 포함됨
+```
 
 > 📢 **섹션 요약 비유**: NP vs co-NP는 "방에 고양이가 있나(NP, 있다면 보여줘)"와 "방에 고양이가 없나(co-NP, 없음을 어떻게 증명?)"의 비대칭성.
 

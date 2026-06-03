@@ -26,17 +26,14 @@ Hinton et al. (2015) "Distilling the Knowledge in a Neural Network"이 제안한
 
 예: 고양이 사진에서 소프트 타겟이 "호랑이 0.08, 개 0.05"를 출력하면, 고양이가 개보다 호랑이에 더 가깝다는 구조적 지식을 전달한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)는 "선생님의 노트(교사 모델)"를 복사하는 게 아니라, 선생님이 "왜 그렇게 생각했는지(소프트 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/))"를 배우는 것이다.
 
@@ -68,20 +65,19 @@ L_total = α · L_KD + (1-α) · L_CE
 T²: 그래디언트 스케일 보정 항
 ```
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">교사 모델 (Teacher, 대형)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">거대 네트워크</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">로짓 zᵀ → 소프트 타겟 q(T)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">학생 모델 (Student, 소형) KL 다이버전스</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">작은 네트워크</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">로짓 zˢ → 소프트 예측 p(T)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하드 타겟 CE 손실</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L_total = α·L_KD + (1-α)·L_CE</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────┐
+│  교사 모델 (Teacher, 대형)                                │
+│  입력 x → [거대 네트워크] → 로짓 zᵀ → 소프트 타겟 q(T) │
+│                                          ↓               │
+│  학생 모델 (Student, 소형)               KL 다이버전스    │
+│  입력 x → [작은 네트워크] → 로짓 zˢ → 소프트 예측 p(T)  │
+│                              ↓                           │
+│                         하드 타겟 CE 손실                 │
+│                              ↓                           │
+│               L_total = α·L_KD + (1-α)·L_CE             │
+└──────────────────────────────────────────────────────────┘
+```
 
 | 구성요소 | 역할 | 온도 T의 역할 |
 |:---|:---|:---|

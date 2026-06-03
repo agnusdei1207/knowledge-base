@@ -25,20 +25,22 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 간접 주소 지정이 "주소를 한 번 더 따라가는 구조"라는 점을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Indirect addressing: follow the address in memory</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">instruction field A = 100</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Memory</div><div class="kb-diagram-node">100</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">pointer slot</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Memory</div><div class="kb-diagram-node">5000</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">actual data</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">direct mode : EA = A</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">indirect mode : EA = Memory</div><div class="kb-diagram-node">A</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Indirect addressing: follow the address in memory                 │
+├────────────────────────────────────────────────────────────────────┤
+│ instruction field A = 100                                         │
+│                 │                                                  │
+│                 ▼                                                  │
+│ Memory[100] = 5000        -> pointer slot                         │
+│                 │                                                  │
+│                 ▼                                                  │
+│ Memory[5000] = operand    -> actual data                          │
+│                                                                    │
+│ direct mode    : EA = A                                           │
+│ indirect mode  : EA = Memory[A]                                   │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 핵심은 주소 필드 자체가 좁아도, 메모리 안에 더 넓은 주소를 저장해 두면 간접적으로 더 큰 세계를 다룰 수 있다는 점이다. 그래서 간접 주소 지정은 단순한 문법 차이가 아니라, 작은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)와 큰 메모리 사이를 연결하는 확장 장치로 이해해야 한다.
 
@@ -59,20 +61,19 @@ tags = ["studynote-computer-architecture"]
 
 다음 그림은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로 수준에서 간접 주소 지정이 어떻게 동작하는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Micro-steps of indirect addressing</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IR.address ----&gt; MAR ----&gt; Memory read ----&gt; MDR = pointer</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">cycle 1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MDR(pointer) -&gt; MAR ----&gt; Memory read ----&gt; MDR = operand</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">cycle 2</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">result: EA = pointer, operand = Memory</div><div class="kb-diagram-node">EA</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Micro-steps of indirect addressing                                 │
+├────────────────────────────────────────────────────────────────────┤
+│ IR.address ----> MAR ----> Memory read ----> MDR = pointer        │
+│                           cycle 1                                 │
+│                                                                    │
+│ MDR(pointer) -> MAR ----> Memory read ----> MDR = operand         │
+│                           cycle 2                                 │
+│                                                                    │
+│ result: EA = pointer, operand = Memory[EA]                        │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조 때문에 간접 주소 지정은 유연하지만 느릴 수밖에 없다. 첫 번째 접근이 포인터를 읽는 동안 캐시 미스가 나면 지연이 커지고, 두 번째 접근에서 또 다른 캐시 미스가 나면 흔히 말하는 포인터 체이싱 (Pointer Chasing) 병목이 발생한다. 그래서 현대 구조는 순수 메모리 간접 주소 지정 자체를 남발하기보다, 일단 포인터를 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 올린 뒤 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 간접 주소 지정 ([Register Indirect Addressing](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/178_register_indirect_addressing/))으로 후속 접근을 빠르게 처리하는 방향으로 발전했다.
 
@@ -110,20 +111,17 @@ tags = ["studynote-computer-architecture"]
 
 아래 흐름은 설계 시 간접 주소 지정을 어디에 쓸지 빠르게 가르는 기준이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">When should indirection be used?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">target address changes at run time?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes -&gt; indirection is useful</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ fixed hardware register? -&gt; direct access preferred</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ hot inner loop? -&gt; keep pointer in register if possible</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ When should indirection be used?                                  │
+├────────────────────────────────────────────────────────────────────┤
+│ target address changes at run time?                               │
+│   ├─ yes -> indirection is useful                                 │
+│   └─ no                                                           │
+│        ├─ fixed hardware register? -> direct access preferred     │
+│        └─ hot inner loop? -> keep pointer in register if possible │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 ### 실무 판단 기준
 
@@ -167,23 +165,22 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">small instruction address field</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">direct addressing hits range limit</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">indirect addressing EA = Memory</div><div class="kb-diagram-node">A</div></div>
-<div class="kb-diagram-tree-item" style="--depth:5">▶ pointer-based data structures</div>
-<div class="kb-diagram-tree-item" style="--depth:5">▶ dynamic binding and jump tables</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">register-indirect / TLB / cache-based optimization</div>
-</div>
-</div>
-
-
+```text
+small instruction address field
+          │
+          ▼
+direct addressing hits range limit
+          │
+          ▼
+indirect addressing  EA = Memory[A]
+          │
+          ├──────────────▶ pointer-based data structures
+          │
+          ├──────────────▶ dynamic binding and jump tables
+          │
+          ▼
+register-indirect / TLB / cache-based optimization
+```
 
 이 흐름도는 간접 주소 지정이 단순한 우회 기법이 아니라, 주소 필드 한계를 넘어 동적 자료구조와 현대 메모리 최적화로 이어지는 다리 역할을 한다는 점을 보여 준다.
 

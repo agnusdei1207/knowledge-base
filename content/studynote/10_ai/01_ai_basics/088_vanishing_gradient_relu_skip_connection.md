@@ -38,17 +38,17 @@ tags = ["studynote-ai"]
 | `ReLU (Rectified Linear Unit)` | $f(x) = \max(0, x)$ | 양수 구간 미분값이 1이 되어 연속 곱셈에 의한 감쇄 방지 |
 | `Skip Connection` | $H(x) = F(x) + x$ | 더하기 연산을 통해 미분값 1을 유지하는 항이 추가로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)됨 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Skip Connection 구조에 의한 기울기 우회 전달</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Skip Path (미분값 1 전달)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Input</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Weight Layer</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ReLU</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Weight Layer</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">+</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Output</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│             Skip Connection 구조에 의한 기울기 우회 전달             │
+├──────────────────────────────────────────────────────────────────────┤
+│                                                                      │
+│          ┌───────── Skip Path (미분값 1 전달) ─────────┐             │
+│          │                                             │             │
+│ [Input] ─▶ [Weight Layer] ─▶ [ReLU] ─▶ [Weight Layer] ─▶ [+] ─▶ Output │
+│                                                                      │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림은 `Skip Connection`이 어떻게 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 건너뛰게 만드는지 보여준다. [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 시 덧셈 노드는 기울기를 양쪽으로 그대로 복사하여 전달하므로, 복잡한 레이어를 통과하며 작아진 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 외에도 강한 원본 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 앞단까지 직접 도달할 수 있다.
 
@@ -113,23 +113,21 @@ tags = ["studynote-ai"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">기울기 소실 (Vanishing Gradient) 현상 인지</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">활성화 함수 혁신: ReLU (Rectified Linear Unit) 도입</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">음수 대응 확장: Leaky ReLU / ELU (Exponential Linear Unit)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">구조적 혁신: Skip Connection (Residual Network) 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">초대형 심층 신경망: Transformer 및 100층 이상 딥러닝 구현</div>
-</div>
-</div>
-
-
+```text
+기울기 소실 (Vanishing Gradient) 현상 인지
+    │
+    ▼
+활성화 함수 혁신: ReLU (Rectified Linear Unit) 도입
+    │
+    ▼
+음수 대응 확장: Leaky ReLU / ELU (Exponential Linear Unit)
+    │
+    ▼
+구조적 혁신: Skip Connection (Residual Network) 적용
+    │
+    ▼
+초대형 심층 신경망: Transformer 및 100층 이상 딥러닝 구현
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

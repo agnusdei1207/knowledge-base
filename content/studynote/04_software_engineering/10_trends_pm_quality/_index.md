@@ -21,28 +21,28 @@ tags = ["software_engineering"]
 
 최신 트렌드와 표준이 필요한 이유는 세 가지이다. 첫째, 프로젝트 규모가 거대해지면서 인간의 직관만으로는 리스크를 관리할 수 없기 때문이고, 둘째, 글로벌 시장 진출을 위해 ISO/IEC와 같은 국제 표준 준수가 필수적인 '기술 장벽'이 되었기 때문이며, 셋째, AI와 클라우드라는 신기술이 가져오는 새로운 형태의 결함과 리스크를 통제해야 하기 때문이다.
 
-이 그림은 소프트웨어 공학의 진화 로드맵을 보여준다. 프로세스 중심에서 문화 중심을 거쳐, 이제는 지능형 자동화 중심의 'AI-Augmented Engineering'으로 나아가는 흐름을 시각화한다.
+이 그림은 소프트웨어 공학의 진화 로드맵을 보여준다. 프로세스 중심에서 문화 중심을 거쳐, 이제는 지능형 자동화 중심의 'AI-Augmented 엔진ering'으로 나아가는 흐름을 시각화한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소프트웨어 공학 패러다임 진화 로드맵</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">과거: 기법 중심</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">현재: 문화/융합</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">미래: 지능형</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Waterfall - Agile / Scrum - AI Copilot</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- CMMI - DevOps / SRE - Platform Eng</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 정적 품질 - DevSecOps - Autonomous QA</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(규격화된 프로세스) (지속적 가치 전달) (자율적 최적화)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│              소프트웨어 공학 패러다임 진화 로드맵            │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [과거: 기법 중심] ──▶ [현재: 문화/융합] ──▶ [미래: 지능형] │
+│   - Waterfall          - Agile / Scrum      - AI Copilot    │
+│   - CMMI               - DevOps / SRE       - Platform Eng  │
+│   - 정적 품질          - DevSecOps          - Autonomous QA │
+│                                                             │
+│   (규격화된 프로세스)    (지속적 가치 전달)    (자율적 최적화)  │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '속도와 품질의 동기화'이다. 과거에는 속도를 높이면 품질이 떨어지는 트레이드오프 관계였으나, 현대의 공학은 자동화와 AI를 통해 두 마리 토끼를 동시에 잡는 방향으로 진화하고 있다. 기술사는 이러한 트렌드를 읽고 조직에 가장 적합한 '테일러링 (Tailoring)' 전략을 제시해야 한다.
 
 ### 최신 소프트웨어 공학의 3대 화두
 
-1. **플랫폼 엔지니어링 (Platform Engineering)**: 개발자가 인프라 걱정 없이 개발에만 집중할 수 있게 돕는 내부 개발 플랫폼 (IDP) 구축.
+1. **플랫폼 엔지니어링 (Platform 엔진ering)**: 개발자가 인프라 걱정 없이 개발에만 집중할 수 있게 돕는 내부 개발 플랫폼 (IDP) 구축.
 2. **지속 가능한 소프트웨어 (Green ICT)**: 에너지 효율적인 코드 작성과 탄소 배출을 줄이는 클라우드 운영 설계.
 3. **가시성 (Observability)**: 복잡한 분산 시스템의 내부 상태를 로그, 메트릭, 트레이스를 통해 투명하게 파악하는 능력.
 
@@ -70,23 +70,22 @@ PMI에서 제시한 프로젝트 관리 지식 체계 (PMBOK)의 최신 버전�
 
 이 구조도는 ISO/IEC 25010의 8대 품질 주특성을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ISO/IEC 25010 품질 모델 (8대 특성)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 기능 적합성 (Functional Suitability)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 성능 효율성 (Performance Efficiency)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 호환성 (Compatibility)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 사용성 (Usability)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 신뢰성 (Reliability)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6. 보안성 (Security)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">7. 유지보수성 (Maintainability)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">8. 이식성 (Portability)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 ISO/IEC 25010 품질 모델 (8대 특성)           │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   1. 기능 적합성 (Functional Suitability)                   │
+│   2. 성능 효율성 (Performance Efficiency)                   │
+│   3. 호환성 (Compatibility)                                 │
+│   4. 사용성 (Usability)                                     │
+│   5. 신뢰성 (Reliability)                                   │
+│   6. 보안성 (Security)                                      │
+│   7. 유지보수성 (Maintainability)                           │
+│   8. 이식성 (Portability)                                   │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '품질의 다차원성'이다. 속도가 아무리 빨라도(성능 효율성) 보안이 뚫리면(보안성) 나쁜 소프트웨어이며, 기능이 완벽해도(기능 적합성) 고치기 힘들면(유지보수성) 생명력이 짧다. 실무에서는 프로젝트의 특성에 따라 우선순위를 두어 품질 목표 (Quality Target)를 설정해야 한다.
 
@@ -112,7 +111,7 @@ PMI에서 제시한 프로젝트 관리 지식 체계 (PMBOK)의 최신 버전�
 |:---:|:---|:---|:---|
 | **QC (Control)** | 품질 제어 | 사후 결함 발견 (Testing) | 검사자 |
 | **QA (Assurance)** | 품질 보증 | 예방적 프로세스 관리 (Process) | 관리자 |
-| **QE (Engineering)** | 품질 공학 | 자동화 및 공학적 설계 (Automation) | 엔지니어 |
+| **QE (엔진ering)** | 품질 공학 | 자동화 및 공학적 설계 (Automation) | 엔지니어 |
 
 📢 **섹션 요약 비유**: Waterfall PM은 설계도대로 정원을 가꾸는 것이고, Agile PM은 날씨와 식물의 상태를 보며 매일매일 조금씩 가꾸는 것입니다. QC가 시든 잎을 골라내는 것이라면, QE는 식물이 스스로 잘 자라도록 자동 급수 시스템을 설계하는 것입니다.
 
@@ -130,20 +129,21 @@ PMI에서 제시한 프로젝트 관리 지식 체계 (PMBOK)의 최신 버전�
 
 이 도식은 프로젝트 리스크 발생 시의 기술사적 판단 프로세스를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Risk Response Decision Process</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Risk Identified</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Qualitative Analysis</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Probability/Impact)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Strategy Choice</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Quantitative Analysis</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(EMV, Sensitivity)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Avoid</div><div class="kb-diagram-node">Transfer</div><div class="kb-diagram-node">Mitigate</div><div class="kb-diagram-node">Accept</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│               Risk Response Decision Process                 │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [Risk Identified] ──▶ [Qualitative Analysis]              │
+│                                │ (Probability/Impact)       │
+│   [Strategy Choice] ◀── [Quantitative Analysis]             │
+│          │                     (EMV, Sensitivity)           │
+│   ┌──────┴──────┬─────────────┬─────────────┐               │
+│   ▼             ▼             ▼             ▼               │
+│ [Avoid]      [Transfer]    [Mitigate]    [Accept]           │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 기술사의 리스크 관리는 태풍을 맞이하는 선장의 판단과 같습니다. 돛을 내릴지(Avoid), 배를 튼튼히 보강할지(Mitigate), 아니면 아예 다른 항로로 우회할지(Transfer)를 데이터와 경험을 바탕으로 결정해야 합니다.
 
@@ -167,7 +167,7 @@ PMI에서 제시한 프로젝트 관리 지식 체계 (PMBOK)의 최신 버전�
 ### 📌 관련 개념 맵 (Knowledge Graph)
 - **PMBOK 7th**: 가치 중심의 최신 프로젝트 관리 표준
 - **ISO/IEC 25010**: 소프트웨어 품질 평가의 정석
-- **Platform Engineering**: 내부 개발자 경험(Developer Experience) 극대화 전략
+- **Platform 엔진ering**: 내부 개발자 경험(Developer Experience) 극대화 전략
 - **Green ICT**: 환경과 에너지를 생각하는 지속 가능한 공학
 - **CMMI (Capability Maturity Model Integration)**: 조직의 프로세스 성숙도 모델
 - **Tailoring**: 표준 프로세스를 프로젝트 상황에 맞게 수정하여 적용하는 기법

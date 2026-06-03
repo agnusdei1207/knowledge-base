@@ -42,21 +42,27 @@ tags = ["studynote-enterprise"]
 
 아래 다이어그램은 벤치마킹이 "방문 → 감탄 → [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)"가 아니라 측정과 적응의 사이클임을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Benchmarking life-cycle</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Select target -&gt; process / product / KPI</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Measure As-Is -&gt; current baseline</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Compare with Best Practice</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. Analyze Gap -&gt; cause / context / capability</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. Adapt To-Be -&gt; redesign / invest / standardize</div></div>
-<div class="kb-diagram-note">feedback and re-measure</div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Benchmarking life-cycle                                           │
+├────────────────────────────────────────────────────────────────────┤
+│ 1. Select target   -> process / product / KPI                     │
+│          │                                                         │
+│          ▼                                                         │
+│ 2. Measure As-Is   -> current baseline                            │
+│          │                                                         │
+│          ▼                                                         │
+│ 3. Compare with Best Practice                                     │
+│          │                                                         │
+│          ▼                                                         │
+│ 4. Analyze Gap      -> cause / context / capability               │
+│          │                                                         │
+│          ▼                                                         │
+│ 5. Adapt To-Be      -> redesign / invest / standardize            │
+│          │                                                         │
+│          └────────────── feedback and re-measure ─────────────────┘
+└────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조에서 가장 중요한 단계는 Gap 분석이다. 격차는 숫자로만 존재하지 않고, 그 숫자를 만드는 공정, 인력, 시스템, 문화 차이까지 포함한다. 그래서 우수 사례의 결과를 그대로 베끼면 실패하고, 우리 조건에 맞게 바꾸는 Adapt 단계가 반드시 필요하다.
 
@@ -66,7 +72,7 @@ tags = ["studynote-enterprise"]
 
 ## Ⅲ. 비교 및 연결
 
-벤치마킹은 단순 모방, [리버스 엔지니어링](/knowledge-base/studynote/04_software_engineering/06_software_architecture/389_reverse_engineering/) ([Reverse Engineering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/780_reverse_engineering/)), [BMT](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/624_bmt_procedure/) (Benchmarking Test)와 닮았지만 목적과 깊이가 다르다. 단순 모방은 결과물의 표면을 따라 하고, [리버스 엔지니어링](/knowledge-base/studynote/04_software_engineering/06_software_architecture/389_reverse_engineering/)은 구조를 해체해 내부를 보는 데 강하다. 반면 벤치마킹은 결과와 구조를 함께 보되, 특히 성과를 재현하는 운영 방식과 관리 지표에 집중한다.
+벤치마킹은 단순 모방, [리버스 엔지니어링](/knowledge-base/studynote/04_software_engineering/06_software_architecture/389_reverse_engineering/) ([Reverse 엔진ering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/780_reverse_engineering/)), [BMT](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/624_bmt_procedure/) (Benchmarking Test)와 닮았지만 목적과 깊이가 다르다. 단순 모방은 결과물의 표면을 따라 하고, [리버스 엔지니어링](/knowledge-base/studynote/04_software_engineering/06_software_architecture/389_reverse_engineering/)은 구조를 해체해 내부를 보는 데 강하다. 반면 벤치마킹은 결과와 구조를 함께 보되, 특히 성과를 재현하는 운영 방식과 관리 지표에 집중한다.
 
 | 비교 항목 | 벤치마킹 | 단순 모방 | IT [BMT](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/624_bmt_procedure/) (Benchmarking Test) |
 | :-- | :-- | :-- | :-- |
@@ -125,23 +131,21 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Internal Performance Review</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">External Comparison and Best Practice</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">KPI Normalization and Gap Analysis</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">BPR · Standardization · IT BMT</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Continuous Re-measurement</div>
-</div>
-</div>
-
-
+```text
+Internal Performance Review
+    │
+    ▼
+External Comparison and Best Practice
+    │
+    ▼
+KPI Normalization and Gap Analysis
+    │
+    ▼
+BPR · Standardization · IT BMT
+    │
+    ▼
+Continuous Re-measurement
+```
 
 이 흐름은 벤치마킹이 일회성 견학이 아니라, 외부 학습을 내부 개선 루프로 바꾸는 관리 체계임을 보여준다.
 

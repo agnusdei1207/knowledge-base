@@ -24,23 +24,19 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경**: 1960년대 초반 Ferranti Atlas 컴퓨터에서 처음 개념이 증명되었으며, 이후 프로세스가 메모리의 연속성에 얽매이지 않고 남는 자원을 극한으로 활용하려는 [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)([Multiprogramming](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/))의 핵심 도구로 모든 범용 OS를 지배하게 되었다.
 
+```text
+  [연속 할당의 한계(외부 단편화) vs 페이징의 불연속 매핑 마법]
 
+  [ ❌ 과거: 연속 할당 (외부 단편화 발생) ]
+  물리 RAM: [ P1 10M ] [ 빈 10M ] [ P2 20M ] [ 빈 20M ]
+  ▶ 25MB짜리 P3 실행 요청 ─▶ 🚨 거절! 빈 공간 합치면 30M인데, 연속된 25M가 없음! 
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">연속 할당의 한계(외부 단편화) vs 페이징의 불연속 매핑 마법</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">❌ 과거: 연속 할당 (외부 단편화 발생)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">물리 RAM:</div><div class="kb-diagram-node">P1 10M</div><div class="kb-diagram-node">빈 10M</div><div class="kb-diagram-node">P2 20M</div><div class="kb-diagram-node">빈 20M</div></div>
-<div class="kb-diagram-note">▶ 25MB짜리 P3 실행 요청 ─▶ 🚨 거절! 빈 공간 합치면 30M인데, 연속된 25M가 없음!</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">✅ 현대: 페이징 (불연속 할당)</div></div>
-<div class="kb-diagram-tree-item" style="--depth:1">P3 (25MB) 를 4KB 단위로 잘게 썬다. (약 6,400개의 페이지 생성)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">RAM의 빈 공간 여기저기(떨어져 있어도 상관없음)에 6,400개를 막 쑤셔 넣는다.</div>
-<div class="kb-diagram-tree-item" style="--depth:1">CPU가 P3를 실행할 때, "페이지 테이블"이라는 내비게이션을 보고</div>
-<div class="kb-diagram-note">이리저리 흩어진 조각들을 순서대로 찾아가며 완벽하게 실행해 낸다.</div>
-</div>
-</div>
-
-
+  [ ✅ 현대: 페이징 (불연속 할당) ]
+  - P3 (25MB) 를 4KB 단위로 잘게 썬다. (약 6,400개의 페이지 생성)
+  - RAM의 빈 공간 여기저기(떨어져 있어도 상관없음)에 6,400개를 막 쑤셔 넣는다.
+  - CPU가 P3를 실행할 때, "페이지 테이블"이라는 내비게이션을 보고 
+    이리저리 흩어진 조각들을 순서대로 찾아가며 완벽하게 실행해 낸다.
+```
 **[다이어그램 해설]** 페이징은 인간의 직관(연속성)을 철저히 파괴하고 기계의 효율성(파편화 허용)을 극대화한 시스템이다. 메모리가 물리적으로 찢어져 있어도, CPU 입장에서는 <strong>"<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/">페이지 테이블</a>이 가리키는 주소로 가면 무조건 다음 코드가 있다"</strong>는 논리적 연속성(Logical Contiguity)만 보장되면 그만이기 때문이다.
 
 - **📢 섹션 요약 비유**: 영화 필름을 통째로 1개 영화관에서 틀면 다른 영화를 못 틉니다([연속 할당](/knowledge-base/studynote/02_operating_system/09_file_system/523_contiguous_allocation/)). 하지만 영화를 1초 단위 필름 조각([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))으로 다 잘라서 전국 100개 영화관(Frame)에 흩뿌려 놓고, 관객의 눈앞에 특수 안경([페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/))을 씌워 그 조각들을 원래 순서대로 이어지게 보여주면(논리적 연속), 공간 낭비 0%로 모든 관객이 영화를 볼 수 있습니다.
@@ -62,26 +58,28 @@ CPU는 프로그램 코드에 적힌 <strong>가상 주소(Logical Address)</str
 - **$p$ ([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Number)**: [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)에서 내가 찾을 조각의 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 번호. (책의 몇 번째 '장'[인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)?)
 - **$d$ ([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Offset)**: 그 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 조각 안에서의 변위(떨어진 거리). (그 '장' 안에서 몇 번째 '줄'[인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)?)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MMU의 페이징(Paging) 주소 변환 매커니즘 (가상 ─▶ 물리)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CPU가 가상 주소 0x1234 를 요청함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(가정: 페이지 크기 4KB = 0x1000 이므로 하위 3자리가 Offset임)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 주소 쪼개기: p = 0x1 (페이지 번호 1번), d = 0x234 (오프셋)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 페이지 테이블(Page Table) 조회</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Index</div><div class="kb-diagram-node">Frame Number</div><div class="kb-diagram-node">Valid</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0번 5번 v</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1번 9번 (0x9) v ◀ (여기 매핑됨!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2번 15번 v</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 물리 주소 합성: Frame(0x9) + Offset(0x234)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 🌟 최종 물리 주소: 0x9234</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. RAM의 0x9234 번지에 꽂혀있는 진짜 데이터를 가져와 CPU에 바침.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌────────────────────────────────────────────────────────────────────────┐
+  │         MMU의 페이징(Paging) 주소 변환 매커니즘 (가상 ─▶ 물리)         │
+  ├────────────────────────────────────────────────────────────────────────┤
+  │                                                                        │
+  │  [ CPU가 가상 주소 0x1234 를 요청함 ]                                  │
+  │  (가정: 페이지 크기 4KB = 0x1000 이므로 하위 3자리가 Offset임)         │
+  │                                                                        │
+  │  1. 주소 쪼개기: p = 0x1 (페이지 번호 1번), d = 0x234 (오프셋)         │
+  │                                                                        │
+  │  2. 페이지 테이블(Page Table) 조회                                     │
+  │     [ Index ]    [ Frame Number ]    [ Valid ]                         │
+  │       0번           5번                 v                              │
+  │     ▶ 1번           9번 (0x9)          v  ◀ (여기 매핑됨!)             │
+  │       2번          15번                 v                              │
+  │                                                                        │
+  │  3. 물리 주소 합성: Frame(0x9) + Offset(0x234)                         │
+  │     ▶ 🌟 최종 물리 주소: 0x9234                                        │
+  │                                                                        │
+  │  4. RAM의 0x9234 번지에 꽂혀있는 진짜 데이터를 가져와 CPU에 바침.      │
+  └────────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 여기서 가장 소름 돋는 점은 **오프셋($d$)은 절대 변하지 않는다**는 것이다. [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)에서 1페이지의 50번째 줄에 있던 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는, 물리 메모리 프레임으로 통째로 이사 가도 여전히 그 프레임의 50번째 줄에 있다. 박스 채로 짐을 옮겼기 때문이다. MMU는 단지 "박스 번호(p)"를 "트럭 번호(f)"로 치환하는 단순 문자열 치환 놀이만 할 뿐이다.
 
 - **📢 섹션 요약 비유**: CPU가 "아파트 1동 302호(가상 주소)로 배달해 줘!"라고 요청하면, 경비실([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/)) 장부([페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/))를 봅니다. "1동 사람들은 이번 달에 물리적으로 9동 건물(프레임)로 이사 갔지. 하지만 호수는 똑같이 302호를 쓰니까, 최종 주소는 9동 302호([물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/))다!" 하고 찾아가는 완벽한 포워딩 시스템입니다.
@@ -125,28 +123,29 @@ CPU는 프로그램 코드에 적힌 <strong>가상 주소(Logical Address)</str
    - **장애 발생**: Redis가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)(`BGSAVE`)할 때 [COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/)([Copy-On-Write](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/))가 터진다. 원래 4KB만 복사하면 될 걸, THP가 켜져 있으면 2MB를 통째로 복사하느라 레이턴시가 미친 듯이 튀어 서버가 1초씩 멈춘다(Jitter).
    - **실무 조치**: 고성능 인메모리 DB를 돌리는 K8s 노드나 베어메탈 서버에서는 무조건 `echo never > /sys/kernel/mm/transparent_hugepage/enabled` 를 때려서 OS의 오지랖(THP)을 강제로 끄는 것이 첫 번째 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝 세팅이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 집약적(Memory-Intensive) 백엔드 서버의 페이징 튜닝 가이드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">요구사항: 256GB RAM을 가진 Oracle / JVM 서버 운영</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 운영체제 페이징 최적화 결단</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 일반 4KB 페이징 유지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: 수천만 개의 페이지 발생 ─▶ TLB Miss 폭격 ─▶ CPU 낭비</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. THP (투명한 거대 페이지 - 리눅스 디폴트) 활성화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: OS가 백그라운드에서 2MB로 뭉치느라 CPU 자원 소모,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 파편화 시 단편화 정리(Defrag) 하느라 서버 멈춤.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 판정: 🚨 DB 서버에서는 절대 악(Evil). 즉시 비활성화할 것.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3. 명시적 Huge Pages (Explicit Huge Pages) 수동 셋팅</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 방식: 부팅 시 커널 파라미터로 <code>hugepages=1000</code> 강제 할당.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: 2MB or 1GB 단위로 램을 미리 통째로 썰어둠(Swap도 안됨).</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 판정: ✅ TLB Hit Rate 99% 달성, 디스크 스왑 원천 봉쇄.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">JVM이나 DB가 날아다니는 최강의 엔터프라이즈 셋팅.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────────────┐
+  │     메모리 집약적(Memory-Intensive) 백엔드 서버의 페이징 튜닝 가이드│
+  ├─────────────────────────────────────────────────────────────────────┤
+  │                                                                     │
+  │   [요구사항: 256GB RAM을 가진 Oracle / JVM 서버 운영]               │
+  │                │                                                    │
+  │                ▼ 운영체제 페이징 최적화 결단                        │
+  │   [ 1. 일반 4KB 페이징 유지 ]                                       │
+  │     ▶ 결과: 수천만 개의 페이지 발생 ─▶ TLB Miss 폭격 ─▶ CPU 낭비    │
+  │                                                                     │
+  │   [ 2. THP (투명한 거대 페이지 - 리눅스 디폴트) 활성화 ]            │
+  │     ▶ 결과: OS가 백그라운드에서 2MB로 뭉치느라 CPU 자원 소모,       │
+  │             메모리 파편화 시 단편화 정리(Defrag) 하느라 서버 멈춤.  │
+  │     ▶ 판정: 🚨 DB 서버에서는 절대 악(Evil). 즉시 비활성화할 것.     │
+  │                                                                     │
+  │   [ 3. 명시적 Huge Pages (Explicit Huge Pages) 수동 셋팅 ]          │
+  │     ▶ 방식: 부팅 시 커널 파라미터로 `hugepages=1000` 강제 할당.     │
+  │     ▶ 결과: 2MB or 1GB 단위로 램을 미리 통째로 썰어둠(Swap도 안됨). │
+  │     ▶ 판정: ✅ TLB Hit Rate 99% 달성, 디스크 스왑 원천 봉쇄.        │
+  │             JVM이나 DB가 날아다니는 최강의 엔터프라이즈 셋팅.       │
+  └─────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 페이징은 너무 위대해서 개발자를 바보로 만들었다. 4KB 단위의 쪼개짐이 내 애플리케이션 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)에 어떤 오버헤드를 가져오는지 잊게 만들었기 때문이다. 하드코어 인프라 아키텍트는 4KB의 족쇄를 풀고, OS에게 "내 DB는 무조건 1GB 단위([Huge Page](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/))로 썰어서 던져줘라!"라고 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 단위의 수동 제어(Manual Override)를 걸어 궁극의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 탈환한다.
 
 - **📢 섹션 요약 비유**: 4KB 페이징은 모래알입니다. 100kg의 짐을 모래알로 옮기려면 숟가락으로 수만 번 퍼 날라야 합니다([TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) Miss). THP는 일꾼(OS)이 몰래 모래를 벽돌(2MB)로 뭉치는 건데, 일꾼이 지쳐서 쓰러집니다(Jitter). 명시적 Huge Page는 아예 처음부터 10kg짜리 거대 바위로 세팅해서 10번 만에 짐을 다 나르는 전문가의 건축법입니다.
@@ -177,19 +176,15 @@ CPU는 프로그램 코드에 적힌 <strong>가상 주소(Logical Address)</str
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">스케줄러 일드 (sched_yield)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">페이징 (Paging)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ABA 문제 해결책</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">장벽 (Barrier) 동기화</div></div>
-</div>
-</div>
-
-
+```text
+[스케줄러 일드 (sched_yield)]
+    │
+    ▼
+[페이징 (Paging)]
+    │
+    ├──▶ [ABA 문제 해결책]
+    └──▶ [장벽 (Barrier) 동기화]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

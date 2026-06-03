@@ -26,26 +26,23 @@ tags = ["database"]
 
 아래 다이어그램은 객체지향 언어와 RDBMS 간의 [임피던스](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/004_impedance/) 불일치 문제를 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)한 것이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">App: 객체지향 세계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">class Car {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Engine eng; // 중첩 객체</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Wheel[] wh; // 배열/컬렉션</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">void start() { ... } // 행위</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-<div class="kb-diagram-note">💥 Impedance Mismatch (구조적 충돌)</div>
-<div class="kb-diagram-note">(ORM 계층이 변환/분해 매핑 수행)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DB: 관계형 세계 (1NF 제약)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TABLE Car (id, name, eng_id)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TABLE Engine (eng_id, power)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TABLE Wheel (id, car_id, size)</div><div class="kb-diagram-cell">← 배열 불가, 행 단위 분할 필수</div></div>
-</div>
-</div>
-
-
+```text
+┌─────── [App: 객체지향 세계] ───────┐
+│ class Car {                        │
+│   Engine eng; // 중첩 객체         │
+│   Wheel[] wh; // 배열/컬렉션       │
+│   void start() { ... } // 행위     │
+│ }                                  │
+└───────────────┬────────────────────┘
+                │ 💥 Impedance Mismatch (구조적 충돌)
+                │ (ORM 계층이 변환/분해 매핑 수행)
+┌───────────────▼────────────────────┐
+│ [DB: 관계형 세계 (1NF 제약)]       │
+│ TABLE Car (id, name, eng_id)       │
+│ TABLE Engine (eng_id, power)       │
+│ TABLE Wheel (id, car_id, size)     │ ← 배열 불가, 행 단위 분할 필수
+└────────────────────────────────────┘
+```
 
 이 그림의 핵심은 애플리케이션 계층과 스토리지 계층 간의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 패러다임이 완전히 어긋나 있다는 점이다. 객체지향 모델은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))와 행위(메서드)를 하나로 캡슐화하고, 리스트나 중첩 객체 등 풍부한 자료구조를 허용한다. 반면 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 모델은 행위의 개념이 없고, 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 단순 스칼라 값으로 평탄화(Flattening)해야 한다. 이러한 불일치로 인해 개발자는 비즈니스 로직보다 객체를 테이블 구조로 분해(Insert)하고 조립([Select](/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/))하는 매핑 코드(Boilerplate) 작성에 막대한 시간을 낭비하게 된다. 실무에서는 이를 완화하기 위해 Hibernate/JPA와 같은 ORM 프레임워크를 도입하지만, 결국 ORM의 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 누수(N+1 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 문제 등)로 인한 심각한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 겪는 원인이 된다. 
 
@@ -68,23 +65,22 @@ ORDBMS는 RDBMS의 엔진 코어 위에 이 UDT와 컬렉션 엔진을 래핑(Wr
 
 다음 다이어그램은 ORDBMS 환경에서 테이블이 어떻게 계층적 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 구조와 중첩 객체를 저장하는지를 보여주는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 레이아웃이다.
 
+```text
+[ORDBMS 논리적 구조: Type 상속과 컬렉션]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">ORDBMS 논리적 구조: Type 상속과 컬렉션</div></div>
-<div class="kb-diagram-note">(Super Type)</div>
-<div class="kb-diagram-note">─ Person_Type</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OID</div><div class="kb-diagram-cell">Name(String)</div><div class="kb-diagram-cell">Address(Object)</div><div class="kb-diagram-cell">← Address 자체도 또 다른 객체</div></div>
-<div class="kb-diagram-note">(Inheritance / IS-A)</div>
-<div class="kb-diagram-note">(Sub Type)</div>
-<div class="kb-diagram-note">─ Employee_Type</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OID</div><div class="kb-diagram-cell">Person_Type_속성_상속</div><div class="kb-diagram-cell">Salary</div><div class="kb-diagram-cell">Skills(Array)</div><div class="kb-diagram-cell">← 다치 속성(Array) 지원</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">id1 | "Alice" | {City: "Seoul"} | 5000</div><div class="kb-diagram-node">"C", "SQL"</div></div>
-</div>
-</div>
-
-
+(Super Type) 
+┌─ Person_Type ─────────────────────────┐
+│ OID | Name(String) | Address(Object)  │  ← Address 자체도 또 다른 객체
+└─▲─────────────────────────────────────┘
+  │ (Inheritance / IS-A)
+  │
+(Sub Type) 
+┌─ Employee_Type ────────────────────────────────────────┐
+│ OID | Person_Type_속성_상속 | Salary | Skills(Array)   │ ← 다치 속성(Array) 지원
+├────────────────────────────────────────────────────────┤
+│ id1 | "Alice" | {City: "Seoul"} | 5000 | ["C", "SQL"]  │
+└────────────────────────────────────────────────────────┘
+```
 
 이 도식의 핵심은 [관계형 데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/017_relational_data_model/)의 철칙이었던 '[속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)의 [원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/)([1NF](/knowledge-base/studynote/05_database/02_modeling_normalization/103_first_normal_form_1nf_atomic_value/))'을 의도적으로 파괴하고, '다치 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)(Skills [Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/))'과 '중첩 객체(Address Object)'를 단일 [튜플](/knowledge-base/studynote/05_database/02_modeling_normalization/063_relation_tuple_cardinality/) 내에 수용했다는 점이다. 이로 인해 [튜플](/knowledge-base/studynote/05_database/02_modeling_normalization/063_relation_tuple_cardinality/)의 물리적 크기가 가변적으로 변하며 저장 엔진의 블록 분할(Block Splitting) 오버헤드가 증가할 수 있다. 하지만 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 관점에서는 '사원'을 조회하기 위해 '주소' 테이블과 '스킬' 테이블을 따로 조인할 필요가 없으므로, 관련된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 물리적으로 클러스터링되어 디스크 I/O가 획기적으로 줄어드는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)적 이점을 제공한다. 실무에서는 PostgreSQL과 같은 현대적 RDBMS가 이러한 JSONB [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 타입과 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 컬럼을 지원하는 것이 대표적인 ORDBMS적 특징의 발현이며, 이를 통해 NoSQL의 유연성과 RDB의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 동시에 달성한다.
 
@@ -106,23 +102,20 @@ ORDBMS는 RDBMS의 엔진 코어 위에 이 UDT와 컬렉션 엔진을 래핑(Wr
 
 다음은 시스템 선택 시 고려해야 할 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 복잡도와 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 빈도에 따른 아키텍처 포지셔닝 맵이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">복잡도/계층성 (High)</div>
-<div class="kb-diagram-connector">▲</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">OODBMS</div><div class="kb-diagram-note">(CAD, 원격탐사)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ORDBMS</div><div class="kb-diagram-note">(PostgreSQL, Oracle)</div></div>
-<div class="kb-diagram-note">멀티미디어, GIS, 복합 트랜잭션</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NoSQL / Document</div></div>
-<div class="kb-diagram-note">(빠른 쓰기, 스키마리스)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">RDBMS</div><div class="kb-diagram-note">(금융, 회계)</div></div>
-<div class="kb-diagram-tree-item" style="--depth:1">▶ 데이터 무결성/정합성 요구 (High)</div>
-</div>
-</div>
-
-
+```text
+복잡도/계층성 (High)
+  ▲
+  │                 [ OODBMS ] (CAD, 원격탐사)
+  │
+  │                           [ ORDBMS ] (PostgreSQL, Oracle)
+  │                           멀티미디어, GIS, 복합 트랜잭션
+  │
+  │       [ NoSQL / Document ] 
+  │       (빠른 쓰기, 스키마리스)
+  │
+  │ [ RDBMS ] (금융, 회계)
+  └─────────────────────────────────────────▶ 데이터 무결성/정합성 요구 (High)
+```
 
 이 매트릭스의 핵심은 ORDBMS가 가장 넓은 커버리지를 가진 범용 솔루션의 위치를 차지하고 있다는 점이다. 순수 RDBMS는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정합성은 높지만 구조가 복잡해지면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 무너진다. OODBMS는 복잡한 구조를 다루지만 엔터프라이즈가 요구하는 정합성과 분석 질의 능력을 상실했다. ORDBMS는 RDB의 강력한 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 엔진(ACID)과 SQL 최적화기를 기반으로 객체 타입을 얹었기 때문에, 두 마리 토끼를 잡을 수 있었다. 따라서 실무에서 공간 정보(PostGIS)나 복잡한 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석이 필요할 때 새로운 이기종 DB를 구축하는 대신, Oracle이나 PostgreSQL의 확장 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 활용하는 것이 인프라 복잡도를 낮추는 결정적 요인이 된다.
 
@@ -143,21 +136,15 @@ ORDBMS는 RDBMS의 엔진 코어 위에 이 UDT와 컬렉션 엔진을 래핑(Wr
 
 아래 [의사결정 트리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/)는 애플리케이션의 복잡한 객체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 DB에 어떻게 매핑할지 결정하는 실무 플로우다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">객체/계층형 데이터 저장 요구</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">(Q1. 데이터가 독립적인 쿼리나 업데이트의 대상인가?) ── 예 ──&gt;</div><div class="kb-diagram-node">정규화된 RDB 테이블 생성 (ORM 활용)</div></div>
-<div class="kb-diagram-note">↓ 아니오 (항상 전체 문서로만 다뤄짐)</div>
-<div class="kb-diagram-note">(Q2. 강력한 ACID 트랜잭션 보장이 필요한가?)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ 아니오 ──&gt;</div><div class="kb-diagram-node">MongoDB 등 Document NoSQL 도입</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ 예 &gt;</div><div class="kb-diagram-node">PostgreSQL/Oracle JSONB, Array 컬럼 적용 (ORDBMS 기능)</div></div>
-</div>
-</div>
-
-
+```text
+[객체/계층형 데이터 저장 요구]
+   ↓
+(Q1. 데이터가 독립적인 쿼리나 업데이트의 대상인가?) ── 예 ──> [정규화된 RDB 테이블 생성 (ORM 활용)]
+   ↓ 아니오 (항상 전체 문서로만 다뤄짐)
+(Q2. 강력한 ACID 트랜잭션 보장이 필요한가?) 
+   ├─ 아니오 ──> [MongoDB 등 Document NoSQL 도입]
+   └─ 예 ─────> [PostgreSQL/Oracle JSONB, Array 컬럼 적용 (ORDBMS 기능)]
+```
 
 이 [의사결정 트리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/)의 핵심은 객체 단위 기능(컬렉션, [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 등)의 사용 여부를 '[트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 격리'와 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조작 단위'를 기준으로 판별하는 것이다. 만약 객체 내부의 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 원소 하나가 독립적인 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))의 대상이 되어야 한다면, ORDBMS의 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 타입에 집어넣는 것은 [튜플](/knowledge-base/studynote/05_database/02_modeling_normalization/063_relation_tuple_cardinality/) 전체에 락을 걸게 되어 심각한 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 저하([Concurrency](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/266_other_transparency/) 병목)를 유발한다. 이 경우는 전통적인 RDBMS 자식 테이블로 쪼개어 행 단위(Row-level) 락을 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시켜야 한다. 반면, 단순히 이력 보관용 복합 페이로드를 저장한다면 ORDBMS의 확장 타입을 쓰는 것이 조인 비용을 완벽히 제거하는 최선의 설계다.
 
@@ -190,23 +177,21 @@ ORDBMS는 RDBMS의 엔진 코어 위에 이 UDT와 컬렉션 엔진을 래핑(Wr
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">관계형 모델 (RDBMS) — 테이블·SQL, 복잡한 타입 표현 한계</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">객체지향 모델 (OODBMS) — 객체·상속·메서드, 임피던스 불일치 해결</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">객체-관계형 모델 (ORDBMS) — RDBMS + 사용자 정의 타입(UDT), SQL 확장</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NoSQL (Document·Graph DB) — 스키마리스, 수평 확장</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NewSQL / 멀티모델 DB — ACID + 수평 확장 통합</div></div>
-</div>
-</div>
-
-
+```text
+[관계형 모델 (RDBMS) — 테이블·SQL, 복잡한 타입 표현 한계]
+    │
+    ▼
+[객체지향 모델 (OODBMS) — 객체·상속·메서드, 임피던스 불일치 해결]
+    │
+    ▼
+[객체-관계형 모델 (ORDBMS) — RDBMS + 사용자 정의 타입(UDT), SQL 확장]
+    │
+    ▼
+[NoSQL (Document·Graph DB) — 스키마리스, 수평 확장]
+    │
+    ▼
+[NewSQL / 멀티모델 DB — ACID + 수평 확장 통합]
+```
 OODBMS와 ORDBMS는 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 모델의 타입 표현 한계를 극복하는 두 가지 접근법으로, 현대 다중 모델 DB의 전신이다.
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 옛날 서랍(RDB)은 칸막이가 작아서 장난감 로봇을 꼭 팔, 다리, 머리로 분해해서 넣어야만 했어요. 너무 귀찮았죠!

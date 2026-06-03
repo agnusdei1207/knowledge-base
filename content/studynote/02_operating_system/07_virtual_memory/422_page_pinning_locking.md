@@ -27,28 +27,29 @@ tags = ["studynote-operating-system"]
   2. <strong>비동기 하드웨어(<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/">DMA</a>)의 발전</strong>: CPU 몰래 램에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏘고 가는 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 칩이 발명되면서, OS의 소프트웨어 교체 로직과 하드웨어의 물리적 전송 타이밍이 꼬이는 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 붕괴 사태가 터짐.
   3. **Pinning 락의 도입**: OS는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 장부에 '절대 쫓아내지 마'라는 예외 조항을 급히 신설하여 I/O [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 중인 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)들을 하드캐리하게 되었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DMA I/O 작업 중 페이지 피닝(Pinning)이 없는 경우의 참사</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 정상적인 I/O 시작</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">물리 램 5번 프레임</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(네트워크 패킷을 5번 방에 쓰는 중... 약 0.1초 소요 예정)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 💥 OS의 무지성 페이지 교체 발동 (0.05초 경과 시점)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS: "램 꽉 찼네? 5번 방 비워! 디스크로 스왑 아웃(Swap-out) 쳐!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS: "빈 5번 방에 '워드 문서' 데이터 새로 올려!" (Swap-in)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3. 끔찍한 데이터 파괴 (Memory Corruption)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">물리 램 5번 프레임</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 결과: 랜카드는 OS가 방주인을 바꾼 걸 모르고 5번 방에 영상을 계속 씀.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5번 방에 있던 '워드 문서'는 영상 픽셀 데이터에 덮어씌워져 파괴됨.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🛡️</div><div class="kb-diagram-node">해결책: Page Pinning (페이지 고정)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1단계에서 랜카드가 I/O를 시작하기 전, OS가 5번 방에</div><div class="kb-diagram-node">🔒 락</div><div class="kb-diagram-note">을 검.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2단계에서 OS 교체 알고리즘이 5번 방을 쫓아내려다 락을 보고 그냥 도망감.</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────┐
+│        DMA I/O 작업 중 페이지 피닝(Pinning)이 없는 경우의 참사           │
+├──────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│ [ 1. 정상적인 I/O 시작 ]                                                 │
+│ 하드웨어 랜카드 ──(DMA 전송 시작)──▶ [ 물리 램 5번 프레임 ]              │
+│ (네트워크 패킷을 5번 방에 쓰는 중... 약 0.1초 소요 예정)                 │
+│                                                                          │
+│ [ 2. 💥 OS의 무지성 페이지 교체 발동 (0.05초 경과 시점) ]                │
+│ OS: "램 꽉 찼네? 5번 방 비워! 디스크로 스왑 아웃(Swap-out) 쳐!"          │
+│ OS: "빈 5번 방에 '워드 문서' 데이터 새로 올려!" (Swap-in)                │
+│                                                                          │
+│ [ 3. 끔찍한 데이터 파괴 (Memory Corruption) ]                            │
+│ 하드웨어 랜카드 ──(나머지 데이터 계속 전송)──▶ [ 물리 램 5번 프레임 ]    │
+│ ✅ 결과: 랜카드는 OS가 방주인을 바꾼 걸 모르고 5번 방에 영상을 계속 씀.  │
+│         5번 방에 있던 '워드 문서'는 영상 픽셀 데이터에 덮어씌워져 파괴됨.│
+│                                                                          │
+│ 🛡️ [ 해결책: Page Pinning (페이지 고정) ]                                │
+│ 1단계에서 랜카드가 I/O를 시작하기 전, OS가 5번 방에 [ 🔒 락 ]을 검.      │
+│ 2단계에서 OS 교체 알고리즘이 5번 방을 쫓아내려다 락을 보고 그냥 도망감.  │
+└──────────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 매핑 시스템([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))은 소프트웨어적인 눈속임이다. 하지만 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 컨트롤러는 이런 눈속임을 모르는 순수 하드웨어다. "5번 방에 쏴라" 하면 진짜 구리선 5번 구역에 전기를 쏜다. 소프트웨어의 스왑과 하드웨어의 전송이 부딪히는 이 끔찍한 사고를 막는 유일한 방파제가 바로 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 고정(Pinning) 기술이다.
 
 - **📢 섹션 요약 비유**: 택배(I/O)가 오기로 해서 현관문(램 프레임)을 열어놨는데, 엄마(OS)가 집이 좁다고 그 현관문을 떼어다가 창고(디스크)에 치워버리고 그 자리에 벽돌(다른 앱)을 쌓아버리면 택배 기사는 벽돌에 택배를 집어 던지고 갑니다. 택배가 오는 동안엔 절대 현관문 인테리어([페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/))를 바꾸지 못하게 테이프로 꽁꽁 묶어두는(Pinning) 안전장치입니다.
@@ -99,17 +100,14 @@ tags = ["studynote-operating-system"]
 나중에 서버 전원을 끄고 해커가 그 하드디스크를 뜯어가 포렌식 툴로 스왑 파티션을 뒤져보면 내 비밀번호 평문이 고스란히 하드디스크 조각에 남아있다. 램은 전원을 끄면 날아가지만 디스크는 영원히 남기 때문이다.
 <strong>"내 메모리는 절대 하드디스크 스왑에 적히면 안 돼!"</strong>라는 극강의 보안 철학을 달성하기 위한 유일한 함수가 바로 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 피닝(`mlock`)이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 성격</div><div class="kb-diagram-cell">스와핑(Swap)</div><div class="kb-diagram-cell">보안 취약점</div><div class="kb-diagram-cell">mlock 적용 후</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일반 변수</div><div class="kb-diagram-cell">자유롭게 이동</div><div class="kb-diagram-cell">스왑 디스크에 남음</div><div class="kb-diagram-cell">적용 안 함 (자유로움)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">암호 키</div><div class="kb-diagram-cell">☠️ 절대 금지</div><div class="kb-diagram-cell">치명적 정보 유출</div><div class="kb-diagram-cell">🔒 램에 영구 상주</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬──────────────────────────────────┐
+│ 메모리 성격│ 스와핑(Swap) │ 보안 취약점  │ mlock 적용 후              │
+├──────────┼────────────┼────────────┼──────────────────────────────────┤
+│ 일반 변수  │ 자유롭게 이동 │ 스왑 디스크에 남음│ 적용 안 함 (자유로움)│
+│ 암호 키   │ ☠️ 절대 금지  │ 치명적 정보 유출│ 🔒 램에 영구 상주       │
+└──────────┴────────────┴────────────┴──────────────────────────────────┘
+```
 **[매트릭스 해설]** [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)가 부리는 스왑의 마법은 편하지만 보안 관점에서는 램에 있어야 할 휘발성 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 비휘발성 디스크로 질질 흘리고 다니는 무서운 정보 유출 펌프다. 보안 개발자에게 피닝은 속도 튜닝을 넘어서는 생명 지킴이다.
 
 - **📢 섹션 요약 비유**: 첩보원이 1급 기밀문서(비밀번호)를 머릿속(램)에만 외우고 있어야 고문당해도(전원 꺼짐) 죽으면 끝입니다. 하지만 머리 용량이 모자라다고 무심코 일기장(스왑 디스크)에 적어놓으면 적에게 일기장이 털려서 작전이 망합니다. 절대 머릿속에서 지우지 않고 일기장에 쓰지 않겠다고 스스로 뇌에 맹세하는 것이 mlock() 입니다.
@@ -165,19 +163,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">커널 메모리 할당의 특징</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">페이지 고정 (Page Pinning / Locking)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">대형 페이지 (Large Page / Transparent Hugepage)의 가상 메모리 성능 이점</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ZRAM / 커널 스왑 압축 기술</div></div>
-</div>
-</div>
-
-
+```text
+[커널 메모리 할당의 특징]
+    │
+    ▼
+[페이지 고정 (Page Pinning / Locking)]
+    │
+    ├──▶ [대형 페이지 (Large Page / Transparent Hugepage)의 가상 메모리 성능 이점]
+    └──▶ [ZRAM / 커널 스왑 압축 기술]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

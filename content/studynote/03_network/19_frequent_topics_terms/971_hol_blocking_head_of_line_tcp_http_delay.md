@@ -21,18 +21,14 @@ tags = ["studynote-network"]
 
 네트워크 장비나 프로토콜이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 처리할 때 <strong>선입선출(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/">FIFO</a>, 먼저 온 놈 먼저 처리)</strong> 방식을 고집하면서 터지는 고질적인 문제입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">슬로우 스타트</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">홀오브라인 블로킹</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">QUIC</div></div>
-</div>
-</div>
-
-
+```text
+[슬로우 스타트]
+    │
+    ▼
+[홀오브라인 블로킹]
+    │
+    └──▶ [QUIC]
+```
 
 - **📢 섹션 요약 비유**: 홀오브라인 블로킹은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -42,18 +38,14 @@ tags = ["studynote-network"]
 
 - **개념**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 큐(대기열)나 전송 파이프라인에서, <strong>맨 앞(Head of Line)에 있는 패킷의 처리가 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>되거나 손실되어 멈췄을 때, 그 뒤에 대기하고 있는 모든 정상적인 패킷들까지 연쇄적으로 처리가 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>(블로킹)되어 전체 네트워크 성능이 수직 낙하하는 현상</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">슬로우 스타트</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">홀오브라인 블로킹</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">QUIC</div></div>
-</div>
-</div>
-
-
+```text
+[슬로우 스타트]
+    │
+    ▼
+[홀오브라인 블로킹]
+    │
+    └──▶ [QUIC]
+```
 
 - **📢 섹션 요약 비유**: 홀오브라인 블로킹의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -119,19 +111,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 슬로우 스타트</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 홀오브라인 블로킹</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: QUIC</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 슬로우 스타트]
+    │
+    ▼
+[현재 개념: 홀오브라인 블로킹]
+    │
+    ├──▶ [확장 A: QUIC]
+    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
+```
 
 홀오브라인 블로킹는 [슬로우 스타트](/knowledge-base/studynote/03_network/08_transport_layer/430_slow_start_exponential_growth_cwnd/)에서 출발해 현재 메커니즘을 정교화하고, 이후 QUIC와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

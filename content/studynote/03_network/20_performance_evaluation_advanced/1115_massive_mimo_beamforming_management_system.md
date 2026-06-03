@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 4G [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)(2T2R 등)는 둥근 풍선 모양으로 전파를 넓게 퍼뜨렸습니다. 
 - 철수가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓸 때 옆에 있는 영희도 불필요한 전파를 맞았습니다(간섭 노이즈). 허공으로 날아가는 낭비 전력이 99%라 효율이 처참했습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">스몰 셀 조밀화 간섭 통제망</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Massive MIMO 빔 관리 시스템</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">자율 구동 네트워크 레벨링</div></div>
-</div>
-</div>
-
-
+```text
+[스몰 셀 조밀화 간섭 통제망]
+    │
+    ▼
+[Massive MIMO 빔 관리 시스템]
+    │
+    └──▶ [자율 구동 네트워크 레벨링]
+```
 
 - **📢 섹션 요약 비유**: [Massive MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/) 빔 관리 시스템은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -43,18 +39,14 @@ tags = ["studynote-network"]
 
 - **개념**: 기지국 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 1대에 <strong>수십~수백 개(64T64R 등)의 초소형 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">안테나</a> 소자(Element)들을 바둑판 배열로 때려 박아</strong>, 수십 명의 사용자에게 각각 독립적인 전파 통로를 동시에 뚫어주어([공간 다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/100_공간_다중화_Spatial_Multiplexing/), SDMA) 기지국 용량을 10배 이상 폭발시키는 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)/[6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 절대 필수 하드웨어 아키텍처입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">스몰 셀 조밀화 간섭 통제망</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Massive MIMO 빔 관리 시스템</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">자율 구동 네트워크 레벨링</div></div>
-</div>
-</div>
-
-
+```text
+[스몰 셀 조밀화 간섭 통제망]
+    │
+    ▼
+[Massive MIMO 빔 관리 시스템]
+    │
+    └──▶ [자율 구동 네트워크 레벨링]
+```
 
 - **📢 섹션 요약 비유**: [Massive MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/) 빔 관리 시스템의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -124,19 +116,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 스몰 셀 조밀화 간섭 통제망</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: Massive MIMO 빔 관리 시스템</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 자율 구동 네트워크 레벨링</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 스몰 셀 조밀화 간섭 통제망]
+    │
+    ▼
+[현재 개념: Massive MIMO 빔 관리 시스템]
+    │
+    ├──▶ [확장 A: 자율 구동 네트워크 레벨링]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 [Massive MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/) 빔 관리 시스템는 스몰 셀 조밀화 간섭 통제망에서 출발해 현재 메커니즘을 정교화하고, 이후 자율 구동 네트워크 레벨링와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

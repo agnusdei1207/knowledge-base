@@ -26,18 +26,14 @@ tags = ["studynote-network"]
   - **CLOSE_WAIT**: 영업시간 끝났다고 지배인이 입구 간판의 불을 껐습니다(상대의 FIN 수신). 하지만 아직 주방에서는 손님이 시킨 마지막 군만두(남은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 요리 중입니다. 주방장은 군만두가 나올 때까지 **주방 셔터를 붙잡고 버티고 섭니다(CLOSE_WAIT)**.
   - **LAST_ACK**: 군만두를 손님상에 내고 "이제 저희 진짜 문 닫습니다(나의 FIN 발송)"라고 찐막 선언을 했습니다. 이제 손님이 카드 결제 사인을 해주기(마지막 ACK 수신)만을 <strong>계산대 앞에서 멍하니 기다리는 상태(LAST_ACK)</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">TIME_WAIT 상태</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CLOSE_WAIT / LAST_ACK 상태</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TCP 흐름 제어</div></div>
-</div>
-</div>
-
-
+```text
+[TIME_WAIT 상태]
+    │
+    ▼
+[CLOSE_WAIT / LAST_ACK 상태]
+    │
+    └──▶ [TCP 흐름 제어]
+```
 
 - **📢 섹션 요약 비유**: ** CLOSE_WAIT은 헤어지자는 애인의 통보를 받고 일단 고개를 끄덕였지만, **"그래도 내가 사준 플스는 돌려주고 가!"라며 바짓가랑이를 붙잡고 남은 짐([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 싸주는 질척거리는 시간<strong>이며, LAST_ACK는 짐을 다 싸주고 상대가 </strong>마지막으로 "잘 살아라(최종 ACK)" 하고 뒤돌아 걸어가는 모습을 눈으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하기 전 1초의 찰나**입니다.
 
@@ -60,18 +56,14 @@ tags = ["studynote-network"]
 - 클라이언트 ── `ACK` (마지막 영수증) ──▶ 서버
 - <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/">서버 [소켓</a> 상태: CLOSED (완전 소멸, 깔끔한 해피엔딩!)]</strong>
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">TIME_WAIT 상태</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CLOSE_WAIT / LAST_ACK 상태</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TCP 흐름 제어</div></div>
-</div>
-</div>
-
-
+```text
+[TIME_WAIT 상태]
+    │
+    ▼
+[CLOSE_WAIT / LAST_ACK 상태]
+    │
+    └──▶ [TCP 흐름 제어]
+```
 
 - **📢 섹션 요약 비유**: CLOSE_WAIT / LAST_ACK 상태의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -99,24 +91,26 @@ CLOSE_WAIT / LAST_ACK 상태를 볼 때는 앞뒤 개념과의 경계를 함께 
 - **버그 발생**: 그런데 미친 어플리케이션이 무한 루프에 빠졌거나, 개발자가 코드 맨 마지막에 <strong><code>socket.close()</code> 라는 종료 함수를 깜빡하고 안 적어 놓았다!</strong>
 - **결과**: 앱은 "나 아직 안 끝났어!"라고 멍때리고, OS는 "앱이 아직 안 끝났다니까 셔터 못 내리겠네..." 하고 무한정 기다려준다(CLOSE_WAIT). 상대방은 이미 퇴근한 지 오렌지인데, 내 서버 혼자서 끝도 없이 메모리에 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)을 붙잡고 있다가 결국 서버 램이 꽉 차서 죽어버린다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CLOSE_WAIT 장애 시나리오의 완벽한 묘사</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 고객 PC</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">2. 우리 회사 서버 OS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상태: CLOSE_WAIT</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3. 회사 서버 OS</div><div class="kb-diagram-note">"야 백엔드 프로그램아! 고객이 끊쟀어 문 닫아라!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (명령 하달)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">4. 미친 백엔드 프로그램</div><div class="kb-diagram-note">(개발자가 버그 내서 무한 연산 도는 중)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"...... (무응답, close() 함수 호출 안 함)"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결론: OS는 앱이 명령을 내릴 때까지 수동적으로 평생 CLOSE_WAIT 상태로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기다린다. 이건 네트워크나 방화벽 문제가 아니라 순전히 개발자</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가 코드를 X 같이 짜서 발생한 애플리케이션 찌꺼기 에러다!!</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                CLOSE_WAIT 장애 시나리오의 완벽한 묘사              │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 1. 고객 PC ] "나 로그아웃함 ㅂㅂ" (FIN) ──▶ [ 2. 우리 회사 서버 OS ] │
+ │                                              상태: CLOSE_WAIT     │
+ │                                                             │
+ │   [ 3. 회사 서버 OS ] "야 백엔드 프로그램아! 고객이 끊쟀어 문 닫아라!"    │
+ │       │                                                     │
+ │       ▼ (명령 하달)                                          │
+ │                                                             │
+ │   [ 4. 미친 백엔드 프로그램 ] (개발자가 버그 내서 무한 연산 도는 중)       │
+ │      "...... (무응답, close() 함수 호출 안 함)"                │
+ │                                                             │
+ │   ▶ 결론: OS는 앱이 명령을 내릴 때까지 수동적으로 평생 CLOSE_WAIT 상태로│
+ │           기다린다. 이건 네트워크나 방화벽 문제가 아니라 순전히 개발자  │
+ │           가 코드를 X 같이 짜서 발생한 애플리케이션 찌꺼기 에러다!!    │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -147,19 +141,15 @@ CLOSE_WAIT / LAST_ACK 상태는 전송 계층을 이해할 때 핵심 축을 잡
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: TIME_WAIT 상태</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: CLOSE_WAIT / LAST_ACK 상태</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: TCP 흐름 제어</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: TIME_WAIT 상태]
+    │
+    ▼
+[현재 개념: CLOSE_WAIT / LAST_ACK 상태]
+    │
+    ├──▶ [확장 A: TCP 흐름 제어]
+    └──▶ [확장 B: 적응형 저지연 전송]
+```
 
 CLOSE_WAIT / LAST_ACK 상태는 TIME_WAIT 상태에서 출발해 현재 메커니즘을 정교화하고, 이후 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/)와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

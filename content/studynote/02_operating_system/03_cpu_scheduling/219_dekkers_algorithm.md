@@ -24,22 +24,19 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경**: 에츠허르 데이크스트라가 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 제어 문제를 학계에 던졌을 때, 수많은 학자들이 실패한 코드를 들고나왔다. 이때 데커가 `flag`(의사)와 `turn`(차례)이라는 두 가지 개념을 분리하여 교차시키는 방식을 제안했고, 데이크스트라가 이를 논문으로 발표하며 전 세계에 알려지게 되었다.
 
+```text
+  [데커 알고리즘 이전의 실패 사례들 (왜 데커가 위대한가?)]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">데커 알고리즘 이전의 실패 사례들 (왜 데커가 위대한가?)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">실패 1: 턴(Turn)만 사용 시</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">진행(Progress) 실패 (Strict Alternation)</div></div>
-<div class="kb-diagram-note">P0: "P1 차례네? 난 쉴게." (P1은 화장실 갈 생각도 없는데 P0은 영원히 기다림)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">실패 2: 깃발(Flag)만 사용 시</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">상호 배제(Mutex) 실패</div></div>
-<div class="kb-diagram-note">P0: "깃발 든다!" / P1: "나도 깃발 든다!" ─▶ 둘이 동시에 문 열고 들어가서 충돌!</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">성공: 데커의 알고리즘 (Flag + Turn 융합)</div></div>
-<div class="kb-diagram-note">P0: "나 깃발 들었어(Flag). 어? P1 너도 들었네? 그럼 누구 차례(Turn)지?"</div>
-<div class="kb-diagram-note">P0: "아, P1 차례구나. 그럼 내 깃발 내리고 P1 끝날 때까지 기다려줄게."</div>
-</div>
-</div>
-
-
+  [실패 1: 턴(Turn)만 사용 시] ─▶ 진행(Progress) 실패 (Strict Alternation)
+  P0: "P1 차례네? 난 쉴게." (P1은 화장실 갈 생각도 없는데 P0은 영원히 기다림)
+  
+  [실패 2: 깃발(Flag)만 사용 시] ─▶ 상호 배제(Mutex) 실패 
+  P0: "깃발 든다!" / P1: "나도 깃발 든다!" ─▶ 둘이 동시에 문 열고 들어가서 충돌!
+  
+  [성공: 데커의 알고리즘 (Flag + Turn 융합)]
+  P0: "나 깃발 들었어(Flag). 어? P1 너도 들었네? 그럼 누구 차례(Turn)지?"
+  P0: "아, P1 차례구나. 그럼 내 깃발 내리고 P1 끝날 때까지 기다려줄게."
+```
 **[다이어그램 해설]** [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 문제를 풀려면 두 가지 변수가 반드시 필요하다. "내가 하고 싶다"는 개인의 의지(`flag`)와, "만약 둘 다 하고 싶어 하면 누구를 먼저 시킬 것인가"라는 [중재자](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/)(`turn`)다. 데커는 이 두 변수를 엮어, 충돌이 났을 때만 양보(`turn` 검사)를 강제하는 기가 막힌 분기문(if-else)을 만들어냈다.
 
 - **📢 섹션 요약 비유**: 교차로에서 직진 차량과 좌회전 차량이 만났습니다. 눈치만 보면(Turn만 쓰면) 차가 없을 때도 기다려야 하고, 무대포로 직진하면(Flag만 쓰면) 사고가 납니다. 데커의 규칙은 "일단 직진해! 단, 차가 꼬이면 무조건 우측 차에게 양보해(Turn [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))!"라는 완벽한 교통 법규입니다.
@@ -124,24 +121,25 @@ tags = ["studynote-operating-system"]
    - **이유**: 현대 CPU는 '[비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) (Out-of-Order Execution)'을 한다. CPU가 볼 때 `flag[0] = true;` 와 `while(flag[1] == true)` 는 서로 상관없는 변수라, 속도를 높이기 위해 컴파일러나 CPU가 이 두 줄의 실행 순서를 마음대로 섞어버린다. 순서가 꼬이는 순간 데커 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 즉시 붕괴하여 두 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 충돌한다.
    - **아키텍트 교정**: 만약 실무에서 [락-프리](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/)([Lock-free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/))하게 데커를 구현하려 든다면, 반드시 컴파일러 최적화를 막는 `volatile` 키워드와 함께 CPU [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 순서를 강제하는 <strong><code>Memory Barrier (FENCE)</code></strong> [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 변수 사이에 떡칠해야 한다. 이렇게 짤 바엔 그냥 하드웨어 [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)(`std::atomic`)를 쓰는 것이 100배 안전하고 빠르다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">왜 데커 알고리즘은 현대 멀티코어 캐시 환경에서 붕괴하는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">코어 0 (P0 실행 중)</div><div class="kb-diagram-node">코어 1 (P1 실행 중)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1. flag</div><div class="kb-diagram-node">0</div><div class="kb-diagram-note">= true (L1 캐시에만 씀)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1. flag</div><div class="kb-diagram-node">1</div><div class="kb-diagram-note">= true (캐시에 씀)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2. P0이 flag</div><div class="kb-diagram-node">1</div><div class="kb-diagram-note">검사 2. P1이 flag</div><div class="kb-diagram-node">0</div><div class="kb-diagram-note">검사</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">1</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">0</div><div class="kb-diagram-note">이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">false로 보이네? false로 보이네?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. P0 임계구역 진입! 💥 3. P1 임계구역 진입! 💥</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🚨 판정: 캐시 일관성(Cache Coherence)이 동기화되기 전의 짧은</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">찰나의 틈 때문에 상호 배제가 완벽히 박살 난다.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────────┐
+  │     왜 데커 알고리즘은 현대 멀티코어 캐시 환경에서 붕괴하는가?  │
+  ├─────────────────────────────────────────────────────────────────┤
+  │                                                                 │
+  │   [ 코어 0 (P0 실행 중) ]          [ 코어 1 (P1 실행 중) ]      │
+  │   1. flag[0] = true (L1 캐시에만 씀)                            │
+  │                                1. flag[1] = true (캐시에 씀)    │
+  │                                                                 │
+  │   2. P0이 flag[1] 검사            2. P1이 flag[0] 검사          │
+  │   ▶ 어라? 내 캐시엔 아직 flag[1]이   ▶ 어? 내 캐시엔 flag[0]이  │
+  │      false로 보이네?               false로 보이네?              │
+  │                                                                 │
+  │   3. P0 임계구역 진입! 💥          3. P1 임계구역 진입! 💥      │
+  │                                                                 │
+  │   🚨 판정: 캐시 일관성(Cache Coherence)이 동기화되기 전의 짧은  │
+  │          찰나의 틈 때문에 상호 배제가 완벽히 박살 난다.         │
+  └─────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 데커와 피터슨은 "모든 프로세스가 하나의 메인 메모리를 실시간으로 본다"는 고전적인 [폰 노이만 아키텍처](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/124_von_neumann/)(싱글 코어) 위에서만 완벽한 논리다. 코어마다 독자적인 L1/L2 캐시를 가지는 현대 [SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/) 환경에서는, 내가 쓴 깃발(변수)이 상대방 코어에 전파되기까지의 딜레이(수 나노초) 동안 논리가 성립하지 않는다. 이론의 완벽함이 물리적 하드웨어의 발전 앞에서 수명을 다한 것이다.
 
 - **📢 섹션 요약 비유**: 데커 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 봉화대(깃발)를 올려 적의 침입을 알리는 완벽한 전술입니다. 하지만 요즘(현대 CPU)은 스텔스기가 날아다니고 무전 방해(캐시 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))가 걸리기 때문에, 봉화대 전술을 쓰면 봉화가 타오르기도 전에 적이 이미 성벽([임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)) 안으로 들어와 버리는 것과 같습니다.
@@ -171,19 +169,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">컨테이너 스케줄링 (cgroups cpu.shares, cpu.cfs_quota_us)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데커의 알고리즘 (Dekker's Algorithm)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">무중단 라이브 마이그레이션 스케줄링 고려사항</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">경쟁 조건 (Race Condition)</div></div>
-</div>
-</div>
-
-
+```text
+[컨테이너 스케줄링 (cgroups cpu.shares, cpu.cfs_quota_us)]
+    │
+    ▼
+[데커의 알고리즘 (Dekker's Algorithm)]
+    │
+    ├──▶ [무중단 라이브 마이그레이션 스케줄링 고려사항]
+    └──▶ [경쟁 조건 (Race Condition)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

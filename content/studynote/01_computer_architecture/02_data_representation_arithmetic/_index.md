@@ -23,23 +23,27 @@ tags = ["computer_architecture"]
 
 이 그림은 데이터가 추상화된 값에서 물리적인 비트 패턴으로 변환되어 ALU에서 처리되는 과정을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data Flow from Representation to ALU</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Real World Value</div><div class="kb-diagram-note">: -5, 3.14, 'A'</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (Encoding)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Bit Pattern</div><div class="kb-diagram-note">: 11111011 (2's Comp), 01000000... (IEEE)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (Load to Registers)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ALU (Arithmetic Logic Unit)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Adder</div><div class="kb-diagram-node">Multiplier</div><div class="kb-diagram-node">Shifter</div><div class="kb-diagram-node">Logic</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (Result)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Status Flags</div><div class="kb-diagram-note">: Zero, Carry, Overflow, Negative</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│              Data Flow from Representation to ALU           │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Real World Value ] : -5, 3.14, 'A'                      │
+│          │                                                  │
+│          ▼ (Encoding)                                       │
+│   [ Bit Pattern ] : 11111011 (2's Comp), 01000000... (IEEE) │
+│          │                                                  │
+│          ▼ (Load to Registers)                              │
+│   ┌─────────────────────────────────────────────────────┐   │
+│   │          ALU (Arithmetic Logic Unit)                │   │
+│   │  [ Adder ] [ Multiplier ] [ Shifter ] [ Logic ]     │   │
+│   └─────────────────────────────────────────────────────┘   │
+│          │                                                  │
+│          ▼ (Result)                                         │
+│   [ Status Flags ] : Zero, Carry, Overflow, Negative        │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '상태 플래그 (Status Flags)'이다. 연산 결과뿐만 아니라, 결과가 0인지, 넘쳤는지 (Overflow) 등의 메타데이터를 함께 생성하여 다음 명령어의 실행 방향(조건 분기)을 결정한다. 실무에서는 이러한 하드웨어 플래그가 운영체제의 스케줄링이나 에러 처리에 직접적인 영향을 미친다.
 
@@ -67,20 +71,20 @@ tags = ["computer_architecture"]
 
 이 구조도는 부동 소수점이 메모리에 저장되는 비트 레이아웃을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IEEE 754 Single Precision (32-bit)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">S</div><div class="kb-diagram-node">Exponent (8 bits)</div><div class="kb-diagram-node">Fraction (23 bits)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">31 30 23 22 0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* Value = (-1)^S * (1.Fraction) * 2^(Exponent - 127)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* S: 0 (Positive), 1 (Negative)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* Bias (127): 음수 지수 표현을 위해 사용</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 IEEE 754 Single Precision (32-bit)          │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ S ] [   Exponent (8 bits)   ] [     Fraction (23 bits) ]│
+│    31    30                   23   22                      0│
+│                                                             │
+│   * Value = (-1)^S * (1.Fraction) * 2^(Exponent - 127)      │
+│   * S: 0 (Positive), 1 (Negative)                           │
+│   * Bias (127): 음수 지수 표현을 위해 사용                  │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '정밀도와 범위'의 조절이다. 지수부가 커지면 표현 가능한 숫자의 범위가 넓어지고, 가수부가 커지면 정밀도가 높아진다. 실무에서는 딥러닝 연산 시 속도를 위해 정밀도를 낮춘 <strong>FP16</strong>이나 **BF16** 포맷을 사용하여 하드웨어 자원을 최적화한다.
 
@@ -128,19 +132,23 @@ tags = ["computer_architecture"]
 
 이 도식은 오버플로우 (Overflow) 감지 로직과 그 파급 효과를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Overflow Detection and Exception</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">A</div><div class="kb-diagram-note">+</div><div class="kb-diagram-node">B</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Result</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Overflow Logic</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* Case: (+5) + (+4) = (-7) in 4-bit space! (Logic Error)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Hardware Flag</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OS Trap / Signal</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">App Crash</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│               Overflow Detection and Exception              │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ A ] + [ B ] ──▶ [ Result ]                              │
+│     │      │           │                                    │
+│     └──────┼───────────┴──▶ [ Overflow Logic ]              │
+│                                     │                       │
+│   * Case: (+5) + (+4) = (-7) in 4-bit space! (Logic Error)  │
+│                                     │                       │
+│   ┌─────────────────────────────────┴─────────────────┐     │
+│   ▼                                                   ▼     │
+│ [ Hardware Flag ] ──▶ [ OS Trap / Signal ] ──▶ [ App Crash ] │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 기술사의 판단은 '측정 도구의 선택'과 같습니다. 거리를 잴 때 자(정수)를 쓸지, 정밀한 레이저(부동 소수점)를 쓸지, 아니면 대충 눈대중(양자화)으로 할지를 용도와 비용에 맞춰 결정하는 일입니다.
 

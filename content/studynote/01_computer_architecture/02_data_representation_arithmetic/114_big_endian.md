@@ -31,23 +31,23 @@ tags = ["studynote-computer-architecture"]
 ### 메모리 레이아웃 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)
 32비트(4바이트) 정수 `0x12345678`을 메모리 번지 `0x00`부터 저장한다고 가정하자. 여기서 `12`는 수치상 가장 큰 값([MSB](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/080_msb/))을 의미한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">빅 엔디안 (Big-Endian) 메모리 매핑 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터: 0x 12 34 56 78 (12가 머리, 78이 꼬리)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 주소</div><div class="kb-diagram-cell">저장된 바이트</div><div class="kb-diagram-cell">직관적 해석</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0x00</div><div class="kb-diagram-cell">12</div><div class="kb-diagram-cell">◀ MSB (가장 큰 놈이 앞방 차지)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0x01</div><div class="kb-diagram-cell">34</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0x02</div><div class="kb-diagram-cell">56</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0x03</div><div class="kb-diagram-cell">78</div><div class="kb-diagram-cell">◀ LSB (가장 작은 놈이 뒷방)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심 논리: 메모리를 덤프(Dump) 떠서 왼쪽부터 읽으면</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">'12 34 56 78'로, 원래 숫자가 그대로 인간의 눈에 들어온다.</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────┐
+│           빅 엔디안 (Big-Endian) 메모리 매핑 구조          │
+├────────────────────────────────────────────────────────┤
+│   데이터: 0x 12 34 56 78  (12가 머리, 78이 꼬리)           │
+│                                                        │
+│   메모리 주소 │ 저장된 바이트 │ 직관적 해석                    │
+│   ─────────┼───────────┼────────────────────────        │
+│    0x00    │    12     │ ◀ MSB (가장 큰 놈이 앞방 차지)     │
+│    0x01    │    34     │                                │
+│    0x02    │    56     │                                │
+│    0x03    │    78     │ ◀ LSB (가장 작은 놈이 뒷방)        │
+│                                                        │
+│ * 핵심 논리: 메모리를 덤프(Dump) 떠서 왼쪽부터 읽으면        │
+│   '12 34 56 78'로, 원래 숫자가 그대로 인간의 눈에 들어온다.  │
+└────────────────────────────────────────────────────────┘
+```
 
 이 구조는 숫자 크기 비교(`> , <`) 연산을 수행할 때 극강의 이점을 갖는다. CPU가 주소 `0x00`에 있는 첫 번째 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)(`12`)만 딱 읽고 비교해도, 뒤에 있는 자잘한 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)들을 읽을 필요 없이 두 숫자의 대소 관계를 즉각 판별할 수 있다.
 
@@ -106,23 +106,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">메모리 주소 지정의 물리적 한계 (바이트 단위의 배치 고민)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">빅 엔디안 (Big-Endian) 설계 (IBM, 인간 직관성 및 대소 비교 최적화)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">네트워크 라우팅의 고속화 요구 (패킷 헤더 조기 판별)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">네트워크 바이트 순서(Network Byte Order) 표준으로 빅 엔디안 제정</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">호스트-네트워크 간 데이터 변환 아키텍처(htonl, ntohl)의 필수 융합</div>
-</div>
-</div>
-
-
+```text
+메모리 주소 지정의 물리적 한계 (바이트 단위의 배치 고민)
+    │
+    ▼
+빅 엔디안 (Big-Endian) 설계 (IBM, 인간 직관성 및 대소 비교 최적화)
+    │
+    ▼
+네트워크 라우팅의 고속화 요구 (패킷 헤더 조기 판별)
+    │
+    ▼
+네트워크 바이트 순서(Network Byte Order) 표준으로 빅 엔디안 제정
+    │
+    ▼
+호스트-네트워크 간 데이터 변환 아키텍처(htonl, ntohl)의 필수 융합
+```
 
 이 흐름도는 "인간의 직관적 설계 → 대소 비교 효율 → 네트워크 라우터의 고속 패킷 처리 → 글로벌 통신 표준 제정"으로 이어지는 빅 엔디안의 아키텍처적 승리 과정을 보여준다.
 

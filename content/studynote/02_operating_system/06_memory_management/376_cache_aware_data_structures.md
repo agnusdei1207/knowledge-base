@@ -27,25 +27,25 @@ tags = ["studynote-operating-system"]
   2. **캐시 라인의 획일화**: 모든 CPU 제조사가 L1 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 캐시를 읽어오는 단위를 64바이트(또는 128바이트)로 고정했다.
   3. **소프트웨어의 깨달음**: "빅 오(Big-O) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 $O(1)$이라도 캐시 미스가 펑펑 터지면 $O(N)$보다 늦다!"며 B-Tree의 노드 크기를 캐시 라인에 맞추고, 구조체 빈 공간에 [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)을 욱여넣는 하드웨어 친화적(Cache-conscious) 코딩 트렌드가 생겨났다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일반 데이터 구조 vs 캐시 인식 데이터 구조의 메모리 매핑</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황: 36바이트짜리 객체(Object) 2개를 배열로 연속 저장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1. 일반 구조 (Cache-Ignorant)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Cache Line 1 (0~63B) :</div><div class="kb-diagram-node">Obj 1 (36B)</div><div class="kb-diagram-note">+</div><div class="kb-diagram-node">Obj 2 앞 28B</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Cache Line 2 (64~127B):</div><div class="kb-diagram-node">Obj 2 뒤 8B</div><div class="kb-diagram-note">+</div><div class="kb-diagram-node">다른 데이터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⚠ 결과: Obj 2를 읽으려면 CPU는 캐시 라인을 2개나 로드해야 함!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2. 캐시 인식 구조 (Cache-Aware + Padding)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Cache Line 1 (0~63B) :</div><div class="kb-diagram-node">Obj 1 (36B)</div><div class="kb-diagram-note">+</div><div class="kb-diagram-node">빈 패딩 28B</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Cache Line 2 (64~127B):</div><div class="kb-diagram-node">Obj 2 (36B)</div><div class="kb-diagram-note">+</div><div class="kb-diagram-node">빈 패딩 28B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 결과: Obj 2가 완벽하게 두 번째 캐시 라인에 안착.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">램 낭비(28B)는 생겼지만 접근 속도는 무조건 1클럭 보장!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────────┐
+│        일반 데이터 구조 vs 캐시 인식 데이터 구조의 메모리 매핑      │
+├─────────────────────────────────────────────────────────────────────┤
+│                                                                     │
+│ [ 상황: 36바이트짜리 객체(Object) 2개를 배열로 연속 저장 ]          │
+│                                                                     │
+│ ▶ 1. 일반 구조 (Cache-Ignorant)                                     │
+│   Cache Line 1 (0~63B) : [ Obj 1 (36B) ] + [ Obj 2 앞 28B ]         │
+│   Cache Line 2 (64~127B): [ Obj 2 뒤 8B ] + [ 다른 데이터 ]         │
+│   ⚠ 결과: Obj 2를 읽으려면 CPU는 캐시 라인을 2개나 로드해야 함!     │
+│                                                                     │
+│ ▶ 2. 캐시 인식 구조 (Cache-Aware + Padding)                         │
+│   Cache Line 1 (0~63B) : [ Obj 1 (36B) ] + [ 빈 패딩 28B ]          │
+│   Cache Line 2 (64~127B): [ Obj 2 (36B) ] + [ 빈 패딩 28B ]         │
+│   ✅ 결과: Obj 2가 완벽하게 두 번째 캐시 라인에 안착.               │
+│            램 낭비(28B)는 생겼지만 접근 속도는 무조건 1클럭 보장!   │
+└─────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 이것이 C/C++ 개발자들이 `#pragma pack` 이나 `alignas(64)` 같은 더러운 키워드를 코드에 박아넣는 이유다. 인간의 눈에는 28바이트의 여백이 램 낭비로 보이지만, 캐시 컨트롤러의 눈에는 "완벽하게 1클럭 만에 물어올 수 있도록 재단된 규격 박스"로 보인다. 시간(속도)을 위해 공간(RAM)을 미련 없이 버리는 현대 아키텍처의 표본이다.
 
 - **📢 섹션 요약 비유**: 서랍장(캐시 라인) 하나에 64개의 동전이 들어가는데, 36개짜리 동전 묶음 2개를 첫 번째 서랍과 두 번째 서랍에 걸쳐서 넣어두면 두 번째 묶음을 찾을 때 서랍 두 개를 다 열어야 합니다. 차라리 첫 번째 서랍에 36개만 넣고 나머지를 텅 비워두면, 묶음 하나를 꺼낼 때 서랍을 딱 한 번만 열면 됩니다.
@@ -58,25 +58,27 @@ tags = ["studynote-operating-system"]
 
 멀티 코어(Multi-core) 시스템에서 캐시 라인을 무시하면 시스템 전체가 얼어붙는 '[거짓 공유](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/)'가 발생한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">False Sharing (거짓 공유) 발생 매커니즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">C언어 구조체</div><div class="kb-diagram-note">struct { int A; int B; } (총 8바이트)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">물리적 상황</div><div class="kb-diagram-note">A와 B가 1개의 64바이트 캐시 라인 안에 같이 들어감!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">멀티코어의 비극</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 코어 1번 스레드는 A값만 미친듯이 덧셈함 (A++)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 코어 2번 스레드는 B값만 미친듯이 덧셈함 (B++)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💥 코어 1이 A를 바꾸면 -&gt; "어? A가 속한 캐시 라인 전체가 오염됐네!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; 하드웨어(MESI 프로토콜)가 코어 2의 캐시를 강제로 무효화시킴.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💥 코어 2가 B를 바꾸면 -&gt; 또 캐시 라인 오염 -&gt; 코어 1 캐시 무효화.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 결과: A와 B는 논리적으로 완전 남남인데, 물리적 방(캐시 라인)을</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">같이 쓴다는 이유만으로 초당 수만 번씩 서로의 캐시를 박살냄.</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│              False Sharing (거짓 공유) 발생 매커니즘                    │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│ [ C언어 구조체 ] struct { int A; int B; } (총 8바이트)                  │
+│                                                                         │
+│ [ 물리적 상황 ] A와 B가 1개의 64바이트 캐시 라인 안에 같이 들어감!      │
+│                                                                         │
+│ [ 멀티코어의 비극 ]                                                     │
+│  - 코어 1번 스레드는 A값만 미친듯이 덧셈함 (A++)                        │
+│  - 코어 2번 스레드는 B값만 미친듯이 덧셈함 (B++)                        │
+│                                                                         │
+│ 💥 코어 1이 A를 바꾸면 -> "어? A가 속한 캐시 라인 전체가 오염됐네!"     │
+│    -> 하드웨어(MESI 프로토콜)가 코어 2의 캐시를 강제로 무효화시킴.      │
+│ 💥 코어 2가 B를 바꾸면 -> 또 캐시 라인 오염 -> 코어 1 캐시 무효화.      │
+│                                                                         │
+│ ✅ 결과: A와 B는 논리적으로 완전 남남인데, 물리적 방(캐시 라인)을       │
+│         같이 쓴다는 이유만으로 초당 수만 번씩 서로의 캐시를 박살냄.     │
+└─────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 코어 1과 코어 2는 서로 다른 변수(A, B)를 다루므로 소프트웨어적으로는 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 걸 필요가 없는 완벽한 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 프로그래밍 상태다. 하지만 하드웨어는 "변수" 단위가 아니라 "64바이트 캐시 라인" 단위로 오염(Dirty) 여부를 판단한다. 두 변수가 한 방에 살고 있으니 한 명만 기침을 해도 방 전체를 소독(캐시 무효화)해버리는 끔찍한 병목이 터진다.
 
@@ -118,17 +120,14 @@ struct {
 | **캐시 효율** | 특정 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)(x)만 훑을 때 y, z가 묻어와 캐시 낭비 | 모든 x가 물리적으로 쫙 붙어있어 **캐시 히트율 100%** |
 | <strong><a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/">SIMD</a> 호환</strong> | [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 벡터 연산(AVX)을 태우기 까다로움 | 한 번에 x값 16개를 쓸어 담아 연산하는 **SIMD에 최적화** |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">설계 철학</div><div class="kb-diagram-cell">객체 지향성</div><div class="kb-diagram-cell">캐시 라인 친화도</div><div class="kb-diagram-cell">주 사용처</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AoS</div><div class="kb-diagram-cell">완벽 (사람용)</div><div class="kb-diagram-cell">나쁨</div><div class="kb-diagram-cell">일반 백엔드 앱</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SoA</div><div class="kb-diagram-cell">파괴됨</div><div class="kb-diagram-cell">극한 (기계용)</div><div class="kb-diagram-cell">3D 게임, AI, DB</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬───────────────────────┐
+│ 설계 철학  │ 객체 지향성  │ 캐시 라인 친화도│ 주 사용처    │
+├──────────┼────────────┼────────────┼───────────────────────┤
+│ AoS      │ 완벽 (사람용) │ 나쁨       │ 일반 백엔드 앱     │
+│ SoA      │ 파괴됨      │ 극한 (기계용) │ 3D 게임, AI, DB   │
+└──────────┴────────────┴────────────┴───────────────────────┘
+```
 **[매트릭스 해설]** 언리얼 엔진(Unreal) 개발자나 빅데이터 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)(컬럼형 DB) 개발자들이 객체지향([OOP](/knowledge-base/studynote/04_software_engineering/06_software_architecture/322_oop_4_characteristics/))을 혐오하고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 지향 설계([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)-Oriented Design)를 부르짖는 이유다. 객체 하나를 묶어두는 낭만을 버리고, [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)별로 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 쫙쫙 찢어([SoA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/)) 캐시 라인에 일렬로 태워야만 GPU와 CPU 벡터 유닛([SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/))이 낼 수 있는 물리적 극한의 속도를 뽑아낼 수 있다.
 
 - **📢 섹션 요약 비유**: 마트에서 '라면, 과자, 물'을 비닐봉지 하나(객체)에 담아 100명에게 주는 것(AoS)은 손님 입장에선 예쁘지만, 물류 창고 직원이 라면 재고만 쫙 세고 싶을 땐 비닐봉지를 100번 다 뜯어봐야 해서 화가 납니다. 아예 라면은 라면 박스, 물은 물 박스에 통째로 때려 박아놓는 것([SoA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/))이 물류(캐시 연산) 속도의 진리입니다.
@@ -180,19 +179,15 @@ struct {
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">메모리 보호 키 (Memory Protection Keys)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">캐시 인식 데이터 구조 (Cache-aware Data Structures)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NUMA (Non-Uniform Memory Access) 아키텍처와 메모리 할당 정책</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">로컬 노드 할당 vs 인터리브 할당</div></div>
-</div>
-</div>
-
-
+```text
+[메모리 보호 키 (Memory Protection Keys)]
+    │
+    ▼
+[캐시 인식 데이터 구조 (Cache-aware Data Structures)]
+    │
+    ├──▶ [NUMA (Non-Uniform Memory Access) 아키텍처와 메모리 할당 정책]
+    └──▶ [로컬 노드 할당 vs 인터리브 할당]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

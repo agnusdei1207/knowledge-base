@@ -34,17 +34,14 @@ tags = ["studynote-ai"]
 | [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) | 낮음 | 높음 |
 | 사용 조건 | [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 출력 불가 모델 포함 시 | 모든 모델이 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 출력 가능 시 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 보팅은 배심원 재판과 같다. 12명의 배심원이 각자 다른 직업과 관점을 가지고 유/무죄를 결정하는 것처럼, 다양한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 "각자의 관점"으로 클래스를 판정한다.
 
@@ -54,25 +51,28 @@ tags = ["studynote-ai"]
 
 ### 하드 보팅 vs 소프트 보팅 구조
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">입력 데이터 X</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이종 모델 학습 (병렬)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SVM</div><div class="kb-diagram-cell">RF</div><div class="kb-diagram-cell">Logistic Reg.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Class: A</div><div class="kb-diagram-cell">Class: B</div><div class="kb-diagram-cell">Class: A</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pr(A)=.9</div><div class="kb-diagram-cell">Pr(A)=.3</div><div class="kb-diagram-cell">Pr(A)=0.7</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">집계 방법</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hard Voting</div><div class="kb-diagram-cell">Soft Voting</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A:2, B:1</div><div class="kb-diagram-cell">Pr(A)=(0.9+0.3+0.7)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 다수결: A</div><div class="kb-diagram-cell">/3 = 0.633</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ argmax: A</div></div>
-<div class="kb-diagram-note">최종 예측: Class A</div>
-</div>
-</div>
-
-
+```
+  입력 데이터 X
+       │
+  ┌────┴──────────────────────────────────┐
+  │         이종 모델 학습 (병렬)          │
+  ├──────────┬──────────┬─────────────────┤
+  │  SVM     │    RF    │  Logistic Reg.  │
+  │ Class: A │ Class: B │    Class: A     │
+  │  ─────   │  ─────   │   ─────────     │
+  │ Pr(A)=.9 │ Pr(A)=.3 │  Pr(A)=0.7     │
+  └─────┬────┴─────┬────┴────────┬────────┘
+        │          │             │
+  ┌─────▼──────────▼─────────────▼────────┐
+  │           집계 방법                    │
+  ├────────────────┬──────────────────────┤
+  │  Hard Voting   │    Soft Voting       │
+  │  A:2, B:1      │  Pr(A)=(0.9+0.3+0.7)│
+  │  → 다수결: A   │       /3 = 0.633     │
+  │                │  → argmax: A         │
+  └────────────────┴──────────────────────┘
+             최종 예측: Class A
+```
 
 ### 소프트 보팅의 수식
 
@@ -136,19 +136,16 @@ n=5, ε=0.3 → 다수결 오류율 ≈ 0.163 (단일 모델 0.3보다 낮음)
 
 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 세트 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)에 비례하여 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 부여하면 단순 보팅보다 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 향상된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">모델별 가중치 결정:</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모델</div><div class="kb-diagram-cell">검증 정확도</div><div class="kb-diagram-cell">소프트 보팅 가중치</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SVM</div><div class="kb-diagram-cell">0.88</div><div class="kb-diagram-cell">0.35</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Random Forest</div><div class="kb-diagram-cell">0.85</div><div class="kb-diagram-cell">0.34</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Logistic Reg.</div><div class="kb-diagram-cell">0.77</div><div class="kb-diagram-cell">0.31</div></div>
-</div>
-</div>
-
-
+```
+  모델별 가중치 결정:
+  ┌────────────────┬────────────┬──────────────┐
+  │ 모델           │ 검증 정확도 │ 소프트 보팅 가중치│
+  ├────────────────┼────────────┼──────────────┤
+  │ SVM            │ 0.88       │ 0.35         │
+  │ Random Forest  │ 0.85       │ 0.34         │
+  │ Logistic Reg.  │ 0.77       │ 0.31         │
+  └────────────────┴────────────┴──────────────┘
+```
 
 ### 기술사 답안 포인트
 

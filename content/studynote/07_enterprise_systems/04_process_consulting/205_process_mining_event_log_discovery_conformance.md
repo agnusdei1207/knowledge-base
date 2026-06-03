@@ -19,7 +19,7 @@ tags = ["studynote-enterprise"]
 
 ## Ⅰ. 개요 및 필요성
 
-[프로세스 마이닝](/knowledge-base/studynote/12_it_management/03_ea_isp/129_process_mining_bpr_event_log_bottleneck_analysis/) ([Process Mining](/knowledge-base/studynote/12_it_management/03_ea_isp/129_process_mining_bpr_event_log_bottleneck_analysis/))은 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) ([Enterprise Resource Planning](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)), [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) ([Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) [Relationship](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)), 그룹웨어, 티켓 시스템 등에 남은 이벤트 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 분석해 실제 프로세스 흐름을 발견하고 평가하는 기법이다. 전통적인 프로세스 분석은 인터뷰와 워크숍에 크게 의존했기 때문에, 예외 처리나 반복 루프처럼 현장이 체감하지 못하는 흐름을 놓치기 쉬웠다. 반면 [프로세스 마이닝](/knowledge-base/studynote/12_it_management/03_ea_isp/129_process_mining_bpr_event_log_bottleneck_analysis/)은 시스템이 남긴 흔적을 기반으로 하므로, "문서상 절차"가 아니라 "실제 수행 절차"를 드러내는 데 강하다.
+[프로세스 마이닝](/knowledge-base/studynote/12_it_management/03_ea_isp/129_process_mining_bpr_event_log_bottleneck_analysis/) ([Process Mining](/knowledge-base/studynote/12_it_management/03_ea_isp/129_process_mining_bpr_event_log_bottleneck_analysis/))은 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) ([Enterprise Resource Planning](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)), [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) ([C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) [Relationship](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)), 그룹웨어, 티켓 시스템 등에 남은 이벤트 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 분석해 실제 프로세스 흐름을 발견하고 평가하는 기법이다. 전통적인 프로세스 분석은 인터뷰와 워크숍에 크게 의존했기 때문에, 예외 처리나 반복 루프처럼 현장이 체감하지 못하는 흐름을 놓치기 쉬웠다. 반면 [프로세스 마이닝](/knowledge-base/studynote/12_it_management/03_ea_isp/129_process_mining_bpr_event_log_bottleneck_analysis/)은 시스템이 남긴 흔적을 기반으로 하므로, "문서상 절차"가 아니라 "실제 수행 절차"를 드러내는 데 강하다.
 
 이 기법이 중요해진 이유는 디지털 업무가 대부분 시스템 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 남기기 때문이다. 주문, 승인, 발송, 환불처럼 반복적 프로세스는 클릭과 상태 변경이 누적되므로, 이를 연결하면 실제 흐름과 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 구간을 역으로 복원할 수 있다. [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 풍부한 조직일수록 [프로세스 마이닝](/knowledge-base/studynote/12_it_management/03_ea_isp/129_process_mining_bpr_event_log_bottleneck_analysis/)은 인터뷰보다 더 빠르고 정밀한 진단 도구가 된다.
 
@@ -41,17 +41,17 @@ tags = ["studynote-enterprise"]
 
 아래 그림은 여러 시스템에서 추출한 이벤트 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 정제 과정을 거쳐 실제 프로세스 맵과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표로 변환되는 기본 흐름을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ERP / CRM / Ticket System Logs</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Event Log (Case, Activity, Timestamp, Resource)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Discovery -&gt; Variant Analysis -&gt; Bottleneck / Rework Insight</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ ERP / CRM / Ticket System Logs                                      │
+│          │                                                           │
+│          ▼                                                           │
+│ Event Log (Case, Activity, Timestamp, Resource)                     │
+│          │                                                           │
+│          ▼                                                           │
+│ Discovery -> Variant Analysis -> Bottleneck / Rework Insight        │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 핵심 원리는 관찰된 이벤트 순서를 바탕으로 프로세스 모델을 추정하는 것이다. 이때 단순히 가장 많이 발생한 경로만 보면 예외 흐름이 사라지고, 모든 이벤트를 그대로 그리면 스파게티 맵이 된다. 그래서 필터링, 변형(Variant) 분석, 빈도·[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표를 함께 사용해 "중요한 흐름"과 "문제 흐름"을 구분하는 것이 중요하다.
 
@@ -118,23 +118,21 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">ERP · CRM 이벤트 축적</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Event Log 정제</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Discovery · Variant Analysis</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Conformance Checking · Enhancement</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">RPA · Digital Twin of Process</div>
-</div>
-</div>
-
-
+```text
+ERP · CRM 이벤트 축적
+    │
+    ▼
+Event Log 정제
+    │
+    ▼
+Discovery · Variant Analysis
+    │
+    ▼
+Conformance Checking · Enhancement
+    │
+    ▼
+RPA · Digital Twin of Process
+```
 
 이 흐름은 [로그 수집](/knowledge-base/studynote/09_security/13_secops_ir_forensics/626_log_collection/)에서 시작해, 실제 프로세스 발견과 개선, 그리고 [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 기반 예측으로 이어지는 확장 경로를 보여 준다.
 

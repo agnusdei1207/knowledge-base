@@ -31,28 +31,31 @@ tags = ["software_engineering"]
 
 이 6가지 잣대 중 단 하나라도 빵꾸 난 문장이 개발자에게 넘어가는 순간, 그 문장은 런타임 버그(Bug)가 되어 서버를 터뜨린다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SRS 6대 품질 특성 위반 시 발동되는 대재앙 시나리오 도해</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1️⃣ 정확성 (Correctness) 위반 🎯</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➔ 고객은 '신용카드'를 원했는데 '현금결제'로 명세됨 ➔ 오픈 날 소송 터짐 💥</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2️⃣ 명확성 (Unambiguous) 위반 🔍</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➔ "가급적 빨리 갱신한다" ➔ A개발자 1초, B개발자 10초로 제각각 짬 💥</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3️⃣ 완전성 (Completeness) 위반 🛡️</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➔ "성공 시 포인트 100원 지급" (실패 시 롤백 로직 빵꾸남) ➔ 서버 무한 랙 💥</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4️⃣ 일관성 (Consistency) 위반 ⚖️</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➔ 10페이지엔 "비밀번호 8자리", 50페이지엔 "10자리" ➔ 코더 정신 분열 💥</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5️⃣ 검증 가능성 (Verifiability) 위반 ✅</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➔ "초보자도 쓰기 쉬워야 함" ➔ QA 테스터가 O/X 채점 불가로 테스트 포기 💥</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6️⃣ 추적 가능성 (Traceability) 위반 🔗</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➔ 법이 바뀌어서 결제 로직 고쳐야 하는데, 명세서 1만 페이지 중 어딨는지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">아이디(ID) 꼬리표가 없어서 못 찾음 ➔ 유지보수 파산 영향도 분석 멸망 💥</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          SRS 6대 품질 특성 위반 시 발동되는 대재앙 시나리오 도해       │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ 1️⃣ 정확성 (Correctness) 위반 🎯                              │
+│ ➔ 고객은 '신용카드'를 원했는데 '현금결제'로 명세됨 ➔ 오픈 날 소송 터짐 💥  │
+│                                                             │
+│ 2️⃣ 명확성 (Unambiguous) 위반 🔍                              │
+│ ➔ "가급적 빨리 갱신한다" ➔ A개발자 1초, B개발자 10초로 제각각 짬 💥  │
+│                                                             │
+│ 3️⃣ 완전성 (Completeness) 위반 🛡️                             │
+│ ➔ "성공 시 포인트 100원 지급" (실패 시 롤백 로직 빵꾸남) ➔ 서버 무한 랙 💥│
+│                                                             │
+│ 4️⃣ 일관성 (Consistency) 위반 ⚖️                              │
+│ ➔ 10페이지엔 "비밀번호 8자리", 50페이지엔 "10자리" ➔ 코더 정신 분열 💥   │
+│                                                             │
+│ 5️⃣ 검증 가능성 (Verifiability) 위반 ✅                         │
+│ ➔ "초보자도 쓰기 쉬워야 함" ➔ QA 테스터가 O/X 채점 불가로 테스트 포기 💥 │
+│                                                             │
+│ 6️⃣ 추적 가능성 (Traceability) 위반 🔗                         │
+│ ➔ 법이 바뀌어서 결제 로직 고쳐야 하는데, 명세서 1만 페이지 중 어딨는지     │
+│    아이디(ID) 꼬리표가 없어서 못 찾음 ➔ 유지보수 파산 영향도 분석 멸망 💥 │
+└─────────────────────────────────────────────────────────────┘
+```
 
 가장 훌륭한 아키텍트는 설계를 잘하는 사람이 아니라, 기획자가 던진 저 쓰레기 문장들을 단칼에 쳐내고 다시 쓰게 만드는 '검문소의 무자비한 수문장'이다.
 
@@ -129,23 +132,21 @@ tags = ["software_engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">비정형 명세 (자연어 산문 소설 떡칠) / 고객과 걍 구두 대화로 퉁침 ➔ 모호성 랙 폭발 및 개발자 뇌피셜 상상 코딩으로 오픈 날 100% 소송 파국 폭파 💥 💀</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">IEEE 830 기반 엄격한 SRS 문서 정립 / "하늘이 두 쪽 나도 6대 품질 특성 기준에 못 미치는 문장은 찢어버려라 쾅!!" 폭포수 모델의 수학적 공리 통제 대관식 🚀</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">반정형 명세 융합 (UML, Use Case) / 텍스트가 가진 한계를 다이어그램 표 껍데기 시각화로 보완 커버 쳐서 명확성 200% 극대화 스케일 업</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">요구사항 추적성 매트릭스 (RTM) 결합 / 고객 변심 잦은 변경 지옥에 맞서 시스템 소스 코드 파급 효과 핏줄을 1초 만에 엑스레이 스캔 역추적하는 SCM 방어망 구축 ✨</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Agile 대항해 시대 및 실행 가능한 명세 (BDD) / 두꺼운 책자 다 불태우고 User Story 티켓으로 쪼갠 뒤 ➔ Gherkin 텍스트가 CI/CD 파이프라인에서 곧바로 1초 컷 테스트 코드로 런타임 실행 채점되는 궁극의 기적 융합 달성</div>
-</div>
-</div>
-
-
+```text
+비정형 명세 (자연어 산문 소설 떡칠) / 고객과 걍 구두 대화로 퉁침 ➔ 모호성 랙 폭발 및 개발자 뇌피셜 상상 코딩으로 오픈 날 100% 소송 파국 폭파 💥 💀
+    │
+    ▼
+IEEE 830 기반 엄격한 SRS 문서 정립 / "하늘이 두 쪽 나도 6대 품질 특성 기준에 못 미치는 문장은 찢어버려라 쾅!!" 폭포수 모델의 수학적 공리 통제 대관식 🚀
+    │
+    ▼
+반정형 명세 융합 (UML, Use Case) / 텍스트가 가진 한계를 다이어그램 표 껍데기 시각화로 보완 커버 쳐서 명확성 200% 극대화 스케일 업
+    │
+    ▼
+요구사항 추적성 매트릭스 (RTM) 결합 / 고객 변심 잦은 변경 지옥에 맞서 시스템 소스 코드 파급 효과 핏줄을 1초 만에 엑스레이 스캔 역추적하는 SCM 방어망 구축 ✨
+    │
+    ▼
+Agile 대항해 시대 및 실행 가능한 명세 (BDD) / 두꺼운 책자 다 불태우고 User Story 티켓으로 쪼갠 뒤 ➔ Gherkin 텍스트가 CI/CD 파이프라인에서 곧바로 1초 컷 테스트 코드로 런타임 실행 채점되는 궁극의 기적 융합 달성
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -38,22 +38,22 @@ tags = ["studynote-operating-system"]
 | **경제성 (Economy)** | 프로세스 단위 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 시 발생하는 캐시 플러시(Cache Flush)나 메모리 할당 오버헤드가 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 간 교환 시에는 발생하지 않아 훨씬 가볍다. |
 | **다중 처리기 활용 (Scalability)** | 다중 코어 (Multi-core) CPU에서 각 코어에 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)적으로 스케줄링하여 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))을 선형적으로 증가시킨다. |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단일 스레드 vs 다중 스레드의 구조적 처리량 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">단일 스레드 모델 (Single-Thread) - 응답성 마비</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">UI 처리</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">네트워크 I/O (대기 10초)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">화면 멈춤</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">다중 스레드 모델 (Multi-Thread) - 자원 공유 및 병렬 처리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">UI 스레드</div><div class="kb-diagram-note">: 멈춤 없이 화면 애니메이션 렌더링</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 입력 ─▶</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Worker 스레드</div><div class="kb-diagram-note">: 백그라운드 네트워크 I/O 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 동일 Data 공간 공유를 통해 결과 즉시 반환</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           단일 스레드 vs 다중 스레드의 구조적 처리량 비교          │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│ [단일 스레드 모델 (Single-Thread) - 응답성 마비]                  │
+│ 사용자 입력 ─▶ [UI 처리] ─▶ [네트워크 I/O (대기 10초)] ─▶ 화면 멈춤 │
+│                                                              │
+│ [다중 스레드 모델 (Multi-Thread) - 자원 공유 및 병렬 처리]        │
+│                ┌─▶ [UI 스레드] : 멈춤 없이 화면 애니메이션 렌더링 │
+│ 사용자 입력 ─▶ │                                              │
+│                └─▶ [Worker 스레드] : 백그라운드 네트워크 I/O 실행 │
+│                       │                                      │
+│                       └─▶ 동일 Data 공간 공유를 통해 결과 즉시 반환 │
+└──────────────────────────────────────────────────────────────┘
+```
 
 위 다이어그램은 작업이 분리됨으로써 애플리케이션의 멈춤 현상을 어떻게 방지하는지 보여준다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 TCB ([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) Control Block)만 분리하여 각 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 CPU [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 상태와 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)) 정보만 독립적으로 유지하므로, [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 및 전환 비용이 프로세스 대비 수십 배 저렴하다.
 
@@ -114,23 +114,21 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단일 스레드 시스템 (응답성 및 I/O 블로킹 한계)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">다중 프로세스 생성 (Fork 비용 및 문맥 교환 오버헤드 문제 대두)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">다중 스레드 (Multithreading) 도입 (자원 공유, 경제성 확보)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SMP (대칭형 다중 처리) 멀티코어 환경 (확장성 및 병렬성 극대화)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">사용자 레벨 가상 스레드 (Virtual Thread, Coroutine) 최적화로 진화</div>
-</div>
-</div>
-
-
+```text
+단일 스레드 시스템 (응답성 및 I/O 블로킹 한계)
+    │
+    ▼
+다중 프로세스 생성 (Fork 비용 및 문맥 교환 오버헤드 문제 대두)
+    │
+    ▼
+다중 스레드 (Multithreading) 도입 (자원 공유, 경제성 확보)
+    │
+    ▼
+SMP (대칭형 다중 처리) 멀티코어 환경 (확장성 및 병렬성 극대화)
+    │
+    ▼
+사용자 레벨 가상 스레드 (Virtual Thread, Coroutine) 최적화로 진화
+```
 
 이 흐름도는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 한계를 극복하기 위해 처리 단위가 어떻게 경량화되고 하드웨어 확장성을 끌어안으며 발전했는지를 보여준다.
 

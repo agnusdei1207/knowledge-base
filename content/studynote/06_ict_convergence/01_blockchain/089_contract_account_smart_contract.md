@@ -38,24 +38,25 @@ CA (Contract Account)는 이더리움이 비트코인의 한계를 부수고 '�
 
 CA가 작동하는 원리는 철저히 수동적이다. 개발자가 코드를 메인넷에 배포하면 새로운 CA 주소가 생성된다. 이 CA는 잠들어 있다가, 누군가([EOA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/088_eoa_vs_89_ca_ethereum_accounts/))가 [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)비를 지불하며 특정 함수를 찔러주면(호출), 이더리움 가상머신([EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/))이 깨어나 CA 내부의 코드를 한 줄씩 실행하고 그 결과로 Storage(상태 변수)를 변경하거나 다른 곳으로 돈을 보낸다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CA 호출 흐름 및 내부 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">사람의 지갑 (EOA)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(트랜잭션: "CA주소로, 함수명과 파라미터, 가스비를 보낸다!")</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CA (Contract Account)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 잔고(Balance): 100 ETH</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 논스(Nonce): 생성한 컨트랙트 수</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 코드(Code): 불변의 바이트코드 ("조건 만족 시 송금하라")</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 스토리지(Storage): 영구 저장소 (변수 A = 500)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(EVM에서 코드 실행 후 상태 갱신)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">블록체인 상태 변경</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                  CA 호출 흐름 및 내부 아키텍처                 │
+├──────────────────────────────────────────────────────────────┤
+│ [사람의 지갑 (EOA)]                                           │
+│   │  (트랜잭션: "CA주소로, 함수명과 파라미터, 가스비를 보낸다!")   │
+│   ▼                                                          │
+│ ┌───────────────── [ CA (Contract Account) ] ──────────────┐ │
+│ │                                                          │ │
+│ │  ▶ 잔고(Balance): 100 ETH                                │ │
+│ │  ▶ 논스(Nonce): 생성한 컨트랙트 수                          │ │
+│ │  ▶ 코드(Code): 불변의 바이트코드 ("조건 만족 시 송금하라")      │ │
+│ │  ▶ 스토리지(Storage): 영구 저장소 (변수 A = 500)            │ │
+│ └─────────────────────────┬────────────────────────────────┘ │
+│                           │ (EVM에서 코드 실행 후 상태 갱신)      │
+│                           ▼                                │
+│                     [블록체인 상태 변경]                        │
+└──────────────────────────────────────────────────────────────┘
+```
 이 다이어그램은 CA가 코드와 데이터를 담는 거대한 캡슐이며, 반드시 외부의 자극([트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/))이 있어야만 [EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) 위에서 상태가 전이된다는 것을 보여준다.
 
 - **📢 섹션 요약 비유**: CA는 우주에 떠 있는 인공위성과 같다. 자체 엔진(코드)과 연료통(스토리지)을 가지고 있지만, 지구의 관제소([EOA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/088_eoa_vs_89_ca_ethereum_accounts/))에서 "지금 사진을 찍어라"라는 전파(호출)를 쏴주지 않으면 영원히 우주 공간에 가만히 멈춰 있는다.
@@ -111,23 +112,21 @@ CA의 등장은 중개인의 신용에 기대던 인류의 계약 문화를, 수
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">비트코인의 상태 한계 (단순 장부)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">이더리움의 계정 분리 (EOA와 CA의 등장)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CA (Contract Account) · 스마트 컨트랙트 코드와 스토리지 탑재</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DeFi, DAO 등 복잡한 체인 상의 비즈니스 자동화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">계정 추상화 (ERC-4337) · 스마트 컨트랙트 지갑으로의 진화</div>
-</div>
-</div>
-
-
+```text
+비트코인의 상태 한계 (단순 장부)
+    │
+    ▼
+이더리움의 계정 분리 (EOA와 CA의 등장)
+    │
+    ▼
+CA (Contract Account) · 스마트 컨트랙트 코드와 스토리지 탑재
+    │
+    ▼
+DeFi, DAO 등 복잡한 체인 상의 비즈니스 자동화
+    │
+    ▼
+계정 추상화 (ERC-4337) · 스마트 컨트랙트 지갑으로의 진화
+```
 
 이 흐름도는 단순 기록에서 자동화된 스크립트로 진화하고, 결국 사용자의 진입 장벽마저 코드로 허물어버리는 CA의 발전상을 보여준다.
 

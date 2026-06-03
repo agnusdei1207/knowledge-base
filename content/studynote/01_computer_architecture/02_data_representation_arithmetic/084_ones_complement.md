@@ -119,21 +119,18 @@ n비트 1의 보수에서 표현 가능한 값은 - (2^(n-1) - 1)부터 + (2^(n-
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">양수 비트열</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">모든 비트 반전</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">음수 표현</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">덧셈 시 end-around carry 적용</div>
-</div>
-</div>
-
-
+```text
+양수 비트열
+  │
+  ▼
+모든 비트 반전
+  │
+  ▼
+음수 표현
+  │
+  ▼
+덧셈 시 end-around carry 적용
+```
 
 핵심은 '반전' 자체보다 '반전 후 덧셈 규칙'이다.
 

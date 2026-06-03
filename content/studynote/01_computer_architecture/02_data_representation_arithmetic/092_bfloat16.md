@@ -30,21 +30,26 @@ bfloat16은 구글(Google)이 [TPU](/knowledge-base/studynote/01_computer_archit
 
 bfloat16의 가장 큰 하드웨어적 특징은 FP32와의 극단적인 호환성이다. FP32의 구조에서 하위 16비트(가수부의 뒷부분)를 그대로 잘라내면(Truncation) 즉시 bfloat16이 된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">bfloat16의 비트 레이아웃과 FP32와의 관계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">FP32 (단정밀도)</div><div class="kb-diagram-note">- 총 32비트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부호</div><div class="kb-diagram-cell">지수 (8 bit)</div><div class="kb-diagram-cell">가수 (23 bit)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">잘라내기(Truncate) &amp; 버림</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">bfloat16 (Brain Float)</div><div class="kb-diagram-note">- 총 16비트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부호</div><div class="kb-diagram-cell">지수 (8 bit)</div><div class="kb-diagram-cell">가수 (7 bit)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심: 지수부 크기가 같아 표현 범위(~10^-38 ~ 10^38)가 100% 동일</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│            bfloat16의 비트 레이아웃과 FP32와의 관계            │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│ [ FP32 (단정밀도) ] - 총 32비트                              │
+│ ┌──┬──────────────┬───────────────────────────────────────┐│
+│ │부호│ 지수 (8 bit) │              가수 (23 bit)            ││
+│ └──┴──────────────┴───────────────────────────────────────┘│
+│   │       │                    │                             │
+│   │       │     잘라내기(Truncate) & 버림                     │
+│   ▼       ▼                    ▼                             │
+│ [ bfloat16 (Brain Float) ] - 총 16비트                       │
+│ ┌──┬──────────────┬──────────────┐                         │
+│ │부호│ 지수 (8 bit) │ 가수 (7 bit) │                         │
+│ └──┴──────────────┴──────────────┘                         │
+│                                                              │
+│ 핵심: 지수부 크기가 같아 표현 범위(~10^-38 ~ 10^38)가 100% 동일│
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 잘라내기 구조 덕분에 bfloat16은 지수부(Exponent)가 8비트로 FP32와 동일하며, 표현 범위 또한 $[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^{-38}$에서 $[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^{38}$로 완전히 같다. 단, 가수부(Mantissa)가 7비트로 줄어들어 유효숫자가 약 2~3자리 수준으로 극단적으로 낮아진다. 하지만 딥러닝의 행렬 곱셈(GEMM, General Matrix Multiply)에서는 수백만 번의 덧셈이 누적되며 통계적 평균으로 수렴하기 때문에, 이 정도의 절사 오차(Truncation Error)는 모델의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하로 이어지지 않는다.
 
@@ -103,25 +108,24 @@ bfloat16의 등장은 IEEE 754라는 절대적인 국제 표준을 깨고, 오�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">IEEE 754 표준 부동소수점 (FP32/FP64)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">메모리 대역폭 병목 및 반정밀도(FP16) 도입 시도</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">언더플로우 발생 및 로스 스케일링(Loss Scaling) 한계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Brain Floating Point (bfloat16) 발명 (지수부 유지, 가수부 절단)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">하드웨어 네이티브 지원 (Tensor Core, AVX-512)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">초저정밀도 양자화 포맷 확장 (FP8, FP4, MX 패밀리)</div>
-</div>
-</div>
-
-
+```text
+IEEE 754 표준 부동소수점 (FP32/FP64)
+    │
+    ▼
+메모리 대역폭 병목 및 반정밀도(FP16) 도입 시도
+    │
+    ▼
+언더플로우 발생 및 로스 스케일링(Loss Scaling) 한계
+    │
+    ▼
+Brain Floating Point (bfloat16) 발명 (지수부 유지, 가수부 절단)
+    │
+    ▼
+하드웨어 네이티브 지원 (Tensor Core, AVX-512)
+    │
+    ▼
+초저정밀도 양자화 포맷 확장 (FP8, FP4, MX 패밀리)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

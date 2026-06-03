@@ -31,19 +31,17 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서킷 브레이커 상태 천이</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Closed</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Open</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Half-Open</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">즉시 폴백 응답</div><div class="kb-diagram-cell">테스트 요청 성공 →</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Closed 복귀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실패 → Open</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────────┐
+│               서킷 브레이커 상태 천이                             │
+├───────────────────────────────────────────────────────────────────┤
+│  [Closed] ──실패율 임계 초과──▶ [Open] ──대기시간 후──▶ [Half-Open]│
+│     ▲                              │                     │        │
+│     │         즉시 폴백 응답       │  테스트 요청 성공 → │        │
+│     └──────────────────────────────┘       Closed 복귀   │        │
+│                                            실패 → Open   │        │
+└───────────────────────────────────────────────────────────────────┘
+```
 
 | 상태       | 동작                                | 전환 조건                             |
 | :--------- | :---------------------------------- | :------------------------------------ |
@@ -128,25 +126,24 @@ tags = ["studynote-devops-sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단순 재시도 (Naive Retry) — 장애 증폭 위험</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지수 백오프 (Exponential Backoff) — 부하 분산</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지터 (Full Jitter) — Thundering Herd 제거</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">서킷 브레이커 (Circuit Breaker) — 연쇄 장애 차단</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">폴백 (Fallback) + 벌크헤드 (Bulkhead) — 그레이스풀 디그레이드</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">서비스 메시 (Istio/Envoy) — 인프라 레벨 자동화</div>
-</div>
-</div>
-
-
+```text
+단순 재시도 (Naive Retry) — 장애 증폭 위험
+    │
+    ▼
+지수 백오프 (Exponential Backoff) — 부하 분산
+    │
+    ▼
+지터 (Full Jitter) — Thundering Herd 제거
+    │
+    ▼
+서킷 브레이커 (Circuit Breaker) — 연쇄 장애 차단
+    │
+    ▼
+폴백 (Fallback) + 벌크헤드 (Bulkhead) — 그레이스풀 디그레이드
+    │
+    ▼
+서비스 메시 (Istio/Envoy) — 인프라 레벨 자동화
+```
 
 흐름은 "재시도 증폭 → [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 제어 → 차단 → 격리 → 인프라 자동화"로 진화한다.
 

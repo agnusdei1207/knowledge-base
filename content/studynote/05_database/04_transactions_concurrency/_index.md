@@ -23,21 +23,24 @@ tags = ["database"]
 
 이 그림은 트랜잭션이 성공 (Commit)하거나 실패 (Rollback)할 때의 상태 전이를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Transaction State Transition</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Active</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Partially Committed</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(오류 발생) (최종 확인)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Failed</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Committed</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(성공 완료!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Aborted</div><div class="kb-diagram-note">(Rollback 수행)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* ACID: Atomicity, Consistency, Isolation, Durability</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Transaction State Transition                │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│          [ Active ] ──(작업 수행)──▶ [ Partially Committed ] │
+│              │                             │                │
+│          (오류 발생)                     (최종 확인)        │
+│              ▼                             ▼                │
+│          [ Failed ] ◀──(중단)─────── [ Committed ]          │
+│              │                       (성공 완료!)           │
+│              ▼                                              │
+│          [ Aborted ] (Rollback 수행)                        │
+│                                                             │
+│   * ACID: Atomicity, Consistency, Isolation, Durability     │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '전부 아니면 무 (All or Nothing)'이다. 실무에서는 특히 `Partially Committed` 상태에서 디스크에 실제 데이터를 쓰기 전, 로그를 먼저 남기는 **WAL (Write Ahead Logging)** 기법이 영속성을 보장하는 핵심 아키텍처가 된다.
 
@@ -74,21 +77,22 @@ tags = ["database"]
 
 이 구조도는 현대 DBMS의 대세인 <strong>MVCC (Multi-Version Concurrency Control)</strong>의 동작 원리를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MVCC: Read non-blocking Write</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Current Data</div><div class="kb-diagram-note">: Balance = 100 (Ver 1)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">New Data</div><div class="kb-diagram-note">: 150 (Ver 2)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Under Progress)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Snapshot</div><div class="kb-diagram-note">: 100 (Ver 1)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 효과: 쓰기 작업 중에도 읽기 작업이 멈추지 않고(Wait-free)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">과거 버전을 조회하여 성능 극대화</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 MVCC: Read non-blocking Write               │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Current Data ] : Balance = 100 (Ver 1)                  │
+│          │                                                  │
+│   (Tx 1: Update to 150) ──▶ [ New Data ] : 150 (Ver 2)      │
+│                                     │ (Under Progress)      │
+│   (Tx 2: Read Data) ────────▶ [ Snapshot ] : 100 (Ver 1)    │
+│                                                             │
+│   * 효과: 쓰기 작업 중에도 읽기 작업이 멈추지 않고(Wait-free)│
+│     과거 버전을 조회하여 성능 극대화                        │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 'Non-blocking Read'이다. 락킹 방식에서는 쓰기 중인 데이터를 읽으려면 기다려야 했지만, MVCC는 <strong>Undo 영역</strong>에 보관된 과거 버전을 보여줌으로써 지연 시간을 없앤다. 실무에서는 이 구버전 데이터를 정리하는 <strong>Vacuum (PostgreSQL)</strong>이나 **Undo Retention (Oracle)** 관리가 운영의 관건이다.
 
@@ -134,21 +138,23 @@ tags = ["database"]
 
 이 도식은 데이터베이스의 **데드락 (Deadlock)** 탐지 및 해결 과정을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Deadlock Detection and Victim Selection</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Transaction A</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Lock by B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Wait) ◀</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DBMS Monitoring</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Cycle Found!</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Selection</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* Victim 선정 기준: 1. 가장 적게 작업한 Tx</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 가장 최근에 시작한 Tx</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Decision</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Kill Victim</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Rollback &amp; Resume</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│               Deadlock Detection and Victim Selection       │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Transaction A ] ──(Wait)──▶ [ Lock by B ]               │
+│          ▲                             │                    │
+│          └──────── (Wait) ◀────────────┘                    │
+│                                                             │
+│   [ DBMS Monitoring ] ──▶ [ Cycle Found! ] ──▶ [ Selection ]│
+│                                                     │       │
+│   * Victim 선정 기준: 1. 가장 적게 작업한 Tx                │
+│                       2. 가장 최근에 시작한 Tx              │
+│   [ Decision ] ──▶ [ Kill Victim ] ──▶ [ Rollback & Resume ]│
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 기술사의 동시성 설계는 '교차로 신호 체계'와 같습니다. 차가 많다고 신호를 무작정 길게 주면 정체(성능 저하)가 생기고, 신호가 없으면 사고(데이터 오염)가 납니다. 통행량과 사고 위험을 계산하여 최적의 신호 주기(격리 수준)를 결정하는 전문가입니다.
 

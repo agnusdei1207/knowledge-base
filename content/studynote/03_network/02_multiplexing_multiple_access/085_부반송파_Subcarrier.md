@@ -108,25 +108,19 @@ OFDM은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rel
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">데이터 분할</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">부반송파에 매핑</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">IFFT로 시간영역 변환</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">CP 추가</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">무선 전송</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">FFT 복원 / 등화</div>
-</div>
-</div>
-
-
+```text
+데이터 분할
+   ↓
+부반송파에 매핑
+   ↓
+IFFT로 시간영역 변환
+   ↓
+CP 추가
+   ↓
+무선 전송
+   ↓
+FFT 복원 / 등화
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: 외부 인터넷([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/))을 거치지 않고, <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/">데이터센터</a> 내부에 있는 서버와 서버, 가상머신(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a>)과 가상머신, 혹은 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/">마이크로서비스</a> <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a>들끼리 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 주고받으며 발생하는 수평적(좌/우)인 네트워크 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 흐름</strong>을 의미합니다.
 - [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 다이어그램에서 서버들끼리의 통신을 양옆(East, West) 방향 화살표로 그리기 때문에 붙여진 이름입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">North-South 트래픽</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">East-West 트래픽</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">네트워크 지터 데이터센터 스토리지 망 동기…</div></div>
-</div>
-</div>
-
-
+```text
+[North-South 트래픽]
+    │
+    ▼
+[East-West 트래픽]
+    │
+    └──▶ [네트워크 지터 데이터센터 스토리지 망 동기…]
+```
 
 - **📢 섹션 요약 비유**: East-West 트래픽은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -52,18 +48,14 @@ tags = ["studynote-network"]
 ### 3. 빅데이터 클러스터 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리 ([하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/))
 - 거대한 빅데이터를 분석할 때 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)([Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)) 노드 수백 대가 서로 쪼개서 계산하고, 그 결과를 다시 뭉치기 위해 자기들끼리 수 테라바이트의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Shuffle & Sort](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/205_shuffle_sort_yarn_resource_manager/))를 옆으로 던지며 통신합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">North-South 트래픽</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">East-West 트래픽</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">네트워크 지터 데이터센터 스토리지 망 동기…</div></div>
-</div>
-</div>
-
-
+```text
+[North-South 트래픽]
+    │
+    ▼
+[East-West 트래픽]
+    │
+    └──▶ [네트워크 지터 데이터센터 스토리지 망 동기…]
+```
 
 - **📢 섹션 요약 비유**: East-West 트래픽의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -127,19 +119,15 @@ East-West 트래픽은 [데이터센터](/knowledge-base/studynote/03_network/16
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: North-South 트래픽</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: East-West 트래픽</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 네트워크 지터 데이터센터 스토리지 망 동기…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: North-South 트래픽]
+    │
+    ▼
+[현재 개념: East-West 트래픽]
+    │
+    ├──▶ [확장 A: 네트워크 지터 데이터센터 스토리지 망 동기…]
+    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
+```
 
 East-West 트래픽는 North-South 트래픽에서 출발해 현재 메커니즘을 정교화하고, 이후 [네트워크 지터](/knowledge-base/studynote/03_network/16_data_center_cloud/808_network_jitter_delay_variation_storage_sync/) [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 스토리지 망 동기…와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

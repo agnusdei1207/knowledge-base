@@ -23,17 +23,14 @@ tags = ["studynote-ai"]
 
 [파운데이션 모델](/knowledge-base/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/)은 이 비효율을 혁파한다. 수천억 개의 텍스트·이미지·코드에서 한 번의 대규모 사전 학습으로 일반 지식을 흡수하고, 이 하나의 "기반" 위에 번역·[분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)·코드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·의료 진단·법률 분석 등 수백 가지 전문 애플리케이션을 소량 [파인 튜닝](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/)으로 올리는 구조다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [파운데이션 모델](/knowledge-base/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/)은 OS([운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/))다. Windows나 Linux를 한 번 설치하면 그 위에 수만 가지 앱(다운스트림 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/))을 설치·실행할 수 있다. 매번 앱마다 CPU·메모리 관리 코드를 짜는 것과 비교하면 개발 효율이 수천 배 차이 난다.
 
@@ -41,24 +38,32 @@ tags = ["studynote-ai"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파운데이션 모델 생태계 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① 사전 학습 (Pre-training) 단계:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수조 토큰의 다양한 데이터 (웹 텍스트, 코드, 논문, 책...)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수천 GPU × 수개월의 대규모 학습</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파운데이션 모델 (수십억~수조 파라미터)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"언어·코드·상식·추론 등 범용 능력 내재화"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② 적응 (Adaptation) 단계:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파인 튜닝</div><div class="kb-diagram-cell">프롬프트</div><div class="kb-diagram-cell">PEFT/LoRA</div><div class="kb-diagram-cell">RAG 연동</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Fine-Tune)</div><div class="kb-diagram-cell">엔지니어링</div><div class="kb-diagram-cell">경량 적응</div><div class="kb-diagram-cell">지식 보강</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">법률 AI</div><div class="kb-diagram-cell">의료 AI</div><div class="kb-diagram-cell">코드 AI</div><div class="kb-diagram-cell">챗봇</div><div class="kb-diagram-cell">번역기</div><div class="kb-diagram-cell">...</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│         파운데이션 모델 생태계 구조                                    │
+├──────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  ① 사전 학습 (Pre-training) 단계:                                  │
+│  ┌───────────────────────────────────────────────────────────┐   │
+│  │  수조 토큰의 다양한 데이터 (웹 텍스트, 코드, 논문, 책...)       │   │
+│  │             │                                             │   │
+│  │  수천 GPU × 수개월의 대규모 학습                              │   │
+│  │             │                                             │   │
+│  │  파운데이션 모델 (수십억~수조 파라미터)                       │   │
+│  │  "언어·코드·상식·추론 등 범용 능력 내재화"                    │   │
+│  └───────────────────────────────────────────────────────────┘   │
+│                      │                                           │
+│  ② 적응 (Adaptation) 단계:                                        │
+│  ┌────────────┐  ┌───────────┐  ┌────────────┐  ┌───────────┐   │
+│  │ 파인 튜닝   │  │ 프롬프트   │  │ PEFT/LoRA  │  │ RAG 연동  │   │
+│  │(Fine-Tune) │  │ 엔지니어링 │  │  경량 적응  │  │ 지식 보강 │   │
+│  └────────────┘  └───────────┘  └────────────┘  └───────────┘   │
+│         │               │              │               │         │
+│  ┌──────▼───────────────▼──────────────▼───────────────▼──────┐  │
+│  │  법률 AI  │  의료 AI  │  코드 AI  │  챗봇  │  번역기  │ ... │  │
+│  └──────────────────────────────────────────────────────────────┘  │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 | 대표 [파운데이션 모델](/knowledge-base/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/) | 개발사 | 파라미터 | 특징 |
 |:---|:---|:---|:---|

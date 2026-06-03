@@ -23,25 +23,26 @@ tags = ["studynote-cloud"]
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 - **핵심 원리**: 5가지 영역이 상호 유기적으로 연결되어 선순환 구조를 형성함.
 
+```text
+[ CALMS Framework Structure ]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">CALMS Framework Structure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SHARING (S)</div><div class="kb-diagram-cell">&lt;---+</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Knowledge, Success, Failure Sharing)</div></div>
-<div class="kb-diagram-note">^</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CULTURE (C)</div><div class="kb-diagram-cell">LEAN (L)</div><div class="kb-diagram-cell">MEASUREMENT (M)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Trust,</div><div class="kb-diagram-cell">(Waste</div><div class="kb-diagram-cell">(KPI, Metrics,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Blameless)</div><div class="kb-diagram-cell">&lt;---&gt;</div><div class="kb-diagram-cell">Removal)</div><div class="kb-diagram-cell">&lt;---&gt;</div><div class="kb-diagram-cell">Data-driven)</div></div>
-<div class="kb-diagram-note">^</div>
-<div class="kb-diagram-note">v</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AUTOMATION (A)</div><div class="kb-diagram-cell">-----+</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(CI/CD, IaC, Test Automation)</div></div>
-</div>
-</div>
-
-
+      +-----------------------------------------+
+      |               SHARING (S)               | <---+
+      | (Knowledge, Success, Failure Sharing)   |     |
+      +-----------------------------------------+     |
+            ^                                         |
+      +-----+-----+      +-----------+      +---------+
+      | CULTURE (C)|      |LEAN (L)   |      | MEASUREMENT (M) |
+      | (Trust,    |      | (Waste    |      | (KPI, Metrics,  |
+      |  Blameless)| <--->|  Removal) |<--->|  Data-driven)   |
+      +-----+-----+      +-----------+      +---------+
+            |                                         ^
+            v                                         |
+      +-----------------------------------------+     |
+      |             AUTOMATION (A)              |-----+
+      | (CI/CD, IaC, Test Automation)           |
+      +-----------------------------------------+
+```
 
 - **5대 핵심 요소**:
     1. **Culture (문화)**: 사람과 프로세스 중심. 팀 간의 신뢰와 공동 책임을 중시.
@@ -78,19 +79,15 @@ tags = ["studynote-cloud"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">DevOps 도입 (도구만 도입, 문화 부재)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CALMS: Culture · Automation · Lean · Measurement · Sharing</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">성숙도 평가: DORA Metrics · SPACE Framework</div>
-</div>
-</div>
-
-
+```text
+DevOps 도입 (도구만 도입, 문화 부재)
+    │
+    ▼
+CALMS: Culture · Automation · Lean · Measurement · Sharing
+    │
+    ▼
+성숙도 평가: DORA Metrics · SPACE Framework
+```
 
 2. 경기가 끝나고 우리가 몇 골을 넣었는지 기록(측정)해서 부족한 점을 찾아요.
 3. 불필요한 행동을 줄이고(린) 다 같이 힘을 합쳐야 최고의 팀이 될 수 있다는 약속이에요!

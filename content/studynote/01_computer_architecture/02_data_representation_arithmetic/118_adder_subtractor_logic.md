@@ -31,25 +31,29 @@ tags = ["studynote-computer-architecture"]
 ### 2의 보수를 물리적으로 구현하는 XOR 트릭
 $A - B$ 를 계산하려면 $B$를 2의 보수로 만들어야 한다. 즉, $B$를 뒤집고(1의 보수) 거기에 $1$을 더해야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가감산기 (Adder-Subtractor) 하드웨어 로직 레이아웃</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제어 신호 (Sub) : 덧셈일 땐 0, 뺄셈일 땐 1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력 A 입력 B</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">A</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">XOR 게이트</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">전가산기 (Full Adder)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(0 or 1)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과값(Sum)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 마법의 원리 (Sub = 1, 즉 뺄셈일 때):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. B가 XOR 게이트를 통과하며 Sub(1)과 만나 모두 뒤집힘(~B)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Sub(1) 신호가 덧셈기의 첫 C_in으로 흘러 들어가 +1 역할을 함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 결과적으로 전가산기는 A + (~B) + 1 연산을 수행 = A - B!</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────┐
+│           가감산기 (Adder-Subtractor) 하드웨어 로직 레이아웃    │
+├────────────────────────────────────────────────────────┤
+│   제어 신호 (Sub) : 덧셈일 땐 0, 뺄셈일 땐 1                 │
+│                                                        │
+│                  입력 A                입력 B             │
+│                    │                    │              │
+│                    ▼                    ▼              │
+│                  [ A ]           ┌─▶[ XOR 게이트 ]       │
+│                    │             │      │              │
+│                    │             │      ▼              │
+│ (Sub ─▶ C_in) ──▶[ 전가산기 (Full Adder) ]               │
+│        (0 or 1)    │                                   │
+│                    ▼                                   │
+│                 결과값(Sum)                            │
+│                                                        │
+│ * 마법의 원리 (Sub = 1, 즉 뺄셈일 때):                      │
+│   1. B가 XOR 게이트를 통과하며 Sub(1)과 만나 모두 뒤집힘(~B)   │
+│   2. Sub(1) 신호가 덧셈기의 첫 C_in으로 흘러 들어가 +1 역할을 함│
+│   ──▶ 결과적으로 전가산기는 A + (~B) + 1 연산을 수행 = A - B!  │
+└────────────────────────────────────────────────────────┘
+```
 
 이 회로의 천재성은 'Sub' 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)선 한 가닥이 <strong>XOR 게이트의 반전 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a></strong>와 <strong>첫 번째 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/034_full_adder/">전가산기</a>의 캐리 입력(+1)</strong>이라는 두 가지 역할을 동시에 수행하도록 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)된 것에 있다. 단 1가닥의 전선 추가로 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 수천 개짜리 뺄셈기를 완전히 대체해 버린 것이다.
 
@@ -107,23 +111,21 @@ $A - B$ 를 계산하려면 $B$를 2의 보수로 만들어야 한다. 즉, $B$�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">덧셈기 회로망(Adder)의 완성</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">뺄셈 연산 처리를 위한 2의 보수(2's Complement) 체계 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">XOR 게이트와 첫 번째 캐리(C_in)를 활용한 덧셈/뺄셈 통합 회로 발명</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">오버플로우 감지 로직 융합 및 캐리 예측 로직(CLA) 부착에 의한 고속화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">현대 프로세서(ALU)의 가장 기초적인 정수 연산 쇳덩어리 블록으로 표준화</div>
-</div>
-</div>
-
-
+```text
+덧셈기 회로망(Adder)의 완성
+    │
+    ▼
+뺄셈 연산 처리를 위한 2의 보수(2's Complement) 체계 적용
+    │
+    ▼
+XOR 게이트와 첫 번째 캐리(C_in)를 활용한 덧셈/뺄셈 통합 회로 발명
+    │
+    ▼
+오버플로우 감지 로직 융합 및 캐리 예측 로직(CLA) 부착에 의한 고속화
+    │
+    ▼
+현대 프로세서(ALU)의 가장 기초적인 정수 연산 쇳덩어리 블록으로 표준화
+```
 
 이 흐름도는 "덧셈 구현 → 음수 수학적 처리 정립 → 하드웨어 일원화(비용 절감) → 병목 제거 및 고속화"로 귀결되는 연산 코어 회로의 발전을 보여준다.
 

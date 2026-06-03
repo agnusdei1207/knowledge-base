@@ -43,18 +43,19 @@ tags = ["studynote-computer-architecture"]
 
 다음 그림은 엣지 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 칩이 왜 "연산기"보다 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름"으로 이해되어야 하는지를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Edge AI chip: reuse data on-chip before touching external memory</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sensor / ISP -&gt; Preprocess -&gt; SRAM Scratchpad -&gt; NPU Array -&gt; Postprocess</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Weight / Tensor Reuse Output Buffer</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LPDDR / Flash (only when needed)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ Edge AI chip: reuse data on-chip before touching external memory             │
+├──────────────────────────────────────────────────────────────────────────────┤
+│ Sensor / ISP -> Preprocess -> SRAM Scratchpad -> NPU Array -> Postprocess    │
+│                                ▲                 │                           │
+│                                │                 ▼                           │
+│                         Weight / Tensor Reuse   Output Buffer                │
+│                                ▲                                             │
+│                                │                                             │
+│                         LPDDR / Flash (only when needed)                     │
+└──────────────────────────────────────────────────────────────────────────────┘
+```
 
 실제 전력 예산에서 정수 8비트(INT8, 8-bit Integer) [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 1회보다 외부 메모리 접근이 수십~수백 배 더 비싸게 느껴지는 경우가 흔하다. 그래서 엣지 칩은 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 고정([Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) Stationary), 출력 고정(Output Stationary) 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)플로를 써서 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 여러 번 재사용한다. 또한 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/)(FP32, 32-bit [Floating Point](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/)) 대신 INT8·INT4 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/), 희소성(Sparsity) 활용, 연산 스케줄링으로 전력당 초당 연산 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)(TOPS/W, Tera Operations Per Second per Watt)을 끌어올린다.
 
@@ -125,25 +126,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Cloud-only inference</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Latency · privacy bottleneck</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">NPU + SRAM scratchpad</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">INT8/INT4 · sparsity · DVFS</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Sensor fusion · secure execution</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">On-device generative AI · PIM · TinyML continuum</div>
-</div>
-</div>
-
-
+```text
+Cloud-only inference
+    │
+    ▼
+Latency · privacy bottleneck
+    │
+    ▼
+NPU + SRAM scratchpad
+    │
+    ▼
+INT8/INT4 · sparsity · DVFS
+    │
+    ▼
+Sensor fusion · secure execution
+    │
+    ▼
+On-device generative AI · PIM · TinyML continuum
+```
 
 이 흐름은 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 연산이 중앙 서버에서 현장 기기 쪽으로 내려오면서, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 경쟁이 메모리·전력·보안 최적화 경쟁으로 바뀌는 과정을 보여준다.
 

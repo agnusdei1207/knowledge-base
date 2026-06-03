@@ -34,21 +34,15 @@ K-Means는 크게 두 단계를 반복한다.
 1. 각 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가장 가까운 중심점에 할당한다.
 2. 각 군집의 평균 위치로 중심점을 다시 옮긴다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">초기 중심점 선택</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">가까운 중심점에 할당</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">군집 평균으로 중심점 이동</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">변화가 거의 없을 때까지 반복</div>
-</div>
-</div>
-
-
+```text
+초기 중심점 선택
+   ↓
+가까운 중심점에 할당
+   ↓
+군집 평균으로 중심점 이동
+   ↓
+변화가 거의 없을 때까지 반복
+```
 
 이 반복이 멈추면 각 중심점 주변으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 안정적으로 모인다.
 
@@ -101,21 +95,15 @@ K-Means는 단순하고 빠르지만, 모든 상황에 맞지는 않는다.
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">데이터 입력</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">초기 중심점</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">할당 / 평균 이동 반복</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">K개 군집 완성</div>
-</div>
-</div>
-
-
+```text
+데이터 입력
+   ↓
+초기 중심점
+   ↓
+할당 / 평균 이동 반복
+   ↓
+K개 군집 완성
+```
 
 ---
 

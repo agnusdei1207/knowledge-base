@@ -26,17 +26,14 @@ tags = ["studynote-ai"]
 
 문제는 이 편향된 AI가 면접, 대출, 범죄 예측 같은 인간의 '운명'을 결정짓는 시스템에 복사되어 들어가는 순간, 이 기계의 차별은 무한한 속도로 퍼져나가 사회적 약자를 영원히 나락으로 밟아버리는 <strong>'불평등의 자동화 공장'</strong>으로 전락한다는 점이다. 이 지옥을 막기 위해 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 단계에서 모델의 공정성(Fairness)을 강제로 쪼개어 검사하는 탐지망 설계가 생존의 핵심이 되었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 편향성은 부모([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))의 나쁜 버릇을 스펀지처럼 똑같이 따라 배우는 어린아이다. 부모가 평생 백인 친구들만 집에 초대하고 흑인은 문전박대하는 걸 보고 자란 아이([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))에게, 갑자기 흑인 손님이 찾아오면 아이는 "우린 흑인을 싫어하는 집이야"라며 문을 닫아버린다. 아이는 객관적인 뇌가 없다. 오직 부모(과거 인간 사회의 차별적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 살아온 삶의 방식을 오차 없이 100배로 뻥튀기해 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)(증폭)할 뿐이다.
 
@@ -46,30 +43,29 @@ tags = ["studynote-ai"]
 
 편향은 [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)이 흐르는 전 구간에서 스며들어온다. 이를 방어하는 아키텍처는 전처리(Pre), 훈련 중(In), 후처리(Post)의 3중 방어막으로 구성된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AI 모델 편향성 (Bias)의 발생 지점과 3단계 교정 파이프라인 도해</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 데이터 쏠림의 재앙 (Historical Bias / Sampling Bias)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 현상: 학습 사진 10만 장 중, 요리하는 사진의 90%가 '여성'임.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 방어 1 (Pre-processing 전처리 교정):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 데이터 뷔페에서 강제로 '요리하는 남성' 사진을 과대 표집(Oversampling)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하거나, 가짜 합성 데이터(SMOTE)로 비율을 50:50으로 무식하게 맞춰버림!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 모델의 얍삽한 편견 훈련 (Algorithmic Bias)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 현상: 모델이 성별을 숨겨도 '우편번호'나 '화장품 구매 이력'을 보고 성별을 유추함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 방어 2 (In-processing 훈련 중 교정 - 적대적 완화 Adversarial):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 훈련 로스(Loss) 수식에 "네가 유저의 성별/인종을 맞추는 순간 감점 100점!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이라는 미친 족쇄 패널티를 박아넣어, 뇌가 편견을 갖는 걸 강제 봉인시킴!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3. 실전 서빙 결과의 불평등 (Prediction Bias)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 현상: 남자 1,000명 중 100명이 합격했는데, 여자는 1,000명 중 10명만 합격함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 방어 3 (Post-processing 후처리 교정):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 최종 결과 임계치(Threshold)를 강제로 조작함! 남자는 90점 넘어야 합격,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">여자는 80점만 넘어도 합격시켜서 최종 합격 성비율을 똑같이 강제 배분함!</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           AI 모델 편향성 (Bias)의 발생 지점과 3단계 교정 파이프라인 도해│
+├──────────────────────────────────────────────────────────────┤
+│  [1. 데이터 쏠림의 재앙 (Historical Bias / Sampling Bias)]         │
+│   * 현상: 학습 사진 10만 장 중, 요리하는 사진의 90%가 '여성'임.          │
+│   * 방어 1 (Pre-processing 전처리 교정):                             │
+│     ─▶ 데이터 뷔페에서 강제로 '요리하는 남성' 사진을 과대 표집(Oversampling) │
+│         하거나, 가짜 합성 데이터(SMOTE)로 비율을 50:50으로 무식하게 맞춰버림!│
+│                                                              │
+│  [2. 모델의 얍삽한 편견 훈련 (Algorithmic Bias)]                     │
+│   * 현상: 모델이 성별을 숨겨도 '우편번호'나 '화장품 구매 이력'을 보고 성별을 유추함.│
+│   * 방어 2 (In-processing 훈련 중 교정 - 적대적 완화 Adversarial):     │
+│     ─▶ 훈련 로스(Loss) 수식에 "네가 유저의 성별/인종을 맞추는 순간 감점 100점!"│
+│         이라는 미친 족쇄 패널티를 박아넣어, 뇌가 편견을 갖는 걸 강제 봉인시킴!│
+│                                                              │
+│  [3. 실전 서빙 결과의 불평등 (Prediction Bias)]                      │
+│   * 현상: 남자 1,000명 중 100명이 합격했는데, 여자는 1,000명 중 10명만 합격함. │
+│   * 방어 3 (Post-processing 후처리 교정):                            │
+│     ─▶ 최종 결과 임계치(Threshold)를 강제로 조작함! 남자는 90점 넘어야 합격,│
+│         여자는 80점만 넘어도 합격시켜서 최종 합격 성비율을 똑같이 강제 배분함!  │
+└──────────────────────────────────────────────────────────────┘
+```
 
 **핵심 원리 (공정성의 수학적 정의 충돌)**:
 가장 환장할 노릇은 "무엇이 공정한 것인가?"라는 정의 자체가 철학적으로 미친 듯이 충돌한다는 것이다. 

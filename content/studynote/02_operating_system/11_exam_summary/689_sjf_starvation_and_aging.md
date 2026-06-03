@@ -46,25 +46,27 @@ tags = ["studynote-operating-system"]
 
 선점형 [SJF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/)(즉, [SRTF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/177_srtf_scheduling/)) 환경에서 기아가 어떻게 수학적으로 영원히 굳어지는지 확인해 본다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SJF / SRTF 스케줄링에서의 기아 현상 타임라인</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황: 긴 프로세스 P_Long (요구 시간 10시간)이 T=0 에 도착</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T = 0분 : P_Long 실행 시작. (현재 가장 짧은 작업이니까)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T = 1분 : 짧은 프로세스 P_Short_1 (요구 시간 5분) 도착.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(SRTF 작동) P_Long은 9시간 59분 남았고, P_Short_1은 5분 남음.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; OS가 P_Long을 강제로 쫓아내고 P_Short_1을 실행!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T = 6분 : P_Short_1 종료. 다시 P_Long이 실행되려는데...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P_Short_2 (요구 시간 5분) 도착.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; P_Long은 또 쫓겨남.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T = ∞ : 5분짜리 P_Short가 무한히 들어오면,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P_Long은 영원히 CPU를 잡지 못하고 큐에서 썩어감 (Starvation)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 SJF / SRTF 스케줄링에서의 기아 현상 타임라인             │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │  [상황: 긴 프로세스 P_Long (요구 시간 10시간)이 T=0 에 도착]               │
+  │                                                                   │
+  │   T = 0분   : P_Long 실행 시작. (현재 가장 짧은 작업이니까)                │
+  │                                                                   │
+  │   T = 1분   : 짧은 프로세스 P_Short_1 (요구 시간 5분) 도착.               │
+  │               (SRTF 작동) P_Long은 9시간 59분 남았고, P_Short_1은 5분 남음. │
+  │               -> OS가 P_Long을 강제로 쫓아내고 P_Short_1을 실행!        │
+  │                                                                   │
+  │   T = 6분   : P_Short_1 종료. 다시 P_Long이 실행되려는데...              │
+  │               P_Short_2 (요구 시간 5분) 도착.                        │
+  │               -> P_Long은 또 쫓겨남.                               │
+  │                                                                   │
+  │   T = ∞    : 5분짜리 P_Short가 무한히 들어오면,                       │
+  │               P_Long은 영원히 CPU를 잡지 못하고 큐에서 썩어감 (Starvation)│
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 기아 현상은 컴퓨터가 멈춘 것([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))이 아니다. 컴퓨터는 매우 활발하게 5분짜리 프로그램들을 쳐내며 역동적으로 돌아가고 있다. 단지 10시간짜리 프로그램 한 놈만 영원히 배제당하고 있을 뿐이다. SJF는 '시스템 전체의 효율'이라는 거시적 목표를 위해 '개별 프로세스의 권리'를 잔인하게 묵살하는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
 
@@ -93,7 +95,7 @@ tags = ["studynote-operating-system"]
 |:---|:---|:---|
 | **근본 원인** | 서로가 서로의 자원(락)을 물고 놓지 않음 | 스케줄링의 우선순위 로직에 의해 지속적 배제됨 |
 | **시스템 상태** | 프로세스들끼리 엉켜서 100% 멈춤 (Freeze) | 시스템은 다른 애들을 처리하며 **멀쩡히 잘 돎** |
-| **자원 상황** | 자원을 다른 놈도 못 씀 (꽉 막힘) | 자원을 다른 놈들이 쉴 새 없이 쓰고 있음 |
+| **자원 상황** | 자원을 다른 놈도 못 씀 (꽉 병목) | 자원을 다른 놈들이 쉴 새 없이 쓰고 있음 |
 | **해결 방법** | 사이클 끊기, 강제 종료 ([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/)) | <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/">Aging</a> 기법</strong>, 큐의 [라운드 로빈](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/178_round_robin_scheduling/)([RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/)) 혼합 |
 
 ### 과목 융합 관점
@@ -119,24 +121,24 @@ tags = ["studynote-operating-system"]
 
 ### 의사결정 및 튜닝 플로우
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">작업 처리 시스템의 공정성(Fairness) 설계 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">RabbitMQ / Celery 등 비동기 큐잉 시스템 설계 시 우선순위 부여</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">급한 작업(VIP 고객)과 안 급한 작업(일반 고객)을 큐로 분리했는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">엄격한 우선순위 큐 (Strict Priority) 적용 시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">질문: VIP 고객의 요청이 1초도 안 끊기고 계속 들어올 수 있나?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">일반 고객 기아 발생 확정!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대책: Aging 적용 또는 가중치 라운드 로빈(WRR)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(예: VIP 3번 처리할 때, 일반 1번은 강제 처리)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ─▶ 유지해도 좋음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ──▶ 단일 큐 처리(FCFS)로 기아는 없으나 호위 효과 발생 위험</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 작업 처리 시스템의 공정성(Fairness) 설계 플로우              │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [RabbitMQ / Celery 등 비동기 큐잉 시스템 설계 시 우선순위 부여]             │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      급한 작업(VIP 고객)과 안 급한 작업(일반 고객)을 큐로 분리했는가?          │
+  │          ├─ 예 ─────▶ [엄격한 우선순위 큐 (Strict Priority) 적용 시]     │
+  │          │            질문: VIP 고객의 요청이 1초도 안 끊기고 계속 들어올 수 있나?│
+  │          │             ├─ 예 ─▶ [일반 고객 기아 발생 확정!]            │
+  │          │             │         대책: Aging 적용 또는 가중치 라운드 로빈(WRR) │
+  │          │             │         (예: VIP 3번 처리할 때, 일반 1번은 강제 처리) │
+  │          │             └─ 아니오 ─▶ 유지해도 좋음                     │
+  │          └─ 아니오 ──▶ 단일 큐 처리(FCFS)로 기아는 없으나 호위 효과 발생 위험│
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** "우선순위가 높은 것을 먼저 처리한다"는 말을 들으면 아키텍트의 머릿속에는 반사적으로 <strong>"그럼 우선순위가 낮은 놈은 굶어 죽지(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/">Starvation</a>) 않을까?"</strong>라는 의심이 들어야 한다. 시스템 설계에서 절대적인 100:0의 권력 몰아주기는 결국 데드락이나 기아라는 파국을 부른다. 80:20, 90:[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) 등 하위 계층에게 숨통을 틔워주는 튜닝([가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 배분)이 스케줄링 설계의 마스터키다.
 
@@ -179,19 +181,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">FCFS 호위 효과 (Convoy Effect)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SJF 기아 (Starvation) 발생</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">라운드 로빈 시간 할당량 (Quantum)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">다단계 피드백 큐 (MLFQ) 천이</div></div>
-</div>
-</div>
-
-
+```text
+[FCFS 호위 효과 (Convoy Effect)]
+    │
+    ▼
+[SJF 기아 (Starvation) 발생]
+    │
+    ├──▶ [라운드 로빈 시간 할당량 (Quantum)]
+    └──▶ [다단계 피드백 큐 (MLFQ) 천이]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

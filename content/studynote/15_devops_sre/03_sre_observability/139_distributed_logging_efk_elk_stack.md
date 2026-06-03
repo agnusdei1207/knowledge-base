@@ -18,17 +18,11 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">ELK: Logstash(수집·파싱) → Elasticsearch(저장·검색) → Kibana(시각화)</div>
-<div class="kb-diagram-note">EFK: Fluentd(수집, CNCF) → Elasticsearch → Kibana</div>
-<div class="kb-diagram-note">Loki: Promtail(수집) → Loki(레이블 저장) → Grafana(시각화)</div>
-</div>
-</div>
-
-
+```text
+ELK: Logstash(수집·파싱) → Elasticsearch(저장·검색) → Kibana(시각화)
+EFK: Fluentd(수집, CNCF) → Elasticsearch → Kibana
+Loki: Promtail(수집) → Loki(레이블 저장) → Grafana(시각화)
+```
 
 - **📢 섹션 요약 비유**: [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 로깅은 <strong>중앙 도서관</strong>이다. 각 교실([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))의 일기장을 한 곳에 모아 <strong>누구든 검색</strong>할 수 있게 한다.
 
@@ -52,17 +46,11 @@ tags = ["studynote-devops-sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">syslog (1980s)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">ELK Stack (2012)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">EFK (Fluentd, CNCF)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Grafana Loki (2018, 경량)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: OTel Logs — 메트릭·트레이스 통합 수집</div></div>
-</div>
-</div>
-
-
+```text
+[syslog (1980s)] → [ELK Stack (2012)]
+    → [EFK (Fluentd, CNCF)] → [Grafana Loki (2018, 경량)]
+    → [현재: OTel Logs — 메트릭·트레이스 통합 수집]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 로깅은 <strong>중앙 도서관</strong>이에요. 각 교실의 일기장을 **한 곳에 모아요**.

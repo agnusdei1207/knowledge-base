@@ -18,22 +18,21 @@ tags = ["studynote-dataengineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부트스트래핑 절차</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">원본 데이터:</div><div class="kb-diagram-node">3, 5, 7, 9, 11</div><div class="kb-diagram-note">(n=5)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">리샘플 1:</div><div class="kb-diagram-node">5, 5, 9, 3, 11</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">평균=6.6</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">리샘플 2:</div><div class="kb-diagram-node">7, 7, 3, 9, 5</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">평균=6.2</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">리샘플 3:</div><div class="kb-diagram-node">11, 3, 5, 5, 9</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">평균=6.6</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">... (B=1000회 반복)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1000개 평균의 분포 → 2.5%=5.8, 97.5%=8.2</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">5.8, 8.2</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    부트스트래핑 절차                                   │
+├───────────────────────────────────────────────────────┤
+│  원본 데이터: [3, 5, 7, 9, 11]  (n=5)                │
+│                                                       │
+│  리샘플 1: [5, 5, 9, 3, 11] → 평균=6.6              │
+│  리샘플 2: [7, 7, 3, 9, 5]  → 평균=6.2              │
+│  리샘플 3: [11, 3, 5, 5, 9] → 평균=6.6              │
+│  ... (B=1000회 반복)                                  │
+│                                                       │
+│  1000개 평균의 분포 → 2.5%=5.8, 97.5%=8.2            │
+│  → 95% 신뢰 구간: [5.8, 8.2]                        │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 부트스트래핑은 작은 시료(표본)를 <strong>섞어서 다시 뽑기</strong>를 수천 번 반복하여 전체 인구(모집단)의 특성을 추정하는 것이다.
 
@@ -94,23 +93,21 @@ tags = ["studynote-dataengineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">모수적 통계 (정규분포 가정, ~1979)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">부트스트래핑 (Efron, 1979) — 비모수 리샘플링</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Bagging (1996, Breiman) — ML에 부트스트랩 적용</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Random Forest (2001) — Bagging + Feature Sampling</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: Conformal Prediction — 불확실성 정량화</div></div>
-</div>
-</div>
-
-
+```text
+[모수적 통계 (정규분포 가정, ~1979)]
+    │
+    ▼
+[부트스트래핑 (Efron, 1979) — 비모수 리샘플링]
+    │
+    ▼
+[Bagging (1996, Breiman) — ML에 부트스트랩 적용]
+    │
+    ▼
+[Random Forest (2001) — Bagging + Feature Sampling]
+    │
+    ▼
+[현재: Conformal Prediction — 불확실성 정량화]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 사탕 봉지에서 **5개만 꺼내서 맛을 봤어요**. 전체 맛을 알고 싶은데 5개론 부족해요.

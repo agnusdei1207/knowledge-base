@@ -37,29 +37,33 @@ tags = ["studynote-bigdata"]
 
 ### Looker 아키텍처
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Looker 아키텍처</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비즈니스 사용자</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Explore UI: 드래그앤드롭 (SQL 없이 분석)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Dashboard: 공유 대시보드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Look: 저장된 분석 쿼리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LookML 시맨틱 레이어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">models/: 데이터베이스 연결 + Explore 정의</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">views/: 테이블/뷰 + 비즈니스 로직 정의</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- dimensions: 필터 가능한 속성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- measures: 집계 지표 (매출, 사용자 수)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- derived_table: LookML 기반 계산 테이블</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SQL 자동 생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 소스 (항상 Live)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BigQuery / Snowflake / Redshift / PostgreSQL</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(데이터 복사 없음 — 원본 직접 쿼리)</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    Looker 아키텍처                           │
+├──────────────────────────────────────────────────────────────┤
+│  비즈니스 사용자                                             │
+│  ┌──────────────────────────────────────────────────────┐   │
+│  │  Explore UI: 드래그앤드롭 (SQL 없이 분석)             │   │
+│  │  Dashboard: 공유 대시보드                             │   │
+│  │  Look: 저장된 분석 쿼리                               │   │
+│  └──────────────────────────────────────────────────────┘   │
+│                          │                                   │
+│  LookML 시맨틱 레이어                                        │
+│  ┌──────────────────────────────────────────────────────┐   │
+│  │  models/: 데이터베이스 연결 + Explore 정의            │   │
+│  │  views/: 테이블/뷰 + 비즈니스 로직 정의               │   │
+│  │    - dimensions: 필터 가능한 속성                     │   │
+│  │    - measures: 집계 지표 (매출, 사용자 수)            │   │
+│  │    - derived_table: LookML 기반 계산 테이블           │   │
+│  └──────────────────────────────────────────────────────┘   │
+│                          │ SQL 자동 생성                     │
+│  데이터 소스 (항상 Live)                                     │
+│  ┌──────────────────────────────────────────────────────┐   │
+│  │  BigQuery / Snowflake / Redshift / PostgreSQL        │   │
+│  │  (데이터 복사 없음 — 원본 직접 쿼리)                  │   │
+│  └──────────────────────────────────────────────────────┘   │
+└─────────────────────────────────────────────────────────────┘
+```
 
 ### LookML 핵심 구조
 
@@ -123,9 +127,9 @@ Looker Blocks는 일반적인 플랫폼 [데이터](/knowledge-base/studynote/05
 
 이를 가져와 수정하면 처음부터 LookML을 작성하는 시간을 대폭 절약한다.
 
-### Looker + [BigQuery](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/) BI Engine
+### Looker + [BigQuery](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/) BI 엔진
 
-[BigQuery](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/) BI Engine을 사용하면 BigQuery에 저장된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 인메모리 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)으로 서브세컨드 응답으로 Looker에서 조회할 수 있다. Google Cloud 생태계 내에서 Looker + [BigQuery](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/) + BI Engine의 조합이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·거버넌스의 최적 패키지다.
+[BigQuery](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/) BI 엔진을 사용하면 BigQuery에 저장된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 인메모리 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)으로 서브세컨드 응답으로 Looker에서 조회할 수 있다. Google Cloud 생태계 내에서 Looker + [BigQuery](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/) + BI 엔진의 조합이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·거버넌스의 최적 패키지다.
 
 **📢 섹션 요약 비유**: Looker Blocks는 <strong>레고 기본 세트</strong>와 같다. 처음부터 모든 레고 조각을 만들 필요 없이, 기본 세트(Blocks)를 구입해서 자신의 집(비즈니스 로직)에 맞게 조립하면 된다.
 
@@ -188,25 +192,22 @@ Looker는 <strong>BI 거버넌스의 미래 표준</strong>이다. [데이터](/
 | Explore | LookML 구성 | 조인 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) + 분석 진입점 정의 |
 | Looker Studio | 관련 제품 | 무료, 비기술용 빠른 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) |
 | [Metric](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) Sprawl | 해결 문제 | 팀별 다른 지표 정의로 인한 불일치 |
-| [BigQuery](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/) BI Engine | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 | Looker + [BigQuery](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/) 인메모리 가속 |
+| [BigQuery](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/) BI 엔진 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 | Looker + [BigQuery](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/) 인메모리 가속 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SQL (SQL)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LookML (LookML)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Looker (Looker)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">셀프서비스 BI (Self-Service BI)</div></div>
-</div>
-</div>
-
-
+```text
+[SQL (SQL)]
+    │
+    ▼
+[LookML (LookML)]
+    │
+    ▼
+[Looker (Looker)]
+    │
+    ▼
+[셀프서비스 BI (Self-Service BI)]
+```
 
 이 흐름도는 SQL에서 LookML과 Looker를 거쳐 셀프서비스 BI로 발전하는 분석 흐름을 보여준다.
 ### 👶 어린이를 위한 3줄 비유 설명

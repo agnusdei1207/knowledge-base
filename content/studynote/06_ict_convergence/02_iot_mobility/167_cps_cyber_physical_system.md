@@ -24,18 +24,19 @@ CPS (Cyber-Physical System)는 컴퓨팅, 네트워크, 제어 이론이 물리�
 
 아래 그림은 CPS가 단순한 관찰 시스템이 아니라, 현실을 읽고 다시 현실을 바꾸는 순환 구조라는 점을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPS의 기본 구조: 감지와 제어의 폐루프</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Physical Process</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sensor ──▶ Network ──▶ Cyber Analytics / Control Logic</div></div>
-<div class="kb-diagram-note">Actuator ◀ Control Command ◀</div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                  CPS의 기본 구조: 감지와 제어의 폐루프               │
+├──────────────────────────────────────────────────────────────────────┤
+│ Physical Process                                                     │
+│   │                                                                  │
+│   ▼                                                                  │
+│ Sensor ──▶ Network ──▶ Cyber Analytics / Control Logic               │
+│   ▲                               │                                  │
+│   │                               ▼                                  │
+│ Actuator ◀────────────── Control Command ◀───────────────────────────┘
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 즉 CPS는 [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) ([Digital Twin](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/))처럼 현실을 복제해 보는 기술과 닮아 있지만, 본질적으로는 "보는 시스템"이 아니라 "판단하고 움직이는 시스템"에 더 가깝다.
 
@@ -59,19 +60,21 @@ CPS의 아키텍처는 보통 <strong>물리 계층 → 센싱 계층 → 통신
 
 아래 그림은 현실 제어를 위한 대표적 분업 구조를 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPS의 제어 분업: Edge와 Cloud의 역할</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Sensor</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Edge Controller</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Actuator</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 10ms~100ms 제어</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Cloud / Digital Twin / AI Training</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 정책 업데이트 · 모델 개선 · 시뮬레이션</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                    CPS의 제어 분업: Edge와 Cloud의 역할               │
+├──────────────────────────────────────────────────────────────────────┤
+│ [Sensor] ─▶ [Edge Controller] ─▶ [Actuator]                           │
+│                │                     ▲                                 │
+│                │                     │                                 │
+│                ├─ 10ms~100ms 제어 ───┘                                 │
+│                │                                                       │
+│                ▼                                                       │
+│           [Cloud / Digital Twin / AI Training]                        │
+│                │                                                       │
+│                └─ 정책 업데이트 · 모델 개선 · 시뮬레이션               │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조에서 중요한 것은 모든 판단을 중앙으로 모으는 것이 아니라, <strong>지연시간과 안전 등급에 따라 제어 위치를 나누는 것</strong>이다. 급제동, 설비 정지, 과전류 차단 같은 제어는 가장 가까운 곳에서 수행해야 하고, 예지보전이나 생산계획 최적화는 더 넓은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보고 판단해도 된다.
 
@@ -152,23 +155,21 @@ CPS가 잘 구현되면 설비와 시스템이 따로 노는 시간이 줄어든
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">공장 자동화 · 제어 시스템</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">사물인터넷 (IoT, Internet of Things) 기반 센싱</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">엣지 분석 · 디지털 트윈 · 실시간 네트워크</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CPS (Cyber-Physical System)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">자율형 제조 · 자율주행 · 스마트 에너지 제어</div>
-</div>
-</div>
-
-
+```text
+공장 자동화 · 제어 시스템
+    │
+    ▼
+사물인터넷 (IoT, Internet of Things) 기반 센싱
+    │
+    ▼
+엣지 분석 · 디지털 트윈 · 실시간 네트워크
+    │
+    ▼
+CPS (Cyber-Physical System)
+    │
+    ▼
+자율형 제조 · 자율주행 · 스마트 에너지 제어
+```
 
 이 흐름은 산업 시스템이 단순 자동화에서, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 예측과 실시간 현실 제어가 결합된 자율 운영으로 발전하는 과정을 보여 준다.
 

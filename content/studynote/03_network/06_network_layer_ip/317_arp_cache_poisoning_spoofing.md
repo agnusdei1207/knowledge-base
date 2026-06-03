@@ -24,18 +24,14 @@ tags = ["studynote-network"]
 
 - **💡 비유**: 회사 로비에서 우편물(패킷)을 모아 우체국(라우터)으로 가져가는 전담 우체부 아저씨가 있습니다. 어느 날 해커가 우체부 옷을 똑같이 입고 나타나, 직원들에게 <strong>"오늘부터 내가 진짜 우체부(라우터)니까 편지는 무조건 나한테 줘!"</strong>라고 거짓말([스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/))을 합니다. 직원들은 아무 의심 없이 해커에게 편지를 다 넘겨주고, 해커는 벤치에 앉아 남의 연애편지를 다 뜯어보고 다시 풀을 붙여 진짜 우체국에 몰래 갖다 줍니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Gratuitous ARP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ARP 캐시 오염</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ICMP 진단/오류 알림</div></div>
-</div>
-</div>
-
-
+```text
+[Gratuitous ARP]
+    │
+    ▼
+[ARP 캐시 오염]
+    │
+    └──▶ [ICMP 진단/오류 알림]
+```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/">ARP</a> <a href="/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/">스푸핑</a>은 동네 내비게이션(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/">ARP</a> 테이블) 앱을 해킹해서, </strong>"서울 가는 고속도로 톨게이트(라우터)"** 목적지 좌표를 **"산골짜기 해커의 아지트(해커 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))"**로 몰래 바꿔치기하여 모든 차량을 납치하는 톨게이트 사기극입니다.
 
@@ -51,20 +47,21 @@ tags = ["studynote-network"]
 2. **수첩 오염 (Table Update)**: 피해자 PC는 이 거짓말을 무지성으로 믿고 자기 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 테이블에 `1번 = HH(해커)`라고 수정해 버린다.
 3. **가로채기와 릴레이 (Sniffing & Relay)**: 이제 피해자 PC가 네이버 아이디/비밀번호를 로그인해서 보낸다. 이 패킷은 1번(게이트웨이)을 향해 쏘아졌지만, 도착지는 해커의 노트북(HH)이 된다. 해커는 패킷 분석기(와이어샤크)로 비밀번호를 쏙 빼먹은 뒤, 피해자가 인터넷이 끊겨서 의심하지 않도록 패킷을 진짜 공유기([RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/))로 다시 보내준다. (완벽한 [중간자 공격](/knowledge-base/studynote/03_network/14_network_security_threats/706_mitm_man_in_the_middle_hsts/)).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ARP 스푸핑 (중간자 공격, MITM) 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">피해자 PC</div><div class="kb-diagram-note">ARP 캐시: "공유기 MAC은 해커 꺼다!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(1. 패킷 탈취) (2. 몰래 전달)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">해커 노트북</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">진짜 공유기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"오호, 비밀번호가 1234군." (인터넷으로 나감)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 피해자 입장: 인터넷이 평소보다 아주 살~짝 느려질 뿐 전혀 눈치채지 못함.</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                ARP 스푸핑 (중간자 공격, MITM) 시각화           │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 피해자 PC ] ARP 캐시: "공유기 MAC은 해커 꺼다!"                 │
+ │       │                                                     │
+ │       │  (1. 패킷 탈취)                (2. 몰래 전달)           │
+ │       ▼                               ▼                     │
+ │   [ 해커 노트북 ] ─────────────────────────▶ [ 진짜 공유기 ]       │
+ │   "오호, 비밀번호가 1234군."                    (인터넷으로 나감)     │
+ │                                                             │
+ │   * 피해자 입장: 인터넷이 평소보다 아주 살~짝 느려질 뿐 전혀 눈치채지 못함.│
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 2. [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)의 한계와 탐지
 해커가 이 공격을 하려면 <strong>반드시 희생자와 물리적으로 똑같은 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>(같은 브로드캐스트 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a>, 같은 <a href="/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/">VLAN</a>)</strong> 안에 랜선을 꽂아야만 한다. 대전에서 서울 PC를 향해 원격으로 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/)을 거는 것은 라우터를 넘지 못하므로 불가능하다. (내부자 소행이거나 뚫린 좀비 PC가 필요함)
@@ -129,19 +126,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: Gratuitous ARP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: ARP 캐시 오염</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: ICMP 진단/오류 알림</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 대규모 주소 자동화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: Gratuitous ARP]
+    │
+    ▼
+[현재 개념: ARP 캐시 오염]
+    │
+    ├──▶ [확장 A: ICMP 진단/오류 알림]
+    └──▶ [확장 B: 대규모 주소 자동화]
+```
 
 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 캐시 오염는 Gratuitous ARP에서 출발해 현재 메커니즘을 정교화하고, 이후 [ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) 진단/오류 알림와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -35,20 +35,19 @@ tags = ["studynote-ict-convergence"]
 
 <strong><a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/">Terraform</a>(HCL) Plan-Apply 워크플로</strong>:
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GitOps + Terraform 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발자 → PR(HCL 변경) → 코드 리뷰 → merge</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">terraform plan (변경 사항 미리 보기)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↓ (diff: +3 리소스, -1 리소스)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">terraform apply (실제 적용, State 파일 갱신)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">State 파일 (terraform.tfstate, S3 원격 저장)</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    GitOps + Terraform 흐름                   │
+│                                                             │
+│  개발자 → PR(HCL 변경) → 코드 리뷰 → merge                  │
+│                                    ↓                        │
+│             terraform plan  (변경 사항 미리 보기)             │
+│                    ↓        (diff: +3 리소스, -1 리소스)      │
+│             terraform apply (실제 적용, State 파일 갱신)      │
+│                    ↓                                        │
+│             State 파일 (terraform.tfstate, S3 원격 저장)      │
+└─────────────────────────────────────────────────────────────┘
+```
 
 | 도구 | 방식 | 특징 | 주요 사용 |
 |:---|:---:|:---|:---|

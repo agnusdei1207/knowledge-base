@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - <strong>다중 경로 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> (<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/168_multipath_fading_isi/">Multipath Fading</a>)</strong>: 기지국이 쏜 직진 전파는 폰에 0.1초 만에 오지만, 콘크리트 빌딩을 맞고 반사되어 튕겨 온 전파(메아리)는 0.2초 만에 지각해서 도착합니다.
 - **ISI (Inter-Symbol Interference)**: 내가 'A'라는 글자와 'B'라는 글자를 연속해서 쐈는데, 지각해서 도착한 'A의 메아리 전파'가 이제 막 도착하는 'B의 원본 전파' 위를 침범해서 덮어버립니다. 폰은 A와 B가 섞여 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전혀 복구하지 못하고 통신이 끊어집니다(ISI 간섭 현상, 22번 문서).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">BSS Coloring</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CP-OFDM</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">C-RAN</div></div>
-</div>
-</div>
-
-
+```text
+[BSS Coloring]
+    │
+    ▼
+[CP-OFDM]
+    │
+    └──▶ [C-RAN]
+```
 
 - **📢 섹션 요약 비유**: [CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/)-OFDM는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -53,18 +49,14 @@ tags = ["studynote-network"]
 - <strong>순환 전치 (<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/">Cyclic Prefix</a>)</strong>: 그런데 그냥 시간을 비워두면 주파수 파동의 연속성이 깨져 에러가 납니다. 그래서 <strong>보낼 심볼 파동의 맨 뒷부분(꼬리) 약 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a>%를 복사해서 잘라낸 뒤, 심볼의 맨 앞부분 빈 공간(가드 인터벌)에 '쿠션'처럼 붙여놓고(Prefix)</strong> 허공에 쏩니다.
 - 폰은 패킷을 받을 때, 앞에 붙은 이 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%짜리 희생양 쿠션([CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/)) 부분이 메아리에 맞아 지그러지든 말든 쿨하게 가위로 싹둑 잘라 쓰레기통에 버려버리고, 뒤에 남은 100% 온전한 원본 심볼만 안전하게 해독해 냅니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">BSS Coloring</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CP-OFDM</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">C-RAN</div></div>
-</div>
-</div>
-
-
+```text
+[BSS Coloring]
+    │
+    ▼
+[CP-OFDM]
+    │
+    └──▶ [C-RAN]
+```
 
 - **📢 섹션 요약 비유**: [CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/)-OFDM의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -125,19 +117,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: BSS Coloring</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: CP-OFDM</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: C-RAN</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 네트워크 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: BSS Coloring]
+    │
+    ▼
+[현재 개념: CP-OFDM]
+    │
+    ├──▶ [확장 A: C-RAN]
+    └──▶ [확장 B: AI 기반 네트워크 최적화]
+```
 
 [CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/)-OFDM는 [BSS](/knowledge-base/studynote/02_operating_system/02_process_thread/083_bss_segment/) Coloring에서 출발해 현재 메커니즘을 정교화하고, 이후 C-RAN와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

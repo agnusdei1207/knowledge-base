@@ -23,17 +23,14 @@ tags = ["studynote-ai"]
 
 2017년 구글 브레인의 "Attention Is All You Need" 논문은 RNN을 완전히 제거하고, 시퀀스 전체를 한꺼번에 행렬 연산으로 처리하는 Transformer를 제안했다. 셀프 어텐션이 시퀀스 내 모든 위치를 동시에 연결하므로, 위치 1과 위치 1000의 의존성을 거리 1홉(Hop)으로 처리한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: RNN은 책을 한 글자씩 소리 내어 읽는 학생이고, Transformer는 책 전체를 카메라로 한 번에 찍어 사진에서 동시에 모든 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 파악하는 AI다. 한 글자씩 읽는 건 느리고 앞 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 잊지만, 사진 한 장은 빠르고 전체를 동시에 기억한다.
 
@@ -41,27 +38,31 @@ tags = ["studynote-ai"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">트랜스포머 (Transformer) 전체 아키텍처</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인코더 스택</div><div class="kb-diagram-cell">디코더 스택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(N=6 레이어 반복)</div><div class="kb-diagram-cell">(N=6 레이어 반복)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Add &amp; Norm</div><div class="kb-diagram-cell">Add &amp; Norm</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Feed-Forward</div><div class="kb-diagram-cell">Feed-Forward Network</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Network</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Add &amp; Norm</div><div class="kb-diagram-cell">Add &amp; Norm</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Multi-Head</div><div class="kb-diagram-cell">Cross-Attention (인코더↔디코더)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Self-Attention</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Positional</div><div class="kb-diagram-cell">Add &amp; Norm</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Encoding +</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Input Embed</div><div class="kb-diagram-cell">Masked Multi-Head Self-Attention</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(미래 토큰 마스킹)</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│            트랜스포머 (Transformer) 전체 아키텍처                      │
+├──────────────────────┬─────────────────────────────────────────────┤
+│  인코더 스택           │   디코더 스택                                  │
+│  (N=6 레이어 반복)     │   (N=6 레이어 반복)                            │
+│                      │                                             │
+│  ┌────────────────┐   │   ┌─────────────────────────────────────┐   │
+│  │ Add & Norm     │   │   │ Add & Norm                          │   │
+│  │                │   │   │                                     │   │
+│  │ Feed-Forward   │   │   │ Feed-Forward Network                │   │
+│  │ Network        │   │   │                                     │   │
+│  ├────────────────┤   │   ├─────────────────────────────────────┤   │
+│  │ Add & Norm     │   │   │ Add & Norm                          │   │
+│  │                │   │   │                                     │   │
+│  │ Multi-Head     │   │   │ Cross-Attention (인코더↔디코더)        │   │
+│  │ Self-Attention │   │   │                                     │   │
+│  ├────────────────┤   │   ├─────────────────────────────────────┤   │
+│  │ Positional     │   │   │ Add & Norm                          │   │
+│  │ Encoding +     │   │   │                                     │   │
+│  │ Input Embed    │   │   │ Masked Multi-Head Self-Attention     │   │
+│  └────────────────┘   │   │ (미래 토큰 마스킹)                      │   │
+│                      │   └─────────────────────────────────────┘   │
+└──────────────────────┴─────────────────────────────────────────────┘
+```
 
 | 구성 요소 | 역할 | 핵심 설명 |
 |:---|:---|:---|

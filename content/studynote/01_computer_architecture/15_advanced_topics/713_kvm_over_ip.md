@@ -38,31 +38,34 @@ KVM 오버 IP의 핵심은 "화면은 캡처해서 보내고, 입력은 가짜 �
 | 구성 요소 | 역할 | 설계 포인트 |
 | :-- | :-- | :-- |
 | [BMC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/710_bmc/) ([Baseboard Management Controller](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/710_bmc/)) | 원격 콘솔 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 기록 | [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 보안, [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) (Transport Layer [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)), 계정 분리 |
-| Video Capture Engine | 호스트 화면 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 또는 프레임버퍼를 캡처 | BIOS/[UEFI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/706_uefi/) 단계 지원, [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 효율 |
+| Video Capture 엔진 | 호스트 화면 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 또는 프레임버퍼를 캡처 | BIOS/[UEFI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/706_uefi/) 단계 지원, [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 효율 |
 | [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) HID (Human Interface Device) Emulation | 키보드·마우스 입력을 가상 [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 장치로 주입 | 입력 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) |
 | OOB (Out-of-Band) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) [NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/) | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)망과 분리된 관리 통신 경로 | 망 분리, [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) ([Access Control List](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/)), [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) (Virtual Private Network) |
 | Remote Console [Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/) | HTML5 또는 전용 뷰어로 콘솔 표시 | 브라우저 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/), 다중 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 제어 |
 
 아래 그림은 KVM 오버 IP가 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 위가 아니라 메인보드 관리 경로에서 동작함을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Admin PC</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Browser / KVM Client</div></div>
-<div class="kb-diagram-note">HTTPS / Vendor Console Protocol</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OOB Mgmt Network</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Server Mainboard</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Video Capture</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Encode/Stream ▶ Remote</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">BMC</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">USB HID Emulation ▶ BIOS / OS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Power / Reset / Boot Order ▶ Control Path</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│ Admin PC                                                                  │
+│  Browser / KVM Client                                                     │
+└───────────────┬────────────────────────────────────────────────────────────┘
+                │ HTTPS / Vendor Console Protocol
+                ▼
+┌────────────────────────────────────────────────────────────────────────────┐
+│ OOB Mgmt Network                                                          │
+└───────────────┬────────────────────────────────────────────────────────────┘
+                ▼
+┌────────────────────────────────────────────────────────────────────────────┐
+│ Server Mainboard                                                          │
+│                                                                            │
+│  Host VGA/FB ─────▶ [ Video Capture ] ─────▶ Encode/Stream ─────▶ Remote  │
+│                                                                            │
+│  Admin Input ─────▶ [ BMC ] ─────▶ USB HID Emulation ─────▶ BIOS / OS     │
+│                                                                            │
+│  Power / Reset / Boot Order ───────────────────────────────▶ Control Path  │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 화면 경로는 보통 호스트의 VGA [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)나 BMC가 공유하는 프레임버퍼를 읽어 JPEG, H.264, 또는 벤더 전용 스트림으로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)한 뒤 전송한다. 입력 경로는 반대로 관리자가 누른 키를 BMC가 [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 키보드·마우스로 에뮬레이션해 호스트에 꽂힌 것처럼 보이게 만든다. 이 때문에 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 멈춰 있어도 BIOS 메뉴에서 `Del`, `F2`, `Esc`를 누르는 동작이 가능하다.
 
@@ -147,24 +150,23 @@ KVM 오버 IP를 잘 도입하면 물리 방문을 줄이고, [초기](/knowledg
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Crash Cart</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Local KVM Switch</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">OOB Management + BMC</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ KVM over IP</div>
-<div class="kb-diagram-note">──▶ Virtual Media</div>
-<div class="kb-diagram-note">──▶ Remote Power / Reset</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">HTML5 Console + API (Application Programming Interface)-driven Bare-metal Ops</div>
-</div>
-</div>
-
-
+```text
+Crash Cart
+    │
+    ▼
+Local KVM Switch
+    │
+    ▼
+OOB Management + BMC
+    │
+    ├──▶ KVM over IP
+    │        │
+    │        ├──▶ Virtual Media
+    │        └──▶ Remote Power / Reset
+    │
+    ▼
+HTML5 Console + API (Application Programming Interface)-driven Bare-metal Ops
+```
 
 이 흐름은 현장 상주형 조작에서 네트워크 기반 무인 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)로 관리 방식이 진화한 과정을 보여준다.
 

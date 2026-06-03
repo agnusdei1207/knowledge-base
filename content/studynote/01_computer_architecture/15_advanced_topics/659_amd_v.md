@@ -25,19 +25,16 @@ AMD는 이 문제를 [SVM](/knowledge-base/studynote/14_data_engineering/05_exam
 
 아래 그림은 AMD-V가 VMCB를 중심으로 host와 guest를 왕복시키는 기본 흐름을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">VMRUN</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Host / hypervisor</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Guest execution</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">reads and updates</div><div class="kb-diagram-cell">under SVM guest mode</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VMCB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">return on intercept</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────┐   VMRUN    ┌──────────────────────────┐
+│ Host / hypervisor    │ ───────▶  │ Guest execution          │
+│ reads and updates    │           │ under SVM guest mode     │
+│ VMCB                 │           │                          │
+└─────────┬────────────┘           └──────────┬───────────────┘
+          │                                   │
+          │   return on intercept             │
+          └───────────────────────────────────┘
+```
 
 결국 AMD-V의 필요성은 "게스트를 속여서 돌리는 기술"이 아니라 "게스트를 많이 건드리지 않고도 안전하게 함께 돌리는 기술"에 있다. 이 점이 서버 집적도와 클라우드 효율을 좌우한다.
 
@@ -124,23 +121,21 @@ AMD-V는 단순히 Intel 대응 기능이 아니라, AMD 서버 생태계의 [�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Software virtualization limits on x86</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">AMD-V with SVM host / guest split</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">VMCB-based control path</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">NPT / RVI · ASID · AVIC</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SEV and confidential computing</div>
-</div>
-</div>
-
-
+```text
+Software virtualization limits on x86
+    │
+    ▼
+AMD-V with SVM host / guest split
+    │
+    ▼
+VMCB-based control path
+    │
+    ▼
+NPT / RVI · ASID · AVIC
+    │
+    ▼
+SEV and confidential computing
+```
 
 이 흐름은 "실행 분리 → 상태 관리 단순화 → 메모리/[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 가속 → 보안 확장"의 축으로 AMD-V를 이해하게 해 준다.
 

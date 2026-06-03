@@ -22,16 +22,13 @@ BRM (Business [Reference Model](/knowledge-base/studynote/12_it_management/03_ea
 
 이 개념이 중요한 이유는 기관과 기업이 비슷한 업무를 서로 다른 이름으로 관리하면 중복 시스템과 중복 예산이 계속 생기기 때문이다. BRM은 업무 기능을 표준 계층으로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)해 어떤 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 어떤 업무를 지원하는지 연결하므로, 정보화 과제 발굴과 [참조 모델](/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/) 설계의 기준점이 된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Business need ──▶ Function classify ──▶ EA linkage</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">duplicated work standard taxonomy investment</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ Business need  ──▶  Function classify  ──▶  EA linkage       │
+├──────────────────────────────────────────────────────────────┤
+│ duplicated work        standard taxonomy        investment    │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 그림은 BRM이 업무 요구를 기능 체계로 정리한 뒤 EA와 정보화 과제로 연결하는 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 구조임을 보여 준다.
 
@@ -50,16 +47,13 @@ BRM (Business [Reference Model](/knowledge-base/studynote/12_it_management/03_ea
 | 조직 매핑 | 기능별 중복과 누락을 식별해 투자 우선순위를 재정렬한다. | [참조 모델](/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/)은 진단과 개선의 출발점이어야 한다. |
 | 사업 매핑 | [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/), [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), 시스템 포트폴리오와 연결해 실행력을 높인다. | [참조 모델](/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/)과 실제 사업이 끊기지 않아야 한다. |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Function map ──▶ Reference model ──▶ Portfolio linkage</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">classify standardize govern</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ Function map  ──▶  Reference model  ──▶  Portfolio linkage   │
+├──────────────────────────────────────────────────────────────┤
+│ classify            standardize              govern           │
+└──────────────────────────────────────────────────────────────┘
+```
 
 핵심 원리는 동일한 업무를 동일한 언어로 정의하는 데 있다. 그래야 기관 간 비교, 시스템 재사용, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 통합, 정보화 투자 심의가 같은 기준에서 이루어진다.
 
@@ -123,19 +117,15 @@ BRM (Business [Reference Model](/knowledge-base/studynote/12_it_management/03_ea
 | [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 연계 | 후속 아키텍처·정보화 과제와 연결 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">업무 요구 정리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">BRM (Business Reference Model)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">업무 기능 분류</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">EA 연계</div></div>
-</div>
-</div>
-
-
+```text
+[업무 요구 정리]
+    │
+    ▼
+[BRM (Business Reference Model)]
+    │
+    ├──▶ [업무 기능 분류]
+    └──▶ [EA 연계]
+```
 
 이 흐름은 업무 요구를 BRM으로 표준화하고, 이후 업무 기능 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)와 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 연계 같은 확장 축으로 고도화하는 전개를 보여 준다.
 

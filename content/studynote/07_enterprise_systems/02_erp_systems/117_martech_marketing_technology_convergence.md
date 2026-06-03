@@ -18,24 +18,22 @@ tags = ["studynote-enterprise-systems"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마테크 스택 구성 예시</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">고객 데이터</div><div class="kb-diagram-note">CDP (Segment)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">마케팅 자동화</div><div class="kb-diagram-note">MA (HubSpot, Braze)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">이메일</div><div class="kb-diagram-note">Mailchimp, SendGrid</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">분석</div><div class="kb-diagram-note">GA4, Amplitude, Mixpanel</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CMS</div><div class="kb-diagram-note">WordPress, Contentful</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">소셜</div><div class="kb-diagram-note">Sprinklr, Hootsuite</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ABM</div><div class="kb-diagram-note">6sense, Demandbase</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">통합</div><div class="kb-diagram-note">iPaaS (Zapier, Workato)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 이들을 연결하는 것이 "마테크 스택 아키텍처"</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    마테크 스택 구성 예시                               │
+├───────────────────────────────────────────────────────┤
+│  [고객 데이터]   CDP (Segment)                        │
+│  [마케팅 자동화] MA (HubSpot, Braze)                  │
+│  [이메일]       Mailchimp, SendGrid                   │
+│  [분석]         GA4, Amplitude, Mixpanel              │
+│  [CMS]          WordPress, Contentful                 │
+│  [소셜]         Sprinklr, Hootsuite                   │
+│  [ABM]          6sense, Demandbase                    │
+│  [통합]         iPaaS (Zapier, Workato)               │
+│                                                       │
+│  → 이들을 연결하는 것이 "마테크 스택 아키텍처"       │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 마테크 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)은 주방의 조리 도구 세트다. 칼(분석)·냄비(자동화)·오븐(CMS)을 각각 최고 브랜드로 구성하거나, 올인원 세트를 사는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 있다.
 
@@ -95,23 +93,21 @@ tags = ["studynote-enterprise-systems"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">이메일 마케팅 도구 (2000s) — Mailchimp 등</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">마케팅 자동화 (2010s) — HubSpot, Marketo</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">마테크 랜드스케이프 폭발 (2015~) — 5000→14000개 도구</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CDP 중심 통합 (2020~) — 데이터 허브 전략</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: AI 마테크 — GenAI 콘텐츠·개인화 자동화</div></div>
-</div>
-</div>
-
-
+```text
+[이메일 마케팅 도구 (2000s) — Mailchimp 등]
+    │
+    ▼
+[마케팅 자동화 (2010s) — HubSpot, Marketo]
+    │
+    ▼
+[마테크 랜드스케이프 폭발 (2015~) — 5000→14000개 도구]
+    │
+    ▼
+[CDP 중심 통합 (2020~) — 데이터 허브 전략]
+    │
+    ▼
+[현재: AI 마테크 — GenAI 콘텐츠·개인화 자동화]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 마테크는 가게 사장님이 손님에게 **맞춤 광고와 쿠폰을 자동으로 보내는** 기술이에요.

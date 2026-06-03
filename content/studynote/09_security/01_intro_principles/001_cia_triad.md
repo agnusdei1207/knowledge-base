@@ -59,24 +59,22 @@ CIA Triad를 구현하기 위해 시스템은 다양한 보안 통제([Security]
 
 보안 통제가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름에 어떻게 적용되는지 살펴보자. 다음은 클라이언트가 서버의 자산에 접근하는 과정에서 CIA 요소가 단계별로 개입하는 흐름도이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Client</div></div>
-<div class="kb-diagram-note">(1. 기밀성: TLS 암호화 채널 형성)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">API Gateway / WAF</div><div class="kb-diagram-note">-- (2. 가용성: 트래픽 필터링 및 Rate Limiting)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─&gt;</div><div class="kb-diagram-node">인증/인가 서버</div><div class="kb-diagram-note">(3. 기밀성: RBAC 기반 권한 검증)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Application Server</div></div>
-<div class="kb-diagram-tree-item" style="--depth:1">(4. 무결성: 입력 데이터 Hash 검증 및 SQL Injection 방지)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Database / Storage</div><div class="kb-diagram-note">-- (5. 가용성/무결성: Active-Standby 복제, 트랜잭션 처리)</div></div>
-</div>
-</div>
-
-
+```text
+[Client] 
+   │ (1. 기밀성: TLS 암호화 채널 형성)
+   ▼
+[API Gateway / WAF] -- (2. 가용성: 트래픽 필터링 및 Rate Limiting)
+   │
+   ├─> [인증/인가 서버] (3. 기밀성: RBAC 기반 권한 검증)
+   │
+   ▼
+[Application Server] 
+   │
+   ├─> (4. 무결성: 입력 데이터 Hash 검증 및 SQL Injection 방지)
+   │
+   ▼
+[Database / Storage] -- (5. 가용성/무결성: Active-Standby 복제, 트랜잭션 처리)
+```
 
 이 도식의 핵심은 방어선이 네트워크 경계부터 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 내부까지 다계층([Defense in Depth](/knowledge-base/studynote/09_security/01_intro_principles/012_defense_in_depth/))으로 구성되어 있다는 점이다. [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)은 진입점에서의 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)과 전송 구간 암호화로 달성되고, [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)은 애플리케이션 계층의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)으로 확보되며, [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)은 게이트웨이의 부하 제어와 DB의 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)로 보장된다. 따라서 특정 계층이 뚫리더라도 다른 계층의 통제가 보완적 역할을 수행하여 전체 시스템의 붕괴를 막는다. 실무에서는 각 단계마다 오버헤드가 발생하므로 캐싱과 하드웨어 가속을 적절히 병행해야 한다.
 
@@ -96,22 +94,21 @@ CIA 모델을 더욱 명확히 이해하기 위해, 보안 실패 시 발생하�
 
 CIA 모델은 직관적이지만 현대의 복잡한 비즈니스 요구사항을 모두 담기에는 한계가 있다. 이에 따라 등장한 확장 모델과의 비교는 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모델 구분</div><div class="kb-diagram-cell">구성 요소</div><div class="kb-diagram-cell">한계점 및 특징</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CIA Triad</div><div class="kb-diagram-cell">기밀성, 무결성, 가용성</div><div class="kb-diagram-cell">단순명료하나, 소유권과</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">책임 소재의 증명이 약함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Parkerian</div><div class="kb-diagram-cell">CIA + 소유성(Possession)</div><div class="kb-diagram-cell">데이터가 유출되었으나</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hexad</div><div class="kb-diagram-cell">+ 진본성(Authenticity)</div><div class="kb-diagram-cell">암호화되어 기밀성은 유지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ 유용성(Utility)</div><div class="kb-diagram-cell">되는 상태를 설명 가능함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정보보안 6요소</div><div class="kb-diagram-cell">CIA + 인증성, 부인방지,</div><div class="kb-diagram-cell">금융/전자상거래의 법적</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">책임추적성</div><div class="kb-diagram-cell">분쟁 해결에 필수적임</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────┬─────────────────────────┬──────────────────────────┐
+│ 모델 구분     │ 구성 요소               │ 한계점 및 특징             │
+├───────────────┼─────────────────────────┼──────────────────────────┤
+│ CIA Triad     │ 기밀성, 무결성, 가용성  │ 단순명료하나, 소유권과   │
+│               │                         │ 책임 소재의 증명이 약함  │
+├───────────────┼─────────────────────────┼──────────────────────────┤
+│ Parkerian     │ CIA + 소유성(Possession)│ 데이터가 유출되었으나    │
+│ Hexad         │ + 진본성(Authenticity)  │ 암호화되어 기밀성은 유지 │
+│               │ + 유용성(Utility)       │ 되는 상태를 설명 가능함  │
+├───────────────┼─────────────────────────┼──────────────────────────┤
+│ 정보보안 6요소│ CIA + 인증성, 부인방지, │ 금융/전자상거래의 법적   │
+│               │ 책임추적성              │ 분쟁 해결에 필수적임     │
+└───────────────┴─────────────────────────┴──────────────────────────┘
+```
 
 이 매트릭스의 핵심은 순수한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)(CIA)를 넘어, 현대 보안은 '사람의 행위'에 대한 증명([인증성](/knowledge-base/studynote/09_security/01_intro_principles/005_authenticity/), 부인방지)과 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 실질적 통제권'(소유성, 유용성)까지 영역을 확장하고 있다는 점이다. [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/)에 감염된 경우, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 위변조([무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 침해)가 발생하지만 암호화되어 있어 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)은 유지될 수 있다. 그러나 '유용성'과 '소유성'은 상실된다. 따라서 실무에서는 CIA 모델을 뼈대로 하되, 산업군의 규제([Compliance](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/058_it_compliance_sox_basel_gdpr_isms/))에 맞춰 확장된 통제 항목을 결합하는 하이브리드 접근이 필수적이다.
 
@@ -133,21 +130,17 @@ CIA 모델은 직관적이지만 현대의 복잡한 비즈니스 요구사항�
 
 다음은 침해 사고 발생 시 우선순위를 결정하는 의사결정 트리다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">보안 이벤트 발생</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">서비스 유형 판단</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ (금융/군사 시스템) ──&gt;</div><div class="kb-diagram-node">기밀성/무결성 최우선</div><div class="kb-diagram-note">──&gt; 시스템 강제 종료 및 차단 (Fail-Secure)</div></div>
-<div class="kb-diagram-note">(가용성 포기)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ (의료/통신 인프라) ──&gt;</div><div class="kb-diagram-node">가용성 최우선</div><div class="kb-diagram-note">&gt; 격리된 네트워크에서 최소 기능 유지 (Fail-Safe)</div></div>
-<div class="kb-diagram-note">(부분적 보안위험 감수)</div>
-</div>
-</div>
-
-
+```text
+[보안 이벤트 발생]
+       │
+       ▼
+[서비스 유형 판단]
+ ├─ (금융/군사 시스템) ──> [기밀성/무결성 최우선] ──> 시스템 강제 종료 및 차단 (Fail-Secure)
+ │                                                    (가용성 포기)
+ │
+ └─ (의료/통신 인프라) ──> [가용성 최우선] ────────> 격리된 네트워크에서 최소 기능 유지 (Fail-Safe)
+                                                      (부분적 보안위험 감수)
+```
 
 이 의사결정 트리의 핵심은 장애 발생 시 시스템을 어떻게 실패(Fail)시킬 것인가에 대한 철학이다. 금융 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 잘못된 값이 기록되거나 유출되는 것이 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단보다 치명적이므로 시스템을 멈추는 Fail-Secure로 동작해야 한다. 반면, 생명 유지 장치나 통신망은 시스템이 멈추면 생명이 위협받으므로 성능이 저하되더라도 동작을 유지하는 [Fail-Safe](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/459_fail_safe/) 방향으로 설계된다. 실무에서는 자산 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 단계에서 이러한 [Fallback](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 명확히 정의해야 한다.
 
@@ -167,18 +160,12 @@ CIA Triad를 기반으로 설계된 [보안 아키텍처](/knowledge-base/studyn
 
 향후 정보보안의 패러다임은 정적인 네트워크 경계 방어에서 벗어나, 모든 주체와 접근을 의심하는 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)([Zero Trust Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/184_zero_trust_architecture/))로 진화하고 있다. 하지만 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 역시 그 근간에는 철저한 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/) 통제와 상태 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 지속적 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 확보라는 CIA 원칙이 자리 잡고 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">과거: 경계 기반 보안</div><div class="kb-diagram-node">미래: 제로 트러스트 보안</div></div>
-<div class="kb-diagram-note">방화벽(기밀성) 중심 ==&gt; Micro-Segmentation (세밀한 기밀성)</div>
-<div class="kb-diagram-note">서버 백업(가용성) 중심 ==&gt; Cloud-Native 자동 확장 (탄력적 가용성)</div>
-<div class="kb-diagram-note">정적 권한(무결성) 중심 ==&gt; 컨텍스트 기반 동적 신뢰 평가 (연속적 무결성)</div>
-</div>
-</div>
-
-
+```text
+[과거: 경계 기반 보안]           [미래: 제로 트러스트 보안]
+방화벽(기밀성) 중심       ==>    Micro-Segmentation (세밀한 기밀성)
+서버 백업(가용성) 중심    ==>    Cloud-Native 자동 확장 (탄력적 가용성)
+정적 권한(무결성) 중심    ==>    컨텍스트 기반 동적 신뢰 평가 (연속적 무결성)
+```
 
 이 비교도는 CIA 3요소가 사라지는 것이 아니라, 마이크로서비스와 클라우드 환경에 맞춰 더욱 동적이고 세분화된 형태로 녹아들고 있음을 보여준다. 결론적으로 정보보안 기술이 아무리 고도화되더라도 CIA Triad는 기술사적 설계의 출발점이자 종착점으로서 영원한 가치를 지닌다.
 
@@ -195,21 +182,18 @@ CIA Triad를 기반으로 설계된 [보안 아키텍처](/knowledge-base/studyn
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">접근 통제 (Access Control)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">제로 트러스트 (Zero Trust)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">위험 관리 (Risk Management)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">암호학 (Cryptography)</div></div>
-</div>
-</div>
-
-
+```text
+[접근 통제 (Access Control)]
+    │
+    ▼
+[제로 트러스트 (Zero Trust)]
+    │
+    ▼
+[위험 관리 (Risk Management)]
+    │
+    ▼
+[암호학 (Cryptography)]
+```
 
 이 흐름도는 선행 개념이 현재 개념으로 응축되고, 다시 확장 개념으로 이어지는 순서를 보여준다.
 

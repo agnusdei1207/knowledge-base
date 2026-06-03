@@ -25,25 +25,22 @@ tags = ["studynote-ict-convergence"]
 
 아래 그림은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 모델이 결국 <strong>계층별 책임을 어디까지 위임하는가</strong>의 문제임을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Shared responsibility by service model</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Layer On-prem IaaS PaaS SaaS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App User User User CSP</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data User User User Shared</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Runtime User User CSP CSP</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Middleware User User CSP CSP</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS User User CSP CSP</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Virtualization User CSP CSP CSP</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Servers User CSP CSP CSP</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Storage User CSP CSP CSP</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Network User CSP CSP CSP</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Shared responsibility by service model                             │
+├────────────────────────────────────────────────────────────────────┤
+│ Layer          On-prem   IaaS    PaaS    SaaS                      │
+│ App            User      User    User    CSP                       │
+│ Data           User      User    User    Shared                    │
+│ Runtime        User      User    CSP     CSP                       │
+│ Middleware     User      User    CSP     CSP                       │
+│ OS             User      User    CSP     CSP                       │
+│ Virtualization User      CSP     CSP     CSP                       │
+│ Servers        User      CSP     CSP     CSP                       │
+│ Storage        User      CSP     CSP     CSP                       │
+│ Network        User      CSP     CSP     CSP                       │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 여기서 SaaS의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 행이 `Shared`로 표시된 이유는 플랫폼 운영은 CSP가 맡더라도, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분류와 접근 권한 같은 거버넌스 책임은 사용자 조직에 남기 때문이다. 즉 클라우드는 책임을 줄여 주지만, 책임을 완전히 없애 주지는 않는다.
 
@@ -73,20 +70,17 @@ tags = ["studynote-ict-convergence"]
 
 클라우드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 모델은 배포 모델과 자주 혼동되지만 질문 자체가 다르다. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 모델은 "누가 어느 층을 운영하는가"를 묻고, 퍼블릭·프라이빗·하이브리드 클라우드는 "어디에 어떤 형태로 배치하는가"를 묻는다. 따라서 퍼블릭 클라우드에서도 [IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/)·[PaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/)·SaaS가 모두 가능하고, 프라이빗 클라우드에서도 동일한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 모델 구성이 가능하다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">More abstraction changes the operating trade-off</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">On-prem -&gt; IaaS -&gt; CaaS/PaaS -&gt; FaaS -&gt; SaaS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">control high ------------------------------------------&gt; low</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ops burden high ------------------------------------------&gt; low</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">speed low ------------------------------------------&gt; high</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">lock-in low -------------------------------&gt; higher</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ More abstraction changes the operating trade-off                  │
+├────────────────────────────────────────────────────────────────────┤
+│ On-prem -> IaaS -> CaaS/PaaS -> FaaS -> SaaS                      │
+│ control     high ------------------------------------------> low   │
+│ ops burden  high ------------------------------------------> low   │
+│ speed       low  ------------------------------------------> high  │
+│ lock-in     low  -------------------------------> higher            │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 | 비교 축 | [IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/) | [PaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/) | [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/) | [FaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/342_faas/) |
 | :--- | :--- | :--- | :--- | :--- |
@@ -110,24 +104,25 @@ tags = ["studynote-ict-convergence"]
 
 아래 의사결정 흐름은 모델 선택을 단순 가격 비교가 아니라 책임 범위 관점으로 바꿔 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cloud service model decision path</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Is the function a common business utility?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Yes ─▶ SaaS first</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ No</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Need OS / network / security appliance level control?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Yes ─▶ IaaS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ No</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Need only code/runtime with managed deployment?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Yes ─▶ PaaS or CaaS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Event-driven and bursty? ─▶ FaaS</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Cloud service model decision path                                 │
+├────────────────────────────────────────────────────────────────────┤
+│ Is the function a common business utility?                        │
+│        ├─ Yes ─▶ SaaS first                                       │
+│        └─ No                                                      │
+│             │                                                     │
+│             ▼                                                     │
+│ Need OS / network / security appliance level control?             │
+│        ├─ Yes ─▶ IaaS                                             │
+│        └─ No                                                      │
+│             │                                                     │
+│             ▼                                                     │
+│ Need only code/runtime with managed deployment?                   │
+│        ├─ Yes ─▶ PaaS or CaaS                                     │
+│        └─ Event-driven and bursty? ─▶ FaaS                        │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 ### 기술사 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -177,23 +172,21 @@ tags = ["studynote-ict-convergence"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">온프레미스 직접 운영</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">IaaS (Infrastructure as a Service)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">PaaS / CaaS</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DBaaS / FaaS</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SaaS + XaaS (Everything as a Service)</div>
-</div>
-</div>
-
-
+```text
+온프레미스 직접 운영
+        │
+        ▼
+IaaS (Infrastructure as a Service)
+        │
+        ▼
+PaaS / CaaS
+        │
+        ▼
+DBaaS / FaaS
+        │
+        ▼
+SaaS + XaaS (Everything as a Service)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

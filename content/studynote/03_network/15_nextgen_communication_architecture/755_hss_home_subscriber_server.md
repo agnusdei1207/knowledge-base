@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: 4G [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 코어망([EPC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/753_epc_evolved_packet_core_sgw_pgw/))에 존재하는 <strong>최상위 중앙 집중형 가입자 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a>(DB) 서버</strong>입니다.
 - **역사적 진화**: 2G/3G 시절에 쓰던 위치 등록부 장부인 <strong>HLR(Home Location <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/">Register</a>)</strong>과, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)을 담당하던 <strong>AuC(<a href="/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/">Authentication</a> Center)</strong>를 하나의 거대한 서버로 통합(Evolved)하여 4G용으로 만든 최신 버전의 이름입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">MME</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HSS</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">기지국: eNodeB 분산 데이터 평면 라우…</div></div>
-</div>
-</div>
-
-
+```text
+[MME]
+    │
+    ▼
+[HSS]
+    │
+    └──▶ [기지국: eNodeB 분산 데이터 평면 라우…]
+```
 
 - **📢 섹션 요약 비유**: HSS는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -54,18 +50,14 @@ HSS 장부를 까보면 국민 한 명 한 명에 대해 다음 세 가지 정�
 - 스마트폰이 서울에 있는지, 제주도에 있는지, 아니면 해외(AT&T 망)에 나가 있는지, <strong>현재 사용자를 관할하고 있는 지역 사령관(<a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/754_mme_mobility_management_entity/">MME</a>)의 IP 주소</strong>가 실시간으로 업데이트되어 적혀 있습니다.
 - 누군가 나에게 카톡을 보내면, 통신사는 HSS를 열어 "아, 이 고객 지금 부산 [MME](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/754_mme_mobility_management_entity/) 관할에 있구나. 부산으로 카톡 패킷 쏴!"라고 방향을 정합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">MME</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HSS</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">기지국: eNodeB 분산 데이터 평면 라우…</div></div>
-</div>
-</div>
-
-
+```text
+[MME]
+    │
+    ▼
+[HSS]
+    │
+    └──▶ [기지국: eNodeB 분산 데이터 평면 라우…]
+```
 
 - **📢 섹션 요약 비유**: HSS의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -126,19 +118,15 @@ HSS는 차세대 통신 아키텍처를 이해할 때 핵심 축을 잡아 주�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: MME</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: HSS</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 기지국: eNodeB 분산 데이터 평면 라우…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 네트워크 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: MME]
+    │
+    ▼
+[현재 개념: HSS]
+    │
+    ├──▶ [확장 A: 기지국: eNodeB 분산 데이터 평면 라우…]
+    └──▶ [확장 B: AI 기반 네트워크 최적화]
+```
 
 HSS는 MME에서 출발해 현재 메커니즘을 정교화하고, 이후 기지국: eNodeB [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면 라우…와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

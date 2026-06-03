@@ -35,20 +35,21 @@ tags = ["studynote-it-management"]
 
 아래 그림은 [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 기반 동료 검토의 기본 구조를 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PR 기반 동료 검토 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">작성자 브랜치 커밋</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pull Request 생성 ──▶ 자동 검사 (Lint/Test/SAST)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 실패 시 즉시 수정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">리뷰어 검토 ──▶ 코멘트 분류 ──▶ 작성자 수정 ──▶ 재검토 ──▶ 승인/병합</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(버그/질문/제안)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                PR 기반 동료 검토 흐름                                │
+├──────────────────────────────────────────────────────────────────────┤
+│ 작성자 브랜치 커밋                                                   │
+│        │                                                             │
+│        ▼                                                             │
+│  Pull Request 생성 ──▶ 자동 검사 (Lint/Test/SAST)                    │
+│        │                         │                                   │
+│        │                         └─ 실패 시 즉시 수정                │
+│        ▼                                                             │
+│  리뷰어 검토 ──▶ 코멘트 분류 ──▶ 작성자 수정 ──▶ 재검토 ──▶ 승인/병합 │
+│                  (버그/질문/제안)                                    │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 | 역할 | 주요 관점 | 놓치기 쉬운 포인트 |
 | :--- | :--- | :--- |
@@ -129,23 +130,21 @@ tags = ["studynote-it-management"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">비공식 상호 점검</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">워크스루 (Walkthrough) · 동료 검토 (Peer Review)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Pull Request 기반 코드 리뷰</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CI 연계 자동 검사 · 보안 리뷰 · 품질 게이트</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Collective Code Ownership · 학습 조직 문화</div>
-</div>
-</div>
-
-
+```text
+비공식 상호 점검
+    │
+    ▼
+워크스루 (Walkthrough) · 동료 검토 (Peer Review)
+    │
+    ▼
+Pull Request 기반 코드 리뷰
+    │
+    ▼
+CI 연계 자동 검사 · 보안 리뷰 · 품질 게이트
+    │
+    ▼
+Collective Code Ownership · 학습 조직 문화
+```
 
 이 흐름도는 단순한 상호 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)이 현대 소프트웨어 팀의 표준 품질 프로세스로 확장되는 과정을 보여 준다.
 

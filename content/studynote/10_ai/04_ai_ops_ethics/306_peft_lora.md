@@ -23,17 +23,14 @@ tags = ["studynote-ai"]
 
 PEFT는 이 문제를 "대부분의 파라미터는 동결(Frozen)하고, 핵심 위치에 소수의 학습 가능한 파라미터만 추가한다"는 아이디어로 해결한다. LoRA는 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 행렬의 실제 업데이트가 <strong>낮은 내재 차원(Low Intrinsic Dimension)</strong>에서 이루어진다는 가설을 기반으로, ΔW를 두 저랭크 행렬의 곱으로 표현한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 175B 파라미터 전체를 [파인 튜닝](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/)하는 건 직원 1억 명 회사에서 모든 직원의 업무 방식을 바꾸는 것이고, LoRA는 핵심 의사결정자 10명(저랭크 행렬)의 업무 방식만 바꿔서 회사 전체 방향을 조정하는 것이다. 10명만 교육해도 전체 성과가 바뀌는 마법이다.
 
@@ -41,31 +38,35 @@ PEFT는 이 문제를 "대부분의 파라미터는 동결(Frozen)하고, 핵심
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LoRA (Low-Rank Adaptation) 수학적 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전체 파인 튜닝:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">W' = W + ΔW (W: d×d 행렬, ΔW: d×d 행렬 전체 학습)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파라미터 수: d×d (예: 4096×4096 = 16.7M)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LoRA:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">W' = W + ΔW = W + (B · A)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">W: d×d ← 동결 (Frozen, 학습 안 함)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A: d×r ← 학습 가능 (r &lt;&lt; d, 예: r=8, d=4096 → 4096×8 = 32K)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B: r×d ← 학습 가능 (r=8, d=4096 → 8×4096 = 32K)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ΔW = B·A: d×d (행렬 곱이지만 파라미터는 2×d×r만 학습)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파라미터 절감 비율:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전체: d² = 16.7M</div><div class="kb-diagram-cell">LoRA(r=8): 2×d×r = 65K → 0.39% 만 학습!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력 x</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ W (동결)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ A (학습) ──▶ B (학습) ▶ + ──▶ 출력</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">초기화: A = 랜덤 가우시안, B = 0 (학습 초기 ΔW=0으로 시작)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스케일링: ΔW에 α/r 비율로 스케일 적용 (α: 스케일 하이퍼파라미터)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│         LoRA (Low-Rank Adaptation) 수학적 구조                     │
+├──────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  전체 파인 튜닝:                                                    │
+│  W' = W + ΔW  (W: d×d 행렬, ΔW: d×d 행렬 전체 학습)              │
+│  파라미터 수: d×d (예: 4096×4096 = 16.7M)                         │
+│                                                                  │
+│  LoRA:                                                           │
+│  W' = W + ΔW = W + (B · A)                                      │
+│    W: d×d  ← 동결 (Frozen, 학습 안 함)                             │
+│    A: d×r  ← 학습 가능 (r << d, 예: r=8, d=4096 → 4096×8 = 32K) │
+│    B: r×d  ← 학습 가능 (r=8, d=4096 → 8×4096 = 32K)             │
+│    ΔW = B·A: d×d  (행렬 곱이지만 파라미터는 2×d×r만 학습)           │
+│                                                                  │
+│  파라미터 절감 비율:                                                 │
+│  전체: d² = 16.7M | LoRA(r=8): 2×d×r = 65K → 0.39% 만 학습!     │
+│                                                                  │
+│  ┌────────────────────────────────────────────────┐              │
+│  │  입력 x                                         │              │
+│  │    ├──▶ W (동결) ──────────────────────┐       │              │
+│  │    └──▶ A (학습) ──▶ B (학습) ──────▶ + ──▶ 출력│              │
+│  └────────────────────────────────────────────────┘              │
+│                                                                  │
+│  초기화: A = 랜덤 가우시안, B = 0 (학습 초기 ΔW=0으로 시작)          │
+│  스케일링: ΔW에 α/r 비율로 스케일 적용 (α: 스케일 하이퍼파라미터)      │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 | PEFT 방법 | 파라미터 추가 위치 | 특징 |
 |:---|:---|:---|
@@ -144,7 +145,7 @@ PEFT/LoRA는 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_ll
 
 **진행 상황**: 306 / 420
 
-← **이전**: [305. 프롬프트 엔지니어링 (Prompt Engineering)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/305_prompt_engineering/)
+← **이전**: [305. 프롬프트 엔지니어링 (Prompt 엔진ering)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/305_prompt_engineering/)
 **다음**: [307. 할루시네이션 (Hallucination)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/307_hallucination/) →
 
 ---

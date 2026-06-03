@@ -35,54 +35,48 @@ tags = ["studynote-algorithm"]
 
 ### LSD [기수](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/077_radix/) 정렬 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램
 
+```
+입력: [170, 45, 75, 90, 802, 24, 2, 66]
 
+── 1라운드: 일의 자리(1s)로 안정 정렬 ─────────────
+ 0│ 170, 90
+ 2│ 802, 2
+ 4│ 24
+ 5│ 45, 75
+ 6│ 66
+결과: [170, 90, 802, 2, 24, 45, 75, 66]
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-note">입력:</div><div class="kb-diagram-node">170, 45, 75, 90, 802, 24, 2, 66</div></div>
-<div class="kb-diagram-tree-item" style="--depth:0">1라운드: 일의 자리(1s)로 안정 정렬</div>
-<div class="kb-diagram-note">0│ 170, 90</div>
-<div class="kb-diagram-note">2│ 802, 2</div>
-<div class="kb-diagram-note">4│ 24</div>
-<div class="kb-diagram-note">5│ 45, 75</div>
-<div class="kb-diagram-note">6│ 66</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">결과:</div><div class="kb-diagram-node">170, 90, 802, 2, 24, 45, 75, 66</div></div>
-<div class="kb-diagram-tree-item" style="--depth:0">2라운드: 십의 자리(10s)로 안정 정렬</div>
-<div class="kb-diagram-note">0│ 802, 2</div>
-<div class="kb-diagram-note">2│ 24</div>
-<div class="kb-diagram-note">4│ 45</div>
-<div class="kb-diagram-note">6│ 66</div>
-<div class="kb-diagram-note">7│ 170, 75</div>
-<div class="kb-diagram-note">9│ 90</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">결과:</div><div class="kb-diagram-node">802, 2, 24, 45, 66, 170, 75, 90</div></div>
-<div class="kb-diagram-tree-item" style="--depth:0">3라운드: 백의 자리(100s)로 안정 정렬</div>
-<div class="kb-diagram-note">0│ 2, 24, 45, 66, 75, 90</div>
-<div class="kb-diagram-note">1│ 170</div>
-<div class="kb-diagram-note">8│ 802</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">결과:</div><div class="kb-diagram-node">2, 24, 45, 66, 75, 90, 170, 802</div><div class="kb-diagram-note">✅</div></div>
-</div>
-</div>
+── 2라운드: 십의 자리(10s)로 안정 정렬 ─────────────
+ 0│ 802, 2
+ 2│ 24
+ 4│ 45
+ 6│ 66
+ 7│ 170, 75
+ 9│ 90
+결과: [802, 2, 24, 45, 66, 170, 75, 90]
 
-
+── 3라운드: 백의 자리(100s)로 안정 정렬 ────────────
+ 0│ 2, 24, 45, 66, 75, 90
+ 1│ 170
+ 8│ 802
+결과: [2, 24, 45, 66, 75, 90, 170, 802] ✅
+```
 
 ### [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 핵심 코드 흐름
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RadixSort(arr, maxDigits d):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">for i = 1 to d:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">안정 정렬(arr, 기준=i번째 자릿수)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↑ 계수 정렬(Counting Sort) 사용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">왜 안정 정렬이 필수인가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 이전 자릿수 정렬 결과를 상위 자릿수 정렬이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">덮어쓰지 않아야 함 (같은 상위 자리면 하위</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자리 순서 유지)</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────┐
+│  RadixSort(arr, maxDigits d):                   │
+│    for i = 1 to d:                              │
+│      안정 정렬(arr, 기준=i번째 자릿수)           │
+│      ↑ 계수 정렬(Counting Sort) 사용            │
+│                                                 │
+│  왜 안정 정렬이 필수인가?                        │
+│  → 이전 자릿수 정렬 결과를 상위 자릿수 정렬이   │
+│    덮어쓰지 않아야 함 (같은 상위 자리면 하위    │
+│    자리 순서 유지)                               │
+└─────────────────────────────────────────────────┘
+```
 
 ### 시간/[공간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/)
 
@@ -139,20 +133,18 @@ tags = ["studynote-algorithm"]
 
 ### [기수](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/077_radix/) 선택 트레이드오프
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기수(Radix) = 2 (2진수)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ d = 32비트, 패스 횟수 많음, k=2 (매우 작은 배열)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기수(Radix) = 256 (1바이트)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ d = 4 (32비트 정수), 패스 횟수 적음, k=256</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실무 권장: 기수 = 256 (바이트 단위)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 4패스로 32비트 정수 완전 정렬</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────┐
+│  기수(Radix) = 2  (2진수)                             │
+│   → d = 32비트, 패스 횟수 많음, k=2 (매우 작은 배열) │
+│                                                      │
+│  기수(Radix) = 256 (1바이트)                          │
+│   → d = 4 (32비트 정수), 패스 횟수 적음, k=256       │
+│                                                      │
+│  실무 권장: 기수 = 256 (바이트 단위)                  │
+│  → 4패스로 32비트 정수 완전 정렬                      │
+└──────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: [기수](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/077_radix/) 선택은 사탕을 몇 개씩 묶어 포장할지 결정하는 것과 같다. 한 개씩(2진수)이면 포장 횟수가 많고, 100개씩(256진수)이면 한 번에 많이 처리할 수 있다.
 
@@ -187,25 +179,24 @@ tags = ["studynote-algorithm"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">비교 정렬 (O(n log n)) — 비교 기반 한계</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">계수 정렬 (Counting Sort) — 자릿수별 안정 정렬</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LSD Radix Sort — 낮은 자릿수부터 반복</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MSD Radix Sort — 높은 자릿수부터 재귀</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">고정 자릿수 정수/문자열 정렬 — 전화번호·IP·날짜</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">대용량 비비교 정렬 엔진 — DB·네트워크·검색 인덱스</div></div>
-</div>
-</div>
-
-
+```text
+[비교 정렬 (O(n log n)) — 비교 기반 한계]
+    │
+    ▼
+[계수 정렬 (Counting Sort) — 자릿수별 안정 정렬]
+    │
+    ▼
+[LSD Radix Sort — 낮은 자릿수부터 반복]
+    │
+    ▼
+[MSD Radix Sort — 높은 자릿수부터 재귀]
+    │
+    ▼
+[고정 자릿수 정수/문자열 정렬 — 전화번호·IP·날짜]
+    │
+    ▼
+[대용량 비비교 정렬 엔진 — DB·네트워크·검색 인덱스]
+```
 [기수](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/077_radix/) 정렬은 비교 정렬의 O(n log n) 한계를 자릿수 분해와 안정 정렬로 우회해, 고정 길이 키의 대용량 정렬을 빠르게 처리한다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

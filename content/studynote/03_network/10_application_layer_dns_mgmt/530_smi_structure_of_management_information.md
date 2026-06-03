@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 [SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) 프레임워크에서 <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/529_mib_oid_snmp_architecture/">MIB</a>(<a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/529_mib_oid_snmp_architecture/">Management Information Base</a>)를 정의하고 구축하기 위한 문법적이고 논리적인 규칙(구조)</strong> 을 의미합니다. (RFC 1155, 2578)
 네트워크 장비마다 제조사가 다르고 하드웨어가 다르더라도, [SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) 매니저와 에이전트 간에 오가는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(예: 온도, 트래픽 양, 이름)의 '형식([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Type)'과 '이름 부여 방식'을 통일하기 위해 IETF에서 만든 엄격한 문법 체계입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">MIB / OID</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SMI</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SNMPv1, v2c</div></div>
-</div>
-</div>
-
-
+```text
+[MIB / OID]
+    │
+    ▼
+[SMI]
+    │
+    └──▶ [SNMPv1, v2c]
+```
 
 - **📢 섹션 요약 비유**: SMI는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -50,18 +46,14 @@ tags = ["studynote-network"]
 3. **객체의 부가 정보 (Encoding / Encoding Rules)**
    - [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 실제 네트워크 선로로 전송할 때, 이 값들을 어떻게 0과 1의 비트열로 인코딩(BER, Basic Encoding Rules)할 것인지에 대한 규칙을 포함합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">MIB / OID</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SMI</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SNMPv1, v2c</div></div>
-</div>
-</div>
-
-
+```text
+[MIB / OID]
+    │
+    ▼
+[SMI]
+    │
+    └──▶ [SNMPv1, v2c]
+```
 
 - **📢 섹션 요약 비유**: SMI의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -121,19 +113,15 @@ SMI는 이름 해석과 네트워크 관리를 이해할 때 핵심 축을 잡�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: MIB / OID</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: SMI</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: SNMPv1, v2c</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율 운영 네트워크</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: MIB / OID]
+    │
+    ▼
+[현재 개념: SMI]
+    │
+    ├──▶ [확장 A: SNMPv1, v2c]
+    └──▶ [확장 B: 자율 운영 네트워크]
+```
 
 SMI는 [MIB](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/529_mib_oid_snmp_architecture/) / OID에서 출발해 현재 메커니즘을 정교화하고, 이후 SNMPv1, v2c와 자율 운영 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

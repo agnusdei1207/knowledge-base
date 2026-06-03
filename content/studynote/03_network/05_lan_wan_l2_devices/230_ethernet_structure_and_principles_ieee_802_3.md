@@ -25,18 +25,14 @@ tags = ["studynote-network"]
 
 - **💡 비유**: 이더넷은 <strong>"하나뿐인 차선을 나눠 쓰는 규칙"</strong>과 같습니다. 좁은 골목길([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [동축 케이블](/knowledge-base/studynote/03_network/03_physical_layer_media/127_coaxial_cable/))에 여러 대의 차([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 다니면 부딪칠 수 있으니, "눈치껏 길이 비었을 때 출발하고, 부딪히면 멈췄다가 나중에 다시 출발하자([CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CD)"라는 교통 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 체계를 만든 것이 이더넷의 시작이었습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">EAP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">이더넷 구조 및 원리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MAC 주소</div></div>
-</div>
-</div>
-
-
+```text
+[EAP]
+    │
+    ▼
+[이더넷 구조 및 원리]
+    │
+    └──▶ [MAC 주소]
+```
 
 - **📢 섹션 요약 비유**: ** 이더넷은 컴퓨터들이 모인 방 안에서 대화하는 **"회의실 발언 규칙"**입니다. 발언권([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소)을 가진 사람이, 남이 말하지 않을 때([반송파](/knowledge-base/studynote/03_network/01_data_communication/054_반송파_Carrier_Wave/) 감지) 말을 시작하여 정보를 안전하게 전달하는 통신 질서입니다.
 
@@ -52,20 +48,25 @@ tags = ["studynote-network"]
 ### 2. 이더넷 프레임 (Ethernet II Frame 구조)
 IP 패킷은 이더넷 프레임이라는 택배 상자 안에 포장되어 케이블로 쏘아진다. 프레임의 크기는 최소 64바이트 ~ 최대 1518바이트(페이로드 MTU 1500바이트 기준)다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ethernet II 프레임 (MAC 프레임) 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Preamble</div><div class="kb-diagram-note">동기화 목적 (8 Byte) - 101010... 패턴으로 시작</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SFD</div><div class="kb-diagram-cell">목적지 MAC</div><div class="kb-diagram-cell">출발지 MAC</div><div class="kb-diagram-cell">Type</div><div class="kb-diagram-cell">Data(IP)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(1B)</div><div class="kb-diagram-cell">(6 Byte)</div><div class="kb-diagram-cell">(6 Byte)</div><div class="kb-diagram-cell">(2 Byte)</div><div class="kb-diagram-cell">(46~1500B)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">FCS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">에러 검출(4 Byte)</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                 Ethernet II 프레임 (MAC 프레임) 구조          │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │  [Preamble]  동기화 목적 (8 Byte) - 101010... 패턴으로 시작        │
+ │      │                                                      │
+ │      ▼                                                      │
+ │  ┌───────┬────────────┬────────────┬────────┬───────────┐   │
+ │  │ SFD   │ 목적지 MAC │ 출발지 MAC │ Type   │ Data(IP)  │   │
+ │  │(1B)   │  (6 Byte)  │  (6 Byte)  │(2 Byte)│ (46~1500B)│   │
+ │  └───────┴────────────┴────────────┴────────┴───────────┘   │
+ │                                                   │         │
+ │                                                   ▼         │
+ │                                                 [FCS]       │
+ │                                            에러 검출(4 Byte) │
+ │                                                             │
+ └─────────────────────────────────────────────────────────────┘
+```
 - **Preamble / SFD (Start Frame Delimiter)**: 수신 측 랜카드에 "지금부터 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 들어간다, 박자(클럭) 맞춰라!"라고 알리는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/).
 - <strong>Type (<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/235_type_field_ethertype_length_ipv4_arp/">EtherType</a>)</strong>: [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(페이로드)에 포장된 상위 프로토콜이 IP(0x0800)인지 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/)(0x0806)인지 알려주는 식별표.
 - **FCS (Frame Check Sequence)**: 도착한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 오는 도중 노이즈 등으로 깨졌는지 검사하는 순환 중복 검사([CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)) 필드. 에러가 나면 프레임을 즉시 폐기한다.
@@ -137,19 +138,15 @@ IP 패킷은 이더넷 프레임이라는 택배 상자 안에 포장되어 케�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: EAP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 이더넷 구조 및 원리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: MAC 주소</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 캠퍼스 패브릭</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: EAP]
+    │
+    ▼
+[현재 개념: 이더넷 구조 및 원리]
+    │
+    ├──▶ [확장 A: MAC 주소]
+    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
+```
 
 이더넷 구조 및 원리는 EAP에서 출발해 현재 메커니즘을 정교화하고, 이후 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

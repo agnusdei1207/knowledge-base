@@ -34,28 +34,31 @@ tags = ["studynote-operating-system"]
 - **등장 배경**: 
   - 2003년 AMD의 Opteron 칩과 2008년 인텔의 Nehalem(QPI 도입) 아키텍처부터 메모리 컨트롤러를 메인보드 밖이 아닌 CPU 칩 내부로 쑤셔 넣으면서, 엔터프라이즈 서버(2소켓, 4소켓 장비)의 절대 표준이 되었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">UMA (동일 접근) vs NUMA (불균일 접근) 물리적 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">과거 UMA (Symmetric Multiprocessing)</div><div class="kb-diagram-note">- 병목 지옥</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU</div><div class="kb-diagram-cell">CPU</div><div class="kb-diagram-cell">CPU</div><div class="kb-diagram-cell">CPU</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">===</div><div class="kb-diagram-cell">=======</div><div class="kb-diagram-cell">=======</div><div class="kb-diagram-cell">=======</div><div class="kb-diagram-cell">=== (공용 FSB 버스 1개 - 교통체증)====</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">거대한 물리 RAM 1개</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ 누구든 똑같이 100ns 걸리지만, 줄이 길어서 사실상 무한 대기.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현대 NUMA (Non-Uniform Memory Access)</div><div class="kb-diagram-note">- 초고속 분업</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NUMA Node 0</div><div class="kb-diagram-node">NUMA Node 1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">초고속 연결 다리(QPI)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU</div><div class="kb-diagram-cell">◀ ▶</div><div class="kb-diagram-cell">CPU</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── ── (원격 접근 - 200ns) ── ──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(로컬-100ns)</div><div class="kb-diagram-cell">(로컬-100ns)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">RAM A</div><div class="kb-diagram-node">RAM B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ 로컬은 빛의 속도로 가지만, 남의 걸 쓸 때는 톨게이트(QPI)를 거쳐야 해서 느림.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │                 UMA (동일 접근) vs NUMA (불균일 접근) 물리적 아키텍처   │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │  [ 과거 UMA (Symmetric Multiprocessing) ] - 병목 지옥             │
+  │   ┌───┐ ┌───┐ ┌───┐ ┌───┐                                   │
+  │   │CPU│ │CPU│ │CPU│ │CPU│                                   │
+  │   └─┬─┘ └─┬─┘ └─┬─┘ └─┬─┘                                   │
+  │  ===│=======│=======│=======│=== (공용 FSB 버스 1개 - 교통체증)====│
+  │             ▼                                               │
+  │         [ 거대한 물리 RAM 1개 ]                                  │
+  │   ※ 누구든 똑같이 100ns 걸리지만, 줄이 길어서 사실상 무한 대기.               │
+  │                                                             │
+  │  [ 현대 NUMA (Non-Uniform Memory Access) ] - 초고속 분업          │
+  │   [ NUMA Node 0 ]                     [ NUMA Node 1 ]       │
+  │   ┌─────┐      초고속 연결 다리(QPI)       ┌─────┐             │
+  │   │ CPU │ ◀═══════════════════════════▶ │ CPU │             │
+  │   └──┬──┘       (원격 접근 - 200ns)       └──┬──┘             │
+  │      │(로컬-100ns)                           │(로컬-100ns)    │
+  │      ▼                                     ▼               │
+  │   [ RAM A ]                             [ RAM B ]          │
+  │   ※ 로컬은 빛의 속도로 가지만, 남의 걸 쓸 때는 톨게이트(QPI)를 거쳐야 해서 느림.│
+  └─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** NUMA의 "불균일(Non-Uniform)"이라는 단어는 이 아키텍처의 찬사임과 동시에 뼈아픈 경고다. Node 0의 CPU가 자기 발밑의 RAM A를 읽는 시간(Local [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))이 100 나노초라면, 램 용량이 모자라서 굳이 QPI/UPI라는 연결 다리를 건너 옆 동네 Node 1의 RAM B를 읽는 시간(Remote [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))은 150~200 나노초로 1.5배 이상 튄다. 하드웨어가 찢어져 있기 때문에 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)와 애플리케이션 개발자는 이제 눈을 감고 메모리를 막 쓰면 안 되며, "내 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 도는 CPU와 가장 가까운 메모리에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 박아넣어야만 한다"는 지리적(Topology) 강박에 시달리게 되었다.
 
@@ -79,25 +82,25 @@ OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architectu
 
 리눅스 기본 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)(CFS)는 로드 밸런싱을 위해 코어 간 짐을 막 섞는다. [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 환경에서 이 짓을 하면 최악의 비극이 일어난다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NUMA 환경에서 스케줄러의 무지성 Migration 대참사</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1단계: 완벽한 초기 세팅</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Node 0 의</div><div class="kb-diagram-node">CPU 0</div><div class="kb-diagram-note">가</div><div class="kb-diagram-node">RAM A</div><div class="kb-diagram-note">에 거대한 10GB 데이터를 할당함!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Local Access! (거리 0. 극강의 쾌적함)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2단계: 스케줄러의 바보 같은 개입</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS 커널: "CPU 0이 너무 바쁘네. 저 스레드 뽑아서 텅 빈 Node 1의 CPU 1로 보내!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3단계: 지옥의 탯줄 꼬임 (Remote Access Hell)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Node 1 의</div><div class="kb-diagram-node">CPU 1</div><div class="kb-diagram-note">로 이사 온 스레드가 일을 하려고 보니...</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">데이터 10GB는 여전히 저 멀리 Node 0의</div><div class="kb-diagram-node">RAM A</div><div class="kb-diagram-note">에 쳐박혀 있음!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 스레드가 메모리를 읽을 때마다 매번 QPI 다리를 건너며 200ns 지연 발생!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 탯줄이 엉켜버린 이 현상 때문에 쿼리 속도가 1/3 토막으로 곤두박질침.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 NUMA 환경에서 스케줄러의 무지성 Migration 대참사          │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [ 1단계: 완벽한 초기 세팅 ]                                         │
+  │   Node 0 의 [ CPU 0 ] 가 [ RAM A ] 에 거대한 10GB 데이터를 할당함!      │
+  │   - Local Access! (거리 0. 극강의 쾌적함)                            │
+  │                                                                   │
+  │   [ 2단계: 스케줄러의 바보 같은 개입 ]                                   │
+  │   OS 커널: "CPU 0이 너무 바쁘네. 저 스레드 뽑아서 텅 빈 Node 1의 CPU 1로 보내!"│
+  │                                                                   │
+  │   [ 3단계: 지옥의 탯줄 꼬임 (Remote Access Hell) ]                    │
+  │   Node 1 의 [ CPU 1 ] 로 이사 온 스레드가 일을 하려고 보니...              │
+  │   데이터 10GB는 여전히 저 멀리 Node 0의 [ RAM A ] 에 쳐박혀 있음!        │
+  │   - 스레드가 메모리를 읽을 때마다 매번 QPI 다리를 건너며 200ns 지연 발생!      │
+  │   - 탯줄이 엉켜버린 이 현상 때문에 쿼리 속도가 1/3 토막으로 곤두박질침.       │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이것이 고성능 DB(오라클, SAP HANA, [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/)) 관리자들이 리눅스 기본 세팅을 저주하는 이유다. [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 몸뚱이(CPU)만 이사를 가고, 정작 무거운 짐(메모리 10GB)은 이사를 안 가고 옛날 동네에 놔두고 온 것이다. [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 일할 때마다 좁은 고속도로(QPI)를 건너 옛날 동네로 짐을 가지러 가느라 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 폭발한다. 현대 리눅스는 이를 막기 위해 <strong>AutoNUMA Balancing</strong>이라는 기능을 켜서, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 이사 가면 백그라운드에서 그 짐(램 10GB)도 새 동네로 억지로 복사해서 옮겨주는([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Migration) 눈물겨운 뒷수습을 하지만, 10GB를 램과 램 사이로 복사하는 비용 자체가 또 어마어마한 병목이 된다.
 
@@ -139,25 +142,28 @@ OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architectu
    - **원인 분석**: 하이퍼바이저는 밑단 물리 머신이 2개의 [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 노드로 쪼개진 걸 알지만, 위에서 도는 가상 머신(Guest OS)에게는 "너는 통짜 [UMA](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/379_uma/) 아키텍처에 떠 있어"라고 거짓말을 했다. [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 안의 OS는 램이 하나인 줄 알고 아무렇게나 할당을 때렸고, 물리 세계에서는 미친 듯한 원격 메모리 횡단(Remote Access)이 발생하며 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 찢어졌다.
    - **아키텍트 판단 (vNUMA 토폴로지 노출)**: 가상 머신이 커질수록 거짓말을 멈춰야 한다. 클라우드 엔지니어는 [KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/) 설정에 <strong>vNUMA (Virtual <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/">NUMA</a>)</strong>를 켜서, 가상 머신 내부의 OS에게 "너 사실 [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 구조야. 0번 코어는 이쪽 램만 써라"라고 물리적인 진실을 뼈대까지 투과시켜([Passthrough](/knowledge-base/studynote/02_operating_system/10_security/657_vfio_virtual_function_io_passthrough/)) 주어야 한다. 그래야 Guest OS의 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 진짜 하드웨어의 모양에 맞춰 최적화된 로컬 매핑을 시도한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NUMA 아키텍처 서버 튜닝을 위한 아키텍트 결정 트리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2-Socket (CPU 2개) 이상이 박힌 거대 물리 서버를 구축한다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버에 띄울 앱이 MySQL, Elasticsearch, JVM 등 단일 거대 메모리 포식자인가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Zone Reclaim Mode 끄기 &amp; Interleave 켜기!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- <code>sysctl vm.zone_reclaim_mode=0</code> 세팅 필수!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- <code>numactl --interleave=all</code> 로 램 전체 섞어 쓰기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 (서버 하나에 Nginx 100개, Node.js 100개를 잘게 쪼개 띄운다)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">각 프로세스 단위가 작아서(수백 MB) 한 노드의 램 안에 쏙 들어가는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NUMA Local Alloc (기본값) 100% 신뢰!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 로컬 메모리 적중률 폭발로 압도적 스루풋 향상 달성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- <code>taskset</code> 으로 프로세스들을 각 노드에 공평하게 묶어줌.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 NUMA 아키텍처 서버 튜닝을 위한 아키텍트 결정 트리            │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [ 2-Socket (CPU 2개) 이상이 박힌 거대 물리 서버를 구축한다 ]              │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      서버에 띄울 앱이 MySQL, Elasticsearch, JVM 등 단일 거대 메모리 포식자인가?│
+  │          ├─ 예 ─────▶ 🚨 [ Zone Reclaim Mode 끄기 & Interleave 켜기! ]│
+  │          │             - `sysctl vm.zone_reclaim_mode=0` 세팅 필수!   │
+  │          │             - `numactl --interleave=all` 로 램 전체 섞어 쓰기 │
+  │          │                                                        │
+  │          └─ 아니오 (서버 하나에 Nginx 100개, Node.js 100개를 잘게 쪼개 띄운다) │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      각 프로세스 단위가 작아서(수백 MB) 한 노드의 램 안에 쏙 들어가는가?         │
+  │          ├─ 예 ─────▶ 🟢 [ NUMA Local Alloc (기본값) 100% 신뢰! ]   │
+  │          │             - 로컬 메모리 적중률 폭발로 압도적 스루풋 향상 달성     │
+  │          │             - `taskset` 으로 프로세스들을 각 노드에 공평하게 묶어줌.│
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** "NUMA는 나쁜 건가요?" 초보자들의 단골 질문이다. NUMA는 나쁜 게 아니라 고삐 풀린 야생마일 뿐이다. 잘게 쪼개진 수많은 앱([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/), 웹서버)을 돌릴 때는 알아서 로컬 메모리를 잡아먹으며 시스템 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 우주 끝까지 끌어올리는 천사다. 하지만 DB라는 거대 포식자가 들어와 한쪽 노드의 램을 거덜 내는 순간, 스왑(Swap)이라는 지옥문을 여는 악마로 돌변한다. 아키텍트는 워크로드의 사이즈(Memory Footprint)를 재서 이 녀석이 한 노드에 담길 놈인지(Local 허용), 아니면 두 노드에 쪼개 담아야 할 놈인지(Interleave 강제) 재판을 내려야 한다.
 
@@ -203,19 +209,15 @@ OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architectu
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">틱리스 커널(Tickless) 모바일 배터리 보존</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NUMA 로컬 메모리 원격 메모리 지연차 (NUMA Local Remote Memory Latency)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">유니커널 보안과 가벼운 부팅 특성 망 적용</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">분산 락 주키퍼(ZooKeeper) 합의 동기화</div></div>
-</div>
-</div>
-
-
+```text
+[틱리스 커널(Tickless) 모바일 배터리 보존]
+    │
+    ▼
+[NUMA 로컬 메모리 원격 메모리 지연차 (NUMA Local Remote Memory Latency)]
+    │
+    ├──▶ [유니커널 보안과 가벼운 부팅 특성 망 적용]
+    └──▶ [분산 락 주키퍼(ZooKeeper) 합의 동기화]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

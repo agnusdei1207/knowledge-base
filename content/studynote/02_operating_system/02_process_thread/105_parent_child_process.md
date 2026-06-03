@@ -30,28 +30,31 @@ tags = ["studynote-operating-system"]
 
 프로세스 트리의 핵심은 `fork()`, `exec()`, `wait()`, `exit()`로 이어지는 4단계의 라이프사이클 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 메커니즘이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부모-자식 프로세스의 생명주기 및 상태 전이 다이어그램</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Parent Process</div><div class="kb-diagram-node">Child Process</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(PID: 100, PPID: 10)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ fork() ▶ (복제 및 분기)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(PID: 101, PPID: 100)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ exec()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(새 프로그램 로드)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">wait() 대기 실행 중 (Running)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(수면 상태 진입)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ exit(status)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Zombie 상태 진입</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(메모리 해제, PCB 잔류)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상태 회수 및 자원 해제</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">(종료 상태 획득)</div><div class="kb-diagram-node">프로세스 완전 소멸</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│       부모-자식 프로세스의 생명주기 및 상태 전이 다이어그램  │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│  [ Parent Process ]             [ Child Process ]            │
+│  (PID: 100, PPID: 10)                                        │
+│          │                                                   │
+│          ├─ fork() ──────────▶ (복제 및 분기)                │
+│          │                     (PID: 101, PPID: 100)         │
+│          │                              │                    │
+│          │                              ├─ exec()            │
+│          │                              │  (새 프로그램 로드)│
+│          ▼                              ▼                    │
+│      wait() 대기                    실행 중 (Running)        │
+│    (수면 상태 진입)                     │                    │
+│          │                              ├─ exit(status)      │
+│          │                              ▼                    │
+│          │◀── SIGCHLD 시그널 ─── [ Zombie 상태 진입 ]        │
+│          │                       (메모리 해제, PCB 잔류)     │
+│          ▼                              │                    │
+│  상태 회수 및 자원 해제 ────────────────┘                    │
+│    (종료 상태 획득)               [ 프로세스 완전 소멸 ]     │
+└──────────────────────────────────────────────────────────────┘
+```
 
 1. <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> (<code>fork</code>)</strong>: 커널은 부모의 `task_struct`를 복사해 자식에게 할당한다. 이때 자원은 상속되나 주소 공간은 독립적으로 분리된다.
 2. <strong>변환 (<code>exec</code>)</strong>: 자식은 상속받은 껍데기에 새로운 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 코드와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 덮어씌워 완전히 다른 프로그램으로 탈바꿈한다.
@@ -113,23 +116,21 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단일 프로세스 시스템 (MS-DOS)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">부모-자식 프로세스 계층 (Unix fork/exec 모델 도입)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">멀티스레딩 (Multithreading, 프로세스 내 자원 공유 및 경량화)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">cgroup 및 Namespace (리눅스 커널의 자원 격리 기술)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">컨테이너 기반 독립 프로세스 트리 (Docker, Kubernetes)</div>
-</div>
-</div>
-
-
+```text
+단일 프로세스 시스템 (MS-DOS)
+    │
+    ▼
+부모-자식 프로세스 계층 (Unix fork/exec 모델 도입)
+    │
+    ▼
+멀티스레딩 (Multithreading, 프로세스 내 자원 공유 및 경량화)
+    │
+    ▼
+cgroup 및 Namespace (리눅스 커널의 자원 격리 기술)
+    │
+    ▼
+컨테이너 기반 독립 프로세스 트리 (Docker, Kubernetes)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -27,21 +27,20 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 운영체제가 같은 주소를 반복 기록해도, FTL이 실제 저장 위치를 회전시키는 이유를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">같은 논리 주소라도 실제 물리 블록은 순환 배치됨</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS 요청: LBA 120 갱신</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간 t1 LBA 120 ▶ PBA Block 07 (Erase 120)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간 t2 LBA 120 ▶ PBA Block 31 (Erase 84)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간 t3 LBA 120 ▶ PBA Block 12 (Erase 86)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간 t4 LBA 120 ▶ PBA Block 44 (Erase 85)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 한 블록만 124회가 되는 대신 여러 블록이 84~86회로 분산</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│        같은 논리 주소라도 실제 물리 블록은 순환 배치됨      │
+├──────────────────────────────────────────────────────────────┤
+│ OS 요청: LBA 120 갱신                                        │
+│                                                              │
+│ 시간 t1  LBA 120 ───────────────▶ PBA Block 07  (Erase 120)  │
+│ 시간 t2  LBA 120 ───────────────▶ PBA Block 31  (Erase  84)  │
+│ 시간 t3  LBA 120 ───────────────▶ PBA Block 12  (Erase  86)  │
+│ 시간 t4  LBA 120 ───────────────▶ PBA Block 44  (Erase  85)  │
+│                                                              │
+│ 결과: 한 블록만 124회가 되는 대신 여러 블록이 84~86회로 분산 │
+└──────────────────────────────────────────────────────────────┘
+```
 
 핵심은 사용자가 보는 주소 체계는 그대로 유지하면서, 내부 마모 상태만 재배치한다는 점이다. 이 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 덕분에 운영체제는 블록 수명을 직접 계산하지 않아도 되고, [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 컨트롤러는 남은 수명 여유를 활용해 전체 장치를 더 오래 서비스할 수 있다.
 
@@ -64,20 +63,18 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 동적 방식과 정적 방식의 차이를 요약한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동적 vs 정적 마모 평준화의 판단 기준</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동적 방식</div><div class="kb-diagram-cell">정적 방식</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">새 쓰기만 분산</div><div class="kb-diagram-cell">새 쓰기 + 오래된 콜드 데이터도 이동</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">추가 복사 적음</div><div class="kb-diagram-cell">추가 복사 많음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">구현 단순</div><div class="kb-diagram-cell">수명 편차를 더 작게 만듦</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">편한 블록이 남을 수 있음</div><div class="kb-diagram-cell">전체 블록을 더 고르게 사용</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           동적 vs 정적 마모 평준화의 판단 기준               │
+├───────────────────────┬──────────────────────────────────────┤
+│ 동적 방식             │ 정적 방식                            │
+├───────────────────────┼──────────────────────────────────────┤
+│ 새 쓰기만 분산        │ 새 쓰기 + 오래된 콜드 데이터도 이동   │
+│ 추가 복사 적음        │ 추가 복사 많음                       │
+│ 구현 단순             │ 수명 편차를 더 작게 만듦             │
+│ 편한 블록이 남을 수 있음│ 전체 블록을 더 고르게 사용           │
+└───────────────────────┴──────────────────────────────────────┘
+```
 
 따라서 컨트롤러 설계의 핵심은 "얼마나 자주 옮길 것인가"다. 지나치게 소극적이면 일부 블록이 먼저 닳고, 지나치게 공격적이면 평준화를 위해 옮기는 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 자체가 수명을 줄인다. 결국 최적점은 워크로드의 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 편중도, 여유 공간 비율, 낸드 종류에 따라 달라진다.
 
@@ -147,25 +144,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">낸드 플래시의 소거 한계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">LBA/PBA 분리 + FTL 매핑</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">동적 마모 평준화 (Dynamic Wear Leveling)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">정적 마모 평준화 (Static Wear Leveling)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">가비지 컬렉션 · TRIM · 오버프로비저닝 통합 최적화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">고밀도 TLC/QLC SSD 수명 관리 고도화</div>
-</div>
-</div>
-
-
+```text
+낸드 플래시의 소거 한계
+    │
+    ▼
+LBA/PBA 분리 + FTL 매핑
+    │
+    ▼
+동적 마모 평준화 (Dynamic Wear Leveling)
+    │
+    ▼
+정적 마모 평준화 (Static Wear Leveling)
+    │
+    ▼
+가비지 컬렉션 · TRIM · 오버프로비저닝 통합 최적화
+    │
+    ▼
+고밀도 TLC/QLC SSD 수명 관리 고도화
+```
 
 이 흐름은 단순 수명 연장 기법이 점차 저장장치 전체 운영 정책으로 확장되는 과정을 보여준다.
 

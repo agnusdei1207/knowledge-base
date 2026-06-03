@@ -27,21 +27,18 @@ tags = ["data_engineering"]
 
 아래 다이어그램은 기존의 단일 거대 스토리지([Scale-up](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)) 철학과, 싸고 흔한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)노드 수백 대를 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 나열하는([Scale-out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)) HDFS의 철학적 차이를 시각화한다.
 
+```text
+[고가 단일 스토리지 장비 vs HDFS 저가 데이터노드 군단 비교]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">고가 단일 스토리지 장비 vs HDFS 저가 데이터노드 군단 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전통적 엔터프라이즈 스토리지</div><div class="kb-diagram-node">HDFS DataNode 기반 분산 스토리지</div></div>
-<div class="kb-diagram-note">비용: 10억 원 / 확장불가 비용: 1억 원 (100대) / 무한 확장</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RAID 컨트롤러</div><div class="kb-diagram-cell">DN 1</div><div class="kb-diagram-cell">DN 2</div><div class="kb-diagram-cell">DN 3</div><div class="kb-diagram-cell">...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">특수 이중화 파워</div><div class="kb-diagram-cell">&gt;</div><div class="kb-diagram-cell">Disk A</div><div class="kb-diagram-cell">Disk B</div><div class="kb-diagram-cell">Disk C</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고성능 SAN 디스크</div><div class="kb-diagram-cell">Disk B</div><div class="kb-diagram-cell">Disk C</div><div class="kb-diagram-cell">Disk D</div></div>
-<div class="kb-diagram-note">(이 박스가 타버리면 회사 마비) (DN 2가 불타도 1과 3에 복제본 존재!)</div>
-</div>
-</div>
-
-
+[전통적 엔터프라이즈 스토리지]        [HDFS DataNode 기반 분산 스토리지]
+  비용: 10억 원 / 확장불가              비용: 1억 원 (100대) / 무한 확장
+    ┌─────────────────┐               ┌──────┐ ┌──────┐ ┌──────┐
+    │ RAID 컨트롤러   │               │DN 1  │ │DN 2  │ │DN 3  │ ...
+    │ 특수 이중화 파워│   ──────>     │Disk A│ │Disk B│ │Disk C│ 
+    │ 고성능 SAN 디스크│               │Disk B│ │Disk C│ │Disk D│
+    └─────────────────┘               └──────┘ └──────┘ └──────┘
+  (이 박스가 타버리면 회사 마비)       (DN 2가 불타도 1과 3에 복제본 존재!)
+```
 
 이 그림의 핵심은 '장애를 방어하는 주체'가 하드웨어에서 소프트웨어로 넘어왔다는 점이다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)노드는 스스로 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 고치지 않는다. 노드가 고장 나서 멈추면 [네임노드](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/)가 이를 감지하고 살아있는 다른 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)노드들에게 즉각 "복사본을 다시 만들라"고 지시함으로써 자가 치유(Self-healing)가 일어난다. 이것이 수천 대의 컴퓨터를 페타바이트급 가상 스토리지로 엮어내는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)노드의 마법 같은 확장성의 비밀이다.
 
@@ -63,22 +60,20 @@ tags = ["data_engineering"]
 
 아래의 타이밍 타이밍 다이어그램은 [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) 클라이언트가 거대 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 저장할 때, [네임노드](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/)의 간섭 없이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)노드 3대가 어떻게 <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">Replication</a> <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/">Pipeline</a>(<a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>라인)</strong>을 형성하여 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 흘려보내는지(Streaming) 그 절묘한 흐름을 보여준다.
 
+```text
+[데이터노드 3중 복제 파이프라인 (Data Pipelining) 메커니즘]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터노드 3중 복제 파이프라인 (Data Pipelining) 메커니즘</div></div>
-<div class="kb-diagram-note">HDFS Client DataNode 1 DataNode 2 DataNode 3</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">---- 블록A 패킷 1 쓰기 ----&gt;</div><div class="kb-diagram-cell">(디스크 캐싱)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">====== 릴레이 복사 ======&gt;</div><div class="kb-diagram-cell">(디스크 캐싱)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">---- 블록A 패킷 2 쓰기 ----&gt;</div><div class="kb-diagram-cell">====== 릴레이 복사 ======&gt;</div></div>
-<div class="kb-diagram-note">... (네트워크 스트리밍으로 동시에 흘러감. 1번이 다 받고 2번 주는 게 아님!) ...</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;==== ACK 패킷 수신 성공 ==</div><div class="kb-diagram-cell">&lt;==== ACK 수신 성공 ====</div><div class="kb-diagram-cell">&lt;==== ACK 수신 성공 ====</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(최종 3개 노드 복제 완료)</div></div>
-</div>
-</div>
-
-
+   HDFS Client                  DataNode 1                DataNode 2                DataNode 3
+       │                            │                         │                         │
+       │---- 블록A 패킷 1 쓰기 ---->│ (디스크 캐싱)             │                         │
+       │                            │====== 릴레이 복사 ======>│ (디스크 캐싱)             │
+       │---- 블록A 패킷 2 쓰기 ---->│                         │====== 릴레이 복사 ======>│
+       │                            │                         │                         │
+      ... (네트워크 스트리밍으로 동시에 흘러감. 1번이 다 받고 2번 주는 게 아님!) ...      
+       │                            │                         │                         │
+       │<==== ACK 패킷 수신 성공 == │<==== ACK 수신 성공 ==== │<==== ACK 수신 성공 ==== │
+       │ (최종 3개 노드 복제 완료)   │                         │                         │
+```
 
 이 흐름의 핵심은 '스트리밍 릴레이(Streaming Relay)' 방식에 있다. 만약 128MB 블록을 DataNode 1이 완전히 다 내려받은 뒤에야 DataNode 2로 복사를 시작한다면 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 시간이 3배로 지연될 것이다. 하지만 HDFS는 128MB 블록을 아주 작은 64KB 패킷 단위로 쪼개어 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)(수도관)에 물을 흘리듯 1번 → 2번 → 3번으로 동시에 흘려보낸다. 따라서 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 극대화하며 단일 서버에 복사하는 시간과 거의 비슷한 속도로 3중 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)본을 동시에 디스크에 안착시킨다. 이 완벽한 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 통신이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)노드 소프트웨어 공학의 백미다.
 
@@ -99,23 +94,18 @@ tags = ["data_engineering"]
 
 다음 구조도는 왜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)노드와 [맵리듀스](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/)(또는 스파크) 워커 노드가 같은 물리적 서버에 공존해야 네트워크 폭주가 발생하지 않는지, '[데이터 지역성](/knowledge-base/studynote/14_data_engineering/01_infrastructure/019_data_locality/)'의 원리를 비교 시각화한다.
 
+```text
+[네트워크 병목을 피하기 위한 DataNode 지역성(Locality) 메커니즘]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 병목을 피하기 위한 DataNode 지역성(Locality) 메커니즘</div></div>
-<div class="kb-diagram-note">❌ 나쁜 설계 (원격 연산) ✅ 우수한 설계 (하둡 데이터 지역성)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">연산 서버군</div><div class="kb-diagram-note">(CPU)</div><div class="kb-diagram-node">하둡 통합 노드 군단</div><div class="kb-diagram-note">(CPU + DataNode)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Spark 1 Spark 2 서버 A:</div><div class="kb-diagram-node">Spark Task</div><div class="kb-diagram-note">+</div><div class="kb-diagram-node">DataNode (블록A)</div></div>
-<div class="kb-diagram-note">▲ ▲ ─ (로컬 메모리로 빛의 속도 로드)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1TB</div><div class="kb-diagram-cell">1TB</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">── ── (네트워크 폭발!) 서버 B:</div><div class="kb-diagram-node">Spark Task</div><div class="kb-diagram-note">+</div><div class="kb-diagram-node">DataNode (블록B)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ (자신의 디스크에서 스스로 연산)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DataNode1</div><div class="kb-diagram-node">DataNode2</div><div class="kb-diagram-connector">===&gt;</div><div class="kb-diagram-note">💥네트워크 대역폭 사용량 '제로' 근접!</div></div>
-</div>
-</div>
-
-
+❌ 나쁜 설계 (원격 연산)                 ✅ 우수한 설계 (하둡 데이터 지역성)
+  [연산 서버군] (CPU)                     [하둡 통합 노드 군단] (CPU + DataNode)
+   Spark 1  Spark 2                     서버 A: [Spark Task] + [DataNode (블록A)]
+     ▲        ▲                           └─ (로컬 메모리로 빛의 속도 로드)
+     │ 1TB    │ 1TB                       
+   ──┴────────┴── (네트워크 폭발!)      서버 B: [Spark Task] + [DataNode (블록B)]
+     │        │                           └─ (자신의 디스크에서 스스로 연산)
+  [DataNode1] [DataNode2]               ===> 💥네트워크 대역폭 사용량 '제로' 근접!
+```
 
 A 방식(원격 호출)은 저장 서버에서 연산 서버로 테라바이트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 끌어올 때 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 장비에 엄청난 부하를 유발한다. 이 때문에 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)은 B 방식([데이터 지역성](/knowledge-base/studynote/14_data_engineering/01_infrastructure/019_data_locality/))을 채택하여, [네임노드](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/)와 YARN이 긴밀히 협력해 "이 블록은 DataNode A에 있으니, 스파크 컨테이너를 서버 A에 띄워라!" 라고 명령한다. 코드는 수 MB에 불과하지만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 수 TB이므로, 무거운 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 옮기는 대신 가벼운 코드를 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)노드로 던져버리는 이 발상의 전환이 수천 대의 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 연산을 병목 없이 가능하게 만든 궁극의 비결이다.
 
@@ -131,27 +121,23 @@ A 방식(원격 호출)은 저장 서버에서 연산 서버로 테라바이트 
 2. **클러스터 밸런싱 (Cluster Rebalancing)**: 기존 노드는 꽉 차서 95%를 쓰는데, 어제 새로 증설한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)노드는 5%만 쓰고 있는 경우가 발생한다. 이 상태로 [맵리듀스](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/)를 돌리면 연산이 기존 노드에만 집중되어 전체 속도가 거북이가 된다. 실무자는 반드시 백그라운드 잡으로 [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) Balancer(`hdfs balancer`) 스크립트를 정기적으로 돌려, 여유 있는 새 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)노드로 블록들을 이사시켜 전체 클러스터의 디스크 사용률 평균을 팽팽하게(균형) 맞춰주어야 한다.
 3. <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/017_rack_awareness/">랙 인지</a> (<a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/017_rack_awareness/">Rack Awareness</a>) 스크립트 작성</strong>: 화재나 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 장애로 하나의 서버 랙(Rack)이 통째로 날아가는 재앙을 대비하기 위해, [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)본 3개 중 적어도 1개는 반드시 "다른 물리적 랙"의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)노드에 저장되도록 네트워크 토폴로지 맵을 [네임노드](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/)에 주입시켜야 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)노드들이 올바른 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 타겟을 맺는다.
 
+```text
+[데이터노드 디스크 용량 불균형(Skew) 발생 시 의사결정 및 조치 플로우]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터노드 디스크 용량 불균형(Skew) 발생 시 의사결정 및 조치 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">모니터링 경보: 특정 데이터노드군 Disk 사용량 90% 돌파, 신규 노드는 10%</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 대역폭(Network Bandwidth) 한가한 야간 시간대 진입 확인</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HDFS Balancer 실행 명령어 투입 (<code>hdfs balancer -threshold 5</code>)</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">(Balancer 동작 로직)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 과부하 노드(90%)에서 잉여 노드(10%)로 블록 단위 복사본 이동 시작</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 너무 빨리 이동하면 서비스 마비되므로 초당 50MB 속도 제한(Throttle)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 모든 노드의 사용률 편차가 ±5% 이내가 될 때까지 며칠간 은밀히 수행</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">모든 데이터노드 디스크 밸런스 60%대로 수렴 완료. 맵리듀스 분산 효율 100% 정상화</div></div>
-</div>
-</div>
-
-
+[모니터링 경보: 특정 데이터노드군 Disk 사용량 90% 돌파, 신규 노드는 10%]
+         ↓
+[네트워크 대역폭(Network Bandwidth) 한가한 야간 시간대 진입 확인]
+         ↓
+[ HDFS Balancer 실행 명령어 투입 (`hdfs balancer -threshold 5`) ]
+         ↓
+ ┌──────────────────────(Balancer 동작 로직)────────────────────────┐
+ │ 1. 과부하 노드(90%)에서 잉여 노드(10%)로 블록 단위 복사본 이동 시작   │
+ │ 2. 너무 빨리 이동하면 서비스 마비되므로 초당 50MB 속도 제한(Throttle) │
+ │ 3. 모든 노드의 사용률 편차가 ±5% 이내가 될 때까지 며칠간 은밀히 수행  │
+ └──────────────────────────────────────────────────────────────────┘
+         ↓
+[모든 데이터노드 디스크 밸런스 60%대로 수렴 완료. 맵리듀스 분산 효율 100% 정상화]
+```
 
 운영 실무의 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)노드의 장애나 불균형 조치가 '실시간 온라인 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/) I/O)'를 절대 방해해서는 안 된다는 점이다. 노드 간 블록 이사(Balancing)나 손상된 블록의 자가 치유 통신이 너무 거세지면 네트워크 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 집어삼켜 정작 중요한 클라이언트의 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 요청이 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)([Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/)) 나는 사태가 벌어진다. 시스템 튜닝 시 이 내부 통신 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 한계([Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) Throttle)를 통제하는 것이 고수 엔지니어의 영역이다.
 
@@ -185,23 +171,21 @@ A 방식(원격 호출)은 저장 서버에서 연산 서버로 테라바이트 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">HDFS (Hadoop Distributed File System) — 대용량 데이터를 분산 저장하는 파일시스템</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터노드 (DataNode) — 블록 단위 실제 데이터 저장·서빙, 3초마다 하트비트 전송</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">네임노드 (NameNode) — 블록 메타데이터 관리·위치 안내, DataNode 감시 사령탑</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">복제 계수 (Replication Factor=3) + 랙 인지 — 데이터 손실 방지를 위한 물리적 분산 배치</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 지역성 (Data Locality) — 연산을 데이터 위치로 이동, 네트워크 I/O 최소화</div></div>
-</div>
-</div>
-
-
+```text
+[HDFS (Hadoop Distributed File System) — 대용량 데이터를 분산 저장하는 파일시스템]
+    │
+    ▼
+[데이터노드 (DataNode) — 블록 단위 실제 데이터 저장·서빙, 3초마다 하트비트 전송]
+    │
+    ▼
+[네임노드 (NameNode) — 블록 메타데이터 관리·위치 안내, DataNode 감시 사령탑]
+    │
+    ▼
+[복제 계수 (Replication Factor=3) + 랙 인지 — 데이터 손실 방지를 위한 물리적 분산 배치]
+    │
+    ▼
+[데이터 지역성 (Data Locality) — 연산을 데이터 위치로 이동, 네트워크 I/O 최소화]
+```
 
 이 흐름은 HDFS의 아키텍처를 실제 블록을 보관하는 DataNode에서 메타데이터를 관리하는 NameNode로의 역할 분담으로 이해하고, [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 계수와 [랙 인지](/knowledge-base/studynote/14_data_engineering/01_infrastructure/017_rack_awareness/)로 내결함성을 확보하며, [데이터 지역성](/knowledge-base/studynote/14_data_engineering/01_infrastructure/019_data_locality/)으로 연산 효율을 극대화하는 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 저장 설계의 핵심 계보를 보여준다.
 

@@ -26,18 +26,14 @@ tags = ["studynote-network"]
   - <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a></strong>: 받는 사람이 사인(ACK)을 할 때까지 문 앞에서 기다렸다가, 사인을 안 하면 우체국에 돌아가 똑같은 물건을 다시 가져와서 끝끝내 배달을 마치는 <strong>"우체국 등기 소포"</strong>입니다.
   - **UDP**: 받는 사람이 집에 있든 없든, 이사 갔든 말든 신경 안 쓰고 대문 안으로 신문을 휙 던지고 0.1초 만에 지나가 버리는 <strong>"오토바이 신문 배달부"</strong>입니다. 어제 신문이 배달 안 됐다고 오늘 어제 신문을 갖다 달라고(재전송) 요구하는 사람은 아무도 없습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">TCP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">UDP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TCP 세그먼트 헤더</div></div>
-</div>
-</div>
-
-
+```text
+[TCP]
+    │
+    ▼
+[UDP]
+    │
+    └──▶ [TCP 세그먼트 헤더]
+```
 
 - **📢 섹션 요약 비유**: <strong> UDP는 브레이크, 에어백, 내비게이션(제어 기능)을 모조리 떼어버리고 오직 엔진과 바퀴(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 전송)만 남겨둔 </strong>"초경량 F1 레이싱 머신"**입니다. 사고(패킷 손실) 확률은 높지만 달리는 속도만큼은 타의 추종을 불허합니다.
 
@@ -54,18 +50,14 @@ tags = ["studynote-network"]
 4. <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/">Checksum</a> (2바이트)</strong>: 가다가 패킷이 깨졌는지(1이 0으로 바뀌었는지) 검사하는 유일한 에러 방어막. (근데 이것마저도 선택 사항이라 0으로 채워서 안 쓸 수도 있다).
 - 끝이다. 순서 번호(Seq)도 없고, 수신 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(ACK)도 없다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">TCP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">UDP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TCP 세그먼트 헤더</div></div>
-</div>
-</div>
-
-
+```text
+[TCP]
+    │
+    ▼
+[UDP]
+    │
+    └──▶ [TCP 세그먼트 헤더]
+```
 
 - **📢 섹션 요약 비유**: UDP의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -93,24 +85,25 @@ UDP를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 �
 - <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/">SNMP</a> (<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> 161)</strong>: 수천 대의 라우터 상태를 모니터링할 때 TCP를 쓰면 서버가 터진다.
 - <strong>VoIP / <a href="/knowledge-base/studynote/03_network/08_transport_layer/451_rtp_real_time_transport_protocol/">RTP</a></strong>: 인터넷 전화와 실시간 영상 스트리밍. 깨지면 화면에 살짝 모자이크(깍두기)가 낄 뿐, 굳이 과거 화면을 재전송받지 않는다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TCP(스트림) vs UDP(데이터그램) 전송 방식의 차이</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황: 앱이 "안녕"과 "하세요"를 두 번에 걸쳐 전송함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* TCP의 방식 (수도꼭지 Stream):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"안", "녕", "하", "세", "요" -&gt; 글자들을 물처럼 이어서 쏨.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">받는 쪽은 1바이트씩 컵에 모으다가 앱이 "글씨 줘!" 하면</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">"안녕하세"</div><div class="kb-diagram-note">,</div><div class="kb-diagram-node">"요"</div><div class="kb-diagram-note">처럼 자기 맘대로 잘라서 가져감.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* UDP의 방식 (블록 Datagram):</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">박스 1: "안녕"</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">박스 1: "안녕"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">박스 2: "하세요"</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">박스 2: "하세요"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ "UDP는 앱이 던진 박스의 경계(Message Boundary)를 완벽히 유지한다!"</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                TCP(스트림) vs UDP(데이터그램) 전송 방식의 차이     │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 상황: 앱이 "안녕"과 "하세요"를 두 번에 걸쳐 전송함 ]              │
+ │                                                             │
+ │   * TCP의 방식 (수도꼭지 Stream):                               │
+ │     "안", "녕", "하", "세", "요" -> 글자들을 물처럼 이어서 쏨.         │
+ │     받는 쪽은 1바이트씩 컵에 모으다가 앱이 "글씨 줘!" 하면           │
+ │     [ "안녕하세" ], [ "요" ] 처럼 자기 맘대로 잘라서 가져감.         │
+ │                                                             │
+ │   * UDP의 방식 (블록 Datagram):                               │
+ │     [ 박스 1: "안녕" ] ── 휙! ──▶ 받는 쪽 앱: [ 박스 1: "안녕" ]  │
+ │     [ 박스 2: "하세요" ] ── 휙! ──▶ 받는 쪽 앱: [ 박스 2: "하세요" ]│
+ │                                                             │
+ │   ▶ "UDP는 앱이 던진 박스의 경계(Message Boundary)를 완벽히 유지한다!"│
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -141,19 +134,15 @@ UDP는 전송 계층을 이해할 때 핵심 축을 잡아 주는 개념이다. 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: TCP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: UDP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: TCP 세그먼트 헤더</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: TCP]
+    │
+    ▼
+[현재 개념: UDP]
+    │
+    ├──▶ [확장 A: TCP 세그먼트 헤더]
+    └──▶ [확장 B: 적응형 저지연 전송]
+```
 
 UDP는 TCP에서 출발해 현재 메커니즘을 정교화하고, 이후 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 세그먼트 헤더와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

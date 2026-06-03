@@ -45,22 +45,21 @@ FC의 대표적 특징은 BB_Credit (Buffer-to-Buffer Credit) 기반 [흐름 제
 
 아래 그림은 FC 계층과 전송 경로를 함께 보여준다.
 
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│                        FC protocol stack                          │
+├────────────────────────────────────────────────────────────────────┤
+│ FC-4 : SCSI / NVMe mapping                                        │
+│ FC-3 : common services                                            │
+│ FC-2 : frame + routing + BB_Credit flow control                   │
+│ FC-1 : encoding                                                   │
+│ FC-0 : optics / cable / signaling                                 │
+└────────────────────────────────────────────────────────────────────┘
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FC protocol stack</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FC-4 : SCSI / NVMe mapping</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FC-3 : common services</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FC-2 : frame + routing + BB_Credit flow control</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FC-1 : encoding</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FC-0 : optics / cable / signaling</div></div>
-<div class="kb-diagram-note">Host HBA ▶ FC Switch ▶ Storage Port</div>
-<div class="kb-diagram-tree-item" style="--depth:2">credits returned as buffers are freed</div>
-</div>
-</div>
-
-
+Host HBA  ─────▶  FC Switch  ─────▶  Storage Port
+    ▲                ▲                   ▲
+    └──── credits returned as buffers are freed ────────────────────┘
+```
 
 상위 명령 관점에서는 서버가 보낸 SCSI 읽기·[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 요청이나 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 명령이 FC-4 계층에서 프레임으로 실리고, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 패브릭이 이를 목적지 스토리지 포트까지 전달한다. 덕분에 운영체제는 멀리 떨어진 저장 장치를 마치 로컬 블록 장치처럼 다룰 수 있다. 즉 FC는 단순 전선 규격이 아니라, <strong>원격 블록 장치를 안정적으로 보이게 만드는 운송 체계</strong>다.
 
@@ -132,23 +131,21 @@ FC를 제대로 구성하면 스토리지 네트워크는 일반 [데이터](/kn
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Local SCSI attachment</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Dedicated FC SAN</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Switched FC fabric</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Ethernet-based alternatives (iSCSI / FCoE)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">NVMe over FC and hybrid storage fabrics</div>
-</div>
-</div>
-
-
+```text
+Local SCSI attachment
+    │
+    ▼
+Dedicated FC SAN
+    │
+    ▼
+Switched FC fabric
+    │
+    ▼
+Ethernet-based alternatives (iSCSI / FCoE)
+    │
+    ▼
+NVMe over FC and hybrid storage fabrics
+```
 
 이 흐름은 로컬 저장 장치 연결에서 출발해, 전용 저장 네트워크와 그 이후의 확장·대체 기술로 이어지는 진화를 보여준다.
 

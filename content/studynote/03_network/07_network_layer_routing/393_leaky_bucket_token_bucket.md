@@ -26,20 +26,16 @@ tags = ["studynote-network"]
   - **Leaky Bucket**: 회전문입니다. 밖에 1,000명이 몰려와도 무조건 "1초에 1명씩만" 돌아갑니다. 극도의 안정성을 주지만 융통성이 0입니다.
   - **Token Bucket**: 게이트 직원이 1초마다 '입장권(Token)'을 10장씩 발급해 바구니에 모아둡니다. 손님이 없어서 입장권이 1,000장 쌓였습니다. 이때 단체 관광객 1,000명이 훅 몰려오면? 직원이 모아둔 입장권을 한 번에 다 주고 <strong>1,000명을 0.1초 만에 논스톱으로 통과(Burst 허용)</strong>시켜 줍니다.
 
+```text
+[트래픽 쉐이핑 / 폴리싱]
+    │
+    ▼
+[Leaky Bucket / Token Buc…]
+    │
+    └──▶ [WRED 혼잡 제어 꼬리 짜르기 제한]
+```
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">트래픽 쉐이핑 / 폴리싱</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Leaky Bucket / Token Buc…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">WRED 혼잡 제어 꼬리 짜르기 제한</div></div>
-</div>
-</div>
-
-
-
-- **📢 섹션 요약 비유**: <strong> 리키 버킷은 아무리 링거액을 세게 틀어도 핏줄에는 </strong>무조건 한 방울씩 똑똑 떨어지게 만드는 "수액 조절기"<strong>이고, 토큰 버킷은 평소에 돈(토큰)을 저축해 두었다가 세일 기간(폭주)이 오면 모아둔 돈을 </strong>한방에 터뜨려 물건을 쓸어 담는(허용) "스마트 저축 계좌"**입니다.
+- **📢 섹션 요약 비유**: <strong> 리키 버킷은 아무리 링거액을 세게 틀어도 핏줄에는 </strong>무조건 한 방울씩 똑똑 떨어지게 만드는 "수치 조절기"<strong>이고, 토큰 버킷은 평소에 돈(토큰)을 저축해 두었다가 세일 기간(폭주)이 오면 모아둔 돈을 </strong>한방에 터뜨려 물건을 쓸어 담는(허용) "스마트 저축 계좌"**입니다.
 
 ---
 
@@ -63,25 +59,26 @@ tags = ["studynote-network"]
   3. 바구니에 토큰이 없으면? 패킷은 버려지거나(Policing) 큐에 대기(Shaping)한다.
   4. **마법의 순간(Burst)**: 밤새 통신을 안 해서 바구니에 토큰이 1억 개 꽉 찼다. 아침에 직원이 출근해서 1억 바이트짜리 파일을 던진다. 바구니에 토큰이 1억 개나 있으므로, 1억 바이트가 단 0.1초 만에 빛의 속도로 톨게이트를 뚫고 나간다. **(계약 속도를 초과하는 융통성 발휘!)**
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Token Bucket 폴리싱의 실무 파라미터(Bc, Be)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">라우터 명령어: police cir 10000 bc 1500 be 2000</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. CIR (10M): 평소에 초당 채워주는 기본 토큰의 양 (계약 속도).</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Bc (기본 양동이): 토큰을 최대 1,500개까지만 저축할 수 있는 바구니.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Be (초과 양동이, Excess): Bc 양동이가 꽉 차면, 옆에 있는 비상용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Be 양동이에 추가로 2,000개를 더 저축함!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 패킷이 들어올 때:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Bc 토큰으로 결제 -&gt; 통과 (정상, 초록색)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Bc 없고 Be 토큰으로 결제 -&gt; 통과 (근데 노란색 딱지 붙여서 강등함)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Bc, Be 토큰 다 없음 -&gt; 사살! (Drop, 빨간색)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ "이것이 통신사 망에서 쓰이는 Two-Rate Three-Color Policer다!"</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                Token Bucket 폴리싱의 실무 파라미터(Bc, Be)        │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   라우터 명령어: police cir 10000 bc 1500 be 2000                │
+ │                                                             │
+ │   1. CIR (10M): 평소에 초당 채워주는 기본 토큰의 양 (계약 속도).        │
+ │   2. Bc (기본 양동이): 토큰을 최대 1,500개까지만 저축할 수 있는 바구니.   │
+ │   3. Be (초과 양동이, Excess): Bc 양동이가 꽉 차면, 옆에 있는 비상용     │
+ │                           Be 양동이에 추가로 2,000개를 더 저축함!   │
+ │                                                             │
+ │   ▶ 패킷이 들어올 때:                                           │
+ │     Bc 토큰으로 결제 -> 통과 (정상, 초록색)                       │
+ │     Bc 없고 Be 토큰으로 결제 -> 통과 (근데 노란색 딱지 붙여서 강등함)  │
+ │     Bc, Be 토큰 다 없음 -> 사살! (Drop, 빨간색)                 │
+ │                                                             │
+ │   ▶ "이것이 통신사 망에서 쓰이는 Two-Rate Three-Color Policer다!"  │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: ** 토큰 버킷은 통신사가 고객에게 제공하는 **"이월 가능한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 요금제"**입니다. 이번 달에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 안 쓰면 다음 달로 이월(토큰 저축)되어, 다음 달에 갑자기 유튜브를 미친 듯이 봐도(Burst) 안 끊기고 쾌적하게 볼 수 있게 해주는 합리적인 정산 시스템입니다.
 
@@ -139,19 +136,15 @@ Leaky Bucket / Token Buc…는 [라우팅](/knowledge-base/studynote/03_network/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 트래픽 쉐이핑 / 폴리싱</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: Leaky Bucket / Token Buc…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: WRED 혼잡 제어 꼬리 짜르기 제한</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 트래픽 쉐이핑 / 폴리싱]
+    │
+    ▼
+[현재 개념: Leaky Bucket / Token Buc…]
+    │
+    ├──▶ [확장 A: WRED 혼잡 제어 꼬리 짜르기 제한]
+    └──▶ [확장 B: 의도 기반 라우팅]
+```
 
 Leaky Bucket / Token Buc…는 [트래픽 쉐이핑](/knowledge-base/studynote/03_network/07_network_layer_routing/392_traffic_shaping_and_policing/) / 폴리싱에서 출발해 현재 메커니즘을 정교화하고, 이후 [WRED](/knowledge-base/studynote/03_network/07_network_layer_routing/394_wred_weighted_random_early_detection/) 혼잡 제어 꼬리 짜르기 제한와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

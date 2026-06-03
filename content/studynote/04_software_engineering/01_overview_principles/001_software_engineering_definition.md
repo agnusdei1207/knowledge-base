@@ -1,5 +1,5 @@
 +++
-title = "1. 소프트웨어 공학 (Software Engineering)의 정의 및 목표 (신뢰성, 효율성, 유지보수성)"
+title = "1. 소프트웨어 공학 (Software 엔진ering)의 정의 및 목표 (신뢰성, 효율성, 유지보수성)"
 description = "소프트웨어 공학의 본질적 정의, 핵심 목표(신뢰성, 효율성, 유지보수성) 및 실무적 접근법 분석"
 date = 2024-05-20
 
@@ -18,28 +18,24 @@ tags = ["software_engineering"]
 ---
 
 ### Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
-소프트웨어 공학 (Software Engineering)은 IEEE (Institute of Electrical and Electronics Engineers)에 의해 "소프트웨어의 개발, 운영, 유지보수에 대한 체계적이고 규율되며 정량화된 접근 방법"으로 정의된다. 단순히 코드를 작성하는 프로그래밍을 넘어, 일련의 공학적 원리와 프로세스를 적용하여 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 높고 유지보수 가능한 소프트웨어를 경제적으로 생산하는 것을 목표로 한다. 
+소프트웨어 공학 (Software 엔진ering)은 IEEE (Institute of Electrical and Electronics 엔진ers)에 의해 "소프트웨어의 개발, 운영, 유지보수에 대한 체계적이고 규율되며 정량화된 접근 방법"으로 정의된다. 단순히 코드를 작성하는 프로그래밍을 넘어, 일련의 공학적 원리와 프로세스를 적용하여 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 높고 유지보수 가능한 소프트웨어를 경제적으로 생산하는 것을 목표로 한다. 
 
 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 소프트웨어 산업은 소수 천재 프로그래머들의 개인적 역량에 의존하는 '장인 정신' 기반의 개발 양상을 보였다. 그러나 시스템의 규모와 복잡도가 급증함에 따라, 개발 일정 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 예산 초과, 잦은 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 발생이라는 이른바 '[소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) ([Software Crisis](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/))'에 직면하게 되었다. 이로 인해 개인의 기량에 의존하던 방식에서 벗어나, 건축이나 토목 공학처럼 표준화된 절차와 도구, 정량적 측정 방식을 도입하여 일관된 품질의 소프트웨어를 생산해야 할 필요성이 대두되었다. 
 
 > 💡 **비유**: 마치 동네 목수가 감으로 집을 짓다가 한계에 부딪혀, 전문 설계도, 시방서, 감리 절차를 갖춘 대형 건설사의 '건축 공학'적 시스템을 도입하게 된 것과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">과거 (장인 방식)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">요구</div><div class="kb-diagram-note">──(개인의 감)──&gt;</div><div class="kb-diagram-node">코딩</div><div class="kb-diagram-note">──(에러발생)──&gt;</div><div class="kb-diagram-node">실패</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 비용 예측 불가, 품질 들쭉날쭉</div></div>
-<div class="kb-diagram-note">▼ (소프트웨어 위기 도래)</div>
-<div class="kb-diagram-note">현대 (소프트웨어 공학)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">요구분석</div><div class="kb-diagram-note">──&gt;</div><div class="kb-diagram-node">아키텍처 설계</div><div class="kb-diagram-note">──&gt;</div><div class="kb-diagram-node">구현/테스트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(표준화) (정량화) (자동화/검증)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 체계적 통제, 일관된 품질 확보</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────── 과거 (장인 방식) ─────────────────┐
+│ [요구] ──(개인의 감)──> [코딩] ──(에러발생)──> [실패]│
+│  * 비용 예측 불가, 품질 들쭉날쭉                 │
+└──────────────────────────────────────────────────┘
+                          ▼ (소프트웨어 위기 도래)
+┌─────────────── 현대 (소프트웨어 공학) ───────────────┐
+│ [요구분석] ──> [아키텍처 설계] ──> [구현/테스트]   │
+│   (표준화)        (정량화)         (자동화/검증) │
+│  * 체계적 통제, 일관된 품질 확보                 │
+└──────────────────────────────────────────────────┘
+```
 **[도식 설명]**
 이 도식은 소프트웨어 개발 패러다임이 개인의 비체계적 개발 방식에서 공학적 접근 기반의 체계적 프로세스로 전환되는 과정을 보여준다. 비체계적 접근에서는 복잡도 증가에 따라 실패 확률이 급증하는 구조적 한계(병목)가 명확하다. 따라서 현대 실무에서는 [SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/) (Software Development Life Cycle)와 같은 표준 절차를 필수적으로 도입하여 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 식별하고 관리한다.
 
@@ -82,21 +78,17 @@ tags = ["software_engineering"]
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/">유지보수성</a></strong> | 상태 변화 추적 어려움 (전역 변수 등) | 캡슐화로 인한 변경 영향도 국소화 | 장기적 확장성 |
 | **재사용성** | 함수 단위의 제한적 재사용 | 클래스, 상속을 통한 높은 재사용성 | 개발 생산성 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">시스템 아키텍처 융합 관점</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">소프트웨어 공학</div><div class="kb-diagram-note">(품질 목표: 신뢰성, 유지보수성)</div></div>
-<div class="kb-diagram-note">║</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">══ (융합) ══&gt;</div><div class="kb-diagram-node">클라우드 네이티브 아키텍처</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 마이크로서비스 (MSA)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">인프라스트럭처</div><div class="kb-diagram-note">- 컨테이너 오케스트레이션</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(확장성, 탄력성)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────── 시스템 아키텍처 융합 관점 ───────────┐
+│                                                 │
+│ [소프트웨어 공학] (품질 목표: 신뢰성, 유지보수성) │
+│        ║                                        │
+│        ╠══ (융합) ══> [클라우드 네이티브 아키텍처]│
+│        ║              - 마이크로서비스 (MSA)    │
+│ [인프라스트럭처]       - 컨테이너 오케스트레이션 │
+│ (확장성, 탄력성)                                │
+└─────────────────────────────────────────────────┘
+```
 **[도식 설명]**
 이 도식은 소프트웨어 공학의 원리([유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/))가 현대의 클라우드 인프라와 결합하여 [마이크로서비스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))로 발전하는 융합 지점을 보여준다. 단일 모놀리식 시스템에서는 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)의 한계(수정 시 전체 재배포 등)가 발생하지만, MSA는 공학적 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)화 원리를 인프라 레벨까지 확장 적용하여 장애를 격리하고 배포의 독립성을 확보한다.
 
@@ -117,24 +109,22 @@ tags = ["software_engineering"]
 | **측정 가능성** | 코드 라인 수(LOC), 순환 복잡도 등 정량적 지표가 수집되는가? |
 | **자동화율** | 테스트 및 배포 과정이 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 파이프라인을 통해 자동화되었는가? |
 
+```text
+[실무 의사결정 트리: 공학적 가치 충돌 시 판단 흐름]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">실무 의사결정 트리: 공학적 가치 충돌 시 판단 흐름</div></div>
-<div class="kb-diagram-note">(요구사항 수용)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시간 제약이 매우 타이트한가?</div><div class="kb-diagram-note">──(Yes)──&gt;</div><div class="kb-diagram-node">기술 부채 감수 후 릴리즈</div><div class="kb-diagram-note">(위험 모니터링 필수)</div></div>
-<div class="kb-diagram-note">(No)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">장기적 유지보수 대상인가?</div><div class="kb-diagram-note">──(No)──&gt;</div><div class="kb-diagram-node">단기 효율성(빠른 구현) 중심 개발</div></div>
-<div class="kb-diagram-note">(Yes)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">아키텍처 리팩토링 및 모듈화 원칙 철저 준수 (유지보수성 우선)</div></div>
-</div>
-</div>
-
-
+      (요구사항 수용)
+           │
+           ▼
+[시간 제약이 매우 타이트한가?] ──(Yes)──> [기술 부채 감수 후 릴리즈] (위험 모니터링 필수)
+           │
+         (No)
+           ▼
+[장기적 유지보수 대상인가?] ──(No)──> [단기 효율성(빠른 구현) 중심 개발]
+           │
+         (Yes)
+           ▼
+[아키텍처 리팩토링 및 모듈화 원칙 철저 준수 (유지보수성 우선)]
+```
 **[도식 설명]**
 이 흐름도는 실무에서 일정 압박과 품질([유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)) 사이의 트레이드오프 상황을 판단하는 의사결정 과정을 보여준다. 가장 큰 병목은 "모든 공학적 원칙을 지키며 기한을 맞추는 것"의 어려움이다. 실무에서는 전략적으로 '[기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)([Technical Debt](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/))'를 일시 허용하되, 이를 인지하고 추후 상환([리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/))하는 절차를 두는 것이 공학적 접근의 핵심이다. 
 
@@ -151,7 +141,7 @@ tags = ["software_engineering"]
 | 예측 불가한 납기 | 정량적 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 기반의 일정 산정 | 프로젝트 성공률 향상 |
 | [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)의 늦은 발견 | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 단계 검증으로 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 수정 비용 급감 | 유지보수 비용 절감 ([TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/) 하락) |
 
-소프트웨어 공학은 향후 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) ([대규모 언어 모델](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/582_llm_based_code_generation_tools/)) 등 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기술과 결합하여, 코드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 버그 탐지, [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/) 작성 등 공학적 활동의 상당 부분을 자동화하는 '[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)-Driven Software Engineering'으로 진화할 것이다. 관련 표준으로는 [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) 공정을 다루는 ISO/IEC 12207, 프로세스 성숙도를 평가하는 [CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) 등이 지속적으로 실무의 나침반 역할을 하고 있다.
+소프트웨어 공학은 향후 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) ([대규모 언어 모델](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/582_llm_based_code_generation_tools/)) 등 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기술과 결합하여, 코드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 버그 탐지, [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/441_test_case/) 작성 등 공학적 활동의 상당 부분을 자동화하는 '[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)-Driven Software 엔진ering'으로 진화할 것이다. 관련 표준으로는 [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) 공정을 다루는 ISO/IEC 12207, 프로세스 성숙도를 평가하는 [CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) 등이 지속적으로 실무의 나침반 역할을 하고 있다.
 
 📢 **섹션 요약 비유**: 소프트웨어 공학은 한 번 타고 버리는 종이배를 접는 일이 아니라, 거친 대양을 수십 년간 항해하며 끊임없이 부품을 업그레이드할 수 있는 최첨단 항공모함을 건조하는 기초 과학입니다.
 
@@ -166,21 +156,18 @@ tags = ["software_engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">소프트웨어 위기 (Software Crisis)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SDLC (Software Development Life Cycle)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">모듈화 (Modularity)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">형상 관리 (Configuration Management)</div></div>
-</div>
-</div>
-
-
+```text
+[소프트웨어 위기 (Software Crisis)]
+    │
+    ▼
+[SDLC (Software Development Life Cycle)]
+    │
+    ▼
+[모듈화 (Modularity)]
+    │
+    ▼
+[형상 관리 (Configuration Management)]
+```
 
 이 흐름도는 선행 개념이 현재 개념으로 응축되고, 다시 확장 개념으로 이어지는 순서를 보여준다.
 

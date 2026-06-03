@@ -24,24 +24,21 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경**: 과거에는 프로세스가 커지면 무조건 메모리를 더 주는 멍청한 할당법을 썼다. 하지만 코드 안에서도 "초기화 구간", "메인 루프 구간", "종료 구간"마다 필요한 메모리 양([참조의 지역성](/knowledge-base/studynote/02_operating_system/04_synchronization/253_locality_of_reference/))이 널뛰듯 변한다는 사실이 밝혀지면서, 이 동적인 메모리 수요를 실시간으로 추적하는 워킹 셋 이론이 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 학계의 마스터피스로 등극했다.
 
+```text
+  [참조의 지역성(Locality)에 따른 워킹 셋(Working Set)의 동적 변화]
 
+  [시간 t1: 초기화 루프 구역] 
+  참조된 페이지: {1, 2, 2, 1, 2, 3, 2, 1}
+  ▶ 워킹 셋 W(t1) = {1, 2, 3}  (크기 3)
+  ▶ OS 조치: "현재 이 놈은 프레임 3개만 주면 절대 폴트 안 남!"
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">참조의 지역성(Locality)에 따른 워킹 셋(Working Set)의 동적 변화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시간 t1: 초기화 루프 구역</div></div>
-<div class="kb-diagram-note">참조된 페이지: {1, 2, 2, 1, 2, 3, 2, 1}</div>
-<div class="kb-diagram-note">▶ 워킹 셋 W(t1) = {1, 2, 3} (크기 3)</div>
-<div class="kb-diagram-note">▶ OS 조치: "현재 이 놈은 프레임 3개만 주면 절대 폴트 안 남!"</div>
-<div class="kb-diagram-note">(시간이 흘러 다른 함수로 넘어감)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시간 t2: 무거운 DB 조회 구역</div></div>
-<div class="kb-diagram-note">참조된 페이지: {7, 8, 9, 7, 10, 8, 11, 7}</div>
-<div class="kb-diagram-note">▶ 워킹 셋 W(t2) = {7, 8, 9, 10, 11} (크기 5)</div>
-<div class="kb-diagram-note">▶ OS 조치: "어? 갑자기 방이 더 필요하네? 프레임 5개로 늘려줘!"</div>
-</div>
-</div>
+  (시간이 흘러 다른 함수로 넘어감)
 
-
+  [시간 t2: 무거운 DB 조회 구역]
+  참조된 페이지: {7, 8, 9, 7, 10, 8, 11, 7}
+  ▶ 워킹 셋 W(t2) = {7, 8, 9, 10, 11} (크기 5)
+  ▶ OS 조치: "어? 갑자기 방이 더 필요하네? 프레임 5개로 늘려줘!"
+```
 **[다이어그램 해설]** 워킹 셋은 고정되어 있지 않고, 프로그램이 실행되면서 계속 살아 숨 쉰다. 어떤 순간에는 {1,2,3}만 필요하다가 1초 뒤에는 {7,8,9,[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),[11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/)}로 바뀐다. OS 스케줄러는 이 윈도우 창을 계속 슬라이딩하며 워킹 셋의 크기(WSS)를 추적하고, 프레임 배급량을 늘렸다 줄였다(Dynamic Allocation) 하는 예술적인 튜닝을 수행한다.
 
 - **📢 섹션 요약 비유**: 요리사가 찌개를 끓일 때는 '칼, 도마, 냄비(크기 3)'만 있으면 완벽합니다. 그런데 갑자기 파스타도 만들겠다고 하면 '면 솥, 프라이팬, 집게(크기 3)'가 추가로 필요합니다. 주방장(OS)은 요리사가 지금 무슨 요리를 하는지 실시간으로 관찰해서 싱크대 위 공간(워킹 셋)을 3칸에서 6칸으로 동적으로 조절해 주어야 요리가 끊기지 않습니다.
@@ -112,25 +109,25 @@ PFF는 워킹 셋의 "정확한 내용물(어떤 [페이지](/knowledge-base/stu
    - **원인**: JVM이 처음 뜨면 [JIT](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/) 컴파일러가 바이트코드를 기계어로 번역하고 메모리에 객체를 적재하는 초기화 기간이 필요하다. 이때 OS 입장에서는 이 프로세스의 '워킹 셋'이 아직 텅 비어있거나 형성되는 중이다. 이 타이밍에 초당 1만 건의 트래픽을 때리면 워킹 셋이 급격히 팽창하며 [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Fault가 폭주해 서버가 즉사한다.
    - **아키텍트 결단**: 로드밸런서(LB)에 파드를 연결하기 전, 가짜 트래픽([Dummy](/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/) Request)을 수천 번 쏴서 JVM의 주요 로직과 DB 커넥션 코드들을 **물리적 램 위(Working Set)에 완전히 안착시키는 웜업(Warm-up)** 단계를 강제해야 한다. 워킹 셋이 완성된 후에야 진짜 트래픽을 넣어야 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) 없는 안정적인 서비스가 가능하다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">워킹 셋(WSS) 파괴로 인한 시스템 렉(Lag) 방어 아키텍처 설계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">장애 현상: Alt+Tab으로 최소화해 둔 크롬 창을 다시 켰더니 5초간 화면이 멈춤</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 운영체제의 백그라운드 메모리 정책 원리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 최소화(Background)된 크롬은 한동안 사용되지 않아 윈도우(Δ)를 벗어남.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. OS: "오, 이놈 워킹 셋(WSS) 0이네? 램 다 뺏어서 딴 놈 줘라!"(Swap-out)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 다시 창을 띄움(Foreground). 🚨 "내 워킹 셋 다 어딨어!" (Page Fault 폭탄)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 아키텍트의 해결책 (Prepaging / 메모리 락킹)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">✅ 선페이징 (Prepaging) 도입</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 윈도우 SuperFetch 같은 데몬이, "크롬이 깨어났다! 얘가 예전에</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">쓰던 워킹 셋 덩어리 100MB를 디스크에서 한 방에 통째로 램에</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부어버려라!" 라고 1타 다피로 I/O를 묶어 렉을 0.1초로 단축.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────────────────┐
+  │     워킹 셋(WSS) 파괴로 인한 시스템 렉(Lag) 방어 아키텍처 설계                │
+  ├───────────────────────────────────────────────────────────────────────────────┤
+  │                                                                               │
+  │   [장애 현상: Alt+Tab으로 최소화해 둔 크롬 창을 다시 켰더니 5초간 화면이 멈춤]│
+  │                │                                                              │
+  │                ▼ 운영체제의 백그라운드 메모리 정책 원리                       │
+  │   1. 최소화(Background)된 크롬은 한동안 사용되지 않아 윈도우(Δ)를 벗어남.     │
+  │   2. OS: "오, 이놈 워킹 셋(WSS) 0이네? 램 다 뺏어서 딴 놈 줘라!"(Swap-out)    │
+  │   3. 다시 창을 띄움(Foreground). 🚨 "내 워킹 셋 다 어딨어!" (Page Fault 폭탄) │
+  │                                                                               │
+  │                ▼ 아키텍트의 해결책 (Prepaging / 메모리 락킹)                  │
+  │   [ ✅ 선페이징 (Prepaging) 도입 ]                                            │
+  │     - 윈도우 SuperFetch 같은 데몬이, "크롬이 깨어났다! 얘가 예전에            │
+  │       쓰던 워킹 셋 덩어리 100MB를 디스크에서 한 방에 통째로 램에              │
+  │       부어버려라!" 라고 1타 다피로 I/O를 묶어 렉을 0.1초로 단축.              │
+  └───────────────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 워킹 셋 이론은 "뺏을 때" 보다 "다시 돌려줄 때" 더 빛난다. 잠들었던 프로세스가 깨어날 때 필요한 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 1개씩 1개씩 [요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)([Demand Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/))으로 가져오면 100번의 디스크 암(Arm) 이동 지연이 발생한다. 하지만 "얘의 과거 워킹 셋은 이거이거였어"라고 기억해 두었다가 100개를 한 번의 디스크 암 움직임으로 뭉텅이로 퍼 올리면(선페이징) 속도는 수백 배 빨라진다.
 
 - **📢 섹션 요약 비유**: 서랍 속에 오랫동안 박아둔 레고를 다시 맞출 때, 부품을 하나씩 서랍에 가서 가져오면 하루 종일 걸립니다([요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)). 워킹 셋 이론을 적용하면, "과거에 이 로봇을 만들 때 썼던 부품 박스(Working Set)" 전체를 한 번에 책상 위로 엎어버려서(선페이징) 순식간에 조립을 끝낼 수 있습니다.
@@ -161,19 +158,15 @@ PFF는 워킹 셋의 "정확한 내용물(어떤 [페이지](/knowledge-base/stu
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">큐잉 스핀락 (MCS Lock / qspinlock)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">워킹 셋 (Working Set)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">비관적 병행성 제어 (Pessimistic Concurrency Control)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">원자적 트랜잭션 (Atomic Transaction) 개념</div></div>
-</div>
-</div>
-
-
+```text
+[큐잉 스핀락 (MCS Lock / qspinlock)]
+    │
+    ▼
+[워킹 셋 (Working Set)]
+    │
+    ├──▶ [비관적 병행성 제어 (Pessimistic Concurrency Control)]
+    └──▶ [원자적 트랜잭션 (Atomic Transaction) 개념]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

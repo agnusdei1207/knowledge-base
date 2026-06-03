@@ -18,25 +18,22 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">oneM2M 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AE — Application Entity</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스마트홈 앱, 환경 모니터링 앱</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↕ Mca 인터페이스</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CSE — Common Service Entity</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">등록·디스커버리·데이터관리·구독·보안</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↕ Mcc 인터페이스</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CSE (다른 노드)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↕ Mcn 인터페이스</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NSE — Network Service Entity</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전송 네트워크 (LTE, Wi-Fi, LoRa)</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    oneM2M 아키텍처                                    │
+├───────────────────────────────────────────────────────┤
+│  [AE — Application Entity]                            │
+│   스마트홈 앱, 환경 모니터링 앱                       │
+│      ↕ Mca 인터페이스                                 │
+│  [CSE — Common Service Entity]                        │
+│   등록·디스커버리·데이터관리·구독·보안                │
+│      ↕ Mcc 인터페이스                                 │
+│  [CSE (다른 노드)]                                    │
+│      ↕ Mcn 인터페이스                                 │
+│  [NSE — Network Service Entity]                       │
+│   전송 네트워크 (LTE, Wi-Fi, LoRa)                   │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: oneM2M은 IoT의 <strong>안드로이드</strong>다. 스마트폰(디바이스)마다 OS(플랫폼)를 따로 만들 필요 없이, 공통 OS 위에 앱(AE)만 개발하면 된다.
 
@@ -95,23 +92,21 @@ oneM2M은 <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_m
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">독자 IoT 플랫폼 (사일로, 2010s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">oneM2M Release 1 (2015) — 글로벌 IoT 플랫폼 표준</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Release 2~4 (2017~2022) — 기능 확장</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">oneM2M + Matter + LwM2M (IoT 표준 생태계)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: AI + oneM2M — 지능형 IoT 플랫폼</div></div>
-</div>
-</div>
-
-
+```text
+[독자 IoT 플랫폼 (사일로, 2010s)]
+    │
+    ▼
+[oneM2M Release 1 (2015) — 글로벌 IoT 플랫폼 표준]
+    │
+    ▼
+[Release 2~4 (2017~2022) — 기능 확장]
+    │
+    ▼
+[oneM2M + Matter + LwM2M (IoT 표준 생태계)]
+    │
+    ▼
+[현재: AI + oneM2M — 지능형 IoT 플랫폼]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. oneM2M은 IoT의 <strong>안드로이드(공통 OS)</strong>예요. 앱만 만들면 돼요.

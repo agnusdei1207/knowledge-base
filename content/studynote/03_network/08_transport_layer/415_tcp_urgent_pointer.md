@@ -28,18 +28,14 @@ tags = ["studynote-network"]
   - 관리자(URG [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/))가 사이렌을 울리며 달려와 계산원에게 지시합니다. <strong>"저기 80번째 카트 안에 있는 심장약(긴급 포인터가 가리키는 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>) 당장 먼저 꺼내와!"</strong>
   - 계산원은 앞의 79개 카트를 다 무시하고 80번째 카트의 약만 핀셋으로 집어 응급 처리합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">체크섬</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">긴급 포인터</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TCP 3-Way Handshake</div></div>
-</div>
-</div>
-
-
+```text
+[체크섬]
+    │
+    ▼
+[긴급 포인터]
+    │
+    └──▶ [TCP 3-Way Handshake]
+```
 
 - **📢 섹션 요약 비유**: <strong> URG <a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/">플래그</a>와 Urgent Pointer는 고속도로 꽉 막힌 터널 안에서 앰뷸런스가 사이렌(URG 불빛)을 켜고, 내비게이션 좌표(Pointer)를 통해 </strong>정확히 환자가 쓰러져 있는 터널 속 50m 지점까지 역주행해서 환자만 쏙 빼오는 응급 구조 시스템**입니다.
 
@@ -57,23 +53,25 @@ tags = ["studynote-network"]
 5. 수신자 OS([운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/))는 패킷을 받자마자 URG 불빛을 보고 헉! 놀란다. 
 6. 그리고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 1번째 바이트부터 포인터가 가리키는 **50번째 바이트까지만 칼로 싹 도려내서**, 앱(응용 프로그램)을 당장 깨워 "야! 이거 긴급 명령 떨어졌어! 하던 거 멈추고 이거부터 읽어!"라고 강제로 대령한다. 나머지 51번~1000번 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 다시 원래 큐에 줄을 세워 천천히 처리한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Urgent Pointer 족집게 추출 원리 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">수신된 1개의 거대한 TCP 패킷</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">TCP 헤더:</div><div class="kb-diagram-node">URG 불 켜짐!</div><div class="kb-diagram-node">Urgent Pointer: 50</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 바디 (총 1000바이트 덩어리):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">바이트 0 바이트 50 바이트 1000</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">(응급) Ctrl + C 강제 종료 명령!</div><div class="kb-diagram-node">일반 텍스트 쓰레기 데이터들</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── OS가 이 부분만 핀셋으로 쏙 뽑아서 0순위로 앱에 갖다 바침!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ "1000바이트 전체가 긴급한 게 아니다. 50번째 바이트 전까지만</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">응급 환자라는 것을 족집게처럼 가리켜 주는 포인터(화살표)다!"</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                Urgent Pointer 족집게 추출 원리 시각화             │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 수신된 1개의 거대한 TCP 패킷 ]                              │
+ │                                                             │
+ │   TCP 헤더: [ URG 불 켜짐! ] [ Urgent Pointer: 50 ]            │
+ │                                                             │
+ │   데이터 바디 (총 1000바이트 덩어리):                            │
+ │   바이트 0 ───────────────────────── 바이트 50 ────── 바이트 1000 │
+ │   [ (응급) Ctrl + C 강제 종료 명령! ] [ 일반 텍스트 쓰레기 데이터들 ] │
+ │   ▲                                ▲                       │
+ │   └── OS가 이 부분만 핀셋으로 쏙 뽑아서 0순위로 앱에 갖다 바침! ───┘ │
+ │                                                             │
+ │   ▶ "1000바이트 전체가 긴급한 게 아니다. 50번째 바이트 전까지만      │
+ │      응급 환자라는 것을 족집게처럼 가리켜 주는 포인터(화살표)다!"        │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 2. OOB (Out-of-Band) 통신과의 차이점
 보통 네트워크에서 "일반 트래픽과 섞이지 않게 비상용으로 파놓은 별도의 통신선"을 Out-of-Band(대역 외) 통신이라 한다.
@@ -141,19 +139,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 체크섬</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 긴급 포인터</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: TCP 3-Way Handshake</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 체크섬]
+    │
+    ▼
+[현재 개념: 긴급 포인터]
+    │
+    ├──▶ [확장 A: TCP 3-Way Handshake]
+    └──▶ [확장 B: 적응형 저지연 전송]
+```
 
 긴급 포인터는 [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 3-Way Handshake와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

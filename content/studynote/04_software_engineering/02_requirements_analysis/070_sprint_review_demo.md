@@ -28,19 +28,13 @@ tags = ["software_engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Increment</div>
-<div class="kb-diagram-note">↓ demo</div>
-<div class="kb-diagram-note">Sprint Review</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Feedback / Validation</div>
-</div>
-</div>
-
-
+```text
+Increment
+  ↓ demo
+Sprint Review
+  ↓
+Feedback / Validation
+```
 
 | 요소 | 의미 |
 | :-- | :-- |
@@ -108,41 +102,29 @@ tags = ["software_engineering"]
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Increment</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Sprint Review</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Feedback</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Backlog Update</div>
-</div>
-</div>
-
-
+```text
+Increment
+  ↓
+Sprint Review
+  ↓
+Feedback
+  ↓
+Backlog Update
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Demo</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Sprint Review</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Feedback</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Product Learning</div>
-</div>
-</div>
-
-
+```text
+Demo
+  ↓
+Sprint Review
+  ↓
+Feedback
+  ↓
+Product Learning
+```
 
 ---
 

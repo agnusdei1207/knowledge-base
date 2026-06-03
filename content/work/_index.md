@@ -22,7 +22,7 @@ tags = ["work"]
 
 ### 3. 개발 및 기술 스택 (`Development & Tech`)
 *   기술 아키텍처, 구현체 설명, 사내 표준 기술 스택이 정리되어 있습니다.
-*   👉 <strong><a href="/knowledge-base/work/development/">development</a></strong> (기술 스택: <strong><a href="/knowledge-base/work/tech-stack/">tech-stack</a></strong>)
+*   👉 <strong><a href="/knowledge-base/work/development/">development</a></strong> (기술 스택: <strong><a href="/knowledge-base/work/tech-stack/">tech-stack</a></strong>, 압축 아카이브 기초: <strong><a href="/knowledge-base/work/tarball/">tarball</a></strong>)
 
 ### 4. 운영 및 영업 (`Ops & Sales`)
 *   배포 방식, 협업 규칙, 고객 대화 포인트, FAQ가 정리되어 있습니다.

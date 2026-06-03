@@ -121,18 +121,13 @@ class FenwickTree:
 
 ### 2D BIT
 
+```text
+2D 범위 합 쿼리:
+  update(x, y, delta)  → O(log M × log N)
+  query(x1, y1, x2, y2) → O(log M × log N)
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">2D 범위 합 쿼리:</div>
-<div class="kb-diagram-note">update(x, y, delta) → O(log M × log N)</div>
-<div class="kb-diagram-note">query(x1, y1, x2, y2) → O(log M × log N)</div>
-<div class="kb-diagram-note">응용: 2D 히트맵 누적, 행렬 부분 합</div>
-</div>
-</div>
-
-
+응용: 2D 히트맵 누적, 행렬 부분 합
+```
 
 - **📢 섹션 요약 비유**: 역전 수 계산은 줄 서기 질서 측정이다. 키 순서대로 서야 하는데, 큰 사람이 작은 사람 앞에 있는 쌍의 수가 역전 수다. BIT로 O(N log N)에 계산한다.
 
@@ -164,23 +159,21 @@ BIT 개념은 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accele
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">누적 합 배열 — O(N) 업데이트 / O(1) 쿼리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">펜윅 트리 (BIT) — O(logN) 업데이트 / O(logN) 쿼리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">세그먼트 트리 — 범위 업데이트까지 지원</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2D BIT / 2D 세그먼트 — 다차원 범위 쿼리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">GPU Parallel Prefix Sum — 병렬 BIT 딥러닝 응용</div></div>
-</div>
-</div>
-
-
+```text
+[누적 합 배열 — O(N) 업데이트 / O(1) 쿼리]
+    │
+    ▼
+[펜윅 트리 (BIT) — O(logN) 업데이트 / O(logN) 쿼리]
+    │
+    ▼
+[세그먼트 트리 — 범위 업데이트까지 지원]
+    │
+    ▼
+[2D BIT / 2D 세그먼트 — 다차원 범위 쿼리]
+    │
+    ▼
+[GPU Parallel Prefix Sum — 병렬 BIT 딥러닝 응용]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

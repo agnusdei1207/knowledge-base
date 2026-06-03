@@ -20,20 +20,15 @@ tags = ["studynote-cloud-architecture"]
 
 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 시대의 가장 큰 병목은 "변환 서버"였다. 아무리 빠르게 추출해도 중간 서버 성능이 한계였다. 클라우드 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)([BigQuery](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/)·[Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/)·Redshift)가 MPP(Massively Parallel Processing)로 수백 노드를 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 동원할 수 있게 되자, <strong>"왜 비싼 전용 서버에서 변환하지? <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/">DW</a> 내부에서 하면 훨씬 빠르잖아"</strong>라는 인식이 생겼다.
 
+```
+[ETL 한계]
+소스 → 추출 → [변환 서버 병목] → DW 적재
+                    ↑ 이 병목이 ETL 전체 속도 결정
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">ETL 한계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">변환 서버 병목</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">DW 적재</div></div>
-<div class="kb-diagram-note">↑ 이 병목이 ETL 전체 속도 결정</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ELT 개선</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">DW에 원시 적재</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">DW 내부 MPP 변환</div></div>
-<div class="kb-diagram-note">↑ DW 수평 확장으로 병목 해소</div>
-</div>
-</div>
-
-
+[ELT 개선]
+소스 → 추출 → [DW에 원시 적재] → [DW 내부 MPP 변환]
+                                       ↑ DW 수평 확장으로 병목 해소
+```
 
 ELT가 특히 효과적인 이유:
 - 클라우드 DW는 스토리지-컴퓨팅 분리로 변환 시 컴퓨팅만 확장 가능
@@ -48,45 +43,41 @@ ELT가 특히 효과적인 이유:
 
 ### [ELT](/knowledge-base/studynote/14_data_engineering/01_infrastructure/034_elt/) 파이프라인 아키텍처
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ELT 파이프라인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소스 시스템 Extract ▶ Raw/Staging Schema</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(SaaS API, (Fivetran, (원시 테이블 그대로)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CDC, Airbyte,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">플랫파일) Custom)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↓ dbt Transform</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Marts Schema</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(비즈니스 도메인 모델)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BI 도구 / ML 플랫폼</div></div>
-</div>
-</div>
-
-
+```
+┌────────────────────────────────────────────────────────────┐
+│                     ELT 파이프라인                          │
+│                                                            │
+│  소스 시스템   ─── Extract ───▶  Raw/Staging Schema        │
+│  (SaaS API,        (Fivetran,     (원시 테이블 그대로)       │
+│   CDC,             Airbyte,                                │
+│   플랫파일)         Custom)                                 │
+│                                 ↓ dbt Transform            │
+│                              Marts Schema                  │
+│                              (비즈니스 도메인 모델)           │
+│                                 ↓                         │
+│                              BI 도구 / ML 플랫폼             │
+└────────────────────────────────────────────────────────────┘
+```
 
 ### dbt([data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) build tool) 역할
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">dbt 핵심 기능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">dbt (데이터 변환 프레임워크)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">.sql 파일 ──▶ SELECT * FROM raw_orders</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WHERE created_at &gt; '2024-01-01'</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 자동으로 DW 내 VIEW/TABLE 생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기능:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① SQL 기반 변환 로직 버전 관리 (Git)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② 데이터 테스트 (NOT NULL, UNIQUE, 참조 무결성)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ 의존성 자동 해결 (DAG 생성)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">④ 문서 자동 생성 (컬럼 설명, 계보)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⑤ CI/CD 파이프라인 통합</div></div>
-</div>
-</div>
-
-
+```
+[dbt 핵심 기능]
+┌──────────────────────────────────────────────────┐
+│              dbt (데이터 변환 프레임워크)             │
+│                                                  │
+│  .sql 파일  ──▶  SELECT * FROM raw_orders        │
+│               WHERE created_at > '2024-01-01'   │
+│               → 자동으로 DW 내 VIEW/TABLE 생성   │
+│                                                  │
+│  기능:                                            │
+│  ① SQL 기반 변환 로직 버전 관리 (Git)              │
+│  ② 데이터 테스트 (NOT NULL, UNIQUE, 참조 무결성)  │
+│  ③ 의존성 자동 해결 (DAG 생성)                    │
+│  ④ 문서 자동 생성 (컬럼 설명, 계보)               │
+│  ⑤ CI/CD 파이프라인 통합                          │
+└──────────────────────────────────────────────────┘
+```
 
 ### [Modern Data Stack](/knowledge-base/studynote/16_bigdata/09_platform/178_modern_data_stack/) 구성
 
@@ -123,19 +114,13 @@ ELT가 특히 효과적인 이유:
 
 ELT의 발전으로 등장한 개념으로, DW에서 분석·변환된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 <strong>운영 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/">SaaS</a> 도구(<a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/">CRM</a>·이메일·광고 플랫폼)로 역방향 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a></strong>한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Reverse ETL 흐름</div></div>
-<div class="kb-diagram-note">DW (Gold 테이블) ──▶ Census/Hightouch ──▶ Salesforce CRM</div>
-<div class="kb-diagram-tree-item" style="--depth:8">▶ Marketo (이메일)</div>
-<div class="kb-diagram-tree-item" style="--depth:8">▶ Google Ads</div>
-<div class="kb-diagram-note">"분석 결과를 곧바로 마케팅 실행에 활용"</div>
-</div>
-</div>
-
-
+```
+[Reverse ETL 흐름]
+DW (Gold 테이블) ──▶ Census/Hightouch ──▶ Salesforce CRM
+                                       ──▶ Marketo (이메일)
+                                       ──▶ Google Ads
+"분석 결과를 곧바로 마케팅 실행에 활용"
+```
 
 📢 **섹션 요약 비유**: Reverse ETL은 주방에서 완성된 요리(분석 결과)를 배달 앱([CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/)·광고 플랫폼)으로 바로 전송하는 것이다. 창고([DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/))에만 보관하지 않고, 요리를 손님(비즈니스 팀)에게 실시간으로 서빙한다.
 
@@ -189,24 +174,22 @@ models:
 
 ### 실무 도입 단계
 
+```
+1단계: Extract & Load 자동화
+       Fivetran으로 SaaS 소스 → Snowflake Raw 스키마 자동 적재
 
+2단계: dbt 변환 계층 구성
+       Staging → Intermediate → Marts 3단계 모델 구조
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">1단계: Extract &amp; Load 자동화</div>
-<div class="kb-diagram-note">Fivetran으로 SaaS 소스 → Snowflake Raw 스키마 자동 적재</div>
-<div class="kb-diagram-note">2단계: dbt 변환 계층 구성</div>
-<div class="kb-diagram-note">Staging → Intermediate → Marts 3단계 모델 구조</div>
-<div class="kb-diagram-note">3단계: 테스트 및 문서화</div>
-<div class="kb-diagram-note">dbt test + dbt docs generate → 데이터 품질 자동 검증</div>
-<div class="kb-diagram-note">4단계: 오케스트레이션</div>
-<div class="kb-diagram-note">Airflow DAG 또는 dbt Cloud 스케줄러로 일일 배치</div>
-<div class="kb-diagram-note">5단계: Reverse ETL (선택)</div>
-<div class="kb-diagram-note">Census로 Snowflake Gold → Salesforce 고객 세그먼트 동기화</div>
-</div>
-</div>
+3단계: 테스트 및 문서화
+       dbt test + dbt docs generate → 데이터 품질 자동 검증
 
+4단계: 오케스트레이션
+       Airflow DAG 또는 dbt Cloud 스케줄러로 일일 배치
 
+5단계: Reverse ETL (선택)
+       Census로 Snowflake Gold → Salesforce 고객 세그먼트 동기화
+```
 
 📢 **섹션 요약 비유**: Modern [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Stack은 레고 블록 세트다. Fivetran(Extract+Load), [Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/)(Storage), dbt(Transform), Airflow([Orchestration](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)), [Tableau](/knowledge-base/studynote/16_bigdata/08_visualization/164_tableau/)(BI)라는 각각의 블록을 조립하여 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 파이프라인을 완성한다.
 
@@ -253,21 +236,17 @@ models:
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">ETL: 외부 서버에서 변환 (병목)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ELT: DW/Lake 내부에서 변환 (BigQuery · Snowflake MPP)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">dbt: SQL 기반 변환 오케스트레이션</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Materialized View · CTAS</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Reverse ETL: DW → SaaS 도구로 데이터 역전달</div>
-</div>
-</div>
-
-
+```text
+ETL: 외부 서버에서 변환 (병목)
+    │
+    ▼
+ELT: DW/Lake 내부에서 변환 (BigQuery · Snowflake MPP)
+    ├─► dbt: SQL 기반 변환 오케스트레이션
+    └─► Materialized View · CTAS
+    │
+    ▼
+Reverse ETL: DW → SaaS 도구로 데이터 역전달
+```
 2. dbt는 "이 장난감들을 이렇게 분류해라"라는 정리 규칙서(SQL [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))다. 규칙서를 고치면 다음번에 자동으로 새로운 방식으로 정리된다.
 3. 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보존하는 것은 장난감 설명서를 버리지 않는 것과 같다. 나중에 다른 방법으로 조립(재분석)하고 싶을 때 다시 꺼내볼 수 있다.
 

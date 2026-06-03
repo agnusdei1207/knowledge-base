@@ -21,18 +21,14 @@ tags = ["studynote-network"]
 
 앞선 589번 문서에서 배운 V2X는 자율주행의 '오감(Five Senses)' 중 청각과 텔레파시에 해당합니다. 특히 가장 중요한 두 개의 축이 바로 V2V와 V2I입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">TSN</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">자율주행 차량 통신</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OCF IoT 통합 관리 계층 표준</div></div>
-</div>
-</div>
-
-
+```text
+[TSN]
+    │
+    ▼
+[자율주행 차량 통신]
+    │
+    └──▶ [OCF IoT 통합 관리 계층 표준]
+```
 
 - **📢 섹션 요약 비유**: 자율주행 차량 통신은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -47,18 +43,14 @@ tags = ["studynote-network"]
   2. **사각지대 경고 (BSW)**: 골목길 교차로에서 좌우 건물이 시야를 가려도, 전파는 벽을 타고(회절/반사) 넘어와 다가오는 차가 있음을 미리 알려줍니다.
   3. <strong>군집 주행 (<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/144_platooning_autonomous_truck_convoy/">Platooning</a>)</strong>: 5대의 대형 트럭이 1미터 간격으로 바짝 붙어 달립니다. 맨 앞차가 브레이크를 밟는 순간, 뒤따르는 4대의 차가 무선 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 받아 0.01초 만에 동시에 브레이크를 밟아 기차처럼 달릴 수 있습니다(공기저항 감소 및 연비 극대화).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">TSN</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">자율주행 차량 통신</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OCF IoT 통합 관리 계층 표준</div></div>
-</div>
-</div>
-
-
+```text
+[TSN]
+    │
+    ▼
+[자율주행 차량 통신]
+    │
+    └──▶ [OCF IoT 통합 관리 계층 표준]
+```
 
 - **📢 섹션 요약 비유**: 자율주행 차량 통신의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -118,19 +110,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: TSN</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 자율주행 차량 통신</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: OCF IoT 통합 관리 계층 표준</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율형 엣지 협업</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: TSN]
+    │
+    ▼
+[현재 개념: 자율주행 차량 통신]
+    │
+    ├──▶ [확장 A: OCF IoT 통합 관리 계층 표준]
+    └──▶ [확장 B: 자율형 엣지 협업]
+```
 
 자율주행 차량 통신는 TSN에서 출발해 현재 메커니즘을 정교화하고, 이후 [OCF](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/123_ocf_open_connectivity_foundation/) [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 통합 관리 계층 표준와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

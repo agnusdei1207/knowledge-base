@@ -1,5 +1,5 @@
 +++
-title = "109. 플랫폼 엔지니어링 (Platform Engineering) - 개발자 인지 부하 해소와 IDP 셀프서비스"
+title = "109. 플랫폼 엔지니어링 (Platform 엔진ering) - 개발자 인지 부하 해소와 IDP 셀프서비스"
 date = 2026-04-19
 
 [taxonomies]
@@ -10,7 +10,7 @@ tags = ["studynote-software-engineering"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 플랫폼 엔지니어링(Platform Engineering)은 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 실천 과정에서 폭증한 개발자 [인지 부하](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/)([Cognitive Load](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/))를 해소하기 위해, 인프라·[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD·보안 도구를 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)한 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/110_idp_internal_developer_platform_backstage/">내부 개발자 플랫폼</a>(<a href="/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/">IDP</a>)</strong>을 구축·운영하는 규율이다.
+> 1. **본질**: 플랫폼 엔지니어링(Platform 엔진ering)은 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 실천 과정에서 폭증한 개발자 [인지 부하](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/)([Cognitive Load](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/))를 해소하기 위해, 인프라·[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD·보안 도구를 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)한 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/110_idp_internal_developer_platform_backstage/">내부 개발자 플랫폼</a>(<a href="/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/">IDP</a>)</strong>을 구축·운영하는 규율이다.
 > 2. **가치**: 앱 개발자가 [Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/)·K8s·[IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/) 지식 없이도 <strong>셀프서비스 포털 클릭 한 번으로 보안 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>된 환경을 <a href="/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/">프로비저닝</a></strong>하여 Time-to-Market을 단축하고 Shadow IT를 원천 차단한다.
 > 3. **판단 포인트**: 플랫폼 팀은 제품(Product)처럼 IDP를 운영해야 하며, Golden Path와 Escape Hatch의 균형 설계가 성공의 핵심이다.
 
@@ -20,24 +20,23 @@ tags = ["studynote-software-engineering"]
 
 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 철학("You build it, You run it")으로 배포 속도는 향상되었으나, 앱 개발자가 K8s 매니페스트·[IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/)·[보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/)까지 직접 작성해야 하는 <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/">인지 부하</a>(<a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/">Cognitive Load</a>) 폭발</strong>이 심화되었다. Team Topologies의 Extraneous(업무 외 잡음) 부하가 번아웃과 줄퇴사의 직접 원인으로 지목된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DevOps 시대의 인지 부하 문제와 플랫폼 엔지니어링 해법</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Before: DevOps 1.0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App Code + K8s + Terraform + CI/CD + IAM + Monitoring</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ Cognitive Load ▲▲▲ → Burnout</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">After: Platform Engineering</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App Developer</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Platform Team</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"DB 하나 주세요"</div><div class="kb-diagram-cell">IDP 포털 운영</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Golden Path 템플릿</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">셀프서비스 클릭</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ Cognitive Load ▼▼ → 비즈니스 집중</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────┐
+│    DevOps 시대의 인지 부하 문제와 플랫폼 엔지니어링 해법       │
+├───────────────────────────────────────────────────────────────┤
+│  [ Before: DevOps 1.0 ]                                       │
+│   App Code + K8s + Terraform + CI/CD + IAM + Monitoring       │
+│        → Cognitive Load ▲▲▲  → Burnout                      │
+│                                                               │
+│  [ After: Platform Engineering ]                              │
+│   ┌──────────────┐      ┌─────────────────────┐              │
+│   │ App Developer │ ──▶  │  Platform Team      │              │
+│   │ "DB 하나 주세요"│      │  IDP 포털 운영      │              │
+│   └──────────────┘      │  Golden Path 템플릿  │              │
+│     셀프서비스 클릭       └─────────────────────┘              │
+│     → Cognitive Load ▼▼  → 비즈니스 집중                     │
+└───────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에는 셰프에게 밀 베기부터 설거지까지 시켰다. 플랫폼 엔지니어링은 반죽 기계([IDP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/))를 설치해 셰프가 토핑(비즈니스 코드)만 올리게 한다.
 
@@ -109,23 +108,21 @@ Gartner는 2026년까지 대형 SW 조직 80%가 플랫폼 팀을 운영할 것�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DevOps 문화 확산 (2010s) — "You Build It, You Run It"</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">인지 부하 폭발 — 개발자가 인프라·보안·모니터링 전부 담당</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Team Topologies (2019) — 플랫폼 팀 개념 정립</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IDP 1세대 (2020~) — Backstage 오픈소스화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: Platform-as-a-Product — Golden Path + FinOps + AI 통합</div></div>
-</div>
-</div>
-
-
+```text
+[DevOps 문화 확산 (2010s) — "You Build It, You Run It"]
+    │
+    ▼
+[인지 부하 폭발 — 개발자가 인프라·보안·모니터링 전부 담당]
+    │
+    ▼
+[Team Topologies (2019) — 플랫폼 팀 개념 정립]
+    │
+    ▼
+[IDP 1세대 (2020~) — Backstage 오픈소스화]
+    │
+    ▼
+[현재: Platform-as-a-Product — Golden Path + FinOps + AI 통합]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 옛날에는 피자를 만들려면 밀 베기부터 오븐 만들기까지 전부 해야 해서 피자 장인(개발자)이 너무 힘들었어요.

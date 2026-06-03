@@ -29,23 +29,17 @@ Docker에서 사용자가 명령을 입력하면 그 뒤에서 실제로 처리�
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">CLI / API</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">dockerd</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">containerd</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">runc</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Linux Kernel</div>
-</div>
-</div>
-
-
+```text
+CLI / API
+  ↓
+dockerd
+  ↓
+containerd
+  ↓
+runc
+  ↓
+Linux Kernel
+```
 
 | 구성 요소 | 역할 |
 | :-- | :-- |
@@ -115,41 +109,29 @@ dockerd를 이해하면 [Docker](/knowledge-base/studynote/02_operating_system/0
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Docker CLI</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">dockerd</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">containerd / runc</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Container Lifecycle</div>
-</div>
-</div>
-
-
+```text
+Docker CLI
+  ↓
+dockerd
+  ↓
+containerd / runc
+  ↓
+Container Lifecycle
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Docker Platform</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">dockerd</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">containerd</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Runtime Control</div>
-</div>
-</div>
-
-
+```text
+Docker Platform
+  ↓
+dockerd
+  ↓
+containerd
+  ↓
+Runtime Control
+```
 
 ---
 

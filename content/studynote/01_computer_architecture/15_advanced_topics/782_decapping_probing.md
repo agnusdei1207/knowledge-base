@@ -43,22 +43,25 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 디캡핑 이후 프로빙이 어떻게 연결되는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Decap first, then probe the exposed electrical path</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Packaged chip</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mold compound / lid</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Decap window opened</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Exposed die + bond wires + top metal</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Probe station</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Microprobe ▶ Target pad / bus / sense node</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Oscilloscope / logic analyzer / fault injector</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│               Decap first, then probe the exposed electrical path         │
+├────────────────────────────────────────────────────────────────────────────┤
+│ [Packaged chip]                                                           │
+│   Mold compound / lid                                                     │
+│        │                                                                  │
+│        ▼                                                                  │
+│ [Decap window opened]                                                     │
+│   Exposed die + bond wires + top metal                                    │
+│        │                                                                  │
+│        ▼                                                                  │
+│ [Probe station]                                                           │
+│   Microprobe ─────▶ Target pad / bus / sense node                         │
+│        │                                                                  │
+│        ▼                                                                  │
+│ Oscilloscope / logic analyzer / fault injector                            │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 프로빙에서 중요한 것은 "보이는 곳"과 "의미 있는 곳"이 다를 수 있다는 점이다. 외부 핀은 이미 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)되었더라도, 내부 테스트 패드나 상단 금속선, 메모리와 보안 엔진 사이의 제어선은 훨씬 가치가 클 수 있다. 또한 고속 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)는 탐침 자체의 기생 성분 때문에 파형이 왜곡될 수 있으므로, 공격자는 접촉 지점과 측정 장비를 매우 정교하게 맞춘다. 결국 디캡핑/프로빙은 화학·기계·전기 측정이 결합된 복합 실험이다.
 
@@ -124,7 +127,7 @@ tags = ["studynote-computer-architecture"]
 
 | 개념 | 연결 포인트 |
 | :-- | :-- |
-| [물리적 분해 분석](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/780_reverse_engineering/) ([Reverse Engineering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/780_reverse_engineering/)) | 디캡핑 후 레이어와 회로 구조를 복원하는 더 넓은 분석 흐름이다. |
+| [물리적 분해 분석](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/780_reverse_engineering/) ([Reverse 엔진ering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/780_reverse_engineering/)) | 디캡핑 후 레이어와 회로 구조를 복원하는 더 넓은 분석 흐름이다. |
 | [FIB](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/) ([Focused Ion Beam](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/781_fib_circuit_edit/)) 수정 | 프로빙으로 찾은 취약 지점을 실제로 편집하는 후속 공격이다. |
 | [안티 탬퍼](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/783_anti_tamper_mesh/) ([Anti-Tamper](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/783_anti_tamper_mesh/)) [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)/쉴드 | 프로브가 민감 노드에 닿기 전에 탐지·차단하려는 대표 방어층이다. |
 | [제로화](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/784_zeroization_circuit/) ([Zeroization](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/784_zeroization_circuit/)) 회로 | 디캡핑이나 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) 손상이 감지되면 비밀을 즉시 무효화하는 최종 방어 수단이다. |
@@ -132,25 +135,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">패키지 불투명성 의존</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">디캡핑 (Decapping)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">다이 노출 · 패시베이션 개구</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">프로빙 (Probing) · 내부 노드 측정</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ FIB (Focused Ion Beam) 수정</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ 역공학 (Reverse Engineering)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">능동 메시 · 광/화학 센서 · zeroization 대응</div>
-</div>
-</div>
-
-
+```text
+패키지 불투명성 의존
+        │
+        ▼
+디캡핑 (Decapping)
+        │
+        ▼
+다이 노출 · 패시베이션 개구
+        │
+        ▼
+프로빙 (Probing) · 내부 노드 측정
+        │
+        ├──▶ FIB (Focused Ion Beam) 수정
+        │
+        └──▶ 역공학 (Reverse Engineering)
+        │
+        ▼
+능동 메시 · 광/화학 센서 · zeroization 대응
+```
 
 이 흐름은 패키지 제거가 단순 노출로 끝나지 않고, 관찰·편집·복원 공격으로 확장된 뒤 복합 방어를 요구하게 된 과정을 보여 준다.
 

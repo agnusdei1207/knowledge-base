@@ -42,22 +42,25 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 현대적 스왑 아웃과 스왑 인 흐름을 단순화한 것이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Swap-out / Swap-in flow</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">RAM pressure high</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ select cold anonymous pages</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">swap writer</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">swap area on SSD</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ PTE.present = 0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ PTE.swap_slot = #1234</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">later access to same virtual page</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">page fault read slot #1234 ▶ frame restore ▶ execution</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│ Swap-out / Swap-in flow                                                   │
+├────────────────────────────────────────────────────────────────────────────┤
+│ [RAM pressure high]                                                       │
+│        │                                                                   │
+│        ├─ select cold anonymous pages                                      │
+│        ▼                                                                   │
+│ [swap writer] ───── dirty data ─────▶ [swap area on SSD]                  │
+│        │                                                                   │
+│        ├─ PTE.present = 0                                                  │
+│        └─ PTE.swap_slot = #1234                                            │
+│                                                                            │
+│ later access to same virtual page                                          │
+│        │                                                                   │
+│        ▼                                                                   │
+│ page fault ───── read slot #1234 ─────▶ frame restore ─────▶ execution     │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 여기서 중요한 점은 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 똑같이 스왑되는 것이 아니라는 사실이다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 이미 저장된 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 굳이 스왑에 쓰지 않고 버렸다가 다시 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에서 읽는 편이 낫다. 그래서 현대 운영체제는 보통 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 백드 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)보다 [익명 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/391_anonymous_memory/) 쪽을 스왑 후보로 본다. 또한 [전체 프로세스](/knowledge-base/studynote/02_operating_system/06_memory_management/337_standard_vs_paging_swapping/) [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)처럼 거대한 이미지를 통째로 옮기면 I/O가 너무 크기 때문에, 실제 시스템은 가능한 한 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 단위로 잘게 회수한다.
 
@@ -133,23 +136,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">오버레이 · 수동 적재</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">전체 프로세스 스와핑</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">요구 페이징 · 페이지 교체</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">페이지 단위 스왑 · 메모리 압축</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">계층형 메모리 · CXL 기반 확장 메모리</div>
-</div>
-</div>
-
-
+```text
+오버레이 · 수동 적재
+        │
+        ▼
+전체 프로세스 스와핑
+        │
+        ▼
+요구 페이징 · 페이지 교체
+        │
+        ▼
+페이지 단위 스왑 · 메모리 압축
+        │
+        ▼
+계층형 메모리 · CXL 기반 확장 메모리
+```
 
 이 흐름은 "프로그램 전체를 통째로 옮기던 시기"에서 출발해, 점차 더 작은 단위와 더 정교한 계층 제어로 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)이 발전해 왔음을 보여 준다.
 

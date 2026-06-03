@@ -25,22 +25,21 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 왜 "주소를 메모리가 아니라 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 올려두는가"를 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Why register-indirect exists</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">direct : instruction -&gt; memory(data)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">fast enough, but address bits are expensive</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">memory indirect: instruction -&gt; memory(pointer) -&gt; memory(data)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">flexible, but one more memory trip</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">register indirect</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">: instruction -&gt; register(pointer) -&gt; memory(data)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">short encoding + only one operand memory access</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Why register-indirect exists                                      │
+├────────────────────────────────────────────────────────────────────┤
+│ direct         : instruction -> memory(data)                      │
+│                  fast enough, but address bits are expensive      │
+│                                                                    │
+│ memory indirect: instruction -> memory(pointer) -> memory(data)   │
+│                  flexible, but one more memory trip               │
+│                                                                    │
+│ register indirect                                                  │
+│                : instruction -> register(pointer) -> memory(data) │
+│                  short encoding + only one operand memory access  │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 핵심은 <strong>주소를 따라가는 유연성은 유지하되, 그 중간 매개체를 느린 메모리 대신 빠른 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/">레지스터</a>로 옮긴다</strong>는 데 있다. 그래서 포인터, [스택 포인터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/), 버퍼 시작 주소처럼 실행 중 달라지는 위치를 다룰 때 매우 유리하다.
 
@@ -62,21 +61,26 @@ tags = ["studynote-computer-architecture"]
 
 아래 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로는 전형적인 동작 순서를 요약한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Register-indirect data path</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">IR : LOAD R0,</div><div class="kb-diagram-node">R2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ register field = R2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Register file : R2 = 0x1000</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Address bus -----------------------------&gt; Cache / Memory</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">M</div><div class="kb-diagram-node">0x1000</div><div class="kb-diagram-note">= 42</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">R0 &lt;- 42</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Register-indirect data path                                       │
+├────────────────────────────────────────────────────────────────────┤
+│ IR : LOAD R0, [R2]                                                 │
+│          │                                                         │
+│          ├─ register field = R2                                    │
+│          ▼                                                         │
+│ Register file : R2 = 0x1000                                        │
+│          │                                                         │
+│          ▼                                                         │
+│ Address bus  -----------------------------> Cache / Memory         │
+│                                              │                     │
+│                                              ▼                     │
+│                                        M[0x1000] = 42             │
+│                                              │                     │
+│                                              ▼                     │
+│                                           R0 <- 42                │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조의 장점은 <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> 절약</strong>과 <strong>실행 시 유연성</strong>이 동시에 성립한다는 점이다. 예를 들어 32비트 고정 길이 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)에서 64비트 주소를 직접 넣는 것은 불가능하지만, [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 번호는 몇 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)만으로도 표현 가능하다. 반면 실제 주소는 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 폭만큼 유지할 수 있으므로, 작은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 형식으로도 큰 주소 공간을 다룰 수 있다.
 
@@ -115,21 +119,18 @@ tags = ["studynote-computer-architecture"]
 
 아래 흐름은 설계 시 어떤 접근 방식을 우선 고려할지 가르는 기준이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Choosing register-indirect access</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">does the target address change at run time?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no -&gt; prefer direct / immediate / fixed offset access</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ can the pointer stay in a GPR? -&gt; register indirect</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ repeated field access from one base? -&gt; base + offset</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ long pointer chain? -&gt; flatten / cache-optimize layout</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Choosing register-indirect access                                 │
+├────────────────────────────────────────────────────────────────────┤
+│ does the target address change at run time?                       │
+│   ├─ no  -> prefer direct / immediate / fixed offset access       │
+│   └─ yes                                                          │
+│        ├─ can the pointer stay in a GPR? -> register indirect     │
+│        ├─ repeated field access from one base? -> base + offset   │
+│        └─ long pointer chain? -> flatten / cache-optimize layout  │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 ### 실무 판단 기준
 
@@ -174,24 +175,22 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">short instruction format</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">direct addressing range limit</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">indirect addressing for flexibility</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">register indirect addressing</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ pointer-based traversal</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ load-store memory access</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ displacement / auto-index extension</div>
-</div>
-</div>
-
-
+```text
+short instruction format
+        │
+        ▼
+direct addressing range limit
+        │
+        ▼
+indirect addressing for flexibility
+        │
+        ▼
+register indirect addressing
+        │
+        ├──────────────▶ pointer-based traversal
+        ├──────────────▶ load-store memory access
+        └──────────────▶ displacement / auto-index extension
+```
 
 이 흐름도는 "짧은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)"와 "넓은 주소 공간"의 충돌을 해결하는 과정에서 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [간접 주소 지정](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/)이 핵심 징검다리로 자리 잡았음을 보여 준다.
 

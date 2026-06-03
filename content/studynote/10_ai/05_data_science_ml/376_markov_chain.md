@@ -50,18 +50,15 @@ n-단계 전이: P^n의 (i,j) 원소 = n번 후 sᵢ → sⱼ [확률](/knowledg
 
 π가 정상 분포 ⟺ **πP = π** 이고 Σπᵢ = 1
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">초기 분포 π₀ ──► π₀P ──► π₀P² ──► ... ──► π</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">에르고딕 조건: 기약(Irreducible) +</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비주기(Aperiodic) + 양재귀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 정상 분포 π 유일 &amp; 수렴 보장</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────┐
+│  초기 분포 π₀ ──► π₀P ──► π₀P² ──► ... ──► π   │
+│                                                  │
+│  에르고딕 조건: 기약(Irreducible) +               │
+│               비주기(Aperiodic) + 양재귀          │
+│               → 정상 분포 π 유일 & 수렴 보장      │
+└─────────────────────────────────────────────────┘
+```
 
 ### 세부 균형 (Detailed Balance)
 

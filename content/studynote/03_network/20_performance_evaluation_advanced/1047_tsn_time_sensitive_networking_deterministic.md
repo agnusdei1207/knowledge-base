@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **Best Effort (최선 노력)**: 인터넷([이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/), [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP)은 우체국과 같습니다. "최선을 다해 빨리 보내줄게. 근데 차 막혀서 늦으면 나도 어쩔 수 없음 ㅋ"
 - 이런 <strong>비확정성(Non-Deterministic, <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">지연 시간</a> 보장 불가)</strong> 때문에 자동차 부품 공장([OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/), [스마트 팩토리](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/))이나 자율주행차 내부 통신망은 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)을 버리고, 비싸고 폐쇄적인 전용 통신망(CAN, EtherCAT 등 필드버스)을 억지로 써야만 했습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">P4 네트워크 프로그래밍 모델 플로우</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">타임 센시티브 네트워킹</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IEEE 1588 PTP 시각 동기망</div></div>
-</div>
-</div>
-
-
+```text
+[P4 네트워크 프로그래밍 모델 플로우]
+    │
+    ▼
+[타임 센시티브 네트워킹]
+    │
+    └──▶ [IEEE 1588 PTP 시각 동기망]
+```
 
 - **📢 섹션 요약 비유**: 타임 센시티브 네트워킹은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -44,18 +40,14 @@ tags = ["studynote-network"]
 - **개념**: 기존의 흔하고 싼 '표준 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)(IEEE 802.3)' 뼈대 위에, <strong>극단적인 저지연(Ultra-Low <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>)과 도착 시간의 100% 확정성(Determinism)</strong>을 보장하기 위한 수많은 튜닝 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 규칙들(IEEE 802.1Q 하위 표준들의 집합)을 덧씌운 차세대 산업용 네트워크 표준입니다.
 - **목표**: 넷플릭스 영상 패킷(잡동사니)과 로봇 팔 정지 명령 패킷(생명줄)이 1개의 랜선을 같이 타고 흘러가도, 로봇 명령 패킷이 무조건 0.001초 안에 칼같이 도착하게 보장하는 IT/[OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/) 융합망의 심장입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">P4 네트워크 프로그래밍 모델 플로우</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">타임 센시티브 네트워킹</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IEEE 1588 PTP 시각 동기망</div></div>
-</div>
-</div>
-
-
+```text
+[P4 네트워크 프로그래밍 모델 플로우]
+    │
+    ▼
+[타임 센시티브 네트워킹]
+    │
+    └──▶ [IEEE 1588 PTP 시각 동기망]
+```
 
 - **📢 섹션 요약 비유**: 타임 센시티브 네트워킹의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -125,19 +117,15 @@ TSN의 가장 위대한 핵심 기술입니다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: P4 네트워크 프로그래밍 모델 플로우</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 타임 센시티브 네트워킹</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: IEEE 1588 PTP 시각 동기망</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: P4 네트워크 프로그래밍 모델 플로우]
+    │
+    ▼
+[현재 개념: 타임 센시티브 네트워킹]
+    │
+    ├──▶ [확장 A: IEEE 1588 PTP 시각 동기망]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 타임 센시티브 네트워킹는 [P4](/knowledge-base/studynote/03_network/17_sdn_nfv/874_p4_programming_data_plane_pipeline_int_telemetry/) 네트워크 프로그래밍 모델 플로우에서 출발해 현재 메커니즘을 정교화하고, 이후 IEEE 1588 PTP 시각 동기망와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

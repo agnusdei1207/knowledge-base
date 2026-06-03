@@ -28,30 +28,31 @@ LDA의 최적화 메커니즘은 두 가지 [분산](/knowledge-base/studynote/0
 2. **$S_W$ (Within-class Scatter Matrix)**: 동일 클래스 내에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들이 뭉쳐있는 정도. (이 값은 작을수록 좋다)
 3. **목적 함수**: $J(W) = \frac{W^T S_B W}{W^T S_W W}$ 를 최대화하는 투영 행렬 $W$를 구합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LDA (Linear Discriminant Analysis) Mechanism</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Bad Projection (Like PCA)</div><div class="kb-diagram-node">Good Projection (LDA)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Class A Class B Class A Class B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ooo xxx ooo xxx</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ooo xxx ooo xxx</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ooo xxx ooo xxx</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mixed Projection Axis Discriminant Axis (LDA)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Hard to separate A &amp; B) (A &amp; B are clearly separated)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Mathematical Pipeline</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Compute d-dimensional mean vectors for different classes.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Compute Within-class Scatter Matrix (S_W).</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Compute Between-class Scatter Matrix (S_B).</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. Compute Eigenvectors &amp; Eigenvalues for (S_W^-1 * S_B).</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. Sort Eigenvectors by decreasing Eigenvalues.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6. Choose Top-K Eigenvectors to form transformation matrix W.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">7. Project samples onto the new subspace: Y = X * W</div></div>
-</div>
-</div>
-
-
+```text
++---------------------------------------------------------------+
+|         LDA (Linear Discriminant Analysis) Mechanism          |
++---------------------------------------------------------------+
+|  [Bad Projection (Like PCA)]    [Good Projection (LDA)]       |
+|                                                               |
+|        Class A      Class B        Class A          Class B   |
+|         ooo          xxx             ooo              xxx     |
+|          ooo        xxx               ooo            xxx      |
+|           ooo      xxx                 ooo          xxx       |
+|                                                               |
+|  --+---------+---------+-->    --+----------+----------+-->   |
+|   Mixed Projection Axis        Discriminant Axis (LDA)        |
+|  (Hard to separate A & B)      (A & B are clearly separated)  |
+|                                                               |
+| [Mathematical Pipeline]                                       |
+|  1. Compute d-dimensional mean vectors for different classes. |
+|  2. Compute Within-class Scatter Matrix (S_W).                |
+|  3. Compute Between-class Scatter Matrix (S_B).               |
+|  4. Compute Eigenvectors & Eigenvalues for (S_W^-1 * S_B).    |
+|  5. Sort Eigenvectors by decreasing Eigenvalues.              |
+|  6. Choose Top-K Eigenvectors to form transformation matrix W.|
+|  7. Project samples onto the new subspace: Y = X * W          |
++---------------------------------------------------------------+
+```
 
 ---
 
@@ -95,26 +96,24 @@ LDA는 통계학과 패턴 인식 분야에서 가장 역사 깊고 견고한 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">피셔 판별 분석 (Fisher's LDA, 1936)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">LDA: 클래스 간 분산 최대화 + 클래스 내 분산 최소화</div>
-<div class="kb-diagram-tree-item" style="--depth:2">차원 축소: 최대 (C-1)개 축으로 압축</div>
-<div class="kb-diagram-tree-item" style="--depth:2">분류기: 가우시안 사후 확률로 직접 분류</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">PCA → LDA 하이브리드 파이프라인 (실무 표준)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">비선형 확장</div>
-<div class="kb-diagram-tree-item" style="--depth:2">QDA (이차 판별 분석) — 클래스별 공분산 허용</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Kernel LDA — 커널 트릭 적용</div>
-<div class="kb-diagram-tree-item" style="--depth:2">대조 학습 (Contrastive Learning) — LDA 철학의 딥러닝 계승</div>
-</div>
-</div>
-
-
+```text
+피셔 판별 분석 (Fisher's LDA, 1936)
+    │
+    ▼
+LDA: 클래스 간 분산 최대화 + 클래스 내 분산 최소화
+    │
+    ├─► 차원 축소: 최대 (C-1)개 축으로 압축
+    └─► 분류기: 가우시안 사후 확률로 직접 분류
+    │
+    ▼
+PCA → LDA 하이브리드 파이프라인 (실무 표준)
+    │
+    ▼
+비선형 확장
+    ├─► QDA (이차 판별 분석) — 클래스별 공분산 허용
+    ├─► Kernel LDA — 커널 트릭 적용
+    └─► 대조 학습 (Contrastive Learning) — LDA 철학의 딥러닝 계승
+```
 
 ---
 

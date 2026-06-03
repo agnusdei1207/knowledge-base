@@ -38,21 +38,24 @@ tags = ["studynote-devops-sre"]
 ### 1. 피드백 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 아키텍처 ([DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 무한 루프)
 피드백은 단순한 [로그 수집](/knowledge-base/studynote/09_security/13_secops_ir_forensics/626_log_collection/)이 아니라, 개발(Plan) 단계로 돌아가는 화살표입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">데브옵스 무한 루프에서의 지속적 피드백 (Continuous Feedback)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶</div><div class="kb-diagram-cell">Plan</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Code</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Build</div><div class="kb-diagram-cell">─ ─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(피드백 반영 백로그) ▼</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">지속적 피드백 (Continuous Feedback)</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">-│ Test │</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Telemetry &amp; APM 융합)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─</div><div class="kb-diagram-cell">Monitor</div><div class="kb-diagram-cell">◀</div><div class="kb-diagram-cell">Operate</div><div class="kb-diagram-cell">◀</div><div class="kb-diagram-cell">Deploy</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(A/B 지표, 에러 로그) (라이브 서비스)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          [ 데브옵스 무한 루프에서의 지속적 피드백 (Continuous Feedback) ]│
+│                                                             │
+│   ┌────────┐          ┌────────┐          ┌────────┐        │
+│ ─▶│ Plan   │─────────▶│ Code   │─────────▶│ Build  │─ ─ ┐   │
+│ │ └────────┘          └────────┘          └────────┘    │   │
+│ │(피드백 반영 백로그)                                        ▼   │
+│ │                                               ┌────────┐  │
+│ │   [ 지속적 피드백 (Continuous Feedback) ] <---│ Test   │  │
+│ │            (Telemetry & APM 융합)             └────────┘  │
+│ │                                                   │       │
+│ │ ┌────────┐          ┌────────┐          ┌────────┐▼       │
+│ └─│ Monitor│◀─────────│ Operate│◀─────────│ Deploy │        │
+│   └────────┘          └────────┘          └────────┘        │
+│  (A/B 지표, 에러 로그)      (라이브 서비스)                        │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 그림 하단의 [Monitor](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)/Operate 영역에서 추출된 방대한 텔레메트리(Telemetry: 원격 측정) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 가공되어, 다시 상단의 Plan 영역(기획자/개발자의 Jira 티켓)으로 꽂히는 이 상승 기류(화살표)가 바로 피드백 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 본질입니다.
 
@@ -103,7 +106,7 @@ tags = ["studynote-devops-sre"]
 1. **AIOps를 통한 지능형 피드백(Intelligent Feedback)의 진화**
    수만 대의 서버에서 초당 수백만 줄의 텍스트 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 쏟아지는 시대에, 이를 눈으로 읽고 인사이트를 얻는 것은 불가능합니다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)독(Datadog), 다이나트레이스(Dynatrace) 등 현대 APM은 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)(ML)을 탑재하여, "평소 금요일 오후 트래픽 패턴과 달리 현재 장바구니 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 레이턴시가 미세하게 튀고 있다. 방금 배포된 v1.5의 [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/)가 원인일 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 95%"라고 AI가 원인 분석 리포트까지 스스로 작성하여 던져주는 <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/099_aiops_chatbot_itsm_automation/">AIOps</a> (<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> for IT Operations)</strong> 패러다임으로 진화하고 있습니다.
 
-2. <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/">카오스 엔지니어링</a> (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/">Chaos Engineering</a>)과의 융합</strong>
+2. <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/">카오스 엔지니어링</a> (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/">Chaos 엔진ering</a>)과의 융합</strong>
    기존 피드백이 장애가 터진 '이후(After)'에 수집되는 방어적 개념이었다면, 넷플릭스(Netflix)가 주도하는 [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)은 운영 환경에 의도적으로 서버를 죽이는 원숭이([Chaos Monkey](/knowledge-base/studynote/15_devops_sre/03_sre_observability/149_chaos_monkey_chaos_mesh/))를 풀어놓고, 시스템이 이를 어떻게 버티고 복원하는지에 대한 텔레메트리 지표를 강제로 뽑아내는 '능동적이고 공격적인 피드백' 아키텍처로 진화하고 있습니다.
 
 - **📢 섹션 요약 비유**: 미래의 피드백은 "사고가 난 뒤에 원인을 찾는 블랙박스"가 아니라, "심장 박동의 미세한 변화만 감지하고도 3일 뒤에 올 심장마비를 예측하여 의사에게 경고하는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 주치의" 시스템으로 완전히 탈바꿈하고 있습니다.
@@ -121,7 +124,7 @@ tags = ["studynote-devops-sre"]
     *   [Logs](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) ([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)): 시스템에서 발생한 구체적 텍스트 이벤트 기록
     *   Traces (트레이스): [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 간의 호출 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)와 병목 구간 추적
 *   **실무 융합 및 운영 철학**
-    *   [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/))의 [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)/[SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) 연계
+    *   [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/))의 [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)/[SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) 연계
     *   [AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/099_aiops_chatbot_itsm_automation/) ([머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 기반 [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/))
 
 ---
@@ -138,23 +141,21 @@ tags = ["studynote-devops-sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">CD (지속적 배포) — 프로덕션 릴리스</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Telemetry 수집 — 로그·메트릭·트레이스 (Observability)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">APM / SLI 측정 — 성능·신뢰성 실시간 모니터링</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">피드백 알람 — 슬랙·PagerDuty → 개발팀 즉각 통지</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">백로그 반영 (Plan 단계 귀환) — DORA 개선 루프 완성</div></div>
-</div>
-</div>
-
-
+```text
+[CD (지속적 배포) — 프로덕션 릴리스]
+    │
+    ▼
+[Telemetry 수집 — 로그·메트릭·트레이스 (Observability)]
+    │
+    ▼
+[APM / SLI 측정 — 성능·신뢰성 실시간 모니터링]
+    │
+    ▼
+[피드백 알람 — 슬랙·PagerDuty → 개발팀 즉각 통지]
+    │
+    ▼
+[백로그 반영 (Plan 단계 귀환) — DORA 개선 루프 완성]
+```
 배포 후 Telemetry가 [APM](/knowledge-base/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/)·SLI로 분석되고, 피드백 알람이 개발 백로그로 귀환하여 [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 지표를 개선하는 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 무한 [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)의 완성 흐름이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

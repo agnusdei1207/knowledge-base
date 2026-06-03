@@ -44,26 +44,27 @@ tags = ["studynote-security"]
 
 아래 그림은 브릿지 CA가 "[허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)"라는 점과, 실제 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 단순 연결이 아니라 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)·경로·폐기 정보를 함께 본다는 점을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Bridge CA federation model</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Domain A PKI Domain B PKI Domain C PKI</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Root / PCA Root / PCA Root / PCA</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">cross-cert ── ── cross-cert</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Bridge CA</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Validation on relying party</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">leaf cert -&gt; local CA chain -&gt; bridge path -&gt; trusted anchor</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Governance checks</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- certificate policy OID mapping</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- CRL / OCSP reachability</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- name constraints / path constraints</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- cross-certificate validity</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Bridge CA federation model                                          │
+├──────────────────────────────────────────────────────────────────────┤
+│ Domain A PKI         Domain B PKI         Domain C PKI              │
+│   Root / PCA           Root / PCA           Root / PCA              │
+│       │                    │                    │                   │
+│       └────── cross-cert ──┼── cross-cert ─────┘                   │
+│                            │                                        │
+│                        Bridge CA                                    │
+│                            │                                        │
+│ Validation on relying party                                         │
+│   leaf cert -> local CA chain -> bridge path -> trusted anchor      │
+│                            │                                        │
+│ Governance checks                                                    │
+│   - certificate policy OID mapping                                  │
+│   - CRL / OCSP reachability                                          │
+│   - name constraints / path constraints                              │
+│   - cross-certificate validity                                       │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 중요한 점은 "연결되었다"와 "동일한 수준으로 신뢰한다"가 다르다는 것이다. 예를 들어 한 기관은 대면 실명 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 후 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 발급하고, 다른 기관은 약한 원격 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)만 거칠 수 있다. 브릿지 CA는 이런 차이를 무시하면 안 되고, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) [정책 매핑](/knowledge-base/studynote/09_security/04_endpoint_security/202_policy_mapping/)으로 신뢰 수준을 구분해야 한다.
 
@@ -150,25 +151,24 @@ tags = ["studynote-security"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">독립 PKI 도메인</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">직접 교차 인증</div>
-<div class="kb-diagram-tree-item" style="--depth:0">참여 기관 증가 -&gt; 관계 폭증</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Bridge CA 허브 연결</div>
-<div class="kb-diagram-tree-item" style="--depth:0">certificate policy mapping</div>
-<div class="kb-diagram-tree-item" style="--depth:0">path discovery / validation</div>
-<div class="kb-diagram-tree-item" style="--depth:0">CRL / OCSP federation</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">다기관 신뢰 연합과 상호 운용 PKI</div>
-</div>
-</div>
-
-
+```text
+독립 PKI 도메인
+    │
+    ▼
+직접 교차 인증
+    │
+    └─ 참여 기관 증가 -> 관계 폭증
+    │
+    ▼
+Bridge CA 허브 연결
+    │
+    ├─ certificate policy mapping
+    ├─ path discovery / validation
+    └─ CRL / OCSP federation
+    │
+    ▼
+다기관 신뢰 연합과 상호 운용 PKI
+```
 
 이 흐름은 브릿지 CA가 단순한 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 종류가 아니라, 독립 신뢰 체계를 연합 구조로 확장하는 중간 단계임을 보여 준다.
 
@@ -185,6 +185,6 @@ tags = ["studynote-security"]
 **진행 상황**: 234 / 1108
 
 ← **이전**: [180. 인증서 체인 검증 (Certificate Chain of Trust)](/knowledge-base/studynote/09_security/04_endpoint_security/180_certificate_chain_of_trust/)
-**다음**: [182. 인증서 핀닝 (Certificate Pinning) — 인증서 목록 하드코딩](/knowledge-base/studynote/09_security/04_endpoint_security/182_certificate_pinning_ssl_tls_security/) →
+**다음**: [182. 인증서 핀닝 (Certificate Pinning) — 이지 인증서 목록 하드코딩](/knowledge-base/studynote/09_security/04_endpoint_security/182_certificate_pinning_ssl_tls_security/) →
 
 ---

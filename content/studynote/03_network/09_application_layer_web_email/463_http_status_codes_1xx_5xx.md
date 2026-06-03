@@ -24,18 +24,14 @@ tags = ["studynote-network"]
 - **해결책**: [IETF](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/)(국제 인터넷 표준화 기구)는 서버의 모든 응답 상황을 100번대부터 500번대까지의 3자리 숫자로 미리 약속해 두었습니다. 이를 <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a> 상태 코드</strong>라고 부릅니다.
 - **필요성**: 숫자로 된 상태 코드가 존재하기 때문에 브라우저는 404를 받으면 즉시 "화면에 공룡 게임(에러 화면)을 띄운다"는 로직을 실행하고, 구글 검색 봇은 301을 받으면 "아, 이 사이트 주소가 영구적으로 이사 갔구나. 검색 결과에서 옛날 주소를 지우자"라고 즉각적인 행동(Action)을 취할 수 있습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">HTTP 메서드</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HTTP 1.0</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">HTTP 1.1</div></div>
-</div>
-</div>
-
-
+```text
+[HTTP 메서드]
+    │
+    ▼
+[HTTP 1.0]
+    │
+    └──▶ [HTTP 1.1]
+```
 
 - **📢 섹션 요약 비유**: [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 상태 코드는 식당의 "진동벨 번호"와 같습니다. 요리사(서버)가 바쁠 때 손님(클라이언트)에게 일일이 말로 설명하지 않고, 진동벨에 '200(요리 완성)', '404(재료 소진)' 등의 숫자만 띄워주면 손님은 다음에 무엇을 해야 할지 즉각 알아차릴 수 있는 글로벌 공용어입니다.
 
@@ -46,34 +42,35 @@ tags = ["studynote-network"]
 ### 1. 5가지 클래스 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) (Class Categories)
 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 상태 코드의 첫 번째 자릿수는 응답의 <strong>전체적인 카테고리(Class)</strong>를 결정합니다. [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 서버나 CDN은 뒷자리 숫자를 몰라도 앞자리(1~5)만 보고 패킷의 운명을 결정합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">HTTP 상태 코드 5대 클래스 요약</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1xx (Informational) : 요청을 받았으며 작업을 계속 진행 중</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 100 Continue: 클라이언트가 큰 본문을 계속 보내도 좋음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2xx (Successful) : 클라이언트의 요청을 성공적으로 처리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 200 OK: 성공 / 201 Created: 리소스 생성 성공</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 204 No Content: 성공했으나 반환할 Body 데이터가 없음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 3xx (Redirection) : 요청을 완료하려면 클라이언트의 추가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조치(URL 이동 등)가 필요함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 301 Moved Permanently: 영구 이동 (캐시됨, SEO 영향 O)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 302 Found: 임시 이동 (캐시 안됨, SEO 영향 X)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 304 Not Modified: 캐시된 데이터가 최신이니 그대로 써라</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 4xx (Client Error) : 클라이언트의 잘못된 요청 (문법 오류)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 400 Bad Request: 파라미터 누락, JSON 문법 오류</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 401 Unauthorized: 인증(로그인) 안 됨</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 403 Forbidden: 로그인 했으나 권한(인가) 없음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 404 Not Found: 요청한 URI 리소스가 존재하지 않음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 5xx (Server Error) : 서버 내부의 치명적 오류로 처리 실패</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 500 Internal Server Error: 서버 DB 다운, Null 에러</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 502 Bad Gateway: 앞단 프록시가 뒷단 서버 응답을 못 받음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 503 Service Unavailable: 서버가 폭주하여 처리 불능</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│              [ HTTP 상태 코드 5대 클래스 요약 ]             │
+│                                                             │
+│  ▶ 1xx (Informational) : 요청을 받았으며 작업을 계속 진행 중│
+│     - 100 Continue: 클라이언트가 큰 본문을 계속 보내도 좋음 │
+│                                                             │
+│  ▶ 2xx (Successful)    : 클라이언트의 요청을 성공적으로 처리│
+│     - 200 OK: 성공 / 201 Created: 리소스 생성 성공          │
+│     - 204 No Content: 성공했으나 반환할 Body 데이터가 없음  │
+│                                                             │
+│  ▶ 3xx (Redirection)   : 요청을 완료하려면 클라이언트의 추가│
+│                          조치(URL 이동 등)가 필요함         │
+│     - 301 Moved Permanently: 영구 이동 (캐시됨, SEO 영향 O) │
+│     - 302 Found: 임시 이동 (캐시 안됨, SEO 영향 X)          │
+│     - 304 Not Modified: 캐시된 데이터가 최신이니 그대로 써라│
+│                                                             │
+│  ▶ 4xx (Client Error)  : 클라이언트의 잘못된 요청 (문법 오류)│
+│     - 400 Bad Request: 파라미터 누락, JSON 문법 오류        │
+│     - 401 Unauthorized: 인증(로그인) 안 됨                  │
+│     - 403 Forbidden: 로그인 했으나 권한(인가) 없음          │
+│     - 404 Not Found: 요청한 URI 리소스가 존재하지 않음      │
+│                                                             │
+│  ▶ 5xx (Server Error)  : 서버 내부의 치명적 오류로 처리 실패│
+│     - 500 Internal Server Error: 서버 DB 다운, Null 에러    │
+│     - 502 Bad Gateway: 앞단 프록시가 뒷단 서버 응답을 못 받음│
+│     - 503 Service Unavailable: 서버가 폭주하여 처리 불능    │
+└─────────────────────────────────────────────────────────────┘
+```
 
 ### 2. 작동 메커니즘 (클라이언트 에러 vs 서버 에러의 차이)
 - <strong>4xx (<a href="/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/">Client</a> Error)</strong>: 클라이언트가 애초에 잘못된 주소(404)를 적었거나, 로그인을 안 하고(401) 요청한 경우입니다. 똑같은 요청을 서버에 백 번, 천 번 다시 던져도 결과는 무조건 4xx 에러입니다. 클라이언트가 코드를 수정해서 보내야 합니다.
@@ -164,19 +161,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: HTTP 메서드</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: HTTP 1.0</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: HTTP 1.1</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 애플리케이션 전달</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: HTTP 메서드]
+    │
+    ▼
+[현재 개념: HTTP 1.0]
+    │
+    ├──▶ [확장 A: HTTP 1.1]
+    └──▶ [확장 B: 지능형 애플리케이션 전달]
+```
 
 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 1.0는 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 메서드에서 출발해 현재 메커니즘을 정교화하고, 이후 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 1.1와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -20,20 +20,19 @@ tags = ["studynote-ai"]
 
 [의사결정 트리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/)([Decision Tree](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/))는 <strong>트리 구조로 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 반복 분할해 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a>·회귀 문제를 해결</strong>하는 지도학습 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">나이 &lt;= 30?</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">루트 노드 (Root Node)</div></div>
-<div class="kb-diagram-note">예(Y) 아니오(N)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">학생?</div><div class="kb-diagram-node">신용 점수 &gt; 700?</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">내부 노드</div></div>
-<div class="kb-diagram-note">예 아니오 예 아니오</div>
-<div class="kb-diagram-note">구매 구매안함 구매 구매안함</div>
-<div class="kb-diagram-note">리프 노드 (Leaf Node, 최종 분류)</div>
-</div>
-</div>
-
-
+```
+          [나이 <= 30?]  ← 루트 노드 (Root Node)
+          /          \
+       예(Y)         아니오(N)
+         |               |
+  [학생?]       [신용 점수 > 700?]  ← 내부 노드
+  /    \              /      \
+ 예    아니오        예        아니오
+ |       |           |           |
+구매  구매안함     구매       구매안함
+↑         ↑
+리프 노드 (Leaf Node, 최종 분류)
+```
 
 | 용어        | 설명                          |
 |-----------|-------------------------------|
@@ -138,21 +137,15 @@ print(export_text(clf, feature_names=load_iris().feature_names))
 
 ## Ⅴ. [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/)로 확장 — [랜덤 포레스트](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/)와 [부스팅](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단일 의사결정 트리</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">배깅 (Bagging):</div>
-<div class="kb-diagram-note">다수의 트리 → 다수결/평균 → 랜덤 포레스트</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">부스팅 (Boosting):</div>
-<div class="kb-diagram-note">순차 학습 (이전 오류 보완) → XGBoost / LightGBM / CatBoost</div>
-</div>
-</div>
-
-
+```
+단일 의사결정 트리
+       ↓
+배깅 (Bagging):
+   다수의 트리 → 다수결/평균 → 랜덤 포레스트
+       ↓
+부스팅 (Boosting):
+   순차 학습 (이전 오류 보완) → XGBoost / LightGBM / CatBoost
+```
 
 | 모델            | 기반    | 특징                         |
 |---------------|---------|------------------------------|
@@ -167,53 +160,46 @@ print(export_text(clf, feature_names=load_iris().feature_names))
 
 ## 📌 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">의사결정 트리 (Decision Tree)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">분기 기준</div>
-<div class="kb-diagram-note">── 정보 이득 / 엔트로피 (ID3)</div>
-<div class="kb-diagram-note">── 정보 이득비 (C4.5)</div>
-<div class="kb-diagram-note">── 지니 불순도 (CART)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">과적합 방지</div>
-<div class="kb-diagram-note">── 사전 가지치기 (Pre-Pruning)</div>
-<div class="kb-diagram-note">── 사후 가지치기 (Post-Pruning)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">앙상블 확장</div>
-<div class="kb-diagram-note">── 랜덤 포레스트 (Random Forest) — 배깅</div>
-<div class="kb-diagram-note">── XGBoost — 그레이디언트 부스팅</div>
-<div class="kb-diagram-note">── LightGBM — 리프 기반 부스팅</div>
-<div class="kb-diagram-tree-item" style="--depth:0">해석 가능성</div>
-<div class="kb-diagram-tree-item" style="--depth:2">특성 중요도 (Feature Importance)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">SHAP 값 (트리 기반)</div>
-</div>
-</div>
-
-
+```
+의사결정 트리 (Decision Tree)
+├── 분기 기준
+│   ├── 정보 이득 / 엔트로피 (ID3)
+│   ├── 정보 이득비 (C4.5)
+│   └── 지니 불순도 (CART)
+├── 과적합 방지
+│   ├── 사전 가지치기 (Pre-Pruning)
+│   └── 사후 가지치기 (Post-Pruning)
+├── 앙상블 확장
+│   ├── 랜덤 포레스트 (Random Forest) — 배깅
+│   ├── XGBoost — 그레이디언트 부스팅
+│   └── LightGBM — 리프 기반 부스팅
+└── 해석 가능성
+    ├── 특성 중요도 (Feature Importance)
+    └── SHAP 값 (트리 기반)
+```
 
 ---
 
 ## 📈 관련 키워드 및 발전 흐름도
 
+```
+┌─────────────────────────────────────────────────────────────────┐
+│              의사결정 트리 발전 흐름                             │
+├──────────────┬────────────────────┬─────────────────────────────┤
+│ 1960년대     │ CLS 알고리즘       │ 트리 기반 학습 원형          │
+│ 1979년       │ ID3 (Quinlan)      │ 정보 이득 기반 분기          │
+│ 1986년       │ C4.5 (Quinlan)     │ 연속형·결측값 처리           │
+│ 1984년       │ CART (Breiman)     │ 지니 불순도·이진 분기        │
+│ 2001년       │ Random Forest      │ 배깅 앙상블로 성능 대폭 향상 │
+│ 2014년       │ XGBoost            │ 부스팅 혁명, Kaggle 석권     │
+│ 2017년       │ LightGBM / CatBoost│ 대용량·고속 학습             │
+└──────────────┴────────────────────┴─────────────────────────────┘
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">의사결정 트리 발전 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1960년대</div><div class="kb-diagram-cell">CLS 알고리즘</div><div class="kb-diagram-cell">트리 기반 학습 원형</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1979년</div><div class="kb-diagram-cell">ID3 (Quinlan)</div><div class="kb-diagram-cell">정보 이득 기반 분기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1986년</div><div class="kb-diagram-cell">C4.5 (Quinlan)</div><div class="kb-diagram-cell">연속형·결측값 처리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1984년</div><div class="kb-diagram-cell">CART (Breiman)</div><div class="kb-diagram-cell">지니 불순도·이진 분기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2001년</div><div class="kb-diagram-cell">Random Forest</div><div class="kb-diagram-cell">배깅 앙상블로 성능 대폭 향상</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2014년</div><div class="kb-diagram-cell">XGBoost</div><div class="kb-diagram-cell">부스팅 혁명, Kaggle 석권</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2017년</div><div class="kb-diagram-cell">LightGBM / CatBoost</div><div class="kb-diagram-cell">대용량·고속 학습</div></div>
-<div class="kb-diagram-note">핵심 키워드 연결:</div>
-<div class="kb-diagram-note">DT → 지니/엔트로피 → 가지치기 → RF → XGBoost</div>
-<div class="kb-diagram-note">화이트박스 분기기준 과적합 방지 앙상블 최강자</div>
-</div>
-</div>
-
-
+핵심 키워드 연결:
+DT → 지니/엔트로피 → 가지치기 → RF → XGBoost
+  ↓       ↓              ↓         ↓
+화이트박스 분기기준    과적합 방지  앙상블 최강자
+```
 
 ---
 

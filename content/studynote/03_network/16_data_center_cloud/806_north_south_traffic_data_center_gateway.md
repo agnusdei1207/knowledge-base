@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: 엔터프라이즈 기업 망이나 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 아키텍처에서, <strong>외부 인터넷 사용자(<a href="/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/">Client</a>)와 <a href="/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/">데이터센터</a> 내부의 애플리케이션 서버 간에 발생하는 수직적(상/하)인 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 흐름</strong>을 의미합니다.
 - [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 다이어그램을 그릴 때 보통 윗부분(North)에 인터넷 망([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/))을 그리고 아랫부분(South)에 서버를 그리기 때문에 이런 이름이 붙었습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Clos 네트워크</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">North-South 트래픽</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">East-West 트래픽</div></div>
-</div>
-</div>
-
-
+```text
+[Clos 네트워크]
+    │
+    ▼
+[North-South 트래픽]
+    │
+    └──▶ [East-West 트래픽]
+```
 
 - **📢 섹션 요약 비유**: North-South 트래픽은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -53,18 +49,14 @@ tags = ["studynote-network"]
 - 앞서 801번 문서에서 배운 **3-Tier(Core ➜ Aggregation ➜ Access)** 구조는 철저하게 이 North-South 트래픽 하나만을 쾌속으로 처리하기 위해 만들어진 완벽한 깔때기 모양의 깔맞춤 파이프였습니다.
 - 위(Core)에서 아래(Access 서버)로 폭포수처럼 쏟아져 내려오는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름을 라우팅하기에 최적화되어 있었습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Clos 네트워크</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">North-South 트래픽</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">East-West 트래픽</div></div>
-</div>
-</div>
-
-
+```text
+[Clos 네트워크]
+    │
+    ▼
+[North-South 트래픽]
+    │
+    └──▶ [East-West 트래픽]
+```
 
 - **📢 섹션 요약 비유**: North-South 트래픽의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -119,19 +111,15 @@ North-South 트래픽은 [데이터센터](/knowledge-base/studynote/03_network/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: Clos 네트워크</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: North-South 트래픽</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: East-West 트래픽</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: Clos 네트워크]
+    │
+    ▼
+[현재 개념: North-South 트래픽]
+    │
+    ├──▶ [확장 A: East-West 트래픽]
+    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
+```
 
 North-South 트래픽는 Clos 네트워크에서 출발해 현재 메커니즘을 정교화하고, 이후 East-West 트래픽와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

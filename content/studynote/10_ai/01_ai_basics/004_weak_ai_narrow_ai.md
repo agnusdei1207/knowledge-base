@@ -27,21 +27,20 @@ tags = ["ai"]
 
 다음은 범용성을 포기하는 대신 목적 함수의 최적화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 극한으로 끌어올린 Narrow AI의 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 특화 메커니즘을 보여주는 구조도이다.
 
+```text
+[ 강인공지능 (목표 분산/실패) ]
+입력 데이터 ──> [ 모호하고 거대한 목표(세상을 이해하라) ] ──> 차원의 저주, 최적화 실패 (AI 암흑기)
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">강인공지능 (목표 분산/실패)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">입력 데이터 ──&gt;</div><div class="kb-diagram-node">모호하고 거대한 목표(세상을 이해하라)</div><div class="kb-diagram-note">──&gt; 차원의 저주, 최적화 실패 (AI 암흑기)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">약인공지능 (선택과 집중/성공)</div></div>
-<div class="kb-diagram-note">도메인 제한 목적 함수(Loss) 단일화 최적화 성공</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">바둑 기보</div><div class="kb-diagram-cell">─&gt;</div><div class="kb-diagram-cell">승률(Reward) 최대화 연산망</div><div class="kb-diagram-cell">─&gt;</div><div class="kb-diagram-cell">이세돌 승리</div><div class="kb-diagram-cell">(알파고)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">병변 사진</div><div class="kb-diagram-cell">─&gt;</div><div class="kb-diagram-cell">종양 분류 오차 최소화 망</div><div class="kb-diagram-cell">─&gt;</div><div class="kb-diagram-cell">의사 초월</div><div class="kb-diagram-cell">(의료 비전)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">텍스트</div><div class="kb-diagram-cell">─&gt;</div><div class="kb-diagram-cell">다음 단어 출현 확률 최대화</div><div class="kb-diagram-cell">─&gt;</div><div class="kb-diagram-cell">자연어 봇</div><div class="kb-diagram-cell">(LLM)</div></div>
-</div>
-</div>
-
-
+[ 약인공지능 (선택과 집중/성공) ]
+도메인 제한   목적 함수(Loss) 단일화           최적화 성공
+┌────────┐    ┌──────────────────────────┐    ┌─────────┐
+│ 바둑 기보│ ─> │ 승률(Reward) 최대화 연산망 │ ─> │ 이세돌 승리│ (알파고)
+├────────┤    ├──────────────────────────┤    ├─────────┤
+│ 병변 사진│ ─> │ 종양 분류 오차 최소화 망   │ ─> │ 의사 초월 │ (의료 비전)
+├────────┤    ├──────────────────────────┤    ├─────────┤
+│ 텍스트   │ ─> │ 다음 단어 출현 확률 최대화 │ ─> │ 자연어 봇 │ (LLM)
+└────────┘    └──────────────────────────┘    └─────────┘
+```
 
 이 도식의 핵심은 약인공지능의 압도적 퍼포먼스가 역설적으로 '지능의 좁은 시야(Narrowness)'에서 비롯된다는 점이다. 알파고는 바둑판의 패턴 외에는 세상의 어떤 물리 법칙도 알지 못하지만, 오직 바둑 승률이라는 단일 보상 함수(Reward Function)에 수천 개의 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 연산력을 집중시킴으로써 인간을 초월했다. 따라서 실무에서 AI를 도입할 때 가장 먼저 해야 할 일은 "AI가 무엇을 할 것인가"를 정의하는 것이 아니라, "AI가 어떤 영역을 포기하게 할 것인가"를 수학적 목적 함수로 좁고 날카롭게 깎아내는 작업이다.
 
@@ -62,24 +61,20 @@ tags = ["ai"]
 
 다음은 실무 환경에서 단일 과업(예: 스팸 메일 필터링)만을 수행하기 위해 고립된 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인으로 구동되는 약인공지능의 처리 흐름도이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">환경: 이메일 시스템</div></div>
-<div class="kb-diagram-note">▼ (텍스트 데이터만 허용)</div>
-<div class="kb-diagram-note">Narrow AI Pipeline (스팸 분류기)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1.</div><div class="kb-diagram-node">Tokenization</div><div class="kb-diagram-note">: 메일 본문을 잘게 쪼개어 단어 사전 인덱스로 변환</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2.</div><div class="kb-diagram-node">Embedding</div><div class="kb-diagram-note">: "광고", "무료" 등 특정 단어 벡터의 가중치를 활성화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3.</div><div class="kb-diagram-node">Classifier Model</div><div class="kb-diagram-note">: (예: SVM 또는 BERT 미세조정 모델)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 입력 벡터를 0(정상)과 1(스팸) 사이의 초평면(Hyperplane)으로 분리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">4.</div><div class="kb-diagram-node">Sigmoid/Softmax</div><div class="kb-diagram-note">: 0.89 (89% 확률로 스팸) 수치 도출</div></div>
-<div class="kb-diagram-note">▼ (이진 논리 출력)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">작동기: 메일을 스팸함으로 이동 (다른 행동은 절대 불가)</div></div>
-</div>
-</div>
-
-
+```text
+[ 환경: 이메일 시스템 ]
+       │
+       ▼ (텍스트 데이터만 허용)
+┌────────────────── Narrow AI Pipeline (스팸 분류기) ────────────────┐
+│ 1. [Tokenization]: 메일 본문을 잘게 쪼개어 단어 사전 인덱스로 변환        │
+│ 2. [Embedding]: "광고", "무료" 등 특정 단어 벡터의 가중치를 활성화        │
+│ 3. [Classifier Model]: (예: SVM 또는 BERT 미세조정 모델)             │
+│      => 입력 벡터를 0(정상)과 1(스팸) 사이의 초평면(Hyperplane)으로 분리 │
+│ 4. [Sigmoid/Softmax]: 0.89 (89% 확률로 스팸) 수치 도출              │
+└───────────────────────────┬──────────────────────────────────────┘
+                            ▼ (이진 논리 출력)
+[ 작동기: 메일을 스팸함으로 이동 (다른 행동은 절대 불가) ]
+```
 
 이 구조도의 핵심은 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 종류와 출력의 형태가 닫혀(Closed) 있다는 점이다. 스팸 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기는 이메일 텍스트가 아닌 이미지 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 받으면 즉시 에러(Crash)를 내뱉으며, 스팸함 이동 외에 사용자에게 답장을 쓰는 행동은 구조적으로 불가능하다. 이러한 극단적 제약 덕분에 엔지니어는 모델이 "의도치 않은 해킹 행위"를 할 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 배제하고 안심하고 시스템에 연동할 수 있다. 약인공지능의 한계인 비유연성이 실무에서는 최고의 [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)이자 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)의 근간이 된다.
 
@@ -132,22 +127,16 @@ tags = ["ai"]
 
 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 및 실패 시나리오 (<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 이탈과 망각)</strong>
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Narrow AI의 도메인 이탈 치명적 에러 플로우</div></div>
-<div class="kb-diagram-note">(모델 배포) 한국어 법률 문서 번역에 특화된 완벽한 번역 AI 구축</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">(사용자 오용) 고객이 해당 AI에게 "Python 코드 오류 좀 고쳐줘" 라고 명령</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">(환각 폭발) 모델은 코딩 도메인 지식이 없으나, 확률 조합으로 '그럴싸한 쓰레기 코드' 생성</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">(시스템 마비) 사용자가 해당 코드를 운영 서버에 적용하여 서비스 다운</div>
-</div>
-</div>
-
-
+```text
+[ Narrow AI의 도메인 이탈 치명적 에러 플로우 ]
+(모델 배포) 한국어 법률 문서 번역에 특화된 완벽한 번역 AI 구축
+   ↓
+(사용자 오용) 고객이 해당 AI에게 "Python 코드 오류 좀 고쳐줘" 라고 명령
+   ↓
+(환각 폭발) 모델은 코딩 도메인 지식이 없으나, 확률 조합으로 '그럴싸한 쓰레기 코드' 생성
+   ↓
+(시스템 마비) 사용자가 해당 코드를 운영 서버에 적용하여 서비스 다운
+```
 
 이 장애 전파도의 핵심은 약인공지능은 자신이 <strong>"무엇을 모르는지 모른다"</strong>는 메타 인지의 부재에 있다. 주어진 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 밖의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Out-of-Distribution [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 들어오면 "모른다"고 거절하는 것이 아니라, 자신이 아는 좁은 범위 내에서 억지로 답을 지어내는 치명적 특성이 있다. 따라서 실무 엔지니어는 메인 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 앞단에 '입력된 질문이 우리 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에 속하는지'를 먼저 판별하는 가벼운 '[분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기 가드레일(Guardrail Classifier)'을 배치하여, [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 이탈 요청을 선제적으로 차단(Drop)해야 한다.
 
@@ -179,23 +168,21 @@ tags = ["ai"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Machine Learning (머신러닝)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Out-of-Distribution (OOD)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Task-specific Pipeline (과업 특화 파이프라인)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MLOps (머신러닝 운영)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Expert System (전문가 시스템)</div></div>
-</div>
-</div>
-
-
+```text
+[Machine Learning (머신러닝)]
+    │
+    ▼
+[Out-of-Distribution (OOD)]
+    │
+    ▼
+[Task-specific Pipeline (과업 특화 파이프라인)]
+    │
+    ▼
+[MLOps (머신러닝 운영)]
+    │
+    ▼
+[Expert System (전문가 시스템)]
+```
 
 이 흐름도는 Machine [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) ([머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/))에서 출발해 [Expert System](/knowledge-base/studynote/10_ai/03_llm_nlp/233_expert_system/) ([전문가 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/233_expert_system/))까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

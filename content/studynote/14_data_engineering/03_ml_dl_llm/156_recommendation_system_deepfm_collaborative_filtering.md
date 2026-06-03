@@ -36,30 +36,41 @@ tags = ["studynote-data-engineering"]
 | Two-Tower | 사용자/아이템 독립 인코딩 | 2019 |
 | BERT4Rec | [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 기반 순차 추천 | 2019 |
 
+```
+[DeepFM 아키텍처]
 
+입력 특징 (사용자 ID, 아이템 ID, 장르, 시간대, ...)
+             │
+     임베딩 레이어 (고차원 → 저차원 벡터)
+             │
+     ┌───────┴───────┐
+     │               │
+  FM 컴포넌트      Deep 컴포넌트
+  (2차 상호작용)  (고차 상호작용)
+  ∑ᵢ∑ⱼ<vᵢ,vⱼ>    FC → FC → FC
+  xᵢxⱼ           (ReLU 활성화)
+     │               │
+     └───────┬───────┘
+             │
+          Sigmoid
+             │
+       CTR 예측값 (클릭률)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DeepFM 아키텍처</div></div>
-<div class="kb-diagram-note">입력 특징 (사용자 ID, 아이템 ID, 장르, 시간대, ...)</div>
-<div class="kb-diagram-note">임베딩 레이어 (고차원 → 저차원 벡터)</div>
-<div class="kb-diagram-note">FM 컴포넌트 Deep 컴포넌트</div>
-<div class="kb-diagram-note">(2차 상호작용) (고차 상호작용)</div>
-<div class="kb-diagram-note">∑ᵢ∑ⱼ&lt;vᵢ,vⱼ&gt; FC → FC → FC</div>
-<div class="kb-diagram-note">xᵢxⱼ (ReLU 활성화)</div>
-<div class="kb-diagram-note">Sigmoid</div>
-<div class="kb-diagram-note">CTR 예측값 (클릭률)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Two-Tower 모델</div></div>
-<div class="kb-diagram-note">사용자 특징 아이템 특징</div>
-<div class="kb-diagram-note">(이력, 나이, 성별) (장르, 가격, 태그)</div>
-<div class="kb-diagram-note">사용자 인코더 아이템 인코더</div>
-<div class="kb-diagram-note">사용자 임베딩 아이템 임베딩</div>
-<div class="kb-diagram-note">내적 (Dot Product)</div>
-<div class="kb-diagram-note">유사도 점수 → 추천</div>
-</div>
-</div>
+[Two-Tower 모델]
 
-
+사용자 특징          아이템 특징
+(이력, 나이, 성별)   (장르, 가격, 태그)
+      │                    │
+사용자 인코더          아이템 인코더
+      │                    │
+사용자 임베딩          아이템 임베딩
+      │                    │
+      └──────┬─────────────┘
+             │
+    내적 (Dot Product)
+             │
+        유사도 점수 → 추천
+```
 
 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/161_matrix_decomposition/">행렬 분해</a> (<a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/348_matrix_factorization/">Matrix Factorization</a>)</strong>
 - 사용자-아이템 평점 행렬 R ≈ U·V^T
@@ -128,28 +139,26 @@ tags = ["studynote-data-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">콘텐츠 기반 필터링 (Content-Based)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">협업 필터링 (Collaborative Filtering)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">사용자 기반 / 아이템 기반</div>
-<div class="kb-diagram-tree-item" style="--depth:2">행렬 분해 (SVD · ALS)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">딥러닝 추천 모델</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Wide &amp; Deep (Google) — 암기 + 일반화</div>
-<div class="kb-diagram-tree-item" style="--depth:2">DeepFM — FM + DNN 결합</div>
-<div class="kb-diagram-tree-item" style="--depth:2">DIN · DIEN — 사용자 행동 시퀀스 모델링</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">콜드 스타트 → 그래프 기반 (GNN) 추천</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">LLM 기반 대화형 추천 (Conversational RecSys)</div>
-</div>
-</div>
-
-
+```text
+콘텐츠 기반 필터링 (Content-Based)
+    │
+    ▼
+협업 필터링 (Collaborative Filtering)
+    ├─► 사용자 기반 / 아이템 기반
+    └─► 행렬 분해 (SVD · ALS)
+    │
+    ▼
+딥러닝 추천 모델
+    ├─► Wide & Deep (Google) — 암기 + 일반화
+    ├─► DeepFM — FM + DNN 결합
+    └─► DIN · DIEN — 사용자 행동 시퀀스 모델링
+    │
+    ▼
+콜드 스타트 → 그래프 기반 (GNN) 추천
+    │
+    ▼
+LLM 기반 대화형 추천 (Conversational RecSys)
+```
 
 ---
 

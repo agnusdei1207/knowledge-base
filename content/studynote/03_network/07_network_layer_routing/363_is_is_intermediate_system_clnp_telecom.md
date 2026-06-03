@@ -26,18 +26,14 @@ tags = ["studynote-network"]
   - <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/">OSPF</a></strong>: 한국어([IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/))만 할 줄 알고, 나중에 영어를 배우려고([IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/)) 뇌구조([버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 3)를 싹 다 갈아엎어야 했던 **토종 내수용 수재**.
   - **IS-IS**: 태어날 때부터 언어라는 제약(IP [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))에 구애받지 않고 만국 공통어(L2 캡슐화)로 태어나, 한국어 패치, 영어 패치, 프랑스어 패치(TLV 확장)를 USB에 꽂기만 하면 1초 만에 다 구사하는 **외계에서 온 괴물 통역기**.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">OSPFv3</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IS-IS</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">L1/L2 라우터, L1/L2 Area 체계…</div></div>
-</div>
-</div>
-
-
+```text
+[OSPFv3]
+    │
+    ▼
+[IS-IS]
+    │
+    └──▶ [L1/L2 라우터, L1/L2 Area 체계…]
+```
 
 - **📢 섹션 요약 비유**: ** OSPF가 승용차 전용으로 꽉 짜여진 **"고속도로 톨게이트"**라면, IS-IS는 승용차, 화물차, 탱크, 비행기까지 규격에 구애받지 않고 무엇이든 통과시킬 수 있게 아예 지붕을 열어젖힌 **"초거대 다목적 하이패스 터널"**입니다.
 
@@ -58,24 +54,25 @@ OSPF는 패킷을 보낼 때 2계층([이더넷](/knowledge-base/studynote/03_ne
 - **IS-IS의 위엄**: IS-IS는 2계층 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임 안에 <strong>직접 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/245_lsp_liskov_substitution_principle/">LSP</a>)를 쑤셔 넣는다</strong>. 3계층 IP 헤더 따위는 필요 없다.
 - **장점**: 라우터가 IP 헤더를 까보지 않고 L2 스위칭하듯 훅훅 처리하니까 무지막지하게 빠르다. 해커가 외부망에서 라우터의 IP를 공격(DDoS)하려 해도, IS-IS 제어 평면은 IP와 완전 분리되어 있어 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)이 절대 흔들리지 않는 극강의 보안성을 갖는다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OSPF vs IS-IS 프로토콜 확장성(TLV) 차이</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황: 1990년대, "우리 이제 IPv6도 지원해야 해!!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* OSPF 진영: "헐? 우리 LSA 엽서 봉투에 128비트 주소 적을 빈칸이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">없는데?! 아예 봉투(패킷) 구조를 싹 갈아엎고 버전 3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(OSPFv3)로 새로 코딩하자!" (대공사 발생)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* IS-IS 진영: "어, 그래? 그냥 기존 LSP 엽서 맨 밑에 빈칸(TLV) 하나</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">붙여서 거기에 IPv6 주소 쓰라고 해!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1초 만에 확장 끝. (Integrated IS-IS 탄생).</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 결론: IS-IS의 TLV(Type-Length-Value) 레고 블록 구조는</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">어떤 차세대 기술이 나와도 무한대로 덕지덕지 붙일 수 있다!</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                OSPF vs IS-IS 프로토콜 확장성(TLV) 차이           │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 상황: 1990년대, "우리 이제 IPv6도 지원해야 해!!" ]             │
+ │                                                             │
+ │   * OSPF 진영: "헐? 우리 LSA 엽서 봉투에 128비트 주소 적을 빈칸이     │
+ │               없는데?! 아예 봉투(패킷) 구조를 싹 갈아엎고 버전 3      │
+ │               (OSPFv3)로 새로 코딩하자!" (대공사 발생)           │
+ │                                                             │
+ │   * IS-IS 진영: "어, 그래? 그냥 기존 LSP 엽서 맨 밑에 빈칸(TLV) 하나  │
+ │                붙여서 거기에 IPv6 주소 쓰라고 해!"                │
+ │                ▶ 1초 만에 확장 끝. (Integrated IS-IS 탄생).   │
+ │                                                             │
+ │   * 결론: IS-IS의 TLV(Type-Length-Value) 레고 블록 구조는         │
+ │          어떤 차세대 기술이 나와도 무한대로 덕지덕지 붙일 수 있다!     │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 IS-IS 패킷의 본문은 이 TLV 블록들의 연속이다.
 - "나 이번엔 IP 주소 알려줄게(Type=132), 길이는 4바이트(Length=4), 주소는 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/).1.1.1(Value)야!"
@@ -138,19 +135,15 @@ IS-IS는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routi
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: OSPFv3</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: IS-IS</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: L1/L2 라우터, L1/L2 Area 체계…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: OSPFv3]
+    │
+    ▼
+[현재 개념: IS-IS]
+    │
+    ├──▶ [확장 A: L1/L2 라우터, L1/L2 Area 체계…]
+    └──▶ [확장 B: 의도 기반 라우팅]
+```
 
 IS-IS는 OSPFv3에서 출발해 현재 메커니즘을 정교화하고, 이후 L1/L2 라우터, L1/L2 Area 체계…와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

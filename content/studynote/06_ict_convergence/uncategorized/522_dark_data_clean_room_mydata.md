@@ -31,21 +31,21 @@ IDC 조사에 따르면 기업이 보유한 [데이터](/knowledge-base/studynot
 
 ### [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 클린 룸 구조
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">기업 A (원시 데이터) 기업 B (원시 데이터)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 클린 룸</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">집계 엔진</div><div class="kb-diagram-cell">◄ ►</div><div class="kb-diagram-cell">쿼리 검증기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(k-익명성)</div><div class="kb-diagram-cell">(임계값 적용)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">집계 결과만 반환</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">공동 인사이트 (원시 데이터 미공유)</div>
-</div>
-</div>
-
-
+```
+  기업 A (원시 데이터)          기업 B (원시 데이터)
+        │                              │
+        ▼                              ▼
+  ┌─────────────────────────────────────────┐
+  │            데이터 클린 룸               │
+  │  ┌──────────┐      ┌──────────────┐    │
+  │  │집계 엔진  │◄────►│ 쿼리 검증기  │    │
+  │  │(k-익명성)│      │(임계값 적용) │    │
+  │  └──────────┘      └──────────────┘    │
+  │        │ 집계 결과만 반환               │
+  └────────┼────────────────────────────────┘
+           ▼
+    공동 인사이트 (원시 데이터 미공유)
+```
 
 | 구분 | [다크 데이터](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_darkdata/) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 클린 룸 | [마이데이터](/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/) |
 |:---|:---|:---|:---|

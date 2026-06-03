@@ -25,23 +25,21 @@ PIA는 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_
 
 국내에서는 일정 규모 이상의 공공기관 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)파일을 대상으로 법적 영향평가가 요구되며, 민간도 고위험 처리나 글로벌 규제 대응 관점에서 [DPIA](/knowledge-base/studynote/09_security/16_data_privacy/796_gdpr_dpia/) ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Protection](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) Impact Assessment) 수준의 평가를 활용한다. 즉 PIA는 특정 기관만의 문서 작업이 아니라, <strong>Privacy by Design을 구현하는 경영·아키텍처 도구</strong>다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Why privacy problems must be found before launch</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New service idea</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; collect data</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; store data</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; share / outsource</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; analyze / profile</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; retain / destroy</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">If no PIA: hidden risks remain inside design</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">If PIA : risky flow is found before production</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Why privacy problems must be found before launch                     │
+├──────────────────────────────────────────────────────────────────────┤
+│ New service idea                                                     │
+│   -> collect data                                                    │
+│   -> store data                                                      │
+│   -> share / outsource                                               │
+│   -> analyze / profile                                               │
+│   -> retain / destroy                                                │
+│                                                                      │
+│ If no PIA: hidden risks remain inside design                         │
+│ If PIA   : risky flow is found before production                     │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 즉 PIA의 필요성은 규제 준수만이 아니라, <strong><a href="/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/">개인정보</a> 처리 구조를 설명 가능하고 통제 가능한 형태로 만드는 것</strong>에 있다.
 
@@ -53,26 +51,27 @@ PIA는 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_
 
 PIA는 보통 `대상 식별 → 데이터 흐름 파악 → 위험 분석 → 개선 설계 → 이행 확인`의 순서로 진행된다. 여기서 가장 중요한 출발점은 시스템 기능 목록이 아니라 <strong><a href="/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/">개인정보</a>의 생애주기</strong>다. 무엇을 수집하는지보다, 어디서 들어와 누구를 거쳐 어디에 저장되고 언제 파기되는지까지 끊김 없이 보여 주어야 실질적 위험이 보인다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PIA workflow</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Change trigger</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ new system</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ major feature expansion</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ third-party linkage</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ AI / analytics profiling</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data inventory -&gt; Data flow map -&gt; Risk analysis -&gt; Control design</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ minimization</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ access control</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ retention / deletion</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ transfer safeguards</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Scope confirmation Remediation plan -&gt; review -&gt; launch decision</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ PIA workflow                                                         │
+├──────────────────────────────────────────────────────────────────────┤
+│ Change trigger                                                       │
+│   ├─ new system                                                      │
+│   ├─ major feature expansion                                         │
+│   ├─ third-party linkage                                             │
+│   └─ AI / analytics profiling                                        │
+│        │                                                             │
+│        ▼                                                             │
+│ Data inventory -> Data flow map -> Risk analysis -> Control design   │
+│        │               │                   │                          │
+│        │               │                   ├─ minimization            │
+│        │               │                   ├─ access control          │
+│        │               │                   ├─ retention / deletion    │
+│        │               │                   └─ transfer safeguards     │
+│        ▼               ▼                                              │
+│ Scope confirmation      Remediation plan -> review -> launch decision │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 | 평가 축 | 대표 질문 | 설계 반영 예시 |
 | :--- | :--- | :--- |
@@ -117,7 +116,7 @@ PIA는 감리, [ISMS-P](/knowledge-base/studynote/12_it_management/05_security_c
 | 시나리오 | 주요 위험 | 권장 판단 |
 | :--- | :--- | :--- |
 | 공공 포털 고도화 | 여러 행정 시스템 간 대량 연계, 권한 남용 | 전체 연계 구간을 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)하고 최소권한·열람로그·마스킹을 설계에 반영한다. |
-| 마케팅 개인화 플랫폼 / 고객 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼 ([CDP](/knowledge-base/studynote/09_security/04_endpoint_security/193_crl_distribution_point_cdp/), [Customer Data Platform](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/115_cdp_customer_data_platform_single_view/)) | 과도한 결합, 목적 외 이용, 장기 보관 | 목적별 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분리, 동의 범위 구분, 보유 기간 축소를 우선 적용한다. |
+| 마케팅 개인화 플랫폼 / 고객 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼 ([CDP](/knowledge-base/studynote/09_security/04_endpoint_security/193_crl_distribution_point_cdp/), [C고객 Data Platform](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/115_cdp_customer_data_platform_single_view/)) | 과도한 결합, 목적 외 이용, 장기 보관 | 목적별 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분리, 동의 범위 구분, 보유 기간 축소를 우선 적용한다. |
 | 생성형 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 상담 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | 프롬프트 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 재학습 활용, [민감정보](/knowledge-base/studynote/09_security/16_data_privacy/782_sensitive_information/) 유입, 국외 이전 | [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 마스킹, 학습 전용 분리, 국외 이전·위탁 조건 검토를 별도 항목으로 다룬다. |
 | 외부 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)형 소프트웨어 ([SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/), Software [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) 위탁 운영 | 제3자 제공/위탁 경계 불명확, 삭제 책임 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) | 계약·[Application Programming Interface](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) ([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))·[백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)까지 포함해 책임과 파기 절차를 명문화한다. |
 
@@ -165,27 +164,26 @@ PIA를 제대로 수행하면 시스템 오픈 후 뒤늦게 [데이터](/knowle
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Personal data collection expands</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Need for privacy risk visibility</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">PIA / DPIA methodology</div>
-<div class="kb-diagram-tree-item" style="--depth:2">data inventory</div>
-<div class="kb-diagram-tree-item" style="--depth:2">flow mapping</div>
-<div class="kb-diagram-tree-item" style="--depth:2">risk analysis</div>
-<div class="kb-diagram-tree-item" style="--depth:2">remediation planning</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Privacy by Design in SDLC (Software Development Life Cycle)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Audit / ISMS-P / digital trust governance</div>
-</div>
-</div>
-
-
+```text
+Personal data collection expands
+    │
+    ▼
+Need for privacy risk visibility
+    │
+    ▼
+PIA / DPIA methodology
+    │
+    ├─ data inventory
+    ├─ flow mapping
+    ├─ risk analysis
+    └─ remediation planning
+    │
+    ▼
+Privacy by Design in SDLC (Software Development Life Cycle)
+    │
+    ▼
+Audit / ISMS-P / digital trust governance
+```
 
 이 흐름은 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)가 단순 보안 점검에서 출발해, 설계·운영·[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)까지 연결되는 거버넌스 체계로 확장되는 과정을 보여 준다.
 

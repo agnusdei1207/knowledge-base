@@ -50,27 +50,28 @@ tags = ["studynote-operating-system"]
 
 두 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 `count++`를 거의 동시에 1번씩 실행하여, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)값 10에서 최종값 12를 기대하는 상황을 간트 차트로 분해해 본다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">타이밍(Timing)의 저주: Lost Update 발생 시뮬레이션</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">공유 메모리 변수: count = 10</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스레드 A (Core 0) 스레드 B (Core 1)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1. LOAD R_A,</div><div class="kb-diagram-node">count</div><div class="kb-diagram-note">(R_A = 10)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. ADD R_A, 1 (R_A = 11)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">====================== 💥 스레드 교체 ======================</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1. LOAD R_B,</div><div class="kb-diagram-node">count</div><div class="kb-diagram-note">(R_B = 10)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. ADD R_B, 1 (R_B = 11)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3. STORE</div><div class="kb-diagram-node">count</div><div class="kb-diagram-note">, R_B(count=11됨)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">==================== 💥 스레드 다시 교체 =====================</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3. STORE</div><div class="kb-diagram-node">count</div><div class="kb-diagram-note">, R_A (count에 11을 덮어씀!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🚨 최종 결과: 스레드가 2번이나 더했지만, count 값은 11이 되었다.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(스레드 B가 기껏 더해서 써놓은 결과를 A가 무식하게 덮어써서 파괴함)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌────────────────────────────────────────────────────────────────────────┐
+  │         타이밍(Timing)의 저주: Lost Update 발생 시뮬레이션             │
+  ├────────────────────────────────────────────────────────────────────────┤
+  │                                                                        │
+  │  [공유 메모리 변수: count = 10]                                        │
+  │                                                                        │
+  │   스레드 A (Core 0)                      스레드 B (Core 1)             │
+  │  ─────────────────────────────────────────────────────────             │
+  │  1. LOAD R_A, [count] (R_A = 10)                                       │
+  │  2. ADD R_A, 1        (R_A = 11)                                       │
+  │  ====================== 💥 스레드 교체 ======================          │
+  │                                  1. LOAD R_B, [count] (R_B = 10)       │
+  │                                  2. ADD R_B, 1        (R_B = 11)       │
+  │                                  3. STORE [count], R_B(count=11됨)     │
+  │  ==================== 💥 스레드 다시 교체 =====================        │
+  │  3. STORE [count], R_A (count에 11을 덮어씀!)                          │
+  │                                                                        │
+  │  🚨 최종 결과: 스레드가 2번이나 더했지만, count 값은 11이 되었다.      │
+  │     (스레드 B가 기껏 더해서 써놓은 결과를 A가 무식하게 덮어써서 파괴함)│
+  └────────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 이것이 전 세계 전산망을 가장 괴롭히는 Race Condition의 1번 타자, '[Lost Update](/knowledge-base/studynote/05_database/04_transactions_concurrency/203_lost_update_concurrency_problem/)' 패턴이다. A가 메모리에서 10을 가져가서 자기만의 계산 공간([레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/))에서 11을 쥐고 있는 동안, 메모리에 적힌 값은 아직 10이다. 이 빈틈을 노리고 B가 10을 가져가 버렸기 때문에 운명이 꼬인 것이다.
 
 ### 경쟁 조건이 발생하는 3대 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 취약 구역
@@ -115,27 +116,28 @@ tags = ["studynote-operating-system"]
 2. <strong>단일 객체 패턴(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/">Singleton</a>)의 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a> 경합</strong>: 자바(Java) 스프링 환경에서 전역으로 하나만 써야 하는 [싱글톤](/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/) 객체를 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)([Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Initialization)할 때 터지는 고질병이다. `if (instance == null) instance = new Object();` 코드를 짜놓으면, A가 null을 확인하고 객체를 만들려는 찰나에 B가 들어와서 또 null을 확인하고 객체를 또 만들어버려 메모리에 2개의 객체가 떠돌며 서버가 터진다.
    - **아키텍처 결단**: 이를 막기 위해 `Double-Checked Locking` 패턴을 쓰거나, 락 오버헤드가 싫다면 아예 클래스 로딩 시점에 미리 만들어버리는(Eager Initialization) 방식으로 JVM 스펙을 이용해 경쟁 조건을 회피한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">경쟁 조건(Race Condition)을 원천 차단하는 백엔드 아키텍처 4단계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Level 4: 공유를 아예 포기한다 (Share Nothing)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 방법: Thread-Local Storage(TLS)나 무상태(Stateless) 함수 활용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 효과: 가장 위대하고 완벽한 아키텍처. 부딪힐 자원 자체가 없음!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Level 3: 상태를 바꿀 수 없게 만든다 (Immutability)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 방법: String, final, 불변 객체 사용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 효과: 100만 명이 동시에 '읽기(Read)'만 하므로 경합 자체가 소멸.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Level 2: 락 없이 하드웨어로 찍어 누른다 (Lock-free)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 방법: CAS(Compare-And-Swap) 기반 Atomic 클래스 사용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 효과: 블로킹 렉 없이 아주 얇게 동시성 제어 방어 성공.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Level 1: 무식하게 문을 걸어 잠근다 (Pessimistic Lock)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 방법: Mutex, Semaphore, Synchronized 남발</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 효과: 하수들의 방식. 데드락과 성능 폭락의 위협을 영원히 안고 감.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────────┐
+  │     경쟁 조건(Race Condition)을 원천 차단하는 백엔드 아키텍처 4단계   │
+  ├───────────────────────────────────────────────────────────────────────┤
+  │                                                                       │
+  │   [ Level 4: 공유를 아예 포기한다 (Share Nothing) ]                   │
+  │     ▶ 방법: Thread-Local Storage(TLS)나 무상태(Stateless) 함수 활용   │
+  │     ▶ 효과: 가장 위대하고 완벽한 아키텍처. 부딪힐 자원 자체가 없음!   │
+  │                                                                       │
+  │   [ Level 3: 상태를 바꿀 수 없게 만든다 (Immutability) ]              │
+  │     ▶ 방법: String, final, 불변 객체 사용                             │
+  │     ▶ 효과: 100만 명이 동시에 '읽기(Read)'만 하므로 경합 자체가 소멸. │
+  │                                                                       │
+  │   [ Level 2: 락 없이 하드웨어로 찍어 누른다 (Lock-free) ]             │
+  │     ▶ 방법: CAS(Compare-And-Swap) 기반 Atomic 클래스 사용             │
+  │     ▶ 효과: 블로킹 렉 없이 아주 얇게 동시성 제어 방어 성공.           │
+  │                                                                       │
+  │   [ Level 1: 무식하게 문을 걸어 잠근다 (Pessimistic Lock) ]           │
+  │     ▶ 방법: Mutex, Semaphore, Synchronized 남발                       │
+  │     ▶ 효과: 하수들의 방식. 데드락과 성능 폭락의 위협을 영원히 안고 감.│
+  └───────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 초보 개발자는 공유 변수를 보면 반사적으로 `Mutex`부터 떡칠한다. 하지만 베테랑 아키텍트는 "이 변수를 꼭 10개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 '공유'해야만 하는가?"를 먼저 고민한다. [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 10개에게 각자 도마(Thread-Local)를 하나씩 사주고 마지막에 결과만 취합(Map-Reduce)하면 락을 아예 안 쓰고도 경쟁 조건을 피해 갈 수 있다. 최고의 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))은 락을 쓰지 않는 설계다.
 
 - **📢 섹션 요약 비유**: 교통사고(경쟁 조건)를 막는 최고의 방법은 교차로에 신호등([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 다는 것이 아닙니다. 돈이 많이 들더라도 지하차도와 고가도로(격리, 불변성)를 지어서 차들이 평생 만날 일조차 없게 도로망 자체를 뜯어고치는 것이 진정한 아키텍처입니다.
@@ -166,19 +168,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">대상 지연 시간 (Target Latency) / 최소 입자 (Minimum Granularity)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">경쟁 조건 (Race Condition)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">동적 우선순위 승급 (Priority Boost)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">태스크 스케줄링의 캐시 일관성 (Cache Coherence) 문제</div></div>
-</div>
-</div>
-
-
+```text
+[대상 지연 시간 (Target Latency) / 최소 입자 (Minimum Granularity)]
+    │
+    ▼
+[경쟁 조건 (Race Condition)]
+    │
+    ├──▶ [동적 우선순위 승급 (Priority Boost)]
+    └──▶ [태스크 스케줄링의 캐시 일관성 (Cache Coherence) 문제]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

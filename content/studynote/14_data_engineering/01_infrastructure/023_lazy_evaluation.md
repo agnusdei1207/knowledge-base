@@ -22,25 +22,24 @@ tags = ["studynote-data-engineering"]
 
 즉시 평가(Eager Evaluation)에서는 `map(f, huge_list)`처럼 거대한 리스트 전체를 변환해 메모리에 올리지만, 결국 처음 10개 결과만 사용한다면 나머지 수백만 건의 연산은 낭비다. [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 평가는 이 문제를 연산을 "레시피([실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/))"로만 기억하고, 결과가 필요할 때 그 레시피를 실행하는 방식으로 해결한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">즉시 평가 vs 지연 평가 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">즉시 평가 (Eager)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">data =</div><div class="kb-diagram-node">1..1000000</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">result = filter(&gt;100, map(*2, data)) ← 즉시 전체 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">first_10 = take(10, result)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 100만 번 연산 후 10개만 사용 (낭비!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">지연 평가 (Lazy)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">data =</div><div class="kb-diagram-node">1..∞</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">무한 리스트 (메모리에 없음!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">result = filter(&gt;100, map(*2, data)) ← 실행 계획만 기록</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">first_10 = take(10, result) ← 여기서 실제 10번만 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 딱 10개 계산 (최적!)</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────┐
+│           즉시 평가 vs 지연 평가 비교                         │
+├────────────────────────────────────────────────────────────┤
+│                                                            │
+│  [즉시 평가 (Eager)]                                        │
+│  data = [1..1000000]                                       │
+│  result = filter(>100, map(*2, data))  ← 즉시 전체 실행     │
+│  first_10 = take(10, result)                               │
+│  → 100만 번 연산 후 10개만 사용 (낭비!)                      │
+│                                                            │
+│  [지연 평가 (Lazy)]                                         │
+│  data = [1..∞]  ← 무한 리스트 (메모리에 없음!)               │
+│  result = filter(>100, map(*2, data))  ← 실행 계획만 기록   │
+│  first_10 = take(10, result)  ← 여기서 실제 10번만 실행     │
+│  → 딱 10개 계산 (최적!)                                     │
+└────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 평가는 "배달 음식 미리 주문"이 아니라, 진짜 배고플 때 주문하는 것이다. 언제 먹을지 모르는데 미리 100인분 시켜두면 낭비지만, 먹으려는 순간 딱 필요한 만큼만 주문하면 낭비가 없다.
 
@@ -57,22 +56,21 @@ Apache Spark는 [지연](/knowledge-base/studynote/03_network/01_data_communicat
 | **Transformation (변환)** | map, filter, groupBy, [join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) | [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) — Action까지 실행 안 함 | DAG에 단계만 기록 |
 | **Action (행동)** | collect, count, save, show | 즉시 실행 | DAG를 실제로 실행 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Spark 지연 평가 DAG 최적화 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RDD.filter(condition) ← Transformation 1 (기록만)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">.map(transform) ← Transformation 2 (기록만)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">.join(other_rdd) ← Transformation 3 (기록만)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">.count() ← Action! 여기서 DAG 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Catalyst Optimizer 개입:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">filter → map → join → filter를 join 앞으로 이동!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Predicate Pushdown: 데이터 줄인 후 join → 비용 80% 절감)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────┐
+│           Spark 지연 평가 DAG 최적화 흐름                  │
+├──────────────────────────────────────────────────────────┤
+│                                                          │
+│  RDD.filter(condition)  ← Transformation 1 (기록만)       │
+│     .map(transform)     ← Transformation 2 (기록만)       │
+│     .join(other_rdd)    ← Transformation 3 (기록만)       │
+│     .count()            ← Action! 여기서 DAG 실행         │
+│                                                          │
+│  Catalyst Optimizer 개입:                                 │
+│  filter → map → join  →  filter를 join 앞으로 이동!        │
+│  (Predicate Pushdown: 데이터 줄인 후 join → 비용 80% 절감)  │
+└──────────────────────────────────────────────────────────┘
+```
 
 ### Python Generator의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 평가
 
@@ -151,23 +149,21 @@ first_10 = [next(lazy_gen) for _ in range(10)]  # 10번만 실행
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">함수형 프로그래밍 (Haskell) — 기본 평가 전략으로 지연 평가</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Python Generator / Scala Lazy Val — 선택적 지연 평가</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Spark RDD Transformation — 분산 지연 평가 + DAG</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Catalyst Optimizer — 지연 평가 기반 실행 계획 최적화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AQE (Adaptive Query Execution) — 런타임 동적 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[함수형 프로그래밍 (Haskell) — 기본 평가 전략으로 지연 평가]
+    │
+    ▼
+[Python Generator / Scala Lazy Val — 선택적 지연 평가]
+    │
+    ▼
+[Spark RDD Transformation — 분산 지연 평가 + DAG]
+    │
+    ▼
+[Catalyst Optimizer — 지연 평가 기반 실행 계획 최적화]
+    │
+    ▼
+[AQE (Adaptive Query Execution) — 런타임 동적 최적화]
+```
 함수형 언어의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 평가 개념이 Python Generator, Spark RDD로 이어지며, Catalyst Optimizer와 AQE를 통해 런타임 적응형 최적화로 진화하는 흐름이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

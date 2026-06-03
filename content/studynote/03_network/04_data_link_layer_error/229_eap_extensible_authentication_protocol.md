@@ -25,18 +25,14 @@ tags = ["studynote-network"]
 
 - **💡 비유**: EAP는 다양한 게임팩을 꽂을 수 있는 <strong>"닌텐도 게임기 본체(콘솔)"</strong>와 같습니다. EAP 본체 자체는 게임이 아니지만, '스마트카드 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 팩', '[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서([TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 팩' 등 어떤 카트리지(EAP 메서드)를 꽂느냐에 따라 다양한 방식으로 동작합니다. 새로운 게임([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 기술)이 나와도 팩만 갈아 끼우면 됩니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">CHAP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">EAP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">이더넷 구조 및 원리</div></div>
-</div>
-</div>
-
-
+```text
+[CHAP]
+    │
+    ▼
+[EAP]
+    │
+    └──▶ [이더넷 구조 및 원리]
+```
 
 - **📢 섹션 요약 비유**: ** EAP는 택배 회사의 **"표준 규격 상자"**입니다. 내용물이 유리잔(비밀번호)이든, 전자기기(생체 정보)이든, 보석(디지털 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서)이든 상관없이 똑같은 네모난 상자에 담아 안전하게 배송해 주는 범용 포장 시스템입니다.
 
@@ -54,26 +50,36 @@ EAP [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/3
 ### 2. IEEE 802.[1X](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/584_802_1x_pnac_eap_radius/) 기반 EAP 동작 시퀀스
 유선 포트나 무선 AP에 연결될 때 EAP 기반의 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 절차는 다음과 같다. 이 과정에서 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)자([AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/))는 내용물([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 뜯어보지 않는다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IEEE 802.1X에서의 EAP 인증 과정 (EAP-TLS 예시)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Supplicant</div><div class="kb-diagram-node">Authenticator (AP)</div><div class="kb-diagram-node">RADIUS 서버</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(노트북) (무선 공유기) (인증 서버)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. EAPOL-Start (연결 요청)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. EAP-Request/Identity</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. EAP-Response/Identity</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. RADIUS Access-Request</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(EAP 메시지 포장)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. EAP 방식 협상 및 인증 교환 (서로 TLS 터널 등 생성)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6. RADIUS Access-Accept</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">7. EAP-Success</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀ 포트 잠금 해제 (통신 시작)</div></div>
-</div>
-</div>
-
-
+```text
+ ┌───────────────────────────────────────────────────────────────┐
+ │            IEEE 802.1X에서의 EAP 인증 과정 (EAP-TLS 예시)       │
+ ├───────────────────────────────────────────────────────────────┤
+ │                                                               │
+ │ [Supplicant]          [Authenticator (AP)]        [RADIUS 서버]  │
+ │  (노트북)                  (무선 공유기)               (인증 서버)   │
+ │     │                         │                         │     │
+ │     │ 1. EAPOL-Start (연결 요청)│                         │     │
+ │     ├────────────────────────▶│                         │     │
+ │     │                         │                         │     │
+ │     │ 2. EAP-Request/Identity │                         │     │
+ │     │◀────────────────────────┤                         │     │
+ │     │                         │                         │     │
+ │     │ 3. EAP-Response/Identity│                         │     │
+ │     ├────────────────────────▶│                         │     │
+ │     │                         │ 4. RADIUS Access-Request│     │
+ │     │                         │    (EAP 메시지 포장)       │     │
+ │     │                         ├────────────────────────▶│     │
+ │     │                         │                         │     │
+ │     │ 5. EAP 방식 협상 및 인증 교환 (서로 TLS 터널 등 생성)       │     │
+ │     │◀────────────────────────┼────────────────────────▶│     │
+ │     │                         │                         │     │
+ │     │                         │ 6. RADIUS Access-Accept │     │
+ │     │                         │◀────────────────────────┤     │
+ │     │ 7. EAP-Success          │                         │     │
+ │     │◀────────────────────────┤ 포트 잠금 해제 (통신 시작)  │     │
+ │                                                               │
+ └───────────────────────────────────────────────────────────────┘
+```
 
 ### 3. 대표적인 EAP 확장 방식 (EAP Methods)
 - <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/228_eap_md5_vulnerable_authentication/">EAP-MD5</a></strong>: CHAP와 비슷한 해시 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) ([보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) 낮음).
@@ -136,19 +142,15 @@ EAP는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rela
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: CHAP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: EAP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 이더넷 구조 및 원리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고신뢰 저지연 링크 제어</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: CHAP]
+    │
+    ▼
+[현재 개념: EAP]
+    │
+    ├──▶ [확장 A: 이더넷 구조 및 원리]
+    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
+```
 
 EAP는 CHAP에서 출발해 현재 메커니즘을 정교화하고, 이후 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 구조 및 원리와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

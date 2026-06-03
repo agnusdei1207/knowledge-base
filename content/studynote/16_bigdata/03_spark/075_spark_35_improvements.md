@@ -20,21 +20,18 @@ tags = ["studynote-bigdata"]
 
 [Apache Spark](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/) 3.5는 Spark 3.x 시리즈의 주요 기능 업데이트로, 사용 편의성·[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·SQL 표준 준수를 중점적으로 개선했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Spark 3.5 핵심 개선 영역</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Spark Connect — 경량 원격 클라이언트 연결</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Python UDTF — 테이블 반환 Python 함수</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. ANSI SQL 강화 — 표준 SQL 호환성 확대</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. Structured Streaming — 상태 관리 고도화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. PySpark + PyArrow — 데이터 교환 성능 향상</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6. Spark SQL 함수 확장 — 300+ 신규 함수 추가</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────┐
+│          Spark 3.5 핵심 개선 영역                          │
+├──────────────────────────────────────────────────────────┤
+│  1. Spark Connect — 경량 원격 클라이언트 연결               │
+│  2. Python UDTF — 테이블 반환 Python 함수                  │
+│  3. ANSI SQL 강화 — 표준 SQL 호환성 확대                   │
+│  4. Structured Streaming — 상태 관리 고도화                │
+│  5. PySpark + PyArrow — 데이터 교환 성능 향상              │
+│  6. Spark SQL 함수 확장 — 300+ 신규 함수 추가              │
+└──────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: Spark 3.5는 자동차의 대형 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)다. 엔진(코어 처리) 튜닝, 내비게이션(SQL) 업그레이드, 원격 시동(Spark Connect), 연비 개선(PyArrow)이 동시에 이루어졌다.
 
@@ -44,20 +41,15 @@ tags = ["studynote-bigdata"]
 
 ### Spark Connect 아키텍처
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">로컬 Python/Notebook 클라이언트</div></div>
-<div class="kb-diagram-note">gRPC 연결 (Protocol Buffers)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Spark Connect Server (클러스터)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Spark 드라이버 → 익스큐터</div></div>
-</div>
-</div>
-
-
+```text
+[로컬 Python/Notebook 클라이언트]
+         │ gRPC 연결 (Protocol Buffers)
+         ▼
+[Spark Connect Server (클러스터)]
+         │
+         ▼
+[Spark 드라이버 → 익스큐터]
+```
 
 Spark Connect 이전: 드라이버 JVM에 직접 연결 (언어 의존성, [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 충돌).
 Spark Connect 이후: 임의 언어 클라이언트에서 안정적 원격 접속.
@@ -70,9 +62,9 @@ from pyspark.sql.functions import udtf
 
 @udtf(returnType="num: int, squared: int")
 class SquaredNumbers:
-def eval(self, n: int):
-for i in range(n):
-yield i, i ** 2
+    def eval(self, n: int):
+        for i in range(n):
+            yield i, i ** 2
 
 spark.udtf.register("squared", SquaredNumbers)
 spark.sql("SELECT * FROM squared(5)").show()
@@ -142,23 +134,21 @@ Spark 4.0은 Python-first 설계로 Scala API와 동등한 Python API를 목표�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Spark 2.x — DataFrame API, SparkSQL 기반 확립</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Spark 3.0 — AQE, 동적 파티션 프루닝 도입</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Spark 3.4 — Spark Connect 프리뷰, ANSI 강화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Spark 3.5 — Spark Connect GA, Python UDTF, Streaming↑</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Spark 4.0 — Python-first, Lakehouse 통합 강화</div></div>
-</div>
-</div>
-
-
+```text
+[Spark 2.x — DataFrame API, SparkSQL 기반 확립]
+    │
+    ▼
+[Spark 3.0 — AQE, 동적 파티션 프루닝 도입]
+    │
+    ▼
+[Spark 3.4 — Spark Connect 프리뷰, ANSI 강화]
+    │
+    ▼
+[Spark 3.5 — Spark Connect GA, Python UDTF, Streaming↑]
+    │
+    ▼
+[Spark 4.0 — Python-first, Lakehouse 통합 강화]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -172,7 +162,7 @@ Spark 4.0은 Python-first 설계로 Scala API와 동등한 Python API를 목표�
 
 **진행 상황**: 75 / 262
 
-← **이전**: [23. Photon Engine (Databricks) — 네이티브 벡터화 실행 엔진](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/)
-**다음**: [01. Apache Flink - 상태 기반 스트리밍처리의 완료](/knowledge-base/studynote/16_bigdata/04_streaming/076_apache_flink/) →
+← **이전**: [23. Photon 엔진 (Databricks) — 네이티브 벡터화 실행 엔진](/knowledge-base/studynote/16_bigdata/03_spark/074_photon_engine/)
+**다음**: [01. Apache Flink - 상태 기반 스트리밍처리의 완성형](/knowledge-base/studynote/16_bigdata/04_streaming/076_apache_flink/) →
 
 ---

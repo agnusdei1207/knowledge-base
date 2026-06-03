@@ -18,21 +18,20 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디지털 트윈 3요소</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① 물리적 개체</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(공장 설비, 건물, 도시)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IoT 센서 ── ── ③ 연결 (양방향)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">액추에이터 ──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② 가상 모델</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(3D 모델, 시뮬레이션, AI)</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    디지털 트윈 3요소                                  │
+├───────────────────────────────────────────────────────┤
+│           ① 물리적 개체                              │
+│            (공장 설비, 건물, 도시)                    │
+│                │                                      │
+│    IoT 센서  ──┤── ③ 연결 (양방향)                   │
+│    액추에이터 ──┤                                     │
+│                │                                      │
+│           ② 가상 모델                                │
+│            (3D 모델, 시뮬레이션, AI)                  │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 3요소는 <strong>거울(가상)·사람(물리)·빛(연결)</strong>이다. 빛이 없으면 거울에 아무것도 비치지 않는다.
 
@@ -98,23 +97,21 @@ tags = ["studynote-ict-convergence"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">CAD 3D 모델 (정적, 1990s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시뮬레이션 (FEM/CFD, 2000s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IoT + 3D → 디지털 트윈 (2015~)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AI + 디지털 트윈 → 예측·자율 (2020~)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: 메타버스 + 디지털 트윈 — 몰입형 운영</div></div>
-</div>
-</div>
-
-
+```text
+[CAD 3D 모델 (정적, 1990s)]
+    │
+    ▼
+[시뮬레이션 (FEM/CFD, 2000s)]
+    │
+    ▼
+[IoT + 3D → 디지털 트윈 (2015~)]
+    │
+    ▼
+[AI + 디지털 트윈 → 예측·자율 (2020~)]
+    │
+    ▼
+[현재: 메타버스 + 디지털 트윈 — 몰입형 운영]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/)은 **거울(가상)·사람(물리)·빛(연결)** 3가지가 필요해요.

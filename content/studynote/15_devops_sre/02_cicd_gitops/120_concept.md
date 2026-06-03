@@ -18,23 +18,20 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DORA 4대 지표</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 배포 빈도 (Deployment Frequency)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ Elite: 하루 여러 번</div><div class="kb-diagram-cell">Low: 월 1회 이하</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 리드 타임 (Lead Time for Changes)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ Elite: 1시간 이내</div><div class="kb-diagram-cell">Low: 6개월 이상</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 변경 실패율 (Change Failure Rate)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ Elite: 0~15%</div><div class="kb-diagram-cell">Low: 46~60%</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. MTTR (Mean Time to Restore)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ Elite: 1시간 이내</div><div class="kb-diagram-cell">Low: 6개월 이상</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    DORA 4대 지표                                      │
+├───────────────────────────────────────────────────────┤
+│  1. 배포 빈도 (Deployment Frequency)                  │
+│     → Elite: 하루 여러 번 | Low: 월 1회 이하         │
+│  2. 리드 타임 (Lead Time for Changes)                 │
+│     → Elite: 1시간 이내 | Low: 6개월 이상            │
+│  3. 변경 실패율 (Change Failure Rate)                 │
+│     → Elite: 0~15% | Low: 46~60%                    │
+│  4. MTTR (Mean Time to Restore)                       │
+│     → Elite: 1시간 이내 | Low: 6개월 이상            │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) Metrics는 공장의 <strong>품질·속도·불량률·<a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 시간</strong>을 측정하는 4개 계기판이다. 4개 모두 좋아야 진짜 좋은 공장이다.
 
@@ -101,23 +98,21 @@ tags = ["studynote-devops-sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DevOps 개념 등장 (2009~)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DORA 팀 연구 시작 (2013~) — State of DevOps Report</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Accelerate 출판 (2018) — DORA 4대 지표 정의</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Google DORA 팀 합류 (2018~) — 산업 표준화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: DORA + SPACE — 종합 개발자 생산성 측정</div></div>
-</div>
-</div>
-
-
+```text
+[DevOps 개념 등장 (2009~)]
+    │
+    ▼
+[DORA 팀 연구 시작 (2013~) — State of DevOps Report]
+    │
+    ▼
+[Accelerate 출판 (2018) — DORA 4대 지표 정의]
+    │
+    ▼
+[Google DORA 팀 합류 (2018~) — 산업 표준화]
+    │
+    ▼
+[현재: DORA + SPACE — 종합 개발자 생산성 측정]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. DORA는 공장의 <strong>4개 계기판</strong>이에요. 속도·품질·불량률·수리 시간을 재요.
@@ -131,6 +126,6 @@ tags = ["studynote-devops-sre"]
 **진행 상황**: 120 / 373
 
 ← **이전**: [119. Pre-commit Hook 린팅 (Pre-commit Hook Linting) - 커밋 전 자동 코드 품질 검증](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/119_pre_commit_hook_linting/)
-**다음**: [121. SRE 철학 (Site Reliability Engineering Philosophy) - 신뢰성 엔지니어링의 핵심 원칙](/knowledge-base/studynote/15_devops_sre/03_sre_observability/121_sre_philosophy/) →
+**다음**: [121. SRE 철학 (Site Reliability 엔진ering Philosophy) - 신뢰성 엔지니어링의 핵심 원칙](/knowledge-base/studynote/15_devops_sre/03_sre_observability/121_sre_philosophy/) →
 
 ---

@@ -27,25 +27,26 @@ tags = ["studynote-operating-system"]
   2. <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/">Page Fault</a> Handler의 진화</strong>: 기존엔 그냥 `FreeList`의 맨 앞 놈을 줬지만, 이젠 `Node_0_FreeList`와 `Node_1_FreeList` 중 어디서 뺄지 고민해야 했다.
   3. **First-Touch의 한계와 실무의 개입**: OS가 눈치껏 로컬을 줬지만 빅데이터 환경에서 역효과가 터지자, 결국 `numactl` 같은 유저 스페이스 툴로 통제권을 넘겨주게 되었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NUMA 환경의 가상 메모리 할당 (First-Touch) 파이프라인 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1.</div><div class="kb-diagram-node">유저 앱 (CPU Node 0에서 실행 중)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell"><code>malloc(1GB)</code> 호출. (가상 주소 공간 1GB 뻥튀기, 실제 램 0)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2.</div><div class="kb-diagram-node">앱이 첫 번째 변수를 Write 하는 순간!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 0 ──▶ 가상 주소 찌름 ──▶ Page Fault 터짐!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3.</div><div class="kb-diagram-node">OS 커널 (NUMA 스케줄러)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS: "앗! 지금 폴트를 낸 놈이 누구지? 아, CPU 0번에서 도는 놈이네!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS: "그럼 다른 노드 장부는 쳐다보지도 말고, 무조건 0번 노드의</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">램(Local Node RAM)에서 빈 프레임 1장 빼와서 매핑해 줘!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">4.</div><div class="kb-diagram-node">결과 (Local Hit)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">앱은 자기 발밑에 있는 램을 배정받아 QPI 다리 없이 초고속 연산!</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│        NUMA 환경의 가상 메모리 할당 (First-Touch) 파이프라인 시각화  │
+├──────────────────────────────────────────────────────────────────────┤
+│                                                                      │
+│ 1. [ 유저 앱 (CPU Node 0에서 실행 중) ]                              │
+│    `malloc(1GB)` 호출. (가상 주소 공간 1GB 뻥튀기, 실제 램 0)        │
+│                                                                      │
+│ 2. [ 앱이 첫 번째 변수를 Write 하는 순간! ]                          │
+│    CPU 0 ──▶ 가상 주소 찌름 ──▶ Page Fault 터짐!                     │
+│                                                                      │
+│ 3. [ OS 커널 (NUMA 스케줄러) ]                                       │
+│    OS: "앗! 지금 폴트를 낸 놈이 누구지? 아, CPU 0번에서 도는 놈이네!"│
+│    OS: "그럼 다른 노드 장부는 쳐다보지도 말고, 무조건 0번 노드의     │
+│         램(Local Node RAM)에서 빈 프레임 1장 빼와서 매핑해 줘!"      │
+│                                                                      │
+│ 4. [ 결과 (Local Hit) ]                                              │
+│    앱은 자기 발밑에 있는 램을 배정받아 QPI 다리 없이 초고속 연산!    │
+└──────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 체제에서 `malloc()` 시점엔 메모리가 어디(어느 노드)에 배정될지 아무도 모른다. 진짜 주소는 <strong>"가장 처음 데이터를 쓰는(Touch) 그 찰나의 순간, 그 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 작업을 수행하는 CPU가 소속된 노드"</strong>로 결정(Binding)된다. 이것이 리눅스의 절대 원칙인 First-Touch Policy다. 
 
 - **📢 섹션 요약 비유**: 온라인 쇼핑몰(malloc)에서 물건을 주문할 때 배송지 창고가 결정되는 게 아닙니다. 내가 결제 버튼(First-touch)을 누르는 순간 내 스마트폰의 GPS(현재 CPU 노드)를 추적해서, 가장 가까운 지역 물류센터(로컬 램)에서 물건이 출발하도록 매핑해 주는 극강의 위치 기반 로켓 배송입니다.
@@ -100,17 +101,14 @@ First-Touch는 완벽해 보이지만, <strong>OS 스케줄러가 <a href="/know
 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 안의 게스트 OS는 자기가 100GB 통짜 램([UMA](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/379_uma/))을 쓰는 줄 착각하고 막 쓴다. 그런데 사실 밑바닥은 찢어진 NUMA라, 게스트 OS가 0.1초마다 QPI 다리를 건너며 렉이 작살난다.
 이를 막기 위해 현대 클라우드는 <strong>vNUMA (가상 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/">NUMA</a>)</strong>를 켜서, 게스트 OS에게 "너 지금 반반 찢어진 [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 램 쓰고 있으니까 네 안에서 스케줄링할 때 눈치껏 해라!"라고 토폴로지 지도를 투명하게 전달해 주는 아키텍처로 진화했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">환경</div><div class="kb-diagram-cell">DB (MongoDB)</div><div class="kb-diagram-cell">웹 서버 (Nginx)</div><div class="kb-diagram-cell">가상 머신 (KVM)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최적 NUMA</div><div class="kb-diagram-cell">Interleave</div><div class="kb-diagram-cell">Default</div><div class="kb-diagram-cell">vNUMA 켜기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스케줄 목표</div><div class="kb-diagram-cell">대역폭 분산</div><div class="kb-diagram-cell">로컬 캐시 히트</div><div class="kb-diagram-cell">호스트-게스트 동기화</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬───────────────────────────────┐
+│ 환경       │ DB (MongoDB)│ 웹 서버 (Nginx)│ 가상 머신 (KVM)        │
+├──────────┼────────────┼────────────┼───────────────────────────────┤
+│ 최적 NUMA│ Interleave │ Default    │ vNUMA 켜기                    │
+│ 스케줄 목표│ 대역폭 분산   │ 로컬 캐시 히트  │ 호스트-게스트 동기화│
+└──────────┴────────────┴────────────┴───────────────────────────────┘
+```
 **[매트릭스 해설]** 수많은 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 튜닝 매뉴얼이 `numactl --interleave`를 종교처럼 외치는 이유는, DB 엔진 초기화 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 혼자 로컬 노드 램을 독식(First-touch)해버려 나중에 수천 개의 커넥션 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 들이닥칠 때 메모리 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 터지는 참사를 원천 차단하기 위함이다.
 
 - **📢 섹션 요약 비유**: 큰 피자 한 판을 시킬 때, 내가 혼자 다 먹을 거면 내 방 책상(Bind)에 두는 게 제일 편합니다. 하지만 파티를 열어 100명이 먹을 거라면, 피자 조각을 거실, 부엌, 방에 골고루 쪼개 둬야(Interleave) 애들이 한 곳에 몰려 밟혀 죽는([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 병목) 참사를 막을 수 있습니다.
@@ -168,19 +166,15 @@ THP가 램 조각 512개를 모아서 2MB 거대 블록을 만들려는데, 연�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">OOM Killer (Out-of-Memory) 작동 우선순위 점수 (oom_score) 매커니즘</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NUMA 환경의 가상 메모리 스케줄링 (NUMA 노드 별 페이지 할당 / numactl)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">캐시 친화적 가상 메모리 관리 배치</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">VMA (Virtual Memory Area) 구조체 (리눅스 커널 프로세스 주소 공간 매핑)</div></div>
-</div>
-</div>
-
-
+```text
+[OOM Killer (Out-of-Memory) 작동 우선순위 점수 (oom_score) 매커니즘]
+    │
+    ▼
+[NUMA 환경의 가상 메모리 스케줄링 (NUMA 노드 별 페이지 할당 / numactl)]
+    │
+    ├──▶ [캐시 친화적 가상 메모리 관리 배치]
+    └──▶ [VMA (Virtual Memory Area) 구조체 (리눅스 커널 프로세스 주소 공간 매핑)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

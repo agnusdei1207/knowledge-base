@@ -29,22 +29,21 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SAST / DAST / IAST 파이프라인 배치</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">코드 커밋</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SAST</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">빌드</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">단위테스트</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스테이징 배포</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">PR 생성 정적 분석</div><div class="kb-diagram-node">DAST</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">소스코드에서</div><div class="kb-diagram-node">IAST</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SQL Injection 동적 공격</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">XSS 패턴 탐지 시뮬레이션</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하드코딩 시크릿 런타임 내부</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모니터링</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────┐
+│              SAST / DAST / IAST 파이프라인 배치                  │
+├────────────────────────────────────────────────────────────────┤
+│                                                                │
+│  [코드 커밋]──▶[SAST]──▶[빌드]──▶[단위테스트]──▶[스테이징 배포]│
+│       │          │                                    │        │
+│      PR 생성    정적 분석                         [DAST]       │
+│                소스코드에서                      [IAST]        │
+│                SQL Injection                  동적 공격        │
+│                XSS 패턴 탐지                   시뮬레이션       │
+│                하드코딩 시크릿                  런타임 내부      │
+│                                                모니터링         │
+└────────────────────────────────────────────────────────────────┘
+```
 
 | 항목 | [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/) | [DAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/) | [IAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/493_iast_interactive_analysis/) |
 |:---|:---|:---|:---|
@@ -118,19 +117,14 @@ tags = ["studynote-devops-sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">수동 보안 검수 시대 SAST/DAST 자동화 AI 보안 분석 시대</div>
-<div class="kb-diagram-note">수동 코드 리뷰 → SAST CI 통합 (SonarQube) → AI 기반 취약점 분류</div>
-<div class="kb-diagram-note">침투 테스터 전담 DAST 스테이징 자동화 Semgrep 커스텀 룰</div>
-<div class="kb-diagram-note">운영 후 취약점 발견 IAST 하이브리드 접근 CNAPP 내 SAST 통합</div>
-<div class="kb-diagram-note">False Positive 관리 LLM 코드 보안 리뷰</div>
-</div>
-</div>
-
-
+```text
+수동 보안 검수 시대         SAST/DAST 자동화             AI 보안 분석 시대
+──────────────────   ──────────────────────────   ───────────────────────
+수동 코드 리뷰        →  SAST CI 통합 (SonarQube) →  AI 기반 취약점 분류
+침투 테스터 전담           DAST 스테이징 자동화          Semgrep 커스텀 룰
+운영 후 취약점 발견         IAST 하이브리드 접근          CNAPP 내 SAST 통합
+                            False Positive 관리           LLM 코드 보안 리뷰
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

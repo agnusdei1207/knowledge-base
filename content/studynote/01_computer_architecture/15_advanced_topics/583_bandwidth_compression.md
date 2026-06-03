@@ -27,19 +27,22 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)를 거쳐 더 짧은 전송 단위로 바뀌는 모습을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Same link, fewer transmitted bits</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Raw cache line / packet</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">low-latency encoder -&gt; shorter payload + small header</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">same bus / link carries more useful bytes per unit time</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">decoder reconstructs original data before use</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│ Same link, fewer transmitted bits                                         │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Raw cache line / packet                                                    │
+│          │                                                                 │
+│          ▼                                                                 │
+│   low-latency encoder -> shorter payload + small header                    │
+│          │                                                                 │
+│          ▼                                                                 │
+│   same bus / link carries more useful bytes per unit time                 │
+│          │                                                                 │
+│          ▼                                                                 │
+│   decoder reconstructs original data before use                           │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)은 택배 상자를 더 세게 눌러 작게 만드는 것이 아니라, 내용물의 모양을 기억해 빈 공간 없이 다시 정리해서 같은 트럭에 더 많이 싣는 포장 기술과 같다.
 
@@ -60,22 +63,23 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 한 블록이 [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) 안에서 어떤 분기 과정을 거치는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Encode decision for one cache line</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Input block</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pattern detector</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ all-zero -&gt; header Z</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ small delta -&gt; header BDI + base + delta[]</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ common words -&gt; header FPC + pattern codes</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no gain -&gt; RAW</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Send</div><div class="kb-diagram-node">header + metadata + payload</div><div class="kb-diagram-note">only if size &lt; original</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│ Encode decision for one cache line                                        │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Input block                                                               │
+│    │                                                                       │
+│    ▼                                                                       │
+│ Pattern detector                                                           │
+│    ├─ all-zero  -> header Z                                                │
+│    ├─ small delta -> header BDI + base + delta[]                           │
+│    ├─ common words -> header FPC + pattern codes                           │
+│    └─ no gain    -> RAW                                                    │
+│                │                                                           │
+│                ▼                                                           │
+│ Send [header + metadata + payload] only if size < original                │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 예를 들어 64바이트 캐시 라인이 32바이트로 줄어들면, 같은 폭의 링크에서 전송 사이클 수가 절반 수준으로 줄 수 있다. 물론 실제 실효 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)은 평균 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)률, [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 가능한 트래픽 비율, [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 크기에 따라 달라진다. 그래서 기술사 관점에서는 "2배 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)"보다 <strong>평균 워크로드에서 얼마만큼 안정적으로 이득이 나는가</strong>를 보는 것이 더 중요하다.
 
@@ -154,25 +158,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">메모리 벽 · 핀 수 한계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">캐시 라인 기반 무손실 압축</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">BDI · FPC · Zero Encoding</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">GPU 프레임버퍼 · 메모리 링크 최적화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">적응형 인코더 선택 · 칩렛 링크 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">인공지능 희소 트래픽과 결합한 전송 최적화</div>
-</div>
-</div>
-
-
+```text
+메모리 벽 · 핀 수 한계
+        │
+        ▼
+캐시 라인 기반 무손실 압축
+        │
+        ▼
+BDI · FPC · Zero Encoding
+        │
+        ▼
+GPU 프레임버퍼 · 메모리 링크 최적화
+        │
+        ▼
+적응형 인코더 선택 · 칩렛 링크 적용
+        │
+        ▼
+인공지능 희소 트래픽과 결합한 전송 최적화
+```
 
 이 흐름은 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)이 단순한 한 가지 알고리즘이 아니라, 병목 구간과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 특성에 맞춰 인코딩 방식을 고르는 방향으로 진화하고 있음을 보여 준다.
 

@@ -23,17 +23,14 @@ tags = ["studynote-ai"]
 
 이 발상에서 탄생한 것이 <strong>이미지 분할 (Image <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/">Segmentation</a>)</strong>이다. [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) ([Convolutional Neural Network](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_CNN_Convolutional/)) 기반의 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)망이 이미지 전체를 픽셀 단위로 쪼개어 각각 어느 클래스에 속하는지 예측한다. 기존 CNN이 "이 사진 전체는 고양이"라고 하나의 레이블만 뱉는 것과 달리, [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) 망은 입력 이미지와 동일한 크기의 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/">세그멘테이션</a> 맵(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/">Segmentation</a> Map)</strong>을 출력으로 돌려준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 물체 탐지는 "방 안에 고양이 한 마리 있어요"라고 전보를 보내는 것이고, 이미지 분할은 방 도면 위에 "이 타일이 고양이, 저 타일이 소파, 이 타일이 바닥"이라고 타일 하나하나에 색칠하는 것이다. 전보는 빠르지만 거친 정보고, 색칠은 느리지만 완전한 정보다.
 
@@ -43,28 +40,29 @@ tags = ["studynote-ai"]
 
 이미지 분할의 핵심 아키텍처는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/">인코더</a>-<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/">디코더</a> (<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/">Encoder</a>-<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/">Decoder</a>)</strong> 구조다. [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)([Encoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/))가 이미지를 점점 작은 특징 맵([Feature Map](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/))으로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하여 고수준 의미를 추출하고, [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)([Decoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/))가 이 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)된 특징 맵을 다시 원본 이미지 크기로 업샘플링(Upsampling)하며 픽셀별 클래스를 복원한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이미지 분할 (Image Segmentation) 아키텍처</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력 이미지 (224×224×3 RGB)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 인코더 (Encoder)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Conv + Pool Layer 1</div><div class="kb-diagram-cell">──▶ 112×112×64 (공간 압축, 의미 추출)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Conv + Pool Layer 2</div><div class="kb-diagram-cell">──▶ 56× 56×128</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Conv + Pool Layer 3</div><div class="kb-diagram-cell">──▶ 28× 28×256</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Conv + Pool Layer 4</div><div class="kb-diagram-cell">──▶ 14× 14×512 (병목: Bottleneck)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Skip Connection )</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 디코더 (Decoder)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Upsample + Conv 1</div><div class="kb-diagram-cell">──▶ 28× 28×256 ◀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Upsample + Conv 2</div><div class="kb-diagram-cell">──▶ 56× 56×128</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Upsample + Conv 3</div><div class="kb-diagram-cell">──▶ 112×112× 64</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1×1 Conv (분류 헤드)</div><div class="kb-diagram-cell">──▶ 224×224×C (C: 클래스 수)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">출력: 세그멘테이션 맵 (224×224, 픽셀별 클래스 ID)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────┐
+│          이미지 분할 (Image Segmentation) 아키텍처                   │
+├─────────────────────────────────────────────────────────────────┤
+│  입력 이미지 (224×224×3 RGB)                                       │
+│       │                                                         │
+│  ┌────▼──────────────────┐   인코더 (Encoder)                    │
+│  │  Conv + Pool Layer 1  │──▶ 112×112×64  (공간 압축, 의미 추출)   │
+│  │  Conv + Pool Layer 2  │──▶  56× 56×128                       │
+│  │  Conv + Pool Layer 3  │──▶  28× 28×256                       │
+│  │  Conv + Pool Layer 4  │──▶  14× 14×512  (병목: Bottleneck)    │
+│  └───────────────────────┘                                      │
+│       │  (Skip Connection ──────────────────────────┐)         │
+│  ┌────▼──────────────────┐   디코더 (Decoder)        │           │
+│  │  Upsample + Conv 1    │──▶  28× 28×256  ◀────────┘           │
+│  │  Upsample + Conv 2    │──▶  56× 56×128                       │
+│  │  Upsample + Conv 3    │──▶ 112×112× 64                       │
+│  │  1×1 Conv (분류 헤드)   │──▶ 224×224×C  (C: 클래스 수)          │
+│  └───────────────────────┘                                      │
+│       │                                                         │
+│  출력: 세그멘테이션 맵 (224×224, 픽셀별 클래스 ID)                     │
+└─────────────────────────────────────────────────────────────────┘
+```
 
 | 모델 | 특징 | 주요 혁신 |
 |:---|:---|:---|

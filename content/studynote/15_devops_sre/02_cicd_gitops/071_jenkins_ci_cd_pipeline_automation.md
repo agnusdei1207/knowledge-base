@@ -29,19 +29,13 @@ Jenkins는 그 반복을 자동화한다.
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Source</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Jenkins Pipeline</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Build / Test / Deploy</div>
-</div>
-</div>
-
-
+```text
+Source
+  ↓
+Jenkins Pipeline
+  ↓
+Build / Test / Deploy
+```
 
 | 요소 | 의미 |
 | :-- | :-- |
@@ -109,41 +103,29 @@ Jenkins는 배포 자동화와 품질 확보를 돕는다.
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Source</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Jenkins</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Pipeline</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Deploy</div>
-</div>
-</div>
-
-
+```text
+Source
+  ↓
+Jenkins
+  ↓
+Pipeline
+  ↓
+Deploy
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">CI/CD</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Jenkins</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Pipeline as Code</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Automation</div>
-</div>
-</div>
-
-
+```text
+CI/CD
+  ↓
+Jenkins
+  ↓
+Pipeline as Code
+  ↓
+Automation
+```
 
 ---
 

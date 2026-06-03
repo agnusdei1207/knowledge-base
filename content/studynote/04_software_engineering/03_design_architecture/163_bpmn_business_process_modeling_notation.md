@@ -45,23 +45,23 @@ BPMN의 핵심은 몇 가지 기본 기호를 조합해 프로세스를 읽히�
 
 아래 그림은 BPMN이 "흐름 + 책임 + 예외"를 동시에 표현하는 방식을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BPMN example: refund request flow</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Customer Pool Shop Pool</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">접수</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">◇ 증빙 충분? ──Yes── │</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">No ▼</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">보완요청</div><div class="kb-diagram-note">Finance │</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Lane</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">환불</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">timer / error event ◁─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ End ◎</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                    BPMN example: refund request flow                       │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Customer Pool        Shop Pool                                             │
+│                     ┌────────────────────────────────────────────────────┐  │
+│ Start ○─submit────▶ │ CS Lane   : [접수] ──▶ ◇ 증빙 충분? ──Yes──┐      │  │
+│                     │                            │                │      │  │
+│                     │                            No               ▼      │  │
+│                     │                         [보완요청]       Finance   │  │
+│                     │                            │             Lane      │  │
+│                     │                            └─message────▶ [환불]   │  │
+│                     │                                              │      │  │
+│                     │                        timer / error event ◁─┘      │  │
+│                     └───────────────────────────────────────▶ End ◎ ──────┘  │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 포인트는 단순 순서가 아니라 역할과 예외를 함께 읽게 한다는 점이다. 고객, 상담, 재무가 같은 업무에 참여하지만 서로 다른 레인에 놓이므로 책임이 분명해지고, 증빙 부족과 타이머 이벤트가 그림 안에서 별도 제어 지점으로 드러난다. 텍스트 문장에서는 숨어 있던 "누가 멈췄는가"와 "어디서 다시 시작하는가"가 시각적으로 드러나는 것이 BPMN의 강점이다.
 
@@ -130,27 +130,25 @@ BPMN을 잘 사용하면 업무 흐름의 병목, 누락, 책임 공백이 설�
 | Gateway | 조건 분기와 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 합류를 표현해 예외와 동기화를 명확하게 만든다. |
 | Pool / Lane | 조직과 역할 경계를 드러내 책임 소재를 보여 준다. |
 | DMN (Decision Model and Notation) | BPMN이 호출하는 복잡한 의사결정 규칙을 분리해 표현한다. |
-| Workflow Engine | 실행형 BPMN을 실제 업무 처리 로직으로 구동하는 런타임이다. |
+| Workflow 엔진 | 실행형 BPMN을 실제 업무 처리 로직으로 구동하는 런타임이다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">텍스트 업무 절차서</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">BPMN으로 흐름 · 역할 · 예외 시각화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">BPMN 2.0 기반 모델 표준화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">워크플로 엔진 연계 · 실행형 프로세스</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DMN · 프로세스 마이닝과 결합한 자동화 고도화</div>
-</div>
-</div>
-
-
+```text
+텍스트 업무 절차서
+        │
+        ▼
+BPMN으로 흐름 · 역할 · 예외 시각화
+        │
+        ▼
+BPMN 2.0 기반 모델 표준화
+        │
+        ▼
+워크플로 엔진 연계 · 실행형 프로세스
+        │
+        ▼
+DMN · 프로세스 마이닝과 결합한 자동화 고도화
+```
 
 이 흐름은 업무 절차를 단순 문서로 관리하던 단계에서 출발해, 표준 모델링과 실행 엔진을 거쳐 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 프로세스 개선으로 확장되는 과정을 보여 준다.
 

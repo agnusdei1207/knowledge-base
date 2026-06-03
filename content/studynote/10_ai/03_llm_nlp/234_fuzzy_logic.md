@@ -26,17 +26,14 @@ tags = ["studynote-ai"]
 
 이 위대한 회색 지대의 철학은 일본의 가전제품 회사들을 열광시켰다. 지하철 브레이크, 밥솥, 에어컨, 세탁기 등 기계를 부드럽고 인간적으로 제어해야 하는 모든 모터 기술에 퍼지 로직이 탑재되며, 1990년대 "퍼지(Fuzzy) 가전"이라는 거대한 마케팅 열풍과 함께 1세대 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 제어 공학의 황금기를 열었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 이분법(Boolean) 컴퓨터는 융통성 없는 깐깐한 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)다. 방이 25도면 '더움' [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 켜서 에어컨 파워를 100으로 틀고, 24.9도가 되면 '추움' [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 눌러 에어컨을 확 꺼버린다. 감기에 걸리기 딱 좋다. 퍼지 로직(Fuzzy)은 볼륨 조절 다이얼(Dimmer)이다. 방이 24.9도면 "음, 더움이 40%, 선선함이 60% 정도 섞여 있군. 그럼 에어컨 파워를 40으로 은은하게 틀어주지!"라고 눈치껏 바람을 조절하는 최고의 인간형 비서다.
 
@@ -46,30 +43,29 @@ tags = ["studynote-ai"]
 
 퍼지 시스템은 인간의 애매한 언어를 컴퓨터가 이해할 수 있는 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)(소속도) [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)로 바꾸고, 다시 기계 모터의 숫자로 바꾸는 3단계 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 밟는다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">퍼지 제어 시스템 (Fuzzy Control System)의 3단계 파이프라인 도해</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 퍼지화 (Fuzzification) - "숫자를 인간의 언어로 번역"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 센서 입력(Crisp): "현재 방 온도 26도, 습도 70%"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 삼각형 그래프(소속 함수)에 대입:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 26도는 '더움' 집합에 0.8(80%) 소속, '보통' 집합에 0.2 소속!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 70% 습도는 '습함' 집합에 0.9(90%) 소속!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 퍼지 추론 엔진 (Fuzzy Inference) - "규칙에 따라 짬뽕하기"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 인간이 짜둔 규칙(Rule Base) 발동:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Rule 1: IF (온도가 덥고) AND (습도가 습하면) THEN (모터 풀가동)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 수학적 교집합(AND, MIN 연산):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- '더움 0.8'과 '습함 0.9' 중 작은 값인 0.8을 결론으로 채택!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 결론: "모터 풀가동 집합에 0.8만큼 소속된다!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3. 비퍼지화 (Defuzzification) - "언어를 다시 정확한 숫자로 번역"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 기계의 모터는 '풀가동 0.8'이라는 애매한 언어를 못 알아들음.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 무게 중심법 (Center of Gravity) 등 수학 공식을 써서 그래프의 면적을</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">계산한 뒤 ─▶ "모터 RPM 2,400으로 돌아라!"라는 정확한 숫자(Crisp) 도출!</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           퍼지 제어 시스템 (Fuzzy Control System)의 3단계 파이프라인 도해   │
+├──────────────────────────────────────────────────────────────┤
+│  [1. 퍼지화 (Fuzzification) - "숫자를 인간의 언어로 번역"]            │
+│   * 센서 입력(Crisp): "현재 방 온도 26도, 습도 70%"                   │
+│   * 삼각형 그래프(소속 함수)에 대입:                                  │
+│     - 26도는 '더움' 집합에 0.8(80%) 소속, '보통' 집합에 0.2 소속!        │
+│     - 70% 습도는 '습함' 집합에 0.9(90%) 소속!                         │
+│                                                              │
+│  [2. 퍼지 추론 엔진 (Fuzzy Inference) - "규칙에 따라 짬뽕하기"]       │
+│   * 인간이 짜둔 규칙(Rule Base) 발동:                                 │
+│     - Rule 1: IF (온도가 덥고) AND (습도가 습하면) THEN (모터 풀가동)   │
+│   * 수학적 교집합(AND, MIN 연산):                                    │
+│     - '더움 0.8'과 '습함 0.9' 중 작은 값인 0.8을 결론으로 채택!           │
+│     ─▶ 결론: "모터 풀가동 집합에 0.8만큼 소속된다!"                     │
+│                                                              │
+│  [3. 비퍼지화 (Defuzzification) - "언어를 다시 정확한 숫자로 번역"]    │
+│   * 기계의 모터는 '풀가동 0.8'이라는 애매한 언어를 못 알아들음.              │
+│   * 무게 중심법 (Center of Gravity) 등 수학 공식을 써서 그래프의 면적을   │
+│     계산한 뒤 ─▶ "모터 RPM 2,400으로 돌아라!"라는 정확한 숫자(Crisp) 도출!│
+└──────────────────────────────────────────────────────────────┘
+```
 
 **핵심 원리 (소속 함수와 비퍼지화)**:
 퍼지의 심장인 <strong>소속 함수(Membership Function)</strong>는 보통 세모($\triangle$)나 사다리꼴 모양으로 그린다. 이 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)가 겹치는 구간(회색 지대)이 융통성의 원천이다. 

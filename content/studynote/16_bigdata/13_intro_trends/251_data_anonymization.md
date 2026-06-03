@@ -18,38 +18,40 @@ tags = ["studynote-bigdata"]
 
 ## I. 비식별화 방법론
 
+```
+개인 식별 정보 분류:
+  
+  직접 식별자 (Direct Identifier):
+    이름, 주민등록번호, 이메일
+    -> 제거 또는 가명화 (1단계)
+    
+  준식별자 (Quasi-Identifier):
+    나이, 우편번호, 직업, 성별
+    -> 조합 시 개인 식별 가능
+    -> 일반화 필요
+    
+  비식별 정보:
+    개인 연결 불가능한 정보
+    -> 그대로 사용 가능
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">개인 식별 정보 분류:</div>
-<div class="kb-diagram-note">직접 식별자 (Direct Identifier):</div>
-<div class="kb-diagram-note">이름, 주민등록번호, 이메일</div>
-<div class="kb-diagram-tree-item" style="--depth:2">제거 또는 가명화 (1단계)</div>
-<div class="kb-diagram-note">준식별자 (Quasi-Identifier):</div>
-<div class="kb-diagram-note">나이, 우편번호, 직업, 성별</div>
-<div class="kb-diagram-tree-item" style="--depth:2">조합 시 개인 식별 가능</div>
-<div class="kb-diagram-tree-item" style="--depth:2">일반화 필요</div>
-<div class="kb-diagram-note">비식별 정보:</div>
-<div class="kb-diagram-note">개인 연결 불가능한 정보</div>
-<div class="kb-diagram-tree-item" style="--depth:2">그대로 사용 가능</div>
-<div class="kb-diagram-note">비식별화 기법:</div>
-<div class="kb-diagram-note">1. 가명화 (Pseudonymization):</div>
-<div class="kb-diagram-note">직접 식별자 -&gt; 가명 치환</div>
-<div class="kb-diagram-note">역변환 가능 (키 관리 필수)</div>
-<div class="kb-diagram-note">2. 익명화 (Anonymization):</div>
-<div class="kb-diagram-note">영구적 제거, 역변환 불가</div>
-<div class="kb-diagram-note">3. 일반화 (Generalization):</div>
-<div class="kb-diagram-note">나이 25 -&gt; 20대</div>
-<div class="kb-diagram-note">우편번호 12345 -&gt; 123</div>
-<div class="kb-diagram-note">4. 억제 (Suppression):</div>
-<div class="kb-diagram-note">희귀한 조합 레코드 제거</div>
-<div class="kb-diagram-note">5. 노이즈 추가 (Perturbation):</div>
-<div class="kb-diagram-note">수치 데이터에 랜덤 오차 추가</div>
-</div>
-</div>
-
-
+비식별화 기법:
+  1. 가명화 (Pseudonymization):
+     직접 식별자 -> 가명 치환
+     역변환 가능 (키 관리 필수)
+     
+  2. 익명화 (Anonymization):
+     영구적 제거, 역변환 불가
+     
+  3. 일반화 (Generalization):
+     나이 25 -> 20대
+     우편번호 12345 -> 123**
+     
+  4. 억제 (Suppression):
+     희귀한 조합 레코드 제거
+     
+  5. 노이즈 추가 (Perturbation):
+     수치 데이터에 랜덤 오차 추가
+```
 
 > 📢 **섹션 요약 비유**: 가명화는 이름표를 번호로 바꾸기 (원래 이름 알 수 있음), 익명화는 이름표를 완전히 떼기 (복원 불가).
 
@@ -57,36 +59,35 @@ tags = ["studynote-bigdata"]
 
 ## II. [k-익명성](/knowledge-base/studynote/14_data_engineering/04_mlops/185_k_anonymity_masking_data_pipeline/)
 
+```
+k-Anonymity (Latanya Sweeney, 1998):
 
+목표: 어떤 레코드도 k-1개 이상의 다른
+      레코드와 구별 불가능하게 만들기
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">k-Anonymity (Latanya Sweeney, 1998):</div>
-<div class="kb-diagram-note">목표: 어떤 레코드도 k-1개 이상의 다른</div>
-<div class="kb-diagram-note">레코드와 구별 불가능하게 만들기</div>
-<div class="kb-diagram-note">원본 데이터:</div>
-<div class="kb-diagram-note">나이 우편번호 질병</div>
-<div class="kb-diagram-note">25 13053 독감</div>
-<div class="kb-diagram-note">25 13053 당뇨</div>
-<div class="kb-diagram-note">28 13068 폐렴</div>
-<div class="kb-diagram-note">30 13068 당뇨</div>
-<div class="kb-diagram-note">2-익명성 적용 (k=2):</div>
-<div class="kb-diagram-note">나이 우편번호 질병</div>
-<div class="kb-diagram-note">20대 1305* 독감</div>
-<div class="kb-diagram-note">20대 1305* 당뇨</div>
-<div class="kb-diagram-note">20대 1306* 폐렴</div>
-<div class="kb-diagram-note">30대 1306* 당뇨</div>
-<div class="kb-diagram-note">해석:</div>
-<div class="kb-diagram-note">나이+우편번호 조합으로 최소 2명 이상 해당</div>
-<div class="kb-diagram-tree-item" style="--depth:1">특정 개인 식별 불가</div>
-<div class="kb-diagram-note">재식별 공격 한계:</div>
-<div class="kb-diagram-note">Sweeney 87% 미국인: 우편번호+생년월일+성별</div>
-<div class="kb-diagram-tree-item" style="--depth:1">k-익명성 적용 데이터에서도 85% 재식별 성공</div>
-<div class="kb-diagram-tree-item" style="--depth:1">보조 데이터와 결합 시 취약</div>
-</div>
-</div>
+원본 데이터:
+  나이  우편번호  질병
+  25    13053    독감
+  25    13053    당뇨
+  28    13068    폐렴
+  30    13068    당뇨
 
+2-익명성 적용 (k=2):
+  나이   우편번호  질병
+  20대   1305*   독감
+  20대   1305*   당뇨
+  20대   1306*   폐렴
+  30대   1306*   당뇨
 
+해석:
+  나이+우편번호 조합으로 최소 2명 이상 해당
+  -> 특정 개인 식별 불가
+
+재식별 공격 한계:
+  Sweeney 87% 미국인: 우편번호+생년월일+성별
+  -> k-익명성 적용 데이터에서도 85% 재식별 성공
+  -> 보조 데이터와 결합 시 취약
+```
 
 > 📢 **섹션 요약 비유**: [k-익명성](/knowledge-base/studynote/14_data_engineering/04_mlops/185_k_anonymity_masking_data_pipeline/)은 쌍둥이 이상인 그룹만 허용 — 적어도 k명이 같은 "외형(준식별자)"을 가져야 특정인 지목 불가.
 
@@ -94,33 +95,31 @@ tags = ["studynote-bigdata"]
 
 ## III. ℓ-다양성과 [t-근접성](/knowledge-base/studynote/09_security/16_data_privacy/816_t_closeness/)
 
+```
+k-익명성 한계:
+  k=2 이더라도:
+  나이  우편번호  질병
+  20대  1305*   에이즈
+  20대  1305*   에이즈
+  -> 두 명이지만 질병이 같음 -> 추론 가능
 
+ℓ-다양성 (l-Diversity, 2006):
+  민감 속성(질병 등)이 최소 ℓ가지 값을 가져야 함
+  -> 같은 그룹 내 질병이 2개 이상
+  
+  나이  우편번호  질병
+  20대  1305*   독감
+  20대  1305*   당뇨 (2가지 이상 -> 2-다양성)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">k-익명성 한계:</div>
-<div class="kb-diagram-note">k=2 이더라도:</div>
-<div class="kb-diagram-note">나이 우편번호 질병</div>
-<div class="kb-diagram-note">20대 1305* 에이즈</div>
-<div class="kb-diagram-note">20대 1305* 에이즈</div>
-<div class="kb-diagram-tree-item" style="--depth:1">두 명이지만 질병이 같음 -&gt; 추론 가능</div>
-<div class="kb-diagram-note">ℓ-다양성 (l-Diversity, 2006):</div>
-<div class="kb-diagram-note">민감 속성(질병 등)이 최소 ℓ가지 값을 가져야 함</div>
-<div class="kb-diagram-tree-item" style="--depth:1">같은 그룹 내 질병이 2개 이상</div>
-<div class="kb-diagram-note">나이 우편번호 질병</div>
-<div class="kb-diagram-note">20대 1305* 독감</div>
-<div class="kb-diagram-note">20대 1305* 당뇨 (2가지 이상 -&gt; 2-다양성)</div>
-<div class="kb-diagram-note">t-근접성 (t-Closeness, 2007):</div>
-<div class="kb-diagram-note">민감 속성의 분포가 전체 데이터 분포와</div>
-<div class="kb-diagram-note">t 이내로 근접해야 함</div>
-<div class="kb-diagram-tree-item" style="--depth:1">특정 질병이 그룹에 과도하게 집중 방지</div>
-<div class="kb-diagram-note">발전:</div>
-<div class="kb-diagram-note">k-익명성 -&gt; ℓ-다양성 -&gt; t-근접성</div>
-<div class="kb-diagram-note">각각 이전 모델의 취약점 보완</div>
-</div>
-</div>
+t-근접성 (t-Closeness, 2007):
+  민감 속성의 분포가 전체 데이터 분포와
+  t 이내로 근접해야 함
+  -> 특정 질병이 그룹에 과도하게 집중 방지
 
-
+발전:
+  k-익명성 -> ℓ-다양성 -> t-근접성
+  각각 이전 모델의 취약점 보완
+```
 
 > 📢 **섹션 요약 비유**: k는 사람 수 보장, ℓ은 비밀 종류 다양성 보장, t는 비밀 분포 균형 보장 — 점점 강화되는 프라이버시 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/).
 
@@ -163,36 +162,39 @@ Differential Privacy (Dwork, 2006):
 
 ## V. 실무 시나리오 — 의료 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공개
 
+```
+의료 연구 데이터 공개 프로세스:
 
+원본 데이터 (10만 명):
+  나이, 성별, 지역, 진단명, 처방약
+  
+비식별화 적용:
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">의료 연구 데이터 공개 프로세스:</div>
-<div class="kb-diagram-note">원본 데이터 (10만 명):</div>
-<div class="kb-diagram-note">나이, 성별, 지역, 진단명, 처방약</div>
-<div class="kb-diagram-note">비식별화 적용:</div>
-<div class="kb-diagram-note">1단계: 직접 식별자 제거</div>
-<div class="kb-diagram-note">환자ID, 이름, 주민번호, 연락처 제거</div>
-<div class="kb-diagram-note">2단계: 가명화</div>
-<div class="kb-diagram-note">병원 ID -&gt; 해시값 (연구 추적용)</div>
-<div class="kb-diagram-note">3단계: k-익명성 (k=5) 적용</div>
-<div class="kb-diagram-note">나이 25 -&gt; 20~29세</div>
-<div class="kb-diagram-note">지역 "서울 강남구" -&gt; "서울"</div>
-<div class="kb-diagram-tree-item" style="--depth:1">각 그룹 최소 5명 이상</div>
-<div class="kb-diagram-note">4단계: ℓ-다양성 (ℓ=3) 적용</div>
-<div class="kb-diagram-note">같은 그룹 내 진단명 3가지 이상</div>
-<div class="kb-diagram-note">5단계: 데이터 품질 검증</div>
-<div class="kb-diagram-note">데이터 유용성 측정: 원본과의 분포 유사도</div>
-<div class="kb-diagram-note">재식별 위험 평가: 전문 도구 (ARX, sdcMicro)</div>
-<div class="kb-diagram-note">결과:</div>
-<div class="kb-diagram-note">공개 데이터셋 배포 (연구 목적)</div>
-<div class="kb-diagram-note">ISMS-P 비식별화 가이드라인 준수</div>
-<div class="kb-diagram-note">주의: GDPR에서는 완전히 익명화된 데이터만</div>
-<div class="kb-diagram-note">적용 대상 제외 (불완전 비식별 = 여전히 개인정보)</div>
-</div>
-</div>
-
-
+1단계: 직접 식별자 제거
+  환자ID, 이름, 주민번호, 연락처 제거
+  
+2단계: 가명화
+  병원 ID -> 해시값 (연구 추적용)
+  
+3단계: k-익명성 (k=5) 적용
+  나이 25 -> 20~29세
+  지역 "서울 강남구" -> "서울"
+  -> 각 그룹 최소 5명 이상
+  
+4단계: ℓ-다양성 (ℓ=3) 적용
+  같은 그룹 내 진단명 3가지 이상
+  
+5단계: 데이터 품질 검증
+  데이터 유용성 측정: 원본과의 분포 유사도
+  재식별 위험 평가: 전문 도구 (ARX, sdcMicro)
+  
+결과:
+  공개 데이터셋 배포 (연구 목적)
+  ISMS-P 비식별화 가이드라인 준수
+  
+주의: GDPR에서는 완전히 익명화된 데이터만
+     적용 대상 제외 (불완전 비식별 = 여전히 개인정보)
+```
 
 > 📢 **섹션 요약 비유**: 의료 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공개는 환자 정보를 마모시킨 신분증처럼 — 이름·주소는 지워도 의학적 패턴은 연구에 활용 가능하게.
 

@@ -35,36 +35,36 @@ SHA-256은 임의 길이 입력을 256비트 고정 출력으로 변환하며, �
 
 ### [머클 트리](/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/) 구성 과정
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">머클 루트(Merkle Root)</div>
-<div class="kb-diagram-note">Hash(AB + CD)</div>
-<div class="kb-diagram-note">Hash(AB) Hash(CD)</div>
-<div class="kb-diagram-note">Hash(A) Hash(B) Hash(C) Hash(D)</div>
-<div class="kb-diagram-note">Tx_A Tx_B Tx_C Tx_D</div>
-</div>
-</div>
-
-
+```
+        머클 루트(Merkle Root)
+               │
+       Hash(AB + CD)
+      ┌────────┴────────┐
+   Hash(AB)           Hash(CD)
+  ┌────┴────┐       ┌────┴────┐
+Hash(A)  Hash(B) Hash(C)  Hash(D)
+  │         │       │         │
+ Tx_A     Tx_B    Tx_C      Tx_D
+```
 
 **연쇄 해시(Chain Hash) 구성**
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Block N-1 헤더</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">prev_hash</div><div class="kb-diagram-cell">merkle_root</div><div class="kb-diagram-cell">nonce</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SHA-256(헤더)</div></div>
-<div class="kb-diagram-note">prev_hash 포인터</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Block N 헤더</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">prev_hash</div><div class="kb-diagram-cell">merkle_root</div><div class="kb-diagram-cell">nonce</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────┐
+│  Block N-1 헤더                               │
+│  ┌──────────────────────────────────────┐    │
+│  │ prev_hash | merkle_root | nonce      │    │
+│  └──────────────────────────────────────┘    │
+│         │ SHA-256(헤더)                       │
+└─────────┼────────────────────────────────────┘
+          │ prev_hash 포인터
+┌─────────▼────────────────────────────────────┐
+│  Block N 헤더                                 │
+│  ┌──────────────────────────────────────┐    │
+│  │ prev_hash | merkle_root | nonce      │    │
+│  └──────────────────────────────────────┘    │
+└──────────────────────────────────────────────┘
+```
 
 ### 핵심 성질 비교표
 

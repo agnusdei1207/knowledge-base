@@ -25,27 +25,30 @@ tags = ["studynote-operating-system"]
 
 **💡 비유**: 5명이 원형으로 앉아 서로의 연필을 빌려 써야 그림을 완성할 수 있는 게임을 상상하라. 모두가 동시에 왼쪽 연필만 잡으면 아무도 그림을 완성하지 못한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">식사하는 철학자 문제 구조도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P0 (철학자 0)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">C</div><div class="kb-diagram-node">4</div><div class="kb-diagram-note">C</div><div class="kb-diagram-node">0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P4 P1</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">C</div><div class="kb-diagram-node">3</div><div class="kb-diagram-note">C</div><div class="kb-diagram-node">1</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">P3 C</div><div class="kb-diagram-node">2</div><div class="kb-diagram-note">P2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">교착 발생 시나리오:</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">① P0이 C</div><div class="kb-diagram-node">4</div><div class="kb-diagram-note">잡음</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">② P1이 C</div><div class="kb-diagram-node">0</div><div class="kb-diagram-note">잡음</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">③ P2가 C</div><div class="kb-diagram-node">1</div><div class="kb-diagram-note">잡음</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">④ P3가 C</div><div class="kb-diagram-node">2</div><div class="kb-diagram-note">잡음</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">⑤ P4가 C</div><div class="kb-diagram-node">3</div><div class="kb-diagram-note">잡음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 모두 오른쪽 젓가락 대기 → 영구 교착!</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│          식사하는 철학자 문제 구조도                         │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│                     P0 (철학자 0)                            │
+│                    /            \                            │
+│               C[4]              C[0]                         │
+│              /                      \                        │
+│         P4                            P1                     │
+│              \                      /                        │
+│               C[3]              C[1]                         │
+│                    \            /                            │
+│                P3 ─── C[2] ─── P2                            │
+│                                                              │
+│  교착 발생 시나리오:                                         │
+│  ① P0이 C[4] 잡음                                            │
+│  ② P1이 C[0] 잡음                                            │
+│  ③ P2가 C[1] 잡음                                            │
+│  ④ P3가 C[2] 잡음                                            │
+│  ⑤ P4가 C[3] 잡음                                            │
+│  → 모두 오른쪽 젓가락 대기 → 영구 교착!                      │
+└──────────────────────────────────────────────────────────────┘
+```
 
 **📢 섹션 요약 비유**: 젓가락 게임은 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)의 4가지 조건([상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/), [점유 대기](/knowledge-base/studynote/02_operating_system/04_synchronization/231_hold_and_wait/), [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/), [순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/))이 모두 갖춰진 가장 단순한 시나리오입니다.
 
@@ -107,54 +110,56 @@ void philosopher(int i) {
 }
 ```
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비대칭 해결책의 순환 대기 차단 원리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">P0(짝수): C</div><div class="kb-diagram-node">4</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">0</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">P1(홀수): C</div><div class="kb-diagram-node">1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">0</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-node">0</div><div class="kb-diagram-note">방향 공유</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">P2(짝수): C</div><div class="kb-diagram-node">1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">2</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">P3(홀수): C</div><div class="kb-diagram-node">3</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">2</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">순환 고리 끊어짐!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">P4(짝수): C</div><div class="kb-diagram-node">3</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">4</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">4</div><div class="kb-diagram-note">를 P0보다 먼저 집으려 하지만, P4는 '짝수'</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">이므로 C</div><div class="kb-diagram-node">3</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">4</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">4</div><div class="kb-diagram-note">를 먼저 잡음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 순환이 형성되지 않아 교착 불가능</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────┐
+│     비대칭 해결책의 순환 대기 차단 원리                  │
+├──────────────────────────────────────────────────────────┤
+│                                                          │
+│  P0(짝수): C[4] → C[0]                                   │
+│  P1(홀수): C[1] → C[0]  ← P0과 C[0] 방향 공유            │
+│  P2(짝수): C[1] → C[2]                                   │
+│  P3(홀수): C[3] → C[2]  ← 순환 고리 끊어짐!              │
+│  P4(짝수): C[3] → C[4]                                   │
+│                                                          │
+│  → P4가 C[4]를 P0보다 먼저 집으려 하지만, P4는 '짝수'    │
+│    이므로 C[3]→C[4] 순서 → P0은 C[4]를 먼저 잡음         │
+│    → 순환이 형성되지 않아 교착 불가능                    │
+└──────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 비대칭 해결책의 핵심은 [순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/)([Circular Wait](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/)) 조건을 제거하는 것이다. 소수의 철학자(예: P0)가 반대 방향으로 젓가락을 집으면 모든 방향이 같은 방향 순환이 아니므로 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)가 성립하지 않는다. 단, 이 방법도 [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)가 발생할 수 있으므로 기아 방지 추가 로직이 필요하다.
 
 ### 해결책 3: [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 기반 완전 해법 (교착+기아 예방)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모니터 기반 상태 기계 — 철학자 상태 전이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상태: THINKING ──▶ HUNGRY ──▶ EATING</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(식사 완료 → 생각)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">pickup(i):</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">state</div><div class="kb-diagram-node">i</div><div class="kb-diagram-note">= HUNGRY</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">test(i) ← 양쪽 철학자가 EATING 중이 아닌지 확인</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">if state</div><div class="kb-diagram-node">i</div><div class="kb-diagram-note">!= EATING: wait(self</div><div class="kb-diagram-node">i</div><div class="kb-diagram-note">)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">putdown(i):</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">state</div><div class="kb-diagram-node">i</div><div class="kb-diagram-note">= THINKING</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">test((i-1+5)%5) ← 왼쪽 철학자 깨우기 시도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">test((i+1)%5) ← 오른쪽 철학자 깨우기 시도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">test(i):</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">if (state</div><div class="kb-diagram-node">(i-1+5)%5</div><div class="kb-diagram-note">!= EATING &amp;&amp;</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">state</div><div class="kb-diagram-node">i</div><div class="kb-diagram-note">== HUNGRY &amp;&amp;</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">state</div><div class="kb-diagram-node">(i+1)%5</div><div class="kb-diagram-note">!= EATING) {</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">state</div><div class="kb-diagram-node">i</div><div class="kb-diagram-note">= EATING</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">signal(self</div><div class="kb-diagram-node">i</div><div class="kb-diagram-note">)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────┐
+│       모니터 기반 상태 기계 — 철학자 상태 전이            │
+├───────────────────────────────────────────────────────────┤
+│                                                           │
+│  상태: THINKING ──▶ HUNGRY ──▶ EATING                     │
+│                         ↑           │                     │
+│                         └───────────┘                     │
+│                      (식사 완료 → 생각)                   │
+│                                                           │
+│  pickup(i):                                               │
+│    state[i] = HUNGRY                                      │
+│    test(i)  ← 양쪽 철학자가 EATING 중이 아닌지 확인       │
+│    if state[i] != EATING: wait(self[i])                   │
+│                                                           │
+│  putdown(i):                                              │
+│    state[i] = THINKING                                    │
+│    test((i-1+5)%5)  ← 왼쪽 철학자 깨우기 시도             │
+│    test((i+1)%5)    ← 오른쪽 철학자 깨우기 시도           │
+│                                                           │
+│  test(i):                                                 │
+│    if (state[(i-1+5)%5] != EATING &&                      │
+│        state[i] == HUNGRY &&                              │
+│        state[(i+1)%5] != EATING) {                        │
+│        state[i] = EATING                                  │
+│        signal(self[i])                                    │
+│    }                                                      │
+└───────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 해법은 양쪽 젓가락을 동시에 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)·집기 때문에 [점유 대기](/knowledge-base/studynote/02_operating_system/04_synchronization/231_hold_and_wait/)([Hold-and-Wait](/knowledge-base/studynote/02_operating_system/05_deadlock/284_hold_and_wait/)) 조건 자체를 제거한다. 철학자는 두 젓가락이 모두 사용 가능할 때만 EATING 상태로 전이하고, 불가능하면 자신의 [조건 변수](/knowledge-base/studynote/02_operating_system/04_synchronization/228_condition_variable/)(self[i])에서 대기한다. 인접 철학자가 식사를 마치면 test()를 호출하여 대기 중인 철학자를 깨운다. 기아 방지를 위해서는 대기 시간 상한이나 [에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/)([Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/)) 기법을 추가해야 한다.
 
@@ -166,20 +171,17 @@ void philosopher(int i) {
 
 ### 세 해결책 비교
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">항목</div><div class="kb-diagram-cell">착석 제한</div><div class="kb-diagram-cell">비대칭 집기</div><div class="kb-diagram-cell">모니터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">교착 방지</div><div class="kb-diagram-cell">✅</div><div class="kb-diagram-cell">✅</div><div class="kb-diagram-cell">✅</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기아 방지</div><div class="kb-diagram-cell">△ (추가 필요)</div><div class="kb-diagram-cell">△ (추가 필요)</div><div class="kb-diagram-cell">△ (추가 필요)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">구현 복잡도</div><div class="kb-diagram-cell">낮음</div><div class="kb-diagram-cell">낮음</div><div class="kb-diagram-cell">높음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">처리량</div><div class="kb-diagram-cell">높음</div><div class="kb-diagram-cell">높음</div><div class="kb-diagram-cell">중간</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예방 원리</div><div class="kb-diagram-cell">순환 대기 제거</div><div class="kb-diagram-cell">순환 대기</div><div class="kb-diagram-cell">점유 대기 제거</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────┬──────────────┬──────────────┬───────────────┐
+│ 항목                │ 착석 제한    │ 비대칭 집기  │ 모니터        │
+├─────────────────────┼──────────────┼──────────────┼───────────────┤
+│ 교착 방지           │ ✅           │ ✅           │ ✅            │
+│ 기아 방지           │ △ (추가 필요)│ △ (추가 필요)│ △ (추가 필요) │
+│ 구현 복잡도         │ 낮음         │ 낮음         │ 높음          │
+│ 처리량              │ 높음         │ 높음         │ 중간          │
+│ 예방 원리           │ 순환 대기 제거│ 순환 대기   │ 점유 대기 제거│
+└─────────────────────┴──────────────┴──────────────┴───────────────┘
+```
 
 ### 실무 연관 시스템
 - <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a> <a href="/knowledge-base/studynote/02_operating_system/05_deadlock/320_two_phase_locking_deadlock/">2PL</a></strong>: 점증적 락(순서 없이)은 식사 철학자와 동일한 교착 가능. [락 순서화](/knowledge-base/studynote/02_operating_system/04_synchronization/276_lock_hierarchy/)([Lock Ordering](/knowledge-base/studynote/02_operating_system/05_deadlock/317_lockdep_lock_ordering/))가 비대칭 집기와 동일한 원리.
@@ -222,19 +224,15 @@ void philosopher(int i) {
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">독자-저자 문제 (Readers-Writers Problem)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">식사하는 철학자 문제 (Dining-Philosophers Problem)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">자바 동기화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Pthreads 동기화</div></div>
-</div>
-</div>
-
-
+```text
+[독자-저자 문제 (Readers-Writers Problem)]
+    │
+    ▼
+[식사하는 철학자 문제 (Dining-Philosophers Problem)]
+    │
+    ├──▶ [자바 동기화]
+    └──▶ [Pthreads 동기화]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

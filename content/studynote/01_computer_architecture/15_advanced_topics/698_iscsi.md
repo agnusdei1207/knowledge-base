@@ -31,7 +31,7 @@ iSCSI는 "디스크 명령을 네트워크로 멀리 보내되, [파일](/knowle
 
 iSCSI 구조의 기본 역할은 Initiator와 Target으로 나뉜다. Initiator는 서버 측에서 SCSI 요청을 만들어 보내는 주체이고, Target은 이를 받아 실제 디스크나 저장 배열에 반영하는 스토리지 장비다. 운영체제는 Target이 제공하는 [LUN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/685_lun_masking/) ([Logical Unit Number](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/685_lun_masking/))을 로컬 블록 디바이스처럼 인식하므로, 위쪽 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템은 네트워크 존재를 거의 의식하지 않는다.
 
-iSCSI 연결은 보통 발견(Discovery), 로그인(Login), [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)([Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)) 유지, 명령/[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송의 순서로 진행된다. 기본 포트는 3260이며, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)에는 [CHAP](/knowledge-base/studynote/03_network/04_data_link_layer_error/228_chap_challenge_handshake_authentication_protocol/) (Challenge-Handshake [Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/) [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))을 자주 사용한다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 중요한 환경에서는 점보 프레임, 전용 Virtual Local Area Network ([VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/)), [Multipath](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/500_multipath_io/) Input/Output (MPIO), 그리고 필요 시 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) Offload Engine ([TOE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/588_toe/)) 기능이 있는 어댑터를 함께 고려한다.
+iSCSI 연결은 보통 발견(Discovery), 로그인(Login), [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)([Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)) 유지, 명령/[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송의 순서로 진행된다. 기본 포트는 3260이며, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)에는 [CHAP](/knowledge-base/studynote/03_network/04_data_link_layer_error/228_chap_challenge_handshake_authentication_protocol/) (Challenge-Handshake [Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/) [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))을 자주 사용한다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 중요한 환경에서는 점보 프레임, 전용 Virtual Local Area Network ([VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/)), [Multipath](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/500_multipath_io/) Input/Output (MPIO), 그리고 필요 시 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) Offload 엔진 ([TOE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/588_toe/)) 기능이 있는 어댑터를 함께 고려한다.
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -43,22 +43,30 @@ iSCSI 연결은 보통 발견(Discovery), 로그인(Login), [세션](/knowledge-
 
 아래 그림은 iSCSI가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 아니라 **블록 명령을 IP망에 얹어** 전달하는 구조를 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">iSCSI data path: block storage over routed IP</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Application / File System</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SCSI commands</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">iSCSI Initiator on host</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TCP / IP / Ethernet</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Routed Ethernet network</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">iSCSI Target</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Remote LUN exposed as local block device</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│               iSCSI data path: block storage over routed IP          │
+├──────────────────────────────────────────────────────────────────────┤
+│ Application / File System                                            │
+│            │                                                         │
+│            ▼                                                         │
+│      SCSI commands                                                   │
+│            │                                                         │
+│            ▼                                                         │
+│  iSCSI Initiator on host                                             │
+│            │                                                         │
+│            ▼                                                         │
+│      TCP / IP / Ethernet                                             │
+│            │                                                         │
+│     Routed Ethernet network                                          │
+│            │                                                         │
+│            ▼                                                         │
+│      iSCSI Target                                                    │
+│            │                                                         │
+│            ▼                                                         │
+│   Remote LUN exposed as local block device                           │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 iSCSI가 중요한 이유는 원격 저장장치를 단순 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 서버가 아니라 <strong>로컬 디스크처럼 다루게 만든다</strong>는 점이다. 그래서 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/), [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/), 클러스터 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템은 자신이 직접 [블록 장치](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/442_block_device/)를 제어한다고 생각하며 동작할 수 있다.
 
@@ -130,25 +138,23 @@ iSCSI의 가장 큰 공헌은 SAN을 전용 장비의 세계에서 꺼내 <stron
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">직접 연결 SCSI 저장장치</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Fibre Channel (FC) SAN</div>
-<div class="kb-diagram-note">: 고성능 전용 패브릭</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">iSCSI (Internet Small Computer System Interface)</div>
-<div class="kb-diagram-note">: TCP/IP 기반 블록 스토리지 대중화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">10/25/100 Gigabit Ethernet + MPIO (Multipath I/O)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">NVMe/TCP (Non-Volatile Memory Express over Transmission Control Protocol)</div>
-</div>
-</div>
-
-
+```text
+직접 연결 SCSI 저장장치
+    │
+    ▼
+Fibre Channel (FC) SAN
+    : 고성능 전용 패브릭
+    │
+    ▼
+iSCSI (Internet Small Computer System Interface)
+    : TCP/IP 기반 블록 스토리지 대중화
+    │
+    ▼
+10/25/100 Gigabit Ethernet + MPIO (Multipath I/O)
+    │
+    ▼
+NVMe/TCP (Non-Volatile Memory Express over Transmission Control Protocol)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -27,21 +27,23 @@ tags = ["studynote-computer-architecture"]
 
 다음 그림은 데이지 체인이 왜 "배선 절감"과 "우선순위 고정"을 동시에 만들어내는지를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Daisy Chain: 승인선 1가닥으로 우선순위를 직렬화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공통 요청선 BR (Bus Request) ▶ 중앙 중재기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">중앙 중재기 BG (Bus Grant)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">pass pass pass</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Device1</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Device2</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Device3</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ 1순위 ▲ 2순위 ▲ 3순위</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">규칙: 앞 장치가 승인 신호를 소비하면 뒤 장치는 그 순간 기회를 잃는다.</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│              Daisy Chain: 승인선 1가닥으로 우선순위를 직렬화          │
+├──────────────────────────────────────────────────────────────────────┤
+│ 공통 요청선 BR (Bus Request) ───────────────▶ 중앙 중재기             │
+│                                                                      │
+│ 중앙 중재기 BG (Bus Grant)                                           │
+│        │                                                             │
+│        ▼                                                             │
+│   ┌────────┐   pass   ┌────────┐   pass   ┌────────┐   pass   ┌────┐ │
+│   │ Device1│─────────▶│ Device2│─────────▶│ Device3│─────────▶│ ...│ │
+│   └────────┘          └────────┘          └────────┘          └────┘ │
+│      ▲ 1순위                ▲ 2순위                ▲ 3순위            │
+│                                                                      │
+│ 규칙: 앞 장치가 승인 신호를 소비하면 뒤 장치는 그 순간 기회를 잃는다. │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 메시지는 간단하다. 승인선은 하나지만, 그 한 가닥이 통과하는 순서가 곧 시스템의 서열이 된다. 그래서 데이지 체인은 값싼 배선 구조이면서도, 동시에 가장 강한 고정 우선순위 메커니즘이 된다.
 
@@ -64,19 +66,17 @@ tags = ["studynote-computer-architecture"]
 
 다음 그림은 승인 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 통과되거나 소비되는 과정을 단계적으로 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Daisy Chain 동작: 통과(pass) 또는 점유(capture)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단계</div><div class="kb-diagram-cell">장치 상태</div><div class="kb-diagram-cell">결과</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. BG 도착</div><div class="kb-diagram-cell">Device1 요청 없음</div><div class="kb-diagram-cell">Device2로 통과</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. BG 도착</div><div class="kb-diagram-cell">Device2 요청 있음</div><div class="kb-diagram-cell">Device2가 BG 소비, 버스 점유</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 이후 상태</div><div class="kb-diagram-cell">Device3 요청 있음</div><div class="kb-diagram-cell">이번 턴에는 기회 없음</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                Daisy Chain 동작: 통과(pass) 또는 점유(capture)        │
+├──────────────┬───────────────────────────┬────────────────────────────┤
+│ 단계         │ 장치 상태                  │ 결과                       │
+├──────────────┼───────────────────────────┼────────────────────────────┤
+│ 1. BG 도착   │ Device1 요청 없음          │ Device2로 통과             │
+│ 2. BG 도착   │ Device2 요청 있음          │ Device2가 BG 소비, 버스 점유│
+│ 3. 이후 상태 │ Device3 요청 있음          │ 이번 턴에는 기회 없음      │
+└──────────────┴───────────────────────────┴────────────────────────────┘
+```
 
 실무적으로는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) [전파 지연](/knowledge-base/studynote/03_network/01_data_communication/016_전파_지연/)도 중요하다. 예를 들어 승인선이 장치당 8 ns (nanoseconds) 정도의 통과 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 만든다고 가정하면, 4개 장치 체인의 마지막 장치는 앞선 세 장치를 지나며 약 24 ns의 추가 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 겪는다. 느린 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)에서는 감당 가능하지만, 고속 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)에서는 이런 누적 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 곧 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목이 된다. 그래서 데이지 체인은 단순한 대신 빠르지 않으며, "장치 수가 많고 속도가 높은 시스템"과는 근본적으로 긴장 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)에 있다.
 
@@ -156,24 +156,23 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">공유 버스의 충돌 문제</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">버스 중재 (Bus Arbitration)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">저배선·저비용 우선 ──▶ 데이지 체인 (Daisy Chain)</div>
-<div class="kb-diagram-note">─ 고정 우선순위 (Fixed Priority)</div>
-<div class="kb-diagram-note">─ 기아 상태 (Starvation) 위험</div>
-<div class="kb-diagram-tree-item" style="--depth:2">공평성·성능 우선 ▶ 독립 요청 / 동적 중재</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">PCI Express (Peripheral Component Interconnect Express)</div>
-<div class="kb-diagram-note">· 스위치 기반 인터커넥트 · 점대점 링크</div>
-</div>
-</div>
-
-
+```text
+공유 버스의 충돌 문제
+    │
+    ▼
+버스 중재 (Bus Arbitration)
+    │
+    ├─ 저배선·저비용 우선 ──▶ 데이지 체인 (Daisy Chain)
+    │                           │
+    │                           ├─ 고정 우선순위 (Fixed Priority)
+    │                           └─ 기아 상태 (Starvation) 위험
+    │
+    └─ 공평성·성능 우선 ─────▶ 독립 요청 / 동적 중재
+                                    │
+                                    ▼
+                 PCI Express (Peripheral Component Interconnect Express)
+                 · 스위치 기반 인터커넥트 · 점대점 링크
+```
 
 이 흐름도는 공유 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 시대의 저비용 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 중재에서, 공평성과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 더 중시하는 현대 인터커넥트로 옮겨가는 흐름을 보여준다.
 

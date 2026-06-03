@@ -19,27 +19,24 @@ tags = ["design_supervision"]
 ---
 
 ### Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
-전통적인 [3단계 감리](/knowledge-base/studynote/11_design_supervision/06_exam_summary/322_audit/)(요구정의, 설계, 종료)는 특정 마일스톤에 집중적으로 투입되어 베이스라인을 점검하는 강력한 무기다. 그러나 [감리 단계](/knowledge-base/studynote/11_design_supervision/01_audit_framework/009_audit_phase/)와 단계 사이(예: 설계 감리 후 종료 감리까지의 수개월 간 구현 기간)에 발생하는 아키텍처 왜곡, 인력 이탈, 기술적 병목은 정기 감리만으로는 통제할 수 없는 '블랙박스' 구역이었다. 이 공백기에 사업이 치명적으로 궤도를 이탈하면, 종료 감리 때 아무리 문제점을 적발해도 이미 납기를 맞출 수 없는 재앙적 상황에 직면한다.
+전통적인 [3단계 감리](/knowledge-base/studynote/11_design_supervision/06_exam_summary/322_audit/)(요구사항 정의, 설계, 종료)는 특정 마일스톤에 집중적으로 투입되어 베이스라인을 점검하는 강력한 무기다. 그러나 [감리 단계](/knowledge-base/studynote/11_design_supervision/01_audit_framework/009_audit_phase/)와 단계 사이(예: 설계 감리 후 종료 감리까지의 수개월 간 구현 기간)에 발생하는 아키텍처 왜곡, 인력 이탈, 기술적 병목은 정기 감리만으로는 통제할 수 없는 '블랙박스' 구역이었다. 이 공백기에 사업이 치명적으로 궤도를 이탈하면, 종료 감리 때 아무리 문제점을 적발해도 이미 납기를 맞출 수 없는 재앙적 상황에 직면한다.
 
 이를 해결하기 위해 도입된 것이 <strong>예방 감리 (Preventive <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/">Audit</a>)</strong> 와 그 실행 수단인 <strong>상주 감리 (Resident <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/">Audit</a>)</strong> 체계다. 감리원이 사업장에 매일 출근(상주)하여 사업자의 주간 회의에 참석하고, 일일 빌드(Daily Build) 코드를 리뷰하며, 잠재적 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 발주처에 상시 보고한다. 이는 "문제가 터진 후 지적(적발)"하는 패러다임에서 "문제가 터지기 전 예방적 가이드(컨설팅)"를 제공하는 형태로 IT 통제 프레임워크가 진화했음을 의미한다.
 
+```text
+이 도식은 정기 감리 체계의 시간적 사각지대와 이를 메꾸는 상주 감리의 촘촘한 개입 방식을 비교하여 보여준다.
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 도식은 정기 감리 체계의 시간적 사각지대와 이를 메꾸는 상주 감리의 촘촘한 개입 방식을 비교하여 보여준다.</div>
-<div class="kb-diagram-note">기존 정기(단계) 감리의 공백기 리스크</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">요구 감리</div><div class="kb-diagram-note">(수개월의 공백: Blackbox)</div><div class="kb-diagram-node">설계 감리</div></div>
-<div class="kb-diagram-note">점검!! ▶ 점검!! (이미 결함 누적됨)</div>
-<div class="kb-diagram-note">▼ (진화)</div>
-<div class="kb-diagram-note">상주/예방 감리의 상시 리스크 통제망</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">요구</div><div class="kb-diagram-node">설계</div></div>
-<div class="kb-diagram-note">점검 ─▶ 주간리뷰 ─▶ 빌드점검 ─▶ 아키텍처 멘토링 ─▶ 성능가이드 ─▶ 점검</div>
-<div class="kb-diagram-note">(매주/매일 리스크 식별 및 예방적 조치 권고 지속)</div>
-</div>
-</div>
-
-
+┌───────── 기존 정기(단계) 감리의 공백기 리스크 ─────────┐
+│ [요구 감리]         (수개월의 공백: Blackbox)           [설계 감리]
+│   점검!!   ─────────────────────────────────────────────▶ 점검!! (이미 결함 누적됨)
+└──────────────────────────────────────────────────────┘
+                                  ▼ (진화)
+┌──────── 상주/예방 감리의 상시 리스크 통제망 ─────────┐
+│ [요구]                                                 [설계]
+│  점검 ─▶ 주간리뷰 ─▶ 빌드점검 ─▶ 아키텍처 멘토링 ─▶ 성능가이드 ─▶ 점검
+│       (매주/매일 리스크 식별 및 예방적 조치 권고 지속)
+└──────────────────────────────────────────────────────┘
+```
 이 흐름의 핵심은 선제적 대응이다. 상주 감리원은 코드가 스파게티로 변해가는 것을 매주 관찰하여 설계 원칙([SOLID](/knowledge-base/studynote/04_software_engineering/04_testing_quality/242_solid_object_oriented_design_principles/))을 상기시키고, DB 정규화가 무너지는 시점에 즉각적인 튜닝 가이드를 제시한다. 실무적으로 이는 사업 실패율을 극적으로 낮추지만, 동시에 사업자의 일상적 업무에 깊이 개입하게 되는 부작용도 내포하고 있다.
 
 📢 **섹션 요약 비유**: 한 학기에 중간/기말고사만 딱 두 번 보고 성적을 매기는 것이 정기 감리라면, 상주 감리는 개인 과외 선생님이 매일 옆에 붙어 앉아 틀린 문제를 그 자리에서 교정해주는 예방적 지도 방식과 같습니다.
@@ -54,24 +51,23 @@ tags = ["design_supervision"]
 | **이슈 에스컬레이션** | 중대 위험의 발주처 즉각 보고 | 사업자와 해결 불가능한 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)) 시 발주처-사업자-감리 간 중재 회의 소집 |
 | **정기 감리 연계** | 상주 기록을 단계 감리 증거로 활용 | 상주 중 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)된 이슈 대장을 수석 감리원에게 이관하여 3단계 본 감리 시 현장 진단 시간 단축 |
 
+```text
+이 아키텍처 흐름도는 상주 감리가 발주처와 사업자 사이에서 이슈 식별 및 해결하는 일일/주간 사이클을 보여준다.
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 아키텍처 흐름도는 상주 감리가 발주처와 사업자 사이에서 이슈 식별 및 해결하는 일일/주간 사이클을 보여준다.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">피감리인 (사업자 개발팀)</div></div>
-<div class="kb-diagram-note">(1. 매일 코드 커밋, 주간 산출물 갱신)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상주 감리원 (Resident)</div><div class="kb-diagram-cell">──(3. 조언 및 기술 가이드)──▶ (사업자 코드/설계 즉각 수정)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 상시 예방적 진단 프로세스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 형상 관리 툴(SVN/Git) 모니터링</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 진척률 위장(뻥튀기) 현장 확인</div><div class="kb-diagram-cell">──(4. 미해결 중대 리스크 에스컬레이션)</div></div>
-<div class="kb-diagram-note">(5. 주간 감리 동향 보고서) ▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">발주처 (사업 주관 부서)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">│ 이해관계자 중재/의사결정 기구</div></div>
-</div>
-</div>
-
-
+       [피감리인 (사업자 개발팀)]
+            │  (1. 매일 코드 커밋, 주간 산출물 갱신)
+            ▼
+┌─────────────────────────────────┐
+│         상주 감리원 (Resident)  │ ──(3. 조언 및 기술 가이드)──▶ (사업자 코드/설계 즉각 수정)
+│ 2. 상시 예방적 진단 프로세스    │
+│  - 형상 관리 툴(SVN/Git) 모니터링│
+│  - 진척률 위장(뻥튀기) 현장 확인 │ ──(4. 미해결 중대 리스크 에스컬레이션)
+└─────────────────────────────────┘           │
+            │  (5. 주간 감리 동향 보고서)       ▼
+            ▼                       ┌─────────────────────────┐
+    [발주처 (사업 주관 부서)] ◀────────│ 이해관계자 중재/의사결정 기구 │
+                                    └─────────────────────────┘
+```
 이 도식의 핵심은 상주 감리원이 현장의 미시적 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)(Micro [Defect](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/))은 개발팀과 직접 소통하여 즉각 해결(3번 흐름)하되, 사업 예산/일정과 관련된 거시적 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)(Macro [Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/))는 즉시 발주처로 에스컬레이션(4번 흐름)하는 '투 트랙 필터링'에 있다. 이를 통해 발주처는 쏟아지는 자잘한 기술적 이슈에 매몰되지 않고, 핵심 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 관리에만 집중할 수 있는 거버넌스를 확보한다.
 
 📢 **섹션 요약 비유**: 공사 현장에 가끔 들르는 점검관이 아니라, 매일 현장 소장 옆에 머물며 철근 배근이 1cm라도 틀어지면 시멘트를 붓기 전에 즉시 수정하도록 호각을 부는 상주 감독관의 역할과 같습니다.
@@ -79,21 +75,19 @@ tags = ["design_supervision"]
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 대형 IT 프로젝트에서 항상 혼동을 일으키는 주체가 [PMO](/knowledge-base/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/)([Project Management Office](/knowledge-base/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/))와 상주 감리다. 두 조직 모두 현장에 상주하며 사업 성공을 목표로 하지만, 철학과 접근 방식은 완전히 반대다.
 
+```text
+이 비교 매트릭스는 PMO와 상주/정기 감리의 역할, 책임, 그리고 독립성의 차이를 극명하게 대조한다.
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 비교 매트릭스는 PMO와 상주/정기 감리의 역할, 책임, 그리고 독립성의 차이를 극명하게 대조한다.</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">항목</div><div class="kb-diagram-cell">정기(단계) 감리</div><div class="kb-diagram-cell">상주 감리 (Resident)</div><div class="kb-diagram-cell">PMO (프로젝트 관리)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수행 주체</div><div class="kb-diagram-cell">제3자 독립 감리법인</div><div class="kb-diagram-cell">제3자 독립 감리법인</div><div class="kb-diagram-cell">발주처의 대행/내부자</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개입 시점</div><div class="kb-diagram-cell">정해진 단계(이벤트)</div><div class="kb-diagram-cell">프로젝트 전 기간 상주</div><div class="kb-diagram-cell">프로젝트 전 기간 상주</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심 성격</div><div class="kb-diagram-cell">사후 적발 및 객관적 검증</div><div class="kb-diagram-cell">예방적 조언 및 가이드</div><div class="kb-diagram-cell">능동적 지시 및 문제 해결</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">책임 소재</div><div class="kb-diagram-cell">권고만 할 뿐 결과 책임</div><div class="kb-diagram-cell">조언을 하나 책임은</div><div class="kb-diagram-cell">의사결정 참여, 결과 책임</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">독립성</div><div class="kb-diagram-cell">최상 (사업자와 분리)</div><div class="kb-diagram-cell">중간 (친밀도 증가로 위협)</div><div class="kb-diagram-cell">낮음 (발주처와 한 배를 탐)</div></div>
-</div>
-</div>
-
-
+┌──────────┬──────────────────┬───────────────────┬──────────────────┐
+│ 항목     │ 정기(단계) 감리   │ 상주 감리 (Resident)│ PMO (프로젝트 관리)│
+├──────────┼──────────────────┼───────────────────┼──────────────────┤
+│ 수행 주체│ 제3자 독립 감리법인 │ 제3자 독립 감리법인  │ 발주처의 대행/내부자│
+│ 개입 시점│ 정해진 단계(이벤트) │ 프로젝트 전 기간 상주 │ 프로젝트 전 기간 상주│
+│ 핵심 성격│ 사후 적발 및 객관적 검증│ 예방적 조언 및 가이드 │ 능동적 지시 및 문제 해결│
+│ 책임 소재│ 권고만 할 뿐 결과 책임 無│ 조언을 하나 책임은 無 │ 의사결정 참여, 결과 책임 有│
+│ 독립성   │ 최상 (사업자와 분리) │ 중간 (친밀도 증가로 위협)│ 낮음 (발주처와 한 배를 탐)│
+└──────────┴──────────────────┴───────────────────┴──────────────────┘
+```
 PMO는 발주처를 대신하여 마이크로소프트 프로젝트(MSP)를 만지고 사업자에게 업무를 '지시'할 권한이 있다. 그러나 상주 감리원은 사업자에게 기술적 '권고'와 '조언'만 할 수 있을 뿐 업무를 지시할 수 없다. 만약 상주 감리원이 소스코드를 직접 수정해주거나 아키텍처 설계를 대신 해준다면, 본인이 만든 산출물을 훗날 단계 감리에서 스스로 평가하는 '자기 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)(Self-[Review](/knowledge-base/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/))'의 모순에 빠지게 되어 감리의 생명인 독립성([Independence](/knowledge-base/studynote/08_algorithm_stats/08_stats/133_independence/))이 완전히 붕괴된다.
 
 📢 **섹션 요약 비유**: PMO가 오케스트라의 부지휘자로서 연주자들을 직접 훈련시키고 박자를 맞춘다면, 상주 감리는 객석 맨 앞줄의 평론가로서 연습 내내 불협화음을 노트에 적어 조언하지만 절대 직접 지휘봉을 잡지는 않는 원리와 같습니다.
@@ -102,29 +96,27 @@ PMO는 발주처를 대신하여 마이크로소프트 프로젝트(MSP)를 만�
 실무에서 상주 감리를 성공적으로 운영하기 위해서는 감리원의 고도의 소프트 스킬(Soft-skill)과 엄격한 직업 윤리가 요구된다.
 
 1. <strong>상주 감리원의 독립성 훼손 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 시나리오</strong>
-- **현상**: 상주 감리원이 6개월간 개발팀과 매일 식사를 하고 친해짐. 개발자가 "이 부분은 테스트가 미흡하지만 넘어가 달라"고 부탁하자, 감리원이 이를 주간 보고서에서 누락시킴(온정주의 발생).
-- **방어 전술**: 상주 감리는 '적대적 협력 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)'를 유지해야 한다. 이를 방지하기 위해 정기 감리(단계 감리)가 수행될 때는 상주 감리원이 아닌 완전히 새로운 외부 수석 감리원이 투입되어 상주 감리원의 보고서조차 [교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/)(Cross Check)하는 아키텍처적 견제 장치가 필수다.
+   - **현상**: 상주 감리원이 6개월간 개발팀과 매일 식사를 하고 친해짐. 개발자가 "이 부분은 테스트가 미흡하지만 넘어가 달라"고 부탁하자, 감리원이 이를 주간 보고서에서 누락시킴(온정주의 발생).
+   - **방어 전술**: 상주 감리는 '적대적 협력 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)'를 유지해야 한다. 이를 방지하기 위해 정기 감리(단계 감리)가 수행될 때는 상주 감리원이 아닌 완전히 새로운 외부 수석 감리원이 투입되어 상주 감리원의 보고서조차 [교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/)(Cross Check)하는 아키텍처적 견제 장치가 필수다.
 2. <strong>범위 팽창(<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/161_scope_creep_requirements_inflation_prevention/">Scope Creep</a>) 통제 실무</strong>
-- 발주처 실무자가 상주 감리원에게 "이 기능도 추가하고 싶은데 사업자에게 지시 좀 해달라"고 요구함.
-- **판단**: 감리원은 이를 즉각 거절해야 한다. 감리원은 발주처의 요구사항 팽창을 막고 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 계약된 RFP(과업내용서)의 베이스라인을 수호하는 문지기다. "해당 기능 추가는 [CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/)(변경통제위원회) 절차와 추가 예산 산정([CBAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/230_cbam_cost_benefit_analysis_method/))을 거쳐야 한다"며 발주처의 무리한 요구조차 절차적으로 통제하는 것이 최고 수준의 예방 감리다.
+   - 발주처 실무자가 상주 감리원에게 "이 기능도 추가하고 싶은데 사업자에게 지시 좀 해달라"고 요구함.
+   - **판단**: 감리원은 이를 즉각 거절해야 한다. 감리원은 발주처의 요구사항 팽창을 막고 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 계약된 RFP(과업내용서)의 베이스라인을 수호하는 문지기다. "해당 기능 추가는 [CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/)(변경통제위원회) 절차와 추가 예산 산정([CBAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/230_cbam_cost_benefit_analysis_method/))을 거쳐야 한다"며 발주처의 무리한 요구조차 절차적으로 통제하는 것이 최고 수준의 예방 감리다.
 3. <strong>핵심 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 병목 조기 진단 (<a href="/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/216_liss_logic/">LISS</a>/<a href="/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/215_mece_mutually_exclusive_collectively_exhaustive_issue_tree/">MECE</a> 원칙 적용)</strong>
-- 상주 감리원은 코드가 30% 구현된 시점부터 쿼리의 테이블 풀스캔 여부, WAS의 DB 커넥션 풀(Connection Pool) 적정성을 조기 진단하여 리틀의 법칙(Little's Law) 기반의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목을 사전에 파악해 아키텍처 수정을 가이드해야 한다.
+   - 상주 감리원은 코드가 30% 구현된 시점부터 쿼리의 테이블 풀스캔 여부, WAS의 DB 커넥션 풀(Connection Pool) 적정성을 조기 진단하여 리틀의 법칙(Little's Law) 기반의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목을 사전에 파악해 아키텍처 수정을 가이드해야 한다.
 
+```text
+이 의사결정 트리는 상주 감리 중 식별된 성능 리스크를 어떻게 독립성을 유지하며 해결하는지 보여준다.
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 의사결정 트리는 상주 감리 중 식별된 성능 리스크를 어떻게 독립성을 유지하며 해결하는지 보여준다.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상주 중: 신규 알고리즘의 심각한 메모리 릭(Memory Leak) 식별</div></div>
-<div class="kb-diagram-tree-item" style="--depth:0">▶ 감리원이 직접 소스를 수정해준다? ──(No, 안티패턴)──▶ 독립성 위배 및 책임 전가 발생</div>
-<div class="kb-diagram-tree-item" style="--depth:0">▶ 예방 감리 절차 발동 (Yes, 모범 사례)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">1. 사업자 PM에게 메모리 릭 현상 및 원인 분석(Heap Dump) 데이터 객관적 제공</div>
-<div class="kb-diagram-tree-item" style="--depth:0">2. 조치 대안(가비지 컬렉션 튜닝, 객체 풀링 등)을 기술적 '권고' 수준으로 멘토링</div>
-<div class="kb-diagram-tree-item" style="--depth:0">3. 발주처 주간 보고서에 "성능 위험 식별 및 조치 권고 진행 중"으로 투명하게 기록</div>
-</div>
-</div>
-
-
+[상주 중: 신규 알고리즘의 심각한 메모리 릭(Memory Leak) 식별]
+   │
+   ├─▶ 감리원이 직접 소스를 수정해준다? ──(No, 안티패턴)──▶ 독립성 위배 및 책임 전가 발생
+   │
+   └─▶ 예방 감리 절차 발동 (Yes, 모범 사례)
+           │
+           ├─ 1. 사업자 PM에게 메모리 릭 현상 및 원인 분석(Heap Dump) 데이터 객관적 제공
+           ├─ 2. 조치 대안(가비지 컬렉션 튜닝, 객체 풀링 등)을 기술적 '권고' 수준으로 멘토링
+           └─ 3. 발주처 주간 보고서에 "성능 위험 식별 및 조치 권고 진행 중"으로 투명하게 기록
+```
 이 흐름은 감리원이 기술적 지식은 아낌없이 제공(예방적 가이드)하되, 구현의 주체와 결과 책임은 철저히 사업자에게 두어 법적/윤리적 선을 지키는 실무 기술사적 판단의 정수를 보여준다.
 
 📢 **섹션 요약 비유**: 수영장 안전요원(상주 감리)은 수영하는 폼이 잘못되어 쥐가 날 것 같은 사람에게 호각을 불어 자세 교정(조언)을 해주지만, 직접 물에 들어가 그 사람의 팔다리를 대신 저어주지는(구현 대행) 않는 것과 같은 엄격한 선 긋기입니다.
@@ -138,7 +130,7 @@ PMO는 발주처를 대신하여 마이크로소프트 프로젝트(MSP)를 만�
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/">이해관계자</a> 신뢰 구축</strong> | 발주처에 블랙박스 없는 투명한 가시성(Visibility)을 매주 제공 |
 | **사업자 기술력 상향** | 상주 기술사의 상시 멘토링을 통한 사업자 개발팀의 [시큐어 코딩](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/) 및 아키텍처 역량 동반 상승 |
 
-최근 클라우드 및 초거대 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 인프라 구축 사업은 복잡도가 전례 없이 높아져, 기존의 정기 감리만으로는 품질 보증이 불가능해지고 있다. 향후 상주 감리는 [데브섹옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/)([DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/)) 환경의 자동화 진단 파이프라인과 결합하여, 인력이 상주하는 것을 넘어 '자동화된 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 감리 에이전트'가 소스 코드 저장소에 24시간 상주(가상 상주 감리)하며 보안 및 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 취약점을 예방하는 체계로 혁신될 것이다.
+최근 클라우드 및 초거대 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 인프라 구축 사업은 복잡도가 전례 없이 높아져, 기존의 정기 감리만으로는 품질 보증이 불가능해지고 있다. 향후 상주 감리는 [데브섹옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/)([DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/)) 환경의 자동화 진단 파이프라인과 결합하여, 인력이 상주하는 것을 넘어 '자동화된 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 감리 에이전트'가 소스 코드 저장소에 24시간 상주(가상 상주 감리)하며 보안 및 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 취약점을 예방하는 체계로 혁신될 것이다. 
 
 📢 **섹션 요약 비유**: 예방 및 상주 감리는 병이 악화되어 수술대에 오르기 전에, 스마트 워치를 차고 매일 심박수와 혈압을 모니터링하여 병을 예방하는 24시간 실시간 건강 관리 시스템의 완벽한 IT 버전입니다.
 
@@ -151,23 +143,21 @@ PMO는 발주처를 대신하여 마이크로소프트 프로젝트(MSP)를 만�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">정기 감리 (Periodic Audit) — 사후 단계적 품질 점검</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">예방 감리 (Preventive Audit) — 사전 리스크 식별·가이드 제공</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상주 감리 (Resident Audit) — 현장 상시 모니터링·즉각 조언</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DevSecOps 감리 — CI/CD 파이프라인 자동 보안·품질 점검 통합</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AI 감리 에이전트 — 소스 저장소 24시간 가상 상주 자동 진단</div></div>
-</div>
-</div>
-
-
+```text
+[정기 감리 (Periodic Audit) — 사후 단계적 품질 점검]
+    │
+    ▼
+[예방 감리 (Preventive Audit) — 사전 리스크 식별·가이드 제공]
+    │
+    ▼
+[상주 감리 (Resident Audit) — 현장 상시 모니터링·즉각 조언]
+    │
+    ▼
+[DevSecOps 감리 — CI/CD 파이프라인 자동 보안·품질 점검 통합]
+    │
+    ▼
+[AI 감리 에이전트 — 소스 저장소 24시간 가상 상주 자동 진단]
+```
 예방·상주 감리는 사후 점검에서 벗어나 현장 상시화·자동화 방향으로 진화하며, 미래의 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 감리 에이전트 체계로 이어진다.
 
 **👶 어린이를 위한 3줄 비유 설명**
@@ -181,7 +171,7 @@ PMO는 발주처를 대신하여 마이크로소프트 프로젝트(MSP)를 만�
 
 **진행 상황**: 10 / 530
 
-← **이전**: [9. 감리 단계 (Audit Phase) - 사업의 진행 단계 (요구정의, 설계, 종료/구현)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/009_audit_phase/)
-**다음**: [11. 3단계 감리 - 요구정의 단계 감리, 설계 단계 감리, 종료 단계 감리](/knowledge-base/studynote/11_design_supervision/01_audit_framework/011_3_stage_audit/) →
+← **이전**: [9. 감리 단계 (Audit Phase) - 사업의 진행 단계 (요구사항 정의, 설계, 종료/구현)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/009_audit_phase/)
+**다음**: [11. 3단계 감리 - 요구사항 정의 단계 감리, 설계 단계 감리, 종료 단계 감리](/knowledge-base/studynote/11_design_supervision/01_audit_framework/011_3_stage_audit/) →
 
 ---

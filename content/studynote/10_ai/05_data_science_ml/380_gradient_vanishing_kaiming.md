@@ -35,17 +35,12 @@ L번의 행렬-벡터 곱이 연속되면, 각 활성화 도함수의 절댓값�
 
 ### 소실/폭발 발생 조건
 
+```
+기울기 = Π_{l=1}^{L} W_l · σ'(z_l)
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">기울기 = Π_{l=1}^{L} W_l · σ'(z_l)</div>
-<div class="kb-diagram-note">σ'(Sigmoid) ≤ 0.25 → L층 후 기울기 ≤ (0.25)^L ≈ 0</div>
-<div class="kb-diagram-note">σ'(ReLU) = 1(x&gt;0), 0(x≤0) → 소실 최소화 (Dead Neuron 문제 있음)</div>
-</div>
-</div>
-
-
+σ'(Sigmoid) ≤ 0.25  → L층 후 기울기 ≤ (0.25)^L ≈ 0
+σ'(ReLU)    = 1(x>0), 0(x≤0) → 소실 최소화 (Dead Neuron 문제 있음)
+```
 
 ### Kaiming He [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화
 
@@ -63,19 +58,17 @@ W ~ N(0, 2/nᵢₙ)    ← 분모가 2배 작음
 nᵢₙ = 현재 레이어의 입력 차원 수 (fan-in)
 ```
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분산 유지 체인 (Variance Propagation)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력 Var=1 → W ~ N(0, 2/n) → ReLU</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 출력 Var ≈ 1 → 다음 레이어로 전달</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kaiming 없이: Var → 0 또는 → ∞</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kaiming 적용: Var ≈ 1 안정적 유지</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────┐
+│  분산 유지 체인 (Variance Propagation)            │
+│                                                  │
+│  입력 Var=1  →  W ~ N(0, 2/n)  →  ReLU          │
+│  → 출력 Var ≈ 1  →  다음 레이어로 전달           │
+│                                                  │
+│  Kaiming 없이:  Var → 0 또는 → ∞                 │
+│  Kaiming 적용:  Var ≈ 1 안정적 유지              │
+└──────────────────────────────────────────────────┘
+```
 
 | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 | [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/) | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 공식 | 비고 |
 |:---|:---|:---|:---|

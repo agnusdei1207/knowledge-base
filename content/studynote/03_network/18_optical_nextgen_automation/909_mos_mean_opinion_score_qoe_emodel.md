@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/">QoS</a> (<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/">Quality of Service</a>)</strong>: 라우터 기계가 측정하는 지터(Jitter), 딜레이(Delay), [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)([Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)) 등 딱딱한 기계적 숫자의 나열입니다. 
 - 기계적 수치가 아무리 좋아도, 폰 단말기의 코덱(오디오 압축기)이 구리거나 영상의 픽셀 보간(808번)이 어긋나면 사람의 뇌는 즉각 불쾌감(사이버 멀미, 기계음)을 느낍니다. 기계와 인간의 인지 부조화가 발생합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">FEC 실시간 비디오 손실 은닉 기법 미디어…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MOS</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">네트워크 코딩</div></div>
-</div>
-</div>
-
-
+```text
+[FEC 실시간 비디오 손실 은닉 기법 미디어…]
+    │
+    ▼
+[MOS]
+    │
+    └──▶ [네트워크 코딩]
+```
 
 - **📢 섹션 요약 비유**: MOS는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -51,18 +47,14 @@ tags = ["studynote-network"]
 - **2점 (Poor)**: 뚝뚝 끊기고 뭉개져서 "여보세요? 안 들려!" 짜증이 솟구치는 상태.
 - **1점 (Bad)**: 기계음 작렬, 통화 불가능. 쌍욕을 하며 전화를 끊어버리는 상태.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">FEC 실시간 비디오 손실 은닉 기법 미디어…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MOS</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">네트워크 코딩</div></div>
-</div>
-</div>
-
-
+```text
+[FEC 실시간 비디오 손실 은닉 기법 미디어…]
+    │
+    ▼
+[MOS]
+    │
+    └──▶ [네트워크 코딩]
+```
 
 - **📢 섹션 요약 비유**: MOS의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -123,19 +115,15 @@ MOS는 광통신·차세대·자동화를 이해할 때 핵심 축을 잡아 주
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: FEC 실시간 비디오 손실 은닉 기법 미디어…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: MOS</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 네트워크 코딩</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: FEC 실시간 비디오 손실 은닉 기법 미디어…]
+    │
+    ▼
+[현재 개념: MOS]
+    │
+    ├──▶ [확장 A: 네트워크 코딩]
+    └──▶ [확장 B: 의미 기반 통신 최적화]
+```
 
 MOS는 FEC 실시간 비디오 손실 은닉 기법 미디어…에서 출발해 현재 메커니즘을 정교화하고, 이후 [네트워크 코딩](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/910_network_coding_algebraic_packet_combination/)와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

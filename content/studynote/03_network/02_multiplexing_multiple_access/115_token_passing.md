@@ -25,23 +25,20 @@ tags = ["studynote-network"]
 *경쟁 방식 붕괴와 토큰 패싱의 트래픽 혼잡 방어 비교 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)*
 이 도식은 부하가 증가할 때 [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CD망과 토큰 기반망이 겪는 근본적인 트래픽 처리 상태의 차이를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">트래픽 과부하 시 CSMA/CD 망: 충돌 폭풍과 붕괴</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Node A: "내가 먼저 쏠거야!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Node B: "내가 먼저 쏠거야!" ─&gt; 대규모 연쇄 충돌!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Node C: "내가 먼저 쏠거야!" (대역폭 0%로 수렴)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">트래픽 과부하 시 토큰 패싱 망: 질서 정연한 순차 전송</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Node A:</div><div class="kb-diagram-node">토큰 획득</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">"내 차례군, 1MB 발송!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">대기</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─&gt;</div><div class="kb-diagram-node">토큰 획득</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">전송!</div></div>
-<div class="kb-diagram-note">결과: 지연은 늘어나지만, 데이터 파괴와 낭비는 0% 완벽 방어</div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────┐
+│ [트래픽 과부하 시 CSMA/CD 망: 충돌 폭풍과 붕괴]        │
+│ Node A: "내가 먼저 쏠거야!" ───┐                     │
+│ Node B: "내가 먼저 쏠거야!" ───┼─> 대규모 연쇄 충돌! │
+│ Node C: "내가 먼저 쏠거야!" ───┘   (대역폭 0%로 수렴)│
+├────────────────────────────────────────────────────────┤
+│ [트래픽 과부하 시 토큰 패싱 망: 질서 정연한 순차 전송] │
+│ Node A: [토큰 획득] -> "내 차례군, 1MB 발송!"          │
+│          └─> (토큰 전달) -> Node B: [대기]             │
+│                              └─> [토큰 획득] -> 전송!  │
+│ 결과: 지연은 늘어나지만, 데이터 파괴와 낭비는 0% 완벽 방어
+└────────────────────────────────────────────────────────┘
+```
 *해설*: 이 그림의 핵심은 토큰 패싱 철학이 극한의 과부하 상태에서 뿜어내는 안정성이다. [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CD는 이기적인 자율성의 한계로 인해 너도나도 전송을 시도하다 충돌 후 백오프하며 채널을 죽인다. 반면 이런 배치를 가진 토큰 방식은 아무리 노드들이 보낼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 산더미처럼 쌓여 있어도, 오직 릴레이 바통(토큰)을 쥔 단 한 명만이 입을 열 수 있기 때문에 트래픽 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))이 하락하지 않고 최대치를 평탄하게 유지한다. 실무에서는 이러한 보장성 때문에 한순간의 충돌 붕괴도 용납되지 않는 병원, 금융망, 공장 제어망 초창기에 앞다투어 도입되었다.
 
 - **📢 섹션 요약 비유**: 수백 명이 모인 토론장에서 서로 먼저 말하겠다고 고함을 치는([CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CD) 대신, 단 하나의 마이크(토큰)를 준비해 옆 사람에게 순서대로 넘겨가며 마이크를 쥔 사람만 말하는 규칙과 같습니다. 아무리 사람이 많아도 절대 소리가 겹치지 않습니다.
@@ -62,25 +59,22 @@ tags = ["studynote-network"]
 *토큰 패싱([Token Ring](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/281_token_ring_ieee_802_5_token_bus_ieee_802_4/))의 토큰 순회 및 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 상태 전이도*
 이 도식은 노드 A가 토큰을 잡아 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보내고 다시 링에 반환하기까지의 순차적 프레임 조작 과정을 상세히 추적한다.
 
+```text
+[상태 1: 유휴(Idle) 토큰 순회]
+   ┌── Node D <── Node C ──┐  (토큰이 빠른 속도로 빙빙 도는 중)
+   ↓                       ↑
+ Node A (송신 대기) ──> Node B
 
+[상태 2: 토큰 포착 및 데이터 전송 시작]
+ Node A: 1. 앞 노드(D)로부터 들어오는 토큰을 잡음!
+         2. 토큰의 제어 비트(T)를 0에서 1로 변환 (Busy 상태로 플래그 변경)
+         3. 토큰 뒤에 자신의 대용량 [데이터 프레임]을 이어 붙여 전송 개시 -> B로 흘려보냄
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">상태 1: 유휴(Idle) 토큰 순회</div></div>
-<div class="kb-diagram-note">── Node D &lt;── Node C ── (토큰이 빠른 속도로 빙빙 도는 중)</div>
-<div class="kb-diagram-note">Node A (송신 대기) ──&gt; Node B</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상태 2: 토큰 포착 및 데이터 전송 시작</div></div>
-<div class="kb-diagram-note">Node A: 1. 앞 노드(D)로부터 들어오는 토큰을 잡음!</div>
-<div class="kb-diagram-note">2. 토큰의 제어 비트(T)를 0에서 1로 변환 (Busy 상태로 플래그 변경)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3. 토큰 뒤에 자신의 대용량</div><div class="kb-diagram-node">데이터 프레임</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">B로 흘려보냄</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상태 3: 한 바퀴 순회 후 회수 (Token Release)</div></div>
-<div class="kb-diagram-note">Node A: 1. 내가 보낸 프레임이 C, D를 거쳐 다시 내게 돌아오면(수신측 복사 완료)</div>
-<div class="kb-diagram-note">2. 자신이 보낸 데이터를 채널에서 흡수하여 폐기 (링 정화)</div>
-<div class="kb-diagram-note">3. 새로운 프리(Free) 토큰을 생성하여 다음 노드 B에게 넘김 (Release)</div>
-</div>
-</div>
-
-
+[상태 3: 한 바퀴 순회 후 회수 (Token Release)]
+ Node A: 1. 내가 보낸 프레임이 C, D를 거쳐 다시 내게 돌아오면(수신측 복사 완료) 
+         2. 자신이 보낸 데이터를 채널에서 흡수하여 폐기 (링 정화)
+         3. 새로운 프리(Free) 토큰을 생성하여 다음 노드 B에게 넘김 (Release)
+```
 *해설*: 이 도식의 핵심은 토큰 패싱망이 마치 컨베이어 벨트처럼 닫힌 루프(Closed Loop)에서 스스로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 청소하고 권한을 이양하는 자율 정화 시스템이라는 점이다. 이런 배치는 충돌을 방지할 뿐 아니라, 송신자(A)가 한 바퀴 돌아온 패킷의 프레임 상태 비트를 확인하여 수신자가 제대로 받았는지(ACK) 즉각 판단할 수 있게 해준다. 토큰이 무한정 점유되는 것을 막기 위해 THT(Token Holding Time) 타이머가 돌며, 시간이 만료되면 아직 보낼 짐이 남아있더라도 강제로 토큰을 뱉어내 B에게 넘겨야 한다. 이 제약이 모든 기기에 공평함과 유한한 대기 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 수학적으로 보장하는 척추 역할을 한다.
 
 - **📢 섹션 요약 비유**: 놀이공원의 회전목마와 같습니다. 빈 말(Free 토큰)이 내 앞에 오면 얼른 올라타고([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 싣기), 한 바퀴를 빙 돌아 다시 제자리로 오면 나는 내리고 다음 사람을 위해 빈 말을 돌려보내는 원리입니다.
@@ -94,20 +88,17 @@ tags = ["studynote-network"]
 *트래픽 부하에 따른 [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CD와 토큰 패싱의 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 효율 지표 분석*
 이 도식은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통신망 부하 곡선에서 두 프로토콜이 맞이하는 성능의 크로스오버 포인트(역전 지점)를 분석한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">평가 상황</div><div class="kb-diagram-cell">CSMA/CD (이더넷)</div><div class="kb-diagram-cell">Token Passing</div><div class="kb-diagram-cell">네트워크 체감</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">망이 한산할 때 (Low Load)</div><div class="kb-diagram-cell">즉시 전송 (지연 0)</div><div class="kb-diagram-cell">토큰 대기 (지연 있음)</div><div class="kb-diagram-cell">한산할 땐 이더넷 압승</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">망이 혼잡할 때 (Heavy Load)</div><div class="kb-diagram-cell">충돌 폭주 (가용성 폭락)</div><div class="kb-diagram-cell">충돌 제로 (100% 효율)</div><div class="kb-diagram-cell">혼잡할 땐 토큰망 압승</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지연 시간 보장</div><div class="kb-diagram-cell">예측 불가 (랜덤 백오프)</div><div class="kb-diagram-cell">최대 대기시간 확정 보장</div><div class="kb-diagram-cell">공장 자동화의 생명줄</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">케이블/단선 장애</div><div class="kb-diagram-cell">단순 노드 이탈로 방어</div><div class="kb-diagram-cell">링 끊어지면 전체 마비</div><div class="kb-diagram-cell">이더넷의 생존성 우위</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SPoF 및 토큰 분실</div><div class="kb-diagram-cell">없음 (완전 분산)</div><div class="kb-diagram-cell">복구 알고리즘(Claim) 복잡</div><div class="kb-diagram-cell">토큰망 유지보수 악몽</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬─────────────────┬─────────────────┬─────────────────┐
+│ 평가 상황│ CSMA/CD (이더넷)│ Token Passing   │ 네트워크 체감   │
+├──────────┼─────────────────┼─────────────────┼─────────────────┤
+│ 망이 한산할 때 (Low Load) │ 즉시 전송 (지연 0)│ 토큰 대기 (지연 있음)│ 한산할 땐 이더넷 압승 │
+│ 망이 혼잡할 때 (Heavy Load) │ 충돌 폭주 (가용성 폭락)│ 충돌 제로 (100% 효율)│ 혼잡할 땐 토큰망 압승 │
+│ 지연 시간 보장│ 예측 불가 (랜덤 백오프)│ 최대 대기시간 확정 보장│ 공장 자동화의 생명줄│
+│ 케이블/단선 장애│ 단순 노드 이탈로 방어│ 링 끊어지면 전체 마비│ 이더넷의 생존성 우위│
+│ SPoF 및 토큰 분실│ 없음 (완전 분산) │ 복구 알고리즘(Claim) 복잡│ 토큰망 유지보수 악몽│
+└──────────┴─────────────────┴─────────────────┴─────────────────┘
+```
 *해설*: 이 표의 핵심은 네트워크 설계에서 '평소의 속도([CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/))'를 취할 것인가, '위기 시의 붕괴 방어력(Token)'을 취할 것인가의 트레이드오프를 보여준다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송량이 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 미만인 한산한 망에서 토큰 패싱은 빈 토큰이 순회하는 걸 멍하니 지켜봐야 하는 지루한 오버헤드를 낳는다. 반면 트래픽이 80% 이상 꽉 들어차면 CSMA는 재전송 지옥에 빠지지만, 토큰망은 모두가 꽉 찬 택배를 질서정연하게 올리며 대역폭을 낭비 없이 쥐어짠다. 그러나 실무 전쟁에서 토큰망은 케이블이 하나 단선되거나 토큰 패킷 자체가 깨져 분실되었을 때 링 전체가 멈추는 치명적 하드웨어 한계와 값비싼 장비 비용 탓에 싼 맛을 앞세운 [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CD([이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/))에게 시장의 패권을 내주고 말았다.
 
 - **📢 섹션 요약 비유**: [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)이 평소엔 씽씽 달리지만 명절만 되면 차가 뒤엉켜 오도 가도 못하는 '일반 고속도로'라면, 토큰 패싱은 속도는 조금 느리지만 앞차와의 안전거리가 절대적으로 유지되어 명절에도 정체 없이 꾸준히 도착하는 '기차'와 같습니다.
@@ -121,23 +112,20 @@ tags = ["studynote-network"]
 *토큰 패싱 아키텍처 기반 실무망 도입 판단 트리 및 에러 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 제어*
 이 도식은 실무 네트워크 설계 시 무결성과 실시간성 관점에서 토큰 기반 프로토콜의 적용을 결정하는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 구조를 나타낸다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">요구사항: 로봇 팔과 센서가 연동된 공장 자동화(FA) 백본망 구축</div></div>
-<div class="kb-diagram-tree-item" style="--depth:4">특정 센서의 데이터가 무조건 "10ms 이내"에 지연 없이 도달해야 하는가?</div>
-<div class="kb-diagram-note">─ (No) ─&gt; 일반 산업용 이더넷 스위치 적용 (비용 절감)</div>
-<div class="kb-diagram-note">─ (Yes) ─&gt; 충돌 백오프로 인한 시간 예측 불가를 허용할 수 없는가?</div>
-<div class="kb-diagram-note">─&gt; 물리적인 링 배선(Ring Wiring)이 공장 구조상 유리한가?</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ (Yes) ─&gt; Token Ring 구조 및 광케이블 FDDI 도입</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(단선 대비 Dual Ring 이중화 필수!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ (No) ─&gt; 버스 배선 형태의 Token Bus (IEEE 802.4)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">또는 논리적 토큰 제어를 쓰는 PROFIBUS 채택</div></div>
-</div>
-</div>
-
-
+```text
+[요구사항: 로봇 팔과 센서가 연동된 공장 자동화(FA) 백본망 구축]
+         │
+         ├─> 특정 센서의 데이터가 무조건 "10ms 이내"에 지연 없이 도달해야 하는가?
+         │    ├─ (No)  ─> 일반 산업용 이더넷 스위치 적용 (비용 절감)
+         │    │
+         │    └─ (Yes) ─> 충돌 백오프로 인한 시간 예측 불가를 허용할 수 없는가?
+         │                 │
+         │                 ├─> 물리적인 링 배선(Ring Wiring)이 공장 구조상 유리한가?
+         │                 │    ├─ (Yes) ─> Token Ring 구조 및 광케이블 FDDI 도입 
+         │                 │    │           (단선 대비 Dual Ring 이중화 필수!)
+         │                 │    └─ (No)  ─> 버스 배선 형태의 Token Bus (IEEE 802.4)
+         │                 │                또는 논리적 토큰 제어를 쓰는 PROFIBUS 채택
+```
 *해설*: 이 흐름의 핵심은 '단 한 번의 충돌도 비즈니스에 치명타(공장 라인 정지)를 입히는가'에 대한 판단이다. 자동차 조립 라인 로봇에 용접 멈춤 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 보냈는데 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 망에서 충돌로 인해 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 1초 발생하면, 로봇 팔이 차체를 뚫고 들어가 수억 원의 손해를 낸다. 실무에서는 이런 [OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/)(운영 기술) 망에 무충돌과 최대 허용 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 한계(Bounded Delay)를 수학적으로 보장하는 토큰 패싱 철학(프로피버스 등)을 도입한다.
 
 <strong>실무 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 및 최악의 아키텍처 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a></strong>:
@@ -181,19 +169,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 폴링 접속</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 토큰 패싱</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: PRMA</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 자원 스케줄링</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 폴링 접속]
+    │
+    ▼
+[현재 개념: 토큰 패싱]
+    │
+    ├──▶ [확장 A: PRMA]
+    └──▶ [확장 B: 지능형 자원 스케줄링]
+```
 
 토큰 패싱는 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 접속에서 출발해 현재 메커니즘을 정교화하고, 이후 PRMA와 지능형 자원 스케줄링 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

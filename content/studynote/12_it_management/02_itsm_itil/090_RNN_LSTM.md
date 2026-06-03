@@ -32,23 +32,25 @@ tags = ["it_management"]
 
 RNN은 이전 은닉 상태 $h_{t-1}$과 현재 입력 $x_t$를 받아 새로운 은닉 상태 $h_t$를 출력한다. LSTM은 이 단순한 구조 내부에 정보의 흐름을 통제하는 3개의 게이트(망각, 입력, 출력)와 장기 기억을 담당하는 셀 상태 (Cell [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)) 컨베이어 벨트를 추가했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LSTM 셀 (Cell)의 게이트 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">장기 기억: Cell State (C_t)</div><div class="kb-diagram-connector">▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(버릴 건 버림)</div><div class="kb-diagram-cell">(새로 기억할 것)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">망각 게이트</div><div class="kb-diagram-cell">입력 게이트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Forget)</div><div class="kb-diagram-cell">(Input)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">이전 단기기억</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">출력 게이트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">h_{t-1}</div><div class="kb-diagram-cell">(Output)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 입력</div><div class="kb-diagram-connector">▼</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">새 단기기억</div><div class="kb-diagram-note">h_t</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                  LSTM 셀 (Cell)의 게이트 구조                │
+├──────────────────────────────────────────────────────────────┤
+│               [ 장기 기억: Cell State (C_t) ] ─────────▶   │
+│                 ▲                         ▲                  │
+│                 │ (버릴 건 버림)          │ (새로 기억할 것) │
+│            ┌────┴────┐               ┌────┴────┐             │
+│            │ 망각 게이트 │               │ 입력 게이트 │             │
+│            │ (Forget)  │               │ (Input)   │             │
+│            └────▲────┘               └────▲────┘             │
+│                 │                         │                  │
+│ [이전 단기기억] ─┴───────┬─────────────────┴──────── [출력 게이트] │
+│ h_{t-1}                │                             (Output)│
+│                        │                                 │   │
+│ [현재 입력] x_t ───────┘                                 ▼   │
+│                                                [새 단기기억] h_t │
+└──────────────────────────────────────────────────────────────┘
+```
 
 1. **망각 게이트 (Forget Gate)**: 이전 셀 상태에서 불필요한 과거 정보를 얼마나 지울지 $0$과 $1$ 사이의 값으로 결정한다. (예: 문장의 주어가 단수에서 복수로 바뀌면 이전 단수 상태를 지움)
 2. **입력 게이트 (Input Gate)**: 현재 들어온 새로운 입력 정보 중 얼마나 셀 상태에 추가할지 결정한다.
@@ -115,23 +117,21 @@ RNN과 LSTM은 독립된 점으로 존재하던 [데이터](/knowledge-base/stud
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">독립적 데이터 처리 (Feedforward NN)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">순차 데이터의 시간적 의존성 학습: RNN (Recurrent Neural Network)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">장기 의존성(기울기 소실) 문제 극복: LSTM (Long Short-Term Memory)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">구조 경량화 및 효율성 극대화: GRU (Gated Recurrent Unit)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">직렬 병목 극복 및 Attention 도입: Transformer 및 LLM 시대 도래</div>
-</div>
-</div>
-
-
+```text
+독립적 데이터 처리 (Feedforward NN)
+    │
+    ▼
+순차 데이터의 시간적 의존성 학습: RNN (Recurrent Neural Network)
+    │
+    ▼
+장기 의존성(기울기 소실) 문제 극복: LSTM (Long Short-Term Memory)
+    │
+    ▼
+구조 경량화 및 효율성 극대화: GRU (Gated Recurrent Unit)
+    │
+    ▼
+직렬 병목 극복 및 Attention 도입: Transformer 및 LLM 시대 도래
+```
 
 이 흐름도는 단순한 순차 기억에서 출발해 장기 기억 문제를 극복하고, 궁극적으로 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 처리의 한계를 넘어 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) Attention으로 진화하는 자연어/시계열 처리 모델의 발전사를 보여준다.
 

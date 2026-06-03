@@ -26,17 +26,14 @@ tags = ["studynote-ai"]
 
 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/">MLOps</a></strong>는 DevOps의 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD([지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/)/배포), [인프라 코드](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/)화, [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 원칙을 ML 시스템에 적용해 이 문제를 해결한다. 모델 학습에서 서빙까지 전 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 자동화되고 추적 가능하게 된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 없는 ML 배포는 레스토랑 주방에서 셰프가 매번 손으로 모든 레시피를 처음부터 조리하는 것이다. 메뉴가 조금 바뀌면([데이터 드리프트](/knowledge-base/studynote/14_data_engineering/04_mlops/163_data_drift_statistical_distribution_shift/)) 모든 조리법을 수동으로 다시 설계해야 한다. MLOps는 자동화된 식품 공장 라인처럼, 재료가 들어오면 자동으로 가공·품질검사·포장·배송되는 시스템이다.
 
@@ -44,26 +41,32 @@ tags = ["studynote-ai"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MLOps 성숙도 레벨 및 자동화 파이프라인 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 0: 수동 ML (Script-Based)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 준비 → 실험 (Jupyter) → 수동 배포 → 수동 모니터링</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문제: 재현 불가, 버전 관리 없음, 확장 불가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 1: 자동화 ML 파이프라인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 파이프라인 특징 엔지니어링 모델 학습 모델 평가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자동화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ 피처 스토어, 모델 레지스트리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 2: CI/CD ML 시스템 (완전 자동화)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 트리거 → 자동 파이프라인 실행 → 모델 검증 → 자동 배포</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모니터링 ◀── 드리프트 감지 ◀ 서빙 모니터링</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자동 재학습(CT: Continuous Training) + CD: 지속적 배포</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│         MLOps 성숙도 레벨 및 자동화 파이프라인 구조                   │
+├──────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  Level 0: 수동 ML (Script-Based)                                 │
+│  데이터 준비 → 실험 (Jupyter) → 수동 배포 → 수동 모니터링            │
+│  문제: 재현 불가, 버전 관리 없음, 확장 불가                          │
+│                                                                  │
+│  Level 1: 자동화 ML 파이프라인                                     │
+│  ┌──────────────────────────────────────────────────────────┐   │
+│  │ 데이터 파이프라인   특징 엔지니어링   모델 학습   모델 평가   │   │
+│  │       │                  │              │           │     │   │
+│  │    자동화 ──────────────────────────────────────────     │   │
+│  └──────────────────────────────────────────────────────────┘   │
+│  + 피처 스토어, 모델 레지스트리                                      │
+│                                                                  │
+│  Level 2: CI/CD ML 시스템 (완전 자동화)                            │
+│  ┌──────────────────────────────────────────────────────────┐   │
+│  │ 데이터 트리거 → 자동 파이프라인 실행 → 모델 검증 → 자동 배포  │   │
+│  │       ▲                                        │         │   │
+│  │ 모니터링 ◀── 드리프트 감지 ◀──────── 서빙 모니터링          │   │
+│  └──────────────────────────────────────────────────────────┘   │
+│  자동 재학습(CT: Continuous Training) + CD: 지속적 배포            │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 | [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 핵심 구성 요소 | 역할 | 대표 도구 |
 |:---|:---|:---|

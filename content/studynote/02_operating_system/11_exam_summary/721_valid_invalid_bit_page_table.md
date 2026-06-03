@@ -46,20 +46,19 @@ tags = ["studynote-operating-system"]
 
 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)은 단순히 주소만 적힌 표가 아니다. 각 줄(Entry, 약 4~8바이트)에는 프레임 번호와 함께 수많은 <strong>제어 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>(Control Bits)</strong>가 촘촘히 박혀 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Page Table Entry (PTE)의 핵심 비트 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">... 프레임 물리 주소 번호 ...  | Dirty | Accessed | R/W/X | V/I</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- V/I 비트 (Valid/Invalid) : 램에 있냐 없냐? (가장 먼저 검사함)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- R/W/X 비트 (Protection) : 읽기/쓰기/실행 권한이 있냐?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Accessed 비트 (Reference): 최근에 읽은 적이 있냐? (페이지 교체 시 사용)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Dirty 비트 (Modify) : 메모리에 올라온 뒤 내용이 수정되었냐?</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 Page Table Entry (PTE)의 핵심 비트 구조              │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │  [  ... 프레임 물리 주소 번호 ...  | Dirty | Accessed | R/W/X | V/I ]│
+  │                                                                   │
+  │  - V/I 비트 (Valid/Invalid) : 램에 있냐 없냐? (가장 먼저 검사함)         │
+  │  - R/W/X 비트 (Protection) : 읽기/쓰기/실행 권한이 있냐?                │
+  │  - Accessed 비트 (Reference): 최근에 읽은 적이 있냐? (페이지 교체 시 사용)│
+  │  - Dirty 비트 (Modify)      : 메모리에 올라온 뒤 내용이 수정되었냐?       │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 ---
 
@@ -114,27 +113,29 @@ MMU는 이 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_r
 
 ### 의사결정 및 튜닝 플로우
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 할당 전략(Overcommit) 튜닝 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">거대 인메모리 DB(Redis) 나 ML 프로세스를 클라우드에 배포할 때</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">리눅스의 커널 파라미터 <code>vm.overcommit_memory</code> 값이 무엇인가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 0 (디폴트: Heuristic)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 램 크기를 적당히 봐가며 뻥카(Invalid) 할당을 허용함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Redis fork() 시 매우 유용함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 1 (Always Overcommit)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 램이 1GB인데 1,000GB를 달라고 해도 몽땅 <code>Invalid</code>로 허용해 줌!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 극한의 Sparse 메모리 앱에 유리하나 OOM 킬러 출동 빈도 극상.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">엄격한 금융/결제 시스템 권장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "뻥카 치지 마! 진짜 물리 램 + 스왑 공간만큼만 딱 할당해 줘!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 램을 초과하는 malloc()은 즉시 NULL을 뱉어 개발자가 안전하게</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">에러 처리를 할 수 있게 강제함. (갑분사 OOM Kill 방지)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 메모리 할당 전략(Overcommit) 튜닝 플로우                 │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [거대 인메모리 DB(Redis) 나 ML 프로세스를 클라우드에 배포할 때]               │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      리눅스의 커널 파라미터 `vm.overcommit_memory` 값이 무엇인가?            │
+  │          ├─ 0 (디폴트: Heuristic)                                  │
+  │          │    - 램 크기를 적당히 봐가며 뻥카(Invalid) 할당을 허용함.          │
+  │          │    - Redis fork() 시 매우 유용함.                          │
+  │          │                                                        │
+  │          ├─ 1 (Always Overcommit)                                 │
+  │          │    - 램이 1GB인데 1,000GB를 달라고 해도 몽땅 `Invalid`로 허용해 줌! │
+  │          │    - 극한의 Sparse 메모리 앱에 유리하나 OOM 킬러 출동 빈도 극상.   │
+  │          │                                                        │
+  │          └─ 2 (Never Overcommit) ◀── [엄격한 금융/결제 시스템 권장]    │
+  │               - "뻥카 치지 마! 진짜 물리 램 + 스왑 공간만큼만 딱 할당해 줘!"    │
+  │               - 램을 초과하는 malloc()은 즉시 NULL을 뱉어 개발자가 안전하게 │
+  │                 에러 처리를 할 수 있게 강제함. (갑분사 OOM Kill 방지)       │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 마법(V/I [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 조작)에 너무 취하면 시스템이 언제 터질지 모르는 시한폭탄이 된다. `Invalid` 상태로 할당받아 안심하고 있던 톰캣 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 1,000개가 동시에 실제로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 시작하면, OS는 부랴부랴 램을 찾아다니다가 램이 없음을 깨닫고 무자비하게 프로세스들의 목을 날려버린다([OOM Killer](/knowledge-base/studynote/02_operating_system/07_virtual_memory/425_oom_killer_score/)). 보수적인 아키텍트는 `overcommit_memory=2`를 세팅하여 V/I [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)의 거짓말을 차단하고 100% 예약된 물리 메모리만 쓰도록 튜닝한다.
 
@@ -176,19 +177,15 @@ MMU는 이 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_r
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">페이지 폴트 (Page Fault) ISR</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">유효/무효 비트 (Valid/Invalid)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">페이지 교체 LRU 원리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">FIFO 벨라디의 모순</div></div>
-</div>
-</div>
-
-
+```text
+[페이지 폴트 (Page Fault) ISR]
+    │
+    ▼
+[유효/무효 비트 (Valid/Invalid)]
+    │
+    ├──▶ [페이지 교체 LRU 원리]
+    └──▶ [FIFO 벨라디의 모순]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

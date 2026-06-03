@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: 컴퓨터 내부에서 하드디스크와 메인보드가 통신할 때 쓰는 전통적인 로컬 기계어(SCSI [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)) 패킷을, 전 세계를 덮고 있는 <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a>/IP 패킷(인터넷 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a>) 껍데기 안에 캡슐화(Encapsulation)하여, 멀리 떨어진 외장 스토리지(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/">SAN</a>)를 인터넷망(IP)을 타고 원격으로 접근하여 블록(Block) 단위로 읽고 쓸 수 있게 만든 국제 네트워크 스토리지 표준 규격</strong>입니다. ([IETF](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/) 제정)
 - IP-[SAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/) (Internet [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) [Storage Area Network](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/))을 구축하는 가장 대표적이고 저렴한 핵심 기술입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">FCoE</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">iSCSI</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">인피니밴드</div></div>
-</div>
-</div>
-
-
+```text
+[FCoE]
+    │
+    ▼
+[iSCSI]
+    │
+    └──▶ [인피니밴드]
+```
 
 - **📢 섹션 요약 비유**: iSCSI는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -46,18 +42,14 @@ tags = ["studynote-network"]
 - <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/697_fcoe/">FCoE</a> (L2 계층의 족쇄)</strong>: 깐깐한 [FC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/) 패킷을 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) '[MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소(L2)' 껍데기에만 담았습니다. 그래서 라우터를 넘어 다른 네트워크망(해외)으로 나갈 수가 없고, 오직 같은 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 전산실(동일 서브넷) 안에서만 놀아야 하는 태생적 한계가 있습니다.
 - <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/698_iscsi/">iSCSI</a> (L3 IP 라우팅의 자유) 🌟</strong>: 가장 중요한 차이입니다. iSCSI는 인터넷의 공용어인 <strong>IP 주소와 <a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>(기본 3260번)</strong> 껍데기로 완전히 포장해버렸습니다. 덕분에 인터넷(라우터)을 타고 중국이든 아프리카든 마음대로 태평양 해저 케이블을 건너가 원격 스토리지를 내 C드라이브처럼 쓸 수 있습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">FCoE</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">iSCSI</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">인피니밴드</div></div>
-</div>
-</div>
-
-
+```text
+[FCoE]
+    │
+    ▼
+[iSCSI]
+    │
+    └──▶ [인피니밴드]
+```
 
 - **📢 섹션 요약 비유**: iSCSI의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -119,19 +111,15 @@ iSCSI는 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_c
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: FCoE</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: iSCSI</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 인피니밴드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: FCoE]
+    │
+    ▼
+[현재 개념: iSCSI]
+    │
+    ├──▶ [확장 A: 인피니밴드]
+    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
+```
 
 iSCSI는 FCoE에서 출발해 현재 메커니즘을 정교화하고, 이후 [인피니밴드](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/)와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

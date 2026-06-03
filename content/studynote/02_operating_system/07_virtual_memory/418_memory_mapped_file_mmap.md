@@ -27,24 +27,24 @@ tags = ["studynote-operating-system"]
   2. **Double Copy의 저주**: 디스크 -> [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) -> 유저로 이어지는 이중 복사로 인해 램 대역폭이 작살남.
   3. <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">가상 메모리</a> 융합</strong>: 어차피 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 시스템이 스왑 디스크를 램처럼 매핑하는 짓([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/))을 잘하니까, 스왑 대신 일반 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 꽂아버려도 완벽히 똑같이 돌겠다는 천재적인 깨달음.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고전적 read() vs mmap()의 데이터 복사(Zero-Copy) 시각화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1. 고전적 read() 궤적 (비효율의 극치)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OS 커널 램 (Page Cache)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">유저 램 (내 앱 배열)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⚠ 단점: 복사 2번! 램 점유율 2배! 속도 느림!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2. mmap() 궤적 (Zero-Copy 마법)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OS 커널 램 (Page Cache)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">유저 램 (가상 주소 포인터)</div><div class="kb-diagram-note">── (복사 안 함! 화살표만 연결함!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 장점: 램 복사 0회! (Zero-Copy). 유저가 포인터를 찌르면</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS 커널 램의 데이터가 다이렉트로 수정됨. (빛의 속도)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────────┐
+│        고전적 read() vs mmap()의 데이터 복사(Zero-Copy) 시각화      │
+├─────────────────────────────────────────────────────────────────────┤
+│                                                                     │
+│ ▶ 1. 고전적 read() 궤적 (비효율의 극치)                             │
+│   하드디스크 ──복사1──▶ [ OS 커널 램 (Page Cache) ]                 │
+│                         └──복사2──▶ [ 유저 램 (내 앱 배열) ]        │
+│   ⚠ 단점: 복사 2번! 램 점유율 2배! 속도 느림!                       │
+│                                                                     │
+│ ▶ 2. mmap() 궤적 (Zero-Copy 마법)                                   │
+│   하드디스크 ──복사1──▶ [ OS 커널 램 (Page Cache) ]                 │
+│                              ▲                                      │
+│   [ 유저 램 (가상 주소 포인터) ] ──┘ (복사 안 함! 화살표만 연결함!) │
+│   ✅ 장점: 램 복사 0회! (Zero-Copy). 유저가 포인터를 찌르면         │
+│            OS 커널 램의 데이터가 다이렉트로 수정됨. (빛의 속도)     │
+└─────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** `mmap`은 복사(Copy)를 혐오하는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 해커들의 예술 작품이다. 유저 프로세스의 가상 주소(PTE)를 슬쩍 조작해서, 그 화살표가 가리키는 끝단이 내 힙([Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/))이 아니라 OS가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 올려둔 램([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache)으로 향하게 만든다. 유저 앱은 자기 변수를 고친다고 생각하지만, 사실은 OS 심장부에 있는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 직빵으로 후드려 패고 있는 셈이다.
 
 - **📢 섹션 요약 비유**: 피자집에서 피자([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))를 시켜 먹을 때, 배달원(read)을 시켜 우리 집 식탁(유저 램)으로 피자를 옮겨와 먹으면 식고 배달비도 듭니다. `mmap`은 아예 식당 주방([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 램)에 뚫린 작은 창구(가상 주소)에 입만 대고, 주방장이 굽는 족족 바로 뜯어먹어 배달비(복사)를 0원으로 만드는 얌체 같은 최적화입니다.
@@ -95,18 +95,15 @@ tags = ["studynote-operating-system"]
 - 카톡이 포인터 변수에 `A`를 쓰면, 엑셀이 0.000001초 만에 자기 포인터에서 `A`를 바로 읽어낸다! 
 - 시스템 콜 0회, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 복사 0회. <strong>세상에서 존재하는 가장 빠르고 폭력적인 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/">프로세스 간 통신</a>(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/">IPC</a>) 채널이 바로 이 <code>mmap</code> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/">공유 메모리</a>다.</strong>
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">통신 방식</div><div class="kb-diagram-cell">커널 개입 횟수</div><div class="kb-diagram-cell">데이터 복사 횟수</div><div class="kb-diagram-cell">속도 한계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pipe(파이프)</div><div class="kb-diagram-cell">매번 개입 (느림)</div><div class="kb-diagram-cell">2번 (커널 거침)</div><div class="kb-diagram-cell">메가바이트 급</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Socket</div><div class="kb-diagram-cell">매번 개입 (느림)</div><div class="kb-diagram-cell">2번 + 네트워킹</div><div class="kb-diagram-cell">킬로바이트 급</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">mmap</div><div class="kb-diagram-cell">초기 1번 끝</div><div class="kb-diagram-cell">0번(Zero!)</div><div class="kb-diagram-cell">램 스피드(기가급)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬──────────────────────────────┐
+│ 통신 방식  │ 커널 개입 횟수│ 데이터 복사 횟수│ 속도 한계          │
+├──────────┼────────────┼────────────┼──────────────────────────────┤
+│ Pipe(파이프)│ 매번 개입 (느림)│ 2번 (커널 거침) │ 메가바이트 급   │
+│ Socket   │ 매번 개입 (느림)│ 2번 + 네트워킹 │ 킬로바이트 급       │
+│ **mmap** │ **초기 1번 끝**│ **0번(Zero!)**│ **램 스피드(기가급)** │
+└──────────┴────────────┴────────────┴──────────────────────────────┘
+```
 **[매트릭스 해설]** 로컬 머신에서 안드로이드 카메라 앱의 1초에 60장씩 뿜어내는 4K 무압축 프레임(수십 MB)을 렌더링 앱으로 넘길 때, [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)나 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)을 쓰면 폰이 불타며 폭발한다. 무조건 안드로이드의 `Ashmem`이나 `mmap`을 통해 물리적 복사 없이 껍데기 포인터만 던져주는 메모리 맵 공유를 써야만 실시간 60프레임이 유지된다.
 
 - **📢 섹션 요약 비유**: 옆집과 편지([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 주고받을 때 우체부([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))를 부르면 하루가 걸립니다([파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)/[소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)). 대신 두 집 사이의 벽을 허물고 커다란 칠판([mmap](/knowledge-base/studynote/02_operating_system/11_exam_summary/749_memory_mapped_file_mmap/) [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/))을 하나 놔두면, 내가 분필로 글을 쓰는 그 즉시 옆집에서 실시간으로 읽고 답장을 쓸 수 있는 빛의 속도 통신망이 열립니다.
@@ -161,19 +158,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">페이지 부재 빈도 (PFF, Page-Fault Frequency) 모델</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">메모리 매핑 파일 (Memory-Mapped Files, mmap)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">파일 I/O를 메모리 접근으로 변환, 버퍼 캐시 활용, 프로세스 간 공유 메모리로 사용 가능</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">메모리 맵 I/O (Memory-Mapped I/O)</div></div>
-</div>
-</div>
-
-
+```text
+[페이지 부재 빈도 (PFF, Page-Fault Frequency) 모델]
+    │
+    ▼
+[메모리 매핑 파일 (Memory-Mapped Files, mmap)]
+    │
+    ├──▶ [파일 I/O를 메모리 접근으로 변환, 버퍼 캐시 활용, 프로세스 간 공유 메모리로 사용 가능]
+    └──▶ [메모리 맵 I/O (Memory-Mapped I/O)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

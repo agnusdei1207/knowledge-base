@@ -25,23 +25,25 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 왜 클러스터가 "거대한 한 대"보다 "협력하는 여러 대"로 이동했는지를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스케일업 한계와 클러스터의 등장 배경</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전통적 단일 대형 서버</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU ↑ Memory ↑ I/O ↑</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 장점: 관리 단순</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 한계: 비용 급증 · 단일 장애점 (SPOF) · 확장 폭 제한</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">클러스터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Node1 Node2 Node3 Node4</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">High-Speed LAN / Switch</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">효과: 노드 추가형 확장 · 부분 장애 허용 · 역할 분리</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│              스케일업 한계와 클러스터의 등장 배경                   │
+├──────────────────────────────────────────────────────────────────────┤
+│ [전통적 단일 대형 서버]                                              │
+│   CPU ↑  Memory ↑  I/O ↑                                             │
+│      │                                                               │
+│      ├─ 장점: 관리 단순                                               │
+│      └─ 한계: 비용 급증 · 단일 장애점 (SPOF) · 확장 폭 제한          │
+│                                                                      │
+│ [클러스터]                                                           │
+│   Node1   Node2   Node3   Node4                                       │
+│     │       │       │       │                                         │
+│     └───────┴───────┴───────┘                                         │
+│             High-Speed LAN / Switch                                   │
+│                                                                      │
+│   효과: 노드 추가형 확장 · 부분 장애 허용 · 역할 분리                │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 초기의 베오울프 (Beowulf) 클러스터가 상징하듯, 클러스터는 "범용 장비를 잘 묶으면 슈퍼컴퓨터급 효과를 낼 수 있다"는 사고 전환을 만든 아키텍처다. 이후 이 철학은 고성능 계산 ([HPC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/548_automotive_hpc/), [High Performance Computing](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/226_hpc_supercomputing_infrastructure/)), 웹 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 서버 팜, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 저장소, [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 오케스트레이션까지 이어졌다.
 
@@ -63,22 +65,25 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 클러스터가 작업을 분배하고 장애를 흡수하는 기본 흐름을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클러스터의 작업 분배와 장애 흡수 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client / Job Submitter</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Scheduler / Load Balancer</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Node A Node B Node C Node D</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정상 정상 장애 정상</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">X</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">재분배 / 재시도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 일부 노드 실패 시 전체 중단 대신 성능 저하 또는 재실행</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                 클러스터의 작업 분배와 장애 흡수 흐름               │
+├──────────────────────────────────────────────────────────────────────┤
+│ Client / Job Submitter                                               │
+│           │                                                          │
+│           ▼                                                          │
+│   [Scheduler / Load Balancer]                                        │
+│           │                                                          │
+│   ┌───────┼───────────┬───────────┐                                  │
+│   ▼       ▼           ▼           ▼                                  │
+│ Node A   Node B      Node C      Node D                              │
+│ 정상      정상        장애        정상                               │
+│   │       │            X           │                                  │
+│   └───────┴──── 재분배 / 재시도 ───┘                                  │
+│                                                                      │
+│ 결과: 일부 노드 실패 시 전체 중단 대신 성능 저하 또는 재실행        │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 포인트는 클러스터가 "모든 노드가 항상 살아 있다"는 가정이 아니라, "일부 노드는 언제든 실패할 수 있다"는 가정 위에 선다는 점이다. 그래서 체크포인트, 재시도, [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/), 헬스체크가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)만큼 중요하다. 또한 연산 클러스터에서는 MPI 기반 집합 통신이, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 클러스터에서는 로드밸런싱과 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 외부화가 핵심 메커니즘이 된다.
 
@@ -171,26 +176,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단일 대형 서버 중심 처리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">스케일업 한계 · 단일 장애점</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클러스터 컴퓨팅 (Cluster Computing)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">HPC 클러스터</div>
-<div class="kb-diagram-tree-item" style="--depth:2">HA 클러스터</div>
-<div class="kb-diagram-tree-item" style="--depth:2">분산 저장소 클러스터</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">하둡 (Hadoop) · 스파크 (Spark) · 쿠버네티스 (Kubernetes)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">GPU 클러스터 · RDMA · 클라우드 네이티브 오케스트레이션</div>
-</div>
-</div>
-
-
+```text
+단일 대형 서버 중심 처리
+    │
+    ▼
+스케일업 한계 · 단일 장애점
+    │
+    ▼
+클러스터 컴퓨팅 (Cluster Computing)
+    │
+    ├─ HPC 클러스터
+    ├─ HA 클러스터
+    ├─ 분산 저장소 클러스터
+    ▼
+하둡 (Hadoop) · 스파크 (Spark) · 쿠버네티스 (Kubernetes)
+    │
+    ▼
+GPU 클러스터 · RDMA · 클라우드 네이티브 오케스트레이션
+```
 
 이 흐름은 "단일 장비 확장 → [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 협력 → 운영 자동화 → 고속 네트워크와 가속기 결합"으로 이어지는 진화 방향을 보여준다.
 

@@ -23,17 +23,14 @@ tags = ["studynote-ai"]
 
 2015년 바다나우(Bahdanau) 등이 제안한 어텐션 메커니즘은 [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)의 각 시점에서 <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/">인코더</a>의 모든 시점 은닉 상태를 다시 <a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a></strong>하여, 현재 출력과 가장 관련 있는 입력에 높은 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 부여하는 <strong>동적 문맥 벡터</strong>를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 어텐션은 도서관 사서가 특정 질문에 답하기 위해 책장 전체를 훑으며 "이 질문에는 3번 책이 제일 관련 있네, 7번 책도 조금 관련 있어"라고 선별하는 과정이다. Seq2Seq는 미리 요약해둔 쪽지(문맥 벡터) 하나만 보는 반면, 어텐션은 질문할 때마다 책장 전체를 직접 탐색한다.
 
@@ -41,29 +38,32 @@ tags = ["studynote-ai"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">어텐션 메커니즘 (Attention Mechanism) 연산 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인코더 은닉 상태: h_1, h_2, ..., h_T (각 입력 토큰별 벡터)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디코더 현재 은닉 상태: s_(t-1) (쿼리 역할)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① 유사도 점수 계산 (Score Function):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">e_i = score(s_(t-1), h_i)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예: e_i = s_(t-1)ᵀ · h_i (내적, Dot-Product)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예: e_i = vᵀ · tanh(W_s·s_(t-1) + W_h·h_i) (Additive/Bahdanau)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② 소프트맥스 정규화:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">α_i = exp(e_i) / Σ exp(e_j) ← 가중치, 합계=1, 0~1 사이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"α_i가 클수록 i번 입력에 더 많이 주목"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ 문맥 벡터 계산 (Context Vector):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">c_t = Σ α_i · h_i ← 가중 평균 (동적 문맥 벡터!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">④ 디코더 출력:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">s_t = f(s_(t-1), y_(t-1), c_t)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 디코더 각 시점마다 c_t가 달라짐 → 병목 해소!</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│          어텐션 메커니즘 (Attention Mechanism) 연산 흐름              │
+├──────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  인코더 은닉 상태: h_1, h_2, ..., h_T (각 입력 토큰별 벡터)           │
+│  디코더 현재 은닉 상태: s_(t-1) (쿼리 역할)                           │
+│                                                                  │
+│  ① 유사도 점수 계산 (Score Function):                               │
+│     e_i = score(s_(t-1), h_i)                                   │
+│     예: e_i = s_(t-1)ᵀ · h_i  (내적, Dot-Product)                │
+│     예: e_i = vᵀ · tanh(W_s·s_(t-1) + W_h·h_i) (Additive/Bahdanau) │
+│                                                                  │
+│  ② 소프트맥스 정규화:                                               │
+│     α_i = exp(e_i) / Σ exp(e_j)   ← 가중치, 합계=1, 0~1 사이      │
+│     "α_i가 클수록 i번 입력에 더 많이 주목"                            │
+│                                                                  │
+│  ③ 문맥 벡터 계산 (Context Vector):                                │
+│     c_t = Σ α_i · h_i   ← 가중 평균 (동적 문맥 벡터!)               │
+│                                                                  │
+│  ④ 디코더 출력:                                                    │
+│     s_t = f(s_(t-1), y_(t-1), c_t)                              │
+│                                                                  │
+│  결과: 디코더 각 시점마다 c_t가 달라짐 → 병목 해소!                    │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 | 어텐션 종류 | 점수 함수 | 특징 |
 |:---|:---|:---|

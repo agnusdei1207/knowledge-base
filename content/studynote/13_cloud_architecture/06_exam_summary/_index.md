@@ -17,11 +17,11 @@ tags = ["cloud_architecture"]
 
 ### 시험에서 자주 출제되는 이유
 
-정보관리기술사와 컴퓨터응용시스템기술사에서 클라우드 아키텍처가 핵심 주제로 자리 잡은 배경에는 세 가지 구조적 요인이 존재한다. 첫째, 클라우드가 더 이상 선택이 아닌 필수 인프라로 전환되면서 기술사도 단순 CLI 조작이 아닌 시스템 설계 사고를 요구한다. 둘째, 클라우드-native 환경에서는 온프레미스 시절의 수직적 설계(단일 서버, 단일 DB)가 통하지 않으며, 복수 기술 영역(가상화, 컨테이너, 네트워크, 스토리지, 보안)이 하나로 융합된 통합적 사고가 필요하다. 셋째, 시험 평가 기준이 단순 정의 나열에서 아키텍처 비교, 설계 의사결정, 장애 대응 전략으로 이동하면서자는 실제 서비스 경험을 논술에 녹여내야 한다.
+정보관리기술사와 컴퓨터응용시스템기술사에서 클라우드 아키텍처가 핵심 주제로 자리 잡은 배경에는 세 가지 구조적 요인이 존재한다. 첫째, 클라우드가 더 이상 선택이 아닌 필수 인프라로 전환되면서 기술사도 단순 CLI 조작이 아닌 시스템 설계층다음적 사고를 요구한다. 둘째, 클라우드-native 환경에서는 온프레미스 시절의 수직적 설계(단일 서버, 단일 DB)가 통하지 않으며, 복수 기술 영역(가상화, 컨테이너, 네트워크, 스토리지, 보안)이 하나로 융합된 통합적 사고가 필요하다. 셋째, 시험 평가 기준이 단순 정의 나열에서 아키텍처 비교, 설계 의사결정, 장애 대응 전략으로 이동하면서후보자는 실제 서비스 경험을 논술에 녹여내야 한다.
 
-### 기술사 시험의 평가 기준
+### 기술사 시험의특수적 평가 기준
 
-시험관 완벽한 답안이란 관련 개념을 열거하는 것이 아니라, 다음과 같은 연결 고리를 명시적으로 보여주는 것이다. 클라우드 서비스 모델(IaaS/PaaS/SaaS)을 선택할 때 관리 책임의 경계(Shared Responsibility Model)를 먼저 설명하고, 그 경계에 따라 팀의 운영 부담과 비용 구조가 어떻게 달라지는지를 논증해야 한다. 또한 동일하게 "Auto Scaling"이라고 해도, K8s의 HPA와 클라우드 네이티브의 CA는 다른 계층에서 동작하며 어떤 임계치 조합이 효과적인지를 구체적으로 서술해야 한다.
+시험관안중적 완벽한 답안이란 관련 개념을 열거하는 것이 아니라, 다음과 같은 연결 고리를 명시적으로 보여주는 것이다. 클라우드 서비스 모델(IaaS/PaaS/SaaS)을 선택할 때 관리 책임의 경계(Shared Responsibility Model)를 먼저 설명하고, 그 경계에 따라 팀의 운영 부담과 비용 구조가 어떻게 달라지는지를 논증해야 한다. 또한 동일하게 "Auto Scaling"이라고 해도, K8s의 HPA와 클라우드 네이티브의 CA는 다른 계층에서 동작하며 어떤 임계치 조합이 효과적인지를 구체적으로 서술해야 한다.
 
 ### 📢 섹션 비유
 
@@ -33,87 +33,91 @@ tags = ["cloud_architecture"]
 
 ### 시험 빈출 핵심 개념 체계도
 
-이 도식은 클라우드 기술사 시험에서 80% 이상 출제되는 핵심 개념들의 상호 관계를 보여준다. 중앙의 클라우드 서비스 모델에서 출발하여, 좌측은 인프라 단계(IaaS → PaaS → SaaS), 우측은 설계 패턴(MSA, Serverless, Event-Driven), 하단은 운영 도구(CI/CD, GitOps, SRE)를 각각 배치하였다.
+이 도식은 클라우드 기술사 시험에서 80% 이상 출제되는 핵심 개념들의 상호 관계를 보여준다. 중앙의 클라우드 서비스 모델에서 출발하여, 좌측은 인프라추상화 단계(IaaS → PaaS → SaaS), 우측은 설계 패턴(MSA, Serverless, Event-Driven), 하단은 운영 도구(CI/CD, GitOps, SRE)를 각각 배치하였다.
 
+```
+        [Cloud Service Models]
+              IaaS | PaaS | SaaS
+                 Shared Responsibility
+    ┌──────────────┼──────────────────┐
+    │              │                  │
+ [Infra Abstraction]        [Design Patterns]
+  ┌─────┴─────┐          ┌────┴────┐
+  │Virtualiza-│          │MSA|Pat- │
+  │tion       │          │terns   │
+  ├───────────┤          ├────────┤
+  │Containers │          │Server- │
+  │K8s        │          │less    │
+  ├───────────┤          ├────────┤
+  │Microserv- │          │Event   │
+  │ices       │          │Driven  │
+  └─────┬─────┘          └────┬────┘
+        │                    │
+    [Orchestration]       [Data Eng]
+     ┌───┴───┐           ┌───┴────┐
+     │K8s    │           │ETL|ELT│
+     │GitOps │           │DataLake│
+     │SRE    │           │Stream  │
+     └───────┘           └────────┘
+```
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Cloud Service Models</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IaaS</div><div class="kb-diagram-cell">PaaS</div><div class="kb-diagram-cell">SaaS</div></div>
-<div class="kb-diagram-note">Shared Responsibility</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Infra Abstraction</div><div class="kb-diagram-node">Design Patterns</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Virtualiza-</div><div class="kb-diagram-cell">MSA</div><div class="kb-diagram-cell">Pat-</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">tion</div><div class="kb-diagram-cell">terns</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Containers</div><div class="kb-diagram-cell">Server-</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">K8s</div><div class="kb-diagram-cell">less</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Microserv-</div><div class="kb-diagram-cell">Event</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ices</div><div class="kb-diagram-cell">Driven</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Orchestration</div><div class="kb-diagram-node">Data Eng</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">K8s</div><div class="kb-diagram-cell">ETL</div><div class="kb-diagram-cell">ELT</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GitOps</div><div class="kb-diagram-cell">DataLake</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SRE</div><div class="kb-diagram-cell">Stream</div></div>
-</div>
-</div>
-
-
-
-이 체계도의 핵심은 각 영역이 독립적으로 존재하지 않고 좌→우, 상→하로 깊이 연결되어 있다는 점이다. 예를 들어 "Auto Scaling"이라는 키워드 하나만더라도, IaaS 층에서는 VM 수 조정이되고, PaaS 층에서는 Container Replica 수 조정으로, K8s 층에서는 HPA/CABPK 로 각기 다른 메커니즘으로 동작한다. 시험에서 이러한 대응 관계를 명확히 서술해야 가점 을 받을 수 있다.
+이 체계도의 핵심은 각 영역이 독립적으로 존재하지 않고 좌→우, 상→하로 깊이 연결되어 있다는 점이다. 예를 들어 "Auto Scaling"이라는 키워드 하나만령더라도, IaaS 층에서는 VM 실례 수 조정이되고, PaaS 층에서는 Container Replica 수 조정으로, K8s 층에서는 HPA/CABPK 형태로 각기 다른 메커니즘으로 동작한다. 시험에서 이러한 대응 관계를 명확히 서술해야 가점 을 받을 수 있다.
 
 ### 빈출 기술 간 동작 메커니즘 비교도
 
 이 그림은 흔히 혼동되는 기술 조합들을 각기 다른 동작 계층과 트리거 조건으로 구분하여 나타낸다. 자주 출제되는 서로 게이트웨이 패턴과 서비스 메시의 차이, Saga 패턴과 2PC의 동작 시점 차이, 그리고 스트림 처리와 배치 처리의 시간 창개념을 명확히 구분해야 한다.
 
+```
+┌─────────────────────────────────────────────────────────────┐
+│              빈출 기술 동작 비교 다이어그램                      │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  [API Gateway]          [Service Mesh]                     │
+│   - L7 Routing          - Sidecar Proxy                     │
+│   - Auth/Throttle       - mTLS (상호 인증)                  │
+│   - Rate Limit          - Traffic Management               │
+│   위치: Client ↔ MS    위치: 각 Pod 옆                     │
+│                                                             │
+│  ┌─────────────────┐      ┌─────────────────────────────┐ │
+│  │   Saga Pattern   │      │   2PC (Two-Phase Commit)   │ │
+│  │ Local Tx +       │      │ Coordinator가 Lock 보유     │ │
+│  │ Compensation      │      │ Blinding Blocking 유발    │ │
+│  │ 비동기 最终적     │      │ 동기적 即時 一致성           │ │
+│  │ Eventual Consist- │      │ Strong Consistency          │ │
+│  │ ency             │      │                             │ │
+│  └─────────────────┘      └─────────────────────────────┘ │
+│                                                             │
+│  [Stream Processing]      [Batch Processing]               │
+│  실시간 창(Window)        주기적 일괄 처리                   │
+│  Kafka/Flink/Spark       Spark/Hadoop MR                  │
+│  └ms~sec 지연            └min~hour 지연                    │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">빈출 기술 동작 비교 다이어그램</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">API Gateway</div><div class="kb-diagram-node">Service Mesh</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- L7 Routing - Sidecar Proxy</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Auth/Throttle - mTLS (상호 인증)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Rate Limit - Traffic Management</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위치: Client ↔ MS 위치: 각 Pod 옆</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Saga Pattern</div><div class="kb-diagram-cell">2PC (Two-Phase Commit)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Local Tx +</div><div class="kb-diagram-cell">Coordinator가 Lock 보유</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Compensation</div><div class="kb-diagram-cell">Blinding Blocking 유발</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비동기 적</div><div class="kb-diagram-cell">동기적 즉시 성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Eventual Consist-</div><div class="kb-diagram-cell">Strong Consistency</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ency</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Stream Processing</div><div class="kb-diagram-node">Batch Processing</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실시간 창(Window) 주기적 일괄 처리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kafka/Flink/Spark Spark/Hadoop MR</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ms~sec 지연 min~hour 지연</div></div>
-</div>
-</div>
-
-
-
-이 비교도의 핵심 관찰 포인트는 다음과 같다. API Gateway와 Service Mesh는 둘 다 "프록시"라는 이름을 사용하지만, 위치와 책임이 완전히 다르다. API Gateway는 Client-Ingress의에하여 공통 인증,,을 담당하고, Service Mesh는 각 서비스 Pod마다 Sidecar 형태로 배치되어 서비스 간 통신 보안(mTLS), 분산 추적, 회복탄력성(Circuit Breaker)을 담당한다. 따라서 시험에서 "Service Mesh를 도입하면 API Gateway가 불필요하다"는 답안은 correto이지만 완전한 정답이 아니다. 둘은 보완적 관계이며, API Gateway가 L7 라우팅을, Service Mesh가 L4~L7 서비스 간 통신을 담당하는 것이 바람직한 분리이다.
+이 비교도의 핵심 관찰 포인트는 다음과 같다. API Gateway와 Service Mesh는 둘 다 "프록시"라는 이름을 사용하지만, 위치와 책임이 완전히 다르다. API Gateway는 Client-Ingress의간에위치하여 공통 인증,류량정형,청구취합을 담당하고, Service Mesh는 각 서비스 Pod마다 Sidecar 형태로 배치되어 서비스 간 통신 보안(mTLS), 분산 추적, 회복탄력성(Circuit Breaker)을 담당한다. 따라서 시험에서 "Service Mesh를 도입하면 API Gateway가 불필요하다"는 답안은 부분 correto이지만 완전한 정답이 아니다. 둘은 보완적 관계이며, API Gateway가 L7 라우팅을, Service Mesh가 L4~L7 서비스 간 통신을 담당하는 것이 바람직한 분리이다.
 
 ### 빈출 장애 시나리오 전파 흐름
 
 이 그림은 MSA 환경에서 하나의 DB 장애가 전체 시스템으로 전파되는 과정을 단계별로 보여준다. 기술사 시험에서는 이러한 장애 전파 경로를 분석하고, 각 단계에서 어떤 아키텍처 패턴(Circuit Breaker, Bulkhead, Fallback)을 적용해야 하는지를 서술해야 한다.
 
+```
+[Client A] --요청--> [API Gateway]
+                           │
+                    [Service A] ---조회--> [DB Master]
+                           │                    │
+                    [Circuit Open]           [Deadlock]
+                           │                    │
+                    [Fallback Cache] ← 회복 시도  │
+                           │                    │
+              [连锁적 전파 차단] ----X-----> [Service B], [Service C]
+```
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Client A</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">API Gateway</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Service A</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">DB Master</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Circuit Open</div><div class="kb-diagram-node">Deadlock</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Fallback Cache</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">회복 시도</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">잠금적 전파 차단</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Service B</div><div class="kb-diagram-note">,</div><div class="kb-diagram-node">Service C</div></div>
-</div>
-</div>
-
-
-
-이 장애 전파도의 핵심은 ①단계에서 DB Master의 Deadlock이 서비스 A의 응답 지연으로, ②단계에서 Circuit Breaker가 Open되면서 Service B와 C로의잠금적 전파를 차단하는 메커니즘이다. 실무에서는 이 Circuit Breaker의 임계치 설정이 중요하며, 너무 짧으면 정상 트래픽도 차단하고 너무 길면 장애가 확산될 위험이 있다.
+이 장애 전파도의 핵심은 ①단계에서 DB Master의 Deadlock이 서비스 A의 응답 지연으로, ②단계에서 Circuit Breaker가 Open되면서 Service B와 C로의련쇄적 전파를 차단하는 메커니즘이다. 실무에서는 이 Circuit Breaker의 임계치 설정이 중요하며, 너무 짧으면 정상 트래픽도 차단하고 너무 길면 장애가 확산될 위험이 있다.
 
 ### 📢 섹션 비유
 
-마치 도시의 신호등 시스템처럼, 어떤 교차로에서 사고가 발생해도 옆 블록으로 사고가 퍼지지 않도록 표시를자동하고, 사고 구역에서는 우회 경로를 실시간 안내하는 것과 같다.
+마치 도시의 신호등 시스템처럼, 어떤 교차로에서 사고가 발생해도 옆 블록으로 사고가 퍼지지 않도록요도 표시를자동표시하고, 사고 구역에서는 우회 경로를 실시간 안내하는 것과 같다.
 
 ---
 
@@ -123,9 +127,9 @@ tags = ["cloud_architecture"]
 
 | 구분 | IaaS | PaaS | SaaS | FaaS/Serverless |
 |:---|:---|:---|:---|:---|
-| **관리 책임 범위** | OS 이상 | 런타임/미들웨어/DB 포함 | 애플리케이션만 개발, 관리는 CSP | 함수 코드만 제공, 운영 면 은폐 |
+| **관리 책임 범위** | OS 이상 전층단당 | 런타임/미들웨어/DB 포함 | 애플리케이션만 개발, 전관리는 CSP | 함수 코드만 제공, 운영 전면 은폐 |
 | **확장성** | 수동 또는 스크립트 | 내장 Auto-scaling | 완전 관리형 | 요청 단위 자동 확장 |
-| **제어력** | 최상 (VM 전체 제어) | 중간 (플랫폼 설정) | 하상 (설정만 가능) | 최소 (환경) |
+| **제어력** | 최상 (VM 전체 제어) | 중간 (플랫폼 설정) | 하상 (설정만 가능) | 최소 (환경제약) |
 | **시험 포인트** | VM 프로비저닝과 네트워크 서브넷 설계 능력 | 앱 플랫폼 선택과 런타임 최적화 능력 | 서비스 선택과 데이터 연동 설계 능력 | Cold Start 지연과 Stateless 설계 능력 |
 | **비용 구조** | 인스턴스 시간당 | 플랫폼 사용량 기반 | 구독/월정액 | 실행 횟수 + 실행 시간 (밀리초 단위) |
 
@@ -142,7 +146,7 @@ tags = ["cloud_architecture"]
 
 ### 📢 섹션 비유
 
-마치 외식점의에서 각 조리사에 전문 분업(, 면류, 소스)을 두되,itchen Manager(마스터 쉐프)가 전체 메뉴 완성도를 관리하는 것과 같다. 전문하되 전체 조화이 없어야 한다.
+마치 외식점의주방에서 각 조리사에 전문 분업(육류단당, 면류단당, 소스단당)을 두되,itchen Manager(마스터 쉐프)가 전체 메뉴 완성도를 관리하는 것과 같다. 전문분화하되 전체 조화불전이 없어야 한다.
 
 ---
 
@@ -154,7 +158,7 @@ tags = ["cloud_architecture"]
 
 **기술사적 판단 과정**:
 
-1. **첫 번째 분석**: 전통적인 Scale-up(서버 사양 증가) 방식은 물리적 제한이 있어 즉각 대응이 불가능하다. 따라서 Scale-out 방식과 이벤트 구조로의 전환이 필요하다.
+1. **첫 번째 분석**: 전통적인 Scale-up(서버 사양 증가) 방식은 물리적 제한이 있어 즉각 대응이 불가능하다. 따라서 Scale-out 방식과 이벤트구동 구조로의 전환이 필요하다.
 
 2. **두 번째 분석**: 단일 데이터베이스가 단일 장애점이므로, 읽기 전용 복제본(Read Replica)과 쓰기용 DB를 분리하는 CQRS 패턴을 적용해야 한다.
 
@@ -170,7 +174,7 @@ tags = ["cloud_architecture"]
 
 이 설계의 핵심은 ① 기존 시스템 앞단에 API Gateway를 배치하여 모든 트래픽을 일단 수렴시키고, ② 신규 도메인 기능을 MSA로 먼저 개발하여Gateway에 등록하며, ③ 레거시 기능의 트래픽 비율이 일정 임계치(통상 5% 이하)가 될 때까지 점진적 라우팅 전환을 수행한다.
 
-### 안티패턴: 기술사 답안에서 자주 발견되는 실수
+### 안티패턴: 기술사 답안에서 자주 발견되는치명적 실수
 
 | 안티패턴 | 문제점 | 올바른 방향 |
 |:---|:---|:---|
@@ -212,7 +216,7 @@ tags = ["cloud_architecture"]
 
 ### 📢 섹션 비유
 
-마치 요리사 자격증 시험이 요리의 과정을 관통하는보안부터 plated dish의 완료도까지 일관된 기준을 요구하는 것처럼, 클라우드 기술사 시험도 인프라부터 운영 자동화, 비용 최적화에 이르기까지 스택 관통적 사고력을 검증한다.
+마치 요리사 자격증 시험이 요리의 전과정을 관통하는식품안전위생부터 plated dish의 완성도까지 일관된 기준을 요구하는 것처럼, 클라우드 기술사 시험도 인프라추상화부터 운영 자동화, 비용 최적화에 이르기까지 전스택 관통적 사고력을 검증한다.
 
 ---
 
@@ -228,4 +232,4 @@ tags = ["cloud_architecture"]
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-클라우드는 하늘에 있는 아주 큰 컴퓨터 집합이에요. 우리가 집에서 컴퓨터를 다 사두면이지만, 필요한 만큼만 빌려 쓰면 엄마 아빠가 전기요금 내듯이 사용한 만큼만 돈을 내면 돼요. 만약 사용자가 너무 많아지면, 구름이 자동으로 컴퓨터를 더 많이 만들어서 모두가 빠르게 사용할 수 있게 해준답니다!
+클라우드는 하늘에 있는 아주 큰 컴퓨터 집합이에요. 우리가 집에서 컴퓨터를 다 사두면랑비이지만, 필요한 만큼만 빌려 쓰면 엄마 아빠가 전기요금 내듯이 사용한 만큼만 돈을 내면 돼요. 만약 사용자가 너무 많아지면, 구름이 자동으로 컴퓨터를 더 많이 만들어서 모두가 빠르게 사용할 수 있게 해준답니다!

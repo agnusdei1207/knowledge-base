@@ -25,18 +25,15 @@ tags = ["studynote-bigdata"]
 
 아래 그림은 단순 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링과 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)의 차이를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">From job scheduling to orchestration</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">cron : run A at 00:00, B at 01:00, hope A finished</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">orchestral: extract -&gt; validate -&gt; transform -&gt; publish</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">with retries, state, alerts, backfill, lineage</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ From job scheduling to orchestration                               │
+├────────────────────────────────────────────────────────────────────┤
+│ cron      : run A at 00:00, B at 01:00, hope A finished           │
+│ orchestral: extract -> validate -> transform -> publish           │
+│             with retries, state, alerts, backfill, lineage        │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 즉 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)은 빅데이터 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 "자동 실행 버튼"이 아니라, 실패와 재실행을 견딜 수 있게 만드는 운영 규칙 모음이다. [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 수가 늘수록 이 제어 평면의 품질이 곧 플랫폼 성숙도를 결정한다.
 
@@ -59,19 +56,19 @@ tags = ["studynote-bigdata"]
 
 아래 구조는 오케스트레이터가 제어하는 공통 실행 경로를 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data orchestration control plane</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">event / schedule -&gt; scheduler -&gt; task queue -&gt; workers / pods</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">------ metadata DB &lt;-------</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">states / logs / retries</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">backfill / alerts / lineage</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Data orchestration control plane                                   │
+├────────────────────────────────────────────────────────────────────┤
+│ event / schedule -> scheduler -> task queue -> workers / pods     │
+│                        │                           │                │
+│                        └------ metadata DB <-------┘                │
+│                                 │                                   │
+│                           states / logs / retries                   │
+│                                 │                                   │
+│                      backfill / alerts / lineage                    │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 모델링 방식은 도구에 따라 조금씩 다르다.
 
@@ -165,23 +162,21 @@ Airflow는 [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/40
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">cron 기반 스크립트 실행</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DAG 기반 워크플로우 제어</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">재시도 · 상태 추적 · 백필</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Asset 중심 계보 · 품질 관리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">플랫폼 수준 데이터 오케스트레이션</div>
-</div>
-</div>
-
-
+```text
+cron 기반 스크립트 실행
+    │
+    ▼
+DAG 기반 워크플로우 제어
+    │
+    ▼
+재시도 · 상태 추적 · 백필
+    │
+    ▼
+Asset 중심 계보 · 품질 관리
+    │
+    ▼
+플랫폼 수준 데이터 오케스트레이션
+```
 
 이 흐름은 단순 시간 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링이 점차 상태 관리와 자산 관리로 확장되며, 결국 플랫폼 운영의 핵심 제어 계층이 되는 과정을 보여 준다.
 

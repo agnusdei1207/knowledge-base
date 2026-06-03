@@ -29,19 +29,13 @@ tags = ["studynote-security"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Users / APIs / Ports / Files / Privileges</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Attack Surface</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Reduction / Hardening</div>
-</div>
-</div>
-
-
+```text
+Users / APIs / Ports / Files / Privileges
+  ↓
+Attack Surface
+  ↓
+Reduction / Hardening
+```
 
 | 구성 요소 | 의미 |
 | :-- | :-- |
@@ -110,41 +104,29 @@ tags = ["studynote-security"]
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Exposure</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Attack Surface</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Hardening</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Security Posture</div>
-</div>
-</div>
-
-
+```text
+Exposure
+  ↓
+Attack Surface
+  ↓
+Hardening
+  ↓
+Security Posture
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Threat Modeling</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Attack Surface</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Hardening</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Reduction</div>
-</div>
-</div>
-
-
+```text
+Threat Modeling
+  ↓
+Attack Surface
+  ↓
+Hardening
+  ↓
+Reduction
+```
 
 ---
 

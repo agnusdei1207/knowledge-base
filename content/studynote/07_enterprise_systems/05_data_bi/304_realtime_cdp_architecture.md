@@ -11,7 +11,7 @@ tags = ["studynote-enterprise-systems"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [CDP](/knowledge-base/studynote/09_security/04_endpoint_security/193_crl_distribution_point_cdp/) ([Customer Data Platform](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/115_cdp_customer_data_platform_single_view/))는 [1st Party](/knowledge-base/studynote/12_it_management/05_security_compliance/279_cdp_first_party/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 중심으로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)된 고객 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)를 통합하여 단일 고객 프로필을 구축하는 플랫폼이다.
+> 1. **본질**: [CDP](/knowledge-base/studynote/09_security/04_endpoint_security/193_crl_distribution_point_cdp/) ([C고객 Data Platform](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/115_cdp_customer_data_platform_single_view/))는 [1st Party](/knowledge-base/studynote/12_it_management/05_security_compliance/279_cdp_first_party/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 중심으로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)된 고객 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)를 통합하여 단일 고객 프로필을 구축하는 플랫폼이다.
 > 2. **가치**: [3rd party](/knowledge-base/studynote/05_database/06_dw_olap_trends/385_third_party_cookie_deprecation_cdw/) [cookie](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/) 폐기 시대에 [1st party](/knowledge-base/studynote/12_it_management/05_security_compliance/279_cdp_first_party/) 클릭 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 기반 실시간 개인화는 전환율 25~40% 향상의 핵심 수단이 된다.
 > 3. **판단 포인트**: 실시간 개인화 요건은 이벤트 수집~세그먼트 계산~채널 활성화 전체 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) <200ms 이내 보장이 핵심 SLA다.
 
@@ -20,9 +20,9 @@ tags = ["studynote-enterprise-systems"]
 Google의 [3rd party](/knowledge-base/studynote/05_database/06_dw_olap_trends/385_third_party_cookie_deprecation_cdw/) [cookie](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/) 폐기(2024 Chrome 점진적 차단)와 Apple ATT (App Tracking Transparency) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 인해 기업은 외부 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 의존하는 광고 타겟팅이 불가능해졌다.
 대신 자사가 직접 수집하는 [1st Party](/knowledge-base/studynote/12_it_management/05_security_compliance/279_cdp_first_party/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)인 웹사이트 클릭 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 앱 이벤트, 거래 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 가치가 폭발적으로 증가했다.
 
-[CDP](/knowledge-base/studynote/09_security/04_endpoint_security/193_crl_distribution_point_cdp/) ([Customer Data Platform](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/115_cdp_customer_data_platform_single_view/))는 이 [1st Party](/knowledge-base/studynote/12_it_management/05_security_compliance/279_cdp_first_party/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 실시간으로 수집·통합·활성화하는 플랫폼이다.
+[CDP](/knowledge-base/studynote/09_security/04_endpoint_security/193_crl_distribution_point_cdp/) ([C고객 Data Platform](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/115_cdp_customer_data_platform_single_view/))는 이 [1st Party](/knowledge-base/studynote/12_it_management/05_security_compliance/279_cdp_first_party/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 실시간으로 수집·통합·활성화하는 플랫폼이다.
 DMP ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/) Platform)가 익명 [3rd party](/knowledge-base/studynote/05_database/06_dw_olap_trends/385_third_party_cookie_deprecation_cdw/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 광고 타겟팅에 특화된 것과 달리,
-CDP는 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)된 고객 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 중심으로 Unified [Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) Profile (통합 고객 프로필)을 구축한다.
+CDP는 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)된 고객 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 중심으로 Unified [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) Profile (통합 고객 프로필)을 구축한다.
 
 실시간 CDP의 핵심 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 요건:
 - 이벤트 발생 → 세그먼트 업데이트 → 채널 활성화까지 <200ms
@@ -45,30 +45,43 @@ CDP는 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655
 
 ### [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램: 실시간 [CDP](/knowledge-base/studynote/09_security/04_endpoint_security/193_crl_distribution_point_cdp/) 아키텍처
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">데이터 소스</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">웹 클릭 로그</div><div class="kb-diagram-cell">앱 이벤트</div><div class="kb-diagram-cell">CRM 거래</div><div class="kb-diagram-cell">오프라인POS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(JS Pixel)</div><div class="kb-diagram-cell">(SDK)</div><div class="kb-diagram-cell">(Batch)</div><div class="kb-diagram-cell">(배치)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kafka Topics</div><div class="kb-diagram-cell">초당 수십만 이벤트</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CDP Core Engine</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Identity Resolution</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Graph DB / Redis)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Unified Profile Store (Redis)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고객 1인 = 1 Profile UUID</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Segment Engine (Flink/Druid)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실시간 세그먼트 갱신 &lt;100ms</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">활성화 채널 (Activation)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이메일ESP</div><div class="kb-diagram-cell">SMS</div><div class="kb-diagram-cell">구글/메타 광고</div></div>
-</div>
-</div>
-
-
+```
+  데이터 소스
+  ┌─────────┐  ┌─────────┐  ┌─────────┐  ┌─────────┐
+  │웹 클릭 로그│  │앱 이벤트 │  │ CRM 거래 │  │오프라인POS│
+  │(JS Pixel)│  │  (SDK)  │  │ (Batch) │  │ (배치)  │
+  └────┬─────┘  └────┬────┘  └────┬────┘  └────┬────┘
+       └─────────────┼─────────────┼─────────────┘
+                     ▼
+          ┌─────────────────────┐
+          │   Kafka Topics      │  초당 수십만 이벤트
+          └──────────┬──────────┘
+                     ▼
+          ┌──────────────────────────────────────┐
+          │         CDP Core Engine              │
+          │  ┌──────────────────────────────────┐│
+          │  │ Identity Resolution              ││
+          │  │ (Graph DB / Redis)               ││
+          │  └─────────────────┬────────────────┘│
+          │                    ▼                 │
+          │  ┌──────────────────────────────────┐│
+          │  │ Unified Profile Store (Redis)    ││
+          │  │ 고객 1인 = 1 Profile UUID         ││
+          │  └─────────────────┬────────────────┘│
+          │                    ▼                 │
+          │  ┌──────────────────────────────────┐│
+          │  │ Segment Engine (Flink/Druid)     ││
+          │  │ 실시간 세그먼트 갱신 <100ms        ││
+          │  └─────────────────┬────────────────┘│
+          └────────────────────┼─────────────────┘
+                               ▼
+          ┌───────────────────────────────────────┐
+          │         활성화 채널 (Activation)        │
+          │  ┌───────┐  ┌─────┐  ┌─────────────┐  │
+          │  │이메일ESP│  │ SMS │  │ 구글/메타 광고│  │
+          │  └───────┘  └─────┘  └─────────────┘  │
+          └───────────────────────────────────────┘
+```
 
 ### Identity Resolution 유형
 
@@ -136,25 +149,23 @@ CDP는 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655
 
 ### 📈 관련 키워드 및 발전 흐름도
 
+```
+채널별 고객 데이터 사일로 (CRM·웹·앱 분리)
+    │
+    ▼
+DMP (Data Management Platform) - 쿠키 기반 익명
+    │
+    ▼
+CDP (Customer Data Platform) - ID 통합 실명 프로파일
+    │
+    ▼
+실시간 CDP - 스트리밍 이벤트 즉각 프로파일 갱신
+    │
+    ▼
+Real-Time Personalization + 동의 관리 통합
+```
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">채널별 고객 데이터 사일로 (CRM·웹·앱 분리)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DMP (Data Management Platform) - 쿠키 기반 익명</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CDP (Customer Data Platform) - ID 통합 실명 프로파일</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">실시간 CDP - 스트리밍 이벤트 즉각 프로파일 갱신</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Real-Time Personalization + 동의 관리 통합</div>
-</div>
-</div>
-
-
-
-> **키워드**: [CDP](/knowledge-base/studynote/09_security/04_endpoint_security/193_crl_distribution_point_cdp/), [Customer Data Platform](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/115_cdp_customer_data_platform_single_view/), Real-Time [CDP](/knowledge-base/studynote/09_security/04_endpoint_security/193_crl_distribution_point_cdp/), Identity Resolution, DMP, 360° Profile, Consent [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)
+> **키워드**: [CDP](/knowledge-base/studynote/09_security/04_endpoint_security/193_crl_distribution_point_cdp/), [C고객 Data Platform](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/115_cdp_customer_data_platform_single_view/), Real-Time [CDP](/knowledge-base/studynote/09_security/04_endpoint_security/193_crl_distribution_point_cdp/), Identity Resolution, DMP, 360° Profile, Consent [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

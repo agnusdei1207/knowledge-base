@@ -43,24 +43,32 @@ Spark SQL의 [성능](/knowledge-base/studynote/04_software_engineering/05_devop
 ### 1. Catalyst [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) (Query Optimization [Pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/))
 사용자가 던진 SQL은 4단계의 엄격한 최적화 과정을 거쳐 실행됩니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Catalyst Optimizer 실행 파이프라인</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Catalyst Optimization Pipeline</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Unresolved Logical Plan</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Analysis (Analyzer)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Resolved LP</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(구문 분석 전 계획) (카탈로그 참조/바인딩) (확정된 논리 계획)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Logical Optimization</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Optimized Logical Plan</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Rule-based: 필터 푸시다운 등) (최적화된 논리 계획)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Physical Planning</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Cost Model</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Selected Physical Plan</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(여러 물리적 경로 생성) (비용 기반 선택) (최종 실행 계획 선정)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Code Generation (Whole-Stage Codegen)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Java Bytecode Execution</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(런타임 최적화 코드 생성) (실제 분산 실행)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                 [ Catalyst Optimizer 실행 파이프라인 ]                      │
+│                 [ Catalyst Optimization Pipeline ]                           │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│  [ Unresolved Logical Plan ] ──▶ [ Analysis (Analyzer) ] ──▶ [ Resolved LP ]│
+│  (구문 분석 전 계획)              (카탈로그 참조/바인딩)      (확정된 논리 계획)│
+│                                                                   │         │
+│  ┌────────────────────────────────────────────────────────────────┘         │
+│  ▼                                                                          │
+│  [ Logical Optimization ] ──▶ [ Optimized Logical Plan ]                    │
+│  (Rule-based: 필터 푸시다운 등) (최적화된 논리 계획)                        │
+│                                         │                                   │
+│  ┌──────────────────────────────────────┘                                   │
+│  ▼                                                                          │
+│  [ Physical Planning ] ──▶ [ Cost Model ] ──▶ [ Selected Physical Plan ]    │
+│  (여러 물리적 경로 생성)     (비용 기반 선택)     (최종 실행 계획 선정)      │
+│                                                         │                   │
+│  ┌──────────────────────────────────────────────────────┘                   │
+│  ▼                                                                          │
+│  [ Code Generation (Whole-Stage Codegen) ] ──▶ [ Java Bytecode Execution ]  │
+│  (런타임 최적화 코드 생성)                      (실제 분산 실행)            │
+│                                                                             │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
 
 - **Filter Pushdown**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다 읽은 후 거르는 것이 아니라, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스 수준에서 미리 필터링하여 네트워크 전송량을 최소화합니다.
 - <strong>Projection <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/">Pruning</a></strong>: 필요한 컬럼만 선택하여 메모리 낭비를 줄입니다.
@@ -106,21 +114,20 @@ Spark SQL의 [성능](/knowledge-base/studynote/04_software_engineering/05_devop
 <strong>시나리오 2: 하이브(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/544_hive/">Hive</a>)에서 스파크로 대규모 마이그레이션</strong>
 - **판단**: 기존 [Hive](/knowledge-base/studynote/05_database/04_transactions_concurrency/544_hive/) SQL [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 그대로 가져오되, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장 포맷을 반드시 <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/">Parquet</a></strong>나 <strong>ORC</strong>로 전환한다. 또한 `spark.sql.shuffle.partitions` 값을 기본값(200)에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규모에 맞게 수천 개로 조정하여 리소스 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)을 극대화한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Spark SQL Tuning Checklist</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스파크 SQL 성능 튜닝 체크리스트</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1.</div><div class="kb-diagram-node">Data Format</div><div class="kb-diagram-note">: Parquet/ORC 사용 및 Partitioning 적용</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2.</div><div class="kb-diagram-node">Join Strategy</div><div class="kb-diagram-note">: 소량 데이터는 Broadcast Join 활용</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3.</div><div class="kb-diagram-node">Bucketing</div><div class="kb-diagram-note">: 잦은 Join 키는 미리 버케팅하여 저장</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">4.</div><div class="kb-diagram-node">Caching</div><div class="kb-diagram-note">: 반복 사용 DataFrame은 .cache() 처리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">5.</div><div class="kb-diagram-node">Plan Check</div><div class="kb-diagram-note">: .explain()으로 Shuffle 발생 지점 확인</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│               [ Spark SQL Tuning Checklist ]                │
+│               [ 스파크 SQL 성능 튜닝 체크리스트 ]           │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  1. [Data Format]   : Parquet/ORC 사용 및 Partitioning 적용 │
+│  2. [Join Strategy] : 소량 데이터는 Broadcast Join 활용     │
+│  3. [Bucketing]     : 잦은 Join 키는 미리 버케팅하여 저장   │
+│  4. [Caching]       : 반복 사용 DataFrame은 .cache() 처리   │
+│  5. [Plan Check]    : .explain()으로 Shuffle 발생 지점 확인 │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 ---
 
@@ -147,21 +154,18 @@ Spark SQL은 이제 단순 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_et
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Catalyst Optimizer: 쿼리 최적화의 두뇌 (Rule/Cost Based)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Tungsten: 메모리/CPU 효율 극대화의 심장</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Broadcast Join: 네트워크 셔플을 피하는 조인 기술</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Data Lakehouse: 데이터 레이크와 DW의 장점을 결합한 차세대 아키텍처</div></div>
-</div>
-</div>
-
-
+```text
+[Catalyst Optimizer: 쿼리 최적화의 두뇌 (Rule/Cost Based)]
+    │
+    ▼
+[Tungsten: 메모리/CPU 효율 극대화의 심장]
+    │
+    ▼
+[Broadcast Join: 네트워크 셔플을 피하는 조인 기술]
+    │
+    ▼
+[Data Lakehouse: 데이터 레이크와 DW의 장점을 결합한 차세대 아키텍처]
+```
 
 이 흐름도는 [Catalyst Optimizer](/knowledge-base/studynote/16_bigdata/03_spark/057_catalyst_optimizer/): [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 최적화의 두뇌 (Rule/Cost Based)에서 출발해 [Data Lakehouse](/knowledge-base/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/): [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)와 DW의 장점을 결합한 차세대 아키텍처까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

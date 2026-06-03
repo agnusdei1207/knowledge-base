@@ -51,18 +51,12 @@ Mini-Spec은 <strong><a href="/knowledge-base/studynote/04_software_engineering/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DFD (1978)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Mini-Spec (구조적 분석)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">의사결정표 (복합 조건)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">UML 활동 다이어그램 (대안)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: BDD/Gherkin — Given-When-Then 형식</div></div>
-</div>
-</div>
-
-
+```text
+[DFD (1978)] → [Mini-Spec (구조적 분석)]
+    → [의사결정표 (복합 조건)]
+    → [UML 활동 다이어그램 (대안)]
+    → [현재: BDD/Gherkin — Given-When-Then 형식]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. Mini-Spec은 <strong>요리 레시피</strong>예요. "볶음밥" 만드는 <strong>순서와 방법</strong>을 적어요.

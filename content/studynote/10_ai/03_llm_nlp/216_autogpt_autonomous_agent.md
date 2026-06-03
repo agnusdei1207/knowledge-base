@@ -25,17 +25,14 @@ tags = ["studynote-ai"]
 
 "나이키 경쟁사들의 최신 운동화 마케팅 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 요약해서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 바탕화면에 저장해 줘." 이 한마디 목표(Goal)를 던졌을 뿐인데, AutoGPT는 스스로 "1. 아디다스 마케팅 기사 구글 검색 $\rightarrow$ 2. 기사 클릭해서 읽고 메모리에 요약 저장 $\rightarrow$ 3. 퓨마 기사 검색 $\rightarrow$ 4. 정보가 부족하니 트위터 검색 추가 $\rightarrow$ 5. txt [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 후 저장 완료!"라는 행동을 <strong>아무도 시키지 않았는데 혼자 핑퐁 치며 끝날 때까지 수행(Autonomous Loop)</strong>한 것이다. 이것이 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)이 텍스트 창을 뚫고 나와 현실 세계의 도구(Tool)를 쥐고 비즈니스를 대행하는 **자율 에이전트(Autonomous Agent)** 혁명의 빅뱅이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 챗GPT가 세상 모든 지식을 다 아는 '전신 마비 천재 철학자'라면, 오토지피티(AutoGPT)는 그 철학자의 뇌를 티타늄 로봇의 몸통(인터넷 브라우저, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 저장 손발)에 이식시킨 '터미네이터 비서'다. 예전엔 철학자에게 물어보고 내가 직접 손발을 움직여 검색해야 했다면, 이젠 터미네이터에게 목적만 툭 던져주면 지가 알아서 문을 따고 들어가(검색) 물건을 훔쳐서(요약) 내 책상에 곱게 올려두고([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 저장) 퇴근하는 기적이다.
 
@@ -45,27 +42,28 @@ tags = ["studynote-ai"]
 
 AutoGPT가 멈추지 않고 스스로 돌아가는 흑마술의 뼈대는 프롬프트를 교묘하게 연쇄적으로 엮어놓은 **ReAct (Reasoning and Acting)** 루프와 단기/장기 기억 장치 벡터 DB의 결합이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자율 에이전트 AutoGPT의 무한 사고-행동 루프(ReAct) 아키텍처 도해</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">최종 목표 입력</div><div class="kb-diagram-note">: "내일 서울 비 오는지 확인하고 챙길 물건 추천해 줘."</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 생각 (Thought / Reasoning)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* LLM 뇌: "목표를 달성하려면, 일단 내일 서울 날씨를 알아내야겠군."</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 계획 및 도구 선택 (Plan &amp; Action)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">* LLM 뇌: "</div><div class="kb-diagram-node">Google Search API</div><div class="kb-diagram-note">도구를 꺼내서 '서울 내일 날씨'를 검색하자."</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* ─▶ 파이썬 코드가 LLM의 명령을 받아 진짜로 인터넷 검색을 실행함!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3. 관찰 및 기억 (Observation &amp; Memory)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">* 파이썬 코드: "검색 결과 가져왔어!</div><div class="kb-diagram-node">내일 서울 강수확률 90%, 폭우 예상</div><div class="kb-diagram-note">"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* LLM 뇌: 이 팩트를 잊어먹지 않게 벡터 DB(Pinecone 등 장기기억)에 꾹 쑤셔 넣음.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">4. 자아 비판 및 다음 스텝 (Self-Criticism &amp; Next Step)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* LLM 뇌: "비가 오네? 그럼 우산이 필요해. 목표 달성했나? 아직! 추천을 안 했네."</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* ─▶ 다시 1번으로 돌아가서 "비 오는 날 필수템 목록 작성"으로 무한 루프 돎!</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           자율 에이전트 AutoGPT의 무한 사고-행동 루프(ReAct) 아키텍처 도해 │
+├──────────────────────────────────────────────────────────────┤
+│  [최종 목표 입력]: "내일 서울 비 오는지 확인하고 챙길 물건 추천해 줘."          │
+│                                                              │
+│  [1. 생각 (Thought / Reasoning)]                              │
+│   * LLM 뇌: "목표를 달성하려면, 일단 내일 서울 날씨를 알아내야겠군."         │
+│                                                              │
+│  [2. 계획 및 도구 선택 (Plan & Action)]                          │
+│   * LLM 뇌: "[Google Search API] 도구를 꺼내서 '서울 내일 날씨'를 검색하자."│
+│   * ─▶ 파이썬 코드가 LLM의 명령을 받아 진짜로 인터넷 검색을 실행함!         │
+│                                                              │
+│  [3. 관찰 및 기억 (Observation & Memory)]                       │
+│   * 파이썬 코드: "검색 결과 가져왔어! [내일 서울 강수확률 90%, 폭우 예상]"     │
+│   * LLM 뇌: 이 팩트를 잊어먹지 않게 벡터 DB(Pinecone 등 장기기억)에 꾹 쑤셔 넣음.│
+│                                                              │
+│  [4. 자아 비판 및 다음 스텝 (Self-Criticism & Next Step)]          │
+│   * LLM 뇌: "비가 오네? 그럼 우산이 필요해. 목표 달성했나? 아직! 추천을 안 했네."│
+│   * ─▶ 다시 1번으로 돌아가서 "비 오는 날 필수템 목록 작성"으로 무한 루프 돎!  │
+└──────────────────────────────────────────────────────────────┘
+```
 
 **핵심 원리 (도구 사용권과 자가 프롬프팅)**:
 AutoGPT 아키텍처의 혁명은 모델에게 <strong>"내가 쓸 수 있는 무기(Tool) 목록"</strong>을 미리 프롬프트로 쥐여준다는 데 있다. `{"1": 구글 검색, "2": 파일 읽기, "3": 파이썬 코드 실행기}` 이렇게 메뉴얼을 주면, LLM은 스스로 상황을 판단해 `{"command": "1", "query": "오늘 주식"}`이라는 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 텍스트를 뱉는다. 밖에서 기다리던 [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 이 JSON을 낚아채서 진짜 구글 검색을 돌린 뒤 그 결과만 다시 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 입에 쑤셔 넣어주는 핑퐁 릴레이. 즉, AI가 스스로 자기 자신에게 프롬프트를 다시 던지는 <strong>프롬프트 연쇄(Prompt <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/">Chaining</a>)</strong>의 뫼비우스 띠가 시스템의 심장이다.

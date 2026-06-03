@@ -113,26 +113,28 @@ TLB는 일반 배열이 아니다. 배열이라면 0번부터 순서대로 뒤�
 
 ### 의사결정 및 튜닝 플로우
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 집약적 워크로드의 TLB/캐시 병목 튜닝 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Java 힙, In-memory DB, AI 모델 로딩 등 거대 메모리 사용 앱 구축</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Linux의 <code>perf stat -e dTLB-load-misses</code> 명령어 측정 시 미스율이 높은가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TLB Coverage(커버리지) 부족 확진</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대책 1: OS 레벨에서 Transparent Huge Pages 켜기 또는</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">명시적(Explicit) Huge Page 세팅</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대책 2: 앱의 메모리 접근 패턴을 연속적(Sequential)으로 수정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ──▶ TLB가 아닌 L1/L2 데이터 캐시 미스나 I/O 대기 의심</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Huge Page 적용 시 부작용(메모리 단편화, 스왑 지연)으로 시스템이 버벅이는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">THP(Transparent)의 백그라운드 압축 오버헤드 발생</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대책: THP를 <code>never</code>로 끄고, 부팅 시 커널 파라미터로 영구적인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Huge Page(<code>hugepages=1024</code> 등)를 미리 잡아두어 파편화 방지</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 메모리 집약적 워크로드의 TLB/캐시 병목 튜닝 플로우            │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [Java 힙, In-memory DB, AI 모델 로딩 등 거대 메모리 사용 앱 구축]             │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      Linux의 `perf stat -e dTLB-load-misses` 명령어 측정 시 미스율이 높은가?  │
+  │          ├─ 예 ─────▶ [TLB Coverage(커버리지) 부족 확진]               │
+  │          │            대책 1: OS 레벨에서 Transparent Huge Pages 켜기 또는   │
+  │          │                   명시적(Explicit) Huge Page 세팅           │
+  │          │            대책 2: 앱의 메모리 접근 패턴을 연속적(Sequential)으로 수정│
+  │          └─ 아니오 ──▶ TLB가 아닌 L1/L2 데이터 캐시 미스나 I/O 대기 의심      │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      Huge Page 적용 시 부작용(메모리 단편화, 스왑 지연)으로 시스템이 버벅이는가? │
+  │          ├──▶ [THP(Transparent)의 백그라운드 압축 오버헤드 발생]          │
+  │          │    대책: THP를 `never`로 끄고, 부팅 시 커널 파라미터로 영구적인    │
+  │          │          Huge Page(`hugepages=1024` 등)를 미리 잡아두어 파편화 방지│
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** "메모리가 넉넉한데 왜 느려?"라는 질문에 아키텍트는 "RAM 크기는 넉넉하지만, 그 주소를 통역해 주는 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/">TLB</a> 수첩의 크기가 모자라기 때문</strong>"이라고 답할 수 있어야 한다. CPU [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝의 끝판왕은 결국 캐시 미스를 얼마나 줄이느냐(하드웨어 친화적 설계)에 달려 있다.
 
@@ -174,19 +176,15 @@ TLB는 일반 배열이 아니다. 배열이라면 0번부터 순서대로 뒤�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">페이징 시스템 프레임 테이블</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">TLB 적중률 캐시 속도 (TLB Hit Ratio Cache Speed)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">다단계 페이지 테이블 사이즈 줄이기</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">세그멘테이션 외부 단편화 재발</div></div>
-</div>
-</div>
-
-
+```text
+[페이징 시스템 프레임 테이블]
+    │
+    ▼
+[TLB 적중률 캐시 속도 (TLB Hit Ratio Cache Speed)]
+    │
+    ├──▶ [다단계 페이지 테이블 사이즈 줄이기]
+    └──▶ [세그멘테이션 외부 단편화 재발]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

@@ -41,23 +41,27 @@ AMAT를 이해하려면 먼저 세 항목의 역할을 분리해서 봐야 한�
 
 다단계 캐시에서는 이 식이 재귀적으로 확장된다. 예를 들어 L1 캐시에서 미스가 나도 바로 주기억장치로 가는 것이 아니라, L2 캐시 ([Level 2 Cache](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/261_l2_cache/)), L3 캐시 ([Level 3 Cache](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/262_l3_cache/)), [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) (Dynamic Random Access Memory) 순으로 내려간다. 그래서 상위 캐시 관점에서의 미스 패널티는 "다음 계층의 AMAT"가 된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다단계 캐시에서 AMAT가 누적되는 방식</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 요청</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ L1 Hit ▶ L1 Hit Time</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ L1 Miss (확률 = m1)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ L2 Hit ▶ L2 Hit Time</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ L2 Miss (확률 = m2)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ L3 Hit ▶ L3 Hit Time</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ L3 Miss ▶ DRAM 접근 패널티</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AMAT = t1 + m1 × ( t2 + m2 × ( t3 + m3 × tmem ) )</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│               다단계 캐시에서 AMAT가 누적되는 방식                │
+├────────────────────────────────────────────────────────────────────┤
+│ CPU 요청                                                          │
+│   │                                                               │
+│   ├─ L1 Hit  ───────────────────────────────▶  L1 Hit Time        │
+│   │                                                               │
+│   └─ L1 Miss (확률 = m1)                                          │
+│          │                                                        │
+│          ├─ L2 Hit  ─────────────────────────▶  L2 Hit Time       │
+│          │                                                        │
+│          └─ L2 Miss (확률 = m2)                                   │
+│                 │                                                 │
+│                 ├─ L3 Hit  ─────────────────▶  L3 Hit Time        │
+│                 │                                                 │
+│                 └─ L3 Miss  ────────────────▶  DRAM 접근 패널티   │
+│                                                                    │
+│ AMAT = t1 + m1 × ( t2 + m2 × ( t3 + m3 × tmem ) )                 │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림이 보여 주는 핵심은 모든 캐시가 같은 목표를 갖지 않는다는 점이다. L1 캐시는 파이프라인 바로 옆에 있으므로 적중 시간을 극단적으로 낮춰야 하고, 마지막 수준 캐시 (Last-Level Cache, [LLC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/744_load_line_calibration/))는 주기억장치로 떨어지는 비율을 줄이는 데 더 큰 가치를 둔다. 같은 "좋은 캐시"라도 상위 계층은 속도 우선, 하위 계층은 흡수율 우선으로 설계 철학이 달라진다.
 
@@ -139,22 +143,21 @@ AMAT를 기준으로 메모리 계층을 설계하면 캐시의 역할 분담이
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">메모리 월 (Memory Wall)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">적중 시간 · 미스율 · 미스 패널티</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">평균 메모리 접근 시간 (AMAT)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 다단계 캐시 (L1/L2/L3)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 지역성 최적화 · 데이터 배치</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 프리페칭 · HBM · 메모리 대역폭 확장</div>
-</div>
-</div>
-
-
+```text
+메모리 월 (Memory Wall)
+    │
+    ▼
+적중 시간 · 미스율 · 미스 패널티
+    │
+    ▼
+평균 메모리 접근 시간 (AMAT)
+    │
+    ├─▶ 다단계 캐시 (L1/L2/L3)
+    │
+    ├─▶ 지역성 최적화 · 데이터 배치
+    │
+    └─▶ 프리페칭 · HBM · 메모리 대역폭 확장
+```
 
 이 흐름은 "문제 인식 → [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)식 정립 → 계층 설계 → 최적화 기술 확장"으로 이어지는 메모리 계층 발전 방향을 보여 준다.
 

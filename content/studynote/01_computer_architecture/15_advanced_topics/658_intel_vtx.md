@@ -25,19 +25,16 @@ VT-x의 핵심 아이디어는 가상 머신 ([Virtual Machine](/knowledge-base/
 
 아래 그림은 VT-x가 "전부 에뮬레이션"이 아니라 "필요할 때만 개입"하는 구조임을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Guest execution under VT-x</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">normal instruction ▶ direct run</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">control-sensitive event ▶ hypervisor path</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">memory access ▶ memory assist</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">device access ▶ device remap</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ Guest execution under VT-x                                   │
+├──────────────────────────────────────────────────────────────┤
+│ normal instruction  ───────────────────────▶ direct run      │
+│ control-sensitive event ───────────────────▶ hypervisor path │
+│ memory access       ───────────────────────▶ memory assist   │
+│ device access       ───────────────────────▶ device remap    │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 구조 덕분에 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)는 모든 명령을 해석하지 않아도 된다. 결국 VT-x는 "[가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 가능한 하드웨어 질서"를 x86에 추가한 기술이라고 볼 수 있다.
 
@@ -59,18 +56,17 @@ Intel VT-x는 하나의 기능이 아니라 여러 하드웨어 구성요소의 
 
 동작 흐름을 보면 VT-x의 역할이 더 분명해진다. 게스트가 일반 산술 연산이나 대부분의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드를 실행할 때는 CPU가 그대로 처리한다. 반면 제어 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 변경, 특정 명령 실행, 외부 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 주입처럼 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 개입이 필요한 사건은 가상 머신 이탈 ([Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Exit, [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)-Exit)로 바뀌고, [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 처리 후 가상 머신 진입 ([Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Entry, [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)-Entry)로 다시 돌려보낸다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">policy in VMCS</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Guest code</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">direct run or Exit</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">memory reference</div><div class="kb-diagram-cell">device access</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EPT / TLB</div><div class="kb-diagram-cell">device remap path</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────┐      policy in VMCS      ┌──────────────────────┐
+│ Guest code    │ ───────────────────────▶ │ direct run or Exit   │
+└──────┬────────┘                          └──────────┬───────────┘
+       │                                              │
+       │ memory reference                             │ device access
+       ▼                                              ▼
+┌───────────────┐                              ┌──────────────────────┐
+│ EPT / TLB     │                              │ device remap path    │
+└───────────────┘                              └──────────────────────┘
+```
 
 여기서 중요한 트레이드오프는 "가로채기 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)"다. 너무 많이 잡으면 느려지고, 너무 적게 잡으면 격리와 관찰이 약해진다. 따라서 VT-x 설계는 기능 목록 암기가 아니라, 어떤 경로를 하드웨어 fast path로 두고 어떤 경로만 Exit 시킬지 정하는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 문제다.
 
@@ -136,23 +132,21 @@ Intel VT-x는 x86이 클라우드 시대의 표준 서버 플랫폼이 되는 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Popek-Goldberg virtualization challenge</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Binary translation and paravirtualization</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Intel VT-x (VMX + VMCS)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">EPT · VPID · VT-d</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Nested virtualization · device passthrough</div>
-</div>
-</div>
-
-
+```text
+Popek-Goldberg virtualization challenge
+    │
+    ▼
+Binary translation and paravirtualization
+    │
+    ▼
+Intel VT-x (VMX + VMCS)
+    │
+    ▼
+EPT · VPID · VT-d
+    │
+    ▼
+Nested virtualization · device passthrough
+```
 
 이 흐름은 "소프트웨어 우회 → 하드웨어 실행 분리 → 메모리/장치 가속 → 운영 고도화"의 진화를 보여준다.
 

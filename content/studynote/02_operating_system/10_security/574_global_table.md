@@ -31,24 +31,19 @@ tags = ["studynote-operating-system"]
 
 **"권한이 있는 경우만 저장한다"**
 
+```text
+[ 기존 2차원 행렬 ]
+        파일1     파일2     파일3
+도메인A  Read     Null      Null
+도메인B  Null     Read     Null
+도메인C  Null     Read     Write
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">기존 2차원 행렬</div></div>
-<div class="kb-diagram-note">파일1 파일2 파일3</div>
-<div class="kb-diagram-note">도메인A Read Null Null</div>
-<div class="kb-diagram-note">도메인B Null Read Null</div>
-<div class="kb-diagram-note">도메인C Null Read Write</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전역 테이블 (Linked List)</div></div>
-<div class="kb-diagram-note">Head -&gt; &lt; 도메인A, 파일1, {Read} &gt;</div>
-<div class="kb-diagram-tree-item" style="--depth:0">&lt; 도메인B, 파일2, {Read} &gt;</div>
-<div class="kb-diagram-tree-item" style="--depth:0">&lt; 도메인C, 파일2, {Read} &gt;</div>
-<div class="kb-diagram-tree-item" style="--depth:0">&lt; 도메인C, 파일3, {Write} &gt;</div>
-</div>
-</div>
-
-
+[ 전역 테이블 (Linked List) ]
+Head -> < 도메인A, 파일1, {Read} >
+      -> < 도메인B, 파일2, {Read} >
+      -> < 도메인C, 파일2, {Read} >
+      -> < 도메인C, 파일3, {Write} >
+```
 
 - **📢 섹션 요약 비유**: 복잡한 창고에서 필요한 물건을 찾기 위해 먼저 구역과 표지판을 세우는 것과 같다.
 
@@ -82,9 +77,9 @@ tags = ["studynote-operating-system"]
 
 ```
 [Chain: INPUT]
-Rule 1: DROP IP 192.168.1.100
+Rule 1: DROP   IP 192.168.1.100
 Rule 2: ACCEPT TCP 80
-Rule 3: DROP ALL
+Rule 3: DROP   ALL
 ```
 
 패킷이 들어올 때마다 위에서 아래로 <strong>순차적으로 규칙을 매칭</strong>한다. 규칙이 10만 개인 경우, 마지막 규칙까지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 하므로 **$O(N)$ 시간**이 소요된다.
@@ -128,19 +123,15 @@ Rule 3: DROP ALL
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">접근 제어 행렬 (Access Matrix)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전역 테이블 (Global Table) 방식 구현 (행렬 희소성 문제)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">접근 제어 목록 (ACL, Access Control List)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">자격 증명 리스트 (Capability List / Ticket)</div></div>
-</div>
-</div>
-
-
+```text
+[접근 제어 행렬 (Access Matrix)]
+    │
+    ▼
+[전역 테이블 (Global Table) 방식 구현 (행렬 희소성 문제)]
+    │
+    ├──▶ [접근 제어 목록 (ACL, Access Control List)]
+    └──▶ [자격 증명 리스트 (Capability List / Ticket)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 
@@ -148,9 +139,9 @@ Rule 3: DROP ALL
 
 1. <strong>전역 테이블</strong>은 학교의 <strong>"출입 가능 명단"</strong>과 같다. 모든 학생과 모든 교실의 관계를 적는 게 아니라, <strong>"출입 가능한 조합"만</strong>을 적어둔다.
 
-2. <strong>공간 절약</strong>은(명부)에서 빈 칸을 지우고 **(허용)된 경우만** 적는 것과 같다. 공간은 절약되지만, 모든 학생의 출입 가능 교실을 알려면를 모두 읽어야 한다.
+2. <strong>공간 절약</strong>은명부(명부)에서 빈 칸을 지우고 **허가(허용)된 경우만** 적는 것과 같다. 공간은 절약되지만, 모든 학생의 출입 가능 교실을 알려면명부를 모두 읽어야 한다.
 
-3. <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/">락 경합</a></strong>은 여러 (명부) 관리자가 동시에를 수정하려고 할 때, <strong>한 명씩만 수정</strong>해야 해서 대기 시간이 발생하는 것과 같다.
+3. <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/">락 경합</a></strong>은 여러 명부(명부) 관리자가 동시에명부를 수정하려고 할 때, <strong>한 명씩만 수정</strong>해야 해서 대기 시간이 발생하는 것과 같다.
 
 ---
 

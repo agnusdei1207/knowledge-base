@@ -19,19 +19,16 @@ tags = ["studynote-security"]
 
 ## Ⅰ. 개요 및 필요성
 
-[SOC 2](/knowledge-base/studynote/09_security/17_framework_compliance/855_soc_2/) Trust [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Criteria ([Security Operations Center](/knowledge-base/studynote/09_security/17_framework_compliance/855_soc_2/))는 보안 프레임워크·컴플라이언스에서 반복적으로 등장하는 문제를 일정한 원리로 다루기 위해 정리된 개념이다. 이 주제를 이해할 때는 단순 정의보다 "왜 지금 이 개념이 필요해졌는가"를 먼저 봐야 한다. [SOC 2](/knowledge-base/studynote/09_security/17_framework_compliance/855_soc_2/) Trust [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Criteria ([Security Operations Center](/knowledge-base/studynote/09_security/17_framework_compliance/855_soc_2/))가 등장한 배경에는 자산 가치 상승, 공격 정교화, 운영 복잡도 증가가 동시에 작용한다. 대표 세부 포인트로는 보안/[가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)/처리 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)//가 있다. 이 개념이 없거나 잘못 적용되면 보안 통제가 단편화되어 위험이 눈에 잘 보이지 않거나, 반대로 과도한 통제가 운영 비용을 키우는 문제가 생긴다.
+[SOC 2](/knowledge-base/studynote/09_security/17_framework_compliance/855_soc_2/) Trust [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Criteria ([Security Operations Center](/knowledge-base/studynote/09_security/17_framework_compliance/855_soc_2/))는 보안 프레임워크·컴플라이언스에서 반복적으로 등장하는 문제를 일정한 원리로 다루기 위해 정리된 개념이다. 이 주제를 이해할 때는 단순 정의보다 "왜 지금 이 개념이 필요해졌는가"를 먼저 봐야 한다. [SOC 2](/knowledge-base/studynote/09_security/17_framework_compliance/855_soc_2/) Trust [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Criteria ([Security Operations Center](/knowledge-base/studynote/09_security/17_framework_compliance/855_soc_2/))가 등장한 배경에는 자산 가치 상승, 공격 정교화, 운영 복잡도 증가가 동시에 작용한다. 대표 세부 포인트로는 보안/[가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)/처리 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)/궤밀성/은사가 있다. 이 개념이 없거나 잘못 적용되면 보안 통제가 단편화되어 위험이 눈에 잘 보이지 않거나, 반대로 과도한 통제가 운영 비용을 키우는 문제가 생긴다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">왜 SOC 2 Trust Service Cr가 필요한가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자산·서비스 운영 ─► 노출/불확실성 ─► 위험 확대</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SOC 2 Trust Servic로 통제·판단</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ 왜 SOC 2 Trust Service Cr가 필요한가                              │
+├──────────────────────────────────────────────────────────────┤
+│ 자산·서비스 운영 ─► 노출/불확실성 ─► 위험 확대              │
+│                     └──── SOC 2 Trust Servic로 통제·판단 ────┘   │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 그림은 [SOC 2](/knowledge-base/studynote/09_security/17_framework_compliance/855_soc_2/) Trust [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Criteria ([Security Operations Center](/knowledge-base/studynote/09_security/17_framework_compliance/855_soc_2/))가 등장한 배경을 "노출 증가 → 위험 확대 → 통제 필요" 흐름으로 요약한다. 핵심은 이 개념이 단독 기능이 아니라, 더 큰 보안 체계의 빈틈을 메우기 위해 등장했다는 점이다.
 
@@ -41,7 +38,7 @@ tags = ["studynote-security"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[SOC 2](/knowledge-base/studynote/09_security/17_framework_compliance/855_soc_2/) Trust [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Criteria ([Security Operations Center](/knowledge-base/studynote/09_security/17_framework_compliance/855_soc_2/))의 핵심은 입력·상태·[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)·결과를 한 흐름으로 묶어 보는 데 있다. [SOC 2](/knowledge-base/studynote/09_security/17_framework_compliance/855_soc_2/) Trust [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Criteria ([Security Operations Center](/knowledge-base/studynote/09_security/17_framework_compliance/855_soc_2/))를 잘 적용하려면 구성 요소만 나열하는 것이 아니라, 어떤 조건에서 판단이 이뤄지고 실패 시 무엇이 남는지를 함께 봐야 한다. 대표 세부 포인트로는 보안/[가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)/처리 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)//가 있다. 즉 [SOC 2](/knowledge-base/studynote/09_security/17_framework_compliance/855_soc_2/) Trust [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Criteria ([Security Operations Center](/knowledge-base/studynote/09_security/17_framework_compliance/855_soc_2/))는 기술 한 점이 아니라 운영과 설계를 연결하는 작은 아키텍처로 이해해야 한다.
+[SOC 2](/knowledge-base/studynote/09_security/17_framework_compliance/855_soc_2/) Trust [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Criteria ([Security Operations Center](/knowledge-base/studynote/09_security/17_framework_compliance/855_soc_2/))의 핵심은 입력·상태·[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)·결과를 한 흐름으로 묶어 보는 데 있다. [SOC 2](/knowledge-base/studynote/09_security/17_framework_compliance/855_soc_2/) Trust [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Criteria ([Security Operations Center](/knowledge-base/studynote/09_security/17_framework_compliance/855_soc_2/))를 잘 적용하려면 구성 요소만 나열하는 것이 아니라, 어떤 조건에서 판단이 이뤄지고 실패 시 무엇이 남는지를 함께 봐야 한다. 대표 세부 포인트로는 보안/[가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)/처리 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)/궤밀성/은사가 있다. 즉 [SOC 2](/knowledge-base/studynote/09_security/17_framework_compliance/855_soc_2/) Trust [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Criteria ([Security Operations Center](/knowledge-base/studynote/09_security/17_framework_compliance/855_soc_2/))는 기술 한 점이 아니라 운영과 설계를 연결하는 작은 아키텍처로 이해해야 한다.
 
 | 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -49,17 +46,14 @@ tags = ["studynote-security"]
 | [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) | [SOC 2](/knowledge-base/studynote/09_security/17_framework_compliance/855_soc_2/) Trust [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Criteria ([Security Operations Center](/knowledge-base/studynote/09_security/17_framework_compliance/855_soc_2/))가 실제로 값을 바꾸거나 결정을 내리는 단계 | 입력 조건과 실패 시 동작을 명확히 해야 한다. |
 | 처리 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) | [SOC 2](/knowledge-base/studynote/09_security/17_framework_compliance/855_soc_2/) Trust [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Criteria ([Security Operations Center](/knowledge-base/studynote/09_security/17_framework_compliance/855_soc_2/))를 장기 운영할 때 관리해야 할 관측·[보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 요소 | [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 자동화, 수명주기 관리가 품질을 좌우한다. |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">운영 사이클</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기준 수립 ─► 통제 적용 ─► 증적 수집 ─► 점검·개선</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">책임·보고 체계</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ 운영 사이클                                                  │
+├──────────────────────────────────────────────────────────────┤
+│ 기준 수립 ─► 통제 적용 ─► 증적 수집 ─► 점검·개선            │
+│              └──────── 책임·보고 체계 ────────┘             │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 구조를 볼 때는 입력 조건, 핵심 처리, 결과뿐 아니라 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 상태가 어디에서 관리되는지까지 함께 봐야 한다. 그래야 [SOC 2](/knowledge-base/studynote/09_security/17_framework_compliance/855_soc_2/) Trust [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Criteria ([Security Operations Center](/knowledge-base/studynote/09_security/17_framework_compliance/855_soc_2/))를 다른 기술과 연결해도 설명이 흔들리지 않는다.
 
@@ -118,19 +112,15 @@ tags = ["studynote-security"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">규정·책임 요구</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SOC 2 Trust Service Criteria (Security Operations Center)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">보안</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">가용성</div></div>
-</div>
-</div>
-
-
+```text
+[규정·책임 요구]
+    │
+    ▼
+[SOC 2 Trust Service Criteria (Security Operations Center)]
+    │
+    ├──▶ [보안]
+    └──▶ [가용성]
+```
 
 이 흐름도는 [SOC 2](/knowledge-base/studynote/09_security/17_framework_compliance/855_soc_2/) Trust [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Criteria ([Security Operations Center](/knowledge-base/studynote/09_security/17_framework_compliance/855_soc_2/))를 단일 용어가 아니라 선행 문제, 현재 해결 방식, 후속 확장 방향으로 기억하게 해 준다. 시험과 실무 모두에서 이 연결 구조를 함께 말할 수 있어야 개념이 살아난다.
 

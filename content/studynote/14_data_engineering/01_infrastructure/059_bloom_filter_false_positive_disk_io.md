@@ -31,21 +31,15 @@ LSM Tree 계열 저장소는 쓰기를 빠르게 하려고 SSTable을 많이 만
 
 [블룸 필터](/knowledge-base/studynote/12_it_management/02_itsm_itil/061_bloomfilter/)는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)([Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) [Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/))과 여러 해시 함수로 동작한다. 데이터를 넣을 때는 여러 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 1로 바꾸고, 조회할 때는 그 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)들이 모두 1인지 확인한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">데이터 추가</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">해시 1, 해시 2, 해시 3</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">비트 배열의 여러 칸을 1로 설정</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">조회 시 모든 칸이 1이면 "있을 수도"</div>
-</div>
-</div>
-
-
+```text
+데이터 추가
+   ↓
+해시 1, 해시 2, 해시 3
+   ↓
+비트 배열의 여러 칸을 1로 설정
+   ↓
+조회 시 모든 칸이 1이면 "있을 수도"
+```
 
 | 요소 | 의미 |
 | :-- | :-- |
@@ -109,43 +103,31 @@ LSM Tree 계열 저장소는 쓰기를 빠르게 하려고 SSTable을 많이 만
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">LSM Tree / SSTable</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">블룸 필터</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">False Positive 관리</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">디스크 I/O 절감</div>
-</div>
-</div>
-
-
+```text
+LSM Tree / SSTable
+   ↓
+블룸 필터
+   ↓
+False Positive 관리
+   ↓
+디스크 I/O 절감
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">랜덤 I/O 병목</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">확률적 집합 판별</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Bloom Filter</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Counting Bloom Filter</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">LSM 기반 읽기 최적화</div>
-</div>
-</div>
-
-
+```text
+랜덤 I/O 병목
+   ↓
+확률적 집합 판별
+   ↓
+Bloom Filter
+   ↓
+Counting Bloom Filter
+   ↓
+LSM 기반 읽기 최적화
+```
 
 ---
 

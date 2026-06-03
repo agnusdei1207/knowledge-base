@@ -43,17 +43,15 @@ OpenAPI Specification은 [REST](/knowledge-base/studynote/07_enterprise_systems/
 
 아래 흐름은 [OAS](/knowledge-base/studynote/09_security/05_web_app_security/495_oas_openapi_specification/) 하나가 여러 개발 산출물로 연결되는 구조를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OAS lifecycle: one contract -&gt; many artifacts</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OAS YAML/JSON -&gt; Lint/Review -&gt; Mock Server -&gt; SDK/Docs -&gt; Runtime</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Contract Test &lt;</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ OAS lifecycle: one contract -> many artifacts                       │
+├──────────────────────────────────────────────────────────────────────┤
+│ OAS YAML/JSON -> Lint/Review -> Mock Server -> SDK/Docs -> Runtime  │
+│        │                                  │                         │
+│        └──────────── Contract Test <──────┘                         │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 여기서 Swagger는 역사적으로 OAS의 전신이자, 현재는 Swagger UI·Swagger Codegen 같은 도구 생태계를 가리키는 경우가 많다. 즉 **OpenAPI는 표준 규격**, <strong>Swagger는 이를 활용하는 대표 도구군</strong>으로 구분하면 헷갈리지 않는다. 설계 품질은 화면이 예쁜가보다 스펙이 [변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/)와 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)에 실제로 연결되는가에 달려 있다.
 
@@ -123,23 +121,21 @@ OAS를 정착시키면 [API](/knowledge-base/studynote/02_operating_system/01_ov
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">수기 API 문서</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">OpenAPI Specification (OAS)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Swagger UI · Code Generation</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Mock Server · Contract Test</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">API 거버넌스 · 변경 관리 자동화</div>
-</div>
-</div>
-
-
+```text
+수기 API 문서
+    │
+    ▼
+OpenAPI Specification (OAS)
+    │
+    ▼
+Swagger UI · Code Generation
+    │
+    ▼
+Mock Server · Contract Test
+    │
+    ▼
+API 거버넌스 · 변경 관리 자동화
+```
 
 이 흐름은 "문서 표준화 → 자동화 도구화 → 계약 운영 체계"로 성숙하는 과정을 보여준다.
 

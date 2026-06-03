@@ -25,29 +25,29 @@ tags = ["studynote-operating-system"]
 **필요성 및 등장 배경**
 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)의 [패킷 필터링 방화벽](/knowledge-base/studynote/09_security/05_web_app_security/213_packet_filtering_firewall/)(L3/L4)은 내부망으로 향하는 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)(80번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)) 트래픽을 허용할 수밖에 없었다. 해커들은 이 합법적으로 열린 80번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에 [버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/) 페이로드나 SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 공격을 섞어 보냈고, [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)은 이를 단순한 웹 요청으로 착각해 무사통과시켰다. 따라서 허용된 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 안쪽을 흐르는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Payload)의 내용물을 깊이 뜯어보고(Deep Packet Inspection), [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 프로세스를 실행하는 단계에서 위험한 시스템 콜이 호출되는지를 추적하는 '똑똑한 내용 검사기'의 필요성이 대두되며 IDS/[IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/) 체계가 발전했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">네트워크 보안 장비의 아키텍처 진화 (방화벽 → IDS → IPS)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1세대: 방화벽 (Firewall)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"포트 80번(웹)은 열어줘. 나머지는 다 차단해!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 해커: "포트 80번 안으로 SQL 인젝션 공격 코드를 넣자!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 💥 방화벽 무사 통과, 서버 장악됨.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2세대: NIDS (네트워크 침입 탐지 시스템)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스위치의 Mirror 포트에 연결되어 트래픽을 복사해서 감시.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"어? 80번 포트로 들어가는 데이터 속에 공격 코드가 보여!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 📢 관리자에게 경고(알람) 전송. 하지만 이미</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공격 패킷은 서버에 도달해 버림 (탐지 지연).</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3세대: NIPS (네트워크 침입 방지 시스템)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">네트워크 라인 중간(Inline)에 직접 설치되어 모든 패킷 검문.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"어? 공격 코드가 들어있네? 이 패킷은 여기서 바로 폐기!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 🛡️ 실시간 차단 성공. 단, 오탐(False Positive)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">발생 시 정상 서비스도 끊어지는 위험 존재.</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│      네트워크 보안 장비의 아키텍처 진화 (방화벽 → IDS → IPS)│
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  [1세대: 방화벽 (Firewall)]                                 │
+│  "포트 80번(웹)은 열어줘. 나머지는 다 차단해!"              │
+│  => 해커: "포트 80번 안으로 SQL 인젝션 공격 코드를 넣자!"   │
+│  => 결과: 💥 방화벽 무사 통과, 서버 장악됨.                 │
+│                                                             │
+│  [2세대: NIDS (네트워크 침입 탐지 시스템)]                  │
+│  스위치의 Mirror 포트에 연결되어 트래픽을 복사해서 감시.    │
+│  "어? 80번 포트로 들어가는 데이터 속에 공격 코드가 보여!"   │
+│  => 결과: 📢 관리자에게 경고(알람) 전송. 하지만 이미        │
+│            공격 패킷은 서버에 도달해 버림 (탐지 지연).      │
+│                                                             │
+│  [3세대: NIPS (네트워크 침입 방지 시스템)]                  │
+│  네트워크 라인 중간(Inline)에 직접 설치되어 모든 패킷 검문. │
+│  "어? 공격 코드가 들어있네? 이 패킷은 여기서 바로 폐기!"    │
+│  => 결과: 🛡️ 실시간 차단 성공. 단, 오탐(False Positive)     │
+│            발생 시 정상 서비스도 끊어지는 위험 존재.        │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 흐름도는 왜 기업 인프라에 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 하나만으로 부족한지 직관적으로 설명한다. IDS는 네트워크 옆에 비스듬히 연결된(Out-of-band / Mirroring) CCTV와 같아서, 공격을 알아채고 경고를 울리지만 범인을 멈춰 세울 물리적 통제권이 없어 피해를 예방하지 못한다. 이를 극복하기 위해 IPS는 통신망의 정중앙(Inline)에 서서 모든 패킷을 직접 열어보고 통과 여부를 결정하는 톨게이트 방식으로 진화했다. 다만 [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/) 인라인 모드는 시스템 오류나 정탐/오탐으로 인해 전체 네트워크 속도가 느려지거나 정상 비즈니스가 멈출 수 있는 [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/), Single Point of Failure)이 될 수 있으므로 아키텍처 설계 시 바이패스(Bypass) 하드웨어 구성이 필수적이다.
 
@@ -72,29 +72,31 @@ tags = ["studynote-operating-system"]
 
 [NIDS](/knowledge-base/studynote/03_network/13_network_security_basics/693_nids_network_intrusion_detection_system/)/NIPS가 네트워크 "외부"의 트래픽을 본다면, **HIDS (Host-based IDS)** 는 서버 OS "내부"에 에이전트로 설치되어 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/), [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 프로세스 트리, 그리고 가장 중요한 <strong>시스템 콜 (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/">System Call</a>)</strong>을 감시한다. 해커가 암호화된 터널([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/))로 공격 페이로드를 보내 NIDS의 눈을 속이더라도, 결국 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 `execve`(프로세스 실행)나 `open`([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 열기) 같은 시스템 콜을 날려야만 목표를 달성할 수 있기 때문이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HIDS / EDR의 시스템 콜(System Call) 트레이싱 원리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">해커의 암호화된 공격 페이로드 유입</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">네트워크(NIDS 우회) ─(HTTPS 암호화)─▶ 웹 서버 (Application)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">웹 서버 내부의 취약점 실행 시퀀스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① 웹 서버 프로세스가 해커의 ROP 셸코드 실행 시도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② 셸코드가 커널의 핵심 기능을 사용하기 위해 시스템 콜 호출</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- syscall: mprotect (실행 권한 부여)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- syscall: execve ("/bin/sh")</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- syscall: socket, connect (리버스 셸 연결)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HIDS / eBPF 기반 커널 트레이서 (Kernel Tracer)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ 커널 모드 진입 시 시스템 콜 후킹(Hooking) 발생!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 검사 로직: "웹 서버(httpd)가 갑자기 /bin/sh를</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자식 프로세스로 실행하려 한다고?"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">정상 베이스라인 위반 (Anomaly Detected)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조치: 해당 프로세스 트리 강제 킬(Kill) 및 차단 (IPS)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│      HIDS / EDR의 시스템 콜(System Call) 트레이싱 원리      │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  [해커의 암호화된 공격 페이로드 유입]                       │
+│  네트워크(NIDS 우회) ─(HTTPS 암호화)─▶ 웹 서버 (Application)│
+│                                               │             │
+│  [웹 서버 내부의 취약점 실행 시퀀스]          │             │
+│  ① 웹 서버 프로세스가 해커의 ROP 셸코드 실행 시도           │
+│  ② 셸코드가 커널의 핵심 기능을 사용하기 위해 시스템 콜 호출 │
+│      - syscall: mprotect (실행 권한 부여)                   │
+│      - syscall: execve ("/bin/sh")                          │
+│      - syscall: socket, connect (리버스 셸 연결)            │
+│                                                             │
+│  [HIDS / eBPF 기반 커널 트레이서 (Kernel Tracer)]           │
+│    ▲ 커널 모드 진입 시 시스템 콜 후킹(Hooking) 발생!        │
+│    │                                                        │
+│    ├─▶ 검사 로직: "웹 서버(httpd)가 갑자기 /bin/sh를        │
+│    │               자식 프로세스로 실행하려 한다고?"        │
+│    │                                                        │
+│    └─▶ 판단: [정상 베이스라인 위반 (Anomaly Detected)]      │
+│        조치: 해당 프로세스 트리 강제 킬(Kill) 및 차단 (IPS) │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 구조도는 호스트(OS) 내부에서 침입 탐지가 어떻게 동작하는지를 보여준다. 공격자가 페이로드를 암호화하여 네트워크단([NIDS](/knowledge-base/studynote/03_network/13_network_security_basics/693_nids_network_intrusion_detection_system/))의 시그니처 검사를 무사통과하더라도, 목적지에 도달한 페이로드는 자신이 원하는 악성 행위(쉘 획득 등)를 위해 반드시 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에게 자원을 요청([System Call](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/))해야 한다. 최신 HIDS나 [EDR](/knowledge-base/studynote/09_security/04_endpoint_security/325_edr/)(Endpoint [Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/) and Response) 솔루션은 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 최신 프레임워크인 <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/">eBPF</a> (Extended <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/069_ebpf/">Berkeley Packet Filter</a>)</strong> 나 `ptrace`를 이용하여, 시스템 콜이 실행되기 직전 그 인자와 호출의 맥락(누가, 무엇을 부르는가)을 가로채어 분석한다. 평소에 정적 콘텐츠만 반환하던 아파치 워커 프로세스가 갑자기 네트워크 소켓을 새로 열고(리버스 셸) 리눅스 셸(`/bin/sh`)을 실행하는 시스템 콜 시퀀스를 발생시킨다면, 이는 명백한 이상 행위([Anomaly](/knowledge-base/studynote/05_database/04_transactions_concurrency/530_anomaly/))로 규정되어 즉각 차단된다. 이것이 암호화 통신 시대에 HIDS가 네트워크 IPS보다 더 주목받는 이유다.
 
@@ -116,25 +118,29 @@ tags = ["studynote-operating-system"]
 | **자원 소모 오버헤드** | 전용 하드웨어([ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/)) 사용으로 서버 OS 자원(CPU)에 영향 없음 | 에이전트가 실행되며 서버 자원(CPU, 메모리) 3~[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 점유율 차지 |
 | <strong>스니핑/<a href="/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/">스푸핑</a> 탐지</strong> | [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/), [포트 스캐닝](/knowledge-base/studynote/02_operating_system/10_security/600_port_scanning/) 등 네트워크 흐름 파악에 특화됨 | 단일 호스트로 향하지 않는 네트워크 전체의 스캔 행위는 볼 수 없음 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">네트워크와 호스트 융합 (Hybrid IDS/IPS) 방어 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">인터넷</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">외부 방화벽 (L3/L4 접근 통제)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NIPS (인라인)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">── 알려진 취약점 패턴(시그니처)의 패킷</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(네트워크 기반) 유입 시 즉각 Drop (부하 분산 역할)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (정상 및 암호화된 트래픽 통과)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">L2 스위치 망</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">웹 서버 A</div><div class="kb-diagram-node">DB 서버 B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ HIPS 에이전트 + HIPS 에이전트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HIPS 역할: NIPS를 뚫고 들어온 암호화된 제로데이 페이로드가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">로컬 OS의 핵심 파일 변조 및 비정상 시스템 콜을</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">발생시키면 행위 기반으로 탐지 및 차단!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│      네트워크와 호스트 융합 (Hybrid IDS/IPS) 방어 아키텍처  │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [인터넷] ──▶ [ 외부 방화벽 (L3/L4 접근 통제) ]            │
+│                      │                                      │
+│                      ▼                                      │
+│   [ NIPS (인라인) ] ◀── 알려진 취약점 패턴(시그니처)의 패킷 │
+│     (네트워크 기반)     유입 시 즉각 Drop (부하 분산 역할)  │
+│                      │                                      │
+│                      ▼ (정상 및 암호화된 트래픽 통과)       │
+│                [ L2 스위치 망 ]                             │
+│                  │          │                               │
+│                  ▼          ▼                               │
+│        [웹 서버 A]        [DB 서버 B]                       │
+│        + HIPS 에이전트    + HIPS 에이전트                   │
+│                                                             │
+│   HIPS 역할: NIPS를 뚫고 들어온 암호화된 제로데이 페이로드가│
+│              로컬 OS의 핵심 파일 변조 및 비정상 시스템 콜을 │
+│              발생시키면 행위 기반으로 탐지 및 차단!         │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 하이브리드 아키텍처는 "심층 방어([Defense in Depth](/knowledge-base/studynote/09_security/01_intro_principles/012_defense_in_depth/))"의 교과서적 모델이다. NIPS는 최전방에서 수십 Gbps로 쏟아지는 알려진 공격(SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 시그니처, 웜 [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/) 패턴, 대용량 스캐닝)을 하드웨어 가속을 통해 저비용 고효율로 쳐내는 방파제 역할을 한다. NIPS를 무사 통과한 고도화된 타겟팅 공격이나 암호화된 공격 페이로드는 개별 서버(엔드포인트)에 도달한다. 이때 서버 OS 내부에 심어진 HIPS 에이전트가 마지막 수문장으로서 OS 시스템 콜 수준의 행위 분석을 통해 악성 행위의 '발현'을 차단한다. 두 시스템의 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 [SIEM](/knowledge-base/studynote/09_security/13_secops_ir_forensics/624_siem/)(통합 보안 관제 시스템)으로 모여 연관 분석(Correlation)된다.
 
@@ -197,19 +203,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">포트 스캐닝 (Port Scanning) 도구 원리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">침입 탐지 시스템 (IDS) / 침입 방지 시스템 (IPS) 시스템 콜 트레이싱 기반 이상 탐지</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">샌드박싱 (Sandboxing) 기술 커널 래퍼</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">루트킷 (Rootkit) 커널 모듈 감염 방식 (시스템 콜 테이블 후킹)</div></div>
-</div>
-</div>
-
-
+```text
+[포트 스캐닝 (Port Scanning) 도구 원리]
+    │
+    ▼
+[침입 탐지 시스템 (IDS) / 침입 방지 시스템 (IPS) 시스템 콜 트레이싱 기반 이상 탐지]
+    │
+    ├──▶ [샌드박싱 (Sandboxing) 기술 커널 래퍼]
+    └──▶ [루트킷 (Rootkit) 커널 모듈 감염 방식 (시스템 콜 테이블 후킹)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

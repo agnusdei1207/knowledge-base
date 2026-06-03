@@ -24,21 +24,20 @@ tags = ["studynote-network"]
 - **비유**: SDLC는 철저하게 통제되는 군대의 '지휘 계통'과 같다. 지휘관 (주국)이 명령을 내리기 전까지 부하 (종국)는 임의로 보고를 올릴 수 없으며, 모든 메시지는 규격화된 표준 봉투 (프레임)에 담겨 전달된다.
 - **발전 과정**: IBM 시스템을 위해 탄생한 SDLC는 그 우수성을 인정받아 ISO에 의해 [HDLC](/knowledge-base/studynote/03_network/04_data_link_layer_error/216_hdlc_high_level_data_link_control/) (High-Level [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Link Control)로 표준화되었으며, 이후 IEEE 802.2 [LLC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/744_load_line_calibration/), [Frame Relay](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/268_frame_relay_x25_simplification/) 등의 기반이 되었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문자 지향 vs 비트 지향</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">문자 지향 (BSC)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SYN</div><div class="kb-diagram-node">SYN</div><div class="kb-diagram-node">STX</div><div class="kb-diagram-note">데이터 (제어문자 포함 불가)</div><div class="kb-diagram-node">ETX</div><div class="kb-diagram-node">BCC</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 데이터에 제어문자 패턴이 섞이면 프로토콜 파탄</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">비트 지향 (SDLC)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">01111110</div><div class="kb-diagram-note">제어/주소 정보 + 임의의 데이터</div><div class="kb-diagram-node">01111110</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 비트 스터핑 (Bit Stuffing)을 통해 완벽한 투명성 보장</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────┐
+  │                 문자 지향 vs 비트 지향                  │
+  ├─────────────────────────────────────────────────────────┤
+  │                                                         │
+  │ [문자 지향 (BSC)]                                       │
+  │  [SYN][SYN][STX] 데이터 (제어문자 포함 불가) [ETX][BCC] │
+  │   → 데이터에 제어문자 패턴이 섞이면 프로토콜 파탄       │
+  │                                                         │
+  │ [비트 지향 (SDLC)]                                      │
+  │  [01111110] 제어/주소 정보 + 임의의 데이터 [01111110]   │
+  │   → 비트 스터핑 (Bit Stuffing)을 통해 완벽한 투명성 보장│
+  └─────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: SDLC는 내용물에 상관없이 어떤 형태의 물건([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이든 똑같은 규격의 상자(프레임)에 담아, 오직 중앙 관제소(주국)의 통제 하에만 배송하는 강력한 택배 시스템입니다.
 
@@ -60,22 +59,27 @@ tags = ["studynote-network"]
 
 SDLC는 단일 주국 (Primary [Station](/knowledge-base/studynote/03_network/04_data_link_layer_error/218_hdlc_station_primary_secondary/))과 하나 이상의 종국 (Secondary [Station](/knowledge-base/studynote/03_network/04_data_link_layer_error/218_hdlc_station_primary_secondary/))으로 구성되는 비대칭 구조([NRM](/knowledge-base/studynote/03_network/04_data_link_layer_error/219_nrm_arm_abm_hdlc_modes/), Normal Response Mode)만을 지원한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SDLC 폴링 (Polling) 동작 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">주국 (Primary)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"데이터 보낼 거 있니?" (Poll)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">종국 A (Secondary)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"네, 데이터1 입니다." (Final)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"너는 데이터 보낼 거 있니?" (Poll)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">종국 B (Sec)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"아니오." (Final)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────┐
+  │                  SDLC 폴링 (Polling) 동작 구조                │
+  ├───────────────────────────────────────────────────────────────┤
+  │                                                               │
+  │    [주국 (Primary)]                                           │
+  │           │   "데이터 보낼 거 있니?" (Poll)                   │
+  │           ├─────────────────────────┐                         │
+  │           │                         ▼                         │
+  │           │                 [종국 A (Secondary)]              │
+  │           │                 "네, 데이터1 입니다." (Final)     │
+  │           │◀────────────────────────┘                         │
+  │           │                                                   │
+  │           │   "너는 데이터 보낼 거 있니?" (Poll)              │
+  │           ├────────────────────────────────────────┐          │
+  │           │                                        ▼          │
+  │           │                                [종국 B (Sec)]     │
+  │           │                                "아니오." (Final)  │
+  │           │◀──────────────────────────────────────┘          │
+  └───────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 주국은 링크의 모든 제어권을 가지며, 종국은 주국의 폴(Poll) 신호에만 응답할 수 있다. 이는 통신 충돌을 원천 차단하지만 주국에 부하가 집중되는 단점이 있다.
 
@@ -143,19 +147,15 @@ HDLC는 SDLC를 모태로 하였으나, 피어투피어([Peer-to-Peer](/knowledg
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 정보 프레임, 감독/제어, 비번호</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: SDLC</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: LAPB</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고신뢰 저지연 링크 제어</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 정보 프레임, 감독/제어, 비번호]
+    │
+    ▼
+[현재 개념: SDLC]
+    │
+    ├──▶ [확장 A: LAPB]
+    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
+```
 
 SDLC는 [정보 프레임](/knowledge-base/studynote/03_network/04_data_link_layer_error/220_hdlc_frames_i_s_u/), 감독/제어, 비번호에서 출발해 현재 메커니즘을 정교화하고, 이후 LAPB와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

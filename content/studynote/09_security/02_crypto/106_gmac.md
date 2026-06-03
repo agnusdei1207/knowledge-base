@@ -37,21 +37,27 @@ GMAC의 뼈대는 갈루아 체(Galois Field, $GF(2^{128})$)에서의 수학적 
 | **2. GHASH 누적** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록을 $H$와 갈루아 곱셈($\times$)하고 XOR($+$) 반복 | <strong><a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 처리 가능 (CPU 하드웨어 가속)</strong> |
 | **3. 최종 마감** | 연산 결과에 일회용 난수([Nonce](/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/))를 XOR하여 태그(Tag) 출력 | 재사용 방지 및 태그 암호화 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GMAC의 누적 곱셈(GHASH) 인증 태그 생성 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">인증키 H</div><div class="kb-diagram-node">인증키 H</div><div class="kb-diagram-node">인증키 H</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터1 ─▶( ✖ ) ( ➕ )──▶ ( ✖ ) ( ➕ )──▶ ( ✖ )</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터2 데이터3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(암호화된 일회용 난수 Nonce)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">★</div><div class="kb-diagram-node">최종 인증 태그</div><div class="kb-diagram-note">★</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 이 식은 다항식으로 전개가 가능해 쪼개서 병렬 계산할 수 있음.</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           GMAC의 누적 곱셈(GHASH) 인증 태그 생성 시각화        │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│       [인증키 H]               [인증키 H]              [인증키 H]       │
+│           │                       │                       │         │
+│           ▼                       ▼                       ▼         │
+│ 데이터1 ─▶( ✖ )───( ➕ )──▶ ( ✖ )───( ➕ )──▶ ( ✖ )───┐          │
+│                    ▲                       ▲               │         │
+│                    │                       │               │         │
+│                 데이터2                 데이터3              │         │
+│                                                            ▼         │
+│                                         (암호화된 일회용 난수 Nonce)    │
+│                                                            │         │
+│                                                            ▼         │
+│                                              ★ [ 최종 인증 태그 ] ★      │
+│                                                              │
+│ * 핵심: 이 식은 다항식으로 전개가 가능해 쪼개서 병렬 계산할 수 있음.    │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 방식이 무서운 속도를 내는 이유는 곱셈과 XOR 연산이 CPU가 가장 좋아하는 기본 동작이기 때문이다. 인텔과 AMD 같은 칩 제조사들은 이 갈루아 곱셈을 위한 전용 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)(`PCLMULQDQ`)를 아예 CPU 안에 박아 넣었다. 덕분에 복잡한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 타는 것보다 물리적으로 압도적인 속도를 낸다.
 
@@ -112,21 +118,18 @@ GMAC은 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/14
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">CBC-MAC / CMAC · 강력하지만 직렬 연산으로 인한 성능 병목 발생</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">갈루아 체 연산 (Galois Field) · 다항식 수학 곱셈을 통한 병렬 처리 아이디어</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">GMAC (Galois MAC) · 하드웨어 가속(CPU 명령어)을 받아 초고속 무결성 인증 획득</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">GCM (Galois/Counter Mode) · 암호화(CTR) 결합으로 현대 인터넷 트래픽 장악 (TLS 1.3)</div>
-</div>
-</div>
-
-
+```text
+CBC-MAC / CMAC · 강력하지만 직렬 연산으로 인한 성능 병목 발생
+    │
+    ▼
+갈루아 체 연산 (Galois Field) · 다항식 수학 곱셈을 통한 병렬 처리 아이디어
+    │
+    ▼
+GMAC (Galois MAC) · 하드웨어 가속(CPU 명령어)을 받아 초고속 무결성 인증 획득
+    │
+    ▼
+GCM (Galois/Counter Mode) · 암호화(CTR) 결합으로 현대 인터넷 트래픽 장악 (TLS 1.3)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

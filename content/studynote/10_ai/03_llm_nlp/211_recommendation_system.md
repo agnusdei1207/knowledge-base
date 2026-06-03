@@ -25,17 +25,14 @@ tags = ["studynote-ai"]
 
 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에는 그냥 "제일 많이 팔린 베스트셀러 1위"를 멍청하게 모든 사람에게 보여주었다. 하지만 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)이 도입되면서 판이 뒤집혔다. 내가 어제 새벽 2시에 로맨스 영화를 보다가 10분 만에 껐던 행동, 스크롤을 내리다 강아지 영상에서 3초간 손가락을 멈췄던 미세한 체류 시간(Implicit Feedback)조차 딥러닝 망에 흡수되어 수억 차원의 취향 벡터(Vector)로 조각된다. 지금 이 순간에도 인스타그램 릴스와 틱톡의 추천 AI는 "도파민을 1초라도 더 터뜨려 앱에 체류하게 만들겠다"는 단 하나의 살인적인 목적 함수([Loss Function](/knowledge-base/studynote/12_it_management/02_itsm_itil/087_loss_function/))를 향해 당신의 뇌 구조를 실시간으로 해킹하고 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 추천 시스템은 옷 가게의 '신들린 눈치 100단 점원'이다. 옛날 바보 점원은 손님이 오면 무조건 벽에 걸린 마네킹(베스트셀러) 옷만 사라고 앵무새처럼 외쳤다. 신들린 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 점원은 손님이 매장에 들어와서 청바지 쪽으로 5초 눈길을 주고, 니트를 살짝 만져보고 내려놓은 그 찰나의 순간들을 매의 눈으로 스캔한다. 그리고 손님이 입을 열기도 전에 창고로 뛰어가 "손님, 방금 보신 바지에 이 셔츠 입으면 무조건 지갑을 여실 겁니다"라며 찰떡같은 옷(초개인화 추천)을 딱 1개 안겨주어 영혼까지 털어가는 무서운 지갑 사냥꾼이다.
 
@@ -45,29 +42,28 @@ tags = ["studynote-ai"]
 
 추천 시스템을 쌓아 올린 두 개의 거대한 고전적 철학 기둥이 있다. 바로 <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/346_content_based_filtering/">콘텐츠 기반 필터링</a> (CBF)</strong>과 <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/">협업 필터링</a> (CF)</strong>이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">추천 시스템의 2대 근본 철학과 딥러닝 융합 아키텍처 도해</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 콘텐츠 기반 필터링 (CBF: Content-Based Filtering) - 우직한 덕후</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 철학: "네가 아이언맨(SF, 액션)을 봤어? 그럼 다른 유저가 뭘 보든 상관없고,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">그냥 장르가 똑같은 트랜스포머(SF, 액션)를 추천할게!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 장단점: 혼자서도 추천 가능(콜드스타트 방어). 하지만 맨날 뻔한 것만 추천함.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 협업 필터링 (CF: Collaborative Filtering) - 핑퐁 눈치 게임</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 철학: "너랑 영화 취향이 99% 똑같은 A라는 유저를 내가 뒤져서 찾았어.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">근데 A가 어제 '인터스텔라'를 보고 5점을 줬네? 그럼 너도 백퍼 좋아할걸!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 장단점: 내가 생각지도 못한 소름 돋는 명작을 추천해 줌. 근데 내가 아무 기록이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">없는 '신규 유저'면 짝을 못 찾아서 바보가 됨(콜드스타트 지옥).</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3. 딥러닝 융합 괴수: DeepFM (Deep Factorization Machine)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 철학: "둘 다 섞어버려!" 유저의 취향 엑셀 표(CF)와, 상품의 속성(CBF)을</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">거대한 딥러닝 신경망(DNN)에 왕창 때려 넣음.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 마법: 신경망이 알아서 "아, 비 오는 날(상황) + 20대 여자(유저) + 로맨스(콘텐츠)"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">라는 3차원의 숨겨진 비선형 공식을 혼자 깨우쳐서 극한의 확률(CTR)을 뿜어냄!</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           추천 시스템의 2대 근본 철학과 딥러닝 융합 아키텍처 도해          │
+├──────────────────────────────────────────────────────────────┤
+│  [1. 콘텐츠 기반 필터링 (CBF: Content-Based Filtering) - 우직한 덕후] │
+│   * 철학: "네가 아이언맨(SF, 액션)을 봤어? 그럼 다른 유저가 뭘 보든 상관없고, │
+│            그냥 장르가 똑같은 트랜스포머(SF, 액션)를 추천할게!"           │
+│   * 장단점: 혼자서도 추천 가능(콜드스타트 방어). 하지만 맨날 뻔한 것만 추천함. │
+│                                                              │
+│  [2. 협업 필터링 (CF: Collaborative Filtering) - 핑퐁 눈치 게임]  │
+│   * 철학: "너랑 영화 취향이 99% 똑같은 A라는 유저를 내가 뒤져서 찾았어.   │
+│            근데 A가 어제 '인터스텔라'를 보고 5점을 줬네? 그럼 너도 백퍼 좋아할걸!"│
+│   * 장단점: 내가 생각지도 못한 소름 돋는 명작을 추천해 줌. 근데 내가 아무 기록이│
+│            없는 '신규 유저'면 짝을 못 찾아서 바보가 됨(콜드스타트 지옥).  │
+│                                                              │
+│  [3. 딥러닝 융합 괴수: DeepFM (Deep Factorization Machine)]       │
+│   * 철학: "둘 다 섞어버려!" 유저의 취향 엑셀 표(CF)와, 상품의 속성(CBF)을 │
+│           거대한 딥러닝 신경망(DNN)에 왕창 때려 넣음.                   │
+│   * 마법: 신경망이 알아서 "아, 비 오는 날(상황) + 20대 여자(유저) + 로맨스(콘텐츠)"│
+│           라는 3차원의 숨겨진 비선형 공식을 혼자 깨우쳐서 극한의 확률(CTR)을 뿜어냄!│
+└──────────────────────────────────────────────────────────────┘
+```
 
 <strong>핵심 원리 (<a href="/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/161_matrix_decomposition/">행렬 분해</a>와 <a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/">임베딩</a> 공간)</strong>:
 [협업 필터링](/knowledge-base/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/)(CF)의 핵심 수학은 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/161_matrix_decomposition/">행렬 분해</a>(<a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/348_matrix_factorization/">Matrix Factorization</a>)</strong>다. 유저 100만 명과 영화 100만 개의 별점 엑셀 표는 대부분 텅텅 비어있다(희소 행렬). 넷플릭스는 이 구멍 난 거대한 표를, 유저의 취향을 담은 작고 뚱뚱한 행렬 하나와, 영화의 장르를 담은 작고 뚱뚱한 행렬 하나로 분해(쪼개기)해 버렸다. 이 두 행렬을 곱하면? 유저가 한 번도 안 본 영화의 예상 별점이 꽉 채워져 튀어나온다. 오늘날 이 행렬들은 모두 딥러닝의 <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/">임베딩</a>(<a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/">Embedding</a>) 벡터 좌표</strong>로 바뀌었다. 3차원 우주 공간에 유저(철수) 점과 영화(아이언맨) 점을 찍고, 두 점 사이의 거리가 가까우면 1초 만에 화면 최상단에 추천으로 꽂아버리는 마법의 기하학이다.

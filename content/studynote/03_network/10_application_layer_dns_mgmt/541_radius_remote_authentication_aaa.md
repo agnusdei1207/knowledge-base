@@ -23,24 +23,23 @@ tags = ["studynote-network"]
 - **필요성**: 기업에 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 10대, [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) 라우터가 5대, 무선 AP가 50대 있다고 가정하자. 직원이 입사하거나 퇴사할 때마다 65대의 장비에 접속해 ID/PW를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)/삭제하는 것은 불가능에 가깝다. 장비들은 단순히 출입문 역할만 하고, "이 사람이 들어와도 됩니까?"라는 질문을 중앙의 '보안 경비실(RADIUS)'로 던져서 대답을 받게 하는 표준 언어가 필요했다.
 - **등장 배경**: ① 1990년대 초 [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/) 다이얼업 풀(Dial-up Pool)의 다수 [사용자 인증](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/) 요구 → ② [IETF](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/) RFC 2865, 2866 표준화 → ③ 무선 LAN(802.[1X](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/584_802_1x_pnac_eap_radius/)) 및 광대역 통신망의 폭발적 성장과 함께 범용 네트워크 접근 제어([NAC](/knowledge-base/studynote/03_network/13_network_security_basics/700_nac_network_access_control/)) 솔루션의 중추로 발전.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기존 독립 인증 방식과 RADIUS 중앙 인증 방식의 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">과거: 장비별 개별 인증</div><div class="kb-diagram-note">(관리 지옥)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">AP 1</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">접속 허용</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">VPN</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">접속 거부 (계정 누락!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: RADIUS 기반 중앙 집중 인증</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">AP 1 (NAS)</div><div class="kb-diagram-connector">▶</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">VPN  (NAS)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">RADIUS │</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Switch(NAS)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Server │</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(AD 연동)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 모든 출입구(NAS)는 판단을 보류하고 오직 무전기(RADIUS)만 칠 뿐이다.</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│           기존 독립 인증 방식과 RADIUS 중앙 인증 방식의 비교        │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [과거: 장비별 개별 인증] (관리 지옥)                            │
+│   User A ──▶ [AP 1] (내부 DB 확인) ─▶ 접속 허용               │
+│   User A ──▶ [VPN ] (내부 DB 없음) ─▶ 접속 거부 (계정 누락!)    │
+│                                                             │
+│   [현재: RADIUS 기반 중앙 집중 인증]                            │
+│   User A ──▶ [AP 1 (NAS)] ─(RADIUS 프로토콜)─▶ ┌─────────┐    │
+│   User B ──▶ [VPN  (NAS)] ─(RADIUS 프로토콜)─▶ │ RADIUS  │    │
+│   User C ──▶ [Switch(NAS)] ─(RADIUS 프로토콜)─▶ │ Server  │    │
+│                                               │ (AD 연동)│    │
+│   => 모든 출입구(NAS)는 판단을 보류하고 오직 무전기(RADIUS)만 칠 뿐이다. │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 도식은 왜 RADIUS가 필요한지를 극명하게 보여준다. 사용자가 사내망에 들어오려는 출입구는 무선([AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/)), 유선([Switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)), 원격([VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/)) 등 다양하다. 출입구 장비([NAS](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/492_nas_network_attached_storage/), Network Access Server)들은 똑똑할 필요가 없다. 단지 사용자가 제시한 신분증(ID/PW, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서)을 봉투에 담아 RADIUS 서버로 던지고, 서버가 "Access-Accept(통과)" 또는 "Access-Reject(차단)"라는 도장을 찍어 돌려주면 그에 따라 문을 열거나 닫기만 하면 된다.
 
@@ -64,26 +63,31 @@ tags = ["studynote-network"]
 
 RADIUS는 패킷의 "본문(Payload) 전체"를 암호화하지 않는다. 오직 <strong>패스워드 필드</strong>만 암호화하며, 나머지 ID나 기타 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)은 평문으로 전송된다는 치명적인 특성을 갖는다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RADIUS 인증 흐름 (Access-Request &amp; Accept)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">사용자 단말</div><div class="kb-diagram-node">NAS (VPN/AP)</div><div class="kb-diagram-node">RADIUS 서버</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 접속 요청 (ID/PW) ▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Access-Request</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(ID: 평문, PW: 암호화)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. DB/AD 조회 후 판단</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. Access-Accept</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(+ VLAN 할당 정보 등)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 네트워크 접근 허가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">■ 패스워드 암호화 방식:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 전달 패스워드 = User_PW XOR MD5(Shared_Secret + Request_Auth)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 즉, Shared Secret을 모르는 해커는 패킷을 스니핑해도 암호를 못 풂.</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────┐
+│               RADIUS 인증 흐름 (Access-Request & Accept)          │
+├───────────────────────────────────────────────────────────────┤
+│                                                               │
+│   [사용자 단말]              [NAS (VPN/AP)]         [RADIUS 서버] │
+│        │                          │                       │   │
+│        ├─── 1. 접속 요청 (ID/PW) ───▶│                       │   │
+│        │                          │ 2. Access-Request     │   │
+│        │                          │ (ID: 평문, PW: 암호화)  │   │
+│        │                          ├──────────────────────▶│   │
+│        │                          │                       │   │
+│        │                          │ 3. DB/AD 조회 후 판단   │   │
+│        │                          │                       │   │
+│        │                          │ 4. Access-Accept      │   │
+│        │                          │ (+ VLAN 할당 정보 등)   │   │
+│        │                          │◀──────────────────────┤   │
+│        │   5. 네트워크 접근 허가    │                       │   │
+│        │◀─────────────────────────┤                       │   │
+│                                                               │   │
+│   ■ 패스워드 암호화 방식:                                         │   │
+│   - 전달 패스워드 = User_PW XOR MD5(Shared_Secret + Request_Auth) │   │
+│   - 즉, Shared Secret을 모르는 해커는 패킷을 스니핑해도 암호를 못 풂.    │
+└───────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 클라이언트가 NAS에 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)을 요청하면, NAS는 사용자 ID와 다양한 환경 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)(AVP, Attribute-Value Pairs)을 모아 `Access-Request` 패킷을 만든다. 이때 패스워드는 그대로 보내지 않고, 사전에 정의된 `Shared Secret`과 무작위 16바이트의 `Request Authenticator`를 MD5로 해싱한 값과 사용자의 실제 비밀번호를 XOR 연산하여 숨긴다. RADIUS 서버는 동일한 `Shared Secret`을 알고 있으므로 역방향 XOR를 통해 패스워드를 복원하고 AD([Active Directory](/knowledge-base/studynote/09_security/11_iam_access_control/548_active_directory/)) 등과 대조한다. [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)에 성공하면 `Access-Accept` 패킷을 돌려주는데, 이때 "이 사용자는 [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 10번으로 넣어라"라는 [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)([Authorization](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)) [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 함께 내려보낼 수 있다.
 
@@ -105,25 +109,24 @@ RADIUS는 패킷의 "본문(Payload) 전체"를 암호화하지 않는다. 오�
 
 RADIUS는 빠르고 가벼운 UDP를 쓰므로 10만 명의 대학 캠퍼스 Wi-Fi 접속을 처리하는 데 유리하다. 반면 [TACACS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/542_tacacs_plus_terminal_access_control_cisco/)+는 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 있는 TCP를 쓰며 트래픽 전체를 암호화하고, "홍길동 엔지니어는 라우터에서 `show` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 칠 수 있지만 `reboot`은 칠 수 없다"는 식의 디테일한 장비 통제가 가능하여 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 관리자 계정 통제에 특화되어 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RADIUS와 TACACS+의 인증/인가 아키텍처 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">RADIUS</div><div class="kb-diagram-note">"인증과 인가는 한 몸이다"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(요청) 신분증 확인 좀 ──▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀── (응답) "너는 홍길동 맞고(인증), 들어오면 VIP 라운지로 가(인가)"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 패킷 한 번에 결론이 나므로 속도가 빠름.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">TACACS+</div><div class="kb-diagram-note">"인증, 인가, 과금을 완벽히 분리한다"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(요청) 신분증 확인 좀 ──▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀── (응답) "홍길동 맞네. (인증 완료)"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(추가 요청) 그럼 나 라우터 재부팅해도 돼? ──▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀── (응답) "아니, 넌 조회만 가능해. (인가 거부)"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 세분화된 명령어별 권한 통제에 최적화됨.</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────┐
+│               RADIUS와 TACACS+의 인증/인가 아키텍처 비교            │
+├───────────────────────────────────────────────────────────────┤
+│                                                               │
+│   [RADIUS] "인증과 인가는 한 몸이다"                              │
+│   (요청) 신분증 확인 좀 ──▶                                        │
+│   ◀── (응답) "너는 홍길동 맞고(인증), 들어오면 VIP 라운지로 가(인가)" │
+│   => 패킷 한 번에 결론이 나므로 속도가 빠름.                            │
+│                                                               │
+│   [TACACS+] "인증, 인가, 과금을 완벽히 분리한다"                      │
+│   (요청) 신분증 확인 좀 ──▶                                        │
+│   ◀── (응답) "홍길동 맞네. (인증 완료)"                              │
+│   (추가 요청) 그럼 나 라우터 재부팅해도 돼? ──▶                       │
+│   ◀── (응답) "아니, 넌 조회만 가능해. (인가 거부)"                     │
+│   => 세분화된 명령어별 권한 통제에 최적화됨.                           │
+└───────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** RADIUS는 사용자가 '네트워크 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)'를 뚫고 들어오는 순간에 필요한 '[인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)(예: [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 번호, IP 대역)'를 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)과 묶어서 한 번에 전달한다. 일반 직원들이 Wi-Fi에 붙을 때 "IP만 받으면 끝"이므로 이 방식이 매우 효율적이다. 반대로 [TACACS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/542_tacacs_plus_terminal_access_control_cisco/)+는 장비 관리자가 콘솔에 붙은 뒤 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 한 줄 칠 때마다 서버에 "이 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 쳐도 돼?"라고 물어볼 수 있도록 아키텍처가 3조각으로 분리되어 있어 철저한 관리자 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/)) 트레일에 적합하다.
 
@@ -184,19 +187,15 @@ RADIUS는 전화선 [모뎀](/knowledge-base/studynote/03_network/03_physical_la
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: RMON</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: RADIUS</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: TACACS+</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율 운영 네트워크</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: RMON]
+    │
+    ▼
+[현재 개념: RADIUS]
+    │
+    ├──▶ [확장 A: TACACS+]
+    └──▶ [확장 B: 자율 운영 네트워크]
+```
 
 RADIUS는 RMON에서 출발해 현재 메커니즘을 정교화하고, 이후 [TACACS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/542_tacacs_plus_terminal_access_control_cisco/)+와 자율 운영 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -25,29 +25,36 @@ tags = ["studynote-operating-system"]
 - <strong>디바이스 드라이버 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a> <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a> 파이프라인 매핑 트리</strong>:
 어플리케이션이 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)된 함수를 호출하면 어떻게 기계어 통역 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 그걸 받아 칩셋에 꽂는지를 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램으로 체계화 시각 묘사하면 아래 층위 파괴 구조와 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장치 드라이버 (Device Driver) 3단 통역 추상화 통제 계층</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">유저 공간 (User Space 제한영역) - 우리 앱 프로그래머의 평화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">워드프로세서 앱, 크롬 브라우저 앱</div><div class="kb-diagram-cell">"난 그냥 C언어로 write(), read()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">할래 기계 따위 알 바 아니야."</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(System Call 문열기 요청 던짐)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">커널 공간 (Kernel Space 초특권 통제 구역)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가상 파일 시스템 (VFS 뼈대)</div><div class="kb-diagram-cell">"Write가 왔군. 이 블록 장치는 삼성이니까</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(공통 I/O 인터페이스 스케줄러)</div><div class="kb-diagram-cell">삼성이 준 삼성 통역사를 호출하자."</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(추상화 스위치 분리 콜)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">삼성 NVMe 특화 장치 드라이버 모듈 (samsung_nvme.ko)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"어? Write명령이야? 삼성 칩은 PCIe 레지스터 0x1F 번지에 1을 찍고</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인터럽트 15번을 걸면서 0011 전기 펄스 쏘면 모터가 돌아가는 규격이지!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (통역 완료, 생 전기 기계 신호 레지스터 포팅 돌출)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">물리 하드웨어 (Hardware 칩셋 쇳덩어리)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">삼성 칩셋 기판</div><div class="kb-diagram-node">씨게이트 칩셋 기판 플래터 암</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────────────────────────┐
+  │                 장치 드라이버 (Device Driver) 3단 통역 추상화 통제 계층               │
+  ├───────────────────────────────────────────────────────────────────────────────────────┤
+  │                                                                                       │
+  │   [ 유저 공간 (User Space 제한영역) - 우리 앱 프로그래머의 평화 ]                     │
+  │      ┌───────────────────────────┐                                                    │
+  │      │ 워드프로세서 앱, 크롬 브라우저 앱 │ ─── "난 그냥 C언어로 write(), read()       │
+  │      └──────────────┬────────────┘      할래 기계 따위 알 바 아니야."                 │
+  │         (System Call 문열기 요청 던짐)                                                │
+  │   == == == == == == ▼ == == == == == == == == == == == == == == ==                    │
+  │   [ 커널 공간 (Kernel Space 초특권 통제 구역) ]                                       │
+  │                                                                                       │
+  │      ┌───────────────────────────┐                                                    │
+  │      │ 가상 파일 시스템 (VFS 뼈대)   │ ─── "Write가 왔군. 이 블록 장치는 삼성이니까   │
+  │      │ (공통 I/O 인터페이스 스케줄러) │      삼성이 준 삼성 통역사를 호출하자."       │
+  │      └──────────────┬────────────┘                                                    │
+  │               (추상화 스위치 분리 콜)                                                 │
+  │                      ▼                                                                │
+  │      ┌───────────────────────────────────────────────────────┐                        │
+  │      │ 삼성 NVMe 특화 장치 드라이버 모듈 (samsung_nvme.ko)           │                │
+  │      │  "어? Write명령이야? 삼성 칩은 PCIe 레지스터 0x1F 번지에 1을 찍고│             │
+  │      │   인터럽트 15번을 걸면서 0011 전기 펄스 쏘면 모터가 돌아가는 규격이지!" │      │
+  │      └────────────────────────────┬──────────────────────────┘                        │
+  │                                   ▼ (통역 완료, 생 전기 기계 신호 레지스터 포팅 돌출) │
+  │   == == == == == == == == == == ==▼ == == == == == == == == == ==                     │
+  │   [ 물리 하드웨어 (Hardware 칩셋 쇳덩어리) ]                                          │
+  │          [ 삼성 칩셋 기판 ]      [ 씨게이트 칩셋 기판 플래터 암 ]                     │
+  └───────────────────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** [VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/)([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 중앙 I/O 대뇌)와 물리적인 쇳덩어리 기판 사이에 낀 핵심 윤활유 샌드위치가 바로 파란만장한 장치 드라이버다. 이 녀석의 코드는 보통 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코어 개발진이 짜지 않는다(그 수만 개를 어떻게 다 짬). 삼성이나 씨게이트 같은 <strong>하드웨어 기계를 판 장사꾼 부서 개발자들이 짠 C/C++ 소스 묶음을 OS 벤더와 타협 협상을 해서 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 안에 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a>(<code>.sys</code> 나 리눅스의 <code>lsmod</code> 뜨는 묶음 파츠)로 끼워 박아 병합 합체 융합</strong>하는 특성을 띤다. 그래서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 가장 밀착되어(Ring 0 권한 장악), 메모리 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 접근(Memory-mapped I/O)이나 CPU [하드웨어 인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/)(IRQ) 핀 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 다이렉트로 주무르는 무소불위의 칼자루 권한을 얻는다. 
 
@@ -134,19 +141,15 @@ OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architectu
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">오브젝트 스토리지 (Object Storage)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">장치 드라이버 (Device Driver) 커널 인터페이스 구현</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">인터럽트 공유 (Interrupt Sharing) 및 MSI/MSI-X (Message Signaled Interrupts)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SR-IOV (Single Root I/O Virtualization)</div></div>
-</div>
-</div>
-
-
+```text
+[오브젝트 스토리지 (Object Storage)]
+    │
+    ▼
+[장치 드라이버 (Device Driver) 커널 인터페이스 구현]
+    │
+    ├──▶ [인터럽트 공유 (Interrupt Sharing) 및 MSI/MSI-X (Message Signaled Interrupts)]
+    └──▶ [SR-IOV (Single Root I/O Virtualization)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

@@ -27,18 +27,14 @@ tags = ["studynote-network"]
   - **CWND**: 내가 톨게이트에 서서 눈치껏 본 고속도로 상황. "오케이, 리조트는 100대 허락했지만, 지금 고속도로가 꽉 막혀서 한 번에 5대(CWND)밖에 못 들어가겠어. 일단 5대만 톨게이트 열어줘!"
   - 차가 무사히 도착해서 리조트 주인이 전화(ACK)를 주면, "오 길 좀 뚫리나 본데? 이번엔 10대(CWND 증가) 들여보내자!"라고 내가 스스로 진입 대수를 조절합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">TCP 혼잡 제어</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">혼잡 윈도우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">슬로우 스타트</div></div>
-</div>
-</div>
-
-
+```text
+[TCP 혼잡 제어]
+    │
+    ▼
+[혼잡 윈도우]
+    │
+    └──▶ [슬로우 스타트]
+```
 
 - **📢 섹션 요약 비유**: ** CWND는 시각 장애인이 짚고 걷는 **"[안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 지팡이의 길이"**입니다. 처음엔 짧게(1 MSS) 쥐고 걷다가, 앞이 뻥 뚫려있다는 감(ACK)이 오면 지팡이를 쭉 길게 뽑아(CWND 팽창) 보폭을 크게 넓혀 쾌속 질주를 시작합니다.
 
@@ -58,7 +54,7 @@ tags = ["studynote-network"]
 
 **[ 시나리오 B: 슈퍼컴 수신자 vs 막혀터진 인터넷망 ]**
 - 수신자 램 여유 (RWND) = 1 GB (우주 끝까지 받을 수 있음!)
-- 인터넷망 상태 (CWND) = 14 KB (명절 귀성길 수준 꽉 막힘!)
+- 인터넷망 상태 (CWND) = 14 KB (명절 귀성길 수준 꽉 병목!)
 - 내 PC의 결정: MIN(1GB, 14KB) = **14 KB만 찔끔 발사!**
 - (수신자는 넉넉하지만 인터넷 톨게이트가 박살 날까 봐 억제함).
 
@@ -71,28 +67,27 @@ tags = ["studynote-network"]
 - 4개 던짐. 영수증 4개 도착! "길 완벽히 뚫림!!" ──▶ `CWND = 8`
 - 이런 식으로 ACK가 무사히 돌아올 때마다 내 CWND 창문은 풍선처럼 미친 듯이 팽창한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CWND 팽창과 수축의 드라마틱한 인생 그래프</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CWND 크기 (패킷 개수)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">16</div><div class="kb-diagram-cell">/</div><div class="kb-diagram-cell">/</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">14</div><div class="kb-diagram-cell">/</div><div class="kb-diagram-cell">/</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">12</div><div class="kb-diagram-cell">/</div><div class="kb-diagram-cell">/</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">10</div><div class="kb-diagram-cell">/</div><div class="kb-diagram-cell">/</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">8</div><div class="kb-diagram-cell">/</div><div class="kb-diagram-cell">/</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4</div><div class="kb-diagram-cell">/</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2</div><div class="kb-diagram-cell">/</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1 *──(성장기)──* (절망) * ──(다시 성장)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 성장기: ACK가 제깍제깍 돌아와서 기분 좋게 CWND 창문을 마구 늘림.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 절망(Drop): 갑자기 영수증이 안 옴! "앗! 톨게이트 막혀서 다 터졌나 봐!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ CWND 창문을 즉시 1로 박살 냄(수축).</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ "이 CWND 크기를 늘리고 깎는 타이밍 기술이 곧 TCP의 혼잡 알고리즘이다!"</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                CWND 팽창과 수축의 드라마틱한 인생 그래프            │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   CWND 크기 (패킷 개수)                                        │
+ │   16 |           /|         /|                              │
+ │   14 |         /  |       /  |                              │
+ │   12 |       /    |     /    |                              │
+ │   10 |     /      |   /      |                              │
+ │    8 |   /        | /        |                              │
+ │    4 | /          |          |                              │
+ │    2 |/           |          |                              │
+ │    1 *──(성장기)──* (절망)    * ──(다시 성장)                 │
+ │                                                             │
+ │   * 성장기: ACK가 제깍제깍 돌아와서 기분 좋게 CWND 창문을 마구 늘림.     │
+ │   * 절망(Drop): 갑자기 영수증이 안 옴! "앗! 톨게이트 막혀서 다 터졌나 봐!"│
+ │               ──▶ CWND 창문을 즉시 1로 박살 냄(수축).              │
+ │   ▶ "이 CWND 크기를 늘리고 깎는 타이밍 기술이 곧 TCP의 혼잡 알고리즘이다!"│
+ └─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 혼잡 윈도우의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -146,19 +141,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: TCP 혼잡 제어</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 혼잡 윈도우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 슬로우 스타트</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: TCP 혼잡 제어]
+    │
+    ▼
+[현재 개념: 혼잡 윈도우]
+    │
+    ├──▶ [확장 A: 슬로우 스타트]
+    └──▶ [확장 B: 적응형 저지연 전송]
+```
 
 혼잡 윈도우는 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 혼잡 제어에서 출발해 현재 메커니즘을 정교화하고, 이후 [슬로우 스타트](/knowledge-base/studynote/03_network/08_transport_layer/430_slow_start_exponential_growth_cwnd/)와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

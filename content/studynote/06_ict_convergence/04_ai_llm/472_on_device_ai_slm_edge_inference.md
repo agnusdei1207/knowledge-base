@@ -42,23 +42,24 @@ GPT-4 같은 대형 모델은 수백억 파라미터로 [데이터센터](/knowl
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">온디바이스 AI 스택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">경량화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원본</div><div class="kb-diagram-cell">►</div><div class="kb-diagram-cell">경량 모델</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LLM</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(70B)</div><div class="kb-diagram-cell">양자화</div><div class="kb-diagram-cell">INT4 Weight</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프루닝</div><div class="kb-diagram-cell">4GB VRAM</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">증류</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NPU 가속</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Hexagon/ANE)</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────┐
+│              온디바이스 AI 스택               │
+│                                              │
+│  ┌─────────┐  경량화  ┌──────────────────┐  │
+│  │  원본    │ ───────► │  경량 모델        │  │
+│  │  LLM    │          │ ┌──────────────┐ │  │
+│  │  (70B)  │ 양자화   │ │ INT4 Weight  │ │  │
+│  └─────────┘ 프루닝   │ │ 4GB VRAM     │ │  │
+│              증류     │ └──────────────┘ │  │
+│                       └──────────────────┘  │
+│                              │               │
+│                       ┌──────▼──────┐        │
+│                       │  NPU 가속   │        │
+│                       │(Hexagon/ANE)│        │
+│                       └─────────────┘        │
+└──────────────────────────────────────────────┘
+```
 
 **모델 경량화 3대 기법**
 
@@ -92,7 +93,7 @@ GPT-4 같은 대형 모델은 수백억 파라미터로 [데이터센터](/knowl
 
 | 플랫폼 | [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/)/[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 가속기 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)(TOPS) |
 |:---:|:---:|:---:|
-| Apple M4 | Neural Engine(ANE) | 38 TOPS |
+| Apple M4 | Neural 엔진(ANE) | 38 TOPS |
 | Snapdragon 8 Gen 3 | Hexagon [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/) | 45 TOPS |
 | MediaTek Dimensity 9300 | APU 790 | 35 TOPS |
 

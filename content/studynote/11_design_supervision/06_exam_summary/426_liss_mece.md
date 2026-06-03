@@ -22,16 +22,13 @@ tags = ["studynote-design-supervision"]
 
 시험에서는 이 셋을 별개 용어로 암기하기보다 "문제 구조화 절차"로 묶어 쓰는 것이 좋다. 즉 문제 정의 → 분해 기준 선택 → 트리 전개 → 중복·누락 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) → 실행 대안 도출의 흐름으로 정리하면 답안이 자연스럽다. 감리 보고서나 기술사 서술형에서 특히 강한 이유는, 단순 주장보다 <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>적 근거와 범위 통제</strong>를 함께 보여 줄 수 있기 때문이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Symptom ──▶ Framing ──▶ Issue Tree ──▶ Hypothesis ──▶ Action</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">현상 질문 정의 구조화 분해 원인 가설 실행안</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ Symptom ──▶ Framing ──▶ Issue Tree ──▶ Hypothesis ──▶ Action │
+├──────────────────────────────────────────────────────────────┤
+│ 현상         질문 정의      구조화 분해      원인 가설      실행안  │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 그림은 복잡한 현상이 곧바로 대안으로 가는 것이 아니라, 먼저 질문을 정하고 문제 공간을 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로 자른 뒤에야 실행안이 나와야 함을 보여 준다.
 
@@ -49,20 +46,17 @@ tags = ["studynote-design-supervision"]
 | [MECE](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/215_mece_mutually_exclusive_collectively_exhaustive_issue_tree/) | 상호배타·전체포괄 여부 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 같은 계층의 분해 기준이 일관돼야 한다 |
 | 로직트리 | 문제를 Why/How 축으로 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) | 가설 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)과 우선순위 연결이 쉬워진다 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem: 성능 저하</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Client 구간</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Root Cause ─ Network 구간 ← 같은 수준의 분해 기준 유지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Server 구간</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Database 구간</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 세부 원인 재분해 (병목, 락, I/O, SQL)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ Problem: 성능 저하                                             │
+├──────────────────────────────────────────────────────────────┤
+│            ├─ Client 구간                                      │
+│ Root Cause ├─ Network 구간   ← 같은 수준의 분해 기준 유지       │
+│            ├─ Server 구간                                      │
+│            └─ Database 구간                                    │
+│                 └─ 세부 원인 재분해 (병목, 락, I/O, SQL)         │
+└──────────────────────────────────────────────────────────────┘
+```
 
 여기서 중요한 것은 트리 모양이 아니라 <strong>분해 차원의 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a></strong>이다. 예를 들어 1차 분해에서 "매출 감소, DB 느림, 경쟁 심화"처럼 서로 다른 차원을 섞으면 트리는 그려져도 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 구조는 깨진다. 따라서 먼저 차원을 고정하고, 그 다음에 가설과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 연결해야 한다.
 
@@ -130,23 +124,21 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">복잡한 현상 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">분해 기준 선택</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">LISS · MECE 검증</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">로직트리 전개</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">가설 검증 · 실행 대안 도출</div>
-</div>
-</div>
-
-
+```text
+복잡한 현상 인식
+    │
+    ▼
+분해 기준 선택
+    │
+    ▼
+LISS · MECE 검증
+    │
+    ▼
+로직트리 전개
+    │
+    ▼
+가설 검증 · 실행 대안 도출
+```
 
 이 흐름은 "생각의 정리"가 아니라 "실행 가능한 분석"으로 가는 전형적인 문제 해결 순서를 압축한다.
 

@@ -18,18 +18,12 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">RAG 파이프라인:</div>
-<div class="kb-diagram-note">1. 문서 → 청킹 → 임베딩 → 벡터 DB 저장 (오프라인)</div>
-<div class="kb-diagram-note">2. 사용자 질문 → 임베딩 → 벡터 DB 유사도 검색 (온라인)</div>
-<div class="kb-diagram-note">3. Top-K 문서 + 질문 → LLM 프롬프트 → 답변 생성</div>
-</div>
-</div>
-
-
+```text
+RAG 파이프라인:
+  1. 문서 → 청킹 → 임베딩 → 벡터 DB 저장 (오프라인)
+  2. 사용자 질문 → 임베딩 → 벡터 DB 유사도 검색 (온라인)
+  3. Top-K 문서 + 질문 → LLM 프롬프트 → 답변 생성
+```
 
 - **📢 섹션 요약 비유**: RAG는 <strong>오픈북 시험</strong>이다. 시험(질문) 중 교과서(문서)를 참고하여 더 정확한 답을 쓴다.
 
@@ -53,18 +47,12 @@ RAG는 <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/2
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">LLM 환각 문제</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">RAG (Lewis et al., 2020)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">LangChain/LlamaIndex (2023)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Advanced RAG (리랭킹·HyDE, 2023)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: Agentic RAG — 자율 검색·도구 호출</div></div>
-</div>
-</div>
-
-
+```text
+[LLM 환각 문제] → [RAG (Lewis et al., 2020)]
+    → [LangChain/LlamaIndex (2023)]
+    → [Advanced RAG (리랭킹·HyDE, 2023)]
+    → [현재: Agentic RAG — 자율 검색·도구 호출]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. RAG는 <strong>오픈북 시험</strong>이에요. 교과서(문서)를 보면서 답을 써요.
@@ -77,7 +65,7 @@ RAG는 <strong><a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/2
 
 **진행 상황**: 144 / 420
 
-← **이전**: [143. 프롬프트 엔지니어링 (Prompt Engineering) - LLM 활용의 핵심](/knowledge-base/studynote/10_ai/02_dl_architecture_new/143_prompt_engineering/)
+← **이전**: [143. 프롬프트 엔지니어링 (Prompt 엔진ering) - LLM 활용의 핵심](/knowledge-base/studynote/10_ai/02_dl_architecture_new/143_prompt_engineering/)
 **다음**: [145. RLHF (Reinforcement Learning from Human Feedback) - 인간 정렬](/knowledge-base/studynote/10_ai/02_dl_architecture_new/145_concept/) →
 
 ---

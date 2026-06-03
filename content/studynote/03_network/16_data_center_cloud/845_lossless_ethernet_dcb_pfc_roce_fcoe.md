@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 기존 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 구멍([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))에 트래픽이 미어터져서 버퍼(대기줄 창고)가 꽉 차면, 새로 들어오는 패킷을 가차 없이 버립니다(Tail Drop).
 - <strong>스토리지(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/">SAN</a>)와 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 클러스터(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/523_roce/">RoCE</a>)의 분노</strong>: 앞서 809번([FCoE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/697_fcoe/))과 813번([RoCE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/523_roce/))에서 배웠듯, 거대한 하드디스크 연결이나 초저지연 [RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) 메모리 복사 기술은 패킷이 하나라도 드랍되면 엄청난 재전송 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))에 걸려 시스템 전체가 기절해 버립니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">가상머신 하이퍼바이저 가상 스위치 구조 병목…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">무손실 이더넷</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DPDK 커널 우회 사용자 공간 고속 패킷…</div></div>
-</div>
-</div>
-
-
+```text
+[가상머신 하이퍼바이저 가상 스위치 구조 병목…]
+    │
+    ▼
+[무손실 이더넷]
+    │
+    └──▶ [DPDK 커널 우회 사용자 공간 고속 패킷…]
+```
 
 - **📢 섹션 요약 비유**: 무손실 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -60,18 +56,14 @@ tags = ["studynote-network"]
 4. <strong>DCBX (<a href="/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/">Data Center</a> Bridging Exchange)</strong>
    - 수백 대의 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들이 저 세 가지 복잡한 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)(PFC, ETS 룰)을 일일이 수동으로 세팅하면 사람이 죽습니다. [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들끼리 "우리 이렇게 무결손 세팅 맞추자!"라고 1초 만에 지들끼리 알아서 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 자동 교환하고 동기화하는 프로토콜입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">가상머신 하이퍼바이저 가상 스위치 구조 병목…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">무손실 이더넷</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DPDK 커널 우회 사용자 공간 고속 패킷…</div></div>
-</div>
-</div>
-
-
+```text
+[가상머신 하이퍼바이저 가상 스위치 구조 병목…]
+    │
+    ▼
+[무손실 이더넷]
+    │
+    └──▶ [DPDK 커널 우회 사용자 공간 고속 패킷…]
+```
 
 - **📢 섹션 요약 비유**: 무손실 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -131,19 +123,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 가상머신 하이퍼바이저 가상 스위치 구조 병목…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 무손실 이더넷</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: DPDK 커널 우회 사용자 공간 고속 패킷…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 가상머신 하이퍼바이저 가상 스위치 구조 병목…]
+    │
+    ▼
+[현재 개념: 무손실 이더넷]
+    │
+    ├──▶ [확장 A: DPDK 커널 우회 사용자 공간 고속 패킷…]
+    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
+```
 
 무손실 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)는 가상머신 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) [가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/) 구조 병목…에서 출발해 현재 메커니즘을 정교화하고, 이후 [DPDK](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/671_dpdk/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 우회 사용자 공간 고속 패킷…와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

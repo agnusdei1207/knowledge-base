@@ -21,29 +21,35 @@ tags = ["hadoop", "studynote-bigdata"]
 
 아파치 피그는 사용자의 스크립트를 분석하여 최적화된 [맵리듀스](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) 잡(Job)으로 변환하는 컴파일러 역할을 수행한다.
 
+```text
+[ Apache Pig Execution Architecture ]
 
+  +-----------------------+
+  |  Pig Latin Script     |  (User Input: LOAD, FILTER, GROUP...)
+  +-----------+-----------+
+              |
+  +-----------v-----------+
+  |  Pig Engine (Parser)  |  (Syntax Check & Logical Plan)
+  +-----------+-----------+
+              |
+  +-----------v-----------+
+  |  Optimizer (Planner)  |  (Optimization: Pushdown, Join Opt)
+  +-----------+-----------+
+              |
+  +-----------v-----------+
+  |  Execution Engine     |  (Compile to MapReduce / Tez / Spark)
+  +-----------+-----------+
+              |
+  +-----------v-----------+
+  |   Hadoop Cluster      |  (HDFS Data Processing)
+  +-----------------------+
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Pig Execution Architecture</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pig Latin Script</div><div class="kb-diagram-cell">(User Input: LOAD, FILTER, GROUP...)</div></div>
-<div class="kb-diagram-note">+-----------v-----------+</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pig Engine (Parser)</div><div class="kb-diagram-cell">(Syntax Check &amp; Logical Plan)</div></div>
-<div class="kb-diagram-note">+-----------v-----------+</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Optimizer (Planner)</div><div class="kb-diagram-cell">(Optimization: Pushdown, Join Opt)</div></div>
-<div class="kb-diagram-note">+-----------v-----------+</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Execution Engine</div><div class="kb-diagram-cell">(Compile to MapReduce / Tez / Spark)</div></div>
-<div class="kb-diagram-note">+-----------v-----------+</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hadoop Cluster</div><div class="kb-diagram-cell">(HDFS Data Processing)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Bilingual Comparison</div></div>
-<div class="kb-diagram-tree-item" style="--depth:0">Pig Latin: 피그 전용 데이터 흐름 언어.</div>
-<div class="kb-diagram-tree-item" style="--depth:0">Grunt Shell: 피그 스크립트를 대화식으로 실행하는 셸 환경.</div>
-<div class="kb-diagram-tree-item" style="--depth:0">Multi-Query Optimization: 여러 단계의 쿼리를 통합하여 중복 스캔 최소화.</div>
-<div class="kb-diagram-tree-item" style="--depth:0">UDF (User Defined Function): 표준 연산 외에 자바 등으로 직접 짠 사용자 정의 함수.</div>
-</div>
-</div>
-
-
+[ Bilingual Comparison ]
+- Pig Latin: 피그 전용 데이터 흐름 언어.
+- Grunt Shell: 피그 스크립트를 대화식으로 실행하는 셸 환경.
+- Multi-Query Optimization: 여러 단계의 쿼리를 통합하여 중복 스캔 최소화.
+- UDF (User Defined Function): 표준 연산 외에 자바 등으로 직접 짠 사용자 정의 함수.
+```
 
 사용자가 `LOAD 'data' -> FILTER -> GROUP -> STORE`와 같은 흐름을 정의하면, 피그 엔진은 이를 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 계획(Logical Plan)으로 세우고, 실제 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)에서 돌아가는 물리적 계획(Physical Plan)으로 변환하여 실행한다.
 
@@ -74,23 +80,21 @@ tags = ["hadoop", "studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Raw MapReduce (Java) — 낮은 수준 API, 반복적 보일러플레이트 코드</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Pig (Pig Latin) — 데이터 흐름 스크립팅 언어, MapReduce 자동 변환</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Hive (HiveQL) — SQL 기반 배치 질의, 메타스토어 스키마 관리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Spark (DataFrame / SQL) — 인메모리 처리로 Pig/Hive 대비 10~100배 가속</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Flink / Beam — 스트림·배치 통합 파이프라인, Pig 역할의 현대적 계승</div></div>
-</div>
-</div>
-
-
+```text
+[Raw MapReduce (Java) — 낮은 수준 API, 반복적 보일러플레이트 코드]
+    │
+    ▼
+[Apache Pig (Pig Latin) — 데이터 흐름 스크립팅 언어, MapReduce 자동 변환]
+    │
+    ▼
+[Apache Hive (HiveQL) — SQL 기반 배치 질의, 메타스토어 스키마 관리]
+    │
+    ▼
+[Apache Spark (DataFrame / SQL) — 인메모리 처리로 Pig/Hive 대비 10~100배 가속]
+    │
+    ▼
+[Apache Flink / Beam — 스트림·배치 통합 파이프라인, Pig 역할의 현대적 계승]
+```
 이 흐름은 저수준 [MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) 코드를 단순화하기 위해 등장한 Pig Latin이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변환 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 표준이 되고, 이후 인메모리 처리와 스트림 통합 요건에 의해 Spark·Flink로 계승되는 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 생태계 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)의 발전을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

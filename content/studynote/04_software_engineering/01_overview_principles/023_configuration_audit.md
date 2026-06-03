@@ -24,20 +24,19 @@ tags = ["studynote-software-engineering"]
 
 [CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/) ([Configuration Control](/knowledge-base/studynote/04_software_engineering/01_overview_principles/022_configuration_control/) Board, [형상 통제 위원회](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/))가 변경을 승인하더라도, 개발자가 실수로 다른 모듈을 건드리거나 과거 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 잘못 병합하는 사고는 빈번하다. 시스템 규모가 방대해질수록 설계서에 적힌 내용과 실제 서버에서 동작하는 바이너리 간의 괴리, 즉 형상 드리프트([Configuration Drift](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/193_configuration_drift/))가 누적된다.
 
+```text
+[형상 드리프트 발생 구조]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">형상 드리프트 발생 구조</div></div>
-<div class="kb-diagram-note">요구사항(SRS) 설계서(SDD) 실제 코드</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기능 A</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">모듈 A</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">모듈 A'</div><div class="kb-diagram-cell">← 미승인 변경 포함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기능 B</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">모듈 B</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">모듈 B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기능 C</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">모듈 C</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">없음</div><div class="kb-diagram-cell">← 구현 누락</div></div>
-<div class="kb-diagram-note">형상 감사: 세 계층의 일치 여부 검증</div>
-</div>
-</div>
-
-
+  요구사항(SRS)        설계서(SDD)         실제 코드
+  ┌──────────┐        ┌──────────┐        ┌──────────┐
+  │ 기능 A   │──────▶ │ 모듈 A   │──────▶ │ 모듈 A'  │  ← 미승인 변경 포함
+  │ 기능 B   │──────▶ │ 모듈 B   │──────▶ │ 모듈 B   │
+  │ 기능 C   │──────▶ │ 모듈 C   │──────▶ │   없음   │  ← 구현 누락
+  └──────────┘        └──────────┘        └──────────┘
+        │                   │                   │
+        └───────────────────┴───────────────────┘
+                      형상 감사: 세 계층의 일치 여부 검증
+```
 
 이 괴리가 방치되면 추후 치명적 시스템 장애, 보안 취약점, 컴플라이언스 위반으로 이어진다. 금융·의료·항공 소프트웨어 환경에서는 형상 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)를 통과하지 못한 시스템의 배포가 법적으로 금지된다.
 
@@ -51,24 +50,24 @@ tags = ["studynote-software-engineering"]
 
 ### FCA와 PCA의 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 계층
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">형상 감사 전체 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FCA (기능적 형상 감사)</div><div class="kb-diagram-cell">PCA (물리적 형상 감사)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">질문: 기능이 요구대로</div><div class="kb-diagram-cell">질문: 산출물이 명세서와</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동작하는가?</div><div class="kb-diagram-cell">일치하는가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">검증 대상:</div><div class="kb-diagram-cell">검증 대상:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· 테스트 결과서</div><div class="kb-diagram-cell">· 소스코드 ↔ 설계서(SDD)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· RTM(추적 매트릭스)</div><div class="kb-diagram-cell">· 버전 번호 일치 여부</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· 요구사항 커버리지</div><div class="kb-diagram-cell">· 사용자 매뉴얼 최신화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· 결함 해결 이력</div><div class="kb-diagram-cell">· SBOM(소프트웨어 자재 명세서)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수행 주체: QA + CM 팀</div><div class="kb-diagram-cell">수행 주체: CM + 감리원</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────┐
+  │                    형상 감사 전체 구조                    │
+  ├─────────────────────────┬───────────────────────────────┤
+  │  FCA (기능적 형상 감사)  │   PCA (물리적 형상 감사)       │
+  ├─────────────────────────┼───────────────────────────────┤
+  │ 질문: 기능이 요구대로     │ 질문: 산출물이 명세서와         │
+  │       동작하는가?         │       일치하는가?               │
+  ├─────────────────────────┼───────────────────────────────┤
+  │ 검증 대상:               │ 검증 대상:                     │
+  │  · 테스트 결과서         │  · 소스코드 ↔ 설계서(SDD)      │
+  │  · RTM(추적 매트릭스)    │  · 버전 번호 일치 여부          │
+  │  · 요구사항 커버리지     │  · 사용자 매뉴얼 최신화         │
+  │  · 결함 해결 이력        │  · SBOM(소프트웨어 자재 명세서)  │
+  ├─────────────────────────┼───────────────────────────────┤
+  │ 수행 주체: QA + CM 팀    │ 수행 주체: CM + 감리원          │
+  └─────────────────────────┴───────────────────────────────┘
+```
 
 ### [RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/) ([Requirements Traceability Matrix](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/), [요구사항 추적 매트릭스](/knowledge-base/studynote/04_software_engineering/03_design_architecture/157_requirements_traceability_matrix_rtm/))
 
@@ -99,20 +98,17 @@ FCA의 핵심 도구인 RTM은 요구사항 ID에서 설계 문서, 소스코드
 
 ### 형상 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) vs 소프트웨어 테스팅 vs 감리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비교 항목</div><div class="kb-diagram-cell">소프트웨어 테스팅</div><div class="kb-diagram-cell">형상 감사(FCA/PCA)</div><div class="kb-diagram-cell">감리(Inspection)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주요 목적</div><div class="kb-diagram-cell">결함(Bug) 발견</div><div class="kb-diagram-cell">무결성·완전성 증명</div><div class="kb-diagram-cell">공정 품질 확인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수행 시점</div><div class="kb-diagram-cell">구현 중 반복 수행</div><div class="kb-diagram-cell">릴리즈 직전</div><div class="kb-diagram-cell">각 단계 완료 시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대상 산출물</div><div class="kb-diagram-cell">실행 중인 코드</div><div class="kb-diagram-cell">문서·코드·버전</div><div class="kb-diagram-cell">산출물 전체</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과 형태</div><div class="kb-diagram-cell">버그 리포트</div><div class="kb-diagram-cell">감사 보고서(공식)</div><div class="kb-diagram-cell">검토 의견서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">법적 효력</div><div class="kb-diagram-cell">없음</div><div class="kb-diagram-cell">있음(계약·인증)</div><div class="kb-diagram-cell">있음</div></div>
-</div>
-</div>
-
-
+```text
+  ┌──────────────┬─────────────────┬─────────────────┬─────────────────┐
+  │   비교 항목   │  소프트웨어 테스팅 │  형상 감사(FCA/PCA)│  감리(Inspection) │
+  ├──────────────┼─────────────────┼─────────────────┼─────────────────┤
+  │  주요 목적   │ 결함(Bug) 발견   │ 무결성·완전성 증명 │ 공정 품질 확인   │
+  │  수행 시점   │ 구현 중 반복 수행 │ 릴리즈 직전       │ 각 단계 완료 시  │
+  │  대상 산출물 │ 실행 중인 코드   │ 문서·코드·버전    │ 산출물 전체      │
+  │  결과 형태   │ 버그 리포트      │ 감사 보고서(공식)  │ 검토 의견서      │
+  │  법적 효력   │ 없음             │ 있음(계약·인증)    │ 있음             │
+  └──────────────┴─────────────────┴─────────────────┴─────────────────┘
+```
 
 ### 과목 융합 관점
 
@@ -130,30 +126,35 @@ FCA의 핵심 도구인 RTM은 요구사항 ID에서 설계 문서, 소스코드
 
 전통적 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)는 수동 대조에 수일이 걸렸지만, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 환경에서는 "지속적 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)(Continuous [Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/))" 파이프라인으로 자동화해야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">코드 병합 (Merge Request) 이벤트</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Step 1: 정적 분석 (SonarQube, Checkstyle)</div></div>
-<div class="kb-diagram-note">Fail → 병합 거부 (PCA 탈락: 코드 품질 위반)</div>
-<div class="kb-diagram-note">Pass ↓</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Step 2: 보안 스캔 (SAST, SCA/SBOM 검사)</div></div>
-<div class="kb-diagram-note">Fail → 병합 거부 (PCA 탈락: CVE/라이선스 위반)</div>
-<div class="kb-diagram-note">Pass ↓</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Step 3: 자동화 테스트 (Unit/E2E/RTM 체크)</div></div>
-<div class="kb-diagram-note">Fail → 배포 거부 (FCA 탈락: 기능 미충족)</div>
-<div class="kb-diagram-note">Pass ↓</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Step 4: 이슈 ID 커밋 메시지 매핑 확인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Jira 티켓 ↔ Git Commit 연결)</div></div>
-<div class="kb-diagram-note">Unmapped → 미승인 변경 적발 (CCB 위반)</div>
-<div class="kb-diagram-note">Pass ↓</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Step 5: 서명 후 배포 (Baseline 공식 확정)</div></div>
-</div>
-</div>
-
-
+```text
+  [코드 병합 (Merge Request) 이벤트]
+          │
+          ▼
+  ┌───────────────────────────────────────────┐
+  │ Step 1: 정적 분석 (SonarQube, Checkstyle) │
+  └───────────────────┬───────────────────────┘
+                      │ Fail → 병합 거부 (PCA 탈락: 코드 품질 위반)
+                      │ Pass ↓
+  ┌───────────────────────────────────────────┐
+  │ Step 2: 보안 스캔 (SAST, SCA/SBOM 검사)   │
+  └───────────────────┬───────────────────────┘
+                      │ Fail → 병합 거부 (PCA 탈락: CVE/라이선스 위반)
+                      │ Pass ↓
+  ┌───────────────────────────────────────────┐
+  │ Step 3: 자동화 테스트 (Unit/E2E/RTM 체크) │
+  └───────────────────┬───────────────────────┘
+                      │ Fail → 배포 거부 (FCA 탈락: 기능 미충족)
+                      │ Pass ↓
+  ┌───────────────────────────────────────────┐
+  │ Step 4: 이슈 ID 커밋 메시지 매핑 확인     │
+  │         (Jira 티켓 ↔ Git Commit 연결)     │
+  └───────────────────┬───────────────────────┘
+                      │ Unmapped → 미승인 변경 적발 (CCB 위반)
+                      │ Pass ↓
+  ┌───────────────────────────────────────────┐
+  │ Step 5: 서명 후 배포 (Baseline 공식 확정)  │
+  └───────────────────────────────────────────┘
+```
 
 **핵심 포인트**: Step 4의 이슈 ID 매핑 단계가 "미승인 변경 적발"의 자동화 핵심이다. [CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/) 승인 없이 임의로 수정된 코드는 커밋 메시지에 티켓 ID가 없기 때문에 파이프라인에서 즉시 차단된다.
 
@@ -211,27 +212,21 @@ FCA의 핵심 도구인 RTM은 요구사항 ID에서 설계 문서, 소스코드
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">소프트웨어 형상 관리 (SCM) 등장</div></div>
-<div class="kb-diagram-note">형상 식별 → 통제 → 상태 보고</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">형상 감사 (FCA / PCA) 체계화</div></div>
-<div class="kb-diagram-note">릴리즈 전 문서-코드 일치 검증</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">RTM (요구사항 추적 매트릭스) 도입</div></div>
-<div class="kb-diagram-note">요구사항 ↔ 설계 ↔ 코드 ↔ 테스트 추적</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CI/CD 파이프라인 내 자동화 감사</div></div>
-<div class="kb-diagram-note">SonarQube, SCA, Policy as Code</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">지속적 감사 (Continuous Audit) + AI 기반 코드 감사</div></div>
-</div>
-</div>
-
-
+```text
+[소프트웨어 형상 관리 (SCM) 등장]
+         │  형상 식별 → 통제 → 상태 보고
+         ▼
+[형상 감사 (FCA / PCA) 체계화]
+         │  릴리즈 전 문서-코드 일치 검증
+         ▼
+[RTM (요구사항 추적 매트릭스) 도입]
+         │  요구사항 ↔ 설계 ↔ 코드 ↔ 테스트 추적
+         ▼
+[CI/CD 파이프라인 내 자동화 감사]
+         │  SonarQube, SCA, Policy as Code
+         ▼
+[지속적 감사 (Continuous Audit) + AI 기반 코드 감사]
+```
 
 형상 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)는 수동 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) → [RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/) 도구 지원 → [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD 자동화 → [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 엔진으로 진화하며, 현대 [DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/) 파이프라인의 핵심 게이트가 되었다.
 

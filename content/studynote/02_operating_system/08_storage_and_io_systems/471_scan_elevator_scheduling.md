@@ -27,26 +27,30 @@ tags = ["studynote-operating-system"]
   2. **SSTF의 탐욕**: 효율만 따지다 구석진 곳의 앱이 굶어 죽음([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)).
   3. **SCAN의 중용**: "방향성"이라는 제약 조건을 하나 강제함으로써, 동선 낭비도 막고 굶어 죽는 앱도 없애는 완벽한 타협점을 찾아냄.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SCAN (엘리베이터) 알고리즘의 우아한 동선 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">큐 요청 순서</div><div class="kb-diagram-note">: 98, 183, 37, 122, 14, 124</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">헤드 위치</div><div class="kb-diagram-note">: 53번 트랙 /</div><div class="kb-diagram-node">현재 방향</div><div class="kb-diagram-note">: 0번을 향해 하행 중!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ SCAN 발동: "무조건 끝(0번)까지 내려가면서 다 줍고, 그다음 꺾어라!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">14 37 53 98 122 124 183</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">0 │</div><div class="kb-diagram-node">시작</div><div class="kb-diagram-note">│ │ │ 199</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶①</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶②</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶③</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶④</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 이동 경로: 53 -&gt; 37 -&gt; 14 -&gt; 0(끝점 찍기!) -&gt; 98 -&gt; 122...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 특징: SSTF처럼 와이퍼가 요동치지 않고, 끝을 찍을 때까지 묵묵히 전진함.</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────┐
+│        SCAN (엘리베이터) 알고리즘의 우아한 동선 시각화                   │
+├──────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│ [ 큐 요청 순서 ]:  98, 183, 37, 122, 14, 124                             │
+│ [ 헤드 위치 ]: 53번 트랙 / [ 현재 방향 ]: 0번을 향해 하행 중!            │
+│                                                                          │
+│ ▶ SCAN 발동: "무조건 끝(0번)까지 내려가면서 다 줍고, 그다음 꺾어라!"     │
+│                                                                          │
+│      14   37     53     98    122 124        183                         │
+│ 0    │    │      [시작]  │      │  │          │      199                 │
+│ │    │    │◀──────┘      │      │  │          │                          │
+│ │    │◀───┘              │      │  │          │                          │
+│ │◀───┘                     │      │  │          │                        │
+│ └─────────────────────────▶①    │  │          │                          │
+│                                └──────▶②  │          │                   │
+│                                       └──▶③          │                   │
+│                                              └──────────▶④               │
+│                                                                          │
+│ ✅ 이동 경로: 53 -> 37 -> 14 -> 0(끝점 찍기!) -> 98 -> 122...            │
+│ 🌟 특징: SSTF처럼 와이퍼가 요동치지 않고, 끝을 찍을 때까지 묵묵히 전진함.│
+└──────────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 이 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 가장 중요한 특징은 <strong>"0번(또는 199번)이라는 디스크의 물리적 끝점(End Point)을 무조건 찍고 돌아온다"</strong>는 것이다. 큐에 14번까지만 요청이 들어왔음에도 불구하고, SCAN은 14번을 처리한 뒤 멈추지 않고 아무런 요청도 없는 0번 벽까지 쿵! 하고 찍은 뒤에야 방향을 틀어 올라간다. 이 융통성 없는 끝점 찍기가 훗날 LOOK [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 진화하게 되는 빌미가 된다.
 
 - **📢 섹션 요약 비유**: 청소 로봇(SCAN)이 거실을 청소할 때, 쓰레기(요청)가 있는 곳만 쫓아다니며 핑퐁 치는 게([SSTF](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/470_sstf_disk_scheduling/)) 아니라, 벽 끝에서 반대쪽 벽 끝까지 지그재그로 우직하게 밀고 나가며 전체를 훑습니다. 설령 벽 근처에 쓰레기가 없어도 일단 벽을 쿵 찍고 돌아섭니다. 쓰레기를 하나도 놓치지 않는 확실한 청소법입니다.
@@ -96,17 +100,14 @@ SCAN은 공평해 보이지만 위치에 따라 대기 시간이 로또급으로
 아무리 SCAN을 돌려도, 특정 요청이 큐에 들어온 지 너무 오래되어 굶어 죽기 일보 직전이라면? 
 리눅스의 <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/">Deadline</a> <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a></strong>는 엘리베이터(SCAN) 큐 옆에, <strong>시간 초시계가 달린 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/">FIFO</a> 큐(Read 500ms, Write 5초 제한)</strong>를 하나 더 몰래 놔둔다. 평소엔 엘리베이터처럼 예쁘게 처리하다가, 구석탱이 요청이 데드라인(500ms)을 넘겨서 비명을 지르면, 엘리베이터 방향이고 뭐고 깡그리 무시하고 즉시 그쪽으로 바늘을 꺾어버려 응답 지연의 상한선을 철통같이 방어한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상황</div><div class="kb-diagram-cell">SSTF의 대처</div><div class="kb-diagram-cell">SCAN의 대처</div><div class="kb-diagram-cell">Deadline의 대처</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">구석에 요청옴</div><div class="kb-diagram-cell">무시함 (효율)</div><div class="kb-diagram-cell">가던 길 다 가고 감</div><div class="kb-diagram-cell">가던 길 다 가고 감</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1분째 굶는 중</div><div class="kb-diagram-cell">☠️ 계속 무시함</div><div class="kb-diagram-cell">가던 길 다 가고 감</div><div class="kb-diagram-cell">🚀 즉시 꺾어서 감</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬─────────────────────────────────┐
+│ 상황       │ SSTF의 대처  │ SCAN의 대처  │ Deadline의 대처           │
+├──────────┼────────────┼────────────┼─────────────────────────────────┤
+│ 구석에 요청옴│ 무시함 (효율) │ 가던 길 다 가고 감│ 가던 길 다 가고 감│
+│ 1분째 굶는 중│ ☠️ 계속 무시함│ 가던 길 다 가고 감│ 🚀 즉시 꺾어서 감 │
+└──────────┴────────────┴────────────┴─────────────────────────────────┘
+```
 **[매트릭스 해설]** 컴퓨터 시스템에서 "언젠가 처리해 줄게(SCAN)"는 완벽한 정답이 아니다. "최소 0.5초 안에는 무조건 처리해 줄게([Deadline](/knowledge-base/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/))"라는 하드 타임 리밋(Time Limit)이 있어야만 실시간 오디오/비디오 스트리밍이 끊기지 않는 엔터프라이즈 OS로 인정받는다.
 
 - **📢 섹션 요약 비유**: [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 기사(SCAN)가 정해진 노선대로만 차를 몹니다. 그런데 저기 정류장에 임산부(데드라인 임박 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 쓰러져 가고 있습니다. 규칙을 깨고 차를 돌려([SSTF](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/470_sstf_disk_scheduling/) 꺾기) 임산부부터 병원으로 이송하는 융통성([Deadline](/knowledge-base/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/))이 있어야 진정한 명품 시스템입니다.
@@ -160,19 +161,15 @@ SCAN 스케줄링 (엘리베이터 [알고리즘](/knowledge-base/studynote/08_a
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SSTF (Shortest Seek Time First)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SCAN 스케줄링 (엘리베이터 알고리즘) (Scan Elevator Scheduling)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">C-SCAN (Circular SCAN)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">LOOK 및 C-LOOK</div></div>
-</div>
-</div>
-
-
+```text
+[SSTF (Shortest Seek Time First)]
+    │
+    ▼
+[SCAN 스케줄링 (엘리베이터 알고리즘) (Scan Elevator Scheduling)]
+    │
+    ├──▶ [C-SCAN (Circular SCAN)]
+    └──▶ [LOOK 및 C-LOOK]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

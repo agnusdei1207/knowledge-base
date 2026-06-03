@@ -23,22 +23,26 @@ tags = ["studynote-design-supervision"]
 
 공간 기반 아키텍처는 DB를 메모리 그리드(In-Memory [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Grid)로 대체한다. 모든 처리 유닛이 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 공간(Tuple Space)에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽고 쓰며, DB는 비동기 영속화 전용으로만 사용한다. 대표 구현: Hazelcast, Apache Ignite, GigaSpaces.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공간 기반 아키텍처 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라이언트 요청</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Messaging Grid</div><div class="kb-diagram-note">(요청 분배)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">처리 유닛</div><div class="kb-diagram-cell">처리 유닛</div><div class="kb-diagram-cell">처리 유닛</div><div class="kb-diagram-cell">(수평 확장)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(PU-1)</div><div class="kb-diagram-cell">(PU-2)</div><div class="kb-diagram-cell">(PU-3)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">In-Memory Data Grid</div><div class="kb-diagram-note">(공유 메모리)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(비동기)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Database</div><div class="kb-diagram-note">(영속화 전용)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│         공간 기반 아키텍처 구조                              │
+├─────────────────────────────────────────────────────────────┤
+│  클라이언트 요청                                             │
+│       │                                                     │
+│  [Messaging Grid] (요청 분배)                               │
+│       │                                                     │
+│  ┌────▼────┐  ┌─────────┐  ┌─────────┐                     │
+│  │처리 유닛│  │처리 유닛│  │처리 유닛│ (수평 확장)          │
+│  │(PU-1)  │  │(PU-2)  │  │(PU-3)  │                     │
+│  └────┬────┘  └────┬────┘  └────┬────┘                     │
+│       └────────────┼────────────┘                          │
+│                    ▼                                        │
+│         [In-Memory Data Grid] (공유 메모리)                 │
+│                    │ (비동기)                               │
+│                    ▼                                        │
+│             [Database] (영속화 전용)                        │
+└─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 여러 요리사(처리 유닛)가 각자의 미니 냉장고(메모리 그리드)에서 재료를 꺼내 요리하고, 창고(DB)에는 나중에 일괄 입고한다.
 
@@ -55,18 +59,17 @@ SBA의 핵심 구성 요소: ① Processing Unit(처리 유닛): 비즈니스 �
 | Messaging Grid | 요청 분배 | [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/), RabbitMQ |
 | [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Pump | 비동기 DB 영속화 | [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/), 배치 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 그리드 복제 전략</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">처리 유닛 A: 데이터 쓰기 → 그리드에 분산 복제</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">처리 유닛 B: 그리드에서 읽기 (A가 쓴 데이터 즉시 가시)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PU 장애 시: 그리드가 복제본으로 자동 복구</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│       데이터 그리드 복제 전략                                │
+├─────────────────────────────────────────────────────────────┤
+│  처리 유닛 A: 데이터 쓰기 → 그리드에 분산 복제             │
+│                                                             │
+│  처리 유닛 B: 그리드에서 읽기 (A가 쓴 데이터 즉시 가시)    │
+│                                                             │
+│  PU 장애 시: 그리드가 복제본으로 자동 복구                  │
+└─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 구글 독스([공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/))에서 여러 사람이 동시에 편집하듯, 여러 처리 유닛이 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 그리드에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 동시에 읽고 쓴다.
 

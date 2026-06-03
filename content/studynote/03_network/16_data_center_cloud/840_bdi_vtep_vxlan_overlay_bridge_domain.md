@@ -24,18 +24,14 @@ VTEP은 [VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vx
 - **Encapsulation (포장하기)**: 1번 서버(가상머신)가 그냥 평범한 L2 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 패킷을 위로 올려보냅니다. [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 VTEP [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 이걸 낚아채서 겉면에 `VXLAN 헤더(VNI 100번) + UDP + IP 헤더`를 미친 듯이 칭칭 감싸서 외부 인터넷(언더레이 망)으로 뻥 차버립니다.
 - **Decapsulation (포장 벗기기)**: 반대편 2번 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 VTEP이 외부에서 날아온 뚱뚱한 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 박스를 받습니다. 겉봉투를 북북 찢어버리고, 그 안에 들어있던 오리지널 L2 패킷만 쏙 빼서 자기 밑에 있는 서버로 조용히 넘겨줍니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">퍼블릭/프라이빗/하이브리드/멀티 클라우드간…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">BDI와 VTEP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">BUM 트래픽</div></div>
-</div>
-</div>
-
-
+```text
+[퍼블릭/프라이빗/하이브리드/멀티 클라우드간…]
+    │
+    ▼
+[BDI와 VTEP]
+    │
+    └──▶ [BUM 트래픽]
+```
 
 - **📢 섹션 요약 비유**: BDI와 VTEP는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -53,18 +49,14 @@ VTEP이 박스를 뜯고 나면, 알맹이 패킷(L2)을 만납니다. 근데 �
 - **동작**: 같은 VNI 100번(같은 서브넷)끼리 통신할 때는 그냥 방 안에서 스위칭(L2)으로 끝냅니다. 
 - 그런데 100번 방에 있던 서버가 200번 방(다른 IP 대역)에 있는 서버랑 대화하고 싶어 합니다! 이때 패킷이 방 천장에 있는 가상의 문 <strong>BDI (가상 게이트웨이 IP, 예: 192.168.1.1)</strong>를 쾅 치고 올라가면, BDI가 이를 IP [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)(L3) 패킷으로 변환하여 다른 VNI 대역으로 마법처럼 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 점프를 튕겨줍니다. ([VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) 환경의 핵심 라우터 엔진)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">퍼블릭/프라이빗/하이브리드/멀티 클라우드간…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">BDI와 VTEP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">BUM 트래픽</div></div>
-</div>
-</div>
-
-
+```text
+[퍼블릭/프라이빗/하이브리드/멀티 클라우드간…]
+    │
+    ▼
+[BDI와 VTEP]
+    │
+    └──▶ [BUM 트래픽]
+```
 
 - **📢 섹션 요약 비유**: BDI와 VTEP의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -127,19 +119,15 @@ BDI와 VTEP는 [데이터센터](/knowledge-base/studynote/03_network/16_data_ce
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 퍼블릭/프라이빗/하이브리드/멀티 클라우드간…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: BDI와 VTEP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: BUM 트래픽</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 퍼블릭/프라이빗/하이브리드/멀티 클라우드간…]
+    │
+    ▼
+[현재 개념: BDI와 VTEP]
+    │
+    ├──▶ [확장 A: BUM 트래픽]
+    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
+```
 
 BDI와 VTEP는 퍼블릭/프라이빗/하이브리드/멀티 클라우드간…에서 출발해 현재 메커니즘을 정교화하고, 이후 BUM 트래픽와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

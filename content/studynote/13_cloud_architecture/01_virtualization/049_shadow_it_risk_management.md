@@ -18,41 +18,43 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅰ. 클라우드 섀도 IT
 
+```
+클라우드 섀도 IT:
+  IT 승인 없이 생성된 클라우드 리소스/서비스
 
+유형:
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">클라우드 섀도 IT:</div>
-<div class="kb-diagram-note">IT 승인 없이 생성된 클라우드 리소스/서비스</div>
-<div class="kb-diagram-note">유형:</div>
-<div class="kb-diagram-note">1. 섀도 SaaS:</div>
-<div class="kb-diagram-note">개인 계정 SaaS (Salesforce 개인판, GitHub 개인)</div>
-<div class="kb-diagram-note">IT 모르는 SaaS 구독 (팀이 공유 카드로 결제)</div>
-<div class="kb-diagram-note">2. 섀도 클라우드 (Shadow Cloud):</div>
-<div class="kb-diagram-note">개발자가 개인 카드로 AWS 계정 개설</div>
-<div class="kb-diagram-note">팀이 기업 계정 외부에 새 Azure 구독 생성</div>
-<div class="kb-diagram-note">GCP 프로젝트 무단 생성</div>
-<div class="kb-diagram-note">예:</div>
-<div class="kb-diagram-note">스타트업 개발팀: "프로덕션 배포가 느려서</div>
-<div class="kb-diagram-note">개인 AWS로 POC 시작 → 그대로 프로덕션화"</div>
-<div class="kb-diagram-note">3. 미승인 클라우드 서비스:</div>
-<div class="kb-diagram-note">기업이 Azure 쓰는데 팀이 AWS Lambda 무단 사용</div>
-<div class="kb-diagram-note">생성형 AI API 직접 결합</div>
-<div class="kb-diagram-note">발생 원인:</div>
-<div class="kb-diagram-note">클라우드 계정 생성: 신용카드 하나로 5분</div>
-<div class="kb-diagram-note">vs 기업 IT 승인: 수주 대기</div>
-<div class="kb-diagram-note">비용:</div>
-<div class="kb-diagram-note">AWS 무료 티어: 12개월 무료</div>
-<div class="kb-diagram-note">→ "일단 써보고 나중에 승인"</div>
-<div class="kb-diagram-note">위험:</div>
-<div class="kb-diagram-note">공개 S3 버킷: 데이터 유출</div>
-<div class="kb-diagram-note">취약한 구성: 공개 RDS, 개방 보안 그룹</div>
-<div class="kb-diagram-note">비용 폭발: 예산 통제 불가</div>
-<div class="kb-diagram-note">컴플라이언스: GDPR, PCI-DSS 위반</div>
-</div>
-</div>
+1. 섀도 SaaS:
+  개인 계정 SaaS (Salesforce 개인판, GitHub 개인)
+  IT 모르는 SaaS 구독 (팀이 공유 카드로 결제)
 
+2. 섀도 클라우드 (Shadow Cloud):
+  개발자가 개인 카드로 AWS 계정 개설
+  팀이 기업 계정 외부에 새 Azure 구독 생성
+  GCP 프로젝트 무단 생성
+  
+  예:
+  스타트업 개발팀: "프로덕션 배포가 느려서
+  개인 AWS로 POC 시작 → 그대로 프로덕션화"
 
+3. 미승인 클라우드 서비스:
+  기업이 Azure 쓰는데 팀이 AWS Lambda 무단 사용
+  생성형 AI API 직접 결합
+
+발생 원인:
+  클라우드 계정 생성: 신용카드 하나로 5분
+  vs 기업 IT 승인: 수주 대기
+  
+  비용:
+  AWS 무료 티어: 12개월 무료
+  → "일단 써보고 나중에 승인"
+
+위험:
+  공개 S3 버킷: 데이터 유출
+  취약한 구성: 공개 RDS, 개방 보안 그룹
+  비용 폭발: 예산 통제 불가
+  컴플라이언스: GDPR, PCI-DSS 위반
+```
 
 > 📢 **섹션 요약 비유**: 클라우드 섀도 IT = 사무실 밖 개인 사무실 차리기 — 회사 사무실(승인 클라우드) 절차 복잡해서 개인 임대(개인 AWS). 화재(보안 사고) 나도 회사가 모름. 비용도 개인 카드!
 
@@ -60,44 +62,49 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅱ. [CSPM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/780_cspm_cloud_security_posture_management/)
 
+```
+CSPM (Cloud Security Posture Management):
+  클라우드 환경의 보안 구성 오류 탐지 및 수정
 
+주요 기능:
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">CSPM (Cloud Security Posture Management):</div>
-<div class="kb-diagram-note">클라우드 환경의 보안 구성 오류 탐지 및 수정</div>
-<div class="kb-diagram-note">주요 기능:</div>
-<div class="kb-diagram-note">1. 리소스 가시성:</div>
-<div class="kb-diagram-note">모든 클라우드 계정/구독의 리소스 자동 발견</div>
-<div class="kb-diagram-note">지원: AWS, Azure, GCP, OCI 등 멀티클라우드</div>
-<div class="kb-diagram-note">발견:</div>
-<div class="kb-diagram-note">기업 승인 외 계정 탐지 (CIS Benchmark 기반)</div>
-<div class="kb-diagram-note">2. 구성 오류 탐지 (Misconfiguration):</div>
-<div class="kb-diagram-note">고위험 사례:</div>
-<div class="kb-diagram-tree-item" style="--depth:1">S3 퍼블릭 접근 허용</div>
-<div class="kb-diagram-tree-item" style="--depth:1">보안 그룹 0.0.0.0/0 인바운드 (모든 포트)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">루트 계정 MFA 미설정</div>
-<div class="kb-diagram-tree-item" style="--depth:1">미암호화 EBS 볼륨 (민감 데이터)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">CloudTrail 로깅 비활성화</div>
-<div class="kb-diagram-note">자동 점검: 수백 개 규칙 매일 실행</div>
-<div class="kb-diagram-note">3. 컴플라이언스 모니터링:</div>
-<div class="kb-diagram-note">CIS AWS Foundations Benchmark</div>
-<div class="kb-diagram-note">PCI-DSS, HIPAA, GDPR, ISO 27001</div>
-<div class="kb-diagram-note">대시보드: 각 규정별 준수율 (%) 실시간</div>
-<div class="kb-diagram-note">4. 자동 수정 (Auto-Remediation):</div>
-<div class="kb-diagram-note">고위험 오류: 자동 수정</div>
-<div class="kb-diagram-note">예:</div>
-<div class="kb-diagram-note">S3 퍼블릭 접근 활성화 탐지 → 자동 차단</div>
-<div class="kb-diagram-note">(또는 알림 → 수동 승인 후 차단)</div>
-<div class="kb-diagram-note">주요 제품:</div>
-<div class="kb-diagram-note">Prisma Cloud (Palo Alto)</div>
-<div class="kb-diagram-note">Microsoft Defender for Cloud</div>
-<div class="kb-diagram-note">AWS Security Hub + Config</div>
-<div class="kb-diagram-note">Wiz, Orca Security</div>
-</div>
-</div>
+1. 리소스 가시성:
+  모든 클라우드 계정/구독의 리소스 자동 발견
+  
+  지원: AWS, Azure, GCP, OCI 등 멀티클라우드
+  
+  발견:
+  기업 승인 외 계정 탐지 (CIS Benchmark 기반)
 
+2. 구성 오류 탐지 (Misconfiguration):
+  고위험 사례:
+  - S3 퍼블릭 접근 허용
+  - 보안 그룹 0.0.0.0/0 인바운드 (모든 포트)
+  - 루트 계정 MFA 미설정
+  - 미암호화 EBS 볼륨 (민감 데이터)
+  - CloudTrail 로깅 비활성화
+  
+  자동 점검: 수백 개 규칙 매일 실행
 
+3. 컴플라이언스 모니터링:
+  CIS AWS Foundations Benchmark
+  PCI-DSS, HIPAA, GDPR, ISO 27001
+  
+  대시보드: 각 규정별 준수율 (%) 실시간
+
+4. 자동 수정 (Auto-Remediation):
+  고위험 오류: 자동 수정
+  
+  예:
+  S3 퍼블릭 접근 활성화 탐지 → 자동 차단
+  (또는 알림 → 수동 승인 후 차단)
+
+주요 제품:
+  Prisma Cloud (Palo Alto)
+  Microsoft Defender for Cloud
+  AWS Security Hub + Config
+  Wiz, Orca Security
+```
 
 > 📢 **섹션 요약 비유**: [CSPM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/780_cspm_cloud_security_posture_management/) = 클라우드 자동 안전 감사원 — 매일 전체 클라우드 자산 점검. 열린 창문(S3 퍼블릭), 잠금 없는 문([MFA](/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/) 없음) 자동 탐지. 규정 준수율(%) 실시간 표시!
 
@@ -105,46 +112,48 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅲ. 클라우드 거버넌스 프레임워크
 
+```
+클라우드 거버넌스 핵심 요소:
 
+1. 계정/구독 관리:
+  AWS Organizations / Azure Management Group
+  
+  구조:
+  루트 계정
+  ├── 프로덕션 OU (Organizational Unit)
+  │   ├── 프로덕션 계정
+  │   └── DR 계정
+  ├── 개발 OU
+  │   └── 개발 계정
+  └── 보안 OU
+      └── 로깅 계정
+  
+  SCP (Service Control Policy):
+  특정 서비스/리전 사용 제한 (전체 OU에 적용)
+  
+  예:
+  "ap-northeast-2(서울) 외 리전 사용 금지"
+  "S3 퍼블릭 액세스 설정 변경 금지"
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">클라우드 거버넌스 핵심 요소:</div>
-<div class="kb-diagram-note">1. 계정/구독 관리:</div>
-<div class="kb-diagram-note">AWS Organizations / Azure Management Group</div>
-<div class="kb-diagram-note">구조:</div>
-<div class="kb-diagram-note">루트 계정</div>
-<div class="kb-diagram-tree-item" style="--depth:1">프로덕션 OU (Organizational Unit)</div>
-<div class="kb-diagram-note">── 프로덕션 계정</div>
-<div class="kb-diagram-note">── DR 계정</div>
-<div class="kb-diagram-tree-item" style="--depth:1">개발 OU</div>
-<div class="kb-diagram-note">── 개발 계정</div>
-<div class="kb-diagram-tree-item" style="--depth:1">보안 OU</div>
-<div class="kb-diagram-tree-item" style="--depth:3">로깅 계정</div>
-<div class="kb-diagram-note">SCP (Service Control Policy):</div>
-<div class="kb-diagram-note">특정 서비스/리전 사용 제한 (전체 OU에 적용)</div>
-<div class="kb-diagram-note">예:</div>
-<div class="kb-diagram-note">"ap-northeast-2(서울) 외 리전 사용 금지"</div>
-<div class="kb-diagram-note">"S3 퍼블릭 액세스 설정 변경 금지"</div>
-<div class="kb-diagram-note">2. 태깅 정책 (Tagging Policy):</div>
-<div class="kb-diagram-note">모든 리소스에 필수 태그:</div>
-<div class="kb-diagram-note">Owner: team-platform@company.com</div>
-<div class="kb-diagram-note">CostCenter: CC-1234</div>
-<div class="kb-diagram-note">Environment: production</div>
-<div class="kb-diagram-note">Project: project-alpha</div>
-<div class="kb-diagram-note">태그 없는 리소스: 자동 경보 + 정지 예고</div>
-<div class="kb-diagram-note">3. 비용 거버넌스 (FinOps):</div>
-<div class="kb-diagram-note">예산 알림: 80%, 100% 초과 시 자동 알림</div>
-<div class="kb-diagram-note">사용되지 않는 리소스 자동 식별</div>
-<div class="kb-diagram-note">Reserved Instance / Savings Plan 분석</div>
-<div class="kb-diagram-note">4. 접근 제어:</div>
-<div class="kb-diagram-note">최소 권한 IAM 정책</div>
-<div class="kb-diagram-note">Break-Glass 절차 (긴급 관리자 계정)</div>
-<div class="kb-diagram-note">IAM Access Analyzer</div>
-</div>
-</div>
+2. 태깅 정책 (Tagging Policy):
+  모든 리소스에 필수 태그:
+  Owner: team-platform@company.com
+  CostCenter: CC-1234
+  Environment: production
+  Project: project-alpha
+  
+  태그 없는 리소스: 자동 경보 + 정지 예고
 
+3. 비용 거버넌스 (FinOps):
+  예산 알림: 80%, 100% 초과 시 자동 알림
+  사용되지 않는 리소스 자동 식별
+  Reserved Instance / Savings Plan 분석
 
+4. 접근 제어:
+  최소 권한 IAM 정책
+  Break-Glass 절차 (긴급 관리자 계정)
+  IAM Access Analyzer
+```
 
 > 📢 **섹션 요약 비유**: 클라우드 거버넌스 = 도시 계획 — AWS Organizations(행정구역), [SCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/747_scp/)(건축 규제), 태깅(주소 등록 필수), [FinOps](/knowledge-base/studynote/12_it_management/05_security_compliance/344_finops/)(세금 납부). 무단 건물(섀도 클라우드)은 철거!
 
@@ -152,37 +161,38 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅳ. 멀티클라우드 가시성
 
+```
+멀티클라우드 섀도 IT 문제:
+  기업이 AWS 주력 → 팀이 Azure, GCP도 사용
+  단일 콘솔로 전체 가시성 필요
 
+통합 가시성 도구:
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">멀티클라우드 섀도 IT 문제:</div>
-<div class="kb-diagram-note">기업이 AWS 주력 → 팀이 Azure, GCP도 사용</div>
-<div class="kb-diagram-note">단일 콘솔로 전체 가시성 필요</div>
-<div class="kb-diagram-note">통합 가시성 도구:</div>
-<div class="kb-diagram-note">Wiz:</div>
-<div class="kb-diagram-note">에이전트리스 (에이전트 설치 불필요)</div>
-<div class="kb-diagram-note">AWS/Azure/GCP/K8s 통합 스캔</div>
-<div class="kb-diagram-note">공격 경로 분석:</div>
-<div class="kb-diagram-note">"인터넷 → 공개 VM → 과도한 권한 역할 → DB 접근"</div>
-<div class="kb-diagram-note">최고 위험 경로 우선 시각화</div>
-<div class="kb-diagram-note">Prisma Cloud:</div>
-<div class="kb-diagram-note">CSPM + CWPP (Cloud Workload Protection)</div>
-<div class="kb-diagram-note">컨테이너/서버리스도 지원</div>
-<div class="kb-diagram-note">클라우드 에셋 목록 (Asset Inventory):</div>
-<div class="kb-diagram-note">전체 클라우드 리소스 목록 (계정별)</div>
-<div class="kb-diagram-note">미승인 계정/구독 탐지</div>
-<div class="kb-diagram-note">AWS Config:</div>
-<div class="kb-diagram-note">모든 리소스 변경 이력 기록</div>
-<div class="kb-diagram-note">ConfigRule: 컴플라이언스 규칙 평가</div>
-<div class="kb-diagram-note">실시간 알림 체계:</div>
-<div class="kb-diagram-note">새 계정 생성 → 즉시 보안팀 알림</div>
-<div class="kb-diagram-note">고위험 구성 오류 → PagerDuty 에스컬레이션</div>
-<div class="kb-diagram-note">대용량 데이터 전송 → 이상 탐지 알림</div>
-</div>
-</div>
+Wiz:
+  에이전트리스 (에이전트 설치 불필요)
+  AWS/Azure/GCP/K8s 통합 스캔
+  
+  공격 경로 분석:
+  "인터넷 → 공개 VM → 과도한 권한 역할 → DB 접근"
+  최고 위험 경로 우선 시각화
 
+Prisma Cloud:
+  CSPM + CWPP (Cloud Workload Protection)
+  컨테이너/서버리스도 지원
 
+클라우드 에셋 목록 (Asset Inventory):
+  전체 클라우드 리소스 목록 (계정별)
+  미승인 계정/구독 탐지
+  
+  AWS Config:
+  모든 리소스 변경 이력 기록
+  ConfigRule: 컴플라이언스 규칙 평가
+
+실시간 알림 체계:
+  새 계정 생성 → 즉시 보안팀 알림
+  고위험 구성 오류 → PagerDuty 에스컬레이션
+  대용량 데이터 전송 → 이상 탐지 알림
+```
 
 > 📢 **섹션 요약 비유**: 멀티클라우드 가시성 = 위성 지도 — Wiz/Prisma Cloud가 AWS+Azure+GCP 전체를 위성으로 내려다봄. 불법 건물(섀도 클라우드), 잠금 없는 창고(S3 퍼블릭) 한눈에!
 
@@ -190,44 +200,45 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅴ. 실무 시나리오 — 클라우드 거버넌스 구축
 
+```
+글로벌 제조기업 멀티클라우드 거버넌스:
 
+배경:
+  AWS(메인) + Azure(M365) + GCP(ML)
+  개발팀이 무단으로 AWS 계정 5개 생성 발견
+  월 클라우드 비용: 예산 대비 140% 초과 (원인 불명)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">글로벌 제조기업 멀티클라우드 거버넌스:</div>
-<div class="kb-diagram-note">배경:</div>
-<div class="kb-diagram-note">AWS(메인) + Azure(M365) + GCP(ML)</div>
-<div class="kb-diagram-note">개발팀이 무단으로 AWS 계정 5개 생성 발견</div>
-<div class="kb-diagram-note">월 클라우드 비용: 예산 대비 140% 초과 (원인 불명)</div>
-<div class="kb-diagram-note">현황 조사 (CSPM 도입):</div>
-<div class="kb-diagram-note">Wiz로 전체 클라우드 스캔:</div>
-<div class="kb-diagram-note">발견된 섀도 리소스:</div>
-<div class="kb-diagram-tree-item" style="--depth:1">미승인 AWS 계정: 5개</div>
-<div class="kb-diagram-tree-item" style="--depth:1">공개 S3 버킷: 12개 (데이터 유출 위험)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">MFA 없는 루트 계정: 3개</div>
-<div class="kb-diagram-tree-item" style="--depth:1">2년 이상 미사용 EC2: 67대 (월 $8,500 낭비)</div>
-<div class="kb-diagram-note">고위험 발견:</div>
-<div class="kb-diagram-note">개발팀 AWS 계정 중 1개에</div>
-<div class="kb-diagram-note">테스트용 고객 데이터 5만 건 저장 (GDPR 위반!)</div>
-<div class="kb-diagram-note">즉시 조치:</div>
-<div class="kb-diagram-note">1. 공개 S3 → 즉시 차단</div>
-<div class="kb-diagram-note">2. 고객 데이터 → 격리 후 삭제</div>
-<div class="kb-diagram-note">3. GDPR DPA에 위반 신고 (72시간 이내)</div>
-<div class="kb-diagram-note">4. 미사용 EC2 67대 정지</div>
-<div class="kb-diagram-note">거버넌스 수립:</div>
-<div class="kb-diagram-note">AWS Organizations로 계정 통합</div>
-<div class="kb-diagram-note">SCP: 서울 리전 외 사용 금지</div>
-<div class="kb-diagram-note">태깅 정책 강제 적용</div>
-<div class="kb-diagram-note">월간 비용 리뷰 (FinOps)</div>
-<div class="kb-diagram-note">결과 (3개월):</div>
-<div class="kb-diagram-note">월 클라우드 비용: -32% (미사용 리소스 제거)</div>
-<div class="kb-diagram-note">섀도 클라우드 리소스: 95% 감소</div>
-<div class="kb-diagram-note">CSPM 점수: 34% → 89%</div>
-<div class="kb-diagram-note">GDPR 위반 재발: 0건</div>
-</div>
-</div>
+현황 조사 (CSPM 도입):
+  Wiz로 전체 클라우드 스캔:
+  
+  발견된 섀도 리소스:
+  - 미승인 AWS 계정: 5개
+  - 공개 S3 버킷: 12개 (데이터 유출 위험)
+  - MFA 없는 루트 계정: 3개
+  - 2년 이상 미사용 EC2: 67대 (월 $8,500 낭비)
+  
+  고위험 발견:
+  개발팀 AWS 계정 중 1개에
+  테스트용 고객 데이터 5만 건 저장 (GDPR 위반!)
 
+즉시 조치:
+  1. 공개 S3 → 즉시 차단
+  2. 고객 데이터 → 격리 후 삭제
+  3. GDPR DPA에 위반 신고 (72시간 이내)
+  4. 미사용 EC2 67대 정지
 
+거버넌스 수립:
+  AWS Organizations로 계정 통합
+  SCP: 서울 리전 외 사용 금지
+  태깅 정책 강제 적용
+  월간 비용 리뷰 (FinOps)
+  
+결과 (3개월):
+  월 클라우드 비용: -32% (미사용 리소스 제거)
+  섀도 클라우드 리소스: 95% 감소
+  CSPM 점수: 34% → 89%
+  GDPR 위반 재발: 0건
+```
 
 > 📢 **섹션 요약 비유**: 클라우드 거버넌스 구축 = 도시 무허가 건물 정비 — CSPM으로 전체 스캔(위성 지도). 무허가(섀도) 5개 계정, 12개 열린 창고 발견. 정비 후 비용 32% 절감, [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) 위반 0건!
 

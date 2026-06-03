@@ -35,24 +35,22 @@ tags = ["studynote-security"]
 2. <strong>체인(Chain) <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong>: [평문 $\rightarrow$ $H$(해시) $\rightarrow$ $R$(환원) $\rightarrow$ $H$ $\rightarrow$ $R$ ...] 과정을 수만 번 반복하여 긴 쇠사슬을 만든다.
 3. <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a> 저장</strong>: 해커는 하드디스크에 중간의 1만 개 징검다리 데이터를 모두 버리고, <strong>[시작 평문]</strong>과 **[최종 해시]** 단 두 개의 값만 쌍으로 묶어 저장한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">레인보우 테이블의 체인 압축 및 역산 검색 메커니즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 테이블 생성 (오프라인 압축)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시작 평문 (H와 R을 수만 번 교차 반복) 최종 해시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"admin" ──▶(H)──▶(R)──▶(H)──▶ ... ──▶(H)──▶ "F9X3"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=&gt; 저장장치에는 오직</div><div class="kb-diagram-node">"admin" : "F9X3"</div><div class="kb-diagram-note">쌍만 기록!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 해킹 단계 (실시간 복원)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">타겟 해시 "K#1P" 획득!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; R과 H를 번갈아 굴려보니 최종 해시 "F9X3"에 도착.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; "아하! 이 타겟 해시는 'admin'으로 시작하는 체인에 있군!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 'admin'부터 다시 체인을 타면서 진짜 평문 추출 성공!</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│       레인보우 테이블의 체인 압축 및 역산 검색 메커니즘      │
+├──────────────────────────────────────────────────────────────┤
+│ [ 1. 테이블 생성 (오프라인 압축) ]                           │
+│ 시작 평문          (H와 R을 수만 번 교차 반복)           최종 해시 │
+│ "admin" ──▶(H)──▶(R)──▶(H)──▶ ... ──▶(H)──▶ "F9X3"            │
+│  => 저장장치에는 오직 [ "admin" : "F9X3" ] 쌍만 기록!        │
+│                                                              │
+│ [ 2. 해킹 단계 (실시간 복원) ]                               │
+│ 타겟 해시 "K#1P" 획득!                                       │
+│  => R과 H를 번갈아 굴려보니 최종 해시 "F9X3"에 도착.         │
+│  => "아하! 이 타겟 해시는 'admin'으로 시작하는 체인에 있군!" │
+│  => 'admin'부터 다시 체인을 타면서 진짜 평문 추출 성공!      │
+└──────────────────────────────────────────────────────────────┘
+```
 이 그림의 핵심은 <strong>'시간-메모리 트레이드오프(Time-Memory Trade-off)'</strong>다. 해커는 중간 계산값을 버려 메모리 공간을 극도로 아끼는 대신, 실전에서 타겟 해시를 복원할 때 약간의 재계산(시간)을 투자하여 최적의 효율을 뽑아낸다.
 
 - **📢 섹션 요약 비유**: 지하철 모든 역을 수첩에 다 적는 대신, 출발역과 종착역만 적어둡니다(용량 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)). 나중에 중간에 훔친 역 표지판을 따라 몇 정거장 가보니 내가 아는 종착역이 나오면, "아! 이건 그 출발역 라인에 있구나!" 하고 노선을 다시 타보며 정확한 역 이름을 맞추는 꼼수입니다.
@@ -108,23 +106,21 @@ tags = ["studynote-security"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">무차별 대입 공격 (Brute Force)의 비효율성</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">사전 공격 (Dictionary Attack) 및 용량 한계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">레인보우 테이블 (체인 기반 시공간 압축 오프라인 사전 공격)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">단순 해시 함수의 치명적 붕괴 (MD5, SHA-1 뚫림)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Salt + Key Stretching 필수화 (Bcrypt, PBKDF2 등 방어 기술 표준)</div>
-</div>
-</div>
-
-
+```text
+무차별 대입 공격 (Brute Force)의 비효율성
+    │
+    ▼
+사전 공격 (Dictionary Attack) 및 용량 한계
+    │
+    ▼
+레인보우 테이블 (체인 기반 시공간 압축 오프라인 사전 공격)
+    │
+    ▼
+단순 해시 함수의 치명적 붕괴 (MD5, SHA-1 뚫림)
+    │
+    ▼
+Salt + Key Stretching 필수화 (Bcrypt, PBKDF2 등 방어 기술 표준)
+```
 
 이 흐름도는 단순 계산 공격이 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 검색 공격으로 진화하며 해시의 약점을 찔렀고, 이에 맞서 현대 보안이 [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/)와 스트레칭으로 대응하는 창과 방패의 역사를 보여준다.
 

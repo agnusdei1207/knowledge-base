@@ -49,18 +49,12 @@ Recursive CTE는 <strong>계층·<a href="/knowledge-base/studynote/08_algorithm
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Self JOIN (기본)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">CONNECT BY (Oracle, 1990s)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Recursive CTE (SQL:1999 표준)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Materialized Path / Nested Set (대안)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: Graph Query (Neo4j) — 복잡 계층 전용</div></div>
-</div>
-</div>
-
-
+```text
+[Self JOIN (기본)] → [CONNECT BY (Oracle, 1990s)]
+    → [Recursive CTE (SQL:1999 표준)]
+    → [Materialized Path / Nested Set (대안)]
+    → [현재: Graph Query (Neo4j) — 복잡 계층 전용]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. Self JOIN은 <strong>같은 가족사진에서 부모와 자식</strong>을 찾는 거예요.

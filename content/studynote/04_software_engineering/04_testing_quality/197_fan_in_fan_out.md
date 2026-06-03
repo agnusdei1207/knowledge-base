@@ -21,19 +21,18 @@ tags = ["studynote-software-engineering"]
 
 소프트웨어 설계에서 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)의 구조적 복잡도(Complexity)와 재사용성을 측정하는 아주 직관적이고 중요한 지표입니다. 시스템의 구조도(Structure Chart) 상에서 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 간의 호출 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)(선)를 세어서 계산합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">모듈 A</div><div class="kb-diagram-node">모듈 B</div><div class="kb-diagram-node">모듈 C</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">모듈 D</div><div class="kb-diagram-connector">◀</div></div>
-<div class="kb-diagram-note">(Fan-in: 3)</div>
-<div class="kb-diagram-note">(Fan-out: 2)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">모듈 E</div><div class="kb-diagram-node">모듈 F</div></div>
-</div>
-</div>
-
-
+```text
+        [ 모듈 A ]         [ 모듈 B ]         [ 모듈 C ]
+             │                 │                  │
+             └────────┬────────┘                  │
+                      ▼                           ▼
+                 [ 모듈 D ] ◀─────────────────────┘
+                 (Fan-in: 3)
+                (Fan-out: 2)
+                 ┌────┴────┐
+                 ▼         ▼
+             [모듈 E]   [모듈 F]
+```
 
 - **📢 섹션 요약 비유**: 팬인 (Fan-in) / 팬아웃 (Fan-out)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -100,30 +99,28 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 팬인 (Fan-in) / 팬아웃 (Fan-out)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 팬인 (Fan-in) / 팬아웃 (Fan-out)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
 | [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 팬인 (Fan-in) / 팬아웃 (Fan-out)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | 팬인 (Fan-in) / 팬아웃 (Fan-out) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
 | [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 팬인 (Fan-in) / 팬아웃 (Fan-out)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">팬인 (Fan-in) / 팬아웃 (Fan-out) 개념 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 위기 (Software Crisis) 인식
+    │
+    ▼
+팬인 (Fan-in) / 팬아웃 (Fan-out) 개념 정립
+    │
+    ▼
+표준화 및 방법론 체계화 (ISO, CMMI, Agile)
+    │
+    ▼
+클라우드 네이티브·AI 기반 확장 적용
+    │
+    ▼
+지속적 개선 및 DevOps·MLOps 통합
+```
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

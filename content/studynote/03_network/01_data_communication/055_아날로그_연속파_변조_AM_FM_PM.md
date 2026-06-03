@@ -108,21 +108,18 @@ AM은 구현이 쉽지만 진폭 잡음에 취약하고, FM은 [대역폭](/know
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">베이스밴드</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">AM / FM / PM</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">반송파 전송</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">복조 / 수신</div>
-</div>
-</div>
-
-
+```text
+베이스밴드
+    │
+    ▼
+AM / FM / PM
+    │
+    ▼
+반송파 전송
+    │
+    ▼
+복조 / 수신
+```
 
 이 흐름은 아날로그 신호가 [반송파](/knowledge-base/studynote/03_network/01_data_communication/054_반송파_Carrier_Wave/)에 실려 이동하는 과정을 보여준다.
 

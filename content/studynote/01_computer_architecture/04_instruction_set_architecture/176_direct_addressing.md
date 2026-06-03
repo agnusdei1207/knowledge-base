@@ -25,19 +25,20 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 직접 주소 지정의 핵심이 "주소 계산"이 아니라 "주소 제시"에 있음을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Direct addressing: the instruction already contains the location</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">instruction =</div><div class="kb-diagram-node">opcode | address field A</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Effective Address</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EA = A</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Memory</div><div class="kb-diagram-node">EA</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">operand</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Direct addressing: the instruction already contains the location   │
+├────────────────────────────────────────────────────────────────────┤
+│ instruction = [ opcode | address field A ]                        │
+│                           │                                       │
+│                           ▼                                       │
+│                     Effective Address                             │
+│                         EA = A                                    │
+│                           │                                       │
+│                           ▼                                       │
+│                    Memory[EA] -> operand                          │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 여기서 중요한 점은 직접 주소 지정이 [즉시 주소 지정](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/174_immediate_addressing/) ([Immediate Addressing](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/174_immediate_addressing/))과 다르다는 사실이다. [즉시 주소 지정](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/174_immediate_addressing/)은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 안의 숫자 자체가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)지만, 직접 주소 지정은 그 숫자가 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 있는 장소</strong>를 가리킨다. 따라서 둘 다 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)에 숫자가 보이더라도, 해석 방식은 전혀 다르다.
 
@@ -60,20 +61,18 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 길이와 주소 범위가 직접 충돌한다는 점을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Instruction width trade-off</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">16-bit instruction example</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">opcode 4b</div><div class="kb-diagram-node">direct address 12b</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2^12 = 4096 locations</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">more address bits -&gt; larger reachable memory</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">fewer opcode bits -&gt; fewer instruction kinds</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Instruction width trade-off                                        │
+├────────────────────────────────────────────────────────────────────┤
+│ 16-bit instruction example                                         │
+│ [ opcode 4b ][ direct address 12b ]                                │
+│                 └──────────────▶ 2^12 = 4096 locations             │
+│                                                                    │
+│ more address bits  -> larger reachable memory                      │
+│ fewer opcode bits  -> fewer instruction kinds                      │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 예를 들어 16비트 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)에서 [연산 코드](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/159_opcode/) ([Opcode](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/159_opcode/))에 4비트를 쓰면, 주소는 12비트만 남는다. 이 경우 직접 가리킬 수 있는 공간은 4,096개 위치뿐이다. 메모리가 커질수록 직접 주소 지정은 곧바로 확장성 문제에 부딪히며, 이 한계 때문에 현대 구조에서는 베이스+변위 (Base + [Displacement](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/179_displacement_addressing/))나 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [간접 주소 지정](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/)이 더 널리 쓰인다.
 
@@ -109,20 +108,17 @@ tags = ["studynote-computer-architecture"]
 
 아래 판단 흐름은 직접 주소 지정을 써도 되는지 빠르게 가르는 기준이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">When is direct addressing appropriate?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">target address fixed by hardware or boot convention?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes -&gt; direct / absolute reference is reasonable</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ code may relocate? -&gt; use PC-relative or base+offset</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ address stored in register? -&gt; register indirect</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ When is direct addressing appropriate?                             │
+├────────────────────────────────────────────────────────────────────┤
+│ target address fixed by hardware or boot convention?               │
+│   ├─ yes -> direct / absolute reference is reasonable              │
+│   └─ no                                                            │
+│        ├─ code may relocate? -> use PC-relative or base+offset     │
+│        └─ address stored in register? -> register indirect         │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 ### 실무 판단 기준
 
@@ -166,23 +162,22 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">small fixed memory systems</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">direct addressing (EA = A)</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ simple decode and fixed absolute access</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ address-field size limitation</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">base/index and PC-relative addressing</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">MMIO and boot vectors remain as fixed-address use cases</div>
-</div>
-</div>
-
-
+```text
+small fixed memory systems
+        │
+        ▼
+direct addressing (EA = A)
+        │
+        ├──────────────▶ simple decode and fixed absolute access
+        │
+        ├──────────────▶ address-field size limitation
+        │
+        ▼
+base/index and PC-relative addressing
+        │
+        ▼
+MMIO and boot vectors remain as fixed-address use cases
+```
 
 이 흐름도는 직접 주소 지정이 작은 고정 메모리 환경에서 출발해, 주소 공간 확대와 재배치 요구 때문에 다른 방식으로 중심이 이동했지만, 고정 주소 하드웨어 구간에서는 여전히 살아남았음을 보여 준다.
 

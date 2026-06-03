@@ -23,16 +23,13 @@ tags = ["studynote-devops-sre"]
 
 코드와 실제 인프라가 어긋나면 드리프트와 사람 의존 배포가 누적돼 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 느려진다. 따라서 [테라폼](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/) 상태 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 이해할 때는 "무엇을 자동화하는가"보다 "어떤 실패와 편차를 줄이려는가"를 먼저 붙잡아야 한다.
 
+```text
+Deployment / Control / Feedback Flow
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Deployment / Control / Feedback Flow</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Desired State</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Plan / Diff</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Apply Engine</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">State &amp; Policy</div></div>
-</div>
-</div>
-
-
+┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐
+│ Desired State        │──▶│ Plan / Diff          │──▶│ Apply Engine         │──▶│ State & Policy       │
+└──────────────────────┘   └──────────────────────┘   └──────────────────────┘   └──────────────────────┘
+```
 
 이 그림은 [테라폼](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/) 상태 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 입력, 실행, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 환류를 한 흐름으로 묶는다는 점을 보여준다. 즉 기술 자체보다도 제어 루프와 피드백 구조가 본질이다.
 
@@ -48,19 +45,16 @@ tags = ["studynote-devops-sre"]
 |:---|:---|:---|
 | [Desired State](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/080_kube_controller_manager_desired_state/) | YAML/HCL/Template로 목표 상태를 선언 | [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/)와 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리가 기본 전제 |
 | Plan / Diff | [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)와 목표 상태 차이를 계산 | 변경 영향과 파괴 범위를 먼저 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
-| Apply Engine | 클라우드 API나 컨트롤러를 통해 반영 | 실행 권한과 순서 의존성을 통제 |
+| Apply 엔진 | 클라우드 API나 컨트롤러를 통해 반영 | 실행 권한과 순서 의존성을 통제 |
 | [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) & [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) | 상태 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/), 백엔드 잠금, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 관리 | 동시 변경과 drift를 막는 핵심 계층 |
 
+```text
+Reference Architecture
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Reference Architecture</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Desired State</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Plan / Diff</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Apply Engine</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">State &amp; Policy</div></div>
-</div>
-</div>
-
-
+┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐   ┌──────────────────────┐
+│ Desired State        │──▶│ Plan / Diff          │──▶│ Apply Engine         │──▶│ State & Policy       │
+└──────────────────────┘   └──────────────────────┘   └──────────────────────┘   └──────────────────────┘
+```
 
 위 구조에서 중요한 것은 각 계층의 책임을 분리하면서도, 마지막에 반드시 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 다시 제어 계층으로 돌아오게 만드는 것이다. 그래야 변경 실패가 누적되지 않고, 재현성과 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 가능성을 함께 확보할 수 있다.
 
@@ -127,20 +121,16 @@ tags = ["studynote-devops-sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Remote Backend</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">테라폼 상태 파일</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">State Lock</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Drift</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">수동 프로비저닝과 운영자별 개별 스크립트</div></div>
-</div>
-</div>
-
-
+```text
+[Remote Backend]
+    │
+    ▼
+[테라폼 상태 파일]
+    │
+    ├──▶ [State Lock]
+    ├──▶ [Drift]
+    └──▶ [수동 프로비저닝과 운영자별 개별 스크립트]
+```
 
 이 흐름도는 [테라폼](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/) 상태 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 선행 개념 위에 서서 운영 자동화, 보안, 확장, 가시성 중 어떤 축으로 확장되는지를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해서 보여준다.
 

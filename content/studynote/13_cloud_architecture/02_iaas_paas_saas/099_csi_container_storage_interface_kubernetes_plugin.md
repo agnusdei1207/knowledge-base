@@ -22,24 +22,25 @@ tags = ["studynote-cloud-architecture"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 [CSI](/knowledge-base/studynote/12_it_management/02_itsm_itil/068_csi/) 아키텍처는 클러스터 외부의 스토리지 API와 통신하는 `CSI Controller`와, 실제 파드가 실행되는 물리 노드에서 볼륨을 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/)하는 `CSI Node`로 역할을 분담한다. K8s는 스토리지 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 삭제, 연결 등의 명령을 [CSI](/knowledge-base/studynote/12_it_management/02_itsm_itil/068_csi/) 표준 [RPC](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/)([Remote Procedure Call](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/)) 규격에 맞춰 호출할 뿐, 실제 하드웨어 제어는 [CSI](/knowledge-base/studynote/12_it_management/02_itsm_itil/068_csi/) 드라이버가 전담한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CSI (Container Storage Interface) 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">K8s Control Plane</div><div class="kb-diagram-node">External Storage</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (1) CreateVolume RPC</div><div class="kb-diagram-cell">(2) API</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Call</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CSI Controller</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(StatefulSet/Deploy)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (3) NodePublishVolume RPC (Mount)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(4) /dev/sdb</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CSI Node</div><div class="kb-diagram-cell">◀ 물리 디스크 부착</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(DaemonSet)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 CSI (Container Storage Interface) 구조      │
+├─────────────────────────────────────────────────────────────┤
+│  [K8s Control Plane]                     [External Storage] │
+│      │                                         ▲            │
+│      ▼ (1) CreateVolume RPC                    │ (2) API    │
+│  ┌──────────────────────┐                      │     Call   │
+│  │    CSI Controller    │──────────────────────┘            │
+│  │ (StatefulSet/Deploy) │                                   │
+│  └──────────────────────┘                                   │
+│      │                                                      │
+│      ▼ (3) NodePublishVolume RPC (Mount)                    │
+│  ┌──────────────────────┐     (4) /dev/sdb                  │
+│  │       CSI Node       │ ◀──────── 물리 디스크 부착           │
+│  │     (DaemonSet)      │                                   │
+│  └──────────────────────┘                                   │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램은 K8s가 통제실(Controller)과 현장(Node)을 분리하여 외부 스토리지를 프로비저닝하고 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/)하는 흐름을 보여준다. [CSI](/knowledge-base/studynote/12_it_management/02_itsm_itil/068_csi/) Controller는 클라우드 API를 호출해 가상 디스크를 만들고, [CSI](/knowledge-base/studynote/12_it_management/02_itsm_itil/068_csi/) Node 데몬은 해당 노드에 리눅스 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/) 명령을 내려 파드가 디스크를 사용할 수 있게 한다.
 
@@ -83,23 +84,21 @@ CSI의 도입으로 K8s는 스토리지 관리의 무거운 짐을 벗어던지�
 | [DaemonSet](/knowledge-base/studynote/11_design_supervision/06_exam_summary/334_process/) | 모든 노드에 [CSI](/knowledge-base/studynote/12_it_management/02_itsm_itil/068_csi/) Node 플러그인을 띄우기 위해 사용하는 K8s 워크로드 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">K8s 코어 비대화 및 병목 발생 (In-Tree)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Out-of-Tree 아키텍처 전환 요구</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CSI (Container Storage Interface) 표준 제정</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CSI Controller (프로비저닝) · CSI Node (마운트) 분업화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Volume Snapshot · Volume Cloning · 동적 확장 지원 (미래 확장)</div>
-</div>
-</div>
-
-
+```text
+K8s 코어 비대화 및 병목 발생 (In-Tree)
+    │
+    ▼
+Out-of-Tree 아키텍처 전환 요구
+    │
+    ▼
+CSI (Container Storage Interface) 표준 제정
+    │
+    ▼
+CSI Controller (프로비저닝) · CSI Node (마운트) 분업화
+    │
+    ▼
+Volume Snapshot · Volume Cloning · 동적 확장 지원 (미래 확장)
+```
 이 흐름도는 스토리지 코드가 K8s 내부에서 분리되어 표준화되고, 점차 고급 기능으로 확장되는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

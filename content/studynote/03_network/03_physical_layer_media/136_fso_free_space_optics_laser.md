@@ -27,18 +27,14 @@ tags = ["studynote-network"]
 3. **무면허 대역 (License-Free)**: RF(전파) 주파수와 달리, 광파 대역은 주파수 할당이나 라이선스 비용이 필요 없습니다.
 4. **구축 용이성**: 도로를 파헤치고 케이블을 매설할 필요 없이(Trenching 불필요), 옥상 간에 송수신기를 마주 보게 설치하여 즉시 개통이 가능합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">광전송 용어</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">자유 공간 광통신 / 레이저 통신</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">이더넷 물리 계층 표준</div></div>
-</div>
-</div>
-
-
+```text
+[광전송 용어]
+    │
+    ▼
+[자유 공간 광통신 / 레이저 통신]
+    │
+    └──▶ [이더넷 물리 계층 표준]
+```
 
 - **📢 섹션 요약 비유**: 자유 공간 광통신 / 레이저 통신은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -48,20 +44,19 @@ tags = ["studynote-network"]
 
 [FSO](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/900_fso_free_space_optics_hybrid_rf_backup/) 시스템은 기본적으로 양방향 통신을 위해 두 건물 사이 등에 송신기(레이저 빔 발생)와 수신기(광 검출기)를 서로 **가시선(LOS, Line of Sight)** 내에 정확히 정렬(Alignment)하여 구성합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Building A</div><div class="kb-diagram-node">Building B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Network</div><div class="kb-diagram-cell">Network</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Equipment</div><div class="kb-diagram-cell">◀──(Electrical Signal)──▶</div><div class="kb-diagram-cell">Equipment</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FSO Trans-</div><div class="kb-diagram-cell">(Laser Beam in Free Space)</div><div class="kb-diagram-cell">FSO Trans-</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ceiver</div><div class="kb-diagram-cell">◀ ▶</div><div class="kb-diagram-cell">ceiver</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Laser/APD)</div><div class="kb-diagram-cell">Clear Line of Sight (LOS)</div><div class="kb-diagram-cell">(Laser/APD)</div></div>
-</div>
-</div>
-
-
+```text
+  [Building A]                                      [Building B]
+ ┌────────────┐                                    ┌────────────┐
+ │ Network    │                                    │ Network    │
+ │ Equipment  │◀──(Electrical Signal)──▶          │ Equipment  │
+ └─────┬──────┘                                    └──────┬─────┘
+       │                                                  │
+┌──────┴──────┐                                    ┌──────┴──────┐
+│ FSO Trans-  │       (Laser Beam in Free Space)   │ FSO Trans-  │
+│ ceiver      │ ◀────────────────────────────────▶ │ ceiver      │
+│ (Laser/APD) │      Clear Line of Sight (LOS)     │ (Laser/APD) │
+└─────────────┘                                    └─────────────┘
+```
 
 1. **전광 변환 (E/O)**: 송신 측에서 전기적 데이터를 레이저 [다이오드](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/)(LD)를 이용해 광 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)로 변환합니다.
 2. **공간 전송**: 렌즈(Telescope)를 통해 빔을 평행하게 만들어(Collimation) 대기 중으로 쏘아 보냅니다.
@@ -127,19 +122,15 @@ FSO는 '공기'를 매질로 하므로, 대기 중의 입자들이 빛의 직진
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 광전송 용어</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 자유 공간 광통신 / 레이저 통신</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 이더넷 물리 계층 표준</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고속 광전송 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 광전송 용어]
+    │
+    ▼
+[현재 개념: 자유 공간 광통신 / 레이저 통신]
+    │
+    ├──▶ [확장 A: 이더넷 물리 계층 표준]
+    └──▶ [확장 B: 고속 광전송 최적화]
+```
 
 자유 공간 광통신 / 레이저 통신는 [광전송 용어](/knowledge-base/studynote/03_network/03_physical_layer_media/135_optical_transmission_components/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 물리 계층 표준와 고속 광전송 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

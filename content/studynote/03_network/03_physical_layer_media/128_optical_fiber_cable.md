@@ -25,23 +25,18 @@ tags = ["studynote-network"]
 
 다음은 구리선 전송 매체의 한계와 광섬유가 이를 어떻게 극복하는지 보여주는 문제 배경도이다.
 
+```text
+[구리선 (UTP/동축)의 전송 한계]
+ 전기 신호 ──▶ ~~~~~ (저항으로 인한 발열/감쇠) ~~~~ ─×─▶ (신호 소멸 / 100m 한계)
+   └─ (외부 전자기파 공격) ─▶ ⚡노이즈 혼입⚡
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">구리선 (UTP/동축)의 전송 한계</div></div>
-<div class="kb-diagram-note">전기 신호 ──▶ ~~~~~ (저항으로 인한 발열/감쇠) ~~~~ ─×─▶ (신호 소멸 / 100m 한계)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">(외부 전자기파 공격) ─▶ ⚡노이즈 혼입⚡</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">광섬유 케이블의 혁신</div></div>
-<div class="kb-diagram-note">빛 신호 ──▶ /\/\/\/\/\/\/\/\/\ (내부 전반사 무한 튕김) ──▶ (수십 km 도달)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">(외부 전자기파 공격) ─▶ 🛡️투과/무시 (면역)🛡️</div>
-</div>
-</div>
-
-
+[광섬유 케이블의 혁신]
+ 빛 신호 ──▶ /\/\/\/\/\/\/\/\/\ (내부 전반사 무한 튕김) ──▶ (수십 km 도달)
+   └─ (외부 전자기파 공격) ─▶ 🛡️투과/무시 (면역)🛡️
+```
 *이 그림의 핵심은 구리선은 외부 환경의 전기적 공격에 취약하고 스스로 에너지를 잃어버리지만, 광섬유는 빛이라는 매개체를 코어 내부에 가둠으로써 외부 노이즈와 완전히 격리된 무결점 터널을 형성한다는 점이다. 따라서 광케이블은 리피터(증폭기) 없이도 해저나 광활한 대륙을 횡단할 수 있는 유일한 매체가 된다. 실무에서는 이 특성 덕분에 고압 전선이 지나가는 발전소나 공장 등 노이즈가 극심한 환경의 네트워크망 구축 시 광섬유가 1순위로 채택된다.*
 
-- **📢 섹션 요약 비유**: 일반 도로(구리선)는 빗물과 차막힘([저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)/간섭) 때문에 멀리 가기 힘들지만, 지하 진공 튜브(광섬유)를 뚫어 총알(빛)을 쏘면 날씨나 장애물의 방해 없이 순식간에 지구 반대편까지 꽂히는 것과 같습니다.
+- **📢 섹션 요약 비유**: 일반 도로(구리선)는 빗물과 차병목([저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)/간섭) 때문에 멀리 가기 힘들지만, 지하 진공 튜브(광섬유)를 뚫어 총알(빛)을 쏘면 날씨나 장애물의 방해 없이 순식간에 지구 반대편까지 꽂히는 것과 같습니다.
 
 ---
 
@@ -58,20 +53,16 @@ tags = ["studynote-network"]
 
 다음은 코어와 클래딩 간의 [굴절률](/knowledge-base/studynote/03_network/03_physical_layer_media/129_refractive_index_tir/) 차이로 빛이 갇혀서 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)하는 상태 전이도이다.
 
+```text
+               (외부 피복 / 자켓 생략)
+====================================================== [클래딩: 낮은 굴절률 n2]
+             \                   /                   / (전반사 발생)
+──[빛 입사]───\─────────────────/───────────────────/──[코어: 높은 굴절률 n1]
+               \               /                   /
+====================================================== [클래딩: 낮은 굴절률 n2]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">(외부 피복 / 자켓 생략)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">======================================================</div><div class="kb-diagram-node">클래딩: 낮은 굴절률 n2</div></div>
-<div class="kb-diagram-note">\ / / (전반사 발생)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">──</div><div class="kb-diagram-node">빛 입사</div><div class="kb-diagram-note">\ / /──</div><div class="kb-diagram-node">코어: 높은 굴절률 n1</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">======================================================</div><div class="kb-diagram-node">클래딩: 낮은 굴절률 n2</div></div>
-<div class="kb-diagram-note">* 조건: n1(코어) &gt; n2(클래딩) 이며, 입사각이 임계각보다 커야 함.</div>
-</div>
-</div>
-
-
+ * 조건: n1(코어) > n2(클래딩) 이며, 입사각이 임계각보다 커야 함.
+```
 *이 구조도의 핵심은 코어의 [굴절률](/knowledge-base/studynote/03_network/03_physical_layer_media/129_refractive_index_tir/)이 클래딩보다 약간 높게 설계되어 있다는 점이다. 이런 배치는 빛이 밀한 매질(코어)에서 소한 매질(클래딩)로 나아가려 할 때 입사각이 일정 각도(임계각)를 넘으면 경계면을 뚫지 못하고 내부로 100% 튕겨 나오는 전반사(Total Internal Reflection) 현상을 유도하기 때문이며, 따라서 빛의 손실 없이 수 km를 구불구불한 선을 따라 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)할 수 있게 한다. 실무에서 광케이블을 너무 심하게 꺾으면(Bending) 빛의 입사각이 임계각보다 작아져 클래딩 밖으로 빛이 새어나가는 치명적인 '굽힘 손실(Bending Loss)'이 발생한다.*
 
 <strong>전송 모드(Mode)에 따른 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a></strong>
@@ -106,26 +97,26 @@ SMF는 케이블 자체는 저렴하지만 빛을 바늘구멍 같은 코어에 
 
 다음은 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 내 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 간 대용량 링크 구축 시의 의사결정 트리이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">스위치 업링크 구간 속도 / 거리 파악</div></div>
-<div class="kb-diagram-tree-item" style="--depth:6">▶ (장비 간 거리가 100m 이내이고, 단가 절감이 최우선인가?)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DAC (Direct Attach Copper) 케이블 채택</div><div class="kb-diagram-note">(※ 광모듈 일체형 구리선)</div></div>
-<div class="kb-diagram-note">No</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">거리 및 대역폭 조건</div></div>
-<div class="kb-diagram-tree-item" style="--depth:6">▶ (건물 내부, 400m 이내 10G/40G 전송이 필요한가?)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MMF (OM3/OM4 광케이블) + SR(Short Reach) 광모듈 채택</div></div>
-<div class="kb-diagram-note">No (거리가 1km 이상이거나 도시 간 연결이다)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SMF (단일 모드 케이블) + LR(Long Reach) / ER(Extended Reach) 광모듈 채택</div></div>
-<div class="kb-diagram-note">↳ 광 접속(Splicing) 및 코어 오염 관리에 최고 등급 주의 필요</div>
-</div>
-</div>
-
-
+```text
+[스위치 업링크 구간 속도 / 거리 파악]
+             │
+             ├─▶ (장비 간 거리가 100m 이내이고, 단가 절감이 최우선인가?)
+             │   └─ Yes ──▶ [DAC (Direct Attach Copper) 케이블 채택] (※ 광모듈 일체형 구리선)
+             │
+             No
+             │
+             ▼
+[거리 및 대역폭 조건]
+             │
+             ├─▶ (건물 내부, 400m 이내 10G/40G 전송이 필요한가?)
+             │   └─ Yes ──▶ [MMF (OM3/OM4 광케이블) + SR(Short Reach) 광모듈 채택]
+             │
+             No (거리가 1km 이상이거나 도시 간 연결이다)
+             │
+             ▼
+      [SMF (단일 모드 케이블) + LR(Long Reach) / ER(Extended Reach) 광모듈 채택]
+        ↳ 광 접속(Splicing) 및 코어 오염 관리에 최고 등급 주의 필요
+```
 *이 흐름의 핵심은 광케이블의 선택이 단독으로 이루어지는 것이 아니라, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 꽂히는 광 [트랜시버](/knowledge-base/studynote/03_network/03_physical_layer_media/153_transceiver_mau_sfp/)(SFP+/QSFP 등)의 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 및 예산과 100% 연동되어야 한다는 점이다. 아무리 저렴한 멀티모드 케이블을 깔아도 거리가 스펙(예: OM3 기준 10G에서 300m)을 초과하면 프레임 에러([CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/) Error)가 폭증한다. 실무에서는 케이블 공사가 완료된 후 반드시 OTDR(광학 시간영역 반사계) 장비로 구간별 손실(dB)을 측정해 굽힘 한계 초과나 접속 불량이 없는지 검증해야 한다.*
 
 <strong>실무 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> (치명적 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a> 사례)</strong>
@@ -170,19 +161,15 @@ SMF는 케이블 자체는 저렴하지만 빛을 바늘구멍 같은 코어에 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 동축 케이블</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 광섬유 케이블</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 굴절률, 전반사</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고속 광전송 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 동축 케이블]
+    │
+    ▼
+[현재 개념: 광섬유 케이블]
+    │
+    ├──▶ [확장 A: 굴절률, 전반사]
+    └──▶ [확장 B: 고속 광전송 최적화]
+```
 
 광섬유 케이블는 동축 케이블에서 출발해 현재 메커니즘을 정교화하고, 이후 [굴절률](/knowledge-base/studynote/03_network/03_physical_layer_media/129_refractive_index_tir/), 전반사와 고속 광전송 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

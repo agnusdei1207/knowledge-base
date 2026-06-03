@@ -27,18 +27,14 @@ tags = ["studynote-network"]
   - 구형 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/): 전광판이 없어서 톨게이트 차단기에 앞 유리를 **시원하게 들이박고 박살이 난 뒤에야(패킷 Drop)** 비로소 차가 밀리는 줄 알고 브레이크를 밟습니다.
   - ECN 도입: 톨게이트 직원이 지나가는 차(패킷) 유리창에 <strong>"전방 10km 정체 됨"이라는 딱지(CE 마킹)</strong>를 붙여줍니다. 이 딱지를 본 차가 목적지에 도착하면, 목적지 친구가 전화를 걸어(ECE [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)) 출발지 친구에게 "야, 거기 막힌대! 천천히 출발해!"라고 알려주어(CWR [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)) 완벽히 사고를 예방합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">TCP 제어 플래그</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ECN 징후 플래그</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">윈도우 크기</div></div>
-</div>
-</div>
-
-
+```text
+[TCP 제어 플래그]
+    │
+    ▼
+[ECN 징후 플래그]
+    │
+    └──▶ [윈도우 크기]
+```
 
 - **📢 섹션 요약 비유**: <strong> ECE와 CWR <a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/">플래그</a>는 투수가 공을 던질 때, 포수가 </strong>"야, 타자 타이밍이 딱 맞아서 홈런 칠 거 같아! 견제구 던져!(ECE)"**라고 사인(경고)을 보내고, 투수가 **"알았어, 템포 좀 늦출게(CWR)"**라고 모자 챙을 만지며 호흡을 맞추는 환상적인 배터리 사인 교환입니다.
 
@@ -66,22 +62,23 @@ tags = ["studynote-network"]
 - "수신자야!! 나 경고등 잘 봤고, 방금 속도 줄였어(CWR). 그러니까 이제 제발 그 미친 ECE 경고등 좀 그만 켜!"
 - 수신자는 `CWR` 불이 켜진 패킷을 받으면 비로소 `ECE` 경고등을 끄고 평화로운 통신으로 돌아간다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ECN 조기 경보 시스템의 핑퐁 시나리오</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">송신자</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">막혀가는 라우터</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">수신자</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(IP 겉면에 CE 딱지 쾅!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">송신자</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">ECE</div><div class="kb-diagram-note">불 켜서 쏨!)</div><div class="kb-diagram-node">수신자</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"아 씨 깜짝이야! 알았어 속도 절반으로 줄일게!!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">송신자</div><div class="kb-diagram-note">── (TCP 헤더에</div><div class="kb-diagram-node">CWR</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">수신자</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"나 속도 줄였으니까 이제 경고등 꺼라!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: 패킷을 단 한 개도 죽이지(Drop) 않고 평화롭게 트래픽을 통제해냄!</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                ECN 조기 경보 시스템의 핑퐁 시나리오               │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 송신자 ] ──▶ (패킷 슝~) ──▶ [ 막혀가는 라우터 ] ──▶ [ 수신자 ] │
+ │                                 (IP 겉면에 CE 딱지 쾅!)       │
+ │                                                             │
+ │   [ 송신자 ] ◀── (TCP 헤더에 [ ECE ] 불 켜서 쏨!) ─────── [ 수신자 ] │
+ │   "아 씨 깜짝이야! 알았어 속도 절반으로 줄일게!!"                      │
+ │                                                             │
+ │   [ 송신자 ] ── (TCP 헤더에 [ CWR ] 불 켜서 쏨!) ───────▶ [ 수신자 ] │
+ │                   "나 속도 줄였으니까 이제 경고등 꺼라!"               │
+ │                                                             │
+ │   ▶ 결과: 패킷을 단 한 개도 죽이지(Drop) 않고 평화롭게 트래픽을 통제해냄!│
+ └─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: ** ECE와 CWR의 교환은 전투기 조종석의 **"락온(Lock-on) 경고음"<strong>과 같습니다. 적의 미사일 기지(혼잡 라우터)가 레이더를 비추면, 전투기 경보음이 미친 듯이 울립니다(ECE). 조종사가 즉시 회피 기동(속도 감속)을 한 뒤 </strong>방어 버튼(CWR)**을 누르면, 그제야 삑삑거리던 경보음이 꺼지고 비행기는 격추(패킷 드랍)를 면하게 됩니다.
 
@@ -139,19 +136,15 @@ ECN 징후 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_e
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: TCP 제어 플래그</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: ECN 징후 플래그</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 윈도우 크기</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: TCP 제어 플래그]
+    │
+    ▼
+[현재 개념: ECN 징후 플래그]
+    │
+    ├──▶ [확장 A: 윈도우 크기]
+    └──▶ [확장 B: 적응형 저지연 전송]
+```
 
 ECN 징후 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)는 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 제어 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [윈도우 크기](/knowledge-base/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/)와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

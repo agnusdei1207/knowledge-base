@@ -20,25 +20,25 @@ HDFS는 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/17
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 [데이터노드](/knowledge-base/studynote/14_data_engineering/01_infrastructure/015_datanode/)는 [네임노드](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/)의 지시에 따라 블록의 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 삭제, [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)를 수행합니다.
 
+```text
+[ DataNode Internal & Communication Architecture ]
 
+1. Block Storage: Stores data as local files (blk_ID) + Checksum (.meta).
+2. Communication Loop:
+   - Heartbeat: Every 3 seconds (Survival check).
+   - Block Report: Every hour (Full list of blocks held).
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DataNode Internal &amp; Communication Architecture</div></div>
-<div class="kb-diagram-note">1. Block Storage: Stores data as local files (blk_ID) + Checksum (.meta).</div>
-<div class="kb-diagram-note">2. Communication Loop:</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Heartbeat: Every 3 seconds (Survival check).</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Block Report: Every hour (Full list of blocks held).</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Diagram: Data Write Pipeline</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Client</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">NameNode</div></div>
-<div class="kb-diagram-note">&lt;----(2. DN1, DN2, DN3)--------------+</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">DataNode 1</div></div>
-<div class="kb-diagram-note">(4. Replication)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DataNode 2</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">DataNode 3</div></div>
-</div>
-</div>
-
-
+[ Diagram: Data Write Pipeline ]
+   [ Client ] ----(1. Get Locations)----> [ NameNode ]
+       |                                      |
+       | <----(2. DN1, DN2, DN3)--------------+
+       |
+       +----(3. Write Block)----> [ DataNode 1 ]
+                                      |
+                               (4. Replication)
+                                      |
+                                 [ DataNode 2 ] ----> [ DataNode 3 ]
+```
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 [네임노드](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/)와 [데이터노드](/knowledge-base/studynote/14_data_engineering/01_infrastructure/015_datanode/)의 역할을 명확히 비교합니다.
@@ -66,23 +66,21 @@ HDFS는 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/17
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">HDFS NameNode</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DataNode</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">블록 저장</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Heartbeat</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HA</div></div>
-</div>
-</div>
-
-
+```text
+[HDFS NameNode]
+    │
+    ▼
+[DataNode]
+    │
+    ▼
+[블록 저장]
+    │
+    ▼
+[Heartbeat]
+    │
+    ▼
+[HA]
+```
 
 NameNode와 DataNode의 역할 분담과 Heartbeat 기반 상태 감지가 [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) 고가용성으로 발전하는 흐름이다.
 

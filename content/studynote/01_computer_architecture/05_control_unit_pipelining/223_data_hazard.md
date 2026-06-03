@@ -45,21 +45,19 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 RAW가 왜 생기는지, 그리고 왜 단순히 "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 순서가 맞다"만으로는 충분하지 않은지를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RAW 데이터 해저드의 시간 충돌</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cycle 1 2 3 4 5 6</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I1: ADD IF ▶ ID ▶ EX ▶ MEM ──▶ WB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I2: SUB IF ▶ ID ▶ EX ▶ MEM ──▶ WB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">R1 읽음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">R1 기록</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">충돌: I2는 Cycle 3에 R1이 필요하지만, I1의 최신 R1은 Cycle 5에 기록된다.</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                  RAW 데이터 해저드의 시간 충돌                             │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Cycle      1        2        3        4        5        6                 │
+│ I1: ADD    IF ───▶  ID ───▶  EX ───▶  MEM ──▶  WB                         │
+│ I2: SUB             IF ───▶  ID ───▶  EX ───▶  MEM ──▶  WB                │
+│                          └──── R1 읽음 ────┘                              │
+│                                             └──── R1 기록 ────┘           │
+│                                                                            │
+│ 충돌: I2는 Cycle 3에 R1이 필요하지만, I1의 최신 R1은 Cycle 5에 기록된다.   │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 이 간극을 메우기 위해 하드웨어는 두 가지 기본 수단을 사용한다. 첫째, 해저드 탐지 유닛 (Hazard [Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/) Unit)이 소스/목적지 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 번호를 비교해 충돌을 찾는다. 둘째, 포워딩 유닛 (Forwarding Unit)이 EX/MEM 또는 MEM/WB 파이프라인 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)의 값을 [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) 입력 [멀티플렉서](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/041_multiplexer/) ([Multiplexer](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/041_multiplexer/), [MUX](/knowledge-base/studynote/03_network/19_frequent_topics_terms/944_mux_demux_multiplexer_demultiplexer_circuit_sharing/))로 직접 보내거나, 그조차 안 되면 스톨을 발생시킨다.
 
@@ -80,21 +78,20 @@ tags = ["studynote-computer-architecture"]
 
 특히 로드-유즈 해저드가 중요한 이유는, 메모리에서 읽은 값은 EX가 아니라 MEM 단계가 끝나야 비로소 준비되기 때문이다. 즉 다음 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 EX에 진입하는 순간까지 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 아직 물리적으로 존재하지 않을 수 있어, 포워딩이 있어도 미래의 값을 가져올 수는 없다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">포워딩 가능 구간과 불가능 구간</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">산술 결과: EX 완료 ▶ 다음 EX로 우회 가능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">로드 결과: MEM 완료 ▶ 다음 EX로 우회</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cycle 1 2 3 4 5 6</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LW IF ▶ ID ▶ EX ▶ MEM ──▶ WB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ADD IF ▶ ID ▶ Stall ▶ EX ▶ MEM</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이유: LW 데이터는 Cycle 4 끝에 생기므로, ADD는 Cycle 4 EX에 바로 못 쓴다.</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                 포워딩 가능 구간과 불가능 구간                             │
+├────────────────────────────────────────────────────────────────────────────┤
+│ 산술 결과:   EX 완료 ───────────────▶ 다음 EX로 우회 가능                  │
+│ 로드 결과:          MEM 완료 ───────▶ 다음 EX로 우회                       │
+│                                                                            │
+│ Cycle      1        2        3        4        5        6                 │
+│ LW                  IF ───▶  ID ───▶  EX ───▶  MEM ──▶  WB                │
+│ ADD                           IF ───▶  ID ───▶ Stall ▶  EX ───▶ MEM       │
+│                                                                            │
+│ 이유: LW 데이터는 Cycle 4 끝에 생기므로, ADD는 Cycle 4 EX에 바로 못 쓴다. │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 이 지점에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 해저드는 다른 파이프라인 주제와 자연스럽게 연결된다. 구조적 해저드는 자원이 부족해서 생기고, 제어 해저드는 다음 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 주소가 불확실해서 생기지만, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 해저드는 **정답이 아직 완성되지 않았기 때문에** 생긴다. 또한 225번 [RAW](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/), 226번 [WAR](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/226_war/), 227번 [WAW](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/227_waw/) 문서는 각각의 의존성을 더 세밀하게 다루고, 228번 [데이터 포워딩](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/228_data_forwarding/) 문서는 그중 RAW를 줄이는 대표 기법을 독립적으로 설명한다.
 
@@ -151,24 +148,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">명령어 파이프라이닝 (Instruction Pipelining)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">파이프라인 해저드 (Pipeline Hazard)</div>
-<div class="kb-diagram-note">구조적 해저드 데이터 해저드 제어 해저드</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">RAW / WAR / WAW 의존성 분석</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">포워딩 · 스톨 · 명령어 스케줄링으로 1차 대응</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">비순차 실행 (OoO) · 레지스터 리네이밍으로 동적 확장</div>
-</div>
-</div>
-
-
+```text
+명령어 파이프라이닝 (Instruction Pipelining)
+        │
+        ▼
+파이프라인 해저드 (Pipeline Hazard)
+        │
+        ├───────────────┬────────────────┐
+        ▼               ▼                ▼
+구조적 해저드      데이터 해저드       제어 해저드
+                        │
+                        ▼
+            RAW / WAR / WAW 의존성 분석
+                        │
+                        ▼
+     포워딩 · 스톨 · 명령어 스케줄링으로 1차 대응
+                        │
+                        ▼
+비순차 실행 (OoO) · 레지스터 리네이밍으로 동적 확장
+```
 
 이 흐름은 단순 파이프라인의 의존성 문제가, 점차 하드웨어 우회와 동적 스케줄링 기술로 확장되는 발전 방향을 보여준다.
 

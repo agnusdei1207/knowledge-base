@@ -23,21 +23,26 @@ tags = ["studynote-network"]
 - **필요성**: 만약 서울 전역을 덮는 거대한 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 있다면, 서울에 할당된 100개의 주파수 채널로 동시에 100명밖에 통화할 수 없다. 하지만 서울을 1만 개의 작은 셀로 쪼개고 "A동네 1번 주파수, 옆 동네 2번 주파수, 저 멀리 C동네 다시 1번 주파수"를 배정하면, 똑같은 100개의 주파수로 수십만 명이 통화하는 용량 증폭의 마법이 성립한다.
 - **등장 배경**: ① FM 라디오/아날로그 TV 시절의 단일 고출력 송신탑 방식의 끔찍한 비효율 봉착 → ② 1979년 벨 연구소(Bell Labs)에서 지형을 육각형 벌집(Hexagon)으로 쪼개는 기하학적 셀룰러 모델 제안 → ③ K계수(재사용률) 기반의 클러스터 아키텍처가 전 세계 모든 1G~[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 통신망의 물리적 뼈대로 정착.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주파수 재사용(Frequency Reuse)의 마법 기하학 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">클러스터 K = 3 인 경우</div><div class="kb-diagram-note">(3개의 셀이 한 세트로 묶임)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ f1 \ / f2 \ / f1 \ ◀─ 저 멀리 f1이 다시 등장!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ f2 \ / f3 \ / f3 \ / f2 \</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">\ / f1 \ / f2 \ / f1 \ /</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: f1을 쓰는 셀끼리 일정 거리(재사용 거리, D) 이상 떨어져 있어,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상대방의 전파가 도달하지 않아 서로 혼선(간섭)되지 않음!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│             주파수 재사용(Frequency Reuse)의 마법 기하학 시각화    │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [클러스터 K = 3 인 경우] (3개의 셀이 한 세트로 묶임)                │
+│                                                             │
+│             / \     / \     / \                            │
+│           / f1  \ / f2  \ / f1  \  ◀─ 저 멀리 f1이 다시 등장!  │
+│          |       |       |       |                         │
+│         / \     / \     / \     / \                        │
+│       / f2  \ / f3  \ / f3  \ / f2  \                      │
+│      |       |       |       |       |                     │
+│       \     / \     / \     / \     /                      │
+│         \ / f1  \ / f2  \ / f1  \ /                        │
+│                                                             │
+│   * 핵심: f1을 쓰는 셀끼리 일정 거리(재사용 거리, D) 이상 떨어져 있어, │
+│           상대방의 전파가 도달하지 않아 서로 혼선(간섭)되지 않음!      │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 그림은 이동통신 공학의 상징과도 같은 벌집 모양 토폴로지다. 통신사가 총 300개의 통화 채널을 가지고 있다면, `K=3` 클러스터에서는 f1, f2, f3 셀이 각각 100개씩의 채널을 나눠 갖는다. 이 f1~f3 묶음(클러스터)이 서울 땅덩어리 위에 도장 찍듯 계속 반복(복사+붙여넣기) 설치된다. 결과적으로 100개의 클러스터가 깔리면, 원래 300명밖에 못 쓰던 망이 "300 x 100 = 30,000명"을 수용하는 거대한 용량 확장(Capacity Expansion)을 이뤄낸다.
 
@@ -61,26 +66,27 @@ tags = ["studynote-network"]
 
 위 표를 보면 이상한 점이 있다. 옆 셀과 거리를 두어야 간섭이 없다고 했는데, 최신 4G LTE와 5G망은 기지국마다 다른 주파수를 배정하지 않고 **K=1 (전국 모든 기지국이 100% 동일한 주파수를 씀)** 방식을 채택했다. 어떻게 끔찍한 전파 간섭을 뚫고 통신이 가능할까?
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최신 망(LTE/5G)이 K=1 방식을 채택한 수학적 마법</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">과거: 주파수(차선)를 아예 나눔</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기지국 A (100MHz 사용) ──▶ (벽) ◀── 기지국 B (101MHz 사용)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 간섭 0. 하지만 기지국당 쓸 수 있는 대역폭이 너무 좁아 속도가 느림.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 4G/5G: K=1 주파수 재사용 + 직교성(OFDMA) 및 암호코드(CDMA)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기지국 A (100MHz 통째로 씀) ──▶ (꽝!) ◀── 기지국 B (100MHz 통째로 씀)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"근데 안 부서짐! 왜?"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. CDMA 방식: 주파수가 충돌해도 단말기에 부여된 '암호 코드'가 달라서 뚫어냄.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. OFDMA 방식(LTE/5G): 간섭이 가장 심한 셀 가장자리 단말기들에게는, 기지국끼리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서로 0.1밀리초 단위로 통신하여 빈 시간/빈 블록(Resource Block)을 피해서 쏴줌.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 간섭을 피하기 위해 대역폭을 7토막 내는 바보짓을 멈추고,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모든 기지국이 풀(Full) 대역폭을 써서 기가비트 속도를 달성!</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────┐
+│               최신 망(LTE/5G)이 K=1 방식을 채택한 수학적 마법       │
+├───────────────────────────────────────────────────────────────┤
+│                                                               │
+│   [과거: 주파수(차선)를 아예 나눔]                                 │
+│   기지국 A (100MHz 사용)  ──▶ (벽) ◀── 기지국 B (101MHz 사용)      │
+│   => 간섭 0. 하지만 기지국당 쓸 수 있는 대역폭이 너무 좁아 속도가 느림.    │
+│                                                               │
+│   [현재 4G/5G: K=1 주파수 재사용 + 직교성(OFDMA) 및 암호코드(CDMA)]  │
+│   기지국 A (100MHz 통째로 씀) ──▶ (꽝!) ◀── 기지국 B (100MHz 통째로 씀)│
+│                                                               │
+│   "근데 안 부서짐! 왜?"                                          │
+│   1. CDMA 방식: 주파수가 충돌해도 단말기에 부여된 '암호 코드'가 달라서 뚫어냄. │
+│   2. OFDMA 방식(LTE/5G): 간섭이 가장 심한 셀 가장자리 단말기들에게는, 기지국끼리 │
+│      서로 0.1밀리초 단위로 통신하여 빈 시간/빈 블록(Resource Block)을 피해서 쏴줌.│
+│                                                               │
+│   => 결과: 간섭을 피하기 위해 대역폭을 7토막 내는 바보짓을 멈추고,          │
+│            모든 기지국이 풀(Full) 대역폭을 써서 기가비트 속도를 달성!       │
+└───────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 초창기 아키텍트들은 간섭을 두려워하여 주파수를 쪼갰다(K=7). 하지만 통신사 입장에서 주파수를 7토막 내면 고객 1명이 누릴 수 있는 최대 속도도 1/7로 줄어든다. 스마트폰 시대에 속도 경쟁이 붙으면서, 3G([CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/))는 고유한 확산 코드를 통해, 4G/[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)([OFDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/))는 ICIC(Inter-Cell Interference Coordination)라는 기지국 간 실시간 찰나의 눈치싸움 스케줄링을 통해 간섭을 극복해 냈다. 이로써 전국의 모든 기지국이 통신사가 가진 모든 주파수 대역폭을 100% 한 톨도 안 남기고(K=1) 쓸 수 있는 궁극의 효율 진화가 이루어졌다.
 
@@ -100,24 +106,25 @@ tags = ["studynote-network"]
 | **2. 섹터링** | **Sectoring** | 막대기 모양 무지향성(360도) [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 버리고, 120도 지향성 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 3개를 달아 빔의 각도를 조각냄 | 셀 가장자리에서 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 빔 간의 **간섭(사각지대) 증가**, 트렁킹 효율 감소 |
 | **3. 마이크로셀 할당** | **Microcell Zone** | 큰 셀 안에 핫스팟(정류장 등)에만 쪼끄만 기지국([Small Cell](/knowledge-base/studynote/03_network/03_physical_layer_media/178_small_cell_macro_femto/))을 박아 넣어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 빨아들임 | 매크로 셀과 스몰 셀 간의 수직적 간섭(고막 테러) 방어 기술(eICIC) 필수 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">섹터링(Sectoring) 기법을 통한 간섭 감소 마법</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">과거: 360도 무지향성 안테나 (Omni-directional)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(((( 📡 )))) ──▶ 내가 전파를 쏘면 동서남북 6개의 이웃 셀 전체에</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원치 않는 전파 폭력(간섭)을 가하게 됨.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">혁신: 120도 3-섹터 안테나 분할 (Directional)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(섹터 A) 📡 -- (섹터 B) ──▶ 전파를 120도 부채꼴로 제한해서 쏨!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">\ 내가 쏘는 전파가 특정 방향 이웃 2곳에만 맞음.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(섹터 C)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 안테나 모양만 부채꼴로 바꿨을 뿐인데, 기지국 간 간섭(CCI)이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1/3 로 줄어들어, 남는 공간에 더 많은 사람을 구겨 넣을 수 있음!</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────┐
+│               섹터링(Sectoring) 기법을 통한 간섭 감소 마법          │
+├───────────────────────────────────────────────────────────────┤
+│                                                               │
+│   [과거: 360도 무지향성 안테나 (Omni-directional)]                │
+│       (((( 📡 )))) ──▶ 내가 전파를 쏘면 동서남북 6개의 이웃 셀 전체에  │
+│                           원치 않는 전파 폭력(간섭)을 가하게 됨.        │
+│                                                               │
+│   [혁신: 120도 3-섹터 안테나 분할 (Directional)]                  │
+│             /                                                 │
+│   (섹터 A) 📡 -- (섹터 B) ──▶ 전파를 120도 부채꼴로 제한해서 쏨!       │
+│             \               내가 쏘는 전파가 특정 방향 이웃 2곳에만 맞음.│
+│          (섹터 C)                                              │
+│                                                               │
+│   => 결과: 안테나 모양만 부채꼴로 바꿨을 뿐인데, 기지국 간 간섭(CCI)이 │
+│            1/3 로 줄어들어, 남는 공간에 더 많은 사람을 구겨 넣을 수 있음!│
+└───────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 셀 분할은 땅을 사서 철탑을 새로 세워야 하니 수억 원이 든다. 가장 가성비가 좋은 기법이 섹터링(Sectoring)이다. 기지국 철탑 꼭대기를 보면 원통형 기둥 하나만 있는 것이 아니라, 보통 3개의 길쭉한 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 삼각형 모양으로 120도씩 등을 지고 붙어있다. 이렇게 쏘는 각도를 제한하면, 재사용 거리 밖으로 날아가 다른 셀을 때리는 간섭(Interference)의 개수가 획기적으로 줄어든다. 간섭이 줄어들면 통신사는 주파수 클러스터 K값을 7에서 4나 3으로 낮출 수 있고, 이는 곧 가입자 용량 폭발로 이어진다.
 
@@ -175,19 +182,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 매크로 뷰 토폴로지 / 피코 셀/마이크로 셀</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 주파수 재사용</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: Co-channel Interference…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 무선 자원 제어</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 매크로 뷰 토폴로지 / 피코 셀/마이크로 셀]
+    │
+    ▼
+[현재 개념: 주파수 재사용]
+    │
+    ├──▶ [확장 A: Co-channel Interference…]
+    └──▶ [확장 B: 지능형 무선 자원 제어]
+```
 
 주파수 재사용는 [매크로 뷰](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/553_macro_micro_pico_femto_cell_topology/) 토폴로지 / 피코 셀/마이크로 셀에서 출발해 현재 메커니즘을 정교화하고, 이후 [Co-channel Interference](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/555_co_channel_adjacent_interference/)…와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

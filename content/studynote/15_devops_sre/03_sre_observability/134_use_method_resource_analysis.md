@@ -18,19 +18,13 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">모든 리소스(CPU·메모리·디스크·NIC)에 대해:</div>
-<div class="kb-diagram-note">U: Utilization → 사용률 (%)</div>
-<div class="kb-diagram-note">S: Saturation → 포화도 (큐 길이)</div>
-<div class="kb-diagram-note">E: Errors → 에러 수</div>
-<div class="kb-diagram-note">→ 하나라도 이상이면 병목!</div>
-</div>
-</div>
-
-
+```text
+모든 리소스(CPU·메모리·디스크·NIC)에 대해:
+  U: Utilization → 사용률 (%) 
+  S: Saturation → 포화도 (큐 길이)
+  E: Errors → 에러 수
+→ 하나라도 이상이면 병목!
+```
 
 - **📢 섹션 요약 비유**: USE는 의사의 <strong>기본 건강 검진(체온·혈압·혈당)</strong>이다. 모든 장기를 3가지 지표로 점검한다.
 
@@ -54,19 +48,13 @@ USE는 <strong>인프라 <a href="/knowledge-base/studynote/04_software_engineer
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">비체계적 성능 분석 (~2010s)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">USE 메서드 (Brendan Gregg, 2012)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">RED 메서드 (Weaveworks, 2017)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">4 Golden Signals (Google SRE)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: AI 성능 분석 — 자동 병목 진단</div></div>
-</div>
-</div>
-
-
+```text
+[비체계적 성능 분석 (~2010s)]
+    → [USE 메서드 (Brendan Gregg, 2012)]
+    → [RED 메서드 (Weaveworks, 2017)]
+    → [4 Golden Signals (Google SRE)]
+    → [현재: AI 성능 분석 — 자동 병목 진단]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. USE는 <strong>건강 검진</strong>이에요. 모든 장기(리소스)를 <strong>3가지(체온·혈압·혈당)</strong>로 점검해요.

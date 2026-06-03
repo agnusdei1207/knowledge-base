@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/411_cpe_inventory_mapping/">CPE</a> (고객 구내 장비)</strong>: 인터넷을 뚫기 위해 KT나 SKT가 기업 사무실(고객 구역) 구석탱이에 물리적으로 설치해 주고 가는 검은 박스 장비들(라우터, [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/), [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/), 셋톱박스 등)입니다.
 - **재앙**: 대기업 지사 100곳에 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 기계 100대를 깔아야 합니다(CAPEX 폭발). 펌웨어를 업데이트하려면 100곳을 다 접속해야 하고, 기계가 뻗으면 택배로 새 기계를 보내서 직원이 렌치를 들고 뜯어야 합니다(트럭롤, Truck-roll 오버헤드).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">O-RAN 프론트홀 개방 사양</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">vCPE NFV 고객 구내 망 통합 전환</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">마이크로그리드 통신 규격</div></div>
-</div>
-</div>
-
-
+```text
+[O-RAN 프론트홀 개방 사양]
+    │
+    ▼
+[vCPE NFV 고객 구내 망 통합 전환]
+    │
+    └──▶ [마이크로그리드 통신 규격]
+```
 
 - **📢 섹션 요약 비유**: [vCPE](/knowledge-base/studynote/03_network/17_sdn_nfv/886_vcpe_virtual_customer_premises_equipment_edge_vnf/) [NFV](/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/) 고객 구내 망 통합 전환은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -56,18 +52,14 @@ tags = ["studynote-network"]
 - KT 본사에서 "자 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 필요해? 옛다 소프트웨어 쏜다!" 라며, 앱스토어에서 앱 다운받듯 이 깡통 서버 안으로 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 앱([VNF](/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/)), 라우터 앱을 실시간으로 쑤셔 넣어 실행시킵니다.
 - **장점 (제로 터치)**: 기계 고장 나면 편의점에서 깡통 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 아무거나 사 와서 랜선만 꽂으면 10분 만에 본사에서 소프트웨어가 쫙 내려와서 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이 스스로 부활합니다. 엔지니어 출장(Truck-roll)이 평생 소멸합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">O-RAN 프론트홀 개방 사양</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">vCPE NFV 고객 구내 망 통합 전환</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">마이크로그리드 통신 규격</div></div>
-</div>
-</div>
-
-
+```text
+[O-RAN 프론트홀 개방 사양]
+    │
+    ▼
+[vCPE NFV 고객 구내 망 통합 전환]
+    │
+    └──▶ [마이크로그리드 통신 규격]
+```
 
 - **📢 섹션 요약 비유**: [vCPE](/knowledge-base/studynote/03_network/17_sdn_nfv/886_vcpe_virtual_customer_premises_equipment_edge_vnf/) [NFV](/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/) 고객 구내 망 통합 전환의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -122,19 +114,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: O-RAN 프론트홀 개방 사양</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: vCPE NFV 고객 구내 망 통합 전환</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 마이크로그리드 통신 규격</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: O-RAN 프론트홀 개방 사양]
+    │
+    ▼
+[현재 개념: vCPE NFV 고객 구내 망 통합 전환]
+    │
+    ├──▶ [확장 A: 마이크로그리드 통신 규격]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 [vCPE](/knowledge-base/studynote/03_network/17_sdn_nfv/886_vcpe_virtual_customer_premises_equipment_edge_vnf/) [NFV](/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/) 고객 구내 망 통합 전환는 [O-RAN](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/) [프론트홀](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/) 개방 사양에서 출발해 현재 메커니즘을 정교화하고, 이후 [마이크로그리드 통신 규격](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1106_microgrid_communication_standards_iec61850/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

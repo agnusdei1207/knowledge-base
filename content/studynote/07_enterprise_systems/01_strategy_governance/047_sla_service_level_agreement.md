@@ -69,48 +69,54 @@ SLA 문서 구조:
 
 ## Ⅱ. [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 협상 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
+```
+SLA 협상 핵심 포인트:
 
+공급업체 관점:
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">SLA 협상 핵심 포인트:</div>
-<div class="kb-diagram-note">공급업체 관점:</div>
-<div class="kb-diagram-note">1. 합리적 목표 설정:</div>
-<div class="kb-diagram-note">역사 데이터 기반: 과거 6개월 가용성</div>
-<div class="kb-diagram-note">예: 실제 99.97% → SLA 99.9% 제안</div>
-<div class="kb-diagram-note">(여유 0.07% = 완충 지대)</div>
-<div class="kb-diagram-note">2. 예외 사항 명확화:</div>
-<div class="kb-diagram-note">Scheduled Maintenance:</div>
-<div class="kb-diagram-note">"매주 일요일 02:00-04:00 정기 점검" 제외</div>
-<div class="kb-diagram-note">사전 72시간 공지 조건</div>
-<div class="kb-diagram-note">Force Majeure:</div>
-<div class="kb-diagram-note">자연재해, 법적 규제, 사이버 공격</div>
-<div class="kb-diagram-note">제공자 통제 불가 상황</div>
-<div class="kb-diagram-note">고객 귀책 사유:</div>
-<div class="kb-diagram-note">API 오용, 제한 초과, 설정 오류</div>
-<div class="kb-diagram-note">3. 측정 방법 합의:</div>
-<div class="kb-diagram-note">제공자 모니터링 시스템 사용</div>
-<div class="kb-diagram-note">고객이 독립 검증 원하면: 제3자 도구 합의</div>
-<div class="kb-diagram-note">4. 크레딧 한도:</div>
-<div class="kb-diagram-note">과도한 페널티 = 사업 불가</div>
-<div class="kb-diagram-note">최대 크레딧: 월 청구액의 30~100%</div>
-<div class="kb-diagram-note">현금 환불 대신 서비스 크레딧 선호</div>
-<div class="kb-diagram-note">고객 관점:</div>
-<div class="kb-diagram-note">1. 측정 방법 검토:</div>
-<div class="kb-diagram-note">누가 측정? → 독립성 요구</div>
-<div class="kb-diagram-note">"제공자가 자체 측정"이면 제3자 추가</div>
-<div class="kb-diagram-note">2. SLA 적용 범위:</div>
-<div class="kb-diagram-note">전체 서비스 vs 핵심 기능 SLA 구분</div>
-<div class="kb-diagram-note">핵심 기능 더 엄격한 SLA 요구</div>
-<div class="kb-diagram-note">3. 에스컬레이션 절차:</div>
-<div class="kb-diagram-note">누구에게 보고? 언제?</div>
-<div class="kb-diagram-note">이슈 미해결 시 다음 단계?</div>
-<div class="kb-diagram-note">4. 종료 권리 (Termination Right):</div>
-<div class="kb-diagram-note">연속 N회 SLA 위반 시 계약 해지 권리</div>
-</div>
-</div>
+1. 합리적 목표 설정:
+  역사 데이터 기반: 과거 6개월 가용성
+  예: 실제 99.97% → SLA 99.9% 제안
+  (여유 0.07% = 완충 지대)
 
+2. 예외 사항 명확화:
+  Scheduled Maintenance:
+  "매주 일요일 02:00-04:00 정기 점검" 제외
+  사전 72시간 공지 조건
+  
+  Force Majeure:
+  자연재해, 법적 규제, 사이버 공격
+  제공자 통제 불가 상황
+  
+  고객 귀책 사유:
+  API 오용, 제한 초과, 설정 오류
 
+3. 측정 방법 합의:
+  제공자 모니터링 시스템 사용
+  고객이 독립 검증 원하면: 제3자 도구 합의
+  
+4. 크레딧 한도:
+  과도한 페널티 = 사업 불가
+  최대 크레딧: 월 청구액의 30~100%
+  현금 환불 대신 서비스 크레딧 선호
+
+고객 관점:
+
+1. 측정 방법 검토:
+  누가 측정? → 독립성 요구
+  "제공자가 자체 측정"이면 제3자 추가
+
+2. SLA 적용 범위:
+  전체 서비스 vs 핵심 기능 SLA 구분
+  핵심 기능 더 엄격한 SLA 요구
+
+3. 에스컬레이션 절차:
+  누구에게 보고? 언제?
+  이슈 미해결 시 다음 단계?
+
+4. 종료 권리 (Termination Right):
+  연속 N회 SLA 위반 시 계약 해지 권리
+```
 
 > 📢 **섹션 요약 비유**: [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 협상은 임대 계약 협상 — 집주인(공급업체)은 여유 있게 약속(실제 99.97% → [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 99.9%), 세입자(고객)는 독립 검사(제3자 측정)와 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 조항(종료권) 요구!
 
@@ -118,50 +124,56 @@ SLA 문서 구조:
 
 ## Ⅲ. [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 거버넌스
 
+```
+SLA 거버넌스 체계:
 
+정기 리뷰 사이클:
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">SLA 거버넌스 체계:</div>
-<div class="kb-diagram-note">정기 리뷰 사이클:</div>
-<div class="kb-diagram-note">월간 운영 리뷰 (MOR):</div>
-<div class="kb-diagram-note">SLA 실적 보고</div>
-<div class="kb-diagram-note">인시던트 요약</div>
-<div class="kb-diagram-note">개선 계획</div>
-<div class="kb-diagram-note">분기 서비스 리뷰 (QBR):</div>
-<div class="kb-diagram-note">트렌드 분석</div>
-<div class="kb-diagram-note">비즈니스 요구사항 변화</div>
-<div class="kb-diagram-note">SLA 수정 논의</div>
-<div class="kb-diagram-note">연간 계약 리뷰:</div>
-<div class="kb-diagram-note">SLA 재협상</div>
-<div class="kb-diagram-note">서비스 로드맵 공유</div>
-<div class="kb-diagram-note">다음 해 목표 설정</div>
-<div class="kb-diagram-note">SLA 리포트 구성:</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">월간 서비스 리포트</div></div>
-<div class="kb-diagram-note">기간: 2024년 3월</div>
-<div class="kb-diagram-note">가용성:</div>
-<div class="kb-diagram-note">합의 SLA: 99.9%</div>
-<div class="kb-diagram-note">실제 가용성: 99.97%</div>
-<div class="kb-diagram-note">다운타임: 8.6분 (목표 43.2분 대비 양호)</div>
-<div class="kb-diagram-note">응답 시간:</div>
-<div class="kb-diagram-note">P50: 180ms (목표 300ms ↓)</div>
-<div class="kb-diagram-note">P95: 450ms (목표 500ms ↓)</div>
-<div class="kb-diagram-note">P99: 1,200ms (목표 1,000ms ↑ ← 주의!)</div>
-<div class="kb-diagram-note">인시던트:</div>
-<div class="kb-diagram-note">P1: 0건</div>
-<div class="kb-diagram-note">P2: 2건 (MTTR: 1.8시간, SLA: 4시간)</div>
-<div class="kb-diagram-note">SLA 크레딧: 0원 (모든 지표 SLA 준수)</div>
-<div class="kb-diagram-note">개선 과제:</div>
-<div class="kb-diagram-note">P99 응답시간 초과 → DB 쿼리 최적화 계획</div>
-<div class="kb-diagram-note">에스컬레이션 매트릭스:</div>
-<div class="kb-diagram-note">L1: 담당자 자체 해결 (4시간)</div>
-<div class="kb-diagram-note">L2: 팀 리더 참여 (다음 날)</div>
-<div class="kb-diagram-note">L3: 관리자 / 임원 (SLA 위반 시)</div>
-<div class="kb-diagram-note">L4: 경영진 회의 (반복 위반 시)</div>
-</div>
-</div>
+월간 운영 리뷰 (MOR):
+  SLA 실적 보고
+  인시던트 요약
+  개선 계획
 
+분기 서비스 리뷰 (QBR):
+  트렌드 분석
+  비즈니스 요구사항 변화
+  SLA 수정 논의
 
+연간 계약 리뷰:
+  SLA 재협상
+  서비스 로드맵 공유
+  다음 해 목표 설정
+
+SLA 리포트 구성:
+  [월간 서비스 리포트]
+  
+  기간: 2024년 3월
+  
+  가용성:
+  합의 SLA: 99.9%
+  실제 가용성: 99.97%
+  다운타임: 8.6분 (목표 43.2분 대비 양호)
+  
+  응답 시간:
+  P50: 180ms (목표 300ms ↓)
+  P95: 450ms (목표 500ms ↓)
+  P99: 1,200ms (목표 1,000ms ↑ ← 주의!)
+  
+  인시던트:
+  P1: 0건
+  P2: 2건 (MTTR: 1.8시간, SLA: 4시간)
+  
+  SLA 크레딧: 0원 (모든 지표 SLA 준수)
+  
+  개선 과제:
+  P99 응답시간 초과 → DB 쿼리 최적화 계획
+
+에스컬레이션 매트릭스:
+  L1: 담당자 자체 해결 (4시간)
+  L2: 팀 리더 참여 (다음 날)
+  L3: 관리자 / 임원 (SLA 위반 시)
+  L4: 경영진 회의 (반복 위반 시)
+```
 
 > 📢 **섹션 요약 비유**: [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 거버넌스는 성적표+학부모 회의 — 매달 성적표(월간 리포트), 분기마다 학부모 상담(QBR), 연도말 진학 계획(연간 리뷰). 성적 나쁘면 보충수업(개선 계획)!
 
@@ -169,46 +181,52 @@ SLA 문서 구조:
 
 ## Ⅳ. [멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 관리
 
+```
+멀티 클라우드 SLA 복잡성:
 
+단일 클라우드:
+  SLA: 한 공급업체 = 단순
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">멀티 클라우드 SLA 복잡성:</div>
-<div class="kb-diagram-note">단일 클라우드:</div>
-<div class="kb-diagram-note">SLA: 한 공급업체 = 단순</div>
-<div class="kb-diagram-note">멀티 클라우드:</div>
-<div class="kb-diagram-note">AWS + Azure + GCP 동시 사용</div>
-<div class="kb-diagram-note">서비스 A: AWS (SLA 99.99%)</div>
-<div class="kb-diagram-note">서비스 B: Azure (SLA 99.95%)</div>
-<div class="kb-diagram-note">DB: GCP Cloud SQL (SLA 99.95%)</div>
-<div class="kb-diagram-note">End-to-End 가용성:</div>
-<div class="kb-diagram-note">0.9999 × 0.9995 × 0.9995 ≈ 99.89%</div>
-<div class="kb-diagram-note">→ 각 구성 요소 SLA 곱 = 낮아짐!</div>
-<div class="kb-diagram-note">SLA 연쇄 (Cascaded SLA):</div>
-<div class="kb-diagram-note">사용자 → 앱 → DB</div>
-<div class="kb-diagram-note">전체 SLA = 앱 SLA × DB SLA</div>
-<div class="kb-diagram-note">앱 SLA 99.9%, DB SLA 99.9%:</div>
-<div class="kb-diagram-note">전체: 0.999 × 0.999 = 99.8%</div>
-<div class="kb-diagram-note">(각각 SLA보다 낮음!)</div>
-<div class="kb-diagram-note">멀티 클라우드 SLA 전략:</div>
-<div class="kb-diagram-note">1. 의존성 최소화:</div>
-<div class="kb-diagram-note">핵심 경로의 의존성 컴포넌트 수 최소화</div>
-<div class="kb-diagram-note">2. 비동기 처리:</div>
-<div class="kb-diagram-note">동기 호출 대신 큐 기반 비동기</div>
-<div class="kb-diagram-note">→ 한 서비스 다운 시 영향 격리</div>
-<div class="kb-diagram-note">3. 서킷 브레이커:</div>
-<div class="kb-diagram-note">의존 서비스 장애 시 빠른 실패 + 폴백</div>
-<div class="kb-diagram-note">4. 다중화 (Redundancy):</div>
-<div class="kb-diagram-note">AWS + Azure 이중화 → 전체 가용성 향상</div>
-<div class="kb-diagram-note">0.9999 × (1 - (1-0.9995)²) ≈ 99.9975%</div>
-<div class="kb-diagram-note">SLA 관리 도구:</div>
-<div class="kb-diagram-note">CloudHealth: 멀티 클라우드 비용+SLA</div>
-<div class="kb-diagram-note">Datadog: 통합 모니터링</div>
-<div class="kb-diagram-note">Statuspage.io: 상태 페이지 (고객 공개)</div>
-</div>
-</div>
+멀티 클라우드:
+  AWS + Azure + GCP 동시 사용
+  서비스 A: AWS (SLA 99.99%)
+  서비스 B: Azure (SLA 99.95%)
+  DB: GCP Cloud SQL (SLA 99.95%)
+  
+  End-to-End 가용성:
+  0.9999 × 0.9995 × 0.9995 ≈ 99.89%
+  
+  → 각 구성 요소 SLA 곱 = 낮아짐!
 
+SLA 연쇄 (Cascaded SLA):
+  사용자 → 앱 → DB
+  전체 SLA = 앱 SLA × DB SLA
+  
+  앱 SLA 99.9%, DB SLA 99.9%:
+  전체: 0.999 × 0.999 = 99.8%
+  (각각 SLA보다 낮음!)
 
+멀티 클라우드 SLA 전략:
+
+1. 의존성 최소화:
+  핵심 경로의 의존성 컴포넌트 수 최소화
+  
+2. 비동기 처리:
+  동기 호출 대신 큐 기반 비동기
+  → 한 서비스 다운 시 영향 격리
+
+3. 서킷 브레이커:
+  의존 서비스 장애 시 빠른 실패 + 폴백
+  
+4. 다중화 (Redundancy):
+  AWS + Azure 이중화 → 전체 가용성 향상
+  0.9999 × (1 - (1-0.9995)²) ≈ 99.9975%
+
+SLA 관리 도구:
+  CloudHealth: 멀티 클라우드 비용+SLA
+  Datadog: 통합 모니터링
+  Statuspage.io: 상태 페이지 (고객 공개)
+```
 
 > 📢 **섹션 요약 비유**: [멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) SLA는 체인 약점 — 99.9%짜리 링크 3개 연결 = 99.7%. 체인은 가장 약한 고리! 의존성 최소화와 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)로 체인 강화!
 
@@ -216,49 +234,54 @@ SLA 문서 구조:
 
 ## Ⅴ. 실무 시나리오 — 핀테크 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 재협상
 
+```
+핀테크 스타트업 클라우드 SLA 재협상:
 
+배경:
+  AWS 기반 결제 서비스
+  현재 SLA: 99.9% (월 43분 다운타임 허용)
+  
+  문제:
+  실제 발생한 장애 (지난 분기):
+  - DB 장애: 2시간 (SLA 위반!)
+  - 네트워크 이슈: 15분
+  
+  SLA 크레딧 청구: 없음 (고객이 모름)
+  고객 불만: 3건 (결제 실패 경험)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">핀테크 스타트업 클라우드 SLA 재협상:</div>
-<div class="kb-diagram-note">배경:</div>
-<div class="kb-diagram-note">AWS 기반 결제 서비스</div>
-<div class="kb-diagram-note">현재 SLA: 99.9% (월 43분 다운타임 허용)</div>
-<div class="kb-diagram-note">문제:</div>
-<div class="kb-diagram-note">실제 발생한 장애 (지난 분기):</div>
-<div class="kb-diagram-tree-item" style="--depth:1">DB 장애: 2시간 (SLA 위반!)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">네트워크 이슈: 15분</div>
-<div class="kb-diagram-note">SLA 크레딧 청구: 없음 (고객이 모름)</div>
-<div class="kb-diagram-note">고객 불만: 3건 (결제 실패 경험)</div>
-<div class="kb-diagram-note">재협상 목표:</div>
-<div class="kb-diagram-note">1. SLA 강화:</div>
-<div class="kb-diagram-note">가용성: 99.9% → 99.95%</div>
-<div class="kb-diagram-note">MTTR: 미명시 → P1 4시간 보장</div>
-<div class="kb-diagram-note">2. 측정 독립성:</div>
-<div class="kb-diagram-note">AWS CloudWatch 외 Pingdom 추가</div>
-<div class="kb-diagram-note">→ 독립적 외부 측정</div>
-<div class="kb-diagram-note">3. 페널티 강화:</div>
-<div class="kb-diagram-note">99.9~99.95%: 10% 크레딧 (기존 없음)</div>
-<div class="kb-diagram-note">99.0~99.9%: 25% 크레딧</div>
-<div class="kb-diagram-note">99.0% 미만: 100% 크레딧</div>
-<div class="kb-diagram-note">4. 자동 크레딧:</div>
-<div class="kb-diagram-note">조건 충족 시 자동 크레딧 (청구 불필요)</div>
-<div class="kb-diagram-note">→ 고객 신뢰 향상</div>
-<div class="kb-diagram-note">AWS와 협상 결과:</div>
-<div class="kb-diagram-note">99.95% SLA → 기존 Premium Support 계약 조건</div>
-<div class="kb-diagram-note">자동 크레딧: 일부 서비스만 적용</div>
-<div class="kb-diagram-note">보완:</div>
-<div class="kb-diagram-note">내부 SLO: 99.99% (SLA 여유분 확보)</div>
-<div class="kb-diagram-note">중복화: Multi-AZ RDS + ALB</div>
-<div class="kb-diagram-note">DR: 타 리전 수동 페일오버 절차</div>
-<div class="kb-diagram-note">결과:</div>
-<div class="kb-diagram-note">이후 4개월: SLA 위반 0건</div>
-<div class="kb-diagram-note">고객 불만: 0건</div>
-<div class="kb-diagram-note">결제 성공률: 99.82% → 99.97%</div>
-</div>
-</div>
+재협상 목표:
 
+1. SLA 강화:
+  가용성: 99.9% → 99.95%
+  MTTR: 미명시 → P1 4시간 보장
+  
+2. 측정 독립성:
+  AWS CloudWatch 외 Pingdom 추가
+  → 독립적 외부 측정
 
+3. 페널티 강화:
+  99.9~99.95%: 10% 크레딧 (기존 없음)
+  99.0~99.9%: 25% 크레딧
+  99.0% 미만: 100% 크레딧
+
+4. 자동 크레딧:
+  조건 충족 시 자동 크레딧 (청구 불필요)
+  → 고객 신뢰 향상
+
+AWS와 협상 결과:
+  99.95% SLA → 기존 Premium Support 계약 조건
+  자동 크레딧: 일부 서비스만 적용
+  
+  보완:
+  내부 SLO: 99.99% (SLA 여유분 확보)
+  중복화: Multi-AZ RDS + ALB
+  DR: 타 리전 수동 페일오버 절차
+
+결과:
+  이후 4개월: SLA 위반 0건
+  고객 불만: 0건
+  결제 성공률: 99.82% → 99.97%
+```
 
 > 📢 **섹션 요약 비유**: 핀테크 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 재협상은 보험 업그레이드 — 기본 보험(99.9%)에서 업그레이드(99.95%). 독립 측정(제3자) + 자동 보상 추가. 장애 없어지자 고객 불만도 0!
 

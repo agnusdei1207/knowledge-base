@@ -70,23 +70,20 @@ tags = ["studynote-bigdata"]
 
 ### 1. [처리 지연](/knowledge-base/studynote/03_network/01_data_communication/019_처리_지연/) 스펙트럼
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">지연 시간 스펙트럼</div>
-<div class="kb-diagram-note">&lt; 1ms 초고빈도 거래 (Custom FPGA/ASIC, CEP)</div>
-<div class="kb-diagram-note">&lt; 100ms 결제 사기 탐지, 실시간 추천</div>
-<div class="kb-diagram-note">&lt; 1s IoT 이상 감지, 알림</div>
-<div class="kb-diagram-note">&lt; 10s 대시보드 실시간 지표, SIEM</div>
-<div class="kb-diagram-note">&lt; 1min Spark Structured Streaming (마이크로배치)</div>
-<div class="kb-diagram-note">&lt; 1hr Spark 배치 (소규모)</div>
-<div class="kb-diagram-note">&lt; 1day Hadoop MapReduce 야간 배치</div>
-<div class="kb-diagram-note">스트리밍 필수 영역 ← → 배치 가능 영역</div>
-</div>
-</div>
-
-
+```
+지연 시간 스펙트럼
+│
+│ < 1ms   ┤ 초고빈도 거래 (Custom FPGA/ASIC, CEP)
+│ < 100ms ┤ 결제 사기 탐지, 실시간 추천
+│ < 1s    ┤ IoT 이상 감지, 알림
+│ < 10s   ┤ 대시보드 실시간 지표, SIEM
+│ < 1min  ┤ Spark Structured Streaming (마이크로배치)
+│ < 1hr   ┤ Spark 배치 (소규모)
+│ < 1day  ┤ Hadoop MapReduce 야간 배치
+│
+└─────────────────────────────────────────────
+  스트리밍 필수 영역 ←─────────→ 배치 가능 영역
+```
 
 ### 2. [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) vs [Kappa](/knowledge-base/studynote/16_bigdata/12_trends/235_kappa/) 아키텍처
 
@@ -137,26 +134,23 @@ tags = ["studynote-bigdata"]
 
 ### 1. 스트리밍 도입 의사결정 프레임워크
 
+```
+Step 1: 비즈니스 요구 지연 시간(Latency SLA) 명확화
+  - "1분 이내에 사기를 탐지해야 한다" → 스트리밍 필요
+  - "매일 아침 전날 매출 리포트" → 배치로 충분
 
+Step 2: 데이터 볼륨과 속도 추정
+  - 초당 수천~수백만 이벤트 → 스트리밍 인프라 필요
+  - 하루 수 GB → 야간 배치로 가능
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Step 1: 비즈니스 요구 지연 시간(Latency SLA) 명확화</div>
-<div class="kb-diagram-tree-item" style="--depth:1">"1분 이내에 사기를 탐지해야 한다" → 스트리밍 필요</div>
-<div class="kb-diagram-tree-item" style="--depth:1">"매일 아침 전날 매출 리포트" → 배치로 충분</div>
-<div class="kb-diagram-note">Step 2: 데이터 볼륨과 속도 추정</div>
-<div class="kb-diagram-tree-item" style="--depth:1">초당 수천~수백만 이벤트 → 스트리밍 인프라 필요</div>
-<div class="kb-diagram-tree-item" style="--depth:1">하루 수 GB → 야간 배치로 가능</div>
-<div class="kb-diagram-note">Step 3: 상태 관리 요구사항 확인</div>
-<div class="kb-diagram-tree-item" style="--depth:1">이전 이벤트와 비교/연관 분석 필요? → 상태 기반 스트리밍 엔진</div>
-<div class="kb-diagram-tree-item" style="--depth:1">단순 필터/변환만 필요? → 간단한 마이크로배치로 가능</div>
-<div class="kb-diagram-note">Step 4: 운영 역량 및 비용 검토</div>
-<div class="kb-diagram-tree-item" style="--depth:1">스트리밍은 배치보다 운영 복잡도 2~5배 높음</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Exactly-Once 보장, 장애 복구 전략 수립 필요</div>
-</div>
-</div>
+Step 3: 상태 관리 요구사항 확인
+  - 이전 이벤트와 비교/연관 분석 필요? → 상태 기반 스트리밍 엔진
+  - 단순 필터/변환만 필요? → 간단한 마이크로배치로 가능
 
-
+Step 4: 운영 역량 및 비용 검토
+  - 스트리밍은 배치보다 운영 복잡도 2~5배 높음
+  - Exactly-Once 보장, 장애 복구 전략 수립 필요
+```
 
 ### 2. 스트리밍 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -204,23 +198,21 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Flink</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Kafka</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Lambda Architecture</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Kappa Architecture</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Watermark</div></div>
-</div>
-</div>
-
-
+```text
+[Apache Flink]
+    │
+    ▼
+[Apache Kafka]
+    │
+    ▼
+[Lambda Architecture]
+    │
+    ▼
+[Kappa Architecture]
+    │
+    ▼
+[Watermark]
+```
 
 이 흐름도는 Apache Flink에서 출발해 Watermark까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

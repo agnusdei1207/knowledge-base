@@ -33,19 +33,18 @@ tags = ["database"]
 | 101 | DB | 김철수 | 컴퓨터 | [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) |
 | 102 | ACC | 이영희 | 경영 | 회계학 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">삭제 이상 발생 메커니즘</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 삭제 의도: 학번 102의 'ACC' 과목 수강 내역 삭제</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. DB 시스템의 처리: 행(Row) 단위 삭제 연산 수행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DELETE FROM Table WHERE 학번=102 AND 과목코드='ACC';</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 결과: 의도하지 않은 '이영희, 경영' 정보까지 동반 소멸</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 삭제 이상 발생 메커니즘                     │
+├─────────────────────────────────────────────────────────────┤
+│ 1. 삭제 의도: 학번 102의 'ACC' 과목 수강 내역 삭제          │
+│                                                             │
+│ 2. DB 시스템의 처리: 행(Row) 단위 삭제 연산 수행            │
+│    DELETE FROM Table WHERE 학번=102 AND 과목코드='ACC';     │
+│                                                             │
+│ 3. 결과: 의도하지 않은 '이영희, 경영' 정보까지 동반 소멸    │
+└─────────────────────────────────────────────────────────────┘
+```
 [튜플](/knowledge-base/studynote/05_database/02_modeling_normalization/063_relation_tuple_cardinality/)을 삭제할 때 부분적인 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)([Attribute](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))만 남길 수 없으므로, 해당 [튜플](/knowledge-base/studynote/05_database/02_modeling_normalization/063_relation_tuple_cardinality/)에 유일하게 존재했던 종속 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(이름, 학과)가 함께 파괴된다.
 
 - **📢 섹션 요약 비유**: 이것은 폭탄 해체를 잘못한 것과 같다. 파란 선(수강 정보)만 잘라야 하는데, 빨간 선(학생 정보)이 한 묶음으로 꼬여 있어서 같이 잘라버려 폭탄이 터지는 원리다.
@@ -100,23 +99,21 @@ tags = ["database"]
 | <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/101_lossless_join_decomposition/">무손실 분해</a> (Lossless Decomposition)</strong> | 정보 손실(삭제 이상) 없이 [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)을 쪼개는 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 원칙 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">비정규화 릴레이션 (하나의 거대한 테이블)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">갱신 이상 발생 (삽입 / 갱신 / 삭제 이상)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">함수적 종속성 (FD) 분석</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">정규화 및 무손실 분해 (1NF, 2NF, 3NF...)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">독립된 엔티티 보장 및 데이터 무결성 확보</div>
-</div>
-</div>
-
-
+```text
+비정규화 릴레이션 (하나의 거대한 테이블)
+    │
+    ▼
+갱신 이상 발생 (삽입 / 갱신 / 삭제 이상)
+    │
+    ▼
+함수적 종속성 (FD) 분석
+    │
+    ▼
+정규화 및 무손실 분해 (1NF, 2NF, 3NF...)
+    │
+    ▼
+독립된 엔티티 보장 및 데이터 무결성 확보
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 장난감 상자에 '레고'와 '점토'를 본드로 딱 붙여서 보관한다고 상상해 보세요.

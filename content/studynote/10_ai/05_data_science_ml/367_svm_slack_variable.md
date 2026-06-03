@@ -21,17 +21,14 @@ tags = ["studynote-ai"]
 
 하드 마진([Hard Margin](/knowledge-base/studynote/06_ict_convergence/05_data_science/362_svm_hard_soft_margin/)) SVM은 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 완전히 선형 분리 가능하다는 가정이 필요하다. 현실 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에는 [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)나 노이즈가 있어 완전 분리가 불가하거나, 분리되더라도 마진이 너무 작아 일반화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 나쁘다. 소프트 마진 SVM은 슬랙 변수 ξᵢ를 통해 각 샘플이 마진을 "조금 위반"할 수 있도록 허용하되, 위반량에 비례한 페널티를 추가한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 하드 마진 SVM은 "단 한 명도 경계선 안으로 들어오면 안 되는 군사 통제 구역"이다. 소프트 마진 SVM은 "약간의 위반은 허용하되 벌금(C·ξ)을 내는 완화된 구역"이다. 현실에서는 완화된 구역이 더 실용적이다.
 
@@ -39,26 +36,26 @@ tags = ["studynote-ai"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소프트 마진 SVM 최적화 문제</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하드 마진 (Hard Margin):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">min ½</div><div class="kb-diagram-cell">w</div><div class="kb-diagram-cell">² subject to yᵢ(w·xᵢ + b) ≥ 1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소프트 마진 (Soft Margin):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">min ½</div><div class="kb-diagram-cell">w</div><div class="kb-diagram-cell">² + C·Σᵢ ξᵢ</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">s.t. yᵢ(w·xᵢ + b) ≥ 1 - ξᵢ, ξᵢ ≥ 0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ξᵢ = 0: 마진 경계 밖 (정상 분류)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0 &lt; ξᵢ &lt; 1: 마진 경계 안, 올바른 쪽 (margin violator)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ξᵢ ≥ 1: 결정 경계 너머 (오분류)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C 파라미터 효과:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C ↑ → 오분류 페널티 ↑ → 좁은 마진 → 과적합 위험</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C ↓ → 오분류 허용 ↑ → 넓은 마진 → 일반화</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────┐
+│          소프트 마진 SVM 최적화 문제                     │
+├──────────────────────────────────────────────────────────┤
+│  하드 마진 (Hard Margin):                               │
+│  min ½||w||²   subject to  yᵢ(w·xᵢ + b) ≥ 1          │
+│                                                          │
+│  소프트 마진 (Soft Margin):                             │
+│  min ½||w||² + C·Σᵢ ξᵢ                                │
+│  s.t. yᵢ(w·xᵢ + b) ≥ 1 - ξᵢ,  ξᵢ ≥ 0               │
+│                                                          │
+│  ξᵢ = 0: 마진 경계 밖 (정상 분류)                      │
+│  0 < ξᵢ < 1: 마진 경계 안, 올바른 쪽 (margin violator)│
+│  ξᵢ ≥ 1: 결정 경계 너머 (오분류)                       │
+│                                                          │
+│  C 파라미터 효과:                                       │
+│  C ↑ → 오분류 페널티 ↑ → 좁은 마진 → 과적합 위험     │
+│  C ↓ → 오분류 허용 ↑ → 넓은 마진 → 일반화            │
+└──────────────────────────────────────────────────────────┘
+```
 
 | 조건 | 슬랙값 ξᵢ | [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 상태 |
 |:---|:---|:---|

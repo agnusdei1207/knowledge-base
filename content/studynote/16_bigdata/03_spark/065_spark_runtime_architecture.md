@@ -20,28 +20,30 @@ tags = ["studynote-bigdata"]
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 스파크는 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터-워커(Master-Worker) 구조를 기본으로 하며, 각 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 간의 통신은 전용 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 통해 이루어진다.
 
+```text
+[ Spark Runtime Components Architecture ]
+(스파크 런타임 컴포넌트 아키텍처)
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Spark Runtime Components Architecture</div></div>
-<div class="kb-diagram-note">(스파크 런타임 컴포넌트 아키텍처)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Driver Node</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SparkContext/Session</div><div class="kb-diagram-cell">&lt;----+ (Req/Alloc Resources)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DAG Scheduler</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Task Scheduler</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+------------</div><div class="kb-diagram-cell">-----------+ +----&gt;</div><div class="kb-diagram-cell">Cluster Manager</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Tasks)</div><div class="kb-diagram-cell">(YARN, K8s, Mesos)</div></div>
-<div class="kb-diagram-note">v +---------+----------+</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Worker Node</div><div class="kb-diagram-cell">(Allocated)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Executor</div><div class="kb-diagram-cell">&lt;--------------------+</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(JVM Process)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Tasks / Threads</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Cache / Storage</div></div>
-</div>
-</div>
-
-
+      +------------------------+
+      |      Driver Node       |
+      | +--------------------+ |
+      | | SparkContext/Session| | <----+ (Req/Alloc Resources)
+      | | DAG Scheduler      | |      |
+      | | Task Scheduler     | |      |
+      | +----------+---------+ |      |     +--------------------+
+      +------------|-----------+      +---->|  Cluster Manager   |
+                   | (Tasks)                | (YARN, K8s, Mesos) |
+                   v                        +---------+----------+
+      +------------------------+                      |
+      |      Worker Node       |                      | (Allocated)
+      | +--------------------+ |                      |
+      | |     Executor       | | <--------------------+
+      | | (JVM Process)      | |
+      | | - Tasks / Threads  | |
+      | | - Cache / Storage  | |
+      | +--------------------+ |
+      +------------------------+
+```
 
 1. **Driver (드라이버):** 사용자의 `main()` 함수가 실행되는 프로세스다. 고수준 연산을 DAG로 쪼개고, 각 스테이지(Stage)별로 테스크([Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/))를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)해 실행기에게 전달한다.
 2. **Executor (실행기):** 워커 노드에서 실행되는 JVM 프로세스다. 드라이버로부터 테스크를 받아 실행하고, 결과를 메모리나 디스크에 저장(Cache)한다. 애플리케이션 종료 시까지 유지된다.
@@ -75,23 +77,21 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">MapReduce — 디스크 기반 배치, 반복 연산 시 I/O 오버헤드 극심</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Spark — 인메모리 RDD, Driver-Executor 분산 런타임 아키텍처</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DAG 스케줄러 (DAG Scheduler) — 스테이지·태스크 분리, 파이프라인 최적화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">클러스터 매니저 (YARN / Kubernetes) — 리소스 할당·컨테이너 수명 관리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Spark Structured Streaming — 마이크로 배치로 배치·스트리밍 통합 처리</div></div>
-</div>
-</div>
-
-
+```text
+[MapReduce — 디스크 기반 배치, 반복 연산 시 I/O 오버헤드 극심]
+    │
+    ▼
+[Apache Spark — 인메모리 RDD, Driver-Executor 분산 런타임 아키텍처]
+    │
+    ▼
+[DAG 스케줄러 (DAG Scheduler) — 스테이지·태스크 분리, 파이프라인 최적화]
+    │
+    ▼
+[클러스터 매니저 (YARN / Kubernetes) — 리소스 할당·컨테이너 수명 관리]
+    │
+    ▼
+[Spark Structured Streaming — 마이크로 배치로 배치·스트리밍 통합 처리]
+```
 
 이 흐름은 디스크 I/O 병목의 MapReduce에서 인메모리 Spark으로 패러다임이 전환되고, [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)로 최적화된 뒤 클러스터 매니저와 통합되며 Structured Streaming으로 배치·스트리밍이 통합되는 Spark 아키텍처 진화를 보여준다.
 

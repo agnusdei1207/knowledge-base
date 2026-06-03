@@ -18,20 +18,18 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">리플레이 공격 흐름</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1.</div><div class="kb-diagram-node">정상</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">IoT 도어락: "열어줘" (신호 전송)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2.</div><div class="kb-diagram-node">공격자</div><div class="kb-diagram-note">신호 캡처 (무선 스니핑)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3.</div><div class="kb-diagram-node">나중에</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">도어락: 동일 "열어줘" 재전송</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 도어락: "열어줘" 수신 → 문 열림! (인증 우회)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">방어: Nonce·타임스탬프·시퀀스 번호 → 동일 패킷 거부</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    리플레이 공격 흐름                                 │
+├───────────────────────────────────────────────────────┤
+│  1. [정상] Alice → IoT 도어락: "열어줘" (신호 전송)  │
+│  2. [공격자] 신호 캡처 (무선 스니핑)                  │
+│  3. [나중에] 공격자 → 도어락: 동일 "열어줘" 재전송   │
+│  4. 도어락: "열어줘" 수신 → 문 열림! (인증 우회)     │
+│                                                       │
+│  방어: Nonce·타임스탬프·시퀀스 번호 → 동일 패킷 거부 │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 리플레이 공격은 <strong>녹음기로 비밀번호를 녹음</strong>해서 나중에 다시 틀어 문을 여는 것이다.
 
@@ -87,23 +85,21 @@ tags = ["studynote-ict-convergence"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">무선 도청 (WEP 취약점, 2001)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">WPA/WPA2 (2004) — 무선 암호화 강화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IoT 리플레이 공격 (도어락·차량, 2015~)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DTLS / TLS 1.3 적용 (2018~)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: PQC (포스트 양자 암호) — 양자 컴퓨터 대응</div></div>
-</div>
-</div>
-
-
+```text
+[무선 도청 (WEP 취약점, 2001)]
+    │
+    ▼
+[WPA/WPA2 (2004) — 무선 암호화 강화]
+    │
+    ▼
+[IoT 리플레이 공격 (도어락·차량, 2015~)]
+    │
+    ▼
+[DTLS / TLS 1.3 적용 (2018~)]
+    │
+    ▼
+[현재: PQC (포스트 양자 암호) — 양자 컴퓨터 대응]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 스니핑은 <strong>남의 대화를 몰래 듣는(<a href="/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/">도청</a>)</strong> 거예요.

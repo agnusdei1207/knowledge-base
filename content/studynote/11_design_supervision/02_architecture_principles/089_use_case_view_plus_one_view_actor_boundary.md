@@ -36,24 +36,22 @@ tags = ["studynote-design"]
 - **유스케이스 (Use Case)**: 시스템이 제공하는 단위 기능(예: '결제하기')으로, 타원(동그라미)으로 그린다.
 - **시스템 경계 (System Boundary)**: 개발할 시스템의 범위를 나타내는 큰 사각형 박스로, 유스케이스는 안에, 액터는 밖에 배치한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유스케이스 다이어그램의 기본 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">온라인 쇼핑몰 시스템 (Boundary)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Actor</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">O</div><div class="kb-diagram-cell">(상품 검색하기)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/</div><div class="kb-diagram-cell">＼ ▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ ＼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고객</div><div class="kb-diagram-cell">(상품 결제하기)</div><div class="kb-diagram-cell">◀ O</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/</div><div class="kb-diagram-cell">＼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ ＼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">외부 결제사</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                  유스케이스 다이어그램의 기본 구조           │
+├──────────────────────────────────────────────────────────────┤
+│               [온라인 쇼핑몰 시스템 (Boundary)]              │
+│                                                              │
+│      Actor           ┌──────────────────┐                    │
+│        O             │  (상품 검색하기) │                    │
+│       /|＼ ──────────▶ │                  │                    │
+│       / ＼           │                  │                    │
+│     고객             │  (상품 결제하기) │◀──────── O       │
+│                      │                  │       /|＼     │
+│                      └──────────────────┘       / ＼     │
+│                                                  외부 결제사 │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이처럼 선(Association) 하나로 고객이 상품을 검색하고 결제하는 상호작용을 직관적으로 드러낸다. 코드나 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 테이블 구조는 이 도면에 들어오지 못한다.
 
@@ -116,23 +114,21 @@ tags = ["studynote-design"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">비즈니스 요구사항 정의</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">액터 (Actor) 및 유스케이스 (Use Case) 도출</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">유스케이스 뷰 (+1 View) · 시스템 경계 (Boundary) 설정</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Include / Extend 관계를 통한 시나리오 정교화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">4대 기술 뷰 (논리, 프로세스, 구현, 물리) 검증 및 매핑</div>
-</div>
-</div>
-
-
+```text
+비즈니스 요구사항 정의
+    │
+    ▼
+액터 (Actor) 및 유스케이스 (Use Case) 도출
+    │
+    ▼
+유스케이스 뷰 (+1 View) · 시스템 경계 (Boundary) 설정
+    │
+    ▼
+Include / Extend 관계를 통한 시나리오 정교화
+    │
+    ▼
+4대 기술 뷰 (논리, 프로세스, 구현, 물리) 검증 및 매핑
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

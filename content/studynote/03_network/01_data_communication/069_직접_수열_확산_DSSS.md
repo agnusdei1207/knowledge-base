@@ -30,21 +30,15 @@ tags = ["network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Data</div>
-<div class="kb-diagram-note">↓ XOR / Multiply</div>
-<div class="kb-diagram-note">PN Sequence</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Spread Signal</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Despread with Same PN</div>
-</div>
-</div>
-
-
+```text
+Data
+  ↓ XOR / Multiply
+PN Sequence
+  ↓
+Spread Signal
+  ↓
+Despread with Same PN
+```
 
 | 요소 | 역할 |
 | :-- | :-- |
@@ -111,41 +105,29 @@ DSSS는 간섭에 강하고 다중 사용자 환경에서 유리하다. 그래�
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">PN Sequence</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">DSSS</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Despreading</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">CDMA</div>
-</div>
-</div>
-
-
+```text
+PN Sequence
+  ↓
+DSSS
+  ↓
+Despreading
+  ↓
+CDMA
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Spread Spectrum</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">DSSS</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Processing Gain</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">CDMA</div>
-</div>
-</div>
-
-
+```text
+Spread Spectrum
+  ↓
+DSSS
+  ↓
+Processing Gain
+  ↓
+CDMA
+```
 
 ---
 

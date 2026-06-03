@@ -44,20 +44,24 @@ tags = ["studynote-software-engineering"]
 
 아래 그림은 요구사항 변경 통제가 어떤 흐름으로 돌아가는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">requirements control: baseline to approved update</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Requirement set ──▶ Baseline v1.0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── change request raised</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">impact analysis (scope / cost / test / risk)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Reject / defer Approve via CCB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">update to v1.1 + RTM + test sync</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                requirements control: baseline to approved update           │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Requirement set ──▶ Baseline v1.0                                          │
+│                         │                                                   │
+│                         ├── change request raised                           │
+│                         ▼                                                   │
+│                  impact analysis (scope / cost / test / risk)              │
+│                         │                                                   │
+│              ┌──────────┴──────────┐                                        │
+│              │                     │                                        │
+│         Reject / defer        Approve via CCB                               │
+│                                    │                                        │
+│                                    ▼                                        │
+│                         update to v1.1 + RTM + test sync                    │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조에서 중요한 것은 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 번호 자체보다 <strong>무엇이 현재 <a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/">기준선</a>인지 모두가 동일하게 아는 상태</strong>다. 예를 들어 같은 요구사항이라도 초안, 승인본, 변경 반영본이 섞이면 설계와 테스트가 다른 문서를 참조하게 된다. 그래서 요구사항 관리는 문서 저장이 아니라 단일 진실 원천(Single Source of Truth)을 유지하는 활동으로 봐야 한다.
 
@@ -126,23 +130,21 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">요구사항 도출 · 분석</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">요구사항 ID 부여 · Baseline 확정</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">변경 요청 (CR) · 영향도 분석 · CCB 승인</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">버전 갱신 · RTM 연동 · 테스트/릴리스 동기화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속적 요구사항 관리 · 디지털 스레드 자동화</div>
-</div>
-</div>
-
-
+```text
+요구사항 도출 · 분석
+    │
+    ▼
+요구사항 ID 부여 · Baseline 확정
+    │
+    ▼
+변경 요청 (CR) · 영향도 분석 · CCB 승인
+    │
+    ▼
+버전 갱신 · RTM 연동 · 테스트/릴리스 동기화
+    │
+    ▼
+지속적 요구사항 관리 · 디지털 스레드 자동화
+```
 
 이 흐름은 요구사항 관리가 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 명세서 작성으로 끝나지 않고, 변경 통제와 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리, 추적성, 릴리스 동기화까지 이어지는 생명주기 활동임을 보여준다.
 

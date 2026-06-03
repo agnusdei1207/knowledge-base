@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: 외부 인터넷 망에서, 공유기나 [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)(네트워크 주소 변환) 장비 내부에 숨어있는 사설 IP 대역의 특정 컴퓨터(서버)로 직접 접속할 수 있도록, <strong>공유기의 특정 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> 번호로 들어오는 패킷을 내부 컴퓨터의 특정 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>로 '전달(Forwarding)'하도록 길을 뚫어주는 기능</strong>입니다.
 - **예시**: 회사 밖에서 집안의 개인 NAS나 마인크래프트 게임 서버, [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 원격 접속을 할 때 가장 필수적으로 공유기에 세팅하는 설정입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">비인가 AP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">포트 포워딩</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">백도어</div></div>
-</div>
-</div>
-
-
+```text
+[비인가 AP]
+    │
+    ▼
+[포트 포워딩]
+    │
+    └──▶ [백도어]
+```
 
 - **📢 섹션 요약 비유**: [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 포워딩은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -46,18 +42,14 @@ tags = ["studynote-network"]
 1. <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a> 무력화 (Bypass)</strong>: 회사 메인 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이 외부 접속을 꽁꽁 막아놓아도, 개발팀 김 대리가 귀찮다고 자기 맘대로 공유기에 22번([SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/)) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 포워딩을 뚫어놓는 순간, 거대한 성벽의 개구멍이 열립니다. 해커는 이 개구멍(오픈 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))을 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 스캐닝으로 기가 막히게 찾아내어 들어옵니다.
 2. **사내망 내부 횡적 이동 (Lateral Movement)**: 해커가 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 포워딩된 김 대리의 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 하나만 뚫고 들어가면, 그 PC를 숙주(교두보)로 삼아 밖에서는 접근할 수 없었던 회사의 인사팀 DB 서버, 재무팀 서버 등 사내망 내부를 활개 치고 다니며 모조리 감염시켜 버립니다(역방향 내부망 타격).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">비인가 AP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">포트 포워딩</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">백도어</div></div>
-</div>
-</div>
-
-
+```text
+[비인가 AP]
+    │
+    ▼
+[포트 포워딩]
+    │
+    └──▶ [백도어]
+```
 
 - **📢 섹션 요약 비유**: [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 포워딩의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -124,19 +116,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 비인가 AP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 포트 포워딩</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 백도어</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 비인가 AP]
+    │
+    ▼
+[현재 개념: 포트 포워딩]
+    │
+    ├──▶ [확장 A: 백도어]
+    └──▶ [확장 B: 예측형 위협 대응]
+```
 
 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 포워딩는 비인가 AP에서 출발해 현재 메커니즘을 정교화하고, 이후 [백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/)와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

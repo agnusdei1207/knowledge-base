@@ -25,21 +25,19 @@ tags = ["studynote-software-engineering"]
 
 아래 그림은 테마가 없을 때 [에픽](/knowledge-base/studynote/04_software_engineering/03_design_architecture/182_epic_agile_requirements/)이 흩어진 기능 목록처럼 보이지만, 테마가 있을 때는 같은 방향으로 정렬된다는 점을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Why backlog needs themes</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Without theme :</div><div class="kb-diagram-node">Login flow</div><div class="kb-diagram-node">Coupon</div><div class="kb-diagram-node">Fraud Check</div><div class="kb-diagram-node">Wallet</div><div class="kb-diagram-note">...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">many epics, but weak strategic narrative</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">With theme : "Increase checkout conversion"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Epic A : one-click payment</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Epic B : payment experience redesign</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Epic C : failed payment recovery</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────────┐
+│ Why backlog needs themes                                          │
+├───────────────────────────────────────────────────────────────────┤
+│ Without theme : [Login flow] [Coupon] [Fraud Check] [Wallet] ...  │
+│                  many epics, but weak strategic narrative          │
+│                                                                   │
+│ With theme    : "Increase checkout conversion"                     │
+│                  ├─ Epic A : one-click payment                     │
+│                  ├─ Epic B : payment experience redesign           │
+│                  └─ Epic C : failed payment recovery               │
+└───────────────────────────────────────────────────────────────────┘
+```
 
 결국 테마는 단순한 묶음표가 아니라, <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a>과 실행 사이의 설명 가능한 연결선</strong>이다. 그래서 규모가 큰 제품일수록 테마를 정의하는 능력이 곧 [요구사항 관리](/knowledge-base/studynote/04_software_engineering/03_design_architecture/158_requirements_management_change_control/) 능력으로 이어진다.
 
@@ -60,21 +58,21 @@ tags = ["studynote-software-engineering"]
 
 좋은 테마는 보통 <strong>결과 지향성, 측정 가능성, 다에픽성, 크로스펑셔널 성격</strong>을 가진다. 결과 지향성은 "무엇을 만들겠다"보다 "무엇을 개선하겠다"에 가깝고, 측정 가능성은 전환율·이탈률·오류율처럼 판단 기준이 있음을 뜻한다. 또한 하나의 팀 기능이 아니라 여러 역할이 함께 움직여야 할 정도로 충분히 넓어야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Strategy-to-execution hierarchy</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Product Vision / OKR</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Theme : "Reduce purchase drop-off by 15%"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Epic 1 : one-click payment</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Epic 2 : payment page redesign</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Epic 3 : retry / recovery flow</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Stories / Tasks for each epic</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────────┐
+│ Strategy-to-execution hierarchy                                   │
+├───────────────────────────────────────────────────────────────────┤
+│ Product Vision / OKR                                              │
+│        │                                                          │
+│        ▼                                                          │
+│ Theme : "Reduce purchase drop-off by 15%"                         │
+│   ├─ Epic 1 : one-click payment                                   │
+│   ├─ Epic 2 : payment page redesign                               │
+│   └─ Epic 3 : retry / recovery flow                               │
+│        │                                                          │
+│        └─ Stories / Tasks for each epic                           │
+└───────────────────────────────────────────────────────────────────┘
+```
 
 이 구조가 중요한 이유는 [요구사항 추적성](/knowledge-base/studynote/04_software_engineering/03_design_architecture/156_requirements_traceability_vertical_horizontal/) ([Traceability](/knowledge-base/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/))을 확보하기 때문이다. 스토리 하나를 보더라도 어떤 [에픽](/knowledge-base/studynote/04_software_engineering/03_design_architecture/182_epic_agile_requirements/)에 속하는지, 그 [에픽](/knowledge-base/studynote/04_software_engineering/03_design_architecture/182_epic_agile_requirements/)이 어떤 테마를 지원하는지 보이면 우선순위와 투자 설명이 쉬워진다. 반대로 테마가 모호하면 하위 항목도 쉽게 "왜 하는지 모르는 기능"이 된다.
 
@@ -157,23 +155,21 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Business strategy / OKR</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Theme definition</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Epic grouping</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">User stories / MVP / release plan</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Outcome metrics and portfolio feedback</div>
-</div>
-</div>
-
-
+```text
+Business strategy / OKR
+        │
+        ▼
+Theme definition
+        │
+        ▼
+Epic grouping
+        │
+        ▼
+User stories / MVP / release plan
+        │
+        ▼
+Outcome metrics and portfolio feedback
+```
 
 이 흐름도는 테마가 단순 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)명이 아니라, 상위 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 백로그 구조와 릴리스 계획으로 번역하고 다시 성과 지표로 되돌리는 연결 고리임을 보여 준다.
 

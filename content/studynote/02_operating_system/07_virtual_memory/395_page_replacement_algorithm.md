@@ -27,29 +27,32 @@ tags = ["studynote-operating-system"]
   2. **수표 결제의 폭주**: 평소엔 1GB씩만 써서 넘어갔는데, 어느 날 앱들이 동시에 가짜 수표 20GB를 은행([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))에 들고 와서 진짜 현금(물리 램)으로 바꿔달라고 요구하는 '뱅크런(Bank run)'이 터졌다.
   3. <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/">페이지 교체</a>의 구원</strong>: 뱅크런에 파산([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))하지 않으려면, 이전에 빌려줬던 현금을 어떻게든 강제로 빼앗아 와서 막아야 했다. 그것이 바로 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 희생양(Victim [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)) 선택의 서막이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Over-allocation 뱅크런 사태와 페이지 교체의 구원 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황: 물리 램(RAM) 16GB. 잔고 0원(빈 프레임 0개)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">크롬 5G</div><div class="kb-diagram-node">워드 3G</div><div class="kb-diagram-node">롤 8G</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">꽉 차 있음! 100%</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 위기 폭발 (Page Fault)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">롤(LoL)이 "나 새로운 맵 데이터 1GB 더 줘!" 하고 페이지 폴트 때림.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS: "아뿔싸... 줄 빈 프레임이 단 한 개도 없네?"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">↓</div><div class="kb-diagram-node">페이지 교체 알고리즘 발동</div><div class="kb-diagram-connector">↓</div><div class="kb-diagram-note">↓</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 희생양 수색 (Select Victim)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS가 매의 눈으로 램을 뒤짐. "크롬 저 구석에 있는 광고 탭 1GB,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">저거 2시간 동안 한 번도 클릭 안 한 놈이다! 저 놈 당첨!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 스왑 아웃 (Swap Out)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">1GB 빈 구멍 창출!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3. 스왑 인 (Swap In)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">확보한 1GB 빈 구멍에, 롤(LoL)의 새 맵 데이터를 예쁘게 넣어줌.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 결과: 아무 앱도 죽지 않고 시스템은 극적인 평화를 되찾음.</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────────────┐
+│        Over-allocation 뱅크런 사태와 페이지 교체의 구원 시각화        │
+├───────────────────────────────────────────────────────────────────────┤
+│                                                                       │
+│ [ 상황: 물리 램(RAM) 16GB. 잔고 0원(빈 프레임 0개) ]                  │
+│  [ 크롬 5G ] [ 워드 3G ] [ 롤 8G ] ◀ 꽉 차 있음! 100%                 │
+│                                                                       │
+│ ▶ 위기 폭발 (Page Fault)                                              │
+│  롤(LoL)이 "나 새로운 맵 데이터 1GB 더 줘!" 하고 페이지 폴트 때림.    │
+│  OS: "아뿔싸... 줄 빈 프레임이 단 한 개도 없네?"                      │
+│                                                                       │
+│                    ↓↓ [ 페이지 교체 알고리즘 발동 ] ↓↓                │
+│                                                                       │
+│ [ 1. 희생양 수색 (Select Victim) ]                                    │
+│ OS가 매의 눈으로 램을 뒤짐. "크롬 저 구석에 있는 광고 탭 1GB,         │
+│ 저거 2시간 동안 한 번도 클릭 안 한 놈이다! 저 놈 당첨!"               │
+│                                                                       │
+│ [ 2. 스왑 아웃 (Swap Out) ]                                           │
+│ 크롬의 1GB를 디스크로 내동댕이침. -> 램에 [ 1GB 빈 구멍 창출! ]       │
+│                                                                       │
+│ [ 3. 스왑 인 (Swap In) ]                                              │
+│ 확보한 1GB 빈 구멍에, 롤(LoL)의 새 맵 데이터를 예쁘게 넣어줌.         │
+│ ✅ 결과: 아무 앱도 죽지 않고 시스템은 극적인 평화를 되찾음.           │
+└───────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 이 메커니즘 덕분에 유저들은 "내 컴퓨터 램이 꽉 찼네?"라는 사실조차 모른 채 그냥 컴퓨터가 조금 버벅대나 보다 하고 계속 쓰게 된다. [페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/)는 단순히 에러를 막는 수비 기술이 아니다. 16GB 하드웨어로 30GB의 워크로드를 돌리게 만드는, 소프트웨어가 창조해 낸 완벽한 무에서 유를 창조하는 '연금술'이다.
 
 - **📢 섹션 요약 비유**: 비행기에 100좌석(램)이 꽉 찼는데 VIP 승객(새 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 타야 합니다. 항공사(OS)는 오버부킹(Over-allocation)을 한 잘못이 있으니, 이미 앉아있는 승객 중 제일 싼 티켓을 산 사람(가장 안 쓰는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 강제로 끌어내려 다음 비행기(디스크)로 보내버리고 그 자리에 VIP를 앉혀 비행기를 무사히 이륙시키는 무자비한 자본주의 논리입니다.
@@ -72,22 +75,27 @@ tags = ["studynote-operating-system"]
    - 쫓아낸 뒤에야 롤(LoL) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 **읽어온다(Read)**. (디스크 I/O 2회 발생)
    - **결과**: [페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/) 한 번에 하드디스크가 2번이나 드르륵거리며 **속도가 완전히 반토막(Double Penalty)** 난다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Dirty Bit에 따른 교체 페널티 차이 회로도</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">희생양 페이지 선택 완료</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ MMU의 Dirty Bit 검사</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">디스크에 Write (8ms 지연)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(No: Clean)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">램 공간 1차 확보 완료</div><div class="kb-diagram-connector">◀</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">새 데이터를 디스크에서 Read (8ms 지연)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⚡ Clean 페이지 교체: 8ms 소요 / Dirty 페이지 교체: 16ms 소요!</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│              Dirty Bit에 따른 교체 페널티 차이 회로도                │
+├──────────────────────────────────────────────────────────────────────┤
+│                                                                      │
+│ [ 희생양 페이지 선택 완료 ]                                          │
+│          │                                                           │
+│          ▼ MMU의 Dirty Bit 검사                                      │
+│ ┌───────────────────┐                                                │
+│ │ Dirty Bit == 1 ?  │ ──(Yes)──▶ [ 디스크에 Write (8ms 지연) ]       │
+│ └────────┬──────────┘                  │                             │
+│          │ (No: Clean)                  │                            │
+│          ▼                              ▼                            │
+│ [ 램 공간 1차 확보 완료 ] ◀────────────────┘                         │
+│          │                                                           │
+│          ▼                                                           │
+│ [ 새 데이터를 디스크에서 Read (8ms 지연) ]                           │
+│                                                                      │
+│ ⚡ Clean 페이지 교체: 8ms 소요  /  Dirty 페이지 교체: 16ms 소요!     │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** OS 설계자들이 가장 발작을 일으키는 지점이 바로 저 '16ms 딜레이'다. 그래서 현존하는 거의 모든 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(Windows, 리눅스)의 [페이지 교체 알고리즘](/knowledge-base/studynote/02_operating_system/07_virtual_memory/401_page_replacement_algorithms/)([LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) 등)은 단순히 "가장 오래된 놈"을 쫓아내는 걸 넘어, <strong>"기왕이면 제일 오래됐으면서 동시에 0순위로 Clean(더티 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>가 0인) 한 놈을 쫓아내라"</strong>는 이중 필터링 로직이 하드코딩되어 있다. 디스크 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 1번을 막기 위한 눈물겨운 발버둥이다.
 
@@ -114,17 +122,14 @@ tags = ["studynote-operating-system"]
 - <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/">전역 교체</a>(<a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/">Global Replacement</a>)</strong>: "빈방 없으면 옆에 있는 카카오톡의 램 프레임을 뺏어서 내 엑셀에 줘!" -> 시스템 전체 램을 유동적으로 써서 처리량이 높다 (대세).
 - <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/400_local_replacement/">지역 교체</a>(<a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/400_local_replacement/">Local Replacement</a>)</strong>: "빈방 없으면 엑셀 네가 갖고 있는 100개 프레임 안에서 네 스스로 안 쓰는 거 하나 지우고 돌려막기 해! 남의 방 넘보지 마!" -> 메모리 독점은 막지만 남는 램을 활용 못 해서 잘 안 쓴다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">교체 범위</div><div class="kb-diagram-cell">뺏기는 대상</div><div class="kb-diagram-cell">장점</div><div class="kb-diagram-cell">단점</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전역(Global)</div><div class="kb-diagram-cell">메모리의 모든 앱</div><div class="kb-diagram-cell">램 활용률 극대화</div><div class="kb-diagram-cell">남의 앱 렉 걸리게 함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지역(Local)</div><div class="kb-diagram-cell">자기 자신 앱</div><div class="kb-diagram-cell">남에게 피해 안 줌</div><div class="kb-diagram-cell">램 낭비, OOM 위험</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬──────────────────────────────────┐
+│ 교체 범위  │ 뺏기는 대상   │ 장점         │ 단점                      │
+├──────────┼────────────┼────────────┼──────────────────────────────────┤
+│ 전역(Global)│ 메모리의 모든 앱│ 램 활용률 극대화│ 남의 앱 렉 걸리게 함│
+│ 지역(Local) │ 자기 자신 앱  │ 남에게 피해 안 줌│ 램 낭비, OOM 위험    │
+└──────────┴────────────┴────────────┴──────────────────────────────────┘
+```
 **[매트릭스 해설]** 거의 모든 리눅스/윈도우 시스템은 <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/">전역 교체</a>(Global)</strong>를 채택한다. 이 때문에 내가 크롬을 미친 듯이 켜면 카카오톡이 렉이 걸린다. 크롬이 [전역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/)를 통해 카카오톡이 쓰던 램 프레임을 다 빼앗아 스왑으로 던져버렸기 때문이다.
 
 - **📢 섹션 요약 비유**: [전역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/)는 식당에 자리가 없으면 남이 먹고 있는 테이블의 의자를 강제로 뺏어와 앉는 약육강식이고, [지역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/400_local_replacement/)는 내 테이블 의자가 모자라면 밖에서 남는 의자를 안 가져오고 내 일행끼리 좁게 무릎에 앉아 먹는 평화주의입니다. 현실 세계(OS)는 무조건 [전역 교체](/knowledge-base/studynote/02_operating_system/07_virtual_memory/399_global_replacement/)라는 약육강식으로 굴러갑니다.
@@ -182,19 +187,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">vfork()</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">페이지 교체 (Page Replacement)의 필요성</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">변경 비트 (Modify Bit / Dirty Bit)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">프레임 할당 (Frame Allocation) 알고리즘</div></div>
-</div>
-</div>
-
-
+```text
+[vfork()]
+    │
+    ▼
+[페이지 교체 (Page Replacement)의 필요성]
+    │
+    ├──▶ [변경 비트 (Modify Bit / Dirty Bit)]
+    └──▶ [프레임 할당 (Frame Allocation) 알고리즘]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

@@ -25,18 +25,14 @@ tags = ["studynote-network"]
 - **동작**: 주국(대장)이 한 바퀴를 빙 돌며 "1번 종국아 보낼 거 있니? 2번 종국아 보낼 거 있니?([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/))"라고 일일이 허락을 내려줄 때만 비로소 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 모아서 응답 프레임으로 쏩니다.
 - **장점/단점**: 트래픽 충돌([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/))이 0%로 완벽히 제어되지만, 주국이 바빠서 나를 안 부르면 하루 종일 굶어야 하는 치명적 속도 저하가 터집니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">HDLC 국 종류</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NRM / ARM / ABM</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">정보 프레임, 감독/제어, 비번호</div></div>
-</div>
-</div>
-
-
+```text
+[HDLC 국 종류]
+    │
+    ▼
+[NRM / ARM / ABM]
+    │
+    └──▶ [정보 프레임, 감독/제어, 비번호]
+```
 
 - **📢 섹션 요약 비유**: NRM / ARM / ABM는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -49,18 +45,14 @@ NRM의 답답함을 조금 풀어준 모드입니다. 역시 불균형 링크에
 - **규칙**: 신하(종국)라도 위급하거나 보낼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 생기면, <strong>주국의 허락(<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/">Polling</a>)을 묻지 않고도 알아서(비동기적으로) 먼저 주국에게 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 팡 쏴버릴 수 있습니다.</strong>
 - **한계**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 먼저 보낼 권한(응답)은 얻었지만, 여전히 신분은 종국이므로 선로에 에러가 나거나 연결을 끊는 권한(통제 명령, [Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/))은 오직 주국만이 가지고 있습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">HDLC 국 종류</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NRM / ARM / ABM</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">정보 프레임, 감독/제어, 비번호</div></div>
-</div>
-</div>
-
-
+```text
+[HDLC 국 종류]
+    │
+    ▼
+[NRM / ARM / ABM]
+    │
+    └──▶ [정보 프레임, 감독/제어, 비번호]
+```
 
 - **📢 섹션 요약 비유**: NRM / ARM / ABM의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -128,19 +120,15 @@ NRM / ARM / ABM는 [데이터](/knowledge-base/studynote/05_database/01_db_archi
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: HDLC 국 종류</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: NRM / ARM / ABM</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 정보 프레임, 감독/제어, 비번호</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고신뢰 저지연 링크 제어</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: HDLC 국 종류]
+    │
+    ▼
+[현재 개념: NRM / ARM / ABM]
+    │
+    ├──▶ [확장 A: 정보 프레임, 감독/제어, 비번호]
+    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
+```
 
 NRM / ARM / ABM는 [HDLC](/knowledge-base/studynote/03_network/04_data_link_layer_error/216_hdlc_high_level_data_link_control/) 국 종류에서 출발해 현재 메커니즘을 정교화하고, 이후 [정보 프레임](/knowledge-base/studynote/03_network/04_data_link_layer_error/220_hdlc_frames_i_s_u/), 감독/제어, 비번호와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

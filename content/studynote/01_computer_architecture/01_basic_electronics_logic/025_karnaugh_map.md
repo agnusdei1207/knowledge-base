@@ -20,21 +20,19 @@ tags = ["studynote-computer-architecture"]
 
 [진리표](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/024_truth_table/)에서 직접 도출한 SOP는 보통 최소화되지 않은 형태다. K-Map은 [진리표](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/024_truth_table/)의 2차원 시각화로, 불 대수 공식(X + X' = 1)을 자동 적용하여 항을 소거한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3변수 K-Map 구조 (변수: A, B, C)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BC</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AB 00 01 11 10</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">00</div><div class="kb-diagram-cell">m0</div><div class="kb-diagram-cell">m1</div><div class="kb-diagram-cell">m3</div><div class="kb-diagram-cell">m2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">01</div><div class="kb-diagram-cell">m4</div><div class="kb-diagram-cell">m5</div><div class="kb-diagram-cell">m7</div><div class="kb-diagram-cell">m6</div><div class="kb-diagram-cell">← 그레이 코드 순서 (00→01→11→10)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(인접 셀: 1비트만 다름 → AB 소거 가능)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">wrap-around: 좌우 끝/상하 끝도 인접 처리</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────┐
+│   3변수 K-Map 구조 (변수: A, B, C)                    │
+├──────────────────────────────────────────────────────┤
+│        BC                                            │
+│    AB  00  01  11  10                                │
+│     00 │m0│m1│m3│m2│                                │
+│     01 │m4│m5│m7│m6│  ← 그레이 코드 순서 (00→01→11→10)│
+│        (인접 셀: 1비트만 다름 → AB 소거 가능)          │
+│                                                      │
+│  wrap-around: 좌우 끝/상하 끝도 인접 처리             │
+└──────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: K-Map은 스도쿠처럼, 숫자(1) 대신 인접한 1을 최대한 크게 묶는 퍼즐이다. 더 크게 묶을수록 더 간단한 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)식이 나온다.
 
@@ -44,25 +42,22 @@ tags = ["studynote-computer-architecture"]
 
 ### 4변수 K-Map 최소화 예시
 
+```text
+F(A,B,C,D) = Σm(0,1,2,5,8,9,10)
 
+        CD
+   AB   00  01  11  10
+   00 │ 1 │ 1 │ 0 │ 1 │
+   01 │ 0 │ 1 │ 0 │ 0 │
+   11 │ 0 │ 0 │ 0 │ 0 │
+   10 │ 1 │ 1 │ 0 │ 1 │
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">F(A,B,C,D) = Σm(0,1,2,5,8,9,10)</div>
-<div class="kb-diagram-note">CD</div>
-<div class="kb-diagram-note">AB 00 01 11 10</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">00</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">01</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">11</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">10</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">1</div></div>
-<div class="kb-diagram-note">그룹1: {m0,m1,m8,m9} (4개 → 2비트 소거) → B'D'</div>
-<div class="kb-diagram-note">그룹2: {m0,m2,m8,m10} (4개) → B'C'</div>
-<div class="kb-diagram-note">그룹3: {m1,m5} (2개) → A'C'D</div>
-<div class="kb-diagram-note">F = B'D' + B'C' + A'C'D (최소화 완료)</div>
-</div>
-</div>
+그룹1: {m0,m1,m8,m9} (4개 → 2비트 소거) → B'D'
+그룹2: {m0,m2,m8,m10} (4개) → B'C'
+그룹3: {m1,m5} (2개) → A'C'D
 
-
+F = B'D' + B'C' + A'C'D  (최소화 완료)
+```
 
 ### 묶기 규칙
 
@@ -134,23 +129,21 @@ K-Map은 디지털 [논리](/knowledge-base/studynote/09_security/04_endpoint_se
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">진리표 — 모든 입력 조합에 대한 출력 명세</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">K-Map — 시각적 인접 묶기로 논리 최소화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SOP/POS 도출 — 최소 게이트 수 논리식</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Quine-McCluskey — K-Map의 컴퓨터 알고리즘화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">EDA 논리 합성 — 자동화된 다변수 최적화 (FPGA/ASIC)</div></div>
-</div>
-</div>
-
-
+```text
+[진리표 — 모든 입력 조합에 대한 출력 명세]
+    │
+    ▼
+[K-Map — 시각적 인접 묶기로 논리 최소화]
+    │
+    ▼
+[SOP/POS 도출 — 최소 게이트 수 논리식]
+    │
+    ▼
+[Quine-McCluskey — K-Map의 컴퓨터 알고리즘화]
+    │
+    ▼
+[EDA 논리 합성 — 자동화된 다변수 최적화 (FPGA/ASIC)]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

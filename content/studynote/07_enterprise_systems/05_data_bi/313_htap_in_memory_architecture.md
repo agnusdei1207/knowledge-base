@@ -45,43 +45,43 @@ HTAP은 이 [ETL](/knowledge-base/studynote/12_it_management/05_security_complia
 
 ### [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) ([Non-Uniform Memory Access](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/)) 인식 메모리 레이아웃
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">NUMA Node 0 NUMA Node 1</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU Cores 0-7</div><div class="kb-diagram-cell">CPU Cores 8-15</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Local RAM 256G</div><div class="kb-diagram-cell">Local RAM 256G</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(빠른 접근)</div><div class="kb-diagram-cell">(빠른 접근)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Remote 접근 (2~3x 느림)</div></div>
-<div class="kb-diagram-note">→ HTAP 엔진은 쿼리를 로컬 NUMA 노드 데이터에 배치해 성능 극대화</div>
-</div>
-</div>
-
-
+```
+NUMA Node 0              NUMA Node 1
+┌────────────────┐       ┌────────────────┐
+│  CPU Cores 0-7 │       │  CPU Cores 8-15│
+│  Local RAM 256G│       │  Local RAM 256G│
+│  (빠른 접근)   │       │  (빠른 접근)   │
+└───────┬────────┘       └────────┬───────┘
+        │  Remote 접근 (2~3x 느림)  │
+        └──────────────────────────┘
+→ HTAP 엔진은 쿼리를 로컬 NUMA 노드 데이터에 배치해 성능 극대화
+```
 
 ### [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램: [HTAP](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/294_oltp_vs_olap/) 이중 스토어 아키텍처
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">애플리케이션 (OLTP) 분석 도구 (OLAP)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">INSERT/UPDATE</div><div class="kb-diagram-cell">SELECT SUM/GROUP</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(실시간 거래)</div><div class="kb-diagram-cell">(실시간 대시보드)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">쓰기</div><div class="kb-diagram-cell">분석 쿼리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HTAP In-Memory Engine</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Delta Store</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Main Store</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(행 지향)</div><div class="kb-diagram-cell">(컬럼 지향)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최신 변경분</div><div class="kb-diagram-cell">사전 집계·압축</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(인메모리)</div><div class="kb-diagram-cell">(인메모리+NVM)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실시간 동기화 &lt;1초</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Persistence (로그+체크포인트)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NVM (Optane) or SSD</div></div>
-</div>
-</div>
-
-
+```
+  애플리케이션 (OLTP)        분석 도구 (OLAP)
+  ┌──────────────────┐     ┌──────────────────┐
+  │ INSERT/UPDATE    │     │ SELECT SUM/GROUP │
+  │ (실시간 거래)     │     │ (실시간 대시보드) │
+  └────────┬─────────┘     └────────┬─────────┘
+           │ 쓰기                    │ 분석 쿼리
+           ▼                        ▼
+  ┌────────────────────────────────────────────┐
+  │           HTAP In-Memory Engine            │
+  │  ┌────────────────┐   ┌──────────────────┐ │
+  │  │  Delta Store   │──▶│  Main Store      │ │
+  │  │  (행 지향)      │   │  (컬럼 지향)     │ │
+  │  │  최신 변경분   │   │  사전 집계·압축  │ │
+  │  │  (인메모리)    │   │  (인메모리+NVM)  │ │
+  │  └────────────────┘   └──────────────────┘ │
+  │   실시간 동기화 <1초                         │
+  │  ┌──────────────────────────────────────┐  │
+  │  │  Persistence (로그+체크포인트)        │  │
+  │  │  NVM (Optane) or SSD                 │  │
+  │  └──────────────────────────────────────┘  │
+  └────────────────────────────────────────────┘
+```
 
 ### 전통 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) vs [HTAP](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/294_oltp_vs_olap/) 비교
 
@@ -161,23 +161,21 @@ HTAP은 이 [ETL](/knowledge-base/studynote/12_it_management/05_security_complia
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">OLTP/OLAP 완전 분리 - ETL 지연 (T+1 분석)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">인메모리 DB (SAP HANA) - 단일 엔진 HTAP 시도</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">행·열 혼합 스토리지 + 분리된 워크로드 격리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">TiDB/SingleStore - 분산 HTAP 클라우드 네이티브</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">실시간 OLAP 분석 (Freshness &lt; 1s) 달성</div>
-</div>
-</div>
-
-
+```
+OLTP/OLAP 완전 분리 - ETL 지연 (T+1 분석)
+    │
+    ▼
+인메모리 DB (SAP HANA) - 단일 엔진 HTAP 시도
+    │
+    ▼
+행·열 혼합 스토리지 + 분리된 워크로드 격리
+    │
+    ▼
+TiDB/SingleStore - 분산 HTAP 클라우드 네이티브
+    │
+    ▼
+실시간 OLAP 분석 (Freshness < 1s) 달성
+```
 
 > **키워드**: [HTAP](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/294_oltp_vs_olap/), [In-Memory Database](/knowledge-base/studynote/05_database/01_db_architecture_relational/046_in_memory_db_imdb/), SAP HANA, [TiDB](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/293_elt_process/), Row Store, Column Store, [Real-Time Analytics](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/277_real_time_analytics_architecture/)
 

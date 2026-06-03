@@ -31,26 +31,27 @@ tags = ["studynote-software-engineering"]
 
 기존 물리적(LOC) 규모 측정의 한계와 논리적([FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/)) 규모 측정 방식의 차이를 시각화하면 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LOC 기반 산정의 모순 vs FP 기반 산정의 일관성</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">동일한 비즈니스 요구사항: "사용자 로그인 및 이력 조회"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. LOC (물리적) 측정 방식의 경우:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C 언어 구현 : 3,000 LOC (예산↑)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Java 구현 : 1,000 LOC</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Python 구현 : ── 300 LOC (생산성 높으나 예산 급감↓)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⚠ 문제: 우수한 도구를 쓸수록 비용(규모)이 작게 평가됨!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. FP (논리적) 측정 방식의 경우:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">어떤 언어로 ─ 데이터 기능: 사용자 정보(ILF) 1개</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">구현하든 ─ 트랜잭션 : 로그인(EI) 1개, 조회(EQ) 1개</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">관계없이 ─ ∴ 총 기능점수 = 15 FP (일관된 규모)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 해결: "제공하는 기능 가치"가 같으면 규모도 같다.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────┐
+  │         LOC 기반 산정의 모순 vs FP 기반 산정의 일관성      │
+  ├─────────────────────────────────────────────────────────┤
+  │                                                         │
+  │ [동일한 비즈니스 요구사항: "사용자 로그인 및 이력 조회"]        │
+  │                                                         │
+  │ 1. LOC (물리적) 측정 방식의 경우:                           │
+  │    C 언어 구현   : ─────────────────── 3,000 LOC (예산↑) │
+  │    Java 구현     : ───────── 1,000 LOC                 │
+  │    Python 구현   : ── 300 LOC (생산성 높으나 예산 급감↓)   │
+  │    ⚠ 문제: 우수한 도구를 쓸수록 비용(규모)이 작게 평가됨!        │
+  │                                                         │
+  │ 2. FP (논리적) 측정 방식의 경우:                            │
+  │    어떤 언어로   ┌─ 데이터 기능: 사용자 정보(ILF) 1개        │
+  │    구현하든      ├─ 트랜잭션 : 로그인(EI) 1개, 조회(EQ) 1개 │
+  │    관계없이      └─ ∴ 총 기능점수 = 15 FP (일관된 규모)     │
+  │                                                         │
+  │    ✅ 해결: "제공하는 기능 가치"가 같으면 규모도 같다.          │
+  └─────────────────────────────────────────────────────────┘
+```
 
   **[다이어그램 해설]** 이 그림은 기능점수([FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/)) 모델이 등장하게 된 결정적인 기술적 한계를 명확히 짚어준다. 물리적 코드 라인(LOC)은 언어의 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 수준에 반비례한다. 고수준 언어일수록 적은 코드로 많은 기능을 수행하므로, LOC로 비용을 산정하면 개발 생산성이 높은 조직이 오히려 예산을 적게 받는 불합리한 상황이 발생한다. 반면 기능점수([FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/)) 모델은 내부적으로 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 테이블(ILF)을 어떻게 구성하고 입출력(EI, EQ) 화면을 만들었는지 사용자 관점의 논리적 요소만을 세므로 구현 기술에 대해 완벽하게 독립적(Technology Independent)이다. 이를 통해 발주처와 수행사 모두가 합의할 수 있는 객관적 규모 지표를 확보할 수 있다.
 
@@ -144,30 +145,28 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 기능점수 ([FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/)) 내부논리파일(ILF) 외부연계파일(EIF)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 기능점수 ([FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/)) 내부논리파일(ILF) 외부연계파일(EIF)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
 | [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 기능점수 ([FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/)) 내부논리파일(ILF) 외부연계파일(EIF)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | 기능점수 ([FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/)) 내부논리파일(ILF) 외부연계파일(EIF) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
 | [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 기능점수 ([FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/)) 내부논리파일(ILF) 외부연계파일(EIF)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">기능점수 (FP) 내부논리파일(ILF) 외부연계파일(EIF) 개념 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 위기 (Software Crisis) 인식
+    │
+    ▼
+기능점수 (FP) 내부논리파일(ILF) 외부연계파일(EIF) 개념 정립
+    │
+    ▼
+표준화 및 방법론 체계화 (ISO, CMMI, Agile)
+    │
+    ▼
+클라우드 네이티브·AI 기반 확장 적용
+    │
+    ▼
+지속적 개선 및 DevOps·MLOps 통합
+```
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

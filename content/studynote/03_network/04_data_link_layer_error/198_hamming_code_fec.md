@@ -24,18 +24,14 @@ tags = ["studynote-network"]
   - `000`과 `011`을 비교하면? 2번째와 3번째 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 다르므로 [해밍 거리](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/)는 <strong>2</strong>입니다.
 - **에러 수정의 법칙**: 어떤 시스템에서 에러를 1개 발견(검출)하려면 유효한 단어들 사이의 최소 [해밍 거리](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/)가 2여야 하고, 에러를 1개 <strong>직접 고치려면(교정) 최소 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/">해밍 거리</a>가 3</strong>이어야 한다는 수학적 법칙이 있습니다. (정보처리기사 단골 문제).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">버스트 에러 검출 능력 유지</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">해밍 코드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">리드-솔로몬 코드</div></div>
-</div>
-</div>
-
-
+```text
+[버스트 에러 검출 능력 유지]
+    │
+    ▼
+[해밍 코드]
+    │
+    └──▶ [리드-솔로몬 코드]
+```
 
 - **📢 섹션 요약 비유**: [해밍 코드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/)는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -59,18 +55,14 @@ tags = ["studynote-network"]
 결과로 `011`(십진수로 3)이라는 신호가 나옵니다. 이 숫자의 의미는 기가 막힙니다. <strong>"아하, 1번과 2번이 겹치는 구역인 '3번째 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>'가 번개 맞고 깨졌구나!"</strong> 
 수신기는 송신기에 다시 보내달라고 하지 않고, 그 3번째 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)의 값을 스스로 반대로 뒤집어(1➔0) 완벽히 복원해 냅니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">버스트 에러 검출 능력 유지</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">해밍 코드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">리드-솔로몬 코드</div></div>
-</div>
-</div>
-
-
+```text
+[버스트 에러 검출 능력 유지]
+    │
+    ▼
+[해밍 코드]
+    │
+    └──▶ [리드-솔로몬 코드]
+```
 
 - **📢 섹션 요약 비유**: [해밍 코드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -131,19 +123,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 버스트 에러 검출 능력 유지</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 해밍 코드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 리드-솔로몬 코드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고신뢰 저지연 링크 제어</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 버스트 에러 검출 능력 유지]
+    │
+    ▼
+[현재 개념: 해밍 코드]
+    │
+    ├──▶ [확장 A: 리드-솔로몬 코드]
+    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
+```
 
 [해밍 코드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/)는 [버스트 에러](/knowledge-base/studynote/03_network/04_data_link_layer_error/197_burst_error_detection_crc/) 검출 능력 유지에서 출발해 현재 메커니즘을 정교화하고, 이후 [리드-솔로몬 코드](/knowledge-base/studynote/03_network/04_data_link_layer_error/199_reed_solomon_code_burst_error/)와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

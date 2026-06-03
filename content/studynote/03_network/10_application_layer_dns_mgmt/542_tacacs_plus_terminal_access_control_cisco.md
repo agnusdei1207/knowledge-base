@@ -23,24 +23,24 @@ tags = ["studynote-network"]
 - **필요성**: [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)에는 수백 대의 네트워크 장비가 있다. 입사 1년 차 주니어 네트워크 엔지니어와 10년 차 시니어 아키텍트가 같은 라우터에 SSH로 붙어 동일하게 최고 관리자 권한(`enable` 모드)을 획득한다면, 주니어의 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 타이핑 실수 하나가 전국의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)망을 마비시킬 수 있다. RADIUS는 "접속 자체"만을 허용/차단하므로, 한 번 콘솔에 들어온 후의 행위를 통제할 수 없다.
 - **등장 배경**: ① RADIUS의 패킷 평문 노출(ID 등)과 뭉뚱그려진 [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) 기능의 한계 노출 → ② 네트워크 엔지니어의 권한 오남용([명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 실수)에 의한 대형 장애 빈발 → ③ 암호화 통신 위에서 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 단위([Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/)-by-[Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/))의 권한 통제를 수행하는 TACACS+ 아키텍처의 도입.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TACACS+의 필요성: 명령어 단위 권한 제어 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">주니어 엔지니어 접속</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Router# show ip interface brief ──(TACACS+ 서버 질의)──▶ 승인(허용)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Router# configure terminal ──(TACACS+ 서버 질의)──▶ 차단(거부)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(결과: 상태 조회만 가능, 설정 변경 불가능)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시니어 엔지니어 접속</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Router# configure terminal ──(TACACS+ 서버 질의)──▶ 승인(허용)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Router(config)# reload ──(TACACS+ 서버 질의)──▶ 승인(경고 후 허용)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(결과: 모든 장비 설정 및 재부팅 제어 가능)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 장비 로컬에 권한 등급을 일일이 만들지 않아도, 중앙에서 통제 가능!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│             TACACS+의 필요성: 명령어 단위 권한 제어 시각화         │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [주니어 엔지니어 접속]                                         │
+│   Router# show ip interface brief   ──(TACACS+ 서버 질의)──▶ 승인(허용)  │
+│   Router# configure terminal        ──(TACACS+ 서버 질의)──▶ 차단(거부)  │
+│   (결과: 상태 조회만 가능, 설정 변경 불가능)                        │
+│                                                             │
+│   [시니어 엔지니어 접속]                                         │
+│   Router# configure terminal        ──(TACACS+ 서버 질의)──▶ 승인(허용)  │
+│   Router(config)# reload            ──(TACACS+ 서버 질의)──▶ 승인(경고 후 허용)│
+│   (결과: 모든 장비 설정 및 재부팅 제어 가능)                       │
+│                                                             │
+│   => 장비 로컬에 권한 등급을 일일이 만들지 않아도, 중앙에서 통제 가능!   │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 그림은 TACACS+가 제공하는 가장 강력한 기능인 '[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 단위 [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)([Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) [Authorization](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/))'를 보여준다. 장비(라우터)에 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인했다 하더라도, 엔지니어가 키보드로 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 치고 엔터를 누르는 순간, 라우터는 그 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 실행하기 전에 TACACS+ 서버로 패킷을 보내어 "이 사용자가 이 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 쳐도 됩니까?"라고 묻는다. 서버에 정의된 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 프로파일에 따라 `show` 같은 조회 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 통과시키고, 망에 타격을 줄 수 있는 `clear`, `reload`, `configure` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 직급에 따라 차단함으로써 인간의 치명적 휴먼 에러(Human Error)와 내부자 위협을 완벽히 방어한다.
 
@@ -64,28 +64,36 @@ tags = ["studynote-network"]
 
 TACACS+는 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 통신 실패에 따른 재전송(Retransmission)을 클라이언트가 신경 써야 했던 RADIUS와 달리, OS 레벨에서 완벽한 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 보장하는 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)(49) 위에서 동작한다. 또한, 3개의 A(Auth, Authz, Acct)가 각각 별도의 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)으로 열리고 닫힌다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TACACS+ 통신 아키텍처 (A-A-A 분리 및 암호화)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">엔지니어</div><div class="kb-diagram-node">Router (Client)</div><div class="kb-diagram-node">TACACS+ 서버</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. SSH 접속 시도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">2. TCP 49 연결 확립</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">■ Authentication (인증)</div><div class="kb-diagram-node">Payload 전체 암호화 구간</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Auth START</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. Auth REPLY (성공)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 터미널 프롬프트 제공</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">■ Authorization (인가)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6. 명령어 입력 'reload'</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">7. Authz REQUEST</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">8. Authz RESPONSE</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(권한 부족으로 거부)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">9. "Command Rejected"</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────┐
+│               TACACS+ 통신 아키텍처 (A-A-A 분리 및 암호화)        │
+├───────────────────────────────────────────────────────────────┤
+│                                                               │
+│   [엔지니어]             [Router (Client)]      [TACACS+ 서버] │
+│      │                        │                       │       │
+│      │ 1. SSH 접속 시도         │                       │       │
+│      ├───────────────────────▶│ 2. TCP 49 연결 확립     │       │
+│      │                        │◀═════════════════════▶│       │
+│      │                        │                       │       │
+│   ■ Authentication (인증)      │ [Payload 전체 암호화 구간]│     │
+│      │                        │ 3. Auth START         │       │
+│      │                        ├──────────────────────▶│       │
+│      │                        │ 4. Auth REPLY (성공)    │       │
+│      │                        │◀──────────────────────┤       │
+│      │ 5. 터미널 프롬프트 제공    │                       │       │
+│      │◀───────────────────────┤                       │       │
+│                                                               │
+│   ■ Authorization (인가)      │                       │       │
+│      │ 6. 명령어 입력 'reload'  │                       │       │
+│      ├───────────────────────▶│ 7. Authz REQUEST      │       │
+│      │                        ├──────────────────────▶│       │
+│      │                        │ 8. Authz RESPONSE     │       │
+│      │                        │    (권한 부족으로 거부)   │       │
+│      │                        │◀──────────────────────┤       │
+│      │ 9. "Command Rejected"  │                       │       │
+│      │◀───────────────────────┤                       │       │
+└───────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 흐름도는 인프라 관리 보안의 교과서다. 사용자는 `reload` 명령을 장비 내부 로컬에서 실행한다고 생각하지만, 실제로는 백그라운드에서 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 TACACS+ 서버와 완벽히 암호화된 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 터널을 뚫고 통신을 주고받는다. 만약 해커가 네트워크 중간에 Wireshark를 켜놓아도, 이 엔지니어가 무슨 ID로 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인했고 어떤 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 쳤는지 본문(Payload)이 암호화되어 있어 전혀 알 수 없다(RADIUS는 ID와 과금 내용이 평문 노출됨). 또한, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)이 끝나고 [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)이 독립적으로 일어난다는 점에서 아키텍처의 유연성이 돋보인다.
 
@@ -100,24 +108,27 @@ TACACS+는 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp
 | <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 레벨 <a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/">인가</a></strong> | 불가능 (단순 [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/)/IP 등 네트워크 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 할당만) | **강력히 지원** (IOS, NX-OS 등의 개별 [커맨드](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) 제어) |
 | <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a> 적합처</strong> | [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) 다이얼업, 무선랜 802.[1X](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/584_802_1x_pnac_eap_radius/), 모바일 [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) **(일반 사용자용)** | [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 라우터/[스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)/[방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 관리자 콘솔 **(인프라 관리자용)** |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AAA 아키텍처의 분리(Decoupling) 효과 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">TACACS+의 유연한 아키텍처 설계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Router / Switch</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Active Directory 서버</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(윈도우 패스워드 검증)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Cisco ISE / ACS 서버</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(네트워크 정책 검증)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SIEM 통합 로그 서버</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(감사 증적 기록)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 3가지 기능이 물리적으로 분리되어 있어 이기종 융합 설계가 가능함!</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────┐
+│               AAA 아키텍처의 분리(Decoupling) 효과 시각화          │
+├───────────────────────────────────────────────────────────────┤
+│                                                               │
+│   [TACACS+의 유연한 아키텍처 설계]                                │
+│                                                               │
+│   [Router / Switch]                                           │
+│          │                                                    │
+│          ├─ (Authentication 요청) ──▶ [Active Directory 서버]  │
+│          │                               (윈도우 패스워드 검증)     │
+│          │                                                    │
+│          ├─ (Authorization 요청)  ──▶ [Cisco ISE / ACS 서버]   │
+│          │                               (네트워크 정책 검증)      │
+│          │                                                    │
+│          └─ (Accounting 로그 전송) ──▶ [SIEM 통합 로그 서버]     │
+│                                           (감사 증적 기록)         │
+│                                                               │
+│   => 3가지 기능이 물리적으로 분리되어 있어 이기종 융합 설계가 가능함!      │
+└───────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** RADIUS는 햄버거 세트 메뉴처럼 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)과 [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)가 붙어있어 메뉴를 쪼개기 어렵다. 반면 TACACS+는 단품 조합이 가능한 모듈형 아키텍처다. 기업의 보안 아키텍트는 "[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)은 사내 윈도우 AD망([LDAP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/543_ldap_lightweight_directory_access_protocol/))으로 하고, 권한 심사는 네트워크 보안팀의 전용 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 서버([Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/) ISE)로 하며, 접속 이력은 전사 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 수집기([Splunk](/knowledge-base/studynote/09_security/13_secops_ir_forensics/630_splunk/))로 보내라"는 식의 고도화된 하이브리드 인프라 연동을 TACACS+ 하나로 깔끔하게 설계할 수 있다.
 
@@ -189,19 +200,15 @@ TACACS+를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: RADIUS</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: TACACS+</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: LDAP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율 운영 네트워크</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: RADIUS]
+    │
+    ▼
+[현재 개념: TACACS+]
+    │
+    ├──▶ [확장 A: LDAP]
+    └──▶ [확장 B: 자율 운영 네트워크]
+```
 
 TACACS+는 RADIUS에서 출발해 현재 메커니즘을 정교화하고, 이후 LDAP와 자율 운영 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

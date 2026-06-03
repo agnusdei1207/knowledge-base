@@ -20,22 +20,21 @@ tags = ["studynote-dataengineering"]
 
 연봉 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/): [3000, 3200, 3500, 3800, [4000](/knowledge-base/studynote/02_operating_system/09_file_system/548_special_permissions_setuid/), **100,000,000**]. 산술 평균 = 16,670,917원 → 현실과 동떨어진 숫자. 중앙값 = 3,650원 → 실제 중심을 정확히 반영. 이것이 로버스트 통계의 존재 이유다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">산술 평균 vs 중앙값: 이상치 저항성 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">데이터:</div><div class="kb-diagram-node">3, 3.2, 3.5, 3.8, 4, 100,000</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">산술 평균: 16,670 ← 이상치 1개에 폭발 💥</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">중앙값: 3.65 ← 이상치에 무덤덤 😌</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">절사 평균: 3.5 ← 양극단 제거 후 평균</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">붕괴점(Breakdown Point):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">평균: 0% (이상치 1개로 ∞ 왜곡 가능)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">중앙값: 50% (절반이 오염돼도 유효!)</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│     산술 평균 vs 중앙값: 이상치 저항성 비교             │
+├───────────────────────────────────────────────────────┤
+│  데이터: [3, 3.2, 3.5, 3.8, 4, 100,000]              │
+│                                                       │
+│  산술 평균: 16,670  ← 이상치 1개에 폭발 💥            │
+│  중앙값:    3.65    ← 이상치에 무덤덤 😌              │
+│  절사 평균: 3.5     ← 양극단 제거 후 평균             │
+│                                                       │
+│  붕괴점(Breakdown Point):                             │
+│   평균:  0%  (이상치 1개로 ∞ 왜곡 가능)               │
+│   중앙값: 50% (절반이 오염돼도 유효!)                  │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 산술 평균은 반 평균 키를 구할 때 **거인 1명이 끼면 모두가 농구 선수가 되는** 환상을 만든다. 중앙값은 거인을 무시하고 <strong>진짜 가운데 키</strong>를 알려준다.
 
@@ -101,23 +100,21 @@ tags = ["studynote-dataengineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">고전 통계 (평균·표준편차) — 정규 분포 가정</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Tukey (1960s) — 탐색적 데이터 분석, 중앙값·IQR 강조</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Huber (1964) — M-추정량, 이상치 가중치 축소</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">붕괴점 이론 (Hampel, 1970s) — 로버스트 추정량 평가 체계</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: ML 전처리 표준 — RobustScaler, MAD 기반 이상 탐지</div></div>
-</div>
-</div>
-
-
+```text
+[고전 통계 (평균·표준편차) — 정규 분포 가정]
+    │
+    ▼
+[Tukey (1960s) — 탐색적 데이터 분석, 중앙값·IQR 강조]
+    │
+    ▼
+[Huber (1964) — M-추정량, 이상치 가중치 축소]
+    │
+    ▼
+[붕괴점 이론 (Hampel, 1970s) — 로버스트 추정량 평가 체계]
+    │
+    ▼
+[현재: ML 전처리 표준 — RobustScaler, MAD 기반 이상 탐지]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 반에서 키 평균을 구할 때 **NBA 선수 1명이 끼면** 평균 키가 190cm가 돼서 이상해져요.

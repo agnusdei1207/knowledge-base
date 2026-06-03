@@ -23,21 +23,23 @@ tags = ["algorithm_stats"]
 
 이 그림은 그래프를 탐색하는 두 가지 기본 전략인 BFS와 DFS의 차이를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Graph Traversal: BFS vs DFS</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Breadth-First Search (BFS)</div><div class="kb-diagram-node">Depth-First Search (DFS)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(1) (1)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(2) --- (3) (2) (5)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(4) (5)-(6) (3)-(4) (6)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* BFS: 가까운 곳부터 (Queue) * DFS: 한 우물만 (Stack)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 효과: 최단 경로 보장 * 효과: 모든 경로 탐색</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Graph Traversal: BFS vs DFS                 │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Breadth-First Search (BFS) ]  [ Depth-First Search (DFS) ] │
+│          (1)                              (1)               │
+│        /     \                          /     \             │
+│      (2) --- (3)                      (2)     (5)           │
+│      / \     /                        / \     /             │
+│    (4) (5)-(6)                      (3)-(4) (6)             │
+│                                                             │
+│   * BFS: 가까운 곳부터 (Queue)    * DFS: 한 우물만 (Stack)  │
+│   * 효과: 최단 경로 보장          * 효과: 모든 경로 탐색    │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '탐색의 깊이와 넓이'이다. BFS는 최단 거리를 찾는 데 유리하고, DFS는 미로 찾기나 그래프의 사이클 존재 여부를 확인하는 데 유리하다. 실무에서는 이 두 탐색 기법이 모든 고수준 그래프 알고리즘의 기초 체력이 된다.
 
@@ -71,22 +73,24 @@ tags = ["algorithm_stats"]
 
 이 구조도는 다익스트라 알고리즘의 우선순위 큐 기반 갱신 과정을 시각화한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Dijkstra with Priority Queue</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Dist Table</div><div class="kb-diagram-note">: {A:0, B:∞, C:∞, D:∞}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Pop (A, 0) ──▶ Update neighbors:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B = min(∞, 0+2) = 2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C = min(∞, 0+5) = 5</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Pop (B, 2) ──▶ Update C from B:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C = min(5, 2+1) = 3 (Short-cut found!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 현재 가장 가까운 노드부터 확정해 나가는 탐욕법</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Dijkstra with Priority Queue                │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Dist Table ] : {A:0, B:∞, C:∞, D:∞}                     │
+│                                                             │
+│   1. Pop (A, 0) ──▶ Update neighbors:                       │
+│      B = min(∞, 0+2) = 2                                    │
+│      C = min(∞, 0+5) = 5                                    │
+│                                                             │
+│   2. Pop (B, 2) ──▶ Update C from B:                        │
+│      C = min(5, 2+1) = 3 (Short-cut found!)                 │
+│                                                             │
+│   * 핵심: 현재 가장 가까운 노드부터 확정해 나가는 탐욕법    │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '완화 (Relaxation)'이다. 더 짧은 지름길을 발견할 때마다 최단 거리 정보를 갱신한다. 실무에서는 이 알고리즘이 인터넷 라우팅 프로토콜인 <strong>OSPF</strong>의 심장이 되어, 전 세계 패킷의 길을 안내한다.
 
@@ -126,20 +130,22 @@ tags = ["algorithm_stats"]
 
 이 도식은 위상 정렬을 통한 작업 순서 결정 과정을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Topological Sort: Task Scheduling</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Java Install</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Library Download</div><div class="kb-diagram-note">──</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DB Setup</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Run</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Config Edit</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 알고리즘: 진입 차수(In-degree)가 0인 것부터 차례로 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 판단: 사이클 발생 시 "닭이 먼저냐 알이 먼저냐" 교착 상태</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│               Topological Sort: Task Scheduling             │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Java Install ] ──▶ [ Library Download ] ──┐             │
+│                                               │             │
+│   [ DB Setup ] ───────────────────────────────┼──▶ [ Run ]  │
+│                                               │             │
+│   [ Config Edit ] ────────────────────────────┘             │
+│                                                             │
+│   * 알고리즘: 진입 차수(In-degree)가 0인 것부터 차례로 실행 │
+│   * 판단: 사이클 발생 시 "닭이 먼저냐 알이 먼저냐" 교착 상태│
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 기술사의 그래프 판단은 '배관 설계'와 같습니다. 물이 어디서 어디로 흐르는지(방향성), 막힌 곳은 없는지(연결성), 그리고 가장 적은 파이프로 모든 방에 물을 댈 방법(MST)을 설계하는 종합 예술입니다.
 
@@ -175,19 +181,15 @@ tags = ["algorithm_stats"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">그래프 고급 알고리즘</div>
-<div class="kb-diagram-tree-item" style="--depth:2">최대 유량 (Max Flow): Ford-Fulkerson, Dinic</div>
-<div class="kb-diagram-tree-item" style="--depth:2">이분 매칭 (Bipartite Matching)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">강연결 요소 (SCC): Tarjan, Kosaraju</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">위상 정렬 (Topological Sort) — DAG 의존성 해결</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">평면 그래프 / 트리 분할 (Heavy-Light Decomposition)</div>
-</div>
-</div>
-
-
+```text
+그래프 고급 알고리즘
+    ├─► 최대 유량 (Max Flow): Ford-Fulkerson, Dinic
+    ├─► 이분 매칭 (Bipartite Matching)
+    └─► 강연결 요소 (SCC): Tarjan, Kosaraju
+    │
+    ▼
+위상 정렬 (Topological Sort) — DAG 의존성 해결
+    │
+    ▼
+평면 그래프 / 트리 분할 (Heavy-Light Decomposition)
+```

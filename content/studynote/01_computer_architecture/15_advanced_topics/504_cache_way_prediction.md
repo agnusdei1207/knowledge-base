@@ -25,21 +25,19 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 웨이 예측이 "모든 방을 동시에 여는 것"이 아니라, "가장 가능성 높은 방부터 보는 것"임을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Way prediction before full set lookup</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">address → index</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ predictor table ▶ predicted way = 2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ set 37 in cache</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">first access : read tag/data of way2 only</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">if tag match ▶ return data</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">if tag miss ─▶ probe remaining ways / recover</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                    Way prediction before full set lookup                   │
+├────────────────────────────────────────────────────────────────────────────┤
+│ address → index                                                           │
+│           ├────────▶ predictor table ───────▶ predicted way = 2           │
+│           └────────▶ set 37 in cache                                      │
+│                                                                            │
+│ first access : read tag/data of way2 only                                  │
+│       if tag match  ───────────────────────────────────────▶ return data   │
+│       if tag miss   ─▶ probe remaining ways / recover                      │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 즉 웨이 예측은 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)을 높이는 기법이라기보다, <strong>높은 연관도가 가진 전력·<a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 비용을 줄이는 미세 구조 최적화</strong>로 보는 것이 정확하다. 캐시 구조는 그대로 두고, 접근 방식만 더 영리하게 만드는 셈이다.
 
@@ -130,25 +128,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Direct-mapped cache</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Set-associative cache</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Parallel tag/data lookup</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Power concern in L1 caches</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Way prediction</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Adaptive confidence-based cache lookup</div>
-</div>
-</div>
-
-
+```text
+Direct-mapped cache
+      │
+      ▼
+Set-associative cache
+      │
+      ▼
+Parallel tag/data lookup
+      │
+      ▼
+Power concern in L1 caches
+      │
+      ▼
+Way prediction
+      │
+      ▼
+Adaptive confidence-based cache lookup
+```
 
 이 흐름은 "충돌 미스 완화 → 연관도 증가 → 전력 부담 발생 → 예측 기반 선택적 접근"으로 이어진 캐시 미세 구조의 진화를 보여 준다.
 

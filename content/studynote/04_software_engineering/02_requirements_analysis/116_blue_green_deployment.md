@@ -18,20 +18,19 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블루/그린 배포 전환 흐름</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Before</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Blue (v1) ← 100% 트래픽</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Green (v2) ← 0% (대기, 테스트 중)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Switch</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Green (v2) ← 100% 트래픽 ✅</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Blue (v1) ← 0% (대기, 롤백 대비)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Rollback</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Blue (v1) ← 100% (즉시 복원)</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    블루/그린 배포 전환 흐름                             │
+├───────────────────────────────────────────────────────┤
+│  [Before] LB ──▶ Blue (v1) ← 100% 트래픽            │
+│                  Green (v2) ← 0% (대기, 테스트 중)    │
+│                                                       │
+│  [Switch] LB ──▶ Green (v2) ← 100% 트래픽 ✅         │
+│                  Blue (v1) ← 0% (대기, 롤백 대비)     │
+│                                                       │
+│  [Rollback] LB ──▶ Blue (v1) ← 100% (즉시 복원)     │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 블루/그린은 무대 2개가 있는 극장이다. 관객은 항상 1개 무대만 보고, 다른 무대에서 세트(신버전)를 준비한 후 조명을 순간 전환한다.
 
@@ -101,23 +100,21 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">수동 배포 (다운타임 발생, 2000s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">블루/그린 배포 (2010s) — 무중단, 즉시 롤백</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">카나리 배포 (2015~) — 점진적 트래픽 확대</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Progressive Delivery (2020~) — 카나리+피처플래그+ACA</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: AI 기반 자율 배포 — 메트릭 분석 자동 전환/롤백</div></div>
-</div>
-</div>
-
-
+```text
+[수동 배포 (다운타임 발생, 2000s)]
+    │
+    ▼
+[블루/그린 배포 (2010s) — 무중단, 즉시 롤백]
+    │
+    ▼
+[카나리 배포 (2015~) — 점진적 트래픽 확대]
+    │
+    ▼
+[Progressive Delivery (2020~) — 카나리+피처플래그+ACA]
+    │
+    ▼
+[현재: AI 기반 자율 배포 — 메트릭 분석 자동 전환/롤백]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 블루/그린은 <strong>무대 2개</strong>가 있는 극장이에요. 하나는 공연 중이고, 다른 하나에서 새 공연을 준비해요.

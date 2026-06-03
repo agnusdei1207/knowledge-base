@@ -31,18 +31,14 @@ tags = ["studynote-network"]
   - 둘 다 멀뚱멀뚱 서 있습니다([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)).
   - 차주는 이렇게 멍청하게 기다리지 않습니다. 차주는 1분마다 창문을 내리고 <strong>"아저씨! 아직도 만차예요? 자리 안 났어요? (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">Zero</a> Window Probe 찔러보기)"</strong>라고 계속 물어봅니다(Persist [Timer](/knowledge-base/studynote/02_operating_system/01_overview_architecture/071_os_timer/)). 아저씨가 "오 자리 났어요!" 하면 그때 쑥 들어갑니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">TCP Keep-Alive 타이머</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">영 윈도우 탐색</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MPTCP</div></div>
-</div>
-</div>
-
-
+```text
+[TCP Keep-Alive 타이머]
+    │
+    ▼
+[영 윈도우 탐색]
+    │
+    └──▶ [MPTCP]
+```
 
 - **📢 섹션 요약 비유**: ** 영 윈도우 프로브(Probe) 패킷은 꽉 닫힌 문 틈새로 찔러 넣는 **"막대기 찌르기"**입니다. 상대가 문을 잠그고 묵묵부답일 때, 상대가 문을 열어줄 때까지 하염없이 기다리는 게 아니라, 주기적으로 문을 똑똑 두드리며 문이 열렸는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 훌륭한 생존 본능입니다.
 
@@ -65,25 +61,28 @@ tags = ["studynote-network"]
 4. 송신자 **20초(2배)** 대기 후 3차 프로브 발송 -> 대답 `Win=0`.
 5. 이렇게 대기 시간(Persist [Timer](/knowledge-base/studynote/02_operating_system/01_overview_architecture/071_os_timer/))을 `5, 10, 20, 40, 80초`로 미친 듯이 늘려가면서 수신자 CPU를 귀찮게 하지 않고 넉넉하게 기다려준다. (최대 한계 시간은 보통 60초 정도로 고정한다).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Zero Window Deadlock 방어 핑퐁 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">구글 (송신자)</div><div class="kb-diagram-node">내 똥컴 (수신자)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(버퍼 100% 꽉 참!!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"오케이 발사 정지" ◀ (Window=0 전송)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(내 똥컴이 드디어 버퍼를 비우고 Window=64000 엽서를 보냄!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">❌ ◀ (바다에 빠져서 엽서 유실됨 ㅠㅠ)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 데드락 발생 위기: 서로 평생 기다림.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">구글: "참다 못해 내가 찔러본다. 야 빈자리 났냐?" (ZWP 발사)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">내 똥컴: "어? 아까 자리 났다고 보냈는데 못 받았어? 옛다 다시!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀ (Window=64000 재전송!!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: 구글이 멈췄던 다운로드를 기가 막히게 재개하며 인터넷이 살아남!</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                Zero Window Deadlock 방어 핑퐁 시각화             │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 구글 (송신자) ]                              [ 내 똥컴 (수신자) ] │
+ │                                          (버퍼 100% 꽉 참!!)   │
+ │   "오케이 발사 정지" ◀─────── (Window=0 전송) ───────── │
+ │                                                             │
+ │      (내 똥컴이 드디어 버퍼를 비우고 Window=64000 엽서를 보냄!)      │
+ │           ❌ ◀───────── (바다에 빠져서 엽서 유실됨 ㅠㅠ) ─── │
+ │                                                             │
+ │   * 데드락 발생 위기: 서로 평생 기다림.                             │
+ │                                                             │
+ │   구글: "참다 못해 내가 찔러본다. 야 빈자리 났냐?" (ZWP 발사)          │
+ │       ─────────────────────────────────────────▶ │
+ │   내 똥컴: "어? 아까 자리 났다고 보냈는데 못 받았어? 옛다 다시!"          │
+ │       ◀────── (Window=64000 재전송!!) ────────────── │
+ │                                                             │
+ │   ▶ 결과: 구글이 멈췄던 다운로드를 기가 막히게 재개하며 인터넷이 살아남! │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 영 윈도우 탐색의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -138,19 +137,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: TCP Keep-Alive 타이머</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 영 윈도우 탐색</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: MPTCP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: TCP Keep-Alive 타이머]
+    │
+    ▼
+[현재 개념: 영 윈도우 탐색]
+    │
+    ├──▶ [확장 A: MPTCP]
+    └──▶ [확장 B: 적응형 저지연 전송]
+```
 
 영 윈도우 탐색는 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) Keep-Alive 타이머에서 출발해 현재 메커니즘을 정교화하고, 이후 MPTCP와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

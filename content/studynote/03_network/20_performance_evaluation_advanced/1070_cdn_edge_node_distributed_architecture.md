@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 웹사이트 원본이 저장된 메인 서버(오리진)가 한 곳에 몰려있으면, <strong>물리적 전파 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">지연 시간</a>(<a href="/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/">RTT</a>)</strong>을 극복할 수 없습니다. 빛의 속도라도 한국에서 뉴욕 서버를 왕복하면 200ms가 넘어갑니다.
 - 갑자기 트래픽(DDoS나 수강 신청)이 1곳으로 몰리면(병목), 트래픽 요금([Egress](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/))이 수억 원 터지고 서버가 기절합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">WebRTC NAT 횡단</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CDN 엣지 노드 분산</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">GSLB 지리적 DNS 라우팅</div></div>
-</div>
-</div>
-
-
+```text
+[WebRTC NAT 횡단]
+    │
+    ▼
+[CDN 엣지 노드 분산]
+    │
+    └──▶ [GSLB 지리적 DNS 라우팅]
+```
 
 - **📢 섹션 요약 비유**: [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) 엣지 노드 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -44,18 +40,14 @@ tags = ["studynote-network"]
 (클라우드플레어, 아카마이, AWS CloudFront)
 - **개념**: 본사 오리진 서버에 부하가 가는 것을 막기 위해, 유저와 물리적으로 가장 가까운 전 세계 각지의 통신망 끝자락(Edge)에 무수히 많은 <strong>미니 <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a> 서버(Edge Node, <a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/120_pop_point_of_production/">PoP</a>)</strong>들을 거미줄처럼 흩뿌려 설치하고, 이미지/동영상 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 미리 복사([캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/))해 두어 초고속으로 대신 배달해 주는 글로벌 대리 배달 네트워크입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">WebRTC NAT 횡단</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CDN 엣지 노드 분산</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">GSLB 지리적 DNS 라우팅</div></div>
-</div>
-</div>
-
-
+```text
+[WebRTC NAT 횡단]
+    │
+    ▼
+[CDN 엣지 노드 분산]
+    │
+    └──▶ [GSLB 지리적 DNS 라우팅]
+```
 
 - **📢 섹션 요약 비유**: [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) 엣지 노드 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -124,19 +116,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: WebRTC NAT 횡단</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: CDN 엣지 노드 분산</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: GSLB 지리적 DNS 라우팅</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: WebRTC NAT 횡단]
+    │
+    ▼
+[현재 개념: CDN 엣지 노드 분산]
+    │
+    ├──▶ [확장 A: GSLB 지리적 DNS 라우팅]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) 엣지 노드 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)는 [WebRTC](/knowledge-base/studynote/03_network/09_application_layer_web_email/505_webrtc_web_real_time_communication/) [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 횡단에서 출발해 현재 메커니즘을 정교화하고, 이후 [GSLB](/knowledge-base/studynote/03_network/09_application_layer_web_email/507_gslb_global_server_load_balancing_dns/) 지리적 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

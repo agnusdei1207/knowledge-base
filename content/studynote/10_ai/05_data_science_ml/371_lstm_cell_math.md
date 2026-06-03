@@ -27,17 +27,14 @@ LSTM은 1997년 Hochreiter와 Schmidhuber가 제안한 구조로, 두 개의 분
 
 핵심 직관: 셀 상태는 컨베이어 벨트처럼 정보가 큰 손실 없이 장거리를 이동하는 경로이고, 세 게이트는 어떤 정보를 버릴지(망각), 추가할지(입력), 출력할지(출력)를 학습한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 표준 RNN이 하나의 작은 수첩에 모든 것을 적는 것이라면, LSTM은 긴 메모를 보관하는 별도 노트(셀 상태)와 오늘 할 일을 적는 일정표(은닉 상태)를 분리해 관리하는 이중 노트 시스템이다.
 
@@ -73,25 +70,23 @@ h_t = o_t ⊙ tanh(C_t)
 
 ### 게이트 역할 다이어그램
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C_{t-1} C_t</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⊗ f_t ⊕</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⊗ i_t</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">망각</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">게이트 tanh(·)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(C̃_t)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">h_{t-1}──</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">σ</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">f_t</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">σ</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">i_t</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">tanh</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">C̃_t │ C_t → tanh │</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">σ</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">o_t │ ⊗ o_t │ → h_t</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────────┐
+│  C_{t-1} ──────────────────────────────────── C_t           │
+│            │                │                               │
+│           ⊗ f_t             ⊕                               │
+│            │           ⊗ i_t                                │
+│           망각           │                                   │
+│           게이트       tanh(·)                               │
+│                         (C̃_t)                               │
+│  h_{t-1}──┐                                                  │
+│  x_t  ────┤→[σ]→f_t                                         │
+│           │→[σ]→i_t    ┌─────────────┐                      │
+│           │→[tanh]→C̃_t │ C_t → tanh │                      │
+│           │→[σ]→o_t    │      ⊗ o_t  │ → h_t               │
+│           └────────────└─────────────┘                      │
+└──────────────────────────────────────────────────────────────┘
+```
 
 ### 각 게이트의 의미
 

@@ -25,18 +25,14 @@ tags = ["studynote-network"]
 하지만 통신사들끼리 미리 맺어둔 **"상호 로밍 협정(Roaming Agreement)"** 덕분에 기적이 일어난다. NTT 기지국은 내 유심(USIM)에 적힌 국가번호(450:한국)와 통신사 번호(05:SKT)를 읽어보고, 한국의 SKT 서버에 해저 케이블을 타고 연락을 취한다. 
 "야 SKT, 너네 손님 여기 왔는데, 내가 인터넷 쓰게 해주고 나중에 너한테 돈 청구하면 되지?" SKT가 "ㅇㅋ 승인!"을 때려주면, 나는 일본에서도 카카오톡을 하고 전화를 받을 수 있다. 이 거대한 프로세스가 바로 <strong>로밍(Roaming)</strong>이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">호 수락 제어</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">로밍</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">이동성 관리</div></div>
-</div>
-</div>
-
-
+```text
+[호 수락 제어]
+    │
+    ▼
+[로밍]
+    │
+    └──▶ [이동성 관리]
+```
 
 - **📢 섹션 요약 비유**: 로밍은 '해외여행 가서 신용카드(Visa/Master)로 밥 사 먹기'와 똑같습니다. 일본 식당 사장님은 내 한국 은행 계좌를 모르지만, Visa 카드망(로밍 네트워크)을 통해 한국 은행에 내 잔액을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)받고 밥을 줍니다. 나중에 일본 식당과 한국 은행이 알아서 돈을 정산하는 시스템입니다.
 
@@ -56,22 +52,24 @@ tags = ["studynote-network"]
    - <strong>Home Routed (홈 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a>)</strong>: 일본에서 유튜브를 틀면, 일본 기지국 -> 해저 케이블 -> 한국 SKT 망 -> 다시 일본 구글 서버로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 엄청나게 돌아서 간다. [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Ping)이 매우 느리지만, 한국 IP를 받기 때문에 한국 넷플릭스 등을 그대로 볼 수 있고 요금 통제가 쉽다. (대부분의 로밍 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 쓰는 방식)
    - **Local Breakout (로컬 브레이크아웃)**: 일본 기지국에서 한국까지 안 가고 바로 일본 구글 서버로 다이렉트로 쏴버린다. 속도는 엄청나게 빠르지만 과금 정산이 복잡해져서 주로 음성 통화 ([VoLTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/758_volte_voice_over_lte_sip_qos/) 로밍) 등에 제한적으로 쓰인다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">글로벌 데이터 로밍(Home Routed 방식) 작동 흐름 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">일본 (Visited Network)</div><div class="kb-diagram-node">한국 (Home Network)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">📱 내 폰 ──(1. 접속)──▶ 기지국 (VLR) ──(2. 나 얘 누군지 인증 좀!)──▶ HLR (SKT 가입자 DB)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(국제망: IPX)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──(3. 인증 성공! 데이터 터널링 뚫어!)──▶ PGW (SKT 코어망)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(4. 인터넷 접속!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">YouTube 서버</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">★ 특징: 일본에서 유튜브를 봐도 트래픽이 한국을 찍고 나감! (그래서 해외여행 시 핑이 느림)</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────────────────────────────────┐
+│           글로벌 데이터 로밍(Home Routed 방식) 작동 흐름 시각화                           │
+├───────────────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                           │
+│ [ 일본 (Visited Network) ]                 [ 한국 (Home Network) ]                        │
+│                                                                                           │
+│ 📱 내 폰 ──(1. 접속)──▶ 기지국 (VLR) ──(2. 나 얘 누군지 인증 좀!)──▶ HLR (SKT 가입자 DB)  │
+│                        │               (국제망: IPX)                                      │
+│                        │                                                                  │
+│                        └──(3. 인증 성공! 데이터 터널링 뚫어!)──▶ PGW (SKT 코어망)         │
+│                                                                                           │
+│                                                (4. 인터넷 접속!)                          │
+│                                                               ▼                           │
+│                                                        [ YouTube 서버 ]                   │
+│ ★ 특징: 일본에서 유튜브를 봐도 트래픽이 한국을 찍고 나감! (그래서 해외여행 시 핑이 느림)  │
+└───────────────────────────────────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 로밍의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -130,19 +128,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 호 수락 제어</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 로밍</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 이동성 관리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 무선 자원 제어</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 호 수락 제어]
+    │
+    ▼
+[현재 개념: 로밍]
+    │
+    ├──▶ [확장 A: 이동성 관리]
+    └──▶ [확장 B: 지능형 무선 자원 제어]
+```
 
 로밍는 [호 수락 제어](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/559_call_admission_control/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [이동성 관리](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/561_mobility_management_hlr_vlr_paging/)와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

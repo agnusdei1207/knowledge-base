@@ -18,20 +18,14 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">K-UAM 로드맵:</div>
-<div class="kb-diagram-note">2025: 그랜드 챌린지 (유인 실증 비행)</div>
-<div class="kb-diagram-note">2027: 시범 상용 서비스</div>
-<div class="kb-diagram-note">2030+: 본격 상용화</div>
-<div class="kb-diagram-note">UAM 회랑: 고도 300~600m, 전용 비행 경로</div>
-<div class="kb-diagram-note">→ 기존 항공과 분리 → 안전 확보</div>
-</div>
-</div>
-
-
+```text
+K-UAM 로드맵:
+  2025: 그랜드 챌린지 (유인 실증 비행)
+  2027: 시범 상용 서비스
+  2030+: 본격 상용화
+UAM 회랑: 고도 300~600m, 전용 비행 경로
+  → 기존 항공과 분리 → 안전 확보
+```
 
 - **📢 섹션 요약 비유**: [UAM](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/145_uam_urban_air_mobility_evtol/) 회랑은 <strong>하늘의 고속도로</strong>이다. 자동차 전용도로처럼 UAM만 다닐 수 있는 하늘 길을 만든다.
 
@@ -55,17 +49,11 @@ K-UAM은 <strong>한국 도심 항공의 실증·상용화 <a href="/knowledge-b
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">UAM 로드맵 발표 (2020)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">K-UAM TF (2021)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">그랜드 챌린지 (2025)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">시범 운항 (2027)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: 상용화 (2030+)</div></div>
-</div>
-</div>
-
-
+```text
+[UAM 로드맵 발표 (2020)] → [K-UAM TF (2021)]
+    → [그랜드 챌린지 (2025)]
+    → [시범 운항 (2027)] → [현재: 상용화 (2030+)]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. K-UAM은 <strong>하늘의 고속도로</strong>를 만드는 거예요.

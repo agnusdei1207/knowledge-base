@@ -25,17 +25,14 @@ Few-shot [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/2
 
 구분: 학습하는 방법을 학습 = <strong><a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/470_meta_learning_maml/">메타 러닝</a> (<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/">Learning</a> to Learn)</strong>
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: MAML은 "어떤 운동이든 3번 연습하면 바로 잘하는 신체 기초 체력"을 기르는 훈련이다. 특정 운동을 잘하는 게 아니라 빠르게 배우는 능력 자체를 기른다.
 
@@ -60,33 +57,26 @@ Few-shot [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/2
 ```
 
 **외부 루프 (Outer Loop) - 메타 업데이트**:
+```
+3. 쿼리 셋 (Query Set)에서 평가: L_{τᵢ}(θ'ᵢ)
+4. 메타 파라미터 업데이트:
+   θ ← θ - β∇_θ Σᵢ L_{τᵢ}(θ'ᵢ)
+   (β: 메타 학습률)
+   → 2차 도함수 포함: ∂θ'ᵢ/∂θ = I - α∇²L_{τᵢ}(θ)
+```
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">3. 쿼리 셋 (Query Set)에서 평가: L_{τᵢ}(θ'ᵢ)</div>
-<div class="kb-diagram-note">4. 메타 파라미터 업데이트:</div>
-<div class="kb-diagram-note">θ ← θ - β∇_θ Σᵢ L_{τᵢ}(θ'ᵢ)</div>
-<div class="kb-diagram-note">(β: 메타 학습률)</div>
-<div class="kb-diagram-note">→ 2차 도함수 포함: ∂θ'ᵢ/∂θ = I - α∇²L_{τᵢ}(θ)</div>
-</div>
-</div>
-
-
-
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">태스크 분포 p(τ)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">τ₁, τ₂, τ₃, ... (다양한 태스크)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">내부 루프</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">θ'ᵢ (각 태스크 k스텝 적응)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">외부 루프</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">θ - β∇Σ L(θ'ᵢ) (초기값 업데이트)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수렴 후: θ* = 모든 태스크에 빠르게 적응 가능한 초기값</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────┐
+│  태스크 분포 p(τ)                                     │
+│  τ₁, τ₂, τ₃, ... (다양한 태스크)                     │
+│       ↓                                              │
+│  [내부 루프]: θ → θ'ᵢ (각 태스크 k스텝 적응)          │
+│       ↓                                              │
+│  [외부 루프]: θ ← θ - β∇Σ L(θ'ᵢ) (초기값 업데이트)   │
+│       ↓                                              │
+│  수렴 후: θ* = 모든 태스크에 빠르게 적응 가능한 초기값  │
+└──────────────────────────────────────────────────────┘
+```
 
 | 방법 | 2차 도함수 | 계산 비용 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) |
 |:---|:---|:---|:---|

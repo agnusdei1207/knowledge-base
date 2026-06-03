@@ -18,27 +18,24 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">12 Factor App</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I. Codebase — 1앱 = 1리포</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">II. Dependencies — 명시적 선언 (requirements.txt)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">III. Config — 환경 변수로 분리 (하드코딩 금지)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IV. Backing Services — DB·캐시를 리소스로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">V. Build/Release/Run — 단계 분리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VI. Processes — Stateless (세션은 외부 저장소)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VII. Port Binding — 자체 HTTP 서버</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VIII.Concurrency — 프로세스 수평 확장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IX. Disposability — 빠른 시작·우아한 종료</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">X. Dev/Prod Parity — 개발≈프로덕션</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">XI. Logs — stdout 스트림</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">XII. Admin Processes — 일회성 관리 작업</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    12 Factor App                                      │
+├───────────────────────────────────────────────────────┤
+│  I.   Codebase — 1앱 = 1리포                         │
+│  II.  Dependencies — 명시적 선언 (requirements.txt)  │
+│  III. Config — 환경 변수로 분리 (하드코딩 금지)      │
+│  IV.  Backing Services — DB·캐시를 리소스로          │
+│  V.   Build/Release/Run — 단계 분리                  │
+│  VI.  Processes — Stateless (세션은 외부 저장소)      │
+│  VII. Port Binding — 자체 HTTP 서버                   │
+│  VIII.Concurrency — 프로세스 수평 확장               │
+│  IX.  Disposability — 빠른 시작·우아한 종료          │
+│  X.   Dev/Prod Parity — 개발≈프로덕션               │
+│  XI.  Logs — stdout 스트림                            │
+│  XII. Admin Processes — 일회성 관리 작업              │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 12 Factor는 클라우드 앱의 <strong>건축 법규 12조</strong>이다. 이 규칙을 따라야 어떤 땅(클라우드)에서도 안전한 건물(앱)을 지을 수 있다.
 
@@ -97,23 +94,21 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">전통 서버 앱 (설정·상태 내장, ~2010s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">12 Factor App (Heroku, 2011) — SaaS 설계 원칙</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Docker + K8s (2014~) — 12 Factor 최적 구현</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Beyond 12 Factor (2016) — API First, 텔레메트리 등 추가</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: 클라우드 네이티브 — 12 Factor + MSA + GitOps</div></div>
-</div>
-</div>
-
-
+```text
+[전통 서버 앱 (설정·상태 내장, ~2010s)]
+    │
+    ▼
+[12 Factor App (Heroku, 2011) — SaaS 설계 원칙]
+    │
+    ▼
+[Docker + K8s (2014~) — 12 Factor 최적 구현]
+    │
+    ▼
+[Beyond 12 Factor (2016) — API First, 텔레메트리 등 추가]
+    │
+    ▼
+[현재: 클라우드 네이티브 — 12 Factor + MSA + GitOps]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 12 Factor는 클라우드 앱의 <strong>건축 법규 12가지</strong>예요.

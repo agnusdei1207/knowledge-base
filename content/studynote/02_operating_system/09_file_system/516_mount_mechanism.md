@@ -25,24 +25,29 @@ tags = ["studynote-operating-system"]
 - <strong>독립된 두 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a>의 트리 접붙이기 접목 스펙 다이어그램</strong>:
 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 가상 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템([VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/))이 접착제(`mount`)를 써서 두 우주를 어떻게 꿰매버리는지 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 전개 뷰로 보면 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물리 세계의 찢어짐을 논리(Tree)로 묶는 마운트 수술</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 마운트 수술 전 (Before) : 서로 모르는 단절된 우주 2개</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">( OS 루트 파티션 C: ) ( 새로 꽂힌 USB 파티션 )</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">/</div><div class="kb-diagram-node">Root</div><div class="kb-diagram-note">(자기만의 뿌리)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">etc</div><div class="kb-diagram-node">mnt</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">(빈폴더=마운트포인트) <code>movie.mp4</code></div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 마운트 빔 타격 (mount /dev/usb1 /mnt) : 우주 융합 통달!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">/</div><div class="kb-diagram-note">(이제 세상엔 오직 하나(Single Root)의 트리뿐이다!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">etc</div><div class="kb-diagram-node">mnt</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">──==== (시스템 수술! mnt가 USB의 뿌리가 됨!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(OS 트리 뷰 렌더)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell"><code>movie.mp4</code> ◀==== 유저가 /mnt/movie.mp4 를 누르면 USB가 돈다!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────────────┐
+  │                 물리 세계의 찢어짐을 논리(Tree)로 묶는 마운트 수술        │
+  ├───────────────────────────────────────────────────────────────────────────┤
+  │                                                                           │
+  │  [ 1. 마운트 수술 전 (Before) : 서로 모르는 단절된 우주 2개 ]             │
+  │                                                                           │
+  │     ( OS 루트 파티션 C: )            ( 새로 꽂힌 USB 파티션 )             │
+  │           [ / ]                        [Root] (자기만의 뿌리)             │
+  │            /  \                          |                                │
+  │       [etc]   [mnt] ◀(빈폴더=마운트포인트)    `movie.mp4`                 │
+  │                                                                           │
+  │  =============================================================            │
+  │                                                                           │
+  │  [ 2. 마운트 빔 타격 (mount /dev/usb1 /mnt) : 우주 융합 통달! ]           │
+  │                                                                           │
+  │           [ / ]  (이제 세상엔 오직 하나(Single Root)의 트리뿐이다!)       │
+  │            /  \                                                           │
+  │       [etc]   [mnt]  ◀──==== (시스템 수술! mnt가 USB의 뿌리가 됨!)        │
+  │                 |               (OS 트리 뷰 렌더)                         │
+  │             `movie.mp4`  ◀==== 유저가 /mnt/movie.mp4 를 누르면 USB가 돈다!│
+  └───────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** USB를 컴퓨터에 방금 꽂았다고 치자. 윈도우 OS에선 "딩동댕~!" 소리가 나면서 `E:` 드라이브 폴더가 뿅 하고 뜬다. 사실 이 딩동댕 0.5초 찰나에 윈도우 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 백그라운드에서는 "어 새 디스크 들어왔네? 빈 알파벳이 E구나! 보이지 않는 내부 가상 트리에 `mount Device_USB to E:\` 를 타격 수술 붙여라!" 라는 무인 자동화 데몬(Auto-Mount)이 미친 듯이 연산을 뛰고 결착된 결과물을 우리에게 던져준 것이다. 접붙여진 마운트 포인트(`mnt`) 자리는 이제 기존 부모 하드디스크의 자원이 아니라, 새 [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 하드웨어 기판의 시작 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 블록을 직방으로 쑤셔 가리키는 포탈 [VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) 라우터 칩으로 이식 둔갑된다.
 
@@ -130,19 +135,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">MBR (Master Boot Record) vs GPT (GUID Partition Table)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">마운트 (Mount) 메커니즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">VFS (Virtual File System)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">VFS 객체</div></div>
-</div>
-</div>
-
-
+```text
+[MBR (Master Boot Record) vs GPT (GUID Partition Table)]
+    │
+    ▼
+[마운트 (Mount) 메커니즘]
+    │
+    ├──▶ [VFS (Virtual File System)]
+    └──▶ [VFS 객체]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

@@ -28,18 +28,14 @@ tags = ["studynote-network"]
   - 2, 3, 4번 차(다른 이미지/텍스트 패킷)는 이미 주문을 다 골랐지만, 앞차가 비켜주지 않으므로 햄버거를 받을 수가 없습니다. 모두가 지각합니다.
   - <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/">QUIC</a>(해결책)</strong>은 드라이브 스루 차선을 <strong>다차선(독립 스트림)</strong>으로 늘려, 1번 차선 손님이 버벅대도 2, 3번 차선의 차들은 쌩쌩 지나가 햄버거를 받아가게 만든 것입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">QUIC 전송</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HOL 블로킹 문제 해결</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">QUIC 연결 마이그레이션</div></div>
-</div>
-</div>
-
-
+```text
+[QUIC 전송]
+    │
+    ▼
+[HOL 블로킹 문제 해결]
+    │
+    └──▶ [QUIC 연결 마이그레이션]
+```
 
 - **📢 섹션 요약 비유**: <strong> HOL 블로킹은 기차표 예매 창구에 줄이 하나(1차선 <a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a>)밖에 없는데, </strong>맨 앞에 선 할아버지가 지갑을 놓고 왔다고 버티는 바람에 뒤에 선 100명이 단체로 기차를 놓치게 되는 대참사**입니다. 해결책은 창구를 여러 개(독립 스트림) 파는 것뿐입니다.
 
@@ -71,22 +67,22 @@ tags = ["studynote-network"]
 - **기적의 순간**: "하지만 <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/">Stream</a> 2번(사진 B)은 1번 차선이랑 아무 상관 없는 남남이잖아? 도착한 B1, B2 잽싸게 화면에 띄워라!!</strong>"
 - 하나의 유실이 전체를 마비시키지 않는 완벽한 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 통신이 100% 완성되었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TCP(HTTP/2) vs QUIC(HTTP/3) 차선 분리의 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HTTP/2 on TCP</div><div class="kb-diagram-note">(차선이 1개뿐임)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">A2(도착) | B1(도착) | A1(유실❌)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(TCP 버퍼에 갇힘)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 브라우저 왈: "A1 올 때까지 B1도 화면에 못 띄워줌. 하얀 화면 대기..."</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HTTP/3 on QUIC</div><div class="kb-diagram-note">(독립된 2개의 차선)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">A2(도착) | A1(유실❌)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(Stream 1만 대기)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">B2(도착) | B1(도착⭕)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(브라우저 즉시 출력!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: "텍스트가 조금 늦게 떠도, 일단 사진부터 팍팍 화면에 뜬다!"</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                TCP(HTTP/2) vs QUIC(HTTP/3) 차선 분리의 시각화       │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ HTTP/2 on TCP ] (차선이 1개뿐임)                             │
+ │   서버 ──▶ [ A2(도착) | B1(도착) | A1(유실❌) ] ──▶ (TCP 버퍼에 갇힘) │
+ │   ▶ 브라우저 왈: "A1 올 때까지 B1도 화면에 못 띄워줌. 하얀 화면 대기..."   │
+ │                                                             │
+ │   [ HTTP/3 on QUIC ] (독립된 2개의 차선)                         │
+ │   서버 ──▶ Stream 1: [ A2(도착) | A1(유실❌) ] ──▶ (Stream 1만 대기) │
+ │   서버 ──▶ Stream 2: [ B2(도착) | B1(도착⭕) ] ──▶ (브라우저 즉시 출력!)│
+ │                                                             │
+ │   ▶ 결과: "텍스트가 조금 늦게 떠도, 일단 사진부터 팍팍 화면에 뜬다!"       │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> 기반 멀티플렉싱은 </strong>"단일 컨베이어 벨트에 과일과 채소를 마구 섞어 올린 것"<strong>입니다. 맨 앞의 사과가 스캐너에 걸리면 뒤에 멀쩡한 배추들도 벨트에서 오도 가도 못합니다. QUIC은 </strong>과일 전용 벨트와 채소 전용 벨트([Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/) ID)를 여러 개로 나눈 것**입니다. 과일 벨트가 고장 나도 채소 벨트는 정상 작동하여 마트의 물류가 절대 멈추지 않습니다.
 
@@ -144,19 +140,15 @@ HOL 블로킹 문제 해결은 전송 계층을 이해할 때 핵심 축을 잡�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: QUIC 전송</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: HOL 블로킹 문제 해결</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: QUIC 연결 마이그레이션</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: QUIC 전송]
+    │
+    ▼
+[현재 개념: HOL 블로킹 문제 해결]
+    │
+    ├──▶ [확장 A: QUIC 연결 마이그레이션]
+    └──▶ [확장 B: 적응형 저지연 전송]
+```
 
 HOL 블로킹 문제 해결는 [QUIC](/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/) 전송에서 출발해 현재 메커니즘을 정교화하고, 이후 [QUIC](/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/) 연결 마이그레이션와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

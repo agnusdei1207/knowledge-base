@@ -35,19 +35,18 @@ tags = ["studynote-cloud-architecture"]
 2. <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/269_pvc_vs_svc_virtual_circuits/">PVC</a> (Persistent <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/001_bigdata_3v_5v/">Volume</a> Claim)</strong>: 개발자가 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)에 필요한 용량과 접근 모드(Access Mode)를 명시하여 스토리지 리소스를 요청하는 명세서다.
 3. **바인딩 (Binding)**: K8s 컨트롤러가 PVC의 요구 조건(용량, 모드 등)을 만족하는 PV를 찾아 1:1로 연결한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PV와 PVC의 바인딩 및 파드 마운트 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Infra Admin</div><div class="kb-diagram-node">Developer</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물리 스토리지 ──▶ 생성 ──▶ PV ◀── 바인딩 ──▶ PVC</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(NFS, EBS 등) (공급) (수요)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pod (마운트)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          PV와 PVC의 바인딩 및 파드 마운트 아키텍처        │
+├─────────────────────────────────────────────────────────────┤
+│  [ Infra Admin ]                  [ Developer ]             │
+│   물리 스토리지 ──▶ 생성 ──▶ PV ◀── 바인딩 ──▶ PVC        │
+│   (NFS, EBS 등)     (공급)                 (수요)       │
+│                                                 │           │
+│                                                 ▼           │
+│                                           Pod (마운트)      │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 구조는 개발자가 AWS EBS나 NFS의 복잡한 연결 방식을 몰라도, K8s 표준 인터페이스인 PVC만으로 스토리지 자원을 할당받을 수 있게 하는 핵심 메커니즘이다.
 
@@ -112,24 +111,18 @@ PV와 [PVC](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/269_pvc_v
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">기본 Volume (emptyDir, hostPath)</div>
-<div class="kb-diagram-note">파드 생명주기 종속성 극복</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">정적 PV (Persistent Volume) / PVC</div>
-<div class="kb-diagram-note">인프라 관리자 사전 생성의 비효율성 극복</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">StorageClass 기반 동적 프로비저닝 (Dynamic Provisioning)</div>
-<div class="kb-diagram-note">클라우드 스토리지 API 연동 추상화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CSI (Container Storage Interface)</div>
-</div>
-</div>
-
-
+```text
+기본 Volume (emptyDir, hostPath)
+    │ 파드 생명주기 종속성 극복
+    ▼
+정적 PV (Persistent Volume) / PVC
+    │ 인프라 관리자 사전 생성의 비효율성 극복
+    ▼
+StorageClass 기반 동적 프로비저닝 (Dynamic Provisioning)
+    │ 클라우드 스토리지 API 연동 추상화
+    ▼
+CSI (Container Storage Interface)
+```
 
 이 흐름도는 단순 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/)([Volume](/knowledge-base/studynote/14_data_engineering/01_infrastructure/001_bigdata_3v_5v/))에서 시작하여 인프라 분리([PV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/153_pv_planned_value/)/[PVC](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/269_pvc_vs_svc_virtual_circuits/))를 거쳐 완전 자동화(StorageClass) 및 플러그인 표준화([CSI](/knowledge-base/studynote/12_it_management/02_itsm_itil/068_csi/))로 발전하는 스토리지 관리의 진화 과정을 보여준다.
 

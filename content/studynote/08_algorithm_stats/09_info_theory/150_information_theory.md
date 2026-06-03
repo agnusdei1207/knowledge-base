@@ -51,62 +51,47 @@ I(x) = -log₂ P(x)   [단위: bit]
 
 ### 섀넌 통신 모델
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">메시지 신호</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정보원</div><div class="kb-diagram-cell">&gt;</div><div class="kb-diagram-cell">송신기</div><div class="kb-diagram-cell">&gt;</div><div class="kb-diagram-cell">채널</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Source)</div><div class="kb-diagram-cell">(Encoder)</div><div class="kb-diagram-cell">(+ 잡음)</div></div>
-<div class="kb-diagram-note">수신 신호</div>
-<div class="kb-diagram-note">▼ 메시지</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수신기</div><div class="kb-diagram-cell">&gt;</div><div class="kb-diagram-cell">수신자</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Decoder)</div><div class="kb-diagram-cell">(Sink)</div></div>
-</div>
-</div>
-
-
+```
+┌──────────┐   메시지   ┌──────────┐   신호   ┌──────────┐
+│  정보원   │──────────>│  송신기   │─────────>│  채널    │
+│ (Source) │           │(Encoder) │          │(+ 잡음)  │
+└──────────┘           └──────────┘          └────┬─────┘
+                                                   │ 수신 신호
+                                              ┌────▼─────┐   메시지   ┌──────────┐
+                                              │  수신기   │──────────>│  수신자  │
+                                              │(Decoder) │           │  (Sink)  │
+                                              └──────────┘           └──────────┘
+```
 
 ### 섀넌의 핵심 업적 연대표
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">1948년 ►</div>
-<div class="kb-diagram-tree-item" style="--depth:1">자기정보 I(x) = -log₂P(x) 정의</div>
-<div class="kb-diagram-tree-item" style="--depth:1">섀넌 엔트로피 H(X) = -Σ p·log₂p 정의</div>
-<div class="kb-diagram-tree-item" style="--depth:1">소스 부호화 정리 (압축 한계 = 엔트로피)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">채널 부호화 정리 (오류 없는 전송 한계 = 채널 용량 C)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">상호 정보량 I(X;Y) 정의</div>
-<div class="kb-diagram-tree-item" style="--depth:1">연속 채널 용량 C = B·log₂(1+S/N) (Shannon-Hartley 정리)</div>
-</div>
-</div>
-
-
+```
+1948년 ─────────────────────────────────────────────────────────────►
+   │
+   ├─► 자기정보 I(x) = -log₂P(x) 정의
+   ├─► 섀넌 엔트로피 H(X) = -Σ p·log₂p 정의
+   ├─► 소스 부호화 정리 (압축 한계 = 엔트로피)
+   ├─► 채널 부호화 정리 (오류 없는 전송 한계 = 채널 용량 C)
+   ├─► 상호 정보량 I(X;Y) 정의
+   └─► 연속 채널 용량 C = B·log₂(1+S/N) (Shannon-Hartley 정리)
+```
 
 ### 이진 채널 (Binary Channel)
 
 가장 단순한 형태로, 입력 0 또는 1, 오류 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) p인 <strong>이진 대칭 채널 (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/">BSC</a>, Binary Symmetric Channel)</strong>:
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">0 (1-p) ► 0</div>
-<div class="kb-diagram-note">╲</div>
-<div class="kb-diagram-note">(p)</div>
-<div class="kb-diagram-note">╲</div>
-<div class="kb-diagram-tree-item" style="--depth:4">1</div>
-<div class="kb-diagram-note">1 (1-p) ► 1</div>
-<div class="kb-diagram-note">╲</div>
-<div class="kb-diagram-note">(p)</div>
-<div class="kb-diagram-note">╲</div>
-<div class="kb-diagram-tree-item" style="--depth:4">0</div>
-</div>
-</div>
-
-
+```
+  0 ─────(1-p)────► 0
+    ╲                  
+     (p)              
+       ╲              
+        ► 1          
+  1 ─────(1-p)────► 1
+    ╲                  
+     (p)              
+       ╲              
+        ► 0          
+```
 
 BSC의 [채널 용량](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/155_channel_capacity/): C = 1 - H(p) = 1 + p·log₂p + (1-p)·log₂(1-p)
 
@@ -183,21 +168,18 @@ BSC의 [채널 용량](/knowledge-base/studynote/08_algorithm_stats/09_info_theo
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">자기정보</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">엔트로피</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">채널 용량</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">소스 부호화</div></div>
-</div>
-</div>
-
-
+```text
+[자기정보]
+    │
+    ▼
+[엔트로피]
+    │
+    ▼
+[채널 용량]
+    │
+    ▼
+[소스 부호화]
+```
 
 이 흐름도는 선행 개념이 현재 개념으로 응축되고, 다시 확장 개념으로 이어지는 순서를 보여준다.
 

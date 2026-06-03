@@ -41,27 +41,33 @@ GPT-4 수준의 모델은 수백 GB 파라미터로 구성되어 [데이터](/kn
 
 ### 2.1 지식 증류(Knowledge Distillation) 구조
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지식 증류 (Knowledge Distillation)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">교사 모델 (Teacher Model)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GPT-4 / LLaMA-70B 수준</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">소프트 레이블(Soft Label) 출력</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">확률 분포: cat=0.7, dog=0.2..</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소프트 레이블 전달</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(온도(Temperature) T로 스무딩)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">학생 모델 (Student Model)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">경량 SLM / DistilBERT 수준</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">손실 = α×KL발산 + (1-α)×하드레이블손실</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심: 하드 레이블(Hard Label, 0/1)이 아닌</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소프트 레이블(Soft Label, 확률 분포)로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클래스 간 관계 정보를 추가로 전달</div></div>
-</div>
-</div>
-
-
+```
+┌────────────────────────────────────────────────────────────────┐
+│               지식 증류 (Knowledge Distillation)                │
+├────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  ┌─────────────────────────────────────────┐                   │
+│  │       교사 모델 (Teacher Model)          │                   │
+│  │       GPT-4 / LLaMA-70B 수준            │                   │
+│  │                                         │                   │
+│  │  입력 → [소프트 레이블(Soft Label) 출력] │                   │
+│  │         [확률 분포: cat=0.7, dog=0.2..] │                   │
+│  └───────────────────┬─────────────────────┘                   │
+│                      │ 소프트 레이블 전달                       │
+│                      │ (온도(Temperature) T로 스무딩)           │
+│                      ▼                                         │
+│  ┌─────────────────────────────────────────┐                   │
+│  │       학생 모델 (Student Model)          │                   │
+│  │       경량 SLM / DistilBERT 수준         │                   │
+│  │                                         │                   │
+│  │  손실 = α×KL발산 + (1-α)×하드레이블손실  │                   │
+│  └─────────────────────────────────────────┘                   │
+│                                                                 │
+│  핵심: 하드 레이블(Hard Label, 0/1)이 아닌                      │
+│       소프트 레이블(Soft Label, 확률 분포)로                    │
+│       클래스 간 관계 정보를 추가로 전달                          │
+└────────────────────────────────────────────────────────────────┘
+```
 
 **소프트 레이블의 핵심 가치**: "고양이" 이미지에 대해 하드 레이블은 `[1, 0, 0]`이지만, 소프트 레이블은 `[0.7, 0.2, 0.1]`처럼 "고양이와 호랑이가 비슷하다"는 클래스 간 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 정보를 포함한다.
 
@@ -75,19 +81,14 @@ GPT-4 수준의 모델은 수백 GB 파라미터로 구성되어 [데이터](/kn
 | **INT4** | 4 | 0.5 [Byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) | 모바일 배포, 정확도 손실 존재 |
 | **INT2/Binary** | 2~1 | 0.25 [Byte](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) | 극단적 경량화, 정확도 저하 큼 |
 
+```
+FP32 (32비트)  →  양자화(Quantization)  →  INT8 (8비트)
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■         ████████
+(정밀한 소수점 표현)                      (정수 표현, 메모리 4x 절약)
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">FP32 (32비트) → 양자화(Quantization) → INT8 (8비트)</div>
-<div class="kb-diagram-note">■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■ ████████</div>
-<div class="kb-diagram-note">(정밀한 소수점 표현) (정수 표현, 메모리 4x 절약)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스케일 인수(Scale Factor) = max(</div><div class="kb-diagram-cell">W</div><div class="kb-diagram-cell">) / 127</div></div>
-<div class="kb-diagram-note">W_int8 = round(W_fp32 / scale)</div>
-</div>
-</div>
-
-
+스케일 인수(Scale Factor) = max(|W|) / 127
+W_int8 = round(W_fp32 / scale)
+```
 
 ### 2.3 프루닝([Pruning](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)) [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 제거
 
@@ -117,21 +118,16 @@ GPT-4 수준의 모델은 수백 GB 파라미터로 구성되어 [데이터](/kn
 
 [디퓨전 모델](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/153_diffusion_model_stable_diffusion_denoising/)은 이미지·오디오 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)에서 강점을 보이는 또 다른 경량화 대상이다.
 
+```
+정방향 과정 (Forward Process): 노이즈 추가
+원본 이미지 → 노이즈 점진 추가 → 완전한 가우시안 노이즈
+X_0    →    X_1    →    X_2    →  ...  →  X_T
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">정방향 과정 (Forward Process): 노이즈 추가</div>
-<div class="kb-diagram-note">원본 이미지 → 노이즈 점진 추가 → 완전한 가우시안 노이즈</div>
-<div class="kb-diagram-note">X_0 → X_1 → X_2 → ... → X_T</div>
-<div class="kb-diagram-note">역방향 과정 (Reverse Process): 노이즈 제거 학습</div>
-<div class="kb-diagram-note">가우시안 노이즈 → 노이즈 예측 및 제거 반복 → 생성 이미지</div>
-<div class="kb-diagram-note">X_T → X_{T-1} → ... → X_0</div>
-<div class="kb-diagram-note">U-Net/트랜스포머가 각 단계 노이즈 예측</div>
-</div>
-</div>
-
-
+역방향 과정 (Reverse Process): 노이즈 제거 학습
+가우시안 노이즈 → 노이즈 예측 및 제거 반복 → 생성 이미지
+X_T    →    X_{T-1}    →  ...  →  X_0
+           U-Net/트랜스포머가 각 단계 노이즈 예측
+```
 
 [디퓨전 모델](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/153_diffusion_model_stable_diffusion_denoising/) 경량화 기법: <strong>DDIM(Denoising Diffusion Implicit Models)</strong>은 역방향 단계를 1000→50 단계로 줄여 추론 속도를 20배 향상시킨다.
 
@@ -143,21 +139,18 @@ GPT-4 수준의 모델은 수백 GB 파라미터로 구성되어 [데이터](/kn
 
 ### 4.1 경량화 기법 선택 기준
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">배포 환경 분석</div>
-<div class="kb-diagram-tree-item" style="--depth:3">클라우드 서버(A100 GPU)</div>
-<div class="kb-diagram-note">─ FP16 추론 (속도·비용 최적화)</div>
-<div class="kb-diagram-tree-item" style="--depth:3">엣지 서버(Jetson, NPU 탑재)</div>
-<div class="kb-diagram-note">─ INT8 양자화 + 구조적 프루닝</div>
-<div class="kb-diagram-tree-item" style="--depth:3">모바일/IoT (ARM 칩)</div>
-<div class="kb-diagram-tree-item" style="--depth:5">INT4 양자화 + 지식 증류 (SLM)</div>
-</div>
-</div>
-
-
+```
+배포 환경 분석
+      │
+      ├─ 클라우드 서버(A100 GPU)
+      │    └─ FP16 추론 (속도·비용 최적화)
+      │
+      ├─ 엣지 서버(Jetson, NPU 탑재)
+      │    └─ INT8 양자화 + 구조적 프루닝
+      │
+      └─ 모바일/IoT (ARM 칩)
+           └─ INT4 양자화 + 지식 증류 (SLM)
+```
 
 ### 4.2 QAT vs PTQ [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
@@ -169,7 +162,7 @@ GPT-4 수준의 모델은 수백 GB 파라미터로 구성되어 [데이터](/kn
 ### 4.3 기술사 논술 핵심 포인트
 
 - **트레이드오프 명시**: 압축률 ↑ → 정확도 ↓, 이를 허용 가능 범위(1~3% 손실)로 제한
-- **하드웨어-소프트웨어 공동 최적화**: Apple Neural Engine, Qualcomm [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Engine 활용
+- **하드웨어-소프트웨어 공동 최적화**: Apple Neural 엔진, Qualcomm [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 엔진 활용
 - <strong>지속적 학습(Continual <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/">Learning</a>)</strong>: 경량 모델도 증분 학습으로 지식 갱신 가능
 
 📢 **섹션 요약 비유**: 경량화는 캠핑 짐 싸기와 같다. 집에서는 모든 것을 갖춰도 되지만 배낭 여행(엣지 디바이스)에는 핵심만 골라 최소로 싸야 한다. 어떤 짐을 버릴지(프루닝), 접어서 압축할지([양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)), 요약본으로 대체할지(지식 증류) 상황에 따라 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 달라진다.
@@ -214,24 +207,21 @@ GPT-4 수준의 모델은 수백 GB 파라미터로 구성되어 [데이터](/kn
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">대형 모델 (GPU 서버 필요)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">경량화 기법</div>
-<div class="kb-diagram-tree-item" style="--depth:2">지식 증류: Teacher → Student (소프트 타겟)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">양자화: FP32 → INT8 → INT4</div>
-<div class="kb-diagram-tree-item" style="--depth:2">프루닝: 불필요한 가중치 제거</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SLM (Small Language Model): Phi · Gemma · Mistral</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">엣지 배포 · 디퓨전 모델 최적화</div>
-</div>
-</div>
-
-
+```text
+대형 모델 (GPU 서버 필요)
+    │
+    ▼
+경량화 기법
+    ├─► 지식 증류: Teacher → Student (소프트 타겟)
+    ├─► 양자화: FP32 → INT8 → INT4
+    └─► 프루닝: 불필요한 가중치 제거
+    │
+    ▼
+SLM (Small Language Model): Phi · Gemma · Mistral
+    │
+    ▼
+엣지 배포 · 디퓨전 모델 최적화
+```
 2. [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)는 그 10권 책의 글씨를 아주 작게 줄여 인쇄하는 것—내용은 같은데 공간을 4배 덜 차지해요.
 3. [디퓨전 모델](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/153_diffusion_model_stable_diffusion_denoising/)은 낙서를 지우는 과정을 거꾸로 배워서, 마치 마법처럼 아무것도 없는 화면에서 새로운 그림을 그려내는 AI예요.
 

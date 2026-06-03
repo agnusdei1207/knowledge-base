@@ -24,18 +24,14 @@ tags = ["studynote-network"]
 
 - **💡 비유**: IGMP는 아파트 단지의 <strong>"우유 배달 구독 시스템"</strong>과 같습니다. 우유 배달원(라우터)은 매일 아침 아파트의 모든 100가구에 우유(영상)를 던지지 않습니다. 오직 문 앞에 <strong>"우유 구독 신청서(IGMP <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/">Join</a>)"</strong>를 붙여놓은 집([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))에만 정확히 우유를 한 병씩 넣어줍니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">IPv4-IPv6 전환 기술: 듀얼 스택,…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IGMP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IGMP Snooping</div></div>
-</div>
-</div>
-
-
+```text
+[IPv4-IPv6 전환 기술: 듀얼 스택,…]
+    │
+    ▼
+[IGMP]
+    │
+    └──▶ [IGMP Snooping]
+```
 
 - **📢 섹션 요약 비유**: <strong> IGMP는 거대한 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/">멀티캐스트</a>라는 케이블 방송국망에서 소비자가 쥐고 있는 </strong>"채널 가입 및 해지 리모컨"**입니다. 내가 리모컨으로 신청([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/))해야만 거실 벽의 랜선을 통해 영상이 쏟아져 들어오기 시작합니다.
 
@@ -58,23 +54,27 @@ IPTV 셋톱박스를 켜고 리모컨으로 11번([멀티캐스트](/knowledge-b
    - 셋톱박스: "라우터님, 저 이제 239.1.1.1 안 봐요! (Leave)"
    - 라우터: "확실해? 아무도 안 봐? (Group-Specific Query 찔러봄) 대답 없네! 오케이 3번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에 영상 송출 즉시 중단!"
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IGMP 가입과 라우터의 멀티캐스트 복사</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">방송국 서버 (239.1.1.1로 1개 영상만 발송)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">라우터</div><div class="kb-diagram-note">(포트 2 : 가입자 없음, 송출 ❌)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(포트 1) (포트 3)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">송출 ⭕ 송출 ⭕</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">셋톱 A</div><div class="kb-diagram-node">셋톱 B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(IGMP Report) (IGMP Report)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 라우터는 IGMP Report(가입서)를 제출한 포트로만 영상을</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">복사해서(복제기 역할) 던져주어 대역폭을 극강으로 아낀다.</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                IGMP 가입과 라우터의 멀티캐스트 복사              │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 방송국 서버 (239.1.1.1로 1개 영상만 발송) ]                 │
+ │                     │                                       │
+ │                     ▼                                       │
+ │                 [ 라우터 ] ──── (포트 2 : 가입자 없음, 송출 ❌) │
+ │                /       \                                    │
+ │               ▼         ▼                                    │
+ │           (포트 1)     (포트 3)                                │
+ │          송출 ⭕        송출 ⭕                                 │
+ │            │            │                                   │
+ │       [ 셋톱 A ]    [ 셋톱 B ]                                │
+ │      (IGMP Report) (IGMP Report)                            │
+ │                                                             │
+ │   * 핵심: 라우터는 IGMP Report(가입서)를 제출한 포트로만 영상을    │
+ │          복사해서(복제기 역할) 던져주어 대역폭을 극강으로 아낀다.    │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 2. IGMP 버전의 진화 (v1 -> v2 -> v3)
 - **IGMPv1**: 탈퇴(Leave) 메시지가 없었다! 채널을 돌려도 라우터가 눈치채고 영상을 끊을 때까지 3분 동안 쓸데없이 이전 채널 영상이 날아와 대역폭을 낭비했다.
@@ -137,19 +137,15 @@ IGMP는 네트워크 계층과 IP를 이해할 때 핵심 축을 잡아 주는 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: IPv4-IPv6 전환 기술: 듀얼 스택,…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: IGMP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: IGMP Snooping</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 대규모 주소 자동화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: IPv4-IPv6 전환 기술: 듀얼 스택,…]
+    │
+    ▼
+[현재 개념: IGMP]
+    │
+    ├──▶ [확장 A: IGMP Snooping]
+    └──▶ [확장 B: 대규모 주소 자동화]
+```
 
 IGMP는 [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/)-IPv6 전환 기술: 듀얼 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/),…에서 출발해 현재 메커니즘을 정교화하고, 이후 IGMP Snooping와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

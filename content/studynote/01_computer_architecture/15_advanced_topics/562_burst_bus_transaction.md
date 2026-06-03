@@ -43,24 +43,22 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 64바이트 캐시 라인을 64비트 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)로 읽을 때 주소가 왜 한 번이면 충분한지를 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">64B 캐시 라인 읽기 예: 64-bit 버스에서는 8개 beat가 한 번에 이어진다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Grant -&gt; Addr=0x8000, LEN=8, SIZE=8B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Beat0 : 0x8000 ~ 0x8007</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Beat1 : 0x8008 ~ 0x800F</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Beat2 : 0x8010 ~ 0x8017</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Beat3 : 0x8018 ~ 0x801F</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Beat4 : 0x8020 ~ 0x8027</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Beat5 : 0x8028 ~ 0x802F</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Beat6 : 0x8030 ~ 0x8037</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Beat7 : 0x8038 ~ 0x803F -&gt; Release</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ 64B 캐시 라인 읽기 예: 64-bit 버스에서는 8개 beat가 한 번에 이어진다       │
+├──────────────────────────────────────────────────────────────────────────────┤
+│ Grant -> Addr=0x8000, LEN=8, SIZE=8B                                        │
+│            │                                                                 │
+│            ├─ Beat0 : 0x8000 ~ 0x8007                                       │
+│            ├─ Beat1 : 0x8008 ~ 0x800F                                       │
+│            ├─ Beat2 : 0x8010 ~ 0x8017                                       │
+│            ├─ Beat3 : 0x8018 ~ 0x801F                                       │
+│            ├─ Beat4 : 0x8020 ~ 0x8027                                       │
+│            ├─ Beat5 : 0x8028 ~ 0x802F                                       │
+│            ├─ Beat6 : 0x8030 ~ 0x8037                                       │
+│            └─ Beat7 : 0x8038 ~ 0x803F -> Release                            │
+└──────────────────────────────────────────────────────────────────────────────┘
+```
 
 실제 메모리 시스템에서는 이 연속성이 더 큰 이득을 만든다. [DDR SDRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/253_ddr_sdram/) ([Double Data Rate](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/253_ddr_sdram/) [Synchronous](/knowledge-base/studynote/03_network/01_data_communication/010_동기식_비동기식_전송/) Dynamic Random-Access Memory)은 내부적으로 Burst Length 8 (BL8) 같은 고정 burst 길이를 사용해 열린 행에서 여러 열 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 연속 출력한다. CPU 캐시 라인, [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) burst 길이, [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) burst 길이가 잘 맞아떨어질수록 주소 오버헤드와 행 전환 비용을 함께 줄일 수 있다.
 
@@ -140,23 +138,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단일 beat 전송</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">INCR burst 기반 연속 블록 전송</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">WRAP burst 기반 캐시 라인 최적화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DDR BL8 · AXI 다중 beat 전송</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">멀티채널 DMA · NoC 기반 대용량 스트리밍</div>
-</div>
-</div>
-
-
+```text
+단일 beat 전송
+        │
+        ▼
+INCR burst 기반 연속 블록 전송
+        │
+        ▼
+WRAP burst 기반 캐시 라인 최적화
+        │
+        ▼
+DDR BL8 · AXI 다중 beat 전송
+        │
+        ▼
+멀티채널 DMA · NoC 기반 대용량 스트리밍
+```
 
 이 흐름은 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트가 단순 주소 생략 기법에서 출발해, 캐시·[DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/)·온칩 인터커넥트 전체를 관통하는 기본 전송 단위로 발전했음을 보여 준다.
 

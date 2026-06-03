@@ -18,30 +18,30 @@ tags = ["studynote-data-engineering"]
 
 ### [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 역사와 패러다임 변화
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">AI 발전 타임라인</div>
-<div class="kb-diagram-note">1950s │ AI 개념 탄생</div>
-<div class="kb-diagram-note">Turing Test (1950, Alan Turing)</div>
-<div class="kb-diagram-note">"기계가 생각할 수 있는가?"</div>
-<div class="kb-diagram-note">1960s │ 기호 AI (Symbolic AI) / LISP 언어</div>
-<div class="kb-diagram-note">~70s │ 논리·규칙 기반 문제 해결</div>
-<div class="kb-diagram-note">1차 AI 겨울 (자금 삭감)</div>
-<div class="kb-diagram-note">1980s │ 전문가 시스템 (Expert System) 전성기</div>
-<div class="kb-diagram-note">MYCIN (의료 진단), XCON (컴퓨터 설정)</div>
-<div class="kb-diagram-note">2차 AI 겨울</div>
-<div class="kb-diagram-note">1990s │ 통계 기반 머신러닝 부상</div>
-<div class="kb-diagram-note">~2000s│ SVM, 랜덤 포레스트, 나이브 베이즈</div>
-<div class="kb-diagram-note">인터넷 데이터 축적 시작</div>
-<div class="kb-diagram-note">2012+ │ 딥러닝 (Deep Learning) 혁명</div>
-<div class="kb-diagram-note">AlexNet → AlphaGo → GPT → LLM</div>
-<div class="kb-diagram-note">GPU 병렬 연산 + 빅데이터 + 알고리즘 발전</div>
-</div>
-</div>
-
-
+```
+AI 발전 타임라인
+─────────────────────────────────────────────────────────────────
+1950s │ AI 개념 탄생
+      │ Turing Test (1950, Alan Turing)
+      │ "기계가 생각할 수 있는가?"
+─────────────────────────────────────────────────────────────────
+1960s │ 기호 AI (Symbolic AI) / LISP 언어
+~70s  │ 논리·규칙 기반 문제 해결
+      │ 1차 AI 겨울 (자금 삭감)
+─────────────────────────────────────────────────────────────────
+1980s │ 전문가 시스템 (Expert System) 전성기
+      │ MYCIN (의료 진단), XCON (컴퓨터 설정)
+      │ 2차 AI 겨울
+─────────────────────────────────────────────────────────────────
+1990s │ 통계 기반 머신러닝 부상
+~2000s│ SVM, 랜덤 포레스트, 나이브 베이즈
+      │ 인터넷 데이터 축적 시작
+─────────────────────────────────────────────────────────────────
+2012+ │ 딥러닝 (Deep Learning) 혁명
+      │ AlexNet → AlphaGo → GPT → LLM
+      │ GPU 병렬 연산 + 빅데이터 + 알고리즘 발전
+─────────────────────────────────────────────────────────────────
+```
 
 📢 **섹션 요약 비유**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 역사는 암기 달인(규칙 기반)에서 경험 학습자(ML), 그리고 직관적 천재(딥러닝)로 발전한 과정이다. 각 세대는 이전 세대의 "이것만큼은 못 하네"를 극복하며 진화했다.
 
@@ -51,23 +51,19 @@ tags = ["studynote-data-engineering"]
 
 Alan Turing이 1950년 제안한 테스트로, 인간 심판관이 텍스트 대화만으로 상대가 인간인지 기계인지 구별하지 못하면 그 기계는 "지능이 있다"고 판단한다.
 
+```
+심판관
+  │
+  │ 텍스트 질문
+  ├──────────────────→ 인간 (A)
+  │                     텍스트 응답
+  │ 텍스트 질문
+  └──────────────────→ 기계 (B)
+                         텍스트 응답
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">심판관</div>
-<div class="kb-diagram-note">텍스트 질문</div>
-<div class="kb-diagram-tree-item" style="--depth:1">→ 인간 (A)</div>
-<div class="kb-diagram-note">텍스트 응답</div>
-<div class="kb-diagram-note">텍스트 질문</div>
-<div class="kb-diagram-tree-item" style="--depth:1">→ 기계 (B)</div>
-<div class="kb-diagram-note">텍스트 응답</div>
-<div class="kb-diagram-note">심판관이 A와 B를 구별 못 하면</div>
-<div class="kb-diagram-note">→ 기계 B는 인간과 동등한 지능을 보인다고 판정</div>
-</div>
-</div>
-
-
+심판관이 A와 B를 구별 못 하면
+→ 기계 B는 인간과 동등한 지능을 보인다고 판정
+```
 
 <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/002_turing_test/">튜링 테스트</a>의 한계:</strong>
 - **중국어 방 논증 (Chinese Room Argument, Searle, 1980)**: 규칙만 따라 중국어를 처리해도 중국어를 이해하는 것이 아님—행동적 테스트가 내적 이해를 보장하지 않음
@@ -78,28 +74,32 @@ Alan Turing이 1950년 제안한 테스트로, 인간 심판관이 텍스트 대
 
 1980년대 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 전성기를 이끈 규칙 기반 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시스템이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전문가 시스템 아키텍처</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 인터페이스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">추론 엔진</div><div class="kb-diagram-cell">←→</div><div class="kb-diagram-cell">지식 베이스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Inference</div><div class="kb-diagram-cell">(Knowledge Base)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Engine)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사실 (Facts):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">순방향 연쇄:</div><div class="kb-diagram-cell">열=38.5도, 기침=있음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사실→결론</div><div class="kb-diagram-cell">규칙 (Rules):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IF 열&gt;38 AND 기침</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">역방향 연쇄:</div><div class="kb-diagram-cell">THEN 독감 가능성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결론←사실</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결론·설명 출력</div></div>
-</div>
-</div>
-
-
+```
+┌───────────────────────────────────────────────────────────┐
+│                 전문가 시스템 아키텍처                         │
+│                                                           │
+│  사용자                                                    │
+│    │ 입력                                                  │
+│    ▼                                                      │
+│  ┌─────────────────┐                                      │
+│  │  사용자 인터페이스 │                                     │
+│  └────────┬────────┘                                      │
+│           │                                               │
+│  ┌────────▼────────┐     ┌──────────────────────────┐    │
+│  │   추론 엔진      │ ←→ │     지식 베이스            │    │
+│  │ (Inference      │     │   (Knowledge Base)        │    │
+│  │  Engine)        │     │                           │    │
+│  │                 │     │  사실 (Facts):             │    │
+│  │  순방향 연쇄:   │     │    열=38.5도, 기침=있음    │    │
+│  │  사실→결론      │     │  규칙 (Rules):             │    │
+│  │                 │     │    IF 열>38 AND 기침       │    │
+│  │  역방향 연쇄:   │     │    THEN 독감 가능성        │    │
+│  │  결론←사실      │     └──────────────────────────┘    │
+│  └─────────────────┘                                      │
+│           │                                               │
+│    결론·설명 출력                                           │
+└───────────────────────────────────────────────────────────┘
+```
 
 ### [전문가 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/233_expert_system/) 추론 방식
 
@@ -112,28 +112,26 @@ Alan Turing이 1950년 제안한 테스트로, 인간 심판관이 텍스트 대
 
 전통 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)는 "참(1) 또는 거짓(0)"이지만, [퍼지 논리](/knowledge-base/studynote/10_ai/01_ai_basics/012_fuzzy_logic/)([Fuzzy Logic](/knowledge-base/studynote/10_ai/03_llm_nlp/234_fuzzy_logic/), Lotfi Zadeh, 1965)는 <strong>소속 정도(Membership Degree)</strong>를 [0, 1] 연속 값으로 표현한다.
 
+```
+전통 2값 논리 (Crisp Logic):
+  온도 37°C → 정상(1) 또는 발열(0)  ← 경계 불분명
 
+퍼지 논리 (Fuzzy Logic):
+  온도 37°C → 정상(0.7), 미열(0.3), 고열(0.0)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">전통 2값 논리 (Crisp Logic):</div>
-<div class="kb-diagram-note">온도 37°C → 정상(1) 또는 발열(0) ← 경계 불분명</div>
-<div class="kb-diagram-note">퍼지 논리 (Fuzzy Logic):</div>
-<div class="kb-diagram-note">온도 37°C → 정상(0.7), 미열(0.3), 고열(0.0)</div>
-<div class="kb-diagram-note">소속 함수 (Membership Function) 예시:</div>
-<div class="kb-diagram-note">μ(x)</div>
-<div class="kb-diagram-note">1.0 │ 정상 미열 고열</div>
-<div class="kb-diagram-note">╲ ╱╲ ╱</div>
-<div class="kb-diagram-note">0.5 │ ╲ ╱ ╲ ╱</div>
-<div class="kb-diagram-note">╲ ╱ ╲ ╱</div>
-<div class="kb-diagram-note">0.0 │ ╲ ╱ ╲ ╱</div>
-<div class="kb-diagram-tree-item" style="--depth:3">온도 (°C)</div>
-<div class="kb-diagram-note">36 37 38 39 40</div>
-<div class="kb-diagram-note">언어 변수 (Linguistic Variable): "차갑다", "따뜻하다", "뜨겁다"</div>
-</div>
-</div>
+소속 함수 (Membership Function) 예시:
 
+ μ(x)
+  1.0 │ 정상      미열       고열
+      │ ╲        ╱╲        ╱
+  0.5 │  ╲      ╱  ╲      ╱
+      │   ╲    ╱    ╲    ╱
+  0.0 │    ╲  ╱      ╲  ╱
+      └──────────────────── 온도 (°C)
+       36   37  38   39  40
 
+언어 변수 (Linguistic Variable): "차갑다", "따뜻하다", "뜨겁다"
+```
 
 <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/012_fuzzy_logic/">퍼지 논리</a> 연산:</strong>
 ```
@@ -227,21 +225,18 @@ AI는 단일 패러다임으로 설명되지 않는다. [튜링 테스트](/know
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">규칙 기반 AI: 전문가 시스템 · 퍼지 논리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">기계 학습: 통계 기반 패턴 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">딥러닝: 신경망 · CNN · RNN · Transformer</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">AGI 논의: 튜링 테스트 · 중국어 방 · 프레임 문제</div>
-</div>
-</div>
-
-
+```text
+규칙 기반 AI: 전문가 시스템 · 퍼지 논리
+    │
+    ▼
+기계 학습: 통계 기반 패턴 인식
+    │
+    ▼
+딥러닝: 신경망 · CNN · RNN · Transformer
+    │
+    ▼
+AGI 논의: 튜링 테스트 · 중국어 방 · 프레임 문제
+```
 2. [전문가 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/233_expert_system/)은 의사 선생님이 알고 있는 진단 규칙("열이 38도 이상이고 기침이 있으면 독감 의심")을 컴퓨터에 입력해 컴퓨터가 의사처럼 진단하게 만든 것이다.
 3. [퍼지 논리](/knowledge-base/studynote/10_ai/01_ai_basics/012_fuzzy_logic/)는 "뜨겁다/차갑다"처럼 딱 나누지 않고 "조금 뜨겁다(0.3), 꽤 뜨겁다(0.7)"처럼 정도로 표현해 세탁기나 에어컨이 더 똑똑하게 작동하게 한다.
 

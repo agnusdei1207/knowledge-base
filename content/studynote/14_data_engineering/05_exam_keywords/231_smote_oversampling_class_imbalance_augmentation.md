@@ -31,27 +31,21 @@ tags = ["studynote-data-engineering"]
 
 ### [불균형 데이터 처리](/knowledge-base/studynote/06_ict_convergence/05_data_science/356_imbalanced_data_sampling/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">불균형 데이터 처리 전략</div>
-<div class="kb-diagram-tree-item" style="--depth:0">데이터 수준 (Data-Level)</div>
-<div class="kb-diagram-note">── 오버샘플링 (OverSampling) ← 소수 클래스 증가</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 무작위 오버샘플링 (Random OverSampling)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── SMOTE / ADASYN / BorderlineSMOTE</div></div>
-<div class="kb-diagram-note">── 언더샘플링 (UnderSampling) ← 다수 클래스 감소</div>
-<div class="kb-diagram-note">── 무작위 언더샘플링 (Random UnderSampling)</div>
-<div class="kb-diagram-note">── Tomek Links / ENN (Edited Nearest Neighbour)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">알고리즘 수준 (Algorithm-Level)</div>
-<div class="kb-diagram-note">── 비용 민감 학습 (Cost-Sensitive Learning)</div>
-<div class="kb-diagram-note">── 앙상블 (Ensemble): BalancedBagging, EasyEnsemble</div>
-<div class="kb-diagram-tree-item" style="--depth:0">평가 수준 (Evaluation-Level)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Accuracy 대신 F1 · AUC · G-Mean 사용</div>
-</div>
-</div>
-
-
+```
+불균형 데이터 처리 전략
+├── 데이터 수준 (Data-Level)
+│   ├── 오버샘플링 (OverSampling)  ← 소수 클래스 증가
+│   │   ├── 무작위 오버샘플링 (Random OverSampling)
+│   │   └── SMOTE / ADASYN / BorderlineSMOTE
+│   └── 언더샘플링 (UnderSampling) ← 다수 클래스 감소
+│       ├── 무작위 언더샘플링 (Random UnderSampling)
+│       └── Tomek Links / ENN (Edited Nearest Neighbour)
+├── 알고리즘 수준 (Algorithm-Level)
+│   ├── 비용 민감 학습 (Cost-Sensitive Learning)
+│   └── 앙상블 (Ensemble): BalancedBagging, EasyEnsemble
+└── 평가 수준 (Evaluation-Level)
+    └── Accuracy 대신 F1 · AUC · G-Mean 사용
+```
 
 📢 **섹션 요약 비유**: 클래스 불균형은 마치 100명의 반 학생 중 1명만 빨간 옷을 입은 상황이다. 선생님이 "모두 파란 옷"이라 해도 99%가 맞아 보이지만, 빨간 옷을 찾는 임무는 완전히 실패한다.
 
@@ -73,31 +67,30 @@ x_new = x_i + λ × (x_nn - x_i)
 
 ### SMOTE 샘플 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 과정 ([ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램)
 
+```
+피처 공간 (Feature Space)
 
+  F2
+   │
+ 5 │    ○         ○
+   │       ○
+ 4 │    ●            ○
+   │       ★
+ 3 │          ●
+   │       ★
+ 2 │    ○      ●
+   │
+ 1 │    ○         ○
+   └────────────────── F1
+        1    2    3
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">피처 공간 (Feature Space)</div>
-<div class="kb-diagram-note">F2</div>
-<div class="kb-diagram-note">5 │ ○ ○</div>
-<div class="kb-diagram-note">○</div>
-<div class="kb-diagram-note">4 │ ● ○</div>
-<div class="kb-diagram-note">★</div>
-<div class="kb-diagram-note">3 │ ●</div>
-<div class="kb-diagram-note">★</div>
-<div class="kb-diagram-note">2 │ ○ ●</div>
-<div class="kb-diagram-note">1 │ ○ ○</div>
-<div class="kb-diagram-tree-item" style="--depth:1">F1</div>
-<div class="kb-diagram-note">1 2 3</div>
-<div class="kb-diagram-note">● = 소수 클래스 원본 (3개)</div>
-<div class="kb-diagram-note">★ = SMOTE 합성 샘플 (보간점, 2개)</div>
-<div class="kb-diagram-note">○ = 다수 클래스 원본</div>
-<div class="kb-diagram-note">x_new = ● + λ × (인접● - ●)</div>
-<div class="kb-diagram-note">→ 두 ● 사이 선분 위의 임의 점을 새 샘플로 생성</div>
-</div>
-</div>
+  ● = 소수 클래스 원본 (3개)
+  ★ = SMOTE 합성 샘플 (보간점, 2개)
+  ○ = 다수 클래스 원본
 
-
+  x_new = ● + λ × (인접● - ●)
+  → 두 ● 사이 선분 위의 임의 점을 새 샘플로 생성
+```
 
 ### SMOTE 변형 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 비교
 
@@ -111,22 +104,20 @@ x_new = x_i + λ × (x_nn - x_i)
 
 ### 언더샘플링 (UnderSampling) vs 오버샘플링 ([OverSampling](/knowledge-base/studynote/14_data_engineering/02_math_mining/096_oversampling_smote/))
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 불균형 해소 전략 비교</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">구분</div><div class="kb-diagram-cell">언더샘플링</div><div class="kb-diagram-cell">오버샘플링</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">방향</div><div class="kb-diagram-cell">다수 클래스 ↓</div><div class="kb-diagram-cell">소수 클래스 ↑</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 크기</div><div class="kb-diagram-cell">감소 (학습 빠름)</div><div class="kb-diagram-cell">증가 (학습 느림)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정보 손실</div><div class="kb-diagram-cell">있음 (위험)</div><div class="kb-diagram-cell">없음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">과적합 위험</div><div class="kb-diagram-cell">낮음</div><div class="kb-diagram-cell">높음 (단순 복제 시)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">권장 상황</div><div class="kb-diagram-cell">데이터 충분</div><div class="kb-diagram-cell">데이터 희귀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대표 기법</div><div class="kb-diagram-cell">Tomek Links, ENN</div><div class="kb-diagram-cell">SMOTE, ADASYN</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────────┐
+│              데이터 불균형 해소 전략 비교                       │
+├──────────────────┬───────────────────┬─────────────────────┤
+│   구분           │   언더샘플링       │    오버샘플링        │
+├──────────────────┼───────────────────┼─────────────────────┤
+│ 방향             │ 다수 클래스 ↓      │ 소수 클래스 ↑       │
+│ 데이터 크기      │ 감소 (학습 빠름)   │ 증가 (학습 느림)    │
+│ 정보 손실        │ 있음 (위험)        │ 없음                │
+│ 과적합 위험      │ 낮음              │ 높음 (단순 복제 시) │
+│ 권장 상황        │ 데이터 충분        │ 데이터 희귀         │
+│ 대표 기법        │ Tomek Links, ENN  │ SMOTE, ADASYN       │
+└──────────────────┴───────────────────┴─────────────────────┘
+```
 
 📢 **섹션 요약 비유**: SMOTE는 두 점 사이에 점을 찍는 것이다. 빨간 공 두 개 사이에 새 빨간 공을 놓아 "비슷하지만 완전히 같지 않은" 새 예시를 만드는 것과 같다.
 
@@ -148,26 +139,22 @@ x_new = x_i + λ × (x_nn - x_i)
 
 ### SMOTE 적용 시 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Leakage 방지
 
+```
+❌ 잘못된 적용 (Data Leakage 발생):
+   전체 데이터 → SMOTE → 훈련/테스트 분할
+   (테스트 데이터에 합성 샘플 유입 → 평가 결과 부풀려짐)
 
+✅ 올바른 적용:
+   전체 데이터 → 훈련/테스트 분할 → 훈련 데이터에만 SMOTE
+   (테스트 데이터는 반드시 원본 유지 → 공정한 평가)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">❌ 잘못된 적용 (Data Leakage 발생):</div>
-<div class="kb-diagram-note">전체 데이터 → SMOTE → 훈련/테스트 분할</div>
-<div class="kb-diagram-note">(테스트 데이터에 합성 샘플 유입 → 평가 결과 부풀려짐)</div>
-<div class="kb-diagram-note">✅ 올바른 적용:</div>
-<div class="kb-diagram-note">전체 데이터 → 훈련/테스트 분할 → 훈련 데이터에만 SMOTE</div>
-<div class="kb-diagram-note">(테스트 데이터는 반드시 원본 유지 → 공정한 평가)</div>
-<div class="kb-diagram-note">✅ 파이프라인 적용 (sklearn Pipeline):</div>
-<div class="kb-diagram-note">Pipeline([</div>
-<div class="kb-diagram-note">('smote', SMOTE()),</div>
-<div class="kb-diagram-note">('model', XGBClassifier())</div>
-<div class="kb-diagram-note">])</div>
-<div class="kb-diagram-note">→ cross_val_score로 CV 수행 시 각 폴드 내에서만 SMOTE 적용</div>
-</div>
-</div>
-
-
+✅ 파이프라인 적용 (sklearn Pipeline):
+   Pipeline([
+     ('smote', SMOTE()),
+     ('model', XGBClassifier())
+   ])
+   → cross_val_score로 CV 수행 시 각 폴드 내에서만 SMOTE 적용
+```
 
 📢 **섹션 요약 비유**: 시험 문제를 미리 알고 공부(테스트에 SMOTE 적용)하면 점수가 높아 보이지만 실력이 아니다. 공부할 때(훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))만 연습 문제를 늘려야 진짜 실력이 오른다.
 
@@ -175,21 +162,20 @@ x_new = x_i + λ × (x_nn - x_i)
 
 ### 실무 불균형 처리 파이프라인
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">불균형 데이터 처리 파이프라인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원시 데이터 EDA 전처리 SMOTE 모델 학습</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Raw Data</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">학습</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비율 분석] 처리·정규화] 샘플생성]</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">불균형비율 훈련 데이터만</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">측정 (1%?) (테스트 제외)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">평가: F1 · AUC · PR-AUC 중심 (Accuracy 배제)</div></div>
-</div>
-</div>
-
-
+```
+┌───────────────────────────────────────────────────────────────┐
+│                  불균형 데이터 처리 파이프라인                    │
+│                                                               │
+│  원시 데이터     EDA          전처리       SMOTE    모델 학습   │
+│  [Raw Data] → [불균형    → [결측치    → [합성   → [학습]      │
+│               비율 분석]    처리·정규화]   샘플생성]            │
+│                  ↓                          ↓                 │
+│              불균형비율                 훈련 데이터만           │
+│              측정 (1%?)               (테스트 제외)            │
+│                                                               │
+│  평가: F1 · AUC · PR-AUC 중심 (Accuracy 배제)                 │
+└───────────────────────────────────────────────────────────────┘
+```
 
 ### 기술사 판단 포인트
 
@@ -238,22 +224,19 @@ SMOTE는 클래스 불균형 문제 해결의 사실상 표준 기법이지만 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">클래스 불균형 데이터 (소수 클래스 탐지 실패)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">오버샘플링: SMOTE · ADASYN · BorderlineSMOTE</div>
-<div class="kb-diagram-note">언더샘플링: RandomUnder · NearMiss · Tomek Links</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">비용 민감 학습 · 임계값 조정 · Focal Loss</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">데이터 증강 (이미지: Augmentation · 텍스트: Back Translation)</div>
-</div>
-</div>
-
-
+```text
+클래스 불균형 데이터 (소수 클래스 탐지 실패)
+    │
+    ▼
+오버샘플링: SMOTE · ADASYN · BorderlineSMOTE
+언더샘플링: RandomUnder · NearMiss · Tomek Links
+    │
+    ▼
+비용 민감 학습 · 임계값 조정 · Focal Loss
+    │
+    ▼
+데이터 증강 (이미지: Augmentation · 텍스트: Back Translation)
+```
 2. SMOTE는 빨간 옷 아이 두 명 사이에 "비슷하게 생긴 새 빨간 옷 아이"를 만들어줘서 AI가 빨간 옷의 특징을 더 잘 배우게 해준다.
 3. 단, 시험 볼 때(테스트)는 진짜 빨간 옷 아이만 써야 한다—연습용 가짜 아이를 시험에 쓰면 점수가 부풀려지는 속임수가 된다.
 

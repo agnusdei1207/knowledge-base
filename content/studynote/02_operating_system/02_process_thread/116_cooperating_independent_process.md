@@ -26,30 +26,41 @@ tags = ["studynote-operating-system"]
 
 독립적 프로세스와 협력적 프로세스의 메모리 구조 차이를 시각화하면, 왜 협력적 프로세스에 특별한 통신 메커니즘이 필요한지 이해할 수 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">독립적 프로세스 vs 협력적 프로세스 메모리 구조 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">독립적 프로세스 (Independent Process)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로세스 A</div><div class="kb-diagram-cell">프로세스 B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Code</div><div class="kb-diagram-cell">Code</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data (독립)</div><div class="kb-diagram-cell">Data (독립)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Heap (독립)</div><div class="kb-diagram-cell">Heap (독립)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Stack</div><div class="kb-diagram-cell">Stack</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↕ 완전 분리, 서로 접근 불가</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">협력적 프로세스 (Cooperating Process)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로세스 A</div><div class="kb-diagram-cell">프로세스 B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Code</div><div class="kb-diagram-cell">Code</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data</div><div class="kb-diagram-cell">Data</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Heap</div><div class="kb-diagram-cell">──</div><div class="kb-diagram-cell">──</div><div class="kb-diagram-cell">──</div><div class="kb-diagram-cell">Heap</div><div class="kb-diagram-cell">← 공유 영역</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Stack</div><div class="kb-diagram-cell">Stack</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IPC 메커니즘 필요!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">OS IPC: 파이프/공유메모리/메시지큐/소켓</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│       독립적 프로세스 vs 협력적 프로세스 메모리 구조 비교          │
+├────────────────────────────────────────────────────────────────────┤
+│                                                                    │
+│  [독립적 프로세스 (Independent Process)]                           │
+│                                                                    │
+│  ┌───────────────────┐  ┌───────────────────┐                      │
+│  │  프로세스 A        │  │  프로세스 B        │                    │
+│  │  ┌─────────────┐  │  │  ┌─────────────┐  │                      │
+│  │  │ Code        │  │  │  │ Code        │  │                      │
+│  │  │ Data (독립) │  │  │  │ Data (독립) │  │                      │
+│  │  │ Heap (독립) │  │  │  │ Heap (독립) │  │                      │
+│  │  │ Stack       │  │  │  │ Stack       │  │                      │
+│  │  └─────────────┘  │  │  └─────────────┘  │                      │
+│  └───────────────────┘  └───────────────────┘                      │
+│        ↕ 완전 분리, 서로 접근 불가                                 │
+│                                                                    │
+│  [협력적 프로세스 (Cooperating Process)]                           │
+│                                                                    │
+│  ┌───────────────────┐  ┌───────────────────┐                      │
+│  │  프로세스 A        │  │  프로세스 B        │                    │
+│  │  ┌─────────────┐  │  │  ┌─────────────┐  │                      │
+│  │  │ Code        │  │  │  │ Code        │  │                      │
+│  │  │ Data        │  │  │  │ Data        │  │                      │
+│  │  │ Heap        │──│──│──│ Heap        │  │ ← 공유 영역          │
+│  │  │ Stack       │  │  │  │ Stack       │  │                      │
+│  │  └──────┬──────┘  │  │  └──────┬──────┘  │                      │
+│  └─────────┼─────────┘  └─────────┼─────────┘                      │
+│            │    IPC 메커니즘 필요!  │                              │
+│            └────────┬─────────────┘                                │
+│                     ▼                                              │
+│         [OS IPC: 파이프/공유메모리/메시지큐/소켓]                  │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 구조도는 독립적 프로세스와 협력적 프로세스의 가장 결정적인 차이인 "메모리 공간의 분리와 공유"를 보여준다. 독립적 프로세스의 주소 공간은 [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) ([Memory Management Unit](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/284_mmu/))에 의해 하드웨어적으로 완전히 격리되어 있으므로, 프로세스 A가 프로세스 B의 메모리에 접근하려 하면 [Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) Fault가 발생한다. 반면 협력적 프로세스는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 제공하는 [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) 메커니즘([공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/), [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/), [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 큐 등)을 통해 간접적으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 교환할 수 있다. 특히 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 방식에서는 두 프로세스의 [가상 주소 공간](/knowledge-base/studynote/02_operating_system/07_virtual_memory/382_virtual_address_space/) 일부가 동일한 물리 메모리 페이지에 매핑되므로, 포인터를 통한 직접적인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근이 가능해진다. 이때 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 이 공유 영역에 대한 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)([Synchronization](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)) 수단을 별도로 제공해야 한다.
 
@@ -74,31 +85,43 @@ tags = ["studynote-operating-system"]
 
 협력적 프로세스는 통신 방식에 따라 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 기반과 [메시지 전달](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/) 기반으로 나뉜다. 다음은 두 가지 방식의 동작 구조를 비교한 것이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">협력적 프로세스의 두 가지 통신 모델</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">공유 메모리 모델 (Shared Memory)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로세스 A</div><div class="kb-diagram-cell">쓰기 (Write) ▶</div><div class="kb-diagram-cell">공유</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀ 읽기 (Read)</div><div class="kb-diagram-cell">메모리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">영역</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로세스 B</div><div class="kb-diagram-cell">읽기/쓰기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">특징: 빠름, 동기화(뮤텍스/세마포어) 필수, 메모리 누수 위험</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">메시지 전달 모델 (Message Passing)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">send(msg) recv(msg)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로세스 A</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">OS</div><div class="kb-diagram-cell">▶ ──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(송신자)</div><div class="kb-diagram-cell">커널</div><div class="kb-diagram-cell">B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메시지</div><div class="kb-diagram-cell">◀ ──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">큐</div><div class="kb-diagram-cell">send(reply)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">특징: 안전(커널이 중개), 속도 느림(커널 개입), 구현 단순</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">트레이드오프:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공유 메모리 = "직접 대화" (빠르지만 충돌 위험)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메시지 전달 = "우편 배달" (안전하지만 지연 발생)</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│           협력적 프로세스의 두 가지 통신 모델                      │
+├────────────────────────────────────────────────────────────────────┤
+│                                                                    │
+│  [공유 메모리 모델 (Shared Memory)]                                │
+│                                                                    │
+│  ┌───────────┐                         ┌───────────┐               │
+│  │ 프로세스 A │──── 쓰기 (Write) ────▶ │  공유      │              │
+│  │           │◀─── 읽기 (Read) ───── │  메모리    │                │
+│  └───────────┘                         │  영역      │              │
+│                                        └─────▲─────┘               │
+│  ┌───────────┐                               │                     │
+│  │ 프로세스 B │──── 읽기/쓰기 ────────────────┘                    │
+│  │           │                                                     │
+│  └───────────┘                                                     │
+│  특징: 빠름, 동기화(뮤텍스/세마포어) 필수, 메모리 누수 위험        │
+│                                                                    │
+│  ─────────────────────────────────────────────                     │
+│                                                                    │
+│  [메시지 전달 모델 (Message Passing)]                              │
+│                                                                    │
+│  ┌───────────┐    send(msg)    ┌─────────┐   recv(msg)             │
+│  │ 프로세스 A │───────────────▶ │  OS     │───────────▶ ┌──┐       │
+│  │ (송신자)   │                │ 커널    │              │B │       │
+│  └───────────┘                │ 메시지  │◀──────────── └──┘        │
+│                               │ 큐     │   send(reply)             │
+│                               └─────────┘                          │
+│  특징: 안전(커널이 중개), 속도 느림(커널 개입), 구현 단순          │
+│                                                                    │
+│  ┌────────────────────────────────────────────────────────┐        │
+│  │ 트레이드오프:                                           │       │
+│  │  공유 메모리 = "직접 대화" (빠르지만 충돌 위험)            │    │
+│  │  메시지 전달 = "우편 배달" (안전하지만 지연 발생)            │  │
+│  └────────────────────────────────────────────────────────┘        │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 두 통신 모델의 핵심 차이는 "[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 개입 정도"다. [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 모델에서는 프로세스들이 직접 공유된 메모리 영역에 읽고 쓰므로 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 개입이 최소화되어 속도가 빠르지만, 동시에 두 프로세스가 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수정할 때 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/))이 깨지는 경합 조건 ([Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/))이 발생할 수 있다. 따라서 뮤텍스 ([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/))나 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/) ([Semaphore](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)) 같은 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 도구가 반드시 필요하다. 반면 [메시지 전달](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/) 모델에서는 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 경유하여 전달되므로 프로세스 간의 메모리 공유가 없어 경합 조건이 원천적으로 발생하지 않지만, 매 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지마다 시스템 콜과 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드 전환이 발생하므로 속도가 상대적으로 느리다.
 
@@ -128,29 +151,33 @@ tags = ["studynote-operating-system"]
 
 협력적 프로세스 간의 생산자-소비자 (Producer-Consumer) 관계를 시각화하면, 프로세스 간 협력이 왜 필요한지 구체적으로 이해할 수 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">협력적 프로세스의 전형적 예: 생산자-소비자 (Producer-Consumer)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">생산자 A</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">공유 버퍼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Producer)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5</div><div class="kb-diagram-cell">3</div><div class="kb-diagram-cell">8</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(데이터를 쌓아두는 곳)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">생산자 B</div><div class="kb-diagram-cell">▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Producer)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소비자 (Consumer)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터를 가져가 처리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">필수 규칙:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 버퍼가 가득 차면 생산자는 대기 (동기화)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 버퍼가 비면 소비자는 대기 (동기화)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 생산자와 소비자는 동시에 버퍼에 접근하면 안 됨 (상호배제)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이 규칙을 OS가 강제하는 도구: 세마포어(Semaphore), 뮤텍스(Mutex)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│     협력적 프로세스의 전형적 예: 생산자-소비자 (Producer-Consumer)   │
+├──────────────────────────────────────────────────────────────────────┤
+│                                                                      │
+│  ┌────────────┐    데이터 생성    ┌──────────────────────┐           │
+│  │  생산자 A   │──────────────▶  │    공유 버퍼          │           │
+│  │ (Producer) │                 │  ┌───┬───┬───┬───┐   │             │
+│  └────────────┘                 │  │ 5 │ 3 │ 8 │   │   │             │
+│                                 │  └───┴───┴───┴───┘   │             │
+│  ┌────────────┐                 │  (데이터를 쌓아두는 곳) │          │
+│  │  생산자 B   │──────────────▶  └──────────┬───────────┘            │
+│  │ (Producer) │                             │                        │
+│  └────────────┘                             │                        │
+│                              ┌──────────────▼───────────┐            │
+│                              │    소비자 (Consumer)       │          │
+│                              │    데이터를 가져가 처리     │         │
+│                              └──────────────────────────┘            │
+│                                                                      │
+│  필수 규칙:                                                          │
+│  1. 버퍼가 가득 차면 생산자는 대기 (동기화)                          │
+│  2. 버퍼가 비면 소비자는 대기 (동기화)                               │
+│  3. 생산자와 소비자는 동시에 버퍼에 접근하면 안 됨 (상호배제)        │
+│                                                                      │
+│  이 규칙을 OS가 강제하는 도구: 세마포어(Semaphore), 뮤텍스(Mutex)    │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 생산자-소비자 패턴은 협력적 프로세스의 가장 대표적인 응용 사례다. 여러 생산자 프로세스가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하여 공유 버퍼에 넣고, 소비자 프로세스가 버퍼에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 꺼내 처리한다. 이 과정에서 세 가지 핵심 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 규칙이 필요하다. 첫째, 버퍼가 가득 찼을 때 생산자는 더 이상 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 넣을 수 없으므로 대기해야 한다([오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/) 방지). 둘째, 버퍼가 비어있을 때 소비자는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 꺼낼 수 없으므로 대기해야 한다([언더플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/) 방지). 셋째, 생산자와 소비자가 동시에 버퍼에 접근하면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)이 깨지므로 [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) ([Mutual Exclusion](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/))가 보장되어야 한다. 이 세 가지 조건을 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 제공하는 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)(또는 뮤텍스)를 통해 구현하는 것이 협력적 프로세스 설계의 핵심이다.
 
@@ -174,29 +201,40 @@ tags = ["studynote-operating-system"]
 
 협력적 프로세스 설계 시 통신 모델 선택을 위한 의사결정 흐름을 요약한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">협력적 프로세스 통신 모델 선택 의사결정 트리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">프로세스 간 데이터 교환 설계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">통신 대상이 동일한 머신 내에 있는가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예 ▶ 데이터 전송 속도가 성능 병목인가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">공유 메모리 (Shared Memory)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 동기화 필수</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">메시지 큐 / 파이프</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 구현 단순</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 (네트워크 경유)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">신뢰성이 중요한가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TCP 소켓 / gRPC</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 순서 보장, 재전송</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">UDP 소켓 / 멀티캐스트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 속도 우선, 손실 허용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심: 성능(공유메모리) vs 안전성(메시지전달) vs 거리(소켓)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────────┐
+│      협력적 프로세스 통신 모델 선택 의사결정 트리                   │
+├─────────────────────────────────────────────────────────────────────┤
+│                                                                     │
+│   [프로세스 간 데이터 교환 설계]                                    │
+│                │                                                    │
+│                ▼                                                    │
+│       통신 대상이 동일한 머신 내에 있는가?                          │
+│          ├─ 예 ─────▶ 데이터 전송 속도가 성능 병목인가?             │
+│          │                │                                         │
+│          │                ├─ 예 ──▶ [공유 메모리 (Shared Memory)]   │
+│          │                │                 │                       │
+│          │                │                 └─▶ 동기화 필수         │
+│          │                │                                         │
+│          │                └─ 아니오 ─▶ [메시지 큐 / 파이프]         │
+│          │                                │                         │
+│          │                                └─▶ 구현 단순             │
+│          │                                                          │
+│          └─ 아니오 (네트워크 경유)                                  │
+│                │                                                    │
+│                ▼                                                    │
+│       신뢰성이 중요한가?                                            │
+│          ├─ 예 ──▶ [TCP 소켓 / gRPC]                                │
+│          │                │                                         │
+│          │                └─▶ 순서 보장, 재전송                     │
+│          │                                                          │
+│          └─ 아니오 ──▶ [UDP 소켓 / 멀티캐스트]                      │
+│                           │                                         │
+│                           └─▶ 속도 우선, 손실 허용                  │
+│                                                                     │
+│  핵심: 성능(공유메모리) vs 안전성(메시지전달) vs 거리(소켓)         │
+└─────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 의사결정 트리는 협력적 [프로세스 간 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) 모델을 선택할 때 고려해야 할 세 가지 핵심 축(거리, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/))을 명확히 보여준다. 동일한 머신 내에서 대량의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 고속으로 교환해야 하는 경우(예: 비디오 프레임 처리)에는 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)가 최적이지만, [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 로직이 복잡해진다는 트레이드오프를 감수해야 한다. 네트워크를 경유하는 경우에는 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 기반 통신이 필수이며, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손실이 허용되지 않는 금융 거래 시스템에서는 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 기반의 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 높은 통신을 선택하고, 실시간 스트리밍 같은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 민감 시스템에서는 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 기반의 빠른 통신을 선택해야 한다.
 
@@ -239,19 +277,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">상향 호출 (Upcall)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">협력적 프로세스 (Cooperating Process) vs 독립적 프로세스 (Independent Process)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">프로세스 간 통신 (IPC, Inter-Process Communication)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">공유 메모리 (Shared Memory) 방식</div></div>
-</div>
-</div>
-
-
+```text
+[상향 호출 (Upcall)]
+    │
+    ▼
+[협력적 프로세스 (Cooperating Process) vs 독립적 프로세스 (Independent Process)]
+    │
+    ├──▶ [프로세스 간 통신 (IPC, Inter-Process Communication)]
+    └──▶ [공유 메모리 (Shared Memory) 방식]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

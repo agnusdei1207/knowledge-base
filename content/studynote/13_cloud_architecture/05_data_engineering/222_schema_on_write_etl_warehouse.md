@@ -22,21 +22,17 @@ Schema-on-Write는 [데이터](/knowledge-base/studynote/05_database/01_db_archi
 
 이 방식이 필요한 이유는 명확하다. 분석·BI 시스템에서는 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 품질이 의사결정 품질과 직결</strong>되기 때문이다. 잘못된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 타입, NULL 값, 중복 레코드가 섞인 채로 집계된 KPI는 비즈니스 판단 오류로 이어진다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Schema-on-Write 데이터 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소스 DB</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">ETL 파이프라인</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">Data Warehouse</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① Extract ② Transform</div><div class="kb-diagram-cell">(스키마 정의</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ERP/CRM</div><div class="kb-diagram-cell">③ Validate ④ Load</div><div class="kb-diagram-cell">완벽한 테이블)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- NULL 체크 - 타입 변환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 중복 제거 - 도메인 코드 변환</div></div>
-<div class="kb-diagram-note">저장 전 모든 규칙 통과 강제</div>
-</div>
-</div>
-
-
+```
+[Schema-on-Write 데이터 흐름]
+┌─────────┐    ┌─────────────────────────────┐    ┌──────────────┐
+│ 소스 DB  │ →  │       ETL 파이프라인           │ →  │  Data Warehouse │
+│         │    │  ① Extract  ② Transform       │    │  (스키마 정의   │
+│ ERP/CRM │    │  ③ Validate ④ Load            │    │   완벽한 테이블) │
+└─────────┘    │  - NULL 체크  - 타입 변환       │    └──────────────┘
+               │  - 중복 제거  - 도메인 코드 변환 │
+               └─────────────────────────────┘
+                   저장 전 모든 규칙 통과 강제
+```
 
 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 과정에서 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 위반 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 **거부(Reject)** 처리되거나 오류 로그로 격리된다. 이를 통해 DW에는 항상 "믿을 수 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)"만 존재하게 된다.
 
@@ -48,25 +44,20 @@ Schema-on-Write는 [데이터](/knowledge-base/studynote/05_database/01_db_archi
 
 ### [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 파이프라인 상세 흐름
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소스 시스템 ETL 서버 DW 테이블</div>
-<div class="kb-diagram-note">Extract Load</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Oracle</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Staging Area</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">fact_sales</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MySQL</div><div class="kb-diagram-cell">(컬럼 타입 고정)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SAP ERP</div><div class="kb-diagram-cell">Transform</div><div class="kb-diagram-cell">타입 변환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NULL 처리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">중복 제거</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">dim_customer</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코드 매핑</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비즈니스 룰</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">검증</div><div class="kb-diagram-cell">← Reject 로그</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">← 실패 데이터 격리</div></div>
-</div>
-</div>
-
-
+```
+소스 시스템                 ETL 서버                      DW 테이블
+┌──────────┐    Extract    ┌──────────────────┐  Load  ┌────────────────┐
+│ Oracle   │ ──────────▶  │  Staging Area     │ ─────▶ │ fact_sales     │
+│ MySQL    │              │  ┌─────────────┐  │        │ (컬럼 타입 고정) │
+│ SAP ERP  │    Transform │  │ 타입 변환     │  │        └────────────────┘
+└──────────┘              │  │ NULL 처리    │  │        ┌────────────────┐
+                          │  │ 중복 제거    │  │ ─────▶ │ dim_customer   │
+                          │  │ 코드 매핑   │  │        └────────────────┘
+                          │  │ 비즈니스 룰  │  │
+                          │  │ 검증         │  │   ← Reject 로그
+                          │  └─────────────┘  │   ← 실패 데이터 격리
+                          └──────────────────┘
+```
 
 ### [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 유형
 
@@ -101,20 +92,14 @@ Schema-on-Write는 [데이터](/knowledge-base/studynote/05_database/01_db_archi
 
 ### 하이브리드 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/): [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">현대적 전략: 레이크하우스</div></div>
-<div class="kb-diagram-note">원시 데이터 정제 데이터</div>
-<div class="kb-diagram-note">(Schema-on-Read) Delta Lake (Schema-on-Write)</div>
-<div class="kb-diagram-note">S3 Bronze Zone ──▶ Silver Zone ──▶ Gold Zone</div>
-<div class="kb-diagram-note">원시 JSON/CSV ACID 보장 BI 분석용</div>
-<div class="kb-diagram-note">스키마 추론 스키마 진화 스키마 확정</div>
-</div>
-</div>
-
-
+```
+[현대적 전략: 레이크하우스]
+원시 데이터                        정제 데이터
+(Schema-on-Read)    Delta Lake    (Schema-on-Write)
+S3 Bronze Zone  ──▶  Silver Zone ──▶  Gold Zone
+원시 JSON/CSV         ACID 보장         BI 분석용
+스키마 추론            스키마 진화         스키마 확정
+```
 
 📢 **섹션 요약 비유**: Schema-on-Write와 Schema-on-Read는 "선불" vs "후불" 방식이다. 선불(Write)은 입장할 때 검사해 믿을 수 있지만 절차가 번거롭고, 후불(Read)은 자유롭게 들어오지만 나중에 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 비용이 든다. [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/)는 두 방식을 구역별로 나눠 쓴다.
 
@@ -126,24 +111,21 @@ Schema-on-Write는 [데이터](/knowledge-base/studynote/05_database/01_db_archi
 
 Schema-on-Write의 가장 큰 실무 도전은 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/">스키마</a> 변경</strong>이다. 비즈니스 요건이 바뀌어 새 컬럼을 추가하거나 타입을 변경해야 할 때, 하위 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 파이프라인 전체를 수정해야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">스키마 변경 영향 범위</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스키마 변경 (예: orders 테이블에 신규 컬럼 추가)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">영향받는 항목:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① ETL 추출 SQL 수정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② Transform 매핑 로직 수정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ DW 테이블 DDL ALTER</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">④ 파티셔닝 재설계 가능성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⑤ BI 도구 데이터 모델 수정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⑥ 하위 데이터 마트 ETL 수정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⑦ 테스트·배포 사이클 전체</div></div>
-</div>
-</div>
-
-
+```
+스키마 변경 영향 범위
+┌──────────────────────────────────────────────────┐
+│ 스키마 변경 (예: orders 테이블에 신규 컬럼 추가)    │
+│                                                  │
+│ 영향받는 항목:                                    │
+│  ① ETL 추출 SQL 수정                              │
+│  ② Transform 매핑 로직 수정                       │
+│  ③ DW 테이블 DDL ALTER                           │
+│  ④ 파티셔닝 재설계 가능성                          │
+│  ⑤ BI 도구 데이터 모델 수정                        │
+│  ⑥ 하위 데이터 마트 ETL 수정                       │
+│  ⑦ 테스트·배포 사이클 전체                         │
+└──────────────────────────────────────────────────┘
+```
 
 ### 실무 권장 패턴
 
@@ -200,19 +182,14 @@ Schema-on-Write의 가장 큰 실무 도전은 <strong><a href="/knowledge-base/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Schema-on-Write: ETL → 스키마 검증 → DW 적재</div>
-<div class="kb-diagram-tree-item" style="--depth:2">장점: 쿼리 성능 우수 · 데이터 품질 보장</div>
-<div class="kb-diagram-tree-item" style="--depth:2">단점: 스키마 변경 비용 높음</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Schema-on-Read: 저장 후 읽을 때 스키마 적용 (Lake)</div>
-</div>
-</div>
-
-
+```text
+Schema-on-Write: ETL → 스키마 검증 → DW 적재
+    ├─► 장점: 쿼리 성능 우수 · 데이터 품질 보장
+    └─► 단점: 스키마 변경 비용 높음
+    │
+    ▼
+Schema-on-Read: 저장 후 읽을 때 스키마 적용 (Lake)
+```
 2. 마치 도서관에서 책을 받을 때 제목·저자·ISBN이 모두 맞아야 등록해주는 것처럼, 정해진 규칙을 통과한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 저장될 수 있다.
 3. 이렇게 저장된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 누구나 믿고 사용할 수 있지만, 새로운 종류의 책([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 들어오려면 도서관 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계([스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/))를 바꿔야 하는 번거로움이 있다.
 

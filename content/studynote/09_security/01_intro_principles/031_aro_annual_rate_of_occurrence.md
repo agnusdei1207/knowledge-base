@@ -53,27 +53,23 @@ ALE 계산:
 
 ### 신뢰할 수 있는 ARO [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스
 
+```text
+외부 데이터:
+  - Verizon DBIR (Data Breach Investigations Report)
+    → 산업별 침해 사고 유형·빈도 통계
+  - IC3 (Internet Crime Complaint Center, FBI)
+    → 사이버 범죄 신고 통계
+  - NIST NVD → CVE 취약점 활용 빈도
 
+내부 데이터:
+  - 자사 보안 사고 이력 (SIEM 로그)
+  - 인시던트 티켓 시스템
+  - 취약점 스캔 결과
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">외부 데이터:</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Verizon DBIR (Data Breach Investigations Report)</div>
-<div class="kb-diagram-note">→ 산업별 침해 사고 유형·빈도 통계</div>
-<div class="kb-diagram-tree-item" style="--depth:1">IC3 (Internet Crime Complaint Center, FBI)</div>
-<div class="kb-diagram-note">→ 사이버 범죄 신고 통계</div>
-<div class="kb-diagram-tree-item" style="--depth:1">NIST NVD → CVE 취약점 활용 빈도</div>
-<div class="kb-diagram-note">내부 데이터:</div>
-<div class="kb-diagram-tree-item" style="--depth:1">자사 보안 사고 이력 (SIEM 로그)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">인시던트 티켓 시스템</div>
-<div class="kb-diagram-tree-item" style="--depth:1">취약점 스캔 결과</div>
-<div class="kb-diagram-note">전문가 판단:</div>
-<div class="kb-diagram-tree-item" style="--depth:1">침투 테스트 결과</div>
-<div class="kb-diagram-tree-item" style="--depth:1">위협 모델링 (STRIDE)</div>
-</div>
-</div>
-
-
+전문가 판단:
+  - 침투 테스트 결과
+  - 위협 모델링 (STRIDE)
+```
 
 - **📢 섹션 요약 비유**: ARO [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스는 의료 통계다. 내 개인 병원 기록(내부 사고 이력)과 국가 통계청 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(NIST, Verizon DBIR)를 결합해 정확한 발생 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 추정한다.
 
@@ -136,23 +132,21 @@ ALE 높은 순서로 보안 투자 우선순위 결정
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">위협 목록화 — 가능한 위협 유형 식별</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ARO 추정 — 통계·전문가 판단으로 연간 발생률</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SLE·ALE 계산 — 손실 기대값 정량화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">위험 등록부 — ALE 순위 기반 투자 우선순위</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">동적 ARO — AI 위협 인텔리전스 실시간 업데이트</div></div>
-</div>
-</div>
-
-
+```text
+[위협 목록화 — 가능한 위협 유형 식별]
+    │
+    ▼
+[ARO 추정 — 통계·전문가 판단으로 연간 발생률]
+    │
+    ▼
+[SLE·ALE 계산 — 손실 기대값 정량화]
+    │
+    ▼
+[위험 등록부 — ALE 순위 기반 투자 우선순위]
+    │
+    ▼
+[동적 ARO — AI 위협 인텔리전스 실시간 업데이트]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

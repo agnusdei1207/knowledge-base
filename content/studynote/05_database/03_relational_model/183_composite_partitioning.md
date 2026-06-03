@@ -27,21 +27,20 @@ tags = ["studynote-database"]
 
 아래 그림은 왜 "한 축만으로는 부족한지"를 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Why one axis is not enough</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Retention axis needed : drop / archive by month</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Distribution axis needed : spread hot rows inside the month</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">order_date ──▶ Main partition (Range)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">customer_id ──▶ Subpartition (Hash)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">region_code ──▶ Subpartition (List)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Result : manage by time, distribute by load or business meaning</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Why one axis is not enough                                        │
+├────────────────────────────────────────────────────────────────────┤
+│ Retention axis needed : drop / archive by month                   │
+│ Distribution axis needed : spread hot rows inside the month       │
+│                                                                    │
+│ order_date   ──▶ Main partition (Range)                           │
+│ customer_id  ──▶ Subpartition   (Hash)                            │
+│ region_code  ──▶ Subpartition   (List)                            │
+│                                                                    │
+│ Result : manage by time, distribute by load or business meaning   │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 중요한 점은 메인 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)과 서브파티션이 같은 질문에 답하지 않는다는 것이다. 메인 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)은 "무엇을 한 번에 버리거나 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)할 것인가"에 답하고, 서브파티션은 "그 안에서 어떻게 고르게 나누거나 의미 있게 나눌 것인가"에 답한다.
 
@@ -73,23 +72,22 @@ SUBPARTITIONS 8 (
 
 아래 그림은 입력과 조회가 두 단계로 좁혀지는 구조를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Two-stage routing and pruning</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Insert row</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ main key = order_date ─▶ P_2025_Q1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ sub key = customer_id ─▶ SP_HASH_03</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Query: order_date + customer_id</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) prune main partitions first</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) then narrow reachable subpartitions</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Query: only order_date</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ main pruning only, all subpartitions in that range remain</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Two-stage routing and pruning                                     │
+├────────────────────────────────────────────────────────────────────┤
+│ Insert row                                                        │
+│   ├─ main key = order_date  ─▶ P_2025_Q1                          │
+│   └─ sub  key = customer_id ─▶ SP_HASH_03                         │
+│                                                                    │
+│ Query: order_date + customer_id                                   │
+│   1) prune main partitions first                                  │
+│   2) then narrow reachable subpartitions                          │
+│                                                                    │
+│ Query: only order_date                                             │
+│   └─ main pruning only, all subpartitions in that range remain    │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 | 조합 | 메인 기준 | 서브 기준 | 잘 맞는 요구 | 주의점 |
 | :--- | :--- | :--- | :--- | :--- |
@@ -177,22 +175,19 @@ SUBPARTITIONS 8 (
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">기간 관리 요구 + 내부 분산 요구</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">컴포지트 파티셔닝 (Composite Partitioning)</div>
-<div class="kb-diagram-tree-item" style="--depth:6">Range + Hash</div>
-<div class="kb-diagram-tree-item" style="--depth:6">Range + List</div>
-<div class="kb-diagram-tree-item" style="--depth:6">List + Hash</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">파티션 프루닝 · 로컬 인덱스 · 운영 자동화 결합</div>
-</div>
-</div>
-
-
+```text
+기간 관리 요구 + 내부 분산 요구
+            │
+            ▼
+컴포지트 파티셔닝 (Composite Partitioning)
+            │
+            ├──────────────► Range + Hash
+            ├──────────────► Range + List
+            ├──────────────► List + Hash
+            │
+            ▼
+파티션 프루닝 · 로컬 인덱스 · 운영 자동화 결합
+```
 
 이 흐름은 "단일 기준 분할"에서 "운영 축과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 축을 분리한 분할"로 사고가 확장되는 과정을 보여 준다.
 

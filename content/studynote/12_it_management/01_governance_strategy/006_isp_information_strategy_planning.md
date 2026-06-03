@@ -31,27 +31,31 @@ tags = ["studynote-it-management"]
 ### [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) 수립의 표준 4단계 방법론 ([As-Is](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) ➔ To-Be)
 ISP는 경영 컨설팅의 언어로 시작해 IT 아키텍처의 언어로 끝난다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ISP (정보화 전략 계획) 수행 프레임워크 4단계 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 환경 분석 (Environment Analysis)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 경영진 인터뷰: "우리 회사 내년 목표는 모바일 매출 50%!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 외부 트렌드: "경쟁사들은 다 AI 챗봇 도입했네?"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 현행 업무 및 IT 분석 (As-Is Analysis)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 현재 쇳덩어리 까보기: "서버는 10년 된 유닉스고, 데이터는 엑셀"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 문제점 도출: "모바일 매출을 늘릴 모바일 인프라가 전혀 없음!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3. 목표 모델 수립 (To-Be Architecture)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 비즈니스/데이터/어플리케이션/기술(EA) 목표 아키텍처 설계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "퍼블릭 클라우드 도입하고, 통합 고객 DB 구축하자!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">4. 이행 계획 수립 (Implementation Plan)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 프로젝트 쪼개기: 과제 1(클라우드), 과제 2(DB), 과제 3(앱)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- ROI(투자수익률) 분석 및 우선순위(예산 편성) 쇳덩어리 확정</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────┐
+│           ISP (정보화 전략 계획) 수행 프레임워크 4단계 구조         │
+├────────────────────────────────────────────────────────┤
+│                                                        │
+│  [ 1. 환경 분석 (Environment Analysis) ]                │
+│   - 경영진 인터뷰: "우리 회사 내년 목표는 모바일 매출 50%!"      │
+│   - 외부 트렌드: "경쟁사들은 다 AI 챗봇 도입했네?"             │
+│            │                                           │
+│            ▼                                           │
+│  [ 2. 현행 업무 및 IT 분석 (As-Is Analysis) ]            │
+│   - 현재 쇳덩어리 까보기: "서버는 10년 된 유닉스고, 데이터는 엑셀" │
+│   - 문제점 도출: "모바일 매출을 늘릴 모바일 인프라가 전혀 없음!"   │
+│            │                                           │
+│            ▼                                           │
+│  [ 3. 목표 모델 수립 (To-Be Architecture) ]              │
+│   - 비즈니스/데이터/어플리케이션/기술(EA) 목표 아키텍처 설계      │
+│   - "퍼블릭 클라우드 도입하고, 통합 고객 DB 구축하자!"          │
+│            │                                           │
+│            ▼                                           │
+│  [ 4. 이행 계획 수립 (Implementation Plan) ]             │
+│   - 프로젝트 쪼개기: 과제 1(클라우드), 과제 2(DB), 과제 3(앱)     │
+│   - ROI(투자수익률) 분석 및 우선순위(예산 편성) 쇳덩어리 확정     │
+└────────────────────────────────────────────────────────┘
+```
 
 가장 핵심은 <strong>현행(<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/">As-Is</a>)과 목표(To-Be) 사이의 차이(Gap)</strong>를 발견하는 것이다. 이 Gap을 메우기 위해 필요한 시스템들을 리스트업(List-up)하고, 한정된 예산을 바탕으로 1순위, 2순위, 3순위로 줄을 세우는 것이 [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/) 프로젝트의 최종 산출물(마스터플랜 보고서)이다.
 
@@ -110,23 +114,21 @@ ISP는 경영 컨설팅의 언어로 시작해 IT 아키텍처의 언어로 끝�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">IT 기술의 파편화 도입 및 비즈니스 목적과의 불일치 (생산성 패러독스)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">최고경영자(CEO)의 거시적 IT 투자 통제 필요성 대두</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">컨설팅 방법론 도입 ──▶ ISP (정보화 전략 계획) 방법론 정립 (현상 분석 → 목표 모델 → 이행 계획)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">뜬구름 잡는 전략의 한계 극복 ──▶ 쇳덩어리 요구사항을 도출하는 ISMP(정보시스템 마스터플랜)로 구체화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">디지털 트랜스포메이션(DX) 시대 ──▶ EA 프레임워크 기반의 상시적이고 애자일(Agile)한 롤링 플랜(Rolling Plan)으로 진화</div>
-</div>
-</div>
-
-
+```text
+IT 기술의 파편화 도입 및 비즈니스 목적과의 불일치 (생산성 패러독스)
+    │
+    ▼
+최고경영자(CEO)의 거시적 IT 투자 통제 필요성 대두
+    │
+    ▼
+컨설팅 방법론 도입 ──▶ ISP (정보화 전략 계획) 방법론 정립 (현상 분석 → 목표 모델 → 이행 계획)
+    │
+    ▼
+뜬구름 잡는 전략의 한계 극복 ──▶ 쇳덩어리 요구사항을 도출하는 ISMP(정보시스템 마스터플랜)로 구체화
+    │
+    ▼
+디지털 트랜스포메이션(DX) 시대 ──▶ EA 프레임워크 기반의 상시적이고 애자일(Agile)한 롤링 플랜(Rolling Plan)으로 진화
+```
 
 이 흐름도는 "무계획/중복 투자 → 전사적 5개년 마스터플랜 통제([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/)) → 실행력 강화를 위한 구체화([ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/109_ismp_rfp_fp/)) → 현대적인 상시 계획 체계([EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 연계)"라는 거시적 IT 거버넌스의 발전 궤적을 보여준다.
 

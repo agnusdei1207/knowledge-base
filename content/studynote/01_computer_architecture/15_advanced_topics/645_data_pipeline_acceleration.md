@@ -23,18 +23,16 @@ tags = ["studynote-computer-architecture"]
 
 핵심 문제는 현대 시스템의 병목이 `연산 부족`이 아니라 `이동 비용`으로 이동했다는 점이다. [네트워크 인터페이스 카드](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/) (Network Interface Card, [NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/)) 와 비휘발성 메모리 익스프레스 ([Non-Volatile Memory Express](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/), [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/)) 장치가 초당 수십 기가바이트를 밀어 넣어도, 소프트웨어가 그 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 여러 계층 버퍼로 복사하면 선형적으로 CPU 시간을 태운다. 그래서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 파이프라인 가속은 CPU를 더 빠르게 만드는 것이 아니라, CPU가 굳이 하지 않아도 되는 일을 경로 밖으로 빼내는 데서 시작한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data pipeline acceleration: separate control from byte movement</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Source -&gt; NIC/DMA -&gt; Shared Buffer -&gt; Transform Engine -&gt; Sink</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">^ ^ ^ ^</div></div>
-<div class="kb-diagram-note">CPU submits descriptors and reads completion</div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Data pipeline acceleration: separate control from byte movement   │
+├────────────────────────────────────────────────────────────────────┤
+│ Source -> NIC/DMA -> Shared Buffer -> Transform Engine -> Sink    │
+│    ^         ^               ^                 ^                  │
+│    |         |               |                 |                  │
+│    └──────────── CPU submits descriptors and reads completion ────┘
+└────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 핵심은 CPU가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 한 칸씩 옮기는 주체가 아니라, 작업 기술서만 넘기고 결과를 수거하는 제어자라는 점이다. 따라서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 파이프라인 가속은 단일 칩 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)보다도 `누가 바이트를 만지는가`를 다시 배치하는 시스템 설계 문제다.
 
@@ -124,23 +122,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Programmed I/O and memcpy</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DMA engines and scatter-gather</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Zero Copy + asynchronous descriptor queues</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DSA / SmartNIC / inline compression-crypto</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">RDMA + SPDK + CXL-aware data pipelines</div>
-</div>
-</div>
-
-
+```text
+Programmed I/O and memcpy
+    │
+    ▼
+DMA engines and scatter-gather
+    │
+    ▼
+Zero Copy + asynchronous descriptor queues
+    │
+    ▼
+DSA / SmartNIC / inline compression-crypto
+    │
+    ▼
+RDMA + SPDK + CXL-aware data pipelines
+```
 
 이 흐름은 `CPU가 직접 옮기던 시대`에서 `이동 전용 경로를 설계하는 시대`로 관점이 확장되는 과정을 보여 준다.
 

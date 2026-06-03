@@ -23,18 +23,14 @@ tags = ["studynote-network"]
 - **초정밀성 붕괴**: 5분 사이에 10Gbps의 엄청난 해커 디도스 트래픽이 들어왔다가 1분 만에 싹 빠져나갑니다. [SNMP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/528_snmp_simple_network_management_protocol/) 그래프를 보면 5분 단위 평균으로 퉁쳐져서 디도스가 들어왔던 뾰족한 송곳 흉터가 아예 그래프에서 증발해버립니다(가시성 제로). 
 - **장비 과부하**: 중앙에서 1,000만 개의 질의를 쏘면 라우터의 CPU가 대답하느라 터져버립니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">오픈컨피그</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스트리밍 텔레메트리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">오버레이 SDN과 언더레이 SDN</div></div>
-</div>
-</div>
-
-
+```text
+[오픈컨피그]
+    │
+    ▼
+[스트리밍 텔레메트리]
+    │
+    └──▶ [오버레이 SDN과 언더레이 SDN]
+```
 
 - **📢 섹션 요약 비유**: 스트리밍 텔레메트리는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -52,18 +48,14 @@ tags = ["studynote-network"]
 - 무식하게 텍스트로 쏘면 중앙 서버가 뻗습니다. 
 - 878번의 <strong><a href="/knowledge-base/studynote/03_network/17_sdn_nfv/878_openconfig_vendor_neutral_yang_model/">오픈컨피그</a>(<a href="/knowledge-base/studynote/03_network/17_sdn_nfv/878_openconfig_vendor_neutral_yang_model/">OpenConfig</a>) 표준 YANG 뼈대</strong>에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정갈하게 맞춘 뒤, 구글이 만든 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 이진(Binary) 직렬화 통신 프로토콜인 <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/479_grpc_protobuf_http2/">gRPC</a>(<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a>/2 기반 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/535_sync_communication_rest_grpc/">Protocol Buffers</a>)</strong> 껍데기로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 포장해서 빛의 속도로 쏴버립니다. 텍스트 파싱을 할 필요가 없어 CPU 오버헤드가 제로에 수렴합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">오픈컨피그</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스트리밍 텔레메트리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">오버레이 SDN과 언더레이 SDN</div></div>
-</div>
-</div>
-
-
+```text
+[오픈컨피그]
+    │
+    ▼
+[스트리밍 텔레메트리]
+    │
+    └──▶ [오버레이 SDN과 언더레이 SDN]
+```
 
 - **📢 섹션 요약 비유**: 스트리밍 텔레메트리의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -126,19 +118,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 오픈컨피그</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 스트리밍 텔레메트리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 오버레이 SDN과 언더레이 SDN</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 프로그래머블 네트워크</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 오픈컨피그]
+    │
+    ▼
+[현재 개념: 스트리밍 텔레메트리]
+    │
+    ├──▶ [확장 A: 오버레이 SDN과 언더레이 SDN]
+    └──▶ [확장 B: 프로그래머블 네트워크]
+```
 
 스트리밍 텔레메트리는 [오픈컨피그](/knowledge-base/studynote/03_network/17_sdn_nfv/878_openconfig_vendor_neutral_yang_model/)에서 출발해 현재 메커니즘을 정교화하고, 이후 오버레이 SDN과 언더레이 SDN와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -23,27 +23,25 @@ tags = ["studynote-bigdata"]
 
 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/), [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/), [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템에서 "왜 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 느린가?"를 파악하려면 3가지 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 필요하다:
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">관측성 3대 기둥:</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 메트릭 (Metrics)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- CPU, 메모리, 요청 수, 응답 시간, 오류율</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 시계열 데이터 (시간 + 숫자값)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "무슨 일이 일어나고 있나?" → 양적 측정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 로그 (Logs)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 애플리케이션 이벤트 기록 (ERROR, INFO, WARN)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 비정형 텍스트 + 타임스탬프</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "왜 이런 일이 일어났나?" → 상세 이유</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 추적 (Traces)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 분산 서비스 간 요청 흐름 추적</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Span 연결 (A서비스 → B서비스 → DB 순서)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "어디서 느렸나?" → 병목 위치 식별</div></div>
-</div>
-</div>
-
-
+```
+관측성 3대 기둥:
+┌──────────────────────────────────────────────────────┐
+│  1. 메트릭 (Metrics)                                 │
+│     - CPU, 메모리, 요청 수, 응답 시간, 오류율         │
+│     - 시계열 데이터 (시간 + 숫자값)                   │
+│     - "무슨 일이 일어나고 있나?" → 양적 측정           │
+│                                                      │
+│  2. 로그 (Logs)                                      │
+│     - 애플리케이션 이벤트 기록 (ERROR, INFO, WARN)    │
+│     - 비정형 텍스트 + 타임스탬프                      │
+│     - "왜 이런 일이 일어났나?" → 상세 이유             │
+│                                                      │
+│  3. 추적 (Traces)                                    │
+│     - 분산 서비스 간 요청 흐름 추적                   │
+│     - Span 연결 (A서비스 → B서비스 → DB 순서)         │
+│     - "어디서 느렸나?" → 병목 위치 식별               │
+└──────────────────────────────────────────────────────┘
+```
 
 **📢 섹션 요약 비유**: 관측성 3기둥은 **자동차 계기판·블랙박스·GPS** 조합과 같다. 계기판([메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/))으로 이상을 감지하고, 블랙박스([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))로 원인을 파악하며, GPS(추적)로 어느 경로에서 문제가 생겼는지 추적한다.
 
@@ -53,27 +51,33 @@ tags = ["studynote-bigdata"]
 
 ### LGTM [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 아키텍처
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LGTM 스택 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 수집</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Prometheus</div><div class="kb-diagram-cell">Promtail/</div><div class="kb-diagram-cell">OpenTelemetry / Jaeger /</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(메트릭 수집)</div><div class="kb-diagram-cell">Fluentbit</div><div class="kb-diagram-cell">Zipkin</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pull 기반</div><div class="kb-diagram-cell">(로그 수집)</div><div class="kb-diagram-cell">(추적 데이터 수집)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">저장 ▼ ▼ ▼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mimir</div><div class="kb-diagram-cell">Loki</div><div class="kb-diagram-cell">Tempo</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(메트릭</div><div class="kb-diagram-cell">(로그</div><div class="kb-diagram-cell">(추적 데이터 저장)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장기저장)</div><div class="kb-diagram-cell">집계·저장)</div><div class="kb-diagram-cell">TraceQL 쿼리 지원</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시각화 ▼ ▼ ▼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Grafana UI</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PromQL / LogQL / TraceQL 통합 쿼리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Explore, Dashboard, Alerting</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────────┐
+│                     LGTM 스택 구조                           │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│  데이터 수집                                                 │
+│  ┌────────────┬──────────────┬─────────────────────────────┐ │
+│  │Prometheus  │ Promtail/    │ OpenTelemetry / Jaeger /    │ │
+│  │(메트릭 수집)│ Fluentbit   │ Zipkin                      │ │
+│  │Pull 기반   │ (로그 수집)  │ (추적 데이터 수집)           │ │
+│  └─────┬──────┴──────┬───────┴──────────────┬──────────────┘ │
+│        │             │                       │               │
+│  저장  ▼             ▼                       ▼               │
+│  ┌──────────┐  ┌──────────┐  ┌──────────────────────────┐   │
+│  │  Mimir   │  │  Loki    │  │         Tempo            │   │
+│  │(메트릭   │  │(로그     │  │(추적 데이터 저장)          │   │
+│  │ 장기저장)│  │ 집계·저장)│  │TraceQL 쿼리 지원          │   │
+│  └──────────┘  └──────────┘  └──────────────────────────┘   │
+│        │             │                       │               │
+│  시각화 ▼             ▼                       ▼               │
+│  ┌────────────────────────────────────────────────────────┐  │
+│  │                    Grafana UI                          │  │
+│  │  PromQL / LogQL / TraceQL 통합 쿼리                    │  │
+│  │  Explore, Dashboard, Alerting                         │  │
+│  └────────────────────────────────────────────────────────┘  │
+└──────────────────────────────────────────────────────────────┘
+```
 
 ### 핵심 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 언어 비교
 
@@ -211,23 +215,21 @@ Grafana는 <strong><a href="/knowledge-base/studynote/04_software_engineering/11
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">메트릭 수집 (Metrics) — Prometheus Pull 방식</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">로그 집계 (Log Aggregation) — Loki</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">분산 추적 (Distributed Tracing) — Tempo</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Grafana 대시보드 — 통합 관측성 (Unified Observability)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LGTM 스택 (Loki + Grafana + Tempo + Mimir)</div></div>
-</div>
-</div>
-
-
+```text
+[메트릭 수집 (Metrics) — Prometheus Pull 방식]
+    │
+    ▼
+[로그 집계 (Log Aggregation) — Loki]
+    │
+    ▼
+[분산 추적 (Distributed Tracing) — Tempo]
+    │
+    ▼
+[Grafana 대시보드 — 통합 관측성 (Unified Observability)]
+    │
+    ▼
+[LGTM 스택 (Loki + Grafana + Tempo + Mimir)]
+```
 
 관측성 기술이 개별 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)·[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·추적을 통합하여 Grafana 중심의 단일 가시성 플랫폼으로 수렴한 흐름이다.
 

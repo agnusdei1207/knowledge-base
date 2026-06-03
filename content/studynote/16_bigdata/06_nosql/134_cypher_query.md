@@ -23,25 +23,24 @@ SPARQL은 RDF 트리플스토어에 특화되었고, Gremlin은 명령형(절차
 
 ### Cypher 문법 기초
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cypher 핵심 문법 요소</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(n) ← 모든 노드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(n:Person) ← 라벨이 Person인 노드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(n:Person {name:"홍길동"}) ← 속성 필터링</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">-</div><div class="kb-diagram-node">:KNOWS</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">← 방향 있는 관계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">-</div><div class="kb-diagram-node">:KNOWS</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">방향 없는 관계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">-</div><div class="kb-diagram-node">r</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">← 관계 변수 r로 참조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">-</div><div class="kb-diagram-node">:KNOWS*2..5</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">← 2~5홉 가변 길이 탐색</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">패턴 예시:</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">(alice:Person)-</div><div class="kb-diagram-node">:FOLLOWS</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">(bob:Person)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">(p)-</div><div class="kb-diagram-node">:BOUGHT</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">(product:Product {category:"전자"})</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│              Cypher 핵심 문법 요소                      │
+│                                                       │
+│  (n)          ← 모든 노드                              │
+│  (n:Person)   ← 라벨이 Person인 노드                   │
+│  (n:Person {name:"홍길동"})  ← 속성 필터링             │
+│                                                       │
+│  -[:KNOWS]->  ← 방향 있는 관계                         │
+│  -[:KNOWS]-   ← 방향 없는 관계                         │
+│  -[r]->       ← 관계 변수 r로 참조                     │
+│  -[:KNOWS*2..5]-> ← 2~5홉 가변 길이 탐색               │
+│                                                       │
+│  패턴 예시:                                            │
+│  (alice:Person)-[:FOLLOWS]->(bob:Person)              │
+│  (p)-[:BOUGHT]->(product:Product {category:"전자"})   │
+└───────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**
 > Cypher 문법은 지하철 노선도를 말로 표현하는 것과 같다. `(강남역)-[:2호선]->(역삼역)`이라고 쓰면 지도를 그리듯이 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 표현할 수 있다. SQL의 `JOIN users ON follows.following_id = users.id`보다 훨씬 직관적이다.
@@ -52,29 +51,26 @@ SPARQL은 RDF 트리플스토어에 특화되었고, Gremlin은 명령형(절차
 
 ### Cypher 주요 절(Clause) 정리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cypher 절(Clause) 역할 요약</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MATCH</div><div class="kb-diagram-cell">패턴과 일치하는 노드/관계 찾기 (SELECT)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OPTIONAL MATCH</div><div class="kb-diagram-cell">LEFT JOIN 과 동일, 없으면 null</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WHERE</div><div class="kb-diagram-cell">필터 조건 (AND/OR/NOT/IN/STARTS WITH)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RETURN</div><div class="kb-diagram-cell">결과 반환 (SELECT 절의 컬럼 선택)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CREATE</div><div class="kb-diagram-cell">노드/관계 생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MERGE</div><div class="kb-diagram-cell">없으면 CREATE, 있으면 MATCH (UPSERT)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SET</div><div class="kb-diagram-cell">속성 추가/수정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DELETE</div><div class="kb-diagram-cell">노드/관계 삭제</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DETACH DELETE</div><div class="kb-diagram-cell">노드 + 연결 관계 모두 삭제</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WITH</div><div class="kb-diagram-cell">파이프라인: 중간 결과를 다음 절에 전달</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">UNWIND</div><div class="kb-diagram-cell">리스트를 행으로 분해 (explode)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ORDER BY</div><div class="kb-diagram-cell">정렬</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SKIP/LIMIT</div><div class="kb-diagram-cell">페이지네이션</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CALL</div><div class="kb-diagram-cell">프로시저/함수 호출 (GDS 알고리즘 등)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────┐
+│             Cypher 절(Clause) 역할 요약                    │
+├──────────────┬───────────────────────────────────────────┤
+│  MATCH       │ 패턴과 일치하는 노드/관계 찾기 (SELECT)     │
+│  OPTIONAL MATCH │ LEFT JOIN 과 동일, 없으면 null          │
+│  WHERE       │ 필터 조건 (AND/OR/NOT/IN/STARTS WITH)     │
+│  RETURN      │ 결과 반환 (SELECT 절의 컬럼 선택)           │
+│  CREATE      │ 노드/관계 생성                             │
+│  MERGE       │ 없으면 CREATE, 있으면 MATCH (UPSERT)       │
+│  SET         │ 속성 추가/수정                             │
+│  DELETE      │ 노드/관계 삭제                             │
+│  DETACH DELETE│ 노드 + 연결 관계 모두 삭제                 │
+│  WITH        │ 파이프라인: 중간 결과를 다음 절에 전달       │
+│  UNWIND      │ 리스트를 행으로 분해 (explode)              │
+│  ORDER BY    │ 정렬                                      │
+│  SKIP/LIMIT  │ 페이지네이션                               │
+│  CALL        │ 프로시저/함수 호출 (GDS 알고리즘 등)        │
+└──────────────┴───────────────────────────────────────────┘
+```
 
 ### 핵심 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 예시 모음
 
@@ -182,25 +178,23 @@ RETURN recommended.name, cobuyers;
 
 ### [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 포인트
 
+```text
+Cypher 성능 최적화 지침:
 
+1. 시작점을 가장 선택적인 노드로 지정
+   MATCH (:Person {name:"홍길동"})  ← 인덱스 활용
+   NOT: MATCH (p:Person) WHERE p.name = "홍길동"
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Cypher 성능 최적화 지침:</div>
-<div class="kb-diagram-note">1. 시작점을 가장 선택적인 노드로 지정</div>
-<div class="kb-diagram-note">MATCH (:Person {name:"홍길동"}) ← 인덱스 활용</div>
-<div class="kb-diagram-note">NOT: MATCH (p:Person) WHERE p.name = "홍길동"</div>
-<div class="kb-diagram-note">2. 인덱스 생성</div>
-<div class="kb-diagram-note">CREATE INDEX person_name FOR (p:Person) ON (p.name);</div>
-<div class="kb-diagram-note">3. PROFILE로 실행 계획 분석</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">PROFILE MATCH (p:Person)-</div><div class="kb-diagram-node">:KNOWS*1..3</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">(target)</div></div>
-<div class="kb-diagram-note">WHERE p.name = "홍길동" RETURN target</div>
-<div class="kb-diagram-note">4. 가변 길이 탐색 상한 제한</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">:KNOWS*..5</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">상한 없으면 전체 그래프 탐색 위험</div></div>
-</div>
-</div>
+2. 인덱스 생성
+   CREATE INDEX person_name FOR (p:Person) ON (p.name);
 
+3. PROFILE로 실행 계획 분석
+   PROFILE MATCH (p:Person)-[:KNOWS*1..3]->(target)
+   WHERE p.name = "홍길동" RETURN target
 
+4. 가변 길이 탐색 상한 제한
+   [:KNOWS*..5]  ← 상한 없으면 전체 그래프 탐색 위험
+```
 
 📢 **섹션 요약 비유**
 > 추천 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)는 "같은 식당을 자주 찾는 단골들이 다른 어떤 식당을 좋아하는가"를 묻는 것과 같다. [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) DB는 이 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)망을 이미 그려두었기 때문에, 단골 목록을 하나하나 비교하지 않고 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 선을 따라가기만 하면 된다.
@@ -240,23 +234,21 @@ Cypher는 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastruct
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">그래프 데이터베이스 (Graph Database) — 노드/관계 모델</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Cypher 쿼리 언어 (Cypher Query Language) — 패턴 매칭</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">기본 구문 (MATCH/WHERE/RETURN) — 쿼리 핵심 키워드</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">경로 탐색 (Path Traversal) — 최단 경로</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">그래프 쿼리 언어 GQL (Graph Query Language) — ISO 표준화</div></div>
-</div>
-</div>
-
-
+```text
+[그래프 데이터베이스 (Graph Database) — 노드/관계 모델]
+    │
+    ▼
+[Cypher 쿼리 언어 (Cypher Query Language) — 패턴 매칭]
+    │
+    ▼
+[기본 구문 (MATCH/WHERE/RETURN) — 쿼리 핵심 키워드]
+    │
+    ▼
+[경로 탐색 (Path Traversal) — 최단 경로]
+    │
+    ▼
+[그래프 쿼리 언어 GQL (Graph Query Language) — ISO 표준화]
+```
 
 이 흐름은 [그래프 데이터베이스](/knowledge-base/studynote/14_data_engineering/01_infrastructure/039_graph_db/)의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 모델을 Cypher로 표현하고, 기본 구문과 경로 탐색을 거쳐 GQL 표준으로 수렴하는 진화를 보여준다.
 

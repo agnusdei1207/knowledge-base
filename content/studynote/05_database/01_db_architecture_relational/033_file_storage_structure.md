@@ -18,27 +18,21 @@ tags = ["studynote-database"]
 
 ## Ⅰ. [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 저장 계층 구조
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">SQL 쿼리</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">쿼리 처리기 (파서→최적화기→실행기)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">스토리지 엔진</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">버퍼 풀 (Buffer Pool) — 메모리 캐시</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">디스크 I/O 관리자</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">운영체제 파일시스템</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">물리 디스크 (HDD/SSD/NVMe)</div>
-</div>
-</div>
-
-
+```
+SQL 쿼리
+   ↓
+쿼리 처리기 (파서→최적화기→실행기)
+   ↓
+스토리지 엔진
+   ↓
+버퍼 풀 (Buffer Pool) — 메모리 캐시
+   ↓
+디스크 I/O 관리자
+   ↓
+운영체제 파일시스템
+   ↓
+물리 디스크 (HDD/SSD/NVMe)
+```
 
 ### [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 구조 기본 단위
 
@@ -85,17 +79,11 @@ h(key) = 버킷 번호
 
 ### 4. 클러스터 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) (Clustered [File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">관련 테이블 레코드를 같은 페이지에 물리적으로 함께 저장</div>
-<div class="kb-diagram-note">예: 주문 + 주문상세 → 같은 블록에 저장</div>
-<div class="kb-diagram-note">→ JOIN 성능 향상</div>
-</div>
-</div>
-
-
+```
+관련 테이블 레코드를 같은 페이지에 물리적으로 함께 저장
+예: 주문 + 주문상세 → 같은 블록에 저장
+→ JOIN 성능 향상
+```
 
 📢 **섹션 요약 비유**: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 구조 유형은 서랍 정리 방식이다 — 힙은 그냥 던져넣기, 순차는 ABC 순 정리, 해시는 번호칸 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/), 클러스터는 관련 물건 묶어두기.
 
@@ -134,21 +122,15 @@ Salary: [50K, 60K, 55K]
 
 ## Ⅳ. 버퍼 풀 (Buffer Pool) 관리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">쿼리 요청 → 버퍼 풀 검색 (캐시 히트?)</div>
-<div class="kb-diagram-note">↓ 미스 시</div>
-<div class="kb-diagram-note">디스크에서 페이지 로드</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">버퍼 풀에 캐시</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">교체 알고리즘 (LRU/Clock)</div>
-</div>
-</div>
-
-
+```
+쿼리 요청 → 버퍼 풀 검색 (캐시 히트?)
+                    ↓ 미스 시
+              디스크에서 페이지 로드
+                    ↓
+              버퍼 풀에 캐시
+                    ↓
+              교체 알고리즘 (LRU/Clock)
+```
 
 ### 버퍼 풀 효율 지표
 
@@ -166,17 +148,11 @@ Salary: [50K, 60K, 55K]
 
 ### LSM 트리 (Log-Structured Merge Tree)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">쓰기: MemTable (메모리) → WAL → SSTable (디스크)</div>
-<div class="kb-diagram-note">읽기: MemTable → Bloom Filter → SSTable 레벨별 조회</div>
-<div class="kb-diagram-note">컴팩션: 주기적으로 SSTable 병합·정렬</div>
-</div>
-</div>
-
-
+```
+쓰기: MemTable (메모리) → WAL → SSTable (디스크)
+읽기: MemTable → Bloom Filter → SSTable 레벨별 조회
+컴팩션: 주기적으로 SSTable 병합·정렬
+```
 → RocksDB·[Cassandra](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/)·LevelDB·ClickHouse
 
 ### 컬럼 스토어 예시
@@ -194,54 +170,47 @@ Salary: [50K, 60K, 55K]
 
 ## 📌 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">파일 저장 구조 (File Storage Structure)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">파일 구조 유형</div>
-<div class="kb-diagram-note">── 힙 파일 (Heap)</div>
-<div class="kb-diagram-note">── 순차 파일 (Sequential)</div>
-<div class="kb-diagram-note">── 해시 파일 (Hash)</div>
-<div class="kb-diagram-note">── 클러스터 파일 (Clustered)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">저장 모델</div>
-<div class="kb-diagram-note">── 행 지향 (NSM) — OLTP</div>
-<div class="kb-diagram-note">── 열 지향 (DSM) — OLAP</div>
-<div class="kb-diagram-tree-item" style="--depth:0">버퍼 관리</div>
-<div class="kb-diagram-note">── 버퍼 풀 (Buffer Pool)</div>
-<div class="kb-diagram-note">── LRU / Clock 교체 알고리즘</div>
-<div class="kb-diagram-tree-item" style="--depth:0">현대 구조</div>
-<div class="kb-diagram-tree-item" style="--depth:2">LSM 트리 (RocksDB·Cassandra)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Parquet / Apache Arrow (컬럼 포맷)</div>
-</div>
-</div>
-
-
+```
+파일 저장 구조 (File Storage Structure)
+├── 파일 구조 유형
+│   ├── 힙 파일 (Heap)
+│   ├── 순차 파일 (Sequential)
+│   ├── 해시 파일 (Hash)
+│   └── 클러스터 파일 (Clustered)
+├── 저장 모델
+│   ├── 행 지향 (NSM) — OLTP
+│   └── 열 지향 (DSM) — OLAP
+├── 버퍼 관리
+│   ├── 버퍼 풀 (Buffer Pool)
+│   └── LRU / Clock 교체 알고리즘
+└── 현대 구조
+    ├── LSM 트리 (RocksDB·Cassandra)
+    └── Parquet / Apache Arrow (컬럼 포맷)
+```
 
 ---
 
 ## 📈 관련 키워드 및 발전 흐름도
 
+```
+┌─────────────────────────────────────────────────────────────────┐
+│             파일 저장 구조 발전 흐름                             │
+├──────────────┬────────────────────┬─────────────────────────────┤
+│ 1970년대     │ 힙·순차·해시 파일  │ IBM IMS·관계형 DB 초기       │
+│ 1980년대     │ B+-트리 인덱스 표준│ 버퍼 풀·페이지 관리 정착     │
+│ 1990년대     │ OLAP 컬럼 스토어  │ 분석용 별도 저장 구조 등장   │
+│ 2006년       │ Google Bigtable    │ LSM 트리 주류화              │
+│ 2013년       │ Apache Parquet     │ 하둡 컬럼 포맷 표준화        │
+│ 2020년대     │ Apache Arrow·Iceberg│ 인메모리 컬럼, Lakehouse    │
+└──────────────┴────────────────────┴─────────────────────────────┘
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파일 저장 구조 발전 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1970년대</div><div class="kb-diagram-cell">힙·순차·해시 파일</div><div class="kb-diagram-cell">IBM IMS·관계형 DB 초기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1980년대</div><div class="kb-diagram-cell">B+-트리 인덱스 표준</div><div class="kb-diagram-cell">버퍼 풀·페이지 관리 정착</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1990년대</div><div class="kb-diagram-cell">OLAP 컬럼 스토어</div><div class="kb-diagram-cell">분석용 별도 저장 구조 등장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2006년</div><div class="kb-diagram-cell">Google Bigtable</div><div class="kb-diagram-cell">LSM 트리 주류화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2013년</div><div class="kb-diagram-cell">Apache Parquet</div><div class="kb-diagram-cell">하둡 컬럼 포맷 표준화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2020년대</div><div class="kb-diagram-cell">Apache Arrow·Iceberg</div><div class="kb-diagram-cell">인메모리 컬럼, Lakehouse</div></div>
-<div class="kb-diagram-note">핵심 키워드 연결:</div>
-<div class="kb-diagram-note">힙/순차/해시 → B+-트리 인덱스 → 버퍼 풀 최적화</div>
-<div class="kb-diagram-note">무작위 I/O 인덱스 탐색 LRU 페이지 관리</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">행 지향(OLTP) vs 열 지향(OLAP) → Lakehouse 하이브리드</div>
-</div>
-</div>
-
-
+핵심 키워드 연결:
+힙/순차/해시 → B+-트리 인덱스 → 버퍼 풀 최적화
+      ↓               ↓                ↓
+무작위 I/O        인덱스 탐색         LRU 페이지 관리
+      ↓
+행 지향(OLTP) vs 열 지향(OLAP) → Lakehouse 하이브리드
+```
 
 ---
 

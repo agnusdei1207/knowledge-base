@@ -37,25 +37,30 @@ tags = ["studynote-bigdata"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ETL vs ELT 비교</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">【ETL 흐름】</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">소스</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스테이징 서버</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Transform (정제·집계)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DW</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">BI 도구</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">【ELT 흐름】</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">소스</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">레이크하우스 / 클라우드 DW</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Bronze: Raw 적재)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Transform (dbt / Spark SQL)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Silver: 정제 Gold: 집계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">BI / ML 도구</div></div>
-</div>
-</div>
-
-
+```
+┌────────────────────────────────────────────────────────────────┐
+│                   ETL vs ELT 비교                               │
+├────────────────────────────────────────────────────────────────┤
+│                                                                │
+│  【ETL 흐름】                                                   │
+│                                                                │
+│  [소스] ──Extract──▶ [스테이징 서버]                            │
+│                      Transform (정제·집계)                      │
+│                           │                                    │
+│                           └──Load──▶ [DW] ──▶ [BI 도구]        │
+│                                                                │
+│  【ELT 흐름】                                                   │
+│                                                                │
+│  [소스] ──Extract──▶ [레이크하우스 / 클라우드 DW]               │
+│                      (Bronze: Raw 적재)                         │
+│                           │                                    │
+│                    Transform (dbt / Spark SQL)                  │
+│                    Silver: 정제  Gold: 집계                     │
+│                           │                                    │
+│                           └──▶ [BI / ML 도구]                  │
+│                                                                │
+└────────────────────────────────────────────────────────────────┘
+```
 
 <strong>dbt (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">data</a> build tool) 핵심 기능</strong>
 
@@ -165,23 +170,21 @@ ETL에서 ELT로의 패러다임 전환은 클라우드 빅데이터 인프라 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">ETL (Extract-Transform-Load) — 소스에서 추출 후 변환, 타겟 DW에 적재</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 웨어하우스 (DW) — 정제된 구조적 데이터 중앙 저장소, ETL 전제</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ELT (Extract-Load-Transform) — 원시 데이터 먼저 적재, 클라우드 DW에서 변환</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 레이크 (Data Lake) — 원시 데이터 무제한 적재, ELT 패러다임과 친화적</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">레이크하우스 (Lakehouse) — Delta Lake·Iceberg 기반 ELT + ACID 트랜잭션 통합</div></div>
-</div>
-</div>
-
-
+```text
+[ETL (Extract-Transform-Load) — 소스에서 추출 후 변환, 타겟 DW에 적재]
+    │
+    ▼
+[데이터 웨어하우스 (DW) — 정제된 구조적 데이터 중앙 저장소, ETL 전제]
+    │
+    ▼
+[ELT (Extract-Load-Transform) — 원시 데이터 먼저 적재, 클라우드 DW에서 변환]
+    │
+    ▼
+[데이터 레이크 (Data Lake) — 원시 데이터 무제한 적재, ELT 패러다임과 친화적]
+    │
+    ▼
+[레이크하우스 (Lakehouse) — Delta Lake·Iceberg 기반 ELT + ACID 트랜잭션 통합]
+```
 
 이 흐름은 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) DW를 위한 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 패러다임이 클라우드 규모에서 ELT로 전환되고, [데이터 레이크하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/) 아키텍처로 통합·발전하는 과정을 보여준다.
 

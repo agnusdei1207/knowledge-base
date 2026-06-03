@@ -23,20 +23,24 @@ tags = ["computer_architecture"]
 
 이 그림은 고전적인 공유 버스 구조와 현대적인 점대점 상호 연결망의 차이를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Shared Bus vs Point-to-Point Interconnect</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Shared Bus</div><div class="kb-diagram-note">(Legacy)</div><div class="kb-diagram-node">Point-to-Point</div><div class="kb-diagram-note">(Modern)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU</div><div class="kb-diagram-cell">RAM</div><div class="kb-diagram-cell">I/O</div><div class="kb-diagram-cell">CPU</div><div class="kb-diagram-cell">RAM</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Switch / Router</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 경합 발생 시 대기 필요 ◀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 확장성 및 대역폭 제한</div><div class="kb-diagram-cell">I/O</div><div class="kb-diagram-cell">GPU</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│              Shared Bus vs Point-to-Point Interconnect      │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Shared Bus ] (Legacy)         [ Point-to-Point ] (Modern)│
+│   ┌──────┐  ┌──────┐ ┌──────┐     ┌──────┐ ◀───▶ ┌──────┐    │
+│   │ CPU  │  │ RAM  │ │ I/O  │     │ CPU  │       │ RAM  │    │
+│   └──────┘  └──────┘ └──────┘     └──────┘ ◀───┐ └──────┘    │
+│      │         │        │            ▲         │    ▲        │
+│   ───┴─────────┴────────┴───      [ Switch / Router ]        │
+│                                      ▼         │    ▼        │
+│   - 경합 발생 시 대기 필요        ┌──────┐ ◀───┘ ┌──────┐    │
+│   - 확장성 및 대역폭 제한         │ I/O  │       │ GPU  │    │
+│                                   └──────┘ ◀───▶ └──────┘    │
+│                                                              │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '병렬 전송 능력'이다. 공유 버스는 한 번에 한 장치만 쓸 수 있지만, 스위치 기반의 점대점 연결 (예: PCIe, QPI)은 여러 장치가 동시에 데이터를 주고받을 수 있다. 실무에서는 이러한 통로의 폭 (Width)과 속도 (Frequency)가 서버의 전체 처리량을 결정하는 결정적 요인이 된다.
 
@@ -46,7 +50,7 @@ tags = ["computer_architecture"]
 2. **주소 버스**: 데이터가 갈 곳의 주소를 전달하는 선. (폭이 클수록 메모리 용량 확대)
 3. **제어 버스**: 읽기/쓰기 신호, 인터럽트, 버스 사용권 등을 전달하는 선.
 
-📢 **섹션 요약 비유**: 시스템 버스는 '도시의 도로망'과 같습니다. 공유 버스가 왕복 1차로의 좁은 길이라서 차들이 순서를 기다려야 한다면, 상호 연결망은 여러 층으로 겹쳐진 입체 고속도로와 같아서 막힘없이 동시에 달릴 수 있는 것과 같습니다.
+📢 **섹션 요약 비유**: 시스템 버스는 '도시의 도로망'과 같습니다. 공유 버스가 왕복 1차로의 좁은 길이라서 차들이 순서를 기다려야 한다면, 상호 연결망은 여러 층으로 겹쳐진 입체 고속도로와 같아서 병목없이 동시에 달릴 수 있는 것과 같습니다.
 
 ---
 
@@ -71,20 +75,22 @@ tags = ["computer_architecture"]
 
 이 구조도는 멀티 프로세서 환경에서의 코어 간 연결망 (Mesh/Ring Topology)을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Processor Interconnect Topologies</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Ring Topology</div><div class="kb-diagram-node">Mesh Topology</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C1 C2 C1 C2 C3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C4 C3 C4 C5 C6</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 저지연, 소규모 유리 C7 C8 C9</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 홉(Hop) 수 증가 단점 - 확장성 탁월, 경로 다중화</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Processor Interconnect Topologies           │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Ring Topology ]               [ Mesh Topology ]         │
+│                                                             │
+│     C1 ─── C2                       C1 ─── C2 ─── C3        │
+│     │      │                        │      │      │         │
+│     C4 ─── C3                       C4 ─── C5 ─── C6        │
+│                                     │      │      │         │
+│   - 저지연, 소규모 유리             C7 ─── C8 ─── C9        │
+│   - 홉(Hop) 수 증가 단점          - 확장성 탁월, 경로 다중화 │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '확장성과 지연 시간'의 균형이다. 코어 수가 적을 때는 링 구조가 효율적이지만, 수십 개 이상의 코어를 가진 현대 서버 CPU (예: 인텔 제온, AMD 에픽)는 격자 모양의 메쉬 구조를 사용하여 물리적 거리에 따른 성능 편차를 최소화한다.
 
@@ -129,18 +135,21 @@ tags = ["computer_architecture"]
 
 이 도식은 데이터 센터급 연결 기술인 <strong>CXL (Compute Express Link)</strong>의 필요성을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CXL: Memory Pooling and Expansion</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CPU A</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CXL Switch</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">CPU B</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Memory Pool</div><div class="kb-diagram-node">Accelerator Pool</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 혁신: 장치 간 메모리 공유 및 유휴 자원 동적 할당 가능</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│               CXL: Memory Pooling and Expansion             │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ CPU A ] ──▶ [ CXL Switch ] ◀── [ CPU B ]                │
+│                      │                                      │
+│          ┌───────────┴───────────┐                          │
+│          ▼                       ▼                          │
+│   [ Memory Pool ]         [ Accelerator Pool ]              │
+│                                                             │
+│   * 혁신: 장치 간 메모리 공유 및 유휴 자원 동적 할당 가능   │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 기술사의 통신 설계 판단은 '물류 센터의 입지 선정'과 같습니다. 배송 차량(데이터)이 아무리 빨라도 도로(버스)가 좁거나 톨게이트(중재 오버헤드)가 너무 많으면 소용없음을 알고, 최적의 통로를 뚫어주는 전략적 결정이 필요합니다.
 
@@ -172,4 +181,4 @@ tags = ["computer_architecture"]
 ### 👶 어린이를 위한 3줄 비유 설명
 - 시스템 버스는 컴퓨터 부품들이 함께 쓰는 '전용 고속도로'예요.
 - "내 차 먼저 지나갈게!"라고 신호를 보내면(버스 중재), 부품들이 질서를 지켜서 소중한 선물(데이터)을 배달하죠.
-- 도로가 넓고 신호등이 똑똑할수록, 컴퓨터는 막힘없이 쌩쌩 달릴 수 있답니다!
+- 도로가 넓고 신호등이 똑똑할수록, 컴퓨터는 병목없이 쌩쌩 달릴 수 있답니다!

@@ -31,19 +31,21 @@ BFT [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/
 
 BFT [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 보통 제안 수신, 메시지 진위 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/), 정족수 증명 조립, [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 적용의 순서로 진행된다. 최신 계열의 실용적 BFT (Practical Byzantine [Fault Tolerance](/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/), [PBFT](/knowledge-base/studynote/06_ict_convergence/01_blockchain/013_pbft_practical_bft/)) 또는 HotStuff류 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)은 단계 수와 메시지 패턴은 다르지만, 공통적으로 `이 제안이 올바른 부모를 잇는가`, `충분한 수의 정당한 투표가 붙었는가`, `같은 높이에 이중 커밋이 없는가`를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Generic BFT verification pipeline</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Proposal -&gt; verify sender + parent QC -&gt; replicas vote</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">signature check 2f+1 matching votes</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&gt; Quorum Certificate &gt; Commit</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">State apply</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Generic BFT verification pipeline                                 │
+├────────────────────────────────────────────────────────────────────┤
+│ Proposal -> verify sender + parent QC -> replicas vote            │
+│     │                              │                              │
+│     ▼                              ▼                              │
+│ signature check               2f+1 matching votes                 │
+│     │                              │                              │
+│     └──────────────> Quorum Certificate ───────────────> Commit   │
+│                                                            │       │
+│                                                            ▼       │
+│                                                     State apply    │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 대상 | [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 내용 | 빠지면 생기는 문제 |
 | :--- | :--- | :--- |
@@ -122,23 +124,21 @@ BFT [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriente
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Crash fault assumptions</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">PBFT-style authenticated voting</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Quorum certificates and pipelined commits</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Aggregated signatures + hardware crypto assist</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">High-throughput permissioned BFT services</div>
-</div>
-</div>
-
-
+```text
+Crash fault assumptions
+    │
+    ▼
+PBFT-style authenticated voting
+    │
+    ▼
+Quorum certificates and pipelined commits
+    │
+    ▼
+Aggregated signatures + hardware crypto assist
+    │
+    ▼
+High-throughput permissioned BFT services
+```
 
 이 흐름은 `중단만 가정하던 복제`에서 `악성 행위까지 검증하는 고신뢰 합의`로 발전하는 경로를 보여 준다.
 

@@ -11,7 +11,7 @@ tags = ["enterprise_systems"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) II (Extended [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/))는 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) ([Enterprise Resource Planning](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/))를 회사 밖의 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/)과 고객 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)까지 확장한 통합 운영 모델이다.
-> 2. **가치**: [SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) ([Supply Chain](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))과 [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) ([Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) [Relationship](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))을 연결해 내부 실행과 외부 협업을 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름으로 묶는다.
+> 2. **가치**: [SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) ([Supply Chain](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))과 [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) ([C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) [Relationship](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))을 연결해 내부 실행과 외부 협업을 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름으로 묶는다.
 > 3. **판단 포인트**: 패키지 설치보다 중요한 것은 [마스터 데이터](/knowledge-base/studynote/05_database/07_exam_summary/539_mdm_master_data_management/), 프로세스 표준화, 인터페이스 거버넌스다.
 
 ---
@@ -22,16 +22,11 @@ tags = ["enterprise_systems"]
 
 이 확장이 필요한 이유는 주문, 납기, 재고, 고객 요구가 이제 한 회사 내부에서만 결정되지 않기 때문이다. SCM과 CRM이 분리돼 있으면 수요 예측과 생산 계획이 어긋나고, 고객 응대와 실제 재고가 불일치한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Supplier ──► SCM ──► ERP Core ──► CRM ──► Customer</div>
-<div class="kb-diagram-tree-item" style="--depth:8">MDM / Workflow / API</div>
-</div>
-</div>
-
-
+```text
+Supplier ──► SCM ──► ERP Core ──► CRM ──► Customer
+                 ▲         │         │
+                 └──────── MDM / Workflow / API ────────┘
+```
 
 - **📢 섹션 요약 비유**: 가게 안의 장부만 맞는다고 끝이 아니라, 납품처와 손님 기록까지 같아야 진짜 운영이 된다.
 
@@ -45,20 +40,15 @@ tags = ["enterprise_systems"]
 | :--- | :--- | :--- |
 | [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) Core | 회계 / 생산 / 구매의 중심 | 업무 기준 통일 |
 | [SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) ([Supply Chain](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)) | [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 계획과 실행 | 납기와 재고 안정 |
-| [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) ([Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) [Relationship](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)) | 고객 접점과 판매 관리 | 수요와 응대 개선 |
+| [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) ([C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) [Relationship](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)) | 고객 접점과 판매 관리 | 수요와 응대 개선 |
 | [MDM](/knowledge-base/studynote/05_database/07_exam_summary/539_mdm_master_data_management/) | 기준 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통합 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 불일치 감소 |
 | [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) / Portal | 외부 연계 창구 | 협업 범위 확대 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">내부 프로세스 → ERP Core → 외부 프로세스</div>
-<div class="kb-diagram-tree-item" style="--depth:5">표준 데이터와 워크플로우로 연결 ──</div>
-</div>
-</div>
-
-
+```text
+내부 프로세스 → ERP Core → 외부 프로세스
+          │            │            │
+          └── 표준 데이터와 워크플로우로 연결 ──┘
+```
 
 이 구조에서 가장 중요한 것은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 흐르는 방향보다 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 기준이 하나인지다. [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/)과 고객 정보가 여러 시스템에 따로 존재하면 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) II는 이름만 화려한 연결망이 되고, 기준 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 맞아야 비로소 통합이 된다.
 
@@ -122,27 +112,24 @@ tags = ["enterprise_systems"]
 | [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) ([Enterprise Resource Planning](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)) | 내부 자원 통합의 기준 |
 | [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) II | 외부 가치사슬까지 확장한 통합 |
 | [SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) ([Supply Chain](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)) | [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 계획과 실행 |
-| [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) ([Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) [Relationship](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)) | 고객 접점과 판매 관리 |
+| [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) ([C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) [Relationship](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)) | 고객 접점과 판매 관리 |
 | [MDM](/knowledge-base/studynote/05_database/07_exam_summary/539_mdm_master_data_management/) (Master [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)) | 기준 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 유지 |
 | [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) / Portal | 기업 간 연계 창구 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">고객 주문</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CRM</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ERP Core</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SCM → 공급사 협업 → 납품 / 피드백</div>
-</div>
-</div>
-
-
+```text
+고객 주문
+  │
+  ▼
+CRM
+  │
+  ▼
+ERP Core
+  │
+  ▼
+SCM → 공급사 협업 → 납품 / 피드백
+```
 
 흐름의 핵심은 내부 처리와 외부 협업이 같은 기준 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 이어지는 것이다.
 

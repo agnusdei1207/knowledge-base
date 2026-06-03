@@ -43,24 +43,29 @@ tags = ["studynote-enterprise"]
 
 아래 그림은 델파이의 반복 수렴 구조를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Delphi loop: anonymous forecast refinement</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Expert panel selection</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Round 1: initial answers</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Facilitator summary</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- median / spread</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- anonymous reasons</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Round 2..N: revise answers</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&gt; convergence check</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">no &lt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">yes -&gt; consensus output</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Delphi loop: anonymous forecast refinement                          │
+├──────────────────────────────────────────────────────────────────────┤
+│ Expert panel selection                                              │
+│        │                                                             │
+│        ▼                                                             │
+│ Round 1: initial answers                                             │
+│        │                                                             │
+│        ▼                                                             │
+│ Facilitator summary                                                  │
+│   - median / spread                                                  │
+│   - anonymous reasons                                                │
+│        │                                                             │
+│        ▼                                                             │
+│ Round 2..N: revise answers                                           │
+│        │                                                             │
+│        └──────────────> convergence check ───────────────┐          │
+│                                                           │          │
+│                 no  <──────────────────────────────────────┘          │
+│                 yes -> consensus output                               │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조에서 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)자 역할이 매우 중요하다. [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)자는 특정 답을 유도하면 안 되며, 상반된 견해를 공정하게 요약해 다시 전달해야 한다. 델파이의 힘은 전문가의 개별 직위를 제거한 상태에서, 반복 피드백을 통해 극단값을 줄이고 설명력 있는 근거를 남기는 데 있다.
 
@@ -119,23 +124,21 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">High uncertainty problem</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Expert panel design</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Anonymous multi-round survey</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Statistical and narrative feedback</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Consensus forecast and policy roadmap</div>
-</div>
-</div>
-
-
+```text
+High uncertainty problem
+          │
+          ▼
+Expert panel design
+          │
+          ▼
+Anonymous multi-round survey
+          │
+          ▼
+Statistical and narrative feedback
+          │
+          ▼
+Consensus forecast and policy roadmap
+```
 
 이 흐름은 "불확실성 인식 → 전문가 구성 → 익명 반복 → 피드백 정제 → 전망 합의"의 구조를 보여준다.
 

@@ -31,28 +31,30 @@ tags = ["studynote-operating-system"]
   2. **병목 구간의 특정**: 디스크 제조사들이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전송하는 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)(MB/s)은 늘렸지만, 바늘이 움직이는 물리적 시간(ms)은 물리 법칙 때문에 못 줄이고 쩔쩔맴.
   3. **소프트웨어의 멱살 캐리**: 하드웨어가 못 줄이는 [탐색 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/)을 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 엘리베이터식 스케줄링으로 커버해야 하는 필연적 이유가 정립됨.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하드 디스크 접근 시간(Access Time)의 3단계 파이프라인 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">목표: 플래터 안쪽 깊숙이 있는 특정 섹터 데이터 읽기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1단계: 탐색 시간 (Seek Time) - ☠️ 최악의 지연 주범</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기계 팔(Arm)이 바깥쪽에서 안쪽 목표 트랙(Track)으로 이동.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(물리적인 모터 가속, 감속, 위치 잡기 소요) -&gt; 보통 4~10 ms 소요</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2단계: 회전 지연 (Rotational Latency) - 🟡 운에 맡김</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">바늘은 제자리에 있고, 빙글빙글 도는 원판(Platter)에서 목표 데이터가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">바늘 바로 밑까지 돌아올 때까지 멍때리며 대기.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(재수 좋으면 바로, 나쁘면 1바퀴 돎) -&gt; 7200RPM 기준 평균 4 ms 소요</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 3단계: 전송 시간 (Transfer Time) - 🚀 빛의 속도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">바늘 밑을 지나가는 자성 데이터(0,1)를 쫙 빨아들여 램으로 쏴줌.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(단순 전기 신호 전송) -&gt; 보통 0.1 ms 미만 컷.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 디스크 총 접근 시간 = Seek(8) + Latency(4) + Transfer(0.1)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">= 약 12 밀리초 (ms)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│        하드 디스크 접근 시간(Access Time)의 3단계 파이프라인 시각화     │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│ [ 목표: 플래터 안쪽 깊숙이 있는 특정 섹터 데이터 읽기 ]                 │
+│                                                                         │
+│ ▶ 1단계: 탐색 시간 (Seek Time) - ☠️ 최악의 지연 주범                    │
+│   기계 팔(Arm)이 바깥쪽에서 안쪽 목표 트랙(Track)으로 이동.             │
+│   (물리적인 모터 가속, 감속, 위치 잡기 소요) -> 보통 4~10 ms 소요       │
+│                                                                         │
+│ ▶ 2단계: 회전 지연 (Rotational Latency) - 🟡 운에 맡김                  │
+│   바늘은 제자리에 있고, 빙글빙글 도는 원판(Platter)에서 목표 데이터가   │
+│   바늘 바로 밑까지 돌아올 때까지 멍때리며 대기.                         │
+│   (재수 좋으면 바로, 나쁘면 1바퀴 돎) -> 7200RPM 기준 평균 4 ms 소요    │
+│                                                                         │
+│ ▶ 3단계: 전송 시간 (Transfer Time) - 🚀 빛의 속도                       │
+│   바늘 밑을 지나가는 자성 데이터(0,1)를 쫙 빨아들여 램으로 쏴줌.        │
+│   (단순 전기 신호 전송) -> 보통 0.1 ms 미만 컷.                         │
+│                                                                         │
+│ ✅ 디스크 총 접근 시간 = Seek(8) + Latency(4) + Transfer(0.1)           │
+│                       = 약 12 밀리초 (ms)                               │
+└─────────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 이 공식을 뚫어지게 보면 깨닫게 된다. "[전송 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/326_transfer_time/)(MB/s)"은 사실 속도에 아무런 영향을 주지 못한다. 진짜 범인은 쇳덩어리가 움직이는 <strong>Seek Time</strong>이다. 내가 1바이트를 읽든 1MB를 읽든, 저 덜그럭거리는 바늘 이동 시간(8ms)은 무조건 고정세금으로 빠져나간다. 그래서 디스크는 자잘한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 만 개(랜덤 액세스) 복사하면 죽어나가고, 10GB짜리 영화 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 1개(순차 접근)를 복사하면 바늘을 안 움직이고 쭉 빨아들이니 로켓처럼 빠른 것이다.
 
 - **📢 섹션 요약 비유**: 짜장면 배달을 시켰을 때, 철가방에서 짜장면을 꺼내 내 책상에 올려주는 시간([전송 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/326_transfer_time/))은 1초면 됩니다. 하지만 중국집에서 우리 집까지 오토바이를 타고 오는 시간([탐색 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/))과, 하필 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등에 걸려 파란불이 될 때까지 멍하니 서 있는 시간([회전 지연](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/325_rotational_latency/))이 30분이나 잡아먹는 것이 배달(I/O)의 서글픈 현실입니다.
@@ -112,17 +114,14 @@ tags = ["studynote-operating-system"]
 - <strong><a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/326_transfer_time/">전송 시간</a> (<a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/326_transfer_time/">Transfer Time</a>) = 0.01 ms</strong> (전기 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)로 플래시 셀 다이렉트 샷)
 - **결론**: SSD는 악마 같은 앞의 두 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(기계적 렉)을 트랜지스터의 힘으로 0으로 지워버렸다. 덕분에 랜덤 액세스(Random I/O) 속도가 하드디스크 대비 무려 **10만 배** 폭등하며, OS의 I/O [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)(엘리베이터) 따위는 휴지통에 처박아도 될 정도의 폭력적인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 혁명을 일으켰다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">저장 장치</div><div class="kb-diagram-cell">탐색(Seek)</div><div class="kb-diagram-cell">회전(Rotate)</div><div class="kb-diagram-cell">전송(Transfer)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">낡은 HDD</div><div class="kb-diagram-cell">☠️ 8.0 ms</div><div class="kb-diagram-cell">☠️ 4.0 ms</div><div class="kb-diagram-cell">🚀 0.1 ms</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최신 SSD</div><div class="kb-diagram-cell">🚀 0.0 ms</div><div class="kb-diagram-cell">🚀 0.0 ms</div><div class="kb-diagram-cell">🚀 0.01 ms</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬───────────────────┐
+│ 저장 장치  │ 탐색(Seek) │ 회전(Rotate)│ 전송(Transfer) │
+├──────────┼────────────┼────────────┼───────────────────┤
+│ 낡은 HDD │ ☠️ 8.0 ms  │ ☠️ 4.0 ms   │ 🚀 0.1 ms        │
+│ 최신 SSD │ 🚀 0.0 ms  │ 🚀 0.0 ms   │ 🚀 0.01 ms       │
+└──────────┴────────────┴────────────┴───────────────────┘
+```
 **[매트릭스 해설]** SSD의 발명은 인류 컴퓨터 역사상 RAM 다음으로 가장 위대한 도약이다. 저 매트릭스를 보면 [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) 시절 OS 개발자들이 `Seek Time` 1ms를 줄여보겠다고 수만 줄의 스케줄링 큐 코드를 짜며 밤을 새운 것이 허무해질 정도다. 기술의 진보는 소프트웨어의 삽질을 하드웨어의 힘으로 눌러버리는 과정이다.
 
 - **📢 섹션 요약 비유**: HDD는 사다리차(Seek)를 타고 10층 창문으로 올라가서, 빙글빙글 도는 식탁(Rotate)의 음식을 집어오는 서커스입니다. SSD는 그냥 각 방마다 마법의 텔레포트 구멍(전기 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))이 뚫려있어서, 100층이든 1층이든 손만 뻗으면 0초 만에 음식을 꺼내오는 마법입니다.
@@ -180,19 +179,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">논리적 블록 주소 (LBA, Logical Block Address)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">디스크 접근 시간 = 탐색 시간(Seek Time) + 회전 지연(Rotational Latency) + 전송 시간(Transfer Time)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">디스크 스케줄링 (Disk Scheduling) 목적</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">FCFS (First-Come, First-Served) 스케줄링</div></div>
-</div>
-</div>
-
-
+```text
+[논리적 블록 주소 (LBA, Logical Block Address)]
+    │
+    ▼
+[디스크 접근 시간 = 탐색 시간(Seek Time) + 회전 지연(Rotational Latency) + 전송 시간(Transfer Time)]
+    │
+    ├──▶ [디스크 스케줄링 (Disk Scheduling) 목적]
+    └──▶ [FCFS (First-Come, First-Served) 스케줄링]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

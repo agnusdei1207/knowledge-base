@@ -39,18 +39,14 @@ tags = ["studynote-network"]
 이런 동종 장비 간에 다이렉트 케이블을 쓰면 송신은 송신끼리, 수신은 수신끼리 맞물려 먹통이 됩니다. 
 따라서 이런 경우에는 케이블의 한쪽 끝을 인위적으로 꼬아서 만든 <strong>크로스오버 케이블 (Crossover Cable)</strong>을 사용하여 외부에서 물리적으로 Tx와 Rx를 엇갈리게 만들어 주어야 합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">40GbE / 100GbE / 400GbE…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MDI/MDI-X</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Auto-MDIX</div></div>
-</div>
-</div>
-
-
+```text
+[40GbE / 100GbE / 400GbE…]
+    │
+    ▼
+[MDI/MDI-X]
+    │
+    └──▶ [Auto-MDIX]
+```
 
 - **📢 섹션 요약 비유**: <strong> MDI는 입(Tx)이 위에 있고 귀(Rx)가 아래에 있는 사람이고, MDI-X는 귀(Rx)가 위에 있고 입(Tx)이 아래에 있는 외계인입니다. </strong>사람과 외계인이 마주 보면(다이렉트 케이블) 서로의 입과 귀가 정확히 맞닿아 대화가 잘 통합니다.** 하지만 사람끼리 마주 보면 입은 입끼리 닿아 대화가 안 되므로, 파이프를 크로스(크로스 케이블)로 꼬아서 연결해 주어야 합니다.
 
@@ -63,17 +59,11 @@ tags = ["studynote-network"]
 이를 해결하기 위해 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)나 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) 같은 중계 장비는 제조할 때부터 아예 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 내부 선을 꼬아놓은 <strong>MDI-X</strong>로 만듭니다. 
 이렇게 하면 일반적인 <strong>다이렉트 케이블</strong>로 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)(MDI)와 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(MDI-X)를 연결했을 때, PC의 송신(1,2번)이 자연스럽게 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 수신(1,2번)으로 쏙 들어가게 되어 완벽한 통로가 형성됩니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">PC (MDI 포트)</div><div class="kb-diagram-node">스위치 (MDI-X 포트)</div></div>
-<div class="kb-diagram-note">1,2번 핀 (송신 Tx) ──(다이렉트)──▶ 1,2번 핀 (수신 Rx)</div>
-<div class="kb-diagram-note">3,6번 핀 (수신 Rx) ◀──(다이렉트)── 3,6번 핀 (송신 Tx)</div>
-</div>
-</div>
-
-
+```text
+[ PC (MDI 포트) ]                 [ 스위치 (MDI-X 포트) ]
+ 1,2번 핀 (송신 Tx) ──(다이렉트)──▶ 1,2번 핀 (수신 Rx)
+ 3,6번 핀 (수신 Rx) ◀──(다이렉트)── 3,6번 핀 (송신 Tx)
+```
 
 - **📢 섹션 요약 비유**: MDI/MDI-X의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -131,19 +121,15 @@ MDI/MDI-X는 물리 계층과 전송 [매체](/knowledge-base/studynote/03_netwo
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 40GbE / 100GbE / 400GbE…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: MDI/MDI-X</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: Auto-MDIX</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고속 광전송 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 40GbE / 100GbE / 400GbE…]
+    │
+    ▼
+[현재 개념: MDI/MDI-X]
+    │
+    ├──▶ [확장 A: Auto-MDIX]
+    └──▶ [확장 B: 고속 광전송 최적화]
+```
 
 MDI/MDI-X는 40GbE / 100GbE / 400GbE…에서 출발해 현재 메커니즘을 정교화하고, 이후 Auto-MDIX와 고속 광전송 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

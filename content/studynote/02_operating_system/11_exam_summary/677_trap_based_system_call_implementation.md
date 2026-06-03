@@ -47,33 +47,35 @@ tags = ["studynote-operating-system"]
 
 과거 x86 리눅스의 전통적인 `int 0x80` 기반 시스템 콜 호출 과정을 단계별로 분해해 본다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">트랩(Trap) 기반 시스템 콜 (int 0x80) 동작 원리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">User Space (Ring 3)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 개발자가 C언어로 <code>write(fd, buf, size);</code> 함수 호출</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. C 라이브러리(glibc)가 이를 어셈블리로 변환:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- mov eax, 4 // EAX 레지스터에 시스템 콜 번호 (4 = sys_write) 넣음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- mov ebx, fd // 첫 번째 인자 세팅</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- mov ecx, buf // 두 번째 인자 세팅</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. <code>int 0x80</code> 명령어 실행! (Trap 발생)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Hardware (CPU의 권한 상승)</div><div class="kb-diagram-connector">▼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. CPU가 IDT(인터럽트 벡터 테이블)의 0x80(128번) 엔트리를 찾음.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. CPU의 권한을 Ring 3 -&gt; Ring 0 로 하드웨어적으로 격상(Escalation).</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6. 현재 User 스택 포인터를 멈추고 Kernel 스택으로 전환.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Kernel Space (Ring 0)</div><div class="kb-diagram-connector">▼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">7. 커널의 <code>system_call()</code> 핸들러 진입 (C언어 진입점).</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">8. EAX 레지스터 값(4)을 꺼내서</div><div class="kb-diagram-node">시스템 콜 테이블(sys_call_table)</div><div class="kb-diagram-note">조회.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- sys_call_table</div><div class="kb-diagram-node">4</div><div class="kb-diagram-note">= sys_write 함수 주소</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">9. <code>sys_write(fd, buf, size)</code> 실제 실행!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">10. 실행이 끝나면 <code>iret</code> (Interrupt Return) 명령어로 결과(EAX) 반환 및</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">권한을 다시 Ring 3로 강등시킴.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 트랩(Trap) 기반 시스템 콜 (int 0x80) 동작 원리          │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │  [User Space (Ring 3)]                                            │
+  │   1. 개발자가 C언어로 `write(fd, buf, size);` 함수 호출                  │
+  │   2. C 라이브러리(glibc)가 이를 어셈블리로 변환:                            │
+  │      - mov eax, 4    // EAX 레지스터에 시스템 콜 번호 (4 = sys_write) 넣음│
+  │      - mov ebx, fd   // 첫 번째 인자 세팅                                │
+  │      - mov ecx, buf  // 두 번째 인자 세팅                                │
+  │   3. `int 0x80` 명령어 실행! (Trap 발생) ───┐                        │
+  │                                           │                       │
+  │  =========================================│=======================│
+  │  [Hardware (CPU의 권한 상승)]              ▼                       │
+  │   4. CPU가 IDT(인터럽트 벡터 테이블)의 0x80(128번) 엔트리를 찾음.          │
+  │   5. CPU의 권한을 Ring 3 -> Ring 0 로 하드웨어적으로 격상(Escalation). │
+  │   6. 현재 User 스택 포인터를 멈추고 Kernel 스택으로 전환.                  │
+  │                                           │                       │
+  │  =========================================│=======================│
+  │  [Kernel Space (Ring 0)]                  ▼                       │
+  │   7. 커널의 `system_call()` 핸들러 진입 (C언어 진입점).                  │
+  │   8. EAX 레지스터 값(4)을 꺼내서 [시스템 콜 테이블(sys_call_table)] 조회. │
+  │      - sys_call_table[4] = sys_write 함수 주소                      │
+  │   9. `sys_write(fd, buf, size)` 실제 실행!                          │
+  │  10. 실행이 끝나면 `iret` (Interrupt Return) 명령어로 결과(EAX) 반환 및  │
+  │      권한을 다시 Ring 3로 강등시킴.                                    │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 과정의 핵심은 <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/">레지스터</a>(<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/">Register</a>)</strong>다. 유저 공간과 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공간은 서로 메모리를 직접 주고받을 수 없기 때문에, 철저하게 CPU 내부의 '[레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)(EAX, EBX 등)'라는 중립 지대 사물함을 통해 "무슨 함수를 부를지(시스템 콜 번호)"와 "어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓸지(인자)"를 전달한다. `int 0x80`이라는 소프트웨어 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)는 CPU에게 "지금부터 내가 사물함에 넣어둔 요청서를 읽어라!"라고 찌르는 강제 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) 역할을 한다.
 
@@ -129,25 +131,28 @@ tags = ["studynote-operating-system"]
 
 ### 의사결정 및 튜닝 플로우
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시스템 콜(트랩) 오버헤드 감소 아키텍처 튜닝 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">서버 성능 모니터링 중 %sys(커널 시간)가 %user(유저 시간)를 압도함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">strace 명령어로 분석 시, 엄청나게 작은 크기의 read/write가 남발되는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Application Buffer Size 증가 튜닝</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(10바이트씩 10번 부르지 말고, 100바이트 1번 부르게 수정)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 (대용량 파일 전송이나 대량 네트워크 소켓 통신이다)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용 중인 I/O 모델이 여전히 동기식(Blocking) I/O인가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Zero-Copy 및 I/O 다중화 프레임워크 전환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(sendfile, epoll, kqueue 등을 사용하여 시스템 콜 횟수</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자체를 기하급수적으로 감소시킴)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ──▶ 최신 커널의 <code>io_uring</code> 백엔드 전면 도입 검토</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 시스템 콜(트랩) 오버헤드 감소 아키텍처 튜닝 플로우          │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [서버 성능 모니터링 중 %sys(커널 시간)가 %user(유저 시간)를 압도함]           │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      strace 명령어로 분석 시, 엄청나게 작은 크기의 read/write가 남발되는가?│
+  │          ├─ 예 ─────▶ [Application Buffer Size 증가 튜닝]            │
+  │          │            (10바이트씩 10번 부르지 말고, 100바이트 1번 부르게 수정)│
+  │          └─ 아니오 (대용량 파일 전송이나 대량 네트워크 소켓 통신이다)       │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      사용 중인 I/O 모델이 여전히 동기식(Blocking) I/O인가?                │
+  │          ├─ 예 ─────▶ [Zero-Copy 및 I/O 다중화 프레임워크 전환]       │
+  │          │            (sendfile, epoll, kqueue 등을 사용하여 시스템 콜 횟수│
+  │          │             자체를 기하급수적으로 감소시킴)                  │
+  │          │                                                        │
+  │          └─ 아니오 ──▶ 최신 커널의 `io_uring` 백엔드 전면 도입 검토        │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 초보 개발자는 CPU 코어가 100%를 치면 "로직이 무거운가?"하고 알고리즘만 뒤진다. 하지만 실제 상용 서버에서는 `top` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 쳤을 때 `%us` (유저 로직)보다 `%sy` (시스템 콜 처리 시간)가 비정상적으로 높은 경우가 허다하다. 시스템 콜은 '[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)로 가는 비싼 톨게이트'다. 톨게이트 비용(트랩 오버헤드)을 줄이려면, 한 번 통과할 때 최대한 많은 짐(Buffer)을 싣고 가거나, 정기권을 끊어주는 `io_uring` 같은 차세대 터널을 파야 한다.
 
@@ -190,19 +195,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">인터럽트 벡터 테이블 구조화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">트랩 (Trap) 기반 시스템 콜 구현</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">커널 모드 진입 메커니즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">시스템 콜 API 래퍼</div></div>
-</div>
-</div>
-
-
+```text
+[인터럽트 벡터 테이블 구조화]
+    │
+    ▼
+[트랩 (Trap) 기반 시스템 콜 구현]
+    │
+    ├──▶ [커널 모드 진입 메커니즘]
+    └──▶ [시스템 콜 API 래퍼]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

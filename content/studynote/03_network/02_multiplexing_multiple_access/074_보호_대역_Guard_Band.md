@@ -99,37 +99,25 @@ Guard Band는 통신 안정성을 높인다.
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Channel A</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Guard Band</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Channel B</div>
-</div>
-</div>
-
-
+```text
+Channel A
+  ↓
+Guard Band
+  ↓
+Channel B
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">FDM</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Guard Band</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Interference Reduction</div>
-</div>
-</div>
-
-
+```text
+FDM
+  ↓
+Guard Band
+  ↓
+Interference Reduction
+```
 
 ---
 

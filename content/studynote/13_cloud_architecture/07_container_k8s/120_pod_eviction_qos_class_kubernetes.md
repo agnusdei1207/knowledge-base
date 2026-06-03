@@ -18,22 +18,22 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">QoS Class 결정 규칙</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Guaranteed</div><div class="kb-diagram-note">requests == limits (CPU + Memory 모두)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 최우선 보호, Eviction 가장 마지막</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Burstable</div><div class="kb-diagram-note">requests &lt; limits (일부만 설정도 포함)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 중간 우선순위</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">BestEffort</div><div class="kb-diagram-note">requests·limits 없음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 최저 우선순위, Eviction 1순위</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Eviction 순서: BestEffort → Burstable → Guaranteed</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    QoS Class 결정 규칙                                │
+├───────────────────────────────────────────────────────┤
+│  [Guaranteed] requests == limits (CPU + Memory 모두)  │
+│   → 최우선 보호, Eviction 가장 마지막               │
+│                                                       │
+│  [Burstable] requests < limits (일부만 설정도 포함)   │
+│   → 중간 우선순위                                     │
+│                                                       │
+│  [BestEffort] requests·limits 없음                    │
+│   → 최저 우선순위, Eviction 1순위                    │
+│                                                       │
+│  Eviction 순서: BestEffort → Burstable → Guaranteed  │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) Class는 비행기 좌석 등급이다. 1등석(Guaranteed)은 오버부킹 시에도 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)되고, 이코노미(BestEffort)부터 내려야 한다.
 
@@ -108,23 +108,21 @@ resources:
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">K8s 초기 (리소스 미설정, OOMKill 빈발)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">QoS Class 도입 (2016~) — 3등급 Eviction 우선순위</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LimitRange/ResourceQuota (네임스페이스 관리)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">VPA (2019~) — requests/limits 자동 조정</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: Karpenter — 노드 자체를 자동 스케일링</div></div>
-</div>
-</div>
-
-
+```text
+[K8s 초기 (리소스 미설정, OOMKill 빈발)]
+    │
+    ▼
+[QoS Class 도입 (2016~) — 3등급 Eviction 우선순위]
+    │
+    ▼
+[LimitRange/ResourceQuota (네임스페이스 관리)]
+    │
+    ▼
+[VPA (2019~) — requests/limits 자동 조정]
+    │
+    ▼
+[현재: Karpenter — 노드 자체를 자동 스케일링]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) Class는 비행기 좌석 등급이에요. <strong>1등석(Guaranteed)</strong>은 가장 안전해요.

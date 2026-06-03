@@ -26,17 +26,14 @@ tags = ["studynote-ai"]
 이 거대한 감각의 절벽을 부순 빅뱅이 바로 <strong><a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/158_multimodal_clip_vision_audio_encoding/">멀티모달</a> (<a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/158_multimodal_clip_vision_audio_encoding/">Multimodal</a>) <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a></strong>의 탄생이다. 
 "아니, 사진 픽셀이든 음성 파동이든 어차피 컴퓨터 입장에선 결국 숫자(Tensor) 조각이잖아? 둘 다 16x16 조각으로 깍두기 썰듯 썰어버려서(Patches), 하나의 [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 용광로 신경망에 텍스트랑 같이 왕창 때려 넣고 한꺼번에 버무려보자!" 이 미친 통합의 발상이 <strong>OpenAI의 <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/">GPT</a>-4o, 구글의 Gemini, 비디오 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> Sora</strong> 같은 세상을 지배하는 융합 괴수([파운데이션 모델](/knowledge-base/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/))들을 세상에 쏟아낸 원천 동력이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 옛날 AI는 완벽한 분업화 공장이었다. 시각 장애인인 천재 작가(텍스트 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))와 벙어리인 천재 화가(이미지 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))가 다른 방에 갇혀있었다. 그림을 그려달라고 하면 쪽지를 주고받으며 힘들게 일해야 했다. [멀티모달](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/158_multimodal_clip_vision_audio_encoding/) AI는 이 둘의 뇌 신경을 외과 수술로 완벽하게 연결해 버린 '궁극의 초인'이다. 한 사람의 몸으로 그림을 보면서 즉시 동시에 아름다운 소설을 읊어내는 진정한 인간 흉내 내기의 완성이다.
 
@@ -46,27 +43,26 @@ tags = ["studynote-ai"]
 
 [멀티모달](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/158_multimodal_clip_vision_audio_encoding/) AI의 뼈대는 결국 물과 기름(이미지와 텍스트)을 한 그릇에 섞이게 만드는 마법의 유화제, <strong>공동 <a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/">임베딩</a> 공간 (Joint <a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/">Embedding</a> Space)</strong>과 <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/">트랜스포머</a>(<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/">Transformer</a>)</strong> 아키텍처다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">멀티모달 AI의 감각 융합 (Cross-Attention) 트랜스포머 도해</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 이기종 감각의 깍두기 썰기 (Tokenization &amp; Patching)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">0.1, 0.4</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">0.2, 0.5</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 목표: "글자와 사진을 컴퓨터가 똑같이 알아먹는 '통일 규격 텐서 블록'으로 맞춤!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 공동 임베딩 융합 용광로 (CLIP / Joint Embedding)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 글자 "빨간 우산"의 벡터와, 사진 조각의 벡터를 3차원 수학 공간에 던짐.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* "야! 이 글자랑 이 사진은 의미가 똑같은 거니까 찰싹 붙어(거리를 0으로 좁혀)!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 결과: 이미지와 텍스트가 똑같은 뜻을 갖는 하나의 융합 공간 좌표로 짬뽕됨.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3. 크로스 어텐션 (Cross-Attention) 출력</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 거대 트랜스포머(LLM) 뇌가 이 융합된 텐서를 통째로 집어삼킴.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 사용자가 사진을 올리면 ─▶ 뇌가 사진의 픽셀 조각 텐서를 보고 ─▶ 그 옆에</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">붙어있던 '글자 단어'들을 본능적으로 끌어와서 대답("빨간 우산이네!") 생성.</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           멀티모달 AI의 감각 융합 (Cross-Attention) 트랜스포머 도해      │
+├──────────────────────────────────────────────────────────────┤
+│  [1. 이기종 감각의 깍두기 썰기 (Tokenization & Patching)]          │
+│   * 텍스트: "빨간 우산" ─▶ 토큰 쪼개기 ─▶ 숫자 배열 [0.1, 0.4]       │
+│   * 이미지: (빨간 우산 사진) ─▶ 16x16 픽셀 조각 ─▶ 숫자 배열 [0.2, 0.5]│
+│   * 목표: "글자와 사진을 컴퓨터가 똑같이 알아먹는 '통일 규격 텐서 블록'으로 맞춤!"│
+│                                                              │
+│  [2. 공동 임베딩 융합 용광로 (CLIP / Joint Embedding)]            │
+│   * 글자 "빨간 우산"의 벡터와, 사진 조각의 벡터를 3차원 수학 공간에 던짐. │
+│   * "야! 이 글자랑 이 사진은 의미가 똑같은 거니까 찰싹 붙어(거리를 0으로 좁혀)!"│
+│   * 결과: 이미지와 텍스트가 똑같은 뜻을 갖는 하나의 융합 공간 좌표로 짬뽕됨. │
+│                                                              │
+│  [3. 크로스 어텐션 (Cross-Attention) 출력]                      │
+│   * 거대 트랜스포머(LLM) 뇌가 이 융합된 텐서를 통째로 집어삼킴.           │
+│   * 사용자가 사진을 올리면 ─▶ 뇌가 사진의 픽셀 조각 텐서를 보고 ─▶ 그 옆에   │
+│     붙어있던 '글자 단어'들을 본능적으로 끌어와서 대답("빨간 우산이네!") 생성.  │
+└──────────────────────────────────────────────────────────────┘
+```
 
 **핵심 원리 (CLIP과 Cross-Attention 매핑)**:
 오픈AI가 발표한 <strong><a href="/knowledge-base/studynote/10_ai/05_data_science_ml/408_clip/">CLIP</a> (Contrastive Language-Image Pretraining)</strong> 모델이 이 세계를 통일했다. CLIP은 인터넷에 굴러다니는 4억 장의 (사진-설명 텍스트) 캡션 쌍을 다 긁어모아, 사진 벡터와 글자 벡터 사이의 거리를 수학적으로 계산한다. 서로 짝이 맞는 놈은 자석의 N극과 S극처럼 딱 붙여(거리 0)버리고, 틀린 놈은 반대로 밀어내게 훈련시킨다(Contrastive [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) 대조 학습). 이렇게 텍스트와 이미지의 뇌파가 완벽히 하나로 엮인 거대한 은하계([임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 공간)가 구축되자, 이후의 거대 언어 모델([GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-4)들은 그냥 눈만 뜨면 사진 속 의미를 글자처럼 술술 텍스트로 읽어 내리는 기적의 초능력(Vision-Language)을 발휘하게 된 것이다.

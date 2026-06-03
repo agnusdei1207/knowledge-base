@@ -29,18 +29,13 @@ KDD와 CRISP-DM은 이 흐름을 표준화해 주는 지도다. 분석가가 산
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
+```text
+KDD
+선택 -> 전처리 -> 변환 -> 마이닝 -> 해석/평가
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">KDD</div>
-<div class="kb-diagram-note">선택 -&gt; 전처리 -&gt; 변환 -&gt; 마이닝 -&gt; 해석/평가</div>
-<div class="kb-diagram-note">CRISP-DM</div>
-<div class="kb-diagram-note">비즈니스 이해 -&gt; 데이터 이해 -&gt; 데이터 준비 -&gt; 모델링 -&gt; 평가 -&gt; 배포</div>
-</div>
-</div>
-
-
+CRISP-DM
+비즈니스 이해 -> 데이터 이해 -> 데이터 준비 -> 모델링 -> 평가 -> 배포
+```
 
 | [KDD](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/225_kdd_t_test_anova_statistical_analysis/) | 의미 |
 | :-- | :-- |
@@ -74,23 +69,17 @@ KDD는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rela
 | 약점 | 운영/배포 약함 | 학문적 엄밀성은 덜 강조 |
 | 공통점 | 프로세스 중심 | 프로세스 중심 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Data Swamp</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">정제 / 변환</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">모델링</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">평가</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">비즈니스 가치</div>
-</div>
-</div>
-
-
+```text
+Data Swamp
+   ↓
+정제 / 변환
+   ↓
+모델링
+   ↓
+평가
+   ↓
+비즈니스 가치
+```
 
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 마이닝은 "좋은 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 찾기"보다 "문제를 올바르게 정의하고, 결과를 실제 업무에 연결하는 것"이 더 중요하다.
 
@@ -133,45 +122,33 @@ KDD와 CRISP-DM은 [데이터](/knowledge-base/studynote/05_database/01_db_archi
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Business Problem</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">KDD / CRISP-DM</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Data Preparation</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Modeling / Evaluation</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Deployment</div>
-</div>
-</div>
-
-
+```text
+Business Problem
+   ↓
+KDD / CRISP-DM
+   ↓
+Data Preparation
+   ↓
+Modeling / Evaluation
+   ↓
+Deployment
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">데이터 정제</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">KDD</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">CRISP-DM</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">모델링</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">배포 / 모니터링</div>
-</div>
-</div>
-
-
+```text
+데이터 정제
+   ↓
+KDD
+   ↓
+CRISP-DM
+   ↓
+모델링
+   ↓
+배포 / 모니터링
+```
 
 ---
 

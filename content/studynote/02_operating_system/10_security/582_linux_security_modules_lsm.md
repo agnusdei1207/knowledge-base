@@ -26,10 +26,10 @@ tags = ["studynote-operating-system"]
 ```c
 // 과거 구현 예시
 int sys_open(const char *filename, int flags) {
-// 보안검사(검사)를 직접 구현
-if (!check_security_policy(filename))
-return -EACCES;
-// ...
+    // 보안检查(검사)를 직접 구현
+    if (!check_security_policy(filename))
+        return -EACCES;
+    // ...
 }
 ```
 
@@ -45,9 +45,9 @@ LSM은 <strong>"훅(Hook)"</strong>을 통해 보안 검사를위한 인터페�
 ```c
 // LSM 훅을 통한 보안 검사
 int security_inode_permission(struct inode *inode, int mask) {
-if (security_ops && security_ops->inode_permission)
-return security_ops->inode_permission(inode, mask);
-return 0;
+    if (security_ops && security_ops->inode_permission)
+        return security_ops->inode_permission(inode, mask);
+    return 0;
 }
 ```
 
@@ -76,19 +76,14 @@ LSM은 약 <strong>150개 이상의 훅</strong>을 제공한다:
 | **Smack** | [NSA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/766_nsa_non_standalone_5g_lte_core/) | 단순화된 라벨 기반 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) |
 | **Tomoyo** | NTT | 경로 기반 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/), 관리 용이 |
 
-### 2.3 SELinux와의
+### 2.3 SELinux와의관계
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SELinux 구조</div></div>
-<div class="kb-diagram-note">커널 &lt;-- LSM Hooks --&gt; SELinux Module</div>
-<div class="kb-diagram-note">+-- security_ops 포인터가 selinux_ops를 가리킴</div>
-</div>
-</div>
-
-
+```text
+[ SELinux 구조 ]
+커널 <-- LSM Hooks --> SELinux Module
+                    |
+                    +-- security_ops 포인터가 selinux_ops를 가리킴
+```
 
 SELinux는 LSM의 <strong>기본 구현(security_ops)</strong>으로 등록되어 있다.
 
@@ -98,21 +93,21 @@ SELinux는 LSM의 <strong>기본 구현(security_ops)</strong>으로 등록되�
 
 ```text
 [ 파일 접근 요청 ]
-|
-v
-[ DAC 검사 ( 리눅스 권한 검사) ]
-- owner/group/others 확인
-- rwx 비트 검사
-|
-v
+    |
+    v
+[ DAC 검사 (传统的 리눅스 권한 검사) ]
+    - owner/group/others 확인
+    - rwx 비트 검사
+    |
+    v
 [ LSM Hook 호출 ]
-|
-v
+    |
+    v
 [ 보안 모듈 (SELinux/AppArmor) ]
-- 보안 정책 확인
-- 접근 허용/거부 결정
-|
-v
+    - 보안 정책 확인
+    - 접근 허용/거부 결정
+    |
+    v
 [ 결과 반환 ]
 ```
 
@@ -121,7 +116,7 @@ v
 | 모드 | 설명 |
 |:---|:---|
 | **Enforcing** | [보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/) 위반 시 접근 거부 |
-| **Permissive** | 위반 시로그([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))만 기록, 접근은 허용 |
+| **Permissive** | 위반 시ログ([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))만 기록, 접근은 허용 |
 
 - **📢 섹션 요약 비유**: 공장 컨베이어벨트가 어떤 순서로 부품을 받아 가공하고 내보내는지 설계도를 펼쳐 보는 것과 같다.
 
@@ -169,19 +164,15 @@ v
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">비바 모델 (Biba Model)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">리눅스 보안 모듈 (LSM, Linux Security Modules)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SELinux</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">AppArmor</div></div>
-</div>
-</div>
-
-
+```text
+[비바 모델 (Biba Model)]
+    │
+    ▼
+[리눅스 보안 모듈 (LSM, Linux Security Modules)]
+    │
+    ├──▶ [SELinux]
+    └──▶ [AppArmor]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

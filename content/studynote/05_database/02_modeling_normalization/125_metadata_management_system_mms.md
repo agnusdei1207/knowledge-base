@@ -18,19 +18,17 @@ tags = ["studynote-database"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메타데이터 유형</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">기술 메타데이터</div><div class="kb-diagram-note">스키마·컬럼·타입·인덱스</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">비즈니스 메타데이터</div><div class="kb-diagram-note">용어 정의·담당자·분류</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">운영 메타데이터</div><div class="kb-diagram-note">ETL 실행 이력·데이터 품질·리니지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 데이터 카탈로그: 3가지 메타데이터를 통합 검색</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    메타데이터 유형                                    │
+├───────────────────────────────────────────────────────┤
+│  [기술 메타데이터]   스키마·컬럼·타입·인덱스         │
+│  [비즈니스 메타데이터] 용어 정의·담당자·분류         │
+│  [운영 메타데이터]   ETL 실행 이력·데이터 품질·리니지│
+│                                                       │
+│  → 데이터 카탈로그: 3가지 메타데이터를 통합 검색     │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)는 도서관의 <strong>카드 목록</strong>이다. 책([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 자체가 아니라 "이 책이 어디에 있고, 누가 썼고, 무슨 내용인지"를 알려준다.
 
@@ -90,23 +88,21 @@ MMS/[데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_secur
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">수동 데이터 사전 (엑셀, 2000s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">메타데이터 리포지토리 (2010s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 카탈로그 (DataHub/Amundsen, 2018~)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Active Metadata (2022~) — 자동 메타데이터 수집·활용</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: AI 카탈로그 — 자연어로 데이터 검색·이해</div></div>
-</div>
-</div>
-
-
+```text
+[수동 데이터 사전 (엑셀, 2000s)]
+    │
+    ▼
+[메타데이터 리포지토리 (2010s)]
+    │
+    ▼
+[데이터 카탈로그 (DataHub/Amundsen, 2018~)]
+    │
+    ▼
+[Active Metadata (2022~) — 자동 메타데이터 수집·활용]
+    │
+    ▼
+[현재: AI 카탈로그 — 자연어로 데이터 검색·이해]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)는 도서관의 <strong>카드 목록</strong>이에요. 책이 <strong>어디에 있고 무슨 내용</strong>인지 알려줘요.

@@ -25,18 +25,14 @@ DNSSEC은 기존 [DNS](/knowledge-base/studynote/03_network/10_application_layer
 DNS는 기본적으로 UDP를 사용하며 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 메커니즘이 취약합니다.
 해커가 로컬 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버(캐시 서버)에 위조된 IP 주소(예: [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/) 사이트 IP)를 대량으로 보내어 정상적인 응답인 것처럼 속이면, 로컬 서버는 이 가짜 주소를 캐시에 저장하게 됩니다. 이후 일반 사용자들이 해당 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)을 요청하면 모두 [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/) 사이트로 연결되는 치명적인 문제가 발생합니다. 이를 막기 위한 근본적인 해결책이 DNSSEC입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">일반 DNS 질의</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DNSSEC</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DoT</div></div>
-</div>
-</div>
-
-
+```text
+[일반 DNS 질의]
+    │
+    ▼
+[DNSSEC]
+    │
+    └──▶ [DoT]
+```
 
 - **📢 섹션 요약 비유**: DNSSEC는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -46,18 +42,14 @@ DNS는 기본적으로 UDP를 사용하며 [인증](/knowledge-base/studynote/04
 
 DNSSEC는 이름을 주소로 바꾸고 운영 상태를 관찰·관리하는 축라는 관점에서 이해해야 한다. 일반 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 질의와 [DoT](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/519_dot_dns_over_tls/) 사이의 연결점으로 놓고 보면 개념의 역할이 더 분명해진다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">일반 DNS 질의</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DNSSEC</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DoT</div></div>
-</div>
-</div>
-
-
+```text
+[일반 DNS 질의]
+    │
+    ▼
+[DNSSEC]
+    │
+    └──▶ [DoT]
+```
 
 - **📢 섹션 요약 비유**: DNSSEC의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -67,21 +59,18 @@ DNSSEC는 이름을 주소로 바꾸고 운영 상태를 관찰·관리하는 �
 
 DNSSEC은 공개키 암호화(Public [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) [Cryptography](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/))를 이용해 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 레코드에 서명(Signature)을 첨부합니다.
 
+```text
+[ DNSSEC 인증 과정 ]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DNSSEC 인증 과정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Auth Server</div><div class="kb-diagram-cell">Local DNS Resolver</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. DNS 질의</div><div class="kb-diagram-cell">(Client)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">A Record</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">│</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">RRSIG</div><div class="kb-diagram-note">│</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DNSKEY</div><div class="kb-diagram-note">2. 서명된 응답 │</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">3. 공개키로 서명 검증</div></div>
-</div>
-</div>
-
-
+┌─────────────┐                      ┌────────────────────┐
+│ Auth Server │                      │ Local DNS Resolver │
+│             │   1. DNS 질의        │ (Client)           │
+│ [ A Record ]│ ◀─────────────────── │                    │
+│ [ RRSIG   ] │                      │                    │
+│ [ DNSKEY  ] │   2. 서명된 응답     │                    │
+│             │ ───────────────────▶ │ 3. 공개키로 서명 검증│
+└─────────────┘                      └────────────────────┘
+```
 
 1. **존(Zone) 서명**: 네임서버 관리자는 자신의 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 존 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(A, MX 등)를 개인키(Private [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))로 서명하여 `RRSIG` 레코드를 생성합니다.
 2. **공개키 배포**: 서명을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 수 있는 공개키(Public [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))를 `DNSKEY` 레코드로 함께 배포합니다.
@@ -129,19 +118,15 @@ DNSSEC는 이름 해석과 네트워크 관리를 이해할 때 핵심 축을 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 일반 DNS 질의</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: DNSSEC</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: DoT</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율 운영 네트워크</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 일반 DNS 질의]
+    │
+    ▼
+[현재 개념: DNSSEC]
+    │
+    ├──▶ [확장 A: DoT]
+    └──▶ [확장 B: 자율 운영 네트워크]
+```
 
 DNSSEC는 일반 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 질의에서 출발해 현재 메커니즘을 정교화하고, 이후 DoT와 자율 운영 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

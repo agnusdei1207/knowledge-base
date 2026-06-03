@@ -21,16 +21,12 @@ tags = ["studynote-design-supervision"]
 
 감리 관점에서는 단순히 많은 패킷을 쏘는 것보다, <strong>어떤 자산에 어떤 규칙으로 주입했고 무엇을 발견했는지</strong>가 중요하다. 네트워크 장비, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 업로드 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/), 메시지 브로커처럼 입력 경계가 있는 곳이 우선 대상이며, 탐지 결과는 재현 가능한 테스트 케이스로 환원되어야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시드 패킷</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">변이 엔진</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">대상 시스템</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">모니터링</div></div>
-<div class="kb-diagram-note">정상 입력 길이/순서/필드 변형 예외 발생 여부 크래시·로그 수집</div>
-</div>
-</div>
-
-
+```text
+┌─────────────┐   ┌─────────────┐   ┌─────────────┐   ┌─────────────┐
+│ 시드 패킷     │──▶│ 변이 엔진     │──▶│ 대상 시스템   │──▶│ 모니터링     │
+└─────────────┘   └─────────────┘   └─────────────┘   └─────────────┘
+       정상 입력        길이/순서/필드 변형     예외 발생 여부      크래시·로그 수집
+```
 
 - **📢 섹션 요약 비유**: 튼튼한 문인지 확인하려면 열쇠만 잘 맞는지 보는 게 아니라, 이상한 힘으로 밀고 흔들어도 버티는지 봐야 한다.
 
@@ -40,21 +36,23 @@ tags = ["studynote-design-supervision"]
 
 감리에서는 “도구를 돌렸다”보다 “재현 가능하고 조치 가능한 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 목록을 만들었는가”를 본다. 즉 퍼징 결과는 크래시 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/), 중복 제거, 재현 스크립트, 위험도 평가, 수정 후 재검증까지 이어져야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 시드/명세 수집</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 변이·생성 규칙</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 격리 실행/감시</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 크래시 분류/재현</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────┐
+│ 1. 시드/명세 수집   │
+└─────────┬──────────┘
+          ▼
+┌────────────────────┐
+│ 2. 변이·생성 규칙   │
+└─────────┬──────────┘
+          ▼
+┌────────────────────┐
+│ 3. 격리 실행/감시    │
+└─────────┬──────────┘
+          ▼
+┌────────────────────┐
+│ 4. 크래시 분류/재현  │
+└────────────────────┘
+```
 
 | 구성 요소 | 역할 | 감리 포인트 |
 |:---|:---|:---|
@@ -117,23 +115,21 @@ tags = ["studynote-design-supervision"]
 - 관련 키워드: 시드 패킷, 변이 엔진, [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 기반 퍼징, 샌드박스, 크래시 트리아지, 재현 스크립트
 - 발전 흐름: 단순 랜덤 입력 → 변이 기반 퍼징 → 명세 기반 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 퍼징 → 커버리지 유도 퍼징 → 자동 재현·우선순위화
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">정상 샘플 확보</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">변이/생성 규칙 수립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">대량 이상 패킷 주입</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">크래시·예외 탐지</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">재현·분류·조치</div>
-</div>
-</div>
-
-
+```text
+정상 샘플 확보
+      │
+      ▼
+변이/생성 규칙 수립
+      │
+      ▼
+대량 이상 패킷 주입
+      │
+      ▼
+크래시·예외 탐지
+      │
+      ▼
+재현·분류·조치
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

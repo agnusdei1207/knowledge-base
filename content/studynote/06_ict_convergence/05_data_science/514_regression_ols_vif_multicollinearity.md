@@ -39,22 +39,23 @@ tags = ["studynote-ict-convergence"]
 
 ### VIF 계산 흐름과 다중공선성 진단
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">다중 회귀 모델 구축</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VIF 계산: VIFⱼ = 1/(1 - Rⱼ²)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Rⱼ² = Xⱼ를 나머지로 회귀한 R²</div></div>
-<div class="kb-diagram-note">VIF &lt; 5 VIF &gt; 10</div>
-<div class="kb-diagram-note">정상 심각한 다중공선성</div>
-<div class="kb-diagram-note">변수 제거 Ridge / Lasso</div>
-<div class="kb-diagram-note">(Dropping) 정규화(Regularization)</div>
-</div>
-</div>
-
-
+```
+다중 회귀 모델 구축
+        │
+        ▼
+┌─────────────────────────────────┐
+│  VIF 계산: VIFⱼ = 1/(1 - Rⱼ²)  │
+│  Rⱼ² = Xⱼ를 나머지로 회귀한 R²  │
+└─────────────────────────────────┘
+        │
+   ┌────┴────┐
+VIF < 5   VIF > 10
+  정상     심각한 다중공선성
+            │
+    ┌───────┴────────┐
+  변수 제거       Ridge / Lasso
+  (Dropping)      정규화(Regularization)
+```
 
 ### R² vs 조정된 R²
 

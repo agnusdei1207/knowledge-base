@@ -37,80 +37,67 @@ tags = ["studynote-algorithm"]
 
 ### 구성 단계 1: [트라이](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/087_trie/) 구축
 
+```
+패턴: {"he", "she", "his", "hers"}
 
+트라이 구조:
+          (root)
+         /    \
+        h      s
+        |      |
+        e      h
+       / \     |
+      *   r    e
+     (he) |    |
+          s   *+s→ "she"
+          |
+          *
+        (hers)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">패턴: {"he", "she", "his", "hers"}</div>
-<div class="kb-diagram-note">트라이 구조:</div>
-<div class="kb-diagram-note">(root)</div>
-<div class="kb-diagram-note">h s</div>
-<div class="kb-diagram-note">e h</div>
-<div class="kb-diagram-note">* r e</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(he)</div></div>
-<div class="kb-diagram-note">s *+s→ "she"</div>
-<div class="kb-diagram-note">*</div>
-<div class="kb-diagram-note">(hers)</div>
-<div class="kb-diagram-note">h → i → s → * (his)</div>
-</div>
-</div>
-
-
+h → i → s → * (his)
+```
 
 ### 구성 단계 2: 실패 링크 (Failure Link)
 
+```
+실패 링크: 현재 노드에서 매칭 실패 시 이동할 가장 긴 진짜 접미사 노드
 
+BFS 순서로 계산:
+  node "he" → 실패 링크 → root("e"가 없으면 root)
+  node "she" → "he" (접미사 "he" 존재)
+  node "hers" → root
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">실패 링크: 현재 노드에서 매칭 실패 시 이동할 가장 긴 진짜 접미사 노드</div>
-<div class="kb-diagram-note">BFS 순서로 계산:</div>
-<div class="kb-diagram-note">node "he" → 실패 링크 → root("e"가 없으면 root)</div>
-<div class="kb-diagram-note">node "she" → "he" (접미사 "he" 존재)</div>
-<div class="kb-diagram-note">node "hers" → root</div>
-<div class="kb-diagram-note">실패 링크 다이어그램 (점선):</div>
-<div class="kb-diagram-note">"she" ----→ "he" (she의 접미사 "he" 매칭 가능)</div>
-<div class="kb-diagram-note">"his" ----→ "is"→root</div>
-</div>
-</div>
-
-
+실패 링크 다이어그램 (점선):
+  "she" ----→ "he"   (she의 접미사 "he" 매칭 가능)
+  "his" ----→ "is"→root
+```
 
 ### 구성 단계 3: 출력 링크 (Output Link)
 
+```
+출력 링크: 현재 노드 또는 실패 링크 체인에서 완성된 패턴이 있으면 기록
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">출력 링크: 현재 노드 또는 실패 링크 체인에서 완성된 패턴이 있으면 기록</div>
-<div class="kb-diagram-note">node "she"의 출력: {"she", "he"} ← 실패 링크로 "he"도 포함</div>
-<div class="kb-diagram-note">→ 텍스트 "she"를 처리하면 "she"와 "he" 두 패턴 동시 보고</div>
-</div>
-</div>
-
-
+node "she"의 출력: {"she", "he"}  ← 실패 링크로 "he"도 포함
+→ 텍스트 "she"를 처리하면 "she"와 "he" 두 패턴 동시 보고
+```
 
 ### 텍스트 매칭
 
+```
+텍스트: "ushers"
+패턴:   {"he", "she", "his", "hers"}
 
+처리:
+  u → root
+  s → s 노드
+  h → sh 노드
+  e → she 노드 → 출력: "she"(위치2), "he"(위치2, 출력링크)
+  r → sher 노드
+  s → shers? 없음 → 실패링크 이동 → "hers" 노드
+     → 출력: "hers"(위치4)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">텍스트: "ushers"</div>
-<div class="kb-diagram-note">패턴: {"he", "she", "his", "hers"}</div>
-<div class="kb-diagram-note">처리:</div>
-<div class="kb-diagram-note">u → root</div>
-<div class="kb-diagram-note">s → s 노드</div>
-<div class="kb-diagram-note">h → sh 노드</div>
-<div class="kb-diagram-note">e → she 노드 → 출력: "she"(위치2), "he"(위치2, 출력링크)</div>
-<div class="kb-diagram-note">r → sher 노드</div>
-<div class="kb-diagram-note">s → shers? 없음 → 실패링크 이동 → "hers" 노드</div>
-<div class="kb-diagram-note">→ 출력: "hers"(위치4)</div>
-<div class="kb-diagram-note">결과: "she"@1, "he"@1, "hers"@2 (0-based 시작 인덱스)</div>
-</div>
-</div>
-
-
+결과: "she"@1, "he"@1, "hers"@2  (0-based 시작 인덱스)
+```
 
 📢 **섹션 요약 비유**: 실패 링크는 미로에서 막혔을 때 "가장 비슷한 다른 경로"로 순간이동하는 지름길—처음부터 다시 시작하지 않아도 돼.
 
@@ -148,19 +135,13 @@ tags = ["studynote-algorithm"]
 
 ### 기술사 판단 기준
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단일 패턴 + 단순 구현 → KMP 또는 Z 알고리즘</div>
-<div class="kb-diagram-note">다중 패턴 동시 탐색 → 아호-코라식 (단 한 번의 텍스트 순회)</div>
-<div class="kb-diagram-note">패턴이 사전에 고정 → 아호-코라식 자동자 미리 컴파일</div>
-<div class="kb-diagram-note">패턴이 실시간으로 추가/삭제 → Aho-Corasick + 동적 트라이 갱신</div>
-<div class="kb-diagram-note">임의 부분 문자열 탐색 → 서픽스 배열</div>
-</div>
-</div>
-
-
+```
+단일 패턴 + 단순 구현        →  KMP 또는 Z 알고리즘
+다중 패턴 동시 탐색          →  아호-코라식 (단 한 번의 텍스트 순회)
+패턴이 사전에 고정            →  아호-코라식 자동자 미리 컴파일
+패턴이 실시간으로 추가/삭제  →  Aho-Corasick + 동적 트라이 갱신
+임의 부분 문자열 탐색         →  서픽스 배열
+```
 
 📢 **섹션 요약 비유**: 아호-코라식은 공항 세관의 금지 물품 스캐너—짐 하나를 한 번만 통과시켜 수천 가지 금지 물품을 동시에 검사하는 것과 같다.
 
@@ -189,23 +170,21 @@ tags = ["studynote-algorithm"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">트라이 (Trie)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">KMP 실패 함수</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DFA (Deterministic Finite Automaton)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">실패 링크 (Failure Link)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">출력 링크 (Output Link)</div></div>
-</div>
-</div>
-
-
+```text
+[트라이 (Trie)]
+    │
+    ▼
+[KMP 실패 함수]
+    │
+    ▼
+[DFA (Deterministic Finite Automaton)]
+    │
+    ▼
+[실패 링크 (Failure Link)]
+    │
+    ▼
+[출력 링크 (Output Link)]
+```
 
 이 흐름도는 [트라이](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/087_trie/) ([Trie](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/066_trie/))에서 출발해 출력 링크 (Output Link)까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

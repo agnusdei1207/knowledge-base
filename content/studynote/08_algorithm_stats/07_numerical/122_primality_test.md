@@ -73,38 +73,41 @@ Python 구현:
 
 ## Ⅱ. 페르마 소수 판별 (Fermat Primality Test)
 
+```
+페르마의 소정리 (Fermat's Little Theorem):
+  p가 소수이고 gcd(a, p) = 1이면:
+  a^(p-1) ≡ 1 (mod p)
 
+페르마 테스트:
+  p가 소수인지 확인:
+  1. 1 < a < p 인 랜덤 a 선택
+  2. a^(p-1) mod p 계산
+  3. 결과가 1이면 "아마도 소수"
+  4. 결과가 1이 아니면 "확실히 합성수"
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">페르마의 소정리 (Fermat's Little Theorem):</div>
-<div class="kb-diagram-note">p가 소수이고 gcd(a, p) = 1이면:</div>
-<div class="kb-diagram-note">a^(p-1) ≡ 1 (mod p)</div>
-<div class="kb-diagram-note">페르마 테스트:</div>
-<div class="kb-diagram-note">p가 소수인지 확인:</div>
-<div class="kb-diagram-note">1. 1 &lt; a &lt; p 인 랜덤 a 선택</div>
-<div class="kb-diagram-note">2. a^(p-1) mod p 계산</div>
-<div class="kb-diagram-note">3. 결과가 1이면 "아마도 소수"</div>
-<div class="kb-diagram-note">4. 결과가 1이 아니면 "확실히 합성수"</div>
-<div class="kb-diagram-note">문제 - 카마이클 수 (Carmichael Numbers):</div>
-<div class="kb-diagram-note">합성수인데 모든 a에 대해 a^(n-1) ≡ 1 (mod n)</div>
-<div class="kb-diagram-note">561 = 3 × 11 × 17: 카마이클 수</div>
-<div class="kb-diagram-note">1105, 1729, 2465, ... 무한히 많음</div>
-<div class="kb-diagram-note">→ 페르마 테스트는 카마이클 수에 실패</div>
-<div class="kb-diagram-note">→ 보완 필요 → 밀러-라빈 테스트</div>
-<div class="kb-diagram-note">모듈러 거듭제곱 (Fast Exponentiation):</div>
-<div class="kb-diagram-note">a^(p-1) mod p 계산</div>
-<div class="kb-diagram-note">나이브: a×a×... (p-2번 곱셈)</div>
-<div class="kb-diagram-note">반복 제곱법 (Repeated Squaring):</div>
-<div class="kb-diagram-note">a^b = a^(b/2) × a^(b/2) (b가 짝수)</div>
-<div class="kb-diagram-note">= a^((b-1)/2) × a^((b-1)/2) × a (b가 홀수)</div>
-<div class="kb-diagram-note">O(log b) 번 연산으로 계산 가능</div>
-<div class="kb-diagram-note">a^100 = ((a^25)^2)^2</div>
-<div class="kb-diagram-note">= a^25 계산 후 2번 제곱</div>
-</div>
-</div>
+문제 - 카마이클 수 (Carmichael Numbers):
+  합성수인데 모든 a에 대해 a^(n-1) ≡ 1 (mod n)
+  
+  561 = 3 × 11 × 17: 카마이클 수
+  1105, 1729, 2465, ... 무한히 많음
+  
+  → 페르마 테스트는 카마이클 수에 실패
+  → 보완 필요 → 밀러-라빈 테스트
 
-
+모듈러 거듭제곱 (Fast Exponentiation):
+  a^(p-1) mod p 계산
+  
+  나이브: a×a×... (p-2번 곱셈)
+  
+  반복 제곱법 (Repeated Squaring):
+  a^b = a^(b/2) × a^(b/2)  (b가 짝수)
+      = a^((b-1)/2) × a^((b-1)/2) × a  (b가 홀수)
+  
+  O(log b) 번 연산으로 계산 가능
+  
+  a^100 = ((a^25)^2)^2
+  = a^25 계산 후 2번 제곱
+```
 
 > 📢 **섹션 요약 비유**: 페르마 테스트 = 대략적 소수 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) — 소수면 항상 통과. 단, [카마이클 수](/knowledge-base/studynote/09_security/03_network_security/115_carmichael_number/)(가짜 소수)가 항상 통과. 의심스럽지만 완벽하지 않은 검사!
 
@@ -112,60 +115,67 @@ Python 구현:
 
 ## Ⅲ. 밀러-라빈 테스트
 
+```
+Miller-Rabin 소수 판별 (1975):
+  페르마 테스트를 강화한 확률적 테스트
+  카마이클 수 문제 해결
 
+핵심 원리 (강한 소수 조건):
+  n이 소수이고 n-1 = 2^r × d (d는 홀수)이면:
+  임의의 a에 대해 다음 중 하나 반드시 성립:
+  
+  (1) a^d ≡ 1 (mod n)
+  (2) 어떤 s (0 ≤ s < r)에 대해 a^(2^s × d) ≡ -1 (mod n)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Miller-Rabin 소수 판별 (1975):</div>
-<div class="kb-diagram-note">페르마 테스트를 강화한 확률적 테스트</div>
-<div class="kb-diagram-note">카마이클 수 문제 해결</div>
-<div class="kb-diagram-note">핵심 원리 (강한 소수 조건):</div>
-<div class="kb-diagram-note">n이 소수이고 n-1 = 2^r × d (d는 홀수)이면:</div>
-<div class="kb-diagram-note">임의의 a에 대해 다음 중 하나 반드시 성립:</div>
-<div class="kb-diagram-note">(1) a^d ≡ 1 (mod n)</div>
-<div class="kb-diagram-note">(2) 어떤 s (0 ≤ s &lt; r)에 대해 a^(2^s × d) ≡ -1 (mod n)</div>
-<div class="kb-diagram-note">테스트 절차:</div>
-<div class="kb-diagram-note">입력: n (소수 여부 확인할 수)</div>
-<div class="kb-diagram-note">1. n-1 = 2^r × d로 분해 (d는 홀수)</div>
-<div class="kb-diagram-note">2. 베이스 a 선택</div>
-<div class="kb-diagram-note">3. x = a^d mod n 계산</div>
-<div class="kb-diagram-note">4. x가 1 또는 n-1이면 → 이번 라운드 통과</div>
-<div class="kb-diagram-note">5. r-1번 반복: x = x^2 mod n</div>
-<div class="kb-diagram-note">x가 n-1이 되면 통과</div>
-<div class="kb-diagram-note">끝까지 n-1이 안 되면 → 합성수!</div>
-<div class="kb-diagram-note">6. 여러 a로 반복 → 모두 통과하면 "아마도 소수"</div>
-<div class="kb-diagram-note">오류 확률:</div>
-<div class="kb-diagram-note">합성수가 임의의 a에 대해 테스트 통과할 확률 ≤ 1/4</div>
-<div class="kb-diagram-note">k번 반복 → 오류 확률 ≤ (1/4)^k</div>
-<div class="kb-diagram-note">k=15: 오류 확률 &lt; 10^(-9)</div>
-<div class="kb-diagram-note">결정론적 버전:</div>
-<div class="kb-diagram-note">특정 범위의 n에 대해 베이스 집합 고정</div>
-<div class="kb-diagram-note">n &lt; 3,215,031,751: {2, 3, 5, 7}로 충분 (오류 없음)</div>
-<div class="kb-diagram-note">n &lt; 2^64: {2,3,5,7,11,13,17,19,23,29,31,37}로 충분</div>
-<div class="kb-diagram-note">Python 구현:</div>
-<div class="kb-diagram-note">def miller_rabin(n, a):</div>
-<div class="kb-diagram-note">if n == a: return True</div>
-<div class="kb-diagram-note">if n % 2 == 0: return False</div>
-<div class="kb-diagram-note">d, r = n - 1, 0</div>
-<div class="kb-diagram-note">while d % 2 == 0:</div>
-<div class="kb-diagram-note">d //= 2</div>
-<div class="kb-diagram-note">r += 1</div>
-<div class="kb-diagram-note">x = pow(a, d, n) # 빠른 모듈러 거듭제곱</div>
-<div class="kb-diagram-note">if x == 1 or x == n - 1: return True</div>
-<div class="kb-diagram-note">for _ in range(r - 1):</div>
-<div class="kb-diagram-note">x = pow(x, 2, n)</div>
-<div class="kb-diagram-note">if x == n - 1: return True</div>
-<div class="kb-diagram-note">return False</div>
-<div class="kb-diagram-note">def is_prime_deterministic(n):</div>
-<div class="kb-diagram-note">if n &lt; 2: return False</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">for a in</div><div class="kb-diagram-node">2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37</div><div class="kb-diagram-note">:</div></div>
-<div class="kb-diagram-note">if n == a: return True</div>
-<div class="kb-diagram-note">if not miller_rabin(n, a): return False</div>
-<div class="kb-diagram-note">return True</div>
-</div>
-</div>
+테스트 절차:
+  입력: n (소수 여부 확인할 수)
+  
+  1. n-1 = 2^r × d로 분해 (d는 홀수)
+  2. 베이스 a 선택
+  3. x = a^d mod n 계산
+  4. x가 1 또는 n-1이면 → 이번 라운드 통과
+  5. r-1번 반복: x = x^2 mod n
+     x가 n-1이 되면 통과
+     끝까지 n-1이 안 되면 → 합성수!
+  6. 여러 a로 반복 → 모두 통과하면 "아마도 소수"
 
+오류 확률:
+  합성수가 임의의 a에 대해 테스트 통과할 확률 ≤ 1/4
+  k번 반복 → 오류 확률 ≤ (1/4)^k
+  
+  k=15: 오류 확률 < 10^(-9)
 
+결정론적 버전:
+  특정 범위의 n에 대해 베이스 집합 고정
+  
+  n < 3,215,031,751: {2, 3, 5, 7}로 충분 (오류 없음)
+  n < 2^64: {2,3,5,7,11,13,17,19,23,29,31,37}로 충분
+
+Python 구현:
+  def miller_rabin(n, a):
+      if n == a: return True
+      if n % 2 == 0: return False
+      
+      d, r = n - 1, 0
+      while d % 2 == 0:
+          d //= 2
+          r += 1
+      
+      x = pow(a, d, n)  # 빠른 모듈러 거듭제곱
+      if x == 1 or x == n - 1: return True
+      
+      for _ in range(r - 1):
+          x = pow(x, 2, n)
+          if x == n - 1: return True
+      return False
+  
+  def is_prime_deterministic(n):
+      if n < 2: return False
+      for a in [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37]:
+          if n == a: return True
+          if not miller_rabin(n, a): return False
+      return True
+```
 
 > 📢 **섹션 요약 비유**: 밀러-라빈 = 강화된 신분증 검사 — 페르마(기본 신분증 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))에서 발전해 [카마이클 수](/knowledge-base/studynote/09_security/03_network_security/115_carmichael_number/)(정교한 위조 신분증)도 잡아냄. k번 반복으로 오류 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^(-9)!
 
@@ -217,44 +227,50 @@ Python 내장:
 
 ## Ⅴ. 실무 시나리오 — [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 소수 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
 
+```
+RSA-2048 키 쌍 생성에서의 소수 판별:
 
+요구사항:
+  1024비트 소수 p, q 2개 생성
+  (n = p × q = 2048비트)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">RSA-2048 키 쌍 생성에서의 소수 판별:</div>
-<div class="kb-diagram-note">요구사항:</div>
-<div class="kb-diagram-note">1024비트 소수 p, q 2개 생성</div>
-<div class="kb-diagram-note">(n = p × q = 2048비트)</div>
-<div class="kb-diagram-note">소수 생성 파이프라인:</div>
-<div class="kb-diagram-note">1. 후보 생성:</div>
-<div class="kb-diagram-note">import secrets</div>
-<div class="kb-diagram-note">p = secrets.randbits(1024)</div>
-<div class="kb-diagram-note">p |= (1 &lt;&lt; 1023) # 1024비트 확보 (최상위 비트 1)</div>
-<div class="kb-diagram-note">p |= 1 # 홀수 만들기</div>
-<div class="kb-diagram-note">2. 에라토스테네스 빠른 필터:</div>
-<div class="kb-diagram-note">작은 소수 목록으로 나눗셈 검사</div>
-<div class="kb-diagram-note">&lt; 100,000 소수(9,592개)로 빠른 제거</div>
-<div class="kb-diagram-note">통과율: 약 30% (70%는 빠르게 제거)</div>
-<div class="kb-diagram-note">3. 밀러-라빈 테스트:</div>
-<div class="kb-diagram-note">통과한 후보에 밀러-라빈 (20 라운드)</div>
-<div class="kb-diagram-note">오류 확률: (1/4)^20 ≈ 10^(-12)</div>
-<div class="kb-diagram-note">4. 추가 검사 (FIPS 186-5):</div>
-<div class="kb-diagram-note">Lucas 소수 판별 추가 (밀러-라빈 보완)</div>
-<div class="kb-diagram-note">강한 소수(Strong Prime) 검사:</div>
-<div class="kb-diagram-note">p-1의 큰 소인수 존재 확인 (Pohlig-Hellman 공격 방어)</div>
-<div class="kb-diagram-note">성능 (Python, 현대 PC):</div>
-<div class="kb-diagram-note">1024비트 소수 1개 생성: ~50~200ms</div>
-<div class="kb-diagram-note">통계:</div>
-<div class="kb-diagram-note">1024비트 수 밀도: ~1/709 (소수 정리)</div>
-<div class="kb-diagram-note">평균 709번 시도 → 1개 소수</div>
-<div class="kb-diagram-note">빠른 필터로: ~240번 밀러-라빈 시도</div>
-<div class="kb-diagram-note">OpenSSL 소수 생성:</div>
-<div class="kb-diagram-note">openssl genrsa 2048</div>
-<div class="kb-diagram-note">내부: BN_generate_prime_ex() → 밀러-라빈</div>
-</div>
-</div>
+소수 생성 파이프라인:
 
+1. 후보 생성:
+  import secrets
+  p = secrets.randbits(1024)
+  p |= (1 << 1023)  # 1024비트 확보 (최상위 비트 1)
+  p |= 1            # 홀수 만들기
 
+2. 에라토스테네스 빠른 필터:
+  작은 소수 목록으로 나눗셈 검사
+  < 100,000 소수(9,592개)로 빠른 제거
+  
+  통과율: 약 30% (70%는 빠르게 제거)
+
+3. 밀러-라빈 테스트:
+  통과한 후보에 밀러-라빈 (20 라운드)
+  
+  오류 확률: (1/4)^20 ≈ 10^(-12)
+
+4. 추가 검사 (FIPS 186-5):
+  Lucas 소수 판별 추가 (밀러-라빈 보완)
+  
+  강한 소수(Strong Prime) 검사:
+  p-1의 큰 소인수 존재 확인 (Pohlig-Hellman 공격 방어)
+
+성능 (Python, 현대 PC):
+  1024비트 소수 1개 생성: ~50~200ms
+  
+  통계:
+  1024비트 수 밀도: ~1/709 (소수 정리)
+  평균 709번 시도 → 1개 소수
+  빠른 필터로: ~240번 밀러-라빈 시도
+
+OpenSSL 소수 생성:
+  openssl genrsa 2048
+  내부: BN_generate_prime_ex() → 밀러-라빈
+```
 
 > 📢 **섹션 요약 비유**: [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 소수 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) = 복권 당첨 + 신원 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) — 1024비트 랜덤수(복권) 뽑기 → 빠른 필터(가짜 당첨 70% 제거) → 밀러-라빈 20라운드(진짜 당첨 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)). 평균 240번 시도!
 

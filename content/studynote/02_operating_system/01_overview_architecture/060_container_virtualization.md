@@ -31,21 +31,15 @@ tags = ["studynote-operating-system"]
 
 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)는 Namespace로 보이는 세상을 나누고, cgroups로 쓰는 자원을 제한한다. 이미지 레이어는 필요한 것만 공유해 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 비용을 줄인다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">App</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Container Runtime</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Namespace / cgroups</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Host OS Kernel</div>
-</div>
-</div>
-
-
+```text
+App
+ ↓
+Container Runtime
+ ↓
+Namespace / cgroups
+ ↓
+Host OS Kernel
+```
 
 | 구성 요소 | 역할 |
 | :-- | :-- |
@@ -108,41 +102,29 @@ tags = ["studynote-operating-system"]
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Host OS</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Namespace / cgroups</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Container Runtime</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Container Image</div>
-</div>
-</div>
-
-
+```text
+Host OS
+   ↓
+Namespace / cgroups
+   ↓
+Container Runtime
+   ↓
+Container Image
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">VM 기반 가상화</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">OS 수준 가상화</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Docker / Kubernetes</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Cloud Native / MSA</div>
-</div>
-</div>
-
-
+```text
+VM 기반 가상화
+   ↓
+OS 수준 가상화
+   ↓
+Docker / Kubernetes
+   ↓
+Cloud Native / MSA
+```
 
 ---
 

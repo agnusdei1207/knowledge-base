@@ -18,23 +18,20 @@ tags = ["studynote-database"]
 
 ## I. B+트리 구조
 
+```
+B+트리 (차수 m=3 예시):
 
+              [30 | 60]              <- 내부 노드 (키만 저장)
+             /    |     \
+    [10|20] [30|50] [60|80]         <- 내부 노드
+   /  |  \    ...      ...
+[데이터][데이터][데이터]...          <- 리프 노드 (실제 데이터/포인터 저장)
+    \-> 연결 리스트 ->               <- 리프 노드 연결!
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">B+트리 (차수 m=3 예시):</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">30 | 60</div><div class="kb-diagram-connector">&lt;-</div><div class="kb-diagram-note">내부 노드 (키만 저장)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">10|20</div><div class="kb-diagram-node">30|50</div><div class="kb-diagram-node">60|80</div><div class="kb-diagram-connector">&lt;-</div><div class="kb-diagram-note">내부 노드</div></div>
-<div class="kb-diagram-note">/ | \ ... ...</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터</div><div class="kb-diagram-node">데이터</div><div class="kb-diagram-node">데이터</div><div class="kb-diagram-connector">&lt;-</div><div class="kb-diagram-note">리프 노드 (실제 데이터/포인터 저장)</div></div>
-<div class="kb-diagram-note">\-&gt; 연결 리스트 -&gt; &lt;- 리프 노드 연결!</div>
-<div class="kb-diagram-note">B트리 vs B+트리:</div>
-<div class="kb-diagram-note">B트리: 내부 노드에 데이터 포인터 있음</div>
-<div class="kb-diagram-note">B+트리: 내부 노드는 키만, 데이터는 리프에만</div>
-</div>
-</div>
-
-
+B트리 vs B+트리:
+  B트리:  내부 노드에 데이터 포인터 있음
+  B+트리: 내부 노드는 키만, 데이터는 리프에만
+```
 
 | 구분        | B트리           | B+트리              |
 |-----------|----------------|---------------------|
@@ -50,31 +47,28 @@ tags = ["studynote-database"]
 
 ## II. B+트리 핵심 연산
 
+```
+탐색 (Search):
+  루트에서 시작 -> 키 비교로 하위 노드 선택
+  리프까지 내려가면 데이터 포인터 획득
+  시간복잡도: O(log_m n)  (m=차수, n=데이터 수)
 
+범위 탐색 (Range Search):
+  시작 키까지 O(log_m n)으로 탐색
+  이후 리프 연결 리스트를 순차 스캔
+  SELECT * WHERE age BETWEEN 20 AND 30
+  -> 리프 노드 몇 개를 선형 스캔
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">탐색 (Search):</div>
-<div class="kb-diagram-note">루트에서 시작 -&gt; 키 비교로 하위 노드 선택</div>
-<div class="kb-diagram-note">리프까지 내려가면 데이터 포인터 획득</div>
-<div class="kb-diagram-note">시간복잡도: O(log_m n) (m=차수, n=데이터 수)</div>
-<div class="kb-diagram-note">범위 탐색 (Range Search):</div>
-<div class="kb-diagram-note">시작 키까지 O(log_m n)으로 탐색</div>
-<div class="kb-diagram-note">이후 리프 연결 리스트를 순차 스캔</div>
-<div class="kb-diagram-note">SELECT * WHERE age BETWEEN 20 AND 30</div>
-<div class="kb-diagram-tree-item" style="--depth:1">리프 노드 몇 개를 선형 스캔</div>
-<div class="kb-diagram-note">삽입 (Insert):</div>
-<div class="kb-diagram-note">1. 리프 노드 찾기</div>
-<div class="kb-diagram-note">2. 리프에 삽입 (오버플로우 시 분할 Split)</div>
-<div class="kb-diagram-note">3. 분할된 경우 부모로 중간 키 올려보내기</div>
-<div class="kb-diagram-note">4. 루트까지 분할 전파 가능</div>
-<div class="kb-diagram-note">삭제 (Delete):</div>
-<div class="kb-diagram-note">1. 리프에서 삭제</div>
-<div class="kb-diagram-note">2. 언더플로우 시 형제와 병합 또는 재분배</div>
-</div>
-</div>
+삽입 (Insert):
+  1. 리프 노드 찾기
+  2. 리프에 삽입 (오버플로우 시 분할 Split)
+  3. 분할된 경우 부모로 중간 키 올려보내기
+  4. 루트까지 분할 전파 가능
 
-
+삭제 (Delete):
+  1. 리프에서 삭제
+  2. 언더플로우 시 형제와 병합 또는 재분배
+```
 
 > 📢 **섹션 요약 비유**: 삽입 시 리프가 꽉 차면 반으로 나누고 상위 층에 알리는 것 — 사무실이 가득 차면 새 층을 만들고 안내 간판을 추가.
 
@@ -82,29 +76,28 @@ tags = ["studynote-database"]
 
 ## III. InnoDB [클러스터드 인덱스](/knowledge-base/studynote/05_database/03_relational_model/159_clustered_index_physical_sort/)
 
+```
+MySQL InnoDB 구조:
 
+클러스터드 인덱스 (Clustered Index):
+  기본 키(PK)를 기준으로 B+트리 구성
+  리프 노드 = 실제 행 데이터 (포인터 아님!)
+  
+  탐색: PK로 검색하면 B+트리 리프에 바로 데이터 있음
+  -> 추가 I/O 없음!
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">MySQL InnoDB 구조:</div>
-<div class="kb-diagram-note">클러스터드 인덱스 (Clustered Index):</div>
-<div class="kb-diagram-note">기본 키(PK)를 기준으로 B+트리 구성</div>
-<div class="kb-diagram-note">리프 노드 = 실제 행 데이터 (포인터 아님!)</div>
-<div class="kb-diagram-note">탐색: PK로 검색하면 B+트리 리프에 바로 데이터 있음</div>
-<div class="kb-diagram-tree-item" style="--depth:1">추가 I/O 없음!</div>
-<div class="kb-diagram-note">세컨더리 인덱스 (Secondary Index):</div>
-<div class="kb-diagram-note">다른 컬럼(예: email)으로 B+트리 구성</div>
-<div class="kb-diagram-note">리프 노드 = PK 값 (행 데이터 포인터가 아님!)</div>
-<div class="kb-diagram-note">탐색: 세컨더리 인덱스로 PK 찾기</div>
-<div class="kb-diagram-tree-item" style="--depth:4">클러스터드 인덱스로 실제 행 탐색</div>
-<div class="kb-diagram-tree-item" style="--depth:1">2번의 B+트리 탐색 필요</div>
-<div class="kb-diagram-note">이중 탐색 최적화: 커버링 인덱스 (Covering Index)</div>
-<div class="kb-diagram-note">SELECT email, name WHERE email = 'x@x.com'</div>
-<div class="kb-diagram-note">(name도 세컨더리 인덱스에 포함시키면 PK 탐색 불필요)</div>
-</div>
-</div>
+세컨더리 인덱스 (Secondary Index):
+  다른 컬럼(예: email)으로 B+트리 구성
+  리프 노드 = PK 값 (행 데이터 포인터가 아님!)
+  
+  탐색: 세컨더리 인덱스로 PK 찾기 
+        -> 클러스터드 인덱스로 실제 행 탐색
+  -> 2번의 B+트리 탐색 필요
 
-
+이중 탐색 최적화: 커버링 인덱스 (Covering Index)
+  SELECT email, name WHERE email = 'x@x.com'
+  (name도 세컨더리 인덱스에 포함시키면 PK 탐색 불필요)
+```
 
 > 📢 **섹션 요약 비유**: [클러스터드 인덱스](/knowledge-base/studynote/05_database/03_relational_model/159_clustered_index_physical_sort/)는 책의 내용 자체가 목차 순서대로 묶인 것 — 목차([인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))와 내용이 일치해서 찾으면 바로 읽을 수 있다.
 

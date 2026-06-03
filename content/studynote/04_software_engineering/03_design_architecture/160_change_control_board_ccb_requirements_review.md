@@ -43,22 +43,25 @@ CCB 심사는 보통 변경 요청서 접수, 영향도 분석, 위원회 판단
 
 아래 그림은 요구사항 변경이 실제 통제 절차를 거쳐 반영되는 흐름을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CCB review flow for requirement changes</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Baseline requirement</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Change Request</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(reason / urgency / scope)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── impact analysis ─▶ cost / schedule / risk / traceability</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CCB review ──▶ approve / defer / reject</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── approve ─▶ implement ─▶ verify ─▶ re-baseline</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── reject ─▶ keep current baseline</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                CCB review flow for requirement changes                     │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Baseline requirement                                                      │
+│      │                                                                     │
+│      ▼                                                                     │
+│ Change Request                                                             │
+│ (reason / urgency / scope)                                                 │
+│      │                                                                     │
+│      ├── impact analysis ─▶ cost / schedule / risk / traceability          │
+│      │                                                                     │
+│      ▼                                                                     │
+│ CCB review  ──▶ approve / defer / reject                                   │
+│      │                                                                     │
+│      ├── approve ─▶ implement ─▶ verify ─▶ re-baseline                     │
+│      └── reject  ─▶ keep current baseline                                  │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조의 핵심은 CCB가 개발 시작 여부를 결정하는 마지막 관문이라는 점이 아니라, 변경이 시스템 전반에 미치는 비용과 위험을 명시적으로 드러낸다는 점이다. 승인되면 변경은 정식 작업이 되고, 기각되면 현재 [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/)이 유지된다. 그래서 CCB는 범위 통제, [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/), 품질 보증이 만나는 교차점이다.
 
@@ -126,23 +129,21 @@ CCB가 제대로 작동하면 프로젝트는 변경을 두려워하지 않으�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">요구사항 정의</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">베이스라인 설정</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">변경 요청 (CR)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">영향도 분석 + CCB 심사</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">재베이스라인 · 형상 감사 · 릴리스 반영</div>
-</div>
-</div>
-
-
+```text
+요구사항 정의
+      │
+      ▼
+베이스라인 설정
+      │
+      ▼
+변경 요청 (CR)
+      │
+      ▼
+영향도 분석 + CCB 심사
+      │
+      ▼
+재베이스라인 · 형상 감사 · 릴리스 반영
+```
 
 이 흐름은 요구사항 관리가 "정의 → 동결 → 통제된 변경 → 재승인"의 순환 구조로 운영된다는 점을 보여 준다.
 

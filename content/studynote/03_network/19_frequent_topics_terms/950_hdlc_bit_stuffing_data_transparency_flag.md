@@ -24,18 +24,14 @@ tags = ["studynote-network"]
 - **투명성(Transparency)의 위기**: 사용자가 보낸 순수한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Payload) 안에 우연히 저 `01111110` 이라는 패턴이 똑같이 들어있을 수 있습니다. 
 - 수신 측 장비는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽다가 중간에 저 패턴을 만나면 "아! 여기서 패킷 전송이 끝났구나!"라고 착각하여 뒤에 남은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 싹 다 버려버리는 치명적 오류가 터집니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">자동 재전송 요구 선택적/GBN</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HDLC 비트 스터핑</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">반송파 감지 다중 접속 및 충돌 검출</div></div>
-</div>
-</div>
-
-
+```text
+[자동 재전송 요구 선택적/GBN]
+    │
+    ▼
+[HDLC 비트 스터핑]
+    │
+    └──▶ [반송파 감지 다중 접속 및 충돌 검출]
+```
 
 - **📢 섹션 요약 비유**: [HDLC](/knowledge-base/studynote/03_network/04_data_link_layer_error/216_hdlc_high_level_data_link_control/) [비트 스터핑](/knowledge-base/studynote/03_network/04_data_link_layer_error/187_bit_stuffing_flag_mechanism/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -45,18 +41,14 @@ tags = ["studynote-network"]
 
 - **개념**: 전송할 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 본문(Payload) 안에 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)(`01111110`)와 동일한 패턴이 우연히 발생하여 수신자가 프레임의 끝으로 오인하는 것을 방지하기 위해, <strong>송신 측이 강제로 특정 위치에 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/">더미</a> <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>(0)를 쑤셔 넣고(Stuffing), 수신 측이 이를 다시 뽑아내어(Destuffing) 원본 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 투명성을 보장하는 기술</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">자동 재전송 요구 선택적/GBN</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HDLC 비트 스터핑</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">반송파 감지 다중 접속 및 충돌 검출</div></div>
-</div>
-</div>
-
-
+```text
+[자동 재전송 요구 선택적/GBN]
+    │
+    ▼
+[HDLC 비트 스터핑]
+    │
+    └──▶ [반송파 감지 다중 접속 및 충돌 검출]
+```
 
 - **📢 섹션 요약 비유**: [HDLC](/knowledge-base/studynote/03_network/04_data_link_layer_error/216_hdlc_high_level_data_link_control/) [비트 스터핑](/knowledge-base/studynote/03_network/04_data_link_layer_error/187_bit_stuffing_flag_mechanism/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -123,19 +115,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 자동 재전송 요구 선택적/GBN</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: HDLC 비트 스터핑</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 반송파 감지 다중 접속 및 충돌 검출</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 자동 재전송 요구 선택적/GBN]
+    │
+    ▼
+[현재 개념: HDLC 비트 스터핑]
+    │
+    ├──▶ [확장 A: 반송파 감지 다중 접속 및 충돌 검출]
+    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
+```
 
 [HDLC](/knowledge-base/studynote/03_network/04_data_link_layer_error/216_hdlc_high_level_data_link_control/) [비트 스터핑](/knowledge-base/studynote/03_network/04_data_link_layer_error/187_bit_stuffing_flag_mechanism/)는 [자동 재전송 요구](/knowledge-base/studynote/03_network/19_frequent_topics_terms/949_arq_automatic_repeat_request_go_back_n_selective/) 선택적/GBN에서 출발해 현재 메커니즘을 정교화하고, 이후 [반송파](/knowledge-base/studynote/03_network/01_data_communication/054_반송파_Carrier_Wave/) 감지 [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) 및 충돌 검출와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

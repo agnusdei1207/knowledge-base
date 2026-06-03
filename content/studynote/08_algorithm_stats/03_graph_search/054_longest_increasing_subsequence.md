@@ -20,22 +20,21 @@ tags = ["studynote-algorithm-stats"]
 
 수열 A = [3, 1, 4, 1, 5, 9, 2, 6]에서 LIS를 구하면 [1, 4, 5, 9] 또는 [1, 4, 5, 6] (길이 4)가 된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-note">LIS 시각화: A =</div><div class="kb-diagram-node">3, 1, 4, 1, 5, 9, 2, 6</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인덱스: 0 1 2 3 4 5 6 7</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">값: 3 1 4 1 5 9 2 6</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">dp</div><div class="kb-diagram-node">i</div><div class="kb-diagram-note">: 1 1 2 1 3 4 2 4</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">dp</div><div class="kb-diagram-node">i</div><div class="kb-diagram-note">= A</div><div class="kb-diagram-node">i</div><div class="kb-diagram-note">로 끝나는 LIS 길이</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">dp</div><div class="kb-diagram-node">4</div><div class="kb-diagram-note">=3: A</div><div class="kb-diagram-node">1</div><div class="kb-diagram-note">=1 &lt; A</div><div class="kb-diagram-node">2</div><div class="kb-diagram-note">=4 &lt; A</div><div class="kb-diagram-node">4</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">길이 3</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">dp</div><div class="kb-diagram-node">5</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">길이 4</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">max(dp) = 4 → LIS 길이 = 4</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────┐
+│          LIS 시각화: A = [3, 1, 4, 1, 5, 9, 2, 6]        │
+├──────────────────────────────────────────────────────────┤
+│                                                          │
+│  인덱스:  0  1  2  3  4  5  6  7                         │
+│  값:      3  1  4  1  5  9  2  6                         │
+│  dp[i]:  1  1  2  1  3  4  2  4                          │
+│                                                          │
+│  dp[i] = A[i]로 끝나는 LIS 길이                           │
+│  dp[4]=3: A[1]=1 < A[2]=4 < A[4]=5 → 길이 3             │
+│  dp[5]=4: 1 < 4 < 5 < 9 → 길이 4                        │
+│  max(dp) = 4 → LIS 길이 = 4                              │
+└──────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: LIS는 계단 오르기다. 주어진 숫자들 중에서 뒤로 내려가지 않고 계속 올라가는 가장 긴 경로를 찾는 것이다.
 
@@ -140,23 +139,21 @@ LIS [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_al
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">기초 DP — 부분 문제 최적해 저장, O(n²) LIS</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">인내 정렬 모델 — 카드 더미, tails 배열 직관</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">이진 탐색 최적화 — O(n log n) LIS</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LCS / 편집 거리 — LIS DP 패밀리 확장</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">딜워스 정리 — LIS의 이론적 이원 대응</div></div>
-</div>
-</div>
-
-
+```text
+[기초 DP — 부분 문제 최적해 저장, O(n²) LIS]
+    │
+    ▼
+[인내 정렬 모델 — 카드 더미, tails 배열 직관]
+    │
+    ▼
+[이진 탐색 최적화 — O(n log n) LIS]
+    │
+    ▼
+[LCS / 편집 거리 — LIS DP 패밀리 확장]
+    │
+    ▼
+[딜워스 정리 — LIS의 이론적 이원 대응]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

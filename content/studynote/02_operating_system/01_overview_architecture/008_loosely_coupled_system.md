@@ -26,21 +26,26 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경**: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 메인프레임 중심의 중앙 집중형 방식은 비용이 매우 비싸고 확장이 어려웠다. 1980년대 이후 워크스테이션과 PC의 보급, 그리고 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)([Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/))과 같은 네트워크 기술의 발전으로 저렴한 컴퓨터 여러 대를 묶어 슈퍼컴퓨터 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 내는 '[클러스터 컴퓨팅](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/383_cluster_computing/)'이 등장하며 약결합 시스템이 주류가 되었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">약결합 시스템 (Loosely Coupled) 기본 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Node A</div><div class="kb-diagram-node">Node B</div><div class="kb-diagram-node">Node C</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU</div><div class="kb-diagram-cell">CPU</div><div class="kb-diagram-cell">CPU</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Local M</div><div class="kb-diagram-cell">Local M</div><div class="kb-diagram-cell">Local M</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">High-Speed Network (Switch)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">특징</div><div class="kb-diagram-note">독립된 메모리/OS, 메시지 기반 통신, 높은 유연성</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">장점</div><div class="kb-diagram-note">노드 추가가 쉽고 장애 격리(Isolation)가 확실함</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │           약결합 시스템 (Loosely Coupled) 기본 구조         │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │  [ Node A ]          [ Node B ]          [ Node C ]         │
+  │  ┌───────┐           ┌───────┐           ┌───────┐          │
+  │  │ CPU   │           │ CPU   │           │ CPU   │          │
+  │  ├───────┤           ├───────┤           ├───────┤          │
+  │  │Local M│           │Local M│           │Local M│          │
+  │  └───┬───┘           └───┬───┘           └───┬───┘          │
+  │      │                   │                   │              │
+  │  ┌───┴───────────────────┴───────────────────┴───┐          │
+  │  │           High-Speed Network (Switch)         │          │
+  │  └───────────────────────────────────────────────┘          │
+  │                                                             │
+  │  [특징] 독립된 메모리/OS, 메시지 기반 통신, 높은 유연성     │
+  │  [장점] 노드 추가가 쉽고 장애 격리(Isolation)가 확실함      │
+  └─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 약결합 시스템의 가장 큰 특징은 '공유하는 자원이 없다([Shared Nothing](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/306_embedding_model/))'는 점이다. 각 노드(Node)는 완결된 형태의 컴퓨터이며, 오직 네트워크 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 통해서만 소통한다. 이는 [강결합 시스템](/knowledge-base/studynote/02_operating_system/01_overview_architecture/007_tightly_coupled_system/)의 치명적인 약점인 '공유 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 경합' 문제를 원천적으로 제거한다. 노드가 10대에서 100대로 늘어나도 각 노드의 내부 연산 속도는 변하지 않으며, 단지 네트워크 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 대역폭만 충분하다면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 선형적으로 확장할 수 있다. 이러한 '[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)([Decentralization](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/))'의 철학은 대규모 웹 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 트래픽 급증을 견디는 유일한 해결책이다.
 
@@ -66,23 +71,28 @@ tags = ["studynote-operating-system"]
 
 약결합 시스템에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공유는 메모리 복사가 아닌 '복사본의 전송'을 통해 이루어진다. 이 과정에서 발생하는 직렬화(Serialization)와 [네트워크 지연](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/)은 시스템 설계 시 반드시 고려해야 할 요소다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">약결합 시스템 데이터 교환 흐름 (MPI 예시)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Node 1: Sender</div><div class="kb-diagram-node">Node 2: Receiver</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User App</div><div class="kb-diagram-cell">User App</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(1) MPI_Send</div><div class="kb-diagram-cell">(4) MPI_Recv</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS Kernel</div><div class="kb-diagram-cell">OS Kernel</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Buffer)</div><div class="kb-diagram-cell">(Buffer)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(2) Packetizing</div><div class="kb-diagram-cell">(3) Reassembly</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Network HW</div><div class="kb-diagram-cell">Network ──▶</div><div class="kb-diagram-cell">Network HW</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 지연 시간(Latency) = SW 오버헤드 + 전송 시간 + 버퍼링 시간</div></div>
-</div>
-</div>
-
-
+```text
+ ┌───────────────────────────────────────────────────────────────┐
+ │               약결합 시스템 데이터 교환 흐름 (MPI 예시)       │
+ ├───────────────────────────────────────────────────────────────┤
+ │                                                               │
+ │   [Node 1: Sender]                 [Node 2: Receiver]         │
+ │   ┌──────────────┐                 ┌──────────────┐           │
+ │   │ User App     │                 │ User App     │           │
+ │   └──────┬───────┘                 └──────▲───────┘           │
+ │          │ (1) MPI_Send                   │ (4) MPI_Recv      │
+ │   ┌──────▼───────┐                 ┌──────┴───────┐           │
+ │   │ OS Kernel    │                 │ OS Kernel    │           │
+ │   │ (Buffer)     │                 │ (Buffer)     │           │
+ │   └──────┬───────┘                 └──────▲───────┘           │
+ │          │ (2) Packetizing         │ (3) Reassembly           │
+ │   ┌──────▼───────┐                 ┌──────┴───────┐           │
+ │   │ Network HW   │ ─── Network ──▶ │ Network HW   │           │
+ │   └──────────────┘                 └──────────────┘           │
+ │                                                               │
+ │  * 지연 시간(Latency) = SW 오버헤드 + 전송 시간 + 버퍼링 시간 │
+ └───────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** [강결합 시스템](/knowledge-base/studynote/02_operating_system/01_overview_architecture/007_tightly_coupled_system/)이 옆 사람의 도화지를 직접 보는 것이라면, 약결합 시스템은 내 도화지 내용을 편지로 써서(직렬화) 우체국([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/))을 통해 보내는 과정과 같다. 송신 노드에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 패킷으로 쪼개고 헤더를 붙이는 과정(1~2), 그리고 수신 노드에서 이를 다시 조립하여 애플리케이션에 전달하는 과정(3~4)에서 불가피하게 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 발생한다. 따라서 약결합 시스템용 알고리즘은 '통신 횟수'를 최소화하고 한 번에 보낼 때 큰 덩어리로 보내는 전략이 유리하다. 실무에서는 이 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 줄이기 위해 CPU를 거치지 않고 메모리 간에 직접 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏘는 [RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) (Remote [Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/)) 기술이 고성능 클러스터에서 필수적으로 사용된다.
 
@@ -92,20 +102,19 @@ tags = ["studynote-operating-system"]
 
 약결합 시스템의 가장 큰 매력은 '부분의 고장이 전체의 멸망으로 이어지지 않는다'는 점이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Client Request</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Load Balancer</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Node 1</div><div class="kb-diagram-node">Node 2</div><div class="kb-diagram-node">Node 3</div></div>
-<div class="kb-diagram-note">(Running) (⚠ Fault) (Running)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Health Check</div></div>
-<div class="kb-diagram-note">"Node 2 이상 발생 -&gt; 트래픽 차단"</div>
-</div>
-</div>
-
-
+```text
+ [Client Request] ──▶ [ Load Balancer ]
+                                         │
+             ┌─────────────┼─────────────┐
+             ▼             ▼             ▼
+       [ Node 1 ]    [ Node 2 ]    [ Node 3 ]
+       (Running)     (⚠ Fault)     (Running)
+             │             │             │
+             └─────────────┴──┬──────────┘
+                              ▼
+                      [ Health Check ]
+                "Node 2 이상 발생 -> 트래픽 차단"
+```
 
 **[다이어그램 해설]** [강결합 시스템](/knowledge-base/studynote/02_operating_system/01_overview_architecture/007_tightly_coupled_system/)은 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)나 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)에 문제가 생기면 모든 CPU가 오동작할 위험이 크지만, 약결합 시스템은 각 노드가 독립된 OS를 가지므로 장애가 물리적으로 격리([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/))된다. 위 도식처럼 로드 밸런서([Load Balancer](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/031_load_balancer/))가 각 노드의 상태를 주기적으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(Health Check)하다가, Node 2에 장애가 발생하면 즉시 해당 노드를 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 대열에서 제외한다. 나머지 Node 1과 3은 아무런 영향 없이 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 지속하며, 관리자는 시스템 가동 중에도 Node 2를 교체하거나 수리할 수 있다. 이것이 바로 '무중단 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)'를 가능케 하는 약결합 시스템의 핵심 원리이다.
 
@@ -184,23 +193,21 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">강결합 시스템 (Tightly Coupled System) — 공유 메모리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">약결합 시스템 (Loosely Coupled System) — 메시지 패싱</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">분산 운영체제 (Distributed OS)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">마이크로서비스 아키텍처 (MSA)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">엣지 컴퓨팅 (Edge Computing) / 클라우드 네이티브</div></div>
-</div>
-</div>
-
-
+```text
+[강결합 시스템 (Tightly Coupled System) — 공유 메모리]
+    │
+    ▼
+[약결합 시스템 (Loosely Coupled System) — 메시지 패싱]
+    │
+    ▼
+[분산 운영체제 (Distributed OS)]
+    │
+    ▼
+[마이크로서비스 아키텍처 (MSA)]
+    │
+    ▼
+[엣지 컴퓨팅 (Edge Computing) / 클라우드 네이티브]
+```
 
 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 아키텍처가 단일 서버 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 방식에서 수평 확장 가능한 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)·[엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/) 생태계로 진화한 흐름이다.
 

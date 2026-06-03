@@ -107,43 +107,31 @@ tags = ["software_engineering"]
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Agile</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Scrum</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Sprint / Backlog / Increment</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Feedback Loop</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Continuous Improvement</div>
-</div>
-</div>
-
-
+```text
+Agile
+   ↓
+Scrum
+   ↓
+Sprint / Backlog / Increment
+   ↓
+Feedback Loop
+   ↓
+Continuous Improvement
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Waterfall</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Agile</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Scrum</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Sprint Review / Retrospective</div>
-</div>
-</div>
-
-
+```text
+Waterfall
+   ↓
+Agile
+   ↓
+Scrum
+   ↓
+Sprint Review / Retrospective
+```
 
 ---
 

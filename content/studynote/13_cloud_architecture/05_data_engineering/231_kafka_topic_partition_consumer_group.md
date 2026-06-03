@@ -20,26 +20,22 @@ tags = ["studynote-cloud-architecture"]
 
 카프카의 확장성과 순서 보장은 Topic-[Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)-[Consumer Group](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/) 3계층 구조로 실현된다. 이 구조를 이해하지 못하면 핫스팟(특정 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에만 메시지 집중), 순서 보장 실패, 소비자 리밸런싱 폭풍 등 실무 장애를 만나게 된다.
 
+```
+[3계층 구조]
+Topic (논리 채널: "user-orders")
+├── Partition 0  [msg0][msg1][msg2][msg3]... (파티션 내 순서 보장)
+├── Partition 1  [msg0][msg1][msg2]...
+└── Partition 2  [msg0][msg1][msg2][msg3][msg4]...
 
+Consumer Group "order-processor"
+├── Consumer A  ──▶ Partition 0 (전담)
+├── Consumer B  ──▶ Partition 1 (전담)
+└── Consumer C  ──▶ Partition 2 (전담)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">3계층 구조</div></div>
-<div class="kb-diagram-note">Topic (논리 채널: "user-orders")</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">── Partition 0</div><div class="kb-diagram-node">msg0</div><div class="kb-diagram-node">msg1</div><div class="kb-diagram-node">msg2</div><div class="kb-diagram-node">msg3</div><div class="kb-diagram-note">... (파티션 내 순서 보장)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">── Partition 1</div><div class="kb-diagram-node">msg0</div><div class="kb-diagram-node">msg1</div><div class="kb-diagram-node">msg2</div><div class="kb-diagram-note">...</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">── Partition 2</div><div class="kb-diagram-node">msg0</div><div class="kb-diagram-node">msg1</div><div class="kb-diagram-node">msg2</div><div class="kb-diagram-node">msg3</div><div class="kb-diagram-node">msg4</div><div class="kb-diagram-note">...</div></div>
-<div class="kb-diagram-note">Consumer Group "order-processor"</div>
-<div class="kb-diagram-tree-item" style="--depth:0">Consumer A ──▶ Partition 0 (전담)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">Consumer B ──▶ Partition 1 (전담)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">Consumer C ──▶ Partition 2 (전담)</div>
-<div class="kb-diagram-note">Consumer Group "analytics"</div>
-<div class="kb-diagram-tree-item" style="--depth:0">Consumer X ──▶ Partition 0 + Partition 1 (2개 담당)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">Consumer Y ──▶ Partition 2 (1개 담당)</div>
-</div>
-</div>
-
-
+Consumer Group "analytics"
+├── Consumer X  ──▶ Partition 0 + Partition 1 (2개 담당)
+└── Consumer Y  ──▶ Partition 2 (1개 담당)
+```
 
 **핵심 설계 원칙**: [컨슈머 그룹](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/)은 독립적이므로, 동일 토픽을 "order-processor" 그룹과 "analytics" 그룹이 완전히 별도로 소비할 수 있다. 한 그룹의 소비가 다른 그룹에 영향을 주지 않는다.
 
@@ -51,22 +47,18 @@ tags = ["studynote-cloud-architecture"]
 
 ### [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키와 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
+```
+[파티션 키 기반 라우팅]
+Producer가 메시지 발행 시:
+  파티션 번호 = hash(partition_key) % 파티션 수
 
+예시:
+  customer_id = "C001" → hash("C001") % 3 = 0 → Partition 0
+  customer_id = "C002" → hash("C002") % 3 = 1 → Partition 1
+  customer_id = "C001" → hash("C001") % 3 = 0 → Partition 0 (항상 같은 파티션)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">파티션 키 기반 라우팅</div></div>
-<div class="kb-diagram-note">Producer가 메시지 발행 시:</div>
-<div class="kb-diagram-note">파티션 번호 = hash(partition_key) % 파티션 수</div>
-<div class="kb-diagram-note">예시:</div>
-<div class="kb-diagram-note">customer_id = "C001" → hash("C001") % 3 = 0 → Partition 0</div>
-<div class="kb-diagram-note">customer_id = "C002" → hash("C002") % 3 = 1 → Partition 1</div>
-<div class="kb-diagram-note">customer_id = "C001" → hash("C001") % 3 = 0 → Partition 0 (항상 같은 파티션)</div>
-<div class="kb-diagram-note">효과: 동일 customer_id의 이벤트는 항상 같은 파티션 → 순서 보장</div>
-</div>
-</div>
-
-
+효과: 동일 customer_id의 이벤트는 항상 같은 파티션 → 순서 보장
+```
 
 ### 오프셋 관리
 
@@ -86,23 +78,19 @@ Consumer A 현재 오프셋: 3 (배송시작까지 처리 완료)
 
 ### [컨슈머 그룹](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/) 리밸런싱
 
+```
+[리밸런싱 시나리오]
+상황 1: Consumer C 추가
+  이전: A→P0, B→P1, P2 미소비
+  이후: A→P0, B→P1, C→P2  ← 리밸런싱 발생
 
+상황 2: Consumer B 장애
+  이전: A→P0, B→P1(장애!), C→P2
+  이후: A→P0+P1, C→P2  ← 리밸런싱 발생
+  (B의 마지막 오프셋 이후부터 A가 이어받음)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">리밸런싱 시나리오</div></div>
-<div class="kb-diagram-note">상황 1: Consumer C 추가</div>
-<div class="kb-diagram-note">이전: A→P0, B→P1, P2 미소비</div>
-<div class="kb-diagram-note">이후: A→P0, B→P1, C→P2 ← 리밸런싱 발생</div>
-<div class="kb-diagram-note">상황 2: Consumer B 장애</div>
-<div class="kb-diagram-note">이전: A→P0, B→P1(장애!), C→P2</div>
-<div class="kb-diagram-note">이후: A→P0+P1, C→P2 ← 리밸런싱 발생</div>
-<div class="kb-diagram-note">(B의 마지막 오프셋 이후부터 A가 이어받음)</div>
-<div class="kb-diagram-note">리밸런싱 중: 파티션 재할당 동안 소비 일시 중단</div>
-</div>
-</div>
-
-
+리밸런싱 중: 파티션 재할당 동안 소비 일시 중단
+```
 
 | 리밸런싱 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) | 설명 | 특성 |
 |:---|:---|:---|
@@ -142,26 +130,23 @@ Consumer A 현재 오프셋: 3 (배송시작까지 처리 완료)
 
 ### [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키 설계 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
+```
+[좋은 파티션 키 설계]
+✅ 높은 카디널리티 (customer_id, session_id)
+   → 파티션 균등 분포, 핫스팟 방지
 
+✅ 비즈니스 순서 요건에 맞는 키
+   → 동일 고객 이벤트 순서 보장 필요 → customer_id
+   → 동일 주문 이벤트 순서 보장 필요 → order_id
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">좋은 파티션 키 설계</div></div>
-<div class="kb-diagram-note">✅ 높은 카디널리티 (customer_id, session_id)</div>
-<div class="kb-diagram-note">→ 파티션 균등 분포, 핫스팟 방지</div>
-<div class="kb-diagram-note">✅ 비즈니스 순서 요건에 맞는 키</div>
-<div class="kb-diagram-note">→ 동일 고객 이벤트 순서 보장 필요 → customer_id</div>
-<div class="kb-diagram-note">→ 동일 주문 이벤트 순서 보장 필요 → order_id</div>
-<div class="kb-diagram-note">❌ 낮은 카디널리티 키</div>
-<div class="kb-diagram-note">→ 날짜(YYYY-MM-DD) → 하루치 이벤트 모두 같은 파티션 → 핫스팟</div>
-<div class="kb-diagram-note">→ 성별(M/F) → 파티션 2개에 모든 트래픽 집중</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">핫스팟 해결 방법</div></div>
-<div class="kb-diagram-note">핵심 키 + 랜덤 접미사: customer_id + "-" + random(0,5)</div>
-<div class="kb-diagram-note">→ 순서 보장 희생, 분산 극대화</div>
-</div>
-</div>
+❌ 낮은 카디널리티 키
+   → 날짜(YYYY-MM-DD) → 하루치 이벤트 모두 같은 파티션 → 핫스팟
+   → 성별(M/F) → 파티션 2개에 모든 트래픽 집중
 
-
+[핫스팟 해결 방법]
+핵심 키 + 랜덤 접미사: customer_id + "-" + random(0,5)
+→ 순서 보장 희생, 분산 극대화
+```
 
 ### 실무 Consumer 구현 예시
 
@@ -236,21 +221,17 @@ while True:
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Topic: 메시지 카테고리 (주문 · 결제 · 로그)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Partition: 수평 분할 → 병렬 소비</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Key 기반 라우팅: 같은 키 → 같은 파티션</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Consumer Group: 파티션 : 컨슈머 = 1:1 매핑</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Rebalancing · Sticky Assignor → 안정적 파티션 할당</div>
-</div>
-</div>
-
-
+```text
+Topic: 메시지 카테고리 (주문 · 결제 · 로그)
+    │
+    ▼
+Partition: 수평 분할 → 병렬 소비
+    ├─► Key 기반 라우팅: 같은 키 → 같은 파티션
+    └─► Consumer Group: 파티션 : 컨슈머 = 1:1 매핑
+    │
+    ▼
+Rebalancing · Sticky Assignor → 안정적 파티션 할당
+```
 2. [컨슈머 그룹](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/)은 택배 회사와 같다. CJ택배(그룹 A)와 한진택배(그룹 B)가 동시에 같은 벨트에서 각자 자기 택배만 가져간다. 두 회사가 서로 방해하지 않는다.
 3. 오프셋은 택배 추적 번호다. "나는 100번 택배까지 받았어요"라고 표시해두면, 다음에 다시 시작할 때 101번부터 받을 수 있고, 틀렸다면 95번으로 돌아가 다시 받을 수 있다.
 

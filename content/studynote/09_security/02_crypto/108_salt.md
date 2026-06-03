@@ -35,22 +35,21 @@ tags = ["studynote-security"]
 | **1. 회원가입** | 사용자 입력 비밀번호에 [난수 생성기](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/486_trng/)([CSPRNG](/knowledge-base/studynote/09_security/20_extra_exam_prep/1001_csprng_random_generator/))로 만든 [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/)를 결합한 후 해싱 | 비밀번호 해시값 + 사용된 [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/)값 |
 | **2. 로그인** | DB에서 해당 사용자의 [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/)값을 찾아 입력받은 비밀번호와 결합하여 해싱 후 대조 | (없음, 임시 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 후 파기) |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동일 평문 보호: Salt가 레인보우 테이블을 무력화하는 원리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">유저 A: 비번 "1234"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">3B2...9A</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">유저 B: 비번 "1234"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">7F1...C2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">★ 방어 메커니즘:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DB가 털려도 두 해시값이 다름! 해커는 공통 비번 "1234"를 유추 불가.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해커가 "1234X9z!"의 해시를 깨려면 유저 A만을 위한 전용 테이블이 필요!</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           동일 평문 보호: Salt가 레인보우 테이블을 무력화하는 원리        │
+├──────────────────────────────────────────────────────────────┤
+│ [ 유저 A: 비번 "1234" ]                                         │
+│   생성된 솔트: "X9z!" ──▶ "1234X9z!" ──▶ 해싱 ──▶ [ 3B2...9A ] │
+│                                                              │
+│ [ 유저 B: 비번 "1234" ]                                         │
+│   생성된 솔트: "pL4@" ──▶ "1234pL4@" ──▶ 해싱 ──▶ [ 7F1...C2 ] │
+│                                                              │
+│ ★ 방어 메커니즘:                                                 │
+│ DB가 털려도 두 해시값이 다름! 해커는 공통 비번 "1234"를 유추 불가.        │
+│ 해커가 "1234X9z!"의 해시를 깨려면 유저 A만을 위한 전용 테이블이 필요!     │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램은 [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/)가 비밀을 감추는 것이 목적이 아니라, 해시 테이블의 재사용을 막는 것임을 명확히 보여준다. [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/)값 자체가 DB에 평문으로 저장되어 해커에게 노출되더라도, 해커는 그 [솔트](/knowledge-base/studynote/03_network/13_network_security_basics/671_password_hash_salt_pbkdf2_bcrypt_argon2/)가 결합된 거대한 매핑 테이블을 1명마다 새로 만들어야 하므로 공격이 사실상 무산된다.
 
@@ -113,23 +112,21 @@ tags = ["studynote-security"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단순 해시 함수 (SHA-256 등 평문 1:1 매핑)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">레인보우 테이블 공격 발생 (해시 결과의 역추적 취약점)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">솔트 (Salt) 도입 (사용자별 고유 난수 결합으로 사전 공격 방어)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">GPU 연산력 폭발 (무차별 대입 속도 급증)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">키 스트레칭 (Key Stretching) + 솔트 융합 (Bcrypt, Argon2 등 현대 방어막)</div>
-</div>
-</div>
-
-
+```text
+단순 해시 함수 (SHA-256 등 평문 1:1 매핑)
+    │
+    ▼
+레인보우 테이블 공격 발생 (해시 결과의 역추적 취약점)
+    │
+    ▼
+솔트 (Salt) 도입 (사용자별 고유 난수 결합으로 사전 공격 방어)
+    │
+    ▼
+GPU 연산력 폭발 (무차별 대입 속도 급증)
+    │
+    ▼
+키 스트레칭 (Key Stretching) + 솔트 융합 (Bcrypt, Argon2 등 현대 방어막)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

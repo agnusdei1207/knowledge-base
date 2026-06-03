@@ -28,18 +28,14 @@ tags = ["studynote-network"]
   - **캡슐화**: 러시아 전통 인형 <strong>'마트료시카'</strong>입니다. 가장 작은 인형([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 중간 인형([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/))에 넣고, 그걸 다시 큰 인형(IP)에 넣는 식입니다.
   - **MTU**: 마트료시카를 담아 나르는 <strong>'택배 박스의 규격 제한(1500g)'</strong>입니다. 마트료시카 전체 무게가 1500g을 넘어가면 택배 회사에서 접수를 거부합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">단편화 및 재조립</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">패킷 캡슐화, MTU</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">PMTU</div></div>
-</div>
-</div>
-
-
+```text
+[단편화 및 재조립]
+    │
+    ▼
+[패킷 캡슐화, MTU]
+    │
+    └──▶ [PMTU]
+```
 
 - **📢 섹션 요약 비유**: <strong> 네트워크 캡슐화는 회장님(응용 계층)의 편지를 비서(<a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a>)가 서류 봉투에 넣고, 우체국(IP)이 택배 상자에 포장한 뒤, 화물차(<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">이더넷</a>)에 싣는 과정입니다. 이때 화물차가 실을 수 있는 </strong>"최대 상자 크기(MTU)"가 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 화물차의 경우 1500 사이즈로 법제화**되어 있습니다.
 
@@ -58,22 +54,25 @@ tags = ["studynote-network"]
 - 1980년대 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 표준을 만들 때, "프레임이 너무 크면 한 놈이 회선을 독점해서 남들이 통신을 못 하니까, 알맹이(MTU) 크기를 1500바이트로 엄격히 제한하자"라고 약속했다.
 - 만약 3계층에서 2000바이트짜리 IP 패킷이 내려오면, [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 랜카드는 "내 뱃속(MTU 1500)에 안 들어가! 도로 가져가!"라며 뱉어낸다. 결국 IP 계층이 자기가 만든 패킷을 1500 크기에 맞게 여러 개로 칼질([단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/))해야만 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">캡슐화와 MTU (Maximum Transmission Unit)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">App (L7)</div><div class="kb-diagram-node">Data (1460 Bytes)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">TCP (L4)</div><div class="kb-diagram-node">TCP 헤더(20)</div><div class="kb-diagram-node">Data (1460)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">알맹이 (MTU 1500 제한)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IP (L3)</div><div class="kb-diagram-node">IP 헤더(20)</div><div class="kb-diagram-node">TCP 헤더(20)</div><div class="kb-diagram-node">Data</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MAC (L2)</div><div class="kb-diagram-node">MAC 헤더(14)</div><div class="kb-diagram-node">1500 Bytes 알맹이</div><div class="kb-diagram-node">FCS(4)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 전체 이더넷 프레임 크기: 1518 Bytes</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* L2 입장에서 본 순수 알맹이(L3 패킷)의 한계 크기: MTU 1500 Bytes</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                캡슐화와 MTU (Maximum Transmission Unit)        │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ App (L7) ]                   [ Data (1460 Bytes) ]      │
+ │                                            │                │
+ │   [ TCP (L4) ]           [ TCP 헤더(20) ][ Data (1460) ]      │
+ │                                            │                │
+ │                 ┌───────────────── 알맹이 (MTU 1500 제한) ─────┐│
+ │   [ IP (L3) ]   │ [ IP 헤더(20) ][ TCP 헤더(20) ][ Data ]   ││
+ │                 └───────────────────────────────────────────┘│
+ │                                            │                │
+ │   [ MAC (L2) ]  [ MAC 헤더(14) ][ 1500 Bytes 알맹이 ][ FCS(4) ] │
+ │                                                             │
+ │   * 전체 이더넷 프레임 크기: 1518 Bytes                            │
+ │   * L2 입장에서 본 순수 알맹이(L3 패킷)의 한계 크기: MTU 1500 Bytes     │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 3. MSS (Maximum [Segment](/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/) Size)
 개발자들은 네트워크를 튜닝할 때 MTU보다 <strong>MSS</strong>라는 단어를 더 자주 쓴다.
@@ -135,19 +134,15 @@ MTU 1500에서 IP 헤더(20)와 [TCP](/knowledge-base/studynote/03_network/08_tr
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 단편화 및 재조립</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 패킷 캡슐화, MTU</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: PMTU</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 대규모 주소 자동화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 단편화 및 재조립]
+    │
+    ▼
+[현재 개념: 패킷 캡슐화, MTU]
+    │
+    ├──▶ [확장 A: PMTU]
+    └──▶ [확장 B: 대규모 주소 자동화]
+```
 
 패킷 캡슐화, MTU는 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 및 재조립에서 출발해 현재 메커니즘을 정교화하고, 이후 PMTU와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

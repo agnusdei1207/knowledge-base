@@ -29,24 +29,24 @@ SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_val
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SQL 인젝션 공격 메커니즘과 방어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">취약한 코드 (문자열 연결):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">query = "SELECT * FROM users WHERE id = '" + user_input + "'"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공격 입력: 1' OR '1'='1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실행 쿼리: SELECT * FROM users WHERE id = '1' OR '1'='1'</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 모든 사용자 레코드 반환 (인증 우회!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Prepared Statement (안전):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">query = "SELECT * FROM users WHERE id = ?"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">stmt.setString(1, user_input) ← 데이터로만 처리, 구조 변조 불가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1' OR '1'='1 입력 시: 리터럴 문자열로 처리 → 결과 없음 (안전)</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────────────┐
+│              SQL 인젝션 공격 메커니즘과 방어                         │
+├──────────────────────────────────────────────────────────────────┤
+│  취약한 코드 (문자열 연결):                                          │
+│  query = "SELECT * FROM users WHERE id = '" + user_input + "'"  │
+│                                                                  │
+│  공격 입력: 1' OR '1'='1                                           │
+│  실행 쿼리: SELECT * FROM users WHERE id = '1' OR '1'='1'        │
+│  결과: 모든 사용자 레코드 반환 (인증 우회!)                           │
+│                                                                  │
+│  Prepared Statement (안전):                                       │
+│  query = "SELECT * FROM users WHERE id = ?"                      │
+│  stmt.setString(1, user_input)  ← 데이터로만 처리, 구조 변조 불가   │
+│                                                                  │
+│  1' OR '1'='1 입력 시: 리터럴 문자열로 처리 → 결과 없음 (안전)       │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 | SQL [인젝션](/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/) 유형      | 방법                             | 피해                           |
 |:------------------|:---------------------------------|:-------------------------------|
@@ -120,23 +120,21 @@ Prepared Statement 적용만으로도 SQL [인젝션](/knowledge-base/studynote/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">문자열 연결 SQL 구성 (취약 패턴)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SQL 인젝션 공격 (OWASP Top 1~3위)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Prepared Statement / ORM (1차 방어)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">입력 검증 + WAF + 최소 권한 (다층 방어)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SAST/DAST 자동화 보안 테스트 (DevSecOps)</div>
-</div>
-</div>
-
-
+```
+문자열 연결 SQL 구성 (취약 패턴)
+    │
+    ▼
+SQL 인젝션 공격 (OWASP Top 1~3위)
+    │
+    ▼
+Prepared Statement / ORM (1차 방어)
+    │
+    ▼
+입력 검증 + WAF + 최소 권한 (다층 방어)
+    │
+    ▼
+SAST/DAST 자동화 보안 테스트 (DevSecOps)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -19,7 +19,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 소프트웨어 [요구사항 공학](/knowledge-base/studynote/04_software_engineering/03_design_architecture/131_requirements_engineering/)([Requirements Engineering](/knowledge-base/studynote/04_software_engineering/03_design_architecture/131_requirements_engineering/))은 도출(Elicitation) → 분석(Analysis) → 명세([Specification](/knowledge-base/studynote/04_software_engineering/03_design_architecture/148_requirements_specification_formal_informal/)) → [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)([Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))의 4단계로 이루어진다. 그중 가장 어렵고 중요한 **도출(Elicitation)** 단계에서 1:1 인터뷰나 설문조사의 한계를 극복하기 위해 두 가지 강력한 무기가 쓰인다. <strong>JAD (Joint Application Design)</strong>는 1970년대 후반 IBM에서 창안한 집중 워크숍 형태로, 모든 [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/)(Stakeholders)가 한 공간에 모여 며칠간 토론하며 요구사항을 확정 짓는 기법이다. <strong>페르소나 (Persona)</strong>는 알란 쿠퍼(Alan Cooper)가 고안한 개념으로, 시스템을 사용할 다양한 집단을 대표하는 '생생한 가상 인물'을 창조하여 요구사항의 기준점으로 삼는 기법이다.
+- **개념**: 소프트웨어 [요구사항 공학](/knowledge-base/studynote/04_software_engineering/03_design_architecture/131_requirements_engineering/)([Requirements 엔진ering](/knowledge-base/studynote/04_software_engineering/03_design_architecture/131_requirements_engineering/))은 도출(Elicitation) → 분석(Analysis) → 명세([Specification](/knowledge-base/studynote/04_software_engineering/03_design_architecture/148_requirements_specification_formal_informal/)) → [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)([Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))의 4단계로 이루어진다. 그중 가장 어렵고 중요한 **도출(Elicitation)** 단계에서 1:1 인터뷰나 설문조사의 한계를 극복하기 위해 두 가지 강력한 무기가 쓰인다. <strong>JAD (Joint Application Design)</strong>는 1970년대 후반 IBM에서 창안한 집중 워크숍 형태로, 모든 [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/)(Stakeholders)가 한 공간에 모여 며칠간 토론하며 요구사항을 확정 짓는 기법이다. <strong>페르소나 (Persona)</strong>는 알란 쿠퍼(Alan Cooper)가 고안한 개념으로, 시스템을 사용할 다양한 집단을 대표하는 '생생한 가상 인물'을 창조하여 요구사항의 기준점으로 삼는 기법이다.
 - **필요성**: 요구사항 도출은 단순히 "고객이 원하는 것을 받아 적는" 과정이 아니다. 고객은 자신이 진짜 원하는 것이 무엇인지 스스로도 모르는 경우가 태반이며(IKIWISI: I'll Know It When I See It), 부서마다 이해관계가 충돌한다. 이를 개발자가 이메일로만 취합하면 필수적으로 '[사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)([Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/))' 현상과 요구사항 누락/충돌이 발생한다. 이를 타파하기 위해 '합동 워크숍(JAD)'을 통한 물리적 합의와, '특정 가상 인물(Persona)'로 감정이입을 강제하여 초점을 맞추는 기법이 도입되었다.
 - **💡 비유**: 가족 여행 계획을 짤 때 카톡으로 의견을 취합하면 배가 산으로 가지만(전통적 도출), 거실에 모여 앉아 큰 지도를 펴놓고 며칠간 끝장 토론을 벌이는 것이 JAD 워크숍이며, "다리 아픈 할머니가 편하게 쉴 수 있는 곳"이라는 가상의 인물을 상상하며 일정을 맞추는 것이 페르소나 기법이다.
 
@@ -30,28 +30,31 @@ tags = ["studynote-software-engineering"]
 
 도출 단계에서 흔히 겪는 요구사항의 오류 전파 모델을 시각화하면, 왜 JAD와 페르소나 같은 강력한 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 개입 도구가 필요한지 알 수 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구사항 도출 실패 시 오류 전파 모델 (눈덩이 효과)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현실</div><div class="kb-diagram-node">고객의 설명</div><div class="kb-diagram-node">분석가의 문서</div><div class="kb-diagram-node">개발자의 구현</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">그네 ▶ 밧줄 2개 그네 ──▶ 바닥에 끌리는 그네 ─▶ 나무가 베인 그네</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(필요한 것) (도출 오류) (명세 오류) (설계/구현 오류)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">========================= 오류 증폭의 비용 곡선 ===================</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비용 ↑</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ 100x 배</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">10x 배 /</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1x 배 /</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0.1x 배 / /</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구사항 도출 설계 단계 구현 단계 배포 후 운영</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💡 시사점: 도출 단계에서 고객이 "나무에 매달린 타이어 그네"를 진짜</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원한다는 것을 JAD와 페르소나로 완벽히 잡아내지 못하면,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">배포 후 뜯어고치는 비용은 100배 이상 폭증한다.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌──────────────────────────────────────────────────────────────┐
+  │         요구사항 도출 실패 시 오류 전파 모델 (눈덩이 효과)          │
+  ├──────────────────────────────────────────────────────────────┤
+  │                                                              │
+  │   [현실]       [고객의 설명]      [분석가의 문서]     [개발자의 구현] │
+  │    그네 ─────▶ 밧줄 2개 그네 ──▶ 바닥에 끌리는 그네 ─▶ 나무가 베인 그네│
+  │  (필요한 것)     (도출 오류)       (명세 오류)        (설계/구현 오류)│
+  │                                                              │
+  │  ========================= 오류 증폭의 비용 곡선 ===================│
+  │  비용 ↑                                                           │
+  │       │                                             / 100x 배 │
+  │       │                                            /         │
+  │       │                                           /          │
+  │       │                                     10x 배 /           │
+  │       │                         1x 배        /               │
+  │       │             0.1x 배       /        /                 │
+  │       └───────/─────────/────────/────────/─────────────────▶ │
+  │            요구사항 도출  설계 단계   구현 단계  배포 후 운영           │
+  │                                                              │
+  │  💡 시사점: 도출 단계에서 고객이 "나무에 매달린 타이어 그네"를 진짜      │
+  │            원한다는 것을 JAD와 페르소나로 완벽히 잡아내지 못하면,       │
+  │            배포 후 뜯어고치는 비용은 100배 이상 폭증한다.              │
+  └──────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 유명한 '그네 비유(Tree Swing Cartoon)'와 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 '[결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 수정 비용 곡선(Boehm's Cost of Change Curve)'을 결합한 다이어그램이다. 요구사항 도출 단계에서 발생한 사소한 오해(현업 부서는 A를 원했으나, 분석가가 B로 적음)는 설계, 코딩, 테스트를 거치며 기하급수적으로 부풀어 올라, 배포 후에는 시스템을 아예 새로 짜야 하는 대참사를 낳는다. JAD는 이런 오해를 한 방에 모아놓고 화이트보드에 그림을 그려가며 물리적으로 차단하는 기법이며, 페르소나는 "이 그네를 탈 사람은 5세 아이(페르소나)[인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/), 80kg의 성인인가?"를 명확히 하여 엉뚱한 설계를 막아주는 백신 역할을 한다.
 
@@ -145,30 +148,28 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 요구사항 도출 JAD 페르소나의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 요구사항 도출 JAD 페르소나의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
 | [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 요구사항 도출 JAD 페르소나은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | 요구사항 도출 JAD 페르소나 적용 결과는 QA 활동을 통해 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)되고 측정된다 |
 | [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 요구사항 도출 JAD 페르소나에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">요구사항 도출 JAD 페르소나 개념 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 위기 (Software Crisis) 인식
+    │
+    ▼
+요구사항 도출 JAD 페르소나 개념 정립
+    │
+    ▼
+표준화 및 방법론 체계화 (ISO, CMMI, Agile)
+    │
+    ▼
+클라우드 네이티브·AI 기반 확장 적용
+    │
+    ▼
+지속적 개선 및 DevOps·MLOps 통합
+```
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

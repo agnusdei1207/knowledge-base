@@ -23,18 +23,14 @@ tags = ["studynote-network"]
 - **WAN (국가망)**: 거리가 멀어지면 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)은 데이터가 깨졌습니다. 그래서 통신사들은 서울-부산 사이에 에러 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 기능이 빡센 <strong><a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/896_sonet_synchronous_optical_networking_oc_ring/">SONET</a>/<a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/895_sdh_synchronous_digital_hierarchy_stm1/">SDH</a>(895번, 896번 문서)</strong>라는 전혀 다른 낡고 비싼 광통신 체계를 깔았습니다.
 - **병목 지옥**: 사내 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 데이터가 밖으로 나갈 때, 비싼 라우터가 땀을 뻘뻘 흘리며 '[이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 껍데기'를 다 찢어발기고 '[SONET](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/896_sonet_synchronous_optical_networking_oc_ring/) 껍데기'로 재포장([Framing](/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/))해서 쏴야 했습니다. [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비와 변환 딜레이가 끔찍했습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 펑션 오프로딩 다이렉트 처리 DPU…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">광통신 네트워크 이더넷</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">장거리 백본 해저 광케이블 아키텍처 및 증폭…</div></div>
-</div>
-</div>
-
-
+```text
+[네트워크 펑션 오프로딩 다이렉트 처리 DPU…]
+    │
+    ▼
+[광통신 네트워크 이더넷]
+    │
+    └──▶ [장거리 백본 해저 광케이블 아키텍처 및 증폭…]
+```
 
 - **📢 섹션 요약 비유**: 광통신 네트워크 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -44,18 +40,14 @@ tags = ["studynote-network"]
 
 - **개념**: <strong>싸고 빠르고 친숙한 LAN 기술인 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">이더넷</a>(<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">Ethernet</a>) <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a> 프레임을, 중간의 복잡한 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a> 변환(<a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/896_sonet_synchronous_optical_networking_oc_ring/">SONET</a> 등) 과정 없이, 그대로 도시 간/국가 간을 잇는 거대한 광케이블 백본망(Optical Network) 위에 직접 실어 나르는(Native <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">Ethernet</a> over DWDM 등) 차세대 단일망 통신 기술</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 펑션 오프로딩 다이렉트 처리 DPU…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">광통신 네트워크 이더넷</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">장거리 백본 해저 광케이블 아키텍처 및 증폭…</div></div>
-</div>
-</div>
-
-
+```text
+[네트워크 펑션 오프로딩 다이렉트 처리 DPU…]
+    │
+    ▼
+[광통신 네트워크 이더넷]
+    │
+    └──▶ [장거리 백본 해저 광케이블 아키텍처 및 증폭…]
+```
 
 - **📢 섹션 요약 비유**: 광통신 네트워크 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -125,19 +117,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 네트워크 펑션 오프로딩 다이렉트 처리 DPU…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 광통신 네트워크 이더넷</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 장거리 백본 해저 광케이블 아키텍처 및 증폭…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 네트워크 펑션 오프로딩 다이렉트 처리 DPU…]
+    │
+    ▼
+[현재 개념: 광통신 네트워크 이더넷]
+    │
+    ├──▶ [확장 A: 장거리 백본 해저 광케이블 아키텍처 및 증폭…]
+    └──▶ [확장 B: 의미 기반 통신 최적화]
+```
 
 광통신 네트워크 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)는 [네트워크 펑션 오프로딩](/knowledge-base/studynote/03_network/17_sdn_nfv/889_network_function_offloading_dpu_p4_compile/) 다이렉트 처리 [DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/)…에서 출발해 현재 메커니즘을 정교화하고, 이후 장거리 백본 [해저 광케이블 아키텍처](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/891_submarine_cable_architecture_edfa_amplifier_topology/) 및 증폭…와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

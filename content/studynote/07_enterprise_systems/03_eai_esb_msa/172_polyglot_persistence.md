@@ -27,20 +27,18 @@ tags = ["studynote-enterprise"]
 
 이 그림은 공유 DB [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 [폴리글랏 퍼시스턴스](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/308_pgvector/)의 차이를 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">One shared store versus fit-for-purpose stores</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">shared DB : Order / Catalog / Session / Recommendation -&gt; one RDBMS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">polyglot : Order -&gt; RDBMS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Catalog -&gt; document DB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Session -&gt; key-value store</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Recommendation -&gt; graph DB</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│              One shared store versus fit-for-purpose stores          │
+├──────────────────────────────────────────────────────────────────────┤
+│ shared DB : Order / Catalog / Session / Recommendation -> one RDBMS │
+│                                                                      │
+│ polyglot : Order -> RDBMS                                            │
+│            Catalog -> document DB                                    │
+│            Session -> key-value store                                │
+│            Recommendation -> graph DB                                │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 핵심은 저장소 수가 아니라 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/">데이터 모델</a>과 접근 패턴의 부합성</strong>이다. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 문제를 저장소가 더 자연스럽게 표현할 수 있을 때 [폴리글랏 퍼시스턴스](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/308_pgvector/)의 가치가 생긴다.
 
@@ -63,19 +61,17 @@ tags = ["studynote-enterprise"]
 
 아래 구조는 [폴리글랏 퍼시스턴스](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/308_pgvector/)가 "DB 여러 개"가 아니라 "[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 소유 + 이벤트 연계"라는 점을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Service-owned stores with event-based linkage</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Order Service ----------&gt; Order DB ----------&gt; Outbox event</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Catalog Service --------&gt; Catalog DB --------&gt; API / event</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Recommendation Service -&gt; Graph DB &lt;--------- subscribed events</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">rule: no cross-service direct joins, integrate through contracts</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│              Service-owned stores with event-based linkage           │
+├──────────────────────────────────────────────────────────────────────┤
+│ Order Service ----------> Order DB ----------> Outbox event          │
+│ Catalog Service --------> Catalog DB --------> API / event           │
+│ Recommendation Service -> Graph DB <--------- subscribed events      │
+│                                                                      │
+│ rule: no cross-service direct joins, integrate through contracts      │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 즉 [폴리글랏 퍼시스턴스](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/308_pgvector/)의 핵심 원리는 "자기 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 진실 원천(Source of Truth)은 자기 저장소 안에 둔다"는 것이다. 다른 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 그 진실을 API나 이벤트로 소비할 뿐이며, 그 과정에서 결국 최종적 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) ([Eventual Consistency](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/)) 을 받아들일 준비가 필요하다.
 
@@ -111,24 +107,21 @@ tags = ["studynote-enterprise"]
 
 아래 결정 흐름은 [폴리글랏 퍼시스턴스](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/308_pgvector/)를 도입할지 판단하는 최소 질문을 정리한 것이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Is polyglot persistence really justified for this domain?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">service boundary and ownership clear?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no -&gt; keep a simpler store strategy first</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">workload/consistency needs differ materially?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no -&gt; same-engine database per service may be enough</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ops and integration patterns ready?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no -&gt; complexity risk high</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes -&gt; polyglot candidate</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│        Is polyglot persistence really justified for this domain?     │
+├──────────────────────────────────────────────────────────────────────┤
+│ service boundary and ownership clear?                                │
+│        ├─ no  -> keep a simpler store strategy first                 │
+│        └─ yes                                                         │
+│ workload/consistency needs differ materially?                        │
+│        ├─ no  -> same-engine database per service may be enough      │
+│        └─ yes                                                         │
+│ ops and integration patterns ready?                                  │
+│        ├─ no  -> complexity risk high                                │
+│        └─ yes -> polyglot candidate                                  │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 ### 기술사 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -177,23 +170,21 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Monolithic shared database</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Service boundary and data ownership</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Database per Service</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Fit-for-purpose store selection</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Event / Outbox / Saga based integration</div>
-</div>
-</div>
-
-
+```text
+Monolithic shared database
+    │
+    ▼
+Service boundary and data ownership
+    │
+    ▼
+Database per Service
+    │
+    ▼
+Fit-for-purpose store selection
+    │
+    ▼
+Event / Outbox / Saga based integration
+```
 
 이 흐름은 단일 공유 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)에서 출발해, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 경계와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소유권을 명확히 하면서 목적 적합형 저장소 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로 발전하는 과정을 보여 준다.
 

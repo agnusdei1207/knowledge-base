@@ -21,25 +21,25 @@ tags = ["hadoop", "studynote-bigdata"]
 
 스쿱은 사용자의 명령을 [맵리듀스](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) 잡으로 변환하여 RDBMS와 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 사이의 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통로를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한다.
 
+```text
+[ Apache Sqoop Architecture ]
 
+ +-------------+        +--------------------------+        +-------------+
+ |    RDBMS    |        |       Sqoop Client       |        |    Hadoop   |
+ | (Oracle,    | <----> | (Map-Only MapReduce Job) | <----> | (HDFS, Hive,|
+ |  MySQL, etc)|        |      [Parallel I/O]      |        |  HBase)     |
+ +-------------+        +------------+-------------+        +-------------+
+                                     |
+                      +--------------v-------------+
+                      |    JDBC Drivers / Connectors|
+                      +----------------------------+
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Sqoop Architecture</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RDBMS</div><div class="kb-diagram-cell">Sqoop Client</div><div class="kb-diagram-cell">Hadoop</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Oracle,</div><div class="kb-diagram-cell">&lt;----&gt;</div><div class="kb-diagram-cell">(Map-Only MapReduce Job)</div><div class="kb-diagram-cell">&lt;----&gt;</div><div class="kb-diagram-cell">(HDFS, Hive,</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">MySQL, etc)|</div><div class="kb-diagram-node">Parallel I/O</div><div class="kb-diagram-note">| HBase)</div></div>
-<div class="kb-diagram-note">+--------------v-------------+</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">JDBC Drivers / Connectors</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Bilingual Comparison</div></div>
-<div class="kb-diagram-tree-item" style="--depth:0">Import (임포트): RDBMS에서 하둡으로 데이터를 가져오는 과정.</div>
-<div class="kb-diagram-tree-item" style="--depth:0">Export (익스포트): 하둡에서 RDBMS로 결과 데이터를 내보내는 과정.</div>
-<div class="kb-diagram-tree-item" style="--depth:0">Boundary Query (경계 쿼리): 데이터를 병렬로 쪼개기 위해 Primary Key 범위를 확인하는 쿼리.</div>
-<div class="kb-diagram-tree-item" style="--depth:0">Map-Only Job: 리듀스 단계 없이 매퍼(Mapper)들이 각자 DB에 붙어 데이터를 긁어오는 방식.</div>
-</div>
-</div>
-
-
+[ Bilingual Comparison ]
+- Import (임포트): RDBMS에서 하둡으로 데이터를 가져오는 과정.
+- Export (익스포트): 하둡에서 RDBMS로 결과 데이터를 내보내는 과정.
+- Boundary Query (경계 쿼리): 데이터를 병렬로 쪼개기 위해 Primary Key 범위를 확인하는 쿼리.
+- Map-Only Job: 리듀스 단계 없이 매퍼(Mapper)들이 각자 DB에 붙어 데이터를 긁어오는 방식.
+```
 
 스쿱은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 시 '리듀스(Reduce)' 단계가 필요 없는 Map-Only 방식으로 동작한다. 이는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가공하는 것이 아니라 '운반'하는 것이 목적이기 때문이며, 이 덕분에 매우 빠른 전송 속도를 보장한다.
 
@@ -69,25 +69,24 @@ tags = ["hadoop", "studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">수동 ETL 스크립트 — JDBC 기반 수동 데이터 추출·적재, 유지보수 부담</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Sqoop — RDBMS ↔ 하둡 MapReduce 병렬 대용량 데이터 전송 자동화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Flume — 로그·스트림 실시간 수집, HDFS·HBase 적재 파이프라인</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Kafka Connect — 분산 커넥터 프레임워크, RDBMS·클라우드 소스 실시간 CDC</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CDC (Change Data Capture) — Debezium 기반 변경분만 스트리밍 추출·전달</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 레이크하우스 Ingestion — Apache Iceberg·Delta Lake 직접 ACID 적재</div></div>
-</div>
-</div>
-
-
+```text
+[수동 ETL 스크립트 — JDBC 기반 수동 데이터 추출·적재, 유지보수 부담]
+    │
+    ▼
+[Apache Sqoop — RDBMS ↔ 하둡 MapReduce 병렬 대용량 데이터 전송 자동화]
+    │
+    ▼
+[Apache Flume — 로그·스트림 실시간 수집, HDFS·HBase 적재 파이프라인]
+    │
+    ▼
+[Apache Kafka Connect — 분산 커넥터 프레임워크, RDBMS·클라우드 소스 실시간 CDC]
+    │
+    ▼
+[CDC (Change Data Capture) — Debezium 기반 변경분만 스트리밍 추출·전달]
+    │
+    ▼
+[데이터 레이크하우스 Ingestion — Apache Iceberg·Delta Lake 직접 ACID 적재]
+```
 이 흐름은 수동 JDBC 스크립트에서 Sqoop [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 배치 전송으로 자동화된 뒤, 실시간 CDC와 [데이터 레이크하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/) 직접 적재로 진화하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 기술의 발전을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

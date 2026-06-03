@@ -23,19 +23,19 @@ tags = ["studynote-it-management"]
 
 실무에서는 이 개념을 단순 정의로 외우기보다 조직이 무엇을 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)·개선·정렬하려는지에 맞춰 읽어야 한다. 그래서 기술사 답안에서도 배경, 필요성, 실패 시 위험을 먼저 말하고 나서 구조와 지표를 붙여 주는 편이 설득력이 높다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Business Need</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PI</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Value / Control</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────┐
+│ Business Need      │
+└─────────┬──────────┘
+          ▼
+┌────────────────────┐
+│ PI                 │
+└─────────┬──────────┘
+          ▼
+┌────────────────────┐
+│ Value / Control    │
+└────────────────────┘
+```
 
 이 흐름은 '[PI](/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/)'이라는 개념이 기술 하나를 설명하는 용어가 아니라, 경영 요구와 운영 통제를 잇는 중간 다리라는 점을 보여 준다.
 
@@ -54,17 +54,13 @@ PI의 핵심 원리는 입력 기준, 실행 규칙, 측정 지표, 개선 루�
 | 실행 수단 | 조직, 프로세스, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 도구를 연결한다. | 도구만 도입하면 문서 중심 운영으로 흐르기 쉽다. |
 | 성과 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 지표와 리뷰를 통해 다음 판단으로 환류한다. | 측정 없는 개선은 반복되지 않는다. |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">input output</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Trigger ▶</div><div class="kb-diagram-cell">Core Rule ▶</div><div class="kb-diagram-cell">Decision</div></div>
-<div class="kb-diagram-tree-item" style="--depth:2">constraints ▶│◀ metrics / review ──</div>
-</div>
-</div>
-
-
+```text
+┌──────────┐   input    ┌────────────┐   output   ┌────────────┐
+│ Trigger  ├──────────▶│ Core Rule  ├──────────▶│ Decision   │
+└────┬─────┘           └────┬───────┘           └────┬───────┘
+     │                      │                          │
+     └──── constraints ────▶│◀──── metrics / review ──┘
+```
 
 이 구조에서 중요한 것은 한 요소만 강화한다고 전체 품질이 좋아지지 않는다는 점이다. 예를 들어 통제만 강하면 속도가 떨어지고, 속도만 올리면 품질과 책임성이 약해진다. 그래서 이 개념은 항상 균형 설계의 문제로 접근해야 한다.
 
@@ -129,19 +125,15 @@ PI을 제대로 적용하면 [전략](/knowledge-base/studynote/04_software_engi
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">BPR</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">PI</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">정보시스템 마스터플랜</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">조직 실행</div></div>
-</div>
-</div>
-
-
+```text
+[BPR]
+    │
+    ▼
+[PI]
+    │
+    ├──▶ [정보시스템 마스터플랜]
+    └──▶ [조직 실행]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 초점이 좁혀지고, 이후에는 운영 확장과 거버넌스 고도화 방향으로 퍼져 나가는 구조를 보여 준다.
 

@@ -18,19 +18,13 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">서비스 메시 구조:</div>
-<div class="kb-diagram-note">데이터 플레인: Envoy 사이드카 (각 Pod 옆)</div>
-<div class="kb-diagram-note">→ 트래픽 가로채기 → LB·재시도·mTLS·트레이싱</div>
-<div class="kb-diagram-note">컨트롤 플레인: Istiod (정책·설정 배포)</div>
-<div class="kb-diagram-note">→ VirtualService·DestinationRule 등 CRD</div>
-</div>
-</div>
-
-
+```text
+서비스 메시 구조:
+  데이터 플레인: Envoy 사이드카 (각 Pod 옆)
+    → 트래픽 가로채기 → LB·재시도·mTLS·트레이싱
+  컨트롤 플레인: Istiod (정책·설정 배포)
+    → VirtualService·DestinationRule 등 CRD
+```
 
 - **📢 섹션 요약 비유**: [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)는 <strong>우체국 네트워크</strong>이다. 편지(요청)를 직접 전달하는 대신, 우체부([사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/))가 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)·배달·보안을 대행한다.
 
@@ -54,17 +48,11 @@ tags = ["studynote-cloud-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">라이브러리 기반 (Netflix OSS, 2014)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Linkerd v1 (2017)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Istio + Envoy (2017)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Linkerd2 (Rust, 경량)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: Cilium (eBPF, 사이드카 없음)</div></div>
-</div>
-</div>
-
-
+```text
+[라이브러리 기반 (Netflix OSS, 2014)] → [Linkerd v1 (2017)]
+    → [Istio + Envoy (2017)] → [Linkerd2 (Rust, 경량)]
+    → [현재: Cilium (eBPF, 사이드카 없음)]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)는 <strong>우체국 시스템</strong>이에요. 편지를 직접 가져가지 않고 <strong>우체부(<a href="/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/">사이드카</a>)</strong>가 배달해요.

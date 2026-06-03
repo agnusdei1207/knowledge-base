@@ -23,23 +23,23 @@ tags = ["studynote-design-supervision"]
 
 싱글턴이 적합한 경우: ① 로거(Logger): 모든 모듈이 동일한 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 파일에 기록, ② [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)(Configuration): 애플리케이션 전체 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 하나의 객체로 관리, ③ 커넥션 풀(Connection Pool): DB 연결 자원을 단일 풀에서 관리, ④ 캐시(Cache): 전역 캐시 저장소.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">싱글턴 패턴 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Singleton 클래스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- private static Singleton instance = null</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- private Singleton() {...} // 생성자 private</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ public static Singleton getInstance() {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">if (instance == null) instance = new Singleton()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">return instance;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라이언트: Singleton.getInstance() 로만 접근</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│            싱글턴 패턴 구조                                  │
+├─────────────────────────────────────────────────────────────┤
+│  Singleton 클래스                                           │
+│  ┌───────────────────────────────────────────────────────┐  │
+│  │  - private static Singleton instance = null           │  │
+│  │  - private Singleton() {...}   // 생성자 private       │  │
+│  │  + public static Singleton getInstance() {            │  │
+│  │      if (instance == null) instance = new Singleton() │  │
+│  │      return instance;                                  │  │
+│  │    }                                                   │  │
+│  └───────────────────────────────────────────────────────┘  │
+│                                                             │
+│  클라이언트: Singleton.getInstance() 로만 접근              │
+└─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 나라마다 하나의 대통령(싱글턴 인스턴스)만 존재하며, 모든 국민(클라이언트)이 대통령에게 접근하려면 공식 창구(getInstance())를 통해야 한다.
 
@@ -57,25 +57,22 @@ tags = ["studynote-design-supervision"]
 | Bill Pugh (Static Holder) | 내부 정적 클래스 활용 | 보장 (권장) |
 | Enum [Singleton](/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/) | Java Enum으로 구현 | 보장 (JVM 보장) |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Bill Pugh 싱글턴 (정적 홀더 패턴) - 권장 구현</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">class Singleton {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">private Singleton() {}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">private static class Holder {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">static final Singleton INSTANCE = new Singleton();</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">public static Singleton getInstance() {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">return Holder.INSTANCE;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// JVM 클래스 로딩 메커니즘으로 스레드 안전 보장</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│       Bill Pugh 싱글턴 (정적 홀더 패턴) - 권장 구현         │
+├─────────────────────────────────────────────────────────────┤
+│  class Singleton {                                          │
+│    private Singleton() {}                                   │
+│    private static class Holder {                            │
+│      static final Singleton INSTANCE = new Singleton();    │
+│    }                                                        │
+│    public static Singleton getInstance() {                  │
+│      return Holder.INSTANCE;                               │
+│    }                                                        │
+│  }                                                          │
+│  // JVM 클래스 로딩 메커니즘으로 스레드 안전 보장           │
+└─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 정부 인감(싱글턴 인스턴스)은 하나만 존재하며 공증 사무소(getInstance())를 통해서만 사용할 수 있다.
 

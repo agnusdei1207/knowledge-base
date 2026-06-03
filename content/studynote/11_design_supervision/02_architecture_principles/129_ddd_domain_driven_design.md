@@ -23,24 +23,22 @@ DDD는 에릭 에반스(Eric Evans)가 2003년 저서 '[Domain-Driven Design](/k
 
 기존 [데이터 중심](/knowledge-base/studynote/04_software_engineering/06_software_architecture/383_data_centric_architecture/) 설계에서는 CRUD(Create, Read, Update, Delete) 연산을 중심으로 설계하여 비즈니스 의도가 코드에 흐릿하게 표현되었다. DDD는 '[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델'을 소프트웨어의 심장에 놓고, 비즈니스 전문가와 개발자가 같은 언어로 소통하며 그 언어를 코드에 직접 반영한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DDD 전략적 설계 vs 전술적 설계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전략적 설계 (Strategic Design)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 바운디드 컨텍스트 (경계 정의)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 유비쿼터스 언어 (공통 언어)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 컨텍스트 맵 (BC 간 관계)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전술적 설계 (Tactical Design)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 에그리게이트 (일관성 경계)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 엔티티 + 값 객체</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 도메인 서비스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 도메인 이벤트</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                DDD 전략적 설계 vs 전술적 설계                 │
+├─────────────────────────────────────────────────────────────┤
+│  전략적 설계 (Strategic Design)                              │
+│  ├─ 바운디드 컨텍스트 (경계 정의)                            │
+│  ├─ 유비쿼터스 언어 (공통 언어)                              │
+│  └─ 컨텍스트 맵 (BC 간 관계)                                │
+│                                                             │
+│  전술적 설계 (Tactical Design)                              │
+│  ├─ 에그리게이트 (일관성 경계)                               │
+│  ├─ 엔티티 + 값 객체                                        │
+│  ├─ 도메인 서비스                                           │
+│  └─ 도메인 이벤트                                           │
+└─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: DDD는 지도 제작과 같다. 전략적 설계는 세계 지도([바운디드 컨텍스트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/)) 수준이고, 전술적 설계는 도시 세부 지도(에그리게이트·엔티티) 수준이다.
 
@@ -58,19 +56,18 @@ DDD는 에릭 에반스(Eric Evans)가 2003년 저서 '[Domain-Driven Design](/k
 | 값 객체 | [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) 없이 속성으로 정의 | Money, Address |
 | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 이벤트 | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에서 발생한 사건 | OrderConfirmedEvent |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">바운디드 컨텍스트 간 관계 (컨텍스트 맵)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">주문 BC</div><div class="kb-diagram-note">──공개API──&gt;</div><div class="kb-diagram-node">재고 BC</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">도메인 이벤트 도메인 이벤트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(OrderConfirmed) (StockReserved)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">결제 BC</div><div class="kb-diagram-note">&lt;──ACL(Anti-Corruption Layer)──</div><div class="kb-diagram-node">외부 PG 시스템</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          바운디드 컨텍스트 간 관계 (컨텍스트 맵)              │
+├─────────────────────────────────────────────────────────────┤
+│  [주문 BC] ──공개API──> [재고 BC]                           │
+│      │                      │                              │
+│  도메인 이벤트            도메인 이벤트                      │
+│  (OrderConfirmed)     (StockReserved)                       │
+│      │                      │                              │
+│  [결제 BC] <──ACL(Anti-Corruption Layer)── [외부 PG 시스템] │
+└─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [유비쿼터스 언어](/knowledge-base/studynote/04_software_engineering/04_testing_quality/220_ubiquitous_language_ddd_communication/)는 의사와 간호사가 환자 차트에 의학 용어(표준어)로 소통하듯, 비즈니스 전문가와 개발자가 같은 용어로 소통하여 번역 오류를 없애는 것이다.
 

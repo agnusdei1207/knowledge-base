@@ -25,19 +25,16 @@ tags = ["studynote-operating-system"]
 
 아래 그림은 긴 작업 하나가 어떻게 짧은 작업들과 I/O 장치까지 동시에 묶어 두는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Convoy effect in one ready queue</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">CPU :</div><div class="kb-diagram-node">long CPU-bound job P1 ...........................</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Ready Queue:</div><div class="kb-diagram-node">P2</div><div class="kb-diagram-node">P3</div><div class="kb-diagram-node">P4</div><div class="kb-diagram-note">short jobs wait</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I/O device : idle ----------------------------------------------</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">result : one long burst dictates the pace of everyone</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Convoy effect in one ready queue                                  │
+├────────────────────────────────────────────────────────────────────┤
+│ CPU        : [ long CPU-bound job P1 ........................... ] │
+│ Ready Queue:                      [P2][P3][P4] short jobs wait    │
+│ I/O device : idle ----------------------------------------------  │
+│ result     : one long burst dictates the pace of everyone         │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 핵심은 뒤에 있는 작업들이 단지 늦게 끝나는 것에서 그치지 않는다는 점이다. 짧은 작업들이 CPU를 받지 못하니 I/O 요청도 늦게 발생하고, 그동안 I/O 장치는 놀게 된다. 즉 convoy effect는 한 줄이 막히는 현상이 아니라, 시스템 안의 여러 자원을 엇박자로 만드는 구조적 병목이다.
 
@@ -51,19 +48,16 @@ tags = ["studynote-operating-system"]
 
 예를 들어 P1은 `CPU 20ms`, P2와 P3는 `CPU 1ms + I/O 6ms`라고 하자. 모두 동시에 도착했는데 FCFS가 P1을 먼저 잡으면 다음과 같은 흐름이 나온다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Resource desynchronization caused by convoy effect</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">time : 0................20 21 22......27 28</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">CPU :</div><div class="kb-diagram-node">P1..............</div><div class="kb-diagram-node">P2</div><div class="kb-diagram-node">P3</div><div class="kb-diagram-node">idle</div><div class="kb-diagram-node">P2</div><div class="kb-diagram-node">P3</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">I/O :</div><div class="kb-diagram-node">idle............</div><div class="kb-diagram-node">P2 I/O......</div><div class="kb-diagram-node">P3 I/O......</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">wait : P2 starts after 20ms, P3 starts after 21ms</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Resource desynchronization caused by convoy effect                │
+├────────────────────────────────────────────────────────────────────┤
+│ time : 0................20 21 22......27 28                       │
+│ CPU  : [P1..............][P2][P3][ idle ][P2][P3]                 │
+│ I/O  : [idle............][P2 I/O......][P3 I/O......]             │
+│ wait : P2 starts after 20ms, P3 starts after 21ms                 │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 위 도식에서 0~20ms 동안 I/O 장치는 사실상 쉬고 있다. 반대로 22~27ms 구간에는 짧은 작업들이 모두 I/O로 빠져 CPU가 놀게 된다. 즉 시스템은 두 자원을 동시에 잘 쓰는 대신, 한쪽이 바쁘면 다른 쪽이 쉬는 나쁜 리듬에 빠진다.
 
@@ -105,21 +99,20 @@ tags = ["studynote-operating-system"]
 
 아래 판단 흐름은 언제 convoy effect를 적극적으로 의심해야 하는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">When to suspect convoy effect</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">mixed heavy and light jobs in one FIFO queue?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes ─▶ split queues or add preemption</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">response time critical?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes ─▶ RR / MLFQ / priority scheduling</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no ─▶ FCFS acceptable for bounded batch jobs</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ When to suspect convoy effect                                     │
+├────────────────────────────────────────────────────────────────────┤
+│ mixed heavy and light jobs in one FIFO queue?                     │
+│   ├─ yes ─▶ split queues or add preemption                        │
+│   └─ no                                                           │
+│        │                                                          │
+│        ▼                                                          │
+│ response time critical?                                           │
+│   ├─ yes ─▶ RR / MLFQ / priority scheduling                       │
+│   └─ no  ─▶ FCFS acceptable for bounded batch jobs                │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 ### 실무 판단 기준
 
@@ -166,25 +159,23 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">mixed job lengths</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">long job at FIFO head</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ short jobs wait in ready queue</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ I/O devices stay idle</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">bursty release of short jobs</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CPU / I/O imbalance · poor response time</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">preemption · class separation · MLFQ</div>
-</div>
-</div>
-
-
+```text
+mixed job lengths
+    │
+    ▼
+long job at FIFO head
+    │
+    ├──────────────▶ short jobs wait in ready queue
+    ├──────────────▶ I/O devices stay idle
+    ▼
+bursty release of short jobs
+    │
+    ▼
+CPU / I/O imbalance · poor response time
+    │
+    ▼
+preemption · class separation · MLFQ
+```
 
 이 흐름도는 convoy effect가 단순 대기열 문제를 넘어 자원 활용 불균형까지 만들어 내고, 그래서 현대 시스템이 선점과 다중 큐 구조로 진화했음을 보여 준다.
 

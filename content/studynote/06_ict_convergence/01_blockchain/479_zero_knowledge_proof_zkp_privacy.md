@@ -38,25 +38,28 @@ tags = ["studynote-ict-convergence"]
 
 ### 대화형 vs 비대화형 [ZKP](/knowledge-base/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/)
 
+```
+┌──────────────────────────────────────────────────────┐
+│      대화형 ZKP (Interactive ZKP)                    │
+│                                                      │
+│  증명자(Prover)      검증자(Verifier)                 │
+│       │                    │                         │
+│       │──── 커밋(Commit) ──►│                         │
+│       │◄── 챌린지(Challenge)│                         │
+│       │──── 응답(Response)──►│                         │
+│       │   (반복 수행으로 건전성 달성)                  │
+└──────────────────────────────────────────────────────┘
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대화형 ZKP (Interactive ZKP)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">증명자(Prover) 검증자(Verifier)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">커밋(Commit) ──►</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◄── 챌린지(Challenge)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">응답(Response)──►</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(반복 수행으로 건전성 달성)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비대화형 ZKP (zk-SNARKs)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Setup → 증명자(Prover) → 블록체인(Verifier)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(CRS*) 증명(π) 생성 증명(π) 검증</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수백 바이트 수 ms 검증</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* CRS: Common Reference String (신뢰 설정 필요)</div></div>
-</div>
-</div>
-
-
+┌──────────────────────────────────────────────────────┐
+│      비대화형 ZKP (zk-SNARKs)                        │
+│                                                      │
+│  Setup  →  증명자(Prover)  →  블록체인(Verifier)     │
+│  (CRS*)     증명(π) 생성       증명(π) 검증           │
+│             수백 바이트         수 ms 검증             │
+│                                                      │
+│  * CRS: Common Reference String (신뢰 설정 필요)     │
+└──────────────────────────────────────────────────────┘
+```
 
 ### zk-SNARKs vs zk-STARKs 비교
 
@@ -86,19 +89,13 @@ tags = ["studynote-ict-convergence"]
 
 ### zkRollup과의 연계
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">L2 사용자 트랜잭션 → zkRollup 시퀀서</div>
-<div class="kb-diagram-note">→ 배치(Batch) 구성 → ZK 증명 생성(Prover)</div>
-<div class="kb-diagram-note">→ L1에 증명(π) + 상태 루트 제출</div>
-<div class="kb-diagram-note">→ L1 검증자: π만 검증 (O(1) 비용)</div>
-<div class="kb-diagram-note">→ 즉시 최종화 (Validity Proof → 챌린지 기간 없음)</div>
-</div>
-</div>
-
-
+```
+L2 사용자 트랜잭션 → zkRollup 시퀀서
+    → 배치(Batch) 구성 → ZK 증명 생성(Prover)
+    → L1에 증명(π) + 상태 루트 제출
+    → L1 검증자: π만 검증 (O(1) 비용)
+    → 즉시 최종화 (Validity Proof → 챌린지 기간 없음)
+```
 
 - **📢 섹션 요약 비유**: — "[ZKP](/knowledge-base/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/) 없이 100개 거래를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하려면 100번 확인해야 하지만, ZKP로 '이 100개는 모두 정상이에요'라는 증명서 하나만 확인하면 된다.
 

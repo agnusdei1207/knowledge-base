@@ -18,38 +18,37 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅰ. 크로스체인 필요성
 
+```
+블록체인 고립 문제 (Blockchain Isolation):
 
+블록체인: 각자 독립된 원장
+  이더리움: ETH, ERC-20 토큰
+  솔라나: SOL, SPL 토큰
+  비트코인: BTC
+  
+  문제:
+  이더리움 ETH를 솔라나 DeFi에서 사용?
+  → 직접 불가 (다른 네트워크)
+  
+  각 체인의 장점:
+  이더리움: 생태계, 보안
+  솔라나: 초고속, 저비용
+  BSC: 저비용, 이더리움 호환
+  폴리곤: 이더리움 L2, 저비용
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">블록체인 고립 문제 (Blockchain Isolation):</div>
-<div class="kb-diagram-note">블록체인: 각자 독립된 원장</div>
-<div class="kb-diagram-note">이더리움: ETH, ERC-20 토큰</div>
-<div class="kb-diagram-note">솔라나: SOL, SPL 토큰</div>
-<div class="kb-diagram-note">비트코인: BTC</div>
-<div class="kb-diagram-note">문제:</div>
-<div class="kb-diagram-note">이더리움 ETH를 솔라나 DeFi에서 사용?</div>
-<div class="kb-diagram-note">→ 직접 불가 (다른 네트워크)</div>
-<div class="kb-diagram-note">각 체인의 장점:</div>
-<div class="kb-diagram-note">이더리움: 생태계, 보안</div>
-<div class="kb-diagram-note">솔라나: 초고속, 저비용</div>
-<div class="kb-diagram-note">BSC: 저비용, 이더리움 호환</div>
-<div class="kb-diagram-note">폴리곤: 이더리움 L2, 저비용</div>
-<div class="kb-diagram-note">크로스체인 필요 시나리오:</div>
-<div class="kb-diagram-note">1. 이더리움 USDC → 솔라나 DeFi 예치</div>
-<div class="kb-diagram-note">2. 비트코인 → 이더리움 DeFi (wBTC)</div>
-<div class="kb-diagram-note">3. 이더리움 NFT → 다른 체인 전시</div>
-<div class="kb-diagram-note">4. 멀티체인 포트폴리오 관리</div>
-<div class="kb-diagram-note">크로스체인 브릿지 솔루션:</div>
-<div class="kb-diagram-note">Wormhole (솔라나 ↔ 이더리움 등)</div>
-<div class="kb-diagram-note">Multichain (anyToken, 다중 체인)</div>
-<div class="kb-diagram-note">Stargate (LayerZero 기반)</div>
-<div class="kb-diagram-note">Polygon Bridge (이더리움 ↔ 폴리곤)</div>
-<div class="kb-diagram-note">Arbitrum Bridge (이더리움 ↔ 아비트럼)</div>
-</div>
-</div>
+크로스체인 필요 시나리오:
+  1. 이더리움 USDC → 솔라나 DeFi 예치
+  2. 비트코인 → 이더리움 DeFi (wBTC)
+  3. 이더리움 NFT → 다른 체인 전시
+  4. 멀티체인 포트폴리오 관리
 
-
+크로스체인 브릿지 솔루션:
+  Wormhole (솔라나 ↔ 이더리움 등)
+  Multichain (anyToken, 다중 체인)
+  Stargate (LayerZero 기반)
+  Polygon Bridge (이더리움 ↔ 폴리곤)
+  Arbitrum Bridge (이더리움 ↔ 아비트럼)
+```
 
 > 📢 **섹션 요약 비유**: 크로스체인 브릿지 = 국가 간 환전 및 이민 — 이더리움(A국 돈)을 솔라나(B국)에서 쓰려면 환전(브릿지). 직접 사용 불가. 브릿지가 A국 돈 보관 후 B국 돈 발행!
 
@@ -57,46 +56,52 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅱ. 브릿지 메커니즘
 
+```
+메커니즘 1 - Lock-and-Mint:
 
+이더리움 → 폴리곤 브릿지:
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">메커니즘 1 - Lock-and-Mint:</div>
-<div class="kb-diagram-note">이더리움 → 폴리곤 브릿지:</div>
-<div class="kb-diagram-note">1. 사용자: 이더리움에서 100 USDC → 브릿지 컨트랙트</div>
-<div class="kb-diagram-note">2. 브릿지 컨트랙트: 100 USDC 잠금 (Lock)</div>
-<div class="kb-diagram-note">3. 오라클/검증자: 잠금 이벤트 감지</div>
-<div class="kb-diagram-note">4. 폴리곤: 100 USDC(래핑) 민트 (Mint)</div>
-<div class="kb-diagram-note">5. 사용자: 폴리곤에서 100 USDC 수령</div>
-<div class="kb-diagram-note">반환:</div>
-<div class="kb-diagram-note">1. 폴리곤 100 USDC → 브릿지 번</div>
-<div class="kb-diagram-note">2. 이더리움 잠금 해제 (Unlock)</div>
-<div class="kb-diagram-note">3. 사용자: 이더리움 USDC 수령</div>
-<div class="kb-diagram-note">특성:</div>
-<div class="kb-diagram-note">래핑 토큰(Wrapped Token) 발행</div>
-<div class="kb-diagram-note">원본 자산이 브릿지 컨트랙트에 보관</div>
-<div class="kb-diagram-note">wBTC (Wrapped Bitcoin):</div>
-<div class="kb-diagram-note">비트코인 → BitGo 보관 → 이더리움 wBTC 발행</div>
-<div class="kb-diagram-note">ERC-20 형태로 DeFi 사용 가능</div>
-<div class="kb-diagram-note">메커니즘 2 - Burn-and-Mint:</div>
-<div class="kb-diagram-note">체인 A → 체인 B:</div>
-<div class="kb-diagram-note">체인 A에서 토큰 소각 (Burn)</div>
-<div class="kb-diagram-note">체인 B에서 동일량 발행 (Mint)</div>
-<div class="kb-diagram-note">특성:</div>
-<div class="kb-diagram-note">총 공급량 일정 유지</div>
-<div class="kb-diagram-note">크로스체인 네이티브 토큰에 적합</div>
-<div class="kb-diagram-note">메커니즘 3 - 유동성 풀:</div>
-<div class="kb-diagram-note">양쪽 체인에 유동성 풀 유지:</div>
-<div class="kb-diagram-note">체인 A 풀: 1000 USDC</div>
-<div class="kb-diagram-note">체인 B 풀: 1000 USDC</div>
-<div class="kb-diagram-note">사용자 A→B 전송:</div>
-<div class="kb-diagram-note">A 풀에서 수령 → B 풀에서 전달</div>
-<div class="kb-diagram-note">Stargate Finance 방식</div>
-<div class="kb-diagram-note">락/민트 없이 즉시 전송</div>
-</div>
-</div>
+1. 사용자: 이더리움에서 100 USDC → 브릿지 컨트랙트
+2. 브릿지 컨트랙트: 100 USDC 잠금 (Lock)
+3. 오라클/검증자: 잠금 이벤트 감지
+4. 폴리곤: 100 USDC(래핑) 민트 (Mint)
+5. 사용자: 폴리곤에서 100 USDC 수령
 
+반환:
+1. 폴리곤 100 USDC → 브릿지 번
+2. 이더리움 잠금 해제 (Unlock)
+3. 사용자: 이더리움 USDC 수령
 
+특성:
+  래핑 토큰(Wrapped Token) 발행
+  원본 자산이 브릿지 컨트랙트에 보관
+  
+  wBTC (Wrapped Bitcoin):
+  비트코인 → BitGo 보관 → 이더리움 wBTC 발행
+  ERC-20 형태로 DeFi 사용 가능
+
+메커니즘 2 - Burn-and-Mint:
+
+체인 A → 체인 B:
+  체인 A에서 토큰 소각 (Burn)
+  체인 B에서 동일량 발행 (Mint)
+  
+  특성:
+  총 공급량 일정 유지
+  크로스체인 네이티브 토큰에 적합
+
+메커니즘 3 - 유동성 풀:
+
+양쪽 체인에 유동성 풀 유지:
+  체인 A 풀: 1000 USDC
+  체인 B 풀: 1000 USDC
+  
+  사용자 A→B 전송:
+  A 풀에서 수령 → B 풀에서 전달
+  
+  Stargate Finance 방식
+  락/민트 없이 즉시 전송
+```
 
 > 📢 **섹션 요약 비유**: [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)-and-Mint = 짐 맡기고 영수증 받기 — 이더리움에 [ETH](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/118_eth/) 맡기고([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 폴리곤에서 영수증(wETH) 받음. 반환 시 영수증 돌려주면 [ETH](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/118_eth/) 찾음. 브릿지가 금고!
 
@@ -104,47 +109,50 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅲ. 보안 취약점과 해킹
 
+```
+크로스체인 브릿지 해킹 사례:
 
+1. Ronin Bridge 해킹 (2022.03, $625M):
+   Axie Infinity의 사이드체인 브릿지
+   
+   원인:
+   9개 검증자 중 5개가 서명하면 트랜잭션 승인
+   해커: 9개 중 5개 검증자 키 탈취
+   (Sky Mavis 4개 + Axie DAO 1개 유출)
+   
+   결과:
+   17만 ETH + 2,550만 USDC 탈취
+   약 6,250억원 규모
+   북한 라자루스 그룹 귀속
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">크로스체인 브릿지 해킹 사례:</div>
-<div class="kb-diagram-note">1. Ronin Bridge 해킹 (2022.03, $625M):</div>
-<div class="kb-diagram-note">Axie Infinity의 사이드체인 브릿지</div>
-<div class="kb-diagram-note">원인:</div>
-<div class="kb-diagram-note">9개 검증자 중 5개가 서명하면 트랜잭션 승인</div>
-<div class="kb-diagram-note">해커: 9개 중 5개 검증자 키 탈취</div>
-<div class="kb-diagram-note">(Sky Mavis 4개 + Axie DAO 1개 유출)</div>
-<div class="kb-diagram-note">결과:</div>
-<div class="kb-diagram-note">17만 ETH + 2,550만 USDC 탈취</div>
-<div class="kb-diagram-note">약 6,250억원 규모</div>
-<div class="kb-diagram-note">북한 라자루스 그룹 귀속</div>
-<div class="kb-diagram-note">2. Wormhole 해킹 (2022.02, $320M):</div>
-<div class="kb-diagram-note">솔라나-이더리움 브릿지</div>
-<div class="kb-diagram-note">원인:</div>
-<div class="kb-diagram-note">스마트 컨트랙트 서명 검증 버그</div>
-<div class="kb-diagram-note">가짜 서명으로 12만 wETH 발행</div>
-<div class="kb-diagram-note">결과:</div>
-<div class="kb-diagram-note">Jump Trading이 3,200억원 보전 (생태계 유지)</div>
-<div class="kb-diagram-note">3. Nomad Bridge 해킹 (2022.08, $190M):</div>
-<div class="kb-diagram-note">원인:</div>
-<div class="kb-diagram-note">초기화 버그 → 모든 메시지를 유효로 처리</div>
-<div class="kb-diagram-note">누구든 공격 가능 → "공개 해킹"</div>
-<div class="kb-diagram-note">수백 명이 동시에 자금 탈취</div>
-<div class="kb-diagram-note">취약점 유형:</div>
-<div class="kb-diagram-tree-item" style="--depth:1">검증자 키 탈취</div>
-<div class="kb-diagram-tree-item" style="--depth:1">스마트 컨트랙트 버그</div>
-<div class="kb-diagram-tree-item" style="--depth:1">오라클 조작</div>
-<div class="kb-diagram-tree-item" style="--depth:1">재진입 공격</div>
-<div class="kb-diagram-note">방어 기법:</div>
-<div class="kb-diagram-note">다중 서명 (Multi-sig) + 최소 5/9 검증자</div>
-<div class="kb-diagram-note">ZK 증명 브릿지 (신뢰 최소화)</div>
-<div class="kb-diagram-note">시간 지연 (Time Lock): 대형 인출 24~48시간 지연</div>
-<div class="kb-diagram-note">버그 바운티 + 감사</div>
-</div>
-</div>
+2. Wormhole 해킹 (2022.02, $320M):
+   솔라나-이더리움 브릿지
+   
+   원인:
+   스마트 컨트랙트 서명 검증 버그
+   가짜 서명으로 12만 wETH 발행
+   
+   결과:
+   Jump Trading이 3,200억원 보전 (생태계 유지)
 
+3. Nomad Bridge 해킹 (2022.08, $190M):
+   원인:
+   초기화 버그 → 모든 메시지를 유효로 처리
+   누구든 공격 가능 → "공개 해킹"
+   수백 명이 동시에 자금 탈취
 
+취약점 유형:
+  - 검증자 키 탈취
+  - 스마트 컨트랙트 버그
+  - 오라클 조작
+  - 재진입 공격
+
+방어 기법:
+  다중 서명 (Multi-sig) + 최소 5/9 검증자
+  ZK 증명 브릿지 (신뢰 최소화)
+  시간 지연 (Time Lock): 대형 인출 24~48시간 지연
+  버그 바운티 + 감사
+```
 
 > 📢 **섹션 요약 비유**: 브릿지 해킹 = 은행 금고 열쇠 탈취 — 9명 중 5명 열쇠 필요한 금고. 해커가 5개 훔치면 모든 돈 탈취. ZK 브릿지는 수학으로 증명 → 열쇠 탈취 무의미!
 
@@ -152,41 +160,43 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅳ. 차세대 브릿지
 
+```
+ZK (Zero-Knowledge) 브릿지:
+  수학적 증명으로 신뢰 최소화
 
+원리:
+  체인 A에서 트랜잭션 발생
+  ZK Prover: "트랜잭션이 유효함" 증명 생성
+  체인 B: ZK 증명만 검증 → 신뢰 불필요
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">ZK (Zero-Knowledge) 브릿지:</div>
-<div class="kb-diagram-note">수학적 증명으로 신뢰 최소화</div>
-<div class="kb-diagram-note">원리:</div>
-<div class="kb-diagram-note">체인 A에서 트랜잭션 발생</div>
-<div class="kb-diagram-note">ZK Prover: "트랜잭션이 유효함" 증명 생성</div>
-<div class="kb-diagram-note">체인 B: ZK 증명만 검증 → 신뢰 불필요</div>
-<div class="kb-diagram-note">장점:</div>
-<div class="kb-diagram-note">검증자 키 탈취 불가 (키 없음)</div>
-<div class="kb-diagram-note">수학적 보안 (암호학 가정 위)</div>
-<div class="kb-diagram-note">프로젝트:</div>
-<div class="kb-diagram-note">Succinct (ZK 라이트 클라이언트)</div>
-<div class="kb-diagram-note">Polyhedra ZKBridge</div>
-<div class="kb-diagram-note">LayerZero:</div>
-<div class="kb-diagram-note">울트라 라이트 노드 (Ultra-Light Node)</div>
-<div class="kb-diagram-note">Oracle + Relayer 분리:</div>
-<div class="kb-diagram-note">Oracle: 블록 해시 전달 (Chainlink)</div>
-<div class="kb-diagram-note">Relayer: 트랜잭션 증명 전달 (독립)</div>
-<div class="kb-diagram-note">둘 다 공모해야 공격 가능</div>
-<div class="kb-diagram-note">→ 신뢰 최소화</div>
-<div class="kb-diagram-note">Stargate (LayerZero 기반):</div>
-<div class="kb-diagram-note">유동성 풀 방식</div>
-<div class="kb-diagram-note">즉시 최종성 (Instant Finality)</div>
-<div class="kb-diagram-note">통합 유동성 풀</div>
-<div class="kb-diagram-note">IBC (Inter-Blockchain Communication):</div>
-<div class="kb-diagram-note">코스모스 생태계 표준 프로토콜</div>
-<div class="kb-diagram-note">경량 클라이언트로 체인 간 메시지 검증</div>
-<div class="kb-diagram-note">보안 수준: 각 체인의 합의 메커니즘 활용</div>
-</div>
-</div>
+장점:
+  검증자 키 탈취 불가 (키 없음)
+  수학적 보안 (암호학 가정 위)
 
+프로젝트:
+  Succinct (ZK 라이트 클라이언트)
+  Polyhedra ZKBridge
 
+LayerZero:
+  울트라 라이트 노드 (Ultra-Light Node)
+  
+  Oracle + Relayer 분리:
+  Oracle: 블록 해시 전달 (Chainlink)
+  Relayer: 트랜잭션 증명 전달 (독립)
+  
+  둘 다 공모해야 공격 가능
+  → 신뢰 최소화
+
+Stargate (LayerZero 기반):
+  유동성 풀 방식
+  즉시 최종성 (Instant Finality)
+  통합 유동성 풀
+
+IBC (Inter-Blockchain Communication):
+  코스모스 생태계 표준 프로토콜
+  경량 클라이언트로 체인 간 메시지 검증
+  보안 수준: 각 체인의 합의 메커니즘 활용
+```
 
 > 📢 **섹션 요약 비유**: ZK 브릿지 = 수학으로 증명하는 환전 — "이 돈이 진짜입니다"를 수학 증명서로. 은행원(검증자) 키 훔쳐도 증명서 위조 불가. 보안의 미래!
 
@@ -194,49 +204,52 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅴ. 실무 시나리오 — [DeFi](/knowledge-base/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/) 멀티체인 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
+```
+DeFi 프로토콜 멀티체인 브릿지 전략:
 
+배경:
+  이더리움 기반 DEX (탈중앙화 거래소)
+  가스비 급등 → 사용자 이탈
+  솔라나/아비트럼/폴리곤 확장 필요
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">DeFi 프로토콜 멀티체인 브릿지 전략:</div>
-<div class="kb-diagram-note">배경:</div>
-<div class="kb-diagram-note">이더리움 기반 DEX (탈중앙화 거래소)</div>
-<div class="kb-diagram-note">가스비 급등 → 사용자 이탈</div>
-<div class="kb-diagram-note">솔라나/아비트럼/폴리곤 확장 필요</div>
-<div class="kb-diagram-note">브릿지 선택:</div>
-<div class="kb-diagram-note">이더리움 ↔ 아비트럼:</div>
-<div class="kb-diagram-note">Arbitrum 공식 브릿지 (네이티브 롤업)</div>
-<div class="kb-diagram-note">보안 최고 (이더리움 보안 상속)</div>
-<div class="kb-diagram-note">인출 지연: 7일 (챌린지 기간)</div>
-<div class="kb-diagram-note">→ 장기 예치 사용자에 적합</div>
-<div class="kb-diagram-note">이더리움 ↔ 폴리곤:</div>
-<div class="kb-diagram-note">Polygon PoS Bridge</div>
-<div class="kb-diagram-note">인출: ~3시간</div>
-<div class="kb-diagram-note">토큰 유동성 풍부</div>
-<div class="kb-diagram-note">이더리움 ↔ 솔라나:</div>
-<div class="kb-diagram-note">Wormhole (재감사 후 운용)</div>
-<div class="kb-diagram-note">또는 Allbridge</div>
-<div class="kb-diagram-note">크로스체인 USDC (Circle CCTP 활용)</div>
-<div class="kb-diagram-note">Circle CCTP (Cross-Chain Transfer Protocol):</div>
-<div class="kb-diagram-note">USDC 공식 번-앤-민트 브릿지</div>
-<div class="kb-diagram-note">Circle이 직접 소각+민트 관리</div>
-<div class="kb-diagram-note">신뢰 최고 (중앙화이지만 공식)</div>
-<div class="kb-diagram-note">지원 체인: 이더리움, 아비트럼, 솔라나, Base 등</div>
-<div class="kb-diagram-note">구현 전략:</div>
-<div class="kb-diagram-note">소액 이동: Stargate (빠른 유동성)</div>
-<div class="kb-diagram-note">대형 이동: 공식 브릿지 (보안 우선)</div>
-<div class="kb-diagram-note">USDC: CCTP (공식 경로)</div>
-<div class="kb-diagram-note">모니터링:</div>
-<div class="kb-diagram-tree-item" style="--depth:1">브릿지 TVL (Total Value Locked) 모니터링</div>
-<div class="kb-diagram-tree-item" style="--depth:1">주요 해킹 경보 구독 (Rekt.news 등)</div>
-<div class="kb-diagram-note">결과:</div>
-<div class="kb-diagram-note">솔라나 배포 후 사용자 +40%</div>
-<div class="kb-diagram-note">평균 가스비: 이더리움 $15 → 솔라나 $0.001</div>
-<div class="kb-diagram-note">거래량: 월 $150M → $400M</div>
-</div>
-</div>
+브릿지 선택:
 
+이더리움 ↔ 아비트럼:
+  Arbitrum 공식 브릿지 (네이티브 롤업)
+  보안 최고 (이더리움 보안 상속)
+  인출 지연: 7일 (챌린지 기간)
+  → 장기 예치 사용자에 적합
 
+이더리움 ↔ 폴리곤:
+  Polygon PoS Bridge
+  인출: ~3시간
+  토큰 유동성 풍부
+
+이더리움 ↔ 솔라나:
+  Wormhole (재감사 후 운용)
+  또는 Allbridge
+  크로스체인 USDC (Circle CCTP 활용)
+
+Circle CCTP (Cross-Chain Transfer Protocol):
+  USDC 공식 번-앤-민트 브릿지
+  Circle이 직접 소각+민트 관리
+  신뢰 최고 (중앙화이지만 공식)
+  지원 체인: 이더리움, 아비트럼, 솔라나, Base 등
+
+구현 전략:
+  소액 이동: Stargate (빠른 유동성)
+  대형 이동: 공식 브릿지 (보안 우선)
+  USDC: CCTP (공식 경로)
+  
+  모니터링:
+  - 브릿지 TVL (Total Value Locked) 모니터링
+  - 주요 해킹 경보 구독 (Rekt.news 등)
+
+결과:
+  솔라나 배포 후 사용자 +40%
+  평균 가스비: 이더리움 $15 → 솔라나 $0.001
+  거래량: 월 $150M → $400M
+```
 
 > 📢 **섹션 요약 비유**: 멀티체인 브릿지 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) = 도로망 최적 경로 — 이더리움-아비트럼(고속도로: 안전, [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/) [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)), 이더리움-솔라나(Wormhole: 빠름, 위험 관리). 자산 크기/용도별 경로 선택!
 

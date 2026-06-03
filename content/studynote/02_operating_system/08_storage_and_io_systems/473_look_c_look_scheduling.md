@@ -29,28 +29,34 @@ tags = ["studynote-operating-system"]
   2. <strong>큐(<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/">Queue</a>) 훔쳐보기 기술 도입</strong>: [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 바늘을 움직이기 직전, 큐에 남아있는 최대/최솟값을 $O(1)$로 뽑아내어 바늘의 '논리적 끝점'을 재정의함.
   3. **현업 스탠다드 등극**: C-SCAN의 완벽한 공평성에 LOOK의 동선 다이어트가 결합된 C-LOOK이 기계식 하드의 궁극적 최종 진화형으로 교과서를 덮음.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">멍청한 C-SCAN vs 똑똑한 C-LOOK의 허공 스윙(헛발질) 절약 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">큐 요청 순서</div><div class="kb-diagram-note">: 98, 183, 37, 122, 14, 124</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">헤드 위치</div><div class="kb-diagram-note">: 53번 트랙 /</div><div class="kb-diagram-node">199번을 향해 상행 중!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1. 멍청한 C-SCAN (무조건 199번 벽 끝까지 가서 점프)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">14 37 53 98 122 124 183 199</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│</div><div class="kb-diagram-node">시작</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">│ │ │</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">(허공 낭비)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">◀─ (199 찍자마자 0번 끝으로 미친 듯이 뒤로 날아감)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2. 센스 만점 C-LOOK (가장 먼 183번까지만 가고 바로 점프!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">14 37 53 98 122 124 183 199</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│</div><div class="kb-diagram-node">시작</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">│ │</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀─ (183번 줍자마자, "뒤에 없지?" 확인 후 14번으로 직통 점프!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 결과: 183~199번 허공(16트랙) 이동 + 14~0번 허공(14트랙) 이동</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">총 30트랙(왕복 60트랙)의 무의미한 쇳덩어리 헛수고를 완벽히 도려냄!</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────────────────┐
+│        멍청한 C-SCAN vs 똑똑한 C-LOOK의 허공 스윙(헛발질) 절약 시각화     │
+├───────────────────────────────────────────────────────────────────────────┤
+│                                                                           │
+│ [ 큐 요청 순서 ]:  98, 183, 37, 122, 14, 124                              │
+│ [ 헤드 위치 ]: 53번 트랙 / [ 199번을 향해 상행 중! ]                      │
+│                                                                           │
+│ ▶ 1. 멍청한 C-SCAN (무조건 199번 벽 끝까지 가서 점프)                     │
+│   14   37     53     98    122 124        183      199                    │
+│   │    │      [시작] ──▶     │  │          │        │                     │
+│   │    │                    └─────────▶ │        │                        │
+│   │    │                                  └───────▶ ││ (허공 낭비)
+│ 0 │    │ ◀─ (199 찍자마자 0번 끝으로 미친 듯이 뒤로 날아감)  ───┘         │
+│ └─▶│    │                                                                 │
+│                                                                           │
+│ ▶ 2. 센스 만점 C-LOOK (가장 먼 183번까지만 가고 바로 점프!)               │
+│   14   37     53     98    122 124        183      199                    │
+│   │    │      [시작] ──▶     │  │          │                              │
+│   │    │                    └─────────▶ │                                 │
+│   │    │                                  └───────▶                       │
+│   │ ◀─ (183번 줍자마자, "뒤에 없지?" 확인 후 14번으로 직통 점프!)         │
+│   └─▶│                                                                    │
+│                                                                           │
+│ ✅ 결과: 183~199번 허공(16트랙) 이동 + 14~0번 허공(14트랙) 이동           │
+│         총 30트랙(왕복 60트랙)의 무의미한 쇳덩어리 헛수고를 완벽히 도려냄!│
+└───────────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 그림에서 보듯 C-LOOK은 '쓸데없는 짓'을 안 한다. 바늘이 183번을 줍는 찰나에 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 큐를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(Look)한다. "더 이상 큰 번호 없지? 오케이 그럼 벽(199) 안 찍는다. 제일 작은 요청 번호가 뭐야? 14번이네. 그럼 0번 벽까지 가지도 말고 바로 14번으로 점프 뛴다!" 기계 모터의 동선(Seek Distance)을 뼈까지 발라먹는 소프트웨어의 지독한 마이크로 튜닝이다.
 
 - **📢 섹션 요약 비유**: 엘리베이터(SCAN)를 탔는데 나 혼자 8층을 눌렀습니다. 이 바보 엘리베이터는 8층에 나를 내려주고 굳이 아무도 없는 꼭대기 15층까지 윙~ 하고 올라갔다 내려옵니다([C-SCAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/472_c_scan_scheduling/)). C-LOOK 엘리베이터는 내가 8층에 내리는 순간 큐(버튼)를 싹 보고 "아 윗층 누른 사람 없네?" 하고 그 즉시 8층에서 1층으로 바로 꺾어 내려가 1층 대기 손님을 빛의 속도로 태우는 알파고급 융통성입니다.
@@ -100,18 +106,15 @@ C-SCAN과 C-LOOK은 한쪽 방향으로만 [데이터](/knowledge-base/studynote
 - SSTF였다면 침을 흘리며 뒤돌아 59번을 먹었겠지만, LOOK은 가차 없이 무시하고 61번을 향해 전진한다. 이 59번 놈은 바늘이 끝까지 1바퀴를 뺑 돌고 다시 상행선으로 올라올 때까지 혹독하게 굶어야 한다.
 - 이 철통같은 "[진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 방향 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))" 덕분에 어떤 구석에 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)라도 1바퀴 안에는 무조건 구제받는 [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)) 박멸이 성립된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스케줄러</div><div class="kb-diagram-cell">동선 낭비 (Seek)</div><div class="kb-diagram-cell">공평성 (Variance)</div><div class="kb-diagram-cell">기아 (Starvation)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FCFS</div><div class="kb-diagram-cell">☠️ 최악 널뛰기</div><div class="kb-diagram-cell">🟢 제일 공평함</div><div class="kb-diagram-cell">절대 안 터짐</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SSTF</div><div class="kb-diagram-cell">🚀 우주 최강</div><div class="kb-diagram-cell">☠️ 랜덤 로또 수준</div><div class="kb-diagram-cell">☠️ 구석탱이 아사</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C-LOOK</div><div class="kb-diagram-cell">🟢 아주 훌륭함</div><div class="kb-diagram-cell">🟢 매우 일정함</div><div class="kb-diagram-cell">절대 안 터짐</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬────────────────────────────────┐
+│ 스케줄러   │ 동선 낭비 (Seek)│ 공평성 (Variance)│ 기아 (Starvation) │
+├──────────┼────────────┼────────────┼────────────────────────────────┤
+│ FCFS     │ ☠️ 최악 널뛰기 │ 🟢 제일 공평함 │ 절대 안 터짐           │
+│ SSTF     │ 🚀 우주 최강   │ ☠️ 랜덤 로또 수준 │ ☠️ 구석탱이 아사    │
+│ C-LOOK   │ 🟢 아주 훌륭함 │ 🟢 매우 일정함 │ 절대 안 터짐           │
+└──────────┴────────────┴────────────┴────────────────────────────────┘
+```
 **[매트릭스 해설]** C-LOOK은 마법이 아니다. SSTF가 가진 '최단 거리'의 폭발적 효율을 조금 포기하고, FCFS가 가진 '공평성'을 조금 섞어서 빚어낸 황금비율의 비빔밥이다. 세상 모든 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 아키텍처는 결국 극단주의([FCFS](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/), [SSTF](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/470_sstf_disk_scheduling/))가 실패하고 중도주의(C-LOOK)가 승리한다는 것을 가장 잘 보여주는 산증인이다.
 
 - **📢 섹션 요약 비유**: [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 타고 가는데 바로 1정거장 전에 내릴 역을 지나쳤습니다(새치기 요청). 기사님(C-LOOK)한테 "기사님 딱 10미터만 후진해 주세요([SSTF](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/470_sstf_disk_scheduling/))!"라고 빌어도 기사님은 절대 뒤로 안 갑니다. 종점 찍고 다시 돌아오는 차를 1시간 기다려서 타야 합니다. 내 입장에선 피눈물이 나지만, 뒤에 탄 수백 명의 승객들(시스템 안정성)의 스케줄을 꼬이지 않게 지켜주는 가장 위대한 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 철칙입니다.
@@ -166,19 +169,15 @@ LOOK 및 C-LOOK [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_b
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">C-SCAN (Circular SCAN)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LOOK 및 C-LOOK</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">리눅스 I/O 스케줄러</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">솔리드 스테이트 드라이브 (SSD, Solid State Drive) 구조</div></div>
-</div>
-</div>
-
-
+```text
+[C-SCAN (Circular SCAN)]
+    │
+    ▼
+[LOOK 및 C-LOOK]
+    │
+    ├──▶ [리눅스 I/O 스케줄러]
+    └──▶ [솔리드 스테이트 드라이브 (SSD, Solid State Drive) 구조]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

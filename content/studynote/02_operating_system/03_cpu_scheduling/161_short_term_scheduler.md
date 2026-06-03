@@ -44,21 +44,26 @@ tags = ["studynote-operating-system"]
 
 아래 그림은 단기 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 개입하는 핵심 루프를 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">short-term scheduling decision loop</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Running task</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ time slice expires / block / wakeup interrupt</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kernel entry ─▶ save context ─▶ Ready Queue ─▶ pick next task</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Dispatcher</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">restore context</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Running</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                   short-term scheduling decision loop                      │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Running task                                                               │
+│    │                                                                       │
+│    ├─ time slice expires / block / wakeup interrupt                        │
+│    ▼                                                                       │
+│ Kernel entry ─▶ save context ─▶ Ready Queue ─▶ pick next task              │
+│                                                    │                       │
+│                                                    ▼                       │
+│                                               Dispatcher                   │
+│                                                    │                       │
+│                                                    ▼                       │
+│                                             restore context                │
+│                                                    │                       │
+│                                                    ▼                       │
+│                                                 Running                    │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림에서 중요한 점은 스케줄링 결정이 길어질수록 사용자 작업이 아니라 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 CPU를 쓰는 시간이 늘어난다는 것이다. 그래서 Linux의 CFS (Completely Fair Scheduler)처럼 자료구조를 정교하게 쓰더라도, 호출 빈도가 매우 높다는 사실을 항상 염두에 두어야 한다. 또한 멀티코어 환경에서는 단순히 "다음 프로세스"만 고르는 것이 아니라 어느 코어에 둘지, 캐시 친화성을 유지할지, [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) ([Non-Uniform Memory Access](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/)) 비용을 줄일지도 함께 고려한다.
 
@@ -132,23 +137,21 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">시분할 시스템 (Time-sharing System)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Ready Queue + 선점형 스케줄링</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">RR / Priority / CFS</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">멀티코어 · NUMA · CPU Affinity</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">에너지 인지 스케줄링</div>
-</div>
-</div>
-
-
+```text
+시분할 시스템 (Time-sharing System)
+        │
+        ▼
+Ready Queue + 선점형 스케줄링
+        │
+        ▼
+RR / Priority / CFS
+        │
+        ▼
+멀티코어 · NUMA · CPU Affinity
+        │
+        ▼
+에너지 인지 스케줄링
+```
 
 이 흐름은 단기 스케줄링이 단순 순번 결정에서 출발해, 멀티코어와 전력 인지 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)까지 확장되는 과정을 보여 준다.
 

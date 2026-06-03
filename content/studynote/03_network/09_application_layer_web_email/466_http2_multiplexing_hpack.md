@@ -21,24 +21,20 @@ tags = ["studynote-network"]
 
 ### 1. [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/1.1의 절망과 꼼수 (Pain Point)
 웹 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 하나를 띄우기 위해 100개의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 필요해지자, [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/1.1의 파이프라이닝 기술은 앞선 요청이 늦어지면 뒤의 모든 요청이 꽉 막혀버리는 <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/">HOL</a>(<a href="/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/">Head-of-Line</a>) 블로킹</strong>이라는 치명적 결함을 드러냈습니다.
-- **개발자들의 고통**: 프론트엔드 개발자들은 이 막힘을 피하기 위해 100개의 작은 아이콘을 1개의 거대한 통짜 이미지 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 합치고(Image Sprite), CSS와 JS [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 억지로 한 줄로 병합(Concatenation)하는 등 <strong>'네트워크 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a>의 멍청함을 인간의 노가다(꼼수)로 커버하는 <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/">기술 부채</a>'</strong>를 짊어져야만 했습니다.
+- **개발자들의 고통**: 프론트엔드 개발자들은 이 병목을 피하기 위해 100개의 작은 아이콘을 1개의 거대한 통짜 이미지 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 합치고(Image Sprite), CSS와 JS [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 억지로 한 줄로 병합(Concatenation)하는 등 <strong>'네트워크 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a>의 멍청함을 인간의 노가다(꼼수)로 커버하는 <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/">기술 부채</a>'</strong>를 짊어져야만 했습니다.
 
 ### 2. 구글 SPDY와 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2의 탄생
 구글(Google) 엔지니어들은 "이딴 꼼수를 쓰게 만들 바엔 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)의 심장 자체를 뜯어고치자"라며 자체적으로 <strong>SPDY(스피디)</strong>라는 실험적 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 만들었습니다.
 - **필요성**: SPDY의 압도적인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)에 충격을 받은 [IETF](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/)(인터넷 표준화 기구)는 이를 그대로 가져와 다듬어서 <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a>/2 표준</strong>으로 공표했습니다. [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2는 기존의 `GET`, `POST`, 상태 코드 `200 OK` 등 개발자에게 익숙한 문법은 완벽히 유지하면서, 네트워크 선을 타는 '전송 방식'만 마법처럼 바꿔버린 혁명입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">HTTP 1.1 HOL 블로킹</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HTTP/2 특징</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">HTTP/2 스트림 다중화</div></div>
-</div>
-</div>
-
-
+```text
+[HTTP 1.1 HOL 블로킹]
+    │
+    ▼
+[HTTP/2 특징]
+    │
+    └──▶ [HTTP/2 스트림 다중화]
+```
 
 - **📢 섹션 요약 비유**: [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/1.1은 "사람이 쓴 편지(텍스트)를 통째로 봉투에 넣어 보내는 방식"이어서, 앞사람의 택배 상자(용량이 큰 이미지)가 길을 막으면 뒤의 가벼운 편지들은 꼼짝없이 막혔습니다. [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2는 "모든 편지와 택배를 아주 작은 레고 블록(바이너리 프레임)으로 분해해서 파이프에 와르르 쏟아붓고, 도착지에서 다시 조립하는 방식"으로 진화하여 교통 체증을 완전히 없앴습니다.
 
@@ -54,26 +50,27 @@ tags = ["studynote-network"]
 ### 2. 멀티플렉싱 ([Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)) 메커니즘
 이 레고 블록(프레임)들을 섞어서 보내는 기술이 멀티플렉싱입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">HTTP/1.1 vs HTTP/2 멀티플렉싱 (Multiplexing) 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HTTP/1.1 (HOL 블로킹 발생)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 순서대로, 하나가 끝나야 다음 것을 보낼 수 있음 (기차 형태)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">====== 영상 응답 (크고 느림) ======</div><div class="kb-diagram-node">CSS 응답</div><div class="kb-diagram-node">JS 응답</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(CSS와 JS는 영상이 다 지나갈 때까지 대기실에서 무한 대기)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HTTP/2 (멀티플렉싱 도입)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 단 1개의 TCP 커넥션 안에서, 데이터를 '프레임'으로 쪼개서 뒤섞어버림!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">영상(3)</div><div class="kb-diagram-node">CSS(2)</div><div class="kb-diagram-node">영상(3)</div><div class="kb-diagram-node">JS(1)</div><div class="kb-diagram-node">영상(3)</div><div class="kb-diagram-node">CSS(2)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(수신지 브라우저의 조립 과정)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 어? 스트림 ID 1번 프레임이네? 모아서 JS 완성!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 어? 스트림 ID 2번 프레임이네? 모아서 CSS 완성!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 3번 영상 프레임은 천천히 조립 중... (하지만 CSS/JS는 이미 완료!)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          [ HTTP/1.1 vs HTTP/2 멀티플렉싱 (Multiplexing) 아키텍처 ]   │
+│                                                             │
+│   [ HTTP/1.1 (HOL 블로킹 발생) ]                             │
+│   ▶ 순서대로, 하나가 끝나야 다음 것을 보낼 수 있음 (기차 형태)          │
+│   [ ====== 영상 응답 (크고 느림) ====== ] [ CSS 응답 ] [ JS 응답 ]  │
+│     (CSS와 JS는 영상이 다 지나갈 때까지 대기실에서 무한 대기)           │
+│                                                             │
+│ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ │
+│                                                             │
+│   [ HTTP/2 (멀티플렉싱 도입) ]                                │
+│   ▶ 단 1개의 TCP 커넥션 안에서, 데이터를 '프레임'으로 쪼개서 뒤섞어버림! │
+│   [ 영상(3) ] [ CSS(2) ] [ 영상(3) ] [ JS(1) ] [ 영상(3) ] [ CSS(2) ] │
+│                                                             │
+│    (수신지 브라우저의 조립 과정)                                   │
+│    - 어? 스트림 ID 1번 프레임이네? 모아서 JS 완성!                 │
+│    - 어? 스트림 ID 2번 프레임이네? 모아서 CSS 완성!                │
+│    - 3번 영상 프레임은 천천히 조립 중... (하지만 CSS/JS는 이미 완료!)  │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2에서는 큰 영상 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)과 작은 [CSS](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/110_unlicensed_lpwan_lorawan_sigfox/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 조각(프레임)들이 한 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 안에서 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 뒤섞여 날아갑니다(Interleaving). 따라서 무거운 영상이 통로를 독점하지 못하며, 가벼운 텍스트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)들이 먼저 도착해 브라우저에 렌더링되므로 <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a> 계층의 <a href="/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/">HOL</a> 블로킹이 완벽하게 해결</strong>됩니다.
 
@@ -162,19 +159,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: HTTP 1.1 HOL 블로킹</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: HTTP/2 특징</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: HTTP/2 스트림 다중화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 애플리케이션 전달</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: HTTP 1.1 HOL 블로킹]
+    │
+    ▼
+[현재 개념: HTTP/2 특징]
+    │
+    ├──▶ [확장 A: HTTP/2 스트림 다중화]
+    └──▶ [확장 B: 지능형 애플리케이션 전달]
+```
 
 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 특징는 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 1.1 [HOL](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/) 블로킹에서 출발해 현재 메커니즘을 정교화하고, 이후 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 스트림 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

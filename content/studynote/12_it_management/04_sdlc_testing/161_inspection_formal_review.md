@@ -33,21 +33,18 @@ tags = ["studynote-it-management"]
 
 인스펙션은 아무나 모여 문서를 읽는 회의가 아니다. 저자, 사회자, 인스펙터, 기록자가 역할을 나누고, 계획부터 후속 조치까지 정해진 흐름을 따른다. 이 구조 덕분에 회의가 의견 대립이나 설계 토론으로 흐르지 않고, [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 탐지 활동에 집중될 수 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인스펙션의 표준 흐름: 준비된 결함 탐지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 계획 (Planning) : 대상, 일정, 참여자 선정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 개요 설명 (Overview) : 저자가 목적과 맥락 설명</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 개별 준비 (Preparation): 각 인스펙터가 체크리스트로 독립 검토</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 회의 (Meeting) : 결함 식별·분류·기록</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 수정 (Rework) : 저자가 결함 수정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6. 후속 조치 (Follow-up) : 사회자가 수정 완료 확인</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                   인스펙션의 표준 흐름: 준비된 결함 탐지            │
+├──────────────────────────────────────────────────────────────────────┤
+│  1. 계획 (Planning)        : 대상, 일정, 참여자 선정                │
+│  2. 개요 설명 (Overview)   : 저자가 목적과 맥락 설명                │
+│  3. 개별 준비 (Preparation): 각 인스펙터가 체크리스트로 독립 검토   │
+│  4. 회의 (Meeting)         : 결함 식별·분류·기록                    │
+│  5. 수정 (Rework)          : 저자가 결함 수정                       │
+│  6. 후속 조치 (Follow-up)  : 사회자가 수정 완료 확인                │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 | 역할 | 책임 | 핵심 주의점 |
 | :--- | :--- | :--- |
@@ -131,23 +128,21 @@ tags = ["studynote-it-management"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">품질 관리 (QA vs QC)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">인스펙션 (Inspection)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">워크스루 (Walkthrough) · 동료 검토 (Peer Review)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">TDD (Test Driven Development) · BDD (Behavior Driven Development) 기반 실행 전/후 품질 강화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CI/CD 파이프라인과 형상 관리로 지속 검증</div>
-</div>
-</div>
-
-
+```text
+품질 관리 (QA vs QC)
+    │
+    ▼
+인스펙션 (Inspection)
+    │
+    ▼
+워크스루 (Walkthrough) · 동료 검토 (Peer Review)
+    │
+    ▼
+TDD (Test Driven Development) · BDD (Behavior Driven Development) 기반 실행 전/후 품질 강화
+    │
+    ▼
+CI/CD 파이프라인과 형상 관리로 지속 검증
+```
 
 이 흐름은 품질 관리 개념이 공식 리뷰, 비공식 리뷰, [테스트 주도 개발](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/077_tdd_test_driven_development/), 자동화 파이프라인으로 이어지는 관계를 보여 준다.
 

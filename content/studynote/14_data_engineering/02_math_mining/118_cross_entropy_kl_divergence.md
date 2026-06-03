@@ -18,20 +18,18 @@ tags = ["studynote-dataengineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">엔트로피 → 교차 엔트로피 → KL 발산 관계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">H(P) = 엔트로피 (P의 불확실성, 상수)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">H(P,Q) = 교차 엔트로피 (Q로 P를 설명하는 비용)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">D_KL(P</div><div class="kb-diagram-cell">Q) = H(P,Q) - H(P) (P와 Q의 차이)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">H(P)는 고정 → H(P,Q) 최소화 = D_KL 최소화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 모델 Q가 실제 P에 가까워진다!</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    엔트로피 → 교차 엔트로피 → KL 발산 관계           │
+├───────────────────────────────────────────────────────┤
+│  H(P) = 엔트로피 (P의 불확실성, 상수)                │
+│  H(P,Q) = 교차 엔트로피 (Q로 P를 설명하는 비용)      │
+│  D_KL(P||Q) = H(P,Q) - H(P)  (P와 Q의 차이)         │
+│                                                       │
+│  H(P)는 고정 → H(P,Q) 최소화 = D_KL 최소화          │
+│  → 모델 Q가 실제 P에 가까워진다!                     │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 교차 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)는 "정답(P) 기준으로 모델(Q)의 답이 얼마나 틀렸는지"를 재는 자이고, KL 발산은 "정답과 모델의 순수한 차이"이다.
 
@@ -88,23 +86,21 @@ tags = ["studynote-dataengineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">엔트로피 (Shannon, 1948) — 정보 이론 기초</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">교차 엔트로피 (분류 손실 함수 표준)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">KL 발산 (VAE, 2013~) — 생성 모델 최적화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Focal Loss (2017, RetinaNet) — 클래스 불균형 해결</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: Label Smoothing + Distillation — CE 변형 활용</div></div>
-</div>
-</div>
-
-
+```text
+[엔트로피 (Shannon, 1948) — 정보 이론 기초]
+    │
+    ▼
+[교차 엔트로피 (분류 손실 함수 표준)]
+    │
+    ▼
+[KL 발산 (VAE, 2013~) — 생성 모델 최적화]
+    │
+    ▼
+[Focal Loss (2017, RetinaNet) — 클래스 불균형 해결]
+    │
+    ▼
+[현재: Label Smoothing + Distillation — CE 변형 활용]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 교차 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)는 <strong>시험 채점표</strong>예요. 정답과 내 답이 얼마나 다른지 점수를 매겨요.

@@ -29,19 +29,13 @@ tags = ["studynote-data-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Truth</div>
-<div class="kb-diagram-note">↓ hypothesis test</div>
-<div class="kb-diagram-note">Decision</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Error / Power</div>
-</div>
-</div>
-
-
+```text
+Truth
+  ↓ hypothesis test
+Decision
+  ↓
+Error / Power
+```
 
 | 항목 | 의미 |
 | :-- | :-- |
@@ -110,41 +104,29 @@ tags = ["studynote-data-engineering"]
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Hypothesis Test</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Type I / Type II</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Power</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Experimental Design</div>
-</div>
-</div>
-
-
+```text
+Hypothesis Test
+  ↓
+Type I / Type II
+  ↓
+Power
+  ↓
+Experimental Design
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Error Rates</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Power</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Sample Size</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Decision Quality</div>
-</div>
-</div>
-
-
+```text
+Error Rates
+  ↓
+Power
+  ↓
+Sample Size
+  ↓
+Decision Quality
+```
 
 ---
 

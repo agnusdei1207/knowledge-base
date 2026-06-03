@@ -49,23 +49,23 @@ Work Stealing을 완벽하게 구현하기 위해, 큐([Queue](/knowledge-base/s
 - 도둑 B는 희생자 A가 일하고 있는 앞쪽(Top)을 건드리지 않고, 덱의 반대편인 <strong>뒤쪽(Bottom)</strong>에서 오래된 작업을 슬쩍 빼간다. ([FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/))
 - 희생자는 앞쪽에서 놀고, 도둑은 뒤쪽에서 빼가기 때문에 서로 손이 부딪힐 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)([락 경합](/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/))이 획기적으로 낮아진다!
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Work Stealing (작업 훔치기)의 Deque(덱) 기반 동기화 회피 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">바쁜 스레드 A의 책상 (Local Deque)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">작업 5</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">A는 가장 최근 일부터 뺌)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">작업 4</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">작업 3</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">작업 2</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">작업 1</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">B는 뒤에서 오래된 일부터 훔침!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">★ 핵심: 주인은 Top에서, 도둑은 Bottom에서 빼가기 때문에 서로 영역이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">겹치지 않아 락(Lock)을 걸 필요가 거의 없다!</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────────────────────────┐
+│           Work Stealing (작업 훔치기)의 Deque(덱) 기반 동기화 회피 시각화         │
+├───────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                   │
+│     [ 바쁜 스레드 A의 책상 (Local Deque) ]                                        │
+│                                                                                   │
+│ 스레드 A (주인) ──▶ (Top)  [ 작업 5 ]   (← A는 가장 최근 일부터 뺌)               │
+│                        [ 작업 4 ]                                                 │
+│                        [ 작업 3 ]                                                 │
+│                        [ 작업 2 ]                                                 │
+│ 잉여 스레드 B (도둑) ──▶ (Bottom)[ 작업 1 ]   (← B는 뒤에서 오래된 일부터 훔침!)  │
+│                                                                                   │
+│ ★ 핵심: 주인은 Top에서, 도둑은 Bottom에서 빼가기 때문에 서로 영역이               │
+│         겹치지 않아 락(Lock)을 걸 필요가 거의 없다!                               │
+└───────────────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 왜 하필 도둑은 가장 오래된 작업(Bottom)을 훔쳐갈까? [분할 정복](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/)(Divide & Conquer) 알고리즘에서 가장 오래된 작업(Bottom)일수록 쪼개지지 않은 엄청나게 큰 덩어리의 작업일 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 높기 때문이다. 도둑이 이 큰 덩어리를 훔쳐 가서 자기 책상에서 잘게 쪼개어 처리하면 전체 시스템의 [로드 밸런싱](/knowledge-base/studynote/03_network/16_data_center_cloud/833_load_balancing_l4_l7_switch_traffic_distribution/) 효율이 폭발적으로 상승한다.
 
@@ -114,19 +114,15 @@ Work Stealing(작업 훔치기) 알고리즘은 중앙 집중화된 락([Lock](/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">락 엘리전 (Lock Elision)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스레드 풀 스케줄링 락 경합 (Work Stealing)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">더블 체크드 락킹 (Double-Checked Locking) 안티패턴 및 해결 (volatile)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">세큐어 코딩에서의 동기화 약점 (TOCTOU: Time of Check to Time of Use)</div></div>
-</div>
-</div>
-
-
+```text
+[락 엘리전 (Lock Elision)]
+    │
+    ▼
+[스레드 풀 스케줄링 락 경합 (Work Stealing)]
+    │
+    ├──▶ [더블 체크드 락킹 (Double-Checked Locking) 안티패턴 및 해결 (volatile)]
+    └──▶ [세큐어 코딩에서의 동기화 약점 (TOCTOU: Time of Check to Time of Use)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

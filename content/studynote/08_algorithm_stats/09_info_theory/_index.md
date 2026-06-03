@@ -16,19 +16,14 @@ tags = ["studynote-algorithm-stats"]
 
 ### 1. 정보량 (Self-Information)
 
+```text
+사건 x가 발생할 확률이 p(x)일 때:
+정보량 I(x) = -log₂ p(x)  [단위: bit]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">사건 x가 발생할 확률이 p(x)일 때:</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">정보량 I(x) = -log₂ p(x)</div><div class="kb-diagram-node">단위: bit</div></div>
-<div class="kb-diagram-note">예: 동전 앞면(p=0.5) → I = -log₂(0.5) = 1 bit</div>
-<div class="kb-diagram-note">P(0.01) 사건 → I = -log₂(0.01) ≈ 6.64 bit</div>
-<div class="kb-diagram-note">→ 희귀한 사건일수록 더 많은 정보를 담음</div>
-</div>
-</div>
-
-
+예: 동전 앞면(p=0.5) → I = -log₂(0.5) = 1 bit
+    P(0.01) 사건 → I = -log₂(0.01) ≈ 6.64 bit
+    → 희귀한 사건일수록 더 많은 정보를 담음
+```
 
 ### 2. 엔트로피 (Shannon Entropy)
 
@@ -70,17 +65,11 @@ Loss = -Σ yᵢ · log(ŷᵢ)   (정답 y, 예측 ŷ)
 
 ### 섀넌의 소스 코딩 정리 (데이터 압축)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">최적 압축의 한계: 평균 코드 길이 ≥ H(X)</div>
-<div class="kb-diagram-note">→ 엔트로피가 낮을수록 더 많이 압축 가능</div>
-<div class="kb-diagram-note">→ 허프만 코딩(Huffman Coding): 엔트로피에 근접한 최적 가변 길이 코드</div>
-</div>
-</div>
-
-
+```text
+최적 압축의 한계: 평균 코드 길이 ≥ H(X)
+→ 엔트로피가 낮을수록 더 많이 압축 가능
+→ 허프만 코딩(Huffman Coding): 엔트로피에 근접한 최적 가변 길이 코드
+```
 
 ### 섀넌의 채널 용량 정리 (데이터 전송)
 
@@ -135,24 +124,21 @@ I(X;Y) = H(X) + H(Y) - H(X,Y)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">섀넌 정보 이론 (1948)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">소스 코딩: 허프만·LZW·산술 코딩 (데이터 압축)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">채널 코딩: 채널 용량 (무선 통신 한계)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">머신러닝 연결</div>
-<div class="kb-diagram-tree-item" style="--depth:2">교차 엔트로피 손실 → 분류 모델 훈련</div>
-<div class="kb-diagram-tree-item" style="--depth:2">KL 발산 → VAE · GAN · RLHF</div>
-<div class="kb-diagram-tree-item" style="--depth:2">상호 정보량 → 특성 선택 · 독립성 측정</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">정보 병목 이론 (IB) — 딥러닝의 정보 압축 이해</div>
-</div>
-</div>
-
-
+```text
+섀넌 정보 이론 (1948)
+    │
+    ├─► 소스 코딩: 허프만·LZW·산술 코딩 (데이터 압축)
+    ├─► 채널 코딩: 채널 용량 (무선 통신 한계)
+    │
+    ▼
+머신러닝 연결
+    ├─► 교차 엔트로피 손실 → 분류 모델 훈련
+    ├─► KL 발산 → VAE · GAN · RLHF
+    └─► 상호 정보량 → 특성 선택 · 독립성 측정
+    │
+    ▼
+정보 병목 이론 (IB) — 딥러닝의 정보 압축 이해
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

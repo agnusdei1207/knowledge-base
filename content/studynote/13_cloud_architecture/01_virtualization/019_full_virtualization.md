@@ -27,20 +27,18 @@ tags = ["cloud_architecture"]
 
 아래 다이어그램은 물리 CPU의 권한 계층(Ring [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/)) 구조 하에서, 기존 시스템과 [전가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/) 시스템의 치명적인 권한 충돌과 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)의 틈새 진입을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">전통적인 x86 권한 구조</div><div class="kb-diagram-node">전가상화 시 충돌 발생 딜레마</div><div class="kb-diagram-node">하이퍼바이저의 개입(Ring Deprivileging)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ring 3: 응용프로그램</div><div class="kb-diagram-cell">Ring 3: App A, B</div><div class="kb-diagram-cell">Ring 3: App A, B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ring 1, 2: 미사용</div><div class="kb-diagram-cell">Ring 1, 2: 미사용</div><div class="kb-diagram-cell">Ring 1: Guest OS</div><div class="kb-diagram-cell">◀ 권한 강등됨</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ring 0: 하이퍼바이저</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ring 0: OS 커널</div><div class="kb-diagram-cell">(충돌/Panic!)</div><div class="kb-diagram-cell">Ring 0: VMM (하이퍼바이저)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(모든 특권 소유)</div><div class="kb-diagram-cell">Ring 0: Guest OS</div><div class="kb-diagram-cell">(유일한 권력자)</div></div>
-</div>
-</div>
-
-
+```text
+[전통적인 x86 권한 구조]        [전가상화 시 충돌 발생 딜레마]     [하이퍼바이저의 개입(Ring Deprivileging)]
+┌──────────────────┐        ┌──────────────────┐           ┌──────────────────┐
+│ Ring 3: 응용프로그램│        │ Ring 3: App A, B │           │ Ring 3: App A, B │
+├──────────────────┤        ├──────────────────┤           ├──────────────────┤
+│ Ring 1, 2: 미사용 │        │ Ring 1, 2: 미사용 │           │ Ring 1: Guest OS │ ◀ 권한 강등됨
+├──────────────────┤        ├──────────────────┤           ├──────────────────┤
+│                  │        │ Ring 0: 하이퍼바이저│           │                  │
+│ Ring 0: OS 커널   │        │     (충돌/Panic!)│           │ Ring 0: VMM (하이퍼바이저)
+│ (모든 특권 소유)   │        │ Ring 0: Guest OS │           │ (유일한 권력자)    │
+└──────────────────┘        └──────────────────┘           └──────────────────┘
+```
 
 이 그림의 핵심은 x86 CPU 아키텍처의 한계인 'Ring 0 (루트 권한) 독점' 문제다. 본래 OS는 Ring 0에 있어야만 동작한다. 그런데 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 Ring 0를 차지해버리면, Guest OS는 어디로 가야 할까? [전가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/) 기술은 Guest OS를 억지로 하위 권한인 Ring 1로 내쫓아버린다(Ring Deprivileging). Guest OS는 자신이 Ring 0인 줄 착각하고 특권 명령을 내리지만, 실제로는 Ring 1에 있기 때문에 CPU에서 에러([Trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/))가 발생한다. 이때 Ring 0에 대기하던 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 그 에러를 잡아내어 "아, 얘가 뭘 하려는지 알겠다"며 대신 하드웨어를 조작해 주는 것이 [전가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/) 마법의 시작이다.
 
@@ -62,24 +60,25 @@ tags = ["cloud_architecture"]
 
 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) x86 CPU는 치명적인 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 있었다. Guest OS가 내리는 특권 명령 중 일부(예: 현재 CPU 상태를 읽는 POPF 명령 등)는 Ring 1에서 실행해도 에러([Trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/))를 발생시키지 않고 그냥 무시되어 조용히 넘어가버리는 현상(Non-virtualizable instructions)이 존재했다. Trap이 걸리지 않으면 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 개입할 수 없고, Guest OS는 오작동하여 블루스크린을 띄우게 된다. 이를 해결하기 위해 VMware가 발명한 전설적인 아키텍처가 바로 '동적 이진 변환'이다.
 
+```text
+[전가상화의 핵심: 동적 이진 변환 (Dynamic Binary Translation) 흐름]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">전가상화의 핵심: 동적 이진 변환 (Dynamic Binary Translation) 흐름</div></div>
-<div class="kb-diagram-note">Guest OS 코드가 실행을 위해 메모리로 올라옴</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hypervisor (VMM) 영역</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 스캐닝: 코드를 한 줄씩 훑으며 특권 명령 탐색</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 발견됨! Trap이 안 걸리는 '위험한 기계어' 발견!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">원본</div><div class="kb-diagram-note">CLI (인터럽트 비활성화 명령)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 실시간 번역 (Translation &amp; Caching)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">변환</div><div class="kb-diagram-note">CALL VMM_Virtual_CLI (하이퍼바이저 호출)</div></div>
-<div class="kb-diagram-note">변환된 코드만 물리 CPU로 전송 (안전 실행 보장)</div>
-</div>
-</div>
-
-
+  Guest OS 코드가 실행을 위해 메모리로 올라옴
+                   ↓
+┌──────────────────────────────────────────────────┐
+│              Hypervisor (VMM) 영역               │
+│                                                  │
+│ 1. 스캐닝: 코드를 한 줄씩 훑으며 특권 명령 탐색         │
+│                                                  │
+│ 2. 발견됨! Trap이 안 걸리는 '위험한 기계어' 발견!      │
+│  [ 원본 ]  CLI (인터럽트 비활성화 명령)             │
+│                                                  │
+│ 3. 실시간 번역 (Translation & Caching)           │
+│  [ 변환 ]  CALL VMM_Virtual_CLI (하이퍼바이저 호출) │
+└────────────────────────┬─────────────────────────┘
+                         │ 
+                   변환된 코드만 물리 CPU로 전송 (안전 실행 보장)
+```
 
 이 흐름의 핵심은 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 단순히 예외([Trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/))를 기다리는 수동적 입장이 아니라, <strong>Guest OS가 실행하려는 기계어 코드를 물리 CPU에 던지기 1밀리초 전에 미리 읽고, 위험한 부분을 찾아 안전한 코드로 실시간 교체(번역)</strong>한다는 점이다. 이것은 엄청나게 복잡한 소프트웨어 공학의 정수이지만, 시스템의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)(CPU 자원)을 미친 듯이 갉아먹는다는 치명적인 트레이드오프(Trade-off)를 동반한다. 모든 명령을 실시간 통역해야 하니 속도가 느려질 수밖에 없는 것이다.
 
@@ -103,23 +102,23 @@ tags = ["cloud_architecture"]
 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/059_hardware_assisted_virtualization/">하드웨어 보조 가상화</a> (<a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/021_hardware_assisted_virtualization/">Hardware-assisted Virtualization</a>)의 융합 구원</strong>
 소프트웨어 [전가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/)의 이진 변환(Binary Translation) 오버헤드는 클라우드 대중화의 가장 큰 걸림돌이었다. 이를 해결하기 위해 Intel과 AMD가 직접 나서서 CPU 칩셋 안에 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 전용 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 박아버린 것이 바로 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/658_intel_vtx/">Intel VT-x</a></strong>와 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/659_amd_v/">AMD-V</a></strong> 기술이다. 
 
+```text
+[하드웨어 보조 전가상화 (Intel VT-x) 혁명]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">하드웨어 보조 전가상화 (Intel VT-x) 혁명</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ring 3: App</div><div class="kb-diagram-cell">◀ VMX Non-Root Mode (Guest의 천국)</div></div>
-<div class="kb-diagram-tree-item" style="--depth:0">(여기서 Guest OS는 자신이 Ring 0 권한을 다 가졌다고 믿고</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ring 0: Guest OS</div><div class="kb-diagram-cell">모든 특권 명령을 마음껏 실행함. 억지로 권한 강등 안 시킴!)</div></div>
-<div class="kb-diagram-note">물리 CPU가 특권 명령을 감지하면 하드웨어 레벨에서 빛의 속도로 스위칭!</div>
-<div class="kb-diagram-note">(VM Exits / VM Entries) -&gt; 소프트웨어 이진 변환 불필요!</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ring 0: VMM</div><div class="kb-diagram-cell">◀ VMX Root Mode (진짜 절대 권력자 구역)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Hypervisor)</div></div>
-</div>
-</div>
-
-
+┌──────────────────┐
+│ Ring 3: App      │ ◀ VMX Non-Root Mode (Guest의 천국)
+├──────────────────┤   (여기서 Guest OS는 자신이 Ring 0 권한을 다 가졌다고 믿고 
+│ Ring 0: Guest OS │    모든 특권 명령을 마음껏 실행함. 억지로 권한 강등 안 시킴!)
+└────────┬─────────┘
+         │
+         │ 물리 CPU가 특권 명령을 감지하면 하드웨어 레벨에서 빛의 속도로 스위칭!
+         │ (VM Exits / VM Entries) -> 소프트웨어 이진 변환 불필요!
+         ▼
+┌──────────────────┐
+│ Ring 0: VMM      │ ◀ VMX Root Mode (진짜 절대 권력자 구역)
+│ (Hypervisor)     │
+└──────────────────┘
+```
 
 이 구조 변화의 핵심은 '하드웨어가 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)를 위한 VMX Root Mode라는 신의 영역(Ring -1 이라 불리기도 함)을 새로 창조'해 주었다는 점이다. 이 덕분에 Guest OS는 더 이상 하위 권한으로 쫓겨나지 않고 자기만의 가상 Ring 0에서 특권 명령을 날릴 수 있다. Trap을 소프트웨어로 가로채어 번역하던 그 끔찍한 오버헤드가, 칩셋 내부의 하드웨어 스위칭([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Exit/Entry)으로 대체되면서 [전가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/)의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 [반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/)를 압도하며 떡상하게 되었다. 이것이 바로 현재 현대 클라우드가 [하드웨어 보조](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/527_hardware_assisted_virtualization/) [전가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/)를 100% 채택하게 된 결정적 아키텍처 시너지다.
 
@@ -142,26 +141,24 @@ tags = ["cloud_architecture"]
 
 이 의사결정 트리는 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 도입 시 I/O 병목을 해결하는 아키텍처 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 흐름이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">VM I/O 디바이스 구성 의사결정</div></div>
-<div class="kb-diagram-tree-item" style="--depth:6">(Yes) ──▶ 성능보다 완벽한 이식성과 수정 불가능한 오래된 OS 구동이 목표인가?</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">선택</div><div class="kb-diagram-note">순수 전가상화 I/O 드라이버 유지 (IDE, E1000)</div></div>
-<div class="kb-diagram-note">(속도는 느려도 부팅 보장됨)</div>
-<div class="kb-diagram-tree-item" style="--depth:6">(No) ▶ 대용량 DB나 고속 트래픽 처리가 필요한 운영(Prod) 환경인가?</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">선택</div><div class="kb-diagram-note">하드웨어 가속(VT-x) 전가상화 코어</div></div>
-<div class="kb-diagram-note">+ VirtIO(반가상화) 디스크/네트워크 드라이버 설치</div>
-<div class="kb-diagram-note">(현대 클라우드 IaaS 인스턴스의 100% 필수 표준 설정)</div>
-</div>
-</div>
-
-
+```text
+[VM I/O 디바이스 구성 의사결정]
+            │
+            ├─ (Yes) ──▶ 성능보다 완벽한 이식성과 수정 불가능한 오래된 OS 구동이 목표인가?
+            │               │
+            │               └─▶ [선택] 순수 전가상화 I/O 드라이버 유지 (IDE, E1000)
+            │                   (속도는 느려도 부팅 보장됨)
+            │
+            ├─ (No) ───▶ 대용량 DB나 고속 트래픽 처리가 필요한 운영(Prod) 환경인가?
+                            │
+                            └─▶ [선택] 하드웨어 가속(VT-x) 전가상화 코어 
+                                         + VirtIO(반가상화) 디스크/네트워크 드라이버 설치
+                                (현대 클라우드 IaaS 인스턴스의 100% 필수 표준 설정)
+```
 
 이 판단의 핵심은 <strong>"<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/">전가상화</a>의 덫(에뮬레이션 부하)에서 I/O만큼은 반드시 구출해 내야 한다"</strong>는 실무적 진리다. 아무리 CPU가 [하드웨어 보조 가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/059_hardware_assisted_virtualization/)를 지원해도, 네트워크나 디스크 입출력을 소프트웨어로 흉내 내는 부하는 감당할 수 없기 때문이다.
 
-📢 **섹션 요약 비유**: 낡은 마차(레거시 OS)의 겉모습과 좌석은 전혀 건드리지 않고 그대로 유지하되([전가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/) [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)), 마차 바퀴 밑의 낡은 나무축만 최신형 고속 베어링(VirtIO [반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/) 드라이버)으로 몰래 갈아 끼워 승차감과 속도를 모두 잡는 정비공의 비법과 같습니다.
+📢 **섹션 요약 비유**: 낡은 마차(레거시 OS)의 겉모습과 좌석은 전혀 건드리지 않고 그대로 유지하되([전가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/) [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)), 마차 바퀴 밑의 낡은 나무축만 최새로운 유형의 고속 베어링(VirtIO [반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/) 드라이버)으로 몰래 갈아 끼워 승차감과 속도를 모두 잡는 정비공의 비법과 같습니다.
 
 ---
 
@@ -190,23 +187,21 @@ tags = ["cloud_architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">물리 서버 독점 사용 — 자원 낭비, 높은 TCO</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전가상화 (Full Virtualization) — 무수정 Guest OS, Trap &amp; Emulate</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">반가상화 (Para-Virtualization) — Guest OS 수정, 하이퍼콜로 성능 향상</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">하드웨어 지원 가상화 (Intel VT-x/AMD-V) — CPU 레벨 가상화 가속</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">컨테이너 (Container) — OS 공유로 더 가벼운 격리</div></div>
-</div>
-</div>
-
-
+```text
+[물리 서버 독점 사용 — 자원 낭비, 높은 TCO]
+    │
+    ▼
+[전가상화 (Full Virtualization) — 무수정 Guest OS, Trap & Emulate]
+    │
+    ▼
+[반가상화 (Para-Virtualization) — Guest OS 수정, 하이퍼콜로 성능 향상]
+    │
+    ▼
+[하드웨어 지원 가상화 (Intel VT-x/AMD-V) — CPU 레벨 가상화 가속]
+    │
+    ▼
+[컨테이너 (Container) — OS 공유로 더 가벼운 격리]
+```
 [전가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/)는 Guest OS를 무수정으로 실행하는 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)을 제공하며, 하드웨어 지원 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)와 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 기술로 발전해 현대 클라우드 인프라의 기반이 되었다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

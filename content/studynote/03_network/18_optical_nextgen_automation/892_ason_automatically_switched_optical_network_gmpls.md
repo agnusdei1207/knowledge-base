@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - <strong>지옥 같은 수동 할당(Manual <a href="/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/">Provisioning</a>)</strong>: 과거의 WDM(파장 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)) 광통신 장비들은 멍청한 거울에 불과했습니다. 새로운 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 길(회선)을 하나 뚫어주려면, 엔지니어가 중간 기착지 전화국마다 일일이 로그인하여 '1번 파장(빨간빛)은 3번 구멍으로 나가라'고 수동으로 스위칭 룰을 세팅(Cross-connect)해야 했습니다. 
 - 망을 하나 개통하는 데 짧게는 며칠, 길게는 한 달이 걸렸고 트래픽 변화에 유연한 대응이 불가능했습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">장거리 백본 해저 광케이블 아키텍처 및 증폭…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ASON</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OTN</div></div>
-</div>
-</div>
-
-
+```text
+[장거리 백본 해저 광케이블 아키텍처 및 증폭…]
+    │
+    ▼
+[ASON]
+    │
+    └──▶ [OTN]
+```
 
 - **📢 섹션 요약 비유**: ASON는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -54,18 +50,14 @@ ASON은 인프라 구조를 완벽히 3가지 세상으로 쪼갰습니다.
 3. <strong>관리 평면 (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/">Management</a> Plane)</strong>:
    - 가장 위에 있는 인간 관리자용 대시보드 화면(NMS)입니다. 장비의 고장 감시, 요금 청구, 장애 알람 등의 운영(OAM)을 담당합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">장거리 백본 해저 광케이블 아키텍처 및 증폭…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ASON</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OTN</div></div>
-</div>
-</div>
-
-
+```text
+[장거리 백본 해저 광케이블 아키텍처 및 증폭…]
+    │
+    ▼
+[ASON]
+    │
+    └──▶ [OTN]
+```
 
 - **📢 섹션 요약 비유**: ASON의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -124,19 +116,15 @@ ASON는 광통신·차세대·자동화를 이해할 때 핵심 축을 잡아 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 장거리 백본 해저 광케이블 아키텍처 및 증폭…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: ASON</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: OTN</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 장거리 백본 해저 광케이블 아키텍처 및 증폭…]
+    │
+    ▼
+[현재 개념: ASON]
+    │
+    ├──▶ [확장 A: OTN]
+    └──▶ [확장 B: 의미 기반 통신 최적화]
+```
 
 ASON는 장거리 백본 [해저 광케이블 아키텍처](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/891_submarine_cable_architecture_edfa_amplifier_topology/) 및 증폭…에서 출발해 현재 메커니즘을 정교화하고, 이후 OTN와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -21,17 +21,14 @@ tags = ["studynote-ai"]
 
 키 170cm, 몸무게 65kg인 사람이 "평균(키 170, 몸무게 70)"과 유클리드 거리로는 5 단위 차이다. 그런데 "키 145, 몸무게 70"인 사람도 유클리드 거리로 25 단위 차이다. 하지만 키 145cm는 통계적으로 매우 드문([이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)) 반면, 몸무게 65는 정상 범위다. 유클리드 거리는 단위와 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 차이를 무시해 "이상함"을 제대로 측정 못한다. [마할라노비스 거리](/knowledge-base/studynote/14_data_engineering/02_math_mining/106_mahalanobis_distance/)는 각 변수의 표준 편차로 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)하고, 변수 간 상관관계를 제거(de-correlation)하여 통계적 이상 정도를 정확히 측정한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 유클리드 거리는 "직선 줄자"고 [마할라노비스 거리](/knowledge-base/studynote/14_data_engineering/02_math_mining/106_mahalanobis_distance/)는 "통계적 이상함 측정기"다. 직선 줄자는 단위를 모르니 cm와 kg을 같이 더하는 실수를 한다. 마할라노비스는 "이 값이 전체 분포에서 얼마나 특이한가?"를 σ 단위로 측정한다.
 
@@ -39,25 +36,26 @@ tags = ["studynote-ai"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마할라노비스 거리 계산 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수식: D_M(x) = √((x-μ)ᵀ · Σ⁻¹ · (x-μ))</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단계: 1. 중심화: d = x - μ (평균으로부터의 편차 벡터)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Σ⁻¹ 계산: 공분산 행렬의 역행렬</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 이차 형식: D²_M = dᵀ · Σ⁻¹ · d</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 제곱근: D_M = √D²_M</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Σ⁻¹의 역할:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분산이 큰 방향 → 거리 축소</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분산이 작은 방향 → 거리 확대</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상관된 변수 → 독립 축으로 회전</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">D_M² ~ χ²(p) when x ~ N(μ, Σ) (카이제곱 분포)</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────┐
+│         마할라노비스 거리 계산 구조                       │
+├──────────────────────────────────────────────────────────┤
+│  수식:  D_M(x) = √((x-μ)ᵀ · Σ⁻¹ · (x-μ))             │
+│                                                          │
+│  단계:  1. 중심화: d = x - μ  (평균으로부터의 편차 벡터) │
+│         2. Σ⁻¹ 계산: 공분산 행렬의 역행렬               │
+│         3. 이차 형식: D²_M = dᵀ · Σ⁻¹ · d             │
+│         4. 제곱근: D_M = √D²_M                          │
+│                                                          │
+│  Σ⁻¹의 역할:                                           │
+│  ┌──────────────────────────────────┐                   │
+│  │ 분산이 큰 방향 → 거리 축소       │                   │
+│  │ 분산이 작은 방향 → 거리 확대      │                   │
+│  │ 상관된 변수 → 독립 축으로 회전   │                   │
+│  └──────────────────────────────────┘                   │
+│  D_M² ~ χ²(p) when x ~ N(μ, Σ)  (카이제곱 분포)       │
+└──────────────────────────────────────────────────────────┘
+```
 
 | 거리 | 수식 | 상관 보정 | 스케일 보정 |
 |:---|:---|:---|:---|

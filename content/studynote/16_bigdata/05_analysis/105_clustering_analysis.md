@@ -64,25 +64,22 @@ tags = ["studynote-bigdata"]
 ### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
 - **상위 개념:** [Unsupervised Learning](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/122_unsupervised_learning/), [Data Mining](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/284_data_mining_association_classification_clustering_crisp_dm/)
 - **하위 개념:** K-Means++, Dendrogram, [Silhouette Score](/knowledge-base/studynote/06_ict_convergence/05_data_science/350_kmeans_elbow_silhouette/)
-- **연관 기술:** [PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) ([Dimensionality Reduction](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_dimensionality_reduction/)), [Mahalanobis Distance](/knowledge-base/studynote/14_data_engineering/02_math_mining/106_mahalanobis_distance/), [Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) [Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)
+- **연관 기술:** [PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) ([Dimensionality Reduction](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_dimensionality_reduction/)), [Mahalanobis Distance](/knowledge-base/studynote/14_data_engineering/02_math_mining/106_mahalanobis_distance/), [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) [Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">비지도 학습 (Unsupervised Learning)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">클러스터링 (Clustering)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">K-평균 (K-Means)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">실루엣 계수 (Silhouette Score)</div></div>
-</div>
-</div>
-
-
+```text
+[비지도 학습 (Unsupervised Learning)]
+    │
+    ▼
+[클러스터링 (Clustering)]
+    │
+    ▼
+[K-평균 (K-Means)]
+    │
+    ▼
+[실루엣 계수 (Silhouette Score)]
+```
 
 이 흐름도는 [비지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/122_unsupervised_learning/)에서 클러스터링과 K-평균, 실루엣 계수로 평가가 이어지는 흐름을 보여준다.
 ### 👶 어린이를 위한 3줄 비유 설명

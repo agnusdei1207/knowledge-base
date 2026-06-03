@@ -38,19 +38,19 @@ tags = ["enterprise_systems"]
 | <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/">이상 탐지</a> (<a href="/knowledge-base/studynote/16_bigdata/05_analysis/111_anomaly_detection/">Anomaly Detection</a>)</strong> | ML 클러스터링 기반 패턴 일탈 감지 | 평소와 다른 새벽 시간대 법인카드 이상 결제 즉각 차단 |
 | <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/240_hyperautomation_hybrid_workforce/">초자동화</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/240_hyperautomation_hybrid_workforce/">Hyperautomation</a>)</strong> | NLP(자연어처리) + [RPA](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/) 봇 결합 | 이메일 견적서를 읽고 시스템에 자동 주문 등록 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인텔리전트 ERP의 '자율주행 경영' 사이클</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1.</div><div class="kb-diagram-node">데이터 감지</div><div class="kb-diagram-note">외부 데이터 (날씨/환율) + 내부 장부 실시간 수집</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2.</div><div class="kb-diagram-node">지능형 분석</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">"다음 주 원자재 가격 10% 폭등 확률 95%"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3.</div><div class="kb-diagram-node">행동 제안</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">"선제 발주서 생성했습니다. 승인하시겠습니까?"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">4.</div><div class="kb-diagram-node">자동 실행</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">RPA 봇이 협력사에 발주 메일 전송</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           인텔리전트 ERP의 '자율주행 경영' 사이클          │
+├──────────────────────────────────────────────────────────────┤
+│ 1. [데이터 감지] 외부 데이터 (날씨/환율) + 내부 장부 실시간 수집│
+│          ▼                                                   │
+│ 2. [지능형 분석] ML 엔진 ──▶ "다음 주 원자재 가격 10% 폭등 확률 95%"│
+│          ▼                                                   │
+│ 3. [행동 제안] NLP 챗봇 ──▶ "선제 발주서 생성했습니다. 승인하시겠습니까?"│
+│          ▼                                                   │
+│ 4. [자동 실행] 사용자가 'YES' 누르면 ─▶ RPA 봇이 협력사에 발주 메일 전송│
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 그림은 기존에 사람이 일일이 조회하고 기안을 작성하던 긴 과정이, AI의 판단과 RPA의 손발을 통해 하나의 버튼(승인) 클릭으로 단축되는 과정을 묘사한다.
 
@@ -112,23 +112,21 @@ ERP의 진화를 세대별로 비교해보면, 지향점(가치)이 철저하게
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">수작업 기록 장부 (Legacy ERP / SOR)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">모바일 및 클라우드 결합 (Cloud ERP)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">AI/ML 엔진 탑재 (예측 및 이상 탐지 도입)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">RPA 및 챗봇 결합 (Hyperautomation / CUI)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">자율주행 경영 실현 (Intelligent ERP / Touchless Operation)</div>
-</div>
-</div>
-
-
+```text
+수작업 기록 장부 (Legacy ERP / SOR)
+    │
+    ▼
+모바일 및 클라우드 결합 (Cloud ERP)
+    │
+    ▼
+AI/ML 엔진 탑재 (예측 및 이상 탐지 도입)
+    │
+    ▼
+RPA 및 챗봇 결합 (Hyperautomation / CUI)
+    │
+    ▼
+자율주행 경영 실현 (Intelligent ERP / Touchless Operation)
+```
 
 이 흐름도는 단순 기록기에서 지능형 조언자를 거쳐 스스로 움직이는 자율 에이전트로 진화하는 과정을 보여준다.
 

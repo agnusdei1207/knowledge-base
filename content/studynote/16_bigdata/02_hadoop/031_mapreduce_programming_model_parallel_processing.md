@@ -20,24 +20,23 @@ tags = ["hadoop", "studynote-bigdata"]
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 [맵리듀스](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/)는 Map - [Shuffle & Sort](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/205_shuffle_sort_yarn_resource_manager/) - Reduce의 단계를 거치며 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 ([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/), Value) 쌍으로 처리됩니다.
 
+```text
+[ MapReduce Processing Flow Architecture ]
 
+1. Input Split: Split large file into blocks (HDFS).
+2. Map: Filter and sort data (e.g., Word counting).
+3. Shuffle & Sort: Group values by key across nodes (Heavy Network I/O).
+4. Reduce: Aggregate values for each key.
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">MapReduce Processing Flow Architecture</div></div>
-<div class="kb-diagram-note">1. Input Split: Split large file into blocks (HDFS).</div>
-<div class="kb-diagram-note">2. Map: Filter and sort data (e.g., Word counting).</div>
-<div class="kb-diagram-note">3. Shuffle &amp; Sort: Group values by key across nodes (Heavy Network I/O).</div>
-<div class="kb-diagram-note">4. Reduce: Aggregate values for each key.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Diagram: Word Count Example</div></div>
-<div class="kb-diagram-note">(Input: "Apple Banana Apple")</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Map</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">(Apple, 1), (Banana, 1), (Apple, 1)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Shuffle</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">1, 1</div><div class="kb-diagram-note">), (Banana:</div><div class="kb-diagram-node">1</div><div class="kb-diagram-note">)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Reduce</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">(Apple: 2), (Banana: 1)</div></div>
-</div>
-</div>
-
-
+[ Diagram: Word Count Example ]
+(Input: "Apple Banana Apple") 
+      |
+[ Map ] --> (Apple, 1), (Banana, 1), (Apple, 1)
+      |
+[ Shuffle ] --> (Apple: [1, 1]), (Banana: [1])
+      |
+[ Reduce ] --> (Apple: 2), (Banana: 1)
+```
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 [맵리듀스](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/)와 차세대 엔진인 스파크를 비교합니다.
@@ -65,23 +64,21 @@ tags = ["hadoop", "studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">단일 서버 한계</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">분산 처리 필요</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MapReduce(Map 단계)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Shuffle/Sort</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Reduce 단계 → Hadoop 에코시스템</div></div>
-</div>
-</div>
-
-
+```text
+[단일 서버 한계]
+    │
+    ▼
+[분산 처리 필요]
+    │
+    ▼
+[MapReduce(Map 단계)]
+    │
+    ▼
+[Shuffle/Sort]
+    │
+    ▼
+[Reduce 단계 → Hadoop 에코시스템]
+```
 
 MapReduce는 단일 서버 한계를 넘어 Map, Shuffle/Sort, Reduce로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리를 수행한다.
 

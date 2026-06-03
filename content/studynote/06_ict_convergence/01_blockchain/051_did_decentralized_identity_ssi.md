@@ -31,23 +31,24 @@ tags = ["studynote-ict-convergence"]
 ### [DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) 생태계의 3대 주체와 VC 흐름 구조
 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 원본은 절대 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에 올라가지 않는다. 정보는 발급자(Issuer)로부터 사용자(Holder)의 지갑으로 직접 들어간다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DID (분산 신원 증명) 트러스트 트라이앵글 로직</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">발급자 (Issuer)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">사용자 (Holder)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(학교, 병원, 정부) (개인의 스마트폰 지갑)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(공개키 등록) (VP 제출)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">블록체인 (DID Registry)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">검증자 (Verifier)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 개인정보 없음. 오직 DID 식별자와 공개키만 영구 기록 (기업, 쇼핑몰)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심 논리: 발급자(학교)가 학생증(VC)을 발급할 때 자신의 비밀키로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서명한다. 사용자가 학생증을 제출하면, 검증자는 블록체인에서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">학교의 공개키를 꺼내와 서명이 진짜인지 수학적으로 검증해 버린다!</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────┐
+│           DID (분산 신원 증명) 트러스트 트라이앵글 로직      │
+├────────────────────────────────────────────────────────┤
+│                                                        │
+│   [ 발급자 (Issuer) ] ──────(VC 발급)─────▶ [ 사용자 (Holder) ]│
+│    (학교, 병원, 정부)                            (개인의 스마트폰 지갑)│
+│            │                                           │
+│            │ (공개키 등록)                 (VP 제출) │
+│            ▼                                           ▼
+│   [ 블록체인 (DID Registry) ] ◀──(DID 검증)── [ 검증자 (Verifier) ]│
+│    - 개인정보 없음. 오직 DID 식별자와 공개키만 영구 기록     (기업, 쇼핑몰)  │
+│                                                        │
+│ * 핵심 논리: 발급자(학교)가 학생증(VC)을 발급할 때 자신의 비밀키로   │
+│   서명한다. 사용자가 학생증을 제출하면, 검증자는 블록체인에서        │
+│   학교의 공개키를 꺼내와 서명이 진짜인지 수학적으로 검증해 버린다! │
+└────────────────────────────────────────────────────────┘
+```
 
 - <strong>VC (Verifiable Credential, <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 가능한 크리덴셜)</strong>: 플라스틱 신분증의 디지털 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). 발급자의 전자 서명이 포함된 개인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 꾸러미다.
 - <strong>VP (Verifiable Presentation, <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 가능한 프레젠테이션)</strong>: 사용자가 지갑에 있는 VC 중 '필요한 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)(나이 등)만' 쏙 빼서 새롭게 묶어 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)자에게 제출하는 정보의 최소 공개 묶음이다.
@@ -106,23 +107,21 @@ DID와 SSI는 단순히 로그인 방식을 바꾸는 기술이 아니라, 인�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">개인정보 유출 사고 빈발 및 거대 플랫폼의 데이터 독점 (Siloed &amp; Federated ID)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">자기주권 신원(SSI, Self-Sovereign Identity) 철학 대두 (데이터 주권 회복)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">블록체인 인프라 성숙 ──▶ 위변조 없는 분산 원장 기술(DLT) 융합</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">W3C 표준 DID (Decentralized Identifier) 및 VC 규격 국제 표준화 제정</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ZKP(영지식 증명) 융합을 통한 최소 공개 실현 및 모바일 디지털 국가 신분증(eID) 적용</div>
-</div>
-</div>
-
-
+```text
+개인정보 유출 사고 빈발 및 거대 플랫폼의 데이터 독점 (Siloed & Federated ID)
+    │
+    ▼
+자기주권 신원(SSI, Self-Sovereign Identity) 철학 대두 (데이터 주권 회복)
+    │
+    ▼
+블록체인 인프라 성숙 ──▶ 위변조 없는 분산 원장 기술(DLT) 융합
+    │
+    ▼
+W3C 표준 DID (Decentralized Identifier) 및 VC 규격 국제 표준화 제정
+    │
+    ▼
+ZKP(영지식 증명) 융합을 통한 최소 공개 실현 및 모바일 디지털 국가 신분증(eID) 적용
+```
 
 이 흐름도는 "[데이터 주권](/knowledge-base/studynote/09_security/16_data_privacy/809_data_sovereignty/) 상실 → 철학적 반성 → [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 하드웨어 기술 결합 → 글로벌 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 표준화 → 극강의 프라이버시 실현"으로 치닫는 디지털 신원 패러다임의 혁명을 보여준다.
 

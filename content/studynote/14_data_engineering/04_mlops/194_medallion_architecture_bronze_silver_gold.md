@@ -32,27 +32,28 @@ Databricks가 정의한 메달리온 아키텍처는 전통적 [데이터 웨어
 
 ### 1.3 메달리온 아키텍처 3계층 개요
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">외부 데이터 소스</div>
-<div class="kb-diagram-note">(운영 DB, 로그, API, 스트림)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BRONZE 레이어</div><div class="kb-diagram-cell">← 원시 데이터 그대로 적재</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(동메달)</div><div class="kb-diagram-cell">스키마 없음, 이력 보존</div></div>
-<div class="kb-diagram-note">정제/검증 ETL</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SILVER 레이어</div><div class="kb-diagram-cell">← 정제·표준화 데이터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(은메달)</div><div class="kb-diagram-cell">PII 마스킹, 중복 제거</div></div>
-<div class="kb-diagram-note">집계/비즈니스 로직</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GOLD 레이어</div><div class="kb-diagram-cell">← 비즈니스 집계 데이터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(금메달)</div><div class="kb-diagram-cell">Feature Store, 대시보드</div></div>
-</div>
-</div>
-
-
+```
+외부 데이터 소스
+(운영 DB, 로그, API, 스트림)
+        │
+        ▼
+┌───────────────────┐
+│   BRONZE 레이어    │  ← 원시 데이터 그대로 적재
+│   (동메달)         │    스키마 없음, 이력 보존
+└────────┬──────────┘
+         │ 정제/검증 ETL
+         ▼
+┌───────────────────┐
+│   SILVER 레이어    │  ← 정제·표준화 데이터
+│   (은메달)         │    PII 마스킹, 중복 제거
+└────────┬──────────┘
+         │ 집계/비즈니스 로직
+         ▼
+┌───────────────────┐
+│    GOLD 레이어     │  ← 비즈니스 집계 데이터
+│   (금메달)         │    Feature Store, 대시보드
+└───────────────────┘
+```
 
 📢 **섹션 요약 비유**: 메달리온 아키텍처는 원석(Bronze) → 세공(Silver) → 완성 보석(Gold)으로 가공하는 보석 제작 과정이다. 각 단계에서 가치가 더해지지만, 원석은 항상 보존된다.
 
@@ -135,22 +136,26 @@ Silver [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rela
 
 ### 2.4 Delta Lake와의 결합
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Delta Lake 핵심 기능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ACID 트랜잭션</div><div class="kb-diagram-cell">Time Travel (시간 여행)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동시 읽기/쓰기</div><div class="kb-diagram-cell">DESCRIBE HISTORY orders;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">충돌 없는 업데이트</div><div class="kb-diagram-cell">SELECT * FROM orders</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Commit Log 기반</div><div class="kb-diagram-cell">VERSION AS OF 5;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Schema Evolution</div><div class="kb-diagram-cell">Z-Ordering (클러스터링)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">컬럼 추가 자동 반영</div><div class="kb-diagram-cell">쿼리 성능 최적화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하위 호환성 유지</div><div class="kb-diagram-cell">데이터 스킵핑</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────┐
+│              Delta Lake 핵심 기능                         │
+│                                                         │
+│  ┌──────────────────┐  ┌──────────────────────────────┐ │
+│  │ ACID 트랜잭션     │  │ Time Travel (시간 여행)        │ │
+│  │                  │  │                              │ │
+│  │ 동시 읽기/쓰기    │  │ DESCRIBE HISTORY orders;     │ │
+│  │ 충돌 없는 업데이트│  │ SELECT * FROM orders         │ │
+│  │ Commit Log 기반  │  │ VERSION AS OF 5;             │ │
+│  └──────────────────┘  └──────────────────────────────┘ │
+│                                                         │
+│  ┌──────────────────┐  ┌──────────────────────────────┐ │
+│  │ Schema Evolution  │  │ Z-Ordering (클러스터링)        │ │
+│  │                  │  │                              │ │
+│  │ 컬럼 추가 자동 반영│  │ 쿼리 성능 최적화              │ │
+│  │ 하위 호환성 유지  │  │ 데이터 스킵핑                 │ │
+│  └──────────────────┘  └──────────────────────────────┘ │
+└─────────────────────────────────────────────────────────┘
+```
 
 | [Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/) 기능 | 메달리온 활용 |
 |:---|:---|
@@ -180,24 +185,23 @@ Silver [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rela
 
 ### 3.2 계층별 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/)
 
+```
+데이터 접근 권한 계층화
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">데이터 접근 권한 계층화</div>
-<div class="kb-diagram-note">GOLD (비즈니스 사용자, 분석가)</div>
-<div class="kb-diagram-note">─ 최종 집계 데이터 조회</div>
-<div class="kb-diagram-note">─ BI 도구 (Tableau, Power BI) 연결</div>
-<div class="kb-diagram-note">SILVER (데이터 분석가, 데이터팀)</div>
-<div class="kb-diagram-note">─ 정제된 데이터 분석</div>
-<div class="kb-diagram-note">─ 머신러닝 피처 엔지니어링</div>
-<div class="kb-diagram-note">BRONZE (데이터 엔지니어만)</div>
-<div class="kb-diagram-note">─ 원시 데이터 접근</div>
-<div class="kb-diagram-note">─ 재처리 및 디버깅</div>
-</div>
-</div>
-
-
+╔══════════════════════════════════════════╗
+║  GOLD          (비즈니스 사용자, 분석가)  ║
+║  ─ 최종 집계 데이터 조회                 ║
+║  ─ BI 도구 (Tableau, Power BI) 연결     ║
+╠══════════════════════════════════════════╣
+║  SILVER         (데이터 분석가, 데이터팀) ║
+║  ─ 정제된 데이터 분석                    ║
+║  ─ 머신러닝 피처 엔지니어링              ║
+╠══════════════════════════════════════════╣
+║  BRONZE          (데이터 엔지니어만)      ║
+║  ─ 원시 데이터 접근                     ║
+║  ─ 재처리 및 디버깅                     ║
+╚══════════════════════════════════════════╝
+```
 
 ### 3.3 실시간 스트림 처리와 메달리온 결합
 
@@ -215,26 +219,22 @@ Silver [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rela
 
 ### 4.1 메달리온 아키텍처 도입 단계
 
+```
+단계 1: Bronze 구성 (1주)
+  ├─ 소스 시스템별 Kafka 토픽 연결
+  ├─ Delta Lake 테이블 생성
+  └─ Auto Loader로 자동 적재 설정
 
+단계 2: Silver 구성 (2~4주)
+  ├─ 데이터 품질 규칙 정의
+  ├─ PII 마스킹 정책 적용
+  └─ Great Expectations 데이터 검증
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단계 1: Bronze 구성 (1주)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">소스 시스템별 Kafka 토픽 연결</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Delta Lake 테이블 생성</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Auto Loader로 자동 적재 설정</div>
-<div class="kb-diagram-note">단계 2: Silver 구성 (2~4주)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">데이터 품질 규칙 정의</div>
-<div class="kb-diagram-tree-item" style="--depth:1">PII 마스킹 정책 적용</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Great Expectations 데이터 검증</div>
-<div class="kb-diagram-note">단계 3: Gold 구성 (지속적)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">비즈니스 지표 정의 (KPI)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">dbt 모델로 변환 로직 관리</div>
-<div class="kb-diagram-tree-item" style="--depth:1">BI 도구 연결</div>
-</div>
-</div>
-
-
+단계 3: Gold 구성 (지속적)
+  ├─ 비즈니스 지표 정의 (KPI)
+  ├─ dbt 모델로 변환 로직 관리
+  └─ BI 도구 연결
+```
 
 ### 4.2 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 관리 도구
 
@@ -247,33 +247,35 @@ Silver [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rela
 
 ### 4.3 실무 예시: e커머스 주문 파이프라인
 
+```
+[주문 이벤트 발생]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">주문 이벤트 발생</div></div>
-<div class="kb-diagram-note">Kafka Topic: order-events</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">BRONZE: orders_raw</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">order_id, raw_json, ingested_at,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">source_system, partition, offset</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(변환 없음, 장기 보존)</div></div>
-<div class="kb-diagram-note">Spark Streaming</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SILVER: orders_cleaned</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">order_id, user_id_hash, amount,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">status, created_at(timestamp),</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(중복 제거, PII 해시, 타입 변환)</div></div>
-<div class="kb-diagram-note">dbt 모델</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">GOLD: daily_order_summary</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">date, total_orders, total_revenue,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">avg_order_value, cancellation_rate</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(일별 KPI 집계)</div></div>
-</div>
-</div>
-
-
+    Kafka Topic: order-events
+         │
+         ▼
+    BRONZE: orders_raw
+    ┌─────────────────────────────────────┐
+    │ order_id, raw_json, ingested_at,    │
+    │ source_system, partition, offset    │
+    │ (변환 없음, 장기 보존)               │
+    └────────────────┬────────────────────┘
+                     │ Spark Streaming
+                     ▼
+    SILVER: orders_cleaned
+    ┌─────────────────────────────────────┐
+    │ order_id, user_id_hash, amount,     │
+    │ status, created_at(timestamp),      │
+    │ (중복 제거, PII 해시, 타입 변환)     │
+    └────────────────┬────────────────────┘
+                     │ dbt 모델
+                     ▼
+    GOLD: daily_order_summary
+    ┌─────────────────────────────────────┐
+    │ date, total_orders, total_revenue,  │
+    │ avg_order_value, cancellation_rate  │
+    │ (일별 KPI 집계)                     │
+    └─────────────────────────────────────┘
+```
 
 ### 4.4 기술사 논술 핵심 판단 기준
 
@@ -302,21 +304,18 @@ Silver [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rela
 
 ### 5.2 메달리온 + [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 연계
 
+```
+메달리온 데이터로 ML 파이프라인 구성
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">메달리온 데이터로 ML 파이프라인 구성</div>
-<div class="kb-diagram-note">GOLD 레이어 피처 데이터</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Feature Store (Databricks / Feast)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">→ 모델 학습 (MLflow 추적)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">→ 온라인 서빙 (Redis 조회)</div>
-<div class="kb-diagram-note">실시간 예측 API</div>
-</div>
-</div>
-
-
+GOLD 레이어 피처 데이터
+    │
+    ▼
+Feature Store (Databricks / Feast)
+    │
+    ├──→ 모델 학습 (MLflow 추적)
+    └──→ 온라인 서빙 (Redis 조회)
+         실시간 예측 API
+```
 
 ### 5.3 결론 요약
 
@@ -346,23 +345,21 @@ Silver [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rela
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Raw 데이터 수집 (CSV · JSON · 로그)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Bronze 계층: 원시 데이터 그대로 적재 (append-only)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Silver 계층: 정제 · 스키마 적용 · 중복 제거 · 조인</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Gold 계층: 비즈니스 KPI · 집계 테이블 · ML 피처</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">소비: BI 대시보드 · ML 파이프라인 · Ad-hoc 분석</div>
-</div>
-</div>
-
-
+```text
+Raw 데이터 수집 (CSV · JSON · 로그)
+    │
+    ▼
+Bronze 계층: 원시 데이터 그대로 적재 (append-only)
+    │
+    ▼
+Silver 계층: 정제 · 스키마 적용 · 중복 제거 · 조인
+    │
+    ▼
+Gold 계층: 비즈니스 KPI · 집계 테이블 · ML 피처
+    │
+    ▼
+소비: BI 대시보드 · ML 파이프라인 · Ad-hoc 분석
+```
 2. Bronze는 마치 창고에 쌓아둔 재료 상자예요. 버리지 않고 다 보관해서, 나중에 "아, 이게 필요했구나!" 할 때 꺼낼 수 있어요.
 3. Gold는 손님(사용자)이 바로 쓸 수 있도록 예쁘게 포장된 선물 같아요. 복잡한 계산은 이미 다 끝났고, 바로 숫자만 보면 돼요.
 

@@ -28,24 +28,25 @@ tags = ["studynote-operating-system"]
 - <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/">디렉터리</a> 장부 통치와 디스크 물리 철판 결속 I/O 렌더 다이어그램</strong>:
 운영체제가 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 리스트 장부표에서 "시작 블록" 1개 번호만 보고 어떻게 디스크 철판 수십 개를 긁어오는지 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 레이어로 포팅 뷰를 까보면 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"시작점과 길이" 단 두 수치로 끝내는 무적 포인터 스로틀 렌더</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1️⃣</div><div class="kb-diagram-node">디렉터리 구조표 덩어리 (이름표 메모리 캐싱 캡슐)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 파일 이름 : <code>movie.mp4</code></div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 시작 블록 : <code>18번</code> ◀ (모터 핀을 18번 트랙으로 보내라 지시)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 블록 길이 : <code>4칸 길이</code> ──</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2️⃣</div><div class="kb-diagram-node">실제 하드디스크 철판 물리 섹터 깡통 (0번 ~ 31번 방)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">15</div><div class="kb-diagram-node">16</div><div class="kb-diagram-node">17</div><div class="kb-diagram-note">[</div><div class="kb-diagram-node">18</div><div class="kb-diagram-note">] [</div><div class="kb-diagram-node">19</div><div class="kb-diagram-note">] [</div><div class="kb-diagram-node">20</div><div class="kb-diagram-note">] [</div><div class="kb-diagram-node">21</div><div class="kb-diagram-note">]</div><div class="kb-diagram-node">22</div><div class="kb-diagram-node">23</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(빈칸)(빈칸) (꽉참)</div><div class="kb-diagram-cell">========= movie.mp4 ========</div><div class="kb-diagram-cell">(빈칸)(빈칸)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(18+0) (18+1) (18+2) (18+3칸)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 렌더 로직: "18+0번" 읽고, 핀 이동 없이 "18+1" 읽고... 우주 광속!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌──────────────────────────────────────────────────────────────────────────────┐
+  │                 "시작점과 길이" 단 두 수치로 끝내는 무적 포인터 스로틀 렌더  │
+  ├──────────────────────────────────────────────────────────────────────────────┤
+  │                                                                              │
+  │  1️⃣ [ 디렉터리 구조표 덩어리 (이름표 메모리 캐싱 캡슐) ]                    │
+  │   - 파일 이름 : `movie.mp4`                                                  │
+  │   - 시작 블록 : `18번` ◀──── (모터 핀을 18번 트랙으로 보내라 지시)           │
+  │   - 블록 길이 : `4칸 길이` ──┐                                               │
+  │                             │                                                │
+  │  =========================▼===================================               │
+  │                                                                              │
+  │  2️⃣ [ 실제 하드디스크 철판 물리 섹터 깡통 (0번 ~ 31번 방) ]                 │
+  │     [15] [16]   [17]   [[18]] [[19]] [[20]] [[21]]   [22] [23]               │
+  │     (빈칸)(빈칸) (꽉참)  |========= movie.mp4 ========| (빈칸)(빈칸)         │
+  │                           (18+0) (18+1) (18+2) (18+3칸)                      │
+  │   => 렌더 로직: "18+0번" 읽고, 핀 이동 없이 "18+1" 읽고... 우주 광속!        │
+  └──────────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/)는 오직 `18번 시작`, `길이 4` 라는 고작 두 단어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 유지([메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 장부 오버헤드 거의 0% 압도적 쾌적함)한다! 만약 사용자가 "영화 중간인 19번 블록으로 다이렉트 1방 점프 타격해 줘!" 라고 랜덤 액세스(Seek) 시스템 콜 빔을 쏘면? [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 복잡하게 포인터를 뒤지지도 않고 단순히 덧셈 산수(`18 + 1 = 19`) 계산식 1줄을 치고 0.1초 만에 19번지 디스크 슬롯으로 레이저 점핑 다이브 컷을 달성한다. 순차 타격 속도 미쳤고, 중간 점프 직접 타격 속도 우주 미쳤으며, 유지할 메모리 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 표 포인터 캐시가 아예 없으니 램(RAM) 이 가장 황홀하게 노는(절대 쾌적) 극강 무적 I/O 뼈대 증명이지만, 저렇게 연속으로 블록을 4개 비워두기 위해 디스크가 지우기, 쓰기를 반복하다 보면 돌이킬 수 없는 구멍 뚫린 치즈 상태가 되어버린다.
 
@@ -134,19 +135,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">파일 할당 방법 (File Allocation Methods)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">연속 할당 (Contiguous Allocation)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">연결 할당 (Linked Allocation)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">FAT (File Allocation Table)</div></div>
-</div>
-</div>
-
-
+```text
+[파일 할당 방법 (File Allocation Methods)]
+    │
+    ▼
+[연속 할당 (Contiguous Allocation)]
+    │
+    ├──▶ [연결 할당 (Linked Allocation)]
+    └──▶ [FAT (File Allocation Table)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

@@ -30,26 +30,27 @@ tags = ["studynote-computer-architecture"]
 
 언더플로우 상황에 직면했을 때 컴퓨터의 FPU ([Floating Point](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) Unit)는 두 단계의 비상 낙하산을 펴 데이터의 완전한 소멸을 늦춘다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부동소수점 언더플로우 발생과 처리 메커니즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">정규화 수 하한선 도달</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지수부 최소값: 2^-126 (FP32 기준)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (연산 결과가 한계를 뚫고 더 작아짐: 예 2^-140)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1차 방어: 점진적 언더플로우 (Gradual Underflow)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가수부(Mantissa)의 비트를 오른쪽으로 시프트하며 지수를 맞춤</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 비정규화 수 (Subnormal Number) 영역 진입</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 유효숫자 손실 발생, 하지만 0은 아님!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (더 작아져서 가수부마저 모두 0이 됨)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2차 포기: 진성 언더플로우 (True Underflow)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 언더플로우 플래그(UF) 설정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과를 완전한 0.0으로 증발 (Flush to Zero)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│         부동소수점 언더플로우 발생과 처리 메커니즘           │
+├──────────────────────────────────────────────────────────────┤
+│ [정규화 수 하한선 도달]                                      │
+│  지수부 최소값: 2^-126 (FP32 기준)                           │
+│       │                                                      │
+│       ▼ (연산 결과가 한계를 뚫고 더 작아짐: 예 2^-140)       │
+│                                                              │
+│ [1차 방어: 점진적 언더플로우 (Gradual Underflow)]            │
+│  가수부(Mantissa)의 비트를 오른쪽으로 시프트하며 지수를 맞춤 │
+│  => 비정규화 수 (Subnormal Number) 영역 진입                 │
+│  => 유효숫자 손실 발생, 하지만 0은 아님!                     │
+│       │                                                      │
+│       ▼ (더 작아져서 가수부마저 모두 0이 됨)                 │
+│                                                              │
+│ [2차 포기: 진성 언더플로우 (True Underflow)]                 │
+│  => 언더플로우 플래그(UF) 설정                               │
+│  => 결과를 완전한 0.0으로 증발 (Flush to Zero)               │
+└──────────────────────────────────────────────────────────────┘
+```
 
 위 다이어그램은 숫자가 0을 향해 추락할 때의 상태 변화를 보여준다. [IEEE 754](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/088_ieee_754/) 표준은 점진적 언더플로우 (Gradual Underflow)를 채택하여, 지수를 최소값으로 고정한 채 가수부를 밀어내어 비정규화 수 (Subnormal)를 만든다. 이 과정에서 유효 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 깎여나가 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)는 떨어지지만, 갑자기 0으로 떨어지는 충격을 완화한다. 그러나 이 방어선마저 뚫리면 결국 값은 0.0으로 소멸한다.
 
@@ -108,23 +109,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">부동소수점 한계 도달 (FP Limit)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">언더플로우 (Underflow) 발생 위험</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">점진적 언더플로우 · 비정규화 수 (Subnormal)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">성능 병목 해결: FTZ (Flush-To-Zero) / DAZ 설정</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">AI/딥러닝 확장: 로스 스케일링 (Loss Scaling)</div>
-</div>
-</div>
-
-
+```text
+부동소수점 한계 도달 (FP Limit)
+    │
+    ▼
+언더플로우 (Underflow) 발생 위험
+    │
+    ▼
+점진적 언더플로우 · 비정규화 수 (Subnormal)
+    │
+    ▼
+성능 병목 해결: FTZ (Flush-To-Zero) / DAZ 설정
+    │
+    ▼
+AI/딥러닝 확장: 로스 스케일링 (Loss Scaling)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -23,21 +23,17 @@ tags = ["studynote-network"]
 - **필요성**: 수만 명의 직원이 일하는 거대 기업 망에는 라우터와 스위치가 수백 대 깔려 있다. 케이블은 쥐가 파먹어서 툭하면 끊어지고, 공장 증설로 매주 새로운 라우터가 추가된다. 관리자가 수동([Static Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/340_static_routing_default_route_0_0_0_0/))으로 모든 라우터에 들어가 `ip route...`를 쳐주다간 일주일도 못 가 사직서를 낼 것이다. "라우터 전원만 켜서 꽂아두면, 지들끼리 쑥덕쑥덕 대화를 나눠서 사내 모든 네트워크 지도를 완성하는 인공지능이 필요해!"
 
 - **💡 비유**: 
-  - **IGP**: 한 성곽([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)) 안에 사는 <strong>"마을 주민들끼리의 동네방네 카톡방"</strong>입니다. 뒷산에 나무가 쓰러져 길이 막히면 1초 만에 단톡방에 "뒷산 막힘! 개울가 길로 우회하셈!"이라고 소문이 쫙 퍼집니다. 속도가 생명입니다.
+  - **IGP**: 한 성곽([AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)) 안에 사는 <strong>"마을 주민들끼리의 동네방네 카톡방"</strong>입니다. 뒷산에 나무가 쓰러져 길이 막히면 1초 만에 단톡방에 "뒷산 병목! 개울가 길로 우회하셈!"이라고 소문이 쫙 퍼집니다. 속도가 생명입니다.
   - <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/346_egp_exterior_gateway_protocol_bgp/">EGP</a>(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/">BGP</a>)</strong>: 성곽 밖의 다른 나라 성주와 대화하는 <strong>"공식 외교관"</strong>입니다. 동네 뒷산 길이 막혔다는 자질구레한 소식은 알리지 않고, 오직 "우리 성곽에는 총 1만 명이 산다"라는 큰 덩어리의 정보만 엄숙하고 신중하게 전달합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">AS / ASN 분배</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IGP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">EGP</div></div>
-</div>
-</div>
-
-
+```text
+[AS / ASN 분배]
+    │
+    ▼
+[IGP]
+    │
+    └──▶ [EGP]
+```
 
 - **📢 섹션 요약 비유**: ** IGP는 인체의 **"자율 신경계"**와 같습니다. 손가락이 바늘에 찔리면 뇌가 명령을 내리기 전에(관리자 수동 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 없이) 반사적으로 손을 움츠리고 혈액을 응고시키듯, 망 내부의 끊어짐을 스스로 감지하고 즉각 우회로를 뚫어내는 생존 알고리즘입니다.
 
@@ -58,24 +54,23 @@ IGP는 라우터가 동네 지도를 파악하는 철학(시야의 넓이)에 �
 - <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/">OSPF</a> (Open <a href="/knowledge-base/studynote/05_database/07_exam_summary/547_graph_shortest_path_db_mapping/">Shortest Path</a> First)</strong>: 업계 표준의 제왕이다. 전 세계 대부분의 대기업 사내망(IGP)은 99% OSPF로 돌아간다. [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)(Cost)을 기준으로 삼아 기가비트 시대에 찰떡이며, 지도를 구역별(Area)로 쪼개서 라우터의 뇌(CPU)가 터지지 않게 관리하는 천재성을 지녔다.
 - <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/363_is_is_intermediate_system_clnp_telecom/">IS-IS</a></strong>: OSPF와 쌍둥이 형제격인 [링크 상태](/knowledge-base/studynote/03_network/07_network_layer_routing/348_link_state_routing_dijkstra_spf/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/). 일반 기업보다는 SKT, KT 같은 거대 통신사의 백본망 내부(IGP)에서 주로 쓰인다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IGP 두 계파의 지형 파악 방식 차이</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">멍청한 RIP (거리 벡터)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">라우터 B 왈: "야 A야! 나한테 짐 주면 내가 부산까지 3칸만에 감!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">라우터 A 왈: "오케이! B가 그렇다니까 묻지도 따지지도 않고 B한테 던짐!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(단점: B가 거짓말을 하거나 루프가 생겨도 A는 앞이 안 보여서 모름)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">똑똑한 OSPF (링크 상태)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">라우터 B 왈: "내 1번 팔은 1Gbps고, 2번 팔은 100Mbps다!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">라우터 A 왈: "모든 놈들의 팔 상태를 다 수집했어. 내가 직접 지형도를</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다 그려보니 B한테 주는 게 진짜 제일 빠르네! 던지자!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(장점: 내 눈으로 지도를 다 보고 있으므로 절대 루프(사기)에 당하지 않음)</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                IGP 두 계파의 지형 파악 방식 차이                  │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 멍청한 RIP (거리 벡터) ]                                  │
+ │   라우터 B 왈: "야 A야! 나한테 짐 주면 내가 부산까지 3칸만에 감!"     │
+ │   라우터 A 왈: "오케이! B가 그렇다니까 묻지도 따지지도 않고 B한테 던짐!"│
+ │   (단점: B가 거짓말을 하거나 루프가 생겨도 A는 앞이 안 보여서 모름)    │
+ │                                                             │
+ │   [ 똑똑한 OSPF (링크 상태) ]                                  │
+ │   라우터 B 왈: "내 1번 팔은 1Gbps고, 2번 팔은 100Mbps다!"         │
+ │   라우터 A 왈: "모든 놈들의 팔 상태를 다 수집했어. 내가 직접 지형도를 │
+ │                다 그려보니 B한테 주는 게 진짜 제일 빠르네! 던지자!"   │
+ │   (장점: 내 눈으로 지도를 다 보고 있으므로 절대 루프(사기)에 당하지 않음)│
+ └─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/">Distance Vector</a>(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/">RIP</a>)가 친구가 불러주는 내비게이션 길 안내를 </strong>"앞도 안 보고 맹목적으로 따라가며 운전하는 것"<strong>이라면, <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/348_link_state_routing_dijkstra_spf/">Link State</a>(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/">OSPF</a>)는 내가 직접 드론을 띄워 도시 전체의 교통 상황을 한눈에 조망한 뒤 </strong>"내 머리로 직접 가장 빠른 골목길을 찾아 운전대"**를 꺾는 완벽한 자율 주행입니다.
 
@@ -133,19 +128,15 @@ IGP는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: AS / ASN 분배</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: IGP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: EGP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: AS / ASN 분배]
+    │
+    ▼
+[현재 개념: IGP]
+    │
+    ├──▶ [확장 A: EGP]
+    └──▶ [확장 B: 의도 기반 라우팅]
+```
 
 IGP는 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) / ASN 분배에서 출발해 현재 메커니즘을 정교화하고, 이후 EGP와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

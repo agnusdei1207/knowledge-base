@@ -62,32 +62,35 @@ tags = ["studynote-operating-system"]
 
 PREEMPT_RT 패치를 적용하면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 소스의 `#include <linux/spinlock.h>` 내부 매크로가 통째로 바뀌어버린다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PREEMPT_RT 패치의 스핀락 변환 (Sleeping Spinlock)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">일반 Linux 커널 소스 코드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">spin_lock(&amp;my_lock);</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// 1. 선점 금지 (preempt_disable() 자동 호출)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// 2. 다른 스레드가 락을 쥐고 있다면 빙글빙글 돎 (Busy wait)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">do_something();</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">spin_unlock(&amp;my_lock);</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">PREEMPT_RT 패치가 적용된 커널</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// 소스 코드는 똑같이 spin_lock() 이지만, 내부적으로 rt_mutex_lock()으로 변조됨!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">rt_mutex_lock(&amp;my_lock);</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// 1. 선점 금지 해제! (이제 이 구간 안에서도 스케줄러 개입 가능)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// 2. 다른 스레드가 락을 쥐고 있다면 Busy wait 안 하고 꿀잠 잠(Sleep)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">어떻게 선점을 허용할까? (우선순위 상속 - Priority Inheritance)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 우선순위 10(낮음) 스레드가 rt_mutex를 쥐고 파일 I/O 중.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 우선순위 99(최고) RT 스레드가 깨어나서 이 rt_mutex를 요청함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 커널은 10번 스레드의 우선순위를 99번으로 뻥튀기(상속) 해줌!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 10번 스레드는 중간에 선점당하지 않고 초고속으로 작업을 끝내고 락을 반환.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 99번 RT 스레드가 즉시 락을 이어받아 실행! (응답성 보장)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 PREEMPT_RT 패치의 스핀락 변환 (Sleeping Spinlock)      │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │  [일반 Linux 커널 소스 코드]                                         │
+  │  spin_lock(&my_lock);                                             │
+  │     // 1. 선점 금지 (preempt_disable() 자동 호출)                    │
+  │     // 2. 다른 스레드가 락을 쥐고 있다면 빙글빙글 돎 (Busy wait)         │
+  │  do_something();                                                  │
+  │  spin_unlock(&my_lock);                                           │
+  │                                                                   │
+  │ ================================================================= │
+  │                                                                   │
+  │  [PREEMPT_RT 패치가 적용된 커널]                                     │
+  │  // 소스 코드는 똑같이 spin_lock() 이지만, 내부적으로 rt_mutex_lock()으로 변조됨!│
+  │                                                                   │
+  │  rt_mutex_lock(&my_lock);                                         │
+  │     // 1. 선점 금지 해제! (이제 이 구간 안에서도 스케줄러 개입 가능)          │
+  │     // 2. 다른 스레드가 락을 쥐고 있다면 Busy wait 안 하고 꿀잠 잠(Sleep)   │
+  │                                                                   │
+  │  [어떻게 선점을 허용할까? (우선순위 상속 - Priority Inheritance)]          │
+  │   - 우선순위 10(낮음) 스레드가 rt_mutex를 쥐고 파일 I/O 중.              │
+  │   - 우선순위 99(최고) RT 스레드가 깨어나서 이 rt_mutex를 요청함.            │
+  │   - 커널은 10번 스레드의 우선순위를 99번으로 뻥튀기(상속) 해줌!              │
+  │   - 10번 스레드는 중간에 선점당하지 않고 초고속으로 작업을 끝내고 락을 반환.     │
+  │   - 99번 RT 스레드가 즉시 락을 이어받아 실행! (응답성 보장)                  │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** RT 패치의 가장 무서운 점은 수백만 줄의 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 소스를 다 뜯어고친 게 아니라, 기존 개발자들이 적어놓은 `spin_lock`이라는 함수의 껍데기는 그대로 둔 채 <strong>알맹이만 rt_mutex(Sleeping <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/">Spinlock</a>)로 갈아 끼웠다</strong>는 것이다. 이제 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 99% 영역이 Sleep 가능해졌고, [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 언제든 개입할 수 있게 되었다.
 하지만 주의할 점은, 진짜로 절대 잠들면 안 되는 하드웨어 레벨의 아주 짧은 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 구간을 위해서는 `raw_spinlock`이라는 진짜 [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)을 남겨두었다. 즉, RT [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서 `spin_lock`은 가짜(뮤텍스)이고, `raw_spinlock`만이 진짜 [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)이다.
@@ -140,26 +143,30 @@ PREEMPT_RT 패치를 적용하면 [커널](/knowledge-base/studynote/02_operatin
 
 ### 의사결정 및 튜닝 플로우
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Real-Time (RT) OS 아키텍처 도입 의사결정 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">새로운 산업용 시스템 (공장, 로봇, 자율주행, 금융) 아키텍처 설계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">응답 지연(Latency)이 1ms 이상 튀었을 때 인명/재산의 치명적 피해가 있는가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Hard Real-Time 요구사항)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RTOS (VxWorks, QNX) 또는 PREEMPT_RT 도입</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ──▶ 일반 커널 유지 + CPU Isolation(Isolcpus) 튜닝</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PREEMPT_RT 도입 시, 시스템 전체의 처리량(Throughput) 저하를 견딜 수 있는가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예 ▶ RT 패치 커널 컴파일 및 적용. 애플리케이션의</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스레드 스케줄링 정책(SCHED_FIFO/RR) 재설계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">이종(Heterogeneous) 아키텍처 도입</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(제어용은 코어 1개에 RTOS/베어메탈을 올리고,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">나머지 코어는 일반 리눅스를 돌리는 하이퍼바이저 구조)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 Real-Time (RT) OS 아키텍처 도입 의사결정 플로우            │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [새로운 산업용 시스템 (공장, 로봇, 자율주행, 금융) 아키텍처 설계]             │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      응답 지연(Latency)이 1ms 이상 튀었을 때 인명/재산의 치명적 피해가 있는가?│
+  │      (Hard Real-Time 요구사항)                                     │
+  │          ├─ 예 ─────▶ [RTOS (VxWorks, QNX) 또는 PREEMPT_RT 도입]    │
+  │          │                                                        │
+  │          └─ 아니오 ──▶ 일반 커널 유지 + CPU Isolation(Isolcpus) 튜닝│
+  │                │                                                  │
+  │                ▼                                                  │
+  │      PREEMPT_RT 도입 시, 시스템 전체의 처리량(Throughput) 저하를 견딜 수 있는가?│
+  │          ├─ 예 ─────▶ RT 패치 커널 컴파일 및 적용. 애플리케이션의        │
+  │          │            스레드 스케줄링 정책(SCHED_FIFO/RR) 재설계       │
+  │          │                                                        │
+  │          └─ 아니오 ──▶ [이종(Heterogeneous) 아키텍처 도입]            │
+  │                         (제어용은 코어 1개에 RTOS/베어메탈을 올리고,      │
+  │                          나머지 코어는 일반 리눅스를 돌리는 하이퍼바이저 구조)│
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** "리얼타임 시스템은 빠른 시스템이 아니다. 정해진 시간에 반드시 동작하는 예측 가능한(Predictable) 시스템이다." RT [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 올리면 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 처리하는 로직이 무거워지므로, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 복사나 웹 서버의 전반적인 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~20% 하락한다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 높이려고 RT를 도입하는 것은 최악의 안티 패턴이다. 지터(Jitter)의 꼬리표를 싹둑 잘라내는 보험료로 평균 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 지불하는 구조임을 아키텍트는 명확히 인지해야 한다.
 
@@ -203,19 +210,15 @@ PREEMPT_RT 패치는 "범용 시분할 [운영체제](/knowledge-base/studynote/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">엣지 컴퓨팅 OS (초경량/고속 부팅 최적화된 리눅스 환경 구성 기술망)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">리얼타임 리눅스 (PREEMPT_RT) 커널 스핀락을 뮤텍스로 변환하는 선점 허용 구조 개요</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CPU 캐시 일관성 정책 (MESI 프로토콜) 이 커널 락(Lock)에 미치는 캐시라인 핑퐁(Ping-pong) 문제</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">하드웨어 트랜잭셔널 메모리 활용 Lock-Free 자료구조 시스템 구현 사례</div></div>
-</div>
-</div>
-
-
+```text
+[엣지 컴퓨팅 OS (초경량/고속 부팅 최적화된 리눅스 환경 구성 기술망)]
+    │
+    ▼
+[리얼타임 리눅스 (PREEMPT_RT) 커널 스핀락을 뮤텍스로 변환하는 선점 허용 구조 개요]
+    │
+    ├──▶ [CPU 캐시 일관성 정책 (MESI 프로토콜) 이 커널 락(Lock)에 미치는 캐시라인 핑퐁(Ping-pong) 문제]
+    └──▶ [하드웨어 트랜잭셔널 메모리 활용 Lock-Free 자료구조 시스템 구현 사례]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

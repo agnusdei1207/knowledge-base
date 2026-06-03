@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - IPsec은 실제로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 암호화해서 쏘는 트럭([ESP](/knowledge-base/studynote/03_network/07_network_layer_routing/382_esp_encapsulating_security_payload_confidentiality/)/[AH](/knowledge-base/studynote/03_network/07_network_layer_routing/381_ah_authentication_header_integrity_auth/))입니다.
 - <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/383_ike_isakmp_sa_security_association/">IKE</a></strong>: 트럭이 달리기 전에 먼저 라우터 양쪽이 만나서 "우리 어떤 [암호화 알고리즘](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/504_cryptography_algorithms_aes_rsa_sha/) 쓸래? 암호 키([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))는 뭘로 할래?"라고 <strong>규칙을 정하고 보안 터널(<a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/">SA</a>, <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a> Association)을 뚫어주는 '사전 협상 전문 외교관 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a>'</strong>입니다. ([UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 500번 사용)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">다크 웹 Tor 통신 프로토콜 암호화층</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IPsec IKEv2 터널 협상</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">WireGuard 라우팅 고속망 체계</div></div>
-</div>
-</div>
-
-
+```text
+[다크 웹 Tor 통신 프로토콜 암호화층]
+    │
+    ▼
+[IPsec IKEv2 터널 협상]
+    │
+    └──▶ [WireGuard 라우팅 고속망 체계]
+```
 
 - **📢 섹션 요약 비유**: [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) [IKEv2](/knowledge-base/studynote/09_security/03_network_security/280_ikev2/) 터널 협상은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -45,18 +41,14 @@ tags = ["studynote-network"]
 - Main Mode(6번 핑퐁) 또는 Aggressive Mode(3번 핑퐁)로 1단계 터널을 뚫고, 다시 Quick Mode(3번 핑퐁)로 2단계 진짜 터널을 뚫는 미친 짓(최대 9번의 메시지 교환)을 하느라 CPU 오버헤드가 크고 연결이 느렸습니다.
 - 모바일(스마트폰) 지원 기능이 아예 없었습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">다크 웹 Tor 통신 프로토콜 암호화층</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IPsec IKEv2 터널 협상</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">WireGuard 라우팅 고속망 체계</div></div>
-</div>
-</div>
-
-
+```text
+[다크 웹 Tor 통신 프로토콜 암호화층]
+    │
+    ▼
+[IPsec IKEv2 터널 협상]
+    │
+    └──▶ [WireGuard 라우팅 고속망 체계]
+```
 
 - **📢 섹션 요약 비유**: [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) [IKEv2](/knowledge-base/studynote/09_security/03_network_security/280_ikev2/) 터널 협상의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -127,19 +119,15 @@ IETF에서 복잡한 걸 싹 다 갈아엎고 모바일 시대에 맞게 재창�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 다크 웹 Tor 통신 프로토콜 암호화층</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: IPsec IKEv2 터널 협상</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: WireGuard 라우팅 고속망 체계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 다크 웹 Tor 통신 프로토콜 암호화층]
+    │
+    ▼
+[현재 개념: IPsec IKEv2 터널 협상]
+    │
+    ├──▶ [확장 A: WireGuard 라우팅 고속망 체계]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) [IKEv2](/knowledge-base/studynote/09_security/03_network_security/280_ikev2/) 터널 협상는 다크 웹 Tor 통신 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 암호화층에서 출발해 현재 메커니즘을 정교화하고, 이후 [WireGuard](/knowledge-base/studynote/03_network/07_network_layer_routing/387_wireguard_vpn_modern_tunneling/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 고속망 체계와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

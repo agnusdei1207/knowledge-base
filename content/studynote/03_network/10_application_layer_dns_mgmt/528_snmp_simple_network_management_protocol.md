@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 네트워크 상에서 수많은 라우터, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/), 서버 등의 <strong>네트워크 장비들을 중앙에서 원격으로 감시하고 제어하기 위한 표준 관리 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a></strong>입니다.
 이름에 'Simple'이 들어간 것처럼 구조가 단순하고 가벼워서 거의 모든 벤더([Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/), Juniper 등)의 장비에 기본으로 탑재되어 있습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">NAT/DHCP 결합 환경</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SNMP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MIB / OID</div></div>
-</div>
-</div>
-
-
+```text
+[NAT/DHCP 결합 환경]
+    │
+    ▼
+[SNMP]
+    │
+    └──▶ [MIB / OID]
+```
 
 - **📢 섹션 요약 비유**: SNMP는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -41,22 +37,20 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">NMS (관리 시스템)</div><div class="kb-diagram-node">관리 대상 장비들</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">👤 SNMP Manager</div><div class="kb-diagram-cell">🤖 SNMP Agent</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(수집 및 통제 센터)</div><div class="kb-diagram-cell">(라우터, 스위치)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(1) Get 요청</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">UDP 161 포트</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">UDP 161 포트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(2) Response</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">UDP 162 포트</div><div class="kb-diagram-cell">◀</div><div class="kb-diagram-cell">(3) Trap (경보)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(경보 수신 전용)</div><div class="kb-diagram-cell">(온도 이상 발생!)</div></div>
-</div>
-</div>
-
-
+```text
+  [ NMS (관리 시스템) ]                          [ 관리 대상 장비들 ]
+┌───────────────────────┐                    ┌─────────────────────┐
+│ 👤 SNMP Manager      │                    │ 🤖 SNMP Agent      │
+│ (수집 및 통제 센터)   │                    │ (라우터, 스위치)    │
+│                       │  (1) Get 요청      │                     │
+│    UDP 161 포트       │ ─────────────────▶ │    UDP 161 포트     │
+│                       │  (2) Response      │                     │
+│                       │ ◀───────────────── │                     │
+│                       │                    │                     │
+│    UDP 162 포트       │ ◀───────────────── │    (3) Trap (경보)  │
+│ (경보 수신 전용)      │  (온도 이상 발생!) │                     │
+└───────────────────────┘                    └─────────────────────┘
+```
 
 1. **SNMP Manager (매니저)**: 본사 역할을 하는 관리 시스템(NMS)입니다. 에이전트에게 정보를 달라고 요청하거나, 제어 명령을 내립니다.
 2. **SNMP Agent (에이전트)**: 지점 역할을 하는 관리 대상 장비(라우터 등)에 탑재된 소프트웨어입니다. 매니저의 요청에 응답하고, 관리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [MIB](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/529_mib_oid_snmp_architecture/)([Management Information Base](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/529_mib_oid_snmp_architecture/)) 형태로 유지합니다.
@@ -115,19 +109,15 @@ SNMP는 이름 해석과 네트워크 관리를 이해할 때 핵심 축을 잡�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: NAT/DHCP 결합 환경</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: SNMP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: MIB / OID</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율 운영 네트워크</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: NAT/DHCP 결합 환경]
+    │
+    ▼
+[현재 개념: SNMP]
+    │
+    ├──▶ [확장 A: MIB / OID]
+    └──▶ [확장 B: 자율 운영 네트워크]
+```
 
 SNMP는 [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)/[DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 결합 환경에서 출발해 현재 메커니즘을 정교화하고, 이후 [MIB](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/529_mib_oid_snmp_architecture/) / OID와 자율 운영 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

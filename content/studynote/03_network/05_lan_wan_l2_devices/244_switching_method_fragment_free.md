@@ -24,18 +24,14 @@ tags = ["studynote-network"]
 
 - **💡 비유**: 과일 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 공장에서, 컷스루가 과일이 떨어지자마자 박스에 넣고, 스토어 앤 포워드가 과일을 현미경으로 끝까지 다 검사하는 것이라면, 프래그먼트 프리는 과일의 **"가장 썩기 쉬운 꼭지 부분(64바이트)만 딱 1초 살펴보고"** 괜찮다 싶으면 바로 통과시키는 <strong>합리적인 타협안</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">스위칭 방식</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스위칭 방식</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">가상 랜</div></div>
-</div>
-</div>
-
-
+```text
+[스위칭 방식]
+    │
+    ▼
+[스위칭 방식]
+    │
+    └──▶ [가상 랜]
+```
 
 - **📢 섹션 요약 비유**: ** 프래그먼트 프리는 **"음주단속 검문소"**와 같습니다. 운전자(프레임)의 피를 뽑아 정밀 검사(전체 FCS 검사)를 하지 않고, 창문을 열고 "후~ 불어보세요(앞 64바이트 검사)"라고 짧게 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한 뒤 정상 같으면 바로 통과시켜 도로 정체([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))를 줄입니다.
 
@@ -49,22 +45,22 @@ tags = ["studynote-network"]
 - 64바이트를 넘어가면 "아, 이 프레임은 최소한 충돌로 인해 박살 난 프레임 조각(Fragment)은 아니구나!"라고 확신한다.
 - 64바이트 검증이 끝난 직후, 프레임의 나머지 꼬리 부분이 들어오고 있음에도 불구하고 앞머리를 목적지 포트로 전송하기 시작한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프래그먼트 프리 (Fragment-free) 도식</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">FCS |      Payload (Data)     | 출발지 MAC | 목적지 MAC</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 딱 요만큼(64B)만 검사 ─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(충돌 찌꺼기 여부 확인)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 판정 프로세스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) 64바이트가 안 들어왔는데 신호가 끊김 ──▶ "이건 충돌 쓰레기(Runt)다! 버려!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) 64바이트 이상 무사히 들어옴 ──▶ "정상 데이터 확률 99%! 포워딩 시작!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: 앞부분 오류는 걸러내고, 뒷부분의 지연 시간은 컷스루처럼 짧게 가져감.</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                프래그먼트 프리 (Fragment-free) 도식             │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ FCS |      Payload (Data)     | 출발지 MAC | 목적지 MAC ] │
+ │                                     └─ 딱 요만큼(64B)만 검사 ─┘ │
+ │                                       (충돌 찌꺼기 여부 확인)    │
+ │                                                             │
+ │   * 판정 프로세스                                             │
+ │   1) 64바이트가 안 들어왔는데 신호가 끊김 ──▶ "이건 충돌 쓰레기(Runt)다! 버려!" │
+ │   2) 64바이트 이상 무사히 들어옴 ──▶ "정상 데이터 확률 99%! 포워딩 시작!"     │
+ │                                                             │
+ │   ▶ 결과: 앞부분 오류는 걸러내고, 뒷부분의 지연 시간은 컷스루처럼 짧게 가져감.   │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 2. 현대 네트워크에서의 퇴장
 프래그먼트 프리는 영리한 방법이었으나, 두 가지 이유로 현대(1Gbps 이상) 환경에서는 도태되었다.
@@ -126,19 +122,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 스위칭 방식</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 스위칭 방식</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 가상 랜</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 캠퍼스 패브릭</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 스위칭 방식]
+    │
+    ▼
+[현재 개념: 스위칭 방식]
+    │
+    ├──▶ [확장 A: 가상 랜]
+    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
+```
 
 [스위칭 방식](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/243_switching_method_store_and_forward/)는 [스위칭 방식](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/243_switching_method_store_and_forward/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [가상 랜](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/245_vlan_virtual_lan_broadcast_control/)와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

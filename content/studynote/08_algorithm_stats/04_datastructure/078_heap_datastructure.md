@@ -18,24 +18,22 @@ tags = ["studynote-algorithm-stats"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최대 힙 구조 (배열 인덱스 기반)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">10</div><div class="kb-diagram-note">인덱스:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ \ 0: 10 (루트)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">8</div><div class="kb-diagram-node">9</div><div class="kb-diagram-note">1: 8</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ \ / \ 2: 9</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">5</div><div class="kb-diagram-node">7</div><div class="kb-diagram-node">3</div><div class="kb-diagram-node">6</div><div class="kb-diagram-note">3: 5</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4: 7 ...</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">배열:</div><div class="kb-diagram-node">10, 8, 9, 5, 7, 3, 6</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부모(i) = (i-1) // 2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">왼쪽(i) = 2*i + 1, 오른쪽(i) = 2*i + 2</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────┐
+│              최대 힙 구조 (배열 인덱스 기반)                  │
+├────────────────────────────────────────────────────────────┤
+│                                                            │
+│         [10]                  인덱스:                       │
+│        /    \                 0: 10 (루트)                  │
+│      [8]    [9]               1: 8                         │
+│     / \    / \                2: 9                         │
+│   [5] [7] [3] [6]             3: 5                         │
+│                               4: 7  ...                    │
+│  배열: [10, 8, 9, 5, 7, 3, 6]                              │
+│  부모(i) = (i-1) // 2                                      │
+│  왼쪽(i) = 2*i + 1, 오른쪽(i) = 2*i + 2                   │
+└────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 힙은 병원 응급실 대기 시스템이다. 가장 위급한 환자(최솟값/최댓값)가 항상 가장 먼저 처치받을 수 있도록, 대기 목록을 반정렬 상태로 유지한다.
 
@@ -68,18 +66,13 @@ max_val = -heapq.heappop(max_heap)  # 10 반환
 
 ### Sift-Up (삽입) / Sift-Down (삭제) 원리
 
+```text
+삽입(Push):  새 원소를 마지막에 추가 → Sift-Up (부모와 비교·교환)
+             O(log n): 트리 높이만큼 비교
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">삽입(Push): 새 원소를 마지막에 추가 → Sift-Up (부모와 비교·교환)</div>
-<div class="kb-diagram-note">O(log n): 트리 높이만큼 비교</div>
-<div class="kb-diagram-note">삭제(Pop): 루트를 제거 → 마지막 원소를 루트로 → Sift-Down</div>
-<div class="kb-diagram-note">O(log n): 두 자식 중 더 큰/작은 값과 교환 반복</div>
-</div>
-</div>
-
-
+삭제(Pop):   루트를 제거 → 마지막 원소를 루트로 → Sift-Down
+             O(log n): 두 자식 중 더 큰/작은 값과 교환 반복
+```
 
 - **📢 섹션 요약 비유**: Sift-Up은 신입사원이 능력에 맞는 직급(부모)을 찾아 올라가는 것이고, Sift-Down은 은퇴한 CEO 자리를 누가 채울지 아래 직급에서 선발(비교·교환)하는 것이다.
 
@@ -159,23 +152,21 @@ OS 프로세스 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/0
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">완전 이진 트리 — 힙의 구조적 기반</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">최소/최대 힙 — 힙 속성(Heap Property)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">우선순위 큐 — 힙의 ADT 응용</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">다익스트라/프림 MST — 그래프 알고리즘 활용</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스트리밍 Top-K — 실시간 대용량 데이터 처리</div></div>
-</div>
-</div>
-
-
+```text
+[완전 이진 트리 — 힙의 구조적 기반]
+    │
+    ▼
+[최소/최대 힙 — 힙 속성(Heap Property)]
+    │
+    ▼
+[우선순위 큐 — 힙의 ADT 응용]
+    │
+    ▼
+[다익스트라/프림 MST — 그래프 알고리즘 활용]
+    │
+    ▼
+[스트리밍 Top-K — 실시간 대용량 데이터 처리]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

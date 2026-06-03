@@ -29,21 +29,15 @@ tags = ["studynote-operating-system"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">User Program</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Library Wrapper</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">syscall instruction</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Kernel</div>
-</div>
-</div>
-
-
+```text
+User Program
+  ↓
+Library Wrapper
+  ↓
+syscall instruction
+  ↓
+Kernel
+```
 
 | 구성 요소 | 역할 |
 | :-- | :-- |
@@ -107,41 +101,29 @@ Wrapper는 단순한 껍데기가 아니라, 시스템 콜을 안전하고 일�
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">User Space</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Wrapper</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">syscall</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Kernel Space</div>
-</div>
-</div>
-
-
+```text
+User Space
+  ↓
+Wrapper
+  ↓
+syscall
+  ↓
+Kernel Space
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">API Call</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">System Call Wrapper</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Kernel Entry</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">User-Kernel Boundary</div>
-</div>
-</div>
-
-
+```text
+API Call
+  ↓
+System Call Wrapper
+  ↓
+Kernel Entry
+  ↓
+User-Kernel Boundary
+```
 
 ---
 

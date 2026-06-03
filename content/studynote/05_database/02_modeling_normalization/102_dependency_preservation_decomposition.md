@@ -30,22 +30,20 @@ tags = ["database"]
 
 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) 보존의 핵심 원리는 분해된 [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/) 집합 $D = \{R_1, R_2, ..., R_n\}$ 에 대해, 각 $R_i$에서 유지되는 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)들의 합집합 연산(Closure)이 원래 [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/) $R$의 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) 집합 $F$와 수학적으로 완전히 동일해야 한다는 것이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">종속성 보존의 분해 원리: 룰의 소실 여부 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">원본 테이블 R(A, B, C)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 보유 규칙: A → B, B → C</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">나쁜 분해 (소실 발생)</div><div class="kb-diagram-node">좋은 분해 (보존 성공)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">R1(A, B) : A → B 감시 가능 R1(A, B) : A → B 감시 가능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">R2(A, C) : 룰 감시 불가! R2(B, C) : B → C 감시 가능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ B → C 규칙이 공중 분해됨 ─▶ 모든 규칙이 각 테이블에</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">안전하게 보존됨</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           종속성 보존의 분해 원리: 룰의 소실 여부 비교       │
+├──────────────────────────────────────────────────────────────┤
+│ [원본 테이블 R(A, B, C)]                                     │
+│  - 보유 규칙: A → B, B → C                                 │
+│                                                              │
+│ [나쁜 분해 (소실 발생)]            [좋은 분해 (보존 성공)]   │
+│ R1(A, B) : A → B 감시 가능         R1(A, B) : A → B 감시 가능│
+│ R2(A, C) : 룰 감시 불가!           R2(B, C) : B → C 감시 가능│
+│ └─▶ B → C 규칙이 공중 분해됨        └─▶ 모든 규칙이 각 테이블에│
+│                                           안전하게 보존됨    │
+└──────────────────────────────────────────────────────────────┘
+```
 
 위 그림처럼 분해 후에도 각 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 그룹이 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)을 온전히 담고 있어야 한다. $R_1$과 $R_2$ 각각에 제약조건(Constraint)을 걸어 조인 없이 즉시 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 수행하는 것이 이 아키텍처의 목적이다.
 
@@ -102,23 +100,21 @@ BCNF로 분해하면서 [종속성](/knowledge-base/studynote/15_devops_sre/01_c
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">비정규화 테이블 (이상 현상 발생)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">정규화 및 함수적 종속성 (FD) 정의</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">무손실 분해 (Lossless Decomposition) 최우선 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">종속성 보존 (Dependency Preservation) 검증</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">BCNF 딜레마 (종속성 소실 발생 시 트리거/앱 레벨 보완)</div>
-</div>
-</div>
-
-
+```text
+비정규화 테이블 (이상 현상 발생)
+    │
+    ▼
+정규화 및 함수적 종속성 (FD) 정의
+    │
+    ▼
+무손실 분해 (Lossless Decomposition) 최우선 적용
+    │
+    ▼
+종속성 보존 (Dependency Preservation) 검증
+    │
+    ▼
+BCNF 딜레마 (종속성 소실 발생 시 트리거/앱 레벨 보완)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

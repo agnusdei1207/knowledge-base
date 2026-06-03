@@ -55,23 +55,21 @@ tags = ["studynote-bigdata"]
 
 ### DP 주요 메커니즘
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">차등 프라이버시 메커니즘 비교</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Laplace 메커니즘</div><div class="kb-diagram-cell">Gaussian 메커니즘</div><div class="kb-diagram-cell">Exponential 메커니즘</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수치형 쿼리 전용</div><div class="kb-diagram-cell">(ε,δ)-DP용</div><div class="kb-diagram-cell">비수치형 쿼리용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Gaussian 노이즈</div><div class="kb-diagram-cell">(최적 응답 선택)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">노이즈 크기:</div><div class="kb-diagram-cell">노이즈 크기:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Lap(Δf/ε)</div><div class="kb-diagram-cell">N(0, σ²)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Δf = 민감도</div><div class="kb-diagram-cell">σ ≥ Δf√(2ln(1.25/δ))/ε</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(sensitivity)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">강한 ε-DP 보장</div><div class="kb-diagram-cell">약한 (ε,δ)-DP</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────────┐
+│              차등 프라이버시 메커니즘 비교                   │
+├──────────────────┬──────────────────┬───────────────────────┤
+│   Laplace 메커니즘│  Gaussian 메커니즘│   Exponential 메커니즘│
+├──────────────────┼──────────────────┼───────────────────────┤
+│ 수치형 쿼리 전용 │ (ε,δ)-DP용       │ 비수치형 쿼리용       │
+│                  │ Gaussian 노이즈  │ (최적 응답 선택)      │
+│ 노이즈 크기:     │ 노이즈 크기:     │                       │
+│ Lap(Δf/ε)       │ N(0, σ²)        │                       │
+│ Δf = 민감도      │ σ ≥ Δf√(2ln(1.25/δ))/ε│              │
+│ (sensitivity)   │                  │                       │
+│ 강한 ε-DP 보장  │ 약한 (ε,δ)-DP   │                       │
+└──────────────────┴──────────────────┴───────────────────────┘
+```
 
 ### 전역 DP vs 로컬 DP
 
@@ -184,23 +182,21 @@ Chrome 브라우저 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">전통 익명화 — 재식별 공격에 취약한 단순 마스킹</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">차등 프라이버시 (Differential Privacy) — ε 보장, 수학적 프라이버시</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">로컬 차등 프라이버시 (Local DP) — 데이터 수집 전 단말에서 노이즈 추가</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">연합 학습 + DP (FL + DP) — 분산 학습에 프라이버시 보장 결합</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">프라이버시 예산 관리 (Privacy Budget) — ε 누적 소모 모니터링</div></div>
-</div>
-</div>
-
-
+```text
+[전통 익명화 — 재식별 공격에 취약한 단순 마스킹]
+    │
+    ▼
+[차등 프라이버시 (Differential Privacy) — ε 보장, 수학적 프라이버시]
+    │
+    ▼
+[로컬 차등 프라이버시 (Local DP) — 데이터 수집 전 단말에서 노이즈 추가]
+    │
+    ▼
+[연합 학습 + DP (FL + DP) — 분산 학습에 프라이버시 보장 결합]
+    │
+    ▼
+[프라이버시 예산 관리 (Privacy Budget) — ε 누적 소모 모니터링]
+```
 차등 프라이버시는 개인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포함 여부를 수학적으로 숨기는 엄격한 프라이버시 보장을 제공하며, 로컬 DP·[연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)과 결합해 프라이버시 보존 AI의 표준이 되어가고 있다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

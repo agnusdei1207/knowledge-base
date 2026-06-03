@@ -24,31 +24,30 @@ tags = ["studynote-software-engineering"]
 
 이러한 논리의 꼬임 현상을 추적하기 위해 등장한 것이 <strong>제어 흐름 테스팅(<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/186_control_flow_instructions/">Control Flow</a> Testing)</strong>입니다. 소스 코드를 읽는 대신, 각 실행 문장(Statement)을 동그라미(노드)로, `if/while`로 움직이는 방향을 화살표(간선)로 그리는 제어 흐름 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)(CFG)를 만듭니다. 그리고 테스터는 주사위를 굴려 말을 움직이듯 이 화살표를 타고 경로를 시뮬레이션해 봅니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소스 코드와 제어 흐름 그래프(CFG) 매핑</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">원시 코드 (Source Code)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1: int a = 10;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2: if (a &gt; 5) {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3: print("Big");</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4: } else {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5: print("Small");</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6: }</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">7: return;</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">제어 흐름 그래프 (CFG) 치환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">( Node 1_2 : a 대입 및 if 비교 검사 )</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↙ (True) ↘ (False)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">( Node 3 : Big 출력 ) ( Node 5 : Small 출력 )</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↘ ↙</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">( Node 6_7 : 리턴 종료 )</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ 길(Path)은 명확히 2개가 나왔다. 테스터는 무조건 a에 5보다 큰 값,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">작은 값 2개를 쏴야만 저 미로의 길을 다 덮을(Cover) 수 있다!</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                  소스 코드와 제어 흐름 그래프(CFG) 매핑         │
+├──────────────────────────────────────────────────────────────┤
+│ [원시 코드 (Source Code)]                                     │
+│  1: int a = 10;                                              │
+│  2: if (a > 5) {                                             │
+│  3:     print("Big");                                        │
+│  4: } else {                                                 │
+│  5:     print("Small");                                      │
+│  6: }                                                        │
+│  7: return;                                                  │
+│                                                              │
+│ [제어 흐름 그래프 (CFG) 치환]                                    │
+│                 ( Node 1_2 : a 대입 및 if 비교 검사 )             │
+│                      ↙ (True)      ↘ (False)               │
+│      ( Node 3 : Big 출력 )        ( Node 5 : Small 출력 )    │
+│                      ↘             ↙                        │
+│                     ( Node 6_7 : 리턴 종료 )                  │
+│                                                              │
+│ ※ 길(Path)은 명확히 2개가 나왔다. 테스터는 무조건 a에 5보다 큰 값,  │
+│    작은 값 2개를 쏴야만 저 미로의 길을 다 덮을(Cover) 수 있다!       │
+└──────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 구불구불 산비탈에 나 있는 등산로(소스 코드)를 밑에서 쳐다보며 저기가 끊겼는지 아닌지 추측하기보다, 하늘에서 헬기를 타고 숲길의 갈라짐과 만남을 한 장의 '등산로 지도 그림([그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/))'으로 만들어 길의 구조를 장악하는 기법입니다.
 
@@ -139,30 +138,28 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 제어 흐름 테스트 ([Control Flow](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/186_control_flow_instructions/) Testing)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 제어 흐름 테스트 ([Control Flow](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/186_control_flow_instructions/) Testing)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
 | [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 제어 흐름 테스트 ([Control Flow](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/186_control_flow_instructions/) Testing)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | 제어 흐름 테스트 ([Control Flow](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/186_control_flow_instructions/) Testing) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
 | [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 제어 흐름 테스트 ([Control Flow](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/186_control_flow_instructions/) Testing)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">제어 흐름 테스트 (Control Flow Testing) 개념 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 위기 (Software Crisis) 인식
+    │
+    ▼
+제어 흐름 테스트 (Control Flow Testing) 개념 정립
+    │
+    ▼
+표준화 및 방법론 체계화 (ISO, CMMI, Agile)
+    │
+    ▼
+클라우드 네이티브·AI 기반 확장 적용
+    │
+    ▼
+지속적 개선 및 DevOps·MLOps 통합
+```
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

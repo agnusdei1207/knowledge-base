@@ -21,18 +21,14 @@ tags = ["studynote-network"]
 
 - **1089번 DiffServ의 한계**: 패킷 이마에 VIP(EF) 도장을 찍는 건 좋습니다. 그런데 VIP 도장을 단 패킷이 1개면 쾌속 통과지만, 수백만 명이 다 VIP 도장을 찍고 몰려들면 결국 VIP 큐(대기열) 안에서도 병목이 생겨 딜레이([버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/))가 터집니다. (상대적 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)이지, 100% 절대 보장이 아닙니다.)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DiffServ DSCP 분류 PHB</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">RSVP 자원 예약 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">GRE 일반 캡슐화 포맷 오버헤드</div></div>
-</div>
-</div>
-
-
+```text
+[DiffServ DSCP 분류 PHB]
+    │
+    ▼
+[RSVP 자원 예약 플로우]
+    │
+    └──▶ [GRE 일반 캡슐화 포맷 오버헤드]
+```
 
 - **📢 섹션 요약 비유**: RSVP 자원 예약 플로우는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -43,18 +39,14 @@ tags = ["studynote-network"]
 - <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/389_intserv_integrated_services_rsvp/">IntServ</a> 모델</strong>: "어중간한 차별 대우 안 한다. 화상 회의를 시작하기 전에, 양 끝단([End-to-End](/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/))까지 이어지는 모든 길목 라우터들의 <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">Bandwidth</a>)과 버퍼 자원을 100% 강제로 사전 예약(Reservation)해 두고 뺏기지 않게 꽉 붙잡아두는 절대적 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/">QoS</a> 아키텍처</strong>입니다.
 - <strong>RSVP (Resource ReSerVation <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">Protocol</a>) 🌟</strong>: 이 [IntServ](/knowledge-base/studynote/03_network/07_network_layer_routing/389_intserv_integrated_services_rsvp/) 모델을 구현하기 위해, 징검다리 라우터들을 찾아다니며 <strong>"자리 비워둬!"라고 예약 장부(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a>)를 쓰게 명령하는 심부름꾼(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a>) <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a></strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DiffServ DSCP 분류 PHB</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">RSVP 자원 예약 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">GRE 일반 캡슐화 포맷 오버헤드</div></div>
-</div>
-</div>
-
-
+```text
+[DiffServ DSCP 분류 PHB]
+    │
+    ▼
+[RSVP 자원 예약 플로우]
+    │
+    └──▶ [GRE 일반 캡슐화 포맷 오버헤드]
+```
 
 - **📢 섹션 요약 비유**: RSVP 자원 예약 플로우의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -104,7 +96,7 @@ RSVP 자원 예약 플로우를 볼 때는 앞뒤 개념과의 경계를 함께 
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 기존 <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/390_diffserv_differentiated_services_dscp_phb/">DiffServ</a>(차등 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>)</strong>가 VIP 손님 이마에 도장을 찍어 놀이공원 기구를 빨리 타게 해주는 <strong>'하이패스 새치기 꼼수'</strong>라면(손님이 1만 명 오면 결국 하이패스 줄도 막힘), <strong>RSVP(자원 예약 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a>)</strong>는 사장님이 롯데월드에 가기 3일 전에 비서(PATH/RESV 패킷)를 파견해 롤러코스터, 후렌치레볼루션 등 탈 기구 5개의 <strong>'시간대별 좌석을 아예 100% 텅텅 비워 통째로 대관해 버리는 돈지랄(전용망 확보)'</strong>입니다. 사장님(비디오 패킷)이 당일 날 도착하면 무조건 0초 대기로 기구를 타는 완벽한 품질([QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/))이 보장됩니다. 하지만 롯데월드 직원(라우터) 입장에서는 수백만 명의 사장님이 동시에 자리를 통째로 대관해 달라고 요구하면, 직원 머리통(메모리)이 수백만 개의 예약 장부를 외우다 펑 터져버리는 끔찍한 확장성의 한계 때문에 동네 작은 놀이터(사내망)에서만 쓸 수 있는 실패한 귀족 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)입니다.
+- **📢 섹션 요약 비유**: 기존 <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/390_diffserv_differentiated_services_dscp_phb/">DiffServ</a>(차등 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>)</strong>가 VIP 손님 이마에 도장을 찍어 놀이공원 기구를 빨리 타게 해주는 <strong>'하이패스 새치기 꼼수'</strong>라면(손님이 1만 명 오면 결국 하이패스 줄도 병목), <strong>RSVP(자원 예약 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a>)</strong>는 사장님이 롯데월드에 가기 3일 전에 비서(PATH/RESV 패킷)를 파견해 롤러코스터, 후렌치레볼루션 등 탈 기구 5개의 <strong>'시간대별 좌석을 아예 100% 텅텅 비워 통째로 대관해 버리는 돈지랄(전용망 확보)'</strong>입니다. 사장님(비디오 패킷)이 당일 날 도착하면 무조건 0초 대기로 기구를 타는 완벽한 품질([QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/))이 보장됩니다. 하지만 롯데월드 직원(라우터) 입장에서는 수백만 명의 사장님이 동시에 자리를 통째로 대관해 달라고 요구하면, 직원 머리통(메모리)이 수백만 개의 예약 장부를 외우다 펑 터져버리는 끔찍한 확장성의 한계 때문에 동네 작은 놀이터(사내망)에서만 쓸 수 있는 실패한 귀족 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)입니다.
 
 ---
 
@@ -127,19 +119,15 @@ RSVP 자원 예약 플로우는 [성능](/knowledge-base/studynote/04_software_e
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: DiffServ DSCP 분류 PHB</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: RSVP 자원 예약 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: GRE 일반 캡슐화 포맷 오버헤드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: DiffServ DSCP 분류 PHB]
+    │
+    ▼
+[현재 개념: RSVP 자원 예약 플로우]
+    │
+    ├──▶ [확장 A: GRE 일반 캡슐화 포맷 오버헤드]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 RSVP 자원 예약 플로우는 [DiffServ](/knowledge-base/studynote/03_network/07_network_layer_routing/390_diffserv_differentiated_services_dscp_phb/) DSCP [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) PHB에서 출발해 현재 메커니즘을 정교화하고, 이후 [GRE](/knowledge-base/studynote/03_network/07_network_layer_routing/378_gre_generic_routing_encapsulation/) 일반 캡슐화 포맷 오버헤드와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

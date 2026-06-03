@@ -24,22 +24,17 @@ tags = ["ict_convergence"]
 누구나 노드로 참여할 수 있는 [퍼블릭 블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/019_public_blockchain/) 환경([Permissionless](/knowledge-base/studynote/06_ict_convergence/01_blockchain/076_permissionless_vs_permissioned_blockchain/))에서는 해커가 수만 개의 가짜 가상 노드를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하여 투표율을 조작하는 '[시빌 공격](/knowledge-base/studynote/06_ict_convergence/01_blockchain/070_sybil_attack_fake_nodes/)([Sybil Attack](/knowledge-base/studynote/06_ict_convergence/01_blockchain/070_sybil_attack_fake_nodes/))'이 치명적입니다. 이를 방지하기 위해 PoW는 "1 IP 당 1표"가 아니라 "1 CPU 연산력 당 1표"라는 새로운 철학을 제시했습니다. 막대한 전기 요금과 컴퓨팅 장비 구매라는 물리적 매몰 비용(Sunk Cost)을 강제함으로써, 네트워크를 공격하는 비용보다 네트워크에 기여하여 보상(Coin)을 얻는 이익이 크도록 유도하는 암호경제학적 인센티브가 PoW의 본질입니다.
 
 [시빌 공격](/knowledge-base/studynote/06_ict_convergence/01_blockchain/070_sybil_attack_fake_nodes/) 방어 및 작업 증명의 철학적 구조를 시각화한 비교도입니다.
+```text
+[ 전통적 투표 방식 (Sybil 취약) ]
+ 👤 악당 ──생성──> (가짜 노드 10만 개) => 다수결 99% 장악 완료! 합의 파괴!
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">전통적 투표 방식 (Sybil 취약)</div></div>
-<div class="kb-diagram-note">👤 악당 ──생성──&gt; (가짜 노드 10만 개) =&gt; 다수결 99% 장악 완료! 합의 파괴!</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">PoW 연산력 증명 방식</div></div>
-<div class="kb-diagram-note">👤 악당 ──생성──&gt; (가짜 프로그램 10만 개)</div>
-<div class="kb-diagram-tree-item" style="--depth:8">CPU 파워는 그대로 1대 분량</div>
-<div class="kb-diagram-note">VS</div>
-<div class="kb-diagram-note">🌐 정직한 노드망 ──&gt; (전 세계 컴퓨터 10만 대의 진짜 물리적 연산력)</div>
-<div class="kb-diagram-note">=&gt; 악당의 해시 파워가 50%를 넘지 못하면 합의 장악 불가!</div>
-</div>
-</div>
-
-
+[ PoW 연산력 증명 방식 ]
+ 👤 악당 ──생성──> (가짜 프로그램 10만 개) 
+                    └─ CPU 파워는 그대로 1대 분량 
+                          VS
+ 🌐 정직한 노드망 ──> (전 세계 컴퓨터 10만 대의 진짜 물리적 연산력)
+ => 악당의 해시 파워가 50%를 넘지 못하면 합의 장악 불가!
+```
 이 도식의 핵심은 디지털 세상에서의 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 불가능성(IP 조작 등)을 현실 세계의 물리적 자원(전기와 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/)) 연동으로 극복해 냈다는 점입니다. 무한 복제가 가능한 가상 세계에서 '위조 불가능한 희소성'을 창출한 것입니다. 이런 물리적 닻(Anchor) 배치는 네트워크 보안을 전례 없이 강력하게 만들지만, 시스템 유지 비용 전체를 지구의 에너지 자원 낭비로 치환시킨다는 치명적인 모순을 동반합니다. 따라서 실무에서 PoW는 강력한 가치 저장 수단(디지털 금)에는 적합하지만 빈번하고 저렴한 결제 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 플랫폼으로는 사용 불가능한 트레이드오프를 갖습니다.
 
 📢 **섹션 요약 비유**: 투표장에 들어오기 위해 신분증을 검사하는 대신, "100kg짜리 바위를 들고 뛰어온 사람에게만 1표를 주겠다"고 선언하여 가짜 유령 유권자 수만 명이 들어오는 것을 완벽하게 물리적으로 차단하는 것과 같습니다.
@@ -57,24 +52,20 @@ PoW 합의 구조의 핵심은 <strong>블록 해시 퍼즐 (Hash Puzzle)</stron
 | **Longest Chain** | 분기(Fork) 발생 시 우선순위 규칙 | 정답자가 동시 발생해 체인이 갈라지면 더 긴(작업량이 많은) 체인을 채택 | 다수결 승자 독식 |
 
 PoW의 [해시 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/032_hash_search/) 무한 루프 과정을 보여주는 아키텍처 도식입니다.
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Block Header</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 이전 블록 해시 (Prev Hash)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 트랜잭션 머클 루트 (Merkle Root)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 타임스탬프 (Timestamp)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 난이도 목표 (Target) : 00000abc...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 논스 (Nonce) : 무작위 숫자 변경 시작</div></div>
-<div class="kb-diagram-note">SHA-256 해시 함수 통과</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Result Hash: 0000002a... &lt; Target ?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">No: Nonce + 1 반복</div><div class="kb-diagram-node">Yes: 블록 생성 성공! (채굴 보상)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────── Block Header ────────────────┐
+│ 1. 이전 블록 해시 (Prev Hash)                │
+│ 2. 트랜잭션 머클 루트 (Merkle Root)          │
+│ 3. 타임스탬프 (Timestamp)                    │
+│ 4. 난이도 목표 (Target) : 00000abc...        │
+│ 5. 논스 (Nonce) : 무작위 숫자 변경 시작      │
+└──────────────────────┬───────────────────────┘
+                       │ SHA-256 해시 함수 통과
+                       ▼
+       [ Result Hash: 0000002a... < Target ? ]
+           /                        \
+      [ No: Nonce + 1 반복 ]      [ Yes: 블록 생성 성공! (채굴 보상) ]
+```
 이 메커니즘의 핵심은 문제를 푸는 데(채굴)는 천문학적인 컴퓨팅 자원과 시간이 소모되지만, 정답이 맞는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)(Verify)하는 데는 단 1번의 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/) 실행으로 0.001초 만에 끝난다는 비대칭성(Asymmetry)에 있습니다. 이 구조는 블록을 조작하려는 공격자는 막대한 전기를 써야 하지만, 나머지 정직한 노드들은 공격자의 블록을 순식간에 검열하고 거부할 수 있게 만듭니다. 또한 네트워크 전체의 해시 파워가 높아지면 Target의 크기를 줄여(0의 개수 증가) 퍼즐 난이도를 동적으로 올림으로써, 컴퓨터가 아무리 발달해도 평균 블록 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 시간(예: 10분)을 일정하게 유지하는 자동 항상성을 갖추고 있습니다.
 
 📢 **섹션 요약 비유**: 수백만 개의 모래알이 들어있는 커다란 항아리에서 '파란색 모래알(정답 해시)'을 찾기 위해 수천 명이 밤새 모래를 뒤지는 것은 엄청난 노동력이 들지만, 누군가 "찾았다!"며 파란 모래알을 가져오면 다른 사람들은 눈으로 단 1초 만에 진짜 파란색인지 확인할 수 있는 마법의 퍼즐과 같습니다.
@@ -84,21 +75,18 @@ PoW의 [해시 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_sea
 PoW는 그 혁신성에도 불구하고 확장성과 친환경성 문제로 인해 차세대 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)인 PoS([지분 증명](/knowledge-base/studynote/06_ict_convergence/01_blockchain/015_pos_proof_of_stake/))와 자주 대조됩니다.
 
 PoW와 PoS의 아키텍처 철학과 한계를 비교한 다각도 매트릭스입니다.
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비교 항목</div><div class="kb-diagram-cell">Proof of Work (PoW)</div><div class="kb-diagram-cell">Proof of Stake (PoS)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">합의 증명</div><div class="kb-diagram-cell">컴퓨팅 해시 파워 (연산)</div><div class="kb-diagram-cell">암호화폐 예치금 (지분)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">경제 구조</div><div class="kb-diagram-cell">외부 에너지 소비</div><div class="kb-diagram-cell">내부 자본(토큰) 잠금</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">독점 문제</div><div class="kb-diagram-cell">거대 마이닝 풀(ASIC)장악</div><div class="kb-diagram-cell">고래(거대 자본)의 장악</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">환경 영향</div><div class="kb-diagram-cell">소국가 수준 탄소 배출</div><div class="kb-diagram-cell">전력 소비 99.9% 절감</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">완결성</div><div class="kb-diagram-cell">느림 (6 Confirmation)</div><div class="kb-diagram-cell">에포크 단위 빠른 확정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대표 체인</div><div class="kb-diagram-cell">비트코인, 도지코인</div><div class="kb-diagram-cell">이더리움 2.0, 솔라나</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────┬───────────────────────┬───────────────────────┐
+│ 비교 항목 │ Proof of Work (PoW)   │ Proof of Stake (PoS)  │
+├───────────┼───────────────────────┼───────────────────────┤
+│ 합의 증명 │ 컴퓨팅 해시 파워 (연산)│ 암호화폐 예치금 (지분) │
+│ 경제 구조 │ 외부 에너지 소비      │ 내부 자본(토큰) 잠금   │
+│ 독점 문제 │ 거대 마이닝 풀(ASIC)장악│ 고래(거대 자본)의 장악 │
+│ 환경 영향 │ 소국가 수준 탄소 배출 │ 전력 소비 99.9% 절감   │
+│ 완결성    │ 느림 (6 Confirmation) │ 에포크 단위 빠른 확정  │
+│ 대표 체인 │ 비트코인, 도지코인    │ 이더리움 2.0, 솔라나   │
+└───────────┴───────────────────────┴───────────────────────┘
+```
 PoW 방식은 외부 세계의 물리적 자원(전기)을 소모하므로 보안의 근간이 체인 바깥에 존재합니다. 이는 체인 내부의 결함이나 공격에 대해 강한 복원력을 주지만, 처리량이 극단적으로 낮습니다(비트코인 7 TPS). 반면 PoS는 체인 내부의 코인을 예치하여 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 권한을 얻으므로 전력 소모가 거의 없고 빠르지만, 돈이 돈을 버는 빈익빈 부익부 자본주의 시스템을 고착화한다는 비판을 받습니다. 기술사적 관점에서 PoW는 그 느린 속도 자체가 시스템의 템포를 조절하고 탈중앙화를 유지하는 '의도된 비효율'이므로, 속도 개선만을 목적으로 PoW를 비판하는 것은 아키텍처 철학에 대한 몰이해입니다. 
 
 📢 **섹션 요약 비유**: PoW가 금광에서 광부들이 곡괭이로 직접 땅을 파고 땀을 흘려 황금을 캐내는 원초적이고 확실한 노동 기반 경제라면, PoS는 은행에 예금을 많이 예치한 주주들이 배당금을 이자로 받아 가는 현대 금융 경제 모델과 같습니다.
@@ -114,20 +102,15 @@ PoW 방식은 외부 세계의 물리적 자원(전기)을 소모하므로 보�
    - PoW에서는 2명의 채굴자가 동시에 정답을 찾아 블록을 전파하면 체인이 두 갈래로 나뉘는 분기(Fork)가 발생합니다. 이후 더 길게 이어지는 체인이 메인 체인으로 선택되고 나머지는 버려집니다(Orphan Block). 
 
 이중 지불 공격 및 분기 해소 규칙을 보여주는 롱기스트 체인(Longest Chain) 시각화입니다.
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">메인 체인 확정 과정</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─&gt;</div><div class="kb-diagram-node">블록 3-A</div><div class="kb-diagram-note">─&gt;</div><div class="kb-diagram-node">블록 4-A</div><div class="kb-diagram-note">(새 블록이 더 빨리 붙음 =&gt; Main Chain 승리)</div></div>
-<div class="kb-diagram-note">(결제 완료)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">──</div><div class="kb-diagram-node">블록 2</div><div class="kb-diagram-note">─</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─&gt;</div><div class="kb-diagram-node">블록 3-B</div><div class="kb-diagram-note">(채굴 속도가 늦어짐 =&gt; Orphan 고아 블록으로 버려짐)</div></div>
-<div class="kb-diagram-note">(결제 취소됨!)</div>
-</div>
-</div>
-
-
+```text
+[메인 체인 확정 과정]
+          ┌─> [블록 3-A] ─> [블록 4-A] (새 블록이 더 빨리 붙음 => Main Chain 승리)
+          │     (결제 완료)
+ ──[블록 2]─┤
+          │
+          └─> [블록 3-B] (채굴 속도가 늦어짐 => Orphan 고아 블록으로 버려짐)
+                (결제 취소됨!)
+```
 이 큐 흐름의 핵심은 한쪽 체인이 승리하는 순간, 패배한 체인(3-B)에 기록되어 있던 사용자의 결제 내역이나 송금 기록이 일거에 무효화된다는 점입니다. 이런 아키텍처 특성 때문에 실무 시스템(거래소, 결제 PG)에서는 블록 1개가 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되었다고 즉시 거래를 승인하는 안티패턴을 절대 범해서는 안 됩니다. 6개 이상의 블록이 후속으로 쌓여(약 1시간 소요) 사실상 체인이 뒤집힐 확률이 0에 수렴할 때까지 기다리는 '6 Confirmation' 정책을 방어 코드로 필수 구현해야 합니다.
 
 📢 **섹션 요약 비유**: 경마장에서 내 말이 1등으로 들어왔다고 바로 환호하며 상금을 받아 가는 것이 아니라, 비디오 판독관 6명이 꼼꼼히 반칙 여부를 확인하고 최종 확정 판정을 내릴 때까지 1시간을 묵묵히 기다려야만 돈을 만질 수 있는 규칙과 같습니다.
@@ -158,23 +141,21 @@ PoW 방식은 외부 세계의 물리적 자원(전기)을 소모하므로 보�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">합의 알고리즘 필요성 — 신뢰기관 없이 분산 원장 무결성 보장</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">PoW (Proof of Work) — 해시 퍼즐 반복으로 채굴권·블록 추가 권한 획득</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">PoS (Proof of Stake) — 지분 기반 검증자 선택, 에너지 소비 90% 절감</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DPoS / BFT 변형 — 위임 투표·BFT 기반 고성능 기업형 합의</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">레이어2 합의 (Layer-2 Consensus) — 롤업·사이드체인으로 확장성 해결</div></div>
-</div>
-</div>
-
-
+```text
+[합의 알고리즘 필요성 — 신뢰기관 없이 분산 원장 무결성 보장]
+    │
+    ▼
+[PoW (Proof of Work) — 해시 퍼즐 반복으로 채굴권·블록 추가 권한 획득]
+    │
+    ▼
+[PoS (Proof of Stake) — 지분 기반 검증자 선택, 에너지 소비 90% 절감]
+    │
+    ▼
+[DPoS / BFT 변형 — 위임 투표·BFT 기반 고성능 기업형 합의]
+    │
+    ▼
+[레이어2 합의 (Layer-2 Consensus) — 롤업·사이드체인으로 확장성 해결]
+```
 
 이 흐름은 PoW의 에너지 낭비 한계를 극복하기 위해 PoS·DPoS로 합의 패러다임이 전환되고, 레이어2 기술로 확장성까지 달성하는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) [합의 알고리즘](/knowledge-base/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/) 진화의 핵심 계보를 보여준다.
 

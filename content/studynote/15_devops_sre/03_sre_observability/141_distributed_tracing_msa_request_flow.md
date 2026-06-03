@@ -18,20 +18,14 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">요청: 사용자 → API GW → 주문 서비스 → 결제 서비스 → DB</div>
-<div class="kb-diagram-note">Trace: {trace_id: "abc123"}</div>
-<div class="kb-diagram-note">Span 1: API GW (10ms)</div>
-<div class="kb-diagram-note">Span 2: 주문 서비스 (50ms)</div>
-<div class="kb-diagram-note">Span 3: 결제 서비스 (200ms) ← 병목!</div>
-<div class="kb-diagram-note">Span 4: DB 쿼리 (30ms)</div>
-</div>
-</div>
-
-
+```text
+요청: 사용자 → API GW → 주문 서비스 → 결제 서비스 → DB
+Trace: {trace_id: "abc123"}
+  Span 1: API GW (10ms)
+  Span 2: 주문 서비스 (50ms)
+  Span 3: 결제 서비스 (200ms) ← 병목!
+  Span 4: DB 쿼리 (30ms)
+```
 
 - **📢 섹션 요약 비유**: [분산 트레이싱](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/112_distributed_tracing_microservices/)은 <strong>택배 추적</strong>이다. 택배(요청)가 어느 물류센터([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))에서 얼마나 머물렀는지 추적한다.
 
@@ -55,18 +49,12 @@ tags = ["studynote-devops-sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Dapper (Google, 2010)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Zipkin (Twitter, 2012)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Jaeger (Uber, 2017)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">OpenTelemetry (2019)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Grafana Tempo (2020)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: OTel 통합 — Metrics·Logs·Traces 상관 분석</div></div>
-</div>
-</div>
-
-
+```text
+[Dapper (Google, 2010)] → [Zipkin (Twitter, 2012)]
+    → [Jaeger (Uber, 2017)] → [OpenTelemetry (2019)]
+    → [Grafana Tempo (2020)]
+    → [현재: OTel 통합 — Metrics·Logs·Traces 상관 분석]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [분산 트레이싱](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/112_distributed_tracing_microservices/)은 <strong>택배 추적</strong>이에요. 택배가 **어디를 거쳤는지** 봐요.

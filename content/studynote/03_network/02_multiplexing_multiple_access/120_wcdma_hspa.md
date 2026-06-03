@@ -55,22 +55,17 @@ W-CDMA 및 HSPA 네트워크는 무선 접속 구간(RAN)인 UTRAN(UMTS Terrestr
 
 **HSDPA 도입으로 인한 Node B (기지국) 기능의 구조적 이동**
 
+```text
+[초기 W-CDMA 구조 (지연율 높음)]
+단말기 ──(에러 발생)──▶ Node B (전달만 함) ────(복잡한 백홀망)────▶ RNC (본부에서 재전송 결정!)
+   => 왕복 지연시간(RTT)이 길어 고속 패킷 데이터 처리에 부적합 (병목 현상)
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">초기 W-CDMA 구조 (지연율 높음)</div></div>
-<div class="kb-diagram-note">단말기 ──(에러 발생)──▶ Node B (전달만 함) (복잡한 백홀망) ▶ RNC (본부에서 재전송 결정!)</div>
-<div class="kb-diagram-note">=&gt; 왕복 지연시간(RTT)이 길어 고속 패킷 데이터 처리에 부적합 (병목 현상)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">진화된 HSDPA 구조 (지연율 최소화, 3.5G 혁명)</div></div>
-<div class="kb-diagram-note">단말기 ──(에러/채널보고)──▶ Node B (자체 스케줄러 탑재: AMC, HARQ)</div>
-<div class="kb-diagram-note">=&gt; 2ms 마다 전파 환경 판단 후 즉각 재전송 / 변조 변경 빵빵!</div>
-<div class="kb-diagram-tree-item" style="--depth:8">(RNC는 관여 안함, 여유) ▶ RNC</div>
-<div class="kb-diagram-note">=&gt; 데이터 의사결정을 '최전방 기지국'으로 끌어내려 초저지연, 고속 스루풋 달성!</div>
-</div>
-</div>
-
-
+[진화된 HSDPA 구조 (지연율 최소화, 3.5G 혁명)]
+단말기 ──(에러/채널보고)──▶ Node B (자체 스케줄러 탑재: AMC, HARQ) 
+                           │  => 2ms 마다 전파 환경 판단 후 즉각 재전송 / 변조 변경 빵빵!
+                           └────(RNC는 관여 안함, 여유)────▶ RNC
+   => 데이터 의사결정을 '최전방 기지국'으로 끌어내려 초저지연, 고속 스루풋 달성!
+```
 
 이 구조 흐름의 핵심은 HSPA 진화를 기점으로, 기존 RNC가 독점하던 무선 자원 제어와 오류 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 권한이 Node B(기지국)의 MAC-hs 계층으로 대거 위임([Decentralization](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/))되었다는 점이다. 이런 배치는 백홀망을 타고 RNC까지 다녀오는 통신 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(수십 ms)을 2ms(TTI 단위) 이내로 급감시키기 때문이며, 따라서 변화무쌍한 무선 채널 환경에 즉각 대응하여 속도를 극대화하는 데 결정적인 영향을 준다. 실무에서는 이러한 Node B의 지능화가 결국 4G [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 시대에 RNC 장비를 아예 폐지해버리고 eNodeB 하나로 통합시키는 플랫(Flat) 아키텍처 진화의 핵심 도선이 되었다.
 
@@ -90,22 +85,21 @@ W-CDMA/HSPA는 동시대 경쟁 기술인 CDMA2000/EV-DO와 근본적인 철학�
 | <strong>음성+<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 동시사용</strong> | **지원** (단일 [반송파](/knowledge-base/studynote/03_network/01_data_communication/054_반송파_Carrier_Wave/) 내 [멀티태스킹](/knowledge-base/studynote/02_operating_system/11_exam_summary/675_multitasking_terminology_preemptive/) 유연 처리) | 미지원 (EV-DO 완전 분리 설계의 부작용) | 사용자 스마트폰 경험(UX) 차이 |
 | <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 구축 투자 비용</strong> | **매우 높음** (5MHz 새로운 주파수 대역 및 망 신설 필요) | 낮음 (기존 1.25MHz망에 장비만 얹어 확장) | 통신사 CAPEX [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 차이 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">기지국 동기화(비동기 vs 동기) 비교 매트릭스</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">W-CDMA 비동기식 구조</div><div class="kb-diagram-node">CDMA2000 동기식 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기지국 간</div><div class="kb-diagram-cell">각자 독자적 시간/클럭 유지</div><div class="kb-diagram-cell">GPS 위성 신호 받아 정확히 일치</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간 축</div><div class="kb-diagram-cell">(Node B 1) ≠ (Node B 2)</div><div class="kb-diagram-cell">(Node B 1) ≡ (Node B 2)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단말 식별</div><div class="kb-diagram-cell">긴 PN 코드(Scrambling) 위상</div><div class="kb-diagram-cell">짧은 PN 코드 위상 지연으로 구분</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">방식</div><div class="kb-diagram-cell">탐색 알고리즘이 매우 복잡함</div><div class="kb-diagram-cell">탐색 알고리즘이 단순함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지하망구축</div><div class="kb-diagram-cell">GPS 안터져도 중계기/기지국</div><div class="kb-diagram-cell">GPS 수신 안테나 못 달면 기지국</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">난이도</div><div class="kb-diagram-cell">자유롭게 자체망 설치 가능!</div><div class="kb-diagram-cell">마비! (별도 비싼 중계 인프라)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────── 기지국 동기화(비동기 vs 동기) 비교 매트릭스 ──────────────┐
+│                                                                           │
+│            [ W-CDMA 비동기식 구조 ]       [ CDMA2000 동기식 구조 ]        │
+│                                                                           │
+│ 기지국 간  │ 각자 독자적 시간/클럭 유지   │ GPS 위성 신호 받아 정확히 일치│
+│ 시간 축    │ (Node B 1) ≠ (Node B 2)     │ (Node B 1) ≡ (Node B 2)       │
+│                                                                           │
+│ 단말 식별  │ 긴 PN 코드(Scrambling) 위상  │ 짧은 PN 코드 위상 지연으로 구분│
+│ 방식       │ 탐색 알고리즘이 매우 복잡함  │ 탐색 알고리즘이 단순함         │
+│                                                                           │
+│ 지하망구축 │ GPS 안터져도 중계기/기지국   │ GPS 수신 안테나 못 달면 기지국 │
+│ 난이도     │ 자유롭게 자체망 설치 가능!   │ 마비! (별도 비싼 중계 인프라)  │
+└───────────────────────────────────────────────────────────────────────────┘
+```
 
 이 매트릭스의 핵심은 W-CDMA가 가장 험난한 과제였던 '비동기식 채널 탐색 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)'을 극복해 냄으로써 미국 군사 자산인 GPS 위성에 대한 종속을 완벽히 탈피했다는 점이다. 유럽 국가들은 군사적 의존도를 줄이고 지하철, 실내 쇼핑몰 등 촘촘한 인도어(Indoor) 기지국 구축의 편의성을 얻었다. 실무에서는 비동기 망 설계 시 단말기(UE)가 주변 여러 기지국의 각기 다른 시간 축을 동시에 추적(Cell Search 3단계 과정)해야 하므로 칩셋의 연산 부하와 배터리 소모가 극심했지만, [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 기술의 발전으로 이 문제가 해소되면서 W-CDMA가 세계 표준의 주도권을 장악하게 되었다.
 
@@ -118,23 +112,20 @@ W-CDMA/HSPA는 동시대 경쟁 기술인 CDMA2000/EV-DO와 근본적인 철학�
 통신사가 W-CDMA 망에서 HSPA 망으로 인프라를 진화/최적화할 때 부딪히는 실무적 난제는 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) 제어와 트래픽 부하 분산이다.
 
 <strong>실무 시나리오 및 <a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/">핸드오버</a> 최적화 플로우</strong>
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황</div><div class="kb-diagram-note">: 도심 이동 중인 HSDPA 스마트폰 고객들의 잦은 넷플릭스 스트리밍 끊김 현상 발생</div></div>
-<div class="kb-diagram-tree-item" style="--depth:1">1. 소프트 핸드오버(Soft Handover) 오버헤드 측정</div>
-<div class="kb-diagram-note">─ W-CDMA 음성은 양쪽 기지국을 동시 점유(Make-Before-Break)하는 소프트 핸드오버가 필수이나,</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HSDPA 고속 데이터 채널은 구조상 "단일 기지국(Serving Cell) 하드 핸드오버"로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서빙 셀을 순식간에 변경(Cell Change)하는 방식으로 설계되어 있음.</div></div>
-<div class="kb-diagram-note">─ 분석: 서빙 셀 변경 타이밍이 늦어져 이전 기지국 파워가 급감할 때 패킷 손실 대량 발생!</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">조치</div><div class="kb-diagram-note">RNC와 Node B 간의 신호 제어 타이머 단축. 단말기가 보고하는 CQI(채널품질)</div></div>
-<div class="kb-diagram-note">임계치 반응도를 민감하게 조정하여, 신호가 급감하기 직전 최적의 순간에</div>
-<div class="kb-diagram-note">새로운 Node B로 데이터 서빙 셀을 핑퐁 없이 스위칭(Fast Cell Selection)하도록 튜닝.</div>
-</div>
-</div>
-
-
+```text
+[상황]: 도심 이동 중인 HSDPA 스마트폰 고객들의 잦은 넷플릭스 스트리밍 끊김 현상 발생
+   │
+   ├─ 1. 소프트 핸드오버(Soft Handover) 오버헤드 측정
+   │   ├─ W-CDMA 음성은 양쪽 기지국을 동시 점유(Make-Before-Break)하는 소프트 핸드오버가 필수이나,
+   │   │  HSDPA 고속 데이터 채널은 구조상 "단일 기지국(Serving Cell) 하드 핸드오버"로 
+   │   │  서빙 셀을 순식간에 변경(Cell Change)하는 방식으로 설계되어 있음.
+   │   │
+   │   └─ 분석: 서빙 셀 변경 타이밍이 늦어져 이전 기지국 파워가 급감할 때 패킷 손실 대량 발생!
+   │        │
+   │        └─ [조치] RNC와 Node B 간의 신호 제어 타이머 단축. 단말기가 보고하는 CQI(채널품질)
+   │                  임계치 반응도를 민감하게 조정하여, 신호가 급감하기 직전 최적의 순간에 
+   │                  새로운 Node B로 데이터 서빙 셀을 핑퐁 없이 스위칭(Fast Cell Selection)하도록 튜닝.
+```
 
 이 운영 플로우의 핵심은 HSPA 네트워크가 음성과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) 처리 방식을 근본적으로 이원화했다는 점이다. 음성은 끊어지지 않도록 양쪽 기지국의 링크를 모두 유지하며 엮는 다이버시티(Diversity)를 추구하지만, 고속 패킷 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 양쪽에 분산되면 AMC/[HARQ](/knowledge-base/studynote/03_network/04_data_link_layer_error/205_harq_hybrid_arq_chase_combining/) 등의 정밀 스케줄링이 불가능해져 오히려 속도가 폭락한다. 실무에서는 한 기지국이 전체 파워를 몰아주다가 순간적으로 최적의 기지국으로 전권을 넘겨버리는(Serving Cell Change) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 정밀도가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질을 좌우한다.
 
@@ -175,19 +166,15 @@ W-CDMA와 HSPA의 결합은 현대 스마트폰 생태계가 폭발할 수 있�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: CDMA2000 1x / EV-DO</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: W-CDMA / HSPA</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 매체 구분: 유도 매체 vs 비유도 매체</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 자원 스케줄링</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: CDMA2000 1x / EV-DO]
+    │
+    ▼
+[현재 개념: W-CDMA / HSPA]
+    │
+    ├──▶ [확장 A: 매체 구분: 유도 매체 vs 비유도 매체]
+    └──▶ [확장 B: 지능형 자원 스케줄링]
+```
 
 W-CDMA / HSPA는 CDMA2000 [1x](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/584_802_1x_pnac_eap_radius/) / EV-DO에서 출발해 현재 메커니즘을 정교화하고, 이후 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 구분: 유도 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) vs 비유도 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)와 지능형 자원 스케줄링 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

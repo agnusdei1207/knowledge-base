@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/) 앞에서는 패리티 검사의 2비트 에러 통과나, [검사합](/knowledge-base/studynote/03_network/04_data_link_layer_error/193_checksum_ones_complement/)의 상쇄 에러 꼼수가 통하지 않습니다. 
 송신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 아무리 길어도 1비트는 물론 연속적으로 깨지는 [버스트 에러](/knowledge-base/studynote/03_network/04_data_link_layer_error/197_burst_error_detection_crc/)([Burst Error](/knowledge-base/studynote/03_network/04_data_link_layer_error/197_burst_error_detection_crc/))의 99.999%를 칼같이 잡아냅니다. 구현도 하드웨어([Shift Register](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/058_shift_register/))로 만들면 빛의 속도로 연산되어 2계층 랜카드 칩셋에 무조건 탑재됩니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">검사합</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CRC</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">다항식 연산 / 생성 다항식</div></div>
-</div>
-</div>
-
-
+```text
+[검사합]
+    │
+    ▼
+[CRC]
+    │
+    └──▶ [다항식 연산 / 생성 다항식]
+```
 
 - **📢 섹션 요약 비유**: CRC는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -59,18 +55,14 @@ tags = ["studynote-network"]
   - <strong>나머지가 <code>0</code>이다</strong>: "나누어떨어졌네? 오는 길에 1비트도 안 깨지고 완벽하게 왔다는 증거군. 합격!"
   - <strong>나머지가 <code>0</code>이 아니다 (예: 110 등)</strong>: "나누어떨어지지 않네? 중간에 누군가 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 훼손했군. 쓰레기통으로 가라!" (에러 검출)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">검사합</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CRC</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">다항식 연산 / 생성 다항식</div></div>
-</div>
-</div>
-
-
+```text
+[검사합]
+    │
+    ▼
+[CRC]
+    │
+    └──▶ [다항식 연산 / 생성 다항식]
+```
 
 - **📢 섹션 요약 비유**: CRC의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -132,19 +124,15 @@ CRC는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rela
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 검사합</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: CRC</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 다항식 연산 / 생성 다항식</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고신뢰 저지연 링크 제어</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 검사합]
+    │
+    ▼
+[현재 개념: CRC]
+    │
+    ├──▶ [확장 A: 다항식 연산 / 생성 다항식]
+    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
+```
 
 CRC는 [검사합](/knowledge-base/studynote/03_network/04_data_link_layer_error/193_checksum_ones_complement/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 연산 / [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/)와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

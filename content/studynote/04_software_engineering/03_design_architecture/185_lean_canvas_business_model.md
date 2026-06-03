@@ -12,7 +12,7 @@ tags = ["studynote-software-engineering"]
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 린 캔버스 ([Lean](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/) Canvas)는 스타트업이나 신사업 아이디어를 9개의 블록에 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해, <strong>가설 중심</strong>으로 비즈니스 모델을 점검하는 1페이지 설계 도구다.
-> 2. **가치**: 문제 (Problem), 고객 세그먼트 ([Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) Segments), 고유 가치 제안 (Unique Value Proposition, UVP)을 먼저 드러내기 때문에, 긴 사업 계획서보다 빠르게 핵심 리스크를 찾고 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) ([Pivot](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)) 지점을 발견할 수 있다.
+> 2. **가치**: 문제 (Problem), 고객 세그먼트 ([C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) Segments), 고유 가치 제안 (Unique Value Proposition, UVP)을 먼저 드러내기 때문에, 긴 사업 계획서보다 빠르게 핵심 리스크를 찾고 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) ([Pivot](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)) 지점을 발견할 수 있다.
 > 3. **판단 포인트**: 불확실성이 큰 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 단계에는 매우 강력하지만, 운영 프로세스·재무 세부안·제휴 구조까지 풀어야 하는 성숙 단계에서는 [BMC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/710_bmc/) (Business Model Canvas)나 상세 사업 계획과 함께 써야 한다.
 
 ---
@@ -35,24 +35,22 @@ tags = ["studynote-software-engineering"]
 
 아래 그림은 린 캔버스의 기본 구조를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해서 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem</div><div class="kb-diagram-cell">Solution</div><div class="kb-diagram-cell">Unique</div><div class="kb-diagram-cell">Unfair</div><div class="kb-diagram-cell">Customer</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Top pains</div><div class="kb-diagram-cell">MVP answer</div><div class="kb-diagram-cell">Value Prop</div><div class="kb-diagram-cell">Advantage</div><div class="kb-diagram-cell">Segments</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Early Ad.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Key Metrics</div><div class="kb-diagram-cell">Channels</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cost Structure</div><div class="kb-diagram-cell">Revenue Streams</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────┬────────────┬────────────┬────────────┬────────────┐
+│ Problem    │ Solution   │ Unique     │ Unfair     │ Customer   │
+│ Top pains  │ MVP answer │ Value Prop │ Advantage  │ Segments   │
+│            │            │            │            │ Early Ad.  │
+├────────────┼────────────┤            ├────────────┼────────────┤
+│ Key Metrics│            │            │ Channels   │            │
+├────────────┴────────────┴────────────┴────────────┴────────────┤
+│ Cost Structure                     │ Revenue Streams           │
+└────────────────────────────────────┴───────────────────────────┘
+```
 
 | 블록 | 핵심 질문 | 좋은 작성 기준 |
 | :--- | :--- | :--- |
 | Problem | 고객이 겪는 핵심 고통은 무엇인가? | 상위 3개 문제를 구체적으로 적는다 |
-| [Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) Segments | 누가 가장 먼저 이 문제를 느끼는가? | early adopters를 분리해 본다 |
+| [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) Segments | 누가 가장 먼저 이 문제를 느끼는가? | early adopters를 분리해 본다 |
 | UVP | 왜 지금 이 제품을 써야 하는가? | 한 문장으로 전달 가능한 약속이어야 한다 |
 | Solution | 문제를 풀 최소 해결책은 무엇인가? | [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/) 수준으로 작게 잡는다 |
 | Channels | 고객에게 어떻게 닿을 것인가? | 획득 경로를 가설로 둔다 |
@@ -88,22 +86,23 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 린 캔버스는 문서를 잘 채우는 기술보다 <strong>각 칸을 어떤 실험으로 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>할지 연결하는 능력</strong>이 중요하다. Problem 칸에 적은 내용은 고객 인터뷰로, UVP는 landing page나 메시지 테스트로, revenue는 가격 실험으로, channels는 CAC ([Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) [Acquisition](/knowledge-base/studynote/12_it_management/01_governance_strategy/042_aarrr_funnel/) Cost) 관점의 파일럿으로 확인해야 한다. [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 끝나지 않은 칸은 "사실"이 아니라 "가설"로 표시하는 태도가 핵심이다.
+실무에서 린 캔버스는 문서를 잘 채우는 기술보다 <strong>각 칸을 어떤 실험으로 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>할지 연결하는 능력</strong>이 중요하다. Problem 칸에 적은 내용은 고객 인터뷰로, UVP는 landing page나 메시지 테스트로, revenue는 가격 실험으로, channels는 CAC ([C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) [Acquisition](/knowledge-base/studynote/12_it_management/01_governance_strategy/042_aarrr_funnel/) Cost) 관점의 파일럿으로 확인해야 한다. [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 끝나지 않은 칸은 "사실"이 아니라 "가설"로 표시하는 태도가 핵심이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Lean Canvas learning loop</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem / Customer hypothesis</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Interview / MVP / landing page test</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Metric learning</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ validated -&gt; deepen next block</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ rejected -&gt; pivot canvas</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────────┐
+│ Lean Canvas learning loop                                         │
+├───────────────────────────────────────────────────────────────────┤
+│ Problem / Customer hypothesis                                     │
+│          │                                                        │
+│          ▼                                                        │
+│ Interview / MVP / landing page test                              │
+│          │                                                        │
+│          ▼                                                        │
+│ Metric learning                                                   │
+│      ├─ validated  -> deepen next block                           │
+│      └─ rejected   -> pivot canvas                                │
+└───────────────────────────────────────────────────────────────────┘
+```
 
 ### 실무 판단 기준
 
@@ -151,23 +150,21 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Idea hypothesis</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Customer segment + problem</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">UVP + MVP solution</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Channel / revenue / cost / metrics</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Experiment learning -&gt; pivot or persevere</div>
-</div>
-</div>
-
-
+```text
+Idea hypothesis
+    │
+    ▼
+Customer segment + problem
+    │
+    ▼
+UVP + MVP solution
+    │
+    ▼
+Channel / revenue / cost / metrics
+    │
+    ▼
+Experiment learning -> pivot or persevere
+```
 
 이 흐름도는 린 캔버스가 아이디어를 고객 문제에서 시작해 실행 실험과 학습 의사결정으로 이어 주는 과정을 보여 준다.
 

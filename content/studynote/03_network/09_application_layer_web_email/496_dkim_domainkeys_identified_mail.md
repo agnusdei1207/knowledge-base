@@ -29,30 +29,34 @@ tags = ["studynote-network"]
   1. **Yahoo와 Cisco의 의기투합**: 스팸 지옥에 시달리던 야후가 만든 'DomainKeys'와 시스코가 만든 'Identified Internet Mail'이라는 두 개의 암호화 서명 기술이 2004년에 하나로 합쳐져(Merge) DKIM이라는 위대한 표준으로 융합되었다.
   2. **이메일 포워딩(Forwarding)의 비극 타파**: A가 B에게 메일을 보내고 B가 C에게 포워딩(전달)을 할 때, 발송 IP가 B로 바뀌어버리기 때문에 SPF는 100% 에러를 뿜으며 스팸 처리된다. 하지만 DKIM 도장은 편지지 본문에 강력 본드로 착 달라붙어 있어서, 포워딩을 100번 거쳐도 절대 깨지지 않고 C까지 살아서 도달하는 극강의 생존력을 자랑했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DKIM 전자서명 아키텍처: 도장 찍기(발신)와 도장 깨기(수신)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🏢</div><div class="kb-diagram-node">송신 메일 서버 (예: Google Gmail)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1️⃣ 이메일 본문과 제목을 믹서기(SHA-256)에 넣어 '짧은 해시값(요약본)' 생성!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2️⃣ 구글 서버에 숨겨둔 '비밀키(Private Key)'로 그 해시값을 암호화함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3️⃣ 이 암호화된 텍스트 덩어리를 메일 헤더(<code>DKIM-Signature</code>)에 딱 붙여서 쏨!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (인터넷을 날아가는 동안 해커가 본문을 수정하면?)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🏢</div><div class="kb-diagram-node">수신 메일 서버 (예: Naver Mail)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1️⃣ 네이버 서버: "어? 구글에서 편지가 왔는데 DKIM 도장이 붙어있네?"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2️⃣ DNS에 전화: "구글아, 너네 DKIM '공개키(Public Key)' 좀 줘봐!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➔ DNS TXT 레코드에서 구글의 공개키를 0.1초 만에 다운로드해 옴.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3️⃣ 도장 해독(복호화): 구글 공개키를 써서 편지에 붙어있던 도장을 찰칵 엶.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➔ 🌟 도장 안에서 '원본 해시값(A)'이 톡 튀어나옴!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4️⃣ 자체 채점(검증): 수신한 편지 본문을 자기도 똑같이 믹서기에 갈아봄.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➔ 🌟 '지금 해시값(B)'이 튀어나옴!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5️⃣ 최종 판결: "원본(A)이랑 지금꺼(B)가 글자 하나라도 다르면?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">누가 중간에서 편지를 위조한 거다! 💥 DKIM FAIL (스팸함 직행!)"</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          DKIM 전자서명 아키텍처: 도장 찍기(발신)와 도장 깨기(수신)       │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ 🏢 [ 송신 메일 서버 (예: Google Gmail) ]                      │
+│   1️⃣ 이메일 본문과 제목을 믹서기(SHA-256)에 넣어 '짧은 해시값(요약본)' 생성!│
+│   2️⃣ 구글 서버에 숨겨둔 **'비밀키(Private Key)'**로 그 해시값을 암호화함.│
+│   3️⃣ 이 암호화된 텍스트 덩어리를 메일 헤더(`DKIM-Signature`)에 딱 붙여서 쏨!│
+│                                                             │
+│              ▼ (인터넷을 날아가는 동안 해커가 본문을 수정하면?)        │
+│                                                             │
+│ 🏢 [ 수신 메일 서버 (예: Naver Mail) ]                        │
+│   1️⃣ 네이버 서버: "어? 구글에서 편지가 왔는데 DKIM 도장이 붙어있네?"      │
+│                                                             │
+│   2️⃣ DNS에 전화: "구글아, 너네 DKIM **'공개키(Public Key)'** 좀 줘봐!"│
+│      ➔ DNS TXT 레코드에서 구글의 공개키를 0.1초 만에 다운로드해 옴.     │
+│                                                             │
+│   3️⃣ 도장 해독(복호화): 구글 공개키를 써서 편지에 붙어있던 도장을 찰칵 엶. │
+│      ➔ 🌟 도장 안에서 '원본 해시값(A)'이 톡 튀어나옴!                  │
+│                                                             │
+│   4️⃣ 자체 채점(검증): 수신한 편지 본문을 자기도 똑같이 믹서기에 갈아봄.      │
+│      ➔ 🌟 '지금 해시값(B)'이 튀어나옴!                              │
+│                                                             │
+│   5️⃣ 최종 판결: "원본(A)이랑 지금꺼(B)가 글자 하나라도 다르면?           │
+│      누가 중간에서 편지를 위조한 거다! 💥 DKIM FAIL (스팸함 직행!)"      │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이것이 바로 전 세계 모든 클라우드와 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 생태계를 떠받치는 <strong>'<a href="/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/">PKI</a> (<a href="/knowledge-base/studynote/03_network/13_network_security_basics/676_pki_public_key_infrastructure/">공개키 기반 구조</a>)' <a href="/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/">전자서명</a>의 100% 교과서적 흐름</strong>이다. DKIM의 위대함은, 발신자(구글)가 내 편지를 잠그기 위해 굳이 상대방(네이버)의 키를 알 필요가 없다는 점이다. 그냥 자기 집 창고([DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/))에 공개키를 누구나 가져갈 수 있게 떡 하니 걸어놓고(TXT 레코드), 자기는 문 걸어 잠그고 방 안에서 비밀키로 도장만 쾅쾅 찍어 던지면 끝난다. 수신 서버가 알아서 DNS를 뒤져서 셀프 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)(Self-Validation)을 치고 빠지는, 중앙 통제 없는 완벽한 분산형 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 아키텍처의 정수다.
 
@@ -122,30 +126,32 @@ DKIM은 너무나 완벽한 결벽증 환자다. 토씨 하나라도 틀어지�
 2. <strong>시나리오 — DKIM 키 갱신(<a href="/knowledge-base/studynote/09_security/03_network_security/156_key_rotation/">Key Rotation</a>) 실패에 따른 전사 통신 마비</strong>: 대기업 전산팀장이 완벽한 보안을 위해 DKIM의 비밀키/공개키 쌍을 1년에 한 번 무조건 갱신(Rotation)하라는 정책을 세웠다. 금요일 밤 11시, 기존 공개키를 DNS에서 확 지워버리고 새로운 공개키를 덮어썼다. 그 순간, 금요일 밤 10시 59분에 발송되었으나 아직 태평양 건너 미국에 도착하지 못하고 인터넷망을 둥둥 떠다니던 수백 통의 금요일 자 이메일들이, 토요일 아침 미국 서버에 도착하자마자 모조리 스팸 처리되어 찢겨나갔다. (미국 서버가 어제 날짜로 찍힌 도장을 풀려고 오늘 바뀐 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 공개키를 가져다 꽂으니 안 열린 것).
    - **판단**: 아키텍트의 얄팍한 단절적(Single-Selector) 운영이 낳은 재앙이다. 키를 바꿀 때(Rotation)는 절대 기존 키를 덮어쓰면 안 된다. <strong>Selector(셀렉터)</strong>라는 무기가 왜 존재하는가? 기존 키는 `2023._domainkey`로 그대로 남겨둔 채 냅두고, 신규 키를 `2024._domainkey`라는 새로운 방(Selector)에 파서 두 개의 키를 공존시켜야(Overlapping) 한다. 그래야 어제 옛날 도장으로 찍혀서 느리게 날아오는 거북이 메일들도 옛날 공개키로 정상 해독될 수 있다. 한 달쯤 지나 잔여 메일이 없다고 확신될 때, 비로소 과거 셀렉터를 지우는 것이 무중단([Zero-Downtime](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/110_zero_downtime_db_schema_rollout/)) 키 로테이션의 정석이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실무 아키텍처: 사칭 메일 사냥의 끝판왕, SPF + DKIM + DMARC 트리오</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">해커의 간악한 꼼수 (SPF 우회)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 겉봉투(Return-Path): hacker.com ➔ SPF는 "해커 IP 맞네!" 통과 ✅</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 속편지(Header From): ceo@naver.com ➔ 내 눈엔 네이버 사장으로 보임!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">DMARC 재판장의 등장 (Alignment 교차 검증)</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🏛️</div><div class="kb-diagram-node">DMARC 폴리스 (수신 서버 최종 검문소)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"잠깐! 너 SPF 통과(✅)하고 DKIM 서명(✅)도 붙어왔네. 그런데 말이야..."</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🔍 1. SPF Alignment 검사:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"겉봉투(hacker.com)랑 네가 눈으로 뽐내는 속편지(naver.com)가 다르네?"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➔ ❌ 불일치! SPF Alignment FAIL!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🔍 2. DKIM Alignment 검사:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"편지지에 찍힌 도장(<code>d=hacker.com</code>)이랑 눈으로 뽐내는 속편지(<code>naver</code>)도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다르네?"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➔ ❌ 불일치! DKIM Alignment FAIL!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💥 최종 판결: "네 이놈! 남의 집 껍데기(naver.com)를 쓰고 위장하다니!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">둘 다 Alignment 불일치이므로 넌 사기꾼이다! 스팸함으로 꺼져라!"</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │         실무 아키텍처: 사칭 메일 사냥의 끝판왕, SPF + DKIM + DMARC 트리오 │
+  ├─────────────────────────────────────────────────────────────┤
+  │ [ 해커의 간악한 꼼수 (SPF 우회) ]                               │
+  │   - 겉봉투(Return-Path): hacker.com ➔ SPF는 "해커 IP 맞네!" 통과 ✅ │
+  │   - 속편지(Header From): ceo@naver.com ➔ 내 눈엔 네이버 사장으로 보임!│
+  │                                                             │
+  │        ======= [ DMARC 재판장의 등장 (Alignment 교차 검증) ] ========│
+  │                                                             │
+  │ 🏛️ [ DMARC 폴리스 (수신 서버 최종 검문소) ]                      │
+  │ "잠깐! 너 SPF 통과(✅)하고 DKIM 서명(✅)도 붙어왔네. 그런데 말이야..."     │
+  │                                                             │
+  │ 🔍 1. SPF Alignment 검사:                                   │
+  │    "겉봉투(hacker.com)랑 네가 눈으로 뽐내는 속편지(naver.com)가 다르네?" │
+  │    ➔ ❌ 불일치! SPF Alignment FAIL!                         │
+  │                                                             │
+  │ 🔍 2. DKIM Alignment 검사:                                  │
+  │    "편지지에 찍힌 도장(`d=hacker.com`)이랑 눈으로 뽐내는 속편지(`naver`)도│
+  │     다르네?"                                                 │
+  │    ➔ ❌ 불일치! DKIM Alignment FAIL!                        │
+  │                                                             │
+  │ 💥 최종 판결: "네 이놈! 남의 집 껍데기(naver.com)를 쓰고 위장하다니!       │
+  │               둘 다 Alignment 불일치이므로 넌 사기꾼이다! 스팸함으로 꺼져라!"│
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 단순히 3개가 합쳐진 게 아니다. SPF와 DKIM은 태생적으로 '발송 서버(인프라)' 중심의 검사기 때문에, 해커가 지들 해커 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)으로 인프라 셋업을 완벽히 해두고 속편지(Header From)만 살짝 '네이버'로 위조하면 다 통과해 버리는 바보 같은 구멍을 가지고 있었다. <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/497_dmarc_domain_based_message_authentication/">DMARC</a></strong>의 본질은 그 인프라 검사 결과가 <strong>"사용자의 눈에 실제로 보이는 주소(Header From)와 진짜 100% 한 치의 오차 없이 일치(Alignment)하는가?"</strong>를 대조해 보는 가장 악랄하고 완벽한 [교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/) 로직이다. 이 트라이포스(Tri-force)가 융합되면서 수십 년간 인류를 괴롭히던 이메일 사칭의 뿌리가 완전히 뽑히게 된 것이다.
 
@@ -193,19 +199,15 @@ DKIM은 너무나 완벽한 결벽증 환자다. 토씨 하나라도 틀어지�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: SPF</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: DKIM</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: DMARC</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 애플리케이션 전달</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: SPF]
+    │
+    ▼
+[현재 개념: DKIM]
+    │
+    ├──▶ [확장 A: DMARC]
+    └──▶ [확장 B: 지능형 애플리케이션 전달]
+```
 
 DKIM는 SPF에서 출발해 현재 메커니즘을 정교화하고, 이후 DMARC와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

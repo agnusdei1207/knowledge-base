@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 아키텍처에서 중간의 <strong>제어 계층(컨트롤러)</strong>과 맨 밑바닥의 <strong>인프라 계층(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 평면 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>/라우터 장비)</strong> 사이를 연결하여 제어 신호와 상태 정보를 주고받는 통신 규약([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))입니다.
 - 아키텍처 다이어그램을 그릴 때 컨트롤러를 기준으로 <strong>남쪽(아래쪽, South)</strong>으로 향하는 선이라 하여 붙여진 직관적인 이름입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SDN 제어 평면 두뇌 격 구조</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">사우스바운드 인터페이스</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">노스바운드 인터페이스</div></div>
-</div>
-</div>
-
-
+```text
+[SDN 제어 평면 두뇌 격 구조]
+    │
+    ▼
+[사우스바운드 인터페이스]
+    │
+    └──▶ [노스바운드 인터페이스]
+```
 
 - **📢 섹션 요약 비유**: 사우스바운드 인터페이스는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -47,18 +43,14 @@ tags = ["studynote-network"]
 ### 2. 상향 통신 (상태 보고: [Switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) ➜ Controller)
 - **장비 상태 보고**: 바닥에 있는 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 "저기요, 지금 트래픽이 너무 몰려서 제 구멍이 터질 것 같아요!"라거나 "방금 3번 랜선이 뽑혔습니다!"라는 긴급 물리적 장애 상태(Telemetry)를 위의 컨트롤러에게 실시간으로 꼰지릅니다(보고합니다). 컨트롤러는 이 보고를 듣고 지도를 다시 짭니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SDN 제어 평면 두뇌 격 구조</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">사우스바운드 인터페이스</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">노스바운드 인터페이스</div></div>
-</div>
-</div>
-
-
+```text
+[SDN 제어 평면 두뇌 격 구조]
+    │
+    ▼
+[사우스바운드 인터페이스]
+    │
+    └──▶ [노스바운드 인터페이스]
+```
 
 - **📢 섹션 요약 비유**: 사우스바운드 인터페이스의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -120,19 +112,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: SDN 제어 평면 두뇌 격 구조</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 사우스바운드 인터페이스</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 노스바운드 인터페이스</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 프로그래머블 네트워크</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: SDN 제어 평면 두뇌 격 구조]
+    │
+    ▼
+[현재 개념: 사우스바운드 인터페이스]
+    │
+    ├──▶ [확장 A: 노스바운드 인터페이스]
+    └──▶ [확장 B: 프로그래머블 네트워크]
+```
 
 사우스바운드 인터페이스는 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 제어 평면 두뇌 격 구조에서 출발해 현재 메커니즘을 정교화하고, 이후 [노스바운드 인터페이스](/knowledge-base/studynote/03_network/17_sdn_nfv/854_northbound_interface_api_controller_application/)와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

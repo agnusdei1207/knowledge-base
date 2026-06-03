@@ -26,57 +26,50 @@ GoF는 다음 조건에서 [Interpreter](/knowledge-base/studynote/04_software_e
 
 BNF (Backus-Naur Form, 배커스-나우르 표기법)는 문법을 정의하는 형식 언어다. [Interpreter](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/277_interpreter_pattern/) 패턴은 BNF의 각 규칙을 클래스로 구현한다:
 
+```
+BNF 문법 예시 (산술 표현식):
+  expression ::= number | expression '+' expression | expression '*' expression
+  number     ::= [0-9]+
 
+  ↓ 각 규칙이 클래스가 됨
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">BNF 문법 예시 (산술 표현식):</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">expression ::= number</div><div class="kb-diagram-cell">expression '+' expression</div><div class="kb-diagram-cell">expression '*' expression</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">number ::=</div><div class="kb-diagram-node">0-9</div><div class="kb-diagram-note">+</div></div>
-<div class="kb-diagram-note">↓ 각 규칙이 클래스가 됨</div>
-<div class="kb-diagram-note">AbstractExpression → expression 인터페이스</div>
-<div class="kb-diagram-note">NumberExpression → TerminalExpression (더 이상 분해 안 됨)</div>
-<div class="kb-diagram-note">AddExpression → NonTerminalExpression (2개의 expression 포함)</div>
-<div class="kb-diagram-note">MultiplyExpression → NonTerminalExpression</div>
-</div>
-</div>
+  AbstractExpression    → expression 인터페이스
+  NumberExpression      → TerminalExpression (더 이상 분해 안 됨)
+  AddExpression         → NonTerminalExpression (2개의 expression 포함)
+  MultiplyExpression    → NonTerminalExpression
+```
 
-
-
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Core Idea</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Expected Gain</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐    ┌──────────────┐    ┌──────────────┐
+│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
+└──────────────┘    └──────────────┘    └──────────────┘
+```
 
 - **📢 섹션 요약 비유**: 영어 문법책의 "주어 + 동사 + 목적어" 규칙 하나하나를 클래스로 만들고, 그 규칙 클래스들로 문장을 파싱하고 이해하는 것이 [Interpreter](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/277_interpreter_pattern/) 패턴이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Context</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(전역 해석 상태: 변수 바인딩, 환경 정보 등)</div></div>
-<div class="kb-diagram-note">interpret(context)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">«interface» AbstractExpression</div>
-<div class="kb-diagram-note">+ interpret(Context): Object</div>
-<div class="kb-diagram-connector">▲</div>
-<div class="kb-diagram-note">TerminalExpression NonTerminalExpression</div>
-<div class="kb-diagram-note">(리프 노드) (내부 노드 - 하위 Expression 포함)</div>
-<div class="kb-diagram-note">예: NumberExpr 예: AddExpr(left, right)</div>
-<div class="kb-diagram-note">VariableExpr left.interpret() + right.interpret()</div>
-</div>
-</div>
-
-
+```
+  ┌──────────────────────────────────────────────────┐
+  │  Context                                         │
+  │  (전역 해석 상태: 변수 바인딩, 환경 정보 등)      │
+  └──────────────────────────────────────────────────┘
+          │
+          │ interpret(context)
+          ▼
+  «interface» AbstractExpression
+  ──────────────────────────────
+  + interpret(Context): Object
+          ▲
+          │
+  ┌───────┴──────────┐
+  ▼                  ▼
+TerminalExpression  NonTerminalExpression
+(리프 노드)          (내부 노드 - 하위 Expression 포함)
+  예: NumberExpr     예: AddExpr(left, right)
+      VariableExpr        left.interpret() + right.interpret()
+```
 
 ```
   파싱 결과 AST:

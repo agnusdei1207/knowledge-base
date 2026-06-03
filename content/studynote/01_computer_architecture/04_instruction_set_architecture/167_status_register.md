@@ -25,22 +25,21 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 상태 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)가 왜 "연산의 해설지"로 불리는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">연산 결과와 제어 상태를 연결하는 상태 레지스터의 위치</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">피연산자 ──▶ ALU 연산 ──▶ 결과값 ──▶ 범용 레지스터/메모리 저장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ ZF: 결과가 0인가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ CF: 자리올림/빌림이 났는가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ OF: 부호 해석이 깨졌는가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ SF: 최상위 비트가 1인가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상태 레지스터 ──▶ 조건 분기기 ──▶ 점프 여부 결정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상태 레지스터 ──▶ 인터럽트 제어기 ──▶ 외부 이벤트 허용/차단</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│        연산 결과와 제어 상태를 연결하는 상태 레지스터의 위치    │
+├──────────────────────────────────────────────────────────────┤
+│ 피연산자 ──▶ ALU 연산 ──▶ 결과값 ──▶ 범용 레지스터/메모리 저장  │
+│                    │                                         │
+│                    ├─▶ ZF: 결과가 0인가?                     │
+│                    ├─▶ CF: 자리올림/빌림이 났는가?            │
+│                    ├─▶ OF: 부호 해석이 깨졌는가?              │
+│                    └─▶ SF: 최상위 비트가 1인가?               │
+│                                                              │
+│ 상태 레지스터 ──▶ 조건 분기기 ──▶ 점프 여부 결정              │
+│ 상태 레지스터 ──▶ 인터럽트 제어기 ──▶ 외부 이벤트 허용/차단    │
+└──────────────────────────────────────────────────────────────┘
+```
 
 즉 상태 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)는 ALU와 [제어 유닛](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/206_control_unit/) ([Control Unit](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/206_control_unit/)) 사이를 이어 주는 얇지만 결정적인 다리다. 계산 자체는 ALU가 하지만, 그 계산이 다음 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 행동을 어떻게 바꿀지는 상태 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)가 정리한다.
 
@@ -64,21 +63,26 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 상태 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)가 업데이트되는 흐름을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">값 경로와 상태 경로가 분리되는 플래그 생성 메커니즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Operand A</div><div class="kb-diagram-node">Operand B</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ALU</div><div class="kb-diagram-connector">◀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과 버스(Result) 플래그 생성 로직</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼</div><div class="kb-diagram-cell">ZF</div><div class="kb-diagram-cell">CF</div><div class="kb-diagram-cell">OF</div><div class="kb-diagram-cell">SF</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">범용 레지스터 기록</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상태 레지스터 저장</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│         값 경로와 상태 경로가 분리되는 플래그 생성 메커니즘    │
+├──────────────────────────────────────────────────────────────┤
+│ [Operand A]      [Operand B]                                │
+│      │                │                                     │
+│      └───────▶ [ ALU ] ◀───────┘                            │
+│                     │                                       │
+│         ┌───────────┴───────────┐                           │
+│         │                       │                           │
+│         ▼                       ▼                           │
+│   결과 버스(Result)       플래그 생성 로직                  │
+│         │              ┌──────┬──────┬──────┬──────┐        │
+│         ▼              │ ZF   │ CF   │ OF   │ SF   │        │
+│ 범용 레지스터 기록      └──────┴──────┴──────┴──────┘        │
+│                                 │                            │
+│                                 ▼                            │
+│                         상태 레지스터 저장                   │
+└──────────────────────────────────────────────────────────────┘
+```
 
 따라서 상태 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 읽는다는 것은 단순히 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 보는 행위가 아니라, "직전 명령이 어떤 종류의 연산이었고 어떤 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)를 유효하게 남겼는가"를 함께 해석하는 일이다. 이 맥락을 놓치면 같은 `CMP` 뒤의 분기라도 signed/unsigned 조건을 잘못 써서 치명적인 오판을 할 수 있다.
 
@@ -163,25 +167,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">산술 결과 발생</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">조건 플래그 (ZF, CF, OF, SF)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 조건 분기 · 반복문 제어</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 다중 정밀도 산술 · 비교 연산</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">제어 플래그 (IF 등) 결합</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">예외 처리 · 인터럽트 제어 · 문맥 교환</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">파이프라인 의존성 · 분기 예측 최적화</div>
-</div>
-</div>
-
-
+```text
+산술 결과 발생
+    │
+    ▼
+조건 플래그 (ZF, CF, OF, SF)
+    │
+    ├──────────────▶ 조건 분기 · 반복문 제어
+    │
+    ├──────────────▶ 다중 정밀도 산술 · 비교 연산
+    │
+    ▼
+제어 플래그 (IF 등) 결합
+    │
+    ▼
+예외 처리 · 인터럽트 제어 · 문맥 교환
+    │
+    ▼
+파이프라인 의존성 · 분기 예측 최적화
+```
 
 이 흐름도는 상태 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)가 단순 산술 표시를 넘어, 제어 흐름과 시스템 제어 전반으로 영향 범위를 넓혀 가는 과정을 보여준다.
 

@@ -23,19 +23,16 @@ tags = ["studynote-computer-architecture"]
 
 배경은 분명하다. 칩을 더 빠르게 만들수록 외부 메모리와의 왕복, 보드 위 긴 배선, [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 문제가 더 먼저 병목이 된다. 그래서 최근 설계는 "칩 하나를 무한히 키운다"보다 "칩들을 더 가깝게, 더 넓게, 때로는 더 높게 붙인다"는 방향으로 이동하고 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">패키징의 역할 변화: 보호용 외장재에서 성능 아키텍처로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전통 패키지</div><div class="kb-diagram-cell">2.5D</div><div class="kb-diagram-cell">3D</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Die ─ PCB Trace ─ Die</div><div class="kb-diagram-cell">Die ═ Interposer ═ Die</div><div class="kb-diagram-cell">Die</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">긴 배선, 낮은 밀도</div><div class="kb-diagram-cell">짧은 수평 배선, 고대역폭 메모리 친화</div><div class="kb-diagram-cell">TSV / Direct Bond 수직 적층</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">열 분산은 쉬움</div><div class="kb-diagram-cell">대역폭/열의 균형</div><div class="kb-diagram-cell">면적 절감, 열 밀도 상승</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│ 패키징의 역할 변화: 보호용 외장재에서 성능 아키텍처로                       │
+├──────────────────────┬─────────────────────────┬───────────────────────────┤
+│ 전통 패키지           │ 2.5D                    │ 3D                        │
+│ Die ─ PCB Trace ─ Die│ Die ═ Interposer ═ Die  │ Die                       │
+│ 긴 배선, 낮은 밀도    │ 짧은 수평 배선, 고대역폭 메모리 친화│ TSV / Direct Bond 수직 적층│
+│ 열 분산은 쉬움        │ 대역폭/열의 균형        │ 면적 절감, 열 밀도 상승    │
+└──────────────────────┴─────────────────────────┴───────────────────────────┘
+```
 
 이 그림이 보여 주는 핵심은 2.5D와 3D가 단순히 "더 고급 포장"이 아니라, 데이터가 지나가는 길 자체를 바꾸는 기술이라는 점이다. 즉 패키징 선택은 곧 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/), [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 전력, 열 구조를 동시에 선택하는 일이다.
 
@@ -55,22 +52,20 @@ tags = ["studynote-computer-architecture"]
 | 마이크로 범프 | 다이 간 접속 | 적층 접속 | 피치, 접촉 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/) |
 | 하이브리드 본딩 | 제한적 | 초미세 직접 접합 | 정렬 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/), 제조 난도 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2.5D와 3D의 실제 연결 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2.5D</div><div class="kb-diagram-cell">3D</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Logic Die</div><div class="kb-diagram-node">HBM Stack</div><div class="kb-diagram-node">HBM Stack</div><div class="kb-diagram-node">Logic Die</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">╲</div><div class="kb-diagram-cell">╱</div><div class="kb-diagram-cell">µ-bump / Hybrid Bond</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Silicon Interposer</div><div class="kb-diagram-node">Cache or Memory Die</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TSV / Vertical Link</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Package Substrate</div><div class="kb-diagram-node">Base Die / I/O</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2.5D 과제: 인터포저 면적·원가 3D 과제: 열 방출·테스트·수율</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│ 2.5D와 3D의 실제 연결 구조                                                  │
+├──────────────────────────────────────────┬─────────────────────────────────┤
+│ 2.5D                                     │ 3D                              │
+│ [Logic Die] [HBM Stack] [HBM Stack]      │ [Logic Die]                     │
+│        ╲      │        ╱                 │    │ µ-bump / Hybrid Bond       │
+│      Silicon Interposer                  │ [Cache or Memory Die]           │
+│               │                          │    │ TSV / Vertical Link         │
+│        Package Substrate                 │ [Base Die / I/O]                │
+├──────────────────────────────────────────┴─────────────────────────────────┤
+│ 2.5D 과제: 인터포저 면적·원가            3D 과제: 열 방출·테스트·수율       │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 2.5D가 널리 쓰이는 이유는 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 크게 늘리면서도 발열체를 옆으로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)할 수 있기 때문이다. 반면 3D는 연결 거리가 가장 짧고 패키지 면적을 줄이기 좋지만, 위층이 아래층의 열을 막아 열 밀도가 빠르게 높아진다. 그래서 3D는 캐시 적층, 이미지 센서, 소형 모바일 타일처럼 면적 절감과 짧은 경로의 가치가 큰 분야에 먼저 들어간다.
 
@@ -147,25 +142,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">전통 패키지 중심 SoC / 보드 연결</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">배선 길이 · 핀 수 · 신호 무결성 한계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">2.5D 인터포저 / 브리지 패키징</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ GPU + HBM 결합</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ 칩렛 기반 이기종 통합</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">3D 적층 · TSV · 하이브리드 본딩</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">고밀도 캐시 적층 · 이미지 센서 · 차세대 AI 패키지</div>
-</div>
-</div>
-
-
+```text
+전통 패키지 중심 SoC / 보드 연결
+        │
+        ▼
+배선 길이 · 핀 수 · 신호 무결성 한계
+        │
+        ▼
+2.5D 인터포저 / 브리지 패키징
+        │
+        ├────────▶ GPU + HBM 결합
+        └────────▶ 칩렛 기반 이기종 통합
+        │
+        ▼
+3D 적층 · TSV · 하이브리드 본딩
+        │
+        ▼
+고밀도 캐시 적층 · 이미지 센서 · 차세대 AI 패키지
+```
 
 이 흐름은 보드 수준 연결 한계를 넘기 위해 패키징이 수평 고밀도화에서 수직 적층으로 확장되는 과정을 보여 준다.
 

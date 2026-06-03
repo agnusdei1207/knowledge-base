@@ -28,18 +28,14 @@ tags = ["studynote-network"]
   - 오? 또 멀쩡하네? 이번엔 4배 세게 콱 밟습니다! (CWND=4)
   - 눈 깜짝할 새에 차는 시속 100km에 도달해 미친 듯이 질주합니다 (지수적 팽창).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">혼잡 윈도우</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">슬로우 스타트</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">임계치</div></div>
-</div>
-</div>
-
-
+```text
+[혼잡 윈도우]
+    │
+    ▼
+[슬로우 스타트]
+    │
+    └──▶ [임계치]
+```
 
 - **📢 섹션 요약 비유**: ** 슬로우 스타트는 다단계 피라미드 판매의 **"기하급수적 인원 모집"**과 똑같습니다. 처음 내가 1명을 포섭하면, 그 1명이 2명을 데려오고, 2명이 4명을, 4명이 8명을 데려오며 눈사태(Snowball)처럼 불어나, 단 몇 턴 만에 엄청난 덩치(속도)의 피라미드 왕국이 완성되는 공포스러운 팽창력입니다.
 
@@ -68,24 +64,24 @@ ACK가 1개 돌아올 때마다 송신자 뇌구조(CWND)는 1씩 증가한다. 
 - **기어 변속**: "헉, 커트라인 넘었다! 이제부터는 배수(x2)로 올리면 너무 위험해! 기어 변속!"
 - 슬로우 스타트 엔진이 꺼지고, 그다음부터는 영수증이 100개가 와도 `CWND`를 1라운드([RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/))에 딱 1개씩만 찔끔찔끔 올리는 **[혼잡 회피](/knowledge-base/studynote/03_network/08_transport_layer/432_congestion_avoidance_aimd_algorithm/)(Congestion Avoidance: 17 -> 18 -> 19)** 모드로 돌입한다. (안정적인 정속 주행).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TCP 혼잡 윈도우(CWND) 그래프의 예술적 변화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CWND 크기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">16</div><div class="kb-diagram-cell">(ssthresh선) * ─ * ─ * ─ * ◀─ 혼잡 회피 (1씩 찔끔찔끔 증가)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">8</div><div class="kb-diagram-cell">/ ◀─ 슬로우 스타트 구간 (미친듯한 가파른 곡선 상승)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4</div><div class="kb-diagram-cell">/</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2</div><div class="kb-diagram-cell">/</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">*</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">____________________________________ 시간(RTT)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ "이름은 슬로우 스타트지만, 그래프의 기울기를 보면 사실 이 구간이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TCP 전체 생애를 통틀어 가장 가파르고 폭력적으로 속도가 오르는 구간이다!"</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                TCP 혼잡 윈도우(CWND) 그래프의 예술적 변화          │
+ ├─────────────────────────────────────────────────────────────┤
+ │ CWND 크기                                                     │
+ │ 16 | (ssthresh선)  * ─ * ─ * ─ * ◀─ 혼잡 회피 (1씩 찔끔찔끔 증가) │
+ │    |             /                                          │
+ │  8 |           /   ◀─ 슬로우 스타트 구간 (미친듯한 가파른 곡선 상승)   │
+ │    |         /                                              │
+ │  4 |       /                                                │
+ │  2 |     /                                                  │
+ │  1 |  *                                                     │
+ │    |____________________________________ 시간(RTT)            │
+ │                                                             │
+ │   ▶ "이름은 슬로우 스타트지만, 그래프의 기울기를 보면 사실 이 구간이       │
+ │      TCP 전체 생애를 통틀어 가장 가파르고 폭력적으로 속도가 오르는 구간이다!"│
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 3. 통신 장애(Drop) 시 슬로우 스타트의 부활
 순조롭게 달리다가 라우터가 꽉 차서 패킷이 짤려 나갔다([Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/) 발생). 
@@ -150,19 +146,15 @@ ACK가 1개 돌아올 때마다 송신자 뇌구조(CWND)는 1씩 증가한다. 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 혼잡 윈도우</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 슬로우 스타트</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 임계치</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 혼잡 윈도우]
+    │
+    ▼
+[현재 개념: 슬로우 스타트]
+    │
+    ├──▶ [확장 A: 임계치]
+    └──▶ [확장 B: 적응형 저지연 전송]
+```
 
 슬로우 스타트는 [혼잡 윈도우](/knowledge-base/studynote/03_network/08_transport_layer/429_cwnd_congestion_window_concept/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

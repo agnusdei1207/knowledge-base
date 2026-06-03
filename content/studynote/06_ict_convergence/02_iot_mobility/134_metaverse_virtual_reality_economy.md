@@ -46,17 +46,11 @@ tags = ["studynote-ict-convergence"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Second Life (2003)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Roblox·Fortnite (2017~)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">메타버스 붐 (2021)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">공간 컴퓨팅 (2024)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: AI NPC + 메타버스 — 지능형 가상 세계</div></div>
-</div>
-</div>
-
-
+```text
+[Second Life (2003)] → [Roblox·Fortnite (2017~)]
+    → [메타버스 붐 (2021)] → [공간 컴퓨팅 (2024)]
+    → [현재: AI NPC + 메타버스 — 지능형 가상 세계]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [메타버스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/594_metaverse_realtime_sync_rendering_offloading/)는 <strong>디지털 세계</strong>예요. 아바타로 **친구를 만나고 놀 수** 있어요.

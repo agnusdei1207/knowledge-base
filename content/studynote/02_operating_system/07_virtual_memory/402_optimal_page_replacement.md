@@ -27,30 +27,32 @@ tags = ["studynote-operating-system"]
   2. **Belady의 최적 증명 (1966년)**: "앞으로 가장 오랫동안 쓰이지 않을 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 교체하면 폴트가 최소가 되며 모순도 터지지 않는다"는 수학적 정리를 발표함.
   3. **평가 지표의 정립**: 비록 코딩으로 구현할 순 없지만, "OPT가 10번 폴트가 나는데 네 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 12번 났다면, 네 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 효율은 83%다!"라고 채점할 수 있는 명확한 스코어보드가 탄생했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최적 교체 알고리즘(OPT)의 미래 투시 런타임 시뮬레이션</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황: 램 프레임 3개 / 미래 참조열: 7, 0, 1, 2, 0, 3, 0, 4</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1.</div><div class="kb-diagram-node">7</div><div class="kb-diagram-node">0</div><div class="kb-diagram-node">1</div><div class="kb-diagram-note">이 램에 꽉 참. (초기 세팅 완료)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 👉 CPU가 '2'를 불렀음! 램에 없네? (Page Fault!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- OPT의 예지력 발동: "앞으로 누굴 가장 늦게 부를까 보자..."</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 현재 램에 있는 애들: 7, 0, 1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 미래의 스케줄: 0(바로 다음), 3, 0, 4... 어? '7'과 '1'은</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">아예 미래에 부를 계획조차 없네? (무한대 뒤에 부름)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 결과: 7이나 1 중 아무거나 하나를 버리고 '2'를 가져옴.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- 램 상태:</div><div class="kb-diagram-node">2</div><div class="kb-diagram-node">0</div><div class="kb-diagram-node">1</div><div class="kb-diagram-note">(7을 쫓아냄)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 👉 CPU가 '0'을 부름! 램에 있네? (Hit!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 👉 CPU가 '3'을 불렀음! (Page Fault!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- OPT 예지력 발동: "2, 0, 1 중에 누굴 죽일까?"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 미래 스케줄: 0(바로 부름), 4(그다음)... 1과 2는 영영 안 부름!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 결과: '1'을 버리고 '3'을 가져옴.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- 램 상태:</div><div class="kb-diagram-node">2</div><div class="kb-diagram-node">0</div><div class="kb-diagram-node">3</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────────┐
+│        최적 교체 알고리즘(OPT)의 미래 투시 런타임 시뮬레이션        │
+├─────────────────────────────────────────────────────────────────────┤
+│                                                                     │
+│ [ 상황: 램 프레임 3개 / 미래 참조열: 7, 0, 1, 2, 0, 3, 0, 4 ]       │
+│                                                                     │
+│ 1. [7] [0] [1] 이 램에 꽉 참. (초기 세팅 완료)                      │
+│                                                                     │
+│ 2. 👉 CPU가 '2'를 불렀음! 램에 없네? (Page Fault!)                  │
+│   - OPT의 예지력 발동: "앞으로 누굴 가장 늦게 부를까 보자..."       │
+│   - 현재 램에 있는 애들: 7, 0, 1                                    │
+│   - 미래의 스케줄: 0(바로 다음), 3, 0, 4... 어? '7'과 '1'은         │
+│     아예 미래에 부를 계획조차 없네? (무한대 뒤에 부름)              │
+│   - 결과: 7이나 1 중 아무거나 하나를 버리고 '2'를 가져옴.           │
+│   - 램 상태: [2] [0] [1] (7을 쫓아냄)                               │
+│                                                                     │
+│ 3. 👉 CPU가 '0'을 부름! 램에 있네? (Hit!)                           │
+│                                                                     │
+│ 4. 👉 CPU가 '3'을 불렀음! (Page Fault!)                             │
+│   - OPT 예지력 발동: "2, 0, 1 중에 누굴 죽일까?"                    │
+│   - 미래 스케줄: 0(바로 부름), 4(그다음)... 1과 2는 영영 안 부름!   │
+│   - 결과: '1'을 버리고 '3'을 가져옴.                                │
+│   - 램 상태: [2] [0] [3]                                            │
+└─────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** OPT는 철저히 미래 시점(미래의 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)열)을 스캔하여 교체 대상을 찾는다. 만약 FIFO였다면 2번 스텝에서 냅다 '7'을 쫓아내서 운 좋게 맞췄다 쳐도, 4번 스텝에서 가장 오래된 '0'을 버리는 미친 짓을 저지른다. (바로 다음 5번 스텝에서 0을 부르는데!). OPT는 미래를 보았기에 절대 '0'을 버리지 않고 1이나 2를 버려 연쇄 폴트를 완벽하게 차단한다.
 
 - **📢 섹션 요약 비유**: 주식 투자를 할 때, 차트 분석가([LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/))는 과거의 그래프를 보고 "최근에 많이 올랐으니 계속 오를 거야"라고 예측하여 수익을 내지만, 타임머신을 탄 사람([OPT](/knowledge-base/studynote/02_operating_system/11_exam_summary/724_optimal_page_replacement_unrealizable/))은 미래의 주가를 그냥 보고 내일 당장 상장 폐지될 주식을 귀신같이 팔아버려([페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/)) 100%의 승률을 내는 반칙 게임입니다.
@@ -100,18 +102,15 @@ tags = ["studynote-operating-system"]
 - "과거 1시간 동안 한 번도 안 본 것은 미래 1시간 동안에도 안 볼 확률이 99%다."
 - 따라서 과거를 완벽하게 역추적([LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/))하는 것은, 훌륭하게 미래를 투시([OPT](/knowledge-base/studynote/02_operating_system/11_exam_summary/724_optimal_page_replacement_unrealizable/))하는 것과 통계적으로 거의 똑같은 결괏값을 도출해 내는 마법을 부린다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">알고리즘</div><div class="kb-diagram-cell">타겟 선정 논리</div><div class="kb-diagram-cell">모순 발생(Belady)</div><div class="kb-diagram-cell">구현 여부</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FIFO</div><div class="kb-diagram-cell">그냥 먼저 온 놈</div><div class="kb-diagram-cell">☠️ 터짐 (멍청함)</div><div class="kb-diagram-cell">🟢 쉬움</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LRU</div><div class="kb-diagram-cell">최근에 안 쓴 놈</div><div class="kb-diagram-cell">🟢 안 터짐</div><div class="kb-diagram-cell">🟡 복잡하지만 됨</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OPT</div><div class="kb-diagram-cell">미래에 안 쓸 놈</div><div class="kb-diagram-cell">🟢 절대 안 터짐</div><div class="kb-diagram-cell">❌ 불가능</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬──────────────────────────┐
+│ 알고리즘   │ 타겟 선정 논리│ 모순 발생(Belady)│ 구현 여부     │
+├──────────┼────────────┼────────────┼──────────────────────────┤
+│ FIFO     │ 그냥 먼저 온 놈│ ☠️ 터짐 (멍청함)│ 🟢 쉬움         │
+│ LRU      │ 최근에 안 쓴 놈│ 🟢 안 터짐    │ 🟡 복잡하지만 됨  │
+│ OPT      │ 미래에 안 쓸 놈│ 🟢 절대 안 터짐│ ❌ 불가능        │
+└──────────┴────────────┴────────────┴──────────────────────────┘
+```
 **[매트릭스 해설]** 컴퓨터 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 학계에서 OPT라는 등대는 길을 잃지 않게 해 준다. 어떤 천재가 새로운 교체 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(예: [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 기반 딥러닝 예측 교체)을 만들더라도, 그 논문의 마지막 결론은 항상 "내 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 기존 LRU보다 5% 좋고, 절대 벽인 OPT의 목밑까지 2% 차이로 쫓아갔다"로 끝난다.
 
 - **📢 섹션 요약 비유**: 범인을 잡는 [프로파일링](/knowledge-base/studynote/02_operating_system/10_security/613_profiling_gprof/) 수사와 같습니다. 타임머신을 타고 미래로 가서 범죄를 저지를 사람을 미리 잡는 것([OPT](/knowledge-base/studynote/02_operating_system/11_exam_summary/724_optimal_page_replacement_unrealizable/))은 불가능하지만, 과거의 범죄 이력([LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/))을 철저히 뒤져서 전과 10범을 예의 주시하면 거의 95% 확률로 다음 범죄([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/))를 막을 수 있다는 범죄 심리학의 승리입니다.
@@ -166,19 +165,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">페이지 교체 알고리즘 (Page Replacement Algorithms)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">최적 교체 알고리즘 (OPT, Optimal)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">벨라디의 모순 (Belady's Anomaly)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">FIFO (First-In, First-Out) 교체</div></div>
-</div>
-</div>
-
-
+```text
+[페이지 교체 알고리즘 (Page Replacement Algorithms)]
+    │
+    ▼
+[최적 교체 알고리즘 (OPT, Optimal)]
+    │
+    ├──▶ [벨라디의 모순 (Belady's Anomaly)]
+    └──▶ [FIFO (First-In, First-Out) 교체]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

@@ -35,18 +35,14 @@ tags = ["studynote-network"]
    - 송신기의 <strong>초시계(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/">Timeout</a> 타이머)</strong>가 다 돌아가 버립니다(Time Out). 
    - 송신기는 "아, 가다가 죽었나 보네"라며 혼자 판단하고 0번 프레임을 무조건 재전송합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">ARQ 프로토콜 종류</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">정지-대기 ARQ</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">GBN ARQ</div></div>
-</div>
-</div>
-
-
+```text
+[ARQ 프로토콜 종류]
+    │
+    ▼
+[정지-대기 ARQ]
+    │
+    └──▶ [GBN ARQ]
+```
 
 - **📢 섹션 요약 비유**: 정지-대기 ARQ는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -63,18 +59,14 @@ tags = ["studynote-network"]
 
 이 바보 같은 효율성을 타파하기 위해, [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(ACK)을 안 받고도 수만 개의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 파이프에 와다다다 밀어 넣을 수 있는 '슬라이딩 윈도우(Go-Back-N 등)' 기술이 탄생하게 됩니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">ARQ 프로토콜 종류</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">정지-대기 ARQ</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">GBN ARQ</div></div>
-</div>
-</div>
-
-
+```text
+[ARQ 프로토콜 종류]
+    │
+    ▼
+[정지-대기 ARQ]
+    │
+    └──▶ [GBN ARQ]
+```
 
 - **📢 섹션 요약 비유**: ** 정지-대기 ARQ는 **'도르래 바구니로 벽돌 나르기'**입니다. 내가 2층에 있는 인부에게 바구니로 벽돌을 1장 올려주면(송신), 인부가 그 벽돌을 빼고 "빈 바구니 내려보냈다(ACK)!"라고 소리칠 때까지 나는 빈둥거리며 놀아야 합니다. 내 손에 벽돌 1만 장이 있어도 한 번에 1장씩만 올려야 하므로, 공사(통신) 속도가 우주 최악으로 느린 답답한 시스템입니다.
 
@@ -132,19 +124,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: ARQ 프로토콜 종류</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 정지-대기 ARQ</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: GBN ARQ</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고신뢰 저지연 링크 제어</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: ARQ 프로토콜 종류]
+    │
+    ▼
+[현재 개념: 정지-대기 ARQ]
+    │
+    ├──▶ [확장 A: GBN ARQ]
+    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
+```
 
 정지-대기 ARQ는 [ARQ](/knowledge-base/studynote/03_network/19_frequent_topics_terms/949_arq_automatic_repeat_request_go_back_n_selective/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 종류에서 출발해 현재 메커니즘을 정교화하고, 이후 GBN ARQ와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

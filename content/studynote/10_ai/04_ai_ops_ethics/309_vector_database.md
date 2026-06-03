@@ -23,17 +23,14 @@ tags = ["studynote-ai"]
 
 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 모델([BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/), text-[embedding](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)-ada 등)은 텍스트를 고차원 벡터(768~1536차원)로 변환하여, 의미가 유사한 텍스트가 벡터 공간에서 가까운 위치에 매핑되도록 학습됐다. 벡터 DB는 이 수백만 개의 고차원 벡터를 저장하고, 새 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 벡터와 가장 가까운 K개의 벡터를 밀리초 단위로 찾아주는 특화된 인프라다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 전통 DB는 책 제목에서 정확히 일치하는 글자를 찾는 도서관 카드 목록이다. 벡터 DB는 책 내용의 "주제와 분위기"를 냄새로 맡고 "이 책이랑 비슷한 향의 책"을 모두 찾아주는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 사서다. "해리포터랑 비슷한 마법 소설 추천해줘" 같은 의미 기반 요청에 완벽히 응한다.
 
@@ -41,28 +38,32 @@ tags = ["studynote-ai"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">벡터 데이터베이스 아키텍처 (색인 + 검색)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">색인 파이프라인 (오프라인)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">텍스트 문서 → 임베딩 모델 → 768차원 벡터 → 벡터 DB 저장</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">0.12, -0.34, ..., 0.89</div><div class="kb-diagram-note">(768 float 숫자)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">0.11, -0.35, ..., 0.91</div><div class="kb-diagram-note">(비슷한 벡터!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">검색 파이프라인 (온라인)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">0.10, -0.33, ..., 0.88</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ANN 검색 알고리즘 (HNSW / IVF-PQ)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Top-K 유사 벡터 반환: "사과는 맛있다"(유사도 0.98), "애플은 달콤하다"(0.96)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HNSW (Hierarchical Navigable Small World):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">레이어 0 (가장 성긴 그래프): 큰 점프로 대략적 위치 파악</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">레이어 1 (중간 밀도): 점점 가까운 노드로 이동</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">레이어 N (가장 촘촘한 그래프): 최종 최근접 이웃 확정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">복잡도: O(log N) 검색 (완전 검색 O(N) 대비 압도적 속도)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│         벡터 데이터베이스 아키텍처 (색인 + 검색)                       │
+├──────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  [색인 파이프라인 (오프라인)]                                         │
+│  텍스트 문서 → 임베딩 모델 → 768차원 벡터 → 벡터 DB 저장               │
+│  "사과는 맛있다" → [0.12, -0.34, ..., 0.89] (768 float 숫자)       │
+│  "애플은 달콤하다" → [0.11, -0.35, ..., 0.91] (비슷한 벡터!)         │
+│                                                                  │
+│  [검색 파이프라인 (온라인)]                                           │
+│  쿼리: "빨간 과일" → 임베딩 → [0.10, -0.33, ..., 0.88]              │
+│         │                                                        │
+│  ANN 검색 알고리즘 (HNSW / IVF-PQ)                                 │
+│         │                                                        │
+│  Top-K 유사 벡터 반환: "사과는 맛있다"(유사도 0.98), "애플은 달콤하다"(0.96)│
+│                                                                  │
+│  HNSW (Hierarchical Navigable Small World):                     │
+│  ┌─────────────────────────────────────────────────────────┐    │
+│  │  레이어 0 (가장 성긴 그래프): 큰 점프로 대략적 위치 파악     │    │
+│  │  레이어 1 (중간 밀도):        점점 가까운 노드로 이동        │    │
+│  │  레이어 N (가장 촘촘한 그래프): 최종 최근접 이웃 확정        │    │
+│  └─────────────────────────────────────────────────────────┘    │
+│  복잡도: O(log N) 검색 (완전 검색 O(N) 대비 압도적 속도)             │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 | 벡터 DB | 특징 | 주요 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) |
 |:---|:---|:---|

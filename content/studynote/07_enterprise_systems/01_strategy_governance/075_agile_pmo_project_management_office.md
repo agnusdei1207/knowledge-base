@@ -103,23 +103,21 @@ strategy -> portfolio -> team cadence -> metrics -> decision
 
 ### 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">strategy</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">portfolio</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">team cadence</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">metrics</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">decision</div>
-</div>
-</div>
-
-
+```text
+strategy
+  │
+  ▼
+portfolio
+  │
+  ▼
+team cadence
+  │
+  ▼
+metrics
+  │
+  ▼
+decision
+```
 
 ### 어린이를 위한 3줄 비유 설명
 

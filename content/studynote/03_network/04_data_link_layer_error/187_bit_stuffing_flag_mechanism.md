@@ -25,18 +25,14 @@ tags = ["studynote-network"]
 - <strong>프레임의 깃발 (<a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/">Flag</a>)</strong>: `01111110` (가운데 1이 정확히 연속으로 6개 있음)
 - 프레임의 맨 앞과 맨 뒤에 무조건 이 깃발을 꽂습니다. 수신기는 쏟아지는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 스트림을 보다가 <strong>1이 연속으로 6개(01111110) 나오는 순간, 무조건 거기를 프레임의 경계선(시작 또는 끝)으로 인식</strong>합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">플래그 방식</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">비트 스터핑</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">오류 제어 개요</div></div>
-</div>
-</div>
-
-
+```text
+[플래그 방식]
+    │
+    ▼
+[비트 스터핑]
+    │
+    └──▶ [오류 제어 개요]
+```
 
 - **📢 섹션 요약 비유**: [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 스터핑은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -59,18 +55,14 @@ tags = ["studynote-network"]
 - 만약 <strong>그다음 6번째 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>가 <code>0</code>이면?</strong> "아, 송신기가 스터핑한 0이구나!" 하고 그 `0`을 핀셋으로 쏙 뽑아서 쓰레기통에 버려버리고(Destuffing) 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 복원합니다.
 - 만약 <strong>그다음 6번째 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>가 <code>1</code>이면?</strong> "앗! 1이 6개네! 이건 진짜 프레임이 끝났다는 깃발(`01111110`)이다!"라고 판단하고 프레임을 칼같이 자릅니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">플래그 방식</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">비트 스터핑</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">오류 제어 개요</div></div>
-</div>
-</div>
-
-
+```text
+[플래그 방식]
+    │
+    ▼
+[비트 스터핑]
+    │
+    └──▶ [오류 제어 개요]
+```
 
 - **📢 섹션 요약 비유**: [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 스터핑의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -131,19 +123,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 플래그 방식</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 비트 스터핑</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 오류 제어 개요</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고신뢰 저지연 링크 제어</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 플래그 방식]
+    │
+    ▼
+[현재 개념: 비트 스터핑]
+    │
+    ├──▶ [확장 A: 오류 제어 개요]
+    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
+```
 
 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 스터핑는 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) 방식에서 출발해 현재 메커니즘을 정교화하고, 이후 [오류 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/188_error_control_overview/) 개요와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -43,21 +43,24 @@ MLFQ의 핵심은 <strong>우선순위 계층 + 피드백 이동 + 기아 방지
 
 아래 그림은 MLFQ의 전형적인 계층 구조를 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Typical MLFQ flow</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New job</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Q0 : RR, 8 ms ── uses full slice ──▶ demote to Q1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ blocks early for I/O ▶ stay near top</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Q1 : RR, 16 ms ── uses full slice ──▶ demote to Q2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Q2 : long quantum or FCFS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Every S ms : priority boost moves waiting jobs back toward Q0</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────────┐
+│ Typical MLFQ flow                                                  │
+├───────────────────────────────────────────────────────────────────┤
+│ New job                                                            │
+│   │                                                                │
+│   ▼                                                                │
+│ Q0 : RR, 8 ms     ── uses full slice ──▶ demote to Q1              │
+│   │                                                                │
+│   └─ blocks early for I/O ───────────▶ stay near top               │
+│                                                                    │
+│ Q1 : RR, 16 ms    ── uses full slice ──▶ demote to Q2              │
+│                                                                    │
+│ Q2 : long quantum or FCFS                                          │
+│                                                                    │
+│ Every S ms : priority boost moves waiting jobs back toward Q0      │
+└───────────────────────────────────────────────────────────────────┘
+```
 
 이 구조가 SJF를 닮아 보이는 이유는, 짧은 작업일수록 상위 큐에서 끝날 가능성이 높기 때문이다. 반대로 긴 작업은 여러 번 퀀텀을 소진하며 아래로 내려가므로, 자연스럽게 "대화형 작업은 위, 계산형 작업은 아래"라는 분리가 생긴다. 운영체제가 미래를 맞히는 것이 아니라, <strong>짧게 실행해 보고 분류를 수정하는 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/">휴리스틱</a> (<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/">Heuristic</a>)</strong> 을 쓰는 셈이다.
 
@@ -139,22 +142,19 @@ MLFQ의 가장 큰 효과는 <strong>미래를 몰라도 꽤 그럴듯한 분류
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">FCFS · RR · Priority Scheduling</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Multilevel Queue</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">MLFQ</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ SJF approximation by feedback</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ Aging / priority boost</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ CFS and modern fairness models</div>
-</div>
-</div>
-
-
+```text
+FCFS · RR · Priority Scheduling
+    │
+    ▼
+Multilevel Queue
+    │
+    ▼
+MLFQ
+    │
+    ├──────────────▶ SJF approximation by feedback
+    ├──────────────▶ Aging / priority boost
+    └──────────────▶ CFS and modern fairness models
+```
 
 이 흐름도는 기본 스케줄링 기법이 다단계 큐로 합쳐지고, 다시 MLFQ의 피드백 구조와 현대 공정성 모델로 확장되는 흐름을 보여 준다.
 

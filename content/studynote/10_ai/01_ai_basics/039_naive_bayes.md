@@ -82,31 +82,29 @@ tags = ["studynote-ai"]
 
 ## III. [나이브 베이즈](/knowledge-base/studynote/10_ai/03_llm_nlp/264_naive_bayes/) 유형
 
+```
+3가지 주요 변형:
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">3가지 주요 변형:</div>
-<div class="kb-diagram-note">1. 가우시안 나이브 베이즈 (Gaussian NB):</div>
-<div class="kb-diagram-note">연속형 특성 (정규분포 가정)</div>
-<div class="kb-diagram-note">P(xi|c) = 정규분포(μ_c, σ²_c)</div>
-<div class="kb-diagram-note">예: 꽃잎 길이/너비로 붓꽃 분류</div>
-<div class="kb-diagram-note">2. 다항 나이브 베이즈 (Multinomial NB):</div>
-<div class="kb-diagram-note">빈도 기반 이산형 특성 (텍스트 단어 빈도)</div>
-<div class="kb-diagram-note">스팸 필터, 텍스트 분류 표준</div>
-<div class="kb-diagram-note">예: 문서에서 단어 등장 횟수</div>
-<div class="kb-diagram-note">3. 베르누이 나이브 베이즈 (Bernoulli NB):</div>
-<div class="kb-diagram-note">이진 특성 (단어 존재/부재)</div>
-<div class="kb-diagram-note">문서가 짧을 때 효과적</div>
-<div class="kb-diagram-note">예: "비아그라"가 있는지/없는지만 확인</div>
-<div class="kb-diagram-note">선택 기준:</div>
-<div class="kb-diagram-note">연속형 특성 -&gt; Gaussian</div>
-<div class="kb-diagram-note">텍스트 (단어 빈도) -&gt; Multinomial</div>
-<div class="kb-diagram-note">텍스트 (단어 존재 여부) -&gt; Bernoulli</div>
-</div>
-</div>
-
-
+1. 가우시안 나이브 베이즈 (Gaussian NB):
+   연속형 특성 (정규분포 가정)
+   P(xi|c) = 정규분포(μ_c, σ²_c)
+   예: 꽃잎 길이/너비로 붓꽃 분류
+   
+2. 다항 나이브 베이즈 (Multinomial NB):
+   빈도 기반 이산형 특성 (텍스트 단어 빈도)
+   스팸 필터, 텍스트 분류 표준
+   예: 문서에서 단어 등장 횟수
+   
+3. 베르누이 나이브 베이즈 (Bernoulli NB):
+   이진 특성 (단어 존재/부재)
+   문서가 짧을 때 효과적
+   예: "비아그라"가 있는지/없는지만 확인
+   
+선택 기준:
+  연속형 특성 -> Gaussian
+  텍스트 (단어 빈도) -> Multinomial
+  텍스트 (단어 존재 여부) -> Bernoulli
+```
 
 > 📢 **섹션 요약 비유**: 가우시안은 성적 분포 분석, 다항은 단어 횟수 세기, 베르누이는 출석 O/X 체크 — [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 성격에 맞는 도구 선택.
 
@@ -114,35 +112,32 @@ tags = ["studynote-ai"]
 
 ## [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). 장단점
 
+```
+장점:
+  - 학습: O(n) 매우 빠름
+  - 소량 데이터에서도 동작
+  - 온라인 학습 가능 (스트리밍 데이터)
+  - 고차원 특성 (텍스트) 강건
+  - 확률 값 출력 (불확실성 정량화)
+  - 누락 데이터 처리 용이
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">장점:</div>
-<div class="kb-diagram-tree-item" style="--depth:1">학습: O(n) 매우 빠름</div>
-<div class="kb-diagram-tree-item" style="--depth:1">소량 데이터에서도 동작</div>
-<div class="kb-diagram-tree-item" style="--depth:1">온라인 학습 가능 (스트리밍 데이터)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">고차원 특성 (텍스트) 강건</div>
-<div class="kb-diagram-tree-item" style="--depth:1">확률 값 출력 (불확실성 정량화)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">누락 데이터 처리 용이</div>
-<div class="kb-diagram-note">단점:</div>
-<div class="kb-diagram-tree-item" style="--depth:1">특성 독립 가정 (현실에서 위반)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">연속형 특성에서 가우시안 가정 부정확할 수 있음</div>
-<div class="kb-diagram-tree-item" style="--depth:1">특성 간 상호작용 무시</div>
-<div class="kb-diagram-note">"not good" -&gt; "not", "good" 개별 평가</div>
-<div class="kb-diagram-tree-item" style="--depth:2">부정 표현 처리 어려움</div>
-<div class="kb-diagram-note">실무 적용:</div>
-<div class="kb-diagram-note">텍스트 분류: 강력한 기준선</div>
-<div class="kb-diagram-note">실시간 스팸 필터: 빠른 예측</div>
-<div class="kb-diagram-note">도메인 특화 데이터 부족 시: 소량으로도 동작</div>
-<div class="kb-diagram-note">vs 복잡한 모델:</div>
-<div class="kb-diagram-note">BERT &gt; Naive Bayes (성능)</div>
-<div class="kb-diagram-note">Naive Bayes &gt;&gt; BERT (속도, 비용, 단순성)</div>
-<div class="kb-diagram-note">레이블 데이터 적을 때: NB 종종 BERT와 비슷</div>
-</div>
-</div>
-
-
+단점:
+  - 특성 독립 가정 (현실에서 위반)
+  - 연속형 특성에서 가우시안 가정 부정확할 수 있음
+  - 특성 간 상호작용 무시
+    "not good" -> "not", "good" 개별 평가
+    -> 부정 표현 처리 어려움
+    
+실무 적용:
+  텍스트 분류: 강력한 기준선
+  실시간 스팸 필터: 빠른 예측
+  도메인 특화 데이터 부족 시: 소량으로도 동작
+  
+vs 복잡한 모델:
+  BERT > Naive Bayes (성능)
+  Naive Bayes >> BERT (속도, 비용, 단순성)
+  레이블 데이터 적을 때: NB 종종 BERT와 비슷
+```
 
 > 📢 **섹션 요약 비유**: [나이브 베이즈](/knowledge-base/studynote/10_ai/03_llm_nlp/264_naive_bayes/)는 레거시 자전거 — [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/)(Tesla)보다 느리지만 연료([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)/비용) 없이도 잘 달리고 수리도 쉬움.
 
@@ -150,37 +145,37 @@ tags = ["studynote-ai"]
 
 ## V. 실무 시나리오 — 실시간 스팸 필터
 
+```
+이메일 수신 서버 스팸 필터 설계:
 
+요구사항:
+  초당 10,000 이메일 처리
+  지연: < 1ms
+  
+Naive Bayes 선택 이유:
+  학습: 하루치 100만 이메일 -> 수 초 학습
+  예측: 단어 빈도 계산 -> < 0.1ms
+  온라인 학습: 새 스팸 패턴 실시간 반영
+  
+구현 (Python):
+  from sklearn.naive_bayes import MultinomialNB
+  clf = MultinomialNB()
+  clf.fit(X_train, y_train)  # 수백만 샘플 수 초
+  
+  # 실시간 예측
+  proba = clf.predict_proba(new_email)  # < 1ms
+  if proba[1] > 0.9:  # 스팸 확률 90% 이상
+      quarantine(email)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이메일 수신 서버 스팸 필터 설계:</div>
-<div class="kb-diagram-note">요구사항:</div>
-<div class="kb-diagram-note">초당 10,000 이메일 처리</div>
-<div class="kb-diagram-note">지연: &lt; 1ms</div>
-<div class="kb-diagram-note">Naive Bayes 선택 이유:</div>
-<div class="kb-diagram-note">학습: 하루치 100만 이메일 -&gt; 수 초 학습</div>
-<div class="kb-diagram-note">예측: 단어 빈도 계산 -&gt; &lt; 0.1ms</div>
-<div class="kb-diagram-note">온라인 학습: 새 스팸 패턴 실시간 반영</div>
-<div class="kb-diagram-note">구현 (Python):</div>
-<div class="kb-diagram-note">from sklearn.naive_bayes import MultinomialNB</div>
-<div class="kb-diagram-note">clf = MultinomialNB()</div>
-<div class="kb-diagram-note">clf.fit(X_train, y_train) # 수백만 샘플 수 초</div>
-<div class="kb-diagram-note"># 실시간 예측</div>
-<div class="kb-diagram-note">proba = clf.predict_proba(new_email) # &lt; 1ms</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">if proba</div><div class="kb-diagram-node">1</div><div class="kb-diagram-note">&gt; 0.9: # 스팸 확률 90% 이상</div></div>
-<div class="kb-diagram-note">quarantine(email)</div>
-<div class="kb-diagram-note">성능:</div>
-<div class="kb-diagram-note">정확도: 98.5%</div>
-<div class="kb-diagram-note">FPR (정상 메일을 스팸으로): &lt; 0.1%</div>
-<div class="kb-diagram-note">처리량: 초당 수만 건 (단일 서버)</div>
-<div class="kb-diagram-note">보완: BERT 앙상블로 NB 오탐 보정</div>
-<div class="kb-diagram-note">NB: 빠른 1차 필터 (95% 처리)</div>
-<div class="kb-diagram-note">BERT: NB 불확실 케이스(5%) 정밀 분류</div>
-</div>
-</div>
-
-
+성능:
+  정확도: 98.5%
+  FPR (정상 메일을 스팸으로): < 0.1%
+  처리량: 초당 수만 건 (단일 서버)
+  
+보완: BERT 앙상블로 NB 오탐 보정
+  NB: 빠른 1차 필터 (95% 처리)
+  BERT: NB 불확실 케이스(5%) 정밀 분류
+```
 
 > 📢 **섹션 요약 비유**: NB는 입구 경비원(빠르고 대부분 적중), BERT는 안쪽 심사관(느리지만 정확) — 두 단계 필터링으로 속도와 정확도 모두 확보.
 

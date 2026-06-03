@@ -35,17 +35,18 @@ tags = ["studynote-software-engineering"]
 
 다음은 샘플링 오라클 ([Sampling](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/) Or의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">샘플링 오라클 (Sampling Or</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                  샘플링 오라클 (Sampling Or                        │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
+│       │                    │                    │          │
+│       ▼                    ▼                    ▼          │
+│   요구 분석           설계·적용           품질 검증        │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램은 샘플링 오라클 ([Sampling](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/) Or가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 결과물을 산출하는 흐름을 보여준다.
 
@@ -69,24 +70,25 @@ tags = ["studynote-software-engineering"]
 
 이렇게 추출된 정예 멤버(샘플 입력값)들에 대해서만 완벽한 정답지(Expected Result)를 기획자와 개발자가 머리를 맞대고 계산해 내어 문서에 기록한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">무한대의 입력을 5개의 샘플링 오라클로 압축하는 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">무한대의 고객 결제 금액</div><div class="kb-diagram-note">(0원 ~ 1억 원 이상)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1️⃣</div><div class="kb-diagram-node">참 오라클 시도</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">(퇴사 충동)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2️⃣</div><div class="kb-diagram-node">샘플링 오라클 설계</div><div class="kb-diagram-note">(수학적 컷팅)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 샘플 1 (음수 결제) : -500원 -&gt; 정답: "에러 창 출력"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 샘플 2 (0원 결제) : 0원 -&gt; 정답: "최소 결제액 부족 창"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 샘플 3 (정상 소액) : 1만원 -&gt; 정답: "결제 정상 진행"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 샘플 4 (카드 한도액) : 100만원 -&gt; 정답: "승인 로직 1차 통과"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 샘플 5 (한도 초과) : 101만원 -&gt; 정답: "한도 초과 에러 창"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">★ 결론: 무한대의 경우의 수를 단 5개의 '가성비 킹' 정답지로 완벽히 커버 완료!</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────────────────────┐
+│           무한대의 입력을 5개의 샘플링 오라클로 압축하는 시각화               │
+├───────────────────────────────────────────────────────────────────────────────┤
+│                                                                               │
+│ [ 무한대의 고객 결제 금액 ] (0원 ~ 1억 원 이상)                               │
+│                                                                               │
+│ 1️⃣ [ 참 오라클 시도 ] : 모든 1원 단위마다 정답 엑셀표 만들기 -> (퇴사 충동)  │
+│                                                                               │
+│ 2️⃣ [ 샘플링 오라클 설계 ] (수학적 컷팅)                                      │
+│   - 샘플 1 (음수 결제)   : -500원   -> 정답: "에러 창 출력"                   │
+│   - 샘플 2 (0원 결제)    : 0원     -> 정답: "최소 결제액 부족 창"             │
+│   - 샘플 3 (정상 소액)   : 1만원   -> 정답: "결제 정상 진행"                  │
+│   - 샘플 4 (카드 한도액) : 100만원 -> 정답: "승인 로직 1차 통과"              │
+│   - 샘플 5 (한도 초과)   : 101만원 -> 정답: "한도 초과 에러 창"               │
+│                                                                               │
+│ ★ 결론: 무한대의 경우의 수를 단 5개의 '가성비 킹' 정답지로 완벽히 커버 완료!  │
+└───────────────────────────────────────────────────────────────────────────────┘
+```
 
 ---
 
@@ -173,30 +175,28 @@ void 나이_성인_판별_테스트() {
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 샘플링 오라클 ([Sampling](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/) [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/))의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 샘플링 오라클 ([Sampling](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/) [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/))의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
 | [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 샘플링 오라클 ([Sampling](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/) [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/))은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | 샘플링 오라클 ([Sampling](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/) [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/)) 적용 결과는 QA 활동을 통해 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)되고 측정된다 |
 | [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 샘플링 오라클 ([Sampling](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/) [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/))에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">샘플링 오라클 (Sampling Oracle) 개념 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 위기 (Software Crisis) 인식
+    │
+    ▼
+샘플링 오라클 (Sampling Oracle) 개념 정립
+    │
+    ▼
+표준화 및 방법론 체계화 (ISO, CMMI, Agile)
+    │
+    ▼
+클라우드 네이티브·AI 기반 확장 적용
+    │
+    ▼
+지속적 개선 및 DevOps·MLOps 통합
+```
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

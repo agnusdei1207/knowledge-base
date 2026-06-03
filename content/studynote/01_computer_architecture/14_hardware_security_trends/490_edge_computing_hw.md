@@ -25,21 +25,19 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 계산 위치가 시스템 성격을 어떻게 바꾸는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Compute placement versus reaction time</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sensor / Actuator</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">raw stream</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ Edge node : 1~10 ms, local decision, privacy, offline response</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ Site node : 10~50 ms, area coordination</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ Cloud : 50 ms+, global learning and long-term storage</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Closer placement keeps raw data local and sends summaries upward</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────┐
+│ Compute placement versus reaction time                                   │
+├──────────────────────────────────────────────────────────────────────────┤
+│ Sensor / Actuator                                                        │
+│    │ raw stream                                                          │
+│    ├─▶ Edge node : 1~10 ms, local decision, privacy, offline response   │
+│    ├─▶ Site node : 10~50 ms, area coordination                           │
+│    └─▶ Cloud     : 50 ms+, global learning and long-term storage         │
+│                                                                          │
+│ Closer placement keeps raw data local and sends summaries upward         │
+└──────────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림이 말하는 핵심은 계산 위치가 단순한 배치 문제가 아니라는 점이다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 판단 지점을 가깝게 붙이면 지연시간뿐 아니라 네트워크 비용, 장애 반경, 프라이버시 노출 범위까지 함께 줄어든다.
 
@@ -62,20 +60,19 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 전형적인 엣지 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 장치가 어떤 흐름으로 동작하는지 정리한 것이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Edge inference device data path</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sensor I/O ─▶ ISP / DSP ─▶ shared SRAM / LPDDR ─▶ NPU ─▶ result</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ CPU / real-time core</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Security : secure boot / key store / trusted execution</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Power : PMIC + DVFS + thermal control</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Output : actuator / local HMI / uplink</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────┐
+│ Edge inference device data path                                          │
+├──────────────────────────────────────────────────────────────────────────┤
+│ Sensor I/O ─▶ ISP / DSP ─▶ shared SRAM / LPDDR ─▶ NPU ─▶ result         │
+│      │                    ▲                          │                   │
+│      └──────────────▶ CPU / real-time core ─────────┘                   │
+│                                                                          │
+│ Security : secure boot / key store / trusted execution                   │
+│ Power    : PMIC + DVFS + thermal control                                 │
+│ Output   : actuator / local HMI / uplink                                 │
+└──────────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조에서 CPU는 전체 흐름을 조정하고, NPU는 반복적인 행렬 연산을 전담하며, [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/)·DSP는 입력 자체를 더 다루기 쉬운 형태로 바꿔 준다. 따라서 엣지 설계의 포인트는 "모든 일을 CPU가 하는가"가 아니라, <strong>입력 정제 → 로컬 메모리 유지 → 전용 추론 → 즉시 제어</strong>의 연쇄를 얼마나 짧게 만들었는가에 있다.
 
@@ -148,23 +145,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단순 센서 노드 · 마이크로컨트롤러 (MCU, Microcontroller Unit) 제어</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">엣지 게이트웨이</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">엣지 추론 SoC + NPU</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">MEC · 현장 오케스트레이션</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">온디바이스 AI · 연합형 엣지 지능</div>
-</div>
-</div>
-
-
+```text
+단순 센서 노드 · 마이크로컨트롤러 (MCU, Microcontroller Unit) 제어
+          │
+          ▼
+엣지 게이트웨이
+          │
+          ▼
+엣지 추론 SoC + NPU
+          │
+          ▼
+MEC · 현장 오케스트레이션
+          │
+          ▼
+온디바이스 AI · 연합형 엣지 지능
+```
 
 이 흐름은 "수집만 하던 단말"이 "현장에서 판단하는 지능형 장치"로 진화하는 과정을 보여 준다.
 

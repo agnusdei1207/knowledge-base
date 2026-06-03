@@ -25,21 +25,19 @@ tags = ["studynote-devops-sre"]
 
 아래 그림은 문서가 없는 대응과 있는 대응의 차이를 단순화한 것이다.
 
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│                Incident response with and without docs             │
+├───────────────────────┬────────────────────────────────────────────┤
+│ No runbook            │ With runbook / playbook                   │
+├───────────────────────┼────────────────────────────────────────────┤
+│ alert -> guess ->     │ alert -> triage -> runbook branch ->      │
+│ ask expert -> retry   │ mitigation -> playbook communication      │
+│ => slow, inconsistent │ => repeatable, auditable                  │
+└───────────────────────┴────────────────────────────────────────────┘
+```
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Incident response with and without docs</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">No runbook</div><div class="kb-diagram-cell">With runbook / playbook</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">alert -&gt; guess -&gt;</div><div class="kb-diagram-cell">alert -&gt; triage -&gt; runbook branch -&gt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ask expert -&gt; retry</div><div class="kb-diagram-cell">mitigation -&gt; playbook communication</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; slow, inconsistent</div><div class="kb-diagram-cell">=&gt; repeatable, auditable</div></div>
-</div>
-</div>
-
-
-
-즉 런북/[플레이북](/knowledge-base/studynote/09_security/13_secops_ir_forensics/637_playbook/)의 목적은 문서를 예쁘게 남기는 것이 아니라, 위기 상황에서 "다음 행동"을 즉시 제공하는 것이다. 특히 [Site Reliability Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/))에서는 [인시던트 대응](/knowledge-base/studynote/09_security/13_secops_ir_forensics/652_incident_response_nist_800_61/) 시간이 비용이므로, 진단과 의사결정 시간을 줄이는 문서가 곧 운영 품질이 된다.
+즉 런북/[플레이북](/knowledge-base/studynote/09_security/13_secops_ir_forensics/637_playbook/)의 목적은 문서를 예쁘게 남기는 것이 아니라, 위기 상황에서 "다음 행동"을 즉시 제공하는 것이다. 특히 [Site Reliability 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/))에서는 [인시던트 대응](/knowledge-base/studynote/09_security/13_secops_ir_forensics/652_incident_response_nist_800_61/) 시간이 비용이므로, 진단과 의사결정 시간을 줄이는 문서가 곧 운영 품질이 된다.
 
 - **📢 섹션 요약 비유**: 비행기 조종사는 비상 상황에서 머릿속 기억만 믿지 않고 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)를 펼친다. 런북과 [플레이북](/knowledge-base/studynote/09_security/13_secops_ir_forensics/637_playbook/)도 같은 이유로 존재한다.
 
@@ -49,20 +47,21 @@ tags = ["studynote-devops-sre"]
 
 런북과 [플레이북](/knowledge-base/studynote/09_security/13_secops_ir_forensics/637_playbook/)은 보통 계층 구조로 설계된다. 가장 아래에는 알람별 런북이 있고, 그 위에는 심각도별 [플레이북](/knowledge-base/studynote/09_security/13_secops_ir_forensics/637_playbook/)이 있으며, 필요하면 [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) [Orchestration](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/), Automation, and Response ([SOAR](/knowledge-base/studynote/03_network/14_network_security_threats/745_soar_security_orchestration_automation_response/))나 [ChatOps](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/207_chatops_slack_bot_deployment/) 자동화가 일부 단계를 대신한다. 중요한 것은 문서 간 역할 분리다. 런북은 "기술적 조치"를, [플레이북](/knowledge-base/studynote/09_security/13_secops_ir_forensics/637_playbook/)은 "조직적 대응"을 담당해야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Layered incident documentation</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Alert catalog</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Runbook: check command -&gt; expected output -&gt; next branch</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Playbook: severity -&gt; roles -&gt; comms -&gt; escalation</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Automation: SOAR / script / runbook-as-code</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Postmortem feedback updates both runbook and playbook</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                  Layered incident documentation                      │
+├──────────────────────────────────────────────────────────────────────┤
+│ Alert catalog                                                        │
+│    │                                                                 │
+│    ├─ Runbook: check command -> expected output -> next branch       │
+│    │                                                                 │
+│    ├─ Playbook: severity -> roles -> comms -> escalation             │
+│    │                                                                 │
+│    └─ Automation: SOAR / script / runbook-as-code                    │
+│                                                                      │
+│ Postmortem feedback updates both runbook and playbook                │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 좋은 런북에는 최소한 다음이 들어가야 한다.
 
@@ -110,20 +109,18 @@ tags = ["studynote-devops-sre"]
 
 실무에서는 "모든 알람에 런북이 있는가"보다 "그 런북이 실제로 동작하는가"가 더 중요하다. [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 바뀌었거나 팀 이름이 바뀌었거나 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 구조가 바뀌었는데 문서가 예전 상태라면, 위기 상황에서 오히려 잘못된 자신감을 준다. 그래서 작성보다 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)과 갱신 체계를 먼저 설계해야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Practical incident decision flow</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">alert fired</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ known pattern + reversible action? -&gt; runbook / auto-remediate</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ cross-team or high blast radius? -&gt; invoke playbook</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no clear diagnosis in time box? -&gt; escalate</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ after recovery -&gt; verify -&gt; postmortem -&gt; update docs</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│                  Practical incident decision flow                  │
+├────────────────────────────────────────────────────────────────────┤
+│ alert fired                                                         │
+│   │                                                                 │
+│   ├─ known pattern + reversible action? -> runbook / auto-remediate │
+│   ├─ cross-team or high blast radius? -> invoke playbook            │
+│   ├─ no clear diagnosis in time box? -> escalate                     │
+│   └─ after recovery -> verify -> postmortem -> update docs          │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 실무 판단 포인트는 다음과 같다.
 
@@ -167,23 +164,21 @@ tags = ["studynote-devops-sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Expert memory and ad-hoc response</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Alert-linked runbooks</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Severity-based playbooks and incident command</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Runbook-as-Code / SOAR automation</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Postmortem-driven continuous update loop</div>
-</div>
-</div>
-
-
+```text
+Expert memory and ad-hoc response
+    │
+    ▼
+Alert-linked runbooks
+    │
+    ▼
+Severity-based playbooks and incident command
+    │
+    ▼
+Runbook-as-Code / SOAR automation
+    │
+    ▼
+Postmortem-driven continuous update loop
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

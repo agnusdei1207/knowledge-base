@@ -31,17 +31,15 @@ PMO와 감리는 둘 다 프로젝트 품질을 높이지만, 출발점이 다�
 
 PMO와 감리는 개입 시점과 결과물이 다르다. PMO는 계획, 일정, [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/), 의사소통을 상시 조정하고, 감리는 특정 시점에 산출물과 과정을 검토해 권고한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">발주자- PMO - 감리 - 사업자</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">발주자 ── 위임/감독 ── PMO ── 관리/조정 ── 사업자</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">독립 평가 요청 ▶ 감리 ── 검증/권고 ▶</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                 발주자- PMO - 감리 - 사업자                 │
+├──────────────────────────────────────────────────────────────┤
+│ 발주자 ── 위임/감독 ── PMO ── 관리/조정 ── 사업자            │
+│    │                                  │                      │
+│    └──────── 독립 평가 요청 ───────▶ 감리 ── 검증/권고 ─────▶│
+└──────────────────────────────────────────────────────────────┘
+```
 
 | 항목 | [PMO](/knowledge-base/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/) | 감리 |
 | :--- | :--- | :--- |
@@ -119,23 +117,21 @@ PMO와 감리를 구분하면 거버넌스가 선명해진다. PMO는 프로젝�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">발주자 요구</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">PMO (계획 / 조정 / 예방)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">사업자 구현</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">감리 (검증 / 권고 / 독립성)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">시정 조치 / 종료</div>
-</div>
-</div>
-
-
+```text
+발주자 요구
+    │
+    ▼
+PMO (계획 / 조정 / 예방)
+    │
+    ▼
+사업자 구현
+    │
+    ▼
+감리 (검증 / 권고 / 독립성)
+    │
+    ▼
+시정 조치 / 종료
+```
 
 이 흐름은 관리와 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 분리해 책임 구조를 명확히 하는 과정을 보여준다.
 

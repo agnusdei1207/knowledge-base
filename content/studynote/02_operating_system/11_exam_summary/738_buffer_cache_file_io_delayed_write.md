@@ -47,31 +47,30 @@ tags = ["studynote-operating-system"]
 
 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)([VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/)) 밑단에서 벌어지는 일상적인 I/O의 진실을 파헤쳐본다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Page Cache (Buffer Cache) 동작 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황 1: Read 요청</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 앱이 <code>read(fileA)</code> 호출.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. OS가 Page Cache를 뒤짐. -&gt; 없음 (Cache Miss!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 디스크에서 데이터를 읽어와서 Page Cache에 복사해 둠.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 그 복사본을 다시 앱의 메모리로 전달. (I/O 느림)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">★ 1초 뒤 앱이 다시 <code>read(fileA)</code>를 부르면? Cache Hit! 디스크 안 감!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황 2: Write 요청과 Dirty Page</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 앱이 <code>write(fileA, "hello")</code> 호출.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. OS가 디스크로 안 가고, Page Cache의 내용만 "hello"로 바꿈.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. OS: "앱아, 디스크에 잘 썼다!" (거짓말). 앱은 1나노초 만에 일 끝냄!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 변경된 이 Page Cache를 더티 페이지 (Dirty Page) 라고 부름.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(램과 디스크의 내용이 불일치하는 위험한 상태)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황 3: Background Flushing (동기화)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 커널의 <code>pdflush</code> (또는 <code>flush</code> 스레드)가 5초~30초마다 깨어남.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6. 더티 페이지들을 싹 긁어모아 디스크에 물리적으로 기록함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">7. 기록이 끝나면 더티 페이지는 다시 'Clean Page'가 되어 안심 상태 돌입!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 Page Cache (Buffer Cache) 동작 아키텍처              │
+  ├───────────────────────────────────────────────────────────────────┤
+  │  [상황 1: Read 요청]                                                 │
+  │   1. 앱이 `read(fileA)` 호출.                                       │
+  │   2. OS가 Page Cache를 뒤짐. -> 없음 (Cache Miss!)                  │
+  │   3. 디스크에서 데이터를 읽어와서 **Page Cache에 복사해 둠**.           │
+  │   4. 그 복사본을 다시 앱의 메모리로 전달. (I/O 느림)                   │
+  │   ★ 1초 뒤 앱이 다시 `read(fileA)`를 부르면? Cache Hit! 디스크 안 감!  │
+  │                                                                   │
+  │  [상황 2: Write 요청과 Dirty Page]                                   │
+  │   1. 앱이 `write(fileA, "hello")` 호출.                             │
+  │   2. OS가 디스크로 안 가고, **Page Cache의 내용만 "hello"로 바꿈**.     │
+  │   3. OS: "앱아, 디스크에 잘 썼다!" (거짓말). 앱은 1나노초 만에 일 끝냄!    │
+  │   4. 변경된 이 Page Cache를 **더티 페이지 (Dirty Page)** 라고 부름.     │
+  │      (램과 디스크의 내용이 불일치하는 위험한 상태)                       │
+  │                                                                   │
+  │  [상황 3: Background Flushing (동기화)]                             │
+  │   5. 커널의 `pdflush` (또는 `flush` 스레드)가 5초~30초마다 깨어남.     │
+  │   6. 더티 페이지들을 싹 긁어모아 디스크에 물리적으로 기록함.              │
+  │   7. 기록이 끝나면 더티 페이지는 다시 'Clean Page'가 되어 안심 상태 돌입! │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 리눅스의 `free -m` 명령어를 쳐보면 `buff/cache`라는 열이 있다. 리눅스는 남는 메모리가 있으면 무조건 과거에 읽었던 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 이 캐시 영역에 미친 듯이 욱여넣는다. 그래서 리눅스 메모리 사용량은 며칠만 켜두면 항상 99%에 달한다. 초보자는 "메모리 누수인가요?"라며 덜덜 떨지만, 이 캐시는 앱이 메모리를 달라고 하면 1초 만에 비워주고 앱에게 양보하는 <strong>가장 훌륭하고 착한 잉여 자원</strong>이다.
 
@@ -115,27 +114,30 @@ tags = ["studynote-operating-system"]
 
 ### 의사결정 및 튜닝 플로우
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파일 I/O 방식 (Cache vs Direct) 아키텍처 튜닝 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">고성능 애플리케이션에서 파일 읽기/쓰기 코드를 작성할 때</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">애플리케이션 내부에 자체적인 데이터 캐시 알고리즘(LRU 등)을 가지고 있는가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(예: Oracle, MySQL의 Buffer Pool, 혹은 In-memory 캐시)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">O_DIRECT 적용 (OS 캐시 바이패스)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대책: OS의 Page Cache를 무시하여 Double Caching 낭비를</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">막고, DB 엔진이 직접 디스크 I/O를 100% 통제함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 (일반적인 파이썬, Node.js 서버 프로그램)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터가 기록된 직후 정전이 발생했을 때, 데이터 유실을 1바이트도 허용할 수 없나?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node"><code>O_SYNC</code> 또는 <code>fsync()</code> 호출 강제</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(엄청난 성능 저하를 감수하고 무결성을 1순위로 챙김)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Buffered I/O (디폴트) 유지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가장 높은 성능 보장. OS 커널의 지연 쓰기에 100% 의존.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 파일 I/O 방식 (Cache vs Direct) 아키텍처 튜닝 플로우       │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [고성능 애플리케이션에서 파일 읽기/쓰기 코드를 작성할 때]                   │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      애플리케이션 내부에 자체적인 데이터 캐시 알고리즘(LRU 등)을 가지고 있는가?│
+  │      (예: Oracle, MySQL의 Buffer Pool, 혹은 In-memory 캐시)           │
+  │          ├─ 예 ─────▶ [O_DIRECT 적용 (OS 캐시 바이패스)]             │
+  │          │            대책: OS의 Page Cache를 무시하여 Double Caching 낭비를│
+  │          │                  막고, DB 엔진이 직접 디스크 I/O를 100% 통제함.  │
+  │          └─ 아니오 (일반적인 파이썬, Node.js 서버 프로그램)              │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      데이터가 기록된 직후 정전이 발생했을 때, 데이터 유실을 1바이트도 허용할 수 없나?│
+  │          ├─ 예 ─────▶ [`O_SYNC` 또는 `fsync()` 호출 강제]            │
+  │          │            (엄청난 성능 저하를 감수하고 무결성을 1순위로 챙김)     │
+  │          │                                                        │
+  │          └─ 아니오 ──▶ [Buffered I/O (디폴트) 유지]                  │
+  │                         가장 높은 성능 보장. OS 커널의 지연 쓰기에 100% 의존. │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 리눅스의 [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache는 너무나 완벽해서 보통은 그냥 놔두는 게 최선이다. 하지만 트래픽이 극한으로 몰리는 DB 서버 환경에서는 "네가 똑똑한 척하는 게 오히려 병목이야!"라며 OS의 캐시 기능을 끄는 것이 역설적인 최적화의 첫걸음이다. 
 
@@ -177,19 +179,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">VFS 가상 파일 시스템</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">버퍼 캐시 파일 입출력 지연 (Buffer Cache File I/O Delayed Write)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">접근 제어 목록 (ACL)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">보호 도메인 최소 권한 원칙</div></div>
-</div>
-</div>
-
-
+```text
+[VFS 가상 파일 시스템]
+    │
+    ▼
+[버퍼 캐시 파일 입출력 지연 (Buffer Cache File I/O Delayed Write)]
+    │
+    ├──▶ [접근 제어 목록 (ACL)]
+    └──▶ [보호 도메인 최소 권한 원칙]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

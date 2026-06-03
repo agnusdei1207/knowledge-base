@@ -11,7 +11,7 @@ tags = ["bigdata"]
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Apache Tez는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)([Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)) 생태계의 뼈대였던 [맵리듀스](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/)([MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/)) 엔진의 극악한 속도와 멍청한 입출력 한계를 박살 내기 위해 탄생한, <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/">DAG</a> (<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/255_apache_airflow_dag/">Directed Acyclic Graph</a>, 방향성 비순환 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a>) 기반의 차세대 고성능 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 처리 엔진</strong>이다.
 > 2. **가치**: 기존 [맵리듀스](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/)는 작은 연산 하나를 끝낼 때마다 꼬박꼬박 느려터진 하드디스크([HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/))에 임시 결과를 적고 다시 읽어오는 바보짓을 반복했다. Tez는 수십 개의 복잡한 SQL 연산([Hive](/knowledge-base/studynote/05_database/04_transactions_concurrency/544_hive/)/Pig)을 하나의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 흐름([DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/))으로 묶어 메모리 위에서 중간 디스크 I/O 없이 미끄러지듯 한 방에 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 처리를 갈겨버림으로써 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 속도를 10배~100배 이상 폭발적으로 끌어올린다.
-> 3. **융합**: Tez 자체는 개발자가 직접 코딩해서 쓰는 도구가 아니다. Hortonworks(현 Cloudera) 주도로 개발되어, 느려 터진 고전 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 엔진인 <strong>Hive와 Pig의 뱃속(Back-end Engine)에 들어가 기존의 <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/">MapReduce</a> 엔진을 완벽히 교체/융합</strong>하는 마법의 심장(Accelerator) 역할을 수행하며 인터랙티브(Interactive) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 시대를 열었다.
+> 3. **융합**: Tez 자체는 개발자가 직접 코딩해서 쓰는 도구가 아니다. Hortonworks(현 Cloudera) 주도로 개발되어, 느려 터진 고전 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 엔진인 <strong>Hive와 Pig의 뱃속(Back-end 엔진)에 들어가 기존의 <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/">MapReduce</a> 엔진을 완벽히 교체/융합</strong>하는 마법의 심장(Accelerator) 역할을 수행하며 인터랙티브(Interactive) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 시대를 열었다.
 
 ---
 
@@ -31,31 +31,43 @@ tags = ["bigdata"]
 
 왜 Tez가 빠른지, 두 엔진이 3단계의 복잡한 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 처리할 때의 아키텍처 차이를 통해 증명한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MapReduce vs Tez 파이프라인 아키텍처 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 전통적 MapReduce 방식 (단절된 실행)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Map 1</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Reduce 1</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">디스크 저장 및 읽기 쾅!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Map 2</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Reduce 2</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">디스크 저장 및 읽기 쾅!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Map 3</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Reduce 3</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(최종 결과)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 끔찍한 오버헤드: 각 Job마다 JVM(컨테이너)을 새로 띄웠다 죽였다 반복함.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. Apache Tez 방식 (DAG 기반 스트림 파이프라인)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(데이터)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Map 1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀ (메모리로 즉시 토스! 디스크 I/O 없음!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Reduce 1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (메모리) ▼ (메모리)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Map 2</div><div class="kb-diagram-node">Map 3</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Reduce 2</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(최종 결과)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 눈부신 진화: 작업을 큰 덩어리(DAG)로 묶어 컨테이너 재사용 (Hot JVM).</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 MapReduce vs Tez 파이프라인 아키텍처 비교              │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │  [ 1. 전통적 MapReduce 방식 (단절된 실행) ]                           │
+  │                                                                   │
+  │    (데이터) ──▶ [ Map 1 ] ──▶ [ Reduce 1 ]                          │
+  │                                    │  ◀ [ 디스크 저장 및 읽기 쾅! ]      │
+  │                                    ▼                               │
+  │               [ Map 2 ] ──▶ [ Reduce 2 ]                          │
+  │                                    │  ◀ [ 디스크 저장 및 읽기 쾅! ]      │
+  │                                    ▼                               │
+  │               [ Map 3 ] ──▶ [ Reduce 3 ] ──▶ (최종 결과)            │
+  │    * 끔찍한 오버헤드: 각 Job마다 JVM(컨테이너)을 새로 띄웠다 죽였다 반복함. │
+  │                                                                   │
+  │  ===============================================================  │
+  │                                                                   │
+  │  [ 2. Apache Tez 방식 (DAG 기반 스트림 파이프라인) ]                  │
+  │                                                                   │
+  │                 (데이터)                                            │
+  │                    │                                              │
+  │                    ▼                                              │
+  │                 [ Map 1 ]                                         │
+  │                    │ ◀ (메모리로 즉시 토스! 디스크 I/O 없음!)              │
+  │                    ▼                                              │
+  │      ┌──────── [ Reduce 1 ] ───────┐                              │
+  │      │                             │                              │
+  │      ▼ (메모리)                      ▼ (메모리)                       │
+  │  [ Map 2 ]                     [ Map 3 ]                          │
+  │      │                             │                              │
+  │      └───────────┐   ┌─────────────┘                              │
+  │                    ▼   ▼                                           │
+  │                 [ Reduce 2 ] ────▶ (최종 결과)                      │
+  │    * 눈부신 진화: 작업을 큰 덩어리(DAG)로 묶어 컨테이너 재사용 (Hot JVM).  │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 복잡한 `JOIN`이나 멀티 `GROUP BY`가 들어간 SQL을 처리하려면 여러 단계의 연산이 필수다. MapReduce는 무조건 M-R이라는 한 쌍의 구속복을 입고, 단계가 끝날 때마다 하드디스크([HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/))에 임시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쿵쿵 내려찍었다(물리적 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 발생).
 반면 Tez는 <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/">DAG</a>(방향성 비순환 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a>)</strong> 기술을 써서 "어차피 Reduce 1번의 결과가 Map 2번으로 갈 거면, 왜 디스크에 쓰니? 그냥 RAM 메모리 버퍼를 통해서 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인으로 한 번에 밀어 넣어!"라고 구조를 혁신했다. 거기다 MapReduce가 작업 1개마다 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)(JVM)를 새로 부팅하느라 10초씩 버리던 시간을 없애고, 미리 띄워둔 핫 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)([Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/))를 재사용함으로써 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 구동 딜레이조차 싹 다 소멸시켰다.
@@ -67,7 +79,7 @@ tags = ["bigdata"]
 Tez는 독자적인 자원 관리자가 없다. 철저하게 <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/">하둡</a> <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/">YARN</a> (<a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/">Yet Another Resource Negotiator</a>)</strong> 생태계 위에 기생(?)하여 작동하는 순종 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이다.
 
 1. <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/">YARN</a> 통합</strong>: Tez는 YARN에게 "나 메모리 100GB랑 CPU 50개 필요해"라고 자원만 빌려 온다. [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 스토리지([HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/)) 옆에서 돌아가기 때문에, 별도의 거대한 스파크 클러스터를 짓지 않고도 기존 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 자산을 그대로 100% 활용할 수 있는 미친 가성비를 자랑한다.
-2. <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/">DAG</a> (<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/255_apache_airflow_dag/">Directed Acyclic Graph</a>)</strong>: 개발자가 짠 [Hive](/knowledge-base/studynote/05_database/04_transactions_concurrency/544_hive/) SQL을 수백 개의 잘게 쪼개진 노드와 엣지([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 흘러가는 길)로 이루어진 한 폭의 거대한 지도([DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/))로 번역한다. 이 지도는 "뒤로 뺑뺑 도는 루프(Cycle)"가 절대 없어서(Acyclic), 물이 위에서 아래로 흐르듯 막힘없이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 폭포수처럼 쏟아져 내리게 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링을 완벽히 조율해 낸다.
+2. <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/">DAG</a> (<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/255_apache_airflow_dag/">Directed Acyclic Graph</a>)</strong>: 개발자가 짠 [Hive](/knowledge-base/studynote/05_database/04_transactions_concurrency/544_hive/) SQL을 수백 개의 잘게 쪼개진 노드와 엣지([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 흘러가는 길)로 이루어진 한 폭의 거대한 지도([DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/))로 번역한다. 이 지도는 "뒤로 뺑뺑 도는 루프(Cycle)"가 절대 없어서(Acyclic), 물이 위에서 아래로 흐르듯 병목없이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 폭포수처럼 쏟아져 내리게 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링을 완벽히 조율해 낸다.
 
 - **📢 섹션 요약 비유**: MapReduce가 한 블록 갈 때마다 시동을 끄고 내렸다가 다시 시동 걸고 타야 하는 '시내버스'라면, Tez는 YARN이라는 고속도로 위에 올려지자마자 목적지까지 브레이크 한 번 밟지 않고 RAM(메모리)이라는 연료만 태우며 질주하는 KTX 논스톱 특급 열차입니다.
 
@@ -144,21 +156,18 @@ Apache Tez는 2010년대 붕괴 위기에 처했던 코끼리 제국([Hadoop](/k
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">MapReduce (MapReduce)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DAG (Directed Acyclic Graph)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Tez (Apache Tez)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">실시간 처리 (Real-Time Processing)</div></div>
-</div>
-</div>
-
-
+```text
+[MapReduce (MapReduce)]
+    │
+    ▼
+[DAG (Directed Acyclic Graph)]
+    │
+    ▼
+[Apache Tez (Apache Tez)]
+    │
+    ▼
+[실시간 처리 (Real-Time Processing)]
+```
 
 이 흐름도는 MapReduce의 한계를 DAG와 Apache Tez가 개선해 실시간 처리로 나아가는 흐름을 보여준다.
 

@@ -25,22 +25,19 @@ tags = ["ai"]
 
 실무 시스템에서 [전향 추론](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/)이 필요한 이유는 '모든 정보(입력)가 주어지지만, 어떤 결과가 나올지 모르는 상황'을 통제하기 위해서다. 예를 들어, 수백 개의 센서에서 온열, 연기, 진동 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 쏟아져 들어오는 공장 제어 시스템의 경우, "이것이 화재인가?"라는 특정 질문을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 것([후향 추론](/knowledge-base/studynote/10_ai/01_ai_basics/011_backward_chaining/))보다, 들어오는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 규칙에 통과시켜 "화재 알람을 울려라" 혹은 "냉각수를 가동하라"와 같은 예측 불가능한 여러 Action을 실시간으로 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)하는 것이 훨씬 효율적이다.
 
+```text
+이 도식은 데이터(Fact)에서 출발하여 규칙(Rule)을 거쳐 새로운 결론을 연쇄적으로 만들어내는 전향 추론의 흐름을 보여준다.
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 도식은 데이터(Fact)에서 출발하여 규칙(Rule)을 거쳐 새로운 결론을 연쇄적으로 만들어내는 전향 추론의 흐름을 보여준다.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터/증거 수집</div><div class="kb-diagram-node">지식 베이스의 규칙 (Rules)</div><div class="kb-diagram-node">새로운 결론 도출</div></div>
-<div class="kb-diagram-note">Fact 1: 기침을 한다</div>
-<div class="kb-diagram-tree-item" style="--depth:8">Rule 1: IF (기침 AND 콧물) THEN (감기) ──&gt; 새 Fact A: 감기</div>
-<div class="kb-diagram-note">Fact 2: 콧물이 난다</div>
-<div class="kb-diagram-note">Fact 3: 열이 높다 ── ─ Rule 2: IF (감기 AND 열) THEN (독감)</div>
-<div class="kb-diagram-note">(최종 결론)</div>
-<div class="kb-diagram-note">새 Fact B: 독감</div>
-</div>
-</div>
-
-
+[데이터/증거 수집]              [지식 베이스의 규칙 (Rules)]           [새로운 결론 도출]
+  Fact 1: 기침을 한다    ┐
+                         ├─ Rule 1: IF (기침 AND 콧물) THEN (감기) ──> 새 Fact A: 감기
+  Fact 2: 콧물이 난다    ┘                                               │
+                                                                         │
+  Fact 3: 열이 높다    ──┼─ Rule 2: IF (감기 AND 열) THEN (독감) ────────┘
+                                                                         │
+                                                                     (최종 결론)
+                                                                 새 Fact B: 독감
+```
 이 도식의 핵심은 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Fact 1, 2)가 결합되어 새로운 중간 결론(Fact A)을 만들어내고, 이 중간 결론이 다시 다른 규칙의 입력 조건으로 연쇄적([Chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/))으로 사용된다는 점이다. 이런 배치는 규칙의 순서와 상관없이, 만족하는 조건이 생기면 언제든 즉각적으로 반응(Fire)할 수 있게 해준다. 따라서 실시간 이벤트 처리와 다수의 결론을 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 도출해야 하는 복잡한 시스템에 매우 적합하다. 
 
 📢 **섹션 요약 비유**: 냉장고를 열어보니 '감자, 양파, 돼지고기'가 있는 것을 보고([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)), 레시피 책을 뒤져서 '카레'를 만들 수 있겠다고 결론을 내리는 요리사의 사고방식과 같습니다.
@@ -65,25 +62,26 @@ tags = ["ai"]
 ④ **2주기 Match**: WM의 상태가 변했으므로, 이전에는 거짓(False)이었던 IF 조건들이 새롭게 참(True)으로 바뀔 수 있다. 다시 매칭을 수행한다.
 ⑤ **종료 조건**: 더 이상 Match되는 새로운 규칙이 존재하지 않거나, 명시적인 "정지([Halt](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/759_halt/))" 목표 규칙에 도달할 때까지 이 사이클을 무한 반복한다.
 
+```text
+이 흐름도는 전향 추론 엔진이 작업 메모리(Working Memory)를 업데이트하며 순환하는 내부 큐(Queue)와 병목 구조를 시각화한 것이다.
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 흐름도는 전향 추론 엔진이 작업 메모리(Working Memory)를 업데이트하며 순환하는 내부 큐(Queue)와 병목 구조를 시각화한 것이다.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">새로운 외부 Data 유입</div></div>
-<div class="kb-diagram-note">▼ (Insert)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Working Memory (작업 메모리)</div><div class="kb-diagram-cell">&lt;</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Fact 1</div><div class="kb-diagram-node">Fact 2</div><div class="kb-diagram-node">Fact 3 (New)</div></div>
-<div class="kb-diagram-note">▼ (병목: 수만 개의 규칙과 비교 연산)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">[</div><div class="kb-diagram-node">Match 단계 (Rete Network)</div><div class="kb-diagram-note">]</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▼</div><div class="kb-diagram-node">Rule A, Rule C</div><div class="kb-diagram-note">) │ (새로운 중간 결론 Update)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">[</div><div class="kb-diagram-node">Resolve 단계 (우선순위 평가)</div><div class="kb-diagram-note">]</div></div>
-<div class="kb-diagram-note">▼ (Rule C 선택됨)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">[</div><div class="kb-diagram-node">Act 단계 (THEN 절 실행)</div><div class="kb-diagram-note">]</div></div>
-</div>
-</div>
-
-
+         [새로운 외부 Data 유입]
+                  │
+                  ▼ (Insert)
+┌──────────────────────────────────────────┐
+│          Working Memory (작업 메모리)    │<──────┐
+│  [Fact 1] [Fact 2] [Fact 3 (New)]        │       │
+└────────────┬─────────────────────────────┘       │
+             │                                     │
+             ▼ (병목: 수만 개의 규칙과 비교 연산)  │
+      [[ Match 단계 (Rete Network) ]]              │
+             │                                     │
+             ▼ (Conflict Set: [Rule A, Rule C])    │ (새로운 중간 결론 Update)
+      [[ Resolve 단계 (우선순위 평가) ]]           │
+             │                                     │
+             ▼ (Rule C 선택됨)                     │
+      [[ Act 단계 (THEN 절 실행) ]] ───────────────┘
+```
 이 도식의 핵심은 매 사이클마다 Act 단계에서 생산된 결과물이 다시 Working Memory로 피드백되어 다음 사이클의 입력으로 사용된다는 점이다. 이런 루프(Loop) 형태의 배치는 시스템이 주어진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 고갈될 때까지 연쇄 폭발을 일으키며 숨겨진 지식을 모두 추출하게 만든다. 실무에서는 Rule C의 실행이 Fact를 변경하지 않고 무한히 자기 자신을 호출하는 '무한 루프 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))' 상태에 빠지는 것이 가장 큰 장애 원인이 되므로, 한 번 실행된 규칙 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조합은 다시 실행하지 않도록(No-Loop [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)) 강제해야 한다.
 
 📢 **섹션 요약 비유**: 도미노의 첫 번째 블록([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 쓰러뜨리면, 쓰러진 블록이 다음 블록(규칙 실행)을 치고, 그 블록이 또 다른 방향의 블록들을 연쇄적으로 쓰러뜨려 결국 거대한 그림이 완성되는 것과 같습니다.
@@ -102,20 +100,16 @@ tags = ["ai"]
 | **단점 (오버헤드)**| 목표와 무관한 쓸데없는 지식까지 모두 추론하여 연산 낭비 (조합 폭발) | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)한 목표가 틀렸을 경우 답을 낼 수 없음 |
 | <strong>적합한 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a></strong> | 공장 센서 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링, 알람 시스템, 게임 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 판단 로직 | 의료 진단(이 병인가?), 소프트웨어 디버깅, PROLOG 언어 |
 
+```text
+이 매트릭스 도식은 두 추론 방식의 데이터 탐색 방향과 연산량의 차이를 구조적으로 비교한다.
 
+[전향 추론: Broad Search (넓게 퍼짐)]      [후향 추론: Narrow Search (좁게 파고듦)]
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 매트릭스 도식은 두 추론 방식의 데이터 탐색 방향과 연산량의 차이를 구조적으로 비교한다.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전향 추론: Broad Search (넓게 퍼짐)</div><div class="kb-diagram-node">후향 추론: Narrow Search (좁게 파고듦)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Fact A ──&gt; Rule 1 ──&gt; Fact C ──&gt; 결론 1 Fact C (필요!) &lt;── Rule 1 &lt;──</div><div class="kb-diagram-node">가설: 결론 1이 맞나?</div></div>
-<div class="kb-diagram-note">Fact B ──&gt; Rule 2 ──&gt; Fact D ──&gt; 결론 2 ↑(Fact C가 없네? 구해야지)</div>
-<div class="kb-diagram-note">↑ (목표 없이 가능한 모든 Fact A (존재확인) ──&gt; Rule 매칭 (증명 완료!)</div>
-<div class="kb-diagram-note">(데이터) 결과를 맹목적으로 파생시킴) (오직 목표와 연결된 경로만 연산함)</div>
-</div>
-</div>
-
-
+Fact A ──> Rule 1 ──> Fact C ──> 결론 1     Fact C (필요!) <── Rule 1 <── [가설: 결론 1이 맞나?]
+Fact B ──> Rule 2 ──> Fact D ──> 결론 2             ↑(Fact C가 없네? 구해야지)
+  ↑        (목표 없이 가능한 모든          Fact A (존재확인) ──> Rule 매칭 (증명 완료!)
+(데이터)    결과를 맹목적으로 파생시킴)                   (오직 목표와 연결된 경로만 연산함)
+```
 이 비교도의 핵심은 연산 자원의 활용 방식이다. [전향 추론](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/)(왼쪽)은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 입력되면 그것이 어떤 결론으로 이어질지 모르기 때문에 그물망처럼 탐색 공간이 무한히 넓어진다(연산 낭비 발생 가능성). 반면 [후향 추론](/knowledge-base/studynote/10_ai/01_ai_basics/011_backward_chaining/)(오른쪽)은 타겟 지점이 명확하므로 드릴처럼 한 우물만 파고든다. 실무 아키텍처에서는 이 둘의 장점을 섞어, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 '의심되는 가설군([전향 추론](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/))'을 몇 개로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)한 뒤, 그 가설이 맞는지 사용자에게 필수적인 질문만 역으로 던져 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는([후향 추론](/knowledge-base/studynote/10_ai/01_ai_basics/011_backward_chaining/)) **양방향 하이브리드 추론** 모델을 주로 채택한다.
 
 📢 **섹션 요약 비유**: [전향 추론](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/)이 "내가 가진 재료로 만들 수 있는 모든 요리를 다 만들어보자"라면, [후향 추론](/knowledge-base/studynote/10_ai/01_ai_basics/011_backward_chaining/)은 "오늘 저녁은 김치찌개를 먹을 거야, 냉장고에 두부랑 김치가 있는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해 줘"라고 목표를 정해놓고 찾는 방식입니다.
@@ -134,23 +128,21 @@ tags = ["ai"]
 [전향 추론](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) 시스템 운영 중, 엔진이 중간 결론(새로운 Fact)을 작업 메모리에 계속 쌓기만 하여 [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/)([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/), [Out Of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))가 발생하고 시스템이 다운되는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/).
 - **판단**: [전향 추론](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/)의 가장 큰 위험 요소는 '[가비지 컬렉션](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/)(GC)의 부재'다. 규칙이 실행되어 목적을 다한 과거의 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)나 무의미한 중간 도출값은 반드시 규칙의 후속 조치(THEN 절)에서 `Retract(삭제)` 처리하여 작업 메모리를 비워주어야 한다. 상태 유지 기간([TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/))을 명시적으로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하는 Windowing 기법 도입이 필수적이다.
 
+```text
+이 의사결정 트리는 실시간 이벤트 처리 시스템에서 전향 추론 엔진을 안전하게 도입하고 운영하기 위한 실무 판단 플로우를 보여준다.
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 의사결정 트리는 실시간 이벤트 처리 시스템에서 전향 추론 엔진을 안전하게 도입하고 운영하기 위한 실무 판단 플로우를 보여준다.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">실시간 룰 엔진 아키텍처 설계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">질문: 규칙의 IF 조건에 '시간(Time)' 흐름이 포함되는가?</div></div>
-<div class="kb-diagram-tree-item" style="--depth:1">(No) ──&gt; 일반 Rete 알고리즘 적용 (단순 조건 매칭)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">(Yes) ─&gt; "최근 5분 이내에 오류가 3번 발생하면..." (시간 윈도우 필요)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Complex Event Processing (CEP) 모드 활성화 판단</div></div>
-<div class="kb-diagram-tree-item" style="--depth:4">메모리 관리: Sliding Window 적용 (과거 5분 이전 데이터 자동 폐기)</div>
-<div class="kb-diagram-tree-item" style="--depth:4">이벤트 순서: 타임스탬프 기준 정렬 및 인과관계 매칭 최적화</div>
-</div>
-</div>
-
-
+[실시간 룰 엔진 아키텍처 설계]
+         │
+[질문: 규칙의 IF 조건에 '시간(Time)' 흐름이 포함되는가?]
+  ├─(No) ──> 일반 Rete 알고리즘 적용 (단순 조건 매칭)
+  │
+  └─(Yes) ─> "최근 5분 이내에 오류가 3번 발생하면..." (시간 윈도우 필요)
+               │
+               ▼
+       [Complex Event Processing (CEP) 모드 활성화 판단]
+         ├─ 메모리 관리: Sliding Window 적용 (과거 5분 이전 데이터 자동 폐기)
+         └─ 이벤트 순서: 타임스탬프 기준 정렬 및 인과관계 매칭 최적화
+```
 이 트리의 핵심은 [전향 추론](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/)이 단순히 정적인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 처리하는 것을 넘어, 실무에서는 '시간 축' 위에서 벌어지는 이벤트(사건)들의 순서와 타이밍을 매칭하는 [CEP](/knowledge-base/studynote/16_bigdata/04_streaming/098_cep/)(복합 이벤트 처리) 시스템으로 격상되어야 한다는 점이다. 과거의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 계속 메모리에 남아있으면 잘못된 규칙 발동을 유발한다. 따라서 시스템 아키텍트는 룰 엔진 외부력인 Kafka나 Flink 같은 스트림 프로세서와 연동하여 시간 만료된 Fact를 엔진에서 강제로 쳐내는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 라이프사이클 관리를 반드시 설계에 포함해야 한다.
 
 📢 **섹션 요약 비유**: [전향 추론](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) 엔진은 들어오는 물([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 계속 마시면서 새로운 물을 뿜어내는 분수와 같습니다. 빠져나가는 배수구(Fact 삭제 로직)를 제대로 만들어두지 않으면, 시스템이라는 연못은 금방 넘쳐흘러 망가지고 맙니다.
@@ -181,25 +173,24 @@ tags = ["ai"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">사실 데이터베이스 (Fact Base) — 알려진 사실 초기 상태</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전향 추론 (Forward Chaining) — 사실에서 결론 방향으로 추론</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">후향 추론 (Backward Chaining) — 목표에서 사실 방향으로 검증</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전문가 시스템 (Expert System) — 규칙 기반 추론 엔진 탑재</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">지식 그래프 (Knowledge Graph) — 사실·관계의 그래프 구조화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LLM + RAG — 지식 검색 결합 대형 언어 모델 추론</div></div>
-</div>
-</div>
-
-
+```text
+[사실 데이터베이스 (Fact Base) — 알려진 사실 초기 상태]
+    │
+    ▼
+[전향 추론 (Forward Chaining) — 사실에서 결론 방향으로 추론]
+    │
+    ▼
+[후향 추론 (Backward Chaining) — 목표에서 사실 방향으로 검증]
+    │
+    ▼
+[전문가 시스템 (Expert System) — 규칙 기반 추론 엔진 탑재]
+    │
+    ▼
+[지식 그래프 (Knowledge Graph) — 사실·관계의 그래프 구조화]
+    │
+    ▼
+[LLM + RAG — 지식 검색 결합 대형 언어 모델 추론]
+```
 [전향 추론](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/)은 규칙 기반 [전문가 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/233_expert_system/)의 핵심 추론 방향으로, 사실 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 결론을 도출하며 현대 [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/)·[RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) 시스템으로 진화했다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

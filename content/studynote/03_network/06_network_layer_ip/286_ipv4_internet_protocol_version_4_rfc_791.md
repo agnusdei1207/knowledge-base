@@ -26,18 +26,14 @@ tags = ["studynote-network"]
   - <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> 주소</strong>: 사람의 **"주민등록번호"**. 평생 변하지 않지만, 이 번호만 보고 사람이 부산에 사는지 서울에 사는지 우체부가 알 길은 없습니다.
   - **IP 주소**: 현재 내가 살고 있는 아파트의 **"우편번호와 도로명 주소"**. 우체부(라우터)는 오직 이 IP 주소만을 보고 동네방네 편지(패킷)를 정확히 넘겨줍니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 계층의 핵심 3기능</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IPv4</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IPv4 헤더 구조</div></div>
-</div>
-</div>
-
-
+```text
+[네트워크 계층의 핵심 3기능]
+    │
+    ▼
+[IPv4]
+    │
+    └──▶ [IPv4 헤더 구조]
+```
 
 - **📢 섹션 요약 비유**: ** IPv4는 전 세계 우체국이 수십 년 전 합의한 **"규격화된 국제 우편 봉투"**입니다. 이 봉투 겉면에는 보내는 사람 주소와 받는 사람 주소가 적혀 있으며, 이 봉투 양식 하나로 전 인류가 인터넷이라는 거대한 편지를 주고받게 되었습니다.
 
@@ -47,18 +43,14 @@ tags = ["studynote-network"]
 
 IPv4는 주소 체계와 패킷 전달 경로를 정의하는 축라는 관점에서 이해해야 한다. 네트워크 계층의 핵심 3기능와 IPv4 헤더 구조 사이의 연결점으로 놓고 보면 개념의 역할이 더 분명해진다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 계층의 핵심 3기능</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IPv4</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IPv4 헤더 구조</div></div>
-</div>
-</div>
-
-
+```text
+[네트워크 계층의 핵심 3기능]
+    │
+    ▼
+[IPv4]
+    │
+    └──▶ [IPv4 헤더 구조]
+```
 
 - **📢 섹션 요약 비유**: IPv4의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -75,23 +67,24 @@ IPv4는 주소 체계와 패킷 전달 경로를 정의하는 축라는 관점�
 - 라우터 큐가 꽉 차서 패킷이 쓰레기통에 버려지든(Drop), 전송 중 비트가 깨지든 IP는 절대 재전송(Retransmission)을 해주지 않는다. 
 - **이유**: 인터넷의 철학은 <strong>"멍청하고 빠른 통신망, 똑똑한 단말기(<a href="/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/">End-to-End</a>)"</strong>다. 통신사 라우터가 에러 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)까지 하려면 라우터가 터져버리므로, 에러 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 책임을 사용자 PC의 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 모듈로 떠넘겨버린 극강의 생존 특화 설계다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인터넷의 철학: 똑똑한 끝단과 멍청한 중간망</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">사용자 PC (TCP 탑재)</div><div class="kb-diagram-node">서버 (TCP 탑재)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(똑똑함, 에러 복구) (똑똑함, 순서 조립)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">라우터 1</div><div class="kb-diagram-note">(IP 탑재) │</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼</div><div class="kb-diagram-cell">(멍청함, 배달만 함)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 패킷 1, 2 발송 ──▶ ▼</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">라우터 2</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(패킷 1 도착!) ─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 재전송 요구! ◀── TCP가 "야! 2번 안왔어!" 라고 외침 (패킷 2 분실)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 3계층 IP는 배달의 민족일 뿐, 내용물 검수는 4계층 TCP가 한다.</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                인터넷의 철학: 똑똑한 끝단과 멍청한 중간망         │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 사용자 PC (TCP 탑재) ]                    [ 서버 (TCP 탑재) ] │
+ │     (똑똑함, 에러 복구)                        (똑똑함, 순서 조립) │
+ │           │                                         ▲       │
+ │           │          [ 라우터 1 ] (IP 탑재)            │       │
+ │           ▼                │ (멍청함, 배달만 함)        │       │
+ │    1. 패킷 1, 2 발송  ──▶   ▼                        │       │
+ │                       [ 라우터 2 ] ──▶ (패킷 1 도착!) ─┘       │
+ │                            │                                │
+ │   2. 재전송 요구! ◀── TCP가 "야! 2번 안왔어!" 라고 외침 ─── (패킷 2 분실)│
+ │                                                             │
+ │   * 3계층 IP는 배달의 민족일 뿐, 내용물 검수는 4계층 TCP가 한다.       │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 3. 32비트 주소의 한계 (IP 고갈)
 1980년대 설계자들은 32비트, 즉 $2^{32}$인 약 43억 개의 주소면 지구상 모든 컴퓨터를 덮고도 남을 거라 착각했다.
@@ -140,19 +133,15 @@ IPv4는 네트워크 계층과 IP를 이해할 때 핵심 축을 잡아 주는 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 네트워크 계층의 핵심 3기능</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: IPv4</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: IPv4 헤더 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 대규모 주소 자동화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 네트워크 계층의 핵심 3기능]
+    │
+    ▼
+[현재 개념: IPv4]
+    │
+    ├──▶ [확장 A: IPv4 헤더 구조]
+    └──▶ [확장 B: 대규모 주소 자동화]
+```
 
 IPv4는 네트워크 계층의 핵심 3기능에서 출발해 현재 메커니즘을 정교화하고, 이후 IPv4 헤더 구조와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -20,29 +20,28 @@ tags = ["studynote-bigdata"]
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 Hive는 사용자의 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 파싱하여 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)을 수립하고, 이를 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 연산 엔진(MR, Tez, Spark)으로 변환하여 실행한다.
 
+```text
+[ Apache Hive Core Architecture ]
 
+   [ User / CLI / JDBC ] ---- ( HiveQL Query )
+            |
+    +-------V-------+       +-------------------+
+    |   Hive Driver | <---> |   Metastore DB    | (MySQL/PG)
+    | [Compiler]    |       | (Table Schema)    |
+    | [Optimizer]   |       +-------------------+
+    +-------+-------+
+            | (Logical -> Physical Plan)
+    +-------V-------+       +-------------------+
+    | Execution Eng | <---> |    HDFS / S3      |
+    | (Tez/MR/Spark)|       | (Raw Data Files)  |
+    +---------------+       +-------------------+
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Hive Core Architecture</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">User / CLI / JDBC</div><div class="kb-diagram-note">---- ( HiveQL Query )</div></div>
-<div class="kb-diagram-note">+-------V-------+ +-------------------+</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hive Driver</div><div class="kb-diagram-cell">&lt;---&gt;</div><div class="kb-diagram-cell">Metastore DB</div><div class="kb-diagram-cell">(MySQL/PG)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Compiler</div><div class="kb-diagram-note">| (Table Schema)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Optimizer</div><div class="kb-diagram-note">+-------------------+</div></div>
-<div class="kb-diagram-note">(Logical -&gt; Physical Plan)</div>
-<div class="kb-diagram-note">+-------V-------+ +-------------------+</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Execution Eng</div><div class="kb-diagram-cell">&lt;---&gt;</div><div class="kb-diagram-cell">HDFS / S3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Tez/MR/Spark)</div><div class="kb-diagram-cell">(Raw Data Files)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Bilingual Component Logic</div></div>
-<div class="kb-diagram-tree-item" style="--depth:0">Metastore (메타스토어): 테이블 이름, 컬럼 타입, 파티션 정보 등 저장.</div>
-<div class="kb-diagram-tree-item" style="--depth:0">HiveQL: SQL-92 표준을 따르는 하이브 전용 쿼리 언어.</div>
-<div class="kb-diagram-tree-item" style="--depth:0">Optimizer (옵티마이저): 쿼리를 가장 효율적인 DAG(유향 비순환 그래프)로 변환.</div>
-<div class="kb-diagram-tree-item" style="--depth:0">Schema-on-Read: 데이터 저장 시가 아닌, 읽는 시점에 스키마를 적용함.</div>
-</div>
-</div>
-
-
+[ Bilingual Component Logic ]
+- Metastore (메타스토어): 테이블 이름, 컬럼 타입, 파티션 정보 등 저장.
+- HiveQL: SQL-92 표준을 따르는 하이브 전용 쿼리 언어.
+- Optimizer (옵티마이저): 쿼리를 가장 효율적인 DAG(유향 비순환 그래프)로 변환.
+- Schema-on-Read: 데이터 저장 시가 아닌, 읽는 시점에 스키마를 적용함.
+```
 
 사용자가 `SELECT` [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 날리면 Hive는 메타스토어에서 해당 테이블의 [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) 경로를 찾아내고, 그 경로의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)들을 [맵리듀스](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) 등으로 읽어들여 필터링 및 집계를 수행한다.
 
@@ -74,23 +73,21 @@ Hive는 현대적인 '[데이터 레이크하우스](/knowledge-base/studynote/1
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">MapReduce — 하둡 초기 배치 처리 엔진, SQL 없이 Java 코드 직접 작성</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Hive — HiveQL로 MapReduce 추상화, SQL-on-Hadoop 구현</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Tez / LLAP (Live Long and Process) — 메모리 DAG 실행, Hive 성능 10배 향상</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Spark SQL — RDD 대신 DataFrame API, Hive 메타스토어 호환 분석</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">레이크하우스 (Lakehouse) — Delta Lake·Iceberg로 ACID 트랜잭션 SQL 분석</div></div>
-</div>
-</div>
-
-
+```text
+[MapReduce — 하둡 초기 배치 처리 엔진, SQL 없이 Java 코드 직접 작성]
+    │
+    ▼
+[Apache Hive — HiveQL로 MapReduce 추상화, SQL-on-Hadoop 구현]
+    │
+    ▼
+[Tez / LLAP (Live Long and Process) — 메모리 DAG 실행, Hive 성능 10배 향상]
+    │
+    ▼
+[Apache Spark SQL — RDD 대신 DataFrame API, Hive 메타스토어 호환 분석]
+    │
+    ▼
+[레이크하우스 (Lakehouse) — Delta Lake·Iceberg로 ACID 트랜잭션 SQL 분석]
+```
 
 이 흐름은 Java 코드 직접 작성이 필요했던 MapReduce에서 SQL [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)([Hive](/knowledge-base/studynote/05_database/04_transactions_concurrency/544_hive/))로 생산성이 향상되고, Tez·Spark으로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 대폭 개선되며 최종적으로 [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) 아키텍처에서 ACID SQL 분석이 실현되는 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 생태계 진화의 핵심 계보를 보여준다.
 

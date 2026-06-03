@@ -20,29 +20,30 @@ tags = ["studynote-bigdata"]
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 HBase는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 행 키(Row [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)) 순으로 정렬하여 여러 대의 리전 서버에 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 저장한다.
 
+```text
+[ Apache HBase Architecture ]
 
+     [ Client / App ] <--- ( ZooKeeper / Meta Table Lookup )
+            |
+    +-------V-------+       +-----------------------+
+    |   HMaster     | <---> |   ZooKeeper Quorum    |
+    | (Coordination)|       | (Status / Leader)     |
+    +-------+-------+       +-----------------------+
+            |
+    +-------V-------+       +-------V-------+
+    | Region Server |       | Region Server | (Worker)
+    | [MemStore]    |       | [MemStore]    | (LSM Tree)
+    | [HFile/WAL]   |       | [HFile/WAL]   |
+    +-------+-------+       +-------+-------+
+            |               |
+    [       HDFS Distributed Storage Layers       ]
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Apache HBase Architecture</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Client / App</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">- ( ZooKeeper / Meta Table Lookup )</div></div>
-<div class="kb-diagram-note">+-------V-------+ +-----------------------+</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HMaster</div><div class="kb-diagram-cell">&lt;---&gt;</div><div class="kb-diagram-cell">ZooKeeper Quorum</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Coordination)</div><div class="kb-diagram-cell">(Status / Leader)</div></div>
-<div class="kb-diagram-note">+-------V-------+ +-------V-------+</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Region Server</div><div class="kb-diagram-cell">Region Server</div><div class="kb-diagram-cell">(Worker)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MemStore</div><div class="kb-diagram-node">MemStore</div><div class="kb-diagram-note">(LSM Tree)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HFile/WAL</div><div class="kb-diagram-node">HFile/WAL</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HDFS Distributed Storage Layers</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Bilingual Storage Logic</div></div>
-<div class="kb-diagram-tree-item" style="--depth:0">Row Key (행 키): 데이터의 유일한 식별자. 정렬되어 인덱스 역할.</div>
-<div class="kb-diagram-tree-item" style="--depth:0">Column Family (컬럼 패밀리): 연관된 컬럼들의 논리적 그룹. 물리적 저장 단위.</div>
-<div class="kb-diagram-tree-item" style="--depth:0">MemStore (멤스토어): 쓰기 시 먼저 저장되는 인메모리 버퍼. (LSM-Tree 구조)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">HFile (에이치파일): MemStore가 꽉 차면 HDFS로 플러시되는 최종 파일.</div>
-</div>
-</div>
-
-
+[ Bilingual Storage Logic ]
+- Row Key (행 키): 데이터의 유일한 식별자. 정렬되어 인덱스 역할.
+- Column Family (컬럼 패밀리): 연관된 컬럼들의 논리적 그룹. 물리적 저장 단위.
+- MemStore (멤스토어): 쓰기 시 먼저 저장되는 인메모리 버퍼. (LSM-Tree 구조)
+- HFile (에이치파일): MemStore가 꽉 차면 HDFS로 플러시되는 최종 파일.
+```
 
 HBase는 [LSM-Tree](/knowledge-base/studynote/05_database/06_dw_olap_trends/377_lsm_tree_storage_engine/) 구조를 채택하여, [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 요청을 일단 메모리(MemStore)에 순차적으로 기록한 뒤 나중에 덩어리로 디스크(HFile)에 내려보낸다. 덕분에 디스크 랜덤 I/O를 피하고 압도적인 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 속도를 낸다.
 
@@ -74,23 +75,21 @@ HBase는 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">RDBMS (관계형 DB) — 행 기반 스키마, ACID 트랜잭션, 수직 확장 한계</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HBase — HDFS 위의 컬럼 패밀리 기반 분산 NoSQL, 수억 행 수평 확장</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">컬럼 패밀리 (Column Family) — 연관 컬럼 묶음을 동일 HFile에 배치, I/O 최적화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LSM-Tree (Log-Structured Merge Tree) — MemStore→HFile 계단식 병합으로 고속 쓰기</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Phoenix — HBase 위에 SQL 레이어를 추가, 기업 데이터 웨어하우스 확장</div></div>
-</div>
-</div>
-
-
+```text
+[RDBMS (관계형 DB) — 행 기반 스키마, ACID 트랜잭션, 수직 확장 한계]
+    │
+    ▼
+[HBase — HDFS 위의 컬럼 패밀리 기반 분산 NoSQL, 수억 행 수평 확장]
+    │
+    ▼
+[컬럼 패밀리 (Column Family) — 연관 컬럼 묶음을 동일 HFile에 배치, I/O 최적화]
+    │
+    ▼
+[LSM-Tree (Log-Structured Merge Tree) — MemStore→HFile 계단식 병합으로 고속 쓰기]
+    │
+    ▼
+[Apache Phoenix — HBase 위에 SQL 레이어를 추가, 기업 데이터 웨어하우스 확장]
+```
 
 이 흐름은 행 기반 RDBMS의 수직 확장 한계를 극복하기 위해 [HBase](/knowledge-base/studynote/05_database/04_transactions_concurrency/543_hbase/) 컬럼 패밀리 구조가 등장하고, [LSM-Tree](/knowledge-base/studynote/05_database/06_dw_olap_trends/377_lsm_tree_storage_engine/) 기반 고속 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 확보한 뒤, Phoenix SQL 레이어로 기업 분석 환경에 통합되는 컬럼형 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) NoSQL의 발전 계보를 보여준다.
 

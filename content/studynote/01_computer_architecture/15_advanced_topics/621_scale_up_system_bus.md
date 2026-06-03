@@ -42,22 +42,23 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 4소켓 [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 서버에서 "로컬 메모리"와 "원격 메모리" 경로가 어떻게 달라지는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4-Socket NUMA: local DRAM is near, remote DRAM crosses links</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CPU0</div><div class="kb-diagram-note">──UPI/IF──</div><div class="kb-diagram-node">CPU1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DRAM0 DRAM1</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CPU2</div><div class="kb-diagram-note">──UPI/IF──</div><div class="kb-diagram-node">CPU3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DRAM2 DRAM3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Local path : CPU0 -&gt; DRAM0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Remote path : CPU0 -&gt; UPI/IF -&gt; CPU1 -&gt; DRAM1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Coherence : cache state must be checked before remote data is used</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│        4-Socket NUMA: local DRAM is near, remote DRAM crosses links       │
+├────────────────────────────────────────────────────────────────────────────┤
+│  [CPU0]──UPI/IF──[CPU1]                                                   │
+│    │              │                                                       │
+│  DRAM0          DRAM1                                                     │
+│    │              │                                                       │
+│  [CPU2]──UPI/IF──[CPU3]                                                   │
+│    │              │                                                       │
+│  DRAM2          DRAM3                                                     │
+│                                                                            │
+│  Local path  : CPU0 -> DRAM0                                              │
+│  Remote path : CPU0 -> UPI/IF -> CPU1 -> DRAM1                            │
+│  Coherence   : cache state must be checked before remote data is used     │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 실제 운영에서는 로컬 메모리 접근이 대략 수십에서 100ns 안팎인 반면, 원격 메모리는 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 홉과 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)이 추가되어 더 큰 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 보인다. 그래서 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 버퍼 풀, 가상 머신 메모리, 분석 엔진 스레드를 해당 [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 노드에 가깝게 배치하는 것이 중요하다. 스케일 업 [시스템 버스](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/127_system_bus/)는 결국 "모든 CPU를 한 방에 모으는 기술"이 아니라, <strong>멀어진 메모리 거리를 인터커넥트와 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a> 제어로 견디게 만드는 기술</strong>이다.
 
@@ -122,23 +123,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">공유 버스 기반 SMP</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">NUMA + 소켓별 메모리 컨트롤러</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">QPI/UPI · Infinity Fabric</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">NUMA 스케줄링 · 디렉터리 기반 일관성 최적화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CXL 기반 메모리 확장</div>
-</div>
-</div>
-
-
+```text
+공유 버스 기반 SMP
+    │
+    ▼
+NUMA + 소켓별 메모리 컨트롤러
+    │
+    ▼
+QPI/UPI · Infinity Fabric
+    │
+    ▼
+NUMA 스케줄링 · 디렉터리 기반 일관성 최적화
+    │
+    ▼
+CXL 기반 메모리 확장
+```
 
 이 흐름은 "CPU를 많이 연결하는 문제"가 점차 "메모리와 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 얼마나 효율적으로 확장하는가"의 문제로 이동했음을 보여준다.
 

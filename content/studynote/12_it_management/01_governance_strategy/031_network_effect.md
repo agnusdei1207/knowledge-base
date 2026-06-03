@@ -18,24 +18,21 @@ tags = ["studynote-it-management"]
 
 ## Ⅰ. 개요 및 필요성
 
+```text
+메트칼프 법칙:
 
+사용자 수  가능한 연결 수
+  N=1    → 0
+  N=2    → 1
+  N=5    → 10
+  N=10   → 45
+  N=100  → 4,950
+  N=N    → N(N-1)/2 ≈ N²/2
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">메트칼프 법칙:</div>
-<div class="kb-diagram-note">사용자 수 가능한 연결 수</div>
-<div class="kb-diagram-note">N=1 → 0</div>
-<div class="kb-diagram-note">N=2 → 1</div>
-<div class="kb-diagram-note">N=5 → 10</div>
-<div class="kb-diagram-note">N=10 → 45</div>
-<div class="kb-diagram-note">N=100 → 4,950</div>
-<div class="kb-diagram-note">N=N → N(N-1)/2 ≈ N²/2</div>
-<div class="kb-diagram-note">→ 사용자 10배 증가 → 네트워크 가치 100배 증가!</div>
-<div class="kb-diagram-note">예: 카카오톡 1억명 → 4조 9,500억개 가능한 연결</div>
-</div>
-</div>
+→ 사용자 10배 증가 → 네트워크 가치 100배 증가!
 
-
+예: 카카오톡 1억명 → 4조 9,500억개 가능한 연결
+```
 
 - **📢 섹션 요약 비유**: [네트워크 효과](/knowledge-base/studynote/12_it_management/05_security_compliance/253_network_effect_metcalfe/)는 팩스기 가치다. 팩스가 세상에 1대만 있으면 가치 없음. 2대면 1개 연결, 100대면 4,950개 연결 가능. 사용자가 늘수록 가치가 기하급수적으로 커진다.
 
@@ -54,26 +51,22 @@ tags = ["studynote-it-management"]
 
 ### 임계 질량과 팁핑 포인트
 
+```text
+성장 곡선:
 
+사용자  가치
+  │         ╭──────── 자기 강화 성장
+  │        ╱
+  │  임계  ╱
+  │  질량 ╱
+  │─────/───────────→ 사용자 수
+        ↑
+     팁핑 포인트
+     (이후 기하급수 성장)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">성장 곡선:</div>
-<div class="kb-diagram-note">사용자 가치</div>
-<div class="kb-diagram-note">자기 강화 성장</div>
-<div class="kb-diagram-note">╱</div>
-<div class="kb-diagram-note">임계 ╱</div>
-<div class="kb-diagram-note">질량 ╱</div>
-<div class="kb-diagram-note">/ → 사용자 수</div>
-<div class="kb-diagram-connector">↑</div>
-<div class="kb-diagram-note">팁핑 포인트</div>
-<div class="kb-diagram-note">(이후 기하급수 성장)</div>
-<div class="kb-diagram-note">임계 질량 이전: 닭-달걀 문제 (공급자·소비자 모두 적음)</div>
-<div class="kb-diagram-note">임계 질량 이후: 네트워크 효과 자기 강화</div>
-</div>
-</div>
-
-
+임계 질량 이전: 닭-달걀 문제 (공급자·소비자 모두 적음)
+임계 질량 이후: 네트워크 효과 자기 강화
+```
 
 - **📢 섹션 요약 비유**: 임계 질량은 나무 불 지피기다. 처음에는 불씨(임계 질량)를 만드는 게 어렵지만, 불이 붙으면 스스로 퍼져나간다(자기 강화 성장). 플랫폼도 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 사용자 확보가 가장 어렵다.
 
@@ -146,23 +139,21 @@ NPS (Net Promoter Score): 추천 의향
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">통신 네트워크 — 팩스·전화 직접 네트워크 효과</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">인터넷 플랫폼 — SNS·마켓플레이스 양면 네트워크</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">임계 질량 — 팁핑 포인트 이후 자기 강화 성장</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 피드백 루프 — 사용자↑→데이터↑→AI↑</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AI 플라이휠 — 지속적 AI 개선 경쟁 우위</div></div>
-</div>
-</div>
-
-
+```text
+[통신 네트워크 — 팩스·전화 직접 네트워크 효과]
+    │
+    ▼
+[인터넷 플랫폼 — SNS·마켓플레이스 양면 네트워크]
+    │
+    ▼
+[임계 질량 — 팁핑 포인트 이후 자기 강화 성장]
+    │
+    ▼
+[데이터 피드백 루프 — 사용자↑→데이터↑→AI↑]
+    │
+    ▼
+[AI 플라이휠 — 지속적 AI 개선 경쟁 우위]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

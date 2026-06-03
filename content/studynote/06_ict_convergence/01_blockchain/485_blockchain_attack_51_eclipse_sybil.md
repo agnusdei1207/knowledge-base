@@ -23,18 +23,14 @@ tags = ["studynote-ict-convergence"]
 
 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 공격은 공략 계층에 따라 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)된다:
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">응용 계층(Application): 스마트 컨트랙트 취약점</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">합의 계층(Consensus): 51% 공격, Long-range</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">네트워크 계층(Network): 이클립스 공격</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">신원 계층(Identity): 시빌 공격</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────┐
+│  응용 계층(Application): 스마트 컨트랙트 취약점 │
+│  합의 계층(Consensus): 51% 공격, Long-range  │
+│  네트워크 계층(Network): 이클립스 공격         │
+│  신원 계층(Identity): 시빌 공격               │
+└──────────────────────────────────────────────┘
+```
 
 이 세 공격은 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 기술사 시험에서 가장 자주 출제되는 [네트워크 보안](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) 문제다.
 
@@ -46,33 +42,39 @@ tags = ["studynote-ict-convergence"]
 
 ### 3대 공격 메커니즘
 
+```
+51% 공격 (Proof-of-Work)
+┌────────────────────────────────────────────┐
+│ 공격자: 네트워크 해시레이트 51% 이상 확보    │
+│                                            │
+│ 일반 체인: A→B→C→D (공개)                 │
+│ 공격 체인: A→B→C'→D'→E' (비공개)          │
+│                                            │
+│ 이중 지불(Double Spending):                │
+│ 공개 체인에 Tx 승인 → 수신 확인             │
+│ 은밀히 더 긴 체인 구성 → 공개 브로드캐스트  │
+│ → 원래 Tx 취소, 코인 이중 사용              │
+└────────────────────────────────────────────┘
 
+이클립스 공격 (Eclipse Attack)
+┌────────────────────────────────────────────┐
+│ 피해 노드의 모든 P2P 연결을 공격자 노드로   │
+│ 독점 대체                                   │
+│                                            │
+│ 정상 노드 ─ ─ ─ ─ ─ ─ ─ ─ ─ ┐           │
+│ 정상 노드 ─ ─ [피해 노드] ─ ─ ─ 공격자 노드 │
+│ 정상 노드 ─ ─ ─ ─ ─ ─ ─ ─ ─ ┘           │
+│                                            │
+│ 결과: 피해 노드에 거짓 블록·트랜잭션 전달   │
+└────────────────────────────────────────────┘
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">51% 공격 (Proof-of-Work)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공격자: 네트워크 해시레이트 51% 이상 확보</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">일반 체인: A→B→C→D (공개)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공격 체인: A→B→C'→D'→E' (비공개)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이중 지불(Double Spending):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공개 체인에 Tx 승인 → 수신 확인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">은밀히 더 긴 체인 구성 → 공개 브로드캐스트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 원래 Tx 취소, 코인 이중 사용</div></div>
-<div class="kb-diagram-note">이클립스 공격 (Eclipse Attack)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">피해 노드의 모든 P2P 연결을 공격자 노드로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">독점 대체</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정상 노드 ─ ─ ─ ─ ─ ─ ─ ─ ─</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">정상 노드 ─ ─</div><div class="kb-diagram-node">피해 노드</div><div class="kb-diagram-note">─ ─ ─ 공격자 노드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정상 노드 ─ ─ ─ ─ ─ ─ ─ ─ ─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 피해 노드에 거짓 블록·트랜잭션 전달</div></div>
-<div class="kb-diagram-note">시빌 공격 (Sybil Attack)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단일 공격자가 수천 개의 가짜 노드 ID 생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ P2P 네트워크 과반 점유</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 투표 메커니즘 장악, 라우팅 오염</div></div>
-</div>
-</div>
-
-
+시빌 공격 (Sybil Attack)
+┌────────────────────────────────────────────┐
+│ 단일 공격자가 수천 개의 가짜 노드 ID 생성   │
+│ → P2P 네트워크 과반 점유                   │
+│ → 투표 메커니즘 장악, 라우팅 오염           │
+└────────────────────────────────────────────┘
+```
 
 ### 공격 비교표
 

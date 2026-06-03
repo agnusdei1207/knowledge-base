@@ -25,20 +25,18 @@ DPA가 중요한 이유는 강력한 [AES](/knowledge-base/studynote/03_network/
 
 아래 그림은 DPA가 "암호화 결과"가 아니라 <strong>전력 파형의 반복 수집</strong>을 시작점으로 삼는다는 점을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DPA setup: capture many traces while one secret key is reused</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Power source ── Rshunt ── Target chip</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── amplifier / oscilloscope -&gt; trace_i(t)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Inputs : P1, P2, P3, ...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Secret key: fixed during measurement</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Goal : correlate traces with guessed intermediate values</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│ DPA setup: capture many traces while one secret key is reused   │
+├──────────────────────────────────────────────────────────────────┤
+│ Power source ── Rshunt ── Target chip                           │
+│                    │                                             │
+│                    └── amplifier / oscilloscope -> trace_i(t)   │
+│ Inputs    : P1, P2, P3, ...                                     │
+│ Secret key: fixed during measurement                            │
+│ Goal      : correlate traces with guessed intermediate values    │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 즉 DPA는 "기계를 열어보지 않고도, 전기 사용 습관만 모아 비밀을 추론하는 것"이다. 그래서 작은 스마트카드, MCU ([Microcontroller](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/130_microcontroller/) Unit), 보안 토큰처럼 외형은 단순해도 반복 동작이 가능한 장치에 특히 치명적이다.
 
@@ -67,20 +65,20 @@ DPA의 물리적 토대는 동적 전력의 [데이터](/knowledge-base/studynot
 
 아래 그림은 수많은 trace 속에서 올바른 키 가설만 뚜렷한 peak를 남기는 상황을 개념적으로 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Correct key guess creates a visible statistical peak</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">score</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">^</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">wrong guesses _ _ _</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">________________/______________\__________ time</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ \ correct guess</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│ Correct key guess creates a visible statistical peak            │
+├──────────────────────────────────────────────────────────────────┤
+│ score                                                           │
+│  ^                                                              │
+│  |   wrong guesses  _  _  _                                     │
+│  |                 / \/ \/ \__                                  │
+│  |________________/______________\__________ time               │
+│  |                               /\                             │
+│  |                              /  \  correct guess             │
+│  +───────────────────────────────────────────────────────────▶  │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 결국 DPA는 전력 파형의 절대값보다 <strong>입력 변화에 따라 같은 시간축에서 얼마나 일관된 차이가 반복되는가</strong>를 읽는다. 그래서 노이즈가 크더라도 반복 횟수가 충분하면 공격이 성립할 수 있다.
 
@@ -161,23 +159,21 @@ DPA를 이해하면 보안 칩 설계가 단순히 "정답을 계산하는 회�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">CMOS 스위칭 전력 누설</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SPA (단일 trace 관찰)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DPA (그룹 평균 차 분석)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CPA · 고차 DPA · ML 기반 분류</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Masking · Shuffling · DPA 내성 논리 · TVLA 검증</div>
-</div>
-</div>
-
-
+```text
+CMOS 스위칭 전력 누설
+    │
+    ▼
+SPA (단일 trace 관찰)
+    │
+    ▼
+DPA (그룹 평균 차 분석)
+    │
+    ▼
+CPA · 고차 DPA · ML 기반 분류
+    │
+    ▼
+Masking · Shuffling · DPA 내성 논리 · TVLA 검증
+```
 
 이 흐름은 물리 누설의 발견이 공격 통계의 정교화로 이어지고, 다시 설계·[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)의 다층 방어 체계로 발전하는 과정을 요약한다.
 

@@ -32,24 +32,25 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오토인코더 vs VAE 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오토인코더</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">입력x ─►</div><div class="kb-diagram-node">인코더</div><div class="kb-diagram-note">─► z (결정론적) ─►</div><div class="kb-diagram-node">디코더</div><div class="kb-diagram-note">─► x̂</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(병목층)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VAE</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">입력x ─►</div><div class="kb-diagram-node">인코더</div><div class="kb-diagram-note">─► μ, σ (분포 파라미터)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 재파라미터화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">z = μ + σ·ε (ε~N(0,I))</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">디코더</div><div class="kb-diagram-note">─► x̂</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">손실: 재구성 손실 + KL 발산(D_KL</div><div class="kb-diagram-node">q(z|x)‖p(z)</div><div class="kb-diagram-note">)</div></div>
-</div>
-</div>
-
-
+```
+┌───────────────────────────────────────────────────────┐
+│           오토인코더 vs VAE 구조                        │
+│                                                       │
+│  오토인코더                                            │
+│  입력x ─►[인코더]─► z (결정론적) ─►[디코더]─► x̂      │
+│                     (병목층)                           │
+│                                                       │
+│  VAE                                                  │
+│  입력x ─►[인코더]─► μ, σ (분포 파라미터)              │
+│                        │                              │
+│                        ▼ 재파라미터화                  │
+│                   z = μ + σ·ε (ε~N(0,I))             │
+│                        │                              │
+│                   [디코더]─► x̂                        │
+│                                                       │
+│  손실: 재구성 손실 + KL 발산(D_KL[q(z|x)‖p(z)])      │
+└───────────────────────────────────────────────────────┘
+```
 
 <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/335_autoencoder/">오토인코더</a> 변형</strong>
 

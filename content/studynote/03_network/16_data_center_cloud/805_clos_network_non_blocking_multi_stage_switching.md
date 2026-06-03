@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 10대의 전화를 10대의 전화와 1:1로 엮어주려면([크로스바 스위치](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/388_crossbar_switch/)), 교차점(스위칭 소자)이 $[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) \times [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) = 100$개가 필요합니다.
 - 만약 1,000대의 전화를 엮으려면 교차점이 무려 $1,000 \times 1,000 = 1,000,000$ (100만) 개가 필요합니다! 장비 크기가 기하급수적으로 커지고 열이 펄펄 끓어 상용화 자체가 불가능했습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">ECMP 스파인-리프 병렬 라우팅 경로 활성…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Clos 네트워크</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">North-South 트래픽</div></div>
-</div>
-</div>
-
-
+```text
+[ECMP 스파인-리프 병렬 라우팅 경로 활성…]
+    │
+    ▼
+[Clos 네트워크]
+    │
+    └──▶ [North-South 트래픽]
+```
 
 - **📢 섹션 요약 비유**: Clos 네트워크는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -54,18 +50,14 @@ tags = ["studynote-network"]
 ### 3. [Egress](/knowledge-base/studynote/16_bigdata/09_platform/189_egress/) Stage (출력단)
 - 중간 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에서 빠져나온 데이터를 받아 목적지 서버로 넘겨주는 최종 관문입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">ECMP 스파인-리프 병렬 라우팅 경로 활성…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Clos 네트워크</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">North-South 트래픽</div></div>
-</div>
-</div>
-
-
+```text
+[ECMP 스파인-리프 병렬 라우팅 경로 활성…]
+    │
+    ▼
+[Clos 네트워크]
+    │
+    └──▶ [North-South 트래픽]
+```
 
 - **📢 섹션 요약 비유**: Clos 네트워크의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -130,19 +122,15 @@ Clos 네트워크는 데이터센터와 클라우드 네트워크를 이해할 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: ECMP 스파인-리프 병렬 라우팅 경로 활성…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: Clos 네트워크</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: North-South 트래픽</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: ECMP 스파인-리프 병렬 라우팅 경로 활성…]
+    │
+    ▼
+[현재 개념: Clos 네트워크]
+    │
+    ├──▶ [확장 A: North-South 트래픽]
+    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
+```
 
 Clos 네트워크는 [ECMP](/knowledge-base/studynote/03_network/16_data_center_cloud/804_ecmp_equal_cost_multi_path_routing_load_balancing/) 스파인-리프 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 경로 활성…에서 출발해 현재 메커니즘을 정교화하고, 이후 North-South 트래픽와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

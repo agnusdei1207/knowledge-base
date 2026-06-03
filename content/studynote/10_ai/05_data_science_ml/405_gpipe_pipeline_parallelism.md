@@ -26,17 +26,14 @@ tags = ["studynote-ai"]
 - **학습 효율화**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Parallelism)와 결합하여 대규모 클러스터에서의 학습 속도 향상
 - **재연 가능성**: 복잡한 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 속에서도 수학적으로 동일한 그래디언트 계산 결과 보장
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: GPipe는 혼자서 자동차 한 대를 다 만드는 대신, 프레임을 만드는 사람, 엔진을 얹는 사람, 문을 다는 사람으로 나누어 여러 대의 차를 동시에 조립해 나가는 공장 시스템과 같다.
 
@@ -52,21 +49,21 @@ GPipe는 모델을 수직으로 분할하고, 입력을 수평으로 분할하�
 | <strong>Micro-<a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/389_bulk_insert_batching_optimization/">batching</a></strong> | 하나의 배치(Mini-batch)를 더 작은 단위(Micro-batch)로 분할 | [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 가동률 향상의 핵심 |
 | **Re-materialization** | 메모리 절약을 위해 중간 활성 값을 저장하지 않고 필요 시 재계산 | 메모리 사용량과 연산 시간의 트레이드오프 |
 
+```text
+[ GPipe 파이프라인 실행 흐름 ]
 
+   Time ──▶
+         ┌──────┬──────┬──────┬──────┐
+   GPU 3 │  M3  │  M2  │  M1  │  M0  │ (Backward)
+         ├──────┼──────┼──────┼──────┤
+   GPU 2 │      │      │      │      │ ...
+         ├──────┼──────┼──────┼──────┤
+   GPU 1 │  M0  │  M1  │  M2  │  M3  │ (Forward)
+         └──────┴──────┴──────┴──────┘
+           Micro-batches (M0, M1, M2, M3)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">GPipe 파이프라인 실행 흐름</div></div>
-<div class="kb-diagram-note">Time ──▶</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GPU 3</div><div class="kb-diagram-cell">M3</div><div class="kb-diagram-cell">M2</div><div class="kb-diagram-cell">M1</div><div class="kb-diagram-cell">M0</div><div class="kb-diagram-cell">(Backward)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GPU 2</div><div class="kb-diagram-cell">...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GPU 1</div><div class="kb-diagram-cell">M0</div><div class="kb-diagram-cell">M1</div><div class="kb-diagram-cell">M2</div><div class="kb-diagram-cell">M3</div><div class="kb-diagram-cell">(Forward)</div></div>
-<div class="kb-diagram-note">Micro-batches (M0, M1, M2, M3)</div>
-<div class="kb-diagram-note">* Bubble (유휴 시간): 파이프라인이 가득 차기 전후의 빈 공간</div>
-</div>
-</div>
-
-
+   * Bubble (유휴 시간): 파이프라인이 가득 차기 전후의 빈 공간
+```
 
 **동작 메커니즘**:
 1. <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/">Forward</a> Pass</strong>: 첫 번째 GPU가 첫 마이크로 배치를 연산하여 다음 GPU로 넘기고, 바로 두 번째 마이크로 배치를 연산하기 시작한다.

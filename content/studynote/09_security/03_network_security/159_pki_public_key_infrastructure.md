@@ -35,24 +35,24 @@ PKI의 핵심 구성은 [인증](/knowledge-base/studynote/04_software_engineeri
 
 아래 그림은 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서 발급과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)의 흐름을 요약한 것이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PKI의 발급·검증 신뢰 사슬</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">발급 단계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Subject(서버/사용자) -&gt; RA 신원 확인 -&gt; CA 서명 -&gt; 인증서 발급</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">검증 단계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client &lt;- 서버 인증서 제시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 인증서 유효기간 확인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 서명자 CA 확인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Root CA 신뢰 저장소와 체인 검증</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ CRL/OCSP로 폐기 여부 확인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: "키를 받음"이 아니라 "키의 주인을 검증함"</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│                 PKI의 발급·검증 신뢰 사슬                         │
+├────────────────────────────────────────────────────────────────────┤
+│ [발급 단계]                                                       │
+│ Subject(서버/사용자) -> RA 신원 확인 -> CA 서명 -> 인증서 발급    │
+│                                                                    │
+│ [검증 단계]                                                       │
+│ Client <- 서버 인증서 제시                                         │
+│   │                                                                │
+│   ├─ 인증서 유효기간 확인                                          │
+│   ├─ 서명자 CA 확인                                                │
+│   ├─ Root CA 신뢰 저장소와 체인 검증                              │
+│   └─ CRL/OCSP로 폐기 여부 확인                                    │
+│                                                                    │
+│ 결과: "키를 받음"이 아니라 "키의 주인을 검증함"                 │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 핵심은 사용자가 서버의 공개키를 그냥 받는 것이 아니라, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 경로 (Certificate Chain)를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다는 점이다. 루트 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)기관 (Root [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/))의 공개키는 운영체제나 브라우저의 신뢰 저장소에 미리 탑재되어 있고, 중간 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)기관 (Intermediate [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/))이 그 아래에서 실제 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 발급한다. 사용자는 이 사슬 전체가 끊기지 않고, 유효기간과 폐기 상태까지 문제가 없을 때만 신뢰를 부여한다.
 
@@ -134,25 +134,22 @@ PKI의 가장 큰 효과는 서로 처음 만나는 주체들 사이에 신뢰�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">공개키 암호 도입</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">공개키 진위 문제 발생</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">PKI 구축</div>
-<div class="kb-diagram-tree-item" style="--depth:2">CA/RA 운영</div>
-<div class="kb-diagram-tree-item" style="--depth:2">X.509 인증서 발급</div>
-<div class="kb-diagram-tree-item" style="--depth:2">체인 검증</div>
-<div class="kb-diagram-tree-item" style="--depth:2">CRL/OCSP 폐기 확인</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">HTTPS · 전자서명 · VPN · 기기 인증 확산</div>
-</div>
-</div>
-
-
+```text
+공개키 암호 도입
+    │
+    ▼
+공개키 진위 문제 발생
+    │
+    ▼
+PKI 구축
+    ├─ CA/RA 운영
+    ├─ X.509 인증서 발급
+    ├─ 체인 검증
+    └─ CRL/OCSP 폐기 확인
+    │
+    ▼
+HTTPS · 전자서명 · VPN · 기기 인증 확산
+```
 
 이 흐름도는 공개키 암호가 실제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 인프라가 되기 위해, [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 위에 별도의 신뢰 운영 체계가 덧붙여졌음을 보여준다.
 

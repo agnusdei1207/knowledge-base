@@ -26,18 +26,14 @@ tags = ["studynote-network"]
   - 신버전(V2) 서버를 켜두고, 처음엔 **전체 트래픽의 딱 1%만 V2로 꺾어버립니다.** 에러가 안 터지는 걸 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하면 5%, [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%, 100%로 밸브를 서서히 열어 V1을 자연스럽게 멸망시킵니다.
   - **A/B 테스트와의 차이**: [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)는 "이 코드가 에러를 뿜는지 안 뿜는지(안정성)"가 목적이고, A/B 테스트는 "파란 버튼과 빨간 버튼 중 어떤 게 매출이 높은지(비즈니스 가치)"가 목적입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">mTLS 마이크로서비스 간 신뢰 통신 양방향…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">트래픽 섀도잉 및 카나리 배포</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">로드 밸런싱</div></div>
-</div>
-</div>
-
-
+```text
+[mTLS 마이크로서비스 간 신뢰 통신 양방향…]
+    │
+    ▼
+[트래픽 섀도잉 및 카나리 배포]
+    │
+    └──▶ [로드 밸런싱]
+```
 
 - **📢 섹션 요약 비유**: [트래픽 섀도잉](/knowledge-base/studynote/15_devops_sre/03_sre_observability/167_traffic_shadowing_sre_testing/) 및 [카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/)는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -54,18 +50,14 @@ tags = ["studynote-network"]
 - 하지만 L7 라우터는 V2가 보낸 응답(Response)을 **절대 클라이언트(사용자 폰)에게 돌려주지 않고 그 자리에서 찢어서 쓰레기통에 버립니다.** 오직 V1의 정상 응답만 손님에게 줍니다. 
 - 손님은 자기가 V2 서버의 [베타 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/408_beta_test/) 마루타가 된 줄 꿈에도 모른 채 정상 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 즐깁니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">mTLS 마이크로서비스 간 신뢰 통신 양방향…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">트래픽 섀도잉 및 카나리 배포</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">로드 밸런싱</div></div>
-</div>
-</div>
-
-
+```text
+[mTLS 마이크로서비스 간 신뢰 통신 양방향…]
+    │
+    ▼
+[트래픽 섀도잉 및 카나리 배포]
+    │
+    └──▶ [로드 밸런싱]
+```
 
 - **📢 섹션 요약 비유**: [트래픽 섀도잉](/knowledge-base/studynote/15_devops_sre/03_sre_observability/167_traffic_shadowing_sre_testing/) 및 [카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -122,19 +114,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: mTLS 마이크로서비스 간 신뢰 통신 양방향…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 트래픽 섀도잉 및 카나리 배포</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 로드 밸런싱</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: mTLS 마이크로서비스 간 신뢰 통신 양방향…]
+    │
+    ▼
+[현재 개념: 트래픽 섀도잉 및 카나리 배포]
+    │
+    ├──▶ [확장 A: 로드 밸런싱]
+    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
+```
 
 [트래픽 섀도잉](/knowledge-base/studynote/15_devops_sre/03_sre_observability/167_traffic_shadowing_sre_testing/) 및 [카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/)는 [mTLS](/knowledge-base/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/) [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 간 신뢰 통신 양방향…에서 출발해 현재 메커니즘을 정교화하고, 이후 [로드 밸런싱](/knowledge-base/studynote/03_network/16_data_center_cloud/833_load_balancing_l4_l7_switch_traffic_distribution/)와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

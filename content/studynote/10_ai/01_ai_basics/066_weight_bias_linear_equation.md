@@ -98,41 +98,29 @@ Weight와 Bias는 신경망에서 가장 기본적이면서도 중요한 학습 
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">y = Wx + b</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Activation</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Neuron</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Neural Network</div>
-</div>
-</div>
-
-
+```text
+y = Wx + b
+  ↓
+Activation
+  ↓
+Neuron
+  ↓
+Neural Network
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Linear Equation</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Weight / Bias</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Perceptron</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">DNN</div>
-</div>
-</div>
-
-
+```text
+Linear Equation
+  ↓
+Weight / Bias
+  ↓
+Perceptron
+  ↓
+DNN
+```
 
 ---
 

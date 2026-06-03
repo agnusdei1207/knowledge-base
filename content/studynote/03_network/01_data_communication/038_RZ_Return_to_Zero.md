@@ -47,27 +47,24 @@ RZ (Return to Zero):
 
 ## II. RZ vs NRZ [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 비교
 
+```
+동일 데이터(1Mbps)를 전송할 때:
 
+NRZ:
+  비트 주기 = 1/1Mbps = 1μs
+  신호 전환 최대 = 1MHz (1Mbps에서)
+  대역폭 요구 ≈ 0.5MHz
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">동일 데이터(1Mbps)를 전송할 때:</div>
-<div class="kb-diagram-note">NRZ:</div>
-<div class="kb-diagram-note">비트 주기 = 1/1Mbps = 1μs</div>
-<div class="kb-diagram-note">신호 전환 최대 = 1MHz (1Mbps에서)</div>
-<div class="kb-diagram-note">대역폭 요구 ≈ 0.5MHz</div>
-<div class="kb-diagram-note">RZ:</div>
-<div class="kb-diagram-note">비트 주기 = 1μs이지만</div>
-<div class="kb-diagram-note">신호 전환 = 비트 당 2번 (1MHz → 0V, 다음 비트)</div>
-<div class="kb-diagram-note">대역폭 요구 ≈ 1MHz (NRZ의 2배!)</div>
-<div class="kb-diagram-note">결론:</div>
-<div class="kb-diagram-note">RZ = NRZ 대비 2배 대역폭 소비</div>
-<div class="kb-diagram-tree-item" style="--depth:1">대역폭이 비싼 유선 통신에서 비효율적</div>
-<div class="kb-diagram-tree-item" style="--depth:1">광섬유처럼 대역폭이 풍부한 곳에서 활용</div>
-</div>
-</div>
+RZ:
+  비트 주기 = 1μs이지만
+  신호 전환 = 비트 당 2번 (1MHz → 0V, 다음 비트)
+  대역폭 요구 ≈ 1MHz  (NRZ의 2배!)
 
-
+결론:
+  RZ = NRZ 대비 2배 대역폭 소비
+  -> 대역폭이 비싼 유선 통신에서 비효율적
+  -> 광섬유처럼 대역폭이 풍부한 곳에서 활용
+```
 
 > 📢 **섹션 요약 비유**: RZ로 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보내려면 도로가 2배 넓어야 한다 — 자동 리듬은 좋지만 비용이 두 배.
 

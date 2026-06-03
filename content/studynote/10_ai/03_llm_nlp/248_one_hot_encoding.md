@@ -23,31 +23,19 @@ tags = ["studynote-ai"]
 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 모델은 수치 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 처리할 수 있다. 범주형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(색상, 직업, 도시명 등)를 단순히 정수로 매핑하면(레이블 인코딩) 모델이 숫자 간 크기/순서 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 잘못 학습할 수 있다.
 
 **문제 예시: 레이블 인코딩의 함정**
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">빨강=0, 초록=1, 파랑=2</div>
-<div class="kb-diagram-note">→ 모델이 "파랑(2) = 빨강(0) + 초록(1) × 2" 라는 잘못된 관계 학습</div>
-<div class="kb-diagram-note">→ 실제로 색상 간에는 이런 수치적 관계가 없음</div>
-</div>
-</div>
-
-
+```
+빨강=0, 초록=1, 파랑=2
+→ 모델이 "파랑(2) = 빨강(0) + 초록(1) × 2" 라는 잘못된 관계 학습
+→ 실제로 색상 간에는 이런 수치적 관계가 없음
+```
 
 <strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/">원-핫 인코딩</a> 해결책:</strong>
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">1, 0, 0</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">0, 1, 0</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">0, 0, 1</div></div>
-<div class="kb-diagram-note">→ 세 범주는 완전히 독립적인 이진 변수로 표현됨</div>
-</div>
-</div>
-
-
+```
+빨강 → [1, 0, 0]
+초록 → [0, 1, 0]
+파랑 → [0, 0, 1]
+→ 세 범주는 완전히 독립적인 이진 변수로 표현됨
+```
 
 ### 1.2 적용 대상 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)
 
@@ -66,28 +54,31 @@ tags = ["studynote-ai"]
 
 ### 2.1 [원-핫 인코딩](/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/) 변환 과정
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원-핫 인코딩 변환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원본 데이터:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">샘플</div><div class="kb-diagram-cell">색상</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">#1</div><div class="kb-diagram-cell">빨강</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">#2</div><div class="kb-diagram-cell">초록</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">#3</div><div class="kb-diagram-cell">파랑</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">#4</div><div class="kb-diagram-cell">빨강</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↓ 원-핫 인코딩 적용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">샘플</div><div class="kb-diagram-cell">빨강</div><div class="kb-diagram-cell">초록</div><div class="kb-diagram-cell">파랑</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">#1</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">#2</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">#3</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">#4</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">n개 범주 → n개 이진 열 생성</div></div>
-</div>
-</div>
-
-
+```
+┌───────────────────────────────────────────────────────┐
+│                원-핫 인코딩 변환                        │
+│                                                       │
+│  원본 데이터:                                           │
+│  ┌───────┬──────┐                                     │
+│  │ 샘플  │ 색상 │                                     │
+│  ├───────┼──────┤                                     │
+│  │  #1   │ 빨강 │                                     │
+│  │  #2   │ 초록 │                                     │
+│  │  #3   │ 파랑 │                                     │
+│  │  #4   │ 빨강 │                                     │
+│  └───────┴──────┘                                     │
+│         ↓ 원-핫 인코딩 적용                              │
+│  ┌───────┬────────┬────────┬────────┐                 │
+│  │ 샘플  │ 빨강   │ 초록   │ 파랑   │                 │
+│  ├───────┼────────┼────────┼────────┤                 │
+│  │  #1   │   1    │   0    │   0    │                 │
+│  │  #2   │   0    │   1    │   0    │                 │
+│  │  #3   │   0    │   0    │   1    │                 │
+│  │  #4   │   1    │   0    │   0    │                 │
+│  └───────┴────────┴────────┴────────┘                 │
+│    n개 범주 → n개 이진 열 생성                           │
+└───────────────────────────────────────────────────────┘
+```
 
 ### 2.2 가변수 ([Dummy Variable](/knowledge-base/studynote/06_ict_convergence/05_data_science/330_dummy_variable/)) [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)
 
@@ -96,18 +87,12 @@ n개 범주에 n개 열을 [생성](/knowledge-base/studynote/02_operating_syste
 - 선형 모델에서 역행렬 계산 불가 문제 발생
 - **해결책**: 가변수 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) 방지 — n-1개 열만 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) (`drop_first=True`)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">n범주 원-핫 인코딩: 다중공선성 없는 인코딩:</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1, 0, 0</div><div class="kb-diagram-node">1, 0</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">파랑은 나머지로 식별</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">0, 1, 0</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">0, 1</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">0, 0, 1</div><div class="kb-diagram-node">0, 0</div></div>
-</div>
-</div>
-
-
+```
+n범주 원-핫 인코딩:    다중공선성 없는 인코딩:
+[1, 0, 0]           [1, 0]    ← 파랑은 나머지로 식별
+[0, 1, 0]    →      [0, 1]
+[0, 0, 1]           [0, 0]
+```
 
 ### 2.3 [원-핫 인코딩](/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/) vs [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) ([Embedding](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)) 비교
 

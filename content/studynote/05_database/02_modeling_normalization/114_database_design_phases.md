@@ -18,26 +18,28 @@ tags = ["studynote-database"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DB 설계 3단계 흐름도</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">요구 분석</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"고객이 주문하고, 상품을 배송한다"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1단계: 개념 설계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">산출물: ERD (엔터티·속성·관계)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DBMS 독립, 비즈니스 관점</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2단계: 논리 설계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">산출물: 릴레이션 스키마 (테이블·PK·FK)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정규화 (3NF/BCNF), DBMS 유형 결정</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3단계: 물리 설계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">산출물: 물리 테이블·인덱스·역정규화·파티셔닝</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">성능 최적화, 특정 DBMS 종속</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    DB 설계 3단계 흐름도                                │
+├───────────────────────────────────────────────────────┤
+│  [요구 분석]                                          │
+│      │  "고객이 주문하고, 상품을 배송한다"             │
+│      ▼                                                │
+│  [1단계: 개념 설계]                                   │
+│      산출물: ERD (엔터티·속성·관계)                    │
+│      DBMS 독립, 비즈니스 관점                          │
+│      │                                                │
+│      ▼                                                │
+│  [2단계: 논리 설계]                                   │
+│      산출물: 릴레이션 스키마 (테이블·PK·FK)            │
+│      정규화 (3NF/BCNF), DBMS 유형 결정                │
+│      │                                                │
+│      ▼                                                │
+│  [3단계: 물리 설계]                                   │
+│      산출물: 물리 테이블·인덱스·역정규화·파티셔닝      │
+│      성능 최적화, 특정 DBMS 종속                      │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 개념 설계는 건물의 조감도(어떤 방이 있는지), [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 설계는 평면도(방 크기·문 위치), 물리 설계는 시공 도면(콘크리트 두께·배관 위치)이다.
 
@@ -107,23 +109,21 @@ tags = ["studynote-database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">ER 모델 (Chen, 1976) — 개념 설계 체계 확립</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">정규화 이론 (Codd, 1970s) — 논리 설계 수학적 기반</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">물리 설계 패턴 (1990s) — 인덱스·역정규화·파티셔닝</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Schema-as-Code (2020s) — Prisma·DBdiagram.io</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: AI 기반 스키마 추천 — 요구사항에서 ERD 자동 생성</div></div>
-</div>
-</div>
-
-
+```text
+[ER 모델 (Chen, 1976) — 개념 설계 체계 확립]
+    │
+    ▼
+[정규화 이론 (Codd, 1970s) — 논리 설계 수학적 기반]
+    │
+    ▼
+[물리 설계 패턴 (1990s) — 인덱스·역정규화·파티셔닝]
+    │
+    ▼
+[Schema-as-Code (2020s) — Prisma·DBdiagram.io]
+    │
+    ▼
+[현재: AI 기반 스키마 추천 — 요구사항에서 ERD 자동 생성]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. <strong>개념 설계</strong>는 "이 집에는 거실·부엌·침실이 필요해!"라고 <strong>큰 그림</strong>을 그리는 거예요.

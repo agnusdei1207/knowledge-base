@@ -30,27 +30,32 @@ tags = ["studynote-network"]
   2. **Netscape의 혁신**: 1994년 넷스케이프 엔지니어 루 몬툴리(Lou Montulli)가 유닉스 프로그래밍에서 문맥을 유지하기 위해 주고받던 '매직 쿠키(Magic Cookie)' 개념을 HTTP에 이식하여 탄생시켰다.
   3. **보안의 진화**: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 쿠키는 평문으로 주고받아 해킹에 취약했으나, [XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/), [CSRF](/knowledge-base/studynote/03_network/14_network_security_threats/728_csrf_cross_site_request_forgery_concept/) 같은 웹 해킹 공격이 발전함에 따라 이를 방어하기 위한 다양한 보안 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)(HttpOnly, Secure, SameSite)들이 추가 스펙으로 진화했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HTTP 쿠키(Cookie)의 생명 주기 흐름</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Client / Browser</div><div class="kb-diagram-node">Web Server</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. POST /login (ID=admin, PW=123)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(로그인 성공 및 인증)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 200 OK</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Set-Cookie: session_id=ABC123XYZ;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HttpOnly; Secure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">저장</div><div class="kb-diagram-cell">◀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">(이후 해당 도메인으로의 모든 통신)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. GET /cart (장바구니 보여줘)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cookie: session_id=ABC123XYZ</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(서버: 아, 아까 그 admin이군)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 200 OK (장바구니 데이터 반환)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 HTTP 쿠키(Cookie)의 생명 주기 흐름             │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ [Client / Browser]                           [Web Server]   │
+│         │                                         │         │
+│         │ 1. POST /login (ID=admin, PW=123)       │         │
+│         │────────────────────────────────────────▶│         │
+│         │                                (로그인 성공 및 인증)│
+│         │                                         │         │
+│         │ 2. 200 OK                               │         │
+│   ┌─────│    Set-Cookie: session_id=ABC123XYZ;    │         │
+│   │     │                HttpOnly; Secure         │         │
+│저장│     │◀────────────────────────────────────────│         │
+│   │     │                                         │         │
+│   └────▶│ (이후 해당 도메인으로의 모든 통신)            │         │
+│         │                                         │         │
+│         │ 3. GET /cart (장바구니 보여줘)             │         │
+│         │    Cookie: session_id=ABC123XYZ         │         │
+│         │────────────────────────────────────────▶│         │
+│         │                          (서버: 아, 아까 그 admin이군)│
+│         │ 4. 200 OK (장바구니 데이터 반환)             │         │
+│         │◀────────────────────────────────────────│         │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 클라이언트가 로그인을 성공하면, 서버는 2번 단계에서 `Set-Cookie` 헤더를 통해 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)(session_id)를 브라우저에 하달한다. 브라우저는 이 쿠키를 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)(bank.com) 기준으로 철저히 보관한다. 핵심은 3번 단계다. 이후 사용자가 "장바구니", "마이페이지" 등 어떤 링크를 클릭하든, 브라우저가 개발자의 코딩 유무와 상관없이 해당 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에 대한 쿠키를 **자동으로 알아서** `Cookie` 헤더에 담아 전송한다는 점이다. 서버는 이 식별표를 보고 Stateless한 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 위에서도 Stateful한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 맥락을 이어간다. 이 "브라우저의 자동 전송" [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이 쿠키의 축복이자 동시에 치명적 취약점([CSRF](/knowledge-base/studynote/03_network/14_network_security_threats/728_csrf_cross_site_request_forgery_concept/))의 근원이 된다.
 
@@ -82,25 +87,30 @@ tags = ["studynote-network"]
    사용자가 은행에 로그인(쿠키 보유)된 상태에서, 해커가 메일로 보낸 매력적인 고양이 사진 링크(`해커.com`)를 누른다. 해커 사이트 안에 `<img src="은행.com/송금?to=해커">` 같은 태그가 숨어있다. 브라우저는 `은행.com`으로 요청을 보낼 때 **자동으로 은행 쿠키를 실어 보내므로**, 서버 입장에서는 정상 로그인 유저의 송금 요청으로 판단하고 돈을 보낸다.
    ➔ **방어**: `SameSite=Lax` (크롬 등 현대 브라우저 기본값) 또는 `Strict`를 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하면, `해커.com`에서 `은행.com`으로 요청이 넘어갈 때 브라우저가 쿠키 전송을 차단(Drop)하여 위조된 요청을 막아버린다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SameSite 속성을 통한 CSRF(요청 위조) 방어 원리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">희생자 브라우저</div><div class="kb-diagram-note">- (은행.com 로그인 상태, 쿠키 보유)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 악성사이트(해커.com) 방문</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 악성코드 실행: "은행.com/해커에게_송금" API 몰래 호출</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">브라우저 엔진의 SameSite 정책 판별 로직</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지금 요청을 보내는 출발지가 목적지(은행)와 같은가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Top-level site: 해커.com ≠ 대상: 은행.com)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SameSite=None</div><div class="kb-diagram-node">SameSite=Lax(기본)</div><div class="kb-diagram-node">SameSite=Strict</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">쿠키 전송 뚫림! 쿠키 전송 차단 (Drop) 쿠키 전송 차단</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(서드파티 허용) (안전한 GET 이동만 허용) (100% 무조건 차단)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💥 해킹(송금) 성공 ✅ 은행 서버 인증 실패 ✅ 은행 서버 인증 실패</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          SameSite 속성을 통한 CSRF(요청 위조) 방어 원리        │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ [희생자 브라우저] - (은행.com 로그인 상태, 쿠키 보유)                │
+│                                                             │
+│ 1. 악성사이트(해커.com) 방문                                    │
+│ 2. 악성코드 실행: "은행.com/해커에게_송금" API 몰래 호출           │
+│                                                             │
+│        [ 브라우저 엔진의 SameSite 정책 판별 로직 ]              │
+│                           │                                 │
+│        지금 요청을 보내는 출발지가 목적지(은행)와 같은가?             │
+│        (Top-level site: 해커.com ≠ 대상: 은행.com)          │
+│                           │                                 │
+│          ┌────────────────┼────────────────┐                │
+│          ▼                ▼                ▼                │
+│ [SameSite=None]   [SameSite=Lax(기본)]   [SameSite=Strict]  │
+│  쿠키 전송 뚫림!      쿠키 전송 차단 (Drop)    쿠키 전송 차단      │
+│  (서드파티 허용)       (안전한 GET 이동만 허용)  (100% 무조건 차단)   │
+│          │                │                │                │
+│ 💥 해킹(송금) 성공    ✅ 은행 서버 인증 실패    ✅ 은행 서버 인증 실패 │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** SameSite [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)은 브라우저 엔진에 "내가 접속해 있는 현재 주소창의 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)([1st Party](/knowledge-base/studynote/12_it_management/05_security_compliance/279_cdp_first_party/))과 백그라운드로 API를 찌르려는 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)([3rd Party](/knowledge-base/studynote/05_database/06_dw_olap_trends/385_third_party_cookie_deprecation_cdw/))이 다를 경우, 쿠키를 보내지 마라"는 엄격한 명령이다. `Strict`는 무조건 안 보내고, `Lax`는 사용자가 링크를 클릭해 직접 페이지를 이동하는 안전한 GET 요청(Top-level navigation)에 한해서만 융통성 있게 쿠키를 붙여주어 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 사용성을 살리면서 악성 POST 요청은 완벽히 방어한다. 구글 구글 크롬은 2020년부터 명시가 없으면 `SameSite=Lax`를 기본값으로 강제 적용하여 전 세계 [CSRF](/knowledge-base/studynote/03_network/14_network_security_threats/728_csrf_cross_site_request_forgery_concept/) 해킹의 싹을 잘라버렸다.
 
@@ -137,29 +147,31 @@ tags = ["studynote-network"]
 2. <strong>시나리오 — 무거운 쿠키로 인한 네트워크 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 병목 및 헤더 초과 에러</strong>: 개발자가 사용자 편의를 위해 쿠키에 장바구니 상품 목록 문자열과 각종 UI [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)값을 잔뜩 때려 넣었다. 쿠키 크기가 3KB에 달했다. 이 상태에서 고객이 서버로 100바이트짜리 가벼운 핑([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))을 찌를 때마다, 브라우저는 3KB짜리 거대한 쿠키 덩어리를 헤더에 자동으로 얹어서 전송(업로드)했다. 전체 트래픽 비용이 폭증했고 일부 로드밸런서에서 `431 Request Header Fields Too Large` 에러를 뱉고 요청을 잘라버렸다.
    - **판단**: 쿠키는 "브라우저가 묻지도 따지지도 않고 매번 보낸다"는 무서운 특성을 지닌다. 따라서 쿠키에는 오직 32바이트짜리 무의미한 '[세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)(SID)' 하나만 가볍게 넣어야 하며, 실질적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(장바구니)는 서버 측 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 스토어나 DB에 보관하여 헤더 비대화를 막는 상태 관리의 정석을 따라야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실무 아키텍처: JWT 인증 토큰의 안전한 저장소 설계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">위험한 패턴: 로컬 스토리지 사용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 서버 ➔ JWT Access Token 반환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 브라우저 ➔ Local Storage 저장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 💥 해커가 XSS 스크립트로 Local Storage 뒤져서 토큰 탈취!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">표준 권장 패턴: HttpOnly 쿠키 이원화 사용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 인증 서버 ➔ 2개의 토큰(Access, Refresh) 발급</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 프론트엔드 통제권 분할:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Refresh Token: 무조건 HttpOnly + Secure 쿠키에 저장.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(브라우저가 JS로 조작 불가, 갱신 요청 시 알아서 날아감. XSS 방어)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Access Token: 로컬 JS 메모리 변수(클로저)에 임시 보관하거나,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수명을 아주 짧게(예: 15분) 주어 탈취되더라도 타격 최소화.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 보안 방패 완성:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- XSS 방어 ➔ HttpOnly가 탈취 막음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- CSRF 방어 ➔ SameSite=Lax 가 타사에서 넘어오는 위조 막음</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │         실무 아키텍처: JWT 인증 토큰의 안전한 저장소 설계        │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │ [위험한 패턴: 로컬 스토리지 사용]                               │
+  │  1. 서버 ➔ JWT Access Token 반환                           │
+  │  2. 브라우저 ➔ Local Storage 저장                           │
+  │  3. 💥 해커가 XSS 스크립트로 Local Storage 뒤져서 토큰 탈취!    │
+  │                                                             │
+  │ [표준 권장 패턴: HttpOnly 쿠키 이원화 사용]                     │
+  │  1. 인증 서버 ➔ 2개의 토큰(Access, Refresh) 발급              │
+  │                                                             │
+  │  2. 프론트엔드 통제권 분할:                                    │
+  │   - Refresh Token: 무조건 HttpOnly + Secure 쿠키에 저장.     │
+  │     (브라우저가 JS로 조작 불가, 갱신 요청 시 알아서 날아감. XSS 방어)│
+  │                                                             │
+  │   - Access Token: 로컬 JS 메모리 변수(클로저)에 임시 보관하거나,  │
+  │     수명을 아주 짧게(예: 15분) 주어 탈취되더라도 타격 최소화.      │
+  │                                                             │
+  │  3. 보안 방패 완성:                                           │
+  │   - XSS 방어 ➔ HttpOnly가 탈취 막음                           │
+  │   - CSRF 방어 ➔ SameSite=Lax 가 타사에서 넘어오는 위조 막음     │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 클라이언트 사이드 웹 애플리케이션(React, Vue 등)에서 상태 관리의 딜레마를 보여준다. 모든 것을 JS로 쥐고 있으려면 [XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/) 공격에 털리고, 모든 것을 쿠키에 맡기자니 [CSRF](/knowledge-base/studynote/03_network/14_network_security_threats/728_csrf_cross_site_request_forgery_concept/) 위조에 당할 수 있다. 모범 답안은 가장 핵심이 되는 보안 키([Refresh Token](/knowledge-base/studynote/09_security/05_web_app_security/505_refresh_token/), [Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) ID)는 `HttpOnly+Secure+SameSite`의 3중 방어막이 쳐진 쿠키라는 감옥에 가두어 브라우저 엔진이 알아서 관리하게 만들고, 프론트엔드 코드(JS)는 절대 이 키를 직접 만지지 않는 구조로 분리하는 것이다.
 
@@ -207,19 +219,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: ETag / Last-Modified 검증</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 쿠키</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 세션</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 애플리케이션 전달</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: ETag / Last-Modified 검증]
+    │
+    ▼
+[현재 개념: 쿠키]
+    │
+    ├──▶ [확장 A: 세션]
+    └──▶ [확장 B: 지능형 애플리케이션 전달]
+```
 
 쿠키는 ETag / Last-Modified [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

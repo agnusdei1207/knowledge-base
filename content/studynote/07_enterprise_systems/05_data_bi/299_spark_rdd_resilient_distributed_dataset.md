@@ -30,17 +30,12 @@ RDD는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rela
 
 RDD는 3가지 핵심 특징을 가진다: <strong>Resilient(장애 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 가능), Distributed(<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 저장), Dataset(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 집합).</strong>
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">원본 데이터 (HDFS 등)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RDD 1 (Filter)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RDD 2 (Map)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RDD 3 (Reduce)</div></div>
-<div class="kb-diagram-connector">▲</div>
-<div class="kb-diagram-note">(Lineage 기록: RDD1에서 거른 뒤 Map을 적용함)</div>
-</div>
-</div>
-
-
+```text
+[원본 데이터 (HDFS 등)] ──▶ [RDD 1 (Filter)] ──▶ [RDD 2 (Map)] ──▶ [RDD 3 (Reduce)]
+                                ▲
+                                │ (Lineage 기록: RDD1에서 거른 뒤 Map을 적용함)
+                                └───────────────────────────────────┘
+```
 
 | 주요 메커니즘 | 설명 | 특징 |
 |:---|:---|:---|
@@ -106,23 +101,21 @@ RDD는 빅데이터 처리의 패러다임을 '기록'에서 '계산'으로 바�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Hadoop MapReduce - 디스크 기반 중간 결과 저장</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Spark RDD - 인메모리 분산 데이터셋 추상화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Transformation (지연 평가) + Action (실행 트리거)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DataFrame/Dataset API - 스키마 기반 최적화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Catalyst Optimizer + Tungsten 메모리 관리</div>
-</div>
-</div>
-
-
+```
+Hadoop MapReduce - 디스크 기반 중간 결과 저장
+    │
+    ▼
+Spark RDD - 인메모리 분산 데이터셋 추상화
+    │
+    ▼
+Transformation (지연 평가) + Action (실행 트리거)
+    │
+    ▼
+DataFrame/Dataset API - 스키마 기반 최적화
+    │
+    ▼
+Catalyst Optimizer + Tungsten 메모리 관리
+```
 
 > **키워드**: [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/), [Resilient Distributed Dataset](/knowledge-base/studynote/14_data_engineering/01_infrastructure/025_spark_rdd_resilient_distributed_dataset/), Spark, [Lazy Evaluation](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/), Lineage, DataFrame, Catalyst
 

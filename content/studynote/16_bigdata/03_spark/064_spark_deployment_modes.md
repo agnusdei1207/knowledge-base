@@ -20,27 +20,29 @@ tags = ["studynote-bigdata"]
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 드라이버가 클라이언트([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/)) 측에 있느냐, 아니면 클러스터(Cluster) 내부에 있느냐에 따라 아키텍처가 달라진다.
 
+```text
+[ Spark Deployment: Client Mode vs Cluster Mode ]
+(스파크 배포: 클라이언트 모드 vs 클러스터 모드)
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Spark Deployment: Client Mode vs Cluster Mode</div></div>
-<div class="kb-diagram-note">(스파크 배포: 클라이언트 모드 vs 클러스터 모드)</div>
-<div class="kb-diagram-note">&lt; Client Mode &gt; &lt; Cluster Mode &gt;</div>
-<div class="kb-diagram-note">(대화형 분석/디버깅 유리) (프로덕션 배포/안정성 유리)</div>
-<div class="kb-diagram-note">Client Node Cluster Node (Master)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Driver</div><div class="kb-diagram-note">| Cluster Manager</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(User Code)</div><div class="kb-diagram-cell">&lt;---- Net ----&gt;</div><div class="kb-diagram-cell">(YARN, K8s, Mesos)</div></div>
-<div class="kb-diagram-note">+------v-------+ +-------v--------+</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cluster Node</div><div class="kb-diagram-cell">Cluster Node</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Executor</div><div class="kb-diagram-node">Driver</div></div>
-<div class="kb-diagram-note">+-------v--------+</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cluster Node</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Executor</div></div>
-</div>
-</div>
-
-
+   < Client Mode >                  < Cluster Mode >
+   (대화형 분석/디버깅 유리)           (프로덕션 배포/안정성 유리)
+   
+     Client Node                       Cluster Node (Master)
+   +---------------+                 +--------------------+
+   | [Driver]      |                 | Cluster Manager    |
+   | (User Code)   | <---- Net ----> | (YARN, K8s, Mesos) |
+   +---------------+                 +---------+----------+
+          |                                    |
+   +------v-------+                    +-------v--------+
+   | Cluster Node |                    | Cluster Node   |
+   | [Executor]   |                    | [Driver]       |
+   +--------------+                    +-------+--------+
+                                               |
+                                       +-------v--------+
+                                       | Cluster Node   |
+                                       | [Executor]     |
+                                       +----------------+
+```
 
 1. **Local Mode:** 단일 컴퓨터(JVM)에서 드라이버와 실행기가 모두 실행된다. (개발/테스트용)
 2. <strong><a href="/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/">Client</a> Mode:</strong> 드라이버가 클러스터 외부(사용자 로컬 장비)에서 실행된다. 즉시 결과 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)이 필요한 REPL(쉘) 환경에 적합하다.
@@ -72,23 +74,21 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">로컬 모드 (Local Mode) — 단일 JVM에서 드라이버·익스큐터 실행, 개발·테스트용</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">독립 실행 모드 (Standalone Mode) — Spark 자체 클러스터 매니저, 소규모 전용 환경</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">YARN 모드 (YARN Mode) — 하둡 클러스터 자원 공유, 엔터프라이즈 표준</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Kubernetes 모드 (K8s Mode) — Pod 단위 동적 프로비저닝, 클라우드 네이티브 표준</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">서버리스 Spark (Serverless Spark) — 클라우드 완전 관리형, 인프라 추상화 극대화</div></div>
-</div>
-</div>
-
-
+```text
+[로컬 모드 (Local Mode) — 단일 JVM에서 드라이버·익스큐터 실행, 개발·테스트용]
+    │
+    ▼
+[독립 실행 모드 (Standalone Mode) — Spark 자체 클러스터 매니저, 소규모 전용 환경]
+    │
+    ▼
+[YARN 모드 (YARN Mode) — 하둡 클러스터 자원 공유, 엔터프라이즈 표준]
+    │
+    ▼
+[Kubernetes 모드 (K8s Mode) — Pod 단위 동적 프로비저닝, 클라우드 네이티브 표준]
+    │
+    ▼
+[서버리스 Spark (Serverless Spark) — 클라우드 완전 관리형, 인프라 추상화 극대화]
+```
 
 이 흐름은 Spark의 배포 모드가 로컬 개발 환경에서 출발하여 [YARN](/knowledge-base/studynote/14_data_engineering/01_infrastructure/020_yarn/) 클러스터 공유를 거쳐 [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 기반 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 배포로 진화하는 과정을 보여준다.
 

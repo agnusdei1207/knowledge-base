@@ -23,18 +23,14 @@ tags = ["studynote-network"]
 - <strong>호손 (<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/">Call</a> Loss / <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/">Blocking</a>)</strong>: 내가 요청을 딱 던졌는데, 서버나 통신사의 회선([파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/))이 이미 다른 놈들로 꽉 차서 빈자리가 0개일 때, <strong>내 요청이 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>에 들어가지 못하고 그 자리에서 가차 없이 튕겨져서 버려지는(Drop) 현상</strong>입니다. "통화 중 뚜뚜" 소리가 대표적입니다.
 - <strong>호손율 (블로킹 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a>, <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/">Blocking</a> <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">Probability</a>) 🌟</strong>: 100명이 전화를 걸었을 때, 재수 없게 튕겨 나간(거절당한) 사람의 비율([확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/))입니다. (보통 통신사는 호손율 1% 미만, 즉 100명 중 1명만 튕기는 것을 훌륭한 목표치(GoS, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 등급)로 잡습니다.)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Erlang</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">호손율 / 블로킹 확률</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">망 신뢰도</div></div>
-</div>
-</div>
-
-
+```text
+[Erlang]
+    │
+    ▼
+[호손율 / 블로킹 확률]
+    │
+    └──▶ [망 신뢰도]
+```
 
 - **📢 섹션 요약 비유**: 호손율 / 블로킹 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -53,18 +49,14 @@ tags = ["studynote-network"]
 - 에를랑 B 공식은 <strong>"대기 줄(<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/">Queue</a>)이 없다"</strong>고 가정합니다. 
 - 식당에 밥 먹으러 왔는데 자리가 꽉 찼다? "번호표 뽑고 기다리세요"가 아니라, **"자리 없으니까 나가 이 새꺄!"** 하고 손님을 그 자리에서 즉시 발로 걷어차서 버려버리는(Loss) 지독한 시스템을 전제로 수학을 돌립니다. (전화망이나 실시간 회선 교환망의 특징입니다.)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Erlang</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">호손율 / 블로킹 확률</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">망 신뢰도</div></div>
-</div>
-</div>
-
-
+```text
+[Erlang]
+    │
+    ▼
+[호손율 / 블로킹 확률]
+    │
+    └──▶ [망 신뢰도]
+```
 
 - **📢 섹션 요약 비유**: 호손율 / 블로킹 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -121,19 +113,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: Erlang</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 호손율 / 블로킹 확률</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 망 신뢰도</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: Erlang]
+    │
+    ▼
+[현재 개념: 호손율 / 블로킹 확률]
+    │
+    ├──▶ [확장 A: 망 신뢰도]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 호손율 / 블로킹 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)는 Erlang에서 출발해 현재 메커니즘을 정교화하고, 이후 [망 신뢰도](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1006_network_reliability_topology_node_link_connectivity/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

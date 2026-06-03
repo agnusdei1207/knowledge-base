@@ -23,18 +23,15 @@ tags = ["studynote-it-management"]
 
 계약 방식이 중요한 이유는 인센티브가 달라지기 때문이다. 완전 고정가 계약에서는 공급자가 원가 절감 동기를 강하게 갖지만, 반대로 변경 요구를 방어하거나 품질 투자에 소극적일 유인도 생긴다. 실비정산 계약에서는 발주자가 비용 초과 위험을 더 많이 부담하는 대신, 탐색적 연구나 불확실한 개발을 무리하게 고정가로 묶지 않아도 된다. 즉 계약 유형은 법무 문서가 아니라 <strong>프로젝트 운영 메커니즘</strong>이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Contract type selection asks three questions</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) How stable is the scope?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) Who absorbs cost / schedule / performance risk?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) How much buyer oversight is realistically available?</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Contract type selection asks three questions                         │
+├──────────────────────────────────────────────────────────────────────┤
+│ 1) How stable is the scope?                                          │
+│ 2) Who absorbs cost / schedule / performance risk?                   │
+│ 3) How much buyer oversight is realistically available?              │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 따라서 조달 계약의 첫 판단은 "가장 익숙한 계약이 무엇인가"가 아니라, "이 프로젝트의 불확실성을 누가 더 잘 통제할 수 있는가"여야 한다.
 
@@ -46,18 +43,15 @@ tags = ["studynote-it-management"]
 
 조달 계약은 크게 고정가 ([FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/), Fixed Price), 실비정산 (CR, Cost Reimbursable), 시간·자재 (T&M, Time and Material) 세 축으로 나뉜다. 핵심 차이는 가격이 고정되는 범위와, 비용 초과 시 어느 쪽이 더 큰 충격을 받는가에 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Scope certainty / risk allocation spectrum</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">seller risk high buyer risk high</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FFP ── FP-EPA ── FPIF ── T&amp;M ── CPIF ── CPAF ── CPFF</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">stable scope unclear scope</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Scope certainty / risk allocation spectrum                           │
+├──────────────────────────────────────────────────────────────────────┤
+│ seller risk high                                      buyer risk high│
+│ FFP ── FP-EPA ── FPIF ── T&M ── CPIF ── CPAF ── CPFF                │
+│ stable scope                                           unclear scope │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 | 계약 유형 | 가격 메커니즘 | 적합한 상황 | 주의점 |
 | :--- | :--- | :--- | :--- |
@@ -160,23 +154,23 @@ FPIF (Fixed Price Incentive Fee)는 기술사 시험에서 자주 묻는 유형�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Project uncertainty assessment</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Choose contract family</div>
-<div class="kb-diagram-note">Fixed T&amp;M Cost Reimbursable</div>
-<div class="kb-diagram-note">Price</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Incentive design + governance + acceptance criteria</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Delivery / change control / operation management</div>
-</div>
-</div>
-
-
+```text
+Project uncertainty assessment
+            │
+            ▼
+Choose contract family
+   ┌────────┼─────────┐
+   ▼        ▼         ▼
+ Fixed   T&M      Cost Reimbursable
+ Price               │
+   │                 │
+   └──────┬──────────┘
+          ▼
+Incentive design + governance + acceptance criteria
+          │
+          ▼
+Delivery / change control / operation management
+```
 
 이 흐름은 조달 계약 선택이 단순 가격 협상이 아니라, 불확실성 평가에서 시작해 인센티브 설계와 운영 통제까지 이어지는 관리 프로세스임을 보여 준다.
 

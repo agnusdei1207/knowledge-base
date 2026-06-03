@@ -91,21 +91,15 @@ DevSecOps와 결합하면 보안이 속도를 늦추는 장벽이 아니라 자�
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">요구사항</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">위협 모델링</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">보안 설계</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">구현 / 테스트 / 운영</div>
-</div>
-</div>
-
-
+```text
+요구사항
+   ↓
+위협 모델링
+   ↓
+보안 설계
+   ↓
+구현 / 테스트 / 운영
+```
 
 ---
 

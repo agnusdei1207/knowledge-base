@@ -27,18 +27,19 @@ FIFO는 캐시나 버퍼가 가득 찼을 때 <strong>가장 먼저 적재된 �
 
 즉 FIFO는 최고의 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)을 노리는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이라기보다, <strong>최소한의 제어 비용으로 저장 공간을 순환시키는 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a></strong>으로 이해해야 한다. 오래된 것이 곧 덜 중요하다는 보장은 없지만, 적어도 누가 나갈지는 즉시 결정할 수 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FIFO가 필요한 상황: 판단은 단순하게, 교체는 즉시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">캐시/버퍼 가득 참</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"최근 사용" 추적 없음 "빈도" 카운트 없음 "순서"만 관리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가장 먼저 들어온 항목 선택 ▶ 즉시 교체</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│        FIFO가 필요한 상황: 판단은 단순하게, 교체는 즉시       │
+├──────────────────────────────────────────────────────────────┤
+│ 캐시/버퍼 가득 참                                             │
+│      │                                                       │
+│      ▼                                                       │
+│ "최근 사용" 추적 없음  "빈도" 카운트 없음  "순서"만 관리     │
+│      │                                                       │
+│      ▼                                                       │
+│ 가장 먼저 들어온 항목 선택  ───────────────▶ 즉시 교체         │
+└──────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: FIFO는 식당 대기표와 같다. 자주 오는 단골인지, 방금 주문했는지는 보지 않고 번호표를 먼저 뽑은 순서만 기준으로 자리를 비운다.
 
@@ -54,22 +55,25 @@ FIFO의 핵심 구현은 보통 큐 ([Queue](/knowledge-base/studynote/08_algori
 
 다음 그림은 FIFO가 왜 빠르지만 둔감한지를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FIFO 교체 흐름: 참조 이력은 무시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">현재 큐 상태</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Front Rear</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A</div><div class="kb-diagram-cell">B</div><div class="kb-diagram-cell">C</div><div class="kb-diagram-cell">D</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 가장 먼저 들어온 블록 = 다음 희생자</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">새 블록 E 도착</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A 제거 ▶ E 삽입</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">결과:</div><div class="kb-diagram-node">B</div><div class="kb-diagram-node">C</div><div class="kb-diagram-node">D</div><div class="kb-diagram-node">E</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                FIFO 교체 흐름: 참조 이력은 무시               │
+├──────────────────────────────────────────────────────────────┤
+│ 현재 큐 상태                                                  │
+│ Front                                                     Rear│
+│  ┌──────┐  ┌──────┐  ┌──────┐  ┌──────┐                      │
+│  │  A   │  │  B   │  │  C   │  │  D   │                      │
+│  └──────┘  └──────┘  └──────┘  └──────┘                      │
+│     ▲                                                        │
+│     └─ 가장 먼저 들어온 블록 = 다음 희생자                    │
+│                                                              │
+│ 새 블록 E 도착                                               │
+│                                                              │
+│  A 제거  ───────────────────────────────────────▶  E 삽입      │
+│                                                              │
+│ 결과: [ B ][ C ][ D ][ E ]                                   │
+└──────────────────────────────────────────────────────────────┘
+```
 
 | 항목 | FIFO의 처리 방식 | 의미 |
 | :--- | :--- | :--- |
@@ -147,25 +151,25 @@ FIFO의 가장 큰 효과는 설계 명확성이다. 교체 규칙이 단순하�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단순 순환 버퍼</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">FIFO (First-In, First-Out)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">장점: 구현 단순 · 저전력 · 예측 가능</div>
-<div class="kb-diagram-tree-item" style="--depth:2">한계: 지역성 미반영 · 벨라디의 모순</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Second Chance / Clock</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">LRU (Least Recently Used) · Pseudo-LRU</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">적응형 교체 정책 (Adaptive Replacement)</div>
-</div>
-</div>
-
-
+```text
+단순 순환 버퍼
+    │
+    ▼
+FIFO (First-In, First-Out)
+    │
+    ├─ 장점: 구현 단순 · 저전력 · 예측 가능
+    │
+    └─ 한계: 지역성 미반영 · 벨라디의 모순
+           │
+           ▼
+Second Chance / Clock
+           │
+           ▼
+LRU (Least Recently Used) · Pseudo-LRU
+           │
+           ▼
+적응형 교체 정책 (Adaptive Replacement)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

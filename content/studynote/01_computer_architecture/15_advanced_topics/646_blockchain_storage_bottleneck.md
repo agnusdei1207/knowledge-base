@@ -33,20 +33,22 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 신규 블록 반영 시 저장 계층에서 병목이 어떻게 누적되는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New block commit path inside a blockchain node</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Execute Tx</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─ random read ──&gt;</div><div class="kb-diagram-node">State Trie</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ hash update &gt;</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">KV store / LSM tree</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">Flush -&gt; Compaction</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SSD / NVMe</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ New block commit path inside a blockchain node                    │
+├────────────────────────────────────────────────────────────────────┤
+│ [Execute Tx]                                                      │
+│      │                                                           │
+│      ├─ random read ──> [State Trie]                             │
+│      │                      │                                    │
+│      └─ hash update ───────>│                                    │
+│                             ▼                                    │
+│                      [KV store / LSM tree] -> Flush -> Compaction │
+│                                                  │               │
+│                                                  ▼               │
+│                                               [SSD / NVMe]       │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 | 저장 계층 | 주 역할 | 주된 I/O 패턴 | 병목 원인 |
 | :--- | :--- | :--- | :--- |
@@ -124,23 +126,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Append-only ledger growth</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">State trie + authenticated storage</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">LSM compaction and random-read bottlenecks</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">NVMe / snapshots / pruning / ZNS tuning</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Verkle-style proofs and stateless validation</div>
-</div>
-</div>
-
-
+```text
+Append-only ledger growth
+    │
+    ▼
+State trie + authenticated storage
+    │
+    ▼
+LSM compaction and random-read bottlenecks
+    │
+    ▼
+NVMe / snapshots / pruning / ZNS tuning
+    │
+    ▼
+Verkle-style proofs and stateless validation
+```
 
 이 흐름은 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 저장 이슈가 `용량 증가`에서 출발해, 결국 `상태 검증을 얼마나 작고 빠르게 만들 것인가`의 문제로 진화함을 보여 준다.
 

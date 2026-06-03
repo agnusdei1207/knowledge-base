@@ -26,18 +26,14 @@ tags = ["studynote-network"]
   - <strong>IP <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a></strong>: 우체국 직원이 편지를 받을 때마다 수취인 주소 "서울특별시 강남구 테헤란로..."를 일일이 돋보기로 읽고 분류합니다. 느립니다.
   - **MPLS**: 최초 접수 직원이 편지 겉면에 **"바코드 15번 (강남행)"** 스티커를 쾅 붙입니다. 중간 물류 센터의 알바생들은 주소 글씨는 아예 안 읽고, 오직 바코드 스캐너로 '15번 띡!' 찍자마자 강남행 트럭으로 0.1초 만에 상자를 던져버립니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Policy-Based Routing / R…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MPLS</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">LSR, LER</div></div>
-</div>
-</div>
-
-
+```text
+[Policy-Based Routing / R…]
+    │
+    ▼
+[MPLS]
+    │
+    └──▶ [LSR, LER]
+```
 
 - **📢 섹션 요약 비유**: <strong> MPLS는 꼬불꼬불한 국도(IP <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a>) 위에 건설된 </strong>"하이패스 전용 터널"**입니다. 입구에서 통행권(Label)을 발급받으면 터널 속에서는 앞만 보고 논스톱으로 질주하다가 출구에서 통행권을 반납하고 다시 국도로 나옵니다.
 
@@ -55,22 +51,23 @@ MPLS는 기존 패킷을 망가뜨리지 않는다.
 3. <strong>S (Bottom of <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">Stack</a>, 1비트)</strong>: <strong>마법의 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a></strong>. MPLS는 꼬리표를 2개, 3개 겹겹이 겹쳐 붙일 수 있다(Label Stacking). "이 꼬리표를 떼면 밑에 꼬리표가 또 있어(0), 아니면 이게 마지막 꼬리표니까 이거 떼면 순수 IP 패킷 나와(1)"를 알려준다. VPN을 구현하는 핵심 키다.
 4. <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/">TTL</a> (8비트)</strong>: IP 헤더에 있는 TTL과 똑같다. 우주 미아 방지용. 라우터 지날 때마다 1씩 깎인다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MPLS Label 삽입 (2.5계층 구조) 도식</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">순수 IP 패킷</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">이더넷 헤더 (L2)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IP 헤더 (L3)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Data (TCP)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MPLS가 적용된 패킷</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">이더넷</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Label (20) | EXP (3) | S (1) | TTL (8)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IP</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(바로 이 4바이트짜리 딱지가 2.5계층에 끼어든다!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 코어 라우터들은 이 4바이트 딱지만 보고 패킷을 광속으로 쳐낸다.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* IP 헤더(192.168...)는 터널을 통과할 동안 아무도 쳐다보지 않는다!</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                MPLS Label 삽입 (2.5계층 구조) 도식                │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 순수 IP 패킷 ]                                             │
+ │   [ 이더넷 헤더 (L2) ] ──▶ [ IP 헤더 (L3) ] ──▶ [ Data (TCP) ]   │
+ │                                                             │
+ │   [ MPLS가 적용된 패킷 ]                                        │
+ │   [ 이더넷 ] ──▶ [ Label (20) | EXP (3) | S (1) | TTL (8) ] ──▶ [ IP ] │
+ │                   ▲                                         │
+ │              (바로 이 4바이트짜리 딱지가 2.5계층에 끼어든다!)          │
+ │                                                             │
+ │   * 코어 라우터들은 이 4바이트 딱지만 보고 패킷을 광속으로 쳐낸다.        │
+ │   * IP 헤더(192.168...)는 터널을 통과할 동안 아무도 쳐다보지 않는다!    │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 3. 멀티프로토콜(Multiprotocol)의 위엄
 왜 '다중 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)'[인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)? 
@@ -133,19 +130,15 @@ MPLS는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routin
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: Policy-Based Routing / R…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: MPLS</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: LSR, LER</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: Policy-Based Routing / R…]
+    │
+    ▼
+[현재 개념: MPLS]
+    │
+    ├──▶ [확장 A: LSR, LER]
+    └──▶ [확장 B: 의도 기반 라우팅]
+```
 
 MPLS는 [Policy-Based Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/372_policy_based_routing_pbr_route_map/) / R…에서 출발해 현재 메커니즘을 정교화하고, 이후 [LSR](/knowledge-base/studynote/03_network/07_network_layer_routing/374_lsr_label_switch_router_ler_edge/), LER와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

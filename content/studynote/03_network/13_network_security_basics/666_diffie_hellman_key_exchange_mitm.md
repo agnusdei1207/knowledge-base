@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 앞선 653번 문서에서 <strong>대칭키(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/">AES</a>)의 치명적 단점은 "암호화용 열쇠를 어떻게 상대방에게 해커 몰래 전달할 것인가?(키 배송 문제)"</strong>라고 배웠습니다.
 1976년, 휘트필드 디피(Diffie)와 마틴 헬만(Hellman)은 이산대수([DLP](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/386_dlp/))의 수학적 난제를 이용해, <strong>서로 얼굴을 한 번도 본 적 없는 두 사람이 <a href="/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/">도청</a>당하는 인터넷상에서 당당하게 평문으로 숫자를 주고받으면서도 둘만이 아는 완벽한 '공통 비밀키'를 만들어내는 기적의 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>을 발명했습니다. (비대칭키 암호학의 시초가 됨)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">ECDSA, Ed25519</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">디피-헬만 상호 키 교환 원리 및 스니핑 취…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">해시 함수</div></div>
-</div>
-</div>
-
-
+```text
+[ECDSA, Ed25519]
+    │
+    ▼
+[디피-헬만 상호 키 교환 원리 및 스니핑 취…]
+    │
+    └──▶ [해시 함수]
+```
 
 - **📢 섹션 요약 비유**: 디피-헬만 상호 키 교환 원리 및 스니핑 취…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -54,18 +50,14 @@ tags = ["studynote-network"]
    - 밥은 앨리스에게 받은 <strong>주황색</strong>에 자신의 몰래 간직한 <strong>파란색</strong>을 섞습니다. 👉 (노랑+빨강) + 파랑 = **똥색** 완성!
    - 두 사람은 서로 열쇠를 직접 주지 않았는데도 <strong>똑같은 '똥색(대칭 암호키)'을 공유</strong>하게 되었습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">ECDSA, Ed25519</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">디피-헬만 상호 키 교환 원리 및 스니핑 취…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">해시 함수</div></div>
-</div>
-</div>
-
-
+```text
+[ECDSA, Ed25519]
+    │
+    ▼
+[디피-헬만 상호 키 교환 원리 및 스니핑 취…]
+    │
+    └──▶ [해시 함수]
+```
 
 - **📢 섹션 요약 비유**: 디피-헬만 상호 키 교환 원리 및 스니핑 취…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -124,19 +116,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: ECDSA, Ed25519</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 디피-헬만 상호 키 교환 원리 및 스니핑 취…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 해시 함수</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: ECDSA, Ed25519]
+    │
+    ▼
+[현재 개념: 디피-헬만 상호 키 교환 원리 및 스니핑 취…]
+    │
+    ├──▶ [확장 A: 해시 함수]
+    └──▶ [확장 B: 자동화된 신뢰 체계]
+```
 
 디피-헬만 상호 키 교환 원리 및 스니핑 취…는 [ECDSA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/097_ecdsa_schnorr_signature_bitcoin/), Ed25519에서 출발해 현재 메커니즘을 정교화하고, 이후 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

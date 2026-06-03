@@ -38,18 +38,17 @@ tags = ["studynote-devops-sre"]
 | Tool Sandbox | 외부 도구 실행 제한 | 최소 권한, allowlist |
 | Output Validator | 민감 정보/금지 응답 차단 | [regex](/knowledge-base/studynote/08_algorithm_stats/05_string/104_regex/) + [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) judge + rule 결합 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">classify authorize</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User Prompt</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Policy Layer</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Tool Sandbox</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">suspicious</div><div class="kb-diagram-cell">context guard</div><div class="kb-diagram-cell">result</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Alert / Log</div><div class="kb-diagram-cell">◀</div><div class="kb-diagram-cell">LLM Runtime</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Output Check</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐   classify   ┌──────────────┐   authorize  ┌──────────────┐
+│ User Prompt  │ ───────────▶ │ Policy Layer │ ───────────▶ │ Tool Sandbox │
+└──────────────┘              └──────────────┘              └──────────────┘
+        │                              │                             │
+        │ suspicious                   │ context guard               │ result
+        ▼                              ▼                             ▼
+┌──────────────┐              ┌──────────────┐              ┌──────────────┐
+│ Alert / Log  │ ◀─────────── │ LLM Runtime  │ ───────────▶ │ Output Check │
+└──────────────┘              └──────────────┘              └──────────────┘
+```
 
 이 그림의 핵심은 모델이 직접 권한을 결정하지 않는다는 점이다. 예를 들어 시스템 프롬프트를 노출할지, 내부 문서를 검색할지, 셸 명령을 실행할지는 모델의 “판단”이 아니라 애플리케이션의 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 권한 체계가 결정해야 한다. 또한 숨겨진 프롬프트를 길게 쓰는 것보다, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)/명령 분리와 도구 권한 축소가 더 강한 방어가 된다.
 
@@ -117,21 +116,18 @@ tags = ["studynote-devops-sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Prompt-only Chatbot</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">RAG / Tool Use</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Prompt Injection Risk</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Policy Layer + Sandbox + Output Validation</div>
-</div>
-</div>
-
-
+```text
+Prompt-only Chatbot
+   │
+   ▼
+RAG / Tool Use
+   │
+   ▼
+Prompt Injection Risk
+   │
+   ▼
+Policy Layer + Sandbox + Output Validation
+```
 
 이 흐름은 “단순 대화 → 도구 연동 → 공격 표면 확대 → 심층 방어 설계”로 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 보안이 강화되는 방향을 보여준다.
 

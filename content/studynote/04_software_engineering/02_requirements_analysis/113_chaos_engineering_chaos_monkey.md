@@ -1,5 +1,5 @@
 +++
-title = "113. 카오스 엔지니어링 (Chaos Engineering) - Chaos Monkey·정상 상태 가설·실험 설계"
+title = "113. 카오스 엔지니어링 (Chaos 엔진ering) - Chaos Monkey·정상 상태 가설·실험 설계"
 date = 2026-04-19
 
 [taxonomies]
@@ -20,26 +20,27 @@ tags = ["studynote-software-engineering"]
 
 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 100개 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 그물망처럼 연결된 환경에서, "[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) A가 죽으면 B→C→D가 연쇄 장애를 일으키는가?"를 사전에 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하지 않으면, <strong>실제 장애 시 <a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/">MTTR</a>(<a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 시간)이 수시간</strong>으로 폭발한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">카오스 엔지니어링 실험 사이클</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 정상 상태 정의 (Steady State)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"주문 API 응답 시간 &lt; 200ms, 에러율 &lt; 0.1%"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 가설 수립</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"결제 서비스 1대 종료해도 정상 상태 유지"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 장애 주입 (Fault Injection)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Chaos Monkey가 결제 서비스 Pod 1개 Kill</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 관찰 및 검증</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Grafana에서 응답 시간·에러율 모니터링</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 200ms 이하 유지? ✅ 통과 / ❌ 개선 필요</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 개선 후 반복</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서킷 브레이커 미작동 발견 → 설정 수정 → 재실험</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    카오스 엔지니어링 실험 사이클                        │
+├───────────────────────────────────────────────────────┤
+│  1. 정상 상태 정의 (Steady State)                     │
+│     "주문 API 응답 시간 < 200ms, 에러율 < 0.1%"      │
+│                 │                                     │
+│  2. 가설 수립                                         │
+│     "결제 서비스 1대 종료해도 정상 상태 유지"          │
+│                 │                                     │
+│  3. 장애 주입 (Fault Injection)                       │
+│     Chaos Monkey가 결제 서비스 Pod 1개 Kill           │
+│                 │                                     │
+│  4. 관찰 및 검증                                      │
+│     Grafana에서 응답 시간·에러율 모니터링              │
+│     → 200ms 이하 유지? ✅ 통과 / ❌ 개선 필요         │
+│                 │                                     │
+│  5. 개선 후 반복                                      │
+│     서킷 브레이커 미작동 발견 → 설정 수정 → 재실험    │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)은 건물(시스템)에 인공 지진을 일으켜 내진 설계가 진짜 작동하는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 <strong>내진 테스트</strong>다.
 
@@ -109,27 +110,25 @@ tags = ["studynote-software-engineering"]
 | <strong>Litmus / Chaos <a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">Mesh</a></strong> | K8s 네이티브 [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/) 도구 |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/">서킷 브레이커</a></strong> | 카오스 실험으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 할 방어 패턴 |
 | **Game Day** | 조직 차원의 장애 훈련 이벤트 |
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a> (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">Site Reliability Engineering</a>)</strong> | [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)을 품는 상위 규율 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a> (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">Site Reliability 엔진ering</a>)</strong> | [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)을 품는 상위 규율 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Netflix Chaos Monkey (2011) — 인스턴스 랜덤 Kill</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Principles of Chaos Engineering (2014) — 방법론 체계화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Gremlin SaaS (2016~) — 상용 카오스 플랫폼</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Litmus / Chaos Mesh (2020~) — K8s 네이티브 CNCF</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: AI 기반 자동 카오스 — 자율 장애 탐색·자동 복원</div></div>
-</div>
-</div>
-
-
+```text
+[Netflix Chaos Monkey (2011) — 인스턴스 랜덤 Kill]
+    │
+    ▼
+[Principles of Chaos Engineering (2014) — 방법론 체계화]
+    │
+    ▼
+[Gremlin SaaS (2016~) — 상용 카오스 플랫폼]
+    │
+    ▼
+[Litmus / Chaos Mesh (2020~) — K8s 네이티브 CNCF]
+    │
+    ▼
+[현재: AI 기반 자동 카오스 — 자율 장애 탐색·자동 복원]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)은 건물에 <strong>일부러 약한 지진</strong>을 일으켜서, 건물이 안 무너지는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 거예요.

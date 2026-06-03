@@ -45,22 +45,21 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 하나의 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 제어 스텝별 마이크로 오퍼레이션으로 쪼개지는 모습을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">명령어 실행을 실제 하드웨어 동작으로 바꾸는 제어 흐름</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">명령어: ADD R1,</div><div class="kb-diagram-node">1000</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T0 PC ▶ MAR</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">T1 M</div><div class="kb-diagram-node">MAR</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">IR , PC + 1 ▶ PC</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T2 IR(address) ▶ MAR</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">T3 M</div><div class="kb-diagram-node">MAR</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">DR</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T4 R1 , DR ▶ ALU(ADD) ▶ R1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심: 명령어 1개 = 제어 시점 T0~T4에 배치된 여러 마이크로 오퍼레이션</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│      명령어 실행을 실제 하드웨어 동작으로 바꾸는 제어 흐름         │
+├──────────────────────────────────────────────────────────────────────┤
+│ 명령어: ADD R1, [1000]                                              │
+│                                                                      │
+│ T0  PC  ───────────────▶ MAR                                         │
+│ T1  M[MAR] ────────────▶ IR        ,  PC + 1 ───────────▶ PC         │
+│ T2  IR(address) ───────▶ MAR                                         │
+│ T3  M[MAR] ────────────▶ DR                                         │
+│ T4  R1 , DR ───────────▶ ALU(ADD) ────────────────▶ R1               │
+│                                                                      │
+│ 핵심: 명령어 1개 = 제어 시점 T0~T4에 배치된 여러 마이크로 오퍼레이션 │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 핵심은 "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 한 번에 실행된다"는 착시를 깨는 데 있다. 실제 회로는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 통째로 처리하지 않고, 시간축을 따라 주소 전송, [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 적재, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 읽기, 산술 연산처럼 쪼개진 단계별 행동을 수행한다. 따라서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 문제를 분석할 때도 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 이름만 볼 것이 아니라, 그 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 몇 개의 마이크로 오퍼레이션과 몇 번의 자원 점유를 유발하는지 살펴봐야 한다.
 
@@ -85,24 +84,18 @@ tags = ["studynote-computer-architecture"]
 
 현대 프로세서에서는 이 개념이 더 확장된다. 복잡한 [CISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/196_cisc/) (Complex [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Set Computer) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 내부에서 단순한 uOP (micro-operation)들로 분해되어 [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/) (Reduced [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Set Computer) 스타일 실행 엔진으로 전달된다. 즉, [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) 수준의 복잡성은 유지하되, 실행부는 마이크로 오퍼레이션 수준에서 표준화된 처리 흐름을 확보하는 것이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">명령어 (Instruction)</div>
-<div class="kb-diagram-note">해석</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">마이크로 오퍼레이션 (Micro-operation)</div>
-<div class="kb-diagram-note">구체화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">제어 신호 (Control Signal)</div>
-<div class="kb-diagram-note">전기적 활성화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">레지스터 · ALU · 버스 · 메모리 동작</div>
-</div>
-</div>
-
-
+```text
+명령어 (Instruction)
+    │  해석
+    ▼
+마이크로 오퍼레이션 (Micro-operation)
+    │  구체화
+    ▼
+제어 신호 (Control Signal)
+    │  전기적 활성화
+    ▼
+레지스터 · ALU · 버스 · 메모리 동작
+```
 
 이 연결 구조를 이해하면 왜 동일한 `ADD` 명령이라도 아키텍처에 따라 내부 비용이 달라지는지 설명할 수 있다. 단순 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 덧셈은 1~2개의 마이크로 오퍼레이션으로 끝날 수 있지만, 메모리 주소 계산과 예외 처리가 포함되면 훨씬 더 긴 내부 시퀀스로 변한다.
 
@@ -161,24 +154,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">레지스터 전송 개념 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">마이크로 오퍼레이션 (Micro-operation)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 마이크로 명령어 (Microinstruction)</div>
-<div class="kb-diagram-note">마이크로프로그램 제어 (Microprogrammed Control)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 단순·표준화된 내부 동작 단위</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">파이프라이닝 (Pipelining) · 비순차 실행 (OoO)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">uOP 캐시 · 명령어 융합 · 현대 CISC 내부 RISC화</div>
-</div>
-</div>
-
-
+```text
+레지스터 전송 개념 정립
+    │
+    ▼
+마이크로 오퍼레이션 (Micro-operation)
+    │
+    ├──▶ 마이크로 명령어 (Microinstruction)
+    │        │
+    │        ▼
+    │   마이크로프로그램 제어 (Microprogrammed Control)
+    │
+    └──▶ 단순·표준화된 내부 동작 단위
+             │
+             ▼
+        파이프라이닝 (Pipelining) · 비순차 실행 (OoO)
+             │
+             ▼
+        uOP 캐시 · 명령어 융합 · 현대 CISC 내부 RISC화
+```
 
 이 흐름은 "내부 동작의 정의"에서 출발해 "제어 방식"과 "[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 방식"으로 확장되는 길을 보여준다. 즉 마이크로 오퍼레이션은 제어 이론의 출발점이면서, 현대 프로세서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 공학의 공통 언어이기도 하다.
 

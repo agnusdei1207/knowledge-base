@@ -25,19 +25,18 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 왜 OoO가 필요한지 보여준다. 핵심은 <strong>앞의 느린 명령이 전체 흐름을 멈추게 하지 않도록, 준비된 뒤 명령들을 먼저 흘려보내는 것</strong>이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">순차 실행 vs 비순차 실행: 지연을 대하는 방식의 차이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로그램 순서: I1(load miss) I2(add) I3(mul) I4(store address)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">순차 실행: I1 대기 동안 I2, I3, I4도 함께 정지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비순차 실행: I1 대기 중에도 I2, I3, I4 중 준비된 명령부터 먼저 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파이프라인 빈칸을 뒤 명령으로 메움</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│            순차 실행 vs 비순차 실행: 지연을 대하는 방식의 차이            │
+├────────────────────────────────────────────────────────────────────────────┤
+│ 프로그램 순서:   I1(load miss)   I2(add)   I3(mul)   I4(store address)    │
+│                                                                            │
+│ 순차 실행:      I1 대기 ──────── 동안 I2, I3, I4도 함께 정지               │
+│                                                                            │
+│ 비순차 실행:    I1 대기 중에도 I2, I3, I4 중 준비된 명령부터 먼저 실행     │
+│                 └──────────── 파이프라인 빈칸을 뒤 명령으로 메움 ──────────┘ │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 즉 OoO는 "프로그램 의미를 바꾸는 기술"이 아니라 "기다리는 시간을 다른 일로 채우는 기술"이다. 프로그램이 요구한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의존성만 지키면, 하드웨어는 내부 실행 순서를 유연하게 바꿔 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 지킨다.
 
@@ -59,21 +58,22 @@ OoO 코어는 보통 <strong>순차 인출·해독 → 리네이밍·디스패�
 
 이 구조를 동작 관점에서 보면 아래와 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OoO 코어의 내부 데이터 흐름과 제어 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Fetch/Decode ─▶ Rename ─▶ Dispatch ─▶ Reservation Station</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Ready? ─▶ Execute</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ ROB ◀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로그램 순서 유지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Commit</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">아키텍처 상태는 항상 순차 반영</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                    OoO 코어의 내부 데이터 흐름과 제어 흐름                │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Fetch/Decode ─▶ Rename ─▶ Dispatch ─▶ Reservation Station                 │
+│    │              │           │                    │                       │
+│    │              │           │                    ├─ Ready? ─▶ Execute    │
+│    │              │           │                    │             │          │
+│    │              │           └──────────────▶ ROB ◀─────────────┘          │
+│    │              │                                    │                    │
+│    └──────── 프로그램 순서 유지 ────────────────────────┘                    │
+│                                                     Commit                  │
+│                                                       │                     │
+│                                         아키텍처 상태는 항상 순차 반영      │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 핵심 원리는 세 가지다. 첫째, <strong>리네이밍</strong>으로 이름 충돌을 제거해 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 후보를 늘린다. 둘째, <strong>wakeup/<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/">select</a></strong> 단계에서 피연산자가 준비된 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 골라 실행한다. 셋째, <strong>순차 커밋</strong>으로 예외, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/), 분기 실패가 생겨도 "어디까지가 확정 상태인가"를 명확히 만든다. 이 덕분에 내부는 자유롭게 움직여도 외부에서는 마치 순차 실행한 것처럼 보이는 정밀 예외 (Precise Exception)가 성립한다.
 
@@ -149,27 +149,27 @@ OoO의 가장 큰 효과는 <strong>같은 클럭에서도 더 많은 일을 끝
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">순차 파이프라인</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">해저드 관리 (RAW, WAR, WAW) · 데이터 포워딩</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">수퍼스칼라 (Superscalar) · 명령어 발급 폭 (Issue Width)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">레지스터 리네이밍 (Register Renaming)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">비순차 실행 (Out-of-Order Execution, OoO)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">재주문 버퍼 (ROB) · 예약역 (RS) · 토마술로 알고리즘</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">고성능 멀티코어 · 이기종 코어 · 전력 효율 최적화</div>
-</div>
-</div>
-
-
+```text
+순차 파이프라인
+    │
+    ▼
+해저드 관리 (RAW, WAR, WAW) · 데이터 포워딩
+    │
+    ▼
+수퍼스칼라 (Superscalar) · 명령어 발급 폭 (Issue Width)
+    │
+    ▼
+레지스터 리네이밍 (Register Renaming)
+    │
+    ▼
+비순차 실행 (Out-of-Order Execution, OoO)
+    │
+    ▼
+재주문 버퍼 (ROB) · 예약역 (RS) · 토마술로 알고리즘
+    │
+    ▼
+고성능 멀티코어 · 이기종 코어 · 전력 효율 최적화
+```
 
 이 흐름은 단순 파이프라인이 해저드 대응을 넘어, 동적 스케줄링과 상태 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 갖춘 고성능 코어로 발전해 온 과정을 보여준다.
 

@@ -25,18 +25,14 @@ tags = ["studynote-network"]
   2. <strong>출처 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a> (<a href="/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/">Authentication</a>)</strong>: 진짜로 홍길동(송신자)의 컴퓨터에서 출발한 문서가 맞음을 보증합니다.
   3. **부인 방지 (Non-Repudiation) 🌟**: 나중에 송신자가 "나 도장 찍은 적 없는데?"라고 발뺌할 수 없게 만듭니다. (MAC과의 가장 큰 차이점)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">HMAC 통신 기반 IPsec 등 활용 구조</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전자서명 생성/검증 프로세스 개요</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">공개키 기반 구조 아키텍처 보안 증명 시스템</div></div>
-</div>
-</div>
-
-
+```text
+[HMAC 통신 기반 IPsec 등 활용 구조]
+    │
+    ▼
+[전자서명 생성/검증 프로세스 개요]
+    │
+    └──▶ [공개키 기반 구조 아키텍처 보안 증명 시스템]
+```
 
 - **📢 섹션 요약 비유**: 전자서명 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)/[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 프로세스 개요는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -59,18 +55,14 @@ tags = ["studynote-network"]
 3. <strong>비교 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> (진실의 순간)</strong>: 밥이 1번에서 직접 만든 해시값과, 2번에서 자물쇠를 풀고 꺼낸 해시값이 **완벽히 일치하는지** 비교합니다.
    - 일치한다면? "1비트도 조작 안 됐고([무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)), 전 세계에서 오직 앨리스 개인키로만 이 자물쇠를 잠글 수 있으니까 앨리스가 보낸 게 100% 확실해!" ([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 및 부인 방지 완료)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">HMAC 통신 기반 IPsec 등 활용 구조</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전자서명 생성/검증 프로세스 개요</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">공개키 기반 구조 아키텍처 보안 증명 시스템</div></div>
-</div>
-</div>
-
-
+```text
+[HMAC 통신 기반 IPsec 등 활용 구조]
+    │
+    ▼
+[전자서명 생성/검증 프로세스 개요]
+    │
+    └──▶ [공개키 기반 구조 아키텍처 보안 증명 시스템]
+```
 
 - **📢 섹션 요약 비유**: 전자서명 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)/[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 프로세스 개요의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -130,19 +122,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: HMAC 통신 기반 IPsec 등 활용 구조</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 전자서명 생성/검증 프로세스 개요</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 공개키 기반 구조 아키텍처 보안 증명 시스템</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: HMAC 통신 기반 IPsec 등 활용 구조]
+    │
+    ▼
+[현재 개념: 전자서명 생성/검증 프로세스 개요]
+    │
+    ├──▶ [확장 A: 공개키 기반 구조 아키텍처 보안 증명 시스템]
+    └──▶ [확장 B: 자동화된 신뢰 체계]
+```
 
 전자서명 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)/[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 프로세스 개요는 [HMAC](/knowledge-base/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/) 통신 기반 [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 등 활용 구조에서 출발해 현재 메커니즘을 정교화하고, 이후 [공개키 기반 구조](/knowledge-base/studynote/03_network/13_network_security_basics/676_pki_public_key_infrastructure/) 아키텍처 보안 증명 시스템와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

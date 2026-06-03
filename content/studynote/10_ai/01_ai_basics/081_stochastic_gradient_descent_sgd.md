@@ -27,17 +27,14 @@ tags = ["studynote-ai"]
 2. **속도의 필요성**:
    - 딥러닝은 보통 수십만 번(Epoch)의 스텝을 밟아야 바닥(정답)에 도달한다. 완벽한 방향으로 1번 걷는 것보다, 조금 삐뚤빼뚤하더라도 1,000번 빠르게 걷는 것이 목적지에는 훨씬 빨리 도착한다는 사실을 깨달았다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 전국 맛집 지도를 완성하기 위해, 한 걸음 내디딜 때마다 전 국민 5천만 명에게 설문조사를 돌리고 그 평균값으로 다음 식당을 고르는 짓(BGD)을 하니 10년이 걸렸습니다. 그래서 이 바보 같은 짓을 멈추고 거리에 보이는 무작위 사람 1명에게만 물어보고 번개처럼 튀어가는 기법이 등장한 것입니다.
 
@@ -62,16 +59,13 @@ tags = ["studynote-ai"]
 | 일반화 | 훈련 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 아니라 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)으로 품질을 판단하게 만든다. |
 | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 학습 | 대규모 모델에서 학습 속도와 자원 배치를 현실화한다. |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Input → Transform → Score → Apply</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">state → update → monitor → feedback</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Input → Transform → Score → Apply            │
+├──────────────────────────────────────────────┤
+│ state → update    → monitor → feedback       │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 전 국민에게 다 물어보기(BGD)는 너무 느리고, 지나가는 아무나 1명에게 물어보기(순수 SGD)는 사기꾼을 만나면 길을 완전히 잃습니다. 그래서 길거리에 모여있는 64명의 군중(Mini-Batch)에게 다수결을 물어보고 빠르게 걷는 타협안이, GPU라는 64인승 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)와 완벽하게 규격이 맞아떨어져 대박을 친 것입니다.
 

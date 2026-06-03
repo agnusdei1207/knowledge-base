@@ -23,25 +23,27 @@ tags = ["studynote-operating-system"]
 
 - **필요성**: 부모가 없는 자식은 종료 시 상태를 수집해줄 프로세스가 필요하다. 부모가 없으면 자식이 종료된 후에 PCB가 수집되지 않아 좀비가 될 수 있다. Linux는 고아를 자동으로 init에 입양시켜 이 문제를 해결한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고아 프로세스 발생과 입양 시퀀스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① 정상 상태:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부모(PID 100) ──fork()──▶ 자식(PID 200)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PPID=100</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② 부모 종료 (exit 또는 SIGKILL):</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">죽음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ 커널 자동 입양:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자식(PID 200) PPID: 100 → 1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">④ init(또는 subreaper)가 고아의 종료 수집:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">init ── waitpid(-1, ...) ──▶ 자식 종료 시 상태 수집</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 좀비 발생 없음, 정상 동작 유지</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────┐
+│              고아 프로세스 발생과 입양 시퀀스                  │
+├────────────────────────────────────────────────────────────────┤
+│                                                                │
+│  ① 정상 상태:                                                  │
+│     부모(PID 100) ──fork()──▶ 자식(PID 200)                    │
+│     PPID=100                                                   │
+│                                                                │
+│  ② 부모 종료 (exit 또는 SIGKILL):                              │
+│     부모(PID 100) ── 종료 ──▶ [죽음]                           │
+│                                                                │
+│  ③ 커널 자동 입양:                                             │
+│     자식(PID 200) PPID: 100 → 1                                │
+│                                                                │
+│  ④ init(또는 subreaper)가 고아의 종료 수집:                    │
+│     init ── waitpid(-1, ...) ──▶ 자식 종료 시 상태 수집        │
+│                                                                │
+│  결과: 좀비 발생 없음, 정상 동작 유지                          │
+└────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 부모 종료 시 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 자식의 PPID를 1(init)로 재설정한다. init 프로세스는 부패 루프에서 waitpid(-1, &status, WNOHANG)을 호출하여 종료된 고아의 상태를 비동기적으로 수집한다. 따라서 고아 프로세스는 좀비가 되지 않으며, 시스템에 어떠런 자원 누수도 유발하지 않는다. PR_SET_CHILD_SUBREAPER가 설정된 경우, init 대신 subreaper 프로세스가 새 부모 역할을 대신한다.
 
@@ -104,19 +106,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">좀비 프로세스 (Zombie Process)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">고아 프로세스 (Orphan Process)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스레드 취소 (Thread Cancellation)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">취소 점 (Cancellation Point)</div></div>
-</div>
-</div>
-
-
+```text
+[좀비 프로세스 (Zombie Process)]
+    │
+    ▼
+[고아 프로세스 (Orphan Process)]
+    │
+    ├──▶ [스레드 취소 (Thread Cancellation)]
+    └──▶ [취소 점 (Cancellation Point)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

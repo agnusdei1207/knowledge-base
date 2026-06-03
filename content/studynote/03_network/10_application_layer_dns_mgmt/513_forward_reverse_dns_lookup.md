@@ -39,31 +39,33 @@ tags = ["studynote-network"]
   1. **스팸 봇의 위조 명함 쓰나미**: 90년대 [SMTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/488_smtp_simple_mail_transfer_protocol/)(이메일 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))는 보안 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)(Auth)이 1바이트도 없는 알몸 백지상태였다. 아무나 "나 백악관임" 속이며 메일을 보낼 수 있었다. 이걸 물리적으로 막을 유일한 수단이 접속 IP의 주인을 캐묻는 Reverse [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 팩트 체크였다.
   2. <strong>IP와 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a>의 트리 구조 모순</strong>: [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)(`com ➔ naver ➔ www`)은 뒤에서부터 계층이 좁아지는데, IP(`192 ➔ 168 ➔ 1`)는 앞에서부터 좁아진다(네트워크 대역). 이 정반대의 계층 물리 법칙을 맞추기 위해 192.168.1.1 을 거꾸로 뒤집어서 `1.1.168.192.in-addr.arpa` 라는 요상한 트리 장부에 쑤셔 박아버리는 처절한 엔지니어링 꼼수가 탄생했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정방향(A) vs 역방향(PTR) 크로스 체킹(Cross-Checking) 십자 방어 도면</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">📩</div><div class="kb-diagram-node">1. 해커의 기만 (Spoofing) 공격 발동 💥</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 해커(중국 IP: 111.22.33.44) ➔ 내 메일 서버 찌름 툭.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "안뇽 난 <code>admin@naver.com</code> 야 ㅋ 메일 좀 받아줘 ㅋ"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">🛡️ 아키텍트의 2중 팩트 체크 (역방향 ➔ 정방향 록온)</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🔍</div><div class="kb-diagram-node">2. 역방향 조회 (Reverse Lookup) 호적 스캔 쓩!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 내 서버 왈: "잠깐 스톱 락! 텍스트 명함 안 믿어! 니 쌩얼 IP 까봐!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- DNS에 질의: "야 이 IP(<code>111.22.33.44</code>) 호적 도메인 뭐야?"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 🌟 DNS 응답 (PTR 레코드): "어 그거 <code>hacker.cn</code> 소유임 ㅋ"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🎯</div><div class="kb-diagram-node">3. 정방향 조회 (Forward Lookup) 최종 더블 체크 쾅!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 내 서버 왈: "오케이 역추적하니 <code>hacker.cn</code> 나왔네? 진짜 맞는지 다시 검증!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- DNS에 2차 질의: "야 그럼 저 <code>hacker.cn</code> 도메인 까서 IP 뱉어봐!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 🌟 DNS 응답 (A 레코드): "ㅇㅇ IP <code>111.22.33.44</code> 나옴 팩트 컷!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">💀</div><div class="kb-diagram-node">4. 사형 선고 컷! (Drop &amp; Ban)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 내 서버 결론: "역방향 ➔ 정방향 2바퀴 핑퐁 쳤더니 니 찐 정체는 <code>hacker.cn</code></div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이네 팩트 록온 쾅!! 근데 아까 나한테 네이버(<code>naver.com</code>)라고 구라 쳤지?!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사기꾼 새끼 403 차단 IP 영구 밴 블랙리스트 드랍 소각 찢어버려 쾅🚀!!!"</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │         정방향(A) vs 역방향(PTR) 크로스 체킹(Cross-Checking) 십자 방어 도면 │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │ 📩 [ 1. 해커의 기만 (Spoofing) 공격 발동 💥 ]                      │
+  │   - 해커(중국 IP: 111.22.33.44) ➔ 내 메일 서버 찌름 툭.            │
+  │   - "안뇽 난 `admin@naver.com` 야 ㅋ 메일 좀 받아줘 ㅋ"              │
+  │                                                             │
+  │        ======= [ 🛡️ 아키텍트의 2중 팩트 체크 (역방향 ➔ 정방향 록온) ] ========│
+  │                                                             │
+  │ 🔍 [ 2. 역방향 조회 (Reverse Lookup) 호적 스캔 쓩! ]                │
+  │   - 내 서버 왈: "잠깐 스톱 락! 텍스트 명함 안 믿어! 니 쌩얼 IP 까봐!"     │
+  │   - DNS에 질의: "야 이 IP(`111.22.33.44`) 호적 도메인 뭐야?"         │
+  │   - 🌟 DNS 응답 (PTR 레코드): "어 그거 `hacker.cn` 소유임 ㅋ"      │
+  │                                                             │
+  │ 🎯 [ 3. 정방향 조회 (Forward Lookup) 최종 더블 체크 쾅! ]            │
+  │   - 내 서버 왈: "오케이 역추적하니 `hacker.cn` 나왔네? 진짜 맞는지 다시 검증!"│
+  │   - DNS에 2차 질의: "야 그럼 저 `hacker.cn` 도메인 까서 IP 뱉어봐!"     │
+  │   - 🌟 DNS 응답 (A 레코드): "ㅇㅇ IP `111.22.33.44` 나옴 팩트 컷!" │
+  │                                                             │
+  │ 💀 [ 4. 사형 선고 컷! (Drop & Ban) ]                               │
+  │   - 내 서버 결론: "역방향 ➔ 정방향 2바퀴 핑퐁 쳤더니 니 찐 정체는 `hacker.cn`│
+  │     이네 팩트 록온 쾅!! 근데 아까 나한테 네이버(`naver.com`)라고 구라 쳤지?! │
+  │     사기꾼 새끼 403 차단 IP 영구 밴 블랙리스트 드랍 소각 찢어버려 쾅🚀!!!" │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 스팸 서버들이 어떻게 수백만 통의 위조 메일을 1초 컷으로 걸러내는지 까발리는 2중 [스파이](/knowledge-base/studynote/04_software_engineering/11_testing_validation/461_spy_test_double/) 방어 맵이다. 
 단순히 역방향(IP ➔ [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)) 딱 1번만 치고 끝내는 게 아니다! 해커가 지네 쪽 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 서버를 해킹해서 역방향 결과값 자체를 조작(Poisoning)해 둘 수도 있다. 
@@ -109,18 +111,14 @@ IP와 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalizatio
 
 만약 한국식 봉투(IP)를 그대로 쳐 넣으면 기계 뇌가 정지해 뻗어 터집니다 💥. 천재 우체국장은 기계를 고치는 100억 공사를 찢어버리고 ➔ 걍 알바생 시켜서 한국식 봉투의 **글씨 순서만 가위로 오려서 180도 서양식으로 거꾸로 싹 다 뒤집어 테이프로 다시 붙여(Reverse 꼼수)** 우체통에 쳐 박아버립니다!! 우체국 기계는 "오예 서양식이네 ㅋ" 하고 아무 의심 없이 0.1초 컷 고속 쾌속 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 핑퐁을 쳐주는 극강의 저비용 고효율 인프라 스위칭 마법입니다 🚀.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">재귀적 질의 vs 반복적 질의</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">정방향 조회 vs 역방향 조회</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DNS 레코드</div></div>
-</div>
-</div>
-
-
+```text
+[재귀적 질의 vs 반복적 질의]
+    │
+    ▼
+[정방향 조회 vs 역방향 조회]
+    │
+    └──▶ [DNS 레코드]
+```
 
 - **📢 섹션 요약 비유**: `in-addr.arpa` 숫자 뒤집기 꼼수는, <strong>'서양인과 한국인의 주소 쓰는 순서 뇌 정지 맞추기'</strong>와 100% 똑같습니다. 한국은 "대한민국 ➔ 서울 ➔ 강남구 ➔ 10번지(큰 거에서 작은 거)"로 쓰죠(IP 방식). 근데 우체국([DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/)) [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 기계는 서양식 "10번지 ➔ 강남구 ➔ 서울 ➔ 대한민국(작은 거에서 큰 거)"으로 무조건 뒤에서부터 읽도록 쇳덩이 세팅이 굳어 있습니다.
 
@@ -187,34 +185,36 @@ IP와 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalizatio
    사설망 IP 묻는 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)는 100% 무조건 우리 사내망 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 뱃속 장부 깡통 밀실 안에서만 [자체 짬처리 답변(Local Authoritative)] 맥여 튕겨내 버리고 ➔ [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 못 찾겠으면 밖으로 핑퐁 안 치고 걍 그 자리에서 0.1ms 컷 '나 모름(NXDOMAIN) 꺼져 컷' 드랍 압살 찢어버려 무결점 생존 방어 쳐 쓩🚀!!!**" 
    내부망 정보가 역방향 조회(PTR) 패킷 껍데기를 타고 인터넷 바다로 질질 누수([DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) Leak)되는 자해 폭탄 정보 헌납을, 인프라 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 포워드 강제 컷오프 융합으로 완벽히 입 틀어막아 소각해 내는 네트워크 0순위 프라이버시 생존술이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실무 아키텍처: IP 뒤집기 마법! in-addr.arpa 공간 해킹 렌더링 도면</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">💀</div><div class="kb-diagram-node">IP와 도메인의 방향성 정면충돌 파국 (물리 법칙 모순 💥)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- 도메인:</div><div class="kb-diagram-node">www</div><div class="kb-diagram-note">➔</div><div class="kb-diagram-node">naver</div><div class="kb-diagram-note">➔</div><div class="kb-diagram-node">com</div><div class="kb-diagram-note">➔</div><div class="kb-diagram-node">.</div><div class="kb-diagram-note">(Root 대장)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(방향: 오른쪽으로 갈수록 큰 대륙 덩어리 대장 트리 🌳)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- IP 주소:</div><div class="kb-diagram-node">192</div><div class="kb-diagram-note">➔</div><div class="kb-diagram-node">168</div><div class="kb-diagram-note">➔</div><div class="kb-diagram-node">1</div><div class="kb-diagram-note">➔</div><div class="kb-diagram-node">50</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(방향: 왼쪽으로 갈수록 큰 네트워크 대륙 덩어리 대장 🌍)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">➔ 파국: 기계(DNS 트리 엔진)는 무조건</div><div class="kb-diagram-node">오른쪽 ➔ 왼쪽</div><div class="kb-diagram-note">으로만 탐색하게 하드코딩</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시멘트 락 걸려있음. IP를 던지면 트리 구조 파싱 뇌 정지 뻗음 검색 불가 💀!!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">🛡️ 아키텍트의 100배 스피드 공간 치환 뒤집기 꼼수 ✂️</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🚀</div><div class="kb-diagram-node">우주 최강 무식한 텍스트 180도 스위칭 록온 (in-addr.arpa ✨)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1.</div><div class="kb-diagram-node">192.168.1.50</div><div class="kb-diagram-note">IP를 4토막 가위로 다 오려 도끼로 찢어발긴다 쾅!!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2. 꼬랑지부터 역순으로 재조립 떡칠! ➔</div><div class="kb-diagram-node">50</div><div class="kb-diagram-note">➔</div><div class="kb-diagram-node">1</div><div class="kb-diagram-note">➔</div><div class="kb-diagram-node">168</div><div class="kb-diagram-note">➔</div><div class="kb-diagram-node">192</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 맨 끝에 역방향 전용 특수 절대 권력 루트 도메인을 강제 용접 락킹 쾅!!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➔ <code>50.1.168.192.in-addr.arpa</code> 완성 🚀!!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 아키텍트 극딜: "야 기계야 파싱해봐 ㅋ!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- 기계 봇 왈: "오! 맨 뒤가 1.</div><div class="kb-diagram-node">arpa 루트 대장</div><div class="kb-diagram-note">➔ 2.</div><div class="kb-diagram-node">192 대륙 폴더</div><div class="kb-diagram-note">➔</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3.</div><div class="kb-diagram-node">168 국가 폴더</div><div class="kb-diagram-note">➔ 4.</div><div class="kb-diagram-node">50 찌끄레기 폰</div><div class="kb-diagram-note">. 와우!! 내가 평소에 <code>com</code> ➔</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell"><code>naver</code> 검색하던 정방향 도메인 트리 검색 로직(Tree Traversal) 알고리즘을 단</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1줄의 쇳덩이 엔진 코드 수정도 없이 100% 무결점 재사용(Reuse 융합) 꿀 빨아서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">광속으로 핑퐁 스키 타고 0.1초 컷 찾아왔네 데헷 ㅋ 우주 쾌속 팩트 록온 쾅!!!"</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │         실무 아키텍처: IP 뒤집기 마법! in-addr.arpa 공간 해킹 렌더링 도면 │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │ 💀 [ IP와 도메인의 방향성 정면충돌 파국 (물리 법칙 모순 💥) ]            │
+  │   - 도메인: [www] ➔ [naver] ➔ [com] ➔ [.] (Root 대장)             │
+  │     (방향: 오른쪽으로 갈수록 큰 대륙 덩어리 대장 트리 🌳)                 │
+  │   - IP 주소: [192] ➔ [168] ➔ [1] ➔ [50]                        │
+  │     (방향: 왼쪽으로 갈수록 큰 네트워크 대륙 덩어리 대장 🌍)                 │
+  │   ➔ 파국: 기계(DNS 트리 엔진)는 무조건 [오른쪽 ➔ 왼쪽]으로만 탐색하게 하드코딩  │
+  │      시멘트 락 걸려있음. IP를 던지면 트리 구조 파싱 뇌 정지 뻗음 검색 불가 💀!! │
+  │                                                             │
+  │        ======= [ 🛡️ 아키텍트의 100배 스피드 공간 치환 뒤집기 꼼수 ✂️ ] ========│
+  │                                                             │
+  │ 🚀 [ 우주 최강 무식한 텍스트 180도 스위칭 록온 (in-addr.arpa ✨) ]        │
+  │                                                             │
+  │   1. [192.168.1.50] IP를 4토막 가위로 다 오려 도끼로 찢어발긴다 쾅!!       │
+  │   2. 꼬랑지부터 역순으로 재조립 떡칠! ➔ [50] ➔ [1] ➔ [168] ➔ [192]   │
+  │   3. 맨 끝에 역방향 전용 특수 절대 권력 루트 도메인을 강제 용접 락킹 쾅!!     │
+  │      ➔ `50.1.168.192.in-addr.arpa` 완성 🚀!!                       │
+  │                                                             │
+  │ 🌟 아키텍트 극딜: "야 기계야 파싱해봐 ㅋ!"                               │
+  │   - 기계 봇 왈: "오! 맨 뒤가 1. [arpa 루트 대장] ➔ 2. [192 대륙 폴더] ➔   │
+  │     3. [168 국가 폴더] ➔ 4. [50 찌끄레기 폰]. 와우!! 내가 평소에 `com` ➔   │
+  │     `naver` 검색하던 정방향 도메인 트리 검색 로직(Tree Traversal) 알고리즘을 단│
+  │     1줄의 쇳덩이 엔진 코드 수정도 없이 100% 무결점 재사용(Reuse 융합) 꿀 빨아서 │
+  │     광속으로 핑퐁 스키 타고 0.1초 컷 찾아왔네 데헷 ㅋ 우주 쾌속 팩트 록온 쾅!!!" │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** "역방향 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 존나 복잡한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 아님?" 라는 비전공자의 환상을 짓밟는 아키텍트의 오만하고 위대한 [B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) 속임수(Cheat) 도면이다. 
 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 대법관 시스템을 처음부터 갈아 엎어서 "IP 전용 역방향 트리 검색 C언어 로직(엔진)"을 수백억 들여 새로 깎아 창조(Over-engineering)하는 짓 따윈 하지 않았다. 
@@ -305,19 +305,15 @@ IP와 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalizatio
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 재귀적 질의 vs 반복적 질의</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 정방향 조회 vs 역방향 조회</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: DNS 레코드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율 운영 네트워크</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 재귀적 질의 vs 반복적 질의]
+    │
+    ▼
+[현재 개념: 정방향 조회 vs 역방향 조회]
+    │
+    ├──▶ [확장 A: DNS 레코드]
+    └──▶ [확장 B: 자율 운영 네트워크]
+```
 
 정방향 조회 vs 역방향 조회는 [재귀적 질의](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/512_recursive_iterative_dns_query/) vs 반복적 질의에서 출발해 현재 메커니즘을 정교화하고, 이후 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 레코드와 자율 운영 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

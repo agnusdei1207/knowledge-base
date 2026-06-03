@@ -35,27 +35,31 @@ tags = ["studynote-operating-system"]
 - **등장 배경**: 
   - IBM의 PowerPC, HP의 IA-64(Itanium) 등 초창기 64비트 엔터프라이즈 서버 아키텍처에서 메모리 절약을 위해 하드웨어 레벨로 도입된 혁신적 기법이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기존 페이지 테이블 vs 역 페이지 테이블 구조 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">기존: 프로세스별 다단계 페이지 테이블</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 프로세스 100개면 테이블도 100세트 필요 (메모리 낭비 극심)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">P1의 테이블</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">물리 주소 (RAM 0x1000)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">P2의 테이블</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">물리 주소 (RAM 0x2000)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">역 페이지 테이블 (Inverted Page Table)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 프로세스가 100개든 1만개든, 테이블은 시스템 전체에 딱 1개!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">테이블 인덱스 (이 번호가 곧 물리 프레임 번호)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">(비어있음)</div><div class="kb-diagram-cell">◀ RAM 0번지 프레임</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">PID: 10, 가상페이지 번호: 5</div><div class="kb-diagram-cell">◀ RAM 1번지 프레임</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2</div><div class="kb-diagram-cell">PID: 99, 가상페이지 번호: 2</div><div class="kb-diagram-cell">◀ RAM 2번지 프레임</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">❓ 딜레마: CPU가 "PID 10번의 5번 페이지 주소 줘!"라고 요청하면,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이 표의 0번부터 끝까지 싹 다 뒤져야(선형 탐색) 하나?</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │                 기존 페이지 테이블 vs 역 페이지 테이블 구조 비교         │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │  [ 기존: 프로세스별 다단계 페이지 테이블 ]                          │
+  │   - 프로세스 100개면 테이블도 100세트 필요 (메모리 낭비 극심)           │
+  │                                                             │
+  │   가상주소(P1) ──▶ [ P1의 테이블 ] ──▶ 물리 주소 (RAM 0x1000)  │
+  │   가상주소(P2) ──▶ [ P2의 테이블 ] ──▶ 물리 주소 (RAM 0x2000)  │
+  │                                                             │
+  │  [ 역 페이지 테이블 (Inverted Page Table) ]                     │
+  │   - 프로세스가 100개든 1만개든, **테이블은 시스템 전체에 딱 1개**!      │
+  │                                                             │
+  │   테이블 인덱스 (이 번호가 곧 물리 프레임 번호)                      │
+  │    ┌─────────────────────────────────┐                      │
+  │  0 │ (비어있음)                        │ ◀ RAM 0번지 프레임       │
+  │  1 │ PID: 10, 가상페이지 번호: 5       │ ◀ RAM 1번지 프레임       │
+  │  2 │ PID: 99, 가상페이지 번호: 2       │ ◀ RAM 2번지 프레임       │
+  │    └─────────────────────────────────┘                      │
+  │                                                             │
+  │  ❓ 딜레마: CPU가 "PID 10번의 5번 페이지 주소 줘!"라고 요청하면,       │
+  │             이 표의 0번부터 끝까지 싹 다 뒤져야(선형 탐색) 하나?       │
+  └─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** [역 페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/363_inverted_page_table/)의 장점과 치명적 단점을 동시에 보여준다. 기존 방식은 가상 주소를 인덱스로 배열에 접근하므로 한 번에(O(1)) [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/)를 찾았다. 하지만 [역 페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/363_inverted_page_table/)은 인덱스가 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/)다. CPU가 들고 있는 건 가상 주소이므로, 이 테이블을 거꾸로 뒤져야 한다. 16GB 램이면 프레임이 400만 개다. 메모리를 읽을 때마다 400만 칸을 `for` 문으로 뒤진다면 컴퓨터는 멈춰버릴 것이다. 이 치명적 단점(탐색 속도)을 극복하기 위해 컴퓨터 구조학자들은 '[해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/)([Hash Table](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/))'이라는 소프트웨어 자료구조를 하드웨어 MMU에 이식하는 결단을 내린다.
 
@@ -69,26 +73,35 @@ tags = ["studynote-operating-system"]
 
 탐색 속도 문제를 해결하기 위해, [역 페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/363_inverted_page_table/) 앞에 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/">해시 테이블</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/">Hash Table</a>)</strong>을 추가로 배치한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전역 해시 테이블 기반의 초고속 역 매핑 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1. CPU의 메모리 요청:</div><div class="kb-diagram-node">PID = 10, 가상 페이지 번호(P) = 5</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (해시 함수 h(PID, P) 실행)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Hash 함수: <code>(10 + 5) % 해시테이블크기</code> = 결과값 2 추출!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▼</div><div class="kb-diagram-node">해시 앵커 테이블 (Hash Anchor Table)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IDX</div><div class="kb-diagram-cell">Frame #</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2</div><div class="kb-diagram-cell">1024</div><div class="kb-diagram-cell">──▶ 3. 물리 프레임 1024번부터 찾으라는 힌트!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▼</div><div class="kb-diagram-node">역 페이지 테이블 (Inverted Page Table)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Frame</div><div class="kb-diagram-cell">PID</div><div class="kb-diagram-cell">P</div><div class="kb-diagram-cell">Next Ptr</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(힌트 도착!)▶ 1024</div><div class="kb-diagram-cell">99</div><div class="kb-diagram-cell">2</div><div class="kb-diagram-cell">2048</div><div class="kb-diagram-cell">(충돌 발생! PID가 다름)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2048</div><div class="kb-diagram-cell">10</div><div class="kb-diagram-cell">5</div><div class="kb-diagram-cell">Null</div><div class="kb-diagram-cell">◀ 4. 체인 따라가서 정답 발견!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 정답의 인덱스인 물리 프레임 '2048'을 최종 물리 주소로 확정!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 전역 해시 테이블 기반의 초고속 역 매핑 아키텍처            │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │  1. CPU의 메모리 요청: [ PID = 10, 가상 페이지 번호(P) = 5 ]          │
+  │             │                                                     │
+  │             ▼ (해시 함수 h(PID, P) 실행)                             │
+  │  2. Hash 함수: `(10 + 5) % 해시테이블크기` = 결과값 2 추출!               │
+  │             │                                                     │
+  │             ▼ [ 해시 앵커 테이블 (Hash Anchor Table) ]              │
+  │         ┌─────┬──────────┐                                        │
+  │         │ IDX │ Frame #  │                                        │
+  │         ├─────┼──────────┤                                        │
+  │         │  2  │   1024   │ ──▶ 3. 물리 프레임 1024번부터 찾으라는 힌트! │
+  │         └─────┴──────────┘                                        │
+  │             │                                                     │
+  │             ▼ [ 역 페이지 테이블 (Inverted Page Table) ]            │
+  │         ┌───────┬──────┬──────┬─────────┐                         │
+  │         │ Frame │ PID  │  P   │ Next Ptr│                         │
+  │         ├───────┼──────┼──────┼─────────┤                         │
+  │(힌트 도착!)▶ 1024  │  99  │  2   │  2048   │ (충돌 발생! PID가 다름)     │
+  │         ├───────┼──────┼──────┼─────────┤                         │
+  │         │ 2048  │  10  │  5   │  Null   │ ◀ 4. 체인 따라가서 정답 발견!│
+  │         └───────┴──────┴──────┴─────────┘                         │
+  │                                                                   │
+  │  5. 정답의 인덱스인 물리 프레임 '2048'을 최종 물리 주소로 확정!                 │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 복잡한 회로는 전부 하드웨어([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/)) 레벨에서 나노초 단위로 일어난다. CPU가 가상 주소를 던지면 [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)가 작동해 테이블을 뒤질 '시작점([힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/))'을 알려준다. 해시의 숙명인 [해시 충돌](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/)(Hash [Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/))이 발생하면(예: PID 99와 PID 10이 우연히 같은 해시값을 가짐), [역 페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/363_inverted_page_table/) 내부에 마련된 `Next 포인터`를 따라 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)([Chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/103_chaining/))를 탐색한다. 평균적으로 1~2회의 탐색(O(1))만으로 물리 프레임 번호를 찾아낼 수 있어, 400만 번의 [선형 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/030_linear_search/) 지옥에서 시스템을 구원해 낸다.
 
@@ -134,25 +147,28 @@ OS 메모리 관리의 양대 산맥으로, 각각 메모리 용량과 탐색 �
 2. <strong>시나리오 — 초거대 메모리(Tera-byte RAM) 환경에서의 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/">해시 테이블</a> 크기 최적화</strong>: 4TB 물리 RAM을 장착한 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 학습 서버(IA-64 구조)를 부팅했는데, [역 페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/363_inverted_page_table/) 자체의 크기가 너무 커져서 L3 캐시를 다 밀어내고 성능이 하락했다.
    - <strong>아키텍트 판단 (<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/">Huge Pages</a> 융합)</strong>: 물리 메모리가 4TB면 4KB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 기준 프레임이 10억 개다. [역 페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/363_inverted_page_table/)도 10억 칸이 되어 약 16GB의 메모리를 혼자 처먹는다. 아무리 전역 테이블이라 해도 너무 무겁다. 해결책은 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/">거대 페이지</a>(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/">Huge Pages</a>, 2MB 또는 1GB)</strong>를 적용하는 것이다. 1GB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 쓰면 프레임 개수가 4,000개로 압축되며 [역 페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/363_inverted_page_table/) 크기도 수 킬로바이트 수준으로 완전히 소멸한다. [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/) 폭발과 테이블 압축이라는 1석 2조의 아키텍처 최적화다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 주소 변환 아키텍처의 시대적 발전 (의사결정 트리)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">64비트 시스템의 메모리 관리 방식을 설계한다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로세스 간 메모리 공유(Shared Memory)가 빈번하게 발생하는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">계층형(다단계) 페이지 테이블 채택 (x64)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(각자 테이블을 가지므로 공유 매핑이 자유로움)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 (독립적인 연산 위주, 공유 거의 없음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">탑재된 물리 램(RAM)이 매우 작아 페이지 테이블의 낭비조차 아까운가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">역 페이지 테이블 (Inverted) 채택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(단 1개의 전역 해시 테이블로 메모리 극단적 절약)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">4단계 / 5단계 페이징 + Huge Page 조합</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(현대 인텔/AMD 서버의 압도적 1티어 표준 튜닝)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 메모리 주소 변환 아키텍처의 시대적 발전 (의사결정 트리)       │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [ 64비트 시스템의 메모리 관리 방식을 설계한다 ]                           │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      프로세스 간 메모리 공유(Shared Memory)가 빈번하게 발생하는가?          │
+  │          ├─ 예 ─────▶ [ 계층형(다단계) 페이지 테이블 채택 (x64) ]        │
+  │          │             (각자 테이블을 가지므로 공유 매핑이 자유로움)           │
+  │          └─ 아니오 (독립적인 연산 위주, 공유 거의 없음)                     │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      탑재된 물리 램(RAM)이 매우 작아 페이지 테이블의 낭비조차 아까운가?         │
+  │          ├─ 예 ─────▶ [ 역 페이지 테이블 (Inverted) 채택 ]           │
+  │          │             (단 1개의 전역 해시 테이블로 메모리 극단적 절약)        │
+  │          │                                                        │
+  │          └─ 아니오 ──▶ [ 4단계 / 5단계 페이징 + Huge Page 조합 ]      │
+  │                        (현대 인텔/AMD 서버의 압도적 1티어 표준 튜닝)          │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 사실 현대 x86-64 아키텍처(인텔, AMD)는 [역 페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/363_inverted_page_table/)을 버리고 4단계(최근 5단계) [다단계 페이지 테이블](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/289_multilevel_page_table/)로 진화 방향을 잡았다. 램 가격이 똥값이 되면서 "테이블이 먹는 기가바이트 단위의 메모리 낭비"보다 "[해시 충돌](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/)과 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)의 복잡성"을 피하는 것이 훨씬 이득이라는 자본주의적 판단 때문이다. 그러나 IBM [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) 아키텍처 등 특수 목적의 고성능 엔터프라이즈 환경에서는 [역 페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/363_inverted_page_table/)의 변형([Hashed Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/362_hashed_page_table/))이 여전히 거대 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 백본으로 맹활약 중이다.
 
@@ -198,19 +214,15 @@ OS 메모리 관리의 양대 산맥으로, 각각 메모리 용량과 탐색 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">데드락 희생자 롤백 복구망</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">역 페이지 테이블 전역 해시 매핑 (Inverted Page Table Hash)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">플래시 메모리 마모 평준화 (Wear Leveling)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">다중 큐 SSD NVMe 프로토콜 장점</div></div>
-</div>
-</div>
-
-
+```text
+[데드락 희생자 롤백 복구망]
+    │
+    ▼
+[역 페이지 테이블 전역 해시 매핑 (Inverted Page Table Hash)]
+    │
+    ├──▶ [플래시 메모리 마모 평준화 (Wear Leveling)]
+    └──▶ [다중 큐 SSD NVMe 프로토콜 장점]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

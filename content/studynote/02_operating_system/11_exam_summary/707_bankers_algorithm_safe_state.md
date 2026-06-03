@@ -59,30 +59,32 @@ tags = ["studynote-operating-system"]
 
 프로세스가 자원을 요구하면, 시스템은 속으로 가상 시뮬레이션을 돌려본다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">안전 상태 판별 (Safe Sequence 찾기) 알고리즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 시스템 상태: 자원 A, B, C</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- Available (금고에 남은 돈) =</div><div class="kb-diagram-node">3, 3, 2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 프로세스 목록:</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">P0: Allocation</div><div class="kb-diagram-node">0,1,0</div><div class="kb-diagram-note">/ Need</div><div class="kb-diagram-node">7,4,3</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">금고 돈으로 해결 불가!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">P1: Allocation</div><div class="kb-diagram-node">2,0,0</div><div class="kb-diagram-note">/ Need</div><div class="kb-diagram-node">1,2,2</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">금고 돈으로 해결 가능!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">P2: Allocation</div><div class="kb-diagram-node">3,0,2</div><div class="kb-diagram-note">/ Need</div><div class="kb-diagram-node">6,0,0</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">금고 돈으로 해결 불가!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시뮬레이션 (Work = Available)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1단계: 금고 돈</div><div class="kb-diagram-node">3,3,2</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">P1 당첨!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2단계: P1에게 돈을 다 빌려줬다 치고, P1이 무사히 종료(반환)했다고 가정한다.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">P1이 쥐고 있던</div><div class="kb-diagram-node">2,0,0</div><div class="kb-diagram-note">이 금고로 돌아옴!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">이제 금고 돈(Work) =</div><div class="kb-diagram-node">3,3,2</div><div class="kb-diagram-note">+</div><div class="kb-diagram-node">2,0,0</div><div class="kb-diagram-note">=</div><div class="kb-diagram-node">5,3,2</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3단계: 넉넉해진</div><div class="kb-diagram-node">5,3,2</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">P2 불가능, P0 불가능?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">(어라? P0의 Need는</div><div class="kb-diagram-node">7,4,3</div><div class="kb-diagram-note">이라 5,3,2로 부족. P2도</div><div class="kb-diagram-node">6,0,0</div><div class="kb-diagram-note">이라 부족)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">★ 결론: 남은 애들(P0, P2)이 모두 굶어 죽는다.</div><div class="kb-diagram-node">불안전 상태(Unsafe State)</div><div class="kb-diagram-note">!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">따라서 애초에 P1에게 자원을 주려던 시도는 "거절(Deny)"된다.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 안전 상태 판별 (Safe Sequence 찾기) 알고리즘           │
+  ├───────────────────────────────────────────────────────────────────┤
+  │  [현재 시스템 상태: 자원 A, B, C]                                    │
+  │  - Available (금고에 남은 돈) = [3, 3, 2]                          │
+  │                                                                   │
+  │  - 프로세스 목록:                                                   │
+  │    P0: Allocation [0,1,0] / Need [7,4,3] ◀ 금고 돈으로 해결 불가!     │
+  │    P1: Allocation [2,0,0] / Need [1,2,2] ◀ 금고 돈으로 해결 가능!     │
+  │    P2: Allocation [3,0,2] / Need [6,0,0] ◀ 금고 돈으로 해결 불가!     │
+  │                                                                   │
+  │  [시뮬레이션 (Work = Available)]                                    │
+  │  1단계: 금고 돈[3,3,2]으로 Need를 채워줄 수 있는 놈을 찾는다. -> P1 당첨!   │
+  │                                                                   │
+  │  2단계: P1에게 돈을 다 빌려줬다 치고, P1이 무사히 종료(반환)했다고 가정한다.   │
+  │         P1이 쥐고 있던 [2,0,0]이 금고로 돌아옴!                       │
+  │         이제 금고 돈(Work) = [3,3,2] + [2,0,0] = [5,3,2]            │
+  │                                                                   │
+  │  3단계: 넉넉해진 [5,3,2]로 또 Need를 채울 수 있는 놈을 찾는다. -> P2 불가능, P0 불가능? │
+  │         (어라? P0의 Need는 [7,4,3]이라 5,3,2로 부족. P2도 [6,0,0]이라 부족) │
+  │                                                                   │
+  │  ★ 결론: 남은 애들(P0, P2)이 모두 굶어 죽는다. [불안전 상태(Unsafe State)]! │
+  │          따라서 애초에 P1에게 자원을 주려던 시도는 "거절(Deny)"된다.       │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 만약 시뮬레이션 결과 P1 $\rightarrow$ P3 $\rightarrow$ P0 $\rightarrow$ P2 순서로 모든 프로세스의 Need를 차례대로 만족시키며 빚을 다 갚게 만들 수 있다면, 이 순서를 <strong>안전 순서열(<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/">Safe</a> Sequence)</strong>이라 부른다. 안전 순서열이 1개라도 존재하면 시스템은 "[안전 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/298_safe_state/)([Safe State](/knowledge-base/studynote/02_operating_system/05_deadlock/298_safe_state/))"이며, [자원 할당](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) 승인이 떨어진다.
 
@@ -122,26 +124,28 @@ tags = ["studynote-operating-system"]
 
 ### 의사결정 및 튜닝 플로우
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시스템 자원 배분 (Resource Allocation) 설계 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">한정된 자원(GPU, 라이선스, 커넥션 풀)을 다수의 컨테이너/앱이 나눠 써야 함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자원 고갈 시 서비스가 즉시 마비되는 치명적(Mission Critical) 환경인가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">회피(Avoidance) 기반 쿼터(Quota) 제어 시스템 도입</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대책: 클라이언트가 시작 시 필요한 최대 자원량(Max)을</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">명시하게 하고, 중앙 통제 서버가 남은 자원량을 계산해</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">안전할 때만 Lease(임대)를 허락하도록 아키텍처링</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 (웹 서버, 일반적인 DB 커넥션)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">타임아웃(Timeout) 및 무시(Ostrich) 기반 아키텍처 수용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 락이나 자원 획득 시 반드시 3초 등의 타임아웃을 걸어둔다.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 데드락이 터지면 그냥 에러(Exception)를 뱉고 실패 처리한다(Fail-fast).</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 성능(오버헤드 0)을 챙기고 에러는 로깅 후 재시도(Retry)로 극복한다.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 시스템 자원 배분 (Resource Allocation) 설계 플로우      │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [한정된 자원(GPU, 라이선스, 커넥션 풀)을 다수의 컨테이너/앱이 나눠 써야 함]  │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      자원 고갈 시 서비스가 즉시 마비되는 치명적(Mission Critical) 환경인가?  │
+  │          ├─ 예 ─────▶ [회피(Avoidance) 기반 쿼터(Quota) 제어 시스템 도입] │
+  │          │            대책: 클라이언트가 시작 시 필요한 최대 자원량(Max)을 │
+  │          │                  명시하게 하고, 중앙 통제 서버가 남은 자원량을 계산해│
+  │          │                  안전할 때만 Lease(임대)를 허락하도록 아키텍처링 │
+  │          └─ 아니오 (웹 서버, 일반적인 DB 커넥션)                         │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      [타임아웃(Timeout) 및 무시(Ostrich) 기반 아키텍처 수용]                  │
+  │      - 락이나 자원 획득 시 반드시 3초 등의 타임아웃을 걸어둔다.               │
+  │      - 데드락이 터지면 그냥 에러(Exception)를 뱉고 실패 처리한다(Fail-fast). │
+  │      - 성능(오버헤드 0)을 챙기고 에러는 로깅 후 재시도(Retry)로 극복한다.     │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** "OS가 데드락을 안 막아주면 어떡합니까?"라는 불평은 무의미하다. 성능을 위해 OS가 손을 놨기 때문에, 자원 데드락의 책임은 100% 애플리케이션 아키텍트에게 넘어왔다. 락을 쥘 때 타임아웃을 안 거는 것은, 은행원이 대출 한도를 안 보고 돈을 막 내어주는 것만큼이나 무책임한 설계다.
 
@@ -184,19 +188,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">자원 할당 그래프 사이클</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">은행원 알고리즘 안전 상태 (Bankers Algorithm Safe State)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">교착 상태 무시 (타조 알고리즘)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">교착 상태 복구 (프로세스 킬)</div></div>
-</div>
-</div>
-
-
+```text
+[자원 할당 그래프 사이클]
+    │
+    ▼
+[은행원 알고리즘 안전 상태 (Bankers Algorithm Safe State)]
+    │
+    ├──▶ [교착 상태 무시 (타조 알고리즘)]
+    └──▶ [교착 상태 복구 (프로세스 킬)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

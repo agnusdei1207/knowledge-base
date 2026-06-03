@@ -32,29 +32,27 @@ OTel의 설계 철학은 "수집(Instrumentation)과 저장(Backend)의 분리"�
 
 ### [OTel](/knowledge-base/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/) 전체 아키텍처
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">애플리케이션 계측</div></div>
-<div class="kb-diagram-note">서비스 코드</div>
-<div class="kb-diagram-tree-item" style="--depth:0">OTel Java/Python/Go SDK</div>
-<div class="kb-diagram-note">── 자동 계측 (Auto-instrumentation)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── HTTP, DB, gRPC 자동 Span 생성</div></div>
-<div class="kb-diagram-note">── 수동 계측 (Manual)</div>
-<div class="kb-diagram-note">── 비즈니스 로직 커스텀 Span</div>
-<div class="kb-diagram-note">↓ OTLP (OpenTelemetry Protocol) gRPC/HTTP</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">수집 파이프라인</div></div>
-<div class="kb-diagram-note">OTel Collector</div>
-<div class="kb-diagram-tree-item" style="--depth:0">Receivers: OTLP, Jaeger, Zipkin, Prometheus</div>
-<div class="kb-diagram-tree-item" style="--depth:0">Processors: 배치, 샘플링, 필터, 보강</div>
-<div class="kb-diagram-tree-item" style="--depth:0">Exporters: Prometheus, Jaeger, Datadog, Loki</div>
-<div class="kb-diagram-note">Prometheus Jaeger Datadog</div>
-<div class="kb-diagram-note">(메트릭) (트레이스) (통합 APM)</div>
-</div>
-</div>
-
-
+```
+[애플리케이션 계측]
+서비스 코드
+├── OTel Java/Python/Go SDK
+│   ├── 자동 계측 (Auto-instrumentation)
+│   │   └── HTTP, DB, gRPC 자동 Span 생성
+│   └── 수동 계측 (Manual)
+│       └── 비즈니스 로직 커스텀 Span
+│
+↓ OTLP (OpenTelemetry Protocol) gRPC/HTTP
+│
+[수집 파이프라인]
+OTel Collector
+├── Receivers: OTLP, Jaeger, Zipkin, Prometheus
+├── Processors: 배치, 샘플링, 필터, 보강
+└── Exporters: Prometheus, Jaeger, Datadog, Loki
+         │              │           │
+         ↓              ↓           ↓
+      Prometheus      Jaeger      Datadog
+      (메트릭)        (트레이스)   (통합 APM)
+```
 
 | [OTel](/knowledge-base/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/) 구성 요소 | 설명 |
 |:---|:---|
@@ -179,22 +177,18 @@ node -r @opentelemetry/auto-instrumentations-node app.js
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">벤더별 전용 SDK (Jaeger SDK · Datadog SDK → 벤더 종속)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">OpenTelemetry (OTel): CNCF 표준</div>
-<div class="kb-diagram-tree-item" style="--depth:2">SDK: 언어별 자동 계측 (Auto-instrumentation)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Collector: 수집 · 처리 · 라우팅</div>
-<div class="kb-diagram-tree-item" style="--depth:2">OTLP: 오픈 프로토콜</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">백엔드 선택 자유: Jaeger · Grafana · Datadog · Splunk</div>
-</div>
-</div>
-
-
+```text
+벤더별 전용 SDK (Jaeger SDK · Datadog SDK → 벤더 종속)
+    │
+    ▼
+OpenTelemetry (OTel): CNCF 표준
+    ├─► SDK: 언어별 자동 계측 (Auto-instrumentation)
+    ├─► Collector: 수집 · 처리 · 라우팅
+    └─► OTLP: 오픈 프로토콜
+    │
+    ▼
+백엔드 선택 자유: Jaeger · Grafana · Datadog · Splunk
+```
 2. 한 번 계측(plug-in)해두면 [Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/), Jaeger, Datadog 어디에든 연결할 수 있어요.
 3. 덕분에 더 좋은 도구가 나와도 처음부터 다시 만들 필요 없이 쉽게 바꿀 수 있어요!
 
@@ -205,6 +199,6 @@ node -r @opentelemetry/auto-instrumentations-node app.js
 **진행 상황**: 189 / 371
 
 ← **이전**: [189. Trace ID / Span ID / Context Propagation](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/189_trace_id_span_context_propagation/)
-**다음**: [191. 카오스 엔지니어링 (Chaos Engineering)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/191_chaos_engineering_chaos_monkey/) →
+**다음**: [191. 카오스 엔지니어링 (Chaos 엔진ering)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/191_chaos_engineering_chaos_monkey/) →
 
 ---

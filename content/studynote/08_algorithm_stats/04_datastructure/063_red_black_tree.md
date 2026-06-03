@@ -76,23 +76,21 @@ tags = ["studynote-algorithm"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">이진 탐색 트리 (BST — Binary Search Tree) — 삽입 순서에 따라 편향 발생</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AVL 트리 (AVL Tree) — 엄격한 높이 균형, 회전 빈도 높음</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">레드-블랙 트리 (Red-Black Tree) — 색 속성으로 느슨한 균형·O(log n) 보장</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">B-트리 / B+-트리 (B-Tree) — 디스크 I/O 최소화, DBMS 인덱스에 적용</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">표준 라이브러리 내장 (STL map·Java TreeMap) — 실무 언어 런타임에서 기본 채택</div></div>
-</div>
-</div>
-
-
+```text
+[이진 탐색 트리 (BST — Binary Search Tree) — 삽입 순서에 따라 편향 발생]
+    │
+    ▼
+[AVL 트리 (AVL Tree) — 엄격한 높이 균형, 회전 빈도 높음]
+    │
+    ▼
+[레드-블랙 트리 (Red-Black Tree) — 색 속성으로 느슨한 균형·O(log n) 보장]
+    │
+    ▼
+[B-트리 / B+-트리 (B-Tree) — 디스크 I/O 최소화, DBMS 인덱스에 적용]
+    │
+    ▼
+[표준 라이브러리 내장 (STL map·Java TreeMap) — 실무 언어 런타임에서 기본 채택]
+```
 
 이 흐름은 편향 BST 문제에서 출발해 균형 트리 계보가 DB [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)와 언어 표준 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)로 자리 잡는 과정을 나타낸다.
 

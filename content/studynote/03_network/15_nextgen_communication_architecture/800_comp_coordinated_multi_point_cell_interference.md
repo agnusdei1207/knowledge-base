@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 도심지에는 기지국이 바둑판처럼 촘촘히 100m마다 세워져 있습니다(고밀도 셀 환경).
 - 폰이 A 기지국 바로 밑에 있으면 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 깨끗하지만, A 기지국과 B 기지국 영역이 겹치는 <strong>셀 가장자리(Cell Edge) 경계선</strong>에 진입하는 순간, 폰 입장에서는 A의 전파와 B의 엉뚱한 전파가 똑같이 강하게 들려와 대혼란(심각한 전파 간섭 노이즈)에 빠지고 속도가 바닥을 칩니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">동적 스펙트럼 공유 기술</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">주파수 집성 기술 고급 모델 연대 전방위 고…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">데이터센터 3-Tier 아키텍처</div></div>
-</div>
-</div>
-
-
+```text
+[동적 스펙트럼 공유 기술]
+    │
+    ▼
+[주파수 집성 기술 고급 모델 연대 전방위 고…]
+    │
+    └──▶ [데이터센터 3-Tier 아키텍처]
+```
 
 - **📢 섹션 요약 비유**: 주파수 집성 기술 고급 모델 연대 전방위 고…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -44,18 +40,14 @@ tags = ["studynote-network"]
 - **개념**: 스마트폰이 여러 기지국이 겹치는 경계 지역(Cell Edge)에 있을 때, 인접한 여러 개의 기지국이 서로 적이 되는 것이 아니라 <strong>실시간으로 정보를 교환하고 찰떡같이 스케줄을 조율(협력, Coordinated)하여 폰의 통신 품질을 극대화시켜주는 고차원 전파 최적화망 송수신 기술</strong>입니다.
 - 이 마법이 가능해진 이유는 앞서 781번 문서에서 배운 <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/156_c_ran_cloud_ran/">C-RAN</a>(클라우드 기지국)</strong> 구조 덕분입니다. 전화국 지하에 모여있는 하나의 뇌([BBU](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/688_bbu/) Pool)가 강남역 기지국 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)와 역삼역 기지국 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 두 개를 마치 '자신의 양팔'처럼 완벽히 동시에 조종할 수 있게 되었기 때문입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">동적 스펙트럼 공유 기술</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">주파수 집성 기술 고급 모델 연대 전방위 고…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">데이터센터 3-Tier 아키텍처</div></div>
-</div>
-</div>
-
-
+```text
+[동적 스펙트럼 공유 기술]
+    │
+    ▼
+[주파수 집성 기술 고급 모델 연대 전방위 고…]
+    │
+    └──▶ [데이터센터 3-Tier 아키텍처]
+```
 
 - **📢 섹션 요약 비유**: 주파수 집성 기술 고급 모델 연대 전방위 고…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -122,19 +114,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 동적 스펙트럼 공유 기술</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 주파수 집성 기술 고급 모델 연대 전방위 고…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 데이터센터 3-Tier 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 네트워크 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 동적 스펙트럼 공유 기술]
+    │
+    ▼
+[현재 개념: 주파수 집성 기술 고급 모델 연대 전방위 고…]
+    │
+    ├──▶ [확장 A: 데이터센터 3-Tier 아키텍처]
+    └──▶ [확장 B: AI 기반 네트워크 최적화]
+```
 
 주파수 집성 기술 고급 모델 연대 전방위 고…는 동적 스펙트럼 공유 기술에서 출발해 현재 메커니즘을 정교화하고, 이후 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 3-Tier 아키텍처와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

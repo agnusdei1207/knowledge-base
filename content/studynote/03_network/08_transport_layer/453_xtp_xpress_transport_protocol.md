@@ -27,18 +27,14 @@ tags = ["studynote-network"]
   - XTP는 버튼 하나만 누르면 바퀴가 들어가고 스크루가 나오면서 땅과 바다를 맘대로 질주하는 호버크라프트를 표방했습니다.
   - 하지만 결국 너무 비싸고 유지보수가 힘들어, 사람들이 "그냥 땅에선 차 타고 바다에선 배 타는 게 싸게 먹히네"라고 깨달으며 박물관으로 직행했습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">RTCP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">XTP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">QUIC</div></div>
-</div>
-</div>
-
-
+```text
+[RTCP]
+    │
+    ▼
+[XTP]
+    │
+    └──▶ [QUIC]
+```
 
 - **📢 섹션 요약 비유**: <strong> XTP는 짬뽕과 짜장면(TCP와 <a href="/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a>)을 따로 시키는 번거로움을 없애고자 등장한 </strong>"짬짜면 전용 특수 그릇"**의 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 발명품입니다. 아이디어는 혁명적이었으나, 나중에 그냥 그릇 두 개([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP의 발전)를 동시에 빨리 씻어내는 기계가 나오면서 자연스레 자취를 감추었습니다.
 
@@ -61,23 +57,23 @@ tags = ["studynote-network"]
 4. **아웃 오브 밴드 제어 (Out-of-Band Control)**:
    - 일반 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 패킷과 제어 패킷([명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))의 길을 아예 분리해서, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 꽉 막힌 큐(대기열)에서도 긴급 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 하이패스로 뚫고 나가는 구조를 만들었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TCP/IP vs XTP의 계층 아키텍처 비교 도식</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">기존 OSI / TCP/IP 아키텍처</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L4 전송 계층 : TCP / UDP (별도 칩이나 OS가 처리)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L3 네트워크 계층 : IP (별도 칩이나 OS가 처리)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">XTP (Xpress Transport Protocol) 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">L3 + L4 짬뽕 계층 :</div><div class="kb-diagram-node">XTP (VLSI 하드웨어 칩에 원칩으로 박아버림)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ "계층 간에 데이터를 넘길 때 발생하는 헤더 깎기, 메모리 복사 등의</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오버헤드(지연)를 0으로 만들어, 미사일 쏘는 실시간 군사망에 맞춤형</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스피드를 제공하려 한 훌륭한 시도였다."</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                TCP/IP vs XTP의 계층 아키텍처 비교 도식             │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 기존 OSI / TCP/IP 아키텍처 ]                                │
+ │   L4 전송 계층 : TCP / UDP (별도 칩이나 OS가 처리)                  │
+ │   L3 네트워크 계층 : IP       (별도 칩이나 OS가 처리)                  │
+ │                                                             │
+ │   [ XTP (Xpress Transport Protocol) 아키텍처 ]                  │
+ │   L3 + L4 짬뽕 계층 : [ XTP (VLSI 하드웨어 칩에 원칩으로 박아버림) ]   │
+ │                                                             │
+ │   ▶ "계층 간에 데이터를 넘길 때 발생하는 헤더 깎기, 메모리 복사 등의      │
+ │      오버헤드(지연)를 0으로 만들어, 미사일 쏘는 실시간 군사망에 맞춤형  │
+ │      스피드를 제공하려 한 훌륭한 시도였다."                          │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 2. 완벽했던 천재의 몰락 (왜 망했는가?)
 이론적으로는 TCP를 씹어 먹는 완벽한 괴물이었지만 결국 역사의 패배자가 되었다.
@@ -140,19 +136,15 @@ XTP는 전송 계층을 이해할 때 핵심 축을 잡아 주는 개념이다. 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: RTCP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: XTP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: QUIC</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: RTCP]
+    │
+    ▼
+[현재 개념: XTP]
+    │
+    ├──▶ [확장 A: QUIC]
+    └──▶ [확장 B: 적응형 저지연 전송]
+```
 
 XTP는 RTCP에서 출발해 현재 메커니즘을 정교화하고, 이후 QUIC와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

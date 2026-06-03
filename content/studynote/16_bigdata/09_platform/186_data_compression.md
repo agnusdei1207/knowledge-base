@@ -43,22 +43,17 @@ tags = ["studynote-bigdata"]
 
 ### 2-1. [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 비교
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">압축률 Brotli</div>
-<div class="kb-diagram-note">●</div>
-<div class="kb-diagram-note">높음 │ Gzip ●</div>
-<div class="kb-diagram-note">Zstd ●</div>
-<div class="kb-diagram-note">Snappy ●</div>
-<div class="kb-diagram-note">낮음 │ LZ4 ●</div>
-<div class="kb-diagram-note">빠름 느림</div>
-<div class="kb-diagram-note">압축/해제 속도</div>
-</div>
-</div>
-
-
+```
+압축률      ┤                                    Brotli
+            │                                 ●
+높음        │                           Gzip ●
+            │                       Zstd ●
+            │               Snappy ●
+낮음        │       LZ4 ●
+            └────────────────────────────────────────▶
+                  빠름                           느림
+                         압축/해제 속도
+```
 
 ### 2-2. 주요 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 상세
 
@@ -171,23 +166,21 @@ Level 20-22: 최고 압축률 (Cold Storage)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">무손실 압축 (Lossless Compression) — Huffman/LZ77</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">컬럼형 압축 (Columnar Compression) — Parquet/ORC</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">사전 인코딩 (Dictionary Encoding) — 반복값 치환</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">런 길이 인코딩 (RLE, Run-Length Encoding) — 연속값 압축</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스노우플레이크 자동 압축 (Snowflake Auto-Compression) — 클라우드 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[무손실 압축 (Lossless Compression) — Huffman/LZ77]
+    │
+    ▼
+[컬럼형 압축 (Columnar Compression) — Parquet/ORC]
+    │
+    ▼
+[사전 인코딩 (Dictionary Encoding) — 반복값 치환]
+    │
+    ▼
+[런 길이 인코딩 (RLE, Run-Length Encoding) — 연속값 압축]
+    │
+    ▼
+[스노우플레이크 자동 압축 (Snowflake Auto-Compression) — 클라우드 최적화]
+```
 
 이 흐름은 손실 없이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 줄이는 기본 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)에서 시작해, 컬럼형·사전·[RLE](/knowledge-base/studynote/08_algorithm_stats/05_string/099_rle/) 기법을 거쳐 클라우드 자동 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)으로 발전하는 과정을 보여준다.
 

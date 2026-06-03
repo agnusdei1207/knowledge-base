@@ -21,33 +21,34 @@ tags = ["studynote-software-engineering"]
 
 - **개근**: 테스트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 소프트웨어 테스트에 사용되는 모든 형태의 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 의미한다. 이는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)에 저장된 레코드, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호출의 요청 본문, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 업로드의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 내용, 환경 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 값 등 다양한 형태로 존재할 수 있다. 테스트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리(TDM)는 이러한 테스트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 효과적으로 확보하고 관리하는 체계화된 프로세스이다.
 
-- **필요성**: 테스트의 효과는 사용하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 품질에 크게 의존한다.Poor quality test [data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) leads to misleading test results. 예를 들어, "모든 사용자가"이라는 가정하에 테스트하면 자 관련 결함을 찾을 수 없다. 또한 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 규정([GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/), [개인정보보호법](/knowledge-base/studynote/09_security/16_data_privacy/783_pipa_korea/))으로 인해 실제 고객 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 테스트에 사용하기 어려워, синтетический [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)의 중요성이 커지고 있다.
+- **필요성**: 테스트의 효과는 사용하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 품질에 크게 의존한다.Poor quality test [data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) leads to misleading test results. 예를 들어, "모든 사용자가성년인"이라는 가정하에 테스트하면 미성년자 관련 결함을 찾을 수 없다. 또한 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 규정([GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/), [개인정보보호법](/knowledge-base/studynote/09_security/16_data_privacy/783_pipa_korea/))으로 인해 실제 고객 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 테스트에 사용하기 어려워, синтетический [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)의 중요성이 커지고 있다.
 
-- **💡 비유**: 테스트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 <strong>'의료액 샘플'</strong>과 같다. 혈액 검사의 정확성은 사용하는 혈액 샘플의 품질에 좌우된다. 샘플이 변질되거나(만료된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)), 특정 환자 군만 포함되면(편향된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)), 검사 결과는 신뢰할 수 없게 된다. 따라서 의료 기관은 샘플의 수집, 저장, 관리에 절차를 따르며, 소프트웨어 테스트도 동일한 원리로 테스트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의관리가 필요하다.
+- **💡 비유**: 테스트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 <strong>'의료검사용혈액 샘플'</strong>과 같다. 혈액 검사의 정확성은 사용하는 혈액 샘플의 품질에 좌우된다. 샘플이 변질되거나(만료된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)), 특정 환자 군만 포함되면(편향된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)), 검사 결과는 신뢰할 수 없게 된다. 따라서 의료 기관은 샘플의 수집, 보존, 관리에엄중な 절차를 따르며, 소프트웨어 테스트도 동일한 원리로 테스트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의질량관리가 필요하다.
 
 - **등장 배경 및 발전 과정**:
-1. **1990년대**: [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 중심 애플리케이션에서 테스트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리 개념 정립
-2. **2000년대**: 상용 TDM 도구(IBM Test [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Manager, [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) Test [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Manager 등) 등장
-3. **2010년대**: 민감 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 강화([GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) 등)와 함께 [데이터 익명화](/knowledge-base/studynote/09_security/16_data_privacy/812_anonymization/) 기술 중요해짐
-4. **현재**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [합성 데이터](/knowledge-base/studynote/09_security/16_data_privacy/818_synthetic_data/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), [데이터 가상화](/knowledge-base/studynote/05_database/06_dw_olap_trends/360_data_virtualization/), Self-Service TDM 플랫폼 확산
+  1. **1990년대**: [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 중심 애플리케이션에서 테스트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리 개념 정립
+  2. **2000년대**: 상용 TDM 도구(IBM Test [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Manager, [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) Test [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Manager 등) 등장
+  3. **2010년대**: 민감 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 강화([GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) 등)와 함께 [데이터 익명화](/knowledge-base/studynote/09_security/16_data_privacy/812_anonymization/) 기술 중요해짐
+  4. **현재**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [합성 데이터](/knowledge-base/studynote/09_security/16_data_privacy/818_synthetic_data/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), [데이터 가상화](/knowledge-base/studynote/05_database/06_dw_olap_trends/360_data_virtualization/), Self-Service TDM 플랫폼 확산
 
-- **📢 섹션 요약 비유**: 테스트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 <strong>'요리 실험실의 식재료'</strong>와 같다. 요리 실험실에서 새로운 레시피를 테스트하려면 다양한 식재료( свежие, 변질된 것, 다양한 종류)가 필요하다. 특정 식재료만 사용하면 레시피의 범용성을 검증할 수 없듯이, 테스트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 다양한 시나리오(정상, 경계값, 에러 상황)를해야 한다. 또한 식재료가vat (민감 정보)라면 등의 대체로 교체해야 하듯이, 테스트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)를해야 한다.
+- **📢 섹션 요약 비유**: 테스트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 <strong>'요리 실험실의 식재료'</strong>와 같다. 요리 실험실에서 새로운 레시피를 테스트하려면 다양한 식재료( свежие, 변질된 것, 다양한 종류)가 필요하다. 특정 식재료만 사용하면 레시피의 범용성을 검증할 수 없듯이, 테스트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 다양한 시나리오(정상, 경계값, 에러 상황)를カバー해야 한다. 또한 식재료가vat (민감 정보)라면마황 등의 대체물질로 교체해야 하듯이, 테스트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)를닉명화해야 한다.
 
 ---
 
 다음은 테스트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) (Test [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">테스트 데이터 (Test Data)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                  테스트 데이터 (Test Data)                         │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
+│       │                    │                    │          │
+│       ▼                    ▼                    ▼          │
+│   요구 분석           설계·적용           품질 검증        │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램은 테스트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) (Test [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -137,30 +138,28 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 테스트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) (Test [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 및 익명화 관리 (Test [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/), TDM)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 테스트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) (Test [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 및 익명화 관리 (Test [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/), TDM)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
 | [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 테스트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) (Test [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 및 익명화 관리 (Test [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/), TDM)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | 테스트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) (Test [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 및 익명화 관리 (Test [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/), TDM) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
 | [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 테스트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) (Test [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 및 익명화 관리 (Test [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/), TDM)에서 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">테스트 데이터 (Test Data) 생성 및 익명화 관리 (Test Data Management, TDM) 개념 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 위기 (Software Crisis) 인식
+    │
+    ▼
+테스트 데이터 (Test Data) 생성 및 익명화 관리 (Test Data Management, TDM) 개념 정립
+    │
+    ▼
+표준화 및 방법론 체계화 (ISO, CMMI, Agile)
+    │
+    ▼
+클라우드 네이티브·AI 기반 확장 적용
+    │
+    ▼
+지속적 개선 및 DevOps·MLOps 통합
+```
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

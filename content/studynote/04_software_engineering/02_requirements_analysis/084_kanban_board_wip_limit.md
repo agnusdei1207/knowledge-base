@@ -43,17 +43,12 @@ Backlog → Ready → Doing [WIP 3] → Review [WIP 2] → Done
 | [Review](/knowledge-base/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/) / Blocked | 검토 / 대기 상태 | 병목이 어디인지 드러나는가 |
 | Done | 완료 | 완료의 정의가 일관적인가 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">작업 흐름의 원리</div>
-<div class="kb-diagram-note">요청 유입 → 분석 → 구현 → 검토 → 완료</div>
-<div class="kb-diagram-tree-item" style="--depth:3">WIP 제한이 병목을 드러낸다</div>
-</div>
-</div>
-
-
+```text
+작업 흐름의 원리
+요청 유입 → 분석 → 구현 → 검토 → 완료
+      │          │        │       │
+      └────── WIP 제한이 병목을 드러낸다 ──────┘
+```
 
 WIP를 줄이면 처음에는 불편하지만, 기다림이 줄고 사이클 타임이 짧아진다. 여기서 중요한 것은 숫자 자체보다, 숫자가 팀의 실제 병목과 맞는가이다.
 
@@ -122,21 +117,18 @@ WIP를 줄이면 처음에는 불편하지만, 기다림이 줄고 사이클 타
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">요청 유입</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">보드에 시각화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">WIP 제한으로 pull</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">완료와 측정</div>
-</div>
-</div>
-
-
+```text
+요청 유입
+  │
+  ▼
+보드에 시각화
+  │
+  ▼
+WIP 제한으로 pull
+  │
+  ▼
+완료와 측정
+```
 
 흐름을 줄여야 완료가 늘어난다는 점이 칸반의 핵심이다.
 

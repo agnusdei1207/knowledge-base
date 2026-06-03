@@ -18,20 +18,23 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">드롭아웃 동작 원리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">학습 시: 추론 시:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">X</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">3</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">2</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">X</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">2</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">X</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">4</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">2</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">6</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">X</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">6</div><div class="kb-diagram-cell">3</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">5</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">6</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">X = 비활성화된 뉴런 모든 뉴런 활성 + (1-p)배</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────┐
+│              드롭아웃 동작 원리                            │
+├──────────────────────────────────────────────────────────┤
+│  학습 시:                      추론 시:                   │
+│  ┌─┐   ┌─┐   ┌─┐              ┌─┐   ┌─┐   ┌─┐          │
+│  │1│→  │X│ → │3│              │1│→  │2│ → │3│          │
+│  └─┘   └─┘   └─┘              └─┘   └─┘   └─┘          │
+│  ┌─┐   ┌─┐   ┌─┐              ┌─┐   ┌─┐   ┌─┐          │
+│  │X│→  │2│ → │X│     →         │4│→  │2│ → │6│          │
+│  └─┘   └─┘   └─┘              └─┘   └─┘   └─┘          │
+│  ┌─┐   ┌─┐   ┌─┐              ┌─┐   ┌─┐   ┌─┐          │
+│  │3│→  │X│ → │6│              │3│→  │5│ → │6│          │
+│  └─┘   └─┘   └─┘              └─┘   └─┘   └─┘          │
+│  X = 비활성화된 뉴런          모든 뉴런 활성 + (1-p)배    │
+└──────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/)은 팀 훈련에서 일부를 랜덤으로 빠지게 하는 것이다. 매 훈련마다 다른 조합의 팀원이 참여하면, 모든 선수가 어떤 조합에서도 잘 플레이할 수 있게 된다 — 과의존을 방지하고 각자가 독립적으로 강해진다.
 
@@ -83,24 +86,20 @@ tags = ["studynote-ai"]
 
 ### 현대 딥러닝에서 [드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/) 활용
 
+```text
+ResNet (CNN):
+  Batch Normalization으로 규제 → Dropout 미사용
 
+GPT/BERT (Transformer):
+  Attention Dropout: 어텐션 가중치에 p=0.1 적용
+  FFN Dropout: 피드포워드 레이어에 p=0.1 적용
+  임베딩 Dropout: 토큰 임베딩에 p=0.1 적용
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">ResNet (CNN):</div>
-<div class="kb-diagram-note">Batch Normalization으로 규제 → Dropout 미사용</div>
-<div class="kb-diagram-note">GPT/BERT (Transformer):</div>
-<div class="kb-diagram-note">Attention Dropout: 어텐션 가중치에 p=0.1 적용</div>
-<div class="kb-diagram-note">FFN Dropout: 피드포워드 레이어에 p=0.1 적용</div>
-<div class="kb-diagram-note">임베딩 Dropout: 토큰 임베딩에 p=0.1 적용</div>
-<div class="kb-diagram-note">MC Dropout (예측 불확실성):</div>
-<div class="kb-diagram-note">추론 시에도 Dropout 활성화</div>
-<div class="kb-diagram-note">여러 번 예측 → 분산으로 불확실성 추정</div>
-<div class="kb-diagram-note">베이지안 신경망 근사</div>
-</div>
-</div>
-
-
+MC Dropout (예측 불확실성):
+  추론 시에도 Dropout 활성화
+  여러 번 예측 → 분산으로 불확실성 추정
+  베이지안 신경망 근사
+```
 
 - **📢 섹션 요약 비유**: MC [Dropout](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/242_regularization_dropout_early_stopping_l1_l2_lasso_ridge/) 불확실성 추정은 의사의 두 번째 소견이다. 같은 환자를 여러 번 다른 팀(랜덤 [드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropout/))이 진단해서 의견이 일치하면 확실, 의견이 분분하면 불확실 — [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델의 자기 확신도를 측정한다.
 
@@ -132,23 +131,21 @@ tags = ["studynote-ai"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">과적합 문제 — 훈련 데이터 암기</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">드롭아웃 (2014) — 랜덤 뉴런 비활성화, 암묵적 앙상블</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Batch Normalization — CNN에서 드롭아웃 역할 대체</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Transformer Dropout — Attention·FFN에 낮은 비율 적용</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MC Dropout — 추론 시 불확실성 정량화</div></div>
-</div>
-</div>
-
-
+```text
+[과적합 문제 — 훈련 데이터 암기]
+    │
+    ▼
+[드롭아웃 (2014) — 랜덤 뉴런 비활성화, 암묵적 앙상블]
+    │
+    ▼
+[Batch Normalization — CNN에서 드롭아웃 역할 대체]
+    │
+    ▼
+[Transformer Dropout — Attention·FFN에 낮은 비율 적용]
+    │
+    ▼
+[MC Dropout — 추론 시 불확실성 정량화]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

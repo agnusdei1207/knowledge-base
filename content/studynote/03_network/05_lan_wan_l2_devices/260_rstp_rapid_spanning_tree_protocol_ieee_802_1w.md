@@ -24,18 +24,14 @@ tags = ["studynote-network"]
 
 - **💡 비유**: 길을 막고 있던 톨게이트 차단기가 열리는 속도입니다. 구형 STP가 앞차가 지나간 뒤 무조건 <strong>"속으로 50초를 센 뒤에야 수동으로 바리케이드를 올려주는 할아버지 요금소"</strong>라면, RSTP는 차가 다가오는 즉시 센서로 인식하고 <strong>"1초 만에 착! 하고 열리는 하이패스 요금소"</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">포트 패스트 / BPDU Guard</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">RSTP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">백업 포트, 대체 포트 추가</div></div>
-</div>
-</div>
-
-
+```text
+[포트 패스트 / BPDU Guard]
+    │
+    ▼
+[RSTP]
+    │
+    └──▶ [백업 포트, 대체 포트 추가]
+```
 
 - **📢 섹션 요약 비유**: <strong> RSTP는 사고가 나면 그때서야 대책 회의를 여는 관료주의(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/">STP</a>)를 혁파하고, </strong>"플랜 B(대체 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))를 미리 결재받아 책상 서랍에 넣어뒀다가, 사고 즉시 서류를 꺼내 1초 만에 실행하는 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 결재 시스템"**입니다.
 
@@ -56,20 +52,23 @@ RSTP는 기존 STP의 쓸데없이 복잡했던 5가지 [포트](/knowledge-base
 - [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) B: (루프 안 생기는 거 바로 계산해 봄) "ㅇㅋ! 문제없어 동의함! (Agreement)"
 - **결과**: 이 대화가 끝나자마자 타이머 대기 없이 1~2초 내에 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 Forwarding으로 확 열린다(Sync).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RSTP의 Proposal/Agreement 과정</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스위치 A</div><div class="kb-diagram-node">스위치 B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 야 나랑 문 열자! (Proposal BPDU 발송)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. (스위치 B는 자기 뒷문들을 싹 닫아서 루프를 막은 뒤)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ㅇㅋ 좋아! 문 연다! (Agreement BPDU 발송)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Forwarding 상태로 즉시 전환! (타이머 30초 대기 없음!)</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                RSTP의 Proposal/Agreement 과정                 │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 스위치 A ]                                   [ 스위치 B ] │
+ │      │ 1. 야 나랑 문 열자! (Proposal BPDU 발송)         │     │
+ │      ├────────────────────────────────────────▶ │     │
+ │      │                                          │     │
+ │      │ 2. (스위치 B는 자기 뒷문들을 싹 닫아서 루프를 막은 뒤)     │     │
+ │      │    ㅇㅋ 좋아! 문 연다! (Agreement BPDU 발송)      │     │
+ │      │ ◀────────────────────────────────────────┤     │
+ │      │                                          │     │
+ │   [ Forwarding 상태로 즉시 전환! (타이머 30초 대기 없음!) ]    │
+ │                                                             │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 3. 플랜 B의 상시 준비: Alternate Port와 [Backup Port](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/261_rstp_backup_port_and_alternate_port/)
 구형 STP의 Block [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 구체적으로 세분화하여 <strong>역할(Role)</strong>을 늘렸다.
@@ -135,19 +134,15 @@ RSTP는 LAN/WAN과 2계층 장비를 이해할 때 핵심 축을 잡아 주는 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 포트 패스트 / BPDU Guard</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: RSTP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 백업 포트, 대체 포트 추가</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 캠퍼스 패브릭</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 포트 패스트 / BPDU Guard]
+    │
+    ▼
+[현재 개념: RSTP]
+    │
+    ├──▶ [확장 A: 백업 포트, 대체 포트 추가]
+    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
+```
 
 RSTP는 [포트 패스트](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/259_portfast_and_bpdu_guard_cisco/) / [BPDU](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/254_bpdu_bridge_protocol_data_unit/) Guard에서 출발해 현재 메커니즘을 정교화하고, 이후 [백업 포트](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/261_rstp_backup_port_and_alternate_port/), 대체 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 추가와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

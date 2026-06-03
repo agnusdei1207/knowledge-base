@@ -25,26 +25,27 @@ tags = ["studynote-operating-system"]
 
 **💡 비유**: 주차장의 장애인 전용석 공간(상호 배제). 그 자리는 무조건 한 차만 주차해야 한다는 강행 규정이 있으므로 차 두 대가 동시에 머리를 밀어 넣으면 오지도 가지도 못하는 데드락의 1차 조건이 성립한다. 넓은 잔디밭(공유 구역)에선 결코 생기지 않는다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상호 배제(Mutual Exclusion)의 양면의 얼굴</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">동기화(Synchronization) 관점</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">데드락(Deadlock) 관점</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"누군가 변수 A를 쓸 때, "A를 독점하고 있으니</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다른 놈이 건드리면 데이터가 B를 쥔 타 스레드가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오염되니 안전하게 락을 걸자" 영원히 기다리게 만든다"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(수호자) (원흉)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Read-Only 파일</div><div class="kb-diagram-note">- 공유 가능 자원 (Sharable)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 100명이 붙어도 다같이 읽음. 상호 배제 불성립.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 데드락 가능성 = 0%</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">테이블 Update Lock</div><div class="kb-diagram-note">- 비공유 자원 (Non-sharable)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 1명만 통과. 나머지는 Blocked! 상호 배제 성립 완료.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 나머지 2, 3, 4조건만 완성되면 데드락 폭발!</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────┐
+│         상호 배제(Mutual Exclusion)의 양면의 얼굴             │
+├───────────────────────────────────────────────────────────────┤
+│                                                               │
+│  [동기화(Synchronization) 관점]  ◀▶  [데드락(Deadlock) 관점]  │
+│                                                               │
+│  "누군가 변수 A를 쓸 때,             "A를 독점하고 있으니     │
+│  다른 놈이 건드리면 데이터가        B를 쥔 타 스레드가        │
+│  오염되니 안전하게 락을 걸자"       영원히 기다리게 만든다"   │
+│             (수호자)                            (원흉)        │
+│                                                               │
+│  [Read-Only 파일] - 공유 가능 자원 (Sharable)                 │
+│  → 100명이 붙어도 다같이 읽음. 상호 배제 불성립.              │
+│  → 데드락 가능성 = 0%                                         │
+│                                                               │
+│  [테이블 Update Lock] - 비공유 자원 (Non-sharable)            │
+│  → 1명만 통과. 나머지는 Blocked! 상호 배제 성립 완료.         │
+│  → 나머지 2, 3, 4조건만 완성되면 데드락 폭발!                 │
+└───────────────────────────────────────────────────────────────┘
+```
 
 **📢 섹션 요약 비유**: 상호 배제는 안전 금고 열쇠 — 금고를 나 혼자 열고 쓰니 도둑맞지 않아 좋지만([동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)), 열쇠를 들고 낮잠 자면 뒷사람 일정이 올스톱 되는(교착 악몽) 양날의 검입니다.
 
@@ -118,19 +119,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">교착 상태 발생 4가지 필요조건 (모두 만족해야 발생)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상호 배제 (Mutual Exclusion)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">점유하며 대기 (Hold-and-Wait)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">비선점 (No Preemption)</div></div>
-</div>
-</div>
-
-
+```text
+[교착 상태 발생 4가지 필요조건 (모두 만족해야 발생)]
+    │
+    ▼
+[상호 배제 (Mutual Exclusion)]
+    │
+    ├──▶ [점유하며 대기 (Hold-and-Wait)]
+    └──▶ [비선점 (No Preemption)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

@@ -25,22 +25,23 @@ ARM TrustZone은 하나의 ARM 기반 시스템을 일반 세계와 보안 세�
 
 아래 그림은 TrustZone이 "하나의 칩 안에 두 개의 세계를 만든다"는 점을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ARM TrustZone의 핵심: 한 SoC 안의 두 개 세계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ARM Core + Interconnect</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Normal World Secure World</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 일반 운영체제 (Rich OS) ─ 보안 운영체제 / Monitor</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 일반 앱 ─ Trusted Service</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 일반 드라이버 ─ 키 저장, 인증, 결제</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하드웨어 분리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 · 주변기기 · 인터럽트</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                ARM TrustZone의 핵심: 한 SoC 안의 두 개 세계               │
+├────────────────────────────────────────────────────────────────────────────┤
+│                    ARM Core + Interconnect                                 │
+│                           │                                                │
+│        ┌──────────────────┴──────────────────┐                             │
+│        ▼                                     ▼                             │
+│ Normal World                           Secure World                        │
+│ ├─ 일반 운영체제 (Rich OS)              ├─ 보안 운영체제 / Monitor          │
+│ ├─ 일반 앱                              ├─ Trusted Service                 │
+│ └─ 일반 드라이버                        └─ 키 저장, 인증, 결제             │
+│        │                                     │                             │
+│        └─────────────── 하드웨어 분리 ───────┘                             │
+│                        메모리 · 주변기기 · 인터럽트                        │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 TrustZone은 그래서 "일반 OS를 조금 더 안전하게 만드는 기능"이 아니라, 일반 OS가 손상되어도 핵심 비밀을 끝까지 분리하기 위한 장치다. 다만 보안 세계에 너무 많은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 몰아넣으면 그 세계도 결국 또 하나의 큰 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 되어 버린다. 필요성은 강하지만, 설계는 항상 절제되어야 한다.
 
@@ -63,23 +64,23 @@ TrustZone의 핵심 제어점은 NS (Non-Secure) [비트](/knowledge-base/studyn
 
 아래 그림은 TrustZone에서 접근 권한이 어떻게 나뉘는지를 한눈에 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TrustZone 접근 행렬: Secure는 넓고, Normal은 제한적이다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">현재 상태 접근 대상 결과</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Secure World ─▶ Secure Memory 허용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Secure World ─▶ Normal Memory 허용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Secure World ─▶ Secure Peripheral 허용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Normal World ─▶ Normal Memory 허용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Normal World ─▶ Secure Memory 차단</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Normal World ─▶ Secure Peripheral 차단</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">World 전환: SMC (Secure Monitor Call) → EL3 처리 → 문맥 저장/복원</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│               TrustZone 접근 행렬: Secure는 넓고, Normal은 제한적이다      │
+├────────────────────────────────────────────────────────────────────────────┤
+│ 현재 상태        접근 대상            결과                                  │
+│ ────────────────────────────────────────────────────────────────────────── │
+│ Secure World  ─▶ Secure Memory      허용                                  │
+│ Secure World  ─▶ Normal Memory      허용                                  │
+│ Secure World  ─▶ Secure Peripheral  허용                                  │
+│                                                                            │
+│ Normal World  ─▶ Normal Memory      허용                                  │
+│ Normal World  ─▶ Secure Memory      차단                                  │
+│ Normal World  ─▶ Secure Peripheral  차단                                  │
+│                                                                            │
+│ World 전환: SMC (Secure Monitor Call) → EL3 처리 → 문맥 저장/복원          │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조 덕분에 지문 센서, 키 저장소, [DRM](/knowledge-base/studynote/12_it_management/03_ea_isp/119_drm_data_reference_model_standard/) 경로처럼 반드시 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)해야 할 자원은 Secure World에만 연결할 수 있다. 반대로 일반 앱은 Rich OS를 통해 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 요청하되, 실제 비밀 데이터에는 닿지 못한다. 그래서 TrustZone은 TEE를 구현하는 대표 수단이 된다.
 
@@ -155,23 +156,21 @@ TrustZone의 가장 큰 효과는 범용 SoC에서 보안 전용 기능을 실�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">ARMv6/ARMv7 TrustZone 도입</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">모바일 TEE · Secure Monitor · Secure OS</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">생체 인증 · 결제 · DRM 서비스 통합</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">IoT/자동차용 PSA (Platform Security Architecture) 확장</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ARM CCA (Confidential Compute Architecture) · Realm 분리</div>
-</div>
-</div>
-
-
+```text
+ARMv6/ARMv7 TrustZone 도입
+        │
+        ▼
+모바일 TEE · Secure Monitor · Secure OS
+        │
+        ▼
+생체 인증 · 결제 · DRM 서비스 통합
+        │
+        ▼
+IoT/자동차용 PSA (Platform Security Architecture) 확장
+        │
+        ▼
+ARM CCA (Confidential Compute Architecture) · Realm 분리
+```
 
 이 흐름은 "두 세계 분리"에서 출발해 "더 세분화된 하드웨어 기밀 실행"으로 진화하는 방향을 보여 준다.
 

@@ -36,24 +36,23 @@ tags = ["ict_convergence"]
 | **초과 담보 (Over-collateralization)** | 허공에 찍어낸 토큰의 가치를 보증하기 위해, 발행자는 토큰 가치보다 훨씬 큰 금액(예: 400%)의 이더리움이나 SNX 코인을 컨트랙트에 잠금([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) | 자본 효율성이 떨어지며 담보물 자체의 가격 변동 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 존재 |
 | **유동성 풀 (Liquidity Pool)** | 발행된 합성 자산(sTSLA 등)을 누구나 거래할 수 있게 AMM(자동 마켓 메이커) 형태로 묶어둔 거래소 | 유동성이 부족하면 슬리피지(Slippage)가 발생해 1:1 가격 추종이 깨짐 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">합성 자산 (Synthetic Asset) 생성 및 유지 흐름</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">오프체인 현실</div><div class="kb-diagram-node">온체인 블록체인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">나스닥 시장 테슬라 주식 사용자 지갑</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(가격 100달러)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▼</div><div class="kb-diagram-node">400달러치 담보 Lock</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">탈중앙화 오라클 (Oracle) 스마트 컨트랙트 (CDP)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(데이터 공급)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">가격 동기화</div><div class="kb-diagram-connector">◀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">합성 토큰 (sTSLA) 발행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(이제 전 세계 누구나 24시간 거래)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                  합성 자산 (Synthetic Asset) 생성 및 유지 흐름            │
+├──────────────────────────────────────────────────────────────┤
+│  [오프체인 현실]                   [온체인 블록체인]            │
+│  나스닥 시장 테슬라 주식           사용자 지갑                  │
+│       │ (가격 100달러)                  │                       │
+│       ▼                                ▼ [400달러치 담보 Lock] │
+│  탈중앙화 오라클 (Oracle)          스마트 컨트랙트 (CDP)        │
+│       │ (데이터 공급)                   │                       │
+│       └──────────▶ [ 가격 동기화 ] ◀──────────┘                       │
+│                            │                                 │
+│                            ▼                                 │
+│                   합성 토큰 (sTSLA) 발행                     │
+│               (이제 전 세계 누구나 24시간 거래)              │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 구조에서 가장 중요한 것은 담보율 유지다. 100달러짜리 sTSLA를 만들기 위해 400달러의 이더리움을 맡겼는데, 이더리움 가격이 폭락하여 담보 가치가 150달러로 떨어지면, 시스템은 사용자 동의 없이 담보물을 강제로 팔아치우는 청산(Liquidation) 메커니즘을 작동시켜 토큰의 최소 가치를 방어한다.
 
@@ -117,23 +116,21 @@ tags = ["ict_convergence"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">비트코인 / 이더리움 (온체인 자산에 국한된 거래)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">오라클 피드 (Oracle Feed) 기술의 등장</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">과담보 기반 스테이블코인 (DAI) 증명</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">초과 담보 합성 자산 플랫폼 (Synthetix 등)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">RWA (실물 연계 자산)와 ZKP 신용 기반 파생 모델 융합</div>
-</div>
-</div>
-
-
+```text
+비트코인 / 이더리움 (온체인 자산에 국한된 거래)
+    │
+    ▼
+오라클 피드 (Oracle Feed) 기술의 등장
+    │
+    ▼
+과담보 기반 스테이블코인 (DAI) 증명
+    │
+    ▼
+초과 담보 합성 자산 플랫폼 (Synthetix 등)
+    │
+    ▼
+RWA (실물 연계 자산)와 ZKP 신용 기반 파생 모델 융합
+```
 
 이 흐름도는 단순한 암호화폐 거래에서 현실 가격의 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/), 그리고 더 나은 자본 효율성을 갖춘 파생 금융으로 발전하는 과정을 보여준다.
 

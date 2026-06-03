@@ -23,22 +23,22 @@ tags = ["computer_architecture"]
 
 이 그림은 고전적인 5단계 파이프라인의 중첩 실행 구조를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5-Stage Pipeline Execution Flow</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cycle: 1 2 3 4 5 6 7</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Inst 1:</div><div class="kb-diagram-node">IF</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">ID</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">EX</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">MEM</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">WB</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Inst 2:</div><div class="kb-diagram-node">IF</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">ID</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">EX</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">MEM</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">WB</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Inst 3:</div><div class="kb-diagram-node">IF</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">ID</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">EX</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">MEM</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">WB</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Inst 4:</div><div class="kb-diagram-node">IF</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">ID</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">EX</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">MEM</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">WB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 효과: 5사이클 후부터는 매 사이클마다 명령어 1개씩 완료</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 이상적 속도 향상: 단계 수 (5배)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 5-Stage Pipeline Execution Flow              │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   Cycle:   1     2     3     4     5     6     7              │
+│   Inst 1: [IF]─[ID]─[EX]─[MEM]─[WB]                         │
+│   Inst 2:      [IF]─[ID]─[EX]─[MEM]─[WB]                    │
+│   Inst 3:           [IF]─[ID]─[EX]─[MEM]─[WB]               │
+│   Inst 4:                [IF]─[ID]─[EX]─[MEM]─[WB]          │
+│                                                             │
+│   * 효과: 5사이클 후부터는 매 사이클마다 명령어 1개씩 완료  │
+│   * 이상적 속도 향상: 단계 수 (5배)                         │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '병렬성의 실현'이다. 각 단계가 독립적인 하드웨어 자원을 사용하기 때문에 여러 명령어가 동시에 CPU를 점유할 수 있다. 실무에서는 이 단계가 너무 길어지면 (Super-pipelining) 한 번의 예측 실패 시 손실이 커지고, 짧으면 클럭 속도를 높이기 어려운 트레이드오프가 존재한다.
 
@@ -72,19 +72,20 @@ tags = ["computer_architecture"]
 
 이 구조도는 데이터 포워딩의 물리적 경로를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data Forwarding (Bypassing) Logic</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Inst 1: add r1, r2, r3 (EX 완료) (Forwarding Path)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Inst 2: sub r4, r1, r5 (ID 단계) ◀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 원리: EX/MEM 레지스터나 MEM/WB 레지스터의 값을</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ID/EX 단계의 ALU 입력으로 우회 시킴</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Data Forwarding (Bypassing) Logic           │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   Inst 1: add r1, r2, r3  (EX 완료) ─────┐ (Forwarding Path) │
+│                                          │                  │
+│   Inst 2: sub r4, r1, r5  (ID 단계) ◀────┘                  │
+│                                                             │
+│   * 원리: EX/MEM 레지스터나 MEM/WB 레지스터의 값을          │
+│     ID/EX 단계의 ALU 입력으로 우회 시킴                     │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '지름길'이다. 정상적인 흐름이라면 WB 단계까지 가야 r1 값을 쓸 수 있지만, 포워딩을 통해 연산 직후의 값을 가로채어 즉시 활용한다. 실무에서는 이 제어 로직이 복잡해질수록 칩의 면적과 전력 소모가 늘어나는 비용이 발생한다.
 
@@ -136,19 +137,22 @@ tags = ["computer_architecture"]
 
 이 도식은 비순차 실행 (OoO)의 스케줄링 의사결정 흐름을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Out-of-Order Execution Logic</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">In-order Fetch</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Register Renaming</div><div class="kb-diagram-note">──</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">──</div><div class="kb-diagram-node">Ready to Execute?</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Issue Queue</div><div class="kb-diagram-connector">◀</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Out-of-Order Execution</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Reorder Buffer</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">In-order Commit</div><div class="kb-diagram-connector">◀</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│               Out-of-Order Execution Logic                  │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ In-order Fetch ] ──▶ [ Register Renaming ] ──┐          │
+│                                                  │          │
+│   ┌── [ Ready to Execute? ] ◀── [ Issue Queue ] ◀┘          │
+│   │          │                                              │
+│   │          ▼                                              │
+│   │   [ Out-of-Order Execution ] ──▶ [ Reorder Buffer ]     │
+│   │                                          │              │
+│   └──────────────── [ In-order Commit ] ◀────┘              │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 기술사의 파이프라인 튜닝은 '교통 신호 체계 최적화'와 같습니다. 단순히 도로를 넓히는(멀티코어) 것보다, 교차로(분기점)에서 신호 대기(Stall)를 최소화하고 꼬리물기(데이터 의존성)를 방지하는 세밀한 설계가 고성능의 비결임을 이해해야 합니다.
 

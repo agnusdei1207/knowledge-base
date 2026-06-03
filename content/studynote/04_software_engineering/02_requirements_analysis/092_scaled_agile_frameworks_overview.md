@@ -30,26 +30,31 @@ tags = ["studynote-software-engineering"]
 
 모든 대규모 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 프레임워크가 공통적으로 해결하려는 핵심 원리는 <strong>'정렬(Alignment)'</strong>과 <strong>'<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a>(<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">Synchronization</a>)'</strong>라는 두 개의 축으로 이루어져 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대규모 애자일의 핵심 메커니즘: 동기화와 의존성 통제</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전사 비전 정렬 (Alignment)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최고 경영진 (Portfolio Vision) ──▶ 비즈니스 에픽 (Epic) 할당</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">박동 동기화 (Synchronization)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모든 팀의 스프린트 시작/종료일을 완벽하게 일치시켜 충돌 병목을 예측</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(PI Planning: 합동 의존성 계획 회의)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스프린트 1</div><div class="kb-diagram-cell">스프린트 2</div><div class="kb-diagram-cell">스프린트 3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Team A</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">API 개발</div><div class="kb-diagram-cell">─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">의존성 연결 (Wait!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Team B</div><div class="kb-diagram-cell">대기/다른일</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">결제 연동</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심: 개발 중의 충돌이 아닌, 개발 '시작 전'에 모든 꼬임을 풀어냄</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│          대규모 애자일의 핵심 메커니즘: 동기화와 의존성 통제          │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│ [ 전사 비전 정렬 (Alignment) ]                                 │
+│  최고 경영진 (Portfolio Vision) ──▶ 비즈니스 에픽 (Epic) 할당     │
+│                                                              │
+│ [ 박동 동기화 (Synchronization) ]                               │
+│  모든 팀의 스프린트 시작/종료일을 완벽하게 일치시켜 충돌 병목을 예측 │
+│                                                              │
+│      (PI Planning: 합동 의존성 계획 회의)                        │
+│      ┌─────────┐   ┌─────────┐   ┌─────────┐                 │
+│      │ 스프린트 1│   │ 스프린트 2│   │ 스프린트 3│                 │
+│ Team A ├─────────┤   ├─────────┤   ├─────────┤                 │
+│        │ API 개발│─┐ │         │   │         │                 │
+│        └─────────┘ │ └─────────┘   └─────────┘                 │
+│                    │   의존성 연결 (Wait!)                       │
+│        ┌─────────┐ │ ┌─────────┐   ┌─────────┐                 │
+│ Team B │대기/다른일│ └▶│결제 연동│   │         │                 │
+│        └─────────┘   └─────────┘   └─────────┘                 │
+│                                                              │
+│ 핵심: 개발 중의 충돌이 아닌, 개발 '시작 전'에 모든 꼬임을 풀어냄    │
+└──────────────────────────────────────────────────────────────┘
+```
 
 1. **정렬 (Alignment)**: 100개의 보트([스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) 팀)가 각자 노를 젓는 것이 아니라, 전사적 포트폴리오 백로그를 최상위에 두고 이를 잘게 쪼개 각 팀에 하향식으로 뿌려준다. 모든 팀은 지금 자신이 짜는 코드 한 줄이 회사의 어떤 전략적 목표에 기여하는지 완벽하게 인지한다.
 2. <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a> (<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">Synchronization</a>)</strong>: 100개 팀의 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 주기(Cadence)를 2주면 2주, 동일하게 맞춘다(심장 박동 일치). 이를 통해 팀 간의 결과물(Increment)이 쏟아져 나오는 타이밍을 통합하고, [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 시작 전 수백 명이 모이는 합동 회의(예: [PI](/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/) Planning)를 열어 "우리 API가 나와야 너희가 결제를 붙일 수 있다"는 의존성 릴레이를 거시적으로 설계한다.
@@ -108,25 +113,24 @@ SAFe는 전사적 예산 배분부터 시작하는 거대한 정부 시스템과
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소규모 애자일 한계 봉착 (단일 팀 스크럼)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">팀 간 의존성 충돌 및 전사 비전 불일치 발생</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">기본 확장 체계 도입 (Scrum of Scrums 회의체 적용)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">대규모 프레임워크 공식화 (SAFe, LeSS, Nexus 등)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">거시적 비전 정렬 (PI Planning) 및 통합 파이프라인 (ART) 구동</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">마이크로서비스(MSA)와 융합된 자율적 애자일 조직(Spotify Model)으로 발전</div>
-</div>
-</div>
-
-
+```text
+소규모 애자일 한계 봉착 (단일 팀 스크럼)
+    │
+    ▼
+팀 간 의존성 충돌 및 전사 비전 불일치 발생
+    │
+    ▼
+기본 확장 체계 도입 (Scrum of Scrums 회의체 적용)
+    │
+    ▼
+대규모 프레임워크 공식화 (SAFe, LeSS, Nexus 등)
+    │
+    ▼
+거시적 비전 정렬 (PI Planning) 및 통합 파이프라인 (ART) 구동
+    │
+    ▼
+마이크로서비스(MSA)와 융합된 자율적 애자일 조직(Spotify Model)으로 발전
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

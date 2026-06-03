@@ -26,18 +26,14 @@ tags = ["studynote-network"]
   - <strong>대체 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>(Alternate)</strong>: 사장님(Root) 방으로 올라가는 <strong>"비상용 엘리베이터"</strong>입니다. 평소엔 멈춰 있지만, 메인 엘리베이터([RP](/knowledge-base/studynote/03_network/07_network_layer_routing/370_pim_rp_rendezvous_point_rpf_loop_prevention/))가 고장 나면 1초 만에 가동됩니다.
   - <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">백업</a> <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>(<a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">Backup</a>)</strong>: 부하 직원들(하위 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))에게 지시를 내리는 <strong>"비상용 사내 메신저"</strong>입니다. 메인 이메일 서버(DP)가 죽으면 즉각 부하 직원과의 소통을 이어받습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">RSTP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">백업 포트, 대체 포트 추가</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MSTP</div></div>
-</div>
-</div>
-
-
+```text
+[RSTP]
+    │
+    ▼
+[백업 포트, 대체 포트 추가]
+    │
+    └──▶ [MSTP]
+```
 
 - **📢 섹션 요약 비유**: <strong> Alternate와 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">Backup</a> <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>는 축구 경기의 </strong>"벤치 대기 멤버"**입니다. 주전 선수([RP](/knowledge-base/studynote/03_network/07_network_layer_routing/370_pim_rp_rendezvous_point_rpf_loop_prevention/), DP)가 부상으로 쓰러지면 코치가 감독에게 물어보거나 회의할 필요 없이 즉각 경기장으로 뛰어 들어가 빈자리를 완벽히 메꿉니다.
 
@@ -49,23 +45,25 @@ tags = ["studynote-network"]
 - **선출 기준**: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 대장([Root Bridge](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/255_root_bridge_rp_dp_bp/))이 보낸 BPDU를 수신했을 때, 가장 Cost가 낮은 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)는 RP가 된다. 이때 '나머지 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)들 중에서' 다른 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 보낸 [BPDU](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/254_bpdu_bridge_protocol_data_unit/) 중 두 번째로 좋은(Cost가 낮은) 제안을 받은 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 Alternate Port가 된다.
 - **동작 방식**: 평소에는 데이터를 버리는 Discarding(차단) 상태에 머물러 있다. 그러나 [RP](/knowledge-base/studynote/03_network/07_network_layer_routing/370_pim_rp_rendezvous_point_rpf_loop_prevention/) 선로가 툭 끊기는 순간, [RSTP](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/260_rstp_rapid_spanning_tree_protocol_ieee_802_1w/) 알고리즘은 50초 타이머를 싹 무시하고 Alternate [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 0.01초 만에 <strong>Forwarding 상태의 RP로 신분 상승</strong>시킨다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Alternate Port의 즉각 승계 도식</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Root Bridge (대장)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DP DP</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RP ↙ ↘ Alternate Port (대기중)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스위치 B</div><div class="kb-diagram-note">(예비선)</div><div class="kb-diagram-node">스위치 C</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 장애 발생! (스위치 C와 대장 사이의 선로가 끊어짐)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스위치 C: "헉! 내 유일한 RP가 죽었다! 하지만 내겐 스페어가 있지!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(스위치 B와 연결된 Alternate Port를 즉시 RP로 변경!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 복구 완료! (1초 만에 스위치 B를 거쳐 대장으로 가는 우회로 개통)</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                Alternate Port의 즉각 승계 도식                 │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │             [ Root Bridge (대장) ]                             │
+ │               /               \                             │
+ │             DP                 DP                           │
+ │             /                   \                           │
+ │      RP ↙                         ↘ Alternate Port (대기중)  │
+ │   [ 스위치 B ] ────────(예비선)──────── [ 스위치 C ]                 │
+ │                                                             │
+ │   * 장애 발생! (스위치 C와 대장 사이의 선로가 끊어짐)                 │
+ │   스위치 C: "헉! 내 유일한 RP가 죽었다! 하지만 내겐 스페어가 있지!"      │
+ │             (스위치 B와 연결된 Alternate Port를 즉시 RP로 변경!)   │
+ │                                                             │
+ │   * 복구 완료! (1초 만에 스위치 B를 거쳐 대장으로 가는 우회로 개통)       │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 2. [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) ([Backup](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) [Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)) - "지정 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(DP)의 스페어"
 - **선출 조건**: [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)는 아주 특이한 상황에서만 발생한다. 내 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 두 개(예: 1번, 2번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))가 하나의 멍청한 <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/459_dummy_test_double/">더미</a> <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/">허브</a>(<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/">Hub</a>)</strong>에 동시에 꽂혀 있을 때 발생한다. (하나의 [충돌 도메인](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/237_collision_domain_vs_broadcast_domain/) 공유)
@@ -127,19 +125,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: RSTP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 백업 포트, 대체 포트 추가</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: MSTP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 캠퍼스 패브릭</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: RSTP]
+    │
+    ▼
+[현재 개념: 백업 포트, 대체 포트 추가]
+    │
+    ├──▶ [확장 A: MSTP]
+    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
+```
 
 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), 대체 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 추가는 RSTP에서 출발해 현재 메커니즘을 정교화하고, 이후 MSTP와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

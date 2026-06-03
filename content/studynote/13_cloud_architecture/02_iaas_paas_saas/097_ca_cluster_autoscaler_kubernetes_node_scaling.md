@@ -37,18 +37,17 @@ CA의 동작은 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/0
 | <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/">CA</a> 봇 (Controller)</strong> | 상태 감지 및 판단 | 루프(약 10초)를 돌며 Pending [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
 | <strong>Cloud <a href="/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/150_soa_triangle_architecture/">Provider</a> <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a></strong> | 물리 노드 조작 | AWS ASG([Auto Scaling](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/030_auto_scaling/) Group) 등에 노드 추가/제거 명령 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CA 스케일 아웃 흐름: 리소스 부족 감지와 확장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HPA 요청 ─▶ Pod 10개 생성 ─▶ Kube-Scheduler가 Node 용량 확인</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">용량 부족</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Pod 5개 'Pending' ─▶ CA가 Pending Pod 발견</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CA ─(API API 호출)─▶ 클라우드(AWS/GCP) ─▶ 새 Node 부팅 &amp; 결합</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           CA 스케일 아웃 흐름: 리소스 부족 감지와 확장       │
+├──────────────────────────────────────────────────────────────┤
+│ HPA 요청 ─▶ Pod 10개 생성 ─▶ Kube-Scheduler가 Node 용량 확인 │
+│                                                              │
+│ [용량 부족] ─▶ Pod 5개 'Pending' ─▶ CA가 Pending Pod 발견    │
+│                                                              │
+│ CA ─(API API 호출)─▶ 클라우드(AWS/GCP) ─▶ 새 Node 부팅 & 결합│
+└──────────────────────────────────────────────────────────────┘
+```
 
 축소(Scale-in) 로직 역시 정교하다. CA는 특정 노드의 리소스 사용률이 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)(기본 50%) 미만이고, 10분 이상 지속되면 해당 노드를 축소 대상으로 선정한다. 이때 노드에 있는 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 다른 곳으로 이주(Eviction)시킨 후 안전하게 클라우드 인스턴스를 반납한다.
 
@@ -109,21 +108,18 @@ CA의 도입은 트래픽 폭증 시 무장애 확장을 보장하며, 유휴 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">HPA (파드 수평 확장) · VPA (파드 수직 확장)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CA (Cluster Autoscaler) · Pending 감지 노드 확장</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Node Auto-Provisioning · 스팟 인스턴스 혼합 최적화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Karpenter (차세대 그룹리스(Group-less) 노드 스케일러)</div>
-</div>
-</div>
-
-
+```text
+HPA (파드 수평 확장) · VPA (파드 수직 확장)
+    │
+    ▼
+CA (Cluster Autoscaler) · Pending 감지 노드 확장
+    │
+    ▼
+Node Auto-Provisioning · 스팟 인스턴스 혼합 최적화
+    │
+    ▼
+Karpenter (차세대 그룹리스(Group-less) 노드 스케일러)
+```
 
 이 흐름도는 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 수준의 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)에서 노드 수준으로 진화하고, 다시 노드 제약을 넘어서는 직접 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/)으로 발전하는 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 인프라 확장의 궤적을 보여준다.
 

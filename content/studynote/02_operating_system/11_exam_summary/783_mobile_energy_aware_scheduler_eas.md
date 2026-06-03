@@ -35,28 +35,28 @@ tags = ["studynote-operating-system"]
 - **등장 배경**: 
   - ARM 홀딩스가 2011년 big.LITTLE 아키텍처를 발표한 이후, 하드웨어의 미친 잠재력을 리눅스 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 못 따라가자 ARM과 Linaro 진영이 주도하여 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 5.0 이후 메인라인으로 정식 편입시킨 모바일 생태계의 구원 투수다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이기종 코어(big.LITTLE)에서의 EAS 스케줄링 알고리즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스마트폰 AP 칩셋 구조 (Heterogeneous Multi-Core)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 🔴 빅 코어 (P-Core): 엄청 빠름. 1명 처리할 때 배터리 100 소모</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 🟢 리틀 코어 (E-Core): 느림. 1명 처리할 때 배터리 10 소모</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Task A (가벼운 메일 동기화) 도착</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- EAS 계산기 작동: "이거 부하량(Utilization)이 15%네."</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 빅 코어에 넣으면? -&gt; 전력 100 낭비. (기각 ❌)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 리틀 코어에 넣으면? -&gt; 전력 10 소모로 널널하게 처리 가능! (채택 🟢)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 결과: Task A는 평생 🟢 리틀 코어에서만 놀게 묶어버림.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Task B (3D 게임 고화질 렌더링) 도착</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- EAS 계산기 작동: "부하량이 90%다!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 리틀 코어에 넣으면? -&gt; 코어 능력 초과로 렉 100% 발생. (기각 ❌)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 빅 코어에 넣으면? -&gt; 전력 100 먹지만 어쩔 수 없음 투입! (채택 🔴)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 결과: 🔴 빅 코어(사자)가 잠에서 깨어나 미친듯한 속도로 렌더링 시작!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │                 이기종 코어(big.LITTLE)에서의 EAS 스케줄링 알고리즘       │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │   [ 스마트폰 AP 칩셋 구조 (Heterogeneous Multi-Core) ]             │
+  │   - 🔴 빅 코어 (P-Core): 엄청 빠름. 1명 처리할 때 배터리 100 소모        │
+  │   - 🟢 리틀 코어 (E-Core): 느림. 1명 처리할 때 배터리 10 소모           │
+  │                                                             │
+  │   [ Task A (가벼운 메일 동기화) 도착 ]                          │
+  │   - EAS 계산기 작동: "이거 부하량(Utilization)이 15%네."               │
+  │      ├─ 빅 코어에 넣으면?   -> 전력 100 낭비. (기각 ❌)              │
+  │      └─ 리틀 코어에 넣으면? -> 전력 10 소모로 널널하게 처리 가능! (채택 🟢)│
+  │   - 결과: Task A는 평생 🟢 리틀 코어에서만 놀게 묶어버림.                │
+  │                                                             │
+  │   [ Task B (3D 게임 고화질 렌더링) 도착 ]                        │
+  │   - EAS 계산기 작동: "부하량이 90%다!"                               │
+  │      ├─ 리틀 코어에 넣으면? -> 코어 능력 초과로 렉 100% 발생. (기각 ❌)    │
+  │      └─ 빅 코어에 넣으면?   -> 전력 100 먹지만 어쩔 수 없음 투입! (채택 🔴)│
+  │   - 결과: 🔴 빅 코어(사자)가 잠에서 깨어나 미친듯한 속도로 렌더링 시작!      │
+  └─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** EAS의 위대한 점은 '미래 예측'에 있다. [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)가 들어오면, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 PELT(Per-Entity Load Tracking) 알고리즘이 "이 녀석이 과거에 얼마나 CPU를 썼지?" 하고 부하(Load)를 정밀하게 예측한다. 이 예측치(Utilization)를 들고 하드웨어 제조사가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 박아둔 '에너지 모델([전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/) 공식)'에 대입한다. 빅 코어의 500MHz 주파수로 돌릴 때의 전기세와, 리틀 코어의 1.2GHz 주파수로 돌릴 때의 전기세를 비교(Trade-off)하여, 가장 전기를 적게 먹으면서 렉이 안 걸리는 마지노선 코어로 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)를 강제 마이그레이션(Migration) 시켜버리는 극악의 효율 짜내기다.
 
@@ -78,27 +78,30 @@ EAS가 동작하기 위해서는 [커널](/knowledge-base/studynote/02_operating
 
 EAS가 가장 빛을 발하는 순간은, 자고 있던 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 이벤트를 받고 '깨어날 때(Wake-up)' 어느 코어의 런큐(Run [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))에 꽂아 넣을지를 결정하는 1마이크로초의 찰나다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EAS Wake-up 배치 결정 알고리즘 (에너지 마진 계산)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스레드 K가 Sleep에서 깨어나며 CPU를 요구함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 타겟 코어 탐색:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">후보 1: 내가 아까 놀았던 <code>리틀 코어 0번</code> (가장 캐시가 따뜻함)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">후보 2: 지금 텅 비어있는 <code>빅 코어 1번</code></div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 에너지 마진(Energy Margin) 시뮬레이션 돌림:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- K를 리틀 0번에 얹었을 때 전체 시스템 소모 전력 -&gt; 150 mW</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- K를 빅 1번에 얹었을 때 전체 시스템 소모 전력 -&gt; 300 mW</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 🚨 딜레마 체크 (Over-utilization):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"리틀 0번에 얹으면 150mW로 전기는 싼데, K의 부하가 너무 무거워서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">리틀 코어 한계(Capacity)의 80%를 넘겨서 렉이 걸리지 않을까?"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">리틀 0번 코어로 확정!</div><div class="kb-diagram-note">(배터리 보존)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">빅 1번 코어로 강제 이주!</div><div class="kb-diagram-note">(사용자 UX 방어)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 EAS Wake-up 배치 결정 알고리즘 (에너지 마진 계산)          │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [ 스레드 K가 Sleep에서 깨어나며 CPU를 요구함 ]                         │
+  │                                                                   │
+  │   1. 타겟 코어 탐색:                                                 │
+  │      후보 1: 내가 아까 놀았던 `리틀 코어 0번` (가장 캐시가 따뜻함)           │
+  │      후보 2: 지금 텅 비어있는 `빅 코어 1번`                             │
+  │                                                                   │
+  │   2. 에너지 마진(Energy Margin) 시뮬레이션 돌림:                        │
+  │      - K를 리틀 0번에 얹었을 때 전체 시스템 소모 전력 -> 150 mW            │
+  │      - K를 빅 1번에 얹었을 때 전체 시스템 소모 전력 -> 300 mW            │
+  │                                                                   │
+  │   3. 🚨 딜레마 체크 (Over-utilization):                              │
+  │      "리틀 0번에 얹으면 150mW로 전기는 싼데, K의 부하가 너무 무거워서         │
+  │       리틀 코어 한계(Capacity)의 80%를 넘겨서 렉이 걸리지 않을까?"          │
+  │                                                                   │
+  │      ├─ 렉 안 걸림 ──▶ [ 리틀 0번 코어로 확정! ] (배터리 보존)             │
+  │      │                                                        │
+  │      └─ 렉 걸림 ────▶ [ 빅 1번 코어로 강제 이주! ] (사용자 UX 방어)       │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** EAS의 알고리즘은 "전기를 아끼다 렉이 걸려서 사용자가 폰을 집어 던지는 사태"를 가장 경계한다. 따라서 시뮬레이션의 1원칙은 "모든 코어가 자기 능력(Capacity)의 80%(임계점)를 넘기지 않는 선에서 가장 전기를 적게 먹는 위치를 찾는다"는 것이다. 만약 게임을 켜서 시스템 전체 부하가 미친 듯이 치솟아(Over-utilized 상태) 계산할 여력도 없게 되면, EAS는 이 에너지 절약 모드를 0.1초 만에 끄고 과거의 무식한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최우선 밸런싱 모드(CFS 기본)로 돌변하여 일단 렉부터 막아내고 보는 지킬 앤 하이드 같은 구조를 지녔다.
 
@@ -140,24 +143,28 @@ EAS가 가장 빛을 발하는 순간은, 자고 있던 [스레드](/knowledge-b
    - **원인 분석**: 클라우드 서버에 들어가는 Arm 칩(Graviton 등)은 모바일 스마트폰 칩과 달리 빅-리틀(big.LITTLE) 이기종 구조가 아니다! 무려 64개의 코어가 전부 100% 동일한 '단일 종류 빅 코어(Neoverse)'로 구성된 완전 대칭형([SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/))이다. 그런데 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 세팅이나 배포판 이미지를 모바일/[IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 찌꺼기가 남은 EAS 모드로 켜놓았거나, [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 노드 인지형 CFS가 제대로 돌지 못해 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 코어 능력을 오판하고 삽질을 한 것이다.
    - <strong>아키텍트 판단 (클라우드 맞춤형 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 튜닝)</strong>: 서버 아키텍처에서는 전기를 아끼는 EAS 기능 자체를 꺼버리거나, 철저하게 고성능 `performance` CPU 거버너(Governor)를 강제해야 한다. 서버용 Arm 환경에서는 CPU가 놀더라도 클럭을 떨어뜨리지 말고 무조건 최대 속도로 대기하게 만들며, 짐 섞기([Load Balancing](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/196_hard_soft_real_time/)) 주기를 맹렬하게 당겨서 모든 코어가 100% 피 터지게 일하게 만드는 전통적 CFS 최적화 모드로 회귀해야 한다. 모바일의 약이 서버에선 독이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모바일 기기 배터리 및 발열 방어를 위한 OS 튜닝 계층</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스마트폰에서 배터리 소모와 발열(Thermal)이 폭주한다!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1단계: 하드웨어 칩(SoC)의 자체 방어 - Thermal Throttling</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">온도가 80도 돌파! ──▶ OS 멱살 잡고 강제로 클럭 강등(성능 1/3 토막)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2단계: 커널 스케줄러 방어 - EAS (Energy Aware Scheduling)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">발열/전력 모델을 감지하여 고사양 게임 스레드를 눈물을 머금고 리틀 코어로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">밀어내어 천천히 식히며 돌리게 강제 이주(Migration) 시킴</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3단계: 유저 스페이스 방어 - Android LMK &amp; Doze Mode</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">화면 꺼짐. CPU 깨우는 백그라운드 앱들 네트워크 싹 다 끊고(Doze),</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 파먹는 좀비 앱들은 아예 Kill 쳐버림(LMK)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 모바일 기기 배터리 및 발열 방어를 위한 OS 튜닝 계층         │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [ 스마트폰에서 배터리 소모와 발열(Thermal)이 폭주한다! ]                  │
+  │                │                                                  │
+  │                ▼                                                  │
+  │   [ 1단계: 하드웨어 칩(SoC)의 자체 방어 - Thermal Throttling ]        │
+  │      온도가 80도 돌파! ──▶ OS 멱살 잡고 강제로 클럭 강등(성능 1/3 토막) │
+  │                │                                                  │
+  │                ▼                                                  │
+  │   [ 2단계: 커널 스케줄러 방어 - EAS (Energy Aware Scheduling) ]       │
+  │      발열/전력 모델을 감지하여 고사양 게임 스레드를 눈물을 머금고 리틀 코어로 │
+  │      밀어내어 천천히 식히며 돌리게 강제 이주(Migration) 시킴              │
+  │                │                                                  │
+  │                ▼                                                  │
+  │   [ 3단계: 유저 스페이스 방어 - Android LMK & Doze Mode ]             │
+  │      화면 꺼짐. CPU 깨우는 백그라운드 앱들 네트워크 싹 다 끊고(Doze),       │
+  │      메모리 파먹는 좀비 앱들은 아예 Kill 쳐버림(LMK)                      │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 스마트폰이라는 손바닥만 한 쇳덩이는 쿨링팬조차 없다. 배터리는 한 줌이고 칩셋 온도는 1초 만에 90도를 뚫는다. 이 극한의 환경에서 기기가 터지지 않으려면 최하단 하드웨어(칩셋)부터 최상단 자바 앱 프레임워크(Doze)까지 전 우주적인 '전력 쥐어짜기 공조'가 필요하다. EAS는 그 중간 허리에서 소프트웨어의 요구([스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 부하)와 하드웨어의 한계(전력/온도)를 중재하는 가장 영리하고 복잡한 협상가(Negotiator) 역할을 담당한다. 
 
@@ -203,19 +210,15 @@ EAS가 가장 빛을 발하는 순간은, 자고 있던 [스레드](/knowledge-b
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">LFS (Log-structured File System) 랜덤 쓰기 순차화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">모바일 환경 에너지 인지 스케줄러 (Mobile Energy Aware Scheduler Eas)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">하이퍼스레딩 물리 코어 논리 코어 분할 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">클론(clone) 시스템 콜 스레드 공유 플래그</div></div>
-</div>
-</div>
-
-
+```text
+[LFS (Log-structured File System) 랜덤 쓰기 순차화]
+    │
+    ▼
+[모바일 환경 에너지 인지 스케줄러 (Mobile Energy Aware Scheduler Eas)]
+    │
+    ├──▶ [하이퍼스레딩 물리 코어 논리 코어 분할 구조]
+    └──▶ [클론(clone) 시스템 콜 스레드 공유 플래그]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

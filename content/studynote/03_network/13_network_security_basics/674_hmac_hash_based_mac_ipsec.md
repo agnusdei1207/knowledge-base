@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: 메시지 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 코드([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)할 때, 무겁고 복잡한 블록 [암호화 알고리즘](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/504_cryptography_algorithms_aes_rsa_sha/) 대신, <strong>SHA-256 같은 빠르고 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>된 암호학적 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/">해시 함수</a>(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/">Hash Function</a>)와 송수신자가 공유한 비밀키(<a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/">Secret</a> <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a>)를 교묘하게 융합하여 꼬리표를 만들어내는 표준 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>입니다. (RFC 2104)
 - **배경**: [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)는 [암호화 알고리즘](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/504_cryptography_algorithms_aes_rsa_sha/)보다 소프트웨어(CPU) 연산 속도가 압도적으로 빠르며, 미국 보안법(수출 제한) 규제도 받지 않아 전 세계 어디서든 자유롭게 쓸 수 있는 장점이 있었습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">MAC 변수 및 기능</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HMAC 통신 기반 IPsec 등 활용 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">전자서명 생성/검증 프로세스 개요</div></div>
-</div>
-</div>
-
-
+```text
+[MAC 변수 및 기능]
+    │
+    ▼
+[HMAC 통신 기반 IPsec 등 활용 구조]
+    │
+    └──▶ [전자서명 생성/검증 프로세스 개요]
+```
 
 - **📢 섹션 요약 비유**: HMAC 통신 기반 [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 등 활용 구조는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -51,18 +47,14 @@ tags = ["studynote-network"]
    - 그 뒤에 아까 1차로 갈아 만든 결과물 덩어리를 이어 붙이고, 다시 해시 믹서기에 넣고 2차로 윙 갈아버립니다.
 3. **완성**: 이렇게 2번 꼬아서 튀어나온 256비트짜리 난수가 최종 'HMAC 꼬리표'가 됩니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">MAC 변수 및 기능</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HMAC 통신 기반 IPsec 등 활용 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">전자서명 생성/검증 프로세스 개요</div></div>
-</div>
-</div>
-
-
+```text
+[MAC 변수 및 기능]
+    │
+    ▼
+[HMAC 통신 기반 IPsec 등 활용 구조]
+    │
+    └──▶ [전자서명 생성/검증 프로세스 개요]
+```
 
 - **📢 섹션 요약 비유**: HMAC 통신 기반 [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 등 활용 구조의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -125,19 +117,15 @@ HMAC 통신 기반 [IPsec](/knowledge-base/studynote/01_computer_architecture/15
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: MAC 변수 및 기능</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: HMAC 통신 기반 IPsec 등 활용 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 전자서명 생성/검증 프로세스 개요</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: MAC 변수 및 기능]
+    │
+    ▼
+[현재 개념: HMAC 통신 기반 IPsec 등 활용 구조]
+    │
+    ├──▶ [확장 A: 전자서명 생성/검증 프로세스 개요]
+    └──▶ [확장 B: 자동화된 신뢰 체계]
+```
 
 HMAC 통신 기반 [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 등 활용 구조는 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 변수 및 기능에서 출발해 현재 메커니즘을 정교화하고, 이후 [전자서명](/knowledge-base/studynote/03_network/13_network_security_basics/675_digital_signature_process_asymmetric_key/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)/[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 프로세스 개요와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

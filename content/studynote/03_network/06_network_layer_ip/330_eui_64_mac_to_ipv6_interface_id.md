@@ -24,18 +24,14 @@ tags = ["studynote-network"]
 
 - **💡 비유**: [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소가 6자리 짜리 <strong>"주민등록번호 앞자리(생년월일)"</strong>라면, EUI-64는 뒤에 <strong>"성별과 지역 코드(FF:FE)"</strong>를 자동으로 끼워 넣고 주민센터 도장(7번째 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 반전)을 쾅 찍어서 완벽한 <strong>"13자리 전체 주민등록번호(64비트)"</strong>를 손 댈 필요 없이 자동으로 발급해 주는 키오스크 기계입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">링크 로컬 주소 / 사이트 로컬 주소</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">EUI-64</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SLAAC 무상태 주소 자동 설정</div></div>
-</div>
-</div>
-
-
+```text
+[링크 로컬 주소 / 사이트 로컬 주소]
+    │
+    ▼
+[EUI-64]
+    │
+    └──▶ [SLAAC 무상태 주소 자동 설정]
+```
 
 - **📢 섹션 요약 비유**: <strong> EUI-64는 핫도그 빵(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> 주소)의 한가운데를 나이프로 가르고 그 속에 </strong>고정된 소시지(FF:FE)** 하나를 쑥 밀어 넣어, 순식간에 속이 꽉 찬 "핫도그(64비트 인터페이스 ID)" 하나를 뚝딱 만들어내는 레시피입니다.
 
@@ -65,21 +61,23 @@ tags = ["studynote-network"]
 - 이제 이걸 IPv6의 우아한 16비트 콜론 표기법으로 묶는다.
 - ──▶ <strong><code>021a:2bff:fe3c:4d5e</code></strong>
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EUI-64 마법의 변환 과정 요약 도식</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 내 MAC 주소: 00:11:22:33:44:55</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2. 쪼개고 삽입!: 00:11:22</div><div class="kb-diagram-node">FF:FE</div><div class="kb-diagram-note">33:44:55</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 앞머리 00(00000000)의 7번째 비트를 뒤집어 02(00000010)로!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 최종 IP 뒷자리: 0211:22ff:fe33:4455</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 공유기가 앞자리(2001:db8::)를 던져주면 뒤에 이걸 붙여서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2001:db8::0211:22ff:fe33:4455 라는 풀 공인IP가 1초만에 탄생!</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                EUI-64 마법의 변환 과정 요약 도식                 │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   1. 내 MAC 주소:  00:11:22:33:44:55                        │
+ │                                                             │
+ │   2. 쪼개고 삽입!: 00:11:22  [ FF:FE ]  33:44:55            │
+ │                                                             │
+ │   3. 앞머리 00(00000000)의 7번째 비트를 뒤집어 02(00000010)로! │
+ │                                                             │
+ │   4. 최종 IP 뒷자리:  0211:22ff:fe33:4455                    │
+ │                                                             │
+ │   ▶ 공유기가 앞자리(2001:db8::)를 던져주면 뒤에 이걸 붙여서         │
+ │      2001:db8::0211:22ff:fe33:4455 라는 풀 공인IP가 1초만에 탄생! │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 3. 현대의 보안적 한계 (Privacy Extension)
 EUI-64는 천재적이지만 치명적인 프라이버시(해킹) 약점이 있다.
@@ -142,19 +140,15 @@ EUI-64는 네트워크 계층과 IP를 이해할 때 핵심 축을 잡아 주는
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 링크 로컬 주소 / 사이트 로컬 주소</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: EUI-64</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: SLAAC 무상태 주소 자동 설정</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 대규모 주소 자동화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 링크 로컬 주소 / 사이트 로컬 주소]
+    │
+    ▼
+[현재 개념: EUI-64]
+    │
+    ├──▶ [확장 A: SLAAC 무상태 주소 자동 설정]
+    └──▶ [확장 B: 대규모 주소 자동화]
+```
 
 EUI-64는 [링크 로컬 주소](/knowledge-base/studynote/03_network/06_network_layer_ip/329_ipv6_link_local_fe80_site_local/) / 사이트 로컬 주소에서 출발해 현재 메커니즘을 정교화하고, 이후 [SLAAC](/knowledge-base/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/) 무상태 주소 자동 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

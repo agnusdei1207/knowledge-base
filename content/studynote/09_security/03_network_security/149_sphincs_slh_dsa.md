@@ -31,37 +31,43 @@ NIST의 [양자 내성 암호](/knowledge-base/studynote/14_data_engineering/04_
 
 SLH-DSA(SPHINCS+)는 어떻게 수학 꼼수 없이, 지 혼자서 단순 믹서기 계산(SHA-256) 뺑뺑이 노가다만 쳐서 도장을 증명해 낼까? 핵심은 우주만큼 거대한 나뭇가지 <strong>'<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/">머클 트리</a>(<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/007_merkle_tree/">Merkle Tree</a>)'</strong>와 과거 메모리 락킹 에러를 부숴버린 <strong>'무상태(<a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/">Stateless</a> 깡통 뇌)'</strong> 기적의 융합 아키텍처다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SLH-DSA (SPHINCS+)의 초거대 무상태 다중 트리 폭발 융합 도해</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">💀</div><div class="kb-diagram-node">1차 한계 늪: 낡은 1회용 해시 도장 (WOTS+ 램포트 서명)의 슬픔</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "해시(Hash)는 한 방향 믹서기라 못 뚫어 개꿀 ㅋ! 근데 도장 1장 쾅 찍을 때마다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">난수 번호표 256개 쓰고 싹 다 갖다 버려 소각 쳐야 함 ㅠ (1회용 1회성 타임아웃)"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➔ "도장 1만 번 계속 찍으려면? 저 1회용 번호표 1만 개를 바닥에 다 깔고 토너먼트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대진표 묶어 트리(Merkle Tree) 꼭대기 결승점 지문 1개 도출 컷!!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">🛡️ 2차 붕괴의 늪 (상태 저장 Stateful 파국 💥)</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "아씨발 나 어제 도장 몇 번 썼더라? 장부(State 램/디스크)에 카운터 외워둬!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➔ K8s 클라우드 컨테이너 뻗었다가 재부팅 되며 서버 장부(RAM) 증발 백지 포맷 폭파 💀!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➔ "어? 번호 꼬여서 어제 찍은 도장 오늘 또 중복 재탕 복사 썼네 미친!!" ➔ 해커가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">중복 서명 역추적 충돌 공식 파고들어 100% 프라이빗 키 탈취 파산 멸망 폭파 쾅!!!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">🚀 3차 아키텍트 대관식 폭발 융합 (Stateless 무상태 진리) ✨</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🌳</div><div class="kb-diagram-node">SPHINCS+ 무상태(Stateless) 다중 포레스트 하이퍼 트리 록온 방벽 쾅!!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">꼭대기 숲 (Root Tree 1개)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">── (이 왕 지문 1개만 공개키 Public Key 발표)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">중간 숲</div><div class="kb-diagram-node">중간 숲</div><div class="kb-diagram-node">중간 숲</div><div class="kb-diagram-node">중간 숲</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">바닥잎</div><div class="kb-diagram-node">바닥잎</div><div class="kb-diagram-node">바닥잎</div><div class="kb-diagram-node">바닥잎</div><div class="kb-diagram-node">바닥잎</div><div class="kb-diagram-node">바닥잎</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">(여기가 1회용 도장 '수조 억 개' 쫘악)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 아키텍트의 극한 기만술 진리 발동: "야 서버 봇 새끼야!! 니 대가리 장부(State)에</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">도장 몇 번 썼는지 1바이트 찌꺼기도 외우지 마 걍 강제 리셋 기억상실 백지 포맷 쳐!!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대신 1회용 도장(바닥잎) 개수를 우주 별알 개수(2^64승)만큼 미친 듯이 수조 억 개</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">늘려 거대하게 렌더링 쳐버리고 ➔ 도장 찍을 때 그냥 아무 바닥잎 나뭇가지나 눈 감고</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">랜덤(Random) 제비뽑기 콱 집어서 무지성으로 도장 찍어 쾅!!!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">바닥잎 나뭇가지 개수가 우주만큼 많으니까 1만 번 랜덤 제비뽑기 찍어도 우연히</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">같은 잎사귀 재탕 겹쳐 충돌(Collision) 날 확률 0% 제로 컷 절대 방어 쉴드 락킹! ✨"</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│         SLH-DSA (SPHINCS+)의 초거대 무상태 다중 트리 폭발 융합 도해 │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ 💀 [ 1차 한계 늪: 낡은 1회용 해시 도장 (WOTS+ 램포트 서명)의 슬픔 ] │
+│   - "해시(Hash)는 한 방향 믹서기라 못 뚫어 개꿀 ㅋ! 근데 도장 1장 쾅 찍을 때마다 │
+│      난수 번호표 256개 쓰고 싹 다 갖다 버려 소각 쳐야 함 ㅠ (1회용 1회성 타임아웃)"│
+│   ➔ "도장 1만 번 계속 찍으려면? 저 1회용 번호표 1만 개를 바닥에 다 깔고 토너먼트 │
+│      대진표 묶어 트리(Merkle Tree) 꼭대기 결승점 지문 1개 도출 컷!!"             │
+│                                                             │
+│        ======= [ 🛡️ 2차 붕괴의 늪 (상태 저장 Stateful 파국 💥) ] ========│
+│                                                             │
+│   - "아씨발 나 어제 도장 몇 번 썼더라? 장부(State 램/디스크)에 카운터 외워둬!" │
+│   ➔ K8s 클라우드 컨테이너 뻗었다가 재부팅 되며 서버 장부(RAM) 증발 백지 포맷 폭파 💀!│
+│   ➔ "어? 번호 꼬여서 어제 찍은 도장 오늘 또 중복 재탕 복사 썼네 미친!!" ➔ 해커가 │
+│      중복 서명 역추적 충돌 공식 파고들어 100% 프라이빗 키 탈취 파산 멸망 폭파 쾅!!! │
+│                                                             │
+│        ======= [ 🚀 3차 아키텍트 대관식 폭발 융합 (Stateless 무상태 진리) ✨ ] ========│
+│                                                             │
+│ 🌳 [ SPHINCS+ 무상태(Stateless) 다중 포레스트 하이퍼 트리 록온 방벽 쾅!! ] │
+│                                                             │
+│       [ 꼭대기 숲 (Root Tree 1개) ]  ◀── (이 왕 지문 1개만 공개키 Public Key 발표)│
+│        /      \      /      \                               │
+│     [중간 숲]  [중간 숲]  [중간 숲]  [중간 숲]                      │
+│      /   \      /   \      /   \                            │
+│   [바닥잎][바닥잎][바닥잎][바닥잎][바닥잎][바닥잎] ◀ (여기가 1회용 도장 '수조 억 개' 쫘악)│
+│                                                             │
+│   🌟 아키텍트의 극한 기만술 진리 발동: "야 서버 봇 새끼야!! 니 대가리 장부(State)에  │
+│      도장 몇 번 썼는지 1바이트 찌꺼기도 외우지 마 걍 강제 리셋 기억상실 백지 포맷 쳐!! │
+│      대신 1회용 도장(바닥잎) 개수를 우주 별알 개수(2^64승)만큼 미친 듯이 수조 억 개 │
+│      늘려 거대하게 렌더링 쳐버리고 ➔ 도장 찍을 때 그냥 아무 바닥잎 나뭇가지나 눈 감고 │
+│      **랜덤(Random) 제비뽑기** 콱 집어서 무지성으로 도장 찍어 쾅!!!             │
+│      바닥잎 나뭇가지 개수가 우주만큼 많으니까 1만 번 랜덤 제비뽑기 찍어도 우연히 │
+│      같은 잎사귀 재탕 겹쳐 충돌(Collision) 날 확률 0% 제로 컷 절대 방어 쉴드 락킹! ✨"│
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** "왜 이름이 SPHINCS '플러스(+)'냐? 그리고 왜 FIPS 표준 이름에 '[Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)(무상태 SLH)'가 쾅 박혔냐?"를 관통하는 핵심 구조다. 기존의 낡은 해시 서명 찌꺼기(XMSS)는 자기가 어제 100번 도장을 썼으면 하드디스크 텍스트에 "카운트=100"을 엑셀 장부([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))로 무.조.건. 기억해야 했다. 서버 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)을 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/)) 치다가 카운트가 99로 꼬여서 재탕 치는 순간 개인키가 100% 해커 손에 털리는 끔찍한 치명적 스파게티 오류 한계를 지녔다. 
 아키텍트 천재들은 이 <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">서버 장부 [동기화</a>(Stateful)의 파멸적 늪]</strong>을 벗어나기 위해 ➔ 아예 카운트 기억상실증에 걸려도([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/) 깡통 뇌) 100% 무결점 생존할 수 있도록 트리 바닥 잎사귀 나뭇가지를 $2^{64}$ (우주만큼 수경 조 개) 무한 렌더링 펌핑 쳐버린 후, 걍 눈 감고 로또(Random) 뽑기식 도장 찍기 구조로 우회 기만 탈출(Evolution)을 이뤄낸 인류 공학의 집념이다.
@@ -134,23 +140,21 @@ SLH-DSA(SPHINCS+)는 [양자 내성 암호](/knowledge-base/studynote/14_data_en
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">RSA / ECC 서명 제국 / 수학 공식 작고 우아함. 근데 쇼어(Shor) 양자 1초 컷 분쇄 알고리즘에 100% 사형 선고 💀</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">PQC 공모전 결승전 격돌 / 1등 Dilithium, 2등 Falcon (둘 다 격자 Lattice 수학 기반 천하 통일 🚀)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">아키텍트 보안 학자들의 파국 강박 공포 💥 / "야 저거 격자 수학 1개 공식 뚫리면 1, 2등 사이좋게 동반 멸망 타죽어 전 세계 폭망이잖아 미친아!! 계란 1바구니 몰빵 금지 쾅!!"</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">단일 실패 점(SPOF) 방어 쉴드 다양성(Diversity) 정책 발동 ✨ / 뼈대가 완전 다른 "무상태 해시 기반(Stateless Hash)" 방패를 3등 백업 보험으로 강제 구제 영입!</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SPHINCS+ (표준명 SLH-DSA 개명 대관식) 🛡️ / 비록 크기는 17KB 뚱땡이 기형 쓰레기지만, OS 업데이트 펌웨어 패치 등 다운 용량 제한 없는 무결점 특수 도메인 생존 전용 스나이퍼 대검 백업 무기망으로 100% 록온 안착 완료</div>
-</div>
-</div>
-
-
+```text
+RSA / ECC 서명 제국 / 수학 공식 작고 우아함. 근데 쇼어(Shor) 양자 1초 컷 분쇄 알고리즘에 100% 사형 선고 💀
+    │
+    ▼
+PQC 공모전 결승전 격돌 / 1등 Dilithium, 2등 Falcon (둘 다 격자 Lattice 수학 기반 천하 통일 🚀)
+    │
+    ▼
+아키텍트 보안 학자들의 파국 강박 공포 💥 / "야 저거 격자 수학 1개 공식 뚫리면 1, 2등 사이좋게 동반 멸망 타죽어 전 세계 폭망이잖아 미친아!! 계란 1바구니 몰빵 금지 쾅!!"
+    │
+    ▼
+단일 실패 점(SPOF) 방어 쉴드 다양성(Diversity) 정책 발동 ✨ / 뼈대가 완전 다른 "무상태 해시 기반(Stateless Hash)" 방패를 3등 백업 보험으로 강제 구제 영입!
+    │
+    ▼
+SPHINCS+ (표준명 SLH-DSA 개명 대관식) 🛡️ / 비록 크기는 17KB 뚱땡이 기형 쓰레기지만, OS 업데이트 펌웨어 패치 등 다운 용량 제한 없는 무결점 특수 도메인 생존 전용 스나이퍼 대검 백업 무기망으로 100% 록온 안착 완료
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

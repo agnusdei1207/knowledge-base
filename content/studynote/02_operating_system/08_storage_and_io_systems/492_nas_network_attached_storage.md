@@ -25,32 +25,35 @@ tags = ["studynote-operating-system"]
 - <strong>NAS의 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 시스템 논리적 네트워크 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a> 매핑 다이어그램</strong>:
 내 컴퓨터가 C드라이브를 던지고 외부 나스 통에서 어떤 망 겹을 통해 폴더([File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))로 접속되어 떨어지는지 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램으로 시각화하면 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NAS (Network Attached Storage) 통신 계층의 논리 구조도</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">클라이언트 (윈도우/맥/리눅스 PC)</div><div class="kb-diagram-note">(범용 TCP/IP LAN 이더넷 스위치 망)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▒▒▒</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">어플리케이션: "Z:\보고서.pdf 열어줘!"</div><div class="kb-diagram-cell">▒▒▒</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(SMB / NFS) ▒▒▒</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파일 시스템 Redirector 클라이언트</div><div class="kb-diagram-cell">▶ ▒▒▒ (라우터 포트)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▒▒▒</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TCP/IP 스택 (네트워크 전송 변환)</div><div class="kb-diagram-cell">▒▒▒</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NAS 스토리지 장비 본체 박스 (결국 얘도 하나의 완전한 파일 서버 컴퓨터 다)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1️⃣ 랜카드(NIC) TCP/IP 스택 패킷 수신 및 해독(Unpack) ◀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (파일 요청 변환)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2️⃣ NAS 전용 OS 파일 시스템 (Ext4, ZFS, Btrfs 기반 폴더 잠금/권한)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (블록 쪼개기 변환 명령 자체 하달 통제)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3️⃣ 내부 자체 하드웨어 RAID 컨트롤러 및 LVM 파티션 엔진 스택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (최종 물리 헤드 암 긁기!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4️⃣ 물리적 디스크 N개 (HDD 바디 군락 풀 배열 저장소)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 특성: NAS 박스는 자신이 직접 스스로 "파일과 폴더(Ext4 등 OS)"의 관리와</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디렉토리 이름까지 철저하게 다 알고 있고 클라에게 파일을 "완성품"으로 퍼줌.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────────────────────┐
+  │                 NAS (Network Attached Storage) 통신 계층의 논리 구조도            │
+  ├───────────────────────────────────────────────────────────────────────────────────┤
+  │                                                                                   │
+  │   [ 클라이언트 (윈도우/맥/리눅스 PC) ]         (범용 TCP/IP LAN 이더넷 스위치 망) │
+  │      ┌───────────────────────────┐                ▒▒▒                             │
+  │      │ 어플리케이션: "Z:\보고서.pdf 열어줘!"│                ▒▒▒ ───────────┐     │
+  │      ├───────────────────────────┤    (SMB / NFS) ▒▒▒            │                │
+  │      │ 파일 시스템 Redirector 클라이언트 │  ─────────▶ ▒▒▒ (라우터 포트) │        │
+  │      ├───────────────────────────┤                ▒▒▒            │                │
+  │      │ TCP/IP 스택 (네트워크 전송 변환)  │                ▒▒▒            │        │
+  │      └───────────────────────────┘                               │                │
+  │                                                                  │                │
+  │   [ NAS 스토리지 장비 본체 박스 (결국 얘도 하나의 완전한 파일 서버 컴퓨터 다) ]  ││
+  │      ┌───────────────────────────────────────────────────────┐   │                │
+  │      │ 1️⃣ 랜카드(NIC) TCP/IP 스택 패킷 수신 및 해독(Unpack) ◀────────┘           │
+  │      │                   ▼ (파일 요청 변환)                           │           │
+  │      │ 2️⃣ NAS 전용 OS 파일 시스템 (Ext4, ZFS, Btrfs 기반 폴더 잠금/권한)│        │
+  │      │                   ▼ (블록 쪼개기 변환 명령 자체 하달 통제)         │       │
+  │      │ 3️⃣ 내부 자체 하드웨어 RAID 컨트롤러 및 LVM 파티션 엔진 스택         │     │
+  │      │                   ▼ (최종 물리 헤드 암 긁기!)                    │         │
+  │      │ 4️⃣ 물리적 디스크 N개 (HDD 바디 군락 풀 배열 저장소)                 │     │
+  │      └───────────────────────────────────────────────────────┘                    │
+  │                                                                                   │
+  │  * 특성: NAS 박스는 자신이 직접 스스로 "파일과 폴더(Ext4 등 OS)"의 관리와         │
+  │         디렉토리 이름까지 철저하게 다 알고 있고 클라에게 파일을 "완성품"으로 퍼줌.│
+  └───────────────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 일반적인 무식한 하드디스크 연결(다음 백과사전 단원인 493 [SAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/) 블록 방식)과 다르게, NAS 장비의 최고 핵심 기치는 그 시커먼 박스 자체가 <strong>하나의 독립된 '<a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 시스템 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> 머신' 이라는 미니 서버 컴 본체</strong>라는 것이다. 내 노트북 윈도우 OS가 디스크 0과 1비트 나열이 어딘지 고민 긁어모으기 할 필요가 0.1도 절대전무. NAS OS([운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)) 에다가 "보고서.doc 주소 이리 와!" ([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 단위 요청)를 네트워크로 던지면 NAS 박스 내부 뇌 속 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 "아 네 폴더경로 그거 하드 섹터 여기 있네요" 하고 스스로 계산 폴딩 가공해서 조립 완전품 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)([File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))로 LAN 망에 리턴 결제 던져주는 엄청 고차원적이고 친절 무상 포장 배달 앱 시스템이다. 
 
@@ -90,22 +93,25 @@ NAS가 세상을 지배하게 된 그 뛰어난 대중성 뒤에는 엄청난 �
 
 결국 저장소 환경 필드에서의 스펙 결정 도입 아키텍처 트리는 다음 도식으로 떨어분리 판별 짓게 된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">저장소 프로토콜 타겟 선정 트래픽 아키텍처 리스크 필터 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">내가 저장 장비(Store)에 꽂아 넣으려는 데이터 워크로드 속성 검진</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 여러 다양한 OS PC의 협력자들이 "하나의 파일 폴더를 같이 공유 열람"해야 하는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">예: 엑셀 문서, 영상 아카이브 쉐어, 부서 공유 드라이브 묶음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 묻고 따지지도 말고 "NAS (NFS / SMB)" 만능 도입 결제 팡팡!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">아니오: DB 서버나 VMWare 가상머신이 OS 블록 자체를 쑤셔 통째로 점거 저장함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. I/O 오버헤드를 싫어하며 OS 입출력(Block) 자체가 직접 꽂히는 무결점 통제 속도 최우선인가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ (다음 장 493 진입) 🚨 "SAN 네트워크(Fibre Channel/iSCSI)" 로 선회!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │         저장소 프로토콜 타겟 선정 트래픽 아키텍처 리스크 필터 플로우                            │
+  ├─────────────────────────────────────────────────────────────────────────────────────────────────┤
+  │                                                                                                 │
+  │   [ 내가 저장 장비(Store)에 꽂아 넣으려는 데이터 워크로드 속성 검진 ]                           │
+  │                │                                                                                │
+  │                ▼                                                                                │
+  │      1. 여러 다양한 OS PC의 협력자들이 "하나의 파일 폴더를 같이 공유 열람"해야 하는가?          │
+  │          ├─ [예: 엑셀 문서, 영상 아카이브 쉐어, 부서 공유 드라이브 묶음]                        │
+  │          │    └─▶ 묻고 따지지도 말고 "NAS (NFS / SMB)" 만능 도입 결제 팡팡!                     │
+  │          │                                                                                      │
+  │          └─ [아니오: DB 서버나 VMWare 가상머신이 OS 블록 자체를 쑤셔 통째로 점거 저장함]        │
+  │                │                                                                                │
+  │                ▼                                                                                │
+  │      2. I/O 오버헤드를 싫어하며 OS 입출력(Block) 자체가 직접 꽂히는 무결점 통제 속도 최우선인가?│
+  │                ├─▶ (다음 장 493 진입) 🚨 "SAN 네트워크(Fibre Channel/iSCSI)" 로 선회!           │
+  └─────────────────────────────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 초거대 딜레마의 핵심 분기점은 <strong>"<a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 공유성 (Sharability)"</strong>과 <strong>"직결 응답 스피드 (<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/">Direct</a> <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">latency</a>)"</strong> 의 등가 교환이다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 공유 폴더를 열고 싶음(여러 명이 열람)의 본능이 있으면 OS 통과 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)시스템 매니저(NAS 대가리 두뇌)를 한 겹 박아야 해서 느려지지만(IP 오버헤드 락) 너무너무 편해지고 쌉싸게 이어진다. 반대로 블록 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 무결점 속도가 절박하면 그 대중 개방 공유성(NAS 로비 사물함)을 발로 걷어차고 완전 프라이빗 케이블([SAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/) 블록 연결 채널 다이렉트 매핑) 전송선에 투자 연결하는 양 갈래 진화 선택 진영의 투 트랙으로 확립된다.
 
@@ -174,19 +180,15 @@ NAS (Network Attached Storage)은 스토리지와 입출력 경로 최적화을 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">핫 스페어 (Hot Spare) 디스크 자동 재구성</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NAS (Network Attached Storage)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SAN (Storage Area Network)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">오브젝트 스토리지 (Object Storage)</div></div>
-</div>
-</div>
-
-
+```text
+[핫 스페어 (Hot Spare) 디스크 자동 재구성]
+    │
+    ▼
+[NAS (Network Attached Storage)]
+    │
+    ├──▶ [SAN (Storage Area Network)]
+    └──▶ [오브젝트 스토리지 (Object Storage)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

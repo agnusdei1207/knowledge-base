@@ -102,41 +102,29 @@ type(scope): subject
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Commit</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Commit Convention</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Release Notes</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Traceable History</div>
-</div>
-</div>
-
-
+```text
+Commit
+  ↓
+Commit Convention
+  ↓
+Release Notes
+  ↓
+Traceable History
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">feat / fix / docs</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Commit Convention</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Changelog</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Automation</div>
-</div>
-</div>
-
-
+```text
+feat / fix / docs
+  ↓
+Commit Convention
+  ↓
+Changelog
+  ↓
+Automation
+```
 
 ---
 

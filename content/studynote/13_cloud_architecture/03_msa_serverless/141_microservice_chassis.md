@@ -50,17 +50,11 @@ Microservice Chassis는 <strong><a href="/knowledge-base/studynote/01_computer_a
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">수동 보일러플레이트 (~2015)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Spring Boot (2014, Java)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Go-kit (Go)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Dapr (2019, 사이드카)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: Chassis + 서비스 메시 하이브리드</div></div>
-</div>
-</div>
-
-
+```text
+[수동 보일러플레이트 (~2015)] → [Spring Boot (2014, Java)]
+    → [Go-kit (Go)] → [Dapr (2019, 사이드카)]
+    → [현재: Chassis + 서비스 메시 하이브리드]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. Chassis는 자동차의 <strong>차대(프레임)</strong>예요. 바퀴·핸들·브레이크가 **이미 있어요**.

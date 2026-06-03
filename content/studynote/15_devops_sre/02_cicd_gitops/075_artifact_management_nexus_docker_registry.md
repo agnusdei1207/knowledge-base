@@ -23,16 +23,11 @@ tags = ["studynote-devops"]
 
 Nexus와 [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) Registry는 저장 대상과 책임 범위가 다르다. 전자는 여러 패키지 형식을 다루는 저장소 관리자이고, 후자는 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이미지를 다루는 전용 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">build -&gt; store -&gt; scan -&gt; promote -&gt; deploy</div>
-<div class="kb-diagram-tree-item" style="--depth:6">Nexus ─ Docker Registry</div>
-</div>
-</div>
-
-
+```text
+build -> store -> scan -> promote -> deploy
+            │          │
+            ├─ Nexus   └─ Docker Registry
+```
 
 핵심은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 쌓는 것이 아니라, 재현과 승격이 가능하게 만드는 데 있다.
 
@@ -109,23 +104,21 @@ Nexus Repository Manager는 여러 패키지 형식의 local, [proxy](/knowledge
 
 ### 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">build</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">store</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">scan</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">promote</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">deploy</div>
-</div>
-</div>
-
-
+```text
+build
+  │
+  ▼
+store
+  │
+  ▼
+scan
+  │
+  ▼
+promote
+  │
+  ▼
+deploy
+```
 
 ### 어린이를 위한 3줄 비유 설명
 

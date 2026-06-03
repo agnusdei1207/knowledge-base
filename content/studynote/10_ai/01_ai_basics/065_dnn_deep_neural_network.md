@@ -28,23 +28,17 @@ tags = ["ai"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Input</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Hidden Layer 1</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Hidden Layer 2</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">...</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Output</div>
-</div>
-</div>
-
-
+```text
+Input
+  ↓
+Hidden Layer 1
+  ↓
+Hidden Layer 2
+  ↓
+...
+  ↓
+Output
+```
 
 | 요소 | 역할 |
 | :-- | :-- |
@@ -114,41 +108,29 @@ DNN은 복잡한 [데이터](/knowledge-base/studynote/05_database/01_db_archite
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">MLP</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Deep Neural Network</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Representation Learning</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Backpropagation</div>
-</div>
-</div>
-
-
+```text
+MLP
+  ↓
+Deep Neural Network
+  ↓
+Representation Learning
+  ↓
+Backpropagation
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Perceptron</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">MLP</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">DNN</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Deep Learning</div>
-</div>
-</div>
-
-
+```text
+Perceptron
+  ↓
+MLP
+  ↓
+DNN
+  ↓
+Deep Learning
+```
 
 ---
 

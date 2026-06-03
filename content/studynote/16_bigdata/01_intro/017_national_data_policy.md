@@ -27,26 +27,23 @@ tags = ["bigdata"]
 
 다음은 규제 중심 생태계가 진흥 중심의 [데이터 경제](/knowledge-base/studynote/16_bigdata/01_intro/011_data_economy/) 생태계로 전환되는 구조를 보여준다.
 
+```text
+[과거: 사일로 및 규제 중심 구조]
+┌─────────┐   (법적 근거 미비, 거래 단절)    ┌─────────┐
+│ 기업 A  │ ─ ─ ─ ─ ─ X ─ ─ ─ ─ ─ │ 기업 B  │
+│(데이터 보유)│                             │(AI 개발) │
+└─────────┘                             └─────────┘
+      ▲ 개인정보 유출 리스크, 가치 산정 불가로 인한 유통 포기
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">과거: 사일로 및 규제 중심 구조</div></div>
-<div class="kb-diagram-note">(법적 근거 미비, 거래 단절)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기업 A</div><div class="kb-diagram-cell">─ ─ ─ ─ ─ X ─ ─ ─ ─ ─</div><div class="kb-diagram-cell">기업 B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(데이터 보유)</div><div class="kb-diagram-cell">(AI 개발)</div></div>
-<div class="kb-diagram-note">▲ 개인정보 유출 리스크, 가치 산정 불가로 인한 유통 포기</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: 데이터기본법 기반 생태계 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 가치 평가 기관</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기업 A</div><div class="kb-diagram-cell">==== (가치 산정 &amp; 품질 인증) ===&gt;</div><div class="kb-diagram-cell">기업 B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(공급자)</div><div class="kb-diagram-cell">(수요자)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 거래사</div><div class="kb-diagram-cell">▲</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&gt;</div><div class="kb-diagram-cell">(Data Brokerage)</div></div>
-<div class="kb-diagram-note">(상품화/등록) (안전한 계약 및 유통)</div>
-</div>
-</div>
-
-
+[현재: 데이터기본법 기반 생태계 아키텍처]
+┌─────────┐       [데이터 가치 평가 기관]       ┌─────────┐
+│ 기업 A  │ ==== (가치 산정 & 품질 인증) ===> │ 기업 B  │
+│(공급자)  │                                 │(수요자)  │
+└─────────┘       ┌───────────────────┐       └─────────┘
+   │              │   데이터 거래사   │              ▲
+   └────────────> │ (Data Brokerage)  │ ──────────────┘
+    (상품화/등록)   └───────────────────┘ (안전한 계약 및 유통)
+```
 
 이 도식의 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공급자와 수요자 사이에 '가치 평가 기관'과 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 거래사'라는 법적·제도적 매개체가 도입되었다는 점이다. 이로 인해 과거에는 불투명했던 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 가격 산정이 명확해지고, 거래의 법적 안정성이 보장되어 기업 간 B2B [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유통 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 합법적으로 가동될 수 있다.
 
@@ -71,23 +68,26 @@ tags = ["bigdata"]
 
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)기본법 및 연관 법령에서 가장 활발히 구현되는 '[마이데이터](/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/)' 아키텍처의 동작 흐름은 시스템 간의 엄격한 보안 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 요구한다.
 
+```text
+[MyData API 아키텍처 동작 흐름]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">MyData API 아키텍처 동작 흐름</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">사용자 (Data Subject)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1.요청</div><div class="kb-diagram-cell">5. 통합 뷰 제공</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">마이데이터 사업자 (Data Consumer / PFM App)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 데이터 전송 (JSON/API, mTLS 암호화)</div></div>
-<div class="kb-diagram-note">2. 동의/위임 (OAuth 2.0 Token)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">중계 기관 (API Gateway / Hub)</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">3. 토큰 검증 및 라우팅</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 보유 기관 (Data Provider / Bank, Telco)</div></div>
-<div class="kb-diagram-note">(토큰 기반 스코프 확인 후 데이터 추출)</div>
-</div>
-</div>
-
-
+     [사용자 (Data Subject)]
+           │      ▲
+      1.요청│      │ 5. 통합 뷰 제공
+           ▼      │
+[마이데이터 사업자 (Data Consumer / PFM App)]
+           │      ▲
+           │      │ 4. 데이터 전송 (JSON/API, mTLS 암호화)
+    2. 동의/위임 (OAuth 2.0 Token)
+           │      │
+           ▼      │
+   [중계 기관 (API Gateway / Hub)]  <-- 3. 토큰 검증 및 라우팅
+           │      ▲
+           │      │
+           ▼      │
+[데이터 보유 기관 (Data Provider / Bank, Telco)]
+ (토큰 기반 스코프 확인 후 데이터 추출)
+```
 
 이 흐름의 핵심은 사용자의 '[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)([Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/))'과 '[인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)([Authorization](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/))'가 철저히 분리된다는 점이다. [마이데이터](/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/) 사업자는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 보유 기관의 계정 비밀번호를 직접 요구하는 화면 스크래핑(Screen Scraping) 방식 대신, 범용 표준인 OAuth 2.0 기반의 Access Token을 발급받아 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a>(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">Application Programming Interface</a>)</strong> 방식으로만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수집한다. 따라서 시스템의 부하 예측이 가능해지고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 주체는 언제든 제공 동의를 철회(토큰 폐기)할 수 있어 강력한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통제권을 행사할 수 있다.
 
@@ -130,21 +130,17 @@ tags = ["bigdata"]
   3. **가치 평가 대응**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 최신성, 결측치 비율 등을 측정하는 [Data Observability](/knowledge-base/studynote/16_bigdata/13_intro_trends/255_data_observability/) 툴(예: Great Expectations)을 도입해 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 보고서' 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/).
   4. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> 상품화</strong>: 정적 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(CSV) 판매가 아닌, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 거래 플랫폼과 연동된 [RESTful API](/knowledge-base/studynote/03_network/19_frequent_topics_terms/974_restful_api_stateless_http_methods_uri/) 형태로 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Product를 노출하여 실시간 과금(Metering) 체계 구축.
 
+```text
+[데이터 상품화 파이프라인 (Data Monetization Pipeline)]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 상품화 파이프라인 (Data Monetization Pipeline)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Raw DB</div><div class="kb-diagram-note">──&gt;</div><div class="kb-diagram-node">비식별화/가명처리 엔진</div><div class="kb-diagram-note">──&gt;</div><div class="kb-diagram-node">Data Quality Checker</div></div>
-<div class="kb-diagram-note">(k-익명성 보장) (결측치, 최신성 평가)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Billing &amp; Metering</div><div class="kb-diagram-note">&lt; &gt;</div><div class="kb-diagram-node">API Gateway / Catalog</div></div>
-<div class="kb-diagram-note">(과금 및 토큰 관리) │ (Data Contract)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">External Data Exchange</div></div>
-</div>
-</div>
-
-
+[Raw DB] ──> [비식별화/가명처리 엔진] ──> [Data Quality Checker]
+                    (k-익명성 보장)         (결측치, 최신성 평가)
+                                                │
+[Billing & Metering] <──────────────> [API Gateway / Catalog]
+   (과금 및 토큰 관리)                           │ (Data Contract)
+                                                ▼
+                                    [External Data Exchange]
+```
 
 #### 2. 실무 도입 시 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - **단발성 CSV 추출 후 방치**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 일회성 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 뽑아 거래소에 올린 후 업데이트를 하지 않는 패턴. 이는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 가치를 급락시키며 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스왐프([Data Swamp](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/288_data_swamp_metadata_management_absence/))'를 초래한다. 반드시 실시간/배치 기반의 자동 업데이트 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인과 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Contract를 유지해야 한다.
@@ -179,25 +175,24 @@ tags = ["bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">개인정보 보호법 (PIPA) — 개인정보 수집·처리 규제, 프라이버시 우선 체계</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터기본법 (Data Framework Act) — 데이터 주권·가치 인정, 산업 진흥과 보호 균형</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 산업 진흥법 — 데이터 거래소·마켓플레이스 제도화, 데이터 상품 유통 합법화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">마이데이터 (MyData) — 개인이 자신의 데이터 이동·활용 주도권 보유</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">공공 데이터 개방 (Open Data) — 정부 데이터 API 공개, 민간 혁신 생태계 조성</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 거버넌스 국제 표준 (GDPR 연계) — 국가 간 데이터 이동 규범 정합성</div></div>
-</div>
-</div>
-
-
+```text
+[개인정보 보호법 (PIPA) — 개인정보 수집·처리 규제, 프라이버시 우선 체계]
+    │
+    ▼
+[데이터기본법 (Data Framework Act) — 데이터 주권·가치 인정, 산업 진흥과 보호 균형]
+    │
+    ▼
+[데이터 산업 진흥법 — 데이터 거래소·마켓플레이스 제도화, 데이터 상품 유통 합법화]
+    │
+    ▼
+[마이데이터 (MyData) — 개인이 자신의 데이터 이동·활용 주도권 보유]
+    │
+    ▼
+[공공 데이터 개방 (Open Data) — 정부 데이터 API 공개, 민간 혁신 생태계 조성]
+    │
+    ▼
+[데이터 거버넌스 국제 표준 (GDPR 연계) — 국가 간 데이터 이동 규범 정합성]
+```
 이 흐름은 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 중심의 규제에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 산업 진흥과 개인 주권 강화로 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 방향이 확장되고, 공공 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 개방과 국제 규범 정합성으로 수렴하는 국가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 패러다임의 발전을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

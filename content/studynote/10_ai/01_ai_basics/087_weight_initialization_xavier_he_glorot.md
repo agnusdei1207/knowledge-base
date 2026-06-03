@@ -38,17 +38,12 @@ Xavier (Glorot) [초기](/knowledge-base/studynote/03_network/08_transport_layer
 | He | `Var(W) = 2 / fan_in` | [ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/) ([Rectified Linear Unit](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/)), Leaky [ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/) | ReLU의 절반만 살아나는 특성 보정 |
 | [Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) init | 모두 0 | 거의 없음 | 대칭성 때문에 실패 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">입력 분포 ─► 초기 가중치 ─► 활성값 분산 유지 ─► 기울기 유지</div>
-<div class="kb-diagram-tree-item" style="--depth:8">너무 작음 → 소실</div>
-<div class="kb-diagram-tree-item" style="--depth:8">너무 큼 → 폭주</div>
-</div>
-</div>
-
-
+```text
+입력 분포 ─► 초기 가중치 ─► 활성값 분산 유지 ─► 기울기 유지
+                  │
+                  ├─ 너무 작음 → 소실
+                  └─ 너무 큼   → 폭주
+```
 
 Xavier는 입력과 출력의 평균적인 균형을 보고, He는 ReLU처럼 음수를 잘라내는 활성화에 맞춰 더 큰 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)을 허용한다.
 

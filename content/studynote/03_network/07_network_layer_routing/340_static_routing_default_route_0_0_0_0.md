@@ -24,18 +24,14 @@ tags = ["studynote-network"]
 
 - **💡 비유**: 정적 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)은 고속도로 위에 시멘트로 굳혀서 박아놓은 <strong>"철제 이정표"</strong>입니다. 이정표에 "부산은 직진"이라고 적혀있으면, 앞 도로가 끊기든 산사태가 나든 이정표는 절대 변하지 않습니다. 차들은 이정표만 믿고 직진하다 낭떠러지로 떨어집니다. (융통성 0%, 그러나 표지판을 만드는데 전기가 들지 않음). 반면 [동적 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/341_dynamic_routing_protocol_operation/)([OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/))은 앞이 막히면 "부산 우회전"으로 실시간으로 글씨가 바뀌는 <strong>"스마트 전광판"</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">라우팅 개요</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">정적 라우팅</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">동적 라우팅</div></div>
-</div>
-</div>
-
-
+```text
+[라우팅 개요]
+    │
+    ▼
+[정적 라우팅]
+    │
+    └──▶ [동적 라우팅]
+```
 
 - **📢 섹션 요약 비유**: <strong> 정적 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a>은 </strong>"독재자의 절대 명령"**입니다. 아무리 똑똑한 부하(라우터)라도 융통성을 발휘할 수 없으며, 오직 독재자(관리자)가 명령을 철회하기 전까지 까라면 까는 무지성 로봇 팔과 같습니다.
 
@@ -63,25 +59,26 @@ tags = ["studynote-network"]
 - (해석: "네가 아는 사내망 주소 빼고, 쌩판 모르는 처음 보는 IP가 들어오면 무조건 통신사 게이트웨이(`211.200.1.1`)로 짬처리해서 던져라! 통신사의 거대한 코어 라우터 형님들이 알아서 길 찾아줄 거다!")
 - 우리가 매일 쓰는 PC의 '기본 게이트웨이(Default Gateway)' 세팅 칸이 바로 이 `0.0.0.0` 디폴트 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)을 세팅하는 버튼이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디폴트 라우트(0.0.0.0)의 짬처리 구조 도식</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">우리 회사 라우터 (바보)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">라우팅 테이블:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 192.168.1.0/24 ──▶ 1번 포트로 줘. (알고 있음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 192.168.2.0/24 ──▶ 2번 포트로 줘. (알고 있음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 8.8.8.8(구글)로 가는 패킷이 들어옴!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">라우터: "어? 8.8.8.8은 내 수첩(테이블)에 없는데?! 버려야 하나?"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 이때 빛과 같은 치트키 한 줄 등판!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 0.0.0.0/0 (모르는 애들) ──▶ KT 통신사 라우터로 걍 던져!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">라우터: "오예! 구글 너는 내가 모르니까 KT 형님한테 토스(짬처리)!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 내 라우터는 가볍고 쾌적하게 3줄만 외우고도 전 세계와 통신하게 됨.</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                디폴트 라우트(0.0.0.0)의 짬처리 구조 도식            │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 우리 회사 라우터 (바보) ]                                     │
+ │   라우팅 테이블:                                              │
+ │   1. 192.168.1.0/24 ──▶ 1번 포트로 줘. (알고 있음)             │
+ │   2. 192.168.2.0/24 ──▶ 2번 포트로 줘. (알고 있음)             │
+ │                                                             │
+ │   * 8.8.8.8(구글)로 가는 패킷이 들어옴!                           │
+ │   라우터: "어? 8.8.8.8은 내 수첩(테이블)에 없는데?! 버려야 하나?"     │
+ │                                                             │
+ │   * 이때 빛과 같은 치트키 한 줄 등판!                            │
+ │   3. 0.0.0.0/0 (모르는 애들) ──▶ KT 통신사 라우터로 걍 던져!      │
+ │                                                             │
+ │   라우터: "오예! 구글 너는 내가 모르니까 KT 형님한테 토스(짬처리)!"   │
+ │   ▶ 내 라우터는 가볍고 쾌적하게 3줄만 외우고도 전 세계와 통신하게 됨.  │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: ** 디폴트 라우트는 동사무소 민원 창구의 **"기타 문의 담당 부서"**입니다. 주민등록등본 떼러 온 사람(아는 주소)은 1번 창구로, 인감 떼러 온 사람(아는 주소)은 2번 창구로 보내고, "UFO가 우리 집에 불시착했어요"처럼 어디로 보내야 할지 전혀 감이 안 잡히는 미친 소리(모르는 주소)는 무조건 **"기타 문의 창구(통신사)"**로 밀어버리는 무적의 민원 처리 스킬입니다.
 
@@ -139,19 +136,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 라우팅 개요</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 정적 라우팅</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 동적 라우팅</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 라우팅 개요]
+    │
+    ▼
+[현재 개념: 정적 라우팅]
+    │
+    ├──▶ [확장 A: 동적 라우팅]
+    └──▶ [확장 B: 의도 기반 라우팅]
+```
 
 정적 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 개요에서 출발해 현재 메커니즘을 정교화하고, 이후 [동적 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/341_dynamic_routing_protocol_operation/)와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

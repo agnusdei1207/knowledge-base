@@ -18,18 +18,12 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Metrics: "무엇이" — 에러율 5%↑</div>
-<div class="kb-diagram-note">Logs: "왜" — NullPointerException at OrderService</div>
-<div class="kb-diagram-note">Traces: "어디서" — Order→Payment→DB 3번째 구간에서 지연</div>
-<div class="kb-diagram-note">→ TraceID로 3가지를 연결 → 완전한 진단</div>
-</div>
-</div>
-
-
+```text
+Metrics: "무엇이" — 에러율 5%↑
+Logs:    "왜" — NullPointerException at OrderService
+Traces:  "어디서" — Order→Payment→DB 3번째 구간에서 지연
+  → TraceID로 3가지를 연결 → 완전한 진단
+```
 
 - **📢 섹션 요약 비유**: Metrics는 체온계(숫자), Logs는 의사 진료 기록(텍스트), Traces는 혈류 추적(경로). 셋 다 봐야 정확한 진단.
 
@@ -63,18 +57,12 @@ Three Pillars의 <strong><a href="/knowledge-base/studynote/06_ict_convergence/0
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">메트릭만 (Nagios, 2000s)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">로그 추가 (ELK, 2012~)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">트레이스 추가 (Jaeger, 2016~)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">3 Pillars 통합 (Grafana LGTM, 2020~)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: Profiles (4th Pillar) — 코드 수준 성능 분석</div></div>
-</div>
-</div>
-
-
+```text
+[메트릭만 (Nagios, 2000s)] → [로그 추가 (ELK, 2012~)]
+    → [트레이스 추가 (Jaeger, 2016~)]
+    → [3 Pillars 통합 (Grafana LGTM, 2020~)]
+    → [현재: Profiles (4th Pillar) — 코드 수준 성능 분석]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. Metrics는 **체온계**(숫자), Logs는 **진료 기록**(텍스트), Traces는 **혈류 추적**(경로)이에요.

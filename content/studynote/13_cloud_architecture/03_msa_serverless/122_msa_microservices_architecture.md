@@ -18,22 +18,20 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MSA 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">API Gateway</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 주문 서비스 (Order) ── DB_Order</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 결제 서비스 (Payment) ── DB_Payment</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 재고 서비스 (Inventory) ── DB_Inventory</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 사용자 서비스 (User) ── DB_User</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">각 서비스: 독립 배포·스케일링·기술 스택 자유</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서비스 간 통신: REST / gRPC / 이벤트(Kafka)</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    MSA 아키텍처                                       │
+├───────────────────────────────────────────────────────┤
+│  [API Gateway]                                        │
+│     ├─▶ 주문 서비스 (Order) ── DB_Order              │
+│     ├─▶ 결제 서비스 (Payment) ── DB_Payment          │
+│     ├─▶ 재고 서비스 (Inventory) ── DB_Inventory      │
+│     └─▶ 사용자 서비스 (User) ── DB_User              │
+│                                                       │
+│  각 서비스: 독립 배포·스케일링·기술 스택 자유        │
+│  서비스 간 통신: REST / gRPC / 이벤트(Kafka)         │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 모놀리식은 대형 백화점(모든 매장이 한 건물)이고, MSA는 쇼핑몰(각 매장이 독립 건물, 독립 운영)이다.
 
@@ -92,23 +90,21 @@ MSA는 <strong>대규모 조직의 빠른 배포·독립 <a href="/knowledge-bas
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">모놀리식 (전통)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SOA (2005~) — 서비스 지향, ESB 중심</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MSA (2014, Netflix·Amazon) — 경량 서비스 분리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Service Mesh (Istio, 2018~) — 통신 인프라 표준화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: Modular Monolith + MSA — 상황별 최적 선택</div></div>
-</div>
-</div>
-
-
+```text
+[모놀리식 (전통)]
+    │
+    ▼
+[SOA (2005~) — 서비스 지향, ESB 중심]
+    │
+    ▼
+[MSA (2014, Netflix·Amazon) — 경량 서비스 분리]
+    │
+    ▼
+[Service Mesh (Istio, 2018~) — 통신 인프라 표준화]
+    │
+    ▼
+[현재: Modular Monolith + MSA — 상황별 최적 선택]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 모놀리식은 모든 가게가 <strong>한 건물에 있는 백화점</strong>이에요. 한 곳 수리하면 전체가 불편해요.

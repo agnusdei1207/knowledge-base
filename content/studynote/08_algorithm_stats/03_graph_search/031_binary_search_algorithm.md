@@ -38,40 +38,34 @@ tags = ["studynote-algorithm"]
 
 ### 기본 동작 순서
 
+```
+정렬된 배열: [1, 3, 5, 7, 9, 11, 13, 15]   목표: 9
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-note">정렬된 배열:</div><div class="kb-diagram-node">1, 3, 5, 7, 9, 11, 13, 15</div><div class="kb-diagram-note">목표: 9</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">3</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">left=4</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">5</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">right=4</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">4</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">반환(4) ✓</div></div>
-</div>
-</div>
-
-
+단계 1: left=0, right=7, mid=3 → arr[3]=7 < 9 → left=4
+단계 2: left=4, right=7, mid=5 → arr[5]=11 > 9 → right=4
+단계 3: left=4, right=4, mid=4 → arr[4]=9 == 9 → 반환(4)  ✓
+```
 
 ### [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 — 이진 탐색 포인터 이동
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-note">배열:</div><div class="kb-diagram-node">1</div><div class="kb-diagram-node">3</div><div class="kb-diagram-node">5</div><div class="kb-diagram-node">7</div><div class="kb-diagram-node">9</div><div class="kb-diagram-node">11</div><div class="kb-diagram-node">13</div><div class="kb-diagram-node">15</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">index: 0 1 2 3 4 5 6 7</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Step1: L=0 M=3 R=7</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">arr</div><div class="kb-diagram-node">3</div><div class="kb-diagram-note">=7 &lt; 9</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ left = M+1 = 4</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Step2: L=4 M=5 R=7</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">arr</div><div class="kb-diagram-node">5</div><div class="kb-diagram-note">=11 &gt; 9</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ right = M-1 = 4</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Step3: L=4 M=4 R=4</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">── arr</div><div class="kb-diagram-node">4</div><div class="kb-diagram-note">=9 == 9 ──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ Found! 반환(4)</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────────┐
+│  배열:  [ 1]  [ 3]  [ 5]  [ 7]  [ 9]  [11]  [13]  [15]      │
+│  index:   0     1     2     3     4     5     6     7         │
+│                                                              │
+│  Step1:  L=0              M=3                    R=7         │
+│          └──────────── arr[3]=7 < 9 ──────────── ┘          │
+│                           → left = M+1 = 4                   │
+│                                                              │
+│  Step2:                  L=4   M=5               R=7         │
+│                          └─── arr[5]=11 > 9 ──── ┘          │
+│                                  → right = M-1 = 4           │
+│                                                              │
+│  Step3:                  L=4  M=4  R=4                       │
+│                           └── arr[4]=9 == 9 ──┘              │
+│                               → Found! 반환(4)               │
+└──────────────────────────────────────────────────────────────┘
+```
 
 ### Lower Bound / Upper Bound
 
@@ -83,18 +77,13 @@ tags = ["studynote-algorithm"]
 | Lower Bound | `arr[mid] >= target` → right=mid | 첫 번째 위치 |
 | Upper Bound | `arr[mid] > target` → right=mid | 마지막+1 위치 |
 
+```
+배열: [2, 3, 3, 3, 5, 7]   target=3
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-note">배열:</div><div class="kb-diagram-node">2, 3, 3, 3, 5, 7</div><div class="kb-diagram-note">target=3</div></div>
-<div class="kb-diagram-note">Lower Bound → index 1 (첫 번째 3의 위치)</div>
-<div class="kb-diagram-note">Upper Bound → index 4 (마지막 3의 다음 위치)</div>
-<div class="kb-diagram-note">개수 = Upper - Lower = 4 - 1 = 3</div>
-</div>
-</div>
-
-
+Lower Bound → index 1  (첫 번째 3의 위치)
+Upper Bound → index 4  (마지막 3의 다음 위치)
+개수 = Upper - Lower = 4 - 1 = 3
+```
 
 ### Parametric Search (매개변수 탐색)
 
@@ -177,23 +166,21 @@ tags = ["studynote-algorithm"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Lower Bound</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Upper Bound</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Parametric Search</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">B-Tree 인덱스</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">git bisect</div></div>
-</div>
-</div>
-
-
+```text
+[Lower Bound]
+    │
+    ▼
+[Upper Bound]
+    │
+    ▼
+[Parametric Search]
+    │
+    ▼
+[B-Tree 인덱스]
+    │
+    ▼
+[git bisect]
+```
 
 이 흐름도는 Lower Bound에서 출발해 회전 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 탐색까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

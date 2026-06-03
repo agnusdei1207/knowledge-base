@@ -27,26 +27,26 @@ tags = ["studynote-operating-system"]
 
 **💡 비유**: 길거리에 4명이 서로 멱살을 잡고 데드락에 빠져 무한 정지 상태에 빠졌다. 경찰(OS)이 와서 누가 잘못했나 CCTV를 보는 대신(연산 로직), 수류탄을 하나 까서 4명 사이에 던져버린다. 4명 다 증발한다. 길거리엔 구경하던 사람들만 남아 여유롭게 길을 지나간다(교착 완전 해방). 
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Abort All (전체 강제 종료)의 스펙타클한 파괴력</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황 전개 전</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P1 (90% 완료), P2 (50% 완료), P3 (10% 완료)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이 셋이 단 하나 남은 프린터와 블록 때문에 원형대기(Cycle) 됨.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">OS 사령관의 복구 판단 (Abort All 채택!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"계산기 치워! 싹 다 날려!!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황 종료 후의 핏빛 결과</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. P1: 메모리 강제 반환 (90% 완료한 12시간짜리 작업 증발)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. P2: 메모리 강제 반환 (파일 반쯤 쓰다 개박살남)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. P3: 즉사</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 데드락 사이클 고리는 100% 끊어지고 시스템은 살아났으나,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시스템 자원 낭비(매몰 비용 파괴)라는 치명적 부상을 입음.</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────┐
+│         Abort All (전체 강제 종료)의 스펙타클한 파괴력         │
+├────────────────────────────────────────────────────────────────┤
+│                                                                │
+│  [상황 전개 전]                                                │
+│  P1 (90% 완료), P2 (50% 완료), P3 (10% 완료)                   │
+│  이 셋이 단 하나 남은 프린터와 블록 때문에 원형대기(Cycle) 됨. │
+│                                                                │
+│  [OS 사령관의 복구 판단 (Abort All 채택!)]                     │
+│  "계산기 치워! 싹 다 날려!!"                                   │
+│                                                                │
+│  [상황 종료 후의 핏빛 결과]                                    │
+│  1. P1: 메모리 강제 반환 (90% 완료한 12시간짜리 작업 증발)     │
+│  2. P2: 메모리 강제 반환 (파일 반쯤 쓰다 개박살남)             │
+│  3. P3: 즉사                                                   │
+│  ▶ 데드락 사이클 고리는 100% 끊어지고 시스템은 살아났으나,     │
+│     시스템 자원 낭비(매몰 비용 파괴)라는 치명적 부상을 입음.   │
+└────────────────────────────────────────────────────────────────┘
+```
 
 **📢 섹션 요약 비유**: Abort All [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 방식은 집에 쥐(데드락)가 나타났을 때, 쥐덫(세밀한 타깃팅)을 놓는 게 아니라 귀찮다며 집에다 수류탄(전체 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화)을 던져버리는 방식입니다. 쥐는 확실히 잡히지만 내 화장대([진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))도 날아갑니다.
 
@@ -115,19 +115,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">교착 상태 복구 (Recovery from Deadlock)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">프로세스 종료 방식</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">프로세스 순차 종료 방식</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">종료 대상 선택 (희생자 선택) 기준</div></div>
-</div>
-</div>
-
-
+```text
+[교착 상태 복구 (Recovery from Deadlock)]
+    │
+    ▼
+[프로세스 종료 방식]
+    │
+    ├──▶ [프로세스 순차 종료 방식]
+    └──▶ [종료 대상 선택 (희생자 선택) 기준]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

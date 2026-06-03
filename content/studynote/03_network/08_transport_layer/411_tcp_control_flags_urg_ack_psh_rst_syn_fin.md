@@ -28,18 +28,14 @@ tags = ["studynote-network"]
   - **FIN**: "독수리, 보고 끝. 이상! (통신 정상 종료)"
   - **RST**: "야 적군이다! 무전기 당장 부숴!! (비정상 강제 종료)"
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">헤더 길이/데이터 오프셋</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">TCP 제어 플래그</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ECN 징후 플래그</div></div>
-</div>
-</div>
-
-
+```text
+[헤더 길이/데이터 오프셋]
+    │
+    ▼
+[TCP 제어 플래그]
+    │
+    └──▶ [ECN 징후 플래그]
+```
 
 - **📢 섹션 요약 비유**: <strong> TCP의 6개 전등 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>(<a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/">플래그</a>)는 자동차의 </strong>"방향지시등과 브레이크등"**입니다. 뒤따라오는 차(수신자)는 앞차의 깜빡이(SYN)와 빨간불(FIN)만 보고도 앞차가 우회전을 할지 멈출지 그 의도를 100% 정확하게 예측하고 대응할 수 있습니다.
 
@@ -49,18 +45,14 @@ tags = ["studynote-network"]
 
 와이어샤크(Wireshark) 패킷 분석의 기본이자 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 룰 세팅의 알파와 오메가다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">헤더 길이/데이터 오프셋</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">TCP 제어 플래그</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ECN 징후 플래그</div></div>
-</div>
-</div>
-
-
+```text
+[헤더 길이/데이터 오프셋]
+    │
+    ▼
+[TCP 제어 플래그]
+    │
+    └──▶ [ECN 징후 플래그]
+```
 
 - **📢 섹션 요약 비유**: [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 제어 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -92,22 +84,21 @@ tags = ["studynote-network"]
 - **역할**: "이 패킷 안에 폭탄 해체 암호(긴급 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 들어있으니까 순서 무시하고 제일 먼저 처리해!"
 - **특징**: 이 불이 켜져 있으면, 나중에 배울 `Urgent Pointer(긴급 포인터)`가 가리키는 지점의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 OS가 0순위로 뽑아간다. (현대 인터넷에서는 거의 안 쓴다).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TCP 플래그의 실전 조합 (와이어샤크 뷰)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1)</div><div class="kb-diagram-node">SYN</div><div class="kb-diagram-note">: 클라이언트가 서버 찌를 때 (최초 1회)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2)</div><div class="kb-diagram-node">SYN, ACK</div><div class="kb-diagram-note">: 서버가 "어 그래 통신하자!"라고 대답할 때</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3)</div><div class="kb-diagram-node">ACK</div><div class="kb-diagram-note">: 클라이언트가 "오케이 나도 준비 끝!" 할 때</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">4)</div><div class="kb-diagram-node">PSH, ACK</div><div class="kb-diagram-note">: 실제 카톡 메시지(데이터)가 쓩 날아갈 때</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">5)</div><div class="kb-diagram-node">FIN, ACK</div><div class="kb-diagram-note">: 다 쓰고 나서 "이제 끊자~" 라고 손 흔들 때</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">6)</div><div class="kb-diagram-node">RST</div><div class="kb-diagram-note">: 해커가 포트 스캔하다가 서버한테 싸대기 맞을 때</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ "이 전등 6개의 켜짐/꺼짐 조합만으로 인터넷의 모든 행동이 설명된다!"</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                TCP 플래그의 실전 조합 (와이어샤크 뷰)             │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   1) [SYN]      : 클라이언트가 서버 찌를 때 (최초 1회)           │
+ │   2) [SYN, ACK] : 서버가 "어 그래 통신하자!"라고 대답할 때         │
+ │   3) [ACK]      : 클라이언트가 "오케이 나도 준비 끝!" 할 때        │
+ │   4) [PSH, ACK] : 실제 카톡 메시지(데이터)가 쓩 날아갈 때          │
+ │   5) [FIN, ACK] : 다 쓰고 나서 "이제 끊자~" 라고 손 흔들 때        │
+ │   6) [RST]      : 해커가 포트 스캔하다가 서버한테 싸대기 맞을 때      │
+ │                                                             │
+ │   ▶ "이 전등 6개의 켜짐/꺼짐 조합만으로 인터넷의 모든 행동이 설명된다!" │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: <strong> 6개의 제어 <a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/">플래그</a>는 카카오톡 대화방의 </strong>"시스템 메시지"**입니다. [님이 입장하셨습니다(SYN)], [메시지 읽음 표시(ACK)], [상대방이 나갔습니다(FIN)], [강제 퇴장당하셨습니다(RST)]라는 명확한 꼬리표 덕분에 우리는 대화방의 상태를 직관적으로 꿰뚫어 볼 수 있습니다.
 
@@ -151,19 +142,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 헤더 길이/데이터 오프셋</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: TCP 제어 플래그</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: ECN 징후 플래그</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 헤더 길이/데이터 오프셋]
+    │
+    ▼
+[현재 개념: TCP 제어 플래그]
+    │
+    ├──▶ [확장 A: ECN 징후 플래그]
+    └──▶ [확장 B: 적응형 저지연 전송]
+```
 
 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 제어 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)는 헤더 길이/[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 오프셋에서 출발해 현재 메커니즘을 정교화하고, 이후 ECN 징후 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

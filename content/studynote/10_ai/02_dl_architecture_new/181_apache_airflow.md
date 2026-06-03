@@ -44,25 +44,25 @@ Airflow의 핵심 구성은 [DAG](/knowledge-base/studynote/06_ict_convergence/0
 
 아래 그림은 Airflow가 "작업을 직접 처리하는 엔진"이 아니라 "상태와 순서를 제어하는 플랫폼"이라는 점을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Apache Airflow control plane</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DAG code (.py)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">parse</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Scheduler &lt;-&gt; Metadata DB &lt;-&gt; Web UI</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">create task instances</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Executor (Local / Celery / Kubernetes)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">dispatch</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ SQL task</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Spark submit</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Python / Bash task</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Worker / Pod -&gt; log + state -&gt; queued / running / success / retry</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Apache Airflow control plane                                        │
+├──────────────────────────────────────────────────────────────────────┤
+│ DAG code (.py)                                                      │
+│    │ parse                                                          │
+│    ▼                                                                │
+│ Scheduler <-> Metadata DB <-> Web UI                               │
+│    │ create task instances                                          │
+│    ▼                                                                │
+│ Executor (Local / Celery / Kubernetes)                              │
+│    │ dispatch                                                       │
+│    ├─ SQL task                                                      │
+│    ├─ Spark submit                                                  │
+│    └─ Python / Bash task                                            │
+│    ▼                                                                │
+│ Worker / Pod -> log + state -> queued / running / success / retry   │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 Airflow의 중요한 원리는 세 가지다. 첫째, DAG가 있으므로 선행 작업이 완료되어야 후행 작업이 실행된다. 둘째, 실패한 작업은 재시도 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 알림 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)에 따라 통제된다. 셋째, 실행 날짜(Logical Date)와 백필 개념 덕분에 "오늘 못 돌린 어제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)"를 다시 계산할 수 있다.
 
@@ -150,24 +150,22 @@ Airflow를 도입하면 배치 [파이프](/knowledge-base/studynote/02_operatin
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Cron 기반 단일 스크립트</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DAG 기반 의존성 관리</div>
-<div class="kb-diagram-tree-item" style="--depth:2">retry / alert / SLA</div>
-<div class="kb-diagram-tree-item" style="--depth:2">logical date / backfill</div>
-<div class="kb-diagram-tree-item" style="--depth:2">metadata-driven observability</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">분산 Executor와 외부 처리 엔진 연동</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ETL + MLOps 파이프라인 오케스트레이션</div>
-</div>
-</div>
-
-
+```text
+Cron 기반 단일 스크립트
+    │
+    ▼
+DAG 기반 의존성 관리
+    │
+    ├─ retry / alert / SLA
+    ├─ logical date / backfill
+    └─ metadata-driven observability
+    │
+    ▼
+분산 Executor와 외부 처리 엔진 연동
+    │
+    ▼
+ETL + MLOps 파이프라인 오케스트레이션
+```
 
 이 흐름은 Airflow가 단순 예약에서 출발해, 실행 상태와 재현성을 포함한 운영 플랫폼으로 확장되는 과정을 보여 준다.
 

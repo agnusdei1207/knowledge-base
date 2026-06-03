@@ -23,29 +23,33 @@ tags = ["studynote-operating-system"]
 
 **💡 비유**: 작은 책상(RAM)에 올려둔 책(프로세스)들이 너무 많으면, 지금 안 보는 책은 서랍(디스크 스왑 영역)에 잠시 넣는 것.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스와핑 동작 흐름</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">메모리 부족 감지</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스왑 아웃 (Swap Out)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">● OS가 희생 프로세스(Victim) 선택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">● 프로세스 메모리 전체를 디스크 스왑 공간으로 복사</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">● 해당 프레임들을 비워 다른 프로세스에 할당</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">실행 준비된 스왑 아웃 프로세스</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스왑 인 (Swap In)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">● 스왑 공간에서 프로세스를 메모리로 복원</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">● 주소 바인딩 재수행 (실행 시간 바인딩 필요)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">● CPU 스케줄러가 레디 큐에 배치</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스왑 오버헤드 (HDD 기준):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">100MB 프로세스 스왑 아웃: 100MB / 50MB/s = 2초</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스왑 인: 추가 2초 → 총 4초 오버헤드!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(NVMe SSD: ~200ms로 단축)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│         스와핑 동작 흐름                                     │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│  [메모리 부족 감지]                                          │
+│       │                                                      │
+│       ▼                                                      │
+│  [스왑 아웃 (Swap Out)]                                      │
+│  ● OS가 희생 프로세스(Victim) 선택                           │
+│  ● 프로세스 메모리 전체를 디스크 스왑 공간으로 복사          │
+│  ● 해당 프레임들을 비워 다른 프로세스에 할당                 │
+│                                                              │
+│  [실행 준비된 스왑 아웃 프로세스]                            │
+│       │                                                      │
+│       ▼                                                      │
+│  [스왑 인 (Swap In)]                                         │
+│  ● 스왑 공간에서 프로세스를 메모리로 복원                    │
+│  ● 주소 바인딩 재수행 (실행 시간 바인딩 필요)                │
+│  ● CPU 스케줄러가 레디 큐에 배치                             │
+│                                                              │
+│  스왑 오버헤드 (HDD 기준):                                   │
+│  100MB 프로세스 스왑 아웃: 100MB / 50MB/s = 2초              │
+│  스왑 인: 추가 2초 → 총 4초 오버헤드!                        │
+│  (NVMe SSD: ~200ms로 단축)                                   │
+└──────────────────────────────────────────────────────────────┘
+```
 
 **📢 섹션 요약 비유**: 스와핑은 좁은 주방(RAM)에서 지금 안 쓰는 냄비(프로세스)를 창고(디스크)로 잠시 옮기는 것 — 새 냄비를 올릴 공간이 생기지만, 다시 꺼내오는 데 시간이 걸립니다.
 
@@ -65,30 +69,30 @@ tags = ["studynote-operating-system"]
 
 ### Linux kswapd 데몬 동작
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Linux 메모리 회수 흐름 (kswapd + OOM Killer)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 사용량 임계값:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">● min / low / high 워터마크</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">high 이상</div><div class="kb-diagram-note">: 정상 운영</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">low ~ high</div><div class="kb-diagram-note">: kswapd 백그라운드 회수 시작</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">● 파일 캐시(file-backed) 페이지 먼저 제거</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">● 익명(anonymous) 페이지는 스왑 공간으로</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">min 미만</div><div class="kb-diagram-note">: 직접 회수 (Synchronous Direct Reclaim)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 메모리 할당 요청 스레드가 직접 페이지 회수</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 심각한 레이턴시 유발</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">완전 고갈</div><div class="kb-diagram-note">: OOM Killer 발동</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ oom_score 기반으로 희생 프로세스 선택 후 SIGKILL</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">명령어:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">swapon -s # 스왑 사용 현황</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">free -h # RAM·스왑 전체 현황</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">vmstat 1 # 스왑 인/아웃 속도 모니터링</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│         Linux 메모리 회수 흐름 (kswapd + OOM Killer)         │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│  메모리 사용량 임계값:                                       │
+│  ● min / low / high 워터마크                                 │
+│                                                              │
+│  [high 이상]: 정상 운영                                      │
+│  [low ~ high]: kswapd 백그라운드 회수 시작                   │
+│    ● 파일 캐시(file-backed) 페이지 먼저 제거                 │
+│    ● 익명(anonymous) 페이지는 스왑 공간으로                  │
+│  [min 미만]: 직접 회수 (Synchronous Direct Reclaim)          │
+│    → 메모리 할당 요청 스레드가 직접 페이지 회수              │
+│    → 심각한 레이턴시 유발                                    │
+│  [완전 고갈]: OOM Killer 발동                                │
+│    → oom_score 기반으로 희생 프로세스 선택 후 SIGKILL        │
+│                                                              │
+│  명령어:                                                     │
+│  swapon -s           # 스왑 사용 현황                        │
+│  free -h             # RAM·스왑 전체 현황                    │
+│  vmstat 1            # 스왑 인/아웃 속도 모니터링            │
+└──────────────────────────────────────────────────────────────┘
+```
 
 **📢 섹션 요약 비유**: kswapd는 청소부 — 방(메모리)이 너무 꽉 차기 전에 미리 안 쓰는 물건을 창고(스왑)로 옮겨요. [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) Killer는 창고마저 꽉 찼을 때 가장 큰 짐을 들고 있는 사람(프로세스)에게 나가달라고 하는 보안 요원이에요.
 
@@ -150,19 +154,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">정적 연결 (Static Linking)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스와핑 (Swapping)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스왑 아웃 (Swap out) / 스왑 인 (Swap in)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">표준 스와핑 (전체 프로세스) vs 페이징 시스템 스와핑 (페이지 단위)</div></div>
-</div>
-</div>
-
-
+```text
+[정적 연결 (Static Linking)]
+    │
+    ▼
+[스와핑 (Swapping)]
+    │
+    ├──▶ [스왑 아웃 (Swap out) / 스왑 인 (Swap in)]
+    └──▶ [표준 스와핑 (전체 프로세스) vs 페이징 시스템 스와핑 (페이지 단위)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

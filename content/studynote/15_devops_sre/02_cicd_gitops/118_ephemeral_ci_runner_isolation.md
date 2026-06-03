@@ -18,23 +18,21 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Persistent vs Ephemeral Runner</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Persistent (영구)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Build 1 → Runner A (파일 잔여) →</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Build 2 → Runner A (오염된 환경!) ⚠️</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 재현 불가, 보안 취약</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Ephemeral (일회성)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Build 1 → Runner X (새 생성) → 빌드 → 삭제 🗑️</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Build 2 → Runner Y (새 생성) → 빌드 → 삭제 🗑️</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 완전 격리, 재현 가능, 보안 강화</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    Persistent vs Ephemeral Runner                     │
+├───────────────────────────────────────────────────────┤
+│  [Persistent (영구)]                                  │
+│   Build 1 → Runner A (파일 잔여) →                   │
+│   Build 2 → Runner A (오염된 환경!) ⚠️               │
+│   → 재현 불가, 보안 취약                              │
+│                                                       │
+│  [Ephemeral (일회성)]                                 │
+│   Build 1 → Runner X (새 생성) → 빌드 → 삭제 🗑️     │
+│   Build 2 → Runner Y (새 생성) → 빌드 → 삭제 🗑️     │
+│   → 완전 격리, 재현 가능, 보안 강화                   │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: Persistent Runner는 매번 같은 접시에 음식을 담는 것(이전 음식 잔여물 위험)이고, Ephemeral Runner는 매번 새 일회용 접시를 사용하는 것이다.
 
@@ -106,23 +104,21 @@ Ephemeral Runner는 <strong><a href="/knowledge-base/studynote/12_it_management/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">물리 빌드 서버 (Persistent, 2000s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Docker 기반 CI (GitLab Runner, 2015~)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">GitHub Actions (2019) — 기본 Ephemeral VM</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">K8s Pod Agent (2020~) — 자동 생성·삭제</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: SLSA + Ephemeral — 공급망 보안 필수 요건</div></div>
-</div>
-</div>
-
-
+```text
+[물리 빌드 서버 (Persistent, 2000s)]
+    │
+    ▼
+[Docker 기반 CI (GitLab Runner, 2015~)]
+    │
+    ▼
+[GitHub Actions (2019) — 기본 Ephemeral VM]
+    │
+    ▼
+[K8s Pod Agent (2020~) — 자동 생성·삭제]
+    │
+    ▼
+[현재: SLSA + Ephemeral — 공급망 보안 필수 요건]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 영구 러너는 **같은 접시를 계속 쓰는** 거예요. 이전 음식 찌꺼기가 남아있을 수 있어요 ⚠️

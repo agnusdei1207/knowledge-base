@@ -25,27 +25,28 @@ A가 최소한 자기가 쥔 손(망치)을 풀고(반납) 다시 줄을 서면 
 
 **💡 비유**: 양손 가득 짐을 든 채로, 다른 사람이 보관함 키를 주길 기다리며 입구를 가로막는 상황 — 조금이라도 짐을 내려놓고 비켜주면 상대가 키를 챙겨 나올 텐데, 절대 놓지 않고 뭉개는 이기적 대기.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">점유 대기 (Hold-and-Wait) 역학 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">일반적 실행 흐름 (No Hold-and-Wait)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로세스 P1:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">R1 요청 → R1 사용 → R1 반납.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">R2 요청 → R2 사용 → R2 반납.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 독립적인 자원 요청으로 교착 위험도 제로.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">교착의 불씨 (Hold-and-Wait 발생)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로세스 P1:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">R1 요청 → (R1 점유 완료!) → R2 요청(대기...)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로세스 P2:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">R2 요청 → (R2 점유 완료!) → R1 요청(대기...)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: P1은 R1을 안 놓은 채 R2 기다림,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P2는 R2를 안 놓은 채 R1을 기다림 → 영구 교착(Deadlock)</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────┐
+│         점유 대기 (Hold-and-Wait) 역학 비교                   │
+├───────────────────────────────────────────────────────────────┤
+│                                                               │
+│  [일반적 실행 흐름 (No Hold-and-Wait)]                        │
+│  프로세스 P1:                                                 │
+│  R1 요청 → R1 사용 → R1 반납.                                 │
+│  R2 요청 → R2 사용 → R2 반납.                                 │
+│  → 독립적인 자원 요청으로 교착 위험도 제로.                   │
+│                                                               │
+│  [교착의 불씨 (Hold-and-Wait 발생)]                           │
+│  프로세스 P1:                                                 │
+│  R1 요청 → (R1 점유 완료!) → R2 요청(대기...)                 │
+│                                                               │
+│  프로세스 P2:                                                 │
+│  R2 요청 → (R2 점유 완료!) → R1 요청(대기...)                 │
+│                                                               │
+│  결과: P1은 R1을 안 놓은 채 R2 기다림,                        │
+│        P2는 R2를 안 놓은 채 R1을 기다림 → 영구 교착(Deadlock) │
+└───────────────────────────────────────────────────────────────┘
+```
 
 **📢 섹션 요약 비유**: [점유 대기](/knowledge-base/studynote/02_operating_system/04_synchronization/231_hold_and_wait/)는 뷔페에서 포크만 잔뜩 모아둔 채, 수프가 나오기 전까진 포크를 아무에게도 안 내어주는 얌체 행동 — 포크가 없어 수프 요리사조차 시식을 못해 주방이 스톱됩니다.
 
@@ -120,19 +121,15 @@ A가 최소한 자기가 쥔 손(망치)을 풀고(반납) 다시 줄을 서면 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">상호 배제 (Mutual Exclusion)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">점유하며 대기 (Hold-and-Wait)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">비선점 (No Preemption)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">순환 대기 (Circular Wait)</div></div>
-</div>
-</div>
-
-
+```text
+[상호 배제 (Mutual Exclusion)]
+    │
+    ▼
+[점유하며 대기 (Hold-and-Wait)]
+    │
+    ├──▶ [비선점 (No Preemption)]
+    └──▶ [순환 대기 (Circular Wait)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

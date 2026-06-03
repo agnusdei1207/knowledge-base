@@ -36,29 +36,28 @@ tags = ["studynote-bigdata"]
 | <strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/">신뢰도</a> (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/">Confidence</a>)</strong> | P(B\|A) = P(A ∩ B)/P(A) | A가 있을 때 B가 같이 있을 [조건부 확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/132_conditional_probability/) |
 | <strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/">향상도</a> (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/086_lift_association_rule_marketing/">Lift</a>)</strong> | [Confidence](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) / P(B) | 우연보다 얼마나 더 자주 함께 나타나는가 (>1 이면 양의 연관) |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">연관 규칙 마이닝 파이프라인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">거래 DB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T1: {우유, 빵, 버터}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T2: {맥주, 기저귀, 콜라} Step 1: 빈발 항목 집합 생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T3: {우유, 기저귀, 맥주, 콜라} ▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">T4: {빵, 우유} min_support 임계값 적용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">빈발 항목 집합 (Frequent Itemsets)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">{맥주, 기저귀}: support=0.4</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">{맥주, 콜라}: support=0.3 Step 2: 규칙 생성 &amp; 필터링</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">{기저귀, 콜라}: support=0.3 ▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">min_confidence 임계값 적용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최종 규칙</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">{기저귀} → {맥주} conf=0.80, lift=2.1 ✅ 의미 있음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">{빵} → {우유} conf=0.67, lift=1.3 ✅ 의미 있음</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│             연관 규칙 마이닝 파이프라인                          │
+├──────────────────────────────────────────────────────────────────┤
+│  거래 DB                                                         │
+│  T1: {우유, 빵, 버터}                                            │
+│  T2: {맥주, 기저귀, 콜라}          Step 1: 빈발 항목 집합 생성   │
+│  T3: {우유, 기저귀, 맥주, 콜라}  ──────────────────────────────▶│
+│  T4: {빵, 우유}                    min_support 임계값 적용       │
+│  ...                                                             │
+├──────────────────────────────────────────────────────────────────┤
+│  빈발 항목 집합 (Frequent Itemsets)                              │
+│  {맥주, 기저귀}: support=0.4                                     │
+│  {맥주, 콜라}:   support=0.3    Step 2: 규칙 생성 & 필터링      │
+│  {기저귀, 콜라}: support=0.3  ──────────────────────────────────▶│
+│                                  min_confidence 임계값 적용      │
+├──────────────────────────────────────────────────────────────────┤
+│  최종 규칙                                                       │
+│  {기저귀} → {맥주}   conf=0.80, lift=2.1  ✅ 의미 있음          │
+│  {빵}     → {우유}   conf=0.67, lift=1.3  ✅ 의미 있음          │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 ### Apriori vs [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/)-Growth
 
@@ -141,23 +140,21 @@ Spark MLlib의 FPGrowth, Python mlxtend [라이브러리](/knowledge-base/studyn
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 마이닝</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">연관 규칙</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Apriori 알고리즘</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">FP-Growth</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">협업 필터링</div></div>
-</div>
-</div>
-
-
+```text
+[데이터 마이닝]
+    │
+    ▼
+[연관 규칙]
+    │
+    ▼
+[Apriori 알고리즘]
+    │
+    ▼
+[FP-Growth]
+    │
+    ▼
+[협업 필터링]
+```
 
 [데이터 마이닝](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/284_data_mining_association_classification_clustering_crisp_dm/)의 빈발 패턴 탐색이 연관 규칙과 Apriori를 거쳐 더 효율적인 [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/)-Growth 및 [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)으로 발전하는 흐름이다.
 

@@ -36,26 +36,31 @@ NASA와 FAA(미국 연방항공청)가 2015년경 UTM 개념을 공식화했으�
 
 ### 1. UTM 시스템 구성
 
+```text
+UTM 생태계 구조
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">UTM 생태계 구조</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ANSP (항공항법서비스제공자)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">국가 공역 권한 / ATM 연동 / 규제 공역 정보</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">USS (UAS Service</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Supplier, 무인기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서비스 제공자)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· 비행 계획 접수</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· 충돌 회피 조율</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· 지오펜싱 적용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">드론 A</div><div class="kb-diagram-cell">드론 B</div><div class="kb-diagram-cell">드론 C</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Remote</div><div class="kb-diagram-cell">Remote</div><div class="kb-diagram-cell">Remote</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ID</div><div class="kb-diagram-cell">ID</div><div class="kb-diagram-cell">ID</div></div>
-</div>
-</div>
-
-
+  ┌─────────────────────────────────────────────────────────┐
+  │                   ANSP (항공항법서비스제공자)               │
+  │         국가 공역 권한 / ATM 연동 / 규제 공역 정보          │
+  └─────────────────────┬───────────────────────────────────┘
+                        │
+           ┌────────────▼────────────┐
+           │   USS (UAS Service     │
+           │   Supplier, 무인기      │
+           │   서비스 제공자)         │
+           │   · 비행 계획 접수       │
+           │   · 충돌 회피 조율       │
+           │   · 지오펜싱 적용        │
+           └─────────┬───────────────┘
+                     │
+      ┌──────────────┼──────────────┐
+      │              │              │
+  ┌───▼──┐      ┌───▼──┐      ┌───▼──┐
+  │드론 A│      │드론 B│      │드론 C│
+  │Remote│      │Remote│      │Remote│
+  │  ID  │      │  ID  │      │  ID  │
+  └──────┘      └──────┘      └──────┘
+```
 
 ### 2. UTM 핵심 기능 4가지
 
@@ -68,21 +73,17 @@ NASA와 FAA(미국 연방항공청)가 2015년경 UTM 개념을 공식화했으�
 
 ### 3. Remote ID 브로드캐스트 방식
 
+```text
+Remote ID 전송 방식
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Remote ID 전송 방식</div>
-<div class="kb-diagram-note">드론 (UAS)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Wi-Fi Beacon (802.11) — 1km 내 수신기에 브로드캐스트</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Bluetooth 5.0 — 300m 내 수신</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Network (셀룰러/LTE) — USS 서버에 실시간 업로드</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">모든 드론의 위치를 지도에 실시간 표시</div>
-</div>
-</div>
-
-
+  드론 (UAS)
+  │
+  ├─► Wi-Fi Beacon (802.11) — 1km 내 수신기에 브로드캐스트
+  ├─► Bluetooth 5.0 — 300m 내 수신
+  └─► Network (셀룰러/LTE) — USS 서버에 실시간 업로드
+                              ↓
+                   모든 드론의 위치를 지도에 실시간 표시
+```
 
 - **📢 섹션 요약 비유**: UTM은 **'하늘을 달리는 드론들을 위한 카카오택시 앱 + 신호등 + 도로 규칙'** 입니다. 각 드론이 자신의 위치를 실시간으로 신고하고(Remote ID), 지도에서 겹치는 경로를 자동으로 비켜가며(충돌 회피), 금지 구역엔 아예 못 들어가게 막는(지오펜싱) 하늘의 교통 규칙 시스템입니다.
 
@@ -161,24 +162,22 @@ UTM은 "드론을 날리는 기술"이 아니라, **"수만 대의 드론이 동
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">드론(UAS) 산업 성장 → 저고도 공역 혼잡 문제</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">UTM (Unmanned Aircraft System Traffic Management)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Remote ID — 드론 실시간 식별</div>
-<div class="kb-diagram-tree-item" style="--depth:2">지오펜싱 — 비행 금지 구역 자동 차단</div>
-<div class="kb-diagram-tree-item" style="--depth:2">USS — 비행 계획 접수·조율</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">BVLOS 장거리 드론 배송 상용화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">UAM (도심항공교통) — 에어택시 공역 통합 관제</div>
-</div>
-</div>
-
-
+```text
+드론(UAS) 산업 성장 → 저고도 공역 혼잡 문제
+    │
+    ▼
+UTM (Unmanned Aircraft System Traffic Management)
+    │
+    ├─► Remote ID — 드론 실시간 식별
+    ├─► 지오펜싱 — 비행 금지 구역 자동 차단
+    ├─► USS — 비행 계획 접수·조율
+    │
+    ▼
+BVLOS 장거리 드론 배송 상용화
+    │
+    ▼
+UAM (도심항공교통) — 에어택시 공역 통합 관제
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

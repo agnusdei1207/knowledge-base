@@ -18,19 +18,17 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Reality-Virtuality Continuum (Milgram, 1994)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">현실 AR MR VR 가상</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">100%실세계 정보오버레이 상호작용 100%가상</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">XR = VR + AR + MR (확장현실 통칭)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Spatial Computing = XR + 공간 인식 + 자연 UI</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    Reality-Virtuality Continuum (Milgram, 1994)       │
+├───────────────────────────────────────────────────────┤
+│  현실 ──── AR ──── MR ──── VR ──── 가상              │
+│  100%실세계  정보오버레이  상호작용  100%가상         │
+│                                                       │
+│  XR = VR + AR + MR (확장현실 통칭)                   │
+│  Spatial Computing = XR + 공간 인식 + 자연 UI        │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: VR은 꿈속(완전 가상), AR은 안경 위 글씨(현실+정보), MR은 홀로그램과 대화(현실+가상 상호작용)이다.
 
@@ -89,23 +87,21 @@ XR/[공간 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_com
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">VR (Oculus Rift, 2012~)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AR (포켓몬GO, 2016)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MR (HoloLens, 2016~)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">XR (통칭, 2018~)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: 공간 컴퓨팅 (Apple Vision Pro, 2024~)</div></div>
-</div>
-</div>
-
-
+```text
+[VR (Oculus Rift, 2012~)]
+    │
+    ▼
+[AR (포켓몬GO, 2016)]
+    │
+    ▼
+[MR (HoloLens, 2016~)]
+    │
+    ▼
+[XR (통칭, 2018~)]
+    │
+    ▼
+[현재: 공간 컴퓨팅 (Apple Vision Pro, 2024~)]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. VR은 <strong>꿈속(완전 가상)</strong>이에요. 현실이 안 보여요.

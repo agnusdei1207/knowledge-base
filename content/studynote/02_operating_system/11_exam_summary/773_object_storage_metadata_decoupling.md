@@ -35,30 +35,30 @@ tags = ["studynote-operating-system"]
 - **등장 배경**: 
   - 2006년 아마존이 AWS S3 (Simple Storage [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))를 출시하며 "어떤 양의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)든 저장하고 검색할 수 있는 인터넷 스토리지" 개념을 대중화시켰고, 넷플릭스, 페이스북 등의 미디어 폭발을 견뎌낸 뼈대가 되었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파일 스토리지 트리 구조 vs 오브젝트 스토리지 플랫 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전통적 파일 스토리지 (Hierarchical Tree) - NAS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ (Root)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── app/</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── var/</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── www/</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── images/</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── cat.jpg ◀ 여기까지 찾느라 디스크 메타데이터 5번 읽음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ 파일이 10억 개가 넘어가면 뼈대(Directory Tree) 관리가 붕괴함.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">오브젝트 스토리지 (Flat Address Space) - S3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">거대한 하나의 버킷(Bucket) 평면:</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ID: 1A2B</div><div class="kb-diagram-note">(cat.jpg) (태그: 귀여움, 2026년생)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ID: 9F8D</div><div class="kb-diagram-note">(dog.mp4) (태그: 강아지, 해상도4k)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ID: 3E7C</div><div class="kb-diagram-note">(log.txt) (태그: 시스템로그)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ 검색: GET https://s3.cloud.com/bucket/1A2B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ 결과: ID 1A2B 해시값을 계산해 해당 서버로 직행. (디렉터리 탐색 비용 0)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │                 파일 스토리지 트리 구조 vs 오브젝트 스토리지 플랫 구조   │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │  [ 전통적 파일 스토리지 (Hierarchical Tree) - NAS ]               │
+  │   / (Root)                                                  │
+  │   ├── app/                                                  │
+  │   └── var/                                                  │
+  │       └── www/                                              │
+  │           └── images/                                       │
+  │               └── cat.jpg  ◀ 여기까지 찾느라 디스크 메타데이터 5번 읽음 │
+  │   ※ 파일이 10억 개가 넘어가면 뼈대(Directory Tree) 관리가 붕괴함.       │
+  │                                                             │
+  │  [ 오브젝트 스토리지 (Flat Address Space) - S3 ]                  │
+  │   거대한 하나의 버킷(Bucket) 평면:                                 │
+  │   [ID: 1A2B] (cat.jpg) (태그: 귀여움, 2026년생)                  │
+  │   [ID: 9F8D] (dog.mp4) (태그: 강아지, 해상도4k)                  │
+  │   [ID: 3E7C] (log.txt) (태그: 시스템로그)                       │
+  │                                                             │
+  │   ※ 검색: GET https://s3.cloud.com/bucket/1A2B                │
+  │   ※ 결과: ID 1A2B 해시값을 계산해 해당 서버로 직행. (디렉터리 탐색 비용 0) │
+  └─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 스토리지는 인간의 뇌가 분류하기 편하게 만들어진 인위적 계층이다. 반면 [오브젝트 스토리지](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/494_object_storage/)는 오로지 기계([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))가 무한대로 확장([Scale-out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/))하기 편하게 만들어진 평면(Flat) 우주다. 폴더 구조가 없기 때문에 상위 폴더를 잠그고 푸는 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 경합이 원천적으로 소멸한다. 오브젝트 ID(보통 해시값)만 알면 내부 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에 의해 이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 한국 서버에 있는지 미국 서버에 있는지 단 한 번의 연산으로 찾아낸다. 따라서 스토리지 용량이 페타바이트 단위로 무한정 늘어나도 검색 속도가 느려지지 않는 완벽한 선형 확장이 가능하다.
 
@@ -72,24 +72,28 @@ tags = ["studynote-operating-system"]
 
 [오브젝트 스토리지](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/494_object_storage/)가 페타바이트 확장을 견디는 핵심 비밀은 아키텍처의 분업화에 있다. 
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오브젝트 스토리지의 메타데이터 / 데이터 분리 모델</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">클라이언트 앱 (웹 브라우저, 백엔드 서버)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. "사진(ID: 777) 어딨어?" (REST API)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MDS (Metadata Server Node / 분산 해시 라우터)</div><div class="kb-diagram-cell">◀ 가볍고 빠름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"ID 777은 OSD-3번 노드의 디스크 5번에 있어!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 주소 힌트 획득</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">클라이언트가 직접 OSD로 요청 쏘기</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">핵심: MDS를 거쳐서 다운받지 않음!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 3. "OSD-3아, 사진 파일 내놔!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OSD (Object Storage Daemon / Data Node)</div><div class="kb-diagram-cell">◀ 무겁고 큼</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">디스크 1</div><div class="kb-diagram-node">디스크 2</div><div class="kb-diagram-node">디스크 5 (ID 777)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 오브젝트 스토리지의 메타데이터 / 데이터 분리 모델           │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [ 클라이언트 앱 (웹 브라우저, 백엔드 서버) ]                         │
+  │         │  1. "사진(ID: 777) 어딨어?" (REST API)                    │
+  │         ▼                                                         │
+  │   ┌───────────────────────────────────────────────┐               │
+  │   │  MDS (Metadata Server Node / 분산 해시 라우터) │ ◀ 가볍고 빠름  │
+  │   │  "ID 777은 OSD-3번 노드의 디스크 5번에 있어!"      │               │
+  │   └────────────────────┬──────────────────────────┘               │
+  │                        │ 2. 주소 힌트 획득                         │
+  │   [ 클라이언트가 직접 OSD로 요청 쏘기 ] ◀ 핵심: MDS를 거쳐서 다운받지 않음! │
+  │         │                                                         │
+  │         ▼ 3. "OSD-3아, 사진 파일 내놔!"                            │
+  │   ┌───────────────────────────────────────────────┐               │
+  │   │  OSD (Object Storage Daemon / Data Node)      │ ◀ 무겁고 큼   │
+  │   │  [ 디스크 1 ] [ 디스크 2 ] [ 디스크 5 (ID 777) ] │               │
+  │   └───────────────────────────────────────────────┘               │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 고전적인 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 서버([NFS](/knowledge-base/studynote/02_operating_system/09_file_system/543_nfs_network_file_system/))는 관리 서버가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 찾아서 "자신의 네트워크 대역폭을 통해" 클라이언트에게 전달해 줬다. 사용자가 몰리면 관리 서버의 네트워크가 터진다([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/)). 반면 [오브젝트 스토리지](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/494_object_storage/)는 관리 서버([MDS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/764_mds/))와 짐꾼 서버(OSD)를 철저히 찢었다. 클라이언트는 가벼운 MDS에게 "어딨어?"라는 주소만 묻고, 무거운 사진 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 다운로드는 주소를 알아낸 뒤 OSD 짐꾼 노드와 직접([Direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/)) 1:1 통신을 뚫어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 받아간다. 덕분에 짐꾼 노드(디스크)를 100대, 1000대 병렬로 늘려도 트래픽이 1000갈래로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)되므로 절대 중앙 병목이 오지 않는 궁극의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 아키텍처가 실현된다.
 
@@ -137,26 +141,29 @@ tags = ["studynote-operating-system"]
    - **원인 분석**: [오브젝트 스토리지](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/494_object_storage/)는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 "일부분 덮어쓰기(Append/Update)"를 지원하지 않는다. [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)에 "에러 발생"이라는 10바이트 한 줄을 추가하려면, S3는 뒤에서 기존 1GB짜리 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 통째로 다운받아 10바이트를 더한 뒤 다시 1GB 통째로 업로드하는 끔찍한 오버헤드(Rewrite)를 발생시킨다. 게다가 '[결과적 일관성](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/)([Eventual Consistency](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/650_eventual_consistency/))' 때문에 방금 쓴 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 읽어도 옛날 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 나올 수 있다.
    - **아키텍트 판단 (티어링 아키텍처 재설계)**: [오브젝트 스토리지](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/494_object_storage/)는 "한 번 쓰고 영원히 읽기만 하는([WORM](/knowledge-base/studynote/02_operating_system/10_security/590_worm/) - Write Once, Read Many)" 차가운 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에만 써야 한다. 실시간 핫(Hot) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 로컬 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 블록 스토리지나 [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)(MQ)에 빠르게 밀어 넣고, 자정에 크론([Cron](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/107_nightly_build_scheduled_cron_pipeline/)) 배치가 돌아 하루 치 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 1개의 거대한 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(.gz) 덩어리로 예쁘게 뭉쳐서 S3로 던지는 [스토리지 티어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/674_storage_tiering/)(Tiering) 아키텍처로 뜯어고친다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라우드 스토리지 선택을 위한 아키텍트 결정 트리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">서비스에서 새로운 데이터를 저장할 공간이 필요하다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터의 일부만 계속 빈번하게 수정되는가? (예: DB 파일, 실시간 로그)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">블록 스토리지 (Block / AWS EBS)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(초고속 랜덤 액세스 및 로컬 마운트 지원)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 (한 번 저장하면 수정 없이 읽기만 함)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">여러 대의 리눅스 서버(EC2)가 동시에 디렉터리로 마운트해서 파일처럼 써야 하나?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">네트워크 파일 시스템 (NAS / AWS EFS)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(POSIX 파일 락 호환성 지원, 레거시 앱 이전 용이)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">오브젝트 스토리지 (S3 / Ceph) 🚀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 용량 무제한, 가장 저렴한 비용, 극강의 내구성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- REST API로만 접근! (파일 수정 불가/Immutable)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 클라우드 스토리지 선택을 위한 아키텍트 결정 트리           │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [ 서비스에서 새로운 데이터를 저장할 공간이 필요하다 ]                    │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      데이터의 일부만 계속 빈번하게 수정되는가? (예: DB 파일, 실시간 로그)      │
+  │          ├─ 예 ─────▶ [ 블록 스토리지 (Block / AWS EBS) ]           │
+  │          │             (초고속 랜덤 액세스 및 로컬 마운트 지원)            │
+  │          └─ 아니오 (한 번 저장하면 수정 없이 읽기만 함)                  │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      여러 대의 리눅스 서버(EC2)가 동시에 디렉터리로 마운트해서 파일처럼 써야 하나?│
+  │          ├─ 예 ─────▶ [ 네트워크 파일 시스템 (NAS / AWS EFS) ]       │
+  │          │             (POSIX 파일 락 호환성 지원, 레거시 앱 이전 용이)     │
+  │          │                                                        │
+  │          └─ 아니오 ──▶ [ 오브젝트 스토리지 (S3 / Ceph) 🚀 ]           │
+  │                        - 용량 무제한, 가장 저렴한 비용, 극강의 내구성       │
+  │                        - REST API로만 접근! (파일 수정 불가/Immutable)│
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** "S3가 싸니까 전부 거기로 넣자"는 재앙의 지름길이다. 아키텍트는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 온도(Hot, Warm, Cold)와 성질(Mutable, [Immutable](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/298_immutable/))을 파악해야 한다. S3는 무한한 우주 창고지만, 문이 아주 무겁다. 계속 열었다 닫았다 하면서 안의 물건을 꼼지락대면 손가락이 부러진다. 하지만 1TB짜리 거대한 바윗덩이를 한 번에 밀어 넣고, 나중에 꺼내서 구경만 하는 용도로는 지구상에서 이보다 싸고 안전한 시스템은 없다 (내구성 Eleven 9s - 99.999999999%).
 
@@ -202,19 +209,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">다중 큐 SSD NVMe 프로토콜 장점</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">오브젝트 스토리지 메타데이터 분리 (Object Storage Metadata Decoupling)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">네트워크 파일 시스템 (NFS) 무상태 (Stateless)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">파티션 MBR GPT 크기 제한</div></div>
-</div>
-</div>
-
-
+```text
+[다중 큐 SSD NVMe 프로토콜 장점]
+    │
+    ▼
+[오브젝트 스토리지 메타데이터 분리 (Object Storage Metadata Decoupling)]
+    │
+    ├──▶ [네트워크 파일 시스템 (NFS) 무상태 (Stateless)]
+    └──▶ [파티션 MBR GPT 크기 제한]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

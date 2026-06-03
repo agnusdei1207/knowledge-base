@@ -22,53 +22,42 @@ tags = ["studynote-design-supervision"]
 
 현실: 비즈니스 로직이 DB, 외부 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 등에 의존한다.
 
+```
+[문제 상황]
+OrderService.createOrder()
+  └→ userRepository.findById()   ← DB 의존성
+  └→ inventoryService.reserve()  ← 외부 서비스 의존성
+  └→ emailService.send()         ← SMTP 서버 의존성
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">문제 상황</div></div>
-<div class="kb-diagram-note">OrderService.createOrder()</div>
-<div class="kb-diagram-tree-item" style="--depth:1">→ userRepository.findById() ← DB 의존성</div>
-<div class="kb-diagram-tree-item" style="--depth:1">→ inventoryService.reserve() ← 외부 서비스 의존성</div>
-<div class="kb-diagram-tree-item" style="--depth:1">→ emailService.send() ← SMTP 서버 의존성</div>
-<div class="kb-diagram-note">단위 테스트만으로 실행 불가:</div>
-<div class="kb-diagram-tree-item" style="--depth:1">DB 없이 실행 불가 → 느림, 불안정</div>
-<div class="kb-diagram-tree-item" style="--depth:1">외부 API 없이 실행 불가 → 환경 의존</div>
-<div class="kb-diagram-tree-item" style="--depth:1">이메일 실제 발송 → 테스트 부작용</div>
-</div>
-</div>
-
-
+단위 테스트만으로 실행 불가:
+  - DB 없이 실행 불가 → 느림, 불안정
+  - 외부 API 없이 실행 불가 → 환경 의존
+  - 이메일 실제 발송 → 테스트 부작용
+```
 
 해결: 의존성을 <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/458_test_double/">Test Double</a></strong>로 교체하여 격리.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">/ E2E\ ← End-to-End 테스트 (소수, 느림, 비용 ↑)</div>
-<div class="kb-diagram-note">/Integra-\← 통합 테스트 (중간)</div>
-<div class="kb-diagram-note">/ Unit Tests \← 단위 테스트 (다수, 빠름, 비용 ↓)</div>
-</div>
-</div>
-
-
+```
+        /\
+       /  \
+      / E2E\  ← End-to-End 테스트 (소수, 느림, 비용 ↑)
+     /──────\
+    /Integra-\← 통합 테스트 (중간)
+   /──────────\
+  / Unit Tests \← 단위 테스트 (다수, 빠름, 비용 ↓)
+ ────────────────
+```
 
 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)가 피라미드 기반을 이루는 이유:
 - 실행 속도: ms 단위 (외부 I/O 없음)
 - 피드백 속도: 코드 수정 즉시 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)
 - 유지보수 비용: 외부 환경 변화에 무관
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Core Idea</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Expected Gain</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐    ┌──────────────┐    ┌──────────────┐
+│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
+└──────────────┘    └──────────────┘    └──────────────┘
+```
 
 - **📢 섹션 요약 비유**: [테스트 더블](/knowledge-base/studynote/12_it_management/05_security_compliance/367_test_double_isolation/)은 영화 촬영의 스턴트맨 — 진짜 배우(실제 DB, 외부 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) 대신 특정 장면(테스트)에서 대역([Test Double](/knowledge-base/studynote/04_software_engineering/11_testing_validation/458_test_double/))을 써서, 안전하고 빠르게 촬영(테스트)한다.
 
@@ -83,22 +72,22 @@ tags = ["studynote-design-supervision"]
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/462_mock_test_double/">Mock</a></strong> (목) | 호출 예상(Expectation) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) + [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | ✓ | 상호작용 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | `verify(emailSvc, times(1)).send(any())` |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/463_fake_test_double/">Fake</a></strong> ([페이크](/knowledge-base/studynote/04_software_engineering/11_testing_validation/463_fake_test_double/)) | 실제 구현의 단순화 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) | ✗ | 경량 실제 구현 | `InMemoryRepository` |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">테스트에서 의존성을 어떻게 다룰까?</div>
-<div class="kb-diagram-note">파라미터로 반환 값이 호출 여부를</div>
-<div class="kb-diagram-note">전달만 됨 필요함 검증해야 함</div>
-<div class="kb-diagram-note">Dummy 상태가 필요? Mock 사용</div>
-<div class="kb-diagram-note">(경량 구현 필요?)</div>
-<div class="kb-diagram-note">단순 값 실제 동작</div>
-<div class="kb-diagram-note">반환 충분 필요</div>
-<div class="kb-diagram-note">Stub Fake</div>
-</div>
-</div>
-
-
+```
+테스트에서 의존성을 어떻게 다룰까?
+                │
+    ┌───────────┼────────────────┐
+    │           │                │
+파라미터로      반환 값이          호출 여부를
+전달만 됨      필요함             검증해야 함
+    │           │                │
+  Dummy       상태가 필요?      Mock 사용
+              (경량 구현 필요?)
+             ┌─────┴──────┐
+          단순 값          실제 동작
+         반환 충분          필요
+             │                │
+           Stub             Fake
+```
 
 ```java
 // 1. Mock 생성
@@ -120,15 +109,11 @@ verify(mockEmailService, times(1)).sendConfirmation(eq(testUser.getEmail()));
 verify(mockRepo, never()).delete(any());
 ```
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Input/State</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Control Point</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Output/Action</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐    ┌──────────────┐    ┌──────────────┐
+│ Input/State  │──▶│ Control Point │──▶│ Output/Action │
+└──────────────┘    └──────────────┘    └──────────────┘
+```
 
 - **📢 섹션 요약 비유**: Stub은 "미리 짜놓은 대본을 읽는 배우(항상 같은 답변 반환)", Mock은 "감독이 배우가 대본대로 연기했는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 것(호출 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))" 이다.
 

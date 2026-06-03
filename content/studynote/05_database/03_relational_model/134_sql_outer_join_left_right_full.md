@@ -47,17 +47,11 @@ OUTER JOIN은 <strong>비매칭 <a href="/knowledge-base/studynote/05_database/0
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Cartesian Product</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">INNER JOIN (교집합)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">OUTER JOIN (SQL-92)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Anti-Join 패턴</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">LATERAL JOIN (SQL:2003)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: Semi-Join 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[Cartesian Product] → [INNER JOIN (교집합)]
+    → [OUTER JOIN (SQL-92)] → [Anti-Join 패턴]
+    → [LATERAL JOIN (SQL:2003)] → [현재: Semi-Join 최적화]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. LEFT JOIN은 <strong>A반 전체 명단</strong>이에요. B반에서 겹치는 사람은 표시하고 <strong>안 겹치면 빈칸</strong>이에요.

@@ -27,22 +27,32 @@ tags = ["studynote-operating-system"]
 - **커널의 위상과 자원 관리의 필요성**:
   기존의 단순한 하드웨어 직접 제어 방식은 다중 사용자, 다중 작업 환경에서 보안 취약점과 자원 낭비를 초래했다. 커널은 하드웨어를 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) ([Abstraction](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/))하여 응용 프로그램에게 일관된 인터페이스를 제공함으로써 이 문제를 해결한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">커널의 계층적 위치 및 자원 중재 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">응용 프로그램 (Application)</div><div class="kb-diagram-node">응용 프로그램</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">(User Mode)</div><div class="kb-diagram-node">(User Mode)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시스템 호출 (System Call)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">커널 (Kernel Mode)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(자원 관리 및 추상화 담당)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하드웨어 (Hardware)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(CPU, RAM, Disk, I/O)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│              커널의 계층적 위치 및 자원 중재 구조                │
+├──────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│   [ 응용 프로그램 (Application) ]  [ 응용 프로그램 ]             │
+│   [      (User Mode)          ]  [   (User Mode)   ]             │
+│            │                             │                       │
+│            └──────────────┬──────────────┘                       │
+│                           ▼                                      │
+│            ┌─────────────────────────────┐                       │
+│            │  시스템 호출 (System Call)    │                     │
+│            └──────────────┬──────────────┘                       │
+│                           ▼                                      │
+│            ┌─────────────────────────────┐                       │
+│            │      커널 (Kernel Mode)      │                      │
+│            │  (자원 관리 및 추상화 담당)    │                    │
+│            └──────────────┬──────────────┘                       │
+│                           ▼                                      │
+│            ┌─────────────────────────────┐                       │
+│            │     하드웨어 (Hardware)      │                      │
+│            │    (CPU, RAM, Disk, I/O)    │                       │
+│            └─────────────────────────────┘                       │
+│                                                                  │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 구조도는 커널 (Kernel)이 하드웨어와 응용 프로그램 사이에서 어떻게 완충 지대 역할을 수행하는지 보여준다. 응용 프로그램은 하드웨어에 직접 접근할 권한이 없으며, 오직 [시스템 호출](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/) ([System Call](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/))이라는 정해진 게이트웨이를 통해서만 커널에게 자원 사용을 요청할 수 있다. 이러한 계층 구조는 사용자 영역의 오류가 커널 영역으로 전이되는 것을 방지하는 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)벽 역할을 하며, 커널은 이 중앙화된 통제권을 바탕으로 CPU 스케줄링, 메모리 격리, [장치 드라이버](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/495_device_driver/) 실행 등의 복잡한 로직을 수행한다. 실무적으로 이는 하드웨어 사양이 바뀌어도 응용 프로그램 소스 코드를 수정할 필요가 없는 높은 이식성과 유지보수성을 보장하는 핵심 원동력이 된다.
 
@@ -68,24 +78,25 @@ tags = ["studynote-operating-system"]
 
 응용 프로그램이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓰거나 네트워크 패킷을 보내려면 반드시 커널 모드로 진입해야 한다. 이때 발생하는 모드 전환 (Mode [Switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))은 하드웨어 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) ([Mode Bit](/knowledge-base/studynote/02_operating_system/01_overview_architecture/012_mode_bit/))를 변경하며 CPU의 권한 수준을 격상시키는 과정이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시스템 호출을 통한 모드 전환 및 실행 흐름</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">사용자 모드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① 함수 호출 (e.g. write())</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② 시스템 호출 트랩 (Trap) 발생</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">커널 경계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">커널 모드</div><div class="kb-diagram-connector">▼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ 모드 비트 변경 (1 → 0)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">④ 시스템 호출 번호 확인 및 서비스 루틴 실행 (실제 데이터 쓰기)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⑤ 실행 완료 후 결과 반환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⑥ 모드 비트 복구 (0 → 1)</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│             시스템 호출을 통한 모드 전환 및 실행 흐름              │
+├────────────────────────────────────────────────────────────────────┤
+│                                                                    │
+│ [사용자 모드]                                                      │
+│   ① 함수 호출 (e.g. write())                                       │
+│   ② 시스템 호출 트랩 (Trap) 발생 ─────────────┐                    │
+│                                              │                     │
+│ ────────────────── [ 커널 경계 ] ────────────┼────────────────     │
+│                                              │                     │
+│ [커널 모드]                                  ▼                     │
+│   ③ 모드 비트 변경 (1 → 0)                                         │
+│   ④ 시스템 호출 번호 확인 및 서비스 루틴 실행 (실제 데이터 쓰기)   │
+│   ⑤ 실행 완료 후 결과 반환 ──────────────────┘                     │
+│   ⑥ 모드 비트 복구 (0 → 1)                                         │
+│                                                                    │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** [시스템 호출](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/) ([System Call](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/)) 흐름의 핵심은 소프트웨어 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)인 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) ([Trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/))을 이용해 실행 권한을 강제로 전환한다는 점이다. 사용자 프로그램이 `write()` 같은 표준 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 함수를 호출하면, 이는 내부적으로 특정 [시스템 호출](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/) 번호를 레지스터에 싣고 CPU에게 예외 상황을 알린다. 커널은 미리 정의된 [시스템 호출](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/) 테이블 ([System Call](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/) Table)을 참조하여 해당 번호에 매핑된 커널 함수를 실행한다. 이 과정에서 CPU는 특권 명령 (Privileged [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))을 수행할 수 있는 권한을 얻으며, 하드웨어 자원을 직접 조작한다. 작업이 완료되면 커널은 다시 사용자 모드로 복귀하여 제어권을 응용 프로그램에게 돌려준다. 이러한 엄격한 절차는 악성 코드가 하드웨어를 직접 장악하는 것을 원천적으로 차단하는 가장 강력한 보안 기제이다.
 
@@ -101,18 +112,21 @@ tags = ["studynote-operating-system"]
 4. <strong>장치 관리 (Device <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/">Management</a>)</strong>: 통일된 [시스템 호출](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/) 인터페이스 뒤에서 개별 하드웨어의 특수성을 [장치 드라이버](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/495_device_driver/) ([Device Driver](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/495_device_driver/))로 감춘다.
 5. <strong>네트워킹 및 보안 (Networking &amp; <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a>)</strong>: [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 스택을 구현하여 네트워크 통신을 지원하고, 사용자 권한 및 프로세스 격리를 수행한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">커널 내부의 기능별 상호작용 흐름도</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">인터럽트 처리기</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">프로세스 스케줄러</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">장치 드라이버</div><div class="kb-diagram-node">메모리 관리 유닛</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">파일 시스템</div><div class="kb-diagram-node">물리 RAM / Disk</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│               커널 내부의 기능별 상호작용 흐름도                 │
+├──────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│    [인터럽트 처리기] ◀───┐      ┌───▶ [프로세스 스케줄러]        │
+│           │             │      │             │                   │
+│           ▼             │      │             ▼                   │
+│    [장치 드라이버] ─────┼──────┘      [메모리 관리 유닛]         │
+│           │             │                    │                   │
+│           ▼             │                    ▼                   │
+│    [파일 시스템] ───────┘              [물리 RAM / Disk]         │
+│                                                                  │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 커널 내부 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)들은 고립되어 있지 않고 긴밀하게 상호작용한다. 예를 들어, 하드디스크에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽으라는 하드웨어 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 발생하면 ([Interrupt Handler](/knowledge-base/studynote/02_operating_system/01_overview_architecture/021_interrupt_handler/)), [장치 드라이버](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/495_device_driver/)가 이를 처리하고 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 계층에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전달한다. 이 과정에서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템은 해당 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 저장할 메모리 공간을 메모리 관리자에게 요청하며, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽는 동안 현재 프로세스는 대기 상태로 전환되고 스케줄러는 다른 프로세스를 CPU에 할당한다. 이 복잡한 피드백 루프는 시스템의 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))을 극대화하고 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) ([Response Time](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/))을 줄이기 위한 고도의 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 로직으로 구성된다. 실무 아키텍처 설계 시 이러한 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 간 의존성 때문에 커널 내부에 락 ([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 경합이 발생하며, 이를 해결하기 위한 [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/) ([Spinlock](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/))이나 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/) ([Semaphore](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)) 기법의 효율성이 커널 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 좌우한다.
 
@@ -158,22 +172,27 @@ tags = ["studynote-operating-system"]
 - **기술적**: [시스템 호출](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/)의 레이턴시가 실시간성 요구 사항을 충족하는가? 커널 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 추가 시 기존 시스템의 안정성에 미치는 영향은 무엇인가?
 - **운영·보안적**: 커널 패치 자동화 프로세스가 갖춰져 있는가? [최소 권한 원칙](/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/) ([Least Privilege](/knowledge-base/studynote/09_security/01_intro_principles/010_least_privilege/))에 따라 사용자 프로세스의 자원 접근이 엄격히 통제되고 있는가?
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">성능 최적화를 위한 시스템 호출 개선 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">병목 감지</div><div class="kb-diagram-note">(System CPU Usage &gt; 50%)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">프로파일링</div><div class="kb-diagram-note">(strace, perf를 통한 호출 빈도 분석)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">최적화 기법 선택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 빈번한 I/O: io_uring / Epoll 활용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 메모리 복사 과다: Zero-copy (sendfile) 적용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 권한 격리 필요: eBPF (Kernel Sandbox) 활용</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">검증</div><div class="kb-diagram-note">(Latency &amp; Context Switch Count 비교)</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│               성능 최적화를 위한 시스템 호출 개선 플로우           │
+├────────────────────────────────────────────────────────────────────┤
+│                                                                    │
+│   [병목 감지] (System CPU Usage > 50%)                             │
+│          │                                                         │
+│          ▼                                                         │
+│   [프로파일링] (strace, perf를 통한 호출 빈도 분석)                │
+│          │                                                         │
+│          ▼                                                         │
+│   [최적화 기법 선택]                                               │
+│     ├─ 빈번한 I/O: io_uring / Epoll 활용                           │
+│     ├─ 메모리 복사 과다: Zero-copy (sendfile) 적용                 │
+│     └─ 권한 격리 필요: eBPF (Kernel Sandbox) 활용                  │
+│          │                                                         │
+│          ▼                                                         │
+│   [검증] (Latency & Context Switch Count 비교)                     │
+│                                                                    │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 실무에서 커널 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화는 '모드 전환 최소화'와 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 복사 최소화'로 귀결된다. 이 의사결정 트리는 과도한 [시스템 호출](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/)이 발생할 때 엔지니어가 취해야 할 단계를 보여준다. 단순히 하드웨어 사양을 높이는 대신, 커널이 제공하는 고성능 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) (e.g. `sendfile`, `io_uring`)를 활용해 사용자 영역과 커널 영역 간의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 횟수를 줄이는 것이 핵심이다. 특히 `io_uring`은 제출 큐 (Submission [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))와 완료 큐 (Completion [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))를 사용자-커널 간 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)에 배치하여, [시스템 호출](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/) 없이도 비동기 I/O를 수행하게 함으로써 고성능 네트워크 서버 설계의 표준으로 자리 잡고 있다.
 
@@ -217,23 +236,21 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">하드웨어 (CPU · 메모리 · 디바이스)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">커널 (Kernel) — 특권 모드, 자원 관리자</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시스템 호출 (System Call) — 사용자↔커널 경계</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">사용자 공간 프로세스 (User-space Process)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">eBPF / 유니커널 (Unikernel) — 클라우드 네이티브 진화</div></div>
-</div>
-</div>
-
-
+```text
+[하드웨어 (CPU · 메모리 · 디바이스)]
+    │
+    ▼
+[커널 (Kernel) — 특권 모드, 자원 관리자]
+    │
+    ▼
+[시스템 호출 (System Call) — 사용자↔커널 경계]
+    │
+    ▼
+[사용자 공간 프로세스 (User-space Process)]
+    │
+    ▼
+[eBPF / 유니커널 (Unikernel) — 클라우드 네이티브 진화]
+```
 하드웨어를 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)한 커널이 [시스템 호출](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/)을 통해 사용자 프로세스를 안전하게 서비스하고, eBPF와 [유니커널](/knowledge-base/studynote/02_operating_system/10_security/640_unikernel_mirageos_architecture/)로 최소화·유연화하는 방향으로 진화하는 흐름이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

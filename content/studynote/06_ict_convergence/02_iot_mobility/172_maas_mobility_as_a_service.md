@@ -27,18 +27,16 @@ tags = ["studynote-ict-convergence"]
 
 이 그림은 파편화된 이동과 통합된 이동의 차이를 한눈에 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Door-to-door mobility: fragmented vs integrated</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Legacy : map app -&gt; rail app -&gt; taxi app -&gt; separate tickets/pay</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MaaS : one app -&gt; plan -&gt; reserve -&gt; pay once -&gt; transfer guide</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">value : the journey becomes the service, not each vehicle alone</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│            Door-to-door mobility: fragmented vs integrated           │
+├──────────────────────────────────────────────────────────────────────┤
+│ Legacy : map app -> rail app -> taxi app -> separate tickets/pay    │
+│ MaaS   : one app -> plan -> reserve -> pay once -> transfer guide   │
+│                                                                      │
+│ value  : the journey becomes the service, not each vehicle alone     │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 결국 MaaS의 출발점은 "교통수단이 많다"가 아니라 "여정이 끊긴다"는 문제 인식이다. 그래서 성공 여부는 교통수단 개수보다도, 끊어진 여정을 얼마나 매끄럽게 잇는지로 평가해야 한다.
 
@@ -62,21 +60,22 @@ MaaS는 보통 정보 통합에서 시작해 거래 통합으로, 그다음에�
 
 아래 구조는 MaaS가 실제로 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 받아 어떤 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 바꾸는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core MaaS stack: from transport supply to journey</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Bus / Metro / Rail / Taxi / PM / Car share</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">real-time location, seats, fares</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">data standardization (GTFS, APIs, IDs, fare rules)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">routing + booking + disruption handling</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">one payment -&gt; clearing house -&gt; settlement to each operator</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">traveler app / operator console / city policy dashboard</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│            Core MaaS stack: from transport supply to journey         │
+├──────────────────────────────────────────────────────────────────────┤
+│ Bus / Metro / Rail / Taxi / PM / Car share                           │
+│           │ real-time location, seats, fares                         │
+│           ▼                                                          │
+│   data standardization (GTFS, APIs, IDs, fare rules)                │
+│           ▼                                                          │
+│   routing + booking + disruption handling                            │
+│           ▼                                                          │
+│   one payment -> clearing house -> settlement to each operator       │
+│           ▼                                                          │
+│   traveler app / operator console / city policy dashboard            │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 여기서 난도가 가장 높은 구간은 정산이다. 사용자는 한 번만 결제하지만, 백엔드는 철도·[버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)·택시·PM 사업자에게 요금과 수수료를 각각 나눠야 한다. 그래서 MaaS는 길찾기 알고리즘만 잘 만든다고 완성되는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 아니라, <strong>정산과 책임 분배까지 설계된 거래 플랫폼</strong>이어야 한다.
 
@@ -112,24 +111,21 @@ MaaS는 비슷한 용어와 자주 섞여 쓰이지만, 초점이 다르다. 길
 
 아래 결정 흐름은 MaaS를 "진짜 통합"으로 볼 수 있는 최소 조건을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Can a mobility service become MaaS?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">public transit data open and reliable?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no -&gt; super-app or TaaS only</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">unified booking/payment possible?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no -&gt; information integration level</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">settlement/governance agreed?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no -&gt; pilot remains fragile</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes -&gt; MaaS scaling candidate</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                 Can a mobility service become MaaS?                  │
+├──────────────────────────────────────────────────────────────────────┤
+│ public transit data open and reliable?                               │
+│        ├─ no  -> super-app or TaaS only                              │
+│        └─ yes                                                         │
+│ unified booking/payment possible?                                    │
+│        ├─ no  -> information integration level                       │
+│        └─ yes                                                         │
+│ settlement/governance agreed?                                        │
+│        ├─ no  -> pilot remains fragile                               │
+│        └─ yes -> MaaS scaling candidate                              │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 ### 기술사 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -178,23 +174,21 @@ MaaS를 제대로 구현하면 사용자는 앱 전환과 중복 결제 없이 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Fragmented transport services</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Open data + standardized APIs</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Integrated routing / booking / payment</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Subscription, incentives, demand management</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">City-scale MaaS linked with C-ITS and Smart City</div>
-</div>
-</div>
-
-
+```text
+Fragmented transport services
+    │
+    ▼
+Open data + standardized APIs
+    │
+    ▼
+Integrated routing / booking / payment
+    │
+    ▼
+Subscription, incentives, demand management
+    │
+    ▼
+City-scale MaaS linked with C-ITS and Smart City
+```
 
 이 흐름은 개별 교통수단의 파편화가 [데이터 표준화](/knowledge-base/studynote/05_database/02_modeling_normalization/126_data_standardization_word_domain_term/)와 거래 통합을 거쳐, 도시 차원의 수요 관리 도구로 발전하는 방향을 보여 준다.
 

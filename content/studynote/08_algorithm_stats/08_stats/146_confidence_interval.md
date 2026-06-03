@@ -46,23 +46,18 @@ MoE = z_{α/2} · (σ/√n) = CI 반폭
 
 **95% CI의 올바른 해석 예시**:
 
+```
+100번 반복 실험 시 신뢰 구간 시각화:
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">100번 반복 실험 시 신뢰 구간 시각화:</div>
-<div class="kb-diagram-note">실험 1: • ← 모수 포함 ✅</div>
-<div class="kb-diagram-note">실험 2: • ✅</div>
-<div class="kb-diagram-note">실험 3: • ✅</div>
-<div class="kb-diagram-note">실험 4: • ❌ (모수 미포함)</div>
-<div class="kb-diagram-note">실험 5: • ✅</div>
-<div class="kb-diagram-note">...</div>
-<div class="kb-diagram-note">약 95개의 구간이 모수 μ를 포함 │</div>
-<div class="kb-diagram-note">↑ 모수 μ (고정값)</div>
-</div>
-</div>
-
-
+실험  1: ├────────•────────┤ ← 모수 포함 ✅
+실험  2:     ├────────•────────┤ ✅
+실험  3: ├──────•──────┤ ✅
+실험  4:               ├────•────┤ ❌ (모수 미포함)
+실험  5:         ├────────•────────┤ ✅
+...
+약 95개의 구간이 모수 μ를 포함 ─────│──────
+                                    ↑ 모수 μ (고정값)
+```
 
 📢 **섹션 요약 비유**: 신뢰 구간은 "낚시 그물의 크기"와 같다. 그물을 100번 던지면 약 95번은 물고기(모수)를 잡는다 — 물고기가 그물 안에 있을 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 95%가 아니라, 그물을 던지는 방법이 95% 성공률을 보장하는 것이다.
 
@@ -122,20 +117,17 @@ n = (z_{α/2} · σ / MoE)²
 
 **핵심 법칙**: [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)(폭)를 k배 높이려면 표본 크기를 k²배 늘려야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">표본 크기와 CI 폭의 관계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">n=10</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">n=25</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">n=100</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">n=400</div></div>
-<div class="kb-diagram-note">x̄ 중심</div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────┐
+│         표본 크기와 CI 폭의 관계               │
+├──────┬───────────────────────────────────────┤
+│ n=10 │ ├──────────────────────────────────┤  │
+│ n=25 │     ├──────────────────────┤         │
+│ n=100│          ├──────────┤                │
+│ n=400│               ├─────┤               │
+└──────┴───────────────────────────────────────┘
+              x̄ 중심
+```
 
 📢 **섹션 요약 비유**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 폭과 표본 크기는 "확성기 음량과 거리"와 같다. 거리를 4배 늘리면 소리가 반으로 줄듯, 표본을 4배 늘려야 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 폭이 반으로 줄어 — [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 향상에는 제곱 비용이 든다.
 
@@ -208,25 +200,24 @@ CI가 0을 포함하지 않으면 → 유의미한 차이 있음
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">점 추정 (Point Estimation) — 표본 통계량 하나로 모수 추정, 불확실성 미표현</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">신뢰 구간 (Confidence Interval) — 표본 분포 기반 모수의 범위 추정</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">t-분포 (Student's t-Distribution) — 소표본 신뢰 구간, 자유도에 따른 폭 조정</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">부트스트랩 신뢰 구간 (Bootstrap CI) — 재표본 시뮬레이션, 분포 가정 없이 구간 추정</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">베이즈 신용 구간 (Bayesian Credible Interval) — 사전 분포 반영, 사후 확률 직접 해석</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">A/B 테스트 신뢰 구간 — 실험 설계·표본 크기 계산·통계적 유의성 판단의 실무 표준</div></div>
-</div>
-</div>
-
-
+```text
+[점 추정 (Point Estimation) — 표본 통계량 하나로 모수 추정, 불확실성 미표현]
+    │
+    ▼
+[신뢰 구간 (Confidence Interval) — 표본 분포 기반 모수의 범위 추정]
+    │
+    ▼
+[t-분포 (Student's t-Distribution) — 소표본 신뢰 구간, 자유도에 따른 폭 조정]
+    │
+    ▼
+[부트스트랩 신뢰 구간 (Bootstrap CI) — 재표본 시뮬레이션, 분포 가정 없이 구간 추정]
+    │
+    ▼
+[베이즈 신용 구간 (Bayesian Credible Interval) — 사전 분포 반영, 사후 확률 직접 해석]
+    │
+    ▼
+[A/B 테스트 신뢰 구간 — 실험 설계·표본 크기 계산·통계적 유의성 판단의 실무 표준]
+```
 이 흐름은 단일 점 추정의 한계를 보완하기 위해 신뢰 구간이 도입되고, 소표본·비정규·사전 정보 반영 요건에 따라 다양한 구간 추정 기법으로 확장되는 통계적 추론 방법론의 발전을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

@@ -20,22 +20,22 @@ tags = ["studynote-dataengineering"]
 
 ML에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 간 '유사도'를 수치화하려면 거리 함수(Distance [Metric](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/))가 필요하다. 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋에 유클리드를 쓰느냐 맨해튼을 쓰느냐에 따라 K-NN의 이웃이 달라지고, K-Means의 클러스터 형태가 바뀐다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유클리드 vs 맨해튼 거리 시각화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(B)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">*</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Euclid/</div><div class="kb-diagram-cell">Manhattan</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(직선)/</div><div class="kb-diagram-cell">(격자: 가로+세로)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(A) *</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Euclid = √((x2-x1)² + (y2-y1)²)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Manhattan =</div><div class="kb-diagram-cell">x2-x1</div><div class="kb-diagram-cell">+</div><div class="kb-diagram-cell">y2-y1</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────┐
+│    유클리드 vs 맨해튼 거리 시각화              │
+├───────────────────────────────────────────────┤
+│          (B)                                  │
+│           *                                   │
+│          /|                                   │
+│   Euclid/ | Manhattan                         │
+│   (직선)/ | (격자: 가로+세로)                  │
+│        /  |                                   │
+│   (A) *───┘                                   │
+│                                               │
+│  Euclid  = √((x2-x1)² + (y2-y1)²)           │
+│  Manhattan = |x2-x1| + |y2-y1|               │
+└───────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 유클리드는 새가 하늘을 직선으로 날아가는 거리, 맨해튼은 택시가 도시 격자 도로를 따라 꺾어가는 거리다.
 
@@ -106,23 +106,21 @@ $D_p(x,y) = \left(\sum_{i=1}^{n} |x_i - y_i|^p\right)^{1/p}$
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">유클리드 거리 (피타고라스, BC) — 2차원 직선 거리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">민코프스키 거리 (19C) — p-노름 일반화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">맨해튼 거리 (Taxi Cab) — L1 노름, 이산 공간</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">코사인 유사도·마할라노비스 — 방향·공분산 고려</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: Learned Distance (Metric Learning) — 신경망이 최적 거리 함수를 학습</div></div>
-</div>
-</div>
-
-
+```text
+[유클리드 거리 (피타고라스, BC) — 2차원 직선 거리]
+    │
+    ▼
+[민코프스키 거리 (19C) — p-노름 일반화]
+    │
+    ▼
+[맨해튼 거리 (Taxi Cab) — L1 노름, 이산 공간]
+    │
+    ▼
+[코사인 유사도·마할라노비스 — 방향·공분산 고려]
+    │
+    ▼
+[현재: Learned Distance (Metric Learning) — 신경망이 최적 거리 함수를 학습]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 유클리드 거리는 새가 하늘을 **직선으로 슝~** 날아가는 거리예요.

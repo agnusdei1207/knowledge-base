@@ -35,21 +35,21 @@ tags = ["studynote-data-engineering"]
 | <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/">FP</a> (False Positive)</strong> | 실제 음성인데 모델이 <strong>양성</strong>으로 틀림 | **가짜 양성 (1종 오류, 오탐)** |
 | **FN (False Negative)** | 실제 양성인데 모델이 <strong>음성</strong>으로 틀림 | **가짜 음성 (2종 오류, 미탐)** |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">혼동 행렬 (Confusion Matrix) 구조와 오답의 성격</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">실제 클래스 (Actual)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Positive (1) Negative (0)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">모델 예측</div><div class="kb-diagram-note">True Positive │ False Positive │</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Positive (1)</div><div class="kb-diagram-cell">(TP) 맞춤!</div><div class="kb-diagram-cell">(FP) 1종 오류 🚨</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">모델 예측</div><div class="kb-diagram-note">False Negative │ True Negative │</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Negative (0)</div><div class="kb-diagram-cell">(FN) 2종 오류 🚨</div><div class="kb-diagram-cell">(TN) 맞춤!</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           혼동 행렬 (Confusion Matrix) 구조와 오답의 성격    │
+├──────────────────────────────────────────────────────────────┤
+│                     [ 실제 클래스 (Actual) ]                 │
+│                 Positive (1)          Negative (0)           │
+│              ┌─────────────────┬───────────────────┐         │
+│  [모델 예측] │ True Positive   │ False Positive    │         │
+│ Positive (1) │ (TP) 맞춤!      │ (FP) 1종 오류 🚨  │         │
+│              ├─────────────────┼───────────────────┤         │
+│  [모델 예측] │ False Negative  │ True Negative     │         │
+│ Negative (0) │ (FN) 2종 오류 🚨│ (TN) 맞춤!        │         │
+│              └─────────────────┴───────────────────┘         │
+└──────────────────────────────────────────────────────────────┘
+```
 이 그림은 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 모델이 만든 결과물을 4가지 범주로 쪼개어, 단순 정답(TP, TN) 외에 모델이 저지른 두 가지 치명적 실수([FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/), FN)의 위치를 보여준다. 모든 고급 평가 지표는 오직 이 4개의 변수 조합으로 계산된다.
 
 - **📢 섹션 요약 비유**: 모델 예측(P/N)은 의사의 진단이고, T/F는 진단의 결과입니다. 의사가 암이라고 했는데 진짜 암이면 TP, 암이라고 했는데 건강하면 [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/)(놀래킴), 건강하다고 했는데 숨은 암이 있으면 FN(치명적 실수)이 됩니다.
@@ -107,23 +107,21 @@ tags = ["studynote-data-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">정확도 (Accuracy)의 착시 현상 발견</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">혼동 행렬 (Confusion Matrix) 도입 · 오류의 세분화 (FP, FN)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">파생 지표 생성 (Precision, Recall, F1-Score)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">임계값 (Threshold) 변화에 따른 동적 평가 (ROC Curve)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">비용 함수 (Cost Matrix) 결합 및 비즈니스 최적화</div>
-</div>
-</div>
-
-
+```text
+정확도 (Accuracy)의 착시 현상 발견
+    │
+    ▼
+혼동 행렬 (Confusion Matrix) 도입 · 오류의 세분화 (FP, FN)
+    │
+    ▼
+파생 지표 생성 (Precision, Recall, F1-Score)
+    │
+    ▼
+임계값 (Threshold) 변화에 따른 동적 평가 (ROC Curve)
+    │
+    ▼
+비용 함수 (Cost Matrix) 결합 및 비즈니스 최적화
+```
 
 이 흐름도는 단순한 정답률 평가가 한계에 부딪혀 세분화된 오류 분석 도구(혼동 행렬)로 발전하고, 이후 연속적인 임계값 분석과 비즈니스 가치로 연결되는 과정을 보여준다.
 

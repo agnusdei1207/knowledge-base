@@ -39,17 +39,14 @@ $$H(x) = F(x) + x$$
 
 최적해가 항등 변환에 가깝다면 <strong>F(x) ≈ 0</strong>이 되어야 하고, 이는 H(x) = x를 직접 학습하는 것보다 훨씬 쉽다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 잔차 학습은 '변화량만 기억하는 공부법'이다. "오늘 배운 내용 전체를 다시 써라"는 어렵지만, "어제와 달라진 점만 써라"는 쉽다. ResNet은 각 층이 전체 변환이 아닌 '달라진 것(잔차)'만 학습하게 한다.
 
@@ -59,34 +56,61 @@ $$H(x) = F(x) + x$$
 
 ### 잔차 블록 (Residual Block) 구조
 
+```
+기본 잔차 블록 (Basic Block, ResNet-18/34):
 
+    x (입력)
+    │
+    ├─────────────────────────┐
+    │                         │ (Shortcut/Skip)
+    ▼                         │
+┌──────────────┐              │
+│ 3×3 Conv     │              │
+│ BN + ReLU    │              │
+└──────────────┘              │
+    │                         │
+    ▼                         │
+┌──────────────┐              │
+│ 3×3 Conv     │              │
+│ BN           │              │
+└──────────────┘              │
+    │                         │
+    └──────────────+───────────┘
+                   │
+                 ReLU
+                   │
+                H(x) = F(x) + x
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">기본 잔차 블록 (Basic Block, ResNet-18/34):</div>
-<div class="kb-diagram-note">x (입력)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Shortcut/Skip)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3×3 Conv</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BN + ReLU</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3×3 Conv</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BN</div></div>
-<div class="kb-diagram-note">ReLU</div>
-<div class="kb-diagram-note">H(x) = F(x) + x</div>
-<div class="kb-diagram-note">보틀넥 잔차 블록 (Bottleneck Block, ResNet-50/101/152):</div>
-<div class="kb-diagram-note">x (256채널)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(1×1 Projection)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1×1 Conv 64</div><div class="kb-diagram-cell">채널 축소</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BN + ReLU</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3×3 Conv 64</div><div class="kb-diagram-cell">공간 특징 추출</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BN + ReLU</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1×1 Conv 256</div><div class="kb-diagram-cell">채널 복원</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BN</div></div>
-<div class="kb-diagram-note">ReLU</div>
-<div class="kb-diagram-note">H(x) = F(x) + x</div>
-</div>
-</div>
+보틀넥 잔차 블록 (Bottleneck Block, ResNet-50/101/152):
 
-
+    x (256채널)
+    │
+    ├────────────────────────────┐
+    │                            │ (1×1 Projection)
+    ▼                            │
+┌─────────────┐                  │
+│ 1×1 Conv 64 │  채널 축소       │
+│ BN + ReLU   │                  │
+└─────────────┘                  │
+    │                            │
+    ▼                            │
+┌─────────────┐                  │
+│ 3×3 Conv 64 │  공간 특징 추출  │
+│ BN + ReLU   │                  │
+└─────────────┘                  │
+    │                            │
+    ▼                            │
+┌─────────────┐                  │
+│ 1×1 Conv 256│  채널 복원       │
+│ BN          │                  │
+└─────────────┘                  │
+    │                            │
+    └─────────────+──────────────┘
+                  │
+                ReLU
+                  │
+              H(x) = F(x) + x
+```
 
 ### [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) 방지 메커니즘
 
@@ -124,18 +148,14 @@ $$\frac{\partial L}{\partial x_l} = \frac{\partial L}{\partial x_L} \cdot \left(
 
 ### VGGNet vs ResNet
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">VGGNet (단순 적층) ResNet (잔차 연결)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Conv</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Conv</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Conv</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Conv</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">y</div></div>
-<div class="kb-diagram-note">+x</div>
-<div class="kb-diagram-note">기울기 경로 항상 열림</div>
-</div>
-</div>
-
-
+```
+VGGNet (단순 적층)           ResNet (잔차 연결)
+─────────────────           ─────────────────
+x → [Conv] → [Conv] → y    x → [Conv] → [Conv] → y
+                            └─────────────────────┘
+                                     +x
+                             기울기 경로 항상 열림
+```
 
 ### DenseNet과의 비교
 
@@ -160,22 +180,19 @@ ResNet은 ImageNet으로 사전 학습된 [가중치](/knowledge-base/studynote/
 
 Faster R-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) (Region-based [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/)), Mask R-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/), Feature Pyramid Network (FPN)에서 ResNet은 공통적으로 <strong>특징 추출 백본(Feature Extraction Backbone)</strong>으로 사용된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">입력 이미지</div>
-<div class="kb-diagram-note">ResNet 백본 (C2~C5 특징 맵)</div>
-<div class="kb-diagram-note">FPN (Feature Pyramid Network)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">P2 (고해상도, 소형 객체)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">P3</div>
-<div class="kb-diagram-tree-item" style="--depth:2">P4</div>
-<div class="kb-diagram-tree-item" style="--depth:2">P5 (저해상도, 대형 객체)</div>
-<div class="kb-diagram-note">RPN + RoI Align + 분류/회귀 헤드</div>
-</div>
-</div>
-
-
+```
+입력 이미지
+    │
+ ResNet 백본 (C2~C5 특징 맵)
+    │
+ FPN (Feature Pyramid Network)
+    ├── P2 (고해상도, 소형 객체)
+    ├── P3
+    ├── P4
+    └── P5 (저해상도, 대형 객체)
+    │
+ RPN + RoI Align + 분류/회귀 헤드
+```
 
 ### 기술사 서술 포인트
 
@@ -195,21 +212,20 @@ Faster R-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/24
 
 ### 잔차 연결의 수학적 정리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">순전파: H(x) = F(x) + x</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">역전파: ∂L/∂x = ∂L/∂H × (∂F/∂x + 1)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ '+1' 항이 항상 기울기 흐름 보장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 아무리 깊어도 기울기 ≥ ∂L/∂H</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보틀넥 절감:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Basic(3×3×2) 대비 Bottleneck(1×1+3×3+1×1):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파라미터 약 1/4, 연산량 약 1/9</div></div>
-</div>
-</div>
-
-
+```
+┌────────────────────────────────────────────────────┐
+│ 순전파: H(x) = F(x) + x                           │
+│                                                    │
+│ 역전파: ∂L/∂x = ∂L/∂H × (∂F/∂x + 1)             │
+│                                                    │
+│ → '+1' 항이 항상 기울기 흐름 보장                  │
+│ → 아무리 깊어도 기울기 ≥ ∂L/∂H                    │
+│                                                    │
+│ 보틀넥 절감:                                       │
+│   Basic(3×3×2) 대비 Bottleneck(1×1+3×3+1×1):     │
+│   파라미터 약 1/4, 연산량 약 1/9                   │
+└────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: ResNet은 'GPS가 달린 택배 시스템'이다. 중간에 길이 막혀도([기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/)) 고속도로(스킵 연결)를 타고 택배(기울기)가 항상 출발지까지 정확히 되돌아간다. 덕분에 어느 택배 기사(층)도 올바른 피드백을 받아 일을 제대로 배울 수 있다.
 

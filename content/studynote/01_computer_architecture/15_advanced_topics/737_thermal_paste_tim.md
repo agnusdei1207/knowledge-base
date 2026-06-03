@@ -43,21 +43,19 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 서멀이 왜 "금속 대체재"가 아니라 "공기 제거재"인지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TIM fills microscopic voids so the interface is not dominated by air</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Heatsink base /\ /\ /\</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">air</div><div class="kb-diagram-cell">air</div><div class="kb-diagram-cell">air</div><div class="kb-diagram-cell">-&gt; poor contact, high interface Rth</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IHS surface \/____\/______\/</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Heatsink base /\ /\ /\</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TIM</div><div class="kb-diagram-cell">TIM</div><div class="kb-diagram-cell">TIM</div><div class="kb-diagram-cell">-&gt; thin filler, lower interface Rth</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IHS surface \/____\/______\/</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│      TIM fills microscopic voids so the interface is not dominated by air │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Heatsink base   /\    /\      /\                                           │
+│                 ||air||air||air|   -> poor contact, high interface Rth    │
+│ IHS surface     \/____\/______\/                                           │
+│                                                                            │
+│ Heatsink base   /\    /\      /\                                           │
+│                 ||TIM||TIM||TIM|   -> thin filler, lower interface Rth    │
+│ IHS surface     \/____\/______\/                                           │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 결국 좋은 서멀 도포는 "많이 바르기"가 아니라 "공기 포켓 없이 얇고 균일하게 퍼지기"를 목표로 해야 한다.
 - **📢 섹션 요약 비유**: 서멀은 두 판을 접착하는 두꺼운 풀칠이 아니라, 타일 사이 줄눈처럼 가장 작은 틈만 메워 물이 새지 않게 만드는 재료에 가깝다.
@@ -129,23 +127,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Bare metal contact</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Thermal Paste as TIM</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">High durability / high conductivity paste</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Phase-change TIM and advanced interface control</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Liquid metal / package-level solder for high heat flux</div>
-</div>
-</div>
-
-
+```text
+Bare metal contact
+        │
+        ▼
+Thermal Paste as TIM
+        │
+        ▼
+High durability / high conductivity paste
+        │
+        ▼
+Phase-change TIM and advanced interface control
+        │
+        ▼
+Liquid metal / package-level solder for high heat flux
+```
 
 이 흐름은 단순 도포재에서 시작한 계면 관리가, 이제는 고열밀도 칩을 위한 정밀한 열저항 제어 기술로 발전하고 있음을 보여 준다.
 

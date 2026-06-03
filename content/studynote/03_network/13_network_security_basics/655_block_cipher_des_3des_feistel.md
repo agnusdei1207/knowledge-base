@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 평문 데이터를 1비트씩 처리하지 않고, <strong>특정 길이(예: 64비트, 128비트)의 커다란 덩어리(Block) 단위로 뭉텅 썰어서 암호화와 복호화를 수행하는 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/653_symmetric_key_cryptography_fast_speed/">대칭키 암호화</a> 방식</strong>입니다.
 - 평문을 암호문으로 바꿀 때, 한 번만 섞는 것이 아니라 여러 번의 복잡한 섞기 과정(Round, 라운드)을 빙글빙글 돌려서 평문과 암호문 사이의 수학적 상관관계를 완전히 박살 내버립니다(혼돈과 확산 원리).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">스트림 암호</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">블록 암호</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">AES</div></div>
-</div>
-</div>
-
-
+```text
+[스트림 암호]
+    │
+    ▼
+[블록 암호]
+    │
+    └──▶ [AES]
+```
 
 - **📢 섹션 요약 비유**: 블록 암호는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -52,18 +48,14 @@ tags = ["studynote-network"]
 - 시간이 흘러 컴퓨터의 CPU 발전 속도(무어의 법칙)가 너무 빨라졌습니다.
 - 56비트라는 키 길이는 경우의 수가 $2^{56}$(약 7경 개)인데, 1990년대 말 해커들이 만든 특수 슈퍼컴퓨터(Deep Crack)가 하루 종일 7경 개의 비밀번호를 1부터 무식하게 하나씩 다 찍어보는 '무차별 대입 공격(Brute-force)'을 돌렸더니 단 이틀 만에 금고가 덜컥 열려버렸습니다. 현재는 보안성이 0에 수렴하여 **절대 사용 금지** 권고가 내려졌습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">스트림 암호</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">블록 암호</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">AES</div></div>
-</div>
-</div>
-
-
+```text
+[스트림 암호]
+    │
+    ▼
+[블록 암호]
+    │
+    └──▶ [AES]
+```
 
 - **📢 섹션 요약 비유**: 블록 암호의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -127,19 +119,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 스트림 암호</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 블록 암호</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: AES</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 스트림 암호]
+    │
+    ▼
+[현재 개념: 블록 암호]
+    │
+    ├──▶ [확장 A: AES]
+    └──▶ [확장 B: 자동화된 신뢰 체계]
+```
 
 블록 암호는 [스트림 암호](/knowledge-base/studynote/03_network/13_network_security_basics/654_stream_cipher_rc4_chacha20/)에서 출발해 현재 메커니즘을 정교화하고, 이후 AES와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

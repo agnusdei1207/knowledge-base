@@ -27,28 +27,28 @@ tags = ["studynote-operating-system"]
   2. **[select](/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/)/poll의 $O(N)$ 병목**: [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 1개로 1만 개를 관리하려니 이번엔 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 탐색 루프가 CPU를 다 파먹음.
   3. **epoll/kqueue의 천하 통일**: 상태를 기억(Stateful)하는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 객체를 만들어, O(1)에 가깝게 변동된 이벤트만 쏙쏙 낚아채는 현대 비동기 네트워크의 종결자가 등장.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">select (과거의 O(N) 삽질) vs epoll (현대의 O(1) 족집게) 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황: 10,000개의 접속자 소켓 중, 3번과 9999번 소켓에만 패킷 도착!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1. 낡은 <code>select()</code> 의 멍청한 동작</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">앱: "OS야! 여기 소켓 1만 개 리스트 줄 테니까 누가 패킷 쐈는지 확인해 줘!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(1만 개 배열 전체를 유저 공간에서 커널 공간으로 무겁게 복사 🐢)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS: (for문 1부터 10,000까지 돌면서 일일이 폴링 찌름. CPU 100% 파먹음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS: "어 3번, 9999번 왔네. 자 1만 개 배열 다시 받아가!" (또 복사)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">앱: (유저 공간에서 다시 for문 1만 번 돌며 3번과 9999번을 찾아냄 ☠️)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2. 구세주 <code>epoll_wait()</code> 의 천재적 동작</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">앱: "OS야! 아까 등록해둔 애들 중에 변동된 애만 알려줘!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(복사해서 넘기는 배열 없음. 0바이트 전송 🚀)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS: (커널 이벤트 큐를 보니 3번, 9999번이 자기 발로 들어와 있음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS: "자, 3번이랑 9999번 2개 왔어. 받아!" (달랑 2개짜리 리스트만 리턴)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">앱: (for문 딱 2번 돌고 빛의 속도로 일 처리 끝냄 🚀🚀)</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│        select (과거의 O(N) 삽질) vs epoll (현대의 O(1) 족집게) 시각화      │
+├────────────────────────────────────────────────────────────────────────────┤
+│                                                                            │
+│ [ 상황: 10,000개의 접속자 소켓 중, 3번과 9999번 소켓에만 패킷 도착! ]      │
+│                                                                            │
+│ ▶ 1. 낡은 `select()` 의 멍청한 동작                                        │
+│   앱: "OS야! 여기 소켓 1만 개 리스트 줄 테니까 누가 패킷 쐈는지 확인해 줘!"│
+│       (1만 개 배열 전체를 유저 공간에서 커널 공간으로 무겁게 복사 🐢)      │
+│   OS: (for문 1부터 10,000까지 돌면서 일일이 폴링 찌름. CPU 100% 파먹음)    │
+│   OS: "어 3번, 9999번 왔네. 자 1만 개 배열 다시 받아가!" (또 복사)         │
+│   앱: (유저 공간에서 다시 for문 1만 번 돌며 3번과 9999번을 찾아냄 ☠️)      │
+│                                                                            │
+│ ▶ 2. 구세주 `epoll_wait()` 의 천재적 동작                                  │
+│   앱: "OS야! 아까 등록해둔 애들 중에 변동된 애만 알려줘!"                  │
+│       (복사해서 넘기는 배열 없음. 0바이트 전송 🚀)                         │
+│   OS: (커널 이벤트 큐를 보니 3번, 9999번이 자기 발로 들어와 있음)          │
+│   OS: "자, 3번이랑 9999번 2개 왔어. 받아!" (달랑 2개짜리 리스트만 리턴)    │
+│   앱: (for문 딱 2번 돌고 빛의 속도로 일 처리 끝냄 🚀🚀)                    │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** `epoll`의 가장 위대한 혁신은 <strong>"무상태(<a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/">Stateless</a>)에서 상태 보존(Stateful)으로의 전환"</strong>이다. 기존 `select`는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 바보라서 내가 1만 개 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)을 감시하고 싶다는 걸 기억하지 못했다. 그래서 매번 1만 개 명단을 제출해야 했다. `epoll`은 처음에 `epoll_create`를 치면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 안에 나만의 '거대한 관리 장부(R-B 트리)'를 영구적으로 파준다. 이후엔 굳이 1만 명을 다시 안 알려줘도 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 알아서 감시하고, 변동 내역(Ready List)만 툭 던져주는 완벽한 위임형 스케줄러다.
 
 - **📢 섹션 요약 비유**: 매일 아침 내가 신문 배달원에게 "어제 구독 신청한 1000명 명단 이거니까 이 집들에 배달해 주세요" 하고 A4 용지([배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/))를 주는 게 `select`입니다. 다음 날도 똑같은 명단을 또 인쇄해서 줍니다. 낭비죠. `epoll`은 우체국 벽에 "김철수, 이영희 배달 요망"이라고 한 번만 포스트잇을 딱 붙여놓으면(epoll_ctl), 배달원이 그 메모를 떼지 않고 영구적으로 기억하며 매일매일 배달해 주고, 배달이 끝난 집(이벤트)만 내 스마트폰으로 딱 알림을 보내주는 궁극의 자동화 시스템입니다.
@@ -104,18 +104,15 @@ tags = ["studynote-operating-system"]
 개발자의 빡침을 해결하기 위해, C언어로 만들어진 <strong><code>libuv</code> (또는 <code>libevent</code>)</strong>라는 미들웨어 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 라이브러리가 등장했다.
 이 녀석은 속에는 IF문을 덕지덕지 발라 "Mac이면 `kqueue`, Linux면 `epoll`, Windows면 `IOCP`"를 호출하게 뚫어놓고, 바깥쪽 JS 개발자에게는 그저 달콤한 `setTimeout`이나 `http.createServer()` 같은 통일된 비동기 API만 노출시켰다. Node.js가 크로스 플랫폼(어디서나 도는) 비동기 제왕이 될 수 있었던 비밀은 이 밑바닥 I/O 멀티플렉싱 기술들을 하나로 엮어버린 갓-라이브러리(`libuv`) 덕분이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">접속자 수</div><div class="kb-diagram-cell">select()</div><div class="kb-diagram-cell">epoll()</div><div class="kb-diagram-cell">CPU 점유 상태</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">10명</div><div class="kb-diagram-cell">0.001초 컷</div><div class="kb-diagram-cell">0.001초 컷</div><div class="kb-diagram-cell">둘 다 아주 쾌적함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1,000명</div><div class="kb-diagram-cell">10 밀리초</div><div class="kb-diagram-cell">0.001초 컷</div><div class="kb-diagram-cell">select가 헉헉댐</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">10,000명</div><div class="kb-diagram-cell">☠️ 서버 다운</div><div class="kb-diagram-cell">🚀 0.002초 컷</div><div class="kb-diagram-cell">epoll 압승의 무대</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬───────────────────────┐
+│ 접속자 수  │ select()   │ epoll()    │ CPU 점유 상태       │
+├──────────┼────────────┼────────────┼───────────────────────┤
+│ 10명     │ 0.001초 컷  │ 0.001초 컷  │ 둘 다 아주 쾌적함   │
+│ 1,000명  │ 10 밀리초   │ 0.001초 컷  │ select가 헉헉댐     │
+│ 10,000명 │ ☠️ 서버 다운 │ 🚀 0.002초 컷│ epoll 압승의 무대 │
+└──────────┴────────────┴────────────┴───────────────────────┘
+```
 **[매트릭스 해설]** 가끔 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 테스트나 단순 학교 과제에서 "왜 나는 epoll 썼는데 select랑 속도 똑같음?" 하는 경우가 있다. 10개, 100개짜리 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 $O(N)$으로 순회하는 건 [캐시 히트](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/) 덕분에 컴퓨터 입장에선 0초나 다름없기 때문이다. `epoll`의 R-B 트리 세팅 비용이 오히려 더 비쌀 수도 있다. 진정한 $O(1)$의 기적은 동시 접속자 수(N)가 1만 개(C10K)를 넘어가는 짐승 같은 환경에서만 그 잔인한 격차를 보여준다.
 
 - **📢 섹션 요약 비유**: 10명짜리 반에서 반장(`select`)이 "너희 10명 숙제 다 했어?" 하고 한 바퀴 슥 도는 건 금방 끝납니다. 굳이 교탁에 명부(`epoll`)를 만들 필요도 없죠. 하지만 전교생 1만 명을 모아놓고 "다 한 사람 손 들어!" 하고 반장이 1만 명을 일일이 확인하려 뛰면 다리가 부러집니다. 트래픽의 스케일(규모)이 아키텍처의 정답을 바꾼다는 공학적 진리입니다.
@@ -170,19 +167,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">I/O 완료 포트 (IOCP, I/O Completion Port)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">epoll / kqueue (Epoll Kqueue)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">io_uring</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">하드 디스크 드라이브 (HDD) 구조</div></div>
-</div>
-</div>
-
-
+```text
+[I/O 완료 포트 (IOCP, I/O Completion Port)]
+    │
+    ▼
+[epoll / kqueue (Epoll Kqueue)]
+    │
+    ├──▶ [io_uring]
+    └──▶ [하드 디스크 드라이브 (HDD) 구조]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

@@ -38,23 +38,22 @@ tags = ["it_management"]
 | 사용자 기반 [협업 필터링](/knowledge-base/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/) (User-Based CF) | 나와 취향이 비슷한 '이웃 사용자'가 구매한 아이템 추천 | 평점 교집합 |
 | 아이템 기반 [협업 필터링](/knowledge-base/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/) (Item-Based CF) | 내가 과거에 높게 평가한 아이템과 '비슷한 평점 패턴'을 가진 아이템 추천 | 평점 분포 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">협업 필터링의 핵심: 행렬 분해 (Matrix Factorization)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">사용자-아이템 평점 희소 행렬</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Item1 Item2 Item3 사용자 잠재요인 아이템 잠재요인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">UserA 5 ? 2 ≈</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">UserB ? 4 ?</div><div class="kb-diagram-cell">U_A</div><div class="kb-diagram-cell">X</div><div class="kb-diagram-cell">V_1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">UserC 2 5 ?</div><div class="kb-diagram-cell">U_B</div><div class="kb-diagram-cell">V_2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">UserD 4 ? 5</div><div class="kb-diagram-cell">U_C</div><div class="kb-diagram-cell">V_3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 빈칸(?)을 채우기 위해 거대한 빈 행렬을 두 개의 압축된 특성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Latent Factor) 행렬로 쪼개어 학습한 뒤 다시 곱해서 빈칸 예측.</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           협업 필터링의 핵심: 행렬 분해 (Matrix Factorization) │
+├──────────────────────────────────────────────────────────────┤
+│    [사용자-아이템 평점 희소 행렬]                               │
+│                                                              │
+│       Item1  Item2  Item3        사용자 잠재요인   아이템 잠재요인│
+│ UserA   5      ?      2      ≈   ┌───────┐      ┌───────┐    │
+│ UserB   ?      4      ?          │ U_A   │   X  │ V_1   │    │
+│ UserC   2      5      ?          │ U_B   │      │ V_2   │    │
+│ UserD   4      ?      5          │ U_C   │      │ V_3   │    │
+│                                  └───────┘      └───────┘    │
+│ ▶ 빈칸(?)을 채우기 위해 거대한 빈 행렬을 두 개의 압축된 특성     │
+│   (Latent Factor) 행렬로 쪼개어 학습한 뒤 다시 곱해서 빈칸 예측.│
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 핵심은 수백만 명의 사용자가 모든 상품을 평가할 수 없어 발생하는 '희소성(Sparsity)' 문제를, [행렬 분해](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/161_matrix_decomposition/)를 통한 차원 축소로 해결하여 숨겨진 평점 빈칸(?)을 예측해 낸다는 점이다.
 
@@ -118,23 +117,21 @@ tags = ["it_management"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">정보 과부하 (Information Overload) 발생</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">콘텐츠 기반 필터링 (Content-Based) · 콜드 스타트 대응</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">협업 필터링 (Collaborative Filtering) · 행렬 분해(SVD) 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">하이브리드 추천 (Hybrid) · 탐색과 활용(Exploration &amp; Exploitation)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">딥러닝 기반 (NCF, Wide &amp; Deep) 추천 고도화</div>
-</div>
-</div>
-
-
+```text
+정보 과부하 (Information Overload) 발생
+    │
+    ▼
+콘텐츠 기반 필터링 (Content-Based) · 콜드 스타트 대응
+    │
+    ▼
+협업 필터링 (Collaborative Filtering) · 행렬 분해(SVD) 적용
+    │
+    ▼
+하이브리드 추천 (Hybrid) · 탐색과 활용(Exploration & Exploitation)
+    │
+    ▼
+딥러닝 기반 (NCF, Wide & Deep) 추천 고도화
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

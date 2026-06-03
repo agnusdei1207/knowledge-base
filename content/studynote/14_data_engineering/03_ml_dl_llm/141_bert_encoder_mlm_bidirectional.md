@@ -18,19 +18,13 @@ tags = ["studynote-dataengineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-note">BERT 입력:</div><div class="kb-diagram-node">CLS</div><div class="kb-diagram-note">문장A</div><div class="kb-diagram-node">SEP</div><div class="kb-diagram-note">문장B</div><div class="kb-diagram-node">SEP</div></div>
-<div class="kb-diagram-note">→ Token Embedding + Segment Embedding + Position Embedding</div>
-<div class="kb-diagram-note">→ Encoder × 12 → 출력</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CLS</div><div class="kb-diagram-note">벡터: 분류·유사도</div></div>
-<div class="kb-diagram-note">각 토큰 벡터: NER·QA 태깅</div>
-</div>
-</div>
-
-
+```text
+BERT 입력: [CLS] 문장A [SEP] 문장B [SEP]
+  → Token Embedding + Segment Embedding + Position Embedding
+  → Encoder × 12 → 출력
+  [CLS] 벡터: 분류·유사도
+  각 토큰 벡터: NER·QA 태깅
+```
 
 - **📢 섹션 요약 비유**: BERT는 <strong>독해 시험의 달인</strong>이다. 지문(양방향 문맥)을 완벽히 이해하고, 질문([Fine-tuning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/))에 따라 답을 내놓는다.
 
@@ -54,18 +48,12 @@ tags = ["studynote-dataengineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Word2Vec (2013)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">ELMo (2018)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">BERT (2018)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">RoBERTa (2019)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">DeBERTa (2020)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Sentence-BERT (SBERT, 2019)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: E5/BGE — 임베딩 모델 표준</div></div>
-</div>
-</div>
-
-
+```text
+[Word2Vec (2013)] → [ELMo (2018)] → [BERT (2018)]
+    → [RoBERTa (2019)] → [DeBERTa (2020)]
+    → [Sentence-BERT (SBERT, 2019)]
+    → [현재: E5/BGE — 임베딩 모델 표준]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. BERT는 <strong>독해 시험 달인</strong>이에요. 지문의 <strong>앞뒤를 다 이해</strong>해요.

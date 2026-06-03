@@ -23,17 +23,15 @@ tags = ["studynote-ai"]
 
 핵심은 정답 레이블만 알려 주는 것이 아니라, 교사 모델의 "어느 클래스가 얼마나 비슷해 보이는지"를 함께 전달하는 것이다. 이 부드러운 정보가 학생 모델의 일반화를 돕는다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Teacher → Student Distillation</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Teacher logits --Temperature--&gt; soft targets --+</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ground truth labels ---------------------------+→ Student</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                  Teacher → Student Distillation              │
+├──────────────────────────────────────────────────────────────┤
+│ Teacher logits --Temperature--> soft targets --+             │
+│                                                │             │
+│ Ground truth labels ---------------------------+→ Student    │
+└──────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 선생님이 "정답은 이거야"만 말하는 게 아니라, "이 답도 꽤 비슷해"까지 알려 주는 과외다.
 
@@ -52,16 +50,13 @@ tags = ["studynote-ai"]
 | <strong><a href="/knowledge-base/studynote/10_ai/05_data_science_ml/386_llm_temperature/">Temperature</a> (T)</strong> | [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 부드럽게 함 | 클래스 간 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 노출 |
 | <strong><a href="/knowledge-base/studynote/10_ai/05_data_science_ml/389_knowledge_distillation_soft_target/">Soft Target</a></strong> | 교사 분포 | 모호성/유사성 학습 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Distillation Loss Concept</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L = α · KL(Teacher_T</div><div class="kb-diagram-cell">Student_T) + (1-α) · CE(y, Student)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                    Distillation Loss Concept                 │
+├──────────────────────────────────────────────────────────────┤
+│ L = α · KL(Teacher_T || Student_T) + (1-α) · CE(y, Student)  │
+└──────────────────────────────────────────────────────────────┘
+```
 
 보통 손실은 교사 분포와 학생 분포의 KL ([Kullback-Leibler Divergence](/knowledge-base/studynote/10_ai/05_data_science_ml/347_cross_entropy_kld/)) 또는 로짓 매칭과 하드 레이블의 교차 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)를 섞어 사용한다. `T`가 높으면 부드러운 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를, 낮으면 원래 정답에 가까운 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 더 강하게 준다.
 

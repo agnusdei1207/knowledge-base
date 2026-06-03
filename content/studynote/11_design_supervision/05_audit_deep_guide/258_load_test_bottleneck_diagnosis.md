@@ -32,59 +32,52 @@ tags = ["studynote-design-supervision"]
 2. **DB 레이어**: 슬로우 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/), [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 미사용, 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 경합
 3. **인프라 레이어**: CPU, 메모리, 디스크, 네트워크 포화
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Core Idea</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Expected Gain</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐    ┌──────────────┐    ┌──────────────┐
+│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
+└──────────────┘    └──────────────┘    └──────────────┘
+```
 
 - **📢 섹션 요약 비유**: 병목 진단 없는 서버 증설은 "교통 체증의 원인이 신호등인데 차선만 늘리는 것"이다. 원인을 정확히 찾아야 올바른 해결책을 적용할 수 있다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
+```
+┌─────────────────────────────────────────────────────────────┐
+│       USE 방법론 (Utilization, Saturation, Errors)           │
+│                                                             │
+│  리소스   │ Utilization(사용률) │ Saturation(포화) │ Errors  │
+│  ─────────┼────────────────────┼─────────────────┼──────── │
+│  CPU      │ %usr + %sys        │ 런큐(run queue) │ -        │
+│           │ 기준: < 70% 정상   │ > CPU 수 → 포화  │          │
+│  메모리   │ Used / Total       │ 스왑(Swap) 사용 │ OOM      │
+│           │ 기준: < 80% 정상   │ Swap > 0 → 포화  │          │
+│  디스크   │ %iowait            │ I/O 대기 큐     │ EIO      │
+│           │ 기준: < 20% 정상   │ avgqu-sz > 1    │          │
+│  네트워크 │ 대역폭 사용률      │ 패킷 드롭       │ TCP 재전송 │
+│           │ 기준: < 70% 정상   │ rxdrop > 0      │          │
+└─────────────────────────────────────────────────────────────┘
+```
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">USE 방법론 (Utilization, Saturation, Errors)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">리소스</div><div class="kb-diagram-cell">Utilization(사용률)</div><div class="kb-diagram-cell">Saturation(포화)</div><div class="kb-diagram-cell">Errors</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU</div><div class="kb-diagram-cell">%usr + %sys</div><div class="kb-diagram-cell">런큐(run queue)</div><div class="kb-diagram-cell">-</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기준: &lt; 70% 정상</div><div class="kb-diagram-cell">&gt; CPU 수 → 포화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리</div><div class="kb-diagram-cell">Used / Total</div><div class="kb-diagram-cell">스왑(Swap) 사용</div><div class="kb-diagram-cell">OOM</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기준: &lt; 80% 정상</div><div class="kb-diagram-cell">Swap &gt; 0 → 포화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디스크</div><div class="kb-diagram-cell">%iowait</div><div class="kb-diagram-cell">I/O 대기 큐</div><div class="kb-diagram-cell">EIO</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기준: &lt; 20% 정상</div><div class="kb-diagram-cell">avgqu-sz &gt; 1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">네트워크</div><div class="kb-diagram-cell">대역폭 사용률</div><div class="kb-diagram-cell">패킷 드롭</div><div class="kb-diagram-cell">TCP 재전송</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기준: &lt; 70% 정상</div><div class="kb-diagram-cell">rxdrop &gt; 0</div></div>
-</div>
-</div>
-
-
-
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 누수 진단 그래프 패턴</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용량</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OOM 위험 구간</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">← 부하 테스트 중 점진적 증가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(GC 후에도 완전히 회복 안 됨)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정상 패턴: 부하 해제 후 메모리 회복 (톱니 모양)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">누수 패턴: 부하 해제 후에도 메모리 지속 증가 (우상향)</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────────┐
+│         메모리 누수 진단 그래프 패턴                          │
+│                                                             │
+│  메모리                                                      │
+│  사용량                                                      │
+│   ▲                                                         │
+│   │               ╭──────────── OOM 위험 구간              │
+│   │           ╭───╯                                         │
+│   │       ╭───╯   ← 부하 테스트 중 점진적 증가               │
+│   │   ╭───╯       (GC 후에도 완전히 회복 안 됨)              │
+│   │ ──╯                                                     │
+│   └──────────────────────────────────── 시간                │
+│                                                             │
+│  정상 패턴: 부하 해제 후 메모리 회복 (톱니 모양)              │
+│  누수 패턴: 부하 해제 후에도 메모리 지속 증가 (우상향)         │
+└─────────────────────────────────────────────────────────────┘
+```
 
 ```
 # CPU 병목 진단
@@ -148,20 +141,14 @@ $ netstat -s | grep retransmit      # TCP 재전송 수
 | I/O Wait | iostat [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) | 20% 미만 |
 | 조치 완료 여부 | 재테스트 결과 | 목표치 달성 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">힙 덤프 수집 → Eclipse MAT / VisualVM 분석</div>
-<div class="kb-diagram-note">→ 가장 많은 메모리 점유 객체 확인</div>
-<div class="kb-diagram-note">→ 참조(Reference) 체인 추적</div>
-<div class="kb-diagram-note">→ 누수 원인 코드 수정</div>
-<div class="kb-diagram-note">(예: static 컬렉션에 계속 추가, 이벤트 리스너 해제 미처리)</div>
-<div class="kb-diagram-note">→ 수정 후 재테스트</div>
-</div>
-</div>
-
-
+```
+힙 덤프 수집 → Eclipse MAT / VisualVM 분석
+→ 가장 많은 메모리 점유 객체 확인
+→ 참조(Reference) 체인 추적
+→ 누수 원인 코드 수정
+  (예: static 컬렉션에 계속 추가, 이벤트 리스너 해제 미처리)
+→ 수정 후 재테스트
+```
 
 ### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. 위험 시나리오와 점검 범위가 문서로 합의되었는가?

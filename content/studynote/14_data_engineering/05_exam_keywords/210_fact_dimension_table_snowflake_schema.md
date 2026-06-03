@@ -32,7 +32,7 @@ tags = ["studynote-data-engineering"]
 [차원 테이블](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/273_dimension_table_analysis_perspective/)은 팩트를 <strong>해석하기 위한 맥락</strong>을 제공하는 테이블이다.
 
 - **DimDate**: 날짜, 월, 분기, 연도, 공휴일 여부 등
-- **DimCustomer**: 고객 이름, 주소, 세그먼트, 등록일 등
+- **DimC고객**: 고객 이름, 주소, 세그먼트, 등록일 등
 - **DimProduct**: 제품명, 카테고리, 브랜드, 가격 등
 
 📢 **섹션 요약 비유**: 팩트 테이블은 <strong>가계부의 금액</strong>이고, [차원 테이블](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/273_dimension_table_analysis_perspective/)은 <strong>그 지출의 날짜·장소·카테고리</strong>다. 금액만 있으면 아무 의미가 없고, 맥락이 있어야 분석이 된다.
@@ -43,20 +43,19 @@ tags = ["studynote-data-engineering"]
 
 ### [스타 스키마](/knowledge-base/studynote/05_database/06_dw_olap_trends/334_star_schema/) vs [스노우플레이크 스키마](/knowledge-base/studynote/05_database/06_dw_olap_trends/335_snowflake_schema/)
 
+```
+  ── 스타 스키마 ──          ── 스노우플레이크 스키마 ──
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-tree-item" style="--depth:1">스타 스키마 ── ── 스노우플레이크 스키마 ──</div>
-<div class="kb-diagram-note">DimDate DimDate</div>
-<div class="kb-diagram-note">DimCustomer──FactSales──DimProduct DimCategory</div>
-<div class="kb-diagram-note">DimStore DimCustomer──FactSales──DimProduct──DimBrand</div>
-<div class="kb-diagram-note">DimCity DimStore</div>
-<div class="kb-diagram-note">DimRegion DimCity─DimRegion</div>
-</div>
-</div>
-
-
+  DimDate                    DimDate
+     │                          │
+  DimCustomer──FactSales──DimProduct       DimCategory
+     │             │                          │
+  DimStore     DimCustomer──FactSales──DimProduct──DimBrand
+                   │             │
+               DimCity        DimStore
+                │                 │
+            DimRegion          DimCity─DimRegion
+```
 
 | 항목 | [스타 스키마](/knowledge-base/studynote/05_database/06_dw_olap_trends/334_star_schema/) | [스노우플레이크 스키마](/knowledge-base/studynote/05_database/06_dw_olap_trends/335_snowflake_schema/) |
 |:---|:---|:---|
@@ -72,25 +71,26 @@ tags = ["studynote-data-engineering"]
 
 차원 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 시간에 따라 변할 때의 처리 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/):
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">SCD 유형 비교</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">타입</div><div class="kb-diagram-cell">설명</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Type 0</div><div class="kb-diagram-cell">변경 무시 (정적 차원)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Type 1</div><div class="kb-diagram-cell">덮어쓰기 - 이전 값 소실, 이력 없음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예: 오타 수정, 참조 데이터 갱신</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Type 2</div><div class="kb-diagram-cell">신규 행 추가 - 이력 완전 보존</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서로게이트 키(Surrogate Key) + 유효기간(Start/End Date)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예: 고객 주소 변경, 조직 개편</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Type 3</div><div class="kb-diagram-cell">별도 컬럼 추가 - 현재+이전 값만 보존</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예: Previous_Region, Current_Region</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Type 6</div><div class="kb-diagram-cell">Type 1+2+3 복합 (Hybrid SCD)</div></div>
-</div>
-</div>
-
-
+```
+SCD 유형 비교
+┌─────────┬──────────────────────────────────────────────────────┐
+│  타입   │  설명                                                 │
+├─────────┼──────────────────────────────────────────────────────┤
+│ Type 0  │ 변경 무시 (정적 차원)                                  │
+├─────────┼──────────────────────────────────────────────────────┤
+│ Type 1  │ 덮어쓰기 - 이전 값 소실, 이력 없음                    │
+│         │ 예: 오타 수정, 참조 데이터 갱신                        │
+├─────────┼──────────────────────────────────────────────────────┤
+│ Type 2  │ 신규 행 추가 - 이력 완전 보존                          │
+│         │ 서로게이트 키(Surrogate Key) + 유효기간(Start/End Date) │
+│         │ 예: 고객 주소 변경, 조직 개편                           │
+├─────────┼──────────────────────────────────────────────────────┤
+│ Type 3  │ 별도 컬럼 추가 - 현재+이전 값만 보존                  │
+│         │ 예: Previous_Region, Current_Region                  │
+├─────────┼──────────────────────────────────────────────────────┤
+│ Type 6  │ Type 1+2+3 복합 (Hybrid SCD)                        │
+└─────────┴──────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: [SCD](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/277_scd_slowly_changing_dimension_modeling/) Type 2는 <strong>여권 갱신 기록</strong>과 같다. 새 여권을 발급받아도 이전 여권 정보(주소, 사진)가 기록 안에 남아 있다.
 
@@ -176,25 +176,23 @@ tags = ["studynote-data-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">비정규화된 단일 테이블 (분석 비효율)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">차원 모델링</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Fact Table: 측정값 (매출 · 수량 · 비용)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Dimension Table: 속성 (날짜 · 제품 · 고객)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Star Schema: 팩트 중심 1단계 조인</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Snowflake Schema: 차원 정규화 (3NF)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SCD (Slowly Changing Dimension): Type 1/2/3</div>
-</div>
-</div>
-
-
+```text
+비정규화된 단일 테이블 (분석 비효율)
+    │
+    ▼
+차원 모델링
+    ├─► Fact Table: 측정값 (매출 · 수량 · 비용)
+    └─► Dimension Table: 속성 (날짜 · 제품 · 고객)
+    │
+    ▼
+Star Schema: 팩트 중심 1단계 조인
+    │
+    ▼
+Snowflake Schema: 차원 정규화 (3NF)
+    │
+    ▼
+SCD (Slowly Changing Dimension): Type 1/2/3
+```
 2. [차원 테이블](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/273_dimension_table_analysis_perspective/)은 <strong>장난감 설명서</strong>야. 그 장난감이 뭔지, 누가 샀는지, 언제 샀는지 자세히 설명해줘.
 3. SCD는 <strong>고객 주소가 바뀌어도 예전 주소도 기억하는 것</strong>이야. 그래서 작년에 어디 살았는지도 알 수 있어.
 

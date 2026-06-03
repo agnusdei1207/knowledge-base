@@ -26,24 +26,20 @@ tags = ["software_engineering"]
 
 이 기술이 실무에서 절대적으로 필요한 이유는 **요구사항 변경 비용의 기하급수적 증가 법칙** 때문입니다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 설계 단계에서 요구사항 오류를 바로잡는 비용이 1이라면, 테스트 단계에서는 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/), 운영 단계에서는 100 이상의 비용이 소요됩니다. [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/)은 이러한 잠재적 위험을 프로젝트 극초반에 가시화하여 제거합니다. 특히 사용자 인터페이스(UI)의 상호작용이 복잡하거나 한 번도 구현해 본 적 없는 신기술을 도입할 때 불확실성을 해소하는 강력한 무기가 됩니다.
 
+```text
+이 도식은 폭포수 모델의 문서 기반 소통 한계와 프로토타입 모델의 가시성 갭 해소 원리를 보여줍니다.
 
+[문서 기반 소통의 한계 (폭포수 모델)]
+고객의 머릿속 요구사항 (A) ──(말과 글)──> 개발자가 이해한 요구사항 (B)
+                                          ↑ (의미적 간극 발생: 치명적 병목)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 도식은 폭포수 모델의 문서 기반 소통 한계와 프로토타입 모델의 가시성 갭 해소 원리를 보여줍니다.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">문서 기반 소통의 한계 (폭포수 모델)</div></div>
-<div class="kb-diagram-note">고객의 머릿속 요구사항 (A) ──(말과 글)──&gt; 개발자가 이해한 요구사항 (B)</div>
-<div class="kb-diagram-note">↑ (의미적 간극 발생: 치명적 병목)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">프로토타입 기반 소통 (프로토타입 모델)</div></div>
-<div class="kb-diagram-note">고객의 모호한 요구사항 (A) ──(시제품 시연)──&gt; 동작하는 UI/기능 (Prototype)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">고객 피드백 &amp; 요구사항 수정 (A')</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">명확해진 요구사항 기반으로 본 시스템 개발 (C)</div>
-</div>
-</div>
-
-
+[프로토타입 기반 소통 (프로토타입 모델)]
+고객의 모호한 요구사항 (A) ──(시제품 시연)──> 동작하는 UI/기능 (Prototype)
+                                          ↓
+                                  고객 피드백 & 요구사항 수정 (A')
+                                          ↓
+                         명확해진 요구사항 기반으로 본 시스템 개발 (C)
+```
 이 도식에서 핵심은 고객의 "암묵지(머릿속 생각)"가 [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/)이라는 "[형식지](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/129_explicit_knowledge_formalization/)(실행 가능한 형태)"로 변환되는 과정입니다. 이런 배치는 추상적인 단어들이 가진 다의성을 시각적 실체로 고정시키기 때문이며, [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 간의 해석 차이로 인한 요구사항 누락을 원천 차단합니다. 실무에서는 화면 플로우나 복잡한 업무 로직의 타당성을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 할 때 유리하고, 반대로 백엔드 배치 처리처럼 UI가 없는 로직에서는 불필요한 오버헤드가 될 수 있습니다.
 
 📢 **섹션 요약 비유**: 맞춤형 양복을 지을 때, 처음부터 비싼 원단을 자르는 것이 아니라 값싼 가봉 천으로 먼저 옷을 만들어 입혀보고 핏을 조절한 뒤 실제 재단에 들어가는 것과 같습니다.
@@ -62,19 +58,17 @@ tags = ["software_engineering"]
 | **고객 평가/피드백** | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 및 정제 | 고객이 시연하며 요구사항 부합 여부 판단 및 수정 요청 | 데모(Demo) 시연 |
 | **정제 (Refinement)** | 반복 또는 확정 | 피드백을 반영하여 [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/) 수정을 반복 | 요구사항 명세서 확정 |
 
+```text
+이 순차 흐름도는 프로토타입이 구축되고 고객과 상호작용하며 요구사항이 정제되는 상태 전이를 보여줍니다.
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 순차 흐름도는 프로토타입이 구축되고 고객과 상호작용하며 요구사항이 정제되는 상태 전이를 보여줍니다.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">요구사항 수집</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">빠른 설계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">(수정/보완)</div><div class="kb-diagram-node">프로토타입 구축</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">고객 평가</div><div class="kb-diagram-note">──(만족/확정)──&gt;</div><div class="kb-diagram-node">상세 구현 및 테스트</div><div class="kb-diagram-note">──&gt;</div><div class="kb-diagram-node">운영 환경 배포</div></div>
-</div>
-</div>
-
-
+[요구사항 수집] ─────┐
+       ↑           ↓
+       │      [빠른 설계]
+       │           ↓
+   (수정/보완) [프로토타입 구축]
+       │           ↓
+       └───── [고객 평가] ──(만족/확정)──> [상세 구현 및 테스트] ──> [운영 환경 배포]
+```
 이 흐름의 핵심은 '고객 평가' 단계에서 발생하는 피드백 루프입니다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/) 구축은 예외 처리를 고려하지 않고 오직 가시적 기능 구현에 집중합니다. 따라서 개발 속도는 극대화되지만 이 코드를 그대로 운영에 배포할 경우 치명적인 시스템 붕괴를 초래할 수 있습니다. 실무에서는 이 [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/)을 '버리기형'으로 규정하여 요구사항 추출용으로만 쓰고 본 개발은 새로운 아키텍처 위에서 다시 작성하는 것이 일반적입니다.
 
 📢 **섹션 요약 비유**: 건축 설계사가 본격적인 아파트 공사에 들어가기 전에, 고객에게 3D 렌더링 조감도나 모형 집을 먼저 보여주며 창문 위치를 확정 짓는 것과 같습니다.
@@ -92,19 +86,17 @@ tags = ["software_engineering"]
 | **산출물 성격** | 문서 위주 | 시제품 + 명세서 | 작동하는 소프트웨어 조각 |
 | **적합한 프로젝트** | 국방/공공 시스템 | UI 중심 신규 프로젝트 | 시장 변화 빠른 B2C |
 
+```text
+이 매트릭스는 프로토타입의 두 가지 주요 구현 방식(버리기형과 진화형)의 아키텍처적 트레이드오프를 비교합니다.
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 매트릭스는 프로토타입의 두 가지 주요 구현 방식(버리기형과 진화형)의 아키텍처적 트레이드오프를 비교합니다.</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">속성</div><div class="kb-diagram-cell">버리기형 (Throw-away)</div><div class="kb-diagram-cell">진화형 (Evolutionary)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발 목적</div><div class="kb-diagram-cell">요구사항 검증 및 폐기</div><div class="kb-diagram-cell">점진적 확장 및 최종 제품화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코드 품질</div><div class="kb-diagram-cell">Quick &amp; Dirty (유지보수 X)</div><div class="kb-diagram-cell">High Quality (확장성 고려 O)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위험 병목</div><div class="kb-diagram-cell">고객이 폐기를 반대할 때</div><div class="kb-diagram-cell">초기 아키텍처 설계가 엉망일 때</div></div>
-</div>
-</div>
-
-
+┌───────────────┬───────────────────────────────┬───────────────────────────────┐
+│ 속성          │ 버리기형 (Throw-away)         │ 진화형 (Evolutionary)         │
+├───────────────┼───────────────────────────────┼───────────────────────────────┤
+│ 개발 목적     │ 요구사항 검증 및 폐기         │ 점진적 확장 및 최종 제품화    │
+│ 코드 품질     │ Quick & Dirty (유지보수 X)    │ High Quality (확장성 고려 O)  │
+│ 위험 병목     │ 고객이 폐기를 반대할 때       │ 초기 아키텍처 설계가 엉망일 때│
+└───────────────┴───────────────────────────────┴───────────────────────────────┘
+```
 이 비교표의 핵심은 [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/)의 '생존 여부'에 따른 품질 관리의 차이입니다. 진화형 방식은 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)부터 견고한 아키텍처를 잡아야 하므로 단일 루프 속도가 느리지만, 작성한 코드가 자산으로 남습니다. 반면 버리기형은 속도가 가장 빠르지만 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)입니다. 비즈니스 요구사항만 파악할 때는 버리기형을, 핵심 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 로직 타당성을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 때는 진화형을 선택해야 합니다.
 
 📢 **섹션 요약 비유**: 버리기형은 종이에 그린 '스케치'로 확정 후 버리는 것이고, 진화형은 진흙으로 빚은 도자기를 계속 다듬고 구워내는 '도예'와 같습니다.
@@ -115,20 +107,18 @@ tags = ["software_engineering"]
 
 실무에서 [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/) 모델을 도입할 때는 고객의 오해와 과도한 기대를 통제하는 것이 성패를 좌우합니다. 고객은 껍데기만 있는 UI를 보고 완성된 시스템으로 착각하기 쉽습니다.
 
+```text
+이 의사결정 트리는 프로토타입 모델 적용 시 발생할 수 있는 안티패턴 병목과 PM의 통제 플로우를 보여줍니다.
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 의사결정 트리는 프로토타입 모델 적용 시 발생할 수 있는 안티패턴 병목과 PM의 통제 플로우를 보여줍니다.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">프로토타입 시연 완료</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">기술 부채 폭발, 시스템 붕괴</div></div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ PM 통제: "이것은 가설 검증용 폐기 모델입니다."</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">본 개발 아키텍처 수립 및 코딩 시작</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">견고하고 안정적인 시스템 배포</div></div>
-</div>
-</div>
-
-
+[프로토타입 시연 완료]
+        │
+        ├─▶ 고객: "바로 내일 오픈합시다!" ──(방치 시)──▶ [기술 부채 폭발, 시스템 붕괴]
+        │
+        └─▶ PM 통제: "이것은 가설 검증용 폐기 모델입니다."
+                 │
+                 ▼
+          [본 개발 아키텍처 수립 및 코딩 시작] ──▶ [견고하고 안정적인 시스템 배포]
+```
 이 흐름도의 핵심은 [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/) 모델의 끝단에서 반드시 '버림'과 '새로운 시작'이라는 의사결정 관문이 존재해야 한다는 점입니다. 이런 배치는 고객의 조급함이 아키텍처 품질을 파괴하는 것을 막기 위함이며, 프로젝트 초반 계약 시점부터 [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/)의 폐기 조건을 명확히 합의해야 합니다. 
 
 📢 **섹션 요약 비유**: 영화 촬영장의 화려한 세트장([프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/))을 보고 진짜 집인 줄 알고 살겠다고 떼쓰는 관객에게, 가건물임을 명확히 보여주어 돌려보내는 단호함이 필요합니다.
@@ -151,7 +141,7 @@ tags = ["software_engineering"]
 ---
 
 ### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
-* <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/131_requirements_engineering/">요구사항 공학</a> (<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/131_requirements_engineering/">Requirements Engineering</a>)</strong> | 모호한 요구사항을 명확히 도출하는 상위 개념
+* <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/131_requirements_engineering/">요구사항 공학</a> (<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/131_requirements_engineering/">Requirements 엔진ering</a>)</strong> | 모호한 요구사항을 명확히 도출하는 상위 개념
 * <strong><a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/007_spiral_model/">나선형 모델</a> (<a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/007_spiral_model/">Spiral Model</a>)</strong> | [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/)을 활용하여 위험을 점진적으로 최소화하는 기법
 * **와이어프레임 (Wireframe)** | [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/)을 시각적으로 구현하기 위한 저충실도 설계 기법
 * <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">애자일</a> (<a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/012_agile_methodology/">Agile Methodology</a>)</strong> | 작동하는 소프트웨어를 짧은 주기로 제공하는 철학 계승
@@ -159,21 +149,18 @@ tags = ["software_engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">요구분석 (Requirements Analysis)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">프로토타입 (Prototype)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">피드백 반영 (Feedback)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">정식 시스템 (Final System)</div></div>
-</div>
-</div>
-
-
+```text
+[요구분석 (Requirements Analysis)]
+    │
+    ▼
+[프로토타입 (Prototype)]
+    │
+    ▼
+[피드백 반영 (Feedback)]
+    │
+    ▼
+[정식 시스템 (Final System)]
+```
 
 이 흐름도는 요구분석부터 [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/) 피드백을 거쳐 정식 시스템으로 완성되는 흐름을 보여준다.
 ### 👶 어린이를 위한 3줄 비유 설명

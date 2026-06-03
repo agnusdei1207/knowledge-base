@@ -21,15 +21,11 @@ tags = ["studynote-design-supervision"]
 
 특히 공공기관은 예산 집행, 위탁 운영, 다수 시스템 연계가 동시에 발생한다. 따라서 네트워크 분리, 저장 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 암호화, [특권 계정](/knowledge-base/studynote/09_security/11_iam_access_control/565_privileged_accounts/) 관리, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 보존 같은 통제를 설계 문서와 운영 증적으로 함께 제시해야 한다. 즉 CSAP는 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)가 아니라 설계-구축-운영 전 과정의 공공 클라우드 통제 기준이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Public Use</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">CSAP Controls</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Audit Evidence</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────┐    ┌────────────────┐    ┌──────────────────┐
+│ Public Use  │──▶│ CSAP Controls  │──▶│ Audit Evidence   │
+└─────────────┘    └────────────────┘    └──────────────────┘
+```
 
 위 도식은 공공 클라우드의 핵심이 도입 자체가 아니라 제도 기준을 운영 증거로 닫는 과정임을 보여 준다. 그래서 감리에서는 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서, 구성도, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 권한 표를 한 세트로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
 
@@ -39,18 +35,21 @@ tags = ["studynote-design-supervision"]
 
 [CSAP](/knowledge-base/studynote/12_it_management/05_security_compliance/193_csap_cloud_security_assurance/) 통제의 핵심 원리는 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 범위 안에서 네트워크, 계정, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 분리하고 추적 가능하게 만드는 데 있다. 공공기관 업무망과 대민 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 동일한 클라우드 안에 있더라도 보안 존, 접근 제어, 키 관리 체계가 분리되어야 하며, 사고가 발생했을 때 누가 무엇을 책임지는지도 문서화되어 있어야 한다. 설계는 좋지만 운영 증거가 없거나, 반대로 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 있으나 책임 경계가 없으면 감리 관점에서 미흡하다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Internet</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">WAF / DMZ</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">App Zone</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">DB Zone</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IAM / MFA</div><div class="kb-diagram-cell">KMS / HSM</div><div class="kb-diagram-cell">Log / SIEM</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Audit Trail</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┐    ┌──────────┐    ┌──────────┐    ┌──────────┐
+│ Internet │──▶│ WAF / DMZ │──▶│ App Zone │──▶│ DB Zone  │
+└──────────┘    └──────────┘    └──────────┘    └──────────┘
+                        │               │               │
+                        ▼               ▼               ▼
+                 ┌──────────┐    ┌──────────┐    ┌────────────┐
+                 │ IAM / MFA│    │ KMS / HSM│    │ Log / SIEM │
+                 └──────────┘    └──────────┘    └────────────┘
+                                                          │
+                                                          ▼
+                                                    ┌────────────┐
+                                                    │ Audit Trail│
+                                                    └────────────┘
+```
 
 | 구성축 | 핵심 내용 | 감리 포인트 |
 |:---|:---|:---|
@@ -116,23 +115,31 @@ CSAP는 공공 클라우드 적합성에 초점을 맞춘 반면, 다른 보안 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Public Cloud Adoption</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CSAP Certified Scope</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Zone / IAM / Encryption Ctrl</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Log and Evidence Retain</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Continuous Compliance</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────┐
+│ Public Cloud Adoption│
+└──────────────────────┘
+            │
+            ▼
+┌──────────────────────┐
+│ CSAP Certified Scope │
+└──────────────────────┘
+            │
+            ▼
+┌──────────────────────────────┐
+│ Zone / IAM / Encryption Ctrl │
+└──────────────────────────────┘
+            │
+            ▼
+┌──────────────────────────┐
+│ Log and Evidence Retain  │
+└──────────────────────────┘
+            │
+            ▼
+┌──────────────────────────┐
+│ Continuous Compliance    │
+└──────────────────────────┘
+```
 
 CSAP는 도입 전 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)에서 끝나지 않고, 운영 중 지속 준수와 증적 관리까지 이어지는 흐름으로 이해해야 한다.
 

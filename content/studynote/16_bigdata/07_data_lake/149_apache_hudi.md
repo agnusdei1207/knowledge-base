@@ -35,29 +35,32 @@ Uber는 2016년 Hudi를 개발하여 레이크에서 [CDC](/knowledge-base/study
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Apache Hudi 내부 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">.hoodie/ (Timeline)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 20260421120000.commit (완료된 커밋)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 20260421120000.clean (클리너 실행 이력)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 20260421120000.compaction (컴팩션 이력)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">COW (Copy-on-Write) 테이블:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Write</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">변경 레코드</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">파일 전체 재작성</div><div class="kb-diagram-cell">(base Parquet)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MOR (Merge-on-Read) 테이블:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Write</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">변경 레코드</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Delta Log 파일</div><div class="kb-diagram-cell">(.log, Avro)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">읽기 시 병합</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Base Parquet +</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Delta Log 병합</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(주기적 Compaction으로 병합 고정)</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                  Apache Hudi 내부 구조                           │
+├─────────────────────────────────────────────────────────────────┤
+│  .hoodie/  (Timeline)                                           │
+│  ├── 20260421120000.commit    (완료된 커밋)                      │
+│  ├── 20260421120000.clean     (클리너 실행 이력)                 │
+│  └── 20260421120000.compaction (컴팩션 이력)                     │
+│                                                                 │
+│  COW (Copy-on-Write) 테이블:                                    │
+│  ┌───────────┐  Write    ┌─────────────────┐                   │
+│  │ 변경 레코드│ ────────▶ │ 파일 전체 재작성 │ (base Parquet)    │
+│  └───────────┘           └─────────────────┘                   │
+│                                                                 │
+│  MOR (Merge-on-Read) 테이블:                                    │
+│  ┌───────────┐  Write    ┌────────────────┐                    │
+│  │ 변경 레코드│ ────────▶ │ Delta Log 파일  │ (.log, Avro)      │
+│  └───────────┘           └───────┬────────┘                    │
+│                                  │ 읽기 시 병합                  │
+│                         ┌────────▼────────┐                    │
+│                         │ Base Parquet +  │                     │
+│                         │ Delta Log 병합  │                     │
+│                         └─────────────────┘                    │
+│                          (주기적 Compaction으로 병합 고정)        │
+└─────────────────────────────────────────────────────────────────┘
+```
 
 <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/">COW</a> vs MOR 비교</strong>
 
@@ -147,25 +150,24 @@ Apache Hudi는 CDC와 upsert가 핵심 요건인 [데이터 레이크](/knowledg
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">HDFS</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Delta Lake</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Apache Hudi</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Copy-on-Write</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Merge-on-Read</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Data Lakehouse</div></div>
-</div>
-</div>
-
-
+```text
+[HDFS]
+    │
+    ▼
+[Delta Lake]
+    │
+    ▼
+[Apache Hudi]
+    │
+    ▼
+[Copy-on-Write]
+    │
+    ▼
+[Merge-on-Read]
+    │
+    ▼
+[Data Lakehouse]
+```
 
 [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) 기반 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)에서 ACID와 증분 처리 요구가 더해지며 Hudi와 [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) 아키텍처로 발전하는 흐름이다.
 

@@ -18,18 +18,12 @@ tags = ["studynote-dataengineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-note">CNN 구조:</div><div class="kb-diagram-node">Conv → ReLU → Pool</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">FC → Softmax</div></div>
-<div class="kb-diagram-note">Conv: 필터(커널)로 지역 특징 추출</div>
-<div class="kb-diagram-note">Pool: 다운샘플링 (Max/Average)</div>
-<div class="kb-diagram-note">FC: 분류 출력</div>
-</div>
-</div>
-
-
+```text
+CNN 구조: [Conv → ReLU → Pool] × N → FC → Softmax
+  Conv: 필터(커널)로 지역 특징 추출
+  Pool: 다운샘플링 (Max/Average)
+  FC:   분류 출력
+```
 
 - **📢 섹션 요약 비유**: CNN은 **돋보기로 그림을 부분적으로 훑으며** 패턴을 찾는 것이다. 전체를 한 번에 보는 것보다 효율적이다.
 
@@ -53,18 +47,12 @@ CNN은 <strong>컴퓨터 비전의 기본 아키텍처</strong>이며, ResNet의
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">LeNet (1998)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">AlexNet (2012, ImageNet 우승)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">VGGNet (2014)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">ResNet (2015, Skip Connection)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">EfficientNet (2019)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">ViT (2020, Transformer 기반)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: ConvNeXt — CNN의 반격</div></div>
-</div>
-</div>
-
-
+```text
+[LeNet (1998)] → [AlexNet (2012, ImageNet 우승)]
+    → [VGGNet (2014)] → [ResNet (2015, Skip Connection)]
+    → [EfficientNet (2019)] → [ViT (2020, Transformer 기반)]
+    → [현재: ConvNeXt — CNN의 반격]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. CNN은 <strong>돋보기로 그림의 부분</strong>을 하나씩 살펴보는 거예요.

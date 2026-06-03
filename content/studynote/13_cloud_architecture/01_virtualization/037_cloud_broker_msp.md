@@ -18,25 +18,25 @@ tags = ["studynote-cloud-architecture"]
 
 ## I. NIST 클라우드 브로커 역할
 
+```
+NIST SP 800-145 클라우드 배포 참여자:
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">NIST SP 800-145 클라우드 배포 참여자:</div>
-<div class="kb-diagram-note">클라우드 소비자</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">클라우드 브로커</div></div>
-<div class="kb-diagram-note">+-&gt; 서비스 중개 (Service Intermediation)</div>
-<div class="kb-diagram-note">부가가치 서비스 추가 (보안, 모니터링)</div>
-<div class="kb-diagram-note">+-&gt; 서비스 집합 (Service Aggregation)</div>
-<div class="kb-diagram-note">여러 CSP 서비스를 하나로 통합</div>
-<div class="kb-diagram-note">+-&gt; 서비스 중재 (Service Arbitrage)</div>
-<div class="kb-diagram-note">여러 CSP 중 최적 선택 자동화</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">클라우드 제공자</div></div>
-<div class="kb-diagram-note">AWS, Azure, GCP, 네이버클라우드</div>
-</div>
-</div>
-
-
+클라우드 소비자
+      |
+[클라우드 브로커]
+      |
+      +-> 서비스 중개 (Service Intermediation)
+      |    부가가치 서비스 추가 (보안, 모니터링)
+      |
+      +-> 서비스 집합 (Service Aggregation)
+      |    여러 CSP 서비스를 하나로 통합
+      |
+      +-> 서비스 중재 (Service Arbitrage)
+           여러 CSP 중 최적 선택 자동화
+      |
+[클라우드 제공자]
+  AWS, Azure, GCP, 네이버클라우드
+```
 
 | 역할           | 설명                              | 예시                      |
 |-------------|----------------------------------|--------------------------|

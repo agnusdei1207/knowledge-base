@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 <strong>IEEE 802.15.4 표준</strong>의 PHY/[MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 계층 위에, 네트워크 계층과 보안 기능을 얹어 완성한 근거리 초저전력/저속 무선 통신 규격입니다. (이름은 꿀벌이 춤을 추며(Zig-zag) 꽃의 위치를 동료들에게 알리는 모습에서 유래했습니다.)
 - **주파수/속도**: 주로 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)와 똑같은 **2.4GHz** 대역을 쓰지만, 전송 속도는 고작 **250 Kbps** ([블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)의 1/[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) 수준)로 매우 느립니다. 음악이나 사진 전송은 아예 불가능하고 단순한 제어 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)("전구 켜", "온도 24도")만 텍스트로 보냅니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">비컨 기술</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ZigBee</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Z-Wave</div></div>
-</div>
-</div>
-
-
+```text
+[비컨 기술]
+    │
+    ▼
+[ZigBee]
+    │
+    └──▶ [Z-Wave]
+```
 
 - **📢 섹션 요약 비유**: ZigBee는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -50,18 +46,14 @@ tags = ["studynote-network"]
 - <strong>지그비(<a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">Mesh</a> 구조)</strong>: 거실에 있는 '전구 A'가 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) 장비와 너무 멀어 전파가 안 닿아도 상관없습니다. 전구 A가 뿜어낸 신호가 복도에 있는 '전구 B'를 징검다리 삼아 통과하고, 다시 주방의 '전구 C'를 거쳐서 거실 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)까지 <strong>수십 개의 기기들이 서로 그물처럼 전파를 릴레이로 중계(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a>)해 줍니다.</strong> 
 - 덕분에 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) 하나로 수백 미터짜리 대저택 전체의 전구 65,000개를 하나로 엮어 제어할 수 있습니다. 중간에 전구 B가 고장 나면 0.1초 만에 전구 D를 우회하는 샛길을 스스로 찾아내는 자기 치유(Self-Healing) 능력도 갖췄습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">비컨 기술</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ZigBee</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Z-Wave</div></div>
-</div>
-</div>
-
-
+```text
+[비컨 기술]
+    │
+    ▼
+[ZigBee]
+    │
+    └──▶ [Z-Wave]
+```
 
 - **📢 섹션 요약 비유**: ZigBee의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -123,19 +115,15 @@ ZigBee는 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 비컨 기술</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: ZigBee</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: Z-Wave</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율형 엣지 협업</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 비컨 기술]
+    │
+    ▼
+[현재 개념: ZigBee]
+    │
+    ├──▶ [확장 A: Z-Wave]
+    └──▶ [확장 B: 자율형 엣지 협업]
+```
 
 ZigBee는 [비컨](/knowledge-base/studynote/03_network/12_iot_wpan_edge/608_beacon_technology_ibeacon_eddystone/) 기술에서 출발해 현재 메커니즘을 정교화하고, 이후 Z-Wave와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

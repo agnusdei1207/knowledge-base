@@ -35,23 +35,24 @@ BCNF의 핵심은 **"모든 [결정자](/knowledge-base/studynote/05_database/02
 | 수강 테이블 | `{학번, 과목명}(PK) ➔ 교수이름`<br>`교수이름(일반) ➔ 과목명(PK 일부)` | **위반 (역하극상)**<br>`교수이름`은 [후보 키](/knowledge-base/studynote/05_database/02_modeling_normalization/069_candidate_key_uniqueness_minimality/)가 아닌데 [결정자](/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/) 노릇을 함 |
 | 테이블 분할 | 테이블 A: `[교수이름](PK), 과목명`<br>테이블 B: `[학번, 교수이름](PK/FK)` | **만족**<br>모든 테이블의 [결정자](/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/)가 [후보 키](/knowledge-base/studynote/05_database/02_modeling_normalization/069_candidate_key_uniqueness_minimality/)가 됨 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BCNF 위반 테이블의 분해 과정</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">분해 전: 3NF는 만족하지만 BCNF는 위반</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PK</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">학번</div><div class="kb-diagram-cell">과목명</div><div class="kb-diagram-cell">교수이름 (일반 속성)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼</div><div class="kb-diagram-cell">(역하극상 발생!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">과목명 ◀ 교수이름 ➔ 과목명</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">분해 후: BCNF 완전 만족</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">테이블 1:</div><div class="kb-diagram-node">교수이름 (PK)</div><div class="kb-diagram-note">➔ 과목명</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">테이블 2:</div><div class="kb-diagram-node">학번, 교수이름 (PK/FK)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                  BCNF 위반 테이블의 분해 과정                  │
+├──────────────────────────────────────────────────────────────┤
+│ [ 분해 전: 3NF는 만족하지만 BCNF는 위반 ]                    │
+│   ┌─────── PK ───────┐                                       │
+│   │ 학번  │  과목명  │    교수이름 (일반 속성)               │
+│   └───────┴──────────┘                                       │
+│      └──────┬────────────────▲                               │
+│             │                │                               │
+│             ▼                │ (역하극상 발생!)               │
+│          과목명  ◀───────────┘ 교수이름 ➔ 과목명              │
+│                                                              │
+│ [ 분해 후: BCNF 완전 만족 ]                                  │
+│   테이블 1: [ 교수이름 (PK) ] ➔ 과목명                      │
+│   테이블 2: [ 학번, 교수이름 (PK/FK) ]                       │
+└──────────────────────────────────────────────────────────────┘
+```
 
 분해 과정의 핵심은 불법 권력을 행사하던 [결정자](/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/)(`교수이름`)를 아예 새로운 테이블의 왕([기본 키](/knowledge-base/studynote/05_database/02_modeling_normalization/070_primary_key_alternate_key/))으로 독립시키고, 원래 테이블에서는 그 값을 [외래 키](/knowledge-base/studynote/05_database/02_modeling_normalization/072_foreign_key_fk/)(FK)로 참조하게 만드는 것이다.
 
@@ -113,23 +114,21 @@ BCNF를 철저히 적용하면 [데이터베이스](/knowledge-base/studynote/05
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">제1정규형 (1NF) · 부분 종속성 잔존</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">제2정규형 (2NF) · 이행 종속성 잔존</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">제3정규형 (3NF) · 모든 결정자가 후보 키가 아닐 수 있음 (역하극상 잔존)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">BCNF (Boyce-Codd Normal Form) · 후보 키가 아닌 결정자 완벽 제거</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">제4정규형 (4NF) · 다치 종속(Multi-valued Dependency) 제거로 확장</div>
-</div>
-</div>
-
-
+```text
+제1정규형 (1NF) · 부분 종속성 잔존
+    │
+    ▼
+제2정규형 (2NF) · 이행 종속성 잔존
+    │
+    ▼
+제3정규형 (3NF) · 모든 결정자가 후보 키가 아닐 수 있음 (역하극상 잔존)
+    │
+    ▼
+BCNF (Boyce-Codd Normal Form) · 후보 키가 아닌 결정자 완벽 제거
+    │
+    ▼
+제4정규형 (4NF) · 다치 종속(Multi-valued Dependency) 제거로 확장
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -53,25 +53,26 @@ tags = ["studynote-operating-system"]
 3. 256비트(32바이트)짜리 비트맵(Bitmap) 변수를 두고, 큐에 프로세스가 하나라도 있으면 해당 비트를 1로 켠다.
 4. **스케줄링**: 하드웨어 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)(`clz` 등)로 256비트 중 가장 앞쪽에 1이 켜진 위치를 1클럭 만에 찾는다. 그 큐에서 무조건 첫 번째 놈을 빼서 CPU를 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고정 우선순위 스케줄러의 O(1) 비트맵 매핑 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">256 비트맵 (0은 빈 큐, 1은 대기 중인 큐)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비트 위치: 0 1 2 3 4 5 6 ... 255</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">값(상태): 0 0 1 0 1 0 0 ... 1</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">배열 큐</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Queue</div><div class="kb-diagram-node">2</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">P_A</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">P_B</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Queue</div><div class="kb-diagram-node">4</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">P_C</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Queue</div><div class="kb-diagram-node">255</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">P_Z</div><div class="kb-diagram-note">(가장 낮은 찌끄러기)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🚨 스케줄러의 기계적 반복 로직:</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">2</div><div class="kb-diagram-note">의 P_A 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(P_A나 P_B가 큐에 존재하는 한 P_C는 절대 영원히 실행 불가)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────────────────┐
+  │         고정 우선순위 스케줄러의 O(1) 비트맵 매핑 아키텍처              │
+  ├─────────────────────────────────────────────────────────────────────────┤
+  │                                                                         │
+  │  [ 256 비트맵 (0은 빈 큐, 1은 대기 중인 큐) ]                           │
+  │  비트 위치: 0 1 2 3 4 5 6 ... 255                                       │
+  │  값(상태):  0 0 1 0 1 0 0 ... 1                                         │
+  │              │   │         │                                            │
+  │              ▼   ▼         ▼                                            │
+  │  [ 배열 큐 ]                                                            │
+  │  Queue[2] ──▶ [ P_A ] ──▶ [ P_B ]                                       │
+  │  Queue[4] ──▶ [ P_C ]                                                   │
+  │  Queue[255] ─▶ [ P_Z ] (가장 낮은 찌끄러기)                             │
+  │                                                                         │
+  │  🚨 스케줄러의 기계적 반복 로직:                                        │
+  │  매 틱마다 비트맵 스캔 ─▶ "2번 비트가 제일 높네!" ─▶ Queue[2]의 P_A 실행│
+  │  (P_A나 P_B가 큐에 존재하는 한 P_C는 절대 영원히 실행 불가)             │
+  └─────────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 고정 우선순위 시스템에서 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 역할은 계산이 아니라 그냥 '지정된 서랍 열기'에 불과하다. CPU 사이클을 낭비하는 복잡한 수식이나 트리 정렬(O(log N))이 전혀 없기 때문에, 이 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 인터럽트가 발생한 직후 1마이크로초도 안 되는 찰나에 다음 타깃을 찾아내는 궁극의 디스패치 속도를 자랑한다.
 
 - **📢 섹션 요약 비유**: 우편물을 256개의 서랍에 꽂아놓고, 무조건 1번 서랍부터 열어봐서 편지가 있으면 꺼내고, 없으면 2번 서랍을 여는 극도로 단순한 로봇 팔과 같습니다.
@@ -108,26 +109,28 @@ tags = ["studynote-operating-system"]
 2. <strong>우선순위 할당 규칙 (RMA, <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/197_rm_rate_monotonic_scheduling/">Rate Monotonic</a> Analysis)</strong>: 임베디드 장비(드론)를 짤 때, 5개의 센서 읽기 스레드를 띄웠다. 개발자 맘대로 우선순위 1~5를 대충 부여하면 10분쯤 비행하다가 타이밍이 꼬여 추락한다.
    - **실무 조치**: 반드시 엑셀을 켜고 각 스레드의 호출 주기(Period)를 적은 뒤, <strong>"주기가 짧은 순서대로 1등부터 5등까지 우선순위를 고정(하드코딩)"</strong>해야 한다. 이것이 RMA 기법이며, 이 순서를 지켰을 때 전체 CPU 점유율이 69% 이하라면 이 드론은 수학적으로 평생 추락하지 않음이 보장된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발자의 고정 우선순위 (SCHED_FIFO/RR) 남용 방지 검증 트리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">코드 리뷰: 신규 백그라운드 스레드에 Priority 90 셋팅 발견</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 스레드의 본질적 성격 검증</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이 스레드가 CPU를 100% 갉아먹는 연산(CPU Bound)인가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">예 (이미지 렌더링, 암호화 등)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 🚨 시스템 사형 선고</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고정 90순위가 안 비키면 시스템 전체가 마비됨.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 조치: 일반 CFS 큐(Nice 조절)로 즉각 강등 지시.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">아니오 (I/O Bound, 센서 폴링 등)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ ✅ 허가 및 조건부 배포</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1ms만 일하고 바로 Sleep() 하는 구조가 명확하므로,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고정 우선순위를 줘서 빠른 응답성을 챙기는 게 이득임.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │     개발자의 고정 우선순위 (SCHED_FIFO/RR) 남용 방지 검증 트리    │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [코드 리뷰: 신규 백그라운드 스레드에 Priority 90 셋팅 발견]     │
+  │                │                                                  │
+  │                ▼ 스레드의 본질적 성격 검증                        │
+  │   이 스레드가 CPU를 100% 갉아먹는 연산(CPU Bound)인가?            │
+  │          ├─ [예 (이미지 렌더링, 암호화 등)]                       │
+  │          │      │                                                 │
+  │          │      ▼ 🚨 시스템 사형 선고                             │
+  │          │  고정 90순위가 안 비키면 시스템 전체가 마비됨.         │
+  │          │  ▶ 조치: 일반 CFS 큐(Nice 조절)로 즉각 강등 지시.      │
+  │          │                                                        │
+  │          └─ [아니오 (I/O Bound, 센서 폴링 등)]                    │
+  │                 │                                                 │
+  │                 ▼ ✅ 허가 및 조건부 배포                          │
+  │             1ms만 일하고 바로 Sleep() 하는 구조가 명확하므로,     │
+  │             고정 우선순위를 줘서 빠른 응답성을 챙기는 게 이득임.  │
+  └───────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 고정 우선순위는 양날의 검이다. 찌르면 적(렉)이 1초 만에 죽지만, 잘못 쓰면 내가 죽는다. 이 절대 권력을 부여할 때는 반드시 해당 코드가 "자발적으로 권력을 내려놓는가(Yield, Sleep, I/O)"에 대한 물리적 확신이 있어야만 한다.
 
 - **📢 섹션 요약 비유**: 운전 초보(버그가 많은 코드)에게 속도 제한 장치가 풀린 포르쉐(고정 우선순위 권한)를 주면 100% 벽에 박습니다. 포르쉐는 앞만 보고 달리게 만들어진 기계(O(1) 속도)이므로, 오직 브레이크를 언제 밟을지 아는 베테랑 드라이버(검증된 실시간 코드)에게만 키를 줘야 합니다.
@@ -158,19 +161,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">EDF (Earliest Deadline First) 스케줄링</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">비례 배분 스케줄링 (Proportionate Share Scheduling)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">POSIX 스케줄링 API</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">리눅스 O(1) 스케줄러</div></div>
-</div>
-</div>
-
-
+```text
+[EDF (Earliest Deadline First) 스케줄링]
+    │
+    ▼
+[비례 배분 스케줄링 (Proportionate Share Scheduling)]
+    │
+    ├──▶ [POSIX 스케줄링 API]
+    └──▶ [리눅스 O(1) 스케줄러]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

@@ -42,16 +42,12 @@ AES는 4x4 [바이트](/knowledge-base/studynote/01_computer_architecture/02_dat
 
 라운드마다 수행하는 핵심 연산은 네 가지다. SubBytes는 S-Box로 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)를 비선형 치환하고, ShiftRows는 행을 밀어 확산을 돕는다. MixColumns는 GF(2^8) 곱셈으로 열을 섞고, AddRoundKey는 라운드 키를 XOR한다. 마지막 라운드에서는 MixColumns를 생략한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">평문 128비트 → State → SubBytes → ShiftRows → MixColumns → XOR 키</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">라운드 반복</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────────┐
+│ 평문 128비트 → State → SubBytes → ShiftRows → MixColumns → XOR 키 │
+│                              └──────────── 라운드 반복 ────────────┘│
+└─────────────────────────────────────────────────────────────────────┘
+```
 
 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-NI ([AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) [New](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) Instructions)는 이 과정을 CPU [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)로 가속한다. 그래서 같은 AES라도 소프트웨어만 쓰는 경우보다 훨씬 빠르고, [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) (Transport Layer [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))나 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 암호화 같은 실무 환경에서 충분한 처리량을 낸다.
 
@@ -114,20 +110,18 @@ AES의 강점은 표준화, [성능](/knowledge-base/studynote/04_software_engin
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">DES</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">AES (Advanced Encryption Standard)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">AES-NI (AES New Instructions)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">CBC / CTR / GCM</div>
-<div class="kb-diagram-tree-item" style="--depth:2">TLS / VPN / 파일 암호화</div>
-</div>
-</div>
-
-
+```text
+DES
+    │
+    ▼
+AES (Advanced Encryption Standard)
+    │
+    ├────────► AES-NI (AES New Instructions)
+    │
+    ├────────► CBC / CTR / GCM
+    │
+    └────────► TLS / VPN / 파일 암호화
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

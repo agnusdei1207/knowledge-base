@@ -18,22 +18,21 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CI/CD 파이프라인 단계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CI — Continuous Integration</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">커밋 → 빌드 → 단위 테스트 → 통합 테스트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 코드 품질 검증 (린트·커버리지)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CD — Continuous Delivery</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CI 통과 → 스테이징 배포 → QA → 수동 승인 → Prod</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CD — Continuous Deployment</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CI 통과 → 자동 Prod 배포 (승인 없음)</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    CI/CD 파이프라인 단계                              │
+├───────────────────────────────────────────────────────┤
+│  [CI — Continuous Integration]                        │
+│   커밋 → 빌드 → 단위 테스트 → 통합 테스트           │
+│   → 코드 품질 검증 (린트·커버리지)                    │
+│                                                       │
+│  [CD — Continuous Delivery]                           │
+│   CI 통과 → 스테이징 배포 → QA → 수동 승인 → Prod   │
+│                                                       │
+│  [CD — Continuous Deployment]                         │
+│   CI 통과 → 자동 Prod 배포 (승인 없음)               │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: CI는 공장 조립 라인의 품질 검사(불량 자동 탐지)이고, CD는 검사 통과한 제품을 매장(프로덕션)에 자동 진열하는 것이다.
 
@@ -105,23 +104,21 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">수동 빌드·배포 (2000s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CI 서버 (Jenkins, 2004~) — 자동 빌드·테스트</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CD (Docker+K8s, 2014~) — 자동 배포 파이프라인</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">GitOps (2017~) — 선언적 CD (ArgoCD/Flux)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: Progressive Delivery + AIOps — AI 기반 배포 판단</div></div>
-</div>
-</div>
-
-
+```text
+[수동 빌드·배포 (2000s)]
+    │
+    ▼
+[CI 서버 (Jenkins, 2004~) — 자동 빌드·테스트]
+    │
+    ▼
+[CD (Docker+K8s, 2014~) — 자동 배포 파이프라인]
+    │
+    ▼
+[GitOps (2017~) — 선언적 CD (ArgoCD/Flux)]
+    │
+    ▼
+[현재: Progressive Delivery + AIOps — AI 기반 배포 판단]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD는 공장의 <strong>자동 조립 라인</strong>이에요. 재료(코드)를 넣으면 검사(테스트)하고 완제품(배포)이 나와요.

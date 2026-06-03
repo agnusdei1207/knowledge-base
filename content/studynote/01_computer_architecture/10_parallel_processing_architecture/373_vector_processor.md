@@ -25,19 +25,18 @@ tags = ["studynote-computer-architecture"]
 
 벡터 프로세서는 바로 이 지점을 겨냥한다. 한 번 명령을 시작하면 길이 `N`의 벡터를 연속적으로 흘려 보내며 파이프라인을 가득 채우고, 연산기와 메모리 시스템을 끊김 없이 사용하도록 만든다. 따라서 벡터 프로세서는 “연산을 더 똑똑하게 한다”기보다 “반복되는 연산을 덩어리로 묶어 시스템을 낭비 없이 움직이게 한다”는 관점으로 이해해야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">같은 수식이라도 처리 단위가 다르면 비용이 달라진다</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">목표: C</div><div class="kb-diagram-node">i</div><div class="kb-diagram-note">= A</div><div class="kb-diagram-node">i</div><div class="kb-diagram-note">+ B</div><div class="kb-diagram-node">i</div><div class="kb-diagram-note">(i = 0 ... 7)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스칼라 처리: 명령 해독 + 주소 계산 + 연산을 8번 반복</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">벡터 처리: 벡터 길이 설정 → 한 번의 벡터 덧셈으로 연속 처리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제어 중심 구조 ▶ 데이터 흐름 중심 구조</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│          같은 수식이라도 처리 단위가 다르면 비용이 달라진다  │
+├──────────────────────────────────────────────────────────────┤
+│ 목표: C[i] = A[i] + B[i]   (i = 0 ... 7)                    │
+│                                                              │
+│ 스칼라 처리: 명령 해독 + 주소 계산 + 연산을 8번 반복          │
+│ 벡터 처리: 벡터 길이 설정 → 한 번의 벡터 덧셈으로 연속 처리   │
+│                                                              │
+│ 제어 중심 구조  ─────────────▶  데이터 흐름 중심 구조         │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 그림은 벡터 프로세서의 핵심이 “더 많은 명령”이 아니라 “덜 자주 지시하고 더 오래 흘려보내는 것”임을 보여준다. 즉 벡터 프로세서는 반복문을 빨리 도는 CPU가 아니라, 반복문 자체를 하드웨어 수준에서 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하는 장치다.
 
@@ -61,22 +60,23 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 벡터 명령이 메모리에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 불러와 연산하고 다시 저장되는 전체 흐름을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">벡터 명령의 데이터 흐름과 병목 위치</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 뱅크 ──▶ 벡터 로드 ──▶ 벡터 레지스터 V1 ─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 뱅크 ──▶ 벡터 로드 ──▶ 벡터 레지스터 V2 ─ ─▶ VADD ─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마스크 레지스터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">벡터 레지스터 V3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">벡터 저장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">병목: 메모리 공급이 느리면 기능 유닛은 비고, 분기가 많으면 마스크</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">활용이 어려워지며, 데이터 의존성이 있으면 체이닝이 약해진다</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│             벡터 명령의 데이터 흐름과 병목 위치              │
+├──────────────────────────────────────────────────────────────┤
+│ 메모리 뱅크 ──▶ 벡터 로드 ──▶ 벡터 레지스터 V1 ─┐            │
+│ 메모리 뱅크 ──▶ 벡터 로드 ──▶ 벡터 레지스터 V2 ─┼─▶ VADD ─┐ │
+│                                                 │         │ │
+│ 마스크 레지스터 ────────────────────────────────┘         │ │
+│                                                           ▼ │
+│                                                  벡터 레지스터 V3 │
+│                                                           │ │
+│                                              벡터 저장 ───┘ │
+│                                                           │ │
+│ 병목: 메모리 공급이 느리면 기능 유닛은 비고, 분기가 많으면 마스크 │
+│       활용이 어려워지며, 데이터 의존성이 있으면 체이닝이 약해진다 │
+└──────────────────────────────────────────────────────────────┘
+```
 
 또 하나의 핵심은 [스트라이드](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) ([Stride](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/))와 [메모리 인터리빙](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/254_memory_interleaving/) ([Memory Interleaving](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/254_memory_interleaving/))이다. 벡터 프로세서는 연속 주소뿐 아니라 일정 간격으로 떨어진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 읽을 수 있지만, 간격이 메모리 뱅크 충돌을 일으키면 기대한 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 나오지 않는다. 그래서 벡터 아키텍처는 연산기 설계만이 아니라 메모리 배치, 뱅크 수, 주소 패턴까지 함께 설계해야 진짜 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 난다.
 
@@ -152,23 +152,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">스칼라 반복 처리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SIMD (Single Instruction Multiple Data)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">벡터 레지스터 · 벡터 파이프라인 · 메모리 인터리빙</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">루프 벡터화 (Loop Vectorization) · AVX (Advanced Vector Extensions)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">GPU (Graphics Processing Unit) · 텐서 가속기</div>
-</div>
-</div>
-
-
+```text
+스칼라 반복 처리
+    │
+    ▼
+SIMD (Single Instruction Multiple Data)
+    │
+    ▼
+벡터 레지스터 · 벡터 파이프라인 · 메모리 인터리빙
+    │
+    ▼
+루프 벡터화 (Loop Vectorization) · AVX (Advanced Vector Extensions)
+    │
+    ▼
+GPU (Graphics Processing Unit) · 텐서 가속기
+```
 
 이 흐름은 “반복문 최적화”에서 출발해 “전용 벡터 하드웨어”, “범용 CPU 내장 [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/)”, “대규모 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 가속기”로 확장되는 진화 방향을 보여준다.
 

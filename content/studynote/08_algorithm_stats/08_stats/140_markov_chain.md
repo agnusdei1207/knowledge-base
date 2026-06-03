@@ -78,22 +78,21 @@ t_mix(ε) = min{t : max_{x} ||P^t(x, ·) - π||_TV ≤ ε}
 
 **3-상태 마르코프 체인 전이 다이어그램**:
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">0.3</div>
-<div class="kb-diagram-note">─ ── 0.5</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">B</div></div>
-<div class="kb-diagram-note">▲ 0.2</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0.6</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──</div><div class="kb-diagram-cell">C</div><div class="kb-diagram-cell">◀──</div></div>
-<div class="kb-diagram-note">0.4</div>
-<div class="kb-diagram-note">0.4</div>
-</div>
-</div>
-
-
+```
+         0.3
+    ┌─────────────┐
+    │             ▼
+  ┌─┴──┐  0.5  ┌────┐
+  │ A  │──────▶│ B  │
+  └────┘       └─┬──┘
+    ▲     0.2    │
+    │  ┌────┐   │0.6
+    └──│ C  │◀──┘
+  0.4  └────┘
+       │  ▲
+       └──┘
+        0.4
+```
 
 (각 상태 A, B, C 간 전이 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 예시. 실선 방향이 전이 방향, 숫자가 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/))
 
@@ -139,21 +138,20 @@ d = 0.85 (감쇠 인수, Damping Factor), N = 전체 [페이지](/knowledge-base
 
 <strong>강화학습 <a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/">MDP</a> (<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/314_mdp_rl/">Markov Decision Process</a>)</strong>: 환경을 마르코프 체인으로 모델링. 에이전트의 행동에 따라 상태가 전이되고 보상을 받는 구조.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마르코프 체인 응용 계층</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">텍스트 생성</div><div class="kb-diagram-cell">대기 이론</div><div class="kb-diagram-cell">강화학습 MDP</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(언어 모델)</div><div class="kb-diagram-cell">(M/M/1 큐)</div><div class="kb-diagram-cell">(Q-Learning)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마르코프 체인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(전이 행렬 P + 정상 분포 π)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MCMC 샘플링</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Metropolis-Hastings / Gibbs)</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────┐
+│              마르코프 체인 응용 계층                   │
+├────────────────┬────────────────┬────────────────────┤
+│  텍스트 생성   │   대기 이론    │    강화학습 MDP    │
+│ (언어 모델)    │ (M/M/1 큐)    │   (Q-Learning)     │
+├────────────────┴────────────────┴────────────────────┤
+│                  마르코프 체인                         │
+│         (전이 행렬 P + 정상 분포 π)                   │
+├──────────────────────────────────────────────────────┤
+│                   MCMC 샘플링                         │
+│       (Metropolis-Hastings / Gibbs)                   │
+└──────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 마르코프 체인 응용은 "규칙 하나로 다 설명하는 만능 레시피"다. 날씨 예측이든, 구글 검색이든, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 게임 플레이든 — "현재만 보면 미래가 결정된다"는 단 하나의 원리가 모든 것을 가능하게 한다.
 
@@ -174,23 +172,21 @@ d = 0.85 (감쇠 인수, Damping Factor), N = 전체 [페이지](/knowledge-base
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">확률 과정 (Stochastic Process) — 시간에 따라 상태가 확률적으로 변화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">마르코프 체인 (Markov Chain) — 미래 상태가 현재 상태만 의존 (마르코프 성질)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">정상 분포 (Stationary Distribution) — 장기 실행 후 수렴하는 확률 분포</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">은닉 마르코프 모델 (HMM — Hidden Markov Model) — 상태 관측 불가 환경에 확장</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">마르코프 결정 과정 (MDP — Markov Decision Process) — 강화학습 이론 기반</div></div>
-</div>
-</div>
-
-
+```text
+[확률 과정 (Stochastic Process) — 시간에 따라 상태가 확률적으로 변화]
+    │
+    ▼
+[마르코프 체인 (Markov Chain) — 미래 상태가 현재 상태만 의존 (마르코프 성질)]
+    │
+    ▼
+[정상 분포 (Stationary Distribution) — 장기 실행 후 수렴하는 확률 분포]
+    │
+    ▼
+[은닉 마르코프 모델 (HMM — Hidden Markov Model) — 상태 관측 불가 환경에 확장]
+    │
+    ▼
+[마르코프 결정 과정 (MDP — Markov Decision Process) — 강화학습 이론 기반]
+```
 
 이 흐름은 단순 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 모델에서 강화학습의 MDP까지 마르코프 이론의 확장 계보를 나타낸다.
 

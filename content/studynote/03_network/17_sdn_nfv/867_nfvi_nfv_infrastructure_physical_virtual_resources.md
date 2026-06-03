@@ -24,18 +24,14 @@ ETSI(유럽통신표준협회)가 정의한 NFV의 뼈대는 크게 3층으로 �
 2. <strong>NFVI (<a href="/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/">NFV</a> Infrastructure)</strong>: [VNF](/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/) 앱들이 도는 밑바닥 흙과 영양분 (하드웨어 + [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)). **(현재 문서)**
 3. <strong>MANO (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/">Management</a> and <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/">Orchestration</a>)</strong>: 이 둘을 관리하는 신(God) 같은 총사령부 (868번 문서).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">VNF</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NFVI</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MANO</div></div>
-</div>
-</div>
-
-
+```text
+[VNF]
+    │
+    ▼
+[NFVI]
+    │
+    └──▶ [MANO]
+```
 
 - **📢 섹션 요약 비유**: NFVI는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -55,18 +51,14 @@ ETSI(유럽통신표준협회)가 정의한 NFV의 뼈대는 크게 3층으로 �
    - 쇳덩어리 서버에 전원만 꽂는다고 그 위에 가상 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)([VNF](/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/))이 돌지 않습니다. 쇳덩어리를 찰흙으로 만들어야 합니다.
    - <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/">하이퍼바이저</a>(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/">KVM</a>, VMWare 등)</strong>가 깔려서, 1개의 물리 CPU를 100개의 가상 vCPU로 쪼개고, 1개의 쇳덩어리 랜카드를 100개의 [가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/)([OVS](/knowledge-base/studynote/03_network/17_sdn_nfv/860_ovs_open_vswitch_sdn_openflow/)) 구멍으로 쪼개어 VNF들에게 밥상으로 차려주는 소프트웨어 엔진 계층입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">VNF</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NFVI</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MANO</div></div>
-</div>
-</div>
-
-
+```text
+[VNF]
+    │
+    ▼
+[NFVI]
+    │
+    └──▶ [MANO]
+```
 
 - **📢 섹션 요약 비유**: NFVI의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -124,19 +116,15 @@ NFVI는 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_top
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: VNF</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: NFVI</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: MANO</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 프로그래머블 네트워크</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: VNF]
+    │
+    ▼
+[현재 개념: NFVI]
+    │
+    ├──▶ [확장 A: MANO]
+    └──▶ [확장 B: 프로그래머블 네트워크]
+```
 
 NFVI는 VNF에서 출발해 현재 메커니즘을 정교화하고, 이후 MANO와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

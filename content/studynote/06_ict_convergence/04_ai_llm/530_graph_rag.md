@@ -29,25 +29,29 @@ tags = ["studynote-ict-convergence"]
 
 GraphRAG는 인덱싱 단계에서 [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/)를 생성하고, 검색 단계에서 이를 탐색한다.
 
+```text
+[ GraphRAG Pipeline: Indexing & Retrieval ]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">GraphRAG Pipeline: Indexing &amp; Retrieval</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Raw Documents</div><div class="kb-diagram-cell">-----&gt;</div><div class="kb-diagram-cell">Entity &amp; Relationship Extraction (LLM)</div></div>
-<div class="kb-diagram-note">+---------------------+ +--------------------v----------------------+</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Community Summary</div><div class="kb-diagram-cell">&lt;-----</div><div class="kb-diagram-cell">Graph Construction &amp; Community Detection</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Hierarchical)</div><div class="kb-diagram-cell">(Leiden Algorithm, Partitioning)</div></div>
-<div class="kb-diagram-note">v</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Query Time: Hybrid Search (Vector + Graph Traversal)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Local Search: Specific Entity neighbors</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Global Search: Pre-generated Community Summaries</div></div>
-<div class="kb-diagram-note">+--------------------------------------v---------------------------------+</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LLM Generation with Graph-Augmented Context</div></div>
-</div>
-</div>
-
-
++---------------------+      +-------------------------------------------+
+| Raw Documents       |----->| Entity & Relationship Extraction (LLM)    |
++---------------------+      +--------------------+----------------------+
+                                                  |
++---------------------+      +--------------------v----------------------+
+| Community Summary   |<-----| Graph Construction & Community Detection   |
+| (Hierarchical)      |      | (Leiden Algorithm, Partitioning)          |
++----------+----------+      +-------------------------------------------+
+           |
+           v
++------------------------------------------------------------------------+
+| Query Time: Hybrid Search (Vector + Graph Traversal)                   |
+| 1. Local Search: Specific Entity neighbors                             |
+| 2. Global Search: Pre-generated Community Summaries                    |
++--------------------------------------+---------------------------------+
+                                       |
++--------------------------------------v---------------------------------+
+| LLM Generation with Graph-Augmented Context                             |
++------------------------------------------------------------------------+
+```
 
 1. **Entity Extraction**: LLM을 사용하여 텍스트에서 주요 개체와 그들 사이의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 추출한다.
 2. <strong>Community <a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/">Detection</a></strong>: 추출된 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에서 밀접하게 연결된 노드 그룹(Community)을 찾고, 각 그룹에 대한 요약 보고서를 사전에 작성한다.

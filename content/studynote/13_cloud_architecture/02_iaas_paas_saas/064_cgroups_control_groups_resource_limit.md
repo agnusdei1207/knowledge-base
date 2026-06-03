@@ -56,30 +56,34 @@ cgroups는 덩어리 하나가 아니라, 자원의 종류별로 감독관(Contr
 
 개발자가 가장 많이 마주하는 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 장애인 `OOMKilled` (Exit [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) 137) 에러는 사실 cgroups의 <strong>메모리 컨트롤러</strong>가 수행하는 사형 집행(Execution)이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">cgroups 메모리 통제 및 OOM Killer (Out of Memory) 작동 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">리눅스 Host OS (Total RAM: 32GB)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 커널(Kernel) cgroups 룰(Rule) 주입</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Docker Container A (Java App)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Cgroup Memory Limit: 1 GB (최대 허용량)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Current Usage: 800 MB (메모리 누수 발생 중...)</div></div>
-<div class="kb-diagram-note">║ ║</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">... 10초 후 ...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Current Usage: 1.01 GB 돌파 시도! (선 넘음!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (삐용삐용! cgroups 메모리 컨트롤러 알람 발생)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">리눅스 커널 OOM Killer 작동 🔪</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"어이 Container A! 너 나랑 약속한 1GB 한도 넘었네?"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"다른 착한 프로세스들 피해 볼라, 너 당장 사형(SIGKILL-9)!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: Container A 프로세스 즉시 강제 종료 (Exit Code 137 발생).</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이 잔인한 룰 덕분에 서버에 있는 31GB의 램은 안전하게 지켜져서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">옆에 있는 다른 컨테이너(DB, 웹 등)는 100% 무사함! (QoS 보장)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────┐
+  │         cgroups 메모리 통제 및 OOM Killer (Out of Memory) 작동 구조 │
+  ├───────────────────────────────────────────────────────────────┤
+  │                                                               │
+  │   [ 리눅스 Host OS (Total RAM: 32GB) ]                          │
+  │     │                                                         │
+  │     ▼ 커널(Kernel) cgroups 룰(Rule) 주입                         │
+  │  ╔══════════════════════════════════════════════════════════╗ │
+  │  ║  [ Docker Container A (Java App) ]                       ║ │
+  │  ║    - Cgroup Memory Limit: 1 GB (최대 허용량)                ║ │
+  │  ║    - Current Usage: 800 MB (메모리 누수 발생 중...)           ║ │
+  │  ║                                                          ║ │
+  │  ║    ... 10초 후 ...                                        ║ │
+  │  ║    - Current Usage: 1.01 GB 돌파 시도! (선 넘음!)            ║ │
+  │  ╚══════════════════════════════════════════════════════════╝ │
+  │          │                                                    │
+  │          ▼ (삐용삐용! cgroups 메모리 컨트롤러 알람 발생)                │
+  │                                                               │
+  │  [ 리눅스 커널 OOM Killer 작동 🔪 ]                                │
+  │    "어이 Container A! 너 나랑 약속한 1GB 한도 넘었네?"                │
+  │    "다른 착한 프로세스들 피해 볼라, 너 당장 사형(SIGKILL-9)!"           │
+  │                                                               │
+  │   ▶ 결과: Container A 프로세스 즉시 강제 종료 (Exit Code 137 발생). │
+  │          이 잔인한 룰 덕분에 서버에 있는 31GB의 램은 안전하게 지켜져서     │
+  │          옆에 있는 다른 컨테이너(DB, 웹 등)는 100% 무사함! (QoS 보장)   │
+  └───────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** cgroups에 메모리 상한선(1GB)을 걸어두면, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 해당 그룹에 속한 프로세스가 메모리를 더 달라고 요청할 때 할당을 거부한다. 그래도 앱(Java 힙 등)이 억지로 메모리를 점유해 상한선을 뚫으려 하면, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내의 저승사자인 `OOM (Out Of Memory) Killer`가 깨어나 해당 프로세스에 자비 없이 9번 시그널(Kill)을 날려 목을 쳐버린다. 앱 개발자 입장에선 앱이 픽픽 죽어서 짜증 나겠지만, 시스템 엔지니어 입장에서는 이 cgroups의 철권통치 덕분에 단 하나의 버그 걸린 앱 때문에 물리 서버 전체가 멈춰버리는 끔찍한 재앙(시끄러운 이웃 문제)을 원천 차단할 수 있게 된다.
 
@@ -124,7 +128,7 @@ cgroups는 덩치 큰 하드웨어 장비([하이퍼바이저](/knowledge-base/s
 | <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/425_oom_killer_score/">OOM Killer</a> (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">Out Of Memory</a>)</strong> | [cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) 메모리 컨트롤러가 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)한 한도(Limit)를 초과하는 불량 프로세스를 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 자비 없이 강제 종료시켜 시스템을 구하는 데스노트다. |
 | <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/">Kubernetes</a> Resource Limits/Requests</strong> | K8s 개발자가 `yaml`에 적어 넣는 CPU/RAM 요구사항으로, 이 값들은 Kubelet을 통해 그대로 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 [cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)값으로 번역(Translation)되어 주입된다. |
 | **시끄러운 이웃 (Noisy Neighbor)** | [멀티 테넌트](/knowledge-base/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/) 환경에서 특정 가상머신이나 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 자원을 폭식하여 남에게 피해를 주는 현상. cgroups는 이를 막는 가장 완벽한 백신이다. |
-| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/">Docker</a> Engine</strong> | 일반 개발자가 건드리기 복잡한 `/sys/fs/cgroup` 폴더의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 파라미터 조작을, `docker run -m 512m` 한 줄의 명령어로 매끄럽게 자동화해 준 천재적인 소프트웨어다. |
+| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/">Docker</a> 엔진</strong> | 일반 개발자가 건드리기 복잡한 `/sys/fs/cgroup` 폴더의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 파라미터 조작을, `docker run -m 512m` 한 줄의 명령어로 매끄럽게 자동화해 준 천재적인 소프트웨어다. |
 
 ---
 
@@ -133,23 +137,21 @@ cgroups는 덩치 큰 하드웨어 장비([하이퍼바이저](/knowledge-base/s
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">프로세스 격리 없음 (Noisy Neighbor)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">cgroups v1: CPU · Memory · I/O 자원 제한</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">cgroups v2: 통합 계층 구조 · PSI (Pressure Stall)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">컨테이너 런타임: Docker · containerd · CRI-O 활용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">K8s: requests/limits → QoS(Guaranteed · Burstable · BestEffort)</div>
-</div>
-</div>
-
-
+```text
+프로세스 격리 없음 (Noisy Neighbor)
+    │
+    ▼
+cgroups v1: CPU · Memory · I/O 자원 제한
+    │
+    ▼
+cgroups v2: 통합 계층 구조 · PSI (Pressure Stall)
+    │
+    ▼
+컨테이너 런타임: Docker · containerd · CRI-O 활용
+    │
+    ▼
+K8s: requests/limits → QoS(Guaranteed · Burstable · BestEffort)
+```
 2. 이러면 다른 친구들이 배가 고파 쓰러지겠죠? 그래서 호랑이 선생님(리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))이 나섰어요! "여기 각자 자기 이름이 적힌 접시에 고기 딱 10인분씩만 덜어 줄 테니, 다 먹었으면 더 이상 남의 고기 넘보지 마!" 
 3. 이렇게 아이들(프로세스)마다 먹을 수 있는 고기와 밥의 한계량(Limit)을 아주 엄격하게 딱딱 정해서 배분해 주고 통제하는 호랑이 선생님의 마법을 '[cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/)(씨그룹스)'라고 한답니다!
 

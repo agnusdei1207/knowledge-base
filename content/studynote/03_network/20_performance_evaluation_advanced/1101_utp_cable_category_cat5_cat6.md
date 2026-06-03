@@ -24,18 +24,14 @@ tags = ["studynote-network"]
   - <strong><a href="/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/">UTP</a> (Unshielded)</strong>: 차폐막(은박지)이 없는 가장 싸고 얇은 국민 랜선.
   - <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/">FTP</a>/<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/">STP</a> (Shielded)</strong>: 구리선 겉면을 알루미늄 은박지로 칭칭 감아서 전자레인지나 공장 기계 옆에서도 노이즈가 안 튀게 방어한 비싼 랜선.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">스위치 포트 미러링</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">UTP 배선 카테고리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">광섬유 싱글모드 다중모드</div></div>
-</div>
-</div>
-
-
+```text
+[스위치 포트 미러링]
+    │
+    ▼
+[UTP 배선 카테고리]
+    │
+    └──▶ [광섬유 싱글모드 다중모드]
+```
 
 - **📢 섹션 요약 비유**: [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 배선 카테고리는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -61,18 +57,14 @@ tags = ["studynote-network"]
 - **속도**: [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) Gbps ~ 40 Gbps / 600 MHz ~ 2000 MHz
 - **특징**: 모든 구리선 가닥마다 은박지 쉴드를 감아놓은 완벽한 S/[FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) 규격입니다. 일반 가정에서는 아예 쓸모가 없고, 광케이블을 깔기 힘든 짧은 서버 랙 구간에서만 극도로 제한적으로 씁니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">스위치 포트 미러링</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">UTP 배선 카테고리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">광섬유 싱글모드 다중모드</div></div>
-</div>
-</div>
-
-
+```text
+[스위치 포트 미러링]
+    │
+    ▼
+[UTP 배선 카테고리]
+    │
+    └──▶ [광섬유 싱글모드 다중모드]
+```
 
 - **📢 섹션 요약 비유**: [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 배선 카테고리의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -133,19 +125,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 스위치 포트 미러링</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: UTP 배선 카테고리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 광섬유 싱글모드 다중모드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 스위치 포트 미러링]
+    │
+    ▼
+[현재 개념: UTP 배선 카테고리]
+    │
+    ├──▶ [확장 A: 광섬유 싱글모드 다중모드]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 배선 카테고리는 [스위치 포트 미러링](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1100_port_mirroring_span_tap_network_monitoring/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [광섬유 싱글모드 다중모드](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1102_optical_fiber_single_mode_multi_mode/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

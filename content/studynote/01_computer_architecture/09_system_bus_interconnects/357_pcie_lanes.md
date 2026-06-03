@@ -23,19 +23,18 @@ tags = ["studynote-computer-architecture"]
 
 이 개념이 중요해진 이유는 장치마다 요구 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 차이가 매우 크기 때문이다. 오디오 카드나 캡처 카드는 비교적 적은 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)으로도 충분하지만, 그래픽 처리 장치인 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ([Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))나 고속 저장장치인 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) ([Non-Volatile Memory Express](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/)) [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) ([Solid-State Drive](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/592_open_channel_ssd/))는 훨씬 넓은 통로가 필요하다. 모든 장치에 동일한 폭의 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 강제하면 핀 수, 보드 면적, 배선 복잡도가 급격히 증가하므로, 레인 기반 확장 구조가 현실적인 해법이 되었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PCIe 레인이 필요한 이유: 장치별 요구 대역폭을 같은 규격 안에서 분리 배분</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">저대역폭 장치 중대역폭 장치 고대역폭 장치</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Network / Expansion NVMe SSD GPU</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">x1 또는 x2 x4 x16</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심: "하나의 규격" 안에서 "필요한 만큼의 차선"만 할당한다</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────┐
+│ PCIe 레인이 필요한 이유: 장치별 요구 대역폭을 같은 규격 안에서 분리 배분 │
+├──────────────────────────────────────────────────────────────────────────┤
+│ 저대역폭 장치                     중대역폭 장치                  고대역폭 장치 │
+│ Network / Expansion               NVMe SSD                         GPU     │
+│    │                                 │                              │      │
+│    └────── x1 또는 x2 ───────────────┴────── x4 ────────────────────┴ x16 │
+│                                                                          │
+│ 핵심: "하나의 규격" 안에서 "필요한 만큼의 차선"만 할당한다                │
+└──────────────────────────────────────────────────────────────────────────┘
+```
 
 레인 개념이 없었다면 주변장치 인터페이스는 "모든 장치를 위해 과하게 넓은 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)" 아니면 "고성능 장치가 못 쓰는 좁은 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)"라는 극단으로 갈 수밖에 없다. PCIe는 레인을 최소 단위로 쪼개면서, 시스템 설계자가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 비용 사이를 정교하게 조정할 수 있게 했다.
 
@@ -51,25 +50,23 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 단일 레인이 물리적으로 어떻게 구성되고, 여러 레인이 어떻게 하나의 링크 폭으로 묶이는지를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단일 레인과 링크 폭 확장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">x1 Lane</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Device A TX+ ▶ Device B RX+</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Device A TX- ▶ Device B RX-</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Device A RX+ ◀ Device B TX+</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Device A RX- ◀ Device B TX-</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Lane Aggregation</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">x1 =</div><div class="kb-diagram-node">L0</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">x4 =</div><div class="kb-diagram-node">L0</div><div class="kb-diagram-node">L1</div><div class="kb-diagram-node">L2</div><div class="kb-diagram-node">L3</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">x8 =</div><div class="kb-diagram-node">L0</div><div class="kb-diagram-node">L1</div><div class="kb-diagram-node">L2</div><div class="kb-diagram-node">L3</div><div class="kb-diagram-node">L4</div><div class="kb-diagram-node">L5</div><div class="kb-diagram-node">L6</div><div class="kb-diagram-node">L7</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">x16 =</div><div class="kb-diagram-node">L0</div><div class="kb-diagram-node">L1</div><div class="kb-diagram-node">L2</div><div class="kb-diagram-node">L3</div><div class="kb-diagram-node">L4</div><div class="kb-diagram-node">L5</div><div class="kb-diagram-node">L6</div><div class="kb-diagram-node">L7</div><div class="kb-diagram-node">L8</div><div class="kb-diagram-note">...</div><div class="kb-diagram-node">L15</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ 단일 레인과 링크 폭 확장                                             │
+├──────────────────────────────────────────────────────────────────────┤
+│ x1 Lane                                                               │
+│  Device A TX+ ───────────────────────────────▶ Device B RX+          │
+│  Device A TX- ───────────────────────────────▶ Device B RX-          │
+│  Device A RX+ ◀────────────────────────────── Device B TX+           │
+│  Device A RX- ◀────────────────────────────── Device B TX-           │
+│                                                                       │
+│ Lane Aggregation                                                      │
+│  x1  = [L0]                                                           │
+│  x4  = [L0][L1][L2][L3]                                               │
+│  x8  = [L0][L1][L2][L3][L4][L5][L6][L7]                               │
+│  x16 = [L0][L1][L2][L3][L4][L5][L6][L7][L8]...[L15]                   │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 | 링크 폭 | 일반적 용도 | 설계 의미 |
 | :--- | :--- | :--- |
@@ -149,26 +146,25 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">병렬 공용 버스의 한계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">PCIe 직렬 링크 도입</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">레인 (x1) 기반 최소 전송 단위 정립</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ x4 : NVMe SSD 중심 고속 저장장치 확장</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ x8 : 고속 네트워크 · 서버 입출력 확장</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ x16 : GPU · 가속기 중심 대역폭 확대</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">바이퍼케이션 · CPU 직결 / PCH 경유 레인 설계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">고세대 PCIe와 대역폭 자원 최적화</div>
-</div>
-</div>
-
-
+```text
+병렬 공용 버스의 한계
+    │
+    ▼
+PCIe 직렬 링크 도입
+    │
+    ▼
+레인 (x1) 기반 최소 전송 단위 정립
+    │
+    ├──▶ x4 : NVMe SSD 중심 고속 저장장치 확장
+    ├──▶ x8 : 고속 네트워크 · 서버 입출력 확장
+    └──▶ x16 : GPU · 가속기 중심 대역폭 확대
+    │
+    ▼
+바이퍼케이션 · CPU 직결 / PCH 경유 레인 설계
+    │
+    ▼
+고세대 PCIe와 대역폭 자원 최적화
+```
 
 이 흐름은 "[직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)화 → 최소 단위 정의 → 링크 폭 확장 → 시스템 배분 최적화"로 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 레인 개념이 커지는 과정을 보여준다.
 

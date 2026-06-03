@@ -23,18 +23,14 @@ tags = ["studynote-network"]
 - <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">Application Programming Interface</a>)</strong>: 내 앱이 카카오톡 서버에게 "친구 목록 좀 줘!"라고 요청할 때 쓰는 '[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 소통 창구'입니다.
 - 이 API를 <strong>"REST의 철학(규칙)을 완벽하게 지켜서(RESTful) 아름답게 만들자!"</strong>는 것이 핵심입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">HTTP/2 멀티플렉싱</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">RESTful API</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">웹소켓</div></div>
-</div>
-</div>
-
-
+```text
+[HTTP/2 멀티플렉싱]
+    │
+    ▼
+[RESTful API]
+    │
+    └──▶ [웹소켓]
+```
 
 - **📢 섹션 요약 비유**: RESTful API는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -58,18 +54,14 @@ tags = ["studynote-network"]
 ### 3. 표현 (Representation) - [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 대통합
 - 서버가 "5번 유저 정보 여기 있어!"라고 답장을 줄 때 옛날엔 무거운 XML을 썼지만, 요즘 RESTful API는 100% <strong><a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/">JSON</a> (JavaScript Object Notation)</strong> 형식(중괄호 덩어리)으로 던져주는 것이 산업 표준(De facto)이 되었습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">HTTP/2 멀티플렉싱</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">RESTful API</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">웹소켓</div></div>
-</div>
-</div>
-
-
+```text
+[HTTP/2 멀티플렉싱]
+    │
+    ▼
+[RESTful API]
+    │
+    └──▶ [웹소켓]
+```
 
 - **📢 섹션 요약 비유**: RESTful API의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -128,19 +120,15 @@ RESTful API는 빈출 주제와 용어를 이해할 때 핵심 축을 잡아 주
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: HTTP/2 멀티플렉싱</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: RESTful API</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 웹소켓</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: HTTP/2 멀티플렉싱]
+    │
+    ▼
+[현재 개념: RESTful API]
+    │
+    ├──▶ [확장 A: 웹소켓]
+    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
+```
 
 RESTful API는 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 멀티플렉싱에서 출발해 현재 메커니즘을 정교화하고, 이후 [웹소켓](/knowledge-base/studynote/03_network/19_frequent_topics_terms/975_websocket_full_duplex_realtime_http_upgrade/)와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

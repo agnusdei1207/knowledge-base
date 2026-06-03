@@ -31,21 +31,15 @@ tags = ["studynote-database"]
 
 핵심은 [스토리지와 컴퓨팅의 분리](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/293_storage_compute_separation/)다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 안정적으로 저장하고, 실행 노드는 부하에 맞춰 자동 조절한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">App</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Proxy / Router</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Compute Node (scale up/down)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Shared Storage</div>
-</div>
-</div>
-
-
+```text
+App
+  ↓
+Proxy / Router
+  ↓
+Compute Node (scale up/down)
+  ↓
+Shared Storage
+```
 
 | 계층 | 역할 |
 | :-- | :-- |
@@ -106,41 +100,29 @@ tags = ["studynote-database"]
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">트래픽 변동</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Serverless DB</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Compute / Storage 분리</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">자동 확장 / 비용 최적화</div>
-</div>
-</div>
-
-
+```text
+트래픽 변동
+   ↓
+Serverless DB
+   ↓
+Compute / Storage 분리
+   ↓
+자동 확장 / 비용 최적화
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Provisioned DB</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Auto Scaling DB</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Serverless DB</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Aurora Serverless</div>
-</div>
-</div>
-
-
+```text
+Provisioned DB
+   ↓
+Auto Scaling DB
+   ↓
+Serverless DB
+   ↓
+Aurora Serverless
+```
 
 ---
 

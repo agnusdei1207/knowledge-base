@@ -33,19 +33,21 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 전형적인 [ZKP](/knowledge-base/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/) 가속 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/)의 프로버 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로를 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ZKP accelerator: proving pipeline around math + memory flow</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Host Scheduler</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Witness Buffer</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">NTT Array</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Scratchpad SRAM</div><div class="kb-diagram-node">HBM Banks</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">&gt;</div><div class="kb-diagram-node">MSM Array</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Hash/Commit</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Proof Assembler</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│      ZKP accelerator: proving pipeline around math + memory flow    │
+├──────────────────────────────────────────────────────────────────────┤
+│ [ Host Scheduler ] -> [ Witness Buffer ] -> [ NTT Array ]           │
+│        │                            │            │                  │
+│        │                            ▼            ▼                  │
+│        │                     [ Scratchpad SRAM ] [ HBM Banks ]      │
+│        │                            │            │                  │
+│        └──────────────────────────> [ MSM Array ] -> [ Hash/Commit ]│
+│                                                     │                │
+│                                                     ▼                │
+│                                              [ Proof Assembler ]     │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -54,7 +56,7 @@ tags = ["studynote-computer-architecture"]
 | MSM 어레이 (MSM [Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)) | [타원곡선](/knowledge-base/studynote/09_security/03_network_security/120_elliptic_curve_equation/) 점 연산을 대량 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 | 버킷 누산 충돌과 포인트 분배가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 핵심 |
 | 스크래치패드 [SRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/) | 자주 쓰는 중간값을 근거리 저장 | 오프칩 왕복을 줄여 에너지 절감 |
 | [HBM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/) 뱅크 | 대용량 중간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 입력 계수 공급 | 메모리 대역폭이 연산 유닛 활용률을 좌우 |
-| 해시·약속 엔진 (Hash/Commit Engine) | 머클화, 피아트-샤미르 변환, 커밋 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 보조 | 증명 시스템 종류에 따른 교체 가능성 고려 |
+| 해시·약속 엔진 (Hash/Commit 엔진) | 머클화, 피아트-샤미르 변환, 커밋 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 보조 | 증명 시스템 종류에 따른 교체 가능성 고려 |
 
 여기서 중요한 사실은 `연산`만큼이나 `데이터 이동`이 비싸다는 점이다. NTT는 규칙적이지만 대량 재배열이 필요하고, MSM은 계산량이 크면서도 포인트·스칼라 분배가 복잡하다. 그래서 좋은 [ZKP](/knowledge-base/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/) [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/)는 계산기만 많은 칩이 아니라, 연산과 버퍼, 메모리 스케줄링을 함께 설계한 칩이다.
 
@@ -124,23 +126,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">영지식 증명 이론</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">다항식 약속 · 타원곡선 기반 증명</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">NTT · MSM · 대규모 버퍼 병목</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">GPU/FPGA/ASIC 기반 ZKP 가속 반도체</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ZK-Rollup · 프라이버시 신원 · 검증 가능한 계산</div>
-</div>
-</div>
-
-
+```text
+영지식 증명 이론
+    │
+    ▼
+다항식 약속 · 타원곡선 기반 증명
+    │
+    ▼
+NTT · MSM · 대규모 버퍼 병목
+    │
+    ▼
+GPU/FPGA/ASIC 기반 ZKP 가속 반도체
+    │
+    ▼
+ZK-Rollup · 프라이버시 신원 · 검증 가능한 계산
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

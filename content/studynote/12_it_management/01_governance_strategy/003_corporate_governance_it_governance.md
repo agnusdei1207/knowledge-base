@@ -27,22 +27,23 @@ tags = ["it_management"]
 
 이에 따라 주주와 규제 당국은 이사회에게 "기업의 IT 자산이 안전하게 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)되고 있으며, 비즈니스 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)에 맞게 효율적으로 투자되고 있음을 증명하라"고 요구하기 시작했다. 즉, IT가 블랙박스로 남아있는 한 완전한 기업 거버넌스는 달성될 수 없으며, 기업 거버넌스의 완성을 위해 IT 거버넌스가 필수불가결하게 요구되는 패러다임 전환이 일어난 것이다.
 
+```text
+이 도식은 기업 거버넌스라는 거대한 우산 아래에 IT 거버넌스와 다른 하위 거버넌스들이 어떻게 계층적으로 결합되어 있는지를 보여준다.
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 도식은 기업 거버넌스라는 거대한 우산 아래에 IT 거버넌스와 다른 하위 거버넌스들이 어떻게 계층적으로 결합되어 있는지를 보여준다.</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기업 거버넌스 (Corporate Governance)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(목표: 주주 가치 극대화, 전사 리스크 통제, 투명성 확보)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(전략 및 정책 하달)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">재무 거버넌스</div><div class="kb-diagram-cell">IT 거버넌스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Financial)</div><div class="kb-diagram-cell">(IT Governance)</div></div>
-<div class="kb-diagram-note">▼ (상호 의존 및 데이터 정합성 제공)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">통합된 비즈니스 가치 및 컴플라이언스 준수</div></div>
-</div>
-</div>
-
-
+       ┌────────────────────────────────────────────────────────┐
+       │             기업 거버넌스 (Corporate Governance)            │
+       │  (목표: 주주 가치 극대화, 전사 리스크 통제, 투명성 확보)   │
+       └──────────┬─────────────────────────────┬───────────┘
+                  │                             │ (전략 및 정책 하달)
+         ┌────────▼────────┐          ┌────────▼────────┐
+         │ 재무 거버넌스     │          │  IT 거버넌스     │
+         │ (Financial)      │          │ (IT Governance)  │
+         └────────┬────────┘          └────────┬────────┘
+                  │                             │
+                  └──────────────┬──────────────┘
+                               ▼ (상호 의존 및 데이터 정합성 제공)
+                  [ 통합된 비즈니스 가치 및 컴플라이언스 준수 ]
+```
 
 이 구조도의 핵심은 IT 거버넌스가 재무, 인사 거버넌스와 동등한 위치에서 기업 거버넌스를 떠받치는 기둥 역할을 한다는 점이다. 특히, 현대의 재무 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 모두 IT 시스템([ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/))을 통해 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 및 보고되므로, IT 거버넌스에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)([Integrity](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/))이 보장되지 않으면 재무 거버넌스 자체도 성립할 수 없는 강한 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)(Dependency)을 띠게 된다. 실무적으로 이는 이사회의 안건에 IT 관련 안건이 상시 포함되어야 함을 의미한다.
 
@@ -64,22 +65,22 @@ tags = ["it_management"]
 
 이 두 거버넌스 간의 가장 중요한 동작 원리는 <strong>'캐스케이딩(Cascading, 폭포수 하달)'</strong>과 <strong>'투명성 보장(Transparency)'</strong>이다. 
 
+```text
+이 흐름도는 기업 거버넌스의 최상위 의사결정이 IT 거버넌스를 거쳐 실무로 하달되고, 그 결과가 다시 상향 보고되는 캐스케이딩(Cascading) 사이클을 보여준다.
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 흐름도는 기업 거버넌스의 최상위 의사결정이 IT 거버넌스를 거쳐 실무로 하달되고, 그 결과가 다시 상향 보고되는 캐스케이딩(Cascading) 사이클을 보여준다.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">주주 / 이해관계자</div></div>
-<div class="kb-diagram-note">▲ (투명한 성과 및 리스크 보고)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">이사회 (Board) - 기업 거버넌스</div><div class="kb-diagram-note">──(비즈니스 전략 및 위험 수용 한도 지시)──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(IT 투자 성과 및 보안 현황 보고)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IT 거버넌스 위원회 (CxO, CIO)</div><div class="kb-diagram-note">──(IT 전략 수립, 자원 배분, 정책 하달)──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(SLA 달성률, 인시던트 데이터 상향)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IT 실행 조직 (Management)</div><div class="kb-diagram-note">&lt;──(시스템 운영, 프로젝트 실행, 보안 통제)──</div></div>
-</div>
-</div>
-
-
+[주주 / 이해관계자]
+      ▲ (투명한 성과 및 리스크 보고)
+      │
+[이사회 (Board) - 기업 거버넌스] ──(비즈니스 전략 및 위험 수용 한도 지시)──┐
+      ▲                                                           │
+      │ (IT 투자 성과 및 보안 현황 보고)                           │
+      │                                                           ▼
+[IT 거버넌스 위원회 (CxO, CIO)] ──(IT 전략 수립, 자원 배분, 정책 하달)──┐
+      ▲                                                           │
+      │ (SLA 달성률, 인시던트 데이터 상향)                          │
+      │                                                           ▼
+[IT 실행 조직 (Management)] <──(시스템 운영, 프로젝트 실행, 보안 통제)──┘
+```
 
 이 사이클에서 주목해야 할 내부 메커니즘은 '[위험 수용](/knowledge-base/studynote/09_security/01_intro_principles/037_risk_acceptance/) 한도([Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Appetite)'의 전달이다. 이사회가 "올해는 고객 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 활용한 공격적인 마케팅을 하되, [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 유출 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)는 0에 수렴해야 한다"는 기업 거버넌스 지침을 내리면, IT 거버넌스는 이를 해석하여 "모든 고객 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스에 암호화 및 망분리를 의무화하고, 신규 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 분석 시스템의 예산을 2배 증액한다"는 IT 통제 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 캐스케이딩한다. 만약 이 연결 고리가 끊어지면, IT 부서는 예산 절감을 위해 보안을 희생하는 등 전사 방향과 엇나간 결정을 내리게 된다.
 
@@ -104,24 +105,21 @@ tags = ["it_management"]
 *   **IT 통제 없이는 재무 통제 불가**: SOX Section 404는 경영진이 '재무 보고에 대한 내부 통제'가 효과적임을 입증하도록 요구한다. 오늘날 재무제표는 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)(전사적 자원 관리) 시스템에서 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되므로, [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)(접근 제어, [변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/))을 보장하는 IT 거버넌스(특히 [COBIT](/knowledge-base/studynote/12_it_management/01_governance_strategy/004_cobit/) 기반의 IT 일반 통제, ITGC)가 입증되지 않으면 SOX 심사를 통과할 수 없다.
 *   **보안과 회계의 융합**: 즉, IT 부서의 '비밀번호 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)'이나 '개발/운영 서버 분리' 같은 IT 거버넌스 활동이 곧바로 기업의 재무적 신뢰성을 담보하는 기업 거버넌스의 핵심 증빙 자료가 된다.
 
+```text
+이 매트릭스는 비즈니스 전략(기업 거버넌스)과 IT 정렬(IT 거버넌스) 수준에 따른 4가지 기업 유형을 보여주며, 왜 두 거버넌스가 함께 가야 하는지 설명한다.
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 매트릭스는 비즈니스 전략(기업 거버넌스)과 IT 정렬(IT 거버넌스) 수준에 따른 4가지 기업 유형을 보여주며, 왜 두 거버넌스가 함께 가야 하는지 설명한다.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">기업 거버넌스 (비즈니스 전략 명확성)</div></div>
-<div class="kb-diagram-note">낮음 (Low) 높음 (High)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">높음 (High)</div><div class="kb-diagram-cell">2. 기술 과잉형 기업</div><div class="kb-diagram-cell">4. 혁신 주도형 기업</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">[ IT</div><div class="kb-diagram-cell">- IT 부서만 최신 기술</div><div class="kb-diagram-cell">- IT가 비즈니스 가치로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">거버넌스</div><div class="kb-diagram-cell">- 비즈니스 매출엔 둔감</div><div class="kb-diagram-cell">직결되는 이상적 상태</div></div>
-<div class="kb-diagram-note">성숙도]</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 위험 방치형 기업</div><div class="kb-diagram-cell">3. 비즈니스 고립형 기업</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">낮음 (Low)</div><div class="kb-diagram-cell">- 둘 다 부재</div><div class="kb-diagram-cell">- 전략은 좋으나 IT가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 생존 위협 상태</div><div class="kb-diagram-cell">뒷받침 못해 실행 실패</div></div>
-</div>
-</div>
-
-
+                       [ 기업 거버넌스 (비즈니스 전략 명확성) ]
+                          낮음 (Low)            높음 (High)
+                 ┌────────────────────────┬────────────────────────┐
+     높음 (High) │ 2. 기술 과잉형 기업    │ 4. 혁신 주도형 기업    │
+[ IT             │ - IT 부서만 최신 기술  │ - IT가 비즈니스 가치로 │
+ 거버넌스        │ - 비즈니스 매출엔 둔감 │   직결되는 이상적 상태 │
+ 성숙도]         ├────────────────────────┼────────────────────────┤
+                 │ 1. 위험 방치형 기업    │ 3. 비즈니스 고립형 기업│
+     낮음 (Low)  │ - 둘 다 부재           │ - 전략은 좋으나 IT가   │
+                 │ - 생존 위협 상태       │   뒷받침 못해 실행 실패│
+                 └────────────────────────┴────────────────────────┘
+```
 
 이 매트릭스는 IT 거버넌스 단독으로는 성공할 수 없음을 명확히 보여준다. IT 거버넌스가 아무리 훌륭해도(2사분면), 기업 거버넌스가 부실하여 비즈니스 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 모호하다면 IT는 '오버엔지니어링'된 비용 낭비에 불과하다. 반대로 기업 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 뛰어나도 IT 거버넌스가 없으면(3사분면) 잦은 시스템 장애와 섀도우 IT로 인해 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 실행 단계에서 무너진다. 실무에서는 우리 조직이 이 4가지 중 어디에 해당하는지 파악하고, 균형 있게 성숙도(4사분면)를 끌어올리는 것이 핵심 과제다.
 
@@ -148,22 +146,20 @@ tags = ["it_management"]
 *   **IT를 단순 비용 센터로 취급하는 이사회**: 이사회가 IT 예산 삭감만을 유일한 목표로 삼고, 디지털 혁신과 보안 투자를 '낭비'로 인식하는 상황. 이는 IT 거버넌스의 제1목표인 '[전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 연계'를 원천 차단한다.
 *   **전문성 없는 이사회의 맹목적 승인**: 이사회에 IT 전문가가 전무하여, CIO가 올린 난해한 기술 보고서를 이해하지 못한 채 무비판적으로 예산을 승인(Rubber-stamping)하는 행태.
 
+```text
+이 의사결정 트리는 전사적 중대 재해(예: 랜섬웨어 감염으로 인한 전사 서비스 중단) 발생 시, 거버넌스 체계 내에서 책임과 대응이 어떻게 흐르는지 보여준다.
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 의사결정 트리는 전사적 중대 재해(예: 랜섬웨어 감염으로 인한 전사 서비스 중단) 발생 시, 거버넌스 체계 내에서 책임과 대응이 어떻게 흐르는지 보여준다.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">랜섬웨어 전사 감염 및 고객 데이터 유출 발생!</div></div>
-<div class="kb-diagram-note">▼ (즉각 보고 채널 가동)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IT 거버넌스 - 위험 관리</div><div class="kb-diagram-note">──&gt; 침해 사고 대응팀(CERT) 가동, BCP(업무연속성계획) 발동</div></div>
-<div class="kb-diagram-note">▼ (에스컬레이션)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">기업 거버넌스 - 이사회/CEO</div><div class="kb-diagram-note">──&gt; 규제 당국 자진 신고(컴플라이언스), 주주 및 언론 대응</div></div>
-<div class="kb-diagram-note">▼ (사후 감사 및 개선)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">원인 분석 파이프라인</div><div class="kb-diagram-note">──(IT 일반 통제 우회 확인)──&gt; IT 보안 예산 강제 증액 및 CISO 권한 강화</div></div>
-</div>
-</div>
-
-
+[랜섬웨어 전사 감염 및 고객 데이터 유출 발생!]
+         │
+         ▼ (즉각 보고 채널 가동)
+[IT 거버넌스 - 위험 관리] ──> 침해 사고 대응팀(CERT) 가동, BCP(업무연속성계획) 발동
+         │
+         ▼ (에스컬레이션)
+[기업 거버넌스 - 이사회/CEO] ──> 규제 당국 자진 신고(컴플라이언스), 주주 및 언론 대응
+         │
+         ▼ (사후 감사 및 개선)
+[원인 분석 파이프라인] ──(IT 일반 통제 우회 확인)──> IT 보안 예산 강제 증액 및 CISO 권한 강화
+```
 
 이 플로우는 IT 장애가 IT 부서의 선에서 끝나는 것이 아니라, 즉각적으로 기업 거버넌스의 영역(주주 대응, 법적 책임)으로 에스컬레이션됨을 보여준다. 실무에서는 사고 발생 시 [CISO](/knowledge-base/studynote/12_it_management/05_security_compliance/173_ciso_role_and_responsibility/)([정보보호최고책임자](/knowledge-base/studynote/12_it_management/05_security_compliance/173_ciso_role_and_responsibility/))가 CEO를 거치지 않고 이사회에 직보할 수 있는 '독립된 보고 라인(Reporting Line)'을 갖추고 있는지가 기업/IT 거버넌스 융합의 핵심 평가 지표로 작용한다.
 
@@ -198,23 +194,21 @@ tags = ["it_management"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">IT 거버넌스 (IT Governance)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SOX (Sarbanes-Oxley Act)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">GRC (Governance, Risk, and Compliance)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IT 전략 위원회 (IT Strategy Committee)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">COBIT 2019</div></div>
-</div>
-</div>
-
-
+```text
+[IT 거버넌스 (IT Governance)]
+    │
+    ▼
+[SOX (Sarbanes-Oxley Act)]
+    │
+    ▼
+[GRC (Governance, Risk, and Compliance)]
+    │
+    ▼
+[IT 전략 위원회 (IT Strategy Committee)]
+    │
+    ▼
+[COBIT 2019]
+```
 
 이 흐름도는 IT 거버넌스 ([IT Governance](/knowledge-base/studynote/12_it_management/01_governance_strategy/001_it_governance/))에서 출발해 [COBIT](/knowledge-base/studynote/12_it_management/01_governance_strategy/004_cobit/) 2019까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

@@ -25,21 +25,16 @@ tags = ["database"]
 
 이러한 강결합 구조는 심각한 유지보수 비용을 낳았습니다. 하나의 부서에서 새로운 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 항목을 추가하거나 시스템 관리자가 디스크를 업그레이드할 때마다 전체 소프트웨어를 다시 짜야 하는 사태가 벌어졌습니다. 이를 해결하기 위해 1970년대 ANSI/SPARC(미국국립표준협회) 위원회는 혁명적인 가이드라인을 발표합니다. <strong>"<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a>를 바라보는 관점을 세 개로 쪼개고, 그 사이를 연결하는 번역기(매핑)를 두자."</strong> 이것이 바로 3단계 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 아키텍처의 탄생 배경입니다.
 
+```text
+[과거 스파게티 뷰: 관점의 혼재]
+App A (영업) ─────┐
+App B (인사) ──(강결합)──> [ 통합되지 않은 엉킨 데이터 구조 & 물리적 디스크 접근 ]
+App C (재무) ─────┘         -> 사용자, 조직 논리, 물리 매체가 분리되지 않음
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">과거 스파게티 뷰: 관점의 혼재</div></div>
-<div class="kb-diagram-note">App A (영업)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">App B (인사) ──(강결합)──&gt;</div><div class="kb-diagram-node">통합되지 않은 엉킨 데이터 구조 &amp; 물리적 디스크 접근</div></div>
-<div class="kb-diagram-note">App C (재무) -&gt; 사용자, 조직 논리, 물리 매체가 분리되지 않음</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ANSI/SPARC 3단계 관점 분리</div></div>
-<div class="kb-diagram-note">사용자 관점 ──&gt; 조직 전체 관점 ──&gt; 기계 관점</div>
-<div class="kb-diagram-note">(View 쪼갬) (통합 비즈니스) (저장 최적화)</div>
-</div>
-</div>
-
-
+[ANSI/SPARC 3단계 관점 분리]
+사용자 관점 ──> 조직 전체 관점 ──> 기계 관점
+(View 쪼갬)     (통합 비즈니스)    (저장 최적화)
+```
 이 도식은 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 복잡도를 '관점(Viewpoint)'의 분리를 통해 통제하려는 시도를 보여줍니다. 인사를 담당하는 사용자는 직원의 '월급'만 보면 되고, DBA는 전사의 '테이블 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)'를 봐야 하며, 시스템 엔지니어는 '[바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 단위의 블록'을 봐야 합니다. 이 세 집단이 각자의 언어로 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)와 소통하면서도 상호 간섭하지 않게 만드는 것이 이 아키텍처의 핵심 목표입니다.
 
 📢 **섹션 요약 비유**: 하나의 거대한 코끼리를 묘사할 때, 맹인(사용자)은 만져본 코와 다리만 설명하고, 생물학자(전사 관리자)는 전체 골격도를 그리며, 수의사(시스템)는 내부 장기와 세포를 연구하듯, 각자의 눈높이에 맞게 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)를 분리해 놓은 체계입니다.
@@ -58,25 +53,25 @@ tags = ["database"]
 
 이 세 계층이 실제로 질의 처리를 수행할 때 어떻게 매핑되는지 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름과 변환(Translation) 과정을 아래 다이어그램으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 수 있습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">사용자 1 (영업)</div><div class="kb-diagram-node">사용자 2 (인사)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">외부 스키마 A 외부 스키마 B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(이름, 실적 뷰) (이름, 급여 뷰)</div></div>
-<div class="kb-diagram-note">▼ (1) 외부/개념 사상 (논리적 데이터 독립성 보장 구역)</div>
-<div class="kb-diagram-note">- "영업 뷰의 '실적'은 개념 스키마의 'Sales_Amt' 칼럼과 같다" 번역</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">개념 스키마</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모든 직원의 통합 테이블 (EMP_ID, 이름, 부서, 실적, 급여)</div></div>
-<div class="kb-diagram-note">▼ (2) 개념/내부 사상 (물리적 데이터 독립성 보장 구역)</div>
-<div class="kb-diagram-note">- "EMP_ID는 /dev/sda1 디스크의 B+Tree 인덱스를 탄다" 번역</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">내부 스키마</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물리적 파일 포맷, 8KB 페이지 블록, 헤더 정보, 디스크 클러스터</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│ [사용자 1 (영업)]           [사용자 2 (인사)]               │
+│  외부 스키마 A               외부 스키마 B                  │
+│ (이름, 실적 뷰)             (이름, 급여 뷰)                 │
+└───────┬───────────────────────────┬─────────────────────────┘
+        │ ▼ (1) 외부/개념 사상 (논리적 데이터 독립성 보장 구역)
+        │ - "영업 뷰의 '실적'은 개념 스키마의 'Sales_Amt' 칼럼과 같다" 번역
+┌───────┴───────────────────────────┴─────────────────────────┐
+│                     [ 개념 스키마 ]                           │
+│        모든 직원의 통합 테이블 (EMP_ID, 이름, 부서, 실적, 급여) │
+└───────────────────────────┬─────────────────────────────────┘
+                            │ ▼ (2) 개념/내부 사상 (물리적 데이터 독립성 보장 구역)
+                            │ - "EMP_ID는 /dev/sda1 디스크의 B+Tree 인덱스를 탄다" 번역
+┌───────────────────────────▼─────────────────────────────────┐
+│                     [ 내부 스키마 ]                           │
+│     물리적 파일 포맷, 8KB 페이지 블록, 헤더 정보, 디스크 클러스터 │
+└─────────────────────────────────────────────────────────────┘
+```
 이 아키텍처 구조의 핵심 작동 원리는 <strong>'<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a> 변환(Query Transformation)'</strong> 입니다. 사용자가 [외부 스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/007_external_schema/)를 통해 `SELECT 실적 FROM 영업뷰`라는 단순한 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 날리면, DBMS는 (1)외부/개념 사상을 통해 이를 `SELECT Sales_Amt FROM 전체_직원_테이블`로 변환합니다. 그다음, (2)개념/내부 사상을 통해 "이 테이블은 현재 [해시 인덱스](/knowledge-base/studynote/05_database/03_relational_model/157_hash_index_equal_search/)로 묶여 있으니 디스크 오프셋 0x4A2B를 읽어라"라는 물리적 명령으로 치환합니다. 
 이 2단계 매핑 과정 덕분에, 중간의 [개념 스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/008_conceptual_schema/) 구조가 쪼개지거나 아래의 [내부 스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/009_internal_schema/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 지워져도, [매핑 규칙](/knowledge-base/studynote/05_database/02_modeling_normalization/116_mapping_rule_erd_to_relation/)만 다시 써주면 맨 위의 사용자는 아무 변화도 느끼지 못합니다. 이것이 바로 [데이터 독립성](/knowledge-base/studynote/05_database/01_db_architecture_relational/004_data_independence/)이 달성되는 기술적 메커니즘입니다.
 
@@ -123,20 +118,15 @@ ANSI/SPARC의 3단계 [스키마](/knowledge-base/studynote/05_database/01_db_ar
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 아키텍트([DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/))가 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)가 완벽히 끝난 [개념 스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/008_conceptual_schema/) ERD를 완성했습니다. 그러나 DBA가 이를 운영 DB에 적용하려다 보니, 조인([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/))이 너무 많아 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 나오지 않을 것이 명백했습니다. 
 이때 3단계 구조의 이점이 발휘됩니다. [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적인 [개념 스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/008_conceptual_schema/)의 정규성([3NF](/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/))은 문서상으로 유지하되, 실제 DB의 [내부 스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/009_internal_schema/) 설계 시에는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 위해 과감하게 테이블을 합치는 <strong>반정규화(De-<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">normalization</a>)</strong> 를 수행하거나 물리적 클러스터링을 적용합니다. 
 
+```text
+[역할 분담과 스키마 관리 라이프사이클]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">역할 분담과 스키마 관리 라이프사이클</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1. 요구사항 분석 ──&gt; 응용 프로그래머/사용자 :</div><div class="kb-diagram-node">외부 스키마 요구 정의</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2. 논리 모델링 ──&gt; 데이터 아키텍트 (DA) :</div><div class="kb-diagram-node">개념 스키마 설계 (ERD, 정규화)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">전사 표준</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3. 물리 모델링 ──&gt; 데이터베이스 관리자 (DBA) :</div><div class="kb-diagram-node">내부 스키마 설계 (인덱스, 파티션)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">성능 최적화</div></div>
-</div>
-</div>
-
-
+1. 요구사항 분석 ──> 응용 프로그래머/사용자 : [ 외부 스키마 요구 정의 ]
+       ↓
+2. 논리 모델링   ──> 데이터 아키텍트 (DA) : [ 개념 스키마 설계 (ERD, 정규화) ] -> 전사 표준
+       ↓
+3. 물리 모델링   ──> 데이터베이스 관리자 (DBA) : [ 내부 스키마 설계 (인덱스, 파티션) ] -> 성능 최적화
+```
 이 도식은 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 구축 프로젝트에서 3단계 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)가 곧 조직의 R&R(Role & Responsibilities)과 일치함을 보여줍니다. 실무에서는 DA와 DBA의 역할이 충돌할 때, [개념 스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/008_conceptual_schema/)([무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/))와 [내부 스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/009_internal_schema/)([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)) 중 무엇을 우선할 것인가 하는 기술적 타협이 프로젝트의 성패를 가릅니다.
 
 <strong>도입 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a> 및 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>
@@ -172,21 +162,18 @@ ANSI/SPARC 3단계 [스키마](/knowledge-base/studynote/05_database/01_db_archi
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">외부 스키마 (External Schema)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">개념 스키마 (Conceptual Schema)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">내부 스키마 (Internal Schema)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 독립성 (Data Independence)</div></div>
-</div>
-</div>
-
-
+```text
+[외부 스키마 (External Schema)]
+    │
+    ▼
+[개념 스키마 (Conceptual Schema)]
+    │
+    ▼
+[내부 스키마 (Internal Schema)]
+    │
+    ▼
+[데이터 독립성 (Data Independence)]
+```
 
 이 흐름도는 외부·개념·[내부 스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/009_internal_schema/)가 [데이터 독립성](/knowledge-base/studynote/05_database/01_db_architecture_relational/004_data_independence/)을 만드는 구조를 보여준다.
 ### 👶 어린이를 위한 3줄 비유 설명

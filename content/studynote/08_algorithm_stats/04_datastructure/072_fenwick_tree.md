@@ -64,23 +64,21 @@ Operation:
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선형 누적합 (Prefix Sum Array) — O(N) 전처리, O(1) 구간 조회</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">세그먼트 트리 (Segment Tree) — O(log N) 구간 갱신/조회, O(N) 공간</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">펜윅 트리 / BIT (Binary Indexed Tree) — LSB 기반, O(log N) 갱신+조회, 절반 공간</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2D 펜윅 트리 — 행렬 구간 합/업데이트로 확장</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Range Update Fenwick Tree — 구간 업데이트·포인트 쿼리로 변형 응용</div></div>
-</div>
-</div>
-
-
+```text
+[선형 누적합 (Prefix Sum Array) — O(N) 전처리, O(1) 구간 조회]
+    │
+    ▼
+[세그먼트 트리 (Segment Tree) — O(log N) 구간 갱신/조회, O(N) 공간]
+    │
+    ▼
+[펜윅 트리 / BIT (Binary Indexed Tree) — LSB 기반, O(log N) 갱신+조회, 절반 공간]
+    │
+    ▼
+[2D 펜윅 트리 — 행렬 구간 합/업데이트로 확장]
+    │
+    ▼
+[Range Update Fenwick Tree — 구간 업데이트·포인트 쿼리로 변형 응용]
+```
 누적합 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)의 O(N) 갱신 한계를 극복하고자 [세그먼트 트리](/knowledge-base/studynote/12_it_management/02_itsm_itil/075_combinatorics/)가 등장했고, 더 적은 공간에 [LSB](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/079_lsb/) 트릭을 활용한 [펜윅 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/)가 실무 표준으로 자리 잡았다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

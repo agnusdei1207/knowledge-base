@@ -30,21 +30,24 @@ tags = ["studynote-data-engineering"]
 
 라쏘와 릿지 규제는 [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)에 패널티 항을 더하는 방식은 같지만, 패널티의 형태(L1 Norm, L2 Norm)에 따라 제약 조건의 기하학적 형태가 달라진다. 
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">라쏘 (L1)와 릿지 (L2)의 기하학적 제약 조건</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Lasso - 마름모 제약</div><div class="kb-diagram-node">Ridge - 원형 제약</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/\</div><div class="kb-diagram-cell">/</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─+ + +─ β1 ─+ + +─ β1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">\/</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 최적점이 축(Axis) 위에서 =&gt; 최적점이 축에 닿지 않고</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">만나 계수가 정확히 0이 됨. 0에 가깝게 수축만 함.</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           라쏘 (L1)와 릿지 (L2)의 기하학적 제약 조건           │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│       [Lasso - 마름모 제약]          [Ridge - 원형 제약]     │
+│             |  /                           |  /              │
+│          /\ | /                        ╭───┴───╮             │
+│         /  \|/                        │    |  / │            │
+│       ─+────+────+─ β1              ─+─────+─────+─ β1       │
+│         \  /|                         │    |    │            │
+│          \/ |                          ╰───┬───╯             │
+│             |                              |                 │
+│                                                              │
+│  => 최적점이 축(Axis) 위에서       => 최적점이 축에 닿지 않고    │
+│     만나 계수가 정확히 0이 됨.        0에 가깝게 수축만 함.       │
+└──────────────────────────────────────────────────────────────┘
+```
 
 위 다이어그램에서 보듯, 라쏘 (L1)는 패널티가 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)의 절대값 합으로 주어지며 마름모꼴의 제약 영역을 형성한다. 이로 인해 최적점이 모서리(축)에서 발생할 확률이 높아, 덜 중요한 변수의 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)가 0이 되는 자동 변수 선택 (Feature [Selection](/knowledge-base/studynote/10_ai/01_ai_basics/022_mcts_four_stages/)) 효과를 낸다. 반면 릿지 (L2)는 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 제곱합을 사용하여 원형 제약 영역을 만들며, [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 0에 가깝게 작게 만들지만 완전히 0으로 소거하지는 않는다.
 
@@ -109,23 +112,21 @@ tags = ["studynote-data-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">OLS (단순 선형 회귀) · 오차 제곱합 최소화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">과적합 발생 · 편향-분산 트레이드오프 (Bias-Variance Tradeoff)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">라쏘 (Lasso, L1) · 릿지 (Ridge, L2) 규제 도입</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">엘라스틱 넷 (Elastic Net) · 규제 혼합</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">딥러닝의 가중치 감소 (Weight Decay, L2 규제 적용)</div>
-</div>
-</div>
-
-
+```text
+OLS (단순 선형 회귀) · 오차 제곱합 최소화
+    │
+    ▼
+과적합 발생 · 편향-분산 트레이드오프 (Bias-Variance Tradeoff)
+    │
+    ▼
+라쏘 (Lasso, L1) · 릿지 (Ridge, L2) 규제 도입
+    │
+    ▼
+엘라스틱 넷 (Elastic Net) · 규제 혼합
+    │
+    ▼
+딥러닝의 가중치 감소 (Weight Decay, L2 규제 적용)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 선형 회귀는 선생님이 알려준 정답을 토씨 하나 안 틀리고 외우려다 응용 문제를 틀리는 바보 학생이에요.

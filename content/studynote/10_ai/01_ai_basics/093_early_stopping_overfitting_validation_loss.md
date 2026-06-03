@@ -37,26 +37,24 @@ tags = ["studynote-ai"]
 | Patience | 인내심 횟수 | 오차가 개선되지 않아도 훈련을 멈추지 않고 지켜보는 에폭 수. |
 | Restore Best Weights | 최적 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 복원 | 인내심 구간이 끝나 강제 종료될 때, 가장 오차가 낮았던 과거 시점의 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)로 되돌린다. |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조기 종료의 작동 원리 (Loss Curve)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Loss</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">과적합 발생 구간</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↗ (Validation Loss)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">훈련 시작 ↗</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↘ Sweet Spot</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↘ ↗ (최적점)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↘ ● ── Patience(5회) ──▶ 강제 종료 &amp;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↘ ↙ Best 모델 복원</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↘ ↙</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘ (Training Loss)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Epochs</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           조기 종료의 작동 원리 (Loss Curve)                 │
+├──────────────────────────────────────────────────────────────┤
+│ Loss                                                         │
+│  │                                 [과적합 발생 구간]          │
+│  │                                 ↗ (Validation Loss)       │
+│  │ 훈련 시작                  ↗                              │
+│  │   ↘                  Sweet Spot                           │
+│  │     ↘              ↗ (최적점)                             │
+│  │       ↘          ● ── Patience(5회) ──▶ 강제 종료 &      │
+│  │         ↘      ↙                        Best 모델 복원    │
+│  │           ↘  ↙                                            │
+│  │             ↘↘↘↘↘↘↘↘↘↘↘↘↘↘↘ (Training Loss)               │
+│  └───────────────────────────────────────────────────────────│
+│                              Epochs                          │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 핵심은 최적점(Sweet Spot)에서 즉시 학습을 멈추지 않고 Patience 횟수만큼 더 지켜본 뒤, 진짜 상승세임이 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)되면 타임머신을 타고 Sweet Spot 시점의 모델 상태를 복원(Restore)한다는 점이다.
 
@@ -120,23 +118,21 @@ L2 규제나 [드롭아웃](/knowledge-base/studynote/10_ai/03_llm_nlp/280_dropo
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">비용 함수 (Loss Function) · 에폭 (Epoch)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">과적합 (Overfitting) 발생 · 일반화 성능 저하</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">검증 세트 분리 (Validation Set Split)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">조기 종료 (Early Stopping) 도입 · Patience 최적화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">L2 규제 / Dropout 결합 최적화 (Regularization Synergy)</div>
-</div>
-</div>
-
-
+```text
+비용 함수 (Loss Function) · 에폭 (Epoch)
+    │
+    ▼
+과적합 (Overfitting) 발생 · 일반화 성능 저하
+    │
+    ▼
+검증 세트 분리 (Validation Set Split)
+    │
+    ▼
+조기 종료 (Early Stopping) 도입 · Patience 최적화
+    │
+    ▼
+L2 규제 / Dropout 결합 최적화 (Regularization Synergy)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

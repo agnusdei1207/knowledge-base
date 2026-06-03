@@ -24,18 +24,14 @@ tags = ["studynote-network"]
   - 1번 패킷은 50ms 만에 오고, 2번 패킷은 라우터에서 길이 막혀 150ms 만에 오고, 3번 패킷은 20ms 만에 쏟아져 들어옵니다(무작위성). 
   - VoIP(인터넷 전화)나 화상 회의에서 이 간격의 널뛰기는 음성 왜곡, 기계음, 모자이크(깍두기) 화면 깨짐의 100% 근본 원인이 됩니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">CMAF</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">화상 회의 지터 버퍼</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">FEC 실시간 비디오 손실 은닉 기법 미디어…</div></div>
-</div>
-</div>
-
-
+```text
+[CMAF]
+    │
+    ▼
+[화상 회의 지터 버퍼]
+    │
+    └──▶ [FEC 실시간 비디오 손실 은닉 기법 미디어…]
+```
 
 - **📢 섹션 요약 비유**: 화상 회의 지터 버퍼는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -50,18 +46,14 @@ tags = ["studynote-network"]
 2. 지터 버퍼가 패킷 헤더에 적힌 타임스탬프([RTP](/knowledge-base/studynote/03_network/08_transport_layer/451_rtp_real_time_transport_protocol/) 헤더 등)를 보고 1번, 2번, 3번 순서대로 바구니에 예쁘게 줄을 세웁니다.
 3. **핵심 딜레마**: 바구니에 패킷을 너무 짧게 머물게 하면, 지각하는 3번 패킷을 기다려주지 못해 소리가 끊깁니다([Underflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/)). 반대로 3번을 무작정 기다려주려고 바구니 대기 시간(지터 버퍼 사이즈)을 너무 길게(예: 3초) 잡아두면? 상무님 목소리가 스피커에서 3초 뒤에 나와 대화가 불가능해집니다([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 렉 폭발).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">CMAF</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">화상 회의 지터 버퍼</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">FEC 실시간 비디오 손실 은닉 기법 미디어…</div></div>
-</div>
-</div>
-
-
+```text
+[CMAF]
+    │
+    ▼
+[화상 회의 지터 버퍼]
+    │
+    └──▶ [FEC 실시간 비디오 손실 은닉 기법 미디어…]
+```
 
 - **📢 섹션 요약 비유**: 화상 회의 지터 버퍼의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -122,19 +114,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: CMAF</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 화상 회의 지터 버퍼</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: FEC 실시간 비디오 손실 은닉 기법 미디어…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: CMAF]
+    │
+    ▼
+[현재 개념: 화상 회의 지터 버퍼]
+    │
+    ├──▶ [확장 A: FEC 실시간 비디오 손실 은닉 기법 미디어…]
+    └──▶ [확장 B: 의미 기반 통신 최적화]
+```
 
 화상 회의 지터 버퍼는 CMAF에서 출발해 현재 메커니즘을 정교화하고, 이후 FEC 실시간 비디오 손실 은닉 기법 미디어…와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

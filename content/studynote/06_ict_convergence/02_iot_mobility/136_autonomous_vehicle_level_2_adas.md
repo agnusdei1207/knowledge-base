@@ -48,17 +48,11 @@ L2 ADAS는 <strong>현재 양산 차량의 표준 수준</strong>이며, L3(조�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">ABS (1970s)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">ACC (2000s)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">LKA (2010s)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">L2 ADAS (Tesla AP, 2015)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">L2+ (HDA2, 2020)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">L3 (Mercedes, 2023)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: L2++ → L3 전환 과도기</div></div>
-</div>
-</div>
-
-
+```text
+[ABS (1970s)] → [ACC (2000s)] → [LKA (2010s)]
+    → [L2 ADAS (Tesla AP, 2015)] → [L2+ (HDA2, 2020)]
+    → [L3 (Mercedes, 2023)] → [현재: L2++ → L3 전환 과도기]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. ADAS는 자동차의 <strong>부조종사</strong>예요. 앞차 따라가기, 차선 지키기를 도와줘요.

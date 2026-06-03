@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **통신비 지옥**: 서울 본사와 부산 지사를 잇는 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/) 1가닥을 빌리는 데 한 달에 100만 원이 듭니다. 서울 직원 10명과 부산 직원 10명을 1:1로 이어주려면 1,000만 원이 깨집니다. 
 - **해결책**: 고속의 광대역(1Gbps) [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/) 딱 1가닥만 빌리고, 직원 10명(각 100Mbps)의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 한 파이프에 비빔밥처럼 구겨 넣어서([다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)) 쏘면 100만 원으로 끝납니다. 이 짓을 물리적으로 수행하는 하드웨어 장비가 MUX입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">펄스부호변조</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">다중화기 / 역다중화기</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">직교주파수분할다중접속</div></div>
-</div>
-</div>
-
-
+```text
+[펄스부호변조]
+    │
+    ▼
+[다중화기 / 역다중화기]
+    │
+    └──▶ [직교주파수분할다중접속]
+```
 
 - **📢 섹션 요약 비유**: [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)기 / 역다중화기는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -45,18 +41,14 @@ tags = ["studynote-network"]
 - <strong>DEMUX (<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/042_demultiplexer/">Demultiplexer</a>, 역다중화기)</strong>: 부산 지사(수신 측)에 설치되어, 고속 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/) 1가닥으로 밀려 들어온 비빔밥 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다시 분리(해체)하여, 목적지인 10명의 직원 컴퓨터로 원래대로 찢어 뿌려주는(분배기) 장비입니다.
 - 통신은 양방향이므로, 보통 라우터나 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 장비 안에 MUX와 DEMUX 모듈이 한 몸통으로 붙어있습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">펄스부호변조</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">다중화기 / 역다중화기</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">직교주파수분할다중접속</div></div>
-</div>
-</div>
-
-
+```text
+[펄스부호변조]
+    │
+    ▼
+[다중화기 / 역다중화기]
+    │
+    └──▶ [직교주파수분할다중접속]
+```
 
 - **📢 섹션 요약 비유**: [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)기 / 역다중화기의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -121,19 +113,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 펄스부호변조</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 다중화기 / 역다중화기</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 직교주파수분할다중접속</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 펄스부호변조]
+    │
+    ▼
+[현재 개념: 다중화기 / 역다중화기]
+    │
+    ├──▶ [확장 A: 직교주파수분할다중접속]
+    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
+```
 
 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)기 / 역다중화기는 [펄스부호변조](/knowledge-base/studynote/03_network/19_frequent_topics_terms/943_pcm_pulse_code_modulation_sampling_quantization/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [직교주파수분할다중접속](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/)와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

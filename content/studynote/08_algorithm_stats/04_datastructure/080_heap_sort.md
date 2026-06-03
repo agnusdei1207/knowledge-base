@@ -18,22 +18,18 @@ tags = ["studynote-algorithm-stats"]
 
 ## Ⅰ. 개요 및 필요성
 
+```text
+힙 정렬 2단계:
 
+1단계: Build Max-Heap (O(n))
+  [3,1,6,5,2,4] → 힙화 → [6,5,4,3,2,1]
+                                (최대 힙)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">힙 정렬 2단계:</div>
-<div class="kb-diagram-note">1단계: Build Max-Heap (O(n))</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3,1,6,5,2,4</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">6,5,4,3,2,1</div></div>
-<div class="kb-diagram-note">(최대 힙)</div>
-<div class="kb-diagram-note">2단계: Extract-Max 반복 (n-1번, 각 O(log n))</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">6,5,4,3,2,1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">6 추출·말단 교환 → Heapify</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">5,3,4,1,2|6</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">5 추출... 반복</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">1,2,3,4,5,6</div></div>
-</div>
-</div>
-
-
+2단계: Extract-Max 반복 (n-1번, 각 O(log n))
+  [6,5,4,3,2,1] → 6 추출·말단 교환 → Heapify
+  → [5,3,4,1,2|6] → 5 추출... 반복
+  → 정렬 완료: [1,2,3,4,5,6]
+```
 
 - **📢 섹션 요약 비유**: 힙 정렬은 사장을 반복 해고하는 인사 시스템이다. 회사(힙)에서 가장 능력 있는 사람(최대값)을 계속 뽑아 정렬된 명단에 추가하고, 남은 직원 중 새로운 사장을 선출하는 과정을 반복한다.
 
@@ -129,23 +125,21 @@ IntroSort = QuickSort + HeapSort + InsertionSort
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선택 정렬 — O(n²) 기본 선택 기반 정렬</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">힙 자료구조 — O(log n) 최대·최소값 추출</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">힙 정렬 — O(n log n) 제자리 정렬</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IntroSort — 힙+퀵+삽입 하이브리드 최적화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">우선순위 큐 응용 — 스케줄러, 다익스트라, A*</div></div>
-</div>
-</div>
-
-
+```text
+[선택 정렬 — O(n²) 기본 선택 기반 정렬]
+    │
+    ▼
+[힙 자료구조 — O(log n) 최대·최소값 추출]
+    │
+    ▼
+[힙 정렬 — O(n log n) 제자리 정렬]
+    │
+    ▼
+[IntroSort — 힙+퀵+삽입 하이브리드 최적화]
+    │
+    ▼
+[우선순위 큐 응용 — 스케줄러, 다익스트라, A*]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

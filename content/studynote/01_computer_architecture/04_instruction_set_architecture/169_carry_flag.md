@@ -35,21 +35,22 @@ CF는 보통 ALU의 최상위 [비트](/knowledge-base/studynote/01_computer_arc
 
 아래 그림은 하위 [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/)의 자리올림이 상위 [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) 계산으로 전달되는 구조를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">fixed-width adder + CF = wider arithmetic</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하위 32비트: 1111...1111 + 0000...0001</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과 = 0000...0000</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">carry-out = 1 ▶ CF = 1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">상위 32비트: upperA + upperB + CF</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ADC (Add with Carry) 수행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 32비트 가산기 두 번으로 64비트 합산 완성</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│          fixed-width adder + CF = wider arithmetic          │
+├──────────────────────────────────────────────────────────────┤
+│ 하위 32비트: 1111...1111 + 0000...0001                      │
+│                     │                                        │
+│                     ├──── 결과 = 0000...0000                │
+│                     └──── carry-out = 1 ───▶ CF = 1         │
+│                                                              │
+│ 상위 32비트: upperA + upperB + CF                            │
+│                     │                                        │
+│                     └──── ADC (Add with Carry) 수행          │
+│                                                              │
+│ 결과: 32비트 가산기 두 번으로 64비트 합산 완성               │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 구조 때문에 `ADD`와 `ADC (Add with Carry)`는 짝을 이룬다. 첫 번째 연산이 하위 [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) 합과 CF를 만들고, 두 번째 연산은 그 CF를 세 번째 입력처럼 받아 상위 [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/)에 반영한다. 반대로 감산에서는 `SUB`와 `SBB (Subtract with Borrow)`가 같은 역할을 한다.
 
@@ -135,24 +136,21 @@ CF를 올바르게 활용하면 CPU는 작은 가산기만으로도 넓은 정�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">고정 비트폭 레지스터</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ALU 최상위 carry-out 검출</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Carry Flag (CF)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ unsigned overflow / borrow 판단</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ ADC · SBB 기반 다중 정밀도 연산</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ JC · JB 계열 조건 분기</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">rotate-through-carry · big integer 최적화</div>
-</div>
-</div>
-
-
+```text
+고정 비트폭 레지스터
+    │
+    ▼
+ALU 최상위 carry-out 검출
+    │
+    ▼
+Carry Flag (CF)
+    │
+    ├──────────────▶ unsigned overflow / borrow 판단
+    ├──────────────▶ ADC · SBB 기반 다중 정밀도 연산
+    ├──────────────▶ JC · JB 계열 조건 분기
+    ▼
+rotate-through-carry · big integer 최적화
+```
 
 이 흐름도는 고정 폭 한계를 감지한 1비트 정보가 비교, 확장 산술, [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 조작으로 이어지는 경로를 보여준다.
 

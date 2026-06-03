@@ -43,20 +43,19 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)가 왜 "스토리지는 싸게, 컴퓨트는 탄력적으로"라는 철학을 갖는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Disaggregated data lake path</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ingest nodes ──▶ Raw object tier ──▶ Table metadata</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ query engines</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ batch jobs</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ AI training</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ Cold archive / erasure coding</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ Disaggregated data lake path                                │
+├──────────────────────────────────────────────────────────────┤
+│ Ingest nodes ──▶ Raw object tier ──▶ Table metadata         │
+│                     │                      │                 │
+│                     │                      ├─▶ query engines │
+│                     │                      ├─▶ batch jobs    │
+│                     │                      └─▶ AI training   │
+│                     │                                        │
+│                     └─▶ Cold archive / erasure coding        │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 구조에서 [오브젝트 스토리지](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/494_object_storage/)가 많이 쓰이는 이유는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템보다 객체 수 확장과 내구성 관리에 유리하기 때문이다. 대신 작은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 너무 많아지면 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 부하와 조회 지연이 커지므로, 배치 적재·컴팩션·열 지향 포맷 변환을 통해 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 크기를 정리해야 한다. 또한 복제만 고집하면 저장 효율이 나빠지므로, 대규모 환경에서는 소거 부호화 ([Erasure Coding](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/681_erasure_coding/))와 수명주기 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 함께 설계하는 경우가 많다.
 
@@ -123,23 +122,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">전통 파일 서버 · 스토리지 어레이</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">하둡 분산 파일 시스템 (HDFS)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">오브젝트 스토리지 기반 데이터 레이크</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">오픈 테이블 포맷 · 메타데이터 강화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">레이크하우스 · AI 학습 데이터 플랫폼</div>
-</div>
-</div>
-
-
+```text
+전통 파일 서버 · 스토리지 어레이
+    │
+    ▼
+하둡 분산 파일 시스템 (HDFS)
+    │
+    ▼
+오브젝트 스토리지 기반 데이터 레이크
+    │
+    ▼
+오픈 테이블 포맷 · 메타데이터 강화
+    │
+    ▼
+레이크하우스 · AI 학습 데이터 플랫폼
+```
 
 이 흐름은 저장 장치 중심 사고가 원본 보존 중심 사고로 이동한 뒤, 다시 관리 질서와 분석 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 덧붙이는 방향으로 진화했음을 보여준다.
 

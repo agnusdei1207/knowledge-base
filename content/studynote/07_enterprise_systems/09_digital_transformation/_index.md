@@ -23,22 +23,22 @@ DX 전략이 필요한 이유는 세 가지이다. 첫째, <strong>파괴적 혁
 
 이 그림은 디지털 전환의 3단계 진화 과정을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Digital Transformation Maturity Stages</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Stage 3: Digital Transformation</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">비즈니스 모델 혁신</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ (Business Model)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Stage 2: Digitalization</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">프로세스 최적화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ (Process)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Stage 1: Digitization</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">데이터의 디지털화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Data)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 상위 단계로 갈수록 기술보다 '전략'과 '문화'가 중요</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Digital Transformation Maturity Stages       │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Stage 3: Digital Transformation ] ──▶ 비즈니스 모델 혁신│
+│          ▲ (Business Model)                                 │
+│   [ Stage 2: Digitalization ] ──▶ 프로세스 최적화           │
+│          ▲ (Process)                                        │
+│   [ Stage 1: Digitization ] ──▶ 데이터의 디지털화           │
+│            (Data)                                           │
+│                                                             │
+│   * 핵심: 상위 단계로 갈수록 기술보다 '전략'과 '문화'가 중요│
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '본질의 변화'이다. 1, 2단계는 효율성을 높이는 수준이지만, 3단계 DX는 기업의 존재 이유와 수익 구조를 바꾼다. 실무에서는 이러한 전환을 위해 **애자일 (Agile)** 조직 문화와 **클라우드 네이티브** 인프라가 필수적인 체력이 된다.
 
@@ -70,20 +70,22 @@ DX 전략이 필요한 이유는 세 가지이다. 첫째, <strong>파괴적 혁
 
 이 구조도는 DX 성공을 위한 <strong>'디지털 운영 모델'</strong>의 핵심 요소를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Digital Operating Model Components</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Platform</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Cloud, Data Mesh, Open API</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Process</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Agile, DevOps, Continuous Delivery</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">People</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Digital Literacy, Growth Mindset</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 실무 가이드: 기술(Platform)만 바꾸고 사람(People)을</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">바꾸지 않는 DX는 반드시 실패함</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Digital Operating Model Components          │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Platform ] ──▶ Cloud, Data Mesh, Open API               │
+│          ▲                                                  │
+│   [ Process  ] ──▶ Agile, DevOps, Continuous Delivery       │
+│          ▲                                                  │
+│   [ People   ] ──▶ Digital Literacy, Growth Mindset         │
+│                                                             │
+│   * 실무 가이드: 기술(Platform)만 바꾸고 사람(People)을     │
+│     바꾸지 않는 DX는 반드시 실패함                          │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '사람과 문화'이다. DX는 결국 사람이 하는 일이다. 기술사가 제안하는 아키텍처는 반드시 조직의 <strong>디지털 문해력 (Digital Literacy)</strong>과 협업 문화를 고려하여 설계되어야 한다.
 
@@ -123,22 +125,21 @@ DX 전략이 필요한 이유는 세 가지이다. 첫째, <strong>파괴적 혁
 
 이 도식은 기술사가 사용하는 'DX 성공을 위한 5대 전환 동력'을 보여준다.
 
+```text
+┌─────────────────────────────────────────────────────────────┐
+│               The 5 Drivers of Digital Transformation       │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   1. 전략적 정렬: 비즈니스 비전과 기술의 일치               │
+│   2. 고객 중심 설계: UX/UI를 넘어선 고객 여정 최적화        │
+│   3. 데이터 주도성: 모든 판단의 근거를 데이터로 통일        │
+│   4. 민첩한 조직: 애자일과 데브옵스의 내재화                │
+│   5. 개방형 생태계: API를 통한 외부 파트너와의 연결         │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">The 5 Drivers of Digital Transformation</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 전략적 정렬: 비즈니스 비전과 기술의 일치</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 고객 중심 설계: UX/UI를 넘어선 고객 여정 최적화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 데이터 주도성: 모든 판단의 근거를 데이터로 통일</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 민첩한 조직: 애자일과 데브옵스의 내재화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 개방형 생태계: API를 통한 외부 파트너와의 연결</div></div>
-</div>
-</div>
-
-
-
-📢 **섹션 요약 비유**: 기술사의 DX 판단은 '도시 재생 전문가'와 같습니다. 낡은 건물을 부수고 공원을 만들지(비즈니스 모델 변경), 아니면 낡은 배관만 최신식으로 바꿀지(프로세스 최적화)를 도시의 미래 가치에 맞춰 결정하는 마스터 플래너입니다.
+📢 **섹션 요약 비유**: 기술사의 DX 판단은 '도시 재생 전문가'와 같습니다. 낡은 건물을 부수고 공원을 만들지(비즈니스 모델 변경), 아니면 낡은 배관만 최정보으로 바꿀지(프로세스 최적화)를 도시의 미래 가치에 맞춰 결정하는 마스터 플래너입니다.
 
 ---
 

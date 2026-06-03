@@ -25,18 +25,14 @@ tags = ["studynote-network"]
   - 해커가 내 PC에는 "내가 라우터(공유기)야!"라고 구라를 치고(가짜 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 전송), 라우터에게는 "내가 네 PC야!"라고 구라를 칩니다.
   - 내 PC와 라우터의 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 주소록은 해커의 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소로 독극물 오염(Poisoning)이 됩니다. 내 PC에서 나가는 모든 은행, 게임 패킷은 라우터가 아니라 해커의 컴퓨터를 핑퐁 쳐서([도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/), 스니핑) 날아가게 됩니다. 인터넷은 정상적으로 되기 때문에 유저는 해킹당한 사실을 꿈에도 모릅니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">멀티캐스트 MLD / IGMP 스누핑 기법</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ARP 스푸핑 중간자 방어</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DDoS 반사 증폭 원조</div></div>
-</div>
-</div>
-
-
+```text
+[멀티캐스트 MLD / IGMP 스누핑 기법]
+    │
+    ▼
+[ARP 스푸핑 중간자 방어]
+    │
+    └──▶ [DDoS 반사 증폭 원조]
+```
 
 - **📢 섹션 요약 비유**: [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) 중간자 방어는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -46,18 +42,14 @@ tags = ["studynote-network"]
 
 - <strong>정적(Static) <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/">ARP</a> 세팅</strong>: 컴퓨터(cmd 창)에 `arp -s 192.168.0.1 00:AA:BB...`라고 라우터 주소를 수동으로 영구 못 박아 버립니다. 100% 안전하지만, 직원 1만 명 PC를 일일이 세팅해야 하고 공유기 1대 바꾸면 전 회사가 마비되는 노가다입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">멀티캐스트 MLD / IGMP 스누핑 기법</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ARP 스푸핑 중간자 방어</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DDoS 반사 증폭 원조</div></div>
-</div>
-</div>
-
-
+```text
+[멀티캐스트 MLD / IGMP 스누핑 기법]
+    │
+    ▼
+[ARP 스푸핑 중간자 방어]
+    │
+    └──▶ [DDoS 반사 증폭 원조]
+```
 
 - **📢 섹션 요약 비유**: [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) 중간자 방어의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -123,19 +115,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 멀티캐스트 MLD / IGMP 스누핑 기법</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: ARP 스푸핑 중간자 방어</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: DDoS 반사 증폭 원조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 멀티캐스트 MLD / IGMP 스누핑 기법]
+    │
+    ▼
+[현재 개념: ARP 스푸핑 중간자 방어]
+    │
+    ├──▶ [확장 A: DDoS 반사 증폭 원조]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) 중간자 방어는 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) [MLD](/knowledge-base/studynote/03_network/06_network_layer_ip/335_mld_multicast_listener_discovery_ipv6/) / [IGMP](/knowledge-base/studynote/03_network/06_network_layer_ip/333_igmp_internet_group_management_protocol_multicast/) 스누핑 기법에서 출발해 현재 메커니즘을 정교화하고, 이후 DDoS 반사 증폭 원조와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

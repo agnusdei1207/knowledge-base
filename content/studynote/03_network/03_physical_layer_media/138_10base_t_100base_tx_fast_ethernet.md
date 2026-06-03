@@ -28,23 +28,17 @@ tags = ["studynote-network"]
    - 핀 3, 6번: 수신(Rx)
 4. **인코딩**: <strong>맨체스터 인코딩(Manchester Encoding)</strong>을 사용합니다. 클럭과 데이터를 동시에 전송하지만, [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 효율성이 낮아 10Mbps 전송을 위해 20MHz의 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 필요합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">10BASE-T / 100BASE-TX 핀 배열 (T568B 기준)</div></div>
-<div class="kb-diagram-note">Pin 1: 흰주 (Tx +) ─ 송신</div>
-<div class="kb-diagram-note">Pin 2: 주황 (Tx -) ─</div>
-<div class="kb-diagram-note">Pin 3: 흰녹 (Rx +) ─ 수신</div>
-<div class="kb-diagram-note">Pin 4: 파랑 (사용 안 함)</div>
-<div class="kb-diagram-note">Pin 5: 흰파 (사용 안 함)</div>
-<div class="kb-diagram-note">Pin 6: 녹색 (Rx -) ─ 수신</div>
-<div class="kb-diagram-note">Pin 7: 흰갈 (사용 안 함)</div>
-<div class="kb-diagram-note">Pin 8: 갈색 (사용 안 함)</div>
-</div>
-</div>
-
-
+```text
+[10BASE-T / 100BASE-TX 핀 배열 (T568B 기준)]
+Pin 1: 흰주 (Tx +)  ─┐ 송신
+Pin 2: 주황 (Tx -)  ─┘
+Pin 3: 흰녹 (Rx +)  ─┐ 수신
+Pin 4: 파랑 (사용 안 함)
+Pin 5: 흰파 (사용 안 함)
+Pin 6: 녹색 (Rx -)  ─┘ 수신
+Pin 7: 흰갈 (사용 안 함)
+Pin 8: 갈색 (사용 안 함)
+```
 
 - **📢 섹션 요약 비유**: <strong> 10BASE-T는 복잡한 철로(동축)를 걷어내고, 누구나 쉽게 꽂을 수 있는 </strong>전화선 모양의 플러그(RJ-45)를 도입한 인터넷의 플러그 앤 플레이 혁명**이었습니다.
 
@@ -63,18 +57,14 @@ tags = ["studynote-network"]
 1. **4B/5B 블록 코딩**: 4비트 데이터를 5비트의 특정 패턴으로 매핑합니다. 연속된 0이나 1을 없애 클럭 동기화를 돕고 에러 검출 기능을 가집니다. 이로 인해 100Mbps 데이터를 125Mbps 속도로 변환합니다.
 2. **MLT-3 인코딩**: 125Mbps로 변환된 디지털 데이터를 (+1, 0, -1)의 3가지 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 레벨을 사용하여 전기 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)로 바꿉니다. 3진법을 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 때문에 주파수를 확 낮출 수 있습니다. 결과적으로 케이블에 실리는 실제 최대 주파수는 10배가 아닌 <strong>약 31.25MHz</strong>에 불과하여 Cat 5 케이블로도 충분히 전송이 가능해졌습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">이더넷 물리 계층 표준</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">10BASE-T, 100BASE-TX</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">1000BASE-T</div></div>
-</div>
-</div>
-
-
+```text
+[이더넷 물리 계층 표준]
+    │
+    ▼
+[10BASE-T, 100BASE-TX]
+    │
+    └──▶ [1000BASE-T]
+```
 
 - **📢 섹션 요약 비유**: 10BASE-T, 100BASE-TX의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -141,19 +131,15 @@ Fast Ethernet의 도입으로, 한 사무실에 10Mbps 랜카드와 100Mbps 랜�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 이더넷 물리 계층 표준</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 10BASE-T, 100BASE-TX</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 1000BASE-T</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고속 광전송 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 이더넷 물리 계층 표준]
+    │
+    ▼
+[현재 개념: 10BASE-T, 100BASE-TX]
+    │
+    ├──▶ [확장 A: 1000BASE-T]
+    └──▶ [확장 B: 고속 광전송 최적화]
+```
 
 10BASE-T, 100BASE-TX는 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 물리 계층 표준에서 출발해 현재 메커니즘을 정교화하고, 이후 1000BASE-T와 고속 광전송 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

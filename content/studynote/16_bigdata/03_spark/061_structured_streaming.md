@@ -84,25 +84,24 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">배치 처리 (Batch Processing) — 정해진 주기 대규모 데이터 처리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스트리밍 처리 (Streaming) — 실시간 연속 데이터 처리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Spark Streaming (DStream) — RDD 기반 마이크로 배치</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Structured Streaming — DataFrame API 기반 연속 처리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">워터마크 (Watermark) — 지연 데이터 처리 기준 시간 설정</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Delta Live Tables — 선언형 스트리밍 파이프라인 자동화</div></div>
-</div>
-</div>
-
-
+```text
+[배치 처리 (Batch Processing) — 정해진 주기 대규모 데이터 처리]
+    │
+    ▼
+[스트리밍 처리 (Streaming) — 실시간 연속 데이터 처리]
+    │
+    ▼
+[Spark Streaming (DStream) — RDD 기반 마이크로 배치]
+    │
+    ▼
+[Structured Streaming — DataFrame API 기반 연속 처리]
+    │
+    ▼
+[워터마크 (Watermark) — 지연 데이터 처리 기준 시간 설정]
+    │
+    ▼
+[Delta Live Tables — 선언형 스트리밍 파이프라인 자동화]
+```
 Structured Streaming은 DStream의 복잡성을 DataFrame API로 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)하여, 배치와 스트리밍을 통합하는 현대 실시간 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 표준이 되었다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

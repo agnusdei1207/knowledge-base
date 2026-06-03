@@ -37,20 +37,16 @@ DeFi(Decentralized Finance, [탈중앙화](/knowledge-base/studynote/06_ict_conv
 
 ### Uniswap v2 AMM 원리
 
+```
+x × y = k  (상수 곱 공식)
 
+유동성 풀: ETH 100개, USDC 200,000개 → k = 20,000,000
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">x × y = k (상수 곱 공식)</div>
-<div class="kb-diagram-note">유동성 풀: ETH 100개, USDC 200,000개 → k = 20,000,000</div>
-<div class="kb-diagram-note">ETH 1개 구매 시:</div>
-<div class="kb-diagram-note">ETH: 100 - 1 = 99</div>
-<div class="kb-diagram-note">USDC: 20,000,000 / 99 ≈ 202,020 → 증가분 2,020 USDC 지불</div>
-<div class="kb-diagram-note">→ 실효 가격: 2,020 USDC/ETH (슬리피지 발생)</div>
-</div>
-</div>
-
-
+ETH 1개 구매 시:
+  ETH: 100 - 1 = 99
+  USDC: 20,000,000 / 99 ≈ 202,020 → 증가분 2,020 USDC 지불
+  → 실효 가격: 2,020 USDC/ETH (슬리피지 발생)
+```
 
 ### 유동성 공급자 (LP, Liquidity [Provider](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/150_soa_triangle_architecture/))
 
@@ -131,57 +127,50 @@ EU MiCA (2024 시행): 스테이블코인·가상자산 발행자 규제
 
 ## 📌 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">DeFi (Decentralized Finance)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">핵심 메커니즘</div>
-<div class="kb-diagram-note">── AMM (Automated Market Maker)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 상수 곱 공식 x·y=k</div></div>
-<div class="kb-diagram-note">── 유동성 풀 / LP 토큰</div>
-<div class="kb-diagram-note">── 초과 담보 대출</div>
-<div class="kb-diagram-tree-item" style="--depth:0">주요 프로토콜</div>
-<div class="kb-diagram-note">── DEX: Uniswap, Curve</div>
-<div class="kb-diagram-note">── 대출: Aave, Compound</div>
-<div class="kb-diagram-note">── 스테이블: MakerDAO</div>
-<div class="kb-diagram-tree-item" style="--depth:0">위험</div>
-<div class="kb-diagram-note">── 플래시론 공격</div>
-<div class="kb-diagram-note">── 재진입 공격</div>
-<div class="kb-diagram-note">── 비영구적 손실 (IL)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">발전 방향</div>
-<div class="kb-diagram-tree-item" style="--depth:2">RWA 토큰화</div>
-<div class="kb-diagram-tree-item" style="--depth:2">L2 DeFi</div>
-<div class="kb-diagram-tree-item" style="--depth:2">MiCA 규제 대응</div>
-</div>
-</div>
-
-
+```
+DeFi (Decentralized Finance)
+├── 핵심 메커니즘
+│   ├── AMM (Automated Market Maker)
+│   │   └── 상수 곱 공식 x·y=k
+│   ├── 유동성 풀 / LP 토큰
+│   └── 초과 담보 대출
+├── 주요 프로토콜
+│   ├── DEX: Uniswap, Curve
+│   ├── 대출: Aave, Compound
+│   └── 스테이블: MakerDAO
+├── 위험
+│   ├── 플래시론 공격
+│   ├── 재진입 공격
+│   └── 비영구적 손실 (IL)
+└── 발전 방향
+    ├── RWA 토큰화
+    ├── L2 DeFi
+    └── MiCA 규제 대응
+```
 
 ---
 
 ## 📈 관련 키워드 및 발전 흐름도
 
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                    DeFi 발전 흐름                                │
+├──────────────┬────────────────────┬─────────────────────────────┤
+│ 2017년       │ MakerDAO 등장      │ 최초 DeFi — CDP·DAI 스테이블│
+│ 2018년       │ Uniswap v1 출시    │ AMM 패러다임 시작            │
+│ 2020년       │ DeFi Summer        │ Compound·YFI·유동성 채굴 폭발│
+│ 2021년       │ TVL $100B 돌파     │ Curve·Aave·L2 DeFi 확장      │
+│ 2022년       │ 크립토 윈터·붕괴   │ Terra/LUNA·Celsius 파산      │
+│ 2024년       │ MiCA·RWA·ETF 승인  │ 기관 DeFi·규제 명확화         │
+└──────────────┴────────────────────┴─────────────────────────────┘
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DeFi 발전 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2017년</div><div class="kb-diagram-cell">MakerDAO 등장</div><div class="kb-diagram-cell">최초 DeFi — CDP·DAI 스테이블</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2018년</div><div class="kb-diagram-cell">Uniswap v1 출시</div><div class="kb-diagram-cell">AMM 패러다임 시작</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2020년</div><div class="kb-diagram-cell">DeFi Summer</div><div class="kb-diagram-cell">Compound·YFI·유동성 채굴 폭발</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2021년</div><div class="kb-diagram-cell">TVL $100B 돌파</div><div class="kb-diagram-cell">Curve·Aave·L2 DeFi 확장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2022년</div><div class="kb-diagram-cell">크립토 윈터·붕괴</div><div class="kb-diagram-cell">Terra/LUNA·Celsius 파산</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2024년</div><div class="kb-diagram-cell">MiCA·RWA·ETF 승인</div><div class="kb-diagram-cell">기관 DeFi·규제 명확화</div></div>
-<div class="kb-diagram-note">핵심 키워드 연결:</div>
-<div class="kb-diagram-note">스마트 컨트랙트 → AMM → 유동성 풀 → 수익 농업</div>
-<div class="kb-diagram-note">Solidity/EVM x·y=k LP 토큰 Yield Farming</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">DeFi 레고(Composability) → TVL 성장 → 규제 강화</div>
-</div>
-</div>
-
-
+핵심 키워드 연결:
+스마트 컨트랙트 → AMM → 유동성 풀 → 수익 농업
+      ↓             ↓         ↓           ↓
+Solidity/EVM    x·y=k    LP 토큰    Yield Farming
+      ↓
+DeFi 레고(Composability) → TVL 성장 → 규제 강화
+```
 
 ---
 

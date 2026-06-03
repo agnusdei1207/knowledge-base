@@ -24,18 +24,14 @@ tags = ["studynote-network"]
 
 - **💡 비유**: FDDI는 건물을 잇는 <strong>"지하철 순환선(2호선)"</strong>과 같습니다. 동네 마을버스([이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/))가 모아온 승객([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))들을 한꺼번에 싣고 다른 동네로 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/)(광케이블)으로 실어 나릅니다. 내선 순환과 외선 순환(이중 링)이 다 있어서 한쪽 터널이 무너져도 반대 방향 열차로 어떻게든 승객을 실어 나를 수 있습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">토큰 링</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">FDDI</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DQDB</div></div>
-</div>
-</div>
-
-
+```text
+[토큰 링]
+    │
+    ▼
+[FDDI]
+    │
+    └──▶ [DQDB]
+```
 
 - **📢 섹션 요약 비유**: <strong> 일반 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">이더넷</a> 랜선이 집 안에서 쓰는 </strong>"플라스틱 수도관"**이라면, FDDI는 도시 전체의 물탱크를 연결하기 위해 땅속 깊숙이 묻어둔 **"절대 터지지 않는 초대형 강철 이중 배관(백본)"**입니다.
 
@@ -59,25 +55,25 @@ FDDI 네트워크는 물리적으로 2개의 광케이블 링으로 구성된다
 3. 노드 C 역시 왼쪽(B 방향)으로 쏘지 못하자, 부 링에서 오던 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주 링으로 U턴 시킨다.
 4. 끊어진 부분을 제외한 거대한 C자 모양의 새로운 하나의 링이 완성되며 통신 단절 없이 네트워크가 100% 복구된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FDDI의 이중 링 자가 복구(Self-Healing)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">평상시</div><div class="kb-diagram-node">장애 발생 시 (U턴)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 주 링(시계) ▶ ▶ 주 링(시계) ▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ A B ─ ─ A B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀ 부 링 ◀</div><div class="kb-diagram-cell">포크레인 절단!</div><div class="kb-diagram-cell">◀ 부 링 ◀</div><div class="kb-diagram-cell">U턴!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">====X====▶</div><div class="kb-diagram-cell">X</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀ 부 링 ◀</div><div class="kb-diagram-cell">◀ 부 링 ◀</div><div class="kb-diagram-cell">U턴!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ D C ─ ─ D C</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 주 링(시계) ▶ ▶ 주 링(시계) ▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 링이 끊어졌지만, B와 C가 내부에서 링을 꼬아서 이어버려</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">거대한 "하나의 말굽 자석(U자) 모양"으로 망이 유지된다!</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                 FDDI의 이중 링 자가 복구(Self-Healing)         │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 평상시 ]                          [ 장애 발생 시 (U턴) ]       │
+ │                                                             │
+ │     ▶ 주 링(시계) ▶                      ▶ 주 링(시계) ▶        │
+ │  ┌─ A ────── B ─┐                 ┌─ A ────── B ┐       │
+ │  │   ◀ 부 링 ◀   │ 포크레인 절단!     │   ◀ 부 링 ◀   │ U턴!   │
+ │  │              │    ====X====▶   │              X       │
+ │  │   ◀ 부 링 ◀   │                 │   ◀ 부 링 ◀   │ U턴!   │
+ │  └─ D ────── C ─┘                 └─ D ────── C ┘       │
+ │     ▶ 주 링(시계) ▶                      ▶ 주 링(시계) ▶        │
+ │                                                             │
+ │   결과: 링이 끊어졌지만, B와 C가 내부에서 링을 꼬아서 이어버려       │
+ │        거대한 "하나의 말굽 자석(U자) 모양"으로 망이 유지된다!        │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 3. FDDI의 소멸과 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)의 승리
 아무리 완벽해도 도태될 수밖에 없었다. 광케이블 랜카드 2개([DAS](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/339_das/))를 꽂아야 하는 FDDI 라우터는 한 대에 수천만 원이 넘었다.
@@ -139,19 +135,15 @@ FDDI는 LAN/WAN과 2계층 장비를 이해할 때 핵심 축을 잡아 주는 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 토큰 링</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: FDDI</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: DQDB</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 캠퍼스 패브릭</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 토큰 링]
+    │
+    ▼
+[현재 개념: FDDI]
+    │
+    ├──▶ [확장 A: DQDB]
+    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
+```
 
 FDDI는 [토큰 링](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/281_token_ring_ieee_802_5_token_bus_ieee_802_4/)에서 출발해 현재 메커니즘을 정교화하고, 이후 DQDB와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -28,19 +28,13 @@ tags = ["software_engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Yesterday / Today / Blockers</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Daily Scrum</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Team Synchronization</div>
-</div>
-</div>
-
-
+```text
+Yesterday / Today / Blockers
+  ↓
+Daily Scrum
+  ↓
+Team Synchronization
+```
 
 | 질문 | 의미 |
 | :-- | :-- |
@@ -109,41 +103,29 @@ tags = ["software_engineering"]
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Daily Scrum</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Blockers</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Synchronization</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Team Flow</div>
-</div>
-</div>
-
-
+```text
+Daily Scrum
+  ↓
+Blockers
+  ↓
+Synchronization
+  ↓
+Team Flow
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Scrum</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Daily Scrum</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Impediment Removal</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Team Sync</div>
-</div>
-</div>
-
-
+```text
+Scrum
+  ↓
+Daily Scrum
+  ↓
+Impediment Removal
+  ↓
+Team Sync
+```
 
 ---
 

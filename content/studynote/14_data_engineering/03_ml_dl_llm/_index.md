@@ -23,23 +23,27 @@ tags = ["data_engineering"]
 
 이 그림은 모델이 학습 완료 후 실제 서비스 배포를 위해 거치는 최적화 파이프라인을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Model Serving Optimization Pipeline</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Trained Model</div><div class="kb-diagram-note">(Heavy, FP32)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (Optimization Layer)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Quantization: 데이터 정밀도 축소 (FP32 -&gt; INT8)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Pruning: 불필요한 가중치 연결 제거</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Distillation: 큰 모델의 지식을 작은 모델로 전수</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (Serving Engine)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Serving Hub: vLLM / NVIDIA Triton / TGI</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: "정확도는 유지하되, 속도는 높이고 크기는 줄인다"</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Model Serving Optimization Pipeline         │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Trained Model ] (Heavy, FP32)                           │
+│          │                                                  │
+│          ▼ (Optimization Layer)                             │
+│   ┌─────────────────────────────────────────────────────┐   │
+│   │ 1. Quantization: 데이터 정밀도 축소 (FP32 -> INT8)  │   │
+│   │ 2. Pruning: 불필요한 가중치 연결 제거               │   │
+│   │ 3. Distillation: 큰 모델의 지식을 작은 모델로 전수  │   │
+│   └─────────────────────────────────────────────────────┘   │
+│          │                                                  │
+│          ▼ (Serving Engine)                                 │
+│   [ Serving Hub: vLLM / NVIDIA Triton / TGI ]               │
+│                                                             │
+│   * 핵심: "정확도는 유지하되, 속도는 높이고 크기는 줄인다"  │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '추론 효율화'이다. 학습 때는 정밀한 계산 (FP32)이 중요하지만, 서빙 때는 적당한 정밀도 (INT8)로 빠르게 답하는 것이 경제적이다. 실무에서는 이러한 하드웨어 가속기 (NVIDIA TensorRT 등)와 소프트웨어 최적화 기법의 결합이 서비스 생존의 핵심 변수가 된다.
 
@@ -69,20 +73,22 @@ LLM은 가변적인 길이의 문장을 생성하므로 메모리 관리가 극�
 
 이 구조도는 <strong>모델 증류</strong>를 통한 경량화 과정을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Knowledge Distillation Model</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Teacher Model</div><div class="kb-diagram-note">(Gigantic) ── (Predict Probabilities)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (Mimic) ▼ (Soft Loss)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Student Model</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Loss Function</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 결과: 작은 모델이 큰 모델의 통찰력을 습득함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 실무: 모바일용 AI나 임베디드 AI 구축의 필수 관문</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Knowledge Distillation Model                │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Teacher Model ] (Gigantic) ──┐ (Predict Probabilities)  │
+│                                  │                          │
+│          ┌───────────────────────┴──────────────┐           │
+│          ▼ (Mimic)                              ▼ (Soft Loss)│
+│   [ Student Model ] (Compact) ──────────▶ [ Loss Function ] │
+│                                                             │
+│   * 결과: 작은 모델이 큰 모델의 통찰력을 습득함             │
+│   * 실무: 모바일용 AI나 임베디드 AI 구축의 필수 관문        │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '지식의 압축'이다. 파라미터가 1/10이어도 성능은 90% 이상 유지하는 효율적인 모델을 탄생시킨다. 실무에서는 이러한 Student 모델을 다시 양자화하여 저사양 기기에서도 실시간 추론이 가능하게 만든다.
 
@@ -124,19 +130,21 @@ LLM은 가변적인 길이의 문장을 생성하므로 메모리 관리가 극�
 
 이 도식은 기술사가 주도하는 '모델 서빙 SLA 보장 의사결정 트리'를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Model Serving SLA Decision Tree</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">YES</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Stream/Streaming</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">YES</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Quantization/Spot Inst</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">YES</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">FP16/No Prune</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* TTFT: Time To First Token (사용자 체감 성능의 핵심)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│               Model Serving SLA Decision Tree               │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   TTFT(첫 글자 속도)가 중요한가? ──▶ [YES] ──▶ Stream/Streaming│
+│          │                                                  │
+│   비용 절감이 최우선인가? ──▶ [YES] ──▶ Quantization/Spot Inst│
+│          │                                                  │
+│   정확도가 1%라도 낮아지면 안 되나? ──▶ [YES] ──▶ FP16/No Prune │
+│          │                                                  │
+│   * TTFT: Time To First Token (사용자 체감 성능의 핵심)     │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 기술사의 서빙 판단은 '대형 콘서트장의 관객 관리'와 같습니다. 한꺼번에 수만 명(트래픽)이 몰릴 때 입구(메모리)에서 병목이 생기지 않게 하고, 가수(모델)의 목소리가 끝까지 잘 들리게 스피커(인프라)를 배치하며, 티켓팅(비용) 효율을 극대화하는 총감독입니다.
 

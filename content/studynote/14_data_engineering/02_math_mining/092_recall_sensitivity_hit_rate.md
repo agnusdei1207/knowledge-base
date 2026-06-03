@@ -36,22 +36,23 @@ tags = ["studynote-data-engineering"]
 | **FN (False Negative)** | 위음성(미탐): 실제 양성을 음성으로 놓친 건수 | 분모 포함 | 낮을수록 재현율 상승 |
 | **계산 공식** | 실제 양성 중 맞춘 비율 | $\text{[Recall](/knowledge-base/studynote/10_ai/03_llm_nlp/254_recall_sensitivity/)} = \frac{TP}{TP + FN}$ | 미탐(FN) 최소화가 핵심 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">혼동 행렬(Confusion Matrix)과 재현율의 시선(Focus)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Predicted Class (예측)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Positive (+) Negative (-)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Actual</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">이 둘의 합이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Positive(+)</div><div class="kb-diagram-cell">(모델이 찾음)</div><div class="kb-diagram-cell">(재현율 깎아먹음)</div><div class="kb-diagram-cell">분모가 됨</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Actual</div><div class="kb-diagram-note">FP (위양성) │ TN (진짜 음성) │</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Negative(-)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ Recall (재현율) = TP / (TP + FN) = 찾은 진짜 / 전체 진짜</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│       혼동 행렬(Confusion Matrix)과 재현율의 시선(Focus)         │
+├──────────────────────────────────────────────────────────────┤
+│                  [Predicted Class (예측)]                     │
+│               Positive (+)        Negative (-)               │
+│             ┌───────────────┬────────────────┐               │
+│ [Actual]    │ TP (진짜 양성) │ FN (위음성, 놓침)│ ──▶ 이 둘의 합이 │
+│ Positive(+) │ (모델이 찾음)  │ (재현율 깎아먹음)│      분모가 됨    │
+│             ├───────────────┼────────────────┤               │
+│ [Actual]    │ FP (위양성)   │ TN (진짜 음성) │               │
+│ Negative(-) │               │                │               │
+│             └───────────────┴────────────────┘               │
+│                                                              │
+│  ※ Recall (재현율) = TP / (TP + FN) = 찾은 진짜 / 전체 진짜     │
+└──────────────────────────────────────────────────────────────┘
+```
 
 재현율을 인위적으로 높이는 방법은 간단하다. [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 임계값(Threshold)을 낮춰서 모델이 조금만 의심스러워도 모두 "양성(Positive)"이라고 예측하게 만들면 된다. 이렇게 하면 놓치는 것인 FN(False Negative)은 사라지지만, 가짜를 진짜라고 우기는 [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/)(False Positive) 오탐이 급증하게 된다.
 
@@ -113,23 +114,21 @@ tags = ["studynote-data-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Confusion Matrix (분류 결과의 기초 매트릭스)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Recall (실제 참을 놓치지 않는 성능, FN 최소화) &amp; Precision (오탐 최소화)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">F1-Score (두 지표의 조화 평균을 통한 단일 평가 지표)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">PR Curve (Precision-Recall 곡선)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Cost-Sensitive Learning (비용 민감 학습, FN에 더 높은 가중치 부여)</div>
-</div>
-</div>
-
-
+```text
+Confusion Matrix (분류 결과의 기초 매트릭스)
+    │
+    ▼
+Recall (실제 참을 놓치지 않는 성능, FN 최소화) & Precision (오탐 최소화)
+    │
+    ▼
+F1-Score (두 지표의 조화 평균을 통한 단일 평가 지표)
+    │
+    ▼
+PR Curve (Precision-Recall 곡선)
+    │
+    ▼
+Cost-Sensitive Learning (비용 민감 학습, FN에 더 높은 가중치 부여)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

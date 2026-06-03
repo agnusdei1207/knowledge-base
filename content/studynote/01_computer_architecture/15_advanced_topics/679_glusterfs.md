@@ -39,19 +39,18 @@ GlusterFS의 기본 단위는 브릭이다. 브릭은 보통 한 서버의 [디�
 | 클라이언트 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/) | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 인터페이스 제공 | 응용 프로그램 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 확보 |
 | Self-heal | 장애 후 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)본을 다시 맞춤 | 네트워크 분리 시 충돌 관리 중요 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client mount</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Gluster translator stack</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ distribute -&gt; Brick A</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ replicate -&gt; Brick B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ disperse -&gt; Brick C / Brick D / Brick E</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────┐
+│ Client mount                                                            │
+│   │                                                                     │
+│   ▼                                                                     │
+│ Gluster translator stack                                                │
+│   │                                                                     │
+│   ├─ distribute -> Brick A                                              │
+│   ├─ replicate  -> Brick B                                              │
+│   └─ disperse   -> Brick C / Brick D / Brick E                          │
+└──────────────────────────────────────────────────────────────────────────┘
+```
 
 GlusterFS에서 중요한 볼륨 유형은 세 가지다. [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 볼륨은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 여러 브릭에 나눠 배치해 용량을 늘리고, [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 볼륨은 같은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 여러 브릭에 저장해 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)을 높이며, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)-[복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 또는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)-삭제 코딩 (Dispersed) 볼륨은 두 요구를 함께 만족시키려는 절충안이다. 따라서 GlusterFS는 “무조건 빠른 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템”보다 “[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 공유의 용량·[가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 조합을 유연하게 선택하는 플랫폼”으로 보는 편이 맞다.
 
@@ -134,23 +133,21 @@ GlusterFS의 장점은 명확하다. 범용 서버를 붙여 용량을 키우기
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단일 NAS (Network Attached Storage) 확장 한계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">브릭 기반 스케일아웃 파일 공유</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">GlusterFS 분산 / 복제 볼륨</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">분산-복제 / 분산-삭제 코딩 기반 고가용성 파일 저장</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">온프레미스 / 엣지 환경의 단순한 공유 스토리지 확장</div>
-</div>
-</div>
-
-
+```text
+단일 NAS (Network Attached Storage) 확장 한계
+        │
+        ▼
+브릭 기반 스케일아웃 파일 공유
+        │
+        ▼
+GlusterFS 분산 / 복제 볼륨
+        │
+        ▼
+분산-복제 / 분산-삭제 코딩 기반 고가용성 파일 저장
+        │
+        ▼
+온프레미스 / 엣지 환경의 단순한 공유 스토리지 확장
+```
 
 이 흐름은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 공유 스토리지가 더 큰 단일 장비를 사는 방향보다, 여러 노드를 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로 묶는 방향으로 발전했음을 보여준다.
 

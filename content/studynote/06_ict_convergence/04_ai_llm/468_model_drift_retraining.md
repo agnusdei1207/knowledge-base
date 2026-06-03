@@ -32,28 +32,27 @@ tags = ["studynote-ict-convergence"]
 
 드리프트는 크게 '입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 변하는 병'과 '정답의 룰 자체가 변하는 병' 두 가지로 나뉜다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">모델 드리프트의 2대 유형과 모니터링 파이프라인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 데이터 드리프트 (Data Drift / Covariate Shift)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "입력(X)의 분포가 변했다!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 과거: 주로 20대가 쇼핑몰에 옴 -&gt; 현재: 갑자기 60대가 몰려옴</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 모델이 한 번도 본 적 없는 데이터(60대)가 쏟아져서 당황함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 컨셉 드리프트 (Concept Drift)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "정답(Y)의 법칙 자체가 변했다!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 과거: '마스크'를 검색하면 방한용 면 마스크를 샀음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 현재: '마스크'를 검색하면 코로나용 KF94 마스크를 삼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 똑같은 X(마스크 검색)가 들어와도 정답 Y가 완전히 바뀌어버림!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 모니터링 및 재학습 트리거 (Retraining Trigger)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- PSI(Population Stability Index)나 KL 발산 지표를 사용해</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">어제 데이터와 오늘 데이터의 모양이 5% 이상 틀어지면 삐용삐용!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 알람이 울리면 사람을 안 부르고 시스템이 알아서 재학습 시작(CT)</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────┐
+│             [ 모델 드리프트의 2대 유형과 모니터링 파이프라인 ]    │
+├────────────────────────────────────────────────────────┤
+│ 1. 데이터 드리프트 (Data Drift / Covariate Shift)       │
+│    - "입력(X)의 분포가 변했다!"                             │
+│    - 과거: 주로 20대가 쇼핑몰에 옴 -> 현재: 갑자기 60대가 몰려옴   │
+│    - 모델이 한 번도 본 적 없는 데이터(60대)가 쏟아져서 당황함      │
+│                                                        │
+│ 2. 컨셉 드리프트 (Concept Drift)                        │
+│    - "정답(Y)의 법칙 자체가 변했다!"                         │
+│    - 과거: '마스크'를 검색하면 방한용 면 마스크를 샀음           │
+│    - 현재: '마스크'를 검색하면 코로나용 KF94 마스크를 삼         │
+│    - 똑같은 X(마스크 검색)가 들어와도 정답 Y가 완전히 바뀌어버림!  │
+│                                                        │
+│ 3. 모니터링 및 재학습 트리거 (Retraining Trigger)         │
+│    - PSI(Population Stability Index)나 KL 발산 지표를 사용해 │
+│      어제 데이터와 오늘 데이터의 모양이 5% 이상 틀어지면 삐용삐용! │
+│    - 알람이 울리면 사람을 안 부르고 시스템이 알아서 재학습 시작(CT) │
+└────────────────────────────────────────────────────────┘
+```
 
 1. <strong>지속적 학습 (<a href="/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/">Continuous Training</a>, <a href="/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/">CT</a>)</strong>: 모델 [노화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/)를 막는 자동화 파이프라인이다. 드리프트 알람이 울리면, 최신 1달 치 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 긁어와서 모델 가중치를 다시 훈련한다. 이때 예전 지식을 너무 다 까먹게(Catastrophic Forgetting) 덮어씌우면 안 되므로 [미세 조정](/knowledge-base/studynote/10_ai/02_dl_architecture_new/133_fine_tuning/)([Fine-tuning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/)) 기법을 정교하게 쓴다.
 2. <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/575_shadow_deployment_traffic_mirroring/">섀도우 배포</a> (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/118_shadow_deployment_traffic_mirroring/">Shadow Deployment</a>)</strong>: 재학습이 끝난 새 모델을 바로 손님에게 서비스하지 않는다. 기존 모델이 일하고 있는 뒤쪽(그림자)에 숨겨두고, 똑같은 손님 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 줘보면서 "새 모델이 진짜 기존 모델보다 낫나?" 조용히 성적표를 매긴 뒤에 통과하면 교체한다.

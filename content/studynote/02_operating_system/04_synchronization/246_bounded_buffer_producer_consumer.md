@@ -25,23 +25,25 @@ tags = ["studynote-operating-system"]
 
 **💡 비유**: 컨베이어 벨트 공장을 상상하라. 벨트(버퍼)가 꽉 차면 생산자 라인이 멈추고, 벨트가 비면 포장 라인이 기다린다. 그리고 두 라인이 동시에 같은 칸에 손을 뻗으면 충돌이 발생한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유한 버퍼 문제 시스템 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Producer 1</div><div class="kb-diagram-node">Consumer 1</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Producer 2</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Buffer N</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Consumer 2</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Producer k</div><div class="kb-diagram-node">슬롯 0..N-1</div><div class="kb-diagram-node">Consumer m</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">세마포어 제어 변수:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">mutex = 1 // 버퍼 접근 상호 배제</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">empty = N // 빈 슬롯 수 (초기=N)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">full = 0 // 채워진 슬롯 수 (초기=0)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">불변 조건: empty + full == N (항상 성립해야 함)</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────┐
+│           유한 버퍼 문제 시스템 구조                       │
+├────────────────────────────────────────────────────────────┤
+│                                                            │
+│  [Producer 1]                    [Consumer 1]              │
+│  [Producer 2] ──▶ [Buffer N] ──▶ [Consumer 2]              │
+│  [Producer k]     [슬롯 0..N-1]  [Consumer m]              │
+│                                                            │
+│  세마포어 제어 변수:                                       │
+│  ┌─────────────────────────────────────────┐               │
+│  │ mutex  = 1   // 버퍼 접근 상호 배제    │                │
+│  │ empty  = N   // 빈 슬롯 수 (초기=N)   │                 │
+│  │ full   = 0   // 채워진 슬롯 수 (초기=0)│                │
+│  └─────────────────────────────────────────┘               │
+│                                                            │
+│  불변 조건: empty + full == N (항상 성립해야 함)           │
+└────────────────────────────────────────────────────────────┘
+```
 
 **📢 섹션 요약 비유**: 유한 버퍼는 생산과 소비 속도의 불일치를 흡수하는 '완충 댐'이며, [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)는 이 댐의 수문을 자동으로 열고 닫는 제어 장치입니다.
 
@@ -80,27 +82,29 @@ do {
 
 ### 동작 흐름 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">생산자-소비자 세마포어 상태 변화 예시 (N=3)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">초기 상태:</div><div class="kb-diagram-node">empty=3, full=0, mutex=1</div><div class="kb-diagram-note">버퍼:</div><div class="kb-diagram-node">_</div><div class="kb-diagram-node">_</div><div class="kb-diagram-node">_</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① 생산자 A: wait(empty)→2, wait(mutex)→0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">add_item → signal(mutex)→1, signal(full)→1</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">상태:</div><div class="kb-diagram-node">empty=2, full=1</div><div class="kb-diagram-note">버퍼:</div><div class="kb-diagram-node">A</div><div class="kb-diagram-node">_</div><div class="kb-diagram-node">_</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② 생산자 A, B 동시 시도:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A: wait(empty)→1, wait(mutex)→0 → 버퍼 접근</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B: wait(empty)→0, wait(mutex) → 차단(mutex=0)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A 완료 후: signal(mutex)→1 → B 진행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ 버퍼 가득 참: empty=0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">생산자: wait(empty) → 차단 (소비자가 signal(empty) 줄 때까지)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">④ 버퍼 비어 있음: full=0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소비자: wait(full) → 차단 (생산자가 signal(full) 줄 때까지)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────┐
+│         생산자-소비자 세마포어 상태 변화 예시 (N=3)             │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│ 초기 상태:  [empty=3, full=0, mutex=1]  버퍼: [_][_][_]         │
+│                                                                 │
+│ ① 생산자 A: wait(empty)→2, wait(mutex)→0                        │
+│    add_item → signal(mutex)→1, signal(full)→1                   │
+│    상태: [empty=2, full=1]  버퍼: [A][_][_]                     │
+│                                                                 │
+│ ② 생산자 A, B 동시 시도:                                        │
+│    A: wait(empty)→1, wait(mutex)→0 → 버퍼 접근                  │
+│    B: wait(empty)→0, wait(mutex) → 차단(mutex=0)                │
+│    A 완료 후: signal(mutex)→1 → B 진행                          │
+│                                                                 │
+│ ③ 버퍼 가득 참: empty=0                                         │
+│    생산자: wait(empty) → 차단 (소비자가 signal(empty) 줄 때까지)│
+│                                                                 │
+│ ④ 버퍼 비어 있음: full=0                                        │
+│    소비자: wait(full) → 차단 (생산자가 signal(full) 줄 때까지)  │
+└─────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 흐름의 핵심 안전 규칙은 <strong>자원 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/">세마포어</a>(empty/full)를 mutex보다 반드시 먼저 wait해야 한다</strong>는 점이다. 만약 mutex를 먼저 획득하고 empty를 기다리면, 소비자가 mutex를 획득하지 못해 [signal](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(empty)를 보낼 수 없어 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)가 발생한다. 이 순서 원칙은 실무 [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/) [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)의 1순위 항목이다.
 
@@ -144,20 +148,17 @@ def consumer():
 
 ### 구현 방식 비교
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">구현 방식</div><div class="kb-diagram-cell">세마포어</div><div class="kb-diagram-cell">조건 변수 + 뮤텍스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">레벨</div><div class="kb-diagram-cell">저수준</div><div class="kb-diagram-cell">고수준</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">허위 기상 처리</div><div class="kb-diagram-cell">불필요</div><div class="kb-diagram-cell">while 루프 필수</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가독성</div><div class="kb-diagram-cell">낮음</div><div class="kb-diagram-cell">높음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오류 발생 위험</div><div class="kb-diagram-cell">순서 실수 교착</div><div class="kb-diagram-cell">상대적으로 안전</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실무 사용</div><div class="kb-diagram-cell">커널 수준 코드</div><div class="kb-diagram-cell">앱/미들웨어 레벨</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────┬─────────────────────┬──────────────────────┐
+│ 구현 방식            │ 세마포어             │ 조건 변수 + 뮤텍스  │
+├──────────────────────┼─────────────────────┼──────────────────────┤
+│ 레벨                 │ 저수준              │ 고수준               │
+│ 허위 기상 처리       │ 불필요              │ while 루프 필수      │
+│ 가독성               │ 낮음                │ 높음                 │
+│ 오류 발생 위험       │ 순서 실수 교착      │ 상대적으로 안전      │
+│ 실무 사용            │ 커널 수준 코드      │ 앱/미들웨어 레벨     │
+└──────────────────────┴─────────────────────┴──────────────────────┘
+```
 
 ### 실무 구현 사례
 - <strong>POSIX <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a></strong>: `pipe()` 시스템 콜은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부에서 유한 버퍼 패턴으로 구현됨. 버퍼가 가득 차면 `write()`가 차단됨.
@@ -211,19 +212,15 @@ def consumer():
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">고전적 동기화 문제들</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">유한 버퍼 문제 (Bounded-Buffer Problem) / 생산자-소비자 (Producer-Consumer) 문제</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">독자-저자 문제 (Readers-Writers Problem)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">식사하는 철학자 문제 (Dining-Philosophers Problem)</div></div>
-</div>
-</div>
-
-
+```text
+[고전적 동기화 문제들]
+    │
+    ▼
+[유한 버퍼 문제 (Bounded-Buffer Problem) / 생산자-소비자 (Producer-Consumer) 문제]
+    │
+    ├──▶ [독자-저자 문제 (Readers-Writers Problem)]
+    └──▶ [식사하는 철학자 문제 (Dining-Philosophers Problem)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

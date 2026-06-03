@@ -24,25 +24,21 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경**: 인고 몰나르(Ingo Molnar)라는 전설적인 해커가 작성했다. 멀티프로세서([SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/))의 보급으로 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 글로벌 락(Global [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 부수고 코어(CPU)마다 독립적인 큐(Runqueue)를 쥐여주는 다중 큐(MQA) 구조를 도입하면서, 큐 탐색 시간을 극한으로 줄이기 위해 하드웨어 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)(BSR: [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) Scan Reverse)를 소프트웨어 아키텍처와 결합하여 탄생시켰다.
 
+```text
+  [리눅스 O(N) 스케줄러 vs O(1) 스케줄러의 탐색 구조 차이]
 
+  (1) 구형 O(N) 스케줄러
+  [ Ready Queue (Linked List) ]
+  P1(우선:10) ─▶ P2(우선:50) ─▶ P3(우선:20) ... ─▶ P_N(우선:5)
+  ▶ 스케줄러: "1번부터 N번까지 다 비교해서 제일 높은 놈(P2) 찾아라!" (시간 낭비)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">리눅스 O(N) 스케줄러 vs O(1) 스케줄러의 탐색 구조 차이</div></div>
-<div class="kb-diagram-note">(1) 구형 O(N) 스케줄러</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Ready Queue (Linked List)</div></div>
-<div class="kb-diagram-note">P1(우선:10) ─▶ P2(우선:50) ─▶ P3(우선:20) ... ─▶ P_N(우선:5)</div>
-<div class="kb-diagram-note">▶ 스케줄러: "1번부터 N번까지 다 비교해서 제일 높은 놈(P2) 찾아라!" (시간 낭비)</div>
-<div class="kb-diagram-note">(2) 혁신적 O(1) 스케줄러</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">우선순위 0:</div><div class="kb-diagram-node">P_A</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">P_B</div></div>
-<div class="kb-diagram-note">우선순위 1: (빔)</div>
-<div class="kb-diagram-note">...</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">우선순위 139:</div><div class="kb-diagram-node">P_C</div></div>
-<div class="kb-diagram-note">▶ 스케줄러: "0번 줄에 사람 있네? 뒤질 것도 없이 0번 줄 맨 앞의 P_A 꺼내!" (즉시 완료)</div>
-</div>
-</div>
-
-
+  (2) 혁신적 O(1) 스케줄러
+  우선순위 0:  [ P_A ] ─▶ [ P_B ]
+  우선순위 1:  (빔)
+  ...
+  우선순위 139: [ P_C ]
+  ▶ 스케줄러: "0번 줄에 사람 있네? 뒤질 것도 없이 0번 줄 맨 앞의 P_A 꺼내!" (즉시 완료)
+```
 **[다이어그램 해설]** O(1)의 마법은 사실 '다단계 큐(Multilevel [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))'의 철학을 140개로 극단적으로 잘게 쪼갠 것에 불과하다. 하나의 긴 줄에 섞어 놓지 않고, 1등부터 140등까지 전용 라인을 140개 만들어 놓았기 때문에, 탐색할 필요 없이 "가장 높은 번호의 줄 맨 앞에 선 놈"을 그냥 쑥 빼가면 그게 무조건 최고 우선순위 프로세스가 된다.
 
 - **📢 섹션 요약 비유**: 우편물 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 알바를 할 때, 상자 하나에 모든 우편물을 다 때려 넣고 서울행 우편물을 찾느라 상자를 다 뒤지는 것(O(N))이 아니라, 처음부터 "서울 상자, 부산 상자, 대전 상자" 140개를 만들어 놓고 서울 우편물을 찾을 땐 서울 상자 맨 위에 것만 꺼내오는(O(1)) 스마트한 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 시스템입니다.
@@ -60,26 +56,27 @@ O(1) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas
 3. **동작**: [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)에 있는 놈들이 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/)를 다 쓰고 Expired [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)로 전부 쫓겨나면, [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)은 텅텅 비게 된다.
 4. **기적의 스왑(Swap)**: [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)이 비는 그 찰나의 순간, [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 단지 <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/">Active</a> 포인터와 Expired 포인터의 이름표만 휙 바꿔버린다.</strong> (Swap: `temp = active; active = expired; expired = temp;`)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">O(1) 스케줄러의 타임 슬라이스 관리 및 포인터 스왑 메커니즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Active Array 포인터</div><div class="kb-diagram-node">Expired Array 포인터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">우선 0: P1 ─▶ P2 우선 0: (빔)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">우선 1: (빔) 우선 1: (빔)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">우선 2: P3 우선 2: (빔)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(시간 흐름: P1, P2, P3가 모두 슬라이스를 다 쓰고 쫓겨남)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Active Array 포인터</div><div class="kb-diagram-node">Expired Array 포인터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">우선 0: (빔) 🚨 우선 0: P1 ─▶ P2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">우선 1: (빔) 우선 1: (빔)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">우선 2: (빔) 🚨 우선 2: P3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 이때, 포인터(이름표)만 스왑하면 O(1) 시간에 모든 태스크의</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">타임 슬라이스가 완벽하게 재충전되는 기적이 일어남!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌────────────────────────────────────────────────────────────────────────┐
+  │         O(1) 스케줄러의 타임 슬라이스 관리 및 포인터 스왑 메커니즘     │
+  ├────────────────────────────────────────────────────────────────────────┤
+  │                                                                        │
+  │   [ Active Array 포인터 ]               [ Expired Array 포인터 ]       │
+  │       우선 0: P1 ─▶ P2                      우선 0: (빔)               │
+  │       우선 1: (빔)                           우선 1: (빔)              │
+  │       우선 2: P3                            우선 2: (빔)               │
+  │                                                                        │
+  │   (시간 흐름: P1, P2, P3가 모두 슬라이스를 다 쓰고 쫓겨남)             │
+  │                                                                        │
+  │   [ Active Array 포인터 ]               [ Expired Array 포인터 ]       │
+  │       우선 0: (빔) 🚨                       우선 0: P1 ─▶ P2           │
+  │       우선 1: (빔)                           우선 1: (빔)              │
+  │       우선 2: (빔) 🚨                       우선 2: P3                 │
+  │                                                                        │
+  │   ✅ 이때, 포인터(이름표)만 스왑하면 O(1) 시간에 모든 태스크의         │
+  │      타임 슬라이스가 완벽하게 재충전되는 기적이 일어남!                │
+  └────────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 이 투 어레이(Two-[Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)) 구조는 O(N) 비용이 드는 전통적 [에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/) 방식을 단 한 줄의 포인터 교체(Swap) 코드인 O(1) 시간으로 압축해 낸 역사적인 트릭이다. 쫓겨난 놈들은 Expired에서 다시 기회가 올 때까지 가만히 쉬고 있으므로, 징그럽게 CPU를 잡고 안 놓는 놈들(CPU Bound)로부터 가벼운 놈들을 100% 분리(기아 방지)할 수 있게 되었다.
 
 - **📢 섹션 요약 비유**: 급식소에서 밥을 다 먹은 애들을 밖으로 쫓아내고 "다 먹은 애들 줄"에 세웁니다. 원래 밥 먹던 줄([Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/))이 텅텅 비는 순간, 영양사 선생님이 "자, 이제부터 저쪽 다 먹은 줄이 새로운 밥 먹는 줄이다!"라고 표지판(포인터)만 휙 바꿔버려 다시 밥을 주는 극한의 꼼수 시스템입니다.
@@ -120,24 +117,24 @@ O(1) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas
 2. **현대 안드로이드(Android) 스마트폰에서의 O(1) 철학 부활 (EAS)**: 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 CFS로 넘어갔지만, 안드로이드나 초소형 임베디드 기기에서는 배터리 소모와 O(log N) 탐색 비용조차 아까울 때가 있다.
    - **실무 조치**: 안드로이드 진영의 몇몇 커스텀 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이나 실시간 하드웨어 제어 모듈에서는 여전히 O(1) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)의 개념(비트맵 탐색, 다중 큐)을 극도로 경량화하여 백그라운드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 스케줄링에 혼용하여 쓰거나, 실시간 클래스(`SCHED_FIFO`, `SCHED_RR`)에 한해서는 100% O(1) 방식의 100개 [우선순위 큐](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/) 구조를 그대로 놔두어 실시간성을 방어하고 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">O(1) 스케줄러에서 CFS 스케줄러로의 아키텍처 전환 결단 이유</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">기존 O(1) 스케줄러의 휴리스틱(Heuristics) 붕괴</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 미디어 플레이어 구동 (CPU 연산 빡셈, 대화형이기도 함)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. O(1) 스케줄러: "CPU 많이 쓰네? 너 꼴찌 큐로 가(페널티)!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 🚨 사용자 화면 멈춤. "리눅스는 데스크톱으론 쓰레기야!" 원성 폭발.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">리누스 토발즈와 잉고 몰나르의 결단 (CFS 도입)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"프로세스가 착한 놈인지 나쁜 놈인지 '추측(휴리스틱)'하는</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수천 줄의 더러운 코드를 싹 다 지워버려라!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 새로운 철학(CFS): 그냥 CPU를 쓴 '절대 시간(vruntime)'만</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정확히 재서, 적게 쓴 놈을 무조건 살려주는 깔끔한 수학으로 가자!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────────┐
+  │     O(1) 스케줄러에서 CFS 스케줄러로의 아키텍처 전환 결단 이유        │
+  ├───────────────────────────────────────────────────────────────────────┤
+  │                                                                       │
+  │   [ 기존 O(1) 스케줄러의 휴리스틱(Heuristics) 붕괴 ]                  │
+  │   1. 미디어 플레이어 구동 (CPU 연산 빡셈, 대화형이기도 함)            │
+  │   2. O(1) 스케줄러: "CPU 많이 쓰네? 너 꼴찌 큐로 가(페널티)!"         │
+  │   3. 🚨 사용자 화면 멈춤. "리눅스는 데스크톱으론 쓰레기야!" 원성 폭발.│
+  │                                                                       │
+  │   [ 리누스 토발즈와 잉고 몰나르의 결단 (CFS 도입) ]                   │
+  │   "프로세스가 착한 놈인지 나쁜 놈인지 '추측(휴리스틱)'하는            │
+  │    수천 줄의 더러운 코드를 싹 다 지워버려라!"                         │
+  │                                                                       │
+  │   ▶ 새로운 철학(CFS): 그냥 CPU를 쓴 '절대 시간(vruntime)'만           │
+  │      정확히 재서, 적게 쓴 놈을 무조건 살려주는 깔끔한 수학으로 가자!  │
+  └───────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 컴퓨터 공학에서 '[휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/)(경험칙)' 코드는 처음엔 잘 작동하는 것 같아도 엣지 케이스(Edge Case)가 터지면 수습이 안 되는 거대한 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)([Technical Debt](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/))가 된다. O(1) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드의 절반 이상이 "이 녀석이 대화형인가?"를 판별하는 땜질 코드였다. 이를 본 아키텍트들은 O(1)의 성능적 이점을 포기하더라도, 논리적으로 완벽하게 깔끔하고 버그가 없는 수학적 모델(CFS의 O(log N))로 회귀하는 것이 100년 대계를 위해 옳다고 판단했다.
 
 - **📢 섹션 요약 비유**: 관상쟁이(O(1) [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/))를 고용해서 "저놈은 사기꾼 상이니까 벌을 줘!"라고 때려잡다 보니 억울한 피해자(동영상 끊김)가 속출했습니다. 그래서 관상쟁이를 해고하고, 그냥 은행 거래 내역(vruntime)이라는 투명한 수학적 증거만 보고 사람을 심판하는 현대적 법치 시스템(CFS)으로 바꾼 것입니다.
@@ -167,19 +164,15 @@ O(1) 스케줄링의 도입은 리눅스가 데스크톱 장난감을 넘어 수
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">이기종 다중 처리기 스케줄링 (HMP)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">리눅스 O(1) 스케줄러 (Linux O1 Scheduler)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">연성 실시간 (Soft Real-time) 시스템</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">경성 실시간 (Hard Real-time) 시스템</div></div>
-</div>
-</div>
-
-
+```text
+[이기종 다중 처리기 스케줄링 (HMP)]
+    │
+    ▼
+[리눅스 O(1) 스케줄러 (Linux O1 Scheduler)]
+    │
+    ├──▶ [연성 실시간 (Soft Real-time) 시스템]
+    └──▶ [경성 실시간 (Hard Real-time) 시스템]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

@@ -33,27 +33,26 @@ tags = ["studynote-ict-convergence"]
 
 MLOps는 기존 소프트웨어의 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD에 [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/)(지속적 학습)라는 심장을 하나 더 단 3-Step 파이프라인이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">MLOps의 3대 자동화 (CI / CD / CT) 파이프라인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. CI (Continuous Integration, 지속적 통합)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 개발자가 새로운 AI 코드를 짜서 GitHub에 올림(Push)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 시스템이 "코드가 안 깨지나? 전처리는 잘 되나?" 자동으로 테스트함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 즉, '코드와 데이터'를 안전하게 합치는(Integration) 단계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. CT (Continuous Training, 지속적 학습) ⭐️ 머신러닝의 꽃 ⭐️</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 데이터가 변했다는 알람(Data Drift)이 울림</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 사람이 개입하지 않고, 시스템이 알아서 최신 데이터를 끌어와서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AI 모델을 다시 학습시키고 99점(성능)이 나오는지 스스로 시험 봄</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. CD (Continuous Deployment, 지속적 배포)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- CT에서 99점을 받은 똑똑한 새 모델이 탄생함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 서버가 멈추지 않게(무중단), 낡은 모델을 내리고 새 모델을</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">API 형태로 부드럽게 갈아 끼워서(Deploy) 손님들에게 서비스함</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────┐
+│             [ MLOps의 3대 자동화 (CI / CD / CT) 파이프라인 ]    │
+├────────────────────────────────────────────────────────┤
+│ 1. CI (Continuous Integration, 지속적 통합)            │
+│    - 개발자가 새로운 AI 코드를 짜서 GitHub에 올림(Push)         │
+│    - 시스템이 "코드가 안 깨지나? 전처리는 잘 되나?" 자동으로 테스트함│
+│    - 즉, '코드와 데이터'를 안전하게 합치는(Integration) 단계    │
+│                                                        │
+│ 2. CT (Continuous Training, 지속적 학습) ⭐️ 머신러닝의 꽃 ⭐️ │
+│    - 데이터가 변했다는 알람(Data Drift)이 울림               │
+│    - 사람이 개입하지 않고, 시스템이 알아서 최신 데이터를 끌어와서  │
+│      AI 모델을 다시 학습시키고 99점(성능)이 나오는지 스스로 시험 봄│
+│                                                        │
+│ 3. CD (Continuous Deployment, 지속적 배포)             │
+│    - CT에서 99점을 받은 똑똑한 새 모델이 탄생함                 │
+│    - 서버가 멈추지 않게(무중단), 낡은 모델을 내리고 새 모델을    │
+│      API 형태로 부드럽게 갈아 끼워서(Deploy) 손님들에게 서비스함 │
+└────────────────────────────────────────────────────────┘
+```
 
 1. <strong>파이프라인 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/">오케스트레이션</a> (<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/">Orchestration</a>)</strong>: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 긁어오기 -> 전처리 -> 학습 -> 모델 평가 -> 배포라는 5개의 컨베이어 벨트 작업은 순서대로 맞물려 돌아가야 한다. 이 작업 순서를 스케줄링하고 앞선 작업이 끝나면 뒤의 작업을 자동으로 쳐주는 현장 소장이 필요한데, 이 역할을 <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/168_airflow_dag_pipeline_scheduling/">Apache Airflow</a>, <a href="/knowledge-base/studynote/14_data_engineering/04_mlops/167_kubeflow_kubernetes_ml_pipeline/">Kubeflow</a>, <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/180_mlflow/">MLflow</a></strong> 같은 툴이 담당한다.
 2. <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/166_model_registry_versioning_mlflow/">모델 레지스트리</a> (<a href="/knowledge-base/studynote/14_data_engineering/04_mlops/166_model_registry_versioning_mlflow/">Model Registry</a>)</strong>: 학습이 끝난 모델의 성적표, [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/), 그때 썼던 파이썬 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 등을 도서관처럼 꼼꼼하게 기록해 두는 모델 저장소다. 나중에 배포한 모델이 사고를 치면, [모델 레지스트리](/knowledge-base/studynote/14_data_engineering/04_mlops/166_model_registry_versioning_mlflow/)를 뒤져 어제 배포했던 건강한 모델로 1초 만에 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/))시킬 수 있다.

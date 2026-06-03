@@ -27,26 +27,30 @@ tags = ["studynote-operating-system"]
   2. **수학적 우회 (2의 승수)**: 공학자들은 "무조건 2의 승수로만 자르자"고 합의했다. 이렇게 하면 쪼개진 쌍둥이(Buddy)의 주소는 자신의 주소에서 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)([Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/)) 1개만 뒤집으면(XOR 연산) 0.001초 만에 알아낼 수 있다.
   3. <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/">내부 단편화</a>의 수용</strong>: 17KB를 요구하면 32KB를 줘야 하므로 무려 15KB의 [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)가 버려진다. 하지만 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) 방어력과 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 런타임 속도를 얻기 위해 이 공간적 낭비를 쿨하게 지불(Trade-off)하기로 했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">버디 시스템(Buddy System)의 쪼개기와 할당 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">초기 상태: 1024KB 통짜 메모리 하나</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1024KB (전체 텅 빈 공간)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">100KB 프로세스 A 요청 발생</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 100KB가 들어갈 가장 가까운 2의 승수는? → 128KB ($2^7$)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 1024를 반으로 쪼갬 → 512, 512</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 512 하나를 반으로 쪼갬 → 256, 256</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 256 하나를 반으로 쪼갬 → 128, 128 (원하던 크기 도달!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 쪼개진 메모리 최종 결과:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A:128</div><div class="kb-diagram-cell">빈 128</div><div class="kb-diagram-cell">빈방 256</div><div class="kb-diagram-cell">빈방 512</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(100KB사용)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(28KB 내부단편화 낭비)</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────────┐
+│           버디 시스템(Buddy System)의 쪼개기와 할당 시각화        │
+├───────────────────────────────────────────────────────────────────┤
+│                                                                   │
+│ [ 초기 상태: 1024KB 통짜 메모리 하나 ]                            │
+│ ┌─────────────────────────────────────────────────────┐           │
+│ │ 1024KB (전체 텅 빈 공간)                               │        │
+│ └─────────────────────────────────────────────────────┘           │
+│                                                                   │
+│ [ 100KB 프로세스 A 요청 발생 ]                                    │
+│ 1. 100KB가 들어갈 가장 가까운 2의 승수는? → 128KB ($2^7$)         │
+│ 2. 1024를 반으로 쪼갬 → 512, 512                                  │
+│ 3. 512 하나를 반으로 쪼갬 → 256, 256                              │
+│ 4. 256 하나를 반으로 쪼갬 → 128, 128 (원하던 크기 도달!)          │
+│                                                                   │
+│ ▶ 쪼개진 메모리 최종 결과:                                        │
+│ ┌──────┬──────┬─────────────┬────────────────────────┐            │
+│ │A:128 │빈 128│  빈방 256   │       빈방 512         │            │
+│ └──────┴──────┴─────────────┴────────────────────────┘            │
+│  (100KB사용)                                                      │
+│  (28KB 내부단편화 낭비)                                           │
+└───────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 버디 시스템은 마치 세포 분열처럼 동작한다. 100KB를 원한다고 100KB를 맞춰 주지 않는다. 무조건 128KB 방을 준다. 이 128KB 방의 짝꿍(Buddy)은 바로 옆에 있는 빈방 128KB다. 나중에 A가 종료되면, 이 두 128KB 방은 쌍둥이이므로 묻지도 따지지도 않고 결합하여 256KB로 복원된다. 이 '규격화된 쪼개기와 합치기'가 핵심 철학이다.
 
 - **📢 섹션 요약 비유**: 피자를 조각낼 때 무조건 반, 반의반, 반의반의 반으로만 자르는 칼잡이입니다. 손님이 애매한 크기를 원해도 무조건 한 조각 규격을 던져주어 부스러기 낭비([내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/))는 생기지만, 나중에 남은 조각들을 다시 합쳐 동그란 피자를 만들기에는 세계 최고로 쉬운 방식입니다.
@@ -70,23 +74,25 @@ tags = ["studynote-operating-system"]
 
 프로세스가 종료되어 메모리를 반환할 때, 버디 시스템의 진가가 폭발한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">버디 반환 시 연쇄 병합 (Domino Coalescing)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 상태</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A:128</div><div class="kb-diagram-cell">빈 128</div><div class="kb-diagram-cell">빈방 256</div><div class="kb-diagram-cell">빈방 512</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">프로세스 A (128KB) 종료 및 반환</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">빈 256</div><div class="kb-diagram-note">생성.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">빈 512</div><div class="kb-diagram-note">생성.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">빈 1024</div><div class="kb-diagram-note">복원!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: 1초도 안 되는 찰나의 3번 XOR 연산만으로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">잘게 찢어졌던 메모리가 완벽한 1024KB 통짜 블록으로 부활함!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────────────────┐
+│              버디 반환 시 연쇄 병합 (Domino Coalescing)                     │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│ [ 현재 상태 ]                                                               │
+│ ┌──────┬──────┬─────────────┬────────────────────────┐                      │
+│ │A:128 │빈 128│  빈방 256   │       빈방 512         │                      │
+│ └──────┴──────┴─────────────┴────────────────────────┘                      │
+│                                                                             │
+│ [ 프로세스 A (128KB) 종료 및 반환 ]                                         │
+│ 1단계: A가 나감. 내 짝꿍(빈 128)이 비어있네? 합체! → [빈 256] 생성.         │
+│ 2단계: 새로 생긴 256의 짝꿍(빈 256)이 옆에 비어있네? 합체! → [빈 512] 생성. │
+│ 3단계: 새로 생긴 512의 짝꿍(빈 512)이 옆에 비어있네? 합체! → [빈 1024] 복원!│
+│                                                                             │
+│ ▶ 결과: 1초도 안 되는 찰나의 3번 XOR 연산만으로                             │
+│        잘게 찢어졌던 메모리가 완벽한 1024KB 통짜 블록으로 부활함!           │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 가변 분할의 First-Fit이었다면 이 쪼개진 방들을 합치기 위해 메모리 주소를 비교하고 포인터를 갱신하느라 수십 사이클을 낭비했을 것이다. 버디 시스템은 마치 도미노가 쓰러지듯, 쌍둥이들이 비어있기만 하면 눈 깜짝할 사이에 최상위 거대 노드(Big Block)로 연쇄 융합한다. 이 강력한 '거대 블록 복원력' 덕분에 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)에 대한 내성이 극강으로 올라간다.
 
@@ -123,18 +129,15 @@ tags = ["studynote-operating-system"]
 - 결과적으로 64 - 33 = <strong>31KB</strong>가 그 방 안에서 아무도 쓰지 못한 채 공중으로 증발해버린다. (거의 50%의 [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/))
 - 공학자들은 이 거대한 공간적 손실을 감수하고서라도, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 레벨에서는 '탐색/병합 속도 보장'과 '큰 블록의 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) 파괴 방어'가 훨씬 더 갚지다고 판단했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최적화 포인트</div><div class="kb-diagram-cell">가변 분할(동적)</div><div class="kb-diagram-cell">페이징(가상)</div><div class="kb-diagram-cell">버디 시스템(커널)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">속도 확보</div><div class="kb-diagram-cell">❌ 느림</div><div class="kb-diagram-cell">🟡 TLB 필요</div><div class="kb-diagram-cell">🟢 비트연산 초고속</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단편화 방어</div><div class="kb-diagram-cell">❌ 둘 다 뚫림</div><div class="kb-diagram-cell">🟢 외부 방어</div><div class="kb-diagram-cell">🟡 외부는 강함, 내부 약함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주 적용처</div><div class="kb-diagram-cell">낡은 OS, User앱</div><div class="kb-diagram-cell">OS 논리 주소</div><div class="kb-diagram-cell">OS 커널 물리 메모리</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬──────────────────────────────────┐
+│ 최적화 포인트│ 가변 분할(동적)│ 페이징(가상)  │ 버디 시스템(커널)     │
+├──────────┼────────────┼────────────┼──────────────────────────────────┤
+│ 속도 확보  │ ❌ 느림      │ 🟡 TLB 필요 │ 🟢 비트연산 초고속          │
+│ 단편화 방어 │ ❌ 둘 다 뚫림 │ 🟢 외부 방어 │ 🟡 외부는 강함, 내부 약함│
+│ 주 적용처  │ 낡은 OS, User앱│ OS 논리 주소 │ OS 커널 물리 메모리      │
+└──────────┴────────────┴────────────┴──────────────────────────────────┘
+```
 **[매트릭스 해설]** 범용 유저 애플리케이션에서는 버디 시스템을 거의 쓰지 않는다. 메모리 낭비가 너무 심하기 때문이다. 하지만 하드웨어와 가장 가까운 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)(리눅스)은 디바이스 드라이버나 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 자료구조를 띄우기 위해 "반드시 물리적으로 연속된" 메모리 조각이 필요하다(페이징의 가상 주소 가라치기가 안 통함). 이 물리적 연속 공간을 가장 빠르고 파편화 없이 잘라주는 유일한 해답이 버디 시스템이었다.
 
 - **📢 섹션 요약 비유**: 3만 1천 원짜리 물건을 사는데 잔돈 깎아주기 귀찮다고 5만 원을 내고 거스름돈을 안 받는 쿨한 재벌([내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/) 낭비)입니다. 돈은 낭비하지만 계산하는 시간(스캔 속도)은 빛처럼 빠릅니다.
@@ -193,19 +196,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">압축 (Compaction)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">버디 시스템 (Buddy System) 할당기</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">슬랩 할당기 (Slab Allocator)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">비연속 메모리 할당 (Non-contiguous Memory Allocation)</div></div>
-</div>
-</div>
-
-
+```text
+[압축 (Compaction)]
+    │
+    ▼
+[버디 시스템 (Buddy System) 할당기]
+    │
+    ├──▶ [슬랩 할당기 (Slab Allocator)]
+    └──▶ [비연속 메모리 할당 (Non-contiguous Memory Allocation)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: 가입자의 스마트폰에서 시작하여 무선 기지국(RAN), 중간 전송망(Transport), 최종 심장부인 코어망(Core)에 이르는 <strong>통신망의 처음부터 끝까지 전체 경로(종단 간)를, 단절 없이 하나의 완벽한 가상 <a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/">슬라이스</a>(독립된 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>)로 꿰뚫어서 맵핑하고 격리를 보장하는 아키텍처</strong>입니다.
 - **필요성**: 어느 한 구간이라도 쪼개져 있지 않고 섞여서 병목([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/))이 생기면, '초저지연 1ms 보장'이라는 슬라이싱의 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/)([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 협약)가 와르르 무너지기 때문입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 슬라이싱</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">E2E 슬라이싱 보장 모델 관리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MEC 기반 가속 통신망 라우팅 최적</div></div>
-</div>
-</div>
-
-
+```text
+[네트워크 슬라이싱]
+    │
+    ▼
+[E2E 슬라이싱 보장 모델 관리]
+    │
+    └──▶ [MEC 기반 가속 통신망 라우팅 최적]
+```
 
 - **📢 섹션 요약 비유**: [E2E](/knowledge-base/studynote/15_devops_sre/05_devsecops/265_e2e_end_to_ui_selenium/) 슬라이싱 보장 모델 관리는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -55,18 +51,14 @@ tags = ["studynote-network"]
 - 서울 본사 서버실 구간입니다. (앞서 773번에서 배운 5GC의 클라우드 분리 기술)
 - 자율주행 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/)를 위해 독립된 컨테이너에 [AMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/770_amf_access_mobility_management_function/), [SMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/771_smf_upf_session_management_user_plane/), UPF 서버를 따로 띄워 배포해 둡니다. 이 컨테이너는 오직 자율주행차의 데이터만 100% 처리합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 슬라이싱</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">E2E 슬라이싱 보장 모델 관리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">MEC 기반 가속 통신망 라우팅 최적</div></div>
-</div>
-</div>
-
-
+```text
+[네트워크 슬라이싱]
+    │
+    ▼
+[E2E 슬라이싱 보장 모델 관리]
+    │
+    └──▶ [MEC 기반 가속 통신망 라우팅 최적]
+```
 
 - **📢 섹션 요약 비유**: [E2E](/knowledge-base/studynote/15_devops_sre/05_devsecops/265_e2e_end_to_ui_selenium/) 슬라이싱 보장 모델 관리의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -128,19 +120,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 네트워크 슬라이싱</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: E2E 슬라이싱 보장 모델 관리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: MEC 기반 가속 통신망 라우팅 최적</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 네트워크 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 네트워크 슬라이싱]
+    │
+    ▼
+[현재 개념: E2E 슬라이싱 보장 모델 관리]
+    │
+    ├──▶ [확장 A: MEC 기반 가속 통신망 라우팅 최적]
+    └──▶ [확장 B: AI 기반 네트워크 최적화]
+```
 
 [E2E](/knowledge-base/studynote/15_devops_sre/05_devsecops/265_e2e_end_to_ui_selenium/) 슬라이싱 보장 모델 관리는 [네트워크 슬라이싱](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/) 기반 가속 통신망 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 최적와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

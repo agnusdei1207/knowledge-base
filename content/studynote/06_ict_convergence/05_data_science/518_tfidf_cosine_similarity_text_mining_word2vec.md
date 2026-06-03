@@ -38,22 +38,20 @@ tags = ["studynote-ict-convergence"]
 
 ### [TF-IDF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/232_tfidf_cosine_similarity_text_embedding_confusion_matrix/) 계산 구조
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">문서 컬렉션 (D개 문서)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">TF(t,d) = 단어 t가 문서 d에 나타난 횟수 / 문서 d의 전체 단어 수</div>
-<div class="kb-diagram-note">IDF(t) = log(D / df(t)) df(t) = 단어 t를 포함한 문서 수</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">TF-IDF(t,d) = TF(t,d) × IDF(t)</div>
-<div class="kb-diagram-note">높은 TF-IDF ──→ 이 문서에 자주 나타나면서</div>
-<div class="kb-diagram-note">전체 문서에서는 희귀한 단어</div>
-</div>
-</div>
-
-
+```
+문서 컬렉션 (D개 문서)
+        │
+        ▼
+TF(t,d) = 단어 t가 문서 d에 나타난 횟수 / 문서 d의 전체 단어 수
+        │
+IDF(t) = log(D / df(t))     df(t) = 단어 t를 포함한 문서 수
+        │
+        ▼
+TF-IDF(t,d) = TF(t,d) × IDF(t)
+        │
+높은 TF-IDF ──→ 이 문서에 자주 나타나면서
+                전체 문서에서는 희귀한 단어
+```
 
 ### [코사인 유사도](/knowledge-base/studynote/06_ict_convergence/05_data_science/359_cosine_similarity/) ([Cosine Similarity](/knowledge-base/studynote/06_ict_convergence/05_data_science/359_cosine_similarity/))
 
@@ -86,19 +84,14 @@ $$\cos(\theta) = \frac{\vec{A} \cdot \vec{B}}{|\vec{A}||\vec{B}|}$$
 
 ### [하이브리드 검색](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/279_rlhf_reinforcement_learning_human_feedback/) ([Hybrid Search](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/279_rlhf_reinforcement_learning_human_feedback/)) — [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) 활용
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">쿼리 입력</div>
-<div class="kb-diagram-tree-item" style="--depth:2">BM25 검색 (키워드 매칭) ──</div>
-<div class="kb-diagram-note">─ RRF 융합 → 최종 문서 순위</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Dense Vector 검색</div>
-<div class="kb-diagram-note">(의미 유사도)</div>
-</div>
-</div>
-
-
+```
+쿼리 입력
+    │
+    ├─ BM25 검색 (키워드 매칭) ──┐
+    │                            ├─ RRF 융합 → 최종 문서 순위
+    └─ Dense Vector 검색         │
+       (의미 유사도)  ────────────┘
+```
 
 **RRF(Reciprocal Rank Fusion)**: 두 검색 결과의 순위를 결합하는 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) 방법.
 

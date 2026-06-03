@@ -30,18 +30,14 @@ tags = ["studynote-network"]
   2. <strong>3G <a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/">CDMA</a> 방식</strong>: 모든 기지국이 동일한 주파수를 사용하고 코드([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))로만 구분했기에, 수신기([레이크 수신기](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/565_rake_receiver_multipath_fading_cdma/))가 동시에 여러 기지국 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 받을 수 있는 [소프트 핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/558_soft_handoff/) 전성시대가 열렸다. 통화 끊김은 획기적으로 줄었다.
   3. <strong>4G <a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/">LTE</a> 및 <a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a> (<a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/">OFDMA</a> 방식)</strong>: 주파수 대역이 세밀하게 쪼개지는 [OFDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/) 패킷 망으로 진화하면서, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)) 극대화를 위해 자원을 이중으로 쓰는 소프트 방식은 폐기되었다. 대신, 기지국 간 [백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/)([Backhaul](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/)) 통신망을 광통신으로 묶어 하드 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)의 단절 시간을 수십 밀리초 이내로 단축시켜 사실상 '끊김을 느끼지 못하게' 만들었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">핸드오버 / 핸드오프 종류 개념</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">하드 핸드오버</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">소프트 핸드오버</div></div>
-</div>
-</div>
-
-
+```text
+[핸드오버 / 핸드오프 종류 개념]
+    │
+    ▼
+[하드 핸드오버]
+    │
+    └──▶ [소프트 핸드오버]
+```
 
 - **📢 섹션 요약 비유**: 앞 기차에서 발을 완전히 떼고(Break) 허공을 뛰어넘어 뒷 기차에 착지(Make)하는 기술입니다. 과거에는 뛰다가 떨어지는 사람이 많았지만, 지금은 두 기차 사이를 엄청나게 가깝게 붙여(X2 인터페이스) 누구도 떨어지지 않게 만든 셈입니다.
 
@@ -53,28 +49,35 @@ tags = ["studynote-network"]
 
 하드 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)의 가장 중요한 특징은 물리적으로 연결이 존재하지 않는 <strong>절체 시간(Interruption Time)</strong>이 반드시 존재한다는 점이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하드 핸드오버의 'Break-before-make' 원리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단말 (UE) 서빙 기지국 (S-eNB) 타겟 기지국 (T-eNB)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Measurement Report</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">2. HO Decision</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. HO Request</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. HO Request Ack</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. HO Command</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Break</div><div class="kb-diagram-note">기존 연결 해제</div><div class="kb-diagram-node">데이터 포워딩 시작</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(공백기)</div><div class="kb-diagram-cell">======================▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6. Random Access (동기화)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">7. HO Complete</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Make</div><div class="kb-diagram-note">새 연결 확립 │ │</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ 공백기 (Interruption Time): 보통 20ms ~ 50ms 소요.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이 기간 동안 코어망에서 서빙 기지국으로 내려온 패킷은 공중에서 분해됨.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │         하드 핸드오버의 'Break-before-make' 원리              │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │   단말 (UE)              서빙 기지국 (S-eNB)       타겟 기지국 (T-eNB)│
+  │      │                         │                        │   │
+  │      │ 1. Measurement Report   │                        │   │
+  │      │────────────────────────▶│ 2. HO Decision         │   │
+  │      │                         │                        │   │
+  │      │                         │ 3. HO Request          │   │
+  │      │                         │───────────────────────▶│   │
+  │      │                         │ 4. HO Request Ack      │   │
+  │      │                         │◀───────────────────────│   │
+  │      │ 5. HO Command           │                        │   │
+  │      │◀────────────────────────│                        │   │
+  │    ──┴──                     ──┴──                    ──┴── │
+  │   [Break] 기존 연결 해제       [데이터 포워딩 시작]            │
+  │   (공백기)                      │======================▶│   │
+  │    ──┬──                     ──┬──                    ──┬── │
+  │      │ 6. Random Access (동기화)│                        │   │
+  │      │─────────────────────────┼───────────────────────▶│   │
+  │      │ 7. HO Complete          │                        │   │
+  │   [Make] 새 연결 확립          │                        │   │
+  │                                                             │
+  │  ※ 공백기 (Interruption Time): 보통 20ms ~ 50ms 소요.         │
+  │     이 기간 동안 코어망에서 서빙 기지국으로 내려온 패킷은 공중에서 분해됨. │
+  └─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 단말기가 5번 `HO Command`를 받는 순간, 단말기는 지체 없이 서빙 기지국과의 통신을 끊는다(`Break`). 이때부터 타겟 기지국과 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)(Random Access)를 마치고 `HO Complete`를 보낼 때까지 단말기는 인터넷 세상에서 완전히 사라진 상태(공백기)가 된다. 이 찰나의 공백기 동안 외부에서 단말로 전송되던 IP 패킷들은 갈 곳을 잃고 드랍(Drop)될 위기에 처한다. 과거 아날로그 시대에는 이 공백기가 길어 통화가 끊어졌으나, LTE에서는 이 시간을 평균 20~50ms 수준으로 압축했다.
 
@@ -174,19 +177,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 핸드오버 / 핸드오프 종류 개념</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 하드 핸드오버</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 소프트 핸드오버</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 무선 자원 제어</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 핸드오버 / 핸드오프 종류 개념]
+    │
+    ▼
+[현재 개념: 하드 핸드오버]
+    │
+    ├──▶ [확장 A: 소프트 핸드오버]
+    └──▶ [확장 B: 지능형 무선 자원 제어]
+```
 
 하드 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)는 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) / 핸드오프 종류 개념에서 출발해 현재 메커니즘을 정교화하고, 이후 [소프트 핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/558_soft_handoff/)와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

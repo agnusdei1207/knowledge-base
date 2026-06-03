@@ -50,24 +50,24 @@ tags = ["studynote-operating-system"]
 
 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 학자들이 전 세계의 수많은 프로그램을 분석해 보니, CPU 버스트 길이는 지수 분포(Exponential Distribution)를 따랐다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU Burst 길이의 확률 분포 그래프</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">빈도수(빈번함)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* (짧은 CPU Burst가 압도적으로 많음 = I/O Bound)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* *</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* *</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* *</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* * *</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* * * * * (긴 CPU Burst는 매우 드묾 = CPU Bound)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* * * * * * * * * * * *</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1ms 10ms 50ms 1000ms CPU 시간</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 CPU Burst 길이의 확률 분포 그래프                     │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │  빈도수(빈번함)                                                       │
+  │   ▲                                                               │
+  │   │  * (짧은 CPU Burst가 압도적으로 많음 = I/O Bound)                  │
+  │   │  * *                                                          │
+  │   │  *   *                                                        │
+  │   │  *     *                                                      │
+  │   │  *       * *                                                  │
+  │   │  *           * * * *      (긴 CPU Burst는 매우 드묾 = CPU Bound)│
+  │   │  *                   * * * * * * * * * * *                    │
+  │   └─────────────────────────────────────────────────────────▶     │
+  │      1ms   10ms        50ms                    1000ms    CPU 시간  │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 세상에 존재하는 90%의 프로그램은 아주 잠깐(1ms) 연산하고 I/O를 기다리러 떠난다(I/O Bound). 반면, 한 번 CPU를 잡으면 수백 ms 동안 안 놓는 무거운 프로그램(CPU Bound)은 극소수다. <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a>의 목표는 이 다수의 I/O 바운드 프로세스들이 "응답 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>"을 느끼지 않게, 소수의 CPU 바운드 프로세스로부터 지켜내는 것</strong>이다.
 
@@ -126,26 +126,29 @@ OS [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_s
 
 ### 의사결정 및 튜닝 플로우
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">워크로드 특성(CPU vs I/O) 기반 아키텍처 의사결정 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">서버 성능 모니터링 툴(top, vmstat)을 통한 병목 확인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell"><code>top</code>에서 CPU의 <code>%us</code>(유저)가 90% 이상이고 <code>%wa</code>(I/O 대기)는 0인가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">명확한 CPU Bound 워크로드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대책 1: 로직 알고리즘 자체의 시간 복잡도(O(n)) 개선</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대책 2: Scale-Up (CPU 클럭/코어 수 높은 장비로 마이그레이션)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 사용률은 20% 이내인데, <code>%wa</code>(Wait)가 높거나 스레드들이 다 자고 있는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">명확한 I/O Bound 워크로드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대책 1: I/O 병목 지점(DB 쿼리, 외부 API 네트워크) 튜닝</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대책 2: 스레드 풀 증가 또는 비동기(Async) 아키텍처 적용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ──▶ 메모리 스왑(Swapping)이나 락(Lock) 경합 문제 의심</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 워크로드 특성(CPU vs I/O) 기반 아키텍처 의사결정 플로우    │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [서버 성능 모니터링 툴(top, vmstat)을 통한 병목 확인]                      │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      `top`에서 CPU의 `%us`(유저)가 90% 이상이고 `%wa`(I/O 대기)는 0인가?    │
+  │          ├─ 예 ─────▶ [명확한 CPU Bound 워크로드]                   │
+  │          │            대책 1: 로직 알고리즘 자체의 시간 복잡도(O(n)) 개선     │
+  │          │            대책 2: Scale-Up (CPU 클럭/코어 수 높은 장비로 마이그레이션)│
+  │          └─ 아니오                                                │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      CPU 사용률은 20% 이내인데, `%wa`(Wait)가 높거나 스레드들이 다 자고 있는가?│
+  │          ├─ 예 ─────▶ [명확한 I/O Bound 워크로드]                   │
+  │          │            대책 1: I/O 병목 지점(DB 쿼리, 외부 API 네트워크) 튜닝│
+  │          │            대책 2: 스레드 풀 증가 또는 비동기(Async) 아키텍처 적용 │
+  │          │                                                        │
+  │          └─ 아니오 ──▶ 메모리 스왑(Swapping)이나 락(Lock) 경합 문제 의심 │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 초보자는 서버가 느리면 "서버 사양(CPU)을 올립시다"라고 한다. 하지만 I/O 바운드 병목(DB가 느림)일 때 웹 서버의 CPU를 100코어짜리로 바꿔봤자 속도는 1ms도 빨라지지 않는다. 기술사는 모니터링 지표를 보고 현재의 워크로드가 CPU 바운드인지 I/O 바운드인지 단번에 갈라내어 엉뚱한 곳에 돈을 쓰지 않도록 막는 사람이다.
 
@@ -188,19 +191,15 @@ CPU 바운드와 I/O 바운드는 모든 소프트웨어의 성격을 규정하�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">단기 스케줄러 디스패치</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CPU 바운드 vs I/O 바운드 (CPU Bound Vs I/O Bound Workload)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">선점 / 비선점 스케줄링 차이</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">FCFS 호위 효과 (Convoy Effect)</div></div>
-</div>
-</div>
-
-
+```text
+[단기 스케줄러 디스패치]
+    │
+    ▼
+[CPU 바운드 vs I/O 바운드 (CPU Bound Vs I/O Bound Workload)]
+    │
+    ├──▶ [선점 / 비선점 스케줄링 차이]
+    └──▶ [FCFS 호위 효과 (Convoy Effect)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

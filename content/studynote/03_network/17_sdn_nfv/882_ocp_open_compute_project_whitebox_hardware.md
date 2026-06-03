@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 전통적으로 서버 컴퓨터나 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 시스코, HP, Dell 같은 회사가 만들고 내부 설계도는 며느리도 모르는 1급 기밀(Blackbox)이었습니다. 필요 없는 불빛 화려한 플라스틱 껍데기와 쓰레기 부가기능이 덕지덕지 붙어 전기세만 먹었습니다.
 - 2011년, 메타(페이스북)는 이 독점을 부수기 위해 <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/">OCP</a>(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/640_open_compute_project/">Open Compute Project</a>)</strong>를 창설했습니다. (소프트웨어의 리눅스(Linux) 혁명이 '하드웨어 쇳덩어리' 버전으로 나타난 대사건입니다.)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">마이크로세그멘테이션 방화벽 SDN 접목 내부…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">OCP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SONiC</div></div>
-</div>
-</div>
-
-
+```text
+[마이크로세그멘테이션 방화벽 SDN 접목 내부…]
+    │
+    ▼
+[OCP]
+    │
+    └──▶ [SONiC]
+```
 
 - **📢 섹션 요약 비유**: OCP는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -43,18 +39,14 @@ tags = ["studynote-network"]
 
 - **개념**: 세계 최대 규모의 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)를 굴리는 페이스북, 구글, 마이크로소프트, 인텔 등이 주도하는 연합체로, <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/">데이터센터</a>에 들어가는 서버 메인보드, 랙(Rack), 냉각 장치, 전원 공급기, 그리고 '<a href="/knowledge-base/studynote/03_network/17_sdn_nfv/859_whitebox_switch_open_hardware_nos/">화이트박스 스위치</a>(Bare-metal <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">Switch</a>)'의 규격과 설계도를 100% <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/">오픈소스</a>(Open Source)로 공개하여 <a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/">벤더 종속</a>을 탈피하고 가장 효율적인 범용 인프라 장비를 찍어내는 개방형 하드웨어 생태계</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">마이크로세그멘테이션 방화벽 SDN 접목 내부…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">OCP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SONiC</div></div>
-</div>
-</div>
-
-
+```text
+[마이크로세그멘테이션 방화벽 SDN 접목 내부…]
+    │
+    ▼
+[OCP]
+    │
+    └──▶ [SONiC]
+```
 
 - **📢 섹션 요약 비유**: OCP의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -120,19 +112,15 @@ OCP는 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topi
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 마이크로세그멘테이션 방화벽 SDN 접목 내부…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: OCP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: SONiC</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 프로그래머블 네트워크</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 마이크로세그멘테이션 방화벽 SDN 접목 내부…]
+    │
+    ▼
+[현재 개념: OCP]
+    │
+    ├──▶ [확장 A: SONiC]
+    └──▶ [확장 B: 프로그래머블 네트워크]
+```
 
 OCP는 [마이크로세그멘테이션 방화벽](/knowledge-base/studynote/03_network/17_sdn_nfv/881_micro_segmentation_firewall_sdn_policy_automation/) [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 접목 내부…에서 출발해 현재 메커니즘을 정교화하고, 이후 SONiC와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

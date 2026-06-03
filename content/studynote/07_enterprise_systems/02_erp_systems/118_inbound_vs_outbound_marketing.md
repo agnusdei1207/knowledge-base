@@ -18,23 +18,21 @@ tags = ["studynote-enterprise-systems"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">아웃바운드 vs 인바운드 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">아웃바운드 (Push)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기업 → 고객에게 메시지 푸시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TV 광고, 콜드콜, 배너, 전단지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 고객이 원하지 않아도 노출 → Ad Blocker 증가</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">인바운드 (Pull)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고객 ← 자발적으로 찾아옴</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">블로그, SEO, 유튜브, 웨비나, 전자책</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 고객이 필요할 때 찾아옴 → 신뢰도 높음</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    아웃바운드 vs 인바운드 비교                         │
+├───────────────────────────────────────────────────────┤
+│  [아웃바운드 (Push)]                                  │
+│   기업 → 고객에게 메시지 푸시                         │
+│   TV 광고, 콜드콜, 배너, 전단지                       │
+│   → 고객이 원하지 않아도 노출 → Ad Blocker 증가      │
+│                                                       │
+│  [인바운드 (Pull)]                                    │
+│   고객 ← 자발적으로 찾아옴                           │
+│   블로그, SEO, 유튜브, 웨비나, 전자책                │
+│   → 고객이 필요할 때 찾아옴 → 신뢰도 높음            │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 아웃바운드는 길에서 전단지를 뿌리는 것(Push)이고, 인바운드는 맛집이 되어 손님이 알아서 찾아오게 하는 것(Pull)이다.
 
@@ -92,23 +90,21 @@ tags = ["studynote-enterprise-systems"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">TV·신문 광고 (아웃바운드, 1950s~)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">인터넷 배너·이메일 (디지털 아웃바운드, 2000s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">인바운드 마케팅 (2006, HubSpot) — 콘텐츠·SEO·블로그</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Blended 전략 (2015~) — 인바운드+리타겟팅 혼합</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: AI 인바운드 — GenAI 콘텐츠 자동 생성·SEO 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[TV·신문 광고 (아웃바운드, 1950s~)]
+    │
+    ▼
+[인터넷 배너·이메일 (디지털 아웃바운드, 2000s)]
+    │
+    ▼
+[인바운드 마케팅 (2006, HubSpot) — 콘텐츠·SEO·블로그]
+    │
+    ▼
+[Blended 전략 (2015~) — 인바운드+리타겟팅 혼합]
+    │
+    ▼
+[현재: AI 인바운드 — GenAI 콘텐츠 자동 생성·SEO 최적화]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 아웃바운드는 길에서 **전단지를 뿌리는** 거예요. 많은 사람이 그냥 지나가요.

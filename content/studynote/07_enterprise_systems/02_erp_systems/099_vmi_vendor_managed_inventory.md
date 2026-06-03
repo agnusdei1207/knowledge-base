@@ -30,20 +30,19 @@ VMI의 핵심은 <strong>투명한 <a href="/knowledge-base/studynote/05_databas
 2. **수요 예측 및 계획**: 공급자는 수신한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 기반으로 소매점의 미래 수요를 계산하고, 상호 합의된 '최소/최대 재고 수준(Min/Max Inventory Level)'을 유지하기 위한 보충 계획을 세운다.
 3. **자율 배송 및 보충**: 소매점의 발주서(PO) 없이, 공급자가 자체적인 생산 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)과 물류 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)을 최적화하여 소매점 진열대나 창고에 제품을 직접 납품한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VMI (공급자 주도 재고 관리) 흐름도</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">소매점 (월마트)</div><div class="kb-diagram-node">공급자 (P&amp;G)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 바코드 스캔 (POS) 실시간 판매 데이터 ──▶ 2. 데이터 분석/예측</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(발주 업무 없음!) (ERP/SCM 연동)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 진열대에 꽉 찬 제품 ◀── 최적 수량 자율 배송 ── 3. 생산 및 출하 지시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(결품 방지, 창고 축소) (안전 재고 최소화)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                  VMI (공급자 주도 재고 관리) 흐름도            │
+├──────────────────────────────────────────────────────────────┤
+│ [ 소매점 (월마트) ]                          [ 공급자 (P&G) ]    │
+│                                                              │
+│ 1. 바코드 스캔 (POS) ─── 실시간 판매 데이터 ──▶ 2. 데이터 분석/예측 │
+│   (발주 업무 없음!)                              (ERP/SCM 연동) │
+│                                                              │
+│ 4. 진열대에 꽉 찬 제품 ◀── 최적 수량 자율 배송 ── 3. 생산 및 출하 지시│
+│   (결품 방지, 창고 축소)                           (안전 재고 최소화) │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 구조에서 소매점은 판매에만 집중하고, 공급자는 생산부터 유통 진열까지 전체 물류 리드타임([Lead Time](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/))을 스스로 통제하게 된다.
 
@@ -74,7 +73,7 @@ VMI를 기존 재고 관리 기법들과 비교하면 책임의 주체가 어떻
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - IT 시스템(EDI 연동)만 뚫어놓고, 소매점이 공급자의 배송 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)을 믿지 못해 몰래 자체 창고에 추가 안전 재고를 숨겨두는 행위 (VMI 효과 [제로화](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/784_zeroization_circuit/)).
-- 공급자가 소매점의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 분석할 [데이터 마이닝](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/284_data_mining_association_classification_clustering_crisp_dm/) 역량이 없는데도 VMI 계약만 맺어 오히려 엉뚱한 물량을 밀어내기(Push) 하는 경우.
+- 공급자가 소매점의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 분석할 [데이터 마이닝](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/284_data_mining_association_classification_clustering_crisp_dm/) 역량이 없는데도 VMI 계약만 맺어 오히려 엉뚱한 수량을 밀어내기(Push) 하는 경우.
 
 - **📢 섹션 요약 비유**: VMI 도입 시 [데이터 공유](/knowledge-base/studynote/05_database/06_dw_olap_trends/386_data_clean_room_sharing/)는 '내 집 금고 비밀번호를 우유 배달부에게 알려주는 것'과 같다. 배달부가 믿을 만한 파트너(강력한 신뢰)가 아니라면, 편해지려다 오히려 집안이 거덜 날 수 있다.
 
@@ -97,23 +96,21 @@ VMI 도입의 기대효과는 양방향(Win-Win)으로 나타난다. 소매점�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">전통적 재고 관리 (RMI) ─▶ 정보 단절 및 채찍 효과 발생</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">POS 데이터 및 EDI 인프라 확산 (데이터 교환 기반 마련)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">VMI (Vendor Managed Inventory) 도입 (제조사가 재고 보충 주도)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CMI (Co-Managed Inventory) (양사 공동 재고 관리로 발전)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CPFR (협업적 기획, 예측, 보충) (가치사슬 전체의 전략적 통합)</div>
-</div>
-</div>
-
-
+```text
+전통적 재고 관리 (RMI) ─▶ 정보 단절 및 채찍 효과 발생
+    │
+    ▼
+POS 데이터 및 EDI 인프라 확산 (데이터 교환 기반 마련)
+    │
+    ▼
+VMI (Vendor Managed Inventory) 도입 (제조사가 재고 보충 주도)
+    │
+    ▼
+CMI (Co-Managed Inventory) (양사 공동 재고 관리로 발전)
+    │
+    ▼
+CPFR (협업적 기획, 예측, 보충) (가치사슬 전체의 전략적 통합)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

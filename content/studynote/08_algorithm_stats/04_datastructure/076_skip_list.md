@@ -20,22 +20,21 @@ tags = ["studynote-algorithm-stats"]
 
 정렬된 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)는 탐색이 O(n)으로 느리다. [스킵 리스트](/knowledge-base/studynote/12_it_management/02_itsm_itil/067_skip_list/)는 이 문제를 여러 레벨의 "고속 레인(Express Lane)"을 추가하여 해결한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스킵 리스트 구조 (값: 1~10 일부)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">레벨3:</div><div class="kb-diagram-node">1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">9</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">NIL</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">레벨2:</div><div class="kb-diagram-node">1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">5</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">9</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">NIL</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">레벨1:</div><div class="kb-diagram-node">1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">3</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">5</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">7</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">9</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">NIL</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">레벨0:</div><div class="kb-diagram-node">1</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">2</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">3</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">4</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">5</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">6</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">7</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">8</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">9</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">NIL</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">탐색 7: 레벨3(1→9 X) → 레벨2(1→5 ok, 5→9 X) →</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">레벨1(5→7 ok!) → 발견 ✓</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비교 횟수: ~4회 vs 연결리스트 7회</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────┐
+│              스킵 리스트 구조 (값: 1~10 일부)               │
+├───────────────────────────────────────────────────────────┤
+│                                                           │
+│  레벨3:  [1] ────────────────────────────────→ [9] → NIL │
+│  레벨2:  [1] ────────────→ [5] ──────────────→ [9] → NIL │
+│  레벨1:  [1] ──→ [3] ────→ [5] ──→ [7] ──────→ [9] → NIL │
+│  레벨0:  [1] →[2]→[3] →[4]→[5] →[6]→[7] →[8]→[9] → NIL │
+│                                                           │
+│  탐색 7: 레벨3(1→9 X) → 레벨2(1→5 ok, 5→9 X) →          │
+│          레벨1(5→7 ok!) → 발견 ✓                          │
+│  비교 횟수: ~4회 vs 연결리스트 7회                          │
+└───────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [스킵 리스트](/knowledge-base/studynote/12_it_management/02_itsm_itil/067_skip_list/)는 도시 교통 시스템이다. 모든 골목(레벨0)을 걷는 대신, 도시 고속도로(레벨3)→간선도로(레벨2)→지선(레벨1)→골목 순으로 내려가며 목적지를 빠르게 찾는다.
 
@@ -128,23 +127,21 @@ def random_level(max_level, p=0.5):
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">연결 리스트 — O(n) 탐색, 단순 구조</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스킵 리스트 (1990) — 확률적 레벨, 평균 O(log n)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Redis Sorted Set — 스킵 리스트 실무 적용</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LevelDB / RocksDB memtable — 쓰기 최적화 활용</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Lock-free 스킵 리스트 — 동시성 분산 환경 활용</div></div>
-</div>
-</div>
-
-
+```text
+[연결 리스트 — O(n) 탐색, 단순 구조]
+    │
+    ▼
+[스킵 리스트 (1990) — 확률적 레벨, 평균 O(log n)]
+    │
+    ▼
+[Redis Sorted Set — 스킵 리스트 실무 적용]
+    │
+    ▼
+[LevelDB / RocksDB memtable — 쓰기 최적화 활용]
+    │
+    ▼
+[Lock-free 스킵 리스트 — 동시성 분산 환경 활용]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

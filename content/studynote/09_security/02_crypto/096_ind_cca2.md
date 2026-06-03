@@ -38,25 +38,24 @@ IND-CCA2 방어력은 가상의 '스무고개 게임(Game)'을 통해 증명된�
 | **3. 2차 적응적 찌르기** | 해커가 $C^*$를 교묘하게 조작한 $C', C''$ 등을 실시간(Adaptive)으로 오라클에 던져 에러 반응을 살핌 |
 | **4. 최종 판결** | 모든 찌르기에도 불구하고 $C^*$가 $M_0$인지 $M_1$인지 50% 확률로밖에 찍을 수 없으면 방어(IND-CCA2) 성공 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IND-CCA2 방어 실패 vs 성공 모델 비교 (오라클 반응)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">공격</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">1비트 변조 후 서버에 투척</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">방어 실패: 일반 CBC 모드 등</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버: (해독 시도) ─▶ "앗, 패딩 블록 규칙에 안 맞는데요?"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해커: "나이스! 패딩 에러를 보니 이전 블록 유추 가능함!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: IND-CCA2 탈락 (힌트 누출)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">방어 성공: IND-CCA2 달성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버: (해독 전 인증 태그 검사) ─▶ "태그 깨짐. 조작됐군."</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버: "..." (세션 강제 종료. 아무런 에러 메시지 없음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해커: "반응이 없네... 힌트를 얻을 수 없다."</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: IND-CCA2 통과 (50% 확률 찍기 강제)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│         IND-CCA2 방어 실패 vs 성공 모델 비교 (오라클 반응)   │
+├──────────────────────────────────────────────────────────────┤
+│ [공격] 조작된 암호문 (C*) ─▶ 1비트 변조 후 서버에 투척       │
+│                                                              │
+│ [방어 실패: 일반 CBC 모드 등]                                │
+│  서버: (해독 시도) ─▶ "앗, 패딩 블록 규칙에 안 맞는데요?"   │
+│  해커: "나이스! 패딩 에러를 보니 이전 블록 유추 가능함!"     │
+│  결과: IND-CCA2 탈락 (힌트 누출)                             │
+│                                                              │
+│ [방어 성공: IND-CCA2 달성]                                   │
+│  서버: (해독 전 인증 태그 검사) ─▶ "태그 깨짐. 조작됐군."   │
+│  서버: "..." (세션 강제 종료. 아무런 에러 메시지 없음)       │
+│  해커: "반응이 없네... 힌트를 얻을 수 없다."                 │
+│  결과: IND-CCA2 통과 (50% 확률 찍기 강제)                    │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 핵심은 해독(Decryption) 과정 자체에서 에러를 뱉게 놔두면 방어에 실패하며, 조작된 암호문은 해독기가 씹기 전에 '침묵 상태로 폐기(Drop)'해야만 IND-CCA2를 달성할 수 있다는 점이다.
 
@@ -117,23 +116,21 @@ IND-CCA2를 달성한 암호 시스템은 공격자가 시스템의 약점을 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">기본 암호화 (단순 기밀성 방어)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">IND-CPA 안전성 (선택 평문 공격 방어, IV 도입)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">패딩 오라클 등 CCA 공격의 출현 (에러 피드백 악용)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">인증 암호화(AEAD) 도입 및 Encrypt-then-MAC 설계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">IND-CCA2 (적응적 선택 암호문 공격 방어, 궁극의 안전성)</div>
-</div>
-</div>
-
-
+```text
+기본 암호화 (단순 기밀성 방어)
+    │
+    ▼
+IND-CPA 안전성 (선택 평문 공격 방어, IV 도입)
+    │
+    ▼
+패딩 오라클 등 CCA 공격의 출현 (에러 피드백 악용)
+    │
+    ▼
+인증 암호화(AEAD) 도입 및 Encrypt-then-MAC 설계
+    │
+    ▼
+IND-CCA2 (적응적 선택 암호문 공격 방어, 궁극의 안전성)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

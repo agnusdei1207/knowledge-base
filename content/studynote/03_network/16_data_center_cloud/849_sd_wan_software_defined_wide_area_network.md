@@ -23,18 +23,14 @@ tags = ["studynote-network"]
 - <strong>비싼 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/373_mpls_multiprotocol_label_switching_20bit/">MPLS</a> <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/">전용선</a> 종속</strong>: 회사는 무조건 통신사(SKT, KT)의 비싸고 느린 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/)([MPLS](/knowledge-base/studynote/03_network/07_network_layer_routing/373_mpls_multiprotocol_label_switching_20bit/))을 울며 겨자 먹기로 써야 했습니다. 대역폭을 10Mbps 늘리려면 통신사에 전화해서 한 달을 기다려야 했습니다.
 - **백홀링(Backhauling)의 굴레**: 지방 지사 직원이 구글(인터넷)을 검색하려 해도, 회사 보안 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)상 무조건 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/)을 타고 서울 본사 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)을 한 번 찍고 나가야 했습니다(740번 참고). 지사 직원들이 유튜브라도 틀면 서울 본사 회선이 다 터져버렸습니다(병목 현상).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">스마트NIC / DPU</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SD-WAN</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SDN</div></div>
-</div>
-</div>
-
-
+```text
+[스마트NIC / DPU]
+    │
+    ▼
+[SD-WAN]
+    │
+    └──▶ [SDN]
+```
 
 - **📢 섹션 요약 비유**: SD-WAN는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -60,18 +56,14 @@ SD-WAN이 돈을 벌어다 주는 진짜 이유입니다.
 - 싼 인터넷 선을 타고 가도 해킹 걱정이 없습니다. 지사 장비와 서울 본사 장비 사이의 허공(인터넷)에 <strong>강력한 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/">IPsec</a> 암호화 터널(<a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/">VPN</a> 오버레이)</strong>을 통째로 뚫어버립니다. 
 - 물리적인 선이 구리선이든 광케이블이든 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 전파든 상관없이, 소프트웨어적으로는 하나의 완벽히 안전한 통합 [가상 사설망](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/)([VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/))으로 덮어버립니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">스마트NIC / DPU</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SD-WAN</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">SDN</div></div>
-</div>
-</div>
-
-
+```text
+[스마트NIC / DPU]
+    │
+    ▼
+[SD-WAN]
+    │
+    └──▶ [SDN]
+```
 
 - **📢 섹션 요약 비유**: SD-WAN의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -131,19 +123,15 @@ SD-WAN는 데이터센터와 클라우드 네트워크를 이해할 때 핵심 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 스마트NIC / DPU</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: SD-WAN</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: SDN</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 스마트NIC / DPU]
+    │
+    ▼
+[현재 개념: SD-WAN]
+    │
+    ├──▶ [확장 A: SDN]
+    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
+```
 
 SD-WAN는 스마트NIC / DPU에서 출발해 현재 메커니즘을 정교화하고, 이후 SDN와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

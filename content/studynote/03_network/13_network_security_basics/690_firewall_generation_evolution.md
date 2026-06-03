@@ -21,18 +21,14 @@ tags = ["studynote-network"]
 
 - 내부의 사내망(신뢰 네트워크)과 외부의 인터넷망(비신뢰 네트워크) 사이의 길목에 설치되어, 통과하는 모든 패킷을 검사하고 <strong>미리 정해진 보안 규칙(Rule/<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">Policy</a>)에 따라 통과(Allow)시킬지 차단(Drop)할지 결정하는 가장 기초적인 <a href="/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/">네트워크 보안</a> 관문 장비</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">양자 내성 암호 체계 및 통신망 교환 표준</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">방화벽 필터링 1,2,3 세대 진화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">패킷 필터, 애플리케이션 상태 필터 및 프록…</div></div>
-</div>
-</div>
-
-
+```text
+[양자 내성 암호 체계 및 통신망 교환 표준]
+    │
+    ▼
+[방화벽 필터링 1,2,3 세대 진화]
+    │
+    └──▶ [패킷 필터, 애플리케이션 상태 필터 및 프록…]
+```
 
 - **📢 섹션 요약 비유**: 방화벽 필터링 1,2,3 세대 진화는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -46,18 +42,14 @@ tags = ["studynote-network"]
   - 예시: "출발지 IP 123.x.x.x에서 들어오는 80번([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 접근은 허용, 22번([SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/)) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)는 무조건 차단!"
 - **한계점 (기억상실증)**: 패킷을 단 1개 단위로 독립적으로 검사합니다([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)). 아까 내가 웹서버로 요청을 보낸 적도 없는데, 갑자기 네이버 IP로 둔갑(위조)한 해커의 정상 패킷이 쏟아져 들어오면 방화벽은 "오 정상 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)네?" 하고 다 통과시켜버리는 치명적 멍청함을 보였습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">양자 내성 암호 체계 및 통신망 교환 표준</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">방화벽 필터링 1,2,3 세대 진화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">패킷 필터, 애플리케이션 상태 필터 및 프록…</div></div>
-</div>
-</div>
-
-
+```text
+[양자 내성 암호 체계 및 통신망 교환 표준]
+    │
+    ▼
+[방화벽 필터링 1,2,3 세대 진화]
+    │
+    └──▶ [패킷 필터, 애플리케이션 상태 필터 및 프록…]
+```
 
 - **📢 섹션 요약 비유**: 방화벽 필터링 1,2,3 세대 진화의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -123,19 +115,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 양자 내성 암호 체계 및 통신망 교환 표준</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 방화벽 필터링 1,2,3 세대 진화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 패킷 필터, 애플리케이션 상태 필터 및 프록…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 양자 내성 암호 체계 및 통신망 교환 표준]
+    │
+    ▼
+[현재 개념: 방화벽 필터링 1,2,3 세대 진화]
+    │
+    ├──▶ [확장 A: 패킷 필터, 애플리케이션 상태 필터 및 프록…]
+    └──▶ [확장 B: 자동화된 신뢰 체계]
+```
 
 방화벽 필터링 1,2,3 세대 진화는 [양자 내성 암호](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/) 체계 및 통신망 교환 표준에서 출발해 현재 메커니즘을 정교화하고, 이후 [패킷 필터](/knowledge-base/studynote/03_network/13_network_security_basics/691_packet_filter_application_proxy/), 애플리케이션 상태 필터 및 프록…와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

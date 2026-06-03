@@ -23,21 +23,23 @@ tags = ["enterprise_systems"]
 
 이 그림은 마이클 포터의 **가치 사슬 (Value Chain)** 모델을 통해 프로세스의 구성 요소를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Michael Porter's Value Chain Model</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Support Activities</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 인프라, 인사, 기술 개발, 구매</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Primary Activities</div><div class="kb-diagram-connector">▼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Margin</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물류</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">생산</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">배송</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">영업</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">서비스</div><div class="kb-diagram-cell">(이익)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 각 활동이 유기적으로 연결되어 이익을 창출해야 함</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Michael Porter's Value Chain Model          │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Support Activities ]                                    │
+│   - 인프라, 인사, 기술 개발, 구매 ─────────────────────┐    │
+│                                                        │    │
+│   [ Primary Activities ]                               ▼    │
+│   ┌──────┐   ┌──────┐   ┌──────┐   ┌──────┐   ┌──────┐  Margin  │
+│   │ 물류 │──▶│ 생산 │──▶│ 배송 │──▶│ 영업 │──▶│ 서비스│ (이익)  │
+│   └──────┘   └──────┘   └──────┘   └──────┘   └──────┘      │
+│                                                             │
+│   * 핵심: 각 활동이 유기적으로 연결되어 이익을 창출해야 함  │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '흐름과 마진'이다. 물류부터 서비스까지 각 단계가 끊기지 않고 물 흐르듯 이어져야 하며, 그 과정에서 발생하는 낭비를 줄이는 것이 컨설팅의 목표이다. 실무에서는 이 가치 사슬의 병목 구간을 찾아 IT 기술 (ERP, CRM 등)을 주입하여 윤활유 역할을 하게 만든다.
 
@@ -67,20 +69,23 @@ tags = ["enterprise_systems"]
 
 이 구조도는 <strong>프로세스 마이닝</strong>을 통해 숨겨진 병목과 예외 상황을 찾는 과정을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Process Mining Discovery Flow</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">System Event Logs</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Discovery Algo</div><div class="kb-diagram-note">──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Who, When, What)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Actual Process Map</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Standard Map</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Bottleneck / Violation Found!</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Root Cause Analysis</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 효과: "사람들이 실제로 어떻게 일하는가"를 팩트로 확인</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Process Mining Discovery Flow               │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ System Event Logs ] ──▶ [ Discovery Algo ] ──┐          │
+│   (Who, When, What)                               │          │
+│                                                   ▼          │
+│   [ Actual Process Map ] ◀── (Conformance) ── [ Standard Map ]│
+│          │                                                   │
+│          ▼                                                   │
+│   [ Bottleneck / Violation Found! ] ──▶ [ Root Cause Analysis ]│
+│                                                              │
+│   * 효과: "사람들이 실제로 어떻게 일하는가"를 팩트로 확인   │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '팩트 기반의 진단'이다. 현업 부서는 "우리 프로세스는 완벽하다"고 말하지만, 실제 데이터는 특정 승인 단계에서 3일씩 지연되고 있음을 폭로한다. 실무에서는 이 데이터를 근거로 프로세스 통합이나 자동화 (RPA) 우선순위를 결정한다.
 
@@ -121,21 +126,22 @@ tags = ["enterprise_systems"]
 
 이 도식은 기술사가 주도하는 '프로세스 혁신 의사결정 매트릭스'를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Process Prioritization Matrix</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Strategic ▲</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Importance</div><div class="kb-diagram-node">High Value / Low Ease</div><div class="kb-diagram-node">High Value / High Ease</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Big Project - BPR) (Quick Win - PI)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Low Value / Low Ease</div><div class="kb-diagram-node">Low Value / High Ease</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Ignore or Outsource) (Automate via RPA)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ease of Execution</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│               Process Prioritization Matrix                 │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   Strategic  ▲                                              │
+│   Importance │ [ High Value / Low Ease ] [ High Value / High Ease ] │
+│              │ (Big Project - BPR)       (Quick Win - PI)   │
+│              │                                              │
+│              │ [ Low Value / Low Ease ]  [ Low Value / High Ease ]  │
+│              │ (Ignore or Outsource)     (Automate via RPA) │
+│              └────────────────────────────────────────────▶ │
+│                                          Ease of Execution  │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 기술사의 컨설팅 판단은 '교통 정체 해소 대책'과 같습니다. 차가 막힌다고 무조건 길을 넓히는 게 아니라, 신호 주기를 바꾸거나(PI), 일방통행로를 만들거나(BPR), 아예 대중교통 이용을 유도하는(RPA/Chatbot) 입체적인 해법을 내놓는 전문가입니다.
 

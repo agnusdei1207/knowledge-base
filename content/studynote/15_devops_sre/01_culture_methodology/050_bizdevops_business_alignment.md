@@ -21,21 +21,17 @@ tags = ["BizDevOps", "DevOps", "OKR", "business alignment", "continuous feedback
 
 ### 1.1 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) → BizDevOps 진화
 
+```
+전통 조직:
+  비즈니스 ─── [요구사항 벽] ─── 개발 ─── [배포 벽] ─── 운영
 
+DevOps:
+  비즈니스 ─── 개발 ↔ 운영 (벽 제거)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">전통 조직:</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">비즈니스</div><div class="kb-diagram-node">요구사항 벽</div><div class="kb-diagram-note">개발</div><div class="kb-diagram-node">배포 벽</div><div class="kb-diagram-note">운영</div></div>
-<div class="kb-diagram-note">DevOps:</div>
-<div class="kb-diagram-note">비즈니스 개발 ↔ 운영 (벽 제거)</div>
-<div class="kb-diagram-note">BizDevOps:</div>
-<div class="kb-diagram-note">비즈니스 ↔ 개발 ↔ 운영 (3자 통합)</div>
-<div class="kb-diagram-note">공통 목표: 비즈니스 가치 실현</div>
-</div>
-</div>
-
-
+BizDevOps:
+  비즈니스 ↔ 개발 ↔ 운영 (3자 통합)
+  공통 목표: 비즈니스 가치 실현
+```
 
 ### 1.2 BizDevOps의 3대 원칙
 
@@ -79,18 +75,12 @@ Company OKR:
 
 ### 3.1 [VSM](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/030_value_stream_mapping/) 아이디어→운영 흐름
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">아이디어</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">요구사항 분석</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">설계</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">개발</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">테스트</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">배포</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">모니터링</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">피드백</div></div>
-<div class="kb-diagram-note">2주 1주 3일 2주 1주 1일 상시 1주</div>
-<div class="kb-diagram-connector">↑</div>
-<div class="kb-diagram-note">BizDevOps: 비즈니스 피드백 루프 통합</div>
-</div>
-</div>
-
-
+```
+[아이디어] → [요구사항 분석] → [설계] → [개발] → [테스트] → [배포] → [모니터링] → [피드백]
+  2주          1주              3일       2주       1주        1일       상시           1주
+                                                               ↑
+                                                 BizDevOps: 비즈니스 피드백 루프 통합
+```
 
 ### 3.2 낭비(Muda) [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)
 
@@ -109,22 +99,16 @@ Company OKR:
 
 ### 4.1 [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/) 통합
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">배포</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">프로덕션 모니터링 (기술 메트릭)</div>
-<div class="kb-diagram-note">+ 비즈니스 이벤트 추적 (전환율, 이탈율)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">실험 플랫폼 (A/B 테스트, Feature Flag)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">데이터 기반 의사결정 → 다음 스프린트 백로그 조정</div>
-</div>
-</div>
-
-
+```
+배포
+  ↓
+프로덕션 모니터링 (기술 메트릭)
+  + 비즈니스 이벤트 추적 (전환율, 이탈율)
+  ↓
+실험 플랫폼 (A/B 테스트, Feature Flag)
+  ↓
+데이터 기반 의사결정 → 다음 스프린트 백로그 조정
+```
 
 ### 4.2 [Feature Flag](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/) 활용
 
@@ -145,21 +129,15 @@ else:
 
 ### 5.1 BizDevOps 팀 구조
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">비즈니스 소유자</div></div>
-<div class="kb-diagram-note">↕</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">크로스펑셔널 팀</div></div>
-<div class="kb-diagram-tree-item" style="--depth:1">프로덕트 매니저 (비즈니스 대표)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">개발자 (BE/FE)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">데이터 분석가</div>
-<div class="kb-diagram-tree-item" style="--depth:1">SRE/DevOps 엔지니어</div>
-</div>
-</div>
-
-
+```
+[비즈니스 소유자]
+       ↕
+[크로스펑셔널 팀]
+  ├── 프로덕트 매니저 (비즈니스 대표)
+  ├── 개발자 (BE/FE)
+  ├── 데이터 분석가
+  └── SRE/DevOps 엔지니어
+```
 
 ### 5.2 흔한 장애물
 
@@ -175,55 +153,43 @@ else:
 
 ## 📌 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">BizDevOps</div>
-<div class="kb-diagram-tree-item" style="--depth:0">문화</div>
-<div class="kb-diagram-note">── 비즈니스-개발-운영 통합</div>
-<div class="kb-diagram-note">── 공유 책임</div>
-<div class="kb-diagram-tree-item" style="--depth:0">목표 정렬</div>
-<div class="kb-diagram-note">── OKR</div>
-<div class="kb-diagram-note">── VSM (가치 흐름 매핑)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">기술 실천</div>
-<div class="kb-diagram-note">── Feature Flag</div>
-<div class="kb-diagram-note">── A/B 테스트</div>
-<div class="kb-diagram-note">── 지속적 피드백 루프</div>
-<div class="kb-diagram-tree-item" style="--depth:0">관련 개념</div>
-<div class="kb-diagram-tree-item" style="--depth:2">DevOps / DevSecOps</div>
-<div class="kb-diagram-tree-item" style="--depth:2">DORA 메트릭</div>
-<div class="kb-diagram-tree-item" style="--depth:2">린(Lean) / 애자일</div>
-</div>
-</div>
-
-
+```
+BizDevOps
+├── 문화
+│   ├── 비즈니스-개발-운영 통합
+│   └── 공유 책임
+├── 목표 정렬
+│   ├── OKR
+│   └── VSM (가치 흐름 매핑)
+├── 기술 실천
+│   ├── Feature Flag
+│   ├── A/B 테스트
+│   └── 지속적 피드백 루프
+└── 관련 개념
+    ├── DevOps / DevSecOps
+    ├── DORA 메트릭
+    └── 린(Lean) / 애자일
+```
 
 ---
 
 ## 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">전통 폭포수 개발 (사일로 조직)</div>
-<div class="kb-diagram-note">애자일 혁명</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DevOps (개발-운영 협업, 2009~)</div>
-<div class="kb-diagram-note">비즈니스 참여 부재 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">BizDevOps 개념 등장 (2018~)</div>
-<div class="kb-diagram-note">OKR + 가치 흐름</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Product-Led Growth + BizDevOps (2020s)</div>
-<div class="kb-diagram-note">AI 기반 실험 자동화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">AI-Driven BizDevOps (현재~)</div>
-</div>
-</div>
-
-
+```
+전통 폭포수 개발 (사일로 조직)
+     │  애자일 혁명
+     ▼
+DevOps (개발-운영 협업, 2009~)
+     │  비즈니스 참여 부재 인식
+     ▼
+BizDevOps 개념 등장 (2018~)
+     │  OKR + 가치 흐름
+     ▼
+Product-Led Growth + BizDevOps (2020s)
+     │  AI 기반 실험 자동화
+     ▼
+AI-Driven BizDevOps (현재~)
+```
 
 **핵심 키워드**: [OKR](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_okr_objectives_key_results/), [가치 흐름 매핑](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/224_vsm_value_stream_mapping/), [Feature Flag](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/), [지속적 피드백](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/022_continuous_feedback_telemetry/), 크로스펑셔널 팀, [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/)
 

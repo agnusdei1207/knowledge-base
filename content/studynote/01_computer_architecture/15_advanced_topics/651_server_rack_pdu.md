@@ -33,23 +33,21 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)된 랙 PDU가 서버와 관리 계층 사이에 어떻게 배치되는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Rack-level power path with redundant PDUs</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">UPS A / Busway ─▶ PDU A ─▶ PSU A ─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ Server 1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ meter ─▶ Server 2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ switch ─▶ Server 3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">UPS B / Busway ─▶ PDU B ─▶ PSU B ─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ Server 1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ sensor ─▶ Server 2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ network ▶ DCIM / OOB management</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                Rack-level power path with redundant PDUs                  │
+├────────────────────────────────────────────────────────────────────────────┤
+│ UPS A / Busway ─▶ PDU A ─▶ PSU A ─┐                                      │
+│                     │             ├─▶ Server 1                           │
+│                     ├─ meter      ├─▶ Server 2                           │
+│                     └─ switch     └─▶ Server 3                           │
+│                                                                            │
+│ UPS B / Busway ─▶ PDU B ─▶ PSU B ─┐                                      │
+│                     │             ├─▶ Server 1                           │
+│                     ├─ sensor     ├─▶ Server 2                           │
+│                     └─ network ─────▶ DCIM / OOB management              │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -128,26 +126,24 @@ PDU를 제대로 이해하려면 기본형과 지능형의 차이, 그리고 UPS
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">기본형 배전 멀티탭</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">랙 단위 PDU 도입</div>
-<div class="kb-diagram-note">: 전원 분배 표준화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">모니터형 PDU</div>
-<div class="kb-diagram-note">: 전압 · 전류 · 전력 가시화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">스위치형 지능형 PDU</div>
-<div class="kb-diagram-note">: 원격 제어 · 시퀀싱 · 센서 연동</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DCIM · 자동화 · 고밀도 AI 랙 전력 최적화</div>
-</div>
-</div>
-
-
+```text
+기본형 배전 멀티탭
+    │
+    ▼
+랙 단위 PDU 도입
+: 전원 분배 표준화
+    │
+    ▼
+모니터형 PDU
+: 전압 · 전류 · 전력 가시화
+    │
+    ▼
+스위치형 지능형 PDU
+: 원격 제어 · 시퀀싱 · 센서 연동
+    │
+    ▼
+DCIM · 자동화 · 고밀도 AI 랙 전력 최적화
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

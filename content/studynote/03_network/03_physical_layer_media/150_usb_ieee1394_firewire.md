@@ -31,24 +31,24 @@ tags = ["studynote-network"]
 
 USB가 전 세계를 씹어먹은 코어 아키텍처는 통신선과 전력선([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/))을 한 케이블 뱃속에 융합 쑤셔 박은 기적이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">USB와 1394의 네트워크 토폴로지 생존 뼈대 아키텍처 도해</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🌳</div><div class="kb-diagram-node">USB: 트리(Tree) 토폴로지 - 중앙집권 독재 제국 락킹</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- PC 대장(Host)이 왕이다! 무조건 뿌리(Root)는 PC 한 놈 100% 락 쾅.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 허브(Hub)를 다단계 피라미드처럼 주렁주렁 매달아 최대 127대 연결.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 💥 한계: PC 끄면 통신 100% 올스탑 마비 뻗음. 마우스-프린터 직통 불가 컷!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">🛡️ 1394의 P2P 무정부 자율 생존망 융합 ✨</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🔗</div><div class="kb-diagram-node">IEEE 1394: 데이지 체인 (Daisy Chain) &amp; Peer-to-Peer</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 대장 PC 좆까 ㅋ 걍 캠코더 뒷구멍에서 ➔ 외장하드 뒷구멍으로 직통 선 꽂아!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- PC 없이도 지들끼리 알아서(P2P) 영상 데이터 100GB 다이렉트 쾌속 복사 펌핑🚀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 최대 63대 기차 꼬리 물기 연결. 진정한 자율 통제 무결점 분산망.</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          USB와 1394의 네트워크 토폴로지 생존 뼈대 아키텍처 도해          │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ 🌳 [ USB: 트리(Tree) 토폴로지 - 중앙집권 독재 제국 락킹 ]          │
+│   - PC 대장(Host)이 왕이다! 무조건 뿌리(Root)는 PC 한 놈 100% 락 쾅.   │
+│   - 허브(Hub)를 다단계 피라미드처럼 주렁주렁 매달아 최대 **127대** 연결.    │
+│   - 💥 한계: PC 끄면 통신 100% 올스탑 마비 뻗음. 마우스-프린터 직통 불가 컷!│
+│                                                             │
+│        ======= [ 🛡️ 1394의 P2P 무정부 자율 생존망 융합 ✨ ] ========│
+│                                                             │
+│ 🔗 [ IEEE 1394: 데이지 체인 (Daisy Chain) & Peer-to-Peer ]  │
+│   - 대장 PC 좆까 ㅋ 걍 캠코더 뒷구멍에서 ➔ 외장하드 뒷구멍으로 직통 선 꽂아! │
+│   - PC 없이도 지들끼리 알아서(P2P) 영상 데이터 100GB 다이렉트 쾌속 복사 펌핑🚀│
+│   - 최대 **63대** 기차 꼬리 물기 연결. 진정한 자율 통제 무결점 분산망.      │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[USB의 절대 생존 3대 흑마법 헌법 ✨]**
 1. **플러그 앤 플레이 (PnP)**: 장난감을 구멍에 푹 꽂는 0.01초 찰나에, 쇳덩이 장비가 윈도우 OS 뇌에 자기 신분증(Descriptor) 텍스트를 던져 자동 드라이버 세팅을 1초 컷 렌더링 끝냄.
@@ -121,23 +121,21 @@ USB가 전 세계를 씹어먹은 코어 아키텍처는 통신선과 전력선(
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">야만의 시대 포트 파편화 지옥 💀 / 마우스, 키보드, 프린터 구멍 다 다르고 선 꽂을 때마다 컴퓨터 전원 끄고 재부팅(Reboot) 치다 타임아웃 뻗음 빡침 폭발 💥</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">USB 1.1 대관식 강림 🚀 / 12Mbps 허접 속도지만 "구멍 1개로 통일(Universal)" + "꽂자마자 돌아감(PnP 융합)" 철학으로 전 세계 데스크톱 생태계 장악 록온</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">IEEE 1394 (FireWire) 맞불 스나이퍼 등장 / "우린 400Mbps 고속 + CPU 랙 없는 다이렉트(DMA) 통신 ㅋ" 전문가 시장 박살 내려 했으나 특허료 삥뜯기 사기 치다 전원 불매 맞고 멸망 타죽음 💀</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">USB 2.0 / 3.0 극한 진화 / 무료 개방 버프 먹고 속도를 5Gbps 광속까지 미친 듯이 펌핑하며 1394의 무덤 빈집을 완벽히 100% 싹쓸이 흡수 스위칭 쳐버림</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Type-C &amp; 썬더볼트 십자 대통합 (현재) ✨ / 데이터 + 전기 원자로(PD) + 화면 모니터 + 40Gbps 속도를 저 앞뒤 없는 동그란 구멍 딱 1개에 100% 때려 박아 인류 쇳덩이 인터페이스 천하 통일 마스터피스 완성 쾅!!</div>
-</div>
-</div>
-
-
+```text
+야만의 시대 포트 파편화 지옥 💀 / 마우스, 키보드, 프린터 구멍 다 다르고 선 꽂을 때마다 컴퓨터 전원 끄고 재부팅(Reboot) 치다 타임아웃 뻗음 빡침 폭발 💥
+    │
+    ▼
+USB 1.1 대관식 강림 🚀 / 12Mbps 허접 속도지만 "구멍 1개로 통일(Universal)" + "꽂자마자 돌아감(PnP 융합)" 철학으로 전 세계 데스크톱 생태계 장악 록온
+    │
+    ▼
+IEEE 1394 (FireWire) 맞불 스나이퍼 등장 / "우린 400Mbps 고속 + CPU 랙 없는 다이렉트(DMA) 통신 ㅋ" 전문가 시장 박살 내려 했으나 특허료 삥뜯기 사기 치다 전원 불매 맞고 멸망 타죽음 💀
+    │
+    ▼
+USB 2.0 / 3.0 극한 진화 / 무료 개방 버프 먹고 속도를 5Gbps 광속까지 미친 듯이 펌핑하며 1394의 무덤 빈집을 완벽히 100% 싹쓸이 흡수 스위칭 쳐버림
+    │
+    ▼
+Type-C & 썬더볼트 십자 대통합 (현재) ✨ / 데이터 + 전기 원자로(PD) + 화면 모니터 + 40Gbps 속도를 저 앞뒤 없는 동그란 구멍 딱 1개에 100% 때려 박아 인류 쇳덩이 인터페이스 천하 통일 마스터피스 완성 쾅!!
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

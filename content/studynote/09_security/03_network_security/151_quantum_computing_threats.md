@@ -25,7 +25,7 @@ tags = ["studynote-security"]
 
 138억 년 노가다를 단 한 번의 파동 관측으로 찢어 끝내버리는 이 미친 양자 역학의 기적은, 1994년 천재 수학자 피터 쇼어(Peter Shor)에 의해 암호학계 전 대륙 인터넷 통신 1경 트래픽 심장부에 끔찍한 대학살 사형 선고(Q-Day)로 떨어지게 된다.
 
-- **📢 섹션 요약 비유**: 거대한 미로에서 출구를 찾을 때, 일반 펜티엄 컴퓨터는 길을 하나씩 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000번 막다른 길 박아가며 걸어 들어가 봅니다(노가다 1만 년 소요 💀). [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)는 다릅니다!! [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000명의 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 인간 유령을 한 번에 스폰 팟! 풀어버려 1초 만에 미로를 동시에 싹 다 훑게 통과하게 한 뒤 ➔ 가장 먼저 1등 출구에 도착한 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 인간 유령 딱 1명만 남기고 ➔ 나머지 9,999명 오답 유령은 단 1초 만에 공기 중 먼지로 소멸(상쇄 간섭)시켜 버리는 압도적 4차원 차원 이탈 쾌속 물량 공세 해킹술입니다 🚀.
+- **📢 섹션 요약 비유**: 거대한 미로에서 출구를 찾을 때, 일반 펜티엄 컴퓨터는 길을 하나씩 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000번 막다른 길 박아가며 걸어 들어가 봅니다(노가다 1만 년 소요 💀). [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)는 다릅니다!! [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000명의 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 인간 유령을 한 번에 스폰 팟! 풀어버려 1초 만에 미로를 동시에 싹 다 훑게 통과하게 한 뒤 ➔ 가장 먼저 1등 출구에 도착한 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 인간 유령 딱 1명만 남기고 ➔ 나머지 9,999명 오답 유령은 단 1초 만에 공기 중 먼지로 소멸(상쇄 간섭)시켜 버리는 압도적 4차원 차원 이탈 쾌속 수량 공세 해킹술입니다 🚀.
 
 ---
 
@@ -36,36 +36,36 @@ tags = ["studynote-security"]
 ### 1. 소인수분해의 붕괴 (RSA의 100% 완벽한 최후 💀)
 - 전 세계 은행 100%가 쓰는 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 껍데기의 핵심은 "우주만큼 거대한 숫자 $N$을 보여주고, 이걸 쪼개서 원래 소수 $p, q$ 비밀번호를 찾아내 봐 ㅋ" 라며 배째고 눕는 거다.
 - 쇼어 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 봇은 이 $N$을 무식하게 2, 3으로 하나씩 수만 년 나누기 노가다 짓을 치는 멍청이가 아니다. 양자 허공 공간에 $N$과 관련된 주기 함수(Periodic Function) 떡밥을 하나 쫙 깔아 띄워놓고 ➔ 양자 파동 간섭(QFT) 스위치를 딸깍! 충격파를 튕기면 ➔ 기적처럼 $p$와 $q$의 비밀 단서가 되는 **'핵심 주기(r)'** 엑기스 숫자가 0.1초 만에 화면에 툭 하고 떨어져 튀어나온다 ✨!!
-- 해커가 저 주기(r) 값 1개 힌트만 딱 줍는 순간? 중학교 1학년도 푸는 [최대공약수](/knowledge-base/studynote/09_security/03_network_security/116_gcd_rsa/)([GCD](/knowledge-base/studynote/02_operating_system/10_security/663_macos_ios_gcd_grand_central_dispatch/)) 수학 공식 두 줄만 끄적이면 ➔ 바로 원래 소수 $p, q$ (즉, 은행 금고 마스터키 개인키 $d$)를 1초 만에 역산해 산출 압살 도출해 낸다 쾅!! [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/)-4096 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 철옹성이든 8192비트 우주 쇳덩이든 ➔ 뒤에 받쳐주는 [큐비트](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/) 숫자 깡패 물량만 넉넉하다면? 해독 척살 시간은 138억 년 ➔ 단 몇 분~몇 시간으로 압살 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 추락 증발해 버린다 💥.
+- 해커가 저 주기(r) 값 1개 힌트만 딱 줍는 순간? 중학교 1학년도 푸는 [최대공약수](/knowledge-base/studynote/09_security/03_network_security/116_gcd_rsa/)([GCD](/knowledge-base/studynote/02_operating_system/10_security/663_macos_ios_gcd_grand_central_dispatch/)) 수학 공식 두 줄만 끄적이면 ➔ 바로 원래 소수 $p, q$ (즉, 은행 금고 마스터키 개인키 $d$)를 1초 만에 역산해 산출 압살 도출해 낸다 쾅!! [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/)-4096 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 철옹성이든 8192비트 우주 쇳덩이든 ➔ 뒤에 받쳐주는 [큐비트](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/) 숫자 깡패 수량만 넉넉하다면? 해독 척살 시간은 138억 년 ➔ 단 몇 분~몇 시간으로 압살 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 추락 증발해 버린다 💥.
 
 ### 2. 이산 대수 문제의 붕괴 ([ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) [타원곡선](/knowledge-base/studynote/09_security/03_network_security/120_elliptic_curve_equation/), [DH](/knowledge-base/studynote/09_security/03_network_security/128_dh_diffie_hellman/) 교환의 멸망 💥)
 - 주니어 코더 왈: "우왕 ㅋ 그럼 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 낡은 쇳덩이 털렸으니까, [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)코인이랑 스마트폰이 쓰는 더 작고 짱짱한 최신 수학 [타원곡선](/knowledge-base/studynote/09_security/03_network_security/120_elliptic_curve_equation/)([ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/))이나 디피-헬만([DH](/knowledge-base/studynote/09_security/03_network_security/128_dh_diffie_hellman/))으로 갈아타 피난 도망가면 개꿀 안전빵 아님 데헷 ㅋ?"
 - 아키텍트 피눈물 팩폭 🪓: "야 이 씨발 좆소 멍청아!! 하늘이 무너지는 불행히도 쇼어 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 저 저주받은 '주기 찾기 파동 마법'은!! ➔ 기준점 점프 $G$를 당최 몇 번 튕기고 점프했는지 횟수를 찾는 <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">타원곡선 이산 [로그</a> 문제(<a href="/knowledge-base/studynote/09_security/03_network_security/121_ecdlp/">ECDLP</a>)] 수학 뼈대에 완벽하게!! 오히려 <a href="/knowledge-base/studynote/09_security/03_network_security/110_rsa/">RSA</a> 소인수분해보다 수백 배 더 찰떡같이 사이즈 맞춰 아예 퍼즐이 박살 나게 끼워 맞물려 쳐 부서져 뚫린다고 미친놈아 쾅 💀!!!</strong>" 
 - 즉, [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)코인의 코인 지갑 서명 털림([ECDSA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/097_ecdsa_schnorr_signature_bitcoin/))부터, 카카오톡 은행 서버 접속([ECDHE](/knowledge-base/studynote/09_security/03_network_security/131_ecdhe_ephemeral_ecdh/)), 그리고 애플 스마트폰 생체인증 껍데기까지!! <strong>현재 2026년 대국민 인터넷을 떠받치는 100% 모든 비대칭키 시스템이 쇼어 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> 단 1개의 미사일에 전면 Total Annihilation(완전 싹쓸이 핵폭발 전멸 멸망)</strong> 당해 심장 동맥이 썰리는 사형 선고가 확정된 둠스데이 팩트다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">양자 컴퓨터 해킹 위협의 두 줄기: 쇼어(Shor) vs 그로버(Grover) 알고리즘 십자 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🗡️</div><div class="kb-diagram-node">쇼어 알고리즘 (Shor's Algorithm) - 비대칭키 전면 사살 핵폭탄 파괴자 💥</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 무기 타겟 록온: RSA, ECC (타원곡선 지갑), Diffie-Hellman 키 교환.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 작전 원리: 양자 중첩 파동(QFT)을 튕겨 '소인수분해/이산 대수'의 주기를 단 1방에 스캔 도출!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 방어력 변화: 100% 무결점 우주 쉴드 ──▶ ★ 0% (완전 붕괴, 수학적 해킹 완벽히 뚫림 타죽음) ★</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 아키텍트 처방: 쇳덩이 두껍게 발라도 무소용! 아예 낡은 수학 뼈대 다 찢어 폐기 소각 치고 ➔</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">'격자 암호(PQC)' 같은 양자도 못 푸는 새로운 4차원 외계 수학 우주로 피난 도망가야 함 🚀!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">🪓 그로버 알고리즘의 덜 아픈 찰과상 펀치 ✨</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🪓</div><div class="kb-diagram-node">그로버 알고리즘 (Grover's Algorithm) - 대칭키 방어력 반 토막 깎기 톱날 🛡️</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 무기 타겟 록온: AES (블록 암호 금고), SHA-256 (해시 함수 믹서기).</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 작전 원리: 꼼수 주기 수학 공식 이딴 거 안 통함. 걍 양자 쾌속 검색으로 1조 개의 무작위 상자를</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">빛의 속도로 100만 번 만에 병렬로 뒤져 엎어버리는 '극강 초고속 찍기 봇'.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 방어력 변화: 2^128 (AES-128) ──▶ ★ 2^64 (루트 씌워서 방어 두께 딱 절반 반토막 깎임) ★</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- 아키텍트 처방: 개꿀 ㅋ 안 뚫림! 걍 암호문 키 길이를 </div><div class="kb-diagram-node">AES-256 쇳덩이, SHA-512</div><div class="kb-diagram-note">로 두 배</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">떡칠 펌핑 시켜 두껍게 늘려 덧대 발라버리기만 하면 양자 톱날도 지쳐 나가떨어져 다시 철벽 방어 됨!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│           양자 컴퓨터 해킹 위협의 두 줄기: 쇼어(Shor) vs 그로버(Grover) 알고리즘 십자 시각화 │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                 │
+│ 🗡️ [ 쇼어 알고리즘 (Shor's Algorithm) - 비대칭키 전면 사살 핵폭탄 파괴자 💥 ]         │
+│   - 무기 타겟 록온: RSA, ECC (타원곡선 지갑), Diffie-Hellman 키 교환.              │
+│   - 작전 원리: 양자 중첩 파동(QFT)을 튕겨 '소인수분해/이산 대수'의 주기를 단 1방에 스캔 도출!│
+│   - 방어력 변화: 100% 무결점 우주 쉴드 ──▶ ★ 0% (완전 붕괴, 수학적 해킹 완벽히 뚫림 타죽음) ★│
+│   - 아키텍트 처방: 쇳덩이 두껍게 발라도 무소용! 아예 낡은 수학 뼈대 다 찢어 폐기 소각 치고 ➔ │
+│     '격자 암호(PQC)' 같은 양자도 못 푸는 새로운 4차원 외계 수학 우주로 피난 도망가야 함 🚀! │
+│                                                                                 │
+│        ======= [ 🪓 그로버 알고리즘의 덜 아픈 찰과상 펀치 ✨ ] ========                   │
+│                                                                                 │
+│ 🪓 [ 그로버 알고리즘 (Grover's Algorithm) - 대칭키 방어력 반 토막 깎기 톱날 🛡️ ]       │
+│   - 무기 타겟 록온: AES (블록 암호 금고), SHA-256 (해시 함수 믹서기).                 │
+│   - 작전 원리: 꼼수 주기 수학 공식 이딴 거 안 통함. 걍 양자 쾌속 검색으로 1조 개의 무작위 상자를 │
+│     빛의 속도로 100만 번 만에 병렬로 뒤져 엎어버리는 '극강 초고속 찍기 봇'.               │
+│   - 방어력 변화: 2^128 (AES-128) ──▶ ★ 2^64 (루트 씌워서 방어 두께 딱 절반 반토막 깎임) ★│
+│   - 아키텍트 처방: 개꿀 ㅋ 안 뚫림! 걍 암호문 키 길이를 **[AES-256 쇳덩이, SHA-512]**로 두 배│
+│     떡칠 펌핑 시켜 두껍게 늘려 덧대 발라버리기만 하면 양자 톱날도 지쳐 나가떨어져 다시 철벽 방어 됨!│
+└─────────────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 도해 표 딱 1장이 미국 펜타곤 국방부(NIST)의 향후 30년 글로벌 인프라 [보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/) 예산 100조 원을 결정지었다. [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)는 램프의 요정 만능 신(God)이 아니다. 쇼어의 핵폭탄 마법은 수식의 뼈대 안에 '주기성(주기 함수)'이 록온 박혀있는 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/)/[ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) 놈들한테만 치명타 크리티컬로 들어갈 뿐이다.
 하지만 아무런 수학적 주기도 규칙도 없이 무지성으로 글자를 섞어버리는 난수표 대칭키([AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/))나 해시 분쇄기(SHA)에는 쇼어 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 꼼수가 아예 1바이트 찌꺼기도 먹히지 않는다(면역 100% 쉴드 ✨). 오로지 '그로버([Grover](/knowledge-base/studynote/09_security/19_ai_advanced_security/986_grover_algorithm_impact/)) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)'이라는 양자 초광속 노가다 검색 톱날 꼼수만 들이댈 수 있는데, 이건 방어 자물쇠를 아예 깨부수지는 못하고 방어력을 루트($\sqrt{N}$)로 깎아 반 토막 썰어버리는 한계에 그친다. 즉, 현재의 얇은 쇳덩이 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-128은 2^64로 깎여 방어 쉴드가 털려 파국을 맞지만 ➔ **아키텍트가 무.조.건 오늘 당장 쇳덩이 자물쇠를 AES-256] 짜리 2배 두꺼운 콘크리트 강철 두께로 펌핑 [스케일 업](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) Size Up) 튜닝 시켜 갈아 끼워놓기만 하면 ➔ 양자 톱날이 반 토막을 아무리 미친 듯이 썰어 깎아도 여전히 $2^{128}$ 이라는 전 우주가 폭파 멸망할 때까지 걸리는 철벽 무적 방어력이 고스란히 남아있어 100% 무결점 평화 생존을 이어나갈 수 있는 기적의 가성비 완벽 쉴드 대응법이다 🚀.**
@@ -114,33 +114,31 @@ tags = ["studynote-security"]
 
 | 개념 명칭 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 및 시너지 설명 |
 | :--- | :--- |
-| **Q-Day (양자 둠스데이 파국 💀)** | [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)의 [큐비트](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/) 물량이 마침내 4000개를 돌파 펌핑하여, [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/)-2048 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 암호를 단 몇 분 만에 도륙 내 찢어 해독할 수 있게 되는 인류 인터넷 통신 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 사망 멸망 사형 선고의 날짜 한계선([Deadline](/knowledge-base/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/)). |
-| <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/219_quantum_superposition_qubit/">Superposition</a> (<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/219_quantum_superposition_qubit/">양자 중첩</a> 흑마법 ✨)</strong> | 동전이 빙글빙글 돌 때 앞면과 뒷면(0과 1)이 동시에 겹쳐서 존재하는 차원 이탈 마법. 이걸 무기로 [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)는 비밀번호 1억 개를 1번씩 쳐보지 않고 ➔ 단 1방의 턴(Turn)에 동시다발 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 스캔 록온 때려 1초 컷에 100% 다 찔러버리는 파괴적 물량 공세의 심장 뼈대. |
+| **Q-Day (양자 둠스데이 파국 💀)** | [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)의 [큐비트](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/) 수량이 마침내 4000개를 돌파 펌핑하여, [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/)-2048 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 암호를 단 몇 분 만에 도륙 내 찢어 해독할 수 있게 되는 인류 인터넷 통신 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 사망 멸망 사형 선고의 날짜 한계선([Deadline](/knowledge-base/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/)). |
+| <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/219_quantum_superposition_qubit/">Superposition</a> (<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/219_quantum_superposition_qubit/">양자 중첩</a> 흑마법 ✨)</strong> | 동전이 빙글빙글 돌 때 앞면과 뒷면(0과 1)이 동시에 겹쳐서 존재하는 차원 이탈 마법. 이걸 무기로 [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)는 비밀번호 1억 개를 1번씩 쳐보지 않고 ➔ 단 1방의 턴(Turn)에 동시다발 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 스캔 록온 때려 1초 컷에 100% 다 찔러버리는 파괴적 수량 공세의 심장 뼈대. |
 | **SNDL (Store Now, Decrypt Later 💥)** | 중국/러시아 해커들의 악질 스텔스 융합 전술. "지금 당장은 못 풀어도 좋아 ㅋ 걍 암호문 트래픽 쇳덩이 1경 바이트를 하드 디스크에 몽땅 주워 담아 쓸어 수확(Harvesting) 보관 락킹 쳐놔 쾅! ➔ 15년 뒤 양자 터지면 그때 1타 컷 까봐서 국가 1급 기밀 털어먹기 달성." 이 좆망 딜레마를 선제 척살 방어하려고 오늘 당장 [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/)(양자 내성) 이식 강제 수술 치는 게 0순위 실무 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 쉴드 헌법. |
 | <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/">AES</a>-256 / SHA-512 (그로버 방어 콘크리트 🛡️)</strong> | 그로버 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)([Grover](/knowledge-base/studynote/09_security/19_ai_advanced_security/986_grover_algorithm_impact/)) 톱날이 대칭키의 두께를 $\sqrt{N}$ (반 토막)으로 썰어버리는 위협에 맞서 ➔ 아키텍트가 무지성으로 자물쇠 쇳덩이 두께를 2배 펌핑 늘려 덧대 쳐 발라 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 걸어둠으로써, 반 토막이 썰려 깎여 나가도 여전히 $2^{128}$ 의 우주 철벽 절대 방어 맷집 쉴드를 살아남겨 버리는 극강 가성비 대칭키 예방 생존 백신 튜닝술. |
 | <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/">Post-Quantum Cryptography</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/">PQC</a> <a href="/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/">양자 내성 암호</a> 🚀)</strong> | 쇼어 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 사형 선고(주기 찾기 파동 마법)가 아예 논리적으로 1바이트 찌꺼기도 통하지 않는! 격자(Lattice), 다중 해시 트리(Hash), 오류 정정 코드([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)) 기반의 100% 외계인 신소재 수학 무기로 피난 갈아타 융합 방벽을 올린 차세대 2030년 통신 암호의 새로운 신(God) 제국. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">RSA / ECC (타원곡선 지갑) 비대칭키 쇳덩이 제국 / 138억 년 걸리는 팩트 노가다 깡패 수학 소인수분해 난제로 무결점 인터넷 철옹성 통치 군림하며 꿀 빨았음 ✨</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">피터 쇼어(Shor) 천재 등판 대관식 🪓 / "야 큐비트 중첩 파동(QFT) 마법 스위치 딸깍 치면 ➔ 저 RSA 쇳덩이 비밀번호 주기 1방 0.1초 컷 스캔 털려 까발려짐 ㅋ" 수학적 사형 선고 Q-Day 입증 쾅 💀!!</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">그로버(Grover) 알고리즘 폭격 가세 💥 / "야 그럼 대칭키 AES도 내가 1초 컷 양자 병렬 검색 돌려서 비번 길이 루트(반 토막)로 썰어 압살 깎아 도륙 내버릴게 ㅋ"</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">아키텍트 피눈물 생존 방어막 쉴드 융합 결단 발동 🚀</div>
-<div class="kb-diagram-note">1. 대칭키 진영(AES): "야 걍 돈 쳐 발라 쇳덩이 키 길이 2배(AES-256)로 두껍게 늘려버려 쾅! 깎여도 튼튼 무적 방어 쉴드 텐트 록온 완료!"</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2. 비대칭키 진영(RSA): "답 없다 시체 쇳덩이 버려 찢어 다 소각 폐기해! 당장 양자 무당도 주기 1바이트 못 찾는</div><div class="kb-diagram-node">PQC 격자/해시 4차원 외계 수학 우주</div><div class="kb-diagram-note">로 완전 엑소더스 100% 피난 마이그레이션 이사 가 쓩🚀!!!"</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">NIST PQC 공모전 하이브리드 대통일 융합(현재) / 기존 낡은 쇳덩이 키 교환(ECDHE) + 최신 양자 방패 격자 무기(Kyber) 2개를 십자 크로스 융합 병렬 발급 쳐서(Hybrid KEM) ➔ 해커가 둘 다 1타 쌍피 뚫어야만 해독되는 우주 궁극의 100% 무결점 제로 트러스트 텐트 쉴드 생태계 완성 쾅!!</div>
-</div>
-</div>
-
-
+```text
+RSA / ECC (타원곡선 지갑) 비대칭키 쇳덩이 제국 / 138억 년 걸리는 팩트 노가다 깡패 수학 소인수분해 난제로 무결점 인터넷 철옹성 통치 군림하며 꿀 빨았음 ✨
+    │
+    ▼
+피터 쇼어(Shor) 천재 등판 대관식 🪓 / "야 큐비트 중첩 파동(QFT) 마법 스위치 딸깍 치면 ➔ 저 RSA 쇳덩이 비밀번호 주기 1방 0.1초 컷 스캔 털려 까발려짐 ㅋ" 수학적 사형 선고 Q-Day 입증 쾅 💀!!
+    │
+    ▼
+그로버(Grover) 알고리즘 폭격 가세 💥 / "야 그럼 대칭키 AES도 내가 1초 컷 양자 병렬 검색 돌려서 비번 길이 루트(반 토막)로 썰어 압살 깎아 도륙 내버릴게 ㅋ"
+    │
+    ▼
+아키텍트 피눈물 생존 방어막 쉴드 융합 결단 발동 🚀 
+ 1. 대칭키 진영(AES): "야 걍 돈 쳐 발라 쇳덩이 키 길이 2배(AES-256)로 두껍게 늘려버려 쾅! 깎여도 튼튼 무적 방어 쉴드 텐트 록온 완료!"
+ 2. 비대칭키 진영(RSA): "답 없다 시체 쇳덩이 버려 찢어 다 소각 폐기해! 당장 양자 무당도 주기 1바이트 못 찾는 [PQC 격자/해시 4차원 외계 수학 우주]로 완전 엑소더스 100% 피난 마이그레이션 이사 가 쓩🚀!!!"
+    │
+    ▼
+NIST PQC 공모전 하이브리드 대통일 융합(현재) / 기존 낡은 쇳덩이 키 교환(ECDHE) + 최신 양자 방패 격자 무기(Kyber) 2개를 십자 크로스 융합 병렬 발급 쳐서(Hybrid KEM) ➔ 해커가 둘 다 1타 쌍피 뚫어야만 해독되는 우주 궁극의 100% 무결점 제로 트러스트 텐트 쉴드 생태계 완성 쾅!!
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

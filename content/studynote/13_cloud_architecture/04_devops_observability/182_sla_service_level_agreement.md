@@ -27,18 +27,16 @@ SLA가 필요한 이유는 장애 자체보다 장애 이후의 분쟁 비용이
 
 아래 그림은 SLA가 왜 단순 운영 지표가 아니라 분쟁 비용을 줄이는 계약 장치인지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Why SLA exists</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Provider outage -&gt; Customer impact -&gt; dispute</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">No SLA : best effort only / blame fight</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">With SLA : metric + window + exclusion + remedy are pre-agreed</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────┐
+│ Why SLA exists                                                          │
+├──────────────────────────────────────────────────────────────────────────┤
+│ Provider outage -> Customer impact -> dispute                           │
+│                                                                          │
+│ No SLA   : best effort only / blame fight                               │
+│ With SLA : metric + window + exclusion + remedy are pre-agreed          │
+└──────────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 핵심은 SLA가 장애를 없애는 도구가 아니라, 장애가 발생했을 때 해석과 책임의 기준을 미리 고정하는 도구라는 점이다. 클라우드 아키텍처에서 SLA는 기술 스펙과 계약 스펙이 만나는 경계면이다.
 
@@ -70,19 +68,17 @@ Availability    = Good Time / Eligible Time × 100
 
 아래 구조는 관측 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 외부 계약으로 변환되는 흐름을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">From telemetry to contract</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Probe / logs -&gt; SLI -&gt; internal SLO -&gt; public SLA -&gt; credit / report</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ customer-facing promise</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ safety buffer</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ measurable evidence</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────┐
+│ From telemetry to contract                                              │
+├──────────────────────────────────────────────────────────────────────────┤
+│ Probe / logs -> SLI -> internal SLO -> public SLA -> credit / report   │
+│                │          │               │                              │
+│                │          │               └─ customer-facing promise     │
+│                │          └─ safety buffer                               │
+│                └─ measurable evidence                                    │
+└──────────────────────────────────────────────────────────────────────────┘
+```
 
 이때 내부 SLO는 보통 SLA보다 더 엄격해야 한다. 예를 들어 실제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 30일 동안 99.93%를 기록했다면, 내부 [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) 99.95%는 놓쳤더라도 외부 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 99.9%는 지킨 상태가 될 수 있다. 이 완충 구간이 있어야 팀은 고객 보상 직전이 아니라 그 이전에 이상을 감지하고 대응할 수 있다.
 
@@ -179,25 +175,24 @@ SLA를 정확히 이해하려면 [SLI](/knowledge-base/studynote/04_software_eng
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Best effort service</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SLI (Service Level Indicator) measurement</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SLO (Service Level Objective) target setting</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SLA (Service Level Agreement) contract</div>
-<div class="kb-diagram-tree-item" style="--depth:2">exclusion / remedy / claim process</div>
-<div class="kb-diagram-tree-item" style="--depth:2">public status page / monthly report</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Tiered service credit and customer trust management</div>
-</div>
-</div>
-
-
+```text
+Best effort service
+    │
+    ▼
+SLI (Service Level Indicator) measurement
+    │
+    ▼
+SLO (Service Level Objective) target setting
+    │
+    ▼
+SLA (Service Level Agreement) contract
+    │
+    ├─ exclusion / remedy / claim process
+    └─ public status page / monthly report
+    │
+    ▼
+Tiered service credit and customer trust management
+```
 
 이 흐름은 단순 운영 지표가 내부 목표를 거쳐 외부 계약과 보상 체계로 확장되는 과정을 보여 준다.
 

@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: 외부 인터넷이 아니라 <strong>회사 내부망(사내망)에 직원의 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/">PC</a>, 노트북, 스마트폰, 프린터 등(Endpoint)이 접속을 시도할 때, 해당 단말기의 <a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a>과 보안 상태를 깐깐하게 검사하여 안전한 기기만 네트워크 접속을 허락하는 내부 보안 통제 시스템</strong>입니다.
 - **배경**: 직원들이 개인 스마트폰이나 패드를 회사로 가져와 업무에 쓰는 BYOD(Bring Your Own Device) 시대가 열리면서, 외부에서 [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/)를 묻혀 오는 통제 불가능한 기기들을 막기 위해 탄생했습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">샌드박스 망분석 시스템</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NAC 내부 접근 단말기 관리 무결성 진단</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">도청 네트워크 토폴로지 취약</div></div>
-</div>
-</div>
-
-
+```text
+[샌드박스 망분석 시스템]
+    │
+    ▼
+[NAC 내부 접근 단말기 관리 무결성 진단]
+    │
+    └──▶ [도청 네트워크 토폴로지 취약]
+```
 
 - **📢 섹션 요약 비유**: NAC 내부 접근 단말기 관리 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 진단은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -56,18 +52,14 @@ NAC의 가장 강력하고 고유한 기능입니다. 신분이 직원이 맞아
 - **격리**: 만약 백신이 꺼져있거나 [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/)가 감염된 PC라면, 가차 없이 사내망 진입을 막고 <strong>"치료망(Quarantine Zone)"</strong>이라는 가두리 양식장에 가둬버립니다.
 - **치료**: 이 치료망에서는 카톡도 안 되고 오직 "백신 업데이트 서버"로만 접속이 가능합니다. 직원이 백신을 다운받고 윈도우 패치를 100% 완료해야만, 다시 검사 후 사내망으로 풀어줍니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">샌드박스 망분석 시스템</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NAC 내부 접근 단말기 관리 무결성 진단</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">도청 네트워크 토폴로지 취약</div></div>
-</div>
-</div>
-
-
+```text
+[샌드박스 망분석 시스템]
+    │
+    ▼
+[NAC 내부 접근 단말기 관리 무결성 진단]
+    │
+    └──▶ [도청 네트워크 토폴로지 취약]
+```
 
 - **📢 섹션 요약 비유**: NAC 내부 접근 단말기 관리 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 진단의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -128,19 +120,15 @@ NAC 내부 접근 단말기 관리 [무결성](/knowledge-base/studynote/09_secu
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 샌드박스 망분석 시스템</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: NAC 내부 접근 단말기 관리 무결성 진단</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 도청 네트워크 토폴로지 취약</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 샌드박스 망분석 시스템]
+    │
+    ▼
+[현재 개념: NAC 내부 접근 단말기 관리 무결성 진단]
+    │
+    ├──▶ [확장 A: 도청 네트워크 토폴로지 취약]
+    └──▶ [확장 B: 자동화된 신뢰 체계]
+```
 
 NAC 내부 접근 단말기 관리 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 진단는 [샌드박스 망분석 시스템](/knowledge-base/studynote/03_network/13_network_security_basics/699_sandbox_malware_analysis_apt/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 네트워크 토폴로지 취약와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -32,26 +32,23 @@ x_{t+1} = x_t - η · ∇f(x_t)
 
 ### [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) η의 영향
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">손실 L</div>
-<div class="kb-diagram-note">╲ η 너무 큰 경우: 발산 (Diverge)</div>
-<div class="kb-diagram-note">╲ ╱╲ ↗</div>
-<div class="kb-diagram-note">╲╱ ╲─╱</div>
-<div class="kb-diagram-note">╲ η 적절: 수렴 (Converge)</div>
-<div class="kb-diagram-note">╲</div>
-<div class="kb-diagram-note">╲</div>
-<div class="kb-diagram-note">╲ η 너무 작음: 매우 느린 수렴</div>
-<div class="kb-diagram-note">╲</div>
-<div class="kb-diagram-note">╲</div>
-<div class="kb-diagram-tree-item" style="--depth:1">►</div>
-<div class="kb-diagram-note">반복 횟수 t</div>
-</div>
-</div>
-
-
+```
+손실 L
+   │
+   │╲         η 너무 큰 경우: 발산 (Diverge)
+   │ ╲  ╱╲   ↗
+   │  ╲╱  ╲─╱
+   │
+   │╲                 η 적절: 수렴 (Converge)
+   │ ╲
+   │  ╲─────────
+   │
+   │╲              η 너무 작음: 매우 느린 수렴
+   │ ╲
+   │  ╲─────────────────────────────
+   └────────────────────────────────►
+                   반복 횟수 t
+```
 
 📢 **섹션 요약 비유**: 기울기 하강법은 "안개 속 산 내려가기"다 — 현재 위치의 기울기(∇f)만 보고 가장 가파르게 내려가는 방향(-∇f)으로 조금씩(η) 발걸음을 옮긴다.
 
@@ -85,20 +82,17 @@ x_{t+1} = x_t - η · m̂_t / (√v̂_t + ε)
 
 ### 주요 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) 비교
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">손실 경관 (Loss Landscape)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── ──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">╱ 안장점(Saddle) ╲</div></div>
-<div class="kb-diagram-note">SGD │ X ──► 지역 최소</div>
-<div class="kb-diagram-note">Momentum ─│ /──X ──► 빠른 수렴</div>
-<div class="kb-diagram-note">Adam │ / X ──► 안장점 탈출 잘함</div>
-</div>
-</div>
-
-
+```
+손실 경관 (Loss Landscape)
+          ╭──────────────────────────────╮
+          │     ╭───────────╮            │
+          │  ╭──╯           ╰──╮         │
+          │ ╱  안장점(Saddle)   ╲        │
+SGD ──────│─────────────────────X────────┼──► 지역 최소
+Momentum ─│──────────────────/──X────────┼──► 빠른 수렴
+Adam ─────│────────────────/────X────────┼──► 안장점 탈출 잘함
+          ╰──────────────────────────────╯
+```
 
 | [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) | 아이디어 | 장점 | 단점 |
 |:---|:---|:---|:---|
@@ -133,19 +127,13 @@ x_{t+1} = y_{t+1} - η·∇f(y_{t+1})  (보정된 위치에서 업데이트)
 
 ### [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) 스케줄링 (LR Scheduling)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">시간에 따른 lr 변화 전략:</div>
-<div class="kb-diagram-note">Step Decay: lr = lr₀ × γ^(epoch / step_size)</div>
-<div class="kb-diagram-note">Cosine: lr = lr_min + ½(lr_max - lr_min)(1 + cos(πt/T))</div>
-<div class="kb-diagram-note">Warmup: 초기 몇 스텝 lr 천천히 증가 → 안정화</div>
-<div class="kb-diagram-note">OneCycleLR: lr 상승 → 하강 (1 사이클)</div>
-</div>
-</div>
-
-
+```
+시간에 따른 lr 변화 전략:
+Step Decay:    lr = lr₀ × γ^(epoch / step_size)
+Cosine:        lr = lr_min + ½(lr_max - lr_min)(1 + cos(πt/T))
+Warmup:        초기 몇 스텝 lr 천천히 증가 → 안정화
+OneCycleLR:    lr 상승 → 하강 (1 사이클)
+```
 
 [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) ([Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)) 모델의 Warmup + Cosine decay가 현대 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 학습 표준.
 
@@ -215,21 +203,18 @@ GPT-3 학습 설정:
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">손실 함수 (Loss Function)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">경사 하강법 (Gradient Descent)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">학습률 (Learning Rate)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">최적화 (Optimization)</div></div>
-</div>
-</div>
-
-
+```text
+[손실 함수 (Loss Function)]
+    │
+    ▼
+[경사 하강법 (Gradient Descent)]
+    │
+    ▼
+[학습률 (Learning Rate)]
+    │
+    ▼
+[최적화 (Optimization)]
+```
 
 이 흐름도는 손실 함수를 줄이기 위해 [경사 하강법](/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/)과 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)이 최적화를 이끄는 흐름을 보여준다.
 ### 👶 어린이를 위한 3줄 비유 설명

@@ -49,20 +49,20 @@ Loss Function은 모델이 얼마나 틀렸는지를 숫자로 나타내고, Gra
 | [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) Rate Scheduling | [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)을 단계적으로 조정 | 초반 탐색, 후반 [미세 조정](/knowledge-base/studynote/10_ai/02_dl_architecture_new/133_fine_tuning/) |
 | BN ([Batch Normalization](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/)) | 입력 분포를 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)해 지형을 평탄화 | 안정적 학습, 기울기 전달 개선 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">기울기 ↓</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">noisy step</div><div class="kb-diagram-cell">SGD의 흔들림</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">momentum</div><div class="kb-diagram-cell">방향 관성</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">adaptive step</div><div class="kb-diagram-cell">Adam의 적응 보폭</div></div>
-</div>
-</div>
-
-
+```text
+기울기 ↓
+┌──────────────┐
+│ noisy step   │  SGD의 흔들림
+└──────┬───────┘
+       ▼
+┌──────────────┐
+│ momentum     │  방향 관성
+└──────┬───────┘
+       ▼
+┌──────────────┐
+│ adaptive step│  Adam의 적응 보폭
+└──────────────┘
+```
 
 SGD는 노이즈 덕분에 좁은 골짜기에 갇히지 않는 장점이 있고, Momentum은 지그재그를 줄이며, Adam은 파라미터마다 다른 보폭을 준다. BN은 입력 분포를 안정화해 손실 지형을 덜 거칠게 만들어 준다.
 
@@ -131,21 +131,20 @@ Local minima, global minimum, saddle point는 서로 다르게 다뤄야 한다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Loss Function</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Gradient Descent</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ SGD (Stochastic Gradient Descent)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ Momentum</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ Adam (Adaptive Moment Estimation)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ BN (Batch Normalization)</div>
-</div>
-</div>
-
-
+```text
+Loss Function
+    │
+    ▼
+Gradient Descent
+    │
+    ├──────────────▶ SGD (Stochastic Gradient Descent)
+    │
+    ├──────────────▶ Momentum
+    │
+    ├──────────────▶ Adam (Adaptive Moment Estimation)
+    │
+    └──────────────▶ BN (Batch Normalization)
+```
 
 이 흐름은 "문제 정의 → 탐색 → 탈출 보조 → 수렴 안정화"로 최적화 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 진화하는 과정을 보여준다.
 

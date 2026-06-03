@@ -31,19 +31,14 @@ x86 계열은 원래 [가상화](/knowledge-base/studynote/13_cloud_architecture
 
 [하드웨어 보조](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/527_hardware_assisted_virtualization/) [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)의 중심은 실행 모드 분리와 상태 저장/복구다. [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)는 Root 모드에서, 게스트는 Non-Root 모드에서 돌아간다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">하이퍼바이저(Root)</div>
-<div class="kb-diagram-note">VM Entry</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">게스트(Non-Root) ── 특권 명령/예외 ──▶ VM Exit</div>
-<div class="kb-diagram-tree-item" style="--depth:1">VMCS/VMCB 복구 ◀</div>
-</div>
-</div>
-
-
+```text
+하이퍼바이저(Root)
+   │ VM Entry
+   ▼
+게스트(Non-Root) ── 특권 명령/예외 ──▶ VM Exit
+   ▲                                      │
+   └────────────── VMCS/VMCB 복구 ◀───────┘
+```
 
 | 구성 요소 | 역할 |
 | :-- | :-- |
@@ -111,43 +106,31 @@ Intel VT-x와 AMD-V는 동작 철학이 비슷하지만, 제어 구조체 이름
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">가상화 필요</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">VT-x / AMD-V</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">VMCS / VMCB + EPT / NPT</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">KVM / ESXi / Hyper-V</div>
-</div>
-</div>
-
-
+```text
+가상화 필요
+   ↓
+VT-x / AMD-V
+   ↓
+VMCS / VMCB + EPT / NPT
+   ↓
+KVM / ESXi / Hyper-V
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 전가상화</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">반가상화</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">하드웨어 보조 가상화</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Nested Virtualization</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">보안/가속 통합 가상화</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 전가상화
+   ↓
+반가상화
+   ↓
+하드웨어 보조 가상화
+   ↓
+Nested Virtualization
+   ↓
+보안/가속 통합 가상화
+```
 
 ---
 

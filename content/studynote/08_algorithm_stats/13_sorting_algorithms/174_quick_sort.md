@@ -42,21 +42,19 @@ tags = ["studynote-algorithm"]
 
 아래 그림은 [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)의 핵심이 "분할의 균형"에 있음을 보여 준다. 같은 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이라도 파티션이 균형 잡히면 깊이가 짧아지고, 한쪽으로 치우치면 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 깊이가 급격히 늘어난다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Quick Sort cost depends on partition balance</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">input :</div><div class="kb-diagram-node">9 3 7 1 8 2 5</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">pivot : 5</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">split :</div><div class="kb-diagram-node">3 1 2</div><div class="kb-diagram-note">5</div><div class="kb-diagram-node">9 7 8</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">recurse left recurse right</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">balanced split -&gt; depth about log n -&gt; average O(n log n)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">skewed split -&gt; depth about n -&gt; worst O(n^2)</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│           Quick Sort cost depends on partition balance             │
+├────────────────────────────────────────────────────────────────────┤
+│ input  : [9 3 7 1 8 2 5]                                           │
+│ pivot  : 5                                                         │
+│ split  : [3 1 2] | 5 | [9 7 8]                                     │
+│          recurse left   recurse right                              │
+│                                                                    │
+│ balanced split  -> depth about log n -> average O(n log n)         │
+│ skewed split    -> depth about n     -> worst   O(n^2)             │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 수식으로 보면 [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)은 `T(n) = T(k) + T(n-k-1) + O(n)` 이다. 여기서 `k` 가 매번 절반 근처면 평균 `O(n log n)` 이 나오고, `k` 가 0 또는 `n-1` 쪽으로 계속 치우치면 최악 `O(n²)` 가 된다. 즉 [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 비교 횟수보다도 <strong>얼마나 균형 있게 나뉘는가</strong>에 달려 있다.
 
@@ -140,24 +138,22 @@ tags = ["studynote-algorithm"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Quadratic comparison sorts</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Divide and Conquer idea</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Pivot-based partitioning</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Quick Sort for fast in-memory arrays</div>
-<div class="kb-diagram-tree-item" style="--depth:5">3-way / Dual-Pivot optimization</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Introsort and hybrid standard-library sorting</div>
-</div>
-</div>
-
-
+```text
+Quadratic comparison sorts
+          │
+          ▼
+Divide and Conquer idea
+          │
+          ▼
+Pivot-based partitioning
+          │
+          ▼
+Quick Sort for fast in-memory arrays
+          │
+          ├───────────────► 3-way / Dual-Pivot optimization
+          ▼
+Introsort and hybrid standard-library sorting
+```
 
 이 흐름은 "단순 비교 정렬의 한계 → [분할 정복](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/) → [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/) 중심 분할 → 빠른 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 정렬 → 하이브리드 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 정렬"로 이어지는 발전 과정을 보여 준다.
 

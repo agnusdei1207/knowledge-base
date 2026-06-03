@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 기계, [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/) 기계, L4 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 기계를 사서, 1번 기계 엉덩이에 선을 꽂아 2번 기계 입구에 꽂고, 2번 엉덩이 선을 3번 입구에 꽂았습니다.
 - **비극 발생**: 만약 중간에 '웹 필터링' 장비를 하나 더 끼워 넣고 싶으면? 주말 새벽 2시에 엔지니어가 전산실에 가서 물리 랜선을 다 뽑고 다시 꽂아야(Re-cabling) 했습니다. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단은 필수였고 확장성은 제로였습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">VIM (Virtualised Infrast…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">서비스 체이닝</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NSH</div></div>
-</div>
-</div>
-
-
+```text
+[VIM (Virtualised Infrast…]
+    │
+    ▼
+[서비스 체이닝]
+    │
+    └──▶ [NSH]
+```
 
 - **📢 섹션 요약 비유**: [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 체이닝은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -43,18 +39,14 @@ tags = ["studynote-network"]
 
 - **개념**: [NFV](/knowledge-base/studynote/03_network/17_sdn_nfv/865_nfv_network_functions_virtualization_architecture/) 환경에서 허공에 분산되어 떠 있는 수많은 [가상 네트워크 기능](/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/) 앱들([VNF](/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/): v방화벽, vIPS, vLB 등)을, 물리적 랜선 연결 없이 <strong>소프트웨어 정의 네트워크(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/">SDN</a>) <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> 기술을 이용해 특정 트래픽이 내가 원하는 논리적 순서대로 빠짐없이 징검다리처럼 통과하도록 강제로 실(경로)을 엮어주는 차세대 트래픽 스티어링(Steering) 기술</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">VIM (Virtualised Infrast…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">서비스 체이닝</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NSH</div></div>
-</div>
-</div>
-
-
+```text
+[VIM (Virtualised Infrast…]
+    │
+    ▼
+[서비스 체이닝]
+    │
+    └──▶ [NSH]
+```
 
 - **📢 섹션 요약 비유**: [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 체이닝의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -120,19 +112,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: VIM (Virtualised Infrast…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 서비스 체이닝</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: NSH</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 프로그래머블 네트워크</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: VIM (Virtualised Infrast…]
+    │
+    ▼
+[현재 개념: 서비스 체이닝]
+    │
+    ├──▶ [확장 A: NSH]
+    └──▶ [확장 B: 프로그래머블 네트워크]
+```
 
 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 체이닝는 [VIM](/knowledge-base/studynote/03_network/17_sdn_nfv/871_vim_virtualised_infrastructure_manager_openstack_k8s/) (Virtualised Infrast…에서 출발해 현재 메커니즘을 정교화하고, 이후 NSH와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

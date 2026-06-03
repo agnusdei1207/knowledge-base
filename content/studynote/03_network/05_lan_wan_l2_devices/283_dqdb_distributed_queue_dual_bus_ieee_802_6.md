@@ -26,18 +26,14 @@ tags = ["studynote-network"]
 
 - **💡 비유**: 이더넷이 **"건물 내 복도"**, X.25가 <strong>"도시 간 고속도로"</strong>라면, DQDB는 서울시 내부의 주요 구청과 대학교들만을 뺑뺑 돌며 짐을 실어 나르는 <strong>"수도권 광역 순환 급행 <a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">버스</a>(MAN)"</strong>를 만들기 위한 도로 설계도였습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">FDDI</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DQDB</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">PON / AON</div></div>
-</div>
-</div>
-
-
+```text
+[FDDI]
+    │
+    ▼
+[DQDB]
+    │
+    └──▶ [PON / AON]
+```
 
 - **📢 섹션 요약 비유**: <strong> DQDB는 양방향 통행이 불가능해 툭하면 사고가 나던 1차선 좁은 <a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">버스</a>(<a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">Bus</a>) 망에, 서로 반대 방향으로 질주하는 </strong>"상행선/하행선 두 개의 거대한 컨베이어 벨트(Dual [Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))"**를 깔아 도시 전체의 택배를 해결하려 했던 물류 시스템입니다.
 
@@ -59,23 +55,25 @@ DQDB는 물리적으로 [버스](/knowledge-base/studynote/01_computer_architect
 3. 내 왼쪽에 있는 노드 1, 2는 [Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) B를 타고 오는 예약증을 읽고, "아, 오른쪽에 있는 3번 녀석이 짐 실을 게 있구나! 그럼 내가 뿜어내는 상행선([Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) A) 빈 상자 중 하나는 3번을 위해 쓰지 말고 통과시켜 줘야겠다!"라고 속으로 카운트([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/))를 올린다.
 4. 노드 1, 2가 양보해서 흘려보내 준 빈 상자가 노드 3에 도착하면, 그때 노드 3이 짐을 싣는다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DQDB 분산 큐 (상행선 짐 싣기 예약 과정)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">노드 1</div><div class="kb-diagram-node">노드 2</div><div class="kb-diagram-node">노드 3</div><div class="kb-diagram-node">노드 4</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">나 짐 실을래! (오른쪽으로)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">======================= Bus A (상행선 빈 상자 뿜뿜) =====▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀======== Bus B (하행선, 여기에 "예약증" 던짐) ===========</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(예약증 확인)</div><div class="kb-diagram-cell">(예약증 확인)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"아! 밑에 애가 짐 싣는다네. 빈 상자 하나 안 건드리고 패스해줄게!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 통제하는 중앙 서버 없이, 양방향으로 예약증을 날려 서로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">양보하는 '분산(Distributed)' 대기열(Queue) 시스템.</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │               DQDB 분산 큐 (상행선 짐 싣기 예약 과정)           │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [노드 1]        [노드 2]        [노드 3]        [노드 4]       │
+ │                                    │ 나 짐 실을래! (오른쪽으로)  │
+ │                                    ▼                        │
+ │  ======================= Bus A (상행선 빈 상자 뿜뿜) =====▶    │
+ │                                    │                        │
+ │  ◀======== Bus B (하행선, 여기에 "예약증" 던짐) ===========    │
+ │     ▲               ▲             │                        │
+ │     │ (예약증 확인)   │ (예약증 확인) ┘                        │
+ │   "아! 밑에 애가 짐 싣는다네. 빈 상자 하나 안 건드리고 패스해줄게!"     │
+ │                                                             │
+ │   * 핵심: 통제하는 중앙 서버 없이, 양방향으로 예약증을 날려 서로       │
+ │     양보하는 '분산(Distributed)' 대기열(Queue) 시스템.          │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 3. DQDB의 몰락
 이 천재적인 예약 시스템은, 데이터를 53바이트(헤더 5+페이로드 48) 단위의 슬롯으로 잘라 보낸다. (어디서 많이 보지 않았는가? 바로 [ATM](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/) 셀 규격과 100% 동일하다). 
@@ -137,19 +135,15 @@ DQDB는 LAN/WAN과 2계층 장비를 이해할 때 핵심 축을 잡아 주는 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: FDDI</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: DQDB</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: PON / AON</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 캠퍼스 패브릭</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: FDDI]
+    │
+    ▼
+[현재 개념: DQDB]
+    │
+    ├──▶ [확장 A: PON / AON]
+    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
+```
 
 DQDB는 FDDI에서 출발해 현재 메커니즘을 정교화하고, 이후 [PON](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/284_pon_passive_optical_network_vs_aon_active/) / AON와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

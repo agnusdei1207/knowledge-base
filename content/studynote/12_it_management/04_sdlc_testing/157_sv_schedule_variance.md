@@ -35,20 +35,18 @@ SV의 공식은 단순하지만 해석은 맥락이 중요하다. EV는 완료�
 
 아래 그림은 현재 시점에서 계획 가치와 실제 획득 가치의 차이로 SV를 읽는 구조를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Schedule is read as value gap at the same review date</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">review date t</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">PV:</div><div class="kb-diagram-node">████████████████████</div><div class="kb-diagram-note">600</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">EV:</div><div class="kb-diagram-node">███████████████</div><div class="kb-diagram-note">450</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SV = EV - PV = 450 - 600 = -150</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">meaning: work worth 150 is still unfinished at date t</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Schedule is read as value gap at the same review date               │
+├──────────────────────────────────────────────────────────────────────┤
+│ review date t                                                       │
+│ PV: [████████████████████] 600                                      │
+│ EV: [███████████████     ] 450                                      │
+│                                                                      │
+│ SV = EV - PV = 450 - 600 = -150                                    │
+│ meaning: work worth 150 is still unfinished at date t              │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 | 항목 | 의미 | 해석 |
 | :--- | :--- | :--- |
@@ -135,22 +133,21 @@ SV를 활용하면 프로젝트 일정 문제를 감으로 말하지 않고 수�
 
 ### 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Planned Value (PV)</div>
-<div class="kb-diagram-tree-item" style="--depth:3">▶ Earned Value (EV)</div>
-<div class="kb-diagram-tree-item" style="--depth:3">▶ SV = EV - PV</div>
-<div class="kb-diagram-tree-item" style="--depth:8">▶ SPI = EV / PV</div>
-<div class="kb-diagram-tree-item" style="--depth:8">▶ Earned Schedule (ES)</div>
-<div class="kb-diagram-tree-item" style="--depth:8">▶ Critical Path Review</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Schedule Compression / Replanning / Stakeholder Reporting</div>
-</div>
-</div>
-
-
+```text
+Planned Value (PV)
+       │
+       ├──▶ Earned Value (EV)
+       │         │
+       │         ▼
+       └──────▶ SV = EV - PV
+                   │
+                   ├──▶ SPI = EV / PV
+                   ├──▶ Earned Schedule (ES)
+                   └──▶ Critical Path Review
+                   │
+                   ▼
+Schedule Compression / Replanning / Stakeholder Reporting
+```
 
 이 흐름은 "[기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) 수립 → 성과 측정 → 일정 차이 해석 → 보완 지표와 대응 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)"으로 확장되는 관리 체계를 보여준다.
 

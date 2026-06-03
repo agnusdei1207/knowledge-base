@@ -34,36 +34,44 @@ tags = ["studynote-bigdata"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Multi-Tier Data Lake 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">소스 시스템</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(DB, 이벤트, API, 파일)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수집 (Kafka / Spark / Airflow)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🥉 BRONZE LAYER</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 원시 데이터 그대로 저장 (스키마 변경 없음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- append-only (삭제·수정 없음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 수집 타임스탬프 메타데이터 추가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예: s3://datalake/bronze/orders/2026/04/21/</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">변환 (Spark, dbt)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🥈 SILVER LAYER</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 중복 제거, null 처리, 타입 통일</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 테이블 조인, 비즈니스 키 정의</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- SCD (Slowly Changing Dimension) 적용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예: Delta Table: sales.silver.orders_cleaned</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">집계 (Spark SQL, dbt)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🥇 GOLD LAYER</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 비즈니스 지향 집계 테이블 (일별 매출, 고객 LTV 등)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Star/Snowflake 스키마 최적화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- BI 도구 직접 연결</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예: Delta Table: sales.gold.daily_revenue</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">BI / ML / 분석 소비자</div></div>
-</div>
-</div>
-
-
+```
+┌────────────────────────────────────────────────────────────────┐
+│             Multi-Tier Data Lake 아키텍처                       │
+├────────────────────────────────────────────────────────────────┤
+│                                                                │
+│  [소스 시스템]                                                  │
+│  (DB, 이벤트, API, 파일)                                        │
+│          │ 수집 (Kafka / Spark / Airflow)                      │
+│          ▼                                                      │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │  🥉 BRONZE LAYER                                          │  │
+│  │  - 원시 데이터 그대로 저장 (스키마 변경 없음)               │  │
+│  │  - append-only (삭제·수정 없음)                            │  │
+│  │  - 수집 타임스탬프 메타데이터 추가                          │  │
+│  │  예: s3://datalake/bronze/orders/2026/04/21/              │  │
+│  └──────────────────┬───────────────────────────────────────┘  │
+│                     │ 변환 (Spark, dbt)                        │
+│                     ▼                                          │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │  🥈 SILVER LAYER                                          │  │
+│  │  - 중복 제거, null 처리, 타입 통일                         │  │
+│  │  - 테이블 조인, 비즈니스 키 정의                            │  │
+│  │  - SCD (Slowly Changing Dimension) 적용                   │  │
+│  │  예: Delta Table: sales.silver.orders_cleaned             │  │
+│  └──────────────────┬───────────────────────────────────────┘  │
+│                     │ 집계 (Spark SQL, dbt)                    │
+│                     ▼                                          │
+│  ┌──────────────────────────────────────────────────────────┐  │
+│  │  🥇 GOLD LAYER                                            │  │
+│  │  - 비즈니스 지향 집계 테이블 (일별 매출, 고객 LTV 등)       │  │
+│  │  - Star/Snowflake 스키마 최적화                            │  │
+│  │  - BI 도구 직접 연결                                       │  │
+│  │  예: Delta Table: sales.gold.daily_revenue                │  │
+│  └──────────────────────────────────────────────────────────┘  │
+│                     │                                          │
+│            [BI / ML / 분석 소비자]                              │
+└────────────────────────────────────────────────────────────────┘
+```
 
 **계층별 상세 특성**
 
@@ -156,23 +164,21 @@ Multi-Tier Architecture는 현대 [데이터 레이크하우스](/knowledge-base
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">단일 스토리지 한계</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Hot/Warm/Cold 티어 분류</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">멀티 티어 아키텍처</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">자동 라이프사이클 정책</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">비용 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[단일 스토리지 한계]
+    │
+    ▼
+[Hot/Warm/Cold 티어 분류]
+    │
+    ▼
+[멀티 티어 아키텍처]
+    │
+    ▼
+[자동 라이프사이클 정책]
+    │
+    ▼
+[비용 최적화]
+```
 
 멀티 티어 아키텍처는 Hot/Warm/Cold 티어와 라이프사이클 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 비용을 최적화한다.
 

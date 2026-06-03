@@ -43,19 +43,17 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 히트파이프가 CPU 근처의 열을 핀 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)까지 옮기는 선형 흐름을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Heatpipe moves heat from the base to the fin stack by phase change</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CPU base</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Evaporator</div><div class="kb-diagram-note">=====</div><div class="kb-diagram-node">Adiabatic pipe</div><div class="kb-diagram-note">=====</div><div class="kb-diagram-node">Condenser + Fins</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">^ vapor ------------------------------------&gt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">liquid &lt;------------------------------------ wick</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">heat in heat out</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│     Heatpipe moves heat from the base to the fin stack by phase change    │
+├────────────────────────────────────────────────────────────────────────────┤
+│ [CPU base] -> [Evaporator] ===== [Adiabatic pipe] ===== [Condenser + Fins]│
+│      ^             vapor  ------------------------------------>           │
+│      |             liquid <------------------------------------  wick     │
+│      |                                                                   │
+│   heat in                                                        heat out │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 따라서 히트파이프는 금속봉보다 가볍고, 열을 멀리 보내는 데 훨씬 유리한 구조를 제공한다.
 - **📢 섹션 요약 비유**: 뜨거운 짐을 사람이 손에서 손으로 나르는 대신, 위로는 빈 엘리베이터가 빠르게 올라가고 아래로는 빈 카트가 돌아오는 순환 시스템을 만든 것과 같다.
@@ -127,23 +125,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Solid copper heat spread</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Single heatpipe transport</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Multi-heatpipe tower and laptop modules</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Vapor chamber base + heatpipe hybrid</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Loop heat pipe / advanced wick structures</div>
-</div>
-</div>
-
-
+```text
+Solid copper heat spread
+        │
+        ▼
+Single heatpipe transport
+        │
+        ▼
+Multi-heatpipe tower and laptop modules
+        │
+        ▼
+Vapor chamber base + heatpipe hybrid
+        │
+        ▼
+Loop heat pipe / advanced wick structures
+```
 
 이 흐름은 단순 금속 전도에서 시작한 방열 설계가, 점점 더 멀고 큰 방열부를 효율적으로 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 위해 2상 수송 구조로 발전해 왔음을 보여 준다.
 

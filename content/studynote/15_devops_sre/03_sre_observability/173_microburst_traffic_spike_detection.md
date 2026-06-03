@@ -21,7 +21,7 @@ tags = ["studynote-devops-sre"]
 
 마이크로버스트는 "트래픽이 많다"는 말보다 더 좁고 더 위험한 개념이다. 지속 시간은 아주 짧지만, 그 짧은 순간에 링크가 감당할 수 있는 속도보다 훨씬 많은 패킷이 한꺼번에 몰리면서 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 버퍼, Network Interface Card ([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/)) 큐, [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 버퍼를 순식간에 채운다. 평균값만 보면 멀쩡한데도 패킷 드롭과 순간 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 급등이 반복되는 이유가 여기에 있다.
 
-예를 들어 1Gbps 링크에 10Gbps [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트가 100ms 동안 들어오면 초과 유입은 `9Gbps × 0.1s = 0.9Gb`, 즉 약 112.5MB다. 이 양은 네트워크 장비의 짧은 버퍼를 쉽게 넘길 수 있다. 그런데 같은 현상을 60초 평균으로 보면 약 16.7Mbps 수준으로 희석되어 "거의 아무 일도 없었던 것처럼" 보인다. [Site Reliability Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)) 관점에서 평균 대시보드만 보면 원인을 놓치기 쉬운 이유다.
+예를 들어 1Gbps 링크에 10Gbps [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트가 100ms 동안 들어오면 초과 유입은 `9Gbps × 0.1s = 0.9Gb`, 즉 약 112.5MB다. 이 양은 네트워크 장비의 짧은 버퍼를 쉽게 넘길 수 있다. 그런데 같은 현상을 60초 평균으로 보면 약 16.7Mbps 수준으로 희석되어 "거의 아무 일도 없었던 것처럼" 보인다. [Site Reliability 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)) 관점에서 평균 대시보드만 보면 원인을 놓치기 쉬운 이유다.
 
 마이크로버스트는 네트워크 장비만의 문제가 아니다. 다수 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 동시에 같은 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)로 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 요청을 보내는 [팬인](/knowledge-base/studynote/04_software_engineering/04_testing_quality/197_fan_in_fan_out/) ([Fan-in](/knowledge-base/studynote/04_software_engineering/04_testing_quality/197_fan_in_fan_out/)), 만료된 캐시를 향한 동시 요청, 지터 없는 재시도, 정각에 한꺼번에 시작되는 크론 작업도 본질적으로는 같은 패턴이다. 즉 이 주제는 링크 레벨 이슈이면서 동시에 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 실패 문제다.
 
@@ -35,22 +35,19 @@ tags = ["studynote-devops-sre"]
 
 마이크로버스트의 본질은 큐 이론으로 간단히 표현할 수 있다. 유입 속도 (arrival rate)가 유출 속도 ([service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) rate)를 아주 짧게라도 크게 넘으면, 그 차이만큼 큐에 쌓인다. 그리고 `초과 트래픽 = (유입률 - 유출률) × 지속 시간`이 버퍼 크기를 넘는 순간 패킷 손실이나 [Head-of-Line](/knowledge-base/studynote/03_network/08_transport_layer/456_quic_hol_head_of_line_blocking_resolution/) Blocking이 발생한다. 지속 시간이 짧아도 차이가 크면 충분히 장애가 된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">How a microburst is created</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">sender A ----\</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">sender B -----\</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">switch / NIC queue</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">1 Gbps egress</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">sender D -----/</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">sender E ----/ ─ queue grows</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ buffer fills</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ drop / ECN / latency spike</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│                    How a microburst is created                     │
+├────────────────────────────────────────────────────────────────────┤
+│ sender A ----\                                                     │
+│ sender B -----\                                                    │
+│ sender C ------> [switch / NIC queue] ---> [1 Gbps egress]        │
+│ sender D -----/            │                                       │
+│ sender E ----/             ├─ queue grows                         │
+│                            ├─ buffer fills                        │
+│                            └─ drop / ECN / latency spike          │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 관측도 같은 원리로 풀어야 한다. 평균 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)레이트만으로는 부족하고, 큐 깊이, 드롭 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/), 순간 최대 전송률, 패킷 수, 재전송, Explicit Congestion Notification (ECN) 마크를 함께 봐야 한다. 특히 초당 또는 밀리초 단위 시계열이 없으면 마이크로버스트는 거의 보이지 않는다.
 
@@ -90,24 +87,25 @@ tags = ["studynote-devops-sre"]
 
 실무에서는 먼저 "어디서 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)트가 만들어지는가"를 찾아야 한다. [팬인](/knowledge-base/studynote/04_software_engineering/04_testing_quality/197_fan_in_fan_out/) 구조인지, 정시 배치인지, 무지터 재시도인지, 단일 핫 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)인지에 따라 처방이 달라진다. 클라우드 환경에서는 네트워크 장비 내부 큐를 모두 볼 수 없는 경우가 많으므로, 호스트 측 [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/), 애플리케이션 큐 길이, 고해상도 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)을 조합해 우회적으로 진단해야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mitigation decision flow</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">synchronized senders?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes -&gt; add jitter / stagger schedule</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">single hot consumer or partition?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes -&gt; shard / queue / spread load</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">network queue overflow?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes -&gt; pacing / ECN / AQM / token bucket</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no -&gt; inspect app timeout and retry policy</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│                    Mitigation decision flow                        │
+├────────────────────────────────────────────────────────────────────┤
+│ synchronized senders?                                              │
+│   ├─ yes -> add jitter / stagger schedule                          │
+│   └─ no                                                            │
+│       │                                                            │
+│       ▼                                                            │
+│ single hot consumer or partition?                                  │
+│   ├─ yes -> shard / queue / spread load                            │
+│   └─ no                                                            │
+│       │                                                            │
+│       ▼                                                            │
+│ network queue overflow?                                            │
+│   ├─ yes -> pacing / ECN / AQM / token bucket                      │
+│   └─ no  -> inspect app timeout and retry policy                   │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 ### 실무 대응 매트릭스
 
@@ -165,27 +163,24 @@ tags = ["studynote-devops-sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Average utilization monitoring</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Need for burst-aware visibility</div>
-<div class="kb-diagram-tree-item" style="--depth:2">queue depth</div>
-<div class="kb-diagram-tree-item" style="--depth:2">max throughput</div>
-<div class="kb-diagram-tree-item" style="--depth:2">retransmit / drop / timeout burst</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Root-cause analysis</div>
-<div class="kb-diagram-tree-item" style="--depth:2">fan-in</div>
-<div class="kb-diagram-tree-item" style="--depth:2">thundering herd</div>
-<div class="kb-diagram-tree-item" style="--depth:2">retry synchronization</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Jitter + pacing + queueing + congestion signaling</div>
-</div>
-</div>
-
-
+```text
+Average utilization monitoring
+    │
+    ▼
+Need for burst-aware visibility
+    ├─ queue depth
+    ├─ max throughput
+    └─ retransmit / drop / timeout burst
+    │
+    ▼
+Root-cause analysis
+    ├─ fan-in
+    ├─ thundering herd
+    └─ retry synchronization
+    │
+    ▼
+Jitter + pacing + queueing + congestion signaling
+```
 
 이 흐름은 네트워크 운영이 평균 사용률 중심 관측에서, 짧은 동시 폭주를 따로 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)하고 제어하는 방향으로 고도화되는 과정을 보여준다.
 

@@ -29,21 +29,20 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VXLAN 오버레이 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">VM A</div><div class="kb-diagram-node">VM B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">논리 네트워크 (Overlay, VNI=10001)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">VTEP A</div><div class="kb-diagram-node">VTEP B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VXLAN 터널 엔드포인트 VXLAN 터널 엔드포인트</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">물리 네트워크</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">역캡슐화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VXLAN 헤더: Outer IP + Outer UDP (4789) + VXLAN (VNI 24bit)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│              VXLAN 오버레이 구조                                  │
+├──────────────────────────────────────────────────────────────────┤
+│  [VM A] ─────────────────────────────── [VM B]                  │
+│  논리 네트워크 (Overlay, VNI=10001)                               │
+│    │                                       │                    │
+│  [VTEP A]                               [VTEP B]               │
+│  VXLAN 터널 엔드포인트                  VXLAN 터널 엔드포인트    │
+│    └── UDP/IP 캡슐화 ──▶ [물리 네트워크] ──▶ 역캡슐화 ──────────┘│
+│                                                                  │
+│  VXLAN 헤더: Outer IP + Outer UDP (4789) + VXLAN (VNI 24bit)   │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 | 항목           | [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/)                  | [VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/)                          |
 | :------------- | :-------------------- | :----------------------------- |
@@ -112,25 +111,24 @@ tags = ["studynote-devops-sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">전통 VLAN (4,096 세그먼트 한계)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">OpenFlow + SDN Controller — 제어/데이터 평면 분리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">VXLAN (24비트 VNI, 16M 세그먼트) — 멀티테넌트 확장</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">BGP EVPN — VXLAN 제어 평면, 플러드 제거</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SDDC (NSX-T + vSAN + vSphere) — 전체 데이터센터 추상화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">eBPF (Cilium) — 오버레이 없는 직접 네트워킹</div>
-</div>
-</div>
-
-
+```text
+전통 VLAN (4,096 세그먼트 한계)
+    │
+    ▼
+OpenFlow + SDN Controller — 제어/데이터 평면 분리
+    │
+    ▼
+VXLAN (24비트 VNI, 16M 세그먼트) — 멀티테넌트 확장
+    │
+    ▼
+BGP EVPN — VXLAN 제어 평면, 플러드 제거
+    │
+    ▼
+SDDC (NSX-T + vSAN + vSphere) — 전체 데이터센터 추상화
+    │
+    ▼
+eBPF (Cilium) — 오버레이 없는 직접 네트워킹
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

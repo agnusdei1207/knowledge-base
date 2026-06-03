@@ -31,19 +31,13 @@ Pod는 Kubernetes에서 [컨테이너](/knowledge-base/studynote/04_software_eng
 
 Pod는 보통 애플리케이션 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/), [사이드카](/knowledge-base/studynote/03_network/16_data_center_cloud/830_sidecar_proxy_architecture_envoy_decoupling/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/), 초기화 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/), 공유 볼륨으로 구성된다. 네트워크는 [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) 수준에서 하나로 보이기 때문에 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)끼리 localhost로 통신할 수 있고, 저장소는 볼륨을 통해 함께 본다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Pod</div>
-<div class="kb-diagram-tree-item" style="--depth:0">app container</div>
-<div class="kb-diagram-tree-item" style="--depth:0">sidecar container</div>
-<div class="kb-diagram-tree-item" style="--depth:0">init container</div>
-<div class="kb-diagram-tree-item" style="--depth:0">shared volume / shared IP</div>
-</div>
-</div>
-
-
+```text
+Pod
+├─ app container
+├─ sidecar container
+├─ init container
+└─ shared volume / shared IP
+```
 
 | 구성 요소 | 역할 |
 | --- | --- |
@@ -115,23 +109,17 @@ Pod는 보통 애플리케이션 [컨테이너](/knowledge-base/studynote/04_sof
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Container Image</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Pod 생성</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">같은 IP / 볼륨 공유</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Node에 스케줄링</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Deployment가 복제 및 롤링 업데이트</div>
-</div>
-</div>
-
-
+```text
+Container Image
+   ↓
+Pod 생성
+   ↓
+같은 IP / 볼륨 공유
+   ↓
+Node에 스케줄링
+   ↓
+Deployment가 복제 및 롤링 업데이트
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

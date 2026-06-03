@@ -32,31 +32,30 @@ tags = ["studynote-software-engineering"]
 
 기존 [간트 차트](/knowledge-base/studynote/04_software_engineering/01_overview_principles/039_gantt_chart/) 방식의 정보 왜곡과 [번다운 차트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/072_burndown_burnup_chart/)의 투명성을 시각화하면 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정보 방열기: 간트 차트(Gantt) vs 번다운 차트(Burndown)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">간트 차트의 착시: 90% 증후군</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">진행률(%)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">100</div><div class="kb-diagram-cell">(실제) &gt; (영원히)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ 결함 발견!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">90</div><div class="kb-diagram-cell">/</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(계획) /</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시간</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문제점: '진행률'은 주관적이며, 남은 불확실성을 숨긴다.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">번다운 차트: 진실의 거울</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">남은 작업량(h)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">100</div><div class="kb-diagram-cell">\</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">\ 이상적 추세선(Ideal Line)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">50</div><div class="kb-diagram-cell">\</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실제 ──&gt; \___/ \___ (작업 정체 또는 추가 발생!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0 \ 일자(Days)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장점: 매일 '남은 시간'을 재추정하여 숨겨진 지연을 즉각 노출한다.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────┐
+  │         정보 방열기: 간트 차트(Gantt) vs 번다운 차트(Burndown)         │
+  ├───────────────────────────────────────────────────────────────┤
+  │                                                               │
+  │  [간트 차트의 착시: 90% 증후군]                                    │
+  │   진행률(%)                                                    │
+  │  100│                              (실제) ──────────> (영원히) │
+  │     │                            /    결함 발견!                 │
+  │   90│                          /                               │
+  │     │(계획) ────────────────────/                               │
+  │     └─────────────────────────────────── 시간                   │
+  │     문제점: '진행률'은 주관적이며, 남은 불확실성을 숨긴다.                 │
+  │                                                               │
+  │  [번다운 차트: 진실의 거울]                                         │
+  │   남은 작업량(h)                                                │
+  │  100│\                                                         │
+  │     │   \      이상적 추세선(Ideal Line)                        │
+  │   50│      \                                                   │
+  │     │   실제 ──>  \___/───\___ (작업 정체 또는 추가 발생!)          │
+  │    0└────────────────────────\────────── 일자(Days)              │
+  │     장점: 매일 '남은 시간'을 재추정하여 숨겨진 지연을 즉각 노출한다.         │
+  └───────────────────────────────────────────────────────────────┘
+```
 
   **[다이어그램 해설]** 상단의 [간트 차트](/knowledge-base/studynote/04_software_engineering/01_overview_principles/039_gantt_chart/)는 작업의 '[진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)률(%)'을 기록한다. 개발자는 코드를 다 짰다는 이유로 90% 완료를 보고하지만, [통합 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/) 단계에서 수많은 버그가 쏟아져 나와 실제 완성까지는 기약 없이 시간이 늘어진다. 반면 하단의 [번다운 차트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/072_burndown_burnup_chart/)는 '앞으로 남은 할 일'의 절대량을 추적한다. 중간에 코딩이 끝났더라도 테스트라는 작업이 남아있다면 잔여 작업 곡선은 0으로 떨어지지 않고 평행선을 그리게 된다(작업 정체). 만약 누군가 새로운 요구사항을 슬쩍 추가한다면 곡선은 오히려 위로 치솟게 된다. [번다운 차트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/072_burndown_burnup_chart/)는 이처럼 프로젝트의 불편한 진실을 매일 즉각적으로 폭로하는 거울이다.
 
@@ -150,30 +149,28 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | [번다운 차트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/072_burndown_burnup_chart/) 작업 진척도의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | [번다운 차트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/072_burndown_burnup_chart/) 작업 진척도의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
 | [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | [번다운 차트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/072_burndown_burnup_chart/) 작업 진척도은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | [번다운 차트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/072_burndown_burnup_chart/) 작업 진척도 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
 | [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | [번다운 차트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/072_burndown_burnup_chart/) 작업 진척도에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">번다운 차트 작업 진척도 개념 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 위기 (Software Crisis) 인식
+    │
+    ▼
+번다운 차트 작업 진척도 개념 정립
+    │
+    ▼
+표준화 및 방법론 체계화 (ISO, CMMI, Agile)
+    │
+    ▼
+클라우드 네이티브·AI 기반 확장 적용
+    │
+    ▼
+지속적 개선 및 DevOps·MLOps 통합
+```
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

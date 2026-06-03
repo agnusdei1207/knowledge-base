@@ -23,17 +23,14 @@ Transformer의 셀프 어텐션은 시퀀스의 모든 위치를 동시에 처�
 
 RNN은 순차 처리 자체가 순서를 내포했지만, Transformer에는 명시적으로 위치 정보를 주입해야 한다. 포지셔널 인코딩(Positional Encoding)은 각 토큰의 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 벡터에 위치 정보를 담은 벡터를 덧셈(+)으로 추가하여 이 문제를 해결한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: Transformer는 책의 모든 단어를 섞어서 한꺼번에 분석한다. 단어들이 "나는, 학교에, 간다"라고 써진 공이라면, 공들을 그냥 던지면 순서를 모른다. 포지셔널 인코딩은 각 공에 위치 번호 스티커(1번, 2번, 3번)를 붙여서 던지는 것이다. 스티커가 있어야 순서를 알 수 있다.
 
@@ -41,28 +38,32 @@ RNN은 순차 처리 자체가 순서를 내포했지만, Transformer에는 명�
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">포지셔널 인코딩 (Positional Encoding) 삼각함수 공식</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PE(pos, 2i) = sin(pos / 10000^(2i/d_model))</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PE(pos, 2i+1) = cos(pos / 10000^(2i/d_model))</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">pos: 시퀀스 내 위치 (0, 1, 2, ..., T-1)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">i: 임베딩 차원 인덱스 (0, 1, ..., d_model/2 - 1)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">d_model: 임베딩 전체 차원 (예: 512)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">직관: 다양한 주기(1/10000^(2i/d) 각도)의 sin/cos 파형을 차원별로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">조합하면, 각 위치가 고유하고 부드럽게 변화하는 벡터를 가진다.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위치</div><div class="kb-diagram-cell">차원0(sin)</div><div class="kb-diagram-cell">차원1(cos)</div><div class="kb-diagram-cell">차원2(sin)</div><div class="kb-diagram-cell">...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">0.000</div><div class="kb-diagram-cell">1.000</div><div class="kb-diagram-cell">0.000</div><div class="kb-diagram-cell">...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">0.841</div><div class="kb-diagram-cell">0.540</div><div class="kb-diagram-cell">0.010</div><div class="kb-diagram-cell">...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2</div><div class="kb-diagram-cell">0.909</div><div class="kb-diagram-cell">-0.416</div><div class="kb-diagram-cell">0.020</div><div class="kb-diagram-cell">...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">...</div><div class="kb-diagram-cell">...</div><div class="kb-diagram-cell">...</div><div class="kb-diagram-cell">...</div><div class="kb-diagram-cell">...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용: Token_Embedding + Positional_Encoding → Transformer 입력</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│        포지셔널 인코딩 (Positional Encoding) 삼각함수 공식             │
+├──────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  PE(pos, 2i)   = sin(pos / 10000^(2i/d_model))                  │
+│  PE(pos, 2i+1) = cos(pos / 10000^(2i/d_model))                  │
+│                                                                  │
+│  pos: 시퀀스 내 위치 (0, 1, 2, ..., T-1)                          │
+│  i:   임베딩 차원 인덱스 (0, 1, ..., d_model/2 - 1)               │
+│  d_model: 임베딩 전체 차원 (예: 512)                               │
+│                                                                  │
+│  직관: 다양한 주기(1/10000^(2i/d) 각도)의 sin/cos 파형을 차원별로    │
+│       조합하면, 각 위치가 고유하고 부드럽게 변화하는 벡터를 가진다.     │
+│                                                                  │
+│  ┌─────────────────────────────────────────────────────┐        │
+│  │  위치  │  차원0(sin) │  차원1(cos) │  차원2(sin) │ ... │       │
+│  │   0    │   0.000    │   1.000    │   0.000    │ ... │       │
+│  │   1    │   0.841    │   0.540    │   0.010    │ ... │       │
+│  │   2    │   0.909    │  -0.416    │   0.020    │ ... │       │
+│  │  ...   │    ...     │    ...     │    ...     │ ... │       │
+│  └─────────────────────────────────────────────────────┘        │
+│                                                                  │
+│  사용: Token_Embedding + Positional_Encoding → Transformer 입력   │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 | 방식 | 특징 | 장점 | 단점 | 사용 모델 |
 |:---|:---|:---|:---|:---|

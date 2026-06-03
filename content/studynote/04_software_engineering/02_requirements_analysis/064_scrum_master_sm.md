@@ -18,7 +18,7 @@ tags = ["software_engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-[애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 팀은 빠르게 배우고 조정해야 하므로, 회의만 많고 실행이 막히면 안 된다. SM은 이런 막힘을 줄여 팀이 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 목표에 집중하게 만든다.
+[애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 팀은 빠르게 배우고 조정해야 하므로, 회의만 많고 실행이 막히면 안 된다. SM은 이런 병목을 줄여 팀이 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 목표에 집중하게 만든다.
 
 즉 SM은 지시하는 사람이 아니라, 팀이 스스로 일할 수 있게 환경을 정리하는 사람이다.
 
@@ -28,21 +28,15 @@ tags = ["software_engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Team</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Scrum Events</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Impediment Removal</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Continuous Improvement</div>
-</div>
-</div>
-
-
+```text
+Team
+  ↓
+Scrum Events
+  ↓
+Impediment Removal
+  ↓
+Continuous Improvement
+```
 
 | 역할 | 핵심 행동 |
 | :-- | :-- |
@@ -105,41 +99,29 @@ SM은 권한으로 팀을 통제하지 않는다. 대신 질문, 코칭, 장애 
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Scrum Team</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Scrum Master</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Impediment Removal</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Team Improvement</div>
-</div>
-</div>
-
-
+```text
+Scrum Team
+  ↓
+Scrum Master
+  ↓
+Impediment Removal
+  ↓
+Team Improvement
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">애자일 팀</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">스크럼 이벤트</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">서번트 리더십</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">지속적 개선</div>
-</div>
-</div>
-
-
+```text
+애자일 팀
+  ↓
+스크럼 이벤트
+  ↓
+서번트 리더십
+  ↓
+지속적 개선
+```
 
 ---
 

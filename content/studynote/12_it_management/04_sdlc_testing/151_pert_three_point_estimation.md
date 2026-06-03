@@ -41,31 +41,32 @@ PERT 마법 텐트는 다릅니다!! 기상청 봇한테 "야! 젤 쪄죽을 때
 
 PERT의 심장 뼈대는 3점 변수를 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 수학으로 짓눌러 갈아버리는 '베타 분포(Beta Distribution)' 기대치 공식과, 오차 찌꺼기를 합산하는 '[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)([Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/))'의 십자 융합에 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PERT 3점 추정 베타 분포 수학 믹서기 융합 산출 록온 도해 🚀</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🎲</div><div class="kb-diagram-node">1단계: 코더 멱살 잡고 3점 변수 확률 토해내게 강제 압수 징발</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- To (낙관치 Optimistic) : 2일 (존나 천재 빙의 쾌속 운빨 터짐)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Tm (최빈치 Most Likely): 5일 (평소 걍 대충 맨날 이 정도 걸림)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Tp (비관치 Pessimistic): 14일 (서버 뻗고 연애 깨지고 최악 대재앙 멸망 💀)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">✨ 2단계: 아키텍트의 베타 분포 가중 평균 믹서기 발동 쾅!</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🧠</div><div class="kb-diagram-node">기대 시간 (Te: Expected Time) 공식 록온 산출</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 공식: Te = (To + 4Tm + Tp) / 6</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 계산: (2 + (4 × 5) + 14) / 6 = 36 / 6 = ★ 6일 팩트 타격 쾅! ★</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 아키텍트 극딜 🪓: "야!! 왜 걍 3으로 안 나누고 Tm(최빈치 보통) 새끼한테만</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가중치 4배 떡칠 폭격을 가하냐고?! 씨발아 현실에서 우주 운빨 터지는 2일이나,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">우주 멸망 타죽는 14일이 터질 확률은 극악이니까 무시 뭉개 억눌러 버리고 ➔</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">제일 현실에서 많이 터지는</div><div class="kb-diagram-node">평소 5일</div><div class="kb-diagram-note">쪽에 팩트 자석 록온 무개를 꽉 실어줘서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가장 확률 높은 6일이라는 찐 기대치 팩트 통계를 쥐어짜 내는 신의 공식 텐트다 🚀!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🛡️</div><div class="kb-diagram-node">분산(σ²)과 표준편차(σ) 오차 찌꺼기 방어막 쉴드 산출</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 표준편차 공식 (σ) = (Tp - To) / 6 = (14 - 2) / 6 = ★ 2일 오차 범위!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 분산 공식 (σ²) = 2² = ★ 4 (이 분산 쇳덩이들을 모아야 전체 런칭일 계산 가능!)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          PERT 3점 추정 베타 분포 수학 믹서기 융합 산출 록온 도해 🚀 │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ 🎲 [ 1단계: 코더 멱살 잡고 3점 변수 확률 토해내게 강제 압수 징발 ]        │
+│   - To (낙관치 Optimistic) : 2일 (존나 천재 빙의 쾌속 운빨 터짐)         │
+│   - Tm (최빈치 Most Likely): 5일 (평소 걍 대충 맨날 이 정도 걸림)        │
+│   - Tp (비관치 Pessimistic): 14일 (서버 뻗고 연애 깨지고 최악 대재앙 멸망 💀)│
+│                                                             │
+│        ======= [ ✨ 2단계: 아키텍트의 베타 분포 가중 평균 믹서기 발동 쾅! ] ========│
+│                                                             │
+│ 🧠 [ 기대 시간 (Te: Expected Time) 공식 록온 산출 ]                 │
+│   - 공식: Te = (To + 4Tm + Tp) / 6                          │
+│   - 계산: (2 + (4 × 5) + 14) / 6 = 36 / 6 = ★ 6일 팩트 타격 쾅! ★ │
+│   - 아키텍트 극딜 🪓: "야!! 왜 걍 3으로 안 나누고 Tm(최빈치 보통) 새끼한테만 │
+│     가중치 4배 떡칠 폭격을 가하냐고?! 씨발아 현실에서 우주 운빨 터지는 2일이나,│
+│     우주 멸망 타죽는 14일이 터질 확률은 극악이니까 무시 뭉개 억눌러 버리고 ➔ │
+│     제일 현실에서 많이 터지는 [평소 5일] 쪽에 팩트 자석 록온 무개를 꽉 실어줘서 │
+│     가장 확률 높은 6일이라는 찐 기대치 팩트 통계를 쥐어짜 내는 신의 공식 텐트다 🚀!"│
+│                                                             │
+│ 🛡️ [ 분산(σ²)과 표준편차(σ) 오차 찌꺼기 방어막 쉴드 산출 ]              │
+│   - 표준편차 공식 (σ) = (Tp - To) / 6 = (14 - 2) / 6 = ★ 2일 오차 범위! │
+│   - 분산 공식 (σ²)   = 2² = ★ 4 (이 분산 쇳덩이들을 모아야 전체 런칭일 계산 가능!)│
+└─────────────────────────────────────────────────────────────┘
+```
 
 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/138_normal_distribution/">아키텍트의 피 터지는 [정규 분포</a> Z-점수 (Z-Score) 런칭 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a> 록온 마법 ✨]</strong>
 "오케이 각 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 6일 걸리는 거 구했음 ㅋ 끝남 데헷 ㅋ" 주니어 뇌 정지 파국 💥!! 
@@ -153,23 +154,21 @@ PERT(Program Evaluation and [Review](/knowledge-base/studynote/04_software_engin
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">간트 차트 (Gantt Chart 1910s) 막대기 엑셀 떡칠 / 걍 막대기로 언제부터 언제까지 일할지 그려놈. 근데 A 밀리면 B 밀리는 의존성(Dependency 핏줄) 표현 불가능 멍청 뻗음 한계 💥</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CPM 탄생 대관식 🚀 (1950s 듀폰 화학 공장) / 태스크 간의 끈적한 선후 관계 그물망 핏줄(AON 네트워크) 락킹 ➔ 수학적 전진/후진 스캔 핑퐁으로 여유 0짜리 주공정(병목) 1초 컷 색출 쉴드 락킹! (근데 무조건 일정 고정 쇳덩이 1점 추정 한계 💀)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">PERT (미 해군 미사일 잠수함 R&amp;D) 십자 융합 ✨ / CPM의 치명적 맹점(고정 시간 확신 뇌피셜의 파국)을 확률 통계</div><div class="kb-diagram-node">3점 추정 믹서기</div><div class="kb-diagram-note">로 부수고 보완 쳐서 불확실성 리스크(Variance)를 통계 압살 척살해 낸</div><div class="kb-diagram-node">PERT/CPM 쌍끌이 우주 무적 생태계 대통일 달성 쾅!!</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CCPM (크리티컬 체인 골드랫 심리 튜닝) 진화 / 인간 코더들의 학생 증후군(마감 전 벼락치기 버그 폭주 💥) 본성을 해킹 도끼로 찢기 ➔ 개인 버퍼 시간 싹 다 압수 소각 쳐서 프로젝트 끝단 1통짜리 거대 공용 댐(Project Buffer)으로 융합 강제 이식 스위칭 오프로딩 쾌속 돌파 🚀</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">모던 Agile 애자일 플래닝 포커(Planning Poker) 클라우드 융합 (현재) / 무거운 엑셀 폭포수 도면 싹 다 불태워 찢어 폐기 치고! 팀원 10명이 모여 각자 뇌피셜 일정 카드(스토리 포인트) 툭 던진 다음 ➔ 평균값 타협 핑퐁 쳐서 2주짜리 단기 스프린트(Sprint) 미니 쾌속 런칭 스피드전으로 PERT의 본질 DNA 영혼 100% 완벽 계승 빙의 생존 록온 완료 ✨</div>
-</div>
-</div>
-
-
+```text
+간트 차트 (Gantt Chart 1910s) 막대기 엑셀 떡칠 / 걍 막대기로 언제부터 언제까지 일할지 그려놈. 근데 A 밀리면 B 밀리는 의존성(Dependency 핏줄) 표현 불가능 멍청 뻗음 한계 💥
+    │
+    ▼
+CPM 탄생 대관식 🚀 (1950s 듀폰 화학 공장) / 태스크 간의 끈적한 선후 관계 그물망 핏줄(AON 네트워크) 락킹 ➔ 수학적 전진/후진 스캔 핑퐁으로 여유 0짜리 주공정(병목) 1초 컷 색출 쉴드 락킹! (근데 무조건 일정 고정 쇳덩이 1점 추정 한계 💀)
+    │
+    ▼
+PERT (미 해군 미사일 잠수함 R&D) 십자 융합 ✨ / CPM의 치명적 맹점(고정 시간 확신 뇌피셜의 파국)을 확률 통계 [3점 추정 믹서기]로 부수고 보완 쳐서 불확실성 리스크(Variance)를 통계 압살 척살해 낸 [PERT/CPM 쌍끌이 우주 무적 생태계 대통일 달성 쾅!!]
+    │
+    ▼
+CCPM (크리티컬 체인 골드랫 심리 튜닝) 진화 / 인간 코더들의 학생 증후군(마감 전 벼락치기 버그 폭주 💥) 본성을 해킹 도끼로 찢기 ➔ 개인 버퍼 시간 싹 다 압수 소각 쳐서 프로젝트 끝단 1통짜리 거대 공용 댐(Project Buffer)으로 융합 강제 이식 스위칭 오프로딩 쾌속 돌파 🚀
+    │
+    ▼
+모던 Agile 애자일 플래닝 포커(Planning Poker) 클라우드 융합 (현재) / 무거운 엑셀 폭포수 도면 싹 다 불태워 찢어 폐기 치고! 팀원 10명이 모여 각자 뇌피셜 일정 카드(스토리 포인트) 툭 던진 다음 ➔ 평균값 타협 핑퐁 쳐서 2주짜리 단기 스프린트(Sprint) 미니 쾌속 런칭 스피드전으로 PERT의 본질 DNA 영혼 100% 완벽 계승 빙의 생존 록온 완료 ✨
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -23,22 +23,26 @@ tags = ["operating_system"]
 
 이 그림은 가상 메모리가 물리 메모리와 디스크 사이에서 어떻게 동작하는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Virtual Memory Concept &amp; Mapping</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Virtual Memory Space</div><div class="kb-diagram-node">Physical RAM</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Page 0</div><div class="kb-diagram-cell">▶ Map ──▶</div><div class="kb-diagram-cell">Frame 3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Page 1 (Swap)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Page 2</div><div class="kb-diagram-cell">── ▶</div><div class="kb-diagram-cell">(Empty)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼</div><div class="kb-diagram-cell">(Page-in)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Backing Store (Disk / SSD)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Page 1 content</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Virtual Memory Concept & Mapping            │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Virtual Memory Space ]      [ Physical RAM ]            │
+│   ┌──────────────┐              ┌──────────────┐            │
+│   │ Page 0       │ ────▶ Map ──▶│ Frame 3      │            │
+│   │ Page 1 (Swap)│ ────┐        ├──────────────┤            │
+│   │ Page 2       │ ──┐ └───────▶│ (Empty)      │            │
+│   └──────────────┘   │          └──────────────┘            │
+│                      │                 ▲                    │
+│                      ▼                 │ (Page-in)          │
+│               [ Backing Store (Disk / SSD) ]                │
+│               ┌────────────────────────────┐                │
+│               │ Page 1 content             │                │
+│               └────────────────────────────┘                │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '매핑 (Mapping)'과 '지연 로딩'이다. 실제 데이터가 메모리에 없어도 주소 공간에는 존재하는 것처럼 표시하고, 실제 접근이 발생할 때만 디스크에서 읽어온다. 실무에서는 이러한 구조 덕분에 서버의 가용성이 비약적으로 향상되지만, 빈번한 디스크 접근으로 인한 성능 저하를 관리하는 것이 기술사의 핵심 역량이 된다.
 
@@ -78,22 +82,22 @@ tags = ["operating_system"]
 
 이 구조도는 LRU 알고리즘이 페이지 참조 순서를 어떻게 추적하는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LRU (Least Recently Used) Mechanism</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Page Reference Stream</div><div class="kb-diagram-note">: 1, 2, 3, 4, 1, 2, 5, 1 ...</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Memory Frames (Size 3)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">t1 (Ref 1):</div><div class="kb-diagram-node">1,  ,</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">t2 (Ref 2):</div><div class="kb-diagram-node">1, 2,</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">t3 (Ref 3):</div><div class="kb-diagram-node">1, 2, 3</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">t4 (Ref 4):</div><div class="kb-diagram-node">4, 2, 3</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">1이 가장 오래전 참조되어 교체</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">t5 (Ref 1):</div><div class="kb-diagram-node">4, 1, 3</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">2가 가장 오래전 참조되어 교체</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 LRU (Least Recently Used) Mechanism         │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Page Reference Stream ] : 1, 2, 3, 4, 1, 2, 5, 1 ...    │
+│                                                             │
+│   [ Memory Frames (Size 3) ]                                │
+│   t1 (Ref 1): [ 1,  ,  ]                                    │
+│   t2 (Ref 2): [ 1, 2,  ]                                    │
+│   t3 (Ref 3): [ 1, 2, 3]                                    │
+│   t4 (Ref 4): [ 4, 2, 3] <-- 1이 가장 오래전 참조되어 교체  │
+│   t5 (Ref 1): [ 4, 1, 3] <-- 2가 가장 오래전 참조되어 교체  │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '참조의 지역성 (Locality of Reference)'을 활용하는 것이다. 한 번 쓰인 데이터는 조만간 다시 쓰일 가능성이 높다는 가정하에, 최근 사용된 데이터를 유지한다. 실무에서는 LRU를 완벽히 구현하는 비용이 크기 때문에, 참조 비트를 활용한 **Second-Chance (Clock)** 알고리즘이 대안으로 널리 사용된다.
 
@@ -130,19 +134,23 @@ tags = ["operating_system"]
 
 이 도식은 스레싱 발생 시 CPU 이용률의 변화와 임계 지점을 보여준다.
 
+```text
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Thrashing and CPU Utilization Curve</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU Util ▲</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ /</div><div class="kb-diagram-node">Optimal Point / 최적 지점</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ \ &lt;-- Thrashing Area</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Degree of Multiprogramming</div></div>
-</div>
-</div>
-
-
+┌─────────────────────────────────────────────────────────────┐
+│               Thrashing and CPU Utilization Curve           │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   CPU Util ▲                                                │
+│            │          / [Optimal Point / 최적 지점]                     │
+│            │         / \                                    │
+│            │        /   \  <-- Thrashing Area               │
+│            │       /     \                                  │
+│            │      /       \                                 │
+│            └──────────────────────────────────▶             │
+│                 Degree of Multiprogramming                  │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 기술사의 성능 튜닝은 '교통 정체 해소'와 같습니다. 도로(메모리)에 차(프로세스)를 무작정 많이 넣는다고 좋은 게 아닙니다. 원활한 흐름을 위해 적절한 차량 수(멀티 프로그래밍 정도)를 유지하는 규제력이 필요합니다.
 

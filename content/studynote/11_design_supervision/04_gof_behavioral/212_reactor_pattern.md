@@ -18,33 +18,21 @@ tags = ["studynote-design-supervision"]
 ---
 
 ## Ⅰ. 개요 및 필요성
+```
+  Thread-Per-Connection 모델:
+  연결 10,000개 → 스레드 10,000개
+  → 스레드 스택 메모리: 10,000 × 1MB = 10GB!
+  → Context Switching (문맥 교환) 오버헤드 폭발
+  → OS 스레드 한계 도달
+```
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Thread-Per-Connection 모델:</div>
-<div class="kb-diagram-note">연결 10,000개 → 스레드 10,000개</div>
-<div class="kb-diagram-note">→ 스레드 스택 메모리: 10,000 × 1MB = 10GB!</div>
-<div class="kb-diagram-note">→ Context Switching (문맥 교환) 오버헤드 폭발</div>
-<div class="kb-diagram-note">→ OS 스레드 한계 도달</div>
-</div>
-</div>
-
-
-
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Reactor 모델:</div>
-<div class="kb-diagram-note">연결 10,000개 → 단일 이벤트 루프 + 소수의 스레드</div>
-<div class="kb-diagram-note">→ I/O 준비 완료된 연결만 처리 (select/epoll)</div>
-<div class="kb-diagram-note">→ Context Switching 최소화</div>
-<div class="kb-diagram-note">→ Node.js, Nginx가 이 모델로 수만 동시 연결 처리</div>
-</div>
-</div>
-
-
+```
+  Reactor 모델:
+  연결 10,000개 → 단일 이벤트 루프 + 소수의 스레드
+  → I/O 준비 완료된 연결만 처리 (select/epoll)
+  → Context Switching 최소화
+  → Node.js, Nginx가 이 모델로 수만 동시 연결 처리
+```
 
 | 기술 | OS | 특징 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) |
 |:---|:---|:---|:---|
@@ -54,88 +42,84 @@ tags = ["studynote-design-supervision"]
 | `kqueue` | macOS/BSD | epoll과 유사 | O(1) |
 | `IOCP` | Windows | 완료 기반(Proactor) | O(1) |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Core Idea</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Expected Gain</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐    ┌──────────────┐    ┌──────────────┐
+│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
+└──────────────┘    └──────────────┘    └──────────────┘
+```
 
 - **📢 섹션 요약 비유**: 수박 밭 관리 — 1만 개 수박(연결)을 1만 명 농부([스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))가 각각 지키는 게 아니라, 드론([이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/))이 날아다니며 익은 수박(준비된 I/O)만 수확 팀에게 알려준다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
+```
+  ┌─────────────────────────────────────────────────────────┐
+  │  Reactor (= Dispatcher = Event Loop)                    │
+  │  → Synchronous Event Demultiplexer를 감시               │
+  │  → 이벤트 발생 시 Handle에 연결된 Event Handler 호출   │
+  └──────────────────────────────────────────────────────────┘
+           │ 이벤트 등록            │ 이벤트 발생 알림
+           ▼                        ▼
+  ┌────────────────┐    ┌───────────────────────────────────┐
+  │  Handle (FD)   │    │  Synchronous Event Demultiplexer  │
+  │  - 소켓        │    │  (select / epoll / kqueue)        │
+  │  - 파일 디스크 │    │  → I/O 준비 완료된 Handle 반환   │
+  │  - 파이프      │    └───────────────────────────────────┘
+  └────────────────┘
+           │
+           ▼
+  ┌────────────────────────────────────────────────────────┐
+  │  Event Handler (이벤트 핸들러)                         │
+  │  - AcceptEventHandler: 새 연결 수락                    │
+  │  - ReadEventHandler: 데이터 읽기                       │
+  │  - WriteEventHandler: 데이터 쓰기                      │
+  └────────────────────────────────────────────────────────┘
+```
 
+```
+  [ Reactor Event Loop ]
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Reactor (= Dispatcher = Event Loop)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ Synchronous Event Demultiplexer를 감시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 이벤트 발생 시 Handle에 연결된 Event Handler 호출</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이벤트 등록</div><div class="kb-diagram-cell">이벤트 발생 알림</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Handle (FD)</div><div class="kb-diagram-cell">Synchronous Event Demultiplexer</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 소켓</div><div class="kb-diagram-cell">(select / epoll / kqueue)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 파일 디스크</div><div class="kb-diagram-cell">→ I/O 준비 완료된 Handle 반환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 파이프</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Event Handler (이벤트 핸들러)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- AcceptEventHandler: 새 연결 수락</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- ReadEventHandler: 데이터 읽기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- WriteEventHandler: 데이터 쓰기</div></div>
-</div>
-</div>
+  while (running) {
+      1. events = demultiplexer.select()     // epoll_wait: I/O 준비 대기
+                                             // (CPU는 이 단계에서 다른 스레드에 양보)
+      2. for (event in events) {
+           handler = registry.get(event.handle)
+           handler.handleEvent(event)        // 이벤트 핸들러 즉시 호출
+         }
+  }
 
+  ──────────────────────────────────────────────────
+  시간 흐름:
 
+  t=0  select() 대기 (CPU 반환)
+  t=5ms 소켓A 읽기 준비 → ReadHandler.handle(A)
+  t=5ms 소켓B 쓰기 준비 → WriteHandler.handle(B)
+  t=6ms 처리 완료 → select() 대기 재진입
+  t=10ms 소켓C 연결 요청 → AcceptHandler.handle(C)
+  ...
+```
 
+```
+  Node.js I/O 처리 구조:
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Reactor Event Loop</div></div>
-<div class="kb-diagram-note">while (running) {</div>
-<div class="kb-diagram-note">1. events = demultiplexer.select() // epoll_wait: I/O 준비 대기</div>
-<div class="kb-diagram-note">// (CPU는 이 단계에서 다른 스레드에 양보)</div>
-<div class="kb-diagram-note">2. for (event in events) {</div>
-<div class="kb-diagram-note">handler = registry.get(event.handle)</div>
-<div class="kb-diagram-note">handler.handleEvent(event) // 이벤트 핸들러 즉시 호출</div>
-<div class="kb-diagram-note">}</div>
-<div class="kb-diagram-note">}</div>
-<div class="kb-diagram-note">시간 흐름:</div>
-<div class="kb-diagram-note">t=0 select() 대기 (CPU 반환)</div>
-<div class="kb-diagram-note">t=5ms 소켓A 읽기 준비 → ReadHandler.handle(A)</div>
-<div class="kb-diagram-note">t=5ms 소켓B 쓰기 준비 → WriteHandler.handle(B)</div>
-<div class="kb-diagram-note">t=6ms 처리 완료 → select() 대기 재진입</div>
-<div class="kb-diagram-note">t=10ms 소켓C 연결 요청 → AcceptHandler.handle(C)</div>
-<div class="kb-diagram-note">...</div>
-</div>
-</div>
-
-
-
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Node.js I/O 처리 구조:</div>
-<div class="kb-diagram-note">JavaScript Code (단일 스레드)</div>
-<div class="kb-diagram-note">fs.readFile(), http.get() 등 비동기 API 호출</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">libuv Event Loop (Reactor 구현)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">① Timers → setTimeout, setInterval</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">② I/O Pending → 완료된 I/O 콜백</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">③ Idle/Prepare → 내부 처리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">④ Poll → epoll로 새 I/O 이벤트 대기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⑤ Check → setImmediate</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⑥ Close → 소켓 닫기 등</div></div>
-<div class="kb-diagram-note">▼ CPU 집중 작업 → Worker Thread Pool (libuv)</div>
-</div>
-</div>
-
-
+  JavaScript Code (단일 스레드)
+         │
+         │ fs.readFile(), http.get() 등 비동기 API 호출
+         ▼
+  ┌──────────────────────────────────────────────┐
+  │  libuv Event Loop (Reactor 구현)             │
+  │                                              │
+  │  ① Timers       → setTimeout, setInterval   │
+  │  ② I/O Pending  → 완료된 I/O 콜백           │
+  │  ③ Idle/Prepare → 내부 처리                  │
+  │  ④ Poll         → epoll로 새 I/O 이벤트 대기 │
+  │  ⑤ Check        → setImmediate              │
+  │  ⑥ Close        → 소켓 닫기 등              │
+  └──────────────────────────────────────────────┘
+         │
+         ▼ CPU 집중 작업 → Worker Thread Pool (libuv)
+```
 
 | 항목 | 설명 | 포인트 |
 |:---|:---|:---|
@@ -170,51 +154,47 @@ tags = ["studynote-design-supervision"]
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
+```
+  Netty = 고성능 비동기 네트워크 프레임워크 (Reactor 구현)
 
+  ┌─────────────────────────────────────────────────────────┐
+  │  Boss EventLoopGroup (연결 수락 전담)                   │
+  │  → 새 연결을 accept → Worker Group에 할당              │
+  └──────────────────────────┬──────────────────────────────┘
+                              │ 연결 등록
+  ┌───────────────────────────▼─────────────────────────────┐
+  │  Worker EventLoopGroup (I/O 처리 전담)                  │
+  │  → 각 Worker = 이벤트 루프 스레드                       │
+  │  → ChannelPipeline을 통해 Handler 체인 실행             │
+  └─────────────────────────────────────────────────────────┘
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Netty = 고성능 비동기 네트워크 프레임워크 (Reactor 구현)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Boss EventLoopGroup (연결 수락 전담)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 새 연결을 accept → Worker Group에 할당</div></div>
-<div class="kb-diagram-note">연결 등록</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Worker EventLoopGroup (I/O 처리 전담)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 각 Worker = 이벤트 루프 스레드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ ChannelPipeline을 통해 Handler 체인 실행</div></div>
-<div class="kb-diagram-note">// 코드 예시</div>
-<div class="kb-diagram-note">EventLoopGroup bossGroup = new NioEventLoopGroup(1);</div>
-<div class="kb-diagram-note">EventLoopGroup workerGroup = new NioEventLoopGroup(4);</div>
-<div class="kb-diagram-note">ServerBootstrap b = new ServerBootstrap()</div>
-<div class="kb-diagram-note">.group(bossGroup, workerGroup)</div>
-<div class="kb-diagram-note">.childHandler(new ChannelInitializer&lt;&gt;() {</div>
-<div class="kb-diagram-note">protected void initChannel(Channel ch) {</div>
-<div class="kb-diagram-note">ch.pipeline().addLast(new HttpDecoder(), new MyHandler());</div>
-<div class="kb-diagram-note">}</div>
-<div class="kb-diagram-note">});</div>
-</div>
-</div>
+  // 코드 예시
+  EventLoopGroup bossGroup = new NioEventLoopGroup(1);
+  EventLoopGroup workerGroup = new NioEventLoopGroup(4);
 
+  ServerBootstrap b = new ServerBootstrap()
+      .group(bossGroup, workerGroup)
+      .childHandler(new ChannelInitializer<>() {
+          protected void initChannel(Channel ch) {
+              ch.pipeline().addLast(new HttpDecoder(), new MyHandler());
+          }
+      });
+```
 
+```
+  적합한 상황:
+  ✅ 수천~수만 개의 동시 연결
+  ✅ I/O 대기 시간이 처리 시간의 대부분
+  ✅ 각 요청 처리 시간이 짧음
+  ✅ 실시간 웹소켓, 채팅 서버, API 게이트웨이
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">적합한 상황:</div>
-<div class="kb-diagram-note">✅ 수천~수만 개의 동시 연결</div>
-<div class="kb-diagram-note">✅ I/O 대기 시간이 처리 시간의 대부분</div>
-<div class="kb-diagram-note">✅ 각 요청 처리 시간이 짧음</div>
-<div class="kb-diagram-note">✅ 실시간 웹소켓, 채팅 서버, API 게이트웨이</div>
-<div class="kb-diagram-note">부적합한 상황:</div>
-<div class="kb-diagram-note">❌ CPU 집중 연산 (암호화, 이미지 처리)</div>
-<div class="kb-diagram-note">→ 이벤트 루프 블로킹 위험</div>
-<div class="kb-diagram-note">→ Worker Thread Pool 분리 필요</div>
-<div class="kb-diagram-note">❌ 복잡한 트랜잭션 처리</div>
-<div class="kb-diagram-note">→ Spring MVC의 Thread-Per-Request가 더 적합</div>
-</div>
-</div>
-
-
+  부적합한 상황:
+  ❌ CPU 집중 연산 (암호화, 이미지 처리)
+     → 이벤트 루프 블로킹 위험
+     → Worker Thread Pool 분리 필요
+  ❌ 복잡한 트랜잭션 처리
+     → Spring MVC의 Thread-Per-Request가 더 적합
+```
 
 - <strong>I/O <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/">Multiplexing</a></strong> ([select](/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/)/epoll) 메커니즘과 Reactor의 연관성 명시
 - **C10K 문제** 해결 방법으로 Reactor 패턴 제시

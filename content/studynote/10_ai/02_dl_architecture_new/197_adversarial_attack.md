@@ -25,17 +25,14 @@ tags = ["studynote-ai"]
 
 이 충격적인 해킹을 <strong><a href="/knowledge-base/studynote/09_security/19_ai_advanced_security/942_adversarial_example/">적대적 예제</a> (Adversarial Attack)</strong>라고 부른다. 딥러닝은 수만 개의 픽셀 숫자가 곱해지는 비선형(Non-linear) 조합이라 생각하지만, 사실 고차원 공간에서는 매우 길고 뾰족한 '선형성(Linearity)'을 가지고 있어, 해커가 이 약점의 각도(Gradient)를 정확히 계산해 미세한 모래알만 뿌려줘도 신경망의 결과 값이 절벽 끝으로 나락 가버리는 수학적 치명상을 안고 있었던 것이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 적대적 공격은 딥러닝 로봇의 눈동자에 '투명한 [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/) 렌즈'를 씌우는 암살 기술이다. 인간 보안 요원은 범인이 들고 가는 사진이 그냥 귀여운 판다 사진이니까 무사통과시킨다([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 무용지물). 하지만 그 판다 사진의 픽셀 사이사이에는 딥러닝의 뇌 신경을 완전히 뒤틀어버리는 투명 독약 가루가 치밀한 수학 공식으로 발라져 있다. 로봇이 이 사진을 삼키는 순간, 뇌가 엉켜서 판다를 호랑이나 원숭이로 인식하는 끔찍한 광기에 빠지게 된다.
 
@@ -45,29 +42,28 @@ tags = ["studynote-ai"]
 
 이 소름 끼치는 공격(독약 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/))과 그에 맞서는 방어(백신 훈련)의 메커니즘은 모두 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 미분 기울기(Gradient)의 틈새를 파고드는 예술적 해킹이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">적대적 예제 (Adversarial Attack) 독약 조제 및 백신 투여 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 공격 (Attack) - 독약 조제법: FGSM (Fast Gradient Sign Method) 등</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 딥러닝 학습(정상): 내 오차(Loss)가 줄어드는 방향으로 '가중치(뇌)'를 깎아 고침.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* FGSM 해킹 마법: 모델의 뇌는 가만히 얼려두고 반대로 쏜다!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ "모델이 '긴팔원숭이'로 틀리게 대답하게 하려면, 원본 '판다' 사진의</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">픽셀 숫자를 어느 방향(Gradient의 양수/음수)으로 1씩 움직여야 할까?"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 조제 완료: 인간 눈엔 안 보이는 0.007%의 픽셀 조작만으로 완벽한 암살 사진 완성!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 오작동 대참사 유발</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 자율주행 카메라 ─▶ 정지 표지판(원본) + 미세 노이즈 테이프(해킹 픽셀) 덧씌움.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* AI: "아, 이건 100km/h 직진 표지판이네요! 풀 엑셀 밟습니다!" (차량 박살)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3. 방어 (Defense) - 적대적 훈련 (Adversarial Training) 백신 투여</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 해법: 모델이 공장에 출고되기 전에, 아예 해커처럼 100만 장의 독약 사진을 미리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">만들어서 훈련 교재(Data)에 강제로 쓰레기처럼 섞어버림.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 훈련: "야! 이거 긴팔원숭이 같지? 속지 마! 독약 묻은 판다니까 판다라 우겨!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 결과: 모델의 뇌가 두꺼운 굳은살(Robustness)이 박여 웬만한 노이즈 공격에 안 흔들림.</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           적대적 예제 (Adversarial Attack) 독약 조제 및 백신 투여 아키텍처 │
+├──────────────────────────────────────────────────────────────┤
+│  [1. 공격 (Attack) - 독약 조제법: FGSM (Fast Gradient Sign Method) 등] │
+│   * 딥러닝 학습(정상): 내 오차(Loss)가 줄어드는 방향으로 '가중치(뇌)'를 깎아 고침.│
+│   * FGSM 해킹 마법: 모델의 뇌는 가만히 얼려두고 반대로 쏜다!                   │
+│      ─▶ "모델이 '긴팔원숭이'로 틀리게 대답하게 하려면, 원본 '판다' 사진의     │
+│          픽셀 숫자를 어느 방향(Gradient의 양수/음수)으로 1씩 움직여야 할까?" │
+│   * 조제 완료: 인간 눈엔 안 보이는 0.007%의 픽셀 조작만으로 완벽한 암살 사진 완성!│
+│                                                              │
+│  [2. 오작동 대참사 유발]                                         │
+│   * 자율주행 카메라 ─▶ 정지 표지판(원본) + 미세 노이즈 테이프(해킹 픽셀) 덧씌움.│
+│   * AI: "아, 이건 100km/h 직진 표지판이네요! 풀 엑셀 밟습니다!" (차량 박살)  │
+│                                                              │
+│  [3. 방어 (Defense) - 적대적 훈련 (Adversarial Training) 백신 투여]  │
+│   * 해법: 모델이 공장에 출고되기 전에, 아예 해커처럼 100만 장의 독약 사진을 미리│
+│           만들어서 훈련 교재(Data)에 강제로 쓰레기처럼 섞어버림.           │
+│   * 훈련: "야! 이거 긴팔원숭이 같지? 속지 마! 독약 묻은 판다니까 판다라 우겨!" │
+│   * 결과: 모델의 뇌가 두꺼운 굳은살(Robustness)이 박여 웬만한 노이즈 공격에 안 흔들림.│
+└──────────────────────────────────────────────────────────────┘
+```
 
 **핵심 원리 (화이트박스 vs 블랙박스 공격)**:
 공격자가 딥러닝의 내부 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)(파라미터)와 모델 아키텍처 코드를 100% 훔쳐보고 완벽한 미분식을 짜서 독약을 부어버리는 치명타를 <strong>화이트박스(White-box) 공격</strong>이라 한다([FGSM](/knowledge-base/studynote/09_security/19_ai_advanced_security/943_fgsm/), [PGD](/knowledge-base/studynote/09_security/19_ai_advanced_security/944_pgd/) 등). 

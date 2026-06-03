@@ -30,16 +30,11 @@ tags = ["studynote-enterprise"]
 
 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리 프레임워크는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 나누는 **Map(분할)** 과정과 결과를 합치는 **Reduce(병합)** 과정을 핵심 메커니즘으로 사용한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">입력 데이터</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">분할/Map</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">셔플/Shuffle</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">병합/Reduce</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">최종 결과</div></div>
-<div class="kb-diagram-note">(거대 파일) (노드별 처리) (데이터 재정렬) (결과 요약)</div>
-</div>
-</div>
-
-
+```text
+[입력 데이터] ──▶ [분할/Map] ──▶ [셔플/Shuffle] ──▶ [병합/Reduce] ──▶ [최종 결과]
+     │               │               │                │
+ (거대 파일)      (노드별 처리)     (데이터 재정렬)     (결과 요약)
+```
 
 ### [맵리듀스](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) ([MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/)) 특징
 - **디스크 기반**: 각 단계의 중간 결과를 디스크에 저장한다. 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)에는 유리하지만 I/O 오버헤드로 인해 속도가 느리다.
@@ -107,23 +102,21 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단일 서버 배치 처리 한계 (TB급 데이터)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Google MapReduce 논문 (2004) - 분산 처리 패러다임</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Hadoop MapReduce 오픈소스 구현 (디스크 I/O 병목)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Apache Spark - 인메모리 DAG 실행 엔진 (100x 빠름)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Spark Structured Streaming + Delta Lake 통합</div>
-</div>
-</div>
-
-
+```
+단일 서버 배치 처리 한계 (TB급 데이터)
+    │
+    ▼
+Google MapReduce 논문 (2004) - 분산 처리 패러다임
+    │
+    ▼
+Hadoop MapReduce 오픈소스 구현 (디스크 I/O 병목)
+    │
+    ▼
+Apache Spark - 인메모리 DAG 실행 엔진 (100x 빠름)
+    │
+    ▼
+Spark Structured Streaming + Delta Lake 통합
+```
 
 > **키워드**: [MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/), [Apache Spark](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/), [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/), In-Memory Processing, [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/), [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/), DataFrame, [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)
 

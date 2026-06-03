@@ -25,22 +25,19 @@ tags = ["studynote-network"]
 *부분 충돌 문제와 슬롯(Slot) 경계의 도입 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)*
 이 도식은 [순수 알로하](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/111_aloha_protocol/)의 미세한 패킷 겹침 문제와, 슬롯 알로하가 어떻게 시간 구획을 통해 이를 해소하는지를 직관적으로 대조한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Pure ALOHA: 아무 때나 전송 -&gt; 부분 충돌 발생</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Node A:</div><div class="kb-diagram-node">----패킷 A----</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Node B:</div><div class="kb-diagram-node">----패킷 B----</div><div class="kb-diagram-note">(꼬리와 머리 겹침</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Slotted ALOHA: 슬롯 경계에 맞춰 전송 -&gt; 겹침 원천차단</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Time Slots:</div><div class="kb-diagram-cell">Slot 1</div><div class="kb-diagram-cell">Slot 2</div><div class="kb-diagram-cell">Slot 3</div><div class="kb-diagram-cell">Slot 4</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Node A:</div><div class="kb-diagram-node">패킷 A</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Node B:</div><div class="kb-diagram-node">패킷 B</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Node C:</div><div class="kb-diagram-node">패킷 C</div><div class="kb-diagram-note">(완전 충돌)</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────┐
+│ [Pure ALOHA: 아무 때나 전송 -> 부분 충돌 발생]         │
+│ Node A:      [----패킷 A----]                          │
+│ Node B:              [----패킷 B----] (꼬리와 머리 겹침│
+├────────────────────────────────────────────────────────┤
+│ [Slotted ALOHA: 슬롯 경계에 맞춰 전송 -> 겹침 원천차단]│
+│ Time Slots:  | Slot 1 | Slot 2 | Slot 3 | Slot 4 |     │
+│ Node A:               [패킷 A]                         │
+│ Node B:                        [패킷 B]                │
+│ Node C:                        [패킷 C] (완전 충돌)    │
+└────────────────────────────────────────────────────────┘
+```
 *해설*: 이 그림의 핵심은 슬롯 알로하가 부분적인 겹침을 용납하지 않는다는 점이다. 패킷 B가 패킷 A의 꼬리를 무는 최악의 상황이 슬롯 알로하에서는 일어나지 않는다. 이런 배치는 모든 전송이 슬롯의 정확한 경계선에서만 시작되도록 클럭을 통제하기 때문이며, 결과적으로 A 프레임이 안전하게 전송될 수 있는 보호막 역할을 한다. 비록 C가 B와 같은 슬롯을 골라 완전 충돌이 발생할 수는 있지만, 전체적으로 버려지는 시간 낭비는 절반으로 뚝 떨어진다. 실무에서는 이 글로벌 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)를 유지하기 위한 비콘([Beacon](/knowledge-base/studynote/03_network/12_iot_wpan_edge/608_beacon_technology_ibeacon_eddystone/)) 수신 오버헤드를 반드시 감내해야 한다.
 
 - **📢 섹션 요약 비유**: [순수 알로하](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/111_aloha_protocol/)가 차선도 없고 신호등도 없는 도로라면, 슬롯 알로하는 정확히 1분마다 파란불이 켜지는 톨게이트와 같습니다. 신호가 켜질 때만 진입할 수 있어 꼬리물기 사고는 사라지지만, 같은 차선에 두 대가 동시에 들어가려 하면 여전히 사고가 발생합니다.
@@ -61,24 +58,19 @@ tags = ["studynote-network"]
 *슬롯 알로하의 취약 시간 (Vulnerable Time) 감소 증명*
 이 도식은 [순수 알로하](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/111_aloha_protocol/) 대비 취약 시간이 절반으로 줄어드는 수학적 구조를 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)한다.
 
+```text
+[Pure ALOHA의 취약시간: 2T_f]
+     t-T_f          t          t+T_f
+-------|------------|------------|-----> Time
+    (충돌위험)   (전송시작)   (전송종료) 
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Pure ALOHA의 취약시간: 2T_f</div></div>
-<div class="kb-diagram-note">t-T_f t t+T_f</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-------</div><div class="kb-diagram-cell">------------</div><div class="kb-diagram-cell">------------</div><div class="kb-diagram-cell">-----&gt; Time</div></div>
-<div class="kb-diagram-note">(충돌위험) (전송시작) (전송종료)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Slotted ALOHA의 취약시간: 1T_f</div></div>
-<div class="kb-diagram-note">t-T_f t t+T_f</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-------</div><div class="kb-diagram-cell">------------</div><div class="kb-diagram-cell">------------</div><div class="kb-diagram-cell">-----&gt; Time</div></div>
-<div class="kb-diagram-note">Slot 1 Slot 2 Slot 3</div>
-<div class="kb-diagram-note">(이 구간 전송 불가) (전송시작) (전송종료)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">&lt;-위험구간-&gt;</div><div class="kb-diagram-cell">(오직 같은 슬롯 선택자만 충돌)</div></div>
-</div>
-</div>
-
-
+[Slotted ALOHA의 취약시간: 1T_f]
+     t-T_f          t          t+T_f
+-------|------------|------------|-----> Time
+     Slot 1      Slot 2      Slot 3
+ (이 구간 전송 불가) (전송시작)   (전송종료)
+                     |<-위험구간->| (오직 같은 슬롯 선택자만 충돌)
+```
 *해설*: 이 도식의 핵심은 전송 시작점 $t$ 이전에 발생한 트래픽이 $t$에서 전송되는 기준 패킷에 영향을 미치지 못하도록 격리시킨다는 점이다. [순수 알로하](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/111_aloha_protocol/)에서는 $t-T_f$부터 시작한 패킷이 기준 패킷을 파괴하지만, 슬롯 알로하에서는 $t$ 이전 시간에 도달한 패킷들은 무조건 $t$ 시점 전, 즉 Slot 1에서 이미 처리가 끝난다. 따라서 충돌을 일으킬 수 있는 노드는 정확히 $t$ 시점(Slot 2)에 전송을 개시하려는 타 노드로 국한되며, 취약 시간은 $1 \times T_f$로 반토막 난다. 이는 곧 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 한계를 2배로 수직 상승시키는 원동력이 된다.
 
 심층 동작 원리:
@@ -97,20 +89,17 @@ tags = ["studynote-network"]
 *알로하 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 트래픽-[처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 분석 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 기반 매트릭스*
 이 표는 시스템 부하 증가 시 알로하 계열이 겪는 붕괴 시점과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표를 분석한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">평가 지표</div><div class="kb-diagram-cell">Pure ALOHA</div><div class="kb-diagram-cell">Slotted ALOHA</div><div class="kb-diagram-cell">시사점 / 병목</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최대 채널효율</div><div class="kb-diagram-cell">18.4% (1/2e)</div><div class="kb-diagram-cell">36.8% (1/e)</div><div class="kb-diagram-cell">대역폭 효율 2배</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최적 부하(G)</div><div class="kb-diagram-cell">G = 0.5 패킷/프레임</div><div class="kb-diagram-cell">G = 1.0 패킷/프레임</div><div class="kb-diagram-cell">수용량 2배 증가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">트래픽 폭주형</div><div class="kb-diagram-cell">0.5 초과 시 급감</div><div class="kb-diagram-cell">1.0 초과 시 급감</div><div class="kb-diagram-cell">과부하 시 시스템붕괴</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기본 지연시간</div><div class="kb-diagram-cell">즉시 전송 (가장 짧음)</div><div class="kb-diagram-cell">최대 1프레임 대기</div><div class="kb-diagram-cell">단일 패킷은 지연됨</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기술적 비용</div><div class="kb-diagram-cell">최저</div><div class="kb-diagram-cell">클럭 동기화 비용</div><div class="kb-diagram-cell">구축 복잡도 상승</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────┬──────────────────┬──────────────────┬─────────────────┐
+│ 평가 지표    │ Pure ALOHA       │ Slotted ALOHA    │ 시사점 / 병목   │
+├──────────────┼──────────────────┼──────────────────┼─────────────────┤
+│ 최대 채널효율│ 18.4% (1/2e)     │ 36.8% (1/e)      │ 대역폭 효율 2배 │
+│ 최적 부하(G) │ G = 0.5 패킷/프레임│ G = 1.0 패킷/프레임│ 수용량 2배 증가 │
+│ 트래픽 폭주형│ 0.5 초과 시 급감 │ 1.0 초과 시 급감 │ 과부하 시 시스템붕괴│
+│ 기본 지연시간│ 즉시 전송 (가장 짧음)│ 최대 1프레임 대기│ 단일 패킷은 지연됨│
+│ 기술적 비용  │ 최저             │ 클럭 동기화 비용 │ 구축 복잡도 상승│
+└──────────────┴──────────────────┴──────────────────┴─────────────────┘
+```
 *해설*: 이 표의 핵심은 효율이 2배 좋아졌지만 그 대가로 모든 노드가 시계를 맞춰야 하는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템의 고질적 '[동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)([Synchronization](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)) 오버헤드'를 짊어졌다는 점이다. 트래픽 $G$가 극도로 낮을 때는 대기 시간 없이 바로 쏘는 [순수 알로하](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/111_aloha_protocol/)의 응답성이 더 좋다. 반면 $G$가 증가할수록 슬롯 알로하는 트래픽 붕괴 현상을 한 템포 늦춰 채널의 생존성을 연장시킨다. 실무에서는 단일 패킷의 Latency를 희생하더라도 전체 망의 가용 Throughput을 확보하기 위해 슬롯 방식을 선호한다.
 
 - **📢 섹션 요약 비유**: [순수 알로하](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/111_aloha_protocol/)가 '개인 플레이'라면 슬롯 알로하는 '타이밍을 맞춘 단체 줄넘기'입니다. 줄에 걸려 넘어지는 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)은 확 줄었지만, 대신 줄이 돌아올 때까지 발을 구르며 기다려야 하는 인내심이 필요합니다.
@@ -124,21 +113,19 @@ tags = ["studynote-network"]
 *Slotted [ALOHA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/111_aloha_protocol/) 기반 실무 접속 구조 및 병목 관리 트리*
 이 도식은 고도화된 이동통신망에서 슬롯 알로하 기반의 랜덤 접속이 어떻게 활용되고 병목을 제어하는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">LTE/5G 단말기의 망 초기 접속 (RACH: Random Access Channel)</div></div>
-<div class="kb-diagram-tree-item" style="--depth:4">1단계: 단말이 기지국의 동기화 신호(SSB/비콘) 수신 (슬롯 타임 획득)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─&gt; 2단계: 단말이 무작위 Preamble을 선택하여</div><div class="kb-diagram-node">지정된 슬롯</div><div class="kb-diagram-note">에 전송 (Slotted ALOHA)</div></div>
-<div class="kb-diagram-note">─&gt; 다른 단말과 슬롯/Preamble이 겹쳤는가? (Collision)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ (Yes) ─&gt; 기지국 응답 없음 -&gt; 이진 지수 백오프 후 다음 슬롯 재시도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ (No) ─&gt; 기지국 RAR(응답) 수신 -&gt; 예약된 전용 대역폭(자원) 할당 완료</div></div>
-<div class="kb-diagram-tree-item" style="--depth:4">3단계: 할당받은 전용 자원(TDMA/OFDMA)으로 안전하게 대용량 데이터 전송</div>
-</div>
-</div>
-
-
+```text
+[LTE/5G 단말기의 망 초기 접속 (RACH: Random Access Channel)]
+         │
+         ├─> 1단계: 단말이 기지국의 동기화 신호(SSB/비콘) 수신 (슬롯 타임 획득)
+         │
+         ├─> 2단계: 단말이 무작위 Preamble을 선택하여 [지정된 슬롯]에 전송 (Slotted ALOHA)
+         │    │
+         │    ├─> 다른 단말과 슬롯/Preamble이 겹쳤는가? (Collision)
+         │    │    ├─ (Yes) ─> 기지국 응답 없음 -> 이진 지수 백오프 후 다음 슬롯 재시도
+         │    │    └─ (No)  ─> 기지국 RAR(응답) 수신 -> 예약된 전용 대역폭(자원) 할당 완료
+         │    │
+         └─> 3단계: 할당받은 전용 자원(TDMA/OFDMA)으로 안전하게 대용량 데이터 전송
+```
 *해설*: 이 흐름의 핵심은 고성능 통신망에서도 사용자가 언제 망에 진입할지 알 수 없는 '[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 접속 구간'에서는 슬롯 알로하가 가장 가볍고 효율적인 솔루션이라는 점이다. 실무 통신망 설계 시, 전체 주파수 대역 중 아주 좁은 일부 채널(RACH)만 슬롯 알로하경쟁 구역으로 열어두고, 여기서 경합에 승리한 단말에게만 절대 충돌이 나지 않는 전용 차선([OFDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/))을 할당하는 투트랙(Two-track) 방식을 사용한다. 
 
 <strong>실무 도입 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a> 및 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>:
@@ -175,19 +162,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: ALOHA</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: Slotted ALOHA</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 예약 방식 접속</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 자원 스케줄링</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: ALOHA]
+    │
+    ▼
+[현재 개념: Slotted ALOHA]
+    │
+    ├──▶ [확장 A: 예약 방식 접속]
+    └──▶ [확장 B: 지능형 자원 스케줄링]
+```
 
 Slotted ALOHA는 ALOHA에서 출발해 현재 메커니즘을 정교화하고, 이후 [예약 방식 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/113_reservation_access/) 및 지능형 자원 스케줄링로 확장되는 흐름 속에서 이해하면 기억이 오래간다.
 

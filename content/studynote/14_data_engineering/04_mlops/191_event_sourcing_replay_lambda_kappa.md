@@ -36,20 +36,18 @@ tags = ["studynote-data-engineering"]
 
 ### 1.3 [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/) 이벤트 스트림 개념
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">시간 흐름 →</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">E1</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">E2</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">E3</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">E4</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">E5</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주문생성</div><div class="kb-diagram-cell">결제완료</div><div class="kb-diagram-cell">배송시작</div><div class="kb-diagram-cell">배송완료</div><div class="kb-diagram-cell">리뷰작성</div></div>
-<div class="kb-diagram-note">↓ Replay(재현)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">현재 상태 = 순서대로 이벤트 적용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">언제든 원하는 시점 상태 재현 가능</div></div>
-</div>
-</div>
-
-
+```
+시간 흐름 →
+┌──────┐  ┌──────┐  ┌──────┐  ┌──────┐  ┌──────┐
+│E1    │→ │E2    │→ │E3    │→ │E4    │→ │E5    │
+│주문생성│  │결제완료│  │배송시작│  │배송완료│  │리뷰작성│
+└──────┘  └──────┘  └──────┘  └──────┘  └──────┘
+     ↓ Replay(재현)
+┌─────────────────────────────────┐
+│ 현재 상태 = 순서대로 이벤트 적용     │
+│ 언제든 원하는 시점 상태 재현 가능    │
+└─────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)은 "가계부"와 같다. 잔액만 적어두면 과거를 알 수 없지만, 입출금 내역을 모두 기록하면 어느 날의 잔액이든 계산해낼 수 있다.
 
@@ -61,26 +59,32 @@ tags = ["studynote-data-engineering"]
 
 Nathan Marz가 제안한 빅데이터 처리 아키텍처로, 배치와 스트림 두 레이어를 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 운영하여 정확성과 저지연을 동시에 달성한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">데이터 소스</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">배치 레이어</div><div class="kb-diagram-cell">스피드 레이어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Batch Layer)</div><div class="kb-diagram-cell">(Speed Layer)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HDFS / S3</div><div class="kb-diagram-cell">Kafka + Flink</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Spark Batch</div><div class="kb-diagram-cell">실시간 처리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고정확도</div><div class="kb-diagram-cell">저지연</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고지연(시간~일)</div><div class="kb-diagram-cell">근사치(최근 데이터)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서빙 레이어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Serving Layer)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">배치 뷰(Batch View) +</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실시간 뷰(Realtime View) 병합</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 사용자 쿼리 응답</div></div>
-</div>
-</div>
-
-
+```
+데이터 소스
+    │
+    ├─────────────────────────────┐
+    │                             │
+    ▼                             ▼
+┌─────────────────┐   ┌─────────────────┐
+│  배치 레이어      │   │  스피드 레이어    │
+│  (Batch Layer)  │   │  (Speed Layer)  │
+│                 │   │                 │
+│ HDFS / S3       │   │ Kafka + Flink   │
+│ Spark Batch     │   │ 실시간 처리       │
+│ 고정확도         │   │ 저지연           │
+│ 고지연(시간~일)  │   │ 근사치(최근 데이터)│
+└────────┬────────┘   └────────┬────────┘
+         │                     │
+         ▼                     ▼
+┌─────────────────────────────────┐
+│          서빙 레이어              │
+│         (Serving Layer)         │
+│                                 │
+│  배치 뷰(Batch View) +           │
+│  실시간 뷰(Realtime View) 병합    │
+│  → 사용자 쿼리 응답               │
+└─────────────────────────────────┘
+```
 
 | 레이어 | 역할 | 기술 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) | [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) |
 |:---|:---|:---|:---|
@@ -92,25 +96,32 @@ Nathan Marz가 제안한 빅데이터 처리 아키텍처로, 배치와 스트�
 
 Jay Kreps([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 창시자)가 [람다](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/)의 복잡성을 비판하며 제안. <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/229_stream_processing_kafka_flink/">스트림 처리</a> 단일 레이어</strong>로 배치 역할까지 수행.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">데이터 소스</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메시지 큐(Kafka)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이벤트 영구 보관 (무한 보존)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파티셔닝, 순서 보장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실시간 처리</div><div class="kb-diagram-cell">재처리(Replay)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Consumer v1)</div><div class="kb-diagram-cell">(Consumer v2)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">현재 로직 적용</div><div class="kb-diagram-cell">새 로직 소급</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서빙 레이어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단일 스트림 처리 결과 조회</div></div>
-</div>
-</div>
-
-
+```
+데이터 소스
+    │
+    ▼
+┌─────────────────────────────────┐
+│         메시지 큐(Kafka)          │
+│   이벤트 영구 보관 (무한 보존)      │
+│   파티셔닝, 순서 보장              │
+└────────────────┬────────────────┘
+                 │
+        ┌────────┴────────┐
+        │                 │
+        ▼                 ▼
+┌──────────────┐  ┌──────────────┐
+│ 실시간 처리   │  │ 재처리(Replay) │
+│ (Consumer v1)│  │ (Consumer v2) │
+│ 현재 로직 적용│  │ 새 로직 소급  │
+└──────┬───────┘  └──────┬───────┘
+       │                 │
+       └────────┬────────┘
+                ▼
+┌─────────────────────────────────┐
+│          서빙 레이어              │
+│   단일 스트림 처리 결과 조회        │
+└─────────────────────────────────┘
+```
 
 ### 2.3 [람다](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) vs 카파 비교
 
@@ -127,23 +138,26 @@ Jay Kreps([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kaf
 
 CQRS는 명령([Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/): [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/))과 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)(Query: 읽기)를 분리하는 패턴이다. [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/)과 결합하면 강력한 시스템을 구성한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CQRS + 이벤트 소싱</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라이언트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Command(쓰기) ──→ Command Handler</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이벤트 스토어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Kafka/EventStore)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Projection</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(읽기 모델 생성)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Query(읽기) ──→ Read DB(최적화)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Redis/Elasticsearch)</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────┐
+│                   CQRS + 이벤트 소싱              │
+│                                                 │
+│  클라이언트                                       │
+│    │                                            │
+│    ├──── Command(쓰기) ──→ Command Handler       │
+│    │                           │                │
+│    │                           ▼                │
+│    │                    이벤트 스토어             │
+│    │                    (Kafka/EventStore)       │
+│    │                           │                │
+│    │                     Projection             │
+│    │                    (읽기 모델 생성)          │
+│    │                           │                │
+│    │                           ▼                │
+│    └──── Query(읽기) ──→  Read DB(최적화)        │
+│                           (Redis/Elasticsearch) │
+└─────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: [람다](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/)는 두 개의 주방에서 요리하는 레스토랑(빠른 패스트푸드 창구 + 정성스러운 정식 주방)이고, 카파는 한 주방에서 빠르고 정확하게 모든 요리를 처리하는 효율적 주방이다.
 
@@ -153,26 +167,25 @@ CQRS는 명령([Command](/knowledge-base/studynote/04_software_engineering/05_de
 
 ### 3.1 [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/) Replay 상세 흐름
 
+```
+[기존 로직 v1 처리 중]
+Kafka Topic: order-events (offset 0 ~ 100,000)
 
+오프셋 0  ──→ 이벤트 소비 ──→ 로직 v1 적용 ──→ DB 저장
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">기존 로직 v1 처리 중</div></div>
-<div class="kb-diagram-note">Kafka Topic: order-events (offset 0 ~ 100,000)</div>
-<div class="kb-diagram-note">오프셋 0 ──→ 이벤트 소비 ──→ 로직 v1 적용 ──→ DB 저장</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">새 로직 v2 적용 필요</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">새 컨슈머 그룹(Consumer Group)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오프셋 0부터 재시작</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오프셋 0 ──→ 로직 v2 적용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오프셋 1 ──→ 로직 v2 적용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오프셋 100,000 ──→ v2 완료</div></div>
-<div class="kb-diagram-note">결과: v2 기준 전체 히스토리 재계산 완료</div>
-<div class="kb-diagram-note">v1 결과와 병행 운영 후 전환 (Blue/Green)</div>
-</div>
-</div>
+[새 로직 v2 적용 필요]
+          ┌─────────────────────────────────┐
+          │  새 컨슈머 그룹(Consumer Group)  │
+          │  오프셋 0부터 재시작              │
+          │  오프셋 0 ──→ 로직 v2 적용       │
+          │  오프셋 1 ──→ 로직 v2 적용       │
+          │      ...                        │
+          │  오프셋 100,000 ──→ v2 완료      │
+          └─────────────────────────────────┘
 
-
+결과: v2 기준 전체 히스토리 재계산 완료
+v1 결과와 병행 운영 후 전환 (Blue/Green)
+```
 
 ### 3.2 Kafka를 [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/) 스토어로 활용
 
@@ -213,28 +226,26 @@ CQRS는 명령([Command](/knowledge-base/studynote/04_software_engineering/05_de
 
 ### 4.2 실무 구현 패턴: [이벤트 소싱](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/249_event_sourcing_append_only_state_reconstruction/) + 카파
 
+```
+[주문 시스템 예시]
 
+사용자 주문
+    │
+    ▼
+Order Command Handler
+    │ OrderCreated 이벤트 발행
+    ▼
+Kafka Topic: order-events
+ ├─ Partition 0: userId % N
+ ├─ 무기한 보존(log.retention.ms=-1)
+ └─ Log Compaction 활성화
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">주문 시스템 예시</div></div>
-<div class="kb-diagram-note">사용자 주문</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Order Command Handler</div>
-<div class="kb-diagram-note">OrderCreated 이벤트 발행</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Kafka Topic: order-events</div>
-<div class="kb-diagram-tree-item" style="--depth:0">Partition 0: userId % N</div>
-<div class="kb-diagram-tree-item" style="--depth:0">무기한 보존(log.retention.ms=-1)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">Log Compaction 활성화</div>
-<div class="kb-diagram-tree-item" style="--depth:2">→ Consumer Group A: 재고 Projection → Redis</div>
-<div class="kb-diagram-tree-item" style="--depth:2">→ Consumer Group B: 결제 Projection → PostgreSQL</div>
-<div class="kb-diagram-tree-item" style="--depth:2">→ Consumer Group C: 검색 Projection → Elasticsearch</div>
-<div class="kb-diagram-tree-item" style="--depth:2">→ Consumer Group D: 분석 Projection → ClickHouse</div>
-</div>
-</div>
-
-
+    │
+    ├──→ Consumer Group A: 재고 Projection → Redis
+    ├──→ Consumer Group B: 결제 Projection → PostgreSQL
+    ├──→ Consumer Group C: 검색 Projection → Elasticsearch
+    └──→ Consumer Group D: 분석 Projection → ClickHouse
+```
 
 ### 4.3 재처리(Replay) 운영 절차
 
@@ -272,23 +283,18 @@ CQRS는 명령([Command](/knowledge-base/studynote/04_software_engineering/05_de
 
 ### 5.2 기술 선택 가이드라인 (기술사 관점)
 
+```
+이벤트 소싱/스트림 아키텍처 의사결정 트리
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이벤트 소싱/스트림 아키텍처 의사결정 트리</div>
-<div class="kb-diagram-note">스트림 처리 필요?</div>
-<div class="kb-diagram-tree-item" style="--depth:0">NO → 전통 CRUD + 배치 ETL</div>
-<div class="kb-diagram-tree-item" style="--depth:0">YES → 실시간 정확도 요구?</div>
-<div class="kb-diagram-tree-item" style="--depth:5">높음 + 복잡 집계 → 람다 아키텍처</div>
-<div class="kb-diagram-note">(배치 + 스트림 병렬 운영)</div>
-<div class="kb-diagram-tree-item" style="--depth:5">보통 + 운영 단순화 → 카파 아키텍처</div>
-<div class="kb-diagram-note">(스트림 단일 경로)</div>
-<div class="kb-diagram-tree-item" style="--depth:7">이력/감사 필요? → 이벤트 소싱 결합</div>
-</div>
-</div>
-
-
+스트림 처리 필요?
+├─ NO  → 전통 CRUD + 배치 ETL
+└─ YES → 실시간 정확도 요구?
+          ├─ 높음 + 복잡 집계 → 람다 아키텍처
+          │   (배치 + 스트림 병렬 운영)
+          └─ 보통 + 운영 단순화 → 카파 아키텍처
+              (스트림 단일 경로)
+              └─ 이력/감사 필요? → 이벤트 소싱 결합
+```
 
 ### 5.3 현업 채택 현황
 
@@ -326,25 +332,23 @@ CQRS는 명령([Command](/knowledge-base/studynote/04_software_engineering/05_de
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">CRUD 기반 상태 저장 (현재 상태만 유지)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">이벤트 소싱 (Event Sourcing): 모든 변화를 이벤트로 기록</div>
-<div class="kb-diagram-tree-item" style="--depth:2">이벤트 스토어: 불변 로그 (Kafka · EventStoreDB)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">상태 재구성: 이벤트 리플레이 (Replay)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">람다 아키텍처: Batch Layer + Speed Layer 분리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">카파 아키텍처: Speed Layer만으로 통합 (Kafka 중심)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CQRS: 쓰기 모델(Command)과 읽기 모델(Query) 분리</div>
-</div>
-</div>
-
-
+```text
+CRUD 기반 상태 저장 (현재 상태만 유지)
+    │
+    ▼
+이벤트 소싱 (Event Sourcing): 모든 변화를 이벤트로 기록
+    ├─► 이벤트 스토어: 불변 로그 (Kafka · EventStoreDB)
+    └─► 상태 재구성: 이벤트 리플레이 (Replay)
+    │
+    ▼
+람다 아키텍처: Batch Layer + Speed Layer 분리
+    │
+    ▼
+카파 아키텍처: Speed Layer만으로 통합 (Kafka 중심)
+    │
+    ▼
+CQRS: 쓰기 모델(Command)과 읽기 모델(Query) 분리
+```
 2. [람다 아키텍처](/knowledge-base/studynote/16_bigdata/04_streaming/095_lambda_architecture/)는 두 개의 창구가 있는 은행이에요. 빠른 창구(스트림)와 정확한 창구(배치) 두 곳에서 결과를 합쳐요.
 3. [카파 아키텍처](/knowledge-base/studynote/16_bigdata/04_streaming/096_kappa_architecture/)는 스트리밍 서비스처럼 한 곳에서 모든 영상을 보여주는데, 필요하면 처음부터 다시 재생해서 새로운 자막(로직)도 입힐 수 있어요.
 

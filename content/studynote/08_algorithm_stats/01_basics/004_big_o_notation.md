@@ -9,7 +9,7 @@ tags = ["algorithm_stats"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: O(1)에서 O(n!)까지의 복잡도 등급은 입력 크기 N이 증가할 때 연산량이 어떤 속도로 증가하는지를 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)한 것으로, 복잡도가 낮을수록 더 큰 문제도 효율적으로 해결할 수 있다.
+> 1. **본질**: O(1)에서 O(n!)까지의 복잡도 등급은 입력 크기 N이 증가할 때 연산량이 어떤 속도로 증가하는지를 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)한 것으로, 복잡도가 낮을수록 더 큰규모적 문제도 효율적으로 해결할 수 있다.
 > 2. **가치**: 기술사 수준의 분석에서는 정확한 등급 판별과 각 등급에 해당하는 실제 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 예시를 빠르고 정확하게 연결할 수 있는 능력이 핵심이며, 이것은 시스템 아키텍트의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 판단 역량의 기반이다.
 > 3. **융합**: 복잡도 등급은 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 설계([B-tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) = O(log N)), 네트워크 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 컴파일러 최적화, [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 모델 훈련 시간 예측 등 모든 컴퓨팅 영역의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 기준이 된다.
 
@@ -17,121 +17,142 @@ tags = ["algorithm_stats"]
 
 ## Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
-[알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 복잡도의 등급 체계는 1960년대 Don Knuth와 Bob Floyd 등의 선구적 연구를 통해 체계화되었다. 는 점근적 표기법(Asymptotic Notation)을 사용하여 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의를 수학적으로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하는프레임워크를했고, 오늘날에도 이 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계는 변함없이 사용되고 있다. 복잡도 등급의 차이는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규모에 따라 극적으로 벌어지며, N이 작은 구간에서는 체감하기 어려운 차이가 N이 커짐에 따라Implement에 가까워지는 것을 경험적으로 알 수 있다.
+[알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 복잡도의 등급 체계는 1960년대 Don Knuth와 Bob Floyd 등의 선구적 연구를 통해 체계화되었다. 타문는 점근적 표기법(Asymptotic Notation)을 사용하여 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의효솔를 수학적으로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하는프레임워크를건립했고, 오늘날에도 이 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계는 변함없이 사용되고 있다. 복잡도 등급의 차이는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규모에 따라 극적으로 벌어지며, N이 작은 구간에서는 체감하기 어려운 차이가 N이 커짐에 따라Implement불가능에 가까워지는 것을 경험적으로 알 수 있다.
 
 10부터 시작하여 각 복잡도 등급에서 N이 10배 증가할 때([10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) → 100) 연산량의 변화를 비교하면 그 격차가 극적으로 드러난다. O(1)은 항상 1이고, O(log N)은 3.3에서 6.6으로 약 2배 증가하며, O(N)은 10에서 100으로 10배, O(N log N)은 33에서 664으로 약 20배, O(N²)는 100에서 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000으로 100배, O(2^N)는 1,024에서 2^100(약 1.27×10³⁰)이라는 천문 숫자로 폭발하며, O(N!)은 이것보다 훨씬 괴상한 수치에 도달한다. 이 수치 비교는 왜 O(N²) 이상의 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 대규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 사용 불가인지를 극명하게 보여준다.
 
 > 이 도식은 복잡도 등급 간의 관계와 크기 비교를 보여준다.
 
+```text
+[알고리즘 복잡도 등급 체계]
 
+┌──────────────────────────────────────────────────────┐
+│                                                      │
+│   O(1)       O(log N)     O(N)      O(N log N)      │
+│  ━━━━       ━━━━━━━━    ━━━━━━    ━━━━━━━━━━━       │
+│  Constant   Logarithmic  Linear    NLogn            │
+│                                                      │
+│              O(N²)       O(2^N)      O(N!)           │
+│             ━━━━━━━━    ━━━━━━     ━━━━━━━━         │
+│             Quadratic   Exponential  Factorial      │
+│                                                      │
+│   [상승곡선 비교]                                    │
+│                                                      │
+│   연산량                                              │
+│     │                                                 │
+│     │                                         ╱      │
+│     │                                      ╱/        │
+│     │                                 ╱_/            │
+│     │                            ╱_/                 │
+│     │                       ╱_/                      │
+│     │                  ╱_/                           │
+│     │             ╱_/                                │
+│     │        ╱_/                                     │
+│     │   ╱_/                                          │
+│     ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━→  │
+│         N=10    N=100      N=1000      N增大方向      │
+│                                                      │
+└──────────────────────────────────────────────────────┘
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">알고리즘 복잡도 등급 체계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">O(1) O(log N) O(N) O(N log N)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Constant Logarithmic Linear NLogn</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">O(N²) O(2^N) O(N!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Quadratic Exponential Factorial</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상승곡선 비교</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">연산량</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">╱</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">╱/</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">╱_/</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">╱_/</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">╱_/</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">╱_/</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">╱_/</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">╱_/</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">╱_/</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">┗ →</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">N=10 N=100 N=1000 N</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">각 등급의 N=10 → N=100 변화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">복잡도</div><div class="kb-diagram-cell">N=10</div><div class="kb-diagram-cell">N=100</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">O(1)</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">O(log N)</div><div class="kb-diagram-cell">~3.3</div><div class="kb-diagram-cell">~6.6</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">O(N)</div><div class="kb-diagram-cell">10</div><div class="kb-diagram-cell">100</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">O(N log N)</div><div class="kb-diagram-cell">~33</div><div class="kb-diagram-cell">~664</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">O(N²)</div><div class="kb-diagram-cell">100</div><div class="kb-diagram-cell">10,000</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">O(2^N)</div><div class="kb-diagram-cell">1,024</div><div class="kb-diagram-cell">2^100 ≈ 1.27×10³⁰</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">O(N!)</div><div class="kb-diagram-cell">3,628,800</div><div class="kb-diagram-cell">9.33×10^157</div></div>
-</div>
-</div>
+[각 등급의 N=10 → N=100 변화]
+┌──────────┬─────────────┬───────────────────────────┐
+│ 복잡도     │  N=10       │  N=100                     │
+├──────────┼─────────────┼───────────────────────────┤
+│ O(1)     │  1          │  1                          │
+│ O(log N) │  ~3.3       │  ~6.6                       │
+│ O(N)     │  10         │  100                        │
+│ O(N log N)│  ~33        │  ~664                      │
+│ O(N²)    │  100        │  10,000                     │
+│ O(2^N)   │  1,024      │  2^100 ≈ 1.27×10³⁰         │
+│ O(N!)    │  3,628,800  │  9.33×10^157               │
+└──────────┴─────────────┴───────────────────────────┘
+```
 
-
-
-- **관찰**: O(2^N)과 O(N!)은 N이 100만 되어도 감당 불가능한 수치가 되며, N=100에서조차 2^100이 이미 적수임을 알 수 있다.
+- **관찰**: O(2^N)과 O(N!)은 N이 100만 되어도 감당 불가능한 수치가 되며, N=100에서조차 2^100이 이미 천문학적수자임을 알 수 있다.
 - **원인**: 지수적 복잡도는 매 단계마다 경우의 수가 N배로 늘어나기 때문에 매우 빠른 속도로 연산량이 폭증한다.
 - **결과**: NP-완전 문제와 같이 O(2^N) 이상의 복잡도를 가지는 문제들은 입력 크기가 조금만 커져도 실용적 시간 내에 해결이 불가능하다.
 - **판단**: 기술사 시험에서 "N이 100 이상이라면 O(N²) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 피해야 한다"는 것을 직관적으로 설명할 수 있어야 하며, 그 수학적 근거를 제시할 수 있어야 한다.
 
-📢 **섹션 요약 비유**: 복잡도 등급은 살인 사건의 수사를 생각하면 이해가 쉽다. 목격자 1명(O(1))에게 물으면 바로 답을 알지만, 100명(O(N))에게 각각 물어보면 10배 시간이 걸리고, 100명이 각자 다른 100명에게 물어잠금 responsiblity(O(N²))하면 순식간에 1만 번의 질문이 되어 감당 불가능에 이른다.
+📢 **섹션 요약 비유**: 복잡도 등급은 살인 사건의 수사를 생각하면 이해가 쉽다. 목격자 1명(O(1))에게 물으면 바로 답을 알지만, 목격자 100명(O(N))에게 각각 물어보면 10배 시간이 걸리고, 100명이 각자 다른 100명에게 물어련쇄 responsiblity(O(N²))하면 순식간에 1만 번의 질문이 되어 감당 불가능에 이른다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-각 복잡도 등급에 해당하는 전형적인 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 패턴을 이해하는 것은 기술사 응시의 필수 역량이다. <strong>O(1) - 상수 시간</strong>은 입력 크기와 무관하게 항상 동일한 시간에한다. [해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/)([Hash Table](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/))의 평균적 조회, [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)의 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 접근, 단순 산술 연산이 이에 해당한다. <strong>O(log N) - <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a> 시간</strong>은 매 단계마다 문제의 크기가 절반으로 줄어드는 경우에 발생한다. [이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/)([Binary Search](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/)), 이진 검색 트리(BST) 탐색, 밸런스 트리([B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/), B+Tree) 탐색이 대표적이다. <strong>O(N) - 선형 시간</strong>은 모든 원소를 한 번씩 방문해야 하는 경우에 발생한다. [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 순회, [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) 탐색, 선형 탐색이 대표적이다.
+각 복잡도 등급에 해당하는 전형적인 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 패턴을 이해하는 것은 기술사 응시의 필수 역량이다. <strong>O(1) - 상수 시간</strong>은 입력 크기와 무관하게 항상 동일한 시간에완료한다. [해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/)([Hash Table](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/))의 평균적 조회, [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)의 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 접근, 단순 산술 연산이 이에 해당한다. <strong>O(log N) - <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a> 시간</strong>은 매 단계마다 문제의 크기가 절반으로 줄어드는 경우에 발생한다. [이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/)([Binary Search](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/)), 이진 검색 트리(BST) 탐색, 밸런스 트리([B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/), B+Tree) 탐색이 대표적이다. <strong>O(N) - 선형 시간</strong>은 모든 원소를 한 번씩 방문해야 하는 경우에 발생한다. [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 순회, [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) 탐색, 선형 탐색이 대표적이다.
 
 <strong>O(N log N) - 선형 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a> 시간</strong>은 문제를 반으로 분할하여 각각을 재귀적으로 풀고, 그 결과를 합병하는 [분할 정복](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/)([Divide and Conquer](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/)) 패턴에서 주로 나타난다. [합병 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)([Merge Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)), [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)([Heap Sort](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/)), [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)([Quick Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/))의 평균적 경우가 이에 해당한다. <strong>O(N²) - 이차 시간</strong>은 일반적으로 이중 루프(Double Loop), 즉 모든 쌍을 비교하거나 처리하는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에서 나타난다. [버블 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/022_bubble_sort/), [선택 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/024_selection_sort/), [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/), 그래프에서 인접 행렬을 사용하는 모든 쌍 최단 경로 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 대표적이다.
 
-<strong>O(2^N) - 지수 시간</strong>은 모든 가능한 경우의 수를 하나씩 탐색하는 완전 탐색([Brute Force](/knowledge-base/studynote/09_security/05_web_app_security/456_brute_force/)) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에서 나타난다. 문제(Subset Sum), 일부 동적 프로그래밍의 naive 구현, 결정 문제의 모든 경로를 탐색하는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 대표적이다. <strong>O(N!) - 계승 시간</strong>은 가능한 모든 순열을 생성하는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에서 나타난다. [외판원 문제](/knowledge-base/studynote/12_it_management/03_ea_isp/106_fenwick_tree/)([TSP](/knowledge-base/studynote/12_it_management/03_ea_isp/106_fenwick_tree/))의 완전 탐색 brute-force 해결, N Queens 문제의 naive 구현이 대표적이다.
+<strong>O(2^N) - 지수 시간</strong>은 모든 가능한 경우의 수를 하나씩 탐색하는 완전 탐색([Brute Force](/knowledge-base/studynote/09_security/05_web_app_security/456_brute_force/)) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에서 나타난다. 부분집합 문제(Subset Sum), 일부 동적 프로그래밍의 naive 구현, 결정 문제의 모든가능적 경로를 탐색하는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 대표적이다. <strong>O(N!) - 계승 시간</strong>은 가능한 모든 순열을 생성하는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에서 나타난다. [외판원 문제](/knowledge-base/studynote/12_it_management/03_ea_isp/106_fenwick_tree/)([TSP](/knowledge-base/studynote/12_it_management/03_ea_isp/106_fenwick_tree/))의 완전 탐색 brute-force 해결, N Queens 문제의 naive 구현이 대표적이다.
 
+```text
+[각 복잡도 등급의 전형적 알고리즘 패턴]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">각 복잡도 등급의 전형적 알고리즘 패턴</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">O(1) ─ 해시 테이블 조회</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">arr</div><div class="kb-diagram-node">index</div><div class="kb-diagram-note">// 인덱스 접근</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">hashMap.get(key) // 해시 조회</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">result = a + b // 산술 연산</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">O(log N) ─ 이진 탐색 계열</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">while (low &lt;= high): // 범위가 절반씩 감소</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">mid = (low + high)/2</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">if arr</div><div class="kb-diagram-node">mid</div><div class="kb-diagram-note">== target: return mid</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">elif arr</div><div class="kb-diagram-node">mid</div><div class="kb-diagram-note">&lt; target: low = mid + 1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">else: high = mid - 1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">O(N) ─ 선형 스캔 계열</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">for element in array: // 모든 원소 1회 방문</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">process(element)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">O(N log N) ─ 분할 정복 정렬</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">def divide_conquer(arr):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">if len(arr) &lt;= 1: return arr</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">mid = len(arr) // 2</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">left = divide_conquer(arr</div><div class="kb-diagram-node">:mid</div><div class="kb-diagram-note">) // N/2</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">right = divide_conquer(arr</div><div class="kb-diagram-node">mid:</div><div class="kb-diagram-note">) // N/2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">return merge(left, right) // O(N)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">// T(N) = 2T(N/2) + O(N) = O(N log N)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">O(N²) ─ 이중 루프, 쌍 비교</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">for i in range(N): // N번</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">for j in range(i+1, N): // N-i-1번</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">compare(arr</div><div class="kb-diagram-node">i</div><div class="kb-diagram-note">, arr</div><div class="kb-diagram-node">j</div><div class="kb-diagram-note">)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">O(2^N) ─ 멱집합, 모든 부분집합 탐색</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">def powerset(items):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">result = [[]]</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">for item in items:</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">result += [subset +</div><div class="kb-diagram-node">item</div><div class="kb-diagram-note">for subset in result]</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">return result // 2^N 개의 부분집합 생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">O(N!) ─ 모든 순열 생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">def permutations(arr):</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">if len(arr) == 1: return</div><div class="kb-diagram-node">arr</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">result = []</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">for i in range(len(arr)):</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">rest = arr</div><div class="kb-diagram-node">:i</div><div class="kb-diagram-note">+ arr</div><div class="kb-diagram-node">i+1:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">for perm in permutations(rest):</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">result.append(arr</div><div class="kb-diagram-node">i:i+1</div><div class="kb-diagram-note">+ perm)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">return result // N! 개의 순열 생성</div></div>
-</div>
-</div>
-
-
+┌──────────────────────────────────────────────────────┐
+│                                                      │
+│  O(1)     ─ 해시 테이블 조회                         │
+│  ───────  ────────────────────────                  │
+│  arr[index]       // 인덱스 접근                      │
+│  hashMap.get(key) // 해시 조회                        │
+│  result = a + b  // 산술 연산                        │
+│                                                      │
+│  O(log N) ─ 이진 탐색 계열                           │
+│  ────────── ────────────────────────                │
+│  while (low <= high):        // 범위가 절반씩 감소    │
+│      mid = (low + high)/2                           │
+│      if arr[mid] == target: return mid              │
+│      elif arr[mid] < target: low = mid + 1         │
+│      else: high = mid - 1                           │
+│                                                      │
+│  O(N)     ─ 선형 스캔 계열                           │
+│  ───────  ────────────────────────                  │
+│  for element in array:      // 모든 원소 1회 방문   │
+│      process(element)                              │
+│                                                      │
+│  O(N log N) ─ 분할 정복 정렬                         │
+│  ──────────── ────────────────────────              │
+│  def divide_conquer(arr):                           │
+│      if len(arr) <= 1: return arr                  │
+│      mid = len(arr) // 2                           │
+│      left = divide_conquer(arr[:mid])  // N/2      │
+│      right = divide_conquer(arr[mid:]) // N/2     │
+│      return merge(left, right)          // O(N)   │
+│  // T(N) = 2T(N/2) + O(N) = O(N log N)              │
+│                                                      │
+│  O(N²)    ─ 이중 루프, 쌍 비교                       │
+│  ──────── ────────────────────────                  │
+│  for i in range(N):           // N번                 │
+│      for j in range(i+1, N): // N-i-1번             │
+│          compare(arr[i], arr[j])                   │
+│                                                      │
+│  O(2^N)   ─ 멱집합, 모든 부분집합 탐색               │
+│  ──────── ────────────────────────                  │
+│  def powerset(items):                               │
+│      result = [[]]                                 │
+│      for item in items:                            │
+│          result += [subset + [item] for subset in result]
+│      return result    // 2^N 개의 부분집합 생성      │
+│                                                      │
+│  O(N!)   ─ 모든 순열 생성                           │
+│  ──────── ────────────────────────                  │
+│  def permutations(arr):                            │
+│      if len(arr) == 1: return [arr]               │
+│      result = []                                   │
+│      for i in range(len(arr)):                     │
+│          rest = arr[:i] + arr[i+1:]               │
+│          for perm in permutations(rest):          │
+│              result.append(arr[i:i+1] + perm)      │
+│      return result    // N! 개의 순열 생성          │
+│                                                      │
+└──────────────────────────────────────────────────────┘
+```
 
 - **관찰**: O(N²)에서 O(N log N)으로의 개선은 단순해 보이지만, N=1,000,000에서 1조(N²)에서 2천만(N log N)으로 약 5,000배 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상을 의미한다.
 - **원인**: log N은 N에 비해 극도로 느리게 증가한다. 100만 원소의 정렬에서 log₂(1,000,000) ≈ 20이다.
-- **결과**: O(N log N) 정렬 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(합병, 힙, 퀵)의은 컴퓨팅 역사에서 중요한 이정표였다.
+- **결과**: O(N log N) 정렬 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(합병, 힙, 퀵)의발명은 컴퓨팅 역사에서 중요한 이정표였다.
 - **판단**: 실무에서 N의 최대 크기를 예측할 수 있다면, 그에 맞는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 등급을 선택해야 하고, N이 불특정하게 증가할 가능성이 있다면 항상 더 낮은 등급의 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 선택해야 한다.
 
-📢 **섹션 요약 비유**: 복잡도 등급은 점심시간에 식당에 사람이 늘었을 때의 상황과 같습니다. 식당에 손님이 10명(O(1): 계산은 인원 수와 무관)일 때와 100명(O(N): 명 수에 비례)이 있을 때의 대기 시간 차이는 크지만, 각 테이블에서 다른 테이블과상을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(O(N²))하면 복싱 경기장이으로 변합니다.
+📢 **섹션 요약 비유**: 복잡도 등급은 점심시간에 식당에 사람이 늘었을 때의 상황과 같습니다. 식당에 손님이 10명(O(1): 계산은 인원 수와 무관)일 때와 100명(O(N): 명 수에 비례)이 있을 때의 대기 시간 차이는 크지만, 각 테이블에서 다른 테이블과상을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(O(N²))하면 복싱 경기장이련옥으로 변모합니다.
 
 ---
 
@@ -141,35 +162,50 @@ tags = ["algorithm_stats"]
 
 <strong>실전 복잡도 판별 트리</strong>는 다음과 같다. "루프가 있는가?" → "없으면 O(1)" → "있으면 루프 범위가 N에 비례하는가?" → "반이면 O(log N)" → "전체면 O(N)" → "루프가 중첩되었는가?" → "이중이면 O(N²)" → "더 높은 중첩이면 그에 해당". 이 의사결정 트리를 직관적으로 외우는 것이 기술사 시험에서 시간을 절약하는 핵심 전략이다.
 
+```text
+[복잡도 등급 판별 빠른 결정 트리]
 
+┌──────────────────────────────────────────────────────┐
+│                                                      │
+│  [복잡도 판별 시작]                                   │
+│         │                                              │
+│         ▼                                              │
+│  ┌─────────────┐                                       │
+│  │ 루프 있는가? │                                       │
+│  └──────┬──────┘                                       │
+│     No  │  Yes                                          │
+│     ▼   ▼                                              │
+│   O(1)  ┌──────────────────┐                          │
+│         │ 루프 범위가 N 기준? │                          │
+│         └────────┬─────────┘                          │
+│        절반 ↓   전체 ↓  고정 ↓                          │
+│       O(logN)  O(N)    O(1)                            │
+│                   │                                    │
+│                   ▼                                    │
+│            ┌─────────────┐                             │
+│            │ 중첩 되었나? │                             │
+│            └──────┬──────┘                             │
+│           이중 ↓  삼중 ↓  없음 ↓                       │
+│          O(N²)  O(N³)  (단일 루프의)                   │
+│                   │                                    │
+│                   ▼                                    │
+│            ┌─────────────┐                             │
+│            │ 재귀 호출?  │                              │
+│            └──────┬──────┘                             │
+│            분할 ↓  단순 ↓                              │
+│         O(N logN) O(N) [재귀 깊이=1]                   │
+│                                                      │
+└──────────────────────────────────────────────────────┘
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">복잡도 등급 판별 빠른 결정 트리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">복잡도 판별 시작</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">루프 있는가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">No</div><div class="kb-diagram-cell">Yes</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">O(1)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">루프 범위가 N 기준?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">절반 ↓ 전체 ↓ 고정 ↓</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">O(logN) O(N) O(1)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">중첩 되었나?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이중 ↓ 삼중 ↓ 없음 ↓</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">O(N²) O(N³) (단일 루프의)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">재귀 호출?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분할 ↓ 단순 ↓</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">O(N logN) O(N)</div><div class="kb-diagram-node">재귀 깊이=1</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">실전 판별 사례</div></div>
-<div class="kb-diagram-note">T(N) = N³ + N² log N + 3N + 100</div>
-<div class="kb-diagram-note">→ 가장 높은 항: N³ (거듭제곱이 로그보다 빠르게 증가)</div>
-<div class="kb-diagram-note">→ O(N³)</div>
-<div class="kb-diagram-note">T(N) = 2^N + N⁹⁹</div>
-<div class="kb-diagram-note">→ 2^N이 N⁹⁹보다 빠르게 증가 (지수가 다항식보다 빠름)</div>
-<div class="kb-diagram-note">→ O(2^N)</div>
-</div>
-</div>
+[실전 판별 사례]
+T(N) = N³ + N² log N + 3N + 100
+→ 가장 높은 항: N³ (거듭제곱이 로그보다 빠르게 증가)
+→ O(N³)
 
-
+T(N) = 2^N + N⁹⁹
+→ 2^N이 N⁹⁹보다 빠르게 증가 (지수가 다항식보다 빠름)
+→ O(2^N)
+```
 
 📢 **섹션 요약 비유**: 복잡도 등급 판별은urus 발목 크기에 따라 신발 사이즈를 고르는 것과 같습니다. 발목이 조금만 두꺼워져도(입력 N 증가) 다음 사이즈로 넘어가야 하고, 사이즈가 커질수록(O(log N) → O(N) → O(N²)) 신발을 찾기가 훨씬 어려워집니다.
 
@@ -181,74 +217,76 @@ tags = ["algorithm_stats"]
 
 <strong>품질 관리 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong>는 다음과 같다. [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 선택 시 최악의 경우 복잡도도 함께 분석해야 한다. 충돌 가능성 있는 자료구조([해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/), 체이닝 등)의 평균/최악 경우를 모두 파악해야 한다. 입력 분포에 따라 실제 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 달라질 수 있음을 인식해야 한다.
 
-📢 **섹션 요약 비유**: 복잡도 등급 품질 관리는 자동차의 연비 테스트와 같습니다. 공인 연비(평균 복잡도)가 좋다고 해도, 운전자의 주 습관(입력 분포)에 따라 실제 연비(실제 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))는 크게 달라질 수 있습니다.
+📢 **섹션 요약 비유**: 복잡도 등급 품질 관리는 자동차의 연비 공인 테스트와 같습니다. 공인 연비(평균 복잡도)가 좋다고 해도, 운전자의 주가사 습관(입력 분포)에 따라 실제 연비(실제 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))는 크게 달라질 수 있습니다.
 
 ---
 
 ## Ⅴ. 최신 트렌드 및 결론 (Trends & Conclusion)
 
-[알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 복잡도 등급 연구의 최신 동향은 <strong> <a href="/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/399_fine_grained_multithreading/">Fine-grained</a> 복잡도(<a href="/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/399_fine_grained_multithreading/">Fine-Grained</a> Complexity)</strong>이다. 기존에는 P vs NP 정도로 거칠게 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)했지만, 최근에는 "이 문제의 시간 복잡도는 N^{1.5}보다 낮출 수 없다"는 식으로 더 정밀한 하한을하는 연구가 활발히 진행되고 있다. 또한 <strong>Parameterised Algorithms</strong>는 입력의 특정 파라미터(예: 그래프의 트리 너비)에 따른 복잡도를 분석하여, 전체 입력 크기에서는 지수적이지만 특정 조건에서는 다항 시간에 해결 가능한 경우를 찾는 분야이다.
+[알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 복잡도 등급 연구의 최신 동향은 <strong> <a href="/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/399_fine_grained_multithreading/">Fine-grained</a> 복잡도(<a href="/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/399_fine_grained_multithreading/">Fine-Grained</a> Complexity)</strong>령역적심화이다. 기존에는 P vs NP 정도로 거칠게 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)했지만, 최근에는 "이 문제의 시간 복잡도는 N^{1.5}보다 낮출 수 없다"는 식으로 더 정밀한 하한을정명하는 연구가 활발히 진행되고 있다. 또한 <strong>Parameterised Algorithms</strong>는 입력의 특정 파라미터(예: 그래프의 트리 너비)에 따른 복잡도를 분석하여, 전체 입력 크기에서는 지수적이지만 특정 조건에서는 다항 시간에 해결 가능한 경우를 찾는 분야이다.
 
-복잡도 등급 체계는 컴퓨팅의 영원한 기초이다. 새로운 하드웨어, [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/), 신경망 기반 컴퓨팅 등이 나와도, [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 구조적 복잡도를 비교하는 이 프레임워크는 이다. 사 시험에서 이 주제가 반드시 출제되는 것도, 가 이러한 기본 원리를 확실히 이해하고 있는지를 검증할 수 있기 때문이다.
+복잡도 등급 체계는 계산궤과학의 영원한 기초이다. 새로운 하드웨어, [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/), 신경망 기반 컴퓨팅 등이 나와도, [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 구조적 복잡도를 비교하는 이 프레임워크는 기본불변이다. 기출사 시험에서 이 주제가 반드시 출제되는 것도, 신청인가 이러한 기본 원리를 확실히 이해하고 있는지를 검증할 수 있기 때문이다.
 
-📢 **섹션 요약 비유**: 복잡도 등급은 모든 운동 종의 기록과 같습니다. 육상에서 100m 달리기 기록([알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 등급)이 10초에서 9초로 단축되면 세계 기록이지만, 마라톤(O(N))에서는 기록이 30분대에서 2시간대로 늘어도 정상적인 것이며,를 같은으로 비교할 수 없는 것처럼, 알고리즘에도 에 따른 평가 기준이 있습니다.
+📢 **섹션 요약 비유**: 복잡도 등급은 모든 운동 종목의 기록과 같습니다. 육상에서 100m 달리기 기록([알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 등급)이 10초에서 9초로 단축되면 세계 기록이지만, 마라톤(O(N))에서는 기록이 30분대에서 2시간대로 늘어도 정상적인 것이며,량자를 같은기준으로 비교할 수 없는 것처럼, 알고리즘에도 등급에 따른 평가 기준이 있습니다.
 
 ---
 
 ### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
 
+```text
+[복잡도 등급 핵심 개념 맵]
 
+        O(1) ────── 해시 테이블, 배열 접근
+           │
+           │ (N이 커질수록 더 좋은 성능)
+           ▼
+        O(log N) ── 이진 탐색, BST, B-Tree
+           │
+           ▼
+        O(N) ────── 선형 탐색, 순회
+           │
+           ▼
+        O(N log N) ─ 합병/힙/퀵(평균) 정렬
+           │
+           ▼
+        O(N²) ───── 버블/선택/삽입 정렬
+           │
+           ▼
+        O(2^N) ──── 부분집합, 완전 탐색
+           │
+           ▼
+        O(N!) ───── 순열 생성, TSP(완전 탐색)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">복잡도 등급 핵심 개념 맵</div></div>
-<div class="kb-diagram-note">O(1) 해시 테이블, 배열 접근</div>
-<div class="kb-diagram-note">(N이 커질수록 더 좋은 성능)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">O(log N) ── 이진 탐색, BST, B-Tree</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">O(N) 선형 탐색, 순회</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">O(N log N) ─ 합병/힙/퀵(평균) 정렬</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">O(N²) 버블/선택/삽입 정렬</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">O(2^N) 부분집합, 완전 탐색</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">O(N!) 순열 생성, TSP(완전 탐색)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">실무 기준선</div></div>
-<div class="kb-diagram-note">N &lt; 50 → O(N²)도 가능 (작은 데이터)</div>
-<div class="kb-diagram-note">N &lt; 10,000 → O(N log N) 권장</div>
-<div class="kb-diagram-note">N &gt;= 10,000 → O(N) 또는 O(N log N) 필수</div>
-<div class="kb-diagram-note">N &gt;= 1,000,000 → O(N²)는 절대 사용 금지</div>
-</div>
-</div>
-
-
+[실무 기준선]
+N < 50       → O(N²)도 容認 가능 (작은 데이터)
+N < 10,000  → O(N log N) 권장
+N >= 10,000 → O(N) 또는 O(N log N) 필수
+N >= 1,000,000 → O(N²)는 절대 사용 금지
+```
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">O(1)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">O(log N)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">O(N)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">O(N log N)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">O(N²)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">O(2^N)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">O(N!)</div></div>
-</div>
-</div>
-
-
+```text
+[O(1)]
+    │
+    ▼
+[O(log N)]
+    │
+    ▼
+[O(N)]
+    │
+    ▼
+[O(N log N)]
+    │
+    ▼
+[O(N²)]
+    │
+    ▼
+[O(2^N)]
+    │
+    ▼
+[O(N!)]
+```
 
 이 흐름도는 O(1)에서 출발해 O(N!)까지 이어지며, 입력 크기가 커질수록 허용 가능한 복잡도 등급이 어떻게 달라지는지 보여준다.
 

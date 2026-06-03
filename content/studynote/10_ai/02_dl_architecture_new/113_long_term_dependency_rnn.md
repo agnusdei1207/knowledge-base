@@ -18,21 +18,20 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기울기 소실/폭발 메커니즘</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">역전파 시 기울기 = ∂L/∂h₁ = ∂L/∂h_T × ∏(∂h_t/∂h_{t-1})</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">= ∂L/∂h_T × W_h^T</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">W_h</div><div class="kb-diagram-cell">&lt; 1 → W_h^100 ≈ 0 (기울기 소실 📉)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">W_h</div><div class="kb-diagram-cell">&gt; 1 → W_h^100 ≈ ∞ (기울기 폭발 📈)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: T=100일 때 h₁의 영향이 h₁₀₀에 도달 못 함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ "100단어 전 주어를 현재 동사와 연결 불가능"</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    기울기 소실/폭발 메커니즘                            │
+├───────────────────────────────────────────────────────┤
+│  역전파 시 기울기 = ∂L/∂h₁ = ∂L/∂h_T × ∏(∂h_t/∂h_{t-1})│
+│                              = ∂L/∂h_T × W_h^T        │
+│                                                       │
+│  |W_h| < 1 → W_h^100 ≈ 0       (기울기 소실 📉)     │
+│  |W_h| > 1 → W_h^100 ≈ ∞       (기울기 폭발 📈)     │
+│                                                       │
+│  결과: T=100일 때 h₁의 영향이 h₁₀₀에 도달 못 함      │
+│  → "100단어 전 주어를 현재 동사와 연결 불가능"        │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 100명이 릴레이로 소문을 전달하면, 마지막 사람은 원래 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지를 거의 기억 못 한다(소실). 또는 과장이 반복되어 완전히 다른 이야기가 된다(폭발).
 
@@ -99,23 +98,21 @@ Cell State는 행렬 곱셈이 아닌 <strong>원소별 곱(Hadamard Product)</s
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">바닐라 RNN (1986) — 장기 의존성 실패 발견</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LSTM (1997, Hochreiter) — Cell State로 기울기 보호</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">GRU (2014) — LSTM 간소화, 여전히 순차적</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Transformer (2017) — Self-Attention, O(1) 경로</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Mamba / RWKV (2023~) — 선형 복잡도 시퀀스 모델</div></div>
-</div>
-</div>
-
-
+```text
+[바닐라 RNN (1986) — 장기 의존성 실패 발견]
+    │
+    ▼
+[LSTM (1997, Hochreiter) — Cell State로 기울기 보호]
+    │
+    ▼
+[GRU (2014) — LSTM 간소화, 여전히 순차적]
+    │
+    ▼
+[Transformer (2017) — Self-Attention, O(1) 경로]
+    │
+    ▼
+[Mamba / RWKV (2023~) — 선형 복잡도 시퀀스 모델]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 100명이 한 줄로 서서 <strong>소문(기울기)을 전달</strong>하면, 마지막 사람은 원래 이야기를 잊어버려요 (소실).

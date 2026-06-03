@@ -23,18 +23,14 @@ tags = ["studynote-network"]
 - **CPU의 과로사**: 데이터가 응용 프로그램 공간(User Space)에서 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공간([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Space)으로 복사될 때, 또 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서 랜카드([NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/)) 버퍼로 복사될 때([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Switching & Memory Copy) CPU가 미친 듯이 연산을 해야 합니다. 
 - 100Gbps로 데이터가 쏟아지면, 컴퓨터 CPU는 넷플릭스 영화를 처리하기도 전에 이 '택배 포장 업무([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 오버헤드)'만 하다가 서버가 뻗어버립니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">인피니밴드</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">RDMA</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RoCE</div></div>
-</div>
-</div>
-
-
+```text
+[인피니밴드]
+    │
+    ▼
+[RDMA]
+    │
+    └──▶ [RoCE]
+```
 
 - **📢 섹션 요약 비유**: RDMA는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -45,18 +41,14 @@ tags = ["studynote-network"]
 - **개념**: 컴퓨터의 메인 CPU나 OS([운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 전혀 거치지 않고([Zero-Copy](/knowledge-base/studynote/02_operating_system/09_file_system/566_mmap_zero_copy_sendfile/), [Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Bypass), <strong>한 컴퓨터(서버)의 애플리케이션 메모리(RAM) 영역에서 다른 컴퓨터의 메모리 영역으로 하드웨어 랜카드(RNIC)끼리 직접 데이터를 쏴서 복사해 버리는 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a> 통신 기법</strong>입니다.
 - 앞서 배운 811번의 <strong><a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/">인피니밴드</a>(<a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/">InfiniBand</a>)</strong> [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 망에서 가장 핵심적으로 쓰이는 영혼 같은 소프트웨어/하드웨어 전송 기술입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">인피니밴드</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">RDMA</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RoCE</div></div>
-</div>
-</div>
-
-
+```text
+[인피니밴드]
+    │
+    ▼
+[RDMA]
+    │
+    └──▶ [RoCE]
+```
 
 - **📢 섹션 요약 비유**: RDMA의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -120,19 +112,15 @@ RDMA는 데이터센터와 클라우드 네트워크를 이해할 때 핵심 축
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 인피니밴드</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: RDMA</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: RoCE</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 인피니밴드]
+    │
+    ▼
+[현재 개념: RDMA]
+    │
+    ├──▶ [확장 A: RoCE]
+    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
+```
 
 RDMA는 [인피니밴드](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/)에서 출발해 현재 메커니즘을 정교화하고, 이후 RoCE와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

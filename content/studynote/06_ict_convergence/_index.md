@@ -27,24 +27,23 @@ ICT 융합 시스템은 데이터를 생성하는 끝단(Edge)부터 지능을 �
 | **5G/6G Network** | 초저지연 및 초연결 전송망 | 네트워크 슬라이싱, eMBB, URLLC, mMTC | 3GPP 규격 | 빛의 속도로 뚫린 고속도로 |
 
 #### 2. ICBM 기반 스마트 시티/팩토리 융합 아키텍처 (ASCII)
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">End-to-End ICT Convergence Ecosystem / 끝에서 끝까지 이어지는 ICT 융합 생태계</div></div>
-<div class="kb-diagram-note">(Physical Layer / 물리 계층) (Edge &amp; Network / 엣지망) (Cloud &amp; AI Core / 클라우드 코어)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IoT Sensors</div><div class="kb-diagram-cell">Edge Computing Node</div><div class="kb-diagram-cell">Big Data Lake / Data Warehouse</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(온도, 진동,</div><div class="kb-diagram-cell">---&gt;</div><div class="kb-diagram-cell">- 데이터 필터링/압축</div><div class="kb-diagram-cell">---&gt;</div><div class="kb-diagram-cell">- 기계학습 모델 훈련 (AI)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CCTV, 자율주행)</div><div class="kb-diagram-cell">- 초저지연 실시간 제어</div><div class="kb-diagram-cell">- Digital Twin 시뮬레이션</div></div>
-<div class="kb-diagram-note">^ ^</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(5G URLLC / MQTT)</div><div class="kb-diagram-cell">(최적화 명령 하달)</div></div>
-<div class="kb-diagram-note">v v</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Blockchain &amp; Smart Contract Layer / 블록체인 및 스마트 컨트랙트 계층</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 디바이스 간의 인증, 데이터 위변조 방지, 탈중앙화된 자동 결제 (M2M Machine Economy)</div></div>
-</div>
-</div>
-
-
+```text
+    [ End-to-End ICT Convergence Ecosystem / 끝에서 끝까지 이어지는 ICT 융합 생태계 ]
+    
+    (Physical Layer / 물리 계층)  (Edge & Network / 엣지망)      (Cloud & AI Core / 클라우드 코어)
+    +-----------------+      +-----------------------+      +---------------------------------+
+    | IoT Sensors     |      | Edge Computing Node   |      | Big Data Lake / Data Warehouse  |
+    | (온도, 진동,    | ---> | - 데이터 필터링/압축  | ---> | - 기계학습 모델 훈련 (AI)       |
+    |  CCTV, 자율주행)|      | - 초저지연 실시간 제어|      | - Digital Twin 시뮬레이션       |
+    +-----------------+      +-----------------------+      +---------------------------------+
+           ^                          ^                                      |
+           |                          | (5G URLLC / MQTT)                    | (최적화 명령 하달)
+           |                          v                                      v
+    +-----------------------------------------------------------------------------------------+
+    | [ Blockchain & Smart Contract Layer / 블록체인 및 스마트 컨트랙트 계층 ]                |
+    | - 디바이스 간의 인증, 데이터 위변조 방지, 탈중앙화된 자동 결제 (M2M Machine Economy)    |
+    +-----------------------------------------------------------------------------------------+
+```
 
 #### 3. 블록체인 스마트 컨트랙트 및 합의 메커니즘
 블록체인은 중앙의 신뢰 기관(은행 등) 없이도 노드 간의 합의(Consensus)를 이끌어내는 수학적 아키텍처다.

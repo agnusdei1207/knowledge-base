@@ -24,25 +24,23 @@ tags = ["studynote-computer-architecture"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 그레이 코드는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)에 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)가 없으며, 2진수를 그레이 코드로 변환할 때는 이전 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)와 현재 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 XOR (Exclusive OR) 연산하여 구한다. $G_n = B_n \oplus B_{n+1}$.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">물리적 스위칭 에러 방어: 이진수 vs 그레이 코드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 이진 코드 (Binary Code) - 재앙 발생 가능 구간</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">숫자 3: 0 1 1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀─ 3비트 동시 전환 시도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">숫자 4: 1 0 0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 결과: 가운데 비트가 늦게 꺼지면 1 1 0 (6)이 오독됨!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 그레이 코드 (Gray Code) - 완벽한 안전 구역</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">숫자 3: 0 1 0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀─ 맨 앞 1비트만 전환됨</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">숫자 4: 1 1 0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 결과: 아무리 늦게 꺼져도 010(3) 아니면 110(4)만 읽힘.</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│          물리적 스위칭 에러 방어: 이진수 vs 그레이 코드      │
+├──────────────────────────────────────────────────────────────┤
+│ 1. 이진 코드 (Binary Code) - 재앙 발생 가능 구간             │
+│    숫자 3:  0  1  1                                          │
+│             │  │  │  ◀─ 3비트 동시 전환 시도                 │
+│    숫자 4:  1  0  0                                          │
+│    * 결과: 가운데 비트가 늦게 꺼지면 1 1 0 (6)이 오독됨!     │
+│                                                              │
+│ 2. 그레이 코드 (Gray Code) - 완벽한 안전 구역                │
+│    숫자 3:  0  1  0                                          │
+│             │        ◀─ 맨 앞 1비트만 전환됨                 │
+│    숫자 4:  1  1  0                                          │
+│    * 결과: 아무리 늦게 꺼져도 010(3) 아니면 110(4)만 읽힘.   │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 구조에서 핵심은 연속된 모든 상태 변화가 단 1비트의 토글로만 이루어진다는 것이다. 모터의 각도를 측정하는 로터리 엔코더 (Rotary [Encoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/))에 이 패턴의 구멍을 뚫어두면, 회전 중 빛이 애매하게 걸려도 터무니없는 각도로 튀는 현상(스파크 노이즈)이 물리적으로 불가능해진다.
 
@@ -85,23 +83,21 @@ CPU가 그레이 코드로 계산을 하려면 다시 2진수로 변환해야 �
 | <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/">CDC</a> (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/607_clock_domain_crossing/">Clock Domain Crossing</a>)</strong> | 서로 다른 클럭 스피드를 가진 시스템 간에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 안전하게 넘길 때 그레이 코드 카운터가 필수적이다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">순수 2진법 (Binary Code)의 스위칭 에러 한계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">해밍 거리 1 제약 적용 (Hamming Distance = 1)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">그레이 코드 (Gray Code) 발명</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">로터리 엔코더 (Rotary Encoder) · 카르노 맵 (K-Map) 축약</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">비동기 클럭 도메인 교차 (CDC) FIFO 포인터 보호</div>
-</div>
-</div>
-
-
+```text
+순수 2진법 (Binary Code)의 스위칭 에러 한계
+    │
+    ▼
+해밍 거리 1 제약 적용 (Hamming Distance = 1)
+    │
+    ▼
+그레이 코드 (Gray Code) 발명
+    │
+    ▼
+로터리 엔코더 (Rotary Encoder) · 카르노 맵 (K-Map) 축약
+    │
+    ▼
+비동기 클럭 도메인 교차 (CDC) FIFO 포인터 보호
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 기계 요정들이 강을 건널 때 한 번에 여러 발을 펄쩍펄쩍 뛰면 물에 빠지기 쉽잖아요?

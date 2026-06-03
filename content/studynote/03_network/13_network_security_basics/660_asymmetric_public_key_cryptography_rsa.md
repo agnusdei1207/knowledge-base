@@ -24,18 +24,14 @@ tags = ["studynote-network"]
   1. <strong>Public <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a> (공개키)</strong>: 전 세계 누구에게나 인터넷 게시판에 올려서 공개하는 모두의 자물쇠입니다.
   2. <strong>Private <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a> (개인키/비밀키)</strong>: 절대 남에게 주지 않고 내 컴퓨터 깊숙한 곳에 꽁꽁 숨겨두는 유일한 마스터 열쇠입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">GCM 모드</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">비대칭키/공개키 암호화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">수학적 문제 기반</div></div>
-</div>
-</div>
-
-
+```text
+[GCM 모드]
+    │
+    ▼
+[비대칭키/공개키 암호화]
+    │
+    └──▶ [수학적 문제 기반]
+```
 
 - **📢 섹션 요약 비유**: 비대칭키/공개키 암호화는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -54,18 +50,14 @@ tags = ["studynote-network"]
 - **목적**: 내가 인터넷에 올린 공지사항이 "해커가 조작한 게 아니라 진짜 내가 쓴 게 맞아!"라고 전 국민에게 증명하고 싶을 때 씁니다.
 - **방식**: 내가 쓴 글을 나만 가진 나의 <strong>'개인키'로 꾹 잠가서(<a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/988_digital_signature/">전자 서명</a>, 도장 쾅)</strong> 올립니다. 전 국민 누구나 내 블로그에서 내 '공개키'를 주워다가 이 글에 대봅니다. 철컥! 하고 글이 열리면? "오! 이 글은 전 세계에서 오직 이 사람의 개인키로만 잠글 수 있는 거네? 100% 본인이 쓴 글 맞네!" 하고 증명됩니다. (공인인증서의 핵심 원리)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">GCM 모드</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">비대칭키/공개키 암호화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">수학적 문제 기반</div></div>
-</div>
-</div>
-
-
+```text
+[GCM 모드]
+    │
+    ▼
+[비대칭키/공개키 암호화]
+    │
+    └──▶ [수학적 문제 기반]
+```
 
 - **📢 섹션 요약 비유**: 비대칭키/공개키 암호화의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -123,19 +115,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: GCM 모드</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 비대칭키/공개키 암호화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 수학적 문제 기반</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: GCM 모드]
+    │
+    ▼
+[현재 개념: 비대칭키/공개키 암호화]
+    │
+    ├──▶ [확장 A: 수학적 문제 기반]
+    └──▶ [확장 B: 자동화된 신뢰 체계]
+```
 
 비대칭키/공개키 암호화는 [GCM](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/) 모드에서 출발해 현재 메커니즘을 정교화하고, 이후 [수학적 문제 기반](/knowledge-base/studynote/03_network/13_network_security_basics/661_asymmetric_key_math_factorization_dlp/)와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

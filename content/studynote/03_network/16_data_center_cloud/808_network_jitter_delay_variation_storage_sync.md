@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: 네트워크를 통해 여러 개의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 패킷을 연속으로 전송할 때, <strong>각 패킷들이 목적지에 도착하는 시간 간격(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">지연 시간</a>, <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>)이 일정하지 않고 불규칙하게 변동하는 현상(<a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 변이, Delay Variation)</strong>입니다.
 - **원인**: 패킷들이 라우터를 거칠 때, 갑자기 다른 트래픽이 몰려 라우터 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/), 대기열)에서 오래 줄을 서거나, 패킷 1번과 2번이 서로 다른 경로([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블 변경)를 타고 오게 되면서 도착 타이밍이 어긋나버릴 때 발생합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">East-West 트래픽</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 지터 데이터센터 스토리지 망 동기…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">FCoE</div></div>
-</div>
-</div>
-
-
+```text
+[East-West 트래픽]
+    │
+    ▼
+[네트워크 지터 데이터센터 스토리지 망 동기…]
+    │
+    └──▶ [FCoE]
+```
 
 - **📢 섹션 요약 비유**: 네트워크 지터 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 스토리지 망 동기…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -46,18 +42,14 @@ tags = ["studynote-network"]
   - (1번 택배: 5초, 2번: 5초, 3번: 5초) ➜ [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 길지만 **지터는 0** (완벽히 안정적)
   - (1번 택배: 1초, 2번: 9초, 3번: 3초) ➜ **지터 폭발!** (시스템 대혼란)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">East-West 트래픽</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">네트워크 지터 데이터센터 스토리지 망 동기…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">FCoE</div></div>
-</div>
-</div>
-
-
+```text
+[East-West 트래픽]
+    │
+    ▼
+[네트워크 지터 데이터센터 스토리지 망 동기…]
+    │
+    └──▶ [FCoE]
+```
 
 - **📢 섹션 요약 비유**: 네트워크 지터 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 스토리지 망 동기…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -124,19 +116,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: East-West 트래픽</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 네트워크 지터 데이터센터 스토리지 망 동기…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: FCoE</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 클라우드 네이티브 네트워킹</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: East-West 트래픽]
+    │
+    ▼
+[현재 개념: 네트워크 지터 데이터센터 스토리지 망 동기…]
+    │
+    ├──▶ [확장 A: FCoE]
+    └──▶ [확장 B: 클라우드 네이티브 네트워킹]
+```
 
 네트워크 지터 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 스토리지 망 동기…는 East-West 트래픽에서 출발해 현재 메커니즘을 정교화하고, 이후 FCoE와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

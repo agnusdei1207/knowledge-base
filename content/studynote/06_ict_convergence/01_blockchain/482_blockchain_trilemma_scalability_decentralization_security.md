@@ -35,22 +35,20 @@ tags = ["studynote-ict-convergence"]
 
 ### 트릴레마 삼각형
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">보안(Security)</div>
-<div class="kb-diagram-connector">▲</div>
-<div class="kb-diagram-note">/ ??? \</div>
-<div class="kb-diagram-note">비트코인 / \ 솔라나</div>
-<div class="kb-diagram-note">이더리움 / \</div>
-<div class="kb-diagram-note">탈중앙화 확장성</div>
-<div class="kb-diagram-note">(Decentralization) (Scalability)</div>
-<div class="kb-diagram-note">BNB Chain (확장성+보안 우선)</div>
-</div>
-</div>
-
-
+```
+                  보안(Security)
+                       ▲
+                      / \
+                     /   \
+                    /     \
+                   /  ???  \
+         비트코인  /         \ 솔라나
+         이더리움 /           \
+                ▼─────────────▼
+    탈중앙화                확장성
+ (Decentralization)      (Scalability)
+          BNB Chain (확장성+보안 우선)
+```
 
 ### 주요 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)의 트릴레마 포지셔닝
 
@@ -64,17 +62,11 @@ tags = ["studynote-ict-convergence"]
 
 ### [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) ↔ 확장성 트레이드오프 메커니즘
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">노드 수 증가 → 메시지 전파 지연 증가 → 합의 속도 하락</div>
-<div class="kb-diagram-note">블록 크기 증가 → 다운로드/처리 부담 증가 → 일반 노드 탈락 → 탈중앙화 약화</div>
-<div class="kb-diagram-note">블록 시간 감소 → 고성능 노드 필요 → 탈중앙화 약화</div>
-</div>
-</div>
-
-
+```
+노드 수 증가 → 메시지 전파 지연 증가 → 합의 속도 하락
+블록 크기 증가 → 다운로드/처리 부담 증가 → 일반 노드 탈락 → 탈중앙화 약화
+블록 시간 감소 → 고성능 노드 필요 → 탈중앙화 약화
+```
 
 - **📢 섹션 요약 비유**: — "솔라나는 F1 경주차 — 매우 빠르지만 일반인이 운전([검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)) 참여가 어렵고, 비트코인은 자전거 — 느리지만 누구나 탈 수 있다.
 

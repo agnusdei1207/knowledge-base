@@ -23,18 +23,14 @@ L3 라우터는 패킷이 길을 잃고 뺑뺑이 돌면 [TTL](/knowledge-base/s
 - <strong>L2 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>의 무식함</strong>: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 패킷([이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 프레임)에는 [TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/)(수명) 타이머가 아예 없습니다!
 - [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 동그랗게(루프 구조로) 물리적으로 연결되어 있을 때, 방송 패킷(브로드캐스트) 하나가 딱 던져지면, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들이 서로서로 메아리를 복사해 영원히 뺑뺑이를 돌려([브로드캐스트 스톰](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1097_broadcast_storm_switching_loop_stp/)) 단 5초 만에 CPU 100%를 찍고 사내망 전체가 마비(다운)되는 최악의 재앙이 터집니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">VLAN 트렁킹</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스패닝 트리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">루프 어보이던스</div></div>
-</div>
-</div>
-
-
+```text
+[VLAN 트렁킹]
+    │
+    ▼
+[스패닝 트리]
+    │
+    └──▶ [루프 어보이던스]
+```
 
 - **📢 섹션 요약 비유**: 스패닝 트리는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -44,18 +40,14 @@ L3 라우터는 패킷이 길을 잃고 뺑뺑이 돌면 [TTL](/knowledge-base/s
 
 - **개념**: 물리적으로 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)(루프)되어 연결된 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 네트워크 망에서, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들끼리 서로 BPDU라는 귓속말 패킷을 주고받아 대장(루트)을 뽑고, <strong>특정 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>를 소프트웨어적으로 논리적으로 차단(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/">Blocking</a>)하여 루프(동그라미)를 끊어내어 장애 없는 '트리(나뭇가지)' 모양의 안전한 망을 자동 구축하는 루핑 방지 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">VLAN 트렁킹</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스패닝 트리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">루프 어보이던스</div></div>
-</div>
-</div>
-
-
+```text
+[VLAN 트렁킹]
+    │
+    ▼
+[스패닝 트리]
+    │
+    └──▶ [루프 어보이던스]
+```
 
 - **📢 섹션 요약 비유**: 스패닝 트리의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -121,19 +113,15 @@ L3 라우터는 패킷이 길을 잃고 뺑뺑이 돌면 [TTL](/knowledge-base/s
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: VLAN 트렁킹</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 스패닝 트리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 루프 어보이던스</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: VLAN 트렁킹]
+    │
+    ▼
+[현재 개념: 스패닝 트리]
+    │
+    ├──▶ [확장 A: 루프 어보이던스]
+    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
+```
 
 스패닝 트리는 [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 트렁킹에서 출발해 현재 메커니즘을 정교화하고, 이후 [루프 어보이던스](/knowledge-base/studynote/03_network/19_frequent_topics_terms/960_loop_avoidance_stp_ttl_routing_prevention/)와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

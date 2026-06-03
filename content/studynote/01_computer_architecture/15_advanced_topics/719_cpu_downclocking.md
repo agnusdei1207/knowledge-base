@@ -42,20 +42,22 @@ CPU 안전 모드 다운클럭킹은 보통 <strong>온도 감지 → 임계값 
 
 아래 그림은 다운클럭킹이 "[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 조절 기능"이 아니라 "열을 줄이기 위한 단계적 브레이크"라는 점을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 열 보호 단계의 시간 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정상 부하</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">온도 상승 ──▶ TjMax 근접 ──▶ TCC 활성화 ──▶ 배수 하향/터보 해제</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 온도 하강 성공 ─▶ 정상 복귀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 실패 ─▶ PROCHOT# 유지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── THERMTRIP#</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                 CPU 열 보호 단계의 시간 흐름                        │
+├──────────────────────────────────────────────────────────────────────┤
+│ 정상 부하                                                            │
+│   │                                                                  │
+│   ▼                                                                  │
+│ 온도 상승 ──▶ TjMax 근접 ──▶ TCC 활성화 ──▶ 배수 하향/터보 해제     │
+│                                   │                                  │
+│                                   ├── 온도 하강 성공 ─▶ 정상 복귀    │
+│                                   │                                  │
+│                                   └── 실패 ─▶ PROCHOT# 유지          │
+│                                                    │                 │
+│                                                    └── THERMTRIP#    │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 즉 안전 모드 다운클럭킹은 단순한 속도 감소가 아니라, <strong>열 예산을 넘은 CPU가 스스로 열 생산량을 줄이는 폐루프 제어</strong>다. 이 메커니즘이 있어야 팬 응답, 방열판 열전도, 냉각수 순환처럼 상대적으로 느린 물리 시스템이 뒤늦게라도 따라올 시간을 벌 수 있다.
 
@@ -128,23 +130,21 @@ CPU 클럭 다운클럭킹(안전 모드)의 기대효과는 명확하다. [성�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">고정 클럭 시대</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DVFS 기반 효율 최적화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">TCC 기반 열 스로틀링</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">PROCHOT# 기반 플랫폼 연동</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">THERMTRIP# 포함 다단계 안전 보호</div>
-</div>
-</div>
-
-
+```text
+고정 클럭 시대
+    │
+    ▼
+DVFS 기반 효율 최적화
+    │
+    ▼
+TCC 기반 열 스로틀링
+    │
+    ▼
+PROCHOT# 기반 플랫폼 연동
+    │
+    ▼
+THERMTRIP# 포함 다단계 안전 보호
+```
 
 이 흐름은 CPU 클럭 제어가 단순 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 조절에서 출발해, 오늘날에는 플랫폼 안전 제어까지 확장되었음을 보여준다.
 

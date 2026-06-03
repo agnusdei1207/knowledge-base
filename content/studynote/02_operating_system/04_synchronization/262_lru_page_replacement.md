@@ -24,25 +24,23 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경**: 이상적인 최적(Optimal) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 "미래에 가장 늦게 쓰일 놈"을 버리는 것이지만, OS는 미래를 볼 수 없다. 그래서 컴퓨터 공학자들은 "과거를 보면 미래를 알 수 있다"는 지역성의 원리를 빌려와, 과거의 최장 미사용 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 미래의 최장 미사용 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 '근사(Approximation)'하는 방식으로 LRU를 정립했다.
 
+```text
+  [LRU 페이지 교체 알고리즘의 동작 메커니즘]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">LRU 페이지 교체 알고리즘의 동작 메커니즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">초기 상태: 빈 프레임 3개 존재</div></div>
-<div class="kb-diagram-note">페이지 요청 순서: 1 ─▶ 2 ─▶ 3 ─▶ 1 ─▶ 4</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">메모리 큐 상태 변화 (가장 최근에 쓴 놈이 맨 뒤, 가장 안 쓴 놈이 맨 앞)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1 요청:</div><div class="kb-diagram-node">1</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2 요청:</div><div class="kb-diagram-node">1, 2</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3 요청:</div><div class="kb-diagram-node">1, 2, 3</div><div class="kb-diagram-note">(여기서 가장 안 쓴 놈은 1번)</div></div>
-<div class="kb-diagram-note">1 요청: 어라? 1번을 또 쓰네? 1번을 최근 사용한 것으로 갱신! (맨 뒤로 보냄)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2, 3, 1</div><div class="kb-diagram-note">(이제 가장 안 쓴 놈은 2번으로 바뀜!)</div></div>
-<div class="kb-diagram-note">4 요청: 🚨 메모리 꽉 참! 제일 안 쓴 맨 앞의 '2'를 버리고 '4'를 넣음.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3, 1, 4</div><div class="kb-diagram-note">(폴트 발생)</div></div>
-</div>
-</div>
-
-
+  [ 초기 상태: 빈 프레임 3개 존재 ]
+  페이지 요청 순서: 1 ─▶ 2 ─▶ 3 ─▶ 1 ─▶ 4
+  
+  [ 메모리 큐 상태 변화 (가장 최근에 쓴 놈이 맨 뒤, 가장 안 쓴 놈이 맨 앞) ]
+  1 요청: [ 1 ] 
+  2 요청: [ 1, 2 ] 
+  3 요청: [ 1, 2, 3 ] (여기서 가장 안 쓴 놈은 1번)
+  
+  1 요청: 어라? 1번을 또 쓰네? 1번을 최근 사용한 것으로 갱신! (맨 뒤로 보냄)
+         [ 2, 3, 1 ] (이제 가장 안 쓴 놈은 2번으로 바뀜!)
+         
+  4 요청: 🚨 메모리 꽉 참! 제일 안 쓴 맨 앞의 '2'를 버리고 '4'를 넣음.
+         [ 3, 1, 4 ] (폴트 발생)
+```
 **[다이어그램 해설]** LRU의 핵심은 "과거의 세탁(갱신)"이다. FIFO였다면 4번이 들어올 때 제일 처음 들어온 1번을 버렸을 것이다. 하지만 LRU는 1번이 방금 전에 다시 쓰였다는 사실을 인지하고 1번의 생명(수명)을 연장해 주며, 그동안 한 번도 안 불린 2번을 가차 없이 처단한다. 이 작은 차이가 캐시 히트율([Hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/) Rate)을 수십 배 끌어올린다.
 
 - **📢 섹션 요약 비유**: 회사에서 구조조정을 할 때, FIFO는 "입사한 지 가장 오래된 부장님"을 자릅니다. 부장님이 회사 핵심 인재라도 예외는 없습니다. LRU는 "입사일과 상관없이, 최근 1달 동안 실적이 가장 없는(안 쓰인) 사람"을 자릅니다. 철저한 성과([참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)) 주의 룰입니다.
@@ -65,23 +63,23 @@ LRU [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_al
 - **교체 시**: 리스트의 맨 바닥(Bottom)에 있는 놈이 제일 안 쓰인 놈이므로 묻지도 따지지도 않고 바로 죽인다. ($O(1)$ 탐색).
 - **한계**: 탐색은 빠르지만, <strong>CPU가 메모리를 <a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a>할 때마다 포인터 6개를 바꿔 끼우는(링크드 리스트 업데이트) 연산을 동반해야 한다</strong>. 메모리 엑세스는 1나노초 단위인데 이 오버헤드는 배보다 배꼽이 100배 큰 짓이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LRU의 스택(Linked List) 구현 시 발생하는 연산 병목 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 스택 상태</div><div class="kb-diagram-note">(Top이 최근, Bottom이 옛날)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Page 3</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Page 5</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Page 1</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Page 2</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─ BOT</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CPU가 갑자기 Page 1을 읽음 (참조 발생!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Page 1의 앞뒤 포인터(5와 2)를 서로 연결해 줌.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Page 1의 이전 노드를 NULL로, 다음 노드를 Page 3으로 변경.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Top 포인터를 Page 1로 변경.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🚨 딜레마: 메모리를 읽을 때마다 OS가 이런 무거운 포인터 조작을</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소프트웨어 락(Lock)을 걸어가며 해야 한다? (시스템 마비 확정)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌────────────────────────────────────────────────────────────────────────┐
+  │         LRU의 스택(Linked List) 구현 시 발생하는 연산 병목 시각화      │
+  ├────────────────────────────────────────────────────────────────────────┤
+  │                                                                        │
+  │   [ 현재 스택 상태 ] (Top이 최근, Bottom이 옛날)                       │
+  │   TOP ─▶ [Page 3] ─▶ [Page 5] ─▶ [Page 1] ─▶ [Page 2] ◀─ BOT           │
+  │                                                                        │
+  │   [ CPU가 갑자기 Page 1을 읽음 (참조 발생!) ]                          │
+  │   1. Page 1의 앞뒤 포인터(5와 2)를 서로 연결해 줌.                     │
+  │   2. Page 1의 이전 노드를 NULL로, 다음 노드를 Page 3으로 변경.         │
+  │   3. Top 포인터를 Page 1로 변경.                                       │
+  │                                                                        │
+  │   🚨 딜레마: 메모리를 읽을 때마다 OS가 이런 무거운 포인터 조작을       │
+  │      소프트웨어 락(Lock)을 걸어가며 해야 한다? (시스템 마비 확정)      │
+  └────────────────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 도서관(LRU)에서 책을 완벽하게 인기순으로 정리하려면, 누군가 책을 1페이지 넘길 때마다 사서가 달려와서 그 책을 뽑아 도서관 맨 앞 책장으로 옮겨 꽂아야 합니다. 책을 읽는 시간보다 사서가 책을 옮기는 시간(오버헤드)이 더 오래 걸려서 도서관이 마비됩니다.
 
@@ -121,26 +119,27 @@ LRU는 "자주 쓰는 놈"을 우대하는 데 특화되어 있다. 하지만 **
    - <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/">Redis</a> <code>allkeys-lru</code></strong>: 초당 10만 건을 처리하는 Redis는 [해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/)([Hash Table](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/))과 이중 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)(Doubly [Linked List](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/))를 결합하여 $O(1)$의 속도로 순수 LRU를 완벽히 구현해 냈다. 10GB 메모리가 꽉 차면 얄짤없이 꼬리에 있는 놈을 날려버려 영원히 죽지 않는 불사의 캐시 서버를 만든다.
    - **LRU-K 와 ARC의 진화**: 앞서 말한 "풀 스캔 시 캐시가 다 날아가는(Cache Pollution)" 버그를 막기 위해, 실무 DB([Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/) 등)는 LRU 큐를 2개 둔다. 한 번 읽은 놈은 '임시 큐'에 두고, 2번 이상 읽힌 진짜 단골손님만 '진짜 LRU 큐'에 올려주는 **LRU-2 (혹은 ARC)** 하이브리드 아키텍처를 짜서 완벽한 방어망을 구축한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">백엔드 아키텍트의 인메모리 캐시(Cache) 정책 설계 가이드라인</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">요구사항: 초당 100만 조회가 일어나는 쇼핑몰 상품 캐시 메모리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">❌ 단순 FIFO 또는 Random 적용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 판정: 히트율(Hit Rate) 50% 미만. DB 부하 폭주로 서버 즉사.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">🟡 순수 LRU (Least Recently Used) 적용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 판정: 히트율 80% 달성. 훌륭함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 약점: 심야 시간에 "전체 상품 재고 동기화 배치"가 도는 순간,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">캐시가 다 털려버리고 아침에 DB가 뻗음 (Pollution).</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">🚀 W-TinyLFU (Caffeine Cache 등 최신 기술) 적용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 판정: 최근성(LRU)과 빈도수(LFU)를 결합한 현대 캐시의 끝판왕.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 효과: 한 번 쓱 지나가는 배치 작업은 메인 캐시에 못 들어오게</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">방어하여(Admission Window), 히트율 99%를 철통 보장!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │     백엔드 아키텍트의 인메모리 캐시(Cache) 정책 설계 가이드라인   │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [요구사항: 초당 100만 조회가 일어나는 쇼핑몰 상품 캐시 메모리]  │
+  │                                                                   │
+  │   [ ❌ 단순 FIFO 또는 Random 적용 ]                               │
+  │     ▶ 판정: 히트율(Hit Rate) 50% 미만. DB 부하 폭주로 서버 즉사.  │
+  │                                                                   │
+  │   [ 🟡 순수 LRU (Least Recently Used) 적용 ]                      │
+  │     ▶ 판정: 히트율 80% 달성. 훌륭함.                              │
+  │     ▶ 약점: 심야 시간에 "전체 상품 재고 동기화 배치"가 도는 순간, │
+  │             캐시가 다 털려버리고 아침에 DB가 뻗음 (Pollution).    │
+  │                                                                   │
+  │   [ 🚀 W-TinyLFU (Caffeine Cache 등 최신 기술) 적용 ]             │
+  │     ▶ 판정: 최근성(LRU)과 빈도수(LFU)를 결합한 현대 캐시의 끝판왕.│
+  │     ▶ 효과: 한 번 쓱 지나가는 배치 작업은 메인 캐시에 못 들어오게 │
+  │             방어하여(Admission Window), 히트율 99%를 철통 보장!   │
+  └───────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 단순히 `LinkedHashMap`으로 LRU를 짜서 실무에 올리는 시대는 지났다. 백엔드 시스템은 항상 예상치 못한 어뷰저(크롤링 봇)나 백그라운드 스캔 작업의 공격을 받는다. 진정한 아키텍트는 LRU의 약점(최근성 맹신)을 보완하기 위해 [LFU](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/)(빈도수)의 철학을 한 스푼 섞은 하이브리드 캐시 엔진(Caffeine, Guava)을 선택하여 DB를 완벽히 보호한다.
 
 - **📢 섹션 요약 비유**: 순수 LRU는 10년 단골(자주 찾는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이든 어제 처음 온 손님이든 무조건 '어제 온 손님'을 더 우대하는 단기 기억상실증 사장님입니다. 현대의 캐시 아키텍처는 단골장부([LFU](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/))를 따로 둬서, 어제 한 번 온 손님이 단골의 자리를 빼앗지 못하게 철저히 입구 컷(Admission Control)을 하는 똑똑한 매니저 시스템입니다.
@@ -171,19 +170,15 @@ LRU는 "[참조의 지역성](/knowledge-base/studynote/02_operating_system/04_s
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">장벽 (Barrier) 동기화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LRU (Least Recently Used) 페이지 교체</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">티켓 락 (Ticket Lock)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">큐잉 스핀락 (MCS Lock / qspinlock)</div></div>
-</div>
-</div>
-
-
+```text
+[장벽 (Barrier) 동기화]
+    │
+    ▼
+[LRU (Least Recently Used) 페이지 교체]
+    │
+    ├──▶ [티켓 락 (Ticket Lock)]
+    └──▶ [큐잉 스핀락 (MCS Lock / qspinlock)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

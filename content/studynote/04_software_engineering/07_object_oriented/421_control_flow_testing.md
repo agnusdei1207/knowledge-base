@@ -24,19 +24,19 @@ tags = ["studynote-software-engineering"]
 - **필요성**: 복잡한 프로그램은 수많은 가능한 실행 경로를 갖는다. 모든 경로를 테스트하지 않으면, 특정 경로에서만 발생하는 결함이 발견되지 않을 수 있다. 제어 흐름 테스트를 사용하면 체계적으로 테스트할 경로를 선택하고, 커버리지를 측정할 수 있다.
 
 - <strong>제어 흐름 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a>(CFG) 구성 요소</strong>:
-- **노드(Node)**: 하나의 문장이나 문장 그룹을 나타냄
-- **엣지(Edge)**: 제어 흐름의 방향을 나타냄
-- **순차문**: 노드를 연결하는 직선 화살표
-- **분기문**: 조건에 따라 여러 경로로 나뉉는 지점
+  - **노드(Node)**: 하나의 문장이나 문장 그룹을 나타냄
+  - **엣지(Edge)**: 제어 흐름의 방향을 나타냄
+  - **순차문**: 노드를 연결하는 직선 화살표
+  - **분기문**: 조건에 따라 여러 경로로 나뉉는 지점
 
-- **비유**: 제어 흐름 테스트는 <strong>'의'</strong>와 같다. 건물의 비상구에서는부터도보안(제어 흐름)이 표현되어 있다.(프로그램 실행)에 각 방(코드 블록)에서 다른 복도(엣지)로 이동할 수 있고,모두의을/를테스트해야 안전을 보장할 수 있다.
+- **비유**: 제어 흐름 테스트는 <strong>'지진시의도생경로도'</strong>와 같다. 건물의 비상구도생경로도에서는각부옥부터최も안전な탈출경로(제어 흐름)이 표현되어 있다.지진시(프로그램 실행)에 각 방(코드 블록)에서 다른 복도(엣지)로 이동할 수 있고,すべ고의경로를テスト해야 안전을 보장할 수 있다.
 
 - **등장 배경 및 발전 과정**:
-1. **1970년대**: [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)에서 구조적 테스트의 일환으로 제어 흐름 테스트 발전
-2. **1980년대**: 맥케이브(Thomas McCabe)가 순환 복잡도 개념을 제안하며 제어 흐름 측정 표준화
-3. **현재**: [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) 도구에서 자동으로 제어 흐름 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)를 생성하고 커버리지를 측정
+  1. **1970년대**: [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)에서 구조적 테스트의 일환으로 제어 흐름 테스트 발전
+  2. **1980년대**: 맥케이브(Thomas McCabe)가 순환 복잡도 개념을 제안하며 제어 흐름 측정 표준화
+  3. **현재**: [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) 도구에서 자동으로 제어 흐름 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)를 생성하고 커버리지를 측정
 
-- **섹션 요약 비유**: 제어 흐름 테스트는 <strong>'열차 노선도'</strong>와 같다. 열차는 정해진 노선(제어 흐름)을 따라 이동하며, 각 역(노드)에서 갈림길(분기)이 있을 수 있다.모두의을 테스트하려면 막대한 시간이 들지만, 주요 노선과 주요 갈림길을적으로테스트하면의보안을/를 보장할 수 있다.
+- **섹션 요약 비유**: 제어 흐름 테스트는 <strong>'열차 노선도'</strong>와 같다. 열차는 정해진 노선(제어 흐름)을 따라 이동하며, 각 역(노드)에서 갈림길(분기)이 있을 수 있다.すべ고의경로을 측시하려면 막대한 시간이 들지만, 주요 노선과 주요 갈림길을중점적으로テスト하면대부분의안전을 보장할 수 있다.
 
 ---
 
@@ -44,17 +44,18 @@ tags = ["studynote-software-engineering"]
 
 다음은 제어 흐름 테스트 (Control F의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">제어 흐름 테스트 (Control F</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                  제어 흐름 테스트 (Control F                        │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
+│       │                    │                    │          │
+│       ▼                    ▼                    ▼          │
+│   요구 분석           설계·적용           품질 검증        │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램은 제어 흐름 테스트 (Control F가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -144,30 +145,28 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 제어 흐름 테스트 ([Control Flow](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/186_control_flow_instructions/) Testing)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 제어 흐름 테스트 ([Control Flow](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/186_control_flow_instructions/) Testing)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
 | [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 제어 흐름 테스트 ([Control Flow](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/186_control_flow_instructions/) Testing)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | 제어 흐름 테스트 ([Control Flow](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/186_control_flow_instructions/) Testing) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
 | [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 제어 흐름 테스트 ([Control Flow](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/186_control_flow_instructions/) Testing)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">제어 흐름 테스트 (Control Flow Testing) 개념 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 위기 (Software Crisis) 인식
+    │
+    ▼
+제어 흐름 테스트 (Control Flow Testing) 개념 정립
+    │
+    ▼
+표준화 및 방법론 체계화 (ISO, CMMI, Agile)
+    │
+    ▼
+클라우드 네이티브·AI 기반 확장 적용
+    │
+    ▼
+지속적 개선 및 DevOps·MLOps 통합
+```
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

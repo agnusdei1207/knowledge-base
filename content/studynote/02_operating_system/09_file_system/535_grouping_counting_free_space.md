@@ -33,28 +33,33 @@ tags = ["studynote-operating-system"]
 - <strong>그룹화 뭉텅이 위임 트리 C언어 포장 연결체와 계수 요약 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> 결속 다이어그램</strong>:
 운영체제가 연결 꼬리놀이(Linked)의 피로를 어떻게 혁파하여 빈 공간 10만 개를 쾌속 픽업수거 통치하는지 메모리 철판 맵핑 포팅 뷰를 까보면 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RAM 식충 파괴! "텅 빈 블록을 장부 통째 폴더로 재활용 우회해라!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1️⃣</div><div class="kb-diagram-node">그룹화 (Grouping 덩어리 통치 트리 스택 마스킹 렌더)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">[</div><div class="kb-diagram-node">디스크 첫 번째 빈칸 방 "15번 철판 블록 (텅 비었음 4KB)!"</div><div class="kb-diagram-note">]</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- (공터 여백에다 빈칸 주소록 500개를 한 덩어리로 몰래 적어 포스트잇 봉인)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- <code>이 방(15번) 포함, 23번, 50번, 99번 ... 총 499개 다 내 부하 빈방임!</code></div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- <code>마지막 500번째 포인터: 다음 그룹장 장부 빈방은 '5000번 블록' 임 스왑</code></div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: CPU가 15번 철판을 1번만(모터 $O(1)$) 찍어서 <code>읽기 쾅!</code> 하면?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">그 속에서 연속 500개의 공짜 빈칸 주소를 와라락 루팅(수확) 개이득!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">연결 리스트 500바퀴 뺑뺑이 모터 지연을 단숨에 물리 파괴 결착 완료.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2️⃣</div><div class="kb-diagram-node">계수 (Counting 익스텐트 요약 SRE 묶음 연속 부스트 타격)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">[</div><div class="kb-diagram-node">10바이트 사이즈 초소형 B-Tree 요약 노드 (RAM 띠지 VFS 캐시 장착)</div><div class="kb-diagram-note">]</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- <code>시작 주소 (Location) : 100번 트랙 부터 출발 빔!</code></div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- <code>길이 갯수 (Counting) : 연속 500 덩어리 다 비었소 공항 활주로 통대관!</code></div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 주소 배열 500개를 1줄짜리 숫자쌍(100, 500)으로 요약 무극 압축 타결.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────────────────────────┐
+  │                 RAM 식충 파괴! "텅 빈 블록을 장부 통째 폴더로 재활용 우회해라!" │
+  ├─────────────────────────────────────────────────────────────────────────────────┤
+  │                                                                                 │
+  │  1️⃣ [ 그룹화 (Grouping 덩어리 통치 트리 스택 마스킹 렌더) ]                    │
+  │                                                                                 │
+  │     [[ 디스크 첫 번째 빈칸 방 "15번 철판 블록 (텅 비었음 4KB)!" ]]              │
+  │      - (공터 여백에다 빈칸 주소록 500개를 한 덩어리로 몰래 적어 포스트잇 봉인)  │
+  │      - `이 방(15번) 포함, 23번, 50번, 99번 ... 총 499개 다 내 부하 빈방임!`     │
+  │      - `마지막 500번째 포인터: 다음 그룹장 장부 빈방은 '5000번 블록' 임 스왑`   │
+  │                                                                                 │
+  │   => 결과: CPU가 15번 철판을 1번만(모터 $O(1)$) 찍어서 `읽기 쾅!` 하면?         │
+  │            그 속에서 연속 500개의 공짜 빈칸 주소를 와라락 루팅(수확) 개이득!    │
+  │            연결 리스트 500바퀴 뺑뺑이 모터 지연을 단숨에 물리 파괴 결착 완료.   │
+  │                                                                                 │
+  │  =========================▼===================================                  │
+  │                                                                                 │
+  │  2️⃣ [ 계수 (Counting 익스텐트 요약 SRE 묶음 연속 부스트 타격) ]                │
+  │                                                                                 │
+  │     [[ 10바이트 사이즈 초소형 B-Tree 요약 노드 (RAM 띠지 VFS 캐시 장착) ]]      │
+  │      - `시작 주소 (Location) : 100번 트랙 부터 출발 빔!`                        │
+  │      - `길이 갯수 (Counting) : 연속 500 덩어리 다 비었소 공항 활주로 통대관!`   │
+  │                                                                                 │
+  │   => 결과: 주소 배열 500개를 1줄짜리 숫자쌍(100, 500)으로 요약 무극 압축 타결.  │
+  └─────────────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 상단 1️⃣ 그룹화(Grouping)는 앞선 챕터 유닉스 i-node의 "단일 간접 포인터([인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 트리 블록)" 와 유전자가 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000% 쌍둥이 판박이다. "텅 빈 디스크 조각 방 자체를, 다른 빈칸들 주소 1,000개를 적어 넣는 하청 관리자 장부([Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) Block의 도플갱어)로 둔갑 재활용 포팅 스위칭" 시켜버린 기막힌 묘수기 때문이다. 덕분에 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 15번 장부 한 놈만 디스크에서 털면(모터 1회 다이브 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)), 500마리 빈칸을 무더기로 건져 RAM 캐시 옥상에 킵해두고 쾌적 $O(1)$ 융합 레이턴시를 뿜는다. 
 하단 2️⃣ 계수(Counting) 기법은 바로 531장에서 외쳤던 <strong>"<a href="/knowledge-base/studynote/02_operating_system/09_file_system/531_extent_allocation/">익스텐트</a>(<a href="/knowledge-base/studynote/02_operating_system/09_file_system/531_extent_allocation/">Extent</a> 연속성 마법)"</strong> 를 그대로 복사 붙여넣기 한 메커니즘이다. 연속된 공터가 있으면 장부를 찢지 않고 `[100, 500]` 이라는 투 [튜플](/knowledge-base/studynote/05_database/02_modeling_normalization/063_relation_tuple_cardinality/) 요약 빔 1줄로 우주 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 통달을 갈겨버리는 현존 리눅스의 빅데이터 스토리지(XFS, ZFS) 통일 백본 사상이다 증명 확정 락백 렌더.
@@ -155,19 +160,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">연결 리스트 (Linked List) 빈 공간 관리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">그룹화 (Grouping) / 계수 (Counting) 기법</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">버퍼 캐시 (Buffer Cache) / 페이지 캐시 (Page Cache) 통합 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">미리 읽기 (Read-ahead) 및 지연 쓰기 (Delayed-write / Write-behind)</div></div>
-</div>
-</div>
-
-
+```text
+[연결 리스트 (Linked List) 빈 공간 관리]
+    │
+    ▼
+[그룹화 (Grouping) / 계수 (Counting) 기법]
+    │
+    ├──▶ [버퍼 캐시 (Buffer Cache) / 페이지 캐시 (Page Cache) 통합 아키텍처]
+    └──▶ [미리 읽기 (Read-ahead) 및 지연 쓰기 (Delayed-write / Write-behind)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

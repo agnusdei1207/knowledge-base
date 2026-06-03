@@ -40,18 +40,17 @@ CDC의 핵심 원리는 `트랜잭션 로그 읽기 → 변경 이벤트 표준�
 
 다음 그림은 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 기반 CDC가 애플리케이션 이중 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)보다 안정적인 이유를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">binlog/WAL ordered</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Source DB</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">CDC Connector</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Event Stream</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">schema change</div><div class="kb-diagram-cell">offset checkpoint</div><div class="kb-diagram-cell">replay</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Schema Reg.</div><div class="kb-diagram-cell">Offset Store</div><div class="kb-diagram-cell">Target DB</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐   binlog/WAL   ┌──────────────┐   ordered    ┌──────────────┐
+│ Source DB    │ ─────────────▶ │ CDC Connector│ ───────────▶ │ Event Stream │
+└──────────────┘                └──────────────┘              └──────────────┘
+       │                                 │                             │
+       │ schema change                   │ offset checkpoint           │ replay
+       ▼                                 ▼                             ▼
+┌──────────────┐                ┌──────────────┐              ┌──────────────┐
+│ Schema Reg.  │                │ Offset Store │              │ Target DB    │
+└──────────────┘                └──────────────┘              └──────────────┘
+```
 
 이 구조에서 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)의 기준은 “마지막으로 성공한 오프셋(offset)이 어디인가”다. 소비자가 중복 이벤트를 받을 수 있으므로 타깃 반영은 Upsert, [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 필드, 이벤트 키 기반 멱등 처리가 필수다. [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)가 자주 바뀌는 조직이라면 [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) 자체보다 [Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/) Registry와 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 전체 안정성을 좌우한다.
 
@@ -119,21 +118,18 @@ CDC를 잘 설계하면 운영계와 분석계, 검색계, 이벤트 구독자�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Batch ETL</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Log-based CDC</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Event Streaming + Schema Registry</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Zero-downtime Migration / Real-time Analytics</div>
-</div>
-</div>
-
-
+```text
+Batch ETL
+   │
+   ▼
+Log-based CDC
+   │
+   ▼
+Event Streaming + Schema Registry
+   │
+   ▼
+Zero-downtime Migration / Real-time Analytics
+```
 
 이 흐름은 “일괄 복사 → 변경분 추적 → 스트림 표준화 → 무중단 활용”으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이관 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 진화하는 방향을 보여준다.
 

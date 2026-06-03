@@ -48,17 +48,11 @@ OOA는 <strong>현실→모델 전이가 자연스러운 분석 방법</strong>�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">구조적 분석 (DFD, 1978)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">OMT (Rumbaugh, 1991)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">OOSE (Jacobson, 1992)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">UML 통합 (1997)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: UML + Agile — 경량 모델링</div></div>
-</div>
-</div>
-
-
+```text
+[구조적 분석 (DFD, 1978)] → [OMT (Rumbaugh, 1991)]
+    → [OOSE (Jacobson, 1992)] → [UML 통합 (1997)]
+    → [현재: UML + Agile — 경량 모델링]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. OOA는 <strong>레고 설계</strong>예요. 블록(객체)의 <strong>모양과 연결 방법</strong>을 정해요.

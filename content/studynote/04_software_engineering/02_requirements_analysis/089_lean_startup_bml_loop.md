@@ -30,21 +30,25 @@ tags = ["software_engineering"]
 
 [린 스타트업](/knowledge-base/studynote/12_it_management/01_governance_strategy/035_lean_startup/)의 심장부는 만들기 (Build) ➔ 측정 (Measure) ➔ 학습 (Learn)으로 이어지는 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)다. 
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">린 스타트업의 핵심 엔진: BML 피드백 루프</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">가설 설정: "고객은 A기능에 기꺼이 돈을 낼 것이다"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 만들기 (Build) 3. 학습 (Learn)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최소 기능만 있는 MVP 개발 데이터 기반 가설 기각 및 깨달음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 2. 측정 (Measure)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">고객 반응과 전환율 정량 지표 수집</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">결정: 비즈니스 모델 방향을 꺾는 Pivot 실행</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           린 스타트업의 핵심 엔진: BML 피드백 루프             │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│       [가설 설정: "고객은 A기능에 기꺼이 돈을 낼 것이다"]            │
+│                           │                                  │
+│       ┌───────────────────┴───────────────────┐              │
+│       │                                       │              │
+│  1. 만들기 (Build)                       3. 학습 (Learn)      │
+│  최소 기능만 있는 MVP 개발          데이터 기반 가설 기각 및 깨달음  │
+│       │                                       ▲              │
+│       ▼                                       │              │
+│       └──────────▶ 2. 측정 (Measure) ─────────┘              │
+│                 고객 반응과 전환율 정량 지표 수집               │
+│                           │                                  │
+│             [결정: 비즈니스 모델 방향을 꺾는 Pivot 실행]         │
+└──────────────────────────────────────────────────────────────┘
+```
 
 1. **가설과 만들기 (Build)**: 완벽한 디자인은 사치다. 핵심 가설만을 검증할 수 있는 최소 기능 제품([MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/), [Minimum Viable Product](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/))을 한 달 만에 조잡하더라도 뚝딱 만들어낸다.
 2. **측정 (Measure)**: MVP를 소수의 고객에게 던지고, 그들이 어떤 버튼을 누르고 어디서 이탈하는지 정량적 지표([Metric](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/))로 측정한다.
@@ -105,23 +109,21 @@ tags = ["software_engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">전통적 폭포수 모델의 높은 실패율</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">애자일 (Agile) 개발 및 린 (Lean) 제조 철학의 융합</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">MVP (최소 기능 제품) 구축 및 시장 출시 (Build)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">허영 지표 배제 및 정량적 행동 지표 측정 (Measure)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">가설 검증 실패 인정 및 피벗 (Pivot)을 통한 방향 전환 (Learn)</div>
-</div>
-</div>
-
-
+```text
+전통적 폭포수 모델의 높은 실패율
+    │
+    ▼
+애자일 (Agile) 개발 및 린 (Lean) 제조 철학의 융합
+    │
+    ▼
+MVP (최소 기능 제품) 구축 및 시장 출시 (Build)
+    │
+    ▼
+허영 지표 배제 및 정량적 행동 지표 측정 (Measure)
+    │
+    ▼
+가설 검증 실패 인정 및 피벗 (Pivot)을 통한 방향 전환 (Learn)
+```
 
 이 흐름도는 무거운 기획 위주의 창업에서 벗어나, 시장 피드백을 통해 제품을 고치고 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/037_pivot/)에 도달하는 [린 스타트업](/knowledge-base/studynote/12_it_management/01_governance_strategy/035_lean_startup/)의 진화 과정을 보여준다.
 

@@ -27,18 +27,14 @@ tags = ["studynote-network"]
   - 하지만 집 벽난로(L2TP 터널 입구)로 쑥 들어가면 런던 마법부(회사 본사 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))의 벽난로로 몸이 그대로 튀어나옵니다.
   - 런던 마법부 직원들은 내가 순간이동으로 왔는지, 걸어왔는지 모르고 <strong>"아, 이 사람 방금 로비(사내 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>)로 들어온 우리 직원(사내 IP)이네!"</strong> 라며 회사 출입증(사설 IP)을 목에 걸어줍니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">GRE</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">L2TP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IPSec 메커니즘</div></div>
-</div>
-</div>
-
-
+```text
+[GRE]
+    │
+    ▼
+[L2TP]
+    │
+    └──▶ [IPSec 메커니즘]
+```
 
 - **📢 섹션 요약 비유**: <strong> L2TP는 부산에 있는 내 컴퓨터의 랜 구멍과, 서울 본사에 있는 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> 사이를 </strong>가상의 400km짜리 투명 랜선(L2 Tunnel)**으로 다이렉트로 이어버리는 기적의 케이블 연장술입니다.
 
@@ -58,23 +54,23 @@ L2TP는 이름에 L2가 들어가는 만큼, 2계층 [프로토콜](/knowledge-b
 - **LAC (L2TP Access Concentrator)**: 직원이 있는 쪽(터널 입구)이다. 보통 직원의 노트북 내장 [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) 클라이언트 프로그램이거나, 직원이 연결된 외부 통신사의 접근 라우터다.
 - **LNS (L2TP Network Server)**: 본사 쪽(터널 출구)이다. 본사 입구에 버티고 서서 LAC이 던진 터널 캡슐을 까서 내용물을 회사 내부에 뿌려주는 [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) 게이트웨이([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)/라우터) 장비다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L2TP/IPsec VPN의 원격 접속 캡슐화 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">직원 노트북 (집)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">본사 방화벽</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">4단 포장 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 겉 IP 헤더 (목적지: 본사 공인 IP)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. IPsec (ESP) 헤더 ──▶ 여기서부터 암호화! 절대 못 열어봄!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. L2TP (UDP 1701) 헤더 ──▶ 터널 식별자</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. PPP 프레임 ──▶ 아이디, 비밀번호, 사내 데이터가 들었음!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: 해커가 인터넷에서 중간에 낚아채도, IPsec이라는 티타늄 금고에</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">갇혀 있어 1번 IP 헤더 외에는 어떤 정보도 훔쳐볼 수 없다.</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                L2TP/IPsec VPN의 원격 접속 캡슐화 구조              │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 직원 노트북 (집) ] ════════════════════════▶ [ 본사 방화벽 ] │
+ │                                                             │
+ │   [ 4단 포장 구조 ]                                            │
+ │   1. 겉 IP 헤더 (목적지: 본사 공인 IP)                            │
+ │     2. IPsec (ESP) 헤더 ──▶ 여기서부터 암호화! 절대 못 열어봄!     │
+ │       3. L2TP (UDP 1701) 헤더 ──▶ 터널 식별자                   │
+ │         4. PPP 프레임 ──▶ 아이디, 비밀번호, 사내 데이터가 들었음!      │
+ │                                                             │
+ │   ▶ 결과: 해커가 인터넷에서 중간에 낚아채도, IPsec이라는 티타늄 금고에  │
+ │           갇혀 있어 1번 IP 헤더 외에는 어떤 정보도 훔쳐볼 수 없다.       │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 3. 왜 하필 PPTP가 아니고 L2TP인가?
 - <strong>PPTP (<a href="/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/142_point_to_point_integration_spaghetti/">Point-to-Point</a> <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/">Tunneling</a> <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">Protocol</a>)</strong>: 1990년대 MS가 만들었다. 셋업이 10초 컷으로 미치도록 쉽지만, [MS-CHAPv2](/knowledge-base/studynote/09_security/12_identity_threat_advanced/600_ms_chapv2/) 암호화가 뚫려서 해커한테 다 털린다. 요새는 보안 감사에서 쓰면 욕을 바가지로 먹고 퇴사당하는 퇴물이다. (애플 iOS 10부터 아예 PPTP 접속 기능을 아이폰에서 지워버렸다).
@@ -136,19 +132,15 @@ L2TP는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routin
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: GRE</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: L2TP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: IPSec 메커니즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: GRE]
+    │
+    ▼
+[현재 개념: L2TP]
+    │
+    ├──▶ [확장 A: IPSec 메커니즘]
+    └──▶ [확장 B: 의도 기반 라우팅]
+```
 
 L2TP는 GRE에서 출발해 현재 메커니즘을 정교화하고, 이후 [IPSec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 메커니즘와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

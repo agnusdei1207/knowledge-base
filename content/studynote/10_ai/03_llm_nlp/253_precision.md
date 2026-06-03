@@ -21,17 +21,13 @@ tags = ["studynote-ai"]
 
 ### 1.1 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)의 정의와 직관
 
+```
+정밀도(Precision) = TP / (TP + FP)
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">정밀도(Precision) = TP / (TP + FP)</div>
-<div class="kb-diagram-note">실제로 Positive인 것</div>
-<div class="kb-diagram-note">내가 Positive라고 예측한 것(TP + FP) 전체</div>
-</div>
-</div>
-
-
+            실제로 Positive인 것
+= ─────────────────────────────────────────
+  내가 Positive라고 예측한 것(TP + FP) 전체
+```
 
 **직관적 해석**: "내가 맞다고 말한 것 중에서 실제로 맞은 비율"
 - [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) = 1.0: Positive 예측이 모두 정확, FP가 0
@@ -57,30 +53,29 @@ tags = ["studynote-ai"]
 
 ### 2.1 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)-[재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/) 트레이드오프 도식
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정밀도(Precision) - 재현율(Recall) 트레이드오프</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정밀도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Precision)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1.0</div><div class="kb-diagram-cell">╲</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">╲ 이상적 곡선 (정밀도·재현율 모두 최대)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0.8</div><div class="kb-diagram-cell">╲</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">╲ ← PR 곡선 (Precision-Recall Curve)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0.6</div><div class="kb-diagram-cell">╲</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">╲</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0.4</div><div class="kb-diagram-cell">╲</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">╲</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0.2</div><div class="kb-diagram-cell">╲</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 재현율</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0.0 0.2 0.4 0.6 0.8 1.0 (Recall)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">임계값(Threshold)↑ → 정밀도↑, 재현율↓</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">임계값(Threshold)↓ → 정밀도↓, 재현율↑</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────┐
+│         정밀도(Precision) - 재현율(Recall) 트레이드오프     │
+│                                                          │
+│  정밀도                                                   │
+│  (Precision)                                             │
+│  ↑                                                       │
+│  1.0 │╲                                                  │
+│      │ ╲   이상적 곡선 (정밀도·재현율 모두 최대)             │
+│  0.8 │  ╲                                                │
+│      │   ╲    ← PR 곡선 (Precision-Recall Curve)         │
+│  0.6 │    ╲                                              │
+│      │     ╲                                             │
+│  0.4 │      ╲                                            │
+│      │       ╲                                           │
+│  0.2 │        ╲                                          │
+│      └──────────────────────────────────────→ 재현율     │
+│       0.0   0.2   0.4   0.6   0.8   1.0    (Recall)     │
+│                                                          │
+│  임계값(Threshold)↑ → 정밀도↑, 재현율↓                    │
+│  임계값(Threshold)↓ → 정밀도↓, 재현율↑                    │
+└──────────────────────────────────────────────────────────┘
+```
 
 ### 2.2 임계값 (Threshold) 조정 원리
 
@@ -93,18 +88,13 @@ tags = ["studynote-ai"]
 | 0.1 (낮음) | 조금만 Positive 같아도 판정 | ↓↓ | ↑↑ |
 
 **구체적 예시:**
+```
+샘플별 스팸 확률: [0.92, 0.85, 0.73, 0.55, 0.41, 0.29, 0.12]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-note">샘플별 스팸 확률:</div><div class="kb-diagram-node">0.92, 0.85, 0.73, 0.55, 0.41, 0.29, 0.12</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Spam, Spam, Spam, Spam, Normal, Normal, Normal</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Spam, Spam, Normal, Normal, Normal, Normal, Normal</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Spam, Spam, Spam, Spam, Spam, Normal, Normal</div></div>
-</div>
-</div>
-
-
+임계값=0.5 → [Spam, Spam, Spam, Spam, Normal, Normal, Normal]
+임계값=0.8 → [Spam, Spam, Normal, Normal, Normal, Normal, Normal]
+임계값=0.3 → [Spam, Spam, Spam, Spam, Spam, Normal, Normal]
+```
 
 ### 2.3 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)와 [재현율](/knowledge-base/studynote/14_data_engineering/02_math_mining/092_recall_sensitivity_hit_rate/)의 수식 비교
 
@@ -168,20 +158,15 @@ tags = ["studynote-ai"]
 
 **예시: 사기 탐지 (사기 0.1%, 정상 99.9%)**
 
+```
+모델 A: 정밀도=0.50, 재현율=0.80
+→ 사기라고 예측한 것 중 50%만 실제 사기
+→ 정상 거래 차단이 절반 → 고객 불만
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">모델 A: 정밀도=0.50, 재현율=0.80</div>
-<div class="kb-diagram-note">→ 사기라고 예측한 것 중 50%만 실제 사기</div>
-<div class="kb-diagram-note">→ 정상 거래 차단이 절반 → 고객 불만</div>
-<div class="kb-diagram-note">모델 B: 정밀도=0.85, 재현율=0.50</div>
-<div class="kb-diagram-note">→ 사기라고 예측한 것의 85% 실제 사기</div>
-<div class="kb-diagram-note">→ 일부 사기는 놓치지만 정상 거래 차단 최소화</div>
-</div>
-</div>
-
-
+모델 B: 정밀도=0.85, 재현율=0.50
+→ 사기라고 예측한 것의 85% 실제 사기
+→ 일부 사기는 놓치지만 정상 거래 차단 최소화
+```
 
 ### 4.3 기술사 핵심 판단 포인트
 - <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/">정밀도</a>가 중요한 이유를 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 맥락으로 설명</strong>할 것

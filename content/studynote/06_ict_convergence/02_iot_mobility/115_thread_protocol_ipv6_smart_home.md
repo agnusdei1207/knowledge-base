@@ -18,22 +18,20 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Zigbee vs Thread: IP 연결성 차이</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Zigbee</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">센서 ──Zigbee──▶ 게이트웨이 ──프로토콜 변환──▶ IP</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디바이스에 IP 주소 없음</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Thread</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">센서 ──Thread(IPv6)──▶ Border Router ──▶ IP</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디바이스에 IPv6 주소 있음 → 직접 통신!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">프로토콜 변환 불필요</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    Zigbee vs Thread: IP 연결성 차이                    │
+├───────────────────────────────────────────────────────┤
+│  [Zigbee]                                             │
+│   센서 ──Zigbee──▶ 게이트웨이 ──프로토콜 변환──▶ IP   │
+│   디바이스에 IP 주소 없음                             │
+│                                                       │
+│  [Thread]                                             │
+│   센서 ──Thread(IPv6)──▶ Border Router ──▶ IP         │
+│   디바이스에 IPv6 주소 있음 → 직접 통신!              │
+│   프로토콜 변환 불필요                                │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: Zigbee는 통역사(게이트웨이)가 필요한 외국어이고, Thread는 세계 공용어([IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/))를 쓰는 디바이스라 통역 없이 바로 대화 가능하다.
 
@@ -100,23 +98,21 @@ Thread는 <strong><a href="/knowledge-base/studynote/03_network/06_network_layer
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">IEEE 802.15.4 (2003) — 저전력 WPAN PHY/MAC</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Thread 1.0 (2015, Google Nest) — IPv6 메시</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Thread 1.2 (2019) — 상용 Border Router 확산</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Matter + Thread (2022~) — Apple·Google·Amazon 채택</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: Thread 1.3 — 대규모 상용 배포, Matter 핵심 인프라</div></div>
-</div>
-</div>
-
-
+```text
+[IEEE 802.15.4 (2003) — 저전력 WPAN PHY/MAC]
+    │
+    ▼
+[Thread 1.0 (2015, Google Nest) — IPv6 메시]
+    │
+    ▼
+[Thread 1.2 (2019) — 상용 Border Router 확산]
+    │
+    ▼
+[Matter + Thread (2022~) — Apple·Google·Amazon 채택]
+    │
+    ▼
+[현재: Thread 1.3 — 대규모 상용 배포, Matter 핵심 인프라]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. Zigbee는 외국어를 쓰는 친구라서 <strong>통역사(게이트웨이)</strong>가 필요해요.

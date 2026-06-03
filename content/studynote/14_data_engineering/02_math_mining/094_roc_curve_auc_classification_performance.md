@@ -38,25 +38,24 @@ ROC 곡선은 모델의 예측 확률값에 따라 FPR(가짜를 진짜로 오�
 | Threshold (임계값) | 양성/음성 판단 커트라인 조절 단추 | 0 ~ 1.0 범위 | (0,0)에서 (1,1) 사이를 이동 |
 | AUC (Area Under Curve) | ROC 곡선 아래 면적 크기 | 0.5 ~ 1.0 범위 | 1.0에 가까울수록 우수함 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ROC Curve &amp; AUC Score</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">TPR (Recall) ^</div><div class="kb-diagram-node">AUC = 1.0 : 완벽한 모델</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1.0 ▶</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ │</div><div class="kb-diagram-node">AUC = 0.8 : 우수한 모델</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">0.5 ── . ── ─ ─ ─ ─</div><div class="kb-diagram-node">AUC = 0.5 : 무작위 찍기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0.0 ▶ FPR (False Positive Rate)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0.0 0.5 1.0</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                  ROC Curve & AUC Score                     │
+├──────────────────────────────────────────────────────────────┤
+│ TPR (Recall) ^   [ AUC = 1.0 : 완벽한 모델 ]               │
+│      1.0 ────┼───────────────▶                             │
+│          │   │ ┌─────────                              │
+│          │   │ │      [ AUC = 0.8 : 우수한 모델 ]          │
+│          │   │.                                        │
+│          │   . │                                       │
+│          │   │                                         │
+│      0.5 ────┼── . ── ─ ─ ─ ─[ AUC = 0.5 : 무작위 찍기 ] │
+│          │   │        .                                │
+│          │   │            .                            │
+│      0.0 ────┼───────────────▶ FPR (False Positive Rate)│
+│              0.0    0.5    1.0                         │
+└──────────────────────────────────────────────────────────────┘
+```
 
 아무런 학습 능력이 없는 무작위 예측(Random Guess) 모델은 대각선을 형성하여 AUC가 0.5가 된다. 반면 양성과 음성을 100% 완벽하게 분리해 내는 모델은 곡선이 왼쪽 위 꼭짓점(0,1)에 닿아 전체 면적인 1.0을 차지하게 된다.
 
@@ -84,7 +83,7 @@ ROC 곡선은 모델의 예측 확률값에 따라 FPR(가짜를 진짜로 오�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 ROC-AUC는 모델을 개발하고 튜닝하는 사이클의 가장 중요한 의사결정 나침반으로 사용된다.
+실무에서 ROC-AUC는 모델을 개발하고 튜닝하는 사이클의 가장 중요한 의사결정 나침반으로 사용된다. 
 
 ### 실무 활용 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 1. **챔피언 모델 선별**: 수십 개의 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)([Random Forest](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/), XGBoost 등)을 돌렸을 때, "정확도 95% 모델"보다 "AUC 0.90 모델"을 다음 스테이지로 올리는 것이 안전하다. AUC가 높은 모델은 임계값 튜닝을 통해 비즈니스 요구에 맞게 조율할 여력이 크기 때문이다.
@@ -93,7 +92,7 @@ ROC 곡선은 모델의 예측 확률값에 따라 FPR(가짜를 진짜로 오�
 ### 판단 지표 기준 (가이드라인)
 - **AUC 0.9 ~ 1.0**: 매우 훌륭함 (Excellent) - 간혹 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 누수([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Leakage)를 의심해야 할 정도로 높음
 - **AUC 0.8 ~ 0.9**: 좋음 (Good) - 실제 운영 환경에 적용 가능한 준수한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)
-- **AUC 0.7 ~ 0.8**: 보통 (Fair) - 추가적인 Feature Engineering이 요구됨
+- **AUC 0.7 ~ 0.8**: 보통 (Fair) - 추가적인 Feature 엔진ering이 요구됨
 - **AUC 0.5 ~ 0.6**: 나쁨 (Poor) - 동전 던지기 수준, 모델 활용 불가
 
 - **📢 섹션 요약 비유**: 수많은 신입사원 중 한 명을 뽑을 때, 면접관은 특정 상황에서만 반짝 잘하는 사람보다 어떤 업무 환경(임계값)에 던져놔도 기본 이상을 해내는 기초 체력(AUC)이 높은 사람을 뽑습니다.
@@ -121,23 +120,21 @@ ROC-AUC 지표를 표준으로 삼으면 비즈니스 환경이 급변하여 커
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Confusion Matrix (단일 임계값 평가)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">FPR / TPR 계산 · Threshold 이동</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ROC Curve 도출 (연속적 성능 궤적)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">AUC (Area Under Curve) 면적 정량화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">PR Curve 병행 분석 (클래스 불균형 극복)</div>
-</div>
-</div>
-
-
+```text
+Confusion Matrix (단일 임계값 평가)
+    │
+    ▼
+FPR / TPR 계산 · Threshold 이동
+    │
+    ▼
+ROC Curve 도출 (연속적 성능 궤적)
+    │
+    ▼
+AUC (Area Under Curve) 면적 정량화
+    │
+    ▼
+PR Curve 병행 분석 (클래스 불균형 극복)
+```
 
 이 흐름도는 "점(단일 지표) → 선(곡선 궤적) → 면(통합 수치) → 보완([PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/))"으로 모델 평가 방법이 정교해지는 과정을 보여준다.
 

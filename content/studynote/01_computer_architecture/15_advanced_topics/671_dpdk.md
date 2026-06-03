@@ -23,16 +23,12 @@ DPDK가 나온 이유는 전통적 [커널](/knowledge-base/studynote/02_operati
 
 특히 작은 패킷 위주의 100GbE 링크는 초당 약 1억 4천8백만 개 패킷을 만들 수 있다. 이 수준에서는 “패킷 하나당 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 한 번”이나 “패킷 하나당 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 복사 한 번”이 감당하기 어려운 병목이 된다. DPDK는 그래서 아예 질문을 바꾼다. **운영체제가 매번 도와주지 말고, 애플리케이션이 장치를 직접 감시하면 더 빠르지 않은가?**
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kernel path: Wire -&gt; NIC -&gt; interrupt -&gt; Kernel -&gt; Socket -&gt; Application</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DPDK path : Wire -&gt; NIC queue -&gt; poll loop -&gt; Application -&gt; send queue</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────┐
+│ Kernel path: Wire -> NIC -> interrupt -> Kernel -> Socket -> Application│
+│ DPDK path : Wire -> NIC queue -> poll loop -> Application -> send queue │
+└──────────────────────────────────────────────────────────────────────────┘
+```
 
 이 차이는 단순한 구현 차이가 아니라 철학 차이다. 전통 경로는 “안전하고 범용적이지만 무겁고”, DPDK는 “전용으로 설계하면 매우 빠르지만 운영 책임이 애플리케이션 쪽으로 이동한다.”
 
@@ -54,18 +50,15 @@ DPDK의 핵심 구성요소는 [Environment](/knowledge-base/studynote/15_devops
 
 처리 자체도 “한 개씩”이 아니라 “묶음 단위”로 수행된다. `rte_eth_rx_burst()` 같은 호출로 여러 패킷을 한 번에 가져오고, 파싱·[분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 후 다시 배치로 송신한다. 이 배치 모델은 캐시 적중률을 높이고 장치 접근 횟수를 줄여, 패킷당 고정비를 크게 낮춘다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NIC receive queue -&gt; PMD poll loop -&gt; mbuf batch</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ parse / classify / forward</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ lockless ring to worker</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ send batch -&gt; NIC send queue</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────┐
+│ NIC receive queue -> PMD poll loop -> mbuf batch                         │
+│                                  │                                       │
+│                                  ├─ parse / classify / forward           │
+│                                  ├─ lockless ring to worker              │
+│                                  └─ send batch -> NIC send queue         │
+└──────────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조가 잘 작동하려면 하드웨어와 메모리 배치가 함께 맞아야 한다. 같은 서버라도 NIC는 한 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)에, [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 코어는 다른 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)에, 버퍼 메모리는 또 다른 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)에 있으면 [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 원격 접근 때문에 기대 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 크게 떨어진다. DPDK는 코드보다 배치가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 좌우하는 기술이라는 말이 나오는 이유다.
 
@@ -146,23 +139,21 @@ DPDK는 패킷 처리에서 운영체제의 범용성을 덜어내고, 애플리
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">인터럽트 기반 커널 네트워크 경로</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">다중 큐 · 배치 처리 최적화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">커널 바이패스 기반 사용자 공간 패킷 처리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DPDK (Data Plane Development Kit)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DPU (Data Processing Unit) / SmartNIC (Smart Network Interface Card)와 결합한 사용자 공간 데이터 평면</div>
-</div>
-</div>
-
-
+```text
+인터럽트 기반 커널 네트워크 경로
+        │
+        ▼
+다중 큐 · 배치 처리 최적화
+        │
+        ▼
+커널 바이패스 기반 사용자 공간 패킷 처리
+        │
+        ▼
+DPDK (Data Plane Development Kit)
+        │
+        ▼
+DPU (Data Processing Unit) / SmartNIC (Smart Network Interface Card)와 결합한 사용자 공간 데이터 평면
+```
 
 이 흐름은 “범용 운영체제가 대신 처리”하던 경로가, 점점 더 전용 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면 프레임워크와 하드웨어 협력 구조로 이동한 과정을 보여준다.
 

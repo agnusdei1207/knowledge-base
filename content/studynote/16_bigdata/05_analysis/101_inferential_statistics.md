@@ -20,27 +20,27 @@ tags = ["studynote-bigdata"]
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 추론 통계의 핵심 메커니즘인 표본 추출과 [가설 검정](/knowledge-base/studynote/08_algorithm_stats/08_stats/145_hypothesis_testing/) 프로세스 아키텍처입니다.
 
+```text
+[ Inferential Statistics Logic Flow ]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Inferential Statistics Logic Flow</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Population (N) --</div><div class="kb-diagram-node">Random Sampling</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">Sample (n)</div></div>
-<div class="kb-diagram-note">(Estimation &amp; Inference) v</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">←</div><div class="kb-diagram-node">Analyze Sample</div></div>
-<div class="kb-diagram-note">(Mean, Std Dev)</div>
-<div class="kb-diagram-note">v</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Core Estimation Methods</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Parameter Estimation (모수 추정)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Point Estimation (점 추정)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Interval Estimation (신뢰구간, 95% CI)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Hypothesis Testing (가설 검정)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Null Hypothesis (H0) vs Alternative (H1)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- p-value &lt; 0.05 =&gt; Reject H0 (Significance)</div></div>
-</div>
-</div>
-
-
+   Population (N) -- [ Random Sampling ] --> Sample (n)
+         |                                     |
+         | (Estimation & Inference)            v
+         | <--------------------------- [ Analyze Sample ]
+         |                                (Mean, Std Dev)
+         v
++-------------------------------------------------------+
+|           [ Core Estimation Methods ]                 |
+|                                                       |
+| 1. Parameter Estimation (모수 추정)                   |
+|    - Point Estimation (점 추정)                       |
+|    - Interval Estimation (신뢰구간, 95% CI)           |
+|                                                       |
+| 2. Hypothesis Testing (가설 검정)                     |
+|    - Null Hypothesis (H0) vs Alternative (H1)         |
+|    - p-value < 0.05 => Reject H0 (Significance)       |
++-------------------------------------------------------+
+```
 
 **핵심 원리:**
 1. **모집단과 표본**: 알고 싶은 전체 대상(모집단)과 실제 조사 대상(표본). 표본이 모집단을 잘 대표해야 함(편향 방지).
@@ -74,19 +74,15 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">확률 분포: Normal, t, Chi-square, F-distribution</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">검정 기법: t-test, ANOVA, Regression, Correlation</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">핵심 지표: Confidence Level (95%), Standard Error, p-value</div></div>
-</div>
-</div>
-
-
+```text
+[확률 분포: Normal, t, Chi-square, F-distribution]
+    │
+    ▼
+[검정 기법: t-test, ANOVA, Regression, Correlation]
+    │
+    ▼
+[핵심 지표: Confidence Level (95%), Standard Error, p-value]
+```
 
 이 흐름도는 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포: Normal, t, Chi-[square](/knowledge-base/studynote/04_software_engineering/06_software_architecture/341_iso_iec_25010/), F-distribution에서 출발해 핵심 지표: [Confidence](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) Level (95%), Standard Error, p-value까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

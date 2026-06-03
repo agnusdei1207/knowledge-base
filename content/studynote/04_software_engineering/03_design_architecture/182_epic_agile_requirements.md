@@ -43,24 +43,24 @@ tags = ["studynote-software-engineering"]
 
 아래 그림은 제품 목표가 에픽을 거쳐 실제 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 단위 스토리로 내려가는 구조를 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">From product goal to sprint backlog</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Product Goal : 결제 전환율 향상</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Epic : 간편결제 도입</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Story 1 : 카드 등록</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Story 2 : 생체 인증 결제</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Story 3 : 결제 실패 재시도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Story 4 : 정산/환불 조회</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Sprint 1 : 등록 + 기본 결제</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Sprint 2 : 실패 처리 + 예외 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Sprint 3 : 정산/조회 + 운영 검증</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ From product goal to sprint backlog                               │
+├────────────────────────────────────────────────────────────────────┤
+│ Product Goal : 결제 전환율 향상                                   │
+│        │                                                           │
+│        ▼                                                           │
+│ Epic : 간편결제 도입                                               │
+│   ├─ Story 1 : 카드 등록                                           │
+│   ├─ Story 2 : 생체 인증 결제                                      │
+│   ├─ Story 3 : 결제 실패 재시도                                    │
+│   └─ Story 4 : 정산/환불 조회                                      │
+│        │                                                           │
+│        ├─ Sprint 1 : 등록 + 기본 결제                              │
+│        ├─ Sprint 2 : 실패 처리 + 예외 흐름                         │
+│        └─ Sprint 3 : 정산/조회 + 운영 검증                         │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 핵심은 에픽이 "큰 요구를 그냥 붙잡아 두는 상자"가 아니라, <strong>스토리 분해와 순차 전달의 중심축</strong>이라는 점이다. 좋은 에픽은 스토리 분해 기준이 명확하다. 예를 들어 사용자 역할별, 업무 단계별, 정상/예외 흐름별, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 범위별로 나눌 수 있어야 한다. 반대로 분해 기준이 없다면 그것은 아직 요구가 아니라 구호에 가깝다.
 
@@ -139,23 +139,21 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">비즈니스 목표 · 제품 방향</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">에픽 (큰 가치 단위 정의)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">유저 스토리로 분해</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">스프린트 단위 구현 · 검증</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">릴리스 · 성과 측정 · 다음 에픽 조정</div>
-</div>
-</div>
-
-
+```text
+비즈니스 목표 · 제품 방향
+        │
+        ▼
+에픽 (큰 가치 단위 정의)
+        │
+        ▼
+유저 스토리로 분해
+        │
+        ▼
+스프린트 단위 구현 · 검증
+        │
+        ▼
+릴리스 · 성과 측정 · 다음 에픽 조정
+```
 
 이 흐름도는 에픽이 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 목표에서 출발해, 점진적 구현과 피드백을 거쳐 다시 제품 계획으로 돌아가는 연결 고리임을 보여 준다.
 

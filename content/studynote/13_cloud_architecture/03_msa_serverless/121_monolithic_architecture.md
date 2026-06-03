@@ -18,22 +18,20 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모놀리식 vs MSA</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">모놀리식</div><div class="kb-diagram-node">MSA</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">UI</div><div class="kb-diagram-cell">Svc</div><div class="kb-diagram-cell">Svc</div><div class="kb-diagram-cell">Svc</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BizLogic</div><div class="kb-diagram-cell">A</div><div class="kb-diagram-cell">B</div><div class="kb-diagram-cell">C</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DataAccess</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단일 DB</div><div class="kb-diagram-cell">↕ ↕ ↕</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DB_A DB_B DB_C</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하나의 배포 단위 독립 배포·스케일링</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    모놀리식 vs MSA                                    │
+├───────────────────────────────────────────────────────┤
+│  [모놀리식]                [MSA]                      │
+│  ┌──────────────┐        ┌───┐ ┌───┐ ┌───┐          │
+│  │ UI           │        │Svc│ │Svc│ │Svc│          │
+│  │ BizLogic     │        │ A │ │ B │ │ C │          │
+│  │ DataAccess   │        └───┘ └───┘ └───┘          │
+│  │ 단일 DB      │          ↕     ↕     ↕            │
+│  └──────────────┘        DB_A  DB_B  DB_C            │
+│  하나의 배포 단위         독립 배포·스케일링           │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 모놀리식은 원룸(모든 기능이 한 공간)이고, MSA는 방이 여러 개인 아파트(기능별 독립 공간)다.
 
@@ -92,23 +90,21 @@ tags = ["studynote-cloud-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">모놀리식 (전통, ~2010s)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SOA (Service Oriented Architecture, 2005~)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MSA (2014, Netflix·Amazon) — 서비스 분리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Modular Monolith (2020~) — 모놀리식 + 모듈 경계</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: "Right-sizing" — 상황에 맞는 아키텍처 선택</div></div>
-</div>
-</div>
-
-
+```text
+[모놀리식 (전통, ~2010s)]
+    │
+    ▼
+[SOA (Service Oriented Architecture, 2005~)]
+    │
+    ▼
+[MSA (2014, Netflix·Amazon) — 서비스 분리]
+    │
+    ▼
+[Modular Monolith (2020~) — 모놀리식 + 모듈 경계]
+    │
+    ▼
+[현재: "Right-sizing" — 상황에 맞는 아키텍처 선택]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 모놀리식은 <strong>원룸</strong>이에요. 혼자 살 때는 편리하지만, **가족이 늘면** 좁아요.

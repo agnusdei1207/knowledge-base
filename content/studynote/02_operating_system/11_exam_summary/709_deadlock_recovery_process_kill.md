@@ -117,27 +117,31 @@ tags = ["studynote-operating-system"]
 
 ### 의사결정 및 튜닝 플로우
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">시스템 장애 시 데드락 탐지 및 복구(Recovery) 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">서버나 DB가 데드락 징후(특정 기능 영구적 응답 지연)를 보일 때</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1.</div><div class="kb-diagram-node">탐지 주기 설정</div><div class="kb-diagram-note">데드락 감지 알고리즘(DFS 사이클 검색)을 돌려야 함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 너무 자주 돌리면? -&gt; CPU 낭비로 시스템 전체가 느려짐.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 너무 가끔 돌리면? -&gt; 데드락에 빠진 채로 오래 방치되어 피해 큼.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">★ 타협점: 자원 요청 시마다 검사하지 않고, 10초에 한 번씩만 데몬 구동</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2.</div><div class="kb-diagram-node">사이클 발견 시 1차 대응: Rollback Cost 계산</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 얽혀있는 프로세스들의 '실행 시간', '가진 자원', '우선순위' 스캔.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 가장 비용이 싼 놈을 희생자(Victim)로 타겟팅.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3.</div><div class="kb-diagram-node">2차 대응: Kill &amp; Retry</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 희생자에게 <code>SIGKILL</code> 또는 <code>Abort</code> 신호 전송.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 남은 애들이 락을 쥐고 살아나는지 확인.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 죽인 놈이 또 꼬이는 기아를 막기 위해 희생자의 우선순위 일시 부스트.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 시스템 장애 시 데드락 탐지 및 복구(Recovery) 플로우         │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [서버나 DB가 데드락 징후(특정 기능 영구적 응답 지연)를 보일 때]               │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      1. [탐지 주기 설정] 데드락 감지 알고리즘(DFS 사이클 검색)을 돌려야 함     │
+  │         - 너무 자주 돌리면? -> CPU 낭비로 시스템 전체가 느려짐.            │
+  │         - 너무 가끔 돌리면? -> 데드락에 빠진 채로 오래 방치되어 피해 큼.      │
+  │         ★ 타협점: 자원 요청 시마다 검사하지 않고, 10초에 한 번씩만 데몬 구동  │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      2. [사이클 발견 시 1차 대응: Rollback Cost 계산]                  │
+  │         - 얽혀있는 프로세스들의 '실행 시간', '가진 자원', '우선순위' 스캔.     │
+  │         - 가장 비용이 싼 놈을 희생자(Victim)로 타겟팅.                     │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      3. [2차 대응: Kill & Retry]                                    │
+  │         - 희생자에게 `SIGKILL` 또는 `Abort` 신호 전송.                 │
+  │         - 남은 애들이 락을 쥐고 살아나는지 확인.                           │
+  │         - 죽인 놈이 또 꼬이는 기아를 막기 위해 희생자의 우선순위 일시 부스트.    │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)([Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))는 실패를 인정한 패배자의 선택이 아니다. 복잡성이 극에 달한 현대 마이크로서비스에서 데드락을 100% 예방하는 것은 오만이다. 최고의 시스템은 꼬이지 않는 시스템이 아니라, <strong>"꼬였을 때 가장 싸고 만만한 놈의 꼬리를 0.1초 만에 잘라내고, 잘린 꼬리가 알아서 다시 자라나게(Retry) 만드는 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/">회복</a> <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/">탄력성</a>(Resilience)"</strong>을 가진 시스템이다.
 
@@ -180,19 +184,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">교착 상태 무시 (타조 알고리즘)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">교착 상태 복구 (프로세스 킬) (Deadlock Recovery Process Kill)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">주소 바인딩 컴파일/로드/실행</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">논리 주소 물리 주소 변환 MMU</div></div>
-</div>
-</div>
-
-
+```text
+[교착 상태 무시 (타조 알고리즘)]
+    │
+    ▼
+[교착 상태 복구 (프로세스 킬) (Deadlock Recovery Process Kill)]
+    │
+    ├──▶ [주소 바인딩 컴파일/로드/실행]
+    └──▶ [논리 주소 물리 주소 변환 MMU]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

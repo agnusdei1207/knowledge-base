@@ -40,42 +40,39 @@ L2: J(w) = L(w) + λΣw_i²
 
 ### L1 vs L2 규제 수식 비교
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L1 vs L2 규제 비교</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">L1 규제 (Lasso)</div><div class="kb-diagram-cell">L2 규제 (Ridge)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페널티: λΣ</div><div class="kb-diagram-cell">w_i</div><div class="kb-diagram-cell">페널티: λΣw_i²</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">미분: λ·sign(w_i)</div><div class="kb-diagram-cell">미분: 2λ·w_i</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(부호 함수)</div><div class="kb-diagram-cell">(선형 비례)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">w → 0 에서 불연속</div><div class="kb-diagram-cell">w → 0 에서 연속</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Subgradient 필요)</div><div class="kb-diagram-cell">(Smooth)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 일부 w = 0 (희소)</div><div class="kb-diagram-cell">결과: 모든 w ≈ 0 (작게 축소)</div></div>
-</div>
-</div>
-
-
+```
+┌────────────────────────────────────────────────────────────┐
+│                  L1 vs L2 규제 비교                        │
+├──────────────────────────┬─────────────────────────────────┤
+│        L1 규제 (Lasso)   │       L2 규제 (Ridge)           │
+├──────────────────────────┼─────────────────────────────────┤
+│  페널티: λΣ|w_i|         │  페널티: λΣw_i²                │
+│                          │                                 │
+│  미분: λ·sign(w_i)       │  미분: 2λ·w_i                  │
+│  (부호 함수)             │  (선형 비례)                    │
+│                          │                                 │
+│  w → 0 에서 불연속       │  w → 0 에서 연속               │
+│  (Subgradient 필요)      │  (Smooth)                       │
+│                          │                                 │
+│  결과: 일부 w = 0 (희소) │  결과: 모든 w ≈ 0 (작게 축소)  │
+└──────────────────────────┴─────────────────────────────────┘
+```
 
 ### 기하학적 해석
 
+```
+L1 제약 (다이아몬드)           L2 제약 (원/구)
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">L1 제약 (다이아몬드) L2 제약 (원/구)</div>
-<div class="kb-diagram-note">w2 w2</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">●</div><div class="kb-diagram-cell">●</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/</div><div class="kb-diagram-cell">\ 손실 등고선</div><div class="kb-diagram-cell">/</div><div class="kb-diagram-cell">\</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/</div><div class="kb-diagram-cell">\ 접점에서 최솟값</div><div class="kb-diagram-cell">/</div><div class="kb-diagram-cell">\</div></div>
-<div class="kb-diagram-tree-item" style="--depth:2">●── ──→ w1 ● ──→ w1</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">\</div><div class="kb-diagram-cell">/ ◆ L1의 꼭짓점에서</div><div class="kb-diagram-cell">\</div><div class="kb-diagram-cell">/</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">● 접하면 w=0 발생</div><div class="kb-diagram-cell">●</div></div>
-<div class="kb-diagram-note">→ 희소 해! 반드시 꼭짓점 없음</div>
-</div>
-</div>
-
-
+      w2                             w2
+       │   ●                          │     ●
+       │  /│\        손실 등고선       │    /│\
+       │ / │ \       접점에서 최솟값   │   / │ \
+     ──┼───●──┼──→ w1           ──────┼───●────┼──→ w1
+       │ \ │ /                        │   \ │ /
+       │  \│/      ◆ L1의 꼭짓점에서  │    \│/
+       │   ●       접하면 w=0 발생     │     ●
+                   → 희소 해!         반드시 꼭짓점 없음
+```
 
 L1의 다이아몬드 모양 꼭짓점(축 위)에서 손실 등고선이 접할 가능성이 높아, 해당 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)가 <strong>정확히 0</strong>이 된다 → 특성 선택 효과.
 
@@ -109,18 +106,12 @@ Elastic Net: J(w) = L(w) + λ1·Σ|w_i| + λ2·Σw_i²
 
 ### λ ([정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 강도)의 역할
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">λ = 0 → 규제 없음 (원래 손실만 최적화)</div>
-<div class="kb-diagram-note">λ = 작음 → 약한 규제 (원래 목적 + 약한 가중치 제약)</div>
-<div class="kb-diagram-note">λ = 적당 → 균형 잡힌 일반화</div>
-<div class="kb-diagram-note">λ = 큰 값 → 강한 규제 (가중치 → 0, 과소적합 위험)</div>
-</div>
-</div>
-
-
+```
+λ = 0       →  규제 없음 (원래 손실만 최적화)
+λ = 작음    →  약한 규제 (원래 목적 + 약한 가중치 제약)
+λ = 적당    →  균형 잡힌 일반화
+λ = 큰 값   →  강한 규제 (가중치 → 0, 과소적합 위험)
+```
 
 ### 딥러닝에서의 L2 사용 = [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 감쇠([Weight Decay](/knowledge-base/studynote/10_ai/01_ai_basics/091_l1_l2_regularization_weight_decay/))
 

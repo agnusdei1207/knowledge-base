@@ -24,27 +24,23 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경**: 피터슨 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이나 베이커리 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 같은 초창기 소프트웨어 락 설계 시, 특정 프로세스가 무한 루프에 빠지거나 특정 패턴으로 타이밍이 꼬였을 때 한 놈만 영원히 CPU를 못 잡는 취약점이 발견되었다. 이를 막기 위해 데이크스트라가 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 세 번째 자격 요건으로 Bounded Waiting을 명문화했다.
 
+```text
+  [한정된 대기(Bounded Waiting)의 파괴 vs 준수 시뮬레이션]
 
+  [ ❌ Bounded Waiting 실패 (기아 발생) - LIFO 큐 사용 시 ]
+  1. P1 진입 요청 ─▶ 대기 큐: [P1]
+  2. P2 진입 요청 ─▶ 대기 큐: [P1, P2] (P2가 더 늦게 왔으나 맨 앞을 차지)
+  3. P3 진입 요청 ─▶ 대기 큐: [P1, P2, P3] 
+  ▶ 방이 비었을 때: 가장 늦게 온 P3가 먼저 들어감. 계속 새 놈이 오면 P1은 평생 못 들어감!
+  ▶ Bound = 무한대 (∞)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">한정된 대기(Bounded Waiting)의 파괴 vs 준수 시뮬레이션</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">❌ Bounded Waiting 실패 (기아 발생) - LIFO 큐 사용 시</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">P1</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">P1, P2</div><div class="kb-diagram-note">(P2가 더 늦게 왔으나 맨 앞을 차지)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">P1, P2, P3</div></div>
-<div class="kb-diagram-note">▶ 방이 비었을 때: 가장 늦게 온 P3가 먼저 들어감. 계속 새 놈이 오면 P1은 평생 못 들어감!</div>
-<div class="kb-diagram-note">▶ Bound = 무한대 (∞)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">✅ Bounded Waiting 달성 (공정성 보장) - FIFO 큐 사용 시</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">P1</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">P1, P2</div><div class="kb-diagram-note">(P2는 무조건 P1 뒤에 섬)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">P1, P2, P3</div></div>
-<div class="kb-diagram-note">▶ 방이 비었을 때: 맨 앞의 P1이 무조건 들어감.</div>
-<div class="kb-diagram-note">▶ Bound = 내 앞의 대기자 수 (유한함)</div>
-</div>
-</div>
-
-
+  [ ✅ Bounded Waiting 달성 (공정성 보장) - FIFO 큐 사용 시 ]
+  1. P1 진입 요청 ─▶ 대기 큐: [P1]
+  2. P2 진입 요청 ─▶ 대기 큐: [P1, P2] (P2는 무조건 P1 뒤에 섬)
+  3. P3 진입 요청 ─▶ 대기 큐: [P1, P2, P3]
+  ▶ 방이 비었을 때: 맨 앞의 P1이 무조건 들어감.
+  ▶ Bound = 내 앞의 대기자 수 (유한함)
+```
 **[다이어그램 해설]** 한정된 대기 조건은 "스케줄링의 공정성"을 대변한다. 내가 아무리 찌질한 프로세스라도 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))에 들어간 이상, 내 위로 새치기하는 놈의 숫자가 딱 정해져 있어야(Bounded) "언젠가는 끝난다"라는 예측이 가능해진다.
 
 - **📢 섹션 요약 비유**: 은행 창구에서 번호표 기계가 고장 나서 직원 맘대로 손님을 부르는 곳은 한정된 대기가 깨진 곳입니다(기아 발생). 하지만 번호표를 뽑고 대기 인원수가 10명이라고 적혀있으면, 아무리 느려도 내 앞에 10명만 지나가면 내 차례가 온다는 '한정된 대기'가 완벽히 증명됩니다.
@@ -108,27 +104,29 @@ tags = ["studynote-operating-system"]
    - `true` (Fair 모드): **한정된 대기(Bounded Waiting)를 100% 보장하는 모드**. 먼저 락을 요청한 스레드가 먼저 들어간다([FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/)). 단점은 락을 넘겨줄 때마다 스레드를 깨우고 재우는 문맥 교환이 너무 많이 터져서 서버의 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))이 절반으로 떨어진다.
    - `false` (Non-fair 모드, 디폴트): **한정된 대기를 포기하는 모드**. 방금 락을 푼 놈이 캐시가 뜨거우니까 바로 다시 락을 채가는 '새치기'를 허용한다. [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/) 위험이 있지만, [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 10배 이상 빠르기 때문에 스프링 백엔드에서 99% 이 방식을 쓴다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">락(Lock)의 공정성(Fairness)과 처리량(Throughput) 트레이드오프</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">요구사항: 초당 10만 건 결제 처리 락 로직 구현</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 비즈니스 요건 분석</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"1만 번째 고객이 1초 이상 지연되면 소송이 걸리는가?"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">예 (엄격한 지연시간 보장 필수)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 🚨 Fair Lock 강제 적용 (성능 포기)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모두를 FIFO 큐에 일렬로 세움 (Bounded Waiting).</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 서버를 10대 더 사서 성능 저하를 돈으로 메꿈.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">아니오 (평균 10만 건 처리량이 더 중요함)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ ✅ Non-fair Lock (디폴트) 적용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">새치기를 전면 허용하여 스레드 깨우는 시간을 삭제함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 1명의 고객이 재수 없게 5초 지연될(기아) 수 있으나,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">나머지 99,999명은 0.1초 만에 결제 완료됨.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌──────────────────────────────────────────────────────────────────┐
+  │     락(Lock)의 공정성(Fairness)과 처리량(Throughput) 트레이드오프│
+  ├──────────────────────────────────────────────────────────────────┤
+  │                                                                  │
+  │   [요구사항: 초당 10만 건 결제 처리 락 로직 구현]                │
+  │                │                                                 │
+  │                ▼ 비즈니스 요건 분석                              │
+  │   "1만 번째 고객이 1초 이상 지연되면 소송이 걸리는가?"           │
+  │          ├─ [예 (엄격한 지연시간 보장 필수)]                     │
+  │          │      │                                                │
+  │          │      ▼ 🚨 Fair Lock 강제 적용 (성능 포기)             │
+  │          │  모두를 FIFO 큐에 일렬로 세움 (Bounded Waiting).      │
+  │          │  ▶ 서버를 10대 더 사서 성능 저하를 돈으로 메꿈.       │
+  │          │                                                       │
+  │          └─ [아니오 (평균 10만 건 처리량이 더 중요함)]           │
+  │                 │                                                │
+  │                 ▼ ✅ Non-fair Lock (디폴트) 적용                 │
+  │             새치기를 전면 허용하여 스레드 깨우는 시간을 삭제함.  │
+  │             ▶ 1명의 고객이 재수 없게 5초 지연될(기아) 수 있으나, │
+  │               나머지 99,999명은 0.1초 만에 결제 완료됨.          │
+  └──────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 컴퓨터 공학 교과서에서는 "한정된 대기를 반드시 지켜라!"라고 가르치지만, 실무 아키텍트는 안다. "공정함(Fairness)은 가장 비싼 오버헤드다." 공정하게 줄을 세우는 행위 자체가 시스템의 스래싱을 유발하므로, 실무의 기본값은 한정된 대기를 살짝 무시(Non-fair)하여 전체 스루풋을 극대화하는 쪽으로 기울어져 있다.
 
 - **📢 섹션 요약 비유**: 놀이공원 입구에서 표를 검사할 때, 1명씩 정확히 줄을 세워서 검사하면(Fair [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 공평하지만 너무 늦게 들어갑니다. 그냥 문을 활짝 열어두고 눈치껏 우르르 밀고 들어가게(Non-fair [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 놔두면 얌전한 사람은 좀 늦게 들어가더라도 전체 1만 명이 입장하는 시간은 훨씬 빨라지는 실무적 역설입니다.
@@ -159,19 +157,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">에너지 인지 스케줄링 (Energy-Aware Scheduling, EAS)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">한정된 대기 (Bounded Waiting)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">컨테이너 스케줄링 (cgroups cpu.shares, cpu.cfs_quota_us)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">실시간 리눅스 (PREEMPT_RT 패치)</div></div>
-</div>
-</div>
-
-
+```text
+[에너지 인지 스케줄링 (Energy-Aware Scheduling, EAS)]
+    │
+    ▼
+[한정된 대기 (Bounded Waiting)]
+    │
+    ├──▶ [컨테이너 스케줄링 (cgroups cpu.shares, cpu.cfs_quota_us)]
+    └──▶ [실시간 리눅스 (PREEMPT_RT 패치)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

@@ -58,17 +58,11 @@ Prompt Tuning: 프롬프트 벡터만 학습 (가장 경량)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">ImageNet Fine-tuning (2012)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">BERT Fine-tuning (2018)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">GPT-3 Few-shot (2020)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">LoRA (2021)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">QLoRA (2023)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: DoRA·LoRA+ — 차세대 효율 FT</div></div>
-</div>
-</div>
-
-
+```text
+[ImageNet Fine-tuning (2012)] → [BERT Fine-tuning (2018)]
+    → [GPT-3 Few-shot (2020)] → [LoRA (2021)]
+    → [QLoRA (2023)] → [현재: DoRA·LoRA+ — 차세대 효율 FT]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. Fine-tuning은 **대학 졸업생이 회사에서 실무를 배우는** 거예요.

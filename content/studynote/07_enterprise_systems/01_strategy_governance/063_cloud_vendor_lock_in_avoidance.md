@@ -29,23 +29,17 @@ tags = ["studynote-enterprise"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">App</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Container / K8s</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">IaC / GitOps</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Open Standards</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Cloud A / Cloud B</div>
-</div>
-</div>
-
-
+```text
+App
+  ↓
+Container / K8s
+  ↓
+IaC / GitOps
+  ↓
+Open Standards
+  ↓
+Cloud A / Cloud B
+```
 
 | 락인 요인 | 설명 | 완화 방법 |
 | :-- | :-- | :-- |
@@ -116,41 +110,29 @@ tags = ["studynote-enterprise"]
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Cloud Service</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Vendor Dependency</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Lock-in Risk</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Open Standard / IaC</div>
-</div>
-</div>
-
-
+```text
+Cloud Service
+  ↓
+Vendor Dependency
+  ↓
+Lock-in Risk
+  ↓
+Open Standard / IaC
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Single Cloud</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Hybrid / Multi Cloud</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Container / K8s</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Portability Design</div>
-</div>
-</div>
-
-
+```text
+Single Cloud
+  ↓
+Hybrid / Multi Cloud
+  ↓
+Container / K8s
+  ↓
+Portability Design
+```
 
 ---
 

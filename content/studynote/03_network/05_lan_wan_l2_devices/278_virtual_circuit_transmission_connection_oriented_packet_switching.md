@@ -26,18 +26,14 @@ tags = ["studynote-network"]
   - <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>그램</strong>: 100명의 아이들이 각자 알아서 목적지 공원에 찾아오는 **"개인 행동"** (누가 먼저 올지, 길을 잃을지 모름).
   - **가상 회선**: 100명의 아이들이 앞사람 어깨에 손을 올리고 선생님이 파놓은 한 줄짜리 길만 따라가는 **"유치원 기차놀이"** (길을 잃지 않고 1번부터 100번까지 무조건 순서대로 도착함).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터그램 전송 방식</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">가상 회선 전송 방식 (연결형 패킷 교환</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">브로드밴드통신망</div></div>
-</div>
-</div>
-
-
+```text
+[데이터그램 전송 방식]
+    │
+    ▼
+[가상 회선 전송 방식 (연결형 패킷 교환]
+    │
+    └──▶ [브로드밴드통신망]
+```
 
 - **📢 섹션 요약 비유**: ** 가상 회선은 패킷이라는 수많은 지하철 객차들이 임시로 놓인 **"논리적인 철로(가상 회선)"**라는 하나의 궤도 위를 이탈 없이 차례대로 주행하는 안전한 통행 시스템입니다.
 
@@ -56,22 +52,24 @@ tags = ["studynote-network"]
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)그램의 IP 패킷은 매 패킷마다 목적지 전체 IP 주소(예: `192.168.1.100`)를 길게 적어야 했다.
 하지만 가상 회선의 패킷들은 목적지 주소를 적을 필요가 없다. 어차피 1번 패킷이 뚫어놓은 길 번호만 적어 내면 된다. 이 짧은 번호표를 프레임 릴레이에서는 <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/270_dlci_data_link_connection_identifier/">DLCI</a></strong>, ATM에서는 **VPI/VCI**, X.25에서는 <strong>LCN(Logical Channel Number)</strong>이라고 부르며, 이로 인해 헤더 오버헤드가 극적으로 줄어든다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가상 회선 (Virtual Circuit) 순서 보장 도식</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">라우터 A</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">라우터 B</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">라우터 D</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">라우터 C</div><div class="kb-diagram-note">(경로 4)──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) 호 설정 단계: 라우터 A와 라우터 D가 협상하여</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"A -&gt; B -&gt; D"를 우리의 가상 회선(VC 100)으로 낙점함!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) 데이터 전송 단계: 패킷 1, 2, 3이 무조건 라우터 B만 거쳐서 직진!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(설령 밑의 경로 3, 4가 아무리 뻥뻥 뚫려 있어도 쳐다보지 않음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: 순서가 1-2-3으로 완벽하게 보장되어 목적지에 도착함.</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                가상 회선 (Virtual Circuit) 순서 보장 도식      │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 라우터 A ] ───(경로 1)──▶ [ 라우터 B ] ───(경로 2)──▶ [ 라우터 D ] │
+ │        │                                             ▲      │
+ │        └────────(경로 3)──▶ [ 라우터 C ] ───(경로 4)──┘      │
+ │                                                             │
+ │   1) 호 설정 단계: 라우터 A와 라우터 D가 협상하여               │
+ │      "A -> B -> D"를 우리의 가상 회선(VC 100)으로 낙점함!      │
+ │                                                             │
+ │   2) 데이터 전송 단계: 패킷 1, 2, 3이 무조건 라우터 B만 거쳐서 직진! │
+ │      (설령 밑의 경로 3, 4가 아무리 뻥뻥 뚫려 있어도 쳐다보지 않음)     │
+ │                                                             │
+ │   ▶ 결과: 순서가 1-2-3으로 완벽하게 보장되어 목적지에 도착함.        │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 3. 치명적인 단점 (라우터 파괴 시 단절)
 가상 회선의 가장 큰 약점은 <strong>"<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/">단일 장애점</a>(<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/">SPOF</a>)"</strong>이다.
@@ -133,19 +131,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 데이터그램 전송 방식</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 가상 회선 전송 방식 (연결형 패킷 교환</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 브로드밴드통신망</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 캠퍼스 패브릭</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 데이터그램 전송 방식]
+    │
+    ▼
+[현재 개념: 가상 회선 전송 방식 (연결형 패킷 교환]
+    │
+    ├──▶ [확장 A: 브로드밴드통신망]
+    └──▶ [확장 B: 지능형 캠퍼스 패브릭]
+```
 
 가상 회선 전송 방식 (연결형 패킷 교환는 [데이터그램 전송 방식](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/277_datagram_transmission_connectionless_packet_switching/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [브로드밴드통신망](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/279_b_isdn_broadband_integrated_services_digital_network/)와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

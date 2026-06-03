@@ -30,23 +30,29 @@ tags = ["studynote-operating-system"]
 
 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 풀은 작업과 실행 주체를 철저히 분리한 생산자-소비자 패턴 (Producer-Consumer Pattern)으로 동작한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Thread Pool Asynchronous Architecture</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Client / Main Thread (Producer)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">작업(Task) 요청 제출 (submit)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Thread Pool Manager (Executor)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Task Queue (Blocking)</div><div class="kb-diagram-cell">Worker Threads (Pool)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│</div><div class="kb-diagram-node">Task3</div><div class="kb-diagram-node">Task2</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Thread 1 (Idle)</div><div class="kb-diagram-note">│</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ │ │</div><div class="kb-diagram-node">Thread 2 (Running)</div><div class="kb-diagram-note">│</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│</div><div class="kb-diagram-node">Thread 3 (Running)</div><div class="kb-diagram-note">│</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심 동작: 스레드는 무한 루프를 돌며 큐에서 작업을 꺼냄. 큐가 비면 Sleep(블로킹).</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────────────────┐
+│              Thread Pool Asynchronous Architecture                        │
+├───────────────────────────────────────────────────────────────────────────┤
+│ [ Client / Main Thread (Producer) ]                                       │
+│       작업(Task) 요청 제출 (submit)                                            │
+│            │                                                              │
+│            ▼                                                              │
+│ ┌───────────────────────────────────────────────────────────────────────┐ │
+│ │                    Thread Pool Manager (Executor)                     │ │
+│ │                                                                       │ │
+│ │  ┌─────────────────────────┐         ┌─────────────────────────────┐  │ │
+│ │  │  Task Queue (Blocking)  │         │   Worker Threads (Pool)     │  │ │
+│ │  │                         │         │                             │  │ │
+│ │  │ [ Task3 ][ Task2 ]      │ ◀──take │  [ Thread 1 (Idle)    ]     │  │ │
+│ │  │                         │         │  [ Thread 2 (Running) ]     │  │ │
+│ │  └─────────────────────────┘         │  [ Thread 3 (Running) ]     │  │ │
+│ │                                      └─────────────────────────────┘  │ │
+│ └───────────────────────────────────────────────────────────────────────┘ │
+│                                                                           │
+│ * 핵심 동작: 스레드는 무한 루프를 돌며 큐에서 작업을 꺼냄. 큐가 비면 Sleep(블로킹).│
+└───────────────────────────────────────────────────────────────────────────┘
+```
 
 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 풀 관리자는 다음과 같은 핵심 생명주기 파라미터를 통해 탄력적으로 동작한다:
 1. <strong>작업 큐 (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/">Task</a> <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/">Queue</a>)</strong>: 들어온 작업을 보관하는 [스레드 안전](/knowledge-base/studynote/02_operating_system/02_process_thread/147_thread_safe/)([Thread-safe](/knowledge-base/studynote/02_operating_system/02_process_thread/147_thread_safe/))한 블로킹 큐([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/) [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)).
@@ -110,26 +116,21 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">요청당 스레드 생성 (Thread-per-request)</div>
-<div class="kb-diagram-note">(문맥 교환 폭증, OOM 발생)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">스레드 풀 (Thread Pool) 패턴 도입</div>
-<div class="kb-diagram-note">작업 대기 큐(Task Queue) + 한계 설정(Cap)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">벌크헤드 패턴 (Bulkhead) 및 서킷 브레이커</div>
-<div class="kb-diagram-note">도메인별 풀 분리로 장애 격리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">이벤트 루프 (Event Loop) 기반 논블로킹 I/O</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">경량 사용자 스레드 (Virtual Threads / Goroutines)</div>
-</div>
-</div>
-
-
+```text
+요청당 스레드 생성 (Thread-per-request)
+    │ (문맥 교환 폭증, OOM 발생)
+    ▼
+스레드 풀 (Thread Pool) 패턴 도입
+    │ 작업 대기 큐(Task Queue) + 한계 설정(Cap)
+    ▼
+벌크헤드 패턴 (Bulkhead) 및 서킷 브레이커
+    │ 도메인별 풀 분리로 장애 격리
+    ▼
+이벤트 루프 (Event Loop) 기반 논블로킹 I/O
+    │
+    ▼
+경량 사용자 스레드 (Virtual Threads / Goroutines)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

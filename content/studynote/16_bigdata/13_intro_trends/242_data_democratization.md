@@ -18,26 +18,23 @@ tags = ["studynote-bigdata"]
 
 ## Ⅰ. 개요 및 필요성
 
+```text
+데이터 민주화 이전 (데이터 사일로):
+  비즈니스 팀 → IT/데이터팀에 분석 요청 → 수일 대기 → 결과 수령
+  
+  문제:
+  - IT 병목: 모든 분석 요청이 데이터팀에 집중
+  - 맥락 손실: IT가 비즈니스 문맥을 모름
+  - 속도: 의사결정이 느려짐
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">데이터 민주화 이전 (데이터 사일로):</div>
-<div class="kb-diagram-note">비즈니스 팀 → IT/데이터팀에 분석 요청 → 수일 대기 → 결과 수령</div>
-<div class="kb-diagram-note">문제:</div>
-<div class="kb-diagram-tree-item" style="--depth:1">IT 병목: 모든 분석 요청이 데이터팀에 집중</div>
-<div class="kb-diagram-tree-item" style="--depth:1">맥락 손실: IT가 비즈니스 문맥을 모름</div>
-<div class="kb-diagram-tree-item" style="--depth:1">속도: 의사결정이 느려짐</div>
-<div class="kb-diagram-note">데이터 민주화 이후:</div>
-<div class="kb-diagram-note">비즈니스 팀 → 셀프서비스 도구 → 즉시 분석 → 즉시 결정</div>
-<div class="kb-diagram-note">효과:</div>
-<div class="kb-diagram-tree-item" style="--depth:1">데이터팀은 인프라·거버넌스에 집중</div>
-<div class="kb-diagram-tree-item" style="--depth:1">비즈니스팀이 데이터로 직접 결정</div>
-<div class="kb-diagram-tree-item" style="--depth:1">의사결정 속도 대폭 향상</div>
-</div>
-</div>
-
-
+데이터 민주화 이후:
+  비즈니스 팀 → 셀프서비스 도구 → 즉시 분석 → 즉시 결정
+  
+  효과:
+  - 데이터팀은 인프라·거버넌스에 집중
+  - 비즈니스팀이 데이터로 직접 결정
+  - 의사결정 속도 대폭 향상
+```
 
 - **📢 섹션 요약 비유**: [데이터 민주화](/knowledge-base/studynote/16_bigdata/01_intro/010_data_democratization/)는 셀프 주유소와 같다. 이전에는 주유원(IT팀)이 해줬지만, 셀프 주유기(셀프서비스 분석 도구)가 생기면서 누구나 스스로 주유([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석)할 수 있게 됐다.
 
@@ -91,22 +88,18 @@ tags = ["studynote-bigdata"]
 
 ### GenAI 기반 자연어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 질의
 
+```text
+기존: SELECT AVG(revenue) FROM sales WHERE year=2024
+      ↓ SQL 지식 필요
 
+GenAI 질의: "2024년 평균 매출이 얼마야?"
+      ↓ LLM이 SQL 자동 생성
+      ↓ 데이터베이스 실행
+      ↓ 결과 자연어로 설명
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">기존: SELECT AVG(revenue) FROM sales WHERE year=2024</div>
-<div class="kb-diagram-note">↓ SQL 지식 필요</div>
-<div class="kb-diagram-note">GenAI 질의: "2024년 평균 매출이 얼마야?"</div>
-<div class="kb-diagram-note">↓ LLM이 SQL 자동 생성</div>
-<div class="kb-diagram-note">↓ 데이터베이스 실행</div>
-<div class="kb-diagram-note">↓ 결과 자연어로 설명</div>
-<div class="kb-diagram-note">도구: AWS QuickSight Q, Google Looker AI,</div>
-<div class="kb-diagram-note">Tableau Pulse, Power BI Copilot</div>
-</div>
-</div>
-
-
+도구: AWS QuickSight Q, Google Looker AI,
+      Tableau Pulse, Power BI Copilot
+```
 
 ### [데이터 민주화](/knowledge-base/studynote/16_bigdata/01_intro/010_data_democratization/) 위험 관리
 
@@ -149,23 +142,21 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 사일로 — IT팀 독점, 비즈니스 대기</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">셀프서비스 BI — Tableau·Power BI 노코드 분석</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 카탈로그 — 데이터 발견·품질·계보 관리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 메시 — 도메인별 데이터 자치·연합 거버넌스</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">GenAI 자연어 질의 — SQL 없이 데이터와 대화</div></div>
-</div>
-</div>
-
-
+```text
+[데이터 사일로 — IT팀 독점, 비즈니스 대기]
+    │
+    ▼
+[셀프서비스 BI — Tableau·Power BI 노코드 분석]
+    │
+    ▼
+[데이터 카탈로그 — 데이터 발견·품질·계보 관리]
+    │
+    ▼
+[데이터 메시 — 도메인별 데이터 자치·연합 거버넌스]
+    │
+    ▼
+[GenAI 자연어 질의 — SQL 없이 데이터와 대화]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

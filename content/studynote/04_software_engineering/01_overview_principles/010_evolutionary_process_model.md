@@ -15,7 +15,7 @@ tags = ["software_engineering"]
 #### 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 시스템 요구사항이 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 완벽히 정의될 수 없음을 인정하고, 핵심(Core) 기능을 먼저 릴리즈한 후 환경 변화와 피드백에 따라 시스템을 '진화'시키는 방법론 묶음입니다.
 > 2. **가치**: 불확실성이 극도로 높은 프로젝트에서 한 번의 실패로 끝나는 빅뱅(Big-bang) [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 피하고, 시스템이 사용자와 함께 성장하며 비즈니스 타당성을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하게 해줍니다.
-> 3. **융합**: 이 범주 안에는 [프로토타입 모델](/knowledge-base/studynote/04_software_engineering/01_overview_principles/006_prototype_model/)(진화형), [나선형 모델](/knowledge-base/studynote/04_software_engineering/01_overview_principles/007_spiral_model/), 그리고 동시 공학(Concurrent Engineering) 모델이 포함되며, 궁극적으로 현대 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))의 사상적 기반을 이룹니다.
+> 3. **융합**: 이 범주 안에는 [프로토타입 모델](/knowledge-base/studynote/04_software_engineering/01_overview_principles/006_prototype_model/)(진화형), [나선형 모델](/knowledge-base/studynote/04_software_engineering/01_overview_principles/007_spiral_model/), 그리고 동시 공학(Concurrent 엔진ering) 모델이 포함되며, 궁극적으로 현대 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))의 사상적 기반을 이룹니다.
 
 ---
 
@@ -26,20 +26,16 @@ tags = ["software_engineering"]
 
 이 모델이 필요한 근본적인 이유는 현대 비즈니스의 **요구사항 변동성(Volatility)** 때문입니다. 1년 뒤에 시장에 출시할 소프트웨어의 요구사항을 오늘 완벽하게 예측하는 것은 불가능합니다. 시스템 개발 중에도 경쟁사의 신제품이 나오고, 법규가 바뀌며, 사용자의 취향이 변합니다. 처음부터 전체 100의 그림을 그리고 시작하는 폭포수 방식은 이러한 변화의 파도를 맞으면 부러지지만, 작게 만들어 지속적으로 방향을 트는 진화적 접근은 파도를 타고 넘을 수 있습니다.
 
+```text
+이 도식은 선형적 예측 한계와 진화적 적응의 궤적 차이를 보여줍니다.
 
+[선형적 모델의 예측 실패 (폭포수)]
+목표점(Goal) 예측 ───(일직선 개발)──▶ [도착] ... 그러나 시장의 실제 요구는 옆으로 이동함 (실패)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 도식은 선형적 예측 한계와 진화적 적응의 궤적 차이를 보여줍니다.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">선형적 모델의 예측 실패 (폭포수)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">도착</div><div class="kb-diagram-note">... 그러나 시장의 실제 요구는 옆으로 이동함 (실패)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">진화적 모델의 적응 궤적 (Evolutionary)</div></div>
-<div class="kb-diagram-note">초기 Core 릴리즈 ─(피드백)─▶ 1차 진화 ─(시장 변화)─▶ 2차 진화 ─(피드백)─▶ 실제 시장 요구에 안착!</div>
-<div class="kb-diagram-note">(버전 1.0) (버전 2.0) (버전 3.0)</div>
-</div>
-</div>
-
-
+[진화적 모델의 적응 궤적 (Evolutionary)]
+초기 Core 릴리즈 ─(피드백)─▶ 1차 진화 ─(시장 변화)─▶ 2차 진화 ─(피드백)─▶ 실제 시장 요구에 안착!
+ (버전 1.0)                 (버전 2.0)                 (버전 3.0)
+```
 이 도식에서 핵심은 진화적 모델의 개발 궤적이 일직선이 아니라 톱니바퀴처럼 지속적인 '방향 수정(Course Correction)'을 포함한다는 점입니다. 이런 배치는 코드를 한 번 짜고 끝내는 것이 아니라 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)과 확장을 전제로 아키텍처를 수립하게 만들기 때문이며, 따라서 단기적인 구축 비용은 다소 증가할지라도 시스템의 장기적인 생존성과 시장 적합성(Product-Market Fit)을 보장하는 결정적 요인이 됩니다. 실무에서는 B2C 플랫폼 개발에 필수적입니다.
 
 📢 **섹션 요약 비유**: 자동차 내비게이션 없이 지도만 보고 출발하면 중간에 공사 중인 길을 만나 길을 잃지만, 내비게이션(진화적 피드백)을 켜고 달리면 실시간 교통 상황에 맞춰 계속 경로를 재탐색하여 목적지에 무사히 도착하는 것과 같습니다.
@@ -58,19 +54,20 @@ tags = ["software_engineering"]
 | **피드백 및 평가** | 진화 방향 결정 | 사용 패턴 분석, 새로운 요구사항 도출, 아키텍처 병목 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 로깅, [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/), A/B 테스트 지표 |
 | **지속적 진화 (v2.0~)**| 기능 확장 및 보완 | 기존 시스템에 무리를 주지 않으며 점진적으로 코드베이스를 확장 | [회귀 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/) 자동화 체계 |
 
+```text
+이 아키텍처 다이어그램은 코어 시스템을 중심으로 버전이 진화하며 외연이 확장되는 구조를 보여줍니다.
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 아키텍처 다이어그램은 코어 시스템을 중심으로 버전이 진화하며 외연이 확장되는 구조를 보여줍니다.</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Version 3.0</div><div class="kb-diagram-cell">(추가 기능, 외부 API 연동 등)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Version 2.0</div><div class="kb-diagram-cell">(사용자 편의성 UI, 부가 로직)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지속적 확장 ── ─▶</div><div class="kb-diagram-cell">Core System</div><div class="kb-diagram-cell">◀── 지속적 피드백 수용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Evolution)</div><div class="kb-diagram-cell">(v 1.0)</div></div>
-</div>
-</div>
-
-
+                 ┌─────────────────────────┐
+                 │       Version 3.0       │ (추가 기능, 외부 API 연동 등)
+                 │  ┌───────────────────┐  │
+                 │  │    Version 2.0    │  │ (사용자 편의성 UI, 부가 로직)
+                 │  │  ┌─────────────┐  │  │
+    지속적 확장 ──┼─▶│  │ Core System │  │  │ ◀── 지속적 피드백 수용
+     (Evolution) │  │  │   (v 1.0)   │  │  │
+                 │  │  └─────────────┘  │  │
+                 │  └───────────────────┘  │
+                 └─────────────────────────┘
+```
 이 그림의 핵심은 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)이 올라가면서 껍질(외연)이 커지는 구조입니다. 진화적 프로토타이핑(Evolutionary Prototyping)과 나선형(Spiral) 모델은 모두 이 그림처럼 작동합니다. 따라서 가장 안쪽에 있는 Core System([버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 1.0)의 아키텍처가 엉망으로 설계되어 있으면(예: 스파게티 코드, 강한 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)), [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 2.0으로 진화하려는 순간 코어가 하중을 견디지 못하고 시스템 전체가 붕괴됩니다. 실무에서는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 빠르게 런칭하더라도 DB 정규화나 코어 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 설계만큼은 고도의 품질을 강제해야 하는 이유가 바로 여기에 있습니다.
 
 📢 **섹션 요약 비유**: 작은 묘목을 심어 큰 나무로 키울 때, 처음에 뿌리(코어 시스템)를 단단하고 깊게 내리도록 잘 설계해야 나중에 가지와 잎(추가 기능)이 무성해져도 나무가 쓰러지지 않는 원리와 같습니다.
@@ -88,19 +85,17 @@ tags = ["software_engineering"]
 | <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 아키텍처 설계</strong> | 거의 무시됨 (Quick & Dirty 코딩) | 매우 중요함 (확장성을 고려한 High Quality 코딩) |
 | **적합한 상황** | 고객이 본인이 뭘 원하는지 아예 모를 때 | 요구사항의 큰 뼈대는 아는데 세부 내용이 계속 변할 때 |
 
+```text
+이 매트릭스는 프로젝트 성격에 따라 선형, 진화형, 버리기형을 선택하는 기준을 보여줍니다.
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 매트릭스는 프로젝트 성격에 따라 선형, 진화형, 버리기형을 선택하는 기준을 보여줍니다.</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기술적 이해도</div><div class="kb-diagram-cell">요구사항 이해도 (높음)</div><div class="kb-diagram-cell">요구사항 이해도 (낮음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">높음 (완벽함)</div><div class="kb-diagram-cell">폭포수 모델 (단순/명확한 SI)</div><div class="kb-diagram-cell">버리기형 프로토타입 (UI 중심)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">낮음 (모호함)</div><div class="kb-diagram-cell">점진적 모델 (안전한 확장)</div><div class="kb-diagram-cell">▶ 진화적 모델 / 나선형 모델 ◀</div></div>
-</div>
-</div>
-
-
-이 표의 해석 포인트는 기술적 난이도와 비즈니스 요구사항이 모두 불확실한 최악의 조건(우측 하단)에서 진화적 모델이 구원투수가 된다는 점입니다. 이때 진화적 모델은 '동시 공학(Concurrent Engineering)'과 결합합니다. 개발팀이 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 2.0을 코딩하고 있는 동시에, 기획팀은 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 3.0의 요구사항을 수집하고, QA팀은 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 1.0의 결함을 테스트하는 등 다양한 상태가 겹쳐서 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)(Concurrent)됩니다. 이 복잡성을 제어하기 위한 [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/)) 역량이 없으면 진화적 모델은 혼돈 상태에 빠집니다.
+┌───────────────┬───────────────────────────────┬───────────────────────────────┐
+│ 기술적 이해도 │ 요구사항 이해도 (높음)        │ 요구사항 이해도 (낮음)        │
+├───────────────┼───────────────────────────────┼───────────────────────────────┤
+│ 높음 (완벽함) │ 폭포수 모델 (단순/명확한 SI)  │ 버리기형 프로토타입 (UI 중심) │
+│ 낮음 (모호함) │ 점진적 모델 (안전한 확장)     │ ▶ 진화적 모델 / 나선형 모델 ◀│
+└───────────────┴───────────────────────────────┴───────────────────────────────┘
+```
+이 표의 해석 포인트는 기술적 난이도와 비즈니스 요구사항이 모두 불확실한 최악의 조건(우측 하단)에서 진화적 모델이 구원투수가 된다는 점입니다. 이때 진화적 모델은 '동시 공학(Concurrent 엔진ering)'과 결합합니다. 개발팀이 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 2.0을 코딩하고 있는 동시에, 기획팀은 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 3.0의 요구사항을 수집하고, QA팀은 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 1.0의 결함을 테스트하는 등 다양한 상태가 겹쳐서 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)(Concurrent)됩니다. 이 복잡성을 제어하기 위한 [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/)) 역량이 없으면 진화적 모델은 혼돈 상태에 빠집니다.
 
 📢 **섹션 요약 비유**: 버리기형은 연극 무대용 종이 집을 만드는 것이고, 진화적 모델은 처음 1층을 지어놓고 살면서 2층, 3층을 튼튼하게 증축해가는 실제 콘크리트 집 짓기와 같습니다.
 
@@ -110,20 +105,18 @@ tags = ["software_engineering"]
 
 실무에서 진화적 모델은 '[기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)([Technical Debt](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/))'와의 끝없는 전쟁을 의미합니다. 점진적으로 살을 붙이다 보면 코드가 무거워지고 예외 처리가 꼬이게 됩니다.
 
+```text
+이 의사결정 트리는 진화적 모델 적용 중 마주치는 아키텍처 부패(Rot) 현상의 통제 플로우입니다.
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 의사결정 트리는 진화적 모델 적용 중 마주치는 아키텍처 부패(Rot) 현상의 통제 플로우입니다.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">새로운 기능(v3.0) 추가 요구 접수</div></div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ 기존 Core 코드에 억지로 끼워 넣기(Hack) ──▶ (안티패턴) 기술 부채 누적, 차기 릴리즈 불가능</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ 기존 Core 리팩토링(Refactoring) 수행</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">유연해진 구조 위에 새 기능 깔끔하게 통합</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">지속 가능한 진화 보장</div></div>
-</div>
-</div>
-
-
+[새로운 기능(v3.0) 추가 요구 접수]
+        │
+        ├─▶ 기존 Core 코드에 억지로 끼워 넣기(Hack) ──▶ (안티패턴) 기술 부채 누적, 차기 릴리즈 불가능
+        │
+        └─▶ 기존 Core 리팩토링(Refactoring) 수행
+                 │
+                 ▼
+          [유연해진 구조 위에 새 기능 깔끔하게 통합] ──▶ 지속 가능한 진화 보장
+```
 <strong>도입 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a> 및 실무 판단</strong>
 1. <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/">리팩토링</a> 공수 인정</strong>: 진화적 모델에서 [리팩토링](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/)은 선택이 아니라 생존 필수재입니다. 경영진과 고객이 "기능 추가 없이 왜 코드를 뜯어고치느라 2주를 허비하느냐"고 물을 때, 이를 기술적으로 설득하고 일정에 포함시킬 수 있는 PM의 역량이 필수적입니다.
 2. **테스트 자동화**: 시스템이 진화하여 기능이 100개가 되었을 때 새로운 기능 1개를 추가하면, 100개가 모두 정상 작동하는지([회귀 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/)) 수작업으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 수 없습니다. JUnit [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) 등 테스트 자동화망 없이는 진화가 불가능합니다.
@@ -144,7 +137,7 @@ tags = ["software_engineering"]
 | **운영 유연성** | 비즈니스 변경에 맞춰 시스템 생명주기를 장기적으로 연장 | [소프트웨어 노후화](/knowledge-base/studynote/04_software_engineering/01_overview_principles/032_software_obsolescence/) 방어 |
 
 **미래 전망 및 결론**
-오늘날 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)([Cloud Native](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/)) 환경과 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))의 대두는 진화적 모델이 기술적으로 완벽하게 구현될 수 있는 토양을 마련했습니다. 모놀리식(Monolithic) 시스템에서는 전체를 진화시키기 무거웠지만, 이제는 수백 개의 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)가 각자 독립적인 생명주기를 가지고 진화하는 '생태계(Ecosystem)' 기반의 초진화적 모델로 넘어가고 있습니다. 여기에 [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)([Chaos Engineering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/))이나 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 자율 수정 코드가 결합되면서, 시스템 스스로 환경에 적응하고 자가 치유하며 진화하는 수준으로 발전할 것입니다.
+오늘날 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/)([Cloud Native](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/)) 환경과 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))의 대두는 진화적 모델이 기술적으로 완벽하게 구현될 수 있는 토양을 마련했습니다. 모놀리식(Monolithic) 시스템에서는 전체를 진화시키기 무거웠지만, 이제는 수백 개의 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)가 각자 독립적인 생명주기를 가지고 진화하는 '생태계(Ecosystem)' 기반의 초진화적 모델로 넘어가고 있습니다. 여기에 [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)([Chaos 엔진ering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/))이나 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 자율 수정 코드가 결합되면서, 시스템 스스로 환경에 적응하고 자가 치유하며 진화하는 수준으로 발전할 것입니다.
 
 📢 **섹션 요약 비유**: 진화적 모델은 곤충이 환경에 맞춰 수백만 년간 날개 모양을 바꾸며 생존해 온 자연의 위대한 적응 메커니즘을 소프트웨어 코드로 그대로 구현한 인류의 지혜입니다.
 
@@ -159,23 +152,22 @@ tags = ["software_engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">폭포수 모델 (Waterfall) — 선형 순차 개발</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">프로토타이핑 (Prototyping) — 초기 요구 불확실성 해소</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">진화적 모델 (Evolutionary) — 점진적 피드백 반영 개발</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">증분 모델 (Incremental) — 기능 추가 순차 배포</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">나선형 모델 (Spiral) — 위험 분석 반복 사이클</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">애자일 (Agile) — 짧은 이터레이션 지속 개선</div></div>
-</div>
-</div>
-
-
+```text
+[폭포수 모델 (Waterfall) — 선형 순차 개발]
+    │
+    ▼
+[프로토타이핑 (Prototyping) — 초기 요구 불확실성 해소]
+    │
+    ▼
+[진화적 모델 (Evolutionary) — 점진적 피드백 반영 개발]
+    │
+    ├─▶ [증분 모델 (Incremental) — 기능 추가 순차 배포]
+    │
+    └─▶ [나선형 모델 (Spiral) — 위험 분석 반복 사이클]
+                │
+                ▼
+            [애자일 (Agile) — 짧은 이터레이션 지속 개선]
+```
 진화적 프로세스 모델은 요구사항의 불확실성을 현실로 받아들이고, 점진적 증분 또는 위험 기반 나선형 사이클을 통해 소프트웨어를 완성해 가는 방법론의 원조다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -190,6 +182,6 @@ tags = ["software_engineering"]
 **진행 상황**: 10 / 973
 
 ← **이전**: [9. RAD (Rapid Application Development) 모델 - JAD, CASE 도구 활용](/knowledge-base/studynote/04_software_engineering/01_overview_principles/009_rad_model/)
-**다음**: [11. 클린룸 소프트웨어 공학 (Cleanroom Software Engineering) - 통계적 품질 제어](/knowledge-base/studynote/04_software_engineering/01_overview_principles/011_cleanroom_software_engineering/) →
+**다음**: [11. 클린룸 소프트웨어 공학 (Cleanroom Software 엔진ering) - 통계적 품질 제어](/knowledge-base/studynote/04_software_engineering/01_overview_principles/011_cleanroom_software_engineering/) →
 
 ---

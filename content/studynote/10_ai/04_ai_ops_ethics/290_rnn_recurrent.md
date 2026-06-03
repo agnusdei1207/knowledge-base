@@ -23,17 +23,14 @@ tags = ["studynote-ai"]
 
 <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/">RNN</a> (<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/">Recurrent Neural Network</a>)</strong>은 네트워크에 루프(Loop)를 도입하여 이전 시점의 출력(은닉 상태)을 현재 시점 입력과 함께 받아들인다. 덕분에 "어제의 정보 + 오늘의 입력 → 오늘의 판단"이라는 인과 연쇄가 수학적으로 구현된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: RNN은 선생님이 매일 일기(오늘 배운 것)를 쓰는데, 어제 일기장을 오늘도 펼쳐 놓고 참고하며 새로운 내용을 덧붙이는 방식이다. CNN은 오직 오늘 교과서만 본다. RNN은 어제까지의 기억(은닉 상태)을 들고 수업에 참석하는 연속성 있는 학생이다.
 
@@ -43,25 +40,27 @@ tags = ["studynote-ai"]
 
 RNN의 핵심 수식은 단순하다. 현재 은닉 상태 h_t는 이전 은닉 상태 h_(t-1)과 현재 입력 x_t의 함수다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RNN (순환 신경망) 시간 전개 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력 시퀀스: x_1 = "나", x_2 = "는", x_3 = "학교", x_4 = "간다"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">t=1 t=2 t=3 t=4</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">x_1</div><div class="kb-diagram-note">──</div><div class="kb-diagram-node">x_2</div><div class="kb-diagram-note">──</div><div class="kb-diagram-node">x_3</div><div class="kb-diagram-note">──</div><div class="kb-diagram-node">x_4</div><div class="kb-diagram-note">──</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">h_0</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RNN셀</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RNN셀</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RNN셀</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RNN셀</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">y_4</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">h_1</div><div class="kb-diagram-cell">h_2</div><div class="kb-diagram-cell">h_3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">y_1 y_2 y_3 출력</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심 수식: h_t = tanh(W_h · h_(t-1) + W_x · x_t + b)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">동일한 가중치 W_h, W_x 를 모든 시점에서 공유!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⚠ 문제: t=4에서 t=1 "나"의 정보가 h_1→h_2→h_3→h_4 로 전달되는</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동안 곱해지는 tanh 미분값 (≤1)이 4번 곱해짐 → 신호 소멸!</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│            RNN (순환 신경망) 시간 전개 구조                         │
+├──────────────────────────────────────────────────────────────┤
+│  입력 시퀀스: x_1 = "나", x_2 = "는", x_3 = "학교", x_4 = "간다"   │
+│                                                              │
+│  t=1           t=2           t=3           t=4              │
+│  [x_1]──┐    [x_2]──┐    [x_3]──┐    [x_4]──┐             │
+│          ▼           ▼           ▼           ▼             │
+│  [h_0]──▶[RNN셀]──▶[RNN셀]──▶[RNN셀]──▶[RNN셀]──▶ y_4      │
+│          │  h_1      │  h_2      │  h_3      │             │
+│          ▼           ▼           ▼           ▼             │
+│         y_1         y_2         y_3         출력            │
+│                                                              │
+│  핵심 수식:  h_t = tanh(W_h · h_(t-1) + W_x · x_t + b)       │
+│  [동일한 가중치 W_h, W_x 를 모든 시점에서 공유!]                    │
+│                                                              │
+│  ⚠ 문제: t=4에서 t=1 "나"의 정보가 h_1→h_2→h_3→h_4 로 전달되는    │
+│          동안 곱해지는 tanh 미분값 (≤1)이 4번 곱해짐 → 신호 소멸!   │
+└──────────────────────────────────────────────────────────────┘
+```
 
 | 구조 | 설명 | 활용 예 |
 |:---|:---|:---|

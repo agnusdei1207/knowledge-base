@@ -25,19 +25,20 @@ SCT (Signed Certificate Timestamp)는 [CT](/knowledge-base/studynote/14_data_eng
 
 아래 그림은 [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 서명만으로는 충분하지 않고, 공개 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)에 대한 증빙이 왜 추가로 필요한지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SCT의 필요성: 유효한 서명만으로는 은닉 발급을 막기 어려움</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Certificate from CA</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ CT 증빙 없음 ▶ 은닉 발급 탐지 어려움</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ SCT 포함 ▶ Browser can require public trail</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Monitor / Auditor can inspect</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│            SCT의 필요성: 유효한 서명만으로는 은닉 발급을 막기 어려움   │
+├──────────────────────────────────────────────────────────────────────┤
+│ Certificate from CA                                                  │
+│      │                                                               │
+│      ├─ CT 증빙 없음 ─────────────▶ 은닉 발급 탐지 어려움              │
+│      │                                                               │
+│      └─ SCT 포함 ────────────────▶ Browser can require public trail   │
+│                                        │                              │
+│                                        ▼                              │
+│                              Monitor / Auditor can inspect            │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 즉 SCT는 인증서를 더 강하게 암호화하는 장치가 아니라, 발급 과정을 더 투명하게 만드는 장치다. 보안의 초점이 "누가 서명했는가"에서 "그 발급을 숨길 수 있는가"까지 확장된 결과라고 볼 수 있다.
 
@@ -59,20 +60,17 @@ SCT의 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/
 
 아래 그림은 SCT가 "인증서가 완성된 뒤 덧붙는 메모"가 아니라, 발급 파이프라인 중간에 얻어지는 증명이라는 점을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SCT 생성과 전달 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CA ── create precertificate ──▶ CT Log</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CA ◀ SCT (signed promise) CT Log</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CA ── embed SCT in cert / attach via TLS or OCSP ──▶ Web Server</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Web Server ── certificate + SCT ──▶ Browser</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Browser ── verify log signature / policy ──▶ Allow or reject</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                   SCT 생성과 전달 흐름                               │
+├──────────────────────────────────────────────────────────────────────┤
+│ CA ── create precertificate ──▶ CT Log                               │
+│ CA ◀────── SCT (signed promise) ────── CT Log                        │
+│ CA ── embed SCT in cert / attach via TLS or OCSP ──▶ Web Server      │
+│ Web Server ── certificate + SCT ──▶ Browser                          │
+│ Browser ── verify log signature / policy ──▶ Allow or reject         │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 여기서 중요한 기술적 포인트는 SCT가 "이미 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)에 완전히 포함되었다"는 증명은 아니라는 점이다. 정확히는 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 정해진 MMD 안에 포함하겠다고 서명한 약속이며, 이후 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)와 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)자 (Auditor)가 실제 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 반영 여부와 일관성을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다. 따라서 SCT는 [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 서버, [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링, 브라우저 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 함께 돌아갈 때 의미가 완성된다.
 
@@ -155,24 +153,22 @@ SCT가 정착되면 웹 인증서 생태계는 훨씬 더 투명해진다. CA의
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">CA 중심의 폐쇄적 발급 신뢰</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">오발급 사고와 은닉 발급 문제</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">인증서 투명성 (CT, Certificate Transparency)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">CT 로그 서버</div>
-<div class="kb-diagram-tree-item" style="--depth:2">SCT (Signed Certificate Timestamp)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">모니터링 · 감사</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">브라우저 정책 강제 · 자동화된 발급 검증 · 공개 감시 강화</div>
-</div>
-</div>
-
-
+```text
+CA 중심의 폐쇄적 발급 신뢰
+    │
+    ▼
+오발급 사고와 은닉 발급 문제
+    │
+    ▼
+인증서 투명성 (CT, Certificate Transparency)
+    │
+    ├─ CT 로그 서버
+    ├─ SCT (Signed Certificate Timestamp)
+    └─ 모니터링 · 감사
+    │
+    ▼
+브라우저 정책 강제 · 자동화된 발급 검증 · 공개 감시 강화
+```
 
 이 흐름은 웹 인증서 신뢰가 단순 서명 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)에서, 공개 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)와 브라우저 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 포함한 투명성 기반 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)으로 확장된 과정을 보여 준다.
 

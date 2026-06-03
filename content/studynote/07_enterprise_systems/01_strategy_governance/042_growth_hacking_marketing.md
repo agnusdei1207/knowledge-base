@@ -84,30 +84,28 @@ ICE 점수 = (I × C × E) / 3
 
 ## Ⅲ. 그로스 채널 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
+```
+그로스 채널 분류 (Traction 책):
 
+바이럴/Product-Led:
+  K-factor > 1: 자체 성장 (제품이 마케팅)
+  Dropbox: 저장공간 인센티브 (추천)
+  Hotmail: 이메일 서명 (무료 광고)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">그로스 채널 분류 (Traction 책):</div>
-<div class="kb-diagram-note">바이럴/Product-Led:</div>
-<div class="kb-diagram-note">K-factor &gt; 1: 자체 성장 (제품이 마케팅)</div>
-<div class="kb-diagram-note">Dropbox: 저장공간 인센티브 (추천)</div>
-<div class="kb-diagram-note">Hotmail: 이메일 서명 (무료 광고)</div>
-<div class="kb-diagram-note">Content Marketing:</div>
-<div class="kb-diagram-note">SEO 기반 콘텐츠 (장기 성장)</div>
-<div class="kb-diagram-note">HubSpot: 블로그로 월 300만 방문</div>
-<div class="kb-diagram-note">Product-Led Growth (PLG):</div>
-<div class="kb-diagram-note">제품 자체가 성장 엔진</div>
-<div class="kb-diagram-note">Freemium → Viral → Paid 전환</div>
-<div class="kb-diagram-note">예: Slack (팀 내 바이럴) → 기업 구독</div>
-<div class="kb-diagram-note">Figma (공유 링크) → 팀 도입</div>
-<div class="kb-diagram-note">채널 선택 원칙 (Bullseye Framework):</div>
-<div class="kb-diagram-note">19개 채널 중 탐색(Outer) → 집중(Bullseye)</div>
-<div class="kb-diagram-note">1~2개 채널에 집중 (분산 지양)</div>
-</div>
-</div>
+Content Marketing:
+  SEO 기반 콘텐츠 (장기 성장)
+  HubSpot: 블로그로 월 300만 방문
 
+Product-Led Growth (PLG):
+  제품 자체가 성장 엔진
+  Freemium → Viral → Paid 전환
+  예: Slack (팀 내 바이럴) → 기업 구독
+      Figma (공유 링크) → 팀 도입
 
+채널 선택 원칙 (Bullseye Framework):
+  19개 채널 중 탐색(Outer) → 집중(Bullseye)
+  1~2개 채널에 집중 (분산 지양)
+```
 
 > 📢 **섹션 요약 비유**: 그로스 채널 선택은 낚시 포인트 선정 — 모든 강(채널)에 낚시대를 던지지 말고 가장 물고기(사용자) 많은 한 곳에 집중.
 
@@ -115,30 +113,29 @@ ICE 점수 = (I × C × E) / 3
 
 ## Ⅳ. 리텐션과 성장 기준
 
+```
+리텐션이 진짜 성장 기준:
 
+"Retention is the foundation of growth"
+신규 획득(Acquisition) 중심 성장 = 밑 빠진 독
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">리텐션이 진짜 성장 기준:</div>
-<div class="kb-diagram-note">"Retention is the foundation of growth"</div>
-<div class="kb-diagram-note">신규 획득(Acquisition) 중심 성장 = 밑 빠진 독</div>
-<div class="kb-diagram-note">코호트 분석 (Cohort Analysis):</div>
-<div class="kb-diagram-note">같은 기간 가입자를 시간 경과로 추적</div>
-<div class="kb-diagram-note">Week 0 (가입 주): 100% 사용</div>
-<div class="kb-diagram-note">Week 1: 30%</div>
-<div class="kb-diagram-note">Week 4: 15%</div>
-<div class="kb-diagram-note">Week 12: 8% (안정화 = PMF 달성)</div>
-<div class="kb-diagram-note">리텐션 개선 전략:</div>
-<div class="kb-diagram-note">Aha Moment 빠르게 경험 (온보딩 개선)</div>
-<div class="kb-diagram-note">습관 형성 루프 (Hook Model)</div>
-<div class="kb-diagram-note">재활성화 캠페인 (이탈 전 알림)</div>
-<div class="kb-diagram-note">리텐션 개선 → LTV 개선:</div>
-<div class="kb-diagram-note">LTV = ARPU / Churn Rate</div>
-<div class="kb-diagram-note">Churn Rate 5% → 3%: LTV 67% 증가</div>
-</div>
-</div>
+코호트 분석 (Cohort Analysis):
+  같은 기간 가입자를 시간 경과로 추적
+  
+  Week 0 (가입 주): 100% 사용
+  Week 1:          30%
+  Week 4:          15%
+  Week 12:         8% (안정화 = PMF 달성)
 
+리텐션 개선 전략:
+  Aha Moment 빠르게 경험 (온보딩 개선)
+  습관 형성 루프 (Hook Model)
+  재활성화 캠페인 (이탈 전 알림)
 
+리텐션 개선 → LTV 개선:
+  LTV = ARPU / Churn Rate
+  Churn Rate 5% → 3%: LTV 67% 증가
+```
 
 > 📢 **섹션 요약 비유**: 리텐션은 식당 단골 비율 — 새 손님([Acquisition](/knowledge-base/studynote/12_it_management/01_governance_strategy/042_aarrr_funnel/))만 많고 다시 안 오면(리텐션 낮음) 식당이 성장하지 못한다.
 
@@ -146,33 +143,32 @@ ICE 점수 = (I × C × E) / 3
 
 ## Ⅴ. 실무 시나리오 — 헬스케어 앱
 
+```
+헬스케어 앱 그로스 해킹 사례:
 
+현황:
+  MAU: 50,000명
+  D7 리텐션: 12% (업계 평균 20%)
+  가입 후 24시간 내 핵심 기능 사용률: 18%
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">헬스케어 앱 그로스 해킹 사례:</div>
-<div class="kb-diagram-note">현황:</div>
-<div class="kb-diagram-note">MAU: 50,000명</div>
-<div class="kb-diagram-note">D7 리텐션: 12% (업계 평균 20%)</div>
-<div class="kb-diagram-note">가입 후 24시간 내 핵심 기능 사용률: 18%</div>
-<div class="kb-diagram-note">가설:</div>
-<div class="kb-diagram-note">"온보딩에서 첫 운동 완료(Aha Moment)까지</div>
-<div class="kb-diagram-note">단계가 너무 많아 이탈한다" (현재 7단계)</div>
-<div class="kb-diagram-note">실험 (ICE 점수 8/10):</div>
-<div class="kb-diagram-note">A: 기존 7단계 온보딩</div>
-<div class="kb-diagram-note">B: 3단계 → 즉시 첫 운동 체험 유도</div>
-<div class="kb-diagram-note">2주 A/B 테스트 결과:</div>
-<div class="kb-diagram-note">A: 24h 핵심 기능 사용 18%, D7 리텐션 12%</div>
-<div class="kb-diagram-note">B: 24h 핵심 기능 사용 41%, D7 리텐션 22%</div>
-<div class="kb-diagram-note">통계: p = 0.003 (유의미)</div>
-<div class="kb-diagram-note">롤아웃 후 3개월:</div>
-<div class="kb-diagram-note">D7 리텐션: 12% → 21%</div>
-<div class="kb-diagram-note">유료 전환율: 1.5% → 3.2%</div>
-<div class="kb-diagram-note">MRR: 1,200만원 → 2,800만원 (+133%)</div>
-</div>
-</div>
+가설:
+  "온보딩에서 첫 운동 완료(Aha Moment)까지
+   단계가 너무 많아 이탈한다" (현재 7단계)
 
+실험 (ICE 점수 8/10):
+  A: 기존 7단계 온보딩
+  B: 3단계 → 즉시 첫 운동 체험 유도
 
+2주 A/B 테스트 결과:
+  A: 24h 핵심 기능 사용 18%, D7 리텐션 12%
+  B: 24h 핵심 기능 사용 41%, D7 리텐션 22%
+  통계: p = 0.003 (유의미)
+
+롤아웃 후 3개월:
+  D7 리텐션: 12% → 21%
+  유료 전환율: 1.5% → 3.2%
+  MRR: 1,200만원 → 2,800만원 (+133%)
+```
 
 > 📢 **섹션 요약 비유**: 온보딩 A/B 테스트는 가게 진열 실험 — 핵심 상품을 입구에 놓을지(B) 안쪽에 놓을지(A) 실험해서 판매 최적화.
 

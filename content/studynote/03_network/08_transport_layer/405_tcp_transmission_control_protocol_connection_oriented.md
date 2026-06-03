@@ -26,18 +26,14 @@ tags = ["studynote-network"]
   - <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a> (우편엽서)</strong>: 엽서 100장을 써서 우체통에 냅다 넣습니다. 친구가 몇 장을 잃어버렸는지, 어떤 엽서가 먼저 도착했는지 나는 알 바 없습니다. 빠르지만 무책임합니다.
   - **TCP (우체국 등기 소포)**: 100쪽짜리 책을 한 장 한 장 뜯어서 번호표를 붙여 보냅니다. 친구는 1쪽을 받으면 "나 1쪽 받았어! 2쪽 줘!"라고 문자를 보냅니다. 만약 "7쪽 받았어!"가 와야 하는데 안 오면, 내가 7쪽을 잽싸게 복사해서 다시 보냅니다. <strong>조금 느리고 번거롭지만, 친구의 책이 100% 완벽하게 조립됨을 보장</strong>합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">소켓 주소 = IP 주소 + 포트 번호</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">TCP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">UDP</div></div>
-</div>
-</div>
-
-
+```text
+[소켓 주소 = IP 주소 + 포트 번호]
+    │
+    ▼
+[TCP]
+    │
+    └──▶ [UDP]
+```
 
 - **📢 섹션 요약 비유**: ** TCP는 택배가 파손될까 봐 뽁뽁이를 10겹으로 감싸고, 배송 기사에게 반드시 **"수취인 친필 서명(ACK)을 받아오라"**고 시키는 편집증 걸린 배달 시스템입니다. 비용(헤더 오버헤드)과 시간([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))은 들지만, 중요한 서류(웹, 메일, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))를 보낼 때 이보다 완벽할 순 없습니다.
 
@@ -47,18 +43,14 @@ tags = ["studynote-network"]
 
 TCP는 종단 간 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)과 흐름·혼잡 제어를 다루는 축라는 관점에서 이해해야 한다. [소켓 주소](/knowledge-base/studynote/03_network/08_transport_layer/404_socket_address_ip_port_combination/) = IP 주소 + [포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/)와 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 사이의 연결점으로 놓고 보면 개념의 역할이 더 분명해진다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">소켓 주소 = IP 주소 + 포트 번호</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">TCP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">UDP</div></div>
-</div>
-</div>
-
-
+```text
+[소켓 주소 = IP 주소 + 포트 번호]
+    │
+    ▼
+[TCP]
+    │
+    └──▶ [UDP]
+```
 
 - **📢 섹션 요약 비유**: TCP의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -103,23 +95,24 @@ TCP 헤더 안에는 6개의 전등([비트](/knowledge-base/studynote/01_comput
 5. **PSH (Push)**: 버퍼에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 쌓일 때까지 기다리지 말고 지금 있는 거 당장 화면에 쏴주라는 급행 불.
 6. **URG (Urgent)**: 이거 폭탄 해체 암호니까 순서 무시하고 제일 먼저 처리해!! 라는 응급 불.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TCP 바이트 스트림(Byte Stream)의 쪼개기 마법</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">구글 서버</div><div class="kb-diagram-note">── 10MB짜리 압축 파일 전송 준비!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TCP 왈: "야! MTU가 1500이니까, 1460 바이트(MSS)씩 톱으로 썰어!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1번 조각:</div><div class="kb-diagram-node">TCP 헤더 (Seq: 1)</div><div class="kb-diagram-node">데이터 1460 바이트</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">슝!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2번 조각:</div><div class="kb-diagram-node">TCP 헤더 (Seq: 1461)</div><div class="kb-diagram-node">데이터 1460 바이트</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">슝!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3번 조각:</div><div class="kb-diagram-node">TCP 헤더 (Seq: 2921)</div><div class="kb-diagram-node">데이터 1460 바이트</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">슝!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 내 PC의 조립: "오, 1번 다음에 1461번 왔고... 2921번 오면,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이 번호표(Seq) 순서대로 본드로 다시 붙이면</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">10MB짜리 원본 100% 복구 완료네!"</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                TCP 바이트 스트림(Byte Stream)의 쪼개기 마법      │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 구글 서버 ] ── 10MB짜리 압축 파일 전송 준비!                  │
+ │                                                             │
+ │   TCP 왈: "야! MTU가 1500이니까, 1460 바이트(MSS)씩 톱으로 썰어!"   │
+ │                                                             │
+ │   1번 조각: [ TCP 헤더 (Seq: 1) ] [ 데이터 1460 바이트 ] ──▶ 슝! │
+ │   2번 조각: [ TCP 헤더 (Seq: 1461) ] [ 데이터 1460 바이트 ] ──▶ 슝!│
+ │   3번 조각: [ TCP 헤더 (Seq: 2921) ] [ 데이터 1460 바이트 ] ──▶ 슝!│
+ │                                                             │
+ │   * 내 PC의 조립: "오, 1번 다음에 1461번 왔고... 2921번 오면,         │
+ │                  이 번호표(Seq) 순서대로 본드로 다시 붙이면           │
+ │                  10MB짜리 원본 100% 복구 완료네!"                 │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -150,19 +143,15 @@ TCP는 전송 계층을 이해할 때 핵심 축을 잡아 주는 개념이다. 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 소켓 주소 = IP 주소 + 포트 번호</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: TCP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: UDP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 소켓 주소 = IP 주소 + 포트 번호]
+    │
+    ▼
+[현재 개념: TCP]
+    │
+    ├──▶ [확장 A: UDP]
+    └──▶ [확장 B: 적응형 저지연 전송]
+```
 
 TCP는 [소켓 주소](/knowledge-base/studynote/03_network/08_transport_layer/404_socket_address_ip_port_combination/) = IP 주소 + [포트 번호](/knowledge-base/studynote/03_network/08_transport_layer/402_port_number_16bit_application_process_identification/)에서 출발해 현재 메커니즘을 정교화하고, 이후 UDP와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

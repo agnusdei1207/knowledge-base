@@ -24,29 +24,25 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경**: 과거 군사 우주 항공(NASA) 장비나 공장 자동화([PLC](/knowledge-base/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/)) 로봇을 제어하기 위해, 무거운 유닉스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 벗겨내고 극도로 가볍고 예측 가능한 스케줄링 로직만 남긴 RTOS (Real-Time [Operating System](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/), 예: VxWorks, QNX)가 별도의 생태계로 진화하며 학문적 토대를 다졌다.
 
+```text
+  [범용 스케줄러(CFS) vs 실시간 스케줄러(RTOS)의 철학 차이]
 
+  [ 범용 OS (General Purpose OS) ]
+  목표: 공평성(Fairness), 평균 처리량 극대화
+  반응 패턴:
+  요청 1 ─▶ [ 5 ms 응답 ] (우와 빠르다!)
+  요청 2 ─▶ [ 7 ms 응답 ]
+  요청 3 ─▶ [ 150ms 응답] (🚨 커널 락 걸림. 렉 발생. "어쩔 수 없지 뭐")
+  ▶ 평균 응답: 54 ms (빠름) / 최악 응답: 150 ms (예측 불가, Jitter 큼)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">범용 스케줄러(CFS) vs 실시간 스케줄러(RTOS)의 철학 차이</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">범용 OS (General Purpose OS)</div></div>
-<div class="kb-diagram-note">목표: 공평성(Fairness), 평균 처리량 극대화</div>
-<div class="kb-diagram-note">반응 패턴:</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">5 ms 응답</div><div class="kb-diagram-note">(우와 빠르다!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">7 ms 응답</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">150ms 응답</div><div class="kb-diagram-note">(🚨 커널 락 걸림. 렉 발생. "어쩔 수 없지 뭐")</div></div>
-<div class="kb-diagram-note">▶ 평균 응답: 54 ms (빠름) / 최악 응답: 150 ms (예측 불가, Jitter 큼)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">실시간 OS (RTOS)</div></div>
-<div class="kb-diagram-note">목표: 엄격한 데드라인 보장 (최악의 지연시간 상한선 보장)</div>
-<div class="kb-diagram-note">반응 패턴:</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">30 ms 응답</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">31 ms 응답</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">30 ms 응답</div><div class="kb-diagram-note">(절대 35ms를 넘지 않음. 100% 보장)</div></div>
-<div class="kb-diagram-note">▶ 평균 응답: 30 ms / 최악 응답: 31 ms (느리더라도 완벽히 예측 가능)</div>
-</div>
-</div>
-
-
+  [ 실시간 OS (RTOS) ]
+  목표: 엄격한 데드라인 보장 (최악의 지연시간 상한선 보장)
+  반응 패턴:
+  요청 1 ─▶ [ 30 ms 응답 ]
+  요청 2 ─▶ [ 31 ms 응답 ]
+  요청 3 ─▶ [ 30 ms 응답 ] (절대 35ms를 넘지 않음. 100% 보장)
+  ▶ 평균 응답: 30 ms / 최악 응답: 31 ms (느리더라도 완벽히 예측 가능)
+```
 **[다이어그램 해설]** 실시간 운영체제가 "세상에서 제일 빠른 OS"가 아님을 증명하는 그림이다. 오히려 복잡한 캐시 최적화나 I/O 비동기화를 포기하기 때문에 평상시 연산 처리량은 리눅스보다 느리다. 하지만 RTOS의 존재 이유는 "절대로 튀지 않는(Jitter가 없는) 평탄한 반응"에 있다. 예측 불가능성을 파괴하는 것이 실시간 스케줄링의 알파이자 오메가다.
 
 - **📢 섹션 요약 비유**: 우사인 [볼트](/knowledge-base/studynote/15_devops_sre/05_devsecops/236_vault_dynamic_secrets_ttl/)(리눅스)는 평균 10초에 뛰지만 가끔 발목을 삐면 1분이 걸립니다(예측 불가). 실시간 OS는 로봇 청소기입니다. 1분에 뛰진 못해도, 무조건 어떤 상황에서든 30분 만에 청소를 끝낸다는 확고한 계약(Guarantee)을 지킵니다. 폭탄 해체 스위치는 우사인 [볼트](/knowledge-base/studynote/15_devops_sre/05_devsecops/236_vault_dynamic_secrets_ttl/)가 아니라 로봇에게 맡겨야 합니다.
@@ -72,21 +68,22 @@ tags = ["studynote-operating-system"]
 - 범용 OS: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드를 건드리는 중(예: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/))에는 뺏을 수 없어 <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/169_dispatch_latency/">디스패치 지연</a>(<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/169_dispatch_latency/">Dispatch Latency</a>)</strong>이 수십 ms까지 튄다. 데드라인 파괴의 주범이다.
 - RTOS: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드 수행 중에도 [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)([Spinlock](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)) 구역이 아니면 언제든 강제로 중단시키고 실시간 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)를 끼워 넣는 <strong>선점형 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a></strong>을 구현하여, 최대 [디스패치 지연](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/169_dispatch_latency/) 시간을 마이크로초(μs) 단위 상수 $O(1)$로 묶어버린다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디스패치 지연 통제로 인한 데드라인(Deadline) 방어 메커니즘</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이벤트(센서) 발생 ▶ 데드라인 한계선 (예: 5ms 이내 방어)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">← (1) 인터럽트 처리 →</div><div class="kb-diagram-cell">← (2) 디스패치 지연 →</div><div class="kb-diagram-cell">← (3) 실제 연산 →</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🚨 범용 Linux: (2)번 구간이 커널 락 때문에 10ms로 튀어버리면,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(3)번 연산은 시작도 못해보고 데드라인 초과 폭발.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ RT_Linux: (2)번 구간을 0.1ms 고정(Bounded)으로 강제 선점!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">안정적으로 5ms 데드라인 안에 브레이크(연산) 작동.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌────────────────────────────────────────────────────────────────────┐
+  │         디스패치 지연 통제로 인한 데드라인(Deadline) 방어 메커니즘 │
+  ├────────────────────────────────────────────────────────────────────┤
+  │                                                                    │
+  │ 이벤트(센서) 발생 ────────▶ 데드라인 한계선 (예: 5ms 이내 방어)    │
+  │   │                                                                │
+  │   │← (1) 인터럽트 처리 →│← (2) 디스패치 지연 →│← (3) 실제 연산 →   │
+  │                                                                    │
+  │ 🚨 범용 Linux: (2)번 구간이 커널 락 때문에 10ms로 튀어버리면,      │
+  │               (3)번 연산은 시작도 못해보고 데드라인 초과 폭발.     │
+  │                                                                    │
+  │ ✅ RT_Linux:   (2)번 구간을 0.1ms 고정(Bounded)으로 강제 선점!     │
+  │               안정적으로 5ms 데드라인 안에 브레이크(연산) 작동.    │
+  └────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 실시간 엔지니어링의 목표는 (3)번 '연산 시간'을 줄이는 것이 아니다. 어디로 튈지 모르는 블랙박스인 (2)번 '디스패치 대기 시간'의 최댓값(Worst-case Bound)을 수학적으로 증명해 내고 통제하는 것이다. 이를 위해 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 거의 모든 코드를 수면 가능(Sleepable)한 상태로 뜯어고쳐 놓은 것이 [PREEMPT_RT](/knowledge-base/studynote/02_operating_system/10_security/654_preempt_rt_linux_spinlock_mutex/) 패치다.
 
 - **📢 섹션 요약 비유**: 수술실(CPU)에서 청소부(백그라운드)가 바닥을 닦고([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 진입) 있을 때, 응급 환자(실시간 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/))가 들어오면 청소가 끝나길 기다리는 게 범용 OS입니다. 실시간 OS는 청소부의 빗자루를 강제로 뺏고 걷어찬 뒤 당장 환자부터 수술대 위에 올리는 냉혹한 응급 시스템입니다.
@@ -123,26 +120,27 @@ RM은 "자주 해야 하는 숙제(주기가 짧은 [태스크](/knowledge-base/
 2. <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/205_priority_inversion/">우선순위 역전</a> (<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/205_priority_inversion/">Priority Inversion</a>) 버그 타파 (화성 탐사선 패스파인더 사례)</strong>: 1997년 화성에 착륙한 패스파인더는 시스템 리셋이라는 끔찍한 버그에 시달렸다. (낮은) 기상 관측 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)가 공유 메모리의 Lock을 쥐고 있는데, (중간) 통신 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)가 CPU를 빼앗아 오래 돌면서, (높은) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 관리 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)가 Lock을 얻지 못해 데드라인 펑크(Watchdog Reset)가 난 것이다. 최고 계급이 중간 계급 때문에 바닥 계급의 일이 끝나길 기다리며 죽어간 '[우선순위 역전](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/205_priority_inversion/)'이다.
    - <strong>실무 조치 (우선순위 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/">상속</a>, <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/206_priority_inheritance/">Priority Inheritance</a>)</strong>: 낮은 계급(기상 관측)이 락을 쥐고 있을 때 높은 계급([버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 관리)이 락을 달라고 요청하면, OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 즉시 기상 관측 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)의 계급을 '최고 존엄' 급으로 임시 뻥튀기([상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)) 시켜준다. 중간 계급이 덤비지 못하게 무적의 방어막을 쳐서 빨리 락을 풀고 나가게 만드는 이 기법은, 이후 모든 RTOS의 필수 구현 표준이 되었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실무 시스템의 실시간(Real-time) 보장 계층별 아키텍처 트리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">요구사항: 로봇 팔 제어 1ms 응답 보장 프로젝트</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▼</div><div class="kb-diagram-node">1단계: OS 커널 레벨 통제</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 일반 OS 절대 금지 (Windows, 기본 Linux)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- PREEMPT_RT 패치 또는 VxWorks, QNX 도입</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- SCHED_FIFO(우선순위 99)로 스레드 박제</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▼</div><div class="kb-diagram-node">2단계: 메모리 레벨 통제</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 디스크 페이징(Swap) 절대 금지 (지연 발생 원흉)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- mlockall() 시스템콜로 RAM에 메모리 강제 고정</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▼</div><div class="kb-diagram-node">3단계: 하드웨어 코어 레벨 통제</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- CPU Pinning(taskset)으로 코어 1개 완전 독점</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- isolcpus 파라미터로 OS 타이머 인터럽트 격리</div></div>
-</div>
-</div>
-
-
+```text
+  ┌──────────────────────────────────────────────────────────────────┐
+  │     실무 시스템의 실시간(Real-time) 보장 계층별 아키텍처 트리    │
+  ├──────────────────────────────────────────────────────────────────┤
+  │                                                                  │
+  │   [요구사항: 로봇 팔 제어 1ms 응답 보장 프로젝트]                │
+  │                │                                                 │
+  │                ▼ [1단계: OS 커널 레벨 통제]                      │
+  │           - 일반 OS 절대 금지 (Windows, 기본 Linux)              │
+  │           - PREEMPT_RT 패치 또는 VxWorks, QNX 도입               │
+  │           - SCHED_FIFO(우선순위 99)로 스레드 박제                │
+  │                │                                                 │
+  │                ▼ [2단계: 메모리 레벨 통제]                       │
+  │           - 디스크 페이징(Swap) 절대 금지 (지연 발생 원흉)       │
+  │           - mlockall() 시스템콜로 RAM에 메모리 강제 고정         │
+  │                │                                                 │
+  │                ▼ [3단계: 하드웨어 코어 레벨 통제]                │
+  │           - CPU Pinning(taskset)으로 코어 1개 완전 독점          │
+  │           - isolcpus 파라미터로 OS 타이머 인터럽트 격리          │
+  └──────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 데드라인을 보장한다는 것은 단순히 스케줄링 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 하나 쓴다고 해결되는 마법이 아니다. OS, 메모리, 캐시, CPU [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 등 [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/)(Jitter)를 유발하는 시스템의 모든 변수를 하나하나 찾아가며 멱살을 잡고 통제선 안에 가두는 극단적인 억압([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/)) 튜닝의 예술이다. [실시간 시스템](/knowledge-base/studynote/02_operating_system/01_overview_architecture/009_real_time_system/) 엔지니어가 일반 개발자보다 몸값이 비싼 이유다.
 
 - **📢 섹션 요약 비유**: 실시간 응답 보장은 무균실(수술실)을 만드는 것과 같습니다. [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)(수술 의사)만 최고를 쓴다고 환자가 사는 게 아닙니다. 먼지(디스크 스왑), 잡상인(타이머 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)), 소음(캐시 미스)이 1%라도 들어오지 못하게 사방의 벽을 완벽히 틀어막아야([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/)) 비로소 생명(데드라인)을 살려낼 수 있습니다.
@@ -172,19 +170,15 @@ RM은 "자주 해야 하는 숙제(주기가 짧은 [태스크](/knowledge-base/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">비대칭 다중 처리 (ASMP) 스케줄링</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">대칭 다중 처리 (SMP) 스케줄링</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">부하 균등화 (Load Balancing)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">프로세서 친화성 (Processor Affinity)</div></div>
-</div>
-</div>
-
-
+```text
+[비대칭 다중 처리 (ASMP) 스케줄링]
+    │
+    ▼
+[대칭 다중 처리 (SMP) 스케줄링]
+    │
+    ├──▶ [부하 균등화 (Load Balancing)]
+    └──▶ [프로세서 친화성 (Processor Affinity)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **NETCONF의 진입 장벽**: 완벽한 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)(Commit/[Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/))을 보장하지만, [SSH](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/538_ssh_vs_telnet_secure_remote/) 터널을 뚫고 무거운 XML 트리 구조를 파싱해야 해서 웹 앱(모바일 대시보드 등)에서 가볍게 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 조종하기엔 너무 무겁고 코딩하기 빡셌습니다.
 - **RESTCONF의 탄생**: IETF는 876번에서 만들어둔 뼈대(**YANG 모델**)는 그대로 재활용하되, 배달 오토바이(NETCONF [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))만 전 세계 웹 표준인 <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/974_restful_api_stateless_http_methods_uri/">RESTful API</a> (<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a> 기반)</strong>로 싹 바꿔 치기 한 가벼운 버전의 통신 규약을 발표했습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">YANG (Yet Another Next G…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">RESTCONF 프로토콜</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">오픈컨피그</div></div>
-</div>
-</div>
-
-
+```text
+[YANG (Yet Another Next G…]
+    │
+    ▼
+[RESTCONF 프로토콜]
+    │
+    └──▶ [오픈컨피그]
+```
 
 - **📢 섹션 요약 비유**: RESTCONF [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -58,18 +54,14 @@ tags = ["studynote-network"]
 - 예: `GET https://스위치IP/restconf/data/interfaces/interface=eth1` 
 - 주소창에 저렇게만 치고 엔터를 누르면, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 1번 랜선 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)값이 JSON으로 주르륵 쏟아져 나옵니다. 미치도록 직관적입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">YANG (Yet Another Next G…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">RESTCONF 프로토콜</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">오픈컨피그</div></div>
-</div>
-</div>
-
-
+```text
+[YANG (Yet Another Next G…]
+    │
+    ▼
+[RESTCONF 프로토콜]
+    │
+    └──▶ [오픈컨피그]
+```
 
 - **📢 섹션 요약 비유**: RESTCONF [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -128,19 +120,15 @@ RESTCONF [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: YANG (Yet Another Next G…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: RESTCONF 프로토콜</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 오픈컨피그</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 프로그래머블 네트워크</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: YANG (Yet Another Next G…]
+    │
+    ▼
+[현재 개념: RESTCONF 프로토콜]
+    │
+    ├──▶ [확장 A: 오픈컨피그]
+    └──▶ [확장 B: 프로그래머블 네트워크]
+```
 
 RESTCONF [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)는 YANG (Yet Another Next G…에서 출발해 현재 메커니즘을 정교화하고, 이후 [오픈컨피그](/knowledge-base/studynote/03_network/17_sdn_nfv/878_openconfig_vendor_neutral_yang_model/)와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

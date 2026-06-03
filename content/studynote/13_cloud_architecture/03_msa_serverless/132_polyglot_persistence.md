@@ -18,19 +18,13 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">주문 서비스 → PostgreSQL (관계형, ACID)</div>
-<div class="kb-diagram-note">카탈로그 → MongoDB (문서형, 유연 스키마)</div>
-<div class="kb-diagram-note">추천 → Neo4j (그래프, 관계 탐색)</div>
-<div class="kb-diagram-note">캐시 → Redis (인메모리, 고속)</div>
-<div class="kb-diagram-note">로그 → InfluxDB (시계열)</div>
-</div>
-</div>
-
-
+```text
+주문 서비스 → PostgreSQL (관계형, ACID)
+카탈로그    → MongoDB (문서형, 유연 스키마)
+추천        → Neo4j (그래프, 관계 탐색)
+캐시        → Redis (인메모리, 고속)
+로그        → InfluxDB (시계열)
+```
 
 - **📢 섹션 요약 비유**: Polyglot은 <strong>요리마다 최적의 칼(도구)을 쓰는 것</strong>이다. 모든 요리에 식빵 칼만 쓸 순 없다.
 
@@ -66,18 +60,12 @@ Polyglot Persistence는 <strong>MSA의 <a href="/knowledge-base/studynote/05_dat
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">단일 RDBMS (모노리스)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">NoSQL 등장 (2010s)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Polyglot Persistence (MSA, 2014~)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">관리형 서비스 (AWS RDS/DynamoDB)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: NewSQL + Polyglot — 최적 조합</div></div>
-</div>
-</div>
-
-
+```text
+[단일 RDBMS (모노리스)] → [NoSQL 등장 (2010s)]
+    → [Polyglot Persistence (MSA, 2014~)]
+    → [관리형 서비스 (AWS RDS/DynamoDB)]
+    → [현재: NewSQL + Polyglot — 최적 조합]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. Polyglot은 <strong>요리마다 최적의 칼</strong>을 쓰는 거예요. 빵에는 빵 칼, 고기에는 고기 칼!

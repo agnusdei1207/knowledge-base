@@ -37,22 +37,20 @@ DRY는 단순히 복사하여 붙여넣기를 하지 말라는 구문(Syntax) �
 3. **코드 생성기와 매크로**: 
    [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 정의서나 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 명세서에서 반복적인 보일러플레이트 코드를 자동 생성하는 것도 지식의 원천을 문서 하나로 모으는 DRY의 훌륭한 적용 사례다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DRY Principle의 적용 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">위반 상태 (WET)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Module A ──▶ (로직 X 복사본) ◀─ 변경 발생 시 둘 다 수정해야 함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Module B ──▶ (로직 X 복사본)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DRY 적용 후</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Module A ──▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공통 서비스 (X)</div><div class="kb-diagram-cell">◀─ 변경 시 여기 1곳만 수정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Module B ──▶</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 [ DRY Principle의 적용 구조 ]               │
+├─────────────────────────────────────────────────────────────┤
+│ [위반 상태 (WET)]                                           │
+│  Module A ──▶ (로직 X 복사본) ◀─ 변경 발생 시 둘 다 수정해야 함│
+│  Module B ──▶ (로직 X 복사본)                               │
+│                                                             │
+│ [DRY 적용 후]                                               │
+│  Module A ──▶ ┌────────────────┐                            │
+│               │ 공통 서비스 (X)│ ◀─ 변경 시 여기 1곳만 수정  │
+│  Module B ──▶ └────────────────┘                            │
+└─────────────────────────────────────────────────────────────┘
+```
 
 DRY 원칙이 제대로 적용된 시스템은 [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)([Cohesion](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/))가 높고 중복이 없기 때문에, 요구사항 변경에 따른 파급 효과가 한곳으로 제한된다.
 
@@ -113,23 +111,21 @@ DRY 원칙을 적절하게 준수하면 개발 생산성이 비약적으로 상�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 설계 원칙의 진화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Spaghetti Code (무분별한 복사-붙여넣기, WET 상태 방치)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DRY (Don't Repeat Yourself, 중복 제거와 SSOT 확보)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Rule of Three &amp; YAGNI (성급한 추상화 경계, 실용적 적용)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">MSA 아키텍처 (독립성을 위해 의도적인 중복을 전략적으로 허용)</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 설계 원칙의 진화
+    │
+    ▼
+Spaghetti Code (무분별한 복사-붙여넣기, WET 상태 방치)
+    │
+    ▼
+DRY (Don't Repeat Yourself, 중복 제거와 SSOT 확보)
+    │
+    ▼
+Rule of Three & YAGNI (성급한 추상화 경계, 실용적 적용)
+    │
+    ▼
+MSA 아키텍처 (독립성을 위해 의도적인 중복을 전략적으로 허용)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

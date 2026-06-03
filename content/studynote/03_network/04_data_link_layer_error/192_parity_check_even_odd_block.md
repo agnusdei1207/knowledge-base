@@ -34,18 +34,14 @@ tags = ["studynote-network"]
 만약 번개가 크게 쳐서 `1010001`이 `0110001`로 <strong>2개의 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>가 동시에 뒤집혀 버리면</strong>, 1의 개수는 그대로 3개 ➔ 꼬리의 `1`과 합치면 4개(짝수)가 유지됩니다. 
 수신기는 1의 개수가 짝수이므로 "오! 아무 문제 없네!" 하고 <strong>심각하게 깨진 쓰레기 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 정상으로 착각</strong>하고 받아버리는 끔찍한 결함이 있습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">역방향 에러 수정 / 자동 재전송 요청</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">패리티 검사</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">검사합</div></div>
-</div>
-</div>
-
-
+```text
+[역방향 에러 수정 / 자동 재전송 요청]
+    │
+    ▼
+[패리티 검사]
+    │
+    └──▶ [검사합]
+```
 
 - **📢 섹션 요약 비유**: 패리티 검사는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -63,18 +59,14 @@ tags = ["studynote-network"]
 가로와 세로가 크로스되는 교차점을 찾을 수 있기 때문에, 에러가 발생했다는 사실(검출)뿐만 아니라, <strong>"몇 행 몇 열의 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a>가 깨졌는지" 정확한 위치까지 추적하여 스스로 1비트를 고칠 수 있는 <a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/190_fec_forward_error_correction_hamming/">순방향 에러 수정</a>(FEC) 능력</strong>을 갖추게 됩니다.
 또한 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 패리티가 못 잡던 2개~3개의 다중 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 에러도 기가 막히게 검출해 냅니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">역방향 에러 수정 / 자동 재전송 요청</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">패리티 검사</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">검사합</div></div>
-</div>
-</div>
-
-
+```text
+[역방향 에러 수정 / 자동 재전송 요청]
+    │
+    ▼
+[패리티 검사]
+    │
+    └──▶ [검사합]
+```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/">단방향</a> 패리티 검사는 소풍 갈 때 선생님이 </strong>"우리 반은 무조건 짝수(30명)여야 출발한다!"**고 세는 것과 같습니다. 한 명이 도망가면(29명) 바로 눈치채지만, 2명이 동시에 도망가고 다른 반 학생 2명이 몰래 껴들어 오면(2비트 에러), 총원은 30명으로 유지되어 선생님이 전혀 눈치채지 못하고 출발해 버리는 허술한 출석 체크입니다. 이차원 패리티는 이를 가로세로 분단별로 두 번 세는 철저한 방식입니다.
 
@@ -132,19 +124,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 역방향 에러 수정 / 자동 재전송 요청</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 패리티 검사</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 검사합</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고신뢰 저지연 링크 제어</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 역방향 에러 수정 / 자동 재전송 요청]
+    │
+    ▼
+[현재 개념: 패리티 검사]
+    │
+    ├──▶ [확장 A: 검사합]
+    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
+```
 
 패리티 검사는 역방향 에러 수정 / 자동 재전송 요청에서 출발해 현재 메커니즘을 정교화하고, 이후 [검사합](/knowledge-base/studynote/03_network/04_data_link_layer_error/193_checksum_ones_complement/)와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

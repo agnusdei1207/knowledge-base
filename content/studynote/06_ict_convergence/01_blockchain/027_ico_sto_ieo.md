@@ -18,19 +18,17 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ICO / STO / IEO 비교 요약</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ICO</div><div class="kb-diagram-cell">IEO</div><div class="kb-diagram-cell">STO</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">규제 없음</div><div class="kb-diagram-cell">거래소 심사</div><div class="kb-diagram-cell">증권법 적용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">빠른 조달</div><div class="kb-diagram-cell">중간 신뢰</div><div class="kb-diagram-cell">완전 제도권</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사기 위험</div><div class="kb-diagram-cell">사기 위험</div><div class="kb-diagram-cell">사기 위험</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────┐
+│     ICO / STO / IEO 비교 요약                           │
+├──────────────┬──────────────┬────────────────────────────┤
+│    ICO       │    IEO       │          STO               │
+├──────────────┼──────────────┼────────────────────────────┤
+│ 규제 없음    │ 거래소 심사  │ 증권법 적용                │
+│ 빠른 조달    │ 중간 신뢰    │ 완전 제도권                │
+│ 사기 위험 高 │ 사기 위험 中 │ 사기 위험 低               │
+└──────────────┴──────────────┴────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: ICO는 노상에서 판매하는 복권(규제 없음), IEO는 편의점에서 파는 복권(편의점이 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)), STO는 금융위원회가 허가한 공모주 청약이다.
 
@@ -81,7 +79,7 @@ tags = ["studynote-ict-convergence"]
 - ICO/STO: [ERC-20](/knowledge-base/studynote/06_ict_convergence/01_blockchain/072_erc_20_fungible_token_standard/)(유틸리티), ERC-1400(증권형) 토큰 표준.
 - 배당·이자 자동 지급: [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)로 코딩.
 
-- **📢 섹션 요약 비유**: ERC-1400 증권형 토큰은 디지털 주권()이다. 종이 주권이 디지털화되어 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)가 자동으로 배당금을 지급하고 주주 명부를 관리한다.
+- **📢 섹션 요약 비유**: ERC-1400 증권형 토큰은 디지털 주권(株券)이다. 종이 주권이 디지털화되어 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)가 자동으로 배당금을 지급하고 주주 명부를 관리한다.
 
 ---
 
@@ -111,23 +109,21 @@ tags = ["studynote-ict-convergence"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">ICO — 규제 없는 탈중앙 자금 조달 (2017-2018)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IEO — 거래소 중개 신뢰성 보완</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">STO — 증권법 편입, 투자자 보호</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">토큰화(Tokenization) — 부동산·채권·주식 디지털화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DeFi+STO+CBDC — 완전 자동화 디지털 금융 시장</div></div>
-</div>
-</div>
-
-
+```text
+[ICO — 규제 없는 탈중앙 자금 조달 (2017-2018)]
+    │
+    ▼
+[IEO — 거래소 중개 신뢰성 보완]
+    │
+    ▼
+[STO — 증권법 편입, 투자자 보호]
+    │
+    ▼
+[토큰화(Tokenization) — 부동산·채권·주식 디지털화]
+    │
+    ▼
+[DeFi+STO+CBDC — 완전 자동화 디지털 금융 시장]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

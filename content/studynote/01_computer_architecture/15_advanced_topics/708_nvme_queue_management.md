@@ -46,19 +46,22 @@ SMBIOS는 크게 "엔트리 포인트"와 "구조체 테이블"로 이뤄진다.
 
 아래 그림은 SMBIOS [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어떻게 소비되는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SMBIOS data path</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Firmware / UEFI</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Entry Point -&gt; Type 0 -&gt; Type 1 -&gt; Type 2 -&gt; Type 4 -&gt; Type 17</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS tools : dmidecode / WMI / inventory agent</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CMDB / monitoring / provisioning / support workflow</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│                    SMBIOS data path                               │
+├────────────────────────────────────────────────────────────────────┤
+│ Firmware / UEFI                                                   │
+│   │                                                               │
+│   ▼                                                               │
+│ Entry Point -> Type 0 -> Type 1 -> Type 2 -> Type 4 -> Type 17    │
+│   │                                                               │
+│   ▼                                                               │
+│ OS tools : dmidecode / WMI / inventory agent                      │
+│   │                                                               │
+│   ▼                                                               │
+│ CMDB / monitoring / provisioning / support workflow               │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 중요한 점은 SMBIOS가 하드웨어를 직접 탐지해 얻은 "실시간 전기 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)"가 아니라, [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)가 게시한 정적 설명 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)라는 사실이다. 따라서 내용이 유용하더라도 언제나 100% 진실이라고 가정하면 안 된다. 제조 과정에서 잘못 채워졌거나, 가상 머신이 의도적으로 다른 모델명을 에뮬레이션할 수도 있다.
 
@@ -132,23 +135,21 @@ SMBIOS의 가장 큰 효과는 자동화 가능성이다. [운영체제](/knowle
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">벤더별 제각각인 시스템 식별 정보</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DMI 기반 관리 정보 표준화 시도</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SMBIOS 구조체 테이블 정착</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">OS 도구 · 에이전트 기반 자동 수집</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CMDB · 프로비저닝 · 가상화 인벤토리 연동</div>
-</div>
-</div>
-
-
+```text
+벤더별 제각각인 시스템 식별 정보
+    │
+    ▼
+DMI 기반 관리 정보 표준화 시도
+    │
+    ▼
+SMBIOS 구조체 테이블 정착
+    │
+    ▼
+OS 도구 · 에이전트 기반 자동 수집
+    │
+    ▼
+CMDB · 프로비저닝 · 가상화 인벤토리 연동
+```
 
 이 흐름은 시스템 소개 정보가 수작업 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)에서 자동화 가능한 표준 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 바뀐 과정을 보여준다.
 

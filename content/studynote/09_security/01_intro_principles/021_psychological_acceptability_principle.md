@@ -47,23 +47,23 @@ tags = ["studynote-security"]
 ### 2. 심리적 [사용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/286_usability_tactics/)을 충족하는 아키텍처 설계 원리
 보안 통제는 <strong>사용자에게 투명하게(Transparent) 동작</strong>하거나, 자연스러운 습관에 통합되어야 합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">심리적 사용성을 극대화한 사용자 인증 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">과거의 실패 모델: 마찰 극대화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User ──▶ ID/PW 입력 (틀림) ──▶ 재설정 화면 (복잡한 룰)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 이메일 인증코드 ──▶ 플러그인 3개 강제 설치 ──▶ (포기)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현대의 성공 모델: SSO 및 Passwordless 융합</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(투명한 컨텍스트 검증: IP, 기기, 위치)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User ──▶ 생체 인식(FaceID / TouchID - FIDO 기반)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Identity Provider (IdP) / OAuth 2.0</div><div class="kb-diagram-node">업무 앱</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(한 번의 인증으로 모든 사내 시스템 토큰 발급)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          [ 심리적 사용성을 극대화한 사용자 인증 아키텍처 ]         │
+│                                                             │
+│   [ 과거의 실패 모델: 마찰 극대화 ]                            │
+│   User ──▶ ID/PW 입력 (틀림) ──▶ 재설정 화면 (복잡한 룰)      │
+│        ──▶ 이메일 인증코드 ──▶ 플러그인 3개 강제 설치 ──▶ (포기) │
+│                                                             │
+│   [ 현대의 성공 모델: SSO 및 Passwordless 융합 ]               │
+│               (투명한 컨텍스트 검증: IP, 기기, 위치)           │
+│   User ──▶ 생체 인식(FaceID / TouchID - FIDO 기반) ─────────┐ │
+│                 │                                           │ │
+│                 ▼                                           ▼ │
+│      [ Identity Provider (IdP) / OAuth 2.0 ]       [ 업무 앱 ]│
+│         (한 번의 인증으로 모든 사내 시스템 토큰 발급)           │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 심리적 [사용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/286_usability_tactics/)을 확보하기 위해, 복잡한 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 로직(비밀번호 암호화 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 디바이스 건전성 검사)은 100% 백엔드([IdP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/))로 숨기고, 사용자(User) 앞단에는 스마트폰의 FaceID나 지문 인식과 같은 **'가장 익숙하고 직관적인 생체 인식'** 단 한 단계만 노출합니다. 사용자는 보안을 의식하지 않고도 최고 수준의 안전성을 누리게 됩니다.
 
@@ -133,23 +133,21 @@ tags = ["studynote-security"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Saltzer &amp; Schroeder 8대 정보보안 원칙 (1975)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">심리적 수용성 (Psychological Acceptability) — 사용성≡보안</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">섀도우 IT / 경고 피로 (Alert Fatigue) — 수용성 실패 리스크</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SSO / OAuth 2.0 — 단일 로그인으로 복잡성 차단</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">FIDO / Passkey — 암호 없는 생체 인증 (궁극의 사용성+보안)</div></div>
-</div>
-</div>
-
-
+```text
+[Saltzer & Schroeder 8대 정보보안 원칙 (1975)]
+    │
+    ▼
+[심리적 수용성 (Psychological Acceptability) — 사용성≡보안]
+    │
+    ▼
+[섀도우 IT / 경고 피로 (Alert Fatigue) — 수용성 실패 리스크]
+    │
+    ▼
+[SSO / OAuth 2.0 — 단일 로그인으로 복잡성 차단]
+    │
+    ▼
+[FIDO / Passkey — 암호 없는 생체 인증 (궁극의 사용성+보안)]
+```
 보안 메커니즘이 사용하기 불편할수록 사용자는 우회책을 찾고, 이것이 오히려 더 큰 취약점이 된다. [SSO](/knowledge-base/studynote/09_security/11_iam_access_control/531_sso/)·Passkey는 [사용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/286_usability_tactics/)과 보안을 동시에 달성하는 심리적 수용성의 현대적 구현체다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

@@ -25,23 +25,23 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 왜 완전 연관 사상에서 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)가 사라지고, 왜 검색 범위가 전체 캐시가 되는지를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Fully Associative: no fixed index, any block can use any cache line</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">address =</div><div class="kb-diagram-node">Tag</div><div class="kb-diagram-node">Block Offset</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ line 내부 바이트 선택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">requested tag</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">cache line 0 :</div><div class="kb-diagram-node">valid</div><div class="kb-diagram-node">tag A</div><div class="kb-diagram-node">data</div><div class="kb-diagram-note">── compare │</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">cache line 1 :</div><div class="kb-diagram-node">valid</div><div class="kb-diagram-node">tag B</div><div class="kb-diagram-node">data</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">OR ─▶ hit</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">cache line 2 :</div><div class="kb-diagram-node">valid</div><div class="kb-diagram-node">tag C</div><div class="kb-diagram-node">data</div><div class="kb-diagram-note">── compare │</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">... ...</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">cache line N-1 :</div><div class="kb-diagram-node">valid</div><div class="kb-diagram-node">tag X</div><div class="kb-diagram-node">data</div><div class="kb-diagram-note">── compare │</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Fully Associative: no fixed index, any block can use any cache line │
+├──────────────────────────────────────────────────────────────────────┤
+│ address = [ Tag ][ Block Offset ]                                   │
+│            │         │                                               │
+│            │         └─ line 내부 바이트 선택                        │
+│            │                                                         │
+│            └────── requested tag ────────────────────────────────┐    │
+│                                                                  │    │
+│ cache line 0   : [valid][tag A][data] ── compare ─────────────┐  │    │
+│ cache line 1   : [valid][tag B][data] ── compare ─────────────┼──┼──▶ OR ─▶ hit
+│ cache line 2   : [valid][tag C][data] ── compare ─────────────┤  │    │
+│ ...                                                          ... │    │
+│ cache line N-1 : [valid][tag X][data] ── compare ─────────────┘  │    │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 핵심은 저장 위치를 주소의 일부 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 정하는 것이 아니라, 빈 라인과 교체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 정한다는 점이다. 그래서 공간 활용은 좋아지지만, 적중 여부를 확인할 때는 전체 후보를 동시에 살펴봐야 한다.
 
@@ -150,24 +150,24 @@ miss 처리 흐름
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">캐시 사상 (Cache Mapping)</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ 직접 사상 (Direct Mapping)</div>
-<div class="kb-diagram-note">─ 충돌 미스 증가</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ 완전 연관 사상 (Fully Associative)</div>
-<div class="kb-diagram-note">─ 충돌 미스 제거</div>
-<div class="kb-diagram-note">─ CAM · 교체 정책 비용 증가</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">집합 연관 사상 (Set Associative Mapping)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">TLB · Victim Cache · TCAM 응용</div>
-</div>
-</div>
-
-
+```text
+캐시 사상 (Cache Mapping)
+        │
+        ├─▶ 직접 사상 (Direct Mapping)
+        │        │
+        │        └─ 충돌 미스 증가
+        │
+        ├─▶ 완전 연관 사상 (Fully Associative)
+        │        │
+        │        ├─ 충돌 미스 제거
+        │        └─ CAM · 교체 정책 비용 증가
+        │
+        ▼
+집합 연관 사상 (Set Associative Mapping)
+        │
+        ▼
+TLB · Victim Cache · TCAM 응용
+```
 
 이 흐름은 "단순 배치 → 충돌 문제 노출 → 자유도 극대화 → 현실적 절충과 특수 응용"으로 이어지는 설계 진화를 보여준다.
 

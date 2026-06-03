@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/">IPsec</a> (1085번)</strong>: 국제 표준이라 온갖 쓰레기 [암호화 알고리즘](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/504_cryptography_algorithms_aes_rsa_sha/)([DES](/knowledge-base/studynote/09_security/02_crypto/086_des_data_encryption_standard/), [3DES](/knowledge-base/studynote/09_security/02_crypto/087_3des/) 등 옛날 것들)을 다 지원하려다 보니 코드가 수십만 줄로 비대해졌고 세팅이 미치도록 복잡합니다.
 - <strong><a href="/knowledge-base/studynote/09_security/03_network_security/284_openvpn/">OpenVPN</a></strong>: 사용자 공간(User-space)에서 돌아가기 때문에, 패킷이 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공간을 핑퐁 치며 오르내리느라([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Switching) CPU 부하가 심하고 속도가 처참하게 느렸습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">IPsec IKEv2 터널 협상</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">WireGuard 라우팅 고속망 체계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">BBR 구글 TCP 동적 모델 지연 기반 혼…</div></div>
-</div>
-</div>
-
-
+```text
+[IPsec IKEv2 터널 협상]
+    │
+    ▼
+[WireGuard 라우팅 고속망 체계]
+    │
+    └──▶ [BBR 구글 TCP 동적 모델 지연 기반 혼…]
+```
 
 - **📢 섹션 요약 비유**: [WireGuard](/knowledge-base/studynote/03_network/07_network_layer_routing/387_wireguard_vpn_modern_tunneling/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 고속망 체계는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -58,18 +54,14 @@ tags = ["studynote-network"]
 - IP 주소 대신 <strong>'사용자의 공개키(Public <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a>)' 자체를 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> 주소로 써버립니다.</strong>
 - 폰에서 [와이어가드](/knowledge-base/studynote/03_network/07_network_layer_routing/387_wireguard_vpn_modern_tunneling/)를 켜고 지하철(와이파이 IP)에서 내려 길거리([LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) IP)로 나옵니다. 내 폰의 IP가 바뀌어도, 서버는 내 패킷에 박힌 '공개키 지문'을 보고 "아! IP가 11번으로 바뀌었지만 아까 그 공개키 철수 놈이네!" 하고 [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) 세션을 끊지 않고 조용히 연결을 유지합니다(완벽한 끊김 제로 [로밍](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/560_roaming/)).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">IPsec IKEv2 터널 협상</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">WireGuard 라우팅 고속망 체계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">BBR 구글 TCP 동적 모델 지연 기반 혼…</div></div>
-</div>
-</div>
-
-
+```text
+[IPsec IKEv2 터널 협상]
+    │
+    ▼
+[WireGuard 라우팅 고속망 체계]
+    │
+    └──▶ [BBR 구글 TCP 동적 모델 지연 기반 혼…]
+```
 
 - **📢 섹션 요약 비유**: [WireGuard](/knowledge-base/studynote/03_network/07_network_layer_routing/387_wireguard_vpn_modern_tunneling/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 고속망 체계의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -125,19 +117,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: IPsec IKEv2 터널 협상</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: WireGuard 라우팅 고속망 체계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: BBR 구글 TCP 동적 모델 지연 기반 혼…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: IPsec IKEv2 터널 협상]
+    │
+    ▼
+[현재 개념: WireGuard 라우팅 고속망 체계]
+    │
+    ├──▶ [확장 A: BBR 구글 TCP 동적 모델 지연 기반 혼…]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 [WireGuard](/knowledge-base/studynote/03_network/07_network_layer_routing/387_wireguard_vpn_modern_tunneling/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 고속망 체계는 [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) [IKEv2](/knowledge-base/studynote/09_security/03_network_security/280_ikev2/) 터널 협상에서 출발해 현재 메커니즘을 정교화하고, 이후 [BBR](/knowledge-base/studynote/03_network/08_transport_layer/439_bbr_bottleneck_bandwidth_and_rtt_google_congestion_control/) 구글 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 동적 모델 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 기반 혼…와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

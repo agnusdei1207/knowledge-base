@@ -31,18 +31,14 @@ tags = ["studynote-network"]
 거꾸로 다항식 **$x^4 + x^2 + x + 1$**을 이진수로 바꾸면?
 - 4승(1), 3승(없음=0), 2승(1), 1승(1), 0승(1) ➔ <strong><code>10111</code></strong> 이 됩니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">CRC</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">다항식 연산 / 생성 다항식</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CRC-16, CRC-32, CRC-CCIT…</div></div>
-</div>
-</div>
-
-
+```text
+[CRC]
+    │
+    ▼
+[다항식 연산 / 생성 다항식]
+    │
+    └──▶ [CRC-16, CRC-32, CRC-CCIT…]
+```
 
 - **📢 섹션 요약 비유**: 다항식 연산 / [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 다항식은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -58,18 +54,14 @@ tags = ["studynote-network"]
   - 따라서 <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/">CRC</a>(FCS)의 크기는 최고차항과 똑같은 3비트</strong>가 됩니다.
   - 송신기는 나눗셈을 하기 전에, 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 꼬리에 이 차수만큼 **'0'을 3개 미리 붙여놓고** 연산을 시작합니다. (★계산 문제 핵심 포인트).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">CRC</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">다항식 연산 / 생성 다항식</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CRC-16, CRC-32, CRC-CCIT…</div></div>
-</div>
-</div>
-
-
+```text
+[CRC]
+    │
+    ▼
+[다항식 연산 / 생성 다항식]
+    │
+    └──▶ [CRC-16, CRC-32, CRC-CCIT…]
+```
 
 - **📢 섹션 요약 비유**: 다항식 연산 / [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 다항식의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -134,19 +126,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: CRC</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 다항식 연산 / 생성 다항식</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: CRC-16, CRC-32, CRC-CCIT…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고신뢰 저지연 링크 제어</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: CRC]
+    │
+    ▼
+[현재 개념: 다항식 연산 / 생성 다항식]
+    │
+    ├──▶ [확장 A: CRC-16, CRC-32, CRC-CCIT…]
+    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
+```
 
 다항식 연산 / [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 다항식는 CRC에서 출발해 현재 메커니즘을 정교화하고, 이후 [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)-16, [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)-32, [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)-CCIT…와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

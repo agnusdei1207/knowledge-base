@@ -33,21 +33,24 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 탐색 메모리 서브시스템이 무작위 요청을 어떻게 파이프라인으로 바꾸는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Graph Traversal Memory Subsystem: irregular -&gt; scheduled flow</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Host Core / Graph Engine</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">frontier vertex IDs</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Frontier Queue</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">CSR Offset Cache</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Address Coalescer</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">│ &gt;</div><div class="kb-diagram-node">Bank Scheduler</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Visited Bitmap SRAM</div><div class="kb-diagram-note">&lt; duplicate filter ──</div><div class="kb-diagram-node">Memory Banks</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">&gt;</div><div class="kb-diagram-node">Next Frontier / DFS Stack</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│    Graph Traversal Memory Subsystem: irregular -> scheduled flow    │
+├──────────────────────────────────────────────────────────────────────┤
+│ Host Core / Graph Engine                                             │
+│          │ frontier vertex IDs                                       │
+│          ▼                                                           │
+│   [ Frontier Queue ] -> [ CSR Offset Cache ] -> [ Address Coalescer ]│
+│          │                         │                      │           │
+│          │                         │                      ▼           │
+│          │                         └──────────────> [ Bank Scheduler ]│
+│          │                                            │  │  │        │
+│          ▼                                            ▼  ▼  ▼        │
+│   [ Visited Bitmap SRAM ] <──── duplicate filter ── [ Memory Banks ] │
+│          │                                                           │
+│          └──────────────────────> [ Next Frontier / DFS Stack ]      │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -125,23 +128,21 @@ BFS에서는 다음 프런티어를 크게 키우는 능력이 중요하므로 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">포인터 기반 그래프 탐색</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CPU 캐시 미스 · 포인터 체이싱 병목</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CSR/CSC · 정점 재정렬 · 방문 비트맵</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">그래프 탐색 전용 메모리 서브시스템</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">근접 메모리 컴퓨팅 · PIM · 분산 그래프 분석기</div>
-</div>
-</div>
-
-
+```text
+포인터 기반 그래프 탐색
+    │
+    ▼
+CPU 캐시 미스 · 포인터 체이싱 병목
+    │
+    ▼
+CSR/CSC · 정점 재정렬 · 방문 비트맵
+    │
+    ▼
+그래프 탐색 전용 메모리 서브시스템
+    │
+    ▼
+근접 메모리 컴퓨팅 · PIM · 분산 그래프 분석기
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

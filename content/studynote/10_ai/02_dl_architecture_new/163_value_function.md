@@ -40,20 +40,25 @@ tags = ["studynote-ai"]
 
 아래 그림은 가치가 어떻게 다음 상태의 정보로부터 역방향으로 전파되듯 갱신되는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가치 함수의 핵심 흐름: 현재를 미래로 평가한다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">현재 상태 s_t</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 행동 a_t 선택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">즉시 보상 r_{t+1} 다음 상태 s_{t+1}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">목표값 ≈ r_{t+1} + γ·V(s_{t+1}) 또는 r_{t+1} + γ·max Q(s_{t+1},a)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">V(s_t) 또는 Q(s_t, a_t)를 목표값 쪽으로 조금 수정</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│            가치 함수의 핵심 흐름: 현재를 미래로 평가한다             │
+├──────────────────────────────────────────────────────────────────────┤
+│ 현재 상태 s_t                                                       │
+│    │                                                                │
+│    ├─ 행동 a_t 선택 ───────────────────────────────────────┐         │
+│    │                                                      │         │
+│    ▼                                                      ▼         │
+│ 즉시 보상 r_{t+1}                                 다음 상태 s_{t+1} │
+│    │                                                      │         │
+│    └───────────────┬──────────────────────────────────────┘         │
+│                    ▼                                                │
+│   목표값 ≈ r_{t+1} + γ·V(s_{t+1}) 또는 r_{t+1} + γ·max Q(s_{t+1},a) │
+│                    │                                                │
+│                    ▼                                                │
+│        V(s_t) 또는 Q(s_t, a_t)를 목표값 쪽으로 조금 수정             │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 표 기반 환경에서는 각 상태나 행동에 점수를 직접 저장하지만, 상태 공간이 커지면 신경망이 이 값을 근사한다. 예를 들어 DQN은 화면 픽셀을 입력받아 각 행동의 $Q$값을 출력한다. 이때 함수 근사는 일반화에 강하지만, 과대추정 (Overestimation)과 학습 불안정성이라는 새로운 문제가 생긴다.
 
@@ -126,25 +131,24 @@ tags = ["studynote-ai"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">즉시 보상 (Reward)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">리턴 (Return) · 할인율 γ</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">상태 가치 함수 V(s) · 행동 가치 함수 Q(s,a)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">벨만 방정식 (Bellman Equation) · 시간차 학습 (Temporal Difference Learning)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DQN (Deep Q-Network) · Actor-Critic</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">분포형 강화 학습 · 오프라인 강화 학습</div>
-</div>
-</div>
-
-
+```text
+즉시 보상 (Reward)
+    │
+    ▼
+리턴 (Return) · 할인율 γ
+    │
+    ▼
+상태 가치 함수 V(s) · 행동 가치 함수 Q(s,a)
+    │
+    ▼
+벨만 방정식 (Bellman Equation) · 시간차 학습 (Temporal Difference Learning)
+    │
+    ▼
+DQN (Deep Q-Network) · Actor-Critic
+    │
+    ▼
+분포형 강화 학습 · 오프라인 강화 학습
+```
 
 이 흐름도는 한 번의 보상이 장기 가치 추정으로 확장되고, 다시 심층 [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)으로 발전하는 흐름을 보여 준다.
 

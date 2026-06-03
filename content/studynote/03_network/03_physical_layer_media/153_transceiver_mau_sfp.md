@@ -38,34 +38,34 @@ tags = ["studynote-network"]
 
 "어 랜카드에 다 내장해서 꿀 빨면 장땡 아님 ㅋ 왜 서버실 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 장비엔 굳이 구멍(SFP) 따로 파서 귀찮게 조립함?" 아키텍트의 100억짜리 피 터지는 딜레마 도해다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">트랜시버 진화 십자 융합 아키텍처: 내장형 파국 💥 vs SFP 모듈 해방 🚀</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">💀</div><div class="kb-diagram-node">과도기 대재앙: 트랜시버(PHY) 100% 내장형 스위치 쇳덩이의 한계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- 1,000만 원짜리 24포트 스위치 장비. 랜카드 칩셋 구멍이 다</div><div class="kb-diagram-node">구리선 UTP 전용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">으로 기판에 영구 납땜 시멘트 용접 락킹(Built-in) 쳐 박혀있음.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 사장님 왈: "야 우리 이번에 옆 건물 10km 밖으로 이사 감 ㅋ 빛으로 쏘는</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">싱글모드 광케이블</div><div class="kb-diagram-note">10가닥만 저 스위치에 연결 꽂아 쏴봐 쾅 🚀!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 주니어 코더 오열 😭: "네?! 사장님 이 스위치 기계는 구리선 전기(Voltage)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">트랜시버로 뱃속이 용접 고정돼서 빛(레이저)으로 번역 1바이트도 못 쏴요 뻗음 💀!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">광케이블 쏘려면 이 1,000만 원짜리 멀쩡한 기계 통째로 쓰레기통 폐기 소각 치고</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">광 전용 스위치</div><div class="kb-diagram-note">새로 1,000만 원 쌩돈 주고 통째로 새로 사와야 돼요 파산 쾅 💥!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">🛡️ 아키텍트의 도끼 메스: SFP 모듈 분할 찢기 수술 ✨</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🚀</div><div class="kb-diagram-node">궁극의 텐트: SFP (Small Form-factor Pluggable) 조립식 레고 블록</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 스위치 대장 왈: "야!! 쇳덩이 기계 뱃속에 트랜시버 번역기 절대 용접 박지 마 쾅!!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">대신 스위치 껍데기에 </div><div class="kb-diagram-node">텅 빈 깡통 슬롯 구멍 24개</div><div class="kb-diagram-note"> 만 뻥 뚫어놔 백지화 컷!!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- 구리선 쓸 거야? ➔ 5만 원짜리</div><div class="kb-diagram-node">RJ-45 SFP 젠더 모듈</div><div class="kb-diagram-note">사서 구멍에 찰칵 밀어 넣어!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 10km 장거리 광케이블 빛 쏠 거야? ➔ 기존 구리 젠더 1초 컷 툭 빼 버리고!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LX 광 SFP 레이저 모듈</div><div class="kb-diagram-note">만 10만 원 주고 따로 사와서 찰칵 갈아 끼워 스위칭 쳐 🚀!!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 팩폭 결론: 1,000만 원짜리 본체 쇳덩이 기계는 평생 단 1도 버리지 않고 100%</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">영구 보존 무결점 재사용(Reuse) 생존하면서!! ➔ 껍데기 모듈(SFP) 젠더만</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">10만 원 푼돈 찰칵찰칵 갈아 끼워버리는 우주 최강 유연성 디커플링 통치술이다 쾅!!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          트랜시버 진화 십자 융합 아키텍처: 내장형 파국 💥 vs SFP 모듈 해방 🚀 │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ 💀 [ 과도기 대재앙: 트랜시버(PHY) 100% 내장형 스위치 쇳덩이의 한계 ]      │
+│   - 1,000만 원짜리 24포트 스위치 장비. 랜카드 칩셋 구멍이 다 [구리선 UTP 전용]│
+│     으로 기판에 영구 납땜 시멘트 용접 락킹(Built-in) 쳐 박혀있음.         │
+│   - 사장님 왈: "야 우리 이번에 옆 건물 10km 밖으로 이사 감 ㅋ 빛으로 쏘는   │
+│     [싱글모드 광케이블] 10가닥만 저 스위치에 연결 꽂아 쏴봐 쾅 🚀!"        │
+│   - 주니어 코더 오열 😭: "네?! 사장님 이 스위치 기계는 구리선 전기(Voltage) │
+│     트랜시버로 뱃속이 용접 고정돼서 빛(레이저)으로 번역 1바이트도 못 쏴요 뻗음 💀!│
+│     광케이블 쏘려면 이 1,000만 원짜리 멀쩡한 기계 통째로 쓰레기통 폐기 소각 치고 │
+│     [광 전용 스위치] 새로 1,000만 원 쌩돈 주고 통째로 새로 사와야 돼요 파산 쾅 💥!"│
+│                                                             │
+│        ======= [ 🛡️ 아키텍트의 도끼 메스: SFP 모듈 분할 찢기 수술 ✨ ] ========│
+│                                                             │
+│ 🚀 [ 궁극의 텐트: SFP (Small Form-factor Pluggable) 조립식 레고 블록 ] │
+│   - 스위치 대장 왈: "야!! 쇳덩이 기계 뱃속에 트랜시버 번역기 절대 용접 박지 마 쾅!!│
+│     대신 스위치 껍데기에 **[텅 빈 깡통 슬롯 구멍 24개]** 만 뻥 뚫어놔 백지화 컷!!│
+│   - 구리선 쓸 거야? ➔ 5만 원짜리 [RJ-45 SFP 젠더 모듈] 사서 구멍에 찰칵 밀어 넣어!│
+│   - 10km 장거리 광케이블 빛 쏠 거야? ➔ 기존 구리 젠더 1초 컷 툭 빼 버리고!   │
+│     [LX 광 SFP 레이저 모듈] 만 10만 원 주고 따로 사와서 찰칵 갈아 끼워 스위칭 쳐 🚀!!│
+│   🌟 팩폭 결론: 1,000만 원짜리 본체 쇳덩이 기계는 평생 단 1도 버리지 않고 100% │
+│      영구 보존 무결점 재사용(Reuse) 생존하면서!! ➔ 껍데기 모듈(SFP) 젠더만  │
+│      10만 원 푼돈 찰칵찰칵 갈아 끼워버리는 우주 최강 유연성 디커플링 통치술이다 쾅!!│
+└─────────────────────────────────────────────────────────────┘
+```
 
 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/">아키텍트 팩폭 튜닝: 핫 [스와핑</a> (Hot-<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/">Swapping</a>) 런타임 록온 쉴드 ✨]</strong>
 SFP가 진짜 인류를 구원한 건 껍데기 분리(Decoupling)만이 아니다. 과거 구시대 장비 부품 갈아 끼울 땐? "야 서버 끄고 전원 셔터 내려 쾅 💥!" ➔ 전체망 100% 셧다운 블랙아웃 타죽음 뻗은 뒤 부품 교체 ➔ 부팅 3분 랙 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 멸망 파국이었다. 
@@ -142,23 +142,21 @@ SFP가 진짜 인류를 구원한 건 껍데기 분리(Decoupling)만이 아니�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">야만의 동축 10BASE5 두꺼운 쇳덩이 시대 / 선 자르면 전사 올스탑 셧다운 타 죽음 파국 💥 ➔ 선 중간에 드릴 구멍 파서 이빨(Vampire) 박고 거대 외장형 MAU 번역기 상자 달아 15핀 꼬리 선 PC 강결합 연장 떡칠 파산 💀</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">UTP 구리선 랜카드 대통합 (Baseband 융합 ✨) / "야 그 거추장스러운 외부 MAU 박스 떼다 찢어발겨 소각 쳐 쾅!! 현미경 나노 칩셋(PHY)으로 압축 도륙 쳐서 랜카드 뱃속에 100% 완전 내장 용접 록온 박아!!" ➔ 걍 랜선 구멍 딸깍 꽂으면 1초 컷 플러그앤플레이(PnP) 쾌속 인터넷 생존 🚀</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">광케이블 고속망의 딜레마 / 스위치 구멍이 구리선 전용으로 쇳덩이 내장 용접(Built-in)돼 있어서 ➔ 빛(레이저) 쏘려면 수백만 원 스위치 기계 통째로 폐기 버려 파산 멸망 터짐 타죽음 💀</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">GBIC 및 SFP 모듈 분할 찢기 디커플링 대관식 🚀 / "야 기계 본체 놔두고 앞단 껍데기 젠더만 갈아 끼우게 빈 구멍 슬롯만 파놔 쾅!!" ➔ 10만 원짜리 SFP 조립식 젠더 모듈 등장 ✨. 구리, 단거리 빛, 장거리 스나이퍼 빛 레이저를 내 맘대로 0.1초 컷 핫 스왑(Hot Swap) 스위칭 갈아 핑퐁 돌려버리는 우주 극한 텐트 유연성 무결점 달성 쾅!!</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">QSFP / 400G 극한 우주 펌핑 스케일 업 (현재) / 껍데기 크기 1mm도 안 키우고 뱃속에 레이저 빔 핏줄 4가닥 병렬 동시 십자 포화 폭격 쳐 넣어 ➔ 1Gbps ➔ 100Gbps ➔ 400Gbps 광속 돌파 쾌속 질주 스키 타는 K8s 클라우드 데이터 센터 백본 0순위 대동맥 쉴드로 완전 영구 지배 통치 🚀</div>
-</div>
-</div>
-
-
+```text
+야만의 동축 10BASE5 두꺼운 쇳덩이 시대 / 선 자르면 전사 올스탑 셧다운 타 죽음 파국 💥 ➔ 선 중간에 드릴 구멍 파서 이빨(Vampire) 박고 거대 외장형 MAU 번역기 상자 달아 15핀 꼬리 선 PC 강결합 연장 떡칠 파산 💀
+    │
+    ▼
+UTP 구리선 랜카드 대통합 (Baseband 융합 ✨) / "야 그 거추장스러운 외부 MAU 박스 떼다 찢어발겨 소각 쳐 쾅!! 현미경 나노 칩셋(PHY)으로 압축 도륙 쳐서 랜카드 뱃속에 100% 완전 내장 용접 록온 박아!!" ➔ 걍 랜선 구멍 딸깍 꽂으면 1초 컷 플러그앤플레이(PnP) 쾌속 인터넷 생존 🚀
+    │
+    ▼
+광케이블 고속망의 딜레마 / 스위치 구멍이 구리선 전용으로 쇳덩이 내장 용접(Built-in)돼 있어서 ➔ 빛(레이저) 쏘려면 수백만 원 스위치 기계 통째로 폐기 버려 파산 멸망 터짐 타죽음 💀
+    │
+    ▼
+GBIC 및 SFP 모듈 분할 찢기 디커플링 대관식 🚀 / "야 기계 본체 놔두고 앞단 껍데기 젠더만 갈아 끼우게 빈 구멍 슬롯만 파놔 쾅!!" ➔ 10만 원짜리 SFP 조립식 젠더 모듈 등장 ✨. 구리, 단거리 빛, 장거리 스나이퍼 빛 레이저를 내 맘대로 0.1초 컷 핫 스왑(Hot Swap) 스위칭 갈아 핑퐁 돌려버리는 우주 극한 텐트 유연성 무결점 달성 쾅!!
+    │
+    ▼
+QSFP / 400G 극한 우주 펌핑 스케일 업 (현재) / 껍데기 크기 1mm도 안 키우고 뱃속에 레이저 빔 핏줄 4가닥 병렬 동시 십자 포화 폭격 쳐 넣어 ➔ 1Gbps ➔ 100Gbps ➔ 400Gbps 광속 돌파 쾌속 질주 스키 타는 K8s 클라우드 데이터 센터 백본 0순위 대동맥 쉴드로 완전 영구 지배 통치 🚀
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

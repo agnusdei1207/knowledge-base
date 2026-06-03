@@ -32,23 +32,27 @@ IND-CPA는 암호 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01
 3. **암호화 및 퀴즈**: 심사위원은 무작위로 동전을 던져 하나($b \in \{0, 1\}$)를 선택한 뒤, 암호화된 덩어리 $C$를 해커에게 던져주며 "이게 0번 평문이게, 1번이게?"라고 묻는다.
 4. **결과 판정**: 해커가 어떤 꼼수를 부리더라도 정답을 맞출 확률이 $\frac{1}{2} + \epsilon$ (여기서 $\epsilon$은 무시할 수 있을 만큼 아주 작은 값)에 불과하다면, 이 암호 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 <strong>IND-<a href="/knowledge-base/studynote/09_security/02_crypto/094_cpa/">CPA</a> 안전성을 확보(합격)</strong>한 것이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IND-CPA 게임 모델 시각화 (해커 vs 심사위원)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">🕵️ 해커 (Adversary)</div><div class="kb-diagram-node">🧑‍⚖️ 심사위원 (Challenger)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 1. M0 ("사과"), M1 ("바나나") 제출 ▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(심사위원: 무작위 동전 던지기 $b=0$ 선택)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(선택된 M0 암호화 -&gt; 암호문 C 생성)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀ 2. 수수께끼 암호문 C ("X9@!K") 반환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(수많은 암호문과 비교 분석)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 3. 해커의 정답 예측: "$b'=0$ 입니다!" ▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">★ 평가: $P(b = b') \approx \frac{1}{2}$ 이어야만 합격(안전)!</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│       IND-CPA 게임 모델 시각화 (해커 vs 심사위원)            │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│ [ 🕵️ 해커 (Adversary) ]             [ 🧑‍⚖️ 심사위원 (Challenger) ] │
+│      │                                              │        │
+│      ├── 1. M0 ("사과"), M1 ("바나나") 제출 ───────▶│        │
+│      │                                              │        │
+│      │                (심사위원: 무작위 동전 던지기 $b=0$ 선택) │        │
+│      │                (선택된 M0 암호화 -> 암호문 C 생성)    │        │
+│      │                                              │        │
+│      │◀──── 2. 수수께끼 암호문 C ("X9@!K") 반환 ────┤        │
+│      │                                              │        │
+│ (수많은 암호문과 비교 분석)                         │        │
+│      │                                              │        │
+│      ├── 3. 해커의 정답 예측: "$b'=0$ 입니다!" ────▶│        │
+│                                                              │
+│ ★ 평가: $P(b = b') \approx \frac{1}{2}$ 이어야만 합격(안전)! │
+└──────────────────────────────────────────────────────────────┘
+```
 이 게임은 해커에게 가장 유리한 상황(원하는 걸 다 암호화해 볼 수 있음)을 가정하고도, 수학적으로 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)가 누출되지 않음을 증명하는 극단적 스트레스 테스트다.
 
 - **📢 섹션 요약 비유**: 해커 두 눈을 가리고 코카콜라($M_0$)와 펩시($M_1$) 중 하나를 컵에 따라준다. 해커가 화학 분석기를 돌리든 무슨 짓을 해도, 그게 코카인지 펩시인지 찍어서 맞출 확률이 반반(50%)밖에 안 될 때만 그 컵([알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))이 완벽한 [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) 컵으로 인정받는다.
@@ -96,25 +100,24 @@ IND-CPA는 암호가 뚫리지 않음을 증명하는 '수학적 대헌장'이�
 | **확률적 암호화 (Probabilistic Encryption)** | 동일 평문에 매번 다른 암호문을 생성하기 위해 난수([IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/), [Nonce](/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/), [Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/))를 사용하는 기법 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">암호 알고리즘 설계 및 단순 암호화 시도</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">선택 평문 공격 (CPA) 위협 대두</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">의미론적 안전성 (Semantic Security) 개념 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">IND-CPA 게임 모델 확립 (50% 구별 불가능성 증명)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">확률적 암호화 강제 (IV, Nonce, OAEP 패딩 도입)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">더 강력한 공격(CCA)을 방어하기 위한 IND-CCA (AEAD, GCM) 로 진화</div>
-</div>
-</div>
-
-
+```text
+암호 알고리즘 설계 및 단순 암호화 시도
+    │
+    ▼
+선택 평문 공격 (CPA) 위협 대두
+    │
+    ▼
+의미론적 안전성 (Semantic Security) 개념 정립
+    │
+    ▼
+IND-CPA 게임 모델 확립 (50% 구별 불가능성 증명)
+    │
+    ▼
+확률적 암호화 강제 (IV, Nonce, OAEP 패딩 도입)
+    │
+    ▼
+더 강력한 공격(CCA)을 방어하기 위한 IND-CCA (AEAD, GCM) 로 진화
+```
 이 흐름도는 단순히 튼튼함을 주장하던 시대에서 벗어나, 해커에게 막강한 권한([CPA](/knowledge-base/studynote/09_security/02_crypto/094_cpa/))을 주고도 확률적으로 안전함을 증명하는 게임 모델(IND-[CPA](/knowledge-base/studynote/09_security/02_crypto/094_cpa/))을 거쳐, 현대의 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 암호화([AEAD](/knowledge-base/studynote/09_security/02_crypto/092_aead/))로 진화하는 궤적을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

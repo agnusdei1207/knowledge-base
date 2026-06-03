@@ -56,31 +56,32 @@ struct mutex {
 ```
 
 **[뮤텍스 동작 시나리오]**
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mutex 획득(Acquire) 및 반환(Release) 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황 1: Thread A가 뮤텍스를 획득함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- A가 <code>mutex_lock()</code> 호출. <code>lock_state</code>가 0이므로 즉시 1로 바꿈(TAS).</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- <code>owner</code>에 A를 기록하고 임계 구역 진입. (커널 개입 거의 없음, 빠름)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황 2: Thread B가 뮤텍스를 요청함 (A가 아직 방에 있음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- B가 <code>mutex_lock()</code> 호출. <code>lock_state</code>가 1임을 확인.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">========= ⚡ (무거운 커널 진입 및 Sleep 전환) ⚡ =================</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- OS 개입: B의 상태를 Running -&gt; Waiting 으로 강등시킴.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- B의 TCB(스레드 블록)를 뮤텍스의 <code>wait_q</code> 꼬리에 매달아 둠.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- CPU 제어권을 다른 스레드(C)에게 넘김 (Context Switch 발생).</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황 3: Thread A가 볼일을 마치고 나옴</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- A가 <code>mutex_unlock()</code> 호출.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 커널 개입: 뮤텍스의 <code>wait_q</code>를 뒤져서 자고 있는 B를 찾음.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- B를 <code>wait_q</code>에서 빼내고 상태를 Waiting -&gt; Ready 로 승격(Wake-up).</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- <code>lock_state</code>를 0으로 풀지 않고, 바로 B에게 락을 인계함.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황 4: Thread B 실행 재개</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Ready 큐에 있던 B가 스케줄러에 의해 다시 CPU를 잡고 임계 구역 실행 시작!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 Mutex 획득(Acquire) 및 반환(Release) 아키텍처        │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │  [상황 1: Thread A가 뮤텍스를 획득함]                                 │
+  │   - A가 `mutex_lock()` 호출. `lock_state`가 0이므로 즉시 1로 바꿈(TAS). │
+  │   - `owner`에 A를 기록하고 임계 구역 진입. (커널 개입 거의 없음, 빠름)       │
+  │                                                                   │
+  │  [상황 2: Thread B가 뮤텍스를 요청함 (A가 아직 방에 있음)]                 │
+  │   - B가 `mutex_lock()` 호출. `lock_state`가 1임을 확인.               │
+  │  ========= ⚡ (무거운 커널 진입 및 Sleep 전환) ⚡ =================│
+  │   - OS 개입: B의 상태를 Running -> Waiting 으로 강등시킴.             │
+  │   - B의 TCB(스레드 블록)를 뮤텍스의 `wait_q` 꼬리에 매달아 둠.              │
+  │   - CPU 제어권을 다른 스레드(C)에게 넘김 (Context Switch 발생).           │
+  │                                                                   │
+  │  [상황 3: Thread A가 볼일을 마치고 나옴]                              │
+  │   - A가 `mutex_unlock()` 호출.                                      │
+  │   - 커널 개입: 뮤텍스의 `wait_q`를 뒤져서 자고 있는 B를 찾음.               │
+  │   - B를 `wait_q`에서 빼내고 상태를 Waiting -> Ready 로 승격(Wake-up). │
+  │   - `lock_state`를 0으로 풀지 않고, 바로 B에게 락을 인계함.               │
+  │                                                                   │
+  │  [상황 4: Thread B 실행 재개]                                        │
+  │   - Ready 큐에 있던 B가 스케줄러에 의해 다시 CPU를 잡고 임계 구역 실행 시작!   │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 뮤텍스의 최대 단점은 누군가 락을 쥐고 있을 때 내가 접근하면, <strong>"반드시 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 모드로 들어가서 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/">컨텍스트</a> <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>를 맞고 잠들어야 한다"</strong>는 점이다. 잠드는 데 수 $\mu s$, 나중에 깨어나는 데 수 $\mu s$가 걸린다. 만약 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) 안에서 실행되는 코드가 10줄(수십 나노초)밖에 안 된다면, 차라리 밖에서 [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)으로 뱅글뱅글 도는 게 잠들고 깨어나는 오버헤드보다 수백 배 빠르다.
 
@@ -127,25 +128,30 @@ struct mutex {
 
 ### 의사결정 및 튜닝 플로우
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">임계 구역 (Critical Section) 동기화 객체 선택 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">멀티스레드/멀티프로세스 환경에서 자원 보호를 위한 락(Lock) 설계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코드가 실행되는 곳이 절대 잠들면 안 되는 하드웨어 인터럽트 핸들러인가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Spinlock (스핀락) 강제 사용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(단, 임계 구역 코드를 마이크로초 이내로 극단적 최소화할 것)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 (일반적인 유저 애플리케이션 또는 워커 스레드다)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공유 자원이 여러 개(예: 커넥션 풀 10개)라서 다수 스레드 진입을 허용하는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Semaphore (세마포어) 사용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 (단 1명만 들어가는 완벽한 상호 배제가 필요하다)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Mutex (뮤텍스) 사용 확정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(최신 OS의 Futex 지원을 통해 속도와 효율을 모두 챙김)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 임계 구역 (Critical Section) 동기화 객체 선택 플로우       │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [멀티스레드/멀티프로세스 환경에서 자원 보호를 위한 락(Lock) 설계]               │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      코드가 실행되는 곳이 절대 잠들면 안 되는 하드웨어 인터럽트 핸들러인가?     │
+  │          ├─ 예 ─────▶ [Spinlock (스핀락) 강제 사용]                 │
+  │          │            (단, 임계 구역 코드를 마이크로초 이내로 극단적 최소화할 것)│
+  │          └─ 아니오 (일반적인 유저 애플리케이션 또는 워커 스레드다)             │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      공유 자원이 여러 개(예: 커넥션 풀 10개)라서 다수 스레드 진입을 허용하는가? │
+  │          ├─ 예 ─────▶ [Semaphore (세마포어) 사용]                 │
+  │          │                                                        │
+  │          └─ 아니오 (단 1명만 들어가는 완벽한 상호 배제가 필요하다)          │
+  │                │                                                  │
+  │                ▼                                                  │
+  │             [Mutex (뮤텍스) 사용 확정]                              │
+  │             (최신 OS의 Futex 지원을 통해 속도와 효율을 모두 챙김)           │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** "뮤텍스는 느리고 [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)은 빠르다"는 옛말이다. Futex의 도입으로 경합이 없는 평시의 뮤텍스는 [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)과 속도가 100% 똑같다. 따라서 유저 스페이스 애플리케이션 개발자는 섣불리 CPU를 태우는 [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)을 직접 구현하지 말고, OS가 제공하는 갓벽한 `std::mutex`를 믿고 쓰는 것이 가장 좋은 아키텍처다.
 
@@ -188,19 +194,15 @@ struct mutex {
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Test-and-Set 연산 하드웨어</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">뮤텍스 락 (Mutex Lock)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스핀락 바쁜 대기 (Busy Wait)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">세마포어 P, V 연산</div></div>
-</div>
-</div>
-
-
+```text
+[Test-and-Set 연산 하드웨어]
+    │
+    ▼
+[뮤텍스 락 (Mutex Lock)]
+    │
+    ├──▶ [스핀락 바쁜 대기 (Busy Wait)]
+    └──▶ [세마포어 P, V 연산]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

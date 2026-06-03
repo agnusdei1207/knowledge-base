@@ -18,23 +18,22 @@ tags = ["studynote-database"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DB 사용자 유형 분류</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 최종 사용자 (End User)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 단순(Naive): GUI 앱을 통해 미리 정의된 쿼리 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 전문(Sophisticated): SQL 직접 작성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 독립형(Standalone): PC DB 단독 사용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 응용 프로그래머 (Application Programmer)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 호스트 언어 + 임베디드 SQL / ORM</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. DBA (Database Administrator)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 스키마 정의, 권한 관리, 성능 튜닝</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────┐
+│         DB 사용자 유형 분류                           │
+├──────────────────────────────────────────────────────┤
+│ 1. 최종 사용자 (End User)                            │
+│    - 단순(Naive): GUI 앱을 통해 미리 정의된 쿼리 실행│
+│    - 전문(Sophisticated): SQL 직접 작성              │
+│    - 독립형(Standalone): PC DB 단독 사용             │
+│                                                       │
+│ 2. 응용 프로그래머 (Application Programmer)          │
+│    - 호스트 언어 + 임베디드 SQL / ORM                │
+│                                                       │
+│ 3. DBA (Database Administrator)                      │
+│    - 스키마 정의, 권한 관리, 성능 튜닝               │
+└──────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: DB 사용자 유형은 도서관 이용 방식이다. 일반 독자(최종 사용자)는 사서 안내 창구에서 검색, 연구자(전문 사용자)는 직접 서가를 탐색, 사서([DBA](/knowledge-base/studynote/05_database/01_db_architecture_relational/025_dba_database_administrator/))는 도서관 전체를 관리한다.
 
@@ -115,23 +114,21 @@ Text-to-SQL과 LLM의 발전으로 비전문가도 자연어로 DB를 조회하�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">전통 DB 사용자 — 단순·전문·프로그래머·DBA 4분류</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">역할 기반 접근 제어 (RBAC) — 사용자 유형별 권한 집합</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">서비스 계정 — 마이크로서비스·배치 비인간 사용자</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 사이언티스트 — Notebook 기반 분석 사용자</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AI 에이전트 (Text-to-SQL) — 자연어 DB 조회 사용자</div></div>
-</div>
-</div>
-
-
+```text
+[전통 DB 사용자 — 단순·전문·프로그래머·DBA 4분류]
+    │
+    ▼
+[역할 기반 접근 제어 (RBAC) — 사용자 유형별 권한 집합]
+    │
+    ▼
+[서비스 계정 — 마이크로서비스·배치 비인간 사용자]
+    │
+    ▼
+[데이터 사이언티스트 — Notebook 기반 분석 사용자]
+    │
+    ▼
+[AI 에이전트 (Text-to-SQL) — 자연어 DB 조회 사용자]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

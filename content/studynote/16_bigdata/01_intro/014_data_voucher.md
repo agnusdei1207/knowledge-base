@@ -23,23 +23,19 @@ tags = ["bigdata"]
 
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)바우처([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Voucher) 사업은 [데이터 경제](/knowledge-base/studynote/16_bigdata/01_intro/011_data_economy/) 활성화를 위한 정부(과학기술정보통신부 산하 한국데이터산업진흥원 등)의 핵심 국책 사업이다. 4차 산업혁명 시대에서 대기업들은 막대한 자본으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 축적하고 AI를 고도화하는 반면, 중소/벤처기업은 당장 사용할 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 없어 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 빈익빈 부익부([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Divide)' 현상에 직면하게 되었다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)바우처는 이러한 격차를 해소하기 위해 직접적인 현금 지원 대신, [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공급 기업의 상품이나 가공 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 이용할 수 있는 티켓(Voucher)을 지급하는 제도다. 이를 통해 수요 기업의 혁신을 돕는 동시에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 판매/가공 기업의 시장을 육성하는 **양면 시장(Two-sided Market)** 성장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 취하고 있다.
 
+```text
+이 도식은 데이터바우처 사업이 개입하기 전후의 중소기업 '데이터 격차(Data Divide)' 문제 해결 과정을 시각화한 것이다.
 
+[도입 전: 양극화 심화]
+대기업 ──(자본)──> [자체 데이터 수집/가공] ──> AI 혁신 및 독점
+중소기업 ──(비용 한계)──> 데이터 부재 ──> 경쟁력 도태
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 도식은 데이터바우처 사업이 개입하기 전후의 중소기업 '데이터 격차(Data Divide)' 문제 해결 과정을 시각화한 것이다.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">도입 전: 양극화 심화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">대기업 ──(자본)──&gt;</div><div class="kb-diagram-node">자체 데이터 수집/가공</div><div class="kb-diagram-note">──&gt; AI 혁신 및 독점</div></div>
-<div class="kb-diagram-note">중소기업 ──(비용 한계)──&gt; 데이터 부재 ──&gt; 경쟁력 도태</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">도입 후: 생태계 마중물 역할</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">정부 ──(바우처 지급)──&gt;</div><div class="kb-diagram-node">중소/스타트업 (수요기업)</div></div>
-<div class="kb-diagram-note">(바우처 결제)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 판매/가공 (공급기업)</div><div class="kb-diagram-note">──(고품질 데이터/AI 셋)──&gt; 중소기업 비즈니스 혁신</div></div>
-</div>
-</div>
-
-
+[도입 후: 생태계 마중물 역할]
+정부 ──(바우처 지급)──> [중소/스타트업 (수요기업)]
+                            │ (바우처 결제)
+                            ↓
+                      [데이터 판매/가공 (공급기업)] ──(고품질 데이터/AI 셋)──> 중소기업 비즈니스 혁신
+```
 이 도식의 핵심은 정부의 지원이 수요 기업을 거쳐 결국 공급 기업으로 흘러가는 선순환 고리를 형성한다는 점이다. 이런 배치는 시장에 무분별한 현금을 푸는 대신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 산업 자체의 밸류체인([Value Chain](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/))을 강제적으로 가동시키기 때문이며, 따라서 사업 전체의 성공 여부는 수요 기업의 아이디어뿐 아니라 공급 기업의 [데이터 정제](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/266_data_cleansing/)(가공) 역량에 큰 영향을 받는다. 실무에서는 이 지원금을 통해 일회성 분석으로 끝내지 않고, 자사의 지속 가능한 [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/) 자산으로 편입시킬 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 필요하다.
 
 **📢 섹션 요약 비유**: 마치 돈이 없어 도서관을 짓지 못하는 동네 아이들(중소기업)에게 현금을 주는 대신, 훌륭한 출판사(공급기업)에서 책을 골라볼 수 있는 도서 상품권(바우처)을 주어 아이들과 출판사를 동시에 키우는 지혜와 같습니다.
@@ -60,18 +56,15 @@ tags = ["bigdata"]
 
 이 시스템의 핵심 원리는 구매와 일반가공, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 가공으로 나뉘는 <strong>지원 트랙의 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a></strong>와, 이들 간의 엄격한 <strong>매칭 및 검수 프로세스</strong>이다.
 
+```text
+이 흐름도는 수요 기업이 사업에 참여하여 데이터를 획득하고 검수받기까지의 순차적 상태 전이도를 보여준다.
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 흐름도는 수요 기업이 사업에 참여하여 데이터를 획득하고 검수받기까지의 순차적 상태 전이도를 보여준다.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">기획</div><div class="kb-diagram-note">──① 사업계획/매칭──&gt;</div><div class="kb-diagram-node">협약</div><div class="kb-diagram-note">──② 바우처 발급──&gt;</div><div class="kb-diagram-node">수행</div><div class="kb-diagram-note">──③ 데이터 전달/가공──&gt;</div><div class="kb-diagram-node">검수</div></div>
-<div class="kb-diagram-note">(수요+공급 협의) (전담 기관 승인) (ETL / AI Labeling 수행) (품질/수량 감리)</div>
-<div class="kb-diagram-tree-item" style="--depth:8">(수요기업 피드백)─&lt; (보완 요구)</div>
-</div>
-</div>
-
-
+[기획] ──① 사업계획/매칭──> [협약] ──② 바우처 발급──> [수행] ──③ 데이터 전달/가공──> [검수]
+  │                           │                         │                          │
+(수요+공급 협의)          (전담 기관 승인)      (ETL / AI Labeling 수행)     (품질/수량 감리)
+                                                        │                          │
+                                                        └─(수요기업 피드백)─<───(보완 요구)
+```
 이 흐름의 핵심은 협약 이후 수행 단계에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 실질적 가공(③)이 일어나는 동안 수요 기업과 공급 기업 간의 지속적인 [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)가 위치한다는 점이다. 이런 배치는 공급자가 일방적으로 덤프(Dump) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 던져주고 끝내는 것을 막기 때문이며, 따라서 최종 산출물의 품질은 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 사업계획서에 명시된 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)([Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/))와 라벨링 가이드라인의 정교함에 의해 결정된다. 실무에서는 이 지점의 [요구사항 명세](/knowledge-base/studynote/04_software_engineering/03_design_architecture/148_requirements_specification_formal_informal/)가 모호할 경우, 나중에 쓸모없는 쓰레기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(GIGO)를 넘겨받고도 검수를 통과해야 하는 병목이 발생할 수 있다.
 
 바우처로 거래되는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)/가공 결과물의 명세서 예시는 다음과 같다.
@@ -105,20 +98,18 @@ dataset_spec:
 
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)바우처는 타 과목 영역인 <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/">인공지능</a>(<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a>) 및 딥러닝(Deep <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/">Learning</a>)</strong>과 결합할 때 폭발적인 시너지를 낸다. 최근 지원 예산의 절대다수가 '[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 가공 바우처'에 몰려 있다. [지도 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/)([Supervised Learning](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/121_supervised_learning/))을 위해서는 정답지가 달린 라벨링 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 필수적인데, 이 과정은 고도의 노동 집약적(Human-in-the-loop) 작업이다. 바우처 사업은 이 막대한 라벨링 비용을 클라우드소싱 워커(Crowdsourcing Worker) 플랫폼 등과 연계하여 해결해 줌으로써 스타트업의 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 정확도를 단숨에 상용화 수준으로 끌어올린다.
 
+```text
+이 매트릭스는 바우처 사업 내 일반 데이터 구매와 AI 가공 지원의 파이프라인 차이를 보여준다.
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 매트릭스는 바우처 사업 내 일반 데이터 구매와 AI 가공 지원의 파이프라인 차이를 보여준다.</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비교 항목</div><div class="kb-diagram-cell">구매 바우처 파이프라인</div><div class="kb-diagram-cell">AI 가공 바우처 파이프라인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심 작업</div><div class="kb-diagram-cell">Data Transfer (이관)</div><div class="kb-diagram-cell">Data Annotation (라벨링/태깅)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주요 대상</div><div class="kb-diagram-cell">기상, 금융, 상권 기성 데이터</div><div class="kb-diagram-cell">이미지, 음성, 비정형 텍스트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">투입 인력</div><div class="kb-diagram-cell">DBA / Data Engineer</div><div class="kb-diagram-cell">Crowdsourcing Workers / AI Dev</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과물 형태</div><div class="kb-diagram-cell">CSV, JSON DB Dump</div><div class="kb-diagram-cell">JSON(COCO 포맷), XML 등</div></div>
-</div>
-</div>
-
-
+┌────────────┬─────────────────────────────┬────────────────────────────────┐
+│ 비교 항목  │ 구매 바우처 파이프라인      │ AI 가공 바우처 파이프라인      │
+├────────────┼─────────────────────────────┼────────────────────────────────┤
+│ 핵심 작업  │ Data Transfer (이관)        │ Data Annotation (라벨링/태깅)  │
+│ 주요 대상  │ 기상, 금융, 상권 기성 데이터│ 이미지, 음성, 비정형 텍스트    │
+│ 투입 인력  │ DBA / Data Engineer         │ Crowdsourcing Workers / AI Dev │
+│ 결과물 형태│ CSV, JSON DB Dump           │ JSON(COCO 포맷), XML 등        │
+└────────────┴─────────────────────────────┴────────────────────────────────┘
+```
 일반 구매 방식은 즉시 조회가 가능한 [정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/002_structured_data/) 확보에 유리하지만, 독창적 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델 설계에는 한계가 있다. 반면 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 가공 방식은 단기적인 커뮤니케이션 오버헤드와 검수 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 다소 크지만, [비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/)를 자사의 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델에 정확히 맞출 수 있어, 원천 기술 중심의 스타트업 환경에서는 핵심 역량 기준으로 훨씬 강력한 무기가 될 수 있다.
 
 **📢 섹션 요약 비유**: 시장에서 파는 완성된 김치(구매 바우처)를 사면 편하지만 남들과 똑같은 맛이 나고, 내 입맛에 맞게 레시피를 주고 셰프에게 맞춤 담금을 요청([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 가공 바우처)하면 시간이 걸려도 나만의 시그니처 메뉴를 만들 수 있는 것과 같습니다.
@@ -141,18 +132,14 @@ dataset_spec:
 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a>: "Just-in-case"식 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 덤프 요구</strong>
 무조건 예산(바우처)을 꽉 채워서 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 위해, 현재 비즈니스 로직에 필요 없는 불필요한 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)(Column)이나 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)없는 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)까지 무리하게 가공을 요구하는 패턴이다. 이는 공급기업의 핵심 정제 집중력을 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시켜 전체적인 라벨링 품질(정합성)을 떨어뜨리며, 전달받은 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)를 거버넌스가 불가능한 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스왐프([Data Swamp](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/288_data_swamp_metadata_management_absence/))'로 전락시킨다. 
 
+```text
+이 도식은 데이터바우처 수행 시 발생할 수 있는 요구사항 불일치와 장애 전파 구조를 보여준다.
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 도식은 데이터바우처 수행 시 발생할 수 있는 요구사항 불일치와 장애 전파 구조를 보여준다.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">수요기업: 모호한 지시</div><div class="kb-diagram-note">=&gt;</div><div class="kb-diagram-node">공급기업: 일괄 처리</div><div class="kb-diagram-note">=&gt;</div><div class="kb-diagram-node">전담기관: 외형 통과</div><div class="kb-diagram-note">=&gt;</div><div class="kb-diagram-node">수요기업 Dev팀: 재정제</div></div>
-<div class="kb-diagram-note">(형식적 스키마 정의 누락) (내부 엔지니어링 리소스 낭비)</div>
-</div>
-</div>
-
-
-이 흐름의 핵심은 외형적 감리(검수)가 실제 시스템 활용의 성공을 보장하지 않는다는 점이다. 이런 구조적 틈은 수요 기업의 비즈니스 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 지식과 공급 기업의 가공 인력 간에 발생하는 시맨틱 갭(Semantic Gap) 때문이며, 따라서 프로젝트의 진짜 성패는 중간 관리자(PM)가 정의한 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 정의서 수준에 의해 완전히 제한된다. 실무에서는 이러한 재정제 오버헤드를 막기 위해, 전체 물량 가공 전 '1% 샘플 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)'를 먼저 납품받아 실제 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에 태워보는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)럿 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 필수 의사결정 플로우에 넣어야 한다.
+[수요기업: 모호한 지시] => [공급기업: 일괄 처리] => [전담기관: 외형 통과] => [수요기업 Dev팀: 재정제]
+          ▲                                                             ▲
+ (형식적 스키마 정의 누락)                                          (내부 엔지니어링 리소스 낭비)
+```
+이 흐름의 핵심은 외형적 감리(검수)가 실제 시스템 활용의 성공을 보장하지 않는다는 점이다. 이런 구조적 틈은 수요 기업의 비즈니스 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 지식과 공급 기업의 가공 인력 간에 발생하는 시맨틱 갭(Semantic Gap) 때문이며, 따라서 프로젝트의 진짜 성패는 중간 관리자(PM)가 정의한 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 정의서 수준에 의해 완전히 제한된다. 실무에서는 이러한 재정제 오버헤드를 막기 위해, 전체 수량 가공 전 '1% 샘플 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)'를 먼저 납품받아 실제 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에 태워보는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)럿 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 필수 의사결정 플로우에 넣어야 한다.
 
 **📢 섹션 요약 비유**: 집을 지을 때 "크고 멋지게 지어주세요"라고 모호하게 계약하면 나중에 문이 열리지 않아도 따질 수 없듯, "문짝은 2미터, 벽돌은 빨간색"이라고 아주 깐깐하게 청사진([스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/))을 그려줘야 완벽한 집([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 받을 수 있습니다.
 
@@ -175,20 +162,15 @@ dataset_spec:
 - <strong>K-<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">DATA</a> (한국데이터산업진흥원) 지침</strong>: 바우처 사업의 관리 및 품질 검수 표준 가이드라인
 - <strong>TTA <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 품질 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a></strong>: 가공 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 객관적 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 평가하기 위한 국내 표준
 
+```text
+데이터바우처 사업을 기점으로 한 국가 데이터 생태계의 장기 진화 로드맵이다.
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">데이터바우처 사업을 기점으로 한 국가 데이터 생태계의 장기 진화 로드맵이다.</div>
-<div class="kb-diagram-note">Phase 1: (과거) 예산 집중 지원 ──&gt; 단순 데이터 수집 및 기초 라벨링 (단기 처방)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Phase 2: (현재) AI 융합 가공 ──&gt; 비전, 자연어 등 고도화된 모델 학습용 셋 구축</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Phase 3: (미래) 자생적 생태계 ──&gt; 바우처 없이도 공급-수요가 맞물려 도는 데이터 거래소 활성화</div>
-</div>
-</div>
-
-
+Phase 1: (과거) 예산 집중 지원 ──> 단순 데이터 수집 및 기초 라벨링 (단기 처방)
+  ↓
+Phase 2: (현재) AI 융합 가공 ──> 비전, 자연어 등 고도화된 모델 학습용 셋 구축
+  ↓
+Phase 3: (미래) 자생적 생태계 ──> 바우처 없이도 공급-수요가 맞물려 도는 데이터 거래소 활성화
+```
 이 진화 과정의 핵심은 정부 주도의 '마중물(Phase 1,2)'이 결국 민간 주도의 '자생적 시장(Phase 3)'으로 전환된다는 점이다. 이는 무한정 국비를 투입할 수 없는 한계를 극복하기 위함이며, 따라서 미래에는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 양([Volume](/knowledge-base/studynote/14_data_engineering/01_infrastructure/001_bigdata_3v_5v/))보다 품질(Veracity)을 증명하는 자동화된 검수 플랫폼의 역할이 [가치 사슬](/knowledge-base/studynote/12_it_management/05_security_compliance/249_value_chain_competitive_analysis/)의 중심에 설 것이다. 실무에서는 지원금에 취해 일회성 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소비에 그치지 않고, 자사만의 핵심 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델을 고도화하여 의존성을 탈피해야 한다.
 
 **📢 섹션 요약 비유**: 처음에는 부모님이 자전거 타는 법을 가르치기 위해 보조 바퀴(바우처)를 달아주지만, 결국 아이가 스스로 균형을 잡고 보조 바퀴를 떼어내어 쌩쌩 달리는 독립적인 어른(자생적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 생태계)으로 성장하는 것과 같습니다.
@@ -196,7 +178,7 @@ dataset_spec:
 ---
 
 ### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
-- **크라우드소싱 (Crowdsourcing)** | 대중(Crowd)을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집 및 라벨링 작업에 참여시켜 대규모 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 가공 바우처 물량을 단기간에 처리하는 플랫폼 기술.
+- **크라우드소싱 (Crowdsourcing)** | 대중(Crowd)을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집 및 라벨링 작업에 참여시켜 대규모 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 가공 바우처 수량을 단기간에 처리하는 플랫폼 기술.
 - <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/">MLOps</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/220_mlops_machine_learning_operations/">Machine Learning Operations</a>)</strong> | 바우처로 받은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 단순히 저장하는 데 그치지 않고, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델의 [지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/), 배포, 학습을 자동화하는 운영 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인.
 - <strong>어노테이션 (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Annotation)</strong> | [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 인식할 수 있도록 원시 이미지나 텍스트에 정답(태그)을 달아주는 핵심 가공 과정.
 - <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/">데이터 레이크</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/">Data Lake</a>)</strong> | 수요 기업이 다양한 포맷([JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/), 이미지 등)으로 납품받은 바우처 산출물을 원본 그대로 보관하고 분석하는 중앙 저장소.
@@ -205,23 +187,21 @@ dataset_spec:
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 격차 (Data Divide) — 중소기업의 데이터 구매·활용 역량 부재</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터바우처 사업 — 정부 지원금으로 데이터 구매·가공·분석 비용 보전</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 마켓플레이스 — 공급 기업·수요 기업 연계 데이터 거래 플랫폼</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 활용 역량 강화 — AI·분석 인재 양성, 데이터 리터러시 향상</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 경제 생태계 — 공공·민간 데이터 결합, 데이터 산업 활성화</div></div>
-</div>
-</div>
-
-
+```text
+[데이터 격차 (Data Divide) — 중소기업의 데이터 구매·활용 역량 부재]
+    │
+    ▼
+[데이터바우처 사업 — 정부 지원금으로 데이터 구매·가공·분석 비용 보전]
+    │
+    ▼
+[데이터 마켓플레이스 — 공급 기업·수요 기업 연계 데이터 거래 플랫폼]
+    │
+    ▼
+[데이터 활용 역량 강화 — AI·분석 인재 양성, 데이터 리터러시 향상]
+    │
+    ▼
+[데이터 경제 생태계 — 공공·민간 데이터 결합, 데이터 산업 활성화]
+```
 
 이 흐름은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 격차 문제 인식에서 정부 바우처 지원 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 진입 장벽을 낮추고, 마켓플레이스 생태계와 역량 강화를 거쳐 국가 [데이터 경제](/knowledge-base/studynote/16_bigdata/01_intro/011_data_economy/)로 확장되는 [데이터 민주화](/knowledge-base/studynote/16_bigdata/01_intro/010_data_democratization/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)의 계보를 보여준다.
 

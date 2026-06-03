@@ -25,16 +25,13 @@ tags = ["studynote-database"]
 
 이 그림은 현재 주제가 입력 조건, 통제 규칙, 결과 보장 사이에서 어떤 위치를 차지하는지 압축해 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Input -&gt; Rule -&gt; Current Concept -&gt; Outcome</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">google-truetime-c… -&gt; current scope -&gt; mvcc-garbage-coll…</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ Input -> Rule -> Current Concept -> Outcome                 │
+├──────────────────────────────────────────────────────────────┤
+│ google-truetime-c… -> current scope -> mvcc-garbage-coll… │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 구조에서 핵심은 `클럭 스큐 구글 트루타임 원자 시계 오차 범위 대기 분산 노드 일관성 통제`가 독립 기능이 아니라, 앞단의 조건과 뒷단의 운영 결과를 이어 주는 제어 지점이라는 점이다. 따라서 정의만 외우기보다 적용 시점과 실패 시 영향을 같이 기억해야 한다.
 
@@ -55,16 +52,13 @@ tags = ["studynote-database"]
 
 이 그림은 현재 개념이 선행 조건을 받아 실제 동작 규칙으로 바꾸고, 운영 결과로 밀어 넣는 흐름을 단순화해 나타낸 것이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Pre-condition -&gt; Current Rule -&gt; Validation -&gt; Result</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">람포트 시계 논리적 이벤트 … -&gt; 클럭 스큐 구글 트루타임 원… -&gt; 가비지 컬렉터 (MVCC U…</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ Pre-condition -> Current Rule -> Validation -> Result       │
+├──────────────────────────────────────────────────────────────┤
+│ 람포트 시계 논리적 이벤트 … -> 클럭 스큐 구글 트루타임 원… -> 가비지 컬렉터 (MVCC U… │
+└──────────────────────────────────────────────────────────────┘
+```
 
 결국 `클럭 스큐 구글 트루타임 원자 시계 오차 범위 대기 분산 노드 일관성 통제`는 한 문장 정의보다 입력 조건, 처리 순서, 결과 보장을 묶어 보는 것이 중요하다. 그래서 설계 문서에는 적용 대상, 실패 시 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 경로, 측정 지표를 같이 적어 두는 편이 좋다.
 
@@ -125,19 +119,15 @@ tags = ["studynote-database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">람포트 시계 논리적 이벤트 순서 선후 관계 인과 …</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">클럭 스큐 구글 트루타임 원자 시계 오차 범위 대…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">가비지 컬렉터 (MVCC Undo/Redo…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ACID 트랜잭션 섀도우 페이징 롤백 속도…</div></div>
-</div>
-</div>
-
-
+```text
+[람포트 시계 논리적 이벤트 순서 선후 관계 인과 …]
+    │
+    ▼
+[클럭 스큐 구글 트루타임 원자 시계 오차 범위 대…]
+    │
+    ├──▶ [가비지 컬렉터 (MVCC Undo/Redo…]
+    └──▶ [ACID 트랜잭션 섀도우 페이징 롤백 속도…]
+```
 
 이 흐름도는 선행 문제에서 현재 개념으로 초점이 모이고, 이후 `가비지 컬렉터 (MVCC Undo/Redo 블록 회수 진공 프로세스 Vacuum) 데이터 정리`와 `ACID 트랜잭션 섀도우 페이징 롤백 속도 최적 디스크 I/O 절감 데이터베이스 구조` 같은 확장 주제로 이어지는 학습 경로를 보여 준다.
 

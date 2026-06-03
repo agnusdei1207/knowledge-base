@@ -25,18 +25,14 @@ tags = ["studynote-network"]
 
 이처럼 NAK는 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)이라는 긴 대기 시간을 획기적으로 줄여주어 재전송의 민첩성을 극대화하는 촉매제 역할을 합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SR ARQ</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NAK</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">피기배킹</div></div>
-</div>
-</div>
-
-
+```text
+[SR ARQ]
+    │
+    ▼
+[NAK]
+    │
+    └──▶ [피기배킹]
+```
 
 - **📢 섹션 요약 비유**: NAK는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -52,18 +48,14 @@ NAK [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130
 - <strong>Selective Repeat 에서의 <code>NAK N</code></strong>:
   - 송신기: "아, 딴 건 다 괜찮은데 N번 하나만 깨졌구나? 오케이, 딱 **그 N번 프레임 하나만 핀셋으로 집어서 다시 보내줄게!**" (선택적 재전송).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SR ARQ</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NAK</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">피기배킹</div></div>
-</div>
-</div>
-
-
+```text
+[SR ARQ]
+    │
+    ▼
+[NAK]
+    │
+    └──▶ [피기배킹]
+```
 
 - **📢 섹션 요약 비유**: NAK의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -126,19 +118,15 @@ NAK는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rela
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: SR ARQ</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: NAK</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 피기배킹</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고신뢰 저지연 링크 제어</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: SR ARQ]
+    │
+    ▼
+[현재 개념: NAK]
+    │
+    ├──▶ [확장 A: 피기배킹]
+    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
+```
 
 NAK는 SR ARQ에서 출발해 현재 메커니즘을 정교화하고, 이후 [피기배킹](/knowledge-base/studynote/03_network/04_data_link_layer_error/212_piggybacking_ack_merging/)와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

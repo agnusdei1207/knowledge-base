@@ -18,44 +18,46 @@ tags = ["studynote-operating-system"]
 
 ## Ⅰ. 셸 개념
 
+```
+셸 (Shell):
 
+운영체제 구조:
+  사용자
+    │
+    ↓ (명령 입력)
+  [셸 (Shell)]  ← 인터프리터, 스크립트 실행
+    │
+    ↓ (시스템 콜)
+  [커널 (Kernel)]
+    │
+    ↓ (하드웨어 제어)
+  [하드웨어]
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">셸 (Shell):</div>
-<div class="kb-diagram-note">운영체제 구조:</div>
-<div class="kb-diagram-note">사용자</div>
-<div class="kb-diagram-note">↓ (명령 입력)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">셸 (Shell)</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-note">인터프리터, 스크립트 실행</div></div>
-<div class="kb-diagram-note">↓ (시스템 콜)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">커널 (Kernel)</div></div>
-<div class="kb-diagram-note">↓ (하드웨어 제어)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">하드웨어</div></div>
-<div class="kb-diagram-note">셸의 역할:</div>
-<div class="kb-diagram-note">1. 명령 해석 (Command Interpretation)</div>
-<div class="kb-diagram-note">2. 명령 실행 (fork/exec 시스템 콜)</div>
-<div class="kb-diagram-note">3. 환경 변수 관리 (PATH, HOME 등)</div>
-<div class="kb-diagram-note">4. 파이프 &amp; 리다이렉션</div>
-<div class="kb-diagram-note">5. 작업 제어 (Job Control): fg, bg, &amp;</div>
-<div class="kb-diagram-note">6. 셸 스크립팅</div>
-<div class="kb-diagram-note">명령 실행 과정:</div>
-<div class="kb-diagram-note">사용자: ls -la /tmp</div>
-<div class="kb-diagram-note">1. 셸이 입력을 파싱: 명령=ls, 인수=-la, /tmp</div>
-<div class="kb-diagram-note">2. fork(): 자식 프로세스 생성</div>
-<div class="kb-diagram-note">3. exec(): 자식에서 /bin/ls 실행</div>
-<div class="kb-diagram-note">4. wait(): 부모(셸)가 자식 종료 대기</div>
-<div class="kb-diagram-note">5. 셸 프롬프트 재표시</div>
-<div class="kb-diagram-note">셸 종류:</div>
-<div class="kb-diagram-note">sh (Bourne Shell, 1979) — POSIX 원형</div>
-<div class="kb-diagram-note">csh (C Shell, 1978) — C 문법 유사</div>
-<div class="kb-diagram-note">ksh (Korn Shell, 1983) — sh 확장</div>
-<div class="kb-diagram-note">bash (Bourne Again SHell, 1989) — Linux 표준</div>
-<div class="kb-diagram-note">zsh (Z Shell, 1990) — 강력한 자동완성</div>
-<div class="kb-diagram-note">fish (2005) — 사용자 친화, 비POSIX</div>
-</div>
-</div>
+셸의 역할:
+  1. 명령 해석 (Command Interpretation)
+  2. 명령 실행 (fork/exec 시스템 콜)
+  3. 환경 변수 관리 (PATH, HOME 등)
+  4. 파이프 & 리다이렉션
+  5. 작업 제어 (Job Control): fg, bg, &
+  6. 셸 스크립팅
 
+명령 실행 과정:
+  사용자: ls -la /tmp
+  
+  1. 셸이 입력을 파싱: 명령=ls, 인수=-la, /tmp
+  2. fork(): 자식 프로세스 생성
+  3. exec(): 자식에서 /bin/ls 실행
+  4. wait(): 부모(셸)가 자식 종료 대기
+  5. 셸 프롬프트 재표시
 
+셸 종류:
+  sh  (Bourne Shell, 1979) — POSIX 원형
+  csh (C Shell, 1978) — C 문법 유사
+  ksh (Korn Shell, 1983) — sh 확장
+  bash (Bourne Again SHell, 1989) — Linux 표준
+  zsh (Z Shell, 1990) — 강력한 자동완성
+  fish (2005) — 사용자 친화, 비POSIX
+```
 
 > 📢 **섹션 요약 비유**: 셸은 번역관 — 사람의 한국어(명령)를 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 언어(시스템 콜)로 번역해주는 통역사. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 셸이 없으면 사람과 직접 대화하기 어려워요.
 
@@ -130,50 +132,52 @@ Bash 셸 스크립팅:
 
 ## Ⅲ. 환경 변수와 프로세스
 
+```
+환경 변수 (Environment Variables):
 
+주요 환경 변수:
+  PATH: 실행 파일 검색 경로
+  HOME: 홈 디렉토리 (/root, /home/user)
+  USER: 현재 사용자 이름
+  SHELL: 현재 셸 경로
+  PS1: 프롬프트 형식 (user@host:~$)
+  LANG: 언어/인코딩 (ko_KR.UTF-8)
+  PWD: 현재 작업 디렉토리
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">환경 변수 (Environment Variables):</div>
-<div class="kb-diagram-note">주요 환경 변수:</div>
-<div class="kb-diagram-note">PATH: 실행 파일 검색 경로</div>
-<div class="kb-diagram-note">HOME: 홈 디렉토리 (/root, /home/user)</div>
-<div class="kb-diagram-note">USER: 현재 사용자 이름</div>
-<div class="kb-diagram-note">SHELL: 현재 셸 경로</div>
-<div class="kb-diagram-note">PS1: 프롬프트 형식 (user@host:~$)</div>
-<div class="kb-diagram-note">LANG: 언어/인코딩 (ko_KR.UTF-8)</div>
-<div class="kb-diagram-note">PWD: 현재 작업 디렉토리</div>
-<div class="kb-diagram-note">PATH 동작:</div>
-<div class="kb-diagram-note">PATH=/usr/local/bin:/usr/bin:/bin</div>
-<div class="kb-diagram-note">ls 명령 실행:</div>
-<div class="kb-diagram-note">1. /usr/local/bin/ls 있나? 없음</div>
-<div class="kb-diagram-note">2. /usr/bin/ls 있나? 없음</div>
-<div class="kb-diagram-note">3. /bin/ls 있나? 있음 → 실행</div>
-<div class="kb-diagram-note">셸 변수 vs 환경 변수:</div>
-<div class="kb-diagram-note">MY_VAR="local" → 현재 셸만 (export 없음)</div>
-<div class="kb-diagram-note">export MY_VAR → 자식 프로세스에게 상속</div>
-<div class="kb-diagram-note">확인: env | grep MY_VAR</div>
-<div class="kb-diagram-note">삭제: unset MY_VAR</div>
-<div class="kb-diagram-note">특수 변수:</div>
-<div class="kb-diagram-note">$0: 스크립트 이름</div>
-<div class="kb-diagram-note">$1~$9: 위치 매개변수</div>
-<div class="kb-diagram-note">$#: 인수 개수</div>
-<div class="kb-diagram-note">$@: 모든 인수 (배열)</div>
-<div class="kb-diagram-note">$?: 이전 명령 종료 코드 (0=성공)</div>
-<div class="kb-diagram-note">$$: 현재 프로세스 PID</div>
-<div class="kb-diagram-note">$!: 마지막 백그라운드 PID</div>
-<div class="kb-diagram-note">셸에서 프로세스 생성:</div>
-<div class="kb-diagram-note">fg_job: 포그라운드 (셸 대기)</div>
-<div class="kb-diagram-note">bg_job &amp;: 백그라운드 (셸 즉시 프롬프트)</div>
-<div class="kb-diagram-note">작업 제어:</div>
-<div class="kb-diagram-note">Ctrl+Z: 일시 중지 (SIGTSTP)</div>
-<div class="kb-diagram-note">bg: 백그라운드 재개</div>
-<div class="kb-diagram-note">fg: 포그라운드로 가져오기</div>
-<div class="kb-diagram-note">jobs: 백그라운드 작업 목록</div>
-</div>
-</div>
+PATH 동작:
+  PATH=/usr/local/bin:/usr/bin:/bin
+  
+  ls 명령 실행:
+  1. /usr/local/bin/ls 있나? 없음
+  2. /usr/bin/ls 있나? 없음
+  3. /bin/ls 있나? 있음 → 실행
 
+셸 변수 vs 환경 변수:
+  MY_VAR="local"   → 현재 셸만 (export 없음)
+  export MY_VAR    → 자식 프로세스에게 상속
+  
+  확인: env | grep MY_VAR
+  삭제: unset MY_VAR
 
+특수 변수:
+  $0: 스크립트 이름
+  $1~$9: 위치 매개변수
+  $#: 인수 개수
+  $@: 모든 인수 (배열)
+  $?: 이전 명령 종료 코드 (0=성공)
+  $$: 현재 프로세스 PID
+  $!: 마지막 백그라운드 PID
+
+셸에서 프로세스 생성:
+  fg_job: 포그라운드 (셸 대기)
+  bg_job &: 백그라운드 (셸 즉시 프롬프트)
+  
+  작업 제어:
+  Ctrl+Z: 일시 중지 (SIGTSTP)
+  bg: 백그라운드 재개
+  fg: 포그라운드로 가져오기
+  jobs: 백그라운드 작업 목록
+```
 
 > 📢 **섹션 요약 비유**: 환경 변수는 작업 도시락 — PATH는 식당 위치 목록, HOME은 집 주소, 셸은 도시락을 자식(프로세스)에게 전달할 때 export로 챙겨줘요.
 

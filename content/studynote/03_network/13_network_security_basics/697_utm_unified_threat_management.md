@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 과거에는 보안 위협을 막기 위해 기능별로 장비를 무식하게 하나씩 다 샀습니다. [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)(FW), 침입 탐지/방지([IDS](/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/)/[IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/)), 안티 [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/)(백신), [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) 장비 등등. 이를 <strong>포인트 솔루션(Point Solution)</strong>이라고 합니다.
 - **UTM의 개념**: 관리의 복잡성과 비용 문제를 해결하기 위해, 위에서 말한 4~5가지의 핵심 네트워크 <strong>보안 기능들을 단 하나의 물리적인 하드웨어 박스(Appliance)에 소프트웨어 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a> 형태로 몽땅 쓸어 담아 통합해 버린 차세대 보안 솔루션</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">WAF</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">UTM</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NGFW</div></div>
-</div>
-</div>
-
-
+```text
+[WAF]
+    │
+    ▼
+[UTM]
+    │
+    └──▶ [NGFW]
+```
 
 - **📢 섹션 요약 비유**: UTM는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -48,18 +44,14 @@ tags = ["studynote-network"]
 4. **Web Filtering (웹 필터링)**: 직원이 회사망에서 도박 사이트, 성인 사이트, 증권 사이트에 들어가는 것을 차단.
 5. **Anti-Spam (안티 스팸)**: 외부에서 쏟아지는 악성/광고 이메일 차단.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">WAF</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">UTM</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NGFW</div></div>
-</div>
-</div>
-
-
+```text
+[WAF]
+    │
+    ▼
+[UTM]
+    │
+    └──▶ [NGFW]
+```
 
 - **📢 섹션 요약 비유**: UTM의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -120,19 +112,15 @@ UTM는 [네트워크 보안](/knowledge-base/studynote/03_network/20_performance
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: WAF</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: UTM</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: NGFW</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: WAF]
+    │
+    ▼
+[현재 개념: UTM]
+    │
+    ├──▶ [확장 A: NGFW]
+    └──▶ [확장 B: 자동화된 신뢰 체계]
+```
 
 UTM는 WAF에서 출발해 현재 메커니즘을 정교화하고, 이후 NGFW와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

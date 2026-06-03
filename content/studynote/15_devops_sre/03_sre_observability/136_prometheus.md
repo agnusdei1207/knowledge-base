@@ -18,17 +18,11 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">서비스 → /metrics 노출 → Prometheus (Pull, 15초 주기)</div>
-<div class="kb-diagram-note">→ TSDB 저장 → PromQL 조회 → Grafana 시각화</div>
-<div class="kb-diagram-note">→ Alertmanager → PagerDuty/Slack 알림</div>
-</div>
-</div>
-
-
+```text
+서비스 → /metrics 노출 → Prometheus (Pull, 15초 주기)
+  → TSDB 저장 → PromQL 조회 → Grafana 시각화
+  → Alertmanager → PagerDuty/Slack 알림
+```
 
 - **📢 섹션 요약 비유**: Prometheus는 <strong>우편배달부(Pull)</strong>이다. 각 집([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))의 우편함(/[metrics](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/))에서 편지([메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/))를 수거한다.
 
@@ -52,18 +46,12 @@ Prometheus는 <strong>K8s 환경의 <a href="/knowledge-base/studynote/03_networ
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Borgmon (Google 내부, 2000s)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Prometheus (SoundCloud, 2012)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">CNCF 졸업 (2018)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Thanos (2018, HA)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Mimir (2022, Grafana Labs)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: OTel Metrics → Prometheus 호환</div></div>
-</div>
-</div>
-
-
+```text
+[Borgmon (Google 내부, 2000s)] → [Prometheus (SoundCloud, 2012)]
+    → [CNCF 졸업 (2018)] → [Thanos (2018, HA)]
+    → [Mimir (2022, Grafana Labs)]
+    → [현재: OTel Metrics → Prometheus 호환]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. Prometheus는 <strong>우편배달부</strong>예요. 각 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(집)의 우편함(/[metrics](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/))에서 <strong>편지를 수거</strong>해요.

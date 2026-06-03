@@ -42,19 +42,20 @@ CAA 레코드는 [도메인](/knowledge-base/studynote/05_database/02_modeling_n
 
 아래 그림은 CAA가 인증서 발급 파이프라인 어디에 개입하는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CAA check in certificate issuance</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Applicant ─▶ CA request</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CA queries DNS CAA record</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Allowed? ── Yes ─▶ Validate domain ─▶ Issue certificate</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ No ─▶ Reject / alert via iodef</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                  CAA check in certificate issuance                   │
+├──────────────────────────────────────────────────────────────────────┤
+│ Applicant ─▶ CA request                                              │
+│                │                                                     │
+│                ▼                                                     │
+│         CA queries DNS CAA record                                    │
+│                │                                                     │
+│       Allowed? ── Yes ─▶ Validate domain ─▶ Issue certificate        │
+│                │                                                     │
+│                └─ No ─▶ Reject / alert via iodef                     │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 예를 들어 `example.com. IN CAA 0 issue "digicert.com"`은 DigiCert 계열만 일반 인증서를 발급할 수 있다는 뜻이다. `issuewild`를 비워 두거나 특정 CA만 지정하면 [와일드카드 인증서](/knowledge-base/studynote/09_security/04_endpoint_security/175_wildcard_certificate/) 발급 범위를 더 엄격히 제한할 수 있다. 또한 `iodef`를 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)해 두면 위반 시도나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 오류를 보안팀이 더 빨리 감지할 수 있다.
 
@@ -135,24 +136,22 @@ CAA의 가장 큰 장점은 비용 대비 효과가 크다는 점이다. [DNS](/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">다수 CA를 신뢰하는 웹 PKI</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">오발급 · 약한 고리 문제 부각</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CAA (Certification Authority Authorization)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">issue / issuewild 정책</div>
-<div class="kb-diagram-tree-item" style="--depth:2">iodef 통지</div>
-<div class="kb-diagram-tree-item" style="--depth:2">발급 전 DNS 조회</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DNSSEC · CT 모니터링 · 자동화된 인증서 거버넌스</div>
-</div>
-</div>
-
-
+```text
+다수 CA를 신뢰하는 웹 PKI
+    │
+    ▼
+오발급 · 약한 고리 문제 부각
+    │
+    ▼
+CAA (Certification Authority Authorization)
+    │
+    ├─ issue / issuewild 정책
+    ├─ iodef 통지
+    └─ 발급 전 DNS 조회
+    │
+    ▼
+DNSSEC · CT 모니터링 · 자동화된 인증서 거버넌스
+```
 
 이 흐름은 인증서 보안이 단순 신뢰 체인 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)에서, 발급 권한 통제와 공개 감시를 함께 갖춘 방향으로 발전하는 모습을 보여 준다.
 

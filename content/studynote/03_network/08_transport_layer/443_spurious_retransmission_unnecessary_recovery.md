@@ -28,18 +28,14 @@ tags = ["studynote-network"]
   - 그런데 1분 뒤, 주방에서 이미 끓여둔 <strong>첫 번째 김치찌개(<a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>된 원본)</strong>가 나옵니다.
   - 그리고 10분 뒤, 내가 아까 빡쳐서 다시 주문한 <strong>두 번째 김치찌개(불필요한 재전송)</strong>마저 나와버립니다. 나는 내 배([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))를 채울 수도 없는 김치찌개 두 그릇 값을 내는 멍청한 짓을 한 것입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">칸 알고리즘</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">불필요한 재전송 해결 방안</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TCP Keep-Alive 타이머</div></div>
-</div>
-</div>
-
-
+```text
+[칸 알고리즘]
+    │
+    ▼
+[불필요한 재전송 해결 방안]
+    │
+    └──▶ [TCP Keep-Alive 타이머]
+```
 
 - **📢 섹션 요약 비유**: <strong> Spurious Retransmission은 상대방이 카톡을 못 본 게 아니라 </strong>단지 회의 중이라 답장을 "늦게(Delay)" 하는 것뿐인데, 혼자 "차단당했네!"라고 오해([Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/))하여 구질구질하게 문자를 한 번 더 보내는 흑역사**와 같습니다. 이 착각 때문에 우리 사이(통신 속도)는 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 불가(CWND=1)로 곤두박질칩니다.
 
@@ -58,25 +54,26 @@ TCP의 가장 뼈아픈 약점이다.
 이 사실을 송신자에게 친절하게 알려주기 위해, SACK 확장 헤더를 개조한 <strong>D-SACK(RFC 2883)</strong>이 도입되었다.
 - 수신자는 잉여 패킷(두 번째 도착한 1번 택배)을 버리면서, 영수증(ACK) 꼬리표에 <strong>"나 1번 택배 중복(Duplicate)으로 받았어 멍청아!"</strong>라고 콕 집어 적어 보낸다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">D-SACK에 의한 송신자의 오판 회복(Undo) 과정</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">송신자 (유튜브)</div><div class="kb-diagram-node">수신자 (스마트폰)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1번 패킷 발사! (기지국 전환으로 버퍼에 갇힘) ▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(타임아웃 발생! 아 죽었네! 속도 CWND 1로 박살 냄!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1번 패킷 재전송! (빛의 속도로 날아감) ▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 스마트폰 상황: "아까 갇혀있던 원본 1번도 오고, 재전송 1번도 오네?"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 스마트폰 ── "야, 나 1번 중복으로 2개 받았어!(D-SACK)" ──▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 송신자의 뇌구조 (롤백 발동!):</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"헐! 내가 아까 친 타임아웃은 패킷이 죽은 게 아니라, 내가 성급하게</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">헛발질(Spurious)한 거였구나!! 미안 미안, 아까 CWND 1로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">박살 냈던 거 없던 일(Undo)로 하고 원래 속도로 다시 돌려놓을게!!"</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                D-SACK에 의한 송신자의 오판 회복(Undo) 과정          │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 송신자 (유튜브) ]                            [ 수신자 (스마트폰) ]│
+ │   1번 패킷 발사! ────────(기지국 전환으로 버퍼에 갇힘)──────▶  │
+ │                                                             │
+ │   (타임아웃 발생! 아 죽었네! 속도 CWND 1로 박살 냄!)               │
+ │   1번 패킷 재전송! ────────(빛의 속도로 날아감)────────▶     │
+ │                                                             │
+ │   * 스마트폰 상황: "아까 갇혀있던 원본 1번도 오고, 재전송 1번도 오네?"  │
+ │   * 스마트폰 ── "야, 나 1번 중복으로 2개 받았어!(D-SACK)" ──▶ │
+ │                                                             │
+ │   * 송신자의 뇌구조 (롤백 발동!):                               │
+ │     "헐! 내가 아까 친 타임아웃은 패킷이 죽은 게 아니라, 내가 성급하게 │
+ │      헛발질(Spurious)한 거였구나!! 미안 미안, 아까 CWND 1로     │
+ │      박살 냈던 거 없던 일(Undo)로 하고 원래 속도로 다시 돌려놓을게!!"│
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 3. F-[RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/) ([Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) [RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/)-Recovery)
 D-SACK은 영수증이 올 때까지 기다려야 아는 거지만, <strong>F-<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/">RTO</a></strong>는 한술 더 뜬 방어책이다.
@@ -141,19 +138,15 @@ D-SACK은 영수증이 올 때까지 기다려야 아는 거지만, <strong>F-<a
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 칸 알고리즘</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 불필요한 재전송 해결 방안</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: TCP Keep-Alive 타이머</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 칸 알고리즘]
+    │
+    ▼
+[현재 개념: 불필요한 재전송 해결 방안]
+    │
+    ├──▶ [확장 A: TCP Keep-Alive 타이머]
+    └──▶ [확장 B: 적응형 저지연 전송]
+```
 
 불필요한 재전송 해결 방안는 칸 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) Keep-Alive 타이머와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

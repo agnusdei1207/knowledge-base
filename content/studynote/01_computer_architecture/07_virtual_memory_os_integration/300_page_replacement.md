@@ -25,21 +25,24 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)가 발생한 뒤 교체 여부와 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 비용이 어떻게 갈리는지를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페이지 폴트 이후의 핵심 의사결정 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 참조 ─▶ 페이지 폴트 ─▶ 빈 프레임 있음? ── 예 ─▶ 즉시 적재</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ─▶ 희생 페이지 선택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Dirty Bit = 1 인가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">예 아니오</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디스크에 기록 바로 제거</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">빈 프레임 확보 ▶ 새 페이지 적재</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│              페이지 폴트 이후의 핵심 의사결정 흐름                        │
+├────────────────────────────────────────────────────────────────────────────┤
+│ CPU 참조 ─▶ 페이지 폴트 ─▶ 빈 프레임 있음? ── 예 ─▶ 즉시 적재             │
+│                           │                                                │
+│                           └─ 아니오 ─▶ 희생 페이지 선택                    │
+│                                         │                                  │
+│                                         ▼                                  │
+│                              Dirty Bit = 1 인가?                           │
+│                                │                 │                          │
+│                               예                아니오                      │
+│                                │                 │                          │
+│                         디스크에 기록        바로 제거                       │
+│                                │                 │                          │
+│                                └─────── 빈 프레임 확보 ───────▶ 새 페이지 적재 │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 핵심은 교체가 "누구를 버릴까"만의 문제가 아니라 "버리는 데 얼마가 드는가"까지 포함한다는 점이다. 수정 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 켜진 더티 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 내보내기 전에 반드시 보조기억장치에 써야 하므로, 같은 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 패턴에서도 [희생자 선택](/knowledge-base/studynote/02_operating_system/05_deadlock/310_victim_selection/) 비용이 달라진다.
 
@@ -65,21 +68,21 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 [Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 왜 "최근에 쓴 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)에게 두 번째 기회"를 주는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Clock 알고리즘의 순환 스캔</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">hand</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">P1,R=1</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">P2,R=0</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">P3,R=1</div><div class="kb-diagram-note">─</div><div class="kb-diagram-node">P4,R=0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">R=1 이면 0으로 ─ 희생 가능 R=1 이면 0으로 다음 후보</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">내리고 통과 내리고 통과</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1회전 차: 최근 사용 페이지는 보호</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2회전 차: 여전히 참조되지 않은 페이지가 실제 희생자가 됨</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                    Clock 알고리즘의 순환 스캔                              │
+├────────────────────────────────────────────────────────────────────────────┤
+│                    hand                                                    │
+│                     ▼                                                      │
+│      [P1,R=1] ─ [P2,R=0] ─ [P3,R=1] ─ [P4,R=0]                            │
+│         │          │          │          │                                 │
+│   R=1 이면 0으로    └─ 희생 가능  R=1 이면 0으로   다음 후보                │
+│   내리고 통과                     내리고 통과                              │
+│                                                                            │
+│  1회전 차: 최근 사용 페이지는 보호                                          │
+│  2회전 차: 여전히 참조되지 않은 페이지가 실제 희생자가 됨                   │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 교체 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에는 중요한 이론적 구분도 있다. LRU와 OPT처럼 프레임 수가 늘어나면 기존 메모리 집합을 포함하는 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) ([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))은 일반적으로 프레임 증가가 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 악화로 이어지지 않는다. 반면 FIFO처럼 포함 성질이 없는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 프레임을 더 줬는데도 폴트가 늘어나는 벨라디의 모순 (Bélády's [Anomaly](/knowledge-base/studynote/05_database/04_transactions_concurrency/530_anomaly/))을 일으킬 수 있다. 따라서 핵심 원리는 단순히 "오래된 것을 버린다"가 아니라, <strong>지역성을 얼마나 보존하면서 구현 비용을 감당할 수 있느냐</strong>다.
 
@@ -156,28 +159,28 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단순 교체 필요성 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">FIFO (First-In, First-Out)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">한계 노출: 벨라디의 모순 (Bélády's Anomaly)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">OPT (Optimal)로 이상적 기준 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">LRU (Least Recently Used) 중심의 지역성 활용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Clock · Second Chance로 실무형 근사 구현</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Working Set · PFF (Page Fault Frequency) 기반 스래싱 제어</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">적응형 다중 큐 · 세대 기반 메모리 관리로 확장</div>
-</div>
-</div>
-
-
+```text
+단순 교체 필요성 인식
+    │
+    ▼
+FIFO (First-In, First-Out)
+    │
+    ├─ 한계 노출: 벨라디의 모순 (Bélády's Anomaly)
+    ▼
+OPT (Optimal)로 이상적 기준 정립
+    │
+    ▼
+LRU (Least Recently Used) 중심의 지역성 활용
+    │
+    ▼
+Clock · Second Chance로 실무형 근사 구현
+    │
+    ▼
+Working Set · PFF (Page Fault Frequency) 기반 스래싱 제어
+    │
+    ▼
+적응형 다중 큐 · 세대 기반 메모리 관리로 확장
+```
 
 이 흐름은 [페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/)가 단순 순서 규칙에서 출발해, 지역성 이해와 운영 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 결합을 거쳐, 오늘날의 적응형 메모리 관리로 발전했음을 보여준다.
 

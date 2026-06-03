@@ -43,19 +43,18 @@ tags = ["studynote-enterprise"]
 
 아래 그림은 동적 환경에서 [서비스 디스커버리](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/306_service_discovery_pattern/)가 어떻게 순환하는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Service Discovery control loop in dynamic MSA</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Instance boot</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Registry</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Health check / heartbeat</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Scale in / fail</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">─ Deregister │</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Caller / LB</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Route</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│            Service Discovery control loop in dynamic MSA            │
+├──────────────────────────────────────────────────────────────────────┤
+│ [Instance boot] ─▶ Register ─▶ [Registry]                           │
+│      ▲                         │                                     │
+│      │                         ├─ Health check / heartbeat           │
+│      │                         ▼                                     │
+│ [Scale in / fail] ◀─ Deregister │                                    │
+│                                └─ Lookup ─▶ [Caller / LB] ─▶ Route   │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조의 핵심은 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)가 "정답 그 자체"가 아니라 최신 상태를 최대한 빠르게 반영하는 조정자라는 점이다. 따라서 너무 긴 캐시를 두면 죽은 인스턴스를 오래 호출하게 되고, 너무 짧게 두면 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/) 부하가 커진다. 또한 헬스 체크는 단순 전송 제어 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) ([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/), [Transmission Control Protocol](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)) 연결 여부만 보는지, 실제 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)까지 포함하는지에 따라 정확도와 민감도가 달라진다.
 
@@ -136,22 +135,19 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">정적 IP / 설정 파일 의존</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">서비스 레지스트리 도입</div>
-<div class="kb-diagram-tree-item" style="--depth:2">등록 / 헬스 체크 / 조회</div>
-<div class="kb-diagram-tree-item" style="--depth:2">클라이언트 사이드 디스커버리</div>
-<div class="kb-diagram-tree-item" style="--depth:2">서버 사이드 디스커버리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Kubernetes 내장 디스커버리 · 서비스 메시 · 정책 기반 라우팅</div>
-</div>
-</div>
-
-
+```text
+정적 IP / 설정 파일 의존
+    │
+    ▼
+서비스 레지스트리 도입
+    │
+    ├─ 등록 / 헬스 체크 / 조회
+    ├─ 클라이언트 사이드 디스커버리
+    └─ 서버 사이드 디스커버리
+    │
+    ▼
+Kubernetes 내장 디스커버리 · 서비스 메시 · 정책 기반 라우팅
+```
 
 이 흐름은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템이 고정 주소 기반 통신에서, 상태 기반 [동적 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/341_dynamic_routing_protocol_operation/)과 플랫폼 자동화 중심으로 발전하는 모습을 보여 준다.
 

@@ -20,23 +20,22 @@ tags = ["studynote-cloud-architecture"]
 
 CPU를 초과하면 K8s는 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 죽이지 않고 **속도를 늦춘다(Throttling)**. 하지만 메모리(RAM)는 "빌린 뒤 반환 불가능한" 자원이므로, 한도를 넘는 순간 리눅스 커널이 프로세스를 <strong>즉시 사살(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">OOM</a> Killed)</strong>하여 다른 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 보호한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 초과 vs 메모리 초과: 비대칭 대응</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CPU 초과</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">limits.cpu: 500m 초과 → Throttling (감속)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파드는 살아있음, 응답만 느려짐</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Memory 초과</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">limits.memory: 512Mi 초과 → OOM Killed (즉사)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SIGKILL → CrashLoopBackOff 무한 루프</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">왜 즉사? → 메모리는 "빌린 뒤 반환 불가"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">방치 시 → 노드 전체 RAM 소진 → 동반 질식사</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│      CPU 초과 vs 메모리 초과: 비대칭 대응               │
+├───────────────────────────────────────────────────────┤
+│  [CPU 초과]                                           │
+│   limits.cpu: 500m 초과 → Throttling (감속)           │
+│   파드는 살아있음, 응답만 느려짐                       │
+│                                                       │
+│  [Memory 초과]                                        │
+│   limits.memory: 512Mi 초과 → OOM Killed (즉사)       │
+│   SIGKILL → CrashLoopBackOff 무한 루프                │
+│                                                       │
+│  왜 즉사? → 메모리는 "빌린 뒤 반환 불가"              │
+│  방치 시 → 노드 전체 RAM 소진 → 동반 질식사           │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: CPU 초과는 고속도로에서 서행(Throttling)하는 것이고, 메모리 초과는 밥그릇을 넘겨 먹은 손님을 식당에서 즉시 퇴장(Kill)시키는 것이다. 안 그러면 식당 전체가 굶는다.
 
@@ -113,23 +112,21 @@ Java [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_n
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">cgroups v1 (2007) — 프로세스별 메모리 제한 도입</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Docker (2013) — 컨테이너별 메모리 limits 적용</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">K8s QoS Class (2015~) — Guaranteed·Burstable·BestEffort 분류</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">cgroups v2 + Memory QoS (2022~) — 세밀한 메모리 보호</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: VPA + KEP-2570 — 자동 limits 튜닝 + 메모리 QoS</div></div>
-</div>
-</div>
-
-
+```text
+[cgroups v1 (2007) — 프로세스별 메모리 제한 도입]
+    │
+    ▼
+[Docker (2013) — 컨테이너별 메모리 limits 적용]
+    │
+    ▼
+[K8s QoS Class (2015~) — Guaranteed·Burstable·BestEffort 분류]
+    │
+    ▼
+[cgroups v2 + Memory QoS (2022~) — 세밀한 메모리 보호]
+    │
+    ▼
+[현재: VPA + KEP-2570 — 자동 limits 튜닝 + 메모리 QoS]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 식당에서 밥그릇(512MB) 1개만 먹으라고 했는데, 욕심쟁이 손님([파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/))이 밥통을 통째로 먹으려 했어요.

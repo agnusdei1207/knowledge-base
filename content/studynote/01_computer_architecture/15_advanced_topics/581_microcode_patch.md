@@ -27,20 +27,25 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 왜 마이크로코드 패치가 출하 후 보안 대응의 핵심 통로가 되는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Post-silicon flaw -&gt; signed patch -&gt; safer control behavior</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Security erratum discovered</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Vendor creates signed microcode blob</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Boot firmware / operating system loader</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU changes internal control sequence for affected paths</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Same ISA, but safer speculation / privilege / fault handling</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│ Post-silicon flaw -> signed patch -> safer control behavior               │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Security erratum discovered                                               │
+│        │                                                                   │
+│        ▼                                                                   │
+│ Vendor creates signed microcode blob                                      │
+│        │                                                                   │
+│        ▼                                                                   │
+│ Boot firmware / operating system loader                                  │
+│        │                                                                   │
+│        ▼                                                                   │
+│ CPU changes internal control sequence for affected paths                  │
+│        │                                                                   │
+│        ▼                                                                   │
+│ Same ISA, but safer speculation / privilege / fault handling              │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 마이크로코드 보안 패치는 이미 지어진 건물의 철근을 바꾸는 일은 못 해도, 출입 통제 규칙과 비상문 개폐 순서를 다시 짜서 사고 가능성을 크게 줄이는 관리 규정 개정과 같다.
 
@@ -62,20 +67,23 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 디코드된 뒤 패치된 제어 절차로 우회되는 구조를 요약한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Decode path with patch redirect</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ISA instruction</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Decoder -&gt; micro-op entry lookup</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no patch -&gt; base control store</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ patch hit -&gt; patch store / new control bits</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">safer micro-op sequence or barrier behavior</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│ Decode path with patch redirect                                           │
+├────────────────────────────────────────────────────────────────────────────┤
+│ ISA instruction                                                           │
+│      │                                                                     │
+│      ▼                                                                     │
+│ Decoder -> micro-op entry lookup                                           │
+│                │                                                           │
+│                ├─ no patch  -> base control store                          │
+│                │                                                           │
+│                └─ patch hit -> patch store / new control bits              │
+│                                   │                                        │
+│                                   ▼                                        │
+│                        safer micro-op sequence or barrier behavior         │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 보안 패치에서 자주 보이는 결과는 새 명령 의미 추가보다는, 기존 기능에 대한 "제어 손잡이" 제공이다. 예를 들어 간접 분기 예측기 장벽 ([Indirect](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/) Branch Predictor Barrier, [IBPB](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/579_ibpb/)) 같은 기능은 마이크로코드와 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 협력으로 현실에서 사용된다. 즉 마이크로코드는 단독 해결사가 아니라, 상위 소프트웨어가 사용할 수 있는 <strong>안전 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a></strong>를 CPU 안에 심어 주는 계층이다.
 
@@ -153,25 +161,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Post-silicon errata 발견</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">서명된 마이크로코드 패치 배포</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">BIOS / UEFI / OS 조기 로딩</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">IBPB · IBRS 같은 보안 제어 노출</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">하이퍼바이저 · 커널 정책 연동</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">차기 스테핑에서 구조적 하드웨어 수정</div>
-</div>
-</div>
-
-
+```text
+Post-silicon errata 발견
+        │
+        ▼
+서명된 마이크로코드 패치 배포
+        │
+        ▼
+BIOS / UEFI / OS 조기 로딩
+        │
+        ▼
+IBPB · IBRS 같은 보안 제어 노출
+        │
+        ▼
+하이퍼바이저 · 커널 정책 연동
+        │
+        ▼
+차기 스테핑에서 구조적 하드웨어 수정
+```
 
 이 흐름은 마이크로코드 패치가 "즉시 완화"를 담당하고, 상위 소프트웨어와 차기 실리콘이 각각 단기·장기 대책을 이어받는 구조를 보여 준다.
 

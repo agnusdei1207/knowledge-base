@@ -31,28 +31,37 @@ tags = ["studynote-operating-system"]
 - <strong>Shared <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a> vs Exclusive <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a> 호환 행렬표 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> 폭주 뷰</strong>:
 어떤 앱 2개가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 열었을 때, "너 패스", "넌 튕겨" 가 어떻게 스로틀 되는지 그 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 통제 렌더 체계를 까보면 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"한 명이 글씨를 쓰는 순간, 백만 명의 구경꾼은 눈과 귀가 멀게 된다!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🚨</div><div class="kb-diagram-node">파일 접근 락 요청 허가 도살판 호환성 매트릭스 (Lock Compatibility 빔)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">새로운 앱 2: 공유 요청(읽기)</div><div class="kb-diagram-node">새로운 앱 2: 배타 요청(쓰기)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">기존 앱 1</div><div class="kb-diagram-note">| |</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">아무것도 안 함</div><div class="kb-diagram-cell">✅ 통과 (접속 성공)</div><div class="kb-diagram-cell">✅ 통과 (접속 성공)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공유 (읽기) 중</div><div class="kb-diagram-cell">✅ 통과 (둘 다 같이 읽음)</div><div class="kb-diagram-cell">💥 차단 대기 (Wait! 튕겨냄)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">배타 (쓰기) 중</div><div class="kb-diagram-cell">💥 차단 대기 (Wait! 튕겨냄)</div><div class="kb-diagram-cell">💥 차단 대기 (Wait! 튕겨냄)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🔥</div><div class="kb-diagram-node">넷플릭스 영화 다운로드 앱 시나리오 (독점 파일 렌더 스왑!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. (앱 1) Chrome 브라우저: 다운로드 중 <code>movie.mp4</code> 에 (Exclusive 쓰기 락 걸음!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. (앱 2) 비디오 플레이어 앱: 그 10% 받아진 <code>movie.mp4</code> 재생(Shared 읽기) 시도!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">✅</div><div class="kb-diagram-node">OS 커널 봇 판결 쾅! (방패 결속 부스트)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; "앱 1 이 Exclusive 로 수정 중(Write)이다. 앱 2 (Read Shared) 너는</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파일 권한 없음(EAGAIN / EACCES 에러)! 돌아가!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 유저 화면: (파일이 사용 중이라 잠겼습니다. 나중에 다시 시도하세요 팝업 빔!)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌──────────────────────────────────────────────────────────────────────────────────────────┐
+  │                 "한 명이 글씨를 쓰는 순간, 백만 명의 구경꾼은 눈과 귀가 멀게 된다!"      │
+  ├──────────────────────────────────────────────────────────────────────────────────────────┤
+  │                                                                                          │
+  │  🚨 [ 파일 접근 락 요청 허가 도살판 호환성 매트릭스 (Lock Compatibility 빔) ]            │
+  │                                                                                          │
+  │                  | [새로운 앱 2: 공유 요청(읽기)] | [새로운 앱 2: 배타 요청(쓰기)]       │
+  │  ----------------|----------------------------|----------------------------|             │
+  │  [기존 앱 1]     |                            |                            |             │
+  │  아무것도 안 함  |     ✅ 통과 (접속 성공)         |    ✅ 통과 (접속 성공)              │
+  │                  |                            |                            |             │
+  │  공유 (읽기) 중  |     ✅ 통과 (둘 다 같이 읽음)    |    💥 차단 대기 (Wait! 튕겨냄)     │
+  │                  |                            |                            |             │
+  │  배타 (쓰기) 중  |     💥 차단 대기 (Wait! 튕겨냄)|    💥 차단 대기 (Wait! 튕겨냄)       │
+  │  --------------------------------------------------------------------------              │
+  │                                                                                          │
+  │  =========================▼===================================                           │
+  │                                                                                          │
+  │  🔥 [ 넷플릭스 영화 다운로드 앱 시나리오 (독점 파일 렌더 스왑!) ]                        │
+  │                                                                                          │
+  │     1. (앱 1) Chrome 브라우저: 다운로드 중 `movie.mp4` 에 (Exclusive 쓰기 락 걸음!)      │
+  │                                          │                                               │
+  │     2. (앱 2) 비디오 플레이어 앱: 그 10% 받아진 `movie.mp4` 재생(Shared 읽기) 시도!      │
+  │                                          │                                               │
+  │  ✅ [ OS 커널 봇 판결 쾅! (방패 결속 부스트) ]                                           │
+  │     => "앱 1 이 Exclusive 로 수정 중(Write)이다. 앱 2 (Read Shared) 너는                 │
+  │         파일 권한 없음(EAGAIN / EACCES 에러)! 돌아가!"                                   │
+  │     => 유저 화면: (파일이 사용 중이라 잠겼습니다. 나중에 다시 시도하세요 팝업 빔!)       │
+  └──────────────────────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) OS [VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 생존권 보장의 1계명 철칙표다. "다중 읽기(Multi-Reader) 는 100만 명을 허용한다. 하지만 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Single-Writer) 가 난입하는 순간 철창 독방 격리를 시킨다." 는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)의 3대 법칙을 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 최하단에 하드코딩한 것. 만약 이게 무너지면 A가 수정하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 번지(Offset) 가 B의 기록 때문에 중간 공중에 붕 뜨며 버퍼 오버플로우와 100% 바이너리 에러 부패를 촉발 도출.
 
@@ -133,19 +142,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">mmap 기반 제로 카피 (Zero-copy) 전송 기술 (sendfile) 성능 이점</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">파일 잠금 (File Locking)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">강제적 잠금 (Mandatory Lock) vs 권고적 잠금 (Advisory Lock)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스파스 파일 (Sparse File) 저장 공간 절약 기술</div></div>
-</div>
-</div>
-
-
+```text
+[mmap 기반 제로 카피 (Zero-copy) 전송 기술 (sendfile) 성능 이점]
+    │
+    ▼
+[파일 잠금 (File Locking)]
+    │
+    ├──▶ [강제적 잠금 (Mandatory Lock) vs 권고적 잠금 (Advisory Lock)]
+    └──▶ [스파스 파일 (Sparse File) 저장 공간 절약 기술]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

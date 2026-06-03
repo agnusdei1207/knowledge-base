@@ -33,22 +33,27 @@ tags = ["studynote-devops-sre"]
 
 합성 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링은 보통 시나리오 정의, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 실행, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 조건, 결과 수집, 경보 발송의 다섯 요소로 구성된다. 시나리오는 단일 하이퍼텍스트 전송 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) ([Hypertext Transfer Protocol](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/), [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)) 요청일 수도 있고, 브라우저 자동화 기반 다단계 사용자 여정일 수도 있다. 실행 지점은 여러 리전이나 네트워크에서 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 배치해 지역별 차이를 측정하고, 각 실행 결과는 중앙 대시보드에 집계되어 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 목표 ([Service Level Objective](/knowledge-base/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/), [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/))와 연결된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">합성 모니터링의 실행 파이프라인</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시나리오 정의</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">로그인 → 상품 검색 → 장바구니 → 결제 페이지 확인</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">분산 에이전트 실행</div><div class="kb-diagram-note">서울 / 도쿄 / 프랑크푸르트 / 버지니아</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">검증</div><div class="kb-diagram-note">상태 코드, 문서 객체 모델 (Document Object Model, DOM)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요소, 응답 시간, 인증서 만료일</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">결과 집계</div><div class="kb-diagram-note">성공률 · 95백분위 (p95) 지연시간 · 실패 단계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">경보</div><div class="kb-diagram-note">다중 지역 실패 시 호출 · 온콜 전달</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│               합성 모니터링의 실행 파이프라인               │
+├──────────────────────────────────────────────────────────────┤
+│ [시나리오 정의]                                              │
+│   로그인 → 상품 검색 → 장바구니 → 결제 페이지 확인          │
+│          │                                                   │
+│          ▼                                                   │
+│ [분산 에이전트 실행]  서울 / 도쿄 / 프랑크푸르트 / 버지니아  │
+│          │                                                   │
+│          ▼                                                   │
+│ [검증] 상태 코드, 문서 객체 모델 (Document Object Model, DOM)│
+│        요소, 응답 시간, 인증서 만료일                        │
+│          │                                                   │
+│          ▼                                                   │
+│ [결과 집계] 성공률 · 95백분위 (p95) 지연시간 · 실패 단계    │
+│          │                                                   │
+│          ▼                                                   │
+│ [경보] 다중 지역 실패 시 호출 · 온콜 전달                   │
+└──────────────────────────────────────────────────────────────┘
+```
 
 합성 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링은 목적에 따라 여러 종류로 나뉜다. 단순 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)은 빠르고 유지보수가 쉬우며, 브라우저 시나리오는 실제 사용자 경험을 더 잘 반영한다. 네트워크·[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서·[DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 체크는 전송 제어 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) ([Transmission Control Protocol](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/), [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)), 전송 계층 보안 (Transport Layer [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/), [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)), [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/), 인터넷 제어 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) ([Internet Control Message Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/), [ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/)) 수준의 외부 경로 문제를 조기에 잡는 데 유용하다. 중요한 것은 모든 시나리오를 같은 수준으로 다루지 않고, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 영향도에 따라 계층화하는 것이다.
 
@@ -105,7 +110,7 @@ tags = ["studynote-devops-sre"]
 - 단일 리전 실패만으로 과도한 경보를 발생시켜 노이즈를 만드는 경우
 - 성공률만 보고 어느 단계에서 실패했는지 추적 정보를 남기지 않는 경우
 
-예를 들어 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)) 팀이 체크아웃 경로를 1분마다 실행하고, p95 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간이 2초를 넘거나 결제 승인 단계가 두 번 연속 실패하면 자동으로 배포를 중단하도록 연결할 수 있다. 이처럼 합성 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링은 단순 경보 도구가 아니라 배포 안전장치와 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질 게이트로도 활용된다.
+예를 들어 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)) 팀이 체크아웃 경로를 1분마다 실행하고, p95 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간이 2초를 넘거나 결제 승인 단계가 두 번 연속 실패하면 자동으로 배포를 중단하도록 연결할 수 있다. 이처럼 합성 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링은 단순 경보 도구가 아니라 배포 안전장치와 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질 게이트로도 활용된다.
 
 - **📢 섹션 요약 비유**: 합성 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링은 공연 시작 전 리허설과 같다. 마이크, 조명, 음향이 모두 맞는지 미리 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 관객이 들어왔을 때 사고가 나지 않는다.
 
@@ -136,25 +141,24 @@ tags = ["studynote-devops-sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">업타임 체크 · 핑 모니터링</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">HTTP/API 합성 점검</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">브라우저 기반 사용자 여정 검증</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">다중 지역 외부 가용성 측정</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SLO 연계 경보 · 카나리 배포 게이트</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">RUM · 트레이스와 결합한 종합 관측성</div>
-</div>
-</div>
-
-
+```text
+업타임 체크 · 핑 모니터링
+    │
+    ▼
+HTTP/API 합성 점검
+    │
+    ▼
+브라우저 기반 사용자 여정 검증
+    │
+    ▼
+다중 지역 외부 가용성 측정
+    │
+    ▼
+SLO 연계 경보 · 카나리 배포 게이트
+    │
+    ▼
+RUM · 트레이스와 결합한 종합 관측성
+```
 
 이 흐름은 단순 생존 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)에서 시작해, 실제 사용자 여정과 운영 의사결정까지 연결되는 합성 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링의 성숙 단계를 보여준다.
 

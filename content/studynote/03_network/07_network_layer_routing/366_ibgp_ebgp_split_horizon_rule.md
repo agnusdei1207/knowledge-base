@@ -27,18 +27,14 @@ tags = ["studynote-network"]
   - 하지만 사내 직원(iBGP)에게 귓속말로 들은 소문을, 또 다른 사내 직원(iBGP)에게 전달하는 것은 <strong>"사내 루머 양산(루핑)"</strong>으로 간주하여 엄격히 금지됩니다.
   - 따라서 사장님(eBGP에서 정보를 받은 라우터)이 공지사항을 전파하려면 직원 한 명에게 전달해서 퍼뜨리게 할 수 없고, **직원 100명 전원에게 일일이 1:1로 귓속말(Full-Mesh)을 해줘야만 합니다.**
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">BGP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">iBGP, eBGP, BGP Split Ho…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">BGP 속성</div></div>
-</div>
-</div>
-
-
+```text
+[BGP]
+    │
+    ▼
+[iBGP, eBGP, BGP Split Ho…]
+    │
+    └──▶ [BGP 속성]
+```
 
 - **📢 섹션 요약 비유**: ** eBGP는 국경을 넘어 백신(인터넷 정보)을 수입해 오는 **"밀수선"**이고, iBGP 스플릿 호라이즌은 국내에 들어온 백신이 2차, 3차 감염(루프)을 일으키지 못하게 막는 **"접촉 금지법"**입니다. 이 법 때문에 국내 유통은 오직 수입상과 1:1 직거래(Full-Mesh)로만 이루어져야 합니다.
 
@@ -58,24 +54,25 @@ tags = ["studynote-network"]
 - **연결 조건**: 같은 회사망이므로 랜선이 직접 꽂혀 있을 필요가 없다. 중간에 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) 라우터들이 수십 대 끼어 있어도, <strong>논리적으로(<a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> 179번 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>) 통신만 뚫려 있으면</strong> 저 멀리 있는 라우터와 가상의 친구를 맺을 수 있다. ([TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/) 값이 255다).
 - **정보 전달 (스플릿 호라이즌 룰)**: **"iBGP 피어로부터 학습한 경로는 다른 iBGP 피어에게 절대 광고하지 않는다."** 이것이 알파이자 오메가다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">iBGP 스플릿 호라이즌과 풀 메시(Full-Mesh)의 비극</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">외국(구글)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">라우터 A</div><div class="kb-diagram-note">(우리나라 관문)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">라우터 A</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">라우터 B</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">라우터 C</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 멍청한 설계의 최후:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. A가 구글 정보를 eBGP로 받아 B에게 iBGP로 준다. (정상)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. B는 이 정보를 C에게 넘겨주지 않고 입을 닫는다. (스플릿 호라이즌)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. C는 인터넷 지도를 못 받아서 인터넷이 끊겨(블랙홀) 버린다!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 올바른 풀 메시(Full-Mesh) 설계:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A는 B와도 iBGP를 맺고, "반드시 C와도 별도의 iBGP"를 직접 맺어서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지도를 일일이 떠먹여 줘야 한다!</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                iBGP 스플릿 호라이즌과 풀 메시(Full-Mesh)의 비극       │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 외국(구글) ] ── eBGP ──▶ [ 라우터 A ] (우리나라 관문)           │
+ │                                                             │
+ │   [ 라우터 A ] ── iBGP ──▶ [ 라우터 B ] ── iBGP ──▶ [ 라우터 C ] │
+ │                                                             │
+ │   * 멍청한 설계의 최후:                                         │
+ │     1. A가 구글 정보를 eBGP로 받아 B에게 iBGP로 준다. (정상)       │
+ │     2. B는 이 정보를 C에게 넘겨주지 않고 입을 닫는다. (스플릿 호라이즌)  │
+ │     3. C는 인터넷 지도를 못 받아서 인터넷이 끊겨(블랙홀) 버린다!      │
+ │                                                             │
+ │   * 올바른 풀 메시(Full-Mesh) 설계:                              │
+ │     A는 B와도 iBGP를 맺고, "반드시 C와도 별도의 iBGP"를 직접 맺어서  │
+ │     지도를 일일이 떠먹여 줘야 한다!                              │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 3. Full-Mesh 구조의 확장성 문제
 라우터가 3대(A, B, C)면 1:1로 맺을 iBGP 연결은 $3 \times (3-1)/2 = 3$개로 할 만하다.
@@ -140,19 +137,15 @@ iBGP, eBGP, [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: BGP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: iBGP, eBGP, BGP Split Ho…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: BGP 속성</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: BGP]
+    │
+    ▼
+[현재 개념: iBGP, eBGP, BGP Split Ho…]
+    │
+    ├──▶ [확장 A: BGP 속성]
+    └──▶ [확장 B: 의도 기반 라우팅]
+```
 
 iBGP, eBGP, [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) Split Ho…는 BGP에서 출발해 현재 메커니즘을 정교화하고, 이후 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

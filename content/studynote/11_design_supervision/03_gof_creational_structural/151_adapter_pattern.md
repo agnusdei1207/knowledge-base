@@ -36,31 +36,36 @@ tags = ["studynote-design-supervision"]
 
 [어댑터 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/383_adapter_pattern_summary/)의 뼈대는 남의 쇳덩이 객체를 내가 어떻게 감싸 안아 번역할 것인가(위임 Delegation)에 있다. [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 떡칠을 박살 내는 '객체 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)' 도해다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">어댑터 패턴(객체 합성 방식 Object Adapter) 십자 융합 록온 도해 🚀</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">👨‍💻</div><div class="kb-diagram-node">Client (우리 최신 시스템)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 팩트: 나는 <code>Target</code> 규격 헌법만 알면 됨. 다른 더러운 놈 알 바 아님 ㅋ.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 호출: <code>target.request();</code> 찌르기 툭 핑!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (오직 인터페이스만 찌름)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🎯 Target (표준 인터페이스)</div><div class="kb-diagram-cell">◀── 클라이언트가 원하는 완벽한 대문 규격</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ request()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── (구현 Implements 락킹)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🔌 Adapter (중간 번역 젠더)</div><div class="kb-diagram-cell">위임</div><div class="kb-diagram-cell">🦖 Adaptee (낡은 레거시 봇)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- adaptee: Adaptee</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">+ specificRequest()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ request() {</div><div class="kb-diagram-cell">(품음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">adaptee.specificReq()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 아키텍트 극딜: 낡은 로봇(Adaptee) 소스를 수정하지 않는다! 걍 뱃속에 변수</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">포인터(Composition)로 스윽 품어버리고! 밖에서 새 규격(<code>request</code>)으로 찌르면</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">어댑터 새끼가 몰래 안에서 낡은 규격(<code>specificReq</code>)으로 텍스트 번역 우회 핑퐁</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">짬처리를 다 대신해 쳐주는 완벽한 의존성 단절(Decoupling) 쉴드 방폭문이다 쾅!!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          어댑터 패턴(객체 합성 방식 Object Adapter) 십자 융합 록온 도해 🚀 │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ 👨‍💻 [ Client (우리 최신 시스템) ]                              │
+│   - 팩트: 나는 `Target` 규격 헌법만 알면 됨. 다른 더러운 놈 알 바 아님 ㅋ. │
+│   - 호출: `target.request();` 찌르기 툭 핑!                    │
+│            │                                                │
+│            ▼ (오직 인터페이스만 찌름)                              │
+│ ┌────────────────────────┐                                  │
+│ │ 🎯 Target (표준 인터페이스)│ ◀── 클라이언트가 원하는 완벽한 대문 규격 │
+│ │ + request()            │                                  │
+│ └────────────────────────┘                                  │
+│            ▲                                                │
+│            ├── (구현 Implements 락킹)                        │
+│            │                                                │
+│ ┌────────────────────────┐      ┌────────────────────────┐  │
+│ │ 🔌 Adapter (중간 번역 젠더)│  위임  │ 🦖 Adaptee (낡은 레거시 봇)│  │
+│ │ - adaptee: Adaptee     │ ──▶ │ + specificRequest()    │  │
+│ │ + request() {          │ (품음)│                        │  │
+│ │   adaptee.specificReq()│      │                        │  │
+│ │ }                      │      │                        │  │
+│ └────────────────────────┘      └────────────────────────┘  │
+│ 🌟 아키텍트 극딜: 낡은 로봇(Adaptee) 소스를 수정하지 않는다! 걍 뱃속에 변수   │
+│ 포인터(Composition)로 스윽 품어버리고! 밖에서 새 규격(`request`)으로 찌르면 │
+│ 어댑터 새끼가 몰래 안에서 낡은 규격(`specificReq`)으로 텍스트 번역 우회 핑퐁  │
+│ 짬처리를 다 대신해 쳐주는 완벽한 의존성 단절(Decoupling) 쉴드 방폭문이다 쾅!! │
+└─────────────────────────────────────────────────────────────┘
+```
 
 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/">아키텍트의 피 터지는 메스: 클래스(Class) [어댑터</a> vs 객체(Object) <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/">어댑터</a> 딜레마]</strong>
 - <strong>클래스 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/">어댑터</a> (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/">상속</a> 다중 떡칠 💥)</strong>: [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) 놈이 낡은 객체(Adaptee)를 `extends` 로 다이렉트 핏줄 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)받아 호환 치는 짓이다. 
@@ -145,23 +150,21 @@ GoF 아키텍트 대장들은 이를 철저히 도륙 낸다. <strong>"야!! 내
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">절대 수정 불가능 낡은 쇳덩이 레거시 코드 / M&amp;A로 남의 회사 구형 코드 가져왔는데 우리 회사 규격이랑 1도 안 맞고 파라미터 개판 파국 터짐 💥</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">무지성 하드코딩 상속(Inheritance) 떡칠 시도 💀 / 구형 코드를 직접 상속받거나 원본 소스 열어서 타자 쳐 수정 ➔ 1줄 고쳤더니 딴 부서 100군데 시뻘겋게 연쇄 컴파일 에러 폭사 동반 타죽음 뻗음</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">객체 어댑터(Object Adapter) 십자 융합 록온 발동 🚀 / 원본 소스 절대 손대지 마 철통 락(Lock)! ➔ 걍 뱃속 포인터(Composition)로 낡은 놈 스윽 감싸 안고, 겉 껍데기는 우리 최신 표준 규격으로 젠더 변환 핑퐁 짬처리 때리는 투명 쉴드 강림 ✨</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">프레임워크 대통일 표준화 (JDBC, 로깅 봇) / 1만 개 이기종 DB 쇳덩이 파편화 지옥을 ➔ 이 어댑터 인터페이스 껍데기 1개로 전 우주 자바 코더들의 소스 코드 100% 무결점 결합 파괴 디커플링 완성!</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">MSA 안티 코럽션 레이어(ACL) 방폭문 도약 (현재) / 객체 1개 감싸는 코딩 팁을 넘어 ➔ 타 부서 낡은 서버망 트래픽이 내 서버망으로 오염 전염되지 못하게 대문 앞</div><div class="kb-diagram-node">사이드카 프록시 어댑터 봇</div><div class="kb-diagram-note">단위로 차원 팽창 스케일 업 하여 거대 인프라 분산망 영구 수호 방벽 텐트로 승격 🚀</div></div>
-</div>
-</div>
-
-
+```text
+절대 수정 불가능 낡은 쇳덩이 레거시 코드 / M&A로 남의 회사 구형 코드 가져왔는데 우리 회사 규격이랑 1도 안 맞고 파라미터 개판 파국 터짐 💥
+    │
+    ▼
+무지성 하드코딩 상속(Inheritance) 떡칠 시도 💀 / 구형 코드를 직접 상속받거나 원본 소스 열어서 타자 쳐 수정 ➔ 1줄 고쳤더니 딴 부서 100군데 시뻘겋게 연쇄 컴파일 에러 폭사 동반 타죽음 뻗음
+    │
+    ▼
+객체 어댑터(Object Adapter) 십자 융합 록온 발동 🚀 / 원본 소스 절대 손대지 마 철통 락(Lock)! ➔ 걍 뱃속 포인터(Composition)로 낡은 놈 스윽 감싸 안고, 겉 껍데기는 우리 최신 표준 규격으로 젠더 변환 핑퐁 짬처리 때리는 투명 쉴드 강림 ✨
+    │
+    ▼
+프레임워크 대통일 표준화 (JDBC, 로깅 봇) / 1만 개 이기종 DB 쇳덩이 파편화 지옥을 ➔ 이 어댑터 인터페이스 껍데기 1개로 전 우주 자바 코더들의 소스 코드 100% 무결점 결합 파괴 디커플링 완성!
+    │
+    ▼
+MSA 안티 코럽션 레이어(ACL) 방폭문 도약 (현재) / 객체 1개 감싸는 코딩 팁을 넘어 ➔ 타 부서 낡은 서버망 트래픽이 내 서버망으로 오염 전염되지 못하게 대문 앞 [사이드카 프록시 어댑터 봇] 단위로 차원 팽창 스케일 업 하여 거대 인프라 분산망 영구 수호 방벽 텐트로 승격 🚀
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

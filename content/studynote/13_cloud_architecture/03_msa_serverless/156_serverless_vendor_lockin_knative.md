@@ -39,22 +39,28 @@ AWS [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_
 | 이식성 | 어려움 | 모든 K8s 클러스터에서 동일 |
 | 운영 부담 | 낮음 | 중간~높음 (K8s 관리 필요) |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Knative 아키텍처 개요</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Knative 레이어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Knative Serving</div><div class="kb-diagram-cell">Knative Eventing</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ HTTP 트래픽</div><div class="kb-diagram-cell">▶ CloudEvents 표준</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 자동 스케일링</div><div class="kb-diagram-cell">▶ Broker/Trigger 라우팅</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 0→N 스케일아웃</div><div class="kb-diagram-cell">▶ Kafka/RabbitMQ 연동</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 트래픽 분할</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kubernetes (GKE, EKS, AKS, on-prem)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                  Knative 아키텍처 개요                               │
+│                                                                      │
+│  ┌───────────────────────────────────────────────────────────────┐  │
+│  │                   Knative 레이어                              │  │
+│  │                                                               │  │
+│  │  ┌──────────────────┐     ┌──────────────────────────────┐  │  │
+│  │  │  Knative Serving │     │  Knative Eventing            │  │  │
+│  │  │                  │     │                              │  │  │
+│  │  │  ▶ HTTP 트래픽   │     │  ▶ CloudEvents 표준          │  │  │
+│  │  │  ▶ 자동 스케일링 │     │  ▶ Broker/Trigger 라우팅    │  │  │
+│  │  │  ▶ 0→N 스케일아웃│     │  ▶ Kafka/RabbitMQ 연동      │  │  │
+│  │  │  ▶ 트래픽 분할   │     │                              │  │  │
+│  │  └──────────────────┘     └──────────────────────────────┘  │  │
+│  └───────────────────────────────────────────────────────────────┘  │
+│                         │                                           │
+│  ┌────────────────────── │──────────────────────────────────────┐  │
+│  │          Kubernetes (GKE, EKS, AKS, on-prem)                 │  │
+│  └──────────────────────────────────────────────────────────────┘  │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: Knative는 범용 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)(USB-C) — 어떤 벤더의 기기(클라우드)에도 연결 가능하도록 표준 인터페이스를 제공한다.
 
@@ -123,21 +129,17 @@ AWS [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">CSP 전용 FaaS (벤더 종속)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Knative: K8s 기반 오픈소스 서버리스 프레임워크</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Serving: 자동 스케일링 · 리비전 관리</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Eventing: 이벤트 소스 바인딩</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Cloud-Agnostic 서버리스 → 멀티클라우드 이식성</div>
-</div>
-</div>
-
-
+```text
+CSP 전용 FaaS (벤더 종속)
+    │
+    ▼
+Knative: K8s 기반 오픈소스 서버리스 프레임워크
+    ├─► Serving: 자동 스케일링 · 리비전 관리
+    └─► Eventing: 이벤트 소스 바인딩
+    │
+    ▼
+Cloud-Agnostic 서버리스 → 멀티클라우드 이식성
+```
 2. Knative는 모든 게임기에서 돌아가는 온라인 게임 — 어느 회사 기기에서도 같은 게임을 즐길 수 있어요.
 3. 자유롭게 게임기를 바꿀 수 있지만, 그러려면 온라인 게임 서버([Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/))를 직접 관리해야 해요.
 

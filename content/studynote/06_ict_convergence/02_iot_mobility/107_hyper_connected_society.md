@@ -37,19 +37,18 @@ tags = ["ict_convergence"]
 | **분석 (Processing)** | 클라우드 (Cloud), 빅데이터 | 끝없이 밀려오는 비정형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 저장하고 구조화 |
 | **판단 및 제어 (Action)** | [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) ([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)), [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 학습해 통찰을 도출하고 사물에 자율 동작 명령 하달 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">초연결 사회의 데이터 순환 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현실 세계 (Physical)</div><div class="kb-diagram-node">가상 세계 (Digital)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자율주행차, 스마트가전 ──▶(IoT/5G)──▶ 거대한 데이터 레이크</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ (자율 제어)</div><div class="kb-diagram-cell">(빅데이터화)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지능형 엣지 노드 ◀──(AI 모델)── 클라우드 AI 분석 엔진</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│             초연결 사회의 데이터 순환 아키텍처               │
+├──────────────────────────────────────────────────────────────┤
+│ [ 현실 세계 (Physical) ]            [ 가상 세계 (Digital) ]  │
+│                                                              │
+│ 자율주행차, 스마트가전 ──▶(IoT/5G)──▶ 거대한 데이터 레이크     │
+│       ▲ (자율 제어)                        │ (빅데이터화)    │
+│       │                                    ▼                 │
+│ 지능형 엣지 노드      ◀──(AI 모델)── 클라우드 AI 분석 엔진  │
+└──────────────────────────────────────────────────────────────┘
+```
 이 그림의 핵심은 사람이 개입하는 단계가 사라지고, 사물에서 발생한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 클라우드의 AI로 넘어가 최적의 판단을 거친 뒤 다시 물리적 세계를 조작하는 <strong>완전한 자동 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/">피드백 루프</a></strong>를 형성한다는 점이다.
 
 - **📢 섹션 요약 비유**: IoT는 세상의 '눈과 귀'이고, 5G는 가장 빠른 '혈관'이며, 클라우드와 AI는 그 혈관을 타고 온 정보를 처리하는 거대한 '두뇌'다. 이 셋이 합쳐져 지구라는 하나의 뇌를 깨운다.
@@ -109,23 +108,21 @@ tags = ["ict_convergence"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">사람 간의 제한적 연결 (Web 1.0)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">모바일 기반 상시 연결 (스마트폰 혁명)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">사람-사물-공간의 초연결 (IoT, 5G 기반)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지능형 초연결 사회 (AI 융합 자율 제어)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">디지털 트윈 (Digital Twin) · 메타버스 융합</div>
-</div>
-</div>
-
-
+```text
+사람 간의 제한적 연결 (Web 1.0)
+    │
+    ▼
+모바일 기반 상시 연결 (스마트폰 혁명)
+    │
+    ▼
+사람-사물-공간의 초연결 (IoT, 5G 기반)
+    │
+    ▼
+지능형 초연결 사회 (AI 융합 자율 제어)
+    │
+    ▼
+디지털 트윈 (Digital Twin) · 메타버스 융합
+```
 
 이 흐름도는 연결의 대상이 사람에서 사물로, 수동적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 교환에서 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반의 자율적 융합 및 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 공간으로 진화하는 과정을 보여준다.
 

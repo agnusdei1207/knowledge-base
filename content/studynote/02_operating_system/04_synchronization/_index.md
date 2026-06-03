@@ -23,19 +23,24 @@ tags = ["operating_system"]
 
 이 그림은 경쟁 상태가 발생하는 '임계구역'의 논리적 위치와 보호 구조를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Structure of Synchronization Control</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Entry Section</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Lock 획득 시도 (상호 배제 시작)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Critical Section</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">공유 자원 접근 코드 영역</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Exit Section</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">Lock 반납 (상호 배제 해제)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Remainder Section</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">나머지 코드 영역</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Structure of Synchronization Control        │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Entry Section ]  ──▶  Lock 획득 시도 (상호 배제 시작)   │
+│          │                                                  │
+│          ▼                                                  │
+│   [ Critical Section ] ──▶  공유 자원 접근 코드 영역        │
+│          │                                                  │
+│          ▼                                                  │
+│   [ Exit Section ]   ──▶  Lock 반납 (상호 배제 해제)        │
+│          │                                                  │
+│          ▼                                                  │
+│   [ Remainder Section ] ──▶ 나머지 코드 영역                │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 'Entry/Exit Section'의 원자성 (Atomicity)이다. 락을 걸고 푸는 행위 자체가 중단되지 않고 한 번에 수행되어야만 임계구역을 안전하게 보호할 수 있다. 실무에서는 이를 보장하기 위해 하드웨어의 **Test-and-Set** 명령어나 소프트웨어적 뮤텍스 라이브러리를 사용한다.
 
@@ -67,22 +72,23 @@ tags = ["operating_system"]
 
 이 구조도는 세마포어의 내부 동작과 대기 큐 관리 방식을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Semaphore with Waiting Queue</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Semaphore S</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">value: 0</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">list:</div><div class="kb-diagram-node">P2, P3</div><div class="kb-diagram-note">(Waiting Queue)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">P1: Signal(S)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">value++</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">if (value &lt;= 0) {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ Wake up P2 from list</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* Busy Waiting 해결: CPU를 점유하며 기다리지 않고 Block됨</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Semaphore with Waiting Queue                │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Semaphore S ] ──▶  value: 0                             │
+│                        list: [ P2, P3 ] (Waiting Queue)     │
+│                                                             │
+│   [ P1: Signal(S) ] ──▶ value++                             │
+│          │              if (value <= 0) {                   │
+│          └────────────▶   Wake up P2 from list              │
+│                         }                                   │
+│                                                             │
+│   * Busy Waiting 해결: CPU를 점유하며 기다리지 않고 Block됨 │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 'Block & Wake-up' 메커니즘이다. 자원을 얻지 못한 프로세스는 CPU를 낭비하며 무한 루프를 도는 대신(Busy Waiting), 대기 상태로 전환되어 잠들었다가 자원이 생기면 운영체제가 깨워준다. 실무에서는 성능을 위해 아주 짧은 시간은 Busy Waiting (Spinlock)을 하고, 길어지면 Sleep하는 하이브리드 방식을 선호한다.
 
@@ -124,21 +130,24 @@ tags = ["operating_system"]
 
 이 도식은 고수준 동기화 도구인 <strong>모니터 (Monitor)</strong>의 추상화 계층을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Monitor Abstraction Layer</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Monitor: Account</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">private balance; (Shared Data)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">public synchronized deposit(amt) { ... }</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">public synchronized withdraw(amt) { ... }</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 개발자는 'synchronized' 키워드만 붙이면 됨</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">내부 락(Lock) 관리는 언어/런타임이 담당</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Monitor Abstraction Layer                   │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Monitor: Account ]                                      │
+│   ┌─────────────────────────────────────────────────────┐   │
+│   │  private balance; (Shared Data)                     │   │
+│   │                                                     │   │
+│   │  public synchronized deposit(amt) { ... }           │   │
+│   │  public synchronized withdraw(amt) { ... }          │   │
+│   └─────────────────────────────────────────────────────┘   │
+│          ▲                                                  │
+│          └─ 개발자는 'synchronized' 키워드만 붙이면 됨      │
+│             내부 락(Lock) 관리는 언어/런타임이 담당         │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 기술사의 동기화 판단은 '안전한 성곽 설계'와 같습니다. 가장 중요한 보물(데이터)을 지키기 위해 성문(Mutex)을 하나만 둘지, 아니면 여러 개의 작은 열쇠(Fine-grained Lock)를 나누어 줄지 상황에 따라 결정해야 합니다.
 

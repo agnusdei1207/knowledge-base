@@ -25,33 +25,36 @@ tags = ["studynote-operating-system"]
 - <strong>구시대 중앙집중형 연산 vs 스토리지 <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/">오프로딩</a> <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 아키텍처 다이어그램</strong>:
 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 통신 다리 톨게이트를 패킷 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 얼마나 덜 건너게 만들어줬는지 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 계층으로 차이 묘사 방출 체계화하면 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">컴퓨테이셔널 스토리지 (Smart SSD) 병목 해제 I/O 통로</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">구식 폰 노이만 (Dumb Storage 바보 깡통 SSD 구조) 병목 체증</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(CPU/RAM) (메인보드 PCIe 통로 좁음!) (일반 NVMe SSD)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💥 100GB 원본 쌩짜 데이터 꾸역꾸역 ── ◀─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">😭 CPU</div><div class="kb-diagram-cell">◀</div><div class="kb-diagram-cell">100GB 읽음! 아무생각 없음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">위로 다 올려! (나머지 부품 다 마비됨 스로틀)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ (위에서 필터링해서 99GB 버리고 1GB 결과만 씀. 뻘짓 병목 낭비 개판)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">혁신 스마트 스토리지 (In-Situ Processing 현장 연산 척살대) 스펙</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(CPU/RAM) (메인보드 PCIe 통로 쾌적!) (연산형 Smart SSD)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">👇 명령하달</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. "압축풀고 1등단어만 찾아놔!" ──▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">😎 CPU</div><div class="kb-diagram-cell">1. 자체 FPGA 칩이 압축푹고</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">편~안함</div><div class="kb-diagram-cell">2. 🎁 결과값 1MB 만 쏙 엘베 태움 ◀─</div><div class="kb-diagram-cell">2. 자체 스토리지 100G 뒤짐</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 결과: PCIe 버스로 통과 이동하는 데이터량이 1/100,000 수준으로 파괴 경감!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU는 펑펑 놀면서 다른 딥러닝 텐서(GPU) 수식만 빵빵 집중 배분!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────────────────────────────────┐
+  │                 컴퓨테이셔널 스토리지 (Smart SSD) 병목 해제 I/O 통로                          │
+  ├───────────────────────────────────────────────────────────────────────────────────────────────┤
+  │                                                                                               │
+  │  [ 구식 폰 노이만 (Dumb Storage 바보 깡통 SSD 구조) 병목 체증 ]                               │
+  │    (CPU/RAM)            (메인보드 PCIe 통로 좁음!)        (일반 NVMe SSD)                     │
+  │     ┌─────────┐   💥 100GB 원본 쌩짜 데이터 꾸역꾸역 ── ◀─ ┌──────────────────────────┐       │
+  │     │ 😭 CPU │  ◀──────────────────────────────────── │ 100GB 읽음! 아무생각 없음│            │
+  │     └─────────┘    위로 다 올려! (나머지 부품 다 마비됨 스로틀)   └──────────────────────────┘│
+  │       ▲ (위에서 필터링해서 99GB 버리고 1GB 결과만 씀. 뻘짓 병목 낭비 개판)                    │
+  │                                                                                               │
+  │  =============================================================                                │
+  │                                                                                               │
+  │  [ 혁신 스마트 스토리지 (In-Situ Processing 현장 연산 척살대) 스펙 ]                          │
+  │    (CPU/RAM)            (메인보드 PCIe 통로 쾌적!)    (연산형 Smart SSD)                      │
+  │                         👇 명령하달                                                           │
+  │     ┌─────────┐   1. "압축풀고 1등단어만 찾아놔!" ──▶  ┌──────────────────────────┐           │
+  │     │ 😎 CPU │                                   │ 1. 자체 FPGA 칩이 압축푹고 │               │
+  │     │ 편~안함 │   2. 🎁 결과값 1MB 만 쏙 엘베 태움 ◀─  │ 2. 자체 스토리지 100G 뒤짐 │         │
+  │     └─────────┘                                   └──────────────────────────┘                │
+  │                                                                                               │
+  │  * 결과: PCIe 버스로 통과 이동하는 데이터량이 1/100,000 수준으로 파괴 경감!                   │
+  │         CPU는 펑펑 놀면서 다른 딥러닝 텐서(GPU) 수식만 빵빵 집중 배분!                        │
+  └───────────────────────────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 친화적 연산 환경에선 CPU 코어 클럭이 5GHz로 아무리 날뛰어도 소용없다. 병목(Bottle-neck)의 목덜미는 무조건 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 짊어지고 나르는 대장간 수레([PCI Express](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 레인 통신 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))에서 잡히기 때문이다. 그림 아랫부분에서 보듯, Computational Storage 의 꽃은 CPU가 "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 스크립트" 만 스토리지 아래 무저갱으로 던져(Push-down)버린다는 점이다. 그러면 무려 하드디스크 깡통 샷시 안에서 자기 혼자 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 해제하고, [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-256 암호를 지가 혼자 다 풀고, 테이블 검색(SQL 필터) 연산을 수행해 버린 뒤 그 축약 핵심 결괏값만 위로 툭 올려 넘긴다. 메인보드 선의 무거운 부하 타격을 근절하는 "서버 구조 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) 혁명" 체제로 군림 탈바꿈한다.
 
-- **📢 섹션 요약 비유**: 이것은 엄청나게 큰 과일 농장 창고에서 트럭([PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)) 배달을 획기적으로 줄인 혁신 구상입니다. 옛날엔 흙 묻은 귤 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000박스(원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 무작정 트럭에 미친 듯이 실어서 시내 공장(CPU)으로 올리면 차가 막혀서(병목 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)) 교통이 마비됐어요. 하지만 [Smart SSD](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/595_smart_ssd/) 도입은, 그냥 귤 창고 지하실 한 켠에 최신식 착즙 믹서기 로봇(자체 [FPGA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/) 칩)을 통째로 설치해서 설치류, 거기서 곧바로 껍질과 쓰레기는 그 자리에서 버리고 100% 농축 오렌지 원액 주스 한 병(필터링 결괏값 1MB 패킷)만 트럭에 탁 실어 공장 사장님 책상으로 가볍게 보내는 초융합 생산 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)성 패키징과 똑같습니다!
+- **📢 섹션 요약 비유**: 이것은 엄청나게 큰 과일 농장 창고에서 트럭([PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)) 배달을 획기적으로 줄인 혁신 구상입니다. 옛날엔 흙 묻은 귤 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000박스(원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 무작정 트럭에 미친 듯이 실어서 시내 공장(CPU)으로 올리면 차가 막혀서(병목 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)) 교통이 마비됐어요. 하지만 [Smart SSD](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/595_smart_ssd/) 도입은, 그냥 귤 창고 지하실 한 켠에 최정보 착즙 믹서기 로봇(자체 [FPGA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/) 칩)을 통째로 설치해서 설치류, 거기서 곧바로 껍질과 쓰레기는 그 자리에서 버리고 100% 농축 오렌지 원액 주스 한 병(필터링 결괏값 1MB 패킷)만 트럭에 탁 실어 공장 사장님 책상으로 가볍게 보내는 초융합 생산 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)성 패키징과 똑같습니다!
 
 ---
 
@@ -132,19 +135,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SR-IOV (Single Root I/O Virtualization)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">컴퓨테이셔널 스토리지 (Computational Storage / Smart SSD)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">NVMe over Fabrics (NVMe-oF)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">이중 경로 (Multipath) I/O 페일오버 및 로드밸런싱 구조</div></div>
-</div>
-</div>
-
-
+```text
+[SR-IOV (Single Root I/O Virtualization)]
+    │
+    ▼
+[컴퓨테이셔널 스토리지 (Computational Storage / Smart SSD)]
+    │
+    ├──▶ [NVMe over Fabrics (NVMe-oF)]
+    └──▶ [이중 경로 (Multipath) I/O 페일오버 및 로드밸런싱 구조]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

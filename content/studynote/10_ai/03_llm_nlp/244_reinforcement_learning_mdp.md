@@ -38,17 +38,14 @@ tags = ["studynote-ai"]
 - **보상(Reward, R)**: 행동 결과에 따른 즉각적 피드백
 - <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>(<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">Policy</a>, π)</strong>: 상태에서 행동으로의 매핑 함수
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)은 RPG 게임에서 캐릭터를 조작하는 것과 같다. 몬스터를 물리치면 경험치(보상)를 얻고, 죽으면 벌점을 받으면서 최적의 전투 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)([정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))을 스스로 터득한다.
 
@@ -60,21 +57,21 @@ tags = ["studynote-ai"]
 
 MDP는 RL을 수학적으로 정형화한 프레임워크로, [튜플](/knowledge-base/studynote/05_database/02_modeling_normalization/063_relation_tuple_cardinality/) `(S, A, P, R, γ)`로 정의된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MDP (Markov Decision Process)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">행동 a_t</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">에이전트</div><div class="kb-diagram-cell">환경</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Agent)</div><div class="kb-diagram-cell">◀</div><div class="kb-diagram-cell">(Environment)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보상 r_t</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정책 π</div><div class="kb-diagram-cell">◀</div><div class="kb-diagram-cell">상태 s_{t+1}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마르코프 특성: P(s_{t+1}</div><div class="kb-diagram-cell">s_t, a_t) 만으로 결정</div></div>
-</div>
-</div>
-
-
+```
+┌─────────────────────────────────────────────────┐
+│           MDP (Markov Decision Process)          │
+│                                                  │
+│  ┌──────────┐  행동 a_t  ┌──────────────────┐   │
+│  │          │──────────▶│                  │   │
+│  │  에이전트  │           │     환경          │   │
+│  │ (Agent)  │◀──────────│  (Environment)   │   │
+│  │          │ 보상 r_t   │                  │   │
+│  │  정책 π   │◀──────────│ 상태 s_{t+1}     │   │
+│  └──────────┘           └──────────────────┘   │
+│                                                  │
+│  마르코프 특성: P(s_{t+1} | s_t, a_t) 만으로 결정  │
+└─────────────────────────────────────────────────┘
+```
 
 - <strong>S (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a> Space)</strong>: 모든 가능한 상태 집합
 - **A (Action Space)**: 모든 가능한 행동 집합

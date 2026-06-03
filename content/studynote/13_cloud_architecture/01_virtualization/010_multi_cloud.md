@@ -28,25 +28,22 @@ tags = ["cloud_architecture"]
 **💡 비유**: 주식 투자에서 전 재산을 한 종목에만 올인했다가 그 회사가 망하면 끝장나기 때문에, 성격이 다른 A기업과 B기업 주식에 돈을 나누어 투자하여 위험을 헷지(Hedge)하는 포트폴리오 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 완전히 동일하다.
 
 이 도식은 단일 클라우드 종속 구조가 가지는 [SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)([단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))의 위험과, [멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/)를 통한 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 모델을 비교하여 보여준다.
+```text
+[단일 벤더 종속(Lock-in)의 위험 구조]
+[사용자 트래픽] ──► [단일 CSP (AWS)] ──(특정 리전 내부망 마비/정전)──► ❌ 전면 서비스 중단!
+                      (탈출 불가)
 
+                                ▼ (멀티 클라우드 전환) ▼
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">단일 벤더 종속(Lock-in)의 위험 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">사용자 트래픽</div><div class="kb-diagram-note">──►</div><div class="kb-diagram-node">단일 CSP (AWS)</div><div class="kb-diagram-note">──(특정 리전 내부망 마비/정전)──► ❌ 전면 서비스 중단!</div></div>
-<div class="kb-diagram-note">(탈출 불가)</div>
-<div class="kb-diagram-note">▼ (멀티 클라우드 전환) ▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">멀티 클라우드 글로벌 라우팅 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">사용자 트래픽</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">글로벌 DNS / GSLB (라우터)</div><div class="kb-diagram-note">=== 헬스 체크 감시 === (CSP A 붕괴 감지 시 자동 절체!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─(50% 트래픽)──►</div><div class="kb-diagram-node">CSP A (AWS)</div><div class="kb-diagram-note">──(장애 발생 시)──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">100% 트래픽 우회 라우팅</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─(50% 트래픽)──►</div><div class="kb-diagram-node">CSP B (Azure)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">(서비스 무중단 생존)</div></div>
-</div>
-</div>
-
-
+[멀티 클라우드 글로벌 라우팅 구조]
+[사용자 트래픽]
+      │
+      ▼
+[글로벌 DNS / GSLB (라우터)]  === 헬스 체크 감시 === (CSP A 붕괴 감지 시 자동 절체!)
+      ├─(50% 트래픽)──► [CSP A (AWS)]  ──(장애 발생 시)──┐
+      │                                                  │ 100% 트래픽 우회 라우팅
+      └─(50% 트래픽)──► [CSP B (Azure)] ◀────────────────┘ (서비스 무중단 생존)
+```
 이 도식의 핵심은 기업의 존폐가 걸린 핵심 코어 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 생명줄을 한 벤더의 인프라 안정성에 온전히 맡기지 않겠다는 선언에 있다. [멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/)는 벤더 A의 100% 장애 상황에서도, [GSLB](/knowledge-base/studynote/03_network/09_application_layer_web_email/507_gslb_global_server_load_balancing_dns/)(Global Server [Load Balancing](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/196_hard_soft_real_time/))가 트래픽을 즉각 벤더 B로 스위칭함으로써 사용자 입장에서는 아무 일도 없었던 것처럼 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 계속 이용하게 해준다.
 
 **📢 섹션 요약 비유**: 배가 침몰할 때를 대비해 구명조끼만 잔뜩 싣는 것(다중 AZ)을 넘어, 아예 똑같은 크기의 튼튼한 호위함([멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/))을 항상 나란히 항해시켜 본선이 가라앉아도 즉시 승객을 옮겨 태우는 궁극의 안전망이다.
@@ -56,7 +53,7 @@ tags = ["cloud_architecture"]
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/">멀티 클라우드</a> 통합을 위한 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a> 아키텍처</strong>
-[멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/)를 구축할 때 가장 큰 장벽은 AWS(EC2), Azure([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)), GCP(Compute Engine)가 제공하는 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/) API와 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 환경, 네트워킹 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)([VPC](/knowledge-base/studynote/03_network/16_data_center_cloud/836_vpc_virtual_private_cloud_subnet_isolation/)/VNet)이 제각각 다르다는 것이다. 이를 해결하기 위해 아키텍처는 각 클라우드의 인프라 계층을 숨기고 공통된 배포 언어를 사용하는 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a> 계층(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">Abstraction</a> Layer)</strong>을 반드시 도입해야 한다.
+[멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/)를 구축할 때 가장 큰 장벽은 AWS(EC2), Azure([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)), GCP(Compute 엔진)가 제공하는 [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/) API와 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 환경, 네트워킹 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)([VPC](/knowledge-base/studynote/03_network/16_data_center_cloud/836_vpc_virtual_private_cloud_subnet_isolation/)/VNet)이 제각각 다르다는 것이다. 이를 해결하기 위해 아키텍처는 각 클라우드의 인프라 계층을 숨기고 공통된 배포 언어를 사용하는 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a> 계층(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">Abstraction</a> Layer)</strong>을 반드시 도입해야 한다.
 
 | 아키텍처 구성 요소 | 기술 요약 | [멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) 내 핵심 역할 | 실무 솔루션 예시 |
 |:---|:---|:---|:---|
@@ -66,23 +63,23 @@ tags = ["cloud_architecture"]
 | **글로벌 트래픽 라우터**| 트래픽 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) | 사용자와 가장 가깝거나, 현재 살아있는 클라우드 망으로 트래픽을 스마트하게 방향 전환 | Cloudflare, Route53 |
 
 이 구조도는 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 연합([Federation](/knowledge-base/studynote/09_security/11_iam_access_control/543_federation/))과 [멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)이 결합된 Active-Active [멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/) 아키텍처를 보여준다.
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Global Load Balancer (GSLB)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(사용자의 접속 지역 또는 클라우드 헬스 체크 기반으로 트래픽을 50:50 분산 라우팅)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AWS 클러스터</div><div class="kb-diagram-node">Azure 클러스터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(CI/CD 파이프라인)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Kubernetes (EKS) 환경</div><div class="kb-diagram-cell">◀─ GitOps 배포 Sync ─▶</div><div class="kb-diagram-cell">Kubernetes (AKS)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Stateless Web/WAS Pods</div><div class="kb-diagram-cell">- 동일한 Web/WAS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼</div><div class="kb-diagram-cell">데이터 비동기 복제</div><div class="kb-diagram-cell">▼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">AWS RDS (Master DB)</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Azure DB (Replica)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(VPN / 전용선)</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────── Global Load Balancer (GSLB) ──────────────────────────┐
+│   (사용자의 접속 지역 또는 클라우드 헬스 체크 기반으로 트래픽을 50:50 분산 라우팅)     │
+└──────┬───────────────────────────────────────────────────────────────┬─────────┘
+       │                                                               │
+┌──────▼────────────────────────┐                       ┌──────────────▼───────┐
+│       [ AWS 클러스터 ]          │                       │     [ Azure 클러스터 ] │
+│ ┌───────────────────────────┐ │  (CI/CD 파이프라인)   │ ┌────────────────────┐ │
+│ │ Kubernetes (EKS) 환경     │ │ ◀─ GitOps 배포 Sync ─▶│ │ Kubernetes (AKS)   │ │
+│ │ - Stateless Web/WAS Pods  │ │                       │ │ - 동일한 Web/WAS   │ │
+│ └───────┬───────────────────┘ │                       │ └─────────┬──────────┘ │
+│         │                     │                       │           │            │
+│ ┌───────▼───────────────────┐ │    데이터 비동기 복제 │ ┌─────────▼──────────┐ │
+│ │ AWS RDS (Master DB)       │ │ ────────────────────▶ │ │ Azure DB (Replica) │ │
+│ └───────────────────────────┘ │    (VPN / 전용선)     │ └────────────────────┘ │
+└───────────────────────────────┘                       └──────────────────────┘
+```
 이 아키텍처의 핵심은 "애플리케이션은 Stateless하게(상태 비저장) 배포하고, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)는 Master-Replica 구조로 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)한다"는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 설계의 대원칙에 있다. [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)는 양쪽 클라우드에서 동일한 [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 이미지를 구동시켜 완벽한 이식성(Portability)을 보장한다. 하지만 가장 큰 병목 지점은 아래쪽의 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 비동기 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)' 구간이다. 두 클라우드 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 간의 물리적 거리로 인해 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Replication Lag](/knowledge-base/studynote/05_database/04_transactions_concurrency/556_master_slave_replication_lag_inconsistency/))이 발생하므로, 실무 설계 시 양쪽에 [동시 쓰기](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/276_write_through/)(Active-Active DB)를 구성하는 것은 극한의 난이도와 충돌을 야기하므로 보통 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 한쪽만 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Master)를 허용하는 우회 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 쓴다.
 
 **📢 섹션 요약 비유**: 전 세계 규격이 다른 콘센트 모양(각 클라우드 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)) 때문에 가전제품을 못 쓰는 문제를 해결하기 위해, 모든 제품 끝에 통합형 만능 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)([쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)/[테라폼](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/))를 끼워 넣어 어디서든 플러그만 꽂으면 작동하게 만든 기술이다.
@@ -153,23 +150,21 @@ tags = ["cloud_architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">단일 클라우드 (Single Cloud) — 하나의 CSP에 집중</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">하이브리드 클라우드 (Hybrid Cloud) — 온프레미스 + 퍼블릭 연결</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">멀티 클라우드 (Multi-Cloud) — 복수 CSP 병행 활용</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">클라우드 메시 (Cloud Mesh) — 멀티 클라우드 간 통합 네트워킹</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">슈퍼클라우드 (Supercloud) — CSP 추상화 통합 플랫폼 레이어</div></div>
-</div>
-</div>
-
-
+```text
+[단일 클라우드 (Single Cloud) — 하나의 CSP에 집중]
+    │
+    ▼
+[하이브리드 클라우드 (Hybrid Cloud) — 온프레미스 + 퍼블릭 연결]
+    │
+    ▼
+[멀티 클라우드 (Multi-Cloud) — 복수 CSP 병행 활용]
+    │
+    ▼
+[클라우드 메시 (Cloud Mesh) — 멀티 클라우드 간 통합 네트워킹]
+    │
+    ▼
+[슈퍼클라우드 (Supercloud) — CSP 추상화 통합 플랫폼 레이어]
+```
 [멀티 클라우드](/knowledge-base/studynote/12_it_management/05_security_compliance/202_multi_cloud_hybrid_cloud_governance/)는 벤더 락인 탈피와 최적 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 선택을 위해 등장했으며, 클라우드 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)·슈퍼클라우드라는 통합 관리 아키텍처로 진화 중이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

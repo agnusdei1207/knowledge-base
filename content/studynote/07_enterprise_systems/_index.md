@@ -21,31 +21,27 @@ tags = ["studynote-enterprise-systems"]
 | 도메인 | 상세 역할 | 내부 동작/활용 기법 | 주요 벤더 및 솔루션 | 비유 |
 | :--- | :--- | :--- | :--- | :--- |
 | **ERP (Enterprise Resource Planning)** | 재무/인사/생산/물류 등 핵심 자산 통합 제어 | 단일 DB 기반의 통합 트랜잭션, BPR(프로세스 재설계) | SAP, Oracle, MS Dynamics | 기업의 심장과 혈관 |
-| **CRM (Customer Relationship Mgmt)** | 영업/마케팅 자동화 및 고객 생애 주기 관리 | 옴니채널 데이터 분석, AI 기반 고객 이탈 예측 | Salesforce, HubSpot | 회사의 친절한 영업사원 |
+| **CRM (C고객 Relationship Mgmt)** | 영업/마케팅 자동화 및 고객 생애 주기 관리 | 옴니채널 데이터 분석, AI 기반 고객 이탈 예측 | Salesforce, HubSpot | 회사의 친절한 영업사원 |
 | **SCM (Supply Chain Management)** | 수요 예측 및 원자재~최종 배송 물류망 최적화 | 채찍 효과(Bullwhip Effect) 방어, 재고 최적화 로직 | Blue Yonder, SAP SCM | 거대한 물류 컨베이어 |
 | **BPM (Business Process Mgmt)** | 업무 프로세스 모델링, 실행, 모니터링 자동화 | BPMN 규격 기반 워크플로우 엔진, RPA 연동 | Pega, Appian | 공장의 로봇 감독관 |
 | **EAI / ESB (통합 아키텍처)** | 이기종 시스템 간의 데이터 및 메시지 연동 | 허브 앤 스포크, 메시지 큐(Message Bus), API | MuleSoft, Apache Kafka | 통역사 겸 배달부 |
 
 #### 2. 엔터프라이즈 통합 아키텍처 (EAI vs ESB) (ASCII)
 수십 개의 시스템을 점대점(Point-to-Point)으로 연결하면 복잡도가 $O(N^2)$으로 폭발한다. 이를 ESB(Enterprise Service Bus) 기반의 SOA(Service Oriented Architecture)로 전환하여 결합도를 끊어낸다.
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Legacy Spaghetti vs Modern ESB Architecture / 레거시 스파게티 vs 현대적 ESB 아키텍처</div></div>
-<div class="kb-diagram-note">(Anti-pattern: Point-to-Point / 점대점 연결) (Best Practice: Enterprise Service Bus / 모범 사례)</div>
-<div class="kb-diagram-note">ERP &lt;-----&gt; CRM ERP CRM SCM</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">^ \ / ^</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">\ /</div><div class="kb-diagram-cell">+----v----------v-----------v----+</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">X</div><div class="kb-diagram-cell">Message Bus (ESB)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ \</div><div class="kb-diagram-cell">(라우팅, 데이터 변환)</div></div>
-<div class="kb-diagram-note">v / \ v +----^----------^-----------^----+</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SCM &lt;-----&gt; BPM</div></div>
-<div class="kb-diagram-note">BPM Legacy DB External API</div>
-</div>
-</div>
-
-
+```text
+    [ Legacy Spaghetti vs Modern ESB Architecture / 레거시 스파게티 vs 현대적 ESB 아키텍처 ]
+    
+    (Anti-pattern: Point-to-Point / 점대점 연결)  (Best Practice: Enterprise Service Bus / 모범 사례)
+    
+       ERP <-----> CRM                           ERP        CRM         SCM
+        ^   \   /   ^                             |          |           |
+        |    \ /    |                        +----v----------v-----------v----+
+        |     X     |                        |      Message Bus (ESB)         | 
+        |    / \    |                        |    (라우팅, 데이터 변환)       |
+        v   /   \   v                        +----^----------^-----------^----+
+       SCM <-----> BPM                            |          |           |
+                                                 BPM      Legacy DB    External API
+```
 
 #### 3. SCM 핵심 수학적 원리 (채찍 효과 방어와 안전재고)
 SCM의 궁극적 목표는 불확실성을 통제하여 재고 비용을 최소화하는 것이다. 수요의 작은 변동이 공급망을 거슬러 올라가며 거대하게 증폭되는 <strong>채찍 효과(Bullwhip Effect)</strong>를 막기 위해 리드타임(Lead Time)과 안전재고(Safety Stock)를 수식화하여 관리한다.

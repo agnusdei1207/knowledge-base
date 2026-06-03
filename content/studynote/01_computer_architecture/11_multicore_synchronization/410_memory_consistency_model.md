@@ -27,19 +27,20 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 프로그램 순서와 관측 순서가 왜 달라질 수 있는지를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Program Order와 Observed Order가 달라지는 기본 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Core 0 program order :</div><div class="kb-diagram-node">Store data</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Store ready</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">store buffer</div><div class="kb-diagram-cell">fast commit</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Global visibility :</div><div class="kb-diagram-node">data not visible yet</div><div class="kb-diagram-node">ready visible</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Core 1 observes : ready == true, but data == old value</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│        Program Order와 Observed Order가 달라지는 기본 구조          │
+├──────────────────────────────────────────────────────────────────────┤
+│ Core 0 program order : [Store data] ─────────────▶ [Store ready]    │
+│                                │                     │               │
+│                                │ store buffer        │ fast commit   │
+│                                ▼                     ▼               │
+│ Global visibility    : [data not visible yet]   [ready visible]     │
+│                                                          │           │
+│                                                          ▼           │
+│ Core 1 observes      : ready == true, but data == old value          │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 현상은 버그처럼 보이지만, 실제로는 하드웨어가 허용된 규칙 안에서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화를 수행한 결과다. 그래서 멀티코어 프로그래밍은 "CPU가 재배치해도 무너지지 않는 코드"를 작성하거나, 필요 지점에서 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 제약을 명시적으로 추가하는 설계가 필수다.
 
@@ -62,21 +63,20 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 게시-구독(publish-subscribe) 패턴에서 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 제약이 들어가는 위치를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Publish-Subscribe에서 필요한 ordering boundary</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Producer Core</div><div class="kb-diagram-cell">Consumer Core</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1) payload = 42</div><div class="kb-diagram-cell">1) while (flag == 0) wait</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2) release barrier</div><div class="kb-diagram-cell">2) acquire barrier</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3) flag = 1</div><div class="kb-diagram-cell">3) read payload</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">의미: payload write가</div><div class="kb-diagram-cell">의미: flag를 본 이후의 read가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">flag write 뒤로 밀리지 않음</div><div class="kb-diagram-cell">flag 확인 앞으로 당겨지지 않음</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│            Publish-Subscribe에서 필요한 ordering boundary            │
+├───────────────────────────────┬──────────────────────────────────────┤
+│ Producer Core                 │ Consumer Core                        │
+├───────────────────────────────┼──────────────────────────────────────┤
+│ 1) payload = 42               │ 1) while (flag == 0) wait           │
+│ 2) release barrier            │ 2) acquire barrier                  │
+│ 3) flag = 1                   │ 3) read payload                     │
+├───────────────────────────────┼──────────────────────────────────────┤
+│ 의미: payload write가         │ 의미: flag를 본 이후의 read가       │
+│ flag write 뒤로 밀리지 않음   │ flag 확인 앞으로 당겨지지 않음      │
+└───────────────────────────────┴──────────────────────────────────────┘
+```
 
 즉, 생산자 측의 Release와 소비자 측의 Acquire는 서로 맞물려 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 작성 → 완료 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) → [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관측"의 인과 사슬을 만든다. 이 사슬이 없으면 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/)은 살아 있어도, [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)은 깨진다. 그래서 메모리 모델은 캐시 구조와 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 명령 사이를 이어 주는 중간 법칙으로 봐야 한다.
 
@@ -154,24 +154,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">비순차 실행 (Out-of-Order Execution)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">캐시 일관성 (Cache Coherence)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">메모리 일관성 모델 (Memory Consistency Model)</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ 순차적 일관성 (Sequential Consistency)</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ TSO (Total Store Order)</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ 완화된 일관성 (Relaxed Consistency)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">메모리 배리어 · 원자 연산 · 락프리 자료구조</div>
-</div>
-</div>
-
-
+```text
+비순차 실행 (Out-of-Order Execution)
+        │
+        ▼
+캐시 일관성 (Cache Coherence)
+        │
+        ▼
+메모리 일관성 모델 (Memory Consistency Model)
+        │
+        ├──────────────▶ 순차적 일관성 (Sequential Consistency)
+        │
+        ├──────────────▶ TSO (Total Store Order)
+        │
+        └──────────────▶ 완화된 일관성 (Relaxed Consistency)
+                                  │
+                                  ▼
+메모리 배리어 · 원자 연산 · 락프리 자료구조
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

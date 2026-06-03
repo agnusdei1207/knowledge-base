@@ -37,29 +37,30 @@ tags = ["studynote-ai"]
 
 벡터 DB는 일반 DB처럼 [B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 쓰지 않는다. 거대한 공간 좌표를 찢어발기는 HNSW가 심장이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">벡터 데이터베이스의 RAG 검색 및 처리 쾌속 아키텍처 도해 ✨</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🗄️</div><div class="kb-diagram-node">1. 데이터 삽입 (Data Ingestion 짬처리)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">임베딩 모델</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">0.1, 0.9, -0.2...</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">문서B 좌표:</div><div class="kb-diagram-node">0.8, 0.1, 0.5...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➔ 이 1억 개의 점을 Vector DB 우주 공간에 뿌림 쾅!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">🚀 런타임 실시간 유저 질문 핑퐁 시나리오</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🔍</div><div class="kb-diagram-node">2. 의미론적 검색 (Semantic Search 스키 타기)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">임베딩 모델</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">0.2, 0.8, -0.1...</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Vector DB 대장 뇌 발동: "야!! 1억 개 점들 중에 저 질문 좌표랑 거리 각도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Cosine Similarity 코사인 유사도)가 가장 좁고 가까운 놈 Top 3 뽑아 쾅!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">💀</div><div class="kb-diagram-node">3. 딜레마 폭파 💥: KNN 풀스캔 타죽음 vs ANN 근사치 쾌속 스캔</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 무지성 KNN: 질문 점 1개랑 1억 개 점을 일일이 거리 공식 다 계산함 ➔ 30초 랙 뻗음💀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 🌟 아키텍트의 HNSW 텐트 쉴드 록온: "야 1억 개 다 계산하지 마 미친아!!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공간을 그물망 그래프로 찢어(ANN)! 대충 저 동네쯤에 있겠네? ➔ 그 동네로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">점프 뛰어서 그 근처 몇 놈만 비교 컷 쳐버려 1초 컷 쓩 🚀!!" (정확도 99% 달성)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          벡터 데이터베이스의 RAG 검색 및 처리 쾌속 아키텍처 도해 ✨ │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ 🗄️ [ 1. 데이터 삽입 (Data Ingestion 짬처리) ]                    │
+│   사내 문서 ─▶ [임베딩 모델] ─▶ 문서A 좌표: [0.1, 0.9, -0.2...] │
+│                            문서B 좌표: [0.8, 0.1, 0.5...] │
+│                            ➔ 이 1억 개의 점을 Vector DB 우주 공간에 뿌림 쾅!│
+│                                                             │
+│        ======= [ 🚀 런타임 실시간 유저 질문 핑퐁 시나리오 ] ========   │
+│                                                             │
+│ 🔍 [ 2. 의미론적 검색 (Semantic Search 스키 타기) ]               │
+│   - 유저 질문: "강아지가 아파요" ─▶ [임베딩 모델] ─▶ 질문 좌표: [0.2, 0.8, -0.1...]│
+│   - Vector DB 대장 뇌 발동: "야!! 1억 개 점들 중에 저 질문 좌표랑 거리 각도│
+│     (Cosine Similarity 코사인 유사도)가 가장 좁고 가까운 놈 Top 3 뽑아 쾅!" │
+│                                                             │
+│ 💀 [ 3. 딜레마 폭파 💥: KNN 풀스캔 타죽음 vs ANN 근사치 쾌속 스캔 ] │
+│   - 무지성 KNN: 질문 점 1개랑 1억 개 점을 일일이 거리 공식 다 계산함 ➔ 30초 랙 뻗음💀│
+│   - 🌟 아키텍트의 HNSW 텐트 쉴드 록온: "야 1억 개 다 계산하지 마 미친아!!      │
+│     공간을 그물망 그래프로 찢어(ANN)! 대충 저 동네쯤에 있겠네? ➔ 그 동네로 │
+│     점프 뛰어서 그 근처 몇 놈만 비교 컷 쳐버려 1초 컷 쓩 🚀!!" (정확도 99% 달성)│
+└─────────────────────────────────────────────────────────────┘
+```
 
 <strong><a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/350_ann/">아키텍트의 피 터지는 한계 튜닝: [ANN</a> (<a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/351_hnsw/">Approximate Nearest Neighbor</a> 근사 최근접 이웃)]</strong>
 "야 벡터 점 1개 찾자고 1억 개를 다 계산하면 O(N)으로 서버 CPU 용광로 타 죽는다 쾅!!" 
@@ -74,7 +75,7 @@ tags = ["studynote-ai"]
 
 "걍 오라클(RDBMS) 쓰면 안 됨?" 하수들의 뇌를 박살 내는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장소 3대장 십자 트레이드오프 타점이다.
 
-| 비교 잣대 | RDBMS (오라클 / MySQL 쇳덩이 🗄️) | Search Engine ([Elasticsearch](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/) 🔍) | [Vector DB](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/151_vector_database_embedding_ann_search/) (Pinecone / [Milvus](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/320_gnn_vector_db_recommendation/) 🚀) |
+| 비교 잣대 | RDBMS (오라클 / MySQL 쇳덩이 🗄️) | Search 엔진 ([Elasticsearch](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/) 🔍) | [Vector DB](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/151_vector_database_embedding_ann_search/) (Pinecone / [Milvus](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/320_gnn_vector_db_recommendation/) 🚀) |
 |:---|:---|:---|:---|
 | **검색의 본질** | **Exact Match (100% 일치)**. 사번이 정확히 100번인 놈을 찾아라 쾅! | **Keyword Match (형태소 일치)**. "사과" 치면 "사과나무, 사과잼" 찾아줌. | **Semantic Match (의미 일치 ✨)**. "빨갛고 맛있는 과일" 치면 "사과, 딸기" 찰떡같이 핀셋 추출! |
 | <strong>저장 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a></strong> | 행과 열(테이블)이 꽉 짜인 [정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/002_structured_data/) 엑셀 장부 | [토큰화](/knowledge-base/studynote/09_security/16_data_privacy/820_tokenization/)(Tokenized)된 텍스트 쪼가리 문서 | <strong>수천 차원의 Float 실수 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a> (<a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/">임베딩</a> 텐서) 숫자 덩어리</strong> |
@@ -145,23 +146,21 @@ tags = ["studynote-ai"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">RDBMS / 키워드 검색 엔진 (Elasticsearch) 시대 / 텍스트 100% 일치해야 찾아줌. "사과" 치면 "애플" 문서 절대 못 찾는 맹인 한계 파국 💥</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Word2Vec / BERT 임베딩 기술 태동 / 단어를 공간상의 숫자로 변환 성공! (하지만 데이터 양 많아지면 메모리 뻗음 검색 랙 지옥 💀)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">벡터 데이터베이스(Vector DB) 대관식 🚀 / Pinecone, Milvus 등판! "단순 배열이 아니라 ANN(HNSW) 그래프 인덱스를 태워 1억 개도 0.1초 컷으로 색출 척살해라 쾅!!"</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">LLM 폭발 및 RAG 파이프라인 코어 이식 ✨ / 챗GPT 할루시네이션 대재앙 막으려고 벡터 DB를 기업 사내 지식 오픈북 커닝 창고 뼈대로 100% 강제 필수 융합 록온 완료!</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Multi-modal 및 하이브리드 검색 융합 (현재) / 텍스트를 넘어 이미지, 비디오 텐서까지 1통 벡터 공간에 쑤셔 박아 크로스 핑퐁 찾고 ➔ 키워드(BM25) 섞어서 100% 무결점 스나이퍼 정밀 타격 치는 제국 대통일</div>
-</div>
-</div>
-
-
+```text
+RDBMS / 키워드 검색 엔진 (Elasticsearch) 시대 / 텍스트 100% 일치해야 찾아줌. "사과" 치면 "애플" 문서 절대 못 찾는 맹인 한계 파국 💥
+    │
+    ▼
+Word2Vec / BERT 임베딩 기술 태동 / 단어를 공간상의 숫자로 변환 성공! (하지만 데이터 양 많아지면 메모리 뻗음 검색 랙 지옥 💀)
+    │
+    ▼
+벡터 데이터베이스(Vector DB) 대관식 🚀 / Pinecone, Milvus 등판! "단순 배열이 아니라 ANN(HNSW) 그래프 인덱스를 태워 1억 개도 0.1초 컷으로 색출 척살해라 쾅!!"
+    │
+    ▼
+LLM 폭발 및 RAG 파이프라인 코어 이식 ✨ / 챗GPT 할루시네이션 대재앙 막으려고 벡터 DB를 기업 사내 지식 오픈북 커닝 창고 뼈대로 100% 강제 필수 융합 록온 완료!
+    │
+    ▼
+Multi-modal 및 하이브리드 검색 융합 (현재) / 텍스트를 넘어 이미지, 비디오 텐서까지 1통 벡터 공간에 쑤셔 박아 크로스 핑퐁 찾고 ➔ 키워드(BM25) 섞어서 100% 무결점 스나이퍼 정밀 타격 치는 제국 대통일
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

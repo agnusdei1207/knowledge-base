@@ -18,20 +18,19 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">섀도 배포 트래픽 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 요청 ──▶ LB ──▶ v1 (응답 반환) ✅</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ v2 (복제본, 응답 버림) 🗑️</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 로그·메트릭만 수집</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자: v1 응답만 받음 (영향 제로)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">엔지니어: v2 로그·에러·레이턴시 비교 분석</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    섀도 배포 트래픽 흐름                               │
+├───────────────────────────────────────────────────────┤
+│  사용자 요청 ──▶ LB ──▶ v1 (응답 반환) ✅            │
+│                    │                                  │
+│                    └──▶ v2 (복제본, 응답 버림) 🗑️     │
+│                         └── 로그·메트릭만 수집        │
+│                                                       │
+│  사용자: v1 응답만 받음 (영향 제로)                   │
+│  엔지니어: v2 로그·에러·레이턴시 비교 분석            │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 섀도 배포는 신인 배우(v2)가 무대 뒤에서 동시에 연기하지만, 관객(사용자)은 베테랑(v1)만 보는 드레스 리허설이다.
 
@@ -110,23 +109,21 @@ spec:
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">스테이징 테스트 (합성 트래픽)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">카나리 배포 (실 트래픽 1~5%, 사용자 영향 있음)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">섀도 배포 (실 트래픽 미러링, 사용자 영향 제로)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Istio mirror (2018~) — Service Mesh 기반 자동 미러링</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: AI 기반 섀도 분석 — 미러링 결과 자동 비교·판정</div></div>
-</div>
-</div>
-
-
+```text
+[스테이징 테스트 (합성 트래픽)]
+    │
+    ▼
+[카나리 배포 (실 트래픽 1~5%, 사용자 영향 있음)]
+    │
+    ▼
+[섀도 배포 (실 트래픽 미러링, 사용자 영향 제로)]
+    │
+    ▼
+[Istio mirror (2018~) — Service Mesh 기반 자동 미러링]
+    │
+    ▼
+[현재: AI 기반 섀도 분석 — 미러링 결과 자동 비교·판정]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 섀도 배포는 신인 배우(v2)가 <strong>무대 뒤에서 같이 연기</strong>하지만 관객은 못 보는 거예요.

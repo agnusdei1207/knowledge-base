@@ -50,28 +50,29 @@ tags = ["studynote-operating-system"]
 i-node 객체 크기는 128바이트이며, 그중 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록을 가리키는 [포인터 배열](/knowledge-base/studynote/05_database/07_exam_summary/423_non_clustered_index/)은 딱 <strong>15칸</strong>이다.
 블록 크기가 4KB, 포인터 크기가 4바이트라고 가정하고 계산해 본다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">i-node 포인터 구조 및 최대 파일 크기 계산</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">i-node 내부 포인터 배열 (총 15칸)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1~12번 칸:</div><div class="kb-diagram-node">Direct Pointers (직접 포인터)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 바로 실제 데이터 블록(4KB)을 가리킴.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 커버 가능 용량: 12개 × 4KB = 48KB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- ★ 시스템 내 90% 이상의 파일은 여기서 끝남! (초고속 접근)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">13번 칸:</div><div class="kb-diagram-node">Single Indirect Pointer (단일 간접)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 포인터 1,024개가 들어있는 인덱스 블록(4KB) 하나를 가리킴.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 커버 가능 용량: 1,024개 × 4KB = 4MB</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">14번 칸:</div><div class="kb-diagram-node">Double Indirect Pointer (이중 간접)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 인덱스 블록 1,024개를 담고 있는 '상위 인덱스 블록'을 가리킴.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 커버 가능 용량: 1,024 × 1,024 × 4KB = 4GB</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">15번 칸:</div><div class="kb-diagram-node">Triple Indirect Pointer (삼중 간접)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 커버 가능 용량: 1,024 × 1,024 × 1,024 × 4KB = 4TB</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 i-node 포인터 구조 및 최대 파일 크기 계산              │
+  ├───────────────────────────────────────────────────────────────────┤
+  │  [ i-node 내부 포인터 배열 (총 15칸) ]                                │
+  │                                                                   │
+  │  1~12번 칸: [ Direct Pointers (직접 포인터) ]                        │
+  │   - 바로 실제 데이터 블록(4KB)을 가리킴.                               │
+  │   - 커버 가능 용량: 12개 × 4KB = **48KB**                            │
+  │   - ★ 시스템 내 90% 이상의 파일은 여기서 끝남! (초고속 접근)               │
+  │                                                                   │
+  │  13번 칸: [ Single Indirect Pointer (단일 간접) ]                   │
+  │   - 포인터 1,024개가 들어있는 인덱스 블록(4KB) 하나를 가리킴.               │
+  │   - 커버 가능 용량: 1,024개 × 4KB = **4MB**                          │
+  │                                                                   │
+  │  14번 칸: [ Double Indirect Pointer (이중 간접) ]                   │
+  │   - 인덱스 블록 1,024개를 담고 있는 '상위 인덱스 블록'을 가리킴.             │
+  │   - 커버 가능 용량: 1,024 × 1,024 × 4KB = **4GB**                    │
+  │                                                                   │
+  │  15번 칸: [ Triple Indirect Pointer (삼중 간접) ]                   │
+  │   - 커버 가능 용량: 1,024 × 1,024 × 1,024 × 4KB = **4TB**            │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 구조는 극단적으로 <strong>비대칭적(Asymmetric)</strong>이다. 48KB짜리 텍스트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 읽을 때는 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 뒤지느라 디스크를 더 읽을 필요가 없다. 1번만 I/O를 치면 바로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 나온다. 반면 3GB짜리 영화를 읽으려면 14번 칸(이중 간접)을 타야 하므로, 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽기 전에 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 블록만 2번을 더 읽어야 하는 오버헤드(Double I/O)가 발생한다. 
 
@@ -124,26 +125,28 @@ i-node 객체 크기는 128바이트이며, 그중 [데이터](/knowledge-base/s
 
 ### 의사결정 및 튜닝 플로우
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파일 시스템 인덱싱 아키텍처 선택 및 트러블슈팅 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">서버 디스크의 I/O 병목 또는 파일 생성 실패 에러 발생 시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell"><code>df -h</code> 에서는 여유가 있는데 파일이 안 만들어지는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">i-node Table 고갈 확진 (<code>df -i</code> 확인)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대책: 작은 파일들을 tar/zip으로 압축하여 묶어두거나,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">안 쓰는 세션 파일을 크론탭(Cron)으로 정기 삭제.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 (용량도 i-node도 충분한데 단순히 읽기/쓰기가 느리다)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">10GB 이상의 초거대 단일 파일(DB, VHD, 영상)을 다루는 서버인가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">고전적 간접 포인터 구조(ext2/ext3) 한계 도달</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대책: XFS, ZFS 또는 ext4의 Extents 기능이 활성화된</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모던 파일 시스템으로 포맷팅하여 I/O 뎁스 축소.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 ──▶ 디스크 하드웨어 자체의 불량이거나 캐시 메모리 부족 의심</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 파일 시스템 인덱싱 아키텍처 선택 및 트러블슈팅 플로우        │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [서버 디스크의 I/O 병목 또는 파일 생성 실패 에러 발생 시]                  │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      `df -h` 에서는 여유가 있는데 파일이 안 만들어지는가?                   │
+  │          ├─ 예 ─────▶ [i-node Table 고갈 확진 (`df -i` 확인)]         │
+  │          │            대책: 작은 파일들을 tar/zip으로 압축하여 묶어두거나,    │
+  │          │                  안 쓰는 세션 파일을 크론탭(Cron)으로 정기 삭제.  │
+  │          └─ 아니오 (용량도 i-node도 충분한데 단순히 읽기/쓰기가 느리다)       │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      10GB 이상의 초거대 단일 파일(DB, VHD, 영상)을 다루는 서버인가?           │
+  │          ├─ 예 ─────▶ [고전적 간접 포인터 구조(ext2/ext3) 한계 도달]      │
+  │          │            대책: XFS, ZFS 또는 ext4의 Extents 기능이 활성화된   │
+  │          │                  모던 파일 시스템으로 포맷팅하여 I/O 뎁스 축소.    │
+  │          └─ 아니오 ──▶ 디스크 하드웨어 자체의 불량이거나 캐시 메모리 부족 의심  │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 리눅스 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 이름표([File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) name)와 주민등록증(i-node)이 분리되어 있다. 이름표 10개가 1개의 주민등록증을 가리킬 수 있다([Hard Link](/knowledge-base/studynote/02_operating_system/09_file_system/511_hard_link/)). [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)질라나 FTP로 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 지울 때, 사실 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(4KB 블록)에 0을 덮어써서 지우는 게 아니다. 그저 이 i-node 구조체 안에 있는 '직접/간접 포인터' 연결선만 툭 끊어버릴(Unlink) 뿐이다. 그래서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 삭제는 빛의 속도 1초 만에 끝나는 것이다.
 
@@ -185,19 +188,15 @@ i-node의 직접/간접 포인터 [인덱스](/knowledge-base/studynote/05_datab
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">FAT 방식 연결 할당 최적화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">i-node 직접/간접 포인터 인덱스 (Inode Direct Indirect Pointer Index)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">하드 링크 / 심볼릭 링크 차이</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">VFS 가상 파일 시스템</div></div>
-</div>
-</div>
-
-
+```text
+[FAT 방식 연결 할당 최적화]
+    │
+    ▼
+[i-node 직접/간접 포인터 인덱스 (Inode Direct Indirect Pointer Index)]
+    │
+    ├──▶ [하드 링크 / 심볼릭 링크 차이]
+    └──▶ [VFS 가상 파일 시스템]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

@@ -26,17 +26,14 @@ tags = ["studynote-ai"]
 
 비정상 시계열을 그대로 회귀 모델에 투입하면, 두 시계열이 실제로는 무관해도 높은 R²가 나타나는 허위 회귀 (Spurious Regression) 문제가 발생한다. 정상성 확보는 시계열 모델링의 첫 번째 단계다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 정상성은 "파도 높이가 매일 다른 해변(비정상)"과 "잔잔한 호수처럼 항상 일정한 물결(정상)"의 차이다. 예측하려면 일단 잔잔하게 만들어야 한다.
 
@@ -60,19 +57,19 @@ Cov(Xₜ, Xₜ₊h) = γ(h)  (시간 차이 h에만 의존)
 
 ### 비정상 시계열 처리 흐름
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원시 시계열</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">추세 제거</div><div class="kb-diagram-note">로그변환, 1차 차분</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">계절성 제거</div><div class="kb-diagram-note">계절 차분(lag=s), STL 분해</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">정상성 검정</div><div class="kb-diagram-note">ADF / KPSS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정상 시계열 → ARMA 모델링</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────┐
+│  원시 시계열                                          │
+│       ↓                                              │
+│  [추세 제거]  로그변환, 1차 차분                      │
+│       ↓                                              │
+│  [계절성 제거]  계절 차분(lag=s), STL 분해            │
+│       ↓                                              │
+│  [정상성 검정]  ADF / KPSS                           │
+│       ↓                                              │
+│  정상 시계열 → ARMA 모델링                            │
+└──────────────────────────────────────────────────────┘
+```
 
 ### 차분 (Differencing)
 

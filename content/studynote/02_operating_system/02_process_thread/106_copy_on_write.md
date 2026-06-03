@@ -37,25 +37,27 @@ COW는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_
 | <strong>3. 물리 <a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/397_frame_allocation/">프레임 할당</a></strong> | 폴트 핸들러 | 예외를 가로챈 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 [COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) 상황임을 인지하고, 새로운 빈 물리 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 프레임을 하나 할당함. |
 | **4. 복사 및 권한 갱신**| 폴트 핸들러 | 기존 내용을 새 프레임에 복사하고, 프로세스의 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)을 새 프레임으로 연결한 뒤 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 권한 (Read-Write)을 부여함. |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Copy-on-Write (COW) 메커니즘 흐름도</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. fork() 직후 - 자원 공유</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">부모 프로세스 (PTE: Read-Only)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">물리 메모리 페이지 A</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자식 프로세스 (PTE: Read-Only)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 자식 프로세스가 쓰기(Write) 시도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자식 ──(쓰기 명령)──▶ MMU가 읽기 전용 위반 감지 ──▶ Page Fault 발생</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3. 커널의 개입 및 페이지 개별 복사</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">물리 메모리 페이지 A</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">새로운 물리 페이지 A'</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(새로 할당 후 A 내용 복사, 쓰기 권한 부여로 정상 쓰기 완료)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│             Copy-on-Write (COW) 메커니즘 흐름도                │
+├──────────────────────────────────────────────────────────────┤
+│ [1. fork() 직후 - 자원 공유]                                     │
+│ 부모 프로세스 (PTE: Read-Only) ────┐                            │
+│                                  ▼                            │
+│                             [물리 메모리 페이지 A]                │
+│                                  ▲                            │
+│ 자식 프로세스 (PTE: Read-Only) ────┘                            │
+│                                                              │
+│ [2. 자식 프로세스가 쓰기(Write) 시도]                            │
+│ 자식 ──(쓰기 명령)──▶ MMU가 읽기 전용 위반 감지 ──▶ Page Fault 발생 │
+│                                                              │
+│ [3. 커널의 개입 및 페이지 개별 복사]                             │
+│ 부모 프로세스 (PTE: Read-Only) ────▶ [물리 메모리 페이지 A]      │
+│                                                              │
+│ 자식 프로세스 (PTE: Read-Write) ───▶ [새로운 물리 페이지 A']     │
+│ (새로 할당 후 A 내용 복사, 쓰기 권한 부여로 정상 쓰기 완료)           │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 그림이 보여주듯 COW의 마법은 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)라는 '오류'를 적극적인 '[트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)'로 활용한다는 점이다. MMU가 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 시도를 감시하고 있다가 걸러내면 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 비로소 단 1개의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)(일반적으로 4KB)만 복사하는 [지연 평가](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/) ([Lazy Evaluation](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/))를 수행한다.
 
@@ -116,21 +118,18 @@ Copy-on-Write는 "필요해질 때까지 일하지 않는다"는 컴퓨터 과�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Deep Copy (물리적 전체 복사, 높은 지연)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Copy-on-Write (메모리 지연 복사, fork() 속도 최적화)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">KSM (Kernel Same-page Merging, 가상화 메모리 중복 제거 병합)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">OverlayFS / ZFS (파일 시스템 계층으로 COW 철학 확장 및 스냅샷 최적화)</div>
-</div>
-</div>
-
-
+```text
+Deep Copy (물리적 전체 복사, 높은 지연)
+    │
+    ▼
+Copy-on-Write (메모리 지연 복사, fork() 속도 최적화)
+    │
+    ▼
+KSM (Kernel Same-page Merging, 가상화 메모리 중복 제거 병합)
+    │
+    ▼
+OverlayFS / ZFS (파일 시스템 계층으로 COW 철학 확장 및 스냅샷 최적화)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

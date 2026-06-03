@@ -24,18 +24,14 @@ tags = ["studynote-network"]
 - [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/)의 끝에는 반드시 <strong><code>+ 1</code></strong> (상수항)이 있어야 합니다. 그래야 단일 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 에러를 무조건 다 잡습니다.
 - [버스트 에러](/knowledge-base/studynote/03_network/04_data_link_layer_error/197_burst_error_detection_crc/)(연속 에러)를 잡으려면 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/)이 충분히 길고 여러 항이 섞여 있어야 합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">다항식 연산 / 생성 다항식</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CRC-16, CRC-32, CRC-CCIT…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">버스트 에러 검출 능력 유지</div></div>
-</div>
-</div>
-
-
+```text
+[다항식 연산 / 생성 다항식]
+    │
+    ▼
+[CRC-16, CRC-32, CRC-CCIT…]
+    │
+    └──▶ [버스트 에러 검출 능력 유지]
+```
 
 - **📢 섹션 요약 비유**: [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)-16, [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)-32, [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)-CCIT…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -60,18 +56,14 @@ tags = ["studynote-network"]
 - **FCS 꼬리 길이**: 32비트 (4바이트)
 - **용도**: 현재 우리가 쓰는 <strong>LAN 선(<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/">이더넷</a> <a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> 프레임), 와이파이(Wi-Fi 802.<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/">11</a>), <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a> 프로그램(ZIP, RAR), PNG 이미지 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 포맷</strong> 등 거대하고 방대한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 에러 없이 지켜내는 절대적인 글로벌 표준입니다. 이 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/)을 뚫고 에러가 정상으로 위장할 확률은 거의 0%에 수렴합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">다항식 연산 / 생성 다항식</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CRC-16, CRC-32, CRC-CCIT…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">버스트 에러 검출 능력 유지</div></div>
-</div>
-</div>
-
-
+```text
+[다항식 연산 / 생성 다항식]
+    │
+    ▼
+[CRC-16, CRC-32, CRC-CCIT…]
+    │
+    └──▶ [버스트 에러 검출 능력 유지]
+```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/">CRC</a> <a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/">다항식</a>은 자물쇠를 따는 </strong>'마스터키의 톱니바퀴 모양'**입니다. [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)-16이 동네 자전거 자물쇠를 지키는 짧고 듬성듬성한 16칸짜리 열쇠라면, [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)-32는 은행 금고를 지키는 32칸짜리 엄청나게 정밀하고 복잡한 특수 열쇠입니다. 이 32개의 톱니바퀴에 딱 들어맞게 에러가 우연히 생길 확률은 로또를 연속 2번 맞는 것보다 어렵습니다.
 
@@ -129,19 +121,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 다항식 연산 / 생성 다항식</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: CRC-16, CRC-32, CRC-CCIT…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 버스트 에러 검출 능력 유지</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고신뢰 저지연 링크 제어</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 다항식 연산 / 생성 다항식]
+    │
+    ▼
+[현재 개념: CRC-16, CRC-32, CRC-CCIT…]
+    │
+    ├──▶ [확장 A: 버스트 에러 검출 능력 유지]
+    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
+```
 
 [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)-16, [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)-32, [CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/)-CCIT…는 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 연산 / [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [버스트 에러](/knowledge-base/studynote/03_network/04_data_link_layer_error/197_burst_error_detection_crc/) 검출 능력 유지와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

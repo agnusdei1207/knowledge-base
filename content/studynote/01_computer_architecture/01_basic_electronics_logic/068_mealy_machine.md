@@ -29,19 +29,13 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Input + State</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Transition</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Output</div>
-</div>
-</div>
-
-
+```text
+Input + State
+  ↓
+Transition
+  ↓
+Output
+```
 
 | 구성 요소 | 역할 |
 | :-- | :-- |
@@ -104,41 +98,29 @@ Mealy Machine은 빠른 반응이 필요한 시스템에서 효율적이다. 단
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">State + Input</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Mealy Machine</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Output</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Sequential Control</div>
-</div>
-</div>
-
-
+```text
+State + Input
+  ↓
+Mealy Machine
+  ↓
+Output
+  ↓
+Sequential Control
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">FSM</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Mealy Machine</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Moore Machine</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Control Logic</div>
-</div>
-</div>
-
-
+```text
+FSM
+  ↓
+Mealy Machine
+  ↓
+Moore Machine
+  ↓
+Control Logic
+```
 
 ---
 

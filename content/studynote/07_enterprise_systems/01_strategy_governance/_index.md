@@ -23,20 +23,26 @@ tags = ["enterprise_systems"]
 
 이 그림은 전사 전략이 실제 시스템 구축으로 이어지는 'Cascading' 흐름을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Enterprise Strategy Cascading Model</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Vision &amp; Mission</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(경영 비전 수립)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Business Strategy</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(CSF 도출 및 KPI 설정)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IT Strategy (ISP)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(EA 수립 및 과제 도출)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Execution (Project)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(ERP, CRM 구축 및 운영)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 상위 전략이 하위 실행의 강력한 근거가 되어야 함</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Enterprise Strategy Cascading Model         │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Vision & Mission ] ──▶ (경영 비전 수립)                 │
+│          │                                                  │
+│          ▼                                                  │
+│   [ Business Strategy ] ──▶ (CSF 도출 및 KPI 설정)          │
+│          │                                                  │
+│          ▼                                                  │
+│   [ IT Strategy (ISP) ] ──▶ (EA 수립 및 과제 도출)          │
+│          │                                                  │
+│          ▼                                                  │
+│   [ Execution (Project) ] ──▶ (ERP, CRM 구축 및 운영)       │
+│                                                             │
+│   * 핵심: 상위 전략이 하위 실행의 강력한 근거가 되어야 함   │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '추적성 (Traceability)'이다. 지금 만드는 웹 페이지의 버튼 하나가 궁극적으로 기업의 "매출 20% 증대"라는 비전과 연결되어야 한다. 실무에서는 이러한 연결 고리를 증명하기 위해 <strong>IT BSC</strong>나 **VBM (Value Based Management)** 기법이 동원된다.
 
@@ -72,25 +78,26 @@ tags = ["enterprise_systems"]
 
 이 구조도는 <strong>BPR</strong>을 통해 복잡한 업무가 어떻게 단순화되는지 시각화한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BPR: Process Simplification Logic</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">As-Is: 복잡한 수동 결재</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">신청 ──▶ 팀장 승인 ──▶ 본부장 승인 ──▶ 재무팀 검토 ──▶ 지급</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">To-Be: 지능형 자동 결재</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Rule Engine 자동 검증</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">즉시 지급</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(이상 징후 시에만 사람이 개입)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 가치: 리드 타임 90% 단축, 인적 오류 제로화</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 BPR: Process Simplification Logic           │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ As-Is: 복잡한 수동 결재 ]                               │
+│   신청 ──▶ 팀장 승인 ──▶ 본부장 승인 ──▶ 재무팀 검토 ──▶ 지급 │
+│                                                             │
+│   [ To-Be: 지능형 자동 결재 ]                               │
+│   신청 ──▶ [ Rule Engine 자동 검증 ] ──▶ 즉시 지급          │
+│               (이상 징후 시에만 사람이 개입)                │
+│                                                             │
+│   * 가치: 리드 타임 90% 단축, 인적 오류 제로화              │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '불필요한 단계의 파괴'이다. IT 기술은 단순히 수동 작업을 돕는 게 아니라, 단계 자체를 없애는 파괴적 혁신의 도구가 되어야 한다. 실무에서는 이 과정에서 발생하는 현업의 저항을 관리하는 <strong>변화 관리 (Change Management)</strong>가 거버넌스의 핵심 성공 요인이 된다.
 
-📢 **섹션 요약 비유**: BPR은 '낡은 집을 리모델링하는 게 아니라, 헐고 다시 짓는 재건축'과 같습니다. 좁고 불편했던 동선을 무시하고, 가장 살기 편한 최신식 아파트로 구조 자체를 바꾸는 것입니다.
+📢 **섹션 요약 비유**: BPR은 '낡은 집을 리모델링하는 게 아니라, 헐고 다시 짓는 재건축'과 같습니다. 좁고 불편했던 동선을 무시하고, 가장 살기 편한 최정보 아파트로 구조 자체를 바꾸는 것입니다.
 
 ---
 
@@ -129,21 +136,21 @@ tags = ["enterprise_systems"]
 
 이 도식은 기술사가 주도하는 '전략적 정렬 (Alignment) 진단 프로세스'를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Alignment Maturity Assessment</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Level 1</div><div class="kb-diagram-note">: IT와 업무가 따로 국밥 (비용 부서)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Level 2</div><div class="kb-diagram-note">: 요구하면 만들어 줌 (지원 부서)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Level 3</div><div class="kb-diagram-note">: 비즈니스 파트너 (협업 부서)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Level 4</div><div class="kb-diagram-note">: IT가 비즈니스를 선도 (혁신 엔진)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 기술사 가이드: 현재 단계를 냉정히 진단하고, 다음 단계로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">가기 위한 기술적/조직적 허들을 식별하여 제거함</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│               Alignment Maturity Assessment                 │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Level 1 ] : IT와 업무가 따로 국밥 (비용 부서)           │
+│   [ Level 2 ] : 요구하면 만들어 줌 (지원 부서)              │
+│   [ Level 3 ] : 비즈니스 파트너 (협업 부서)                 │
+│   [ Level 4 ] : IT가 비즈니스를 선도 (혁신 엔진)            │
+│                                                             │
+│   * 기술사 가이드: 현재 단계를 냉정히 진단하고, 다음 단계로 │
+│     가기 위한 기술적/조직적 허들을 식별하여 제거함          │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 기술사의 전략 판단은 '함대의 제독'과 같습니다. 거친 바다(시장 변화)에서 모든 배(부서)가 흩어지지 않게 기함(전략)의 깃발을 높이 들고, 최적의 대형(아키텍처)으로 목표 지점까지 함대를 이끄는 전략가입니다.
 

@@ -51,13 +51,13 @@ HPO (Hyperparameter Optimization)는 후보 설정을 만들고, 학습과 [검�
 
 ## Ⅲ. 비교 및 연결
 
-하이퍼파라미터는 모델 파라미터(Parameter)와 다르다. 파라미터는 학습으로 바뀌는 가중치이고, 하이퍼파라미터는 학습 방식을 조절하는 손잡이다. 또 Feature Engineering은 입력을 바꾸는 작업이고, [AutoML](/knowledge-base/studynote/14_data_engineering/04_mlops/176_automl_hyperparameter_optimization_bayesian/) ([Automated Machine Learning](/knowledge-base/studynote/14_data_engineering/04_mlops/176_automl_hyperparameter_optimization_bayesian/))은 튜닝과 모델 선택을 자동화하려는 상위 개념이다.
+하이퍼파라미터는 모델 파라미터(Parameter)와 다르다. 파라미터는 학습으로 바뀌는 가중치이고, 하이퍼파라미터는 학습 방식을 조절하는 손잡이다. 또 Feature 엔진ering은 입력을 바꾸는 작업이고, [AutoML](/knowledge-base/studynote/14_data_engineering/04_mlops/176_automl_hyperparameter_optimization_bayesian/) ([Automated Machine Learning](/knowledge-base/studynote/14_data_engineering/04_mlops/176_automl_hyperparameter_optimization_bayesian/))은 튜닝과 모델 선택을 자동화하려는 상위 개념이다.
 
 | 비교 대상 | 차이점 |
 | --- | --- |
 | Parameter | 학습으로 업데이트되는 값 |
 | Hyperparameter | 학습 전에 정하는 설정값 |
-| [Feature Engineering](/knowledge-base/studynote/12_it_management/02_itsm_itil/081_feature_engineering/) | 입력 표현을 바꾸는 일 |
+| [Feature 엔진ering](/knowledge-base/studynote/12_it_management/02_itsm_itil/081_feature_engineering/) | 입력 표현을 바꾸는 일 |
 | [AutoML](/knowledge-base/studynote/14_data_engineering/04_mlops/176_automl_hyperparameter_optimization_bayesian/) | 탐색·모델 선택까지 자동화 |
 
 따라서 튜닝은 "모델을 더 크게 만드는 일"이 아니라, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 계산 자원 사이의 균형을 찾는 의사결정이다.
@@ -105,25 +105,19 @@ HPO (Hyperparameter Optimization)는 후보 설정을 만들고, 학습과 [검�
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">탐색 공간 정의</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">후보 생성</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">학습 / 검증</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">성능 평가</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">다음 후보 선택</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">최종 모델 확정</div>
-</div>
-</div>
-
-
+```text
+탐색 공간 정의
+   ↓
+후보 생성
+   ↓
+학습 / 검증
+   ↓
+성능 평가
+   ↓
+다음 후보 선택
+   ↓
+최종 모델 확정
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

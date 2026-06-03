@@ -25,17 +25,14 @@ tags = ["studynote-ai"]
 
 <strong><a href="/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/">피처 스토어</a></strong>는 이 두 문제를 중앙화된 특징 저장소로 해결한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)는 회사 공용 식재료 창고다. 마케팅팀·영업팀·고객서비스팀이 각각 "이번 달 고객 구매 통계"가 필요할 때, 각자 원재료를 사서 따로 요리하는 대신, 공용 창고([피처 스토어](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/))에서 이미 손질된 재료를 바로 가져다 쓴다. 재료가 신선하고(최신 특징), 모두 같은 것을 쓴다([일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 보장).
 
@@ -43,30 +40,36 @@ tags = ["studynote-ai"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">피처 스토어 (Feature Store) 이중 스토어 아키텍처</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 소스 (원천 데이터)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 실시간 이벤트 스트림 (Kafka, Flink)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── 배치 데이터 (S3, BigQuery, Hive)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">피처 파이프라인 (Feature Pipeline)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원천 데이터 → 특징 계산 로직 → 피처 스토어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">피처 스토어 (Feature Store)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오프라인 스토어 (Offline Store)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 학습용 과거 데이터 (포인트-인-타임 조회)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 대용량 배치 저장 (S3, BigQuery)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 특징 히스토리 추적</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">온라인 스토어 (Online Store)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 실시간 추론용 최신 특징값</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 저지연 저장소 (Redis, DynamoDB)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 포인트 룩업: 수 ms 내 응답</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ML 학습 (오프라인 배치 조회) 추론 (온라인 실시간 조회)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│         피처 스토어 (Feature Store) 이중 스토어 아키텍처              │
+├──────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  데이터 소스 (원천 데이터)                                           │
+│  ├── 실시간 이벤트 스트림 (Kafka, Flink)                            │
+│  └── 배치 데이터 (S3, BigQuery, Hive)                              │
+│              │                                                   │
+│  피처 파이프라인 (Feature Pipeline)                                 │
+│  원천 데이터 → 특징 계산 로직 → 피처 스토어                           │
+│              │                                                   │
+│  ┌───────────┴──────────────────────────────────────┐            │
+│  │                 피처 스토어 (Feature Store)        │            │
+│  │  ┌────────────────────────────────────────────┐  │            │
+│  │  │  오프라인 스토어 (Offline Store)              │  │            │
+│  │  │  - 학습용 과거 데이터 (포인트-인-타임 조회)     │  │            │
+│  │  │  - 대용량 배치 저장 (S3, BigQuery)           │  │            │
+│  │  │  - 특징 히스토리 추적                         │  │            │
+│  │  ├────────────────────────────────────────────┤  │            │
+│  │  │  온라인 스토어 (Online Store)                 │  │            │
+│  │  │  - 실시간 추론용 최신 특징값                   │  │            │
+│  │  │  - 저지연 저장소 (Redis, DynamoDB)            │  │            │
+│  │  │  - 포인트 룩업: 수 ms 내 응답                  │  │            │
+│  │  └────────────────────────────────────────────┘  │            │
+│  └───────────────────────────────────────────────────┘            │
+│              │                            │                      │
+│  ML 학습       (오프라인 배치 조회)          추론 (온라인 실시간 조회)  │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 | 구성 요소 | 저장소 예 | 특징 | 사용 시점 |
 |:---|:---|:---|:---|

@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: CSA(Connectivity Standards Alliance) 주도로 글로벌 IT 공룡들(애플, 구글, 아마존, 삼성 등)이 연합하여 만든 <strong>스마트홈(<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a>) 기기 간의 상호 운용성을 보장하는 통일된 '애플리케이션 계층(Application Layer)' 개방형 표준</strong>입니다.
 - **등장 배경**: 과거에는 샤오미 전구를 사면 샤오미 앱을 깔아야 했고, 필립스 전구를 사면 필립스 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)를 사야 했습니다. 이런 파편화가 소비자를 지치게 하자, "기기 박스에 Matter 로고만 있으면 아이폰이든 갤럭시든, 알렉사든 빅스비든 1초 만에 100% 호환되게 만들자"고 대통합을 이룬 것입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Thread 프로토콜</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Matter 보안 통일 표준</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">6LoWPAN</div></div>
-</div>
-</div>
-
-
+```text
+[Thread 프로토콜]
+    │
+    ▼
+[Matter 보안 통일 표준]
+    │
+    └──▶ [6LoWPAN]
+```
 
 - **📢 섹션 요약 비유**: Matter 보안 통일 표준은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -53,18 +49,14 @@ tags = ["studynote-network"]
 - **로컬 제어**: 기존에는 전구 하나를 켜도 명령이 우리 집 공유기를 나가 저 멀리 미국에 있는 클라우드 서버를 찍고 다시 우리 집으로 내려와야 했습니다(인터넷 끊기면 먹통 됨). 매터는 집 안의 로컬 IP망에서 다이렉트로 명령을 주고받아 반응 속도가 밀리초 단위로 빠르고, 인터넷이 끊겨도 작동합니다.
 - <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>서 보안</strong>: 기기가 공장에서 생산될 때 고유한 디지털 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서(DAC)를 심어놓아, 해커가 가짜 매터 기기를 집안 네트워크에 위장 연결하는 것을 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 수준으로 깐깐하게 막아냅니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Thread 프로토콜</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Matter 보안 통일 표준</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">6LoWPAN</div></div>
-</div>
-</div>
-
-
+```text
+[Thread 프로토콜]
+    │
+    ▼
+[Matter 보안 통일 표준]
+    │
+    └──▶ [6LoWPAN]
+```
 
 - **📢 섹션 요약 비유**: Matter 보안 통일 표준의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -124,19 +116,15 @@ Matter 보안 통일 표준은 [IoT](/knowledge-base/studynote/06_ict_convergenc
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: Thread 프로토콜</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: Matter 보안 통일 표준</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 6LoWPAN</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율형 엣지 협업</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: Thread 프로토콜]
+    │
+    ▼
+[현재 개념: Matter 보안 통일 표준]
+    │
+    ├──▶ [확장 A: 6LoWPAN]
+    └──▶ [확장 B: 자율형 엣지 협업]
+```
 
 Matter 보안 통일 표준는 [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)에서 출발해 현재 메커니즘을 정교화하고, 이후 6LoWPAN와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

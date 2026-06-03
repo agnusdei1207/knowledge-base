@@ -19,31 +19,32 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 라이브러리 (Library)와 프레임워크 (Framework)는 모두 재사용 가능한 코드 집합이지만, 핵심적인 차이는 "제어의 주도권"에 있다. 라이브러리는 개발자가 라이브러리의 함수를 "호출하여" 원하는 작업을 수행하는 반면, 프레임워크는 프로그램의 실행 흐름을이/가、개발자는 프레임워크가 정한 확장 포인트에 자신의 코드를 "연결"한다. 이 개념을 제어의 역전 (IoC, Inversion of Control)이라 한다.
+- **개념**: 라이브러리 (Library)와 프레임워크 (Framework)는 모두 재사용 가능한 코드 집합이지만, 핵심적인 차이는 "제어의 주도권"에 있다. 라이브러리는 개발자가 라이브러리의 함수를 "호출하여" 원하는 작업을 수행하는 반면, 프레임워크는 프로그램의 실행 흐름을자신이제어し, 개발자는 프레임워크가 정한 확장 포인트에 자신의 코드를 "연결"한다. 이 개념을 제어의 역전 (IoC, Inversion of Control)이라 한다.
 
 - **필요성**: 소프트웨어 개발에서 라이브러리와 프레임워크의 차이를 명확히 이해하지 못하면, 잘못된 기술 선택이나 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) 증가, 테스트 어려움 등의 문제가 발생할 수 있다. 예를 들어, 라이브러리로만 구성된 프로젝트는 개발자가 모든 흐름을 제어해야 하므로 코드가 복잡해지고, 프레임워크의 개념을 라이브러리처럼 사용하면 IoC의 장점을활용할 수 없다.
 
-- **💡 비유**: 라이브러리는 "공구"과 같다. 공구가 어디에 어떤 순서로 사용될지는(개발자)가합니다. 반면 프레임워크는 "주문 제작 옷"과 같다. 이미 된 패턴이 있어서 개발자는 그 안에 자신의(코드)만 맞추면 된다.구조는 이미설계되어 있다.
+- **💡 비유**: 라이브러리는 "공구상"과 같다. 공구가 어디에 어떤 순서로 사용될지는공장(개발자)가결めます. 반면 프레임워크는 "주문 제작 옷"과 같다. 이미 설계된 패턴이 있어서 개발자는 그 안에 자신의척촌(코드)만 맞추면 된다.의복적정체구조는 이미설계되어 있다.
 
-- **등장 배경**: 1970년대 구조적 프로그래밍에서 library 개념이 등장하였고, 1980년대 Smalltalk에서 프레임워크 개념이 발전하였다. 2000년대 이후 Java의 Spring Framework, .NET의 ASP.NET, JavaScript의 React, Angular 등의에보다라이브러리와 프레임워크의 차이가 더욱 명확해졌다.
+- **등장 배경**: 1970년대 구조적 프로그래밍에서 library 개념이 등장하였고, 1980년대 Smalltalk에서 프레임워크 개념이 발전하였다. 2000년대 이후 Java의 Spring Framework, .NET의 ASP.NET, JavaScript의 React, Angular 등의보급에より라이브러리와 프레임워크의 차이가 더욱 명확해졌다.
 
-- **📢 섹션 요약 비유**: 라이브러리와 프레임워크의 차이는 "식당에서의 주문 방식"과 같다. 라이브러리는、개발자가 원하는 요리를 직접 만들 때 (개발이/가을 가짐), 프레임워크는、개발자가 메뉴에서 선택하면(프레임워크)가 알아서 요리를 완성하는 것이다 (프레임워크가 흐름을).
+- **📢 섹션 요약 비유**: 라이브러리와 프레임워크의 차이는 "식당에서의 주문 방식"과 같다. 라이브러리는, 개발자가 원하는 요리를 직접 만들 때 (개발자가제어권을 가짐), 프레임워크는, 개발자가 메뉴에서 선택하면주방(프레임워크)가 알아서 요리를 완성하는 것이다 (프레임워크가 흐름을제어).
 
 ---
 
 다음은 라이브러리 (Library) vs 프의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">라이브러리 (Library) vs 프</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">입력/요구사항</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핵심 처리 과정</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">출력/결과물</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">요구 분석 설계·적용 품질 검증</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                  라이브러리 (Library) vs 프                        │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│  [입력/요구사항] ──▶ [핵심 처리 과정] ──▶ [출력/결과물]  │
+│       │                    │                    │          │
+│       ▼                    ▼                    ▼          │
+│   요구 분석           설계·적용           품질 검증        │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램은 라이브러리 (Library) vs 프가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
@@ -133,30 +134,28 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 라이브러리 (Library) vs 프레임워크 (Framework)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 라이브러리 (Library) vs 프레임워크 (Framework)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
 | [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 라이브러리 (Library) vs 프레임워크 (Framework)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | 라이브러리 (Library) vs 프레임워크 (Framework) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
 | [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 라이브러리 (Library) vs 프레임워크 (Framework)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">라이브러리 (Library) vs 프레임워크 (Framework) 개념 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 위기 (Software Crisis) 인식
+    │
+    ▼
+라이브러리 (Library) vs 프레임워크 (Framework) 개념 정립
+    │
+    ▼
+표준화 및 방법론 체계화 (ISO, CMMI, Agile)
+    │
+    ▼
+클라우드 네이티브·AI 기반 확장 적용
+    │
+    ▼
+지속적 개선 및 DevOps·MLOps 통합
+```
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

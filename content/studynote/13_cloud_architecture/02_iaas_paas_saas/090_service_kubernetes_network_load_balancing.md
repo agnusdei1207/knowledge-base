@@ -30,20 +30,19 @@ tags = ["studynote-cloud-architecture"]
 
 핵심 원리는 <strong>라벨 셀렉터(Label Selector)</strong>다. 서비스는 `selector`에 정의된 라벨(예: `app=backend`)과 일치하는 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)들의 실시간 IP 목록을 `엔드포인트(Endpoint)` 객체로 자동 관리한다. [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)가 새로 생기거나 죽으면 엔드포인트가 즉시 업데이트되며, CoreDNS를 통해 `서비스이름.네임스페이스.svc.cluster.local` 형태의 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) 이름으로 해상(Resolution)된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서비스(Service)의 동적 트래픽 라우팅 원리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Client</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">CoreDNS (반환: Service VIP)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ VIP 호출</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">kube-proxy (iptables / IPVS)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">엔드포인트(Endpoint) 참조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Pod 1 (IP: 10.1.1.2)</div><div class="kb-diagram-note">(상태: Running, 라벨 일치)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Pod 2 (IP: 10.1.1.9)</div><div class="kb-diagram-note">(상태: Running, 라벨 일치)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           서비스(Service)의 동적 트래픽 라우팅 원리               │
+├──────────────────────────────────────────────────────────────┤
+│ [Client] ─(DNS Query)─▶ CoreDNS (반환: Service VIP)         │
+│   │                                                          │
+│   ▼ VIP 호출                                                  │
+│ [kube-proxy (iptables / IPVS)] ──▶ 엔드포인트(Endpoint) 참조    │
+│   │                                                          │
+│   ├─▶ [Pod 1 (IP: 10.1.1.2)] (상태: Running, 라벨 일치)        │
+│   └─▶ [Pod 2 (IP: 10.1.1.9)] (상태: Running, 라벨 일치)        │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 그림은 클라이언트가 고정된 VIP를 호출하면, 노드의 `kube-proxy`가 라벨이 일치하는 정상 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 중 하나로 트래픽을 리다이렉트하는 과정을 보여준다.
 
@@ -97,23 +96,21 @@ NodePort를 [생성](/knowledge-base/studynote/02_operating_system/02_process_th
 | **CoreDNS** | 서비스 이름을 가상 IP(ClusterIP)로 변환해 주는 내부 네임 서버 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">컨테이너 직접 통신 (IP 하드코딩)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">파드 IP 휘발성 문제 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">서비스 (Service) · ClusterIP 도입 (L4 로드밸런싱)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">NodePort · LoadBalancer (외부 트래픽 유입)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">인그레스 (Ingress) · L7 기반 고급 라우팅</div>
-</div>
-</div>
-
-
+```text
+컨테이너 직접 통신 (IP 하드코딩)
+    │
+    ▼
+파드 IP 휘발성 문제 인식
+    │
+    ▼
+서비스 (Service) · ClusterIP 도입 (L4 로드밸런싱)
+    │
+    ▼
+NodePort · LoadBalancer (외부 트래픽 유입)
+    │
+    ▼
+인그레스 (Ingress) · L7 기반 고급 라우팅
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 마을에서는 심부름꾼([파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/))들이 수시로 이사를 다녀서 집 주소(IP)가 자꾸 바뀌어요.

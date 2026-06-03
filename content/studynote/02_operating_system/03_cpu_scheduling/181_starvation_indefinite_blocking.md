@@ -25,20 +25,18 @@ tags = ["studynote-operating-system"]
 
 아래 그림은 가장 단순한 [우선순위 큐](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/)에서 낮은 우선순위 작업이 어떻게 무기한 밀릴 수 있는지를 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Strict priority queue and starvation</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">High queue :</div><div class="kb-diagram-node">H1</div><div class="kb-diagram-node">H2</div><div class="kb-diagram-node">H3</div><div class="kb-diagram-node">new H4</div><div class="kb-diagram-node">new H5</div><div class="kb-diagram-node">new H6</div><div class="kb-diagram-note">...</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Low queue :</div><div class="kb-diagram-node">L_waiting</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">scheduler rule : always pick from the highest non-empty queue</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">result : high queue never becomes empty -&gt; L_waiting stays</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ready but never runs</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Strict priority queue and starvation                              │
+├────────────────────────────────────────────────────────────────────┤
+│ High queue : [H1][H2][H3][new H4][new H5][new H6] ...            │
+│ Low queue  : [L_waiting]                                          │
+│                                                                    │
+│ scheduler rule : always pick from the highest non-empty queue     │
+│ result         : high queue never becomes empty -> L_waiting stays │
+│                   ready but never runs                            │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조에서 `L_waiting`은 막혀 있지 않다. 준비 상태이며, 규칙상 실행될 자격도 있다. 문제는 상위 큐가 비는 순간이 오지 않아서 <strong>규칙 자체가 하위 작업의 생존을 보장하지 못한다</strong>는 점이다. 그래서 [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)는 단순 버그가 아니라, 스케줄링 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 설계의 결함으로 봐야 한다.
 
@@ -61,21 +59,19 @@ tags = ["studynote-operating-system"]
 
 다음 그림은 상위 큐 우선 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)에서 왜 하위 큐의 대기 시간이 무한대로 커질 수 있는지를 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Why waiting time becomes unbounded</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">dispatch 1 -&gt; choose H1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">dispatch 2 -&gt; choose H2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">dispatch 3 -&gt; new H3 arrives before low queue is examined</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">dispatch 4 -&gt; choose H3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">dispatch 5 -&gt; new H4 arrives</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">if preferred work keeps arriving, low-priority wait has no bound</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Why waiting time becomes unbounded                                │
+├────────────────────────────────────────────────────────────────────┤
+│ dispatch 1 -> choose H1                                           │
+│ dispatch 2 -> choose H2                                           │
+│ dispatch 3 -> new H3 arrives before low queue is examined         │
+│ dispatch 4 -> choose H3                                           │
+│ dispatch 5 -> new H4 arrives                                      │
+│                                                                    │
+│ if preferred work keeps arriving, low-priority wait has no bound  │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 핵심은 "무한히 기다렸다"는 결과보다, <strong>유한 시간 안에 반드시 실행된다는 증명이 불가능해졌는가</strong>다. 그래서 좋은 스케줄러는 평균 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)만이 아니라 최악의 대기 시간, 클래스별 기회 보장, 장기 공정성까지 함께 고려한다.
 
@@ -114,21 +110,18 @@ tags = ["studynote-operating-system"]
 
 아래 결정 흐름은 실무에서 관측된 무한 대기를 어떤 원인으로 분류할지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Diagnosing indefinite waiting</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">task wait time keeps growing?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ yes</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ higher-priority queue always non-empty? -&gt; starvation</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ all workers blocked on slow I/O? -&gt; pool starvation</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ cyclic lock dependency exists? -&gt; deadlock/inversion</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no -&gt; ordinary backlog or temporary congestion</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Diagnosing indefinite waiting                                     │
+├────────────────────────────────────────────────────────────────────┤
+│ task wait time keeps growing?                                     │
+│   ├─ yes                                                          │
+│   │   ├─ higher-priority queue always non-empty? -> starvation    │
+│   │   ├─ all workers blocked on slow I/O? -> pool starvation      │
+│   │   └─ cyclic lock dependency exists? -> deadlock/inversion     │
+│   └─ no -> ordinary backlog or temporary congestion               │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 ### 실무 대응 패턴
 
@@ -175,22 +168,19 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">엄격한 우선순위 또는 짧은 작업 선호</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">하위 작업의 무기한 대기</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">기아 상태 (Starvation / Indefinite Blocking)</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ 에이징과 bounded waiting 보장</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ RR · 큐 승급 · 최소 지분 보장</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ CFS · 공정 스케줄링으로 발전</div>
-</div>
-</div>
-
-
+```text
+엄격한 우선순위 또는 짧은 작업 선호
+        │
+        ▼
+하위 작업의 무기한 대기
+        │
+        ▼
+기아 상태 (Starvation / Indefinite Blocking)
+        │
+        ├──────────────▶ 에이징과 bounded waiting 보장
+        ├──────────────▶ RR · 큐 승급 · 최소 지분 보장
+        └──────────────▶ CFS · 공정 스케줄링으로 발전
+```
 
 이 흐름도는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 중심 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 불공정 문제를 낳고, 이를 보정하기 위해 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 스케줄러가 점점 더 정교한 공정성 메커니즘을 도입해 왔음을 보여 준다.
 

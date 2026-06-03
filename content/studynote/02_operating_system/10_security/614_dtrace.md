@@ -31,33 +31,31 @@ DTraceì íì êì ììë ëìê êë:
 ### ì DTraceê ììíê
 êì ëêëì íêë ëííë. straceë ììí ìë ììíêëëê, gdbë íëììëíì íë, perfë ìì ììë ììíë ììíë. DTraceë ìëí íêëìëíì"ììíìíì ìê", "ìíëììì", "ìíë ëìíë" ììí ì ìê íë.
 
+```
+[êì ëê: ëì ìì êíì íì]
+strace: ëë ììí ììtekstë ìë -> ëëê, ëì ëìí
+gdb: íëìì ìì í ëì -> ìí ìì ììíì ëì
+perf: ëë ììë íëìì ììíë ìì ->ììì ëì
 
+ëì: "êìê 5ëì í ëì ìëì ëëìë ëì"ë ìê ìëë?
+-> strace: ëë ëì ëìí + ìë
+-> gdb: ììí ììë ëìë ëë ììì ìí
+-> perf: ìì ìììëcover
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">êì ëê: ëì ìì êíì íì</div></div>
-<div class="kb-diagram-note">strace: ëë ììí ììtekstë ìë -&gt; ëëê, ëì ëìí</div>
-<div class="kb-diagram-note">gdb: íëìì ìì í ëì -&gt; ìí ìì ììíì ëì</div>
-<div class="kb-diagram-note">perf: ëë ììë íëìì ììíë ìì -&gt;ììì ëì</div>
-<div class="kb-diagram-note">ëì: "êìê 5ëì í ëì ìëì ëëìë ëì"ë ìê ìëë?</div>
-<div class="kb-diagram-tree-item" style="--depth:0">strace: ëë ëì ëìí + ìë</div>
-<div class="kb-diagram-tree-item" style="--depth:0">gdb: ììí ììë ëìë ëë ììì ìí</div>
-<div class="kb-diagram-tree-item" style="--depth:0">perf: ìì ìììëcover</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DTrace: ìí ì ìììì ëì</div></div>
-<div class="kb-diagram-note"># ììí ì ìë ìêì 5msë ìêí êìë êë</div>
-<div class="kb-diagram-note">syscall:::entry { self-&gt;t = timestamp; }</div>
-<div class="kb-diagram-note">syscall:::return /self-&gt;t &amp;&amp; timestamp - self-&gt;t &gt; 5000000/ {</div>
-<div class="kb-diagram-note">printf("Slow syscall: %s took %d ms", probefunc,</div>
-<div class="kb-diagram-note">(timestamp - self-&gt;t) / 1000000);</div>
-<div class="kb-diagram-note">}</div>
-<div class="kb-diagram-tree-item" style="--depth:0">5ms ìì êë ììí ìë ìì!</div>
-<div class="kb-diagram-tree-item" style="--depth:0">ììí ëìì ìì!</div>
-<div class="kb-diagram-tree-item" style="--depth:0">ìì ìë ìì ê ìíìì ì ëì!</div>
-<div class="kb-diagram-note">íì êì: "êì íìê ëì ììíì ìíì ëìì ìëë"</div>
-</div>
-</div>
+[DTrace: ìí ì ìììì ëì]
+# ììí ì ìë ìêì 5msë ìêí êìë êë
+syscall:::entry { self->t = timestamp; }
+syscall:::return /self->t && timestamp - self->t > 5000000/ {
+    printf("Slow syscall: %s took %d ms", probefunc,
+           (timestamp - self->t) / 1000000);
+}
 
+-> 5ms ìì êë ììí ìë ìì!
+-> ììí ëìì ìì!
+-> ìì ìë ìì ê ìíìì ì ëì!
 
+íì êì: "êì íìê ëì ììíì ìíì ëìì ìëë"
+```
 
 **[ëììêë íì]** DTraceì íì êìë"ììíë" ëìì ìë. straceë ëë ììí ììtekstë ìëíì ìëë ëëê ëëìë, DTraceë"5ms ìì êë êìë ìë"ìëë filterë ììíì ìëíëëííë. ëí gdbì ëë DTraceë ììíì ëìì ìëë.
 
@@ -122,26 +120,21 @@ stdoutì "Opening: /etc/passwd" ë ìë
 
 ### D ìíëíì êë êì
 
+```
+dtrace -n '
+  syscall::open:entry          <- íëë ìì
+    /arg0 > 1000/              <- ìê (Predicates)
+  {                             <- ìì ìì
+      printf("fd=%d", arg0);   <- ìíí ìë
+  }
+'
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">dtrace -n '</div>
-<div class="kb-diagram-note">syscall::open:entry &lt;- íëë ìì</div>
-<div class="kb-diagram-note">/arg0 &gt; 1000/ &lt;- ìê (Predicates)</div>
-<div class="kb-diagram-note">{ &lt;- ìì ìì</div>
-<div class="kb-diagram-note">printf("fd=%d", arg0); &lt;- ìíí ìë</div>
-<div class="kb-diagram-note">}</div>
-<div class="kb-diagram-note">'</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">4êì íì ìì</div></div>
-<div class="kb-diagram-note">Provider: eventì ìì (syscall, fbt, pid ë)</div>
-<div class="kb-diagram-note">Probe: ììë ììíë êì ì (openì entry/return)</div>
-<div class="kb-diagram-note">Predicate: profbeê ëëíê ìí ììíì í ìê</div>
-<div class="kb-diagram-note">Action: probe ëë ì ìíí ëì</div>
-</div>
-</div>
-
-
+[4êì íì ìì]
+ Provider: eventì ìì (syscall, fbt, pid ë)
+ Probe:  ììë ììíë êì ì (openì entry/return)
+ Predicate: profbeê ëëíê ìí ììíì í ìê
+ Action: probe ëë ì ìíí ëì
+```
 
 **[ëììêë íì]** D ìíëíì êìë`provider:module:function:name` íìì ëëë. predicate(ìê)ì ìëìë êìì íííë, ì ìêì ìì êììë ììììíëë. ìëí ìêë ííëì DTraceìíììì íììë, ììë ëëíì í êìê ììëìë ìëíëê ììëê ëëìë.
 
@@ -278,19 +271,15 @@ dtrace -n 'vfs:::entry /timestamp - last_io > 10000000/ {
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">프로파일링 (Profiling) 도구 Gprof 커널 후킹 작동 원리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시스템 DTrace 선언적 동적 트레이싱 엔진 메커니즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">eBPF 네트워크/보안/모니터링 이벤트 커널 안전 훅 매커니즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">멀티코어 확장성 병목 (Amdahl's Law) 및 커널 락 경합 진단</div></div>
-</div>
-</div>
-
-
+```text
+[프로파일링 (Profiling) 도구 Gprof 커널 후킹 작동 원리]
+    │
+    ▼
+[시스템 DTrace 선언적 동적 트레이싱 엔진 메커니즘]
+    │
+    ├──▶ [eBPF 네트워크/보안/모니터링 이벤트 커널 안전 훅 매커니즘]
+    └──▶ [멀티코어 확장성 병목 (Amdahl's Law) 및 커널 락 경합 진단]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: <strong>이동통신망의 끝단(기지국, 기지국 제어국 등)에 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/">클라우드 컴퓨팅</a> 및 IT <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 환경(서버)을 전진 배치하여, 사용자의 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 중앙 코어 망(인터넷)까지 보내지 않고 현장에서 즉시 처리하는 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/">엣지 컴퓨팅</a>(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/">Edge Computing</a>)의 무선 통신망 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">버전</a></strong>입니다. (ETSI에서 표준화 주도)
 - **명칭 변경**: 초기에는 통신망에만 국한되어 Mobile Edge Computing이라 불렀으나, 현재는 와이파이나 유선망까지 모두 아우른다는 의미로 <strong>Multi-access <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/">Edge Computing</a></strong>으로 이름이 변경되었습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">엣지 컴퓨팅</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MEC</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스마트 그리드</div></div>
-</div>
-</div>
-
-
+```text
+[엣지 컴퓨팅]
+    │
+    ▼
+[MEC]
+    │
+    └──▶ [스마트 그리드]
+```
 
 - **📢 섹션 요약 비유**: MEC는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -45,18 +41,14 @@ tags = ["studynote-network"]
 - **MEC의 해결책**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 패킷이 통신사의 거대한 중앙 교환국(Core Network)이나 외부 인터넷으로 아예 넘어가지 못하게 막고, 스마트폰과 전파를 주고받는 동네 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기지국(DU/CU) 옆에 붙어있는 MEC 서버에서 곧바로 게임 그래픽을 렌더링하고 계산을 끝내버립니다.
 - 그 결과 단말기와 서버 간의 물리적 거리가 수십 km 이내로 좁혀지면서 5G의 1ms 체감 속도가 비로소 완성됩니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">엣지 컴퓨팅</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MEC</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스마트 그리드</div></div>
-</div>
-</div>
-
-
+```text
+[엣지 컴퓨팅]
+    │
+    ▼
+[MEC]
+    │
+    └──▶ [스마트 그리드]
+```
 
 - **📢 섹션 요약 비유**: MEC의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -114,19 +106,15 @@ MEC는 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_io
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 엣지 컴퓨팅</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: MEC</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 스마트 그리드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율형 엣지 협업</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 엣지 컴퓨팅]
+    │
+    ▼
+[현재 개념: MEC]
+    │
+    ├──▶ [확장 A: 스마트 그리드]
+    └──▶ [확장 B: 자율형 엣지 협업]
+```
 
 MEC는 [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [스마트 그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/)와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

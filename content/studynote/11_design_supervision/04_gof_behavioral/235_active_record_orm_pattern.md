@@ -28,44 +28,44 @@ tags = ["studynote-design-supervision"]
 | 테이블 ↔ 객체 수동 매핑 | 컬럼 이름 = 필드 이름 관례로 자동 매핑 |
 | CRUD 보일러플레이트 | save / find / destroy 기본 제공 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Problem</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Core Idea</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Expected Gain</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐    ┌──────────────┐    ┌──────────────┐
+│ Problem      │──▶│ Core Idea    │──▶│ Expected Gain │
+└──────────────┘    └──────────────┘    └──────────────┘
+```
 
 - **📢 섹션 요약 비유**: 통장(객체)이 스스로 입금도 하고 출금도 하고 잔액 조회도 할 수 있는 것처럼, [액티브](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) 레코드 객체는 DB 작업을 스스로 처리한다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Active Record 객체 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User (ActiveRecord)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 속성</div><div class="kb-diagram-node">영속성 메서드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ id: Long + save()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ name: String + delete()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ email: String + validate()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ createdAt: DateTime + find(id)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ findAll()</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">비즈니스 메서드</div><div class="kb-diagram-note">+ findBy(condition) │</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ changeEmail(e) + update(attrs)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+ isAdmin()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SQL 자동 생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Database Table: users</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">id</div><div class="kb-diagram-cell">name</div><div class="kb-diagram-cell">email</div><div class="kb-diagram-cell">created_at</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">Alice</div><div class="kb-diagram-cell">alice@email.com</div><div class="kb-diagram-cell">2026-01-01</div></div>
-</div>
-</div>
-
-
+```
+┌────────────────────────────────────────────────────────┐
+│             Active Record 객체 구조                     │
+│                                                        │
+│  ┌──────────────────────────────────────────────────┐  │
+│  │               User (ActiveRecord)                │  │
+│  │                                                  │  │
+│  │  [데이터 속성]              [영속성 메서드]         │  │
+│  │  + id: Long                + save()              │  │
+│  │  + name: String            + delete()            │  │
+│  │  + email: String           + validate()          │  │
+│  │  + createdAt: DateTime     + find(id)            │  │
+│  │                            + findAll()           │  │
+│  │  [비즈니스 메서드]           + findBy(condition)   │  │
+│  │  + changeEmail(e)          + update(attrs)       │  │
+│  │  + isAdmin()                                     │  │
+│  └──────────────────┬───────────────────────────────┘  │
+│                     │ SQL 자동 생성                     │
+│                     ▼                                  │
+│  ┌──────────────────────────────────────────────────┐  │
+│  │             Database Table: users                │  │
+│  │  id | name  | email           | created_at       │  │
+│  │  ───┼───────┼─────────────────┼──────────────    │  │
+│  │   1 │ Alice │ alice@email.com │ 2026-01-01       │  │
+│  └──────────────────────────────────────────────────┘  │
+└────────────────────────────────────────────────────────┘
+```
 
 ```ruby
 # 테이블: users (id, name, email, created_at)
@@ -104,17 +104,13 @@ JPA의 `@Entity` 는 [액티브](/knowledge-base/studynote/03_network/09_applica
 | [DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/) ([Domain-Driven Design](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/127_ddd_domain_driven_design/)) 적합성 | 낮음 | 높음 |
 | 대표 구현체 | Rails ActiveRecord, Laravel Eloquent | Hibernate, Spring [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) JPA |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">도메인 로직이 복잡한가?</div>
-<div class="kb-diagram-tree-item" style="--depth:2">아니오 (CRUD 중심 단순 앱) → Active Record</div>
-<div class="kb-diagram-tree-item" style="--depth:2">예 (복잡한 비즈니스 규칙) → Data Mapper + Repository</div>
-</div>
-</div>
-
-
+```
+도메인 로직이 복잡한가?
+     │
+     ├── 아니오 (CRUD 중심 단순 앱)  → Active Record
+     │
+     └── 예 (복잡한 비즈니스 규칙)   → Data Mapper + Repository
+```
 
 - **📢 섹션 요약 비유**: 간단한 메모장 앱은 셀프서비스 식당([Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) Record)으로 충분하지만, 병원 예약 시스템 같은 복잡한 앱은 전문 웨이터([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Mapper)가 필요하다.
 

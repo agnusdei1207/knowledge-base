@@ -45,27 +45,31 @@ tags = ["studynote-operating-system"]
    - **대성공 (충돌 없음)**: [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 `unlock()` 지점까지 도달했는데 꼬리표 달린 주소를 아무도 안 건드렸다? (예: A는 1번 방, B는 9999번 방). 그러면 락을 걸었던 것처럼 뻔뻔하게 결과를 메모리에 커밋하고 끝낸다. [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 효율 100%!
    - **실패 (충돌 감지)**: 도중에 다른 코어가 내 꼬리표 주소를 덮어쓰려 한다? CPU는 번개처럼 하드웨어 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)(Abort)을 때려버린다. [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 취소하고, <strong>"아휴 꼼수 쓰려다 걸렸네, 얌전히 원래 소프트웨어 락(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/">Mutex</a>) 걸고 순서대로 해야지..."</strong> 라며 보수적인 락 모드로 되돌아간다 ([Fallback](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/)).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">락 엘리전 (Lock Elision) 작동 흐름도: 꼼수와 롤백의 미학</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">코드: lock(mutex);</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">array</div><div class="kb-diagram-node">1</div><div class="kb-diagram-note">= 50;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">unlock(mutex);</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CPU 하드웨어의 은밀한 처리 과정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 락 무시! (Elision) "진짜 락 걸면 느려지니까 락 안 건척 하고 달려보자!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2. 캐시에 기록 "내가 array</div><div class="kb-diagram-node">1</div><div class="kb-diagram-note">건드린다! 남들 건드리나 감시해!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(분기점: 다른 코어의 간섭 여부)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▼</div><div class="kb-diagram-node">1</div><div class="kb-diagram-note">건드림!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. unlock() 무사 도달 3. 🚨 앗 충돌 났다!! (Abort)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 변경사항 영구 저장 (Commit) 4. 작업 취소, 롤백 (Rollback)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; 🚀 초고속 병렬 처리 성공! 5. 이번엔 꼼수 안 쓰고 진짜</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소프트웨어 락 걸어서 다시 처리!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────────────────┐
+│           락 엘리전 (Lock Elision) 작동 흐름도: 꼼수와 롤백의 미학          │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│ 코드:   lock(mutex);                                                        │
+│        array[1] = 50;                                                       │
+│        unlock(mutex);                                                       │
+│                                                                             │
+│ [ CPU 하드웨어의 은밀한 처리 과정 ]                                         │
+│                                                                             │
+│  1. 락 무시! (Elision) "진짜 락 걸면 느려지니까 락 안 건척 하고 달려보자!"  │
+│         │                                                                   │
+│         ▼                                                                   │
+│  2. 캐시에 기록 "내가 array[1] 건드린다! 남들 건드리나 감시해!"             │
+│         │                                                                   │
+│    (분기점: 다른 코어의 간섭 여부)                                          │
+│     ┌───┴────────────────────────────────┐                                  │
+│     ▼ (아무도 안 건드림)                      ▼ (누가 array[1] 건드림!)     │
+│  3. unlock() 무사 도달                 3. 🚨 앗 충돌 났다!! (Abort)         │
+│  4. 변경사항 영구 저장 (Commit)          4. 작업 취소, 롤백 (Rollback)      │
+│     -> 🚀 초고속 병렬 처리 성공!           5. 이번엔 꼼수 안 쓰고 진짜      │
+│                                       소프트웨어 락 걸어서 다시 처리!       │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 메커니즘의 천재성은 '실패 시의 대비책([Fallback](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/))'에 있다. 락을 우회하다가 실패하면 시스템이 뻗는 게 아니라, CPU가 원래의 코드대로 정직하게 락을 획득하도록 자연스럽게 흐름을 돌려준다. 따라서 개발자는 하드웨어를 전혀 신경 쓸 필요 없이 평소처럼 `lock()`과 `unlock()`만 적어두면, 밑에서 CPU가 알아서 눈치껏 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화를 폭발시켜 주는 것이다.
 
@@ -116,19 +120,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">하드웨어 트랜잭셔널 메모리 (HTM</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">락 엘리전 (Lock Elision)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스레드 풀 스케줄링 락 경합 (Work Stealing)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">더블 체크드 락킹 (Double-Checked Locking) 안티패턴 및 해결 (volatile)</div></div>
-</div>
-</div>
-
-
+```text
+[하드웨어 트랜잭셔널 메모리 (HTM]
+    │
+    ▼
+[락 엘리전 (Lock Elision)]
+    │
+    ├──▶ [스레드 풀 스케줄링 락 경합 (Work Stealing)]
+    └──▶ [더블 체크드 락킹 (Double-Checked Locking) 안티패턴 및 해결 (volatile)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

@@ -27,29 +27,26 @@ tags = ["studynote-network"]
 | **Physical** | 물리적 신호 변환 (Bit) | 0과 1의 데이터를 전기적/광학적 아날로그 신호로 변조 | UTP, Fiber, Hub, Repeater | 실제 아스팔트 도로 |
 
 #### 2. 데이터 흐름 및 캡슐화 아키텍처 다이어그램 (ASCII)
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Network Encapsulation &amp; Routing Flow / 네트워크 캡슐화 및 라우팅 흐름</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Host A (Sender / 송신자)</div><div class="kb-diagram-node">Host B (Receiver / 수신자)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">App:</div><div class="kb-diagram-node">HTTP Data</div><div class="kb-diagram-note">| App:</div><div class="kb-diagram-node">HTTP Data</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Trans:</div><div class="kb-diagram-node">TCP</div><div class="kb-diagram-node">HTTP Data</div><div class="kb-diagram-note">| Trans:</div><div class="kb-diagram-node">TCP</div><div class="kb-diagram-node">HTTP Data</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Net:</div><div class="kb-diagram-node">IP</div><div class="kb-diagram-node">TCP</div><div class="kb-diagram-node">HTTP Data</div><div class="kb-diagram-note">| Net:</div><div class="kb-diagram-node">IP</div><div class="kb-diagram-node">TCP</div><div class="kb-diagram-node">HTTP Data</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Link:</div><div class="kb-diagram-node">MAC-A</div><div class="kb-diagram-node">IP...</div><div class="kb-diagram-node">FCS</div><div class="kb-diagram-note">| Link:</div><div class="kb-diagram-node">MAC-B</div><div class="kb-diagram-node">IP...</div><div class="kb-diagram-node">FCS</div></div>
-<div class="kb-diagram-note">+-----------|--------------------+ +-------------^------------------+</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Bits / 비트 스트림)</div><div class="kb-diagram-cell">(Bits)</div></div>
-<div class="kb-diagram-note">============v==============================================================^===========</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Router (L3) / 라우터</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Router (L3)</div></div>
-<div class="kb-diagram-note">(MAC 검사) +-------------+ +-------------+</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">decapsulate</div><div class="kb-diagram-cell">decapsulate</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IP</div><div class="kb-diagram-note">검사 |</div><div class="kb-diagram-node">IP</div><div class="kb-diagram-note">검사</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Routing Tbl</div><div class="kb-diagram-cell">Routing Tbl</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">encapsulate</div><div class="kb-diagram-cell">encapsulate</div></div>
-</div>
-</div>
-
-
+```text
+    [ Network Encapsulation & Routing Flow / 네트워크 캡슐화 및 라우팅 흐름 ]
+    
+    [ Host A (Sender / 송신자) ]                                 [ Host B (Receiver / 수신자) ]
+    +--------------------------------+                           +--------------------------------+
+    | App:   [HTTP Data]             |                           | App:   [HTTP Data]             |
+    | Trans: [TCP][HTTP Data]        |                           | Trans: [TCP][HTTP Data]        |
+    | Net:   [IP][TCP][HTTP Data]    |                           | Net:   [IP][TCP][HTTP Data]    |
+    | Link:  [MAC-A][IP...][FCS]     |                           | Link:  [MAC-B][IP...][FCS]     |
+    +-----------|--------------------+                           +-------------^------------------+
+                | (Bits / 비트 스트림)                                         | (Bits)
+    ============v==============================================================^===========
+             (L2 Switch / 스위치) ----> [ Router (L3) / 라우터 ] ----> (Internet) ----> [ Router (L3) ]
+             (MAC 검사)                 +-------------+                        +-------------+
+                                        | decapsulate |                        | decapsulate |
+                                        | [IP] 검사   |                        | [IP] 검사   |
+                                        | Routing Tbl |                        | Routing Tbl |
+                                        | encapsulate |                        | encapsulate |
+                                        +-------------+                        +-------------+
+```
 
 #### 3. TCP 혼잡 제어(Congestion Control) 핵심 알고리즘
 TCP는 네트워크의 붕괴(Congestion Collapse)를 막기 위해 송신자의 윈도우 크기(cwnd)를 조절하는 예술적인 피드백 루프를 가진다.
@@ -108,4 +105,4 @@ TCP는 네트워크의 붕괴(Congestion Collapse)를 막기 위해 송신자의
 ### 👶 어린이를 위한 3줄 비유 설명
 1. **네트워크**: 전 세계의 컴퓨터들이 서로 편지를 주고받는 아주 크고 복잡한 '우체국 시스템'이에요.
 2. **프로토콜**: 편지가 길을 잃지 않고, 나쁜 사람에게 뺏기지 않으면서 목적지까지 가장 빨리 도착하는 '우체부 아저씨들의 약속'이랍니다.
-3. **라우팅**: 도로가 막히면 내비게이션이 새로운 빠른 길을 찾아주는 것처럼, 인터넷 세상에서도 데이터가 막힘없이 쌩쌩 달리게 해줘요!
+3. **라우팅**: 도로가 막히면 내비게이션이 새로운 빠른 길을 찾아주는 것처럼, 인터넷 세상에서도 데이터가 병목없이 쌩쌩 달리게 해줘요!

@@ -20,23 +20,25 @@ tags = ["studynote-dataengineering"]
 
 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000차원 이미지 공간에서 랜덤 픽셀을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하면 99.99%가 의미 없는 노이즈다. 의미 있는 "얼굴 사진"은 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000차원 중 극히 작은 부분(~100차원 매니폴드)에 모여있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">매니폴드 가설 직관적 이해</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3D 공간의 2D 매니폴드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3D 좌표(x,y,z)로 표현된 데이터가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실제로는 곡면(2D 매니폴드) 위에만 분포</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">○ ○</div><div class="kb-diagram-cell">← 데이터 점들이 곡면 위에 밀집</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">○ ○ ○</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">본질적 차원 (Intrinsic Dimension) = 2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">외형적 차원 (Ambient Dimension) = 3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 3D 데이터를 2D로 축소해도 정보 손실 최소!</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    매니폴드 가설 직관적 이해                            │
+├───────────────────────────────────────────────────────┤
+│  [3D 공간의 2D 매니폴드]                              │
+│                                                       │
+│   3D 좌표(x,y,z)로 표현된 데이터가                    │
+│   실제로는 곡면(2D 매니폴드) 위에만 분포              │
+│                                                       │
+│   ╭──────╮                                            │
+│   │ ○ ○  │  ← 데이터 점들이 곡면 위에 밀집            │
+│   │○  ○ ○│                                            │
+│   ╰──────╯                                            │
+│                                                       │
+│   본질적 차원 (Intrinsic Dimension) = 2               │
+│   외형적 차원 (Ambient Dimension) = 3                 │
+│   → 3D 데이터를 2D로 축소해도 정보 손실 최소!        │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 지구 표면은 3D 공간에 있지만 사실상 2D 곡면(매니폴드)이다. 위도·경도 2개만으로 지구 위 모든 위치를 표현할 수 있다.
 
@@ -98,23 +100,21 @@ tags = ["studynote-dataengineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">PCA (Pearson, 1901) — 선형 차원 축소</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">매니폴드 가설 (2000s) — 고차원 데이터의 저차원 구조 가정</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">t-SNE (2008) — 비선형 시각화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Autoencoder / VAE (2013~) — 딥러닝 매니폴드 학습</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: Diffusion Model — 잠재 공간에서 고품질 생성</div></div>
-</div>
-</div>
-
-
+```text
+[PCA (Pearson, 1901) — 선형 차원 축소]
+    │
+    ▼
+[매니폴드 가설 (2000s) — 고차원 데이터의 저차원 구조 가정]
+    │
+    ▼
+[t-SNE (2008) — 비선형 시각화]
+    │
+    ▼
+[Autoencoder / VAE (2013~) — 딥러닝 매니폴드 학습]
+    │
+    ▼
+[현재: Diffusion Model — 잠재 공간에서 고품질 생성]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 지구는 3D 공간에 있지만, 우리는 <strong>위도·경도(2D)</strong>만으로 모든 위치를 말할 수 있어요.

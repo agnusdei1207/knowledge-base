@@ -35,22 +35,24 @@ tags = ["studynote-design-supervision"]
 
 아래 그림은 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)와 읽기 과정에서 투플 맵핑이 어떤 역할을 하는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Space-Based Tuple Mapping의 저장/조회 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Producer</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Tuple Mapper</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(Type, AffinityKey, BusinessKey, Version, TTL, Payload)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Primary Partition</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Backup Partition</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Matcher</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Processing Unit</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Read : read(template) = 조회만 수행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Take : take(template) = 조회 후 공간에서 제거</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Notify: notify(template)= 조건 일치 시 이벤트 통지</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                   Space-Based Tuple Mapping의 저장/조회 흐름                │
+├──────────────────────────────────────────────────────────────────────────────┤
+│ Producer                                                                    │
+│    │                                                                         │
+│    ▼                                                                         │
+│ [Tuple Mapper] ──▶ (Type, AffinityKey, BusinessKey, Version, TTL, Payload) │
+│    │                                                                         │
+│    ├── hash(AffinityKey) ──▶ [Primary Partition] ──▶ [Backup Partition]     │
+│    │                                                                         │
+│    └── template(Type + BusinessKey) ──▶ [Matcher] ──▶ [Processing Unit]     │
+│                                                                              │
+│ Read  : read(template)  = 조회만 수행                                        │
+│ Take  : take(template)  = 조회 후 공간에서 제거                              │
+│ Notify: notify(template)= 조건 일치 시 이벤트 통지                           │
+└──────────────────────────────────────────────────────────────────────────────┘
+```
 
 | 필드 | 의미 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -86,7 +88,7 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 투플 맵핑의 성공 여부는 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키와 만료 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)에서 갈린다. 주문 처리라면 주문 ID보다 고객 ID나 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) ID가 더 좋은 [affinity](/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/) key일 수 있고, 게임 서버라면 룸 ID가 자연스러운 선택이다. 또한 오래 남을 필요가 없는 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)·장바구니 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 TTL을 명확히 두어 [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/)를 막아야 한다. 한편 재시도 요청이 잦은 시스템에서는 business key와 version을 이용해 idempotency를 확보해야 한다.
+실무에서 투플 맵핑의 성공 여부는 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키와 만료 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)에서 갈린다. 주문 처리라면 주문 ID보다 고객 ID나 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) ID가 더 좋은 [affinity](/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/) key일 수 있고, 게임 서버라면 룸 ID가 자연스러운 선택이다. 또한 오래 남을 필요가 없는 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)·장바구니 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 TTL을 명확히 두어 [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/)를 막아야 한다. 한편 재시도 요청이 잦은 시스템에서는 비즈니스 key와 version을 이용해 idempotency를 확보해야 한다.
 
 ### 채택 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -101,7 +103,7 @@ tags = ["studynote-design-supervision"]
 - 모든 업무 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 하나의 [affinity](/knowledge-base/studynote/02_operating_system/11_exam_summary/778_process_affinity_scheduling_pinning/) key로 몰아 넣어 Hot Spot을 만드는 설계
 - 템플릿 필드 없이 payload 전체를 역직렬화해 검색하는 설계
 - [TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/) 없이 임시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 무기한 남겨 메모리를 잠식하는 설계
-- business key가 없어 중복 write와 중복 take를 구분하지 못하는 설계
+- 비즈니스 key가 없어 중복 write와 중복 take를 구분하지 못하는 설계
 
 기술사 답안에서는 “투플 = [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)” 수준에서 멈추지 말고, <strong>필드 분해 기준, <a href="/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/">파티셔닝</a>, 만료 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>, <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">버전</a> 관리</strong>를 같이 적어야 점수를 얻기 쉽다. 투플 맵핑은 저장 형식보다 운영 규칙이 더 중요하기 때문이다.
 
@@ -133,23 +135,21 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Linda Tuple Space</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Shared Memory Pattern Matching</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">IMDG 기반 Space-Based Architecture</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Affinity Key · Template Mapping · TTL</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Hot Spot 제어 · Idempotency · Versioned Payload</div>
-</div>
-</div>
-
-
+```text
+Linda Tuple Space
+    │
+    ▼
+Shared Memory Pattern Matching
+    │
+    ▼
+IMDG 기반 Space-Based Architecture
+    │
+    ▼
+Affinity Key · Template Mapping · TTL
+    │
+    ▼
+Hot Spot 제어 · Idempotency · Versioned Payload
+```
 
 이 흐름은 “공유 공간 개념 → [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 메모리 구현 → 운영 가능한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규칙”으로 구체화되는 과정을 보여준다.
 

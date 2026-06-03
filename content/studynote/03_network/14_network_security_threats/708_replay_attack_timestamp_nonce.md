@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: 공격자가 네트워크상에서 암호화되어 날아가는 정상적인 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 트래픽이나 제어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(예: 도어락 열기 패킷, 송금 패킷)를 가로채어 보관해 두었다가, <strong>암호를 풀지 않고 그대로 나중에 다시(Replay) 시스템에 똑같이 전송하여 부당한 접근 권한이나 이득을 챙기는 공격</strong>입니다.
 - **위험성**: 아무리 강력한 AES나 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 암호화를 걸어두어도, 패킷 덩어리 전체를 '녹음'했다가 다시 트는 공격이므로 암호화 자체만으로는 절대 방어할 수 없는 무서운 기만전술입니다. (과거 무선 자동차 키 해킹이 이 방식으로 뚫렸습니다.)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">세션 하이재킹</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">재생 공격</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DoS</div></div>
-</div>
-</div>
-
-
+```text
+[세션 하이재킹]
+    │
+    ▼
+[재생 공격]
+    │
+    └──▶ [DoS]
+```
 
 - **📢 섹션 요약 비유**: 재생 공격은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -57,18 +53,14 @@ tags = ["studynote-network"]
 ### 3. 일련번호 (Sequence Number)
 - 통신이 계속 길어질 때 유용합니다. 첫 번째 패킷엔 1번, 두 번째엔 2번 순서표를 붙여서 암호화합니다. 해커가 1번 패킷을 복사해서 나중에 던지면 서버는 "나 이미 1번 패킷 아까 받았는데 또 1번이 오네? 중복이다!"라며 폐기합니다. (IPsec이나 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 레코드 프로토콜의 주력 방어법입니다.)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">세션 하이재킹</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">재생 공격</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DoS</div></div>
-</div>
-</div>
-
-
+```text
+[세션 하이재킹]
+    │
+    ▼
+[재생 공격]
+    │
+    └──▶ [DoS]
+```
 
 - **📢 섹션 요약 비유**: 재생 공격의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -128,19 +120,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 세션 하이재킹</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 재생 공격</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: DoS</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 세션 하이재킹]
+    │
+    ▼
+[현재 개념: 재생 공격]
+    │
+    ├──▶ [확장 A: DoS]
+    └──▶ [확장 B: 예측형 위협 대응]
+```
 
 재생 공격는 [세션 하이재킹](/knowledge-base/studynote/03_network/14_network_security_threats/707_session_hijacking_tcp_seq_cookie/)에서 출발해 현재 메커니즘을 정교화하고, 이후 DoS와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

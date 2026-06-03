@@ -101,23 +101,21 @@ BYOD를 허용하더라도 MDM과 DLP가 없으면 사실상 통제가 없다. �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">업무 방식 정의</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">단말·신원·네트워크 통제</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">협업 앱 연결</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">문서 보호와 로그 수집</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">운영 정책 개선</div>
-</div>
-</div>
-
-
+```text
+업무 방식 정의
+  │
+  ▼
+단말·신원·네트워크 통제
+  │
+  ▼
+협업 앱 연결
+  │
+  ▼
+문서 보호와 로그 수집
+  │
+  ▼
+운영 정책 개선
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

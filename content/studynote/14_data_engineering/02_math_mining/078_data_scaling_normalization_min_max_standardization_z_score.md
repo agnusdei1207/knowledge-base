@@ -21,17 +21,11 @@ tags = ["studynote-data-engineering"]
 
 특성 값의 크기가 너무 다르면 거리 기반 모델과 경사 하강 기반 모델이 특정 특성에 끌린다. 그래서 scaling이 먼저 필요하다.
 이 노트에서는 normalization을 Min-Max Scaling 의미로, standardization을 Z-Score Standardization 의미로 구분해 읽으면 혼동이 줄어든다.
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">원본 값 ─▶ 이상치 확인 ─▶ 스케일러 선택 ─▶ 변환 ─▶ 모델 입력</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">0, 1</div></div>
-<div class="kb-diagram-tree-item" style="--depth:5">Z-Score → 평균0 / 표준편차1</div>
-</div>
-</div>
-
-
+```text
+원본 값 ─▶ 이상치 확인 ─▶ 스케일러 선택 ─▶ 변환 ─▶ 모델 입력
+          ├─ Min-Max → [0, 1]
+          └─ Z-Score → 평균0 / 표준편차1
+```
 
 - **📢 섹션 요약 비유**: 큰 숫자와 작은 숫자를 그대로 넣으면 모델이 한쪽만 본다.
 
@@ -107,23 +101,21 @@ Min-Max는 값의 상대 위치를 보존하면서 고정 범위로 압축하는
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">원본 데이터</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">통계 계산 (min/max 또는 평균/표준편차)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">스케일러 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">모델 학습/추론</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">분포 변화 모니터링</div>
-</div>
-</div>
-
-
+```text
+원본 데이터
+  │
+  ▼
+통계 계산 (min/max 또는 평균/표준편차)
+  │
+  ▼
+스케일러 적용
+  │
+  ▼
+모델 학습/추론
+  │
+  ▼
+분포 변화 모니터링
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

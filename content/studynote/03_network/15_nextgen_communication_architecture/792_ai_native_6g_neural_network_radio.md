@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 기존 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 스마트폰의 칩셋([모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/)) 내부에는 신호를 변조하고 복조하는 <strong>수십 개의 고정된 수학 공식 기반 하드웨어 블록(블록 코딩, 푸리에 변환 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a> 등)</strong>이 줄줄이 박혀 있습니다.
 - **문제점**: 도심지에서 전파가 이중 삼중으로 반사되어 극도로 찌그러져 들어오면(심각한 [Fading](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/)), 이 딱딱한 수학 공식 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)들은 계산에 실패하여 에러(Error)를 냅니다. 속도를 올리려면 계산식이 무지막지하게 복잡해져 폰이 불덩이가 됩니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">자율 주행 넷망</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AI 내재화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">양자 인터넷 모듈 기반 네트워크 키 분배 안…</div></div>
-</div>
-</div>
-
-
+```text
+[자율 주행 넷망]
+    │
+    ▼
+[AI 내재화]
+    │
+    └──▶ [양자 인터넷 모듈 기반 네트워크 키 분배 안…]
+```
 
 - **📢 섹션 요약 비유**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 내재화는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -43,18 +39,14 @@ tags = ["studynote-network"]
 
 - **개념**: [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 무선 통신의 뼈대인 물리 계층(PHY)의 변조, 복조, 채널 추정 등의 복잡한 수학 연산 과정을 <strong>수학 공식이 아닌 '딥러닝 기반 인공신경망(<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/335_autoencoder/">Autoencoder</a> 등)'으로 통째로 대체해 버리는 차세대 무선 통신 모델</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">자율 주행 넷망</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AI 내재화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">양자 인터넷 모듈 기반 네트워크 키 분배 안…</div></div>
-</div>
-</div>
-
-
+```text
+[자율 주행 넷망]
+    │
+    ▼
+[AI 내재화]
+    │
+    └──▶ [양자 인터넷 모듈 기반 네트워크 키 분배 안…]
+```
 
 - **📢 섹션 요약 비유**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 내재화의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -119,19 +111,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 자율 주행 넷망</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: AI 내재화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 양자 인터넷 모듈 기반 네트워크 키 분배 안…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 네트워크 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 자율 주행 넷망]
+    │
+    ▼
+[현재 개념: AI 내재화]
+    │
+    ├──▶ [확장 A: 양자 인터넷 모듈 기반 네트워크 키 분배 안…]
+    └──▶ [확장 B: AI 기반 네트워크 최적화]
+```
 
 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 내재화는 [자율 주행 넷망](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/791_autonomous_network_aiops_ibn_zero_touch/)에서 출발해 현재 메커니즘을 정교화하고, 이후 양자 인터넷 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 기반 네트워크 키 분배 안…와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

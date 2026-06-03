@@ -37,18 +37,12 @@ tags = ["enterprise_systems"]
 | 유지보수 용이 | 변경 지점이 표준화된다 | 커스터마이징 과다 시 악화 |
 | 보고 체계 일원화 | 동일 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 집계 가능 | 권한과 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 설계가 중요 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">구매</div><div class="kb-diagram-note">─</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">판매</div><div class="kb-diagram-note">─ ──►</div><div class="kb-diagram-node">공통 마스터 데이터</div><div class="kb-diagram-note">►</div><div class="kb-diagram-node">ERP 코어</div><div class="kb-diagram-note">►</div><div class="kb-diagram-node">재무 보고</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">생산</div><div class="kb-diagram-note">─</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">인사</div><div class="kb-diagram-note">─</div></div>
-</div>
-</div>
-
-
+```text
+[구매] ─┐
+[판매] ─┼──► [공통 마스터 데이터] ───► [ERP 코어] ───► [재무 보고]
+[생산] ─┤
+[인사] ─┘
+```
 
 이 구조의 핵심은 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 따로 노는 것이 아니라, 같은 [데이터 사전](/knowledge-base/studynote/05_database/07_exam_summary/393_data_dictionary/)을 공유한다는 점이다. 그래서 프로세스 변경이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변경과 함께 관리되어야 한다.
 
@@ -88,7 +82,7 @@ ERP는 [BPR](/knowledge-base/studynote/12_it_management/03_ea_isp/127_bpr_busine
 - 부서별 예외를 모두 코드로 박아 넣는 것
 - [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정합성보다 화면 모양만 먼저 맞추는 것
 
-    - **📢 섹션 요약 비유**: 예쁜 상자를 사더라도 내용물을 자기 마음대로 뜯어고치면 조립법의 장점이 사라진다.
+    - **📢 섹션 요약 비유**: 예쁜 상자를 사더라도 내용물을 자기 마음대로 뜯어고치면 조입법의 장점이 사라진다.
 
     ---
 

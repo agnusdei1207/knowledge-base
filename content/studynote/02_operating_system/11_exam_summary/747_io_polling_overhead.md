@@ -35,25 +35,30 @@ tags = ["studynote-operating-system"]
   - [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 시스템에서 구현의 편리함으로 사용되다 멀티프로그래밍 시대에 병목으로 지목되어 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 구동([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)-driven) I/O로 패러다임이 전환되었다.
   - 그러나 현대 10G/100G [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 네트워크 카드에서는 패킷마다 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 걸리면 오히려 CPU가 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 처리 비용([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 등)에 질식해버리는 '[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 폭풍([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Storm)' 문제가 생겼고, 역설적으로 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)을 영리하게 부활시키는 기술(NAPI 등)이 도입되고 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PIO (Programmed I/O) 폴링 동작 메커니즘 흐름도</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CPU(소프트웨어 드라이버)</div><div class="kb-diagram-node">장치 컨트롤러</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 읽기/쓰기 명령 하달 ▶ 명령 레지스터 세팅</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 상태 레지스터 읽기</div><div class="kb-diagram-cell">◀ 상태 비트 리턴</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (NO)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 장치가 Ready 상태인가? ──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(YES)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 데이터 레지스터 접근</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(데이터 1바이트 복사)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀ 무한 루프 (Busy Waiting)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 다음 데이터 반복 처리</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │                 PIO (Programmed I/O) 폴링 동작 메커니즘 흐름도         │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │   [CPU(소프트웨어 드라이버)]                  [장치 컨트롤러]         │
+  │             │                                       │       │
+  │     1. 읽기/쓰기 명령 하달 ─────────▶ 명령 레지스터 세팅       │
+  │             │                                       │       │
+  │             ▼ ┌─────────────┐                       │       │
+  │     2. 상태 레지스터 읽기 │◀────────── 상태 비트 리턴        │       │
+  │             │ └─────────────┘                       │       │
+  │             ▼             (NO)                       │       │
+  │     3. 장치가 Ready 상태인가? ──┐                      │       │
+  │             │ (YES)          │                      │       │
+  │             ▼                │                      │       │
+  │     4. 데이터 레지스터 접근      │                      │       │
+  │         (데이터 1바이트 복사)     │                      │       │
+  │             │                │                      │       │
+  │             │◀───────────────┘ 무한 루프 (Busy Waiting)  │
+  │             ▼                                               │
+  │     5. 다음 데이터 반복 처리                                   │
+  └─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 흐름도는 소프트웨어가 I/O 장치를 제어하는 가장 원시적인 형태를 보여준다. CPU는 3번 단계에서 장치의 상태 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 '1(준비 완료)'로 바뀔 때까지 2번과 3번 사이를 수백만 번 맴도는 무한 루프(while 루프)에 갇힌다. 이 루프를 도는 동안 CPU의 연산 클럭은 100% 낭비되며, 다른 유용한 프로세스가 CPU를 쓸 기회를 박탈당한다. 이것이 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 오버헤드의 정체다. 장치가 빠르다면 이 루프를 한두 번만 돌고 탈출하겠지만, 마그네틱 하드 디스크처럼 [탐색 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/)([Seek Time](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/467_disk_access_time/))이 수 밀리초에 달하는 장치를 상대할 때는 재앙이 된다.
 
@@ -93,26 +98,28 @@ char read_device() {
 2. <strong>장치 반응 시간 (Device <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/">Response Time</a>)</strong>: 명령을 받은 장치가 물리적인 작동을 거쳐 상태 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 Ready로 바꾸는 데 걸리는 시간. (예: [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) = 수십 µs, [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) = 수 ms)
 3. **오버헤드 발생량**: 장치 반응 시간 내내 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 사이클이 반복된다. 예를 들어 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 1사이클에 1ns가 걸리고, 장치 반응이 1ms(1,000,000ns) 걸린다면, CPU는 무의미한 상태 검사 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 루프를 100만 번 실행하며 에너지를 태워버린다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">폴링 vs 인터럽트의 CPU 유효 사용 시간 비교 그래프</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">I/O 대기 시간 (예: 5ms)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">폴링 방식 CPU 점유</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">███████████████████████████████████████████████████████████▒▒▒</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↑ 5ms 내내 장치 상태 확인 (루프 5백만 번 실행, 100% 낭비) ↑데이터읽기</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">인터럽트 방식 CPU 점유</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▓▓ (다른 프로세스 연산) ██▒▒▒</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↑I/O요청 ↑ 99% 시간 동안 CPU는 다른 일 함 ↑인터럽트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">처리 및 읽기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ 단, "초고속 장치(응답 1µs 이내)"라면?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인터럽트 방식은 문맥 교환에만 2µs가 걸려 배보다 배꼽이 커진다!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">폴링 방식</div><div class="kb-diagram-note">이 더 빠르고 효율적이다.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 폴링 vs 인터럽트의 CPU 유효 사용 시간 비교 그래프          │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │  [I/O 대기 시간 (예: 5ms)]                                          │
+  │  ─────────────────────────────────────────────────────────────    │
+  │                                                                   │
+  │  [폴링 방식 CPU 점유]                                                │
+  │  ███████████████████████████████████████████████████████████▒▒▒   │
+  │  ↑ 5ms 내내 장치 상태 확인 (루프 5백만 번 실행, 100% 낭비)       ↑데이터읽기 │
+  │                                                                   │
+  │  [인터럽트 방식 CPU 점유]                                            │
+  │  ▓▓                             (다른 프로세스 연산)              ██▒▒▒   │
+  │  ↑I/O요청                        ↑ 99% 시간 동안 CPU는 다른 일 함 ↑인터럽트  │
+  │                                                                처리 및 읽기│
+  │                                                                   │
+  │  ※ 단, "초고속 장치(응답 1µs 이내)"라면?                             │
+  │    인터럽트 방식은 문맥 교환에만 2µs가 걸려 배보다 배꼽이 커진다!           │
+  │    -> 이럴 땐 오히려 아주 짧은 [폴링 방식]이 더 빠르고 효율적이다.          │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 방식은 기다리는 내내 CPU를 블로킹([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/))한다. 반면 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)는 I/O를 [비동기적](/knowledge-base/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/)으로 던져놓고 CPU가 다른 프로세스로 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))을 하여 연산의 밀도를 높인다. 그러나 다이어그램 하단의 '[초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 장치' 시나리오에 주목해야 한다. 만약 장치가 명령을 받자마자 거의 즉각적으로(수 나노초~마이크로초 내에) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 내뱉는다면 어떨까? [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 걸기 위해 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 저장하고 OS의 [ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/)([Interrupt Service Routine](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/317_isr/)) 모드로 전환하는 행위([문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 오버헤드)가 장치 응답 시간보다 더 오래 걸리는 역전 현상이 벌어진다. 이 미세한 간극이 현대 100G NIC나 NVMe에서 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)을 전략적으로 혼용하는 이유다.
 
@@ -153,25 +160,30 @@ char read_device() {
 2. <strong>시나리오 — <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/130_microcontroller/">마이크로컨트롤러</a>(<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a>/임베디드)의 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/">펌웨어</a> 최적화</strong>: 메모리와 CPU가 극도로 제한된 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서 단말기(Cortex-M 등)에서, 온습도 센서 값을 I2C [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)로 읽어오기 위해 드라이버 코드를 작성 중이다.
    - <strong>아키텍트 판단 (<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/">폴링</a>의 전략적 선택)</strong>: I2C 통신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 단 2바이트이고 전송 완료에 수 마이크로초(µs)밖에 안 걸린다면, 복잡한 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 셋업이나 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 채널을 낭비할 필요 없이 의도적으로 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)(`while` 루프)을 사용하는 것이 코드가 훨씬 가볍고 레이턴시도 짧다. 단, 센서 장치가 고장 나면 무한 루프에 영원히 빠지는(Hang) 현상을 막기 위해 루프 안에 반드시 <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/">Timeout</a> (<a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/">타임아웃</a>) 이스케이프 로직</strong>을 추가하는 시큐어 코딩이 필수적이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">안전한 폴링(Safe Polling) 적용 의사결정 트리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">새로운 디바이스의 I/O 제어 방식을 설계한다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">장치의 데이터 전송량이 많고(수십 KB 이상), 지연이 예측 불가능한가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">DMA + 인터럽트 조합 필수</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 (데이터가 1~2바이트로 작고 지연이 거의 없음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인터럽트 문맥 교환 시간보다 장치 응답 시간이 더 짧은가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">인터럽트 구동 방식</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">폴링 (Polling) 채택 가능!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▼</div><div class="kb-diagram-node">경고: 안티패턴 방어 장치 필수</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 루프 안에 하드웨어 타임아웃(Timeout) 한계치 삽입</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 장기 대기 시 <code>cpu_relax()</code> 등 전력 소모 방지 명령어</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 안전한 폴링(Safe Polling) 적용 의사결정 트리            │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [새로운 디바이스의 I/O 제어 방식을 설계한다]                           │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      장치의 데이터 전송량이 많고(수십 KB 이상), 지연이 예측 불가능한가?        │
+  │          ├─ 예 ─────▶ [ DMA + 인터럽트 조합 필수 ]                    │
+  │          │                                                        │
+  │          └─ 아니오 (데이터가 1~2바이트로 작고 지연이 거의 없음)             │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      인터럽트 문맥 교환 시간보다 장치 응답 시간이 더 짧은가?                  │
+  │          ├─ 아니오 ──▶ [ 인터럽트 구동 방식 ]                         │
+  │          │                                                        │
+  │          └─ 예 ─────▶ [ 폴링 (Polling) 채택 가능! ]                 │
+  │                              │                                    │
+  │                              ▼ [경고: 안티패턴 방어 장치 필수]          │
+  │                      1. 루프 안에 하드웨어 타임아웃(Timeout) 한계치 삽입   │
+  │                      2. 장기 대기 시 `cpu_relax()` 등 전력 소모 방지 명령어│
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)은 무조건 나쁘고 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)는 무조건 좋다는 이분법은 기술사적 관점에서 틀린 명제다. [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)의 죄악은 "장치가 느릴 때 기다리는 짓"이지, [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 자체의 매커니즘은 가장 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))이 없는 순수한 하드웨어 제어법이다. 의사결정 트리는 장치의 특성(초대역폭 vs 초저지연)에 맞춰 오버헤드의 역전점을 계산하고 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)을 끄집어내는 판단 기준을 보여준다. 하드웨어의 발전(100G [NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/), Optane)으로 이 역전점을 넘는 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 장비가 많아지면서 현대 OS는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 바이패스와 유저 레벨 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)(User-level Polling)이라는 과거의 기술을 최첨단 무기로 재활용하고 있다.
 
@@ -217,19 +229,15 @@ I/O [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_sys
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">I/O 직접 메모리 접근 (DMA)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">I/O 풀링 (Polling) 오버헤드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스풀링 (Spooling) 버퍼</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">메모리 매핑 파일 (mmap)</div></div>
-</div>
-</div>
-
-
+```text
+[I/O 직접 메모리 접근 (DMA)]
+    │
+    ▼
+[I/O 풀링 (Polling) 오버헤드]
+    │
+    ├──▶ [스풀링 (Spooling) 버퍼]
+    └──▶ [메모리 매핑 파일 (mmap)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

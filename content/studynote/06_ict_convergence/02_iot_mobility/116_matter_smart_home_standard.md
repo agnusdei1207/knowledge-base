@@ -18,24 +18,22 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Matter 이전 vs 이후</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">이전</div><div class="kb-diagram-note">파편화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전구 A → HomeKit만 지원</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전구 B → Google Home만 지원</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전구 C → Alexa만 지원</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 소비자: 3개 다 구매해야 함</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">이후: Matter</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전구 M → Matter 인증</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ HomeKit ✅ Google Home ✅ Alexa ✅ 모두 동작!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 소비자: 1개만 구매</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    Matter 이전 vs 이후                                │
+├───────────────────────────────────────────────────────┤
+│  [이전] 파편화                                        │
+│   전구 A → HomeKit만 지원                             │
+│   전구 B → Google Home만 지원                        │
+│   전구 C → Alexa만 지원                               │
+│   → 소비자: 3개 다 구매해야 함                       │
+│                                                       │
+│  [이후: Matter]                                       │
+│   전구 M → Matter 인증                               │
+│   → HomeKit ✅ Google Home ✅ Alexa ✅ 모두 동작!    │
+│   → 소비자: 1개만 구매                               │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [Matter](/knowledge-base/studynote/03_network/12_iot_wpan_edge/612_matter_csa_smart_home_standard/) 이전은 나라마다 충전기가 다른 세상이고, Matter는 <strong>USB-C</strong>처럼 하나로 통일된 세상이다.
 
@@ -104,23 +102,21 @@ Matter는 스마트 홈의 <strong>USB-C 모먼트</strong>이며, 플랫폼 파
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">플랫폼 파편화 (HomeKit·Google Home·Alexa 각각)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Project CHIP (2019) — Apple·Google·Amazon 표준 합의</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Matter 1.0 (2022) — 조명·스위치·플러그 지원</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Matter 1.2 (2023) — 로봇 청소기·센서 추가</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: Matter 2.0 — 카메라·가전·에너지 관리 확대</div></div>
-</div>
-</div>
-
-
+```text
+[플랫폼 파편화 (HomeKit·Google Home·Alexa 각각)]
+    │
+    ▼
+[Project CHIP (2019) — Apple·Google·Amazon 표준 합의]
+    │
+    ▼
+[Matter 1.0 (2022) — 조명·스위치·플러그 지원]
+    │
+    ▼
+[Matter 1.2 (2023) — 로봇 청소기·센서 추가]
+    │
+    ▼
+[현재: Matter 2.0 — 카메라·가전·에너지 관리 확대]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 옛날에는 Apple 전구, Google 전구, Amazon 전구를 **따로따로** 사야 했어요.

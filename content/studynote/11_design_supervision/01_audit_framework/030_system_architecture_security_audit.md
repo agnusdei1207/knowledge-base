@@ -23,16 +23,13 @@ tags = ["studynote-design-supervision"]
 
 특히 공공사업이나 대형 구축 사업처럼 일정 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 품질 편차, 보안 이슈가 함께 얽히는 환경에서는 문서 한 장의 적합 여부보다 실행 흔적의 정합성이 더 중요하다. 따라서 시스템 아키텍처/보안 영역 감리는 단순 점검표가 아니라, 기준·증거·조치가 하나의 폐루프로 돌아가는 통제 구조로 이해해야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Baseline</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Evidence</div><div class="kb-diagram-cell">──▶</div><div class="kb-diagram-cell">Finding</div></div>
-<div class="kb-diagram-tree-item" style="--depth:3">▶ Corrective Action ◀──</div>
-</div>
-</div>
-
-
+```text
+┌──────────────┐   ┌──────────────┐   ┌──────────────┐
+│ Baseline     │──▶│ Evidence     │──▶│ Finding      │
+└──────┬───────┘   └──────────────┘   └──────┬───────┘
+       │                                     │
+       └──────────────▶ Corrective Action ◀──┘
+```
 
 이 그림은 한 번의 판정으로 끝나는 활동이 아니라, [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)에서 증거 수집, 시정조치 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)까지 이어지는 연속 흐름임을 보여 준다.
 
@@ -111,21 +108,18 @@ tags = ["studynote-design-supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 기준선 수립</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 시스템 아키텍처/보안 영역 감리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 개인정보보호) 준수 여부</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화 점검</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">다음 단계: 지속적 개선</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 기준선 수립]
+    │
+    ▼
+[현재 개념: 시스템 아키텍처/보안 영역 감리]
+    │
+    ├──▶ [확장 A: 개인정보보호) 준수 여부]
+    └──▶ [확장 B: 자동화 점검]
+            │
+            ▼
+        [다음 단계: 지속적 개선]
+```
 
 이 흐름은 기준을 세우고, 점검하고, 자동화하며, 운영 개선으로 닫는 감리 성숙 단계를 보여 준다.
 

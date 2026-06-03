@@ -30,28 +30,31 @@ tags = ["studynote-cloud-architecture"]
 
 보편적 언어는 단순한 '용어 사전(Glossary)' 작성에 그치지 않고, 시스템의 아키텍처(소스 코드)에 물리적으로 결합되어야 완성된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">보편적 언어(Ubiquitous Language)의 무결점 파이프라인 흐름 도해</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">🗣️ 현업의 비즈니스 언어</div><div class="kb-diagram-note">: "고객이 상품을 '주문'하고 '결제'를 완료한다."</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (번역 금지! 100% 단어 그대로 코드에 융합 이식!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">💻 개발자의 소스 코드</div><div class="kb-diagram-note">:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">public class Order {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">public void placeOrder(Customer customer, Product product) {</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Payment.process(this);</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (번역 금지! 100% 그대로 DB 저장소 융합!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">🗄️ DBA의 데이터베이스</div><div class="kb-diagram-note">:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TABLE: ORDER, CUSTOMER, PRODUCT, PAYMENT</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 아키텍트 핵심: 기획자, 개발자, DBA 사이의 "그게 무슨 뜻이죠?"라는 핑퐁 랙(Lag)이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0초로 증발한다! 비즈니스 로직(현업)이 소스 코드(IT) 그 자체로 완벽히 거울처럼 투영됨.</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────┐
+│           보편적 언어(Ubiquitous Language)의 무결점 파이프라인 흐름 도해         │
+├────────────────────────────────────────────────────────────────────────┤
+│                                                                        │
+│ [ 🗣️ 현업의 비즈니스 언어 ] : "고객이 상품을 '주문'하고 '결제'를 완료한다."         │
+│             │                                                          │
+│             ▼  (번역 금지! 100% 단어 그대로 코드에 융합 이식!)                  │
+│                                                                        │
+│ [ 💻 개발자의 소스 코드 ] :                                                 │
+│    public class Order {                                                │
+│        public void placeOrder(Customer customer, Product product) {  │
+│            Payment.process(this);                                    │
+│        }                                                               │
+│    }                                                                   │
+│             │                                                          │
+│             ▼  (번역 금지! 100% 그대로 DB 저장소 융합!)                        │
+│                                                                        │
+│ [ 🗄️ DBA의 데이터베이스 ] :                                                │
+│    TABLE: ORDER, CUSTOMER, PRODUCT, PAYMENT                            │
+│                                                                        │
+│ 🌟 아키텍트 핵심: 기획자, 개발자, DBA 사이의 "그게 무슨 뜻이죠?"라는 핑퐁 랙(Lag)이 │
+│ 0초로 증발한다! 비즈니스 로직(현업)이 소스 코드(IT) 그 자체로 완벽히 거울처럼 투영됨. │
+└────────────────────────────────────────────────────────────────────────┘
+```
 
 보편적 언어의 핵심은 '[Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) Translation(번역 오차 제거)'이다. 코드를 읽으면 기획서가 보이고, 기획서를 읽으면 코드가 상상되어야 한다. 만약 비즈니스 전문가가 개발자의 변수명을 보고 "이 단어는 우리가 쓰는 말이 아닌데요?"라고 지적한다면, 그 시스템의 보편적 언어는 깨진 것이며 잠재적인 런타임 버그의 폭탄이 된다.
 
@@ -117,23 +120,21 @@ tags = ["studynote-cloud-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">전통적 폭포수(Waterfall) 모델 / 기획서(한글) ➔ 설계서(UML) ➔ 코드(영어) 3단계 번역 랙 및 오해 폭발 💥</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Eric Evans의 DDD 창시 / "번역하지 마! 전 과정에 똑같은 단어 하나만 써!" (Ubiquitous Language 탄생)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Bounded Context의 발견 / "근데 전사 표준어는 불가능하니까, 부서(Context)별로만 단어 통일해!"</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">MSA (마이크로서비스) 아키텍처 대폭발 / 바운디드 컨텍스트의 경계선이 곧 서버 분할(MSA)의 완벽한 톱날이 됨</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Event Storming 워크샵 대세화 / 포스트잇을 붙이며 모두가 동의하는 보편적 언어를 광속으로 도출해 내는 현대 스킬</div>
-</div>
-</div>
-
-
+```text
+전통적 폭포수(Waterfall) 모델 / 기획서(한글) ➔ 설계서(UML) ➔ 코드(영어) 3단계 번역 랙 및 오해 폭발 💥
+    │
+    ▼
+Eric Evans의 DDD 창시 / "번역하지 마! 전 과정에 똑같은 단어 하나만 써!" (Ubiquitous Language 탄생)
+    │
+    ▼
+Bounded Context의 발견 / "근데 전사 표준어는 불가능하니까, 부서(Context)별로만 단어 통일해!"
+    │
+    ▼
+MSA (마이크로서비스) 아키텍처 대폭발 / 바운디드 컨텍스트의 경계선이 곧 서버 분할(MSA)의 완벽한 톱날이 됨
+    │
+    ▼
+Event Storming 워크샵 대세화 / 포스트잇을 붙이며 모두가 동의하는 보편적 언어를 광속으로 도출해 내는 현대 스킬
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

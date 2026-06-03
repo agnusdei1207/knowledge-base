@@ -24,21 +24,23 @@ tags = ["studynote-software-engineering"]
 
 이러한 유한 상태 기계(Finite [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Machine, FSM)로 돌아가는 소프트웨어를 정복하기 위해 테스터는 화이트보드에 동그라미(상태)와 화살표(이벤트)를 그려 넣으며 객체가 태어나서 죽을 때까지의 <strong>흐름(Flow)</strong>을 추적합니다. 이것이 바로 <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/">상태 전이</a> 테스트(<a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/">State Transition</a> Testing)</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">쇼핑몰 주문의 상태 전이 모델 예시</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">이벤트: 결제하기</div><div class="kb-diagram-node">이벤트: 상품 출발</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(주문 대기) ▶ (결제 완료) ▶ (배송 중)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">취소 버튼</div><div class="kb-diagram-node">이벤트: 구매자 취소</div><div class="kb-diagram-note">(반품 신청)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(주문 취소) ◀ (결제 환불)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ 문제 상황(유효하지 않은 전이): (배송 중) 상태에서 갑자기</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">해커가 URL 파라미터 조작으로</div><div class="kb-diagram-node">결제 환불</div><div class="kb-diagram-note">화살표를 찌른다면?!</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                  쇼핑몰 주문의 상태 전이 모델 예시                │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│       [이벤트: 결제하기]               [이벤트: 상품 출발]        │
+│  (주문 대기) ─────────▶ (결제 완료) ─────────▶ (배송 중)    │
+│       │                    │                       │         │
+│       │                    │                       ▼         │
+│       │ [취소 버튼]         │ [이벤트: 구매자 취소]    (반품 신청) │
+│       ▼                    ▼                                 │
+│  (주문 취소) ◀──────── (결제 환불)                         │
+│                                                              │
+│  ※ 문제 상황(유효하지 않은 전이): (배송 중) 상태에서 갑자기            │
+│     해커가 URL 파라미터 조작으로 [결제 환불] 화살표를 찌른다면?!       │
+└──────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 자판기 플러그를 막 꽂았을 때(대기 상태), 동전을 중간쯤 넣었을 때(입금 상태), 캔이 떨어지고 있을 때(방출 상태). 이 똑같은 자판기 앞에서 "취소 버튼"을 눌러도 자판기가 처한 '기분(상태)'에 따라 환불해 주거나 무시하는 등 다른 반응을 하는 것을 추적하는 심리관찰 카메라입니다.
 
@@ -135,30 +137,28 @@ QA 테스터는 기획자가 대충 적어 놓은 명세서를 보고 위 4개�
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software Engineering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 테스트 ([State Transition](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) Testing)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 테스트 ([State Transition](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) Testing)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
 | [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 테스트 ([State Transition](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) Testing)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 테스트 ([State Transition](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) Testing) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
 | [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 테스트 ([State Transition](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) Testing)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">소프트웨어 위기 (Software Crisis) 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">상태 전이 테스트 (State Transition Testing) 개념 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">표준화 및 방법론 체계화 (ISO, CMMI, Agile)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 네이티브·AI 기반 확장 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">지속적 개선 및 DevOps·MLOps 통합</div>
-</div>
-</div>
-
-
+```text
+소프트웨어 위기 (Software Crisis) 인식
+    │
+    ▼
+상태 전이 테스트 (State Transition Testing) 개념 정립
+    │
+    ▼
+표준화 및 방법론 체계화 (ISO, CMMI, Agile)
+    │
+    ▼
+클라우드 네이티브·AI 기반 확장 적용
+    │
+    ▼
+지속적 개선 및 DevOps·MLOps 통합
+```
 
 이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 → 체계적 방법론 개발 → 표준화 → 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 

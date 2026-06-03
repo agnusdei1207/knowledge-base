@@ -24,25 +24,22 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경**: 두 프로세스가 교대로만 들어가게 만든 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(Strict Alternation)은 핑퐁을 치다가 하나가 죽으면 남은 하나도 영원히 멈추는 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)([Progress](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)) 실패를 겪었다. 이를 해결하기 위해 수학자들은 변수를 추가하고 순서를 꼬아가며, 어떠한 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 타이밍에도 깨지지 않는 완전무결한 소프트웨어 자물쇠를 찾기 위해 10년 넘게 논문을 쏟아냈다.
 
+```text
+  [소프트웨어 동기화의 3대 진화 단계]
 
+  [ 1단계: 깃발만 사용 (상호 배제 실패) ]
+  A: "깃발 들게. 어? B 깃발 없네? 들어간다!"
+  B: "나도 깃발 들게. 어? A도 아직 안 들었네? 들어간다!" ─▶ 💥 쾅! (둘 다 들어감)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">소프트웨어 동기화의 3대 진화 단계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1단계: 깃발만 사용 (상호 배제 실패)</div></div>
-<div class="kb-diagram-note">A: "깃발 들게. 어? B 깃발 없네? 들어간다!"</div>
-<div class="kb-diagram-note">B: "나도 깃발 들게. 어? A도 아직 안 들었네? 들어간다!" ─▶ 💥 쾅! (둘 다 들어감)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2단계: 양보만 사용 (진행 실패, 데드락)</div></div>
-<div class="kb-diagram-note">A: "너 먼저 해." (turn = B)</div>
-<div class="kb-diagram-note">B: "아니야 너 먼저 해." (turn = A) ─▶ 💥 서로 무한 양보하다 굶어 죽음.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3단계: 깃발 + 양보 융합 (피터슨 알고리즘 - 완벽 성공)</div></div>
-<div class="kb-diagram-note">A: "나 깃발 들게. 근데 네가 먼저 들어가(turn = B)."</div>
-<div class="kb-diagram-note">B: "나도 깃발 들게. 근데 네가 먼저 들어가(turn = A)."</div>
-<div class="kb-diagram-note">▶ 결과: 가장 나중에 양보한 놈이 밖에서 기다리고, 먼저 양보한 놈이 방에 들어감. (성공!)</div>
-</div>
-</div>
+  [ 2단계: 양보만 사용 (진행 실패, 데드락) ]
+  A: "너 먼저 해." (turn = B)
+  B: "아니야 너 먼저 해." (turn = A) ─▶ 💥 서로 무한 양보하다 굶어 죽음.
 
-
+  [ 3단계: 깃발 + 양보 융합 (피터슨 알고리즘 - 완벽 성공) ]
+  A: "나 깃발 들게. 근데 네가 먼저 들어가(turn = B)."
+  B: "나도 깃발 들게. 근데 네가 먼저 들어가(turn = A)."
+  ▶ 결과: 가장 나중에 양보한 놈이 밖에서 기다리고, 먼저 양보한 놈이 방에 들어감. (성공!)
+```
 **[다이어그램 해설]** 소프트웨어 락을 짤 때 가장 많이 하는 실수를 보여준다. 의사 표시(깃발)만으로는 찰나의 문맥 교환을 막을 수 없고, 양보(턴)만으로는 문 앞에서의 교착 상태를 막을 수 없다. 천재 수학자들은 이 두 가지 변수를 교묘하게 교차시켜 "내가 들어가고 싶음을 명확히 하되, 최종 결정권은 상대에게 넘기는" 아름다운 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 구조를 완성했다.
 
 - **📢 섹션 요약 비유**: 좁은 골목길에 차 두 대가 마주쳤습니다. 클락션만 울리고(깃발) 전진하면 사고가 나고, 서로 후진만 하면(양보) 평생 골목을 못 빠져나갑니다. 비상등을 켜서(깃발) 내 의사를 알리되, 손짓으로 "먼저 가세요(양보)"를 병행해야 골목길([임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/))이 부드럽게 풀립니다.
@@ -119,26 +116,28 @@ tags = ["studynote-operating-system"]
 2. **Volatile 키워드의 남용과 오해**: 자바(Java) 백엔드 주니어 개발자가 공유 변수 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)를 위해 `volatile boolean flag;` 선언만 믿고 피터슨 비스무리한 코드를 짰다.
    - **아키텍트 교정**: `volatile`은 "캐시를 쓰지 말고 메인 메모리에서 최신 값을 읽어와라"라는 뜻이지, `count++` 같은 동작을 원자적(Atomic)으로 묶어주는 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))이 절대 아니다. 소프트웨어 변수만으로 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)을 막으려 드는 시도 자체가 현대 실무에서는 <strong>최악의 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a>(<a href="/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/161_anti_pattern/">Anti-pattern</a>)</strong>이며, 무조건 `synchronized` 블록이나 `AtomicBoolean` (내부적으로 하드웨어 [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 사용)을 쓰는 것이 정답이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동시성 문제 발생 시 아키텍트의 해결 도구 선택 의사결정 트리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">요구사항: 멀티 스레드의 공유 데이터 보호 및 락(Lock) 구현</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 1. 순수 소프트웨어 변수로 락을 구현할 것인가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">예 (피터슨/빵집 알고리즘 사용 시도)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 판정: 🚨 실무 적용 절대 불가. 버그의 온상.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 이유: Out-of-Order 실행 및 멀티코어 캐시 미스 방어 불가.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">아니오 (OS 또는 하드웨어의 도움을 받음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 2. 락 대기 시간이 1ms 이하로 극도로 짧은가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">예</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">하드웨어 Spinlock (TAS/CAS 기반) 적용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(문맥 교환 오버헤드 없이 뺑뺑이로 방어)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">아니오</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">운영체제 Mutex / Semaphore 적용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(OS가 스레드를 Sleep 시켜서 자원 절약)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │     동시성 문제 발생 시 아키텍트의 해결 도구 선택 의사결정 트리   │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [요구사항: 멀티 스레드의 공유 데이터 보호 및 락(Lock) 구현]     │
+  │                │                                                  │
+  │                ▼ 1. 순수 소프트웨어 변수로 락을 구현할 것인가?    │
+  │      [ 예 (피터슨/빵집 알고리즘 사용 시도) ]                      │
+  │       ├─▶ 판정: 🚨 실무 적용 절대 불가. 버그의 온상.              │
+  │       └─▶ 이유: Out-of-Order 실행 및 멀티코어 캐시 미스 방어 불가.│
+  │                                                                   │
+  │      [ 아니오 (OS 또는 하드웨어의 도움을 받음) ]                  │
+  │                 │                                                 │
+  │                 ▼ 2. 락 대기 시간이 1ms 이하로 극도로 짧은가?     │
+  │          ├─ [ 예 ] ─▶ 하드웨어 Spinlock (TAS/CAS 기반) 적용       │
+  │          │             (문맥 교환 오버헤드 없이 뺑뺑이로 방어)    │
+  │          │                                                        │
+  │          └─ [ 아니오 ] ─▶ 운영체제 Mutex / Semaphore 적용         │
+  │                         (OS가 스레드를 Sleep 시켜서 자원 절약)    │
+  └───────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 과목에서 피터슨 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 배우는 이유는 "이걸 실무에 써라!"가 아니라, <strong>"<a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>적으로 완벽해 보이는 코드도 하드웨어 구조에 의해 어떻게 처참하게 박살 나는가"</strong>를 뼈저리게 느끼게 하기 위함이다. 실무 엔지니어링은 무조건 하단 트리의 OS Mutex나 하드웨어 [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)로 수렴한다.
 
 - **📢 섹션 요약 비유**: 무인도에서 나무 막대기를 비벼 불을 피우는 방법(피터슨 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))은 생존의 훌륭한 원리지만, 집에 가스레인지와 라이터(하드웨어 락, [Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/))가 있는데 굳이 부엌에서 나무 막대기를 비비며 요리를 하려는 셰프는 당장 해고당합니다. 도구를 쓸 줄 아는 것이 엔지니어의 기본입니다.
@@ -169,19 +168,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">코-스케줄링 (Co-scheduling / Gang Scheduling)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">소프트웨어적 동기화 해결책 (Software Synchronization Solutions)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">실시간 리눅스 (PREEMPT_RT 패치)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">무중단 라이브 마이그레이션 스케줄링 고려사항</div></div>
-</div>
-</div>
-
-
+```text
+[코-스케줄링 (Co-scheduling / Gang Scheduling)]
+    │
+    ▼
+[소프트웨어적 동기화 해결책 (Software Synchronization Solutions)]
+    │
+    ├──▶ [실시간 리눅스 (PREEMPT_RT 패치)]
+    └──▶ [무중단 라이브 마이그레이션 스케줄링 고려사항]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

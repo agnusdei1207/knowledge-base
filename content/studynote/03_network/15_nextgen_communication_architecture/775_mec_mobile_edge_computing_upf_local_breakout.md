@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: 사용자 단말기(스마트폰, 자율주행차)와 가장 가까운 <strong>네트워크의 끝자락(Edge, 주로 동네 무선 기지국이나 전화국 국사)</strong>에 클라우드 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 서버를 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 전진 배치하여, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 및 연산을 중앙 코어망(서울 본사)까지 보내지 않고 현장에서 즉시 끝내버리는 컴퓨팅 아키텍처입니다. (627번 문서의 연장선)
 - **목적**: 5G의 핵심 성능인 <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/">URLLC</a>(초저지연 1ms)</strong> 보장과 중앙 망으로 몰리는 트래픽 붕괴([백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/) 병목) 현상 해소.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">E2E 슬라이싱 보장 모델 관리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MEC 기반 가속 통신망 라우팅 최적</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Massive MIMO 대거 다중 배열 안테…</div></div>
-</div>
-</div>
-
-
+```text
+[E2E 슬라이싱 보장 모델 관리]
+    │
+    ▼
+[MEC 기반 가속 통신망 라우팅 최적]
+    │
+    └──▶ [Massive MIMO 대거 다중 배열 안테…]
+```
 
 - **📢 섹션 요약 비유**: [MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/) 기반 가속 통신망 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 최적은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -52,18 +48,14 @@ tags = ["studynote-network"]
 - **동작**: 자율주행차의 "브레이크!" 패킷이 동네 기지국에 들어옵니다. 서울 통제소([SMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/771_smf_upf_session_management_user_plane/))는 미리 동네 UPF에게 "자율주행 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 들어오면 서울로 보내지 말고, 네 옆에 있는 엣지 자율주행 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 서버로 확 꺾어버려!(트래픽 인터셉트)"라고 지시해 두었습니다.
 - 기지국 UPF는 이 트래픽을 가로채어(Local Breakout) 서울로 가지 않고 <strong>바로 옆 1m 거리에 있는 로컬 <a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/">MEC</a> 서버로 던져버립니다.</strong> [MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/) 서버가 0.001초 만에 "브레이크 밟아!"라고 판단을 내리고 폰으로 쏴주어 사고를 막아냅니다. [백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/) 유선망을 타지 않으니 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 물리적으로 증발합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">E2E 슬라이싱 보장 모델 관리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MEC 기반 가속 통신망 라우팅 최적</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Massive MIMO 대거 다중 배열 안테…</div></div>
-</div>
-</div>
-
-
+```text
+[E2E 슬라이싱 보장 모델 관리]
+    │
+    ▼
+[MEC 기반 가속 통신망 라우팅 최적]
+    │
+    └──▶ [Massive MIMO 대거 다중 배열 안테…]
+```
 
 - **📢 섹션 요약 비유**: [MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/) 기반 가속 통신망 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 최적의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -124,19 +116,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: E2E 슬라이싱 보장 모델 관리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: MEC 기반 가속 통신망 라우팅 최적</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: Massive MIMO 대거 다중 배열 안테…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 네트워크 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: E2E 슬라이싱 보장 모델 관리]
+    │
+    ▼
+[현재 개념: MEC 기반 가속 통신망 라우팅 최적]
+    │
+    ├──▶ [확장 A: Massive MIMO 대거 다중 배열 안테…]
+    └──▶ [확장 B: AI 기반 네트워크 최적화]
+```
 
 [MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/) 기반 가속 통신망 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 최적는 [E2E](/knowledge-base/studynote/15_devops_sre/05_devsecops/265_e2e_end_to_ui_selenium/) 슬라이싱 보장 모델 관리에서 출발해 현재 메커니즘을 정교화하고, 이후 [Massive MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/) 대거 다중 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 안테…와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

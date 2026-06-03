@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 내 스마트폰이 A 기지국과 통신할 때, B 기지국의 전파는 오직 훼방을 놓는 '적군의 노이즈(간섭)'일 뿐이었습니다.
 - **발상의 전환**: "저 밉상인 B 기지국 전파를 노이즈로 놔두지 말고, <strong>A 기지국과 똑같은 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a>를 쏘게 만들어서 우리 편(유효 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a>)으로 써먹어 버리자!</strong>"
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">셀 엣지 수율</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CoMP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">캐리어 어그리게이션</div></div>
-</div>
-</div>
-
-
+```text
+[셀 엣지 수율]
+    │
+    ▼
+[CoMP]
+    │
+    └──▶ [캐리어 어그리게이션]
+```
 
 - **📢 섹션 요약 비유**: CoMP는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -43,18 +39,14 @@ tags = ["studynote-network"]
 
 - **개념**: 4G LTE-Advanced와 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 시스템의 핵심 기술로, 인접해 있는 <strong>여러 개의 기지국(Multi-Point)들이 서로 통신(X2 인터페이스)을 조율(Coordinated)하여, 셀 경계(사각지대)에 있는 단 하나의 스마트폰에게 동시에 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 전송하거나 수신받는 기지국 간 협력 통신 아키텍처</strong>입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">셀 엣지 수율</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CoMP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">캐리어 어그리게이션</div></div>
-</div>
-</div>
-
-
+```text
+[셀 엣지 수율]
+    │
+    ▼
+[CoMP]
+    │
+    └──▶ [캐리어 어그리게이션]
+```
 
 - **📢 섹션 요약 비유**: CoMP의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -123,19 +115,15 @@ CoMP는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 셀 엣지 수율</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: CoMP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 캐리어 어그리게이션</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 셀 엣지 수율]
+    │
+    ▼
+[현재 개념: CoMP]
+    │
+    ├──▶ [확장 A: 캐리어 어그리게이션]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 CoMP는 [셀 엣지 수율](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1012_cell_edge_throughput_interference_icic/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [캐리어 어그리게이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1014_carrier_aggregation_lte_advanced_5g/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

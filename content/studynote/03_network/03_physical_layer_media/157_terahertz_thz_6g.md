@@ -42,19 +42,16 @@ THz 링크의 본질은 <strong>엄청난 <a href="/knowledge-base/studynote/01_
 
 아래 그림은 THz 링크가 왜 빔 정렬과 채널 조건에 민감한지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">THz link budget intuition</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Baseband ─▶ THz front-end ─▶ phased array &gt;&gt;&gt; narrow beam &gt;&gt;&gt;</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">air + molecular absorption</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">blockage + misalignment</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Receiver array ─▶ down-conversion ─▶ demodulation</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                       THz link budget intuition                           │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Baseband ─▶ THz front-end ─▶ phased array  >>> narrow beam >>>            │
+│                                              [air + molecular absorption]  │
+│                                              [blockage + misalignment]     │
+│ Receiver array ─▶ down-conversion ─▶ demodulation                         │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 따라서 THz 시스템은 [안테나 이득](/knowledge-base/studynote/03_network/03_physical_layer_media/174_antenna_gain_dbi_dbd/), [빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/) ([Beamforming](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/)), 빔 추적, 짧은 링크 거리, 그리고 특정 흡수 윈도우 선택이 모두 맞아야 한다. 이 점에서 THz는 단순한 “더 높은 주파수”가 아니라, <strong>채널 제약을 전제로 설계해야 하는 별도의 시스템 공학 문제</strong>다.
 
@@ -123,23 +120,21 @@ THz가 성숙하면 6G는 단순히 더 빠른 이동통신을 넘어, 초고해
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Sub-6GHz 스펙트럼 포화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">mmWave (Millimeter Wave)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">THz 윈도우 탐색 · 초대역폭 활용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">빔포밍 · 초대형 안테나 배열 · RIS</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">6G 초고속 핫스팟 · 무선 백홀 · 통신+센싱 융합</div>
-</div>
-</div>
-
-
+```text
+Sub-6GHz 스펙트럼 포화
+    │
+    ▼
+mmWave (Millimeter Wave)
+    │
+    ▼
+THz 윈도우 탐색 · 초대역폭 활용
+    │
+    ▼
+빔포밍 · 초대형 안테나 배열 · RIS
+    │
+    ▼
+6G 초고속 핫스팟 · 무선 백홀 · 통신+센싱 융합
+```
 
 이 흐름은 THz가 독립적으로 갑자기 등장한 기술이 아니라, 스펙트럼 확장과 빔 기반 설계가 더 극단적으로 발전한 결과임을 보여준다.
 

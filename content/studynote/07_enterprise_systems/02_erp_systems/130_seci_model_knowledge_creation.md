@@ -18,20 +18,14 @@ tags = ["studynote-enterprise-systems"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">SECI 순환:</div>
-<div class="kb-diagram-note">S(사회화): 도제·OJT — 암→암</div>
-<div class="kb-diagram-note">E(외부화): 매뉴얼 작성 — 암→형 ★핵심</div>
-<div class="kb-diagram-note">C(결합화): DB·보고서 통합 — 형→형</div>
-<div class="kb-diagram-note">I(내면화): 학습·체화 — 형→암</div>
-<div class="kb-diagram-note">→ 나선형 반복으로 지식이 확대·발전</div>
-</div>
-</div>
-
-
+```text
+SECI 순환:
+  S(사회화): 도제·OJT — 암→암
+  E(외부화): 매뉴얼 작성 — 암→형  ★핵심
+  C(결합화): DB·보고서 통합 — 형→형
+  I(내면화): 학습·체화 — 형→암
+  → 나선형 반복으로 지식이 확대·발전
+```
 
 - **📢 섹션 요약 비유**: SECI는 <strong>4계절</strong>이다. 봄(사회화)→여름(외부화)→가을(결합화)→겨울(내면화) 순환하며 열매(지식)가 자란다.
 
@@ -66,17 +60,11 @@ SECI 모델은 <strong><a href="/knowledge-base/studynote/07_enterprise_systems/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">폴라니 암묵지 (1966)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">노나카 SECI (1995)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Ba 개념 추가 (1998)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">KMS + CoP (2005~)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: AI SECI — RAG로 외부화 자동화</div></div>
-</div>
-</div>
-
-
+```text
+[폴라니 암묵지 (1966)] → [노나카 SECI (1995)]
+    → [Ba 개념 추가 (1998)] → [KMS + CoP (2005~)]
+    → [현재: AI SECI — RAG로 외부화 자동화]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. SECI는 지식의 <strong>4계절</strong>이에요. 봄(배우기)→여름([쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/))→가을(모으기)→겨울(체화) 순환해요.

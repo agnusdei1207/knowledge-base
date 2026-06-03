@@ -36,27 +36,29 @@ ISP의 핵심 원리는 '인터페이스의 세분화'와 그로 인한 '불필�
 | <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/525_fat_file_allocation_table/">Fat</a> Interface (위반)</strong> | 모든 기능(인쇄, 스캔, 팩스)이 하나의 통짜 인터페이스에 집중됨 | 자신이 안 쓰는 메서드 영역에도 억지로 의존함 | 기능 하나만 수정해도 모든 클라이언트와 구현체가 깨짐 |
 | **Role Interface (준수)** | 클라이언트 역할별로 잘게 쪼개진 구체적 인터페이스 | 자신이 호출하는 메서드 접점에만 정확히 의존함 | 해당 역할을 쓰는 특정 클라이언트만 제한적으로 영향 받음 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ISP 위반과 준수 구조 아키텍처 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">위반: Fat Interface</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+-------------------+ 강제 구현 (안 쓰는 기능도 억지 구현)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">일반 흑백 프린터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- print()</div><div class="kb-diagram-cell">- print() : 정상 구현</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- scan()</div><div class="kb-diagram-cell">- scan() : 텅 빈 에러</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- fax()</div><div class="kb-diagram-cell">- fax() : 텅 빈 에러</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">준수: Segregated Interfaces</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IPrinter</div><div class="kb-diagram-cell">IScanner</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- print()</div><div class="kb-diagram-cell">- scan()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">필요한 계약(IPrinter)만 깔끔하게 구현</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">일반 흑백 프린터</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- print() : 정상 구현</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                  ISP 위반과 준수 구조 아키텍처 비교               │
+├──────────────────────────────────────────────────────────────┤
+│ [위반: Fat Interface]                                          │
+│ +-------------------+        강제 구현 (안 쓰는 기능도 억지 구현)   │
+│ │   MultiMachine    │◀───────── [일반 흑백 프린터]             │
+│ │ - print()         │               - print() : 정상 구현   │
+│ │ - scan()          │               - scan()  : 텅 빈 에러   │
+│ │ - fax()           │               - fax()   : 텅 빈 에러   │
+│ +-------------------+                                        │
+│                                                              │
+│ [준수: Segregated Interfaces]                                  │
+│ +-------------------+   +-------------------+                │
+│ │     IPrinter      │   │     IScanner      │                │
+│ │ - print()         │   │ - scan()          │                │
+│ +-------------------+   +-------------------+                │
+│          ▲                                                   │
+│          │ 필요한 계약(IPrinter)만 깔끔하게 구현                 │
+│  [일반 흑백 프린터]                                            │
+│    - print() : 정상 구현                                      │
+└──────────────────────────────────────────────────────────────┘
+```
 
 잘게 쪼개진 인터페이스를 도입하면 복합기(Copier) 같이 다기능이 필요한 클래스는 `IPrinter`, `IScanner`, `IFax`를 모두 다중 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)(다중 구현)하여 묶어 쓰면 되고, 단일 기능이 필요한 일반 프린터는 `IPrinter`만 구현하면 되므로 전체 코드가 훨씬 가벼워진다.
 
@@ -118,23 +120,21 @@ ISP를 철저히 지켜내면 [모듈](/knowledge-base/studynote/04_software_eng
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">객체지향 프로그래밍 (OOP)의 대중화 - 재사용성을 핑계로 한 거대 상속 구조 등장</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">God Object 및 Fat Interface 문제 대두 - 결합도 폭발 및 샷건 수술 현상(수정 시 연쇄 붕괴) 발생</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SOLID 원칙 정립 - 로버트 C. 마틴에 의한 ISP (인터페이스 분리 원칙) 공식화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">역할 인터페이스 (Role Interface) 패턴 - 구현체 중심에서 클라이언트(사용자 역할) 중심으로 설계 패러다임 완전 이동</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">컴포넌트 및 MSA 아키텍처로 확장 - 코드 레벨의 인터페이스 분리 원칙이 분산 시스템의 API 설계(BFF 등) 원칙으로 거대하게 진화</div>
-</div>
-</div>
-
-
+```text
+객체지향 프로그래밍 (OOP)의 대중화 - 재사용성을 핑계로 한 거대 상속 구조 등장
+    │
+    ▼
+God Object 및 Fat Interface 문제 대두 - 결합도 폭발 및 샷건 수술 현상(수정 시 연쇄 붕괴) 발생
+    │
+    ▼
+SOLID 원칙 정립 - 로버트 C. 마틴에 의한 ISP (인터페이스 분리 원칙) 공식화
+    │
+    ▼
+역할 인터페이스 (Role Interface) 패턴 - 구현체 중심에서 클라이언트(사용자 역할) 중심으로 설계 패러다임 완전 이동
+    │
+    ▼
+컴포넌트 및 MSA 아키텍처로 확장 - 코드 레벨의 인터페이스 분리 원칙이 분산 시스템의 API 설계(BFF 등) 원칙으로 거대하게 진화
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -27,26 +27,22 @@ tags = ["security"]
 
 다음 도식은 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)([Identification](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)), [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)([Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/)), [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)([Authorization](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/))의 단계를 구분하여 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)성의 위치와 중요성을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">사용자/디바이스</div></div>
-<div class="kb-diagram-tree-item" style="--depth:3">(1) 식별(Identification) : "나는 Alice입니다" (ID 제시)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">인증 모듈 (Authenticity 검증)</div></div>
-<div class="kb-diagram-note">◀── (2) 인증(Authentication) : "Alice가 맞다는 것을 증명하시오"</div>
-<div class="kb-diagram-note">(비밀번호 대조, OTP 검증, 전자서명 확인)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">접근 제어 모듈 (IAM)</div></div>
-<div class="kb-diagram-note">◀── (3) 인가(Authorization) : "Alice는 이 폴더를 읽을 권한이 있는가?"</div>
-<div class="kb-diagram-note">(RBAC/ACL 검사 후 접근 허용/차단)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">최종 데이터 접근</div></div>
-</div>
-</div>
-
-
+```text
+[사용자/디바이스] 
+       │
+       ├─ (1) 식별(Identification) : "나는 Alice입니다" (ID 제시)
+       │
+       ▼
+[인증 모듈 (Authenticity 검증)]
+       │  ◀── (2) 인증(Authentication) : "Alice가 맞다는 것을 증명하시오" 
+       │          (비밀번호 대조, OTP 검증, 전자서명 확인)
+       ▼
+[접근 제어 모듈 (IAM)]
+       │  ◀── (3) 인가(Authorization) : "Alice는 이 폴더를 읽을 권한이 있는가?"
+       │          (RBAC/ACL 검사 후 접근 허용/차단)
+       ▼
+[최종 데이터 접근]
+```
 
 이 그림의 핵심은 [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)([접근 통제](/knowledge-base/studynote/04_software_engineering/06_software_architecture/387_access_control_pattern/))를 수행하기 전에 반드시 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)성이 100% 보장되어야 한다는 점이다. [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)성이 뚫리는 순간 뒤에 이어지는 가장 강력한 접근 제어 모델도 완전히 무력화된다. 실무에서는 이 단계를 우회하려는 [크리덴셜 스터핑](/knowledge-base/studynote/09_security/05_web_app_security/455_credential_stuffing/)([Credential Stuffing](/knowledge-base/studynote/09_security/05_web_app_security/455_credential_stuffing/))이나 [세션 하이재킹](/knowledge-base/studynote/03_network/14_network_security_threats/707_session_hijacking_tcp_seq_cookie/) 공격이 끊이지 않으므로, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 메커니즘 자체의 강건성이 전체 시스템 보안의 시작점 역할을 한다.
 
@@ -68,24 +64,25 @@ tags = ["security"]
 
 가장 범용적이고 강력한 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)성 메커니즘인 [PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/)([Public Key Infrastructure](/knowledge-base/studynote/09_security/uncategorized/984_pki_public_key_infrastructure_ca_ra_certificate/)) 기반의 클라이언트-서버 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 흐름도를 살펴보자.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">클라이언트 (Alice)</div><div class="kb-diagram-node">서버 (Bob)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. "내 공개키가 포함된 인증서 보낼게" (Hello)</div></div>
-<div class="kb-diagram-note">(인증서 서명 확인) ◀─ "신뢰할 수 있는 CA가</div>
-<div class="kb-diagram-note">(유효기간 검증) 발급한 진짜 Alice가 맞군!"</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. "그럼 네 진짜 개인키가 있는지 시험해볼게" (Challenge)</div></div>
-<div class="kb-diagram-note">&lt; (난수 난제 전송)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(자신의 개인키로 난수 암호화 = 디지털 서명)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. "자, 내 개인키로 푼 답(서명)이야" (Response)</div></div>
-<div class="kb-diagram-note">(Alice의 공개키로 복호화 대조)</div>
-<div class="kb-diagram-note">"답이 맞군! 진짜 Alice로 인증 완료"</div>
-</div>
-</div>
-
-
+```text
+[클라이언트 (Alice)]                                  [서버 (Bob)]
+   │                                                      │
+   │  1. "내 공개키가 포함된 인증서 보낼게" (Hello)       │
+   ├─────────────────────────────────────────────────────>│
+   │                                                      │
+   │                                        (인증서 서명 확인) ◀─ "신뢰할 수 있는 CA가
+   │                                        (유효기간 검증)      발급한 진짜 Alice가 맞군!"
+   │                                                      │
+   │  2. "그럼 네 진짜 개인키가 있는지 시험해볼게" (Challenge)│
+   │<─────────────────────────────────────────────────────┤ (난수 난제 전송)
+   │                                                      │
+   │ (자신의 개인키로 난수 암호화 = 디지털 서명)          │
+   │  3. "자, 내 개인키로 푼 답(서명)이야" (Response)     │
+   ├─────────────────────────────────────────────────────>│
+   │                                                      │
+   │                                        (Alice의 공개키로 복호화 대조)
+   │                                        "답이 맞군! 진짜 Alice로 인증 완료"
+```
 
 이 흐름(Challenge-Response)의 핵심은 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 과정에서 클라이언트가 자신의 비밀번호나 개인키 자체를 네트워크로 절대 전송하지 않는다는 점이다. 오직 "개인키를 소유하고 있다는 수학적 증거"만을 보냄으로써 [중간자 공격](/knowledge-base/studynote/03_network/14_network_security_threats/706_mitm_man_in_the_middle_hsts/)(MITM)이나 패킷 스니핑으로부터 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)의 안전성을 완벽히 보장한다. 이 구조는 현재 전 세계 웹의 기반인 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/)/SSL 핸드셰이크의 근간이 되는 실무적 표준이다.
 
@@ -99,21 +96,20 @@ tags = ["security"]
 
 <strong>1. <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a> 요소(<a href="/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/">Authentication Factors</a>) 비교 매트릭스</strong>
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인증 요소</div><div class="kb-diagram-cell">사례</div><div class="kb-diagram-cell">취약점 (보안 위험)</div><div class="kb-diagram-cell">실무적 특성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">지식 기반</div><div class="kb-diagram-cell">패스워드, 핀(PIN) 번호,</div><div class="kb-diagram-cell">키보드 해킹, 숄더</div><div class="kb-diagram-cell">구현 비용이 가장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Knowledge)</div><div class="kb-diagram-cell">보안 질문</div><div class="kb-diagram-cell">서핑, 무차별 대입</div><div class="kb-diagram-cell">저렴하고 범용적임</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소유 기반</div><div class="kb-diagram-cell">스마트폰 SMS, OTP 기기,</div><div class="kb-diagram-cell">기기 분실 도난, SMS</div><div class="kb-diagram-cell">보안성은 높으나</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Possession)</div><div class="kb-diagram-cell">스마트 카드, USB 토큰</div><div class="kb-diagram-cell">하이재킹(SIM 스와핑)</div><div class="kb-diagram-cell">물리적 관리 필요</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">내재 기반</div><div class="kb-diagram-cell">지문, 홍채, 정맥,</div><div class="kb-diagram-cell">복제된 생체 정보,</div><div class="kb-diagram-cell">사용성이 뛰어나며</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Inherence)</div><div class="kb-diagram-cell">안면 인식, 목소리</div><div class="kb-diagram-cell">유출 시 변경 불가능</div><div class="kb-diagram-cell">FIDO 표준 확산 중</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────┬────────────────────────┬─────────────────────┬───────────────────┐
+│ 인증 요소  │ 사례                   │ 취약점 (보안 위험)  │ 실무적 특성       │
+├────────────┼────────────────────────┼─────────────────────┼───────────────────┤
+│ 지식 기반  │ 패스워드, 핀(PIN) 번호,│ 키보드 해킹, 숄더   │ 구현 비용이 가장  │
+│ (Knowledge)│ 보안 질문              │ 서핑, 무차별 대입   │ 저렴하고 범용적임 │
+├────────────┼────────────────────────┼─────────────────────┼───────────────────┤
+│ 소유 기반  │ 스마트폰 SMS, OTP 기기,│ 기기 분실 도난, SMS │ 보안성은 높으나   │
+│ (Possession)│ 스마트 카드, USB 토큰  │ 하이재킹(SIM 스와핑)│ 물리적 관리 필요  │
+├────────────┼────────────────────────┼─────────────────────┼───────────────────┤
+│ 내재 기반  │ 지문, 홍채, 정맥,      │ 복제된 생체 정보,   │ 사용성이 뛰어나며 │
+│ (Inherence)│ 안면 인식, 목소리      │ 유출 시 변경 불가능 │ FIDO 표준 확산 중 │
+└────────────┴────────────────────────┴─────────────────────┴───────────────────┘
+```
 
 이 매트릭스의 핵심은 단일 요소만으로는 현대의 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)성 파괴 공격([피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/), [스미싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/756_smishing/) 등)을 방어할 수 없다는 점이다. 패스워드는 쉽게 털리고, SMS [OTP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/748_otp/) 역시 복제된 유심칩에 의해 우회될 수 있다. 따라서 금융 및 주요 IT 실무에서는 반드시 성질이 다른 두 개의 요소(예: 지식+소유, 소유+생체)를 결합하는 다중 요소 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)([MFA](/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/))을 시스템 아키텍처에 강제한다.
 
@@ -140,22 +136,21 @@ tags = ["security"]
 
 다음은 현대 비밀번호 없는(Passwordless) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)의 표준인 FIDO2(WebAuthn)의 동작 플로우다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">스마트폰/PC (Authenticator)</div><div class="kb-diagram-node">웹 서비스 (Relying Party)</div></div>
-<div class="kb-diagram-note">(내부의 안전한 저장소 Secure Enclave)</div>
-<div class="kb-diagram-note">◀ 1. 로그인 요청 (Challenge 난수)</div>
-<div class="kb-diagram-note">2. 사용자 지문 인식 (로컬 생체 검증)</div>
-<div class="kb-diagram-note">3. 잠금 해제된 '개인키'로 난수 서명</div>
-<div class="kb-diagram-tree-item" style="--depth:5">4. 서명된 데이터 전송 &gt;</div>
-<div class="kb-diagram-note">5. 서버에 보관된 '공개키'로 서명 검증</div>
-<div class="kb-diagram-note">6. (인증성 통과!) 로그인 승인</div>
-</div>
-</div>
-
-
+```text
+[스마트폰/PC (Authenticator)]              [웹 서비스 (Relying Party)]
+ (내부의 안전한 저장소 Secure Enclave)
+          │                                           │
+          │ ◀──────── 1. 로그인 요청 (Challenge 난수) ┤
+          │                                           │
+ 2. 사용자 지문 인식 (로컬 생체 검증)                 │
+          │                                           │
+ 3. 잠금 해제된 '개인키'로 난수 서명                  │
+          │                                           │
+          ├────── 4. 서명된 데이터 전송 ─────────────>│
+                                                      │
+                                   5. 서버에 보관된 '공개키'로 서명 검증
+                                   6. (인증성 통과!) 로그인 승인
+```
 
 이 플로우의 핵심은 지문이나 얼굴 등 사용자의 '생체 정보'가 절대 네트워크를 타고 서버로 넘어가지 않는다는 점이다. 생체 정보는 오직 내 기기 안에서 개인키의 잠금을 푸는 열쇠 역할만 한다. 이를 통해 대규모 서버 해킹이 발생하더라도 해커가 얻을 수 있는 것은 쓸모없는 '공개키'뿐이므로 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 정보 유출 위험을 원천적으로 제거한 혁신적인 설계다.
 
@@ -188,23 +183,21 @@ tags = ["security"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">부인방지 (Non-repudiation)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">PKI (Public Key Infrastructure)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IAM (Identity and Access Management)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">OAuth 2.0 / OIDC</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">제로 트러스트 (Zero Trust)</div></div>
-</div>
-</div>
-
-
+```text
+[부인방지 (Non-repudiation)]
+    │
+    ▼
+[PKI (Public Key Infrastructure)]
+    │
+    ▼
+[IAM (Identity and Access Management)]
+    │
+    ▼
+[OAuth 2.0 / OIDC]
+    │
+    ▼
+[제로 트러스트 (Zero Trust)]
+```
 
 이 흐름도는 부인방지 (Non-repudiation)에서 출발해 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) ([Zero Trust](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/))까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

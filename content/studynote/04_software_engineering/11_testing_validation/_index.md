@@ -9,7 +9,7 @@ tags = ["software_engineering"]
 
 > 1. **본질**: 소프트웨어 테스트 (Software Testing)는 잠재된 결함을 발견하여 품질 리스크를 제거하는 동적 검증 과정이며, 검증 (Verification)과 확인 (Validation)을 통해 요구사항의 정합성과 제품의 완성도를 보장한다.
 > 2. **가치**: 개발 단계와 테스트 단계를 1:1로 매핑한 V-모델을 기반으로 체계적인 결함 검출을 수행하며, 테스트 자동화와 TDD를 통해 배포 안정성을 극대화하고 결함 수정 비용을 최소화한다.
-> 3. **융합**: 인공지능 기반의 자율 테스트 (AI Testing)와 카오스 엔지니어링 (Chaos Engineering)이 결합되어, 복잡한 분산 클라우드 환경에서도 예측 불가능한 장애에 대한 복원력을 검증한다.
+> 3. **융합**: 인공지능 기반의 자율 테스트 (AI Testing)와 카오스 엔지니어링 (Chaos 엔진ering)이 결합되어, 복잡한 분산 클라우드 환경에서도 예측 불가능한 장애에 대한 복원력을 검증한다.
 
 ---
 
@@ -23,19 +23,24 @@ tags = ["software_engineering"]
 
 이 그림은 개발 단계별 테스트 계층인 V-모델 (V-Model)을 보여준다. 각 개발 단계의 산출물이 어떤 테스트를 통해 검증되는지 대칭 구조를 시각화한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소프트웨어 V-모델 (V-Model) 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">요구사항 분석</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">인수 테스트</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시스템 설계</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">시스템 테스트</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상세 설계</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">통합 테스트</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">코딩/구현</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">단위 테스트</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 소프트웨어 V-모델 (V-Model) 아키텍처         │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [요구사항 분석] ────────── (대칭) ────────▶ [인수 테스트] │
+│          │                                         ▲        │
+│          ▼                                         │        │
+│   [시스템 설계] ──────────── (대칭) ────────▶ [시스템 테스트]│
+│          │                                         ▲        │
+│          ▼                                         │        │
+│   [상세 설계] ────────────── (대칭) ────────▶ [통합 테스트] │
+│          │                                         ▲        │
+│          ▼                                         │        │
+│   [코딩/구현] ──────────────────────────────▶ [단위 테스트] │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '검증 (Verification)'과 '확인 (Validation)'의 분리이다. 왼쪽 아래로 내려가는 과정은 '설계대로 만들었는가(Verification)'를 묻는 과정이고, 오른쪽 위로 올라오는 과정은 '사용자의 요구를 만족하는가(Validation)'를 묻는 과정이다. 실무에서 단위 테스트는 통과했는데 인수 테스트에서 실패하는 경우는 대부분 요구사항 분석 단계의 오해에서 비롯된다.
 
@@ -67,20 +72,22 @@ tags = ["software_engineering"]
 
 이 구조도는 TDD의 핵심 사이클인 'Red-Green-Refactor'와 테스트 피라미드를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TDD Cycle &amp; Test Pyramid</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">TDD Cycle</div><div class="kb-diagram-node">Test Pyramid</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">(Red) 실패 테스트 작성 ── /</div><div class="kb-diagram-node">UI / E2E</div><div class="kb-diagram-note">\</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▼</div><div class="kb-diagram-node">Integration</div><div class="kb-diagram-note">\</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Refactor) 코드 개선 ◀ (Green) / \</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">중복 제거 성공함 /</div><div class="kb-diagram-node">Unit Tests</div><div class="kb-diagram-note">\</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 TDD Cycle & Test Pyramid                    │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [TDD Cycle]                     [Test Pyramid]            │
+│                                                             │
+│   (Red) 실패 테스트 작성 ──┐           /  [ UI / E2E ]  \      │
+│          ▲               │          /──────────────────\     │
+│          │               ▼         /   [ Integration ]  \    │
+│   (Refactor) 코드 개선 ◀ (Green)  /──────────────────────\   │
+│              중복 제거   성공함  /       [ Unit Tests ]     \  │
+│                                 └──────────────────────────┘ │
+│                                                              │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '피라미드 구조'이다. 실행 비용이 비싸고 느린 UI 테스트는 최소화하고, 빠르고 비용이 저렴한 단위 테스트(Unit Tests)를 가장 많이 확보해야 경제적인 품질 관리가 가능하다. 실무에서 이 피라미드가 역전된 '아이스크림 콘' 형태가 되면, 배포 속도가 테스트 시간에 발목을 잡히는 병목 현상이 발생한다.
 
@@ -122,17 +129,17 @@ tags = ["software_engineering"]
 
 이 도식은 결함 발견 시 대응하는 기술사적 의사결정 흐름을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Defect Management Flow</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">결함 발견</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">재현 가능성 확인</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">심각도/우선순위 설정</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Close</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">리그레션 테스트</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">수정</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">담당자 배정</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│               Defect Management Flow                         │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [결함 발견] ──▶ [재현 가능성 확인] ──▶ [심각도/우선순위 설정]│
+│                                              │              │
+│   [Close] ◀── [리그레션 테스트] ◀── [수정] ◀── [담당자 배정]  │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 기술사의 테스트 전략은 낚시 그물을 짜는 것과 같아, 대어(치명적 버그)를 놓치지 않으면서도 그물을 짜는 비용(테스트 공수)이 고기 값보다 비싸지 않게 조율하는 것이 핵심입니다.
 

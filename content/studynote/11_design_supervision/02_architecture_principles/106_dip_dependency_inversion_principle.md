@@ -23,22 +23,22 @@ DIP는 로버트 마틴(Robert C. Martin)이 정립한 [SOLID](/knowledge-base/s
 
 DIP가 없으면 시스템은 "구현 세부 사항의 노예"가 된다. 인프라 기술이 바뀔 때마다 테스트를 다시 작성해야 하고, [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)([unit test](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/))에서 실제 DB 연결이 필수가 되는 불합리한 상황이 생긴다. DIP는 인터페이스라는 계약을 중간에 삽입하여 이 의존성의 방향을 역전시킨다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DIP 적용 전후 의존성 방향 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Before</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">저수준 직접 의존 (강결합)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OrderService ▶ MySQLRepository</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(비즈니스 정책) (인프라 구현체)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">After</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">추상화 ← 저수준 구현 (의존성 역전)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OrderService ──▶ &lt;&lt;interface&gt;&gt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(비즈니스 정책) OrderRepository ◀── MySQLRepository</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(추상화 계약) (저수준 구현체)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│             DIP 적용 전후 의존성 방향 비교                    │
+├──────────────────────────────────────────────────────────────┤
+│ [Before] 고수준 → 저수준 직접 의존 (강결합)                  │
+│                                                              │
+│  OrderService ────────────────────▶ MySQLRepository          │
+│  (비즈니스 정책)                      (인프라 구현체)         │
+│                                                              │
+│ [After]  고수준 → 추상화 ← 저수준 구현 (의존성 역전)          │
+│                                                              │
+│  OrderService ──▶ <<interface>>                              │
+│  (비즈니스 정책)   OrderRepository ◀── MySQLRepository       │
+│                   (추상화 계약)         (저수준 구현체)        │
+└──────────────────────────────────────────────────────────────┘
+```
 
 위 구조에서 `OrderService`는 인터페이스만 바라보며, 어떤 구현체가 연결되든 무관하다. 의존성의 화살표가 제어 흐름(고수준 → 저수준)과 반대 방향으로 역전된 것이 핵심이다.
 
@@ -57,20 +57,21 @@ DIP를 실현하는 데는 두 단계가 필요하다. 첫째, 고수준 [모듈
 | 저수준 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) | 구체적 기술 구현 | 인터페이스를 구현·교체 가능 |
 | IoC [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) | 런타임에 구현체 주입 | Spring, Guice 등 프레임워크 활용 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DIP + DI 런타임 흐름도</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IoC 컨테이너</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">의존성 주입(DI)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">OrderService</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OrderRepository Interface</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">MySQLRepository</div><div class="kb-diagram-node">MockRepository</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(실제 운영 환경) (단위 테스트 환경)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          DIP + DI 런타임 흐름도                              │
+├─────────────────────────────────────────────────────────────┤
+│  [IoC 컨테이너]                                             │
+│        │ 의존성 주입(DI)                                    │
+│        ▼                                                    │
+│  [OrderService]──uses──▶[OrderRepository Interface]         │
+│                                  ▲                          │
+│                    ┌─────────────┴──────────────┐           │
+│                    │                            │           │
+│           [MySQLRepository]          [MockRepository]       │
+│           (실제 운영 환경)             (단위 테스트 환경)    │
+└─────────────────────────────────────────────────────────────┘
+```
 
 컴파일 시점에는 `OrderService`가 `OrderRepository` 인터페이스에만 의존하고, 런타임에 IoC [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 `MySQLRepository`를 주입한다. 테스트 시에는 동일 인터페이스를 구현한 `MockRepository`를 주입하여 DB 없이 빠른 검증이 가능해진다.
 

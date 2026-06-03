@@ -28,7 +28,7 @@ tags = ["studynote-devops-sre"]
 
 ### 2. CD ([Continuous Deployment](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/165_continuous_deployment/))의 등장과 철학
 "배포가 두렵고 위험하다면, 오히려 배포를 하루에 100번씩 잘게 쪼개서 수행하자. 그러면 한 번의 배포가 미치는 장애의 크기(Blast [Radius](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/541_radius_remote_authentication_aaa/))가 작아지고 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)도 1초 만에 가능해진다"는 발상의 전환이 CD의 철학입니다.
-- **필요성**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/))가 '코드의 충돌'을 막기 위한 빌드/테스트 자동화라면, CD는 이렇게 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 산출물([Artifact](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/)/[Container](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/) Image)을 서버에 꽂아 넣는 과정을 자동화하여, <strong>'코드 커밋부터 고객 인도까지의 물류 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>라인'을 막힘없이 뚫어내는</strong> 필수 인프라입니다.
+- **필요성**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/))가 '코드의 충돌'을 막기 위한 빌드/테스트 자동화라면, CD는 이렇게 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 산출물([Artifact](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/)/[Container](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/) Image)을 서버에 꽂아 넣는 과정을 자동화하여, <strong>'코드 커밋부터 고객 인도까지의 물류 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>라인'을 병목없이 뚫어내는</strong> 필수 인프라입니다.
 
 - **📢 섹션 요약 비유**: 빅뱅 배포가 "한 달 치 식재료를 한꺼번에 배달받아 상한 재료를 찾느라 창고 전체를 뒤지는 고통"이라면, [지속적 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/099_continuous_deployment_cd/)(CD)는 "매일 아침 신선한 재료를 조금씩 배달받아 바로 요리하고, 문제가 있으면 그 재료만 즉각 폐기하는 초정밀 신선 배송 시스템"과 같습니다.
 
@@ -39,22 +39,27 @@ tags = ["studynote-devops-sre"]
 ### 1. [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 통합 아키텍처 흐름
 CI와 CD는 물과 기름처럼 분리된 것이 아니라, 하나의 컨베이어 벨트([Pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/)) 위에서 동작합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">CI/CD 엔드투엔드 파이프라인 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Dev</div><div class="kb-diagram-node">CI (Continuous Integration)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Commit ▶</div><div class="kb-diagram-cell">Build</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Test</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Artifact Push</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Git)</div><div class="kb-diagram-cell">(Maven)</div><div class="kb-diagram-cell">(JUnit)</div><div class="kb-diagram-cell">(Docker Reg.)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CD (Continuous Deployment)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Deployment Orchestrator (ArgoCD)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Staging</div><div class="kb-diagram-node">Pre-Prod</div><div class="kb-diagram-node">Production</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(QA 자동화 테스트) (성능/부하 테스트) (실제 고객 서비스)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│              [ CI/CD 엔드투엔드 파이프라인 아키텍처 ]             │
+│                                                             │
+│  [ Dev ]      [ CI (Continuous Integration) ]               │
+│ ┌───────┐      ┌───────┐    ┌───────┐    ┌────────────────┐ │
+│ │ Commit├─────▶│ Build │───▶│ Test  │───▶│ Artifact Push  │ │
+│ │ (Git) │      │(Maven)│    │(JUnit)│    │ (Docker Reg.)  │ │
+│ └───────┘      └───────┘    └───────┘    └────────┬───────┘ │
+│                                                   │         │
+│ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ┼ ─ ─ ─ ─ │
+│                                                   ▼         │
+│               [ CD (Continuous Deployment) ]                │
+│             ┌────────────────────────────────────┐          │
+│             │ Deployment Orchestrator (ArgoCD)   │          │
+│             └─┬──────────────┬───────────────┬───┘          │
+│               ▼              ▼               ▼              │
+│          [ Staging ]     [ Pre-Prod ]    [ Production ]     │
+│        (QA 자동화 테스트) (성능/부하 테스트)   (실제 고객 서비스)    │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 개발자가 코드를 커밋하면 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/) 도구([Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/), Github Actions)가 빌드와 테스트를 수행해 [도커 이미지](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/068_docker_image_immutable_package/)를 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/)에 등록합니다. CD 도구(ArgoCD, [Spinnaker](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/093_spinnaker_multi_cloud_cd_canary_analysis/))는 새 이미지가 등록된 것을 감지하고, 개발/스테이징/운영(Prod) 환경 서버에 정의된 [무중단 배포](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/082_zero_downtime_deployment_rolling_blue_green_canary/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)(Rolling, Blue/Green 등)에 따라 자동으로 이미지를 갈아 끼우고 트래픽을 넘깁니다.
 
@@ -125,23 +130,21 @@ CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/1
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">CI (Continuous Integration — 코드 병합·빌드·자동 테스트)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Continuous Delivery — 릴리스 패키지 자동화 (수동 배포 버튼)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Continuous Deployment — 프로덕션 무인 자동 배포</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Blue/Green / Canary 배포 — 무중단·점진적 트래픽 전환</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">GitOps (ArgoCD/Flux) — 선언적 Git 기반 클라우드 네이티브 배포</div></div>
-</div>
-</div>
-
-
+```text
+[CI (Continuous Integration — 코드 병합·빌드·자동 테스트)]
+    │
+    ▼
+[Continuous Delivery — 릴리스 패키지 자동화 (수동 배포 버튼)]
+    │
+    ▼
+[Continuous Deployment — 프로덕션 무인 자동 배포]
+    │
+    ▼
+[Blue/Green / Canary 배포 — 무중단·점진적 트래픽 전환]
+    │
+    ▼
+[GitOps (ArgoCD/Flux) — 선언적 Git 기반 클라우드 네이티브 배포]
+```
 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)→[Continuous Delivery](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/)→Continuous Deployment로 자동화 수준이 높아지며, Blue/Green·[Canary](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 무중단 릴리스를 보장하고 GitOps는 Git을 단일 진실 원천으로 하는 선언적 배포로 완성된다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

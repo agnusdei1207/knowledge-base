@@ -40,17 +40,15 @@ tags = ["studynote-computer-architecture"]
 | [Write-through](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/276_write_through/) | [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 캐시와 원본에 동시에 반영 | 읽기 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 관리가 쉬움 | [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 증가 |
 | [Write-back](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/277_write_back/) | 먼저 캐시에 쓰고 나중에 원본 반영 | 폭주 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 흡수에 유리 | 장애 시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유실 방지 설계 필요 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client -&gt; Cache lookup -&gt; hit -&gt; return</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; miss -&gt; Backend -&gt; fill cache -&gt; return</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; invalidation / Time To Live (TTL) / guard</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ Client -> Cache lookup -> hit -> return                                     │
+│                      │                                                       │
+│                      └-> miss -> Backend -> fill cache -> return             │
+│                           │                 │                                │
+│                           └-> invalidation / Time To Live (TTL) / guard      │
+└──────────────────────────────────────────────────────────────────────────────┘
+```
 
 여기서 [Time To Live](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/) ([TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/)), 무효화, 퇴출 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 핵심 제어점이 된다. 퇴출 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로는 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) ([Least Recently Used](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/)), [LFU](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/) ([Least Frequently Used](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/))가 자주 쓰이며, 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 오래 잡아둘지 결정한다. 또한 평균 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간은 `적중률 × 캐시 지연 + 실패율 × (캐시 지연 + 원본 지연)`으로 볼 수 있으므로, 예를 들어 캐시 0.2밀리초·원본 3밀리초 환경에서 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)이 95%면 평균 응답은 약 0.35밀리초 수준까지 내려간다.
 
@@ -130,23 +128,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">지역성 (Locality) 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CPU cache / DRAM buffer</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">데이터베이스 buffer pool / page cache</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">애플리케이션·분산 캐시 계층</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">예측 기반 hot-set 관리 + CDN edge caching</div>
-</div>
-</div>
-
-
+```text
+지역성 (Locality) 인식
+        │
+        ▼
+CPU cache / DRAM buffer
+        │
+        ▼
+데이터베이스 buffer pool / page cache
+        │
+        ▼
+애플리케이션·분산 캐시 계층
+        │
+        ▼
+예측 기반 hot-set 관리 + CDN edge caching
+```
 
 이 흐름은 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)이 특정 소프트웨어 트릭이 아니라, 하드웨어에서 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템까지 이어지는 공통 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 원리임을 보여준다.
 

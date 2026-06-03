@@ -25,17 +25,14 @@ tags = ["studynote-ai"]
 
 "우리 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델이 이 집값을 평균(5억)보다 5억이나 높은 10억으로 예측했네? 초과 수익 5억에 대해, 100평짜리 크기 변수가 +3억 캐리했고, 역세권 변수가 +2.5억 캐리했고, 지하실 곰팡이 변수가 -0.5억 깎아 먹어서 딱 5억 100%가 증명됐습니다!"라는 <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/">SHAP</a>(샵)</strong>의 등장. 더 이상 의심의 여지가 없는 100% 덧셈 분해의 마법이 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 블랙박스 시대를 투명한 유리상자로 영구 통일시켰다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 회사에서 10명(입력 변수 10개)이 팀 프로젝트([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 예측)를 해서 보너스 1,000만 원을 받았다. [LIME](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/326_lime/) 부장은 대충 관상만 보고 "너 500만 원, 너 300만 원 가져!"라고 기분대로 나눠줘서 불만이 터진다. 반면 [SHAP](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/) 회계사는 "이 놈이 빠졌을 때 팀 점수, 저 놈과 이 놈이 둘 다 빠졌을 때 팀 점수"를 모든 경우의 수로 수만 번 시뮬레이션(게임 이론)을 돌린 뒤, 1원짜리 1원까지 "네 진짜 기여도는 정확히 234만 5천 원!"이라고 100% 공정하게 영수증을 찍어줘서 아무도 반박할 수 없는 완벽한 보너스 정산서를 만들어내는 신이다.
 
@@ -45,27 +42,26 @@ tags = ["studynote-ai"]
 
 SHAP의 심장인 섀플리 값(Shapley Value) 아키텍처는 모델의 결과값($f(x)$)을 구성하는 모든 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)(변수)들이 뭉쳤다 찢어졌다 하는 <strong>주변 한계 기여도(Marginal Contribution)</strong>의 평균을 계산하는 미친 수학 방정식이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SHAP의 게임 이론(협력 게임) 분해 정산 아키텍처 흐름도</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">목표</div><div class="kb-diagram-note">: 은행 AI가 김철수에게 대출 "90점(합격)"을 줌. (전체 평균은 50점)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">왜 +40점을 초과 달성했는지 &lt;연봉, 나이, 직업&gt; 3명에게 공을 찢어주자!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 모든 조합(Coalition)의 무한 시뮬레이션 뺑뺑이 연산</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 조합 1 (아무도 없음): 베이스라인 모델 ─▶ 평균 대출 점수 50점 나옴.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 조합 2 (연봉만 넣음): 모델에 철수 연봉만 넣고 돌림 ─▶ 70점 나옴 (+20점 기여)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 조합 3 (연봉+나이) : 나이까지 추가해서 돌림 ─▶ 65점 나옴 (-5점 깎아먹음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 조합 4 (연봉+나이+직업): 세 개 다 뭉침 ─▶ 최종 점수 90점 (+25점 떡상)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(이 짓거리를 변수 N개에 대해 2^N 팩토리얼 번 미친 듯이 뺐다 꼈다 무한 반복!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 가산성(Additive)의 완벽한 100% 정산 증명 (SHAP Value)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 팩토리얼 평균 정산 결과: 연봉(+30점) + 나이(-10점) + 직업(+20점) = +40점</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 완벽한 검증: Base(50점) + SHAP합(+40점) == 모델 실제 결과(90점) 딱 맞음!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 단 1%의 빈틈도 없는 우주에서 가장 공정한 '영향력 영수증' 출력 완료!</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           SHAP의 게임 이론(협력 게임) 분해 정산 아키텍처 흐름도        │
+├──────────────────────────────────────────────────────────────┤
+│  [목표]: 은행 AI가 김철수에게 대출 "90점(합격)"을 줌. (전체 평균은 50점)   │
+│         왜 +40점을 초과 달성했는지 <연봉, 나이, 직업> 3명에게 공을 찢어주자!│
+│                                                              │
+│  [1. 모든 조합(Coalition)의 무한 시뮬레이션 뺑뺑이 연산]               │
+│   * 조합 1 (아무도 없음): 베이스라인 모델 ─▶ 평균 대출 점수 50점 나옴.│
+│   * 조합 2 (연봉만 넣음): 모델에 철수 연봉만 넣고 돌림 ─▶ 70점 나옴 (+20점 기여)│
+│   * 조합 3 (연봉+나이) : 나이까지 추가해서 돌림 ─▶ 65점 나옴 (-5점 깎아먹음)│
+│   * 조합 4 (연봉+나이+직업): 세 개 다 뭉침 ─▶ 최종 점수 90점 (+25점 떡상)  │
+│   (이 짓거리를 변수 N개에 대해 2^N 팩토리얼 번 미친 듯이 뺐다 꼈다 무한 반복!)│
+│                                                              │
+│  [2. 가산성(Additive)의 완벽한 100% 정산 증명 (SHAP Value)]        │
+│   * 팩토리얼 평균 정산 결과: 연봉(+30점) + 나이(-10점) + 직업(+20점) = +40점│
+│   * 완벽한 검증: Base(50점) + SHAP합(+40점) == 모델 실제 결과(90점) 딱 맞음!│
+│   ─▶ 단 1%의 빈틈도 없는 우주에서 가장 공정한 '영향력 영수증' 출력 완료!     │
+└──────────────────────────────────────────────────────────────┘
+```
 
 **핵심 원리 (Local + Global 통일의 무적기)**:
 SHAP의 진정한 깡패 같은 힘은 김철수 1명(Local)을 해석하는 능력이 1,000명의 고객 전체(Global) 트렌드로 스무스하게 이어진다는 점이다. LIME은 1명 해설지 1,000장을 모아도 회사 전체의 룰을 알 수 없다. 하지만 SHAP은 수학적으로 완벽한 덧셈 증명서기 때문에, 고객 1,000명의 [SHAP](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/) 점수 영수증을 위에서 아래로 쫙 쌓아서 더해버리면([SHAP](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/) [Summary](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/300_summary/) Plot) "아! 우리 은행 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델 전체는 연봉이 높을수록 핑크색, 나이가 어릴수록 파란색으로 움직이는구나!"라는 <strong>전역적(Global) <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/">피처</a> 중요도와 방향성(상관관계)</strong>이 우주에서 가장 예쁜 그래픽 융합체로 뿅 하고 튀어나온다.

@@ -27,23 +27,25 @@ tags = ["studynote-operating-system"]
   2. <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/">휴리스틱</a>(<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/">Heuristic</a>) 접근</strong>: 완벽한 최적해(Optimal)를 포기하는 대신, 연산 비용을 획기적으로 줄이는 근사해(적당히 좋은 답)를 찾는 타협안으로 First-Fit이 등장했다.
   3. **통계적 역전승**: 놀랍게도 시뮬레이션 결과, 대충 처음 보이는 곳에 넣는 First-Fit이 공간을 아끼려는 Best-Fit보다 악성 미세 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)(아주 작은 쓰레기 조각)를 덜 만들어서 공간 활용률 면에서도 더 우수하거나 비슷하다는 충격적인 결론이 도출되었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">최초 적합(First-Fit) 알고리즘의 동작 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황: 15MB 프로세스를 할당해야 함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">빈 공간 리스트 (메모리 주소 순서대로 정렬)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hole 1</div><div class="kb-diagram-cell">─▶</div><div class="kb-diagram-cell">Hole 2</div><div class="kb-diagram-cell">─▶</div><div class="kb-diagram-cell">Hole 3</div><div class="kb-diagram-cell">─▶</div><div class="kb-diagram-cell">Hole 4</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">10MB</div><div class="kb-diagram-cell">20MB</div><div class="kb-diagram-cell">16MB</div><div class="kb-diagram-cell">30MB</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(작아서 X) (15MB 이상이네? 빙고! 탐색 즉시 종료)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: 2번째 구멍(20MB)에 15MB 할당. 뒤에 있는 16MB나 30MB는</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">아예 쳐다보지도 않고 스킵함! (탐색 시간 극단적 단축)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 조각: 20MB - 15MB = 5MB의 새로운 빈 구멍(외부 단편화) 생성</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│           최초 적합(First-Fit) 알고리즘의 동작 시각화            │
+├──────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│ [ 상황: 15MB 프로세스를 할당해야 함 ]                            │
+│                                                                  │
+│ 빈 공간 리스트 (메모리 주소 순서대로 정렬)                       │
+│ ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐           │
+│ │ Hole 1   │─▶│ Hole 2   │─▶│ Hole 3   │─▶│ Hole 4   │           │
+│ │  10MB    │  │  20MB    │  │  16MB    │  │  30MB    │           │
+│ └──────────┘  └──────────┘  └──────────┘  └──────────┘           │
+│   (작아서 X)     (15MB 이상이네? 빙고! 탐색 즉시 종료)           │
+│                                                                  │
+│ ▶ 결과: 2번째 구멍(20MB)에 15MB 할당. 뒤에 있는 16MB나 30MB는    │
+│        아예 쳐다보지도 않고 스킵함! (탐색 시간 극단적 단축)      │
+│ ▶ 조각: 20MB - 15MB = 5MB의 새로운 빈 구멍(외부 단편화) 생성     │
+└──────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** First-Fit의 가장 아름다운 부분은 "탐색 즉시 종료(Short-circuit evaluation)"에 있다. 뒤에 16MB라는 훨씬 더 완벽하게 딱 맞는 방(Hole 3)이 대기하고 있음에도 불구하고, First-Fit은 뒤도 돌아보지 않고 Hole 2를 쪼개버린다. 이 무심함 덕분에 OS는 탐색 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 사이클을 아껴 사용자 프로그램에 더 많은 CPU 파워를 돌려줄 수 있다.
 
 - **📢 섹션 요약 비유**: 시험 문제를 풀 때 1번부터 읽어 내려가다가 확실히 정답인 보기를 발견하면, 뒤에 있는 4, 5번 보기는 쳐다보지도 않고 마킹한 뒤 다음 문제로 넘어가는 전교 1등의 스피드 풀이법입니다.
@@ -68,23 +70,23 @@ First-Fit [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/
 
 First-Fit을 메모리 주소 순서대로 운영하다 보면, 항상 리스트의 맨 앞단부터 검색을 시작하기 때문에 특이한 부작용이 발생한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">First-Fit의 메모리 앞부분 쏠림 현상 (Splintering)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">며칠간 서버 운영 후 메모리 레이아웃 상태</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">저주소 (Low Memory) ◀ ▶ 고주소 (High)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">▒ 1M ▒ 2M ▒ 1M ▒ 3M ▒ 1M ▒ ...</div><div class="kb-diagram-node">███ 50M 거대 구멍 ███</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 무수히 쪼개진 작은 조각들 지옥 ─ 한 번도 안 쓰인 청정구역 ─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 문제: 새 프로세스(20M)가 들어오면?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">항상 앞단부터 검색하므로, 앞에 널브러진 수백 개의 1M, 2M 조각들을</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"아니네, 아니네" 하며 전부 스캔한 뒤에야 끝부분 50M에 도달함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결국 O(N) 스캔 오버헤드가 점점 커지는 퇴화 현상이 발생!</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────┐
+│             First-Fit의 메모리 앞부분 쏠림 현상 (Splintering)          │
+├────────────────────────────────────────────────────────────────────────┤
+│                                                                        │
+│ [ 며칠간 서버 운영 후 메모리 레이아웃 상태 ]                           │
+│                                                                        │
+│ 저주소 (Low Memory) ◀────────────────────────▶ 고주소 (High)           │
+│ [ ▒ 1M ▒ 2M ▒ 1M ▒ 3M ▒ 1M ▒ ... ] [ ███ 50M 거대 구멍 ███ ]           │
+│ └─ 무수히 쪼개진 작은 조각들 지옥 ───┘ └─ 한 번도 안 쓰인 청정구역 ─┘  │
+│                                                                        │
+│ ▶ 문제: 새 프로세스(20M)가 들어오면?                                   │
+│    항상 앞단부터 검색하므로, 앞에 널브러진 수백 개의 1M, 2M 조각들을   │
+│    "아니네, 아니네" 하며 전부 스캔한 뒤에야 끝부분 50M에 도달함.       │
+│    결국 O(N) 스캔 오버헤드가 점점 커지는 퇴화 현상이 발생!             │
+└────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 무조건 앞에서부터 찾는 성질 때문에, 메모리의 앞쪽(Low Address)은 프로그램이 들어왔다 나갔다를 반복하며 갈기갈기 찢겨 작은 자투리(Splinter)들로 붐비게 된다. 반면 뒤쪽(High Address)은 접근조차 안 되어 거대한 통짜 구멍으로 남아있다. 검색할 때마다 이 앞단의 자투리 무덤들을 지나가야 하므로 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)보다는 점점 할당 속도가 느려진다. 
 
@@ -114,18 +116,15 @@ First-Fit을 메모리 주소 순서대로 운영하다 보면, 항상 리스트
 - 직관적으로 생각하면 가장 크기가 비슷한 곳에 꽂아 넣는 Best-Fit이 공간을 가장 아낄 것 같지만, 실제 시뮬레이션에서는 First-Fit이 공간 활용률마저 Best-Fit을 이기거나 비슷한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 낸다.
 - **이유**: Best-Fit은 16MB 구멍에 15MB를 넣고 1MB짜리 구멍을 만든다. 이 1MB 구멍은 훗날 그 어떤 프로세스도 들어갈 수 없어 장부만 차지하는 완전한 쓰레기(Dead wood)가 된다. 반면 First-Fit이 30MB 구멍에 15MB를 넣고 남긴 15MB 구멍은 훗날 10MB짜리 앱이 넉넉히 들어갈 수 있는 생명력 있는 구멍이다. 
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">평가 지표</div><div class="kb-diagram-cell">First-Fit</div><div class="kb-diagram-cell">Best-Fit</div><div class="kb-diagram-cell">Worst-Fit</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">런타임 속도</div><div class="kb-diagram-cell">⭐⭐⭐ (우수)</div><div class="kb-diagram-cell">⭐ (최악)</div><div class="kb-diagram-cell">⭐ (최악)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 절약</div><div class="kb-diagram-cell">⭐⭐ (보통)</div><div class="kb-diagram-cell">⭐ (오히려 독)</div><div class="kb-diagram-cell">⭐⭐ (보통)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실무 채택</div><div class="kb-diagram-cell">👑 표준 채택</div><div class="kb-diagram-cell">거의 안 씀</div><div class="kb-diagram-cell">거의 안 씀</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬─────────────────────┐
+│ 평가 지표  │ First-Fit  │ Best-Fit   │ Worst-Fit         │
+├──────────┼────────────┼────────────┼─────────────────────┤
+│ 런타임 속도│ ⭐⭐⭐ (우수)│ ⭐ (최악)   │ ⭐ (최악)      │
+│ 메모리 절약│ ⭐⭐ (보통)  │ ⭐ (오히려 독)│ ⭐⭐ (보통)  │
+│ 실무 채택  │ 👑 표준 채택 │ 거의 안 씀   │ 거의 안 씀    │
+└──────────┴────────────┴────────────┴─────────────────────┘
+```
 **[매트릭스 해설]** 컴퓨터 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 역사에서 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/)([Heuristics](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/))이 완벽주의를 이긴 가장 대표적인 사례다. OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 개발자들은 이론적으로 예쁜 것([Best-fit](/knowledge-base/studynote/02_operating_system/06_memory_management/345_best_fit/))보다 투박하지만 현장에서 빠르고 무난하게 돌아가는 것(First-fit)을 최종 스탠다드로 선택했다.
 
 - **📢 섹션 요약 비유**: 찰흙으로 인형을 만들 때, 남은 찰흙을 아끼려고 아주 미세하게 딱 맞게 떼어 쓰다 보면([Best-fit](/knowledge-base/studynote/02_operating_system/06_memory_management/345_best_fit/)) 결국 쓸모없는 먼지 찰흙만 남아 버려지지만, 큼직하게 대충 떼어 쓰고 남은 큰 덩어리(First-fit)는 나중에 다른 인형을 만들 때 다시 뭉쳐 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 훨씬 좋은 이치입니다.
@@ -181,19 +180,15 @@ First-Fit이 아무리 훌륭해도 가변 분할 환경에 얽힌 '50퍼센트 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">동적 메모리 할당 문제 (가변 분할 배치 알고리즘)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">최초 적합 (First-Fit)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">최적 적합 (Best-Fit)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">최악 적합 (Worst-Fit)</div></div>
-</div>
-</div>
-
-
+```text
+[동적 메모리 할당 문제 (가변 분할 배치 알고리즘)]
+    │
+    ▼
+[최초 적합 (First-Fit)]
+    │
+    ├──▶ [최적 적합 (Best-Fit)]
+    └──▶ [최악 적합 (Worst-Fit)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

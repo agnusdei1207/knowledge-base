@@ -25,17 +25,14 @@ VAE는 이 문제를 <strong><a href="/knowledge-base/studynote/08_algorithm_sta
 
 그러나 샘플링 과정(z ~ N(μ, σ²))은 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적(Stochastic) 연산으로 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)([Backpropagation](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/))가 불가능하다. <strong>재파라미터화 트릭(Reparameterization Trick)</strong>은 이 문제를 우회하여 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 경로를 살린다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 일반 [오토인코더](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/335_autoencoder/)가 여행 사진을 특정 장소 좌표로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하는 것이라면, VAE는 사진을 "이 지역 어딘가의 좌표 분포"로 표현한다. 분포로 표현하면 그 지역의 아직 가보지 않은 곳도 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)할 수 있다.
 
@@ -45,25 +42,32 @@ VAE는 이 문제를 <strong><a href="/knowledge-base/studynote/08_algorithm_sta
 
 ### [VAE](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/) 구조
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력 x</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인코더(Encoder)</div><div class="kb-diagram-cell">q_φ(z</div><div class="kb-diagram-cell">x)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(신경망 f_φ)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">μ(x) log σ²(x) (분포 파라미터)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">재파라미터화 트릭</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ε ~ N(0, I)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">z = μ + ε ⊙ σ</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">z (잠재 변수)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디코더(Decoder)</div><div class="kb-diagram-cell">p_θ(x</div><div class="kb-diagram-cell">z)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(신경망 g_θ)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">x̂ (재구성 출력)</div></div>
-</div>
-</div>
-
-
+```
+┌────────────────────────────────────────────────────────────┐
+│  입력 x                                                    │
+│    │                                                       │
+│  ┌─▼──────────────┐                                        │
+│  │  인코더(Encoder) │  q_φ(z|x)                             │
+│  │  (신경망 f_φ)    │                                        │
+│  └──┬──────────┬──┘                                        │
+│     ▼          ▼                                           │
+│    μ(x)       log σ²(x)   (분포 파라미터)                   │
+│     │          │                                           │
+│     └─────┬────┘                                           │
+│           │ 재파라미터화 트릭                                 │
+│           │ ε ~ N(0, I)                                    │
+│           │ z = μ + ε ⊙ σ                                  │
+│           ▼                                                │
+│         z (잠재 변수)                                        │
+│           │                                                │
+│  ┌────────▼────────┐                                       │
+│  │  디코더(Decoder) │  p_θ(x|z)                             │
+│  │  (신경망 g_θ)    │                                        │
+│  └────────┬────────┘                                       │
+│           ▼                                                │
+│         x̂ (재구성 출력)                                     │
+└────────────────────────────────────────────────────────────┘
+```
 
 ### 재파라미터화 트릭
 
@@ -83,17 +87,12 @@ VAE는 이 문제를 <strong><a href="/knowledge-base/studynote/08_algorithm_sta
 
 VAE의 목적: log p_θ(x) 최대화 ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 가능도)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-note">log p_θ(x) ≥ E_q</div><div class="kb-diagram-node">log p_θ(x|z)</div><div class="kb-diagram-note">- KL(q_φ(z|x) || p(z))</div></div>
-<div class="kb-diagram-note">재구성 손실 KLD 규제</div>
-<div class="kb-diagram-note">(Reconstruction Loss) (KL Divergence)</div>
-</div>
-</div>
-
-
+```
+log p_θ(x) ≥ E_q[log p_θ(x|z)] - KL(q_φ(z|x) || p(z))
+                  ↑                        ↑
+          재구성 손실                   KLD 규제
+        (Reconstruction Loss)    (KL Divergence)
+```
 
 **KLD 항 계산** (q_φ ~ N(μ, σ²), p ~ N(0, I)):
 

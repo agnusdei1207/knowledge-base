@@ -25,19 +25,14 @@ tags = ["bigdata"]
 
 이에 따라 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자체의 정확성과 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 뜻하는 Veracity([신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/))와, 분석을 통해 최종적으로 기업의 이윤과 직결되는 인사이트를 도출하는 Value(가치)가 추가된 5V 모델이 필수적인 프레임워크로 자리 잡았다.
 
+```text
+이 도식은 데이터 인프라 관점의 3V가 비즈니스 관점의 5V로 진화하며 확장되는 목적의 변화를 보여준다.
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 도식은 데이터 인프라 관점의 3V가 비즈니스 관점의 5V로 진화하며 확장되는 목적의 변화를 보여준다.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">인프라/엔지니어링의 영역</div><div class="kb-diagram-node">분석/비즈니스의 영역</div></div>
-<div class="kb-diagram-note">Volume (규모)</div>
-<div class="kb-diagram-note">Velocity (속도) &gt; Veracity (신뢰성) &gt; Value (가치 창출)</div>
-<div class="kb-diagram-note">Variety (다양성) (정제, 품질 관리) (AI, 인사이트)</div>
-</div>
-</div>
-
-
+[ 인프라/엔지니어링의 영역 ]         [ 분석/비즈니스의 영역 ]
+   Volume (규모) ────────┐
+   Velocity (속도) ──────┼───>  Veracity (신뢰성) ───> Value (가치 창출)
+   Variety (다양성) ─────┘      (정제, 품질 관리)       (AI, 인사이트)
+```
 
 이 진화 과정의 핵심은 왼쪽의 3V가 시스템 아키텍트와 엔지니어의 숙제라면, 오른쪽의 Veracity와 Value는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 사이언티스트와 비즈니스 의사결정권자의 숙제라는 점이다. 3V를 완벽하게 수집해도 Veracity [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 필터를 거치지 못하면 Value 도출 단계에서 치명적인 의사결정 실패(예: 잘못된 신용 평가, 자율주행 오류)로 이어진다. 실무에서는 이러한 한계를 극복하기 위해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 관리 자동화 도구 도입을 서두르게 되었다.
 
@@ -54,24 +49,19 @@ tags = ["bigdata"]
 | <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Ingestion (3V)</strong> | 대량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 고속 수집 | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 스트리밍 및 배치 적재 | [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/), NiFi | 대량 원유 시추 |
 | <strong><a href="/knowledge-base/studynote/07_enterprise_systems/05_data_bi/266_data_cleansing/">Data Cleansing</a> (Veracity)</strong>| 노이즈 제거, 결측치 처리 | 통계적 [이상치 탐지](/knowledge-base/studynote/10_ai/05_data_science_ml/397_outlier_mahalanobis/), [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) [프로파일링](/knowledge-base/studynote/02_operating_system/10_security/613_profiling_gprof/) | Great Expectations, Deequ | 원유 정제 및 불순물 제거 |
 | <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/">Data Catalog</a> (Veracity)</strong> | [메타데이터 관리](/knowledge-base/studynote/16_bigdata/10_governance/203_metadata_management/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계보 | 컬럼 수준의 리니지(Lineage) 추적 | Apache Atlas, Amundsen | 정제된 상품에 성분표 부착 |
-| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/081_feature_engineering/">Feature Engineering</a> (Value)</strong>| 모델 학습을 위한 특징 추출 | [차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/), [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/), [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) | [Spark MLlib](/knowledge-base/studynote/16_bigdata/03_spark/062_spark_mllib/), dbt | 상품을 사용처에 맞게 재가공 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/081_feature_engineering/">Feature 엔진ering</a> (Value)</strong>| 모델 학습을 위한 특징 추출 | [차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/), [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/), [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) | [Spark MLlib](/knowledge-base/studynote/16_bigdata/03_spark/062_spark_mllib/), dbt | 상품을 사용처에 맞게 재가공 |
 | **Analytics/ML (Value)** | 비즈니스 인사이트 도출 | 회귀, [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 적용 및 예측 서빙 | TensorFlow, [Tableau](/knowledge-base/studynote/16_bigdata/08_visualization/164_tableau/) | 최종 완제품 판매 및 활용 |
 
 이러한 요소들이 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)과 가치를 끌어내기 위해 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인에서 어떻게 동작하는지 살펴보자.
 
+```text
+이 흐름도는 무결성이 보장되지 않은 원시 데이터(Raw)가 품질 검증(Veracity)을 거쳐 가치(Value)로 변환되는 과정을 시각화한다.
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 흐름도는 무결성이 보장되지 않은 원시 데이터(Raw)가 품질 검증(Veracity)을 거쳐 가치(Value)로 변환되는 과정을 시각화한다.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Raw Data Lake (3V)</div><div class="kb-diagram-connector">==&gt;</div><div class="kb-diagram-node">Data Quality Firewall (Veracity)</div><div class="kb-diagram-connector">==&gt;</div><div class="kb-diagram-node">Data Mart / ML (Value)</div></div>
-<div class="kb-diagram-tree-item" style="--depth:1">Sensor Noise - Null/NaN 제거 로직 - ROI 예측 모델</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Duplicate Logs ------&gt; - Outlier(이상치) 탐지 필터 ------&gt; - 실시간 개인화 추천</div>
-<div class="kb-diagram-tree-item" style="--depth:1">Format Mismatch - Master Data 동기화 - BI Dashboard 시각화</div>
-</div>
-</div>
-
-
+[Raw Data Lake (3V)]  ==>  [Data Quality Firewall (Veracity)]  ==>  [Data Mart / ML (Value)]
+  - Sensor Noise              - Null/NaN 제거 로직                    - ROI 예측 모델
+  - Duplicate Logs  ------>   - Outlier(이상치) 탐지 필터    ------>   - 실시간 개인화 추천
+  - Format Mismatch           - Master Data 동기화                    - BI Dashboard 시각화
+```
 
 이 아키텍처 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인의 핵심 병목 지점은 바로 중간의 '[Data Quality](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/270_data_quality_great_expectations/) [Firewall](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)'이다. [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/) 코드가 아무리 효율적이더라도 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 로직이 부실하면 하위 시스템 전체가 오염된다. 실무에서는 [Apache Spark](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/) 기반의 Deequ 같은 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 사용해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 들어오는 즉시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 분포(Distribution), 완전성(Completeness), 유일성(Uniqueness)을 수학적으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하고 통과한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 Value 단계로 넘긴다.
 
@@ -119,22 +109,17 @@ trusted_df = raw_df.dropna(subset=["sensor_value"]) \
 
 실무에서 Veracity와 Value를 훼손하는 장애 상황은 인프라 장애보다 발견하기 어렵고 치명적이다. 이를 방지하기 위한 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/) [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)를 다음과 같이 설계해야 한다.
 
+```text
+이 의사결정 트리는 데이터 파이프라인 운영 중 신뢰성(Veracity) 문제 발생 시의 처리 및 방어 전략을 나타낸다.
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이 의사결정 트리는 데이터 파이프라인 운영 중 신뢰성(Veracity) 문제 발생 시의 처리 및 방어 전략을 나타낸다.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">신규 데이터 소스 유입</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">품질 SLA 검증</div><div class="kb-diagram-note">──(NULL 비율 5% 초과?)──&gt;</div><div class="kb-diagram-node">Yes</div><div class="kb-diagram-note">─&gt; Dead Letter Queue(DLQ) 격리 및 알림</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">↓</div><div class="kb-diagram-node">No</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스키마 진단</div><div class="kb-diagram-note">──(기존 구조와 불일치?)──&gt;</div><div class="kb-diagram-node">Yes</div><div class="kb-diagram-note">─&gt; 데이터 컨트랙트(Data Contract) 위반 경고</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">↓</div><div class="kb-diagram-node">No</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">신뢰 데이터 마트 적재</div><div class="kb-diagram-note">=&gt;</div><div class="kb-diagram-node">BI / AI 파이프라인 연동을 통한 Value 도출</div></div>
-</div>
-</div>
-
-
+[신규 데이터 소스 유입]
+        ↓
+[품질 SLA 검증] ──(NULL 비율 5% 초과?)──> [Yes] ─> Dead Letter Queue(DLQ) 격리 및 알림
+        ↓ [No]
+[스키마 진단] ──(기존 구조와 불일치?)──> [Yes] ─> 데이터 컨트랙트(Data Contract) 위반 경고 
+        ↓ [No]
+[신뢰 데이터 마트 적재] => [BI / AI 파이프라인 연동을 통한 Value 도출]
+```
 
 <strong>실무 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> (<a href="/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/161_anti_pattern/">Anti-pattern</a>)</strong>
 - **Garbage In, Garbage Out (GIGO)**: 수집된 센서의 영점 조절 실패로 음수 값이 섞여 들어왔으나, 이를 그대로 수요 예측 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델에 학습시키는 경우. 모델의 정확도가 급락(Value 상실)한다.
@@ -165,23 +150,21 @@ trusted_df = raw_df.dropna(subset=["sensor_value"]) \
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Data Governance</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Data Lineage</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Master Data Management (MDM)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Data Contract</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Data Mesh</div></div>
-</div>
-</div>
-
-
+```text
+[Data Governance]
+    │
+    ▼
+[Data Lineage]
+    │
+    ▼
+[Master Data Management (MDM)]
+    │
+    ▼
+[Data Contract]
+    │
+    ▼
+[Data Mesh]
+```
 
 이 흐름도는 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Governance에서 출발해 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Mesh까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

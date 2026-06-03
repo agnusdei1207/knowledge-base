@@ -106,23 +106,17 @@ sign-magnitude는 부호와 크기를 분리해 직관적이지만 0이 두 개 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">양수 비트열</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">비트 반전</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">+1 수행</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">음수 표현 생성</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">덧셈/뺄셈 공통 처리</div>
-</div>
-</div>
-
-
+```text
+양수 비트열
+   ↓
+비트 반전
+   ↓
++1 수행
+   ↓
+음수 표현 생성
+   ↓
+덧셈/뺄셈 공통 처리
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

@@ -25,16 +25,13 @@ NPT 이전에는 이를 해결하기 위해 섀도 [페이지 테이블](/knowle
 
 아래 그림은 NPT가 왜 필요한지 주소 관점에서 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Address translation in a virtualized system</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">GVA ─▶ guest page tables ─▶ GPA ─▶ NPT ─▶ HPA ─▶ real memory</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│ Address translation in a virtualized system                  │
+├──────────────────────────────────────────────────────────────┤
+│ GVA  ─▶ guest page tables ─▶ GPA ─▶ NPT ─▶ HPA ─▶ real memory │
+└──────────────────────────────────────────────────────────────┘
+```
 
 핵심은 게스트가 자신의 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)을 평소처럼 관리하게 두면서도, 최종 물리 위치 결정권은 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 잃지 않는다는 점이다. 이 균형이 있어야 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)가 빠르면서도 안전해진다.
 
@@ -119,23 +116,21 @@ NPT는 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualiza
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Shadow page table maintenance</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">NPT / RVI on AMD</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">EPT on Intel and two-dimensional paging</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Huge Page · TLB reach · ASID tuning</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Large-scale cloud memory virtualization</div>
-</div>
-</div>
-
-
+```text
+Shadow page table maintenance
+    │
+    ▼
+NPT / RVI on AMD
+    │
+    ▼
+EPT on Intel and two-dimensional paging
+    │
+    ▼
+Huge Page · TLB reach · ASID tuning
+    │
+    ▼
+Large-scale cloud memory virtualization
+```
 
 이 흐름은 "소프트웨어 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) → 하드웨어 2단 변환 → 캐시/[페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 최적화 → 대규모 운영"으로 이어진다.
 

@@ -30,30 +30,38 @@ tags = ["studynote-operating-system"]
 - <strong>procfs / sysfs <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 메모리 동적 매핑 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> 폭주 뷰</strong>:
 디스크 용량 0바이트인 `/proc` 폴더 안에서 1TB 짜리 정보가 어떻게 유저의 터미널로 튀어나오는지 그 렌더를 까보면 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"깡통 폴더를 여는 순간, 커널 뱃속의 피와 뼈가 텍스트로 쏟아진다!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🚨</div><div class="kb-diagram-node">사용자 터미널 : $ cat /proc/1234/status  엔터 타격!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(유저 마음가짐: "와 하드디스크 /proc 폴더 안에 1234번 파일이 있겠지?")</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">✅</div><div class="kb-diagram-node">VFS (가상 파일 시스템 - Illusion 위장술 록백)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; "ㅋㅋㅋㅋ 멍청한 유저야 저긴 디스크가 아니라 내 뇌세포로 가는 문이다!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">======= ( 마운트된 proc 패스우회! 하드디스크 모터 정지 컷! ) ===========</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🔥</div><div class="kb-diagram-node">커널 공간 (Kernel Memory Space 실제 덩어리 렌더)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=&gt; 커널 스케줄러: "야 VFS가</div><div class="kb-diagram-node">1234번 PID 프로세스</div><div class="kb-diagram-note">상태 물어본다!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=&gt; 해당</div><div class="kb-diagram-node">task_struct 구조체</div><div class="kb-diagram-note">메모리 번지 0xFFA0 뒤지기 스왑!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 상태: TASK_RUNNING, 스레드 수 5개, 메모리 점유 1G 확인 완료!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">💻</div><div class="kb-diagram-node">proc 생성기 봇 (문자열 역변환 조립기 파이프)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; "이진수 0011 바이트들을 이쁜 String 글자로 포장해서 리턴 쏴라 빔!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">✅</div><div class="kb-diagram-node">사용자 화면 출력 스루풋 결과 달성!!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Name: nginx</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">State: S (sleeping)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">VmSize: 1048576 kB &lt;-- (절대 하드에서 읽어온 글자가 아님 통달!)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────────────────────┐
+  │                 "깡통 폴더를 여는 순간, 커널 뱃속의 피와 뼈가 텍스트로 쏟아진다!" │
+  ├───────────────────────────────────────────────────────────────────────────────────┤
+  │                                                                                   │
+  │  🚨 [ 사용자 터미널 : $ cat /proc/1234/status  엔터 타격! ]                       │
+  │     (유저 마음가짐: "와 하드디스크 /proc 폴더 안에 1234번 파일이 있겠지?")        │
+  │                                                                                   │
+  │  =========================▼===================================                    │
+  │                                                                                   │
+  │  ✅ [ VFS (가상 파일 시스템 - Illusion 위장술 록백) ]                             │
+  │     => "ㅋㅋㅋㅋ 멍청한 유저야 저긴 디스크가 아니라 내 뇌세포로 가는 문이다!"     │
+  │                                                                                   │
+  │  ======= ( 마운트된 proc 패스우회! 하드디스크 모터 정지 컷! ) ===========         │
+  │                                                                                   │
+  │  🔥 [ 커널 공간 (Kernel Memory Space 실제 덩어리 렌더) ]                          │
+  │                                                                                   │
+  │     => 커널 스케줄러: "야 VFS가 [1234번 PID 프로세스] 상태 물어본다!"             │
+  │     => 해당 [task_struct 구조체] 메모리 번지 0xFFA0 뒤지기 스왑!                  │
+  │     => 상태: TASK_RUNNING, 스레드 수 5개, 메모리 점유 1G 확인 완료!               │
+  │                                                                                   │
+  │     💻 [ proc 생성기 봇 (문자열 역변환 조립기 파이프) ]                           │
+  │     => "이진수 0011 바이트들을 이쁜 String 글자로 포장해서 리턴 쏴라 빔!"         │
+  │                                                                                   │
+  │  =========================▼===================================                    │
+  │                                                                                   │
+  │  ✅ [ 사용자 화면 출력 스루풋 결과 달성!! ]                                       │
+  │     Name:   nginx                                                                 │
+  │     State:  S (sleeping)                                                          │
+  │     VmSize: 1048576 kB       <-- (절대 하드에서 읽어온 글자가 아님 통달!)         │
+  └───────────────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 리눅스의 모든 모니터링 툴(top, htop, ps명령어 등)의 유일한 뿌리이자 심장부 설계다. `top` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 어떻게 프로세스의 CPU 점유율을 아냐고? 걔네들도 그냥 뒤에서 무식하게 `/proc` 밑에 있는 폴더 수만 개를 0.1초마다 `cat` 으로 미친 듯이 읽어 들여서 껍데기 예쁘게 색칠만 해주는 렌더러 표면에 불과하다. 이토록 완벽한 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)([VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) Everything-is-a-[File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 치트) 덕택에, 디스크든 네트워크든 메모리 변수든 모든 것을 "텍스트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)" 이라는 1차원 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인으로 관통 조율해 버린 유닉스의 정점 아크다 도출.
 
@@ -133,19 +141,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">임시 파일 시스템 (tmpfs / ramfs)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">가상 장치 파일 시스템 (sysfs, procfs)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">파일 시스템 일관성 검사 (fsck / chkdsk)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">다중 스트림 (Multi-stream) 파일 / 포크 (Forks)</div></div>
-</div>
-</div>
-
-
+```text
+[임시 파일 시스템 (tmpfs / ramfs)]
+    │
+    ▼
+[가상 장치 파일 시스템 (sysfs, procfs)]
+    │
+    ├──▶ [파일 시스템 일관성 검사 (fsck / chkdsk)]
+    └──▶ [다중 스트림 (Multi-stream) 파일 / 포크 (Forks)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

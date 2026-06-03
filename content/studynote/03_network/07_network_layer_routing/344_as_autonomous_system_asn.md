@@ -26,18 +26,14 @@ tags = ["studynote-network"]
   - 대한민국(AS 1번) 안에서는 KTX, 무궁화호([OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/), [RIP](/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/))가 이리저리 돌아다닙니다. 미국(AS 2번) 안에서는 암트랙([EIGRP](/knowledge-base/studynote/03_network/07_network_layer_routing/355_eigrp_enhanced_igrp_dual_algorithm/))이 돌아다닙니다.
   - 한국인([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 미국에 가려면 기차를 타고 그대로 가는 게 아니라, 국가 간 관문인 인천공항([BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 라우터)을 통해 여권(ASN)을 깐 뒤 국제선 비행기를 타고 넘어가야 합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">관리 거리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AS / ASN 분배</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IGP</div></div>
-</div>
-</div>
-
-
+```text
+[관리 거리]
+    │
+    ▼
+[AS / ASN 분배]
+    │
+    └──▶ [IGP]
+```
 
 - **📢 섹션 요약 비유**: ** AS(자율 시스템)는 인터넷이라는 거대한 피자를 수만 개의 먹기 좋은 조각으로 자른 **"독립된 영지(영토)"**입니다. 각 영지 영주들(통신사)은 자기 땅 안에서의 규칙([IGP](/knowledge-base/studynote/03_network/07_network_layer_routing/345_igp_interior_gateway_protocol_rip_ospf/))은 맘대로 정하지만, 영지와 영지 사이를 넘어갈 때([BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/))는 전 세계 공통의 외교 규칙을 지켜야만 합니다.
 
@@ -50,21 +46,22 @@ AS라는 거대한 울타리를 치는 순간, [라우팅](/knowledge-base/study
 - <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/345_igp_interior_gateway_protocol_rip_ospf/">IGP</a> (<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/345_igp_interior_gateway_protocol_rip_ospf/">Interior Gateway Protocol</a>)</strong>: AS "내부"에서만 도는 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) ([OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/), [RIP](/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/), [EIGRP](/knowledge-base/studynote/03_network/07_network_layer_routing/355_eigrp_enhanced_igrp_dual_algorithm/)). 외부 인터넷에는 아예 나가지 않는 우리 회사만의 사내망 지도다. 이 지도에는 말단 부서 PC부터 공장 스위치까지 아주 세세한 골목길 정보가 다 적혀 있다.
 - <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/">BGP</a> (<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/">Border Gateway Protocol</a>)</strong>: AS와 AS "사이"를 이어주는 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/). 각 회사의 관문(Border) 라우터끼리만 대화를 나눈다. BGP는 골목길 정보는 싹 버리고, "우리나라(AS 1번)에는 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/).x.x.x 국민들이 살고 있어!"라고 통째로 요약해서 남의 나라(AS 2번) 관문 라우터에 던져준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인터넷의 거시적 구조 (AS 덩어리들의 결합)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AS 1759 (KT 망)</div><div class="kb-diagram-node">AS 15169 (구글 망)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OSPF OSPF OSPF OSPF</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">라우터</div><div class="kb-diagram-node">관문 라우터</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">관문 라우터</div><div class="kb-diagram-node">서버</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(국내용) (국제용) (국가 간 외교) (국제용) (국내용)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ OSPF: "우리 동네에서 관문까지 어떻게 가지?" (속도가 짱!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ BGP : "KT에서 구글 가려면 중간에 SKT를 거쳐야 하나?" (외교가 짱!)</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                인터넷의 거시적 구조 (AS 덩어리들의 결합)           │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ AS 1759 (KT 망) ]                 [ AS 15169 (구글 망) ]  │
+ │     /          \                          /            \    │
+ │  OSPF          OSPF                    OSPF            OSPF │
+ │   /              \                      /                \  │
+ │ [라우터]       [관문 라우터] ◀── BGP ──▶ [관문 라우터]        [서버] │
+ │ (국내용)        (국제용)     (국가 간 외교)   (국제용)        (국내용)│
+ │                                                             │
+ │  ▶ OSPF: "우리 동네에서 관문까지 어떻게 가지?" (속도가 짱!)          │
+ │  ▶ BGP : "KT에서 구글 가려면 중간에 SKT를 거쳐야 하나?" (외교가 짱!)    │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 2. AS Number (ASN)
 전 세계의 AS들은 자기가 누구인지 밝힐 때 IP 주소가 아니라 <strong>ASN (자율 시스템 번호)</strong>이라는 고유 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 번호를 사용한다. (IANA에서 발급함).
@@ -132,19 +129,15 @@ AS / ASN 분배는 [라우팅](/knowledge-base/studynote/03_network/07_network_l
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 관리 거리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: AS / ASN 분배</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: IGP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 관리 거리]
+    │
+    ▼
+[현재 개념: AS / ASN 분배]
+    │
+    ├──▶ [확장 A: IGP]
+    └──▶ [확장 B: 의도 기반 라우팅]
+```
 
 AS / ASN 분배는 [관리 거리](/knowledge-base/studynote/03_network/07_network_layer_routing/343_administrative_distance_ad_protocol_priority/)에서 출발해 현재 메커니즘을 정교화하고, 이후 IGP와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

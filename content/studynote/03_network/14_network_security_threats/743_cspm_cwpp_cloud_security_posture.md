@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 기업들이 클라우드([IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/), [PaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/))를 쓸 때 해커의 딥한 기술적 공격보다 훨씬 더 무서운 것은, <strong>개발자나 관리자의 단순한 '<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a> 실수(휴먼 에러)'</strong>입니다. (예: AWS S3 버킷의 접근 권한을 Public으로 열어둬서 수백만 명의 개인정보가 구글 검색에 노출되는 사고가 매년 터집니다.)
 - 이를 자동화된 솔루션으로 방어하기 위해 가트너(Gartner)가 제시한 핵심 클라우드 보안 프레임워크가 바로 CSPM과 CWPP입니다. (최근엔 이 둘을 묶어 CNAPP라고 부릅니다.)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SWG</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CSPM / CWPP 보안 설정 모니터링 관…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">침해 사고 대응 체계 분석, 실시간 로그 수…</div></div>
-</div>
-</div>
-
-
+```text
+[SWG]
+    │
+    ▼
+[CSPM / CWPP 보안 설정 모니터링 관…]
+    │
+    └──▶ [침해 사고 대응 체계 분석, 실시간 로그 수…]
+```
 
 - **📢 섹션 요약 비유**: [CSPM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/780_cspm_cloud_security_posture_management/) / [CWPP](/knowledge-base/studynote/15_devops_sre/05_devsecops/332_cwpp/) 보안 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 모니터링 관…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -46,18 +42,14 @@ tags = ["studynote-network"]
   - **가시화 (Visibility)**: 현재 회사가 띄워놓은 가상 머신 500대, 스토리지 100개의 보안 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 상태를 거대한 맵(Map) 체계로 가시화하여 대시보드 한판에 그려줍니다.
   - <strong>자동 탐지 및 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a></strong>: 개발자가 실수로 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 전부 개방해 버리면, CSPM이 "삐용삐용! [보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/) 위반!" 알람을 울리거나, 아예 스스로 스크립트를 돌려 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 다시 강제로 잠가버리는(Auto-Remediation) 마법을 부립니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SWG</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CSPM / CWPP 보안 설정 모니터링 관…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">침해 사고 대응 체계 분석, 실시간 로그 수…</div></div>
-</div>
-</div>
-
-
+```text
+[SWG]
+    │
+    ▼
+[CSPM / CWPP 보안 설정 모니터링 관…]
+    │
+    └──▶ [침해 사고 대응 체계 분석, 실시간 로그 수…]
+```
 
 - **📢 섹션 요약 비유**: [CSPM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/780_cspm_cloud_security_posture_management/) / [CWPP](/knowledge-base/studynote/15_devops_sre/05_devsecops/332_cwpp/) 보안 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 모니터링 관…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -118,19 +110,15 @@ CSPM이 클라우드의 '껍데기([설정](/knowledge-base/studynote/15_devops_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: SWG</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: CSPM / CWPP 보안 설정 모니터링 관…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 침해 사고 대응 체계 분석, 실시간 로그 수…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: SWG]
+    │
+    ▼
+[현재 개념: CSPM / CWPP 보안 설정 모니터링 관…]
+    │
+    ├──▶ [확장 A: 침해 사고 대응 체계 분석, 실시간 로그 수…]
+    └──▶ [확장 B: 예측형 위협 대응]
+```
 
 [CSPM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/780_cspm_cloud_security_posture_management/) / [CWPP](/knowledge-base/studynote/15_devops_sre/05_devsecops/332_cwpp/) 보안 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 모니터링 관…는 SWG에서 출발해 현재 메커니즘을 정교화하고, 이후 침해 [사고 대응](/knowledge-base/studynote/09_security/01_intro_principles/009_incident_response/) 체계 분석, 실시간 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 수…와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

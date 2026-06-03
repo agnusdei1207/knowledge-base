@@ -100,37 +100,25 @@ ERC-20은 토큰 생태계의 호환성과 유통성을 높인다.
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Token Contract</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">ERC-20</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Wallet / Exchange</div>
-</div>
-</div>
-
-
+```text
+Token Contract
+  ↓
+ERC-20
+  ↓
+Wallet / Exchange
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Ethereum</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">ERC-20</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Fungible Token</div>
-</div>
-</div>
-
-
+```text
+Ethereum
+  ↓
+ERC-20
+  ↓
+Fungible Token
+```
 
 ---
 

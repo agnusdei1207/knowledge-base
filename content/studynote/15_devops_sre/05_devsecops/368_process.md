@@ -29,20 +29,18 @@ ChatGPT 급 대형 언어 모델([LLM](/knowledge-base/studynote/06_ict_converge
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">침수 냉각 (2-Phase Immersion) 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">냉각 탱크</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버 + GPU 완전 침지 (유전체 냉각액)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">액체 비등 → 증기 → 응축기 → 액체 재순환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PUE = 총 데이터센터 전력 / IT 장비 전력</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공랭: PUE 1.4~1.8 / 수냉: 1.1~1.3 / 침수: 1.03~1.1</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│              침수 냉각 (2-Phase Immersion) 구조                  │
+├──────────────────────────────────────────────────────────────────┤
+│  [냉각 탱크]                                                     │
+│  서버 + GPU 완전 침지 (유전체 냉각액)                            │
+│  액체 비등 → 증기 → 응축기 → 액체 재순환                        │
+│                                                                  │
+│  PUE = 총 데이터센터 전력 / IT 장비 전력                        │
+│  공랭: PUE 1.4~1.8 / 수냉: 1.1~1.3 / 침수: 1.03~1.1           │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 | 냉각 방식       | [PUE](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/237_pue_power_usage_effectiveness_datacenter_metric/) 범위    | 랙당 전력  | 주요 적용 대상            |
 | :-------------- | :---------- | :--------- | :------------------------- |
@@ -116,25 +114,24 @@ Google은 2030년 Carbon-Free Energy 24/7 목표를 선언했다. [Kubernetes](/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">공랭 데이터센터 (PUE 1.5~1.8)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">수냉·자유냉각 도입 (PUE 1.2~1.3)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">침수 냉각 (PUE 1.02~1.1, 고밀도 GPU 필수)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">RE100 + PPA (재생에너지 전력 조달)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Carbon-Aware Computing (Temporal/Spatial Shifting)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">24/7 Carbon-Free + AI 탄소 자동 최적화</div>
-</div>
-</div>
-
-
+```text
+공랭 데이터센터 (PUE 1.5~1.8)
+    │
+    ▼
+수냉·자유냉각 도입 (PUE 1.2~1.3)
+    │
+    ▼
+침수 냉각 (PUE 1.02~1.1, 고밀도 GPU 필수)
+    │
+    ▼
+RE100 + PPA (재생에너지 전력 조달)
+    │
+    ▼
+Carbon-Aware Computing (Temporal/Spatial Shifting)
+    │
+    ▼
+24/7 Carbon-Free + AI 탄소 자동 최적화
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

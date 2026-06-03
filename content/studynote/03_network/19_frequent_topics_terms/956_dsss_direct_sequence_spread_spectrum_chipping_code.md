@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: 전송하려는 원본 디지털 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(0과 1)에 속도가 엄청나게 빠른 <strong>가짜 난수 암호 코드(PN <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a>, 칩핑 시퀀스)를 직접 곱해서(XOR 연산), 원래 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 대역폭보다 수십 배 넓은 주파수 대역으로 신호를 얇게 쫙 펴서(확산) 전송하는 방식</strong>입니다.
 - IEEE 802.11b ([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) Wi-Fi)와 3G 스마트폰 통신([WCDMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/091_동기식_비동기식_CDMA_WCDMA/))의 심장이 된 절대적인 무선 뼈대 기술입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">FHSS</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DSSS</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">코드 분할 다중 접속</div></div>
-</div>
-</div>
-
-
+```text
+[FHSS]
+    │
+    ▼
+[DSSS]
+    │
+    └──▶ [코드 분할 다중 접속]
+```
 
 - **📢 섹션 요약 비유**: DSSS는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -54,18 +50,14 @@ tags = ["studynote-network"]
    - 친구 폰은 아까 송신자가 썼던 똑같은 비밀 암호(`10110111`)를 갖고 있습니다. 이 암호를 받은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 **다시 한 번 곱해줍니다(역산).**
    - 믹서기에서 마법처럼 쓰레기 8비트가 하나로 착 합쳐지며 <strong>원본 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <code>1</code>이 산봉우리처럼 뾰족하게 확 치솟아 올라옵니다(Processing Gain, 처리 이득).</strong>
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">FHSS</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DSSS</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">코드 분할 다중 접속</div></div>
-</div>
-</div>
-
-
+```text
+[FHSS]
+    │
+    ▼
+[DSSS]
+    │
+    └──▶ [코드 분할 다중 접속]
+```
 
 - **📢 섹션 요약 비유**: DSSS의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -134,19 +126,15 @@ DSSS는 빈출 주제와 용어를 이해할 때 핵심 축을 잡아 주는 개
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: FHSS</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: DSSS</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 코드 분할 다중 접속</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: FHSS]
+    │
+    ▼
+[현재 개념: DSSS]
+    │
+    ├──▶ [확장 A: 코드 분할 다중 접속]
+    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
+```
 
 DSSS는 FHSS에서 출발해 현재 메커니즘을 정교화하고, 이후 코드 분할 [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/)와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

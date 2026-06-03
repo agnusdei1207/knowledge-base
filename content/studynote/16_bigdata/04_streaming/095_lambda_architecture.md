@@ -23,23 +23,19 @@ tags = ["studynote-bigdata"]
 
 2010년대 초반 빅데이터 처리의 핵심 딜레마:
 
+```
+배치 처리만 사용:
+  → 정확하고 완전하지만 지연 시간이 수 시간
+  → 사기 탐지·실시간 추천에 부적합
 
+실시간 처리만 사용:
+  → 빠르지만 시스템 장애나 버그 시 데이터 손실·오류
+  → 전체 히스토리 재처리 불가 (대량 데이터)
+  → 복잡한 집계(예: 전체 기간 통계)는 처리 불가
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">배치 처리만 사용:</div>
-<div class="kb-diagram-note">→ 정확하고 완전하지만 지연 시간이 수 시간</div>
-<div class="kb-diagram-note">→ 사기 탐지·실시간 추천에 부적합</div>
-<div class="kb-diagram-note">실시간 처리만 사용:</div>
-<div class="kb-diagram-note">→ 빠르지만 시스템 장애나 버그 시 데이터 손실·오류</div>
-<div class="kb-diagram-note">→ 전체 히스토리 재처리 불가 (대량 데이터)</div>
-<div class="kb-diagram-note">→ 복잡한 집계(예: 전체 기간 통계)는 처리 불가</div>
-<div class="kb-diagram-note">Lambda Architecture의 해결책:</div>
-<div class="kb-diagram-note">→ 두 방식을 병렬 운영하여 각각의 장점을 취함</div>
-</div>
-</div>
-
-
+Lambda Architecture의 해결책:
+  → 두 방식을 병렬 운영하여 각각의 장점을 취함
+```
 
 ### 2. 3개 레이어의 역할
 
@@ -58,51 +54,54 @@ tags = ["studynote-bigdata"]
 
 ### 1. [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) 다이어그램
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">원본 데이터 스트림</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모든 데이터 (과거 + 현재)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Batch Layer</div><div class="kb-diagram-cell">Speed Layer</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 전체 데이터 재처리</div><div class="kb-diagram-cell">• 최근 데이터만 처리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 주기적 실행</div><div class="kb-diagram-cell">• 실시간 증분 처리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(예: 매 시간)</div><div class="kb-diagram-cell">• 근사치 뷰 생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">• 정확한 배치 뷰</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Flink / Storm</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hadoop / Spark</div><div class="kb-diagram-cell">Spark Streaming</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">배치 뷰 (정확, 낮은 신선도)</div><div class="kb-diagram-cell">실시간 뷰 (근사, 높은 신선도)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Serving Layer</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">배치 뷰 + 실시간 뷰 병합</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">쿼리 API 제공</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cassandra / HBase</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Elasticsearch</div></div>
-<div class="kb-diagram-note">사용자/서비스 쿼리</div>
-</div>
-</div>
-
-
+```
+원본 데이터 스트림
+     │
+     ├──────────────────────────────────────────┐
+     │ 모든 데이터 (과거 + 현재)                │
+     ▼                                          ▼
+┌─────────────────────┐              ┌──────────────────────┐
+│  Batch Layer         │              │  Speed Layer          │
+│                      │              │                       │
+│  • 전체 데이터 재처리 │              │  • 최근 데이터만 처리  │
+│  • 주기적 실행       │              │  • 실시간 증분 처리    │
+│    (예: 매 시간)     │              │  • 근사치 뷰 생성      │
+│  • 정확한 배치 뷰    │              │                       │
+│                      │              │  Flink / Storm        │
+│  Hadoop / Spark      │              │  Spark Streaming      │
+└──────────┬───────────┘              └──────────┬────────────┘
+           │                                     │
+           │ 배치 뷰 (정확, 낮은 신선도)          │ 실시간 뷰 (근사, 높은 신선도)
+           └──────────────────┬──────────────────┘
+                              ▼
+                   ┌──────────────────┐
+                   │  Serving Layer   │
+                   │                  │
+                   │  배치 뷰 + 실시간 뷰 병합│
+                   │  쿼리 API 제공   │
+                   │                  │
+                   │  Cassandra / HBase│
+                   │  Elasticsearch   │
+                   └──────────────────┘
+                              │
+                       사용자/서비스 쿼리
+```
 
 ### 2. 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 흐름
 
+```
+사용자 쿼리: "user-001의 지난 30일 구매 합계"
 
+Serving Layer:
+  1. 배치 뷰에서 어제까지의 정확한 합계 조회: 100,000원
+  2. 실시간 뷰에서 오늘 현재까지 근사값 조회: 5,000원
+  3. 병합: 100,000 + 5,000 = 105,000원 (표시)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">사용자 쿼리: "user-001의 지난 30일 구매 합계"</div>
-<div class="kb-diagram-note">Serving Layer:</div>
-<div class="kb-diagram-note">1. 배치 뷰에서 어제까지의 정확한 합계 조회: 100,000원</div>
-<div class="kb-diagram-note">2. 실시간 뷰에서 오늘 현재까지 근사값 조회: 5,000원</div>
-<div class="kb-diagram-note">3. 병합: 100,000 + 5,000 = 105,000원 (표시)</div>
-<div class="kb-diagram-note">6시간 후 배치 작업 완료:</div>
-<div class="kb-diagram-note">→ 오늘 정확한 합계 6,000원으로 확정</div>
-<div class="kb-diagram-note">→ 배치 뷰: 106,000원으로 업데이트</div>
-<div class="kb-diagram-note">→ 실시간 뷰: 오늘 추가분만 다시 계산</div>
-</div>
-</div>
-
-
+6시간 후 배치 작업 완료:
+  → 오늘 정확한 합계 6,000원으로 확정
+  → 배치 뷰: 106,000원으로 업데이트
+  → 실시간 뷰: 오늘 추가분만 다시 계산
+```
 
 ### 3. [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) 장단점
 
@@ -133,20 +132,15 @@ tags = ["studynote-bigdata"]
 
 ### 2. 현대적 대안: [Lakehouse](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) 패턴
 
+```
+Lambda의 현대적 재해석:
+  Batch Layer → Delta Lake / Iceberg (ACID 배치)
+  Speed Layer → Structured Streaming (마이크로배치)
+  Serving → 동일 Delta Lake 테이블 쿼리
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Lambda의 현대적 재해석:</div>
-<div class="kb-diagram-note">Batch Layer → Delta Lake / Iceberg (ACID 배치)</div>
-<div class="kb-diagram-note">Speed Layer → Structured Streaming (마이크로배치)</div>
-<div class="kb-diagram-note">Serving → 동일 Delta Lake 테이블 쿼리</div>
-<div class="kb-diagram-note">→ 코드 통일: 모두 Spark API 사용</div>
-<div class="kb-diagram-note">→ 스토리지 통일: 모두 같은 Delta Lake 테이블</div>
-</div>
-</div>
-
-
+→ 코드 통일: 모두 Spark API 사용
+→ 스토리지 통일: 모두 같은 Delta Lake 테이블
+```
 
 **📢 섹션 요약 비유**
 > [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) vs Kappa는 "두 공장 운영 vs 한 공장 운영"이다. 두 공장([Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/))은 서로 보완하지만 관리 비용이 2배다. 한 공장([Kappa](/knowledge-base/studynote/16_bigdata/12_trends/235_kappa/))은 단순하지만 모든 생산을 감당할 수 있어야 한다.
@@ -208,23 +202,21 @@ Lambda → Kappa 전환 검토 시점:
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">배치 vs 실시간 처리 딜레마 — 정확성(배치) vs 실시간성(스트리밍) 충돌</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">람다 아키텍처 (Lambda Architecture) — Batch Layer + Speed Layer + Serving Layer 3계층</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">카파 아키텍처 (Kappa Architecture) — 스트리밍 단일 파이프라인으로 배치 레이어 제거</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Delta Lake / Apache Iceberg — ACID 트랜잭션 지원 오픈 테이블 포맷</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Lakehouse 아키텍처 — 데이터 레이크 + 데이터 웨어하우스 통합</div></div>
-</div>
-</div>
-
-
+```text
+[배치 vs 실시간 처리 딜레마 — 정확성(배치) vs 실시간성(스트리밍) 충돌]
+    │
+    ▼
+[람다 아키텍처 (Lambda Architecture) — Batch Layer + Speed Layer + Serving Layer 3계층]
+    │
+    ▼
+[카파 아키텍처 (Kappa Architecture) — 스트리밍 단일 파이프라인으로 배치 레이어 제거]
+    │
+    ▼
+[Delta Lake / Apache Iceberg — ACID 트랜잭션 지원 오픈 테이블 포맷]
+    │
+    ▼
+[Lakehouse 아키텍처 — 데이터 레이크 + 데이터 웨어하우스 통합]
+```
 배치와 스트리밍의 결합을 [람다](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) 아키텍처가 해결했고, 복잡성 문제를 [카파 아키텍처](/knowledge-base/studynote/16_bigdata/04_streaming/096_kappa_architecture/)가 단순화했으며, 최종적으로 Lakehouse가 ACID와 대규모 분석을 통합했다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

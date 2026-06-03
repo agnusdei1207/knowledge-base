@@ -101,41 +101,29 @@ CPLD는 간단한 제어 로직과 빠른 [초기](/knowledge-base/studynote/03_
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">CPLD</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Programmable Logic</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Fast Startup</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Control Logic</div>
-</div>
-</div>
-
-
+```text
+CPLD
+  ↓
+Programmable Logic
+  ↓
+Fast Startup
+  ↓
+Control Logic
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">PAL</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">CPLD</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">FPGA</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Programmable Hardware</div>
-</div>
-</div>
-
-
+```text
+PAL
+  ↓
+CPLD
+  ↓
+FPGA
+  ↓
+Programmable Hardware
+```
 
 ---
 

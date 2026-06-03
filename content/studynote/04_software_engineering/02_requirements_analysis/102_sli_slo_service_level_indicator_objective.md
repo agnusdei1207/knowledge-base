@@ -9,7 +9,7 @@ tags = ["software_engineering"]
 +++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/))에서 시스템의 신뢰성을 측정하는 근간으로, <strong>SLI (지표)</strong>는 사용자가 체감하는 현재의 객관적 수치이며, <strong><a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/">SLO</a> (목표)</strong>는 그 지표가 도달해야 할 사내 합의 기준선이다.
+> 1. **본질**: [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/))에서 시스템의 신뢰성을 측정하는 근간으로, <strong>SLI (지표)</strong>는 사용자가 체감하는 현재의 객관적 수치이며, <strong><a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/">SLO</a> (목표)</strong>는 그 지표가 도달해야 할 사내 합의 기준선이다.
 > 2. **가치**: 감이나 추측이 아니라 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반으로 시스템 안정성을 평가하며, 안정성과 새로운 기능 출시 속도 사이의 트레이드오프를 조율하는 [에러 예산](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) ([Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/))을 창출한다.
 > 3. **판단 포인트**: SLI는 철저히 사용자 여정 (User Journey) 관점에서 측정해야 하며, SLO를 100%로 잡으면 시스템 변경이 불가능해지므로 비즈니스 영향도를 고려해 99.9% 같은 현실적 타협점을 찾아야 한다.
 
@@ -31,20 +31,20 @@ tags = ["software_engineering"]
    - SLO는 SLI가 달성해야 할 타깃이다. 예: "[가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) SLI $\ge$ 99.9%".
    - 이 목표를 설정하는 순간 시스템이 허용 가능한 실패치, 즉 **[에러 예산](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) ([Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)) = $100\% - [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)$** 가 자동으로 도출된다. 99.9%가 목표라면 0.1%의 요청은 실패해도 괜찮다는 여유 자금이 생긴 것이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SLI 측정 파이프라인과 SLO 방어 메커니즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">사용자 요청</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">로드밸런서/웹서버</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Log / Metrics 수집</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. SLI 계산: (성공 응답 99,950 / 전체 100,000) = 99.95%</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. SLO 비교: 사내 목표치 99.9% 와 대조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: 99.95% &gt; 99.9% (목표 달성 OK!) ▼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 에러 예산 연동: 잔여 예산이 넉넉하므로 신규 기능 배포 승인!</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│        SLI 측정 파이프라인과 SLO 방어 메커니즘               │
+├──────────────────────────────────────────────────────────────┤
+│ [사용자 요청] ─▶ [로드밸런서/웹서버] ─▶ [Log / Metrics 수집]  │
+│                                            │                 │
+│ 1. SLI 계산: (성공 응답 99,950 / 전체 100,000) = 99.95%       │
+│                                            │                 │
+│ 2. SLO 비교: 사내 목표치 99.9% 와 대조        │                 │
+│    ▶ 결과: 99.95% > 99.9% (목표 달성 OK!)    ▼                 │
+│                                                              │
+│ 3. 에러 예산 연동: 잔여 예산이 넉넉하므로 신규 기능 배포 승인!     │
+└──────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 한 달 용돈([에러 예산](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/))이 10만 원이다. 이번 주에 밥값이 9만 원(SLI 성공률)밖에 안 들었다면 목표([SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/))를 지켰으니 남은 만 원으로 PC방(신규 기능 배포)을 갈 수 있는 권리가 생긴다.
 
@@ -83,27 +83,25 @@ SLI와 [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observabi
 | 개념 | 연결 포인트 |
 |:---|:---|
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/">Error Budget</a> (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/">에러 예산</a>)</strong> | 100%에서 SLO를 뺀 나머지 공간. 이 예산 안에서 개발팀은 장애를 감수하며 빠른 배포를 태울 수 있다. |
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a> (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">Site Reliability Engineering</a>)</strong> | SLI, [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/), [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 체계를 고안하여 소프트웨어 공학의 접근법으로 IT 운영 문제를 해결하는 구글의 조직 철학. |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a> (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">Site Reliability 엔진ering</a>)</strong> | SLI, [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/), [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/085_sla/) 체계를 고안하여 소프트웨어 공학의 접근법으로 IT 운영 문제를 해결하는 구글의 조직 철학. |
 | <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/">MTTR</a> (Mean Time To <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">Recovery</a>)</strong> | 장애 발생 후 복구까지 걸리는 시간. 이 수치를 극단적으로 줄이면 SLI가 방어되어 [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) 달성에 성공한다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">모호한 운영 주관적 평가 ──▶ 개발 vs 운영 갈등 심화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SLI (서비스 수준 지표) 도입: "성공 응답 / 전체 요청" 객관화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SLO (서비스 수준 목표) 설정: 사내 99.9% 타깃 수립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">에러 예산 (Error Budget) 창출 ──▶ 신규 배포 속도 제어</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SLA (서비스 수준 계약) ──▶ 비즈니스 위약금/보상 체계 연동</div>
-</div>
-</div>
-
-
+```text
+모호한 운영 주관적 평가 ──▶ 개발 vs 운영 갈등 심화
+    │
+    ▼
+SLI (서비스 수준 지표) 도입: "성공 응답 / 전체 요청" 객관화
+    │
+    ▼
+SLO (서비스 수준 목표) 설정: 사내 99.9% 타깃 수립
+    │
+    ▼
+에러 예산 (Error Budget) 창출 ──▶ 신규 배포 속도 제어
+    │
+    ▼
+SLA (서비스 수준 계약) ──▶ 비즈니스 위약금/보상 체계 연동
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. SLI는 "어제 수학 시험에서 100문제 중 몇 문제를 맞혔는가?" 채점해서 나온 진짜 내 점수예요.

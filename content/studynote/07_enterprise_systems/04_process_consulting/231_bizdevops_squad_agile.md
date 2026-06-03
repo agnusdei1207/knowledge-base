@@ -42,24 +42,23 @@ tags = ["studynote-enterprise"]
 
 아래 그림은 제품 오너십과 기능 전문성이 교차하는 매트릭스 구조를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Squad matrix</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Product axis</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Squad A -&gt; PO + FE + BE + Ops</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Squad B -&gt; PO + FE + BE + Ops</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Squad C -&gt; PO + FE + BE + Ops</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Skill axis</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">FE Chapter -&gt; standards / coaching / review</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BE Chapter -&gt; standards / coaching / review</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Ops Chapter -&gt; platform / reliability / tooling</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Rule: Squad decides "what now", Chapter aligns "how well"</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Squad matrix                                                         │
+├──────────────────────────────────────────────────────────────────────┤
+│ Product axis                                                         │
+│   Squad A  -> PO + FE + BE + Ops                                     │
+│   Squad B  -> PO + FE + BE + Ops                                     │
+│   Squad C  -> PO + FE + BE + Ops                                     │
+│                                                                      │
+│ Skill axis                                                           │
+│   FE Chapter  -> standards / coaching / review                       │
+│   BE Chapter  -> standards / coaching / review                       │
+│   Ops Chapter -> platform / reliability / tooling                    │
+│                                                                      │
+│ Rule: Squad decides "what now", Chapter aligns "how well"           │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조의 본질은 "두 명의 상사"를 만드는 것이 아니라, 의사결정 축을 분리하는 데 있다. 스쿼드는 제품 목표와 우선순위를, 챕터는 기술 품질과 전문성 성장을 담당한다. 이 분리가 명확해야 스쿼드의 자율성과 전사 표준화가 동시에 성립한다.
 
@@ -83,7 +82,7 @@ tags = ["studynote-enterprise"]
 
 이 구조는 콘웨이의 법칙 (Conway's Law)과 직접 연결된다. 조직이 분리되어 있으면 시스템도 분리된 형태로 설계되고, 반대로 엔드투엔드 책임 팀을 만들면 아키텍처 역시 제품 경계 중심으로 재편되기 쉽다. 그래서 BizDevOps 스쿼드는 역콘웨이 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 실제 조직 형태로 자주 언급된다.
 
-또한 최근에는 [플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/) ([Platform Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/))이 스쿼드 모델의 보완축으로 떠오른다. 모든 스쿼드가 인프라 세부 구현을 직접 관리하면 [인지 부하](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/)가 커지므로, 공통 배포 플랫폼과 골든 패스 (Golden Path)를 제공해 자율성과 표준을 함께 확보하는 방식이다.
+또한 최근에는 [플랫폼 엔지니어링](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/) ([Platform 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/))이 스쿼드 모델의 보완축으로 떠오른다. 모든 스쿼드가 인프라 세부 구현을 직접 관리하면 [인지 부하](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/)가 커지므로, 공통 배포 플랫폼과 골든 패스 (Golden Path)를 제공해 자율성과 표준을 함께 확보하는 방식이다.
 
 - **📢 섹션 요약 비유**: 기능 조직이 부품 공장이라면, BizDevOps 스쿼드는 설계부터 주행 테스트까지 한 팀이 맡는 레이싱 피트 크루와 같고, 플랫폼 팀은 그 크루가 공통 공구를 편하게 쓰게 해 주는 정비창과 같다.
 
@@ -134,28 +133,26 @@ tags = ["studynote-enterprise"]
 | Product Owner | 제품 우선순위와 가치 판단의 중심 |
 | Chapter / Guild | 표준화와 학습을 위한 수평 구조 |
 | Conway's Law | 조직 구조가 시스템 구조를 닮는 원리 |
-| [Platform Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/) | 스쿼드 자율성을 뒷받침하는 공통 플랫폼 |
+| [Platform 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/109_platform_engineering_cognitive_load/) | 스쿼드 자율성을 뒷받침하는 공통 플랫폼 |
 | [DORA Metrics](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/201_dora_metrics_devops_performance/) | 리드타임·배포 빈도·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 속도 측정 지표 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Functional silo organization</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Dev and Ops collaboration</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">BizDevOps product squad</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Chapter / platform-supported scaling</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Team topology and autonomous product flow</div>
-</div>
-</div>
-
-
+```text
+Functional silo organization
+        │
+        ▼
+Dev and Ops collaboration
+        │
+        ▼
+BizDevOps product squad
+        │
+        ▼
+Chapter / platform-supported scaling
+        │
+        ▼
+Team topology and autonomous product flow
+```
 
 이 흐름은 부서 중심 일하기에서, 제품 중심의 자율 팀과 플랫폼 보완 구조로 진화하는 과정을 보여준다.
 

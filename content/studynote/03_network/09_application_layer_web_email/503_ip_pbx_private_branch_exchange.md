@@ -29,28 +29,34 @@ tags = ["studynote-network"]
   1. **All-IP 망으로의 시대 전환**: 통신사들이 비싼 아날로그 서킷(회선) 망 유지보수를 포기하고, 전 세계 모든 백본망을 인터넷(패킷) 기반으로 갈아엎으면서 사내 교환기도 IP화의 압박을 받았다.
   2. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/">오픈소스</a> PBX (Asterisk)의 반란</strong>: 어바이어(Avaya), 시스코([Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/)) 같은 글로벌 벤더가 수천만 원에 팔던 IP-PBX 쇳덩이를, 누군가 리눅스 서버에 무료로 깔 수 있는 소프트웨어(Asterisk)로 풀어버리면서 스타트업도 자체 인터넷 전화를 뚝딱 구축하는 대중화가 터졌다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IP-PBX 기반 기업 통신 융합망 (All-IP Enterprise Architecture)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🌍</div><div class="kb-diagram-node">외부 세상</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">보이스 게이트웨이</div><div class="kb-diagram-note">──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(아날로그 ➔ IP 변환)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">🏢 회사 전산실의 심장부</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🌟</div><div class="kb-diagram-node">IP-PBX 서버 (SIP 라우팅 두뇌)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">💻 회사 사무실의 스마트 워크 융합</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">☎️</div><div class="kb-diagram-node">IP 전화기</div><div class="kb-diagram-note">📱</div><div class="kb-diagram-node">모바일 Softphone</div><div class="kb-diagram-note">💻</div><div class="kb-diagram-node">노트북 줌/팀즈</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 랜선 꼽아 씀 (내선 101번) - 외근 중 스마트폰 (FMC) - 화상 회의 (UC)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 스위치(PoE)로 전기 공짜 공급 - 밖에서도 회사 번호로 발신 - SIP 기반 연동</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🌟 아키텍트의 극찬 (FMC 융합): IP-PBX의 진짜 사기 스킬이다. 영업 사원이 부산에서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">출장 중일 때, 고객이 '서울 본사 02-123-4567'로 전화를 건다. IP-PBX가 전화를</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">받자마자 인터넷을 타고 부산에 있는 영업 사원 스마트폰(LTE/5G) 어플을 울리게</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">만들어버린다! 유선과 무선의 완벽한 경계 파괴(FMC)의 심장이다!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          IP-PBX 기반 기업 통신 융합망 (All-IP Enterprise Architecture)       │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ 🌍 [ 외부 세상 ]                                              │
+│  KT 일반전화 (PSTN) ──▶ [ 보이스 게이트웨이 ] ──┐                  │
+│                             (아날로그 ➔ IP 변환) │                  │
+│                                           ▼                  │
+│        ======= [ 🏢 회사 전산실의 심장부 ] ========              │
+│                                           │                  │
+│                     🌟 [ IP-PBX 서버 (SIP 라우팅 두뇌) ]       │
+│                                           │                  │
+│        ======= [ 💻 회사 사무실의 스마트 워크 융합 ] ========       │
+│                                           │                  │
+│  ┌────────────────────────────────────────┼────────────────────────┐ │
+│  │                                        │                        │ │
+│  ▼                                        ▼                        ▼ │
+│ ☎️ [ IP 전화기 ]                    📱 [ 모바일 Softphone ]   💻 [ 노트북 줌/팀즈 ]│
+│ - 랜선 꼽아 씀 (내선 101번)       - 외근 중 스마트폰 (FMC)    - 화상 회의 (UC)  │
+│ - 스위치(PoE)로 전기 공짜 공급    - 밖에서도 회사 번호로 발신   - SIP 기반 연동   │
+│                                                             │
+│ 🌟 아키텍트의 극찬 (FMC 융합): IP-PBX의 진짜 사기 스킬이다. 영업 사원이 부산에서│
+│    출장 중일 때, 고객이 '서울 본사 02-123-4567'로 전화를 건다. IP-PBX가 전화를 │
+│    받자마자 인터넷을 타고 부산에 있는 영업 사원 스마트폰(LTE/5G) 어플을 울리게  │
+│    만들어버린다! 유선과 무선의 완벽한 경계 파괴(FMC)의 심장이다!             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** "IP-PBX 깔면 전화 요금 말고 뭐가 좋은데요?"라는 임원진의 질문을 종식시키는 '스마트 워크([Smart Work](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/078_smart_work_mobile_office/))' 아키텍처 도면이다. 과거 구형 전화기는 책상 위에서만 울렸다(장소의 노예). 하지만 IP-PBX는 직원들에게 '가상 내선 번호(Virtual Extension)'를 부여한다. 직원이 101번 번호를 IP 폰에 치든, 스마트폰 앱(소프트폰)에 로그인하든, 집 노트북에 치든, IP-PBX는 전 세계 어디든 IP(인터넷)가 연결된 그 기기로 전화를 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)(배달)해버린다. 장소(책상)에 얽매였던 회사 전화를 100% 모바일 중심의 유연한 기동성 체계로 완전히 세탁해 버린 것이다.
 
@@ -63,7 +69,7 @@ tags = ["studynote-network"]
 ### 1. IP-PBX의 핵심 하드웨어 융합: [PoE](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/265_poe_power_over_ethernet/) ([Power over Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/265_poe_power_over_ethernet/))
 
 책상에 구리 전화선 1가닥을 없앤 건 좋은데, 새로운 치명적 문제가 터졌다.
-- **딜레마**: 구형 구리 전화기는 정전이 나도 통화가 됐다(전화국에서 미세한 직류 전기를 구리선으로 같이 쏴줬기 때문). 그런데 책상에 놓인 신형 IP 전화기는 '랜선([UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/))'만 꼽혀 있다. 그럼 인터넷은 되는데, 화면에 불을 켤 '220V 전원 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)' 콘센트를 직원마다 따로 책상 밑에 또 꼽아야 하나? 100명이면 멀티탭만 100개다(지옥).
+- **딜레마**: 구형 구리 전화기는 정전이 나도 통화가 됐다(전화국에서 미세한 직류 전기를 구리선으로 같이 쏴줬기 때문). 그런데 책상에 놓인 새로운 유형의 IP 전화기는 '랜선([UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/))'만 꼽혀 있다. 그럼 인터넷은 되는데, 화면에 불을 켤 '220V 전원 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)' 콘센트를 직원마다 따로 책상 밑에 또 꼽아야 하나? 100명이면 멀티탭만 100개다(지옥).
 - <strong>구원자 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/265_poe_power_over_ethernet/">PoE</a> (<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/265_poe_power_over_ethernet/">Power over Ethernet</a>) <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a></strong>: 네트워크 아키텍트는 천재였다. "야! 랜선 안에 8가닥 구리 심선이 있는데 인터넷([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 쏠 때 4가닥밖에 안 쓰잖아! 노는 나머지 4가닥 선으로 48V 전기를 쏴서 IP 전화기 화면을 켜버려!"
 - **결론**: 전산실의 네트워크 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(L2)를 비싼 '[PoE](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/265_poe_power_over_ethernet/) 지원 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)'로 갈아 끼운다. 그러면 랜선 1개만 IP 폰에 딱 꼽으면 **'통신(인터넷) + 전기 공급'이 100% 동시에 해결된다.** 220V 멀티탭 지옥에서 벗어나 책상 밑이 우주에서 가장 깔끔해지는 물리적 인프라 혁명이 완성되었다.
 
@@ -75,18 +81,14 @@ IP-PBX가 가져온 가장 파괴적인 비즈니스 모델 혁신이다.
 - **Convergence (융합)**: 직원이 퇴근 후 집에 가는데 회사 고객에게 전화해야 한다. 내 개인 010 폰으로 걸면 사생활이 노출(카톡 친추 됨)된다. FMC 앱(소프트폰)을 켠다. 와이파이(또는 [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/))를 타고 회사 IP-PBX 서버로 원격 접속된다. 그리고 전화를 건다.
 - **결과**: 고객의 핸드폰 화면에는 내 개인 010 번호가 아니라 **회사의 '02-1234' 공식 번호가 찍힌다.** 외근 중인 100명의 영업사원 주머니 속에 회사 책상 전화기를 통째로 구겨 넣어, 완벽한 사생활 분리와 스마트 워크 기동성을 동시에 잡아버린 기업 통신의 정점이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">H.323</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">IP PBX</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">IPTV 멀티캐스트 전송</div></div>
-</div>
-</div>
-
-
+```text
+[H.323]
+    │
+    ▼
+[IP PBX]
+    │
+    └──▶ [IPTV 멀티캐스트 전송]
+```
 
 - **📢 섹션 요약 비유**: 구형 전화기와 IP 폰의 차이는 <strong>'무선 청소기 배터리'</strong>와 같습니다. 예전엔 청소기(전화기)를 돌리려면 벽 콘센트(220V)에 무조건 전기 코드를 따로 꼽아야 했죠. IP 폰([PoE](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/265_poe_power_over_ethernet/) 적용)은 그냥 인터넷 선 딱 하나만 꽂으면 그 선 안에서 마법처럼 전기까지 같이 흘러나와 기계를 켜주는 <strong>'충전+인터넷 일체형 슈퍼 케이블'</strong>입니다.
 
@@ -116,36 +118,38 @@ IP-PBX가 가져온 가장 파괴적인 비즈니스 모델 혁신이다.
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-1. **시나리오 — 구형 PBX 노후화에 따른 IPT(IP Telephony) 빅뱅 마이그레이션**: 사옥 내선 전화를 20년 된 구형 시스코([Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/)) 하드웨어 교환기로 돌리고 있었다. 단종(EoL)으로 부품이 안 나와서 비가 오면 전화기가 꺼진다. 사장이 "다음 주 주말 동안 구형 싹 다 버리고 신형 IP-PBX로 100% 교체해!" 지시했다.
-   - **판단**: 통신사/사내 IT팀 최악의 둠스데이, <strong>번호 보존(Number Portability)과 무중단(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">Zero</a> Downtime) 컷오버(Cut-over)</strong> 시나리오다. 월요일 아침 9시에 1,000명의 직원이 출근해서 전화를 들었을 때 신호가 안 가면 IT팀은 사표를 써야 한다. 금요일 밤 12시, 외부에서 들어오는 KT 국선 케이블을 구형 쇳덩이에서 뽑아 신형 <strong>Voice Gateway (보이스 게이트웨이)</strong>에 꽂는 컷오버를 친다. 그리고 책상의 낡은 아날로그 전화기 1,000대를 밤새 뛰어다니며 싹 다 폐기하고 새 IP 폰으로 교체한 뒤 랜선을 꽂는다. 토요일 오전 10시부터 1,000대 전화기 전체에 핑(Ping)을 날리고, 임원실 내선(101번 등)이 다이얼 플랜(Dial Plan)에 맞게 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)되는지 밤을 꼬박 새우며 모의 통화 테스트 스크립트를 수만 번 돌려 100% 정합성을 확인해야 하는 뼈를 깎는 인프라 빅뱅 수술이다.
+1. **시나리오 — 구형 PBX 노후화에 따른 IPT(IP Telephony) 빅뱅 마이그레이션**: 사옥 내선 전화를 20년 된 구형 시스코([Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/)) 하드웨어 교환기로 돌리고 있었다. 단종(EoL)으로 부품이 안 나와서 비가 오면 전화기가 꺼진다. 사장이 "다음 주 주말 동안 구형 싹 다 버리고 새로운 유형의 IP-PBX로 100% 교체해!" 지시했다.
+   - **판단**: 통신사/사내 IT팀 최악의 둠스데이, <strong>번호 보존(Number Portability)과 무중단(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">Zero</a> Downtime) 컷오버(Cut-over)</strong> 시나리오다. 월요일 아침 9시에 1,000명의 직원이 출근해서 전화를 들었을 때 신호가 안 가면 IT팀은 사표를 써야 한다. 금요일 밤 12시, 외부에서 들어오는 KT 국선 케이블을 구형 쇳덩이에서 뽑아 새로운 유형의 <strong>Voice Gateway (보이스 게이트웨이)</strong>에 꽂는 컷오버를 친다. 그리고 책상의 낡은 아날로그 전화기 1,000대를 밤새 뛰어다니며 싹 다 폐기하고 새 IP 폰으로 교체한 뒤 랜선을 꽂는다. 토요일 오전 10시부터 1,000대 전화기 전체에 핑(Ping)을 날리고, 임원실 내선(101번 등)이 다이얼 플랜(Dial Plan)에 맞게 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)되는지 밤을 꼬박 새우며 모의 통화 테스트 스크립트를 수만 번 돌려 100% 정합성을 확인해야 하는 뼈를 깎는 인프라 빅뱅 수술이다.
 
 2. **시나리오 — 클라우드 UCaaS(통합 커뮤니케이션)의 콜센터(CCaaS) 포식**: 쇼핑몰이 100석 규모의 콜센터를 차리려고 IP-PBX 견적을 받았다. 서버, CTI(컴퓨터 전화 통합), 녹취 서버(Voice Recording), ARS(자동응답) 장비를 따로따로 다 사서 이어 붙이려니 견적이 5억이 나왔다.
    - **판단**: 쇳덩이 모놀리식 IP-PBX를 구축하는 시대 착오적 오판이다. 실무 아키텍트는 5억 견적서를 찢어버리고, <strong>아마존 커넥트(Amazon Connect)</strong>나 제네시스(Genesys) 같은 <strong>CCaaS(클라우드 콜센터 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/309_saas/">SaaS</a>)</strong>로 즉시 턴어라운드해야 한다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 쇳덩이 구매 비용 0원. 브라우저 클릭 몇 번으로 "안녕하세요, 1번 누르면 환불, 2번 누르면 상담원" 이라는 ARS 다이얼 흐름도([Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) Flow)를 마우스로 예쁘게 그려서([BPMN](/knowledge-base/studynote/04_software_engineering/03_design_architecture/163_bpmn_business_process_modeling_notation/) 융합) 클라우드에 배포(Deploy)해 버린다. 상담원 책상엔 10만 원짜리 IP 전화기조차 살 필요 없이 0원짜리 크롬 브라우저와 헤드셋만 던져주면(Softphone), 백엔드 클라우드 렌더링 서버가 콜 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 녹음, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 음성 인식 요약([STT](/knowledge-base/studynote/03_network/16_data_center_cloud/819_stt_stateless_transport_tunneling_offload/))까지 월 5만 원 구독료에 다 해치워 버리는 파괴적 프론트엔드-콜센터 융합을 이룩한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실무 아키텍처: IP-PBX가 붕괴(Down)됐을 때 회사를 구원하는 생존(HA) 도면</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">평상시 (정상 작동)</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🏢 서울 본사 메인 IP-PBX 서버 ──(전화 연결 100% 통제)──▶ 부산 지사 IP 폰</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">🚨 둠스데이 발생 (본사 지진/화재)</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💥 서울 본사 IP-PBX 서버 사망!! (메인 라우터 뇌 정지)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">❌</div><div class="kb-diagram-node">최악의 붕괴 (HA 융합 안 됨)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 부산 지사 직원: "어? 본사 죽었네? 내 전화기(단말)가 통제를 잃었어 ㅠㅠ"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➔ (사내 내선 전화는 물론 외부 전화까지 100% 올스톱 통신 마비 재앙)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">🌟 아키텍트의 무기: SRST 최후의 생존 라우터</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">✅</div><div class="kb-diagram-node">생존 모드 발동: SRST (Survivable Remote Site Telephony)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 부산 지사 랙에 조용히 숨어있던 '작은 라우터(스위치)' 깡통 왈:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"어라? 본사 뇌(IP-PBX)랑 핑(Ping)이 끊겼네? 내가 임시 뇌로 각성한다!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 라우터가 지 스스로 '미니 IP-PBX'로 0.1초 만에 돌연변이 변신함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 부산 지사 IP 폰들 ➔ "본사 말고 우리 지사 라우터 형님한테 붙어라!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">➔ 🌟 본사가 불타 없어졌는데도, 부산 지사 사람들끼리는 끄떡없이 내선 전화가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">걸리는 미친듯한 생존성(Resiliency) 획득!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │         실무 아키텍처: IP-PBX가 붕괴(Down)됐을 때 회사를 구원하는 생존(HA) 도면 │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │        ======= [ 평상시 (정상 작동) ] ========                  │
+  │ 🏢 서울 본사 메인 IP-PBX 서버 ──(전화 연결 100% 통제)──▶ 부산 지사 IP 폰│
+  │                                                             │
+  │        ======= [ 🚨 둠스데이 발생 (본사 지진/화재) ] ========    │
+  │ 💥 서울 본사 IP-PBX 서버 사망!! (메인 라우터 뇌 정지)               │
+  │                                                             │
+  │ ❌ [ 최악의 붕괴 (HA 융합 안 됨) ]                            │
+  │   - 부산 지사 직원: "어? 본사 죽었네? 내 전화기(단말)가 통제를 잃었어 ㅠㅠ"│
+  │   ➔ (사내 내선 전화는 물론 외부 전화까지 100% 올스톱 통신 마비 재앙)   │
+  │                                                             │
+  │        ======= [ 🌟 아키텍트의 무기: SRST 최후의 생존 라우터 ] ========│
+  │                                                             │
+  │ ✅ [ 생존 모드 발동: SRST (Survivable Remote Site Telephony) ]  │
+  │   - 부산 지사 랙에 조용히 숨어있던 '작은 라우터(스위치)' 깡통 왈:         │
+  │     "어라? 본사 뇌(IP-PBX)랑 핑(Ping)이 끊겼네? 내가 임시 뇌로 각성한다!" │
+  │   - 라우터가 지 스스로 '미니 IP-PBX'로 0.1초 만에 돌연변이 변신함.     │
+  │   - 부산 지사 IP 폰들 ➔ "본사 말고 우리 지사 라우터 형님한테 붙어라!"    │
+  │   ➔ 🌟 본사가 불타 없어졌는데도, 부산 지사 사람들끼리는 끄떡없이 내선 전화가│
+  │      걸리는 미친듯한 생존성(Resiliency) 획득!                        │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** "전화 교환기(IP-PBX)를 중앙에 1대만 두면 본사 죽으면 전 세계 지사 전화 다 끊기는 거 아닌가요?"라는 임원의 합리적 의심을 무마시키는 시스코([Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/))의 궁극적 무기 **SRST (생존 가능한 원격지 통신)** 아키텍처다. 평소엔 바보 깡통([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))처럼 웅크리고 있다가 중앙 서버와의 탯줄(Heartbeat)이 끊어지는 그 찰나의 순간, 깡통 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 임시로 DHCP를 뿌리고 임시 번호 장부(Dial Plan)를 가동하는 통제관으로 1초 만에 각성(Take-over)한다. 비록 복잡한 착신 전환 같은 고급 기능은 안 되지만, 최소한 옆자리 김 과장한테 101번 내선으로 전화를 거는 '최후의 호흡기'를 유지해 주는 극한의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 재난 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)([DR](/knowledge-base/studynote/03_network/07_network_layer_routing/360_ospf_dr_bdr_designated_router_lsa_flooding/)) 융합 망이다.
 
@@ -193,19 +197,15 @@ IP-PBX가 가져온 가장 파괴적인 비즈니스 모델 혁신이다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: H.323</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: IP PBX</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: IPTV 멀티캐스트 전송</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 애플리케이션 전달</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: H.323]
+    │
+    ▼
+[현재 개념: IP PBX]
+    │
+    ├──▶ [확장 A: IPTV 멀티캐스트 전송]
+    └──▶ [확장 B: 지능형 애플리케이션 전달]
+```
 
 IP PBX는 H.323에서 출발해 현재 메커니즘을 정교화하고, 이후 IPTV [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/) 전송와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

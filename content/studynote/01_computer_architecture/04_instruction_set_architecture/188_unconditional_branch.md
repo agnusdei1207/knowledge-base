@@ -25,21 +25,19 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 무조건 분기가 순차 실행의 관성을 끊고, PC를 새 주소로 강제로 돌리는 순간을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">순차 실행을 끊는 핵심: PC를 새 주소로 덮어쓰기</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">100</div><div class="kb-diagram-note">LOAD</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">101</div><div class="kb-diagram-note">ADD</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">102</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">PC ← 140</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">103</div><div class="kb-diagram-note">SUB (인출되었더라도 폐기될 수 있음)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">104</div><div class="kb-diagram-note">STORE</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">140</div><div class="kb-diagram-note">LOOP_END / MERGE / HANDLER</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│        순차 실행을 끊는 핵심: PC를 새 주소로 덮어쓰기         │
+├──────────────────────────────────────────────────────────────┤
+│ [100] LOAD                                                   │
+│ [101] ADD                                                    │
+│ [102] B 140        ───────▶  PC ← 140                        │
+│ [103] SUB        (인출되었더라도 폐기될 수 있음)             │
+│ [104] STORE                                                  │
+│                              ▼                               │
+│ [140] LOOP_END / MERGE / HANDLER                             │
+└──────────────────────────────────────────────────────────────┘
+```
 
 핵심은 무조건 분기가 데이터를 계산하는 명령이 아니라, <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a>를 어디서 이어서 읽을지 결정하는 제어 명령</strong>이라는 점이다. 그래서 산술 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 하나보다 눈에 덜 띄어도, 프로그램 구조 전체를 실제로 접는 힌지처럼 작동한다.
 
@@ -59,20 +57,18 @@ tags = ["studynote-computer-architecture"]
 
 다음 그림은 파이프라인 관점에서 무조건 분기가 어떤 비용을 만드는지 보여준다. 조건을 검사하지는 않지만, **분기 직후의 인출 방향을 바꾸는 순간** 기존에 따라오던 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 쓸모없어질 수 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">무조건 분기의 파이프라인 영향: 판단은 단순, 전환은 실제</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Cycle n : IF</div><div class="kb-diagram-node">B target</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Cycle n+1 : ID</div><div class="kb-diagram-node">B target</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">target 계산</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Cycle n+2 : IF</div><div class="kb-diagram-node">target</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">IF</div><div class="kb-diagram-node">fall-through</div><div class="kb-diagram-note">는 폐기 가능</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 조건 비교 지연은 없지만, 인출 방향 전환 비용은 남는다</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────┐
+│       무조건 분기의 파이프라인 영향: 판단은 단순, 전환은 실제    │
+├─────────────────────────────────────────────────────────────────┤
+│ Cycle n      : IF  [B target]                                   │
+│ Cycle n+1    : ID  [B target]  ──▶ target 계산                  │
+│ Cycle n+2    : IF  [target]                                      │
+│                IF  [fall-through] 는 폐기 가능                  │
+│                                                                 │
+│ 결과: 조건 비교 지연은 없지만, 인출 방향 전환 비용은 남는다      │
+└─────────────────────────────────────────────────────────────────┘
+```
 
 그래서 무조건 분기는 "[조건부 분기](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/187_conditional_branch/)보다 항상 공짜"가 아니다. 직접 분기는 비교적 빠르게 처리되지만, 간접 분기는 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 읽어 봐야 목적지를 알 수 있어 분기 타깃 버퍼 (Branch Target Buffer, [BTB](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/234_btb/)) 같은 예측 장치의 도움을 많이 받는다. 특히 객체 지향 언어의 가상 [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/), `switch-case`의 점프 테이블, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 문맥 전환 복귀 주소는 모두 이런 간접 무조건 분기의 성격을 띤다.
 
@@ -147,24 +143,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">순차 실행</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">프로그램 카운터 (Program Counter, PC) 갱신</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">무조건 분기 (Unconditional Branch)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 루프 백엣지 · 블록 탈출</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 조건부 분기와 결합한 if-else 구조화</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ 호출/복귀 · 점프 테이블</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">간접 분기 예측 · BTB · CFI</div>
-</div>
-</div>
-
-
+```text
+순차 실행
+    │
+    ▼
+프로그램 카운터 (Program Counter, PC) 갱신
+    │
+    ▼
+무조건 분기 (Unconditional Branch)
+    │
+    ├─▶ 루프 백엣지 · 블록 탈출
+    │
+    ├─▶ 조건부 분기와 결합한 if-else 구조화
+    │
+    ├─▶ 호출/복귀 · 점프 테이블
+    │
+    ▼
+간접 분기 예측 · BTB · CFI
+```
 
 이 흐름은 "순차 실행의 한계 해결 → 제어 구조 형성 → 고급 언어 구현 → [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·보안 최적화"로 무조건 분기의 의미가 확장되는 과정을 보여준다.
 

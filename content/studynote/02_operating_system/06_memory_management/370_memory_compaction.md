@@ -27,28 +27,29 @@ tags = ["studynote-operating-system"]
   2. **디스크 I/O 회피**: "제발 램 안에서만 좀 해결해 보자!" 디스크로 쫓아내지 않고 램 안에서 빈자리로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 살짝 옮기는(Migration) 로직 구상.
   3. <strong>Memory <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">Compaction</a> (2.6.35 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 도입)</strong>: 리눅스의 천재 개발자 Mel Gorman이 스왑 없이 램 내부에서만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 이동시키는 고도화된 마이그레이션 스캐너 아키텍처를 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 병합(Merge)하며 파편화 문제의 숨통을 텄다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">리눅스 메모리 컴팩션의 시각적 동작 원리 (Two-Finger Scan)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">컴팩션 전: 걸레짝이 된 물리 램 프레임들</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(왼쪽 끝) (오른쪽 끝)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">█</div><div class="kb-diagram-node">█</div><div class="kb-diagram-node">█</div><div class="kb-diagram-node">█</div><div class="kb-diagram-node">█</div><div class="kb-diagram-node">█</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">※ █: 데이터 있음,</div><div class="kb-diagram-note">: 4KB 빈 방.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">⚠ 2MB 거대 페이지를 만들고 싶은데 연속된 빈방이 없음!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↓↓ 컴팩션 발동 ↓↓</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 왼쪽 스캐너 ─▶ 이동시킬 '데이터(█)'를 왼쪽에서부터 찾음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 오른쪽 스캐너 ◀─ 데이터를 욱여넣을 '빈 방'을 오른쪽 끝에서부터 찾음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 복사(Copy): 왼쪽의 █ 를 오른쪽 끝 빈방으로 통째로 복사하고 이동!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 매핑 갱신: 프로세스 페이지 테이블을 새 주소로 재빨리 수정(TLB Flush)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">컴팩션 후: 깨끗한 연속 구역 확보</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">█</div><div class="kb-diagram-node">█</div><div class="kb-diagram-node">█</div><div class="kb-diagram-node">█</div><div class="kb-diagram-node">█</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 20KB 연속된 텅 빈 공간(Big Hole) 탄생! ──</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│        리눅스 메모리 컴팩션의 시각적 동작 원리 (Two-Finger Scan)        │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│ [ 컴팩션 전: 걸레짝이 된 물리 램 프레임들 ]                             │
+│ (왼쪽 끝)                                       (오른쪽 끝)             │
+│ [ █ ][   ][ █ ][ █ ][   ][ █ ][   ][ █ ][ █ ][   ]                      │
+│  ※ █: 데이터 있음, [ ]: 4KB 빈 방.                                      │
+│  ⚠ 2MB 거대 페이지를 만들고 싶은데 연속된 빈방이 없음!                  │
+│                                                                         │
+│                    ↓↓ 컴팩션 발동 ↓↓                                    │
+│                                                                         │
+│ 1. 왼쪽 스캐너 ─▶ 이동시킬 '데이터(█)'를 왼쪽에서부터 찾음              │
+│ 2. 오른쪽 스캐너 ◀─ 데이터를 욱여넣을 '빈 방'을 오른쪽 끝에서부터 찾음  │
+│ 3. 복사(Copy): 왼쪽의 █ 를 오른쪽 끝 빈방으로 통째로 복사하고 이동!     │
+│ 4. 매핑 갱신: 프로세스 페이지 테이블을 새 주소로 재빨리 수정(TLB Flush) │
+│                                                                         │
+│ [ 컴팩션 후: 깨끗한 연속 구역 확보 ]                                    │
+│ [   ][   ][   ][   ][   ][ █ ][ █ ][ █ ][ █ ][ █ ]                      │
+│ └─ 20KB 연속된 텅 빈 공간(Big Hole) 탄생! ──┘                           │
+└─────────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 리눅스 컴팩션의 핵심은 '양방향 스캐너(Two-Finger Scan)'다. 왼쪽에서는 마이그레이션(이사) 시킬 블록을 찾고, 오른쪽에서는 이사 갈 빈집을 찾는다. 둘이 중간에서 만날 때까지 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 계속 오른쪽 끝으로 복사해 던져버리면, 기적처럼 메모리 왼쪽 절반에 거대하고 깨끗한 텅 빈 활주로(연속 공간)가 뚫린다. [버디 시스템](/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/)([Buddy System](/knowledge-base/studynote/02_operating_system/06_memory_management/348_buddy_system/))은 이 거대한 공간을 덥석 집어 1MB, 2MB짜리 굵직한 블록으로 쾌재를 부르며 묶어버린다.
 
 - **📢 섹션 요약 비유**: 스마트폰 바탕화면에 앱 아이콘과 빈칸이 더럽게 섞여 있을 때, 아이콘들을 손가락으로 꾹 눌러 폴더(오른쪽)에 다 쑤셔 박아버리면, 바탕화면 메인 창(왼쪽)에 거대한 빈 공간이 생겨 커다란 위젯([Huge Page](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/))을 달 수 있게 되는 쾌감입니다.
@@ -76,25 +77,25 @@ tags = ["studynote-operating-system"]
 
 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 물리 메모리 4KB를 이사시키는 숨 막히는 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 과정이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">페이지 마이그레이션의 무거운 오버헤드 사이클</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 격리 (Isolation)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 옮길 페이지와 새 빈집을 커널 관리 장부(LRU/Buddy)에서 잠시 뺌.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 이 페이지를 쓰고 있던 유저 앱의 접근을 잠시 멈춤(Lock 획득).</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 복사 및 매핑 갱신 (Copy &amp; Update)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 구 주소(A)의 4KB 데이터를 새 주소(B)로 Memcpy (물리적 부하 발생)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 유저 앱의 페이지 테이블 엔트리(PTE)를 찾아 주소 B로 화살표 수정!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 해당 주소가 캐싱된 모든 CPU 코어에 TLB Flush(Shootdown) 타격!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 반환 (Putback)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- பழைய 구 주소(A)를 빈 방(Free Page) 장부로 던져 넣어 연속 공간 확보.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 유저 앱 락(Lock) 해제, 정상 동작 재개.</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────────────────┐
+│              페이지 마이그레이션의 무거운 오버헤드 사이클                 │
+├───────────────────────────────────────────────────────────────────────────┤
+│                                                                           │
+│ 1. 격리 (Isolation)                                                       │
+│    - 옮길 페이지와 새 빈집을 커널 관리 장부(LRU/Buddy)에서 잠시 뺌.       │
+│    - 이 페이지를 쓰고 있던 유저 앱의 접근을 잠시 멈춤(Lock 획득).         │
+│                                                                           │
+│ 2. 복사 및 매핑 갱신 (Copy & Update)                                      │
+│    - 구 주소(A)의 4KB 데이터를 새 주소(B)로 Memcpy (물리적 부하 발생)     │
+│    - 유저 앱의 페이지 테이블 엔트리(PTE)를 찾아 주소 B로 화살표 수정!     │
+│    - 해당 주소가 캐싱된 모든 CPU 코어에 TLB Flush(Shootdown) 타격!        │
+│                                                                           │
+│ 3. 반환 (Putback)                                                         │
+│    - பழைய 구 주소(A)를 빈 방(Free Page) 장부로 던져 넣어 연속 공간 확보.  │
+│    - 유저 앱 락(Lock) 해제, 정상 동작 재개.                               │
+└───────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 단순히 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 복사한다고 끝나는 게 아니다. 주소가 바뀌었으니 그 주소를 물고 있던 '[페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)' 장부를 뜯어고쳐야 하고, 장부가 고쳐졌으니 CPU 코어들 안의 '[TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 캐시'를 모조리 강제로 날려버려야(Flush) 한다. 즉, 메모리 컴팩션이 백그라운드에서 너무 격렬하게 돌면 멀티코어 서버 전체가 캐시 미스와 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 경합으로 덜덜 떨며 렉에 빠지는 치명상을 입는다.
 
@@ -122,17 +123,14 @@ tags = ["studynote-operating-system"]
 2. **kcompactd (정리정돈 청소부)**: `kswapd`가 잔고를 채워줬음에도 램이 너무 찢어져(파편화) 2MB짜리 덩어리를 못 만들면 얘가 깨어난다. CPU 코어 하나를 점유하고 램 안의 박스들을 왼쪽 오른쪽으로 미친 듯이 밀어대며 거대 구멍(Huge Hole)을 조각해 낸다.
 이 둘의 적절한 백그라운드 활약 덕분에, 유저가 메모리를 요구했을 때 시스템이 얼어붙는 일([Direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/) Reclaim / [Direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/) [Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/))을 미연에 방지할 수 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">트리거 상황</div><div class="kb-diagram-cell">총 메모리 상태</div><div class="kb-diagram-cell">파편화 상태</div><div class="kb-diagram-cell">출동하는 데몬 스레드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">잔고 고갈</div><div class="kb-diagram-cell">부족 🚨</div><div class="kb-diagram-cell">상관없음</div><div class="kb-diagram-cell">kswapd (버리기)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">거대 할당</div><div class="kb-diagram-cell">여유 🟢</div><div class="kb-diagram-cell">걸레짝 🚨</div><div class="kb-diagram-cell">kcompactd (밀기)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬────────────────────────────┐
+│ 트리거 상황│ 총 메모리 상태│ 파편화 상태  │ 출동하는 데몬 스레드│
+├──────────┼────────────┼────────────┼────────────────────────────┤
+│ 잔고 고갈  │ 부족 🚨     │ 상관없음    │ kswapd (버리기)        │
+│ 거대 할당  │ 여유 🟢     │ 걸레짝 🚨  │ kcompactd (밀기)        │
+└──────────┴────────────┴────────────┴────────────────────────────┘
+```
 **[매트릭스 해설]** 실무에서 서버의 Load Average가 갑자기 미친 듯이 치솟을 때, 많은 엔지니어가 `top`이나 `vmstat`을 보며 원인을 찾는다. CPU 연산이 아니라 %system, %iowait이 치솟는다면 이 두 청소부 데몬이 살기 위해 램을 뒤엎으며 멱살 캐리를 하고 있는 현장일 확률이 99%다.
 
 - **📢 섹션 요약 비유**: 방에 물건이 꽉 차서 발 디딜 틈이 없으면 헌옷수거함(디스크)에 내다 버리는 게 `Reclaim`이고, 물건 총량은 적은데 바닥에 널브러져 있어서 침대를 놓을 자리가 없을 때 물건들을 서랍(램 한쪽)으로 싹 밀어 넣는 게 `Compaction`입니다.
@@ -187,19 +185,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">메모리 풀 (Memory Pool) 기법</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">파편화 관리 및 조각 모음</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">거대 페이지 (Huge Pages / Transparent Huge Pages)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">아키텍처 종속적인 MMU 인터페이스</div></div>
-</div>
-</div>
-
-
+```text
+[메모리 풀 (Memory Pool) 기법]
+    │
+    ▼
+[파편화 관리 및 조각 모음]
+    │
+    ├──▶ [거대 페이지 (Huge Pages / Transparent Huge Pages)]
+    └──▶ [아키텍처 종속적인 MMU 인터페이스]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

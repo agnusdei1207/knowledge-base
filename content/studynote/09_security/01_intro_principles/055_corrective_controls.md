@@ -109,21 +109,18 @@ Incident → Containment → Recovery → Restoration → Verification
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">사고 발생</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">격리 / 복구</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">원상 복원</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">검증 / 재발 방지</div>
-</div>
-</div>
-
-
+```text
+사고 발생
+    │
+    ▼
+격리 / 복구
+    │
+    ▼
+원상 복원
+    │
+    ▼
+검증 / 재발 방지
+```
 
 이 흐름은 보안 사고나 장애 이후 시스템을 정상 상태로 되돌리는 과정을 보여준다.
 

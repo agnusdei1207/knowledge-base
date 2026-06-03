@@ -56,17 +56,11 @@ Digital Workplace는 <strong>그룹웨어+Enterprise 2.0+<a href="/knowledge-bas
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">전자결재 (1990s)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">그룹웨어 (2000s)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Enterprise 2.0 (2006~)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Slack/Teams (2014~)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: AI + Digital Workplace — Copilot·Gemini 협업</div></div>
-</div>
-</div>
-
-
+```text
+[전자결재 (1990s)] → [그룹웨어 (2000s)]
+    → [Enterprise 2.0 (2006~)] → [Slack/Teams (2014~)]
+    → [현재: AI + Digital Workplace — Copilot·Gemini 협업]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 그룹웨어는 <strong>우편함</strong>이에요. 공문(결재)을 넣고 꺼내요.

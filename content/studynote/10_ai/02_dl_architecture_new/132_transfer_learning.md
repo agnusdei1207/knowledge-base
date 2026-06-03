@@ -18,17 +18,11 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">사전 학습 (ImageNet 100만장) → 범용 표현 학습</div>
-<div class="kb-diagram-note">→ Fine-tuning (의료 X-ray 1000장) → 전문 모델</div>
-<div class="kb-diagram-note">소량 데이터로도 높은 성능!</div>
-</div>
-</div>
-
-
+```text
+사전 학습 (ImageNet 100만장) → 범용 표현 학습
+  → Fine-tuning (의료 X-ray 1000장) → 전문 모델
+  소량 데이터로도 높은 성능!
+```
 
 - **📢 섹션 요약 비유**: Transfer Learning은 <strong>대학 교양(사전 학습) 후 전공(<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/">Fine-tuning</a>) 선택</strong>이다. 교양을 건너뛰면 전공도 어렵다.
 
@@ -62,18 +56,12 @@ Transfer Learning은 <strong>현대 AI의 기본 패러다임</strong>이며, [L
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">ImageNet Pre-training (2012)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">ULMFiT (NLP 전이, 2018)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">BERT/GPT Fine-tuning (2018~)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">LoRA (2021) — 효율적 미세 조정</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: QLoRA + Prompt Tuning — 초효율 전이</div></div>
-</div>
-</div>
-
-
+```text
+[ImageNet Pre-training (2012)] → [ULMFiT (NLP 전이, 2018)]
+    → [BERT/GPT Fine-tuning (2018~)]
+    → [LoRA (2021) — 효율적 미세 조정]
+    → [현재: QLoRA + Prompt Tuning — 초효율 전이]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. Transfer Learning은 **대학 교양(사전 학습)** 후 <strong>전공(<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/">Fine-tuning</a>)</strong>을 고르는 거예요.

@@ -42,23 +42,24 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 페일 세이프가 단순 셧다운이 아니라, <strong>검출된 이상을 더 큰 사고로 번지기 전에 제어 경로에서 끊어내는 과정</strong>임을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Fail-Safe control path: detect, isolate, force safe</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Sensor/Event</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Overheat / Overvoltage / Uncorrectable ECC Error / Hang</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Fault Detector</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Protection Logic</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Safe-State Action</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Clock throttle</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Power cutoff</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Output disable</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Read-only lock</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Recovery Gate / Manual Check</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│          Fail-Safe control path: detect, isolate, force safe        │
+├──────────────────────────────────────────────────────────────────────┤
+│ Sensor/Event                                                         │
+│   │                                                                  │
+│   ├─ Overheat / Overvoltage / Uncorrectable ECC Error / Hang         │
+│   ▼                                                                  │
+│ [Fault Detector] ──▶ [Protection Logic] ──▶ [Safe-State Action]      │
+│                               │                    │                  │
+│                               │                    ├─ Clock throttle  │
+│                               │                    ├─ Power cutoff    │
+│                               │                    ├─ Output disable  │
+│                               │                    └─ Read-only lock  │
+│                               ▼                                       │
+│                      [Recovery Gate / Manual Check]                  │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 대표 예시는 세 가지로 정리할 수 있다. 첫째, CPU 열 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)에서는 온도 임계값을 넘으면 먼저 스로틀링 (Throttling)으로 발열을 낮추고, 그래도 회복되지 않으면 전원을 차단한다. 둘째, 서버 메모리에서는 정정 불가능 오류가 발생할 경우 운영체제가 계속 계산을 수행하게 두지 않고 Machine Check 예외를 통해 프로세스 종료나 시스템 정지를 선택한다. 셋째, 저장장치나 파일시스템은 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 불일치가 감지되면 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 작업을 계속 허용하지 않고 읽기 전용으로 전환해 원본 손상을 막는다.
 
@@ -99,22 +100,20 @@ tags = ["studynote-computer-architecture"]
 3. <strong>제어 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a> 이상</strong>: 센서 값 신뢰도가 무너지면 자동 제어를 끄고 수동 모드로 넘긴다.
 4. **전원 이상**: 언더볼티지(Undervoltage)나 오버볼티지(Overvoltage)는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손상 전에 차단한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Fail-Safe decision: stop now or keep running?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Can wrong output damage people, hardware, or data?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Is the fault recoverable by retry or redundancy?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Is state integrity already in doubt?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. Will continued operation increase recovery cost?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mostly Yes ─▶ Force safe state</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mixed ─▶ Degrade first, then safe stop if needed</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mostly No ─▶ Prefer fail-soft or fault-tolerant design</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│         Fail-Safe decision: stop now or keep running?       │
+├──────────────────────────────────────────────────────────────┤
+│ 1. Can wrong output damage people, hardware, or data?       │
+│ 2. Is the fault recoverable by retry or redundancy?         │
+│ 3. Is state integrity already in doubt?                     │
+│ 4. Will continued operation increase recovery cost?         │
+├──────────────────────────────────────────────────────────────┤
+│ Mostly Yes  ─▶ Force safe state                             │
+│ Mixed        ─▶ Degrade first, then safe stop if needed     │
+│ Mostly No    ─▶ Prefer fail-soft or fault-tolerant design   │
+└──────────────────────────────────────────────────────────────┘
+```
 
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
@@ -158,25 +157,24 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">고장 발생 가능성 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">센서 · 패리티 · 타임아웃 기반 이상 감지</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">워치독 타이머 · Thermal Shutdown · Read-Only 보호</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ECC (Error Correcting Code) · Lockstep 기반 정교한 오류 판정</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">RAS (Reliability, Availability, Serviceability) 통합 보호 체계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">예지 정비와 결합한 적응형 Fail-Safe 제어</div>
-</div>
-</div>
-
-
+```text
+고장 발생 가능성 인식
+    │
+    ▼
+센서 · 패리티 · 타임아웃 기반 이상 감지
+    │
+    ▼
+워치독 타이머 · Thermal Shutdown · Read-Only 보호
+    │
+    ▼
+ECC (Error Correcting Code) · Lockstep 기반 정교한 오류 판정
+    │
+    ▼
+RAS (Reliability, Availability, Serviceability) 통합 보호 체계
+    │
+    ▼
+예지 정비와 결합한 적응형 Fail-Safe 제어
+```
 
 이 흐름은 단순 차단기 수준의 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)에서 시작해, 오류 판정과 시스템 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 절차를 함께 고려하는 통합 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 아키텍처로 발전하는 과정을 보여준다.
 

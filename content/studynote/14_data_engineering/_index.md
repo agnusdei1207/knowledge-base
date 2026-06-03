@@ -1,5 +1,5 @@
 +++
-title = "14: 데이터 엔지니어링 (Data Engineering)"
+title = "14: 데이터 엔지니어링 (Data 엔진ering)"
 
 [extra]
 tags = ["studynote-data-engineering"]
@@ -8,9 +8,7 @@ tags = ["studynote-data-engineering"]
 > 🧸 **어린이를 위한 비유**
 > 세상 여기저기서 쏟아지는 '더러운 흙탕물(원시 데이터)'을 모아서, 깨끗하게 정수하고 파이프를 통해 요리사(데이터 분석가)나 로봇(AI)이 마실 수 있는 '1급수'로 만들어주는 상수도 공사예요!
 
----
-
-# 도메인 14: 데이터 엔지니어링 (Data Engineering)
+---# 도메인 14: 데이터 엔지니어링 (Data 엔진ering)
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 파편화된 원시 데이터(Raw Data)를 수집, 정제, 적재(ETL/ELT)하여 데이터 분석가, 과학자, 그리고 AI 모델이 즉각적이고 신뢰할 수 있게 사용할 수 있도록 거대한 배관망(Data Pipeline)을 설계하고 유지보수하는 아키텍처 공학.
@@ -21,7 +19,7 @@ tags = ["studynote-data-engineering"]
 
 ### Ⅰ. 개요 (Context & Background)
 아무리 정교한 딥러닝 모델(AI)이 존재하더라도, 입력되는 데이터가 오염되었거나 편향되어 있다면 그 결과는 끔찍한 재앙이 된다(Garbage In, Garbage Out). 과거에는 데이터베이스 관리자(DBA)가 정형 데이터 위주로 SQL을 다루었다면, 모바일과 IoT 시대가 열리면서 초당 수백만 건의 비정형 로그(JSON, 이미지, 텍스트)가 쏟아지는 '빅데이터 폭발'이 발생했다.
-<strong>데이터 엔지니어링(Data Engineering)</strong>은 이 거친 폭포수를 통제하기 위해 탄생했다. 이는 단순한 데이터 복사 작업이 아니다. 멱등성(Idempotency)을 보장하는 분산 파이프라인을 구축하고, 데이터의 계보(Data Lineage)를 추적하며, 수백 테라바이트의 데이터를 조인(Join)할 때 발생하는 메모리 셔플(Shuffle) 병목을 압살하는 고도의 분산 시스템 아키텍처 튜닝 과정이다.
+<strong>데이터 엔지니어링(Data 엔진ering)</strong>은 이 거친 폭포수를 통제하기 위해 탄생했다. 이는 단순한 데이터 복사 작업이 아니다. 멱등성(Idempotency)을 보장하는 분산 파이프라인을 구축하고, 데이터의 계보(Data Lineage)를 추적하며, 수백 테라바이트의 데이터를 조인(Join)할 때 발생하는 메모리 셔플(Shuffle) 병목을 압살하는 고도의 분산 시스템 아키텍처 튜닝 과정이다.
 
 ---
 
@@ -40,30 +38,28 @@ tags = ["studynote-data-engineering"]
 
 #### 2. 모던 데이터 스택 (Modern Data Stack) 아키텍처 다이어그램 (ASCII)
 전통적인 ETL에서 벗어나, 무한한 클라우드 스토리지에 데이터를 먼저 적재하고(Load) 나중에 클라우드 DW의 막강한 컴퓨팅 파워로 변환(Transform)하는 ELT 아키텍처.
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">ELT-based Cloud Data Lakehouse Architecture / ELT 기반 클라우드 데이터 레이크하우스 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">(Sources / 원본) (Extract &amp; Load / 추출/적재)</div><div class="kb-diagram-node">Data Lakehouse (S3 / GCS) / 데이터 호수</div><div class="kb-diagram-note">(Transform via dbt / 변환)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RDBMS</div><div class="kb-diagram-cell">Fivetran /</div><div class="kb-diagram-cell">1. Bronze Layer (Raw JSON/CSV)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(MySQL)</div><div class="kb-diagram-cell">----&gt;</div><div class="kb-diagram-cell">Airbyte</div><div class="kb-diagram-cell">-----&gt;</div><div class="kb-diagram-cell">- 원본 데이터 그대로 적재</div><div class="kb-diagram-cell">----&gt;</div><div class="kb-diagram-cell">SQL을 통한</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+---------+</div><div class="kb-diagram-cell">(Batch EL)</div><div class="kb-diagram-cell">+-----------------------------------+</div><div class="kb-diagram-cell">데이터 정제</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. Silver Layer (Cleaned Parquet)</div><div class="kb-diagram-cell">&lt;----</div><div class="kb-diagram-cell">및 비즈니스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+---------+ +----------------+</div><div class="kb-diagram-cell">- Null 제거, 스키마 강제, 필터</div><div class="kb-diagram-cell">----&gt;</div><div class="kb-diagram-cell">로직 반영</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App Logs</div><div class="kb-diagram-cell">----&gt;</div><div class="kb-diagram-cell">Apache Kafka</div><div class="kb-diagram-cell">-----&gt; +-----------------------------------+</div><div class="kb-diagram-cell">(DAG 형태)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Click)</div><div class="kb-diagram-cell">(Real-time)</div><div class="kb-diagram-cell">3. Gold Layer (Aggregated)</div><div class="kb-diagram-cell">&lt;----</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">+---------+ +----------------+</div><div class="kb-diagram-cell">- BI 및 AI 훈련용 데이터 마트</div><div class="kb-diagram-cell">+-------------+</div></div>
-<div class="kb-diagram-note">(Data Serving / 서빙)</div>
-<div class="kb-diagram-note">+----------------v------------------+</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tableau / Superset / AI ML Model</div></div>
-</div>
-</div>
-
-
+```text
+    [ ELT-based Cloud Data Lakehouse Architecture / ELT 기반 클라우드 데이터 레이크하우스 아키텍처 ]
+    
+    (Sources / 원본)     (Extract & Load / 추출/적재)   [ Data Lakehouse (S3 / GCS) / 데이터 호수 ]     (Transform via dbt / 변환)
+    +---------+       +----------------+        +-----------------------------------+       +-------------+
+    | RDBMS   |       | Fivetran /     |        | 1. Bronze Layer (Raw JSON/CSV)    |       |             |
+    | (MySQL) | ----> | Airbyte        | -----> |    - 원본 데이터 그대로 적재      | ----> | SQL을 통한  |
+    +---------+       | (Batch EL)     |        +-----------------------------------+       | 데이터 정제 |
+                                                | 2. Silver Layer (Cleaned Parquet) | <---- | 및 비즈니스 |
+    +---------+       +----------------+        |    - Null 제거, 스키마 강제, 필터 | ----> | 로직 반영   |
+    | App Logs| ----> | Apache Kafka   | -----> +-----------------------------------+       | (DAG 형태)  |
+    | (Click) |       | (Real-time)    |        | 3. Gold Layer (Aggregated)        | <---- |             |
+    +---------+       +----------------+        |    - BI 및 AI 훈련용 데이터 마트  |       +-------------+
+                                                +-----------------------------------+
+                                                                 | (Data Serving / 서빙)
+                                                +----------------v------------------+
+                                                | Tableau / Superset / AI ML Model  |
+                                                +-----------------------------------+
+```
 
 #### 3. 핵심 알고리즘 메커니즘 (Columnar Storage Format - Parquet)
-전통적인 RDBMS(Row-based)는 한 레코드(Row)를 통째로 읽어 집계 쿼리에 극도로 비효율적이다. Data Engineering은 이를 타파하기 위해 <strong>컬럼형 스토리지(Columnar Format, 예: Apache Parquet)</strong>를 사용한다.
+전통적인 RDBMS(Row-based)는 한 레코드(Row)를 통째로 읽어 집계 쿼리에 극도로 비효율적이다. Data 엔진ering은 이를 타파하기 위해 <strong>컬럼형 스토리지(Columnar Format, 예: Apache Parquet)</strong>를 사용한다.
 ① 동일한 컬럼(예: '나이')의 데이터만 연속된 디스크 블록에 모아서 저장한다.
 ② "평균 나이"를 구하는 쿼리 시, 불필요한 '이름', '주소' 컬럼 블록을 디스크에서 읽지 않아 I/O를 99% 삭감(Projection Pushdown)한다.
 ③ 동일한 데이터 타입이 연속되므로 RLE(Run-Length Encoding)나 Dictionary 인코딩을 통해 압축률(Compression)을 극한으로 끌어올린다.

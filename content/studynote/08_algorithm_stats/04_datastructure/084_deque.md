@@ -18,23 +18,24 @@ tags = ["studynote-algorithm-stats"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">덱 자료구조 동작</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">앞(Front) 삽입/삭제 ←→ 뒤(Rear) 삽입/삭제</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">← A | B | C | D →</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">앞(Front) 뒤(Rear)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">push_front(X):</div><div class="kb-diagram-node">X | A | B | C | D</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">push_back(Y):</div><div class="kb-diagram-node">X | A | B | C | D | Y</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">pop_front(): 반환 X,</div><div class="kb-diagram-node">A | B | C | D | Y</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">pop_back(): 반환 Y,</div><div class="kb-diagram-node">A | B | C | D</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모든 연산: O(1) (이중 연결 리스트 또는 순환 배열)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────┐
+│               덱 자료구조 동작                            │
+├──────────────────────────────────────────────────────────┤
+│                                                           │
+│  앞(Front) 삽입/삭제  ←→  뒤(Rear) 삽입/삭제             │
+│                                                           │
+│  [← A | B | C | D →]                                     │
+│   앞(Front)          뒤(Rear)                             │
+│                                                           │
+│  push_front(X): [X | A | B | C | D]                      │
+│  push_back(Y):  [X | A | B | C | D | Y]                  │
+│  pop_front():   반환 X, [A | B | C | D | Y]              │
+│  pop_back():    반환 Y, [A | B | C | D]                   │
+│                                                           │
+│  모든 연산: O(1) (이중 연결 리스트 또는 순환 배열)         │
+└──────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 덱은 양쪽에 문이 있는 버스다. 앞문·뒷문 어디서든 승객([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 탑승·하차할 수 있어 상황에 따라 큐처럼 앞뒤로 사용하거나 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)처럼 한쪽만 사용할 수 있다.
 
@@ -138,23 +139,21 @@ def maxSlidingWindow(nums, k):
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">스택·큐 — 단방향 자료구조</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">덱 (Deque) — 양방향 삽입·삭제</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">단조 덱 — 슬라이딩 윈도우 최적화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">0-1 BFS — 이진 가중치 최단 경로</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">세그먼트 트리·스파스 테이블 — 구간 최솟값 고급 구조</div></div>
-</div>
-</div>
-
-
+```text
+[스택·큐 — 단방향 자료구조]
+    │
+    ▼
+[덱 (Deque) — 양방향 삽입·삭제]
+    │
+    ▼
+[단조 덱 — 슬라이딩 윈도우 최적화]
+    │
+    ▼
+[0-1 BFS — 이진 가중치 최단 경로]
+    │
+    ▼
+[세그먼트 트리·스파스 테이블 — 구간 최솟값 고급 구조]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

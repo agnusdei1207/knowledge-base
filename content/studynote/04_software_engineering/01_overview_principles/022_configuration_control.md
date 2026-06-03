@@ -35,26 +35,28 @@ tags = ["software_engineering"]
 
 이 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)도는 변경 요청(CR)이 발의되어 최종적으로 [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/)에 반영될 때까지의 엄격한 흐름을 보여준다. 각 전이 구간에는 승인 및 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 단계가 강제되어 있음을 이해해야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. CR 발의</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2. 영향 분석│ ──(비용/일정 초과)──&gt;</div><div class="kb-diagram-node">반려 (Rejected)</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3. CCB 심의│ ──(기술적 타당성 부족)──&gt;</div><div class="kb-diagram-node">보류/반려</div></div>
-<div class="kb-diagram-note">↓ (승인: Approved)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 체크아웃</div><div class="kb-diagram-cell">(Check-out) ─&gt; 개발자 로컬 환경</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(수정 진행)</div></div>
-<div class="kb-diagram-note">↓ (체크인: Check-in)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">5. 테스트/감사│ ──(결함 발견 시)──&gt;</div><div class="kb-diagram-node">재수정</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">6. 베이스라인 반영</div></div>
-</div>
-</div>
-
-
+```text
+       [1. CR 발의] 
+           ↓
+    ┌─────────────┐
+    │ 2. 영향 분석│ ──(비용/일정 초과)──> [반려 (Rejected)]
+    └──────┬──────┘
+           ↓
+    ┌─────────────┐
+    │  3. CCB 심의│ ──(기술적 타당성 부족)──> [보류/반려]
+    └──────┬──────┘
+           ↓ (승인: Approved)
+    ┌─────────────┐
+    │ 4. 체크아웃 │ (Check-out) ─> 개발자 로컬 환경
+    │ (수정 진행) │
+    └──────┬──────┘
+           ↓ (체크인: Check-in)
+    ┌─────────────┐
+    │ 5. 테스트/감사│ ──(결함 발견 시)──> [재수정]
+    └──────┬──────┘
+           ↓
+    [6. 베이스라인 반영]
+```
 
 이 흐름의 핵심은 수정 단계(체크아웃)가 CCB의 심의 단계보다 뒤에 위치한다는 점이다. 따라서 무분별한 코딩 작업은 변경이 공식적으로 승인되기 전에 진행될 수 없으며, 불필요한 자원 낭비를 원천 차단한다. 실무에서는 이 승인 병목 구간의 처리 속도([Lead Time](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/))를 주기적으로 관찰해야 전체 개발 속도 저하를 막을 수 있다.
 
@@ -80,19 +82,16 @@ tags = ["software_engineering"]
 
 다음 매트릭스는 무겁고 공식적인 [CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/) 기반 방식과, 자동화 및 [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/) 기반의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 통제 방식의 아키텍처적 트레이드오프를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비교 항목</div><div class="kb-diagram-cell">전통적 형상 통제 (폭포수)</div><div class="kb-diagram-cell">최신 형상 통제 (DevOps)</div><div class="kb-diagram-cell">판단 포인트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">승인 주체</div><div class="kb-diagram-cell">공식적인 CCB 회의 기구</div><div class="kb-diagram-cell">동료 리뷰어(PR), 파이프라인</div><div class="kb-diagram-cell">조직의 문화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">승인 속도</div><div class="kb-diagram-cell">느림 (주/월 단위 회의)</div><div class="kb-diagram-cell">빠름 (실시간 / 일 단위)</div><div class="kb-diagram-cell">배포의 빈도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">초점</div><div class="kb-diagram-cell">변경 억제 및 방어적 통제</div><div class="kb-diagram-cell">빠른 피드백과 안전한 적용</div><div class="kb-diagram-cell">리스크 수용도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자동화</div><div class="kb-diagram-cell">문서 기반의 수동 결재</div><div class="kb-diagram-cell">Policy-as-Code 자동 승인</div><div class="kb-diagram-cell">CI/CD 성숙도</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬──────────────────────────┬──────────────────────────┬────────────────┐
+│ 비교 항목│ 전통적 형상 통제 (폭포수)│ 최신 형상 통제 (DevOps)  │ 판단 포인트    │
+├──────────┼──────────────────────────┼──────────────────────────┼────────────────┤
+│ 승인 주체│ 공식적인 CCB 회의 기구   │ 동료 리뷰어(PR), 파이프라인│ 조직의 문화    │
+│ 승인 속도│ 느림 (주/월 단위 회의)   │ 빠름 (실시간 / 일 단위)  │ 배포의 빈도    │
+│ 초점     │ 변경 억제 및 방어적 통제 │ 빠른 피드백과 안전한 적용│ 리스크 수용도  │
+│ 자동화   │ 문서 기반의 수동 결재    │ Policy-as-Code 자동 승인 │ CI/CD 성숙도   │
+└──────────┴──────────────────────────┴──────────────────────────┴────────────────┘
+```
 
 전통적 방식은 단일 승인 절차 레이턴시가 길지만, 컴플라이언스가 엄격한 국방, 금융 시스템에서는 치명적 장애를 격리하고 책임 소재를 명확히 하는 데 유리하다. 반면 [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 방식은 단건 지연은 짧고 수평 확장성이 좋아, 트래픽 변동이 크고 잦은 배포가 필요한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 환경에서는 전체 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 기준으로 더 유리하다. 
 
@@ -110,24 +109,19 @@ tags = ["software_engineering"]
 
 이 의사결정 플로우는 실무에서 긴급도에 따라 어떻게 형상 통제를 우회 또는 가속할지를 판단하는 기준을 제시한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">CR 수신</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">서비스 중단 등 긴급한 장애인가?</div><div class="kb-diagram-note">──(Yes)──&gt;</div><div class="kb-diagram-node">Emergency CCB (사후 승인 가능)</div></div>
-<div class="kb-diagram-note">↓ (Hotfix 배포)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">(No)</div><div class="kb-diagram-node">정상화 후 공식 문서 보완</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">단순 UI 수정 등 경미한 변경인가?</div><div class="kb-diagram-note">──(Yes)──&gt;</div><div class="kb-diagram-node">Local CCB (PL 단독 승인)</div></div>
-<div class="kb-diagram-note">(No)</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">구조적 영향을 미치는 주요 변경인가?</div><div class="kb-diagram-note">──(Yes)──&gt;</div><div class="kb-diagram-node">정규 CCB 소집 및 전체 영향 분석</div></div>
-</div>
-</div>
-
-
+```text
+[CR 수신]
+   ↓
+[서비스 중단 등 긴급한 장애인가?] ──(Yes)──> [Emergency CCB (사후 승인 가능)]
+   │                                           ↓ (Hotfix 배포)
+ (No)                                    [정상화 후 공식 문서 보완]
+   ↓
+[단순 UI 수정 등 경미한 변경인가?] ──(Yes)──> [Local CCB (PL 단독 승인)]
+   │
+ (No)
+   ↓
+[구조적 영향을 미치는 주요 변경인가?] ──(Yes)──> [정규 CCB 소집 및 전체 영향 분석]
+```
 
 이 흐름의 핵심은 긴급 변경(Hotfix)과 정규 변경을 분리하여 처리한다는 점이다. 따라서 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간([MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/))은 불필요한 절차 대기로 인해 악화되지 않으며, 사후 기록을 통해 통제 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 유지한다. 실무에서는 이 지점의 예외 허용 조건(Emergency 기준)을 명확히 문서화해야 권한 남용을 막을 수 있다.
 
@@ -165,23 +159,21 @@ tags = ["software_engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">변경 요청 (Change Request) — 개발자/이해관계자</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CCB (Configuration Control Board) 심의 — 승인/반려</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">베이스라인 (Baseline) 업데이트 — 공식 산출물 묶음</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">형상 감사 (Configuration Audit) — 무결성 검증</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">GitOps — Git을 SSOT로 삼는 현대화된 통제 자동화</div></div>
-</div>
-</div>
-
-
+```text
+[변경 요청 (Change Request) — 개발자/이해관계자]
+    │
+    ▼
+[CCB (Configuration Control Board) 심의 — 승인/반려]
+    │
+    ▼
+[베이스라인 (Baseline) 업데이트 — 공식 산출물 묶음]
+    │
+    ▼
+[형상 감사 (Configuration Audit) — 무결성 검증]
+    │
+    ▼
+[GitOps — Git을 SSOT로 삼는 현대화된 통제 자동화]
+```
 변경 요청이 [CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/) 심의를 거쳐 [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/)에 반영되고 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)되며, GitOps가 이 전 과정을 자동화·선언적으로 통제하는 현대 [구성 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_configuration_management/) 흐름이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

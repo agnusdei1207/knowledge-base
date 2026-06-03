@@ -1,5 +1,5 @@
 +++
-title = "01: 컴퓨터 구조 (Computer Architecture)"
+title = "🏛️ 01: 컴퓨터 구조 (Computer Architecture)"
 
 [extra]
 tags = ["studynote-computer-architecture"]
@@ -8,9 +8,7 @@ tags = ["studynote-computer-architecture"]
 > 🧸 **어린이를 위한 비유**
 > 컴퓨터라는 아주 복잡하고 거대한 성을 짓는 '설계도'를 배우는 곳이에요. 전기가 어떻게 숫자가 되는지, 두뇌인 CPU가 어떻게 명령을 내리는지 탐험하게 될 거예요!
 
----
-
-# 도메인 01: 컴퓨터 구조 (Computer Architecture)
+---# 도메인 01: 컴퓨터 구조 (Computer Architecture)
 
 ## ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 하드웨어와 소프트웨어의 경계인 ISA(Instruction Set Architecture)를 중심으로, 연산(Datapath)과 제어(Control)의 최적화를 통해 시스템의 절대적 성능을 극대화하는 물리적/논리적 결착점.
@@ -39,32 +37,34 @@ tags = ["studynote-computer-architecture"]
 | **Pipeline** | 명령어 병렬 실행 | IF-ID-EX-MEM-WB 단계를 중첩시켜 IPC(Instruction Per Cycle) 극대화 | Branch Prediction, Forwarding | 공장 컨베이어 벨트 |
 
 #### 2. CPU 파이프라인 및 메모리 계층 아키텍처 다이어그램
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">비순차 슈퍼스칼라 실행 아키텍처 및 메모리 계층 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Superscalar Out-of-Order Execution Architecture &amp; Memory Hierarchy</div></div>
-<div class="kb-diagram-note">(명령어 인출 및 분기 예측 / Instruction Fetch &amp; Predict)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Branch Predictor (BHT/BTB) &lt;---------+</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">I-Cache (L1) -&gt; Fetch Unit</div></div>
-<div class="kb-diagram-note">v | (오예측 플러시 / Mispredict Flush)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Decode &amp; Register Renaming (RAT)</div><div class="kb-diagram-cell">--+</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(디코딩 및 레지스터 리네이밍)</div></div>
-<div class="kb-diagram-note">v</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Reorder Buffer (ROB) &amp; Issue Queue</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(재정렬 버퍼 및 이슈 큐)</div></div>
-<div class="kb-diagram-note">/ | \ (비순차 실행 / Out of Order Issue)</div>
-<div class="kb-diagram-note">+-------v---+ +-----v-----+ +---v-------+</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ALU (정수)</div><div class="kb-diagram-cell">FPU (부동)</div><div class="kb-diagram-cell">LSU (메모리)</div><div class="kb-diagram-cell">--&gt; 데이터 캐시 / Data Cache (L1) -&gt; L2 Cache</div></div>
-<div class="kb-diagram-note">\ | / v</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">+-------v-----------v-----------v-------+</div><div class="kb-diagram-node">L3 Cache</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Commit Unit (순차 은퇴 / In-Order)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">+---------------------------------------+</div><div class="kb-diagram-node">Main RAM</div></div>
-</div>
-</div>
-
-
+```text
+    [ 비순차 슈퍼스칼라 실행 아키텍처 및 메모리 계층 구조 ]
+    [ Superscalar Out-of-Order Execution Architecture & Memory Hierarchy ]
+    
+    (명령어 인출 및 분기 예측 / Instruction Fetch & Predict)
+    +-------------------------------------------+
+    | Branch Predictor (BHT/BTB)  <---------+   |
+    | I-Cache (L1) -> Fetch Unit            |   |
+    +-------------------|-------------------+   |
+                        v                       | (오예측 플러시 / Mispredict Flush)
+    +---------------------------------------+   |
+    | Decode & Register Renaming (RAT)      | --+
+    | (디코딩 및 레지스터 리네이밍)         |
+    +-------------------|-------------------+
+                        v
+    +---------------------------------------+
+    | Reorder Buffer (ROB) & Issue Queue    |
+    | (재정렬 버퍼 및 이슈 큐)              |
+    +---------------------------------------+
+            /           |           \ (비순차 실행 / Out of Order Issue)
+    +-------v---+ +-----v-----+ +---v-------+
+    | ALU (정수)| | FPU (부동) | | LSU (메모리)| --> 데이터 캐시 / Data Cache (L1) -> L2 Cache
+    +-------+---+ +-----+-----+ +---+-------+                                    |
+            \           |           /                                            v
+    +-------v-----------v-----------v-------+                               [ L3 Cache ]
+    | Commit Unit (순차 은퇴 / In-Order)    |                                    |
+    +---------------------------------------+                               [ Main RAM ]
+```
 
 #### 3. 파이프라이닝 동작 원리 및 분기 예측 수식
 1. **IF (Fetch)**: PC(Program Counter)가 가리키는 주소의 명령어를 L1 I-Cache에서 인출.

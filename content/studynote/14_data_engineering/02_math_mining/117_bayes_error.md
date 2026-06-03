@@ -18,24 +18,23 @@ tags = ["studynote-dataengineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">에러 계층 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">베이즈 에러 (이론 하한) ≈ 1%</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↕ 회피 가능 편향 (Avoidable Bias)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">학습 에러 = 5%</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↕ 분산 (Variance)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">검증 에러 = 8%</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">회피 가능 편향 = 5% - 1% = 4% → 편향 줄이기 우선</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분산 = 8% - 5% = 3% → 과적합 줄이기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전략: 회피 가능 편향 &gt; 분산 → 모델 복잡도 ↑</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분산 &gt; 회피 가능 편향 → 정규화·데이터 ↑</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    에러 계층 구조                                      │
+├───────────────────────────────────────────────────────┤
+│  베이즈 에러 (이론 하한) ≈ 1%                        │
+│      ↕ 회피 가능 편향 (Avoidable Bias)                │
+│  학습 에러 = 5%                                       │
+│      ↕ 분산 (Variance)                                │
+│  검증 에러 = 8%                                       │
+│                                                       │
+│  회피 가능 편향 = 5% - 1% = 4% → 편향 줄이기 우선    │
+│  분산 = 8% - 5% = 3% → 과적합 줄이기                │
+│                                                       │
+│  전략: 회피 가능 편향 > 분산 → 모델 복잡도 ↑         │
+│        분산 > 회피 가능 편향 → 정규화·데이터 ↑       │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 베이즈 에러는 도로의 <strong>속도 제한</strong>이다. 아무리 좋은 차(모델)를 가져와도 이 제한([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 노이즈)을 넘을 수 없다.
 
@@ -96,23 +95,21 @@ tags = ["studynote-dataengineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">베이즈 정리 (1763) — 확률론 기초</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">베이즈 최적 분류기 (통계학) — 이론적 최소 에러</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">편향-분산 분해 (1990s) — 에러 원인 분석</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Andrew Ng 에러 분석 (2017) — HLP 기반 실무 프레임워크</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: 데이터 중심 AI — 모델보다 데이터 품질 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[베이즈 정리 (1763) — 확률론 기초]
+    │
+    ▼
+[베이즈 최적 분류기 (통계학) — 이론적 최소 에러]
+    │
+    ▼
+[편향-분산 분해 (1990s) — 에러 원인 분석]
+    │
+    ▼
+[Andrew Ng 에러 분석 (2017) — HLP 기반 실무 프레임워크]
+    │
+    ▼
+[현재: 데이터 중심 AI — 모델보다 데이터 품질 최적화]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 시험에서 <strong>만점이 95점</strong>인 과목이 있어요. 아무리 공부해도 <strong>100점은 불가능</strong>해요 (베이즈 에러).

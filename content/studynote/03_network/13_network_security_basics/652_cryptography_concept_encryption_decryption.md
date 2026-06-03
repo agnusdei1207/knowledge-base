@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 평문(Plaintext, 누구나 읽을 수 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 수학적 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)과 비밀 키([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))를 이용해, 해커가 훔쳐보아도 전혀 의미를 알 수 없는 암호문(Ciphertext, 외계어)으로 변환하는 기술과 이론을 연구하는 학문입니다.
 - **목적**: 네트워크상에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주고받을 때 제3자의 스니핑([도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/))으로부터 <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/">기밀성</a>(<a href="/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/">Confidentiality</a>)</strong>을 지키는 가장 근본적이고 강력한 방어 수단입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">정보보안 3대 요소 + 인증, 부인방지 요구</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">암호학 개요 통신망 보안 적용</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">대칭키 암호화</div></div>
-</div>
-</div>
-
-
+```text
+[정보보안 3대 요소 + 인증, 부인방지 요구]
+    │
+    ▼
+[암호학 개요 통신망 보안 적용]
+    │
+    └──▶ [대칭키 암호화]
+```
 
 - **📢 섹션 요약 비유**: 암호학 개요 통신망 보안 적용은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -46,18 +42,14 @@ tags = ["studynote-network"]
 3. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">Algorithm</a>)</strong>: 평문을 암호문으로 섞고(Encryption), 암호문을 다시 평문으로 푸는(Decryption) 수학적인 '공식'이나 '기계'입니다. (예: [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/), [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))
 4. <strong>키 (<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a>)</strong>: [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 기계를 돌릴 때 집어넣는 '비밀번호' 또는 '열쇠'입니다. 아무리 강력한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 써도, **키를 해커에게 들키면 암호문은 즉시 뚫립니다.** (현대 암호학에서 가장 지켜야 할 절대 반지입니다.)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">정보보안 3대 요소 + 인증, 부인방지 요구</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">암호학 개요 통신망 보안 적용</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">대칭키 암호화</div></div>
-</div>
-</div>
-
-
+```text
+[정보보안 3대 요소 + 인증, 부인방지 요구]
+    │
+    ▼
+[암호학 개요 통신망 보안 적용]
+    │
+    └──▶ [대칭키 암호화]
+```
 
 - **📢 섹션 요약 비유**: 암호학 개요 통신망 보안 적용의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -120,19 +112,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 정보보안 3대 요소 + 인증, 부인방지 요구</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 암호학 개요 통신망 보안 적용</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 대칭키 암호화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자동화된 신뢰 체계</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 정보보안 3대 요소 + 인증, 부인방지 요구]
+    │
+    ▼
+[현재 개념: 암호학 개요 통신망 보안 적용]
+    │
+    ├──▶ [확장 A: 대칭키 암호화]
+    └──▶ [확장 B: 자동화된 신뢰 체계]
+```
 
 암호학 개요 통신망 보안 적용는 [정보보안 3대 요소](/knowledge-base/studynote/03_network/13_network_security_basics/651_cia_triad_confidentiality_integrity_availability/) + [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 부인방지 요구에서 출발해 현재 메커니즘을 정교화하고, 이후 [대칭키 암호화](/knowledge-base/studynote/03_network/13_network_security_basics/653_symmetric_key_cryptography_fast_speed/)와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

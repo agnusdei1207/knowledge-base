@@ -24,18 +24,14 @@ tags = ["studynote-network"]
 
 - **💡 비유**: [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 프레임은 경찰이 동네방네 뿌리는 <strong>"현상수배 전단지"</strong>와 같습니다. 전단지(프레임)에는 "찾는 사람 얼굴(Target IP)", "이 사람을 잡으면 연락할 경찰 번호(Sender [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))", 그리고 "빈칸으로 둔 범인의 은신처 주소(Target [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) = 00:00...)" 양식이 정확히 인쇄되어 있습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">ARP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ARP 프레임</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RARP</div></div>
-</div>
-</div>
-
-
+```text
+[ARP]
+    │
+    ▼
+[ARP 프레임]
+    │
+    └──▶ [RARP]
+```
 
 - **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/">ARP</a> 프레임 구조는 주관식 </strong>"설문지 양식"**입니다. 내 이름과 연락처는 꽉 채워 넣고, 네가 적어야 할 답변 칸(Target [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))만 텅 비운 채로 동네 사람들에게 돌리는 종이 쪼가리입니다.
 
@@ -60,29 +56,30 @@ ARP는 목적이 "IP(3계층)를 이용해 [MAC](/knowledge-base/studynote/03_ne
 - <strong>Target <a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> (6B)</strong>: <strong>질문할 땐 <code>00:00:00:00:00:00</code> (모르니까 0으로 채움). 대답할 땐 내 진짜 MAC을 채워 넣음.</strong>
 - **Target IP (4B)**: 내가 찾고자 하는 김대리의 IP 주소.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ARP Request (요청) 메시지 생성 과정</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">내 PC: IP 1.1.1.1, MAC AA:AA</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">타겟 : IP 1.1.1.2, MAC 모름!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 이더넷 봉투 (L2 헤더)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 목적지 MAC: FF:FF:FF:FF:FF:FF (브로드캐스트)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 출발지 MAC: AA:AA:AA:AA:AA:AA</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Type : 0x0806 (ARP)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. ARP 알맹이 (28 Bytes)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Opcode : 1 (Request)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Sender MAC: AA:AA:AA:AA:AA:AA</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Sender IP : 1.1.1.1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Target MAC: 00:00:00:00:00:00 (여기를 채워달라!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Target IP : 1.1.1.2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 타겟 PC는 이걸 받고, Opcode를 2로 바꾸고, 빈칸 00:00에 자기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">진짜 MAC을 적어서 나한테 유니캐스트로 던져준다!</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                ARP Request (요청) 메시지 생성 과정             │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 내 PC: IP 1.1.1.1, MAC AA:AA ]                          │
+ │   [ 타겟 : IP 1.1.1.2, MAC 모름! ]                            │
+ │                                                             │
+ │   1. 이더넷 봉투 (L2 헤더)                                      │
+ │      - 목적지 MAC: FF:FF:FF:FF:FF:FF (브로드캐스트)            │
+ │      - 출발지 MAC: AA:AA:AA:AA:AA:AA                          │
+ │      - Type    : 0x0806 (ARP)                               │
+ │                                                             │
+ │   2. ARP 알맹이 (28 Bytes)                                    │
+ │      - Opcode    : 1 (Request)                              │
+ │      - Sender MAC: AA:AA:AA:AA:AA:AA                        │
+ │      - Sender IP : 1.1.1.1                                  │
+ │      - Target MAC: 00:00:00:00:00:00 (여기를 채워달라!)       │
+ │      - Target IP : 1.1.1.2                                  │
+ │                                                             │
+ │   ▶ 타겟 PC는 이걸 받고, Opcode를 2로 바꾸고, 빈칸 00:00에 자기  │
+ │     진짜 MAC을 적어서 나한테 유니캐스트로 던져준다!                 │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 3. 와이어샤크(Wireshark)에서 잡히는 모습
 네트워크 문제 해결 시 와이어샤크로 패킷을 뜨면, 통신 극초반에 항상 노란색 박스로 된 두 줄이 뜬다.
@@ -145,19 +142,15 @@ ARP는 목적이 "IP(3계층)를 이용해 [MAC](/knowledge-base/studynote/03_ne
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: ARP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: ARP 프레임</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: RARP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 대규모 주소 자동화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: ARP]
+    │
+    ▼
+[현재 개념: ARP 프레임]
+    │
+    ├──▶ [확장 A: RARP]
+    └──▶ [확장 B: 대규모 주소 자동화]
+```
 
 [ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) 프레임는 ARP에서 출발해 현재 메커니즘을 정교화하고, 이후 RARP와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

@@ -34,25 +34,30 @@ tags = ["studynote-operating-system"]
 - **등장 배경**: 
   - 1995년 IEEE에서 POSIX.1c 표준을 제정. 이후 리눅스 진영이 LinuxThreads라는 엉성한 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 구현체를 거쳐 2003년 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 2.6부터 IBM/Red Hat이 주도한 NPTL(Native POSIX [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [Library](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/))을 도입하며 pthreads의 완벽한 르네상스가 시작되었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">pthreads API 추상화 계층(Abstraction Layer) 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 사용자 응용 프로그램 (C/C++ 개발자)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- <code>pthread_create(&amp;thread_id, NULL, worker_func, NULL);</code></div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(나는 OS가 뭔지 모름. 그냥 이 표준 함수만 부르면 스레드가 생기겠지!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">===============( POSIX pthreads API 장벽 )==================</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 운영체제별 표준 라이브러리 (libc / libpthread)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Linux (glibc)</div><div class="kb-diagram-cell">macOS (libSystem)</div><div class="kb-diagram-cell">Solaris (libc)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NPTL 구현체 사용</div><div class="kb-diagram-cell">XNU 커널 구현체 사용</div><div class="kb-diagram-cell">LWP 구현체 사용</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3. 운영체제 커널의 실제 시스템 콜 (System Call)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Linux: <code>clone(...)</code> macOS: <code>bsdthread_create(...)</code></div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(내부적으로는 완전히 다른 우주가 돌아가며 스레드를 만들어냄)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │                 pthreads API 추상화 계층(Abstraction Layer) 구조      │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │   [ 1. 사용자 응용 프로그램 (C/C++ 개발자) ]                        │
+  │     - `pthread_create(&thread_id, NULL, worker_func, NULL);`│
+  │     (나는 OS가 뭔지 모름. 그냥 이 표준 함수만 부르면 스레드가 생기겠지!)       │
+  │                                                             │
+  │  ===============( POSIX pthreads API 장벽 )================== │
+  │                                                             │
+  │   [ 2. 운영체제별 표준 라이브러리 (libc / libpthread) ]             │
+  │    ┌─────────────────┐ ┌──────────────────┐ ┌───────────────┐ │
+  │    │ Linux (glibc)   │ │ macOS (libSystem)│ │ Solaris (libc)│ │
+  │    │ NPTL 구현체 사용   │ │ XNU 커널 구현체 사용 │ │ LWP 구현체 사용  │ │
+  │    └────────┬────────┘ └────────┬─────────┘ └───────┬───────┘ │
+  │             │                   │                   │         │
+  │  ===========│===================│===================│======== │
+  │             ▼                   ▼                   ▼         │
+  │   [ 3. 운영체제 커널의 실제 시스템 콜 (System Call) ]                 │
+  │    Linux: `clone(...)`   macOS: `bsdthread_create(...)`       │
+  │    (내부적으로는 완전히 다른 우주가 돌아가며 스레드를 만들어냄)                │
+  └─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 그림은 아키텍처에서 '[추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)([Abstraction](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/))'가 왜 그토록 위대한지 보여주는 완벽한 예시다. 개발자(1번 계층)는 리눅스의 기괴한 `clone()` [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) 조작법이나 macOS의 Mach [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 개념을 단 1도 몰라도 된다. 단지 C언어 헤더 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) `<pthread.h>`를 포함([include](/knowledge-base/studynote/04_software_engineering/uncategorized/670_use_case_include_extend/))하고 표준화된 API만 부르면 끝난다. 그 밑의 지저분하고 OS 종속적인 삽질(2번, 3번 계층)은 GNU C [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)(glibc)를 만드는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)/시스템 해커들이 수십 년에 걸쳐 알아서 다 번역해 두었다.
 
@@ -77,29 +82,30 @@ tags = ["studynote-operating-system"]
 
 pthreads는 '규칙'일 뿐이다. 과거 리눅스는 이 규칙을 지키기 위해 <strong>LinuxThreads</strong>라는 M:N (유저 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 여러 개를 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 몇 개에 묶는) 방식을 썼다가, 시그널 처리가 꼬여서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 박살 났다. 이를 갈아엎고 나온 21세기 아키텍처가 <strong>NPTL</strong>이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Linux NPTL 아키텍처 (1:1 매핑의 승리)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">유저 공간 (User Space)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">App: <code>pthread_create()</code> 호출 1만 번!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NPTL 라이브러리 (glibc)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"어, 스레드 1만 개 만들어달라고? 꼼수 안 부릴게! 1:1로 다 꽂아버려!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell"><code>clone(CLONE_VM</div><div class="kb-diagram-cell">CLONE_THREAD ...)</code> 1만 번 무자비하게 발사!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">커널 공간 (Kernel Space)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 커널 스케줄러(CFS)의 RunQueue에 실제 '커널 태스크(LWP)' 1만 개 생성!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 커널: "이제 이 1만 개의 태스크는 내가 직접 CPU 코어 64개에 분산시킨다!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ NPTL의 기적: 10만 개의 스레드를 띄워도 커널이 2초 만에 다 만들어냄 (O(1)).</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다중 코어(SMP) 환경에서 극단적인 병렬 성능 폭발!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 Linux NPTL 아키텍처 (1:1 매핑의 승리)                │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [ 유저 공간 (User Space) ]                                        │
+  │   App: `pthread_create()` 호출 1만 번!                              │
+  │           │                                                       │
+  │   [ NPTL 라이브러리 (glibc) ]                                       │
+  │   "어, 스레드 1만 개 만들어달라고? 꼼수 안 부릴게! 1:1로 다 꽂아버려!"          │
+  │           │ `clone(CLONE_VM | CLONE_THREAD ...)` 1만 번 무자비하게 발사!│
+  │           ▼                                                       │
+  │   [ 커널 공간 (Kernel Space) ]                                      │
+  │   - 커널 스케줄러(CFS)의 RunQueue에 실제 '커널 태스크(LWP)' 1만 개 생성!     │
+  │   - 커널: "이제 이 1만 개의 태스크는 내가 직접 CPU 코어 64개에 분산시킨다!"      │
+  │                                                                   │
+  │   ▶ NPTL의 기적: 10만 개의 스레드를 띄워도 커널이 2초 만에 다 만들어냄 (O(1)).│
+  │                 다중 코어(SMP) 환경에서 극단적인 병렬 성능 폭발!           │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** NPTL은 "[스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 유저 스페이스에서 가짜로 묶지 말고, 그냥 무식하게 100% [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 1:1로 때려 박아라(1:1 Threading Model)"라는 철학이다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 태스크가 너무 무거웠던 옛날엔 상상도 못 할 짓이었다. 하지만 리눅스는 `clone()`을 고도화하여 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 1개 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 속도를 1마이크로초로 줄여버렸다(O(1) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 도입). NPTL 덕분에 리눅스의 pthreads는 그 어떤 유닉스 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)보다 더 빠르고 무식하게 멀티코어를 100% 다 씹어먹는 최강의 괴물로 군림하게 되었다.
 
-- **📢 섹션 요약 비유**: 예전엔 회사(OS)에서 직원 채용([스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)) 절차가 너무 복잡해서, 외주 용역(가짜 유저 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))을 섞어 쓰다가 퀄리티가 박살 났습니다. 지금(NPTL)은 채용 절차([clone](/knowledge-base/studynote/02_operating_system/02_process_thread/149_clone_system_call/))를 1초로 간소화시켜버려서, 그냥 필요할 때마다 정규직 1만 명을 즉각 뽑아 64개 부서(코어)에 직접 던져버리는 압도적인 물량전이 가능해졌습니다.
+- **📢 섹션 요약 비유**: 예전엔 회사(OS)에서 직원 채용([스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)) 절차가 너무 복잡해서, 외주 용역(가짜 유저 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))을 섞어 쓰다가 퀄리티가 박살 났습니다. 지금(NPTL)은 채용 절차([clone](/knowledge-base/studynote/02_operating_system/02_process_thread/149_clone_system_call/))를 1초로 간소화시켜버려서, 그냥 필요할 때마다 정규직 1만 명을 즉각 뽑아 64개 부서(코어)에 직접 던져버리는 압도적인 수량전이 가능해졌습니다.
 
 ---
 
@@ -136,26 +142,27 @@ pthreads는 '규칙'일 뿐이다. 과거 리눅스는 이 규칙을 지키기 �
    - **원인 분석**: 기본 `pthread_mutex_t`는 [우선순위 역전](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/205_priority_inversion/)을 방어하지 못하는 깡통 자물쇠다.
    - <strong>아키텍트 판단 (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/009_process_innovation/">PI</a> <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/">Mutex</a> <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/">속성</a> 셋팅)</strong>: 이기종 워크로드가 섞인 [실시간 시스템](/knowledge-base/studynote/02_operating_system/01_overview_architecture/009_real_time_system/)에서는 뮤텍스 하나도 허투루 만들면 안 된다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화(`init`) 직전에 뮤텍스 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 객체에 <strong><code>pthread_mutexattr_setprotocol(&attr, PTHREAD_PRIO_INHERIT)</code></strong>를 반드시 걸어주어야 한다. 이 마법의 한 줄이 들어가야만, 하위 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 락을 쥔 상태에서 상위 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 대기할 때 즉각 권력을 상속받아([Priority Inheritance](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/206_priority_inheritance/)) 드론 추락을 막는 구조적 안전망이 발동된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">안전한 Pthreads 멀티스레딩 아키텍처 결정 트리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">대량의 트래픽을 처리하는 동시성 엔진을 설계한다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">사용자 요청이 들어올 때마다 <code>pthread_create</code>로 스레드를 새로 낳을 건가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">치명적 안티패턴! (Thread Per Request)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(스폰 오버헤드와 C10K 메모리 폭발로 서버 100% 뻗음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▼</div><div class="kb-diagram-node">아키텍트의 정답지</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Thread Pool (스레드 풀) 패턴 적용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 서버 시작 시, 물리 코어 개수(ex: 16개)만큼만 미리 스레드를 생성.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 들어오는 요청은 락프리 큐(Queue)에 잔뜩 밀어 넣음.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 16개의 스레드가 무한 루프를 돌며 큐에서 하나씩 빼서(Pop) 처리함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: 스레드 생성/파괴 오버헤드 0초! 메모리 OOM 원천 방어!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 안전한 Pthreads 멀티스레딩 아키텍처 결정 트리             │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [ 대량의 트래픽을 처리하는 동시성 엔진을 설계한다 ]                       │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      사용자 요청이 들어올 때마다 `pthread_create`로 스레드를 새로 낳을 건가?  │
+  │          ├─ 예 ─────▶ 🚨 [ 치명적 안티패턴! (Thread Per Request) ]     │
+  │          │             (스폰 오버헤드와 C10K 메모리 폭발로 서버 100% 뻗음)  │
+  │          └─ 아니오                                                │
+  │                │                                                  │
+  │                ▼ [ 아키텍트의 정답지 ]                                 │
+  │      [ Thread Pool (스레드 풀) 패턴 적용 ]                             │
+  │      1. 서버 시작 시, 물리 코어 개수(ex: 16개)만큼만 미리 스레드를 생성.      │
+  │      2. 들어오는 요청은 락프리 큐(Queue)에 잔뜩 밀어 넣음.                  │
+  │      3. 16개의 스레드가 무한 루프를 돌며 큐에서 하나씩 빼서(Pop) 처리함.      │
+  │      ▶ 결과: 스레드 생성/파괴 오버헤드 0초! 메모리 OOM 원천 방어!          │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** pthreads를 배웠다고 신나서 곳곳에 `create`를 남발하는 건 총을 난사하는 짓이다. 리눅스 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)(NPTL)이 아무리 빠르다 한들(1µs), 초당 10만 건이 들어오는 백엔드에서 10만 번을 만들고 부수면 CPU는 문맥 교환의 지옥에 빠진다. 고성능 아키텍처의 철칙은 "[스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 서버 부팅 시점에 CPU 코어 수에 맞춰 딱 한 번만 낳아두고([Thread Pool](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/)), 평생 죽이지 말고 재활용하며 일감([Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))만 던져주어라"다. 이것이 Nginx, [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/), 게임 서버의 공통된 바이블이다.
 
@@ -201,19 +208,15 @@ POSIX [스레드](/knowledge-base/studynote/02_operating_system/02_process_threa
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">라이브 패칭 (Kpatch) 커널 정지 없는 보안</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">POSIX 스레드 (pthreads) 표준 API</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">락 엘리전 하드웨어 트랜잭션 메모리 활용</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">RCU 다중 독자 락 프리 고성능 기법</div></div>
-</div>
-</div>
-
-
+```text
+[라이브 패칭 (Kpatch) 커널 정지 없는 보안]
+    │
+    ▼
+[POSIX 스레드 (pthreads) 표준 API]
+    │
+    ├──▶ [락 엘리전 하드웨어 트랜잭션 메모리 활용]
+    └──▶ [RCU 다중 독자 락 프리 고성능 기법]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

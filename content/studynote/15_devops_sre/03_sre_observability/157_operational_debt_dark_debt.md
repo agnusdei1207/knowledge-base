@@ -23,7 +23,7 @@ tags = ["studynote-devops-sre"]
 
 다크 데트는 이 운영 부채 중에서도 눈에 잘 보이지 않는 부분이다. 문서에는 없지만 특정 사람이 빠지면 아무도 못 하는 절차, 왜 필요한지 설명되지 않는 배치 재시작, 장애 때만 드러나는 숨은 의존성처럼 평소에는 "괜찮아 보이지만" 위기 때 폭발하는 부채가 여기에 해당한다. 그래서 다크 데트는 일반 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/)보다 탐지와 우선순위화가 더 어렵다.
 
-[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)) 관점에서 이 개념이 중요한 이유는 운영 시간이 늘수록 시스템 개선 시간이 줄어들기 때문이다. 결국 운영 부채는 인력의 피로도 문제를 넘어, 자동화 투자 부족과 복원력 저하가 연결되는 구조적 위험이다.
+[SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)) 관점에서 이 개념이 중요한 이유는 운영 시간이 늘수록 시스템 개선 시간이 줄어들기 때문이다. 결국 운영 부채는 인력의 피로도 문제를 넘어, 자동화 투자 부족과 복원력 저하가 연결되는 구조적 위험이다.
 
 - **📢 섹션 요약 비유**: 운영 부채는 매일 대충 치워 둔 창고와 같아서, 평소에는 문제 없어 보여도 급히 물건을 찾아야 할 때 가장 큰 혼란을 만든다.
 
@@ -35,20 +35,20 @@ tags = ["studynote-devops-sre"]
 
 아래 그림은 운영 부채가 어떻게 [토일](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)과 복원력 저하로 이어지는지를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Operational debt grows through repeated manual work</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Manual deploy ─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hidden runbook ─ ─▶ Toil accumulation ─▶ Less engineering time</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Person-only know</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Weak automation</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Higher incident risk / slower recovery</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Operational debt grows through repeated manual work                 │
+├──────────────────────────────────────────────────────────────────────┤
+│ Manual deploy ─┐                                                   │
+│ Hidden runbook ─┼─▶ Toil accumulation ─▶ Less engineering time     │
+│ Person-only know┘                         │                         │
+│                                           ▼                         │
+│                                    Weak automation                  │
+│                                           │                         │
+│                                           ▼                         │
+│                              Higher incident risk / slower recovery │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 | [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 예시 | 위험 |
 | :--- | :--- | :--- |
@@ -136,23 +136,20 @@ tags = ["studynote-devops-sre"]
 
 ### 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Manual Work / Hidden Dependency</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Operational Debt</div>
-<div class="kb-diagram-tree-item" style="--depth:5">▶ Toil Measurement</div>
-<div class="kb-diagram-tree-item" style="--depth:5">▶ Runbook Standardization</div>
-<div class="kb-diagram-tree-item" style="--depth:5">▶ Self-Service Automation</div>
-<div class="kb-diagram-tree-item" style="--depth:5">▶ Game Day / DR Drill</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Dark Debt Exposure → SPOF Removal → Faster Recovery</div>
-</div>
-</div>
-
-
+```text
+Manual Work / Hidden Dependency
+           │
+           ▼
+Operational Debt
+           │
+           ├──▶ Toil Measurement
+           ├──▶ Runbook Standardization
+           ├──▶ Self-Service Automation
+           └──▶ Game Day / DR Drill
+           │
+           ▼
+Dark Debt Exposure → SPOF Removal → Faster Recovery
+```
 
 이 흐름은 "반복 수작업 인식 → 운영 부채 계량화 → 자동화·문서화 → 다크 데트 제거"로 이어지는 청산 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 뼈대를 보여준다.
 

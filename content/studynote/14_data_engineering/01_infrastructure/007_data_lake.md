@@ -25,25 +25,22 @@ tags = ["data_engineering"]
 
 과거의 [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)([DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/))는 철저하게 구조화된(Structured) 관계형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만을 다루었으며, 엄격한 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)에 맞게 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정제하고 변환하는 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/)(Extract, Transform, Load) 과정에서 막대한 시간과 파이프라인 유지보수 비용이 발생했습니다. 그러나 빅데이터 시대가 도래하면서 웹 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)([JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/)), 소셜 미디어 텍스트, 이미지, 모바일 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)) 등 비정형/반정형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 폭발적으로 증가했습니다. 기존 DW로는 이러한 다양성(Variety)과 거대한 볼륨([Volume](/knowledge-base/studynote/14_data_engineering/01_infrastructure/001_bigdata_3v_5v/))을 수용할 수 없었고, "당장 분석 목적이 명확하지 않더라도 일단 원본을 저장해 두고 나중에 가치를 발굴하자"는 패러다임 전환이 일어났습니다. 이것이 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)의 탄생 배경입니다.
 
+```text
+[전통적 DW의 적재 병목과 데이터 레이크의 수용성 비교]
 
+[과거: 스키마 강제 저장 (DW ETL 병목)]
+정형 데이터 ───┐   (엄격한 ETL 변환)   ┌───────────────────┐
+반정형 로그 ───┼───────── X ─────────> │ [ RDBMS / EDW ]   │ (비정형 수용 불가,
+비정형 이미지 ─┘   (데이터 유실 발생)  └───────────────────┘  목적 외 데이터 폐기)
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">전통적 DW의 적재 병목과 데이터 레이크의 수용성 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">과거: 스키마 강제 저장 (DW ETL 병목)</div></div>
-<div class="kb-diagram-note">정형 데이터 (엄격한 ETL 변환)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">반정형 로그 X &gt;</div><div class="kb-diagram-node">RDBMS / EDW</div><div class="kb-diagram-note">(비정형 수용 불가,</div></div>
-<div class="kb-diagram-note">비정형 이미지 ─ (데이터 유실 발생) 목적 외 데이터 폐기)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재: 무제한 원시 저장 (데이터 레이크 패러다임)</div></div>
-<div class="kb-diagram-note">정형 데이터 (DB) ── (스키마 없이 덤프)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">반정형 (JSON) ── ── (Extract &amp; Load) ──&gt;</div><div class="kb-diagram-node">Data Lake (S3 / HDFS)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비정형 (Image) ── (ELT 병목 해소)</div><div class="kb-diagram-cell">(Raw, Silver, Gold Zones)</div></div>
-<div class="kb-diagram-note">↓ (Schema-on-Read)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ML / AI / Data Science</div></div>
-</div>
-</div>
-
-
+[현재: 무제한 원시 저장 (데이터 레이크 패러다임)]
+정형 데이터 (DB) ──┐   (스키마 없이 덤프)      ┌─────────────────────────────┐
+반정형 (JSON)    ──┼── (Extract & Load) ──> │ [ Data Lake (S3 / HDFS) ] │
+비정형 (Image)   ──┘   (ELT 병목 해소)      │ (Raw, Silver, Gold Zones) │
+                                             └──────────────┬──────────────┘
+                                                            ↓ (Schema-on-Read)
+                                                [ ML / AI / Data Science ]
+```
 이 도식은 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유입 단계의 허들을 어떻게 완벽히 제거했는지를 직관적으로 보여줍니다. 좁은 깔때기 역할을 하던 사전 정제(Transform) 단계를 뒤로 미루고([ELT](/knowledge-base/studynote/14_data_engineering/01_infrastructure/034_elt/)), 거대한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스트림을 유실 없이 1차 확보합니다. AWS S3와 같은 저비용 클라우드 스토리지를 사용하기 때문에 페타바이트급 확장이 가능하며, 정제 과정에서 잘려나갔을지도 모르는 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 숨겨진 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)(Feature)를 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 학습에 온전히 활용할 수 있게 되었습니다.
 
 > 📢 **섹션 비유**: 빗물을 식수로 만들기 위해 배관 규격에 맞춰 정수장([DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/))에만 밀어 넣던 방식에서 벗어나, 자연 그대로의 모든 물을 일단 모아두는 거대한 자연 호수(Lake)를 만든 것과 같습니다. 낚시꾼([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석가)은 이 호수에서 목적에 맞춰 자유롭게 탐색할 수 있습니다.
@@ -60,28 +57,28 @@ tags = ["data_engineering"]
 | **Standardized / Silver Zone** | 기본 전처리 및 표준화된 중간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 타입 캐스팅, 결측치 처리 후 [Parquet](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/)/ORC [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 포맷으로 변환 저장 | 박스를 뜯어 1차 분류해둔 창고 |
 | **Curated / Gold Zone** | 비즈니스 목적에 맞게 집계된 분석용 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 조인 및 집계를 통해 비즈니스 모델([스타 스키마](/knowledge-base/studynote/05_database/06_dw_olap_trends/334_star_schema/) 등) 적용 및 서빙 | 매장 매대에 진열된 최종 완성 상품 |
 | <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/">Data Catalog</a></strong> | 레이크 내 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 위치와 구조/의미 [메타데이터 관리](/knowledge-base/studynote/16_bigdata/10_governance/203_metadata_management/) | AWS Glue 크롤러 등을 통해 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)를 추론하고 검색 가능한 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 거대한 도서관의 도서 검색 색인([Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)) |
-| **Compute Engine** | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리 및 인메모리 연산 수행 | [Apache Spark](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/), Presto를 클러스터로 띄워 스토리지의 정적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 동적 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) | 식재료를 가공하는 요리사의 조리 도구 |
+| **Compute 엔진** | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리 및 인메모리 연산 수행 | [Apache Spark](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/), Presto를 클러스터로 띄워 스토리지의 정적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 동적 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) | 식재료를 가공하는 요리사의 조리 도구 |
 
 이러한 레이크를 지탱하는 가장 중요한 기술적 근간은 <strong><a href="/knowledge-base/studynote/07_enterprise_systems/05_data_bi/293_storage_compute_separation/">스토리지와 컴퓨팅의 분리</a> (Separation of Compute and Storage)</strong> 아키텍처입니다.
 
+```text
+[스토리지-컴퓨팅 분리 아키텍처 및 스키마 온 리드 흐름]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">스토리지-컴퓨팅 분리 아키텍처 및 스키마 온 리드 흐름</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Storage Layer</div><div class="kb-diagram-note">(비용 저렴, 용량 무한 스케일 아웃)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">HDFS / Amazon S3 / Google Cloud Storage</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">{JSON}</div><div class="kb-diagram-node">Parquet</div><div class="kb-diagram-node">CSV</div><div class="kb-diagram-note">&lt;Images&gt;</div></div>
-<div class="kb-diagram-note">(Read: 쿼리 실행 시 파일 접근)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Meta Data Catalog</div><div class="kb-diagram-note">(Hive Metastore) │ =&gt; "이 CSV는 3개의 컬럼 속성을 가짐"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Compute Layer</div><div class="kb-diagram-note">(연산력 탄력적 확장/축소)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Apache Spark / Presto / AWS Athena</div></div>
-<div class="kb-diagram-note">(분석 결과 DataFrame 반환)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Data Scientist / Analyst</div></div>
-</div>
-</div>
-
-
+       [ Storage Layer ] (비용 저렴, 용량 무한 스케일 아웃)
+       ┌─────────────────────────────────────────────────┐
+       │ HDFS / Amazon S3 / Google Cloud Storage         │
+       │  {JSON}   [Parquet]   [CSV]   <Images>          │
+       └────────────────────────┬────────────────────────┘
+                                │ (Read: 쿼리 실행 시 파일 접근)
+       ┌────────────────────────▼────────────────────────┐
+       │ [ Meta Data Catalog ] (Hive Metastore)          │ => "이 CSV는 3개의 컬럼 속성을 가짐"
+       ├─────────────────────────────────────────────────┤
+       │ [ Compute Layer ] (연산력 탄력적 확장/축소)     │
+       │ Apache Spark / Presto / AWS Athena              │
+       └────────────────────────┬────────────────────────┘
+                                │ (분석 결과 DataFrame 반환)
+                       [ Data Scientist / Analyst ]
+```
 이 흐름도는 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/) 시스템이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 담아두는 물리적 계층과 이를 처리하는 연산 계층을 어떻게 완벽히 분리하여 동작하는지를 보여줍니다. 기존 RDBMS는 CPU와 디스크가 한 장비(Node)에 강하게 결합되어 있어 용량만 늘리려 해도 비싼 CPU까지 통째로 사야 했습니다. 그러나 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)는 S3 같은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 스토리지에 텍스트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 단위로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쌓아두고, 연산이 필요할 때만 Spark 클러스터를 일시적으로 띄워 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽어옵니다. 이때 <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/">스키마 온 리드</a>(<a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/009_schema_on_read/">Schema-on-Read</a>)</strong>가 작동하여, 단순 텍스트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(CSV, [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/))에 [메타데이터 카탈로그](/knowledge-base/studynote/05_database/06_dw_olap_trends/342_metadata_catalog/)의 껍데기([스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/))를 동적으로 씌워 마치 DB 테이블처럼 SQL [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 실행 가능하게 만듭니다.
 
 > 📢 **섹션 비유**: 과거에는 요리(분석)를 많이 하려면 주방 크기(DB 서버)에 맞춰 냉장고(스토리지) 크기도 제한되었지만, 레이크 아키텍처는 냉장고는 무한대로 밖(S3)에 두고, 요리할 때만 필요한 만큼의 가스레인지(Spark)를 클라우드에서 빌려 쓰는 혁신적인 구조입니다.
@@ -118,24 +115,19 @@ tags = ["data_engineering"]
 - **원인**: 적재 시점의 [메타데이터 카탈로그](/knowledge-base/studynote/05_database/06_dw_olap_trends/342_metadata_catalog/) 강제화 부재, [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)([Partitioning](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)) 규칙 미비, 스몰 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 문제([Small File Problem](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/269_small_file_problem_data_lakehouse/)) 누적에 따른 스토리지 스캔 병목.
 - **해결 (운영 및 파이프라인 제어 플로우)**:
 
+```text
+[데이터 늪 방지를 위한 강제화된 거버넌스 파이프라인]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 늪 방지를 위한 강제화된 거버넌스 파이프라인</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Source Data Ingestion</div></div>
-<div class="kb-diagram-note">↓ (무조건 S3 적재 금지, 엄격한 검증 톨게이트 배치)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">단계 1: Data Contract 검증</div><div class="kb-diagram-note">=&gt; 필수 메타데이터(스키마, 소유자) 미달 시 적재 거부 (DLQ로 격리)</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">단계 2: Partitioning &amp; Format</div><div class="kb-diagram-note">=&gt; 날짜별(YYYY/MM/DD) 파티셔닝 강제, Parquet 컬럼형 압축 변환</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">단계 3: Metadata Cataloging</div><div class="kb-diagram-note">=&gt; 데이터 카탈로그(Glue) 크롤러 스캔 및 Hive Metastore 자동 등록</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">단계 4: Access Control &amp; Masking</div><div class="kb-diagram-note">=&gt; IAM 기반 접근 제어, PII 민감 정보 난독화 후 Silver 구역 이동</div></div>
-</div>
-</div>
-
-
+[Source Data Ingestion]
+       ↓ (무조건 S3 적재 금지, 엄격한 검증 톨게이트 배치)
+[단계 1: Data Contract 검증] => 필수 메타데이터(스키마, 소유자) 미달 시 적재 거부 (DLQ로 격리)
+       ↓
+[단계 2: Partitioning & Format] => 날짜별(YYYY/MM/DD) 파티셔닝 강제, Parquet 컬럼형 압축 변환
+       ↓
+[단계 3: Metadata Cataloging] => 데이터 카탈로그(Glue) 크롤러 스캔 및 Hive Metastore 자동 등록
+       ↓
+[단계 4: Access Control & Masking] => IAM 기반 접근 제어, PII 민감 정보 난독화 후 Silver 구역 이동
+```
 이 의사결정 흐름도는 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)가 쓰레기장이 되지 않도록 입구에서 막는 '문지기(Gatekeeper)'의 역할을 명확히 보여줍니다. 실무적으로 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)는 "그냥 덤프하면 끝나는" 마법의 공간이 아닙니다. 들어오는 즉시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 이름표([카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/))를 달고, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 위해 컬럼 지향 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 포맷([Parquet](/knowledge-base/studynote/14_data_engineering/04_mlops/178_parquet_rle_encoding_columnar_compression/))으로 바꾸며, 연도/월/일 단위로 디렉터리를 쪼개는([Partitioning](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)) 고도화된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어링 작업이 동반되지 않으면 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 한 번에 수백 달러의 비용이 청구되는 재앙을 맞이합니다. 또한, [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 네임노드의 메모리 고갈을 막기 위해 작은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)들을 큰 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)로 병합하는 주기적인 [콤팩션](/knowledge-base/studynote/05_database/06_dw_olap_trends/378_lsm_compaction_tombstone/)([Compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/))이 필수적입니다.
 
 <strong>도입 판단 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong>
@@ -170,25 +162,24 @@ tags = ["data_engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 웨어하우스 (Data Warehouse)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 마트 (Data Mart)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 레이크 (Data Lake)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 레이크하우스 (Data Lakehouse)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 메시 (Data Mesh)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 패브릭 (Data Fabric)</div></div>
-</div>
-</div>
-
-
+```text
+[데이터 웨어하우스 (Data Warehouse)]
+    │
+    ▼
+[데이터 마트 (Data Mart)]
+    │
+    ▼
+[데이터 레이크 (Data Lake)]
+    │
+    ▼
+[데이터 레이크하우스 (Data Lakehouse)]
+    │
+    ▼
+[데이터 메시 (Data Mesh)]
+    │
+    ▼
+[데이터 패브릭 (Data Fabric)]
+```
 
 [정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/002_structured_data/) 중심의 웨어하우스에서 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수용하는 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)를 거쳐 [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/)·[메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)·패브릭으로 진화하는 흐름이다.
 

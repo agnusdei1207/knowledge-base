@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: 단일한 물리적 IT 인프라(서버, 스토리지, 네트워크, 소프트웨어 애플리케이션) 환경을, <strong>다수의 서로 다른 고객, 부서, 혹은 기업(Tenant, 세입자)들이 완벽히 격리된 상태에서 동시에 자원을 공유하며 나누어 쓰는 클라우드 컴퓨팅의 핵심 아키텍처 모델</strong>입니다.
 - **반대말**: 싱글 테넌트(Single-Tenant). 아파트 대신 단독 주택 전체를 혼자 전세 내서 쓰는 비싼 방식입니다. (예: 기업의 자체 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) 전산실 구축)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SD-LAN</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">멀티 테넌트</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">네트워크 펑션 오프로딩 다이렉트 처리 DPU…</div></div>
-</div>
-</div>
-
-
+```text
+[SD-LAN]
+    │
+    ▼
+[멀티 테넌트]
+    │
+    └──▶ [네트워크 펑션 오프로딩 다이렉트 처리 DPU…]
+```
 
 - **📢 섹션 요약 비유**: 멀티 테넌트는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -55,18 +51,14 @@ tags = ["studynote-network"]
 ### 3. 스토리지 격리 ([LUN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/685_lun_masking/) / 버킷 분할)
 - 거대한 1페타바이트짜리 하드디스크 덩어리를, 1테라바이트짜리 작은 블록([LUN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/685_lun_masking/))으로 1,000조각 내어 세입자별로 비밀번호 암호화 키를 다르게 잠가서 대여해 줍니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SD-LAN</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">멀티 테넌트</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">네트워크 펑션 오프로딩 다이렉트 처리 DPU…</div></div>
-</div>
-</div>
-
-
+```text
+[SD-LAN]
+    │
+    ▼
+[멀티 테넌트]
+    │
+    └──▶ [네트워크 펑션 오프로딩 다이렉트 처리 DPU…]
+```
 
 - **📢 섹션 요약 비유**: 멀티 테넌트의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -124,19 +116,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: SD-LAN</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 멀티 테넌트</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 네트워크 펑션 오프로딩 다이렉트 처리 DPU…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 프로그래머블 네트워크</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: SD-LAN]
+    │
+    ▼
+[현재 개념: 멀티 테넌트]
+    │
+    ├──▶ [확장 A: 네트워크 펑션 오프로딩 다이렉트 처리 DPU…]
+    └──▶ [확장 B: 프로그래머블 네트워크]
+```
 
 멀티 테넌트는 SD-LAN에서 출발해 현재 메커니즘을 정교화하고, 이후 [네트워크 펑션 오프로딩](/knowledge-base/studynote/03_network/17_sdn_nfv/889_network_function_offloading_dpu_p4_compile/) 다이렉트 처리 [DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/)…와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

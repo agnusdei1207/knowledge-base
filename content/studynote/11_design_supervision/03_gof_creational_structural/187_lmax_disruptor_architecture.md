@@ -23,21 +23,23 @@ LMAX(London Multi-Asset Exchange)는 2011년 마틴 파울러·마틴 톰슨이 
 
 디스럽터는 이 세 가지 문제를 근본적으로 해결한다: ① 고정 크기 링 버퍼로 GC 부담 제거, ② [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) 기반 [Lock-free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/) 시퀀스로 잠금 경쟁 제거, ③ [메모리 배리어](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/)로 CPU [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) 보장.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LMAX 디스럽터 링 버퍼 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0</div><div class="kb-diagram-cell">1</div><div class="kb-diagram-cell">2</div><div class="kb-diagram-cell">3</div><div class="kb-diagram-cell">4</div><div class="kb-diagram-cell">5</div><div class="kb-diagram-cell">6</div><div class="kb-diagram-cell">7</div><div class="kb-diagram-cell">Ring Buffer</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Producer Consumer</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(쓰기 시퀀스) (읽기 시퀀스)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 고정 크기 (2의 거듭제곱) → 인덱스 계산: seq &amp; (size-1)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 덮어쓰기(Overwrite) 방지: Consumer가 뒤처지면 Producer 대기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Lock-free CAS 시퀀스 업데이트</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│         LMAX 디스럽터 링 버퍼 구조                           │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│         ┌───┬───┬───┬───┬───┬───┬───┬───┐                 │
+│         │ 0 │ 1 │ 2 │ 3 │ 4 │ 5 │ 6 │ 7 │  Ring Buffer    │
+│         └───┴───┴───┴───┴───┴───┴───┴───┘                 │
+│              ↑                  ↑                           │
+│         Producer             Consumer                       │
+│         (쓰기 시퀀스)          (읽기 시퀀스)                  │
+│                                                             │
+│  - 고정 크기 (2의 거듭제곱) → 인덱스 계산: seq & (size-1)   │
+│  - 덮어쓰기(Overwrite) 방지: Consumer가 뒤처지면 Producer 대기│
+│  - Lock-free CAS 시퀀스 업데이트                           │
+└─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 전통 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))가 병원 대기 번호표(잠금+순서 보장)라면, 디스럽터의 링 버퍼는 회전 초밥 벨트(미리 준비된 슬롯에 직접 접근)처럼 대기 없이 빠르게 처리한다.
 
@@ -54,23 +56,21 @@ LMAX(London Multi-Asset Exchange)는 2011년 마틴 파울러·마틴 톰슨이 
 | Event Processor | 소비자 이벤트 처리 | [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/), LMAX 핵심 |
 | Wait [Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 소비자 대기 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | BusySpin(저지연) vs [Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)(CPU 절약) |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">디스럽터 처리 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Producer</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Sequencer.next() → 다음 슬롯 번호 획득 (CAS)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2. Ring Buffer</div><div class="kb-diagram-node">slot</div><div class="kb-diagram-note">에 이벤트 데이터 작성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Sequencer.publish(slot) → 소비자에게 가시화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Consumer (Event Processor)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Barrier.waitFor(seq) → 가용 이벤트 확인</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2. Ring Buffer</div><div class="kb-diagram-node">seq</div><div class="kb-diagram-note">에서 이벤트 읽기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. onEvent(event) 처리</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│       디스럽터 처리 흐름                                     │
+├─────────────────────────────────────────────────────────────┤
+│  Producer                                                   │
+│  1. Sequencer.next() → 다음 슬롯 번호 획득 (CAS)            │
+│  2. Ring Buffer[slot]에 이벤트 데이터 작성                  │
+│  3. Sequencer.publish(slot) → 소비자에게 가시화             │
+│                                                             │
+│  Consumer (Event Processor)                                 │
+│  1. Barrier.waitFor(seq) → 가용 이벤트 확인                 │
+│  2. Ring Buffer[seq]에서 이벤트 읽기                        │
+│  3. onEvent(event) 처리                                     │
+└─────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 공항 수하물 컨베이어 벨트(링 버퍼)에서 수하물(이벤트)이 순환하며, 각 승객(소비자)이 자신의 수하물 번호(시퀀스)를 확인하고 바로 가져간다. 줄(잠금) 없이 빠르게 처리된다.
 

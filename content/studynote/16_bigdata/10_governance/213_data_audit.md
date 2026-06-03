@@ -22,26 +22,27 @@ tags = ["studynote-bigdata"]
 
 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)가 없다면 금융 보고서에 사용된 집계 수치가 잘못 계산되어도 원인을 추적할 수 없고, [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)가 무단으로 접근·수출되어도 사후 파악이 어렵다. 특히 수백 개의 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 얽혀 있는 [데이터 레이크하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/) 환경에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)는 더 이상 선택이 아닌 필수다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 감사 4대 검증 영역</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 데이터 품질 감사 (Data Quality Audit)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 정확성: 값이 현실을 올바르게 반영하는가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 완전성: 필수 필드가 누락 없이 채워져 있는가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 일관성: 시스템 간 동일 데이터가 모순되지 않는가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 적시성: 데이터가 지정 시간 내에 갱신되었는가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 접근 감사 (Access Audit)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 누가 언제 어떤 데이터에 접근·변경했는가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 규정 준수 감사 (Compliance Audit)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ GDPR, 개인정보보호법, 금융감독규정 준수 여부</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 계보 감사 (Lineage Audit)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 데이터의 출처→변환→목적지 흐름 추적</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│            데이터 감사 4대 검증 영역                            │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│  1. 데이터 품질 감사 (Data Quality Audit)                     │
+│     ├─ 정확성: 값이 현실을 올바르게 반영하는가?                 │
+│     ├─ 완전성: 필수 필드가 누락 없이 채워져 있는가?              │
+│     ├─ 일관성: 시스템 간 동일 데이터가 모순되지 않는가?          │
+│     └─ 적시성: 데이터가 지정 시간 내에 갱신되었는가?             │
+│                                                              │
+│  2. 접근 감사 (Access Audit)                                  │
+│     └─ 누가 언제 어떤 데이터에 접근·변경했는가?                 │
+│                                                              │
+│  3. 규정 준수 감사 (Compliance Audit)                         │
+│     └─ GDPR, 개인정보보호법, 금융감독규정 준수 여부              │
+│                                                              │
+│  4. 계보 감사 (Lineage Audit)                                 │
+│     └─ 데이터의 출처→변환→목적지 흐름 추적                     │
+└──────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)는 식품 이력 추적 시스템과 같다. 식재료(원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 농장(소스)에서 공장([ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/)), 식탁(보고서)까지 모든 과정이 기록되어 문제 발생 시 즉시 원산지를 추적할 수 있다.
 
@@ -63,22 +64,24 @@ tags = ["studynote-bigdata"]
 
 ### [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계보([Data Lineage](/knowledge-base/studynote/12_it_management/05_security_compliance/214_data_lineage_tracking/)) 아키텍처
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터 계보 추적 흐름</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">원시 데이터 소스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CRM DB (고객 정보) ──→ ETL Job (정제) ──→ DW (orders 테이블)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BI 보고서 (매출 집계)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">계보 도구가 기록:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"매출_집계 ← orders ← ETL_job_2026 ← CRM_DB"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">감사 질문: "이 매출 수치는 어디서 왔나?"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 계보 추적으로 CRM 원본까지 역추적 가능</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────┐
+│              데이터 계보 추적 흐름                          │
+├──────────────────────────────────────────────────────────┤
+│                                                          │
+│  [원시 데이터 소스]                                        │
+│  CRM DB (고객 정보) ──→ ETL Job (정제) ──→ DW (orders 테이블)│
+│                                          │               │
+│                                          ▼               │
+│                                     BI 보고서 (매출 집계)  │
+│                                                          │
+│  계보 도구가 기록:                                         │
+│  "매출_집계 ← orders ← ETL_job_2026 ← CRM_DB"            │
+│                                                          │
+│  감사 질문: "이 매출 수치는 어디서 왔나?"                   │
+│  → 계보 추적으로 CRM 원본까지 역추적 가능                    │
+└──────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계보는 스파게티 한 가닥이 냄비 속 어느 면에서 왔는지 추적하는 것이다. 엉켜있는 수백 개의 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 중에서 특정 숫자의 출처를 끝까지 따라가면 최초 소스를 찾을 수 있다.
 
@@ -149,23 +152,21 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 품질 관리 — 수동 검증, 정기 점검</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">자동화 데이터 품질 — Great Expectations, dbt Test</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 계보 (Lineage) — OpenLineage, Apache Atlas</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">통합 데이터 감사 — 품질+계보+접근 로그 통합 거버넌스</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AI 데이터/모델 감사 — 편향 탐지, 공정성 검증</div></div>
-</div>
-</div>
-
-
+```text
+[데이터 품질 관리 — 수동 검증, 정기 점검]
+    │
+    ▼
+[자동화 데이터 품질 — Great Expectations, dbt Test]
+    │
+    ▼
+[데이터 계보 (Lineage) — OpenLineage, Apache Atlas]
+    │
+    ▼
+[통합 데이터 감사 — 품질+계보+접근 로그 통합 거버넌스]
+    │
+    ▼
+[AI 데이터/모델 감사 — 편향 탐지, 공정성 검증]
+```
 수동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)에서 자동화 품질 검사, 계보 추적, 통합 거버넌스를 거쳐 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델의 공정성 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)로 진화하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)의 흐름이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

@@ -24,24 +24,20 @@ tags = ["software_engineering"]
 
 > 💡 **비유**: 한 번 굳어버린 콘크리트 기초를 다시 뜯어내기 불가능한 것처럼, 철저한 사전 설계에 모든 것을 걸고 한 방향으로만 묵묵히 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)하는 대형 댐 건설 공사와 같다.
 
+```text
+[폭포수 모델의 직렬적 단계 흐름]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">폭포수 모델의 직렬적 단계 흐름</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">요구사항 분석</div><div class="kb-diagram-note">──(명세서)──</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">시스템 설계</div><div class="kb-diagram-note">──(설계도)──</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">구현(Coding)</div><div class="kb-diagram-note">──(코드)──</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">테스트(Test)</div></div>
-<div class="kb-diagram-note">* 병목: 물은 거꾸로 흐르지 않는다. (이전 단계 복귀 비용 극대화) ▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">운영/유지보수</div></div>
-</div>
-</div>
-
-
+[요구사항 분석] ──(명세서)──┐
+                            ▼
+                    [시스템 설계] ──(설계도)──┐
+                                              ▼
+                                      [구현(Coding)] ──(코드)──┐
+                                                               ▼
+                                                       [테스트(Test)]
+                                                               │
+     * 병목: 물은 거꾸로 흐르지 않는다. (이전 단계 복귀 비용 극대화) ▼
+                                                          [운영/유지보수]
+```
 **[도식 설명]**
 이 도식은 폭포수 모델 특유의 계단식 하향 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 구조를 보여준다. 각 단계는 이전 단계의 완벽한 산출물을 입력으로 요구하며, 다음 단계로 넘어간 후에는 원칙적으로 이전 단계로 되돌아가는 것(Iteration)을 허용하지 않는다. 이 구조의 치명적인 병목은 '테스트' 단계에 있다. 개발 막바지인 테스트 단계에서 설계의 근본적인 결함이나 사용자의 요구사항 변심이 발견될 경우, 거슬러 올라가 수정해야 할 비용과 시간이 파멸적으로 증가한다.
 
@@ -57,20 +53,17 @@ tags = ["software_engineering"]
 | **구현 (Implementation)** | 설계도와 1:1로 매핑되는 소스 코드 작성 | 설계 문서에 의존하여 기계적으로 로직 작성, 개별 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) 수행 | 소스 코드 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) | 벽돌 조립 |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>/테스트 (Test)</strong> | 작성된 코드가 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) SRS와 일치하는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | [통합 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/), [시스템 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/405_system_test/) 수행 (오류 발견 시 긴급 패치 중심) | 테스트 결과 보고서 | 최종 준공 검사 |
 
+```text
+[폭포수 모델의 베이스라인(Baseline) 동결 메커니즘]
 
+   Phase 1 완료       Phase 2 완료        Phase 3 완료
+[요구사항] ───/───> [설계] ───/───> [구현] ───/───> [테스트]
+            ▲               ▲               ▲
+       (Baseline 1)    (Baseline 2)    (Baseline 3)
+           동결            동결            동결
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">폭포수 모델의 베이스라인(Baseline) 동결 메커니즘</div></div>
-<div class="kb-diagram-note">Phase 1 완료 Phase 2 완료 Phase 3 완료</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">요구사항</div><div class="kb-diagram-note">/ &gt;</div><div class="kb-diagram-node">설계</div><div class="kb-diagram-note">/ &gt;</div><div class="kb-diagram-node">구현</div><div class="kb-diagram-note">/ &gt;</div><div class="kb-diagram-node">테스트</div></div>
-<div class="kb-diagram-note">(Baseline 1) (Baseline 2) (Baseline 3)</div>
-<div class="kb-diagram-note">동결 동결 동결</div>
-<div class="kb-diagram-note">* 변경 제어 위원회(CCB)의 승인 없이는 베이스라인(이전 문서) 수정 절대 불가</div>
-</div>
-</div>
-
-
+ * 변경 제어 위원회(CCB)의 승인 없이는 베이스라인(이전 문서) 수정 절대 불가
+```
 **[도식 설명]**
 이 그림은 폭포수 모델에서 품질을 통제하는 '[베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/)' 메커니즘을 보여준다. 각 단계가 끝날 때마다 공식적인 리뷰를 통해 산출물을 확정(동결)하고, 이를 다음 단계의 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)([Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/))으로 삼는다. 만약 구현 중에 설계 문서를 수정해야 할 상황이 생기면, 개발자가 임의로 바꿀 수 없고 반드시 변경 제어 위원회([CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/))의 공식 프로세스를 거쳐야만 한다. 이 엄격함이 시스템의 무결성을 지키지만, 동시에 비즈니스 변화에 둔감해지는 트레이드오프를 낳는다.
 
@@ -85,22 +78,19 @@ tags = ["software_engineering"]
 | **가치 제공 시점** | 프로젝트 최종 완료 시점 (Big Bang Release) | 점진적으로 기능 릴리즈 (Incremental Delivery) | Time-to-Market 중요도 |
 | **성공 지표** | 정해진 예산과 일정, 문서 내 100% 스펙 준수 | 동작하는 소프트웨어와 고객 가치 달성 | 계약 형태 (도급 vs 인하우스) |
 
+```text
+[시간에 따른 리스크(위험) 감소 그래프 비교]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">시간에 따른 리스크(위험) 감소 그래프 비교</div></div>
-<div class="kb-diagram-note">위험(Risk)</div>
-<div class="kb-diagram-connector">▲</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">폭포수 모델</div><div class="kb-diagram-note">(후반 테스트 전까지 위험 지속)</div></div>
-<div class="kb-diagram-note">――――――――――――――――――――――\</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">애자일 모델</div><div class="kb-diagram-note">\</div></div>
-<div class="kb-diagram-note">\/\/\/\/\/\/\/\/\/\/\/\/\ \ (Big Bang 테스트)</div>
-<div class="kb-diagram-tree-item" style="--depth:0">\ \ ► 시간(Time)</div>
-</div>
-</div>
-
-
+위험(Risk)
+ ▲
+ │        [폭포수 모델] (후반 테스트 전까지 위험 지속)
+ │ ───────――――――――――――――――――――――\
+ │                               \
+ │ [애자일 모델]                  \
+ │   \/\/\/\/\/\/\/\/\/\/\/\/\     \ (Big Bang 테스트)
+ │                            \     \
+ └─────────────────────────────\─────\───────► 시간(Time)
+```
 **[도식 설명]**
 이 그래프는 프로젝트 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 시간에 따른 두 모델의 '[리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 해소' 패턴을 보여준다. [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)은 짧은 반복 주기를 통해 초반부터 조금씩 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 줄여나가지만, 폭포수 모델은 코드 작성 내내(구현 단계) 시스템이 실제로 돌아가는지 알 수 없는 '블랙박스' 상태가 유지된다. 오직 개발 후반부 [통합 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/) 단계에 진입해서야 폭발적인 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 한꺼번에 맞닥뜨리는 구조적 병목(Big Bang [Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/))을 내포하고 있다.
 
@@ -119,21 +109,17 @@ tags = ["software_engineering"]
 | <strong>가짜 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/">진행</a>률 (<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/463_fake_test_double/">Fake</a> <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/">Progress</a>)</strong> | "코딩 90% 완료"라는 모호한 수치가 아닌, "[단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) 통과율 90%" 등 정량적 지표 관리 |
 | **요구사항 빙산의 일각** | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 고객 본인조차 자신이 원하는 바를 완벽히 알지 못한다는 사실을 인지하고 무조건 동결하는 위험 경계 |
 
+```text
+[하이브리드 적용: Water-Scrum-Fall 아키텍처 플로우]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">하이브리드 적용: Water-Scrum-Fall 아키텍처 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">요구분석/설계</div><div class="kb-diagram-note">&gt;</div><div class="kb-diagram-node">구현 (Scrum 적용)</div><div class="kb-diagram-note">&gt;</div><div class="kb-diagram-node">통합 테스트/릴리즈</div></div>
-<div class="kb-diagram-note">(폭포수) (폭포수)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">철저한</div><div class="kb-diagram-cell">Sprint 1</div><div class="kb-diagram-cell">엄격한</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문서화/승인 ==&gt;</div><div class="kb-diagram-cell">Sprint 2</div><div class="kb-diagram-cell">==&gt; 보안/규제 검증</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(거시적)</div><div class="kb-diagram-cell">Sprint 3 ...</div><div class="kb-diagram-cell">(안정성)</div></div>
-<div class="kb-diagram-note">(점진적 기능 개발)</div>
-</div>
-</div>
-
-
+[요구분석/설계] ───> [ 구현 (Scrum 적용) ] ───> [통합 테스트/릴리즈]
+  (폭포수)            ┌───────────────┐           (폭포수)
+    철저한            │ Sprint 1      │             엄격한
+  문서화/승인      ==>│ Sprint 2      │==>       보안/규제 검증
+    (거시적)          │ Sprint 3 ...  │           (안정성)
+                      └───────────────┘
+                     (점진적 기능 개발)
+```
 **[도식 설명]**
 이 흐름도는 실무에서 폭포수의 장점(명확한 관리, 규제 대응)과 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)의 장점(유연한 개발 속도)을 결합한 하이브리드 아키텍처를 보여준다. 거시적인 시스템 아키텍처 설계와 최종 [통합 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/)는 폭포수 방식으로 엄격하게 통제하되, 내부 구현 단계에서는 [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/)([Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/658_agile_scrum_roles/))을 도입하여 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 단위로 반복 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 수행한다. 이는 SI(시스템 통합) 프로젝트에서 현실적인 타협안으로 가장 널리 쓰인다.
 
@@ -162,23 +148,21 @@ tags = ["software_engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SDLC (Software Development Life Cycle)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">애자일 (Agile Methodology)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">베이스라인 (Baseline)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">나선형 모델 (Spiral Model)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">V-모델 (V-Model)</div></div>
-</div>
-</div>
-
-
+```text
+[SDLC (Software Development Life Cycle)]
+    │
+    ▼
+[애자일 (Agile Methodology)]
+    │
+    ▼
+[베이스라인 (Baseline)]
+    │
+    ▼
+[나선형 모델 (Spiral Model)]
+    │
+    ▼
+[V-모델 (V-Model)]
+```
 
 이 흐름도는 [SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/) (Software Development Life Cycle)에서 출발해 V-모델 ([V-Model](/knowledge-base/studynote/12_it_management/04_sdlc_testing/132_v_model_sdlc_verification_validation_testing/))까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 

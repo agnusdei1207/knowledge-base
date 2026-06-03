@@ -30,17 +30,14 @@ CNN은 다음 핵심 아이디어로 이를 해결한다:
 2. <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a> 공유(<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">Weight</a> Sharing)</strong>: 동일한 필터를 이미지 전체에 반복 적용
 3. <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/">풀링</a>(<a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/">Pooling</a>)</strong>: 공간 해상도 축소로 이동 불변성 확보
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Background Problem → Need → Adoption Value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Existing limitation</div><div class="kb-diagram-cell">Operational pressure</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New requirement</div><div class="kb-diagram-cell">Design decision point</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────┐
+│ Background Problem → Need → Adoption Value   │
+├──────────────────────────────────────────────┤
+│ Existing limitation │ Operational pressure   │
+│ New requirement     │ Design decision point  │
+└──────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: CNN은 이미지를 한꺼번에 전체를 보는 것이 아니라, 돋보기로 작은 부분씩 훑으며([합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/)) 패턴을 찾고, 같은 돋보기([가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 공유)를 이미지 전체에 재사용하는 효율적인 탐정 방법이다.
 
@@ -50,46 +47,44 @@ CNN은 다음 핵심 아이디어로 이를 해결한다:
 
 ### [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 전체 아키텍처
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">입력 이미지 (H × W × C)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">합성곱 블록 (Conv Block)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Conv(3×3, F filters) → BN → ReLU</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">출력: H' × W' × F (특성 맵, Feature Map)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">× 여러 회 반복</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">풀링 레이어 (Pooling Layer)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MaxPooling(2×2, stride=2) → H/2 × W/2 × F (공간 축소)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">깊어질수록: 공간 크기(H,W)↓, 채널 수(F)↑</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">저수준 특성(엣지) → 중수준(텍스처) → 고수준(객체 부분)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Flatten → FC Layer → Softmax → 분류 결과</div>
-</div>
-</div>
-
-
+```
+입력 이미지 (H × W × C)
+    │
+    ▼
+┌──────────────────────────────────────────────────────────────┐
+│  합성곱 블록 (Conv Block)                                    │
+│  ┌────────────────────────────────────────────────────────┐  │
+│  │ Conv(3×3, F filters) → BN → ReLU                      │  │
+│  │ 출력: H' × W' × F  (특성 맵, Feature Map)             │  │
+│  └────────────────────────────────────────────────────────┘  │
+│                  × 여러 회 반복                              │
+├──────────────────────────────────────────────────────────────┤
+│  풀링 레이어 (Pooling Layer)                                 │
+│  MaxPooling(2×2, stride=2) → H/2 × W/2 × F (공간 축소)     │
+├──────────────────────────────────────────────────────────────┤
+│  깊어질수록: 공간 크기(H,W)↓, 채널 수(F)↑                 │
+│  저수준 특성(엣지) → 중수준(텍스처) → 고수준(객체 부분)   │
+└──────────────────────────────────────────────────────────────┘
+    │
+    ▼
+Flatten → FC Layer → Softmax → 분류 결과
+```
 
 ### [합성곱 연산](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/)([Convolution](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/))
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">입력 (5×5) 필터 (3×3) 출력 특성 맵 (3×3)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1 2 3 0 1</div><div class="kb-diagram-cell">1 0 -1</div><div class="kb-diagram-cell">● ● ●</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4 5 6 1 2</div><div class="kb-diagram-cell">×</div><div class="kb-diagram-cell">1 0 -1</div><div class="kb-diagram-cell">→</div><div class="kb-diagram-cell">● ● ●</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">7 8 9 2 1</div><div class="kb-diagram-cell">1 0 -1</div><div class="kb-diagram-cell">● ● ●</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0 1 2 3 0</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1 0 1 2 3</div></div>
-<div class="kb-diagram-note">출력 크기 = (N - F + 2P) / S + 1</div>
-<div class="kb-diagram-note">N: 입력 크기, F: 필터 크기, P: 패딩, S: 스트라이드</div>
-<div class="kb-diagram-note">예) (5 - 3 + 0) / 1 + 1 = 3</div>
-</div>
-</div>
-
-
+```
+입력 (5×5)         필터 (3×3)         출력 특성 맵 (3×3)
+┌─────────────┐   ┌─────────┐        ┌─────────┐
+│ 1  2  3  0  1│  │ 1  0 -1 │        │  ●  ●  ● │
+│ 4  5  6  1  2│× │ 1  0 -1 │   →    │  ●  ●  ● │
+│ 7  8  9  2  1│  │ 1  0 -1 │        │  ●  ●  ● │
+│ 0  1  2  3  0│  └─────────┘        └─────────┘
+│ 1  0  1  2  3│
+└─────────────┘
+출력 크기 = (N - F + 2P) / S + 1
+  N: 입력 크기, F: 필터 크기, P: 패딩, S: 스트라이드
+예) (5 - 3 + 0) / 1 + 1 = 3
+```
 
 ### 출력 크기 계산 공식
 
@@ -105,22 +100,21 @@ CNN은 다음 핵심 아이디어로 이를 해결한다:
 
 ### [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)([Pooling](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)) 레이어
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Max Pooling (2×2, stride=2):</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">입력 4×4 → 출력 2×2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1 3</div><div class="kb-diagram-cell">max→ 9</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2 9</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5 2</div><div class="kb-diagram-cell">max→ 7</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">7 1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이동 불변성: 패턴이 조금 이동해도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동일한 최대값이 출력됨</div></div>
-</div>
-</div>
-
-
+```
+Max Pooling (2×2, stride=2):
+┌───────────────────────────────────┐
+│  입력 4×4  →  출력 2×2           │
+│  ┌───┬───┐                        │
+│  │ 1  3  │  max→ 9               │
+│  │ 2  9  │                        │
+│  ├───┼───┤                        │
+│  │ 5  2  │  max→ 7               │
+│  │ 7  1  │                        │
+│  └───┴───┘                        │
+│  이동 불변성: 패턴이 조금 이동해도 │
+│  동일한 최대값이 출력됨            │
+└───────────────────────────────────┘
+```
 
 ### 대표 [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 아키텍처 계보
 
@@ -179,20 +173,16 @@ CNN은 다음 핵심 아이디어로 이를 해결한다:
 
 ### 잔차 연결(Residual Connection, Skip Connection)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">입력 x</div>
-<div class="kb-diagram-note">▼ │ (지름길)</div>
-<div class="kb-diagram-note">Conv → BN → ReLU → Conv → BN</div>
-<div class="kb-diagram-note">(+)◄ -</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ReLU → 출력 H(x) = F(x) + x</div>
-</div>
-</div>
-
-
+```
+입력 x
+  │   └──────────────────────────┐
+  ▼                              │ (지름길)
+Conv → BN → ReLU → Conv → BN    │
+  ▼                              │
+  (+)◄─────────────────────────-┘
+  ▼
+ReLU → 출력 H(x) = F(x) + x
+```
 
 잔차 연결로 그래디언트가 곱셈 없이 덧셈으로 직접 전달 → 100층 이상의 네트워크 학습 가능.
 

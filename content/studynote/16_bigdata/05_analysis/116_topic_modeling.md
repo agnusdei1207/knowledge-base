@@ -30,26 +30,28 @@ tags = ["studynote-bigdata"]
 
 ### LDA [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 모델
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LDA (Latent Dirichlet Allocation) 원리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">생성 가정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">각 문서는 여러 주제의 혼합 (α: 문서-주제 분포의 디리클레 파라미터)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">각 주제는 단어들의 분포 (β: 주제-단어 분포의 디리클레 파라미터)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문서 d1: 70% 정치, 20% 경제, 10% 스포츠</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문서 d2: 10% 정치, 80% 기술, 10% 과학</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주제 "기술": {AI 0.15, 데이터 0.12, 알고리즘 0.10, ...}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주제 "정치": {대통령 0.12, 선거 0.11, 정당 0.09, ...}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 관측된 단어들에서 역으로 추론 (변분 추론/깁스 샘플링)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하이퍼파라미터:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">α (작을수록 문서가 소수 주제에 집중)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">β (작을수록 주제가 소수 단어에 집중)</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│              LDA (Latent Dirichlet Allocation) 원리                │
+├────────────────────────────────────────────────────────────────────┤
+│                                                                    │
+│  [생성 가정]                                                        │
+│  각 문서는 여러 주제의 혼합 (α: 문서-주제 분포의 디리클레 파라미터)│
+│  각 주제는 단어들의 분포 (β: 주제-단어 분포의 디리클레 파라미터)  │
+│                                                                    │
+│  문서 d1: 70% 정치, 20% 경제, 10% 스포츠                           │
+│  문서 d2: 10% 정치, 80% 기술, 10% 과학                             │
+│                                                                    │
+│  주제 "기술": {AI 0.15, 데이터 0.12, 알고리즘 0.10, ...}           │
+│  주제 "정치": {대통령 0.12, 선거 0.11, 정당 0.09, ...}             │
+│                                                                    │
+│  → 관측된 단어들에서 역으로 추론 (변분 추론/깁스 샘플링)           │
+│                                                                    │
+│  하이퍼파라미터:                                                    │
+│  α (작을수록 문서가 소수 주제에 집중)                               │
+│  β (작을수록 주제가 소수 단어에 집중)                               │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 ### 주요 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 비교
 
@@ -138,25 +140,24 @@ tags = ["studynote-bigdata"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">TF-IDF (Term Frequency-Inverse Document Frequency) — 단어 빈도 기반 문서 표현</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LSA (Latent Semantic Analysis) — SVD 기반 잠재 의미 추출, 동의어·유사어 포착</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">LDA (Latent Dirichlet Allocation) — 확률적 생성 모델, 문서별 토픽 혼합 비율</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">NMF (Non-negative Matrix Factorization) — 비음수 분해, 해석 가능한 토픽 추출</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">BERTopic — 사전 학습 BERT 임베딩 + 클러스터링, 맥락 의미 기반 토픽 발견</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">동적 토픽 모델 (Dynamic Topic Model) — 시간 흐름에 따른 토픽 진화 추적</div></div>
-</div>
-</div>
-
-
+```text
+[TF-IDF (Term Frequency-Inverse Document Frequency) — 단어 빈도 기반 문서 표현]
+    │
+    ▼
+[LSA (Latent Semantic Analysis) — SVD 기반 잠재 의미 추출, 동의어·유사어 포착]
+    │
+    ▼
+[LDA (Latent Dirichlet Allocation) — 확률적 생성 모델, 문서별 토픽 혼합 비율]
+    │
+    ▼
+[NMF (Non-negative Matrix Factorization) — 비음수 분해, 해석 가능한 토픽 추출]
+    │
+    ▼
+[BERTopic — 사전 학습 BERT 임베딩 + 클러스터링, 맥락 의미 기반 토픽 발견]
+    │
+    ▼
+[동적 토픽 모델 (Dynamic Topic Model) — 시간 흐름에 따른 토픽 진화 추적]
+```
 이 흐름은 단어 빈도 통계에서 출발하여 [행렬 분해](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/161_matrix_decomposition/)와 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 모델로 발전하고, [대규모 언어 모델](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/582_llm_based_code_generation_tools/) [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)을 활용한 맥락 기반 토픽 발견으로 수렴하는 자연어 처리 주제 모델링의 진화를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

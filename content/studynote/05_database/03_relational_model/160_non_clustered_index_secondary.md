@@ -35,20 +35,21 @@ tags = ["studynote-database"]
 
 아래 그림은 이 "[인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 탐색 → 본문 조회" 경로를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">넌클러스터드 인덱스의 기본 조회 경로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Query: WHERE email = 'kim@example.com'</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Non-Clustered Index B+Tree</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">root/branch -&gt; leaf: email='kim@example.com' -&gt; row locator</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Base Table or Clustered Data</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">target row fetch -&gt; column read</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">If needed columns are already in index: table lookup can be skipped</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│        넌클러스터드 인덱스의 기본 조회 경로                        │
+├────────────────────────────────────────────────────────────────────┤
+│ Query: WHERE email = 'kim@example.com'                             │
+│                                                                    │
+│ [Non-Clustered Index B+Tree]                                       │
+│   root/branch -> leaf: email='kim@example.com' -> row locator      │
+│                                                    │               │
+│                                                    ▼               │
+│ [Base Table or Clustered Data] -> target row fetch -> column read  │
+│                                                                    │
+│ If needed columns are already in index: table lookup can be skipped│
+└────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림에서 중요한 부분은 마지막 줄이다. [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)에 없는 컬럼을 `SELECT`하면 테이블로 다시 가야 하므로, 랜덤 입출력 (Random I/O) 비용이 늘어난다. 반대로 필요한 컬럼이 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)에 모두 들어 있으면 커버링 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) (Covering [Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))가 되어 본문 접근을 생략할 수 있다. 그래서 넌클러스터드 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 설계는 단순히 "검색 컬럼 하나 추가"가 아니라, <strong>조회 경로 전체를 얼마나 짧게 만들 것인가</strong>의 문제다.
 
@@ -132,22 +133,19 @@ tags = ["studynote-database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Full Scan 중심 조회</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">넌클러스터드 인덱스 도입</div>
-<div class="kb-diagram-tree-item" style="--depth:2">조건절 탐색 가속</div>
-<div class="kb-diagram-tree-item" style="--depth:2">키 룩업 발생</div>
-<div class="kb-diagram-tree-item" style="--depth:2">다중 인덱스 유지 비용 증가</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">복합 인덱스 · 커버링 인덱스 · 실행 계획 최적화</div>
-</div>
-</div>
-
-
+```text
+Full Scan 중심 조회
+    │
+    ▼
+넌클러스터드 인덱스 도입
+    │
+    ├─ 조건절 탐색 가속
+    ├─ 키 룩업 발생
+    └─ 다중 인덱스 유지 비용 증가
+    │
+    ▼
+복합 인덱스 · 커버링 인덱스 · 실행 계획 최적화
+```
 
 이 흐름도는 단순 보조 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)에서 출발해, 조회 경로와 유지 비용을 함께 최적화하는 실무 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 설계로 발전하는 과정을 보여준다.
 

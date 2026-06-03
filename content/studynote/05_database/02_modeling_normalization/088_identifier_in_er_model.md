@@ -37,20 +37,20 @@ tags = ["database"]
 | **불변성 (Immutability)** | 한 번 지정된 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) 값은 변하지 않아야 함 | PK 변경 시 FK 연쇄 갱신 방지 |
 | **존재성 (Existence)** | [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) 값은 `NULL`일 수 없음 | 개체의 존재 자체를 증명해야 함 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">식별자 선택의 단계적 필터링</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1. 속성 수집:</div><div class="kb-diagram-node">사번, 주민번호, 이름, 부서명, 이메일, 입사일</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 유일성/존재성 확인 ─▶ (이름, 부서명, 입사일 탈락)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 후보 식별자(Candidate Identifier) 도출: {사번}, {주민번호}, {이메일}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 불변성/보안성 검토 ─▶ 주 식별자(Primary Identifier) 선정: {사번}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(주민번호는 보안, 이메일은 변경 가능성으로 탈락)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                  식별자 선택의 단계적 필터링               │
+├──────────────────────────────────────────────────────────────┤
+│ 1. 속성 수집: [사번, 주민번호, 이름, 부서명, 이메일, 입사일] │
+│      │                                                       │
+│ 2. 유일성/존재성 확인 ─▶ (이름, 부서명, 입사일 탈락)      │
+│      │                                                       │
+│ 3. 후보 식별자(Candidate Identifier) 도출: {사번}, {주민번호}, {이메일} │
+│      │                                                       │
+│ 4. 불변성/보안성 검토 ─▶ 주 식별자(Primary Identifier) 선정: {사번}    │
+│                         (주민번호는 보안, 이메일은 변경 가능성으로 탈락) │
+└──────────────────────────────────────────────────────────────┘
+```
 이 흐름에서 도출된 다양한 후보 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) 중에서 비즈니스 목적에 가장 부합하는 단 하나를 주 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)로 선택하고, 나머지는 보조 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) (Alternate Identifier)가 된다.
 
 - **📢 섹션 요약 비유**: 오디션에서 유일하게 춤과 노래를 모두 소화하는 사람을 뽑는 과정과 같다. 후보는 많지만, 결선(주 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/))에 오르는 기준은 '결코 변하지 않는 실력(불변성)'이다.
@@ -116,23 +116,21 @@ tags = ["database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">개체와 속성 정의 (Entity &amp; Attribute)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">후보 식별자 도출 (Candidate Identifier)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">주 식별자 선정 (Primary Identifier) · 4가지 요건 검증</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">인조 식별자 (Surrogate) 도입 판단 및 복합 키 해소</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">물리 모델링 매핑: 기본 키 (PK) 및 참조 무결성 (FK) 정의</div>
-</div>
-</div>
-
-
+```text
+개체와 속성 정의 (Entity & Attribute)
+    │
+    ▼
+후보 식별자 도출 (Candidate Identifier)
+    │
+    ▼
+주 식별자 선정 (Primary Identifier) · 4가지 요건 검증
+    │
+    ▼
+인조 식별자 (Surrogate) 도입 판단 및 복합 키 해소
+    │
+    ▼
+물리 모델링 매핑: 기본 키 (PK) 및 참조 무결성 (FK) 정의
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

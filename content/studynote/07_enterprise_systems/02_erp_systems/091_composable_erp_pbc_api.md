@@ -36,22 +36,22 @@ tags = ["enterprise_systems"]
 | <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> 중심 설계 (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a>-First)</strong> | 서로 다른 벤더가 만든 PBC들이 소통하기 위해 사용하는 표준화된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 연결 통로 (RESTful, [GraphQL](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/246_graphql_query_language_overfetching_solution/)) | 타사 SaaS와의 자유로운 결합 및 [벤더 종속](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/051_vendor_lock_in_cloud_computing/)성([Lock-in](/knowledge-base/studynote/12_it_management/05_security_compliance/362_lock_in_portability/)) 탈피 |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/">클라우드 네이티브</a> (<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/">Cloud Native</a>)</strong> | 각 PBC들이 독립된 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)/K8s) 위에서 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 형태로 구동 | 트래픽 폭증 시 필요한 블록(예: 주문 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))만 오토 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) 가능 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">모놀리식 ERP vs 컴포저블 ERP 구조 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">과거: 모놀리식 ERP</div><div class="kb-diagram-node">최신: 컴포저블 ERP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">UI / 화면</div><div class="kb-diagram-note">│ UI │ │ 앱 │ │ IoT │</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">재무 ↔ 물류 ↔ 인사</div><div class="kb-diagram-cell">==== (Headless API Gateway) ====</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(단단하게 엉킨 코드)</div><div class="kb-diagram-cell">── ── ── ── ── ──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PBC</div><div class="kb-diagram-cell">PBC</div><div class="kb-diagram-cell">PBC</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단일 거대 DB</div><div class="kb-diagram-cell">(재무)</div><div class="kb-diagram-cell">(AI)</div><div class="kb-diagram-cell">(물류)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(블록 하나만 쏙 뽑아서 교체 가능)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                모놀리식 ERP vs 컴포저블 ERP 구조 비교             │
+├──────────────────────────────────────────────────────────────┤
+│    [ 과거: 모놀리식 ERP ]              [ 최신: 컴포저블 ERP ]          │
+│  ┌──────────────────────┐         ┌─────┐ ┌─────┐ ┌─────┐    │
+│  │    [UI / 화면]       │         │ UI  │ │ 앱  │ │ IoT │    │
+│  ├──────────────────────┤         └──┬──┘ └──┬──┘ └──┬──┘    │
+│  │   재무 ↔ 물류 ↔ 인사 │    ==== (Headless API Gateway) ====│
+│  │  (단단하게 엉킨 코드)  │         ┌──┴──┐ ┌──┴──┐ ┌──┴──┐    │
+│  ├──────────────────────┤         │ PBC │ │ PBC │ │ PBC │    │
+│  │   단일 거대 DB       │         │(재무)│ │(AI) │ │(물류)│    │
+│  └──────────────────────┘         └─────┘ └─────┘ └─────┘    │
+│                                  (블록 하나만 쏙 뽑아서 교체 가능)   │
+└──────────────────────────────────────────────────────────────┘
+```
 
 특히 [Headless](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/597_headless_cms_architecture/) 아키텍처는 사용자 인터페이스(UI)와 뒷단의 비즈니스 로직(PBC)을 완전히 분리시킨다. 모바일, 웹, 스마트워치 등 어떤 화면(Head)이 오더라도 뒷단 시스템을 고칠 필요 없이 API로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 던져주면 된다.
 
@@ -116,23 +116,21 @@ tags = ["enterprise_systems"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">온프레미스 기반 모놀리식 ERP (전통적 사일로)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">클라우드 전환 (IaaS/PaaS 도입 및 유연성 확보)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">MSA (마이크로서비스 아키텍처) 기술 성숙</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">기능 중심의 API-First 및 Headless 설계 도입</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">컴포저블 ERP (Composable ERP) 및 로우코드 융합</div>
-</div>
-</div>
-
-
+```text
+온프레미스 기반 모놀리식 ERP (전통적 사일로)
+    │
+    ▼
+클라우드 전환 (IaaS/PaaS 도입 및 유연성 확보)
+    │
+    ▼
+MSA (마이크로서비스 아키텍처) 기술 성숙
+    │
+    ▼
+기능 중심의 API-First 및 Headless 설계 도입
+    │
+    ▼
+컴포저블 ERP (Composable ERP) 및 로우코드 융합
+```
 
 이 흐름도는 시스템이 거대한 통짜 쇳덩이에서 구름 위의 가벼운 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)로, 그리고 최종적으로 사용자가 스스로 조립하는 레고 블록으로 진화하는 궤적을 보여준다.
 

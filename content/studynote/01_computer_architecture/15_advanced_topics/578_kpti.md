@@ -25,20 +25,19 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 KPTI가 도입되기 전과 후에 사용자 모드에서 보이는 주소 지도가 어떻게 달라지는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User-mode address view before and after KPTI</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Before KPTI</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">user pages + full kernel mapping (supervisor-only)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">After KPTI</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">user pages + tiny entry trampoline only</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">kernel entry -&gt; switch to full kernel page table</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│ User-mode address view before and after KPTI                              │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Before KPTI                                                               │
+│   user pages + full kernel mapping (supervisor-only)                      │
+│                                                                            │
+│ After KPTI                                                                │
+│   user pages + tiny entry trampoline only                                 │
+│                                                                            │
+│ kernel entry -> switch to full kernel page table                          │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 KPTI의 핵심은 단순히 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 숨기는 것이 아니다. 사용자 모드에서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 거의 보이지 않게 만들어, 투기 실행이 잘못 달려 나가더라도 밟을 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 주소 자체를 크게 줄인다. 그래서 KPTI는 "권한 검사 강화"라기보다 <strong>가시성 자체를 줄이는 구조적 격리</strong>로 이해하는 편이 정확하다.
 
@@ -62,22 +61,25 @@ KPTI는 보통 프로세스마다 두 종류의 [페이지 테이블](/knowledge
 
 이 그림은 사용자 모드에서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)로 들어갔다가 다시 나오는 KPTI의 전환 흐름을 요약한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">KPTI entry / exit flow</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">User mode on user page table</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ syscall / interrupt / exception</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">minimal trampoline mapping</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ switch CR3 to kernel page table</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">full kernel handling</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ switch CR3 back to user page table</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">return to user mode</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│ KPTI entry / exit flow                                                    │
+├────────────────────────────────────────────────────────────────────────────┤
+│ User mode on user page table                                               │
+│          │                                                                 │
+│          ├─ syscall / interrupt / exception                                │
+│          ▼                                                                 │
+│ minimal trampoline mapping                                                 │
+│          │                                                                 │
+│          ├─ switch CR3 to kernel page table                                │
+│          ▼                                                                 │
+│ full kernel handling                                                       │
+│          │                                                                 │
+│          ├─ switch CR3 back to user page table                             │
+│          ▼                                                                 │
+│ return to user mode                                                        │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 중요한 것은 사용자 모드용 테이블이 완전히 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)과 무관한 빈 껍데기가 아니라는 점이다. 실제 진입을 위해 필요한 최소한의 코드와 데이터는 남아 있어야 한다. 따라서 KPTI는 "완전 분리"라기보다 <strong>사용자 모드 노출면을 극단적으로 줄인 이중 지도 설계</strong>라고 이해하는 것이 현실적이다.
 
@@ -155,23 +157,21 @@ KPTI의 가장 큰 효과는 [커널](/knowledge-base/studynote/02_operating_sys
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">항상 매핑된 kernel/user 공존 모델</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Meltdown 발견</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">KPTI 도입</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">PCID 기반 TLB 비용 완화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">하드웨어 수정 + 최소 노출 kernel mapping</div>
-</div>
-</div>
-
-
+```text
+항상 매핑된 kernel/user 공존 모델
+                │
+                ▼
+Meltdown 발견
+                │
+                ▼
+KPTI 도입
+                │
+                ▼
+PCID 기반 TLB 비용 완화
+                │
+                ▼
+하드웨어 수정 + 최소 노출 kernel mapping
+```
 
 이 흐름은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 격리가 단순 권한 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 설계에서, 이제는 실제 가시 범위를 줄이는 방향으로 진화했음을 보여 준다.
 

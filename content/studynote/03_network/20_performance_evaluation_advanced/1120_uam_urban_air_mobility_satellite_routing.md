@@ -23,18 +23,14 @@ tags = ["studynote-network"]
 - **안전 절대주의**: 에어택시([UAM](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/145_uam_urban_air_mobility_evtol/))는 시속 300km로 날아다니는 날아다니는 폭탄입니다. 통신이 1초([지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 끊겨서 옆 비행기랑 부딪히면 승객 전원이 즉사합니다(도심 추락 대참사). [URLLC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/)(초저지연)는 기본이고, <strong><a href="/knowledge-base/studynote/09_security/15_malware_attack_vectors/746_c2/">C2</a>(<a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/639_drone_c2_link_command_control_latency/">Command & Control</a>, 비행 제어 명령) 통신</strong>은 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 99.9999% 무중단이 생명줄입니다.
 - **커버리지의 맹점**: 기존 통신사 4G/[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 철탑은 15도 각도로 '아래(땅)'를 향해 전파를 쏩니다(Tilt). 고도 300m ~ 600m 허공을 나는 [UAM](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/145_uam_urban_air_mobility_evtol/) 기체에는 전파 찌꺼기(사이드 로브 노이즈)만 미세하게 닿거나 아예 전파가 죽어버립니다(No [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)).
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">6G 융합 테라헤르츠 예측 지표망</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">위성 기반 도심항공교통 라우팅 통신 구조 모…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">1121번 개념</div></div>
-</div>
-</div>
-
-
+```text
+[6G 융합 테라헤르츠 예측 지표망]
+    │
+    ▼
+[위성 기반 도심항공교통 라우팅 통신 구조 모…]
+    │
+    └──▶ [1121번 개념]
+```
 
 - **📢 섹션 요약 비유**: 위성 기반 도심항공교통 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 통신 구조 모…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -60,18 +56,14 @@ tags = ["studynote-network"]
 - 1024번 자동차 V2X처럼 에어택시들끼리도 전파를 쏩니다. 
 - 앞 에어택시가 갑자기 돌풍을 만나 고도를 확 낮추면, 지상 기지국을 거칠 틈도 없이 뒷 기체로 다이렉트로 브로드캐스트 경보(V2V)를 날려 공중 충돌을 0.01초 만에 회피해 냅니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">6G 융합 테라헤르츠 예측 지표망</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">위성 기반 도심항공교통 라우팅 통신 구조 모…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">1121번 개념</div></div>
-</div>
-</div>
-
-
+```text
+[6G 융합 테라헤르츠 예측 지표망]
+    │
+    ▼
+[위성 기반 도심항공교통 라우팅 통신 구조 모…]
+    │
+    └──▶ [1121번 개념]
+```
 
 - **📢 섹션 요약 비유**: 위성 기반 도심항공교통 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 통신 구조 모…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -132,19 +124,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 6G 융합 테라헤르츠 예측 지표망</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 위성 기반 도심항공교통 라우팅 통신 구조 모…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 1121번 개념</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 성능 예측</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 6G 융합 테라헤르츠 예측 지표망]
+    │
+    ▼
+[현재 개념: 위성 기반 도심항공교통 라우팅 통신 구조 모…]
+    │
+    ├──▶ [확장 A: 1121번 개념]
+    └──▶ [확장 B: AI 기반 성능 예측]
+```
 
 위성 기반 도심항공교통 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 통신 구조 모…는 [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 융합 [테라헤르츠](/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/) 예측 지표망에서 출발해 현재 메커니즘을 정교화하고, 이후 1121번 개념와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

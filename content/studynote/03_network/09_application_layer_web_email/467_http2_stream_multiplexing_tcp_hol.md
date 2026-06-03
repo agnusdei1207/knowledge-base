@@ -27,18 +27,14 @@ tags = ["studynote-network"]
 이 병목을 부수기 위해 구글의 엔지니어들(SPDY)은 텍스트 덩어리를 포기하고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 잘게 부수는 '바이너리 [프레이밍](/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/)(Binary [Framing](/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/))'을 도입했습니다.
 - **필요성**: 1번 영상, 2번 텍스트, 3번 CSS를 아주 잘게 쪼갠 뒤(Frame), 1번-2번-3번-1번-2번 조각들을 마구 뒤섞어 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)(단일 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/))에 한꺼번에 흘려보냅니다. 도착지(브라우저)에서 조각에 적힌 번호표(Stream ID)를 보고 다시 조립하면, 무거운 영상 때문에 가벼운 텍스트가 막히는 일은 영원히 사라지게 됩니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">HTTP/2 특징</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HTTP/2 스트림 다중화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">HTTP/2 헤더 압축</div></div>
-</div>
-</div>
-
-
+```text
+[HTTP/2 특징]
+    │
+    ▼
+[HTTP/2 스트림 다중화]
+    │
+    └──▶ [HTTP/2 헤더 압축]
+```
 
 - **📢 섹션 요약 비유**: [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/1.1이 "한 사람이 계산을 끝낼 때까지 뒷사람이 꼼짝 못 하고 기다려야 하는 1줄짜리 좁은 마트 계산대"라면, [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2의 멀티플렉싱은 "계산원 한 명이 수십 명의 손님 물건을 바코드로 번갈아 가며 1개씩 찍어주는 천재적인 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 계산대"입니다. 물건이 적은 사람은 순식간에 계산을 끝내고 먼저 나갈 수 있습니다.
 
@@ -48,24 +44,27 @@ tags = ["studynote-network"]
 
 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2의 멀티플렉싱은 3단계의 논리적 구조를 통해 구현됩니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">HTTP/2 멀티플렉싱 (Multiplexing) 논리적 아키텍처</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단일 물리적 연결 (Single TCP Connection)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Stream ID: 1</div><div class="kb-diagram-note">(논리적 양방향 통로: HTML 요청/응답) │</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">HEADERS 프레임</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">HEADERS 프레임 | DATA 프레임</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Stream ID: 3</div><div class="kb-diagram-note">(논리적 양방향 통로: CSS 요청/응답) │</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">HEADERS 프레임</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">HEADERS 프레임 | DATA 프레임</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (전송 시 프레임들의 무작위 믹스 및 Interleaving)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">TCP 버퍼</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">DATA 1</div><div class="kb-diagram-node">DATA 3</div><div class="kb-diagram-node">HEAD 3</div><div class="kb-diagram-node">DATA 1</div><div class="kb-diagram-node">HEAD 1</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          [ HTTP/2 멀티플렉싱 (Multiplexing) 논리적 아키텍처 ]        │
+│                                                             │
+│   단일 물리적 연결 (Single TCP Connection)                        │
+│   ┌─────────────────────────────────────────────────────┐   │
+│   │                                                     │   │
+│   │ [ Stream ID: 1 ]  (논리적 양방향 통로: HTML 요청/응답)   │   │
+│   │   ▶ Message (요청) -> [ HEADERS 프레임 ]               │   │
+│   │   ◀ Message (응답) <- [ HEADERS 프레임 | DATA 프레임 ] │   │
+│   │                                                     │   │
+│   │ [ Stream ID: 3 ]  (논리적 양방향 통로: CSS 요청/응답)    │   │
+│   │   ▶ Message (요청) -> [ HEADERS 프레임 ]               │   │
+│   │   ◀ Message (응답) <- [ HEADERS 프레임 | DATA 프레임 ] │   │
+│   └─────────────────────────────────────────────────────┘   │
+│                                                             │
+│     ▼ (전송 시 프레임들의 무작위 믹스 및 Interleaving)               │
+│                                                             │
+│   [TCP 버퍼] ◀ [DATA 1] [DATA 3] [HEAD 3] [DATA 1] [HEAD 1] │
+└─────────────────────────────────────────────────────────────┘
+```
 
 1. **스트림 (Stream)**: 클라이언트와 서버 사이에 맺어진 하나의 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 연결 내에서 논리적으로 구분된 가상의 양방향 흐름입니다. 각 스트림은 고유한 정수 ID(Stream ID)를 가집니다.
 2. **메시지 (Message)**: 논리적인 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 요청(Request) 또는 응답(Response) 덩어리입니다. (여러 개의 프레임으로 구성됨)
@@ -166,19 +165,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: HTTP/2 특징</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: HTTP/2 스트림 다중화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: HTTP/2 헤더 압축</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 애플리케이션 전달</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: HTTP/2 특징]
+    │
+    ▼
+[현재 개념: HTTP/2 스트림 다중화]
+    │
+    ├──▶ [확장 A: HTTP/2 헤더 압축]
+    └──▶ [확장 B: 지능형 애플리케이션 전달]
+```
 
 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 스트림 다중화는 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 특징에서 출발해 현재 메커니즘을 정교화하고, 이후 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2 헤더 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

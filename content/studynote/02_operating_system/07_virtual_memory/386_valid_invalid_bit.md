@@ -27,26 +27,26 @@ tags = ["studynote-operating-system"]
   2. <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/">요구 페이징</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/">Demand Paging</a>)의 도입</strong>: 램이 모자라서 쪼가리를 디스크로 내쫓기 시작했다(Swap-out).
   3. **메타데이터의 확장**: 디스크로 내쫓았다는 사실을 어딘가에 적어둬야 했다. [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 엔트리(PTE)의 남는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 하나를 훔쳐서 '상태 알림판([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) [Flag](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/))'으로 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 시작한 것이 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 시대를 여는 열쇠가 되었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유효/무효 비트(V/I Bit)를 통한 메모리 상태 판별 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">페이지 테이블 장부</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">논리페이지</div><div class="kb-diagram-cell">프레임</div><div class="kb-diagram-cell">V/I</div><div class="kb-diagram-cell">의미 (OS가 아는 진짜 상태)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">0번</div><div class="kb-diagram-cell">4번</div><div class="kb-diagram-cell">V</div><div class="kb-diagram-cell">정상! 현재 물리 램 4번 방에 잘 있음.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1번</div><div class="kb-diagram-cell">7번</div><div class="kb-diagram-cell">V</div><div class="kb-diagram-cell">정상! 물리 램 7번 방에 있음.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2번</div><div class="kb-diagram-cell">--</div><div class="kb-diagram-cell">I</div><div class="kb-diagram-cell">폴트! 램에 없음. 디스크(Swap)에 있음.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3번</div><div class="kb-diagram-cell">--</div><div class="kb-diagram-cell">I</div><div class="kb-diagram-cell">폴트! 램에 없음. 디스크(Swap)에 있음.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4번</div><div class="kb-diagram-cell">--</div><div class="kb-diagram-cell">I</div><div class="kb-diagram-cell">사살! 여긴 아예 할당해 준 적 없는 허공!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">...</div><div class="kb-diagram-cell">...</div><div class="kb-diagram-cell">...</div><div class="kb-diagram-cell">(나머지 100만 개는 전부 I로 세팅됨)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">💥 CPU가 2번 페이지를 불렀을 때 하드웨어(MMU)의 반응:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"어이구, I 비트네? 램에 안 가! OS 커널아, 트랩(Trap) 던질 테니</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">네가 알아서 디스크에서 가져오든 앱을 죽이든 해라!"</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────────┐
+│        유효/무효 비트(V/I Bit)를 통한 메모리 상태 판별 시각화       │
+├─────────────────────────────────────────────────────────────────────┤
+│                                                                     │
+│ [ 페이지 테이블 장부 ]                                              │
+│  논리페이지 │ 프레임 │ V/I │ 의미 (OS가 아는 진짜 상태)             │
+│ ────────┼──────┼─────┼────────────────────────                      │
+│    0번   │  4번  │  V  │ 정상! 현재 물리 램 4번 방에 잘 있음.       │
+│    1번   │  7번  │  V  │ 정상! 물리 램 7번 방에 있음.               │
+│    2번   │  --  │  I  │ 폴트! 램에 없음. 디스크(Swap)에 있음.       │
+│    3번   │  --  │  I  │ 폴트! 램에 없음. 디스크(Swap)에 있음.       │
+│    4번   │  --  │  I  │ 사살! 여긴 아예 할당해 준 적 없는 허공!     │
+│    ...   │  ... │ ... │ (나머지 100만 개는 전부 I로 세팅됨)         │
+│                                                                     │
+│ 💥 CPU가 2번 페이지를 불렀을 때 하드웨어(MMU)의 반응:               │
+│ "어이구, I 비트네? 램에 안 가! OS 커널아, 트랩(Trap) 던질 테니      │
+│  네가 알아서 디스크에서 가져오든 앱을 죽이든 해라!"                 │
+└─────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** V/I [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)의 가장 위대한 점은 '[MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) 하드웨어'가 직접 판독한다는 것이다. 소프트웨어적인 `IF (V == I)` 문을 도는 게 아니라, [논리 게이트](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/027_logic_gates/) 자체가 전기를 끊어버려 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)을 발생시킨다. 그래서 0.001초의 딜레이도 없이 완벽한 메모리 방어와 캐시 미스 감지가 이루어진다. 이 1비트는 현대 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 성곽을 지키는 가장 말단의 초병이다.
 
 - **📢 섹션 요약 비유**: 건물에 100개의 방이 있을 때, 방문에 달린 <strong>'빈방/사용 중' 팻말</strong>입니다. 열쇠(프레임 주소)가 있어도 팻말이 '빈방(Invalid)'으로 되어있으면 문을 열지 않고 바로 관리인(OS)을 호출하게 만드는 아주 단순하고 확실한 물리적 방어 시스템입니다.
@@ -68,22 +68,21 @@ tags = ["studynote-operating-system"]
    - "어라? 4번 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 내가 이 프로그램한테 준 적이 없는 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 밖의 공간인데 여기를 왜 찔러? 이놈 해커나 버그 걸린 놈이네!"
    - **처리**: 앱을 즉시 강제 종료시키고 "[코어 덤프](/knowledge-base/studynote/02_operating_system/01_overview_architecture/035_core_dump/)([Core Dump](/knowledge-base/studynote/02_operating_system/01_overview_architecture/035_core_dump/))"를 뱉는다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하드웨어의 무지함과 OS 소프트웨어의 뒷수습</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">하드웨어 MMU</div><div class="kb-diagram-note">: 멍청함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"난 I 비트면 무조건 OS 부르고 뻗어버릴래. 디스크인지 불법인지 난 몰라!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(인터럽트 발생)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">운영체제 (OS)</div><div class="kb-diagram-note">: 똑똑함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"아휴, MMU 녀석. 내가 내부 장부(VMA) 까보고 판단해 줄게."</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── (합법적 부재) -&gt; 디스크 I/O 실행 -&gt; V 비트로 갱신 -&gt; 재실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">── (불법적 침범) -&gt; 프로세스 Kill -&gt; SegFault 에러 출력</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────┐
+│              하드웨어의 무지함과 OS 소프트웨어의 뒷수습                  │
+├──────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│ [ 하드웨어 MMU ] : 멍청함.                                               │
+│ "난 I 비트면 무조건 OS 부르고 뻗어버릴래. 디스크인지 불법인지 난 몰라!"  │
+│         │ (인터럽트 발생)                                                │
+│         ▼                                                                │
+│ [ 운영체제 (OS) ] : 똑똑함.                                              │
+│ "아휴, MMU 녀석. 내가 내부 장부(VMA) 까보고 판단해 줄게."                │
+│   ├── (합법적 부재) -> 디스크 I/O 실행 -> V 비트로 갱신 -> 재실행        │
+│   └── (불법적 침범) -> 프로세스 Kill -> SegFault 에러 출력               │
+└──────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이것이 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 하나만으로 보안([Protection](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/))과 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)([Virtual Memory](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/))를 동시에 구현한 컴퓨터 공학의 예술적 '[오버로딩](/knowledge-base/studynote/04_software_engineering/06_software_architecture/323_overloading_vs_overriding/)([Overloading](/knowledge-base/studynote/04_software_engineering/06_software_architecture/323_overloading_vs_overriding/))'이다. 1비트로 두 가지 목적을 100% 만족스럽게 달성하여 귀중한 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 장부 용량을 극도로 아꼈다.
 
@@ -170,19 +169,15 @@ OS는 가상 주소 공간을 만들 때, 제일 첫 번째 [페이지](/knowled
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 페이징 (Prepaging)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">유효-무효 비트 (Valid-Invalid Bit)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">페이지 부재 (Page Fault)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">페이지 부재 처리 과정 6단계 (OS 트랩, 레지스터 저장, 디스크 읽기, 문맥교환 등)</div></div>
-</div>
-</div>
-
-
+```text
+[선행 페이징 (Prepaging)]
+    │
+    ▼
+[유효-무효 비트 (Valid-Invalid Bit)]
+    │
+    ├──▶ [페이지 부재 (Page Fault)]
+    └──▶ [페이지 부재 처리 과정 6단계 (OS 트랩, 레지스터 저장, 디스크 읽기, 문맥교환 등)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

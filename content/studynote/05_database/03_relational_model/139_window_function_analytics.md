@@ -48,18 +48,12 @@ Window Function은 <strong>현대 SQL 분석의 핵심</strong>이며, [상관 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">GROUP BY (집계)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">상관 서브쿼리 (비효율)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Window Function (SQL:2003)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">ROWS/RANGE Frame (세밀한 윈도우)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: 대부분 DB 완전 지원 — 분석 쿼리 필수</div></div>
-</div>
-</div>
-
-
+```text
+[GROUP BY (집계)] → [상관 서브쿼리 (비효율)]
+    → [Window Function (SQL:2003)]
+    → [ROWS/RANGE Frame (세밀한 윈도우)]
+    → [현재: 대부분 DB 완전 지원 — 분석 쿼리 필수]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. Window Function은 <strong>석차표</strong>예요. 각 학생 점수는 **그대로 두고 순위만 붙여요**.

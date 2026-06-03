@@ -23,21 +23,23 @@ tags = ["cloud_architecture"]
 
 이 그림은 클라우드 상에서 데이터가 흐르는 표준 파이프라인인 <strong>ELT 아키텍처</strong>를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cloud Data Pipeline (ELT Flow)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Sources</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Ingestion</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Data Lake</div><div class="kb-diagram-note">──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Logs, DB) (Kinesis/Glue) (S3 / GCS)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (Transform via SQL) ▼</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Data Warehouse</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">BI / Dashboard / ML</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(BigQuery/Snowflake) (Tableau / Vertex AI)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 데이터를 먼저 담고(Load), 나중에 가공(Transform)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Cloud Data Pipeline (ELT Flow)              │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Sources ] ──▶ [ Ingestion ] ──▶ [ Data Lake ] ──┐       │
+│   (Logs, DB)      (Kinesis/Glue)    (S3 / GCS)      │       │
+│                                              │      │       │
+│          ┌───────────────────────────────────┘      │       │
+│          ▼ (Transform via SQL)                      ▼       │
+│   [ Data Warehouse ] ──────▶ [ BI / Dashboard / ML ]        │
+│   (BigQuery/Snowflake)       (Tableau / Vertex AI)          │
+│                                                             │
+│   * 핵심: 데이터를 먼저 담고(Load), 나중에 가공(Transform)  │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 'ELT (Extract-Load-Transform)'로의 패러다임 전환이다. 클라우드 DW의 연산력이 워낙 강력해졌기 때문에, 외부에서 힘들게 요리해 가져오기보다 재료를 통째로 창고(Load)에 넣고 창고 안에서 요리(Transform)하는 것이 훨씬 빠르고 유연하다. 실무에서는 이 과정을 자동화하는 **dbt (data build tool)** 등이 핵심 기술로 쓰인다.
 
@@ -69,20 +71,23 @@ tags = ["cloud_architecture"]
 
 이 구조도는 **서버리스 데이터 분석** 아키텍처의 유연성을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Serverless Data Analytics Stack</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Raw JSON Files</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">AWS Glue (Crawler)</div><div class="kb-diagram-note">──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(S3)</div><div class="kb-diagram-cell">(Schema)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SQL Query</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Amazon Athena (Engine)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-note">──</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">QuickSight</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Cleaned Table in S3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 특징: 서버를 한 대도 띄우지 않고 SQL로 페타바이트 분석</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Serverless Data Analytics Stack             │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Raw JSON Files ] ──▶ [ AWS Glue (Crawler) ] ──┐         │
+│          (S3)                   │ (Schema)        │         │
+│                                 ▼                 │         │
+│   [ SQL Query ] ──▶ [ Amazon Athena (Engine) ] ◀──┘         │
+│          │                      │                           │
+│          ▼                      ▼                           │
+│   [ QuickSight ] ◀── [ Cleaned Table in S3 ]                │
+│                                                             │
+│   * 특징: 서버를 한 대도 띄우지 않고 SQL로 페타바이트 분석  │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 'On-demand 연산'이다. 분석할 때만 자원을 쓰고 끝나면 비용이 나가지 않는다. 실무에서는 이 구조를 통해 인프라 유지 비용을 70% 이상 절감하면서도 강력한 분석 능력을 보유할 수 있다.
 
@@ -124,20 +129,22 @@ tags = ["cloud_architecture"]
 
 이 도식은 기술사가 설계하는 '데이터 품질 보증 (Data QA) 자동화' 흐름을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Data Quality Gate in Pipeline</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Raw Data</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Validation: Not Null?</div><div class="kb-diagram-note">──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (Fail: Quarantine) ▼ (Pass)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Alert &amp; Manual Fix</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Statistical Check</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Load</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Min/Max/Mean)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 오염된 데이터가 레이크로 유입되는 것을 원천 차단</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│               Data Quality Gate in Pipeline                 │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Raw Data ] ──▶ [ Validation: Not Null? ] ──┐            │
+│                            │                   │            │
+│          ┌─────────────────┴───────────────────┴────┐        │
+│          ▼ (Fail: Quarantine)                      ▼ (Pass) │
+│   [ Alert & Manual Fix ] ◀── [ Statistical Check ] ──▶ [ Load ]│
+│                                (Min/Max/Mean)               │
+│                                                             │
+│   * 핵심: 오염된 데이터가 레이크로 유입되는 것을 원천 차단  │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 기술사의 데이터 판단은 '물류 센터의 소장'과 같습니다. 쏟아지는 택배(데이터)를 무작정 쌓아두는 게 아니라, 송장(메타데이터)을 정확히 붙이고, 깨진 물건(오류 데이터)은 검수대에서 걸러내며, 배송 트럭(분석 엔진)의 연료(비용)를 아끼는 최적의 시스템을 운영합니다.
 

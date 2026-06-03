@@ -36,21 +36,20 @@ tags = ["ict_convergence"]
 | <strong>다변수 <a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/">다항식</a> (Multivariate)</strong> | 수십 개의 변수가 얽힌 2차 연립방정식 풀이의 어려움 | 서명 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)/[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 빠르지만, 공개키 크기가 기형적으로 커서 블록 용량 부담 증가 |
 | **해시 기반 (Hash-based)** | 해시 함수의 일방향성(역산 불가능) 원리를 서명에 직접 활용 | 수학적 역산이 불가능해 안정성이 가장 높으나, 서명 크기가 너무 커서 실시간 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)에 불리함 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">쇼어 알고리즘과 양자 내성 암호의 방어 원리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">공격</div><div class="kb-diagram-note">양자 컴퓨터 (쇼어 알고리즘 가동)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">기존 타원곡선 암호 ECDSA</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">수학적 구조(주기성)를 이용해 순식간에 개인키 역산 💥</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">양자 내성 암호 PQC (격자 기반)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">방향성 없는 n차원 격자 점들!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">주기성이 없어서 중첩 연산 실패 ──▶ 역산 방어 성공 🛡️</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│            쇼어 알고리즘과 양자 내성 암호의 방어 원리              │
+├──────────────────────────────────────────────────────────────┤
+│ [공격] 양자 컴퓨터 (쇼어 알고리즘 가동)                           │
+│     │                                                        │
+│     ├──▶ [기존 타원곡선 암호 ECDSA]                          │
+│     │     수학적 구조(주기성)를 이용해 순식간에 개인키 역산 💥  │
+│     │                                                        │
+│     └──▶ [양자 내성 암호 PQC (격자 기반)]                      │
+│           방향성 없는 n차원 격자 점들!                          │
+│           주기성이 없어서 중첩 연산 실패 ──▶ 역산 방어 성공 🛡️ │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 그림은 기존 암호가 수학적 "주기"를 가져 양자 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에 뚫리는 반면, 격자 기반 암호는 패턴이 없어 [양자 컴퓨터](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/)의 가속 능력을 무력화시키는 원리를 보여준다.
 
@@ -113,23 +112,21 @@ PQC로의 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockch
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">타원곡선 서명 (ECDSA) 기반 원장 운영</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">양자 컴퓨팅(Shor 알고리즘) 위협 대두</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">NIST 표준화 및 양자 내성 암호(PQC) 연구 (격자, 다변수, 해시)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">레이어 2 결합을 통한 트랜잭션 용량 팽창 억제</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">커뮤니티 합의 및 대규모 하드 포크 실행 (안전망 구축)</div>
-</div>
-</div>
-
-
+```text
+타원곡선 서명 (ECDSA) 기반 원장 운영
+    │
+    ▼
+양자 컴퓨팅(Shor 알고리즘) 위협 대두
+    │
+    ▼
+NIST 표준화 및 양자 내성 암호(PQC) 연구 (격자, 다변수, 해시)
+    │
+    ▼
+레이어 2 결합을 통한 트랜잭션 용량 팽창 억제
+    │
+    ▼
+커뮤니티 합의 및 대규모 하드 포크 실행 (안전망 구축)
+```
 
 이 흐름도는 기존 암호의 위기에서 출발하여 새로운 암호 체계의 채택, 부작용(용량 증가) 완화 기술의 결합, 그리고 궁극적인 시스템 이관으로 진화하는 과정을 보여준다.
 

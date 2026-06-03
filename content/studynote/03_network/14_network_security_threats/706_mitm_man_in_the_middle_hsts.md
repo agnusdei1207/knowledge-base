@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: 네트워크 통신을 하는 두 주체(클라이언트와 서버) 사이에 해커가 몰래 끼어들어, <strong>서로가 상대방과 직접 연결되어 있다고 착각하게 만든 뒤, 중간에서 모든 트래픽을 가로채 <a href="/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/">도청</a>(Sniffing), 변조(Tampering), 가짜 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 주입(<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/480_injection/">Injection</a>)을 수행하는 극악의 해킹 기법</strong>입니다.
 - 앞서 배운 703번([ARP](/knowledge-base/studynote/03_network/06_network_layer_ip/312_arp_address_resolution_protocol_ip_to_mac/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/))과 705번([DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/))이 결국 이 중간자(MitM)의 위치를 차지하기 위해 쓰는 대표적인 낚시 수법들입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DNS 스푸핑 / DNS Cache Pois…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">중간자 공격 도청 흐름과 통제 조치</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">세션 하이재킹</div></div>
-</div>
-</div>
-
-
+```text
+[DNS 스푸핑 / DNS Cache Pois…]
+    │
+    ▼
+[중간자 공격 도청 흐름과 통제 조치]
+    │
+    └──▶ [세션 하이재킹]
+```
 
 - **📢 섹션 요약 비유**: 중간자 공격 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 흐름과 통제 조치는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -45,18 +41,14 @@ tags = ["studynote-network"]
 2. <strong>대리 통신 (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">프록시</a> 행세)</strong>: 다스는 앨리스에게 받은 요청을 자기가 네이버인 척 열어보고, 다시 자기가 앨리스인 척 네이버 서버에 전달합니다.
 3. **조작 및 전달**: 네이버가 주는 정상적인 응답 패킷을 다스가 먼저 받아서 안에 악성코드를 섞거나 금액을 바꾼 뒤 앨리스에게 넘깁니다. 앨리스는 화면에 뜬 네이버 로고를 보고 해킹당하는 줄 꿈에도 모릅니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">DNS 스푸핑 / DNS Cache Pois…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">중간자 공격 도청 흐름과 통제 조치</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">세션 하이재킹</div></div>
-</div>
-</div>
-
-
+```text
+[DNS 스푸핑 / DNS Cache Pois…]
+    │
+    ▼
+[중간자 공격 도청 흐름과 통제 조치]
+    │
+    └──▶ [세션 하이재킹]
+```
 
 - **📢 섹션 요약 비유**: 중간자 공격 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 흐름과 통제 조치의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -118,19 +110,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: DNS 스푸핑 / DNS Cache Pois…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 중간자 공격 도청 흐름과 통제 조치</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 세션 하이재킹</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 예측형 위협 대응</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: DNS 스푸핑 / DNS Cache Pois…]
+    │
+    ▼
+[현재 개념: 중간자 공격 도청 흐름과 통제 조치]
+    │
+    ├──▶ [확장 A: 세션 하이재킹]
+    └──▶ [확장 B: 예측형 위협 대응]
+```
 
 중간자 공격 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 흐름과 통제 조치는 [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) / [DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) Cache Pois…에서 출발해 현재 메커니즘을 정교화하고, 이후 [세션 하이재킹](/knowledge-base/studynote/03_network/14_network_security_threats/707_session_hijacking_tcp_seq_cookie/)와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

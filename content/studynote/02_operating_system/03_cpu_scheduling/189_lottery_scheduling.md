@@ -24,23 +24,20 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경**: 수학의 몬테카를로(Monte Carlo) 시뮬레이션 기법이 컴퓨터 과학 전반에 퍼지면서, 결정론적(Deterministic)이고 복잡한 코드를 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적(Probabilistic)이고 무식하게 단순한 코드로 대체하려는 시도가 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 설계에도 이식되어 탄생했다.
 
+```text
+  [복권 스케줄링의 비례 할당 추첨 메커니즘]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">복권 스케줄링의 비례 할당 추첨 메커니즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">전체 시스템 복권 발행량: 100장 (0~99번)</div></div>
-<div class="kb-diagram-note">▶ P1 (중요도 높음) : 티켓 60장 (00 ~ 59번 보유) --&gt; 당첨 확률 60%</div>
-<div class="kb-diagram-note">▶ P2 (중요도 보통) : 티켓 30장 (60 ~ 89번 보유) --&gt; 당첨 확률 30%</div>
-<div class="kb-diagram-note">▶ P3 (중요도 낮음) : 티켓 10장 (90 ~ 99번 보유) --&gt; 당첨 확률 10%</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스케줄러 (추첨기) 구동</div></div>
-<div class="kb-diagram-note">1. 난수(Random) 발생기 동작! ──▶ 당첨 번호: 73번!</div>
-<div class="kb-diagram-note">2. 73번 복권은 누가 가졌는가? ──▶ P2 보유 확인.</div>
-<div class="kb-diagram-note">3. P2에게 CPU 타임 퀀텀 10ms 할당 및 실행! (종료 후 다시 추첨)</div>
-</div>
-</div>
-
-
+  [전체 시스템 복권 발행량: 100장 (0~99번)]
+  
+   ▶ P1 (중요도 높음) : 티켓 60장 (00 ~ 59번 보유)  --> 당첨 확률 60%
+   ▶ P2 (중요도 보통) : 티켓 30장 (60 ~ 89번 보유)  --> 당첨 확률 30%
+   ▶ P3 (중요도 낮음) : 티켓 10장 (90 ~ 99번 보유)  --> 당첨 확률 10%
+   
+  [스케줄러 (추첨기) 구동]
+   1. 난수(Random) 발생기 동작! ──▶ 당첨 번호: 73번!
+   2. 73번 복권은 누가 가졌는가? ──▶ P2 보유 확인.
+   3. P2에게 CPU 타임 퀀텀 10ms 할당 및 실행! (종료 후 다시 추첨)
+```
 **[다이어그램 해설]** [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 P1이 60%라는 걸 기억하거나 지난번에 누가 덜 썼는지 계산할 필요가 1도 없다. 그저 무식하게 1부터 100까지 룰렛을 돌리고 당첨자에게 CPU를 주면 끝이다. 시행 횟수([문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))가 수백, 수만 번을 넘어가면 통계학의 대수의 법칙에 의해 P1은 정확히 전체 시간의 60%를, P3는 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%의 CPU를 보장받게 된다. 
 
 - **📢 섹션 요약 비유**: 주식 회사의 의결권 행사와 같습니다. 지분이 60%인 대주주(P1)는 주총에서 60표를 던지고, 소액주주(P3)는 10표를 던집니다. 매번 투표(추첨)를 할 때마다 대주주의 의견이 통과될 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 60%이므로, 장기적으로 회사는 대주주의 뜻(60% CPU 점유)대로 굴러가게 됩니다.
@@ -66,25 +63,25 @@ tags = ["studynote-operating-system"]
    - 시스템 전체에 '글로벌 복권'이 1만 장 있고, 유저 A(지분 5000장)와 유저 B(5000장)가 있다 치자.
    - 유저 A는 자기 돈(5000장) 안에서 자기가 띄운 프로세스들에게 맘대로 A국가 통화를 만들어 100달러, 200달러 뿌린다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 알아서 이 A 통화를 글로벌 티켓 비율로 환전하여 추첨에 반영한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">복권 양도(Ticket Transfer)를 통한 동기화 지연 해결 시나리오</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">일반 시스템의 우선순위 역전 딜레마</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P_Client(우선:상)가 DB 조회 요청 ─▶ P_DB(우선:하)가 처리해야 함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🚨 문제: P_DB가 우선순위가 낮아 CPU를 못 잡아서 P_Client도 영원히 멈춤.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">복권 스케줄링의 우아한 마법</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. P_Client (티켓 100장) ─▶ "야 P_DB, 내 티켓 다 줄게 빨랑 끝내"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. P_DB (티켓 1장 + 양도 100장 = 101장) ─▶ 당첨 확률 폭발! VIP 등극!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. P_DB가 즉각 CPU 추첨을 뚫고 연산 완료.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. P_DB ─▶ "고마워, 티켓 100장 다시 돌려줄게" ─▶ P_Client 복귀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 결론: 락(Lock)이나 에이징(Aging)의 더러운 C언어 로직 떡칠 없이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오직 '화폐 양도'라는 자본주의 경제 원리만으로 데드락을 뚫어버림.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────────────┐
+  │         복권 양도(Ticket Transfer)를 통한 동기화 지연 해결 시나리오       │
+  ├───────────────────────────────────────────────────────────────────────────┤
+  │                                                                           │
+  │   [일반 시스템의 우선순위 역전 딜레마]                                    │
+  │   P_Client(우선:상)가 DB 조회 요청 ─▶ P_DB(우선:하)가 처리해야 함         │
+  │   🚨 문제: P_DB가 우선순위가 낮아 CPU를 못 잡아서 P_Client도 영원히 멈춤. │
+  │                                                                           │
+  │   [복권 스케줄링의 우아한 마법]                                           │
+  │   1. P_Client (티켓 100장) ─▶ "야 P_DB, 내 티켓 다 줄게 빨랑 끝내"        │
+  │   2. P_DB (티켓 1장 + 양도 100장 = 101장) ─▶ 당첨 확률 폭발! VIP 등극!    │
+  │   3. P_DB가 즉각 CPU 추첨을 뚫고 연산 완료.                               │
+  │   4. P_DB ─▶ "고마워, 티켓 100장 다시 돌려줄게" ─▶ P_Client 복귀          │
+  │                                                                           │
+  │  ✅ 결론: 락(Lock)이나 에이징(Aging)의 더러운 C언어 로직 떡칠 없이        │
+  │          오직 '화폐 양도'라는 자본주의 경제 원리만으로 데드락을 뚫어버림. │
+  └───────────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 복권 모델은 단순한 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)를 넘어, 시스템 자원을 '티켓'이라는 객체 지향적이고 이동 가능한 캡슐(Currency)로 추상화했다는 데에 위대함이 있다. 이 유동성(Liquidity) 덕분에 프로세스들끼리 서로 돕고 합치며 동적으로 시스템의 흐름을 뚫어내는 거대한 경제 체제가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 안에 형성된다.
 
 - **📢 섹션 요약 비유**: 급한 서류를 퀵 아저씨(P_DB)에게 맡겼는데 아저씨가 오토바이(CPU)가 없어서 배달을 못 갑니다. 내 페라리 키(티켓 양도)를 임시로 던져주고 "이거 타고 당장 배달 끝내고 키 돌려줘!"라고 하는 완벽한 자본주의적 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 해법입니다.
@@ -116,24 +113,24 @@ tags = ["studynote-operating-system"]
 1. <strong>가상 머신 (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a>) <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/">하이퍼바이저</a> <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/">자원 할당</a> (Xen, <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/">KVM</a>)</strong>: 복권 스케줄링 철학은 CPU [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)를 떠나 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 인프라에서 꽃을 피웠다. [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)는 내부에 떠 있는 게스트 OS([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))들이 "내가 CPU 더 쓸 거야!"라고 싸울 때, 각 VM에게 돈 낸 만큼의 티켓([Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))을 주고 추첨을 통해 물리 CPU를 던져준다. 이 환경은 ms 단위의 렉보다는 전체적인 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 보장이 중요하므로 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 기반 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 매우 가볍고 효과적으로 동작한다.
 2. <strong>보폭 스케줄링 (<a href="/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/">Stride</a> Scheduling)으로의 진화</strong>: 복권 스케줄링의 "단기 운빨 망겜" 현상을 극복하기 위해 나온 실무적 대안이다. [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)(난수)을 완전히 버리고, 복권 티켓 수의 역수를 보폭([Stride](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/))으로 삼아, 패스(Pass) 값이 가장 작은 녀석을 확정적으로 뽑는 결정론적(Deterministic) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 업그레이드되었다. 티켓이 많으면 보폭이 짧아 자주 결승선을 통과하므로, 복권의 '비율 할당' 장점은 살리면서 단기적인 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Jitter) [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/)를 완벽히 억제해 냈다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비례 할당(Proportional Share) 패러다임의 설계 의사결정 트리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">요구사항: 클라이언트별 자원 지분(Share) 6:3:1 보장 체제 구축</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 허용되는 오차 범위 (Jitter Tolerance)?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">응답 시간의 짧은 스파이크가 절대 허용 안 됨 (UI/RTOS)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 해결책: 보폭 스케줄링(Stride)이나 리눅스 CFS 도입</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 단점: 커널 내부에 복잡한 상태(Pass/vruntime) 저장 트래킹</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">긴 시간 단위의 전체 지분율만 맞으면 됨 (VM/Batch/DB)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 해결책: 복권 스케줄링 (Lottery) 도입</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─▶ 장점: 코드가 50줄 이내로 극강 단순, 락(Lock) 위기 시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">순식간에 티켓 양도로 데드락 탈출(우선순위 상속) 가능</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────────────┐
+  │     비례 할당(Proportional Share) 패러다임의 설계 의사결정 트리     │
+  ├─────────────────────────────────────────────────────────────────────┤
+  │                                                                     │
+  │   [요구사항: 클라이언트별 자원 지분(Share) 6:3:1 보장 체제 구축]    │
+  │                │                                                    │
+  │                ▼ 허용되는 오차 범위 (Jitter Tolerance)?             │
+  │      [응답 시간의 짧은 스파이크가 절대 허용 안 됨 (UI/RTOS)]        │
+  │       ├─▶ 해결책: 보폭 스케줄링(Stride)이나 리눅스 CFS 도입         │
+  │       └─▶ 단점: 커널 내부에 복잡한 상태(Pass/vruntime) 저장 트래킹  │
+  │                                                                     │
+  │      [긴 시간 단위의 전체 지분율만 맞으면 됨 (VM/Batch/DB)]         │
+  │       ├─▶ 해결책: 복권 스케줄링 (Lottery) 도입                      │
+  │       └─▶ 장점: 코드가 50줄 이내로 극강 단순, 락(Lock) 위기 시      │
+  │                 순식간에 티켓 양도로 데드락 탈출(우선순위 상속) 가능│
+  └─────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** 아키텍트는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서 자원을 나눌 때 무조건 복잡하고 무거운 로직(CFS)을 고집할 필요가 없다. 넷플릭스 영상 인코딩 배치 팜처럼 1시간에 걸친 평균 처리 비율만 맞으면 되는 곳에서는, 무상태([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/))로 아무것도 기억할 필요 없이 룰렛만 돌려대는 Lottery [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 방식이 메모리와 디스패치 오버헤드 측면에서 압도적인 ROI를 낸다.
 
 - **📢 섹션 요약 비유**: 주사위(Lottery) 굴리기는 너무 가볍고 재밌지만 도박이라서 순간적으로 돈을 크게 잃을(Jitter) 수 있습니다. 반면 매일 가계부를 쓰고 정산하는 것([Stride](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)/CFS)은 완벽하지만 머리가 깨지게 아픕니다(오버헤드). 워크로드의 성격에 맞춰 주사위를 굴릴지, 가계부를 쓸지 정하는 것이 아키텍처입니다.
@@ -163,19 +160,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">보장 스케줄링 (Guaranteed Scheduling)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">복권 스케줄링 (Lottery Scheduling)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">공평 몫 스케줄링 (Fair-share Scheduling)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">스레드 스케줄링</div></div>
-</div>
-</div>
-
-
+```text
+[보장 스케줄링 (Guaranteed Scheduling)]
+    │
+    ▼
+[복권 스케줄링 (Lottery Scheduling)]
+    │
+    ├──▶ [공평 몫 스케줄링 (Fair-share Scheduling)]
+    └──▶ [스레드 스케줄링]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

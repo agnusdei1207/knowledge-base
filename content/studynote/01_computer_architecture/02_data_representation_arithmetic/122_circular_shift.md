@@ -31,22 +31,24 @@ tags = ["studynote-computer-architecture"]
 ### 순환 경로의 물리적 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)
 어셈블리 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) ROL(Rotate Left)과 ROR(Rotate Right)은 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)의 맨 끝 출력 핀(Output)을 맨 앞 입력 핀(Input)으로 물리적인 와이어 브릿지로 연결하여 동작한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">순환 좌측 시프트(ROL)의 뫼비우스 하드웨어 궤적</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">원본 데이터: 1 0 1 1 0 0 0 0</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">좌측으로 1칸 순환 시프트 연산 수행 (ROL 1)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 좌측으로 슉! 밀어냄 ──▶ 앞쪽 빈자리 발생, MSB의 1은 추락 위기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 쇳덩어리 구원선 ──▶ 추락한 1을 낚아채어 맨 뒤 빈자리에 박음</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">결과 데이터: 0 1 1 0 0 0 0</div><div class="kb-diagram-node">1</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">데이터 손실률 0%!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심 논리: 버려지는 쓰레기 비트를 재활용하여 빈칸을 덮음.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">만약 ROL을 8번(8비트 기준) 반복하면 정확히 원본으로 되돌아옴.</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────┐
+│           순환 좌측 시프트(ROL)의 뫼비우스 하드웨어 궤적       │
+├────────────────────────────────────────────────────────┤
+│                                                        │
+│   원본 데이터: 1 0 1 1 0 0 0 0                             │
+│                                                        │
+│   [ 좌측으로 1칸 순환 시프트 연산 수행 (ROL 1) ]             │
+│                                                        │
+│   1. 좌측으로 슉! 밀어냄 ──▶ 앞쪽 빈자리 발생, MSB의 1은 추락 위기│
+│   2. 쇳덩어리 구원선 ──▶ 추락한 1을 낚아채어 맨 뒤 빈자리에 박음│
+│                                                        │
+│   결과 데이터: 0 1 1 0 0 0 0 [1] ──▶ 데이터 손실률 0%!    │
+│                                                        │
+│ * 핵심 논리: 버려지는 쓰레기 비트를 재활용하여 빈칸을 덮음.      │
+│   만약 ROL을 8번(8비트 기준) 반복하면 정확히 원본으로 되돌아옴.  │
+└────────────────────────────────────────────────────────┘
+```
 
 이 연산의 가장 위대한 아키텍처적 특성은 <strong>가역성(Reversibility)</strong>이다. 오른쪽으로 3칸 순환 이동(ROR 3)한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는, 왼쪽으로 다시 3칸 순환 이동(ROL 3)하면 1 나노초 만에 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 유실 하나 없이 원래 모습으로 100% 복원된다. 일반 시프트에서는 불가능한 마법이다.
 
@@ -103,23 +105,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">일반 시프트 연산의 한계 직면 (버려지는 비트로 인한 데이터 영구 손실)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">데이터 무결성(No Loss) 보존을 위한 순환 배선(Wire Routing) 아이디어 도출</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">순환 시프트 (Rotate Left / Right) 명령어 하드웨어(ALU) 내재화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">캐리 플래그 연계(RCL/RCR)를 통한 다중 레지스터(64/128비트) 거대 시프트 융합</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">해시(SHA) 및 암호화 블록(AES) 알고리즘의 비트 믹싱(Mixing) 코어로 독점 지위 확보</div>
-</div>
-</div>
-
-
+```text
+일반 시프트 연산의 한계 직면 (버려지는 비트로 인한 데이터 영구 손실)
+    │
+    ▼
+데이터 무결성(No Loss) 보존을 위한 순환 배선(Wire Routing) 아이디어 도출
+    │
+    ▼
+순환 시프트 (Rotate Left / Right) 명령어 하드웨어(ALU) 내재화
+    │
+    ▼
+캐리 플래그 연계(RCL/RCR)를 통한 다중 레지스터(64/128비트) 거대 시프트 융합
+    │
+    ▼
+해시(SHA) 및 암호화 블록(AES) 알고리즘의 비트 믹싱(Mixing) 코어로 독점 지위 확보
+```
 
 이 흐름도는 "정보 손실의 물리적 극복 → [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 간 확장 체계 확립 → 현대 보안/[암호학](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/)의 핵심 쇳덩어리 엔진으로 진화"하는 순환 시프트 아키텍처의 궤적을 보여준다.
 

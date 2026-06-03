@@ -26,24 +26,26 @@ tags = ["studynote-operating-system"]
 
 **💡 비유**: 복잡한 사각관계 막장 드라마 인물 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)도. "철수가 영희의 집문서(자원)를 원하고, 그 집문서는 민수 명의(할당)로 되어 있다"는 긴 문장([RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/))을, 변호사가 쓱 보고 "그냥 철수가 민수(결재권자)를 기다린다(Wait-for)"는 단 한 줄로 칠판에 요약(WFG)해 버리는 것.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RAG (자원 할당) → WFG (대기 그래프)의 압축 과정</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">거추장스러운 RAG 도면</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">자원A</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(P2)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">자원B</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(P3)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">자원C</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">(P1)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">▼ 자원 A, B, C 정점(Node) 삭제 및 간선 축약 (WFG)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(P1) 기다림(Wait-for) ▶ (P2)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀ (P3) ◀</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 결과: P1, P2, P3 3명의 노드로만 이루어진 완벽한 삼각형</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">데드락 탐지 발동!</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────┐
+│         RAG (자원 할당) → WFG (대기 그래프)의 압축 과정        │
+├────────────────────────────────────────────────────────────────┤
+│                                                                │
+│  [거추장스러운 RAG 도면]                                       │
+│  (P1) ───요청───▶ [자원A] ───할당───▶ (P2)                     │
+│  (P2) ───요청───▶ [자원B] ───할당───▶ (P3)                     │
+│  (P3) ───요청───▶ [자원C] ───할당───▶ (P1)                     │
+│                                                                │
+│  [▼ 자원 A, B, C 정점(Node) 삭제 및 간선 축약 (WFG)]           │
+│  (P1) ───기다림(Wait-for)───▶ (P2)                             │
+│   ▲                              │                             │
+│   │                              ▼                             │
+│   └───────◀ (P3) ◀──────────────┘                              │
+│                                                                │
+│  ▶ 결과: P1, P2, P3 3명의 노드로만 이루어진 완벽한 삼각형      │
+│           (사이클)이 한눈에 파악됨! → [데드락 탐지 발동!]      │
+└────────────────────────────────────────────────────────────────┘
+```
 
 **📢 섹션 요약 비유**: 대기 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)는 중간 마진(자원)을 쏙 빼고, 순수하게 빚진 자와 빚쟁이(프로세스 간)의 목줄 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)만 남겨 탐정(OS)이 한눈에 연속 살인 고리를 파악하게 돕는 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 지도입니다.
 
@@ -114,19 +116,15 @@ WFG의 최대 장점은 컴퓨터 과학의 가장 기본이자 극도로 최적
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">교착 상태 탐지 (Deadlock Detection)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">대기 그래프 (Wait-for Graph)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">탐지 알고리즘의 오버헤드</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">교착 상태 복구 (Recovery from Deadlock)</div></div>
-</div>
-</div>
-
-
+```text
+[교착 상태 탐지 (Deadlock Detection)]
+    │
+    ▼
+[대기 그래프 (Wait-for Graph)]
+    │
+    ├──▶ [탐지 알고리즘의 오버헤드]
+    └──▶ [교착 상태 복구 (Recovery from Deadlock)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

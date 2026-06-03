@@ -29,28 +29,27 @@ tags = ["studynote-enterprise"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TDE vs 애플리케이션 암호화 보호 범위 비교</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TDE (Transparent Data Encryption)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">애플리케이션 → DB 엔진 (평문) → 디스크 I/O 시 자동 암호화 → 파일</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 물리 스토리지 탈취 방어</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">❌ DB 세션 접근 시 복호화된 평문 노출</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">❌ DBA, 내부자 접근 방어 불가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">애플리케이션 레벨 암호화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">애플리케이션 → 암호화 → DB (암호문 저장)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ DB 레벨에서는 항상 암호문 → DBA도 평문 접근 불가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ DB 세션 탈취 시에도 암호문만 노출</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">❌ 암호화된 컬럼에 대한 인덱스·범위 검색 제한</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">❌ 키 관리 (KMS) 책임이 애플리케이션으로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">컬럼 레벨 암호화 (Column-Level Encryption): 두 방식의 중간</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DB 엔진이 특정 컬럼만 암호화 (Oracle TDE Column, SQL Server AE)</div></div>
-</div>
-</div>
-
-
+```
+┌──────────────────────────────────────────────────────────────────┐
+│              TDE vs 애플리케이션 암호화 보호 범위 비교               │
+├──────────────────────────────────────────────────────────────────┤
+│  TDE (Transparent Data Encryption)                               │
+│  애플리케이션 → DB 엔진 (평문) → 디스크 I/O 시 자동 암호화 → 파일  │
+│  ✅ 물리 스토리지 탈취 방어                                         │
+│  ❌ DB 세션 접근 시 복호화된 평문 노출                              │
+│  ❌ DBA, 내부자 접근 방어 불가                                      │
+│                                                                  │
+│  애플리케이션 레벨 암호화                                           │
+│  애플리케이션 → 암호화 → DB (암호문 저장)                           │
+│  ✅ DB 레벨에서는 항상 암호문 → DBA도 평문 접근 불가                │
+│  ✅ DB 세션 탈취 시에도 암호문만 노출                               │
+│  ❌ 암호화된 컬럼에 대한 인덱스·범위 검색 제한                       │
+│  ❌ 키 관리 (KMS) 책임이 애플리케이션으로                           │
+│                                                                  │
+│  컬럼 레벨 암호화 (Column-Level Encryption): 두 방식의 중간        │
+│  DB 엔진이 특정 컬럼만 암호화 (Oracle TDE Column, SQL Server AE)  │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 | 항목               | [TDE](/knowledge-base/studynote/09_security/04_endpoint_security/403_tde_transparent_data_encryption/)                         | 애플리케이션 암호화              |
 |:-----------------|:----------------------------|:-------------------------------|
@@ -117,23 +116,21 @@ TDE와 애플리케이션 암호화를 계층적으로 적용한 심층 방어 [
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">물리 스토리지 탈취 위협 → TDE 도입</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">내부자 위협 인식 → 애플리케이션 레벨 암호화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">컬럼 레벨 암호화 + KMS/HSM 키 분리 관리</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">규제 준수 (GDPR, PCI-DSS, 개인정보보호법) 요구 강화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">동형 암호화 · 안전한 다자간 계산 (MPC) 연구</div>
-</div>
-</div>
-
-
+```
+물리 스토리지 탈취 위협 → TDE 도입
+    │
+    ▼
+내부자 위협 인식 → 애플리케이션 레벨 암호화
+    │
+    ▼
+컬럼 레벨 암호화 + KMS/HSM 키 분리 관리
+    │
+    ▼
+규제 준수 (GDPR, PCI-DSS, 개인정보보호법) 요구 강화
+    │
+    ▼
+동형 암호화 · 안전한 다자간 계산 (MPC) 연구
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

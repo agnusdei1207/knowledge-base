@@ -25,18 +25,14 @@ tags = ["studynote-network"]
 이를 타파하기 위해 등장한 HDLC는 <strong>'<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> 지향형(<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/">Bit</a>-oriented)'</strong> 프로토콜입니다.
 - 글자 단위로 끊어 읽지 않습니다. 그저 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 사진이든 문서든 상관없이 무한한 0과 1의 흐름([Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) [Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/))으로 간주하고, 앞뒤에 `01111110`이라는 딱 하나의 깃발([Flag](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 패턴만 꽂아서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 예쁘게 잘라([프레이밍](/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/)) 보냅니다. (이때 [비트 스터핑](/knowledge-base/studynote/03_network/04_data_link_layer_error/187_bit_stuffing_flag_mechanism/) 기술이 최초로 도입되었습니다.)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">윈도우 크기, 송신/수신 윈도우</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HDLC</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">HDLC 프레임 구조</div></div>
-</div>
-</div>
-
-
+```text
+[윈도우 크기, 송신/수신 윈도우]
+    │
+    ▼
+[HDLC]
+    │
+    └──▶ [HDLC 프레임 구조]
+```
 
 - **📢 섹션 요약 비유**: HDLC는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -55,18 +51,14 @@ tags = ["studynote-network"]
 3. <strong>양방향 통신과 <a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/212_piggybacking_ack_merging/">피기배킹</a> (<a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/212_piggybacking_ack_merging/">Piggybacking</a>)</strong>
    - 전이중(Full-Duplex) 통신을 기본으로 지원하며, 내가 보낼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 꼬리표에 "아까 네가 보낸 거 잘 받았어(ACK)"라는 도장을 슬쩍 업어 태워 보내는 [피기배킹](/knowledge-base/studynote/03_network/04_data_link_layer_error/212_piggybacking_ack_merging/) 꼼수를 써서 네트워크 낭비를 극단적으로 줄였습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">윈도우 크기, 송신/수신 윈도우</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HDLC</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">HDLC 프레임 구조</div></div>
-</div>
-</div>
-
-
+```text
+[윈도우 크기, 송신/수신 윈도우]
+    │
+    ▼
+[HDLC]
+    │
+    └──▶ [HDLC 프레임 구조]
+```
 
 - **📢 섹션 요약 비유**: HDLC의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -130,19 +122,15 @@ HDLC는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rel
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 윈도우 크기, 송신/수신 윈도우</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: HDLC</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: HDLC 프레임 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 고신뢰 저지연 링크 제어</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 윈도우 크기, 송신/수신 윈도우]
+    │
+    ▼
+[현재 개념: HDLC]
+    │
+    ├──▶ [확장 A: HDLC 프레임 구조]
+    └──▶ [확장 B: 고신뢰 저지연 링크 제어]
+```
 
 HDLC는 [윈도우 크기](/knowledge-base/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/), 송신/수신 윈도우에서 출발해 현재 메커니즘을 정교화하고, 이후 HDLC 프레임 구조와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

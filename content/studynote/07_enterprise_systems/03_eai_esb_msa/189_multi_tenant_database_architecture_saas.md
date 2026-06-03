@@ -33,20 +33,18 @@ tags = ["studynote-enterprise"]
 
 아래 그림은 일반적인 [멀티 테넌트](/knowledge-base/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근 흐름을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tenant resolution path</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Request -&gt; Auth / token -&gt; Tenant Resolver -&gt; Isolation Layer</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ DB per tenant</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Schema per tenant</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Shared tables + RLS</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Backup / quota / audit</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Tenant resolution path                                               │
+├──────────────────────────────────────────────────────────────────────┤
+│ Request -> Auth / token -> Tenant Resolver -> Isolation Layer       │
+│                                              ├─ DB per tenant       │
+│                                              ├─ Schema per tenant   │
+│                                              └─ Shared tables + RLS │
+│                                                            │         │
+│                                              Backup / quota / audit  │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 | 패턴 | 격리 수준 | 운영 효율 | [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 편의성 | 적합한 상황 |
 | :--- | :--- | :--- | :--- | :--- |
@@ -127,23 +125,21 @@ tags = ["studynote-enterprise"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">고객별 독립 인프라 운영</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">공통 애플리케이션 + 테넌트 식별</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DB 분리 / 스키마 분리 / 공유 테이블 선택</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">RLS · 쿼터 · 감사 로그로 격리 강화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">하이브리드 티어링과 고객별 승급 전략</div>
-</div>
-</div>
-
-
+```text
+고객별 독립 인프라 운영
+        │
+        ▼
+공통 애플리케이션 + 테넌트 식별
+        │
+        ▼
+DB 분리 / 스키마 분리 / 공유 테이블 선택
+        │
+        ▼
+RLS · 쿼터 · 감사 로그로 격리 강화
+        │
+        ▼
+하이브리드 티어링과 고객별 승급 전략
+```
 
 이 흐름은 단순한 인프라 공유에서 출발해, 점차 보안·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)·수익성을 함께 고려하는 플랫폼 설계로 발전하는 과정을 보여 준다.
 

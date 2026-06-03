@@ -37,21 +37,19 @@ WSN은 크게 [데이터](/knowledge-base/studynote/05_database/01_db_architectu
 | **싱크 노드 (Sink Node)** | 센서들의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 최종 수집하여 게이트웨이로 전달 | 병목 현상 방지, 전원 공급 안정성 |
 | **게이트웨이 (Gateway)** | 수집된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 인터넷(IP망)을 통해 서버/사용자로 전송 | 외부망 연결 및 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 변환 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WSN 멀티 홉 라우팅 및 데이터 병합 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">노드 A</div><div class="kb-diagram-note">(20도) ─</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 데이터 병합</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">노드 B</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">헤더 노드</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">싱크 노드</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">인터넷</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ (평균 20.5도 산출)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">노드 C</div><div class="kb-diagram-note">(20.5도)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 헤더 노드가 비슷한 데이터를 합쳐 송신량을 줄임(전력 절감)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│             WSN 멀티 홉 라우팅 및 데이터 병합 구조           │
+├──────────────────────────────────────────────────────────────┤
+│    [노드 A] (20도) ─┐                                        │
+│                     ▼           데이터 병합                  │
+│    [노드 B] (21도) ─▶ [헤더 노드] ──────▶ [싱크 노드] ──▶ 인터넷│
+│                     ▲  (평균 20.5도 산출)                    │
+│    [노드 C] (20.5도)┘                                        │
+│                                                              │
+│ * 헤더 노드가 비슷한 데이터를 합쳐 송신량을 줄임(전력 절감)  │
+└──────────────────────────────────────────────────────────────┘
+```
 
 센서 노드는 통신 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)(RF)이 배터리를 가장 많이 소모하므로, 필요할 때만 깨어나는 듀티 사이클(Duty Cycle) 제어 기법과 LEACH(Low-Energy Adaptive [Clustering](/knowledge-base/studynote/16_bigdata/05_analysis/105_clustering_analysis/) Hierarchy) 같은 에너지 균형 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 사용해 네트워크 전체의 수명을 연장한다.
 
@@ -110,21 +108,18 @@ WSN을 통해 우리는 교량의 미세한 균열, 공장 파이프의 [가스]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">초기 단방향 센서 측정 (Point-to-Point)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">무선 센서 네트워크 (WSN) · 멀티 홉 라우팅, 배터리 제약 극복</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">유비쿼터스 센서망 (USN) · 인터넷망과의 결합, IPv6 적용 (6LoWPAN)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">사물인터넷 (IoT) 플랫폼 · 빅데이터 분석 및 인공지능(AI) 기반 자동 제어</div>
-</div>
-</div>
-
-
+```text
+초기 단방향 센서 측정 (Point-to-Point)
+    │
+    ▼
+무선 센서 네트워크 (WSN) · 멀티 홉 라우팅, 배터리 제약 극복
+    │
+    ▼
+유비쿼터스 센서망 (USN) · 인터넷망과의 결합, IPv6 적용 (6LoWPAN)
+    │
+    ▼
+사물인터넷 (IoT) 플랫폼 · 빅데이터 분석 및 인공지능(AI) 기반 자동 제어
+```
 
 이 흐름도는 단순한 측정 도구였던 센서가 자율적인 네트워크로 묶이고, 종국에는 지능형 의사결정 시스템의 기반 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집원으로 진화하는 과정을 보여준다.
 

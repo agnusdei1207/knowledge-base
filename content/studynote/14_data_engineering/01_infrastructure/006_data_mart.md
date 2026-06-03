@@ -25,24 +25,21 @@ tags = ["data_engineering"]
 
 실무적으로 [데이터 마트](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/209_data_mart_kimball_star_schema/)는 "현업 부서가 IT의 도움 없이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 스스로 이해하고 분석할 수 있는가?"라는 셀프 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) (Self-Service) BI의 핵심 전제 조건을 해결합니다. 전사 DW가 수백 개의 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)된 테이블로 이루어져 있다면, 조인([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/)) 로직이 지나치게 복잡해져 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 실패율이 급증합니다. 따라서 특정 주제(예: 월별 영업 실적)에 맞춰 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)를 비정규화하고 직관적으로 재설계할 필요성이 대두되었습니다.
 
+```text
+[전사 데이터 구조의 한계와 데이터 마트의 워크로드 격리]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">전사 데이터 구조의 한계와 데이터 마트의 워크로드 격리</div></div>
-<div class="kb-diagram-note">기존: 전사 DW 직접 쿼리 (병목 발생)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Sales App</div><div class="kb-diagram-note">─</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">HR App</div><div class="kb-diagram-note">─ ─&gt;</div><div class="kb-diagram-node">Enterprise Data Warehouse</div><div class="kb-diagram-note">&lt;── (Slow Query!) ──</div><div class="kb-diagram-node">BI / Analytics</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ERP App</div><div class="kb-diagram-note">─ (수백 개 정규화 테이블, 조인 지옥)</div></div>
-<div class="kb-diagram-note">↓ (아키텍처 개선)</div>
-<div class="kb-diagram-note">개선: 데이터 마트를 통한 워크로드 분산</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─&gt;</div><div class="kb-diagram-node">Sales Data Mart</div><div class="kb-diagram-note">&lt;── (Fast!) ──</div><div class="kb-diagram-node">Sales BI</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">EDW</div><div class="kb-diagram-note">─&gt;</div><div class="kb-diagram-node">HR Data Mart</div><div class="kb-diagram-note">&lt;── (Fast!) ──</div><div class="kb-diagram-node">HR BI</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">(통합 저장소) ─&gt;</div><div class="kb-diagram-node">Finance Data Mart</div><div class="kb-diagram-note">&lt;── (Fast!) ──</div><div class="kb-diagram-node">Fin BI</div></div>
-</div>
-</div>
-
-
+┌─────────────────── 기존: 전사 DW 직접 쿼리 (병목 발생) ─────────────────┐
+│ [Sales App] ─┐                                                        │
+│ [HR App]    ─┼─> [ Enterprise Data Warehouse ] <── (Slow Query!) ── [ BI / Analytics ]
+│ [ERP App]   ─┘   (수백 개 정규화 테이블, 조인 지옥)                   │
+└───────────────────────────────────────────────────────────────────────┘
+                                   ↓ (아키텍처 개선)
+┌─────────────────── 개선: 데이터 마트를 통한 워크로드 분산 ────────────────┐
+│                   ┌─> [ Sales Data Mart ]  <── (Fast!) ── [ Sales BI ]│
+│ [ EDW ] ──────────┼─> [ HR Data Mart ]     <── (Fast!) ── [ HR BI ]   │
+│ (통합 저장소)     └─> [ Finance Data Mart] <── (Fast!) ── [ Fin BI ]  │
+└───────────────────────────────────────────────────────────────────────┘
+```
 이 도식은 [데이터 마트](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/209_data_mart_kimball_star_schema/)가 어떻게 전사 시스템의 읽기 부하를 분산시키고 각 부서의 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 격리 보장하는지를 보여줍니다. 기존에는 모든 무거운 분석 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)가 단일 EDW로 집중되어 락 경합과 리소스 고갈이 빈번했습니다. 마트 계층을 도입하면 장애를 부서 단위로 격리할 수 있으며, 각 도메인에 최적화된 맞춤형 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)를 제공하여 BI 대시보드의 렌더링 속도를 밀리초 단위로 끌어올릴 수 있습니다.
 
 > 📢 **섹션 비유**: 대형 창고형 할인매장([데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/))에서 원하는 물건을 찾으려면 복잡한 지도가 필요하지만, 집 앞 동네 편의점([데이터 마트](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/209_data_mart_kimball_star_schema/))은 소비자가 자주 찾는 물건만 눈에 띄게 진열해 두어 누구나 빠르게 쇼핑할 수 있는 원리와 같습니다.
@@ -59,7 +56,7 @@ tags = ["data_engineering"]
 | <strong><a href="/knowledge-base/studynote/07_enterprise_systems/05_data_bi/273_dimension_table_analysis_perspective/">Dimension Table</a> (<a href="/knowledge-base/studynote/07_enterprise_systems/05_data_bi/273_dimension_table_analysis_perspective/">차원 테이블</a>)</strong> | 팩트의 맥락(Who, What, Where) 제공 | 카테고리, [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 등을 텍스트 형태로 비정규화하여 저장. 필터링 조건으로 사용됨 | 영수증의 품목 상세 설명 |
 | <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/314_surrogate_key/">Surrogate Key</a> (대리 키)</strong> | 테이블 간 조인 속도 향상 및 이력 격리 | 원본 시스템의 비즈니스 키 대신 독립적인 정수(Integer) 시퀀스를 발급하여 매핑 | 주민번호 대신 쓰는 사내 사원번호 |
 | <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/">ETL</a> <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/">Pipeline</a></strong> | 소스에서 마트로 [데이터 정제](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/266_data_cleansing/) 및 적재 | 증분 추출, 차원 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 업데이트([SCD](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/277_scd_slowly_changing_dimension_modeling/) 처리), [팩트 테이블](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/210_fact_dimension_table_snowflake_schema/) 로드 스케줄링 수행 | 창고에서 편의점으로의 새벽 배송 트럭 |
-| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/">OLAP</a> Engine</strong> | 다차원 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 고속 탐색 및 집계 지원 | [데이터 마트](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/209_data_mart_kimball_star_schema/) 구조 위에서 드릴다운(Drill-down), [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)([Roll-up](/knowledge-base/studynote/05_database/06_dw_olap_trends/330_olap_rollup_drilldown/)) 등 사전 큐브(Cube) 연산 | 3D 루빅스 큐브의 단면 돌려보기 |
+| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/">OLAP</a> 엔진</strong> | 다차원 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 고속 탐색 및 집계 지원 | [데이터 마트](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/209_data_mart_kimball_star_schema/) 구조 위에서 드릴다운(Drill-down), [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)([Roll-up](/knowledge-base/studynote/05_database/06_dw_olap_trends/330_olap_rollup_drilldown/)) 등 사전 큐브(Cube) 연산 | 3D 루빅스 큐브의 단면 돌려보기 |
 
 마트 설계의 표준은 [팩트 테이블](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/210_fact_dimension_table_snowflake_schema/)을 중앙에 두고 [차원 테이블](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/273_dimension_table_analysis_perspective/)이 방사형으로 연결되는 <strong><a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/334_star_schema/">스타 스키마</a> (<a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/296_star_schema/">Star Schema</a>)</strong>입니다.
 
@@ -108,23 +105,19 @@ tags = ["data_engineering"]
 
 [데이터 마트](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/209_data_mart_kimball_star_schema/)를 구축할 때 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 소스(운영 DB)에서 직접 가져올지, 아니면 EDW를 거쳐서 가져올지가 시스템 안정성을 결정합니다.
 
+```text
+[독립형 마트의 사일로 위협 vs 종속형 마트의 정합성]
 
+[A. 독립형 (Independent) - 안티패턴]
+운영 DB ─(ETL)─> [ Data Mart 영업 ] ──> 영업 BI (매출: 100억)
+운영 DB ─(ETL)─> [ Data Mart 재무 ] ──> 재무 BI (매출: 95억) 
+===> 부서별 로직 차이로 "데이터 사일로(Silo)" 및 신뢰도 하락 발생
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">독립형 마트의 사일로 위협 vs 종속형 마트의 정합성</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">A. 독립형 (Independent) - 안티패턴</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">운영 DB ─(ETL)─&gt;</div><div class="kb-diagram-node">Data Mart 영업</div><div class="kb-diagram-note">──&gt; 영업 BI (매출: 100억)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">운영 DB ─(ETL)─&gt;</div><div class="kb-diagram-node">Data Mart 재무</div><div class="kb-diagram-note">──&gt; 재무 BI (매출: 95억)</div></div>
-<div class="kb-diagram-note">===&gt; 부서별 로직 차이로 "데이터 사일로(Silo)" 및 신뢰도 하락 발생</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">B. 종속형 (Dependent) - 권장 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">운영 DB ─(ETL)─&gt;</div><div class="kb-diagram-node">EDW (통합/정제)</div><div class="kb-diagram-note">─(추출)─&gt;</div><div class="kb-diagram-node">Data Mart 영업</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─(추출)─&gt;</div><div class="kb-diagram-node">Data Mart 재무</div></div>
-<div class="kb-diagram-note">===&gt; 중앙 통제를 통해 "단일 진실 공급원(SSOT)" 기반 파생 보장</div>
-</div>
-</div>
-
-
+[B. 종속형 (Dependent) - 권장 아키텍처]
+운영 DB ─(ETL)─> [ EDW (통합/정제) ] ─(추출)─> [ Data Mart 영업 ]
+                                     ─(추출)─> [ Data Mart 재무 ]
+===> 중앙 통제를 통해 "단일 진실 공급원(SSOT)" 기반 파생 보장
+```
 이 비교도는 단기적인 구축 속도와 장기적인 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/052_data_governance_framework/) 사이의 트레이드오프를 보여줍니다. 독립형 방식(A)은 EDW가 없어도 되므로 구축이 매우 빠르지만, 부서마다 '매출'을 정의하는 기준(예: 부가세 포함 여부)이 달라져 전사 회의에서 지표가 어긋나는 치명적 결함을 낳습니다. 반면 종속형 방식(B)은 EDW라는 거대한 필터를 거치므로 일관성이 완벽히 보장됩니다. 실무에서는 B 방식을 기본으로 하되, 클라우드 환경에서는 물리적 이동 없이 '[View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/)'만 생성하는 가상 마트(Virtual Mart)로 비용을 상쇄합니다.
 
 > 📢 **섹션 비유**: 독립형 마트가 각 지점이 알아서 레시피를 만들어 파는 '개인 식당'이라면, 종속형 마트는 중앙 본사(EDW)에서 통일된 재료를 받아 요리하는 '프랜차이즈 체인점'과 같습니다. 프랜차이즈만이 전국 어디서나 일관된 맛([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정합성)을 보장합니다.
@@ -137,25 +130,20 @@ tags = ["data_engineering"]
 
 **실무 시나리오: 고객 등급 변경에 따른 과거 실적 왜곡 방어**
 - **상황**: 고객 A가 1월에는 '실버' 등급으로 100만 원을 구매했고, 2월에 'VIP'로 승급. 영업팀은 1월의 실적도 VIP의 실적으로 소급 적용되는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 왜곡(Overwrite) 현상을 리포팅함.
-- **원인**: [차원 테이블](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/273_dimension_table_analysis_perspective/)(Dim_Customer) 업데이트 시 기존 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 덮어쓰는 무조건적인 [SCD](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/277_scd_slowly_changing_dimension_modeling/) Type 1 방식을 적용했기 때문.
+- **원인**: [차원 테이블](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/273_dimension_table_analysis_perspective/)(Dim_C고객) 업데이트 시 기존 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 덮어쓰는 무조건적인 [SCD](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/277_scd_slowly_changing_dimension_modeling/) Type 1 방식을 적용했기 때문.
 - **해결 (운영 의사결정 플로우)**:
 
+```text
+[SCD(Slowly Changing Dimension) 전략 의사결정 트리]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">SCD(Slowly Changing Dimension) 전략 의사결정 트리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">차원 데이터 변경 이벤트 발생 (예: 주소, 등급 변경)</div></div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Q1. 과거 데이터(Fact) 분석 시, 과거 시점의 상태가 필요한가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">── (No) ──&gt;</div><div class="kb-diagram-node">SCD Type 1 적용</div><div class="kb-diagram-note">: 기존 레코드 단순 UPDATE (덮어쓰기) =&gt; 이력 유실</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">── (Yes) ─&gt;</div><div class="kb-diagram-node">Q2. 이력 추적 테이블 관리에 리소스를 투자할 수 있는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">── (No) ──&gt;</div><div class="kb-diagram-node">SCD Type 3 적용</div><div class="kb-diagram-note">: 현재값/과거값 컬럼 분리 추가</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">── (Yes) ─&gt;</div><div class="kb-diagram-node">SCD Type 2 적용</div><div class="kb-diagram-note">: 신규 레코드 INSERT 및 유효기간(Start/End Date) 플래그 관리</div></div>
-</div>
-</div>
-
-
+[차원 데이터 변경 이벤트 발생 (예: 주소, 등급 변경)]
+         ↓
+[Q1. 과거 데이터(Fact) 분석 시, 과거 시점의 상태가 필요한가?]
+ ├── (No) ──> [SCD Type 1 적용]: 기존 레코드 단순 UPDATE (덮어쓰기) => 이력 유실
+ └── (Yes) ─> [Q2. 이력 추적 테이블 관리에 리소스를 투자할 수 있는가?]
+               ├── (No) ──> [SCD Type 3 적용]: 현재값/과거값 컬럼 분리 추가
+               └── (Yes) ─> [SCD Type 2 적용]: 신규 레코드 INSERT 및 유효기간(Start/End Date) 플래그 관리
+```
 이 흐름도는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정합성을 지키기 위한 핵심 의사결정 과정을 나타냅니다. 실무적으로 마케팅이나 재무 분석에서는 특정 시점(Point-in-Time)의 고객 상태를 아는 것이 필수적이므로, 레코드 자체를 새로 생성하고 이력 기간(Valid_From, Valid_To)을 명시하는 <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/315_scd_type_2/">SCD Type 2</a></strong> 적용이 표준입니다. 이는 [데이터 마트](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/209_data_mart_kimball_star_schema/)의 복잡도를 높이지만, 비즈니스 인텔리전스의 신뢰도를 결정짓는 가장 중요한 방어선이 됩니다. 또한 서로 다른 마트 간 교차 분석을 위해서는 '[Conformed Dimension](/knowledge-base/studynote/05_database/06_dw_olap_trends/574_conformed_dimension/)(전사 공통 차원)'을 반드시 사전에 정의해야 합니다.
 
 <strong>도입 및 운영 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong>
@@ -191,21 +179,18 @@ tags = ["data_engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 웨어하우스 (Data Warehouse)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 마트 (Data Mart)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">OLAP (Online Analytical Processing)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">BI (Business Intelligence)</div></div>
-</div>
-</div>
-
-
+```text
+[데이터 웨어하우스 (Data Warehouse)]
+    │
+    ▼
+[데이터 마트 (Data Mart)]
+    │
+    ▼
+[OLAP (Online Analytical Processing)]
+    │
+    ▼
+[BI (Business Intelligence)]
+```
 
 이 흐름도는 [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)에서 [데이터 마트](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/209_data_mart_kimball_star_schema/)와 [OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/), BI로 이어지는 분석 체계를 보여준다.
 ### 👶 어린이를 위한 3줄 비유 설명

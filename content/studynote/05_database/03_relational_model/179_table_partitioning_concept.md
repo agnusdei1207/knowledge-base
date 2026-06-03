@@ -25,24 +25,23 @@ tags = ["studynote-database"]
 
 아래 그림은 왜 파티셔닝이 "검색 최적화"이면서 동시에 "운영 최적화"인지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Large order history table</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비파티션 테이블</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2019 ~ 2026 주문 행이 한 공간에 혼재</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 2026-05 조회라도 넓은 범위를 뒤질 가능성 증가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파티션 테이블</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">P2019</div><div class="kb-diagram-node">P2020</div><div class="kb-diagram-node">P2021</div><div class="kb-diagram-node">P2022</div><div class="kb-diagram-node">P2023</div><div class="kb-diagram-node">P2024</div><div class="kb-diagram-node">P2025</div><div class="kb-diagram-node">P2026_05</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 조회 시 이 구간 중심</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">운영 작업</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오래된 2019 데이터 삭제 → 대량 DELETE</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">오래된 2019 파티션 삭제 → DROP PARTITION</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Large order history table                                          │
+├────────────────────────────────────────────────────────────────────┤
+│ 비파티션 테이블                                                     │
+│   [2019 ~ 2026 주문 행이 한 공간에 혼재]                            │
+│   └─ 2026-05 조회라도 넓은 범위를 뒤질 가능성 증가                 │
+│                                                                    │
+│ 파티션 테이블                                                       │
+│   [P2019][P2020][P2021][P2022][P2023][P2024][P2025][P2026_05]      │
+│                                             └─ 조회 시 이 구간 중심 │
+│                                                                    │
+│ 운영 작업                                                           │
+│   오래된 2019 데이터 삭제  →  대량 DELETE                          │
+│   오래된 2019 파티션 삭제  →  DROP PARTITION                       │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 중요한 점은 파티셔닝이 무조건 모든 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 빠르게 만드는 만능 약이 아니라는 점이다. 파티셔닝의 진짜 목적은 <strong>읽을 범위를 줄이고, 보관 주기를 분리하며, 운영 단위를 잘게 나누는 것</strong>이다. 그래서 대개 시계열 테이블, 대규모 이력 테이블, 보관 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 분명한 업무 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 특히 효과가 크다.
 
@@ -54,23 +53,24 @@ tags = ["studynote-database"]
 
 파티셔닝의 핵심은 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키와 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 함수다. `order_date`, `region_code`, `customer_group` 같은 컬럼을 기준으로 "이 행은 어느 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에 저장될지"를 정한다. 입력 시에는 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 함수가 적절한 저장 구간으로 행을 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)하고, 조회 시에는 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)가 `WHERE` 조건을 보고 읽지 않아도 되는 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)을 제거한다. 이때 발생하는 최적화가 [파티션 프루닝](/knowledge-base/studynote/05_database/03_relational_model/184_partition_pruning/)이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Partition routing and pruning</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">INSERT row(order_date = '2026-05-06', customer = 'K01')</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">partition function(order_date)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 2025 이하 ▶ P_HIST</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 2026-01 ~ 2026-03 ▶ P_2026_Q1</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 2026-04 ~ 2026-06 ▶ P_2026_Q2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 실제 저장 위치</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SELECT ... WHERE order_date BETWEEN '2026-05-01' AND '2026-05-31'</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 옵티마이저가 P_HIST, P_2026_Q1 을 제외하고 P_2026_Q2 중심 탐색</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Partition routing and pruning                                      │
+├────────────────────────────────────────────────────────────────────┤
+│ INSERT row(order_date = '2026-05-06', customer = 'K01')            │
+│         │                                                          │
+│         ▼                                                          │
+│ partition function(order_date)                                     │
+│   ├─ 2025 이하        ───────────────▶ P_HIST                       │
+│   ├─ 2026-01 ~ 2026-03 ────────────▶ P_2026_Q1                     │
+│   └─ 2026-04 ~ 2026-06 ────────────▶ P_2026_Q2                     │
+│                                              ▲                     │
+│                                              └─ 실제 저장 위치      │
+│                                                                    │
+│ SELECT ... WHERE order_date BETWEEN '2026-05-01' AND '2026-05-31'  │
+│   └─ 옵티마이저가 P_HIST, P_2026_Q1 을 제외하고 P_2026_Q2 중심 탐색 │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 대표적인 분할 방식은 다음과 같다.
 
@@ -162,23 +162,22 @@ tags = ["studynote-database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">대용량 단일 테이블</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">파티션 키 선정</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">범위 · 목록 · 해시 · 복합 파티셔닝</div>
-<div class="kb-diagram-tree-item" style="--depth:4">INSERT 라우팅</div>
-<div class="kb-diagram-tree-item" style="--depth:4">WHERE 조건 기반 파티션 프루닝</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">파티션 단위 백업 · 보관 · 삭제 · 병렬 처리</div>
-</div>
-</div>
-
-
+```text
+대용량 단일 테이블
+        │
+        ▼
+파티션 키 선정
+        │
+        ▼
+범위 · 목록 · 해시 · 복합 파티셔닝
+        │
+        ├──────────────► INSERT 라우팅
+        │
+        └──────────────► WHERE 조건 기반 파티션 프루닝
+                                │
+                                ▼
+                 파티션 단위 백업 · 보관 · 삭제 · 병렬 처리
+```
 
 이 흐름도는 "성장한 단일 테이블 → 분할 기준 선택 → 물리 분할 → 조회·운영 최적화"라는 파티셔닝의 핵심 진화 경로를 보여 준다.
 

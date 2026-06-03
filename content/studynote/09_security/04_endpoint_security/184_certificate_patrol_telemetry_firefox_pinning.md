@@ -35,25 +35,26 @@ Certificate Patrol은 Firefox 사용자의 브라우저 안에 "인증서 기억
 
 아래 그림은 로컬 핀닝 루프가 어떤 식으로 동작하는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Certificate Patrol local pinning loop</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">First visit</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Firefox receives X.509 certificate</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ store {host, SPKI hash, issuer, validity, SAN}</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Repeat visit</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">current certificate -&gt; diff engine</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ same key / expected renewal -&gt; allow</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ issuer or validity only changed -&gt; caution</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ new key + new issuer + odd timing -&gt; strong alert</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Analyst value</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">change history -&gt; manual review / incident clue</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Certificate Patrol local pinning loop                               │
+├──────────────────────────────────────────────────────────────────────┤
+│ First visit                                                         │
+│   Firefox receives X.509 certificate                                │
+│        │                                                            │
+│        └─ store {host, SPKI hash, issuer, validity, SAN}            │
+│                                                                      │
+│ Repeat visit                                                        │
+│   current certificate -> diff engine                                │
+│        │                                                            │
+│        ├─ same key / expected renewal       -> allow                │
+│        ├─ issuer or validity only changed   -> caution              │
+│        └─ new key + new issuer + odd timing -> strong alert         │
+│                                                                      │
+│ Analyst value                                                        │
+│   change history -> manual review / incident clue                    │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조의 장점은 [CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/) 체계가 허용한 인증서라도, 사용자가 반복적으로 보던 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)과 다르면 경고할 수 있다는 점이다. 반대로 약점은 모든 변경이 공격은 아니라는 사실이다. 예를 들어 인증서 자동 갱신으로 유효기간만 달라지면 낮은 위험 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)일 수 있지만, 새 공개키와 새 발급자가 동시에 등장하면 위험도를 높게 봐야 한다. 결국 Certificate Patrol의 실무 가치는 "변화 감지" 자체보다, <strong>변화를 분류하는 규칙</strong>을 얼마나 잘 세우느냐에 달려 있다.
 
@@ -149,25 +150,24 @@ Certificate Patrol이 남긴 가장 큰 의미는 공개 PKI를 맹신하지 않
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">공개 PKI 신뢰</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CA 오발급 · MITM 우려</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Certificate Patrol + TOFU 기반 로컬 비교</div>
-<div class="kb-diagram-tree-item" style="--depth:2">장점: 반복 방문 사이트 이상 탐지</div>
-<div class="kb-diagram-tree-item" style="--depth:2">한계: 거짓 경보 · 사용자 피로</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">브라우저 보안 텔레메트리 + CT 상관 분석</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">현대적 동적 핀닝/모니터링 체계</div>
-</div>
-</div>
-
-
+```text
+공개 PKI 신뢰
+    │
+    ▼
+CA 오발급 · MITM 우려
+    │
+    ▼
+Certificate Patrol + TOFU 기반 로컬 비교
+    │
+    ├─ 장점: 반복 방문 사이트 이상 탐지
+    └─ 한계: 거짓 경보 · 사용자 피로
+    │
+    ▼
+브라우저 보안 텔레메트리 + CT 상관 분석
+    │
+    ▼
+현대적 동적 핀닝/모니터링 체계
+```
 
 이 흐름은 "개인 브라우저의 기억"이 어떻게 "생태계 단위의 관측과 [상관 분석](/knowledge-base/studynote/06_ict_convergence/05_data_science/325_correlation_analysis_pearson_spearman/)"으로 발전했는지를 보여 준다.
 

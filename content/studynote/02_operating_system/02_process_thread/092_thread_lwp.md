@@ -30,22 +30,27 @@ tags = ["studynote-operating-system"]
 
 하나의 프로세스 내에 여러 스레드가 존재할 때, 자원의 <strong>'공유 영역'</strong>과 <strong>'독립 영역'</strong>을 정확히 분리하는 것이 아키텍처의 핵심이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단일 스레드 프로세스 vs 멀티 스레드 프로세스 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Single-threaded Process</div><div class="kb-diagram-node">Multi-threaded Process</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Code</div><div class="kb-diagram-cell">Data</div><div class="kb-diagram-cell">Files</div><div class="kb-diagram-cell">Code</div><div class="kb-diagram-cell">Data</div><div class="kb-diagram-cell">Files</div><div class="kb-diagram-cell">◀ 공유 자원</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Heap (동적 메모리)</div><div class="kb-diagram-cell">Heap (동적 메모리)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Stack</div><div class="kb-diagram-cell">Stack</div><div class="kb-diagram-cell">Stack</div><div class="kb-diagram-cell">◀ 독립 할당</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Stack</div><div class="kb-diagram-cell">(T1)</div><div class="kb-diagram-cell">(T2)</div><div class="kb-diagram-cell">(T3)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Registers (PC, SP)</div><div class="kb-diagram-cell">Regs</div><div class="kb-diagram-cell">Regs</div><div class="kb-diagram-cell">Regs</div><div class="kb-diagram-cell">◀ 독립 할당</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">핵심 원리: 전역 변수와 Heap은 공유하여 통신하고, Stack과 레지스터는 각자 유지</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────────────────┐
+│              단일 스레드 프로세스 vs 멀티 스레드 프로세스 구조            │
+├───────────────────────────────────────────────────────────────────────────┤
+│                                                                           │
+│ [ Single-threaded Process ]    [ Multi-threaded Process ]                 │
+│ ┌─────────────────────────┐    ┌───────────────────────────┐              │
+│ │  Code │  Data │  Files  │    │   Code │  Data │  Files   │ ◀ 공유 자원 │
+│ ├─────────────────────────┤    ├───────────────────────────┤              │
+│ │                         │    │                           │              │
+│ │      Heap (동적 메모리)    │    │        Heap (동적 메모리)     │              │
+│ ├─────────────────────────┤    ├──────┬─────────┬──────────┤              │
+│ │                         │    │Stack │  Stack  │  Stack   │ ◀ 독립 할당 │
+│ │       Stack             │    │ (T1) │   (T2)  │   (T3)   │              │
+│ │                         │    ├──────┼─────────┼──────────┤              │
+│ │ Registers (PC, SP)      │    │ Regs │  Regs   │  Regs    │ ◀ 독립 할당 │
+│ └─────────────────────────┘    └──────┴─────────┴──────────┘              │
+│                                                                           │
+│ 핵심 원리: 전역 변수와 Heap은 공유하여 통신하고, Stack과 레지스터는 각자 유지 │
+└───────────────────────────────────────────────────────────────────────────┘
+```
 
 스레드가 아무리 많아져도 코드 영역과 힙, 전역 변수는 단 하나만 존재한다. 따라서 스레드 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주고받을 때 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)([Pipe](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/))나 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)([Socket](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)) 같은 무거운 IPC가 필요 없이 포인터 주소만 읽으면 된다. 
 동시에, 각 스레드는 자신이 어디까지 실행했는지를 기억하는 [프로그램 카운터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)([PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))와 지역 변수를 담는 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)), 그리고 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 문맥(TCB, Thread Control Block)을 독립적으로 유지함으로써, 하나의 함수 안에서도 서로 다른 변수 상태를 갖고 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 실행될 수 있다.
@@ -105,25 +110,24 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단일 프로세스 아키텍처 (순차 실행)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">멀티 프로세스 분기 (fork, 무거운 문맥 교환)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">스레드(Thread) 개념의 분리 (코드/데이터 공유, 스택/PC 독립)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">유저 스레드 한계 극복을 위한 커널 매핑 (LWP 도입, 1:1 / M:N 모델)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">비동기 스레드 풀 (Thread Pool) 및 Non-blocking I/O 최적화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">초경량 유저 레벨 런타임 동시성 (Virtual Thread, Goroutine, Coroutine)</div>
-</div>
-</div>
-
-
+```text
+단일 프로세스 아키텍처 (순차 실행)
+    │
+    ▼
+멀티 프로세스 분기 (fork, 무거운 문맥 교환)
+    │
+    ▼
+스레드(Thread) 개념의 분리 (코드/데이터 공유, 스택/PC 독립)
+    │
+    ▼
+유저 스레드 한계 극복을 위한 커널 매핑 (LWP 도입, 1:1 / M:N 모델)
+    │
+    ▼
+비동기 스레드 풀 (Thread Pool) 및 Non-blocking I/O 최적화
+    │
+    ▼
+초경량 유저 레벨 런타임 동시성 (Virtual Thread, Goroutine, Coroutine)
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

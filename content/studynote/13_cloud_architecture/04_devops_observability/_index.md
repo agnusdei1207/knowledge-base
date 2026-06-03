@@ -23,19 +23,22 @@ tags = ["cloud_architecture"]
 
 이 그림은 클라우드 네이티브 환경에서의 통합 DevOps 파이프라인과 관측성 루프를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Cloud Native DevOps &amp; Observability</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Git Repo</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">CI/CD Pipeline</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">K8s Cluster</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Feedback</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Observability Stack</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Metrics</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Improve) (Logging / Tracing) (Logs/Traces)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 핵심: 배포(CD)와 동시에 관측(Obs)이 시작되어야 함</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Cloud Native DevOps & Observability         │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Git Repo ] ──▶ [ CI/CD Pipeline ] ──▶ [ K8s Cluster ]   │
+│          ▲                                        │         │
+│          │          ┌─────────────────────────────┘         │
+│          │          ▼                                       │
+│   [ Feedback ] ◀── [ Observability Stack ] ◀── [ Metrics ]  │
+│   (Improve)        (Logging / Tracing)        (Logs/Traces) │
+│                                                             │
+│   * 핵심: 배포(CD)와 동시에 관측(Obs)이 시작되어야 함       │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '폐쇄 루프 (Closed Loop)'이다. 배포된 시스템에서 나오는 데이터를 실시간으로 관측하고, 이를 다시 개발과 운영의 개선점으로 환류시키는 과정이 클라우드 DevOps의 정수이다. 실무에서는 이 루프를 자동화하기 위해 **Prometheus**, **Grafana**, **ArgoCD** 등의 도구 체인을 구축한다.
 
@@ -65,20 +68,22 @@ tags = ["cloud_architecture"]
 
 이 구조도는 <strong>Prometheus</strong>와 <strong>Service Mesh</strong>가 결합된 지능형 관측성 체계를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mesh-based Observability Flow</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">User Req</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Service Mesh (Istio)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Service</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Sidecar Proxy)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Telemetry Data</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Prometheus</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Alertmanager</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Auto-scaling)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 혁신: 코드 수정 없이 네트워크 계층에서 지표 자동 수집</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│                 Mesh-based Observability Flow               │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ User Req ] ──▶ [ Service Mesh (Istio) ] ──▶ [ Service ] │
+│                           │ (Sidecar Proxy)                 │
+│          ┌────────────────┴────────────────┐                │
+│          ▼                                 ▼                │
+│   [ Telemetry Data ] ──▶ [ Prometheus ] ──▶ [ Alertmanager ]│
+│                                            (Auto-scaling)   │
+│                                                             │
+│   * 혁신: 코드 수정 없이 네트워크 계층에서 지표 자동 수집   │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램의 핵심은 '투명성'이다. 개발자가 모니터링 코드를 일일이 심지 않아도, 인프라 계층 (Sidecar)에서 자동으로 모든 데이터를 수집한다. 실무에서는 이 데이터를 바탕으로 트래픽이 몰리면 서버를 늘리는 <strong>HPA (Horizontal Pod Autoscaler)</strong>를 연동한다.
 
@@ -97,7 +102,7 @@ tags = ["cloud_architecture"]
 | **방식** | Polling 기반 | **Event-driven, Distributed Tracing** |
 | **비유** | **자동차 속도계 확인** | **전투기 HUD 및 자가 진단 시스템** |
 
-### SRE (Site Reliability Engineering)의 조화
+### SRE (Site Reliability 엔진ering)의 조화
 
 - **SLI / SLO**: 시스템의 건강 기준을 숫자로 정의.
 - **Error Budget**: 안정성을 해치지 않는 범위 내에서 배포 속도를 조절하는 '혁신의 예산'.
@@ -119,19 +124,22 @@ tags = ["cloud_architecture"]
 
 이 도식은 기술사가 설계하는 '클라우드 장애 자가 치유 (Self-healing)' 로직을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Self-healing Decision Logic</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Monitor</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Analyze: SLI Threshold?</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">YES</div><div class="kb-diagram-note">──</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Verify</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">Action: Restart / Scale-up / Rollback</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 실무 가이드: 자동 조치 시에는 반드시 '이력'을 남기고</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">담당자에게 통보하여 근본 원인 해결 (Problem Mgmt) 연계</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│               Self-healing Decision Logic                   │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [ Monitor ] ──▶ [ Analyze: SLI Threshold? ] ──▶ [ YES ] ──┐│
+│          ▲                                           │      │
+│          │          ┌────────────────────────────────┘      │
+│          │          ▼                                       │
+│   [ Verify ] ◀── [ Action: Restart / Scale-up / Rollback ]  │
+│                                                             │
+│   * 실무 가이드: 자동 조치 시에는 반드시 '이력'을 남기고    │
+│     담당자에게 통보하여 근본 원인 해결 (Problem Mgmt) 연계  │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 기술사의 운영 판단은 '현대식 병원의 집중 치료실'을 설계하는 것과 같습니다. 환자(시스템)의 생체 신호를 24시간 감시하고, 위급 상황 시 기계(자동화 도구)가 즉시 응급 처치를 수행하게 하여 생존율을 극대화하는 전문가입니다.
 

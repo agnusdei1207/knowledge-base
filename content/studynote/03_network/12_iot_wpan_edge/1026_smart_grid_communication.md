@@ -23,18 +23,14 @@ tags = ["studynote-network"]
 
 여기에 태양광, 풍력 등 날씨에 따라 발전량이 널뛰는 신재생 에너지가 무분별하게 추가되자 기존 전력망은 붕괴 위기(계통 불안정성)에 처했다. 이를 해결하기 위해 전력선 위에 정보 통신(ICT)망을 평행하게 덧씌워, 전기를 주고받음과 동시에 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)'를 주고받게 만든 것이 <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/">스마트 그리드</a>(<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/">Smart Grid</a>)</strong>다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">C-V2X / WAVE 매체 제어</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스마트 그리드 통신망</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">수중 음파 통신망</div></div>
-</div>
-</div>
-
-
+```text
+[C-V2X / WAVE 매체 제어]
+    │
+    ▼
+[스마트 그리드 통신망]
+    │
+    └──▶ [수중 음파 통신망]
+```
 
 - **📢 섹션 요약 비유**: 수돗물을 그냥 틀어놓고 버리던 옛날 방식에서, 각 가정의 수도꼭지에 밸브 센서를 달고 통제실과 카톡을 주고받으며 필요한 만큼만 물을 보내주는 지능형 펌프로 바꾼 것이다.
 
@@ -44,22 +40,23 @@ tags = ["studynote-network"]
 
 [스마트 그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/) 통신망은 크게 가정/빌딩 내부망(HAN), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집망([NAN](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/097_nan/)), 그리고 광역 백본망(WAN)의 3계층 아키텍처를 따른다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">전력회사 관제 센터 (WAN)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(광케이블, 5G/LTE망을 통한 광역 전력 데이터 분석)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 수집장치 (DCU)</div><div class="kb-diagram-node">변전소 / 송전탑</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(전신주나 아파트 지하에 설치)</div><div class="kb-diagram-cell">(고압 송전망 관리)</div></div>
-<div class="kb-diagram-note">(NAN 구간: PLC, LoRa, Wi-SUN 등)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">가정 / 공장 (HAN)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">스마트 계량기(AMI)</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">가전 기기</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(실시간 요금/사용량 측정) (원격 제어)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                  [ 전력회사 관제 센터 (WAN) ]                │
+│    (광케이블, 5G/LTE망을 통한 광역 전력 데이터 분석)         │
+└──────────────▲────────────────────────────────▲──────────────┘
+               │                                │
+┌──────────────▼──────────┐        ┌────────────▼────────────┐
+│      [ 데이터 수집장치 (DCU) ]      │        │    [ 변전소 / 송전탑 ]    │
+│  (전신주나 아파트 지하에 설치)│        │   (고압 송전망 관리)      │
+└──────────────▲──────────┘        └─────────────────────────┘
+               │ (NAN 구간: PLC, LoRa, Wi-SUN 등)
+┌──────────────▼────────────────────────────────────▼──────────┐
+│                      [ 가정 / 공장 (HAN) ]                   │
+│   [ 스마트 계량기(AMI) ] ◀──(ZigBee, Wi-Fi)──▶ [ 가전 기기 ] │
+│   (실시간 요금/사용량 측정)                        (원격 제어) │
+└──────────────────────────────────────────────────────────────┘
+```
 
 1. **HAN (Home Area Network)**: 집 안의 스마트 가전과 스마트 미터기([AMI](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/))를 연결한다. 주로 [ZigBee](/knowledge-base/studynote/03_network/12_iot_wpan_edge/609_zigbee_ieee_802_15_4_mesh_iot/), [Z-Wave](/knowledge-base/studynote/03_network/12_iot_wpan_edge/610_z_wave_900mhz_smart_home_iot/), Wi-Fi 등 근거리 저전력 무선 통신을 쓴다.
 2. <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/097_nan/">NAN</a> (Neighborhood Area Network)</strong>: 아파트 단지나 골목의 수십~수백 대 AMI에서 모인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전신주에 있는 수집기(DCU)로 모은다. [전력선 통신](/knowledge-base/studynote/03_network/03_physical_layer_media/179_plc_power_line_communication/)([PLC](/knowledge-base/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/))이나 Wi-SUN, [LoRa](/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/) 같은 저주파 장거리 무선 통신을 활용한다.
@@ -128,19 +125,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: C-V2X / WAVE 매체 제어</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 스마트 그리드 통신망</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 수중 음파 통신망</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 자율형 엣지 협업</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: C-V2X / WAVE 매체 제어]
+    │
+    ▼
+[현재 개념: 스마트 그리드 통신망]
+    │
+    ├──▶ [확장 A: 수중 음파 통신망]
+    └──▶ [확장 B: 자율형 엣지 협업]
+```
 
 [스마트 그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/) 통신망는 [C-V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/) / [WAVE](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/) [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 제어에서 출발해 현재 메커니즘을 정교화하고, 이후 [수중 음파 통신망](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/1027_underwater_acoustic_network/)와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

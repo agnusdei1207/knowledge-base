@@ -35,27 +35,30 @@ tags = ["studynote-operating-system"]
 - **등장 배경**: 
   - CPU/메모리 속도는 기하급수적으로 빨라진 반면 자기(Magnetic) 하드 디스크의 물리적 회전 속도는 제자리걸음을 하면서, 둘 사이의 마찰을 줄이기 위한 [버퍼 캐시](/knowledge-base/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/) 아키텍처의 기본 동작 모드로 확립되었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">동기적 쓰기(Write-Through) vs 지연 쓰기(Write-Back)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 동기적 쓰기 (Synchronous / Write-through)</div><div class="kb-diagram-note">- 답답함</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">커널 메모리</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">물리 디스크</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(블로킹) (캐시 갱신) (기록 완료)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀ (수십 ms 지연 후 앱 실행 재개)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 지연 쓰기 (Delayed Write / Write-back)</div><div class="kb-diagram-note">- 현대 OS 표준</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">커널 페이지 캐시</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">◀ (1 µs 만에 리턴! 앱은 다른 일 하러 감)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해당 캐시 페이지를 'Dirty(더티)' 상태로 마킹</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(몇 초 뒤... 또는 더티 한계치 도달 시)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">커널 백그라운드 스레드 (pdflush/kworker)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">더티 페이지들을 뭉텅이로 모음(Batch)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">물리 디스크</div><div class="kb-diagram-note">(한 번의 I/O로 고속 전송 완료!)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │                 동기적 쓰기(Write-Through) vs 지연 쓰기(Write-Back)  │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │  [ 1. 동기적 쓰기 (Synchronous / Write-through) ] - 답답함         │
+  │   App ───write()───▶ [ 커널 메모리 ] ──(기다림)──▶ [ 물리 디스크 ]     │
+  │          (블로킹)        (캐시 갱신)                (기록 완료)      │
+  │   ◀────(수십 ms 지연 후 앱 실행 재개)────────────────────────┘      │
+  │                                                             │
+  │                                                             │
+  │  [ 2. 지연 쓰기 (Delayed Write / Write-back) ] - 현대 OS 표준      │
+  │   App ───write()───▶ [ 커널 페이지 캐시 ]                            │
+  │   ◀───(1 µs 만에 리턴! 앱은 다른 일 하러 감)                           │
+  │                         │                                   │
+  │                         │ 해당 캐시 페이지를 'Dirty(더티)' 상태로 마킹 │
+  │                         ▼                                   │
+  │                  (몇 초 뒤... 또는 더티 한계치 도달 시)              │
+  │                  [ 커널 백그라운드 스레드 (pdflush/kworker) ]        │
+  │                         │ 더티 페이지들을 뭉텅이로 모음(Batch)        │
+  │                         ▼                                   │
+  │                  [ 물리 디스크 ] (한 번의 I/O로 고속 전송 완료!)       │
+  └─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 상단의 동기적 방식은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 100% 안전을 보장하지만, 앱은 디스크가 긁는 내내 멈춰있어야 한다(I/O Wait). 하단의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 아키텍처에서 OS는 능구렁이 같은 중개자다. 앱이 던진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 메모리에만 받아두고 곧바로 제어권을 넘겨주어 앱이 빛의 속도로 다음 코드를 실행하게 돕는다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 안에는 파란색 잉크([더티 비트](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/278_dirty_bit/))가 묻은 메모리 종이들을 찾아다니는 전담 청소부(kworker [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/))가 있다. 청소부는 디스크가 덜 바쁠 때나 파란 종이가 너무 많아졌을 때(예: 메모리의 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 초과) 한꺼번에 모아서 디스크로 탁탁 털어낸다. 이 '배치(Batch) 처리'가 디스크의 I/O [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))을 수백 배로 뻥튀기한다.
 
@@ -80,29 +83,32 @@ tags = ["studynote-operating-system"]
 
 초보 백엔드 개발자들이 "아무 짓도 안 했는데 서버가 5초 동안 멈췄어요"라고 호소하는 원인의 99%는 이 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 파라미터 임계점(dirty_ratio) 돌파에 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">더티 페이지 임계치 돌파 시 시스템 블로킹(Stall) 현상</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">램 32GB 서버 메모리 상태 변화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 일반적 트래픽: 더티 1GB (약 3%)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 여유로움. 백그라운드 스레드가 몰래몰래 디스크로 비워줌. 앱 쌩쌩함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 갑작스런 대규모 로그 기록 폭주 발생! (Burst Write)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 디스크가 써내는 속도보다 메모리에 쌓이는 속도가 훨씬 빠름!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 더티 비율 10% (<code>dirty_background_ratio</code>) 돌파 ──▶ 백그라운드 풀가동</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 폭주 지속, 마침내 임계점 도달</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 더티 6.4GB (<code>dirty_ratio</code> 20%) 돌파!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 🚨 커널 비상사태 선포 (Throttling)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 애플리케이션 강제 정지 (Blocking)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- App A: <code>write("log");</code> 호출</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- App B: <code>write("log");</code> 호출 ─▶ ⛔ 대기 (I/O Wait)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 커널: "더 이상 캐시에 공간 없다! 직접 디스크에 기록 다 끝날 때까지 대기해!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과: 메모리 넉넉한 줄 알고 폭주하던 앱들이 디스크 속도 늪에 빠져 5초간 프리징됨.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 더티 페이지 임계치 돌파 시 시스템 블로킹(Stall) 현상        │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [ 램 32GB 서버 메모리 상태 변화 ]                                    │
+  │                                                                   │
+  │   1. 일반적 트래픽: 더티 1GB (약 3%)                                  │
+  │      - 여유로움. 백그라운드 스레드가 몰래몰래 디스크로 비워줌. 앱 쌩쌩함.        │
+  │                                                                   │
+  │   2. 갑작스런 대규모 로그 기록 폭주 발생! (Burst Write)                  │
+  │      - 디스크가 써내는 속도보다 메모리에 쌓이는 속도가 훨씬 빠름!            │
+  │      - 더티 비율 10% (`dirty_background_ratio`) 돌파 ──▶ 백그라운드 풀가동 │
+  │                                                                   │
+  │   3. 폭주 지속, 마침내 임계점 도달                                        │
+  │      - 더티 6.4GB (`dirty_ratio` 20%) 돌파!                          │
+  │      - 🚨 커널 비상사태 선포 (Throttling)                              │
+  │                                                                   │
+  │   4. 애플리케이션 강제 정지 (Blocking)                                  │
+  │      - App A: `write("log");` 호출  ─────────┐                    │
+  │      - App B: `write("log");` 호출  ─────────┼─▶ ⛔ 대기 (I/O Wait) │
+  │      - 커널: "더 이상 캐시에 공간 없다! 직접 디스크에 기록 다 끝날 때까지 대기해!" │
+  │                                                                   │
+  │   결과: 메모리 넉넉한 줄 알고 폭주하던 앱들이 디스크 속도 늪에 빠져 5초간 프리징됨.│
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Delayed Write)는 신용카드 돌려막기와 같다. 앱이 쓸 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 OS가 "내가 이따가 써줄게"라며 빚(Dirty [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))을 지는 행위다. 빚이 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%(`dirty_background_ratio`)가 넘으면 OS는 조용히 빚을 갚기 시작하지만, 앱들이 미친 듯이 카드를 긁어 빚이 20%(`dirty_ratio`) 한도를 넘는 순간, OS는 카드를 정지시키고([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)) 앱에게 "직접 은행 가서 현금 내고 와!"라고 강제해 버린다. 이 순간 앱은 밀리초 단위의 메모리 속도에서 밀리초 수백 배인 디스크 속도로 곤두박질치며 시스템 전체가 얼어붙는다. 이것이 I/O [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/)([Spike](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/))의 정체다.
 
@@ -142,25 +148,28 @@ tags = ["studynote-operating-system"]
 2. <strong>시나리오 — <a href="/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/">카프카</a>(<a href="/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/">Kafka</a>) 브로커의 극한의 I/O 최적화</strong>: 초당 100만 건의 메시지를 받아 디스크에 저장하는 [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 서버를 구축해야 하는데, SSD가 아닌 느린 [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) 클러스터를 쓸 수밖에 없는 예산 상황이다.
    - <strong>아키텍트 판단 (OS <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a>의 극대화 활용)</strong>: [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/)의 무서운 속도는 자바(Java) 내부에 캐시를 두지 않고, 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 <strong><a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> 캐시와 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a>를 100% 믿고 외주</strong> 준 데서 나온다. 앱은 무지성으로 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리에 초당 100만 건을 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)만 하고([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)), 디스크 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)(fsync)를 아예 하지 않는다. 대신 디스크 플러시는 OS의 백그라운드 데몬에게 전적으로 맡기고, 혹시 모를 전원 장애의 위험은 <strong>서버 3대의 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 네트워크 <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a>(<a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">Replication</a>)</strong>로 방어한다. 하나의 노드가 정전으로 더티 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 잃어도 다른 2대 노드의 램에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 있으니 안전하다. 즉, <strong>"디스크 속도를 메모리 속도로 치환하면서, <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a>의 약점을 네트워크 다중화로 덮어버린"</strong> [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/531_cloud_native_architecture/) 설계의 극치다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파일 I/O 동기화 레벨 결정을 위한 아키텍트 트리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">서비스의 데이터 저장 로직을 설계한다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">서버 플러그가 뽑혀도 단 1건의 데이터 유실도 절대 용납할 수 없는가? (돈/결제)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">동기식 쓰기 채택 (fsync 매번 호출)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(디스크 IOPS 한계에 부딪혀 성능은 최악으로 떨어짐)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 (1~2초치 증발은 봐주거나, 다른 서버에 복제되어 있음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터의 크기가 매우 커서 커널 메모리(캐시)를 오염시키는가? (영상 처리 등)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">O_DIRECT (Direct I/O) 채택</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(OS 캐시를 건너뛰어 다른 웹서비스들의 캐시를 보호)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">지연 쓰기 (Delayed Write) 기본값 유지!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(OS의 백그라운드 플러싱 마법으로 스루풋 극대화)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 파일 I/O 동기화 레벨 결정을 위한 아키텍트 트리               │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [ 서비스의 데이터 저장 로직을 설계한다 ]                                 │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      서버 플러그가 뽑혀도 단 1건의 데이터 유실도 절대 용납할 수 없는가? (돈/결제)│
+  │          ├─ 예 ─────▶ [ 동기식 쓰기 채택 (fsync 매번 호출) ]          │
+  │          │             (디스크 IOPS 한계에 부딪혀 성능은 최악으로 떨어짐)    │
+  │          └─ 아니오 (1~2초치 증발은 봐주거나, 다른 서버에 복제되어 있음)       │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      데이터의 크기가 매우 커서 커널 메모리(캐시)를 오염시키는가? (영상 처리 등)  │
+  │          ├─ 예 ─────▶ [ O_DIRECT (Direct I/O) 채택 ]              │
+  │          │             (OS 캐시를 건너뛰어 다른 웹서비스들의 캐시를 보호)    │
+  │          │                                                        │
+  │          └─ 아니오 ──▶ [ 지연 쓰기 (Delayed Write) 기본값 유지! ]     │
+  │                        (OS의 백그라운드 플러싱 마법으로 스루풋 극대화)       │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 초보 개발자는 무조건 `write()`만 호출하고 OS가 알아서 하길 기도하지만, 아키텍트는 저 3갈래 길의 파급력을 계산해야 한다. [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(기본값)는 마약과 같아서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 뽕맛은 좋지만 전원 장애 시 독약으로 돌아온다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유실이 치명적이라면 반드시 `fsync()`라는 수동 트리거를 애플리케이션의 핵심 라이프사이클(예: 장바구니 결제 직후)에 핀포인트로 삽입하여 OS의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 강제로 마무리(Flush) 지어주는 통제력을 쥐어야 한다.
 
@@ -206,19 +215,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">시스템 콜 오버헤드 이유</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">파일 지연 쓰기 (Delayed Write)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">저널링 파일 시스템 트랜잭션 로그</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">블로킹 / 논블로킹 / 비동기 I/O</div></div>
-</div>
-</div>
-
-
+```text
+[시스템 콜 오버헤드 이유]
+    │
+    ▼
+[파일 지연 쓰기 (Delayed Write)]
+    │
+    ├──▶ [저널링 파일 시스템 트랜잭션 로그]
+    └──▶ [블로킹 / 논블로킹 / 비동기 I/O]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

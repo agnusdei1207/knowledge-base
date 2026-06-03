@@ -35,24 +35,30 @@ SBA의 핵심 구성요소는 처리 유닛, [가상화](/knowledge-base/studyno
 
 아래 그림은 SBA의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로를 압축한다. 사용자의 요청은 먼저 처리 유닛에 도달하고, 처리 유닛은 메모리 공간을 우선 조회한다. 영속 저장소는 즉시 동기식으로 두드리는 대상이 아니라, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)와 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 추적을 위한 후행 저장소로 밀려난다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스페이스 기반 아키텍처의 요청 처리 흐름</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client Request</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Virtualized Middleware</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">라우팅/파티션/장애조치</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">PU-A</div><div class="kb-diagram-node">PU-B</div><div class="kb-diagram-node">PU-C</div><div class="kb-diagram-note">...</div><div class="kb-diagram-node">PU-N</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Web/API ─ Web/API ─ Web/API</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Business Logic ─ Business Logic ─ Business Logic</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Local Cache ─ Local Cache ─ Local Cache</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Tuple Space / IMDG Partitioned Grid</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Database</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                 스페이스 기반 아키텍처의 요청 처리 흐름                    │
+├─────────────────────────────────────────────────────────────────────────────┤
+│ Client Request                                                             │
+│      │                                                                     │
+│      ▼                                                                     │
+│ [Virtualized Middleware]                                                   │
+│      │           라우팅/파티션/장애조치                                    │
+│      ├──────────────────┬──────────────────┬──────────────────┐            │
+│      ▼                  ▼                  ▼                  ▼            │
+│ [PU-A]              [PU-B]              [PU-C]          ... [PU-N]         │
+│  │                  │                  │                                   │
+│  ├─ Web/API         ├─ Web/API         ├─ Web/API                          │
+│  ├─ Business Logic  ├─ Business Logic  ├─ Business Logic                   │
+│  └─ Local Cache     └─ Local Cache     └─ Local Cache                      │
+│      │                  │                  │                                 │
+│      └──────────────┬───┴──────────────┬───┘                                 │
+│                     ▼                  ▼                                     │
+│              [Tuple Space / IMDG Partitioned Grid]                          │
+│                     │                  │                                     │
+│                     └─────── Async Write-Behind ───────▶ [Database]         │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
 
 | 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -134,23 +140,22 @@ SBA의 기대효과는 [초고속](/knowledge-base/studynote/06_ict_convergence/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">3계층 구조의 DB 병목</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">분산 캐시 · IMDG</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">스페이스 기반 아키텍처</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ Tuple Space 파티셔닝 · 복제</div>
-<div class="kb-diagram-tree-item" style="--depth:2">▶ Eventual Consistency · Write-Behind</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">초저지연 이벤트 처리 · 실시간 확장 패턴</div>
-</div>
-</div>
-
-
+```text
+3계층 구조의 DB 병목
+    │
+    ▼
+분산 캐시 · IMDG
+    │
+    ▼
+스페이스 기반 아키텍처
+    │
+    ├──────────────▶ Tuple Space 파티셔닝 · 복제
+    │
+    └──────────────▶ Eventual Consistency · Write-Behind
+                           │
+                           ▼
+                 초저지연 이벤트 처리 · 실시간 확장 패턴
+```
 
 이 흐름은 “DB 최적화 → 메모리 전진 배치 → 아키텍처 수준의 재구성”으로 진화하는 방향을 보여준다.
 

@@ -43,22 +43,23 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 메모리 대역폭이 어떻게 만들어지는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 대역폭이 형성되는 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU / GPU 요청</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 컨트롤러</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">64-bit</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">DDR (Double Data Rate) DRAM</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">64-bit</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">DDR DRAM</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">64-bit</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">DDR DRAM</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이론 대역폭 ≈ (버스 폭 ÷ 8) × 초당 전송 횟수 × 채널 수</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">실제 대역폭 &lt; 이론 대역폭 ── 이유: 충돌, 타이밍 공백, 프로토콜 오버헤드</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                    메모리 대역폭이 형성되는 구조                    │
+├──────────────────────────────────────────────────────────────────────┤
+│ CPU / GPU 요청                                                      │
+│    │                                                                 │
+│    ▼                                                                 │
+│ 메모리 컨트롤러                                                      │
+│    │                                                                 │
+│    ├─ 채널 0 ─▶ [64-bit] ─▶ DDR (Double Data Rate) DRAM             │
+│    ├─ 채널 1 ─▶ [64-bit] ─▶ DDR DRAM                                │
+│    └─ 채널 2 ─▶ [64-bit] ─▶ DDR DRAM                                │
+│                                                                      │
+│ 이론 대역폭 ≈ (버스 폭 ÷ 8) × 초당 전송 횟수 × 채널 수              │
+│ 실제 대역폭 < 이론 대역폭  ── 이유: 충돌, 타이밍 공백, 프로토콜 오버헤드 │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 예를 들어 64-bit [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 한 채널이 초당 6.4 GT/s (Giga Transfers per second)로 동작하면, 이론 대역폭은 약 51.2 GB/s 수준이 된다. 여기에 듀얼 채널을 쓰면 이론상 약 2배까지 확장할 수 있지만, 실제로는 메모리 접근 패턴이 불규칙하거나 읽기·[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 전환이 잦으면 효율이 떨어진다. 그래서 고대역폭 설계는 단순히 수치를 키우는 작업이 아니라, <strong>연속 접근을 많이 만들고 <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 경로를 놀리지 않는 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 배치 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>과 함께 가야 한다.
 
@@ -141,23 +142,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단일 버스 기반 데이터 이동</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">버스 폭 (Bus Width) · 전송률 중심의 대역폭 확장</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">듀얼/멀티 채널 메모리 구조</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">PCIe (Peripheral Component Interconnect Express) 고속 직렬 인터커넥트</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">HBM (High Bandwidth Memory) · 칩렛 (Chiplet) · CXL (Compute Express Link)</div>
-</div>
-</div>
-
-
+```text
+단일 버스 기반 데이터 이동
+    │
+    ▼
+버스 폭 (Bus Width) · 전송률 중심의 대역폭 확장
+    │
+    ▼
+듀얼/멀티 채널 메모리 구조
+    │
+    ▼
+PCIe (Peripheral Component Interconnect Express) 고속 직렬 인터커넥트
+    │
+    ▼
+HBM (High Bandwidth Memory) · 칩렛 (Chiplet) · CXL (Compute Express Link)
+```
 
 이 흐름은 "단순 통로 확장 → [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 채널화 → 고속 인터커넥트 → 패키징 수준 통합"으로 대역폭 확보 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 진화하는 과정을 보여준다.
 

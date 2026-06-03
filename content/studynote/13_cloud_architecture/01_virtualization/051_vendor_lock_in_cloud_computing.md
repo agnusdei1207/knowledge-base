@@ -31,7 +31,7 @@ tags = ["studynote-cloud-architecture"]
 3. **함정 발동**:
    - 3년 뒤 AWS 요금이 부담되어 GCP로 이사 가려 한다. 하지만 DynamoDB의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조와 Lambda에 쓰인 코드들은 AWS 전용 문법(SDK)으로 떡칠이 되어 있어 GCP에서 전혀 돌아가지 않는다. 코드를 1부터 100까지 새로 짜야 하는 대참사가 벌어지며 결국 이사를 포기하게 된다.
 
-📢 섹션 요약 비유: 처음에 월세방([IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/))에 살 때는 이불만 싸서 언제든 다른 방으로 이사 갈 수 있었습니다. 그런데 집주인([CSP](/knowledge-base/studynote/09_security/05_web_app_security/475_csp/))이 최신식 빌트인 맞춤 가전과 음성인식 시스템([PaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/))을 공짜로 깔아주자 거기에 익숙해져 버렸고, 이제는 이사 가려면 그 가전제품 조작법을 처음부터 새로 배워야 해서 억울한 월세를 내며 그냥 눌러앉게 된 상황입니다.
+📢 섹션 요약 비유: 처음에 월세방([IaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/183_iaas_infrastructure_as_a_service/))에 살 때는 이불만 싸서 언제든 다른 방으로 이사 갈 수 있었습니다. 그런데 집주인([CSP](/knowledge-base/studynote/09_security/05_web_app_security/475_csp/))이 최정보 빌트인 맞춤 가전과 음성인식 시스템([PaaS](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/184_paas_platform_as_a_service/))을 공짜로 깔아주자 거기에 익숙해져 버렸고, 이제는 이사 가려면 그 가전제품 조작법을 처음부터 새로 배워야 해서 억울한 월세를 내며 그냥 눌러앉게 된 상황입니다.
 
 ---
 
@@ -64,24 +64,21 @@ tags = ["studynote-cloud-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단일 클라우드 의존 (Vendor Lock-in)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">종속 요인: 기술 API · 데이터 그래비티 · 인력 스킬</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">탈출 전략</div>
-<div class="kb-diagram-tree-item" style="--depth:2">컨테이너 + K8s: 이식성 확보</div>
-<div class="kb-diagram-tree-item" style="--depth:2">오픈소스 고집: Kafka · PostgreSQL · Terraform</div>
-<div class="kb-diagram-tree-item" style="--depth:2">멀티 클라우드: 워크로드 분산 배치</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Cloud-Agnostic 아키텍처: CNCF 표준 · OCI 호환</div>
-</div>
-</div>
-
-
+```text
+단일 클라우드 의존 (Vendor Lock-in)
+    │
+    ▼
+종속 요인: 기술 API · 데이터 그래비티 · 인력 스킬
+    │
+    ▼
+탈출 전략
+    ├─► 컨테이너 + K8s: 이식성 확보
+    ├─► 오픈소스 고집: Kafka · PostgreSQL · Terraform
+    └─► 멀티 클라우드: 워크로드 분산 배치
+    │
+    ▼
+Cloud-Agnostic 아키텍처: CNCF 표준 · OCI 호환
+```
 
 ---
 

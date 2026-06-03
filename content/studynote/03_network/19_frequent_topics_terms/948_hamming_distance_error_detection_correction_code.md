@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 구리선이나 무선 전파로 0과 1을 보내면 번개, 노이즈 때문에 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 무조건 뒤집힙니다(`0 ➜ 1`).
 - 수신자는 엉망진창으로 바뀐 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 원래 무슨 글자였는지 눈치채야 합니다(오류 검출 및 정정 FEC, 908번 문서 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)). 이를 해결하는 물리학적/수학적 기준점이 [해밍 거리](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/)입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">OFDM 사이클릭 프리픽스</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">해밍 거리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">자동 재전송 요구 선택적/GBN</div></div>
-</div>
-</div>
-
-
+```text
+[OFDM 사이클릭 프리픽스]
+    │
+    ▼
+[해밍 거리]
+    │
+    └──▶ [자동 재전송 요구 선택적/GBN]
+```
 
 - **📢 섹션 요약 비유**: [해밍 거리](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/)는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -47,18 +43,14 @@ tags = ["studynote-network"]
   - `B = 1001001`
   - 앞에서 3번째 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)(`1`과 `0`)가 다르고, 5번째 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)(`1`과 `0`)가 다릅니다. 두 자리가 다르므로, A와 B 사이의 <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/">해밍 거리</a>는 2</strong>입니다. (수학적으로는 두 숫자를 XOR 연산하여 1의 개수를 세면 됩니다.)
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">OFDM 사이클릭 프리픽스</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">해밍 거리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">자동 재전송 요구 선택적/GBN</div></div>
-</div>
-</div>
-
-
+```text
+[OFDM 사이클릭 프리픽스]
+    │
+    ▼
+[해밍 거리]
+    │
+    └──▶ [자동 재전송 요구 선택적/GBN]
+```
 
 - **📢 섹션 요약 비유**: [해밍 거리](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -124,19 +116,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: OFDM 사이클릭 프리픽스</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 해밍 거리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 자동 재전송 요구 선택적/GBN</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 컨텍스트 기반 용어 해석</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: OFDM 사이클릭 프리픽스]
+    │
+    ▼
+[현재 개념: 해밍 거리]
+    │
+    ├──▶ [확장 A: 자동 재전송 요구 선택적/GBN]
+    └──▶ [확장 B: 컨텍스트 기반 용어 해석]
+```
 
 [해밍 거리](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/)는 OFDM 사이클릭 프리픽스에서 출발해 현재 메커니즘을 정교화하고, 이후 [자동 재전송 요구](/knowledge-base/studynote/03_network/19_frequent_topics_terms/949_arq_automatic_repeat_request_go_back_n_selective/) 선택적/GBN와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

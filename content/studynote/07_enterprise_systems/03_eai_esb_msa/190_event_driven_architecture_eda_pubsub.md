@@ -33,20 +33,18 @@ EDA의 핵심 구성은 생산자, 이벤트 브로커, 토픽 또는 큐, 소�
 
 아래 그림은 전형적인 퍼블리시/서브스크라이브 흐름을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Event propagation through broker</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Order Service -- publish OrderPlaced --&gt; Broker Topic</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Inventory Consumer</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Payment Consumer</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Notification Consumer</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Trace ID / key / schema version travel with the event</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Event propagation through broker                                     │
+├──────────────────────────────────────────────────────────────────────┤
+│ Order Service -- publish OrderPlaced --> Broker Topic               │
+│                                         ├─ Inventory Consumer       │
+│                                         ├─ Payment Consumer         │
+│                                         └─ Notification Consumer    │
+│                                                                      │
+│ Trace ID / key / schema version travel with the event               │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 | 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
@@ -126,23 +124,21 @@ EDA는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">동기 호출 체인의 결합 증가</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">브로커 기반 비동기 메시징 도입</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Publish / Subscribe 이벤트 전파</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">멱등성 · DLQ · 추적 체계 강화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Saga · CQRS · Event Sourcing 확장</div>
-</div>
-</div>
-
-
+```text
+동기 호출 체인의 결합 증가
+        │
+        ▼
+브로커 기반 비동기 메시징 도입
+        │
+        ▼
+Publish / Subscribe 이벤트 전파
+        │
+        ▼
+멱등성 · DLQ · 추적 체계 강화
+        │
+        ▼
+Saga · CQRS · Event Sourcing 확장
+```
 
 이 흐름은 단순 [메시지 전달](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/)에서 출발해, 점차 이벤트 중심 운영과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로 확장되는 구조를 보여 준다.
 

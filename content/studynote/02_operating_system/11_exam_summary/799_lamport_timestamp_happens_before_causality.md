@@ -36,30 +36,33 @@ tags = ["studynote-operating-system"]
 - **등장 배경**: 
   - 물리적 시계([NTP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/536_ntp_network_time_protocol_stratum/)) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)는 수 밀리초의 오차가 무조건 발생하므로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 제어에서는 쓸모가 없었다. 람포트의 이 논문은 아인슈타인의 특수 상대성 이론(서로 다른 관측자의 시간은 다르다)을 컴퓨터 공학으로 치환하여 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 컴퓨팅이라는 학문 자체를 창시했다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">람포트 논리적 시계(Logical Clock) 카운팅 3원칙 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">노드 A의 시계</div><div class="kb-diagram-node">노드 B의 시계</div><div class="kb-diagram-node">노드 C의 시계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(0) (0) (0)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (내부 이벤트)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">A=1</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">│</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(A가 보낸 시계 1 도착)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비교: MAX(내꺼 0, 받은거 1) + 1</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">B=2</div><div class="kb-diagram-note">로 껑충 뜀! │</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ (내부 이벤트) ▼ (내부 이벤트)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">A=2</div><div class="kb-diagram-node">B=3</div><div class="kb-diagram-connector">▶</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(B의 시계 3)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비교: MAX(0, 3) + 1</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">C=4</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">※ 완벽한 인과율(Happens-before) 증명:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- A=1의 사건이 C=4의 사건보다 무조건 "먼저" 일어났음을 번호만으로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">100% 보장할 수 있다! (네트워크가 몇 초가 걸리든 상관없음!)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌─────────────────────────────────────────────────────────────┐
+  │                 람포트 논리적 시계(Logical Clock) 카운팅 3원칙 시각화  │
+  ├─────────────────────────────────────────────────────────────┤
+  │                                                             │
+  │   [ 노드 A의 시계 ]          [ 노드 B의 시계 ]          [ 노드 C의 시계 ] │
+  │        (0)                    (0)                    (0)    │
+  │         │                      │                      │    │
+  │         ▼ (내부 이벤트)           │                      │    │
+  │      [ A=1 ] ──(메시지 전송!)───▶ │                      │    │
+  │         │                 (A가 보낸 시계 1 도착)          │    │
+  │         │                      ▼                      │    │
+  │         │                 비교: MAX(내꺼 0, 받은거 1) + 1  │    │
+  │         │                 ▶ [ B=2 ] 로 껑충 뜀!         │    │
+  │         │                      │                      │    │
+  │         ▼ (내부 이벤트)           ▼ (내부 이벤트)            │    │
+  │      [ A=2 ]                [ B=3 ] ──(메시지 전송!)──▶  │    │
+  │         │                      │                (B의 시계 3) │    │
+  │         │                      │                      ▼    │
+  │         │                      │                 비교: MAX(0, 3) + 1 │
+  │         │                      │                 ▶ [ C=4 ] │
+  │                                                             │
+  │  ※ 완벽한 인과율(Happens-before) 증명:                         │
+  │     - A=1의 사건이 C=4의 사건보다 무조건 "먼저" 일어났음을 번호만으로 │
+  │       100% 보장할 수 있다! (네트워크가 몇 초가 걸리든 상관없음!)      │
+  └─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 아주 심플한 덧셈의 마법이다. 람포트 시계는 3가지 룰만 지킨다. 첫째, 내 안에서 무슨 일이 생기면 내 번호를 +1 한다. 둘째, 남한테 메시지를 보낼 때 내 번호를 박아서 보낸다. 셋째, 남의 메시지를 받을 땐 내 번호와 남의 번호 중 더 '큰' 놈을 기준으로 삼고 거기에 +1을 한다. 이 룰을 지키면 사건 A가 사건 B의 '원인(Cause)'이 되었을 때, 무조건 **A의 번호 < B의 번호** 라는 부등식이 수학적으로 절대 성립한다(Happens-before [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)). [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 서버들은 이 번호(Timestamp)만 보고 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)에 기록할 순서를 완벽하게 재정렬([Ordering](/knowledge-base/studynote/02_operating_system/04_synchronization/277_semaphore_ordering/))할 수 있다.
 
@@ -84,27 +87,28 @@ tags = ["studynote-operating-system"]
 람포트는 천재였지만, 이 단순한 숫자 1개짜리 시계에는 완벽한 한계가 존재했다. 
 <strong>"번호가 작다고 해서, 무조건 먼저 일어난 원인(Cause)<a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/">인가</a>?"</strong> $\rightarrow$ **아니다!**
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">람포트 시계의 한계: 독립적(Concurrent) 사건의 구별 불가</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">한국 서버 A</div><div class="kb-diagram-node">미국 서버 B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(시계 0) (시계 0)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">글쓰기 이벤트 발생! 댓글 쓰기 이벤트 발생!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ A의 람포트 시계 = 1 ▶ B의 람포트 시계 = 1</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">중앙 DB에 모인 기록</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- A 서버: "안녕" (Timestamp 1)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- B 서버: "ㅋㅋ" (Timestamp 1)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🚨</div><div class="kb-diagram-node">아키텍트의 멘붕</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"둘 다 번호가 1이네? 아니면 하나는 1이고 하나는 2네? 근데 둘이 서로 대화한 적도</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">없고 완전히 남남이 동시대에 독립적으로(Concurrent) 벌인 일인데?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">람포트 시계 숫자 1개만 봐서는 둘이 '인과관계'가 있는지 '남남'인지 도저히</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">구별을 할 수가 없어!"</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 람포트 시계의 한계: 독립적(Concurrent) 사건의 구별 불가 │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [ 한국 서버 A ]              [ 미국 서버 B ]                        │
+  │   (시계 0)                    (시계 0)                              │
+  │      │                           │                                │
+  │   글쓰기 이벤트 발생!             댓글 쓰기 이벤트 발생!                   │
+  │   ▶ A의 람포트 시계 = 1          ▶ B의 람포트 시계 = 1                  │
+  │                                                                   │
+  │   [ 중앙 DB에 모인 기록 ]                                            │
+  │   - A 서버: "안녕" (Timestamp 1)                                   │
+  │   - B 서버: "ㅋㅋ" (Timestamp 1)                                   │
+  │                                                                   │
+  │   🚨 [ 아키텍트의 멘붕 ]                                             │
+  │   "둘 다 번호가 1이네? 아니면 하나는 1이고 하나는 2네? 근데 둘이 서로 대화한 적도│
+  │   없고 완전히 남남이 동시대에 독립적으로(Concurrent) 벌인 일인데?            │
+  │   람포트 시계 숫자 1개만 봐서는 둘이 '인과관계'가 있는지 '남남'인지 도저히     │
+  │   구별을 할 수가 없어!"                                               │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** $a \rightarrow b$ 이면 $L(a) < L(b)$ 는 참이다. 하지만 그 반대인 **$L(a) < L(b)$ 라고 해서 반드시 $a \rightarrow b$ (a가 원인)인 것은 아니다.** 서버 A가 혼자 북 치고 장구 치며 시계를 100까지 올렸고, 서버 B가 이제 막 부팅해서 시계가 1이라고 치자. 1 < 100 이니까 B가 먼저 일어난 원인인가? 전혀 아니다. 둘은 서로 단 한 번의 통신도 주고받지 않은, 인과관계가 1도 없는 평행우주의 사건(Concurrent)이다. 람포트 시계는 스칼라(단일 숫자) 값이기 때문에, 이런 "동시 발생 [독립 사건](/knowledge-base/studynote/08_algorithm_stats/08_stats/133_independence/)"을 구별해 낼 정보력이 부족했다. 이 딜레마를 타파하기 위해 등장한 것이 바로 현대 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) DB의 심장인 <strong>벡터 클락(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/258_vector_clock/">Vector Clock</a>)</strong>이다.
 
@@ -147,24 +151,26 @@ tags = ["studynote-operating-system"]
    - **원인 분석**: [카산드라](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/299_data_lake/)는 물리적 타임스탬프가 더 늦은(큰) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 무조건 최신으로 믿고 덮어써 버리는 LWW(마지막에 쓴 놈이 승리한다) 정책을 쓴다. 두 노드의 시간이 미세하게 달랐거나 거의 동시에 들어왔을 때, 둘의 변경분을 우아하게 섞지 못하고 승자와 패자로 무식하게 갈라버려 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유실을 낳았다.
    - **아키텍트 판단 (CRDT 적용)**: 동시 수정이 빈번한 시스템에서 LWW는 폭탄이다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유실을 1바이트도 허용할 수 없는 협업 툴(Google Docs, Notion)이나 게임 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)에서는 <strong>CRDT (충돌 없는 <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a> <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 타입, Conflict-free Replicated <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Type)</strong> 구조를 코어에 도입해야 한다. CRDT는 람포트 시계와 해시를 융합하여, 덮어쓰기 없이 모든 수정의 인과 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)(Happens-before) 트리를 합집합(Union)으로 수학적으로 완벽하게 병합(Merge)해 내어 개발자 개입 없이도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 충돌을 0으로 만들어주는 차세대 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 아키텍처다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">분산 데이터베이스의 동시성 충돌 해결 아키텍처 선택 트리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">물리적으로 수백 km 떨어진 서버들(Multi-Region)에 데이터를 동시 기록한다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">절대로 데이터가 꼬이면 안 되고, 금융권처럼 100% 강력한 일관성이 필요한가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">분산 락(ZooKeeper) 또는 2PC 커밋 강제 적용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(가용성/속도를 뼈저리게 포기하고 무조건 줄 세워서 직렬화)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 (SNS 좋아요, 쇼핑몰 장바구니 등 약간의 지연/충돌 허용 가능)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">두 서버에서 동시에 동일한 데이터를 수정했을 때 어떻게 병합할 것인가?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 1. Last Write Wins (LWW) ──▶ 데이터 유실 감수 (가장 흔함/빠름)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 2. Vector Clocks ▶ 충돌을 뱉어주고 앱이 직접 병합코드 짬</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 3. CRDT (충돌 제로 타입) ▶ 수학적으로 완벽히 자동 합쳐짐 🚀</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 분산 데이터베이스의 동시성 충돌 해결 아키텍처 선택 트리       │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [ 물리적으로 수백 km 떨어진 서버들(Multi-Region)에 데이터를 동시 기록한다 ]   │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      절대로 데이터가 꼬이면 안 되고, 금융권처럼 100% 강력한 일관성이 필요한가?  │
+  │          ├─ 예 ─────▶ 🚨 [ 분산 락(ZooKeeper) 또는 2PC 커밋 강제 적용 ]│
+  │          │             (가용성/속도를 뼈저리게 포기하고 무조건 줄 세워서 직렬화)│
+  │          └─ 아니오 (SNS 좋아요, 쇼핑몰 장바구니 등 약간의 지연/충돌 허용 가능)│
+  │                │                                                  │
+  │                ▼                                                  │
+  │      두 서버에서 동시에 동일한 데이터를 수정했을 때 어떻게 병합할 것인가?       │
+  │          ├─ 1. Last Write Wins (LWW) ──▶ 데이터 유실 감수 (가장 흔함/빠름)│
+  │          ├─ 2. Vector Clocks ─────────▶ 충돌을 뱉어주고 앱이 직접 병합코드 짬│
+  │          └─ 3. CRDT (충돌 제로 타입) ─────▶ 수학적으로 완벽히 자동 합쳐짐 🚀 │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** "[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템에서 시간은 착각이다." 이것이 람포트가 아키텍트들에게 남긴 저주이자 축복이다. 절대적인 시계를 믿고 설계를 하는 순간(LWW 남용) 당신의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 알 수 없는 타이밍에 증발한다. 글로벌 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템(AWS [DynamoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/545_dynamodb/), [카산드라](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/299_data_lake/))을 다루는 아키텍트는 필연적으로 물리 시간이 아닌 '[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 인과율'로 시스템의 정합성을 수호해야 한다. 이를 앱 단으로 떠넘길지([Vector Clock](/knowledge-base/studynote/05_database/04_transactions_concurrency/258_vector_clock/)), 마법의 자료구조에 맡길지(CRDT), 아니면 다 때려치우고 물리 락([2PC](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/549_2pc_two_phase_commit_limitations_msa/))으로 묶어버릴지의 결단이 클라우드 아키텍처의 알파와 오메가다.
 
@@ -209,19 +215,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">분산 락 주키퍼(ZooKeeper) 합의 동기화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">람포트 타임스탬프 인과 관계 정렬 (Lamport Timestamp Happens Before Causality)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">시스템 아키텍처 결함 허용 (Fault Tolerance) 듀얼 구성</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 개념 B</div></div>
-</div>
-</div>
-
-
+```text
+[분산 락 주키퍼(ZooKeeper) 합의 동기화]
+    │
+    ▼
+[람포트 타임스탬프 인과 관계 정렬 (Lamport Timestamp Happens Before Causality)]
+    │
+    ├──▶ [시스템 아키텍처 결함 허용 (Fault Tolerance) 듀얼 구성]
+    └──▶ [확장 개념 B]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

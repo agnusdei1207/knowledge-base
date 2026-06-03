@@ -24,22 +24,19 @@ tags = ["studynote-operating-system"]
 
 - **등장 배경**: 1970년대 초반, 멀티태스킹이 보급되며 다수의 프린터, 테이프 드라이브를 여러 프로세스가 동시에 요청하기 시작했다. A는 프린터를 잡고 테이프를 요구하고, B는 테이프를 잡고 프린터를 요구하다가 메인프레임이 완전히 얼어버리는 사고가 속출하자, 에드워드 코프만(Edward Coffman)이 데드락 발생의 수학적 4대 조건을 정의하며 학술적 정립이 이루어졌다.
 
+```text
+  [교착 상태(Deadlock)의 발생 메커니즘 시각화: 식사하는 철학자 문제]
 
+  [ 상황: 포크가 2개 있어야 밥을 먹을 수 있는데, 포크가 총 2개뿐이다. ]
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">교착 상태(Deadlock)의 발생 메커니즘 시각화: 식사하는 철학자 문제</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">상황: 포크가 2개 있어야 밥을 먹을 수 있는데, 포크가 총 2개뿐이다.</div></div>
-<div class="kb-diagram-note">▶ 철학자 A: 왼쪽 포크(Lock 1) 획득 ─▶ 오른쪽 포크(Lock 2) 대기 중 (Sleep)</div>
-<div class="kb-diagram-note">▶ 철학자 B: 오른쪽 포크(Lock 2) 획득 ─▶ 왼쪽 포크(Lock 1) 대기 중 (Sleep)</div>
-<div class="kb-diagram-note">🚨 시스템의 결과 (Deadlock):</div>
-<div class="kb-diagram-tree-item" style="--depth:1">A는 B가 포크 2를 내려놓길 기다린다.</div>
-<div class="kb-diagram-tree-item" style="--depth:1">B는 A가 포크 1을 내려놓길 기다린다.</div>
-<div class="kb-diagram-tree-item" style="--depth:1">둘 다 잠들었기 때문에, 영원히 포크를 내려놓을 수 없다. (무한 대기)</div>
-</div>
-</div>
+  ▶ 철학자 A: 왼쪽 포크(Lock 1) 획득 ─▶ 오른쪽 포크(Lock 2) 대기 중 (Sleep)
+  ▶ 철학자 B: 오른쪽 포크(Lock 2) 획득 ─▶ 왼쪽 포크(Lock 1) 대기 중 (Sleep)
 
-
+  🚨 시스템의 결과 (Deadlock):
+  - A는 B가 포크 2를 내려놓길 기다린다.
+  - B는 A가 포크 1을 내려놓길 기다린다.
+  - 둘 다 잠들었기 때문에, 영원히 포크를 내려놓을 수 없다. (무한 대기)
+```
 **[다이어그램 해설]** 데드락의 핵심은 "기다림의 사이클(순환)"이다. 화살표를 그렸을 때 완벽한 동그라미(Cycle)가 그려지면 데드락이다. 둘 중 한 명이라도 "아 내가 먼저 포크 내려놓을게"라는 양보(선점) 로직이 없다면 시스템은 재부팅 전까지 절대 회복되지 않는다.
 
 - **📢 섹션 요약 비유**: 두 명의 아이가 로봇 장난감을 조립하려 합니다. 한 아이는 '로봇 머리'를 쥐고 '로봇 몸통'을 내놓으라고 떼를 쓰고, 다른 아이는 '로봇 몸통'을 쥐고 '머리'를 내놓으라고 떼를 씁니다. 둘 다 자존심 때문에 손에 쥔 걸 놓지 않으면([점유 대기](/knowledge-base/studynote/02_operating_system/04_synchronization/231_hold_and_wait/), [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)), 장난감은 영원히 조립되지 않습니다(데드락).
@@ -68,20 +65,21 @@ OS가 데드락을 수학적으로 탐지하기 위해 내부적으로 그리는
 
 **판별법**: [자원 할당 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/287_resource_allocation_graph/)를 그렸을 때, **사이클(원형 루프)이 존재하고**, 그 사이클 내의 <strong>자원 개수가 각각 1개뿐이라면 100% 데드락</strong>이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">자원 할당 그래프(RAG)를 통한 순환 대기(Circular Wait) 검증</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">자원 R1</div><div class="kb-diagram-connector">◀</div><div class="kb-diagram-node">프로세스 P2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(할당됨) (요청함)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">프로세스 P1</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">자원 R2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🚨 궤적 추적: P1 ─▶ R2 ─▶ P2 ─▶ R1 ─▶ P1 (완벽한 동그라미)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">✅ 결과: 데드락 확정. 커널은 이 그래프 사이클을 찾는 알고리즘을 씀.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────────┐
+  │         자원 할당 그래프(RAG)를 통한 순환 대기(Circular Wait) 검증    │
+  ├───────────────────────────────────────────────────────────────────────┤
+  │                                                                       │
+  │     [ 자원 R1 ] ◀─────────────── [ 프로세스 P2 ]                      │
+  │          │                           ▲                                │
+  │     (할당됨)                      (요청함)                            │
+  │          ▼                           │                                │
+  │     [ 프로세스 P1 ] ──────────────▶ [ 자원 R2 ]                       │
+  │                                                                       │
+  │   🚨 궤적 추적: P1 ─▶ R2 ─▶ P2 ─▶ R1 ─▶ P1 (완벽한 동그라미)          │
+  │   ✅ 결과: 데드락 확정. 커널은 이 그래프 사이클을 찾는 알고리즘을 씀. │
+  └───────────────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 이 4가지 조건은 완벽한 범죄의 조건입니다. 1. 장물이 하나뿐이고([상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)), 2. 훔친 걸 손에 쥐고 있고([점유 대기](/knowledge-base/studynote/02_operating_system/04_synchronization/231_hold_and_wait/)), 3. 경찰이 뺏을 수 없고([비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)), 4. 범인 3명이 서로 꼬리를 물고 협박([순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/))해야만 데드락이라는 인질극이 성립합니다.
 
@@ -119,25 +117,25 @@ OS가 데드락이라는 전염병을 대하는 4가지 철학이다. 아래로 
 2. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 환경(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a>)에서의 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 락 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/">타임아웃</a> (<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/">Timeout</a>)</strong>: 넷플릭스 같은 [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 환경에서는 [레디스](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/297_snowflake_schema/)([Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/))를 써서 여러 서버 간에 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 락을 잡는다. 만약 서버 1이 락을 쥔 상태에서 정전으로 죽어버리면?
    - **아키텍트 조치**: 무한 대기([Hold and Wait](/knowledge-base/studynote/02_operating_system/05_deadlock/284_hold_and_wait/))를 막기 위해 락을 잡을 때 반드시 <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/">TTL</a>(Time-to-Live, 3초 등)</strong>을 건다. 서버가 죽어도 3초 뒤에 [레디스](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/297_snowflake_schema/)가 알아서 락을 증발시켜 주므로 데드락이 자동 해소된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">개발자의 코드 레벨 교착 상태(Deadlock) 예방 아키텍처 원칙</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">요구사항: 스레드 10개가 5개의 전역 자원(Mutex)을 다뤄야 함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 원칙 1: Lock Hierarchy (계층화) 강제</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">✅ 모든 락에 고유 번호를 매기고, 오름차순으로만 획득할 것!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 무조건 Mutex1 -&gt; Mutex2 -&gt; Mutex3 순서로만 잡게 함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 효과: 순환 대기(Circular Wait) 조건이 수학적으로 100% 붕괴됨.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▼ 원칙 2: Try-Lock (타임아웃) 사용</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">✅ lock() 대신 무조건 tryLock(3초) 를 사용할 것!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 3초간 기다려보고 락을 못 잡으면, 내가 쥐고 있던 락마저</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전부 다 풀고 10초 뒤에 처음부터 다시 시도(Retry)하게 함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 효과: 점유 대기(Hold and Wait) 조건이 완벽히 파괴됨.</div></div>
-</div>
-</div>
-
-
+```text
+  ┌────────────────────────────────────────────────────────────────────┐
+  │     개발자의 코드 레벨 교착 상태(Deadlock) 예방 아키텍처 원칙      │
+  ├────────────────────────────────────────────────────────────────────┤
+  │                                                                    │
+  │   [요구사항: 스레드 10개가 5개의 전역 자원(Mutex)을 다뤄야 함]     │
+  │                │                                                   │
+  │                ▼ 원칙 1: Lock Hierarchy (계층화) 강제              │
+  │   [ ✅ 모든 락에 고유 번호를 매기고, 오름차순으로만 획득할 것! ]   │
+  │     - 무조건 Mutex1 -> Mutex2 -> Mutex3 순서로만 잡게 함.          │
+  │     - 효과: 순환 대기(Circular Wait) 조건이 수학적으로 100% 붕괴됨.│
+  │                                                                    │
+  │                ▼ 원칙 2: Try-Lock (타임아웃) 사용                  │
+  │   [ ✅ lock() 대신 무조건 tryLock(3초) 를 사용할 것! ]             │
+  │     - 3초간 기다려보고 락을 못 잡으면, 내가 쥐고 있던 락마저       │
+  │       전부 다 풀고 10초 뒤에 처음부터 다시 시도(Retry)하게 함.     │
+  │     - 효과: 점유 대기(Hold and Wait) 조건이 완벽히 파괴됨.         │
+  └────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** "OS가 막아주지 않으니 내가 막아야 한다." 실무 백엔드 시스템에서 데드락을 막는 가장 싸고 확실한 방법은, [코딩 컨벤션](/knowledge-base/studynote/04_software_engineering/06_software_architecture/328_coding_convention_style_guide/)(Linting)으로 "모든 락은 알파벳 순서(또는 ID 순서)로만 잡는다"는 <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/">순환 대기</a> 방지(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/317_lockdep_lock_ordering/">Lock Ordering</a>)</strong>를 강제하는 것이다. 화살표가 무조건 한 방향으로만 흐르면 절대 동그라미(Cycle)가 만들어질 수 없다는 단순한 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 이론의 승리다.
 
 - **📢 섹션 요약 비유**: 병원에서 의사와 간호사가 메스와 가위를 뺏으려고 싸우는 상황을 막으려면, 병원 규칙으로 "무조건 메스 먼저 집고 가위를 집어라!"라고 법을 정해두면 됩니다([Lock Ordering](/knowledge-base/studynote/02_operating_system/05_deadlock/317_lockdep_lock_ordering/)). 가위를 먼저 집으려는 놈이 없으므로 싸움이 일어날 물리적 동선 자체가 사라집니다.
@@ -168,19 +166,15 @@ OS가 데드락이라는 전염병을 대하는 4가지 철학이다. 아래로 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Compare-and-Swap (CAS) 명령어</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">교착 상태 (Deadlock)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">뮤텍스 락 (Mutex Lock / Mutual Exclusion Lock)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">acquire() / release() 함수</div></div>
-</div>
-</div>
-
-
+```text
+[Compare-and-Swap (CAS) 명령어]
+    │
+    ▼
+[교착 상태 (Deadlock)]
+    │
+    ├──▶ [뮤텍스 락 (Mutex Lock / Mutual Exclusion Lock)]
+    └──▶ [acquire() / release() 함수]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

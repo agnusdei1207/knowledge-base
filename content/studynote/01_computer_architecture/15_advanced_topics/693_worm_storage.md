@@ -25,19 +25,17 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 WORM이 왜 단순 복사본보다 강한지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mutable copy vs immutable WORM</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Operation</div><div class="kb-diagram-cell">Mutable storage</div><div class="kb-diagram-cell">WORM storage</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Write new record</div><div class="kb-diagram-cell">allow</div><div class="kb-diagram-cell">allow</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Overwrite old record</div><div class="kb-diagram-cell">allow</div><div class="kb-diagram-cell">deny</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Delete before retention</div><div class="kb-diagram-cell">allow</div><div class="kb-diagram-cell">deny</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│                  Mutable copy vs immutable WORM                   │
+├─────────────────────────┬──────────────────────┬───────────────────┤
+│ Operation               │ Mutable storage      │ WORM storage      │
+├─────────────────────────┼──────────────────────┼───────────────────┤
+│ Write new record        │ allow                │ allow             │
+│ Overwrite old record    │ allow                │ deny              │
+│ Delete before retention │ allow                │ deny              │
+└─────────────────────────┴──────────────────────┴───────────────────┘
+```
 
 즉 WORM의 본질은 "저장 용량을 늘리는 기술"이 아니라, <strong>기록 이후의 변경 권한을 제거하는 통제 장치</strong>다. 그래서 WORM은 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/), 보안, 컴플라이언스가 만나는 지점에서 가장 강한 의미를 가진다.
 
@@ -56,21 +54,16 @@ WORM은 크게 <strong>물리적 <a href="/knowledge-base/studynote/02_operating
 
 논리적 WORM에서는 보통 세 가지 요소가 함께 움직인다. 첫째, 새 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 기록할 때 <strong>보존 만료 시점</strong>을 함께 적는다. 둘째, 그 기간 안에는 삭제·덮어쓰기 요청을 거절한다. 셋째, 필요하면 리걸 홀드 (Legal Hold)를 걸어 분쟁이나 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)가 끝날 때까지 보존 기간과 무관하게 해제를 막는다. 이 구조는 "[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 가능 구간"과 "[보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 구간"을 분리해, 저장 후 즉시 [immutable](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/298_immutable/) 상태로 전환하는 방식으로 이해하면 쉽다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Client</div>
-<div class="kb-diagram-note">write new object</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Store object + retain-until date</div>
-<div class="kb-diagram-tree-item" style="--depth:1">read request ▶ allow</div>
-<div class="kb-diagram-tree-item" style="--depth:1">overwrite request (locked) ─▶ deny</div>
-<div class="kb-diagram-tree-item" style="--depth:1">delete request (locked) ▶ deny</div>
-</div>
-</div>
-
-
+```text
+Client
+  │  write new object
+  ▼
+Store object + retain-until date
+  │
+  ├── read request ───────────────▶ allow
+  ├── overwrite request (locked) ─▶ deny
+  └── delete request (locked) ────▶ deny
+```
 
 여기서 중요한 점은 WORM이 <strong>새 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">버전</a> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong>까지 막는 것은 아니라는 것이다. 기존 기록을 바꾸지 못하게 막을 뿐, 필요하면 새로운 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 추가로 기록할 수 있다. 그래서 WORM은 append-only 설계, [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 추적과 자연스럽게 결합된다.
 
@@ -142,23 +135,21 @@ WORM을 올바르게 설계하면 [데이터](/knowledge-base/studynote/05_datab
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Mutable storage</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Snapshot / versioning</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Backup copy</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Immutable backup / WORM retention</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Compliance archive / ransomware recovery vault</div>
-</div>
-</div>
-
-
+```text
+Mutable storage
+    │
+    ▼
+Snapshot / versioning
+    │
+    ▼
+Backup copy
+    │
+    ▼
+Immutable backup / WORM retention
+    │
+    ▼
+Compliance archive / ransomware recovery vault
+```
 
 이 흐름은 "복사본을 많이 만든다"에서 출발해 "복사본을 바꿀 수 없게 만든다"로 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 수준이 올라가는 과정을 보여준다.
 

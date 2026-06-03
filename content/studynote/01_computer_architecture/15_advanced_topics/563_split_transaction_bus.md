@@ -43,21 +43,18 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 한 요청이 기다리는 동안 다른 요청이 얼마나 앞질러 들어갈 수 있는지를 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Split Transaction 타임라인: 요청과 응답이 시간상 분리되어 버스를 재사용한다</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Time →</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">Bus :</div><div class="kb-diagram-node">Req A:t3</div><div class="kb-diagram-node">Req B:t7</div><div class="kb-diagram-node">Req C:t9</div><div class="kb-diagram-note">........</div><div class="kb-diagram-node">Resp B:t7</div><div class="kb-diagram-node">Resp A:t3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A : issue wait capture</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">B : issue wait capture</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">C : issue wait capture</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Rule : 응답 순서는 요청 순서와 달라도 tag가 같으면 원래 요청과 결합된다</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────────────┐
+│ Split Transaction 타임라인: 요청과 응답이 시간상 분리되어 버스를 재사용한다 │
+├──────────────────────────────────────────────────────────────────────────────┤
+│ Time →                                                                      │
+│ Bus  : [Req A:t3] [Req B:t7] [Req C:t9] ........ [Resp B:t7] [Resp A:t3]    │
+│ A    :    issue ───────────── wait ───────────────────────── capture         │
+│ B    :             issue ───── wait ───────── capture                        │
+│ C    :                      issue ─────────────── wait ────── capture        │
+│ Rule : 응답 순서는 요청 순서와 달라도 tag가 같으면 원래 요청과 결합된다      │
+└──────────────────────────────────────────────────────────────────────────────┘
+```
 
 정량적으로 보면 outstanding 깊이가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 좌우한다. [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 5ns마다 새 요청을 발행할 수 있고 평균 응답 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 60ns라면, [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 거의 놀리지 않으려면 대략 `60 / 5 = 12`개 수준의 outstanding 요청을 동시에 유지할 수 있어야 한다. 이 깊이가 부족하면 분리 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 구조를 써도 중간에 다시 발행 공백이 생긴다.
 
@@ -135,23 +132,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">점유형 공유 버스</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">주소 단계 파이프라이닝</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Tag 기반 Split Transaction</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">AXI · PCIe Completion 기반 패킷형 인터커넥트</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">NoC · CXL 기반 다중 outstanding 패브릭</div>
-</div>
-</div>
-
-
+```text
+점유형 공유 버스
+        │
+        ▼
+주소 단계 파이프라이닝
+        │
+        ▼
+Tag 기반 Split Transaction
+        │
+        ▼
+AXI · PCIe Completion 기반 패킷형 인터커넥트
+        │
+        ▼
+NoC · CXL 기반 다중 outstanding 패브릭
+```
 
 이 흐름은 공유 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 "한 번에 한 일만 하는 통로"에서 출발해, 점차 요청과 응답을 분리하고 패킷화해 대기시간을 구조적으로 숨기는 방향으로 발전했음을 보여 준다.
 

@@ -22,18 +22,13 @@ tags = ["ict_convergence"]
 
 Permissionless는 비트코인(Bitcoin)과 이더리움(Ethereum)처럼 누구나 노드가 되고 검증에 참여할 수 있는 공개 네트워크다. 반면 Permissioned는 허가받은 참여자만 장부를 보거나 쓸 수 있다.
 
+```text
+Permissionless
+누구나 참여 ─▶ 공개 검증 ─▶ 분산 합의 ─▶ 블록 추가
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Permissionless</div>
-<div class="kb-diagram-note">누구나 참여 ─▶ 공개 검증 ─▶ 분산 합의 ─▶ 블록 추가</div>
-<div class="kb-diagram-note">Permissioned</div>
-<div class="kb-diagram-note">신원 확인 ─▶ 허가된 노드 ─▶ 제한 합의 ─▶ 블록 추가</div>
-</div>
-</div>
-
-
+Permissioned
+신원 확인 ─▶ 허가된 노드 ─▶ 제한 합의 ─▶ 블록 추가
+```
 
 이 차이는 단순한 접근 권한이 아니라, 시스템이 신뢰를 만드는 방법의 차이다.
 
@@ -82,7 +77,7 @@ Public/Private/Consortium을 함께 보면 더 명확하다. Public은 누구나
 ### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. 참여자 간 신뢰 부족이 실제 문제인가?
 2. TPS와 최종성([finality](/knowledge-base/studynote/06_ict_convergence/01_blockchain/065_consensus_finality_probabilistic_deterministic/)) 요구가 적절한가?
-3. KYC(Know Your [Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/))나 권한 통제가 필요한가?
+3. KYC(Know Your [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/))나 권한 통제가 필요한가?
 4. [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)와 영업비밀을 공개 장부에 올려도 되는가?
 5. 운영 거버넌스를 누가 책임지는가?
 
@@ -114,26 +109,24 @@ Permissionless는 신뢰 없는 참여자 사이에서 개방성과 저항성을
 | Permissioned | 허가된 참여와 통제 |
 | PoW / PoS | 공개 합의 메커니즘 |
 | [BFT](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/647_bft_verification/)([PBFT](/knowledge-base/studynote/06_ict_convergence/01_blockchain/013_pbft_practical_bft/)) | 허가형 합의 |
-| KYC(Know Your [Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/)) | 신원 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
+| KYC(Know Your [C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/)) | 신원 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
 | [Smart Contract](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) | 자동 실행 규칙 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">공개 원장</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Permissionless(개방/검열저항)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">PoW / PoS</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Permissioned(통제/성능)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">BFT / 멤버십 서비스 / KYC</div>
-</div>
-</div>
-
-
+```text
+공개 원장
+    │
+    ▼
+Permissionless(개방/검열저항)
+    │
+    ├─ PoW / PoS
+    │
+    ▼
+Permissioned(통제/성능)
+    │
+    └─ BFT / 멤버십 서비스 / KYC
+```
 
 이 흐름은 "참여 문턱"이 시스템 전체의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 거버넌스를 결정한다는 점을 보여준다. 앞으로는 공개성과 통제의 중간 지대인 컨소시엄 구조가 실무에서 더 자주 쓰인다.
 

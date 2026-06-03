@@ -42,23 +42,18 @@ tags = ["studynote-operating-system"]
 
 ## II. 전통적 데몬 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 과정
 
+```
+fork-exec 데몬화 과정:
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">fork-exec 데몬화 과정:</div>
-<div class="kb-diagram-note">1. fork() -&gt; 자식 프로세스 생성</div>
-<div class="kb-diagram-note">2. 부모 프로세스 exit() -&gt; 터미널 제어권 반환</div>
-<div class="kb-diagram-note">3. setsid() -&gt; 새 세션 생성 (PGID, SID = PID)</div>
-<div class="kb-diagram-note">4. 두 번째 fork() -&gt; 세션 리더 권한 제거</div>
-<div class="kb-diagram-note">5. umask(0) -&gt; 파일 생성 권한 마스크 초기화</div>
-<div class="kb-diagram-note">6. chdir("/") -&gt; 작업 디렉토리를 루트로 변경</div>
-<div class="kb-diagram-note">7. 표준 FD 닫기 -&gt; /dev/null로 리다이렉트</div>
-<div class="kb-diagram-note">8. 시그널 핸들러 설정 (SIGTERM, SIGHUP 처리)</div>
-</div>
-</div>
-
-
+1. fork() -> 자식 프로세스 생성
+2. 부모 프로세스 exit() -> 터미널 제어권 반환
+3. setsid() -> 새 세션 생성 (PGID, SID = PID)
+4. 두 번째 fork() -> 세션 리더 권한 제거
+5. umask(0) -> 파일 생성 권한 마스크 초기화
+6. chdir("/") -> 작업 디렉토리를 루트로 변경
+7. 표준 FD 닫기 -> /dev/null로 리다이렉트
+8. 시그널 핸들러 설정 (SIGTERM, SIGHUP 처리)
+```
 
 | 단계       | 호출        | 목적                         |
 |-----------|------------|------------------------------|

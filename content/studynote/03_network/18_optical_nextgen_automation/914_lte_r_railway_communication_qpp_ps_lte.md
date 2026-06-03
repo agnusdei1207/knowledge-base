@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - 2000년대까지 철도 기관사들은 '치직-칙' 거리는 구형 무전기(VHF)나 주파수 공용 통신(TRS)을 썼습니다.
 - **문제점**: 오직 '목소리'만 겨우 전달될 뿐, 고속철도의 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 영상이나 기관차 고장 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(빅데이터)를 관제실로 보낼 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 0이었습니다. 게다가 시속 300km로 달리면 무전 파동이 찌그러져 뚝뚝 끊겼습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">V2I 노변 기지국 RSU 교통 관제 시스템…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">철도 통신망</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">해상 통신망 LTE-M / e-Navigat…</div></div>
-</div>
-</div>
-
-
+```text
+[V2I 노변 기지국 RSU 교통 관제 시스템…]
+    │
+    ▼
+[철도 통신망]
+    │
+    └──▶ [해상 통신망 LTE-M / e-Navigat…]
+```
 
 - **📢 섹션 요약 비유**: 철도 통신망은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -44,18 +40,14 @@ tags = ["studynote-network"]
 - **개념**: 우리 스마트폰이 쓰는 4G [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 통신 기술을 뼈대로 삼되, <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a>으로 달리는 철도 환경(시속 350km 이상)에서도 끊기지 않고 대용량 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>(영상, 제어 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a>)를 전송할 수 있도록 특화시킨 '철도 전용 차세대 국가 무선 통신망'</strong>입니다. (세계 최초로 한국이 국가망으로 상용화했습니다.)
 - **근간 기술**: 재난이 터졌을 때 경찰/소방관들이 쓰는 <strong><a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/930_ps_lte_public_safety_mcptt_d2d_survival/">PS-LTE</a>(재난안전통신망)</strong> 기술을 그대로 가져와 철도에 맞게 개조한 것입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">V2I 노변 기지국 RSU 교통 관제 시스템…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">철도 통신망</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">해상 통신망 LTE-M / e-Navigat…</div></div>
-</div>
-</div>
-
-
+```text
+[V2I 노변 기지국 RSU 교통 관제 시스템…]
+    │
+    ▼
+[철도 통신망]
+    │
+    └──▶ [해상 통신망 LTE-M / e-Navigat…]
+```
 
 - **📢 섹션 요약 비유**: 철도 통신망의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -124,19 +116,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: V2I 노변 기지국 RSU 교통 관제 시스템…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 철도 통신망</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 해상 통신망 LTE-M / e-Navigat…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: V2I 노변 기지국 RSU 교통 관제 시스템…]
+    │
+    ▼
+[현재 개념: 철도 통신망]
+    │
+    ├──▶ [확장 A: 해상 통신망 LTE-M / e-Navigat…]
+    └──▶ [확장 B: 의미 기반 통신 최적화]
+```
 
 철도 통신망는 V2I 노변 기지국 [RSU](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/913_v2i_rsu_road_side_unit_mec_autonomous_driving/) 교통 관제 시스템…에서 출발해 현재 메커니즘을 정교화하고, 이후 [해상 통신망](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/915_lte_m_maritime_communication_e_navigation/) [LTE-M](/knowledge-base/studynote/03_network/12_iot_wpan_edge/621_ltem_emtc_iot_mobility_voice/) / e-Navigat…와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

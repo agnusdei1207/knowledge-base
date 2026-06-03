@@ -33,20 +33,22 @@ P2P는 이 부담을 참여 노드에게 [분산](/knowledge-base/studynote/08_a
 
 P2P의 기본 메커니즘은 세 단계로 요약된다. 첫째, 새 피어가 네트워크에 들어와 다른 피어를 발견한다. 둘째, 필요한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)나 상대 피어 정보를 얻기 위해 부트스트랩 서버, 트래커, 슈퍼노드, DHT (Distributed [Hash Table](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/)) 같은 보조 구조를 활용한다. 셋째, 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 피어 간 직접 교환하며, 조각 분할과 복제를 통해 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)을 높인다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hybrid P2P reference flow</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">New peer ─▶ bootstrap / tracker ─▶ peer list</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Peer A ◀ piece 1 / 4 ▶ Peer B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ piece 2 / 4 ▶ ▲</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">piece 3 / 4 ◀ Peer C</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Optional structured lookup: DHT for peer/resource discovery</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Hybrid P2P reference flow                                           │
+├──────────────────────────────────────────────────────────────────────┤
+│ New peer ─▶ bootstrap / tracker ─▶ peer list                        │
+│    │                                                                │
+│    ├──────────────────────────────┐                                 │
+│    ▼                              ▼                                 │
+│ Peer A ◀──── piece 1 / 4 ────▶ Peer B                              │
+│   ▲  └──── piece 2 / 4 ────▶  ▲                                     │
+│   │                            │                                    │
+│   └──── piece 3 / 4 ◀────── Peer C                                  │
+│                                                                      │
+│ Optional structured lookup: DHT for peer/resource discovery          │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림은 P2P가 "완전한 무중심"이라기보다, 종종 발견과 조정에는 약한 중앙 힌트를 쓰고 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전달은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)하는 구조임을 보여 준다. BitTorrent의 트래커, WebRTC의 STUN/TURN, [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)의 부트스트랩 노드가 모두 이런 현실적 보조 장치다. 즉 P2P의 핵심은 중앙을 0으로 만드는 데 있지 않고, **중앙이 꼭 맡아야 할 역할만 줄여 나가는 데 있다**.
 
@@ -144,23 +146,21 @@ P2P는 클라이언트-서버나 [CDN](/knowledge-base/studynote/03_network/09_a
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">중앙 서버 기반 배포</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">파일 공유형 P2P</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">하이브리드 P2P (Tracker, Supernode)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">구조화 P2P (DHT)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">WebRTC · IPFS · Blockchain 확장</div>
-</div>
-</div>
-
-
+```text
+중앙 서버 기반 배포
+    │
+    ▼
+파일 공유형 P2P
+    │
+    ▼
+하이브리드 P2P (Tracker, Supernode)
+    │
+    ▼
+구조화 P2P (DHT)
+    │
+    ▼
+WebRTC · IPFS · Blockchain 확장
+```
 
 이 흐름은 P2P가 단순한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 교환 구조에서 시작해, 검색·실시간 통신·탈중앙 신뢰 체계로 점점 확장된 과정을 보여 준다.
 

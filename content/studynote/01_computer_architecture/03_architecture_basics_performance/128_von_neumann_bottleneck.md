@@ -25,19 +25,19 @@ tags = ["studynote-computer-architecture"]
 
 특히 오늘날에는 단순한 산술 연산보다 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋 이동, 캐시 미스, 메모리 대기 시간이 전체 응답시간을 좌우하는 경우가 많다. 그래서 폰 노이만 병목은 고전 컴퓨터 구조의 개념이면서 동시에 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/), [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/), 클라우드 인프라 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 분석의 출발점이기도 하다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">왜 병목이 생기는가: 빠른 계산기와 느린 공급선의 충돌</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU 코어 계산 수행 ▶ 결과 생성</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">명령어 요청 / 데이터 요청</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">단일 메모리 경로 전송 대기 ▶ 메인 메모리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">명령어와 데이터가 같은 길을 번갈아 사용</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│     왜 병목이 생기는가: 빠른 계산기와 느린 공급선의 충돌     │
+├──────────────────────────────────────────────────────────────┤
+│ CPU 코어         ───── 계산 수행 ─────▶ 결과 생성             │
+│   ▲                                                        │
+│   │ 명령어 요청 / 데이터 요청                               │
+│   │                                                        │
+│ 단일 메모리 경로 ───── 전송 대기 ─────▶ 메인 메모리          │
+│   │                                                        │
+│   └──── 명령어와 데이터가 같은 길을 번갈아 사용             │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 핵심은 병목이 "CPU 자체가 느려서"가 아니라 **CPU가 필요한 재료를 제때 공급받지 못해서** 생긴다는 점이다. 따라서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 분석의 질문도 "연산을 더 빠르게 할까?"보다 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 덜 움직이게 할까?"로 바뀐다.
 
@@ -60,21 +60,24 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 한 명령이 계산되기까지 병목이 어디서 발생하는지 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">한 명령의 실행 경로와 병목 위치</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 명령어 인출 2. 피연산자 읽기 3. 결과 기록</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CPU CPU CPU</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공용</div><div class="kb-diagram-cell">공용</div><div class="kb-diagram-cell">공용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">경로</div><div class="kb-diagram-cell">경로</div><div class="kb-diagram-cell">경로</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">메모리 메모리 메모리</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">계산은 짧지만, 세 번의 왕복이 누적되면 CPU는 대부분 대기 상태가 된다</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│          한 명령의 실행 경로와 병목 위치                           │
+├────────────────────────────────────────────────────────────────────┤
+│  1. 명령어 인출        2. 피연산자 읽기        3. 결과 기록         │
+│                                                                    │
+│  CPU ───────────────┐  CPU ───────────────┐  CPU ───────────────┐   │
+│                     ▼                     ▼                     ▼   │
+│                ┌────────┐            ┌────────┐            ┌────────┐│
+│                │ 공용   │            │ 공용   │            │ 공용   ││
+│                │ 경로   │            │ 경로   │            │ 경로   ││
+│                └───┬────┘            └───┬────┘            └───┬────┘│
+│                    ▼                     ▼                     ▼      │
+│                 메모리                메모리                메모리    │
+│                                                                    │
+│  계산은 짧지만, 세 번의 왕복이 누적되면 CPU는 대부분 대기 상태가 된다 │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 현대 CPU는 이 문제를 줄이기 위해 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 프리패치, [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/), 캐시 분할, 하드웨어 스레딩을 사용한다. 하지만 이런 기법도 결국 "메모리에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 얼마나 빨리, 얼마나 덜 가져오게 하느냐"라는 제약 안에서 움직인다. 즉 폰 노이만 병목은 사라진 것이 아니라 더 정교하게 숨겨졌을 뿐이다.
 
@@ -149,22 +152,21 @@ tags = ["studynote-computer-architecture"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">저장 프로그램 방식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">폰 노이만 구조</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">폰 노이만 병목현상</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ 캐시 메모리 · 지역성 최적화</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ 수정 하버드 구조 · 다중 채널 메모리</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ 메모리 월 · HBM · PIM</div>
-</div>
-</div>
-
-
+```text
+저장 프로그램 방식
+        │
+        ▼
+폰 노이만 구조
+        │
+        ▼
+폰 노이만 병목현상
+        │
+        ├──────────────▶ 캐시 메모리 · 지역성 최적화
+        │
+        ├──────────────▶ 수정 하버드 구조 · 다중 채널 메모리
+        │
+        └──────────────▶ 메모리 월 · HBM · PIM
+```
 
 이 흐름은 "구조적 출발점 → 병목 발생 → 완화 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) → 차세대 극복 시도"의 계보를 보여준다. 시험에서는 개념 정의만 외우기보다, 이 진화 방향을 함께 기억해야 응용 문제가 풀린다.
 

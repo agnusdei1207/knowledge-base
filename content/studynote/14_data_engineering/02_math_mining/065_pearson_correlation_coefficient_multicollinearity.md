@@ -29,21 +29,15 @@ tags = ["studynote-data-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">X, Y</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Covariance / Std Dev</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Pearson r</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Interpretation</div>
-</div>
-</div>
-
-
+```text
+X, Y
+  ↓
+Covariance / Std Dev
+  ↓
+Pearson r
+  ↓
+Interpretation
+```
 
 | 지표 | 의미 |
 | :-- | :-- |
@@ -112,41 +106,29 @@ tags = ["studynote-data-engineering"]
 
 ## 관련 개념 맵
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Variables</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Pearson r</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Multicollinearity</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Regression Diagnostics</div>
-</div>
-</div>
-
-
+```text
+Variables
+  ↓
+Pearson r
+  ↓
+Multicollinearity
+  ↓
+Regression Diagnostics
+```
 
 ---
 
 ## 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Correlation</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Pearson</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">VIF</div>
-<div class="kb-diagram-connector">↓</div>
-<div class="kb-diagram-note">Feature Selection</div>
-</div>
-</div>
-
-
+```text
+Correlation
+  ↓
+Pearson
+  ↓
+VIF
+  ↓
+Feature Selection
+```
 
 ---
 

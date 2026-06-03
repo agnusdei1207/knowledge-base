@@ -27,20 +27,15 @@ tags = ["studynote-bigdata"]
 - **순서 보장**: 하나의 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 내에서는 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 순서 보장 (오프셋 순)
 - **내구성**: [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)은 여러 브로커에 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)([Replication](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/))되어 장애 내성 확보
 
+```
+토픽 "orders" (파티션 수 = 3):
+  파티션 0: [msg1] [msg4] [msg7] ...  → Consumer 1
+  파티션 1: [msg2] [msg5] [msg8] ...  → Consumer 2
+  파티션 2: [msg3] [msg6] [msg9] ...  → Consumer 3
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">토픽 "orders" (파티션 수 = 3):</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">파티션 0:</div><div class="kb-diagram-node">msg1</div><div class="kb-diagram-node">msg4</div><div class="kb-diagram-node">msg7</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">Consumer 1</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">파티션 1:</div><div class="kb-diagram-node">msg2</div><div class="kb-diagram-node">msg5</div><div class="kb-diagram-node">msg8</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">Consumer 2</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">파티션 2:</div><div class="kb-diagram-node">msg3</div><div class="kb-diagram-node">msg6</div><div class="kb-diagram-node">msg9</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">Consumer 3</div></div>
-<div class="kb-diagram-note">→ 3개 Consumer가 병렬 처리 가능</div>
-<div class="kb-diagram-note">→ 4번째 Consumer를 추가해도 파티션이 3개뿐이면 유휴 Consumer 발생</div>
-</div>
-</div>
-
-
+→ 3개 Consumer가 병렬 처리 가능
+→ 4번째 Consumer를 추가해도 파티션이 3개뿐이면 유휴 Consumer 발생
+```
 
 **📢 섹션 요약 비유**
 > [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)은 "슈퍼마켓 계산대"와 같다. 계산대([파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)) 수만큼 손님(소비자)이 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 가능하다. 계산대가 3개인데 손님이 10명이면, 7명은 줄을 서야 한다.
@@ -51,30 +46,27 @@ tags = ["studynote-bigdata"]
 
 ### 1. 세 가지 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
+```
+[1. 키 기반 파티셔닝 (Key-Based)]
+Producer → hash(key) % 파티션수 = 파티션 인덱스
 
+key="user-001" → hash("user-001") % 3 = 파티션 1
+key="user-001" → 항상 파티션 1 → 순서 보장 ✓
+key="user-002" → 파티션 0 → user-002 메시지 순서 보장 ✓
 
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. 키 기반 파티셔닝 (Key-Based)</div></div>
-<div class="kb-diagram-note">Producer → hash(key) % 파티션수 = 파티션 인덱스</div>
-<div class="kb-diagram-note">key="user-001" → hash("user-001") % 3 = 파티션 1</div>
-<div class="kb-diagram-note">key="user-001" → 항상 파티션 1 → 순서 보장 ✓</div>
-<div class="kb-diagram-note">key="user-002" → 파티션 0 → user-002 메시지 순서 보장 ✓</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 라운드로빈 (Round-Robin, 키 없음)</div></div>
-<div class="kb-diagram-note">msg1 → 파티션 0</div>
-<div class="kb-diagram-note">msg2 → 파티션 1</div>
-<div class="kb-diagram-note">msg3 → 파티션 2</div>
-<div class="kb-diagram-note">msg4 → 파티션 0 ...</div>
-<div class="kb-diagram-note">균등 분산 ✓, 순서 보장 ✗ (다른 파티션에 분산)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3. 커스텀 파티셔너 (Custom Partitioner)</div></div>
-<div class="kb-diagram-note">if (msg.region == "KR") → 파티션 0</div>
-<div class="kb-diagram-note">if (msg.region == "US") → 파티션 1</div>
-<div class="kb-diagram-note">if (msg.priority == "HIGH") → 파티션 2</div>
-<div class="kb-diagram-note">비즈니스 로직 기반 라우팅</div>
-</div>
-</div>
+[2. 라운드로빈 (Round-Robin, 키 없음)]
+msg1 → 파티션 0
+msg2 → 파티션 1
+msg3 → 파티션 2
+msg4 → 파티션 0 ...
+균등 분산 ✓, 순서 보장 ✗ (다른 파티션에 분산)
 
-
+[3. 커스텀 파티셔너 (Custom Partitioner)]
+if (msg.region == "KR") → 파티션 0
+if (msg.region == "US") → 파티션 1
+if (msg.priority == "HIGH") → 파티션 2
+비즈니스 로직 기반 라우팅
+```
 
 ### 2. [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 배정 메커니즘
 
@@ -128,17 +120,11 @@ Incremental Cooperative Rebalancing (Kafka 2.4+):
 
 키 없는 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지를 배치(Batch) 단위로 같은 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에 몰아서 처리 → I/O 효율 향상.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">기존 라운드로빈: msg1→P0, msg2→P1, msg3→P2, msg4→P0 (배치 효율 낮음)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">스티키:</div><div class="kb-diagram-node">msg1,msg2,msg3</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">msg4,msg5</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">P1</div></div>
-<div class="kb-diagram-note">→ 배치 크기 증가 → 처리량 향상</div>
-</div>
-</div>
-
-
+```
+기존 라운드로빈: msg1→P0, msg2→P1, msg3→P2, msg4→P0 (배치 효율 낮음)
+스티키:         [msg1,msg2,msg3]→P0(배치 완성 후), [msg4,msg5]→P1
+→ 배치 크기 증가 → 처리량 향상
+```
 
 **📢 섹션 요약 비유**
 > 리밸런싱은 "팀 재구성 시 전원 대기"와 같다. 새 팀원이 합류할 때마다 전 직원이 업무를 멈추고 역할 재분배를 해야 한다. Cooperative Rebalancing은 "바뀌는 역할만 이동하고 나머지는 계속 일하는 방식"이다.
@@ -212,23 +198,21 @@ composite_key = f"user_001_{salt}"   # 10개 파티션에 분산
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">카프카 토픽 (Kafka Topic) — 메시지를 논리적으로 분류하는 단위</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">파티션 (Partition) — 토픽을 병렬 처리 단위로 분할, 순서 보장은 파티션 내 한정</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">파티션 키 (Partition Key) — 동일 키는 동일 파티션, 연관 메시지 순서 보장</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">파티션 복제 (Replication) — 리더·팔로워 복제본으로 내결함성 확보</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">파티션 재조정 (Rebalancing) — 컨슈머 그룹 변경 시 파티션 재분배</div></div>
-</div>
-</div>
-
-
+```text
+[카프카 토픽 (Kafka Topic) — 메시지를 논리적으로 분류하는 단위]
+    │
+    ▼
+[파티션 (Partition) — 토픽을 병렬 처리 단위로 분할, 순서 보장은 파티션 내 한정]
+    │
+    ▼
+[파티션 키 (Partition Key) — 동일 키는 동일 파티션, 연관 메시지 순서 보장]
+    │
+    ▼
+[파티션 복제 (Replication) — 리더·팔로워 복제본으로 내결함성 확보]
+    │
+    ▼
+[파티션 재조정 (Rebalancing) — 컨슈머 그룹 변경 시 파티션 재분배]
+```
 
 이 흐름은 [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 토픽이 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리를 위해 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)으로 분할되고, [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키로 순서가 보장되며, [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)와 재조정을 통해 고가용성 스트리밍 아키텍처가 완성되는 과정을 보여준다.
 

@@ -44,20 +44,21 @@ LOS의 핵심은 단순한 직선 하나가 아니라, 직접 경로 주변의 �
 
 아래 그림은 LOS가 "보이는 직선"보다 넓은 개념임을 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">LOS path + Fresnel clearance</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Tower A Tower B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">\________________ direct path ___________________________/</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">\ 1st Fresnel zone /</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">^ obstacle enters here =&gt; extra loss</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">ground / earth curvature</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                     LOS path + Fresnel clearance                          │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Tower A                                                     Tower B       │
+│   │\                                                         /│           │
+│   │ \________________ direct path ___________________________/ │           │
+│   │  \                                                   /    │           │
+│   │   \            1st Fresnel zone                     /     │           │
+│   │    \______________________________________________/      │           │
+│   │                 ^ obstacle enters here => extra loss      │           │
+│___│_________________|_______________________________ _________│___________│
+│                     ground / earth curvature                               │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 핵심은 장애물이 직접 경로를 완전히 가리지 않아도 손실이 커질 수 있다는 점이다. 프레넬 존을 침범하면 회절 손실과 다중 경로 왜곡이 증가하므로, 실제 링크 품질은 급격히 나빠질 수 있다. 그래서 실무에서는 단순히 "보인다"가 아니라, "프레넬 존까지 충분히 비어 있다"를 기준으로 본다.
 
@@ -130,23 +131,21 @@ LOS를 올바르게 확보하면 고주파 무선 링크의 예측 가능성이 
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">고주파 전파의 직진성 강화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">LOS (Line-of-Sight) 확보 필요</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">프레넬 존 · 전파적 지평선 계산</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">마이크로파 백홀 · 위성 링크 · 5G mmWave</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">빔포밍 · 소형 셀 · NLOS 보완 기술로 확장</div>
-</div>
-</div>
-
-
+```text
+고주파 전파의 직진성 강화
+        │
+        ▼
+LOS (Line-of-Sight) 확보 필요
+        │
+        ▼
+프레넬 존 · 전파적 지평선 계산
+        │
+        ▼
+마이크로파 백홀 · 위성 링크 · 5G mmWave
+        │
+        ▼
+빔포밍 · 소형 셀 · NLOS 보완 기술로 확장
+```
 
 이 흐름은 단순한 시야 개념에서 출발해, 실제 네트워크 설계에서는 프레넬 존 계산과 고주파 인프라 배치로 발전하고, 이후 LOS 한계를 보완하는 기술로 확장되는 과정을 보여 준다.
 

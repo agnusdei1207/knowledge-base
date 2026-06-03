@@ -57,27 +57,32 @@ tags = ["studynote-operating-system"]
 
 바인더의 진정한 가치는 단순한 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)' 전달이 아니라, <strong>"저쪽 프로세스에 있는 객체의 함수를 내 프로세스에 있는 객체처럼 호출한다(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/">RPC</a>)"</strong>는 데 있다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Binder 객체 참조 및 프록시(Proxy) 매핑 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Client 프로세스 (App)</div><div class="kb-diagram-node">Server 프로세스 (Camera)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Proxy 객체 생성 2. Stub (실제 구현체) 존재</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(실체는 없지만 껍데기만 있음) takePicture() { 찰칵! }</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">proxy.takePicture() 호출</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Binder Driver (Kernel)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- 커널 내부에는</div><div class="kb-diagram-node">Binder Node (서버의 진짜 객체 주소)</div><div class="kb-diagram-note">와</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Binder Reference (클라이언트가 쥐고 있는 가짜 핸들)</div><div class="kb-diagram-note">이 매핑된</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">테이블(레드-블랙 트리)이 존재함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- Client가 "나 참조번호 3번 객체의 takePicture 함수 부를게!" 라고 쏘면,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 커널이 "아, 3번 참조는 Server 프로세스의 메모리 0x8000 객체구나!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하고 목적지를 정확히 찾아 라우팅해 줌.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▶ 3. Stub의 함수 실제 실행</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 Binder 객체 참조 및 프록시(Proxy) 매핑 구조             │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │  [Client 프로세스 (App)]               [Server 프로세스 (Camera)]      │
+  │                                                                   │
+  │  1. Proxy 객체 생성                    2. Stub (실제 구현체) 존재        │
+  │  (실체는 없지만 껍데기만 있음)              takePicture() { 찰칵! }      │
+  │  proxy.takePicture() 호출                                          │
+  │            │                                                      │
+  │  ==========▼======================================================│
+  │  [Binder Driver (Kernel)]                                         │
+  │                                                                   │
+  │   - 커널 내부에는 [Binder Node (서버의 진짜 객체 주소)]와                 │
+  │     [Binder Reference (클라이언트가 쥐고 있는 가짜 핸들)]이 매핑된          │
+  │     테이블(레드-블랙 트리)이 존재함.                                     │
+  │                                                                   │
+  │   - Client가 "나 참조번호 3번 객체의 takePicture 함수 부를게!" 라고 쏘면,  │
+  │   - 커널이 "아, 3번 참조는 Server 프로세스의 메모리 0x8000 객체구나!"      │
+  │     하고 목적지를 정확히 찾아 라우팅해 줌.                                │
+  │  ==========▼======================================================│
+  │            │                                                      │
+  │            └───────────────────────────▶ 3. Stub의 함수 실제 실행       │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 앱([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/)) 입장에서는 `camera.takePicture()`라고 평범한 자바 함수를 부른 것 같지만, 실은 그 `camera` 객체는 진짜가 아니라 껍데기([Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/))다. 껍데기는 AIDL이 만들어준 코드에 따라 명령을 Parcel(짐꾸러미)로 직렬화하여 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)로 쏜다. 바인더 드라이버는 클라이언트가 보낸 가짜 핸들([참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 번호)을 서버의 진짜 메모리 주소(Node)로 번역해 준다. 서버([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/460_stub_test_double/))는 명령을 풀어 실제 카메라 셔터를 터뜨린 뒤 그 결과를 다시 바인더를 통해 클라이언트로 돌려준다.
 
@@ -85,7 +90,7 @@ tags = ["studynote-operating-system"]
 
 ### 바인더 [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) (Binder [Thread Pool](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/))
 
-서버 프로세스(예: System Server)는 수백 개의 앱으로부터 동시에 바인더 요청을 받는다. 이 요청을 막힘없이 처리하기 위해 <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/">스레드 풀</a></strong>을 운영한다.
+서버 프로세스(예: System Server)는 수백 개의 앱으로부터 동시에 바인더 요청을 받는다. 이 요청을 병목없이 처리하기 위해 <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/">스레드 풀</a></strong>을 운영한다.
 
 1. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a>화</strong>: 프로세스가 켜지면 메인 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 `ioctl`로 바인더 드라이버에 `BINDER_SET_MAX_THREADS` (보통 15개) 한도를 설정하고, 드라이버를 읽으며 무한 대기(루프)에 빠진다.
 2. <strong>동적 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong>: 클라이언트의 요청이 막 쏟아져서 대기 중인 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 모자라면, 바인더 드라이버가 서버 프로세스에게 "야, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 하나 더 만들어(Spawn)!"라고 `BR_SPAWN_LOOPER` 명령을 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 밖으로 튕겨준다.
@@ -131,25 +136,28 @@ tags = ["studynote-operating-system"]
 
 ### 의사결정 및 튜닝 플로우
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">안드로이드 프로세스 간 통신 (IPC) 설계 플로우</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">앱과 시스템 서비스, 혹은 두 앱 간의 데이터/명령 전송 아키텍처 설계</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">전송하려는 데이터의 크기가 500KB 이상으로 큰가? (사진, 영상, 빅데이터)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">바인더 직접 전송 금지 (TransactionTooLarge 방어)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대책: 안드로이드 ContentProvider 파일 전송이나</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MemoryFile (Shared Memory) 기반 FD 전달 사용</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 (단순한 명령, JSON, 작은 상태값 등)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결과를 즉시 받아야 하는가(동기), 아니면 나중에 받아도 되는가(비동기)?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 예 (동기) ──▶ 일반 AIDL 호출 (단, 백그라운드 스레드에서 호출 필수)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 아니오 (비동기) ──▶ AIDL 인터페이스에 <code>oneway</code> 키워드 추가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(클라이언트는 쏘고 바로 리턴, 블로킹 오버헤드 0)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌───────────────────────────────────────────────────────────────────┐
+  │                 안드로이드 프로세스 간 통신 (IPC) 설계 플로우              │
+  ├───────────────────────────────────────────────────────────────────┤
+  │                                                                   │
+  │   [앱과 시스템 서비스, 혹은 두 앱 간의 데이터/명령 전송 아키텍처 설계]          │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      전송하려는 데이터의 크기가 500KB 이상으로 큰가? (사진, 영상, 빅데이터)   │
+  │          ├─ 예 ─────▶ [바인더 직접 전송 금지 (TransactionTooLarge 방어)]│
+  │          │            대책: 안드로이드 ContentProvider 파일 전송이나      │
+  │          │                  MemoryFile (Shared Memory) 기반 FD 전달 사용 │
+  │          └─ 아니오 (단순한 명령, JSON, 작은 상태값 등)                     │
+  │                │                                                  │
+  │                ▼                                                  │
+  │      결과를 즉시 받아야 하는가(동기), 아니면 나중에 받아도 되는가(비동기)?       │
+  │          ├─ 예 (동기) ──▶ 일반 AIDL 호출 (단, 백그라운드 스레드에서 호출 필수) │
+  │          │                                                        │
+  │          └─ 아니오 (비동기) ──▶ AIDL 인터페이스에 `oneway` 키워드 추가     │
+  │                              (클라이언트는 쏘고 바로 리턴, 블로킹 오버헤드 0) │
+  └───────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 바인더 아키텍처의 철학은 <strong>"가볍고, 빠르고, 명확하게"</strong>다. `oneway` 키워드의 활용은 실무에서 매우 중요하다. 콜백(Callback)을 등록하거나 이벤트를 푸시할 때, 수신자가 바빠서 늦게 응답하더라도 송신자가 멈추지 않도록(Fire-and-forget) `oneway`를 붙이는 것이 바인더 데드락을 막는 최고의 방어막이다.
 
@@ -193,19 +201,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">eBPF 기반 XDP (eXpress Data Path) 커널 네트워크 스택 우회 초고속 패킷 드롭/전달 프레임워크</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">안드로이드 바인더(Binder) IPC 스레드 풀 및 객체 참조 매핑 메커니즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">macOS/iOS Grand Central Dispatch (GCD) 블록 및 디스패치 큐 기반 동시성 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Windows 커널 비동기 프로시저 호출 (APC) 및 지연된 프로시저 호출 (DPC)</div></div>
-</div>
-</div>
-
-
+```text
+[eBPF 기반 XDP (eXpress Data Path) 커널 네트워크 스택 우회 초고속 패킷 드롭/전달 프레임워크]
+    │
+    ▼
+[안드로이드 바인더(Binder) IPC 스레드 풀 및 객체 참조 매핑 메커니즘]
+    │
+    ├──▶ [macOS/iOS Grand Central Dispatch (GCD) 블록 및 디스패치 큐 기반 동시성 구조]
+    └──▶ [Windows 커널 비동기 프로시저 호출 (APC) 및 지연된 프로시저 호출 (DPC)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

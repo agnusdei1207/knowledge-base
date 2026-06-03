@@ -25,20 +25,18 @@ Root of Trust (RoT)는 시스템이 맨 처음 믿고 시작하는 최소한의 
 
 아래 그림은 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 왜 끝없이 재귀될 수 없는지, 그리고 어디에서 RoT가 등장하는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Trust cannot recurse forever</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OS image &lt;- verified by bootloader</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Bootloader &lt;- verified by firmware</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Firmware &lt;- verified by Boot ROM + immutable key</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">The last line has no earlier verifier.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">That immutable anchor is the Root of Trust.</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│ Trust cannot recurse forever                                               │
+├────────────────────────────────────────────────────────────────────────────┤
+│ OS image    <- verified by bootloader                                      │
+│ Bootloader  <- verified by firmware                                        │
+│ Firmware    <- verified by Boot ROM + immutable key                        │
+│                                                                            │
+│ The last line has no earlier verifier.                                     │
+│ That immutable anchor is the Root of Trust.                                │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 따라서 RoT의 핵심 질문은 단순하다. "제일 처음 실행되는 코드와 제일 처음 쓰이는 키는 누가 지키는가?" 이 질문에 답하지 못하면 상위 계층 보안은 강해 보여도 실제로는 공중에 떠 있는 구조가 된다.
 
@@ -56,28 +54,25 @@ RoT를 더 세분화하면 RoT for Measurement, RoT for Storage, RoT for Reporti
 | :-- | :-- | :-- |
 | Boot [ROM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/255_rom/) | 첫 번째 실행 코드를 불변 상태로 유지 | CPU (Central Processing Unit) 내부 [ROM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/255_rom/), 마스크 [ROM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/255_rom/) |
 | [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)된 키 저장소 | 공개키 해시, 장치 비밀, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 키 보관 | eFuse, [OTP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/748_otp/), 보안 NVRAM |
-| 측정 엔진 | 각 부팅 단계를 해시로 측정 | [TPM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/) ([Trusted Platform Module](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/))의 PCR (Platform Configuration [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/)), DICE (Device [Identifier](/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/) Composition Engine) 기반 파생값 계산 |
+| 측정 엔진 | 각 부팅 단계를 해시로 측정 | [TPM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/) ([Trusted Platform Module](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/))의 PCR (Platform Configuration [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/)), DICE (Device [Identifier](/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/) Composition 엔진) 기반 파생값 계산 |
 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 로직 | 서명·[버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)·[롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 여부 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | [Secure Boot](/knowledge-base/studynote/02_operating_system/10_security/608_secure_boot/), Boot Guard |
 | 보고 기능 | 측정 결과를 외부에 전달 | Quote, 원격 증명 토큰 |
 
 아래 그림은 RoT가 부팅과 증명에 개입하는 전형적 흐름이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RoT-driven boot and remote verification flow</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Power on</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; Boot ROM reads immutable key / hash</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; verify firmware signature</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; measure stage into PCR / log</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; release next-stage execution</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; protected keys become usable only after valid boot</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; remote attestation token proves state to a remote verifier</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│ RoT-driven boot and remote verification flow                               │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Power on                                                                   │
+│   -> Boot ROM reads immutable key / hash                                   │
+│   -> verify firmware signature                                             │
+│   -> measure stage into PCR / log                                          │
+│   -> release next-stage execution                                          │
+│   -> protected keys become usable only after valid boot                    │
+│   -> remote attestation token proves state to a remote verifier            │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 이 구조의 본질은 신뢰가 "점프"하지 않고 "계승"된다는 데 있다. 한 단계가 다음 단계를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해 신뢰를 넘겨주고, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 실패 시에는 부팅 차단·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 모드 진입·키 비공개 같은 보수적 동작으로 전환한다. 즉 RoT는 단순 저장소가 아니라, 실행 허가와 상태 증명까지 통제하는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)의 시작점이다.
 
@@ -132,7 +127,7 @@ RoT는 자주 SRTM (Static Root of Trust for Measurement)과 DRTM (Dynamic Root 
 
 RoT를 올바르게 설계하면 [부팅 무결성](/knowledge-base/studynote/09_security/18_iot_ot_physical/916_secure_boot/), 키 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/), 장치 신원, 원격 증명이 하나의 체계로 묶인다. 그 결과 악성 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 주입, [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 변조, 무단 부팅 이미지 실행 같은 위협을 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 단계에서 차단할 수 있다. 특히 클라우드와 엣지 환경에서는 "이 장치가 정말 내가 허용한 상태인가"를 말할 수 있게 해 준다는 점이 크다.
 
-하지만 RoT는 타협할 수 없는 단일 실패 지점이기도 하다. 루트 키가 잘못 주입되거나 첫 단계 코드가 뚫리면 위 체계 전체가 함께 붕괴한다. 그래서 앞으로의 방향은 Silicon RoT, DICE (Device [Identifier](/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/) Composition Engine), [기밀 컴퓨팅](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/795_confidential_computing/) 증명처럼 더 작은 신뢰 기저를 만들고, 그 상태를 자동으로 증명하는 방향에 가깝다. 결론적으로 RoT는 <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/503_security_features_design/">보안 기능</a> 하나가 아니라, 모든 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/503_security_features_design/">보안 기능</a>이 기대는 첫 약속</strong>으로 기억해야 한다.
+하지만 RoT는 타협할 수 없는 단일 실패 지점이기도 하다. 루트 키가 잘못 주입되거나 첫 단계 코드가 뚫리면 위 체계 전체가 함께 붕괴한다. 그래서 앞으로의 방향은 Silicon RoT, DICE (Device [Identifier](/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/) Composition 엔진), [기밀 컴퓨팅](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/795_confidential_computing/) 증명처럼 더 작은 신뢰 기저를 만들고, 그 상태를 자동으로 증명하는 방향에 가깝다. 결론적으로 RoT는 <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/503_security_features_design/">보안 기능</a> 하나가 아니라, 모든 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/503_security_features_design/">보안 기능</a>이 기대는 첫 약속</strong>으로 기억해야 한다.
 
 - **📢 섹션 요약 비유**: RoT는 반 전체가 믿는 담임선생님의 출석부와 같다. 출석부 자체가 틀리면 이후의 출결, 성적, 상벌 기록도 모두 함께 흔들린다.
 
@@ -151,23 +146,22 @@ RoT를 올바르게 설계하면 [부팅 무결성](/knowledge-base/studynote/09
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">불변 부트 코드</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Root of Trust (RoT)</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ Secure Boot</div>
-<div class="kb-diagram-tree-item" style="--depth:4">▶ Measured Boot</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Attestation</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Silicon RoT · DICE · 클라우드 플랫폼 신뢰 검증</div>
-</div>
-</div>
-
-
+```text
+불변 부트 코드
+        │
+        ▼
+Root of Trust (RoT)
+        │
+        ├────────▶ Secure Boot
+        │
+        └────────▶ Measured Boot
+                     │
+                     ▼
+Attestation
+        │
+        ▼
+Silicon RoT · DICE · 클라우드 플랫폼 신뢰 검증
+```
 
 이 흐름은 "첫 신뢰 앵커"에서 "부팅 체인 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)"으로, 다시 "원격에서 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 가능한 플랫폼 신뢰"로 확장되는 구조를 보여 준다.
 

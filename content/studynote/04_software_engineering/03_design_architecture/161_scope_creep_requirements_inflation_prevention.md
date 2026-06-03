@@ -44,21 +44,22 @@ tags = ["studynote-software-engineering"]
 
 아래 그림은 통제되지 않은 작은 변경이 어떻게 프로젝트 문제로 번지는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">how an informal request becomes scope creep</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Approved baseline</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"Just one more feature"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no CCB review</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no schedule / cost revision</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ no RTM update</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hidden design change ─▶ retest ─▶ rework ─▶ delay / budget overrun</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                 how an informal request becomes scope creep                │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Approved baseline                                                          │
+│      │                                                                     │
+│      ▼                                                                     │
+│ "Just one more feature"                                                   │
+│      │                                                                     │
+│      ├─ no CCB review                                                      │
+│      ├─ no schedule / cost revision                                        │
+│      └─ no RTM update                                                      │
+│      ▼                                                                     │
+│ Hidden design change ─▶ retest ─▶ rework ─▶ delay / budget overrun         │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 이 그림의 핵심은 요구 추가가 기능 하나로 끝나지 않는다는 점이다. 요구사항 추적 매트릭스인 [RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/) ([Requirements Traceability Matrix](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/))이 갱신되지 않으면 설계와 테스트가 뒤따르지 못하고, 일정과 비용 조정이 없으면 프로젝트는 겉보기 계획만 유지한 채 실제 부채를 쌓게 된다. 결국 범위 크리프는 기능 추가 문제가 아니라 관리 체계의 불일치 문제다.
 
@@ -130,19 +131,16 @@ tags = ["studynote-software-engineering"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">요구사항 정의</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">베이스라인 설정</div>
-<div class="kb-diagram-tree-item" style="--depth:3">공식 변경 요청 + 영향도 분석 ─▶ 통제된 범위 조정</div>
-<div class="kb-diagram-tree-item" style="--depth:3">비공식 추가 요구 누적 ─▶ 범위 크리프 ─▶ 지연 / 재작업 / 분쟁</div>
-</div>
-</div>
-
-
+```text
+요구사항 정의
+      │
+      ▼
+베이스라인 설정
+      │
+      ├── 공식 변경 요청 + 영향도 분석 ─▶ 통제된 범위 조정
+      │
+      └── 비공식 추가 요구 누적 ─▶ 범위 크리프 ─▶ 지연 / 재작업 / 분쟁
+```
 
 이 흐름은 같은 추가 요구라도 승인과 재계획이 있으면 변경 관리가 되고, 없으면 범위 크리프로 변한다는 점을 보여 준다.
 

@@ -41,23 +41,22 @@ tags = ["studynote-database"]
 
 아래 구조는 해시 조인의 핵심 흐름을 보여 준다. 이 그림에서 중요한 점은 "해시 값 일치"가 곧 "조인 성공"이 아니라, <strong>같은 버킷으로 모은 뒤 실제 키를 다시 비교한다</strong>는 사실이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hash Join: build once, probe many</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Build input (small)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">7</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">keep key + payload</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">2</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">keep key + payload</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Probe input (large)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">row -&gt; hash(join_key) -&gt; same bucket -&gt; compare real key -&gt; join</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">If hash area overflows:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">partition build/probe inputs -&gt; reload one partition at a time</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; rehash -&gt; probe again</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│                Hash Join: build once, probe many                   │
+├────────────────────────────────────────────────────────────────────┤
+│ Build input (small)                                                │
+│   row -> hash(join_key) -> bucket[7] -> keep key + payload         │
+│   row -> hash(join_key) -> bucket[2] -> keep key + payload         │
+│                                                                    │
+│ Probe input (large)                                                │
+│   row -> hash(join_key) -> same bucket -> compare real key -> join │
+│                                                                    │
+│ If hash area overflows:                                            │
+│   partition build/probe inputs -> reload one partition at a time   │
+│   -> rehash -> probe again                                         │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)을 볼 때는 Build 쪽이 정말 작은지, 그리고 불필요한 컬럼이 제거되어 있는지를 먼저 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 한다. 예를 들어 [차원 테이블](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/273_dimension_table_analysis_perspective/)에서 조인 키와 필요한 소수 컬럼만 먼저 읽으면, 같은 행 수여도 [해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/) 폭이 줄어 메모리 적재성이 좋아진다. 반대로 `SELECT *` 성격으로 넓은 행을 그대로 Build 하면 해시 조인의 장점이 쉽게 사라진다.
 
@@ -141,24 +140,22 @@ tags = ["studynote-database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Large equality join requirement</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Choose smaller build input</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Build in-memory hash buckets</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Probe large scan against buckets</div>
-<div class="kb-diagram-tree-item" style="--depth:6">if memory overflow -&gt; partition and rehash</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Parallel hash join / Bloom filter optimization</div>
-</div>
-</div>
-
-
+```text
+Large equality join requirement
+            │
+            ▼
+Choose smaller build input
+            │
+            ▼
+Build in-memory hash buckets
+            │
+            ▼
+Probe large scan against buckets
+            │
+            ├───────────────► if memory overflow -> partition and rehash
+            ▼
+Parallel hash join / Bloom filter optimization
+```
 
 이 흐름은 "대량 동등 조인 필요 → 작은 입력 해시화 → 큰 입력 탐색 → 메모리 초과 대응 → [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 최적화"로 이어지는 해시 조인의 사고 순서를 보여 준다.
 

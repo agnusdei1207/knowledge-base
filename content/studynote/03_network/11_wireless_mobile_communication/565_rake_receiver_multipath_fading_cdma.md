@@ -23,28 +23,28 @@ tags = ["studynote-network"]
 - **필요성**: 도심에서 스마트폰이 받는 전파는 결코 직선으로 오는 하나가 아니다. 빌딩 유리에 튕긴 전파는 1밀리초(ms) 늦게 도착하고, 뒤통수 산맥에 튕긴 전파는 2ms 늦게 도착한다. 이 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)된 전파들(메아리)이 내 귓속으로 한꺼번에 쏟아져 들어오면 파동이 엉키면서 <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 확산(Delay Spread)</strong>과 심각한 <strong>다중경로 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/">페이딩</a>(<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/168_multipath_fading_isi/">Multipath Fading</a>)</strong>이라는 파괴 현상이 일어나 통신이 뚝 끊긴다. 이 잡음(노이즈) 같은 메아리들을 처리할 방법이 절대적으로 필요했다.
 - **등장 배경**: ① 도심 환경에서 반사파에 의한 통화 절단(Drop) [클레임](/knowledge-base/studynote/09_security/11_iam_access_control/539_claims/) 쇄도 → ② 일반 필터로는 메아리와 원본을 구분 불가능하다는 한계 봉착 → ③ 퀄컴(Qualcomm)이 제안한 [CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) 광대역 스펙트럼과 PN 코드(가짜 잡음) 암호 기술을 활용하여, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)된 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 골라잡는 Rake 수신기를 개발하며 3G 혁명을 주도.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">다중경로 메아리(Multipath)의 재앙 vs 레이크 수신기의 구원</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">과거: 단일 수신기 (메아리에 끔찍하게 당함)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">도착: 깨끗한 안녕</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">도착: 뒤섞인 안녀영...</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">도착: 안녀영녕.. 삐이익!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 3개의 파동이 짬뽕되어 원본 훼손(상쇄 간섭). "여보세요? 뚝!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">혁신: 레이크 수신기 (갈퀴로 긁어 모으기)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">핑거 1</div><div class="kb-diagram-note">─(0ms 직선 파동만 정확히 낚아챔: 50점)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">(혼돈의 짬뽕파)─ ─</div><div class="kb-diagram-node">핑거 2</div><div class="kb-diagram-note">─(1ms 지연된 빌딩 파동만 낚아챔: 30점)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─</div><div class="kb-diagram-node">핑거 3</div><div class="kb-diagram-note">─(2ms 지연된 산 파동만 낚아챔: 20점)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">결합기 (Combiner)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"핑거 2랑 3이 조금 늦게 왔네? 시간 타이밍을 0ms로 딱 맞게 당겨주고,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">50+30+20점 셋 다 믹서기에 더해버려!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 버려질 뻔한 노이즈(메아리)가 힘을 보태 완벽한 100점 신호로 부활!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│             다중경로 메아리(Multipath)의 재앙 vs 레이크 수신기의 구원 │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [과거: 단일 수신기 (메아리에 끔찍하게 당함)]                         │
+│   기지국 ──(직선 0ms)──▶ [도착: 깨끗한 안녕]                       │
+│   기지국 ──(빌딩 반사 1ms 지연)──▶ [도착: 뒤섞인 안녀영...]              │
+│   기지국 ──(산 반사 2ms 지연)────▶ [도착: 안녀영녕.. 삐이익!]         │
+│   => 결과: 3개의 파동이 짬뽕되어 원본 훼손(상쇄 간섭). "여보세요? 뚝!"      │
+│                                                             │
+│   [혁신: 레이크 수신기 (갈퀴로 긁어 모으기)]                         │
+│                 ┌─[핑거 1] ─(0ms 직선 파동만 정확히 낚아챔: 50점)     │
+│   (혼돈의 짬뽕파)─┼─[핑거 2] ─(1ms 지연된 빌딩 파동만 낚아챔: 30점)     │
+│                 └─[핑거 3] ─(2ms 지연된 산 파동만 낚아챔: 20점)       │
+│                                                             │
+│   [결합기 (Combiner)]                                         │
+│   "핑거 2랑 3이 조금 늦게 왔네? 시간 타이밍을 0ms로 딱 맞게 당겨주고,       │
+│    50+30+20점 셋 다 믹서기에 더해버려!"                               │
+│   => 결과: 버려질 뻔한 노이즈(메아리)가 힘을 보태 완벽한 100점 신호로 부활! │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이 그림은 이동통신 역사상 가장 천재적인 '노이즈의 자원화'를 보여준다. 예전 아키텍처는 가장 먼저 도착한 강력한 직선 파동(LOS)만 취하고 뒤늦게 도착하는 반사파들은 문을 닫아버리거나 노이즈로 쳐서 버렸다. 하지만 [CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) 전파 안에는 자기들만 아는 지문(PN [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))이 찍혀있다. 레이크 수신기 안의 '핑거(Finger)' 3개는 각자 0ms, 1ms, 2ms 늦게 도착하는 전파의 지문에만 반응하도록 타이밍이 맞춰져 있다. 늦게 온 파편이라도 이 지문을 읽어 자기 시간대에 맞게 퍼즐을 싹 조립해 주면, 찌그러진 3개의 쓰레기 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 눈물겨운 전력 합산을 통해 가장 맑고 뚜렷한(Gain) 1개의 황금 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)로 태어난다.
 
@@ -67,29 +67,29 @@ tags = ["studynote-network"]
 
 "왜 4G LTE나 구형 2G에서는 레이크 수신기를 못 쓸까?"라는 근본적 질문에 대한 답이다. 레이크는 오직 전파를 넓게 퍼뜨려 암호를 씌우는 대역 확산([Spread Spectrum](/knowledge-base/studynote/03_network/01_data_communication/068_스펙트럼_확산_Spread_Spectrum/)) 방식, 즉 <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/">CDMA</a> (코드 분할 <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/">다중 접속</a>)</strong>에서만 발동되는 전유물이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">왜 CDMA에서만 메아리를 분리(레이크 핑거)할 수 있는가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">비밀은 기지국이 쏘는 초당 100만 번 진동하는</div><div class="kb-diagram-node">PN (Pseudo Noise) 암호 코드</div><div class="kb-diagram-note">!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">원본 전파 0ms 도착</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">기지국 전파:</div><div class="kb-diagram-node">1 0 1 1 0</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">내 폰 암호:</div><div class="kb-diagram-node">1 0 1 1 0</div><div class="kb-diagram-note">(폰이 똑같은 타이밍에 맞춰봄)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 100% 일치! "아, 이 파동은 기지국이 0ms에 쏜 진짜다!" 통과!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">빌딩에 반사되어 1ms 늦게 도착한 메아리 전파</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">기지국 전파:</div><div class="kb-diagram-node">0 1 0 1 1</div><div class="kb-diagram-note">(지연되어 암호 박자가 밀려버림!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">내 폰 암호:</div><div class="kb-diagram-node">1 0 1 1 0</div><div class="kb-diagram-note">(0ms에 맞춰진 1번 핑거 암호)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 박자가 안 맞아서 상관도 0% (완전 노이즈로 인식되어 버려짐)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">그럼 1ms 늦은 메아리를 살리려면?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">내 폰의</div><div class="kb-diagram-node">2번 핑거</div><div class="kb-diagram-note">는 자기 암호를 강제로 1ms 늦춰서</div><div class="kb-diagram-node">0 1 0 1 1</div><div class="kb-diagram-note">로 세팅함!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">기지국 전파:</div><div class="kb-diagram-node">0 1 0 1 1</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">내 폰 2번 암호:</div><div class="kb-diagram-node">0 1 0 1 1</div><div class="kb-diagram-note">(1ms 늦춘 암호)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 100% 일치! "앗, 1ms 늦게 튕겨 온 반사파 조각을 건졌다!"</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────┐
+│               왜 CDMA에서만 메아리를 분리(레이크 핑거)할 수 있는가?  │
+├───────────────────────────────────────────────────────────────┤
+│   비밀은 기지국이 쏘는 초당 100만 번 진동하는 [PN (Pseudo Noise) 암호 코드]!│
+│                                                               │
+│   [원본 전파 0ms 도착]                                          │
+│   기지국 전파: [ 1 0 1 1 0 ]                                    │
+│   내 폰 암호:  [ 1 0 1 1 0 ] (폰이 똑같은 타이밍에 맞춰봄)           │
+│   => 결과: 100% 일치! "아, 이 파동은 기지국이 0ms에 쏜 진짜다!" 통과!     │
+│                                                               │
+│   [빌딩에 반사되어 1ms 늦게 도착한 메아리 전파]                      │
+│   기지국 전파: [ 0 1 0 1 1 ] (지연되어 암호 박자가 밀려버림!)         │
+│   내 폰 암호:  [ 1 0 1 1 0 ] (0ms에 맞춰진 1번 핑거 암호)           │
+│   => 결과: 박자가 안 맞아서 상관도 0% (완전 노이즈로 인식되어 버려짐)     │
+│                                                               │
+│   [그럼 1ms 늦은 메아리를 살리려면?]                               │
+│   내 폰의 [2번 핑거]는 자기 암호를 강제로 1ms 늦춰서 [0 1 0 1 1]로 세팅함! │
+│   기지국 전파: [ 0 1 0 1 1 ]                                    │
+│   내 폰 2번 암호:[ 0 1 0 1 1 ] (1ms 늦춘 암호)                    │
+│   => 결과: 100% 일치! "앗, 1ms 늦게 튕겨 온 반사파 조각을 건졌다!"        │
+└───────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이것이 퀄컴(Qualcomm)이 세계를 제패한 자기상관성(Auto-correlation) 마법이다. [CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) 기지국이 쏘는 전파에는 어마어마하게 빠른 템포의 가짜 난수 암호(PN [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))가 섞여 있다. 이 암호는 타이밍이 0.001초(1 Chip)만 어긋나도 폰 입장에서는 100% 완벽한 잡음(지직거림)으로 들린다. 즉, 0ms에 도착한 직사광선 파동과 1ms 늦게 온 반사파 파동은 내 귀에 완전히 남남처럼 들린다([직교성](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/083_직교성_Orthogonality/)). 그래서 폰 안의 1번 핑거는 0ms 타이밍의 암호만 쳐다보고, 2번 핑거는 1ms 늦춘 암호만 쳐다본다. 이렇게 하면 섞여 있는 파동 국물 속에서 자신이 원하는 시간대의 건더기(메아리)만 쏙쏙 핀셋으로 건져낼 수 있게 되는 것이다.
 
@@ -110,23 +110,24 @@ tags = ["studynote-network"]
 
 만약 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)(100MHz)에서 메아리를 잡으려고 레이크 수신기를 달았다간 스마트폰 안에 핑거(Finger)를 100개 이상 달아야 하고, 폰은 발열로 1시간 안에 폭발한다. 결국 현대 통신망([OFDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/))은 메아리를 갈퀴로 모으는 노가다를 포기했다. 대신 파동을 쏠 때 뒤에 쓸모없는 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 시간([Cyclic Prefix](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/), [CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/))이라는 가짜 꼬리를 길게 달아 쏘아, 늦게 도착하는 메아리들이 꼬리 부분만 망치게 하고 진짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 몸통은 다치지 않게 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하는 우아하고 가벼운 수학적 아키텍처로 진로를 완전히 틀었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">소프트 핸드오버(Soft Handoff)와의 결정적 융합 시너지</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">차를 타고 기지국 A와 B 경계 지역(Cell Edge)에 서 있을 때</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핑거 1</div><div class="kb-diagram-note">이 잡음. 신호 강도 40점.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">핑거 2</div><div class="kb-diagram-note">가 잡음. 신호 강도 45점.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Combiner (믹서기)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"핑거 1은 A기지국 꺼고, 핑거 2는 B기지국 꺼네? 어차피 둘 다 똑같은</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">통화 데이터니까 그냥 둘 다 더해버려!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: (40점 + 45점 = 85점). 폰은 A와 B가 쏘는 전파를 마치</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하나의 거대한 기지국이 쏘는 메아리처럼 인식하여 합쳐버림!</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────┐
+│               소프트 핸드오버(Soft Handoff)와의 결정적 융합 시너지   │
+├───────────────────────────────────────────────────────────────┤
+│                                                               │
+│   [차를 타고 기지국 A와 B 경계 지역(Cell Edge)에 서 있을 때]         │
+│                                                               │
+│   기지국 A (101번 코드) ──▶ 폰 내부 [핑거 1]이 잡음. 신호 강도 40점. │
+│   기지국 B (102번 코드) ──▶ 폰 내부 [핑거 2]가 잡음. 신호 강도 45점. │
+│                                                               │
+│   [Combiner (믹서기)]                                         │
+│   "핑거 1은 A기지국 꺼고, 핑거 2는 B기지국 꺼네? 어차피 둘 다 똑같은    │
+│    통화 데이터니까 그냥 둘 다 더해버려!"                             │
+│                                                               │
+│   => 결과: (40점 + 45점 = 85점). 폰은 A와 B가 쏘는 전파를 마치           │
+│            하나의 거대한 기지국이 쏘는 메아리처럼 인식하여 합쳐버림!       │
+└───────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 이것이 3G 시대에 전화가 절대로 끊어지지 않았던 '[소프트 핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/558_soft_handoff/)'의 물리적 실체다. 레이크 수신기는 원래 '하나의 기지국'이 쏘고 벽에 반사된 메아리들을 줍는 용도다. 그런데 퀄컴 엔지니어들은 기막힌 아이디어를 냈다. "어차피 핑거 2번이 늦게 온 메아리를 잡나, 옆 동네 기지국 B가 쏘는 전파를 잡나 폰 입장에서는 똑같은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)된 파동 아냐?" 즉, A 기지국 파동과 B 기지국 파동을 각각 핑거에 할당해서 합쳐버리면 폰은 굳이 주파수를 뚝 끊고 넘어갈(Hard [Handover](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/)) 필요 없이 양쪽 전파의 단물을 동시에 빨아먹게 되는 것이다. 이 아키텍처적 시너지가 CDMA를 3G의 글로벌 왕좌에 올렸다.
 
@@ -185,19 +186,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 다이버시티 시스템</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 레이크 수신기</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 등화기</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 무선 자원 제어</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 다이버시티 시스템]
+    │
+    ▼
+[현재 개념: 레이크 수신기]
+    │
+    ├──▶ [확장 A: 등화기]
+    └──▶ [확장 B: 지능형 무선 자원 제어]
+```
 
 레이크 수신기는 [다이버시티 시스템](/knowledge-base/studynote/03_network/03_physical_layer_media/170_diversity_system_equalizer/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [등화기](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/566_equalizer_isi_inter_symbol_interference/)와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

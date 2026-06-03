@@ -25,25 +25,28 @@ tags = ["studynote-operating-system"]
 - **절대 스펙 좌표계 vs 상대 컴팩트 포인터 비교 다이어그램**:
 운영체제가 목적지를 탐색할 때 두 문법이 어떻게 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리에서 다르게 해체되어 디스크를 워프하는지 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 구조로 까보면 다음과 같다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">파일을 타겟팅하는 두 가지 궤도: Absolute vs Relative</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(가정: 지금 당신 터미널의 현재 위치(CWD)는 <code>/home/bob/docs/</code> 이다)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">목표! 🎯 내 방(docs) 상위에 있는 <code>music</code> 폴더 속 <code>1.mp3</code> 를 틀어라!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1.</div><div class="kb-diagram-node">절대 경로 (Absolute Path) : 무식 철저한 원점부터의 일주 탐색</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">$ mpg123 /home/bob/music/1.mp3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ (맨 앞이 <code>/</code> 이므로 커널은 무조건 맨 위 뿌리부터 검색 시작)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2.</div><div class="kb-diagram-node">상대 경로 (Relative Path) : CWD 나침반 워프 이식성 타격</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">$ mpg123 ../music/1.mp3</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲ (맨 앞이 <code>/</code> 가 아니네? 커널은 "아, 지금 docs 방이니까,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell"><code>..</code> 을 보고 위로 한 칸 나가서 밥(bob)방으로 워프한 뒤,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">거기서 music 방 파고들어라" 로 알아서 자동 수학 계산함!)</div></div>
-</div>
-</div>
-
-
+```text
+  ┌────────────────────────────────────────────────────────────────────────────┐
+  │                 파일을 타겟팅하는 두 가지 궤도: Absolute vs Relative       │
+  ├────────────────────────────────────────────────────────────────────────────┤
+  │                                                                            │
+  │    (가정: 지금 당신 터미널의 현재 위치(CWD)는 `/home/bob/docs/` 이다)      │
+  │                                                                            │
+  │  [ 목표! 🎯 내 방(docs) 상위에 있는 `music` 폴더 속 `1.mp3` 를 틀어라! ]   │
+  │                                                                            │
+  │  =============================================================             │
+  │                                                                            │
+  │  1. [ 절대 경로 (Absolute Path) : 무식 철저한 원점부터의 일주 탐색 ]       │
+  │     $ mpg123  /home/bob/music/1.mp3                                        │
+  │               ▲ (맨 앞이 `/` 이므로 커널은 무조건 맨 위 뿌리부터 검색 시작)│
+  │                                                                            │
+  │  2. [ 상대 경로 (Relative Path) : CWD 나침반 워프 이식성 타격 ]            │
+  │     $ mpg123  ../music/1.mp3                                               │
+  │               ▲ (맨 앞이 `/` 가 아니네? 커널은 "아, 지금 docs 방이니까,    │
+  │                  `..` 을 보고 위로 한 칸 나가서 밥(bob)방으로 워프한 뒤,   │
+  │                  거기서 music 방 파고들어라" 로 알아서 자동 수학 계산함!)  │
+  └────────────────────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 리눅스의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 입출력([VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/)) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 함수들은 경로 문자열을 받을 때 가장 첫 글자, 0번 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 바이트가 만약 `/` (슬래시)로 시작되면 아예 앞뒤 보지도 않고 "어? 절대 경로명(Absolute)이네! 루트 디바이스 0번 아이노드부터 뒤져!" 라며 공구리를 치고(포인팅 스캐닝), 슬래시가 아니라 `..` 이나 `폴더명` 으로 시작하면 "넌 상대 경로(Relative)구나! 야 PCB 메모리에서 CWD (현재 작업 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 경로) 가져와서 니가 친 문자열 앞에 문자열 덧붙이기(Concatenate 결합) 해!" 라며 내부적으로 알아서 절대 경로로 동적 치환 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)(Dynamic Translation)을 발생시킨 뒤 목적지로 발사([Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/))하는 거대한 투트랙 파서 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)을 장악 시전한다.
 
@@ -125,19 +128,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">트리 구조 디렉터리 (Tree-structured Directory)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">절대 경로 (Absolute Path) / 상대 경로 (Relative Path)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">비순환 그래프 디렉터리 (Acyclic Graph Directory)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">하드 링크 (Hard Link)</div></div>
-</div>
-</div>
-
-
+```text
+[트리 구조 디렉터리 (Tree-structured Directory)]
+    │
+    ▼
+[절대 경로 (Absolute Path) / 상대 경로 (Relative Path)]
+    │
+    ├──▶ [비순환 그래프 디렉터리 (Acyclic Graph Directory)]
+    └──▶ [하드 링크 (Hard Link)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

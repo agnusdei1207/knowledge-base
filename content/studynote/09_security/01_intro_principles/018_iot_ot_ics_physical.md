@@ -25,19 +25,17 @@ tags = ["security"]
 
 <strong><a href="/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/">IT와 [OT</a> 환경의 융합 및 에어갭 붕괴 도식]</strong>
 이 도식은 과거 물리적으로 분리되었던 IT와 [OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/) 망이 [스마트 팩토리](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/) 전환으로 인해 어떻게 연결되고, 이로 인해 위협 표면(Attack Surface)이 어떻게 확장되는지를 보여준다.
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">과거: Air-Gapped Model</div><div class="kb-diagram-node">현재: IT-OT Convergence Model</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">IT (ERP, Email)</div><div class="kb-diagram-cell">IT (Cloud, ERP)</div></div>
-<div class="kb-diagram-note">(단절) ▼ (위협 전이 경로)</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OT (SCADA, PLC)</div><div class="kb-diagram-cell">OT (SCADA, PLC)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(폐쇄망, 안전)</div><div class="kb-diagram-cell">(IoT 센서 연동)</div></div>
-</div>
-</div>
-
-
+```text
+[과거: Air-Gapped Model]           [현재: IT-OT Convergence Model]
+┌──────────────────┐             ┌──────────────────┐
+│ IT (ERP, Email)  │             │ IT (Cloud, ERP)  │
+└────────┬─────────┘             └────────┬─────────┘
+        (단절)                           ▼ (위협 전이 경로)
+┌────────┴─────────┐             ┌────────┴─────────┐
+│ OT (SCADA, PLC)  │             │ OT (SCADA, PLC)  │
+│ (폐쇄망, 안전)   │             │ (IoT 센서 연동)  │
+└──────────────────┘             └──────────────────┘
+```
 이 흐름의 핵심은 '연결' 자체가 취약점이 된다는 것이다. 과거에는 USB나 악의적 내부자 등 물리적 접근(Physical Access)만이 [OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/) 망을 위협할 수 있었으나, 이제는 IT 망의 이메일 [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/)([Phishing](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/))으로 탈취한 크리덴셜 하나만으로도 용광로의 온도를 조절하는 [PLC](/knowledge-base/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/)([Programmable Logic Controller](/knowledge-base/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/))에 악성 명령을 주입할 수 있게 되었다. 따라서 [OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/) 보안은 IT망과 OT망 사이의 완충 지대([DMZ](/knowledge-base/studynote/09_security/05_web_app_security/219_demilitarized_zone_dmz_public_subnet/))를 설정하고, 제어 명령의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 검증하는 데 집중해야 한다.
 
 > 📢 **섹션 요약 비유**: 이것은 마치 수백 년간 외부와 단절되어 면역력이 전혀 없는 원시 부족([OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/)) 마을에, 외부 세계와 교역하기 위해 다리(IT 연결)를 놓는 것과 같습니다. 철저한 검역소(보안망) 없이 다리를 개방하면, 단순한 감기 [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/)(IT [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/))만으로도 부족 전체가 몰살당할 수 있습니다.
@@ -58,21 +56,23 @@ tags = ["security"]
 
 <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/302_security_architecture_design/">Purdue 모델 기반의 계층적 [보안 아키텍처</a> 도식]</strong>
 이 계층 구조도는 IT 영역(Level 4)에서 발생한 악성코드가 현장 장비(Level 0)로 도달하기 위해 반드시 통과해야 하는 방어선(Choke Points)을 시각화한다.
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 4, 5: IT Enterprise Zone (인터넷, ERP)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Firewall &amp; VPN Gateway ▼ (IT 트래픽 차단/프록시)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 3.5: Industrial DMZ (점프 호스트, 패치 서버)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OT Firewall (DPI) ▼ (엄격한 1-way 데이터 다이오드)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 3: Site Operations (SCADA, Historian)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 1, 2: Control Zone (PLC, HMI, RTU)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Level 0: Field Devices (센서, 밸브, 모터)</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────┐
+│ Level 4, 5: IT Enterprise Zone (인터넷, ERP)           │
+├─────────────────────────┬──────────────────────────────┤
+│ Firewall & VPN Gateway  ▼  (IT 트래픽 차단/프록시)     │
+├────────────────────────────────────────────────────────┤
+│ Level 3.5: Industrial DMZ (점프 호스트, 패치 서버)     │
+├─────────────────────────┬──────────────────────────────┤
+│ OT Firewall (DPI)       ▼  (엄격한 1-way 데이터 다이오드)│
+├────────────────────────────────────────────────────────┤
+│ Level 3: Site Operations (SCADA, Historian)            │
+├────────────────────────────────────────────────────────┤
+│ Level 1, 2: Control Zone (PLC, HMI, RTU)               │
+├────────────────────────────────────────────────────────┤
+│ Level 0: Field Devices (센서, 밸브, 모터)              │
+└────────────────────────────────────────────────────────┘
+```
 이 구조의 핵심은 IT 계층과 [OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/) 계층 간의 <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/120_direct_communication/">직접 통신</a>(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/120_direct_communication/">Direct Communication</a>)을 물리적, 논리적으로 절대 허용하지 않는다</strong>는 점이다. Level 4의 사용자가 Level 2의 HMI에 접근하려면, 반드시 Level 3.5의 점프 호스트(Jump Host/Bastion)를 거쳐야만 한다. 또한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 흐름은 OT에서 IT로 향하는 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/)(예: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [다이오드](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/) 장비 사용)을 원칙으로 하며, IT에서 OT로 들어오는 패치나 제어 명령은 매우 엄격한 화이트리스트 기반의 검증을 거친다. 최하단 Level 0~2에서는 암호화가 불가능한 경우가 많으므로, [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)의 비정상적 행위를 탐지하는 [OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/) 전용 네트워크 [침입 탐지 시스템](/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/)(NDR)이 필수적이다.
 
 > 📢 **섹션 요약 비유**: 퍼듀 모델은 성의 방어 구조와 같습니다. 외성(IT)이 함락되더라도, 해자(IDMZ)와 내성([SCADA](/knowledge-base/studynote/09_security/18_iot_ot_physical/894_scada/))의 철문을 거쳐야만 왕([PLC](/knowledge-base/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/))에게 접근할 수 있도록 여러 겹의 성벽을 쌓는 다층 방어([Defense in Depth](/knowledge-base/studynote/09_security/01_intro_principles/012_defense_in_depth/)) 전략입니다.
@@ -92,18 +92,13 @@ IT 보안과 [OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/891_o
 
 **IEC 62443 기반 Zone & Conduit (구역 및 배관) 모델 도식]**
 이 도식은 플랫(Flat)한 [OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/) 네트워크를 어떻게 논리적으로 격리(Zone)하고 통신 경로(Conduit)를 제어하는지 보여준다.
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Conduit (배관)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Zone A (포장기)</div><div class="kb-diagram-cell">◀======(Firewall)======▶</div><div class="kb-diagram-cell">Zone B (조합기)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- PLC_1</div><div class="kb-diagram-cell">DPI Inspection</div><div class="kb-diagram-cell">- PLC_2</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- HMI_1</div><div class="kb-diagram-cell">- HMI_2</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────┐       [Conduit (배관)]       ┌─────────────────┐
+│ Zone A (포장기) │ ◀======(Firewall)======▶ │ Zone B (조합기) │
+│ - PLC_1         │       DPI Inspection       │ - PLC_2         │
+│ - HMI_1         │                            │ - HMI_2         │
+└─────────────────┘                            └─────────────────┘
+```
 이 도식의 핵심은 퍼듀 모델의 수직적 방어(North-South)뿐만 아니라, 같은 계층 내의 수평적 이동(East-West)을 차단하는 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/">세그멘테이션</a>(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/">Segmentation</a>)</strong> 전략이다. [OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/) 네트워크는 역사적으로 하나의 거대한 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 허브에 모든 장비가 물려있는 플랫(Flat) 네트워크인 경우가 많다. 이 경우 특정 포장기(Zone A)의 PLC가 악성코드에 감염되면, 즉각적으로 배합기(Zone B)로 감염이 확산된다. IEC 62443은 기계/공정 단위로 구역(Zone)을 나누고, 구역 간 통신은 오직 인가된 배관(Conduit)을 통해서만 이루어지도록 강제한다.
 
 > 📢 **섹션 요약 비유**: IT 보안이 은행 금고의 돈([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 지키는 것이라면, [OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/) 보안은 달리는 고속열차([가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))가 탈선하지 않도록 철로와 신호기(제어 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/))를 지키는 것입니다. 열차를 세워서(패치 적용) 검사하는 것 자체가 비즈니스에 치명적입니다.
@@ -161,23 +156,21 @@ IT 보안과 [OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/891_o
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">IT 보안 (IT Security) — 기밀성 중심, 패치·업데이트 가능</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">OT/ICS 보안 (Operational Technology) — 가용성·무결성 우선, 레거시 환경</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">에어갭 붕괴 (Air Gap 붕괴) — IT·OT 융합, 스마트 팩토리 전환</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">퍼듀 모델 (Purdue Model) / IEC 62443 — 계층 분리, 구역·배관 통제</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">제로 트러스트 OT (Zero Trust OT) — 기기 인증, OPC UA 암호화 표준화</div></div>
-</div>
-</div>
-
-
+```text
+[IT 보안 (IT Security) — 기밀성 중심, 패치·업데이트 가능]
+    │
+    ▼
+[OT/ICS 보안 (Operational Technology) — 가용성·무결성 우선, 레거시 환경]
+    │
+    ▼
+[에어갭 붕괴 (Air Gap 붕괴) — IT·OT 융합, 스마트 팩토리 전환]
+    │
+    ▼
+[퍼듀 모델 (Purdue Model) / IEC 62443 — 계층 분리, 구역·배관 통제]
+    │
+    ▼
+[제로 트러스트 OT (Zero Trust OT) — 기기 인증, OPC UA 암호화 표준화]
+```
 [OT](/knowledge-base/studynote/09_security/18_iot_ot_physical/891_ot_operational_technology/)/[ICS](/knowledge-base/studynote/09_security/18_iot_ot_physical/893_ics_industrial_control_system/) 보안은 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)을 최우선으로 하며, 퍼듀 모델과 [IEC 62443](/knowledge-base/studynote/09_security/18_iot_ot_physical/904_iec_62443/) 기반의 구역 격리로 사이버-물리 위협을 차단한다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

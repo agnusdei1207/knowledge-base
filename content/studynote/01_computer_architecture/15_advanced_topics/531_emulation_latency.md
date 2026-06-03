@@ -25,21 +25,20 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 왜 에뮬레이션이 단순 실행보다 느릴 수밖에 없는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">에뮬레이션 지연의 근원: 의미를 번역한 뒤 다시 실행해야 함</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Target code / device access</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ ISA 해석</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 레지스터·플래그·메모리 모델 변환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ Host 연산 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 타깃 상태로 결과 되맞춤</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">직접 실행이 아니라 "번역 + 실행 + 동기화"가 함께 일어나므로 지연 발생</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│          에뮬레이션 지연의 근원: 의미를 번역한 뒤 다시 실행해야 함         │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Target code / device access                                                │
+│      │                                                                     │
+│      ├─ ISA 해석                                                           │
+│      ├─ 레지스터·플래그·메모리 모델 변환                                  │
+│      ├─ Host 연산 실행                                                     │
+│      └─ 타깃 상태로 결과 되맞춤                                           │
+│                                                                            │
+│ 직접 실행이 아니라 "번역 + 실행 + 동기화"가 함께 일어나므로 지연 발생     │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 따라서 에뮬레이션을 볼 때는 단순히 "느리다"가 아니라, 무엇을 대신 얻는지를 같이 봐야 한다. 이식성, 보존, 사전 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 능력이 그 대가를 정당화하는 대표 가치다.
 
@@ -65,19 +64,19 @@ tags = ["studynote-computer-architecture"]
 
 이 그림은 DBT 기반 에뮬레이터가 어떻게 빠른 경로와 느린 경로를 나누는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DBT 기반 에뮬레이터의 빠른 경로와 느린 경로</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Target Basic Block</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">Translated Host Block 실행</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ 코드 캐시 miss ─▶ Decode/Lift ─▶ Translate ─▶ Cache 저장</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MMIO / 특수 명령 / 예외 ─▶ Helper / Device</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                 DBT 기반 에뮬레이터의 빠른 경로와 느린 경로               │
+├────────────────────────────────────────────────────────────────────────────┤
+│ [Target Basic Block]                                                       │
+│          │                                                                 │
+│          ├─ 코드 캐시 hit ───────────────▶ [Translated Host Block 실행]    │
+│          │                                                                 │
+│          └─ 코드 캐시 miss ─▶ Decode/Lift ─▶ Translate ─▶ Cache 저장      │
+│                                                        │                   │
+│ MMIO / 특수 명령 / 예외 ───────────────────────────────┴─▶ Helper / Device │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 DBT (Dynamic Binary Translation)는 자주 실행되는 기본 블록을 한 번 번역해 코드 캐시에 저장하고 재사용한다는 점에서, 매 명령을 다시 읽는 인터프리터보다 훨씬 유리하다. 반대로 게스트 안에서 또 JIT가 동작하거나 self-modifying code가 많으면 캐시가 자주 무효화되어 DBT 이점이 줄어든다.
 
@@ -155,25 +154,24 @@ DBT (Dynamic Binary Translation)는 자주 실행되는 기본 블록을 한 번
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">명령어 단위 인터프리터</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">DBT · 코드 캐시 기반 재사용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Soft-MMU · 장치 모델 정교화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">AOT 번역 + 런타임 보정 하이브리드</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">가상화 + 에뮬레이션 + VirtIO 혼합 구조</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">프로파일 기반 적응형 번역</div>
-</div>
-</div>
-
-
+```text
+명령어 단위 인터프리터
+        │
+        ▼
+DBT · 코드 캐시 기반 재사용
+        │
+        ▼
+Soft-MMU · 장치 모델 정교화
+        │
+        ▼
+AOT 번역 + 런타임 보정 하이브리드
+        │
+        ▼
+가상화 + 에뮬레이션 + VirtIO 혼합 구조
+        │
+        ▼
+프로파일 기반 적응형 번역
+```
 
 이 흐름은 에뮬레이션이 "모든 것을 실시간 해석"하는 단계에서 벗어나, 반복 경로와 장치 경로를 분리 최적화하는 방향으로 발전했음을 보여 준다.
 

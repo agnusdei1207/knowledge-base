@@ -26,18 +26,14 @@ tags = ["studynote-network"]
   - <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> (단일 스트림)</strong>: 1차선 도로입니다. 맨 앞의 똥차가 퍼져서 멈추면(패킷 유실), 뒤에 따라오던 수백 대의 벤츠와 페라리가 모조리 서서 기다려야 합니다 ([HOL Blocking](/knowledge-base/studynote/03_network/19_frequent_topics_terms/971_hol_blocking_head_of_line_tcp_http_delay/)).
   - **SCTP (멀티 스트림)**: 왕복 8차선 고속도로입니다. 1차선에서 트럭이 엎어져도, 2차선, 3차선에 있는 차들은 1차선 사고와 1도 상관없이 시속 100km로 쌩쌩 달릴 수 있습니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">MPTCP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SCTP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">UDP 헤더 구조</div></div>
-</div>
-</div>
-
-
+```text
+[MPTCP]
+    │
+    ▼
+[SCTP]
+    │
+    └──▶ [UDP 헤더 구조]
+```
 
 - **📢 섹션 요약 비유**: ** SCTP는 TCP의 **"정확도([신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/))"**와 UDP의 **"메시지 경계 유지(독립성)"**라는 장점만 쏙쏙 빼먹은 하이브리드 명품입니다. 한 바구니에 계란을 다 담아 앞사람이 넘어지면 다 박살 나는 TCP와 달리, 계란을 여러 바구니(스트림)에 나눠 담아 한 바구니를 떨어뜨려도 나머지는 무사히 배달되는 궁극의 안전 배송 시스템입니다.
 
@@ -65,23 +61,22 @@ SCTP는 애초에 태어날 때부터 이걸 완벽히 막아버렸다.
 4. 서버: "오, 진짜 내 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/) 맞네? [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 완료! 이제야 내 메모리에 널 위한 방을 하나 파줄게. 들어와! ([COOKIE](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/) ACK)"
 ▶ 이 4번의 핑퐁(4-Way) 덕분에 해커가 가짜 INIT 패킷을 수억 개 쏴도 서버는 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)만 던질 뿐 메모리를 1바이트도 쓰지 않아 절대 죽지 않는다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TCP vs SCTP의 Handshake와 병목 차이</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">통신 시작 방식의 차이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* TCP : SYN -&gt; SYN/ACK -&gt; ACK (3-Way, 메모리 할당 일찍함)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* SCTP: INIT -&gt; INIT ACK(쿠키) -&gt; COOKIE ECHO -&gt; COOKIE ACK</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(4-Way, 쿠키를 들고 와야만 메모리 할당해 줌. 해킹 방어 짱!)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">데이터 전송 방식의 차이</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* TCP (단일 차선): 앞 패킷 유실되면 뒷 패킷들 줄줄이 대기 (HOL 병목)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* SCTP (다중 차선): Stream 1 패킷 유실돼도, Stream 2, 3 패킷은</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대기 없이 목적지 앱으로 쾌속 직행! (HOL 타파)</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                TCP vs SCTP의 Handshake와 병목 차이              │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 통신 시작 방식의 차이 ]                                     │
+ │   * TCP : SYN -> SYN/ACK -> ACK  (3-Way, 메모리 할당 일찍함)     │
+ │   * SCTP: INIT -> INIT ACK(쿠키) -> COOKIE ECHO -> COOKIE ACK │
+ │           (4-Way, 쿠키를 들고 와야만 메모리 할당해 줌. 해킹 방어 짱!)  │
+ │                                                             │
+ │   [ 데이터 전송 방식의 차이 ]                                   │
+ │   * TCP (단일 차선): 앞 패킷 유실되면 뒷 패킷들 줄줄이 대기 (HOL 병목)│
+ │   * SCTP (다중 차선): Stream 1 패킷 유실돼도, Stream 2, 3 패킷은   │
+ │                     대기 없이 목적지 앱으로 쾌속 직행! (HOL 타파)  │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 3. 메시지 단위(Message-oriented) 전송
 TCP는 물줄기([Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/)) 방식이라 앱이 "안녕" "하세요"를 던져도 수신자는 "안녕하세" "요" 처럼 지 맘대로 썰어서 받는다. 
@@ -143,19 +138,15 @@ SCTP는 전송 계층을 이해할 때 핵심 축을 잡아 주는 개념이다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: MPTCP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: SCTP</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: UDP 헤더 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 적응형 저지연 전송</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: MPTCP]
+    │
+    ▼
+[현재 개념: SCTP]
+    │
+    ├──▶ [확장 A: UDP 헤더 구조]
+    └──▶ [확장 B: 적응형 저지연 전송]
+```
 
 SCTP는 MPTCP에서 출발해 현재 메커니즘을 정교화하고, 이후 [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 헤더 구조와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

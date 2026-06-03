@@ -26,23 +26,18 @@ tags = ["studynote-cloud-architecture"]
 
 CDC는 이 모든 문제를 DB의 <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a> <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a></strong>를 읽는 방식으로 해결한다.
 
+```
+[전통 ETL 방식]
+Batch 쿼리 (SELECT * WHERE updated > ?)
+운영 DB ──────────────────────────────▶ DW
+        ↑ DB 부하 발생, 매 시간/일 스캔
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">전통 ETL 방식</div></div>
-<div class="kb-diagram-note">Batch 쿼리 (SELECT * WHERE updated &gt; ?)</div>
-<div class="kb-diagram-note">운영 DB ▶ DW</div>
-<div class="kb-diagram-note">↑ DB 부하 발생, 매 시간/일 스캔</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">CDC 방식</div></div>
-<div class="kb-diagram-note">트랜잭션 로그 (Binlog/Redo Log)</div>
-<div class="kb-diagram-note">운영 DB ──▶ Debezium ──▶ Kafka ──▶ DW/레이크</div>
-<div class="kb-diagram-note">↑ 로그 읽기 (읽기 전용, 최소 부하)</div>
-<div class="kb-diagram-note">↑ 밀리초 단위 실시간 전송</div>
-</div>
-</div>
-
-
+[CDC 방식]
+트랜잭션 로그 (Binlog/Redo Log)
+운영 DB ──▶ Debezium ──▶ Kafka ──▶ DW/레이크
+        ↑ 로그 읽기 (읽기 전용, 최소 부하)
+        ↑ 밀리초 단위 실시간 전송
+```
 
 📢 **섹션 요약 비유**: CDC는 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 영상 기록이다. 누군가 가게(DB)에 들어와 물건을 가져가거나(DELETE), 추가하거나(INSERT), 바꾸면(UPDATE), [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/)([트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))가 자동으로 기록한다. 가게를 닫고 재고 조사(배치 스캔)를 하지 않아도 실시간으로 변화를 감지한다.
 
@@ -52,25 +47,25 @@ CDC는 이 모든 문제를 DB의 <strong><a href="/knowledge-base/studynote/05_
 
 ### Debezium 아키텍처
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">CDC 파이프라인 (Debezium)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">MySQL/PostgreSQL Kafka Connect Kafka Topic</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">운영 DB</div><div class="kb-diagram-cell">로그</div><div class="kb-diagram-cell">Debezium</div><div class="kb-diagram-cell">이벤트</div><div class="kb-diagram-cell">orders.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Binlog/</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">Source</div><div class="kb-diagram-cell">▶</div><div class="kb-diagram-cell">public.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">WAL 읽기</div><div class="kb-diagram-cell">Connector</div><div class="kb-diagram-cell">orders</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">INSERT/</div><div class="kb-diagram-cell">변경 이벤트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">UPDATE/</div><div class="kb-diagram-cell">to JSON/Avro</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DELETE</div><div class="kb-diagram-cell">Kafka Sink</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Connector</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(S3/Snowflake/</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Elasticsearch)</div></div>
-</div>
-</div>
-
-
+```
+┌────────────────────────────────────────────────────────────────┐
+│                    CDC 파이프라인 (Debezium)                    │
+│                                                                │
+│  MySQL/PostgreSQL        Kafka Connect          Kafka Topic    │
+│  ┌──────────────┐        ┌───────────────┐      ┌──────────┐  │
+│  │  운영 DB     │  로그   │   Debezium    │  이벤트│ orders.  │  │
+│  │  Binlog/    │ ──────▶ │  Source       │ ────▶ │ public.  │  │
+│  │  WAL 읽기   │        │  Connector    │       │ orders   │  │
+│  │             │        │               │       └──────────┘  │
+│  │ INSERT/     │        │  변경 이벤트  │                     │
+│  │ UPDATE/     │        │  to JSON/Avro │  ┌────────────────┐ │
+│  │ DELETE      │        │               │  │ Kafka Sink     │ │
+│  └──────────────┘        └───────────────┘  │ Connector      │ │
+│                                             │ (S3/Snowflake/ │ │
+│                                             │  Elasticsearch)│ │
+│                                             └────────────────┘ │
+└────────────────────────────────────────────────────────────────┘
+```
 
 ### [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) 이벤트 메시지 구조 (Debezium [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 예시)
 
@@ -224,21 +219,17 @@ GRANT SELECT, RELOAD, SHOW DATABASES, REPLICATION SLAVE,
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">풀 스캔 동기화 (전체 복사, 비효율)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CDC: 변경분만 캡처 (Log-based · Trigger-based)</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Debezium: MySQL/PG WAL → Kafka 토픽</div>
-<div class="kb-diagram-tree-item" style="--depth:2">Kafka Connect: Source/Sink 커넥터</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">실시간 ETL · 이벤트 소싱 · CQRS 패턴 연동</div>
-</div>
-</div>
-
-
+```text
+풀 스캔 동기화 (전체 복사, 비효율)
+    │
+    ▼
+CDC: 변경분만 캡처 (Log-based · Trigger-based)
+    ├─► Debezium: MySQL/PG WAL → Kafka 토픽
+    └─► Kafka Connect: Source/Sink 커넥터
+    │
+    ▼
+실시간 ETL · 이벤트 소싱 · CQRS 패턴 연동
+```
 2. Debezium은 기록부를 읽는 비서다. 사서(DB)가 기록부에 쓰는 것을 지켜보다가, 새 내용이 생기면 즉시 공지 게시판([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/))에 붙여준다.
 3. 덕분에 다른 도서관들([DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/), 레이크, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)들)은 게시판만 보면 원본 도서관 상황을 실시간으로 알 수 있어, 일일이 원본 도서관(운영 DB)에 전화하지 않아도 된다.
 

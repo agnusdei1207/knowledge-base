@@ -31,28 +31,27 @@ tags = ["database"]
 
 이를 수학적으로 보장하는 조건은 다음과 같다. $R_1 \[cap](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) R_2$ (공통 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))가 $R_1$ 또는 $R_2$의 [기본 키](/knowledge-base/studynote/05_database/02_modeling_normalization/070_primary_key_alternate_key/)(PK) 혹은 [후보 키](/knowledge-base/studynote/05_database/02_modeling_normalization/069_candidate_key_uniqueness_minimality/)여야 한다. 즉, $R_1 \[cap](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) R_2 \rightarrow R_1$ 이거나 $R_1 \[cap](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/341_process/) R_2 \rightarrow R_2$ 여야 한다는 뜻이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">손실 분해 vs 무손실 분해</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">원본 R (사번, 이름, 프로젝트)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(1, 김철수, A)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(2, 김철수, B)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">손실 분해 (이름 기준 쪼개기 - 이름은 PK가 아님)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">R1(사번, 이름) R2(이름, 프로젝트)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(1, 김철수) bowtie (김철수, A)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(2, 김철수) (김철수, B)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: (1, 김철수, B)와 같은 '가짜 데이터' 뻥튀기 발생!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">무손실 분해 (사번 기준 쪼개기 - 사번이 PK)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">R1(사번, 이름) R2(사번, 프로젝트)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(1, 김철수) bowtie (1, A)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(2, 김철수) (2, B)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 원래 데이터 100% 정확하게 복원 성공</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│                  손실 분해 vs 무손실 분해                    │
+├──────────────────────────────────────────────────────────────┤
+│ [원본 R (사번, 이름, 프로젝트)]                              │
+│  (1, 김철수, A)                                              │
+│  (2, 김철수, B)                                              │
+│                                                              │
+│ [손실 분해 (이름 기준 쪼개기 - 이름은 PK가 아님)]            │
+│  R1(사번, 이름)      R2(이름, 프로젝트)                      │
+│  (1, 김철수)    bowtie  (김철수, A)                          │
+│  (2, 김철수)            (김철수, B)                          │
+│  => 결과: (1, 김철수, B)와 같은 '가짜 데이터' 뻥튀기 발생!   │
+│                                                              │
+│ [무손실 분해 (사번 기준 쪼개기 - 사번이 PK)]                 │
+│  R1(사번, 이름)      R2(사번, 프로젝트)                      │
+│  (1, 김철수)    bowtie  (1, A)                               │
+│  (2, 김철수)            (2, B)                               │
+│  => 결과: 원래 데이터 100% 정확하게 복원 성공                │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 다이어그램은 [결정자](/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/) 역할을 하지 못하는 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)(이름)을 기준으로 분해했을 때 왜 조인 결과가 카르테시안 곱([Cartesian Product](/knowledge-base/studynote/05_database/07_exam_summary/412_cartesian_product/))처럼 부풀어 올라 가짜 행(Spurious Tuple)을 만드는지를 보여준다.
 
@@ -108,23 +107,21 @@ tags = ["database"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">이상 현상 (Anomaly) 인지</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">함수적 종속성 (Functional Dependency) 파악</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">정규화 및 무손실 분해 (Lossless-Join Decomposition) 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">종속성 보존 (Dependency Preservation) 검증</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">물리적 반정규화 (De-normalization) - 성능 필요시 후행</div>
-</div>
-</div>
-
-
+```text
+이상 현상 (Anomaly) 인지
+    │
+    ▼
+함수적 종속성 (Functional Dependency) 파악
+    │
+    ▼
+정규화 및 무손실 분해 (Lossless-Join Decomposition) 적용
+    │
+    ▼
+종속성 보존 (Dependency Preservation) 검증
+    │
+    ▼
+물리적 반정규화 (De-normalization) - 성능 필요시 후행
+```
 이 흐름도는 [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/) 설계 시 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 정합성을 확보한 후, 마지막에 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 타협하는 일련의 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

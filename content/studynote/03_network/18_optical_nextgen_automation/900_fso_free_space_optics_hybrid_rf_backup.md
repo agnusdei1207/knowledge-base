@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: 유리관(광섬유)을 땅속에 묻는 대신, <strong>적외선 또는 레이저 빔파장을 대기권(Free Space, 공기 중)의 허공을 뚫고 쏘아 보내어 두 지점(빌딩 간, 위성 간)을 1:1(<a href="/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/142_point_to_point_integration_spaghetti/">Point-to-Point</a>)로 연결하는 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a> 무선 광 전송 기술</strong>입니다.
 - 광케이블 매설이 불가능한 도심지나 산악 지형, 계곡을 훌쩍 넘어서 수 Gbps의 통신망을 당일치기로 뚝딱 개통해 낼 수 있는(Last-Mile 해결책) 획기적 수단입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">다크 파이버</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">무선 광통신</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">AIOps</div></div>
-</div>
-</div>
-
-
+```text
+[다크 파이버]
+    │
+    ▼
+[무선 광통신]
+    │
+    └──▶ [AIOps]
+```
 
 - **📢 섹션 요약 비유**: 무선 광통신은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -44,18 +40,14 @@ tags = ["studynote-network"]
 - **무허가 폭격**: 일반 무선 라디오 전파([LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/), 와이파이)는 정부에 조 단위의 주파수 경매 돈을 내야 쓸 수 있습니다. 하지만 FSO의 레이저 빛(가시광선/적외선 대역)은 정부 규제를 받지 않아 누구나 무료로 무허가로 마음껏 쏠 수 있습니다.
 - **철통 보안과 무간섭**: 빛은 완벽하게 1:1 직선으로만 뻗어 나갑니다. 옆에 뚱뚱한 전파 간섭(와이파이 혼선)을 1도 받지 않으며, 해커가 허공의 레이저 빔 사이에 수신기를 끼워 넣어 훔쳐보기 전까진 스니핑이 물리적으로 불가능합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">다크 파이버</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">무선 광통신</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">AIOps</div></div>
-</div>
-</div>
-
-
+```text
+[다크 파이버]
+    │
+    ▼
+[무선 광통신]
+    │
+    └──▶ [AIOps]
+```
 
 - **📢 섹션 요약 비유**: 무선 광통신의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -125,19 +117,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 다크 파이버</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 무선 광통신</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: AIOps</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의미 기반 통신 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 다크 파이버]
+    │
+    ▼
+[현재 개념: 무선 광통신]
+    │
+    ├──▶ [확장 A: AIOps]
+    └──▶ [확장 B: 의미 기반 통신 최적화]
+```
 
 무선 광통신는 [다크 파이버](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/899_dark_fiber_unlit_infrastructure_lease/)에서 출발해 현재 메커니즘을 정교화하고, 이후 AIOps와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

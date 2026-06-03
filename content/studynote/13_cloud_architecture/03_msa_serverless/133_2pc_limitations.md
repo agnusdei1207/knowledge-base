@@ -18,18 +18,13 @@ tags = ["studynote-cloud-architecture"]
 
 ## Ⅰ. 개요 및 필요성
 
+```text
+2PC: Coordinator → Prepare(모든 참여자) → Commit/Rollback
+  한계: 블로킹, 단일 장애점, MSA에 부적합
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">2PC: Coordinator → Prepare(모든 참여자) → Commit/Rollback</div>
-<div class="kb-diagram-note">한계: 블로킹, 단일 장애점, MSA에 부적합</div>
-<div class="kb-diagram-note">Saga: 서비스별 로컬 트랜잭션 + 실패 시 보상 트랜잭션</div>
-<div class="kb-diagram-note">주문 성공 → 결제 실패 → 주문 취소(보상)</div>
-</div>
-</div>
-
-
+Saga: 서비스별 로컬 트랜잭션 + 실패 시 보상 트랜잭션
+  주문 성공 → 결제 실패 → 주문 취소(보상)
+```
 
 - **📢 섹션 요약 비유**: 2PC는 단체 행동(전원 동시 출발), Saga는 릴레이(각자 달리고, 실패 시 되돌아옴)이다.
 
@@ -64,18 +59,12 @@ MSA에서는 <strong><a href="/knowledge-base/studynote/04_software_engineering/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">2PC (X/Open DTP, 1990s)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">MSA 등장 → 2PC 한계 인식</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">Saga 패턴 (Garcia-Molina, 1987 → MSA 재발견)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">이벤트 소싱 + CQRS (2016~)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: Temporal/Cadence — Saga 오케스트레이션 프레임워크</div></div>
-</div>
-</div>
-
-
+```text
+[2PC (X/Open DTP, 1990s)] → [MSA 등장 → 2PC 한계 인식]
+    → [Saga 패턴 (Garcia-Molina, 1987 → MSA 재발견)]
+    → [이벤트 소싱 + CQRS (2016~)]
+    → [현재: Temporal/Cadence — Saga 오케스트레이션 프레임워크]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 2PC는 <strong>단체 줄넘기</strong>예요. 한 명이 실패하면 **전원 다시** 해야 해요.

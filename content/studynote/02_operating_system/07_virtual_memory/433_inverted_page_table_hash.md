@@ -27,28 +27,30 @@ tags = ["studynote-operating-system"]
   2. **하드웨어 해시(Hash)의 투입**: [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) 안에 곱셈/나눗셈/XOR 연산을 빛의 속도로 하는 해시 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 회로를 강제 삽입함.
   3. **Hash Anchor Table의 탄생**: 해시가 뱉어낸 결과값이 바로 물리 프레임 주소가 아니라, "[역 페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/363_inverted_page_table/) 장부의 진짜 위치를 가리키는 중간 포인터 역할"을 하도록 2단 구조가 확립됨.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해시(Hash) 융합 역 페이지 테이블의 초고속 번역 파이프라인 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">1. CPU의 메모리 접근 요구</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- "나 프로세스 A (PID=5)인데, 가상 페이지 10번 데이터 줘!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">2. 하드웨어 해시 함수 가동 (MMU 내부 1클럭 컷)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- <code>Hash( PID 5, Page 10 ) = 결과값 88 도출!</code></div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">3. 해시 앵커 테이블 (Hash Anchor Table) 1차 방문 - RAM</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 앵커 테이블의 88번째 인덱스로 쏜살같이 직행.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- 88번 칸: "역 페이지 테이블의</div><div class="kb-diagram-node">405번 줄</div><div class="kb-diagram-note">을 가보셈!" ──</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">4. 역 페이지 테이블 (Inverted Page Table) 2차 방문 - RAM</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 405번 줄을 확인해 봄. ◀</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- 장부 내용:</div><div class="kb-diagram-node">PID: 5 | Page: 10</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 🟢 빙고! 내가 찾던 그놈이 맞음. 405번이 곧 진짜 램 프레임 번호임!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">🚀 결과: 100만 번의 장부 스캔(O(N))을 버리고, 단 2번의 램 접근(O(1))</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">만으로 진짜 물리 메모리 주소를 쟁취해 내는 기적!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────────────────┐
+│        해시(Hash) 융합 역 페이지 테이블의 초고속 번역 파이프라인 시각화 │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│ [ 1. CPU의 메모리 접근 요구 ]                                           │
+│   - "나 프로세스 A (PID=5)인데, 가상 페이지 10번 데이터 줘!"            │
+│                                                                         │
+│ [ 2. 하드웨어 해시 함수 가동 (MMU 내부 1클럭 컷) ]                      │
+│   - `Hash( PID 5, Page 10 ) = 결과값 88 도출!`                          │
+│                                                                         │
+│ [ 3. 해시 앵커 테이블 (Hash Anchor Table) 1차 방문 - RAM ]              │
+│   - 앵커 테이블의 88번째 인덱스로 쏜살같이 직행.                        │
+│   - 88번 칸: "역 페이지 테이블의 [ 405번 줄 ]을 가보셈!" ──┐            │
+│                                              │                          │
+│ [ 4. 역 페이지 테이블 (Inverted Page Table) 2차 방문 - RAM ]            │
+│   - 405번 줄을 확인해 봄. ◀────────────────────────┘                    │
+│   - 장부 내용: [ PID: 5 | Page: 10 ]                                    │
+│   - 🟢 빙고! 내가 찾던 그놈이 맞음. 405번이 곧 진짜 램 프레임 번호임!   │
+│                                                                         │
+│ 🚀 결과: 100만 번의 장부 스캔(O(N))을 버리고, 단 2번의 램 접근(O(1))    │
+│         만으로 진짜 물리 메모리 주소를 쟁취해 내는 기적!                │
+└─────────────────────────────────────────────────────────────────────────┘
+```
 **[다이어그램 해설]** "[역 페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/363_inverted_page_table/) 405번 줄 = 실제 물리 램 405번 프레임" 이라는 것이 역 테이블의 핵심 철학이다. 장부의 인덱스가 곧 실제 램의 방 번호다. [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)는 이 405번이라는 방 번호를 한 방에 찔러주기 위해 존재하는 마법의 내비게이션이다. [다단계 페이징](/knowledge-base/studynote/02_operating_system/06_memory_management/361_hierarchical_paging/)이 4~5번 램을 덜그럭거리며 읽는 것에 비해, 이 방식은 캐시 충돌만 안 나면 램을 2번만 읽고 번역을 끝내는 무시무시한 효율을 자랑한다.
 
 - **📢 섹션 요약 비유**: 두꺼운 백과사전(역 테이블)에서 단어를 찾을 때 첫 장부터 끝까지 한 장씩 다 넘겨보며 찾는 건 바보 짓입니다. 책의 맨 뒷장에 있는 '가나다순 색인표(해시 앵커 테이블)'를 딱 1번만 펼쳐서 단어 옆에 적힌 '405페이지'라는 숫자를 보고, 한 번에 405페이지로 훅 건너뛰어버리는 압도적인 탐색 단축 스킬입니다.
@@ -101,17 +103,14 @@ tags = ["studynote-operating-system"]
 - "램 아끼려고 [역 페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/363_inverted_page_table/) 쓴다며 앵커 테이블 크기를 키우면 무슨 소용이야?"라고 반문할 수 있다.
 - 하지만 앵커 테이블은 한 줄에 달랑 '포인터 4바이트'만 들어가는 아주 얇은 뼈대 장부다. 4단계를 겹쳐 짓는 트리(다단계) 장부 용량 폭발에 비하면, 앵커 테이블을 4배 키우는 건 새 발의 피 수준의 극한의 메모리 절약 효율을 낸다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">해시 함수 질</div><div class="kb-diagram-cell">앵커 장부 크기</div><div class="kb-diagram-cell">충돌 확률(체인)</div><div class="kb-diagram-cell">TLB Miss 지연 시간</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">멍청함 (Poor)</div><div class="kb-diagram-cell">램 크기와 같음</div><div class="kb-diagram-cell">☠️ 매우 잦음</div><div class="kb-diagram-cell">수십 회 램 읽기 (마비)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">똑똑함 (Good)</div><div class="kb-diagram-cell">램 크기의 2배</div><div class="kb-diagram-cell">🟢 가끔 터짐</div><div class="kb-diagram-cell">2~3회 램 읽기 (양호)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────┬────────────┬────────────┬──────────────────────────────────┐
+│ 해시 함수 질 │ 앵커 장부 크기 │ 충돌 확률(체인)│ TLB Miss 지연 시간   │
+├──────────┼────────────┼────────────┼──────────────────────────────────┤
+│ 멍청함 (Poor)│ 램 크기와 같음 │ ☠️ 매우 잦음  │ 수십 회 램 읽기 (마비)│
+│ 똑똑함 (Good)│ 램 크기의 2배  │ 🟢 가끔 터짐  │ 2~3회 램 읽기 (양호)  │
+└──────────┴────────────┴────────────┴──────────────────────────────────┘
+```
 **[매트릭스 해설]** 컴퓨터 공학에서 해시(Hash)를 쓸 때는 항상 Space-Time Trade-off (공간과 시간의 교환)가 발생한다. 공간(앵커 테이블)을 넉넉히 주면 체인(충돌)이 줄어 속도가 오르고, 공간을 아끼면 겹치는 놈들이 많아져 속도가 지옥으로 간다. IBM 엔지니어들은 이 줄타기의 황금비율을 찾아 하드웨어 실리콘에 박아넣었다.
 
 - **📢 섹션 요약 비유**: 식당 예약 명부(해시 앵커)를 딱 손님 수(램)만큼 100칸만 만들어두면, '김 씨' 칸에 수십 명이 겹쳐서 예약 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(충돌 체이닝) 하느라 줄이 끝없이 길어집니다. 하지만 예약 명부를 400칸짜리로 넉넉하게 사 오면 '김민준, 김철수' 등 이름이 분산되어 1초 만에 예약 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)이 끝나는 통계적 튜닝입니다.
@@ -167,19 +166,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">캐시 컬러링 (Cache Coloring)에 의한 페이지 매핑 최적화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">역 페이지 테이블 탐색 최적화 해시 함수 (Inverted Page Table Hash)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">비동기식 페이지 폴트 (Asynchronous Page Faults) 핸들링</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">TLB 슛다운 (TLB Shootdown)</div></div>
-</div>
-</div>
-
-
+```text
+[캐시 컬러링 (Cache Coloring)에 의한 페이지 매핑 최적화]
+    │
+    ▼
+[역 페이지 테이블 탐색 최적화 해시 함수 (Inverted Page Table Hash)]
+    │
+    ├──▶ [비동기식 페이지 폴트 (Asynchronous Page Faults) 핸들링]
+    └──▶ [TLB 슛다운 (TLB Shootdown)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

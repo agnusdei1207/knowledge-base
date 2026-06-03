@@ -27,20 +27,17 @@ tags = ["enterprise_systems"]
 
 이를 해결하기 위해 The Open Group은 전 세계 IT 거인들의 모범 사례를 집대성하여 TOGAF를 제정했다. TOGAF의 핵심은 아키텍처를 한 번에 완벽히 그리는 것이 아니라, 예비 단계부터 변화 관리 단계까지 지속적으로 순환하며 성숙도를 높여가는 <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/066_적응형_델타_변조_ADM/">ADM</a> (<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/114_togaf_adm_architecture_development_method/">Architecture Development Method</a>)</strong> 사이클에 있다.
 
+```text
+[기존 일회성 아키텍처 구축의 한계]
+[비즈니스 요구] ─▶ [거대 EA 도면 작성(1년 소요)] ─▶ [개발/배포] ─▶ [방치 및 부식]
+      ▲                                                              │
+      └───────────────── 비즈니스 환경 변화 (괴리 발생) ───────────────┘
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">기존 일회성 아키텍처 구축의 한계</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">비즈니스 요구</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">거대 EA 도면 작성(1년 소요)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">개발/배포</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">방치 및 부식</div></div>
-<div class="kb-diagram-tree-item" style="--depth:3">비즈니스 환경 변화 (괴리 발생)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">TOGAF ADM 기반의 지속적 아키텍처 진화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">비즈니스 요구</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">ADM 사이클 (작고 빠른 반복)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">To-Be 도출</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">구현 거버넌스</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Architecture Change Management</div><div class="kb-diagram-connector">◀</div></div>
-</div>
-</div>
-
-
+[TOGAF ADM 기반의 지속적 아키텍처 진화]
+[비즈니스 요구] ─▶ [ADM 사이클 (작고 빠른 반복)] ─▶ [To-Be 도출] ─▶ [구현 거버넌스]
+      ▲                      │                                       │
+      └────────────── [Architecture Change Management] ◀────────────┘
+```
 *해설: 이 구조도는 TOGAF가 왜 필요한지를 명확히 보여준다. 기존 방식은 도면과 실제 시스템이 빠르게 불일치하여 쓸모없는 문서로 전락하지만, TOGAF는 '아키텍처 [변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/)(Phase H)'를 프로세스 내부에 강제 탑재함으로써 지속적인 [피드백 루프](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/005_feedback_loop/)를 형성하여 생명력을 유지한다.*
 
 📢 **섹션 요약 비유**: TOGAF는 요리사의 '완벽한 레시피 북'과 같습니다. 식재료를 어떻게 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)할지(잭맨) 아는 것을 넘어, 언제 불을 켜고, 어떤 순서로 양념을 넣으며, 맛이 변했을 때 어떻게 수정할지([ADM](/knowledge-base/studynote/03_network/01_data_communication/066_적응형_델타_변조_ADM/))까지 세밀하게 알려주어 누가 요리하든 일관된 미슐랭급 코스 요리(기업 시스템)를 만들게 해 줍니다.
@@ -63,23 +60,27 @@ TOGAF의 뼈대는 4대 아키텍처 [도메인](/knowledge-base/studynote/05_da
 - <strong>Phase H (아키텍처 <a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/">변경 관리</a>)</strong>: 기술 변화, 비즈니스 변화 수용 및 다음 사이클 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/).
 - <strong>중앙: <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/158_requirements_management_change_control/">요구사항 관리</a> (Requirements <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/">Management</a>)</strong>: 모든 Phase의 중심에서 요구사항의 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 유지.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">Requirements Management</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Phase H</div><div class="kb-diagram-cell">◀</div><div class="kb-diagram-cell">Phase A</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">변경관리</div><div class="kb-diagram-cell">▼</div><div class="kb-diagram-cell">비전</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">▲</div><div class="kb-diagram-cell">Phase G</div><div class="kb-diagram-cell">Phase B</div><div class="kb-diagram-cell">▼</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">거버넌스</div><div class="kb-diagram-cell">비즈니스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Phase F</div><div class="kb-diagram-cell">Phase C</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">이행</div><div class="kb-diagram-cell">정보(DA/AA)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Phase E</div><div class="kb-diagram-cell">◀</div><div class="kb-diagram-cell">Phase D</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기회/솔루션</div><div class="kb-diagram-cell">기술</div><div class="kb-diagram-cell">◀</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────┐
+│               [Requirements Management]                │
+│                         ▲                              │
+│ ┌──────┐                │                ┌──────┐      │
+│ │Phase H│◀──────────────┴─────────────── │Phase A│      │
+│ │변경관리│                ▼                │ 비전 │      │
+│ └──────┘ ┌──────┐               ┌──────┐ └──────┘      │
+│     ▲    │Phase G│               │Phase B│     ▼       │
+│     │    │거버넌스│               │비즈니스│     │       │
+│     │    └──────┘               └──────┘     │       │
+│ ┌──────┐     ▲                     ▼    ┌──────┐       │
+│ │Phase F│     │                     │    │Phase C│       │
+│ │ 이행  │     │                     │    │정보(DA/AA)    │
+│ └──────┘     │                     │    └──────┘       │
+│     ▲    ┌──────┐               ┌──────┐     ▼       │
+│     │    │Phase E│◀───────────────│Phase D│     │       │
+│     └────│기회/솔루션              │ 기술 │ ◀───┘       │
+│          └──────┘               └──────┘               │
+└────────────────────────────────────────────────────────┘
+```
 *해설: 이 [ADM](/knowledge-base/studynote/03_network/01_data_communication/066_적응형_델타_변조_ADM/) 크롭 도식에서 주목할 점은 중앙의 '[요구사항 관리](/knowledge-base/studynote/04_software_engineering/03_design_architecture/158_requirements_management_change_control/)(Requirements [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/))'이다. 모든 A~H 단계는 독립적으로 흐르는 것이 아니라 끊임없이 중앙의 요구사항과 대조된다. 또한 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 폭포수가 아니라, D 단계에서 기술적 제약이 발견되면 언제든 B 단계로 돌아가 비즈니스 프로세스를 재설정할 수 있는 순환적 트레이드오프 구조를 갖는다.*
 
 #### Enterprise Continuum (엔터프라이즈 연속체)
@@ -102,24 +103,19 @@ EA를 구현하는 양대 산맥인 TOGAF와 잭맨([Zachman](/knowledge-base/st
 <strong>융합적 활용 (<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/113_togaf/">TOGAF</a> + <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/243_zachman_framework_matrix/">Zachman</a>)</strong>: 
 가장 이상적인 IT [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 컨설팅에서는 TOGAF의 ADM을 메인 프로세스로 차용하여 Phase B, C, D를 수행한다. 그리고 이 단계들에서 도출된 수많은 산출물(다이어그램, 명세서)을 보관하고 정합성을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 빈칸(Template)으로 [잭맨 프레임워크](/knowledge-base/studynote/12_it_management/03_ea_isp/112_zachman_framework/)의 36개 매트릭스를 사용한다. 이는 "동적 방법론으로 생산하고 정적 온톨로지로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다"는 완벽한 조화를 이끌어낸다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">프레임워크 특성 비교 및 트레이드오프 매트릭스</div></div>
-<div class="kb-diagram-note">유연성/범용성</div>
-<div class="kb-diagram-connector">▲</div>
-<div class="kb-diagram-note">● TOGAF</div>
-<div class="kb-diagram-note">(방법론 강점, 분류 약점)</div>
-<div class="kb-diagram-note">● GEA (FEAF)</div>
-<div class="kb-diagram-note">(공공 통제 강점, 유연성 약점)</div>
-<div class="kb-diagram-tree-item" style="--depth:1">▶ 정밀함/추적성</div>
-<div class="kb-diagram-note">● Zachman</div>
-<div class="kb-diagram-note">(분류 강점, 방법론 약점)</div>
-</div>
-</div>
-
-
+```text
+[프레임워크 특성 비교 및 트레이드오프 매트릭스]
+유연성/범용성
+   ▲
+   │        ● TOGAF
+   │     (방법론 강점, 분류 약점)
+   │                                  ● GEA (FEAF)
+   │                           (공공 통제 강점, 유연성 약점)
+   │
+   ├─────────────────────────────────────────▶ 정밀함/추적성
+          ● Zachman
+      (분류 강점, 방법론 약점)
+```
 *해설: 이 산포도는 각 프레임워크가 놓인 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 위치를 보여준다. TOGAF는 민간 기업에서 유연하게 적용하기 가장 좋은 범용성을 가졌다. 반면 잭맨은 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 정밀함은 높으나 범용적 적용(Action)이 어렵고, 정부 주도형([GEA](/knowledge-base/studynote/12_it_management/03_ea_isp/115_gea_government_ea_framework/))은 철저한 통제와 지침 하에 묶여 있다. 따라서 글로벌 기업의 80% 이상이 TOGAF를 베이스 라인으로 선택한다.*
 
 📢 **섹션 요약 비유**: TOGAF가 차를 설계하고 조립하는 '공장의 컨베이어 벨트(생산 공정)'라면, 잭맨은 그 부품들이 종류별로 담겨있는 '창고의 부품함([분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계)'입니다. 공정 없이 부품만 있으면 차를 못 만들고, 부품함 없이 공정만 돌리면 뒤죽박죽이 됩니다.
@@ -134,24 +130,21 @@ EA를 구현하는 양대 산맥인 TOGAF와 잭맨([Zachman](/knowledge-base/st
 2. **거버넌스(Phase G)의 병목 통제**: 아키텍처가 설계되었어도, 개발팀이 일정 압박 때문에 이를 무시하면 소용없다. 따라서 ARB([아키텍처 검토 위원회](/knowledge-base/studynote/12_it_management/03_ea_isp/123_arb_architecture_review_board/))는 개발 단계에서 [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/)나 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인과 결합하여 표준 준수 여부를 자동화된 룰(Rule)로 강제하는 판단이 필요하다.
 3. <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 주의</strong>: ADM을 한 방향으로만 흐르는 폭포수(Waterfall)로 사용하는 것은 최악의 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다. 요구사항이 변했는데도 이전 단계로 돌아가지(Iteration) 않고 무리하게 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)하면 결국 Phase H([변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/))에서 전체 시스템을 갈아엎어야 하는 사태가 발생한다.
 
+```text
+[실무 의사결정 트리: TOGAF 도입 및 테일러링 전략]
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">실무 의사결정 트리: TOGAF 도입 및 테일러링 전략</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">조직 규모 및 개발 문화 분석</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">배포 주기 검토</div><div class="kb-diagram-note">주 단위/일 단위 배포를 수행하는 애자일(Agile/MSA) 조직인가?</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">경량화 도입</div><div class="kb-diagram-note">ADM 전면 적용 불가.</div></div>
-<div class="kb-diagram-note">아키텍처 가드레일(최소 원칙)만 정의하고, Phase G(거버넌스)를</div>
-<div class="kb-diagram-note">자동화된 테스트/코드 스캐닝 솔루션에 위임.</div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">레거시/대규모 통합 여부</div><div class="kb-diagram-note">차세대 시스템 구축이나 M&amp;A 통합인가?</div></div>
-<div class="kb-diagram-tree-item" style="--depth:8">(Yes) ─▶ ADM Full Cycle 가동. B/C/D 갭 분석 정밀 수행.</div>
-<div class="kb-diagram-tree-item" style="--depth:8">(No) ──▶ 부서 단위 최적화. Phase A(비전)와 F(이행) 위주 약식 적용.</div>
-</div>
-</div>
-
-
+[조직 규모 및 개발 문화 분석]
+         │
+         ▼
+[배포 주기 검토] 주 단위/일 단위 배포를 수행하는 애자일(Agile/MSA) 조직인가?
+   ├─ (Yes) ──▶ [경량화 도입] ADM 전면 적용 불가.
+   │              아키텍처 가드레일(최소 원칙)만 정의하고, Phase G(거버넌스)를 
+   │              자동화된 테스트/코드 스캐닝 솔루션에 위임.
+   │
+   └─ (No) ───▶ [레거시/대규모 통합 여부] 차세대 시스템 구축이나 M&A 통합인가?
+                  ├─ (Yes) ─▶ ADM Full Cycle 가동. B/C/D 갭 분석 정밀 수행.
+                  └─ (No) ──▶ 부서 단위 최적화. Phase A(비전)와 F(이행) 위주 약식 적용.
+```
 *해설: 이 플로우차트는 기술사가 조직 문화를 바탕으로 프레임워크의 무게를 조절하는 판단 기준이다. 최신 IT 트렌드에서는 두꺼운 설계 문서보다 '작동하는 코드'가 우위이므로, [TOGAF](/knowledge-base/studynote/12_it_management/03_ea_isp/113_togaf/) 역시 엄격한 문서 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)기에서 '최소한의 가이드레일을 제공하는 나침반' 역할로 테일러링 되어야 한다.*
 
 📢 **섹션 요약 비유**: TOGAF를 실무에 쓰는 것은 고급 피트니스 센터의 수많은 헬스 기구를 사용하는 것과 같습니다. 초보자([애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 소형 프로젝트)가 모든 기구를 한 번씩 다 쓰려다가는 근육통(오버엔지니어링)으로 쓰러집니다. 트레이너(기술사)의 조언에 따라 내 몸에 맞는 필수 기구 3~4개만 골라 반복하는 것이 정답입니다.
@@ -183,23 +176,21 @@ TOGAF는 기업 단위의 거대한 IT 의사결정을 감으로 하는 것이 �
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">엔터프라이즈 아키텍처 (EA) — 비즈니스·IT 전반의 구조적 정렬 필요</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">TOGAF (The Open Group Architecture Framework) — EA 개발·관리 표준 프레임워크</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ADM (Architecture Development Method) — 8단계 반복 사이클로 아키텍처 개발</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">아키텍처 리포지토리 (Architecture Repository) — 산출물 저장 및 재사용 관리</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">TOGAF 10 / 아키텍처 거버넌스 — 디지털 전환 시대의 지속적 EA 운영 체계</div></div>
-</div>
-</div>
-
-
+```text
+[엔터프라이즈 아키텍처 (EA) — 비즈니스·IT 전반의 구조적 정렬 필요]
+    │
+    ▼
+[TOGAF (The Open Group Architecture Framework) — EA 개발·관리 표준 프레임워크]
+    │
+    ▼
+[ADM (Architecture Development Method) — 8단계 반복 사이클로 아키텍처 개발]
+    │
+    ▼
+[아키텍처 리포지토리 (Architecture Repository) — 산출물 저장 및 재사용 관리]
+    │
+    ▼
+[TOGAF 10 / 아키텍처 거버넌스 — 디지털 전환 시대의 지속적 EA 운영 체계]
+```
 
 이 흐름은 엔터프라이즈 아키텍처의 필요성에서 출발하여 TOGAF의 [ADM](/knowledge-base/studynote/03_network/01_data_communication/066_적응형_델타_변조_ADM/) 사이클이 수립되고, 리포지토리 기반 거버넌스로 진화하는 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 관리 방식의 발전 과정을 보여준다.
 

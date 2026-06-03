@@ -31,23 +31,23 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Team Topologies 4가지 팀 유형</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스트림 정렬 팀</div><div class="kb-diagram-cell">특정 제품/서비스 비즈니스 흐름 담당</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Stream-Aligned)</div><div class="kb-diagram-cell">자율적 배포·운영, 인지 부하 최소화</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">인에이블링 팀</div><div class="kb-diagram-cell">스트림 팀이 새 역량 습득 돕는 임시 지원</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Enabling)</div><div class="kb-diagram-cell">컨설팅·교육 후 철수, 의존성 생성 금지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">복잡 서브시스템 팀</div><div class="kb-diagram-cell">전문 도메인(ML, DSP) 개발·유지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Complicated-SS)</div><div class="kb-diagram-cell">소수 전문가, 다른 팀에 컴포넌트 제공</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">플랫폼 팀</div><div class="kb-diagram-cell">IDP(내부 개발자 플랫폼) 제공</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(Platform)</div><div class="kb-diagram-cell">X-as-a-Service로 셀프 서비스 제공</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│            Team Topologies 4가지 팀 유형                         │
+├──────────────────────────────────────────────────────────────────┤
+│  스트림 정렬 팀        │ 특정 제품/서비스 비즈니스 흐름 담당      │
+│  (Stream-Aligned)     │ 자율적 배포·운영, 인지 부하 최소화       │
+├──────────────────────────────────────────────────────────────────┤
+│  인에이블링 팀         │ 스트림 팀이 새 역량 습득 돕는 임시 지원  │
+│  (Enabling)           │ 컨설팅·교육 후 철수, 의존성 생성 금지     │
+├──────────────────────────────────────────────────────────────────┤
+│  복잡 서브시스템 팀    │ 전문 도메인(ML, DSP) 개발·유지           │
+│  (Complicated-SS)     │ 소수 전문가, 다른 팀에 컴포넌트 제공      │
+├──────────────────────────────────────────────────────────────────┤
+│  플랫폼 팀            │ IDP(내부 개발자 플랫폼) 제공              │
+│  (Platform)           │ X-as-a-Service로 셀프 서비스 제공         │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 | 인터랙션 모드            | 설명                                      | 적합 상황                         |
 | :----------------------- | :---------------------------------------- | :-------------------------------- |
@@ -125,25 +125,24 @@ tags = ["studynote-devops-sre"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">컨웨이의 법칙 (1968) — 커뮤니케이션 구조 = 시스템 구조</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">역 컨웨이 조작 — 목표 아키텍처 → 팀 구조 역방향 설계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Team Topologies — 4가지 팀 유형 + 3가지 인터랙션 모드</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">인지 부하 측정 — 팀 서비스 경계 결정 기준</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">플랫폼 엔지니어링 / IDP — 스트림 팀 자율성 극대화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">AI 에이전트 팀 통합 — 인간+AI 혼합 팀 구조 (미래)</div>
-</div>
-</div>
-
-
+```text
+컨웨이의 법칙 (1968) — 커뮤니케이션 구조 = 시스템 구조
+    │
+    ▼
+역 컨웨이 조작 — 목표 아키텍처 → 팀 구조 역방향 설계
+    │
+    ▼
+Team Topologies — 4가지 팀 유형 + 3가지 인터랙션 모드
+    │
+    ▼
+인지 부하 측정 — 팀 서비스 경계 결정 기준
+    │
+    ▼
+플랫폼 엔지니어링 / IDP — 스트림 팀 자율성 극대화
+    │
+    ▼
+AI 에이전트 팀 통합 — 인간+AI 혼합 팀 구조 (미래)
+```
 
 흐름은 "조직-기술 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 원리 → 의도적 설계 → [인지 부하](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/686_cognitive_load_team_topologies/) 관리 → 플랫폼화 → [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 통합"으로 발전한다.
 

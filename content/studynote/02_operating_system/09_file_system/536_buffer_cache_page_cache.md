@@ -32,27 +32,31 @@ tags = ["studynote-operating-system"]
 - <strong>과거 이중 캐시의 빙결과 최신 통합 캐시의 우주 결속 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> 다이어그램</strong>:
 운영체제가 RAM을 2배 퍼먹던 낡은 시대와 융합시킨 클라우드 시대를 비교하면 캐시 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 렌더가 어떻게 진화했는지 팩트 검증이 쏟아진다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">"왜 똑같은 데이터를 RAM에 두 번이나 복사하는 거야 빙결 늪!"</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">❌</div><div class="kb-diagram-node">과거: Dual Cache (이중 캐싱 OOM 식충이 메모리 폭쇄 렌더)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">가상 메모리 (Page Cache) : <code>A.txt 데이터(4KB)</code></div><div class="kb-diagram-node">복사본 1 보관</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">↓ 중복 복사 늪 (복사하는데 또 전기 CPU 낭비 파탄)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">블록 디바이스 (Buffer Cache): <code>A.txt 데이터(4KB)</code></div><div class="kb-diagram-node">복사본 2 보관</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">하드 디스크 원본</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; RAM 메모리 용량 2배 낭비 (Double Buffering 지옥 에러)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">✅</div><div class="kb-diagram-node">현재: Unified Buffer/Page Cache (통합 캐싱 우주 스왑 방패 록백)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">[</div><div class="kb-diagram-node">통합 Page Cache 웅장 풀장 (RAM 옥상 대통합 메타/데이터 융합 빔!)</div><div class="kb-diagram-note">]</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 파일 I/O (read/write 스왑 콜)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 블록 I/O (디스크 드라이버 콜) ▶ <code>A.txt (4KB 데이터)</code> 1개만!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 메모리 맵 (mmap 페이징 마스킹 콜) ─ (포인터로 공유 쉐어링 컷!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: RAM 복사본 단 1개뿐! Zero-copy 초절전 $O(1)$ 스루풋 압살 도출!</div></div>
-</div>
-</div>
-
-
+```text
+  ┌────────────────────────────────────────────────────────────────────────────────┐
+  │                 "왜 똑같은 데이터를 RAM에 두 번이나 복사하는 거야 빙결 늪!"    │
+  ├────────────────────────────────────────────────────────────────────────────────┤
+  │                                                                                │
+  │  ❌ [ 과거: Dual Cache (이중 캐싱 OOM 식충이 메모리 폭쇄 렌더) ]               │
+  │     가상 메모리 (Page Cache) : `A.txt 데이터(4KB)` [복사본 1 보관]             │
+  │        ↓ 중복 복사 늪 (복사하는데 또 전기 CPU 낭비 파탄)                       │
+  │     블록 디바이스 (Buffer Cache): `A.txt 데이터(4KB)` [복사본 2 보관]          │
+  │        ↓                                                                       │
+  │     하드 디스크 원본                                                           │
+  │   => RAM 메모리 용량 2배 낭비 (Double Buffering 지옥 에러)                     │
+  │                                                                                │
+  │  =========================▼===================================                 │
+  │                                                                                │
+  │  ✅ [ 현재: Unified Buffer/Page Cache (통합 캐싱 우주 스왑 방패 록백) ]        │
+  │                                                                                │
+  │     [[ 통합 Page Cache 웅장 풀장 (RAM 옥상 대통합 메타/데이터 융합 빔!) ]]     │
+  │        - 파일 I/O (read/write 스왑 콜) ───┐                                    │
+  │        - 블록 I/O (디스크 드라이버 콜) ────┼▶ `A.txt (4KB 데이터)` 1개만!      │
+  │        - 메모리 맵 (mmap 페이징 마스킹 콜) ─┘   (포인터로 공유 쉐어링 컷!)     │
+  │                                                                                │
+  │   => 결과: RAM 복사본 단 1개뿐! Zero-copy 초절전 $O(1)$ 스루풋 압살 도출!      │
+  └────────────────────────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 복잡한 창고에서 필요한 물건을 찾기 위해 먼저 구역과 표지판을 세우는 것과 같다.
 
@@ -132,19 +136,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">그룹화 (Grouping) / 계수 (Counting) 기법</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">버퍼 캐시 (Buffer Cache) / 페이지 캐시 (Page Cache) 통합 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">미리 읽기 (Read-ahead) 및 지연 쓰기 (Delayed-write / Write-behind)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">동기화 I/O (O_SYNC / fsync)</div></div>
-</div>
-</div>
-
-
+```text
+[그룹화 (Grouping) / 계수 (Counting) 기법]
+    │
+    ▼
+[버퍼 캐시 (Buffer Cache) / 페이지 캐시 (Page Cache) 통합 아키텍처]
+    │
+    ├──▶ [미리 읽기 (Read-ahead) 및 지연 쓰기 (Delayed-write / Write-behind)]
+    └──▶ [동기화 I/O (O_SYNC / fsync)]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 

@@ -25,20 +25,15 @@ tags = ["design_supervision"]
 
 이 도식은 제한된 감리 자원 환경에서 계획 수립이 부재할 경우 발생하는 감리 품질의 병목과, [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 기반 계획을 통한 해결 구조를 비교해 보여준다.
 
+```text
+[계획 부재 시: 무차별 평탄화]
+(한정된 인력) ──분산배치──> [저위험 영역 검토] (시간 낭비)
+                       => [고위험 영역 (DB 성능) >>> 병목/방치] => 치명적 장애 통과
 
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">계획 부재 시: 무차별 평탄화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">(한정된 인력) ──분산배치──&gt;</div><div class="kb-diagram-node">저위험 영역 검토</div><div class="kb-diagram-note">(시간 낭비)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=&gt;</div><div class="kb-diagram-node">고위험 영역 (DB 성능) &gt;&gt;&gt; 병목/방치</div><div class="kb-diagram-note">=&gt; 치명적 장애 통과</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">리스크 기반 감리 계획 (Risk-based Audit)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">(예비 조사 분석) ──식별──&gt; 리스크 High (예: 트랜잭션, 보안) ──집중투입──&gt;</div><div class="kb-diagram-node">심층 검증</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">&gt; 리스크 Low (예: 단순 UI) ──샘플링──&gt;</div><div class="kb-diagram-node">경량 검증</div></div>
-</div>
-</div>
-
-
+[리스크 기반 감리 계획 (Risk-based Audit)]
+(예비 조사 분석) ──식별──> 리스크 High (예: 트랜잭션, 보안) ──집중투입──> [심층 검증]
+                       └> 리스크 Low  (예: 단순 UI)        ──샘플링──> [경량 검증]
+```
 
 이 흐름의 핵심은 감리 자원의 '비대칭적 할당(Asymmetric Allocation)'이다. 모든 화면과 테이블을 똑같이 1시간씩 검토하는 것은 낭비다. 계획 수립 단계에서 사업의 뼈대가 되는 코어 뱅킹(Core Banking) 로직이나 대량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이행(Migration) 구간을 고위험으로 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)하고, 이곳에 시니어 아키텍트와 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝 전문가를 집중 투입하여 병목을 깊게 파고들어야 한다. 실무에서는 이 계획의 성패가 감리 보고서의 깊이(Depth)와 직결된다.
 
@@ -60,21 +55,15 @@ tags = ["design_supervision"]
 
 이 다이어그램은 예비조사부터 최종 계획서 승인까지 이어지는 정보의 가공과 의사결정 시퀀스를 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">입력 데이터</div><div class="kb-diagram-note">(RFP, 인터뷰, 전월 주간보고서)</div></div>
-<div class="kb-diagram-note">↓ (분석 및 정제)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">리스크 프로파일링</div><div class="kb-diagram-note">─(높은 우선순위)─&gt;</div><div class="kb-diagram-node">핵심 감리 주안점 도출</div></div>
-<div class="kb-diagram-note">↓ (자원 매핑) ↓ (검증 도구 선택)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">영역별 감리원 할당</div><div class="kb-diagram-note">&lt;══(상호 결합)══&gt;</div><div class="kb-diagram-node">자동화 진단 툴 배정 (SAST, APM)</div></div>
-<div class="kb-diagram-note">↓ (스케줄링)</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">실지 감리 스케줄 보드 (Gantt Chart)</div><div class="kb-diagram-note">=&gt;</div><div class="kb-diagram-node">감리 계획서 승인 및 착수 회의</div></div>
-</div>
-</div>
-
-
+```text
+[입력 데이터] (RFP, 인터뷰, 전월 주간보고서)
+      ↓ (분석 및 정제)
+[리스크 프로파일링] ─(높은 우선순위)─> [핵심 감리 주안점 도출]
+      ↓ (자원 매핑)                            ↓ (검증 도구 선택)
+[영역별 감리원 할당] <══(상호 결합)══> [자동화 진단 툴 배정 (SAST, APM)]
+      ↓ (스케줄링)
+[실지 감리 스케줄 보드 (Gantt Chart)] => [감리 계획서 승인 및 착수 회의]
+```
 
 이 시퀀스의 핵심은 '[리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) [프로파일링](/knowledge-base/studynote/02_operating_system/10_security/613_profiling_gprof/)'이 인력 할당과 도구 선택의 방향을 완벽하게 지배(Dominate)한다는 점이다. [예비 조사](/knowledge-base/studynote/11_design_supervision/01_audit_framework/015_preliminary_survey/) 결과 기존 레거시 시스템과의 연계 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)에서 빈번한 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)([Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/)) 장애가 보고되었다고 가정하자. 이 정보는 주안점으로 도출되며, 이에 따라 네트워크/서버 아키텍처 전문가가 해당 영역에 배정되고, 동시에 네트워크 [패킷 스니핑](/knowledge-base/studynote/09_security/03_network_security/272_packet_sniffing/) 도구나 [부하 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/446_load_test/)([Stress Test](/knowledge-base/studynote/04_software_engineering/11_testing_validation/447_stress_test/)) 스크립트를 사전에 준비하도록 계획된다. 
 
@@ -97,19 +86,17 @@ tags = ["design_supervision"]
 
 이 매트릭스는 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 강도와 시스템 복잡도에 따라 감리 자원을 어떻게 배치하는 것이 최적인지를 보여주는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 매트릭스다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">리스크/영향도</div><div class="kb-diagram-cell">복잡도 Low (단순 UI/CRUD)</div><div class="kb-diagram-cell">복잡도 High (분산/코어)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">High (높음)</div><div class="kb-diagram-cell">자동화 툴 집중 스캐닝</div><div class="kb-diagram-cell">시니어 감리원 밀착 심층 분석</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(웹 접근성, 시큐어코딩)</div><div class="kb-diagram-cell">(락 경합, 데이터 정합성)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Low (낮음)</div><div class="kb-diagram-cell">통계적 샘플링 (10% 추출)</div><div class="kb-diagram-cell">구조적 패턴 점검 (경량)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(주니어 감리원 할당)</div><div class="kb-diagram-cell">(코드 리뷰 생략)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────┬────────────────────────┬────────────────────────┐
+│ 리스크/영향도│ 복잡도 Low (단순 UI/CRUD)│ 복잡도 High (분산/코어) │
+├──────────────┼────────────────────────┼────────────────────────┤
+│ High (높음)  │ 자동화 툴 집중 스캐닝  │ 시니어 감리원 밀착 심층 분석 │
+│              │ (웹 접근성, 시큐어코딩)│ (락 경합, 데이터 정합성) │
+├──────────────┼────────────────────────┼────────────────────────┤
+│ Low (낮음)   │ 통계적 샘플링 (10% 추출)│ 구조적 패턴 점검 (경량) │
+│              │ (주니어 감리원 할당)   │ (코드 리뷰 생략)        │
+└──────────────┴────────────────────────┴────────────────────────┘
+```
 
 이 표에서 가장 주의해야 할 영역은 '[리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) High / 복잡도 High' 영역이다. 이곳은 대량의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)이 발생하는 결제 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이나, 외부 기관 연계망([API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/)) 구간이다. 이곳에 주니어 감리원이나 단순 문서 검토를 계획하면 시스템이 붕괴하는 원인을 잡을 수 없다. 반면 '단순 CRUD 화면' 같은 Low/Low 영역은 자동화 진단 도구([SonarQube](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/) 등)를 활용하거나 주니어 감리원이 통계적 샘플링으로 빠르게 훑고 지나가도록 계획하여 감리 오버헤드를 낮추는 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)([Coupling](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)) 최소화 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 써야 한다.
 
@@ -139,18 +126,14 @@ tags = ["design_supervision"]
 
 이 의사결정 트리는 예비조사의 입력값에 따라 감리 총괄이 계획을 동적으로 변경하는 의사결정 라우팅을 보여준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">예비조사 시그널 수집</div><div class="kb-diagram-note">──(리스크 분석)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─&gt; (일정 지연 심각) =&gt;</div><div class="kb-diagram-node">실지 가동 테스트 비중 ⇧, 문서 검토 ⇩</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─&gt; (보안/데이터 위협) =&gt;</div><div class="kb-diagram-node">해당 도메인 특급 기술자 차출 및 툴 세팅</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">─&gt; (요구사항 분쟁 중) =&gt;</div><div class="kb-diagram-node">과업대비표/RTM 추적성 검증에 인력 50% All-in</div></div>
-</div>
-</div>
-
-
+```text
+[예비조사 시그널 수집] ──(리스크 분석)
+                         ├─> (일정 지연 심각) => [실지 가동 테스트 비중 ⇧, 문서 검토 ⇩]
+                         │
+                         ├─> (보안/데이터 위협) => [해당 도메인 특급 기술자 차출 및 툴 세팅]
+                         │
+                         └─> (요구사항 분쟁 중) => [과업대비표/RTM 추적성 검증에 인력 50% All-in]
+```
 
 이 플로우의 핵심은 감리 계획이 템플릿(문서 껍데기)을 채우는 작업이 아니라, 시스템의 '가장 아픈 곳'을 정밀 타격하기 위해 포메이션(Formation)을 짜는 동적 반응 체계라는 점이다. 실무 감리 총괄의 역량은 이 계획 단계에서 사업의 지뢰밭을 얼마나 정확히 예측하고 방어막(감리 인력)을 두텁게 쌓느냐에 달려 있다.
 
@@ -185,23 +168,21 @@ tags = ["design_supervision"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">감리 요청 — 발주자·감리 의뢰, 감리 범위·목적 정의</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">예비조사 (Preliminary Survey) — 개발 계획·산출물·리스크 사전 파악</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">감리 계획 수립 (Audit Planning) — 일정·인력·방법론·점검 항목 확정</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">감리 수행 — 인터뷰·문서 검토·테스트·현장 확인</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">감리 보고서 — 결함·개선 권고·사후 조치 계획 작성 및 제출</div></div>
-</div>
-</div>
-
-
+```text
+[감리 요청 — 발주자·감리 의뢰, 감리 범위·목적 정의]
+    │
+    ▼
+[예비조사 (Preliminary Survey) — 개발 계획·산출물·리스크 사전 파악]
+    │
+    ▼
+[감리 계획 수립 (Audit Planning) — 일정·인력·방법론·점검 항목 확정]
+    │
+    ▼
+[감리 수행 — 인터뷰·문서 검토·테스트·현장 확인]
+    │
+    ▼
+[감리 보고서 — 결함·개선 권고·사후 조치 계획 작성 및 제출]
+```
 
 이 흐름은 감리 요청에서 출발해 예비조사로 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 파악하고, 계획 수립→수행→보고서 제출로 이어지는 IT 감리 생애 주기의 전 과정을 보여주며, 계획 수립이 성공적 감리의 품질 기반임을 강조한다.
 

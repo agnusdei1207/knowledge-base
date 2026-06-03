@@ -19,7 +19,7 @@ tags = ["software_engineering"]
 
 과거 전통적인 IT 환경에서 운영팀(Ops)의 목표는 언제나 '서버 가동률 100%'였다. 이들은 서버의 가용성을 지키기 위해 개발팀(Dev)이 가져오는 새로운 기능의 배포를 "장애를 유발할 수 있다"며 극도로 보수적으로 통제(Gatekeeping)했다. 반면 개발팀은 사용자에게 빠르게 가치를 전달하는 '속도'가 생명이었다. 
 
-구글의 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability Engineering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/))는 이러한 소모적인 부서 간 갈등을 수학적으로 끊어냈다. "가동률을 99.9%에서 99.99%로 올리려면 인프라 증설 비용이 10배 폭증하지만, 정작 사용자는 자신의 모바일 [네트워크 지연](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/) 때문에 그 차이를 체감조차 못 한다." 따라서 100% 가용성은 비즈니스적으로 비합리적이며, 타협점인 목표 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준([SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/), [Service Level Objective](/knowledge-base/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/))을 설정하고 나머지 남는 실패 허용 시간을 **에러 예산 (Error Budget)** 으로 선언하여 과감한 혁신의 연료로 태워야 한다는 것이다.
+구글의 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/))는 이러한 소모적인 부서 간 갈등을 수학적으로 끊어냈다. "가동률을 99.9%에서 99.99%로 올리려면 인프라 증설 비용이 10배 폭증하지만, 정작 사용자는 자신의 모바일 [네트워크 지연](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/) 때문에 그 차이를 체감조차 못 한다." 따라서 100% 가용성은 비즈니스적으로 비합리적이며, 타협점인 목표 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준([SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/), [Service Level Objective](/knowledge-base/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/))을 설정하고 나머지 남는 실패 허용 시간을 **에러 예산 (Error Budget)** 으로 선언하여 과감한 혁신의 연료로 태워야 한다는 것이다.
 
 - **📢 섹션 요약 비유**: 에러 예산은 부모가 자녀에게 한 달에 한 번 주는 '결석 허용 쿠폰'과 같다. 이 쿠폰이 있는 한, 자녀가 늦잠(시스템 다운)을 자도 부모(운영팀)는 혼내지 않고 자율성을 보장해 주어 조직의 숨통을 틔워준다.
 
@@ -29,25 +29,26 @@ tags = ["software_engineering"]
 
 에러 예산은 정성적인 감정이 아니라, 철저하게 수학적인 산출 공식과 규칙에 의해 작동하는 운영 룰 엔진이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">에러 예산(Error Budget)의 산출과 작동 메커니즘</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. SLO (목표 가동률) 설정 합의:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">비즈니스 부서와 타협하여 월간 목표 가용성을 "99.9%"로 합의.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 에러 예산 도출 공식:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">에러 예산 = 100% - SLO(99.9%) = 0.1%</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 실제 허용 시간 환산:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1개월(30일) = 43,200분.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">43,200분 × 0.1% = 약 43.2분 (합법적 서버 다운타임 허용량!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 운영 정책 자동 분기 (Policy Trigger):</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">잔여 예산 &gt; 0</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">개발팀의 무제한 신규 배포 허용 (혁신 가속)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">잔여 예산 = 0</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-note">배포 즉시 동결 (Code Freeze). 안정화 투입</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│             에러 예산(Error Budget)의 산출과 작동 메커니즘         │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│  1. SLO (목표 가동률) 설정 합의:                                  │
+│     비즈니스 부서와 타협하여 월간 목표 가용성을 "99.9%"로 합의.        │
+│                                                              │
+│  2. 에러 예산 도출 공식:                                         │
+│     에러 예산 = 100% - SLO(99.9%) = 0.1%                       │
+│                                                              │
+│  3. 실제 허용 시간 환산:                                         │
+│     1개월(30일) = 43,200분.                                   │
+│     43,200분 × 0.1% = 약 43.2분 (합법적 서버 다운타임 허용량!)      │
+│                                                              │
+│  4. 운영 정책 자동 분기 (Policy Trigger):                        │
+│     [잔여 예산 > 0] ──▶ 개발팀의 무제한 신규 배포 허용 (혁신 가속)    │
+│     [잔여 예산 = 0] ──▶ 배포 즉시 동결 (Code Freeze). 안정화 투입   │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 도식의 핵심은 남은 예산 43분이 부서 간 이기주의를 부수는 절대 권력이 된다는 점이다. 예산 잔고가 남아있는 한, 운영팀은 개발팀이 실험적인 코드를 라이브 서버에 배포하는 것을 막을 명분이 없다. 반대로 개발팀의 잦은 릴리즈나 롤백으로 인해 서버가 죽어 43분을 모두 소진하면, 즉시 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 스위치가 내려가 이번 달 말일까지는 신규 기능 배포가 완전히 통제되고 전원이 버그 픽스와 인프라 안정화에만 매달려야 한다.
 
@@ -78,7 +79,7 @@ tags = ["software_engineering"]
 
 ### 실무 적용 시나리오 및 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/">서킷 브레이커</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/304_circuit_breaker/">Circuit Breaker</a>) 기반 배포 파이프라인 자동화</strong>: 에러 예산을 사람이 손으로 계산하면 운영팀의 자의적 판단이 개입되어 의미가 퇴색된다. [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/090_configuration_item/)/CD([지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/)/배포) 파이프라인에 [Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/) 같은 모니터링 메트릭을 연동하여 잔고를 실시간 계산해야 한다. 예산이 0%를 기록하면 Jenkins나 ArgoCD의 배포 파이프라인 트리거가 물리적으로 잠기도록([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 하드코딩하여 안정화 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 강제 집행해야 한다.
-2. **에러 예산의 롤오버 (Roll-over) 금지**: "지난달에 예산을 30분 아꼈으니 이번 달에 70분 넘게 장애를 내도 된다"는 식의 이월을 허용해서는 절대 안 된다. 특정 달에 너무 긴 다운타임이 몰리면 사용자의 신뢰가 완전히 무너진다. 남은 예산은 주기적으로 소멸시켜야 하며, 남는다면 [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)([Chaos Engineering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/))을 통해 고의로 서버를 끄고 복원력을 훈련하는 용도로 적극 불태우는 것이 가장 이상적이다.
+2. **에러 예산의 롤오버 (Roll-over) 금지**: "지난달에 예산을 30분 아꼈으니 이번 달에 70분 넘게 장애를 내도 된다"는 식의 이월을 허용해서는 절대 안 된다. 특정 달에 너무 긴 다운타임이 몰리면 사용자의 신뢰가 완전히 무너진다. 남은 예산은 주기적으로 소멸시켜야 하며, 남는다면 [카오스 엔지니어링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/)([Chaos 엔진ering](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/))을 통해 고의로 서버를 끄고 복원력을 훈련하는 용도로 적극 불태우는 것이 가장 이상적이다.
 
 ### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - 사용자가 단 1분의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)도 용납하지 못하는 생명 유지 장치(심장 박동기 제어 서버)나 초정밀 금융 거래(HFT) 매칭 엔진에 함부로 범용적인 "99.9% [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)"를 들이밀어 예산을 남발하는 짓. 도메인의 특성에 따라 즉각적인 재앙이 발생하는 코어 시스템은 100%에 수렴하는 극한의 [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)(예: 99.9999%)를 잡고 극소의 예산만 운영해야 한다.
@@ -103,30 +104,29 @@ tags = ["software_engineering"]
 |:---|:---|
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/">SLI</a> (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/">Service Level Indicator</a>)</strong> | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 '지표'. 현재 서버의 가동률이나 응답 시간이 어느 정도인지 정량적으로 측정하는 온도계 역할 |
 | <strong><a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/">SLO</a> (<a href="/knowledge-base/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/">Service Level Objective</a>)</strong> | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 '목표'. 비즈니스 부서와 합의한 목표 가동률(예: 99.9%)로, 에러 예산 계산의 직접적인 기준점 (100 - [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)) |
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a> (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">Site Reliability Engineering</a>)</strong> | 구글이 창안한 사이트 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 공학. 소프트웨어 엔지니어가 운영(Ops) 문제를 개발론적 방법으로 푸는 체계이며 에러 예산의 본가 |
-| <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/">카오스 엔지니어링</a> (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/">Chaos Engineering</a>)</strong> | 에러 예산이 남아돌 때, 일부러 시스템에 장애([Chaos Monkey](/knowledge-base/studynote/15_devops_sre/03_sre_observability/149_chaos_monkey_chaos_mesh/))를 일으켜 복원력을 테스트하는 예산 소진용 극한 훈련법 |
+| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a> (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">Site Reliability 엔진ering</a>)</strong> | 구글이 창안한 사이트 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 공학. 소프트웨어 엔지니어가 운영(Ops) 문제를 개발론적 방법으로 푸는 체계이며 에러 예산의 본가 |
+| <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/">카오스 엔지니어링</a> (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/751_chaos_engineering/">Chaos 엔진ering</a>)</strong> | 에러 예산이 남아돌 때, 일부러 시스템에 장애([Chaos Monkey](/knowledge-base/studynote/15_devops_sre/03_sre_observability/149_chaos_monkey_chaos_mesh/))를 일으켜 복원력을 테스트하는 예산 소진용 극한 훈련법 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">전통적 IT 운영 (Ops)의 무결점 완벽주의 (100% 가용성 추구)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">개발팀(혁신 속도)과 운영팀(안정성 유지) 간의 극심한 충돌 발생</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SRE 철학 대두: "100% 완벽은 비즈니스적 낭비이자 환상"</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SLO (서비스 수준 목표) 타협 및 에러 예산 (Error Budget) 도출</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">잔여 예산에 따른 파이프라인 자동 제어 (Code Freeze 연동)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">카오스 엔지니어링 (Chaos Engineering)을 통한 잔여 예산 능동 활용</div>
-</div>
-</div>
-
-
+```text
+전통적 IT 운영 (Ops)의 무결점 완벽주의 (100% 가용성 추구)
+    │
+    ▼
+개발팀(혁신 속도)과 운영팀(안정성 유지) 간의 극심한 충돌 발생
+    │
+    ▼
+SRE 철학 대두: "100% 완벽은 비즈니스적 낭비이자 환상"
+    │
+    ▼
+SLO (서비스 수준 목표) 타협 및 에러 예산 (Error Budget) 도출
+    │
+    ▼
+잔여 예산에 따른 파이프라인 자동 제어 (Code Freeze 연동)
+    │
+    ▼
+카오스 엔지니어링 (Chaos Engineering)을 통한 잔여 예산 능동 활용
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 게임을 너무 완벽하게 하려고 한 번도 안 죽으려 조심조심만 하면 진도도 안 나가고 재미가 없잖아요?
@@ -139,7 +139,7 @@ tags = ["software_engineering"]
 
 **진행 상황**: 101 / 973
 
-← **이전**: [100. SRE (Site Reliability Engineering) - 구글의 운영 방식, 에러 예산](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)
+← **이전**: [100. SRE (Site Reliability 엔진ering) - 구글의 운영 방식, 에러 예산](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)
 **다음**: [102. SLI (Service Level Indicator) / SLO (Service Level Objective)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) →
 
 ---

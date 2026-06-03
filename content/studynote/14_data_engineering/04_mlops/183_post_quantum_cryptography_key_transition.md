@@ -25,19 +25,16 @@ tags = ["studynote-data-engineering"]
 
 아래 그림은 왜 양자 컴퓨터가 완성되기 전에 전환을 시작해야 하는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Harvest now, decrypt later timeline</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Today : capture TLS sessions, backups, signed artifacts</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Future : fault-tolerant quantum breaks RSA / ECC</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Result : old data becomes readable, old signatures may be forged</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Defense: migrate before confidentiality lifetime expires</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Harvest now, decrypt later timeline                               │
+├────────────────────────────────────────────────────────────────────┤
+│ Today  : capture TLS sessions, backups, signed artifacts          │
+│ Future : fault-tolerant quantum breaks RSA / ECC                  │
+│ Result : old data becomes readable, old signatures may be forged  │
+│ Defense: migrate before confidentiality lifetime expires          │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 여기서 가장 시급한 표적은 공개키 계열이다. [Advanced Encryption Standard](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) ([AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)) 같은 대칭 암호는 키 길이를 늘려 대응할 여지가 있지만, 공개키 기반의 키 교환과 디지털 서명은 구조 자체를 바꿔야 한다. 그래서 [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/351_quantum_computing_pqc_transition/) 전환은 [보안 기능](/knowledge-base/studynote/04_software_engineering/11_testing_validation/503_security_features_design/) 추가가 아니라 <strong>클라우드 신뢰 사슬 전체를 다시 설계하는 작업</strong>에 가깝다.
 
@@ -59,21 +56,20 @@ tags = ["studynote-data-engineering"]
 
 아래 구조는 클라우드 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼에서 PQC가 어느 층에 걸쳐 들어가는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Hybrid PQC cloud stack</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client / Partner</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ TLS 1.3 : X25519 + ML-KEM -&gt; external edge</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ mTLS : service mesh hybrid handshakes</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ KMS : envelope key wrap / re-wrap policies</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">─ CI/CD : dual signature on images, models, manifests</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Protected assets: object store, backups, model registry, secrets</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────┐
+│ Hybrid PQC cloud stack                                             │
+├────────────────────────────────────────────────────────────────────┤
+│ Client / Partner                                                   │
+│   │                                                                │
+│   ├─ TLS 1.3 : X25519 + ML-KEM  -> external edge                   │
+│   ├─ mTLS    : service mesh hybrid handshakes                      │
+│   ├─ KMS     : envelope key wrap / re-wrap policies                │
+│   └─ CI/CD   : dual signature on images, models, manifests         │
+│                                                                    │
+│ Protected assets: object store, backups, model registry, secrets   │
+└────────────────────────────────────────────────────────────────────┘
+```
 
 현재 기준으로 NIST (National Institute of Standards and Technology) 표준화의 중심은 다음 세 계열이다.
 
@@ -117,23 +113,21 @@ shared_secret = KDF(classical_secret || pqc_secret)
 
 현실적인 전환 로드맵은 "전수 조사 → 위험 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) → 하이브리드 적용 → 신뢰 체계 확장 → 레거시 일몰" 순서다. 양자 위협을 이유로 모든 키를 하루아침에 바꾸려 하면, 오히려 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 장애와 운영 리스크가 먼저 터진다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">CBOM inventory</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">confidentiality lifetime classification</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">hybrid pilot on edge / internal mesh</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">PKI · KMS · HSM expansion</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">legacy-only path sunset</div>
-</div>
-</div>
-
-
+```text
+CBOM inventory
+    │
+    ▼
+confidentiality lifetime classification
+    │
+    ▼
+hybrid pilot on edge / internal mesh
+    │
+    ▼
+PKI · KMS · HSM expansion
+    │
+    ▼
+legacy-only path sunset
+```
 
 우선순위는 자산의 비밀 유지 기간과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 수명으로 정하는 편이 좋다.
 
@@ -186,25 +180,24 @@ shared_secret = KDF(classical_secret || pqc_secret)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">RSA / ECC 기반 공개키 체계</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Harvest Now, Decrypt Later 위협 인식</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">CBOM 작성 · 자산별 기밀 수명 분류</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Hybrid TLS · Dual Signature 도입</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">KMS / HSM / PKI 전환</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Crypto-Agility 기반의 장기 운영 체계</div>
-</div>
-</div>
-
-
+```text
+RSA / ECC 기반 공개키 체계
+    │
+    ▼
+Harvest Now, Decrypt Later 위협 인식
+    │
+    ▼
+CBOM 작성 · 자산별 기밀 수명 분류
+    │
+    ▼
+Hybrid TLS · Dual Signature 도입
+    │
+    ▼
+KMS / HSM / PKI 전환
+    │
+    ▼
+Crypto-Agility 기반의 장기 운영 체계
+```
 
 이 흐름은 양자 위협 인식이 단순 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 교체를 넘어, 인벤토리와 신뢰 사슬 재설계로 확장되는 과정을 보여 준다.
 

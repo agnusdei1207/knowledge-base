@@ -23,31 +23,33 @@ tags = ["studynote-network"]
 - **필요성**: 넓은 60평짜리 집이나 공장 창고 구석에 와이파이를 터지게 하려면, 거실의 메인 인터넷 단자함에서부터 창고 천장까지 50미터짜리 유선 랜선([UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 케이블)을 천장 텍스를 뚫고 공사해야 했다(미친 인건비와 미관 파괴). 선 없이 무선 확장기([Repeater](/knowledge-base/studynote/03_network/03_physical_layer_media/151_repeater_baseband/)/Extender)를 달면 와이파이 이름(SSID)이 `Wi-Fi_Ext`로 쪼개져서, 안방에 갈 때마다 사용자가 수동으로 와이파이를 바꿔 잡아야 하는 지독한 불편함(Friction)과 엄청난 속도 반토막 병목이 발생했다. <strong>"선 공사 없이 전원 플러그만 꽂으면 지들끼리 텔레파시로 엮여서 거대한 하나의 와이파이 구역을 형성하는 지능형 <a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/">AP</a> 집단"</strong>이 절실했다.
 - **등장 배경**: ① 배선 공사가 불가능한 역사적 유적지, 야외 콘서트장, 임시 야전 병원의 무선 인프라 구축 요구 → ② 기존 무선 증폭기([Repeater](/knowledge-base/studynote/03_network/03_physical_layer_media/151_repeater_baseband/))의 속도 반토막 문제와 잦은 통신 먹통 한계 도달 → ③ 802.11s ([Mesh](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) 네트워킹 표준) 제정 및 [트라이](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/087_trie/) 밴드(Tri-band) 칩셋의 가격 하락으로 홈/엔터프라이즈 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)망 대중화 폭발.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기존 Extender(증폭기) vs 진정한 Mesh Network 시각화</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">과거의 멍청함: 무선 증폭기 (Repeater / Extender)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">거실 공유기(채널 36)</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">안방 증폭기(채널 36)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 💥 문제 1 (속도 박살): 안방 증폭기는 귀(수신)와 입(송신)이 1개뿐. 거실에서</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">데이터를 받아서 내 폰에 쏠 때, 무전기처럼 한 번에 하나씩만</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">말해야 해서(Half-Duplex) 안방 인터넷 속도가 무조건 '반토막' 남!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 💥 문제 2 (수동 로밍): 거실 이름 <code>Home</code>, 안방 이름 <code>Home_Ext</code>.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">거실에서 안방으로 걸어가면 와이파이가 끊겼다가 한참 뒤에 연결됨.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">혁신: 진정한 무선 Mesh Network (Tri-Band 아키텍처)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">메인 Mesh Node</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">안방 Node</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(전용 무선 백홀 통신)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(앞길 5GHz 쏨) (앞길 5GHz 쏨)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">스마트폰 (거실) 스마트폰 (안방)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 🛡️ 혁신 1 (속도 100%): 안방 노드는 등 뒤의 6GHz 파이프로 거실과 통신하고,</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">앞으로는 5GHz 파이프로 폰에 쏴주니(Full-Duplex 급 효율) 속도 저하 0!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 🛡️ 혁신 2 (Seamless Roaming): 온 집안 이름이 <code>Home</code> 1개로 통일.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">방을 걸어가면 노드들이 뒤에서 눈치껏 0.1초 만에 폰을 넘겨받아 안 끊김!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│             기존 Extender(증폭기) vs 진정한 Mesh Network 시각화      │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   [과거의 멍청함: 무선 증폭기 (Repeater / Extender)]                │
+│   인터넷 ──▶ [거실 공유기(채널 36)] ─(무선)─▶ [안방 증폭기(채널 36)]     │
+│   - 💥 문제 1 (속도 박살): 안방 증폭기는 귀(수신)와 입(송신)이 1개뿐. 거실에서│
+│               데이터를 받아서 내 폰에 쏠 때, 무전기처럼 한 번에 하나씩만   │
+│               말해야 해서(Half-Duplex) 안방 인터넷 속도가 무조건 '반토막' 남!│
+│   - 💥 문제 2 (수동 로밍): 거실 이름 `Home`, 안방 이름 `Home_Ext`.     │
+│               거실에서 안방으로 걸어가면 와이파이가 끊겼다가 한참 뒤에 연결됨.│
+│                                                             │
+│   [혁신: 진정한 무선 Mesh Network (Tri-Band 아키텍처)]               │
+│                                                             │
+│   인터넷 ──▶ [메인 Mesh Node] ═════(숨겨진 6GHz 뒷길)═════▶ [안방 Node]  │
+│                   │               (전용 무선 백홀 통신)          │      │
+│                   ▼                                         ▼      │
+│            (앞길 5GHz 쏨)                              (앞길 5GHz 쏨) │
+│            스마트폰 (거실)                               스마트폰 (안방)  │
+│                                                             │
+│   - 🛡️ 혁신 1 (속도 100%): 안방 노드는 등 뒤의 6GHz 파이프로 거실과 통신하고,│
+│              앞으로는 5GHz 파이프로 폰에 쏴주니(Full-Duplex 급 효율) 속도 저하 0!│
+│   - 🛡️ 혁신 2 (Seamless Roaming): 온 집안 이름이 `Home` 1개로 통일.    │
+│              방을 걸어가면 노드들이 뒤에서 눈치껏 0.1초 만에 폰을 넘겨받아 안 끊김!│
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 싸구려 '무선 증폭기'와 수십만 원짜리 진정한 '[메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) 공유기'의 차이는 이중 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인([Backhaul](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/) Separation)의 유무다. 증폭기는 5GHz 주파수 하나로 본체 공유기랑도 통신하고 내 스마트폰이랑도 통신해야 해서 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 50% 박살 난다. 반면 고급 무선 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) 라우터(Tri-band)는 기계 안에 라디오 칩셋이 3개나 들어있다. 그중 6GHz나 5GHz-High 대역 1개를 오직 <strong>'공유기들끼리의 비밀 무선 케이블 통신(Dedicated <a href="/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/">Backhaul</a>)'</strong>으로만 할당한다. 폰은 앞쪽 5GHz [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)로 마음껏 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏘고, 안방 공유기는 그 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 받아 뒷구멍의 6GHz 고속도로([백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/))를 통해 거실 공유기로 0.1초 만에 던져버린다. 랜선(유선)을 꽂은 것과 100% 동일한 유무선 아키텍처의 혁명이다.
 
@@ -68,28 +70,35 @@ tags = ["studynote-network"]
 
 [Mesh](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) 아키텍처가 공장이나 국방 네트워크에서 각광받는 이유는 기계 하나가 죽어도 시스템 전체가 무너지지 않는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/">단일 장애점</a>(<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/">SPOF</a>, Single Point of Failure) 파괴</strong> 특성 때문이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Mesh Network의 자가 치유(Self-Healing) 작동 원리</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">정상 작동 상태: 빠른 지름길 이용 중</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">인터넷 게이트웨이 A</div><div class="kb-diagram-connector">=====&gt;</div><div class="kb-diagram-node">거실 노드 B</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(예비용 길) (예비용 길)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현관 노드 C</div><div class="kb-diagram-connector">========================&gt;</div><div class="kb-diagram-node">끝방 노드 D (내 폰 접속)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 데이터 흐름: 끝방(D) ─▶ 거실(B) ─▶ 게이트웨이(A) ─▶ 유튜브 재생!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">💥</div><div class="kb-diagram-node">장애 발생: 엄마가 청소기 돌리다 거실(B) 공유기 전원 뽑아버림!</div><div class="kb-diagram-note">💥</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현관 노드 C</div><div class="kb-diagram-connector">====&gt;</div><div class="kb-diagram-node">끝방 노드 D (내 폰 접속)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 자가 치유(Self-Healing) 작동:</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">노드 D: "앗! 거실 B가 응답이 없네! 죽었나 보다. 유튜브 끊기겠다!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">노드 D: "빨리 다른 길 찾아봐! 어라, 멀지만 현관 C랑 닿네? 글로 돌려!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* 새 데이터 흐름: 끝방(D) ─▶ 현관(C) ─▶ 게이트웨이(A) ─▶ 유튜브 부활!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 거실 공유기가 죽었는데도, 끝방 스마트폰은 단 3초 만에 우회로를</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">타고 인터넷이 다시 연결되는 불사조 같은 생존력 발휘!</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────┐
+│               Mesh Network의 자가 치유(Self-Healing) 작동 원리       │
+├───────────────────────────────────────────────────────────────┤
+│   [정상 작동 상태: 빠른 지름길 이용 중]                            │
+│                                                               │
+│   [인터넷 게이트웨이 A] <=====(빠른 무선 백홀)=====> [거실 노드 B]   │
+│           /\                                        /\        │
+│          //                                        //         │
+│     (예비용 길)                                (예비용 길)         │
+│        //                                        //           │
+│       ▼                                        ▼            │
+│   [현관 노드 C] <========================> [끝방 노드 D (내 폰 접속)]│
+│                                                               │
+│   * 데이터 흐름: 끝방(D) ─▶ 거실(B) ─▶ 게이트웨이(A) ─▶ 유튜브 재생!  │
+│                                                               │
+│   💥 [장애 발생: 엄마가 청소기 돌리다 거실(B) 공유기 전원 뽑아버림!] 💥   │
+│                                                               │
+│   [현관 노드 C] <====(새로운 생명줄 뚫림)====> [끝방 노드 D (내 폰 접속)]│
+│                                                               │
+│   * 자가 치유(Self-Healing) 작동:                                │
+│   노드 D: "앗! 거실 B가 응답이 없네! 죽었나 보다. 유튜브 끊기겠다!"       │
+│   노드 D: "빨리 다른 길 찾아봐! 어라, 멀지만 현관 C랑 닿네? 글로 돌려!"  │
+│                                                               │
+│   * 새 데이터 흐름: 끝방(D) ─▶ 현관(C) ─▶ 게이트웨이(A) ─▶ 유튜브 부활!│
+│   => 결과: 거실 공유기가 죽었는데도, 끝방 스마트폰은 단 3초 만에 우회로를 │
+│            타고 인터넷이 다시 연결되는 불사조 같은 생존력 발휘!          │
+└───────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** IEEE 802.11s 규격의 핵심인 <strong>HWMP (Hybrid Wireless <a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/">Mesh</a> <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">Protocol</a>)</strong> [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 위력을 보여준다. [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) 노드들은 평소에 계속 주변 노드들에게 "살아있니? 길은 안 막히니?"라는 심박수(Hello Packet)를 던지며 최적의 지도를 업데이트하고 있다. 중간 릴레이를 담당하던 노드 B가 파괴되는 순간, 끝방 노드 D는 멘붕에 빠지지 않고 즉시 예비 경로인 C로 패킷의 핸들을 꺾어버린다(Dynamic Rerouting). 유선 네트워크에서 엄청 비싼 스위치를 써야 구성 가능한 [STP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/)([스패닝 트리](/knowledge-base/studynote/03_network/19_frequent_topics_terms/959_spanning_tree_protocol_stp_loop_avoidance/)) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 마법을, 거실의 10만 원짜리 플라스틱 무선 공유기들이 허공의 전파 빔으로 실시간으로 해내고 있는 것이다.
 
@@ -104,28 +113,27 @@ tags = ["studynote-network"]
 
 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) 네트워크와 이 삼신기(11k/v/r)가 완벽하게 융합되면, 사용자는 1,000평짜리 공장 창고를 폰을 들고 뛰어다니면서 화상 통화를 해도 단 1밀리초의 끊김(Glitch)도 느끼지 못하는 완벽한 단일 네트워크(Seamless) 경험을 누리게 된다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유선 백홀 (Wired Backhaul) 하이브리드 메시 아키텍처</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">딜레마: 벽이 3개인 60평 콘크리트 아파트의 절망</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">거실 노드 ──(무선 6GHz 백홀 쏘기!)── 💥콘크리트 벽 2개💥 ──▶ 안방 노드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 6GHz는 벽 투과율이 쓰레기라 아무리 비싼 메시 공유기라도 콘크리트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">벽 2개를 만나면 백홀 전파가 끊어져서 안방이 인터넷 먹통이 됨.</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">극복 아키텍처: Ethernet Backhaul (유선 백홀) 하이브리드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">거실 노드 (아파트 벽면 속 UTP 랜선 포트) ▶ 안방 노드</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(물리적 1Gbps 광속 고속도로 뚫림)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">안방 노드의 환골탈태</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 뒤로 연결하던 무선 백홀용 라디오 칩(6GHz)이 백수(유휴 상태)가 됨.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 안방 노드: "어? 뒤통수에 랜선이 꽂혀서 인터넷이 기가급으로 들어오네?</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">그럼 뒤쪽 백홀 통신 꺼버리고, 남는 6GHz/5GHz 안테나 칩셋 몽땅</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">내 앞의 스마트폰들에게 데이터를 폭격하는 데 다 몰빵 쏜다!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">=&gt; 결과: 무선 간섭/벽 뚫기 0%, 폰 체감 속도 3배 펌핑되는 지상 최강의 세팅!</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────┐
+│               유선 백홀 (Wired Backhaul) 하이브리드 메시 아키텍처      │
+├───────────────────────────────────────────────────────────────┤
+│   [딜레마: 벽이 3개인 60평 콘크리트 아파트의 절망]                       │
+│   거실 노드 ──(무선 6GHz 백홀 쏘기!)── 💥콘크리트 벽 2개💥 ──▶ 안방 노드   │
+│   => 결과: 6GHz는 벽 투과율이 쓰레기라 아무리 비싼 메시 공유기라도 콘크리트 │
+│            벽 2개를 만나면 백홀 전파가 끊어져서 안방이 인터넷 먹통이 됨.     │
+│                                                               │
+│   [극복 아키텍처: Ethernet Backhaul (유선 백홀) 하이브리드]            │
+│   거실 노드 ═══════════(아파트 벽면 속 UTP 랜선 포트)═══════════▶ 안방 노드  │
+│                   (물리적 1Gbps 광속 고속도로 뚫림)                   │
+│                                                               │
+│   [안방 노드의 환골탈태]                                            │
+│   - 뒤로 연결하던 무선 백홀용 라디오 칩(6GHz)이 백수(유휴 상태)가 됨.      │
+│   - 안방 노드: "어? 뒤통수에 랜선이 꽂혀서 인터넷이 기가급으로 들어오네?      │
+│                그럼 뒤쪽 백홀 통신 꺼버리고, 남는 6GHz/5GHz 안테나 칩셋 몽땅│
+│                내 앞의 스마트폰들에게 데이터를 폭격하는 데 다 몰빵 쏜다!"   │
+│   => 결과: 무선 간섭/벽 뚫기 0%, 폰 체감 속도 3배 펌핑되는 지상 최강의 세팅! │
+└───────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 진정한 아키텍트는 "무선 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)망이라고 꼭 무선으로만 [백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/)을 이을 필요는 없다"는 하이브리드적 사고를 한다. 한국의 아파트들은 각 방의 벽면마다 랜 포트가 매립되어 있다. 비싼 [트라이](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/087_trie/) 밴드 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) 공유기를 사서 각 방에 두고 벽면 랜선으로 서로를 연결([Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) [Backhaul](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/))해버리면, 공유기끼리 전파로 고생하며 통신할 필요가 없다. 이때 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) 공유기는 무선 [백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/)용으로 예약해 둔 귀중한 전파(채널) 자원을 폰([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/))에게 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏘는 [프론트홀](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/)([Fronthaul](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1011_fronthaul_network_c_ran_cpri_roef/)) 대역으로 전환(Release)한다. 이것이 무선 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)의 완벽한 [로밍](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/560_roaming/) 기능(단일 SSID)과 유선 [백홀](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1009_backhaul_network_base_station_core_connection/)의 절대적 속도/안정성을 결합한 <strong>인테리어 인프라 아키텍처의 마스터피스</strong>다.
 
@@ -197,19 +205,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 안테나 증폭 측정 지표: dBm 반값 전력각…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 무선 메시 네트워크</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: MANET</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 지능형 무선 자원 제어</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 안테나 증폭 측정 지표: dBm 반값 전력각…]
+    │
+    ▼
+[현재 개념: 무선 메시 네트워크]
+    │
+    ├──▶ [확장 A: MANET]
+    └──▶ [확장 B: 지능형 무선 자원 제어]
+```
 
 무선 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) 네트워크는 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 증폭 측정 지표: dBm 반값 전력각…에서 출발해 현재 메커니즘을 정교화하고, 이후 MANET와 지능형 무선 자원 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

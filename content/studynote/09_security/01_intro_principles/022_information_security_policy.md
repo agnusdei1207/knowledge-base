@@ -38,24 +38,21 @@ tags = ["studynote-security"]
 ### 1. 정보보안 문서 체계의 4계층 아키텍처
 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 보안 문서 체계([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) [Document](/knowledge-base/studynote/14_data_engineering/01_infrastructure/037_document/) Hierarchy)의 최상단 꼭대기에 위치합니다. 하위로 내려갈수록 구체적이고 기술 종속적으로 변합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">정보보안 거버넌스 체계: 4계층 피라미드 구조</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/▲\ &lt;-- 1. 정책 (Policy)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ \ (Why/What, 경영진 승인)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">/_____\</div><div class="kb-diagram-node">필수/강제, 변경 드묾</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ \ &lt;-- 2. 표준 (Standard)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/_________\ (How, 구체적 규격/하드웨어)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ \ &lt;-- 3. 지침 (Guideline)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/_____________\ (Recommendation, 권고사항)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/ \ &lt;-- 4. 절차 (Procedure)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">/_________________\ (Step-by-Step, 매뉴얼)</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│          [ 정보보안 거버넌스 체계: 4계층 피라미드 구조 ]        │
+│                                                             │
+│                      /▲\         <-- 1. 정책 (Policy)        │
+│                     /   \            (Why/What, 경영진 승인) │
+│                    /_____\           [필수/강제, 변경 드묾]  │
+│                   /       \      <-- 2. 표준 (Standard)      │
+│                  /_________\         (How, 구체적 규격/하드웨어)│
+│                 /           \    <-- 3. 지침 (Guideline)     │
+│                /_____________\       (Recommendation, 권고사항)│
+│               /               \  <-- 4. 절차 (Procedure)     │
+│              /_________________\     (Step-by-Step, 매뉴얼)  │
+└─────────────────────────────────────────────────────────────┘
+```
 
 **[다이어그램 해설]** 
 1. <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>(<a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">Policy</a>)</strong>: "모든 패스워드는 강력하게 보호되어야 한다." (최고 의사결정)
@@ -149,23 +146,21 @@ tags = ["studynote-security"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">경영진 보안 의지 선언 — CISO / 이사회 승인</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">정보보안 정책 (Policy) — 기술 중립적 최상위 선언</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">표준·지침·절차 (Standard/Guideline/Procedure) — 구체화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ISO 27001 / ISMS-P 인증 — 외부 검증 체계</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Zero Trust Architecture (ZTA) — 미래 정책 패러다임</div></div>
-</div>
-</div>
-
-
+```text
+[경영진 보안 의지 선언 — CISO / 이사회 승인]
+    │
+    ▼
+[정보보안 정책 (Policy) — 기술 중립적 최상위 선언]
+    │
+    ▼
+[표준·지침·절차 (Standard/Guideline/Procedure) — 구체화]
+    │
+    ▼
+[ISO 27001 / ISMS-P 인증 — 외부 검증 체계]
+    │
+    ▼
+[Zero Trust Architecture (ZTA) — 미래 정책 패러다임]
+```
 경영진의 보안 의지가 정보보안 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 선언되고, 하위 표준·절차로 구체화되며 ISO 27001로 외부 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)되고, [ZTA](/knowledge-base/studynote/09_security/01_intro_principles/047_zta/) 패러다임으로 진화하는 거버넌스 흐름이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

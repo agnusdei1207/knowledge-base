@@ -30,29 +30,31 @@ tags = ["studynote-bigdata"]
 
 ### A/B 테스트 프레임워크
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">A/B 테스트 실행 프레임워크</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. 가설 설정</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">H0 (귀무): 버튼 색 변경이 CTR에 영향 없음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">H1 (대립): 초록 버튼이 파랑보다 CTR 높음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 표본 크기 계산 (검정력 분석, Power Analysis)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">α = 0.05 (유의수준), 1-β = 0.80 (검정력), δ = 최소효과크기(MDE)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 최소 n명이 필요 (각 그룹)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 무작위 배정 (Randomization)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">user_id 기반 해시 → A 그룹 (50%) or B 그룹 (50%)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 실험 실행 (충분한 기간 = 1~2주 이상)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5. 통계 분석</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">t-test / Z-test → p-value 계산</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">p &lt; 0.05 → H0 기각 → 통계적 유의미한 차이 존재</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">6. 의사결정 및 롤아웃</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">유의미 + 비즈니스 가치 → B 버전 전체 배포</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│                  A/B 테스트 실행 프레임워크                           │
+├──────────────────────────────────────────────────────────────────────┤
+│  1. 가설 설정                                                         │
+│     H0 (귀무): 버튼 색 변경이 CTR에 영향 없음                         │
+│     H1 (대립): 초록 버튼이 파랑보다 CTR 높음                           │
+│                                                                      │
+│  2. 표본 크기 계산 (검정력 분석, Power Analysis)                      │
+│     α = 0.05 (유의수준), 1-β = 0.80 (검정력), δ = 최소효과크기(MDE)  │
+│     → 최소 n명이 필요 (각 그룹)                                       │
+│                                                                      │
+│  3. 무작위 배정 (Randomization)                                       │
+│     user_id 기반 해시 → A 그룹 (50%) or B 그룹 (50%)                 │
+│                                                                      │
+│  4. 실험 실행 (충분한 기간 = 1~2주 이상)                              │
+│                                                                      │
+│  5. 통계 분석                                                         │
+│     t-test / Z-test → p-value 계산                                   │
+│     p < 0.05 → H0 기각 → 통계적 유의미한 차이 존재                   │
+│                                                                      │
+│  6. 의사결정 및 롤아웃                                                │
+│     유의미 + 비즈니스 가치 → B 버전 전체 배포                         │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 ### 통계 개념 정리
 
@@ -150,23 +152,21 @@ A/B 테스트는 단순한 실험 기법이 아니라 조직이 "[데이터](/kn
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">가설 수립 (Hypothesis) — 비즈니스 목표 정의</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">무작위 집단 분리 (Randomization) — A그룹 vs B그룹</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">실험 실행 — 충분한 표본 수집 (검정력 분석)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">통계 검정 (p-value · 신뢰구간) — 유의성 판단</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">베이지안 A/B 테스트 / 멀티암드 밴딧 — 현대적 진화</div></div>
-</div>
-</div>
-
-
+```text
+[가설 수립 (Hypothesis) — 비즈니스 목표 정의]
+    │
+    ▼
+[무작위 집단 분리 (Randomization) — A그룹 vs B그룹]
+    │
+    ▼
+[실험 실행 — 충분한 표본 수집 (검정력 분석)]
+    │
+    ▼
+[통계 검정 (p-value · 신뢰구간) — 유의성 판단]
+    │
+    ▼
+[베이지안 A/B 테스트 / 멀티암드 밴딧 — 현대적 진화]
+```
 가설을 세우고 무작위 집단 분리로 편향을 제거한 실험 결과를 통계 검정으로 판단하며, 베이지안 방법론과 멀티암드 밴딧으로 진화하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 의사결정 흐름이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

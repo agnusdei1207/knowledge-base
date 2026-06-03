@@ -25,18 +25,16 @@ tags = ["studynote-computer-architecture"]
 
 아래 그림은 생산 속도와 소비 속도가 다를 때 왜 중간 버퍼가 필요한지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">producer and consumer run on different clocks</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">elastic buffer</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-note">read side</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">fast burst absorbs rate mismatch slow steady drain</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">without buffer: overflow or underflow appears at the clock boundary</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│            producer and consumer run on different clocks                  │
+├────────────────────────────────────────────────────────────────────────────┤
+│ write side  --->  [ elastic buffer ]  --->  read side                     │
+│ fast burst        absorbs rate mismatch        slow steady drain           │
+│                                                                          │
+│ without buffer: overflow or underflow appears at the clock boundary      │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 따라서 비동기 FIFO의 목적은 두 가지다. 하나는 [클럭 도메인 교차](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/607_clock_domain_crossing/) ([Clock Domain Crossing](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/607_clock_domain_crossing/), [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/)) 경계에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 잃지 않는 것이고, 다른 하나는 클럭 비율이 달라도 시스템 전체 throughput을 떨어뜨리지 않는 것이다. 이 둘을 동시에 만족하기 때문에 비동기 FIFO가 [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) 해법 중에서도 특별한 위치를 차지한다.
 
@@ -58,20 +56,20 @@ tags = ["studynote-computer-architecture"]
 
 핵심 아이디어는 이진 포인터와 [그레이 코드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/102_gray_code/) 포인터를 둘 다 가진다는 점이다. 주소 증가와 메모리 인덱싱은 이진수가 편하지만, 비동기 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에 넘길 때는 여러 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 동시에 변하면 위험하다. 그래서 보통 `gray = binary ^ (binary >> 1)`로 변환한 뒤 [그레이 코드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/102_gray_code/) 복사본을 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">async FIFO pointer crossing</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Write clock domain Read clock domain</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">bin_wptr -&gt; gray_wptr ----sync----&gt; gray_wptr_sync</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; write RAM -&gt; empty compare</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">gray_rptr_sync &lt;---sync---- gray_rptr &lt;- bin_rptr</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">-&gt; full compare -&gt; read RAM</div></div>
-</div>
-</div>
-
-
+```text
+┌────────────────────────────────────────────────────────────────────────────┐
+│                    async FIFO pointer crossing                            │
+├────────────────────────────────────────────────────────────────────────────┤
+│ Write clock domain                    Read clock domain                   │
+│  bin_wptr -> gray_wptr ----sync----> gray_wptr_sync                      │
+│      │                                 │                                 │
+│      └-> write RAM                     └-> empty compare                 │
+│                                                                          │
+│  gray_rptr_sync <---sync---- gray_rptr <- bin_rptr                       │
+│      │                                 │                                 │
+│      └-> full compare                  └-> read RAM                       │
+└────────────────────────────────────────────────────────────────────────────┘
+```
 
 empty 조건은 읽기 포인터가 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)된 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 포인터를 따라잡았을 때 성립한다. full 조건은 조금 더 정교한데, 전형적인 2의 거듭제곱 깊이 FIFO에서는 다음 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 그레이 포인터가 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)된 읽기 포인터의 상위 두 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 반전한 값과 같아질 때로 판정한다. 여기서 최상위 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) ([Most Significant Bit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/080_msb/), [MSB](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/080_msb/)) 계열을 따로 보는 이유는 "주소가 같다"만으로는 empty와 full을 구분할 수 없기 때문이다.
 
@@ -151,23 +149,21 @@ empty 조건은 읽기 포인터가 [동기화](/knowledge-base/studynote/02_ope
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">단순 핸드셰이크 CDC</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">그레이 코드 포인터 동기화</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">비동기 FIFO 기본 구조 정립</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">almost-full/empty 기반 흐름 제어</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">멀티클럭 파이프라인 · 온칩 네트워크 버퍼 · chiplet elastic buffer</div>
-</div>
-</div>
-
-
+```text
+단순 핸드셰이크 CDC
+        │
+        ▼
+그레이 코드 포인터 동기화
+        │
+        ▼
+비동기 FIFO 기본 구조 정립
+        │
+        ▼
+almost-full/empty 기반 흐름 제어
+        │
+        ▼
+멀티클럭 파이프라인 · 온칩 네트워크 버퍼 · chiplet elastic buffer
+```
 
 이 흐름은 [CDC](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/217_cdc_binlog_change_capture_debezium/) 해법이 단발성 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 전달에서 출발해, 이제는 고속 스트림을 위한 탄성 버퍼 아키텍처로 발전했음을 보여 준다.
 

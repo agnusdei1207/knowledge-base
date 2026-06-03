@@ -48,18 +48,12 @@ UAM은 <strong>도심 교통의 3D 혁신</strong>이며, eVTOL [인증](/knowle
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">헬리콥터 (기존)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">드론 (2015~)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">eVTOL 개발 (Joby·Lilium, 2018~)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현대 SA-2 (2022)</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">FAA 인증 진행</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">현재: 2025~2028 상용화 목표</div></div>
-</div>
-</div>
-
-
+```text
+[헬리콥터 (기존)] → [드론 (2015~)]
+    → [eVTOL 개발 (Joby·Lilium, 2018~)]
+    → [현대 SA-2 (2022)] → [FAA 인증 진행]
+    → [현재: 2025~2028 상용화 목표]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. UAM은 <strong>하늘을 나는 택시</strong>예요! 차가 막히면 **하늘로** 가요.

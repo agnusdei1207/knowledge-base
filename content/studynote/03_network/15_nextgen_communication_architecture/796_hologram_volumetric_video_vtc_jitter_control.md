@@ -22,18 +22,14 @@ tags = ["studynote-network"]
 - **개념**: 피사체를 360도 사방에서 수십 대의 카메라로 촬영한 3차원 포인트 클라우드(Point Cloud) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)나 볼류메트릭 비디오(Volumetric Video) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를, 무선 통신망([5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [eMBB](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/760_embb_enhanced_mobile_broadband_vr_ar/), [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) [THz](/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/))을 통해 사용자 기기(AR 안경, 홀로그램 디스플레이)로 실시간 전송하는 극한의 실감형 미디어 체계입니다.
 - **한계점 (용량의 공포)**: 4K 해상도의 시점 영상 100개를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 없이 무선으로 보내려면 최소 수 테라바이트(Tbps)의 대역폭이 필요하여, 현존하는 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)(최대 20Gbps) 망조차 한순간에 뻗어버립니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">5G LAN 스위치 대체 이더넷 투명 연계형…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">홀로그램 무선 전송 압축/다시점 비디오 체계…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">텔레햅틱 체계 기술 네트워크 응답 시간/제어…</div></div>
-</div>
-</div>
-
-
+```text
+[5G LAN 스위치 대체 이더넷 투명 연계형…]
+    │
+    ▼
+[홀로그램 무선 전송 압축/다시점 비디오 체계…]
+    │
+    └──▶ [텔레햅틱 체계 기술 네트워크 응답 시간/제어…]
+```
 
 - **📢 섹션 요약 비유**: 홀로그램 무선 전송 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)/다시점 비디오 체계…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
@@ -49,18 +45,14 @@ tags = ["studynote-network"]
    - 홀로그램 귀신을 폰으로 볼 때, 사용자는 귀신의 앞모습만 보고 있습니다. 통신망은 귀신의 등짝(뒷모습) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 아예 전송조차 하지 않습니다.
    - 사용자가 고개를 옆으로 돌리는 찰나의 0.01초 순간, 안구 트래킹 AI가 이를 인식하고 <strong>"얘 고개 돌린다! 빨리 왼쪽 옆얼굴 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 타일(Tile) 쏴줘!"</strong> 라며 시야에 보이는 부분만 골라서 무선으로 폭격합니다. [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 망의 트래픽을 90% 이상 절약합니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">5G LAN 스위치 대체 이더넷 투명 연계형…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">홀로그램 무선 전송 압축/다시점 비디오 체계…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">텔레햅틱 체계 기술 네트워크 응답 시간/제어…</div></div>
-</div>
-</div>
-
-
+```text
+[5G LAN 스위치 대체 이더넷 투명 연계형…]
+    │
+    ▼
+[홀로그램 무선 전송 압축/다시점 비디오 체계…]
+    │
+    └──▶ [텔레햅틱 체계 기술 네트워크 응답 시간/제어…]
+```
 
 - **📢 섹션 요약 비유**: 홀로그램 무선 전송 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)/다시점 비디오 체계…의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
@@ -125,19 +117,15 @@ tags = ["studynote-network"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: 5G LAN 스위치 대체 이더넷 투명 연계형…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: 홀로그램 무선 전송 압축/다시점 비디오 체계…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: 텔레햅틱 체계 기술 네트워크 응답 시간/제어…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: AI 기반 네트워크 최적화</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: 5G LAN 스위치 대체 이더넷 투명 연계형…]
+    │
+    ▼
+[현재 개념: 홀로그램 무선 전송 압축/다시점 비디오 체계…]
+    │
+    ├──▶ [확장 A: 텔레햅틱 체계 기술 네트워크 응답 시간/제어…]
+    └──▶ [확장 B: AI 기반 네트워크 최적화]
+```
 
 홀로그램 무선 전송 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)/다시점 비디오 체계…는 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) LAN [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 대체 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 투명 연계형…에서 출발해 현재 메커니즘을 정교화하고, 이후 텔레햅틱 체계 기술 네트워크 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)/제어…와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

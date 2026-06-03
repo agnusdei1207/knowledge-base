@@ -33,34 +33,38 @@ tags = ["studynote-enterprise-systems"]
 
 '[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)'라는 칭호를 달고 클라우드 전장(Infra)에 투입되려면 5대 절대 무결점 헌법을 강제 탑재해야 한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Service(서비스) 군단의 5대 절대 생존 헌법 팩트 체크 록온 도면</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">💀</div><div class="kb-diagram-node">1차 파국: 좆소 주니어 코더의 병신 짝퉁 서비스 💩</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- 껍데기만 API 만들어놓고 속 까보면</div><div class="kb-diagram-node">결제</div><div class="kb-diagram-note">랑</div><div class="kb-diagram-node">메일</div><div class="kb-diagram-note">로직 짬뽕 떡칠.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 타 부서 서버가 이 API 찌르려면 내 DB 비번 하드코딩 박아야 함(강결합).</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">=======</div><div class="kb-diagram-node">🛡️ 아키텍트의 도끼 메스: 진성 5대 헌법 세팅 ✨</div><div class="kb-diagram-note">========</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🚀</div><div class="kb-diagram-node">1. Business-aligned (현업 비즈니스 의미 덩어리 락킹)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- DB 테이블 크기(기술)로 찢지 마! 현업 아재들 쓰는 '주문 완료' 등 인간의</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">문맥(Context) 1가지 뜻만 순수하게 100% 뱃속 캡슐화 락 박아라 쾅!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🔒</div><div class="kb-diagram-node">2. Standard Interface (표준 껍데기 대문 단 1개 은닉 통제)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 내 자바 소스, 쇳덩이 DB 속살은 1바이트도 보여주지 마(Blackbox)! 외부</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">놈들은 100% 표준 JSON REST API 대문 1개로만 노크 텍스트 톡 던져 강제 락!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🛡️</div><div class="kb-diagram-node">3. Loosely Coupled (느슨한 결합 / 남남 독립 100% 무결 생존)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 나(A)는 쟤(B)가 새벽에 불타 죽든 IP 바뀌든 알 빠 아님 ㅋ 내 코드는 1바이트</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">타격 에러 없이 내 길만 쌩쌩 간다! 동반 타임아웃 타살 0% 완벽 절단 쉴드!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">🤖</div><div class="kb-diagram-node">4. Stateless (무상태 기억상실 깡통 뇌 세척 융합)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 유저가 1번 찌르고 나면 걔 누군지 과거 기억(세션 State) 램에 1바이트도 담지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">말고 1초 만에 싹 잊어 리셋 소각해 쾅!! 그래야 폭주 찰나 1만 대 무한 자동 복제!</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">♻️</div><div class="kb-diagram-node">5. Reusability (레고 블록 빨대 무한 조립 재사용)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">- 내가 짠</div><div class="kb-diagram-node">인증 API</div><div class="kb-diagram-note">1블록은 사내 쇼핑앱, 사장님 워치앱 등 100군데서 꿀 빨며</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">무한 복사 조립(Mashup) 렌더링 쳐도 버그 제로 타임 투 마켓 압살 단축 창조!</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────────┐
+│         Service(서비스) 군단의 5대 절대 생존 헌법 팩트 체크 록온 도면        │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│ 💀 [ 1차 파국: 좆소 주니어 코더의 병신 짝퉁 서비스 💩 ]              │
+│   - 껍데기만 API 만들어놓고 속 까보면 [결제]랑 [메일] 로직 짬뽕 떡칠.       │
+│   - 타 부서 서버가 이 API 찌르려면 내 DB 비번 하드코딩 박아야 함(강결합). │
+│                                                             │
+│        ======= [ 🛡️ 아키텍트의 도끼 메스: 진성 5대 헌법 세팅 ✨ ] ========│
+│                                                             │
+│ 🚀 [ 1. Business-aligned (현업 비즈니스 의미 덩어리 락킹) ]       │
+│   - DB 테이블 크기(기술)로 찢지 마! 현업 아재들 쓰는 '주문 완료' 등 인간의  │
+│     문맥(Context) 1가지 뜻만 순수하게 100% 뱃속 캡슐화 락 박아라 쾅!      │
+│                                                             │
+│ 🔒 [ 2. Standard Interface (표준 껍데기 대문 단 1개 은닉 통제) ]    │
+│   - 내 자바 소스, 쇳덩이 DB 속살은 1바이트도 보여주지 마(Blackbox)! 외부   │
+│     놈들은 100% 표준 JSON REST API 대문 1개로만 노크 텍스트 톡 던져 강제 락!│
+│                                                             │
+│ 🛡️ [ 3. Loosely Coupled (느슨한 결합 / 남남 독립 100% 무결 생존) ] │
+│   - 나(A)는 쟤(B)가 새벽에 불타 죽든 IP 바뀌든 알 빠 아님 ㅋ 내 코드는 1바이트 │
+│     타격 에러 없이 내 길만 쌩쌩 간다! 동반 타임아웃 타살 0% 완벽 절단 쉴드! │
+│                                                             │
+│ 🤖 [ 4. Stateless (무상태 기억상실 깡통 뇌 세척 융합) ]             │
+│   - 유저가 1번 찌르고 나면 걔 누군지 과거 기억(세션 State) 램에 1바이트도 담지│
+│     말고 1초 만에 싹 잊어 리셋 소각해 쾅!! 그래야 폭주 찰나 1만 대 무한 자동 복제!│
+│                                                             │
+│ ♻️ [ 5. Reusability (레고 블록 빨대 무한 조립 재사용) ]             │
+│   - 내가 짠 [인증 API] 1블록은 사내 쇼핑앱, 사장님 워치앱 등 100군데서 꿀 빨며 │
+│     무한 복사 조립(Mashup) 렌더링 쳐도 버그 제로 타임 투 마켓 압살 단축 창조!│
+└─────────────────────────────────────────────────────────────┘
+```
 
 가장 중요한 0순위 원칙은 <strong>[느슨한 결합 Loosely Coupled]</strong>이다. 과거 함수(Function) 콜은 내 프로세스 램 포인터를 직접 찌르니 1놈 죽으면 100% 램 터져 연쇄 뒤진다(강결합). 하지만 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 통신은 물리적으로 떨어져 허공 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 텍스트만 핑퐁([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) [Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/)) 대화한다. 비록 네트워크 타느라 통신 랙([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) 10ms 오버헤드 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)) 피를 1,000배 흘리더라도!! 상대방 시스템이 파이썬으로 싹 갈아엎든 심야에 타 죽든(Impact) 내 코드는 1글자 수정 없이 유유히 나 홀로 생존 100%([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/) Survival) 쉴드 방벽을 세우는 것이 진정한 융합 승리다.
 
@@ -131,23 +135,21 @@ tags = ["studynote-enterprise-systems"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">모놀리식 (Monolithic) 스파게티 1통 쇳덩이 사일로 / 1줄 오타 나면 전사 서버 100% 램 타죽고 블랙아웃 동반 타살 셧다운 지옥 폭파 💥</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SOA (Service Oriented Architecture) 철학 탄생 / 비즈니스 의미(결제 등) 1덩어리 단위 박스로 가위질 도끼 찢기 분할 남남 격리 수술 도입 (느슨한 결합 방어 쉴드 탄생 ✨)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">XML / SOAP 무거운 껍데기 떡칠 오버헤드 + ESB 거대 중앙 뇌 통나무 짬처리 스위칭 과부하 SPOF 폭발 한계 붕괴 💀</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">MSA 마이크로서비스 나노 메스 다이어트 대관식 🚀 / 1,000개 초미니 도커 컨테이너 극소 찢기 + JSON 가벼운 핏줄 핑퐁 + 깡통 버스 무중앙 자율 게릴라 통제 융합 대통일</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Serverless (AWS 람다 FaaS) / 아예 24시간 도는 서버 쇳덩이 봇 자체를 삭제 소각 쾅! 유저 클릭 터지는 찰나 0.01초만 코드 허공 띄워 10만 개 복사 연산 킬 치고 자살 소멸 스위칭 0원 요금제 방어 무극의 제국 진입</div>
-</div>
-</div>
-
-
+```text
+모놀리식 (Monolithic) 스파게티 1통 쇳덩이 사일로 / 1줄 오타 나면 전사 서버 100% 램 타죽고 블랙아웃 동반 타살 셧다운 지옥 폭파 💥
+    │
+    ▼
+SOA (Service Oriented Architecture) 철학 탄생 / 비즈니스 의미(결제 등) 1덩어리 단위 박스로 가위질 도끼 찢기 분할 남남 격리 수술 도입 (느슨한 결합 방어 쉴드 탄생 ✨)
+    │
+    ▼
+XML / SOAP 무거운 껍데기 떡칠 오버헤드 + ESB 거대 중앙 뇌 통나무 짬처리 스위칭 과부하 SPOF 폭발 한계 붕괴 💀
+    │
+    ▼
+MSA 마이크로서비스 나노 메스 다이어트 대관식 🚀 / 1,000개 초미니 도커 컨테이너 극소 찢기 + JSON 가벼운 핏줄 핑퐁 + 깡통 버스 무중앙 자율 게릴라 통제 융합 대통일
+    │
+    ▼
+Serverless (AWS 람다 FaaS) / 아예 24시간 도는 서버 쇳덩이 봇 자체를 삭제 소각 쾅! 유저 클릭 터지는 찰나 0.01초만 코드 허공 띄워 10만 개 복사 연산 킬 치고 자살 소멸 스위칭 0원 요금제 방어 무극의 제국 진입
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 

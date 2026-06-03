@@ -25,7 +25,7 @@ tags = ["studynote-design-supervision"]
 2000년대 초반 대기업·공공기관의 전형적인 IT 투자 패턴을 보자.
 
 - **재무팀**: 자체 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) ([Enterprise Resource Planning](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)) 결제 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 개발 → 감리 합격
-- **영업팀**: 별도 [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) ([Customer](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) [Relationship](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)) 결제 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 개발 → 감리 합격
+- **영업팀**: 별도 [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) ([C고객](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_three_c_analysis/) [Relationship](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/372_management/)) 결제 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 개발 → 감리 합격
 - **인사팀**: 독립 HR 결제 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 개발 → 감리 합격
 
 결과: 3개 시스템 모두 요구사항을 충족하지만 서로 다른 DB [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/), 다른 코드 체계, 다른 인터페이스로 **5년 후 전사 통합 프로젝트에 100억 추가 투자 필요**.
@@ -36,26 +36,33 @@ tags = ["studynote-design-supervision"]
 
 [ITA](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/015_ita_information_technology_architecture/) ([Information Technology Architecture](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/015_ita_information_technology_architecture/)) 법 제정(2005) 이후, 범정부 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) ([GEA](/knowledge-base/studynote/12_it_management/03_ea_isp/115_gea_government_ea_framework/), Government [Enterprise Architecture](/knowledge-base/studynote/12_it_management/01_governance_strategy/010_ea_enterprise_architecture/)) 체계가 수립되었다. 이에 따라 공공 정보화 사업의 감리는 단순 요구사항 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 넘어 <strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/">EA</a> <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/">참조 모델</a> 준수 여부 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>을 핵심 의무로 포함하게 되었다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정보시스템 감리 패러다임 전환</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Before: 단위 감리 (Project-centric)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PJ-A</div><div class="kb-diagram-cell">PJ-B</div><div class="kb-diagram-cell">PJ-C</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">감리 OK</div><div class="kb-diagram-cell">감리 OK</div><div class="kb-diagram-cell">감리 OK</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">각자 합격했지만 서로 연결 불가 → 사일로 발생</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">After: EA 기반 감리 (Enterprise-centric)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EA 참조 모델 (기준선)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BRM/DRM/SRM/TRM/PRM</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PJ-A</div><div class="kb-diagram-cell">PJ-B</div><div class="kb-diagram-cell">PJ-C</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EA정합</div><div class="kb-diagram-cell">EA정합</div><div class="kb-diagram-cell">EA정합</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">검증 OK</div><div class="kb-diagram-cell">검증 OK</div><div class="kb-diagram-cell">검증 OK</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">세 시스템 모두 EA 표준 준수 → 통합 가능</div></div>
-</div>
-</div>
-
-
+```text
+┌─────────────────────────────────────────────────────────┐
+│         정보시스템 감리 패러다임 전환                        │
+├─────────────────────────────────────────────────────────┤
+│                                                         │
+│  Before: 단위 감리 (Project-centric)                      │
+│  ┌────────┐   ┌────────┐   ┌────────┐                   │
+│  │ PJ-A   │   │ PJ-B   │   │ PJ-C   │                   │
+│  │감리 OK │   │감리 OK │   │감리 OK │                   │
+│  └────────┘   └────────┘   └────────┘                   │
+│  각자 합격했지만 서로 연결 불가 → 사일로 발생                │
+│                                                         │
+│  After: EA 기반 감리 (Enterprise-centric)                 │
+│         ┌───────────────────────────┐                   │
+│         │   EA 참조 모델 (기준선)     │                   │
+│         │  BRM/DRM/SRM/TRM/PRM     │                   │
+│         └───────────────────────────┘                   │
+│              │         │         │                      │
+│              ▼         ▼         ▼                      │
+│         ┌────────┐ ┌────────┐ ┌────────┐                │
+│         │  PJ-A  │ │  PJ-B  │ │  PJ-C  │                │
+│         │EA정합  │ │EA정합  │ │EA정합  │                │
+│         │검증 OK │ │검증 OK │ │검증 OK │                │
+│         └────────┘ └────────┘ └────────┘                │
+│         세 시스템 모두 EA 표준 준수 → 통합 가능            │
+└─────────────────────────────────────────────────────────┘
+```
 
 📢 **섹션 요약 비유**: 기존 감리가 "각 방의 가구가 튼튼한지 검사"라면, [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 기반 감리는 "전국 건물 모두가 시청의 도시계획도([EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) [참조 모델](/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/))에 맞게 지어졌는지, 상하수도([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 연계)가 도시 규격대로 연결되는지를 수석 도시 건축가가 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)"하는 것이다.
 
@@ -65,55 +72,62 @@ tags = ["studynote-design-supervision"]
 
 ### 1. 범정부 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) ([GEA](/knowledge-base/studynote/12_it_management/03_ea_isp/115_gea_government_ea_framework/)) 5대 [참조 모델](/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/)과 감리 매핑
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EA 참조 모델 (Reference Model)과 감리 점검 영역 매핑</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">EA 참조 모델</div><div class="kb-diagram-cell">감리 핵심 점검 항목</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">BRM (Business Reference</div><div class="kb-diagram-cell">· 신규 서비스가 기존 업무와 중복 투자</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Model, 업무 참조 모델)</div><div class="kb-diagram-cell">없이 차별화되는지 검증</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· 전사 업무 분류 체계 준수 여부</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">SRM (Service Reference</div><div class="kb-diagram-cell">· 전자정부 표준 프레임워크(eGovFrame)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Model, 서비스 참조 모델)</div><div class="kb-diagram-cell">적용 여부</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· 공통 컴포넌트 재사용 여부</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DRM (Data Reference</div><div class="kb-diagram-cell">· 테이블·컬럼명이 표준 단어 사전 준수</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Model, 데이터 참조 모델)</div><div class="kb-diagram-cell">· 공통 코드·메타데이터 표준 준수 여부</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· 데이터 중복 정의 방지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">TRM (Technical Reference</div><div class="kb-diagram-cell">· 도입 HW/SW가 기관 표준 기술 목록에</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Model, 기술 참조 모델)</div><div class="kb-diagram-cell">등재된 제품인지 확인</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">· 이기종 비표준 기술 도입 방지</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PRM (Performance</div><div class="kb-diagram-cell">· 사업 완료 후 정량적 성과 지표(KPI)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Reference Model,</div><div class="kb-diagram-cell">달성 여부 사전 정의</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">성과 참조 모델)</div><div class="kb-diagram-cell">· ISP 산출물과 실제 구현 정합성 검증</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│      EA 참조 모델 (Reference Model)과 감리 점검 영역 매핑             │
+├──────────────────────────┬───────────────────────────────────────┤
+│   EA 참조 모델             │   감리 핵심 점검 항목                    │
+├──────────────────────────┼───────────────────────────────────────┤
+│ BRM (Business Reference  │ · 신규 서비스가 기존 업무와 중복 투자     │
+│ Model, 업무 참조 모델)     │   없이 차별화되는지 검증                │
+│                          │ · 전사 업무 분류 체계 준수 여부          │
+├──────────────────────────┼───────────────────────────────────────┤
+│ SRM (Service Reference   │ · 전자정부 표준 프레임워크(eGovFrame)    │
+│ Model, 서비스 참조 모델)   │   적용 여부                           │
+│                          │ · 공통 컴포넌트 재사용 여부              │
+├──────────────────────────┼───────────────────────────────────────┤
+│ DRM (Data Reference      │ · 테이블·컬럼명이 표준 단어 사전 준수     │
+│ Model, 데이터 참조 모델)   │ · 공통 코드·메타데이터 표준 준수 여부    │
+│                          │ · 데이터 중복 정의 방지                 │
+├──────────────────────────┼───────────────────────────────────────┤
+│ TRM (Technical Reference │ · 도입 HW/SW가 기관 표준 기술 목록에     │
+│ Model, 기술 참조 모델)    │   등재된 제품인지 확인                  │
+│                          │ · 이기종 비표준 기술 도입 방지           │
+├──────────────────────────┼───────────────────────────────────────┤
+│ PRM (Performance         │ · 사업 완료 후 정량적 성과 지표(KPI)     │
+│ Reference Model,         │   달성 여부 사전 정의                   │
+│ 성과 참조 모델)            │ · ISP 산출물과 실제 구현 정합성 검증    │
+└──────────────────────────┴───────────────────────────────────────┘
+```
 
 ### 2. [DRM](/knowledge-base/studynote/12_it_management/03_ea_isp/119_drm_data_reference_model_standard/) 기반 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 표준 준수 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 메커니즘
 
 [DRM](/knowledge-base/studynote/12_it_management/03_ea_isp/119_drm_data_reference_model_standard/) ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Reference Model](/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/)) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 감리의 가장 빈번한 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 발생 영역이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">신규 DB 설계(ERD) 제출</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">표준 단어 사전(DRM) 대조 검사</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">컬럼명: CUST_ID ← 위반 (X)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DRM 등재어: CSMR_ID</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">컬럼명: REG_DT ← 준수 (O)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">DRM 등재어: REG_DT</div></div>
-<div class="kb-diagram-note">위반 준수</div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">결함(Fault) 처리</div><div class="kb-diagram-cell">감리 통과</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 재설계 요구</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- 대금 지급 보류</div></div>
-</div>
-</div>
-
-
+```text
+신규 DB 설계(ERD) 제출
+         │
+         ▼
+┌────────────────────────────────────────┐
+│   표준 단어 사전(DRM) 대조 검사           │
+│                                        │
+│   컬럼명: CUST_ID    ← 위반 (X)         │
+│   DRM 등재어: CSMR_ID                  │
+│                                        │
+│   컬럼명: REG_DT     ← 준수 (O)         │
+│   DRM 등재어: REG_DT                   │
+└──────────────────┬─────────────────────┘
+                   │
+        ┌──────────┴──────────┐
+       위반                  준수
+        │                    │
+        ▼                    ▼
+┌──────────────────┐  ┌──────────────┐
+│  결함(Fault) 처리 │  │   감리 통과   │
+│  - 재설계 요구    │  └──────────────┘
+│  - 대금 지급 보류 │
+└──────────────────┘
+```
 
 📢 **섹션 요약 비유**: [DRM](/knowledge-base/studynote/12_it_management/03_ea_isp/119_drm_data_reference_model_standard/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 "도로 표지판 검사"와 같다. 전국의 모든 표지판이 "서울"을 제각각 다른 표기로 적으면 GPS([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 연계 시스템)가 먹통이 된다. DRM이 "전국 표준 지명 사전"이고, 감리원이 "표지판 표기 검사관"이다.
 
@@ -127,7 +141,7 @@ tags = ["studynote-design-supervision"]
 |:---|:---|:---|
 | **점검 기준** | RFP, SRS ([소프트웨어 요구사항 명세서](/knowledge-base/studynote/04_software_engineering/03_design_architecture/149_software_requirements_specification_srs/)) | RFP + SRS + [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) [참조 모델](/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/) ([TRM](/knowledge-base/studynote/12_it_management/03_ea_isp/120_trm_technical_reference_model/)/[DRM](/knowledge-base/studynote/12_it_management/03_ea_isp/119_drm_data_reference_model_standard/) 등) |
 | **핵심 관점** | 단일 시스템 내부 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) | 전사 시스템 간 [상호운용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/287_interoperability_tactics/)·재사용성 |
-| **감리 시기 비중** | 구현·종료 단계 집중 | <strong>기획(<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/">ISP</a>)·요구정의 단계에 역량 집중</strong> |
+| **감리 시기 비중** | 구현·종료 단계 집중 | <strong>기획(<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/">ISP</a>)·요구사항 정의 단계에 역량 집중</strong> |
 | <strong>주요 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a> 유형</strong> | 요구사항 미반영, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 미달 | <strong>표준 단어 위반, 공통 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/">컴포넌트</a> 미사용</strong> |
 | <strong><a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a> 프레임워크</strong> | 없음 (요구사항이 기준) | [Zachman Framework](/knowledge-base/studynote/12_it_management/03_ea_isp/112_zachman_framework/), [TOGAF](/knowledge-base/studynote/12_it_management/03_ea_isp/113_togaf/), [GEA](/knowledge-base/studynote/12_it_management/03_ea_isp/115_gea_government_ea_framework/) |
 | **속도 vs 거버넌스** | 빠른 개발·유연성 우선 | <strong>표준 준수 오버헤드 — 일정 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> <a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a></strong> |
@@ -154,7 +168,7 @@ tags = ["studynote-design-supervision"]
 | 단계 | 필수 준비 항목 | 핵심 증적 자료 |
 |:---|:---|:---|
 | <strong>기획(<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/101_isp_information_strategy_planning_4_steps/">ISP</a>)</strong> | [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 현행([As-Is](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)) 분석 및 목표(To-Be) 아키텍처 수립 | [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 아키텍처 전환 계획서 |
-| **요구정의** | 기능 요구사항 ↔ [BRM](/knowledge-base/studynote/12_it_management/03_ea_isp/117_brm_business_reference_model/) 업무 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 매핑 | 기능 요구사항-[BRM](/knowledge-base/studynote/12_it_management/03_ea_isp/117_brm_business_reference_model/) 매핑 매트릭스 |
+| **요구사항 정의** | 기능 요구사항 ↔ [BRM](/knowledge-base/studynote/12_it_management/03_ea_isp/117_brm_business_reference_model/) 업무 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 매핑 | 기능 요구사항-[BRM](/knowledge-base/studynote/12_it_management/03_ea_isp/117_brm_business_reference_model/) 매핑 매트릭스 |
 | **설계** | 테이블명·컬럼명 ↔ [DRM](/knowledge-base/studynote/12_it_management/03_ea_isp/119_drm_data_reference_model_standard/) 표준 단어 사전 매핑 | [DRM](/knowledge-base/studynote/12_it_management/03_ea_isp/119_drm_data_reference_model_standard/) 준수 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 엑셀 + ERD |
 | **구현** | eGovFrame (전자정부 표준 프레임워크) 적용 | 프레임워크 적용 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)서 |
 | **시험** | [TRM](/knowledge-base/studynote/12_it_management/03_ea_isp/120_trm_technical_reference_model/) 표준 기술 목록과 실제 도입 기술 대조 | HW/SW 구성도 + [TRM](/knowledge-base/studynote/12_it_management/03_ea_isp/120_trm_technical_reference_model/) 매핑 표 |
@@ -217,26 +231,26 @@ AWS, Azure, GCP 환경에서의 [EA](/knowledge-base/studynote/12_it_management/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">개별 단위 정보시스템 감리 — 요구사항 충족 여부만 확인</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">ITA법 제정 (2005) — EA 적용 의무화</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">EA 기반 감리 — BRM/DRM/SRM/TRM/PRM 참조 모델 정합성 검증</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Zachman / TOGAF 방법론 연계</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">클라우드 네이티브 EA — C-TRM, API 거버넌스 중심</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">AI 기반 자율 감리 — 설계 메타데이터 자동 DRM/TRM 대조</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">디지털 트윈 EA — 실시간 아키텍처 현행화 + 자동 컴플라이언스</div></div>
-</div>
-</div>
-
-
+```text
+[개별 단위 정보시스템 감리 — 요구사항 충족 여부만 확인]
+            │
+            ▼
+[ITA법 제정 (2005) — EA 적용 의무화]
+            │
+            ▼
+[EA 기반 감리 — BRM/DRM/SRM/TRM/PRM 참조 모델 정합성 검증]
+            │
+            ├─── [Zachman / TOGAF 방법론 연계]
+            │
+            ▼
+[클라우드 네이티브 EA — C-TRM, API 거버넌스 중심]
+            │
+            ▼
+[AI 기반 자율 감리 — 설계 메타데이터 자동 DRM/TRM 대조]
+            │
+            ▼
+[디지털 트윈 EA — 실시간 아키텍처 현행화 + 자동 컴플라이언스]
+```
 
 단위 프로젝트 감리 → 전사 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 정합성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) → 클라우드·[MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 적응 → [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 자율화의 경로로 진화하며, 핵심 변수는 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) [참조 모델](/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/)의 [현행화](/knowledge-base/studynote/12_it_management/03_ea_isp/125_asis_update_ea_maintenance_synchronization/) 주기와 자동화 수준이다.
 

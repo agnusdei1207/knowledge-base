@@ -34,25 +34,26 @@ tags = ["ict_convergence"]
 | :--- | :--- | :--- |
 | <strong>명세서 (<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/148_requirements_specification_formal_informal/">Specification</a>)</strong> | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)할 절대 규칙 정의 | 예: "총 잔고(Total Supply)는 항상 금고의 돈과 같아야 한다." |
 | <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a> 모델 변환 (Modeling)</strong> | 코드를 수학적 상태 머신으로 변환 | [Solidity](/knowledge-base/studynote/06_ict_convergence/01_blockchain/057_solidity_smart_contract_language/) 코드를 기계가 이해하는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)식으로 매핑 |
-| **증명 엔진 (Prover Engine)** | Z3, Coq 등을 이용한 연산 수행 | 수식을 풀어내어 예외(Counter-example)가 존재하는지 탐색 |
+| **증명 엔진 (Prover 엔진)** | Z3, Coq 등을 이용한 연산 수행 | 수식을 풀어내어 예외(Counter-example)가 존재하는지 탐색 |
 | <strong><a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 결과 (<a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">Verification</a>)</strong> | 참(True) 또는 반례(Fail) 출력 | 반례가 나오면 취약점 발견, 참이면 100% 안전 보장 |
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">정형 검증 (Formal Verification) 작동 메커니즘</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">1.</div><div class="kb-diagram-node">개발자 코드</div><div class="kb-diagram-node">수학적 규칙(명세)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">function transfer() { ... } Total A + B == 100</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">모델 변환기</div><div class="kb-diagram-connector">◀</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">2.</div><div class="kb-diagram-node">수학적 논리 모델</div><div class="kb-diagram-note">(상태 A ➔ 상태 B 전이 트리)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-note">3.</div><div class="kb-diagram-node">증명기 (Theorem Prover)</div><div class="kb-diagram-note">(수만 가지 경로를 수학적으로 압축 연산)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">TRUE (증명 성공!)</div><div class="kb-diagram-node">FALSE (반례 발견!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">(우주가 멸망해도 안전함) (특정 입력값 x에서 버그)</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│           정형 검증 (Formal Verification) 작동 메커니즘          │
+├──────────────────────────────────────────────────────────────┤
+│ 1. [개발자 코드]                         [수학적 규칙(명세)]       │
+│    function transfer() { ... }           Total A + B == 100  │
+│         │                                        │           │
+│         └────────────▶ [ 모델 변환기 ] ◀───────────┘           │
+│                               │                              │
+│ 2. [수학적 논리 모델] (상태 A ➔ 상태 B 전이 트리)                   │
+│                               │                              │
+│ 3. [증명기 (Theorem Prover)] (수만 가지 경로를 수학적으로 압축 연산)   │
+│         │                                        │           │
+│  [ TRUE (증명 성공!) ]                  [ FALSE (반례 발견!) ]   │
+│   (우주가 멸망해도 안전함)                 (특정 입력값 x에서 버그)  │
+└──────────────────────────────────────────────────────────────┘
+```
 
 이 그림에서 핵심은 코드를 '실행'하는 것이 아니라 '해석'한다는 점이다. 엔진은 재진입([Re-entrancy](/knowledge-base/studynote/06_ict_convergence/01_blockchain/056_smart_contract_vulnerability_reentrancy/))이나 [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)([Overflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)) 같은 해커의 악의적 입력값을 수학적 변수 범주로 취급하여, 모든 경로(Path)에서 불변 규칙이 유지되는지 증명한다.
 
@@ -111,23 +112,21 @@ tags = ["ict_convergence"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">스마트 컨트랙트 등장 (불변성 및 금전적 위협 대두)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">단위 테스트 / 통합 테스트 (경험적 검증 한계)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">보안 감사 (Audit) 및 퍼징 (Fuzzing) 도입</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">정형 검증 (Formal Verification: 모델 체킹, 정리 증명) 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">자동화된 정형 검증 툴 (Certora, Z3 기반 도구) 대중화</div>
-</div>
-</div>
-
-
+```text
+스마트 컨트랙트 등장 (불변성 및 금전적 위협 대두)
+    │
+    ▼
+단위 테스트 / 통합 테스트 (경험적 검증 한계)
+    │
+    ▼
+보안 감사 (Audit) 및 퍼징 (Fuzzing) 도입
+    │
+    ▼
+정형 검증 (Formal Verification: 모델 체킹, 정리 증명) 적용
+    │
+    ▼
+자동화된 정형 검증 툴 (Certora, Z3 기반 도구) 대중화
+```
 
 이 흐름도는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 코드의 취약성을 막기 위해 테스트 기법이 점점 인간의 경험(감)에서 수학적 완벽성(이성)으로 진화해 온 과정을 보여준다.
 

@@ -27,25 +27,24 @@ tags = ["studynote-operating-system"]
 **💡 비유**: 총알이 10발 남은 지휘관. A, B, C 세 분대장이 적을 뚫으려면 각각 총알 5발, 8발, 15발 등 총 28발이 더 필요하다고 아우성이다. 
 지휘관이 머리를 굴려 "남은 10발을 A한테 다 몰아줘서 고지 뺏고 5발 수거해 오면, 그걸로 통통한 B지원해 주고 돌아오면 C를 준다!" 는 시나리오가 성립하면 작전 "안전 상태" ([Safe](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/))다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">안전 상태(Safe State) 판별의 마법 교차로</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">조건</div><div class="kb-diagram-note">남은 자원(Available) = 3개</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P1: 필요 자원 4개 (만약 지금 3개 주면 졸업 못 하고 잠복)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P2: 필요 자원 2개 (얘한테 3개 중 2개를 주면 졸업하고 뱉음!)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">P3: 필요 자원 7개 (얘는 어림도 없음 젤 나중에 줘야 함)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">단 하나의 평화로운 Sequence &lt;P2, P1, P3&gt;</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. P2한테 2개 투입 → P2 졸업 → 쓰고 있던 수십 개 자원 반납!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. 수거된 자원이 10개로 뻥튀기됨!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. 그걸로 P1(4개 필요)을 채워줌 → P1 졸업 → 다시 반납!</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. 그걸로 P3(7개 필요)마저 채워줌 → 전원 탈출 증명 완료</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">= 이런 순서가 존재하므로 현재 시스템은 '안전 상태(Safe)'!</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────────────┐
+│         안전 상태(Safe State) 판별의 마법 교차로              │
+├───────────────────────────────────────────────────────────────┤
+│                                                               │
+│  [조건] 남은 자원(Available) = 3개                            │
+│  P1: 필요 자원 4개 (만약 지금 3개 주면 졸업 못 하고 잠복)     │
+│  P2: 필요 자원 2개 (얘한테 3개 중 2개를 주면 졸업하고 뱉음!)  │
+│  P3: 필요 자원 7개 (얘는 어림도 없음 젤 나중에 줘야 함)       │
+│                                                               │
+│  [단 하나의 평화로운 Sequence <P2, P1, P3>]                   │
+│  1. P2한테 2개 투입 → P2 졸업 → 쓰고 있던 수십 개 자원 반납!  │
+│  2. 수거된 자원이 10개로 뻥튀기됨!                            │
+│  3. 그걸로 P1(4개 필요)을 채워줌 → P1 졸업 → 다시 반납!       │
+│  4. 그걸로 P3(7개 필요)마저 채워줌 → 전원 탈출 증명 완료      │
+│  = 이런 순서가 존재하므로 현재 시스템은 '안전 상태(Safe)'!    │
+└───────────────────────────────────────────────────────────────┘
+```
 
 **📢 섹션 요약 비유**: 안전 상태는 위기의 절벽 앞이어도 한 발만 더 디디면 살아서 연결될 징검다리 1개(안전 순서)가 확실히 보이는 확정적 안전 구역. 이 징검다리가 보이면 컴퓨터는 주저 없이 다음 발을 내딛습니다.
 
@@ -115,19 +114,15 @@ tags = ["studynote-operating-system"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">교착 상태 회피 (Deadlock Avoidance)</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">안전 상태 (Safe State)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">불안전 상태 (Unsafe State)</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">단일 인스턴스 환경의 회피</div></div>
-</div>
-</div>
-
-
+```text
+[교착 상태 회피 (Deadlock Avoidance)]
+    │
+    ▼
+[안전 상태 (Safe State)]
+    │
+    ├──▶ [불안전 상태 (Unsafe State)]
+    └──▶ [단일 인스턴스 환경의 회피]
+```
 
 이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 압축해 보여준다.
 

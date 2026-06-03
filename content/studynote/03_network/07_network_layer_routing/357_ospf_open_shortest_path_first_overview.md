@@ -26,18 +26,14 @@ tags = ["studynote-network"]
   - <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/">RIP</a></strong>: 동네 사람들이 모여 "내가 아는 맛집까지 세 걸음 걸림"이라고 <strong>입소문</strong>만 내는 방식입니다. (루머에 취약함).
   - **OSPF**: 동네 사람들이 각자 자기 집 앞 골목길의 사진(LSA)을 찍어 광장에 다 같이 쏟아붓고, 각자가 그 수천 장의 사진 조각을 조립해 <strong>완벽한 위성 지도(<a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/961_ospf_link_state_database_dijkstra_spf_routing/">LSDB</a>)</strong>를 완성한 뒤, 내비게이션 앱([SPF](/knowledge-base/studynote/03_network/09_application_layer_web_email/495_spf_sender_policy_framework/))을 켜서 내 집에서 맛집까지 가장 안 막히는 길을 스스로 찾아내는 방식입니다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">EIGRP 특징: 부분/바운디드 업데이트,…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">OSPF</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">OSPF 인접성, Hello 패킷, LSA,…</div></div>
-</div>
-</div>
-
-
+```text
+[EIGRP 특징: 부분/바운디드 업데이트,…]
+    │
+    ▼
+[OSPF]
+    │
+    └──▶ [OSPF 인접성, Hello 패킷, LSA,…]
+```
 
 - **📢 섹션 요약 비유**: <strong> OSPF는 모든 시민이 참여하여 실시간 교통 정보(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/348_link_state_routing_dijkstra_spf/">링크 상태</a>)를 중앙 서버 없이 서로 100% 동기화해 나누는 </strong>"[오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)(Open) Waze 내비게이션"**입니다. 내 눈으로 도시 전체가 막히는지 뚫렸는지 직접 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 운전대를 돌립니다.
 
@@ -60,21 +56,22 @@ OSPF가 길의 1등과 2등을 가르는 점수([메트릭](/knowledge-base/stud
 - **1Gbps 기가비트**: 어? 공식대로면 $0.1$인데 소수점은 안 되므로 무조건 <strong>Cost 1</strong>이다.
 - *실무 팁*: 요즘은 1Gbps, 10Gbps 망이 흔한데 저 공식을 그대로 쓰면 전부 다 Cost 1로 동점이 되어 버린다(기가비트와 10기가비트를 구별 못 함). 그래서 실무에서는 기준 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) $[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^8$을 $[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^{[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)}$ 등으로 강제로 높이는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)(`auto-cost reference-bandwidth`)를 반드시 박아 넣어야 최신 고속망을 제대로 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)한다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">RIP (Hop) vs OSPF (Cost) 라우팅 판단 차이</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">내 라우터</div><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">목적지</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">중간 라우터</div><div class="kb-diagram-note">── (1Gbps) ──</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* RIP의 멍청함: "윗길은 라우터 0대(1점), 아랫길은 라우터 1대(2점)네!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 느려터진 윗길로 데이터 쏘다가 망함.</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">* OSPF의 똑똑함: "윗길 Cost=64, 아랫길 Cost=1+1=2 네!"</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">──▶ 당연히 Cost가 싼 1Gbps 아랫길로 우회함.</div></div>
-</div>
-</div>
-
-
+```text
+ ┌─────────────────────────────────────────────────────────────┐
+ │                RIP (Hop) vs OSPF (Cost) 라우팅 판단 차이         │
+ ├─────────────────────────────────────────────────────────────┤
+ │                                                             │
+ │   [ 내 라우터 ] ──── (1.5Mbps T1 전용선) ───▶ [ 목적지 ]     │
+ │        │                                              ▲     │
+ │        └── (1Gbps 광랜) ──▶ [중간 라우터] ── (1Gbps) ──┘     │
+ │                                                             │
+ │   * RIP의 멍청함: "윗길은 라우터 0대(1점), 아랫길은 라우터 1대(2점)네!" │
+ │                 ──▶ 느려터진 윗길로 데이터 쏘다가 망함.          │
+ │                                                             │
+ │   * OSPF의 똑똑함: "윗길 Cost=64, 아랫길 Cost=1+1=2 네!"         │
+ │                 ──▶ 당연히 Cost가 싼 1Gbps 아랫길로 우회함.      │
+ └─────────────────────────────────────────────────────────────┘
+```
 
 ### 3. 무한 루프의 완벽한 차단
 OSPF는 [벨만-포드](/knowledge-base/studynote/08_algorithm_stats/11_graph_algorithms/170_bellman_ford/)([거리 벡터](/knowledge-base/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/))처럼 맹목적인 소문 덧셈을 하지 않고, [다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)([Dijkstra](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)) 수학 공식을 써서 내 눈앞에 펼쳐진 전체 지형도([LSDB](/knowledge-base/studynote/03_network/19_frequent_topics_terms/961_ospf_link_state_database_dijkstra_spf_routing/))에 직접 선을 긋기 때문에, 태생적으로 <strong>절대로 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> 루프(빙빙 도는 현상)에 빠지지 않는 구조적 완벽함</strong>을 자랑한다.
@@ -135,19 +132,15 @@ OSPF는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routin
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">선행 개념: EIGRP 특징: 부분/바운디드 업데이트,…</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">현재 개념: OSPF</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 A: OSPF 인접성, Hello 패킷, LSA,…</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-connector">▶</div><div class="kb-diagram-node">확장 B: 의도 기반 라우팅</div></div>
-</div>
-</div>
-
-
+```text
+[선행 개념: EIGRP 특징: 부분/바운디드 업데이트,…]
+    │
+    ▼
+[현재 개념: OSPF]
+    │
+    ├──▶ [확장 A: OSPF 인접성, Hello 패킷, LSA,…]
+    └──▶ [확장 B: 의도 기반 라우팅]
+```
 
 OSPF는 [EIGRP](/knowledge-base/studynote/03_network/07_network_layer_routing/355_eigrp_enhanced_igrp_dual_algorithm/) 특징: 부분/바운디드 업데이트,…에서 출발해 현재 메커니즘을 정교화하고, 이후 OSPF 인접성, Hello 패킷, LSA,…와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 

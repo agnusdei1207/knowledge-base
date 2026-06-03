@@ -31,28 +31,28 @@ NIST [SP](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">NIST SP 800-207 Zero Trust 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">주체: 사용자/기기/서비스</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">PEP: Policy Enforcement Point</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">접근 요청 중간자, 정책 집행</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">PE: Policy Engine + PA: Policy Administrator</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">PDP (Policy Decision Point)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">신원(IdP), 기기 상태(MDM), 위협 인텔리전스 참조해 접근 결정</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">보호 자원: 앱/API/데이터/서비스</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">마이크로세그멘테이션으로 자원 간 격리</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────┐
+│              NIST SP 800-207 Zero Trust 구조                    │
+├──────────────────────────────────────────────────────────────────┤
+│  [주체: 사용자/기기/서비스]                                      │
+│         │                                                        │
+│  [PEP: Policy Enforcement Point]                                │
+│  접근 요청 중간자, 정책 집행                                     │
+│         │                                                        │
+│  [PE: Policy Engine + PA: Policy Administrator]                 │
+│  PDP (Policy Decision Point)                                    │
+│  신원(IdP), 기기 상태(MDM), 위협 인텔리전스 참조해 접근 결정    │
+│         │                                                        │
+│  [보호 자원: 앱/API/데이터/서비스]                               │
+│  마이크로세그멘테이션으로 자원 간 격리                           │
+└──────────────────────────────────────────────────────────────────┘
+```
 
 | 구성 요소          | 역할                                               | 구현 예시               |
 | :----------------- | :------------------------------------------------- | :---------------------- |
 | PEP                | 요청 가로채기, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 집행                            | Envoy [Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/), [API Gateway](/knowledge-base/studynote/04_software_engineering/11_testing_validation/542_api_gateway/)|
-| PE ([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) Engine) | 접근 허용/거부 결정                                 | [OPA](/knowledge-base/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/) ([Open Policy Agent](/knowledge-base/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/)) |
+| PE ([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 엔진) | 접근 허용/거부 결정                                 | [OPA](/knowledge-base/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/) ([Open Policy Agent](/knowledge-base/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/)) |
 | PA ([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) Admin)  | [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 토큰 발급, PEP에 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 전달                    | [IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/), SPIRE              |
 | SPIFFE/SPIRE       | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 워크로드 신원 증명 (X.509 SVID)             | K8s + SPIRE             |
 | [mTLS](/knowledge-base/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/)               | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 양방향 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 암호화                         | [Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/) [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/302_service_mesh_istio/)       |
@@ -131,25 +131,24 @@ NIST [SP](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">경계 기반 보안 (방화벽 내부 신뢰)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">VPN (원격 접근 터널)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">ZTNA (사용자-앱 단위 최소 접근)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">NIST SP 800-207 ZTA (PEP/PDP/PE/PA)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">SASE (ZTNA+CASB+SWG+FWaaS 통합)</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">AI 기반 적응형 Zero Trust (동적 리스크 점수)</div>
-</div>
-</div>
-
-
+```text
+경계 기반 보안 (방화벽 내부 신뢰)
+    │
+    ▼
+VPN (원격 접근 터널)
+    │
+    ▼
+ZTNA (사용자-앱 단위 최소 접근)
+    │
+    ▼
+NIST SP 800-207 ZTA (PEP/PDP/PE/PA)
+    │
+    ▼
+SASE (ZTNA+CASB+SWG+FWaaS 통합)
+    │
+    ▼
+AI 기반 적응형 Zero Trust (동적 리스크 점수)
+```
 
 흐름은 "경계 신뢰 → 터널 기반 원격 접근 → 앱 단위 접근 제어 → 아키텍처 표준화 → 클라우드 통합 → [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 적응형"으로 진화한다.
 
@@ -166,6 +165,6 @@ NIST [SP](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_
 **진행 상황**: 372 / 373
 
 ← **이전**: [371. DevOps 클라우드 기술사 핵심 키워드 통합 요약 (DevOps Cloud PE Integrated Keyword Summary)](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/371_process/)
-**다음**: [400. 클라우드·DevOps·데이터·보안 차세대 통합 플랫폼 엔지니어링 최종 마스터 맵 (Integrated Platform Engineering](/knowledge-base/studynote/15_devops_sre/05_devsecops/400_devops/) →
+**다음**: [400. 클라우드·DevOps·데이터·보안 차세대 통합 플랫폼 엔지니어링 최종 마스터 맵 (Integrated Platform 엔진ering](/knowledge-base/studynote/15_devops_sre/05_devsecops/400_devops/) →
 
 ---

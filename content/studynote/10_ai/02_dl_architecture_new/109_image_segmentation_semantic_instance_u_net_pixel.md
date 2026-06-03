@@ -20,20 +20,19 @@ tags = ["studynote-ai"]
 
 [객체 탐지](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/)(YOLO)는 대각선 뱀에 네모 박스를 치면 80%가 배경 노이즈다. 자율주행차가 도로에 누운 사람을 박스로 치면 아스팔트까지 '사람'으로 오해하여 핸들을 잘못 꺾는다. <strong>"네모 박스 대신 뱀의 비늘 픽셀에만 형광펜을 칠하라"</strong>는 요구가 [이미지 분할](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/289_image_segmentation/)의 출발점이다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Object Detection vs Image Segmentation 비교</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Bounding Box</div><div class="kb-diagram-node">Segmentation Mask</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">■■■■■■■■</div><div class="kb-diagram-cell">██</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">■ 뱀 ■■</div><div class="kb-diagram-cell">████</div><div class="kb-diagram-cell">← 뱀 픽셀만</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">■■■■■■■■</div><div class="kb-diagram-cell">██████</div><div class="kb-diagram-cell">정밀 마스킹</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">80% 배경 노이즈 포함 100% 객체 윤곽만 추출</div></div>
-</div>
-</div>
-
-
+```text
+┌───────────────────────────────────────────────────────┐
+│    Object Detection vs Image Segmentation 비교         │
+├───────────────────────────────────────────────────────┤
+│  [Bounding Box]         [Segmentation Mask]           │
+│  ┌──────────┐           ┌──────────┐                  │
+│  │ ■■■■■■■■ │           │    ██    │                  │
+│  │ ■ 뱀 ■■ │           │   ████   │   ← 뱀 픽셀만   │
+│  │ ■■■■■■■■ │           │  ██████  │      정밀 마스킹  │
+│  └──────────┘           └──────────┘                  │
+│  80% 배경 노이즈 포함    100% 객체 윤곽만 추출         │
+└───────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 지도에서 한강을 찾으라고 했을 때, 탐지는 서울 전체에 네모를 치고, 분할은 한강 물길만 파란색으로 정밀 색칠한다.
 
@@ -103,23 +102,21 @@ tags = ["studynote-ai"]
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">FCN (2015) — 최초의 End-to-End Semantic Segmentation</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">U-Net (2015) — Skip Connection으로 의료 영상 정복</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">Mask R-CNN (2017) — Instance Segmentation 확립</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">DeepLab v3+ (2018) — Atrous Convolution + ASPP</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">SAM (2023) — Segment Anything, 프롬프트 기반 범용 분할</div></div>
-</div>
-</div>
-
-
+```text
+[FCN (2015) — 최초의 End-to-End Semantic Segmentation]
+    │
+    ▼
+[U-Net (2015) — Skip Connection으로 의료 영상 정복]
+    │
+    ▼
+[Mask R-CNN (2017) — Instance Segmentation 확립]
+    │
+    ▼
+[DeepLab v3+ (2018) — Atrous Convolution + ASPP]
+    │
+    ▼
+[SAM (2023) — Segment Anything, 프롬프트 기반 범용 분할]
+```
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. [이미지 분할](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/289_image_segmentation/)은 사진 속 고양이의 **털 하나하나까지 정확하게 색칠하는** 초정밀 색칠 공부예요!

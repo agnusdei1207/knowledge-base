@@ -42,25 +42,23 @@ Martin Fowler의 PoEAA (Patterns of Enterprise Application [Architecture](/knowl
 
 아래 그림은 주문 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 예시에서 두 방식의 구조 차이를 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Business logic placement</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Transaction Script</div><div class="kb-diagram-cell">Domain Model</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">OrderService.placeOrder()</div><div class="kb-diagram-cell">OrderAppService.placeOrder()</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- load customer</div><div class="kb-diagram-cell">- load customer / products</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- validate items</div><div class="kb-diagram-cell">- create Order aggregate</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- calculate discount</div><div class="kb-diagram-cell">Order aggregate</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- reserve stock</div><div class="kb-diagram-cell">- validate items</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- save order</div><div class="kb-diagram-cell">- calculate discount</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- publish event</div><div class="kb-diagram-cell">- reserve stock / change status</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">- enforce invariants</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Logic concentrated in script</div><div class="kb-diagram-cell">Logic encapsulated in domain object</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Business logic placement                                             │
+├───────────────────────────────┬──────────────────────────────────────┤
+│ Transaction Script            │ Domain Model                         │
+├───────────────────────────────┼──────────────────────────────────────┤
+│ OrderService.placeOrder()     │ OrderAppService.placeOrder()         │
+│   - load customer             │   - load customer / products         │
+│   - validate items            │   - create Order aggregate           │
+│   - calculate discount        │ Order aggregate                      │
+│   - reserve stock             │   - validate items                   │
+│   - save order                │   - calculate discount               │
+│   - publish event             │   - reserve stock / change status    │
+│                               │   - enforce invariants               │
+│ Logic concentrated in script  │ Logic encapsulated in domain object  │
+└───────────────────────────────┴──────────────────────────────────────┘
+```
 
 [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Model의 핵심은 객체를 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 상자처럼 두지 않는 것이다. 주문 객체가 주문 총액 계산, [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/), 취소 가능 여부 판단을 직접 책임지면, 규칙은 주문이라는 개념 근처에 응집된다. 이때 Repository 패턴이 함께 쓰이면 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 객체는 저장 기술보다 비즈니스 의미에 집중할 수 있다.
 
@@ -147,24 +145,22 @@ Anemic [Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">Simple CRUD use cases</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Transaction Script for fast delivery</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Rules increase and start to overlap</div>
-<div class="kb-diagram-tree-item" style="--depth:4">duplicated validation</div>
-<div class="kb-diagram-tree-item" style="--depth:4">state transition complexity</div>
-<div class="kb-diagram-tree-item" style="--depth:4">growing God Service</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">Domain Model + Repository + richer business encapsulation</div>
-</div>
-</div>
-
-
+```text
+Simple CRUD use cases
+        │
+        ▼
+Transaction Script for fast delivery
+        │
+        ▼
+Rules increase and start to overlap
+        │
+        ├─ duplicated validation
+        ├─ state transition complexity
+        └─ growing God Service
+        │
+        ▼
+Domain Model + Repository + richer business encapsulation
+```
 
 이 흐름은 시스템이 단순 업무 처리에서 복잡한 규칙 중심 구조로 성장할 때, 비즈니스 로직 조직 방식도 함께 바뀌어야 함을 보여 준다.
 

@@ -22,20 +22,21 @@ tags = ["studynote-it-management"]
 
 SWOT 분석이 내부·외부를 단편적으로 나열하는 것과 달리, 파이브 포스는 산업의 구조적 수익성을 체계적으로 진단하여 "어느 산업에 진입할 것인가" 또는 "현재 산업에서 어떻게 포지셔닝할 것인가"의 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 의사결정을 지원한다. IT [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 기획 및 디지털 비즈니스 포트폴리오 결정에서 필수 분석 도구다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">포터의 5 Forces 구조</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">신규 진입자 위협</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">공급자 교섭력</div><div class="kb-diagram-connector">→</div><div class="kb-diagram-node">기존 경쟁자 간 경쟁</div><div class="kb-diagram-connector">←</div><div class="kb-diagram-node">구매자 교섭력</div></div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">대체재 위협</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5가지 힘이 강할수록 → 산업 수익성 낮음</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">5가지 힘이 약할수록 → 산업 수익성 높음</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────┐
+│               포터의 5 Forces 구조                            │
+├──────────────────────────────────────────────────────────────┤
+│                                                              │
+│              [신규 진입자 위협]                                │
+│                    │ ↓                                       │
+│  [공급자 교섭력] ──→ [기존 경쟁자 간 경쟁] ←── [구매자 교섭력]  │
+│                    │ ↑                                       │
+│              [대체재 위협]                                    │
+│                                                              │
+│  5가지 힘이 강할수록 → 산업 수익성 낮음                        │
+│  5가지 힘이 약할수록 → 산업 수익성 높음                        │
+└──────────────────────────────────────────────────────────────┘
+```
 
 - **📢 섹션 요약 비유**: 파이브 포스는 식당을 열기 전 동네 분위기를 파악하는 것과 같다. 경쟁 식당이 많은지(기존 경쟁), 새 식당이 쉽게 들어오는지(신규 진입), 손님들이 대체 음식을 선호하는지(대체재), 재료 공급업체가 갑질하는지(공급자), 손님들이 가격 흥정을 심하게 하는지(구매자)를 한꺼번에 분석한다.
 
@@ -55,21 +56,20 @@ SWOT 분석이 내부·외부를 단편적으로 나열하는 것과 달리, 파
 
 ### 5 Forces 강도 매핑
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">클라우드 SaaS 산업 5 Forces 예시 평가</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">신규 진입자 위협 ★★★★☆ (진입 쉬움: 초기 비용 낮음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">공급자 교섭력 ★★★★☆ (AWS/Azure 의존 높음)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">구매자 교섭력 ★★★☆☆ (전환 비용 중간)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">대체재 위협 ★★★★☆ (오픈소스 대안 풍부)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">기존 경쟁자 경쟁 ★★★★★ (Salesforce·Microsoft 치열)</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">→ 전체 경쟁압력 높음 → 차별화 전략 필수</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────┐
+│           클라우드 SaaS 산업 5 Forces 예시 평가            │
+├──────────────────────────────────────────────────────────┤
+│                                                          │
+│  신규 진입자 위협   ★★★★☆  (진입 쉬움: 초기 비용 낮음)     │
+│  공급자 교섭력      ★★★★☆  (AWS/Azure 의존 높음)           │
+│  구매자 교섭력      ★★★☆☆  (전환 비용 중간)               │
+│  대체재 위협        ★★★★☆  (오픈소스 대안 풍부)            │
+│  기존 경쟁자 경쟁   ★★★★★  (Salesforce·Microsoft 치열)    │
+│                                                          │
+│  → 전체 경쟁압력 높음 → 차별화 전략 필수                    │
+└──────────────────────────────────────────────────────────┘
+```
 
 - **�� 섹션 요약 비유**: 5 Forces 매핑은 산업의 "압력계"다. 5개 바늘이 모두 높은 쪽을 가리키면 이 산업은 돈 벌기 힘든 레드오션이고, 낮은 쪽을 가리키면 수익성이 높은 블루오션이다.
 
@@ -141,23 +141,21 @@ SWOT 분석이 내부·외부를 단편적으로 나열하는 것과 달리, 파
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row"><div class="kb-diagram-node">산업 조직론 (IO Theory) — 시장 구조가 성과를 결정</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">포터의 5 Forces (1979) — 산업 수익성 5가지 힘</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">본원적 전략 (Generic Strategies) — 원가우위·차별화·집중</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">가치사슬 (Value Chain) — 내부 경쟁 우위 원천 분석</div></div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-row"><div class="kb-diagram-node">디지털 플랫폼 확장 — 네트워크 효과·에코시스템 경쟁</div></div>
-</div>
-</div>
-
-
+```text
+[산업 조직론 (IO Theory) — 시장 구조가 성과를 결정]
+    │
+    ▼
+[포터의 5 Forces (1979) — 산업 수익성 5가지 힘]
+    │
+    ▼
+[본원적 전략 (Generic Strategies) — 원가우위·차별화·집중]
+    │
+    ▼
+[가치사슬 (Value Chain) — 내부 경쟁 우위 원천 분석]
+    │
+    ▼
+[디지털 플랫폼 확장 — 네트워크 효과·에코시스템 경쟁]
+```
 산업 조직론에서 5 Forces, 본원적 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), 가치사슬로 심화되며, 디지털 플랫폼 시대의 에코시스템 경쟁으로 확장되는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 분석의 흐름이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명

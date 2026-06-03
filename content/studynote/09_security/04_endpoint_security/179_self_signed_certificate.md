@@ -43,26 +43,25 @@ Self-signed [인증](/knowledge-base/studynote/04_software_engineering/05_devops
 
 아래 그림은 브라우저가 Self-signed [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)서를 어떻게 바라보는지 보여 준다.
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Self-signed certificate verification path</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Server presents certificate</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Subject = intranet.example</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Issuer = intranet.example &lt;- same entity</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Signature = signed by its own private key</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Client checks</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">1. Valid time window ......................... OK / FAIL</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">2. SAN matches requested host ............... OK / FAIL</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">3. Signature math is consistent ............. OK</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">4. Chain reaches trusted root store ......... FAIL by default</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Result</div></div>
-<div class="kb-diagram-row kb-diagram-grid-row"><div class="kb-diagram-cell">Encryption can still work, but trusted identity is not granted</div></div>
-</div>
-</div>
-
-
+```text
+┌──────────────────────────────────────────────────────────────────────┐
+│ Self-signed certificate verification path                           │
+├──────────────────────────────────────────────────────────────────────┤
+│ Server presents certificate                                         │
+│   Subject = intranet.example                                        │
+│   Issuer  = intranet.example   <- same entity                       │
+│   Signature = signed by its own private key                         │
+│                                                                      │
+│ Client checks                                                        │
+│   1. Valid time window ......................... OK / FAIL           │
+│   2. SAN matches requested host ............... OK / FAIL            │
+│   3. Signature math is consistent ............. OK                   │
+│   4. Chain reaches trusted root store ......... FAIL by default      │
+│                                                                      │
+│ Result                                                               │
+│   Encryption can still work, but trusted identity is not granted    │
+└──────────────────────────────────────────────────────────────────────┘
+```
 
 중요한 오해 하나를 바로잡아야 한다. Self-signed라고 해서 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 자체가 평문이 되는 것은 아니다. 사용자가 경고를 무시하고 접속하면 대개 [세션 키](/knowledge-base/studynote/09_security/03_network_security/140_session_key/) 교환과 암호화는 그대로 일어난다. 문제는 그 채널의 반대편이 <strong>진짜 서버인지, 같은 모양의 다른 Self-signed <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>서를 내민 공격자인지</strong>를 기본적으로 분간하지 못한다는 데 있다.
 
@@ -148,24 +147,22 @@ Self-signed [인증](/knowledge-base/studynote/04_software_engineering/05_devops
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-
-
-<div class="kb-diagram" data-diagram="ascii-converted">
-<div class="kb-diagram-flow">
-<div class="kb-diagram-note">평문 내부 통신</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">TLS 적용 필요 인식</div>
-<div class="kb-diagram-tree-item" style="--depth:2">소수 고정 클라이언트 -&gt; Self-signed 인증서</div>
-<div class="kb-diagram-note">─ Trust Store 배포</div>
-<div class="kb-diagram-note">─ Pinning / mTLS 적용</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">엔드포인트 증가 · 자동화 필요</div>
-<div class="kb-diagram-connector">▼</div>
-<div class="kb-diagram-note">사설 PKI 또는 공인 CA + ACME 체계로 확장</div>
-</div>
-</div>
-
-
+```text
+평문 내부 통신
+    │
+    ▼
+TLS 적용 필요 인식
+    │
+    ├─ 소수 고정 클라이언트 -> Self-signed 인증서
+    │                          ├─ Trust Store 배포
+    │                          └─ Pinning / mTLS 적용
+    │
+    ▼
+엔드포인트 증가 · 자동화 필요
+    │
+    ▼
+사설 PKI 또는 공인 CA + ACME 체계로 확장
+```
 
 이 흐름은 Self-signed가 최종 목적지가 아니라, 작은 신뢰 범위에서 시작해 더 큰 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 체계로 넘어가는 출발점이 될 수 있음을 보여 준다.
 
